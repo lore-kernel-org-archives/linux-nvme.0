@@ -1,17 +1,44 @@
 From: Kwok.Kong@idt.com (Kong, Kwok)
-Date: Mon, 12 Dec 2011 10:59:24 -0800
+Date: Mon, 12 Dec 2011 11:25:49 -0800
 Subject: TODO list 2011-12-09
 In-Reply-To: <20111209213740.GJ14291@linux.intel.com>
 References: <20111209213740.GJ14291@linux.intel.com>
-Message-ID: <5AC4D6A45304E048A30F105EB302760902DD87A0@CORPEXCH1.na.ads.idt.com>
+Message-ID: <5AC4D6A45304E048A30F105EB302760902DD87FC@CORPEXCH1.na.ads.idt.com>
 
-Mathew,
+Matthew,
 
-Regarding the character device for /dev/nvmeN, can we just create a
-block device namespace 0 with 0 capacity ?
-Ie. nvme0n0.  
+I have a proposal on the module parameters. Please let me know what you
+think. We at IDT can implement this.
+
+The following module parameters should be configurable:
+
+Name				min/max/default		NVMe spec
+reference
+Admin_sub_queue_size	2/4096/128			AQA.ASQS
+Admin_cpl_queue_size	2/4096/128			AQA.ACQS
+Io_sub_queue_size		2/64K/1K			Create
+I/O submission Queue
+Io_cpl_queue_size		2/64K/1K			Create
+I/O Completion Queue
+Max_transfer_size		4K/1M/128K			ECN12 -
+Maximum Data Transfer Size
+- Actual Max transfer size = min(max_transfer_size, ECN12.MDTS)
+Intr_coalescing_threshold	1/256/8		Set Features - Interrupt
+Coalescing
+Intr_coalescing_time	0/255/10 (in 100us)	Set Features - Interrupt
+coalescing
+Io_command_ID_size	2/64K/io_sub_queue_size	(Number of Command ID
+entries per io sub queue.)
+Max_io_request		1/io_sub_queue_size/io_sub_queue_size (max
+outstanding io request per io queue)
+
+
+Are there any parameters that we should add ?
+
+Thanks
 
 -Kwok
+
 
 
 -----Original Message-----
