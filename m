@@ -1,144 +1,106 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Wed, 18 Jan 2012 09:39:44 -0500
-Subject: [GIT PULL] NVM Express driver
-Message-ID: <20120118143944.GA14291@linux.intel.com>
+From: Kwok.Kong@idt.com (Kong, Kwok)
+Date: Wed, 18 Jan 2012 11:49:30 -0800
+Subject: Suggestion on NVME IOCTL Pass Thur command
+Message-ID: <5AC4D6A45304E048A30F105EB302760902F73D0E@CORPEXCH1.na.ads.idt.com>
+
+Matthew,
+
+I have a suggestion on the IOCTL Pass Thru command data structure
+format. Please review it and let me know what you think.
 
 
-Hi Linus,
+Currently, you have two different structures for the IOCTL command; one
+for admin and the other for IO commands as in the followings:
 
-Please can you pull the NVM Express driver?
+struct nvme_user_io {
+	__u8	opcode;
+	__u8	flags;
+	__u16	control;
+	__u16	nblocks;
+	__u16	rsvd;
+	__u64	metadata;
+	__u64	addr;
+	__u64	slba;
+	__u32	dsmgmt;
+	__u32	reftag;
+	__u16	apptag;
+	__u16	appmask;
+};
 
-The only code touched outside the driver is adding an EXPORT_SYMBOL for
-xen_biovec_phys_mergeable which was approved by Jens here:
-https://lkml.org/lkml/2011/9/21/185
+struct nvme_admin_cmd {
+	__u8	opcode;
+	__u8	flags;
+	__u16	rsvd1;
+	__u32	nsid;
+	__u32	cdw2;
+	__u32	cdw3;
+	__u64	metadata;
+	__u64	addr;
+	__u32	metadata_len;
+	__u32	data_len;
+	__u32	cdw10;
+	__u32	cdw11;
+	__u32	cdw12;
+	__u32	cdw13;
+	__u32	cdw14;
+	__u32	cdw15;
+	__u32	timeout_ms;
+	__u32	result;
+};
 
-The following changes since commit ccb19d263fd1c9e34948e2158c53eacbff369344:
 
-  Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/net (2012-01-17 22:26:41 -0800)
+May I suggest to combine them into a single format. 
 
-are available in the git repository at:
+i.e.
 
-  git://git.infradead.org/users/willy/linux-nvme.git master
+struct nvme_pt_cmd {
+    __u32	nvme_cmd[16];
+    __u32	nvme_cpl[4];	/* copy the completion entry to here on
+return */
+    __u32	direction;
+    __u32	timeout;
+    __u32	result
+    __u64	metadata;
+    __u64	data_addr;
+    __u32	metadata_len;
+    __u32	data_len;
+};
 
-Krzysztof Wierzbicki (1):
-      NVMe: Update admin opcodes to match the 1.0RC spec
+We need to return the completion queue entry because DW0 contains a
+command specific field and DW1 is reserved. A vendor defined command may
+use DW0 and/or DW1. If we return the 16 bytes completion entry, the
+caller can do whatever they want to do with the completion entry. One
+may argue that DW2 does not need to be returned but it is probably
+easier to copy the whole 16 bytes completion entry.
 
-Matthew Wilcox (99):
-      Xen: Export xen_biovec_phys_mergeable
-      NVMe: New driver
-      NVMe: Factor out queue_request_irq()
-      NVMe: Reduce set_queue_count arguments by one
-      NVMe: Implement per-CPU queues
-      NVMe: Rename 'cycle' to 'phase'
-      NVMe: Fix admin IRQ claim on real hardware
-      NVMe: Use PRP2 for the nvme_identify ioctl
-      NVMe: Make nvme_common_command more featureful
-      NVMe: Add nvme_setup_prps()
-      NVMe: Zero the command before we send it
-      NVMe: Change NVME_IOCTL_GET_RANGE_TYPE to return all the ranges
-      NVMe: Create nvme_map_user_pages() and nvme_unmap_user_pages()
-      NVMe: Add NVME_IOCTL_SUBMIT_IO
-      NVMe: Read the model, serial & firmware rev from the controller
-      NVMe: Remove 'node' from nvme_dev
-      NVMe: Check returns from nvme_alloc_queue()
-      NVMe: Enable device DMA
-      NVMe: Allow queues to be allocated above 4GB
-      NVMe: Request I/O regions
-      NVMe: Move sysfs entries to the right place
-      NVMe: Add remaining status codes
-      NVMe: Add download / activate firmware ioctls
-      NVMe: Release 0.2
-      NVMe: Allow fatal signals to interrupt I/O
-      NVMe: Call put_nvmeq() before calling nvme_submit_sync_cmd()
-      NVMe: Add a module parameter to use a threaded interrupt
-      NVMe: Use a symbolic name to represent cancelled commands instead of 0
-      NVMe: Detect commands that are completed twice
-      NVMe: Detect command IDs completing that are out of range
-      NVMe: Need to lock queue during interrupt handling
-      NVMe: Record the timeout for each command
-      NVMe: Handle the congestion list a little better
-      NVMe: Renumber the special context values
-      NVMe: Advance the sg pointer when filling in an sg list
-      NVMe: Rename nvme_req_info to nvme_bio
-      NVMe: Switch to use DMA Pool API
-      NVMe: Optimise memory usage for I/Os between 4k and 128k
-      NVMe: Pass the nvme_dev to nvme_free_prps and nvme_setup_prps
-      NVMe: Check for DMA mapping failure
-      NVMe: Handle physical merging of bvec entries
-      NVMe: Update BAR structure to match the current spec
-      NVMe: Handle failures differently in nvme_submit_bio_queue()
-      NVMe: Add a kthread to handle the congestion list
-      NVMe: Release 0.3
-      NVMe: Remove setting of 'flags' in rw command
-      NVMe: Rename nr_queues to nr_io_queues
-      NVMe: Let the kthread take care of devices earlier
-      NVMe: Correct SQ doorbell semantics
-      NVMe: Mark CMD_CTX_CANCELLED as being unlikely
-      NVMe: Implement Flush
-      NVMe: Handle bios that contain non-virtually contiguous addresses
-      NVMe: Fix discontiguous accesses
-      NVMe: Reduce maximum queue depth by 1
-      NVMe: Version 0.4
-      NVMe: Convert comments to kernel-doc notation
-      NVMe: Fix comment formatting
-      NVMe: Remove outdated comments
-      NVMe: Fix interpretation of 'Number of Namespaces' field
-      NVMe: Fix off-by-one when filling in PRP lists
-      NVMe: Remove the kthread from the wait queue
-      NVMe: Simplify queue lookup
-      NVMe: Add compat_ioctl
-      NVMe: Correct the definitions of two ioctls
-      NVMe: Change the definition of nvme_user_io
-      NVMe: Version 0.5
-      NVMe: Correct the Controller Configuration settings
-      NVMe: Fix warning in free_irq
-      NVMe: Time out initialisation after a few seconds
-      NVMe: Fix bug in error handling
-      NVMe: Rename cancel_cmdid_data to cancel_cmdid
-      NVMe: Add support for timing out I/Os
-      NVMe: Add include of delay.h for msleep
-      NVMe: Use an IDA to allocate minor numbers
-      NVMe: Handle failures from memory allocations in nvme_setup_prps
-      NVMe: Add a few calling convention notes
-      NVMe: Version 0.6
-      NVMe: Return real error from nvme_create_queue
-      NVMe: Add the nvme thread to the wait queue before waking it up
-      NVMe: Rework ioctls
-      Fix bug in NVME_IOCTL_SUBMIT_IO
-      NVMe: Correct sg list setup in nvme_map_user_pages
-      NVMe: Fix memory leak in nvme_dev_add()
-      NVMe: Create nvme_identify and nvme_get_features functions
-      NVMe: Don't probe namespace 0
-      NVMe: Version 0.7
-      NVMe: Implement doorbell stride capability
-      NVMe: Update Identify Controller data structure
-      NVMe: Simplify completion handling
-      NVMe: Change get_nvmeq to take a dev instead of a namespace
-      NVMe: Change nvme_completion_fn to take a dev
-      NVMe: Merge the nvme_bio and nvme_prp data structures
-      NVMe: Rename IO_TIMEOUT to NVME_IO_TIMEOUT
-      NVMe: Fix DMA mapping for admin commands
-      NVMe: Mark the end of the sg list
-      NVMe: Simplify nvme_unmap_user_pages
-      NVMe: Set queue flags correctly
-      NVMe: Version 0.8
-      NVMe: Set number of queues correctly
+Instead of looking at the opCode to decide the direction, a direction
+field may be better. A Vendor defined command does not need to  set the
+data transfer bits.  A direction field makes it very clear for the
+application and the driver.
 
-Nisheeth Bhat (2):
-      NVMe: Fix calls to dma_unmap_sg
-      Fix calculation of number of pages in a PRP List
 
-Shane Michael Matthews (3):
-      NVMe: Enable and disable the PCI device
-      NVMe: Disable the device before we write the admin queues
-      NVMe: Initial PRP List support
+In the Windows driver, the following commands are not allowed to be sent
+by the application. 
 
- Documentation/ioctl/ioctl-number.txt |    1 +
- drivers/block/Kconfig                |   11 +
- drivers/block/Makefile               |    1 +
- drivers/block/nvme.c                 | 1745 ++++++++++++++++++++++++++++++++++
- drivers/xen/biomerge.c               |    1 +
- include/linux/nvme.h                 |  434 +++++++++
- 6 files changed, 2193 insertions(+), 0 deletions(-)
- create mode 100644 drivers/block/nvme.c
- create mode 100644 include/linux/nvme.h
+- Delete IO queue (submission and completion)
+- Create IO queue (submission and completion)
+	# IO queue cannot be created/deleted while the driver is active
+- Abort
+	# application cannot abort a command is it does not know the
+command ID
+- Set features - number of queues
+	# application cannot allocate queues
+- Asynchronous Event Request
+	#application cannot handle completion of AER.
+- Read
+- Write
+	# There is no reason for the application to issue read/write
+directly as there are system call to 
+      # perform read/write already.
+
+I think the Linux driver should block these commands as well. 
+
+
+Thanks
+
+-Kwok
