@@ -1,10 +1,22 @@
-From: Kwok.Kong@idt.com (Kong, Kwok)
-Date: Mon, 2 Jul 2012 20:48:06 +0000
+From: keith.busch@intel.com (Busch, Keith)
+Date: Mon, 2 Jul 2012 21:03:36 +0000
 Subject: NVMe driver behaviour on LBA Range
-In-Reply-To: <82C9F782B054C94B9FC04A331649C77A028E95CC@FMSMSX106.amr.corp.intel.com>
+In-Reply-To: <05CD7821AE397547A01AC160FBC2314704A8AA@corpmail1.na.ads.idt.com>
 References: <05CD7821AE397547A01AC160FBC2314704A798@corpmail1.na.ads.idt.com>
  <82C9F782B054C94B9FC04A331649C77A028E95CC@FMSMSX106.amr.corp.intel.com>
-Message-ID: <05CD7821AE397547A01AC160FBC2314704A8AA@corpmail1.na.ads.idt.com>
+ <05CD7821AE397547A01AC160FBC2314704A8AA@corpmail1.na.ads.idt.com>
+Message-ID: <B58D82457FDA0744A320A2FC5AC253B90D42B9E6@FMSMSX105.amr.corp.intel.com>
+
+KK>  I think the LBA Range causes a lot of confusions.  What happen if there are multiple ranges and the ranges overlaps ?
+
+Overlapping LBA ranges would be a spec violation.
+
+-----Original Message-----
+From: linux-nvme-bounces@lists.infradead.org [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Kong, Kwok
+Sent: Monday, July 02, 2012 2:48 PM
+To: Luse, Paul E; Matthew Wilcox
+Cc: nvmewin at lists.openfabrics.org; linux-nvme at lists.infradead.org
+Subject: RE: NVMe driver behaviour on LBA Range
 
 Paul,
 
@@ -111,3 +123,8 @@ Thanks
 
 
 	
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://merlin.infradead.org/mailman/listinfo/linux-nvme
