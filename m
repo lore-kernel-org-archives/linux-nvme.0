@@ -1,9 +1,21 @@
-From: paul.e.luse@intel.com (Luse, Paul E)
-Date: Mon, 2 Jul 2012 19:36:17 +0000
+From: Kwok.Kong@idt.com (Kong, Kwok)
+Date: Mon, 2 Jul 2012 20:48:06 +0000
 Subject: NVMe driver behaviour on LBA Range
-In-Reply-To: <05CD7821AE397547A01AC160FBC2314704A798@corpmail1.na.ads.idt.com>
+In-Reply-To: <82C9F782B054C94B9FC04A331649C77A028E95CC@FMSMSX106.amr.corp.intel.com>
 References: <05CD7821AE397547A01AC160FBC2314704A798@corpmail1.na.ads.idt.com>
-Message-ID: <82C9F782B054C94B9FC04A331649C77A028E95CC@FMSMSX106.amr.corp.intel.com>
+ <82C9F782B054C94B9FC04A331649C77A028E95CC@FMSMSX106.amr.corp.intel.com>
+Message-ID: <05CD7821AE397547A01AC160FBC2314704A8AA@corpmail1.na.ads.idt.com>
+
+Paul,
+
+Please see below for my comment
+
+-----Original Message-----
+From: Luse, Paul E [mailto:paul.e.luse@intel.com] 
+Sent: Monday, July 02, 2012 12:36 PM
+To: Kong, Kwok; Matthew Wilcox
+Cc: linux-nvme at lists.infradead.org; nvmewin at lists.openfabrics.org
+Subject: RE: NVMe driver behaviour on LBA Range
 
 Kwok-
 
@@ -40,6 +52,11 @@ This is my understanding and please let me know if you agree:
 
 PL>  The definition of "by default" totally depends on the manufacturer of the device.  The case you mention above is what I would call the "reserved" case where the driver should not do anything with the LBA range.  It should not expose it to upper layers and it should not send any more commands to it.  At this point the manageability tools provided by whomever should be relied upon to have the smarts to use PT commands to determine that the LBA range needs to be configured and configure it accordingly.  Once that's done, the driver will see it as 'configured' the next time (whether the tool submits an IOCTL to rescan, requires a reboot, whatever). 
 
+KK> My understanding is that the "standard" driver is not going to interpret the LBA type. It is not going to do anything special whether it is "Reserved", "Filesystem", "RAID" or others.  The standard driver only looks at the attributes for Read only or hidden.  I think the driver should export all ranges.
+
+I think we probably should have allowed the device to report 0 entry before any set - LBA range command.  When there is no entry, the LBA range is not used.
+
+
 2.	When the driver get the default LBA range, it "exports" "NSZE" of LBA to the OS.
 
 PL> See above
@@ -50,10 +67,16 @@ PL> See above
 
 PL>  I believe the correct driver operation is to report the size reported by the LBA range and not the NS.  The reason is because it (LBA range # blocks) refers to the actual LBA range and the NSZE refers to the entire NS.  Perhaps the vendor has a reason for not exposing the entire NSZE to the host and thus has defined an LBA range (single) that is smaller than the NSZE.
 
+KK> I still think the driver should report the size "NSZE".
+
+
 4.	When there are multiple entries in the LBA range, the driver still exports this namespace with size "NSZE" as 
 	a single "LUN" with size as reported in "NSZE" except when there are ranges with "Hidden" attribute.
 
 PL>  So I'm not quite sure what you are asking or proposing on this one.  Currently the windows driver doesn't support multiple ranges per NS.  If we want to change that it sounds like you are proposing (or the ECN is) that we report each LBA range as its own tgt or are you saying that all non-hidden LNUS should be exposed as a single tgt??  Sorry, I'm confused :)
+
+KK> The driver should only export a single tgt for a Namespace. If there are multiple LBA ranges, then the driver still export a single tgt.
+I understand that current Windows driver does not support multiple ranges per NS.  What should the driver do if there are multiple ranges ?
 
 	ECN 25 describes the handling the hidden LBA.
 	"The host storage driver should expose all LBA ranges that are not set to be hidden from the 
@@ -68,6 +91,14 @@ PL>  So I'm not quite sure what you are asking or proposing on this one.  Curren
 	to these Read only LBA ranges.  
 
 PL>  Agree
+
+
+KK>  I think the LBA Range causes a lot of confusions.  What happen if there are multiple ranges and the ranges overlaps ?
+I think we should set up a call to discuss this.  
+Should we raise this in the NVMe WG to ask the expected behavior ?
+
+I would also like to get Matthew's opinion such that both the Windows and Linux driver behave the same.
+
 
 
 Please let me know what you think.
