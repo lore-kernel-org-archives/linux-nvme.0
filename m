@@ -1,12 +1,25 @@
-From: Kwok.Kong@idt.com (Kong, Kwok)
-Date: Mon, 2 Jul 2012 21:08:30 +0000
+From: paul.e.luse@intel.com (Luse, Paul E)
+Date: Mon, 2 Jul 2012 21:10:45 +0000
 Subject: NVMe driver behaviour on LBA Range
-In-Reply-To: <B58D82457FDA0744A320A2FC5AC253B90D42B9E6@FMSMSX105.amr.corp.intel.com>
+In-Reply-To: <05CD7821AE397547A01AC160FBC2314704A8CD@corpmail1.na.ads.idt.com>
 References: <05CD7821AE397547A01AC160FBC2314704A798@corpmail1.na.ads.idt.com>
  <82C9F782B054C94B9FC04A331649C77A028E95CC@FMSMSX106.amr.corp.intel.com>
  <05CD7821AE397547A01AC160FBC2314704A8AA@corpmail1.na.ads.idt.com>
  <B58D82457FDA0744A320A2FC5AC253B90D42B9E6@FMSMSX105.amr.corp.intel.com>
-Message-ID: <05CD7821AE397547A01AC160FBC2314704A8CD@corpmail1.na.ads.idt.com>
+ <05CD7821AE397547A01AC160FBC2314704A8CD@corpmail1.na.ads.idt.com>
+Message-ID: <82C9F782B054C94B9FC04A331649C77A028E9A5B@FMSMSX106.amr.corp.intel.com>
+
+I'm thinking email is going to be a pretty inefficient way to handle this now that we've traded a few.  Kwok, maybe you can write up a list of use cases along with a section/column for spec interpretation and one for expected behavior of the standard drivers.  Then we can setup a call to discuss each one as there will be lots of discussion on each item that really requires real time conversation I think.
+
+Thx
+Paul
+
+-----Original Message-----
+From: Kong, Kwok [mailto:Kwok.Kong@idt.com] 
+Sent: Monday, July 02, 2012 2:09 PM
+To: Busch, Keith; Luse, Paul E; Matthew Wilcox
+Cc: nvmewin at lists.openfabrics.org; linux-nvme at lists.infradead.org
+Subject: RE: NVMe driver behaviour on LBA Range
 
 Keith,
 
