@@ -1,11 +1,27 @@
-From: keith.busch@intel.com (Busch, Keith)
-Date: Mon, 2 Jul 2012 21:03:36 +0000
+From: Kwok.Kong@idt.com (Kong, Kwok)
+Date: Mon, 2 Jul 2012 21:08:30 +0000
 Subject: NVMe driver behaviour on LBA Range
-In-Reply-To: <05CD7821AE397547A01AC160FBC2314704A8AA@corpmail1.na.ads.idt.com>
+In-Reply-To: <B58D82457FDA0744A320A2FC5AC253B90D42B9E6@FMSMSX105.amr.corp.intel.com>
 References: <05CD7821AE397547A01AC160FBC2314704A798@corpmail1.na.ads.idt.com>
  <82C9F782B054C94B9FC04A331649C77A028E95CC@FMSMSX106.amr.corp.intel.com>
  <05CD7821AE397547A01AC160FBC2314704A8AA@corpmail1.na.ads.idt.com>
-Message-ID: <B58D82457FDA0744A320A2FC5AC253B90D42B9E6@FMSMSX105.amr.corp.intel.com>
+ <B58D82457FDA0744A320A2FC5AC253B90D42B9E6@FMSMSX105.amr.corp.intel.com>
+Message-ID: <05CD7821AE397547A01AC160FBC2314704A8CD@corpmail1.na.ads.idt.com>
+
+Keith,
+
+I agree that overlapping LBA ranges would be a spec violation and is an error.  
+What should the driver do when there are overlapping LBA ranges ?
+
+
+-Kwok
+
+-----Original Message-----
+From: Busch, Keith [mailto:keith.busch@intel.com] 
+Sent: Monday, July 02, 2012 2:04 PM
+To: Kong, Kwok; Luse, Paul E; Matthew Wilcox
+Cc: nvmewin at lists.openfabrics.org; linux-nvme at lists.infradead.org
+Subject: RE: NVMe driver behaviour on LBA Range
 
 KK>  I think the LBA Range causes a lot of confusions.  What happen if there are multiple ranges and the ranges overlaps ?
 
