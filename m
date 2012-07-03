@@ -1,14 +1,27 @@
-From: Kwok.Kong@idt.com (Kong, Kwok)
-Date: Tue, 3 Jul 2012 18:18:55 +0000
+From: paul.e.luse@intel.com (Luse, Paul E)
+Date: Tue, 3 Jul 2012 18:27:52 +0000
 Subject: NVMe driver behaviour on LBA Range
-In-Reply-To: <82C9F782B054C94B9FC04A331649C77A028E9A5B@FMSMSX106.amr.corp.intel.com>
+In-Reply-To: <05CD7821AE397547A01AC160FBC2314704ACD5@corpmail1.na.ads.idt.com>
 References: <05CD7821AE397547A01AC160FBC2314704A798@corpmail1.na.ads.idt.com>
  <82C9F782B054C94B9FC04A331649C77A028E95CC@FMSMSX106.amr.corp.intel.com>
  <05CD7821AE397547A01AC160FBC2314704A8AA@corpmail1.na.ads.idt.com>
  <B58D82457FDA0744A320A2FC5AC253B90D42B9E6@FMSMSX105.amr.corp.intel.com>
  <05CD7821AE397547A01AC160FBC2314704A8CD@corpmail1.na.ads.idt.com>
  <82C9F782B054C94B9FC04A331649C77A028E9A5B@FMSMSX106.amr.corp.intel.com>
-Message-ID: <05CD7821AE397547A01AC160FBC2314704ACD5@corpmail1.na.ads.idt.com>
+ <05CD7821AE397547A01AC160FBC2314704ACD5@corpmail1.na.ads.idt.com>
+Message-ID: <82C9F782B054C94B9FC04A331649C77A028EAB4F@FMSMSX106.amr.corp.intel.com>
+
+The only value I see at the moment is the attributes and that's only on a per namespace basis (one LBA range covering the whole namespace).  Specifically just the hidden and read-only bits... I'm not sure I see the value in breaking a NS into ranges given the support for multiple namespaces in the spec (other than to take advantage of the properties I just mentioned which are not available per NS).
+
+Thx
+Paul
+
+-----Original Message-----
+From: Kong, Kwok [mailto:Kwok.Kong@idt.com] 
+Sent: Tuesday, July 03, 2012 11:19 AM
+To: Luse, Paul E; Busch, Keith; Matthew Wilcox
+Cc: nvmewin at lists.openfabrics.org; linux-nvme at lists.infradead.org
+Subject: RE: NVMe driver behaviour on LBA Range
 
 All,
 
