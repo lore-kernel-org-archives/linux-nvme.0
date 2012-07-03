@@ -1,5 +1,5 @@
 From: Kwok.Kong@idt.com (Kong, Kwok)
-Date: Mon, 2 Jul 2012 21:35:47 +0000
+Date: Tue, 3 Jul 2012 18:18:55 +0000
 Subject: NVMe driver behaviour on LBA Range
 In-Reply-To: <82C9F782B054C94B9FC04A331649C77A028E9A5B@FMSMSX106.amr.corp.intel.com>
 References: <05CD7821AE397547A01AC160FBC2314704A798@corpmail1.na.ads.idt.com>
@@ -8,9 +8,15 @@ References: <05CD7821AE397547A01AC160FBC2314704A798@corpmail1.na.ads.idt.com>
  <B58D82457FDA0744A320A2FC5AC253B90D42B9E6@FMSMSX105.amr.corp.intel.com>
  <05CD7821AE397547A01AC160FBC2314704A8CD@corpmail1.na.ads.idt.com>
  <82C9F782B054C94B9FC04A331649C77A028E9A5B@FMSMSX106.amr.corp.intel.com>
-Message-ID: <05CD7821AE397547A01AC160FBC2314704A8F7@corpmail1.na.ads.idt.com>
+Message-ID: <05CD7821AE397547A01AC160FBC2314704ACD5@corpmail1.na.ads.idt.com>
 
-Sure.
+All,
+
+Have you any use cases for LBA range ?
+
+I would like to understand your use case while I am creating my proposal.  I personally don't have any good use case for the LBA range.
+
+Thanks
 
 -Kwok
 
