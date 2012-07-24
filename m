@@ -1,7 +1,9 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 25 Jul 2012 09:59:23 -0600
+Date: Tue, 24 Jul 2012 15:01:04 -0600
 Subject: [PATCH] NVMe: Set request queue logical block size
-Message-ID: <1343231963-3075-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1343163664-26226-1-git-send-email-kbusch@dcgshare.lm.intel.com>
+
+From: Keith Busch <keith.busch@intel.com>
 
 Sets the request queue logical block size with the block size of the namespace.
 
