@@ -1,59 +1,41 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 25 Jul 2012 16:07:10 -0600
-Subject: [PATCH] NVMe: Set block queue max sectors
-Message-ID: <1343254030-309-1-git-send-email-keith.busch@intel.com>
+Date: Wed, 25 Jul 2012 16:07:55 -0600
+Subject: [PATCH] NVMe: replace nvme_ns with nvme_dev for user admin
+Message-ID: <1343254075-439-1-git-send-email-keith.busch@intel.com>
 
-Set the max hw sectors in a namespace's request queue if the nvme device has a
-max data transfer size.
+The function nvme_user_admin_command does not require a namespace to proceed.
+Replace with the nvme_dev structure so that it can be called from contexts that
+do not have a namespace.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme.c |    6 ++++++
- include/linux/nvme.h |    1 +
- 2 files changed, 7 insertions(+), 0 deletions(-)
+ drivers/block/nvme.c |    5 ++---
+ 1 files changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
-index 38b9c73..3247037 100644
+index 38b9c73..ff0cfda 100644
 --- a/drivers/block/nvme.c
 +++ b/drivers/block/nvme.c
-@@ -78,6 +78,7 @@ struct nvme_dev {
- 	char serial[20];
- 	char model[40];
- 	char firmware_rev[8];
-+	u32 max_hw_sectors;
- };
+@@ -1151,10 +1151,9 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 	return status;
+ }
  
- /*
-@@ -1345,6 +1346,8 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, int nsid,
- 	lbaf = id->flbas & 0xf;
- 	ns->lba_shift = id->lbaf[lbaf].ds;
- 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
-+	if (dev->max_hw_sectors) 
-+		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
- 
- 	disk->major = nvme_major;
- 	disk->minors = NVME_MINORS;
-@@ -1486,6 +1489,9 @@ static int __devinit nvme_dev_add(struct nvme_dev *dev)
- 	memcpy(dev->serial, ctrl->sn, sizeof(ctrl->sn));
- 	memcpy(dev->model, ctrl->mn, sizeof(ctrl->mn));
- 	memcpy(dev->firmware_rev, ctrl->fr, sizeof(ctrl->fr));
-+	if (ctrl->mdts)
-+		dev->max_hw_sectors = ((1 << ctrl->mdts) * (1 << (12 +
-+				NVME_CAP_MPSMIN(readq(&dev->bar->cap))))) >> 9;
- 
- 	id_ns = mem;
- 	for (i = 1; i <= nn; i++) {
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 9490a00..8c71d20 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -37,6 +37,7 @@ struct nvme_bar {
- 
- #define NVME_CAP_TIMEOUT(cap)	(((cap) >> 24) & 0xff)
- #define NVME_CAP_STRIDE(cap)	(((cap) >> 32) & 0xf)
-+#define NVME_CAP_MPSMIN(cap)	(((cap) >> 48) & 0xf)
- 
- enum {
- 	NVME_CC_ENABLE		= 1 << 0,
+-static int nvme_user_admin_cmd(struct nvme_ns *ns,
++static int nvme_user_admin_cmd(struct nvme_dev *dev,
+ 					struct nvme_admin_cmd __user *ucmd)
+ {
+-	struct nvme_dev *dev = ns->dev;
+ 	struct nvme_admin_cmd cmd;
+ 	struct nvme_command c;
+ 	int status, length;
+@@ -1209,7 +1208,7 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
+ 	case NVME_IOCTL_ID:
+ 		return ns->ns_id;
+ 	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_admin_cmd(ns, (void __user *)arg);
++		return nvme_user_admin_cmd(ns->dev, (void __user *)arg);
+ 	case NVME_IOCTL_SUBMIT_IO:
+ 		return nvme_submit_io(ns, (void __user *)arg);
+ 	default:
 -- 
 1.7.0.4
