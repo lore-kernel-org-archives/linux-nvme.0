@@ -1,60 +1,12 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 26 Jul 2012 11:29:57 -0600
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Thu, 26 Jul 2012 13:43:58 -0400
 Subject: [PATCH] NVMe: Set block queue max sectors
-Message-ID: <1343323797-11369-1-git-send-email-keith.busch@intel.com>
+In-Reply-To: <1343323797-11369-1-git-send-email-keith.busch@intel.com>
+References: <1343323797-11369-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20120726174358.GI22985@linux.intel.com>
 
-Set the max hw sectors in a namespace's request queue if the nvme device
-has a max data transfer size.
+On Thu, Jul 26, 2012@11:29:57AM -0600, Keith Busch wrote:
+> Set the max hw sectors in a namespace's request queue if the nvme device
+> has a max data transfer size.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme.c |    7 +++++++
- include/linux/nvme.h |    1 +
- 2 files changed, 8 insertions(+), 0 deletions(-)
-
-diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
-index 7bcd882..933b321 100644
---- a/drivers/block/nvme.c
-+++ b/drivers/block/nvme.c
-@@ -78,6 +78,7 @@ struct nvme_dev {
- 	char serial[20];
- 	char model[40];
- 	char firmware_rev[8];
-+	u32 max_hw_sectors;
- };
- 
- /*
-@@ -1344,6 +1345,8 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, int nsid,
- 	lbaf = id->flbas & 0xf;
- 	ns->lba_shift = id->lbaf[lbaf].ds;
- 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
-+	if (dev->max_hw_sectors) 
-+		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
- 
- 	disk->major = nvme_major;
- 	disk->minors = NVME_MINORS;
-@@ -1485,6 +1488,10 @@ static int __devinit nvme_dev_add(struct nvme_dev *dev)
- 	memcpy(dev->serial, ctrl->sn, sizeof(ctrl->sn));
- 	memcpy(dev->model, ctrl->mn, sizeof(ctrl->mn));
- 	memcpy(dev->firmware_rev, ctrl->fr, sizeof(ctrl->fr));
-+	if (ctrl->mdts) {
-+		int shift = NVME_CAP_MPSMIN(readq(&dev->bar->cap)) + 12;
-+		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
-+	}
- 
- 	id_ns = mem;
- 	for (i = 1; i <= nn; i++) {
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 9490a00..8c71d20 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -37,6 +37,7 @@ struct nvme_bar {
- 
- #define NVME_CAP_TIMEOUT(cap)	(((cap) >> 24) & 0xff)
- #define NVME_CAP_STRIDE(cap)	(((cap) >> 32) & 0xf)
-+#define NVME_CAP_MPSMIN(cap)	(((cap) >> 48) & 0xf)
- 
- enum {
- 	NVME_CC_ENABLE		= 1 << 0,
--- 
-1.7.0.4
+Thanks, committed.  There was trailing whitespace that I fixed up.
