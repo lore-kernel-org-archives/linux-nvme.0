@@ -1,139 +1,25 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 27 Jul 2012 10:44:18 -0600
-Subject: [PATCH] NVMe: Add a character device for each nvme device
-Message-ID: <1343407458-29909-1-git-send-email-keith.busch@intel.com>
-
-Registers a character device for the nvme module and creates character
-files as /dev/nvmeN for each nvme device probed, where N is the device
-instance. The character devices support nvme admin ioctl commands so
-that nvme devices without namespaces can be managed.
+Date: Fri, 27 Jul 2012 11:53:28 -0600
+Subject: [PATCH] NVMe: Fix uninitialized iod compiler warning
+Message-ID: <1343411608-16133-1-git-send-email-keith.busch@intel.com>
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme.c |   55 +++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 files changed, 54 insertions(+), 1 deletions(-)
+ drivers/block/nvme.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
-index 7bcd882..8a16ac8 100644
+index 7bcd882..47578ba 100644
 --- a/drivers/block/nvme.c
 +++ b/drivers/block/nvme.c
-@@ -20,6 +20,7 @@
- #include <linux/bio.h>
- #include <linux/bitops.h>
- #include <linux/blkdev.h>
-+#include <linux/cdev.h>
- #include <linux/delay.h>
- #include <linux/errno.h>
- #include <linux/fs.h>
-@@ -45,6 +46,7 @@
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
- #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
- #define NVME_MINORS 64
-+#define NVME_MAX_DEVS 1024
- #define NVME_IO_TIMEOUT	(5 * HZ)
- #define ADMIN_TIMEOUT	(60 * HZ)
+@@ -1157,7 +1157,7 @@ static int nvme_user_admin_cmd(struct nvme_dev *dev,
+ 	struct nvme_admin_cmd cmd;
+ 	struct nvme_command c;
+ 	int status, length;
+-	struct nvme_iod *iod;
++	struct nvme_iod *uninitialized_var(iod);
  
-@@ -54,9 +56,13 @@ module_param(nvme_major, int, 0);
- static int use_threaded_interrupts;
- module_param(use_threaded_interrupts, int, 0);
- 
-+static int nvme_char_major;
-+module_param(nvme_char_major, int, 0);
-+
- static DEFINE_SPINLOCK(dev_list_lock);
- static LIST_HEAD(dev_list);
- static struct task_struct *nvme_thread;
-+static struct class *nvme_char_cl;
- 
- /*
-  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
-@@ -1222,6 +1228,35 @@ static const struct block_device_operations nvme_fops = {
- 	.compat_ioctl	= nvme_ioctl,
- };
- 
-+static long nvme_char_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
-+{
-+	struct nvme_dev *dev;
-+	int instance = iminor(f->f_dentry->d_inode);
-+
-+	spin_lock(&dev_list_lock);
-+	list_for_each_entry(dev, &dev_list, node) {
-+		if (dev->instance == instance)
-+			break;
-+	}
-+	spin_unlock(&dev_list_lock);
-+
-+	if (&dev->node == &dev_list)
-+		return -ENOTTY;
-+	
-+	switch (cmd) {
-+	case NVME_IOCTL_ADMIN_CMD:
-+		return nvme_user_admin_cmd(dev, (void __user *)arg);
-+	default:
-+		return -ENOTTY;
-+	}
-+}
-+
-+static const struct file_operations nvme_char_fops = {
-+	.owner		= THIS_MODULE,
-+	.unlocked_ioctl	= nvme_char_ioctl,
-+	.compat_ioctl	= nvme_char_ioctl,
-+};
-+
- static void nvme_timeout_ios(struct nvme_queue *nvmeq)
- {
- 	int depth = nvmeq->q_depth - 1;
-@@ -1632,6 +1667,8 @@ static int __devinit nvme_probe(struct pci_dev *pdev,
- 	if (result)
- 		goto delete;
- 
-+	device_create(nvme_char_cl, NULL, MKDEV(nvme_char_major, dev->instance),
-+						NULL, "nvme%d", dev->instance);
- 	return 0;
- 
-  delete:
-@@ -1660,6 +1697,7 @@ static void __devexit nvme_remove(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
- 	nvme_dev_remove(dev);
-+	device_destroy(nvme_char_cl, MKDEV(nvme_char_major, dev->instance));
- 	pci_disable_msix(pdev);
- 	iounmap(dev->bar);
- 	nvme_release_instance(dev);
-@@ -1721,11 +1759,24 @@ static int __init nvme_init(void)
- 	else if (result > 0)
- 	    nvme_major = result;
- 
-+	result = __register_chrdev(nvme_char_major, 0, NVME_MAX_DEVS, "nvme",
-+							&nvme_char_fops);
-+	if (result < 0)
-+		goto unregister_blkdev;
-+	else if (result > 0)
-+		nvme_char_major = result;
-+	nvme_char_cl = class_create(THIS_MODULE, "nvme");
-+	if (!nvme_char_cl)
-+		goto unregister_chrdev;
- 	result = pci_register_driver(&nvme_driver);
- 	if (result)
--		goto unregister_blkdev;
-+		goto destroy_class;
- 	return 0;
- 
-+ destroy_class:
-+	class_destroy(nvme_char_cl);
-+ unregister_chrdev:
-+	__unregister_chrdev(nvme_char_major, 0, NVME_MAX_DEVS, "nvme");
-  unregister_blkdev:
- 	unregister_blkdev(nvme_major, "nvme");
-  kill_kthread:
-@@ -1736,6 +1787,8 @@ static int __init nvme_init(void)
- static void __exit nvme_exit(void)
- {
- 	pci_unregister_driver(&nvme_driver);
-+	class_destroy(nvme_char_cl);
-+	__unregister_chrdev(nvme_char_major, 0, NVME_MAX_DEVS, "nvme");
- 	unregister_blkdev(nvme_major, "nvme");
- 	kthread_stop(nvme_thread);
- }
+ 	if (!capable(CAP_SYS_ADMIN))
+ 		return -EACCES;
 -- 
 1.7.0.4
