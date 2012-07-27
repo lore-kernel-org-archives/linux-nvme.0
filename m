@@ -1,45 +1,153 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 27 Jul 2012 14:00:59 -0400
-Subject: [PATCH] NVMe: Do not set IO queue depth beyond device max
-In-Reply-To: <1343403244-21334-1-git-send-email-keith.busch@intel.com>
-References: <1343403244-21334-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20120727180059.GL22985@linux.intel.com>
+Date: Fri, 27 Jul 2012 14:12:12 -0400
+Subject: [PATCH] NVMe: Add a character device for each nvme device
+In-Reply-To: <1343407458-29909-1-git-send-email-keith.busch@intel.com>
+References: <1343407458-29909-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20120727181212.GM22985@linux.intel.com>
 
-On Fri, Jul 27, 2012@09:34:04AM -0600, Keith Busch wrote:
-> Set the depth for IO queues to the device's maximum supported queue
-> entries if the requested depth exceeds the device's capabilities.
+On Fri, Jul 27, 2012@10:44:18AM -0600, Keith Busch wrote:
+> Registers a character device for the nvme module and creates character
+> files as /dev/nvmeN for each nvme device probed, where N is the device
+> instance. The character devices support nvme admin ioctl commands so
+> that nvme devices without namespaces can be managed.
 
-Thanks, applied with a couple of fixups.
+I don't see a problem here, but I'm no expert at sysfs / character devices.
+Alan, Greg, anyone else see any problems with how this character device is
+created / destroyed?
 
->  	struct device *dmadev = &dev->pci_dev->dev;
-> -	unsigned extra = (depth / 8) + (depth * sizeof(struct nvme_cmd_info));
-> +	unsigned extra = DIV_ROUND_UP(depth, 8) + (depth * sizeof(
-> +							struct nvme_cmd_info));
-
-Better to split like so:
-
-	unsigned extra = DIV_ROUND_UP(depth, 8) + (depth *
-						sizeof(struct nvme_cmd_info));
-
-(some might argue for either:
-
-	unsigned extra = DIV_ROUND_UP(depth, 8);
-	extra += depth * sizeof(struct nvme_cmd_info);
-
-or
-
-	unsigned extra;
-
-	extra = DIV_ROUND_UP(depth, 8) + (depth * sizeof(struct nvme_cmd_info));
-
-but I prefer the way I've done it :-)
-
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/block/nvme.c |   55 +++++++++++++++++++++++++++++++++++++++++++++++++-
+>  1 files changed, 54 insertions(+), 1 deletions(-)
+> 
+> diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
+> index 7bcd882..8a16ac8 100644
+> --- a/drivers/block/nvme.c
+> +++ b/drivers/block/nvme.c
+> @@ -20,6 +20,7 @@
+>  #include <linux/bio.h>
+>  #include <linux/bitops.h>
+>  #include <linux/blkdev.h>
+> +#include <linux/cdev.h>
+>  #include <linux/delay.h>
+>  #include <linux/errno.h>
+>  #include <linux/fs.h>
+> @@ -45,6 +46,7 @@
+>  #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
+>  #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
+>  #define NVME_MINORS 64
+> +#define NVME_MAX_DEVS 1024
+>  #define NVME_IO_TIMEOUT	(5 * HZ)
+>  #define ADMIN_TIMEOUT	(60 * HZ)
+>  
+> @@ -54,9 +56,13 @@ module_param(nvme_major, int, 0);
+>  static int use_threaded_interrupts;
+>  module_param(use_threaded_interrupts, int, 0);
+>  
+> +static int nvme_char_major;
+> +module_param(nvme_char_major, int, 0);
+> +
+>  static DEFINE_SPINLOCK(dev_list_lock);
+>  static LIST_HEAD(dev_list);
+>  static struct task_struct *nvme_thread;
+> +static struct class *nvme_char_cl;
+>  
+>  /*
+>   * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+> @@ -1222,6 +1228,35 @@ static const struct block_device_operations nvme_fops = {
+>  	.compat_ioctl	= nvme_ioctl,
 >  };
 >  
-> +#define NVME_CAP_MQES(cap)	(cap & 0xffff)
->  #define NVME_CAP_TIMEOUT(cap)	(((cap) >> 24) & 0xff)
->  #define NVME_CAP_STRIDE(cap)	(((cap) >> 32) & 0xf)
+> +static long nvme_char_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+> +{
+> +	struct nvme_dev *dev;
+> +	int instance = iminor(f->f_dentry->d_inode);
+> +
+> +	spin_lock(&dev_list_lock);
+> +	list_for_each_entry(dev, &dev_list, node) {
+> +		if (dev->instance == instance)
+> +			break;
+> +	}
+> +	spin_unlock(&dev_list_lock);
+> +
+> +	if (&dev->node == &dev_list)
+> +		return -ENOTTY;
+> +	
+> +	switch (cmd) {
+> +	case NVME_IOCTL_ADMIN_CMD:
+> +		return nvme_user_admin_cmd(dev, (void __user *)arg);
+> +	default:
+> +		return -ENOTTY;
+> +	}
+> +}
+> +
+> +static const struct file_operations nvme_char_fops = {
+> +	.owner		= THIS_MODULE,
+> +	.unlocked_ioctl	= nvme_char_ioctl,
+> +	.compat_ioctl	= nvme_char_ioctl,
+> +};
+> +
+>  static void nvme_timeout_ios(struct nvme_queue *nvmeq)
+>  {
+>  	int depth = nvmeq->q_depth - 1;
+> @@ -1632,6 +1667,8 @@ static int __devinit nvme_probe(struct pci_dev *pdev,
+>  	if (result)
+>  		goto delete;
 >  
-
-This hunk failed to apply because of the added definition for NVME_CAP_MPSMIN
-which was added in a patch from you I applied yesterday :-)  So I fixed it.
+> +	device_create(nvme_char_cl, NULL, MKDEV(nvme_char_major, dev->instance),
+> +						NULL, "nvme%d", dev->instance);
+>  	return 0;
+>  
+>   delete:
+> @@ -1660,6 +1697,7 @@ static void __devexit nvme_remove(struct pci_dev *pdev)
+>  {
+>  	struct nvme_dev *dev = pci_get_drvdata(pdev);
+>  	nvme_dev_remove(dev);
+> +	device_destroy(nvme_char_cl, MKDEV(nvme_char_major, dev->instance));
+>  	pci_disable_msix(pdev);
+>  	iounmap(dev->bar);
+>  	nvme_release_instance(dev);
+> @@ -1721,11 +1759,24 @@ static int __init nvme_init(void)
+>  	else if (result > 0)
+>  	    nvme_major = result;
+>  
+> +	result = __register_chrdev(nvme_char_major, 0, NVME_MAX_DEVS, "nvme",
+> +							&nvme_char_fops);
+> +	if (result < 0)
+> +		goto unregister_blkdev;
+> +	else if (result > 0)
+> +		nvme_char_major = result;
+> +	nvme_char_cl = class_create(THIS_MODULE, "nvme");
+> +	if (!nvme_char_cl)
+> +		goto unregister_chrdev;
+>  	result = pci_register_driver(&nvme_driver);
+>  	if (result)
+> -		goto unregister_blkdev;
+> +		goto destroy_class;
+>  	return 0;
+>  
+> + destroy_class:
+> +	class_destroy(nvme_char_cl);
+> + unregister_chrdev:
+> +	__unregister_chrdev(nvme_char_major, 0, NVME_MAX_DEVS, "nvme");
+>   unregister_blkdev:
+>  	unregister_blkdev(nvme_major, "nvme");
+>   kill_kthread:
+> @@ -1736,6 +1787,8 @@ static int __init nvme_init(void)
+>  static void __exit nvme_exit(void)
+>  {
+>  	pci_unregister_driver(&nvme_driver);
+> +	class_destroy(nvme_char_cl);
+> +	__unregister_chrdev(nvme_char_major, 0, NVME_MAX_DEVS, "nvme");
+>  	unregister_blkdev(nvme_major, "nvme");
+>  	kthread_stop(nvme_thread);
+>  }
+> -- 
+> 1.7.0.4
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://merlin.infradead.org/mailman/listinfo/linux-nvme
