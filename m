@@ -1,23 +1,42 @@
-From: jgarzik@pobox.com (Jeff Garzik)
-Date: Fri, 27 Jul 2012 16:42:01 -0400
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Fri, 27 Jul 2012 16:44:47 -0400
 Subject: [PATCH] NVMe: Add a character device for each nvme device
-In-Reply-To: <20120727202655.GP22985@linux.intel.com>
+In-Reply-To: <1343407458-29909-1-git-send-email-keith.busch@intel.com>
 References: <1343407458-29909-1-git-send-email-keith.busch@intel.com>
- <20120727181212.GM22985@linux.intel.com> <5012EBD9.8010602@pobox.com>
- <20120727202655.GP22985@linux.intel.com>
-Message-ID: <5012FD19.5090100@pobox.com>
+Message-ID: <20120727204447.GR22985@linux.intel.com>
 
-On 07/27/2012 04:26 PM, Matthew Wilcox wrote:
-> Maybe we should design such a mechanism, but maybe we shouldn't ... as we
-> find common things to do, we tend to move those to sysfs, not ioctls,
-> and the kinds of commands that are being sent here are essentially
-> vendor-specific NVMe commands; it's not clear they'd fit neatly into a
-> generic mechanism.
+On Fri, Jul 27, 2012@10:44:18AM -0600, Keith Busch wrote:
+> @@ -1222,6 +1228,35 @@ static const struct block_device_operations nvme_fops = {
+>  	.compat_ioctl	= nvme_ioctl,
+>  };
+>  
+> +static long nvme_char_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+> +{
+> +	struct nvme_dev *dev;
+> +	int instance = iminor(f->f_dentry->d_inode);
+> +
+> +	spin_lock(&dev_list_lock);
+> +	list_for_each_entry(dev, &dev_list, node) {
+> +		if (dev->instance == instance)
+> +			break;
+> +	}
+> +	spin_unlock(&dev_list_lock);
 
-You're delivering arbitrary packets to the device from userspace, and it 
-is returning arbitrary packets to userspace.
+So what happens if we get a PCI hotplug event here?  nvme_remove gets
+called, we unmap the BAR and kfree the dev.  Now nvme_user_admin_cmd()
+is going to dereference a pointer to freed memory, and even if that
+happens to work, it's going to end up writing a doorbell that doesn't
+exist any more.
 
-This is a familiar pattern...  It is quite analagous to "send 
-vendor-specific commands from userspace to a drive"
+I think we need refcounting on the dev to fix this ... urgh.
 
-	Jeff
+> +	if (&dev->node == &dev_list)
+> +		return -ENOTTY;
+> +	
+> +	switch (cmd) {
+> +	case NVME_IOCTL_ADMIN_CMD:
+> +		return nvme_user_admin_cmd(dev, (void __user *)arg);
+> +	default:
+> +		return -ENOTTY;
+> +	}
+> +}
