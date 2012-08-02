@@ -1,182 +1,197 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu,  2 Aug 2012 12:59:04 -0600
-Subject: [PATCH] NVMe: Add discard support for capable devices
-Message-ID: <1343933944-32726-1-git-send-email-keith.busch@intel.com>
+Date: Thu,  2 Aug 2012 13:10:06 -0600
+Subject: [PATCH] NVMe: Add a character device for each nvme device
+Message-ID: <1343934606-2268-1-git-send-email-keith.busch@intel.com>
 
-This adds discard support to block queues if the nvme device is capable
-of deallocating blocks as indicated by the controller's optional command
-support. A discard flagged bio request will submit an NVMe deallocate
-Data Set Management command for the requested blocks.
+Registers a character device for the nvme module and creates character
+files as /dev/nvmeN for each nvme device probed, where N is the device
+instance. The character devices support nvme admin ioctl commands so
+that nvme devices without namespaces can be managed.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme.c |   54 ++++++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/nvme.h |   32 +++++++++++++++++++++++++++++
- 2 files changed, 86 insertions(+), 0 deletions(-)
+ drivers/block/nvme.c |   96 ++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 files changed, 90 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
-index 3278fbd..d8c1e96 100644
+index 3278fbd..3d13d4b 100644
 --- a/drivers/block/nvme.c
 +++ b/drivers/block/nvme.c
-@@ -79,6 +79,7 @@ struct nvme_dev {
- 	char model[40];
- 	char firmware_rev[8];
- 	u32 max_hw_sectors;
-+	u16 oncs;
- };
+@@ -20,6 +20,7 @@
+ #include <linux/bio.h>
+ #include <linux/bitops.h>
+ #include <linux/blkdev.h>
++#include <linux/cdev.h>
+ #include <linux/delay.h>
+ #include <linux/errno.h>
+ #include <linux/fs.h>
+@@ -45,6 +46,7 @@
+ #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
+ #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
+ #define NVME_MINORS 64
++#define NVME_MAX_DEVS 1024
+ #define NVME_IO_TIMEOUT	(5 * HZ)
+ #define ADMIN_TIMEOUT	(60 * HZ)
+ 
+@@ -54,9 +56,15 @@ module_param(nvme_major, int, 0);
+ static int use_threaded_interrupts;
+ module_param(use_threaded_interrupts, int, 0);
+ 
++static int nvme_char_major;
++module_param(nvme_char_major, int, 0);
++
+ static DEFINE_SPINLOCK(dev_list_lock);
+ static LIST_HEAD(dev_list);
+ static struct task_struct *nvme_thread;
++static struct class *nvme_char_cl;
++
++static void nvme_remove_dev(struct kref *kref);
  
  /*
-@@ -334,6 +335,7 @@ nvme_alloc_iod(unsigned nseg, unsigned nbytes, gfp_t gfp)
- 		iod->offset = offsetof(struct nvme_iod, sg[nseg]);
- 		iod->npages = -1;
- 		iod->length = nbytes;
-+		iod->nents = 0;
- 	}
+  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+@@ -75,6 +83,7 @@ struct nvme_dev {
+ 	struct msix_entry *entry;
+ 	struct nvme_bar __iomem *bar;
+ 	struct list_head namespaces;
++	struct kref kref;
+ 	char serial[20];
+ 	char model[40];
+ 	char firmware_rev[8];
+@@ -1226,6 +1235,54 @@ static const struct block_device_operations nvme_fops = {
+ 	.compat_ioctl	= nvme_ioctl,
+ };
  
- 	return iod;
-@@ -505,6 +507,39 @@ static int nvme_map_bio(struct device *dev, struct nvme_iod *iod,
- 	return length;
- }
- 
-+static int nvme_submit_discard(struct nvme_queue *nvmeq, struct nvme_ns *ns,
-+		struct bio *bio, struct nvme_iod *iod, int cmdid)
++static int nvme_char_open(struct inode *inode, struct file *f)
 +{
-+	struct nvme_dsm_range *range;
-+	struct nvme_command *cmnd = &nvmeq->sq_cmds[nvmeq->sq_tail];
++	struct nvme_dev *dev;
++	int instance = iminor(f->f_dentry->d_inode);
 +
-+	range = dma_pool_alloc(nvmeq->dev->prp_small_pool, GFP_ATOMIC,
-+							&iod->first_dma);
-+	if (range == NULL)
-+		return -ENOMEM;
++	spin_lock(&dev_list_lock);
++	list_for_each_entry(dev, &dev_list, node) {
++		if (dev->instance == instance) {
++			kref_get(&dev->kref);
++			f->private_data = dev;
++			break;
++		}
++	}
++	spin_unlock(&dev_list_lock);
 +
-+	iod_list(iod)[0] = (__le64 *)range;
-+	iod->npages = 0;
-+
-+	range->cattr = cpu_to_le32(0);
-+	range->nlb = cpu_to_le32(bio->bi_size >> ns->lba_shift);
-+	range->slba = cpu_to_le64(bio->bi_sector >> (ns->lba_shift - 9));
-+
-+	memset(cmnd, 0, sizeof(*cmnd));
-+	cmnd->dsm.opcode = nvme_cmd_dsm;
-+	cmnd->dsm.command_id = cmdid;
-+	cmnd->dsm.nsid = cpu_to_le32(ns->ns_id);
-+	cmnd->dsm.prp1 = cpu_to_le64(iod->first_dma);
-+	cmnd->dsm.nr = 0;
-+	cmnd->dsm.attributes = cpu_to_le32(NVME_DSMGMT_AD);
-+
-+	if (++nvmeq->sq_tail == nvmeq->q_depth)
-+		nvmeq->sq_tail = 0;
-+	writel(nvmeq->sq_tail, nvmeq->q_db);
++	if (!f->private_data)
++		return -ENXIO;
 +
 +	return 0;
 +}
 +
- static int nvme_submit_flush(struct nvme_queue *nvmeq, struct nvme_ns *ns,
- 								int cmdid)
- {
-@@ -562,6 +597,8 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
- 	if (unlikely(cmdid < 0))
- 		goto free_iod;
- 
-+	if (bio->bi_rw & REQ_DISCARD)
-+		return nvme_submit_discard(nvmeq, ns, bio, iod, cmdid);
- 	if ((bio->bi_rw & REQ_FLUSH) && !psegs)
- 		return nvme_submit_flush(nvmeq, ns, cmdid);
- 
-@@ -1316,6 +1353,19 @@ static void nvme_put_ns_idx(int index)
- 	spin_unlock(&dev_list_lock);
- }
- 
-+static void nvme_config_discard(struct nvme_ns *ns)
++static int nvme_char_release(struct inode *inode, struct file *f)
 +{
-+	u32 logical_block_size = queue_logical_block_size(ns->queue);
-+	sector_t nr_sectors = get_capacity(ns->disk);
-+
-+	ns->queue->limits.discard_zeroes_data = 0;
-+	ns->queue->limits.discard_alignment = logical_block_size;
-+	ns->queue->limits.discard_granularity = logical_block_size;
-+	ns->queue->limits.max_discard_sectors = (u32)min_t(u64, nr_sectors,
-+								0xffffffff);
-+	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
++	struct nvme_dev *dev = f->private_data;
++	kref_put(&dev->kref, nvme_remove_dev);
++	return 0;
 +}
 +
- static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, int nsid,
- 			struct nvme_id_ns *id, struct nvme_lba_range_type *rt)
++static long nvme_char_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
++{
++	struct nvme_dev *dev = f->private_data;
++
++	switch (cmd) {
++	case NVME_IOCTL_ADMIN_CMD:
++		return nvme_user_admin_cmd(dev, (void __user *)arg);
++	default:
++		return -ENOTTY;
++	}
++}
++
++static const struct file_operations nvme_char_fops = {
++	.owner		= THIS_MODULE,
++	.open		= nvme_char_open,
++	.release	= nvme_char_release,
++	.unlocked_ioctl	= nvme_char_ioctl,
++	.compat_ioctl	= nvme_char_ioctl,
++};
++
+ static void nvme_timeout_ios(struct nvme_queue *nvmeq)
  {
-@@ -1361,6 +1411,9 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, int nsid,
- 	sprintf(disk->disk_name, "nvme%dn%d", dev->instance, nsid);
- 	set_capacity(disk, le64_to_cpup(&id->nsze) << (ns->lba_shift - 9));
+ 	int depth = nvmeq->q_depth - 1;
+@@ -1664,6 +1721,11 @@ static int __devinit nvme_probe(struct pci_dev *pdev,
+ 	if (result)
+ 		goto delete;
  
-+	if (dev->oncs & NVME_CTRL_ONCS_DSM)
-+		nvme_config_discard(ns);
++	kref_init(&dev->kref);
 +
- 	return ns;
++	device_create(nvme_char_cl, &pdev->dev,
++					MKDEV(nvme_char_major, dev->instance),
++					NULL, "nvme%d", dev->instance);
+ 	return 0;
  
-  out_free_queue:
-@@ -1489,6 +1542,7 @@ static int __devinit nvme_dev_add(struct nvme_dev *dev)
+  delete:
+@@ -1688,21 +1750,28 @@ static int __devinit nvme_probe(struct pci_dev *pdev,
+ 	return result;
+ }
  
- 	ctrl = mem;
- 	nn = le32_to_cpup(&ctrl->nn);
-+	dev->oncs = le16_to_cpup(&ctrl->oncs);
- 	memcpy(dev->serial, ctrl->sn, sizeof(ctrl->sn));
- 	memcpy(dev->model, ctrl->mn, sizeof(ctrl->mn));
- 	memcpy(dev->firmware_rev, ctrl->fr, sizeof(ctrl->fr));
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index c25ccca..2af3ccd 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -107,6 +107,12 @@ struct nvme_id_ctrl {
- 	__u8			vs[1024];
- };
+-static void __devexit nvme_remove(struct pci_dev *pdev)
++static void nvme_remove_dev(struct kref *kref)
+ {
+-	struct nvme_dev *dev = pci_get_drvdata(pdev);
++	struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
+ 	nvme_dev_remove(dev);
+-	pci_disable_msix(pdev);
++	device_destroy(nvme_char_cl, MKDEV(nvme_char_major, dev->instance));
++	pci_disable_msix(dev->pci_dev);
+ 	iounmap(dev->bar);
+ 	nvme_release_instance(dev);
+ 	nvme_release_prp_pools(dev);
+-	pci_disable_device(pdev);
+-	pci_release_regions(pdev);
++	pci_disable_device(dev->pci_dev);
++	pci_release_regions(dev->pci_dev);
+ 	kfree(dev->queues);
+ 	kfree(dev->entry);
+ 	kfree(dev);
+ }
  
-+enum {
-+	NVME_CTRL_ONCS_COMPARE			= 1 << 0,
-+	NVME_CTRL_ONCS_WRITE_UNCORRECTABLE	= 1 << 1,
-+	NVME_CTRL_ONCS_DSM			= 1 << 2,
-+};
++static void __devexit nvme_remove(struct pci_dev *pdev)
++{
++	struct nvme_dev *dev = pci_get_drvdata(pdev);
++	kref_put(&dev->kref, nvme_remove_dev);
++}
 +
- struct nvme_lbaf {
- 	__le16			ms;
- 	__u8			ds;
-@@ -218,6 +224,31 @@ enum {
- 	NVME_RW_DSM_COMPRESSED		= 1 << 7,
- };
+ /* These functions are yet to be implemented */
+ #define nvme_error_detected NULL
+ #define nvme_dump_registers NULL
+@@ -1753,11 +1822,24 @@ static int __init nvme_init(void)
+ 	else if (result > 0)
+ 		nvme_major = result;
  
-+struct nvme_dsm_cmd {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__u64			rsvd2[2];
-+	__le64			prp1;
-+	__le64			prp2;
-+	__le32			nr;
-+	__le32			attributes;
-+	__u32			rsvd12[4];
-+};
-+
-+enum {
-+	NVME_DSMGMT_IDR		= 1 << 0,
-+	NVME_DSMGMT_IDW		= 1 << 1,
-+	NVME_DSMGMT_AD		= 1 << 2,
-+};
-+
-+struct nvme_dsm_range {
-+	__le32			cattr;
-+	__le32			nlb;
-+	__le64			slba;
-+};
-+
- /* Admin commands */
++	result = __register_chrdev(nvme_char_major, 0, NVME_MAX_DEVS, "nvme",
++							&nvme_char_fops);
++	if (result < 0)
++		goto unregister_blkdev;
++	else if (result > 0)
++		nvme_char_major = result;
++	nvme_char_cl = class_create(THIS_MODULE, "nvme");
++	if (!nvme_char_cl)
++		goto unregister_chrdev;
+ 	result = pci_register_driver(&nvme_driver);
+ 	if (result)
+-		goto unregister_blkdev;
++		goto destroy_class;
+ 	return 0;
  
- enum nvme_admin_opcode {
-@@ -344,6 +375,7 @@ struct nvme_command {
- 		struct nvme_create_sq create_sq;
- 		struct nvme_delete_queue delete_queue;
- 		struct nvme_download_firmware dlfw;
-+		struct nvme_dsm_cmd dsm;
- 	};
- };
- 
++ destroy_class:
++	class_destroy(nvme_char_cl);
++ unregister_chrdev:
++	__unregister_chrdev(nvme_char_major, 0, NVME_MAX_DEVS, "nvme");
+  unregister_blkdev:
+ 	unregister_blkdev(nvme_major, "nvme");
+  kill_kthread:
+@@ -1768,6 +1850,8 @@ static int __init nvme_init(void)
+ static void __exit nvme_exit(void)
+ {
+ 	pci_unregister_driver(&nvme_driver);
++	class_destroy(nvme_char_cl);
++	__unregister_chrdev(nvme_char_major, 0, NVME_MAX_DEVS, "nvme");
+ 	unregister_blkdev(nvme_major, "nvme");
+ 	kthread_stop(nvme_thread);
+ }
 -- 
 1.7.0.4
