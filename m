@@ -1,42 +1,88 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu,  2 Aug 2012 14:05:59 -0600
-Subject: [PATCH] NVMe: Free cmdid of nvme_submit_bio error
-Message-ID: <1343937959-7836-1-git-send-email-keith.busch@intel.com>
+From: willy@linux.intel.com (willy@linux.intel.com)
+Date: Fri,  3 Aug 2012 14:01:35 -0400
+Subject: [PATCH] NVMe: Free admin queue memory on initialisation failure
+Message-ID: <1344016895-30103-1-git-send-email-willy@linux.intel.com>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+From: Matthew Wilcox <matthew.r.wilcox@intel.com>
+
+If the adapter fails initialisation, the memory allocated for the
+admin queue may not be freed.  Split the memory freeing part of
+nvme_free_queue() into nvme_free_queue_mem() and call it in the case of
+initialisation failure.
+
+Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
+Reported-by: Vishal Verma <vishal.l.verma at intel.com>
 ---
- drivers/block/nvme.c |    5 ++++-
- 1 files changed, 4 insertions(+), 1 deletions(-)
+ drivers/block/nvme.c |   28 +++++++++++++++++++---------
+ 1 file changed, 19 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
-index 3278fbd..15670ca 100644
+index 3278fbd..2140370 100644
 --- a/drivers/block/nvme.c
 +++ b/drivers/block/nvme.c
-@@ -545,6 +545,7 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
- 	u16 control;
- 	u32 dsmgmt;
- 	int psegs = bio_phys_segments(ns->queue, bio);
-+	nvme_completion_fn fn;
+@@ -868,6 +868,15 @@ static int nvme_set_features(struct nvme_dev *dev, unsigned fid,
+ 	return nvme_submit_admin_cmd(dev, &c, result);
+ }
  
- 	if ((bio->bi_rw & REQ_FLUSH) && psegs) {
- 		result = nvme_submit_flush_data(nvmeq, ns);
-@@ -588,7 +589,7 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
++static void nvme_free_queue_mem(struct nvme_queue *nvmeq)
++{
++	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
++				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
++	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
++					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
++	kfree(nvmeq);
++}
++
+ static void nvme_free_queue(struct nvme_dev *dev, int qid)
+ {
+ 	struct nvme_queue *nvmeq = dev->queues[qid];
+@@ -882,11 +891,7 @@ static void nvme_free_queue(struct nvme_dev *dev, int qid)
+ 		adapter_delete_cq(dev, qid);
+ 	}
  
- 	result = nvme_map_bio(nvmeq->q_dmadev, iod, bio, dma_dir, psegs);
- 	if (result < 0)
--		goto free_iod;
-+		goto free_cmdid;
- 	length = result;
+-	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
+-				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
+-	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
+-					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
+-	kfree(nvmeq);
++	nvme_free_queue_mem(nvmeq);
+ }
  
- 	cmnd->rw.command_id = cmdid;
-@@ -608,6 +609,8 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+@@ -982,7 +987,7 @@ static __devinit struct nvme_queue *nvme_create_queue(struct nvme_dev *dev,
  
- 	return 0;
+ static int __devinit nvme_configure_admin_queue(struct nvme_dev *dev)
+ {
+-	int result;
++	int result = 0;
+ 	u32 aqa;
+ 	u64 cap;
+ 	unsigned long timeout;
+@@ -1012,17 +1017,22 @@ static int __devinit nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	timeout = ((NVME_CAP_TIMEOUT(cap) + 1) * HZ / 2) + jiffies;
+ 	dev->db_stride = NVME_CAP_STRIDE(cap);
  
-+ free_cmdid:
-+	free_cmdid(nvmeq, cmdid, &fn);
-  free_iod:
- 	nvme_free_iod(nvmeq->dev, iod);
-  nomem:
+-	while (!(readl(&dev->bar->csts) & NVME_CSTS_RDY)) {
++	while (!result && !(readl(&dev->bar->csts) & NVME_CSTS_RDY)) {
+ 		msleep(100);
+ 		if (fatal_signal_pending(current))
+-			return -EINTR;
++			result = -EINTR;
+ 		if (time_after(jiffies, timeout)) {
+ 			dev_err(&dev->pci_dev->dev,
+ 				"Device not ready; aborting initialisation\n");
+-			return -ENODEV;
++			result = -ENODEV;
+ 		}
+ 	}
+ 
++	if (result) {
++		nvme_free_queue_mem(nvmeq);
++		return result;
++	}
++
+ 	result = queue_request_irq(dev, nvmeq, "nvme admin");
+ 	dev->queues[0] = nvmeq;
+ 	return result;
 -- 
-1.7.0.4
+1.7.10.4
