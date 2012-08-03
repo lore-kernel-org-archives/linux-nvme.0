@@ -1,88 +1,106 @@
-From: willy@linux.intel.com (willy@linux.intel.com)
-Date: Fri,  3 Aug 2012 14:01:35 -0400
+From: vishal.l.verma@intel.com (Verma, Vishal L)
+Date: Fri, 3 Aug 2012 18:18:39 +0000
 Subject: [PATCH] NVMe: Free admin queue memory on initialisation failure
-Message-ID: <1344016895-30103-1-git-send-email-willy@linux.intel.com>
+In-Reply-To: <1344016895-30103-1-git-send-email-willy@linux.intel.com>
+Message-ID: <CC4171D4.5004%vishal.l.verma@intel.com>
 
-From: Matthew Wilcox <matthew.r.wilcox@intel.com>
+Looks good, thank you for the patch, Matthew.
 
-If the adapter fails initialisation, the memory allocated for the
-admin queue may not be freed.  Split the memory freeing part of
-nvme_free_queue() into nvme_free_queue_mem() and call it in the case of
-initialisation failure.
+Vishal
 
-Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
-Reported-by: Vishal Verma <vishal.l.verma at intel.com>
----
- drivers/block/nvme.c |   28 +++++++++++++++++++---------
- 1 file changed, 19 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
-index 3278fbd..2140370 100644
---- a/drivers/block/nvme.c
-+++ b/drivers/block/nvme.c
-@@ -868,6 +868,15 @@ static int nvme_set_features(struct nvme_dev *dev, unsigned fid,
- 	return nvme_submit_admin_cmd(dev, &c, result);
- }
- 
-+static void nvme_free_queue_mem(struct nvme_queue *nvmeq)
-+{
-+	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
-+				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
-+	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
-+					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
-+	kfree(nvmeq);
-+}
-+
- static void nvme_free_queue(struct nvme_dev *dev, int qid)
- {
- 	struct nvme_queue *nvmeq = dev->queues[qid];
-@@ -882,11 +891,7 @@ static void nvme_free_queue(struct nvme_dev *dev, int qid)
- 		adapter_delete_cq(dev, qid);
- 	}
- 
--	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
--				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
--	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
--					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
--	kfree(nvmeq);
-+	nvme_free_queue_mem(nvmeq);
- }
- 
- static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
-@@ -982,7 +987,7 @@ static __devinit struct nvme_queue *nvme_create_queue(struct nvme_dev *dev,
- 
- static int __devinit nvme_configure_admin_queue(struct nvme_dev *dev)
- {
--	int result;
-+	int result = 0;
- 	u32 aqa;
- 	u64 cap;
- 	unsigned long timeout;
-@@ -1012,17 +1017,22 @@ static int __devinit nvme_configure_admin_queue(struct nvme_dev *dev)
- 	timeout = ((NVME_CAP_TIMEOUT(cap) + 1) * HZ / 2) + jiffies;
- 	dev->db_stride = NVME_CAP_STRIDE(cap);
- 
--	while (!(readl(&dev->bar->csts) & NVME_CSTS_RDY)) {
-+	while (!result && !(readl(&dev->bar->csts) & NVME_CSTS_RDY)) {
- 		msleep(100);
- 		if (fatal_signal_pending(current))
--			return -EINTR;
-+			result = -EINTR;
- 		if (time_after(jiffies, timeout)) {
- 			dev_err(&dev->pci_dev->dev,
- 				"Device not ready; aborting initialisation\n");
--			return -ENODEV;
-+			result = -ENODEV;
- 		}
- 	}
- 
-+	if (result) {
-+		nvme_free_queue_mem(nvmeq);
-+		return result;
-+	}
-+
- 	result = queue_request_irq(dev, nvmeq, "nvme admin");
- 	dev->queues[0] = nvmeq;
- 	return result;
--- 
-1.7.10.4
+On 8/3/12 12:01 PM, "willy@linux.intel.com" <willy@linux.intel.com> wrote:
+
+>From: Matthew Wilcox <matthew.r.wilcox at intel.com>
+>
+>If the adapter fails initialisation, the memory allocated for the
+>admin queue may not be freed.  Split the memory freeing part of
+>nvme_free_queue() into nvme_free_queue_mem() and call it in the case of
+>initialisation failure.
+>
+>Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
+>Reported-by: Vishal Verma <vishal.l.verma at intel.com>
+>---
+> drivers/block/nvme.c |   28 +++++++++++++++++++---------
+> 1 file changed, 19 insertions(+), 9 deletions(-)
+>
+>diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
+>index 3278fbd..2140370 100644
+>--- a/drivers/block/nvme.c
+>+++ b/drivers/block/nvme.c
+>@@ -868,6 +868,15 @@ static int nvme_set_features(struct nvme_dev *dev,
+>unsigned fid,
+> 	return nvme_submit_admin_cmd(dev, &c, result);
+> }
+> 
+>+static void nvme_free_queue_mem(struct nvme_queue *nvmeq)
+>+{
+>+	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
+>+				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
+>+	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
+>+					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
+>+	kfree(nvmeq);
+>+}
+>+
+> static void nvme_free_queue(struct nvme_dev *dev, int qid)
+> {
+> 	struct nvme_queue *nvmeq = dev->queues[qid];
+>@@ -882,11 +891,7 @@ static void nvme_free_queue(struct nvme_dev *dev,
+>int qid)
+> 		adapter_delete_cq(dev, qid);
+> 	}
+> 
+>-	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
+>-				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
+>-	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
+>-					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
+>-	kfree(nvmeq);
+>+	nvme_free_queue_mem(nvmeq);
+> }
+> 
+> static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+>@@ -982,7 +987,7 @@ static __devinit struct nvme_queue
+>*nvme_create_queue(struct nvme_dev *dev,
+> 
+> static int __devinit nvme_configure_admin_queue(struct nvme_dev *dev)
+> {
+>-	int result;
+>+	int result = 0;
+> 	u32 aqa;
+> 	u64 cap;
+> 	unsigned long timeout;
+>@@ -1012,17 +1017,22 @@ static int __devinit
+>nvme_configure_admin_queue(struct nvme_dev *dev)
+> 	timeout = ((NVME_CAP_TIMEOUT(cap) + 1) * HZ / 2) + jiffies;
+> 	dev->db_stride = NVME_CAP_STRIDE(cap);
+> 
+>-	while (!(readl(&dev->bar->csts) & NVME_CSTS_RDY)) {
+>+	while (!result && !(readl(&dev->bar->csts) & NVME_CSTS_RDY)) {
+> 		msleep(100);
+> 		if (fatal_signal_pending(current))
+>-			return -EINTR;
+>+			result = -EINTR;
+> 		if (time_after(jiffies, timeout)) {
+> 			dev_err(&dev->pci_dev->dev,
+> 				"Device not ready; aborting initialisation\n");
+>-			return -ENODEV;
+>+			result = -ENODEV;
+> 		}
+> 	}
+> 
+>+	if (result) {
+>+		nvme_free_queue_mem(nvmeq);
+>+		return result;
+>+	}
+>+
+> 	result = queue_request_irq(dev, nvmeq, "nvme admin");
+> 	dev->queues[0] = nvmeq;
+> 	return result;
+>-- 
+>1.7.10.4
+>
+>
+>_______________________________________________
+>Linux-nvme mailing list
+>Linux-nvme at lists.infradead.org
+>http://merlin.infradead.org/mailman/listinfo/linux-nvme
