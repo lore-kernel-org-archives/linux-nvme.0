@@ -1,45 +1,64 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 21 Sep 2012 10:52:13 -0600
-Subject: [PATCH] NVMe: Add result to nvme_get_features
-Message-ID: <1348246333-17669-1-git-send-email-keith.busch@intel.com>
+Date: Wed, 26 Sep 2012 12:49:27 -0600
+Subject: [PATCH] NVMe: Define SMART log
+Message-ID: <1348685367-29949-1-git-send-email-keith.busch@intel.com>
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme.c |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/block/nvme.c |    1 +
+ include/linux/nvme.h |   28 ++++++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+), 0 deletions(-)
 
 diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
-index f9ad514..bcf9275 100644
+index f9ad514..5aa1cf4 100644
 --- a/drivers/block/nvme.c
 +++ b/drivers/block/nvme.c
-@@ -840,8 +840,8 @@ static int nvme_identify(struct nvme_dev *dev, unsigned nsid, unsigned cns,
- 	return nvme_submit_admin_cmd(dev, &c, NULL);
+@@ -134,6 +134,7 @@ static inline void _nvme_check_size(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl) != 4096);
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ns) != 4096);
+ 	BUILD_BUG_ON(sizeof(struct nvme_lba_range_type) != 64);
++	BUILD_BUG_ON(sizeof(struct nvme_smart_log) != 512);
  }
  
--static int nvme_get_features(struct nvme_dev *dev, unsigned fid,
--				unsigned nsid, dma_addr_t dma_addr)
-+static int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned nsid,
-+					dma_addr_t dma_addr, u32 *result)
- {
- 	struct nvme_command c;
+ typedef void (*nvme_completion_fn)(struct nvme_dev *, void *,
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index c25ccca..1837611 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -137,6 +137,34 @@ enum {
+ 	NVME_LBAF_RP_DEGRADED	= 3,
+ };
  
-@@ -851,7 +851,7 @@ static int nvme_get_features(struct nvme_dev *dev, unsigned fid,
- 	c.features.prp1 = cpu_to_le64(dma_addr);
- 	c.features.fid = cpu_to_le32(fid);
- 
--	return nvme_submit_admin_cmd(dev, &c, NULL);
-+	return nvme_submit_admin_cmd(dev, &c, result);
- }
- 
- static int nvme_set_features(struct nvme_dev *dev, unsigned fid,
-@@ -1528,7 +1528,7 @@ static int __devinit nvme_dev_add(struct nvme_dev *dev)
- 			continue;
- 
- 		res = nvme_get_features(dev, NVME_FEAT_LBA_RANGE, i,
--							dma_addr + 4096);
-+							dma_addr + 4096, NULL);
- 		if (res)
- 			continue;
- 
++struct nvme_smart_log {
++	__u8			critical_warning;
++	__u8			temperature[2];
++	__u8			avail_spare;
++	__u8			spare_thresh;
++	__u8			percent_used;
++	__u8			rsvd6[26];
++	__u8			data_units_read[16];
++	__u8			data_units_written[16];
++	__u8			host_reads[16];
++	__u8			host_writes[16];
++	__u8			ctrl_busy_time[16];
++	__u8			power_cycles[16];
++	__u8			power_on_hours[16];
++	__u8			unsafe_shutdowns[16];
++	__u8			media_errors[16];
++	__u8			num_err_log_entries[16];
++	__u8			rsvd192[320];
++};
++
++enum {
++	NVME_SMART_CRIT_SPARE		= 1 << 0,
++	NVME_SMART_CRIT_TEMPERATURE	= 1 << 1,
++	NVME_SMART_CRIT_RELIABILITY	= 1 << 2,
++	NVME_SMART_CRIT_MEDIA		= 1 << 3,
++	NVME_SMART_CRIT_VOLITILE_MEMORY	= 1 << 4,
++};
++
+ struct nvme_lba_range_type {
+ 	__u8			type;
+ 	__u8			attributes;
 -- 
 1.7.0.4
