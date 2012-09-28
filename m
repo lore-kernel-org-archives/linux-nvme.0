@@ -1,49 +1,165 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 28 Sep 2012 12:55:11 -0400
-Subject: [GIT PULL] Fixes for the NVMe driver
-Message-ID: <20120928165511.GB4244@linux.intel.com>
+From: vishal.l.verma@intel.com (Vishal Verma)
+Date: Fri, 28 Sep 2012 12:07:39 -0600
+Subject: [PATCH 2/3] NVMe: Move dev, ns, iod structs to nvme.c
+In-Reply-To: <1348855660-3289-1-git-send-email-vishal.l.verma@intel.com>
+References: <1348855660-3289-1-git-send-email-vishal.l.verma@intel.com>
+Message-ID: <1348855660-3289-2-git-send-email-vishal.l.verma@intel.com>
 
+nvme-scsi.c uses nvme_dev, nvme_ns, and nvme_iod.
+Move the structure definitions to nvme.h
 
-Hi Linus,
+Signed-off-by: Vishal Verma <vishal.l.verma at intel.com>
+---
+ drivers/block/nvme-core.c |   53 -----------------------------------
+ include/linux/nvme.h      |   67 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 67 insertions(+), 53 deletions(-)
 
-Now that actual hardware has been released (don't have any yet myself),
-people are starting to want some of these fixes merged.  Could I trouble
-you to pull?
-
-
-The following changes since commit df3481399042200792822b6243e36a95a557b57e:
-
-  NVMe: Set number of queues correctly (2012-01-11 09:22:24 -0500)
-
-are available in the git repository at:
-
-  git://git.infradead.org/users/willy/linux-nvme.git master
-
-for you to fetch changes up to a09115b23e2002bb35b7bfd337683f00875671ec:
-
-  NVMe: Cancel outstanding IOs on queue deletion (2012-08-07 15:56:23 -0400)
-
-----------------------------------------------------------------
-Dan Carpenter (1):
-      NVMe: handle allocation failure in nvme_map_user_pages()
-
-Keith Busch (7):
-      NVMe: Set request queue logical block size
-      NVMe: Fix nvme module init when nvme_major is set
-      NVMe: replace nvme_ns with nvme_dev for user admin
-      NVMe: use namespace id for nvme_get_features
-      NVMe: Set block queue max sectors
-      NVMe: Do not set IO queue depth beyond device max
-      NVMe: Fix uninitialized iod compiler warning
-
-Matthew Wilcox (3):
-      NVMe: Fix whitespace damage in nvme_init
-      NVMe: Free admin queue memory on initialisation failure
-      NVMe: Cancel outstanding IOs on queue deletion
-
-Quoc-Son Anh (1):
-      NVMe: Use ida for nvme device instance
-
- drivers/block/nvme.c |  153 +++++++++++++++++++++++++++++++++-----------------
- include/linux/nvme.h |    2 +
- 2 files changed, 105 insertions(+), 50 deletions(-)
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 7df794f..f808b0a 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -59,43 +59,6 @@ static LIST_HEAD(dev_list);
+ static struct task_struct *nvme_thread;
+ 
+ /*
+- * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+- */
+-struct nvme_dev {
+-	struct list_head node;
+-	struct nvme_queue **queues;
+-	u32 __iomem *dbs;
+-	struct pci_dev *pci_dev;
+-	struct dma_pool *prp_page_pool;
+-	struct dma_pool *prp_small_pool;
+-	int instance;
+-	int queue_count;
+-	int db_stride;
+-	u32 ctrl_config;
+-	struct msix_entry *entry;
+-	struct nvme_bar __iomem *bar;
+-	struct list_head namespaces;
+-	char serial[20];
+-	char model[40];
+-	char firmware_rev[8];
+-	u32 max_hw_sectors;
+-};
+-
+-/*
+- * An NVM Express namespace is equivalent to a SCSI LUN
+- */
+-struct nvme_ns {
+-	struct list_head list;
+-
+-	struct nvme_dev *dev;
+-	struct request_queue *queue;
+-	struct gendisk *disk;
+-
+-	int ns_id;
+-	int lba_shift;
+-};
+-
+-/*
+  * An NVM Express queue.  Each device has at least two (one for admin
+  * commands and one for I/O commands).
+  */
+@@ -292,22 +255,6 @@ static int nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
+ 	return 0;
+ }
+ 
+-/*
+- * The nvme_iod describes the data in an I/O, including the list of PRP
+- * entries.  You can't see it in this data structure because C doesn't let
+- * me express that.  Use nvme_alloc_iod to ensure there's enough space
+- * allocated to store the PRP list.
+- */
+-struct nvme_iod {
+-	void *private;		/* For the use of the submitter of the I/O */
+-	int npages;		/* In the PRP list. 0 means small pool in use */
+-	int offset;		/* Of PRP list */
+-	int nents;		/* Used in scatterlist */
+-	int length;		/* Of data, in bytes */
+-	dma_addr_t first_dma;
+-	struct scatterlist sg[0];
+-};
+-
+ static __le64 **iod_list(struct nvme_iod *iod)
+ {
+ 	return ((void *)iod) + iod->offset;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 1837611..f4e0649 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -461,4 +461,71 @@ struct nvme_admin_cmd {
+ #define NVME_IOCTL_ADMIN_CMD	_IOWR('N', 0x41, struct nvme_admin_cmd)
+ #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
+ 
++#ifdef __KERNEL__
++#include <linux/pci.h>
++
++/*
++ * Represents an NVM Express device.  Each nvme_dev is a PCI function.
++ */
++struct nvme_dev {
++	struct list_head node;
++	struct nvme_queue **queues;
++	u32 __iomem *dbs;
++	struct pci_dev *pci_dev;
++	struct dma_pool *prp_page_pool;
++	struct dma_pool *prp_small_pool;
++	int instance;
++	int queue_count;
++	int db_stride;
++	u32 ctrl_config;
++	struct msix_entry *entry;
++	struct nvme_bar __iomem *bar;
++	struct list_head namespaces;
++	char serial[20];
++	char model[40];
++	char firmware_rev[8];
++	u16 vendor_id;
++	u32 max_hw_sectors;
++};
++
++/*
++ * An NVM Express namespace is equivalent to a SCSI LUN
++ */
++struct nvme_ns {
++	struct list_head list;
++
++	struct nvme_dev *dev;
++	struct request_queue *queue;
++	struct gendisk *disk;
++
++	int ns_id;
++	int lba_shift;
++	u64 mode_select_num_blocks;
++	u32 mode_select_block_len;
++};
++
++/*
++ * The nvme_iod describes the data in an I/O, including the list of PRP
++ * entries.  You can't see it in this data structure because C doesn't let
++ * me express that.  Use nvme_alloc_iod to ensure there's enough space
++ * allocated to store the PRP list.
++ */
++struct nvme_iod {
++	void *private;		/* For the use of the submitter of the I/O */
++	int npages;		/* In the PRP list. 0 means small pool in use */
++	int offset;		/* Of PRP list */
++	int nents;		/* Used in scatterlist */
++	int length;		/* Of data, in bytes */
++	dma_addr_t first_dma;
++	struct scatterlist sg[0];
++};
++
++/**
++ * nvme_free_iod - frees an nvme_iod
++ * @dev: The device that the I/O was submitted to
++ * @iod: The memory to free
++ */
++
++#endif
++
+ #endif /* _LINUX_NVME_H */
+-- 
+1.7.0.4
