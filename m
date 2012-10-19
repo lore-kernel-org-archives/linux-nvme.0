@@ -1,9 +1,24 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 19 Oct 2012 14:49:56 -0400
+From: Chayan.Biswas@sandisk.com (Chayan Biswas)
+Date: Fri, 19 Oct 2012 22:27:02 +0000
 Subject: nvme driver for 32 bit kernel
-In-Reply-To: <E821E2F372F08945977BD15EAE588D6108467AAD@SACMBXIP02.sdcorp.global.sandisk.com>
+In-Reply-To: <20121019184956.GN4244@linux.intel.com>
 References: <E821E2F372F08945977BD15EAE588D6108467AAD@SACMBXIP02.sdcorp.global.sandisk.com>
-Message-ID: <20121019184956.GN4244@linux.intel.com>
+ <20121019184956.GN4244@linux.intel.com>
+Message-ID: <E821E2F372F08945977BD15EAE588D6108468037@SACMBXIP02.sdcorp.global.sandisk.com>
+
+Sorry, I was referring to the nvme git version. 
+
+We downloaded the nvme git version and in the nvme.c, the header file <asm-generic/io-64-nonatomic-lo-hi.h> was not included, which was there in the latest kernel version. 
+
+Thanks,
+Chayan
+
+-----Original Message-----
+From: Matthew Wilcox [mailto:willy@linux.intel.com] 
+Sent: Friday, October 19, 2012 11:50 AM
+To: Chayan Biswas
+Cc: linux-nvme at lists.infradead.org
+Subject: Re: nvme driver for 32 bit kernel
 
 On Fri, Oct 19, 2012@12:26:46AM +0000, Chayan Biswas wrote:
 > The current driver does not compile in 32 bit kernel. What is the plan to support 32 bit compilation?
