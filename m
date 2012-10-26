@@ -1,10 +1,23 @@
 From: Chayan.Biswas@sandisk.com (Chayan Biswas)
-Date: Fri, 19 Oct 2012 22:27:02 +0000
+Date: Fri, 26 Oct 2012 17:23:05 +0000
 Subject: nvme driver for 32 bit kernel
-In-Reply-To: <20121019184956.GN4244@linux.intel.com>
+In-Reply-To: <E821E2F372F08945977BD15EAE588D6108468037@SACMBXIP02.sdcorp.global.sandisk.com>
 References: <E821E2F372F08945977BD15EAE588D6108467AAD@SACMBXIP02.sdcorp.global.sandisk.com>
  <20121019184956.GN4244@linux.intel.com>
-Message-ID: <E821E2F372F08945977BD15EAE588D6108468037@SACMBXIP02.sdcorp.global.sandisk.com>
+ <E821E2F372F08945977BD15EAE588D6108468037@SACMBXIP02.sdcorp.global.sandisk.com>
+Message-ID: <E821E2F372F08945977BD15EAE588D6108469E7D@SACMBXIP02.sdcorp.global.sandisk.com>
+
+Should we include the header file <asm-generic/io-64-nonatomic-lo-hi.h> in the nvme.c version from the nvme git repository or something else is planned to compile the git version in 32 bit?
+
+Thanks,
+Chayan Biswas
+
+-----Original Message-----
+From: linux-nvme-bounces@lists.infradead.org [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Chayan Biswas
+Sent: Friday, October 19, 2012 3:27 PM
+To: Matthew Wilcox
+Cc: linux-nvme at lists.infradead.org
+Subject: RE: nvme driver for 32 bit kernel
 
 Sorry, I was referring to the nvme git version. 
 
@@ -31,3 +44,8 @@ kernel absolutely does compile for 32-bit.
 Your legal/IT department needs to figure out how to turn this off when
 you're posting to public mailing lists.  It's worse than useless; it
 may actually be legally harmful.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://merlin.infradead.org/mailman/listinfo/linux-nvme
