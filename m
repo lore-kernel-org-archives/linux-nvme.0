@@ -1,51 +1,165 @@
-From: Chayan.Biswas@sandisk.com (Chayan Biswas)
-Date: Fri, 26 Oct 2012 17:23:05 +0000
-Subject: nvme driver for 32 bit kernel
-In-Reply-To: <E821E2F372F08945977BD15EAE588D6108468037@SACMBXIP02.sdcorp.global.sandisk.com>
-References: <E821E2F372F08945977BD15EAE588D6108467AAD@SACMBXIP02.sdcorp.global.sandisk.com>
- <20121019184956.GN4244@linux.intel.com>
- <E821E2F372F08945977BD15EAE588D6108468037@SACMBXIP02.sdcorp.global.sandisk.com>
-Message-ID: <E821E2F372F08945977BD15EAE588D6108469E7D@SACMBXIP02.sdcorp.global.sandisk.com>
+From: vishal.l.verma@intel.com (Vishal Verma)
+Date: Wed, 31 Oct 2012 11:52:33 -0600
+Subject: [PATCH v2 2/3] NVMe: Move dev, ns, iod structs to nvme.c
+In-Reply-To: <1351705954-17531-1-git-send-email-vishal.l.verma@intel.com>
+References: <1351705954-17531-1-git-send-email-vishal.l.verma@intel.com>
+Message-ID: <1351705954-17531-2-git-send-email-vishal.l.verma@intel.com>
 
-Should we include the header file <asm-generic/io-64-nonatomic-lo-hi.h> in the nvme.c version from the nvme git repository or something else is planned to compile the git version in 32 bit?
+nvme-scsi.c uses nvme_dev, nvme_ns, and nvme_iod.
+Move the structure definitions to nvme.h
 
-Thanks,
-Chayan Biswas
+Signed-off-by: Vishal Verma <vishal.l.verma at intel.com>
+---
+ drivers/block/nvme-core.c |   53 -----------------------------------
+ include/linux/nvme.h      |   67 +++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 67 insertions(+), 53 deletions(-)
 
------Original Message-----
-From: linux-nvme-bounces@lists.infradead.org [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Chayan Biswas
-Sent: Friday, October 19, 2012 3:27 PM
-To: Matthew Wilcox
-Cc: linux-nvme at lists.infradead.org
-Subject: RE: nvme driver for 32 bit kernel
-
-Sorry, I was referring to the nvme git version. 
-
-We downloaded the nvme git version and in the nvme.c, the header file <asm-generic/io-64-nonatomic-lo-hi.h> was not included, which was there in the latest kernel version. 
-
-Thanks,
-Chayan
-
------Original Message-----
-From: Matthew Wilcox [mailto:willy@linux.intel.com] 
-Sent: Friday, October 19, 2012 11:50 AM
-To: Chayan Biswas
-Cc: linux-nvme at lists.infradead.org
-Subject: Re: nvme driver for 32 bit kernel
-
-On Fri, Oct 19, 2012@12:26:46AM +0000, Chayan Biswas wrote:
-> The current driver does not compile in 32 bit kernel. What is the plan to support 32 bit compilation?
-
-What 'current driver' are you referring to?  The one merged in the Linux
-kernel absolutely does compile for 32-bit.
-
-> PLEASE NOTE: The information contained in this electronic mail message is intended only for the use of the designated recipient(s) named above. If the reader of this message is not the intended recipient, you are hereby notified that you have received this message in error and that any review, dissemination, distribution, or copying of this message is strictly prohibited. If you have received this communication in error, please notify the sender by telephone or e-mail (as shown above) immediately and destroy any and all copies of this message in your possession (whether hard copies or electronically stored copies).
-
-Your legal/IT department needs to figure out how to turn this off when
-you're posting to public mailing lists.  It's worse than useless; it
-may actually be legally harmful.
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://merlin.infradead.org/mailman/listinfo/linux-nvme
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 7df794f..f808b0a 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -59,43 +59,6 @@ static LIST_HEAD(dev_list);
+ static struct task_struct *nvme_thread;
+ 
+ /*
+- * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+- */
+-struct nvme_dev {
+-	struct list_head node;
+-	struct nvme_queue **queues;
+-	u32 __iomem *dbs;
+-	struct pci_dev *pci_dev;
+-	struct dma_pool *prp_page_pool;
+-	struct dma_pool *prp_small_pool;
+-	int instance;
+-	int queue_count;
+-	int db_stride;
+-	u32 ctrl_config;
+-	struct msix_entry *entry;
+-	struct nvme_bar __iomem *bar;
+-	struct list_head namespaces;
+-	char serial[20];
+-	char model[40];
+-	char firmware_rev[8];
+-	u32 max_hw_sectors;
+-};
+-
+-/*
+- * An NVM Express namespace is equivalent to a SCSI LUN
+- */
+-struct nvme_ns {
+-	struct list_head list;
+-
+-	struct nvme_dev *dev;
+-	struct request_queue *queue;
+-	struct gendisk *disk;
+-
+-	int ns_id;
+-	int lba_shift;
+-};
+-
+-/*
+  * An NVM Express queue.  Each device has at least two (one for admin
+  * commands and one for I/O commands).
+  */
+@@ -292,22 +255,6 @@ static int nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
+ 	return 0;
+ }
+ 
+-/*
+- * The nvme_iod describes the data in an I/O, including the list of PRP
+- * entries.  You can't see it in this data structure because C doesn't let
+- * me express that.  Use nvme_alloc_iod to ensure there's enough space
+- * allocated to store the PRP list.
+- */
+-struct nvme_iod {
+-	void *private;		/* For the use of the submitter of the I/O */
+-	int npages;		/* In the PRP list. 0 means small pool in use */
+-	int offset;		/* Of PRP list */
+-	int nents;		/* Used in scatterlist */
+-	int length;		/* Of data, in bytes */
+-	dma_addr_t first_dma;
+-	struct scatterlist sg[0];
+-};
+-
+ static __le64 **iod_list(struct nvme_iod *iod)
+ {
+ 	return ((void *)iod) + iod->offset;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 1837611..f4e0649 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -461,4 +461,71 @@ struct nvme_admin_cmd {
+ #define NVME_IOCTL_ADMIN_CMD	_IOWR('N', 0x41, struct nvme_admin_cmd)
+ #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
+ 
++#ifdef __KERNEL__
++#include <linux/pci.h>
++
++/*
++ * Represents an NVM Express device.  Each nvme_dev is a PCI function.
++ */
++struct nvme_dev {
++	struct list_head node;
++	struct nvme_queue **queues;
++	u32 __iomem *dbs;
++	struct pci_dev *pci_dev;
++	struct dma_pool *prp_page_pool;
++	struct dma_pool *prp_small_pool;
++	int instance;
++	int queue_count;
++	int db_stride;
++	u32 ctrl_config;
++	struct msix_entry *entry;
++	struct nvme_bar __iomem *bar;
++	struct list_head namespaces;
++	char serial[20];
++	char model[40];
++	char firmware_rev[8];
++	u16 vendor_id;
++	u32 max_hw_sectors;
++};
++
++/*
++ * An NVM Express namespace is equivalent to a SCSI LUN
++ */
++struct nvme_ns {
++	struct list_head list;
++
++	struct nvme_dev *dev;
++	struct request_queue *queue;
++	struct gendisk *disk;
++
++	int ns_id;
++	int lba_shift;
++	u64 mode_select_num_blocks;
++	u32 mode_select_block_len;
++};
++
++/*
++ * The nvme_iod describes the data in an I/O, including the list of PRP
++ * entries.  You can't see it in this data structure because C doesn't let
++ * me express that.  Use nvme_alloc_iod to ensure there's enough space
++ * allocated to store the PRP list.
++ */
++struct nvme_iod {
++	void *private;		/* For the use of the submitter of the I/O */
++	int npages;		/* In the PRP list. 0 means small pool in use */
++	int offset;		/* Of PRP list */
++	int nents;		/* Used in scatterlist */
++	int length;		/* Of data, in bytes */
++	dma_addr_t first_dma;
++	struct scatterlist sg[0];
++};
++
++/**
++ * nvme_free_iod - frees an nvme_iod
++ * @dev: The device that the I/O was submitted to
++ * @iod: The memory to free
++ */
++
++#endif
++
+ #endif /* _LINUX_NVME_H */
+-- 
+1.7.0.4
