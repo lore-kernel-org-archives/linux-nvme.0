@@ -1,37 +1,75 @@
 From: Khosrow.Panah@idt.com (Panah, Khosrow)
-Date: Thu, 1 Nov 2012 21:41:42 +0000
-Subject: NVMe SCSI support
-In-Reply-To: <20121101205650.GR4244@linux.intel.com>
-References: <83DBBFBAD6CE2C4AA9C5DE7652017DE44BBEDAD7@corpmail1.na.ads.idt.com>
- <20121101205650.GR4244@linux.intel.com>
-Message-ID: <83DBBFBAD6CE2C4AA9C5DE7652017DE44BBEDBA0@corpmail1.na.ads.idt.com>
+Date: Thu, 1 Nov 2012 21:45:33 +0000
+Subject: Intel NVMe reset issue
+In-Reply-To: <B58D82457FDA0744A320A2FC5AC253B9162BA5CC@FMSMSX105.amr.corp.intel.com>
+References: <83DBBFBAD6CE2C4AA9C5DE7652017DE44BBEDADE@corpmail1.na.ads.idt.com>
+ <B58D82457FDA0744A320A2FC5AC253B9162BA5CC@FMSMSX105.amr.corp.intel.com>
+Message-ID: <83DBBFBAD6CE2C4AA9C5DE7652017DE44BBEDBAE@corpmail1.na.ads.idt.com>
 
-Matthew,
+Busch,
 
-Thank you for feedback. I will try to patch the driver.
+I used the 5 seconds as the worst case scenario to allow controller transition of CC.EN from 1 to 0. I concur that I have seen a timeout value specified in specification neither.
 
 Khosrow
 
 
 -----Original Message-----
-From: Matthew Wilcox [mailto:willy@linux.intel.com] 
-Sent: Thursday, November 01, 2012 1:57 PM
-To: Panah, Khosrow
-Cc: linux-nvme at lists.infradead.org; Kong, Kwok
-Subject: Re: NVMe SCSI support
+From: Busch, Keith [mailto:keith.busch@intel.com] 
+Sent: Thursday, November 01, 2012 2:13 PM
+To: Panah, Khosrow; linux-nvme at lists.infradead.org
+Cc: Kong, Kwok
+Subject: RE: Intel NVMe reset issue
 
-On Thu, Nov 01, 2012@06:36:41PM +0000, Panah, Khosrow wrote:
-> I noticed there is a development in process to support NVMe SCSI 
-> interface. Can anyone clarify as why Intel is supporting SCSI interface?
+I think this looks good. Just curious, where does the 5 second timeout come from? That sounds reasonable to me, but I don't see that ECN033 specifies what the timeout should be for CSTS.RDY to transition from 1 to 0 after setting CC.EN to 0.
 
-It's not really an "Intel" thing, it's something I think that the NVMe driver needs in order to be successful.  There are tools out there which send SCSI commands to devices, and supporting those tools makes it easier for people to transition from SCSI to NVMe.  There's precedent for this; for example the Linux ATA driver translates SCSI commands into ATA commands.
+Reviewed-by: Keith Busch <keith.busch at intel.com>
 
-> I have not been able to pull NVMe SCSI driver from Intel site. When I
-
-Do you mean from the infradead site?  That's not an Intel site (although the owner does happen to work for Intel).  I used to host on kernel.org, but since the break-in, I've hosted on infradead.org.
-
-> pull the latest driver, I get a driver that does not include support 
-> for "sg_ioctl". I would greatly appreciate if you could point me to 
-> where I can gain access to the source that includes above source version.
-
-I haven't accepted the patches into the driver yet, so there's nowhere to pull them from.  You can apply the patches yourself if you want to try them out.
+> -----Original Message-----
+> From: linux-nvme-bounces at lists.infradead.org [mailto:linux-nvme- 
+> bounces at lists.infradead.org] On Behalf Of Panah, Khosrow
+> Sent: Thursday, November 01, 2012 12:37 PM
+> To: linux-nvme at lists.infradead.org
+> Cc: Kong, Kwok
+> Subject: Intel NVMe reset issue
+> 
+> All,
+> 
+> While testing Intel NVMe driver on Linux, I noticed there are 
+> instances controller fails to initialize IDT controller. The problem 
+> is related to Intel Linux driver does not wait for "Enable" bit to 
+> clear when attempting to setup admin queue.  I am suggesting the 
+> following changes to "nvme_configure_admin_queue" routine:
+> 
+> ***************
+> *** 1039,1044 ****
+> --- 1058,1078 ----
+>         dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+> 
+>         writel(0, &dev->bar->cc);
+> +       timeout = (5 * HZ) + jiffies;
+> +       while (!result && (readl(&dev->bar->csts) & NVME_CSTS_RDY)) {
+> +               msleep(100);
+> +               if (fatal_signal_pending(current))
+> +                       result = -EINTR;
+> +               if (time_after(jiffies, timeout)) {
+> +                       dev_err(&dev->pci_dev->dev,
+> +                               "Device busy; aborting
+> initialisation\n");
+> +                       result = -ENODEV;
+> +               }
+> +       }
+> +       if (result) {
+> +               nvme_free_queue_mem(nvmeq);
+> +               return result;
+> +       }
+>         writel(aqa, &dev->bar->aqa);
+>         writeq(nvmeq->sq_dma_addr, &dev->bar->asq);
+>         writeq(nvmeq->cq_dma_addr, &dev->bar->acq);
+> 
+> Khosrow
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://merlin.infradead.org/mailman/listinfo/linux-nvme
