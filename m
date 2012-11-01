@@ -1,42 +1,35 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 27 Jul 2012 16:44:47 -0400
-Subject: [PATCH] NVMe: Add a character device for each nvme device
-In-Reply-To: <1343407458-29909-1-git-send-email-keith.busch@intel.com>
-References: <1343407458-29909-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20120727204447.GR22985@linux.intel.com>
+From: Khosrow.Panah@idt.com (Panah, Khosrow)
+Date: Thu, 1 Nov 2012 18:36:42 +0000
+Subject: Intel NVMe reset issue
+Message-ID: <83DBBFBAD6CE2C4AA9C5DE7652017DE44BBEDADE@corpmail1.na.ads.idt.com>
 
-On Fri, Jul 27, 2012@10:44:18AM -0600, Keith Busch wrote:
-> @@ -1222,6 +1228,35 @@ static const struct block_device_operations nvme_fops = {
->  	.compat_ioctl	= nvme_ioctl,
->  };
->  
-> +static long nvme_char_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
-> +{
-> +	struct nvme_dev *dev;
-> +	int instance = iminor(f->f_dentry->d_inode);
-> +
-> +	spin_lock(&dev_list_lock);
-> +	list_for_each_entry(dev, &dev_list, node) {
-> +		if (dev->instance == instance)
-> +			break;
-> +	}
-> +	spin_unlock(&dev_list_lock);
+All,
 
-So what happens if we get a PCI hotplug event here?  nvme_remove gets
-called, we unmap the BAR and kfree the dev.  Now nvme_user_admin_cmd()
-is going to dereference a pointer to freed memory, and even if that
-happens to work, it's going to end up writing a doorbell that doesn't
-exist any more.
+While testing Intel NVMe driver on Linux, I noticed there are instances controller fails to initialize IDT controller. The problem is related to Intel Linux driver does not wait for "Enable" bit to clear when attempting to setup admin queue.  I am suggesting the following changes to "nvme_configure_admin_queue" routine:
 
-I think we need refcounting on the dev to fix this ... urgh.
+***************
+*** 1039,1044 ****
+--- 1058,1078 ----
+        dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
 
-> +	if (&dev->node == &dev_list)
-> +		return -ENOTTY;
-> +	
-> +	switch (cmd) {
-> +	case NVME_IOCTL_ADMIN_CMD:
-> +		return nvme_user_admin_cmd(dev, (void __user *)arg);
-> +	default:
-> +		return -ENOTTY;
-> +	}
-> +}
+        writel(0, &dev->bar->cc);
++       timeout = (5 * HZ) + jiffies;
++       while (!result && (readl(&dev->bar->csts) & NVME_CSTS_RDY)) {
++               msleep(100);
++               if (fatal_signal_pending(current))
++                       result = -EINTR;
++               if (time_after(jiffies, timeout)) {
++                       dev_err(&dev->pci_dev->dev,
++                               "Device busy; aborting initialisation\n");
++                       result = -ENODEV;
++               }
++       }
++       if (result) {
++               nvme_free_queue_mem(nvmeq);
++               return result;
++       }
+        writel(aqa, &dev->bar->aqa);
+        writeq(nvmeq->sq_dma_addr, &dev->bar->asq);
+        writeq(nvmeq->cq_dma_addr, &dev->bar->acq);
+
+Khosrow
