@@ -1,80 +1,142 @@
-From: Kwok.Kong@idt.com (Kong, Kwok)
-Date: Fri, 2 Nov 2012 16:51:47 +0000
-Subject: Intel NVMe reset issue
-In-Reply-To: <511F17E9-6921-4AF3-92F5-9A6448C03B90@sandisk.com>
-References: <83DBBFBAD6CE2C4AA9C5DE7652017DE44BBEDADE@corpmail1.na.ads.idt.com>
- <511F17E9-6921-4AF3-92F5-9A6448C03B90@sandisk.com>
-Message-ID: <05CD7821AE397547A01AC160FBC231474BC452E9@corpmail1.na.ads.idt.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Tue, 6 Nov 2012 11:10:08 -0500
+Subject: [PATCH] NVMe: Add discard support for capable devices
+In-Reply-To: <1343933944-32726-1-git-send-email-keith.busch@intel.com>
+References: <1343933944-32726-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20121106161008.GA1736@linux.intel.com>
 
-It is a typo in the description to "wait for "Enable" bit to clear". It should have been "wait for CSTS.RDY bit to clear".  His code is to wait for the CSTS.RDY bit.
+On Thu, Aug 02, 2012@12:59:04PM -0600, Keith Busch wrote:
+> This adds discard support to block queues if the nvme device is capable
+> of deallocating blocks as indicated by the controller's optional command
+> support. A discard flagged bio request will submit an NVMe deallocate
+> Data Set Management command for the requested blocks.
 
-i.e.
+Thanks for this.
 
-+       while (!result && (readl(&dev->bar->csts) & NVME_CSTS_RDY)) {
+> @@ -334,6 +335,7 @@ nvme_alloc_iod(unsigned nseg, unsigned nbytes, gfp_t gfp)
+>  		iod->offset = offsetof(struct nvme_iod, sg[nseg]);
+>  		iod->npages = -1;
+>  		iod->length = nbytes;
+> +		iod->nents = 0;
+>  	}
+>  
+>  	return iod;
 
+Are you initialising nents here to prevent having to do so in
+nvme_submit_discard?  I think we're relying on undefined behaviour of
+dma_unmap_sg() in bio_completion() -- ie to be a no-op when nents is 0.
+Probably we should check it explicitly; ie:
 
-He should also use NVME_CAP_TIMEOUT as the timeout and not 5 seconds per Matthew's last message.
+	if (iod->nents)
+		dma_unmap_sg(...);
 
+We're already relying on that behaviour for the case of submitting a
+flush without data, so can you split this into two patches; one that
+initialises iod->nents to 0 and checks it, then a second one that adds
+the discard functionality?
 
--Kwok
+> @@ -505,6 +507,39 @@ static int nvme_map_bio(struct device *dev, struct nvme_iod *iod,
+>  	return length;
+>  }
+>  
+> +static int nvme_submit_discard(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+> +		struct bio *bio, struct nvme_iod *iod, int cmdid)
+> +{
+> +	struct nvme_dsm_range *range;
+> +	struct nvme_command *cmnd = &nvmeq->sq_cmds[nvmeq->sq_tail];
 
+Could we have a comment somewhere (possibly here) about how we're reusing
+the prp small pool for this purpose instead of creating a special pool?
+Maybe include the justification that it's not worth creating a new pool
+to dole out these 16-byte ranges.
 
+> +	range = dma_pool_alloc(nvmeq->dev->prp_small_pool, GFP_ATOMIC,
+> +							&iod->first_dma);
+> +	if (range == NULL)
+> +		return -ENOMEM;
 
+Usual style is
+	if (!range)
 
-From: Gurpreet Anand [mailto:Gurpreet.Anand@sandisk.com] 
-Sent: Thursday, November 01, 2012 7:12 PM
-To: Panah, Khosrow
-Cc: linux-nvme at lists.infradead.org; Kong, Kwok
-Subject: Re: Intel NVMe reset issue
+But ... we've got a problem here.  If this allocation fails, we leak the
+nvme_iod and the cmdid.  We need to change the code below (skip down to
+[A]):
 
-Our interpretation of the spec suggests that driver should not poll on CC.EN but on CSTS.RDY after setting CC.EN which we see being done correctly. Can you explain why the controller needs to clear CC.EN? From the controller perspective it is a read-only bit.
+> +
+> +	iod_list(iod)[0] = (__le64 *)range;
 
-Keith's response does make sense where the driver still writes to CC.EN.
+Brave.  I like it :-)
 
-Panah, what is the issue you are trying to solve here?
+> +	iod->npages = 0;
+> +
+> +	range->cattr = cpu_to_le32(0);
+> +	range->nlb = cpu_to_le32(bio->bi_size >> ns->lba_shift);
+> +	range->slba = cpu_to_le64(bio->bi_sector >> (ns->lba_shift - 9));
+> +
+> +	memset(cmnd, 0, sizeof(*cmnd));
+> +	cmnd->dsm.opcode = nvme_cmd_dsm;
+> +	cmnd->dsm.command_id = cmdid;
+> +	cmnd->dsm.nsid = cpu_to_le32(ns->ns_id);
+> +	cmnd->dsm.prp1 = cpu_to_le64(iod->first_dma);
+> +	cmnd->dsm.nr = 0;
+> +	cmnd->dsm.attributes = cpu_to_le32(NVME_DSMGMT_AD);
+> +
+> +	if (++nvmeq->sq_tail == nvmeq->q_depth)
+> +		nvmeq->sq_tail = 0;
+> +	writel(nvmeq->sq_tail, nvmeq->q_db);
+> +
+> +	return 0;
+> +}
+> +
+>  static int nvme_submit_flush(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+>  								int cmdid)
+>  {
+> @@ -562,6 +597,8 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+>  	if (unlikely(cmdid < 0))
+>  		goto free_iod;
+>  
+> +	if (bio->bi_rw & REQ_DISCARD)
+> +		return nvme_submit_discard(nvmeq, ns, bio, iod, cmdid);
 
-Thanks,
-Gurpreet?
+[A] If this fails, we need to do this:
 
++	if (bio->bi_rw & REQ_DISCARD) {
++		result = nvme_submit_discard(nvmeq, ns, bio, iod, cmdid);
++		if (result)
++			goto free_iod;
++	}
 
-On Nov 1, 2012,@11:38 AM, "Panah, Khosrow" <Khosrow.Panah@idt.com> wrote:
-All,
+Although ... now I'm looking at the failure path in
+nvme_submit_bio_queue(), isn't it the case that we'll leak cmdids if
+nvme_map_bio() fails?  And in this case?  So I think we also need:
 
-While testing Intel NVMe driver on Linux, I noticed there are instances controller fails to initialize IDT controller. The problem is related to Intel Linux driver does not wait for "Enable" bit to clear when attempting to setup admin queue. ?I am suggesting the following changes to "nvme_configure_admin_queue" routine:
++ free_cmdid:
++	free_cmdid(nvmeq, cmdid, NULL);
+  free_iod:	
 
-***************
-*** 1039,1044 ****
---- 1058,1078 ----
-???????dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+And then change the 'goto free_iod' to 'goto free_cmdid'.
 
-???????writel(0, &dev->bar->cc);
-+ ??????timeout = (5 * HZ) + jiffies;
-+ ??????while (!result && (readl(&dev->bar->csts) & NVME_CSTS_RDY)) {
-+ ??????????????msleep(100);
-+ ??????????????if (fatal_signal_pending(current))
-+ ??????????????????????result = -EINTR;
-+ ??????????????if (time_after(jiffies, timeout)) {
-+ ??????????????????????dev_err(&dev->pci_dev->dev,
-+ ??????????????????????????????"Device busy; aborting initialisation\n");
-+ ??????????????????????result = -ENODEV;
-+ ??????????????}
-+ ??????}
-+ ??????if (result) {
-+ ??????????????nvme_free_queue_mem(nvmeq);
-+ ??????????????return result;
-+ ??????}
-???????writel(aqa, &dev->bar->aqa);
-???????writeq(nvmeq->sq_dma_addr, &dev->bar->asq);
-???????writeq(nvmeq->cq_dma_addr, &dev->bar->acq);
+>  	if ((bio->bi_rw & REQ_FLUSH) && !psegs)
+>  		return nvme_submit_flush(nvmeq, ns, cmdid);
+>  
+> @@ -1316,6 +1353,19 @@ static void nvme_put_ns_idx(int index)
+>  	spin_unlock(&dev_list_lock);
+>  }
+>  
+> +static void nvme_config_discard(struct nvme_ns *ns)
+> +{
+> +	u32 logical_block_size = queue_logical_block_size(ns->queue);
+> +	sector_t nr_sectors = get_capacity(ns->disk);
+> +
+> +	ns->queue->limits.discard_zeroes_data = 0;
+> +	ns->queue->limits.discard_alignment = logical_block_size;
+> +	ns->queue->limits.discard_granularity = logical_block_size;
+> +	ns->queue->limits.max_discard_sectors = (u32)min_t(u64, nr_sectors,
+> +								0xffffffff);
 
-Khosrow
+I don't think we need to set the limit to the maximum size of the block
+device ... I don't see any other driver doing this.  Just:
 
++	ns->queue->limits.max_discard_sectors = 0xffffffff;
 
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://merlin.infradead.org/mailman/listinfo/linux-nvme
-
-________________________________________
-
-PLEASE NOTE: The information contained in this electronic mail message is intended only for the use of the designated recipient(s) named above. If the reader of this message is not the intended recipient, you are hereby notified that you have received this message in error and that any review, dissemination, distribution, or copying of this message is strictly prohibited. If you have received this communication in error, please notify the sender by telephone or e-mail (as shown above) immediately and destroy any and all copies of this message in your possession (whether hard copies or electronically stored copies).
+should be fine (and delete the get_capacity() line).
