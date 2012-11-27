@@ -1,35 +1,19 @@
 From: lwalkera@ieee.org (Laine Walker-Avina)
-Date: Tue, 27 Nov 2012 09:43:32 -0800
+Date: Tue, 27 Nov 2012 09:47:48 -0800
 Subject: Alignment Issue with Direct IO to NVMe Drive
-In-Reply-To: <50B4AD8A.7020208@kernel.dk>
+In-Reply-To: <20121127170509.GA5100@linux.intel.com>
 References: <CAMi7pMamJK079wQs+5Kaz=zdYGAPS+BFg2xCRKJMqPFMrQvQPQ@mail.gmail.com>
  <50B4AD8A.7020208@kernel.dk>
-Message-ID: <CAMi7pMYGyOW32PrLmMM8C+jJQ-NjGUjn6wUk00O1BdO4=f5YTw@mail.gmail.com>
+ <20121127170509.GA5100@linux.intel.com>
+Message-ID: <CAMi7pMb7Ln02hLfa_i-7ucWZBDGzQLUOoQTeFp70=yGix_gojA@mail.gmail.com>
 
-On Tue, Nov 27, 2012@4:09 AM, Jens Axboe <axboe@kernel.dk> wrote:
-> On 2012-11-27 01:35, Laine Walker-Avina wrote:
->> Hi all,
->>
->> We are experiencing an issue with doing direct IO to a NVMe device I'm
->> helping to develop. Every so often, the physical address given by
->> sg_dma_address() is aligned to 0x800 instead of 0x1000 as specified by
->> blk_queue_dma_alignement(queue, 4095) when the queue is initialized.
->> The request is also split over multiple segments to make up for the
->> missing space (eg: for a 4k IO it's split into two segments 2k in
->> size, and for an 8k IO it's split into 3 segments--2k,4k,2k). Our
->> design requires the physical segments given to the device be aligned
->> to 4k boundaries and be multiples of 4k in size. When not doing direct
->> IO the physical addresses appear to always be 4k aligned as expected.
->> One possible issue is the kernel we're primarily testing against is
->> 2.6.32-220 from CentOS, but we have observed similar behavior from a
->> vanilla 3.3 kernel as well. Any help would be greatly appreciated.
->
-> I'm assuming you set the hardware sector size to 4k as well?
->
-> --
-> Jens Axboe
->
+On Tue, Nov 27, 2012@9:05 AM, Matthew Wilcox <willy@linux.intel.com> wrote:
+> Laine, when this occurs, what is the alignment of 'offset' in the sg
+> entry you're looking at?  If userspace is passing in an unaligned address,
+> I don't think there's anything we do to try to align it.
 
-Yes, as well as the logical block size and io_min.
+I thought this was the case as well, but it appears to be aligned
+looking at the request in the user space program (fio using libaio in
+this case) before the IO is submitted.
 
-Laine Walker-Avina
+Laine
