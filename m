@@ -1,36 +1,20 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 28 Nov 2012 17:27:28 -0700
+Date: Thu, 29 Nov 2012 12:41:45 -0700
 Subject: [PATCH] NVMe: Split non-mergeable bio requests
-Message-ID: <1354148848-1203-1-git-send-email-keith.busch@intel.com>
+In-Reply-To: <1354148848-1203-1-git-send-email-keith.busch@intel.com>
+References: <1354148848-1203-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1354218105-13114-1-git-send-email-keith.busch@intel.com>
 
-It is possible a bio request can not be submitted as a single NVMe
-IO command due the bio_vec not being mergeable with the NVMe PRP list
-alignement constraints.
-
-This condition is currently handled by submitting an IO for the mergeable
-portion, then submitting a follow on IO, if needed, for the remaining
-data after the previous IO completes. The remainder to be sent is tracked
-by manipulating the bio->bi_idx.
-
-This patch instead splits the request and submits all the IO's
-together. The two bio's are submitted on the nvme_queue's congestion
-queue rather than making a recursive call to nvme_submit_bio_queue since
-a bio may need to be split many times.
-
-There are a couple other benefits from doing this. It fixes a possible
-issue with the current handling of a non-mergeable bio as the existing
-requeuing method could potentionally use an unlocked nvme_queue if the
-callback isn't invoked on the queue's associated cpu. It will also be
-possible to retry a failed bio if desired at some later time since it
-does not manipulate the original bio->bi_idx.
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Oops! I messed up the previous patch by creating it from the wrong 
+directory, and it wasn't what I had been testing. The previous patch
+wouldn't even compile! Here's the right one; my apologies for the bad
+submission.
 ---
- drivers/block/nvme.c |  104 +++++++++++++++++++++++++++++++++++++++++--------
- 1 files changed, 87 insertions(+), 17 deletions(-)
+ drivers/block/nvme.c |  103 ++++++++++++++++++++++++++++++++++++++++----------
+ 1 files changed, 83 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
-index f9ad514..b073bdb 100644
+index f9ad514..20139aa 100644
 --- a/drivers/block/nvme.c
 +++ b/drivers/block/nvme.c
 @@ -120,6 +120,12 @@ struct nvme_queue {
@@ -38,7 +22,7 @@ index f9ad514..b073bdb 100644
  };
  
 +struct nvme_bio_pair {
-+	struct bio *b1, *b2, *parent;
++	struct bio b1, b2, *parent;
 +	int err;
 +	atomic_t cnt;
 +};
@@ -79,7 +63,7 @@ index f9ad514..b073bdb 100644
  }
  
  /* length is in bytes.  gfp flags indicates whether we may sleep. */
-@@ -468,6 +461,82 @@ static int nvme_setup_prps(struct nvme_dev *dev,
+@@ -468,11 +461,80 @@ static int nvme_setup_prps(struct nvme_dev *dev,
  	return total_len;
  }
  
@@ -96,64 +80,57 @@ index f9ad514..b073bdb 100644
 +	}
 +}
 +
-+static struct nvme_bio_pair *nvme_bio_split(struct bio *bio, int index,
-+							int length, int offset)
++static struct nvme_bio_pair *nvme_bio_split(struct bio *bio, int idx,
++							int len, int offset)
 +{
-+	struct nvme_bio_pair *bp = kmalloc(sizeof(*bp), GFP_ATOMIC);
++	struct nvme_bio_pair *bp;
++	
++	BUG_ON(len > bio->bi_size);
++	BUG_ON(idx > bio->bi_vcnt);
++
++	bp = kmalloc(sizeof(*bp), GFP_ATOMIC);
 +	if (!bp)
 +		return NULL;
 +	bp->err = 0;
 +
-+	bp->b1 = bio_clone(bio, GFP_ATOMIC);
-+	if (!bp->b1)
-+		goto split_fail_1;
++	bp->b1 = *bio;
++	bp->b2 = *bio;
++	bp->b1.bi_size = len;
++	bp->b2.bi_size -= len;
++	bp->b1.bi_vcnt = idx;
++	bp->b2.bi_idx = idx;
++	bp->b2.bi_sector += len >> 9;
 +
-+	bp->b2 = bio_clone(bio, GFP_ATOMIC);
-+	if (!bp->b2)
-+		goto split_fail_2;
-+
-+	bp->b1->bi_size  = length;
-+	bp->b2->bi_size -= length;
-+	bp->b2->bi_sector += length >> 9;
-+
-+	bp->b1->bi_vcnt = index;
 +	if (offset) {
-+		bp->b2->bi_io_vec[index].bv_offset += offset;
-+		bp->b2->bi_io_vec[index].bv_len -= offset;
-+		bp->b1->bi_io_vec[index].bv_len = offset;
-+		bp->b1->bi_vcnt = index + 1;
++		bp->b2.bi_io_vec[idx].bv_offset += offset;
++		bp->b2.bi_io_vec[idx].bv_len -= offset;
++		bp->b1.bi_io_vec[idx].bv_len = offset;
++		bp->b1.bi_vcnt++;
 +	}
-+	bp->b2->bi_idx = index;
 +
-+	bp->b1->bi_private = bp;
-+	bp->b2->bi_private = bp;
++	bp->b1.bi_private = bp;
++	bp->b2.bi_private = bp;
 +
-+	bp->b1->bi_end_io = nvme_bio_pair_endio;
-+	bp->b2->bi_end_io = nvme_bio_pair_endio;
++	bp->b1.bi_end_io = nvme_bio_pair_endio;
++	bp->b2.bi_end_io = nvme_bio_pair_endio;
 +
 +	bp->parent = bio;
 +	atomic_set(&bp->cnt, 2);
 +
 +	return bp;
-+
-+ split_fail_2:
-+	bio_put(bp->b1);
-+ split_fail_1:
-+	kfree(bp);
-+	return NULL;
 +}
 +
 +static int nvme_split_and_submit(struct bio *bio, struct nvme_queue *nvmeq,
-+						int idx, int length, int offset)
++						int idx, int len, int offset)
 +{
-+	struct nvme_bio_pair *bp = nvme_bio_split(bio, idx, length, offset);
++	struct nvme_bio_pair *bp = nvme_bio_split(bio, idx, len, offset);
 +	if (!bp)
 +		return -ENOMEM;
 +
-+	if (bio_list_empty(&nvmeq->sq_cont))
++	if (bio_list_empty(&nvmeq->sq_cong))
 +		add_wait_queue(&nvmeq->sq_full, &nvmeq->sq_cong_wait);
-+	bio_list_add(&nvmeq->sq_cong, bp->b1);
-+	bio_list_add(&nvmeq->sq_cong, bp->b2);
++	bio_list_add(&nvmeq->sq_cong, &bp->b1);
++	bio_list_add(&nvmeq->sq_cong, &bp->b2);
 +	wake_up_process(nvme_thread);
 +
 +	return 0;
@@ -162,7 +139,13 @@ index f9ad514..b073bdb 100644
  /* NVMe scatterlists require no holes in the virtual address */
  #define BIOVEC_NOT_VIRT_MERGEABLE(vec1, vec2)	((vec2)->bv_offset || \
  			(((vec1)->bv_offset + (vec1)->bv_len) % PAGE_SIZE))
-@@ -486,7 +555,8 @@ static int nvme_map_bio(struct device *dev, struct nvme_iod *iod,
+ 
+-static int nvme_map_bio(struct device *dev, struct nvme_iod *iod,
++static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+ 		struct bio *bio, enum dma_data_direction dma_dir, int psegs)
+ {
+ 	struct bio_vec *bvec, *bvprv = NULL;
+@@ -486,7 +548,8 @@ static int nvme_map_bio(struct device *dev, struct nvme_iod *iod,
  			sg->length += bvec->bv_len;
  		} else {
  			if (bvprv && BIOVEC_NOT_VIRT_MERGEABLE(bvprv, bvec))
@@ -172,11 +155,22 @@ index f9ad514..b073bdb 100644
  			sg = sg ? sg + 1 : iod->sg;
  			sg_set_page(sg, bvec->bv_page, bvec->bv_len,
  							bvec->bv_offset);
-@@ -587,7 +657,7 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+@@ -498,7 +561,7 @@ static int nvme_map_bio(struct device *dev, struct nvme_iod *iod,
+ 	bio->bi_idx = i;
+ 	iod->nents = nsegs;
+ 	sg_mark_end(sg);
+-	if (dma_map_sg(dev, iod->sg, iod->nents, dma_dir) == 0) {
++	if (dma_map_sg(nvmeq->q_dmadev, iod->sg, iod->nents, dma_dir) == 0) {
+ 		bio->bi_idx = old_idx;
+ 		return -ENOMEM;
+ 	}
+@@ -586,8 +649,8 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 		dma_dir = DMA_FROM_DEVICE;
  	}
  
- 	result = nvme_map_bio(nvmeq->q_dmadev, iod, bio, dma_dir, psegs);
+-	result = nvme_map_bio(nvmeq->q_dmadev, iod, bio, dma_dir, psegs);
 -	if (result < 0)
++	result = nvme_map_bio(nvmeq, iod, bio, dma_dir, psegs);
 +	if (result <= 0)
  		goto free_iod;
  	length = result;
