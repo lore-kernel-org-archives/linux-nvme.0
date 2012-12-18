@@ -1,75 +1,136 @@
-From: geoffrey.w.blake@gmail.com (Geoffrey Blake)
-Date: Tue, 11 Dec 2012 09:15:18 -0600
-Subject: NVMe: Timed-out commands and expected behavior?
-In-Reply-To: <B58D82457FDA0744A320A2FC5AC253B9162CE011@FMSMSX105.amr.corp.intel.com>
-References: <CACiFetTk=A5iWwxw1mgnUdzU9GvVevASpvh5cgGdQvWTKSSvPQ@mail.gmail.com>
- <B58D82457FDA0744A320A2FC5AC253B9162CE011@FMSMSX105.amr.corp.intel.com>
-Message-ID: <CACiFetRosNrvd_w1ufSbQCbF2U9jYi+Wtgf9Sp5hhECK5D_ncg@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 18 Dec 2012 14:59:44 -0700
+Subject: [PATCH] NVMe: disk io statistics
+Message-ID: <1355867984-3307-1-git-send-email-keith.busch@intel.com>
 
-Keith,
+Add io stats accounting for bio requests so nvme block devices show
+useful disk stats.
 
-Thanks for the explanation.  I haven't been able to look at this
-recently, but may take a shot at making this handling more robust in
-the near future.  The work-around so far is to make the simulator
-model operate fast enough.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/block/nvme.c |   40 ++++++++++++++++++++++++++++++++++++++--
+ 1 files changed, 38 insertions(+), 2 deletions(-)
 
-The current behavior can be considered a security hole in the NVMe
-driver. A hacker could potentially figure out how to delay a response
-from the drive to hit this timeout and then inject malicious data into
-a buffer the kernel sees as free. (Probably unlikely in most respects
-but still important to fix)
+diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
+index 993c014..951ae99 100644
+--- a/drivers/block/nvme.c
++++ b/drivers/block/nvme.c
+@@ -118,6 +118,7 @@ struct nvme_queue {
+ 	u16 sq_tail;
+ 	u16 cq_head;
+ 	u16 cq_phase;
++	u16 qid;
+ 	unsigned long cmdid_data[];
+ };
+ 
+@@ -144,6 +145,7 @@ typedef void (*nvme_completion_fn)(struct nvme_dev *, void *,
+ struct nvme_cmd_info {
+ 	nvme_completion_fn fn;
+ 	void *ctx;
++	unsigned long start_time;
+ 	unsigned long timeout;
+ };
+ 
+@@ -173,6 +175,7 @@ static int alloc_cmdid(struct nvme_queue *nvmeq, void *ctx,
+ 	int depth = nvmeq->q_depth - 1;
+ 	struct nvme_cmd_info *info = nvme_cmd_info(nvmeq);
+ 	int cmdid;
++	unsigned long start_time = jiffies;
+ 
+ 	do {
+ 		cmdid = find_first_zero_bit(nvmeq->cmdid_data, depth);
+@@ -182,7 +185,8 @@ static int alloc_cmdid(struct nvme_queue *nvmeq, void *ctx,
+ 
+ 	info[cmdid].fn = handler;
+ 	info[cmdid].ctx = ctx;
+-	info[cmdid].timeout = jiffies + timeout;
++	info[cmdid].start_time = start_time;
++	info[cmdid].timeout = start_time + timeout;
+ 	return cmdid;
+ }
+ 
+@@ -361,6 +365,30 @@ static void nvme_free_iod(struct nvme_dev *dev, struct nvme_iod *iod)
+ 	kfree(iod);
+ }
+ 
++static void nvme_start_io_acct(struct bio *bio)
++{
++	struct gendisk *disk = bio->bi_bdev->bd_disk;
++	const int rw = bio_data_dir(bio);
++	int cpu = part_stat_lock();
++	part_round_stats(cpu, &disk->part0);
++	part_stat_inc(cpu, &disk->part0, ios[rw]);
++	part_stat_add(cpu, &disk->part0, sectors[rw], bio_sectors(bio));
++	part_inc_in_flight(&disk->part0, rw);
++	part_stat_unlock();
++}
++
++static void nvme_end_io_acct(struct bio *bio, unsigned long start_time)
++{
++	struct gendisk *disk = bio->bi_bdev->bd_disk;
++	int rw = bio_data_dir(bio);
++	unsigned long duration = jiffies - start_time;
++	int cpu = part_stat_lock();
++	part_stat_add(cpu, &disk->part0, ticks[rw], duration);
++	part_round_stats(cpu, &disk->part0);
++	part_dec_in_flight(&disk->part0, rw);
++	part_stat_unlock();
++}
++
+ static void requeue_bio(struct nvme_dev *dev, struct bio *bio)
+ {
+ 	struct nvme_queue *nvmeq = get_nvmeq(dev);
+@@ -376,12 +404,15 @@ static void bio_completion(struct nvme_dev *dev, void *ctx,
+ {
+ 	struct nvme_iod *iod = ctx;
+ 	struct bio *bio = iod->private;
++	struct nvme_queue *nvmeq = dev->queues[le16_to_cpup(&cqe->sq_id)];
+ 	u16 status = le16_to_cpup(&cqe->status) >> 1;
+ 
+ 	if (iod->nents)
+ 		dma_unmap_sg(&dev->pci_dev->dev, iod->sg, iod->nents,
+ 			bio_data_dir(bio) ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
+ 	nvme_free_iod(dev, iod);
++
++	nvme_end_io_acct(bio, nvme_cmd_info(nvmeq)[cqe->command_id].start_time);
+ 	if (status) {
+ 		bio_endio(bio, -EIO);
+ 	} else if (bio->bi_vcnt > bio->bi_idx) {
+@@ -607,6 +638,7 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 
+ 	bio->bi_sector += length >> 9;
+ 
++	nvme_start_io_acct(bio);
+ 	if (++nvmeq->sq_tail == nvmeq->q_depth)
+ 		nvmeq->sq_tail = 0;
+ 	writel(nvmeq->sq_tail, nvmeq->q_db);
+@@ -890,7 +922,10 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
+ 
+ 		if (timeout && !time_after(now, info[cmdid].timeout))
+ 			continue;
+-		dev_warn(nvmeq->q_dmadev, "Cancelling I/O %d\n", cmdid);
++		dev_warn(nvmeq->q_dmadev, "Cancelling I/O %d QID %d\n", cmdid,
++								nvmeq->qid);
++		cqe.command_id = cmdid;
++		cqe.sq_id = cpu_to_le16(nvmeq->qid);
+ 		ctx = cancel_cmdid(nvmeq, cmdid, &fn);
+ 		fn(nvmeq->dev, ctx, &cqe);
+ 	}
+@@ -962,6 +997,7 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+ 	nvmeq->q_db = &dev->dbs[qid << (dev->db_stride + 1)];
+ 	nvmeq->q_depth = depth;
+ 	nvmeq->cq_vector = vector;
++	nvmeq->qid = qid;
+ 
+ 	return nvmeq;
+ 
+-- 
+This was requested by folks using iostat. They found it useful so maybe
+others will find it useful too. I did't see this had an affect on
+performance that I was able to measure.
 
-Geoff
+The implementation requires the submission queue id and command id are
+correctly set in the completion queue entry, otherwise the stats won't
+come out correctly.
 
-On Tue, Nov 27, 2012@2:13 PM, Busch, Keith <keith.busch@intel.com> wrote:
-> On Tue Nov 27 12:12:54 EST 2012, Geoffrey Blake wrote:
->> Hi all,
->>
->> I'm developing a device model for a simulator based off the NVMe 1.0c
->> specification and have been using the linux driver from the git-tree
->> hosted here.  I've run into what I believe is unintentional behavior
->> for read/write commands submitted from nvme_submit_bio_queue().  The
->> commands are allocated with a specified timeout (NVME_IO_TIMEOUT) and I
->> wanted to know what is the intended behavior when that timeout is
->> reached?
->
-> I believe the idea was to prevent an application from hanging in a D+ state on an IO that will never return. But I think you're right; the situation you've described reveals unintended consequences that probably need to be addressed.
->
->> Below I'll describe what I've seen and believe is happening by
->> looking at the driver code.
->>
->> With my model, I've set its performance intentionally low to debug that
->> it is functionally correct, but this leads to high latency I/O
->> operations at times if the submission queues start to get backed up.
->> After a while my model will complain that a PRP list structure contains
->> bad data and the simulation will exit.  Getting an instruction trace
->> indicates that the nvme driver is deallocating memory and setting the
->> contents to invalid values that the controller model is concurrently
->> trying to access.  No ABORT commands were sent by the kernel to
->> indicate a command should be thrown out.
->>
->
-> I took a stab at sending aborts a while back, but ran into other problems with real hardware misbehaving: the controller would sometimes never return status for the abort and the driver ran out of abort requests that could be sent, or the controller returned successful status but never sent a completion for the command being aborted. The handling for all these situations started to require more code than I originally thought should have been necessary, at which point I set it aside. :)
->
->> Looking at the driver I see that nvme_kthread() runs periodically to
->> cleanup any timed-out cmds by calling nvme_cancel_ios().  The cmd is
->> then canceled by cancel_cmdid() and its completion handler is called
->> (bio_completion() in my case) and it deallocates the dma buffers for
->> the kernel to reclaim.  Some cancelled commands that the controller
->> still processed are posted to the completion queue and then
->> special_completion() is called which simply returns if the command is
->> canceled.  This means the controller has potentially been writing to
->> reclaimed kernel buffers that could contain data for something else,
->> leading to corruption.
->>
->> Should the driver actually inform the controller that a command is
->> being cancelled with an ABORT command?  Or should the driver just not
->> reclaim the buffers until the command has actually completed?  Or have
->> I missed modeling intended behavior by the controller in this case?
->> Thanks,
->> Geoff Blake
->>
->> _______________________________________________
->> Linux-nvme mailing list
->> Linux-nvme at lists.infradead.org
->> http://merlin.infradead.org/mailman/listinfo/linux-nvme
+1.7.0.4
