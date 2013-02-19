@@ -1,30 +1,19 @@
-From: arjan@linux.intel.com (Arjan van de Ven)
-Date: Tue, 19 Feb 2013 08:30:23 -0800
-Subject: [PATCH 2/2] nvme: fix the placement of set_current_state to
- TASK_INTERRUPTIBLE
-In-Reply-To: <20130219150538.GA4530@linux.intel.com>
-References: <51103A15.8010508@linux.intel.com>
- <20130219150538.GA4530@linux.intel.com>
-Message-ID: <5123A89F.9010608@linux.intel.com>
+From: David.Darrington@hgst.com (David.Darrington@hgst.com)
+Date: Tue, 19 Feb 2013 11:04:38 -0600
+Subject: Driver status
+Message-ID: <OFACFFD738.EDB75B48-ON86257B17.005BD8F9-86257B17.005DD0C7@hgst.com>
 
-On 2/19/2013 7:05 AM, Matthew Wilcox wrote:
-> On Mon, Feb 04, 2013@02:45:41PM -0800, Arjan van de Ven wrote:
->> the nvme driver has a kthread that processes certain events periodically.
->> However, the kthread also gets woken for certain urgent actions.
->>
->> The current code does not use the current_state logic correctly;
->> it calls set_current_state(TASK_INTERRUPTIBLE); right before doing
->> a schedule_timeout(), with the result that there is a race condition
->> where a wakeup can get lost, and thus delayed by one second.
->>
->> This patch moves the set_current_state(TASK_INTERRUPTIBLE); to before
->> the place where the queue of outstanding work is checked, to close
->> the race condition
->
-> The thing is, that's not a queue of outstanding work, that's the list
-> of devices that exist in the system.  Your patch makes the kthread do
-> all of its work in the TASK_INTERRUPTIBLE state, which I don't think is
-> right either (is it?)
+I've been looking back at the archives of the mailing to try to get up to 
+speed on where the driver is, where its headed and where I can contrbute. 
+I have a couple of questions.
 
-eh why not?
-it counts to load average, but frankly, you're using CPU... you count anyway
+1. There are quite a few patches that have been posted but have not been 
+accepted into the tree. Does anyone have a list of the outstanding patches 
+and their status. i.e. if/when they might be accepted (or rejected)
+
+2. I've seen a TODO list with 40+ items on it, but it was posted over a 
+year ago.  Does anyone have an updated list?
+
+Thanks..
+
+David Darrington
