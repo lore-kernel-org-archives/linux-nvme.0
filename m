@@ -1,61 +1,32 @@
 From: Chayan.Biswas@sandisk.com (Chayan Biswas)
-Date: Thu, 28 Feb 2013 19:49:13 +0000
-Subject: [PATCH 1/2] Add support for 32 bit DMA for 32 bit machines
-Message-ID: <E821E2F372F08945977BD15EAE588D61097C57E9@SACMBXIP02.sdcorp.global.sandisk.com>
+Date: Thu, 28 Feb 2013 19:49:23 +0000
+Subject: [PATCH 2/2] Return the result from user admin command IOCTL even in
+ case of failure
+Message-ID: <E821E2F372F08945977BD15EAE588D61097C57F2@SACMBXIP02.sdcorp.global.sandisk.com>
 
-We set the DMA mask to 32 bit if the system is a 32 bit system. We also
-try to set to 32 bit DMA if setting the 64 bit DMA fails, and clean up
-if both fails.
+We copy the result to user irrespective of the completion status of
+the user Admin command. The user application may expect the error
+code in the result field in case of failure.
 
 Signed-off-by: Chayan Biswas <Chayan.Biswas at sandisk.com>
 ---
- drivers/block/nvme.c |   19 +++++++++++++++++--
- 1 files changed, 17 insertions(+), 2 deletions(-)
+ drivers/block/nvme.c |    3 +--
+ 1 files changed, 1 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
-index 993c014..4b706b5 100644
+index 4b706b5..311d753 100644
 --- a/drivers/block/nvme.c
 +++ b/drivers/block/nvme.c
-@@ -42,6 +42,7 @@
+@@ -1248,8 +1248,7 @@ static int nvme_user_admin_cmd(struct nvme_dev *dev,
+                nvme_free_iod(dev, iod);
+        }
 
- #include <asm-generic/io-64-nonatomic-lo-hi.h>
+-       if (!status && copy_to_user(&ucmd->result, &cmd.result,
+-                                                       sizeof(cmd.result)))
++       if (copy_to_user(&ucmd->result, &cmd.result, sizeof(cmd.result)))
+                status = -EFAULT;
 
-+#define IS_DMA64               (sizeof(dma_addr_t) == 8)
- #define NVME_Q_DEPTH 1024
- #define SQ_SIZE(depth)         (depth * sizeof(struct nvme_command))
- #define CQ_SIZE(depth)         (depth * sizeof(struct nvme_completion))
-@@ -1662,8 +1663,21 @@ static int __devinit nvme_probe(struct pci_dev *pdev,
-        INIT_LIST_HEAD(&dev->namespaces);
-        dev->pci_dev = pdev;
-        pci_set_drvdata(pdev, dev);
--       dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
--       dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
-+       if (IS_DMA64) {
-+               if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(64)) != 0) {
-+                       if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(32)) != 0)
-+                               goto fail_set_dma_mask;
-+
-+                       dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
-+               } else {
-+                       dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
-+               }
-+       } else {
-+               if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(32)) != 0)
-+                       goto fail_set_dma_mask;
-+
-+               dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
-+       }
-        result = nvme_set_instance(dev);
-        if (result)
-                goto disable;
-@@ -1705,6 +1719,7 @@ static int __devinit nvme_probe(struct pci_dev *pdev,
-        iounmap(dev->bar);
-  disable_msix:
-        pci_disable_msix(pdev);
-+ fail_set_dma_mask:
-        nvme_release_instance(dev);
-        nvme_release_prp_pools(dev);
-  disable:
+        return status;
 --
 1.7.1
 
