@@ -1,30 +1,41 @@
 From: y@dcgshare.lm.intel.com (y@dcgshare.lm.intel.com)
-Date: Mon,  4 Mar 2013 17:24:19 -0700
-Subject: [PATCH 0/4] NVMe: bio request handling
+Date: Mon,  4 Mar 2013 17:24:21 -0700
+Subject: [PATCH 2/4] fs: Starting sector size calculation
 In-Reply-To: <y>
 References: <y>
-Message-ID: <1362443063-18994-1-git-send-email-y>
+Message-ID: <1362443063-18994-3-git-send-email-y>
 
 From: Keith Busch <keith.busch@intel.com>
 
-This is a series of patches that allow nvme requests to handle T10
-data integrity. I tried sending this patch before but botched the format
-when emailing to the list!
+Use the block device sector size to calculate the starting sector when
+generating and verifying the data integrity.
 
-The block integrity extensions require that the bio values stay
-consistent. The first patch changes how non mergable io vectors are
-handled by splitting the request and submitting child bios so the
-parent will remain intact. The data integrity functions were copied from
-sd_dif.c. The last patch resubmits failed commands since splitting the
-bio requests makes it easy to do that.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ fs/bio-integrity.c |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
 
-Keith Busch (4):
-  NVMe: Split non-mergeable bio requests
-  fs: Starting sector size calculation
-  NVMe: End-to-end data protection
-  NVMe: Retry failed bio requests
-
- drivers/block/nvme.c |  369 +++++++++++++++++++++++++++++++++++++++++++++++---
- fs/bio-integrity.c   |    4 +-
- include/linux/nvme.h |   30 ++++-
- 3 files changed, 375 insertions(+), 28 deletions(-)
+diff --git a/fs/bio-integrity.c b/fs/bio-integrity.c
+index a3f28f3..cf135df 100644
+--- a/fs/bio-integrity.c
++++ b/fs/bio-integrity.c
+@@ -335,7 +335,7 @@ static void bio_integrity_generate(struct bio *bio)
+ 	struct blk_integrity *bi = bdev_get_integrity(bio->bi_bdev);
+ 	struct blk_integrity_exchg bix;
+ 	struct bio_vec *bv;
+-	sector_t sector = bio->bi_sector;
++	sector_t sector = (bio->bi_sector << 9) / bi->sector_size;
+ 	unsigned int i, sectors, total;
+ 	void *prot_buf = bio->bi_integrity->bip_buf;
+ 
+@@ -476,7 +476,7 @@ static int bio_integrity_verify(struct bio *bio)
+ 	struct blk_integrity *bi = bdev_get_integrity(bio->bi_bdev);
+ 	struct blk_integrity_exchg bix;
+ 	struct bio_vec *bv;
+-	sector_t sector = bio->bi_integrity->bip_sector;
++	sector_t sector = (bio->bi_sector << 9) / bi->sector_size;
+ 	unsigned int i, sectors, total, ret;
+ 	void *prot_buf = bio->bi_integrity->bip_buf;
+ 
+-- 
+1.7.0.4
