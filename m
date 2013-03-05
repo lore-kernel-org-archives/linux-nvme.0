@@ -1,27 +1,30 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Mon, 4 Mar 2013 07:46:52 -0500
-Subject: [PATCH 1/2] Add support for 32 bit DMA for 32 bit machines
-In-Reply-To: <E821E2F372F08945977BD15EAE588D61097C5FF6@SACMBXIP02.sdcorp.global.sandisk.com>
-References: <E821E2F372F08945977BD15EAE588D61097C57E9@SACMBXIP02.sdcorp.global.sandisk.com>
- <20130301151219.GF4530@linux.intel.com>
- <E821E2F372F08945977BD15EAE588D61097C5FF6@SACMBXIP02.sdcorp.global.sandisk.com>
-Message-ID: <20130304124652.GG4530@linux.intel.com>
+From: y@dcgshare.lm.intel.com (y@dcgshare.lm.intel.com)
+Date: Mon,  4 Mar 2013 17:24:19 -0700
+Subject: [PATCH 0/4] NVMe: bio request handling
+In-Reply-To: <y>
+References: <y>
+Message-ID: <1362443063-18994-1-git-send-email-y>
 
-On Fri, Mar 01, 2013@10:05:25PM +0000, Chayan Biswas wrote:
-> > What problem are you solving here?  If the system is 32-bit, setting the
-> > DMA mask to 64-bit should be harmless.  The DMA mask tells the system
-> > what the device is capable of -- this doesn't change if the system
-> > happens to be 32-bit.
-> 
-> [CB] The current code does not check for the return value from dma_set_mask() which can fail. Checking for the return value and falling back to 32 bit DMA is consistent with most of the device drivers currently in the kernel using this function and setting 64 bit DMA. Am I missing something here?
+From: Keith Busch <keith.busch@intel.com>
 
-I agree that dma_set_mask() can fail, but the only failure mode I
-know of is when the architecture code can't handle masks that _small_.
-Since we're setting it to the maximum value, I wasn't aware of a way it
-could fail.
+This is a series of patches that allow nvme requests to handle T10
+data integrity. I tried sending this patch before but botched the format
+when emailing to the list!
 
-> Maybe checking for the sizeof(dma_addr_t)  is superfluous and we can remove.
-> 
-> Without this patch we have hit system hang on a 32 bit OS earlier. Adding this patch resolved the issue.
+The block integrity extensions require that the bio values stay
+consistent. The first patch changes how non mergable io vectors are
+handled by splitting the request and submitting child bios so the
+parent will remain intact. The data integrity functions were copied from
+sd_dif.c. The last patch resubmits failed commands since splitting the
+bio requests makes it easy to do that.
 
-Was it 32-bit x86, or some other architecture?
+Keith Busch (4):
+  NVMe: Split non-mergeable bio requests
+  fs: Starting sector size calculation
+  NVMe: End-to-end data protection
+  NVMe: Retry failed bio requests
+
+ drivers/block/nvme.c |  369 +++++++++++++++++++++++++++++++++++++++++++++++---
+ fs/bio-integrity.c   |    4 +-
+ include/linux/nvme.h |   30 ++++-
+ 3 files changed, 375 insertions(+), 28 deletions(-)
