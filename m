@@ -1,179 +1,44 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  8 Mar 2013 16:52:31 -0700
-Subject: [PATCH] NVMe: Device specific stripe size handling
-Message-ID: <1362786751-24078-1-git-send-email-keith.busch@intel.com>
+Date: Mon, 11 Mar 2013 11:02:59 -0600 (MDT)
+Subject: [PATCH 2/8] NVMe: Controller reset from user
+In-Reply-To: <20130226140458.GE4530@linux.intel.com>
+References: <1361404365-18982-1-git-send-email-keith.busch@intel.com>
+ <1361404365-18982-2-git-send-email-keith.busch@intel.com>
+ <20130226140458.GE4530@linux.intel.com>
+Message-ID: <alpine.LRH.2.03.1303110952480.17928@localhost.localdom>
 
-We have an nvme device that has the concept of a stripe size and an
-IO request that does not transfer data crossing the stripe size has
-greater performance compared to IO that does cross it. This patch sets
-the stripe size for the device if the device id matches one with this
-feature and splits IO requests that cross the stripe boundary.
+On Tue, 26 Feb 2013, Matthew Wilcox wrote:
+> 2. Avoid freeing the queue.  When resetting the controller, we don't
+> actually have to free the memory and then reallocate it; we can reprogram
+> the controller when it comes back up with the addresses that this memory
+> already has.  So what we could do is put a single bit in nvme_queue
+> ... call it something like q_suspended, and check it thusly:
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+This sounds like a pretty good idea. The only problem I see is the queues
+had to have been created in the first place, and if a controller was
+security locked, it would not have allowed this operation.
 
-This is dependent on the patch for splitting bios:
-http://merlin.infradead.org/pipermail/linux-nvme/2013-March/000158.html
+I was trying to reuse the exisiting queue initialization as much as
+possible in case something changes after the reset, like more cpu's were
+brought online to allow more queues, or if the controller configuration
+changed from new firmware that may alter the queue count or depth. I
+think this can all be accounted for without freeing the queue memory,
+but not quite as easily.
 
-After testing with split bios with offsets, it became obvious we can't
-shallow copy the bio being split since the offset requires messing with
-the common bi_io_vec pointer, so using bio_clone instead.
----
- drivers/block/nvme.c |   77 +++++++++++++++++++++++++++++++++++++------------
- 1 files changed, 58 insertions(+), 19 deletions(-)
+> The problem with this implementation of reset controller is that it
+> requires the controller to be sufficiently alive to process admin
+> commands.  I think we need reset controller to be able to work if the
+> admin queue is broken for some reason.  So just whacking the config
+> register, waiting for it to complete, then reprogramming the registers,
+> and resending all the admin init commands seems like the right move to me.
 
-diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
-index 00b4063..f03022a 100644
---- a/drivers/block/nvme.c
-+++ b/drivers/block/nvme.c
-@@ -73,6 +73,7 @@ struct nvme_dev {
- 	int queue_count;
- 	int db_stride;
- 	u32 ctrl_config;
-+	u32 stripe_size;
- 	struct msix_entry *entry;
- 	struct nvme_bar __iomem *bar;
- 	struct list_head namespaces;
-@@ -122,7 +123,7 @@ struct nvme_queue {
- };
- 
- struct nvme_bio_pair {
--	struct bio b1, b2, *parent;
-+	struct bio *b1, *b2, *parent;
- 	int err;
- 	atomic_t cnt;
- };
-@@ -473,6 +474,7 @@ static void nvme_bio_pair_endio(struct bio *bio, int err)
- 	if (err)
- 		bp->err = err;
- 
-+	bio_put(bio);
- 	if (atomic_dec_and_test(&bp->cnt)) {
- 		bio_endio(bp->parent, bp->err);
- 		kfree(bp);
-@@ -483,7 +485,7 @@ static struct nvme_bio_pair *nvme_bio_split(struct bio *bio, int idx,
- 							int len, int offset)
- {
- 	struct nvme_bio_pair *bp;
--	
-+
- 	BUG_ON(len > bio->bi_size);
- 	BUG_ON(idx > bio->bi_vcnt);
- 
-@@ -492,31 +494,43 @@ static struct nvme_bio_pair *nvme_bio_split(struct bio *bio, int idx,
- 		return NULL;
- 	bp->err = 0;
- 
--	bp->b1 = *bio;
--	bp->b2 = *bio;
--	bp->b1.bi_size = len;
--	bp->b2.bi_size -= len;
--	bp->b1.bi_vcnt = idx;
--	bp->b2.bi_idx = idx;
--	bp->b2.bi_sector += len >> 9;
-+	bp->b1 = bio_clone(bio, GFP_ATOMIC);
-+	if (!bp->b1)
-+		goto split_fail_1;
-+
-+	bp->b2 = bio_clone(bio, GFP_ATOMIC);
-+	if (!bp->b2)
-+		goto split_fail_2;
-+
-+	bp->b1->bi_size = len;
-+	bp->b2->bi_size -= len;
-+	bp->b1->bi_vcnt = idx;
-+	bp->b2->bi_idx = idx;
-+	bp->b2->bi_sector += len >> 9;
- 
- 	if (offset) {
--		bp->b2.bi_io_vec[idx].bv_offset += offset;
--		bp->b2.bi_io_vec[idx].bv_len -= offset;
--		bp->b1.bi_io_vec[idx].bv_len = offset;
--		bp->b1.bi_vcnt++;
-+		bp->b2->bi_io_vec[idx].bv_offset += offset;
-+		bp->b2->bi_io_vec[idx].bv_len -= offset;
-+		bp->b1->bi_io_vec[idx].bv_len = offset;
-+		bp->b1->bi_vcnt++;
- 	}
- 
--	bp->b1.bi_private = bp;
--	bp->b2.bi_private = bp;
-+	bp->b1->bi_private = bp;
-+	bp->b2->bi_private = bp;
- 
--	bp->b1.bi_end_io = nvme_bio_pair_endio;
--	bp->b2.bi_end_io = nvme_bio_pair_endio;
-+	bp->b1->bi_end_io = nvme_bio_pair_endio;
-+	bp->b2->bi_end_io = nvme_bio_pair_endio;
- 
- 	bp->parent = bio;
- 	atomic_set(&bp->cnt, 2);
- 
- 	return bp;
-+
-+ split_fail_2:
-+	bio_put(bp->b1);
-+ split_fail_1:
-+	kfree(bp);
-+	return NULL;
- }
- 
- static int nvme_split_and_submit(struct bio *bio, struct nvme_queue *nvmeq,
-@@ -528,8 +542,8 @@ static int nvme_split_and_submit(struct bio *bio, struct nvme_queue *nvmeq,
- 
- 	if (bio_list_empty(&nvmeq->sq_cong))
- 		add_wait_queue(&nvmeq->sq_full, &nvmeq->sq_cong_wait);
--	bio_list_add(&nvmeq->sq_cong, &bp->b1);
--	bio_list_add(&nvmeq->sq_cong, &bp->b2);
-+	bio_list_add(&nvmeq->sq_cong, bp->b1);
-+	bio_list_add(&nvmeq->sq_cong, bp->b2);
- 	wake_up_process(nvme_thread);
- 
- 	return 0;
-@@ -539,6 +553,9 @@ static int nvme_split_and_submit(struct bio *bio, struct nvme_queue *nvmeq,
- #define BIOVEC_NOT_VIRT_MERGEABLE(vec1, vec2)	((vec2)->bv_offset || \
- 			(((vec1)->bv_offset + (vec1)->bv_len) % PAGE_SIZE))
- 
-+#define BIO_CROSS_STRIPE(stripe_size, start, len) \
-+	stripe_size && ((((start) & (stripe_size - 1)) + len) > stripe_size)
-+
- static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
- 		struct bio *bio, enum dma_data_direction dma_dir, int psegs)
- {
-@@ -546,6 +563,22 @@ static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
- 	struct scatterlist *sg = NULL;
- 	int i, length = 0, nsegs = 0;
- 
-+	if (BIO_CROSS_STRIPE(nvmeq->dev->stripe_size, bio->bi_sector << 9,
-+							bio->bi_size)) {
-+		int split_len = nvmeq->dev->stripe_size -
-+			((bio->bi_sector << 9) & (nvmeq->dev->stripe_size - 1));
-+		int iov_offset = split_len;
-+
-+		bio_for_each_segment(bvec, bio, i) {
-+			if (iov_offset < bvec->bv_len)
-+				break;
-+			iov_offset -= bvec->bv_len;
-+		}
-+
-+		return nvme_split_and_submit(bio, nvmeq, i,
-+						split_len, iov_offset);
-+	}
-+
- 	sg_init_table(iod->sg, psegs);
- 	bio_for_each_segment(bvec, bio, i) {
- 		if (bvprv && BIOVEC_PHYS_MERGEABLE(bvprv, bvec)) {
-@@ -1584,6 +1617,12 @@ static int __devinit nvme_dev_add(struct nvme_dev *dev)
- 		int shift = NVME_CAP_MPSMIN(readq(&dev->bar->cap)) + 12;
- 		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
- 	}
-+	if ((dev->pci_dev->vendor == PCI_VENDOR_ID_INTEL) &&
-+	    			(dev->pci_dev->device == 0x0953) &&
-+				ctrl->vs[3]) {
-+		int shift = NVME_CAP_MPSMIN(readq(&dev->bar->cap)) + 12;
-+		dev->stripe_size = 1 << (ctrl->vs[3] + shift);
-+	}
- 
- 	id_ns = mem;
- 	for (i = 1; i <= nn; i++) {
--- 
-1.7.0.4
+The patch was following the Shutdown sequence from the NVMe spec (7.6.2 in
+revision 1.1). Hitting CC.EN to reset the controller isn't recommended
+for normal shutdowns, but you're right, we can't hold up a shutdown
+if the controller isn't responding to admin commands either. I added
+schedule_timeout for sync commands in this patch set for commands that
+do not complete, but that would hold things up for an unexceptable time
+if the controller is not responding. Maybe we should have separate
+graceful and abrupt shutdown sequences?
+
+Anyway, thanks for the info. I'll take another shot at this.
