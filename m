@@ -1,317 +1,43 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 22 Mar 2013 09:36:44 -0600
-Subject: [PATCH v3 7/7] NVMe: End-to-end data protection
-Message-ID: <1363966604-5482-1-git-send-email-keith.busch@intel.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Fri, 22 Mar 2013 16:30:17 -0400
+Subject: [GIT PULL] Updates for the NVMe driver
+Message-ID: <20130322203017.GE4671@linux.intel.com>
 
-Registers a DIF capable nvme namespace with block integrity.
 
-If the namepsace meta-data is a separate buffer, the driver will use
-the appropriate block integrity template to generate and verify the
-protection information on writes and reads and use the bip_buf as the
-meta-data pointer in the nvme command. Separate meta-data with protection
-information is not usable if it occurs as the last eight bytes and is
-larger than a DIF field size. If the namespace is not formatted with
-protection information, a no-op block integrity template is used to
-create the unused meta-data buffer.
+Hi Linus,
 
-If the meta-data is interleaved and formatted for data-protection, the
-NVMe PRACT field is set to have the controller generate DIF on writes
-and strip it on reads.
+These patches have mostly been baking for a few months; sorry I didn't
+get them in during the merge window.  They're all bug fixes, except for
+the addition of the SMART log and the addition to MAINTAINERS.
 
-LBA formats that the driver cannot deal with will not create a block
-device for that namespace.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+The following changes since commit 9924a1992a86ebdb7ca36ef790d2ba0da506296c:
 
-This v3 replaces patch [7/7] from this set:
-http://merlin.infradead.org/pipermail/linux-nvme/2013-March/000180.html
+  Merge git://git.kernel.org/pub/scm/virt/kvm/kvm (2012-11-12 17:37:53 -0800)
 
-We can't use protection information that occurs as the last eight bytes
-of meta-data when it is larger than a DIF field size, and this just adds
-that check.
----
- drivers/block/nvme.c |  140 ++++++++++++++++++++++++++++++++++++++++++++++++--
- include/linux/nvme.h |   28 ++++++++--
- 2 files changed, 159 insertions(+), 9 deletions(-)
+are available in the git repository at:
 
-diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
-index 86c7f28..457a5be 100644
---- a/drivers/block/nvme.c
-+++ b/drivers/block/nvme.c
-@@ -94,6 +94,9 @@ struct nvme_ns {
- 
- 	int ns_id;
- 	int lba_shift;
-+	int pi_type;
-+	int extended;
-+	u16 ms;
- };
- 
- /*
-@@ -307,6 +310,7 @@ struct nvme_iod {
- 	int nents;		/* Used in scatterlist */
- 	int length;		/* Of data, in bytes */
- 	dma_addr_t first_dma;
-+	dma_addr_t meta_dma;
- 	struct scatterlist sg[0];
- };
- 
-@@ -367,10 +371,14 @@ static void bio_completion(struct nvme_dev *dev, void *ctx,
- 	struct nvme_iod *iod = ctx;
- 	struct bio *bio = iod->private;
- 	u16 status = le16_to_cpup(&cqe->status) >> 1;
-+	enum dma_data_direction dma_dir = bio_data_dir(bio) ? DMA_TO_DEVICE :
-+ 								DMA_FROM_DEVICE;
- 
- 	if (iod->nents)
--		dma_unmap_sg(&dev->pci_dev->dev, iod->sg, iod->nents,
--			bio_data_dir(bio) ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
-+		dma_unmap_sg(&dev->pci_dev->dev, iod->sg, iod->nents, dma_dir);
-+	if (bio_integrity(bio))
-+		dma_unmap_single(&dev->pci_dev->dev, iod->meta_dma,
-+					bio->bi_integrity->bip_size, dma_dir);
- 
- 	nvme_free_iod(dev, iod);
- 	if (status)
-@@ -464,6 +472,7 @@ static int nvme_setup_prps(struct nvme_dev *dev,
- struct nvme_bio_pair {
- 	struct bio b1, b2, *parent;
- 	struct bio_vec *bv1, *bv2;
-+	struct bio_integrity_payload bip1, bip2;
- 	int err;
- 	atomic_t cnt;
- };
-@@ -532,6 +541,23 @@ static struct nvme_bio_pair *nvme_bio_split(struct bio *bio, int idx,
- 	} else
- 		bp->bv1 = bp->bv2 = NULL;
- 
-+	if (bio_integrity(bio)) {
-+		struct blk_integrity *bi = bdev_get_integrity(bio->bi_bdev);
-+		unsigned int bip_split_len =
-+				(len / bdev_logical_block_size(bio->bi_bdev)) *
-+					bi->tuple_size;
-+
-+		bp->bip1.bip_buf = bio->bi_integrity->bip_buf;
-+		bp->bip1.bip_size = bip_split_len;
-+
-+		bp->bip2.bip_buf = bio->bi_integrity->bip_buf + bip_split_len;
-+		bp->bip2.bip_size = bio->bi_integrity->bip_size - bip_split_len;
-+
-+		bp->b1.bi_integrity = &bp->bip1;
-+		bp->b2.bi_integrity = &bp->bip2;
-+
-+ 	}
-+
- 	bp->b1.bi_private = bp;
- 	bp->b2.bi_private = bp;
- 
-@@ -692,6 +718,29 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
- 								GFP_ATOMIC);
- 	cmnd->rw.slba = cpu_to_le64(bio->bi_sector >> (ns->lba_shift - 9));
- 	cmnd->rw.length = cpu_to_le16((length >> ns->lba_shift) - 1);
-+
-+	if (ns->ms) {
-+		if (ns->pi_type) {
-+			control |= NVME_RW_PRINFO_PRCHK_GUARD;
-+			if (ns->pi_type != NVME_NS_DPS_PI_TYPE3) {
-+				control |= NVME_RW_PRINFO_PRCHK_REF;
-+				cmnd->rw.reftag = cpu_to_le32(
-+					(bio->bi_sector >> (ns->lba_shift - 9)) &
-+					0xffffffff);
-+			}
-+		}
-+		if (bio_integrity(bio)) {
-+				iod->meta_dma =
-+					dma_map_single(nvmeq->q_dmadev,
-+						bio->bi_integrity->bip_buf,
-+						bio->bi_integrity->bip_size,
-+						dma_dir);
-+				cmnd->rw.metadata = cpu_to_le64(iod->meta_dma);
-+		} else {
-+			control |= NVME_RW_PRINFO_PRACT;
-+		}
-+	}
-+
- 	cmnd->rw.control = cpu_to_le16(control);
- 	cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
- 
-@@ -1435,16 +1484,90 @@ static void nvme_put_ns_idx(int index)
- 	spin_unlock(&dev_list_lock);
- }
- 
-+static void nvme_generate(struct blk_integrity_exchg *bix)
-+{
-+	return;
-+}
-+
-+static int nvme_verify(struct blk_integrity_exchg *bix)
-+{
-+	return 0;
-+}
-+
-+/*
-+ * No-op integrity extension for namespace formats with meta-data but
-+ * without protection settings.
-+ */
-+static struct blk_integrity nvme_no_dif = {
-+	.name			= "T10-DIF-TYPE0",
-+	.generate_fn		= &nvme_generate,
-+	.verify_fn		= &nvme_verify,
-+	.get_tag_fn		= NULL,
-+	.set_tag_fn		= NULL,
-+	.tuple_size		= 0,
-+	.tag_size		= 0,
-+};
-+
-+static void nvme_ns_register_pi(struct nvme_ns *ns)
-+{
-+	struct blk_integrity integrity;
-+
-+	if (ns->pi_type == NVME_NS_DPS_PI_TYPE3) {
-+		integrity = sd_dif_get_type3_crc();
-+		integrity.tag_size = sizeof(u16);
-+	} else if (ns->pi_type) {
-+		integrity = sd_dif_get_type1_crc();
-+		integrity.tag_size = sizeof(u16) + sizeof(u32);
-+	} else {
-+		integrity = nvme_no_dif;
-+	}
-+	integrity.tuple_size = ns->ms;
-+	blk_integrity_register(ns->disk, &integrity);
-+}
-+
-+/*
-+ * Interleaved meta-data is not usable unless the controller can strip/insert
-+ * it on reads/writes, which means the namespace has to be formatted with
-+ * protection information and meta-data size equal to DIF size.  Separate
-+ * meta-data with protection information is usable if the meta-data size is
-+ * equal to a DIF size or the DIF field occurs as the first eight meta-data
-+ * bytes. All other formats are usable.
-+ */
-+static int nvme_check_pi_format(struct nvme_id_ns *id) {
-+	int lbaf = id->flbas & NVME_NS_FLBAS_LBAF_MASK;
-+	int ms = le16_to_cpu(id->lbaf[lbaf].ms);
-+	int pi = id->dps & NVME_NS_DPS_PI_MASK;
-+	int first = id->dps & NVME_NS_DPS_PI_FIRST;
-+	int extended = id->flbas & NVME_NS_FLBAS_LBA_EXTENDED;
-+
-+	if (ms == 8 && pi)
-+		return pi;
-+	if (pi && ms > 8) {
-+		if (!extended && first)
-+			return pi;
-+		return -1;
-+	}
-+	if (!extended)
-+		return 0;
-+	if (ms)
-+		return -1;
-+	return 0;
-+}
-+
- static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, int nsid,
- 			struct nvme_id_ns *id, struct nvme_lba_range_type *rt)
- {
- 	struct nvme_ns *ns;
- 	struct gendisk *disk;
--	int lbaf;
-+	int lbaf, pi_type;
- 
- 	if (rt->attributes & NVME_LBART_ATTRIB_HIDE)
- 		return NULL;
- 
-+	pi_type = nvme_check_pi_format(id);
-+	if (pi_type < 0)
-+		return NULL;
-+
- 	ns = kzalloc(sizeof(*ns), GFP_KERNEL);
- 	if (!ns)
- 		return NULL;
-@@ -1458,6 +1581,9 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, int nsid,
- 	blk_queue_make_request(ns->queue, nvme_make_request);
- 	ns->dev = dev;
- 	ns->queue->queuedata = ns;
-+	ns->pi_type = pi_type;
-+	if (pi_type)
-+		ns->extended = id->flbas & NVME_NS_FLBAS_LBA_EXTENDED;
- 
- 	disk = alloc_disk(NVME_MINORS);
- 	if (!disk)
-@@ -1466,6 +1592,7 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, int nsid,
- 	ns->disk = disk;
- 	lbaf = id->flbas & 0xf;
- 	ns->lba_shift = id->lbaf[lbaf].ds;
-+	ns->ms = le16_to_cpu(id->lbaf[lbaf].ms);
- 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
- 	if (dev->max_hw_sectors)
- 		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
-@@ -1634,8 +1761,11 @@ static int __devinit nvme_dev_add(struct nvme_dev *dev)
- 		if (ns)
- 			list_add_tail(&ns->list, &dev->namespaces);
- 	}
--	list_for_each_entry(ns, &dev->namespaces, list)
-+	list_for_each_entry(ns, &dev->namespaces, list) {
- 		add_disk(ns->disk);
-+		if (!ns->extended && ns->pi_type)
-+			nvme_ns_register_pi(ns);
-+	}
- 
- 	goto out;
- 
-@@ -1660,6 +1790,8 @@ static int nvme_dev_remove(struct nvme_dev *dev)
- 
- 	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
- 		list_del(&ns->list);
-+		if (!ns->extended && ns->pi_type)
-+			blk_integrity_unregister(ns->disk);
- 		del_gendisk(ns->disk);
- 		nvme_ns_free(ns);
- 	}
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 4fa3b0b..f499455 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -130,11 +130,25 @@ struct nvme_id_ns {
- };
- 
- enum {
--	NVME_NS_FEAT_THIN	= 1 << 0,
--	NVME_LBAF_RP_BEST	= 0,
--	NVME_LBAF_RP_BETTER	= 1,
--	NVME_LBAF_RP_GOOD	= 2,
--	NVME_LBAF_RP_DEGRADED	= 3,
-+	NVME_NS_FEAT_THIN		= 1 << 0,
-+	NVME_NS_MC_EXTENDED		= 1 << 0,
-+	NVME_NS_MC_SEPARATE		= 1 << 1,
-+	NVME_NS_FLBAS_LBA_EXTENDED	= 1 << 4,
-+	NVME_NS_FLBAS_LBAF_MASK		= 0xf,
-+	NVME_NS_DPC_PI_LAST		= 1 << 4,
-+	NVME_NS_DPC_PI_FIRST		= 1 << 3,
-+	NVME_NS_DPC_PI_TYPE3		= 1 << 2,
-+	NVME_NS_DPC_PI_TYPE2		= 1 << 1,
-+	NVME_NS_DPC_PI_TYPE1		= 1 << 0,
-+	NVME_NS_DPS_PI_MASK		= 0x7,
-+	NVME_NS_DPS_PI_TYPE1		= 1,
-+	NVME_NS_DPS_PI_TYPE2		= 2,
-+	NVME_NS_DPS_PI_TYPE3		= 3,
-+	NVME_NS_DPS_PI_FIRST		= 8,
-+	NVME_LBAF_RP_BEST		= 0,
-+	NVME_LBAF_RP_BETTER		= 1,
-+	NVME_LBAF_RP_GOOD		= 2,
-+	NVME_LBAF_RP_DEGRADED		= 3,
- };
- 
- struct nvme_smart_log {
-@@ -244,6 +258,10 @@ enum {
- 	NVME_RW_DSM_LATENCY_LOW		= 3 << 4,
- 	NVME_RW_DSM_SEQ_REQ		= 1 << 6,
- 	NVME_RW_DSM_COMPRESSED		= 1 << 7,
-+	NVME_RW_PRINFO_PRACT		= 1 << 13,
-+	NVME_RW_PRINFO_PRCHK_GUARD	= 1 << 12,
-+	NVME_RW_PRINFO_PRCHK_APP	= 1 << 11,
-+	NVME_RW_PRINFO_PRCHK_REF	= 1 << 10,
- };
- 
- /* Admin commands */
--- 
-1.7.0.4
+
+  git://git.infradead.org/users/willy/linux-nvme.git master
+
+for you to fetch changes up to 122090366d1d5c6ec1bfb6dfdb3a6d121ff074aa:
+
+  NVMe: Add namespaces with no LBA range feature (2013-03-22 14:50:23 -0400)
+
+----------------------------------------------------------------
+Keith Busch (7):
+      NVMe: Free cmdid on nvme_submit_bio error
+      NVMe: End queued bio requests when freeing queue
+      NVMe: Set result from user admin command
+      NVMe: Add result to nvme_get_features
+      NVMe: Define SMART log
+      NVMe: Initialize iod nents to 0
+      NVMe: Add namespaces with no LBA range feature
+
+Matthew Wilcox (1):
+      MAINTAINERS: Add entry for the NVMe driver
+
+ MAINTAINERS          |    8 ++++++++
+ drivers/block/nvme.c |   33 ++++++++++++++++++++++++---------
+ include/linux/nvme.h |   28 ++++++++++++++++++++++++++++
+ 3 files changed, 60 insertions(+), 9 deletions(-)
