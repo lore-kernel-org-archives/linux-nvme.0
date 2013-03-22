@@ -1,93 +1,317 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 21 Mar 2013 11:52:03 -0600
-Subject: [PATCH v2 3/7] sd: hw sector size calculation
-In-Reply-To: <1363888327-7420-1-git-send-email-keith.busch@intel.com>
-References: <1363888327-7420-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1363888327-7420-4-git-send-email-keith.busch@intel.com>
+Date: Fri, 22 Mar 2013 09:36:44 -0600
+Subject: [PATCH v3 7/7] NVMe: End-to-end data protection
+Message-ID: <1363966604-5482-1-git-send-email-keith.busch@intel.com>
 
-Fixes the calculating the number of sectors and starting sector related
-to protection information. The calculation uses shifting and requires the
-sector sizes be a power of 2 >= 512, which I think is true for all drives.
+Registers a DIF capable nvme namespace with block integrity.
 
-Cc: Martin K. Petersen <martin.petersen at oracle.com>
+If the namepsace meta-data is a separate buffer, the driver will use
+the appropriate block integrity template to generate and verify the
+protection information on writes and reads and use the bip_buf as the
+meta-data pointer in the nvme command. Separate meta-data with protection
+information is not usable if it occurs as the last eight bytes and is
+larger than a DIF field size. If the namespace is not formatted with
+protection information, a no-op block integrity template is used to
+create the unused meta-data buffer.
+
+If the meta-data is interleaved and formatted for data-protection, the
+NVMe PRACT field is set to have the controller generate DIF on writes
+and strip it on reads.
+
+LBA formats that the driver cannot deal with will not create a block
+device for that namespace.
+
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-I try to avoid full divides in an IO path if possible hence the shift
-operations, but if this is too obscure or there are valid block formats
-where this wouldn't work, happy to change it to something else.
----
- drivers/scsi/sd_dif.c |   12 ++++++------
- fs/bio-integrity.c    |   11 ++++-------
- 2 files changed, 10 insertions(+), 13 deletions(-)
+This v3 replaces patch [7/7] from this set:
+http://merlin.infradead.org/pipermail/linux-nvme/2013-March/000180.html
 
-diff --git a/drivers/scsi/sd_dif.c b/drivers/scsi/sd_dif.c
-index 7cf0a39..aae5507 100644
---- a/drivers/scsi/sd_dif.c
-+++ b/drivers/scsi/sd_dif.c
-@@ -376,7 +376,8 @@ void sd_dif_prepare(struct request *rq, sector_t hw_sector,
- 		if (bio_flagged(bio, BIO_MAPPED_INTEGRITY))
- 			break;
+We can't use protection information that occurs as the last eight bytes
+of meta-data when it is larger than a DIF field size, and this just adds
+that check.
+---
+ drivers/block/nvme.c |  140 ++++++++++++++++++++++++++++++++++++++++++++++++--
+ include/linux/nvme.h |   28 ++++++++--
+ 2 files changed, 159 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/block/nvme.c b/drivers/block/nvme.c
+index 86c7f28..457a5be 100644
+--- a/drivers/block/nvme.c
++++ b/drivers/block/nvme.c
+@@ -94,6 +94,9 @@ struct nvme_ns {
  
--		virt = bio->bi_integrity->bip_sector & 0xffffffff;
-+		virt = (bio->bi_integrity->bip_sector >>
-+				(__ffs(sector_sz) - 9)) & 0xffffffff;
+ 	int ns_id;
+ 	int lba_shift;
++	int pi_type;
++	int extended;
++	u16 ms;
+ };
  
- 		bip_for_each_vec(iv, bio->bi_integrity, i) {
- 			sdt = kmap_atomic(iv->bv_page)
-@@ -419,14 +420,13 @@ void sd_dif_complete(struct scsi_cmnd *scmd, unsigned int good_bytes)
- 	sector_sz = scmd->device->sector_size;
- 	sectors = good_bytes / sector_sz;
+ /*
+@@ -307,6 +310,7 @@ struct nvme_iod {
+ 	int nents;		/* Used in scatterlist */
+ 	int length;		/* Of data, in bytes */
+ 	dma_addr_t first_dma;
++	dma_addr_t meta_dma;
+ 	struct scatterlist sg[0];
+ };
  
--	phys = blk_rq_pos(scmd->request) & 0xffffffff;
--	if (sector_sz == 4096)
--		phys >>= 3;
--
-+	phys = (blk_rq_pos(scmd->request) >> (__ffs(sector_sz) - 9)) &
-+								0xffffffff;
- 	__rq_for_each_bio(bio, scmd->request) {
- 		struct bio_vec *iv;
+@@ -367,10 +371,14 @@ static void bio_completion(struct nvme_dev *dev, void *ctx,
+ 	struct nvme_iod *iod = ctx;
+ 	struct bio *bio = iod->private;
+ 	u16 status = le16_to_cpup(&cqe->status) >> 1;
++	enum dma_data_direction dma_dir = bio_data_dir(bio) ? DMA_TO_DEVICE :
++ 								DMA_FROM_DEVICE;
  
--		virt = bio->bi_integrity->bip_sector & 0xffffffff;
-+		virt = (bio->bi_integrity->bip_sector >>
-+					(__ffs(sector_sz) - 9)) & 0xffffffff;
+ 	if (iod->nents)
+-		dma_unmap_sg(&dev->pci_dev->dev, iod->sg, iod->nents,
+-			bio_data_dir(bio) ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
++		dma_unmap_sg(&dev->pci_dev->dev, iod->sg, iod->nents, dma_dir);
++	if (bio_integrity(bio))
++		dma_unmap_single(&dev->pci_dev->dev, iod->meta_dma,
++					bio->bi_integrity->bip_size, dma_dir);
  
- 		bip_for_each_vec(iv, bio->bi_integrity, i) {
- 			sdt = kmap_atomic(iv->bv_page)
-diff --git a/fs/bio-integrity.c b/fs/bio-integrity.c
-index a3f28f3..b4ab7da 100644
---- a/fs/bio-integrity.c
-+++ b/fs/bio-integrity.c
-@@ -231,11 +231,7 @@ EXPORT_SYMBOL(bio_integrity_enabled);
- static inline unsigned int bio_integrity_hw_sectors(struct blk_integrity *bi,
- 						    unsigned int sectors)
- {
--	/* At this point there are only 512b or 4096b DIF/EPP devices */
--	if (bi->sector_size == 4096)
--		return sectors >>= 3;
--
--	return sectors;
-+	return sectors >> (__ffs(bi->sector_size) - 9);
+ 	nvme_free_iod(dev, iod);
+ 	if (status)
+@@ -464,6 +472,7 @@ static int nvme_setup_prps(struct nvme_dev *dev,
+ struct nvme_bio_pair {
+ 	struct bio b1, b2, *parent;
+ 	struct bio_vec *bv1, *bv2;
++	struct bio_integrity_payload bip1, bip2;
+ 	int err;
+ 	atomic_t cnt;
+ };
+@@ -532,6 +541,23 @@ static struct nvme_bio_pair *nvme_bio_split(struct bio *bio, int idx,
+ 	} else
+ 		bp->bv1 = bp->bv2 = NULL;
+ 
++	if (bio_integrity(bio)) {
++		struct blk_integrity *bi = bdev_get_integrity(bio->bi_bdev);
++		unsigned int bip_split_len =
++				(len / bdev_logical_block_size(bio->bi_bdev)) *
++					bi->tuple_size;
++
++		bp->bip1.bip_buf = bio->bi_integrity->bip_buf;
++		bp->bip1.bip_size = bip_split_len;
++
++		bp->bip2.bip_buf = bio->bi_integrity->bip_buf + bip_split_len;
++		bp->bip2.bip_size = bio->bi_integrity->bip_size - bip_split_len;
++
++		bp->b1.bi_integrity = &bp->bip1;
++		bp->b2.bi_integrity = &bp->bip2;
++
++ 	}
++
+ 	bp->b1.bi_private = bp;
+ 	bp->b2.bi_private = bp;
+ 
+@@ -692,6 +718,29 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 								GFP_ATOMIC);
+ 	cmnd->rw.slba = cpu_to_le64(bio->bi_sector >> (ns->lba_shift - 9));
+ 	cmnd->rw.length = cpu_to_le16((length >> ns->lba_shift) - 1);
++
++	if (ns->ms) {
++		if (ns->pi_type) {
++			control |= NVME_RW_PRINFO_PRCHK_GUARD;
++			if (ns->pi_type != NVME_NS_DPS_PI_TYPE3) {
++				control |= NVME_RW_PRINFO_PRCHK_REF;
++				cmnd->rw.reftag = cpu_to_le32(
++					(bio->bi_sector >> (ns->lba_shift - 9)) &
++					0xffffffff);
++			}
++		}
++		if (bio_integrity(bio)) {
++				iod->meta_dma =
++					dma_map_single(nvmeq->q_dmadev,
++						bio->bi_integrity->bip_buf,
++						bio->bi_integrity->bip_size,
++						dma_dir);
++				cmnd->rw.metadata = cpu_to_le64(iod->meta_dma);
++		} else {
++			control |= NVME_RW_PRINFO_PRACT;
++		}
++	}
++
+ 	cmnd->rw.control = cpu_to_le16(control);
+ 	cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
+ 
+@@ -1435,16 +1484,90 @@ static void nvme_put_ns_idx(int index)
+ 	spin_unlock(&dev_list_lock);
  }
  
- /**
-@@ -335,7 +331,7 @@ static void bio_integrity_generate(struct bio *bio)
- 	struct blk_integrity *bi = bdev_get_integrity(bio->bi_bdev);
- 	struct blk_integrity_exchg bix;
- 	struct bio_vec *bv;
--	sector_t sector = bio->bi_sector;
-+	sector_t sector = bio->bi_sector >> (__ffs(bi->sector_size) - 9);
- 	unsigned int i, sectors, total;
- 	void *prot_buf = bio->bi_integrity->bip_buf;
++static void nvme_generate(struct blk_integrity_exchg *bix)
++{
++	return;
++}
++
++static int nvme_verify(struct blk_integrity_exchg *bix)
++{
++	return 0;
++}
++
++/*
++ * No-op integrity extension for namespace formats with meta-data but
++ * without protection settings.
++ */
++static struct blk_integrity nvme_no_dif = {
++	.name			= "T10-DIF-TYPE0",
++	.generate_fn		= &nvme_generate,
++	.verify_fn		= &nvme_verify,
++	.get_tag_fn		= NULL,
++	.set_tag_fn		= NULL,
++	.tuple_size		= 0,
++	.tag_size		= 0,
++};
++
++static void nvme_ns_register_pi(struct nvme_ns *ns)
++{
++	struct blk_integrity integrity;
++
++	if (ns->pi_type == NVME_NS_DPS_PI_TYPE3) {
++		integrity = sd_dif_get_type3_crc();
++		integrity.tag_size = sizeof(u16);
++	} else if (ns->pi_type) {
++		integrity = sd_dif_get_type1_crc();
++		integrity.tag_size = sizeof(u16) + sizeof(u32);
++	} else {
++		integrity = nvme_no_dif;
++	}
++	integrity.tuple_size = ns->ms;
++	blk_integrity_register(ns->disk, &integrity);
++}
++
++/*
++ * Interleaved meta-data is not usable unless the controller can strip/insert
++ * it on reads/writes, which means the namespace has to be formatted with
++ * protection information and meta-data size equal to DIF size.  Separate
++ * meta-data with protection information is usable if the meta-data size is
++ * equal to a DIF size or the DIF field occurs as the first eight meta-data
++ * bytes. All other formats are usable.
++ */
++static int nvme_check_pi_format(struct nvme_id_ns *id) {
++	int lbaf = id->flbas & NVME_NS_FLBAS_LBAF_MASK;
++	int ms = le16_to_cpu(id->lbaf[lbaf].ms);
++	int pi = id->dps & NVME_NS_DPS_PI_MASK;
++	int first = id->dps & NVME_NS_DPS_PI_FIRST;
++	int extended = id->flbas & NVME_NS_FLBAS_LBA_EXTENDED;
++
++	if (ms == 8 && pi)
++		return pi;
++	if (pi && ms > 8) {
++		if (!extended && first)
++			return pi;
++		return -1;
++	}
++	if (!extended)
++		return 0;
++	if (ms)
++		return -1;
++	return 0;
++}
++
+ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, int nsid,
+ 			struct nvme_id_ns *id, struct nvme_lba_range_type *rt)
+ {
+ 	struct nvme_ns *ns;
+ 	struct gendisk *disk;
+-	int lbaf;
++	int lbaf, pi_type;
  
-@@ -476,7 +472,8 @@ static int bio_integrity_verify(struct bio *bio)
- 	struct blk_integrity *bi = bdev_get_integrity(bio->bi_bdev);
- 	struct blk_integrity_exchg bix;
- 	struct bio_vec *bv;
--	sector_t sector = bio->bi_integrity->bip_sector;
-+	sector_t sector = bio->bi_integrity->bip_sector >>
-+						(__ffs(bi->sector_size) - 9);
- 	unsigned int i, sectors, total, ret;
- 	void *prot_buf = bio->bi_integrity->bip_buf;
+ 	if (rt->attributes & NVME_LBART_ATTRIB_HIDE)
+ 		return NULL;
  
++	pi_type = nvme_check_pi_format(id);
++	if (pi_type < 0)
++		return NULL;
++
+ 	ns = kzalloc(sizeof(*ns), GFP_KERNEL);
+ 	if (!ns)
+ 		return NULL;
+@@ -1458,6 +1581,9 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, int nsid,
+ 	blk_queue_make_request(ns->queue, nvme_make_request);
+ 	ns->dev = dev;
+ 	ns->queue->queuedata = ns;
++	ns->pi_type = pi_type;
++	if (pi_type)
++		ns->extended = id->flbas & NVME_NS_FLBAS_LBA_EXTENDED;
+ 
+ 	disk = alloc_disk(NVME_MINORS);
+ 	if (!disk)
+@@ -1466,6 +1592,7 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, int nsid,
+ 	ns->disk = disk;
+ 	lbaf = id->flbas & 0xf;
+ 	ns->lba_shift = id->lbaf[lbaf].ds;
++	ns->ms = le16_to_cpu(id->lbaf[lbaf].ms);
+ 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
+ 	if (dev->max_hw_sectors)
+ 		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
+@@ -1634,8 +1761,11 @@ static int __devinit nvme_dev_add(struct nvme_dev *dev)
+ 		if (ns)
+ 			list_add_tail(&ns->list, &dev->namespaces);
+ 	}
+-	list_for_each_entry(ns, &dev->namespaces, list)
++	list_for_each_entry(ns, &dev->namespaces, list) {
+ 		add_disk(ns->disk);
++		if (!ns->extended && ns->pi_type)
++			nvme_ns_register_pi(ns);
++	}
+ 
+ 	goto out;
+ 
+@@ -1660,6 +1790,8 @@ static int nvme_dev_remove(struct nvme_dev *dev)
+ 
+ 	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
+ 		list_del(&ns->list);
++		if (!ns->extended && ns->pi_type)
++			blk_integrity_unregister(ns->disk);
+ 		del_gendisk(ns->disk);
+ 		nvme_ns_free(ns);
+ 	}
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 4fa3b0b..f499455 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -130,11 +130,25 @@ struct nvme_id_ns {
+ };
+ 
+ enum {
+-	NVME_NS_FEAT_THIN	= 1 << 0,
+-	NVME_LBAF_RP_BEST	= 0,
+-	NVME_LBAF_RP_BETTER	= 1,
+-	NVME_LBAF_RP_GOOD	= 2,
+-	NVME_LBAF_RP_DEGRADED	= 3,
++	NVME_NS_FEAT_THIN		= 1 << 0,
++	NVME_NS_MC_EXTENDED		= 1 << 0,
++	NVME_NS_MC_SEPARATE		= 1 << 1,
++	NVME_NS_FLBAS_LBA_EXTENDED	= 1 << 4,
++	NVME_NS_FLBAS_LBAF_MASK		= 0xf,
++	NVME_NS_DPC_PI_LAST		= 1 << 4,
++	NVME_NS_DPC_PI_FIRST		= 1 << 3,
++	NVME_NS_DPC_PI_TYPE3		= 1 << 2,
++	NVME_NS_DPC_PI_TYPE2		= 1 << 1,
++	NVME_NS_DPC_PI_TYPE1		= 1 << 0,
++	NVME_NS_DPS_PI_MASK		= 0x7,
++	NVME_NS_DPS_PI_TYPE1		= 1,
++	NVME_NS_DPS_PI_TYPE2		= 2,
++	NVME_NS_DPS_PI_TYPE3		= 3,
++	NVME_NS_DPS_PI_FIRST		= 8,
++	NVME_LBAF_RP_BEST		= 0,
++	NVME_LBAF_RP_BETTER		= 1,
++	NVME_LBAF_RP_GOOD		= 2,
++	NVME_LBAF_RP_DEGRADED		= 3,
+ };
+ 
+ struct nvme_smart_log {
+@@ -244,6 +258,10 @@ enum {
+ 	NVME_RW_DSM_LATENCY_LOW		= 3 << 4,
+ 	NVME_RW_DSM_SEQ_REQ		= 1 << 6,
+ 	NVME_RW_DSM_COMPRESSED		= 1 << 7,
++	NVME_RW_PRINFO_PRACT		= 1 << 13,
++	NVME_RW_PRINFO_PRCHK_GUARD	= 1 << 12,
++	NVME_RW_PRINFO_PRCHK_APP	= 1 << 11,
++	NVME_RW_PRINFO_PRCHK_REF	= 1 << 10,
+ };
+ 
+ /* Admin commands */
 -- 
 1.7.0.4
