@@ -1,30 +1,71 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Wed, 27 Mar 2013 21:17:17 -0400
-Subject: [PATCH v3 0/3] NVMe: Add support for SG_IO
-In-Reply-To: <1362447658-25695-1-git-send-email-vishal.l.verma@intel.com>
-References: <1362447658-25695-1-git-send-email-vishal.l.verma@intel.com>
-Message-ID: <20130328011717.GJ4671@linux.intel.com>
+Date: Wed, 27 Mar 2013 21:36:08 -0400
+Subject: [PATCH] NVMe: Abstract out sector to block number conversion
+Message-ID: <1364434568-30218-1-git-send-email-willy@linux.intel.com>
 
-On Mon, Mar 04, 2013@06:40:55PM -0700, Vishal Verma wrote:
-> These patches allow the nvme driver to handle the SG_IO ioctl.
-> Applications may send any supported SCSI Command through the
-> SG_IO framework. The supported command list as well as the
-> translation reference is available on www.nvmexpress.org
-> 
-> Vishal Verma (3):
->   NVMe: Rename nvme.c to nvme-core.c
->   NVMe: Move dev, ns, iod structs to nvme.c
->   NVMe: Add nvme-scsi.c
+From: Matthew Wilcox <matthew.r.wilcox@intel.com>
 
-I ended up modifying these patche before committing them.
+Introduce nvme_block_nr() to help convert sectors to block numbers.
+This fixes an integer overflow in the SCSI conversion layer, and it's
+slightly less typing than opencoding it.
 
- - I split out the addition of the format command into its own patch.
-   It's significant enough to be worth doing separately.
- - The comment on nvme_free_iod() was part of the second patch instead of
-   the final patch, for some reason.
- - I moved the additions to the nvme_ns data structure to the final patch
-   (was part of the second patch).
- - Instead of storing the vendor_id from the identify result, just use the
-   pci_dev's ->vendor element.
+Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
+---
+ drivers/block/nvme-core.c |    4 ++--
+ drivers/block/nvme-scsi.c |    2 +-
+ include/linux/nvme.h      |    5 +++++
+ 3 files changed, 8 insertions(+), 3 deletions(-)
 
-Hope I didn't break anything in the process :-)
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index a89f7db..20fe3e5 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -477,7 +477,7 @@ static int nvme_submit_discard(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 
+ 	range->cattr = cpu_to_le32(0);
+ 	range->nlb = cpu_to_le32(bio->bi_size >> ns->lba_shift);
+-	range->slba = cpu_to_le64(bio->bi_sector >> (ns->lba_shift - 9));
++	range->slba = cpu_to_le64(nvme_block_nr(ns, bio->bi_sector));
+ 
+ 	memset(cmnd, 0, sizeof(*cmnd));
+ 	cmnd->dsm.opcode = nvme_cmd_dsm;
+@@ -590,7 +590,7 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 	cmnd->rw.nsid = cpu_to_le32(ns->ns_id);
+ 	length = nvme_setup_prps(nvmeq->dev, &cmnd->common, iod, length,
+ 								GFP_ATOMIC);
+-	cmnd->rw.slba = cpu_to_le64(bio->bi_sector >> (ns->lba_shift - 9));
++	cmnd->rw.slba = cpu_to_le64(nvme_block_nr(ns, bio->bi_sector));
+ 	cmnd->rw.length = cpu_to_le16((length >> ns->lba_shift) - 1);
+ 	cmnd->rw.control = cpu_to_le16(control);
+ 	cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index d5b3afe..eeb3320 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -2040,7 +2040,7 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	struct nvme_command c;
+ 	u8 opcode = (is_write ? nvme_cmd_write : nvme_cmd_read);
+ 	u16 control;
+-	u32 max_blocks = (dev->max_hw_sectors << 9) >> ns->lba_shift;
++	u32 max_blocks = nvme_block_nr(ns, dev->max_hw_sectors);
+ 
+ 	num_cmds = nvme_trans_io_get_num_cmds(hdr, cdb_info, max_blocks);
+ 
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index aa57503..09f419d 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -566,6 +566,11 @@ struct nvme_iod {
+ 	struct scatterlist sg[0];
+ };
+ 
++static inline u64 nvme_block_nr(struct nvme_ns *ns, sector_t sector)
++{
++	return (sector >> (ns->lba_shift - 9));
++}
++
+ /**
+  * nvme_free_iod - frees an nvme_iod
+  * @dev: The device that the I/O was submitted to
+-- 
+1.7.10.4
