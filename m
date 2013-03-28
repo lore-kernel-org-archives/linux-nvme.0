@@ -1,71 +1,27 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Wed, 27 Mar 2013 21:36:08 -0400
-Subject: [PATCH] NVMe: Abstract out sector to block number conversion
-Message-ID: <1364434568-30218-1-git-send-email-willy@linux.intel.com>
+From: vishal.l.verma@intel.com (Vishal Verma)
+Date: Thu, 28 Mar 2013 12:42:50 -0600
+Subject: [PATCH] NVMe: Fix a build error for u64 division
+Message-ID: <1364496170-27921-1-git-send-email-vishal.l.verma@intel.com>
 
-From: Matthew Wilcox <matthew.r.wilcox@intel.com>
+A u64 division was producing a linker error with CONFIG_X86_32
 
-Introduce nvme_block_nr() to help convert sectors to block numbers.
-This fixes an integer overflow in the SCSI conversion layer, and it's
-slightly less typing than opencoding it.
-
-Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
+Signed-off-by: Vishal Verma <vishal.l.verma at intel.com>
 ---
- drivers/block/nvme-core.c |    4 ++--
  drivers/block/nvme-scsi.c |    2 +-
- include/linux/nvme.h      |    5 +++++
- 3 files changed, 8 insertions(+), 3 deletions(-)
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index a89f7db..20fe3e5 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -477,7 +477,7 @@ static int nvme_submit_discard(struct nvme_queue *nvmeq, struct nvme_ns *ns,
- 
- 	range->cattr = cpu_to_le32(0);
- 	range->nlb = cpu_to_le32(bio->bi_size >> ns->lba_shift);
--	range->slba = cpu_to_le64(bio->bi_sector >> (ns->lba_shift - 9));
-+	range->slba = cpu_to_le64(nvme_block_nr(ns, bio->bi_sector));
- 
- 	memset(cmnd, 0, sizeof(*cmnd));
- 	cmnd->dsm.opcode = nvme_cmd_dsm;
-@@ -590,7 +590,7 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
- 	cmnd->rw.nsid = cpu_to_le32(ns->ns_id);
- 	length = nvme_setup_prps(nvmeq->dev, &cmnd->common, iod, length,
- 								GFP_ATOMIC);
--	cmnd->rw.slba = cpu_to_le64(bio->bi_sector >> (ns->lba_shift - 9));
-+	cmnd->rw.slba = cpu_to_le64(nvme_block_nr(ns, bio->bi_sector));
- 	cmnd->rw.length = cpu_to_le16((length >> ns->lba_shift) - 1);
- 	cmnd->rw.control = cpu_to_le16(control);
- 	cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
 diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index d5b3afe..eeb3320 100644
+index d5b3afe..483af35 100644
 --- a/drivers/block/nvme-scsi.c
 +++ b/drivers/block/nvme-scsi.c
-@@ -2040,7 +2040,7 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	struct nvme_command c;
- 	u8 opcode = (is_write ? nvme_cmd_write : nvme_cmd_read);
- 	u16 control;
--	u32 max_blocks = (dev->max_hw_sectors << 9) >> ns->lba_shift;
-+	u32 max_blocks = nvme_block_nr(ns, dev->max_hw_sectors);
+@@ -2188,7 +2188,7 @@ static int nvme_trans_io(struct nvme_ns *ns, struct sg_io_hdr *hdr, u8 is_write,
+ 	xfer_bytes = min(((u64)hdr->dxfer_len), sum_iov_len);
  
- 	num_cmds = nvme_trans_io_get_num_cmds(hdr, cdb_info, max_blocks);
- 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index aa57503..09f419d 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -566,6 +566,11 @@ struct nvme_iod {
- 	struct scatterlist sg[0];
- };
- 
-+static inline u64 nvme_block_nr(struct nvme_ns *ns, sector_t sector)
-+{
-+	return (sector >> (ns->lba_shift - 9));
-+}
-+
- /**
-  * nvme_free_iod - frees an nvme_iod
-  * @dev: The device that the I/O was submitted to
+ 	/* If block count and actual data buffer size dont match, error out */
+-	if ((xfer_bytes / (1 << ns->lba_shift)) != cdb_info.xfer_len) {
++	if (xfer_bytes != (cdb_info.xfer_len << ns->lba_shift)) {
+ 		res = -EINVAL;
+ 		goto out;
+ 	}
 -- 
-1.7.10.4
+1.7.0.4
