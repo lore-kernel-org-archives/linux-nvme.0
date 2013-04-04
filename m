@@ -1,20 +1,242 @@
-From: keith.busch@intel.com (Busch, Keith)
-Date: Wed, 3 Apr 2013 21:50:03 +0000
-Subject: [PATCH v3 7/7] NVMe: End-to-end data protection
-In-Reply-To: <alpine.LRH.2.03.1303221242170.17928@localhost.localdom>
-References: <1363966604-5482-1-git-send-email-keith.busch@intel.com>
- <20130327225131.GI4671@linux.intel.com>
- <alpine.LRH.2.03.1303221242170.17928@localhost.localdom>
-Message-ID: <B58D82457FDA0744A320A2FC5AC253B9393089BC@FMSMSX105.amr.corp.intel.com>
+From: vishal.l.verma@intel.com (Vishal Verma)
+Date: Thu,  4 Apr 2013 17:52:27 -0600
+Subject: [PATCH] NVMe: Fix sparse warnings in scsi emulation
+Message-ID: <1365119547-21945-1-git-send-email-vishal.l.verma@intel.com>
 
-On Wed, 27 Mar 2013, Matthew Wilcox wrote:
-> 
-> > On Fri, Mar 22, 2013@09:36:44AM -0600, Keith Busch wrote:
-> >> Registers a DIF capable nvme namespace with block integrity.
-> >
-> > I'm assuming I can't apply this until Martin has applied 1-5?  But I
-> > can apply 6 safely?
+From: Vishal <vverma7@teamfortress-centos62.(none)>
 
-Yep, patch 6 is not dependent on anything else. I notice though that it
-works better if we include Arjan's patch that moves the nvme kthread
-TASK_INTERRUPTIBLE state to avoid an occasional lost wake.
+Sparse produced warnings for some instances of
+mismatched types and direct userspace dereferences.
+This patch fixes those for the scsi emulation layer.
+
+Signed-off-by: Vishal Verma <vishal.l.verma at intel.com>
+---
+ drivers/block/nvme-scsi.c |   89 ++++++++++++++++++++++++++++-----------------
+ 1 files changed, 55 insertions(+), 34 deletions(-)
+
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index 7065c25..4ccf071 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -380,11 +380,16 @@ static int nvme_trans_copy_to_user(struct sg_io_hdr *hdr, void *from,
+ 	size_t xfer_len;
+ 
+ 	if (hdr->iovec_count > 0) {
+-		struct sg_iovec __user *sgl = hdr->dxferp;
++		struct sg_iovec sgl;
+ 
+ 		for (i = 0; i < hdr->iovec_count; i++) {
+-			xfer_len = min(remaining, sgl[i].iov_len);
+-			not_copied = copy_to_user(sgl[i].iov_base, index,
++			not_copied = copy_from_user(&sgl, hdr->dxferp +
++						i * sizeof(struct sg_iovec),
++						sizeof(struct sg_iovec));
++			if (not_copied)
++				return -EFAULT;
++			xfer_len = min(remaining, sgl.iov_len);
++			not_copied = copy_to_user(sgl.iov_base, index,
+ 								xfer_len);
+ 			if (not_copied) {
+ 				res = -EFAULT;
+@@ -416,11 +421,16 @@ static int nvme_trans_copy_from_user(struct sg_io_hdr *hdr, void *to,
+ 	size_t xfer_len;
+ 
+ 	if (hdr->iovec_count > 0) {
+-		struct sg_iovec __user *sgl = hdr->dxferp;
++		struct sg_iovec sgl;
+ 
+ 		for (i = 0; i < hdr->iovec_count; i++) {
+-			xfer_len = min(remaining, sgl[i].iov_len);
+-			not_copied = copy_from_user(index, sgl[i].iov_base,
++			not_copied = copy_from_user(&sgl, hdr->dxferp +
++						i * sizeof(struct sg_iovec),
++						sizeof(struct sg_iovec));
++			if (not_copied)
++				return -EFAULT;
++			xfer_len = min(remaining, sgl.iov_len);
++			not_copied = copy_from_user(index, sgl.iov_base,
+ 								xfer_len);
+ 			if (not_copied) {
+ 				res = -EFAULT;
+@@ -774,7 +784,7 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	int nvme_sc;
+ 	u8 ieee[4];
+ 	int xfer_len;
+-	u32 tmp_id = cpu_to_be64(ns->ns_id);
++	__be32 tmp_id = cpu_to_be32(ns->ns_id);
+ 
+ 	mem = dma_alloc_coherent(&dev->pci_dev->dev, sizeof(struct nvme_id_ns),
+ 					&dma_addr, GFP_KERNEL);
+@@ -1190,15 +1200,15 @@ static int nvme_trans_fill_blk_desc(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	lba_length = (1 << (id_ns->lbaf[flbas].ds));
+ 
+ 	if (llbaa == 0) {
+-		u32 tmp_cap = cpu_to_be32(id_ns->ncap);
++		__be32 tmp_cap = cpu_to_be32(le64_to_cpu(id_ns->ncap));
+ 		/* Byte 4 is reserved */
+-		u32 tmp_len = cpu_to_be32(lba_length) & 0x00FFFFFF;
++		__be32 tmp_len = cpu_to_be32(lba_length & 0x00FFFFFF);
+ 
+ 		memcpy(resp, &tmp_cap, sizeof(u32));
+ 		memcpy(&resp[4], &tmp_len, sizeof(u32));
+ 	} else {
+-		u64 tmp_cap = cpu_to_be64(id_ns->ncap);
+-		u32 tmp_len = cpu_to_be32(lba_length);
++		__be64 tmp_cap = cpu_to_be64(le64_to_cpu(id_ns->ncap));
++		__be32 tmp_len = cpu_to_be32(lba_length);
+ 
+ 		memcpy(resp, &tmp_cap, sizeof(u64));
+ 		/* Bytes 8, 9, 10, 11 are reserved */
+@@ -1412,9 +1422,9 @@ static void nvme_trans_fill_read_cap(u8 *response, struct nvme_id_ns *id_ns,
+ 	u64 rlba;
+ 	u8 prot_en;
+ 	u8 p_type_lut[4] = {0, 0, 1, 2};
+-	u64 tmp_rlba;
+-	u32 tmp_rlba_32;
+-	u32 tmp_len;
++	__be64 tmp_rlba;
++	__be32 tmp_rlba_32;
++	__be32 tmp_len;
+ 
+ 	flbas = (id_ns->flbas) & 0x0F;
+ 	lba_length = (1 << (id_ns->lbaf[flbas].ds));
+@@ -1563,12 +1573,13 @@ static int nvme_trans_send_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 			goto out_unmap;
+ 		}
+ 
+-		c.dlfw.numd = (tot_len/BYTES_TO_DWORDS) - 1;
+-		c.dlfw.offset = offset/BYTES_TO_DWORDS;
++		c.dlfw.numd = cpu_to_le32((tot_len/BYTES_TO_DWORDS) - 1);
++		c.dlfw.offset = cpu_to_le32(offset/BYTES_TO_DWORDS);
+ 	} else if (opcode == nvme_admin_activate_fw) {
+-		c.common.cdw10[0] = buffer_id;
++		c.common.cdw10[0] = cpu_to_le32(buffer_id);
+ 		/* AA=01b Replace & activate at reset */
+-		c.common.cdw10[0] |= 0x00000008;
++		c.common.cdw10[0] = cpu_to_le32(le32_to_cpu(
++						c.common.cdw10[0]) | 0x00000008);
+ 	}
+ 
+ 	nvme_sc = nvme_submit_admin_cmd(dev, &c, NULL);
+@@ -1800,7 +1811,7 @@ static int nvme_trans_fmt_set_blk_size_count(struct nvme_ns *ns,
+ 		id_ns = mem;
+ 
+ 		if (ns->mode_select_num_blocks == 0)
+-			ns->mode_select_num_blocks = id_ns->ncap;
++			ns->mode_select_num_blocks = le64_to_cpu(id_ns->ncap);
+ 		if (ns->mode_select_block_len == 0) {
+ 			flbas = (id_ns->flbas) & 0x0F;
+ 			ns->mode_select_block_len =
+@@ -1920,7 +1931,7 @@ static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 				ILLEGAL_REQUEST, SCSI_ASC_INVALID_PARAMETER,
+ 				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
+ 	}
+-	if (ns->mode_select_num_blocks != id_ns->ncap) {
++	if (ns->mode_select_num_blocks != le64_to_cpu(id_ns->ncap)) {
+ 		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+ 				ILLEGAL_REQUEST, SCSI_ASC_INVALID_PARAMETER,
+ 				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
+@@ -1930,7 +1941,7 @@ static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	cdw10 |= selected_lbaf & 0x0F;
+ 	memset(&c, 0, sizeof(c));
+ 	c.format.opcode = nvme_admin_format_nvm;
+-	c.format.nsid = ns->ns_id;
++	c.format.nsid = cpu_to_le32(ns->ns_id);
+ 	c.format.cdw10 = cpu_to_le32(cdw10);
+ 
+ 	nvme_sc = nvme_submit_admin_cmd(dev, &c, NULL);
+@@ -2036,7 +2047,7 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	u32 retcode;
+ 	u32 i = 0;
+ 	u64 nvme_offset = 0;
+-	void *next_mapping_addr;
++	void __user *next_mapping_addr;
+ 	struct nvme_command c;
+ 	u8 opcode = (is_write ? nvme_cmd_write : nvme_cmd_read);
+ 	u16 control;
+@@ -2056,11 +2067,16 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	for (i = 0; i < num_cmds; i++) {
+ 		memset(&c, 0, sizeof(c));
+ 		if (hdr->iovec_count > 0) {
+-			struct sg_iovec *sgl = hdr->dxferp;
+-
+-			unit_len = sgl[i].iov_len;
++			struct sg_iovec sgl;
++
++			retcode = copy_from_user(&sgl, hdr->dxferp +
++					i * sizeof(struct sg_iovec),
++					sizeof(struct sg_iovec));
++			if (retcode)
++				return -EFAULT;
++			unit_len = sgl.iov_len;
+ 			unit_num_blocks = unit_len >> ns->lba_shift;
+-			next_mapping_addr = sgl[i].iov_base;
++			next_mapping_addr = sgl.iov_base;
+ 		} else {
+ 			unit_num_blocks = min((u64)max_blocks,
+ 					(cdb_info->xfer_len - nvme_offset));
+@@ -2138,8 +2154,9 @@ static int nvme_trans_io(struct nvme_ns *ns, struct sg_io_hdr *hdr, u8 is_write,
+ 	u8 opcode = cmd[0];
+ 	u64 xfer_bytes;
+ 	u64 sum_iov_len = 0;
+-	struct sg_iovec *sgl;
++	struct sg_iovec sgl;
+ 	int i;
++	size_t not_copied;
+ 
+ 	/* Extract Fields from CDB */
+ 	switch (opcode) {
+@@ -2167,11 +2184,15 @@ static int nvme_trans_io(struct nvme_ns *ns, struct sg_io_hdr *hdr, u8 is_write,
+ 
+ 	/* Calculate total length of transfer (in bytes) */
+ 	if (hdr->iovec_count > 0) {
+-		sgl = hdr->dxferp;
+ 		for (i = 0; i < hdr->iovec_count; i++) {
+-			sum_iov_len += sgl[i].iov_len;
++			not_copied = copy_from_user(&sgl, hdr->dxferp +
++						i * sizeof(struct sg_iovec),
++						sizeof(struct sg_iovec));
++			if (not_copied)
++				return -EFAULT;
++			sum_iov_len += sgl.iov_len;
+ 			/* IO vector sizes should be multiples of block size */
+-			if (sgl[i].iov_len % (1 << ns->lba_shift) != 0) {
++			if (sgl.iov_len % (1 << ns->lba_shift) != 0) {
+ 				res = nvme_trans_completion(hdr,
+ 						SAM_STAT_CHECK_CONDITION,
+ 						ILLEGAL_REQUEST,
+@@ -2494,7 +2515,7 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	struct nvme_id_ctrl *id_ctrl;
+ 	u32 ll_length, lun_id;
+ 	u8 lun_id_offset = REPORT_LUNS_FIRST_LUN_OFFSET;
+-	u32 tmp_len;
++	__be32 tmp_len;
+ 
+ 	alloc_len = GET_REPORT_LUNS_ALLOC_LENGTH(cmd);
+ 	select_report = GET_U8_FROM_CDB(cmd, REPORT_LUNS_SR_OFFSET);
+@@ -2524,7 +2545,7 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 			goto out_dma;
+ 		}
+ 		id_ctrl = mem;
+-		ll_length = id_ctrl->nn * LUN_ENTRY_SIZE;
++		ll_length = le32_to_cpu(id_ctrl->nn) * LUN_ENTRY_SIZE;
+ 		resp_size = ll_length + LUN_DATA_HEADER_SIZE;
+ 
+ 		if (alloc_len < resp_size) {
+@@ -2543,12 +2564,12 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 		memset(response, 0, resp_size);
+ 
+ 		/* The first LUN ID will always be 0 per the SAM spec */
+-		for (lun_id = 0; lun_id < id_ctrl->nn; lun_id++) {
++		for (lun_id = 0; lun_id < le32_to_cpu(id_ctrl->nn); lun_id++) {
+ 			/*
+ 			 * Set the LUN Id and then increment to the next LUN
+ 			 * location in the parameter data.
+ 			 */
+-			u64 tmp_id = cpu_to_be64(lun_id);
++			__be64 tmp_id = cpu_to_be64(lun_id);
+ 			memcpy(&response[lun_id_offset], &tmp_id, sizeof(u64));
+ 			lun_id_offset += LUN_ENTRY_SIZE;
+ 		}
+-- 
+1.7.1
