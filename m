@@ -1,242 +1,264 @@
-From: vishal.l.verma@intel.com (Vishal Verma)
-Date: Thu,  4 Apr 2013 17:52:27 -0600
-Subject: [PATCH] NVMe: Fix sparse warnings in scsi emulation
-Message-ID: <1365119547-21945-1-git-send-email-vishal.l.verma@intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue,  9 Apr 2013 11:59:32 -0600
+Subject: [PATCH v4] NVMe: Split non-mergeable bio requests
+Message-ID: <1365530372-5768-1-git-send-email-keith.busch@intel.com>
 
-From: Vishal <vverma7@teamfortress-centos62.(none)>
+It is possible a bio request can not be submitted as a single NVMe IO
+command if the bio_vec is not mergeable with the NVMe PRP alignement
+constraints. This condition was handled by submitting an IO for the
+mergeable portion then submitting a follow on IO for the remaining data
+after the previous IO completes. The remainder to be sent was tracked
+by manipulating the bio->bi_idx and bio->bi_sector. This patch splits
+the request as many times as necessary and submits the bios together.
 
-Sparse produced warnings for some instances of
-mismatched types and direct userspace dereferences.
-This patch fixes those for the scsi emulation layer.
+Since submitting the bio may cause it to be requeued on split,
+nvme_resubmit_bios had to be modified to remove the wait queue when
+the bio list is empty prior to submitting the bio since a split would
+have added the wait queue a second time, corrupting the wait queue head
+task list.
 
-Signed-off-by: Vishal Verma <vishal.l.verma at intel.com>
+There are a few other benefits from doing this: it fixes a potential
+issue with the previous handling of a non-mergeable bio as the requeuing
+method could would use an unlocked nvme_queue if the callback isn't
+invoked on the queue's associated cpu; it will be possible to retry a
+failed bio if desired at some later time since it does not manipulate
+the original bio; the bio integrity extensions require the bio to be in
+its original condition for the checks to work correctly if we implement
+the end-to-end data protection in the future.
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-scsi.c |   89 ++++++++++++++++++++++++++++-----------------
- 1 files changed, 55 insertions(+), 34 deletions(-)
+ drivers/block/nvme-core.c |  152 ++++++++++++++++++++++++++++++++++++---------
+ 1 files changed, 122 insertions(+), 30 deletions(-)
 
-diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index 7065c25..4ccf071 100644
---- a/drivers/block/nvme-scsi.c
-+++ b/drivers/block/nvme-scsi.c
-@@ -380,11 +380,16 @@ static int nvme_trans_copy_to_user(struct sg_io_hdr *hdr, void *from,
- 	size_t xfer_len;
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index a89f7db..f109076 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -308,16 +308,6 @@ void nvme_free_iod(struct nvme_dev *dev, struct nvme_iod *iod)
+ 	kfree(iod);
+ }
  
- 	if (hdr->iovec_count > 0) {
--		struct sg_iovec __user *sgl = hdr->dxferp;
-+		struct sg_iovec sgl;
- 
- 		for (i = 0; i < hdr->iovec_count; i++) {
--			xfer_len = min(remaining, sgl[i].iov_len);
--			not_copied = copy_to_user(sgl[i].iov_base, index,
-+			not_copied = copy_from_user(&sgl, hdr->dxferp +
-+						i * sizeof(struct sg_iovec),
-+						sizeof(struct sg_iovec));
-+			if (not_copied)
-+				return -EFAULT;
-+			xfer_len = min(remaining, sgl.iov_len);
-+			not_copied = copy_to_user(sgl.iov_base, index,
- 								xfer_len);
- 			if (not_copied) {
- 				res = -EFAULT;
-@@ -416,11 +421,16 @@ static int nvme_trans_copy_from_user(struct sg_io_hdr *hdr, void *to,
- 	size_t xfer_len;
- 
- 	if (hdr->iovec_count > 0) {
--		struct sg_iovec __user *sgl = hdr->dxferp;
-+		struct sg_iovec sgl;
- 
- 		for (i = 0; i < hdr->iovec_count; i++) {
--			xfer_len = min(remaining, sgl[i].iov_len);
--			not_copied = copy_from_user(index, sgl[i].iov_base,
-+			not_copied = copy_from_user(&sgl, hdr->dxferp +
-+						i * sizeof(struct sg_iovec),
-+						sizeof(struct sg_iovec));
-+			if (not_copied)
-+				return -EFAULT;
-+			xfer_len = min(remaining, sgl.iov_len);
-+			not_copied = copy_from_user(index, sgl.iov_base,
- 								xfer_len);
- 			if (not_copied) {
- 				res = -EFAULT;
-@@ -774,7 +784,7 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	int nvme_sc;
- 	u8 ieee[4];
- 	int xfer_len;
--	u32 tmp_id = cpu_to_be64(ns->ns_id);
-+	__be32 tmp_id = cpu_to_be32(ns->ns_id);
- 
- 	mem = dma_alloc_coherent(&dev->pci_dev->dev, sizeof(struct nvme_id_ns),
- 					&dma_addr, GFP_KERNEL);
-@@ -1190,15 +1200,15 @@ static int nvme_trans_fill_blk_desc(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	lba_length = (1 << (id_ns->lbaf[flbas].ds));
- 
- 	if (llbaa == 0) {
--		u32 tmp_cap = cpu_to_be32(id_ns->ncap);
-+		__be32 tmp_cap = cpu_to_be32(le64_to_cpu(id_ns->ncap));
- 		/* Byte 4 is reserved */
--		u32 tmp_len = cpu_to_be32(lba_length) & 0x00FFFFFF;
-+		__be32 tmp_len = cpu_to_be32(lba_length & 0x00FFFFFF);
- 
- 		memcpy(resp, &tmp_cap, sizeof(u32));
- 		memcpy(&resp[4], &tmp_len, sizeof(u32));
- 	} else {
--		u64 tmp_cap = cpu_to_be64(id_ns->ncap);
--		u32 tmp_len = cpu_to_be32(lba_length);
-+		__be64 tmp_cap = cpu_to_be64(le64_to_cpu(id_ns->ncap));
-+		__be32 tmp_len = cpu_to_be32(lba_length);
- 
- 		memcpy(resp, &tmp_cap, sizeof(u64));
- 		/* Bytes 8, 9, 10, 11 are reserved */
-@@ -1412,9 +1422,9 @@ static void nvme_trans_fill_read_cap(u8 *response, struct nvme_id_ns *id_ns,
- 	u64 rlba;
- 	u8 prot_en;
- 	u8 p_type_lut[4] = {0, 0, 1, 2};
--	u64 tmp_rlba;
--	u32 tmp_rlba_32;
--	u32 tmp_len;
-+	__be64 tmp_rlba;
-+	__be32 tmp_rlba_32;
-+	__be32 tmp_len;
- 
- 	flbas = (id_ns->flbas) & 0x0F;
- 	lba_length = (1 << (id_ns->lbaf[flbas].ds));
-@@ -1563,12 +1573,13 @@ static int nvme_trans_send_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 			goto out_unmap;
- 		}
- 
--		c.dlfw.numd = (tot_len/BYTES_TO_DWORDS) - 1;
--		c.dlfw.offset = offset/BYTES_TO_DWORDS;
-+		c.dlfw.numd = cpu_to_le32((tot_len/BYTES_TO_DWORDS) - 1);
-+		c.dlfw.offset = cpu_to_le32(offset/BYTES_TO_DWORDS);
- 	} else if (opcode == nvme_admin_activate_fw) {
--		c.common.cdw10[0] = buffer_id;
-+		c.common.cdw10[0] = cpu_to_le32(buffer_id);
- 		/* AA=01b Replace & activate at reset */
--		c.common.cdw10[0] |= 0x00000008;
-+		c.common.cdw10[0] = cpu_to_le32(le32_to_cpu(
-+						c.common.cdw10[0]) | 0x00000008);
- 	}
- 
- 	nvme_sc = nvme_submit_admin_cmd(dev, &c, NULL);
-@@ -1800,7 +1811,7 @@ static int nvme_trans_fmt_set_blk_size_count(struct nvme_ns *ns,
- 		id_ns = mem;
- 
- 		if (ns->mode_select_num_blocks == 0)
--			ns->mode_select_num_blocks = id_ns->ncap;
-+			ns->mode_select_num_blocks = le64_to_cpu(id_ns->ncap);
- 		if (ns->mode_select_block_len == 0) {
- 			flbas = (id_ns->flbas) & 0x0F;
- 			ns->mode_select_block_len =
-@@ -1920,7 +1931,7 @@ static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 				ILLEGAL_REQUEST, SCSI_ASC_INVALID_PARAMETER,
- 				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
- 	}
--	if (ns->mode_select_num_blocks != id_ns->ncap) {
-+	if (ns->mode_select_num_blocks != le64_to_cpu(id_ns->ncap)) {
- 		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
- 				ILLEGAL_REQUEST, SCSI_ASC_INVALID_PARAMETER,
- 				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
-@@ -1930,7 +1941,7 @@ static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	cdw10 |= selected_lbaf & 0x0F;
- 	memset(&c, 0, sizeof(c));
- 	c.format.opcode = nvme_admin_format_nvm;
--	c.format.nsid = ns->ns_id;
-+	c.format.nsid = cpu_to_le32(ns->ns_id);
- 	c.format.cdw10 = cpu_to_le32(cdw10);
- 
- 	nvme_sc = nvme_submit_admin_cmd(dev, &c, NULL);
-@@ -2036,7 +2047,7 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	u32 retcode;
- 	u32 i = 0;
- 	u64 nvme_offset = 0;
--	void *next_mapping_addr;
-+	void __user *next_mapping_addr;
- 	struct nvme_command c;
- 	u8 opcode = (is_write ? nvme_cmd_write : nvme_cmd_read);
- 	u16 control;
-@@ -2056,11 +2067,16 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	for (i = 0; i < num_cmds; i++) {
- 		memset(&c, 0, sizeof(c));
- 		if (hdr->iovec_count > 0) {
--			struct sg_iovec *sgl = hdr->dxferp;
+-static void requeue_bio(struct nvme_dev *dev, struct bio *bio)
+-{
+-	struct nvme_queue *nvmeq = get_nvmeq(dev);
+-	if (bio_list_empty(&nvmeq->sq_cong))
+-		add_wait_queue(&nvmeq->sq_full, &nvmeq->sq_cong_wait);
+-	bio_list_add(&nvmeq->sq_cong, bio);
+-	put_nvmeq(nvmeq);
+-	wake_up_process(nvme_thread);
+-}
 -
--			unit_len = sgl[i].iov_len;
-+			struct sg_iovec sgl;
+ static void bio_completion(struct nvme_dev *dev, void *ctx,
+ 						struct nvme_completion *cqe)
+ {
+@@ -329,13 +319,10 @@ static void bio_completion(struct nvme_dev *dev, void *ctx,
+ 		dma_unmap_sg(&dev->pci_dev->dev, iod->sg, iod->nents,
+ 			bio_data_dir(bio) ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
+ 	nvme_free_iod(dev, iod);
+-	if (status) {
++	if (status)
+ 		bio_endio(bio, -EIO);
+-	} else if (bio->bi_vcnt > bio->bi_idx) {
+-		requeue_bio(dev, bio);
+-	} else {
++	else
+ 		bio_endio(bio, 0);
+-	}
+ }
+ 
+ /* length is in bytes.  gfp flags indicates whether we may sleep. */
+@@ -419,25 +406,130 @@ int nvme_setup_prps(struct nvme_dev *dev, struct nvme_common_command *cmd,
+ 	return total_len;
+ }
+ 
++struct nvme_bio_pair {
++	struct bio b1, b2, *parent;
++	struct bio_vec *bv1, *bv2;
++	int err;
++	atomic_t cnt;
++};
 +
-+			retcode = copy_from_user(&sgl, hdr->dxferp +
-+					i * sizeof(struct sg_iovec),
-+					sizeof(struct sg_iovec));
-+			if (retcode)
-+				return -EFAULT;
-+			unit_len = sgl.iov_len;
- 			unit_num_blocks = unit_len >> ns->lba_shift;
--			next_mapping_addr = sgl[i].iov_base;
-+			next_mapping_addr = sgl.iov_base;
++static void nvme_bio_pair_endio(struct bio *bio, int err)
++{
++	struct nvme_bio_pair *bp = bio->bi_private;
++
++	if (err)
++		bp->err = err;
++
++	if (atomic_dec_and_test(&bp->cnt)) {
++		bio_endio(bp->parent, bp->err);
++		if (bp->bv1)
++			kfree(bp->bv1);
++		if (bp->bv2)
++			kfree(bp->bv2);
++		kfree(bp);
++	}
++}
++
++static struct nvme_bio_pair *nvme_bio_split(struct bio *bio, int idx,
++							int len, int offset)
++{
++	struct nvme_bio_pair *bp;
++
++	BUG_ON(len > bio->bi_size);
++	BUG_ON(idx > bio->bi_vcnt);
++
++	bp = kmalloc(sizeof(*bp), GFP_ATOMIC);
++	if (!bp)
++		return NULL;
++	bp->err = 0;
++
++	bp->b1 = *bio;
++	bp->b2 = *bio;
++
++	bp->b1.bi_size = len;
++	bp->b2.bi_size -= len;
++	bp->b1.bi_vcnt = idx;
++	bp->b2.bi_idx = idx;
++	bp->b2.bi_sector += len >> 9;
++
++	if (offset) {
++		bp->bv1 = kmalloc(bio->bi_max_vecs * sizeof(struct bio_vec),
++								GFP_ATOMIC);
++		if (!bp->bv1)
++			goto split_fail_1;
++
++		bp->bv2 = kmalloc(bio->bi_max_vecs * sizeof(struct bio_vec),
++								GFP_ATOMIC);
++		if (!bp->bv2)
++			goto split_fail_2;
++
++		memcpy(bp->bv1, bio->bi_io_vec,
++			bio->bi_max_vecs * sizeof(struct bio_vec));
++		memcpy(bp->bv2, bio->bi_io_vec,
++			bio->bi_max_vecs * sizeof(struct bio_vec));
++
++		bp->b1.bi_io_vec = bp->bv1;
++		bp->b2.bi_io_vec = bp->bv2;
++		bp->b2.bi_io_vec[idx].bv_offset += offset;
++		bp->b2.bi_io_vec[idx].bv_len -= offset;
++		bp->b1.bi_io_vec[idx].bv_len = offset;
++		bp->b1.bi_vcnt++;
++	} else
++		bp->bv1 = bp->bv2 = NULL;
++
++	bp->b1.bi_private = bp;
++	bp->b2.bi_private = bp;
++
++	bp->b1.bi_end_io = nvme_bio_pair_endio;
++	bp->b2.bi_end_io = nvme_bio_pair_endio;
++
++	bp->parent = bio;
++	atomic_set(&bp->cnt, 2);
++
++	return bp;
++
++ split_fail_2:
++	kfree(bp->bv1);
++ split_fail_1:
++	kfree(bp);
++	return NULL;
++}
++
++static int nvme_split_and_submit(struct bio *bio, struct nvme_queue *nvmeq,
++						int idx, int len, int offset)
++{
++	struct nvme_bio_pair *bp = nvme_bio_split(bio, idx, len, offset);
++	if (!bp)
++		return -ENOMEM;
++
++	if (bio_list_empty(&nvmeq->sq_cong))
++		add_wait_queue(&nvmeq->sq_full, &nvmeq->sq_cong_wait);
++	bio_list_add(&nvmeq->sq_cong, &bp->b1);
++	bio_list_add(&nvmeq->sq_cong, &bp->b2);
++
++	return 0;
++}
++
+ /* NVMe scatterlists require no holes in the virtual address */
+ #define BIOVEC_NOT_VIRT_MERGEABLE(vec1, vec2)	((vec2)->bv_offset || \
+ 			(((vec1)->bv_offset + (vec1)->bv_len) % PAGE_SIZE))
+ 
+-static int nvme_map_bio(struct device *dev, struct nvme_iod *iod,
++static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+ 		struct bio *bio, enum dma_data_direction dma_dir, int psegs)
+ {
+ 	struct bio_vec *bvec, *bvprv = NULL;
+ 	struct scatterlist *sg = NULL;
+-	int i, old_idx, length = 0, nsegs = 0;
++	int i, length = 0, nsegs = 0;
+ 
+ 	sg_init_table(iod->sg, psegs);
+-	old_idx = bio->bi_idx;
+ 	bio_for_each_segment(bvec, bio, i) {
+ 		if (bvprv && BIOVEC_PHYS_MERGEABLE(bvprv, bvec)) {
+ 			sg->length += bvec->bv_len;
  		} else {
- 			unit_num_blocks = min((u64)max_blocks,
- 					(cdb_info->xfer_len - nvme_offset));
-@@ -2138,8 +2154,9 @@ static int nvme_trans_io(struct nvme_ns *ns, struct sg_io_hdr *hdr, u8 is_write,
- 	u8 opcode = cmd[0];
- 	u64 xfer_bytes;
- 	u64 sum_iov_len = 0;
--	struct sg_iovec *sgl;
-+	struct sg_iovec sgl;
- 	int i;
-+	size_t not_copied;
+ 			if (bvprv && BIOVEC_NOT_VIRT_MERGEABLE(bvprv, bvec))
+-				break;
++				return nvme_split_and_submit(bio, nvmeq, i,
++								length, 0);
++
+ 			sg = sg ? sg + 1 : iod->sg;
+ 			sg_set_page(sg, bvec->bv_page, bvec->bv_len,
+ 							bvec->bv_offset);
+@@ -446,13 +538,11 @@ static int nvme_map_bio(struct device *dev, struct nvme_iod *iod,
+ 		length += bvec->bv_len;
+ 		bvprv = bvec;
+ 	}
+-	bio->bi_idx = i;
+ 	iod->nents = nsegs;
+ 	sg_mark_end(sg);
+-	if (dma_map_sg(dev, iod->sg, iod->nents, dma_dir) == 0) {
+-		bio->bi_idx = old_idx;
++	if (dma_map_sg(nvmeq->q_dmadev, iod->sg, iod->nents, dma_dir) == 0)
+ 		return -ENOMEM;
+-	}
++
+ 	return length;
+ }
  
- 	/* Extract Fields from CDB */
- 	switch (opcode) {
-@@ -2167,11 +2184,15 @@ static int nvme_trans_io(struct nvme_ns *ns, struct sg_io_hdr *hdr, u8 is_write,
+@@ -581,8 +671,8 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 		dma_dir = DMA_FROM_DEVICE;
+ 	}
  
- 	/* Calculate total length of transfer (in bytes) */
- 	if (hdr->iovec_count > 0) {
--		sgl = hdr->dxferp;
- 		for (i = 0; i < hdr->iovec_count; i++) {
--			sum_iov_len += sgl[i].iov_len;
-+			not_copied = copy_from_user(&sgl, hdr->dxferp +
-+						i * sizeof(struct sg_iovec),
-+						sizeof(struct sg_iovec));
-+			if (not_copied)
-+				return -EFAULT;
-+			sum_iov_len += sgl.iov_len;
- 			/* IO vector sizes should be multiples of block size */
--			if (sgl[i].iov_len % (1 << ns->lba_shift) != 0) {
-+			if (sgl.iov_len % (1 << ns->lba_shift) != 0) {
- 				res = nvme_trans_completion(hdr,
- 						SAM_STAT_CHECK_CONDITION,
- 						ILLEGAL_REQUEST,
-@@ -2494,7 +2515,7 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	struct nvme_id_ctrl *id_ctrl;
- 	u32 ll_length, lun_id;
- 	u8 lun_id_offset = REPORT_LUNS_FIRST_LUN_OFFSET;
--	u32 tmp_len;
-+	__be32 tmp_len;
+-	result = nvme_map_bio(nvmeq->q_dmadev, iod, bio, dma_dir, psegs);
+-	if (result < 0)
++	result = nvme_map_bio(nvmeq, iod, bio, dma_dir, psegs);
++	if (result <= 0)
+ 		goto free_cmdid;
+ 	length = result;
  
- 	alloc_len = GET_REPORT_LUNS_ALLOC_LENGTH(cmd);
- 	select_report = GET_U8_FROM_CDB(cmd, REPORT_LUNS_SR_OFFSET);
-@@ -2524,7 +2545,7 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 			goto out_dma;
+@@ -595,8 +685,6 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 	cmnd->rw.control = cpu_to_le16(control);
+ 	cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
+ 
+-	bio->bi_sector += length >> 9;
+-
+ 	if (++nvmeq->sq_tail == nvmeq->q_depth)
+ 		nvmeq->sq_tail = 0;
+ 	writel(nvmeq->sq_tail, nvmeq->q_db);
+@@ -1276,13 +1364,17 @@ static void nvme_resubmit_bios(struct nvme_queue *nvmeq)
+ 	while (bio_list_peek(&nvmeq->sq_cong)) {
+ 		struct bio *bio = bio_list_pop(&nvmeq->sq_cong);
+ 		struct nvme_ns *ns = bio->bi_bdev->bd_disk->private_data;
++
++		if (bio_list_empty(&nvmeq->sq_cong))
++			remove_wait_queue(&nvmeq->sq_full,
++							&nvmeq->sq_cong_wait);
+ 		if (nvme_submit_bio_queue(nvmeq, ns, bio)) {
++			if (bio_list_empty(&nvmeq->sq_cong))
++				add_wait_queue(&nvmeq->sq_full,
++							&nvmeq->sq_cong_wait);
+ 			bio_list_add_head(&nvmeq->sq_cong, bio);
+ 			break;
  		}
- 		id_ctrl = mem;
--		ll_length = id_ctrl->nn * LUN_ENTRY_SIZE;
-+		ll_length = le32_to_cpu(id_ctrl->nn) * LUN_ENTRY_SIZE;
- 		resp_size = ll_length + LUN_DATA_HEADER_SIZE;
+-		if (bio_list_empty(&nvmeq->sq_cong))
+-			remove_wait_queue(&nvmeq->sq_full,
+-							&nvmeq->sq_cong_wait);
+ 	}
+ }
  
- 		if (alloc_len < resp_size) {
-@@ -2543,12 +2564,12 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		memset(response, 0, resp_size);
- 
- 		/* The first LUN ID will always be 0 per the SAM spec */
--		for (lun_id = 0; lun_id < id_ctrl->nn; lun_id++) {
-+		for (lun_id = 0; lun_id < le32_to_cpu(id_ctrl->nn); lun_id++) {
- 			/*
- 			 * Set the LUN Id and then increment to the next LUN
- 			 * location in the parameter data.
- 			 */
--			u64 tmp_id = cpu_to_be64(lun_id);
-+			__be64 tmp_id = cpu_to_be64(lun_id);
- 			memcpy(&response[lun_id_offset], &tmp_id, sizeof(u64));
- 			lun_id_offset += LUN_ENTRY_SIZE;
- 		}
 -- 
-1.7.1
+1.7.0.4
