@@ -1,142 +1,118 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 23 Apr 2013 17:23:59 -0600
-Subject: [PATCH] NVMe: Meta-data support in NVME_IOCTL_SUBMIT_IO
-Message-ID: <1366759439-16265-1-git-send-email-keith.busch@intel.com>
+Date: Wed, 24 Apr 2013 15:44:24 -0600
+Subject: [PATCH] NVMe: Add scsi unmap to SG_IO
+Message-ID: <1366839864-32315-1-git-send-email-keith.busch@intel.com>
 
-This adds support for namespaces with separate meta-data formats in the
-submit io ioctl. The meta-data buffer has to be a contiguous, so such
-a buffer is allocated and the mapped user pages are copied to/from this
-buffer for write/read commands.
+Translates a scsi unmap request from SG_IO ioctl to NVMe
+data-set-management deallocate.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
-
-I have a device that supports meta-data, and this should make it easier
-to test.
 ---
- drivers/block/nvme-core.c |   71 ++++++++++++++++++++++++++++++++++++++++++--
- include/linux/nvme.h      |    1 +
- 2 files changed, 68 insertions(+), 4 deletions(-)
+ drivers/block/nvme-scsi.c |   78 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 files changed, 78 insertions(+), 0 deletions(-)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 40908a0..ccd024b 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1138,13 +1138,19 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	struct nvme_queue *nvmeq;
- 	struct nvme_user_io io;
- 	struct nvme_command c;
--	unsigned length;
--	int status;
--	struct nvme_iod *iod;
-+	unsigned length, meta_len;
-+	int status, i;
-+	struct nvme_iod *iod, *meta_iod = NULL;
-+	dma_addr_t meta_dma_addr;
-+	void *meta, *uninitialized_var(meta_mem);
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index bbfb288..5b97d43 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -100,6 +100,7 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
+ #define FORMAT_UNIT_PROT_INT_OFFSET			3
+ #define FORMAT_UNIT_PROT_FIELD_USAGE_OFFSET		0
+ #define FORMAT_UNIT_PROT_FIELD_USAGE_MASK		0x07
++#define UNMAP_CDB_PARAM_LIST_LENGTH_OFFSET		7
  
- 	if (copy_from_user(&io, uio, sizeof(io)))
- 		return -EFAULT;
- 	length = (io.nblocks + 1) << ns->lba_shift;
-+	meta_len = (io.nblocks + 1) * ns->ms;
-+
-+	if (meta_len && ((io.metadata & 3) || !io.metadata))  
-+		return -EINVAL;
- 
- 	switch (io.opcode) {
- 	case nvme_cmd_write:
-@@ -1170,7 +1176,38 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	c.rw.reftag = cpu_to_le32(io.reftag);
- 	c.rw.apptag = cpu_to_le16(io.apptag);
- 	c.rw.appmask = cpu_to_le16(io.appmask);
--	/* XXX: metadata */
-+
-+	if (meta_len) {
-+		meta_iod = nvme_map_user_pages(dev, io.opcode & 1, io.metadata, meta_len);
-+		if (IS_ERR(meta_iod)) {
-+			status = PTR_ERR(meta_iod);
-+			meta_iod = NULL;
-+			goto unmap;
-+		}
-+
-+		meta_mem = dma_alloc_coherent(&dev->pci_dev->dev, meta_len,
-+						&meta_dma_addr, GFP_KERNEL);
-+		if (!meta_mem) {
-+			status = -ENOMEM;
-+			goto unmap;
-+		}
-+
-+		if (io.opcode & 1) {
-+			int meta_offset = 0;
-+
-+			for (i = 0; i < meta_iod->nents; i++) {
-+				meta = kmap_atomic(sg_page(&meta_iod->sg[i])) +
-+						meta_iod->sg[i].offset;
-+				memcpy(meta_mem + meta_offset, meta,
-+						meta_iod->sg[i].length);
-+				kunmap_atomic(meta);
-+				meta_offset += meta_iod->sg[i].length;
-+			}
-+		}
-+
-+		c.rw.metadata = cpu_to_le64(meta_dma_addr);
-+	}
-+
- 	length = nvme_setup_prps(dev, &c.common, iod, length, GFP_KERNEL);
- 
- 	nvmeq = get_nvmeq(dev);
-@@ -1186,8 +1223,33 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	else
- 		status = nvme_submit_sync_cmd(nvmeq, &c, NULL, NVME_IO_TIMEOUT);
- 
-+	if (meta_len) {
-+		if (status == NVME_SC_SUCCESS && !(io.opcode & 1)) {
-+			int meta_offset = 0;
-+
-+			for (i = 0; i < meta_iod->nents; i++) {
-+				meta = kmap_atomic(sg_page(&meta_iod->sg[i])) +
-+						meta_iod->sg[i].offset;
-+				memcpy(meta, meta_mem + meta_offset,
-+						meta_iod->sg[i].length);
-+				kunmap_atomic(meta);
-+				meta_offset += meta_iod->sg[i].length;
-+			}
-+		}
-+
-+		dma_free_coherent(&dev->pci_dev->dev, meta_len, meta_mem,
-+								meta_dma_addr);
-+	}
-+
-+ unmap:
- 	nvme_unmap_user_pages(dev, io.opcode & 1, iod);
- 	nvme_free_iod(dev, iod);
-+
-+	if (meta_iod) {
-+		nvme_unmap_user_pages(dev, io.opcode & 1, meta_iod);
-+		nvme_free_iod(dev, meta_iod);
-+	}
-+
- 	return status;
+ /* Misc. defines */
+ #define NIBBLE_SHIFT					4
+@@ -2847,6 +2848,80 @@ static int nvme_trans_write_buffer(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	return res;
  }
  
-@@ -1381,6 +1443,7 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, int nsid,
- 	ns->disk = disk;
- 	lbaf = id->flbas & 0xf;
- 	ns->lba_shift = id->lbaf[lbaf].ds;
-+	ns->ms = id->lbaf[lbaf].ms;
- 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
- 	if (dev->max_hw_sectors)
- 		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 9b6fba8..a348510 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -551,6 +551,7 @@ struct nvme_ns {
- 
- 	int ns_id;
- 	int lba_shift;
-+	int ms;
- 	u64 mode_select_num_blocks;
- 	u32 mode_select_block_len;
- };
++struct scsi_unmap_blk_desc {
++	__be64	slba;
++	__be32	nlb;
++	u32	resv;
++};
++
++struct scsi_unmap_parm_list {
++	__be16	unmap_data_len;
++	__be16	unmap_blk_desc_data_len;
++	u32	resv;
++	struct scsi_unmap_blk_desc desc[0];
++};
++
++static int nvme_trans_unmap(struct nvme_ns *ns, struct sg_io_hdr *hdr,
++							u8 *cmd)
++{
++	struct nvme_dev *dev = ns->dev;
++	struct scsi_unmap_parm_list *plist;
++	struct nvme_dsm_range *range;
++	struct nvme_queue *nvmeq;
++	struct nvme_command c;
++	int i, nvme_sc, res = -ENOMEM;
++	u16 ndesc, list_len;
++	dma_addr_t dma_addr;
++
++	list_len = GET_U16_FROM_CDB(cmd, UNMAP_CDB_PARAM_LIST_LENGTH_OFFSET);
++	if (!list_len)
++		return -EINVAL;
++
++	plist = kmalloc(list_len, GFP_KERNEL);
++	if (!plist)
++		return -ENOMEM;
++
++	res = nvme_trans_copy_from_user(hdr, plist, list_len);
++	if (res != SNTI_TRANSLATION_SUCCESS)
++		goto out;
++
++	ndesc = be16_to_cpu(plist->unmap_blk_desc_data_len) >> 4;
++	if (!ndesc || ndesc > 256) {
++		res = -EINVAL;
++		goto out;
++	}
++
++	range = dma_alloc_coherent(&dev->pci_dev->dev, ndesc * sizeof(*range),
++							&dma_addr, GFP_KERNEL);
++	if (!range)
++		goto out;
++
++	for (i = 0; i < ndesc; i++) {
++		range[i].nlb = cpu_to_le32(be32_to_cpu(plist->desc[i].nlb));
++		range[i].slba = cpu_to_le64(be64_to_cpu(plist->desc[i].slba));
++		range[i].cattr = 0;
++	}
++
++	memset(&c, 0, sizeof(c));
++	c.dsm.opcode = nvme_cmd_dsm;
++	c.dsm.nsid = cpu_to_le32(ns->ns_id);
++	c.dsm.prp1 = cpu_to_le64(dma_addr);
++	c.dsm.nr = cpu_to_le32(ndesc - 1);
++	c.dsm.attributes = cpu_to_le32(NVME_DSMGMT_AD);
++
++	nvmeq = get_nvmeq(dev);
++	put_nvmeq(nvmeq);
++
++	nvme_sc = nvme_submit_sync_cmd(nvmeq, &c, NULL, NVME_IO_TIMEOUT);
++	res = nvme_trans_status_code(hdr, nvme_sc);
++
++	dma_free_coherent(&dev->pci_dev->dev, ndesc * sizeof(*range),
++							range, dma_addr);
++ out:
++	kfree(plist);
++	return res;
++}
++
+ static int nvme_scsi_translate(struct nvme_ns *ns, struct sg_io_hdr *hdr)
+ {
+ 	u8 cmd[BLK_MAX_CDB];
+@@ -2921,6 +2996,9 @@ static int nvme_scsi_translate(struct nvme_ns *ns, struct sg_io_hdr *hdr)
+ 	case WRITE_BUFFER:
+ 		retcode = nvme_trans_write_buffer(ns, hdr, cmd);
+ 		break;
++	case UNMAP:
++		retcode = nvme_trans_unmap(ns, hdr, cmd);
++		break;
+ 	default:
+  out:
+ 		retcode = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
 -- 
 1.7.0.4
