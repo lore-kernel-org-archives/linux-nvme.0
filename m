@@ -1,43 +1,44 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 22 Mar 2013 22:16:59 -0600 (MDT)
-Subject: [PATCH] NVMe: Do not save result for range type feature
-In-Reply-To: <20130403123809.GO4671@linux.intel.com>
-References: <1364934695-24351-1-git-send-email-keith.busch@intel.com>
- <20130403123809.GO4671@linux.intel.com>
-Message-ID: <alpine.LRH.2.03.1303222215500.17928@localhost.localdom>
+Date: Wed,  1 May 2013 13:07:50 -0600
+Subject: [PATCH] NVMe: Free allocated memory in probe failure
+In-Reply-To: <1367435271-15784-1-git-send-email-keith.busch@intel.com>
+References: <1367435271-15784-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1367435271-15784-4-git-send-email-keith.busch@intel.com>
 
-On Wed, 3 Apr 2013, Matthew Wilcox wrote:
+When initializing in probe fails, free only the allocated memory.
 
-> On Tue, Apr 02, 2013@02:31:35PM -0600, Keith Busch wrote:
->> The LBA range type feature being optional, we do not want to save
->> the result or propagate it up the call stack when a device does not
->> support it.
->
-> Looking at the whole function, the description of what it returns
-> is rather odd.  "If nvme_setup_io_queues fails, returns that error.
-> If nvme_identify for the controller fails, returns -EIO.  Otherwise,
-> return an error if nvme_identify for the last namespace fails or if
-> nvme_get_features for the last namespace fails."
->
-> So we always discard errors for not-the-last namespace, but return an
-> error if identify or get_features for the last namespace gets an error.
-> Worse, on returning an error, the caller will free the queues and all the
-> controller structures, even though the namespaces have been registered as
-> devices!  I really didn't think through the error path here, did I?  :-)
->
-> So, I would propose that we _always_ discard any errors we hit going through
-> the namespace addition loop.  As long as we've been able to set up queues
-> and identify the controller, this function should return success.
->
-> And I think *that* patch is as simple as adding:
->
->                        list_add_tail(&ns->list, &dev->namespaces);
->        }
-> +	res = 0;
->        list_for_each_entry(ns, &dev->namespaces, list)
->                add_disk(ns->disk);
->
-> What do you think?
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/block/nvme-core.c |    6 ++++--
+ 1 files changed, 4 insertions(+), 2 deletions(-)
 
-Great idea! Better than waiting for each possible failure to occur and
-have a bunch of patches to fix essentially the same problem. :)
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 82a5f81..2801875 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1703,11 +1703,11 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	dev->entry = kcalloc(num_possible_cpus(), sizeof(*dev->entry),
+ 								GFP_KERNEL);
+ 	if (!dev->entry)
+-		goto free;
++		goto free_dev;
+ 	dev->queues = kcalloc(num_possible_cpus() + 1, sizeof(void *),
+ 								GFP_KERNEL);
+ 	if (!dev->queues)
+-		goto free;
++		goto free_entry;
+ 
+ 	if (pci_enable_device_mem(pdev))
+ 		goto free;
+@@ -1781,7 +1781,9 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	pci_release_regions(pdev);
+  free:
+ 	kfree(dev->queues);
++ free_entry:
+ 	kfree(dev->entry);
++ free_dev:
+ 	kfree(dev);
+ 	return result;
+ }
+-- 
+1.7.0.4
