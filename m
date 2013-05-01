@@ -1,44 +1,29 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  1 May 2013 13:07:51 -0600
-Subject: [PATCH] NVMe: Free admin queue on request_irq error
-In-Reply-To: <1367435271-15784-1-git-send-email-keith.busch@intel.com>
-References: <1367435271-15784-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1367435271-15784-5-git-send-email-keith.busch@intel.com>
+Date: Wed,  1 May 2013 13:07:47 -0600
+Subject: [PATCH] NVMe: Fix error clean-up on nvme_alloc_queue
+Message-ID: <1367435271-15784-1-git-send-email-keith.busch@intel.com>
 
-Fixes a potential memory leak if requesting the admin queue irq fails.
+The nvme_queue's depth is not set if we fail to allocate submission queue
+entries, which was being used to determine how much coherent memory to
+free on error. Use the depth variable instead.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   13 +++++++++----
- 1 files changed, 9 insertions(+), 4 deletions(-)
+ drivers/block/nvme-core.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 2801875..c13ca5b 100644
+index 40908a0..e78faf1 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1054,14 +1054,19 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 		}
- 	}
+@@ -956,7 +956,7 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+ 	return nvmeq;
  
--	if (result) {
--		nvme_free_queue_mem(nvmeq);
--		return result;
--	}
-+	if (result)
-+		goto free_q;
- 
- 	result = queue_request_irq(dev, nvmeq, "nvme admin");
-+	if (result)
-+		goto free_q;
-+
- 	dev->queues[0] = nvmeq;
- 	return result;
-+
-+ free_q:
-+	nvme_free_queue_mem(nvmeq);
-+	return result;
- }
- 
- struct nvme_iod *nvme_map_user_pages(struct nvme_dev *dev, int write,
+  free_cqdma:
+-	dma_free_coherent(dmadev, CQ_SIZE(nvmeq->q_depth), (void *)nvmeq->cqes,
++	dma_free_coherent(dmadev, CQ_SIZE(depth), (void *)nvmeq->cqes,
+ 							nvmeq->cq_dma_addr);
+  free_nvmeq:
+ 	kfree(nvmeq);
 -- 
 1.7.0.4
