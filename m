@@ -1,57 +1,94 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Wed, 1 May 2013 16:30:27 -0400
-Subject: [PATCH] NVMe: Remove dead code in nvme_dev_add
-In-Reply-To: <1367435271-15784-3-git-send-email-keith.busch@intel.com>
-References: <1367435271-15784-1-git-send-email-keith.busch@intel.com>
- <1367435271-15784-3-git-send-email-keith.busch@intel.com>
-Message-ID: <20130501203027.GC6057@linux.intel.com>
+From: rama@fastorsystems.com (Ramachandra Rao Gajula)
+Date: Wed, 1 May 2013 14:37:29 -0700
+Subject: Added MSI supoort (includes MSI Multiple) to Linux NVME Driver
+Message-ID: <CAKt=HwKsHENz+vnZrWxN19_7HpgnUeQ4+8YmZreVXRp63_kn3w@mail.gmail.com>
 
-On Wed, May 01, 2013@01:07:49PM -0600, Keith Busch wrote:
-> There is no situation that could occur where we could error out of this
-> function and require cleaning up allocated namespaces.
+---
+    Added MSI supoort (includes MSI Multiple) to Linux NVME Driver
+    Changes made to consider Keith's review comments
+---
+    Signed-off-by: Ramachandra Rao Gajula <rama at fastorsystems.com>
+---
+ drivers/block/nvme-core.c |   32 ++++++++++++++++++++++++++++----
+ 1 files changed, 28 insertions(+), 4 deletions(-)
+---
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index bcb81c8..0f6225b 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1431,7 +1431,7 @@ static int set_queue_count(struct nvme_dev *dev,
+int count)
 
-I'd rather the exit label were called 'out' than 'out_free' at the end
-of this patch.
+ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ {
+-       int result, cpu, i, nr_io_queues, db_bar_size, q_depth;
++       int result, cpu, i, nr_io_queues, db_bar_size, q_depth, q_cnt;
 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  drivers/block/nvme-core.c |    9 +--------
->  1 files changed, 1 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index e7d68e3..82a5f81 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -1511,7 +1511,7 @@ static void nvme_free_queues(struct nvme_dev *dev)
->  static int nvme_dev_add(struct nvme_dev *dev)
->  {
->  	int res, nn, i;
-> -	struct nvme_ns *ns, *next;
-> +	struct nvme_ns *ns;
->  	struct nvme_id_ctrl *ctrl;
->  	struct nvme_id_ns *id_ns;
->  	void *mem;
-> @@ -1564,15 +1564,8 @@ static int nvme_dev_add(struct nvme_dev *dev)
->  	list_for_each_entry(ns, &dev->namespaces, list)
->  		add_disk(ns->disk);
->  	res = 0;
-> -	goto out;
->  
->   out_free:
-> -	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
-> -		list_del(&ns->list);
-> -		nvme_ns_free(ns);
-> -	}
-> -
-> - out:
->  	dma_free_coherent(&dev->pci_dev->dev, 8192, mem, dma_addr);
->  	return res;
->  }
-> -- 
-> 1.7.0.4
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://merlin.infradead.org/mailman/listinfo/linux-nvme
+        nr_io_queues = num_online_cpus();
+        result = set_queue_count(dev, nr_io_queues);
+@@ -1440,6 +1440,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+        if (result < nr_io_queues)
+                nr_io_queues = result;
+
++       q_cnt = nr_io_queues;
+        /* Deregister the admin queue's interrupt */
+        free_irq(dev->entry[0].vector, dev->queues[0]);
+
+@@ -1463,10 +1464,27 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+                        nr_io_queues = result;
+                        continue;
+                } else {
+-                       nr_io_queues = 1;
++                       nr_io_queues = q_cnt;
+                        break;
+                }
+        }
++       /* if MSI-X failed, then try for MSI for nr_io_queues vectors */
++        if (!dev->pci_dev->msix_enabled) {
++                for (;;) {
++                        result = pci_enable_msi_block(dev->pci_dev,
+nr_io_queues);
++                        if (result == 0) {
++                                for (i = 0; i < nr_io_queues; i++)
++                                        dev->entry[i].vector = i +
+dev->pci_dev->irq;
++                                break;
++                        } else if (result > 0) {
++                                nr_io_queues = result;
++                                continue;
++                        } else {
++                                nr_io_queues = 1;
++                                break;
++                        }
++                }
++        }
+
+        result = queue_request_irq(dev, dev->queues[0], "nvme admin");
+        /* XXX: handle failure here */
+@@ -1651,7 +1669,10 @@ static void nvme_free_dev(struct kref *kref)
+ {
+        struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
+        nvme_dev_remove(dev);
+-       pci_disable_msix(dev->pci_dev);
++       if (dev->pci_dev->msi_enabled)
++               pci_disable_msi(dev->pci_dev);
++       else
++               pci_disable_msix(dev->pci_dev);
+        iounmap(dev->bar);
+        nvme_release_instance(dev);
+        nvme_release_prp_pools(dev);
+@@ -1778,7 +1799,10 @@ static int nvme_probe(struct pci_dev *pdev,
+const struct pci_device_id *id)
+  unmap:
+        iounmap(dev->bar);
+  disable_msix:
+-       pci_disable_msix(pdev);
++       if (dev->pci_dev->msi_enabled)
++               pci_disable_msi(pdev);
++       else
++               pci_disable_msix(pdev);
+        nvme_release_instance(dev);
+        nvme_release_prp_pools(dev);
+  disable:
+
+---
