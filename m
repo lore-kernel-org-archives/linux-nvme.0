@@ -1,90 +1,157 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon,  6 May 2013 17:03:34 -0600
-Subject: [PATCH 4/5] NVMe: Use normal shutdown
+Date: Mon,  6 May 2013 17:03:33 -0600
+Subject: [PATCH 3/5] NVMe: Separate controller init from disk discovery
 In-Reply-To: <1367881415-7978-1-git-send-email-keith.busch@intel.com>
 References: <1367881415-7978-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1367881415-7978-5-git-send-email-keith.busch@intel.com>
+Message-ID: <1367881415-7978-4-git-send-email-keith.busch@intel.com>
 
-The NVMe spec recommends using the shutdown normal sequence when safely
-taking the controller offline instead of hitting CC.EN on the next
-start-up to reset the controller. The spec recommends a minimum of 1
-second for the shutdown complete. This patch waits 2 seconds to be on
-the safe side.
+This combines the controller initialization into one function, removing
+IO queue setup from namespace discovery, and creates symetric functions
+for device removal. The controller start and shutdown functions can now
+be called from resume/suspend context as well as probe/remove.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   31 +++++++++++++++++++++++++++++++
- include/linux/nvme.h      |    2 ++
- 2 files changed, 33 insertions(+), 0 deletions(-)
+ drivers/block/nvme-core.c |   74 +++++++++++++++++++++++++++-----------------
+ 1 files changed, 45 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index e3af4a2..89c75c5 100644
+index 997025b..e3af4a2 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1178,6 +1178,36 @@ static int nvme_enable_ctrl(struct nvme_dev *dev, u64 cap)
- 	return nvme_wait_ready(dev, cap, true);
+@@ -1777,10 +1777,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	dma_addr_t dma_addr;
+ 	int shift = NVME_CAP_MPSMIN(readq(&dev->bar->cap)) + 12;
+ 
+-	res = nvme_setup_io_queues(dev);
+-	if (res)
+-		return res;
+-
+ 	mem = dma_alloc_coherent(&dev->pci_dev->dev, 8192, &dma_addr,
+ 								GFP_KERNEL);
+ 	if (!mem)
+@@ -1880,25 +1876,26 @@ static void nvme_disable_queues(struct nvme_dev *dev)
+ 		 nvme_disable_queue(dev, i);
  }
  
-+/*
-+ * Waits at most 2 seconds for controller to indicate shutdown complete after
-+ * writing normal shutdown notification. This should only be used in a safe
-+ * shutdown context.
-+ */
-+static int nvme_shutdown_ctrl(struct nvme_dev *dev)
-+{
-+	unsigned long timeout;
-+	u32 cc = readl(&dev->bar->cc);
-+
-+	cc &= ~NVME_CC_SHN_MASK;
-+	cc |= NVME_CC_SHN_NORMAL;
-+	writel(cc, &dev->bar->cc);
-+
-+	timeout = 2 * HZ + jiffies;
-+	while ((readl(&dev->bar->csts) & NVME_CSTS_SHST_MASK) !=
-+							NVME_CSTS_SHST_CMPLT) {
-+		msleep(100);
-+		if (fatal_signal_pending(current))
-+			return -EINTR;
-+		if (time_after(jiffies, timeout)) {
-+			dev_err(&dev->pci_dev->dev,
-+				"Device shutdown incomplete; abort shutdown\n");
-+			return -ENODEV;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- static int nvme_configure_admin_queue(struct nvme_dev *dev)
+-static int nvme_dev_remove(struct nvme_dev *dev)
++static void nvme_dev_shutdown(struct nvme_dev *dev)
  {
- 	int result;
-@@ -1884,6 +1914,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+-	struct nvme_ns *ns, *next;
+-
+ 	nvme_disable_queues(dev);
+ 
+ 	spin_lock(&dev_list_lock);
  	list_del(&dev->node);
  	spin_unlock(&dev_list_lock);
  
-+	nvme_shutdown_ctrl(dev);
- 	nvme_dev_unmap(dev);
++	nvme_dev_unmap(dev);
++}
++
++static void nvme_dev_remove(struct nvme_dev *dev)
++{
++	struct nvme_ns *ns, *next;
++
+ 	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
+ 		list_del(&ns->list);
+ 		del_gendisk(ns->disk);
+ 		nvme_ns_free(ns);
+ 	}
+-
+-	nvme_free_queues(dev);
+-
+-	return 0;
  }
  
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 971ef08..9c3ccb6 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -50,6 +50,7 @@ enum {
- 	NVME_CC_SHN_NONE	= 0 << 14,
- 	NVME_CC_SHN_NORMAL	= 1 << 14,
- 	NVME_CC_SHN_ABRUPT	= 2 << 14,
-+	NVME_CC_SHN_MASK	= 3 << 14,
- 	NVME_CC_IOSQES		= 6 << 16,
- 	NVME_CC_IOCQES		= 4 << 20,
- 	NVME_CSTS_RDY		= 1 << 0,
-@@ -57,6 +58,7 @@ enum {
- 	NVME_CSTS_SHST_NORMAL	= 0 << 2,
- 	NVME_CSTS_SHST_OCCUR	= 1 << 2,
- 	NVME_CSTS_SHST_CMPLT	= 2 << 2,
-+	NVME_CSTS_SHST_MASK	= 3 << 2,
+ static int nvme_setup_prp_pools(struct nvme_dev *dev)
+@@ -1958,7 +1955,8 @@ static void nvme_free_dev(struct kref *kref)
+ {
+ 	struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
+ 	nvme_dev_remove(dev);
+-	nvme_dev_unmap(dev);
++	nvme_dev_shutdown(dev);
++	nvme_free_queues(dev);
+ 	nvme_release_instance(dev);
+ 	nvme_release_prp_pools(dev);
+ 	kfree(dev->queues);
+@@ -2001,6 +1999,37 @@ static const struct file_operations nvme_dev_fops = {
+ 	.compat_ioctl	= nvme_dev_ioctl,
  };
  
- struct nvme_id_power_state {
++static int nvme_dev_start(struct nvme_dev *dev)
++{
++	int result;
++
++	result = nvme_dev_map(dev);
++	if (result)
++		return result;
++
++	result = nvme_configure_admin_queue(dev);
++	if (result)
++		goto unmap;
++
++	spin_lock(&dev_list_lock);
++	list_add(&dev->node, &dev_list);
++	spin_unlock(&dev_list_lock);
++
++	result = nvme_setup_io_queues(dev);
++	if (result)
++		goto disable;
++
++	return 0;
++
++ disable:
++	spin_lock(&dev_list_lock);
++	list_del(&dev->node);
++	spin_unlock(&dev_list_lock);
++ unmap:
++	nvme_dev_unmap(dev);
++	return result;
++}
++
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+ 	int result = -ENOMEM;
+@@ -2028,21 +2057,13 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (result)
+ 		goto release;
+ 
+-	result = nvme_dev_map(dev);
++	result = nvme_dev_start(dev);
+ 	if (result)
+ 		goto release_pools;
+ 
+-	result = nvme_configure_admin_queue(dev);
+-	if (result)
+-		goto unmap;
+-
+-	spin_lock(&dev_list_lock);
+-	list_add(&dev->node, &dev_list);
+-	spin_unlock(&dev_list_lock);
+-
+ 	result = nvme_dev_add(dev);
+ 	if (result)
+-		goto delete;
++		goto shutdown;
+ 
+ 	scnprintf(dev->name, sizeof(dev->name), "nvme%d", dev->instance);
+ 	dev->miscdev.minor = MISC_DYNAMIC_MINOR;
+@@ -2058,14 +2079,9 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+  remove:
+ 	nvme_dev_remove(dev);
+- delete:
+-	spin_lock(&dev_list_lock);
+-	list_del(&dev->node);
+-	spin_unlock(&dev_list_lock);
+-
++ shutdown:
++	nvme_dev_shutdown(dev);
+ 	nvme_free_queues(dev);
+- unmap:
+-	nvme_dev_unmap(dev);
+  release_pools:
+ 	nvme_release_prp_pools(dev);
+  release:
 -- 
 1.7.0.4
