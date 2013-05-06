@@ -1,112 +1,48 @@
 From: matthew.r.wilcox@intel.com (Matthew Wilcox)
-Date: Sat,  4 May 2013 06:43:16 -0400
-Subject: [PATCH 1/2] NVMe: Wait for device to acknowledge shutdown
-Message-ID: <1367664197-745-1-git-send-email-matthew.r.wilcox@intel.com>
+Date: Mon,  6 May 2013 08:22:18 -0400
+Subject: [PATCH] NVMe: Simplify Firmware Activate code slightly
+Message-ID: <1367842938-17731-1-git-send-email-matthew.r.wilcox@intel.com>
 
-A recent update to the specification makes it clear that the host
-is expected to wait for the device to acknowledge the Enable bit
-transitioning to 0 as well as waiting for the device to acknowledge a
-transition to 1.
+Add definitions for the three Firmware Activate actions, and change the
+SCSI translation code to construct the command into a temporary variable
+instead of translating the endianness back-and-forth.
 
-Reported-by: Khosrow Panah <Khosrow.Panah at idt.com>
 Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
 ---
- drivers/block/nvme-core.c |   65 ++++++++++++++++++++++++++++++++-------------
- 1 file changed, 46 insertions(+), 19 deletions(-)
+ drivers/block/nvme-scsi.c |    6 ++----
+ include/linux/nvme.h      |    3 +++
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index a232dfc..2b1b5a7 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1108,15 +1108,57 @@ static struct nvme_queue *nvme_create_queue(struct nvme_dev *dev, int qid,
- 	return ERR_PTR(result);
- }
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index 1c0710c..fed54b0 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -1577,10 +1577,8 @@ static int nvme_trans_send_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 		c.dlfw.numd = cpu_to_le32((tot_len/BYTES_TO_DWORDS) - 1);
+ 		c.dlfw.offset = cpu_to_le32(offset/BYTES_TO_DWORDS);
+ 	} else if (opcode == nvme_admin_activate_fw) {
+-		c.common.cdw10[0] = cpu_to_le32(buffer_id);
+-		/* AA=01b Replace & activate at reset */
+-		c.common.cdw10[0] = cpu_to_le32(le32_to_cpu(
+-						c.common.cdw10[0]) | 0x00000008);
++		u32 cdw10 = buffer_id | NVME_FWACT_REPL_ACTV;
++		c.common.cdw10[0] = cpu_to_le32(cdw10);
+ 	}
  
-+static int nvme_wait_ready(struct nvme_dev *dev, u64 cap, bool enabled)
-+{
-+	unsigned long timeout;
-+	u32 bit = enabled ? NVME_CSTS_RDY : 0;
-+
-+	timeout = ((NVME_CAP_TIMEOUT(cap) + 1) * HZ / 2) + jiffies;
-+
-+	while ((readl(&dev->bar->csts) & NVME_CSTS_RDY) != bit) {
-+		msleep(100);
-+		if (fatal_signal_pending(current))
-+			return -EINTR;
-+		if (time_after(jiffies, timeout)) {
-+			dev_err(&dev->pci_dev->dev,
-+				"Device not ready; aborting initialisation\n");
-+			return -ENODEV;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * If the device has been passed off to us in an enabled state, just clear
-+ * the enabled bit.  The spec says we should set the 'shutdown notification
-+ * bits', but doing so may cause the device to complete commands to the
-+ * admin queue ... and we don't know what memory that might be pointing at!
-+ */
-+static int nvme_disable_ctrl(struct nvme_dev *dev, u64 cap)
-+{
-+	writel(0, &dev->bar->cc);
-+	return nvme_wait_ready(dev, cap, false);
-+}
-+
-+static int nvme_enable_ctrl(struct nvme_dev *dev, u64 cap)
-+{
-+	return nvme_wait_ready(dev, cap, true);
-+}
-+
- static int nvme_configure_admin_queue(struct nvme_dev *dev)
- {
--	int result = 0;
-+	int result;
- 	u32 aqa;
--	u64 cap;
--	unsigned long timeout;
-+	u64 cap = readq(&dev->bar->cap);
- 	struct nvme_queue *nvmeq;
+ 	nvme_sc = nvme_submit_admin_cmd(dev, &c, NULL);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 971ef08..f451c8d 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -316,6 +316,9 @@ enum {
+ 	NVME_FEAT_WRITE_ATOMIC	= 0x0a,
+ 	NVME_FEAT_ASYNC_EVENT	= 0x0b,
+ 	NVME_FEAT_SW_PROGRESS	= 0x0c,
++	NVME_FWACT_REPL		= (0 << 3),
++	NVME_FWACT_REPL_ACTV	= (1 << 3),
++	NVME_FWACT_ACTV		= (2 << 3),
+ };
  
- 	dev->dbs = ((void __iomem *)dev->bar) + 4096;
-+	dev->db_stride = NVME_CAP_STRIDE(cap);
-+
-+	result = nvme_disable_ctrl(dev, cap);
-+	if (result < 0)
-+		return result;
- 
- 	nvmeq = nvme_alloc_queue(dev, 0, 64, 0);
- 	if (!nvmeq)
-@@ -1130,27 +1172,12 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
- 	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
- 
--	writel(0, &dev->bar->cc);
- 	writel(aqa, &dev->bar->aqa);
- 	writeq(nvmeq->sq_dma_addr, &dev->bar->asq);
- 	writeq(nvmeq->cq_dma_addr, &dev->bar->acq);
- 	writel(dev->ctrl_config, &dev->bar->cc);
- 
--	cap = readq(&dev->bar->cap);
--	timeout = ((NVME_CAP_TIMEOUT(cap) + 1) * HZ / 2) + jiffies;
--	dev->db_stride = NVME_CAP_STRIDE(cap);
--
--	while (!result && !(readl(&dev->bar->csts) & NVME_CSTS_RDY)) {
--		msleep(100);
--		if (fatal_signal_pending(current))
--			result = -EINTR;
--		if (time_after(jiffies, timeout)) {
--			dev_err(&dev->pci_dev->dev,
--				"Device not ready; aborting initialisation\n");
--			result = -ENODEV;
--		}
--	}
--
-+	result = nvme_enable_ctrl(dev, cap);
- 	if (result)
- 		goto free_q;
- 
+ struct nvme_identify {
 -- 
 1.7.10.4
