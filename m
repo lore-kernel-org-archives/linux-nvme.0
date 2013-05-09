@@ -1,39 +1,69 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu,  9 May 2013 14:01:38 -0600
-Subject: [PATCH v2] NVMe: Use user defined admin ioctl timeout
-Message-ID: <1368129698-29228-1-git-send-email-keith.busch@intel.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Thu, 9 May 2013 16:20:15 -0400
+Subject: [PULL REQUEST] NVMe driver updates
+Message-ID: <20130509202015.GJ6057@linux.intel.com>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index a232dfc..f960c53 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1362,6 +1362,7 @@ static int nvme_user_admin_cmd(struct nvme_dev *dev,
- 	struct nvme_command c;
- 	int status, length;
- 	struct nvme_iod *uninitialized_var(iod);
-+	unsigned timeout;
- 
- 	if (!capable(CAP_SYS_ADMIN))
- 		return -EACCES;
-@@ -1391,10 +1392,13 @@ static int nvme_user_admin_cmd(struct nvme_dev *dev,
- 								GFP_KERNEL);
- 	}
- 
-+	timeout = cmd.timeout_ms ? msecs_to_jiffies(cmd.timeout_ms) :
-+								ADMIN_TIMEOUT;
- 	if (length != cmd.data_len)
- 		status = -ENOMEM;
- 	else
--		status = nvme_submit_admin_cmd(dev, &c, &cmd.result);
-+		status = nvme_submit_sync_cmd(dev->queues[0], &c, &cmd.result,
-+								timeout);
- 
- 	if (cmd.data_len) {
- 		nvme_unmap_user_pages(dev, cmd.opcode & 1, iod);
--- 
-1.7.0.4
+Hi Linus,
+
+Lots of exciting new features in the NVM Express driver this time,
+including support for emulating SCSI commands, discard support and the
+ability to submit per-sector metadata with I/Os.  It's still mostly
+bugfixes though!
+
+The following changes since commit a12183c62717ac4579319189a00f5883a18dff08:
+
+  Merge branch 'timers-urgent-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip (2013-03-25 18:03:34 -0700)
+
+are available in the git repository at:
+
+
+  git://git.infradead.org/users/willy/linux-nvme.git master
+
+for you to fetch changes up to 94f370cab6e5ac514b658c6b2b3aa308cefc5c7a:
+
+  NVMe: Use user defined admin ioctl timeout (2013-05-09 16:03:50 -0400)
+
+----------------------------------------------------------------
+Arjan van de Ven (2):
+      NVMe: Use round_jiffies_relative() for the periodic, once-per-second timer
+      NVMe: Set TASK_INTERRUPTIBLE before processing queues
+
+Keith Busch (13):
+      NVMe: Add discard support for capable devices
+      NVMe: Add a character device for each nvme device
+      NVMe: queue usage fixes in nvme-scsi
+      NVMe: Add scsi unmap to SG_IO
+      NVMe: Free admin queue on request_irq error
+      NVMe: Fix error clean-up on nvme_alloc_queue
+      NVMe: Check for NULL memory in nvme_dev_add
+      NVMe: Remove dead code in nvme_dev_add
+      NVMe: Split non-mergeable bio requests
+      NVMe: Device specific stripe size handling
+      NVMe: Meta-data support in NVME_IOCTL_SUBMIT_IO
+      NVMe: Schedule timeout for sync commands
+      NVMe: Use user defined admin ioctl timeout
+
+Matthew Wilcox (7):
+      NVMe: Abstract out sector to block number conversion
+      NVMe: Don't fail initialisation unnecessarily
+      NVMe: Fix I/O cancellation status on big-endian machines
+      NVMe: Fix endian-related problems in user I/O submission path
+      NVMe: Wait for device to acknowledge shutdown
+      NVMe: Only clear the enable bit when disabling controller
+      NVMe: Simplify Firmware Activate code slightly
+
+Vishal Verma (5):
+      NVMe: Rename nvme.c to nvme-core.c
+      NVMe: Move structures & definitions to header file
+      NVMe: Add definitions for format command
+      NVMe: Add nvme-scsi.c
+      NVMe: Fix sparse warnings in scsi emulation
+
+ drivers/block/Makefile                |    1 +
+ drivers/block/{nvme.c => nvme-core.c} |  594 +++++--
+ drivers/block/nvme-scsi.c             | 3053 +++++++++++++++++++++++++++++++++
+ include/linux/nvme.h                  |  158 +-
+ 4 files changed, 3640 insertions(+), 166 deletions(-)
+ rename drivers/block/{nvme.c => nvme-core.c} (79%)
+ create mode 100644 drivers/block/nvme-scsi.c
