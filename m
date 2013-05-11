@@ -1,69 +1,98 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Thu, 9 May 2013 16:20:15 -0400
-Subject: [PULL REQUEST] NVMe driver updates
-Message-ID: <20130509202015.GJ6057@linux.intel.com>
+From: rama@fastorsystems.com (Ramachandra Rao Gajula)
+Date: Sat, 11 May 2013 15:19:31 -0700
+Subject: [PATCH] NVMe: Add MSI support for capable devices
+Message-ID: <CAKt=Hw+Jr-Pbp=UWxbay-7yXpcG2nKZ6Rm1OMP-HxVx6Oa3iwg@mail.gmail.com>
 
+>From 3dbb01dab9b3e5aabb05636b7ed86d
+81ff54d641 Mon Sep 17 00:00:00 2001
+From: Ramachandra Gajula <rama@fastorsystems.com>
+Date: Sat, 11 May 2013 14:00:13 -0700
+Subject: [PATCH] NVMe: Add MSI support for capable devices
 
-Hi Linus,
+Add MSI support for capable devices that use one or more interrupt vectors.
 
-Lots of exciting new features in the NVM Express driver this time,
-including support for emulating SCSI commands, discard support and the
-ability to submit per-sector metadata with I/Os.  It's still mostly
-bugfixes though!
+Signed-off-by: Ramachandra Gajula <rama at fastorsystems.com>
+---
+ drivers/block/nvme-core.c |   32 ++++++++++++++++++++++++++++----
+ 1 files changed, 28 insertions(+), 4 deletions(-)
 
-The following changes since commit a12183c62717ac4579319189a00f5883a18dff08:
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index bcb81c8..0f6225b 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1431,7 +1431,7 @@ static int set_queue_count(struct nvme_dev *dev,
+int count)
 
-  Merge branch 'timers-urgent-for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip (2013-03-25 18:03:34 -0700)
+ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ {
+-       int result, cpu, i, nr_io_queues, db_bar_size, q_depth;
++       int result, cpu, i, nr_io_queues, db_bar_size, q_depth, q_cnt;
 
-are available in the git repository at:
+        nr_io_queues = num_online_cpus();
+        result = set_queue_count(dev, nr_io_queues);
+@@ -1440,6 +1440,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+        if (result < nr_io_queues)
+                nr_io_queues = result;
 
++       q_cnt = nr_io_queues;
+        /* Deregister the admin queue's interrupt */
+        free_irq(dev->entry[0].vector, dev->queues[0]);
 
-  git://git.infradead.org/users/willy/linux-nvme.git master
+@@ -1463,10 +1464,27 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+                        nr_io_queues = result;
+                        continue;
+                } else {
+-                       nr_io_queues = 1;
++                       nr_io_queues = q_cnt;
+                        break;
+                }
+        }
++       /* if MSI-X failed, then try for MSI for nr_io_queues vectors */
++        if (!dev->pci_dev->msix_enabled) {
++                for (;;) {
++                        result = pci_enable_msi_block(dev->pci_dev,
+nr_io_queues);
++                        if (result == 0) {
++                                for (i = 0; i < nr_io_queues; i++)
++                                        dev->entry[i].vector = i +
+dev->pci_dev->irq;
++                                break;
++                        } else if (result > 0) {
++                                nr_io_queues = result;
++                                continue;
++                        } else {
++                                nr_io_queues = 1;
++                                break;
++                        }
++                }
++        }
 
-for you to fetch changes up to 94f370cab6e5ac514b658c6b2b3aa308cefc5c7a:
-
-  NVMe: Use user defined admin ioctl timeout (2013-05-09 16:03:50 -0400)
-
-----------------------------------------------------------------
-Arjan van de Ven (2):
-      NVMe: Use round_jiffies_relative() for the periodic, once-per-second timer
-      NVMe: Set TASK_INTERRUPTIBLE before processing queues
-
-Keith Busch (13):
-      NVMe: Add discard support for capable devices
-      NVMe: Add a character device for each nvme device
-      NVMe: queue usage fixes in nvme-scsi
-      NVMe: Add scsi unmap to SG_IO
-      NVMe: Free admin queue on request_irq error
-      NVMe: Fix error clean-up on nvme_alloc_queue
-      NVMe: Check for NULL memory in nvme_dev_add
-      NVMe: Remove dead code in nvme_dev_add
-      NVMe: Split non-mergeable bio requests
-      NVMe: Device specific stripe size handling
-      NVMe: Meta-data support in NVME_IOCTL_SUBMIT_IO
-      NVMe: Schedule timeout for sync commands
-      NVMe: Use user defined admin ioctl timeout
-
-Matthew Wilcox (7):
-      NVMe: Abstract out sector to block number conversion
-      NVMe: Don't fail initialisation unnecessarily
-      NVMe: Fix I/O cancellation status on big-endian machines
-      NVMe: Fix endian-related problems in user I/O submission path
-      NVMe: Wait for device to acknowledge shutdown
-      NVMe: Only clear the enable bit when disabling controller
-      NVMe: Simplify Firmware Activate code slightly
-
-Vishal Verma (5):
-      NVMe: Rename nvme.c to nvme-core.c
-      NVMe: Move structures & definitions to header file
-      NVMe: Add definitions for format command
-      NVMe: Add nvme-scsi.c
-      NVMe: Fix sparse warnings in scsi emulation
-
- drivers/block/Makefile                |    1 +
- drivers/block/{nvme.c => nvme-core.c} |  594 +++++--
- drivers/block/nvme-scsi.c             | 3053 +++++++++++++++++++++++++++++++++
- include/linux/nvme.h                  |  158 +-
- 4 files changed, 3640 insertions(+), 166 deletions(-)
- rename drivers/block/{nvme.c => nvme-core.c} (79%)
- create mode 100644 drivers/block/nvme-scsi.c
+        result = queue_request_irq(dev, dev->queues[0], "nvme admin");
+        /* XXX: handle failure here */
+@@ -1651,7 +1669,10 @@ static void nvme_free_dev(struct kref *kref)
+ {
+        struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
+        nvme_dev_remove(dev);
+-       pci_disable_msix(dev->pci_dev);
++       if (dev->pci_dev->msi_enabled)
++               pci_disable_msi(dev->pci_dev);
++       else
++               pci_disable_msix(dev->pci_dev);
+        iounmap(dev->bar);
+        nvme_release_instance(dev);
+        nvme_release_prp_pools(dev);
+@@ -1778,7 +1799,10 @@ static int nvme_probe(struct pci_dev *pdev,
+const struct pci_device_id *id)
+  unmap:
+        iounmap(dev->bar);
+  disable_msix:
+-       pci_disable_msix(pdev);
++       if (dev->pci_dev->msi_enabled)
++               pci_disable_msi(pdev);
++       else
++               pci_disable_msix(pdev);
+        nvme_release_instance(dev);
+        nvme_release_prp_pools(dev);
+  disable:
+--
+1.7.9.1
