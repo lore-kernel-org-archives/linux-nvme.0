@@ -1,98 +1,43 @@
-From: rama@fastorsystems.com (Ramachandra Rao Gajula)
-Date: Sat, 11 May 2013 15:19:31 -0700
-Subject: [PATCH] NVMe: Add MSI support for capable devices
-Message-ID: <CAKt=Hw+Jr-Pbp=UWxbay-7yXpcG2nKZ6Rm1OMP-HxVx6Oa3iwg@mail.gmail.com>
+From: weiyj.lk@gmail.com (Wei Yongjun)
+Date: Mon, 13 May 2013 22:29:04 +0800
+Subject: [PATCH v2] NVMe: fix error return code in nvme_submit_bio_queue()
+Message-ID: <CAPgLHd8a0UuopsM53j5NsZz1UaqZoRK0_aK2m=XqC2iv-i9rAw@mail.gmail.com>
 
->From 3dbb01dab9b3e5aabb05636b7ed86d
-81ff54d641 Mon Sep 17 00:00:00 2001
-From: Ramachandra Gajula <rama@fastorsystems.com>
-Date: Sat, 11 May 2013 14:00:13 -0700
-Subject: [PATCH] NVMe: Add MSI support for capable devices
+From: Wei Yongjun <yongjun_wei@trendmicro.com.cn>
 
-Add MSI support for capable devices that use one or more interrupt vectors.
+Fix to return -ENOMEM in the nvem iod alloc error handling case instead
+of 0(possible overwrite to 0 by above nvme_submit_flush_data()), as done
+elsewhere in this function.
 
-Signed-off-by: Ramachandra Gajula <rama at fastorsystems.com>
+Signed-off-by: Wei Yongjun <yongjun_wei at trendmicro.com.cn>
 ---
- drivers/block/nvme-core.c |   32 ++++++++++++++++++++++++++++----
- 1 files changed, 28 insertions(+), 4 deletions(-)
+v1 -> v2: send to mail list from MAINTAINERS
+---
+ drivers/block/nvme-core.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index bcb81c8..0f6225b 100644
+index 8efdfaa..750c337 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1431,7 +1431,7 @@ static int set_queue_count(struct nvme_dev *dev,
-int count)
-
- static int nvme_setup_io_queues(struct nvme_dev *dev)
- {
--       int result, cpu, i, nr_io_queues, db_bar_size, q_depth;
-+       int result, cpu, i, nr_io_queues, db_bar_size, q_depth, q_cnt;
-
-        nr_io_queues = num_online_cpus();
-        result = set_queue_count(dev, nr_io_queues);
-@@ -1440,6 +1440,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-        if (result < nr_io_queues)
-                nr_io_queues = result;
-
-+       q_cnt = nr_io_queues;
-        /* Deregister the admin queue's interrupt */
-        free_irq(dev->entry[0].vector, dev->queues[0]);
-
-@@ -1463,10 +1464,27 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-                        nr_io_queues = result;
-                        continue;
-                } else {
--                       nr_io_queues = 1;
-+                       nr_io_queues = q_cnt;
-                        break;
-                }
-        }
-+       /* if MSI-X failed, then try for MSI for nr_io_queues vectors */
-+        if (!dev->pci_dev->msix_enabled) {
-+                for (;;) {
-+                        result = pci_enable_msi_block(dev->pci_dev,
-nr_io_queues);
-+                        if (result == 0) {
-+                                for (i = 0; i < nr_io_queues; i++)
-+                                        dev->entry[i].vector = i +
-dev->pci_dev->irq;
-+                                break;
-+                        } else if (result > 0) {
-+                                nr_io_queues = result;
-+                                continue;
-+                        } else {
-+                                nr_io_queues = 1;
-+                                break;
-+                        }
-+                }
-+        }
-
-        result = queue_request_irq(dev, dev->queues[0], "nvme admin");
-        /* XXX: handle failure here */
-@@ -1651,7 +1669,10 @@ static void nvme_free_dev(struct kref *kref)
- {
-        struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
-        nvme_dev_remove(dev);
--       pci_disable_msix(dev->pci_dev);
-+       if (dev->pci_dev->msi_enabled)
-+               pci_disable_msi(dev->pci_dev);
-+       else
-+               pci_disable_msix(dev->pci_dev);
-        iounmap(dev->bar);
-        nvme_release_instance(dev);
-        nvme_release_prp_pools(dev);
-@@ -1778,7 +1799,10 @@ static int nvme_probe(struct pci_dev *pdev,
-const struct pci_device_id *id)
-  unmap:
-        iounmap(dev->bar);
-  disable_msix:
--       pci_disable_msix(pdev);
-+       if (dev->pci_dev->msi_enabled)
-+               pci_disable_msi(pdev);
-+       else
-+               pci_disable_msix(pdev);
-        nvme_release_instance(dev);
-        nvme_release_prp_pools(dev);
-  disable:
---
-1.7.9.1
+@@ -629,7 +629,7 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 	struct nvme_command *cmnd;
+ 	struct nvme_iod *iod;
+ 	enum dma_data_direction dma_dir;
+-	int cmdid, length, result = -ENOMEM;
++	int cmdid, length, result;
+ 	u16 control;
+ 	u32 dsmgmt;
+ 	int psegs = bio_phys_segments(ns->queue, bio);
+@@ -641,8 +641,10 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 	}
+ 
+ 	iod = nvme_alloc_iod(psegs, bio->bi_size, GFP_ATOMIC);
+-	if (!iod)
++	if (!iod) {
++		result = -ENOMEM;
+ 		goto nomem;
++	}
+ 	iod->private = bio;
+ 
+ 	result = -EBUSY;
