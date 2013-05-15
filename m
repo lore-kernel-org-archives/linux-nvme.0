@@ -1,9 +1,45 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 15 May 2013 14:57:42 -0600 (MDT)
+From: David.Darrington@hgst.com (David.Darrington@hgst.com)
+Date: Wed, 15 May 2013 17:01:17 -0500
 Subject: Expected behaviour for device hang
-In-Reply-To: <OF5FBD14D9.6D2E87EF-ON86257B6C.006CDB74-86257B6C.006F6E86@hgst.com>
-References: <OF5FBD14D9.6D2E87EF-ON86257B6C.006CDB74-86257B6C.006F6E86@hgst.com>
-Message-ID: <alpine.LRH.2.03.1305151451090.7010@localhost.localdom>
+In-Reply-To: <alpine.LRH.2.03.1305151451090.7010@localhost.localdom>
+Message-ID: <OFA797561F.3B6507BC-ON86257B6C.007592B5-86257B6C.0078F7A9@hgst.com>
+
+Thanks Keith,
+
+Is there a more targeted reset that we could try first after an I/O times 
+out? We are worried about the case when the device has multiple 
+namespaces. Depending on the H/W design, its possible that I/O to one 
+namespace could hang while I/O to others continues to work. If we reset 
+the controler, that would disrupt the working namespaces. Maybe we can try 
+an abort first, if that times out, try to re-create the I/O queues 
+associated with the stuck namespace, and if that doesn't work, reset the 
+controller?
+
+Another question. The NVME spec states that a subsystem reset may be 
+initiated by, among other things, 'a vendor specific event', and that the 
+CSTS.NSSRO bit indicates that a subsystem reset has happened.  Are there 
+places that the driver should be checking this bit? Perhaps after I/O 
+timeouts or other odd failures. If the bit is set, the driver could post 
+an error and begin recovery without worrying that other parts of the 
+device may still be working. 
+ 
+
+
+
+Keith Busch <keith.busch at intel.com> 
+05/15/2013 03:57 PM
+
+To
+David.Darrington at hgst.com
+cc
+linux-nvme at lists.infradead.org
+Subject
+Re: Expected behaviour for device hang
+
+
+
+
+
 
 On Wed, 15 May 2013, David.Darrington@hgst.com wrote:
 > What is the expected behaviour of the driver if a device hangs? If  a
