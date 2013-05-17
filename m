@@ -1,46 +1,29 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 17 May 2013 08:57:00 -0400
-Subject: [PATCH] Call nvme_process_cq from submit path
-Message-ID: <20130517125700.GN6057@linux.intel.com>
+Date: Fri, 17 May 2013 09:35:17 -0400
+Subject: Tree updated 2013-05-17
+Message-ID: <20130517133517.GO6057@linux.intel.com>
 
 
-There are a couple of good reasons to process the CQ from the submit path.
+I've pulled in a few fixes:
 
-One is that if the SQ is full, processing the CQ may free up some slots
-in the SQ.
+Dan Carpenter (2):
+      MAINTAINERS: update NVM EXPRESS DRIVER file list
+      NVMe: check for integer overflow in nvme_map_user_pages()
 
-Another is that, if the interrupt mitigation is configured correctly, we
-may be able to avoid receiving an interrupt if we process the completion
-before the timer fires.
+Keith Busch (1):
+      NVMe: Do not cancel command multiple times
 
-Processing an empty CQ should be cheap; it's two loads from the nvmeq
-data structure, a 64-bit load from the CQ and three compares.  I'd be
-intrigued to see if anyone can measure a performance decrease from doing
-this with any workload.
+Sachin Kamat (1):
+      NVMe: Remove redundant version.h header include
 
-NB: this isn't the patch I'd be committing; I'll move nvme_process_cq
-above nvme_make_request, but that move makes this look like a Big Deal
-when at its heart, it's a one-line patch.
+Vishal Verma (1):
+      NVMe: Fix a signedness bug in nvme_trans_modesel_get_mp
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 8efdfaa..f55d666 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -708,6 +708,8 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
- 	return result;
- }
- 
-+static irqreturn_t nvme_process_cq(struct nvme_queue *nvmeq);
-+
- static void nvme_make_request(struct request_queue *q, struct bio *bio)
- {
- 	struct nvme_ns *ns = q->queuedata;
-@@ -722,7 +724,7 @@ static void nvme_make_request(struct request_queue *q, struct bio *bio)
- 			add_wait_queue(&nvmeq->sq_full, &nvmeq->sq_cong_wait);
- 		bio_list_add(&nvmeq->sq_cong, bio);
- 	}
--
-+	nvme_process_cq(nvmeq);
- 	spin_unlock_irq(&nvmeq->q_lock);
- 	put_nvmeq(nvmeq);
- }
+Wei Yongjun (1):
+      NVMe: fix error return code in nvme_submit_bio_queue()
+
+I'll ask Linus to pull them next week, and they should be in 3.10.
+
+I've also set up separate branches for "just fixes" (fixes-3.10) and
+features / improvements that aren't bug fixes (master).  Right now,
+they're the same, but I would expect them to diverge fairly shortly.
