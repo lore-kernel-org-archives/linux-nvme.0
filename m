@@ -1,29 +1,18 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 17 May 2013 09:35:17 -0400
-Subject: Tree updated 2013-05-17
-Message-ID: <20130517133517.GO6057@linux.intel.com>
+Date: Fri, 17 May 2013 09:40:33 -0400
+Subject: Expected behaviour for device hang
+In-Reply-To: <alpine.LRH.2.03.1305151451090.7010@localhost.localdom>
+References: <OF5FBD14D9.6D2E87EF-ON86257B6C.006CDB74-86257B6C.006F6E86@hgst.com>
+ <alpine.LRH.2.03.1305151451090.7010@localhost.localdom>
+Message-ID: <20130517134033.GP6057@linux.intel.com>
 
+On Wed, May 15, 2013@02:57:42PM -0600, Keith Busch wrote:
+> As fas as "Cancelling I/O' over and over, that should have been fixed
+> in this patch:
+> 
+> http://merlin.infradead.org/pipermail/linux-nvme/2013-April/000215.html
+> 
+> I thought that one was applied in the last merge, but looks like it was
+> missed. :(
 
-I've pulled in a few fixes:
-
-Dan Carpenter (2):
-      MAINTAINERS: update NVM EXPRESS DRIVER file list
-      NVMe: check for integer overflow in nvme_map_user_pages()
-
-Keith Busch (1):
-      NVMe: Do not cancel command multiple times
-
-Sachin Kamat (1):
-      NVMe: Remove redundant version.h header include
-
-Vishal Verma (1):
-      NVMe: Fix a signedness bug in nvme_trans_modesel_get_mp
-
-Wei Yongjun (1):
-      NVMe: fix error return code in nvme_submit_bio_queue()
-
-I'll ask Linus to pull them next week, and they should be in 3.10.
-
-I've also set up separate branches for "just fixes" (fixes-3.10) and
-features / improvements that aren't bug fixes (master).  Right now,
-they're the same, but I would expect them to diverge fairly shortly.
+I thought so too.  Sorry about that; applied now.
