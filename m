@@ -1,18 +1,23 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 17 May 2013 09:40:33 -0400
-Subject: Expected behaviour for device hang
-In-Reply-To: <alpine.LRH.2.03.1305151451090.7010@localhost.localdom>
-References: <OF5FBD14D9.6D2E87EF-ON86257B6C.006CDB74-86257B6C.006F6E86@hgst.com>
- <alpine.LRH.2.03.1305151451090.7010@localhost.localdom>
-Message-ID: <20130517134033.GP6057@linux.intel.com>
+Date: Fri, 17 May 2013 09:40:57 -0400
+Subject: [PATCH Resend] NVMe: Remove redundant version.h header include
+In-Reply-To: <0E80A88123A1094A8373D7EE49AF51076D3CFAAD@FMSMSX113.amr.corp.intel.com>
+References: <1368500533-9486-1-git-send-email-sachin.kamat@linaro.org>
+ <0E80A88123A1094A8373D7EE49AF51076D3CFAAD@FMSMSX113.amr.corp.intel.com>
+Message-ID: <20130517134057.GQ6057@linux.intel.com>
 
-On Wed, May 15, 2013@02:57:42PM -0600, Keith Busch wrote:
-> As fas as "Cancelling I/O' over and over, that should have been fixed
-> in this patch:
+On Tue, May 14, 2013@07:32:15PM +0000, Verma, Vishal L wrote:
+> Acked-by: Vishal Verma <vishal.l.verma at linux.intel.com>
 > 
-> http://merlin.infradead.org/pipermail/linux-nvme/2013-April/000215.html
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf Of Sachin Kamat
+> Sent: Monday, May 13, 2013 9:02 PM
+> To: linux-nvme at lists.infradead.org
+> Cc: sachin.kamat at linaro.org; willy at linux.intel.com
+> Subject: [PATCH Resend] NVMe: Remove redundant version.h header include
 > 
-> I thought that one was applied in the last merge, but looks like it was
-> missed. :(
+> version.h header inclusion is not necessary as detected by checkversion.pl.
+> 
+> Signed-off-by: Sachin Kamat <sachin.kamat at linaro.org>
 
-I thought so too.  Sorry about that; applied now.
+Applied
