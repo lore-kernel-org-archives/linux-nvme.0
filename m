@@ -1,70 +1,46 @@
-From: David.Darrington@hgst.com (David.Darrington@hgst.com)
-Date: Wed, 15 May 2013 17:01:17 -0500
-Subject: Expected behaviour for device hang
-In-Reply-To: <alpine.LRH.2.03.1305151451090.7010@localhost.localdom>
-Message-ID: <OFA797561F.3B6507BC-ON86257B6C.007592B5-86257B6C.0078F7A9@hgst.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Fri, 17 May 2013 08:57:00 -0400
+Subject: [PATCH] Call nvme_process_cq from submit path
+Message-ID: <20130517125700.GN6057@linux.intel.com>
 
-Thanks Keith,
 
-Is there a more targeted reset that we could try first after an I/O times 
-out? We are worried about the case when the device has multiple 
-namespaces. Depending on the H/W design, its possible that I/O to one 
-namespace could hang while I/O to others continues to work. If we reset 
-the controler, that would disrupt the working namespaces. Maybe we can try 
-an abort first, if that times out, try to re-create the I/O queues 
-associated with the stuck namespace, and if that doesn't work, reset the 
-controller?
+There are a couple of good reasons to process the CQ from the submit path.
 
-Another question. The NVME spec states that a subsystem reset may be 
-initiated by, among other things, 'a vendor specific event', and that the 
-CSTS.NSSRO bit indicates that a subsystem reset has happened.  Are there 
-places that the driver should be checking this bit? Perhaps after I/O 
-timeouts or other odd failures. If the bit is set, the driver could post 
-an error and begin recovery without worrying that other parts of the 
-device may still be working. 
+One is that if the SQ is full, processing the CQ may free up some slots
+in the SQ.
+
+Another is that, if the interrupt mitigation is configured correctly, we
+may be able to avoid receiving an interrupt if we process the completion
+before the timer fires.
+
+Processing an empty CQ should be cheap; it's two loads from the nvmeq
+data structure, a 64-bit load from the CQ and three compares.  I'd be
+intrigued to see if anyone can measure a performance decrease from doing
+this with any workload.
+
+NB: this isn't the patch I'd be committing; I'll move nvme_process_cq
+above nvme_make_request, but that move makes this look like a Big Deal
+when at its heart, it's a one-line patch.
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 8efdfaa..f55d666 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -708,6 +708,8 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 	return result;
+ }
  
-
-
-
-Keith Busch <keith.busch at intel.com> 
-05/15/2013 03:57 PM
-
-To
-David.Darrington at hgst.com
-cc
-linux-nvme at lists.infradead.org
-Subject
-Re: Expected behaviour for device hang
-
-
-
-
-
-
-On Wed, 15 May 2013, David.Darrington@hgst.com wrote:
-> What is the expected behaviour of the driver if a device hangs? If  a
-> device stops processing commands, the commands will eventually timeout,
-> which is handled in 'nvme_kthread' with a call to 'nvme_cancel_ios'.
-> However, this is not calling bio_completion. Every second the cycle
-> repeats, cancelling the same I/Os and syslog fills up with the message
-> 'Cancelling I/O xx'. I was expecting that the ios that timeout would be
-> completed as failed and freed.
-
-bio_endio is called using the 'fn' callback after cancelling the command,
-but the command id is not freed sense the controller still technically
-owns it.
-
-As fas as "Cancelling I/O' over and over, that should have been fixed
-in this patch:
-
-http://merlin.infradead.org/pipermail/linux-nvme/2013-April/000215.html
-
-I thought that one was applied in the last merge, but looks like it was
-missed. :(
-
-> Is there something that is still TBD, or am I just missing something.
-
-I think we may still have a probelm since ending the request releases the
-mapped resources and the controller may still dma to/from there. I have
-another patch to just reset the controller when an IO times out, but it is
-pending on the power management set since it is basically the same thing.
++static irqreturn_t nvme_process_cq(struct nvme_queue *nvmeq);
++
+ static void nvme_make_request(struct request_queue *q, struct bio *bio)
+ {
+ 	struct nvme_ns *ns = q->queuedata;
+@@ -722,7 +724,7 @@ static void nvme_make_request(struct request_queue *q, struct bio *bio)
+ 			add_wait_queue(&nvmeq->sq_full, &nvmeq->sq_cong_wait);
+ 		bio_list_add(&nvmeq->sq_cong, bio);
+ 	}
+-
++	nvme_process_cq(nvmeq);
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ 	put_nvmeq(nvmeq);
+ }
