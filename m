@@ -1,15 +1,15 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 17 May 2013 09:41:20 -0400
-Subject: [patch] MAINTAINERS: update NVM EXPRESS DRIVER file list
-In-Reply-To: <20130513150042.GB21239@elgon.mountain>
-References: <100D68C7BA14664A8938383216E40DE027F80EAB@fmsmsx111.amr.corp.intel.com>
- <20130513150042.GB21239@elgon.mountain>
-Message-ID: <20130517134120.GS6057@linux.intel.com>
+Date: Fri, 17 May 2013 09:41:07 -0400
+Subject: [PATCH] NVMe: Fix a signedness bug in nvme_trans_modesel_get_mp
+In-Reply-To: <1368478518-5892-1-git-send-email-vishal.l.verma@linux.intel.com>
+References: <1368478518-5892-1-git-send-email-vishal.l.verma@linux.intel.com>
+Message-ID: <20130517134107.GR6057@linux.intel.com>
 
-On Mon, May 13, 2013@06:00:42PM +0300, Dan Carpenter wrote:
-> There isn't an nvme.c file any more.  It has been split into multiple
-> files.
+On Mon, May 13, 2013@02:55:18PM -0600, Vishal Verma wrote:
+> nvme_trans_modesel_get_mp() was defined with a unsigned return
+> type, but can return signed values.
 > 
-> Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
+> Reported-by: Dan Carpenter <dan.carpenter at oracle.com>
+> Signed-off-by: Vishal Verma <vishal.l.verma at linux.intel.com>
 
 Applied
