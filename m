@@ -1,38 +1,68 @@
-From: Chayan.Biswas@sandisk.com (Chayan Biswas)
-Date: Wed, 22 May 2013 22:34:49 +0000
-Subject: [PATCH v2] Return the result from user admin command IOCTL even in
- case of failure
-Message-ID: <E821E2F372F08945977BD15EAE588D611A05EE87@MILMBXIP01.sdcorp.global.sandisk.com>
+From: olivier.mallinger@ip-maker.com (Olivier Mallinger - IP Maker)
+Date: Thu, 23 May 2013 16:29:15 +0200
+Subject: Using FIO tool for performance measure
+Message-ID: <519E27BB.20009@ip-maker.com>
 
-We copy the result to user if the command is completed from the
-controller even if it completes with failure (non-zero) status.
-A return status of < 0 indicates the command was not completed
-by the controller. The user application may expect the error code
-in the result field in case of failure.
+Hello.
 
+I have a NVMe controller running on FPGA.
+I use Linux Fedora 17 as OS with a core 3.8.4.
+The driver is loaded at startup and the NVMe device is recognize without 
+any problem (/dev/nvme0n1).
+I am able to perform read and write I/O commands.
 
-Signed-off-by: Chayan Biswas <Chayan.Biswas at sandisk.com>
----
- drivers/block/nvme-core.c |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+The problem occurs when i tried to use FIO to measure performance 
+(Bandwith, latency and IOPS).
+I attached my FIO script.
+The performance are poor using a PCIeGen2x4 interface. I monitored 
+what's happening inside the controller's hardware and everything works 
+fine as it spends time waiting for submission tail update...
+FIO seems not using well the queue depth and instead of pushing commands 
+into the queue, it waits for command's end before sending a new one.
+I try different version of FIO without success (2.0.9, 2.0.13 and 2.0.15).
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 42abf72..8493708 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1439,7 +1439,7 @@ static int nvme_user_admin_cmd(struct nvme_dev *dev,
-                nvme_free_iod(dev, iod);
-        }
+Did someone already experiment such problem using FIO ? Is there any 
+missing option inside my script ?
 
--       if (!status && copy_to_user(&ucmd->result, &cmd.result,
-+       if ((status >= 0) && copy_to_user(&ucmd->result, &cmd.result,
-                                                        sizeof(cmd.result)))
-                status = -EFAULT;
+Thanks for your help.
+Regards,
+Olivier.
+-------------- next part --------------
+[global]
+ioengine=libaio
+iodepth=32
+direct=1
+size=32m
+filename=/dev/nvme0n1
 
---
-1.7.1
+[seq_rd]
+name=seq_rd
+rw=read
+bs=4k
+stonewall
 
+[seq_wr]
+name=seq_wr
+rw=write
+bs=4k
+stonewall
 
-________________________________
+[rand_rd]
+name=rand_rd
+rw=randread
+bs=4k
+stonewall
 
-PLEASE NOTE: The information contained in this electronic mail message is intended only for the use of the designated recipient(s) named above. If the reader of this message is not the intended recipient, you are hereby notified that you have received this message in error and that any review, dissemination, distribution, or copying of this message is strictly prohibited. If you have received this communication in error, please notify the sender by telephone or e-mail (as shown above) immediately and destroy any and all copies of this message in your possession (whether hard copies or electronically stored copies).
+[rand_wr]
+name=rand_wr
+rw=randwrite
+bs=4k
+stonewall
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: olivier_mallinger.vcf
+Type: text/x-vcard
+Size: 316 bytes
+Desc: not available
+URL: <http://merlin.infradead.org/pipermail/linux-nvme/attachments/20130523/9829a671/attachment.vcf>
