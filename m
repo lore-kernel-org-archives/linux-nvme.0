@@ -1,17 +1,32 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Thu, 23 May 2013 13:36:40 -0400
-Subject: [PATCH v2] Return the result from user admin command IOCTL even
- in case of failure
-In-Reply-To: <E821E2F372F08945977BD15EAE588D611A05EE87@MILMBXIP01.sdcorp.global.sandisk.com>
-References: <E821E2F372F08945977BD15EAE588D611A05EE87@MILMBXIP01.sdcorp.global.sandisk.com>
-Message-ID: <20130523173640.GY6057@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Sun, 26 May 2013 15:25:44 -0600 (MDT)
+Subject: NVMe compatibility repository
+Message-ID: <alpine.LRH.2.03.1305261505120.12919@localhost.localdom>
 
-On Wed, May 22, 2013@10:34:49PM +0000, Chayan Biswas wrote:
-> -       if (!status && copy_to_user(&ucmd->result, &cmd.result,
-> +       if ((status >= 0) && copy_to_user(&ucmd->result, &cmd.result,
+Hi everyone,
 
-I just tried to apply this and the patch is corrupted.  It looks like your
-mailer has changed the tabs to spaces.  This seems to be an unfortunately
-common problem with Outlook / Exchange.  Since this one's a one-liner,
-I'll fix it up by hand, but for larger patches, can you use a different
-mailer?
+I created a new NVMe driver repository consisting of only the block
+driver, matching maintainer's repository, but with preprocessor directives
+to compile on older kernel releases. I and a few others have found this
+useful, so I'm making this publicly available in the hope that others
+find it useful too.
+
+The repository exists here at:
+
+http://git.infradead.org/users/kbusch/nvme-compatibility.git
+
+The project should currently compile and run on releases back to 2.6.32
+for various distributions. If there are other kernel versions or specific
+vendor distributions anyone else adds, I will try my best to check future
+patches against them as well.
+
+Any patches destined for the upstream should go through the maintainer's
+repo first and I'll regularly apply applicable patches here after they
+are accepted.
+
+For now, I believe we have the 'ok' to use this mailing list for patches
+specific to the nvme-compatibility project if there is any interest in
+submitting patches for back-porting.
+
+Thanks,
+Keith
