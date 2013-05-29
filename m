@@ -1,127 +1,90 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Tue, 28 May 2013 18:57:07 -0400
-Subject: [PATCH] NVMe: Add MSI support for capable devices
-In-Reply-To: <CAKt=Hw+Jr-Pbp=UWxbay-7yXpcG2nKZ6Rm1OMP-HxVx6Oa3iwg@mail.gmail.com>
-References: <CAKt=Hw+Jr-Pbp=UWxbay-7yXpcG2nKZ6Rm1OMP-HxVx6Oa3iwg@mail.gmail.com>
-Message-ID: <20130528225707.GA8211@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 29 May 2013 15:59:39 -0600
+Subject: [PATCH v2] NVMe: Disk IO statistics
+Message-ID: <1369864779-28190-1-git-send-email-keith.busch@intel.com>
 
-On Sat, May 11, 2013@03:19:31PM -0700, Ramachandra Rao Gajula wrote:
-> +++ b/drivers/block/nvme-core.c
-> @@ -1431,7 +1431,7 @@ static int set_queue_count(struct nvme_dev *dev,
-> int count)
-> 
->  static int nvme_setup_io_queues(struct nvme_dev *dev)
->  {
-> -       int result, cpu, i, nr_io_queues, db_bar_size, q_depth;
-> +       int result, cpu, i, nr_io_queues, db_bar_size, q_depth, q_cnt;
+Add io stats accounting for bio requests so nvme block devices show
+useful disk stats.
 
-This patch was corrupted (tabs converted to spaces), so I retyped it.
-I made a few changes along the way; see what you think:
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-commit 7597f23c7c7ac462b776dbf0d371d8ae16873b13
-Author: Ramachandra Rao Gajula <rama at fastorsystems.com>
-Date:   Sat May 11 15:19:31 2013 -0700
+---
+v1->v2: moved the start time into the iod.
 
-    NVMe: Add MSI support
-    
-    Some devices only have support for MSI, not MSI-X.  While MSI is more
-    limited, it still provides better performance than line-based interrupts.
-    
-    Signed-off-by: Ramachandra Gajula <rama at fastorsystems.com>
-    Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
+ drivers/block/nvme-core.c |   27 +++++++++++++++++++++++++++
+ include/linux/nvme.h      |    1 +
+ 2 files changed, 28 insertions(+), 0 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index a57d3bc..072c57c 100644
+index 42abf72..bef6521 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1637,7 +1637,8 @@ static int set_queue_count(struct nvme_dev *dev, int count)
- 
- static int nvme_setup_io_queues(struct nvme_dev *dev)
- {
--	int result, cpu, i, nr_io_queues, db_bar_size, q_depth;
-+	struct pci_dev *pdev = dev->pci_dev;
-+	int result, cpu, i, nr_io_queues, db_bar_size, q_depth, q_count;
- 
- 	nr_io_queues = num_online_cpus();
- 	result = set_queue_count(dev, nr_io_queues);
-@@ -1646,14 +1647,14 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	if (result < nr_io_queues)
- 		nr_io_queues = result;
- 
-+	q_count = nr_io_queues;
- 	/* Deregister the admin queue's interrupt */
- 	free_irq(dev->entry[0].vector, dev->queues[0]);
- 
- 	db_bar_size = 4096 + ((nr_io_queues + 1) << (dev->db_stride + 3));
- 	if (db_bar_size > 8192) {
- 		iounmap(dev->bar);
--		dev->bar = ioremap(pci_resource_start(dev->pci_dev, 0),
--								db_bar_size);
-+		dev->bar = ioremap(pci_resource_start(pdev, 0), db_bar_size);
- 		dev->dbs = ((void __iomem *)dev->bar) + 4096;
- 		dev->queues[0]->q_db = dev->dbs;
- 	}
-@@ -1661,19 +1662,36 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	for (i = 0; i < nr_io_queues; i++)
- 		dev->entry[i].entry = i;
- 	for (;;) {
--		result = pci_enable_msix(dev->pci_dev, dev->entry,
--								nr_io_queues);
-+		result = pci_enable_msix(pdev, dev->entry, nr_io_queues);
- 		if (result == 0) {
- 			break;
- 		} else if (result > 0) {
- 			nr_io_queues = result;
- 			continue;
- 		} else {
--			nr_io_queues = 1;
-+			nr_io_queues = 0;
- 			break;
- 		}
+@@ -285,6 +285,7 @@ nvme_alloc_iod(unsigned nseg, unsigned nbytes, gfp_t gfp)
+ 		iod->npages = -1;
+ 		iod->length = nbytes;
+ 		iod->nents = 0;
++		iod->start_time = jiffies;
  	}
  
-+	if (nr_io_queues == 0) {
-+		nr_io_queues = q_count;
-+		for (;;) {
-+			result = pci_enable_msi_block(pdev, dev->entry,
-+								nr_io_queues);
-+			if (result == 0) {
-+				for (i = 0; i < nr_io_queues; i++)
-+					dev->entry[i].vector = i + pdev->irq;
-+			} else if (result > 0) {
-+				nr_io_queues = result;
-+				continue;
-+			} else {
-+				nr_io_queues = 1;
-+				break;
-+			}
-+		}
-+	}
+ 	return iod;
+@@ -307,6 +308,29 @@ void nvme_free_iod(struct nvme_dev *dev, struct nvme_iod *iod)
+ 	}
+ 	kfree(iod);
+ }
++static void nvme_start_io_acct(struct bio *bio)
++{
++	struct gendisk *disk = bio->bi_bdev->bd_disk;
++	const int rw = bio_data_dir(bio);
++	int cpu = part_stat_lock();
++	part_round_stats(cpu, &disk->part0);
++	part_stat_inc(cpu, &disk->part0, ios[rw]);
++	part_stat_add(cpu, &disk->part0, sectors[rw], bio_sectors(bio));
++	part_inc_in_flight(&disk->part0, rw);
++	part_stat_unlock();
++}
 +
- 	result = queue_request_irq(dev, dev->queues[0], "nvme admin");
- 	/* XXX: handle failure here */
++static void nvme_end_io_acct(struct bio *bio, unsigned long start_time)
++{
++	struct gendisk *disk = bio->bi_bdev->bd_disk;
++	const int rw = bio_data_dir(bio);
++	unsigned long duration = jiffies - start_time;
++	int cpu = part_stat_lock();
++	part_stat_add(cpu, &disk->part0, ticks[rw], duration);
++	part_round_stats(cpu, &disk->part0);
++	part_dec_in_flight(&disk->part0, rw);
++	part_stat_unlock();
++}
  
-@@ -1854,7 +1872,10 @@ static void nvme_free_dev(struct kref *kref)
- {
- 	struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
- 	nvme_dev_remove(dev);
--	pci_disable_msix(dev->pci_dev);
-+	if (dev->pci_dev->msi_enabled)
-+		pci_disable_msi(dev->pci_dev);
-+	else if (dev->pci_dev->msix_enabled)
-+		pci_disable_msix(dev->pci_dev);
- 	iounmap(dev->bar);
- 	nvme_release_instance(dev);
- 	nvme_release_prp_pools(dev);
-@@ -1987,7 +2008,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-  unmap:
- 	iounmap(dev->bar);
-  disable_msix:
--	pci_disable_msix(pdev);
-+	if (dev->pci_dev->msi_enabled)
-+		pci_disable_msi(dev->pci_dev);
-+	else if (dev->pci_dev->msix_enabled)
-+		pci_disable_msix(dev->pci_dev);
- 	nvme_release_instance(dev);
- 	nvme_release_prp_pools(dev);
-  disable:
+ static void bio_completion(struct nvme_dev *dev, void *ctx,
+ 						struct nvme_completion *cqe)
+@@ -318,6 +342,8 @@ static void bio_completion(struct nvme_dev *dev, void *ctx,
+ 	if (iod->nents)
+ 		dma_unmap_sg(&dev->pci_dev->dev, iod->sg, iod->nents,
+ 			bio_data_dir(bio) ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
++
++	nvme_end_io_acct(bio, iod->start_time);
+ 	nvme_free_iod(dev, iod);
+ 	if (status)
+ 		bio_endio(bio, -EIO);
+@@ -695,6 +721,7 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 	cmnd->rw.control = cpu_to_le16(control);
+ 	cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
+ 
++	nvme_start_io_acct(bio);
+ 	if (++nvmeq->sq_tail == nvmeq->q_depth)
+ 		nvmeq->sq_tail = 0;
+ 	writel(nvmeq->sq_tail, nvmeq->q_db);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index f451c8d..5d7c079 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -572,6 +572,7 @@ struct nvme_iod {
+ 	int offset;		/* Of PRP list */
+ 	int nents;		/* Used in scatterlist */
+ 	int length;		/* Of data, in bytes */
++	unsigned long start_time;
+ 	dma_addr_t first_dma;
+ 	struct scatterlist sg[0];
+ };
+-- 
+1.7.0.4
