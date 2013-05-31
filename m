@@ -1,10 +1,25 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 31 May 2013 12:53:01 -0400
+From: ngalbo@micron.com (Neal Galbo (ngalbo))
+Date: Fri, 31 May 2013 19:26:30 +0000
 Subject: Proposal for handling async event requests
-In-Reply-To: <5E6652408D93274292C8F06C9A4A26008454B480@NTXBOIMBX05.micron.com>
+In-Reply-To: <20130531165301.GH8211@linux.intel.com>
 References: <20130531133553.GG8211@linux.intel.com>
  <5E6652408D93274292C8F06C9A4A26008454B480@NTXBOIMBX05.micron.com>
-Message-ID: <20130531165301.GH8211@linux.intel.com>
+ <20130531165301.GH8211@linux.intel.com>
+Message-ID: <5E6652408D93274292C8F06C9A4A26008454B639@NTXBOIMBX05.micron.com>
+
+Yes, we do agree.
+Yes, I like the read() with blocking idea rather than the polling, you mentioned that. I didn't think about the blocking, I missed that on the first go.
+
+Regards,
+Neal
+
+
+-----Original Message-----
+From: Matthew Wilcox [mailto:willy@linux.intel.com] 
+Sent: Friday, May 31, 2013 12:53 PM
+To: Neal Galbo (ngalbo)
+Cc: linux-nvme at lists.infradead.org
+Subject: Re: Proposal for handling async event requests
 
 On Fri, May 31, 2013@03:04:41PM +0000, Neal Galbo (ngalbo) wrote:
 > I think handling should be localized and associated through an existing, running NVMe driver, i.e. not a separate daemon.
