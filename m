@@ -1,35 +1,30 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 29 May 2013 14:44:31 -0600 (MDT)
-Subject: Tree updated 2013-05-29
-In-Reply-To: <20130529210419.GE8211@linux.intel.com>
-References: <20130517133517.GO6057@linux.intel.com>
- <20130529210419.GE8211@linux.intel.com>
-Message-ID: <alpine.LRH.2.03.1305291342320.12919@localhost.localdom>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Fri, 31 May 2013 12:53:01 -0400
+Subject: Proposal for handling async event requests
+In-Reply-To: <5E6652408D93274292C8F06C9A4A26008454B480@NTXBOIMBX05.micron.com>
+References: <20130531133553.GG8211@linux.intel.com>
+ <5E6652408D93274292C8F06C9A4A26008454B480@NTXBOIMBX05.micron.com>
+Message-ID: <20130531165301.GH8211@linux.intel.com>
 
-On Wed, 29 May 2013, Matthew Wilcox wrote:
-> Chayan Biswas (1):
->      Return the result from user admin command IOCTL even in case of failure
->
-> Matthew Wilcox (1):
->      NVMe: Use dma_set_mask() correctly
->
-> Ramachandra Rao Gajula (1):
->      NVMe: Add MSI support
->
-> I'll ask Linus to pull on Friday.  Please test.
+On Fri, May 31, 2013@03:04:41PM +0000, Neal Galbo (ngalbo) wrote:
+> I think handling should be localized and associated through an existing, running NVMe driver, i.e. not a separate daemon.
 
-In the MSI patch, there's a missing 'break' after the 'result == 0' case.
-Otherwise everything looks good to me.
+OK, so we're fundamentally in agreement, it's just a matter of negotiating
+the API?  :-)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 584586f..ce79a59 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1681,6 +1681,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-  			if (result == 0) {
-  				for (i = 0; i < nr_io_queues; i++)
-  					dev->entry[i].vector = i + pdev->irq;
-+                               break;
-  			} else if (result > 0) {
-  				nr_io_queues = result;
-  				continue;
+> 1) User space (or supervisor) issues ioctl to "open" and enable AEN feature to a loaded, running driver in anticipation of receiving async events. Ioctl parameters contain pointer to callback routine and buffer space to receive AEN's.
+> 2) When driver receives ioctl it saves incoming parameters, sets up to receive AEN's (otherwise it's "closed"/disabled). The driver can manage the AEN's within, directly or could launch an AEN handler worker thread that it owns or various other ways.
+> 3) When AEN is received, driver or AEN manager calls back through pointer, deposits AEN info.
+> 4) Provide a corresponding "close" ioctl to disable the AEN chatter when not needed.
+> 5) ??? provide unique tags/id's in ioctl parameters to allow multiple openers. Unique tag generator should be located at a central point ... like the driver? (another ioctl to get a unique tag?)
+
+Yes, this approach definitely works.  Essentially, we're putting a
+completion queue in userspace.  How do you envisage notifying userspace
+that it has new entries?  The advantage of read() on the character device
+is that it can block.  We can also use the poll() mechanism to wake up
+tasks that are waiting for new entries.  I suppose we could also use
+poll() with your scheme.
+
+Another approach would be zero-copy; userspace could mmap the character
+device and get a completion queue that way.  I'm not expecting this to
+be sufficiently high performance to warrant such an approach :-)
