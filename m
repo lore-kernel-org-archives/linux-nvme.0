@@ -1,27 +1,19 @@
 From: torvalds@linux-foundation.org (Linus Torvalds)
-Date: Tue, 11 Jun 2013 20:09:24 -0700
+Date: Tue, 11 Jun 2013 23:10:18 -0700
 Subject: [PULL REQUEST] NVMe driver fixes
-In-Reply-To: <20130611210414.GN8211@linux.intel.com>
+In-Reply-To: <CA+55aFztTY8gGh=eLD65QuaUA8dpKxXqJbQimV+7PnbWqMDyzw@mail.gmail.com>
 References: <20130611210414.GN8211@linux.intel.com>
-Message-ID: <CA+55aFztTY8gGh=eLD65QuaUA8dpKxXqJbQimV+7PnbWqMDyzw@mail.gmail.com>
+ <CA+55aFztTY8gGh=eLD65QuaUA8dpKxXqJbQimV+7PnbWqMDyzw@mail.gmail.com>
+Message-ID: <CA+55aFzzJfBjJXrF2ycRGbnSGyc6U_H4g5f59gAkAr40S4c3wA@mail.gmail.com>
 
-On Tue, Jun 11, 2013@2:04 PM, Matthew Wilcox <willy@linux.intel.com> wrote:
+On Tue, Jun 11, 2013 at 8:09 PM, Linus Torvalds
+<torvalds@linux-foundation.org> wrote:
 >
-> The following bugfixes have been accumulating for the last few weeks, and
-> it would be nice if they could be in 3.10.
+> It's after -rc5, and this pattern of "stuff comes in quite late in the
+> merge window, and then even later in the rc series" is getting really
+> tiresome.
 
-So I'm not in the least sure I should bother with the whole nvme thing.
+Gaah. I took it. I still don't like the timing here, but looking at
+the commits I can't see a reason for dropping it.
 
-It's after -rc5, and this pattern of "stuff comes in quite late in the
-merge window, and then even later in the rc series" is getting really
-tiresome.
-
-I'm getting a strong signal of "this driver isn't something people
-bother to actually maintain". Do you even have access to hardware by
-now? I've gotten all of four pull requests for this driver if I look
-at the logs correctly, and of those four pull requests one was after
-an rc7, and now this is after an rc5.
-
-Simple question: is it worth the bother?
-
-                 Linus
+               Linus
