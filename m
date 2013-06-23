@@ -1,12 +1,31 @@
-From: torvalds@linux-foundation.org (Linus Torvalds)
-Date: Sun, 23 Jun 2013 08:29:53 -1000
+From: dsahern@gmail.com (David Ahern)
+Date: Sun, 23 Jun 2013 15:14:28 -0700
 Subject: RFC: Allow block drivers to poll for I/O instead of sleeping
 In-Reply-To: <20130623100920.GA19021@gmail.com>
 References: <20130620201713.GV8211@linux.intel.com>
  <20130623100920.GA19021@gmail.com>
-Message-ID: <CA+55aFy+COdk5+ucwxtc1At=PAYTJxeUaUV6rP9XstHdNV0hbQ@mail.gmail.com>
+Message-ID: <51C77344.2040907@gmail.com>
 
-On Sun, Jun 23, 2013@12:09 AM, Ingo Molnar <mingo@kernel.org> wrote:
+On 6/23/13 3:09 AM, Ingo Molnar wrote:
+> If an IO driver is implemented properly then it will batch up requests for
+> the controller, and gets IRQ-notified on a (sub-)batch of buffers
+> completed.
+>
+> If there's any spinning done then it should be NAPI-alike polling: a
+> single "is stuff completed" polling pass per new block of work submitted,
+> to opportunistically interleave completion with submission work.
+>
+> I don't see where active spinning brings would improve performance
+> compared to a NAPI-alike technique. Your numbers obviously show a speedup
+> we'd like to have, I'm just wondering whether the same speedup (or even
+> more) could be implemented via:
+>
+>   - smart batching that rate-limits completion IRQs in essence
+>   + NAPI-alike polling
+>
+> ... which would almost never result in IRQ driven completion when we are
+> close to CPU-bound and while not yet saturating the IO controller's
+> capacity.
 >
 > The spinning approach you add has the disadvantage of actively wasting CPU
 > time, which could be used to run other tasks. In general it's much better
@@ -14,27 +33,7 @@ On Sun, Jun 23, 2013@12:09 AM, Ingo Molnar <mingo@kernel.org> wrote:
 > (combined with a metric ton of fine details) is what the networking code
 > does in essence, and they have no trouble reaching very high throughput.
 
-It's not about throughput - it's about latency. Don't ever confuse the
-two, they have almost nothing in common. Networking very very seldom
-has the kind of "submit and wait for immediate result" issues that
-disk reads do.
+Networking code has a similar proposal for low latency sockets using 
+polling: https://lwn.net/Articles/540281/
 
-That said, I dislike the patch intensely. I do not think it's at all a
-good idea to look at "need_resched" to say "I can spin now". You're
-still wasting CPU cycles.
-
-So Willy, please do *not* mix this up with the scheduler, or at least
-not "need_resched". Instead, maybe we should introduce a notion of "if
-we are switching to the idle thread, let's see if we can try to do
-some IO synchronously".
-
-You could try to do that either *in* the idle thread (which would take
-the context switch overhead - maybe negating some of the advantages),
-or alternatively hook into the scheduler idle logic before actually
-doing the switch.
-
-But anything that starts polling when there are other runnable
-processes to be done sounds really debatable. Even if it's "only" 5us
-or so. There's a lot of real work that could be done in 5us.
-
-                       Linus
+David
