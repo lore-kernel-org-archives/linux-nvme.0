@@ -1,196 +1,85 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 24 Jun 2013 14:30:55 -0600
-Subject: [PATCHv3 1/5] NVMe: Group pci related actions in functions
+Date: Mon, 24 Jun 2013 14:30:58 -0600
+Subject: [PATCHv3 4/5] NVMe: Use normal shutdown
 In-Reply-To: <1372105859-27850-1-git-send-email-keith.busch@intel.com>
 References: <1372105859-27850-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1372105859-27850-2-git-send-email-keith.busch@intel.com>
+Message-ID: <1372105859-27850-5-git-send-email-keith.busch@intel.com>
 
-This will make it easier to reuse these outside probe/remove.
+The NVMe spec recommends using the shutdown normal sequence when safely
+taking the controller offline instead of hitting CC.EN on the next
+start-up to reset the controller. The spec recommends a minimum of 1
+second for the shutdown complete. This patch waits 2 seconds to be on
+the safe side.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |  116 +++++++++++++++++++++++++++------------------
- 1 files changed, 70 insertions(+), 46 deletions(-)
+ drivers/block/nvme-core.c |   26 ++++++++++++++++++++++++++
+ include/linux/nvme.h      |    2 ++
+ 2 files changed, 28 insertions(+), 0 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 07d527c..3751888 100644
+index 21e7e72..f943d49 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1192,9 +1192,6 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	u64 cap = readq(&dev->bar->cap);
- 	struct nvme_queue *nvmeq;
- 
--	dev->dbs = ((void __iomem *)dev->bar) + 4096;
--	dev->db_stride = NVME_CAP_STRIDE(cap);
--
- 	result = nvme_disable_ctrl(dev, cap);
- 	if (result < 0)
- 		return result;
-@@ -1686,6 +1683,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	if (db_bar_size > 8192) {
- 		iounmap(dev->bar);
- 		dev->bar = ioremap(pci_resource_start(pdev, 0), db_bar_size);
-+		if (!dev->bar)
-+			return -ENOMEM;
- 		dev->dbs = ((void __iomem *)dev->bar) + 4096;
- 		dev->queues[0]->q_db = dev->dbs;
- 	}
-@@ -1830,6 +1829,63 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	return res;
+@@ -1225,6 +1225,30 @@ static int nvme_enable_ctrl(struct nvme_dev *dev, u64 cap)
+ 	return nvme_wait_ready(dev, cap, true);
  }
  
-+static int nvme_dev_map(struct nvme_dev *dev)
++static int nvme_shutdown_ctrl(struct nvme_dev *dev)
 +{
-+	int bars, result = -ENOMEM;
-+	struct pci_dev *pdev = dev->pci_dev;
++	unsigned long timeout;
++	u32 cc;
 +
-+	if (pci_enable_device_mem(pdev))
-+		return result;
++	cc = (readl(&dev->bar->cc) & ~NVME_CC_SHN_MASK) | NVME_CC_SHN_NORMAL;
++	writel(cc, &dev->bar->cc);
 +
-+	dev->entry[0].vector = pdev->irq;
-+	pci_set_master(pdev);
-+	bars = pci_select_bars(pdev, IORESOURCE_MEM);
-+	if (pci_request_selected_regions(pdev, bars, "nvme"))
-+		goto disable_pci;
-+
-+	if (!dma_set_mask(&pdev->dev, DMA_BIT_MASK(64)))
-+		dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
-+	else if (!dma_set_mask(&pdev->dev, DMA_BIT_MASK(32)))
-+		dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
-+	else
-+		goto disable_pci;
-+
-+	dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
-+	pci_set_drvdata(pdev, dev);
-+
-+	dev->bar = ioremap(pci_resource_start(pdev, 0), 8192);
-+	if (!dev->bar)
-+		goto disable;
-+
-+	dev->db_stride = NVME_CAP_STRIDE(readq(&dev->bar->cap));
-+	dev->dbs = ((void __iomem *)dev->bar) + 4096;
-+
-+	return 0;
-+
-+ disable:
-+	pci_release_regions(pdev);
-+ disable_pci:
-+	pci_disable_device(pdev);
-+	return result;
-+}
-+
-+static void nvme_dev_unmap(struct nvme_dev *dev)
-+{
-+	if (dev->pci_dev->msi_enabled)
-+		pci_disable_msi(dev->pci_dev);
-+	else if (dev->pci_dev->msix_enabled)
-+		pci_disable_msix(dev->pci_dev);
-+
-+	if (dev->bar) {
-+		iounmap(dev->bar);
-+		dev->bar = 0;
++	timeout = 2 * HZ + jiffies;
++	while ((readl(&dev->bar->csts) & NVME_CSTS_SHST_MASK) !=
++							NVME_CSTS_SHST_CMPLT) {
++		msleep(100);
++		if (fatal_signal_pending(current))
++			return -EINTR;
++		if (time_after(jiffies, timeout)) {
++			dev_err(&dev->pci_dev->dev,
++				"Device shutdown incomplete; abort shutdown\n");
++			return -ENODEV;
++		}
 +	}
 +
-+	pci_release_regions(dev->pci_dev);
-+	if (pci_is_enabled(dev->pci_dev))
-+		pci_disable_device(dev->pci_dev);
++	return 0;
 +}
 +
- static int nvme_dev_remove(struct nvme_dev *dev)
+ static int nvme_configure_admin_queue(struct nvme_dev *dev)
  {
- 	struct nvme_ns *ns, *next;
-@@ -1906,15 +1962,9 @@ static void nvme_free_dev(struct kref *kref)
- {
- 	struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
- 	nvme_dev_remove(dev);
--	if (dev->pci_dev->msi_enabled)
--		pci_disable_msi(dev->pci_dev);
--	else if (dev->pci_dev->msix_enabled)
--		pci_disable_msix(dev->pci_dev);
--	iounmap(dev->bar);
-+	nvme_dev_unmap(dev);
- 	nvme_release_instance(dev);
- 	nvme_release_prp_pools(dev);
--	pci_disable_device(dev->pci_dev);
--	pci_release_regions(dev->pci_dev);
- 	kfree(dev->queues);
- 	kfree(dev->entry);
- 	kfree(dev);
-@@ -1957,7 +2007,7 @@ static const struct file_operations nvme_dev_fops = {
+ 	int result;
+@@ -1964,6 +1988,8 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 		list_del(&dev->node);
+ 	spin_unlock(&dev_list_lock);
  
- static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
--	int bars, result = -ENOMEM;
-+	int result = -ENOMEM;
- 	struct nvme_dev *dev;
++	if (dev->bar)
++		nvme_shutdown_ctrl(dev);
+ 	nvme_dev_unmap(dev);
+ }
  
- 	dev = kzalloc(sizeof(*dev), GFP_KERNEL);
-@@ -1972,39 +2022,19 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (!dev->queues)
- 		goto free;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 5d7c079..474b49b 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -50,6 +50,7 @@ enum {
+ 	NVME_CC_SHN_NONE	= 0 << 14,
+ 	NVME_CC_SHN_NORMAL	= 1 << 14,
+ 	NVME_CC_SHN_ABRUPT	= 2 << 14,
++	NVME_CC_SHN_MASK	= 3 << 14,
+ 	NVME_CC_IOSQES		= 6 << 16,
+ 	NVME_CC_IOCQES		= 4 << 20,
+ 	NVME_CSTS_RDY		= 1 << 0,
+@@ -57,6 +58,7 @@ enum {
+ 	NVME_CSTS_SHST_NORMAL	= 0 << 2,
+ 	NVME_CSTS_SHST_OCCUR	= 1 << 2,
+ 	NVME_CSTS_SHST_CMPLT	= 2 << 2,
++	NVME_CSTS_SHST_MASK	= 3 << 2,
+ };
  
--	if (pci_enable_device_mem(pdev))
--		goto free;
--	pci_set_master(pdev);
--	bars = pci_select_bars(pdev, IORESOURCE_MEM);
--	if (pci_request_selected_regions(pdev, bars, "nvme"))
--		goto disable;
--
- 	INIT_LIST_HEAD(&dev->namespaces);
- 	dev->pci_dev = pdev;
--	pci_set_drvdata(pdev, dev);
--
--	if (!dma_set_mask(&pdev->dev, DMA_BIT_MASK(64)))
--		dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
--	else if (!dma_set_mask(&pdev->dev, DMA_BIT_MASK(32)))
--		dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
--	else
--		goto disable;
--
- 	result = nvme_set_instance(dev);
- 	if (result)
--		goto disable;
--
--	dev->entry[0].vector = pdev->irq;
-+		goto free;
- 
- 	result = nvme_setup_prp_pools(dev);
- 	if (result)
--		goto disable_msix;
-+		goto release;
- 
--	dev->bar = ioremap(pci_resource_start(pdev, 0), 8192);
--	if (!dev->bar) {
--		result = -ENOMEM;
--		goto disable_msix;
--	}
-+	result = nvme_dev_map(dev);
-+	if (result)
-+		goto release_pools;
- 
- 	result = nvme_configure_admin_queue(dev);
- 	if (result)
-@@ -2040,17 +2070,11 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	nvme_free_queues(dev);
-  unmap:
--	iounmap(dev->bar);
-- disable_msix:
--	if (dev->pci_dev->msi_enabled)
--		pci_disable_msi(dev->pci_dev);
--	else if (dev->pci_dev->msix_enabled)
--		pci_disable_msix(dev->pci_dev);
--	nvme_release_instance(dev);
-+	nvme_dev_unmap(dev);
-+ release_pools:
- 	nvme_release_prp_pools(dev);
-- disable:
--	pci_disable_device(pdev);
--	pci_release_regions(pdev);
-+ release:
-+	nvme_release_instance(dev);
-  free:
- 	kfree(dev->queues);
- 	kfree(dev->entry);
+ struct nvme_id_power_state {
 -- 
 1.7.0.4
