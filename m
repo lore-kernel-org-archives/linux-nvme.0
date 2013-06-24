@@ -1,53 +1,40 @@
-From: mingo@kernel.org (Ingo Molnar)
-Date: Mon, 24 Jun 2013 10:21:47 +0200
-Subject: RFC: Allow block drivers to poll for I/O instead of sleeping
-In-Reply-To: <51C77344.2040907@gmail.com>
-References: <20130620201713.GV8211@linux.intel.com>
- <20130623100920.GA19021@gmail.com> <51C77344.2040907@gmail.com>
-Message-ID: <20130624082147.GC21768@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 24 Jun 2013 14:30:54 -0600
+Subject: [PATCHv3 0/5] NVMe: Power management patch set 
+Message-ID: <1372105859-27850-1-git-send-email-keith.busch@intel.com>
 
+This adds power management to the NVMe devices.
 
-* David Ahern <dsahern@gmail.com> wrote:
+I ran this on some real devices and found some errors from the previous
+patch that could occur if the resume fails, but not many changes from
+the previous set.
 
-> On 6/23/13 3:09 AM, Ingo Molnar wrote:
-> >If an IO driver is implemented properly then it will batch up requests for
-> >the controller, and gets IRQ-notified on a (sub-)batch of buffers
-> >completed.
-> >
-> >If there's any spinning done then it should be NAPI-alike polling: a
-> >single "is stuff completed" polling pass per new block of work submitted,
-> >to opportunistically interleave completion with submission work.
-> >
-> >I don't see where active spinning brings would improve performance
-> >compared to a NAPI-alike technique. Your numbers obviously show a speedup
-> >we'd like to have, I'm just wondering whether the same speedup (or even
-> >more) could be implemented via:
-> >
-> >  - smart batching that rate-limits completion IRQs in essence
-> >  + NAPI-alike polling
-> >
-> >... which would almost never result in IRQ driven completion when we are
-> >close to CPU-bound and while not yet saturating the IO controller's
-> >capacity.
-> >
-> >The spinning approach you add has the disadvantage of actively wasting CPU
-> >time, which could be used to run other tasks. In general it's much better
-> >to make sure the completion IRQs are rate-limited and just schedule. This
-> >(combined with a metric ton of fine details) is what the networking code
-> >does in essence, and they have no trouble reaching very high throughput.
-> 
-> Networking code has a similar proposal for low latency sockets using 
-> polling: https://lwn.net/Articles/540281/
+v2->v3:
 
-In that case it might make sense to try the generic approach I suggested 
-in the previous mail, which would measure average sleep latencies of 
-tasks, and would do light idle-polling instead of the more expensive 
-switch-to-the-idle-task context switch plus associated RCU, nohz, etc. 
-busy-CPU-tear-down and the symmetric build-up work on idle wakeup.
+Hand merge to latest head.
 
-The IO driver would still have to take an IRQ though, preferably on the 
-CPU that runs the IO task ...
+Additional checks when releasing the pci resources in case it happens
+twice. This could occur if the module is unloaded after the device
+failed to initialize on resume.
 
-Thanks,
+If the resume fails, free all the queues and check for a null queue
+before issuing IO so that IO can not be sent to the block device if the
+controller failed to re-initialize. I tried deleting the gendisks too,
+but resume never completed when an error was forced with that code. Not
+entirely sure why that happened.
 
-	Ingo
+Additional error checking on ioremap.
+
+Use SIMPLE_DEV_PM_OPS instead of UNIVERSAL_DEV_PM_OPS. I don't think we
+want to use these for runtime suspend/resume on an NVMe device.
+
+Keith Busch (5):
+  NVMe: Group pci related actions in functions
+  NVMe: Separate queue alloc/free from create/delete
+  NVMe: Separate controller init from disk discovery
+  NVMe: Use normal shutdown
+  NVMe: Add pci suspend/resume driver callbacks
+
+ drivers/block/nvme-core.c |  408 +++++++++++++++++++++++++++++++--------------
+ include/linux/nvme.h      |    2 +
+ 2 files changed, 287 insertions(+), 123 deletions(-)
