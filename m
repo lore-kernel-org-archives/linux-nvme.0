@@ -1,28 +1,33 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 24 Jun 2013 16:34:27 -0600
-Subject: [PATCH] NVMe: Disk stats for read/write commands only
-Message-ID: <1372113267-31420-1-git-send-email-keith.busch@intel.com>
+From: rostedt@goodmis.org (Steven Rostedt)
+Date: Mon, 24 Jun 2013 20:11:02 -0400
+Subject: RFC: Allow block drivers to poll for I/O instead of sleeping
+In-Reply-To: <20130624071718.GS9422@kernel.dk>
+References: <20130620201713.GV8211@linux.intel.com>
+ <20130623100920.GA19021@gmail.com>
+ <CA+55aFy+COdk5+ucwxtc1At=PAYTJxeUaUV6rP9XstHdNV0hbQ@mail.gmail.com>
+ <20130624071718.GS9422@kernel.dk>
+Message-ID: <20130625001102.GA6623@home.goodmis.org>
 
-Flush and discard requests would previously mess up the accounting.
+On Mon, Jun 24, 2013@09:17:18AM +0200, Jens Axboe wrote:
+> On Sun, Jun 23 2013, Linus Torvalds wrote:
+> > 
+> > You could try to do that either *in* the idle thread (which would take
+> > the context switch overhead - maybe negating some of the advantages),
+> > or alternatively hook into the scheduler idle logic before actually
+> > doing the switch.
+> 
+> It can't happen in the idle thread. If you need to take the context
+> switch, then you've negated pretty much all of the gain of the polled
+> approach.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |    3 ++-
- 1 files changed, 2 insertions(+), 1 deletions(-)
+What about hooking into the idle_balance code? That happens if we are
+about to go to idle but before the full schedule switch to the idle
+task.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 07d527c..711b51c 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -345,7 +345,8 @@ static void bio_completion(struct nvme_dev *dev, void *ctx,
- 		dma_unmap_sg(&dev->pci_dev->dev, iod->sg, iod->nents,
- 			bio_data_dir(bio) ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
- 
--	nvme_end_io_acct(bio, iod->start_time);
-+	if (bio_rw(bio))
-+		nvme_end_io_acct(bio, iod->start_time);
- 	nvme_free_iod(dev, iod);
- 	if (status)
- 		bio_endio(bio, -EIO);
--- 
-1.7.0.4
+
+In __schedule(void):
+
+	if (unlikely(!rq->nr_running))
+		idle_balance(cpu, rq);
+
+-- Steve
