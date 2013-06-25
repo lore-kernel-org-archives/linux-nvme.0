@@ -1,33 +1,47 @@
-From: rostedt@goodmis.org (Steven Rostedt)
-Date: Mon, 24 Jun 2013 20:11:02 -0400
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Mon, 24 Jun 2013 23:01:40 -0400
 Subject: RFC: Allow block drivers to poll for I/O instead of sleeping
-In-Reply-To: <20130624071718.GS9422@kernel.dk>
+In-Reply-To: <20130624071544.GR9422@kernel.dk>
 References: <20130620201713.GV8211@linux.intel.com>
  <20130623100920.GA19021@gmail.com>
- <CA+55aFy+COdk5+ucwxtc1At=PAYTJxeUaUV6rP9XstHdNV0hbQ@mail.gmail.com>
- <20130624071718.GS9422@kernel.dk>
-Message-ID: <20130625001102.GA6623@home.goodmis.org>
+ <20130624071544.GR9422@kernel.dk>
+Message-ID: <20130625030140.GZ8211@linux.intel.com>
 
-On Mon, Jun 24, 2013@09:17:18AM +0200, Jens Axboe wrote:
-> On Sun, Jun 23 2013, Linus Torvalds wrote:
-> > 
-> > You could try to do that either *in* the idle thread (which would take
-> > the context switch overhead - maybe negating some of the advantages),
-> > or alternatively hook into the scheduler idle logic before actually
-> > doing the switch.
+On Mon, Jun 24, 2013@09:15:45AM +0200, Jens Axboe wrote:
+> Willy, I think the general design is fine, hooking in via the bdi is the
+> only way to get back to the right place from where you need to sleep.
+> Some thoughts:
 > 
-> It can't happen in the idle thread. If you need to take the context
-> switch, then you've negated pretty much all of the gain of the polled
-> approach.
+> - This should be hooked in via blk-iopoll, both of them should call into
+>   the same driver hook for polling completions.
 
-What about hooking into the idle_balance code? That happens if we are
-about to go to idle but before the full schedule switch to the idle
-task.
+I actually started working on this, then I realised that it's actually
+a bad idea.  blk-iopoll's poll function is to poll the single I/O queue
+closest to this CPU.  The iowait poll function is to poll all queues
+that the I/O for this address_space might complete on.
 
+I'm reluctant to ask drivers to define two poll functions, but I'm even
+more reluctant to ask them to define one function with two purposes.
 
-In __schedule(void):
+> - It needs to be more intelligent in when you want to poll and when you
+>   want regular irq driven IO.
 
-	if (unlikely(!rq->nr_running))
-		idle_balance(cpu, rq);
+Oh yeah, absolutely.  While the example patch didn't show it, I wouldn't
+enable it for all NVMe devices; only ones with sufficiently low latency.
+There's also the ability for the driver to look at the number of
+outstanding I/Os and return an error (eg -EBUSY) to stop spinning.
 
--- Steve
+> - With the former note, the app either needs to opt in (and hence
+>   willingly sacrifice CPU cycles of its scheduling slice) or it needs to
+>   be nicer in when it gives up and goes back to irq driven IO.
+
+Yup.  I like the way you framed it.  If the task *wants* to spend its
+CPU cycles on polling for I/O instead of giving up the remainder of its
+time slice, then it should be able to do that.  After all, it already can;
+it can submit an I/O request via AIO, and then call io_getevents in a
+tight loop.
+
+So maybe the right way to do this is with a task flag?  If we go that
+route, I'd like to further develop this option to allow I/Os to be
+designated as "low latency" vs "normal".  Taking a page fault would be
+"low latency" for all tasks, not just ones that choose to spin for I/O.
