@@ -1,50 +1,41 @@
-From: pbonzini@redhat.com (Paolo Bonzini)
-Date: Thu, 27 Jun 2013 01:28:45 +0200
-Subject: NVMe: Add nvme-scsi.c (was Re: [PULL REQUEST] NVMe driver updates)
-In-Reply-To: <20130509202015.GJ6057@linux.intel.com>
-References: <20130509202015.GJ6057@linux.intel.com>
-Message-ID: <51CB792D.6030504@redhat.com>
+From: riel@redhat.com (Rik van Riel)
+Date: Thu, 27 Jun 2013 14:10:36 -0400
+Subject: RFC: Allow block drivers to poll for I/O instead of sleeping
+In-Reply-To: <CA+55aFy+COdk5+ucwxtc1At=PAYTJxeUaUV6rP9XstHdNV0hbQ@mail.gmail.com>
+References: <20130620201713.GV8211@linux.intel.com>
+ <20130623100920.GA19021@gmail.com>
+ <CA+55aFy+COdk5+ucwxtc1At=PAYTJxeUaUV6rP9XstHdNV0hbQ@mail.gmail.com>
+Message-ID: <51CC801C.5050600@redhat.com>
 
-Il 09/05/2013 22:20, Matthew Wilcox ha scritto:
->       NVMe: Add nvme-scsi.c
+On 06/23/2013 02:29 PM, Linus Torvalds wrote:
 
-I couldn't find the original patch on LKML, so I'll just quote the
-relevant piece of code.
+> You could try to do that either *in* the idle thread (which would take
+> the context switch overhead - maybe negating some of the advantages),
+> or alternatively hook into the scheduler idle logic before actually
+> doing the switch.
+>
+> But anything that starts polling when there are other runnable
+> processes to be done sounds really debatable. Even if it's "only" 5us
+> or so. There's a lot of real work that could be done in 5us.
 
-> +int nvme_sg_io(struct nvme_ns *ns, struct sg_io_hdr __user *u_hdr)
-> +{
-> +	struct sg_io_hdr hdr;
-> +	int retcode;
-> +
-> +	if (!capable(CAP_SYS_ADMIN))
-> +		return -EACCES;
+Having a hook into the idle code could be useful for
+KVM, too.
 
-This should be EPERM, and also it should use the same checks as other
-implementations of SG_IO, including:
+In certain message passing workloads, we have seen
+that the system throughput suffers greatly simply
+by having the KVM thread's preempt notifiers save
+CPU state when the guest goes idle, and re-load it
+when the guest VCPU is activated again.
 
-- checking if it's operating on a partition, and requiring CAP_SYS_RAWIO
-if so;
+Avoiding the context switch overhead when nothing
+else wants to run, but being immediately preempted
+when something does, could be a big win.
 
-- allowing a limited number of commands even for !capable(CAP_SYS_RAWIO).
+Would it make sense to have some hook that says
+"I *am* an idle thread right now", as opposed to
+"context switch to the idle thread"?
 
-All this is done by scsi_cmd_blk_ioctl.
-
-Paolo
-
-> +	if (copy_from_user(&hdr, u_hdr, sizeof(hdr)))
-> +		return -EFAULT;
-> +	if (hdr.interface_id != 'S')
-> +		return -EINVAL;
-> +	if (hdr.cmd_len > BLK_MAX_CDB)
-> +		return -EINVAL;
-> +
-> +	retcode = nvme_scsi_translate(ns, &hdr);
-> +	if (retcode < 0)
-> +		return retcode;
-> +	if (retcode > 0)
-> +		retcode = SNTI_TRANSLATION_SUCCESS;
-> +	if (copy_to_user(__user u_hdr, &hdr, sizeof(sg_io_hdr_t)) > 0)
-> +		return -EFAULT;
-> +
-> +	return retcode;
-> +}
+That hook could even run the cpuidle code, and
+switch to the real idle task (saving the current
+task state), and put the CPU into a C-state, when
+the expected sleep time is long...
