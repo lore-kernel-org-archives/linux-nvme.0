@@ -1,62 +1,44 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Mon, 1 Jul 2013 17:00:16 -0400
-Subject: [PATCH] NVMe: handle ioremap failure
-In-Reply-To: <1372695820-30841-1-git-send-email-keith.busch@intel.com>
-References: <1372695820-30841-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20130701210016.GB30142@linux.intel.com>
+From: shli@kernel.org (Shaohua Li)
+Date: Thu, 4 Jul 2013 09:13:01 +0800
+Subject: RFC: Allow block drivers to poll for I/O instead of sleeping
+In-Reply-To: <20130620201713.GV8211@linux.intel.com>
+References: <20130620201713.GV8211@linux.intel.com>
+Message-ID: <20130704011301.GA16906@kernel.org>
 
-On Mon, Jul 01, 2013@10:23:40AM -0600, Keith Busch wrote:
-> Decrement the number of queues required for doorbell remapping until
-> the memory is successfully mapped for that size.
+On Thu, Jun 20, 2013@04:17:13PM -0400, Matthew Wilcox wrote:
+> 
+> A paper at FAST2012
+> (http://static.usenix.org/events/fast12/tech/full_papers/Yang.pdf) pointed
+> out the performance overhead of taking interrupts for low-latency block
+> I/Os.  The solution the author investigated was to spin waiting for each
+> I/O to complete.  This is inefficient as Linux submits many I/Os which
+> are not latency-sensitive, and even when we do submit latency-sensitive
+> I/Os (eg swap-in), we frequently submit several I/Os before waiting.
+> 
+> This RFC takes a different approach, only spinning when we would
+> otherwise sleep.  To implement this, I add an 'io_poll' function pointer
+> to backing_dev_info.  I include a sample implementation for the NVMe
+> driver.  Next, I add an io_wait() function which will call io_poll()
+> if it is set.  It falls back to calling io_schedule() if anything goes
+> wrong with io_poll() or the task exceeds its timeslice.  Finally, all
+> that is left is to judiciously replace calls to io_schedule() with
+> calls to io_wait().  I think I've covered the main contenders with
+> sleep_on_page(), sleep_on_buffer() and the DIO path.
+> 
+> I've measured the performance benefits of this with a Chatham NVMe
+> prototype device and a simple
+> # dd if=/dev/nvme0n1 of=/dev/null iflag=direct bs=512 count=1000000
+> The latency of each I/O reduces by about 2.5us (from around 8.0us to
+> around 5.5us).  This matches up quite well with the performance numbers
+> shown in the FAST2012 paper (which used a similar device).
 
-Cool, thanks!
+Hi Matthew,
+I'm wondering where the 2.5us latency cut comes from. I did a simple test. In
+my xeon 3.4G CPU, one cpu can do about 2M/s context switch of applications.
+Assuming switching to idle is faster, so switching to idle and back should take
+less than 1us. Does the 2.5us latency cut mostly come from deep idle state
+latency? if so, maybe set a lower pm_qos value or have a better idle governer
+to prevent cpu entering deep idle state can help too.
 
-> -		dev->bar = ioremap(pci_resource_start(pdev, 0), db_bar_size);
-> +		while (nr_io_queues > 0) {
-> +			dev->bar = ioremap(pci_resource_start(pdev, 0), db_bar_size);
-*cough* *checkpatch* *line length*
-> +			if (!dev->bar)
-> +				nr_io_queues--;
-> +			else
-> +				break;
-
-I think this might more naturally be written as:
-
-			dev->bar = ioremap(pci_resource_start(pdev, 0),
-								db_bar_size);
-			if (dev->bar)
-				break;
-
-			nr_io_queues--;
-> +			db_bar_size = 4096 + ((nr_io_queues + 1) << (dev->db_stride + 3));
-> +		}
-> +		if (!dev->bar)
-> +			return -ENOMEM;
-> +
-
-Although maybe we should instead redo the entire thing as ...
-
-static size_t db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
-{
-	return 4096 + ((nr_io_queues + 1) << (dev->db_stride + 3));
-}
-
-	size = db_bar_size(dev, nr_io_queues);
-	if (size > 8192) {
-		iounmap(dev->bar);
-		do {
-			dev->bar = ioremap(pci_resource_start(pdev, 0), size);
-			if (dev->bar)
-				break;
-			if (!--nr_io_queues)
-				return -ENOMEM;
-			size = db_bar_size(dev, --nr_io_queues);
-		} while (1);
-		dev->dbs = ((void __iomem *)dev->bar) + 4096;
-		dev->queues[0]->q_db = dev->dbs;
-	}
-
-Although, now I'm wondering whether we free_irq() the admin queue exactly
-the right number of times.  We might need to set ->queue_count to -1
-while we've called free_irq() on the admin queue ... but then we'll need
-to handle the queue memory freeing correctly.  Awkward ...
+Thanks,
+Shaohua
