@@ -1,315 +1,162 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  9 Jul 2013 14:20:38 -0600
-Subject: [PATCHv4 2/5] NVMe: Separate queue alloc/free from create/delete
+Date: Tue,  9 Jul 2013 14:20:39 -0600
+Subject: [PATCHv4 3/5] NVMe: Separate controller init from disk discovery
 In-Reply-To: <1373401241-20259-1-git-send-email-keith.busch@intel.com>
 References: <1373401241-20259-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1373401241-20259-3-git-send-email-keith.busch@intel.com>
+Message-ID: <1373401241-20259-4-git-send-email-keith.busch@intel.com>
 
-This separates nvme queue allocation from creation, and queue deletion
-from freeing. This is so that we may in the future temporarily disable
-queues and reuse the same memory when bringing them back online, like
-coming back from suspend state.
+This combines the controller initialization into one function, removing
+IO queue setup from namespace discovery, and creates symetric functions
+for device removal. The controller start and shutdown functions can now
+be called from resume/suspend context as well as probe/remove.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |  146 +++++++++++++++++++++++++++++++++------------
- 1 files changed, 108 insertions(+), 38 deletions(-)
+ drivers/block/nvme-core.c |   77 +++++++++++++++++++++++++++-----------------
+ 1 files changed, 47 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 49771eb..9ae3054 100644
+index 9ae3054..0d28015 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -81,6 +81,7 @@ struct nvme_queue {
- 	u16 cq_head;
- 	u8 cq_phase;
- 	u8 cqe_seen;
-+	u8 q_suspended;
- 	unsigned long cmdid_data[];
+@@ -1841,10 +1841,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	dma_addr_t dma_addr;
+ 	int shift = NVME_CAP_MPSMIN(readq(&dev->bar->cap)) + 12;
+ 
+-	res = nvme_setup_io_queues(dev);
+-	if (res)
+-		return res;
+-
+ 	mem = dma_alloc_coherent(&dev->pci_dev->dev, 8192, &dma_addr,
+ 								GFP_KERNEL);
+ 	if (!mem)
+@@ -1952,27 +1948,29 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
+ 		pci_disable_device(dev->pci_dev);
+ }
+ 
+-static int nvme_dev_remove(struct nvme_dev *dev)
++static void nvme_dev_shutdown(struct nvme_dev *dev)
+ {
+-	struct nvme_ns *ns, *next;
+ 	int i;
+ 
+ 	for (i = dev->queue_count - 1; i >= 0; i--)
+ 		 nvme_disable_queue(dev, i);
+ 
+ 	spin_lock(&dev_list_lock);
+-	list_del(&dev->node);
++	list_del_init(&dev->node);
+ 	spin_unlock(&dev_list_lock);
+ 
++	nvme_dev_unmap(dev);
++}
++
++static void nvme_dev_remove(struct nvme_dev *dev)
++{
++	struct nvme_ns *ns, *next;
++
+ 	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
+ 		list_del(&ns->list);
+ 		del_gendisk(ns->disk);
+ 		nvme_ns_free(ns);
+ 	}
+-
+-	nvme_free_queues(dev);
+-
+-	return 0;
+ }
+ 
+ static int nvme_setup_prp_pools(struct nvme_dev *dev)
+@@ -2032,7 +2030,8 @@ static void nvme_free_dev(struct kref *kref)
+ {
+ 	struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
+ 	nvme_dev_remove(dev);
+-	nvme_dev_unmap(dev);
++	nvme_dev_shutdown(dev);
++	nvme_free_queues(dev);
+ 	nvme_release_instance(dev);
+ 	nvme_release_prp_pools(dev);
+ 	kfree(dev->queues);
+@@ -2075,6 +2074,37 @@ static const struct file_operations nvme_dev_fops = {
+ 	.compat_ioctl	= nvme_dev_ioctl,
  };
  
-@@ -116,6 +117,11 @@ static struct nvme_cmd_info *nvme_cmd_info(struct nvme_queue *nvmeq)
- 	return (void *)&nvmeq->cmdid_data[BITS_TO_LONGS(nvmeq->q_depth)];
- }
- 
-+static unsigned nvme_queue_extra(int depth)
++static int nvme_dev_start(struct nvme_dev *dev)
 +{
-+	return DIV_ROUND_UP(depth, 8) + (depth * sizeof(struct nvme_cmd_info));
-+}
-+
- /**
-  * alloc_cmdid() - Allocate a Command ID
-  * @nvmeq: The queue that will be used for this command
-@@ -786,7 +792,7 @@ static void nvme_make_request(struct request_queue *q, struct bio *bio)
- 	int result = -EBUSY;
- 
- 	spin_lock_irq(&nvmeq->q_lock);
--	if (bio_list_empty(&nvmeq->sq_cong))
-+	if (!nvmeq->q_suspended && bio_list_empty(&nvmeq->sq_cong))
- 		result = nvme_submit_bio_queue(nvmeq, ns, bio);
- 	if (unlikely(result)) {
- 		if (bio_list_empty(&nvmeq->sq_cong))
-@@ -1022,6 +1028,13 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
- 
- static void nvme_free_queue_mem(struct nvme_queue *nvmeq)
- {
-+	spin_lock_irq(&nvmeq->q_lock);
-+	while (bio_list_peek(&nvmeq->sq_cong)) {
-+		struct bio *bio = bio_list_pop(&nvmeq->sq_cong);
-+		bio_endio(bio, -EIO);
-+	}
-+	spin_unlock_irq(&nvmeq->q_lock);
-+
- 	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
- 				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
- 	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
-@@ -1029,17 +1042,28 @@ static void nvme_free_queue_mem(struct nvme_queue *nvmeq)
- 	kfree(nvmeq);
- }
- 
--static void nvme_free_queue(struct nvme_dev *dev, int qid)
-+static void nvme_free_queues(struct nvme_dev *dev)
-+{
-+	int i;
-+
-+	for (i = dev->queue_count - 1; i >= 0; i--) {
-+		nvme_free_queue_mem(dev->queues[i]);
-+		dev->queue_count--;
-+		dev->queues[i] = NULL;
-+	}
-+}
-+
-+static void nvme_disable_queue(struct nvme_dev *dev, int qid)
- {
- 	struct nvme_queue *nvmeq = dev->queues[qid];
- 	int vector = dev->entry[nvmeq->cq_vector].vector;
- 
- 	spin_lock_irq(&nvmeq->q_lock);
--	nvme_cancel_ios(nvmeq, false);
--	while (bio_list_peek(&nvmeq->sq_cong)) {
--		struct bio *bio = bio_list_pop(&nvmeq->sq_cong);
--		bio_endio(bio, -EIO);
-+	if (nvmeq->q_suspended) {
-+		spin_unlock_irq(&nvmeq->q_lock);
-+		return;
- 	}
-+	nvmeq->q_suspended = 1;
- 	spin_unlock_irq(&nvmeq->q_lock);
- 
- 	irq_set_affinity_hint(vector, NULL);
-@@ -1051,15 +1075,17 @@ static void nvme_free_queue(struct nvme_dev *dev, int qid)
- 		adapter_delete_cq(dev, qid);
- 	}
- 
--	nvme_free_queue_mem(nvmeq);
-+	spin_lock_irq(&nvmeq->q_lock);
-+	nvme_process_cq(nvmeq);
-+	nvme_cancel_ios(nvmeq, false);
-+	spin_unlock_irq(&nvmeq->q_lock);
- }
- 
- static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- 							int depth, int vector)
- {
- 	struct device *dmadev = &dev->pci_dev->dev;
--	unsigned extra = DIV_ROUND_UP(depth, 8) + (depth *
--						sizeof(struct nvme_cmd_info));
-+	unsigned extra = nvme_queue_extra(depth);
- 	struct nvme_queue *nvmeq = kzalloc(sizeof(*nvmeq) + extra, GFP_KERNEL);
- 	if (!nvmeq)
- 		return NULL;
-@@ -1086,6 +1112,8 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- 	nvmeq->q_db = &dev->dbs[qid << (dev->db_stride + 1)];
- 	nvmeq->q_depth = depth;
- 	nvmeq->cq_vector = vector;
-+	nvmeq->q_suspended = 1;
-+	dev->queue_count++;
- 
- 	return nvmeq;
- 
-@@ -1109,18 +1137,29 @@ static int queue_request_irq(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- 				IRQF_DISABLED | IRQF_SHARED, name, nvmeq);
- }
- 
--static struct nvme_queue *nvme_create_queue(struct nvme_dev *dev, int qid,
--					    int cq_size, int vector)
-+static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
- {
--	int result;
--	struct nvme_queue *nvmeq = nvme_alloc_queue(dev, qid, cq_size, vector);
-+	struct nvme_dev *dev = nvmeq->dev;
-+	unsigned extra = nvme_queue_extra(nvmeq->q_depth);
- 
--	if (!nvmeq)
--		return ERR_PTR(-ENOMEM);
-+	nvmeq->sq_tail = 0;
-+	nvmeq->cq_head = 0;
-+	nvmeq->cq_phase = 1;
-+	nvmeq->q_db = &dev->dbs[qid << (dev->db_stride + 1)];
-+	memset (nvmeq->cmdid_data, 0, extra);
-+	memset((void *)nvmeq->cqes, 0, CQ_SIZE(nvmeq->q_depth));
-+	nvme_cancel_ios(nvmeq, false);
-+	nvmeq->q_suspended = 0;
-+}
-+
-+static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
-+{
-+	struct nvme_dev *dev = nvmeq->dev;
 +	int result;
- 
- 	result = adapter_alloc_cq(dev, qid, nvmeq);
- 	if (result < 0)
--		goto free_nvmeq;
-+		return result;
- 
- 	result = adapter_alloc_sq(dev, qid, nvmeq);
- 	if (result < 0)
-@@ -1130,19 +1169,17 @@ static struct nvme_queue *nvme_create_queue(struct nvme_dev *dev, int qid,
- 	if (result < 0)
- 		goto release_sq;
- 
--	return nvmeq;
-+	spin_lock(&nvmeq->q_lock);
-+	nvme_init_queue(nvmeq, qid);
-+	spin_unlock(&nvmeq->q_lock);
 +
-+	return result;
- 
-  release_sq:
- 	adapter_delete_sq(dev, qid);
-  release_cq:
- 	adapter_delete_cq(dev, qid);
-- free_nvmeq:
--	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
--				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
--	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
--					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
--	kfree(nvmeq);
--	return ERR_PTR(result);
-+	return result;
- }
- 
- static int nvme_wait_ready(struct nvme_dev *dev, u64 cap, bool enabled)
-@@ -1223,6 +1260,9 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 		goto free_q;
- 
- 	dev->queues[0] = nvmeq;
-+	spin_lock(&nvmeq->q_lock);
-+	nvme_init_queue(nvmeq, 0);
-+	spin_unlock(&nvmeq->q_lock);
- 	return result;
- 
-  free_q:
-@@ -1387,6 +1427,8 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	put_nvmeq(nvmeq);
- 	if (length != (io.nblocks + 1) << ns->lba_shift)
- 		status = -ENOMEM;
-+	else if (!nvmeq || nvmeq->q_suspended)
-+		status = -EBUSY;
- 	else
- 		status = nvme_submit_sync_cmd(nvmeq, &c, NULL, NVME_IO_TIMEOUT);
- 
-@@ -1537,9 +1579,12 @@ static int nvme_kthread(void *data)
- 				if (!nvmeq)
- 					continue;
- 				spin_lock_irq(&nvmeq->q_lock);
-+				if (nvmeq->q_suspended)
-+					goto unlock;
- 				nvme_process_cq(nvmeq);
- 				nvme_cancel_ios(nvmeq, true);
- 				nvme_resubmit_bios(nvmeq);
-+ unlock:
- 				spin_unlock_irq(&nvmeq->q_lock);
- 			}
- 		}
-@@ -1725,7 +1770,23 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	nr_io_queues = vecs;
- 
- 	result = queue_request_irq(dev, dev->queues[0], "nvme admin");
--	/* XXX: handle failure here */
++	result = nvme_dev_map(dev);
 +	if (result)
-+		goto free_queues;
++		return result;
 +
-+	/* Free previously allocated queues that are no longer usable */
++	result = nvme_configure_admin_queue(dev);
++	if (result)
++		goto unmap;
++
 +	spin_lock(&dev_list_lock);
-+	for (i = dev->queue_count - 1; i > nr_io_queues; i--) {
-+		struct nvme_queue *nvmeq = dev->queues[i];
-+
-+		spin_lock(&nvmeq->q_lock);
-+		nvme_cancel_ios(nvmeq, false);
-+		spin_unlock(&nvmeq->q_lock);
-+
-+		nvme_free_queue_mem(nvmeq);
-+		dev->queue_count--;
-+		dev->queues[i] = NULL;
-+	}
++	list_add(&dev->node, &dev_list);
 +	spin_unlock(&dev_list_lock);
- 
- 	cpu = cpumask_first(cpu_online_mask);
- 	for (i = 0; i < nr_io_queues; i++) {
-@@ -1735,11 +1796,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 
- 	q_depth = min_t(int, NVME_CAP_MQES(readq(&dev->bar->cap)) + 1,
- 								NVME_Q_DEPTH);
--	for (i = 0; i < nr_io_queues; i++) {
--		dev->queues[i + 1] = nvme_create_queue(dev, i + 1, q_depth, i);
--		if (IS_ERR(dev->queues[i + 1]))
--			return PTR_ERR(dev->queues[i + 1]);
--		dev->queue_count++;
-+	for (i = dev->queue_count - 1; i < nr_io_queues; i++) {
-+		dev->queues[i + 1] = nvme_alloc_queue(dev, i + 1, q_depth, i);
-+		if (!dev->queues[i + 1]) {
-+			result = -ENOMEM;
-+			goto free_queues;
-+		}
- 	}
- 
- 	for (; i < num_possible_cpus(); i++) {
-@@ -1747,15 +1809,20 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 		dev->queues[i + 1] = dev->queues[target + 1];
- 	}
- 
--	return 0;
--}
-+	for (i = 1; i < dev->queue_count; i++) {
-+		result = nvme_create_queue(dev->queues[i], i);
-+		if (result) {
-+			for (--i; i > 0; i--)
-+				nvme_disable_queue(dev, i);
-+			goto free_queues;
-+		}
-+	}
- 
--static void nvme_free_queues(struct nvme_dev *dev)
--{
--	int i;
-+	return 0;
- 
--	for (i = dev->queue_count - 1; i >= 0; i--)
--		nvme_free_queue(dev, i);
-+ free_queues:
-+	nvme_free_queues(dev);
-+	return result;
- }
- 
- /*
-@@ -1888,6 +1955,10 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
- static int nvme_dev_remove(struct nvme_dev *dev)
- {
- 	struct nvme_ns *ns, *next;
-+	int i;
 +
-+	for (i = dev->queue_count - 1; i >= 0; i--)
-+		 nvme_disable_queue(dev, i);
- 
- 	spin_lock(&dev_list_lock);
- 	list_del(&dev->node);
-@@ -2038,7 +2109,6 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	result = nvme_configure_admin_queue(dev);
++	result = nvme_setup_io_queues(dev);
++	if (result)
++		goto disable;
++
++	return 0;
++
++ disable:
++	spin_lock(&dev_list_lock);
++	list_del_init(&dev->node);
++	spin_unlock(&dev_list_lock);
++ unmap:
++	nvme_dev_unmap(dev);
++	return result;
++}
++
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+ 	int result = -ENOMEM;
+@@ -2102,21 +2132,13 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
  	if (result)
- 		goto unmap;
--	dev->queue_count++;
+ 		goto release;
  
- 	spin_lock(&dev_list_lock);
- 	list_add(&dev->node, &dev_list);
+-	result = nvme_dev_map(dev);
++	result = nvme_dev_start(dev);
+ 	if (result)
+ 		goto release_pools;
+ 
+-	result = nvme_configure_admin_queue(dev);
+-	if (result)
+-		goto unmap;
+-
+-	spin_lock(&dev_list_lock);
+-	list_add(&dev->node, &dev_list);
+-	spin_unlock(&dev_list_lock);
+-
+ 	result = nvme_dev_add(dev);
+ 	if (result)
+-		goto delete;
++		goto shutdown;
+ 
+ 	scnprintf(dev->name, sizeof(dev->name), "nvme%d", dev->instance);
+ 	dev->miscdev.minor = MISC_DYNAMIC_MINOR;
+@@ -2132,15 +2154,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+  remove:
+ 	nvme_dev_remove(dev);
+- delete:
+-	spin_lock(&dev_list_lock);
+-	list_del(&dev->node);
+-	spin_unlock(&dev_list_lock);
+-
+-	nvme_free_queues(dev);
+- unmap:
+-	nvme_dev_unmap(dev);
++ shutdown:
++	nvme_dev_shutdown(dev);
+  release_pools:
++	nvme_free_queues(dev);
+ 	nvme_release_prp_pools(dev);
+  release:
+ 	nvme_release_instance(dev);
 -- 
 1.7.0.4
