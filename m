@@ -1,119 +1,85 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  9 Jul 2013 14:20:41 -0600
-Subject: [PATCHv4 5/5] NVMe: Add pci suspend/resume driver callbacks
+Date: Tue,  9 Jul 2013 14:20:40 -0600
+Subject: [PATCHv4 4/5] NVMe: Use normal shutdown
 In-Reply-To: <1373401241-20259-1-git-send-email-keith.busch@intel.com>
 References: <1373401241-20259-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1373401241-20259-6-git-send-email-keith.busch@intel.com>
+Message-ID: <1373401241-20259-5-git-send-email-keith.busch@intel.com>
 
-Used for going in and out of low power states.
+The NVMe spec recommends using the shutdown normal sequence when safely
+taking the controller offline instead of hitting CC.EN on the next
+start-up to reset the controller. The spec recommends a minimum of 1
+second for the shutdown complete. This patch waits 2 seconds to be on
+the safe side.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   56 +++++++++++++++++++++++++++++++++-----------
- 1 files changed, 42 insertions(+), 14 deletions(-)
+ drivers/block/nvme-core.c |   26 ++++++++++++++++++++++++++
+ include/linux/nvme.h      |    2 ++
+ 2 files changed, 28 insertions(+), 0 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 1af943d..76caec6 100644
+index 0d28015..1af943d 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -791,6 +791,12 @@ static void nvme_make_request(struct request_queue *q, struct bio *bio)
- 	struct nvme_queue *nvmeq = get_nvmeq(ns->dev);
- 	int result = -EBUSY;
- 
-+	if (!nvmeq) {
-+		put_nvmeq(NULL);
-+		bio_endio(bio, -EIO);
-+		return;
-+	}
-+
- 	spin_lock_irq(&nvmeq->q_lock);
- 	if (!nvmeq->q_suspended && bio_list_empty(&nvmeq->sq_cong))
- 		result = nvme_submit_bio_queue(nvmeq, ns, bio);
-@@ -1258,9 +1264,13 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	if (result < 0)
- 		return result;
- 
--	nvmeq = nvme_alloc_queue(dev, 0, 64, 0);
--	if (!nvmeq)
--		return -ENOMEM;
-+	nvmeq = dev->queues[0];
-+	if (!nvmeq) {
-+		nvmeq = nvme_alloc_queue(dev, 0, 64, 0);
-+		if (!nvmeq)
-+			return -ENOMEM;
-+		dev->queues[0] = nvmeq;
-+	}
- 
- 	aqa = nvmeq->q_depth - 1;
- 	aqa |= aqa << 16;
-@@ -1277,21 +1287,16 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 
- 	result = nvme_enable_ctrl(dev, cap);
- 	if (result)
--		goto free_q;
-+		return result;
- 
- 	result = queue_request_irq(dev, nvmeq, "nvme admin");
- 	if (result)
--		goto free_q;
-+		return result;
- 
--	dev->queues[0] = nvmeq;
- 	spin_lock(&nvmeq->q_lock);
- 	nvme_init_queue(nvmeq, 0);
- 	spin_unlock(&nvmeq->q_lock);
- 	return result;
--
-- free_q:
--	nvme_free_queue_mem(nvmeq);
--	return result;
+@@ -1223,6 +1223,30 @@ static int nvme_enable_ctrl(struct nvme_dev *dev, u64 cap)
+ 	return nvme_wait_ready(dev, cap, true);
  }
  
- struct nvme_iod *nvme_map_user_pages(struct nvme_dev *dev, int write,
-@@ -2207,8 +2212,30 @@ static void nvme_remove(struct pci_dev *pdev)
- #define nvme_link_reset NULL
- #define nvme_slot_reset NULL
- #define nvme_error_resume NULL
--#define nvme_suspend NULL
--#define nvme_resume NULL
-+
-+static int nvme_suspend(struct device *dev)
++static int nvme_shutdown_ctrl(struct nvme_dev *dev)
 +{
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+	struct nvme_dev *ndev = pci_get_drvdata(pdev);
++	unsigned long timeout;
++	u32 cc;
 +
-+	nvme_dev_shutdown(ndev);
++	cc = (readl(&dev->bar->cc) & ~NVME_CC_SHN_MASK) | NVME_CC_SHN_NORMAL;
++	writel(cc, &dev->bar->cc);
++
++	timeout = 2 * HZ + jiffies;
++	while ((readl(&dev->bar->csts) & NVME_CSTS_SHST_MASK) !=
++							NVME_CSTS_SHST_CMPLT) {
++		msleep(100);
++		if (fatal_signal_pending(current))
++			return -EINTR;
++		if (time_after(jiffies, timeout)) {
++			dev_err(&dev->pci_dev->dev,
++				"Device shutdown incomplete; abort shutdown\n");
++			return -ENODEV;
++		}
++	}
++
 +	return 0;
 +}
 +
-+static int nvme_resume(struct device *dev)
-+{
-+	struct pci_dev *pdev = to_pci_dev(dev);
-+	struct nvme_dev *ndev = pci_get_drvdata(pdev);
-+	int ret;
-+
-+	ret = nvme_dev_start(ndev);
-+	/* XXX: should remove gendisks if resume fails */
-+	if (ret)
-+		nvme_free_queues(ndev);
-+	return ret;
-+}
-+
-+SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
+ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ {
+ 	int result;
+@@ -1959,6 +1983,8 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 	list_del_init(&dev->node);
+ 	spin_unlock(&dev_list_lock);
  
- static const struct pci_error_handlers nvme_err_handler = {
- 	.error_detected	= nvme_error_detected,
-@@ -2232,8 +2259,9 @@ static struct pci_driver nvme_driver = {
- 	.id_table	= nvme_id_table,
- 	.probe		= nvme_probe,
- 	.remove		= nvme_remove,
--	.suspend	= nvme_suspend,
--	.resume		= nvme_resume,
-+	.driver 	= {
-+		.pm  	= &nvme_dev_pm_ops,
-+	},
- 	.err_handler	= &nvme_err_handler,
++	if (dev->bar)
++		nvme_shutdown_ctrl(dev);
+ 	nvme_dev_unmap(dev);
+ }
+ 
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 8d00415..946771f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -53,6 +53,7 @@ enum {
+ 	NVME_CC_SHN_NONE	= 0 << 14,
+ 	NVME_CC_SHN_NORMAL	= 1 << 14,
+ 	NVME_CC_SHN_ABRUPT	= 2 << 14,
++	NVME_CC_SHN_MASK	= 3 << 14,
+ 	NVME_CC_IOSQES		= 6 << 16,
+ 	NVME_CC_IOCQES		= 4 << 20,
+ 	NVME_CSTS_RDY		= 1 << 0,
+@@ -60,6 +61,7 @@ enum {
+ 	NVME_CSTS_SHST_NORMAL	= 0 << 2,
+ 	NVME_CSTS_SHST_OCCUR	= 1 << 2,
+ 	NVME_CSTS_SHST_CMPLT	= 2 << 2,
++	NVME_CSTS_SHST_MASK	= 3 << 2,
  };
  
+ #define NVME_VS(major, minor)	(major << 16 | minor)
 -- 
 1.7.0.4
