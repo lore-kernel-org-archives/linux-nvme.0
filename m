@@ -1,60 +1,32 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Tue, 9 Jul 2013 09:41:29 -0400
-Subject: [PATCHv2] NVMe: IO Queue NUMA locality
-In-Reply-To: <1373312159-2255-1-git-send-email-keith.busch@intel.com>
-References: <1373312159-2255-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20130709134129.GI30142@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue,  9 Jul 2013 14:20:36 -0600
+Subject: [PATCHv4 0/5] NVMe: suspend resume
+Message-ID: <1373401241-20259-1-git-send-email-keith.busch@intel.com>
 
-On Mon, Jul 08, 2013@01:35:59PM -0600, Keith Busch wrote:
-> There is measurable difference when running IO on a cpu on another
-> domain; however, my particular device hits its peak performance on
-> either domain at higher queue depths and block sizes, so I'm only able
-> to see a difference at lower io depths. The best gains topped out at 2%
-> improvement with this patch vs the existing code.
+Next version of suspend resume.
 
-That's not too shabby.  This is only a two-socket system you're testing
-on, so I'd expect larger gains on systems with more sockets.
+v3->v4:
 
-> I understand this method of allocating and mapping memory may not work
-> for CPUs without cache-coherency, but I'm not sure if there is another
-> way to allocate coherent memory for a specific NUMA node.
+Changed bool to u8 in struct nvme_queue so it has a known size.
 
-I found a way in the networking drivers:
+Simplified getting the extra data allocated per queue into a function
+since the calculation is used in multiple places.
 
-int ixgbe_setup_tx_resources(struct ixgbe_ring *tx_ring)
-{
-        int orig_node = dev_to_node(dev);
-        int numa_node = -1;
-...
-        if (tx_ring->q_vector)
-                numa_node = tx_ring->q_vector->numa_node;
-...
-        set_dev_node(dev, numa_node);
-        tx_ring->desc = dma_alloc_coherent(dev,
-                                           tx_ring->size,
-                                           &tx_ring->dma,
-                                           GFP_KERNEL);
-        set_dev_node(dev, orig_node);
-        if (!tx_ring->desc)
-                tx_ring->desc = dma_alloc_coherent(dev, tx_ring->size,
-                                                   &tx_ring->dma, GFP_KERNEL);
-        if (!tx_ring->desc)
-                goto err;
+Removed ioremap failure; this is unrelated to this patch set and will
+be corrected in a different patch.
 
+Used list_del_init so that we may call it multiple times if resume fails.
 
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index 711b51c..9cedfa0 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -1200,7 +1206,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
->  	if (result < 0)
->  		return result;
->  
-> -	nvmeq = nvme_alloc_queue(dev, 0, 64, 0);
-> +	nvmeq = nvme_alloc_queue(dev, 0, 64, 0, -1);
->  	if (!nvmeq)
->  		return -ENOMEM;
->  
+Re-ordered some of the changes into later patches where the code is
+actually used.
 
-I suppose we should really have the admin queue allocated on the node
-closest to the device, so pass in dev_to_node(dev) instead of -1 here?
+Keith Busch (5):
+  NVMe: Group pci related actions in functions
+  NVMe: Separate queue alloc/free from create/delete
+  NVMe: Separate controller init from disk discovery
+  NVMe: Use normal shutdown
+  NVMe: Add pci suspend/resume driver callbacks
+
+ drivers/block/nvme-core.c |  409 +++++++++++++++++++++++++++++++--------------
+ include/linux/nvme.h      |    2 +
+ 2 files changed, 288 insertions(+), 123 deletions(-)
