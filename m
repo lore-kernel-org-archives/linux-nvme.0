@@ -1,162 +1,131 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  9 Jul 2013 14:20:39 -0600
-Subject: [PATCHv4 3/5] NVMe: Separate controller init from disk discovery
-In-Reply-To: <1373401241-20259-1-git-send-email-keith.busch@intel.com>
-References: <1373401241-20259-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1373401241-20259-4-git-send-email-keith.busch@intel.com>
+From: alexj@rosedu.org (Alexandru Juncu)
+Date: Fri, 12 Jul 2013 18:16:49 +0300
+Subject: [PATCH] NVMe: replace kmalloc and memset with kzalloc.
+Message-ID: <1373642209-16288-1-git-send-email-alexj@rosedu.org>
 
-This combines the controller initialization into one function, removing
-IO queue setup from namespace discovery, and creates symetric functions
-for device removal. The controller start and shutdown functions can now
-be called from resume/suspend context as well as probe/remove.
+Found using coccinelle.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Alexandru Juncu <alexj at rosedu.org>
 ---
- drivers/block/nvme-core.c |   77 +++++++++++++++++++++++++++-----------------
- 1 files changed, 47 insertions(+), 30 deletions(-)
+ drivers/block/nvme-scsi.c | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 9ae3054..0d28015 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1841,10 +1841,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	dma_addr_t dma_addr;
- 	int shift = NVME_CAP_MPSMIN(readq(&dev->bar->cap)) + 12;
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index 102de2f..4a4ff4e 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -933,13 +933,12 @@ static int nvme_trans_bdev_char_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	int res = SNTI_TRANSLATION_SUCCESS;
+ 	int xfer_len;
  
--	res = nvme_setup_io_queues(dev);
--	if (res)
--		return res;
--
- 	mem = dma_alloc_coherent(&dev->pci_dev->dev, 8192, &dma_addr,
- 								GFP_KERNEL);
- 	if (!mem)
-@@ -1952,27 +1948,29 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
- 		pci_disable_device(dev->pci_dev);
- }
- 
--static int nvme_dev_remove(struct nvme_dev *dev)
-+static void nvme_dev_shutdown(struct nvme_dev *dev)
- {
--	struct nvme_ns *ns, *next;
- 	int i;
- 
- 	for (i = dev->queue_count - 1; i >= 0; i--)
- 		 nvme_disable_queue(dev, i);
- 
- 	spin_lock(&dev_list_lock);
--	list_del(&dev->node);
-+	list_del_init(&dev->node);
- 	spin_unlock(&dev_list_lock);
- 
-+	nvme_dev_unmap(dev);
-+}
-+
-+static void nvme_dev_remove(struct nvme_dev *dev)
-+{
-+	struct nvme_ns *ns, *next;
-+
- 	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
- 		list_del(&ns->list);
- 		del_gendisk(ns->disk);
- 		nvme_ns_free(ns);
+-	inq_response = kmalloc(EXTENDED_INQUIRY_DATA_PAGE_LENGTH, GFP_KERNEL);
++	inq_response = kzalloc(EXTENDED_INQUIRY_DATA_PAGE_LENGTH, GFP_KERNEL);
+ 	if (inq_response == NULL) {
+ 		res = -ENOMEM;
+ 		goto out_mem;
  	}
--
--	nvme_free_queues(dev);
--
--	return 0;
- }
  
- static int nvme_setup_prp_pools(struct nvme_dev *dev)
-@@ -2032,7 +2030,8 @@ static void nvme_free_dev(struct kref *kref)
- {
- 	struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
- 	nvme_dev_remove(dev);
--	nvme_dev_unmap(dev);
-+	nvme_dev_shutdown(dev);
-+	nvme_free_queues(dev);
- 	nvme_release_instance(dev);
- 	nvme_release_prp_pools(dev);
- 	kfree(dev->queues);
-@@ -2075,6 +2074,37 @@ static const struct file_operations nvme_dev_fops = {
- 	.compat_ioctl	= nvme_dev_ioctl,
- };
+-	memset(inq_response, 0, EXTENDED_INQUIRY_DATA_PAGE_LENGTH);
+ 	inq_response[1] = INQ_BDEV_CHARACTERISTICS_PAGE;    /* Page Code */
+ 	inq_response[2] = 0x00;    /* Page Length MSB */
+ 	inq_response[3] = 0x3C;    /* Page Length LSB */
+@@ -964,12 +963,11 @@ static int nvme_trans_log_supp_pages(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	int xfer_len;
+ 	u8 *log_response;
  
-+static int nvme_dev_start(struct nvme_dev *dev)
-+{
-+	int result;
-+
-+	result = nvme_dev_map(dev);
-+	if (result)
-+		return result;
-+
-+	result = nvme_configure_admin_queue(dev);
-+	if (result)
-+		goto unmap;
-+
-+	spin_lock(&dev_list_lock);
-+	list_add(&dev->node, &dev_list);
-+	spin_unlock(&dev_list_lock);
-+
-+	result = nvme_setup_io_queues(dev);
-+	if (result)
-+		goto disable;
-+
-+	return 0;
-+
-+ disable:
-+	spin_lock(&dev_list_lock);
-+	list_del_init(&dev->node);
-+	spin_unlock(&dev_list_lock);
-+ unmap:
-+	nvme_dev_unmap(dev);
-+	return result;
-+}
-+
- static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
- 	int result = -ENOMEM;
-@@ -2102,21 +2132,13 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (result)
- 		goto release;
+-	log_response = kmalloc(LOG_PAGE_SUPPORTED_LOG_PAGES_LENGTH, GFP_KERNEL);
++	log_response = kzalloc(LOG_PAGE_SUPPORTED_LOG_PAGES_LENGTH, GFP_KERNEL);
+ 	if (log_response == NULL) {
+ 		res = -ENOMEM;
+ 		goto out_mem;
+ 	}
+-	memset(log_response, 0, LOG_PAGE_SUPPORTED_LOG_PAGES_LENGTH);
  
--	result = nvme_dev_map(dev);
-+	result = nvme_dev_start(dev);
- 	if (result)
- 		goto release_pools;
+ 	log_response[0] = LOG_PAGE_SUPPORTED_LOG_PAGES_PAGE;
+ 	/* Subpage=0x00, Page Length MSB=0 */
+@@ -1000,12 +998,11 @@ static int nvme_trans_log_info_exceptions(struct nvme_ns *ns,
+ 	u8 temp_c;
+ 	u16 temp_k;
  
--	result = nvme_configure_admin_queue(dev);
--	if (result)
--		goto unmap;
--
--	spin_lock(&dev_list_lock);
--	list_add(&dev->node, &dev_list);
--	spin_unlock(&dev_list_lock);
--
- 	result = nvme_dev_add(dev);
- 	if (result)
--		goto delete;
-+		goto shutdown;
+-	log_response = kmalloc(LOG_INFO_EXCP_PAGE_LENGTH, GFP_KERNEL);
++	log_response = kzalloc(LOG_INFO_EXCP_PAGE_LENGTH, GFP_KERNEL);
+ 	if (log_response == NULL) {
+ 		res = -ENOMEM;
+ 		goto out_mem;
+ 	}
+-	memset(log_response, 0, LOG_INFO_EXCP_PAGE_LENGTH);
  
- 	scnprintf(dev->name, sizeof(dev->name), "nvme%d", dev->instance);
- 	dev->miscdev.minor = MISC_DYNAMIC_MINOR;
-@@ -2132,15 +2154,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	mem = dma_alloc_coherent(&dev->pci_dev->dev,
+ 					sizeof(struct nvme_smart_log),
+@@ -1069,12 +1066,11 @@ static int nvme_trans_log_temperature(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	u8 temp_c_cur, temp_c_thresh;
+ 	u16 temp_k;
  
-  remove:
- 	nvme_dev_remove(dev);
-- delete:
--	spin_lock(&dev_list_lock);
--	list_del(&dev->node);
--	spin_unlock(&dev_list_lock);
--
--	nvme_free_queues(dev);
-- unmap:
--	nvme_dev_unmap(dev);
-+ shutdown:
-+	nvme_dev_shutdown(dev);
-  release_pools:
-+	nvme_free_queues(dev);
- 	nvme_release_prp_pools(dev);
-  release:
- 	nvme_release_instance(dev);
+-	log_response = kmalloc(LOG_TEMP_PAGE_LENGTH, GFP_KERNEL);
++	log_response = kzalloc(LOG_TEMP_PAGE_LENGTH, GFP_KERNEL);
+ 	if (log_response == NULL) {
+ 		res = -ENOMEM;
+ 		goto out_mem;
+ 	}
+-	memset(log_response, 0, LOG_TEMP_PAGE_LENGTH);
+ 
+ 	mem = dma_alloc_coherent(&dev->pci_dev->dev,
+ 					sizeof(struct nvme_smart_log),
+@@ -1380,12 +1376,11 @@ static int nvme_trans_mode_page_create(struct nvme_ns *ns,
+ 	blk_desc_offset = mph_size;
+ 	mode_pages_offset_1 = blk_desc_offset + blk_desc_len;
+ 
+-	response = kmalloc(resp_size, GFP_KERNEL);
++	response = kzalloc(resp_size, GFP_KERNEL);
+ 	if (response == NULL) {
+ 		res = -ENOMEM;
+ 		goto out_mem;
+ 	}
+-	memset(response, 0, resp_size);
+ 
+ 	res = nvme_trans_fill_mode_parm_hdr(&response[0], mph_size, cdb10,
+ 					llbaa, mode_data_length, blk_desc_len);
+@@ -2480,12 +2475,11 @@ static int nvme_trans_read_capacity(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	}
+ 	id_ns = mem;
+ 
+-	response = kmalloc(resp_size, GFP_KERNEL);
++	response = kzalloc(resp_size, GFP_KERNEL);
+ 	if (response == NULL) {
+ 		res = -ENOMEM;
+ 		goto out_dma;
+ 	}
+-	memset(response, 0, resp_size);
+ 	nvme_trans_fill_read_cap(response, id_ns, cdb16);
+ 
+ 	xfer_len = min(alloc_len, resp_size);
+@@ -2554,12 +2548,11 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 			goto out_dma;
+ 		}
+ 
+-		response = kmalloc(resp_size, GFP_KERNEL);
++		response = kzalloc(resp_size, GFP_KERNEL);
+ 		if (response == NULL) {
+ 			res = -ENOMEM;
+ 			goto out_dma;
+ 		}
+-		memset(response, 0, resp_size);
+ 
+ 		/* The first LUN ID will always be 0 per the SAM spec */
+ 		for (lun_id = 0; lun_id < le32_to_cpu(id_ctrl->nn); lun_id++) {
+@@ -2600,12 +2593,11 @@ static int nvme_trans_request_sense(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 
+ 	resp_size = ((desc_format) ? (DESC_FMT_SENSE_DATA_SIZE) :
+ 					(FIXED_FMT_SENSE_DATA_SIZE));
+-	response = kmalloc(resp_size, GFP_KERNEL);
++	response = kzalloc(resp_size, GFP_KERNEL);
+ 	if (response == NULL) {
+ 		res = -ENOMEM;
+ 		goto out;
+ 	}
+-	memset(response, 0, resp_size);
+ 
+ 	if (desc_format == DESCRIPTOR_FORMAT_SENSE_DATA_TYPE) {
+ 		/* Descriptor Format Sense Data */
 -- 
-1.7.0.4
+1.8.1.2
