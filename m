@@ -1,40 +1,54 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 29 Jul 2013 16:20:56 -0600
-Subject: [PATCH] NVMe: Bring up cdev on set feature failure
-Message-ID: <1375136456-31848-1-git-send-email-keith.busch@intel.com>
+From: keith.busch@intel.com (Busch, Keith)
+Date: Tue, 30 Jul 2013 16:25:47 +0000
+Subject: [PATCHv3] NVMe: Async event requests
+In-Reply-To: <1375130252-28795-1-git-send-email-keith.busch@intel.com>
+References: <1375130252-28795-1-git-send-email-keith.busch@intel.com>
+Message-ID: <B58D82457FDA0744A320A2FC5AC253B93AEE628E@FMSMSX104.amr.corp.intel.com>
 
-This patch creates the character device as long as a device's admin queues
-are usable so a user has an opprotunity to perform administration tasks.
-A device may be in a state that does not allow IO and setting the queue
-count feature in such a state returns an error. Previously the driver
-would bail and the controller would be unusable.
+On Monday, July 29, 2013 2:38 PM, Keith Busch wrote:
+> +ssize_t nvme_dev_read(struct file *f, char __user *buf, size_t count,
+> +								loff_t *off)
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+> +	if (wait_event_killable(dev->event_empty,
+> +					!kfifo_is_empty(&dev->event_fifo)))
+> +		return -EINTR;
+> +
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 7439499..524f497 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1665,7 +1665,7 @@ static int set_queue_count(struct nvme_dev *dev, int count)
- 	status = nvme_set_features(dev, NVME_FEAT_NUM_QUEUES, q_count, 0,
- 								&result);
- 	if (status)
--		return -EIO;
-+		return status < 0 ? -EIO : -EBUSY;
- 	return min(result & 0xffff, result >> 16) + 1;
- }
- 
-@@ -2019,7 +2019,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	spin_unlock(&dev_list_lock);
- 
- 	result = nvme_dev_add(dev);
--	if (result)
-+	if (result && result != -EBUSY)
- 		goto delete;
- 
- 	scnprintf(dev->name, sizeof(dev->name), "nvme%d", dev->instance);
--- 
-1.7.0.4
+I think need to change "wait_event_killable" to "wait_event_interruptible"
+for this sort of read.
+
+> +unsigned int nvme_dev_poll(struct file *f, struct poll_table_struct *wait) {
+> +	struct nvme_dev *dev = f->private_data;
+> +	unsigned int mask = 0;
+> +
+> +	poll_wait(f, &dev->event_empty, wait);
+> +	if (!kfifo_is_empty(&dev->event_fifo))
+> +		mask = POLLIN | POLLRDNORM;
+> +
+> +	return mask;
+> +}
+
+The thing that troubles me most about this is that opening the device
+takes a kref so we don't free resources on an open device if it's
+hot unplugged. If the device is removed, I'd like to wake up all tasks
+waiting on it such that signal_pending returns true so we're not waiting
+on an event that never will happen.
+
+If there isn't a way to wake up all tasks on a wait queue head with
+a pending signal from in the kernel, the only other thing I can
+think is add a flag to struct nvme_dev indicating it's gone, call
+wake_up_all(&dev->event_empty), and modify the read and poll as follows:
+
+ssize_t nvme_dev_read(...
+        if (wait_event_killable(dev->event_empty,
+                        !kfifo_is_empty(&dev->event_fifo) &&
+                        !dev->kill_me_now))
+        ...
+        if (dev->kill_me_now)
+                return -EINTR;
+        ...
+
+unsigned int nvme_dev_poll(...
+        if (dev->kill_me_now)
+                mask |= POLLERR;
+        ...
