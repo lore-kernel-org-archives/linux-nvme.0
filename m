@@ -1,69 +1,79 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 16 Aug 2013 16:00:30 -0600
-Subject: [PATCHv2 3/5] NVMe: Reset controller on timed out commands
+Date: Fri, 16 Aug 2013 16:00:29 -0600
+Subject: [PATCHv2 2/5] NVMe: User initiated controller reset
 In-Reply-To: <1376690432-9775-1-git-send-email-keith.busch@intel.com>
 References: <1376690432-9775-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1376690432-9775-4-git-send-email-keith.busch@intel.com>
+Message-ID: <1376690432-9775-3-git-send-email-keith.busch@intel.com>
 
-This fixes the race between the controller and the timeout handler. Timing
-out the command previously called the completion handler with a failure
-status and the completion handler frees the command's target memory. If
-the controller is still active, it may use this memory for dma, which can
-be bad. This patch makes a timed out command trigger a controller reset,
-which will shut down the controller prior to freeing memory associated
-with outstanding commands.
+Creates a sysfs entry for each nvme controller that when written to
+initiates a controller reset. This may be done by a user if they need
+to reset the controller for any reason. For example, it may be required
+as part of an firmware activate procedure.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
-I know we should send an abort command prior to going to the big
-hammer. That gets complicated quickly though, so I just want to submit
-something that should fix the race condition first, then tackle the
-abort handling.
+v1->v2:
 
- drivers/block/nvme-core.c |   13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+Fix cleanup on device_create_file failure.
+
+ drivers/block/nvme-core.c |   20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index c0f2533..c07a507 100644
+index 5713dd2..c0f2533 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1010,7 +1010,7 @@ int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned dword11,
-  * @queue: The queue to cancel I/Os on
-  * @timeout: True to only cancel I/Os which have timed out
-  */
--static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
-+static int nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
- {
- 	int depth = nvmeq->q_depth - 1;
- 	struct nvme_cmd_info *info = nvme_cmd_info(nvmeq);
-@@ -1028,10 +1028,14 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
- 			continue;
- 		if (info[cmdid].ctx == CMD_CTX_CANCELLED)
- 			continue;
-+		if (timeout)
-+			return 1;
- 		dev_warn(nvmeq->q_dmadev, "Cancelling I/O %d\n", cmdid);
- 		ctx = cancel_cmdid(nvmeq, cmdid, &fn);
- 		fn(nvmeq->dev, ctx, &cqe);
- 	}
-+
-+	return 0;
+@@ -2171,6 +2171,17 @@ static void nvme_reset_failed_dev(struct work_struct *ws)
+ 	nvme_dev_reset(dev);
  }
  
- static void nvme_free_queue(struct nvme_queue *nvmeq)
-@@ -1620,7 +1624,12 @@ static int nvme_kthread(void *data)
- 				if (nvmeq->q_suspended)
- 					goto unlock;
- 				nvme_process_cq(nvmeq);
--				nvme_cancel_ios(nvmeq, true);
-+				if (nvme_cancel_ios(nvmeq, true)) {
-+					dev_warn(&dev->pci_dev->dev,
-+						"command time out, reset controller\n");
-+					queue_work(nvme_workq, &dev->ws);
-+					goto unlock;
-+				}
- 				nvme_resubmit_bios(nvmeq);
-  unlock:
- 				spin_unlock_irq(&nvmeq->q_lock);
++static ssize_t nvme_reset(struct device *dev,
++		struct device_attribute *attr, const char *buf, size_t count)
++{
++	struct pci_dev  *pdev = container_of(dev, struct pci_dev, dev);
++	struct nvme_dev *ndev = pci_get_drvdata(pdev);
++
++	nvme_dev_reset(ndev);
++	return count;
++}
++static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_reset);
++
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+ 	int result = -ENOMEM;
+@@ -2207,6 +2218,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (result)
+ 		goto shutdown;
+ 
++	result = device_create_file(&pdev->dev, &dev_attr_reset_controller);
++	if (result)
++		goto remove;
++
+ 	scnprintf(dev->name, sizeof(dev->name), "nvme%d", dev->instance);
+ 	dev->miscdev.minor = MISC_DYNAMIC_MINOR;
+ 	dev->miscdev.parent = &pdev->dev;
+@@ -2214,11 +2229,13 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	dev->miscdev.fops = &nvme_dev_fops;
+ 	result = misc_register(&dev->miscdev);
+ 	if (result)
+-		goto remove;
++		goto del_sysfs;
+ 
+ 	kref_init(&dev->kref);
+ 	return 0;
+ 
++ del_sysfs:
++	device_remove_file(&pdev->dev, &dev_attr_reset_controller);
+  remove:
+ 	nvme_dev_remove(dev);
+  shutdown:
+@@ -2238,6 +2255,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ static void nvme_remove(struct pci_dev *pdev)
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
++	device_remove_file(&pdev->dev, &dev_attr_reset_controller);
+ 	misc_deregister(&dev->miscdev);
+ 	kref_put(&dev->kref, nvme_free_dev);
+ }
 -- 
 1.7.10.4
