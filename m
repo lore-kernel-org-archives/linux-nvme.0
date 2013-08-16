@@ -1,42 +1,24 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 16 Aug 2013 16:00:32 -0600
-Subject: [PATCHv2 5/5] NVMe: Add shutdown pci callback
-In-Reply-To: <1376690432-9775-1-git-send-email-keith.busch@intel.com>
-References: <1376690432-9775-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1376690432-9775-6-git-send-email-keith.busch@intel.com>
+Date: Fri, 16 Aug 2013 16:00:27 -0600
+Subject: [PATCHv2 0/5] NVMe: Controller reset and shutdown
+Message-ID: <1376690432-9775-1-git-send-email-keith.busch@intel.com>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-A couple vendors at FMS as well as a few firmware engineers I spoke with
-highly recommended we do a safe shutdown sequence for their devices.
+More controller reset handling. Fixes a couple errors and adds more
+conditions that have come up that require this kind of thing.
 
- drivers/block/nvme-core.c |    7 +++++++
- 1 file changed, 7 insertions(+)
+Again, it relies on this patch set here:
+http://merlin.infradead.org/pipermail/linux-nvme/2013-July/000331.html
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index cb64866..84bb905 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2272,6 +2272,12 @@ static void nvme_remove(struct pci_dev *pdev)
- 	kref_put(&dev->kref, nvme_free_dev);
- }
- 
-+static void nvme_shutdown(struct pci_dev *pdev)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+	nvme_dev_shutdown(dev);
-+}
-+
- /* These functions are yet to be implemented */
- #define nvme_error_detected NULL
- #define nvme_dump_registers NULL
-@@ -2325,6 +2331,7 @@ static struct pci_driver nvme_driver = {
- 	.id_table	= nvme_id_table,
- 	.probe		= nvme_probe,
- 	.remove		= nvme_remove,
-+	.shutdown	= nvme_shutdown,
- 	.driver		= {
- 		.pm	= &nvme_dev_pm_ops,
- 	},
+Keith Busch (5):
+  NVMe: Reset failed controller
+  NVMe: User initiated controller reset
+  NVMe: Reset controller on timed out commands
+  NVMe: Don't wait for delete queues to finish
+  NVMe: Add shutdown pci callback
+
+ drivers/block/nvme-core.c |   90 +++++++++++++++++++++++++++++++++++++++------
+ include/linux/nvme.h      |    1 +
+ 2 files changed, 79 insertions(+), 12 deletions(-)
+
 -- 
 1.7.10.4
