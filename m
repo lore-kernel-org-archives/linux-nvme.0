@@ -1,37 +1,45 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Tue, 27 Aug 2013 10:17:57 -0400
-Subject: NVME identify command data structure length
-In-Reply-To: <CAB2zxrSPfCf4QVm=J__PX00ZFNU5XGehFKk4FNApMqbPS59BGA@mail.gmail.com>
-References: <CAB2zxrSPfCf4QVm=J__PX00ZFNU5XGehFKk4FNApMqbPS59BGA@mail.gmail.com>
-Message-ID: <20130827141757.GP4707@linux.intel.com>
+From: xuehua@gmail.com (Xuehua Chen)
+Date: Tue, 27 Aug 2013 13:56:05 -0700
+Subject: A question regarding to MSIX interrupts for NVME
+Message-ID: <CAOu78O0uf0XarS8=RwfwzZ1zy93gxKNk5uK64+4nzWzBvze4_g@mail.gmail.com>
 
-On Tue, Aug 27, 2013@03:50:34PM +0530, anup shendkar wrote:
-> 3. As nvme specification for IDENTIFY command says that 4096 is the
-> output buffer length, we can add following code as a potential fix.
+Hi, All,
 
-No.  The driver does not interpret the opcodes.  If you've mis-used the
-ioctl, then you get to keep both pieces.
+I have a question regarding to the MSIX interrupts used by the linux
+nvme driver to consult you.
 
-However, what we should do is check the bottom two bits of the opcode
-(ie Data Transfer in Figure 38 of NVMe 1.1).  It is clearly a broken
-command if the bottom two bits are zero and data_len is non-zero, or
-for the bottom two bits to be non-zero and data_len to be zero.
+It seems to me that admin queue is sharing vector 0 with IOCQ 1 now.
+Is there any good reason
+that admin queue should not have its own vector? It seems to me this
+could makes interrupt
+coalescing of nvme a bit strange due to the following reason.
 
-Do you want to send a patch along those lines?
+In NVMe 1.1 spec, 5.12.1.9 Interrupt Vector Configuration, it is mentioned that
 
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index ce79a59..b1c5e72 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -1416,6 +1416,11 @@ static int nvme_user_admin_cmd(struct nvme_dev *dev,
->         c.common.cdw10[4] = cpu_to_le32(cmd.cdw14);
->         c.common.cdw10[5] = cpu_to_le32(cmd.cdw15);
-> 
-> +       if (cmd.opcode == nvme_admin_identify) {
-> +               /* NVME Identiy command always uses 4096 data buffer */
-> +               cmd.data_len = 4096;
-> +       }
-> +
->         length = cmd.data_len;
->         if (cmd.data_len) {
->                 iod = nvme_map_user_pages(dev, cmd.opcode & 1, cmd.addr,
+?By default, coalescing settings are enabled for each interrupt
+vector. Interrupt coalescing is not supported for
+the Admin Completion Queue.?
+
+If a user want to enable coalescing for IOCQ 1, this will enable the
+coalescing for admin queue
+well since the interrupt vector are shared and violate the spec. So
+this somehow makes IOCQ 1
+different from other IOCQs.
+
+Also does the spec don?t s support interrupt for ACQ because it want
+ACQ be processed as soon
+as possible? In the current implementation, admin queue commands could
+be delayed when there
+are lots of entries in IOCQ1 being processed. Maybe a separate vector
+for admin queue could be
+better for such a situation?
+
+The above are my concerns on the current implementation of linux nvme
+driver regarding to the
+MSIX interrupts. Really want to know your thoughts and opinions on this.
+
+Thanks a lot!
+
+Best regards,
+
+Xuehua
