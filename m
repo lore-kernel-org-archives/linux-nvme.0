@@ -1,12 +1,12 @@
 From: anupshendkar@gmail.com (anup shendkar)
-Date: Wed, 28 Aug 2013 13:08:06 +0530
+Date: Wed, 28 Aug 2013 13:06:11 +0530
 Subject: NVME identify command data structure length
 In-Reply-To: <20130827141757.GP4707@linux.intel.com>
 References: <CAB2zxrSPfCf4QVm=J__PX00ZFNU5XGehFKk4FNApMqbPS59BGA@mail.gmail.com>
  <20130827141757.GP4707@linux.intel.com>
-Message-ID: <CAB2zxrRP5amHmopF=RtkiOAGBzTfvoFqeTt=TLzXrmnKUrV_gA@mail.gmail.com>
+Message-ID: <CAB2zxrT1jC1jiAE73zBR4DSfVr0RYXOHQeqD2+vnkqLThfyNYg@mail.gmail.com>
 
-Thanks Matthew for the explanation. we will work on the patch based on
+Thanks Matthew for the explanation. I will work on the patch based on
 your suggestion and send it once it is ready.
 
 Regards,
