@@ -1,7 +1,7 @@
 From: prasadjoshi.linux@gmail.com (Prasad Joshi)
-Date: Mon,  2 Sep 2013 22:30:24 +0530
+Date: Mon,  2 Sep 2013 22:31:16 +0530
 Subject: [PATCH] Add data transfer length check for admin commands
-Message-ID: <1378141224-4300-1-git-send-email-prasadjoshi.linux@gmail.com>
+Message-ID: <1378141276-4356-1-git-send-email-prasadjoshi.linux@gmail.com>
 
 From: Prasad Joshi <pjoshi@stec-inc.com>
 
@@ -14,7 +14,7 @@ value of data transfer length.
 
 Suggested-by: Matthew Wilcox <willy at linux.intel.com>
 Signed-off-by: Prasad Joshi <pjoshi at stec-inc.com>
-Signed-off-by: Anup Shendkar <ashenkar at stec-inc.com>
+Signed-off-by: Anup Shendkar <ashendkar at stec-inc.com>
 ---
  drivers/block/nvme-core.c | 3 +++
  include/linux/nvme.h      | 7 +++++++
