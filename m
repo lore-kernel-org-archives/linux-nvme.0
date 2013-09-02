@@ -1,53 +1,96 @@
-From: linux@arm.linux.org.uk (Russell King - ARM Linux)
-Date: Thu, 31 Oct 2013 14:49:30 +0000
-Subject: [PATCH 19/51] DMA-API: media: dt3155v4l: replace
- dma_set_mask()+dma_set_coherent_mask() with new helper
-In-Reply-To: <20131031094640.205840a2@samsung.com>
-References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
- <E1VMm13-0007hO-9l@rmk-PC.arm.linux.org.uk> <5249673B.5020705@xs4all.nl>
- <20131031094640.205840a2@samsung.com>
-Message-ID: <20131031144929.GC25039@n2100.arm.linux.org.uk>
+From: huhaiyan@huawei.com (Huhaiyan (haiyan))
+Date: Mon, 2 Sep 2013 06:49:34 +0000
+Subject: [PATCH] NVMe: Avoid caculate cq head doorbel in nvme_process_cq()
+In-Reply-To: <mailman.3257.1377730793.1059.linux-nvme@lists.infradead.org>
+References: <mailman.3257.1377730793.1059.linux-nvme@lists.infradead.org>
+Message-ID: <A103C806EC8D6E46A0D950DAA4D118D1400E0096@szxeml558-mbx.china.huawei.com>
 
-On Thu, Oct 31, 2013@09:46:40AM -0200, Mauro Carvalho Chehab wrote:
-> Hi Russell,
-> 
-> Em Mon, 30 Sep 2013 13:57:47 +0200
-> Hans Verkuil <hverkuil at xs4all.nl> escreveu:
-> 
-> > On 09/19/2013 11:44 PM, Russell King wrote:
-> > > Replace the following sequence:
-> > > 
-> > > 	dma_set_mask(dev, mask);
-> > > 	dma_set_coherent_mask(dev, mask);
-> > > 
-> > > with a call to the new helper dma_set_mask_and_coherent().
-> > > 
-> > > Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
-> > 
-> > Acked-by: Hans Verkuil <hans.verkuil at cisco.com>
-> 
-> Somehow, I lost your original post (I got unsubscribed on a few days 
-> from all vger mailing lists at the end of september).
-> 
-> I suspect that you want to sent this via your tree, right?
+We use 2 pointers, one for sq tail doorbell, the other for cq head doorbell in struct nvme_queue, to avoid calculate cq head doorbell in nvme_process_cq(). 
+This change can reduce latency for the admin/io command.
 
-Yes please.
+Signed-off-by: Haiyan Hu <huhaiyan at huawei.com >
 
-> If so:
-> 
-> Acked-by: Mauro Carvalho Chehab <m.chehab at samsung.com>
+---
+drivers/block/nvme-core.c |   19 +++++++++++--------
+1 files changed, 11 insertions(+), 8 deletions(-)
 
-Added, thanks.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c index 7de80bb..80cf07c 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -74,7 +74,8 @@ struct nvme_queue {
+       wait_queue_head_t sq_full;
+       wait_queue_t sq_cong_wait;
+       struct bio_list sq_cong;
+-        u32 __iomem *q_db;
++       u32 __iomem *sq_tail_db;
++       u32 __iomem *cq_head_db;
+       u16 q_depth;
+       u16 cq_vector;
+       u16 sq_head;
+@@ -252,7 +253,7 @@ static int nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
+       memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
+       if (++tail == nvmeq->q_depth)
+                tail = 0;
+-        writel(tail, nvmeq->q_db);
++       writel(tail, nvmeq->sq_tail_db);
+       nvmeq->sq_tail = tail;
+       spin_unlock_irqrestore(&nvmeq->q_lock, flags);
 
-> > > -	err = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
-> > > -	if (err)
-> > > -		return -ENODEV;
-> > > -	err = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
-> > > +	err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-> > >  	if (err)
-> > >  		return -ENODEV;
+@@ -618,7 +619,7 @@ static int nvme_submit_discard(struct nvme_queue *nvmeq, struct nvme_ns *ns,
 
-One thing I've just noticed is that return should be "return err" not
-"return -ENODEV" - are you okay for me to change that in this patch?
+        if (++nvmeq->sq_tail == nvmeq->q_depth)
+                nvmeq->sq_tail = 0;
+-        writel(nvmeq->sq_tail, nvmeq->q_db);
++       writel(nvmeq->sq_tail, nvmeq->sq_tail_db);
 
-Thanks.
+        return 0;
+}
+@@ -635,7 +636,7 @@ static int nvme_submit_flush(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+
+        if (++nvmeq->sq_tail == nvmeq->q_depth)
+                nvmeq->sq_tail = 0;
+-        writel(nvmeq->sq_tail, nvmeq->q_db);
++       writel(nvmeq->sq_tail, nvmeq->sq_tail_db);
+
+        return 0;
+}
+@@ -728,7 +729,7 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+       nvme_start_io_acct(bio);
+       if (++nvmeq->sq_tail == nvmeq->q_depth)
+                nvmeq->sq_tail = 0;
+-        writel(nvmeq->sq_tail, nvmeq->q_db);
++       writel(nvmeq->sq_tail, nvmeq->sq_tail_db);
+
+        return 0;
+
+@@ -772,7 +773,7 @@ static int nvme_process_cq(struct nvme_queue *nvmeq)
+       if (head == nvmeq->cq_head && phase == nvmeq->cq_phase)
+                return 0;
+
+-        writel(head, nvmeq->q_db + (1 << nvmeq->dev->db_stride));
++       writel(head, nvmeq->cq_head_db);
+       nvmeq->cq_head = head;
+       nvmeq->cq_phase = phase;
+
+@@ -1084,7 +1085,8 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+       init_waitqueue_head(&nvmeq->sq_full);
+       init_waitqueue_entry(&nvmeq->sq_cong_wait, nvme_thread);
+       bio_list_init(&nvmeq->sq_cong);
+-        nvmeq->q_db = &dev->dbs[qid << (dev->db_stride + 1)];
++       nvmeq->sq_tail_db = &dev->dbs[qid << (dev->db_stride + 1)];
++       nvmeq->cq_head_db = nvmeq->sq_tail_db + (1 << dev->db_stride);
+       nvmeq->q_depth = depth;
+       nvmeq->cq_vector = vector;
+
+@@ -1690,7 +1692,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+                iounmap(dev->bar);
+                dev->bar = ioremap(pci_resource_start(pdev, 0), db_bar_size);
+                dev->dbs = ((void __iomem *)dev->bar) + 4096;
+-                 dev->queues[0]->q_db = dev->dbs;
++                dev->queues[0]->sq_tail_db = dev->dbs;
++               dev->queues[0]->cq_head_db = dev->dbs + (1 << dev->db_stride);
+       }
+
+        vecs = nr_io_queues;
+--
+1.7.6
