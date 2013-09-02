@@ -1,181 +1,56 @@
-From: h.huangqiang@huawei.com (Qiang Huang)
-Date: Mon, 2 Sep 2013 15:00:56 +0800
-Subject: [PATCH] NVMe: Avoid caculate cq head doorbel in nvme_process_cq()
-In-Reply-To: <A103C806EC8D6E46A0D950DAA4D118D1400E0067@szxeml558-mbx.china.huawei.com>
-References: <A103C806EC8D6E46A0D950DAA4D118D1400E0067@szxeml558-mbx.china.huawei.com>
-Message-ID: <522437A8.5070306@huawei.com>
+From: prasadjoshi.linux@gmail.com (Prasad Joshi)
+Date: Mon,  2 Sep 2013 22:29:10 +0530
+Subject: [PATCH] Add data transfer length check for admin commands
+Message-ID: <1378141150-4252-1-git-send-email-prasadjoshi.linux@gmail.com>
 
-Hi haiyan,
+From: Prasad Joshi <pjoshi@stec-inc.com>
 
-You overlooked zefan's inline comments.
+According to NVM Express 1.1 specifications, the lower 2 bits of a
+NVME command opcode indicates, the data transfer (Figure 38). Zero value
+of these two bits indicates, data length in actual NVME command is not
+required. Similarly non-zero value indicates mandatory data transfer
+length. The patch adds a verification of these bits along with correct
+value of data transfer length.
 
-And the pattern of the patch looks odd, you'd better use
-# git format-patch -1 -s
-to create patches, and get a new email client like thunderbird.
+Suggested-by: Matthew Wilcox <willy at linux.intel.com>
+Signed-off-by: Prasad Joshi <pjoshi at stec-inc.com>
+Signed-off-by: Anup Shendkar <ashenkar at stec-inc.com>
+---
+ drivers/block/nvme-core.c | 3 +++
+ include/linux/nvme.h      | 7 +++++++
+ 2 files changed, 10 insertions(+)
 
-You can get more information from Documentation/SubmittingPatches.
-
-On 2013/9/2 14:36, Huhaiyan (haiyan) wrote:
-> We use 2 pointers, one for sq tail doorbell, the other for cq head doorbell in struct nvme_queue, to avoid calculate cq head doorbell in nvme_process_cq().
-> 
-> This change can reduce latency for the admin/io command.
-> 
-> 
-> 
-> Signed-off-by: Haiyan Hu <huhaiyan at huawei.com >
-> 
-> 
-> 
-> ---
-> 
-> drivers/block/nvme-core.c |   19 +++++++++++--------
-> 
-> 1 files changed, 11 insertions(+), 8 deletions(-)
-> 
-> 
-> 
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c index 7de80bb..80cf07c 100644
-> 
-> --- a/drivers/block/nvme-core.c
-> 
-> +++ b/drivers/block/nvme-core.c
-> 
-> @@ -74,7 +74,8 @@ struct nvme_queue {
-> 
->        wait_queue_head_t sq_full;
-> 
->        wait_queue_t sq_cong_wait;
-> 
->        struct bio_list sq_cong;
-> 
-> -        u32 __iomem *q_db;
-> 
-> +       u32 __iomem *sq_tail_db;
-> 
-> +       u32 __iomem *cq_head_db;
-> 
->        u16 q_depth;
-> 
->        u16 cq_vector;
-> 
->        u16 sq_head;
-> 
-> @@ -252,7 +253,7 @@ static int nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
-> 
->        memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
-> 
->        if (++tail == nvmeq->q_depth)
-> 
->                 tail = 0;
-> 
-> -        writel(tail, nvmeq->q_db);
-> 
-> +       writel(tail, nvmeq->sq_tail_db);
-> 
->        nvmeq->sq_tail = tail;
-> 
->        spin_unlock_irqrestore(&nvmeq->q_lock, flags);
-> 
-> @@ -618,7 +619,7 @@ static int nvme_submit_discard(struct nvme_queue *nvmeq, struct nvme_ns *ns,
-> 
->         if (++nvmeq->sq_tail == nvmeq->q_depth)
-> 
->                 nvmeq->sq_tail = 0;
-> 
-> -        writel(nvmeq->sq_tail, nvmeq->q_db);
-> 
-> +       writel(nvmeq->sq_tail, nvmeq->sq_tail_db);
-> 
->         return 0;
-> 
-> }
-> 
-> @@ -635,7 +636,7 @@ static int nvme_submit_flush(struct nvme_queue *nvmeq, struct nvme_ns *ns,
-> 
->         if (++nvmeq->sq_tail == nvmeq->q_depth)
-> 
->                 nvmeq->sq_tail = 0;
-> 
-> -        writel(nvmeq->sq_tail, nvmeq->q_db);
-> 
-> +       writel(nvmeq->sq_tail, nvmeq->sq_tail_db);
-> 
->         return 0;
-> 
-> }
-> 
-> @@ -728,7 +729,7 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
-> 
->        nvme_start_io_acct(bio);
-> 
->        if (++nvmeq->sq_tail == nvmeq->q_depth)
-> 
->                 nvmeq->sq_tail = 0;
-> 
-> -        writel(nvmeq->sq_tail, nvmeq->q_db);
-> 
-> +       writel(nvmeq->sq_tail, nvmeq->sq_tail_db);
-> 
->         return 0;
-> 
-> @@ -772,7 +773,7 @@ static int nvme_process_cq(struct nvme_queue *nvmeq)
-> 
->        if (head == nvmeq->cq_head && phase == nvmeq->cq_phase)
-> 
->                 return 0;
-> 
-> -        writel(head, nvmeq->q_db + (1 << nvmeq->dev->db_stride));
-> 
-> +       writel(head, nvmeq->cq_head_db);
-> 
->        nvmeq->cq_head = head;
-> 
->        nvmeq->cq_phase = phase;
-> 
-> @@ -1084,7 +1085,8 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
-> 
->        init_waitqueue_head(&nvmeq->sq_full);
-> 
->        init_waitqueue_entry(&nvmeq->sq_cong_wait, nvme_thread);
-> 
->        bio_list_init(&nvmeq->sq_cong);
-> 
-> -        nvmeq->q_db = &dev->dbs[qid << (dev->db_stride + 1)];
-> 
-> +       nvmeq->sq_tail_db = &dev->dbs[qid << (dev->db_stride + 1)];
-> 
-> +       nvmeq->cq_head_db = nvmeq->sq_tail_db + (1 << dev->db_stride);
-> 
->        nvmeq->q_depth = depth;
-> 
->        nvmeq->cq_vector = vector;
-> 
-> @@ -1690,7 +1692,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-> 
->                 iounmap(dev->bar);
-> 
->                 dev->bar = ioremap(pci_resource_start(pdev, 0), db_bar_size);
-> 
->                 dev->dbs = ((void __iomem *)dev->bar) + 4096;
-> 
-> -                 dev->queues[0]->q_db = dev->dbs;
-> 
-> +                dev->queues[0]->sq_tail_db = dev->dbs;
-> 
-> +               dev->queues[0]->cq_head_db = dev->dbs + (1 << dev->db_stride);
-> 
->        }
-> 
->         vecs = nr_io_queues;
-> 
-> --
-> 
-> 1.7.6
-> 
-> _______________________________________________
-> Kernel.openeuler mailing list
-> Kernel.openeuler at huawei.com
-> http://rnd-openeuler.huawei.com/mailman/listinfo/kernel.openeuler
-> 
-> .
-> 
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index ce79a59..256278e 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1402,6 +1402,9 @@ static int nvme_user_admin_cmd(struct nvme_dev *dev,
+ 		return -EACCES;
+ 	if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+ 		return -EFAULT;
++	if (((cmd.opcode & NVME_ADMIN_CMD_DATA_XFER_MASK) && !cmd.data_len) ||
++		(!(cmd.opcode & NVME_ADMIN_CMD_DATA_XFER_MASK) && cmd.data_len))
++		return -EINVAL;
+ 
+ 	memset(&c, 0, sizeof(c));
+ 	c.common.opcode = cmd.opcode;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index f451c8d..3b2c8ee 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -508,6 +508,13 @@ struct nvme_admin_cmd {
+ #define NVME_IOCTL_ADMIN_CMD	_IOWR('N', 0x41, struct nvme_admin_cmd)
+ #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
+ 
++/*
++ * The 2 LSB bits of NVME Admin command opcode are called as data transfer bits.
++ * These two bits define where a command should include data transfer
++ * information.
++ */
++#define NVME_ADMIN_CMD_DATA_XFER_MASK (0b11)
++
+ #ifdef __KERNEL__
+ #include <linux/pci.h>
+ #include <linux/miscdevice.h>
+-- 
+1.8.1.2
