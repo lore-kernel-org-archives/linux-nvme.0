@@ -1,17 +1,14 @@
-From: alma.diaz@gmx.com (alma diaz)
-Date: Tue, 03 Sep 2013 01:01:21 -0400
-Subject: Nvme Pcie hotplug
-Message-ID: <20130903050121.59290@gmx.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Tue, 3 Sep 2013 11:53:16 -0400
+Subject: [PATCH] NVMe: Avoid caculate cq head doorbel in nvme_process_cq()
+In-Reply-To: <A103C806EC8D6E46A0D950DAA4D118D1400E0096@szxeml558-mbx.china.huawei.com>
+References: <mailman.3257.1377730793.1059.linux-nvme@lists.infradead.org>
+ <A103C806EC8D6E46A0D950DAA4D118D1400E0096@szxeml558-mbx.china.huawei.com>
+Message-ID: <20130903155316.GY4707@linux.intel.com>
 
-Hi All,
- 
-I have been trying to use Linux NVMe dirver for testing hotplug on HP and dell servers. But I see some problems. So I wanted to know if the opensource NVMe driver supports 'hotplug', or any code changes required to support the feature?
- 
-All the hotplug related modules acpiphp, pciehp and pci_hotplug were loaded before performing tests. The first problem seen is that the device is not detected once the surprise remove-inertion is done. Second is that, the device gets detected sometime after surprise remove-inertion, but the IOs do not resume on the device. The application just hangs.
- 
-Any pointers on what should be done to make it work. I would appreciate the help.
- 
-Thanks in advance.
- 
-chao
-~alma
+On Mon, Sep 02, 2013@06:49:34AM +0000, Huhaiyan (haiyan) wrote:
+> We use 2 pointers, one for sq tail doorbell, the other for cq head doorbell in struct nvme_queue, to avoid calculate cq head doorbell in nvme_process_cq(). 
+> This change can reduce latency for the admin/io command.
+
+Have you been able to measure a difference?  If so, can you share
+relative numbers?
