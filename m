@@ -1,107 +1,190 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu,  5 Sep 2013 14:45:15 -0600
-Subject: [PATCH 9/9] NVMe: Don't wait for delete queues to complete
+Date: Thu,  5 Sep 2013 14:45:10 -0600
+Subject: [PATCH 4/9] NVMe: Reset failed controller
 In-Reply-To: <1378413915-16667-1-git-send-email-keith.busch@intel.com>
 References: <1378413915-16667-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1378413915-16667-10-git-send-email-keith.busch@intel.com>
+Message-ID: <1378413915-16667-5-git-send-email-keith.busch@intel.com>
 
-Skip sending the delete queue commands if the controller is unresponsive
-so the driver does not hold up a shutdown sequence. Previously it would
-take 2 minutes per IO queue on a broken device.
+Polls on the controller fatal status bit and resets the controller per
+the nvme spec on this condition. If the device probe has not completed,
+commands may be timed out in the previous way as resetting the controller
+would cause the probe to fail, which will conflict with the the work
+task that is resetting the controller.
+
+If the controller fails to start after attempting to reset it, the pci
+driver will be removed since the device would appear to be dead. I think
+that would work on a surprise removal where the driver's remove function
+isn't automatically called.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   30 +++++++++++++++---------------
- 1 files changed, 15 insertions(+), 15 deletions(-)
+ drivers/block/nvme-core.c |   67 +++++++++++++++++++++++++++++++++++++++------
+ include/linux/nvme.h      |    2 +
+ 2 files changed, 60 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 2c99e17..5ee9f61 100644
+index db15c3d..18bb04e 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -908,17 +908,13 @@ int nvme_submit_admin_cmd(struct nvme_dev *dev, struct nvme_command *cmd,
+@@ -58,6 +58,7 @@ module_param(use_threaded_interrupts, int, 0);
+ static DEFINE_SPINLOCK(dev_list_lock);
+ static LIST_HEAD(dev_list);
+ static struct task_struct *nvme_thread;
++static struct workqueue_struct *nvme_workq;
  
- static int adapter_delete_queue(struct nvme_dev *dev, u8 opcode, u16 id)
- {
--	int status;
- 	struct nvme_command c;
- 
- 	memset(&c, 0, sizeof(c));
- 	c.delete_queue.opcode = opcode;
- 	c.delete_queue.qid = cpu_to_le16(id);
- 
--	status = nvme_submit_admin_cmd(dev, &c, NULL);
--	if (status)
--		return -EIO;
--	return 0;
-+	return nvme_submit_admin_cmd(dev, &c, NULL);
+ /*
+  * An NVM Express queue.  Each device has at least two (one for admin
+@@ -1604,6 +1605,14 @@ static int nvme_kthread(void *data)
+ 		spin_lock(&dev_list_lock);
+ 		list_for_each_entry(dev, &dev_list, node) {
+ 			int i;
++			if (readl(&dev->bar->csts) & NVME_CSTS_CFS) {
++				if (dev->is_initialised) {
++					dev_warn(&dev->pci_dev->dev,
++						"failed status, reset controller\n");
++					queue_work(nvme_workq, &dev->ws);
++					continue;
++				}
++			}
+ 			for (i = 0; i < dev->queue_count; i++) {
+ 				struct nvme_queue *nvmeq = dev->queues[i];
+ 				if (!nvmeq)
+@@ -1996,9 +2005,8 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
+ 	if (dev->bar) {
+ 		iounmap(dev->bar);
+ 		dev->bar = NULL;
++		pci_release_regions(dev->pci_dev);
+ 	}
+-
+-	pci_release_regions(dev->pci_dev);
+ 	if (pci_is_enabled(dev->pci_dev))
+ 		pci_disable_device(dev->pci_dev);
+ }
+@@ -2162,6 +2170,41 @@ static int nvme_dev_start(struct nvme_dev *dev)
+ 	return result;
  }
  
- static int adapter_alloc_cq(struct nvme_dev *dev, u16 qid,
-@@ -1119,7 +1115,7 @@ static void nvme_free_queues(struct nvme_dev *dev)
- 	}
- }
- 
--static void nvme_disable_queue(struct nvme_dev *dev, int qid)
-+static int nvme_disable_queue(struct nvme_dev *dev, int qid, int del_q)
- {
- 	struct nvme_queue *nvmeq = dev->queues[qid];
- 	int vector = dev->entry[nvmeq->cq_vector].vector;
-@@ -1127,7 +1123,7 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
- 	spin_lock_irq(&nvmeq->q_lock);
- 	if (nvmeq->q_suspended) {
- 		spin_unlock_irq(&nvmeq->q_lock);
--		return;
-+		return del_q;
- 	}
- 	nvmeq->q_suspended = 1;
- 	spin_unlock_irq(&nvmeq->q_lock);
-@@ -1136,15 +1132,17 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
- 	free_irq(vector, nvmeq);
- 
- 	/* Don't tell the adapter to delete the admin queue */
--	if (qid) {
--		adapter_delete_sq(dev, qid);
--		adapter_delete_cq(dev, qid);
--	}
-+	if (qid && del_q)
-+		if (adapter_delete_sq(dev, qid) < 0 ||
-+					adapter_delete_cq(dev, qid) < 0)
-+			del_q = 0;
- 
- 	spin_lock_irq(&nvmeq->q_lock);
- 	nvme_process_cq(nvmeq);
- 	nvme_cancel_ios(nvmeq, false);
- 	spin_unlock_irq(&nvmeq->q_lock);
++static int nvme_remove_dead_ctrl(void *arg)
++{
++	struct nvme_dev *dev = (struct nvme_dev *)arg;
++	struct pci_dev *pdev;
 +
-+	return del_q;
++	if ((dev == NULL))
++		return -1;
++
++	pdev = dev->pci_dev;
++	if ((pdev == NULL))
++		return -1;
++	pci_stop_and_remove_bus_device(pdev);
++	return 0;
++}
++
++static void nvme_dev_resume(struct nvme_dev *dev)
++{
++	int ret = nvme_dev_start(dev);
++	if (ret)
++		kthread_run(nvme_remove_dead_ctrl, dev,
++					"nvme%d", dev->instance);
++}
++
++static void nvme_dev_reset(struct nvme_dev *dev)
++{
++	nvme_dev_shutdown(dev);
++	nvme_dev_resume(dev);
++}
++
++static void nvme_reset_failed_dev(struct work_struct *ws)
++{
++	struct nvme_dev *dev = container_of(ws, struct nvme_dev, ws);
++	nvme_dev_reset(dev);
++}
++
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+ 	int result = -ENOMEM;
+@@ -2189,6 +2232,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (result)
+ 		goto release;
+ 
++	INIT_WORK(&dev->ws, nvme_reset_failed_dev);
+ 	result = nvme_dev_start(dev);
+ 	if (result) {
+ 		if (result == -EBUSY)
+@@ -2211,6 +2255,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		goto remove;
+ 
+ 	kref_init(&dev->kref);
++	dev->is_initialised = 1;
+ 	return 0;
+ 
+  remove:
+@@ -2256,13 +2301,9 @@ static int nvme_resume(struct device *dev)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+-	int ret;
+ 
+-	ret = nvme_dev_start(ndev);
+-	/* XXX: should remove gendisks if resume fails */
+-	if (ret)
+-		nvme_free_queues(ndev);
+-	return ret;
++	nvme_dev_resume(ndev);
++	return 0;
  }
  
- static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
-@@ -1925,8 +1923,10 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	for (i = 1; i < dev->queue_count; i++) {
- 		result = nvme_create_queue(dev->queues[i], i);
- 		if (result) {
--			for (--i; i > 0; i--)
--				nvme_disable_queue(dev, i);
-+			int del_q = 1;
+ static SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
+@@ -2303,9 +2344,14 @@ static int __init nvme_init(void)
+ 	if (IS_ERR(nvme_thread))
+ 		return PTR_ERR(nvme_thread);
+ 
++	result = -ENOMEM;
++	nvme_workq = create_workqueue("nvme");
++	if (!nvme_workq)
++		goto kill_kthread;
 +
-+			for (--i; i >= 0; i--)
-+				del_q = nvme_disable_queue(dev, i, del_q);
- 			goto free_queues;
- 		}
- 	}
-@@ -2074,10 +2074,10 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
+ 	result = register_blkdev(nvme_major, "nvme");
+ 	if (result < 0)
+-		goto kill_kthread;
++		goto kill_workq;
+ 	else if (result > 0)
+ 		nvme_major = result;
  
- static void nvme_dev_shutdown(struct nvme_dev *dev)
+@@ -2316,6 +2362,8 @@ static int __init nvme_init(void)
+ 
+  unregister_blkdev:
+ 	unregister_blkdev(nvme_major, "nvme");
++ kill_workq:
++	destroy_workqueue(nvme_workq);
+  kill_kthread:
+ 	kthread_stop(nvme_thread);
+ 	return result;
+@@ -2325,6 +2373,7 @@ static void __exit nvme_exit(void)
  {
--	int i;
-+	int i, del_q = 1;
+ 	pci_unregister_driver(&nvme_driver);
+ 	unregister_blkdev(nvme_major, "nvme");
++	destroy_workqueue(nvme_workq);
+ 	kthread_stop(nvme_thread);
+ }
  
- 	for (i = dev->queue_count - 1; i >= 0; i--)
--		nvme_disable_queue(dev, i);
-+		del_q = nvme_disable_queue(dev, i, del_q);
- 
- 	spin_lock(&dev_list_lock);
- 	list_del_init(&dev->node);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 26ebcf4..a25bba2 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -81,12 +81,14 @@ struct nvme_dev {
+ 	int instance;
+ 	int queue_count;
+ 	int db_stride;
++	int is_initialised;
+ 	u32 ctrl_config;
+ 	struct msix_entry *entry;
+ 	struct nvme_bar __iomem *bar;
+ 	struct list_head namespaces;
+ 	struct kref kref;
+ 	struct miscdevice miscdev;
++	struct work_struct ws;
+ 	char name[12];
+ 	char serial[20];
+ 	char model[40];
 -- 
 1.7.0.4
