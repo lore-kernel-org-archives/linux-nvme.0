@@ -1,18 +1,24 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Thu, 5 Sep 2013 15:28:42 -0400
-Subject: [PATCH] NVMe: Avoid caculate cq head doorbel in nvme_process_cq()
-In-Reply-To: <5228470F.2040206@huawei.com>
-References: <mailman.3257.1377730793.1059.linux-nvme@lists.infradead.org>
- <A103C806EC8D6E46A0D950DAA4D118D1400E0096@szxeml558-mbx.china.huawei.com>
- <20130903155316.GY4707@linux.intel.com> <5226FA47.10205@huawei.com>
- <20130904165142.GA20931@linux.intel.com>
- <5228470F.2040206@huawei.com>
-Message-ID: <20130905192842.GD20931@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu,  5 Sep 2013 14:45:06 -0600
+Subject: [PATCH 0/9] NVMe: Error handling
+Message-ID: <1378413915-16667-1-git-send-email-keith.busch@intel.com>
 
-On Thu, Sep 05, 2013@04:55:43PM +0800, Haiyan Hu wrote:
-> Your analysis is more comprehensive. Of course, I'd like to send a new patch that
-> you advised. Do you think the updated variable named "db_stride_shift"?
+These are a bunch of patches to handle errors and replaces this set:
 
-I think that might have been a better name for the old meaning :-)  I think
-we should probabaly keep the name as-is, but change the usage.  Unless
-someone can come up with a better name ... ?
+http://merlin.infradead.org/pipermail/linux-nvme/2013-August/000354.html
+
+Keith Busch (9):
+  NVMe: Merge issue on character device bring-up
+  NVMe: Differentiate commands not completed
+  NVMe: Fail device if unresponsive during init
+  NVMe: Reset failed controller
+  NVMe: Abort timed out commands
+  NVMe: User initiated controller reset
+  NVMe: Add shutdown pci callback
+  NVMe: Set queue db only when queue is initialized
+  NVMe: Don't wait for delete queues to complete
+
+ drivers/block/nvme-core.c |  237 ++++++++++++++++++++++++++++++++++++--------
+ include/linux/nvme.h      |    3 +
+ include/uapi/linux/nvme.h |   11 ++
+ 3 files changed, 208 insertions(+), 43 deletions(-)
