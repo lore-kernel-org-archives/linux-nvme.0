@@ -1,57 +1,73 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu,  5 Sep 2013 14:45:07 -0600
-Subject: [PATCH 1/9] NVMe: Merge issue on character device bring-up
+Date: Thu,  5 Sep 2013 14:45:09 -0600
+Subject: [PATCH 3/9] NVMe: Fail device if unresponsive during init
 In-Reply-To: <1378413915-16667-1-git-send-email-keith.busch@intel.com>
 References: <1378413915-16667-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1378413915-16667-2-git-send-email-keith.busch@intel.com>
+Message-ID: <1378413915-16667-4-git-send-email-keith.busch@intel.com>
 
-A recent patch made it possible to bring up the character handle when the
-device is responsive but not accepting a set-features command. Another
-recent patch moved the initialization that requires we move where the
-checks for this condition occur. This patch merges these two ideas so
-it works much as before.
+This handles identifying namespace errors differently depending on
+the error. If the controller is unresponsive during this point of
+initialization, the namespaces are freed and the pci probe is failed.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   12 ++++++++----
- 1 files changed, 8 insertions(+), 4 deletions(-)
+Yes, part of this undoes a patch I submitted removing 'dead code',
+but that code wasn't reachable before! :)
+
+ drivers/block/nvme-core.c |   18 +++++++++++++++---
+ 1 files changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 9f2b424..da52092 100644
+index 8b22068..db15c3d 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -2135,10 +2135,10 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 	spin_unlock(&dev_list_lock);
+@@ -1879,7 +1879,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ {
+ 	int res;
+ 	unsigned nn, i;
+-	struct nvme_ns *ns;
++	struct nvme_ns *ns, *next;
+ 	struct nvme_id_ctrl *ctrl;
+ 	struct nvme_id_ns *id_ns;
+ 	void *mem;
+@@ -1912,16 +1912,22 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	id_ns = mem;
+ 	for (i = 1; i <= nn; i++) {
+ 		res = nvme_identify(dev, i, 0, dma_addr);
+-		if (res)
++		if (res) {
++			if (res < 0)
++				goto out_free;
+ 			continue;
++		}
  
- 	result = nvme_setup_io_queues(dev);
--	if (result)
-+	if (result && result != -EBUSY)
- 		goto disable;
+ 		if (id_ns->ncap == 0)
+ 			continue;
  
--	return 0;
-+	return result;
+ 		res = nvme_get_features(dev, NVME_FEAT_LBA_RANGE, i,
+ 							dma_addr + 4096, NULL);
+-		if (res)
++		if (res) {
++			if (res < 0)
++				goto out_free;
+ 			memset(mem + 4096, 0, 4096);
++		}
  
-  disable:
- 	spin_lock(&dev_list_lock);
-@@ -2177,13 +2177,17 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto release;
+ 		ns = nvme_alloc_ns(dev, i, mem, mem + 4096);
+ 		if (ns)
+@@ -1930,7 +1936,13 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	list_for_each_entry(ns, &dev->namespaces, list)
+ 		add_disk(ns->disk);
+ 	res = 0;
++	goto out;
  
- 	result = nvme_dev_start(dev);
--	if (result)
-+	if (result) {
-+		if (result == -EBUSY)
-+			goto create_cdev;
- 		goto release_pools;
++ out_free:
++	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
++		list_del(&ns->list);
++		nvme_ns_free(ns);
 +	}
- 
- 	result = nvme_dev_add(dev);
--	if (result && result != -EBUSY)
-+	if (result)
- 		goto shutdown;
- 
-+ create_cdev:
- 	scnprintf(dev->name, sizeof(dev->name), "nvme%d", dev->instance);
- 	dev->miscdev.minor = MISC_DYNAMIC_MINOR;
- 	dev->miscdev.parent = &pdev->dev;
+  out:
+ 	dma_free_coherent(&dev->pci_dev->dev, 8192, mem, dma_addr);
+ 	return res;
 -- 
 1.7.0.4
