@@ -1,73 +1,54 @@
-From: huhaiyan@huawei.com (Haiyan Hu)
-Date: Fri, 6 Sep 2013 15:15:07 +0800
-Subject: [PATCH] NVMe: Avoid shift operation when writel cq head doorbell
- in nvme_process_cq()
-In-Reply-To: <522973F8.5040905@huawei.com>
-References: <522973F8.5040905@huawei.com>
-Message-ID: <522980FB.7060806@huawei.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Fri, 6 Sep 2013 16:41:58 -0400
+Subject: [PULL REQUEST] NVM Express updates
+Message-ID: <20130906204158.GB4668@linux.intel.com>
 
-Changes the type of dev->db_stride to unsigned and changes the value
-stored there to be 1 << the current value. Then there is less
-calculation to be done at completion time.
+Hi Linus,
 
-Signed-off-by: Haiyan Hu <huhaiyan at huawei.com>
----
- drivers/block/nvme-core.c |    8 ++++----
- include/linux/nvme.h      |    2 +-
- 2 files changed, 5 insertions(+), 5 deletions(-)
+Please pull the NVMe tree.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 7de80bb..481311e 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -772,7 +772,7 @@ static int nvme_process_cq(struct nvme_queue *nvmeq)
- 	if (head == nvmeq->cq_head && phase == nvmeq->cq_phase)
- 		return 0;
+The following changes since commit a2648ebb7ed69ef209d9c8a76fadeb3252d9a023:
 
--	writel(head, nvmeq->q_db + (1 << nvmeq->dev->db_stride));
-+	writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
- 	nvmeq->cq_head = head;
- 	nvmeq->cq_phase = phase;
+  Merge branch 'for-linus' of git://git.kernel.org/pub/scm/linux/kernel/git/mason/linux-btrfs (2013-06-13 22:34:14 -0700)
 
-@@ -1084,7 +1084,7 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- 	init_waitqueue_head(&nvmeq->sq_full);
- 	init_waitqueue_entry(&nvmeq->sq_cong_wait, nvme_thread);
- 	bio_list_init(&nvmeq->sq_cong);
--	nvmeq->q_db = &dev->dbs[qid << (dev->db_stride + 1)];
-+	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
- 	nvmeq->q_depth = depth;
- 	nvmeq->cq_vector = vector;
+are available in the git repository at:
 
-@@ -1195,7 +1195,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	struct nvme_queue *nvmeq;
 
- 	dev->dbs = ((void __iomem *)dev->bar) + 4096;
--	dev->db_stride = NVME_CAP_STRIDE(cap);
-+	dev->db_stride = 1 << NVME_CAP_STRIDE(cap);
+  git://git.infradead.org/users/willy/linux-nvme.git master
 
- 	result = nvme_disable_ctrl(dev, cap);
- 	if (result < 0)
-@@ -1685,7 +1685,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	/* Deregister the admin queue's interrupt */
- 	free_irq(dev->entry[0].vector, dev->queues[0]);
+for you to fetch changes up to d82e8bfdef9afae83b894be49af4644d9ac3c359:
+  NVMe: Merge issue on character device bring-up (2013-09-06 16:26:58 -0400)
 
--	db_bar_size = 4096 + ((nr_io_queues + 1) << (dev->db_stride + 3));
-+	db_bar_size = 4096 + ((nr_io_queues + 1) * 8 * dev->db_stride);
- 	if (db_bar_size > 8192) {
- 		iounmap(dev->bar);
- 		dev->bar = ioremap(pci_resource_start(pdev, 0), db_bar_size);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 3403c8f..87ba032 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -78,7 +78,7 @@ struct nvme_dev {
- 	struct dma_pool *prp_small_pool;
- 	int instance;
- 	int queue_count;
--	int db_stride;
-+	u32 db_stride;
- 	u32 ctrl_config;
- 	struct msix_entry *entry;
- 	struct nvme_bar __iomem *bar;
--- 
-1.7.6
+----------------------------------------------------------------
+Keith Busch (12):
+      NVMe: Disk IO statistics
+      NVMe: Update nvme_id_power_state with latest spec
+      NVMe: Fix checkpatch issues
+      NVMe: Bring up cdev on set feature failure
+      NVMe: Disk stats for read/write commands only
+      NVMe: Group pci related actions in functions
+      NVMe: Separate queue alloc/free from create/delete
+      NVMe: Separate controller init from disk discovery
+      NVMe: Use normal shutdown
+      NVMe: Add pci suspend/resume driver callbacks
+      NVMe: Handle ioremap failure
+      NVMe: Merge issue on character device bring-up
+
+Matthew Wilcox (6):
+      NVMe: Restructure MSI / MSI-X setup
+      NVMe: Return correct value from interrupt handler
+      NVMe: Remove "process_cq did something" message
+      NVMe: Call nvme_process_cq from submission path
+      NVMe: Split header file into user-visible and kernel-visible pieces
+      NVMe: Namespace IDs are unsigned
+
+Tushar Behera (1):
+      NVMe: Use kzalloc instead of kmalloc+memset
+
+ drivers/block/nvme-core.c | 585 +++++++++++++++++++++++++++++++---------------
+ drivers/block/nvme-scsi.c |  24 +-
+ include/linux/nvme.h      | 466 +-----------------------------------
+ include/uapi/linux/Kbuild |   1 +
+ include/uapi/linux/nvme.h | 477 +++++++++++++++++++++++++++++++++++++
+ 5 files changed, 895 insertions(+), 658 deletions(-)
+ create mode 100644 include/uapi/linux/nvme.h
