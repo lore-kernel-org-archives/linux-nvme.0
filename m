@@ -1,90 +1,17 @@
 From: huhaiyan@huawei.com (Haiyan Hu)
-Date: Tue, 10 Sep 2013 11:25:37 +0800
-Subject: [PATCH][RESEND] NVMe: Avoid shift operation when writel cq head
- doorbell in nvme_process_cq()
-In-Reply-To: <522E8D82.8040608@huawei.com>
-References: <522E8D82.8040608@huawei.com>
-Message-ID: <522E9131.1020009@huawei.com>
+Date: Wed, 11 Sep 2013 15:26:11 +0800
+Subject: failed when git clone via http
+Message-ID: <52301B13.9060307@huawei.com>
 
+When I git clone via http:
+git clone http://git.infradead.org/users/willy/linux-nvme.git
 
-Changes the type of dev->db_stride to unsigned and changes the value
-stored there to be 1 << the current value. Then there is less
-calculation to be done at completion time.
+I got the error:
+Cloning into 'linux-nvme'...
+fatal: http://git.infradead.org/users/willy/linux-nvme.git/info/refs not found:
+did you run git update-server-info on the server?
 
-Signed-off-by: Haiyan Hu <huhaiyan at huawei.com>
+How can I fix it?
 
-Sorry to resend this patch, since last patch was not based latest master.
-
----
- drivers/block/nvme-core.c |   10 +++++-----
- include/linux/nvme.h      |    2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index da52092..29366d7 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -775,7 +775,7 @@ static int nvme_process_cq(struct nvme_queue *nvmeq)
- 	if (head == nvmeq->cq_head && phase == nvmeq->cq_phase)
- 		return 0;
-
--	writel(head, nvmeq->q_db + (1 << nvmeq->dev->db_stride));
-+	writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
- 	nvmeq->cq_head = head;
- 	nvmeq->cq_phase = phase;
-
-@@ -1113,7 +1113,7 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- 	init_waitqueue_head(&nvmeq->sq_full);
- 	init_waitqueue_entry(&nvmeq->sq_cong_wait, nvme_thread);
- 	bio_list_init(&nvmeq->sq_cong);
--	nvmeq->q_db = &dev->dbs[qid << (dev->db_stride + 1)];
-+	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
- 	nvmeq->q_depth = depth;
- 	nvmeq->cq_vector = vector;
- 	nvmeq->q_suspended = 1;
-@@ -1149,7 +1149,7 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
- 	nvmeq->sq_tail = 0;
- 	nvmeq->cq_head = 0;
- 	nvmeq->cq_phase = 1;
--	nvmeq->q_db = &dev->dbs[qid << (dev->db_stride + 1)];
-+	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
- 	memset(nvmeq->cmdid_data, 0, extra);
- 	memset((void *)nvmeq->cqes, 0, CQ_SIZE(nvmeq->q_depth));
- 	nvme_cancel_ios(nvmeq, false);
-@@ -1741,7 +1741,7 @@ static int set_queue_count(struct nvme_dev *dev, int count)
-
- static size_t db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
- {
--	return 4096 + ((nr_io_queues + 1) << (dev->db_stride + 3));
-+	return 4096 + ((nr_io_queues + 1) * 8 * dev->db_stride);
- }
-
- static int nvme_setup_io_queues(struct nvme_dev *dev)
-@@ -1961,7 +1961,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	if (!dev->bar)
- 		goto disable;
-
--	dev->db_stride = NVME_CAP_STRIDE(readq(&dev->bar->cap));
-+	dev->db_stride = 1 << NVME_CAP_STRIDE(readq(&dev->bar->cap));
- 	dev->dbs = ((void __iomem *)dev->bar) + 4096;
-
- 	return 0;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 26ebcf4..8119a47 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -80,7 +80,7 @@ struct nvme_dev {
- 	struct dma_pool *prp_small_pool;
- 	int instance;
- 	int queue_count;
--	int db_stride;
-+	u32 db_stride;
- 	u32 ctrl_config;
- 	struct msix_entry *entry;
- 	struct nvme_bar __iomem *bar;
--- 
-1.7.6
-
-
-
-.
+Thanks.
+Haiyan Hu
