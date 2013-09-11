@@ -1,17 +1,23 @@
-From: huhaiyan@huawei.com (Haiyan Hu)
-Date: Wed, 11 Sep 2013 15:26:11 +0800
+From: asb@cin.ufpe.br (Angelo Brito)
+Date: Wed, 11 Sep 2013 09:08:05 -0300
 Subject: failed when git clone via http
-Message-ID: <52301B13.9060307@huawei.com>
+In-Reply-To: <CAMjVwgTOhaueAcQPJ+OU=-HjqFs_gF0CM5w=cuyEPJovekDqaA@mail.gmail.com>
+References: <52301B13.9060307@huawei.com>
+ <CAMjVwgTOhaueAcQPJ+OU=-HjqFs_gF0CM5w=cuyEPJovekDqaA@mail.gmail.com>
+Message-ID: <CAMjVwgRcs_ty5c3fOK_uVbW3zZyjtjjJan+iaEOjTPqFStjTDA@mail.gmail.com>
 
-When I git clone via http:
-git clone http://git.infradead.org/users/willy/linux-nvme.git
+I have googled your error and found this:
+https://help.github.com/articles/https-cloning-errors
 
-I got the error:
-Cloning into 'linux-nvme'...
-fatal: http://git.infradead.org/users/willy/linux-nvme.git/info/refs not found:
-did you run git update-server-info on the server?
+If your problem is not in there try using the ssh or git over the
+https like this:
+$ git clone git://git.infradead.org/users/willy/linux-nvme.git
 
-How can I fix it?
+And I had the same error over the HTTPS interface. Used the git and worked fine.
 
-Thanks.
-Haiyan Hu
+
+Regards,
+Angelo Silva Brito.
+Undergraduate in Computer Engineering UFPE
+http://about.me/angelobrito
+_________________________________________________
