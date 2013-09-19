@@ -1,45 +1,85 @@
-From: bhutchings@solarflare.com (Ben Hutchings)
-Date: Fri, 20 Sep 2013 02:21:37 +0100
-Subject: [PATCH 01/51] DMA-API: provide a helper to set both DMA and
- coherent DMA masks
-In-Reply-To: <E1VMlja-0007fA-HU@rmk-PC.arm.linux.org.uk>
+From: rmk+kernel@arm.linux.org.uk (Russell King)
+Date: Fri, 20 Sep 2013 00:44:07 +0100
+Subject: [PATCH 51/51] ARM: 7805/1: mm: change max*pfn to include the
+ physical offset of memory
+In-Reply-To: <20130919212235.GD12758@n2100.arm.linux.org.uk>
 References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
- <E1VMlja-0007fA-HU@rmk-PC.arm.linux.org.uk>
-Message-ID: <1379640097.2500.4.camel@bwh-desktop.uk.level5networks.com>
+Message-ID: <E1VMntH-0002EF-7Z@rmk-PC.arm.linux.org.uk>
 
-On Thu, 2013-09-19@22:25 +0100, Russell King wrote:
-> Provide a helper to set both the DMA and coherent DMA masks to the
-> same value - this avoids duplicated code in a number of drivers,
-> sometimes with buggy error handling, and also allows us identify
-> which drivers do things differently.
-> 
-> Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
-> ---
->  Documentation/DMA-API-HOWTO.txt |   37 ++++++++++++++++++++++---------------
->  Documentation/DMA-API.txt       |    8 ++++++++
->  include/linux/dma-mapping.h     |   14 ++++++++++++++
->  3 files changed, 44 insertions(+), 15 deletions(-)
-> 
-> diff --git a/Documentation/DMA-API-HOWTO.txt b/Documentation/DMA-API-HOWTO.txt
-> index 14129f1..5e98303 100644
-> --- a/Documentation/DMA-API-HOWTO.txt
-> +++ b/Documentation/DMA-API-HOWTO.txt
-[...]
-> -dma_set_coherent_mask() will always be able to set the same or a
-> -smaller mask as dma_set_mask(). However for the rare case that a
-> +The coherent coherent mask will always be able to set the same or a
-> +smaller mask as the streaming mask. However for the rare case that a
-[...]
+From: Santosh Shilimkar <santosh.shilimkar@ti.com>
 
-The new wording doesn't make sense; a mask doesn't set itself.  I would
-suggest:
+Most of the kernel code assumes that max*pfn is maximum pfns because
+the physical start of memory is expected to be PFN0. Since this
+assumption is not true on ARM architectures, the meaning of max*pfn
+is number of memory pages. This is done to keep drivers happy which
+are making use of of these variable to calculate the dma bounce limit
+using dma_mask.
 
-"The coherent mask can always be set to the same or a smaller mask than
-the streaming mask."
+Now since we have a architecture override possibility for DMAable
+maximum pfns, lets make meaning of max*pfns as maximum pnfs on ARM
+as well.
 
-Ben.
+Signed-off-by: Santosh Shilimkar <santosh.shilimkar at ti.com>
+Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
+---
+ arch/arm/include/asm/dma-mapping.h |    8 ++++++++
+ arch/arm/mm/init.c                 |   10 ++++------
+ 2 files changed, 12 insertions(+), 6 deletions(-)
 
+diff --git a/arch/arm/include/asm/dma-mapping.h b/arch/arm/include/asm/dma-mapping.h
+index 5b579b9..863cd84 100644
+--- a/arch/arm/include/asm/dma-mapping.h
++++ b/arch/arm/include/asm/dma-mapping.h
+@@ -64,6 +64,7 @@ static inline dma_addr_t virt_to_dma(struct device *dev, void *addr)
+ {
+ 	return (dma_addr_t)__virt_to_bus((unsigned long)(addr));
+ }
++
+ #else
+ static inline dma_addr_t pfn_to_dma(struct device *dev, unsigned long pfn)
+ {
+@@ -86,6 +87,13 @@ static inline dma_addr_t virt_to_dma(struct device *dev, void *addr)
+ }
+ #endif
+ 
++/* The ARM override for dma_max_pfn() */
++static inline unsigned long dma_max_pfn(struct device *dev)
++{
++	return PHYS_PFN_OFFSET + dma_to_pfn(dev, *dev->dma_mask);
++}
++#define dma_max_pfn(dev) dma_max_pfn(dev)
++
+ /*
+  * DMA errors are defined by all-bits-set in the DMA address.
+  */
+diff --git a/arch/arm/mm/init.c b/arch/arm/mm/init.c
+index 8aab24f..d50533c 100644
+--- a/arch/arm/mm/init.c
++++ b/arch/arm/mm/init.c
+@@ -426,12 +426,10 @@ void __init bootmem_init(void)
+ 	 * This doesn't seem to be used by the Linux memory manager any
+ 	 * more, but is used by ll_rw_block.  If we can get rid of it, we
+ 	 * also get rid of some of the stuff above as well.
+-	 *
+-	 * Note: max_low_pfn and max_pfn reflect the number of _pages_ in
+-	 * the system, not the maximum PFN.
+ 	 */
+-	max_low_pfn = max_low - PHYS_PFN_OFFSET;
+-	max_pfn = max_high - PHYS_PFN_OFFSET;
++	min_low_pfn = min;
++	max_low_pfn = max_low;
++	max_pfn = max_high;
+ }
+ 
+ /*
+@@ -537,7 +535,7 @@ static inline void free_area_high(unsigned long pfn, unsigned long end)
+ static void __init free_highpages(void)
+ {
+ #ifdef CONFIG_HIGHMEM
+-	unsigned long max_low = max_low_pfn + PHYS_PFN_OFFSET;
++	unsigned long max_low = max_low_pfn;
+ 	struct memblock_region *mem, *res;
+ 
+ 	/* set highmem page free */
 -- 
-Ben Hutchings, Staff Engineer, Solarflare
-Not speaking for my employer; that's the marketing department's job.
-They asked us to note that Solarflare product names are trademarked.
+1.7.4.4
