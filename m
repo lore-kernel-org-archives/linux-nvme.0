@@ -1,31 +1,35 @@
-From: linux@arm.linux.org.uk (Russell King - ARM Linux)
-Date: Fri, 20 Sep 2013 15:12:44 +0100
-Subject: [PATCH 01/51] DMA-API: provide a helper to set both DMA and
- coherent DMA masks
-In-Reply-To: <1379640097.2500.4.camel@bwh-desktop.uk.level5networks.com>
+From: rmk+kernel@arm.linux.org.uk (Russell King)
+Date: Thu, 19 Sep 2013 22:48:01 +0100
+Subject: [PATCH 23/51] DMA-API: dma: pl08x: add dma_set_mask_and_coherent()
+ call
+In-Reply-To: <20130919212235.GD12758@n2100.arm.linux.org.uk>
 References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
- <E1VMlja-0007fA-HU@rmk-PC.arm.linux.org.uk>
- <1379640097.2500.4.camel@bwh-desktop.uk.level5networks.com>
-Message-ID: <20130920141244.GQ25647@n2100.arm.linux.org.uk>
+Message-ID: <E1VMm4v-0007hz-RC@rmk-PC.arm.linux.org.uk>
 
-On Fri, Sep 20, 2013@02:21:37AM +0100, Ben Hutchings wrote:
-> On Thu, 2013-09-19@22:25 +0100, Russell King wrote:
-> [...]
-> > -dma_set_coherent_mask() will always be able to set the same or a
-> > -smaller mask as dma_set_mask(). However for the rare case that a
-> > +The coherent coherent mask will always be able to set the same or a
-> > +smaller mask as the streaming mask. However for the rare case that a
-> [...]
-> 
-> The new wording doesn't make sense; a mask doesn't set itself.  I would
-> suggest:
-> 
-> "The coherent mask can always be set to the same or a smaller mask than
-> the streaming mask."
+The DMA API requires drivers to call the appropriate dma_set_mask()
+functions before doing any DMA mapping.  Add this required call to
+the AMBA PL08x driver.
 
-Yes, the original sentence is not particularly good, but I think even
-your modified version can be interpreted as "a mask setting itself"
-for all the same reasons that the original can be (which mask does "same"
-refer to?)
+Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
+---
+ drivers/dma/amba-pl08x.c |    5 +++++
+ 1 files changed, 5 insertions(+), 0 deletions(-)
 
-Even so, I prefer your version.  Thanks. :)
+diff --git a/drivers/dma/amba-pl08x.c b/drivers/dma/amba-pl08x.c
+index fce46c5..e51a983 100644
+--- a/drivers/dma/amba-pl08x.c
++++ b/drivers/dma/amba-pl08x.c
+@@ -2055,6 +2055,11 @@ static int pl08x_probe(struct amba_device *adev, const struct amba_id *id)
+ 	if (ret)
+ 		return ret;
+ 
++	/* Ensure that we can do DMA */
++	ret = dma_set_mask_and_coherent(&adev->dev, DMA_BIT_MASK(32));
++	if (ret)
++		goto out_no_pl08x;
++
+ 	/* Create the driver state holder */
+ 	pl08x = kzalloc(sizeof(*pl08x), GFP_KERNEL);
+ 	if (!pl08x) {
+-- 
+1.7.4.4
