@@ -1,95 +1,80 @@
 From: rmk+kernel@arm.linux.org.uk (Russell King)
-Date: Fri, 20 Sep 2013 00:12:38 +0100
-Subject: [PATCH 40/51] DMA-API: crypto: fix ixp4xx crypto platform device
- support
+Date: Thu, 19 Sep 2013 23:03:03 +0100
+Subject: [PATCH 38/51] DMA-API: staging: use dma_set_coherent_mask()
 In-Reply-To: <20130919212235.GD12758@n2100.arm.linux.org.uk>
 References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
-Message-ID: <E1VMnOo-0007sC-Li@rmk-PC.arm.linux.org.uk>
+Message-ID: <E1VMmJT-0007kZ-Kw@rmk-PC.arm.linux.org.uk>
 
-Don't statically allocate struct device's in modules, and shut the
-warning up with an empty release() function.  There's a reason that
-warning is there and that's not for people to hide in this way.  It's
-there to persuade people to use the correct APIs to allocate platform
-devices.
+The correct way for a driver to specify the coherent DMA mask is
+not to directly access the field in the struct device, but to use
+dma_set_coherent_mask().  Only arch and bus code should access this
+member directly.
+
+Convert all direct write accesses to using the correct API.
 
 Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
 ---
- drivers/crypto/ixp4xx_crypto.c |   37 +++++++++++++++++--------------------
- 1 files changed, 17 insertions(+), 20 deletions(-)
+ drivers/staging/dwc2/platform.c        |    5 +++--
+ drivers/staging/imx-drm/imx-drm-core.c |    8 ++++++--
+ drivers/staging/imx-drm/ipuv3-crtc.c   |    4 +++-
+ 3 files changed, 12 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/crypto/ixp4xx_crypto.c b/drivers/crypto/ixp4xx_crypto.c
-index 21180d6..8306185 100644
---- a/drivers/crypto/ixp4xx_crypto.c
-+++ b/drivers/crypto/ixp4xx_crypto.c
-@@ -218,23 +218,10 @@ static dma_addr_t crypt_phys;
+diff --git a/drivers/staging/dwc2/platform.c b/drivers/staging/dwc2/platform.c
+index 44cce2f..1d68c49 100644
+--- a/drivers/staging/dwc2/platform.c
++++ b/drivers/staging/dwc2/platform.c
+@@ -100,8 +100,9 @@ static int dwc2_driver_probe(struct platform_device *dev)
+ 	 */
+ 	if (!dev->dev.dma_mask)
+ 		dev->dev.dma_mask = &dev->dev.coherent_dma_mask;
+-	if (!dev->dev.coherent_dma_mask)
+-		dev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
++	retval = dma_set_coherent_mask(&dev->dev, DMA_BIT_MASK(32));
++	if (retval)
++		return retval;
  
- static int support_aes = 1;
+ 	irq = platform_get_irq(dev, 0);
+ 	if (irq < 0) {
+diff --git a/drivers/staging/imx-drm/imx-drm-core.c b/drivers/staging/imx-drm/imx-drm-core.c
+index 47c5888..847f430 100644
+--- a/drivers/staging/imx-drm/imx-drm-core.c
++++ b/drivers/staging/imx-drm/imx-drm-core.c
+@@ -805,6 +805,12 @@ static struct drm_driver imx_drm_driver = {
  
--static void dev_release(struct device *dev)
--{
--	return;
--}
+ static int imx_drm_platform_probe(struct platform_device *pdev)
+ {
++	int ret;
++
++	ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
++	if (ret)
++		return ret;
++
+ 	imx_drm_device->dev = &pdev->dev;
+ 
+ 	return drm_platform_init(&imx_drm_driver, pdev);
+@@ -847,8 +853,6 @@ static int __init imx_drm_init(void)
+ 		goto err_pdev;
+ 	}
+ 
+-	imx_drm_pdev->dev.coherent_dma_mask = DMA_BIT_MASK(32),
 -
- #define DRIVER_NAME "ixp4xx_crypto"
--static struct platform_device pseudo_dev = {
--	.name = DRIVER_NAME,
--	.id   = 0,
--	.num_resources = 0,
--	.dev  = {
--		.coherent_dma_mask = DMA_BIT_MASK(32),
--		.release = dev_release,
--	}
--};
+ 	ret = platform_driver_register(&imx_drm_pdrv);
+ 	if (ret)
+ 		goto err_pdrv;
+diff --git a/drivers/staging/imx-drm/ipuv3-crtc.c b/drivers/staging/imx-drm/ipuv3-crtc.c
+index 6fd37a7..9e73e8d 100644
+--- a/drivers/staging/imx-drm/ipuv3-crtc.c
++++ b/drivers/staging/imx-drm/ipuv3-crtc.c
+@@ -523,7 +523,9 @@ static int ipu_drm_probe(struct platform_device *pdev)
+ 	if (!pdata)
+ 		return -EINVAL;
  
--static struct device *dev = &pseudo_dev.dev;
-+static struct platform_device *pdev;
-+static struct device *dev;
+-	pdev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
++	ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
++	if (ret)
++		return ret;
  
- static inline dma_addr_t crypt_virt2phys(struct crypt_ctl *virt)
- {
-@@ -1418,20 +1405,30 @@ static struct ixp_alg ixp4xx_algos[] = {
- } };
- 
- #define IXP_POSTFIX "-ixp4xx"
-+
-+static const struct platform_device_info ixp_dev_info __initdata = {
-+	.name		= DRIVER_NAME,
-+	.id		= 0,
-+	.dma_mask	= DMA_BIT_MASK(32),
-+};
-+
- static int __init ixp_module_init(void)
- {
- 	int num = ARRAY_SIZE(ixp4xx_algos);
--	int i,err ;
-+	int i, err ;
- 
--	if (platform_device_register(&pseudo_dev))
--		return -ENODEV;
-+	pdev = platform_device_register_full(&ixp_dev_info);
-+	if (IS_ERR(pdev))
-+		return PTR_ERR(pdev);
-+
-+	dev = &pdev->dev;
- 
- 	spin_lock_init(&desc_lock);
- 	spin_lock_init(&emerg_lock);
- 
- 	err = init_ixp_crypto();
- 	if (err) {
--		platform_device_unregister(&pseudo_dev);
-+		platform_device_unregister(pdev);
- 		return err;
- 	}
- 	for (i=0; i< num; i++) {
-@@ -1496,7 +1493,7 @@ static void __exit ixp_module_exit(void)
- 			crypto_unregister_alg(&ixp4xx_algos[i].crypto);
- 	}
- 	release_ixp_crypto();
--	platform_device_unregister(&pseudo_dev);
-+	platform_device_unregister(pdev);
- }
- 
- module_init(ixp_module_init);
+ 	ipu_crtc = devm_kzalloc(&pdev->dev, sizeof(*ipu_crtc), GFP_KERNEL);
+ 	if (!ipu_crtc)
 -- 
 1.7.4.4
