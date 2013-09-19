@@ -1,22 +1,36 @@
 From: vishal.l.verma@intel.com (Verma, Vishal L)
-Date: Thu, 19 Sep 2013 22:25:24 +0000
+Date: Thu, 19 Sep 2013 22:29:32 +0000
 Subject: [PATCH 1/2] NVMe: Cocci spatch "kzalloc-simple"
-In-Reply-To: <1379604510863-2133994021-1-diffsplit-thomas@m3y3r.de>
-Message-ID: <CE60D5BF.F105%vishal.l.verma@intel.com>
+In-Reply-To: <CE60D5BF.F105%vishal.l.verma@intel.com>
+Message-ID: <CE60D6D1.F10B%vishal.l.verma@intel.com>
 
-On 9/19/13 3:45 PM, "Thomas Meyer" <thomas@m3y3r.de> wrote:
+On 9/19/13 4:25 PM, "Verma, Vishal L" <vishal.l.verma@intel.com> wrote:
 
->Use kzalloc rather than kmalloc followed by memset with 0.
->Found by coccinelle spatch "api/alloc/kzalloc-simple.cocci"
+>On 9/19/13 3:45 PM, "Thomas Meyer" <thomas@m3y3r.de> wrote:
 >
->Signed-off-by: Thomas Meyer <thomas at m3y3r.de>
->---
+>>Use kzalloc rather than kmalloc followed by memset with 0.
+>>Found by coccinelle spatch "api/alloc/kzalloc-simple.cocci"
+>>
+>>Signed-off-by: Thomas Meyer <thomas at m3y3r.de>
+>>---
+>
+>Thomas,
+>
+>This has already been applied to Matthew's tree:
+>http://git.infradead.org/users/willy/linux-nvme.git/commitdiff/03ea83e9a37
+>e
+>41d436f8348e6eee3d8281bfff3a
+>
+>
+>-Vishal
+>
+>
+>_______________________________________________
+>Linux-nvme mailing list
+>Linux-nvme at lists.infradead.org
+>http://merlin.infradead.org/mailman/listinfo/linux-nvme
+>
 
-Thomas,
-
-This has already been applied to Matthew's tree:
-http://git.infradead.org/users/willy/linux-nvme.git/commitdiff/03ea83e9a37e
-41d436f8348e6eee3d8281bfff3a
-
-
--Vishal
+And in Linus' tree - applied in 3.11
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=
+03ea83e9a37e41d436f8348e6eee3d8281bfff3a
