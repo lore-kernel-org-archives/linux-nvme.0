@@ -1,38 +1,37 @@
 From: rmk+kernel@arm.linux.org.uk (Russell King)
-Date: Thu, 19 Sep 2013 22:57:02 +0100
-Subject: [PATCH 32/51] DMA-API: mmc: sdhci-acpi: use
- dma_coerce_mask_and_coherent()
+Date: Thu, 19 Sep 2013 22:59:03 +0100
+Subject: [PATCH 34/51] DMA-API: net: octeon: use dma_coerce_mask_and_coherent()
 In-Reply-To: <20130919212235.GD12758@n2100.arm.linux.org.uk>
 References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
-Message-ID: <E1VMmDe-0007j6-Tj@rmk-PC.arm.linux.org.uk>
+Message-ID: <E1VMmFb-0007jO-50@rmk-PC.arm.linux.org.uk>
 
 The code sequence:
-	dev->dma_mask = &dev->coherent_dma_mask;
-	dev->coherent_dma_mask = dma_mask;
+	pdev->dev.coherent_dma_mask = DMA_BIT_MASK(64);
+	pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
 bypasses the architectures check on the DMA mask.  It can be replaced
 with dma_coerce_mask_and_coherent(), avoiding the direct initialization
 of this mask.
 
 Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
 ---
- drivers/mmc/host/sdhci-acpi.c |    5 +++--
+ drivers/net/ethernet/octeon/octeon_mgmt.c |    5 +++--
  1 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/mmc/host/sdhci-acpi.c b/drivers/mmc/host/sdhci-acpi.c
-index cdd4ce0..ef19874 100644
---- a/drivers/mmc/host/sdhci-acpi.c
-+++ b/drivers/mmc/host/sdhci-acpi.c
-@@ -310,8 +310,9 @@ static int sdhci_acpi_probe(struct platform_device *pdev)
- 			dma_mask = DMA_BIT_MASK(32);
- 		}
+diff --git a/drivers/net/ethernet/octeon/octeon_mgmt.c b/drivers/net/ethernet/octeon/octeon_mgmt.c
+index 622aa75..2006a07 100644
+--- a/drivers/net/ethernet/octeon/octeon_mgmt.c
++++ b/drivers/net/ethernet/octeon/octeon_mgmt.c
+@@ -1552,8 +1552,9 @@ static int octeon_mgmt_probe(struct platform_device *pdev)
  
--		dev->dma_mask = &dev->coherent_dma_mask;
--		dev->coherent_dma_mask = dma_mask;
-+		err = dma_coerce_mask_and_coherent(dev, dma_mask);
-+		if (err)
-+			goto err_free;
- 	}
+ 	p->phy_np = of_parse_phandle(pdev->dev.of_node, "phy-handle", 0);
  
- 	if (c->slot) {
+-	pdev->dev.coherent_dma_mask = DMA_BIT_MASK(64);
+-	pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
++	result = dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
++	if (result)
++		goto err;
+ 
+ 	netif_carrier_off(netdev);
+ 	result = register_netdev(netdev);
 -- 
 1.7.4.4
