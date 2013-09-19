@@ -1,95 +1,84 @@
 From: rmk+kernel@arm.linux.org.uk (Russell King)
-Date: Fri, 20 Sep 2013 00:13:38 +0100
-Subject: [PATCH 41/51] DMA-API: crypto: remove last references to 'static
- struct device *dev'
+Date: Thu, 19 Sep 2013 22:47:01 +0100
+Subject: [PATCH 22/51] DMA-API: amba: get rid of separate dma_mask
 In-Reply-To: <20130919212235.GD12758@n2100.arm.linux.org.uk>
 References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
-Message-ID: <E1VMnPm-0007sP-Px@rmk-PC.arm.linux.org.uk>
+Message-ID: <E1VMm3x-0007hp-Lv@rmk-PC.arm.linux.org.uk>
+
+AMBA Primecell devices always treat streaming and coherent DMA exactly
+the same, so there's no point in having the masks separated.
 
 Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
 ---
- drivers/crypto/ixp4xx_crypto.c |   13 ++++++++-----
- 1 files changed, 8 insertions(+), 5 deletions(-)
+ drivers/amba/bus.c       |    6 +-----
+ drivers/of/platform.c    |    3 ---
+ include/linux/amba/bus.h |    2 --
+ 3 files changed, 1 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/crypto/ixp4xx_crypto.c b/drivers/crypto/ixp4xx_crypto.c
-index 8306185..214357e 100644
---- a/drivers/crypto/ixp4xx_crypto.c
-+++ b/drivers/crypto/ixp4xx_crypto.c
-@@ -221,7 +221,6 @@ static int support_aes = 1;
- #define DRIVER_NAME "ixp4xx_crypto"
+diff --git a/drivers/amba/bus.c b/drivers/amba/bus.c
+index c670727..c4876ac 100644
+--- a/drivers/amba/bus.c
++++ b/drivers/amba/bus.c
+@@ -552,7 +552,6 @@ amba_aphb_device_add(struct device *parent, const char *name,
+ 	if (!dev)
+ 		return ERR_PTR(-ENOMEM);
  
- static struct platform_device *pdev;
--static struct device *dev;
- 
- static inline dma_addr_t crypt_virt2phys(struct crypt_ctl *virt)
- {
-@@ -250,6 +249,7 @@ static inline const struct ix_hash_algo *ix_hash(struct crypto_tfm *tfm)
- 
- static int setup_crypt_desc(void)
- {
-+	struct device *dev = &pdev->dev;
- 	BUILD_BUG_ON(sizeof(struct crypt_ctl) != 64);
- 	crypt_virt = dma_alloc_coherent(dev,
- 			NPE_QLEN * sizeof(struct crypt_ctl),
-@@ -350,6 +350,7 @@ static void finish_scattered_hmac(struct crypt_ctl *crypt)
- 
- static void one_packet(dma_addr_t phys)
- {
-+	struct device *dev = &pdev->dev;
- 	struct crypt_ctl *crypt;
- 	struct ixp_ctx *ctx;
- 	int failed;
-@@ -419,7 +420,7 @@ static void crypto_done_action(unsigned long arg)
- 	tasklet_schedule(&crypto_done_tasklet);
+-	dev->dma_mask = dma_mask;
+ 	dev->dev.coherent_dma_mask = dma_mask;
+ 	dev->irq[0] = irq1;
+ 	dev->irq[1] = irq2;
+@@ -619,7 +618,7 @@ static void amba_device_initialize(struct amba_device *dev, const char *name)
+ 		dev_set_name(&dev->dev, "%s", name);
+ 	dev->dev.release = amba_device_release;
+ 	dev->dev.bus = &amba_bustype;
+-	dev->dev.dma_mask = &dev->dma_mask;
++	dev->dev.dma_mask = &dev->dev.coherent_dma_mask;
+ 	dev->res.name = dev_name(&dev->dev);
  }
  
--static int init_ixp_crypto(void)
-+static int init_ixp_crypto(struct device *dev)
- {
- 	int ret = -ENODEV;
- 	u32 msg[2] = { 0, 0 };
-@@ -506,7 +507,7 @@ static int init_ixp_crypto(void)
- 	return ret;
+@@ -663,9 +662,6 @@ int amba_device_register(struct amba_device *dev, struct resource *parent)
+ 	amba_device_initialize(dev, dev->dev.init_name);
+ 	dev->dev.init_name = NULL;
+ 
+-	if (!dev->dev.coherent_dma_mask && dev->dma_mask)
+-		dev_warn(&dev->dev, "coherent dma mask is unset\n");
+-
+ 	return amba_device_add(dev, parent);
  }
  
--static void release_ixp_crypto(void)
-+static void release_ixp_crypto(struct device *dev)
- {
- 	qmgr_disable_irq(RECV_QID);
- 	tasklet_kill(&crypto_done_tasklet);
-@@ -873,6 +874,7 @@ static int ablk_perform(struct ablkcipher_request *req, int encrypt)
- 	enum dma_data_direction src_direction = DMA_BIDIRECTIONAL;
- 	struct ablk_ctx *req_ctx = ablkcipher_request_ctx(req);
- 	struct buffer_desc src_hook;
-+	struct device *dev = &pdev->dev;
- 	gfp_t flags = req->base.flags & CRYPTO_TFM_REQ_MAY_SLEEP ?
- 				GFP_KERNEL : GFP_ATOMIC;
+diff --git a/drivers/of/platform.c b/drivers/of/platform.c
+index 9b439ac..54382ba 100644
+--- a/drivers/of/platform.c
++++ b/drivers/of/platform.c
+@@ -284,9 +284,6 @@ static struct amba_device *of_amba_device_create(struct device_node *node,
+ 	else
+ 		of_device_make_bus_id(&dev->dev);
  
-@@ -997,6 +999,7 @@ static int aead_perform(struct aead_request *req, int encrypt,
- 	unsigned int cryptlen;
- 	struct buffer_desc *buf, src_hook;
- 	struct aead_ctx *req_ctx = aead_request_ctx(req);
-+	struct device *dev = &pdev->dev;
- 	gfp_t flags = req->base.flags & CRYPTO_TFM_REQ_MAY_SLEEP ?
- 				GFP_KERNEL : GFP_ATOMIC;
- 
-@@ -1426,7 +1429,7 @@ static int __init ixp_module_init(void)
- 	spin_lock_init(&desc_lock);
- 	spin_lock_init(&emerg_lock);
- 
--	err = init_ixp_crypto();
-+	err = init_ixp_crypto(&pdev->dev);
- 	if (err) {
- 		platform_device_unregister(pdev);
- 		return err;
-@@ -1492,7 +1495,7 @@ static void __exit ixp_module_exit(void)
- 		if (ixp4xx_algos[i].registered)
- 			crypto_unregister_alg(&ixp4xx_algos[i].crypto);
- 	}
--	release_ixp_crypto();
-+	release_ixp_crypto(&pdev->dev);
- 	platform_device_unregister(pdev);
+-	/* setup amba-specific device info */
+-	dev->dma_mask = ~0;
+-
+ 	/* Allow the HW Peripheral ID to be overridden */
+ 	prop = of_get_property(node, "arm,primecell-periphid", NULL);
+ 	if (prop)
+diff --git a/include/linux/amba/bus.h b/include/linux/amba/bus.h
+index 43ec7e2..682df0e 100644
+--- a/include/linux/amba/bus.h
++++ b/include/linux/amba/bus.h
+@@ -30,7 +30,6 @@ struct amba_device {
+ 	struct device		dev;
+ 	struct resource		res;
+ 	struct clk		*pclk;
+-	u64			dma_mask;
+ 	unsigned int		periphid;
+ 	unsigned int		irq[AMBA_NR_IRQS];
+ };
+@@ -131,7 +130,6 @@ struct amba_device name##_device = {				\
+ struct amba_device name##_device = {				\
+ 	.dev = __AMBA_DEV(busid, data, ~0ULL),			\
+ 	.res = DEFINE_RES_MEM(base, SZ_4K),			\
+-	.dma_mask = ~0ULL,					\
+ 	.irq = irqs,						\
+ 	.periphid = id,						\
  }
- 
 -- 
 1.7.4.4
