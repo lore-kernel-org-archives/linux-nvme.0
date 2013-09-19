@@ -1,50 +1,78 @@
 From: rmk+kernel@arm.linux.org.uk (Russell King)
-Date: Thu, 19 Sep 2013 22:42:00 +0100
-Subject: [PATCH 17/51] DMA-API: block: nvme-core: replace
- dma_set_mask()+dma_set_coherent_mask() with new helper
+Date: Fri, 20 Sep 2013 00:16:39 +0100
+Subject: [PATCH 44/51] DMA-API: dcdbas: update DMA mask handing
 In-Reply-To: <20130919212235.GD12758@n2100.arm.linux.org.uk>
 References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
-Message-ID: <E1VMlz6-0007h9-WF@rmk-PC.arm.linux.org.uk>
+Message-ID: <E1VMnSh-0007sm-5t@rmk-PC.arm.linux.org.uk>
 
-Replace the following sequence:
+dcdbas was explicitly initializing DMA masks thusly:
+	dcdbas_pdev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
+	dcdbas_pdev->dev.dma_mask = &dcdbas_pdev->dev.coherent_dma_mask;
+which bypasses the architecture check.  Moreover, it is creating the
+dcdbas_pdev device itself, and using the platform_device_register_full()
+avoids some of this explicit initialization.
 
-	dma_set_mask(dev, mask);
-	dma_set_coherent_mask(dev, mask);
-
-with a call to the new helper dma_set_mask_and_coherent().
+Convert the driver to use platform_device_register_full(), and as it
+makes use of coherent DMA, also call dma_set_coherent_mask() to ensure
+that the architecture gets to check the mask.
 
 Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
 ---
- drivers/block/nvme-core.c |   10 ++++------
- 1 files changed, 4 insertions(+), 6 deletions(-)
+ drivers/firmware/dcdbas.c |   23 ++++++++++++-----------
+ 1 files changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index da52092..26d03fa 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1949,12 +1949,9 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	if (pci_request_selected_regions(pdev, bars, "nvme"))
- 		goto disable_pci;
+diff --git a/drivers/firmware/dcdbas.c b/drivers/firmware/dcdbas.c
+index ff080ee..a85fda2 100644
+--- a/drivers/firmware/dcdbas.c
++++ b/drivers/firmware/dcdbas.c
+@@ -549,8 +549,9 @@ static int dcdbas_probe(struct platform_device *dev)
+ 	 * BIOS SMI calls require buffer addresses be in 32-bit address space.
+ 	 * This is done by setting the DMA mask below.
+ 	 */
+-	dcdbas_pdev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
+-	dcdbas_pdev->dev.dma_mask = &dcdbas_pdev->dev.coherent_dma_mask;
++	error = dma_set_coherent_mask(&dcdbas_pdev->dev, DMA_BIT_MASK(32));
++	if (error)
++		return error;
  
--	if (!dma_set_mask(&pdev->dev, DMA_BIT_MASK(64)))
--		dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
--	else if (!dma_set_mask(&pdev->dev, DMA_BIT_MASK(32)))
--		dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
--	else
--		goto disable_pci;
-+	if (dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64)) &&
-+	    dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32)))
-+		goto disable;
+ 	error = sysfs_create_group(&dev->dev.kobj, &dcdbas_attr_group);
+ 	if (error)
+@@ -581,6 +582,12 @@ static struct platform_driver dcdbas_driver = {
+ 	.remove		= dcdbas_remove,
+ };
  
- 	pci_set_drvdata(pdev, dev);
- 	dev->bar = ioremap(pci_resource_start(pdev, 0), 8192);
-@@ -2168,6 +2165,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	INIT_LIST_HEAD(&dev->namespaces);
- 	dev->pci_dev = pdev;
++static const struct platform_device_info dcdbas_dev_info __initdata = {
++	.name		= DRIVER_NAME,
++	.id		= -1,
++	.dma_mask	= DMA_BIT_MASK(32),
++};
 +
- 	result = nvme_set_instance(dev);
- 	if (result)
- 		goto free;
+ /**
+  * dcdbas_init: initialize driver
+  */
+@@ -592,20 +599,14 @@ static int __init dcdbas_init(void)
+ 	if (error)
+ 		return error;
+ 
+-	dcdbas_pdev = platform_device_alloc(DRIVER_NAME, -1);
+-	if (!dcdbas_pdev) {
+-		error = -ENOMEM;
++	dcdbas_pdev = platform_device_register_full(&dcdbas_dev_info);
++	if (IS_ERR(dcdbas_pdev)) {
++		error = PTR_ERR(dcdbas_pdev);
+ 		goto err_unregister_driver;
+ 	}
+ 
+-	error = platform_device_add(dcdbas_pdev);
+-	if (error)
+-		goto err_free_device;
+-
+ 	return 0;
+ 
+- err_free_device:
+-	platform_device_put(dcdbas_pdev);
+  err_unregister_driver:
+ 	platform_driver_unregister(&dcdbas_driver);
+ 	return error;
 -- 
 1.7.4.4
