@@ -1,56 +1,48 @@
 From: rmk+kernel@arm.linux.org.uk (Russell King)
-Date: Fri, 20 Sep 2013 00:15:39 +0100
-Subject: [PATCH 43/51] DMA-API: dma: edma.c: no need to explicitly initialize
- DMA masks
+Date: Thu, 19 Sep 2013 23:00:03 +0100
+Subject: [PATCH 35/51] DMA-API: parport: parport_pc.c: use
+ dma_coerce_mask_and_coherent()
 In-Reply-To: <20130919212235.GD12758@n2100.arm.linux.org.uk>
 References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
-Message-ID: <E1VMnRj-0007sg-1Z@rmk-PC.arm.linux.org.uk>
+Message-ID: <E1VMmGZ-0007jU-99@rmk-PC.arm.linux.org.uk>
 
-register_platform_device_full() can setup the DMA mask provided the
-appropriate member is set in struct platform_device_info.  So lets
-make that be the case.  This avoids a direct reference to the DMA
-masks by this driver.
+The code sequence:
+	dev->coherent_dma_mask = DMA_BIT_MASK(24);
+	dev->dma_mask = &dev->coherent_dma_mask;
+bypasses the architectures check on the DMA mask.  It can be replaced
+with dma_coerce_mask_and_coherent(), avoiding the direct initialization
+of this mask.
 
 Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
 ---
- drivers/dma/edma.c |    6 ++----
- 1 files changed, 2 insertions(+), 4 deletions(-)
+ drivers/parport/parport_pc.c |    8 ++++++--
+ 1 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/dma/edma.c b/drivers/dma/edma.c
-index ff50ff4..7f9fe30 100644
---- a/drivers/dma/edma.c
-+++ b/drivers/dma/edma.c
-@@ -702,11 +702,13 @@ static struct platform_device *pdev0, *pdev1;
- static const struct platform_device_info edma_dev_info0 = {
- 	.name = "edma-dma-engine",
- 	.id = 0,
-+	.dma_mask = DMA_BIT_MASK(32),
- };
+diff --git a/drivers/parport/parport_pc.c b/drivers/parport/parport_pc.c
+index 903e128..9637615 100644
+--- a/drivers/parport/parport_pc.c
++++ b/drivers/parport/parport_pc.c
+@@ -2004,6 +2004,7 @@ struct parport *parport_pc_probe_port(unsigned long int base,
+ 	struct resource	*ECR_res = NULL;
+ 	struct resource	*EPP_res = NULL;
+ 	struct platform_device *pdev = NULL;
++	int ret;
  
- static const struct platform_device_info edma_dev_info1 = {
- 	.name = "edma-dma-engine",
- 	.id = 1,
-+	.dma_mask = DMA_BIT_MASK(32),
- };
+ 	if (!dev) {
+ 		/* We need a physical device to attach to, but none was
+@@ -2014,8 +2015,11 @@ struct parport *parport_pc_probe_port(unsigned long int base,
+ 			return NULL;
+ 		dev = &pdev->dev;
  
- static int edma_init(void)
-@@ -720,8 +722,6 @@ static int edma_init(void)
- 			ret = PTR_ERR(pdev0);
- 			goto out;
- 		}
--		pdev0->dev.dma_mask = &pdev0->dev.coherent_dma_mask;
--		pdev0->dev.coherent_dma_mask = DMA_BIT_MASK(32);
+-		dev->coherent_dma_mask = DMA_BIT_MASK(24);
+-		dev->dma_mask = &dev->coherent_dma_mask;
++		ret = dma_coerce_mask_and_coherent(dev, DMA_BIT_MASK(24));
++		if (ret) {
++			dev_err(dev, "Unable to set coherent dma mask: disabling DMA\n");
++			dma = PARPORT_DMA_NONE;
++		}
  	}
  
- 	if (EDMA_CTLRS == 2) {
-@@ -731,8 +731,6 @@ static int edma_init(void)
- 			platform_device_unregister(pdev0);
- 			ret = PTR_ERR(pdev1);
- 		}
--		pdev1->dev.dma_mask = &pdev1->dev.coherent_dma_mask;
--		pdev1->dev.coherent_dma_mask = DMA_BIT_MASK(32);
- 	}
- 
- out:
+ 	ops = kmalloc(sizeof(struct parport_operations), GFP_KERNEL);
 -- 
 1.7.4.4
