@@ -1,45 +1,37 @@
 From: rmk+kernel@arm.linux.org.uk (Russell King)
-Date: Thu, 19 Sep 2013 22:52:02 +0100
-Subject: [PATCH 27/51] DMA-API: provide a helper to setup DMA masks
+Date: Thu, 19 Sep 2013 22:54:02 +0100
+Subject: [PATCH 29/51] DMA-API: ata: pata_octeon_cf: convert to use
+ dma_coerce_mask_and_coherent()
 In-Reply-To: <20130919212235.GD12758@n2100.arm.linux.org.uk>
 References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
-Message-ID: <E1VMm8o-0007iV-Ac@rmk-PC.arm.linux.org.uk>
+Message-ID: <E1VMmAk-0007iq-IU@rmk-PC.arm.linux.org.uk>
 
-Many drivers contain code such as:
-
-	dev->dma_mask = &dev->coherent_dma_mask;
-	dev->coherent_dma_mask = MASK;
-
-Let's move this pattern out of drivers and have the DMA API provide a
-helper for it.  This helper uses dma_set_mask_and_coherent() to allow
-platform issues to be properly dealt with via dma_set_mask()/
-dma_is_supported().
+Convert this code sequence:
+	pdev->dev.coherent_dma_mask = DMA_BIT_MASK(64);
+	pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
+to use dma_coerce_mask_and_coherent() to avoid bypassing the architecture
+check on the DMA mask.
 
 Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
 ---
- include/linux/dma-mapping.h |   10 ++++++++++
- 1 files changed, 10 insertions(+), 0 deletions(-)
+ drivers/ata/pata_octeon_cf.c |    5 +++--
+ 1 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index ec951f9..27d1421 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -111,6 +111,16 @@ static inline int dma_set_mask_and_coherent(struct device *dev, u64 mask)
- 	return rc;
- }
+diff --git a/drivers/ata/pata_octeon_cf.c b/drivers/ata/pata_octeon_cf.c
+index c51bbb9..6231d43 100644
+--- a/drivers/ata/pata_octeon_cf.c
++++ b/drivers/ata/pata_octeon_cf.c
+@@ -1014,8 +1014,9 @@ static int octeon_cf_probe(struct platform_device *pdev)
+ 	}
+ 	cf_port->c0 = ap->ioaddr.ctl_addr;
  
-+/*
-+ * Similar to the above, except it deals with the case where the device
-+ * does not have dev->dma_mask appropriately setup.
-+ */
-+static inline int dma_coerce_mask_and_coherent(struct device *dev, u64 mask)
-+{
-+	dev->dma_mask = &dev->coherent_dma_mask;
-+	return dma_set_mask_and_coherent(dev, mask);
-+}
-+
- extern u64 dma_get_required_mask(struct device *dev);
+-	pdev->dev.coherent_dma_mask = DMA_BIT_MASK(64);
+-	pdev->dev.dma_mask = &pdev->dev.coherent_dma_mask;
++	rv = dma_coerce_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
++	if (rv)
++		return ret;
  
- static inline unsigned int dma_get_max_seg_size(struct device *dev)
+ 	ata_port_desc(ap, "cmd %p ctl %p", base, ap->ioaddr.ctl_addr);
+ 
 -- 
 1.7.4.4
