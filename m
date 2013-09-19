@@ -1,36 +1,60 @@
-From: vishal.l.verma@intel.com (Verma, Vishal L)
-Date: Thu, 19 Sep 2013 22:29:32 +0000
-Subject: [PATCH 1/2] NVMe: Cocci spatch "kzalloc-simple"
-In-Reply-To: <CE60D5BF.F105%vishal.l.verma@intel.com>
-Message-ID: <CE60D6D1.F10B%vishal.l.verma@intel.com>
+From: rmk+kernel@arm.linux.org.uk (Russell King)
+Date: Thu, 19 Sep 2013 22:26:58 +0100
+Subject: [PATCH 02/51] DMA-API: net: brocade/bna/bnad.c: fix 32-bit DMA mask
+ handling
+In-Reply-To: <20130919212235.GD12758@n2100.arm.linux.org.uk>
+References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
+Message-ID: <E1VMlkY-0007fG-LM@rmk-PC.arm.linux.org.uk>
 
-On 9/19/13 4:25 PM, "Verma, Vishal L" <vishal.l.verma@intel.com> wrote:
+The fallback to 32-bit DMA mask is rather odd:
+	if (!dma_set_mask(&pdev->dev, DMA_BIT_MASK(64)) &&
+	    !dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64))) {
+		*using_dac = true;
+	} else {
+		err = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+		if (err) {
+			err = dma_set_coherent_mask(&pdev->dev,
+						    DMA_BIT_MASK(32));
+			if (err)
+				goto release_regions;
+		}
 
->On 9/19/13 3:45 PM, "Thomas Meyer" <thomas@m3y3r.de> wrote:
->
->>Use kzalloc rather than kmalloc followed by memset with 0.
->>Found by coccinelle spatch "api/alloc/kzalloc-simple.cocci"
->>
->>Signed-off-by: Thomas Meyer <thomas at m3y3r.de>
->>---
->
->Thomas,
->
->This has already been applied to Matthew's tree:
->http://git.infradead.org/users/willy/linux-nvme.git/commitdiff/03ea83e9a37
->e
->41d436f8348e6eee3d8281bfff3a
->
->
->-Vishal
->
->
->_______________________________________________
->Linux-nvme mailing list
->Linux-nvme at lists.infradead.org
->http://merlin.infradead.org/mailman/listinfo/linux-nvme
->
+This means we only try and set the coherent DMA mask if we failed to
+set a 32-bit DMA mask, and only if both fail do we fail the driver.
+Adjust this so that if either setting fails, we fail the driver - and
+thereby end up properly setting both the DMA mask and the coherent
+DMA mask in the fallback case.
 
-And in Linus' tree - applied in 3.11
-https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=
-03ea83e9a37e41d436f8348e6eee3d8281bfff3a
+Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
+---
+ drivers/net/ethernet/brocade/bna/bnad.c |   13 ++++---------
+ 1 files changed, 4 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/net/ethernet/brocade/bna/bnad.c b/drivers/net/ethernet/brocade/bna/bnad.c
+index b78e69e..45ce6e2 100644
+--- a/drivers/net/ethernet/brocade/bna/bnad.c
++++ b/drivers/net/ethernet/brocade/bna/bnad.c
+@@ -3300,17 +3300,12 @@ bnad_pci_init(struct bnad *bnad,
+ 	err = pci_request_regions(pdev, BNAD_NAME);
+ 	if (err)
+ 		goto disable_device;
+-	if (!dma_set_mask(&pdev->dev, DMA_BIT_MASK(64)) &&
+-	    !dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64))) {
++	if (!dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64))) {
+ 		*using_dac = true;
+ 	} else {
+-		err = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+-		if (err) {
+-			err = dma_set_coherent_mask(&pdev->dev,
+-						    DMA_BIT_MASK(32));
+-			if (err)
+-				goto release_regions;
+-		}
++		err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
++		if (err)
++			goto release_regions;
+ 		*using_dac = false;
+ 	}
+ 	pci_set_master(pdev);
+-- 
+1.7.4.4
