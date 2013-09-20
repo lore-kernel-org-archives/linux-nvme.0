@@ -1,36 +1,31 @@
 From: linux@arm.linux.org.uk (Russell King - ARM Linux)
-Date: Fri, 20 Sep 2013 14:49:38 +0100
-Subject: [PATCH 42/51] DMA-API: usb: musb: use
- platform_device_register_full() to avoid directly messing with dma
- masks
-In-Reply-To: <20130920131125.GO26101@radagast>
+Date: Fri, 20 Sep 2013 15:12:44 +0100
+Subject: [PATCH 01/51] DMA-API: provide a helper to set both DMA and
+ coherent DMA masks
+In-Reply-To: <1379640097.2500.4.camel@bwh-desktop.uk.level5networks.com>
 References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
- <E1VMnQk-0007sX-Ty@rmk-PC.arm.linux.org.uk> <20130920131125.GO26101@radagast>
-Message-ID: <20130920134938.GO25647@n2100.arm.linux.org.uk>
+ <E1VMlja-0007fA-HU@rmk-PC.arm.linux.org.uk>
+ <1379640097.2500.4.camel@bwh-desktop.uk.level5networks.com>
+Message-ID: <20130920141244.GQ25647@n2100.arm.linux.org.uk>
 
-On Fri, Sep 20, 2013@08:11:25AM -0500, Felipe Balbi wrote:
-> Hi,
+On Fri, Sep 20, 2013@02:21:37AM +0100, Ben Hutchings wrote:
+> On Thu, 2013-09-19@22:25 +0100, Russell King wrote:
+> [...]
+> > -dma_set_coherent_mask() will always be able to set the same or a
+> > -smaller mask as dma_set_mask(). However for the rare case that a
+> > +The coherent coherent mask will always be able to set the same or a
+> > +smaller mask as the streaming mask. However for the rare case that a
+> [...]
 > 
-> On Fri, Sep 20, 2013@12:14:38AM +0100, Russell King wrote:
-> > Use platform_device_register_full() for those drivers which can, to
-> > avoid messing directly with DMA masks.  This can only be done when
-> > the driver does not need to access the allocated musb platform device
-> > from within its callbacks, which may be called during the musb
-> > device probing.
-> > 
-> > Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
+> The new wording doesn't make sense; a mask doesn't set itself.  I would
+> suggest:
 > 
-> you want me to carry this one through my tree or you prefer getting my
-> Acked-by ? Either way works for me:
-> 
-> Acked-by: Felipe Balbi <balbi at ti.com>
-> 
-> there's also the third option of me setting up a branch with only this
-> patch and we both merge it, that'd also work.
+> "The coherent mask can always be set to the same or a smaller mask than
+> the streaming mask."
 
-I think this patch is sufficiently stand-alone that it should be fine
-if you want to take it through your tree.  That may be better in the
-long run to avoid conflicts with this patch and any future work in
-this area during this cycle.
+Yes, the original sentence is not particularly good, but I think even
+your modified version can be interpreted as "a mask setting itself"
+for all the same reasons that the original can be (which mask does "same"
+refer to?)
 
-Thanks.
+Even so, I prefer your version.  Thanks. :)
