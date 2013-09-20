@@ -1,80 +1,39 @@
-From: rmk+kernel@arm.linux.org.uk (Russell King)
-Date: Thu, 19 Sep 2013 23:03:03 +0100
-Subject: [PATCH 38/51] DMA-API: staging: use dma_set_coherent_mask()
-In-Reply-To: <20130919212235.GD12758@n2100.arm.linux.org.uk>
+From: balbi@ti.com (Felipe Balbi)
+Date: Fri, 20 Sep 2013 08:11:25 -0500
+Subject: [PATCH 42/51] DMA-API: usb: musb: use
+ platform_device_register_full() to avoid directly messing with dma masks
+In-Reply-To: <E1VMnQk-0007sX-Ty@rmk-PC.arm.linux.org.uk>
 References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
-Message-ID: <E1VMmJT-0007kZ-Kw@rmk-PC.arm.linux.org.uk>
+ <E1VMnQk-0007sX-Ty@rmk-PC.arm.linux.org.uk>
+Message-ID: <20130920131125.GO26101@radagast>
 
-The correct way for a driver to specify the coherent DMA mask is
-not to directly access the field in the struct device, but to use
-dma_set_coherent_mask().  Only arch and bus code should access this
-member directly.
+Hi,
 
-Convert all direct write accesses to using the correct API.
+On Fri, Sep 20, 2013@12:14:38AM +0100, Russell King wrote:
+> Use platform_device_register_full() for those drivers which can, to
+> avoid messing directly with DMA masks.  This can only be done when
+> the driver does not need to access the allocated musb platform device
+> from within its callbacks, which may be called during the musb
+> device probing.
+> 
+> Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
 
-Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
----
- drivers/staging/dwc2/platform.c        |    5 +++--
- drivers/staging/imx-drm/imx-drm-core.c |    8 ++++++--
- drivers/staging/imx-drm/ipuv3-crtc.c   |    4 +++-
- 3 files changed, 12 insertions(+), 5 deletions(-)
+you want me to carry this one through my tree or you prefer getting my
+Acked-by ? Either way works for me:
 
-diff --git a/drivers/staging/dwc2/platform.c b/drivers/staging/dwc2/platform.c
-index 44cce2f..1d68c49 100644
---- a/drivers/staging/dwc2/platform.c
-+++ b/drivers/staging/dwc2/platform.c
-@@ -100,8 +100,9 @@ static int dwc2_driver_probe(struct platform_device *dev)
- 	 */
- 	if (!dev->dev.dma_mask)
- 		dev->dev.dma_mask = &dev->dev.coherent_dma_mask;
--	if (!dev->dev.coherent_dma_mask)
--		dev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
-+	retval = dma_set_coherent_mask(&dev->dev, DMA_BIT_MASK(32));
-+	if (retval)
-+		return retval;
- 
- 	irq = platform_get_irq(dev, 0);
- 	if (irq < 0) {
-diff --git a/drivers/staging/imx-drm/imx-drm-core.c b/drivers/staging/imx-drm/imx-drm-core.c
-index 47c5888..847f430 100644
---- a/drivers/staging/imx-drm/imx-drm-core.c
-+++ b/drivers/staging/imx-drm/imx-drm-core.c
-@@ -805,6 +805,12 @@ static struct drm_driver imx_drm_driver = {
- 
- static int imx_drm_platform_probe(struct platform_device *pdev)
- {
-+	int ret;
-+
-+	ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
-+	if (ret)
-+		return ret;
-+
- 	imx_drm_device->dev = &pdev->dev;
- 
- 	return drm_platform_init(&imx_drm_driver, pdev);
-@@ -847,8 +853,6 @@ static int __init imx_drm_init(void)
- 		goto err_pdev;
- 	}
- 
--	imx_drm_pdev->dev.coherent_dma_mask = DMA_BIT_MASK(32),
--
- 	ret = platform_driver_register(&imx_drm_pdrv);
- 	if (ret)
- 		goto err_pdrv;
-diff --git a/drivers/staging/imx-drm/ipuv3-crtc.c b/drivers/staging/imx-drm/ipuv3-crtc.c
-index 6fd37a7..9e73e8d 100644
---- a/drivers/staging/imx-drm/ipuv3-crtc.c
-+++ b/drivers/staging/imx-drm/ipuv3-crtc.c
-@@ -523,7 +523,9 @@ static int ipu_drm_probe(struct platform_device *pdev)
- 	if (!pdata)
- 		return -EINVAL;
- 
--	pdev->dev.coherent_dma_mask = DMA_BIT_MASK(32);
-+	ret = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
-+	if (ret)
-+		return ret;
- 
- 	ipu_crtc = devm_kzalloc(&pdev->dev, sizeof(*ipu_crtc), GFP_KERNEL);
- 	if (!ipu_crtc)
+Acked-by: Felipe Balbi <balbi at ti.com>
+
+there's also the third option of me setting up a branch with only this
+patch and we both merge it, that'd also work.
+
+cheers
+
 -- 
-1.7.4.4
+balbi
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 836 bytes
+Desc: Digital signature
+URL: <http://merlin.infradead.org/pipermail/linux-nvme/attachments/20130920/815d5ffb/attachment.sig>
