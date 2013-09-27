@@ -1,31 +1,193 @@
-From: linux@arm.linux.org.uk (Russell King - ARM Linux)
-Date: Fri, 27 Sep 2013 09:27:04 +0100
-Subject: [PATCH 00/51] DMA mask changes
-In-Reply-To: <CACna6rxkpYzdD8_Jfi22vA2suUa3k-JM65_gCySQpp4crVCoPg@mail.gmail.com>
-References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
- <CACna6rxkpYzdD8_Jfi22vA2suUa3k-JM65_gCySQpp4crVCoPg@mail.gmail.com>
-Message-ID: <20130927082703.GZ25647@n2100.arm.linux.org.uk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 27 Sep 2013 15:09:15 -0600
+Subject: [PATCH] NVMe: compat SG_IO ioctl
+Message-ID: <1380316155-2165-1-git-send-email-keith.busch@intel.com>
 
-On Thu, Sep 26, 2013@10:23:08PM +0200, Rafa? Mi?ecki wrote:
-> 2013/9/19 Russell King - ARM Linux <linux at arm.linux.org.uk>:
-> > This email is only being sent to the mailing lists in question, not to
-> > anyone personally.  The list of individuals is far to great to do that.
-> > I'm hoping no mailing lists reject the patches based on the number of
-> > recipients.
-> 
-> Huh, I think it was enough to send only 3 patches to the b43-dev at . Like:
-> [PATCH 01/51] DMA-API: provide a helper to set both DMA and coherent DMA masks
-> [PATCH 14/51] DMA-API: net: b43: (...)
-> [PATCH 15/51] DMA-API: net: b43legacy: (...)
-> ;)
-> 
-> I believe Joe has some nice script for doing it that way. When fixing
-> some coding style / formatting, he sends only related patches to the
-> given ML.
+I hear some people have (and use!) 32-bit versions of sg3-utils on
+64-bit OSes.  This is pretty much a straight copy from fs/compat_ioctl.c.
 
-If I did that, then the mailing lists would not get the first patch,
-because almost none of the lists would be referred to by patch 1.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/block/nvme-core.c |   14 +++++-
+ drivers/block/nvme-scsi.c |  111 +++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/nvme.h      |    1 +
+ 3 files changed, 125 insertions(+), 1 deletion(-)
 
-Moreover, people complain when they don't have access to the full
-patch series - they assume patches are missing for some reason, and
-they ask for the rest of the series.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index da52092..2cb41df 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1569,10 +1569,22 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
+ 	}
+ }
+ 
++static int nvme_compat_ioctl(struct block_device *bdev, fmode_t mode,
++					unsigned int cmd, unsigned long arg)
++{
++	struct nvme_ns *ns = bdev->bd_disk->private_data;
++
++	switch (cmd) {
++	case SG_IO:
++		return nvme_sg_io32(ns, arg);
++	}
++	return nvme_ioctl(bdev, mode, cmd, arg);
++}
++
+ static const struct block_device_operations nvme_fops = {
+ 	.owner		= THIS_MODULE,
+ 	.ioctl		= nvme_ioctl,
+-	.compat_ioctl	= nvme_ioctl,
++	.compat_ioctl	= nvme_compat_ioctl,
+ };
+ 
+ static void nvme_resubmit_bios(struct nvme_queue *nvmeq)
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index 4a4ff4e..ec8c1fe 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -25,6 +25,7 @@
+ #include <linux/bio.h>
+ #include <linux/bitops.h>
+ #include <linux/blkdev.h>
++#include <linux/compat.h>
+ #include <linux/delay.h>
+ #include <linux/errno.h>
+ #include <linux/fs.h>
+@@ -46,6 +47,7 @@
+ #include <linux/types.h>
+ #include <scsi/sg.h>
+ #include <scsi/scsi.h>
++#include <asm/compat.h>
+ 
+ 
+ static int sg_version_num = 30534;	/* 2 digits for each component */
+@@ -3038,6 +3040,115 @@ int nvme_sg_io(struct nvme_ns *ns, struct sg_io_hdr __user *u_hdr)
+ 	return retcode;
+ }
+ 
++typedef struct sg_io_hdr32 {
++	compat_int_t interface_id;	/* [i] 'S' for SCSI generic (required) */
++	compat_int_t dxfer_direction;	/* [i] data transfer direction  */
++	unsigned char cmd_len;		/* [i] SCSI command length ( <= 16 bytes) */
++	unsigned char mx_sb_len;		/* [i] max length to write to sbp */
++	unsigned short iovec_count;	/* [i] 0 implies no scatter gather */
++	compat_uint_t dxfer_len;		/* [i] byte count of data transfer */
++	compat_uint_t dxferp;		/* [i], [*io] points to data transfer memory
++					      or scatter gather list */
++	compat_uptr_t cmdp;		/* [i], [*i] points to command to perform */
++	compat_uptr_t sbp;		/* [i], [*o] points to sense_buffer memory */
++	compat_uint_t timeout;		/* [i] MAX_UINT->no timeout (unit: millisec) */
++	compat_uint_t flags;		/* [i] 0 -> default, see SG_FLAG... */
++	compat_int_t pack_id;		/* [i->o] unused internally (normally) */
++	compat_uptr_t usr_ptr;		/* [i->o] unused internally */
++	unsigned char status;		/* [o] scsi status */
++	unsigned char masked_status;	/* [o] shifted, masked scsi status */
++	unsigned char msg_status;		/* [o] messaging level data (optional) */
++	unsigned char sb_len_wr;		/* [o] byte count actually written to sbp */
++	unsigned short host_status;	/* [o] errors from host adapter */
++	unsigned short driver_status;	/* [o] errors from software driver */
++	compat_int_t resid;		/* [o] dxfer_len - actual_transferred */
++	compat_uint_t duration;		/* [o] time taken by cmd (unit: millisec) */
++	compat_uint_t info;		/* [o] auxiliary information */
++} sg_io_hdr32_t;  /* 64 bytes long (on sparc32) */
++
++typedef struct sg_iovec32 {
++	compat_uint_t iov_base;
++	compat_uint_t iov_len;
++} sg_iovec32_t;
++
++static int sg_build_iovec(sg_io_hdr_t __user *sgio, void __user *dxferp, u16 iovec_count)
++{
++	sg_iovec_t __user *iov = (sg_iovec_t __user *) (sgio + 1);
++	sg_iovec32_t __user *iov32 = dxferp;
++	int i;
++
++	for (i = 0; i < iovec_count; i++) {
++		u32 base, len;
++
++		if (get_user(base, &iov32[i].iov_base) ||
++		    get_user(len, &iov32[i].iov_len) ||
++		    put_user(compat_ptr(base), &iov[i].iov_base) ||
++		    put_user(len, &iov[i].iov_len))
++			return -EFAULT;
++	}
++
++	if (put_user(iov, &sgio->dxferp))
++		return -EFAULT;
++	return 0;
++}
++
++int nvme_sg_io32(struct nvme_ns *ns, unsigned long arg)
++{
++	sg_io_hdr32_t __user *sgio32 = (sg_io_hdr32_t __user *)arg;
++	sg_io_hdr_t __user *sgio;
++	u16 iovec_count;
++	u32 data;
++	void __user *dxferp;
++	unsigned char __user *cmdp;
++	unsigned char __user *sbp;
++	unsigned char __user *new;
++	unsigned char __user *top;
++	
++	if (get_user(iovec_count, &sgio32->iovec_count))
++		return -EFAULT;
++
++	top = compat_alloc_user_space(0);
++	new = compat_alloc_user_space(sizeof(sg_io_hdr_t) +
++			       (iovec_count * sizeof(sg_iovec_t)));
++	if (new > top)
++		return -EINVAL;
++
++	sgio = (sg_io_hdr_t __user *)new;
++	if (copy_in_user(&sgio->interface_id, &sgio32->interface_id,
++							 (2 * sizeof(int)) +
++							 (2 * sizeof(unsigned char)) +
++							 (1 * sizeof(unsigned short)) +
++							 (1 * sizeof(unsigned int))))
++		return -EFAULT;
++	if (get_user(data, &sgio32->dxferp))
++		return -EFAULT;
++
++	dxferp = compat_ptr(data);
++	if (iovec_count && sg_build_iovec(sgio, dxferp, iovec_count))
++			return -EFAULT;
++	else if (put_user(dxferp, &sgio->dxferp))
++			return -EFAULT;
++
++	if (get_user(data, &sgio32->cmdp))
++		return -EFAULT;
++
++	cmdp = compat_ptr(data);
++	if (get_user(data, &sgio32->sbp))
++		return -EFAULT;
++
++	sbp = compat_ptr(data);
++	if (put_user(cmdp, &sgio->cmdp) || put_user(sbp, &sgio->sbp))
++		return -EFAULT;
++	if (copy_in_user(&sgio->timeout, &sgio32->timeout, 3 * sizeof(int)))
++		return -EFAULT;
++	if (get_user(data, &sgio32->usr_ptr))
++		return -EFAULT;
++	if (put_user(compat_ptr(data), &sgio->usr_ptr))
++		return -EFAULT;
++
++	return nvme_sg_io(ns, sgio);
++}
++
+ int nvme_sg_get_version_num(int __user *ip)
+ {
+ 	return put_user(sg_version_num, ip);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 26ebcf4..6867de6 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -165,6 +165,7 @@ int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned dword11,
+ struct sg_io_hdr;
+ 
+ int nvme_sg_io(struct nvme_ns *ns, struct sg_io_hdr __user *u_hdr);
++int nvme_sg_io32(struct nvme_ns *ns, unsigned long arg);
+ int nvme_sg_get_version_num(int __user *ip);
+ 
+ #endif /* _LINUX_NVME_H */
+-- 
+1.7.10.4
