@@ -1,73 +1,31 @@
-From: laurent.pinchart@ideasonboard.com (Laurent Pinchart)
-Date: Fri, 27 Sep 2013 03:56:13 +0200
-Subject: [PATCH 31/51] DMA-API: media: omap3isp: use
- dma_coerce_mask_and_coherent()
-In-Reply-To: <E1VMmCg-0007j1-Pi@rmk-PC.arm.linux.org.uk>
+From: linux@arm.linux.org.uk (Russell King - ARM Linux)
+Date: Fri, 27 Sep 2013 09:27:04 +0100
+Subject: [PATCH 00/51] DMA mask changes
+In-Reply-To: <CACna6rxkpYzdD8_Jfi22vA2suUa3k-JM65_gCySQpp4crVCoPg@mail.gmail.com>
 References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
- <E1VMmCg-0007j1-Pi@rmk-PC.arm.linux.org.uk>
-Message-ID: <4110555.qb0XUyFHNE@avalon>
+ <CACna6rxkpYzdD8_Jfi22vA2suUa3k-JM65_gCySQpp4crVCoPg@mail.gmail.com>
+Message-ID: <20130927082703.GZ25647@n2100.arm.linux.org.uk>
 
-Hi Russell,
+On Thu, Sep 26, 2013@10:23:08PM +0200, Rafa? Mi?ecki wrote:
+> 2013/9/19 Russell King - ARM Linux <linux at arm.linux.org.uk>:
+> > This email is only being sent to the mailing lists in question, not to
+> > anyone personally.  The list of individuals is far to great to do that.
+> > I'm hoping no mailing lists reject the patches based on the number of
+> > recipients.
+> 
+> Huh, I think it was enough to send only 3 patches to the b43-dev at . Like:
+> [PATCH 01/51] DMA-API: provide a helper to set both DMA and coherent DMA masks
+> [PATCH 14/51] DMA-API: net: b43: (...)
+> [PATCH 15/51] DMA-API: net: b43legacy: (...)
+> ;)
+> 
+> I believe Joe has some nice script for doing it that way. When fixing
+> some coding style / formatting, he sends only related patches to the
+> given ML.
 
-Thank you for the patch.
+If I did that, then the mailing lists would not get the first patch,
+because almost none of the lists would be referred to by patch 1.
 
-On Thursday 19 September 2013 22:56:02 Russell King wrote:
-> The code sequence:
-> 	isp->raw_dmamask = DMA_BIT_MASK(32);
-> 	isp->dev->dma_mask = &isp->raw_dmamask;
-> 	isp->dev->coherent_dma_mask = DMA_BIT_MASK(32);
-> bypasses the architectures check on the DMA mask.  It can be replaced
-> with dma_coerce_mask_and_coherent(), avoiding the direct initialization
-> of this mask.
-> 
-> Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
-
-Acked-by: Laurent Pinchart <laurent.pinchart at ideasonboard.com>
-
-> ---
->  drivers/media/platform/omap3isp/isp.c |    6 +++---
->  drivers/media/platform/omap3isp/isp.h |    3 ---
->  2 files changed, 3 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/platform/omap3isp/isp.c
-> b/drivers/media/platform/omap3isp/isp.c index df3a0ec..1c36080 100644
-> --- a/drivers/media/platform/omap3isp/isp.c
-> +++ b/drivers/media/platform/omap3isp/isp.c
-> @@ -2182,9 +2182,9 @@ static int isp_probe(struct platform_device *pdev)
->  	isp->pdata = pdata;
->  	isp->ref_count = 0;
-> 
-> -	isp->raw_dmamask = DMA_BIT_MASK(32);
-> -	isp->dev->dma_mask = &isp->raw_dmamask;
-> -	isp->dev->coherent_dma_mask = DMA_BIT_MASK(32);
-> +	ret = dma_coerce_mask_and_coherent(isp->dev, DMA_BIT_MASK(32));
-> +	if (ret)
-> +		return ret;
-> 
->  	platform_set_drvdata(pdev, isp);
-> 
-> diff --git a/drivers/media/platform/omap3isp/isp.h
-> b/drivers/media/platform/omap3isp/isp.h index cd3eff4..ce65d3a 100644
-> --- a/drivers/media/platform/omap3isp/isp.h
-> +++ b/drivers/media/platform/omap3isp/isp.h
-> @@ -152,7 +152,6 @@ struct isp_xclk {
->   * @mmio_base_phys: Array with physical L4 bus addresses for ISP register
->   *                  regions.
->   * @mmio_size: Array with ISP register regions size in bytes.
-> - * @raw_dmamask: Raw DMA mask
->   * @stat_lock: Spinlock for handling statistics
->   * @isp_mutex: Mutex for serializing requests to ISP.
->   * @crashed: Bitmask of crashed entities (indexed by entity ID)
-> @@ -190,8 +189,6 @@ struct isp_device {
->  	unsigned long mmio_base_phys[OMAP3_ISP_IOMEM_LAST];
->  	resource_size_t mmio_size[OMAP3_ISP_IOMEM_LAST];
-> 
-> -	u64 raw_dmamask;
-> -
->  	/* ISP Obj */
->  	spinlock_t stat_lock;	/* common lock for statistic drivers */
->  	struct mutex isp_mutex;	/* For handling ref_count field */
--- 
-Regards,
-
-Laurent Pinchart
+Moreover, people complain when they don't have access to the full
+patch series - they assume patches are missing for some reason, and
+they ask for the rest of the series.
