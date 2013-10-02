@@ -1,48 +1,47 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 15 Nov 2013 10:47:10 -0700
-Subject: [PATCHv2] NVMe: Disable admin queue on init failure
-Message-ID: <1384537630-11052-1-git-send-email-keith.busch@intel.com>
+From: brking@linux.vnet.ibm.com (Brian King)
+Date: Wed, 02 Oct 2013 14:31:25 -0500
+Subject: [PATCH RFC 36/77] ipr: Enable MSI-X when IPR_USE_MSIX type is
+ set, not IPR_USE_MSI
+In-Reply-To: <2d4272136269f3cb3b1a5ac53b12aa45c7ea65c0.1380703263.git.agordeev@redhat.com>
+References: <cover.1380703262.git.agordeev@redhat.com>
+ <2d4272136269f3cb3b1a5ac53b12aa45c7ea65c0.1380703263.git.agordeev@redhat.com>
+Message-ID: <524C748D.8080803@linux.vnet.ibm.com>
 
-Disable the admin queue if device fails during initialization so the
-queue's irq is freed.
+On 10/02/2013 05:48 AM, Alexander Gordeev wrote:
+> Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
+> ---
+>  drivers/scsi/ipr.c |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+> 
+> diff --git a/drivers/scsi/ipr.c b/drivers/scsi/ipr.c
+> index fb57e21..762a93e 100644
+> --- a/drivers/scsi/ipr.c
+> +++ b/drivers/scsi/ipr.c
+> @@ -9527,7 +9527,7 @@ static int ipr_probe_ioa(struct pci_dev *pdev,
+>  		ipr_number_of_msix = IPR_MAX_MSIX_VECTORS;
+>  	}
+> 
+> -	if (ioa_cfg->ipr_chip->intr_type == IPR_USE_MSI &&
+> +	if (ioa_cfg->ipr_chip->intr_type == IPR_USE_MSIX &&
+>  			ipr_enable_msix(ioa_cfg) == 0)
+>  		ioa_cfg->intr_flag = IPR_USE_MSIX;
+>  	else if (ioa_cfg->ipr_chip->intr_type == IPR_USE_MSI &&
+> 
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-v1->v2:
-Moved the responsibilty of handling the admin queue to the funtion that
-set it up. This fixes the case where the controller is responsive but
-unable to handle io, so the cdev is still usable.
+Nack. ioa_cfg->ipr_chip->intr_type gets initialized from the ipr_chip table
+at the top of the driver which never sets intr_type to IPR_USE_MSIX, so this
+will break MSI-X support for ipr. 
 
-Fixed my typo in commit message from the sad rush to post the patch
-yesterday.
+We indicate at the chip level only whether we want to force LSI or whether
+we want to enable MSI / MSI-X and then try enabling MSI-X and fall back to
+MSI if MSI-X is not available or does not work. We then set intr_flag to indicate
+what we are actually using on the specific adapter.
 
- drivers/block/nvme-core.c |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Thanks,
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index da52092..145d621 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1864,7 +1864,11 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	return 0;
- 
-  free_queues:
--	nvme_free_queues(dev);
-+	for (i = dev->queue_count - 1; i > 0; i--) {
-+		nvme_free_queue(dev->queues[i]);
-+		dev->queue_count--;
-+		dev->queues[i] = NULL;
-+	}
- 	return result;
- }
- 
-@@ -2141,6 +2145,7 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 	return result;
- 
-  disable:
-+	nvme_disable_queue(dev, 0);
- 	spin_lock(&dev_list_lock);
- 	list_del_init(&dev->node);
- 	spin_unlock(&dev_list_lock);
+Brian
+
 -- 
-1.7.10.4
+Brian King
+Power Linux I/O
+IBM Linux Technology Center
