@@ -1,47 +1,66 @@
-From: brking@linux.vnet.ibm.com (Brian King)
-Date: Wed, 02 Oct 2013 14:31:25 -0500
-Subject: [PATCH RFC 36/77] ipr: Enable MSI-X when IPR_USE_MSIX type is
- set, not IPR_USE_MSI
-In-Reply-To: <2d4272136269f3cb3b1a5ac53b12aa45c7ea65c0.1380703263.git.agordeev@redhat.com>
+From: jacob.e.keller@intel.com (Keller, Jacob E)
+Date: Wed, 2 Oct 2013 20:50:51 +0000
+Subject: [PATCH RFC 40/77] ixgbevf: Update MSI/MSI-X interrupts
+ enablement code
+In-Reply-To: <338c9012577acf694eb23622902185584987bd8f.1380703263.git.agordeev@redhat.com>
 References: <cover.1380703262.git.agordeev@redhat.com>
- <2d4272136269f3cb3b1a5ac53b12aa45c7ea65c0.1380703263.git.agordeev@redhat.com>
-Message-ID: <524C748D.8080803@linux.vnet.ibm.com>
+ <338c9012577acf694eb23622902185584987bd8f.1380703263.git.agordeev@redhat.com>
+Message-ID: <1380747051.32715.7.camel@jekeller-desk1.amr.corp.intel.com>
 
-On 10/02/2013 05:48 AM, Alexander Gordeev wrote:
+On Wed, 2013-10-02@12:48 +0200, Alexander Gordeev wrote:
+> As result of recent re-design of the MSI/MSI-X interrupts enabling
+> pattern this driver has to be updated to use the new technique to
+> obtain a optimal number of MSI/MSI-X interrupts required.
+> 
 > Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 > ---
->  drivers/scsi/ipr.c |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+>  drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c |   18 +++++++-----------
+>  1 files changed, 7 insertions(+), 11 deletions(-)
 > 
-> diff --git a/drivers/scsi/ipr.c b/drivers/scsi/ipr.c
-> index fb57e21..762a93e 100644
-> --- a/drivers/scsi/ipr.c
-> +++ b/drivers/scsi/ipr.c
-> @@ -9527,7 +9527,7 @@ static int ipr_probe_ioa(struct pci_dev *pdev,
->  		ipr_number_of_msix = IPR_MAX_MSIX_VECTORS;
->  	}
-> 
-> -	if (ioa_cfg->ipr_chip->intr_type == IPR_USE_MSI &&
-> +	if (ioa_cfg->ipr_chip->intr_type == IPR_USE_MSIX &&
->  			ipr_enable_msix(ioa_cfg) == 0)
->  		ioa_cfg->intr_flag = IPR_USE_MSIX;
->  	else if (ioa_cfg->ipr_chip->intr_type == IPR_USE_MSI &&
-> 
+> diff --git a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
+> index fa0537a..d506a01 100644
+> --- a/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
+> +++ b/drivers/net/ethernet/intel/ixgbevf/ixgbevf_main.c
+> @@ -1749,8 +1749,7 @@ void ixgbevf_reset(struct ixgbevf_adapter *adapter)
+>  static int ixgbevf_acquire_msix_vectors(struct ixgbevf_adapter *adapter,
+>  					int vectors)
+>  {
+> -	int err = 0;
+> -	int vector_threshold;
+> +	int err, vector_threshold;
+>  
+>  	/* We'll want at least 2 (vector_threshold):
+>  	 * 1) TxQ[0] + RxQ[0] handler
+> @@ -1763,18 +1762,15 @@ static int ixgbevf_acquire_msix_vectors(struct ixgbevf_adapter *adapter,
+>  	 * Right now, we simply care about how many we'll get; we'll
+>  	 * set them up later while requesting irq's.
+>  	 */
+> -	while (vectors >= vector_threshold) {
+> -		err = pci_enable_msix(adapter->pdev, adapter->msix_entries,
+> -				      vectors);
+> -		if (!err || err < 0) /* Success or a nasty failure. */
+> -			break;
+> -		else /* err == number of vectors we should try again with */
+> -			vectors = err;
+> -	}
+> +	err = pci_msix_table_size(adapter->pdev);
+I would prefer to use something other than "err" here since the value
+isn't really an error if it's greater than 0. However, it's not really a
+big issue, since you immediately conver to using vectors on the next
+line of code.. I think its alright overall.
 
-Nack. ioa_cfg->ipr_chip->intr_type gets initialized from the ipr_chip table
-at the top of the driver which never sets intr_type to IPR_USE_MSIX, so this
-will break MSI-X support for ipr. 
+Regards,
+Jake
 
-We indicate at the chip level only whether we want to force LSI or whether
-we want to enable MSI / MSI-X and then try enabling MSI-X and fall back to
-MSI if MSI-X is not available or does not work. We then set intr_flag to indicate
-what we are actually using on the specific adapter.
-
-Thanks,
-
-Brian
-
--- 
-Brian King
-Power Linux I/O
-IBM Linux Technology Center
+> +	if (err < 0)
+> +		return err;
+>  
+> +	vectors = min(vectors, err);
+>  	if (vectors < vector_threshold)
+> -		err = -ENOSPC;
+> +		return -ENOSPC;
+>  
+> +	err = pci_enable_msix(adapter->pdev, adapter->msix_entries, vectors);
+>  	if (err) {
+>  		dev_err(&adapter->pdev->dev,
+>  			"Unable to allocate MSI-X interrupts\n");
