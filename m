@@ -1,60 +1,65 @@
-From: saurav.kashyap@qlogic.com (Saurav Kashyap)
-Date: Thu, 3 Oct 2013 17:42:33 +0000
-Subject: [PATCH RFC 59/77] qla2xxx: Update MSI/MSI-X interrupts
- enablement code
-In-Reply-To: <54f6b89372f51cd27a6adf6ecc91b8bf6bb5ba74.1380703263.git.agordeev@redhat.com>
-Message-ID: <F5D084D6342F9B479C34599BB0A03E4D8982E209@AVMB1.qlogic.org>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Thu, 3 Oct 2013 21:48:39 +0200
+Subject: [PATCH RFC 50/77] mlx5: Update MSI/MSI-X interrupts enablement
+ code
+In-Reply-To: <20131003071433.GA7299@mtldesk30>
+References: <cover.1380703262.git.agordeev@redhat.com>
+ <9650a7dfbcfd5f1da21f7b093665abf4b1041071.1380703263.git.agordeev@redhat.com>
+ <20131003071433.GA7299@mtldesk30>
+Message-ID: <20131003194837.GA27636@dhcp-26-207.brq.redhat.com>
 
-Acked-by: Saurav Kashyap <saurav.kashyap at qlogic.com>
-
-
->As result of recent re-design of the MSI/MSI-X interrupts enabling
->pattern this driver has to be updated to use the new technique to
->obtain a optimal number of MSI/MSI-X interrupts required.
->
->Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
->---
-> drivers/scsi/qla2xxx/qla_isr.c |   18 +++++++++++-------
-> 1 files changed, 11 insertions(+), 7 deletions(-)
->
->diff --git a/drivers/scsi/qla2xxx/qla_isr.c
->b/drivers/scsi/qla2xxx/qla_isr.c
->index df1b30b..6c11ab9 100644
->--- a/drivers/scsi/qla2xxx/qla_isr.c
->+++ b/drivers/scsi/qla2xxx/qla_isr.c
->@@ -2836,16 +2836,20 @@ qla24xx_enable_msix(struct qla_hw_data *ha,
->struct rsp_que *rsp)
-> 	for (i = 0; i < ha->msix_count; i++)
-> 		entries[i].entry = i;
+On Thu, Oct 03, 2013@10:14:33AM +0300, Eli Cohen wrote:
+> On Wed, Oct 02, 2013@12:49:06PM +0200, Alexander Gordeev wrote:
+> >  
+> > +	err = pci_msix_table_size(dev->pdev);
+> > +	if (err < 0)
+> > +		return err;
+> > +
+> >  	nvec = dev->caps.num_ports * num_online_cpus() + MLX5_EQ_VEC_COMP_BASE;
+> >  	nvec = min_t(int, nvec, num_eqs);
+> > +	nvec = min_t(int, nvec, err);
+> >  	if (nvec <= MLX5_EQ_VEC_COMP_BASE)
+> >  		return -ENOSPC;
 > 
->-	ret = pci_enable_msix(ha->pdev, entries, ha->msix_count);
->-	if (ret) {
->+	ret = pci_msix_table_size(ha->pdev);
->+	if (ret < 0) {
->+		goto msix_failed;
->+	} else {
-> 		if (ret < MIN_MSIX_COUNT)
-> 			goto msix_failed;
+> Making sure we don't request more vectors then the device's is capable
+> of -- looks good.
+> >  
+> > @@ -131,20 +136,15 @@ static int mlx5_enable_msix(struct mlx5_core_dev *dev)
+> >  	for (i = 0; i < nvec; i++)
+> >  		table->msix_arr[i].entry = i;
+> >  
+> > -retry:
+> > -	table->num_comp_vectors = nvec - MLX5_EQ_VEC_COMP_BASE;
+> >  	err = pci_enable_msix(dev->pdev, table->msix_arr, nvec);
+> > -	if (err <= 0) {
+> > +	if (err) {
+> > +		kfree(table->msix_arr);
+> >  		return err;
+> > -	} else if (err > MLX5_EQ_VEC_COMP_BASE) {
+> > -		nvec = err;
+> > -		goto retry;
+> >  	}
+> >  
 > 
->-		ql_log(ql_log_warn, vha, 0x00c6,
->-		    "MSI-X: Failed to enable support "
->-		    "-- %d/%d\n Retry with %d vectors.\n",
->-		    ha->msix_count, ret, ret);
->-		ha->msix_count = ret;
->+		if (ret < ha->msix_count) {
->+			ql_log(ql_log_warn, vha, 0x00c6,
->+			    "MSI-X: Failed to enable support "
->+			    "-- %d/%d\n Retry with %d vectors.\n",
->+			    ha->msix_count, ret, ret);
->+			ha->msix_count = ret;
->+		}
-> 		ret = pci_enable_msix(ha->pdev, entries, ha->msix_count);
-> 		if (ret) {
-> msix_failed:
->-- 
->1.7.7.6
->
->--
->To unsubscribe from this list: send the line "unsubscribe linux-scsi" in
->the body of a message to majordomo at vger.kernel.org
->More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> According to latest sources, pci_enable_msix() may still fail so why
+> do you want to remove this code?
+
+pci_enable_msix() may fail, but it can not return a positive number.
+
+We first calculate how many MSI-Xs we need, adjust to what we can get,
+check if that is enough and only then go for it.
+
+> > -	mlx5_core_dbg(dev, "received %d MSI vectors out of %d requested\n", err, nvec);
+> > -	kfree(table->msix_arr);
+> > +	table->num_comp_vectors = nvec - MLX5_EQ_VEC_COMP_BASE;
+> >  
+> > -	return -ENOSPC;
+> > +	return 0;
+> >  }
+> >  
+> >  static void mlx5_disable_msix(struct mlx5_core_dev *dev)
+
+-- 
+Regards,
+Alexander Gordeev
+agordeev at redhat.com
