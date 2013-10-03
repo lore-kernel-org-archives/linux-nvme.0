@@ -1,37 +1,43 @@
 From: jon.mason@intel.com (Jon Mason)
-Date: Wed, 2 Oct 2013 17:48:05 -0700
-Subject: [PATCH RFC 54/77] ntb: Ensure number of MSIs on SNB is enough
- for the link interrupt
-In-Reply-To: <5d9c5b2d3bbc444ff32bddeece7a239d046bd79c.1380703263.git.agordeev@redhat.com>
+Date: Wed, 2 Oct 2013 17:49:28 -0700
+Subject: [PATCH RFC 53/77] ntb: Fix missed call to pci_enable_msix()
+In-Reply-To: <0590d63c3432229a3824bada71e07a08fb955498.1380703263.git.agordeev@redhat.com>
 References: <cover.1380703262.git.agordeev@redhat.com>
- <5d9c5b2d3bbc444ff32bddeece7a239d046bd79c.1380703263.git.agordeev@redhat.com>
-Message-ID: <20131003004805.GL6768@jonmason-lab>
+ <0590d63c3432229a3824bada71e07a08fb955498.1380703263.git.agordeev@redhat.com>
+Message-ID: <20131003004928.GM6768@jonmason-lab>
 
-On Wed, Oct 02, 2013@12:49:10PM +0200, Alexander Gordeev wrote:
+On Wed, Oct 02, 2013@12:49:09PM +0200, Alexander Gordeev wrote:
+> Current MSI-X enablement code assumes MSI-Xs were successfully
+> allocated in case less than requested vectors were available.
+> That assumption is wrong, since MSI-Xs should be enabled with
+> a repeated call to pci_enable_msix(). This update fixes this.
+
+Good catch, I'll pull it in for my next NTB release.
+
+Thanks,
+Jon
+
+> 
 > Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 > ---
->  drivers/ntb/ntb_hw.c |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
+>  drivers/ntb/ntb_hw.c |    4 ++++
+>  1 files changed, 4 insertions(+), 0 deletions(-)
 > 
 > diff --git a/drivers/ntb/ntb_hw.c b/drivers/ntb/ntb_hw.c
-> index de2062c..eccd5e5 100644
+> index 1cb6e51..de2062c 100644
 > --- a/drivers/ntb/ntb_hw.c
 > +++ b/drivers/ntb/ntb_hw.c
-> @@ -1066,7 +1066,7 @@ static int ntb_setup_msix(struct ntb_device *ndev)
->  		/* On SNB, the link interrupt is always tied to 4th vector.  If
->  		 * we can't get all 4, then we can't use MSI-X.
->  		 */
-> -		if (ndev->hw_type != BWD_HW) {
-> +		if ((rc < SNB_MSIX_CNT) && (ndev->hw_type != BWD_HW)) {
-
-Nack, this check is unnecessary.
-
-Also, no comment in the commit on why it could be necessary.
-
-
->  			rc = -EIO;
->  			goto err1;
->  		}
+> @@ -1075,6 +1075,10 @@ static int ntb_setup_msix(struct ntb_device *ndev)
+>  			 "Only %d MSI-X vectors.  Limiting the number of queues to that number.\n",
+>  			 rc);
+>  		msix_entries = rc;
+> +
+> +		rc = pci_enable_msix(pdev, ndev->msix_entries, msix_entries);
+> +		if (rc)
+> +			goto err1;
+>  	}
+>  
+>  	for (i = 0; i < msix_entries; i++) {
 > -- 
 > 1.7.7.6
 > 
