@@ -1,40 +1,56 @@
-From: schwidefsky@de.ibm.com (Martin Schwidefsky)
-Date: Fri, 4 Oct 2013 09:39:56 +0200
-Subject: [PATCH RFC 03/77] PCI/MSI/s390: Fix single MSI only check
-In-Reply-To: <8c9811b13fd93e73641dab8e3bd1bd5b2dc37a61.1380703262.git.agordeev@redhat.com>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Fri, 4 Oct 2013 10:29:20 +0200
+Subject: [PATCH RFC 00/77] Re-design MSI/MSI-X interrupts enablement
+ pattern
+In-Reply-To: <1380840585.3419.50.camel@bwh-desktop.uk.level5networks.com>
 References: <cover.1380703262.git.agordeev@redhat.com>
- <8c9811b13fd93e73641dab8e3bd1bd5b2dc37a61.1380703262.git.agordeev@redhat.com>
-Message-ID: <20131004093956.183f6901@mschwide>
+ <1380840585.3419.50.camel@bwh-desktop.uk.level5networks.com>
+Message-ID: <20131004082920.GA4536@dhcp-26-207.brq.redhat.com>
 
-On Wed,  2 Oct 2013 12:48:19 +0200
-Alexander Gordeev <agordeev@redhat.com> wrote:
+On Thu, Oct 03, 2013@11:49:45PM +0100, Ben Hutchings wrote:
+> On Wed, 2013-10-02@12:48 +0200, Alexander Gordeev wrote:
+> > This update converts pci_enable_msix() and pci_enable_msi_block()
+> > interfaces to canonical kernel functions and makes them return a
+> > error code in case of failure or 0 in case of success.
+> [...]
+> 
+> I think this is fundamentally flawed: pci_msix_table_size() and
+> pci_get_msi_cap() can only report the limits of the *device* (which the
+> driver usually already knows), whereas MSI allocation can also be
+> constrained due to *global* limits on the number of distinct IRQs.
 
-> Multiple MSIs have never been supported on s390 architecture,
-> but the platform code fails to report single MSI only.
-> 
-> Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
-> ---
->  arch/s390/pci/pci.c |    2 ++
->  1 files changed, 2 insertions(+), 0 deletions(-)
-> 
-> diff --git a/arch/s390/pci/pci.c b/arch/s390/pci/pci.c
-> index f17a834..c79c6e4 100644
-> --- a/arch/s390/pci/pci.c
-> +++ b/arch/s390/pci/pci.c
-> @@ -427,6 +427,8 @@ int arch_setup_msi_irqs(struct pci_dev *pdev, int nvec, int type)
->  	pr_debug("%s: requesting %d MSI-X interrupts...", __func__, nvec);
->  	if (type != PCI_CAP_ID_MSIX && type != PCI_CAP_ID_MSI)
->  		return -EINVAL;
-> +	if (type == PCI_CAP_ID_MSI && nvec > 1)
-> +		return 1;
->  	msi_vecs = min(nvec, ZPCI_MSI_VEC_MAX);
->  	msi_vecs = min_t(unsigned int, msi_vecs, CONFIG_PCI_NR_MSI);
-> 
+Even the current implementation by no means addresses it. Although it
+might seem a case for architectures to report the number of IRQs available
+for a driver to retry, in fact they all just fail. The same applies to
+*any* other type of resource involved: irq_desc's, CPU interrupt vector
+space, msi_desc's etc. No platform cares about it and just bails out once
+a constrain met (please correct me if I am wrong here). Given that Linux
+has been doing well even on embedded I think we should not change it.
 
-Acked-by: Martin Schwidefsky <schwidefsky at de.ibm.com>
+The only exception to the above is pSeries platform which takes advantage
+of the current design (to implement MSI quota). There are indications we
+can satisfy pSeries requirements, but the design proposed in this RFC
+is not going to change drastically anyway. The start of the discusstion
+is here: https://lkml.org/lkml/2013/9/5/293
+
+> Currently pci_enable_msix() will report a positive value if it fails due
+> to the global limit.  Your patch 7 removes that.  pci_enable_msi_block()
+> unfortunately doesn't appear to do this.
+
+pci_enable_msi_block() can do more than one MSI only on x86 (with IOMMU),
+but it does not bother to return positive numbers, indeed.
+
+> It seems to me that a more useful interface would take a minimum and
+> maximum number of vectors from the driver.  This wouldn't allow the
+> driver to specify that it could only accept, say, any even number within
+> a certain range, but you could still leave the current functions
+> available for any driver that needs that.
+
+Mmmm.. I am not sure I am getting it. Could you please rephrase?
+
+> Ben.
 
 -- 
-blue skies,
-   Martin.
-
-"Reality continues to ruin my life." - Calvin.
+Regards,
+Alexander Gordeev
+agordeev at redhat.com
