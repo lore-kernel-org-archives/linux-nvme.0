@@ -1,88 +1,115 @@
-From: bhutchings@solarflare.com (Ben Hutchings)
-Date: Fri, 4 Oct 2013 22:29:16 +0100
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Sat, 5 Oct 2013 16:20:55 +0200
 Subject: [PATCH RFC 00/77] Re-design MSI/MSI-X interrupts enablement
  pattern
-In-Reply-To: <20131004082920.GA4536@dhcp-26-207.brq.redhat.com>
+In-Reply-To: <1380922156.3214.49.camel@bwh-desktop.uk.level5networks.com>
 References: <cover.1380703262.git.agordeev@redhat.com>
  <1380840585.3419.50.camel@bwh-desktop.uk.level5networks.com>
  <20131004082920.GA4536@dhcp-26-207.brq.redhat.com>
-Message-ID: <1380922156.3214.49.camel@bwh-desktop.uk.level5networks.com>
+ <1380922156.3214.49.camel@bwh-desktop.uk.level5networks.com>
+Message-ID: <20131005142054.GA11270@dhcp-26-207.brq.redhat.com>
 
-On Fri, 2013-10-04@10:29 +0200, Alexander Gordeev wrote:
-> On Thu, Oct 03, 2013@11:49:45PM +0100, Ben Hutchings wrote:
-> > On Wed, 2013-10-02@12:48 +0200, Alexander Gordeev wrote:
-> > > This update converts pci_enable_msix() and pci_enable_msi_block()
-> > > interfaces to canonical kernel functions and makes them return a
-> > > error code in case of failure or 0 in case of success.
-> > [...]
-> > 
-> > I think this is fundamentally flawed: pci_msix_table_size() and
-> > pci_get_msi_cap() can only report the limits of the *device* (which the
-> > driver usually already knows), whereas MSI allocation can also be
-> > constrained due to *global* limits on the number of distinct IRQs.
+On Fri, Oct 04, 2013@10:29:16PM +0100, Ben Hutchings wrote:
+> On Fri, 2013-10-04@10:29 +0200, Alexander Gordeev wrote:
+> All I can see there is that Tejun didn't think that the global limits
+> and positive return values were implemented by any architecture.
+
+I would say more than just that :) I picked few quotes which in my
+reading represent the guys positions:
+
+Tejun Heo: "...do we really
+care about possible partial success?  This sort of interface is
+unnecessarily complex and actively harmful.  It forces all users to
+wonder what could possibly happen and implement all sorts of nutty
+fallback logic which is highly likely to be error-prone on both the
+software and hardware side.  Seriously, how much testing would such
+code path would get both on the driver and firmware sides?"
+
+Bjorn Helgaas: "I agree, that would be much simpler.
+I propose that you rework it that way, and at least find out what
+(if anything) would break if we do that."
+
+Michael Ellerman: "I really think you're overstating the complexity here.
+Functions typically return a boolean   -> nothing to see here
+This function returns a tristate value -> brain explosion!";
+"All a lot of bother for no real gain IMHO."
+
+> But you have a counter-example, so I'm not sure what your point is.
+
+I concur with Tejun. I think we need to get rid of the loop.
+
+As of the counter-example I think we could honour the pSeries quota by
+inroducing an interface to interrogate what you call global limits -
+pci_get_msix_limit(), i.e.:
+
+	rc = pci_msix_table_size(pdev, nvec);
+	if (rc < 0)
+		return rc;
+
+	nvec = min(rc, nvec);
+
+	rc = pci_get_msix_limit(pdev, nvec);
+	if (rc < 0)
+		return rc;
+
+	nvec = min(rc, nvec);
+
+	for (i = 0; i < nvec; i++)
+		msix_entry[i].entry = i;
+
+	rc = pci_enable_msix(pdev, msix_entry, nvec);
+	if (rc)
+		return rc;
+
+The latest state of those discussion is somewhere around Michael's:
+"We could probably make that work." and Tejun's: "Are we talking about
+some limited number of device drivers here? Also, is the quota still
+necessary for machines in production today?"
+
+So my point is - drivers should first obtain a number of MSIs they *can*
+get, then *derive* a number of MSIs the device is fine with and only then
+request that number. Not terribly different from memory or any other type
+of resource allocation ;)
+
+> It has been quite a while since I saw this happen on x86.  But I just
+> checked on a test system running RHEL 5 i386 (Linux 2.6.18).  If I ask
+> for 16 MSI-X vectors on a device that supports 1024, the return value is
+> 8, and indeed I can then successfully allocate 8.
 > 
-> Even the current implementation by no means addresses it. Although it
-> might seem a case for architectures to report the number of IRQs available
-> for a driver to retry, in fact they all just fail. The same applies to
-> *any* other type of resource involved: irq_desc's, CPU interrupt vector
-> space, msi_desc's etc. No platform cares about it and just bails out once
-> a constrain met (please correct me if I am wrong here). Given that Linux
-> has been doing well even on embedded I think we should not change it.
->
-> The only exception to the above is pSeries platform which takes advantage
-> of the current design (to implement MSI quota). There are indications we
-> can satisfy pSeries requirements, but the design proposed in this RFC
-> is not going to change drastically anyway. The start of the discusstion
-> is here: https://lkml.org/lkml/2013/9/5/293
+> Now that's going quite a way back, and it may be that global limits
+> aren't a significant problem any more.  With the x86_64 build of RHEL 5
+> on an identical system, I can allocate 16 or even 32, so this is
+> apparently not a hardware limit in this case.
 
-All I can see there is that Tejun didn't think that the global limits
-and positive return values were implemented by any architecture.  But
-you have a counter-example, so I'm not sure what your point is.
+Well, I do not know how to comment here. 2.6.18 has a significantly
+different codebase wrt MSIs. What about a recent version?
 
-It has been quite a while since I saw this happen on x86.  But I just
-checked on a test system running RHEL 5 i386 (Linux 2.6.18).  If I ask
-for 16 MSI-X vectors on a device that supports 1024, the return value is
-8, and indeed I can then successfully allocate 8.
-
-Now that's going quite a way back, and it may be that global limits
-aren't a significant problem any more.  With the x86_64 build of RHEL 5
-on an identical system, I can allocate 16 or even 32, so this is
-apparently not a hardware limit in this case.
-
-> > Currently pci_enable_msix() will report a positive value if it fails due
-> > to the global limit.  Your patch 7 removes that.  pci_enable_msi_block()
-> > unfortunately doesn't appear to do this.
+> Most drivers seem to either:
+> (a) require exactly a certain number of MSI vectors, or
+> (b) require a minimum number of MSI vectors, usually want to allocate
+> more, and work with any number in between
 > 
-> pci_enable_msi_block() can do more than one MSI only on x86 (with IOMMU),
-> but it does not bother to return positive numbers, indeed.
-> 
-> > It seems to me that a more useful interface would take a minimum and
-> > maximum number of vectors from the driver.  This wouldn't allow the
-> > driver to specify that it could only accept, say, any even number within
-> > a certain range, but you could still leave the current functions
-> > available for any driver that needs that.
-> 
-> Mmmm.. I am not sure I am getting it. Could you please rephrase?
+> We can support drivers in both classes by adding new allocation
+> functions that allow specifying a minimum (required) and maximum
+> (wanted) number of MSI vectors.  Those in class (a) would just specify
+> the same value for both.  These new functions can take account of any
+> global limit or allocation policy without any further changes to the
+> drivers that use them.
 
-Most drivers seem to either:
-(a) require exactly a certain number of MSI vectors, or
-(b) require a minimum number of MSI vectors, usually want to allocate
-more, and work with any number in between
+I think such interface is redundant wrt the current pci_enable_msix()
+implementation.. and you propose to leave it. IMO it unnecessarily blows
+the generic MSI API with no demand from drivers.
 
-We can support drivers in both classes by adding new allocation
-functions that allow specifying a minimum (required) and maximum
-(wanted) number of MSI vectors.  Those in class (a) would just specify
-the same value for both.  These new functions can take account of any
-global limit or allocation policy without any further changes to the
-drivers that use them.
+> The few drivers with more specific requirements would still need to
+> implement the currently recommended loop, using the old allocation
+> functions.
 
-The few drivers with more specific requirements would still need to
-implement the currently recommended loop, using the old allocation
-functions.
+Although the classes of drivers you specified indeed exist, I do believe
+just a single interface is enough to handle them all.
 
-Ben.
+> Ben.
 
 -- 
-Ben Hutchings, Staff Engineer, Solarflare
-Not speaking for my employer; that's the marketing department's job.
-They asked us to note that Solarflare product names are trademarked.
+Regards,
+Alexander Gordeev
+agordeev at redhat.com
