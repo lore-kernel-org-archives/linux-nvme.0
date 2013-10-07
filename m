@@ -1,49 +1,70 @@
-From: jon.mason@intel.com (Jon Mason)
-Date: Mon, 7 Oct 2013 09:50:57 -0700
-Subject: [PATCH RFC 54/77] ntb: Ensure number of MSIs on SNB is enough
- for the link interrupt
-In-Reply-To: <20131005214303.GA21589@dhcp-26-207.brq.redhat.com>
+From: tj@kernel.org (Tejun Heo)
+Date: Mon, 7 Oct 2013 14:01:11 -0400
+Subject: [PATCH RFC 00/77] Re-design MSI/MSI-X interrupts enablement
+ pattern
+In-Reply-To: <20131006071027.GA29143@dhcp-26-207.brq.redhat.com>
 References: <cover.1380703262.git.agordeev@redhat.com>
- <5d9c5b2d3bbc444ff32bddeece7a239d046bd79c.1380703263.git.agordeev@redhat.com>
- <20131003004805.GL6768@jonmason-lab>
- <20131005214303.GA21589@dhcp-26-207.brq.redhat.com>
-Message-ID: <20131007165056.GA24536@jonmason-lab>
+ <1380840585.3419.50.camel@bwh-desktop.uk.level5networks.com>
+ <20131004082920.GA4536@dhcp-26-207.brq.redhat.com>
+ <1380922156.3214.49.camel@bwh-desktop.uk.level5networks.com>
+ <20131005142054.GA11270@dhcp-26-207.brq.redhat.com>
+ <1381009586.645.141.camel@pasglop>
+ <20131006060243.GB28142@dhcp-26-207.brq.redhat.com>
+ <1381040386.645.143.camel@pasglop>
+ <20131006071027.GA29143@dhcp-26-207.brq.redhat.com>
+Message-ID: <20131007180111.GC2481@htj.dyndns.org>
 
-On Sat, Oct 05, 2013@11:43:04PM +0200, Alexander Gordeev wrote:
-> On Wed, Oct 02, 2013@05:48:05PM -0700, Jon Mason wrote:
-> > On Wed, Oct 02, 2013@12:49:10PM +0200, Alexander Gordeev wrote:
-> > > Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
-> > > ---
-> > >  drivers/ntb/ntb_hw.c |    2 +-
-> > >  1 files changed, 1 insertions(+), 1 deletions(-)
-> > > 
-> > > diff --git a/drivers/ntb/ntb_hw.c b/drivers/ntb/ntb_hw.c
-> > > index de2062c..eccd5e5 100644
-> > > --- a/drivers/ntb/ntb_hw.c
-> > > +++ b/drivers/ntb/ntb_hw.c
-> > > @@ -1066,7 +1066,7 @@ static int ntb_setup_msix(struct ntb_device *ndev)
-> > >  		/* On SNB, the link interrupt is always tied to 4th vector.  If
-> > >  		 * we can't get all 4, then we can't use MSI-X.
-> > >  		 */
-> > > -		if (ndev->hw_type != BWD_HW) {
-> > > +		if ((rc < SNB_MSIX_CNT) && (ndev->hw_type != BWD_HW)) {
+Hey, guys.
+
+On Sun, Oct 06, 2013@09:10:30AM +0200, Alexander Gordeev wrote:
+> On Sun, Oct 06, 2013@05:19:46PM +1100, Benjamin Herrenschmidt wrote:
+> > On Sun, 2013-10-06@08:02 +0200, Alexander Gordeev wrote:
+> > > In fact, in the current design to address the quota race decently the
+> > > drivers would have to protect the *loop* to prevent the quota change
+> > > between a pci_enable_msix() returned a positive number and the the next
+> > > call to pci_enable_msix() with that number. Is it doable?
 > > 
-> > Nack, this check is unnecessary.
-> 
-> If SNB can do more than SNB_MSIX_CNT MSI-Xs then this check is needed
-> to enable less than maximum MSI-Xs in case the maximum was not allocated.
-> Otherwise SNB will fallback to single MSI instead of multiple MSI-Xs.
+> > I am not advocating for the current design, simply saying that your
+> > proposal doesn't address this issue while Ben's does.
 
-Per the comment in the code snippet above, "If we can't get all 4,
-then we can't use MSI-X".  There is already a check to see if more
-than 4 were acquired.  So it's not possible to hit this.  Even if it
-was, don't use SNB_MSIX_CNT here (limits.msix_cnt is the preferred
-variable).  Also, the "()" are unnecessary.
+Hmmm... yean, the race condition could be an issue as multiple msi
+allocation might fail even if the driver can and explicitly handle
+multiple allocation if the quota gets reduced inbetween.
 
-Thanks,
-Jon
+> There is one major flaw in min-max approach - the generic MSI layer
+> will have to take decisions on exact number of MSIs to request, not
+> device drivers.
 
-> -- 
-> Regards,
-> Alexander Gordeev
-> agordeev at redhat.com
+The min-max approach would actually be pretty nice for the users which
+actually care about this.
+
+> This will never work for all devices, because there might be specific
+> requirements which are not covered by the min-max. That is what Ben
+> described "...say, any even number within a certain range". Ben suggests
+> to leave the existing loop scheme to cover such devices, which I think is
+> not right.
+
+if it could work.
+
+> What about introducing pci_lock_msi() and pci_unlock_msi() and let device
+> drivers care about their ranges and specifics in race-safe manner?
+> I do not call to introduce it right now (since it appears pSeries has not
+> been hitting the race for years) just as a possible alternative to Ben's
+> proposal.
+
+I don't think the same race condition would happen with the loop.  The
+problem case is where multiple msi(x) allocation fails completely
+because the global limit went down before inquiry and allocation.  In
+the loop based interface, it'd retry with the lower number.
+
+As long as the number of drivers which need this sort of adaptive
+allocation isn't too high and the common cases can be made simple, I
+don't think the "complex" part of interface is all that important.
+Maybe we can have reserve / cancel type interface or just keep the
+loop with more explicit function names (ie. try_enable or something
+like that).
+
+Thanks.
+
+-- 
+tejun
