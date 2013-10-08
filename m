@@ -1,54 +1,40 @@
-From: michael@ellerman.id.au (Michael Ellerman)
-Date: Tue, 8 Oct 2013 15:33:30 +1100
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Tue, 8 Oct 2013 09:33:02 +0200
 Subject: [PATCH RFC 00/77] Re-design MSI/MSI-X interrupts enablement
  pattern
-In-Reply-To: <cover.1380703262.git.agordeev@redhat.com>
+In-Reply-To: <20131008043330.GF31666@concordia>
 References: <cover.1380703262.git.agordeev@redhat.com>
-Message-ID: <20131008043330.GF31666@concordia>
+ <20131008043330.GF31666@concordia>
+Message-ID: <20131008073301.GC10669@dhcp-26-207.brq.redhat.com>
 
-On Wed, Oct 02, 2013@12:29:04PM +0200, Alexander Gordeev wrote:
-> This series is against "next" branch in Bjorn's repo:
-> git://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git
+On Tue, Oct 08, 2013@03:33:30PM +1100, Michael Ellerman wrote:
+> On Wed, Oct 02, 2013@12:29:04PM +0200, Alexander Gordeev wrote:
+> > This technique proved to be confusing and error-prone. Vast share
+> > of device drivers simply fail to follow the described guidelines.
 > 
-> Currently pci_enable_msi_block() and pci_enable_msix() interfaces
-> return a error code in case of failure, 0 in case of success and a
-> positive value which indicates the number of MSI-X/MSI interrupts
-> that could have been allocated. The latter value should be passed
-> to a repeated call to the interfaces until a failure or success:
+> To clarify "Vast share of device drivers":
 > 
+>  - 58 drivers call pci_enable_msix()
+>  - 24 try a single allocation and then fallback to MSI/LSI
+>  - 19 use the loop style allocation as above
+>  - 14 try an allocation, and if it fails retry once
+>  - 1  incorrectly continues when pci_enable_msix() returns > 0
 > 
-> 	for (i = 0; i < FOO_DRIVER_MAXIMUM_NVEC; i++)
-> 		adapter->msix_entries[i].entry = i;
-> 
-> 	while (nvec >= FOO_DRIVER_MINIMUM_NVEC) {
-> 		rc = pci_enable_msix(adapter->pdev,
-> 				     adapter->msix_entries, nvec);
-> 		if (rc > 0)
-> 			nvec = rc;
-> 		else
-> 			return rc;
-> 	}
-> 
-> 	return -ENOSPC;
-> 
-> 
-> This technique proved to be confusing and error-prone. Vast share
-> of device drivers simply fail to follow the described guidelines.
+> So 33 drivers (> 50%) successfully make use of the "confusing and
+> error-prone" return value.
 
-To clarify "Vast share of device drivers":
+Ok, you caught me - 'vast share' is incorrect and is a subject to
+rewording. But out of 19/58 how many drivers tested fallbacks on the
+real hardware? IOW, which drivers are affected by the pSeries quota?
 
- - 58 drivers call pci_enable_msix()
- - 24 try a single allocation and then fallback to MSI/LSI
- - 19 use the loop style allocation as above
- - 14 try an allocation, and if it fails retry once
- - 1  incorrectly continues when pci_enable_msix() returns > 0
+> And yes, one is buggy, so obviously the interface is too complex. Thanks
+> drivers/ntb/ntb_hw.c
 
-So 33 drivers (> 50%) successfully make use of the "confusing and
-error-prone" return value.
+vmxnet3 would be the best example.
 
-Another 24 happily ignore it, which is also entirely fine.
+> cheers
 
-And yes, one is buggy, so obviously the interface is too complex. Thanks
-drivers/ntb/ntb_hw.c
-
-cheers
+-- 
+Regards,
+Alexander Gordeev
+agordeev at redhat.com
