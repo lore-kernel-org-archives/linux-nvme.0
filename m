@@ -1,84 +1,34 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 8 Oct 2013 14:59:42 -0600 (MDT)
-Subject: [PATCH RFC 2/2] NVMe: rfc blk-mq support
-In-Reply-To: <1381224862-5299-3-git-send-email-m@bjorling.me>
-References: <1381224862-5299-1-git-send-email-m@bjorling.me>
- <1381224862-5299-3-git-send-email-m@bjorling.me>
-Message-ID: <alpine.LRH.2.03.1310081254150.4763@AMR>
+From: himanshu.madhani@qlogic.com (Himanshu Madhani)
+Date: Tue, 8 Oct 2013 22:46:51 +0000
+Subject: [PATCH RFC 63/77] qlcnic: Update MSI/MSI-X interrupts
+ enablement code
+In-Reply-To: <c92efbde96541d08f37510422c096d543bb01279.1380703263.git.agordeev@redhat.com>
+References: <cover.1380703262.git.agordeev@redhat.com>
+ <c92efbde96541d08f37510422c096d543bb01279.1380703263.git.agordeev@redhat.com>
+Message-ID: <ADFE82A996F10145934E45547759F7638C923C26@avmb3.qlogic.org>
 
-On Tue, 8 Oct 2013, Matias Bj?rling wrote:
-> Convert the driver to blk mq.
->
-> The patch consists of:
->
-> * Initializion of mq data structures.
-> * Convert function calls from bio to request data structures.
-> * IO queues are split into an admin queue and io queues.
-> * bio splits are removed as it should be handled by block layer.
->
-> Signed-off-by: Matias Bj?rling <m at bjorling.me>
+> -----Original Message-----
+> From: Alexander Gordeev [mailto:agordeev at redhat.com]
+> Sent: Wednesday, October 02, 2013 3:49 AM
+> To: linux-kernel
+> Cc: Alexander Gordeev; Bjorn Helgaas; Ralf Baechle; Michael Ellerman;
+> Benjamin Herrenschmidt; Martin Schwidefsky; Ingo Molnar; Tejun Heo; Dan
+> Williams; Andy King; Jon Mason; Matt Porter; linux-pci; linux-mips at linux-
+> mips.org; linuxppc-dev at lists.ozlabs.org; linux390 at de.ibm.com; linux-
+> s390 at vger.kernel.org; x86 at kernel.org; linux-ide at vger.kernel.org;
+> iss_storagedev at hp.com; linux-nvme at lists.infradead.org; linux-
+> rdma at vger.kernel.org; netdev; e1000-devel at lists.sourceforge.net; Dept-
+> Eng Linux Driver; Solarflare linux maintainers; VMware, Inc.; linux-scsi
+> Subject: [PATCH RFC 63/77] qlcnic: Update MSI/MSI-X interrupts enablement
+> code
+> 
+> As result of recent re-design of the MSI/MSI-X interrupts enabling pattern
+> this driver has to be updated to use the new technique to obtain a optimal
+> number of MSI/MSI-X interrupts required.
+> 
+ "We will test this change for the driver and provide feedback."
 
-I have no opinion right now if this is a good idea or not. I'll just
-comment on a couple issues on this implementation. Otherwise I think
-it's pretty neat and gave me a reason to explore multiqueues!
+> Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 
-First a couple minor suggestions:
-
-You might want to use "REQ_END" from the rq->cmd_flags to know if you
-should write the queue doorbell or not. Aggregating these would help
-most devices but we didn't have a good way of knowing before if this
-was the last request or not.
-
-Maybe change nvme_submit_bio_queue to return a BLK_MQ_RQ_QUEUE_ status
-so you don't need that switch statement after calling it.
-
-Must do something about requests that don't align to PRPs. I think you
-mentioned this in the outstanding work in [0/2].
-
-> struct nvme_queue *get_nvmeq(struct nvme_dev *dev)
-> {
-> -	return dev->queues[get_cpu() + 1];
-> +	get_cpu();
-> +	return dev->admin_queue;
-> }
-
-get_nvmeq now returns only the admin queue when it used to return only
-IO queues. This breaks NVME_IO and SG_IO ioctl handling.
-
-> +static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
-> +			  unsigned int i)
-> +{
-> +	struct nvme_ns *ns = data;
-> +	struct nvme_dev *dev = ns->dev;
-> +	struct nvme_queue *nq;
-> +
-> +	nq = nvme_create_queue(dev, i + 1, hctx->queue_depth, i);
-> +	if (IS_ERR(nq))
-> +		return PTR_ERR(nq);
-> +
-> +	hctx->driver_data = nq;
-> +
-> +	return 0;
-> +}
-
-This right here is the biggest problem with the implemenation. It is
-going to fail for every namespace but the first one since each namespace
-registers a multiqueue and each mulitqueue requires a hw context to
-work. The number of queues is for the device, not namespace, so only
-the first namespace is going to successfully return from nvme_init_hctx;
-the rest will be unable to create an NVMe IO queue for trying to create
-one with already allocated QID.
-
-You should instead create the IO queues on the device like how it was
-done before then just set the hctx->driver_data to dev->queues[i + 1]
-or something like.
-
-> +static enum blk_eh_timer_return nvme_timeout(struct request *rq)
-> +{
-> +	/* Currently the driver handle timeouts by itself */
-> +	return BLK_EH_NOT_HANDLED;
-> +}
-
-Need do something with the command timeouts here or somewhere. You've
-changed the driver to poll only on the admin queue for timed out commands,
-and left the multiqueue timeout a no-op.
+Thanks,
+Himanshu
