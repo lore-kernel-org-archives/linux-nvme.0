@@ -1,35 +1,50 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 9 Oct 2013 09:48:17 -0600 (MDT)
-Subject: [PATCH RFC 0/2] Convert from bio-based to blk-mq
-In-Reply-To: <20131008183949.GB23288@kernel.dk>
-References: <1381224862-5299-1-git-send-email-m@bjorling.me>
- <20131008131036.GC7422@linux.intel.com> <20131008183949.GB23288@kernel.dk>
-Message-ID: <alpine.LRH.2.03.1310090921220.4763@AMR>
+From: tj@kernel.org (Tejun Heo)
+Date: Wed, 9 Oct 2013 11:54:13 -0400
+Subject: [PATCH RFC 07/77] PCI/MSI: Re-design MSI/MSI-X interrupts
+ enablement pattern
+In-Reply-To: <20131008074826.GD10669@dhcp-26-207.brq.redhat.com>
+References: <cover.1380703262.git.agordeev@redhat.com>
+ <d8c36203ada6efbfa9f7ce92c2f713ee3b6d6b8d.1380703262.git.agordeev@redhat.com>
+ <20131007181749.GB27396@htj.dyndns.org>
+ <20131008074826.GD10669@dhcp-26-207.brq.redhat.com>
+Message-ID: <20131009155413.GD22495@htj.dyndns.org>
 
-On Tue, 8 Oct 2013, Jens Axboe wrote:
-> On Tue, Oct 08 2013, Matthew Wilcox wrote:
->> On Tue, Oct 08, 2013@11:34:20AM +0200, Matias Bj?rling wrote:
->>> The nvme driver implements itself as a bio-based driver. This primarily because
->>> of high lock congestion for high-performance nvm devices. To remove the
->>> congestion, a multi-queue block layer is being implemented.
->>
->> Um, no.  You'll crater performance by adding another memory allocation
->> (of the struct request).  multi-queue is not the solution.
->
-> That's a rather "jump to conclusions" statement to make. As Matias
-> mentioned, there are no extra fast path allocations. Once the tagging is
-> converted as well, I'd be surprised if it performs worse than before.
-> And that on top of a net reduction in code.
->
-> blk-mq might not be perfect as it stands, but it's a helluva lot better
-> than a bunch of flash based drivers with lots of duplicated code and
-> mechanisms. We need to move away from that.
->
-> -- 
-> Jens Axboe
+Hello, Alexander.
 
-But this wastes copious amounts of memory on an NVMe device with more
-than 1 namespace. The hardware's queues are shared among all namespaces,
-so you can't possibly have all the struct requests in use. What would
-be better is if I can create one blk-mq for each device/host and attach
-multiple gendisks to that.
+On Tue, Oct 08, 2013@09:48:26AM +0200, Alexander Gordeev wrote:
+> > If there are many which duplicate the above pattern, it'd probably be
+> > worthwhile to provide a helper?  It's usually a good idea to reduce
+> > the amount of boilerplate code in drivers.
+> 
+> I wanted to limit discussion in v1 to as little changes as possible.
+> I 'planned' those helper(s) for a separate effort if/when the most
+> important change is accepted and soaked a bit.
+
+The thing is doing it this way generates more churns and noises.  Once
+the simpler ones live behind a wrapper which can be built on the
+existing interface, we can have both reduced cost and more latitude on
+the complex cases.
+
+> > If we do things this way, it breaks all drivers using this interface
+> > until they're converted, right?
+> 
+> Right. And the rest of the series does it.
+
+Which breaks bisection which we shouldn't do.
+
+> > Also, it probably isn't the best idea
+> > to flip the behavior like this as this can go completely unnoticed (no
+> > compiler warning or anything, the same function just behaves
+> > differently).  Maybe it'd be a better idea to introduce a simpler
+> > interface that most can be converted to?
+> 
+> Well, an *other* interface is a good idea. What do you mean with the
+> simpler here?
+
+I'm still talking about a simpler wrapper for common cases, which is
+the important part anyway.
+
+Thanks.
+
+-- 
+tejun
