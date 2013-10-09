@@ -1,31 +1,35 @@
-From: tj@kernel.org (Tejun Heo)
-Date: Wed, 9 Oct 2013 11:46:06 -0400
-Subject: [PATCH RFC 00/77] Re-design MSI/MSI-X interrupts enablement
- pattern
-In-Reply-To: <1381178881.1536.28.camel@bwh-desktop.uk.level5networks.com>
-References: <cover.1380703262.git.agordeev@redhat.com>
- <1380840585.3419.50.camel@bwh-desktop.uk.level5networks.com>
- <20131004082920.GA4536@dhcp-26-207.brq.redhat.com>
- <1380922156.3214.49.camel@bwh-desktop.uk.level5networks.com>
- <20131005142054.GA11270@dhcp-26-207.brq.redhat.com>
- <1381009586.645.141.camel@pasglop>
- <20131006060243.GB28142@dhcp-26-207.brq.redhat.com>
- <1381040386.645.143.camel@pasglop>
- <20131006071027.GA29143@dhcp-26-207.brq.redhat.com>
- <1381178881.1536.28.camel@bwh-desktop.uk.level5networks.com>
-Message-ID: <20131009154606.GC22495@htj.dyndns.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 9 Oct 2013 09:48:17 -0600 (MDT)
+Subject: [PATCH RFC 0/2] Convert from bio-based to blk-mq
+In-Reply-To: <20131008183949.GB23288@kernel.dk>
+References: <1381224862-5299-1-git-send-email-m@bjorling.me>
+ <20131008131036.GC7422@linux.intel.com> <20131008183949.GB23288@kernel.dk>
+Message-ID: <alpine.LRH.2.03.1310090921220.4763@AMR>
 
-On Mon, Oct 07, 2013@09:48:01PM +0100, Ben Hutchings wrote:
-> > There is one major flaw in min-max approach - the generic MSI layer
-> > will have to take decisions on exact number of MSIs to request, not
-> > device drivers.
-> [...
-> 
-> No, the min-max functions should be implemented using the same loop that
-> drivers are expected to use now.
+On Tue, 8 Oct 2013, Jens Axboe wrote:
+> On Tue, Oct 08 2013, Matthew Wilcox wrote:
+>> On Tue, Oct 08, 2013@11:34:20AM +0200, Matias Bj?rling wrote:
+>>> The nvme driver implements itself as a bio-based driver. This primarily because
+>>> of high lock congestion for high-performance nvm devices. To remove the
+>>> congestion, a multi-queue block layer is being implemented.
+>>
+>> Um, no.  You'll crater performance by adding another memory allocation
+>> (of the struct request).  multi-queue is not the solution.
+>
+> That's a rather "jump to conclusions" statement to make. As Matias
+> mentioned, there are no extra fast path allocations. Once the tagging is
+> converted as well, I'd be surprised if it performs worse than before.
+> And that on top of a net reduction in code.
+>
+> blk-mq might not be perfect as it stands, but it's a helluva lot better
+> than a bunch of flash based drivers with lots of duplicated code and
+> mechanisms. We need to move away from that.
+>
+> -- 
+> Jens Axboe
 
-Wheee... earlier in the thread I thought you guys were referring to
-yourselves in the third person and was getting a bit worried. :)
-
--- 
-tejun
+But this wastes copious amounts of memory on an NVMe device with more
+than 1 namespace. The hardware's queues are shared among all namespaces,
+so you can't possibly have all the struct requests in use. What would
+be better is if I can create one blk-mq for each device/host and attach
+multiple gendisks to that.
