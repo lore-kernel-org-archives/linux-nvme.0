@@ -1,37 +1,89 @@
-From: michael@ellerman.id.au (Michael Ellerman)
-Date: Wed, 9 Oct 2013 12:34:37 +1100
-Subject: [PATCH RFC 00/77] Re-design MSI/MSI-X interrupts enablement
- pattern
-In-Reply-To: <20131008073301.GC10669@dhcp-26-207.brq.redhat.com>
-References: <cover.1380703262.git.agordeev@redhat.com>
- <20131008043330.GF31666@concordia>
- <20131008073301.GC10669@dhcp-26-207.brq.redhat.com>
-Message-ID: <20131009013437.GC23780@concordia>
+From: m@bjorling.me (=?UTF-8?B?TWF0aWFzIEJqw7hybGluZw==?=)
+Date: Wed, 09 Oct 2013 09:12:47 +0200
+Subject: [PATCH RFC 2/2] NVMe: rfc blk-mq support
+In-Reply-To: <alpine.LRH.2.03.1310081254150.4763@AMR>
+References: <1381224862-5299-1-git-send-email-m@bjorling.me>
+ <1381224862-5299-3-git-send-email-m@bjorling.me>
+ <alpine.LRH.2.03.1310081254150.4763@AMR>
+Message-ID: <525501EF.8030301@bjorling.me>
 
-On Tue, Oct 08, 2013@09:33:02AM +0200, Alexander Gordeev wrote:
-> On Tue, Oct 08, 2013@03:33:30PM +1100, Michael Ellerman wrote:
-> > On Wed, Oct 02, 2013@12:29:04PM +0200, Alexander Gordeev wrote:
-> > > This technique proved to be confusing and error-prone. Vast share
-> > > of device drivers simply fail to follow the described guidelines.
-> > 
-> > To clarify "Vast share of device drivers":
-> > 
-> >  - 58 drivers call pci_enable_msix()
-> >  - 24 try a single allocation and then fallback to MSI/LSI
-> >  - 19 use the loop style allocation as above
-> >  - 14 try an allocation, and if it fails retry once
-> >  - 1  incorrectly continues when pci_enable_msix() returns > 0
-> > 
-> > So 33 drivers (> 50%) successfully make use of the "confusing and
-> > error-prone" return value.
-> 
-> Ok, you caught me - 'vast share' is incorrect and is a subject to
-> rewording. But out of 19/58 how many drivers tested fallbacks on the
-> real hardware? IOW, which drivers are affected by the pSeries quota?
+Thanks for the feedback. I'll make a v2 and report back measurements of 
+gain/loss for the machines I have available.
 
-It's not 19/58, it's 33/58.
-
-As to how many we care about on powerpc I can't say, so you have a point
-there. But I still think the interface is not actually that terrible.
-
-cheers
+On 10/08/2013 10:59 PM, Keith Busch wrote:
+> On Tue, 8 Oct 2013, Matias Bj?rling wrote:
+>> Convert the driver to blk mq.
+>>
+>> The patch consists of:
+>>
+>> * Initializion of mq data structures.
+>> * Convert function calls from bio to request data structures.
+>> * IO queues are split into an admin queue and io queues.
+>> * bio splits are removed as it should be handled by block layer.
+>>
+>> Signed-off-by: Matias Bj?rling <m at bjorling.me>
+>
+> I have no opinion right now if this is a good idea or not. I'll just
+> comment on a couple issues on this implementation. Otherwise I think
+> it's pretty neat and gave me a reason to explore multiqueues!
+>
+> First a couple minor suggestions:
+>
+> You might want to use "REQ_END" from the rq->cmd_flags to know if you
+> should write the queue doorbell or not. Aggregating these would help
+> most devices but we didn't have a good way of knowing before if this
+> was the last request or not.
+>
+> Maybe change nvme_submit_bio_queue to return a BLK_MQ_RQ_QUEUE_ status
+> so you don't need that switch statement after calling it.
+>
+> Must do something about requests that don't align to PRPs. I think you
+> mentioned this in the outstanding work in [0/2].
+>
+>> struct nvme_queue *get_nvmeq(struct nvme_dev *dev)
+>> {
+>> -    return dev->queues[get_cpu() + 1];
+>> +    get_cpu();
+>> +    return dev->admin_queue;
+>> }
+>
+> get_nvmeq now returns only the admin queue when it used to return only
+> IO queues. This breaks NVME_IO and SG_IO ioctl handling.
+>
+>> +static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+>> +              unsigned int i)
+>> +{
+>> +    struct nvme_ns *ns = data;
+>> +    struct nvme_dev *dev = ns->dev;
+>> +    struct nvme_queue *nq;
+>> +
+>> +    nq = nvme_create_queue(dev, i + 1, hctx->queue_depth, i);
+>> +    if (IS_ERR(nq))
+>> +        return PTR_ERR(nq);
+>> +
+>> +    hctx->driver_data = nq;
+>> +
+>> +    return 0;
+>> +}
+>
+> This right here is the biggest problem with the implemenation. It is
+> going to fail for every namespace but the first one since each namespace
+> registers a multiqueue and each mulitqueue requires a hw context to
+> work. The number of queues is for the device, not namespace, so only
+> the first namespace is going to successfully return from nvme_init_hctx;
+> the rest will be unable to create an NVMe IO queue for trying to create
+> one with already allocated QID.
+>
+> You should instead create the IO queues on the device like how it was
+> done before then just set the hctx->driver_data to dev->queues[i + 1]
+> or something like.
+>
+>> +static enum blk_eh_timer_return nvme_timeout(struct request *rq)
+>> +{
+>> +    /* Currently the driver handle timeouts by itself */
+>> +    return BLK_EH_NOT_HANDLED;
+>> +}
+>
+> Need do something with the command timeouts here or somewhere. You've
+> changed the driver to poll only on the admin queue for timed out commands,
+> and left the multiqueue timeout a no-op.
