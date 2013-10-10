@@ -1,32 +1,52 @@
-From: tj@kernel.org (Tejun Heo)
-Date: Wed, 9 Oct 2013 11:57:52 -0400
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Thu, 10 Oct 2013 12:17:05 +0200
 Subject: [PATCH RFC 00/77] Re-design MSI/MSI-X interrupts enablement
  pattern
-In-Reply-To: <20131008090716.GA10561@dhcp-26-207.brq.redhat.com>
+In-Reply-To: <1381292648.645.259.camel@pasglop>
 References: <cover.1380703262.git.agordeev@redhat.com>
- <20131007182117.GC27396@htj.dyndns.org>
- <20131008090716.GA10561@dhcp-26-207.brq.redhat.com>
-Message-ID: <20131009155752.GE22495@htj.dyndns.org>
+ <5254D397.9030307@zytor.com> <1381292648.645.259.camel@pasglop>
+Message-ID: <20131010101704.GC11874@dhcp-26-207.brq.redhat.com>
 
-Hello,
+On Wed, Oct 09, 2013@03:24:08PM +1100, Benjamin Herrenschmidt wrote:
+> On Tue, 2013-10-08@20:55 -0700, H. Peter Anvin wrote:
+> > Why not add a minimum number to pci_enable_msix(), i.e.:
+> > 
+> > pci_enable_msix(pdev, msix_entries, nvec, minvec)
+> > 
+> > ... which means "nvec" is the number of interrupts *requested*, and
+> > "minvec" is the minimum acceptable number (otherwise fail).
+> 
+> Which is exactly what Ben (the other Ben :-) suggested and that I
+> supports...
 
-On Tue, Oct 08, 2013@11:07:16AM +0200, Alexander Gordeev wrote:
-> Multipe MSIs is just a handful of drivers, really. MSI-X impact still
+Ok, this suggestion sounded in one or another form by several people.
+What about name it pcim_enable_msix_range() and wrap in couple more
+helpers to complete an API:
 
-Yes, so it's pretty nice to try out things there before going full-on.
+int pcim_enable_msix_range(pdev, msix_entries, nvec, minvec);
+	<0 - error code
+	>0 - number of MSIs allocated, where minvec >= result <= nvec
 
-> will be huge. But if we opt a different name for the new pci_enable_msix()
-> then we could first update pci/msi, then drivers (in few stages possibly)
-> and finally remove the old implementation.
+int pcim_enable_msix(pdev, msix_entries, nvec);
+	<0 - error code
+	>0 - number of MSIs allocated, where 1 >= result <= nvec 
 
-Yes, that probably should be the steps to follow eventually.  My point
-was that you don't have to submit patches for all 7x conversions for
-an RFC round.  Scanning them and seeing what would be necessary
-definitely is a good idea but just giving summary of the full
-conversion with several examples should be good enough before settling
-on the way forward, which should be easier for all involved.
+int pcim_enable_msix_exact(pdev, msix_entries, nvec);
+	<0 - error code
+	>0 - number of MSIs allocated, where result == nvec
 
-Thanks a lot for your effort!
+The latter's return value seems odd, but I can not help to make
+it consistent with the first two.
+
+
+(Sorry if you see this message twice - my MUA seems struggle with one of CC).
+
+> Cheers,
+> Ben.
+> 
+> 
 
 -- 
-tejun
+Regards,
+Alexander Gordeev
+agordeev at redhat.com
