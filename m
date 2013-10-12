@@ -1,99 +1,34 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 11 Oct 2013 09:39:42 -0600 (MDT)
-Subject: [PATCH 1/2] NVMe: Refactor doorbell
-In-Reply-To: <1381481333-23888-2-git-send-email-m@bjorling.me>
-References: <1381481333-23888-1-git-send-email-m@bjorling.me>
- <1381481333-23888-2-git-send-email-m@bjorling.me>
-Message-ID: <alpine.LRH.2.03.1310110823320.4763@AMR>
+From: michael.opdenacker@free-electrons.com (Michael Opdenacker)
+Date: Sat, 12 Oct 2013 06:23:29 +0200
+Subject: [PATCH] NVMe: remove deprecated IRQF_DISABLED
+Message-ID: <1381551809-6236-1-git-send-email-michael.opdenacker@free-electrons.com>
 
-On Fri, 11 Oct 2013, Matias Bjorling wrote:
-> The doorbell code is repeated various places. Refactor it into its own function
-> for clarity.
->
-> Signed-off-by: Matias Bjorling <m at bjorling.me>
+This patch proposes to remove the use of the IRQF_DISABLED flag
 
-Looks good to me.
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+It's a NOOP since 2.6.35 and it will be removed one day.
 
-> ---
-> drivers/block/nvme-core.c | 29 +++++++++++++----------------
-> 1 file changed, 13 insertions(+), 16 deletions(-)
->
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index da52092..40998d5 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -242,6 +242,13 @@ void put_nvmeq(struct nvme_queue *nvmeq)
-> 	put_cpu();
-> }
->
-> +static inline void nvme_ring_doorbell(struct nvme_queue *nvmeq)
-> +{
-> +	if (++nvmeq->sq_tail == nvmeq->q_depth)
-> +		nvmeq->sq_tail = 0;
-> +	writel(nvmeq->sq_tail, nvmeq->q_db);
-> +}
-> +
-> /**
->  * nvme_submit_cmd() - Copy a command into a queue and ring the doorbell
->  * @nvmeq: The queue to use
-> @@ -252,14 +259,10 @@ void put_nvmeq(struct nvme_queue *nvmeq)
-> static int nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
-> {
-> 	unsigned long flags;
-> -	u16 tail;
-> +
-> 	spin_lock_irqsave(&nvmeq->q_lock, flags);
-> -	tail = nvmeq->sq_tail;
-> -	memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
-> -	if (++tail == nvmeq->q_depth)
-> -		tail = 0;
-> -	writel(tail, nvmeq->q_db);
-> -	nvmeq->sq_tail = tail;
-> +	memcpy(&nvmeq->sq_cmds[nvmeq->sq_tail], cmd, sizeof(*cmd));
-> +	nvme_ring_doorbell(nvmeq);
-> 	spin_unlock_irqrestore(&nvmeq->q_lock, flags);
->
-> 	return 0;
-> @@ -619,9 +622,7 @@ static int nvme_submit_discard(struct nvme_queue *nvmeq, struct nvme_ns *ns,
-> 	cmnd->dsm.nr = 0;
-> 	cmnd->dsm.attributes = cpu_to_le32(NVME_DSMGMT_AD);
->
-> -	if (++nvmeq->sq_tail == nvmeq->q_depth)
-> -		nvmeq->sq_tail = 0;
-> -	writel(nvmeq->sq_tail, nvmeq->q_db);
-> +	nvme_ring_doorbell(nvmeq);
->
-> 	return 0;
-> }
-> @@ -636,9 +637,7 @@ static int nvme_submit_flush(struct nvme_queue *nvmeq, struct nvme_ns *ns,
-> 	cmnd->common.command_id = cmdid;
-> 	cmnd->common.nsid = cpu_to_le32(ns->ns_id);
->
-> -	if (++nvmeq->sq_tail == nvmeq->q_depth)
-> -		nvmeq->sq_tail = 0;
-> -	writel(nvmeq->sq_tail, nvmeq->q_db);
-> +	nvme_ring_doorbell(nvmeq);
->
-> 	return 0;
-> }
-> @@ -729,9 +728,7 @@ static int nvme_submit_bio_queue(struct nvme_queue *nvmeq, struct nvme_ns *ns,
-> 	cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
->
-> 	nvme_start_io_acct(bio);
-> -	if (++nvmeq->sq_tail == nvmeq->q_depth)
-> -		nvmeq->sq_tail = 0;
-> -	writel(nvmeq->sq_tail, nvmeq->q_db);
-> +	nvme_ring_doorbell(nvmeq);
->
-> 	return 0;
->
-> -- 
-> 1.8.1.2
->
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://merlin.infradead.org/mailman/listinfo/linux-nvme
->
+Signed-off-by: Michael Opdenacker <michael.opdenacker at free-electrons.com>
+---
+ drivers/block/nvme-core.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index da52092..c6699af 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1134,11 +1134,10 @@ static int queue_request_irq(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ {
+ 	if (use_threaded_interrupts)
+ 		return request_threaded_irq(dev->entry[nvmeq->cq_vector].vector,
+-					nvme_irq_check, nvme_irq,
+-					IRQF_DISABLED | IRQF_SHARED,
++					nvme_irq_check, nvme_irq, IRQF_SHARED,
+ 					name, nvmeq);
+ 	return request_irq(dev->entry[nvmeq->cq_vector].vector, nvme_irq,
+-				IRQF_DISABLED | IRQF_SHARED, name, nvmeq);
++				IRQF_SHARED, name, nvmeq);
+ }
+ 
+ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+-- 
+1.8.1.2
