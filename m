@@ -1,34 +1,30 @@
-From: michael.opdenacker@free-electrons.com (Michael Opdenacker)
-Date: Sat, 12 Oct 2013 06:23:29 +0200
-Subject: [PATCH] NVMe: remove deprecated IRQF_DISABLED
-Message-ID: <1381551809-6236-1-git-send-email-michael.opdenacker@free-electrons.com>
+From: m@bjorling.me (Matias Bjorling)
+Date: Fri, 18 Oct 2013 15:14:20 +0200
+Subject: [PATCH 1/3] blk-mq: call exit_hctx on hw queue teardown
+In-Reply-To: <1382102062-22270-1-git-send-email-m@bjorling.me>
+References: <1382102062-22270-1-git-send-email-m@bjorling.me>
+Message-ID: <1382102062-22270-2-git-send-email-m@bjorling.me>
 
-This patch proposes to remove the use of the IRQF_DISABLED flag
+The driver initializes itself using init_hctx and reverts using exit_hctx if
+unsucessful. exit_hctx is missing on normal hw queue teardown.
 
-It's a NOOP since 2.6.35 and it will be removed one day.
-
-Signed-off-by: Michael Opdenacker <michael.opdenacker at free-electrons.com>
+Signed-off-by: Matias Bjorling <m at bjorling.me>
 ---
- drivers/block/nvme-core.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ block/blk-mq.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index da52092..c6699af 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1134,11 +1134,10 @@ static int queue_request_irq(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- {
- 	if (use_threaded_interrupts)
- 		return request_threaded_irq(dev->entry[nvmeq->cq_vector].vector,
--					nvme_irq_check, nvme_irq,
--					IRQF_DISABLED | IRQF_SHARED,
-+					nvme_irq_check, nvme_irq, IRQF_SHARED,
- 					name, nvmeq);
- 	return request_irq(dev->entry[nvmeq->cq_vector].vector, nvme_irq,
--				IRQF_DISABLED | IRQF_SHARED, name, nvmeq);
-+				IRQF_SHARED, name, nvmeq);
- }
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 923e9e1..5b054b7 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1390,6 +1390,8 @@ void blk_mq_free_queue(struct request_queue *q)
+ 		kfree(hctx->ctxs);
+ 		blk_mq_free_rq_map(hctx);
+ 		blk_mq_unregister_cpu_notifier(&hctx->cpu_notifier);
++		if (q->mq_ops->exit_hctx)
++			q->mq_ops->exit_hctx(hctx, i);
+ 		q->mq_ops->free_hctx(hctx, i);
+ 	}
  
- static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
 -- 
 1.8.1.2
