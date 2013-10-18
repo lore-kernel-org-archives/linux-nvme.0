@@ -1,10 +1,10 @@
-From: m@bjorling.me (=?ISO-8859-1?Q?Matias_Bj=F8rling?=)
-Date: Fri, 18 Oct 2013 21:10:22 +0200
+From: m@bjorling.me (Matias Bjorling)
+Date: Fri, 18 Oct 2013 21:21:36 +0200
 Subject: [PATCH 0/3] Convert from bio-based to blk-mq v2
 In-Reply-To: <20131018154801.GQ16716@linux.intel.com>
 References: <1382102062-22270-1-git-send-email-m@bjorling.me>
  <20131018154801.GQ16716@linux.intel.com>
-Message-ID: <5261879E.2020309@bjorling.me>
+Message-ID: <52618A40.6010105@bjorling.me>
 
 On 10/18/2013 05:48 PM, Matthew Wilcox wrote:
 > On Fri, Oct 18, 2013@03:14:19PM +0200, Matias Bjorling wrote:
@@ -23,6 +23,7 @@ On 10/18/2013 05:48 PM, Matthew Wilcox wrote:
 >     testing using that feature?
 >
 
-Current impletation is an PCI-e Gen2x4 interface, two I/O queues. One 
-for admin and one for all other I/Os. I'll check up on IRQ affinity when 
-multiple queues are available. I haven't yet tested interrupt coalescing.
+Current implementation is a driven using a PCI-e Gen2x4 interface, two 
+I/O queues. One for admin and one for all other I/Os. I'll check up on 
+IRQ affinity when multiple queues are available. I haven't yet tested 
+interrupt coalescing.
