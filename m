@@ -1,64 +1,234 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 22 Oct 2013 13:52:25 -0600 (MDT)
-Subject: [PATCH 3/3] NVMe: Convert to blk-mq
-In-Reply-To: <5266CA29.2020308@bjorling.me>
-References: <1382102062-22270-1-git-send-email-m@bjorling.me>
- <1382102062-22270-4-git-send-email-m@bjorling.me>
- <alpine.LRH.2.03.1310180837140.4763@AMR> <526186AE.3080006@bjorling.me>
- <alpine.LRH.2.03.1310221011570.4763@AMR> <5266CA29.2020308@bjorling.me>
-Message-ID: <alpine.LRH.2.03.1310221315430.4763@AMR>
+Date: Wed, 23 Oct 2013 13:07:34 -0600
+Subject: [PATCHv2] NVMe: compat SG_IO ioctl
+Message-ID: <1382555254-23087-1-git-send-email-keith.busch@intel.com>
 
-On Tue, 22 Oct 2013, Matias Bjorling wrote:
-> Den 22-10-2013 18:55, Keith Busch skrev:
->> On Fri, 18 Oct 2013, Matias Bj?rling wrote:
->>> On 10/18/2013 05:13 PM, Keith Busch wrote:
->>>> On Fri, 18 Oct 2013, Matias Bjorling wrote:
->>>>> The nvme driver implements itself as a bio-based driver. This primarily
->>>>> because of high lock congestion for high-performance nvm devices. To
->>>>> remove the congestion within the traditional block layer, a multi-queue
->>>>> block layer is being implemented.
->> 
->>>>> -    result = nvme_map_bio(nvmeq, iod, bio, dma_dir, psegs);
->>>>> -    if (result <= 0)
->>>>> +    if (nvme_map_rq(nvmeq, iod, rq, dma_dir))
->>>>>         goto free_cmdid;
->>>>> -    length = result;
->>>>> 
->>>>> -    cmnd->rw.command_id = cmdid;
->>>>> +    length = blk_rq_bytes(rq);
->>>>> +
->>>>> +    cmnd->rw.command_id = rq->tag;
->>>> 
->>>> The command ids have to be unique on a submission queue. Since each
->>>> namespace's blk-mq has its own 'tags' used as command ids here but share
->>>> submission queues, what's stopping the tags for commands sent to 
->>>> namespace
->>>> 1 from clashing with tags for namespace 2?
->>>> 
->>>> I think this would work better if one blk-mq was created per device
->>>> rather than namespace. It would fix the tag problem above and save a
->>>> lot of memory potentially wasted on millions of requests allocated that
->>>> can't be used.
->>> 
->>> You're right. I didn't see the connection. In v3 I'll push struct 
->>> request_queue to nvme_dev and map the queues appropriately. It will also 
->>> fix the command id issues.
->> 
->> Just anticipating a possible issue with the suggestion. Will this separate
->> the logical block size from the request_queue? Each namespace can have
->> a different format, so the block size and request_queue can't be tied
->> together like it currently is for this to work.
->
-> If only a couple of different logical sizes are to be expected (1-4), we can 
-> keep a list of already initialized request queues, and use the one that match 
-> an already initialized?
+For 32-bit versions of sg3-utils running on a 64-bit system. This is
+mostly a copy from the relevent portions of fs/compat_ioctl.c, with
+slight modifications for going through block_device_operations.
 
-The spec allows a namespace to have up to 16 different block formats and
-they need not be the same 16 as another namespace on the same device.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+v1->v2:
 
->From a practical standpoint, I don't think devices will support more
-than a few formats, but even if you kept it to that many request queues,
-you just get back to conflicting command id tags and some wasted memory.
+Added the copying the status back into the 32-bit user structure at the
+end. I missed this when copying from the original implmenetation.
 
->
-> Axboe, do you know of a better solution?
+ drivers/block/nvme-core.c |   14 ++++-
+ drivers/block/nvme-scsi.c |  146 +++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/nvme.h      |    1 +
+ 3 files changed, 160 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index da52092..2cb41df 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1569,10 +1569,22 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
+ 	}
+ }
+ 
++static int nvme_compat_ioctl(struct block_device *bdev, fmode_t mode,
++					unsigned int cmd, unsigned long arg)
++{
++	struct nvme_ns *ns = bdev->bd_disk->private_data;
++
++	switch (cmd) {
++	case SG_IO:
++		return nvme_sg_io32(ns, arg);
++	}
++	return nvme_ioctl(bdev, mode, cmd, arg);
++}
++
+ static const struct block_device_operations nvme_fops = {
+ 	.owner		= THIS_MODULE,
+ 	.ioctl		= nvme_ioctl,
+-	.compat_ioctl	= nvme_ioctl,
++	.compat_ioctl	= nvme_compat_ioctl,
+ };
+ 
+ static void nvme_resubmit_bios(struct nvme_queue *nvmeq)
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index 4a4ff4e..be04c50 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -25,6 +25,7 @@
+ #include <linux/bio.h>
+ #include <linux/bitops.h>
+ #include <linux/blkdev.h>
++#include <linux/compat.h>
+ #include <linux/delay.h>
+ #include <linux/errno.h>
+ #include <linux/fs.h>
+@@ -46,6 +47,7 @@
+ #include <linux/types.h>
+ #include <scsi/sg.h>
+ #include <scsi/scsi.h>
++#include <asm/compat.h>
+ 
+ 
+ static int sg_version_num = 30534;	/* 2 digits for each component */
+@@ -3038,6 +3040,150 @@ int nvme_sg_io(struct nvme_ns *ns, struct sg_io_hdr __user *u_hdr)
+ 	return retcode;
+ }
+ 
++typedef struct sg_io_hdr32 {
++	compat_int_t interface_id;	/* [i] 'S' for SCSI generic (required) */
++	compat_int_t dxfer_direction;	/* [i] data transfer direction  */
++	unsigned char cmd_len;		/* [i] SCSI command length ( <= 16 bytes) */
++	unsigned char mx_sb_len;		/* [i] max length to write to sbp */
++	unsigned short iovec_count;	/* [i] 0 implies no scatter gather */
++	compat_uint_t dxfer_len;		/* [i] byte count of data transfer */
++	compat_uint_t dxferp;		/* [i], [*io] points to data transfer memory
++					      or scatter gather list */
++	compat_uptr_t cmdp;		/* [i], [*i] points to command to perform */
++	compat_uptr_t sbp;		/* [i], [*o] points to sense_buffer memory */
++	compat_uint_t timeout;		/* [i] MAX_UINT->no timeout (unit: millisec) */
++	compat_uint_t flags;		/* [i] 0 -> default, see SG_FLAG... */
++	compat_int_t pack_id;		/* [i->o] unused internally (normally) */
++	compat_uptr_t usr_ptr;		/* [i->o] unused internally */
++	unsigned char status;		/* [o] scsi status */
++	unsigned char masked_status;	/* [o] shifted, masked scsi status */
++	unsigned char msg_status;		/* [o] messaging level data (optional) */
++	unsigned char sb_len_wr;		/* [o] byte count actually written to sbp */
++	unsigned short host_status;	/* [o] errors from host adapter */
++	unsigned short driver_status;	/* [o] errors from software driver */
++	compat_int_t resid;		/* [o] dxfer_len - actual_transferred */
++	compat_uint_t duration;		/* [o] time taken by cmd (unit: millisec) */
++	compat_uint_t info;		/* [o] auxiliary information */
++} sg_io_hdr32_t;  /* 64 bytes long (on sparc32) */
++
++typedef struct sg_iovec32 {
++	compat_uint_t iov_base;
++	compat_uint_t iov_len;
++} sg_iovec32_t;
++
++static int sg_build_iovec(sg_io_hdr_t __user *sgio, void __user *dxferp, u16 iovec_count)
++{
++	sg_iovec_t __user *iov = (sg_iovec_t __user *) (sgio + 1);
++	sg_iovec32_t __user *iov32 = dxferp;
++	int i;
++
++	for (i = 0; i < iovec_count; i++) {
++		u32 base, len;
++
++		if (get_user(base, &iov32[i].iov_base) ||
++		    get_user(len, &iov32[i].iov_len) ||
++		    put_user(compat_ptr(base), &iov[i].iov_base) ||
++		    put_user(len, &iov[i].iov_len))
++			return -EFAULT;
++	}
++
++	if (put_user(iov, &sgio->dxferp))
++		return -EFAULT;
++	return 0;
++}
++
++int nvme_sg_io32(struct nvme_ns *ns, unsigned long arg)
++{
++	sg_io_hdr32_t __user *sgio32 = (sg_io_hdr32_t __user *)arg;
++	sg_io_hdr_t __user *sgio;
++	u16 iovec_count;
++	u32 data;
++	void __user *dxferp;
++	int err;
++	int interface_id;
++
++	if (get_user(interface_id, &sgio32->interface_id))
++		return -EFAULT;
++	if (interface_id != 'S')
++		return -EINVAL;
++
++	if (get_user(iovec_count, &sgio32->iovec_count))
++		return -EFAULT;
++
++	{
++		void __user *top = compat_alloc_user_space(0);
++		void __user *new = compat_alloc_user_space(sizeof(sg_io_hdr_t) +
++				       (iovec_count * sizeof(sg_iovec_t)));
++		if (new > top)
++			return -EINVAL;
++
++		sgio = new;
++	}
++
++	/* Ok, now construct.  */
++	if (copy_in_user(&sgio->interface_id, &sgio32->interface_id,
++			 (2 * sizeof(int)) +
++			 (2 * sizeof(unsigned char)) +
++			 (1 * sizeof(unsigned short)) +
++			 (1 * sizeof(unsigned int))))
++		return -EFAULT;
++
++	if (get_user(data, &sgio32->dxferp))
++		return -EFAULT;
++	dxferp = compat_ptr(data);
++	if (iovec_count) {
++		if (sg_build_iovec(sgio, dxferp, iovec_count))
++			return -EFAULT;
++	} else {
++		if (put_user(dxferp, &sgio->dxferp))
++			return -EFAULT;
++	}
++
++	{
++		unsigned char __user *cmdp;
++		unsigned char __user *sbp;
++
++		if (get_user(data, &sgio32->cmdp))
++			return -EFAULT;
++		cmdp = compat_ptr(data);
++
++		if (get_user(data, &sgio32->sbp))
++			return -EFAULT;
++		sbp = compat_ptr(data);
++
++		if (put_user(cmdp, &sgio->cmdp) ||
++		    put_user(sbp, &sgio->sbp))
++			return -EFAULT;
++	}
++
++	if (copy_in_user(&sgio->timeout, &sgio32->timeout,
++			 3 * sizeof(int)))
++		return -EFAULT;
++
++	if (get_user(data, &sgio32->usr_ptr))
++		return -EFAULT;
++	if (put_user(compat_ptr(data), &sgio->usr_ptr))
++		return -EFAULT;
++
++	err = nvme_sg_io(ns, sgio);
++	if (err >= 0) {
++		void __user *datap;
++
++		if (copy_in_user(&sgio32->pack_id, &sgio->pack_id,
++				 sizeof(int)) ||
++		    get_user(datap, &sgio->usr_ptr) ||
++		    put_user((u32)(unsigned long)datap,
++			     &sgio32->usr_ptr) ||
++		    copy_in_user(&sgio32->status, &sgio->status,
++				 (4 * sizeof(unsigned char)) +
++				 (2 * sizeof(unsigned short)) +
++				 (3 * sizeof(int))))
++			err = -EFAULT;
++	}
++
++	return err;
++}
++
+ int nvme_sg_get_version_num(int __user *ip)
+ {
+ 	return put_user(sg_version_num, ip);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 26ebcf4..6867de6 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -165,6 +165,7 @@ int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned dword11,
+ struct sg_io_hdr;
+ 
+ int nvme_sg_io(struct nvme_ns *ns, struct sg_io_hdr __user *u_hdr);
++int nvme_sg_io32(struct nvme_ns *ns, unsigned long arg);
+ int nvme_sg_get_version_num(int __user *ip);
+ 
+ #endif /* _LINUX_NVME_H */
+-- 
+1.7.10.4
