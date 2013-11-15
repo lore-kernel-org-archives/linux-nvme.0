@@ -1,65 +1,48 @@
-From: clg@fr.ibm.com (Cedric Le Goater)
-Date: Fri, 15 Nov 2013 17:16:55 +0100
-Subject: [PATCH 16/51] DMA-API: ppc: vio.c: replace
- dma_set_mask()+dma_set_coherent_mask() with new helper
-In-Reply-To: <E1VMly8-0007gy-Ru@rmk-PC.arm.linux.org.uk>
-References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
- <E1VMly8-0007gy-Ru@rmk-PC.arm.linux.org.uk>
-Message-ID: <528648F7.20900@fr.ibm.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 15 Nov 2013 10:47:10 -0700
+Subject: [PATCHv2] NVMe: Disable admin queue on init failure
+Message-ID: <1384537630-11052-1-git-send-email-keith.busch@intel.com>
 
-Hi, 
+Disable the admin queue if device fails during initialization so the
+queue's irq is freed.
 
-On 09/19/2013 11:41 PM, Russell King wrote:
-> Replace the following sequence:
-> 
-> 	dma_set_mask(dev, mask);
-> 	dma_set_coherent_mask(dev, mask);
-> 
-> with a call to the new helper dma_set_mask_and_coherent().
-> 
-> Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
-> ---
->  arch/powerpc/kernel/vio.c |    3 +--
->  1 files changed, 1 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/powerpc/kernel/vio.c b/arch/powerpc/kernel/vio.c
-> index 78a3506..96b6c97 100644
-> --- a/arch/powerpc/kernel/vio.c
-> +++ b/arch/powerpc/kernel/vio.c
-> @@ -1413,8 +1413,7 @@ struct vio_dev *vio_register_device_node(struct device_node *of_node)
-> 
->  		/* needed to ensure proper operation of coherent allocations
->  		 * later, in case driver doesn't set it explicitly */
-> -		dma_set_mask(&viodev->dev, DMA_BIT_MASK(64));
-> -		dma_set_coherent_mask(&viodev->dev, DMA_BIT_MASK(64));
-> +		dma_set_mask_and_coherent(&viodev->dev, DMA_BIT_MASK(64));
->  	}
-> 
->  	/* register with generic device framework */
-> 
-
-The new helper routine dma_set_mask_and_coherent() breaks the 
-initialization of the pseries vio devices which do not have an 
-initial dev->dma_mask. I think we need to use dma_coerce_mask_and_coherent()
-instead.
-
-Signed-off-by: C?dric Le Goater <clg at fr.ibm.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- arch/powerpc/kernel/vio.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v1->v2:
+Moved the responsibilty of handling the admin queue to the funtion that
+set it up. This fixes the case where the controller is responsive but
+unable to handle io, so the cdev is still usable.
 
-diff --git a/arch/powerpc/kernel/vio.c b/arch/powerpc/kernel/vio.c
-index e7d0c88f..76a6482 100644
---- a/arch/powerpc/kernel/vio.c
-+++ b/arch/powerpc/kernel/vio.c
-@@ -1419,7 +1419,7 @@ struct vio_dev *vio_register_device_node(struct device_node *of_node)
+Fixed my typo in commit message from the sad rush to post the patch
+yesterday.
+
+ drivers/block/nvme-core.c |    7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index da52092..145d621 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1864,7 +1864,11 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	return 0;
  
- 		/* needed to ensure proper operation of coherent allocations
- 		 * later, in case driver doesn't set it explicitly */
--		dma_set_mask_and_coherent(&viodev->dev, DMA_BIT_MASK(64));
-+		dma_coerce_mask_and_coherent(&viodev->dev, DMA_BIT_MASK(64));
- 	}
+  free_queues:
+-	nvme_free_queues(dev);
++	for (i = dev->queue_count - 1; i > 0; i--) {
++		nvme_free_queue(dev->queues[i]);
++		dev->queue_count--;
++		dev->queues[i] = NULL;
++	}
+ 	return result;
+ }
  
- 	/* register with generic device framework */
+@@ -2141,6 +2145,7 @@ static int nvme_dev_start(struct nvme_dev *dev)
+ 	return result;
+ 
+  disable:
++	nvme_disable_queue(dev, 0);
+ 	spin_lock(&dev_list_lock);
+ 	list_del_init(&dev->node);
+ 	spin_unlock(&dev_list_lock);
 -- 
 1.7.10.4
