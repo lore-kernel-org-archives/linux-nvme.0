@@ -1,36 +1,100 @@
-From: michael.opdenacker@free-electrons.com (Michael Opdenacker)
-Date: Mon,  9 Dec 2013 10:21:19 +0100
-Subject: [PATCH][RESEND] NVMe: remove deprecated IRQF_DISABLED
-In-Reply-To: <1381551809-6236-1-git-send-email-michael.opdenacker@free-electrons.com>
-References: <1381551809-6236-1-git-send-email-michael.opdenacker@free-electrons.com>
-Message-ID: <1386580879-4337-1-git-send-email-michael.opdenacker@free-electrons.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Mon, 9 Dec 2013 12:58:46 -0500
+Subject: [PATCH] Dynamically allocate partition numbers
+Message-ID: <20131209175846.GH6900@linux.intel.com>
 
-This patch proposes to remove the use of the IRQF_DISABLED flag
+Some users need more than 64 partitions per device.  Rather than simply
+increasing the number of partitions, switch to the dynamic partition
+allocation scheme.
 
-It's a NOOP since 2.6.35 and it will be removed one day.
+This means that minor numbers are not stable across boots, but since major
+numbers aren't either, I cannot see this being a significant problem.
 
-Signed-off-by: Michael Opdenacker <michael.opdenacker at free-electrons.com>
+Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
+
 ---
- drivers/block/nvme-core.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+
+ nvme-core.c |   37 ++++---------------------------------
+ 1 file changed, 4 insertions(+), 33 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 26d03fa0bf26..ab76e530686f 100644
+index b345b2f..b782345 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1134,11 +1134,10 @@ static int queue_request_irq(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- {
- 	if (use_threaded_interrupts)
- 		return request_threaded_irq(dev->entry[nvmeq->cq_vector].vector,
--					nvme_irq_check, nvme_irq,
--					IRQF_DISABLED | IRQF_SHARED,
-+					nvme_irq_check, nvme_irq, IRQF_SHARED,
- 					name, nvmeq);
- 	return request_irq(dev->entry[nvmeq->cq_vector].vector, nvme_irq,
--				IRQF_DISABLED | IRQF_SHARED, name, nvmeq);
-+				IRQF_SHARED, name, nvmeq);
+@@ -46,7 +46,6 @@
+ #define NVME_Q_DEPTH 1024
+ #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
+ #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
+-#define NVME_MINORS 64
+ #define ADMIN_TIMEOUT	(60 * HZ)
+ 
+ static int nvme_major;
+@@ -1902,33 +1901,6 @@ static int nvme_kthread(void *data)
+ 	return 0;
  }
  
- static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
--- 
-1.8.3.2
+-static DEFINE_IDA(nvme_index_ida);
+-
+-static int nvme_get_ns_idx(void)
+-{
+-	int index, error;
+-
+-	do {
+-		if (!ida_pre_get(&nvme_index_ida, GFP_KERNEL))
+-			return -1;
+-
+-		spin_lock(&dev_list_lock);
+-		error = ida_get_new(&nvme_index_ida, &index);
+-		spin_unlock(&dev_list_lock);
+-	} while (error == -EAGAIN);
+-
+-	if (error)
+-		index = -1;
+-	return index;
+-}
+-
+-static void nvme_put_ns_idx(int index)
+-{
+-	spin_lock(&dev_list_lock);
+-	ida_remove(&nvme_index_ida, index);
+-	spin_unlock(&dev_list_lock);
+-}
+-
+ static void nvme_config_discard(struct nvme_ns *ns)
+ {
+ 	u32 logical_block_size = queue_logical_block_size(ns->queue);
+@@ -1962,7 +1934,7 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid,
+ 	ns->dev = dev;
+ 	ns->queue->queuedata = ns;
+ 
+-	disk = alloc_disk(NVME_MINORS);
++	disk = alloc_disk(0);
+ 	if (!disk)
+ 		goto out_free_queue;
+ 	ns->ns_id = nsid;
+@@ -1975,12 +1947,13 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid,
+ 		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
+ 
+ 	disk->major = nvme_major;
+-	disk->minors = NVME_MINORS;
+-	disk->first_minor = NVME_MINORS * nvme_get_ns_idx();
++	disk->minors = 0;
++	disk->first_minor = 0;
+ 	disk->fops = &nvme_fops;
+ 	disk->private_data = ns;
+ 	disk->queue = ns->queue;
+ 	disk->driverfs_dev = &dev->pci_dev->dev;
++	disk->flags = GENHD_FL_EXT_DEVT;
+ 	sprintf(disk->disk_name, "nvme%dn%d", dev->instance, nsid);
+ 	set_capacity(disk, le64_to_cpup(&id->nsze) << (ns->lba_shift - 9));
+ 
+@@ -1998,9 +1971,7 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid,
+ 
+ static void nvme_ns_free(struct nvme_ns *ns)
+ {
+-	int index = ns->disk->first_minor / NVME_MINORS;
+ 	put_disk(ns->disk);
+-	nvme_put_ns_idx(index);
+ 	blk_cleanup_queue(ns->queue);
+ 	kfree(ns);
+ }
