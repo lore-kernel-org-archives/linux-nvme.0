@@ -1,65 +1,341 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 10 Dec 2013 13:10:39 -0700
-Subject: [PATCH 4/5] NVMe: Surprise removal handling
+Date: Tue, 10 Dec 2013 13:10:40 -0700
+Subject: [PATCH 5/5] NVMe: Async IO queue deletion
 In-Reply-To: <1386706240-2300-1-git-send-email-keith.busch@intel.com>
 References: <1386706240-2300-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1386706240-2300-5-git-send-email-keith.busch@intel.com>
+Message-ID: <1386706240-2300-6-git-send-email-keith.busch@intel.com>
 
-This adds checks to see if the nvme pci device was removed. The check
-reads the status register for the value of -1, which it should never be
-unless the device is no longer present.
+This attempts to delete all IO queues at the same time asynchronously on
+shutdown. This is necessary for a present device that is not responding;
+a shutdown operation previously would take 2 minutes per queue-pair
+to timeout before moving on to the next queue, making a device removal
+appear to take a very long time or "hung" as reported by users.
 
-If a user performs a surprise removal on an nvme device, the driver will
-be notified either by the pci driver remove callback if the platform's
-slot is capable of this event, or via reading the device BAR status
-register, which will indicate controller failure and trigger a reset.
+In the previous worst case, a removal may be stuck forever until a kill
+signal is given if there are more than 32 queue pairs since it would run
+out of admin command IDs after over an hour of timed out sync commands
+(admin queue depth is 64).
 
-Either way, the device is not present so all outstanding commands would
-timeout. This will not send queue deletion commands to a drive that
-isn't present and fail after ioremap, significantly speeding up surprise
-removal; previously this took over 2 minutes per IO queue pair created,
-but this will complete removing the device within a few seconds.
+This patch will wait for the admin command timeout for all commands to
+complete, so the worst case now for an unresponsive controller is 60
+seconds, though that still seems like a long time.
+
+Since this adds another way to take queues offline, some duplicate code
+resulted so I moved these into more convienient functions.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ drivers/block/nvme-core.c |  228 ++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 216 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 120cfe3..db4e07b 100644
+index db4e07b..c05ee49 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1140,8 +1140,9 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
+@@ -62,6 +62,14 @@ static struct workqueue_struct *nvme_workq;
+ 
+ static void nvme_reset_failed_dev(struct work_struct *ws);
+ 
++struct async_cmd_info {
++	struct kthread_work work;
++	struct kthread_worker *worker;
++	u32 result;
++	int status;
++	void *ctx;
++};
++
+ /*
+  * An NVM Express queue.  Each device has at least two (one for admin
+  * commands and one for I/O commands).
+@@ -87,6 +95,7 @@ struct nvme_queue {
+ 	u8 cq_phase;
+ 	u8 cqe_seen;
+ 	u8 q_suspended;
++	struct async_cmd_info cmdinfo;
+ 	unsigned long cmdid_data[];
+ };
+ 
+@@ -208,6 +217,15 @@ static void special_completion(struct nvme_dev *dev, void *ctx,
+ 	dev_warn(&dev->pci_dev->dev, "Unknown special completion %p\n", ctx);
+ }
+ 
++static void async_completion(struct nvme_dev *dev, void *ctx,
++						struct nvme_completion *cqe)
++{
++	struct async_cmd_info *cmdinfo = ctx;
++	cmdinfo->result = le32_to_cpup(&cqe->result);
++	cmdinfo->status = le16_to_cpup(&cqe->status) >> 1;
++	queue_kthread_work(cmdinfo->worker, &cmdinfo->work);
++}
++
+ /*
+  * Called with local interrupts disabled and the q_lock held.  May not sleep.
+  */
+@@ -898,12 +916,33 @@ int nvme_submit_sync_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
+ 	return cmdinfo.status;
+ }
+ 
++int nvme_submit_async_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
++						struct async_cmd_info *cmdinfo,
++						unsigned timeout)
++{
++	int cmdid;
++
++	cmdid = alloc_cmdid_killable(nvmeq, cmdinfo, async_completion, timeout);
++	if (cmdid < 0)
++		return cmdid;
++	cmdinfo->status = -EINTR;
++	cmd->common.command_id = cmdid;
++	nvme_submit_cmd(nvmeq, cmd);
++	return 0;
++}
++
+ int nvme_submit_admin_cmd(struct nvme_dev *dev, struct nvme_command *cmd,
+ 								u32 *result)
+ {
+ 	return nvme_submit_sync_cmd(dev->queues[0], cmd, result, ADMIN_TIMEOUT);
+ }
+ 
++int nvme_submit_admin_cmd_async(struct nvme_dev *dev, struct nvme_command *cmd,
++						struct async_cmd_info *cmdinfo)
++{
++	return nvme_submit_async_cmd(dev->queues[0], cmd, cmdinfo, ADMIN_TIMEOUT);
++}
++
+ static int adapter_delete_queue(struct nvme_dev *dev, u8 opcode, u16 id)
+ {
+ 	int status;
+@@ -1124,15 +1163,20 @@ static void nvme_free_queues(struct nvme_dev *dev)
+ 	}
+ }
+ 
+-static void nvme_disable_queue(struct nvme_dev *dev, int qid)
++/**
++ * nvme_suspend_queue - put queue into suspended state
++ * @nvmeq - queue to suspend
++ *
++ * Returns 1 if already suspended, 0 otherwise.
++ */
++static int nvme_suspend_queue(struct nvme_queue *nvmeq)
+ {
+-	struct nvme_queue *nvmeq = dev->queues[qid];
+-	int vector = dev->entry[nvmeq->cq_vector].vector;
++	int vector = nvmeq->dev->entry[nvmeq->cq_vector].vector;
+ 
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	if (nvmeq->q_suspended) {
+ 		spin_unlock_irq(&nvmeq->q_lock);
+-		return;
++		return 1;
+ 	}
+ 	nvmeq->q_suspended = 1;
+ 	spin_unlock_irq(&nvmeq->q_lock);
+@@ -1140,17 +1184,33 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
  	irq_set_affinity_hint(vector, NULL);
  	free_irq(vector, nvmeq);
  
--	/* Don't tell the adapter to delete the admin queue */
--	if (qid) {
-+	/* Don't tell the adapter to delete the admin queue.
-+	 * Don't tell a removed adapter to delete IO queues. */
-+	if (qid && readl(&dev->bar->csts) != -1) {
++	return 0;
++}
++
++static void nvme_clear_queue(struct nvme_queue *nvmeq)
++{
++	spin_lock_irq(&nvmeq->q_lock);
++	nvme_process_cq(nvmeq);
++	nvme_cancel_ios(nvmeq, false);
++	spin_unlock_irq(&nvmeq->q_lock);
++}
++
++static void nvme_disable_queue(struct nvme_dev *dev, int qid)
++{
++	struct nvme_queue *nvmeq = dev->queues[qid];
++
++	if (!nvmeq)
++		return;
++	if (nvme_suspend_queue(nvmeq))
++		return;
++
+ 	/* Don't tell the adapter to delete the admin queue.
+ 	 * Don't tell a removed adapter to delete IO queues. */
+ 	if (qid && readl(&dev->bar->csts) != -1) {
  		adapter_delete_sq(dev, qid);
  		adapter_delete_cq(dev, qid);
  	}
-@@ -2039,12 +2040,17 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	dev->bar = ioremap(pci_resource_start(pdev, 0), 8192);
- 	if (!dev->bar)
- 		goto disable;
 -
-+	if (readl(&dev->bar->csts) == -1) {
-+		result = -ENODEV;
-+		goto unmap;
-+	}
- 	dev->db_stride = NVME_CAP_STRIDE(readq(&dev->bar->cap));
- 	dev->dbs = ((void __iomem *)dev->bar) + 4096;
+-	spin_lock_irq(&nvmeq->q_lock);
+-	nvme_process_cq(nvmeq);
+-	nvme_cancel_ios(nvmeq, false);
+-	spin_unlock_irq(&nvmeq->q_lock);
++	nvme_clear_queue(nvmeq);
+ }
  
- 	return 0;
--
-+ unmap:
-+	iounmap(dev->bar);
-+	dev->bar = NULL;
-  disable:
- 	pci_release_regions(pdev);
-  disable_pci:
+ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+@@ -2075,20 +2135,164 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
+ 		pci_disable_device(dev->pci_dev);
+ }
+ 
++struct nvme_delq_ctx {
++	struct task_struct *waiter;
++	struct kthread_worker* worker;
++	atomic_t refcount;
++};
++
++static void nvme_wait_dq(struct nvme_delq_ctx *dq, struct nvme_dev *dev)
++{
++	dq->waiter = current;
++	mb();
++
++	for (;;) {
++		set_current_state(TASK_KILLABLE);
++		if (!atomic_read(&dq->refcount))
++			break;
++		if (!schedule_timeout(ADMIN_TIMEOUT) ||
++					fatal_signal_pending(current)) {
++			set_current_state(TASK_RUNNING);
++
++			nvme_disable_ctrl(dev, readq(&dev->bar->cap));
++			nvme_disable_queue(dev, 0);
++
++			send_sig(SIGKILL, dq->worker->task, 1);
++			flush_kthread_worker(dq->worker);
++			return;
++		}
++	}
++	set_current_state(TASK_RUNNING);
++}
++
++static void nvme_put_dq(struct nvme_delq_ctx *dq)
++{
++	atomic_dec(&dq->refcount);
++	if (dq->waiter)
++		wake_up_process(dq->waiter);
++}
++
++static struct nvme_delq_ctx *nvme_get_dq(struct nvme_delq_ctx *dq)
++{
++	atomic_inc(&dq->refcount);
++	return dq;
++}
++
++static void nvme_del_queue_end(struct nvme_queue *nvmeq)
++{
++	struct nvme_delq_ctx *dq = nvmeq->cmdinfo.ctx;
++
++	nvme_clear_queue(nvmeq);
++	nvme_put_dq(dq);
++}
++
++static int adapter_async_del_queue(struct nvme_queue *nvmeq, u8 opcode,
++						kthread_work_func_t fn)
++{
++	struct nvme_command c;
++
++	memset(&c, 0, sizeof(c));
++	c.delete_queue.opcode = opcode;
++	c.delete_queue.qid = cpu_to_le16(nvmeq->qid);
++
++	init_kthread_work(&nvmeq->cmdinfo.work, fn);
++	return nvme_submit_admin_cmd_async(nvmeq->dev, &c, &nvmeq->cmdinfo);
++}
++
++static void nvme_del_cq_work_handler(struct kthread_work *work)
++{
++	struct nvme_queue *nvmeq = container_of(work, struct nvme_queue,
++							cmdinfo.work);
++	nvme_del_queue_end(nvmeq);
++}
++
++static int nvme_delete_cq(struct nvme_queue *nvmeq)
++{
++	return adapter_async_del_queue(nvmeq, nvme_admin_delete_cq,
++						nvme_del_cq_work_handler);
++}
++
++static void nvme_del_sq_work_handler(struct kthread_work *work)
++{
++	struct nvme_queue *nvmeq = container_of(work, struct nvme_queue,
++							cmdinfo.work);
++	int status = nvmeq->cmdinfo.status;
++
++	if (!status)
++		status = nvme_delete_cq(nvmeq);
++	if (status)
++		nvme_del_queue_end(nvmeq);
++}
++
++static int nvme_delete_sq(struct nvme_queue *nvmeq)
++{
++	return adapter_async_del_queue(nvmeq, nvme_admin_delete_sq,
++						nvme_del_sq_work_handler);
++}
++
++static void nvme_del_queue_start(struct kthread_work *work)
++{
++	struct nvme_queue *nvmeq = container_of(work, struct nvme_queue,
++							cmdinfo.work);
++	allow_signal(SIGKILL);
++	if (nvme_delete_sq(nvmeq))
++		nvme_del_queue_end(nvmeq);
++}
++
++static void nvme_disable_io_queues(struct nvme_dev *dev)
++{
++	int i;
++	DEFINE_KTHREAD_WORKER_ONSTACK(worker);
++	struct nvme_delq_ctx dq;
++	struct task_struct *kworker_task = kthread_run(kthread_worker_fn,
++					&worker, "nvme%d", dev->instance);
++
++	if (IS_ERR(kworker_task)) {
++		dev_err(&dev->pci_dev->dev,
++			"Failed to create queue del task\n");
++		for (i = dev->queue_count - 1; i > 0; i--)
++			nvme_disable_queue(dev, i);
++		return;
++	}
++
++	dq.waiter = NULL;
++	atomic_set(&dq.refcount, 0);
++	dq.worker = &worker;
++	for (i = dev->queue_count - 1; i > 0; i--) {
++		struct nvme_queue *nvmeq = dev->queues[i];
++
++		if (nvme_suspend_queue(nvmeq))
++			continue;
++		nvmeq->cmdinfo.ctx = nvme_get_dq(&dq);
++		nvmeq->cmdinfo.worker = dq.worker;
++		init_kthread_work(&nvmeq->cmdinfo.work, nvme_del_queue_start);
++		queue_kthread_work(dq.worker, &nvmeq->cmdinfo.work);
++	}
++	nvme_wait_dq(&dq, dev);
++	kthread_stop(kworker_task);
++}
++
+ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ {
+ 	int i;
+ 
+ 	dev->initialized = 0;
+-	for (i = dev->queue_count - 1; i >= 0; i--)
+-		nvme_disable_queue(dev, i);
+ 
+ 	spin_lock(&dev_list_lock);
+ 	list_del_init(&dev->node);
+ 	spin_unlock(&dev_list_lock);
+ 
+-	if (dev->bar)
++	if (!dev->bar || (dev->bar && readl(&dev->bar->csts) == -1)) {
++		for (i = dev->queue_count - 1; i >= 0; i--) {
++			struct nvme_queue *nvmeq = dev->queues[i];
++			nvme_suspend_queue(nvmeq);
++			nvme_clear_queue(nvmeq);
++		}
++	} else {
++		nvme_disable_io_queues(dev);
+ 		nvme_shutdown_ctrl(dev);
++		nvme_disable_queue(dev, 0);
++	}
+ 	nvme_dev_unmap(dev);
+ }
+ 
 -- 
 1.7.10.4
