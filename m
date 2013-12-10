@@ -1,203 +1,65 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 10 Dec 2013 13:10:38 -0700
-Subject: [PATCH 3/5] NVMe: Abort timed out commands
+Date: Tue, 10 Dec 2013 13:10:39 -0700
+Subject: [PATCH 4/5] NVMe: Surprise removal handling
 In-Reply-To: <1386706240-2300-1-git-send-email-keith.busch@intel.com>
 References: <1386706240-2300-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1386706240-2300-4-git-send-email-keith.busch@intel.com>
+Message-ID: <1386706240-2300-5-git-send-email-keith.busch@intel.com>
 
-Send nvme abort command to io requests that have timed out on an
-initialized device. If the command is not returned after another timeout,
-schedule the controller for reset.
+This adds checks to see if the nvme pci device was removed. The check
+reads the status register for the value of -1, which it should never be
+unless the device is no longer present.
+
+If a user performs a surprise removal on an nvme device, the driver will
+be notified either by the pci driver remove callback if the platform's
+slot is capable of this event, or via reading the device BAR status
+register, which will indicate controller failure and trigger a reset.
+
+Either way, the device is not present so all outstanding commands would
+timeout. This will not send queue deletion commands to a drive that
+isn't present and fail after ioremap, significantly speeding up surprise
+removal; previously this took over 2 minutes per IO queue pair created,
+but this will complete removing the device within a few seconds.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   68 ++++++++++++++++++++++++++++++++++++++++++++-
- include/linux/nvme.h      |    1 +
- include/uapi/linux/nvme.h |   11 ++++++++
- 3 files changed, 79 insertions(+), 1 deletion(-)
+ drivers/block/nvme-core.c |   14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index d1b456b..120cfe3 100644
+index 120cfe3..db4e07b 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -83,6 +83,7 @@ struct nvme_queue {
- 	u16 sq_head;
- 	u16 sq_tail;
- 	u16 cq_head;
-+	u16 qid;
- 	u8 cq_phase;
- 	u8 cqe_seen;
- 	u8 q_suspended;
-@@ -100,6 +101,7 @@ static inline void _nvme_check_size(void)
- 	BUILD_BUG_ON(sizeof(struct nvme_delete_queue) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_features) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_format_cmd) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_abort_cmd) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_command) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl) != 4096);
- 	BUILD_BUG_ON(sizeof(struct nvme_id_ns) != 4096);
-@@ -114,6 +116,7 @@ struct nvme_cmd_info {
- 	nvme_completion_fn fn;
- 	void *ctx;
- 	unsigned long timeout;
-+	int aborted;
- };
+@@ -1140,8 +1140,9 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
+ 	irq_set_affinity_hint(vector, NULL);
+ 	free_irq(vector, nvmeq);
  
- static struct nvme_cmd_info *nvme_cmd_info(struct nvme_queue *nvmeq)
-@@ -157,6 +160,7 @@ static int alloc_cmdid(struct nvme_queue *nvmeq, void *ctx,
- 	info[cmdid].fn = handler;
- 	info[cmdid].ctx = ctx;
- 	info[cmdid].timeout = jiffies + timeout;
-+	info[cmdid].aborted = 0;
- 	return cmdid;
- }
- 
-@@ -175,6 +179,7 @@ static int alloc_cmdid_killable(struct nvme_queue *nvmeq, void *ctx,
- #define CMD_CTX_COMPLETED	(0x310 + CMD_CTX_BASE)
- #define CMD_CTX_INVALID		(0x314 + CMD_CTX_BASE)
- #define CMD_CTX_FLUSH		(0x318 + CMD_CTX_BASE)
-+#define CMD_CTX_ABORT		(0x31C + CMD_CTX_BASE)
- 
- static void special_completion(struct nvme_dev *dev, void *ctx,
- 						struct nvme_completion *cqe)
-@@ -183,6 +188,10 @@ static void special_completion(struct nvme_dev *dev, void *ctx,
- 		return;
- 	if (ctx == CMD_CTX_FLUSH)
- 		return;
-+	if (ctx == CMD_CTX_ABORT) {
-+		++dev->abort_limit;
-+		return;
-+	}
- 	if (ctx == CMD_CTX_COMPLETED) {
- 		dev_warn(&dev->pci_dev->dev,
- 				"completed id %d twice on queue %d\n",
-@@ -1005,6 +1014,56 @@ int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned dword11,
- }
- 
- /**
-+ * nvme_abort_cmd - Attempt aborting a command
-+ * @cmdid: Command id of a timed out IO
-+ * @queue: The queue with timed out IO
-+ *
-+ * Schedule controller reset if the command was already aborted once before and
-+ * still hasn't been returned to the driver, or if this is the admin queue.
-+ */
-+static void nvme_abort_cmd(int cmdid, struct nvme_queue *nvmeq)
-+{
-+	int a_cmdid;
-+	struct nvme_command cmd;
-+	struct nvme_dev *dev = nvmeq->dev;
-+	struct nvme_cmd_info *info = nvme_cmd_info(nvmeq);
-+
-+	if (!nvmeq->qid || info[cmdid].aborted) {
-+		if (work_busy(&dev->reset_work))
-+			return;
-+		list_del_init(&dev->node);
-+		dev_warn(&dev->pci_dev->dev,
-+			"I/O %d QID %d timeout, reset controller\n", cmdid,
-+								nvmeq->qid);
-+		INIT_WORK(&dev->reset_work, nvme_reset_failed_dev);
-+		queue_work(nvme_workq, &dev->reset_work);
-+		return;
-+	}
-+
-+	if (!dev->abort_limit)
-+		return;
-+
-+	a_cmdid = alloc_cmdid(dev->queues[0], CMD_CTX_ABORT, special_completion,
-+								ADMIN_TIMEOUT);
-+	if (a_cmdid < 0)
-+		return;
-+
-+	memset(&cmd, 0, sizeof(cmd));
-+	cmd.abort.opcode = nvme_admin_abort_cmd;
-+	cmd.abort.cid = cmdid;
-+	cmd.abort.sqid = nvmeq->qid;
-+	cmd.abort.command_id = a_cmdid;
-+
-+	--dev->abort_limit;
-+	info[cmdid].aborted = 1;
-+	info[cmdid].timeout = jiffies + ADMIN_TIMEOUT;
-+
-+	dev_warn(nvmeq->q_dmadev, "Aborting I/O %d QID %d\n", cmdid,
-+							nvmeq->qid);
-+	nvme_submit_cmd(dev->queues[0], &cmd);
-+}
-+
-+/**
-  * nvme_cancel_ios - Cancel outstanding I/Os
-  * @queue: The queue to cancel I/Os on
-  * @timeout: True to only cancel I/Os which have timed out
-@@ -1027,7 +1086,12 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
- 			continue;
- 		if (info[cmdid].ctx == CMD_CTX_CANCELLED)
- 			continue;
--		dev_warn(nvmeq->q_dmadev, "Cancelling I/O %d\n", cmdid);
-+		if (timeout && nvmeq->dev->initialized) {
-+			nvme_abort_cmd(cmdid, nvmeq);
-+			continue;
-+		}
-+		dev_warn(nvmeq->q_dmadev, "Cancelling I/O %d QID %d\n", cmdid,
-+								nvmeq->qid);
- 		ctx = cancel_cmdid(nvmeq, cmdid, &fn);
- 		fn(nvmeq->dev, ctx, &cqe);
+-	/* Don't tell the adapter to delete the admin queue */
+-	if (qid) {
++	/* Don't tell the adapter to delete the admin queue.
++	 * Don't tell a removed adapter to delete IO queues. */
++	if (qid && readl(&dev->bar->csts) != -1) {
+ 		adapter_delete_sq(dev, qid);
+ 		adapter_delete_cq(dev, qid);
  	}
-@@ -1119,6 +1183,7 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- 	nvmeq->q_db = &dev->dbs[qid << (dev->db_stride + 1)];
- 	nvmeq->q_depth = depth;
- 	nvmeq->cq_vector = vector;
-+	nvmeq->qid = qid;
- 	nvmeq->q_suspended = 1;
- 	dev->queue_count++;
+@@ -2039,12 +2040,17 @@ static int nvme_dev_map(struct nvme_dev *dev)
+ 	dev->bar = ioremap(pci_resource_start(pdev, 0), 8192);
+ 	if (!dev->bar)
+ 		goto disable;
+-
++	if (readl(&dev->bar->csts) == -1) {
++		result = -ENODEV;
++		goto unmap;
++	}
+ 	dev->db_stride = NVME_CAP_STRIDE(readq(&dev->bar->cap));
+ 	dev->dbs = ((void __iomem *)dev->bar) + 4096;
  
-@@ -1913,6 +1978,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	ctrl = mem;
- 	nn = le32_to_cpup(&ctrl->nn);
- 	dev->oncs = le16_to_cpup(&ctrl->oncs);
-+	dev->abort_limit = ctrl->acl + 1;
- 	memcpy(dev->serial, ctrl->sn, sizeof(ctrl->sn));
- 	memcpy(dev->model, ctrl->mn, sizeof(ctrl->mn));
- 	memcpy(dev->firmware_rev, ctrl->fr, sizeof(ctrl->fr));
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 95af9d7..681c626 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -95,6 +95,7 @@ struct nvme_dev {
- 	u32 max_hw_sectors;
- 	u32 stripe_size;
- 	u16 oncs;
-+	u16 abort_limit;
- 	u8 initialized;
- };
- 
-diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
-index 989c04e..f009c15 100644
---- a/include/uapi/linux/nvme.h
-+++ b/include/uapi/linux/nvme.h
-@@ -350,6 +350,16 @@ struct nvme_delete_queue {
- 	__u32			rsvd11[5];
- };
- 
-+struct nvme_abort_cmd {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__u32			rsvd1[9];
-+	__le16			sqid;
-+	__le16			cid;
-+	__u32			rsvd11[5];
-+};
-+
- struct nvme_download_firmware {
- 	__u8			opcode;
- 	__u8			flags;
-@@ -384,6 +394,7 @@ struct nvme_command {
- 		struct nvme_download_firmware dlfw;
- 		struct nvme_format_cmd format;
- 		struct nvme_dsm_cmd dsm;
-+		struct nvme_abort_cmd abort;
- 	};
- };
- 
+ 	return 0;
+-
++ unmap:
++	iounmap(dev->bar);
++	dev->bar = NULL;
+  disable:
+ 	pci_release_regions(pdev);
+  disable_pci:
 -- 
 1.7.10.4
