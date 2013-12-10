@@ -1,26 +1,27 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Tue, 10 Dec 2013 09:49:01 -0500
-Subject: [PATCH] Dynamically allocate partition numbers
-In-Reply-To: <52A6F712.7010308@bjorling.me>
-References: <20131209175846.GH6900@linux.intel.com>
- <52A6F712.7010308@bjorling.me>
-Message-ID: <20131210144901.GI6900@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 10 Dec 2013 13:10:35 -0700
+Subject: [PATCH 0/5] Controller error handling set
+Message-ID: <1386706240-2300-1-git-send-email-keith.busch@intel.com>
 
-On Tue, Dec 10, 2013@12:12:18PM +0100, Matias Bj?rling wrote:
-> >@@ -1975,12 +1947,13 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid,
-> >  		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
-> >
-> >  	disk->major = nvme_major;
-> >-	disk->minors = NVME_MINORS;
-> >-	disk->first_minor = NVME_MINORS * nvme_get_ns_idx();
-> >+	disk->minors = 0;
-> 
-> The above line can be removed.
+Additional handling for nvme device errors. I've submitted patches along
+these lines in the past, but this is better tested against hot-plug capable
+platforms and low power state transitions.
 
-Hm, yeah, good point, alloc_disk() initialises ->minors, and always has,
-so we didn't need to initialise it before either.  I'll take that line
-out before committing.
+Obsoletes these:
+http://merlin.infradead.org/pipermail/linux-nvme/2013-October/000563.html
+http://merlin.infradead.org/pipermail/linux-nvme/2013-October/000566.html
 
-> Tested and works.
+Keith Busch (5):
+  NVMe: Device resume error handling
+  NVMe: Schedule reset for failed controllers
+  NVMe: Abort timed out commands
+  NVMe: Surprise removal handling
+  NVMe: Async IO queue deletion
 
-I'll add your tested-by.  I tested it myself with about 80 partitions.
+ drivers/block/nvme-core.c |  433 +++++++++++++++++++++++++++++++++++++++++----
+ include/linux/nvme.h      |    3 +
+ include/uapi/linux/nvme.h |   11 ++
+ 3 files changed, 416 insertions(+), 31 deletions(-)
+
+-- 
+1.7.10.4
