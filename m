@@ -1,102 +1,72 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 16 Dec 2013 11:43:48 -0700 (MST)
-Subject: [PATCHv2] NVMe: Disable admin queue on init failure
-In-Reply-To: <20131216175408.GK6900@linux.intel.com>
-References: <1384537630-11052-1-git-send-email-keith.busch@intel.com>
- <20131216175408.GK6900@linux.intel.com>
-Message-ID: <alpine.LRH.2.03.1312161142220.4958@AMR>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Mon, 16 Dec 2013 17:19:51 -0500
+Subject: [PATCHv2] NVMe: compat SG_IO ioctl
+In-Reply-To: <1382555254-23087-1-git-send-email-keith.busch@intel.com>
+References: <1382555254-23087-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20131216221951.GL6900@linux.intel.com>
 
-On Mon, 16 Dec 2013, Matthew Wilcox wrote:
-> On Fri, Nov 15, 2013@10:47:10AM -0700, Keith Busch wrote:
->> Disable the admin queue if device fails during initialization so the
->> queue's irq is freed.
->>
->> Signed-off-by: Keith Busch <keith.busch at intel.com>
->> ---
->> v1->v2:
->> Moved the responsibilty of handling the admin queue to the funtion that
->> set it up. This fixes the case where the controller is responsive but
->> unable to handle io, so the cdev is still usable.
->>
->> Fixed my typo in commit message from the sad rush to post the patch
->> yesterday.
->>
->>  drivers/block/nvme-core.c |    7 ++++++-
->>  1 file changed, 6 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
->> index da52092..145d621 100644
->> --- a/drivers/block/nvme-core.c
->> +++ b/drivers/block/nvme-core.c
->> @@ -1864,7 +1864,11 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
->>  	return 0;
->>
->>   free_queues:
->> -	nvme_free_queues(dev);
->> +	for (i = dev->queue_count - 1; i > 0; i--) {
->> +		nvme_free_queue(dev->queues[i]);
->> +		dev->queue_count--;
->> +		dev->queues[i] = NULL;
->> +	}
->
-> I don't really like duplicating the guts of nvme_free_queues here.
-> How about this?
+On Wed, Oct 23, 2013@01:07:34PM -0600, Keith Busch wrote:
+> For 32-bit versions of sg3-utils running on a 64-bit system. This is
+> mostly a copy from the relevent portions of fs/compat_ioctl.c, with
+> slight modifications for going through block_device_operations.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+> v1->v2:
+> 
+> Added the copying the status back into the 32-bit user structure at the
+> end. I missed this when copying from the original implmenetation.
 
+Thanks to Fengguang's automated tester, I ended up fixing the
+!CONFIG_COMPAT case like this:
 
-Lovely, I like that much better too. Thanks!
-
-
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index ca0222d..3f5d67a 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -1151,11 +1151,11 @@ static void nvme_free_queue(struct nvme_queue *nvmeq)
-> 	kfree(nvmeq);
-> }
->
-> -static void nvme_free_queues(struct nvme_dev *dev)
-> +static void nvme_free_queues(struct nvme_dev *dev, int lowest)
-> {
-> 	int i;
->
-> -	for (i = dev->queue_count - 1; i >= 0; i--) {
-> +	for (i = dev->queue_count - 1; i >= lowest; i--) {
-> 		nvme_free_queue(dev->queues[i]);
-> 		dev->queue_count--;
-> 		dev->queues[i] = NULL;
-> @@ -1985,7 +1985,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
-> 	return 0;
->
->  free_queues:
-> -	nvme_free_queues(dev);
-> +	nvme_free_queues(dev, 1);
-> 	return result;
-> }
->
-> @@ -2405,6 +2405,7 @@ static int nvme_dev_start(struct nvme_dev *dev)
-> 	return result;
->
->  disable:
-> +	nvme_disable_queue(dev, 0);
-> 	spin_lock(&dev_list_lock);
-> 	list_del_init(&dev->node);
-> 	spin_unlock(&dev_list_lock);
-> @@ -2536,7 +2537,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  shutdown:
-> 	nvme_dev_shutdown(dev);
->  release_pools:
-> -	nvme_free_queues(dev);
-> +	nvme_free_queues(dev, 0);
-> 	nvme_release_prp_pools(dev);
->  release:
-> 	nvme_release_instance(dev);
-> @@ -2560,7 +2561,7 @@ static void nvme_remove(struct pci_dev *pdev)
-> 	misc_deregister(&dev->miscdev);
-> 	nvme_dev_remove(dev);
-> 	nvme_dev_shutdown(dev);
-> -	nvme_free_queues(dev);
-> +	nvme_free_queues(dev, 0);
-> 	nvme_release_instance(dev);
-> 	nvme_release_prp_pools(dev);
-> 	kref_put(&dev->kref, nvme_free_dev);
->
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 3f5d67a..b59a93a 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1696,6 +1696,7 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
+ 	}
+ }
+ 
++#ifdef CONFIG_COMPAT
+ static int nvme_compat_ioctl(struct block_device *bdev, fmode_t mode,
+ 					unsigned int cmd, unsigned long arg)
+ {
+@@ -1707,6 +1708,9 @@ static int nvme_compat_ioctl(struct block_device *bdev, fmode_t mode,
+ 	}
+ 	return nvme_ioctl(bdev, mode, cmd, arg);
+ }
++#else
++#define nvme_compat_ioctl	NULL
++#endif
+ 
+ static const struct block_device_operations nvme_fops = {
+ 	.owner		= THIS_MODULE,
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index be04c50..4a0ceb6 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -47,7 +47,6 @@
+ #include <linux/types.h>
+ #include <scsi/sg.h>
+ #include <scsi/scsi.h>
+-#include <asm/compat.h>
+ 
+ 
+ static int sg_version_num = 30534;	/* 2 digits for each component */
+@@ -3040,6 +3039,7 @@ int nvme_sg_io(struct nvme_ns *ns, struct sg_io_hdr __user *u_hdr)
+ 	return retcode;
+ }
+ 
++#ifdef CONFIG_COMPAT
+ typedef struct sg_io_hdr32 {
+ 	compat_int_t interface_id;	/* [i] 'S' for SCSI generic (required) */
+ 	compat_int_t dxfer_direction;	/* [i] data transfer direction  */
+@@ -3183,6 +3183,7 @@ int nvme_sg_io32(struct nvme_ns *ns, unsigned long arg)
+ 
+ 	return err;
+ }
++#endif
+ 
+ int nvme_sg_get_version_num(int __user *ip)
+ {
