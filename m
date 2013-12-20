@@ -1,23 +1,35 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Tue, 17 Dec 2013 10:18:35 -0500
-Subject: Inter NVMe drive attach problem
-In-Reply-To: <003b01cefae2$bb145d70$313d1850$@com>
-References: <003b01cefae2$bb145d70$313d1850$@com>
-Message-ID: <20131217151835.GO6900@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 20 Dec 2013 11:14:09 -0700
+Subject: [PATCH] NVMe: Use error handling on failed sync commands
+Message-ID: <1387563249-27871-1-git-send-email-keith.busch@intel.com>
 
-On Tue, Dec 17, 2013@01:44:49PM +0900, ????? wrote:
-> I test with nvme SSDD "Intel SSD DC P3700 Series (200GB) - fultondale".
-> But, Disk drive is not found.
-> 
-> My system is SUSE Linux Enterprise Server 11 (Service pack3).
-> 
-> First I download Kernel source in NVME.org
-> (http://git.infradead.org/users/willy/linux-nvme.git) daily snapshot.
-> Then, Did kernel compile and applied it my Suse linux system successfully.
-> but I could find it Mass Storge device tree.
-> but, I could not find it in block device and DISK tree.
-> I could find only SSD Drive by SATA.
+Sync commands schedule an internal timeout to cancel rather than using
+the nvme timeout handler kthread. We should still try to recover so
+moving the check for cancelled commands after the error handling.
 
-Are you sure you don't have a DC S3700 drive?  These are SATA drives
-and do not work with the NVMe driver; they would show up in the way you
-are suggesting.  Perhaps you could send me an lspci and lsscsi off-list.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/block/nvme-core.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index b59a93a..79a130c 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1122,12 +1122,12 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
+ 
+ 		if (timeout && !time_after(now, info[cmdid].timeout))
+ 			continue;
+-		if (info[cmdid].ctx == CMD_CTX_CANCELLED)
+-			continue;
+ 		if (timeout && nvmeq->dev->initialized) {
+ 			nvme_abort_cmd(cmdid, nvmeq);
+ 			continue;
+ 		}
++		if (info[cmdid].ctx == CMD_CTX_CANCELLED)
++			continue;
+ 		dev_warn(nvmeq->q_dmadev, "Cancelling I/O %d QID %d\n", cmdid,
+ 								nvmeq->qid);
+ 		ctx = cancel_cmdid(nvmeq, cmdid, &fn);
+-- 
+1.7.10.4
