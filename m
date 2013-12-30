@@ -1,39 +1,22 @@
 From: santoshsy@gmail.com (Santosh Y)
-Date: Mon, 30 Dec 2013 15:57:16 +0530
-Subject: [PATCH RFC 1/5] NVMe: Code cleanup and minor checkpatch correction
-In-Reply-To: <1388399240-13828-1-git-send-email-santoshsy@gmail.com>
-References: <1388399240-13828-1-git-send-email-santoshsy@gmail.com>
-Message-ID: <1388399240-13828-2-git-send-email-santoshsy@gmail.com>
+Date: Mon, 30 Dec 2013 15:57:15 +0530
+Subject: [PATCH RFC 0/5] NVMe: Hotplug support
+Message-ID: <1388399240-13828-1-git-send-email-santoshsy@gmail.com>
 
-Remove redunduant 'dev->node' deletion which is being
-handled in nvme_dev_shutdown() and a minor checkpatch error.
+This patchset provides hotplug support for NVMe.
+For NVMe hotplug feature to work, PCIe slot must be hotplug capable.
 
-Signed-off-by: Ravi Kumar <ravi.android at gmail.com>
-Signed-off-by: Santosh Y <santoshsy at gmail.com>
+Santosh Y (5):
+  NVMe: Code cleanup and minor checkpatch correction
+  NVMe: Basic NVMe device hotplug support
+  NVMe: Asynchronous device scan support
+  NVMe: Stale node cleanup based on reference count
+  NVMe: Hotplug support during hibernate/sleep states
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index b59a93a..a523296 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2120,7 +2120,7 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
- 
- struct nvme_delq_ctx {
- 	struct task_struct *waiter;
--	struct kthread_worker* worker;
-+	struct kthread_worker *worker;
- 	atomic_t refcount;
- };
- 
-@@ -2556,10 +2556,6 @@ static void nvme_remove(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
- 
--	spin_lock(&dev_list_lock);
--	list_del_init(&dev->node);
--	spin_unlock(&dev_list_lock);
--
- 	pci_set_drvdata(pdev, NULL);
- 	flush_work(&dev->reset_work);
- 	misc_deregister(&dev->miscdev);
+ drivers/block/Kconfig     |   8 ++
+ drivers/block/nvme-core.c | 334 +++++++++++++++++++++++++++++++++++++++++++---
+ include/linux/nvme.h      |  15 +++
+ 3 files changed, 339 insertions(+), 18 deletions(-)
+
 -- 
 1.8.3.2
