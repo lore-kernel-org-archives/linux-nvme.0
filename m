@@ -1,90 +1,88 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Mon, 30 Dec 2013 08:50:25 -0500
-Subject: [PATCH RFC 3/5] NVMe: Asynchronous device scan support
-In-Reply-To: <1388399240-13828-4-git-send-email-santoshsy@gmail.com>
+Date: Mon, 30 Dec 2013 09:00:51 -0500
+Subject: [PATCH RFC 4/5] NVMe: Stale node cleanup based on reference count
+In-Reply-To: <1388399240-13828-5-git-send-email-santoshsy@gmail.com>
 References: <1388399240-13828-1-git-send-email-santoshsy@gmail.com>
- <1388399240-13828-4-git-send-email-santoshsy@gmail.com>
-Message-ID: <20131230135025.GI4945@linux.intel.com>
+ <1388399240-13828-5-git-send-email-santoshsy@gmail.com>
+Message-ID: <20131230140051.GJ4945@linux.intel.com>
 
-On Mon, Dec 30, 2013@03:57:18PM +0530, Santosh Y wrote:
-> This patch provides asynchronous device enumeration
-> capability. The 'probe' need not wait until the namespace scanning is
-> complete.
-
-I'm very interested in having something like this, except I don't think
-it's complete.  You don't seem to handle the cases where the device
-is shut down in the middle of an async scan.  Also, the only piece you
-seem to make async is the calls to add_disk(), which are surely not the
-timeconsuming parts of the scan.  I would think the time consuming parts
-are sending the IDENTIFY commands, which you don't make async.
-
-> Signed-off-by: Ravi Kumar <ravi.android at gmail.com>
-> Signed-off-by: Santosh Y <santoshsy at gmail.com>
-> 
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index 8a02135..cd37335 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -17,6 +17,9 @@
->   */
->  
->  #include <linux/nvme.h>
+On Mon, Dec 30, 2013@03:57:19PM +0530, Santosh Y wrote:
 > +#ifdef CONFIG_BLK_DEV_NVME_HP
-> +#include <linux/async.h>
+> +#define NVME_MINORS 64
 > +#endif
->  #include <linux/bio.h>
->  #include <linux/bitops.h>
->  #include <linux/blkdev.h>
-> @@ -2115,8 +2118,10 @@ static int nvme_dev_add(struct nvme_dev *dev)
->  		if (ns)
->  			list_add_tail(&ns->list, &dev->namespaces);
->  	}
-> +#ifndef CONFIG_BLK_DEV_NVME_HP
->  	list_for_each_entry(ns, &dev->namespaces, list)
->  		add_disk(ns->disk);
+
+Why does this need to go back for this patch?
+
+> +static int nvme_bd_open(struct block_device *bdev, fmode_t mode)
+> +{
+> +	struct nvme_ns *ns;
+> +	int err = -ENODEV;
+> +
+> +	if (!bdev || !bdev->bd_disk ||
+> +		!bdev->bd_disk->private_data)
+> +		goto out;
+
+!bdev?  Do you really think the core is giong to call you with a NULL bdev?
+I can see that bd_disk isn't going to be NULL either.
+
+> @@ -1805,6 +1853,9 @@ static void nvme_resubmit_bios(struct nvme_queue *nvmeq)
+>  static int nvme_kthread(void *data)
+>  {
+>  	struct nvme_dev *dev, *next;
+> +#ifdef CONFIG_BLK_DEV_NVME_HP
+> +	unsigned long flags  = 0;
 > +#endif
->  	res = 0;
->  
->   out:
-> @@ -2546,6 +2551,19 @@ static void nvme_reset_failed_dev(struct work_struct *ws)
->  	nvme_dev_reset(dev);
+
+You don't need to initialise 'flags' that are used as part of an
+irqsave/restore.
+
+> +#ifdef CONFIG_BLK_DEV_NVME_HP
+> +				spin_lock_irqsave(&nvmeq->q_lock, flags);
+> +#else
+>  				spin_lock_irq(&nvmeq->q_lock);
+> +#endif
+
+... but *what on earth* is going on here?!  How is the kthread getting
+run in interrupt context?
+
+>  static void nvme_free_dev(struct kref *kref)
+>  {
+>  	struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
+>  	kfree(dev->queues);
+>  	kfree(dev->entry);
+> -	kfree(dev);
+> +#ifdef CONFIG_BLK_DEV_NVME_HP
+> +	if (!test_bit(NVME_STALE_NODE, &dev->hp_flag))
+> +#endif
+> +		kfree(dev);
 >  }
 >  
-> +#ifdef CONFIG_BLK_DEV_NVME_HP
-> +static void nvme_async_add(void *data, async_cookie_t cookie)
-> +{
-> +	struct nvme_dev *dev = (struct nvme_dev *)data;
-> +	struct nvme_ns *ns;
-> +
-> +	list_for_each_entry(ns, &dev->namespaces, list)
-> +		add_disk(ns->disk);
-> +	if (!test_bit(NVME_HOT_REM, &dev->hp_flag))
-> +		dev->initialized = 1;
-> +}
-> +#endif
-> +
->  static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  static int nvme_dev_open(struct inode *inode, struct file *f)
+> @@ -2431,6 +2584,11 @@ static int nvme_dev_open(struct inode *inode, struct file *f)
+>  static int nvme_dev_release(struct inode *inode, struct file *f)
 >  {
->  	int result = -ENOMEM;
-> @@ -2595,14 +2613,16 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  	if (result)
->  		goto remove;
->  
-> -	dev->initialized = 1;
-> -	kref_init(&dev->kref);
-> -
->  #ifdef CONFIG_BLK_DEV_NVME_HP
-> +	async_schedule(nvme_async_add, dev);
->  	if (!pdev->is_added)
->  		dev_info(&pdev->dev,
->  			"Device 0x%x is on-line\n", pdev->device);
-> +#else
-> +	dev->initialized = 1;
->  #endif
-> +	kref_init(&dev->kref);
+>  	struct nvme_dev *dev = f->private_data;
 > +
+> +#ifdef CONFIG_BLK_DEV_NVME_HP
+> +	if (!dev)
+> +		return -ENODEV;
+> +#endif
+>  	kref_put(&dev->kref, nvme_free_dev);
 >  	return 0;
->  
->   remove:
-> -- 
-> 1.8.3.2
+>  }
+
+This seems like you don't understand the kref pattern.  Why do you have
+this 'stale' list rather than just incrementing the kref, and delaying
+the final kfree until you're done with your usage?
+
+> @@ -2438,6 +2596,11 @@ static int nvme_dev_release(struct inode *inode, struct file *f)
+>  static long nvme_dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+>  {
+>  	struct nvme_dev *dev = f->private_data;
+> +
+> +#ifdef CONFIG_BLK_DEV_NVME_HP
+> +	if (!dev)
+> +		return -ENODEV;
+> +#endif
+
+How is it that f->private_data can become NULL?
