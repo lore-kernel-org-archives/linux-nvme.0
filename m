@@ -1,50 +1,36 @@
-From: santoshsy@gmail.com (Santosh Y)
-Date: Mon, 30 Dec 2013 15:57:20 +0530
-Subject: [PATCH RFC 5/5] NVMe: Hotplug support during hibernate/sleep states
-In-Reply-To: <1388399240-13828-1-git-send-email-santoshsy@gmail.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Mon, 30 Dec 2013 08:32:29 -0500
+Subject: [PATCH RFC 1/5] NVMe: Code cleanup and minor checkpatch correction
+In-Reply-To: <1388399240-13828-2-git-send-email-santoshsy@gmail.com>
 References: <1388399240-13828-1-git-send-email-santoshsy@gmail.com>
-Message-ID: <1388399240-13828-6-git-send-email-santoshsy@gmail.com>
+ <1388399240-13828-2-git-send-email-santoshsy@gmail.com>
+Message-ID: <20131230133229.GG4945@linux.intel.com>
 
-This patch provides NVMe hotplug support during
-hibernate/sleep states.
+On Mon, Dec 30, 2013@03:57:16PM +0530, Santosh Y wrote:
+> @@ -2120,7 +2120,7 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
+>  
+>  struct nvme_delq_ctx {
+>  	struct task_struct *waiter;
+> -	struct kthread_worker* worker;
+> +	struct kthread_worker *worker;
+>  	atomic_t refcount;
+>  };
+>  
 
-Signed-off-by: Ravi Kumar <ravi.android at gmail.com>
-Signed-off-by: Santosh Y <santoshsy at gmail.com>
+This is fine ...
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 48698b7..9fbc063 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2863,6 +2863,30 @@ static int nvme_resume(struct device *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
- 
-+#ifdef CONFIG_BLK_DEV_NVME_HP
-+	if (!ndev)
-+		return -EINVAL;
-+	
-+	if (nvme_check_surprise_removal(ndev)) {
-+		set_bit(NVME_HOT_REM, &ndev->hp_flag);
-+		pci_dev_get(pdev);
-+		pci_set_drvdata(pdev, NULL);
-+		flush_work(&ndev->reset_work);
-+		misc_deregister(&ndev->miscdev);
-+		nvme_dev_remove(ndev);
-+		nvme_dev_shutdown(ndev);
-+		nvme_free_queues(ndev, 0);
-+
-+		if (!test_bit(NVME_STALE_NODE, &ndev->hp_flag))
-+			nvme_release_instance(ndev);
-+		nvme_release_prp_pools(ndev);
-+		kref_put(&ndev->kref, nvme_free_dev);
-+		pci_dev_put(pdev);
-+		nvme_remove_stalen();
-+		return -ENODEV;
-+	}
-+#endif
-+
- 	if (nvme_dev_resume(ndev) && !work_busy(&ndev->reset_work)) {
- 		INIT_WORK(&ndev->reset_work, nvme_reset_failed_dev);
- 		queue_work(nvme_workq, &ndev->reset_work);
--- 
-1.8.3.2
+> @@ -2556,10 +2556,6 @@ static void nvme_remove(struct pci_dev *pdev)
+>  {
+>  	struct nvme_dev *dev = pci_get_drvdata(pdev);
+>  
+> -	spin_lock(&dev_list_lock);
+> -	list_del_init(&dev->node);
+> -	spin_unlock(&dev_list_lock);
+> -
+>  	pci_set_drvdata(pdev, NULL);
+>  	flush_work(&dev->reset_work);
+>  	misc_deregister(&dev->miscdev);
+
+I'm going to let Keith comment on this before I apply it.  There might
+be a reason to delete the node from the dev_list here before we call
+flush_work().
