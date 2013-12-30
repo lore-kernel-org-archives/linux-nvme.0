@@ -1,107 +1,78 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 30 Dec 2013 08:55:30 -0700 (MST)
-Subject: [PATCH RFC 3/5] NVMe: Asynchronous device scan support
-In-Reply-To: <20131230135025.GI4945@linux.intel.com>
+Date: Mon, 30 Dec 2013 09:06:11 -0700 (MST)
+Subject: [PATCH RFC 2/5] NVMe: Basic NVMe device hotplug support
+In-Reply-To: <1388399240-13828-3-git-send-email-santoshsy@gmail.com>
 References: <1388399240-13828-1-git-send-email-santoshsy@gmail.com>
- <1388399240-13828-4-git-send-email-santoshsy@gmail.com>
- <20131230135025.GI4945@linux.intel.com>
-Message-ID: <alpine.LRH.2.03.1312300757360.4958@AMR>
+ <1388399240-13828-3-git-send-email-santoshsy@gmail.com>
+Message-ID: <alpine.LRH.2.03.1312300855460.4958@AMR>
 
-On Mon, 30 Dec 2013, Matthew Wilcox wrote:
-> On Mon, Dec 30, 2013@03:57:18PM +0530, Santosh Y wrote:
->> This patch provides asynchronous device enumeration
->> capability. The 'probe' need not wait until the namespace scanning is
->> complete.
+On Mon, 30 Dec 2013, Santosh Y wrote:
+> This patch provides basic hotplug support for NVMe.
+> For NVMe hotplug to work the PCIe slot must be hotplug capable.
 >
-> I'm very interested in having something like this, except I don't think
-> it's complete.  You don't seem to handle the cases where the device
-> is shut down in the middle of an async scan.  Also, the only piece you
-> seem to make async is the calls to add_disk(), which are surely not the
-> timeconsuming parts of the scan.  I would think the time consuming parts
-> are sending the IDENTIFY commands, which you don't make async.
-
-Surprisingly, add_disk is the by far longest part. It does several dozen
-blocking reads to check for a known partitions. The identifies don't
-become measurable until you have several hundred namespaces but that
-time is just noise compared to 'add_disk'.
-
-I started on a generic block patch that makes 'add_disk' non-blocking. I
-can see about cleaning that up and posting to the block mailing list
-for consideration.
-
->> Signed-off-by: Ravi Kumar <ravi.android at gmail.com>
->> Signed-off-by: Santosh Y <santoshsy at gmail.com>
->>
->> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
->> index 8a02135..cd37335 100644
->> --- a/drivers/block/nvme-core.c
->> +++ b/drivers/block/nvme-core.c
->> @@ -17,6 +17,9 @@
->>   */
->>
->>  #include <linux/nvme.h>
->> +#ifdef CONFIG_BLK_DEV_NVME_HP
->> +#include <linux/async.h>
->> +#endif
->>  #include <linux/bio.h>
->>  #include <linux/bitops.h>
->>  #include <linux/blkdev.h>
->> @@ -2115,8 +2118,10 @@ static int nvme_dev_add(struct nvme_dev *dev)
->>  		if (ns)
->>  			list_add_tail(&ns->list, &dev->namespaces);
->>  	}
->> +#ifndef CONFIG_BLK_DEV_NVME_HP
->>  	list_for_each_entry(ns, &dev->namespaces, list)
->>  		add_disk(ns->disk);
->> +#endif
->>  	res = 0;
->>
->>   out:
->> @@ -2546,6 +2551,19 @@ static void nvme_reset_failed_dev(struct work_struct *ws)
->>  	nvme_dev_reset(dev);
->>  }
->>
->> +#ifdef CONFIG_BLK_DEV_NVME_HP
->> +static void nvme_async_add(void *data, async_cookie_t cookie)
->> +{
->> +	struct nvme_dev *dev = (struct nvme_dev *)data;
->> +	struct nvme_ns *ns;
->> +
->> +	list_for_each_entry(ns, &dev->namespaces, list)
->> +		add_disk(ns->disk);
->> +	if (!test_bit(NVME_HOT_REM, &dev->hp_flag))
->> +		dev->initialized = 1;
->> +}
->> +#endif
->> +
->>  static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->>  {
->>  	int result = -ENOMEM;
->> @@ -2595,14 +2613,16 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->>  	if (result)
->>  		goto remove;
->>
->> -	dev->initialized = 1;
->> -	kref_init(&dev->kref);
->> -
->>  #ifdef CONFIG_BLK_DEV_NVME_HP
->> +	async_schedule(nvme_async_add, dev);
->>  	if (!pdev->is_added)
->>  		dev_info(&pdev->dev,
->>  			"Device 0x%x is on-line\n", pdev->device);
->> +#else
->> +	dev->initialized = 1;
->>  #endif
->> +	kref_init(&dev->kref);
->> +
->>  	return 0;
->>
->>   remove:
->> --
->> 1.8.3.2
+> When a NVMe device is surprise removed and inserted back the
+> device may need some time to respond to host IO commands, and
+> will return NVME_SC_NS_NOT_READY. In this case the requests
+> will be requeued until the device responds to the IO commands
+> with status response or until the commands timeout.
 >
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://merlin.infradead.org/mailman/listinfo/linux-nvme
+> Signed-off-by: Ravi Kumar <ravi.android at gmail.com>
+> Signed-off-by: Santosh Y <santoshsy at gmail.com>
 >
+> diff --git a/drivers/block/Kconfig b/drivers/block/Kconfig
+> index 86b9f37..f92ec96 100644
+> --- a/drivers/block/Kconfig
+> +++ b/drivers/block/Kconfig
+> @@ -319,6 +319,14 @@ config BLK_DEV_NVME
+> 	  To compile this driver as a module, choose M here: the
+> 	  module will be called nvme.
+>
+> +config BLK_DEV_NVME_HP
+> +	bool "Enable hotplug support"
+> +	depends on BLK_DEV_NVME && HOTPLUG_PCI_PCIE
+> +	default n
+> +	help
+> +	  If you say Y here, the driver will support hotplug feature.
+> +	  Hotplug only works if the PCIe slot is hotplug capable.
+> +
+> config BLK_DEV_SKD
+> 	tristate "STEC S1120 Block Driver"
+> 	depends on PCI
+> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> index a523296..8a02135 100644
+> --- a/drivers/block/nvme-core.c
+> +++ b/drivers/block/nvme-core.c
+> @@ -172,6 +172,13 @@ static int alloc_cmdid(struct nvme_queue *nvmeq, void *ctx,
+> 	return cmdid;
+> }
+>
+> +static inline bool nvme_check_surprise_removal(struct nvme_dev *dev)
+> +{
+> +	if (readl(&dev->bar->csts) == -1)
+> +		return true;
+> +	return false;
+> +}
+> +
+> static int alloc_cmdid_killable(struct nvme_queue *nvmeq, void *ctx,
+> 				nvme_completion_fn handler, unsigned timeout)
+> {
+> @@ -370,6 +377,19 @@ static void nvme_end_io_acct(struct bio *bio, unsigned long start_time)
+> 	part_stat_unlock();
+> }
+>
+> +#ifdef CONFIG_BLK_DEV_NVME_HP
+> +static void nvme_requeue_bio(struct nvme_dev *dev, struct bio *bio)
+> +{
+> +	struct nvme_queue *nvmeq = get_nvmeq(dev);
+> +	if (bio_list_empty(&nvmeq->sq_cong))
+> +		add_wait_queue(&nvmeq->sq_full, &nvmeq->sq_cong_wait);
+> +	bio_list_add(&nvmeq->sq_cong, bio);
+> +	put_nvmeq(nvmeq);
+> +	wake_up_process(nvme_thread);
+> +}
+> +#endif
+
+Unless you just so happen to be calling this function on the correct cpu,
+you are modifying a bio_list with an unlocked nvme_queue, and that can
+totally screw things up. I think we need to change the callbacks to take
+'nvme_queue's instead of 'nvme_dev's to allow us to retry failed bios.
