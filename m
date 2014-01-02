@@ -1,74 +1,98 @@
-From: kmo@daterainc.com (Kent Overstreet)
-Date: Fri, 28 Feb 2014 15:30:39 -0800
-Subject: [PATCH 1/9] block: Make generic_make_request handle arbitrary
- sized bios
-In-Reply-To: <20140227172254.GI5744@linux.intel.com>
-References: <1393457997-17618-1-git-send-email-kmo@daterainc.com>
- <1393457997-17618-2-git-send-email-kmo@daterainc.com>
- <20140227172254.GI5744@linux.intel.com>
-Message-ID: <20140228233039.GA2739@moria.home.lan>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Thu, 2 Jan 2014 11:58:53 -0500
+Subject: [PATCH] NVMe: use-after-free on surprise removal fixes
+In-Reply-To: <1388528118-4866-1-git-send-email-keith.busch@intel.com>
+References: <1388528118-4866-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20140102165853.GN4945@linux.intel.com>
 
-On Thu, Feb 27, 2014@12:22:54PM -0500, Matthew Wilcox wrote:
-> On Wed, Feb 26, 2014@03:39:49PM -0800, Kent Overstreet wrote:
-> > We do this by adding calls to blk_queue_split() to the various
-> > make_request functions that need it - a few can already handle arbitrary
-> > size bios. Note that we add the call _after_ any call to blk_queue_bounce();
-> > this means that blk_queue_split() and blk_recalc_rq_segments() don't need to
-> > be concerned with bouncing affecting segment merging.
-> 
-> > diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> > index 51824d1f23..e4376b9613 100644
-> > --- a/drivers/block/nvme-core.c
-> > +++ b/drivers/block/nvme-core.c
-> > @@ -737,6 +737,8 @@ static void nvme_make_request(struct request_queue *q, struct bio *bio)
-> >  	struct nvme_queue *nvmeq = get_nvmeq(ns->dev);
-> >  	int result = -EBUSY;
-> >  
-> > +	blk_queue_split(q, &bio, q->bio_split);
-> > +
-> >  	if (!nvmeq) {
-> >  		put_nvmeq(NULL);
-> >  		bio_endio(bio, -EIO);
-> 
-> I'd suggest that we do:
-> 
-> -	struct nvme_queue *nvmeq = get_nvmeq(ns->dev);
-> +	struct nvme_queue *nvmeq;
->  	int result = -EBUSY;
-> 
-> +	blk_queue_split(q, &bio, q->bio_split);
+On Tue, Dec 31, 2013@03:15:18PM -0700, Keith Busch wrote:
+> A surprise removal of a device while a program has an open reference to
+> the block handle may cause it to use the nvme dev, namespace, or queue
+> after we've freed them. Reference count the opens on the block device,
+> do not free the namespaces until the device ref count is 0, and protect
+> queue access with RCU.
+
+Brave.  I love it.
+
+> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> index b59a93a..d71fc27 100644
+> --- a/drivers/block/nvme-core.c
+> +++ b/drivers/block/nvme-core.c
+> @@ -263,12 +263,12 @@ static void *cancel_cmdid(struct nvme_queue *nvmeq, int cmdid,
+>  
+>  struct nvme_queue *get_nvmeq(struct nvme_dev *dev)
+>  {
+> -	return dev->queues[get_cpu() + 1];
+> +	return rcu_dereference(dev->queues[part_stat_lock() + 1]);
+>  }
+>  
+>  void put_nvmeq(struct nvme_queue *nvmeq)
+>  {
+> -	put_cpu();
+> +	part_stat_unlock();
+>  }
+>  
+>  /**
+
+I'm not so keen on using part_stat_lock,unlock here.  If the part stats
+switch to a different protection scheme, this will be broken.  Also,
+I'm not entirely sure that we're safe in the !SMP case (can't we end up
+without having called preempt_disable()?).  I think it's probably better
+to do:
+
+-	return dev->queues[get_cpu() + 1];
++	int queue;
++	rcu_read_lock();
++	queue = get_cpu() + 1;
++	return rcu_dereference(dev->queues[queue]);
+
+> @@ -1155,10 +1155,20 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
+>  {
+>  	int i;
+>  
+> +	for (i = num_possible_cpus(); i > dev->queue_count - 1; i--)
+> +		rcu_assign_pointer(dev->queues[i], NULL);
+>  	for (i = dev->queue_count - 1; i >= lowest; i--) {
+> -		nvme_free_queue(dev->queues[i]);
+> +		struct nvme_queue *nvmeq = dev->queues[i];
 > +
-> +	nvmeq = get_nvmeq(ns->dev);
->  	if (!nvmeq) {
-> 
-> so that we're running the blk_queue_split() code outside the get_cpu()
-> call.
-> 
-> Now, the NVMe driver has its own rules about when BIOs have to be split.
-> Right now, that's way down inside the nvme_map_bio() call when we're
-> walking the bio to compose the scatterlist.  Should we instead have an
-> nvme_bio_split() routine that is called instead of blk_queue_split(),
-> and we can simplify nvme_map_bio() since it'll know that it's working
-> with bios that don't have to be split.
-> 
-> In fact, I think it would have little NVMe-specific in it at that point,
-> so we could name __blk_bios_map_sg() better, export it to drivers and
-> call it from nvme_map_bio(), which I think would make everybody happier.
+> +		spin_lock_irq(&nvmeq->q_lock);
+> +		nvme_cancel_ios(nvmeq, false);
+> +		spin_unlock_irq(&nvmeq->q_lock);
+> +
+> +		rcu_assign_pointer(dev->queues[i], NULL);
+> +		synchronize_rcu();
+> +
+> +		nvme_free_queue(nvmeq);
+>  		dev->queue_count--;
+> -		dev->queues[i] = NULL;
+>  	}
+>  }
+>  
 
-Actually, reading nvme_map_bio() (it's different since last I looked at
-it) it looks like nvme should already be able to handle arbitrary size
-bios?
+I don't think you want to do this.  You're calling synchronize_rcu() for
+each queue individually, which is extremely heavy-weight.  This routine
+could take minutes to execute on a machine with a lot of RCU activity.
 
-I do intend to rework the blk_bio_map_sg() (or add a new one?) to
-incrementally map as much of a bio as will fit in the provided
-scatterlist, but it looks like nvme has some odd restrictions where it's
-using BIOVEC_PHYS_MERGABLE()/BIOVEC_NOT_VIRT_MERGABLE() so I dunno if
-it's worth bothering to try and have it use generic code.
+Two ways to fix this; accumulate the queues into a function-local array,
+call synchronize_rcu() once, then free them all.  Alternatively, use
+call_rcu() to have nvme_free_queue() executed after a grace period
+has elapsed.
 
-However we don't need an explicit split here: if the sg fills up (i.e.
-the places nvme_split_and_submit() is called), we can just mark the bio
-as partially completed (set bio->bi_iter = iter, i.e. use the iterator
-you passed to bio_for_each_segment), then increment bi_remaining (which
-just counts completions, i.e. bio_endio() calls before the bio is really
-completed) and resubmit the original bio. No need to allocate a split
-bio, or loop over the bio again in bio_split().
+If we go that route, then as described in
+Documentation/RCU/rcubarrier.txt, we will need to add a call to
+rcu_barrier() in the module exit path to be sure that all the call_rcu()
+functions have finished executing.  So there's probabaly no real
+difference between the execution time of the two options in the case of
+module unload, though it'd be visible in device hotplug.
+
+By the way, this is an extremely common mistake people make when
+introducing RCU.  If one can figure out a way to avoid calling
+synchronize_rcu(), then one probably should.
+
+Also, why is
+		rcu_assign_pointer(dev->queues[i], NULL);
+after cancelling the I/Os?  It seems to me that another thread could submit
+an I/O between the cancellations and setting the queue to NULL.  I think
+the pointer assignment needs to at least be within the spin_lock section,
+but it could also be done before taking the spinlock ... right?
