@@ -1,69 +1,37 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 6 Jan 2014 09:12:26 -0700 (MST)
-Subject: [PATCH] NVMe: use-after-free on surprise removal fixes
-In-Reply-To: <20140102165853.GN4945@linux.intel.com>
-References: <1388528118-4866-1-git-send-email-keith.busch@intel.com>
- <20140102165853.GN4945@linux.intel.com>
-Message-ID: <alpine.LRH.2.03.1401060841530.4958@AMR>
+Date: Mon,  6 Jan 2014 12:04:10 -0700
+Subject: [PATCHv2 0/2] NVMe: Use after free on removal fixes
+Message-ID: <1389035052-30007-1-git-send-email-keith.busch@intel.com>
 
-On Thu, 2 Jan 2014, Matthew Wilcox wrote:
-> On Tue, Dec 31, 2013@03:15:18PM -0700, Keith Busch wrote:
->> @@ -1155,10 +1155,20 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
->>  {
->>  	int i;
->>
->> +	for (i = num_possible_cpus(); i > dev->queue_count - 1; i--)
->> +		rcu_assign_pointer(dev->queues[i], NULL);
->>  	for (i = dev->queue_count - 1; i >= lowest; i--) {
->> -		nvme_free_queue(dev->queues[i]);
->> +		struct nvme_queue *nvmeq = dev->queues[i];
->> +
->> +		spin_lock_irq(&nvmeq->q_lock);
->> +		nvme_cancel_ios(nvmeq, false);
->> +		spin_unlock_irq(&nvmeq->q_lock);
->> +
->> +		rcu_assign_pointer(dev->queues[i], NULL);
->> +		synchronize_rcu();
->> +
->> +		nvme_free_queue(nvmeq);
->>  		dev->queue_count--;
->> -		dev->queues[i] = NULL;
->>  	}
->>  }
->>
->
-> I don't think you want to do this.  You're calling synchronize_rcu() for
-> each queue individually, which is extremely heavy-weight.  This routine
-> could take minutes to execute on a machine with a lot of RCU activity.
->
-> Two ways to fix this; accumulate the queues into a function-local array,
-> call synchronize_rcu() once, then free them all.  Alternatively, use
-> call_rcu() to have nvme_free_queue() executed after a grace period
-> has elapsed.
->
-> If we go that route, then as described in
-> Documentation/RCU/rcubarrier.txt, we will need to add a call to
-> rcu_barrier() in the module exit path to be sure that all the call_rcu()
-> functions have finished executing.  So there's probabaly no real
-> difference between the execution time of the two options in the case of
-> module unload, though it'd be visible in device hotplug.
->
-> By the way, this is an extremely common mistake people make when
-> introducing RCU.  If one can figure out a way to avoid calling
-> synchronize_rcu(), then one probably should.
+v1->v2:
 
-Good stuff, thank you for the suggestions!
+I split this in two from the previous version: one to reference count
+open block handles and another use rcu protect queues. The two are not
+dependent on each other.
 
-> Also, why is
-> 		rcu_assign_pointer(dev->queues[i], NULL);
-> after cancelling the I/Os?  It seems to me that another thread could submit
-> an I/O between the cancellations and setting the queue to NULL.  I think
-> the pointer assignment needs to at least be within the spin_lock section,
-> but it could also be done before taking the spinlock ... right?
+Changed synchronize_rcu() for each nvmeq to call_rcu() + rcu_barrier()
+instead. On my test setup, the previous version took 4x longer on an
+otherwise idle system to unload the module compared this one, so that
+was a good suggestion. I think it was recommended to use rcu_barrier()
+in the module_exit, but I put it in the pci_driver's 'remove' because
+the nvme_queue's q_dmadev isn't valid after the remove. We could call
+get/put_device to keep the q_dmadev valid, but I thought this was simpler.
 
-It looks like cancelling IOs here is pointless so I shouldn't have added
-it. The queues are quiesced prior to this function call, so another thread
-couldn't submit new commands on one at this point: the queue's suspended
-flag is set, all outstanding commands are already forced cancelled, and
-new commands are placed on the bio_list instead of being submitted. I'll
-remove it and fix up the other issues for v2.
+Removed the cancel_ios call in nvme_free_queues since this function is
+not called while the queues have active commands.
+
+Removed the the part_stat_lock macro usage for the rcu locking and
+get_cpu.
+
+Fixed freeing namespaces on probe failure.
+
+Keith Busch (2):
+  NVMe: Namespace use after free on surprise removal
+  NVMe: RCU access to nvme_queue
+
+ drivers/block/nvme-core.c |   93 +++++++++++++++++++++++++++------------------
+ include/linux/nvme.h      |    2 +-
+ 2 files changed, 56 insertions(+), 39 deletions(-)
+
+-- 
+1.7.10.4
