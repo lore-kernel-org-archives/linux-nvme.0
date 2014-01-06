@@ -1,114 +1,172 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon,  6 Jan 2014 12:04:11 -0700
-Subject: [PATCHv2 1/2] NVMe: Namespace use after free on surprise removal
+Date: Mon,  6 Jan 2014 12:04:12 -0700
+Subject: [PATCHv2 2/2] NVMe: RCU access to nvme_queue
 In-Reply-To: <1389035052-30007-1-git-send-email-keith.busch@intel.com>
 References: <1389035052-30007-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1389035052-30007-2-git-send-email-keith.busch@intel.com>
+Message-ID: <1389035052-30007-3-git-send-email-keith.busch@intel.com>
 
-An nvme block device may have open references when the device is
-removed. New commands may be attempted on the removed device, so we need
-to ref count the opens and not free the namespaces and nvme_dev until
-all references are closed.
+This adds rcu protected access to nvme_queue to fix a potential race
+between a surprise removal freeing the queue and a thread with open
+reference on a NVMe block device using that queue.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   43 +++++++++++++++++++++++++++++++++++++------
- 1 file changed, 37 insertions(+), 6 deletions(-)
+ drivers/block/nvme-core.c |   53 ++++++++++++++++++++-------------------------
+ include/linux/nvme.h      |    2 +-
+ 2 files changed, 25 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index b59a93a..30d157f 100644
+index 30d157f..b31b352 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1712,10 +1712,31 @@ static int nvme_compat_ioctl(struct block_device *bdev, fmode_t mode,
- #define nvme_compat_ioctl	NULL
- #endif
+@@ -74,6 +74,7 @@ struct async_cmd_info {
+  * commands and one for I/O commands).
+  */
+ struct nvme_queue {
++	struct rcu_head r_head;
+ 	struct device *q_dmadev;
+ 	struct nvme_dev *dev;
+ 	spinlock_t q_lock;
+@@ -263,12 +264,16 @@ static void *cancel_cmdid(struct nvme_queue *nvmeq, int cmdid,
  
-+static int nvme_open(struct block_device *bdev, fmode_t mode)
-+{
-+	struct nvme_ns *ns = bdev->bd_disk->private_data;
-+	struct nvme_dev *dev = ns->dev;
-+
-+	kref_get(&dev->kref);
-+	return 0;
-+}
-+
-+static void nvme_free_dev(struct kref *kref);
-+
-+static void nvme_release(struct gendisk *disk, fmode_t mode)
-+{
-+	struct nvme_ns *ns = disk->private_data;
-+	struct nvme_dev *dev = ns->dev;
-+
-+	kref_put(&dev->kref, nvme_free_dev);
-+}
-+
- static const struct block_device_operations nvme_fops = {
- 	.owner		= THIS_MODULE,
- 	.ioctl		= nvme_ioctl,
- 	.compat_ioctl	= nvme_compat_ioctl,
-+	.open		= nvme_open,
-+	.release	= nvme_release,
- };
- 
- static void nvme_resubmit_bios(struct nvme_queue *nvmeq)
-@@ -2281,13 +2302,10 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 
- static void nvme_dev_remove(struct nvme_dev *dev)
+ struct nvme_queue *get_nvmeq(struct nvme_dev *dev)
  {
--	struct nvme_ns *ns, *next;
-+	struct nvme_ns *ns;
- 
--	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
--		list_del(&ns->list);
-+	list_for_each_entry(ns, &dev->namespaces, list)
- 		del_gendisk(ns->disk);
--		nvme_ns_free(ns);
--	}
+-	return dev->queues[get_cpu() + 1];
++	int queue;
++	rcu_read_lock();
++	queue = get_cpu() + 1;
++	return rcu_dereference(dev->queues[queue]);
  }
  
- static int nvme_setup_prp_pools(struct nvme_dev *dev)
-@@ -2343,9 +2361,21 @@ static void nvme_release_instance(struct nvme_dev *dev)
- 	spin_unlock(&dev_list_lock);
+ void put_nvmeq(struct nvme_queue *nvmeq)
+ {
+ 	put_cpu();
++	rcu_read_unlock();
  }
  
-+static void nvme_free_namespaces(struct nvme_dev *dev)
-+{
-+	struct nvme_ns *ns, *next;
-+
-+	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
-+		list_del(&ns->list);
-+		nvme_ns_free(ns);
-+	}
-+}
-+
- static void nvme_free_dev(struct kref *kref)
- {
- 	struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
-+
-+	nvme_free_namespaces(dev);
- 	kfree(dev->queues);
- 	kfree(dev->entry);
- 	kfree(dev);
-@@ -2518,6 +2548,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto release_pools;
+ /**
+@@ -818,9 +823,9 @@ static void nvme_make_request(struct request_queue *q, struct bio *bio)
+ 	struct nvme_queue *nvmeq = get_nvmeq(ns->dev);
+ 	int result = -EBUSY;
+ 
+-	if (!nvmeq) {
++	if (unlikely(!nvmeq)) {
+ 		put_nvmeq(NULL);
+-		bio_endio(bio, -EIO);
++		bio_endio(bio, -ENXIO);
+ 		return;
  	}
  
-+	kref_init(&dev->kref);
- 	result = nvme_dev_add(dev);
- 	if (result)
- 		goto shutdown;
-@@ -2533,11 +2564,11 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto remove;
+@@ -1135,8 +1140,10 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
+ 	}
+ }
  
- 	dev->initialized = 1;
--	kref_init(&dev->kref);
- 	return 0;
+-static void nvme_free_queue(struct nvme_queue *nvmeq)
++static void nvme_free_queue(struct rcu_head *r)
+ {
++	struct nvme_queue *nvmeq = container_of(r, struct nvme_queue, r_head);
++
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	while (bio_list_peek(&nvmeq->sq_cong)) {
+ 		struct bio *bio = bio_list_pop(&nvmeq->sq_cong);
+@@ -1155,10 +1162,13 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
+ {
+ 	int i;
  
-  remove:
++	for (i = num_possible_cpus(); i > dev->queue_count - 1; i--)
++		rcu_assign_pointer(dev->queues[i], NULL);
+ 	for (i = dev->queue_count - 1; i >= lowest; i--) {
+-		nvme_free_queue(dev->queues[i]);
++		struct nvme_queue *nvmeq = dev->queues[i];
++		rcu_assign_pointer(dev->queues[i], NULL);
++		call_rcu(&nvmeq->r_head, nvme_free_queue);
+ 		dev->queue_count--;
+-		dev->queues[i] = NULL;
+ 	}
+ }
+ 
+@@ -1778,8 +1788,11 @@ static int nvme_kthread(void *data)
+ 				queue_work(nvme_workq, &dev->reset_work);
+ 				continue;
+ 			}
++
++			rcu_read_lock();
+ 			for (i = 0; i < dev->queue_count; i++) {
+-				struct nvme_queue *nvmeq = dev->queues[i];
++				struct nvme_queue *nvmeq =
++						rcu_dereference(dev->queues[i]);
+ 				if (!nvmeq)
+ 					continue;
+ 				spin_lock_irq(&nvmeq->q_lock);
+@@ -1791,6 +1804,7 @@ static int nvme_kthread(void *data)
+  unlock:
+ 				spin_unlock_irq(&nvmeq->q_lock);
+ 			}
++			rcu_read_unlock();
+ 		}
+ 		spin_unlock(&dev_list_lock);
+ 		schedule_timeout(round_jiffies_relative(HZ));
+@@ -1963,19 +1977,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	}
+ 
+ 	/* Free previously allocated queues that are no longer usable */
+-	spin_lock(&dev_list_lock);
+-	for (i = dev->queue_count - 1; i > nr_io_queues; i--) {
+-		struct nvme_queue *nvmeq = dev->queues[i];
+-
+-		spin_lock_irq(&nvmeq->q_lock);
+-		nvme_cancel_ios(nvmeq, false);
+-		spin_unlock_irq(&nvmeq->q_lock);
+-
+-		nvme_free_queue(nvmeq);
+-		dev->queue_count--;
+-		dev->queues[i] = NULL;
+-	}
+-	spin_unlock(&dev_list_lock);
++	nvme_free_queues(dev, nr_io_queues + 1);
+ 
+ 	cpu = cpumask_first(cpu_online_mask);
+ 	for (i = 0; i < nr_io_queues; i++) {
+@@ -2461,18 +2463,10 @@ static int nvme_remove_dead_ctrl(void *arg)
+ 
+ static void nvme_remove_disks(struct work_struct *ws)
+ {
+-	int i;
+ 	struct nvme_dev *dev = container_of(ws, struct nvme_dev, reset_work);
+ 
  	nvme_dev_remove(dev);
-+	nvme_free_namespaces(dev); 
-  shutdown:
+-	spin_lock(&dev_list_lock);
+-	for (i = dev->queue_count - 1; i > 0; i--) {
+-		BUG_ON(!dev->queues[i] || !dev->queues[i]->q_suspended);
+-		nvme_free_queue(dev->queues[i]);
+-		dev->queue_count--;
+-		dev->queues[i] = NULL;
+-	}
+-	spin_unlock(&dev_list_lock);
++	nvme_free_queues(dev, 1);
+ }
+ 
+ static int nvme_dev_resume(struct nvme_dev *dev)
+@@ -2597,6 +2591,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	nvme_dev_remove(dev);
  	nvme_dev_shutdown(dev);
-  release_pools:
+ 	nvme_free_queues(dev, 0);
++	rcu_barrier();
+ 	nvme_release_instance(dev);
+ 	nvme_release_prp_pools(dev);
+ 	kref_put(&dev->kref, nvme_free_dev);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 69ae03f..98d367b 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -73,7 +73,7 @@ enum {
+  */
+ struct nvme_dev {
+ 	struct list_head node;
+-	struct nvme_queue **queues;
++	struct nvme_queue __rcu **queues;
+ 	u32 __iomem *dbs;
+ 	struct pci_dev *pci_dev;
+ 	struct dma_pool *prp_page_pool;
 -- 
 1.7.10.4
