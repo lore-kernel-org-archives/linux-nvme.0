@@ -1,49 +1,65 @@
-From: hdgokhale@gmail.com (Hrishikesh Gokhale)
-Date: Tue, 7 Jan 2014 20:34:35 +0530
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 7 Jan 2014 11:15:04 -0700 (MST)
 Subject: BUG_ON at nvme_setup_prp getting hit.
-Message-ID: <CAEAgd7GtR6V_x-JJHSOA6DyVP2z7HUW3vNbbUa3LapLmGZsMLw@mail.gmail.com>
+In-Reply-To: <CAEAgd7GtR6V_x-JJHSOA6DyVP2z7HUW3vNbbUa3LapLmGZsMLw@mail.gmail.com>
+References: <CAEAgd7GtR6V_x-JJHSOA6DyVP2z7HUW3vNbbUa3LapLmGZsMLw@mail.gmail.com>
+Message-ID: <alpine.LRH.2.03.1401070942210.25844@AMR>
 
- Hi All,
+On Tue, 7 Jan 2014, Hrishikesh Gokhale wrote:
+> Hi All,
+>
+> Requesting for help in resolving the following:
+>
+> Setup:
+> Running FIO tester tool on NVMe device driver (/block/nvme.c) with I/O
+> engine ?libaio?. Using Odd block size like 17K, 129K, 257K,  etc.
+> Distribution ?Fedora 18? (Kernel v3.6.10).
+>
+> Observation:
+> I?ve observed intermittent hit on BUG_ON which is pointing to
+> nvme_setup_prps() function in nvme.c driver.
+>
+>>>> CODE
+> static int nvme_setup_prps(...)
+>
+> {
+>       int dma_len = sg_dma_len(sg);
+>
+>       u64 dma_addr = sg_dma_address(sg);
+>
+>       int offset = offset_in_page(dma_addr);
+>       ...
+>       dma_len -= PAGE_SIZE;
+>       ...
+>       if (dma_len > 0)
+>           continue;
+>       BUG_ON(dma_len < 0);
+> }
+> <<< CODE
+>
+> After adding prints , I found that this problem is reproduced on use
+> of PRP list.
+>
+> Offset value in DMA page is changed (in nvme_setup_prps() function)
+> from the original offset value which was present while sg_set_page()
+> function was executed. The offset value of virtual address is found
+> different than the offset value of physical/DMA address.
 
-Requesting for help in resolving the following:
+This BUG_ON shouldn't happen unless we gave nvme_setup_prps an sgl that
+can't be mapped to a PRP list, so the request should have been split
+instead. A virtual address with different alignment than the dma address
+might cause that and sounds similar to this issue from way back:
 
-Setup:
-Running FIO tester tool on NVMe device driver (/block/nvme.c) with I/O
-engine ?libaio?. Using Odd block size like 17K, 129K, 257K,  etc.
-Distribution ?Fedora 18? (Kernel v3.6.10).
+merlin.infradead.org/pipermail/linux-nvme/2012-November/000121.html
 
-Observation:
- I?ve observed intermittent hit on BUG_ON which is pointing to
-nvme_setup_prps() function in nvme.c driver.
+I didn't see that anything came of it, though.
 
->>> CODE
- static int nvme_setup_prps(...)
+Maybe our BIOVEC_NOT_VIRT_MERGEABLE check should use the physical
+addresses instead of virtual to see if the bio_vec is usable. ?
 
-{
-       int dma_len = sg_dma_len(sg);
+> Query:
+> Is it possible to avoid the ?offset value change? in DMA-able memory
+> (in nvme_setup_prps() function) to avoid BUG_ON()check? ?
 
-       u64 dma_addr = sg_dma_address(sg);
-
-       int offset = offset_in_page(dma_addr);
-       ...
-       dma_len -= PAGE_SIZE;
-       ...
-       if (dma_len > 0)
-           continue;
-       BUG_ON(dma_len < 0);
- }
- <<< CODE
-
-After adding prints , I found that this problem is reproduced on use
-of PRP list.
-
-Offset value in DMA page is changed (in nvme_setup_prps() function)
-from the original offset value which was present while sg_set_page()
-function was executed. The offset value of virtual address is found
-different than the offset value of physical/DMA address.
-Query:
-Is it possible to avoid the ?offset value change? in DMA-able memory
-(in nvme_setup_prps() function) to avoid BUG_ON()check? ?
-
-Thanks & Regards,
-Hrishikesh
+> Thanks & Regards,
+> Hrishikesh
