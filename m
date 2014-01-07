@@ -1,172 +1,49 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon,  6 Jan 2014 12:04:12 -0700
-Subject: [PATCHv2 2/2] NVMe: RCU access to nvme_queue
-In-Reply-To: <1389035052-30007-1-git-send-email-keith.busch@intel.com>
-References: <1389035052-30007-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1389035052-30007-3-git-send-email-keith.busch@intel.com>
+From: hdgokhale@gmail.com (Hrishikesh Gokhale)
+Date: Tue, 7 Jan 2014 20:34:35 +0530
+Subject: BUG_ON at nvme_setup_prp getting hit.
+Message-ID: <CAEAgd7GtR6V_x-JJHSOA6DyVP2z7HUW3vNbbUa3LapLmGZsMLw@mail.gmail.com>
 
-This adds rcu protected access to nvme_queue to fix a potential race
-between a surprise removal freeing the queue and a thread with open
-reference on a NVMe block device using that queue.
+ Hi All,
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |   53 ++++++++++++++++++++-------------------------
- include/linux/nvme.h      |    2 +-
- 2 files changed, 25 insertions(+), 30 deletions(-)
+Requesting for help in resolving the following:
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 30d157f..b31b352 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -74,6 +74,7 @@ struct async_cmd_info {
-  * commands and one for I/O commands).
-  */
- struct nvme_queue {
-+	struct rcu_head r_head;
- 	struct device *q_dmadev;
- 	struct nvme_dev *dev;
- 	spinlock_t q_lock;
-@@ -263,12 +264,16 @@ static void *cancel_cmdid(struct nvme_queue *nvmeq, int cmdid,
- 
- struct nvme_queue *get_nvmeq(struct nvme_dev *dev)
- {
--	return dev->queues[get_cpu() + 1];
-+	int queue;
-+	rcu_read_lock();
-+	queue = get_cpu() + 1;
-+	return rcu_dereference(dev->queues[queue]);
+Setup:
+Running FIO tester tool on NVMe device driver (/block/nvme.c) with I/O
+engine ?libaio?. Using Odd block size like 17K, 129K, 257K,  etc.
+Distribution ?Fedora 18? (Kernel v3.6.10).
+
+Observation:
+ I?ve observed intermittent hit on BUG_ON which is pointing to
+nvme_setup_prps() function in nvme.c driver.
+
+>>> CODE
+ static int nvme_setup_prps(...)
+
+{
+       int dma_len = sg_dma_len(sg);
+
+       u64 dma_addr = sg_dma_address(sg);
+
+       int offset = offset_in_page(dma_addr);
+       ...
+       dma_len -= PAGE_SIZE;
+       ...
+       if (dma_len > 0)
+           continue;
+       BUG_ON(dma_len < 0);
  }
- 
- void put_nvmeq(struct nvme_queue *nvmeq)
- {
- 	put_cpu();
-+	rcu_read_unlock();
- }
- 
- /**
-@@ -818,9 +823,9 @@ static void nvme_make_request(struct request_queue *q, struct bio *bio)
- 	struct nvme_queue *nvmeq = get_nvmeq(ns->dev);
- 	int result = -EBUSY;
- 
--	if (!nvmeq) {
-+	if (unlikely(!nvmeq)) {
- 		put_nvmeq(NULL);
--		bio_endio(bio, -EIO);
-+		bio_endio(bio, -ENXIO);
- 		return;
- 	}
- 
-@@ -1135,8 +1140,10 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
- 	}
- }
- 
--static void nvme_free_queue(struct nvme_queue *nvmeq)
-+static void nvme_free_queue(struct rcu_head *r)
- {
-+	struct nvme_queue *nvmeq = container_of(r, struct nvme_queue, r_head);
-+
- 	spin_lock_irq(&nvmeq->q_lock);
- 	while (bio_list_peek(&nvmeq->sq_cong)) {
- 		struct bio *bio = bio_list_pop(&nvmeq->sq_cong);
-@@ -1155,10 +1162,13 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
- {
- 	int i;
- 
-+	for (i = num_possible_cpus(); i > dev->queue_count - 1; i--)
-+		rcu_assign_pointer(dev->queues[i], NULL);
- 	for (i = dev->queue_count - 1; i >= lowest; i--) {
--		nvme_free_queue(dev->queues[i]);
-+		struct nvme_queue *nvmeq = dev->queues[i];
-+		rcu_assign_pointer(dev->queues[i], NULL);
-+		call_rcu(&nvmeq->r_head, nvme_free_queue);
- 		dev->queue_count--;
--		dev->queues[i] = NULL;
- 	}
- }
- 
-@@ -1778,8 +1788,11 @@ static int nvme_kthread(void *data)
- 				queue_work(nvme_workq, &dev->reset_work);
- 				continue;
- 			}
-+
-+			rcu_read_lock();
- 			for (i = 0; i < dev->queue_count; i++) {
--				struct nvme_queue *nvmeq = dev->queues[i];
-+				struct nvme_queue *nvmeq =
-+						rcu_dereference(dev->queues[i]);
- 				if (!nvmeq)
- 					continue;
- 				spin_lock_irq(&nvmeq->q_lock);
-@@ -1791,6 +1804,7 @@ static int nvme_kthread(void *data)
-  unlock:
- 				spin_unlock_irq(&nvmeq->q_lock);
- 			}
-+			rcu_read_unlock();
- 		}
- 		spin_unlock(&dev_list_lock);
- 		schedule_timeout(round_jiffies_relative(HZ));
-@@ -1963,19 +1977,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	}
- 
- 	/* Free previously allocated queues that are no longer usable */
--	spin_lock(&dev_list_lock);
--	for (i = dev->queue_count - 1; i > nr_io_queues; i--) {
--		struct nvme_queue *nvmeq = dev->queues[i];
--
--		spin_lock_irq(&nvmeq->q_lock);
--		nvme_cancel_ios(nvmeq, false);
--		spin_unlock_irq(&nvmeq->q_lock);
--
--		nvme_free_queue(nvmeq);
--		dev->queue_count--;
--		dev->queues[i] = NULL;
--	}
--	spin_unlock(&dev_list_lock);
-+	nvme_free_queues(dev, nr_io_queues + 1);
- 
- 	cpu = cpumask_first(cpu_online_mask);
- 	for (i = 0; i < nr_io_queues; i++) {
-@@ -2461,18 +2463,10 @@ static int nvme_remove_dead_ctrl(void *arg)
- 
- static void nvme_remove_disks(struct work_struct *ws)
- {
--	int i;
- 	struct nvme_dev *dev = container_of(ws, struct nvme_dev, reset_work);
- 
- 	nvme_dev_remove(dev);
--	spin_lock(&dev_list_lock);
--	for (i = dev->queue_count - 1; i > 0; i--) {
--		BUG_ON(!dev->queues[i] || !dev->queues[i]->q_suspended);
--		nvme_free_queue(dev->queues[i]);
--		dev->queue_count--;
--		dev->queues[i] = NULL;
--	}
--	spin_unlock(&dev_list_lock);
-+	nvme_free_queues(dev, 1);
- }
- 
- static int nvme_dev_resume(struct nvme_dev *dev)
-@@ -2597,6 +2591,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_dev_remove(dev);
- 	nvme_dev_shutdown(dev);
- 	nvme_free_queues(dev, 0);
-+	rcu_barrier();
- 	nvme_release_instance(dev);
- 	nvme_release_prp_pools(dev);
- 	kref_put(&dev->kref, nvme_free_dev);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 69ae03f..98d367b 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -73,7 +73,7 @@ enum {
-  */
- struct nvme_dev {
- 	struct list_head node;
--	struct nvme_queue **queues;
-+	struct nvme_queue __rcu **queues;
- 	u32 __iomem *dbs;
- 	struct pci_dev *pci_dev;
- 	struct dma_pool *prp_page_pool;
--- 
-1.7.10.4
+ <<< CODE
+
+After adding prints , I found that this problem is reproduced on use
+of PRP list.
+
+Offset value in DMA page is changed (in nvme_setup_prps() function)
+from the original offset value which was present while sg_set_page()
+function was executed. The offset value of virtual address is found
+different than the offset value of physical/DMA address.
+Query:
+Is it possible to avoid the ?offset value change? in DMA-able memory
+(in nvme_setup_prps() function) to avoid BUG_ON()check? ?
+
+Thanks & Regards,
+Hrishikesh
