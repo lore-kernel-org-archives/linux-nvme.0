@@ -1,66 +1,44 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Fri, 17 Jan 2014 17:02:20 +0100
-Subject: [PATCH v2 6/9] nvme: Use pci_enable_msi_range() and
- pci_enable_msix_range()
+Date: Fri, 17 Jan 2014 17:02:19 +0100
+Subject: [PATCH v2 5/9] nvme: Fix invalid call to irq_set_affinity_hint()
 In-Reply-To: <cover.1389904166.git.agordeev@redhat.com>
 References: <cover.1389904166.git.agordeev@redhat.com>
-Message-ID: <aab7de499d2186f4b9d6adac836ea0554f23ed65.1389904166.git.agordeev@redhat.com>
+Message-ID: <1c441f670f33375b6c41e074baf6e84e6c7bb0c2.1389904166.git.agordeev@redhat.com>
 
-As result deprecation of MSI-X/MSI enablement functions
-pci_enable_msix() and pci_enable_msi_block() all drivers
-using these two interfaces need to be updated to use the
-new pci_enable_msi_range() and pci_enable_msix_range()
-interfaces.
+In case MSI-X and MSI initialization failed the function
+irq_set_affinity_hint() is called with uninitialized value
+in dev->entry[0].vector. This update fixes the issue.
 
 Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- drivers/block/nvme-core.c |   33 ++++++++-------------------------
- 1 files changed, 8 insertions(+), 25 deletions(-)
+ drivers/block/nvme-core.c |   12 ++++++------
+ 1 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index e292450..adf26c2 100644
+index 26d03fa..e292450 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1774,32 +1774,15 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	/* Deregister the admin queue's interrupt */
- 	free_irq(dev->entry[0].vector, dev->queues[0]);
- 
--	vecs = nr_io_queues;
--	for (i = 0; i < vecs; i++)
-+	for (i = 0; i < nr_io_queues; i++)
- 		dev->entry[i].entry = i;
--	for (;;) {
--		result = pci_enable_msix(pdev, dev->entry, vecs);
--		if (result <= 0)
--			break;
--		vecs = result;
--	}
--
--	if (result < 0) {
--		vecs = nr_io_queues;
--		if (vecs > 32)
--			vecs = 32;
--		for (;;) {
--			result = pci_enable_msi_block(pdev, vecs);
--			if (result > 0) {
--				vecs = result;
--				continue;
--			} else if (result < 0) {
--				vecs = 1;
--			}
--			for (i = 0; i < vecs; i++)
--				dev->entry[i].vector = i + pdev->irq;
--			break;
--		}
-+	vecs = pci_enable_msix_range(pdev, dev->entry, 1, nr_io_queues);
-+	if (vecs < 0) {
-+		vecs = pci_enable_msi_range(pdev, 1, min(nr_io_queues, 32));
-+		if (vecs < 0)
-+			vecs = 1;
-+		for (i = 0; i < vecs; i++)
-+			dev->entry[i].vector = i + pdev->irq;
+@@ -1790,15 +1790,15 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 			vecs = 32;
+ 		for (;;) {
+ 			result = pci_enable_msi_block(pdev, vecs);
+-			if (result == 0) {
+-				for (i = 0; i < vecs; i++)
+-					dev->entry[i].vector = i + pdev->irq;
+-				break;
++			if (result > 0) {
++				vecs = result;
++				continue;
+ 			} else if (result < 0) {
+ 				vecs = 1;
+-				break;
+ 			}
+-			vecs = result;
++			for (i = 0; i < vecs; i++)
++				dev->entry[i].vector = i + pdev->irq;
++			break;
+ 		}
  	}
  
- 	/*
 -- 
 1.7.7.6
