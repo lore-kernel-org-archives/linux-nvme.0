@@ -1,65 +1,66 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 7 Jan 2014 11:15:04 -0700 (MST)
-Subject: BUG_ON at nvme_setup_prp getting hit.
-In-Reply-To: <CAEAgd7GtR6V_x-JJHSOA6DyVP2z7HUW3vNbbUa3LapLmGZsMLw@mail.gmail.com>
-References: <CAEAgd7GtR6V_x-JJHSOA6DyVP2z7HUW3vNbbUa3LapLmGZsMLw@mail.gmail.com>
-Message-ID: <alpine.LRH.2.03.1401070942210.25844@AMR>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Fri, 17 Jan 2014 17:02:20 +0100
+Subject: [PATCH v2 6/9] nvme: Use pci_enable_msi_range() and
+ pci_enable_msix_range()
+In-Reply-To: <cover.1389904166.git.agordeev@redhat.com>
+References: <cover.1389904166.git.agordeev@redhat.com>
+Message-ID: <aab7de499d2186f4b9d6adac836ea0554f23ed65.1389904166.git.agordeev@redhat.com>
 
-On Tue, 7 Jan 2014, Hrishikesh Gokhale wrote:
-> Hi All,
->
-> Requesting for help in resolving the following:
->
-> Setup:
-> Running FIO tester tool on NVMe device driver (/block/nvme.c) with I/O
-> engine ?libaio?. Using Odd block size like 17K, 129K, 257K,  etc.
-> Distribution ?Fedora 18? (Kernel v3.6.10).
->
-> Observation:
-> I?ve observed intermittent hit on BUG_ON which is pointing to
-> nvme_setup_prps() function in nvme.c driver.
->
->>>> CODE
-> static int nvme_setup_prps(...)
->
-> {
->       int dma_len = sg_dma_len(sg);
->
->       u64 dma_addr = sg_dma_address(sg);
->
->       int offset = offset_in_page(dma_addr);
->       ...
->       dma_len -= PAGE_SIZE;
->       ...
->       if (dma_len > 0)
->           continue;
->       BUG_ON(dma_len < 0);
-> }
-> <<< CODE
->
-> After adding prints , I found that this problem is reproduced on use
-> of PRP list.
->
-> Offset value in DMA page is changed (in nvme_setup_prps() function)
-> from the original offset value which was present while sg_set_page()
-> function was executed. The offset value of virtual address is found
-> different than the offset value of physical/DMA address.
+As result deprecation of MSI-X/MSI enablement functions
+pci_enable_msix() and pci_enable_msi_block() all drivers
+using these two interfaces need to be updated to use the
+new pci_enable_msi_range() and pci_enable_msix_range()
+interfaces.
 
-This BUG_ON shouldn't happen unless we gave nvme_setup_prps an sgl that
-can't be mapped to a PRP list, so the request should have been split
-instead. A virtual address with different alignment than the dma address
-might cause that and sounds similar to this issue from way back:
+Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
+---
+ drivers/block/nvme-core.c |   33 ++++++++-------------------------
+ 1 files changed, 8 insertions(+), 25 deletions(-)
 
-merlin.infradead.org/pipermail/linux-nvme/2012-November/000121.html
-
-I didn't see that anything came of it, though.
-
-Maybe our BIOVEC_NOT_VIRT_MERGEABLE check should use the physical
-addresses instead of virtual to see if the bio_vec is usable. ?
-
-> Query:
-> Is it possible to avoid the ?offset value change? in DMA-able memory
-> (in nvme_setup_prps() function) to avoid BUG_ON()check? ?
-
-> Thanks & Regards,
-> Hrishikesh
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index e292450..adf26c2 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1774,32 +1774,15 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	/* Deregister the admin queue's interrupt */
+ 	free_irq(dev->entry[0].vector, dev->queues[0]);
+ 
+-	vecs = nr_io_queues;
+-	for (i = 0; i < vecs; i++)
++	for (i = 0; i < nr_io_queues; i++)
+ 		dev->entry[i].entry = i;
+-	for (;;) {
+-		result = pci_enable_msix(pdev, dev->entry, vecs);
+-		if (result <= 0)
+-			break;
+-		vecs = result;
+-	}
+-
+-	if (result < 0) {
+-		vecs = nr_io_queues;
+-		if (vecs > 32)
+-			vecs = 32;
+-		for (;;) {
+-			result = pci_enable_msi_block(pdev, vecs);
+-			if (result > 0) {
+-				vecs = result;
+-				continue;
+-			} else if (result < 0) {
+-				vecs = 1;
+-			}
+-			for (i = 0; i < vecs; i++)
+-				dev->entry[i].vector = i + pdev->irq;
+-			break;
+-		}
++	vecs = pci_enable_msix_range(pdev, dev->entry, 1, nr_io_queues);
++	if (vecs < 0) {
++		vecs = pci_enable_msi_range(pdev, 1, min(nr_io_queues, 32));
++		if (vecs < 0)
++			vecs = 1;
++		for (i = 0; i < vecs; i++)
++			dev->entry[i].vector = i + pdev->irq;
+ 	}
+ 
+ 	/*
+-- 
+1.7.7.6
