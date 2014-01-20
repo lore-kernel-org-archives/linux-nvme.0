@@ -1,42 +1,36 @@
-From: tj@kernel.org (Tejun Heo)
-Date: Sat, 18 Jan 2014 09:59:40 -0500
-Subject: [PATCH v2 0/9] Phase out pci_enable_msi_block()
-In-Reply-To: <CAErSpo4nBdnn3YYaLj6QZ8iyY2pzV8Y7msd5UxJXm1T2AYnqfg@mail.gmail.com>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Mon, 20 Jan 2014 09:38:36 +0100
+Subject: [PATCH v2 5/9] nvme: Fix invalid call to irq_set_affinity_hint()
+In-Reply-To: <alpine.LRH.2.03.1401171419370.25844@AMR>
 References: <cover.1389904166.git.agordeev@redhat.com>
- <CAErSpo5ztnyyceeN38XzLasLV6eJqdbqEV0viPp3Af8U=ts23w@mail.gmail.com>
- <20140118071538.GA32535@dhcp-26-207.brq.redhat.com>
- <CAErSpo4nBdnn3YYaLj6QZ8iyY2pzV8Y7msd5UxJXm1T2AYnqfg@mail.gmail.com>
-Message-ID: <20140118145940.GE3640@htj.dyndns.org>
+ <1c441f670f33375b6c41e074baf6e84e6c7bb0c2.1389904166.git.agordeev@redhat.com>
+ <CAErSpo4g_xm4vZWZDgyjtJu+z5ARSerQLrtJ6W_peXv4bKwcgg@mail.gmail.com>
+ <alpine.LRH.2.03.1401171419370.25844@AMR>
+Message-ID: <20140120083835.GA19068@dhcp-26-207.brq.redhat.com>
 
-On Sat, Jan 18, 2014@07:38:55AM -0700, Bjorn Helgaas wrote:
-> On Sat, Jan 18, 2014@12:15 AM, Alexander Gordeev <agordeev@redhat.com> wrote:
-> > On Fri, Jan 17, 2014@02:00:32PM -0700, Bjorn Helgaas wrote:
-> >> > As the release is supposedly this weekend, do you prefer
-> >> > the patches to go to your tree or to individual trees after
-> >> > the release?
-> >>
-> >> I'd be happy to merge them, except for the fact that they probably
-> >> wouldn't have any time in -next before I ask Linus to pull them.  So
-> >> how about if we wait until after the release, ask the area maintainers
-> >> to take them, and if they don't take them, I'll put them in my tree
-> >> for v3.15?
-> >
-> > Patch 11 depends on patches 1-10, so I am not sure how to better handle it.
-> > Whatever works for you ;)
-> >
-> > I am only concerned with a regression fix "ahci: Fix broken fallback to
-> > single MSI mode" which would be nice to have in 3.14. But it seems pretty
-> > much too late.
+On Fri, Jan 17, 2014@03:01:10PM -0700, Keith Busch wrote:
+> >dev->entry[0].vector is initialized in nvme_dev_map(), and it's used
+> >for free_irq() above the area of your patch, so I don't think this is
+> >actually a bug, though it might be somewhat confusing.
 > 
-> Tejun, if you want to ack that one, I can put it in either the first
-> 3.14 pull request or a subsequent one.  Either way, since it's a
-> regression fix, we should be able to get it in 3.14.
+> It is confusing, but there's a reason. :)
+> 
+> We send a single command using legacy irq to discover how many msix
+> vectors we want. The legacy entry needs to be set some time before calling
+> request_irq in nvme_configure_admin_queue, but also within nvme_dev_start
+> (for power-management). I don't think there's a place to set it that
+> won't look odd when looking at nvme_setup_io_queues. I settled on
+> 'nvme_dev_map' was because 'nvme_dev_unmap' invalidates the entries,
+> so this seemed to provide some amount of symmetry.
 
-Acked-by: Tejun Heo <tj at kernel.org>
+I am sending v3 of the patch which concerns Bjorn's comment.
 
-Please feel free to route it any way you see fit.
+I am also sending two follow-up patches an attempt to make nvme_dev_start()
+more readable and fix couple of (what I suspect are) issues.
 
 Thanks!
 
 -- 
-tejun
+Regards,
+Alexander Gordeev
+agordeev at redhat.com
