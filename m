@@ -1,34 +1,73 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Mon, 20 Jan 2014 09:38:36 +0100
-Subject: [PATCH v2 5/9] nvme: Fix invalid call to irq_set_affinity_hint()
-In-Reply-To: <alpine.LRH.2.03.1401171419370.25844@AMR>
+Date: Mon, 20 Jan 2014 09:40:47 +0100
+Subject: [PATCH v3 6/9] nvme: Use pci_enable_msi_range() and
+ pci_enable_msix_range()
+In-Reply-To: <20140120083835.GA19068@dhcp-26-207.brq.redhat.com>
 References: <cover.1389904166.git.agordeev@redhat.com>
  <1c441f670f33375b6c41e074baf6e84e6c7bb0c2.1389904166.git.agordeev@redhat.com>
  <CAErSpo4g_xm4vZWZDgyjtJu+z5ARSerQLrtJ6W_peXv4bKwcgg@mail.gmail.com>
  <alpine.LRH.2.03.1401171419370.25844@AMR>
-Message-ID: <20140120083835.GA19068@dhcp-26-207.brq.redhat.com>
+ <20140120083835.GA19068@dhcp-26-207.brq.redhat.com>
+Message-ID: <20140120084046.GB19068@dhcp-26-207.brq.redhat.com>
 
-On Fri, Jan 17, 2014@03:01:10PM -0700, Keith Busch wrote:
-> >dev->entry[0].vector is initialized in nvme_dev_map(), and it's used
-> >for free_irq() above the area of your patch, so I don't think this is
-> >actually a bug, though it might be somewhat confusing.
-> 
-> It is confusing, but there's a reason. :)
-> 
-> We send a single command using legacy irq to discover how many msix
-> vectors we want. The legacy entry needs to be set some time before calling
-> request_irq in nvme_configure_admin_queue, but also within nvme_dev_start
-> (for power-management). I don't think there's a place to set it that
-> won't look odd when looking at nvme_setup_io_queues. I settled on
-> 'nvme_dev_map' was because 'nvme_dev_unmap' invalidates the entries,
-> so this seemed to provide some amount of symmetry.
+As result deprecation of MSI-X/MSI enablement functions
+pci_enable_msix() and pci_enable_msi_block() all drivers
+using these two interfaces need to be updated to use the
+new pci_enable_msi_range() and pci_enable_msix_range()
+interfaces.
 
-I am sending v3 of the patch which concerns Bjorn's comment.
+Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
+---
+ drivers/block/nvme-core.c |   33 +++++++++------------------------
+ 1 files changed, 9 insertions(+), 24 deletions(-)
 
-I am also sending two follow-up patches an attempt to make nvme_dev_start()
-more readable and fix couple of (what I suspect are) issues.
-
-Thanks!
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 26d03fa..3e1ae55 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1774,31 +1774,16 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	/* Deregister the admin queue's interrupt */
+ 	free_irq(dev->entry[0].vector, dev->queues[0]);
+ 
+-	vecs = nr_io_queues;
+-	for (i = 0; i < vecs; i++)
++	for (i = 0; i < nr_io_queues; i++)
+ 		dev->entry[i].entry = i;
+-	for (;;) {
+-		result = pci_enable_msix(pdev, dev->entry, vecs);
+-		if (result <= 0)
+-			break;
+-		vecs = result;
+-	}
+-
+-	if (result < 0) {
+-		vecs = nr_io_queues;
+-		if (vecs > 32)
+-			vecs = 32;
+-		for (;;) {
+-			result = pci_enable_msi_block(pdev, vecs);
+-			if (result == 0) {
+-				for (i = 0; i < vecs; i++)
+-					dev->entry[i].vector = i + pdev->irq;
+-				break;
+-			} else if (result < 0) {
+-				vecs = 1;
+-				break;
+-			}
+-			vecs = result;
++	vecs = pci_enable_msix_range(pdev, dev->entry, 1, nr_io_queues);
++	if (vecs < 0) {
++		vecs = pci_enable_msi_range(pdev, 1, min(nr_io_queues, 32));
++		if (vecs < 0) {
++			vecs = 1;
++		} else {
++			for (i = 0; i < vecs; i++)
++				dev->entry[i].vector = i + pdev->irq;
+ 		}
+ 	}
+ 
+-- 
+1.7.7.6
 
 -- 
 Regards,
