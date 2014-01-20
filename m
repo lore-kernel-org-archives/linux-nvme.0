@@ -1,69 +1,42 @@
-From: agordeev@redhat.com (Alexander Gordeev)
-Date: Mon, 20 Jan 2014 09:43:14 +0100
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 20 Jan 2014 09:41:09 -0700 (MST)
 Subject: [PATCH] nvme: Cleanup nvme_dev_start()
-In-Reply-To: <20140120083835.GA19068@dhcp-26-207.brq.redhat.com>
+In-Reply-To: <20140120084314.GD19068@dhcp-26-207.brq.redhat.com>
 References: <cover.1389904166.git.agordeev@redhat.com>
  <1c441f670f33375b6c41e074baf6e84e6c7bb0c2.1389904166.git.agordeev@redhat.com>
  <CAErSpo4g_xm4vZWZDgyjtJu+z5ARSerQLrtJ6W_peXv4bKwcgg@mail.gmail.com>
  <alpine.LRH.2.03.1401171419370.25844@AMR>
  <20140120083835.GA19068@dhcp-26-207.brq.redhat.com>
-Message-ID: <20140120084314.GD19068@dhcp-26-207.brq.redhat.com>
+ <20140120084314.GD19068@dhcp-26-207.brq.redhat.com>
+Message-ID: <alpine.LRH.2.03.1401200856580.25844@AMR>
 
-This update fixes an oddity when a device is first added
-and then removed from dev_list in case of initialization
-failure, instead of just being added in case of success.
+On Mon, 20 Jan 2014, Alexander Gordeev wrote:
+> This update fixes an oddity when a device is first added
+> and then removed from dev_list in case of initialization
+> failure, instead of just being added in case of success.
+>
+> Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
+> ---
+> drivers/block/nvme-core.c |   19 ++++++++-----------
+> 1 files changed, 8 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> index e1e4ad4..e4e12be 100644
+> --- a/drivers/block/nvme-core.c
+> +++ b/drivers/block/nvme-core.c
+> @@ -2105,29 +2105,26 @@ static int nvme_dev_start(struct nvme_dev *dev)
+> 	if (result)
+> 		goto unmap;
+>
+> -	spin_lock(&dev_list_lock);
+> -	list_add(&dev->node, &dev_list);
+> -	spin_unlock(&dev_list_lock);
+> -
+> 	result = set_queue_count(dev, num_online_cpus());
+> 	if (result == -EBUSY)
 
-Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
----
- drivers/block/nvme-core.c |   19 ++++++++-----------
- 1 files changed, 8 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index e1e4ad4..e4e12be 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2105,29 +2105,26 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 	if (result)
- 		goto unmap;
- 
--	spin_lock(&dev_list_lock);
--	list_add(&dev->node, &dev_list);
--	spin_unlock(&dev_list_lock);
--
- 	result = set_queue_count(dev, num_online_cpus());
- 	if (result == -EBUSY)
--		return -EBUSY;
-+		goto adddev;
- 
- 	nvme_teardown_admin_queue(dev);
- 
- 	if (result)
--		goto disable;
-+		goto unmap;
- 
- 	result = nvme_setup_io_queues(dev, result);
- 	if (result)
--		goto disable;
--
--	return 0;
-+		goto unmap;
- 
-- disable:
-+ adddev:
- 	spin_lock(&dev_list_lock);
--	list_del_init(&dev->node);
-+	list_add(&dev->node, &dev_list);
- 	spin_unlock(&dev_list_lock);
-+
-+	return result;
-+
-  unmap:
- 	nvme_dev_unmap(dev);
- 	return result;
--- 
-1.7.7.6
-
--- 
-Regards,
-Alexander Gordeev
-agordeev at redhat.com
+For whatever reason, some of these devices unfortunetly don't support
+legacy interrupts. We expect an interrupt when the completion is posted
+for setting the queue count, but failing that, we rely on the polling
+thread to invoke the completion, so the device needs to be in the dev_list
+before calling set_queue_count.
