@@ -1,6 +1,6 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Tue, 21 Jan 2014 11:06:12 +0100
-Subject: [PATCH 1/2] Revert "NVMe: Disable admin queue on init failure"
+Date: Tue, 21 Jan 2014 11:07:19 +0100
+Subject: [PATCH 2/2] nvme: Cleanup nvme_dev_start() and fix IRQ leak
 In-Reply-To: <20140121100311.GA8847@dhcp-26-207.brq.redhat.com>
 References: <cover.1389904166.git.agordeev@redhat.com>
  <1c441f670f33375b6c41e074baf6e84e6c7bb0c2.1389904166.git.agordeev@redhat.com>
@@ -10,66 +10,105 @@ References: <cover.1389904166.git.agordeev@redhat.com>
  <20140120084212.GC19068@dhcp-26-207.brq.redhat.com>
  <alpine.LRH.2.03.1401201541000.25844@AMR>
  <20140121100311.GA8847@dhcp-26-207.brq.redhat.com>
-Message-ID: <20140121100611.GB8847@dhcp-26-207.brq.redhat.com>
+Message-ID: <20140121100719.GC8847@dhcp-26-207.brq.redhat.com>
 
-This reverts commit c5dc9192d52a4a3a479f701e97386347d454af84.
+This is an attempt to make handling of admin queue in a
+single scope. This update also fixes a IRQ leak in case
+nvme_setup_io_queues() failed to allocate enough iomem
+and bailed out with -ENOMEM errno.
+
+Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- drivers/block/nvme-core.c |   11 +++++------
- 1 files changed, 5 insertions(+), 6 deletions(-)
+ drivers/block/nvme-core.c |   37 +++++++++++++++++++++----------------
+ 1 files changed, 21 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index b59a93a..c790679 100644
+index c790679..010a789 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1151,11 +1151,11 @@ static void nvme_free_queue(struct nvme_queue *nvmeq)
- 	kfree(nvmeq);
+@@ -1414,6 +1414,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	if (result)
+ 		return result;
+ 
++	dev->entry[0].vector = dev->pci_dev->irq;
+ 	result = queue_request_irq(dev, nvmeq, "nvme admin");
+ 	if (result)
+ 		return result;
+@@ -1424,6 +1425,12 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	return result;
  }
  
--static void nvme_free_queues(struct nvme_dev *dev, int lowest)
-+static void nvme_free_queues(struct nvme_dev *dev)
++static void nvme_teardown_admin_queue(struct nvme_dev *dev)
++{
++	nvme_disable_queue(dev, 0);
++	nvme_free_queue(dev->queues[0]);
++}
++
+ struct nvme_iod *nvme_map_user_pages(struct nvme_dev *dev, int write,
+ 				unsigned long addr, unsigned length)
  {
- 	int i;
- 
--	for (i = dev->queue_count - 1; i >= lowest; i--) {
-+	for (i = dev->queue_count - 1; i >= 0; i--) {
- 		nvme_free_queue(dev->queues[i]);
- 		dev->queue_count--;
- 		dev->queues[i] = NULL;
-@@ -1989,7 +1989,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	return 0;
- 
-  free_queues:
--	nvme_free_queues(dev, 1);
-+	nvme_free_queues(dev);
- 	return result;
+@@ -1869,17 +1876,10 @@ static size_t db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
+ 	return 4096 + ((nr_io_queues + 1) * 8 * dev->db_stride);
  }
  
-@@ -2409,7 +2409,6 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 	return result;
+-static int nvme_setup_io_queues(struct nvme_dev *dev)
++static int nvme_setup_io_queues(struct nvme_dev *dev, int nr_io_queues)
+ {
+ 	struct pci_dev *pdev = dev->pci_dev;
+-	int result, cpu, i, vecs, nr_io_queues, size, q_depth;
+-
+-	nr_io_queues = num_online_cpus();
+-	result = set_queue_count(dev, nr_io_queues);
+-	if (result < 0)
+-		return result;
+-	if (result < nr_io_queues)
+-		nr_io_queues = result;
++	int result, cpu, i, vecs, size, q_depth;
+ 
+ 	size = db_bar_size(dev, nr_io_queues);
+ 	if (size > 8192) {
+@@ -1896,9 +1896,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 		dev->queues[0]->q_db = dev->dbs;
+ 	}
+ 
+-	/* Deregister the admin queue's interrupt */
+-	free_irq(dev->entry[0].vector, dev->queues[0]);
+-
+ 	vecs = nr_io_queues;
+ 	for (i = 0; i < vecs; i++)
+ 		dev->entry[i].entry = i;
+@@ -2069,7 +2066,6 @@ static int nvme_dev_map(struct nvme_dev *dev)
+ 	if (pci_enable_device_mem(pdev))
+ 		return result;
+ 
+-	dev->entry[0].vector = pdev->irq;
+ 	pci_set_master(pdev);
+ 	bars = pci_select_bars(pdev, IORESOURCE_MEM);
+ 	if (pci_request_selected_regions(pdev, bars, "nvme"))
+@@ -2402,11 +2398,20 @@ static int nvme_dev_start(struct nvme_dev *dev)
+ 	list_add(&dev->node, &dev_list);
+ 	spin_unlock(&dev_list_lock);
+ 
+-	result = nvme_setup_io_queues(dev);
+-	if (result && result != -EBUSY)
++	result = set_queue_count(dev, num_online_cpus());
++	if (result == -EBUSY)
++		return -EBUSY;
++
++	nvme_teardown_admin_queue(dev);
++
++	if (result)
+ 		goto disable;
+ 
+-	return result;
++	result = nvme_setup_io_queues(dev, result);
++	if (result)
++		goto disable;
++
++	return 0;
  
   disable:
--	nvme_disable_queue(dev, 0);
  	spin_lock(&dev_list_lock);
- 	list_del_init(&dev->node);
- 	spin_unlock(&dev_list_lock);
-@@ -2541,7 +2540,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-  shutdown:
- 	nvme_dev_shutdown(dev);
-  release_pools:
--	nvme_free_queues(dev, 0);
-+	nvme_free_queues(dev);
- 	nvme_release_prp_pools(dev);
-  release:
- 	nvme_release_instance(dev);
-@@ -2565,7 +2564,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	misc_deregister(&dev->miscdev);
- 	nvme_dev_remove(dev);
- 	nvme_dev_shutdown(dev);
--	nvme_free_queues(dev, 0);
-+	nvme_free_queues(dev);
- 	nvme_release_instance(dev);
- 	nvme_release_prp_pools(dev);
- 	kref_put(&dev->kref, nvme_free_dev);
 -- 
 1.7.7.6
 
