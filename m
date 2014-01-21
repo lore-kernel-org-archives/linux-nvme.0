@@ -1,62 +1,40 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 21 Jan 2014 12:06:20 -0700 (MST)
-Subject: [PATCH 2/2] nvme: Cleanup nvme_dev_start() and fix IRQ leak
-In-Reply-To: <20140121100719.GC8847@dhcp-26-207.brq.redhat.com>
-References: <cover.1389904166.git.agordeev@redhat.com>
- <1c441f670f33375b6c41e074baf6e84e6c7bb0c2.1389904166.git.agordeev@redhat.com>
- <CAErSpo4g_xm4vZWZDgyjtJu+z5ARSerQLrtJ6W_peXv4bKwcgg@mail.gmail.com>
- <alpine.LRH.2.03.1401171419370.25844@AMR>
- <20140120083835.GA19068@dhcp-26-207.brq.redhat.com>
- <20140120084212.GC19068@dhcp-26-207.brq.redhat.com>
- <alpine.LRH.2.03.1401201541000.25844@AMR>
- <20140121100311.GA8847@dhcp-26-207.brq.redhat.com>
- <20140121100719.GC8847@dhcp-26-207.brq.redhat.com>
-Message-ID: <alpine.LRH.2.03.1401211151110.25844@AMR>
+From: david.l.akerson@intel.com (Akerson, David L)
+Date: Tue, 21 Jan 2014 22:52:34 +0000
+Subject: Usage of Copyright Image
+In-Reply-To: <52DEF3EA.7010105@destination360.com>
+References: <52DEF3EA.7010105@destination360.com>
+Message-ID: <7EDAFB97-C337-4F91-A608-4ADE96CA149D@intel.com>
 
-On Tue, 21 Jan 2014, Alexander Gordeev wrote:
-> This is an attempt to make handling of admin queue in a
-> single scope. This update also fixes a IRQ leak in case
-> nvme_setup_io_queues() failed to allocate enough iomem
-> and bailed out with -ENOMEM errno.
->
-> Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
-> ---
+Michael.
+To introduce myself, I am the Marketing Manager for NVM Express. Are you available on Thursday at 4pm Pacific to discuss this issue? Unfortunately, I'm tied up until this time but would like to discuss options to remedy.
+David Akerson 
 
-> +static void nvme_teardown_admin_queue(struct nvme_dev *dev)
-> +{
-> +	nvme_disable_queue(dev, 0);
-> +	nvme_free_queue(dev->queues[0]);
-> +}
+Sent from my iPhone
 
-> @@ -2402,11 +2398,20 @@ static int nvme_dev_start(struct nvme_dev *dev)
-> 	list_add(&dev->node, &dev_list);
-> 	spin_unlock(&dev_list_lock);
->
-> -	result = nvme_setup_io_queues(dev);
-> -	if (result && result != -EBUSY)
-> +	result = set_queue_count(dev, num_online_cpus());
-> +	if (result == -EBUSY)
-> +		return -EBUSY;
-> +
-> +	nvme_teardown_admin_queue(dev);
-
-Oh no! Your new teardown function is freeing the admin queue, but it
-would be used immediatly after that in nvme_setup_io_queues ...
-
-> +
-> +	if (result)
-> 		goto disable;
-
-... but you'll never actually get to setup io queues because the 'result'
-here is non-zero if we were successful, and is the number of queues the
-controller can allocate. I think you meant to do this instead:
-
-+	if (result < 0)
-
->
-> -	return result;
-> +	result = nvme_setup_io_queues(dev, result);
-> +	if (result)
-> +		goto disable;
-> +
-> +	return 0;
+> On Jan 21, 2014,@2:26 PM, "Michael Cain" <copyrightagent@destination360.com> wrote:
+> 
+> Dear NVM Express,
+> 
+> It has been brought to our attention that your website has been using Destination360's copyright images without permission.
+> 
+> http://www.destination360.com/north-america/us/nevada/las-vegas/mandalay-bay
+> 
+> We own the copyright and have filings with http://copyright.gov/ for said image under: Registration Number: VAu000981647
+> 
+> I have attached an invoice for a nominal fee for image usage to where it appears:
+> 
+> http://www.nvmexpress.org/blog/nvm-express-at-interop/
+> 
+> http://www.nvmexpress.org/wp-content/uploads/2013/05/interop2013-lv-300x238.jpg
+> 
+> 
+> This fee is for prior use if you wish to discuss using the image moving forward we would be happy to quote you a fee. I will expect payment arrangements to be made within 48hrs otherwise we will turn refer this to our counsel.
+> 
+> Regards,
+> Michael
+> 
+> Copyright Team | Destination360
+> 1400 20th Ave. | seattle, wa 98122
+> t:425.243.3152| f:206.350.0736
+> e: copyrightagent at destination360.com<mailto:copyrightagent at destination360.com>
+> <nvmexpress.orgCopyright.doc>
