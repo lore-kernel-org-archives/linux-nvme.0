@@ -1,7 +1,7 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Tue, 21 Jan 2014 11:03:12 +0100
-Subject: [PATCH] nvme: Cleanup nvme_dev_start() and fix IRQ leak
-In-Reply-To: <alpine.LRH.2.03.1401201541000.25844@AMR>
+Date: Tue, 21 Jan 2014 11:06:12 +0100
+Subject: [PATCH 1/2] Revert "NVMe: Disable admin queue on init failure"
+In-Reply-To: <20140121100311.GA8847@dhcp-26-207.brq.redhat.com>
 References: <cover.1389904166.git.agordeev@redhat.com>
  <1c441f670f33375b6c41e074baf6e84e6c7bb0c2.1389904166.git.agordeev@redhat.com>
  <CAErSpo4g_xm4vZWZDgyjtJu+z5ARSerQLrtJ6W_peXv4bKwcgg@mail.gmail.com>
@@ -9,23 +9,69 @@ References: <cover.1389904166.git.agordeev@redhat.com>
  <20140120083835.GA19068@dhcp-26-207.brq.redhat.com>
  <20140120084212.GC19068@dhcp-26-207.brq.redhat.com>
  <alpine.LRH.2.03.1401201541000.25844@AMR>
-Message-ID: <20140121100311.GA8847@dhcp-26-207.brq.redhat.com>
+ <20140121100311.GA8847@dhcp-26-207.brq.redhat.com>
+Message-ID: <20140121100611.GB8847@dhcp-26-207.brq.redhat.com>
 
-On Mon, Jan 20, 2014@03:48:56PM -0700, Keith Busch wrote:
-> On Mon, 20 Jan 2014, Alexander Gordeev wrote:
-> >This is an attempt to make handling of admin queue in a
-> >single scope. This update also fixes a IRQ leak in case
-> >nvme_setup_io_queues() failed to allocate enough iomem
-> >and bailed out with -ENOMEM errno.
-> 
-> This definitely seems to improve the code flow, but this leak was already
-> fixed in the latest linux-nvme tree with this commit:
-> 
-> http://git.infradead.org/users/willy/linux-nvme.git/commit/c5dc9192d52a4a3a479f701e97386347d454af84
+This reverts commit c5dc9192d52a4a3a479f701e97386347d454af84.
+---
+ drivers/block/nvme-core.c |   11 +++++------
+ 1 files changed, 5 insertions(+), 6 deletions(-)
 
-Oh, that one seems to complicate things even further to me.
-Whould you consider the revert?
-Sending an improved version against your tree.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index b59a93a..c790679 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1151,11 +1151,11 @@ static void nvme_free_queue(struct nvme_queue *nvmeq)
+ 	kfree(nvmeq);
+ }
+ 
+-static void nvme_free_queues(struct nvme_dev *dev, int lowest)
++static void nvme_free_queues(struct nvme_dev *dev)
+ {
+ 	int i;
+ 
+-	for (i = dev->queue_count - 1; i >= lowest; i--) {
++	for (i = dev->queue_count - 1; i >= 0; i--) {
+ 		nvme_free_queue(dev->queues[i]);
+ 		dev->queue_count--;
+ 		dev->queues[i] = NULL;
+@@ -1989,7 +1989,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	return 0;
+ 
+  free_queues:
+-	nvme_free_queues(dev, 1);
++	nvme_free_queues(dev);
+ 	return result;
+ }
+ 
+@@ -2409,7 +2409,6 @@ static int nvme_dev_start(struct nvme_dev *dev)
+ 	return result;
+ 
+  disable:
+-	nvme_disable_queue(dev, 0);
+ 	spin_lock(&dev_list_lock);
+ 	list_del_init(&dev->node);
+ 	spin_unlock(&dev_list_lock);
+@@ -2541,7 +2540,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+  shutdown:
+ 	nvme_dev_shutdown(dev);
+  release_pools:
+-	nvme_free_queues(dev, 0);
++	nvme_free_queues(dev);
+ 	nvme_release_prp_pools(dev);
+  release:
+ 	nvme_release_instance(dev);
+@@ -2565,7 +2564,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	misc_deregister(&dev->miscdev);
+ 	nvme_dev_remove(dev);
+ 	nvme_dev_shutdown(dev);
+-	nvme_free_queues(dev, 0);
++	nvme_free_queues(dev);
+ 	nvme_release_instance(dev);
+ 	nvme_release_prp_pools(dev);
+ 	kref_put(&dev->kref, nvme_free_dev);
+-- 
+1.7.7.6
 
 -- 
 Regards,
