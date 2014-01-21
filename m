@@ -1,40 +1,33 @@
-From: jg1.han@samsung.com (Jingoo Han)
-Date: Tue, 21 Jan 2014 15:37:20 +0900
-Subject: [PATCH] NVMe: Add CONFIG_PM_SLEEP to suspend/resume functions
-Message-ID: <000301cf1673$3c2e9690$b48bc3b0$%han@samsung.com>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Tue, 21 Jan 2014 11:03:12 +0100
+Subject: [PATCH] nvme: Cleanup nvme_dev_start() and fix IRQ leak
+In-Reply-To: <alpine.LRH.2.03.1401201541000.25844@AMR>
+References: <cover.1389904166.git.agordeev@redhat.com>
+ <1c441f670f33375b6c41e074baf6e84e6c7bb0c2.1389904166.git.agordeev@redhat.com>
+ <CAErSpo4g_xm4vZWZDgyjtJu+z5ARSerQLrtJ6W_peXv4bKwcgg@mail.gmail.com>
+ <alpine.LRH.2.03.1401171419370.25844@AMR>
+ <20140120083835.GA19068@dhcp-26-207.brq.redhat.com>
+ <20140120084212.GC19068@dhcp-26-207.brq.redhat.com>
+ <alpine.LRH.2.03.1401201541000.25844@AMR>
+Message-ID: <20140121100311.GA8847@dhcp-26-207.brq.redhat.com>
 
-Add CONFIG_PM_SLEEP to suspend/resume functions to fix the following
-build warning when CONFIG_PM_SLEEP is not selected. This is because
-sleep PM callbacks defined by SIMPLE_DEV_PM_OPS are only used when
-the CONFIG_PM_SLEEP is enabled.
+On Mon, Jan 20, 2014@03:48:56PM -0700, Keith Busch wrote:
+> On Mon, 20 Jan 2014, Alexander Gordeev wrote:
+> >This is an attempt to make handling of admin queue in a
+> >single scope. This update also fixes a IRQ leak in case
+> >nvme_setup_io_queues() failed to allocate enough iomem
+> >and bailed out with -ENOMEM errno.
+> 
+> This definitely seems to improve the code flow, but this leak was already
+> fixed in the latest linux-nvme tree with this commit:
+> 
+> http://git.infradead.org/users/willy/linux-nvme.git/commit/c5dc9192d52a4a3a479f701e97386347d454af84
 
-drivers/block/nvme-core.c:2149:12: warning: 'nvme_suspend' defined but not used [-Wunused-function]
-drivers/block/nvme-core.c:2158:12: warning: 'nvme_resume' defined but not used [-Wunused-function]
+Oh, that one seems to complicate things even further to me.
+Whould you consider the revert?
+Sending an improved version against your tree.
 
-Signed-off-by: Jingoo Han <jg1.han at samsung.com>
----
- drivers/block/nvme-core.c |    2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 1f14ac4..7971796 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2146,6 +2146,7 @@ static void nvme_remove(struct pci_dev *pdev)
- #define nvme_slot_reset NULL
- #define nvme_error_resume NULL
- 
-+#ifdef CONFIG_PM_SLEEP
- static int nvme_suspend(struct device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev);
-@@ -2167,6 +2168,7 @@ static int nvme_resume(struct device *dev)
- 		nvme_free_queues(ndev);
- 	return ret;
- }
-+#endif
- 
- static SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
- 
 -- 
-1.7.10.4
+Regards,
+Alexander Gordeev
+agordeev at redhat.com
