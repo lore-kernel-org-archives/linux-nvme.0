@@ -1,172 +1,85 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 24 Jan 2014 16:50:49 -0700
-Subject: [PATCH 2/7] NVMe: RCU access to nvme_queue
+Date: Fri, 24 Jan 2014 16:50:53 -0700
+Subject: [PATCH 6/7] NVMe: CPU hot plug notification
 In-Reply-To: <1390607454-23273-1-git-send-email-keith.busch@intel.com>
 References: <1390607454-23273-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1390607454-23273-3-git-send-email-keith.busch@intel.com>
+Message-ID: <1390607454-23273-7-git-send-email-keith.busch@intel.com>
 
-This adds rcu protected access to nvme_queue to fix a potential race
-between a surprise removal freeing the queue and a thread with open
-reference on a NVMe block device using that queue.
+Registers with hot cpu notification to rebalance - and potentially
+allocate additional - io queues among cpus.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   53 ++++++++++++++++++++-------------------------
- include/linux/nvme.h      |    2 +-
- 2 files changed, 25 insertions(+), 30 deletions(-)
+ drivers/block/nvme-core.c |   23 ++++++++++++++++++++++-
+ include/linux/nvme.h      |    1 +
+ 2 files changed, 23 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 7163a2f..e27f8d7 100644
+index c85b369..f59af3f 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -74,6 +74,7 @@ struct async_cmd_info {
-  * commands and one for I/O commands).
-  */
- struct nvme_queue {
-+	struct rcu_head r_head;
- 	struct device *q_dmadev;
- 	struct nvme_dev *dev;
- 	spinlock_t q_lock;
-@@ -263,12 +264,16 @@ static void *cancel_cmdid(struct nvme_queue *nvmeq, int cmdid,
- 
- struct nvme_queue *get_nvmeq(struct nvme_dev *dev)
- {
--	return dev->queues[get_cpu() + 1];
-+	int queue;
-+	rcu_read_lock();
-+	queue = get_cpu() + 1;
-+	return rcu_dereference(dev->queues[queue]);
+@@ -2017,7 +2017,8 @@ static void nvme_assign_io_queues(struct nvme_dev *dev)
+ 	/*
+ 	 * All possible cpus must point to a valid queue. We don't have thread
+ 	 * sibling info on offline cpus, so no sharing optimization on these
+-	 * cpus.
++	 * cpus. These should automatically be rebalanced from hot plug
++	 * notification.
+ 	 */
+ 	cpumask_andnot(&unassigned_cpus, cpu_possible_mask, cpu_online_mask);
+ 	i = 0;
+@@ -2044,6 +2045,19 @@ static size_t db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
+ 	return 4096 + ((nr_io_queues + 1) * 8 * dev->db_stride);
  }
  
- void put_nvmeq(struct nvme_queue *nvmeq)
- {
- 	put_cpu();
-+	rcu_read_unlock();
- }
- 
- /**
-@@ -818,9 +823,9 @@ static void nvme_make_request(struct request_queue *q, struct bio *bio)
- 	struct nvme_queue *nvmeq = get_nvmeq(ns->dev);
- 	int result = -EBUSY;
- 
--	if (!nvmeq) {
-+	if (unlikely(!nvmeq)) {
- 		put_nvmeq(NULL);
--		bio_endio(bio, -EIO);
-+		bio_endio(bio, -ENXIO);
- 		return;
- 	}
- 
-@@ -1135,8 +1140,10 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
- 	}
- }
- 
--static void nvme_free_queue(struct nvme_queue *nvmeq)
-+static void nvme_free_queue(struct rcu_head *r)
- {
-+	struct nvme_queue *nvmeq = container_of(r, struct nvme_queue, r_head);
++static int nvme_cpu_notify(struct notifier_block *self,
++				unsigned long action, void *hcpu)
++{
++	struct nvme_dev *dev = container_of(self, struct nvme_dev, nb);
++	switch (action) {
++	case CPU_ONLINE:
++	case CPU_DEAD:
++		nvme_assign_io_queues(dev);
++		break;
++	}
++	return NOTIFY_OK;
++}
 +
- 	spin_lock_irq(&nvmeq->q_lock);
- 	while (bio_list_peek(&nvmeq->sq_cong)) {
- 		struct bio *bio = bio_list_pop(&nvmeq->sq_cong);
-@@ -1155,10 +1162,13 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
+ static int nvme_setup_io_queues(struct nvme_dev *dev)
  {
+ 	struct pci_dev *pdev = dev->pci_dev;
+@@ -2120,6 +2134,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	/* Free previously allocated queues that are no longer usable */
+ 	nvme_free_queues(dev, nr_io_queues + 1);
+ 	nvme_assign_io_queues(dev);
++
++	dev->nb.notifier_call = &nvme_cpu_notify;
++	result = register_hotcpu_notifier(&dev->nb);
++	if (result)
++		goto free_queues;
++
+ 	return 0;
+ 
+  free_queues:
+@@ -2397,6 +2417,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
  	int i;
  
-+	for (i = num_possible_cpus(); i > dev->queue_count - 1; i--)
-+		rcu_assign_pointer(dev->queues[i], NULL);
- 	for (i = dev->queue_count - 1; i >= lowest; i--) {
--		nvme_free_queue(dev->queues[i]);
-+		struct nvme_queue *nvmeq = dev->queues[i];
-+		rcu_assign_pointer(dev->queues[i], NULL);
-+		call_rcu(&nvmeq->r_head, nvme_free_queue);
- 		dev->queue_count--;
--		dev->queues[i] = NULL;
- 	}
- }
+ 	dev->initialized = 0;
++	unregister_hotcpu_notifier(&dev->nb);
  
-@@ -1778,8 +1788,11 @@ static int nvme_kthread(void *data)
- 				queue_work(nvme_workq, &dev->reset_work);
- 				continue;
- 			}
-+
-+			rcu_read_lock();
- 			for (i = 0; i < dev->queue_count; i++) {
--				struct nvme_queue *nvmeq = dev->queues[i];
-+				struct nvme_queue *nvmeq =
-+						rcu_dereference(dev->queues[i]);
- 				if (!nvmeq)
- 					continue;
- 				spin_lock_irq(&nvmeq->q_lock);
-@@ -1791,6 +1804,7 @@ static int nvme_kthread(void *data)
-  unlock:
- 				spin_unlock_irq(&nvmeq->q_lock);
- 			}
-+			rcu_read_unlock();
- 		}
- 		spin_unlock(&dev_list_lock);
- 		schedule_timeout(round_jiffies_relative(HZ));
-@@ -1956,19 +1970,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	}
- 
- 	/* Free previously allocated queues that are no longer usable */
--	spin_lock(&dev_list_lock);
--	for (i = dev->queue_count - 1; i > nr_io_queues; i--) {
--		struct nvme_queue *nvmeq = dev->queues[i];
--
--		spin_lock_irq(&nvmeq->q_lock);
--		nvme_cancel_ios(nvmeq, false);
--		spin_unlock_irq(&nvmeq->q_lock);
--
--		nvme_free_queue(nvmeq);
--		dev->queue_count--;
--		dev->queues[i] = NULL;
--	}
--	spin_unlock(&dev_list_lock);
-+	nvme_free_queues(dev, nr_io_queues + 1);
- 
- 	cpu = cpumask_first(cpu_online_mask);
- 	for (i = 0; i < nr_io_queues; i++) {
-@@ -2459,18 +2461,10 @@ static int nvme_remove_dead_ctrl(void *arg)
- 
- static void nvme_remove_disks(struct work_struct *ws)
- {
--	int i;
- 	struct nvme_dev *dev = container_of(ws, struct nvme_dev, reset_work);
- 
- 	nvme_dev_remove(dev);
--	spin_lock(&dev_list_lock);
--	for (i = dev->queue_count - 1; i > 0; i--) {
--		BUG_ON(!dev->queues[i] || !dev->queues[i]->q_suspended);
--		nvme_free_queue(dev->queues[i]);
--		dev->queue_count--;
--		dev->queues[i] = NULL;
--	}
--	spin_unlock(&dev_list_lock);
-+	nvme_free_queues(dev, 1);
- }
- 
- static int nvme_dev_resume(struct nvme_dev *dev)
-@@ -2595,6 +2589,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_dev_remove(dev);
- 	nvme_dev_shutdown(dev);
- 	nvme_free_queues(dev, 0);
-+	rcu_barrier();
- 	nvme_release_instance(dev);
- 	nvme_release_prp_pools(dev);
- 	kref_put(&dev->kref, nvme_free_dev);
+ 	spin_lock(&dev_list_lock);
+ 	list_del_init(&dev->node);
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 69ae03f..98d367b 100644
+index 58ffaea..beeddee 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -73,7 +73,7 @@ enum {
-  */
- struct nvme_dev {
- 	struct list_head node;
--	struct nvme_queue **queues;
-+	struct nvme_queue __rcu **queues;
- 	u32 __iomem *dbs;
- 	struct pci_dev *pci_dev;
- 	struct dma_pool *prp_page_pool;
+@@ -92,6 +92,7 @@ struct nvme_dev {
+ 	struct kref kref;
+ 	struct miscdevice miscdev;
+ 	struct work_struct reset_work;
++	struct notifier_block nb;
+ 	char name[12];
+ 	char serial[20];
+ 	char model[40];
 -- 
 1.7.10.4
