@@ -1,77 +1,61 @@
-From: hdgokhale@gmail.com (Hrishikesh Gokhale)
-Date: Mon, 27 Jan 2014 08:48:33 +0530
-Subject: BUG_ON at nvme_setup_prp getting hit.
-In-Reply-To: <alpine.LRH.2.03.1401070942210.25844@AMR>
-References: <CAEAgd7GtR6V_x-JJHSOA6DyVP2z7HUW3vNbbUa3LapLmGZsMLw@mail.gmail.com>
- <alpine.LRH.2.03.1401070942210.25844@AMR>
-Message-ID: <CAEAgd7FTd9QwCnjrcM1t9tQAUdAmEMZCB02Zrh8vBwe5-g_Ctw@mail.gmail.com>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Tue, 28 Jan 2014 09:38:51 +0100
+Subject: [PATCH 05/14] NVMe: Get rid of superfluous qid parameter to
+ nvme_init_queue()
+In-Reply-To: <cover.1390897693.git.agordeev@redhat.com>
+References: <cover.1390897693.git.agordeev@redhat.com>
+Message-ID: <7dc26be1ec7da1bcfb01a546d57dba15a05b0e27.1390897693.git.agordeev@redhat.com>
 
-Thanks for your reply Keith.
+Parameter qid is not only superfluous, but also confusing -
+it suggests nvme_init_queue() could reinit the queue with an
+ID other than index into device queues[] array.
 
-Warm Regards,
-Hrishikesh Gokhale
+Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
+---
+ drivers/block/nvme-core.c |    8 ++++----
+ 1 files changed, 4 insertions(+), 4 deletions(-)
 
-On Tue, Jan 7, 2014@11:45 PM, Keith Busch <keith.busch@intel.com> wrote:
-> On Tue, 7 Jan 2014, Hrishikesh Gokhale wrote:
->>
->> Hi All,
->>
->> Requesting for help in resolving the following:
->>
->> Setup:
->> Running FIO tester tool on NVMe device driver (/block/nvme.c) with I/O
->> engine ?libaio?. Using Odd block size like 17K, 129K, 257K,  etc.
->> Distribution ?Fedora 18? (Kernel v3.6.10).
->>
->> Observation:
->> I?ve observed intermittent hit on BUG_ON which is pointing to
->> nvme_setup_prps() function in nvme.c driver.
->>
->>>>> CODE
->>
->> static int nvme_setup_prps(...)
->>
->> {
->>       int dma_len = sg_dma_len(sg);
->>
->>       u64 dma_addr = sg_dma_address(sg);
->>
->>       int offset = offset_in_page(dma_addr);
->>       ...
->>       dma_len -= PAGE_SIZE;
->>       ...
->>       if (dma_len > 0)
->>           continue;
->>       BUG_ON(dma_len < 0);
->> }
->> <<< CODE
->>
->> After adding prints , I found that this problem is reproduced on use
->> of PRP list.
->>
->> Offset value in DMA page is changed (in nvme_setup_prps() function)
->> from the original offset value which was present while sg_set_page()
->> function was executed. The offset value of virtual address is found
->> different than the offset value of physical/DMA address.
->
->
-> This BUG_ON shouldn't happen unless we gave nvme_setup_prps an sgl that
-> can't be mapped to a PRP list, so the request should have been split
-> instead. A virtual address with different alignment than the dma address
-> might cause that and sounds similar to this issue from way back:
->
-> merlin.infradead.org/pipermail/linux-nvme/2012-November/000121.html
->
-> I didn't see that anything came of it, though.
->
-> Maybe our BIOVEC_NOT_VIRT_MERGEABLE check should use the physical
-> addresses instead of virtual to see if the bio_vec is usable. ?
->
->
->> Query:
->> Is it possible to avoid the ?offset value change? in DMA-able memory
->> (in nvme_setup_prps() function) to avoid BUG_ON()check? ?
->
->
->> Thanks & Regards,
->> Hrishikesh
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 652f0f6..661277d 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1278,9 +1278,10 @@ static int queue_request_irq(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ 				IRQF_SHARED, name, nvmeq);
+ }
+ 
+-static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
++static void nvme_init_queue(struct nvme_queue *nvmeq)
+ {
+ 	struct nvme_dev *dev = nvmeq->dev;
++	u16 qid = nvmeq->qid;
+ 	unsigned extra = nvme_queue_extra(nvmeq->q_depth);
+ 
+ 	nvmeq->sq_tail = 0;
+@@ -1296,7 +1297,6 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+ static int nvme_create_queue(struct nvme_queue *nvmeq)
+ {
+ 	struct nvme_dev *dev = nvmeq->dev;
+-	int qid = nvmeq->qid;
+ 	int result;
+ 
+ 	result = adapter_alloc_cq(nvmeq);
+@@ -1312,7 +1312,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq)
+ 		goto release_sq;
+ 
+ 	spin_lock_irq(&nvmeq->q_lock);
+-	nvme_init_queue(nvmeq, qid);
++	nvme_init_queue(nvmeq);
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ 
+ 	return result;
+@@ -1429,7 +1429,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 		return result;
+ 
+ 	spin_lock_irq(&nvmeq->q_lock);
+-	nvme_init_queue(nvmeq, 0);
++	nvme_init_queue(nvmeq);
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ 	return result;
+ }
+-- 
+1.7.7.6
