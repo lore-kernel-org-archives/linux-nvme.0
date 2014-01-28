@@ -1,117 +1,67 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Tue, 28 Jan 2014 09:38:50 +0100
-Subject: [PATCH 04/14] NVMe: Cleanup adapter_alloc_cq/sg() and
- adapter_delete_cq/sg()
+Date: Tue, 28 Jan 2014 09:38:52 +0100
+Subject: [PATCH 06/14] NVMe: Get rid of superfluous dev parameter to
+ queue_request_irq()
 In-Reply-To: <cover.1390897693.git.agordeev@redhat.com>
 References: <cover.1390897693.git.agordeev@redhat.com>
-Message-ID: <05f59a0960799dce8c45c4594f8ac36108de7963.1390897693.git.agordeev@redhat.com>
-
-A queue structure contains both a pointer to the device it
-belongs to and the queue ID - there is no need to drag these
-parameters around.
+Message-ID: <daf2acdd8c45e0572dccbaf0904515a0b898a9c2.1390897693.git.agordeev@redhat.com>
 
 Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- drivers/block/nvme-core.c |   34 +++++++++++++++++++---------------
- 1 files changed, 19 insertions(+), 15 deletions(-)
+ drivers/block/nvme-core.c |   12 ++++++------
+ 1 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 606a2e1..652f0f6 100644
+index 661277d..f03f123 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -942,8 +942,10 @@ int nvme_submit_admin_cmd_async(struct nvme_dev *dev, struct nvme_command *cmd,
- 	return nvme_submit_async_cmd(dev->queues[0], cmd, cmdinfo, ADMIN_TIMEOUT);
+@@ -1267,9 +1267,10 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+ 	return NULL;
  }
  
--static int adapter_delete_queue(struct nvme_dev *dev, u8 opcode, u16 id)
-+static int adapter_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+-static int queue_request_irq(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+-							const char *name)
++static int queue_request_irq(struct nvme_queue *nvmeq, const char *name)
  {
 +	struct nvme_dev *dev = nvmeq->dev;
-+	u16 id = nvmeq->qid;
- 	int status;
- 	struct nvme_command c;
++
+ 	if (use_threaded_interrupts)
+ 		return request_threaded_irq(dev->entry[nvmeq->cq_vector].vector,
+ 					nvme_irq_check, nvme_irq, IRQF_SHARED,
+@@ -1296,7 +1297,6 @@ static void nvme_init_queue(struct nvme_queue *nvmeq)
  
-@@ -957,9 +959,10 @@ static int adapter_delete_queue(struct nvme_dev *dev, u8 opcode, u16 id)
- 	return 0;
- }
- 
--static int adapter_alloc_cq(struct nvme_dev *dev, u16 qid,
--						struct nvme_queue *nvmeq)
-+static int adapter_alloc_cq(struct nvme_queue *nvmeq)
+ static int nvme_create_queue(struct nvme_queue *nvmeq)
  {
-+	struct nvme_dev *dev = nvmeq->dev;
-+	u16 qid = nvmeq->qid;
- 	int status;
- 	struct nvme_command c;
- 	int flags = NVME_QUEUE_PHYS_CONTIG | NVME_CQ_IRQ_ENABLED;
-@@ -978,9 +981,10 @@ static int adapter_alloc_cq(struct nvme_dev *dev, u16 qid,
- 	return 0;
- }
- 
--static int adapter_alloc_sq(struct nvme_dev *dev, u16 qid,
--						struct nvme_queue *nvmeq)
-+static int adapter_alloc_sq(struct nvme_queue *nvmeq)
- {
-+	struct nvme_dev *dev = nvmeq->dev;
-+	u16 qid = nvmeq->qid;
- 	int status;
- 	struct nvme_command c;
- 	int flags = NVME_QUEUE_PHYS_CONTIG | NVME_SQ_PRIO_MEDIUM;
-@@ -999,14 +1003,14 @@ static int adapter_alloc_sq(struct nvme_dev *dev, u16 qid,
- 	return 0;
- }
- 
--static int adapter_delete_cq(struct nvme_dev *dev, u16 cqid)
-+static int adapter_delete_cq(struct nvme_queue *nvmeq)
- {
--	return adapter_delete_queue(dev, nvme_admin_delete_cq, cqid);
-+	return adapter_delete_queue(nvmeq, nvme_admin_delete_cq);
- }
- 
--static int adapter_delete_sq(struct nvme_dev *dev, u16 sqid)
-+static int adapter_delete_sq(struct nvme_queue *nvmeq)
- {
--	return adapter_delete_queue(dev, nvme_admin_delete_sq, sqid);
-+	return adapter_delete_queue(nvmeq, nvme_admin_delete_sq);
- }
- 
- int nvme_identify(struct nvme_dev *dev, unsigned nsid, unsigned cns,
-@@ -1210,8 +1214,8 @@ static void nvme_disable_queue(struct nvme_queue *nvmeq)
- 	/* Don't tell the adapter to delete the admin queue.
- 	 * Don't tell a removed adapter to delete IO queues. */
- 	if (qid && readl(&dev->bar->csts) != -1) {
--		adapter_delete_sq(dev, qid);
--		adapter_delete_cq(dev, qid);
-+		adapter_delete_sq(nvmeq);
-+		adapter_delete_cq(nvmeq);
- 	}
- 	nvme_clear_queue(nvmeq);
- }
-@@ -1295,11 +1299,11 @@ static int nvme_create_queue(struct nvme_queue *nvmeq)
- 	int qid = nvmeq->qid;
+-	struct nvme_dev *dev = nvmeq->dev;
  	int result;
  
--	result = adapter_alloc_cq(dev, qid, nvmeq);
-+	result = adapter_alloc_cq(nvmeq);
- 	if (result < 0)
- 		return result;
- 
--	result = adapter_alloc_sq(dev, qid, nvmeq);
-+	result = adapter_alloc_sq(nvmeq);
+ 	result = adapter_alloc_cq(nvmeq);
+@@ -1307,7 +1307,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq)
  	if (result < 0)
  		goto release_cq;
  
-@@ -1314,9 +1318,9 @@ static int nvme_create_queue(struct nvme_queue *nvmeq)
- 	return result;
+-	result = queue_request_irq(dev, nvmeq, "nvme");
++	result = queue_request_irq(nvmeq, "nvme");
+ 	if (result < 0)
+ 		goto release_sq;
  
-  release_sq:
--	adapter_delete_sq(dev, qid);
-+	adapter_delete_sq(nvmeq);
-  release_cq:
--	adapter_delete_cq(dev, qid);
-+	adapter_delete_cq(nvmeq);
- 	return result;
- }
+@@ -1424,7 +1424,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	if (result)
+ 		return result;
  
+-	result = queue_request_irq(dev, nvmeq, "nvme admin");
++	result = queue_request_irq(nvmeq, "nvme admin");
+ 	if (result)
+ 		return result;
+ 
+@@ -1945,7 +1945,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	 */
+ 	nr_io_queues = vecs;
+ 
+-	result = queue_request_irq(dev, dev->queues[0], "nvme admin");
++	result = queue_request_irq(dev->queues[0], "nvme admin");
+ 	if (result) {
+ 		dev->queues[0]->q_suspended = 1;
+ 		goto free_queues;
 -- 
 1.7.7.6
