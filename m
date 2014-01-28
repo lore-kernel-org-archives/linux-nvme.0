@@ -1,36 +1,49 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Tue, 28 Jan 2014 09:38:46 +0100
-Subject: [PATCH 00/14] NVMe: Cleanup device initialization
-Message-ID: <cover.1390897693.git.agordeev@redhat.com>
+Date: Tue, 28 Jan 2014 09:38:47 +0100
+Subject: [PATCH 01/14] NVMe: Fix setup of affinity hint for unallocated queues
+In-Reply-To: <cover.1390897693.git.agordeev@redhat.com>
+References: <cover.1390897693.git.agordeev@redhat.com>
+Message-ID: <514969a133311cb142d6f80de92db89511aded7f.1390897693.git.agordeev@redhat.com>
 
-Hi Keith, Matthew,
+IRQ affinity hints are attempted to setup for some or all
+queues which have not yet been allocated: either on device
+probe or resume. This update moves the setup after all
+queues are successfully created.
 
-Here are few fixes to the code that caught my eye.
+Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
+---
+ drivers/block/nvme-core.c |   12 ++++++------
+ 1 files changed, 6 insertions(+), 6 deletions(-)
 
-These are unrelated to the patch "nvme: Use pci_enable_msi_range()
-and pci_enable_msix_range()" I sent earlier, which still waits for
-your review.
-
-Thanks!
-
-Alexander Gordeev (14):
-  NVMe: Fix setup of affinity hint for unallocated queues
-  NVMe: Cleanup nvme_alloc_queue() and nvme_free_queue()
-  NVMe: Cleanup nvme_create_queue() and nvme_disable_queue()
-  NVMe: Cleanup adapter_alloc_cq/sg() and adapter_delete_cq/sg()
-  NVMe: Get rid of superfluous qid parameter to nvme_init_queue()
-  NVMe: Get rid of superfluous dev parameter to queue_request_irq()
-  NVMe: Make returning value consistent across all functions
-  NVMe: nvme_dev_map() is a bad place to set admin queue IRQ number
-  NVMe: Access interrupt vectors using nvme_queue::cq_vector only
-  NVMe: Factor out nvme_set_queue_count()
-  NVMe: Factor out nvme_init_bar()
-  NVMe: Factor out nvme_init_interrupts()
-  NVMe: Factor out nvme_setup_interrupts()
-  NVMe: Rework "NVMe: Disable admin queue on init failure" commit
-
- drivers/block/nvme-core.c |  205 +++++++++++++++++++++++++++++----------------
- 1 files changed, 133 insertions(+), 72 deletions(-)
-
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index b59a93a..3dfb0d4 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1956,12 +1956,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	}
+ 	spin_unlock(&dev_list_lock);
+ 
+-	cpu = cpumask_first(cpu_online_mask);
+-	for (i = 0; i < nr_io_queues; i++) {
+-		irq_set_affinity_hint(dev->entry[i].vector, get_cpu_mask(cpu));
+-		cpu = cpumask_next(cpu, cpu_online_mask);
+-	}
+-
+ 	q_depth = min_t(int, NVME_CAP_MQES(readq(&dev->bar->cap)) + 1,
+ 								NVME_Q_DEPTH);
+ 	for (i = dev->queue_count - 1; i < nr_io_queues; i++) {
+@@ -1986,6 +1980,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 		}
+ 	}
+ 
++	cpu = cpumask_first(cpu_online_mask);
++	for (i = 0; i < nr_io_queues; i++) {
++		irq_set_affinity_hint(dev->entry[i].vector, get_cpu_mask(cpu));
++		cpu = cpumask_next(cpu, cpu_online_mask);
++	}
++
+ 	return 0;
+ 
+  free_queues:
 -- 
 1.7.7.6
