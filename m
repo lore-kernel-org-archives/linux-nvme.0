@@ -1,92 +1,97 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Tue, 28 Jan 2014 09:38:48 +0100
-Subject: [PATCH 02/14] NVMe: Cleanup nvme_alloc_queue() and nvme_free_queue()
+Date: Tue, 28 Jan 2014 09:38:49 +0100
+Subject: [PATCH 03/14] NVMe: Cleanup nvme_create_queue() and
+ nvme_disable_queue()
 In-Reply-To: <cover.1390897693.git.agordeev@redhat.com>
 References: <cover.1390897693.git.agordeev@redhat.com>
-Message-ID: <aa07e615e115fb53e96be756f3ac37b198a3dd23.1390897693.git.agordeev@redhat.com>
+Message-ID: <7960acc850c15928afe22bd093c100a5dd10880f.1390897693.git.agordeev@redhat.com>
 
-While nvme_alloc_queue() and nvme_free_queue() are logically
-counterparts, they are inconsistent with regard to how device
-queue_count is updated - it is increased within the former,
-but decreased outside of the latter. This update fixes the
-described inconsistency and also makes further improvements
-to the functions code.
+A queue structure contains both a pointer to the device it
+belongs to and the queue ID - there is no need to drag these
+parameters around.
 
 Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- drivers/block/nvme-core.c |   18 +++++++++---------
- 1 files changed, 9 insertions(+), 9 deletions(-)
+ drivers/block/nvme-core.c |   20 +++++++++++---------
+ 1 files changed, 11 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 3dfb0d4..60c6c05 100644
+index 60c6c05..606a2e1 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1137,6 +1137,9 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
+@@ -1197,9 +1197,10 @@ static void nvme_clear_queue(struct nvme_queue *nvmeq)
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ }
  
- static void nvme_free_queue(struct nvme_queue *nvmeq)
+-static void nvme_disable_queue(struct nvme_dev *dev, int qid)
++static void nvme_disable_queue(struct nvme_queue *nvmeq)
  {
+-	struct nvme_queue *nvmeq = dev->queues[qid];
 +	struct nvme_dev *dev = nvmeq->dev;
 +	int qid = nvmeq->qid;
-+
- 	spin_lock_irq(&nvmeq->q_lock);
- 	while (bio_list_peek(&nvmeq->sq_cong)) {
- 		struct bio *bio = bio_list_pop(&nvmeq->sq_cong);
-@@ -1149,17 +1152,17 @@ static void nvme_free_queue(struct nvme_queue *nvmeq)
- 	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
- 					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
- 	kfree(nvmeq);
-+
-+	dev->queue_count--;
-+	dev->queues[qid] = NULL;
+ 
+ 	if (!nvmeq)
+ 		return;
+@@ -1288,9 +1289,10 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+ 	nvmeq->q_suspended = 0;
  }
  
- static void nvme_free_queues(struct nvme_dev *dev, int lowest)
+-static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
++static int nvme_create_queue(struct nvme_queue *nvmeq)
  {
- 	int i;
+ 	struct nvme_dev *dev = nvmeq->dev;
++	int qid = nvmeq->qid;
+ 	int result;
  
--	for (i = dev->queue_count - 1; i >= lowest; i--) {
-+	for (i = dev->queue_count - 1; i >= lowest; i--)
- 		nvme_free_queue(dev->queues[i]);
--		dev->queue_count--;
--		dev->queues[i] = NULL;
--	}
+ 	result = adapter_alloc_cq(dev, qid, nvmeq);
+@@ -1974,10 +1976,10 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	}
+ 
+ 	for (i = 1; i < dev->queue_count; i++) {
+-		result = nvme_create_queue(dev->queues[i], i);
++		result = nvme_create_queue(dev->queues[i]);
+ 		if (result) {
+ 			for (--i; i > 0; i--)
+-				nvme_disable_queue(dev, i);
++				nvme_disable_queue(dev->queues[i]);
+ 			goto free_queues;
+ 		}
+ 	}
+@@ -2140,7 +2142,7 @@ static void nvme_wait_dq(struct nvme_delq_ctx *dq, struct nvme_dev *dev)
+ 			set_current_state(TASK_RUNNING);
+ 
+ 			nvme_disable_ctrl(dev, readq(&dev->bar->cap));
+-			nvme_disable_queue(dev, 0);
++			nvme_disable_queue(dev->queues[0]);
+ 
+ 			send_sig(SIGKILL, dq->worker->task, 1);
+ 			flush_kthread_worker(dq->worker);
+@@ -2236,7 +2238,7 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
+ 		dev_err(&dev->pci_dev->dev,
+ 			"Failed to create queue del task\n");
+ 		for (i = dev->queue_count - 1; i > 0; i--)
+-			nvme_disable_queue(dev, i);
++			nvme_disable_queue(dev->queues[i]);
+ 		return;
+ 	}
+ 
+@@ -2276,7 +2278,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 	} else {
+ 		nvme_disable_io_queues(dev);
+ 		nvme_shutdown_ctrl(dev);
+-		nvme_disable_queue(dev, 0);
++		nvme_disable_queue(dev->queues[0]);
+ 	}
+ 	nvme_dev_unmap(dev);
  }
+@@ -2411,7 +2413,7 @@ static int nvme_dev_start(struct nvme_dev *dev)
+ 	return result;
  
- /**
-@@ -1245,6 +1248,8 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- 	nvmeq->cq_vector = vector;
- 	nvmeq->qid = qid;
- 	nvmeq->q_suspended = 1;
-+
-+	dev->queues[qid] = nvmeq;
- 	dev->queue_count++;
- 
- 	return nvmeq;
-@@ -1394,7 +1399,6 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 		nvmeq = nvme_alloc_queue(dev, 0, 64, 0);
- 		if (!nvmeq)
- 			return -ENOMEM;
--		dev->queues[0] = nvmeq;
- 	}
- 
- 	aqa = nvmeq->q_depth - 1;
-@@ -1951,8 +1955,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 		spin_unlock_irq(&nvmeq->q_lock);
- 
- 		nvme_free_queue(nvmeq);
--		dev->queue_count--;
--		dev->queues[i] = NULL;
- 	}
+  disable:
+-	nvme_disable_queue(dev, 0);
++	nvme_disable_queue(dev->queues[0]);
+ 	spin_lock(&dev_list_lock);
+ 	list_del_init(&dev->node);
  	spin_unlock(&dev_list_lock);
- 
-@@ -2439,8 +2441,6 @@ static void nvme_remove_disks(struct work_struct *ws)
- 	for (i = dev->queue_count - 1; i > 0; i--) {
- 		BUG_ON(!dev->queues[i] || !dev->queues[i]->q_suspended);
- 		nvme_free_queue(dev->queues[i]);
--		dev->queue_count--;
--		dev->queues[i] = NULL;
- 	}
- 	spin_unlock(&dev_list_lock);
- }
 -- 
 1.7.7.6
