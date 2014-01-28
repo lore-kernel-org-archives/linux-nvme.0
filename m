@@ -1,62 +1,76 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Tue, 28 Jan 2014 09:38:58 +0100
-Subject: [PATCH 12/14] NVMe: Factor out nvme_init_interrupts()
+Date: Tue, 28 Jan 2014 09:38:56 +0100
+Subject: [PATCH 10/14] NVMe: Factor out nvme_set_queue_count()
 In-Reply-To: <cover.1390897693.git.agordeev@redhat.com>
 References: <cover.1390897693.git.agordeev@redhat.com>
-Message-ID: <c92fd4e4e9c7f4548c9fdcf4332ed9c2e2025b51.1390897693.git.agordeev@redhat.com>
+Message-ID: <e9052b478a204f3243aa7a719684dd50c67c5885.1390897693.git.agordeev@redhat.com>
+
+Function nvme_setup_io_queues() is quite big - make it more
+readable by moving out a code with clearly distinguishable
+functionality. This update is the first in a series.
 
 Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- drivers/block/nvme-core.c |   22 ++++++++++++++++------
- 1 files changed, 16 insertions(+), 6 deletions(-)
+ drivers/block/nvme-core.c |   28 +++++++++++++++++-----------
+ 1 files changed, 17 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 1e30c42..39868be 100644
+index 1821091..d81b4c4 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1909,13 +1909,10 @@ static int nvme_init_bar(struct nvme_dev *dev, int nr_io_queues)
- 	return nr_io_queues;
+@@ -1875,22 +1875,21 @@ static int set_queue_count(struct nvme_dev *dev, int count)
+ 	return min(result & 0xffff, result >> 16) + 1;
  }
  
--static int nvme_setup_io_queues(struct nvme_dev *dev, int nr_io_queues)
-+static int nvme_init_interrupts(struct nvme_dev *dev, int nr_io_queues)
- {
- 	struct pci_dev *pdev = dev->pci_dev;
--	int result, cpu, i, vecs, q_depth;
--
--	/* Deregister the admin queue's interrupt */
--	free_irq(dev->entry[dev->queues[0]->cq_vector].vector, dev->queues[0]);
-+	int result, i, vecs;
- 
- 	vecs = nr_io_queues;
- 	for (i = 0; i < vecs; i++)
-@@ -1945,13 +1942,26 @@ static int nvme_setup_io_queues(struct nvme_dev *dev, int nr_io_queues)
- 		}
- 	}
- 
-+	return vecs;
++static int nvme_set_queue_count(struct nvme_dev *dev, int count)
++{
++	int result = set_queue_count(dev, count);
++	return min(result, count);
 +}
 +
-+static int nvme_setup_io_queues(struct nvme_dev *dev, int nr_io_queues)
-+{
-+	int result, cpu, i, q_depth;
-+
-+	/* Deregister the admin queue's interrupt */
-+	free_irq(dev->entry[dev->queues[0]->cq_vector].vector, dev->queues[0]);
-+
- 	/*
- 	 * Should investigate if there's a performance win from allocating
- 	 * more queues than interrupt vectors; it might allow the submission
- 	 * path to scale better, even if the receive path is limited by the
- 	 * number of interrupts.
-+	 *
-+	 * The admin queue's interrupt number is changed in case of
-+	 * successful MSI-X or MSI allocation.
- 	 */
--	nr_io_queues = vecs;
-+	nr_io_queues = nvme_init_interrupts(dev, nr_io_queues);
+ static size_t db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
+ {
+ 	return 4096 + ((nr_io_queues + 1) * 8 * dev->db_stride);
+ }
  
- 	result = queue_request_irq(dev->queues[0], "nvme admin");
- 	if (result) {
+-static int nvme_setup_io_queues(struct nvme_dev *dev)
++static int nvme_setup_io_queues(struct nvme_dev *dev, int nr_io_queues)
+ {
+ 	struct pci_dev *pdev = dev->pci_dev;
+-	int result, cpu, i, vecs, nr_io_queues, size, q_depth;
+-
+-	nr_io_queues = num_online_cpus();
+-	result = set_queue_count(dev, nr_io_queues);
+-	if (result < 0)
+-		return result;
+-	if (result < nr_io_queues)
+-		nr_io_queues = result;
++	int result, cpu, i, vecs, size, q_depth;
+ 
+ 	size = db_bar_size(dev, nr_io_queues);
+ 	if (size > 8192) {
+@@ -2417,13 +2416,20 @@ static int nvme_dev_start(struct nvme_dev *dev)
+ 	list_add(&dev->node, &dev_list);
+ 	spin_unlock(&dev_list_lock);
+ 
+-	result = nvme_setup_io_queues(dev);
+-	if (result && result != -EBUSY)
++	result = nvme_set_queue_count(dev, num_online_cpus());
++	if (result < 0)
++		goto disable;
++
++	result = nvme_setup_io_queues(dev, result);
++	if (result)
+ 		goto disable;
+ 
+ 	return 0;
+ 
+  disable:
++	if (result == -EBUSY)
++		return -EBUSY;
++
+ 	nvme_disable_queue(dev->queues[0]);
+ 	spin_lock(&dev_list_lock);
+ 	list_del_init(&dev->node);
 -- 
 1.7.7.6
