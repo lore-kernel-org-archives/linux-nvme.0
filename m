@@ -1,49 +1,92 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Tue, 28 Jan 2014 09:38:47 +0100
-Subject: [PATCH 01/14] NVMe: Fix setup of affinity hint for unallocated queues
+Date: Tue, 28 Jan 2014 09:38:48 +0100
+Subject: [PATCH 02/14] NVMe: Cleanup nvme_alloc_queue() and nvme_free_queue()
 In-Reply-To: <cover.1390897693.git.agordeev@redhat.com>
 References: <cover.1390897693.git.agordeev@redhat.com>
-Message-ID: <514969a133311cb142d6f80de92db89511aded7f.1390897693.git.agordeev@redhat.com>
+Message-ID: <aa07e615e115fb53e96be756f3ac37b198a3dd23.1390897693.git.agordeev@redhat.com>
 
-IRQ affinity hints are attempted to setup for some or all
-queues which have not yet been allocated: either on device
-probe or resume. This update moves the setup after all
-queues are successfully created.
+While nvme_alloc_queue() and nvme_free_queue() are logically
+counterparts, they are inconsistent with regard to how device
+queue_count is updated - it is increased within the former,
+but decreased outside of the latter. This update fixes the
+described inconsistency and also makes further improvements
+to the functions code.
 
 Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- drivers/block/nvme-core.c |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/block/nvme-core.c |   18 +++++++++---------
+ 1 files changed, 9 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index b59a93a..3dfb0d4 100644
+index 3dfb0d4..60c6c05 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1956,12 +1956,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+@@ -1137,6 +1137,9 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
+ 
+ static void nvme_free_queue(struct nvme_queue *nvmeq)
+ {
++	struct nvme_dev *dev = nvmeq->dev;
++	int qid = nvmeq->qid;
++
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	while (bio_list_peek(&nvmeq->sq_cong)) {
+ 		struct bio *bio = bio_list_pop(&nvmeq->sq_cong);
+@@ -1149,17 +1152,17 @@ static void nvme_free_queue(struct nvme_queue *nvmeq)
+ 	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
+ 					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
+ 	kfree(nvmeq);
++
++	dev->queue_count--;
++	dev->queues[qid] = NULL;
+ }
+ 
+ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
+ {
+ 	int i;
+ 
+-	for (i = dev->queue_count - 1; i >= lowest; i--) {
++	for (i = dev->queue_count - 1; i >= lowest; i--)
+ 		nvme_free_queue(dev->queues[i]);
+-		dev->queue_count--;
+-		dev->queues[i] = NULL;
+-	}
+ }
+ 
+ /**
+@@ -1245,6 +1248,8 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+ 	nvmeq->cq_vector = vector;
+ 	nvmeq->qid = qid;
+ 	nvmeq->q_suspended = 1;
++
++	dev->queues[qid] = nvmeq;
+ 	dev->queue_count++;
+ 
+ 	return nvmeq;
+@@ -1394,7 +1399,6 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 		nvmeq = nvme_alloc_queue(dev, 0, 64, 0);
+ 		if (!nvmeq)
+ 			return -ENOMEM;
+-		dev->queues[0] = nvmeq;
+ 	}
+ 
+ 	aqa = nvmeq->q_depth - 1;
+@@ -1951,8 +1955,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 		spin_unlock_irq(&nvmeq->q_lock);
+ 
+ 		nvme_free_queue(nvmeq);
+-		dev->queue_count--;
+-		dev->queues[i] = NULL;
  	}
  	spin_unlock(&dev_list_lock);
  
--	cpu = cpumask_first(cpu_online_mask);
--	for (i = 0; i < nr_io_queues; i++) {
--		irq_set_affinity_hint(dev->entry[i].vector, get_cpu_mask(cpu));
--		cpu = cpumask_next(cpu, cpu_online_mask);
--	}
--
- 	q_depth = min_t(int, NVME_CAP_MQES(readq(&dev->bar->cap)) + 1,
- 								NVME_Q_DEPTH);
- 	for (i = dev->queue_count - 1; i < nr_io_queues; i++) {
-@@ -1986,6 +1980,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 		}
+@@ -2439,8 +2441,6 @@ static void nvme_remove_disks(struct work_struct *ws)
+ 	for (i = dev->queue_count - 1; i > 0; i--) {
+ 		BUG_ON(!dev->queues[i] || !dev->queues[i]->q_suspended);
+ 		nvme_free_queue(dev->queues[i]);
+-		dev->queue_count--;
+-		dev->queues[i] = NULL;
  	}
- 
-+	cpu = cpumask_first(cpu_online_mask);
-+	for (i = 0; i < nr_io_queues; i++) {
-+		irq_set_affinity_hint(dev->entry[i].vector, get_cpu_mask(cpu));
-+		cpu = cpumask_next(cpu, cpu_online_mask);
-+	}
-+
- 	return 0;
- 
-  free_queues:
+ 	spin_unlock(&dev_list_lock);
+ }
 -- 
 1.7.7.6
