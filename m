@@ -1,62 +1,66 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Tue, 28 Jan 2014 09:38:55 +0100
-Subject: [PATCH 09/14] NVMe: Access interrupt vectors using
- nvme_queue::cq_vector only
+Date: Tue, 28 Jan 2014 09:39:00 +0100
+Subject: [PATCH 14/14] NVMe: Rework "NVMe: Disable admin queue on init
+ failure" commit
 In-Reply-To: <cover.1390897693.git.agordeev@redhat.com>
 References: <cover.1390897693.git.agordeev@redhat.com>
-Message-ID: <c1d0e20606ca3171faa63248693bae9063365c67.1390897693.git.agordeev@redhat.com>
+Message-ID: <4a533c422bb1e466246517763cf131c92ae8878a.1390897693.git.agordeev@redhat.com>
 
-Minimize a poissible error when accessing dev-entry[] array
-entries using an arbitrary index rather than the legitimate
-nvme_queue::cq_vector value. This update also makes affinity
-hint setup conform to the rest of the code around.
+This update partially reverts commit c5dc919 ("NVMe: Disable
+admin queue on init failure") to roll back easy readable
+nvme_free_queues() function. Commit's c5dc919 functionality
+aimed to free admin queue IRQ on init failure is preserved.
 
 Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- drivers/block/nvme-core.c |   17 ++++++++++++-----
- 1 files changed, 12 insertions(+), 5 deletions(-)
+ drivers/block/nvme-core.c |   11 ++++++-----
+ 1 files changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 98d4b51..1821091 100644
+index 83d57b3..a51f342 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1424,7 +1424,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	if (result)
- 		return result;
+@@ -1161,11 +1161,11 @@ static void nvme_free_queue(struct nvme_queue *nvmeq)
+ 	dev->queues[qid] = NULL;
+ }
  
--	dev->entry[0].vector = dev->pci_dev->irq;
-+	dev->entry[nvmeq->cq_vector].vector = dev->pci_dev->irq;
- 	result = queue_request_irq(nvmeq, "nvme admin");
- 	if (result)
- 		return result;
-@@ -1908,7 +1908,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	}
+-static void nvme_free_queues(struct nvme_dev *dev, int lowest)
++static void nvme_free_queues(struct nvme_dev *dev)
+ {
+ 	int i;
  
- 	/* Deregister the admin queue's interrupt */
--	free_irq(dev->entry[0].vector, dev->queues[0]);
-+	free_irq(dev->entry[dev->queues[0]->cq_vector].vector, dev->queues[0]);
+-	for (i = dev->queue_count - 1; i >= lowest; i--)
++	for (i = dev->queue_count - 1; i >= 0; i--)
+ 		nvme_free_queue(dev->queues[i]);
+ }
  
- 	vecs = nr_io_queues;
- 	for (i = 0; i < vecs; i++)
-@@ -1989,9 +1989,16 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 		}
- 	}
+@@ -2035,7 +2035,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev, int nr_io_queues)
+ 	return 0;
  
--	cpu = cpumask_first(cpu_online_mask);
--	for (i = 0; i < nr_io_queues; i++) {
--		irq_set_affinity_hint(dev->entry[i].vector, get_cpu_mask(cpu));
-+	cpu = nr_cpu_ids;
-+	for (i = 1; i < dev->queue_count; i++) {
-+		struct nvme_queue *nvmeq = dev->queues[i];
-+
-+		if (cpu >= nr_cpu_ids)
-+			cpu = cpumask_first(cpu_online_mask);
-+
-+		irq_set_affinity_hint(dev->entry[nvmeq->cq_vector].vector,
-+				      get_cpu_mask(cpu));
-+
- 		cpu = cpumask_next(cpu, cpu_online_mask);
- 	}
+  free_queues:
+-	nvme_free_queues(dev, 1);
++	for (i = dev->queue_count - 1; i > 0; i--)
++		nvme_free_queue(dev->queues[i]);
+ 	return result;
+ }
  
+@@ -2601,7 +2602,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+  shutdown:
+ 	nvme_dev_shutdown(dev);
+  release_pools:
+-	nvme_free_queues(dev, 0);
++	nvme_free_queues(dev);
+ 	nvme_release_prp_pools(dev);
+  release:
+ 	nvme_release_instance(dev);
+@@ -2625,7 +2626,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	misc_deregister(&dev->miscdev);
+ 	nvme_dev_remove(dev);
+ 	nvme_dev_shutdown(dev);
+-	nvme_free_queues(dev, 0);
++	nvme_free_queues(dev);
+ 	nvme_release_instance(dev);
+ 	nvme_release_prp_pools(dev);
+ 	kref_put(&dev->kref, nvme_free_dev);
 -- 
 1.7.7.6
