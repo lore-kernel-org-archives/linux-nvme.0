@@ -1,84 +1,62 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Tue, 28 Jan 2014 09:38:59 +0100
-Subject: [PATCH 13/14] NVMe: Factor out nvme_setup_interrupts()
+Date: Tue, 28 Jan 2014 09:38:58 +0100
+Subject: [PATCH 12/14] NVMe: Factor out nvme_init_interrupts()
 In-Reply-To: <cover.1390897693.git.agordeev@redhat.com>
 References: <cover.1390897693.git.agordeev@redhat.com>
-Message-ID: <d31efb3af96031be9a94d9c803a0e7118da01fa5.1390897693.git.agordeev@redhat.com>
+Message-ID: <c92fd4e4e9c7f4548c9fdcf4332ed9c2e2025b51.1390897693.git.agordeev@redhat.com>
 
 Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- drivers/block/nvme-core.c |   33 ++++++++++++++++++++++++++-------
- 1 files changed, 26 insertions(+), 7 deletions(-)
+ drivers/block/nvme-core.c |   22 ++++++++++++++++------
+ 1 files changed, 16 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 39868be..83d57b3 100644
+index 1e30c42..39868be 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1945,12 +1945,18 @@ static int nvme_init_interrupts(struct nvme_dev *dev, int nr_io_queues)
- 	return vecs;
+@@ -1909,13 +1909,10 @@ static int nvme_init_bar(struct nvme_dev *dev, int nr_io_queues)
+ 	return nr_io_queues;
  }
  
 -static int nvme_setup_io_queues(struct nvme_dev *dev, int nr_io_queues)
-+static int nvme_setup_interrupts(struct nvme_dev *dev, int nr_io_queues)
++static int nvme_init_interrupts(struct nvme_dev *dev, int nr_io_queues)
  {
--	int result, cpu, i, q_depth;
-+	struct nvme_queue *adminq = dev->queues[0];
-+	int result;
- 
+ 	struct pci_dev *pdev = dev->pci_dev;
+-	int result, cpu, i, vecs, q_depth;
+-
 -	/* Deregister the admin queue's interrupt */
 -	free_irq(dev->entry[dev->queues[0]->cq_vector].vector, dev->queues[0]);
-+	/*
-+	 * Deregister the admin queue's interrupt, since it is about
-+	 * to move to other IRQ number. We do not re-configure the
-+	 * admin queue - are there any adverse effects of this trick?
-+	 * Should we call nvme_clear_queue() to mimic nvme_disable_queue()?
-+	 */
-+	free_irq(dev->entry[adminq->cq_vector].vector, adminq);
++	int result, i, vecs;
  
- 	/*
- 	 * Should investigate if there's a performance win from allocating
-@@ -1963,12 +1969,19 @@ static int nvme_setup_io_queues(struct nvme_dev *dev, int nr_io_queues)
- 	 */
- 	nr_io_queues = nvme_init_interrupts(dev, nr_io_queues);
- 
--	result = queue_request_irq(dev->queues[0], "nvme admin");
-+	result = queue_request_irq(adminq, "nvme admin");
- 	if (result) {
--		dev->queues[0]->q_suspended = 1;
--		goto free_queues;
-+		adminq->q_suspended = 1;
-+		return result;
+ 	vecs = nr_io_queues;
+ 	for (i = 0; i < vecs; i++)
+@@ -1945,13 +1942,26 @@ static int nvme_setup_io_queues(struct nvme_dev *dev, int nr_io_queues)
+ 		}
  	}
  
-+	return nr_io_queues;
++	return vecs;
 +}
 +
 +static int nvme_setup_io_queues(struct nvme_dev *dev, int nr_io_queues)
 +{
 +	int result, cpu, i, q_depth;
 +
- 	/* Free previously allocated queues that are no longer usable */
- 	spin_lock(&dev_list_lock);
- 	for (i = dev->queue_count - 1; i > nr_io_queues; i--) {
-@@ -2442,6 +2455,11 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 	if (result < 0)
- 		goto disable;
- 
-+	result = nvme_setup_interrupts(dev, result);
-+	if (result < 0)
-+		/* Admin queue interrupt has been torn down - can not go on */
-+		goto delete;
++	/* Deregister the admin queue's interrupt */
++	free_irq(dev->entry[dev->queues[0]->cq_vector].vector, dev->queues[0]);
 +
- 	result = nvme_setup_io_queues(dev, result);
- 	if (result)
- 		goto disable;
-@@ -2453,6 +2471,7 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 		return -EBUSY;
+ 	/*
+ 	 * Should investigate if there's a performance win from allocating
+ 	 * more queues than interrupt vectors; it might allow the submission
+ 	 * path to scale better, even if the receive path is limited by the
+ 	 * number of interrupts.
++	 *
++	 * The admin queue's interrupt number is changed in case of
++	 * successful MSI-X or MSI allocation.
+ 	 */
+-	nr_io_queues = vecs;
++	nr_io_queues = nvme_init_interrupts(dev, nr_io_queues);
  
- 	nvme_disable_queue(dev->queues[0]);
-+ delete:
- 	spin_lock(&dev_list_lock);
- 	list_del_init(&dev->node);
- 	spin_unlock(&dev_list_lock);
+ 	result = queue_request_irq(dev->queues[0], "nvme admin");
+ 	if (result) {
 -- 
 1.7.7.6
