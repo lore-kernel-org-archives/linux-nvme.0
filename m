@@ -1,85 +1,67 @@
 From: matthew.r.wilcox@intel.com (Matthew Wilcox)
-Date: Wed, 29 Jan 2014 12:00:15 -0500
-Subject: [PATCH 1/2] NVMe: Include device and queue numbers in interrupt name
+Date: Wed, 29 Jan 2014 12:00:16 -0500
+Subject: [PATCH 2/2] NVMe: Correct uses of INIT_WORK
 In-Reply-To: <cover.1391014509.git.matthew.r.wilcox@intel.com>
 References: <cover.1391014509.git.matthew.r.wilcox@intel.com>
-Message-ID: <3193f07bb7ae723f33ac8e8b9db317a4f68d7d18.1391014509.git.matthew.r.wilcox@intel.com>
+Message-ID: <bdfd70fde389412be60f7e8aaed5732dc26fc8ac.1391014509.git.matthew.r.wilcox@intel.com>
 
-On larger systems with many drives, it may help debugging to know which
-queue is tied to which interrupt, just by looking at /proc/interrupts.
+We need to initialise the work_struct when we initialise the rest of the
+struct nvme_dev, otherwise we'll hit a lockdep warning when we remove
+the device.  Use PREPARE_WORK to change the function pointer instead
+of INIT_WORK.
 
 Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
 ---
- drivers/block/nvme-core.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ drivers/block/nvme-core.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index eaace76..5ffc269 100644
+index 5ffc269..2372809 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -76,6 +76,7 @@ struct async_cmd_info {
- struct nvme_queue {
- 	struct device *q_dmadev;
- 	struct nvme_dev *dev;
-+	char irqname[24];	/* nvme4294967295-65535\0 */
- 	spinlock_t q_lock;
- 	struct nvme_command *sq_cmds;
- 	volatile struct nvme_completion *cqes;
-@@ -1235,6 +1236,8 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- 
- 	nvmeq->q_dmadev = dmadev;
- 	nvmeq->dev = dev;
-+	snprintf(nvmeq->irqname, sizeof(nvmeq->irqname), "nvme%dq%d",
-+			dev->instance, qid);
- 	spin_lock_init(&nvmeq->q_lock);
- 	nvmeq->cq_head = 0;
- 	nvmeq->cq_phase = 1;
-@@ -1297,7 +1300,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
- 	if (result < 0)
- 		goto release_cq;
- 
--	result = queue_request_irq(dev, nvmeq, "nvme");
-+	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
- 	if (result < 0)
- 		goto release_sq;
- 
-@@ -1415,7 +1418,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	if (result)
- 		return result;
- 
--	result = queue_request_irq(dev, nvmeq, "nvme admin");
-+	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
- 	if (result)
- 		return result;
- 
-@@ -1873,6 +1876,7 @@ static size_t db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
- 
- static int nvme_setup_io_queues(struct nvme_dev *dev)
- {
-+	struct nvme_queue *adminq = dev->queues[0];
- 	struct pci_dev *pdev = dev->pci_dev;
- 	int result, cpu, i, vecs, nr_io_queues, size, q_depth;
- 
-@@ -1899,7 +1903,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+@@ -1075,7 +1075,7 @@ static void nvme_abort_cmd(int cmdid, struct nvme_queue *nvmeq)
+ 		dev_warn(&dev->pci_dev->dev,
+ 			"I/O %d QID %d timeout, reset controller\n", cmdid,
+ 								nvmeq->qid);
+-		INIT_WORK(&dev->reset_work, nvme_reset_failed_dev);
++		PREPARE_WORK(&dev->reset_work, nvme_reset_failed_dev);
+ 		queue_work(nvme_workq, &dev->reset_work);
+ 		return;
  	}
- 
- 	/* Deregister the admin queue's interrupt */
--	free_irq(dev->entry[0].vector, dev->queues[0]);
-+	free_irq(dev->entry[0].vector, adminq);
- 
- 	vecs = nr_io_queues;
- 	for (i = 0; i < vecs; i++)
-@@ -1937,9 +1941,9 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	 */
- 	nr_io_queues = vecs;
- 
--	result = queue_request_irq(dev, dev->queues[0], "nvme admin");
-+	result = queue_request_irq(dev, adminq, adminq->irqname);
- 	if (result) {
--		dev->queues[0]->q_suspended = 1;
-+		adminq->q_suspended = 1;
- 		goto free_queues;
+@@ -1757,7 +1757,7 @@ static int nvme_kthread(void *data)
+ 				list_del_init(&dev->node);
+ 				dev_warn(&dev->pci_dev->dev,
+ 					"Failed status, reset controller\n");
+-				INIT_WORK(&dev->reset_work,
++				PREPARE_WORK(&dev->reset_work,
+ 							nvme_reset_failed_dev);
+ 				queue_work(nvme_workq, &dev->reset_work);
+ 				continue;
+@@ -2460,7 +2460,7 @@ static int nvme_dev_resume(struct nvme_dev *dev)
+ 		return ret;
+ 	if (ret == -EBUSY) {
+ 		spin_lock(&dev_list_lock);
+-		INIT_WORK(&dev->reset_work, nvme_remove_disks);
++		PREPARE_WORK(&dev->reset_work, nvme_remove_disks);
+ 		queue_work(nvme_workq, &dev->reset_work);
+ 		spin_unlock(&dev_list_lock);
  	}
+@@ -2507,6 +2507,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		goto free;
  
+ 	INIT_LIST_HEAD(&dev->namespaces);
++	INIT_WORK(&dev->reset_work, nvme_reset_failed_dev);
+ 	dev->pci_dev = pdev;
+ 	pci_set_drvdata(pdev, dev);
+ 	result = nvme_set_instance(dev);
+@@ -2605,7 +2606,7 @@ static int nvme_resume(struct device *dev)
+ 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+ 
+ 	if (nvme_dev_resume(ndev) && !work_busy(&ndev->reset_work)) {
+-		INIT_WORK(&ndev->reset_work, nvme_reset_failed_dev);
++		PREPARE_WORK(&ndev->reset_work, nvme_reset_failed_dev);
+ 		queue_work(nvme_workq, &ndev->reset_work);
+ 	}
+ 	return 0;
 -- 
 1.8.5.3
