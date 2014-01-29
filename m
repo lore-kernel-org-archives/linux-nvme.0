@@ -1,35 +1,85 @@
-From: agordeev@redhat.com (Alexander Gordeev)
-Date: Wed, 29 Jan 2014 14:59:06 +0100
-Subject: [PATCH v2 0/9] Phase out pci_enable_msi_block()
-In-Reply-To: <CAErSpo5ztnyyceeN38XzLasLV6eJqdbqEV0viPp3Af8U=ts23w@mail.gmail.com>
-References: <cover.1389904166.git.agordeev@redhat.com>
- <CAErSpo5ztnyyceeN38XzLasLV6eJqdbqEV0viPp3Af8U=ts23w@mail.gmail.com>
-Message-ID: <20140129135906.GA3495@dhcp-26-207.brq.redhat.com>
+From: matthew.r.wilcox@intel.com (Matthew Wilcox)
+Date: Wed, 29 Jan 2014 12:00:15 -0500
+Subject: [PATCH 1/2] NVMe: Include device and queue numbers in interrupt name
+In-Reply-To: <cover.1391014509.git.matthew.r.wilcox@intel.com>
+References: <cover.1391014509.git.matthew.r.wilcox@intel.com>
+Message-ID: <3193f07bb7ae723f33ac8e8b9db317a4f68d7d18.1391014509.git.matthew.r.wilcox@intel.com>
 
-On Fri, Jan 17, 2014@02:00:32PM -0700, Bjorn Helgaas wrote:
-> > Bjorn,
-> >
-> > As the release is supposedly this weekend, do you prefer
-> > the patches to go to your tree or to individual trees after
-> > the release?
-> 
-> I'd be happy to merge them, except for the fact that they probably
-> wouldn't have any time in -next before I ask Linus to pull them.  So
-> how about if we wait until after the release, ask the area maintainers
-> to take them, and if they don't take them, I'll put them in my tree
-> for v3.15?
+On larger systems with many drives, it may help debugging to know which
+queue is tied to which interrupt, just by looking at /proc/interrupts.
 
-Hi Gentleman,
+Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
+---
+ drivers/block/nvme-core.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-As the prerequisite commit 302a252 ("PCI/MSI: Add pci_enable_msi_range()
-and pci_enable_msix_range()") is in mainline now, could you please take
-the ACKed patches to your trees?
-
-Thanks!
-
-> Bjorn
-
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index eaace76..5ffc269 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -76,6 +76,7 @@ struct async_cmd_info {
+ struct nvme_queue {
+ 	struct device *q_dmadev;
+ 	struct nvme_dev *dev;
++	char irqname[24];	/* nvme4294967295-65535\0 */
+ 	spinlock_t q_lock;
+ 	struct nvme_command *sq_cmds;
+ 	volatile struct nvme_completion *cqes;
+@@ -1235,6 +1236,8 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+ 
+ 	nvmeq->q_dmadev = dmadev;
+ 	nvmeq->dev = dev;
++	snprintf(nvmeq->irqname, sizeof(nvmeq->irqname), "nvme%dq%d",
++			dev->instance, qid);
+ 	spin_lock_init(&nvmeq->q_lock);
+ 	nvmeq->cq_head = 0;
+ 	nvmeq->cq_phase = 1;
+@@ -1297,7 +1300,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 	if (result < 0)
+ 		goto release_cq;
+ 
+-	result = queue_request_irq(dev, nvmeq, "nvme");
++	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
+ 	if (result < 0)
+ 		goto release_sq;
+ 
+@@ -1415,7 +1418,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	if (result)
+ 		return result;
+ 
+-	result = queue_request_irq(dev, nvmeq, "nvme admin");
++	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
+ 	if (result)
+ 		return result;
+ 
+@@ -1873,6 +1876,7 @@ static size_t db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
+ 
+ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ {
++	struct nvme_queue *adminq = dev->queues[0];
+ 	struct pci_dev *pdev = dev->pci_dev;
+ 	int result, cpu, i, vecs, nr_io_queues, size, q_depth;
+ 
+@@ -1899,7 +1903,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	}
+ 
+ 	/* Deregister the admin queue's interrupt */
+-	free_irq(dev->entry[0].vector, dev->queues[0]);
++	free_irq(dev->entry[0].vector, adminq);
+ 
+ 	vecs = nr_io_queues;
+ 	for (i = 0; i < vecs; i++)
+@@ -1937,9 +1941,9 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	 */
+ 	nr_io_queues = vecs;
+ 
+-	result = queue_request_irq(dev, dev->queues[0], "nvme admin");
++	result = queue_request_irq(dev, adminq, adminq->irqname);
+ 	if (result) {
+-		dev->queues[0]->q_suspended = 1;
++		adminq->q_suspended = 1;
+ 		goto free_queues;
+ 	}
+ 
 -- 
-Regards,
-Alexander Gordeev
-agordeev at redhat.com
+1.8.5.3
