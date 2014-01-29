@@ -1,67 +1,22 @@
 From: matthew.r.wilcox@intel.com (Matthew Wilcox)
-Date: Wed, 29 Jan 2014 12:00:16 -0500
-Subject: [PATCH 2/2] NVMe: Correct uses of INIT_WORK
-In-Reply-To: <cover.1391014509.git.matthew.r.wilcox@intel.com>
-References: <cover.1391014509.git.matthew.r.wilcox@intel.com>
-Message-ID: <bdfd70fde389412be60f7e8aaed5732dc26fc8ac.1391014509.git.matthew.r.wilcox@intel.com>
+Date: Wed, 29 Jan 2014 12:00:14 -0500
+Subject: [PATCH 0/2] Fixes that just showed up in the NVMe tree
+Message-ID: <cover.1391014509.git.matthew.r.wilcox@intel.com>
 
-We need to initialise the work_struct when we initialise the rest of the
-struct nvme_dev, otherwise we'll hit a lockdep warning when we remove
-the device.  Use PREPARE_WORK to change the function pointer instead
-of INIT_WORK.
+A couple of patches I'm going to be submitting to Linus as part of this
+pull request; sending them out by email as a courtesy.  I did just modify
+a couple of Keith's patches; Fengguang's buildbot pointed out some new
+sparse warnings and checkpatch pointed out some things I'd missed.
 
-Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
----
- drivers/block/nvme-core.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+I'm also going to pull in a couple of Keith's recent patches; the ones
+that fix bugs.  The cleanups are being left until a later date.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 5ffc269..2372809 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1075,7 +1075,7 @@ static void nvme_abort_cmd(int cmdid, struct nvme_queue *nvmeq)
- 		dev_warn(&dev->pci_dev->dev,
- 			"I/O %d QID %d timeout, reset controller\n", cmdid,
- 								nvmeq->qid);
--		INIT_WORK(&dev->reset_work, nvme_reset_failed_dev);
-+		PREPARE_WORK(&dev->reset_work, nvme_reset_failed_dev);
- 		queue_work(nvme_workq, &dev->reset_work);
- 		return;
- 	}
-@@ -1757,7 +1757,7 @@ static int nvme_kthread(void *data)
- 				list_del_init(&dev->node);
- 				dev_warn(&dev->pci_dev->dev,
- 					"Failed status, reset controller\n");
--				INIT_WORK(&dev->reset_work,
-+				PREPARE_WORK(&dev->reset_work,
- 							nvme_reset_failed_dev);
- 				queue_work(nvme_workq, &dev->reset_work);
- 				continue;
-@@ -2460,7 +2460,7 @@ static int nvme_dev_resume(struct nvme_dev *dev)
- 		return ret;
- 	if (ret == -EBUSY) {
- 		spin_lock(&dev_list_lock);
--		INIT_WORK(&dev->reset_work, nvme_remove_disks);
-+		PREPARE_WORK(&dev->reset_work, nvme_remove_disks);
- 		queue_work(nvme_workq, &dev->reset_work);
- 		spin_unlock(&dev_list_lock);
- 	}
-@@ -2507,6 +2507,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto free;
- 
- 	INIT_LIST_HEAD(&dev->namespaces);
-+	INIT_WORK(&dev->reset_work, nvme_reset_failed_dev);
- 	dev->pci_dev = pdev;
- 	pci_set_drvdata(pdev, dev);
- 	result = nvme_set_instance(dev);
-@@ -2605,7 +2606,7 @@ static int nvme_resume(struct device *dev)
- 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
- 
- 	if (nvme_dev_resume(ndev) && !work_busy(&ndev->reset_work)) {
--		INIT_WORK(&ndev->reset_work, nvme_reset_failed_dev);
-+		PREPARE_WORK(&ndev->reset_work, nvme_reset_failed_dev);
- 		queue_work(nvme_workq, &ndev->reset_work);
- 	}
- 	return 0;
+Matthew Wilcox (2):
+  NVMe: Include device and queue numbers in interrupt name
+  NVMe: Correct uses of INIT_WORK
+
+ drivers/block/nvme-core.c | 23 ++++++++++++++---------
+ 1 file changed, 14 insertions(+), 9 deletions(-)
+
 -- 
 1.8.5.3
