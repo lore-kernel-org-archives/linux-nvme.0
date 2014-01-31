@@ -1,70 +1,119 @@
-From: bhelgaas@google.com (Bjorn Helgaas)
-Date: Wed, 29 Jan 2014 14:48:01 -0700
-Subject: [PATCH v2 0/9] Phase out pci_enable_msi_block()
-In-Reply-To: <20140118145940.GE3640@htj.dyndns.org>
-References: <cover.1389904166.git.agordeev@redhat.com>
- <CAErSpo5ztnyyceeN38XzLasLV6eJqdbqEV0viPp3Af8U=ts23w@mail.gmail.com>
- <20140118071538.GA32535@dhcp-26-207.brq.redhat.com>
- <CAErSpo4nBdnn3YYaLj6QZ8iyY2pzV8Y7msd5UxJXm1T2AYnqfg@mail.gmail.com>
- <20140118145940.GE3640@htj.dyndns.org>
-Message-ID: <20140129214801.GE16825@google.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Fri, 31 Jan 2014 12:47:57 -0500
+Subject: [PATCH 5/7] NVMe: Per-cpu IO queues
+In-Reply-To: <1390607454-23273-6-git-send-email-keith.busch@intel.com>
+References: <1390607454-23273-1-git-send-email-keith.busch@intel.com>
+ <1390607454-23273-6-git-send-email-keith.busch@intel.com>
+Message-ID: <20140131174757.GB2285@linux.intel.com>
 
-On Sat, Jan 18, 2014@09:59:40AM -0500, Tejun Heo wrote:
-> On Sat, Jan 18, 2014@07:38:55AM -0700, Bjorn Helgaas wrote:
-> > On Sat, Jan 18, 2014@12:15 AM, Alexander Gordeev <agordeev@redhat.com> wrote:
-> > > On Fri, Jan 17, 2014@02:00:32PM -0700, Bjorn Helgaas wrote:
-> > >> > As the release is supposedly this weekend, do you prefer
-> > >> > the patches to go to your tree or to individual trees after
-> > >> > the release?
-> > >>
-> > >> I'd be happy to merge them, except for the fact that they probably
-> > >> wouldn't have any time in -next before I ask Linus to pull them.  So
-> > >> how about if we wait until after the release, ask the area maintainers
-> > >> to take them, and if they don't take them, I'll put them in my tree
-> > >> for v3.15?
-> > >
-> > > Patch 11 depends on patches 1-10, so I am not sure how to better handle it.
-> > > Whatever works for you ;)
-> > >
-> > > I am only concerned with a regression fix "ahci: Fix broken fallback to
-> > > single MSI mode" which would be nice to have in 3.14. But it seems pretty
-> > > much too late.
-> > 
-> > Tejun, if you want to ack that one, I can put it in either the first
-> > 3.14 pull request or a subsequent one.  Either way, since it's a
-> > regression fix, we should be able to get it in 3.14.
-> 
-> Acked-by: Tejun Heo <tj at kernel.org>
-> 
-> Please feel free to route it any way you see fit.
+On Fri, Jan 24, 2014@04:50:52PM -0700, Keith Busch wrote:
+> NVMe IO queues are associated with CPUs, and linux provices a handy
+> per-cpu implementation. This gives us a convienient way to optimally
+> assign queues to multiple cpus when the device supports fewer queues
+> than the host has cpus. The previous implementation did not share these
+> optimally and may have shared very poorly in some situations. This new
+> way will share queues among cpus that are "close" together and should
+> have the lowest penalty for lock contention.
 
-I applied the following to my pci/msi branch, since they had acks from
-maintainers (Tejun, I assumed your ack applies to both ahci patches):
+I got to thinking about this one after sparse flagged a couple of
+problems.  Why not do it this way?
 
-    ahci: Fix broken fallback to single MSI mode
-    ahci: Use pci_enable_msi_range()
-    vfio: Use pci_enable_msi_range() and pci_enable_msix_range()
-    wil6210: Use pci_enable_msi_range()
+Advantage that it only requires one percpu allocation.
 
-I didn't do anything with these:
-
-    ipr: Get rid of superfluous call to pci_disable_msi/msix()
-    ipr: Use pci_enable_msi_range() and pci_enable_msix_range()
-
-	The conflict with "ipr: Handle early EEH" needs to get resolved
-	first.  Either Alexander's patches need to go via the same tree as
-	the EEH change, or the EEH change needs to be in some published
-	tree so I can cherry-pick it.
-
-    nvme: Fix invalid call to irq_set_affinity_hint()
-    nvme: Use pci_enable_msi_range() and pci_enable_msix_range()
-
-	These don't seem fully baked yet.  If/when Keith acks them, I (or
-	he) can merge them.
-
-    ath10k: Use pci_enable_msi_range()
-
-	This has been acked, but no longer applies to mainline (I'm
-	currently at 0e47c969c65e).
-
-Bjorn
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index e302f55..0afa8ee 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -268,16 +268,15 @@ static void *cancel_cmdid(struct nvme_queue *nvmeq, int cmdid,
+ 
+ struct nvme_queue *get_nvmeq(struct nvme_dev *dev) __acquires(RCU)
+ {
+-	struct nvme_queue __rcu **nvmeqp;
++	unsigned short i = get_cpu_var(*dev->io_queue);
+ 	rcu_read_lock();
+-	nvmeqp = get_cpu_ptr(dev->io_queues);
+-	return rcu_dereference(*nvmeqp);
++	return rcu_dereference(dev->queues[i]);
+ }
+ 
+ void put_nvmeq(struct nvme_queue *nvmeq) __releases(RCU)
+ {
+-	put_cpu_ptr(nvmeq->dev->io_queues);
+ 	rcu_read_unlock();
++	put_cpu_var(nvmeq->dev->io_queue);
+ }
+ 
+ /**
+@@ -1171,9 +1170,6 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
+ 		struct nvme_queue *nvmeq = dev->queues[i];
+ 
+ 		for_each_cpu(cpu, &nvmeq->cpu_mask) {
+-			rcu_assign_pointer(
+-				*per_cpu_ptr(dev->io_queues, cpu),
+-				NULL);
+ 			cpumask_clear_cpu(cpu, &nvmeq->cpu_mask);
+ 		}
+ 		rcu_assign_pointer(dev->queues[i], NULL);
+@@ -1923,9 +1919,7 @@ static void nvme_set_queue_cpus(cpumask_t *qmask, struct nvme_queue *nvmeq,
+ 		if (cpus_weight(nvmeq->cpu_mask) >= count)
+ 			break;
+ 		if (!cpumask_test_and_set_cpu(cpu, &nvmeq->cpu_mask))
+-			rcu_assign_pointer(
+-				*per_cpu_ptr(nvmeq->dev->io_queues, cpu),
+-				nvmeq);
++			*per_cpu_ptr(nvmeq->dev->io_queue, cpu) = nvmeq->qid;
+ 	}
+ }
+ 
+@@ -2040,8 +2034,7 @@ static void nvme_assign_io_queues(struct nvme_dev *dev)
+ 	cpumask_andnot(&unassigned_cpus, cpu_possible_mask, cpu_online_mask);
+ 	i = 0;
+ 	for_each_cpu(cpu, &unassigned_cpus)
+-		rcu_assign_pointer(*per_cpu_ptr(dev->io_queues, cpu),
+-					dev->queues[(i++ % queues) + 1]);
++		*per_cpu_ptr(dev->io_queue, cpu) = (i++ % queues) + 1;
+ }
+ 
+ static int set_queue_count(struct nvme_dev *dev, int count)
+@@ -2532,7 +2525,7 @@ static void nvme_free_dev(struct kref *kref)
+ 	struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
+ 
+ 	nvme_free_namespaces(dev);
+-	free_percpu(dev->io_queues);
++	free_percpu(dev->io_queue);
+ 	kfree(dev->affinity_masks);
+ 	kfree(dev->queues);
+ 	kfree(dev->entry);
+@@ -2683,8 +2676,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 				sizeof(*dev->affinity_masks), GFP_KERNEL);
+ 	if (!dev->queues)
+ 		goto free;
+-	dev->io_queues = alloc_percpu(struct nvme_queue *);
+-	if (!dev->io_queues)
++	dev->io_queue = alloc_percpu(unsigned short);
++	if (!dev->io_queue)
+ 		goto free;
+ 
+ 	INIT_LIST_HEAD(&dev->namespaces);
+@@ -2734,7 +2727,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+  release:
+ 	nvme_release_instance(dev);
+  free:
+-	free_percpu(dev->io_queues);
++	free_percpu(dev->io_queue);
+ 	kfree(dev->affinity_masks);
+ 	kfree(dev->queues);
+ 	kfree(dev->entry);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 89966c0..0c051e5 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -74,7 +74,7 @@ enum {
+ struct nvme_dev {
+ 	struct list_head node;
+ 	struct nvme_queue __rcu **queues;
+-	struct nvme_queue __rcu * __percpu *io_queues;
++	unsigned short __percpu *io_queue;
+ 	u32 __iomem *dbs;
+ 	struct pci_dev *pci_dev;
+ 	struct dma_pool *prp_page_pool;
