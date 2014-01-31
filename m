@@ -1,132 +1,35 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 31 Jan 2014 16:53:39 -0700
-Subject: [PATCHv2 1/4] NVMe: Namespace use after free on surprise removal
-In-Reply-To: <1391212422-14764-1-git-send-email-keith.busch@intel.com>
-References: <1391212422-14764-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1391212422-14764-2-git-send-email-keith.busch@intel.com>
+Date: Fri, 31 Jan 2014 16:53:38 -0700
+Subject: [PATCHv2 0/4] IO Queue fixes rewrite
+Message-ID: <1391212422-14764-1-git-send-email-keith.busch@intel.com>
 
-An nvme block device may have open references when the device is
-removed. New commands may still be sent on the removed device, so we
-need to ref count the opens, return errors for to new commands, and not
-free the namespace and nvme_dev until all references are closed.
+New set replacing this one:
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |   55 ++++++++++++++++++++++++++++++++++-----------
- 1 file changed, 42 insertions(+), 13 deletions(-)
+http://merlin.infradead.org/pipermail/linux-nvme/2014-January/000656.html
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 2372809..3c8f7f2 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1716,10 +1716,31 @@ static int nvme_compat_ioctl(struct block_device *bdev, fmode_t mode,
- #define nvme_compat_ioctl	NULL
- #endif
- 
-+static int nvme_open(struct block_device *bdev, fmode_t mode)
-+{
-+	struct nvme_ns *ns = bdev->bd_disk->private_data;
-+	struct nvme_dev *dev = ns->dev;
-+
-+	kref_get(&dev->kref);
-+	return 0;
-+}
-+
-+static void nvme_free_dev(struct kref *kref);
-+
-+static void nvme_release(struct gendisk *disk, fmode_t mode)
-+{
-+	struct nvme_ns *ns = disk->private_data;
-+	struct nvme_dev *dev = ns->dev;
-+
-+	kref_put(&dev->kref, nvme_free_dev);
-+}
-+
- static const struct block_device_operations nvme_fops = {
- 	.owner		= THIS_MODULE,
- 	.ioctl		= nvme_ioctl,
- 	.compat_ioctl	= nvme_compat_ioctl,
-+	.open		= nvme_open,
-+	.release	= nvme_release,
- };
- 
- static void nvme_resubmit_bios(struct nvme_queue *nvmeq)
-@@ -1849,13 +1870,6 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid,
- 	return NULL;
- }
- 
--static void nvme_ns_free(struct nvme_ns *ns)
--{
--	put_disk(ns->disk);
--	blk_cleanup_queue(ns->queue);
--	kfree(ns);
--}
--
- static int set_queue_count(struct nvme_dev *dev, int count)
- {
- 	int status;
-@@ -2287,12 +2301,13 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 
- static void nvme_dev_remove(struct nvme_dev *dev)
- {
--	struct nvme_ns *ns, *next;
-+	struct nvme_ns *ns;
- 
--	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
--		list_del(&ns->list);
--		del_gendisk(ns->disk);
--		nvme_ns_free(ns);
-+	list_for_each_entry(ns, &dev->namespaces, list) {
-+		if (ns->disk->flags & GENHD_FL_UP)
-+			del_gendisk(ns->disk);
-+		if (!blk_queue_dying(ns->queue))
-+			blk_cleanup_queue(ns->queue);
- 	}
- }
- 
-@@ -2349,9 +2364,22 @@ static void nvme_release_instance(struct nvme_dev *dev)
- 	spin_unlock(&dev_list_lock);
- }
- 
-+static void nvme_free_namespaces(struct nvme_dev *dev)
-+{
-+	struct nvme_ns *ns, *next;
-+
-+	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
-+		list_del(&ns->list);
-+		put_disk(ns->disk);
-+		kfree(ns);
-+	}
-+}
-+
- static void nvme_free_dev(struct kref *kref)
- {
- 	struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
-+
-+	nvme_free_namespaces(dev);
- 	kfree(dev->queues);
- 	kfree(dev->entry);
- 	kfree(dev);
-@@ -2525,6 +2553,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto release_pools;
- 	}
- 
-+	kref_init(&dev->kref);
- 	result = nvme_dev_add(dev);
- 	if (result)
- 		goto shutdown;
-@@ -2540,11 +2569,11 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto remove;
- 
- 	dev->initialized = 1;
--	kref_init(&dev->kref);
- 	return 0;
- 
-  remove:
- 	nvme_dev_remove(dev);
-+	nvme_free_namespaces(dev);
-  shutdown:
- 	nvme_dev_shutdown(dev);
-  release_pools:
+I narrowed this set down to only the surprise removal fixes and the io
+queue/cpu mapping. The cosmetic and irq vector patches from the previous
+set can wait.
+
+The only patch different in v2 from the previous is the "Per-cpu IO
+queues". The feedback on using the per cpu variable to point to an index
+rather than a struct nvme_queue pointer was a great idea!
+
+I only included all 4 in this set because I wanted to make sure they
+apply cleanly against the new tree.
+
+I also ran sparse this time; I've exceeded my fair share of sparse errors
+working on this driver. :)
+
+Keith Busch (4):
+  NVMe: Namespace use after free on surprise removal
+  NVMe: RCU access to nvme_queue
+  NVMe: Per-cpu IO queues
+  NVMe: CPU hot plug notification
+
+ drivers/block/nvme-core.c |  314 ++++++++++++++++++++++++++++++++++-----------
+ include/linux/nvme.h      |    9 +-
+ 2 files changed, 247 insertions(+), 76 deletions(-)
+
 -- 
 1.7.10.4
