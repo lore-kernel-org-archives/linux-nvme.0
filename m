@@ -1,44 +1,37 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Wed, 31 Dec 2014 09:38:34 -0700
-Subject: [PATCH 0/4] nvme-blkmq fixes
-In-Reply-To: <alpine.LNX.2.00.1412310215470.4026@localhost.lm.intel.com>
-References: <1419036856-16275-1-git-send-email-keith.busch@intel.com>
- <5495B2BF.8070602@fb.com> <5495CDFE.3060404@fb.com>
- <alpine.LNX.2.00.1412221543240.4026@localhost.lm.intel.com>
- <54984B10.6060907@fb.com>
- <alpine.LNX.2.00.1412221807560.4026@localhost.lm.intel.com>
- <549860A9.7060106@fb.com> <54987A43.9000807@fb.com>
- <alpine.LNX.2.00.1412222053120.4026@localhost.lm.intel.com>
- <alpine.LNX.2.00.1412222303100.4026@localhost.lm.intel.com>
- <5499AB17.6060805@fb.com> <5499AC69.2010706@fb.com>
- <alpine.LNX.2.00.1412232024530.4026@localhost.lm.intel.com>
- <alpine.LNX.2.00.1412232120410.4026@localhost.lm.intel.com>
- <5499DD9B.4020508@fb.com>
- <alpine.LNX.2.00.1412310215470.4026@localhost.lm.intel.com>
-Message-ID: <54A4268A.6030504@fb.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Sun, 2 Feb 2014 13:28:33 -0500
+Subject: [PATCHv2 0/4] IO Queue fixes rewrite
+In-Reply-To: <1391212422-14764-1-git-send-email-keith.busch@intel.com>
+References: <1391212422-14764-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20140202182833.GC2285@linux.intel.com>
 
-On 12/30/2014 07:31 PM, Keith Busch wrote:
-> Abandon the whole series...  Too many corner cases where this falls
-> to pieces. I'm running high queue-depth IO with random error injection
-> that causes requests to get on lists from ctx->rq_list, hctx->dispatch,
-> and q->requeue_list. No matter what I do from the driver, there is
-> always a case in either reset or removal where a requests get lost and
-> blk_cleanup_queue never completes.
+On Fri, Jan 31, 2014@04:53:38PM -0700, Keith Busch wrote:
+> The only patch different in v2 from the previous is the "Per-cpu IO
+> queues". The feedback on using the per cpu variable to point to an index
+> rather than a struct nvme_queue pointer was a great idea!
+> 
+> I only included all 4 in this set because I wanted to make sure they
+> apply cleanly against the new tree.
+> 
+> I also ran sparse this time; I've exceeded my fair share of sparse errors
+> working on this driver. :)
 
-Back to the drawing board, I'll drop the series. Still off from work 
-here, I'll take a look when I get back soon. I'm surprised it's this 
-difficult, we already went through most of this design/test hash out 
-with scsi-mq.
+Unfortunately, you missed a CONFIG option to enable checking of __rcu.
+You need CONFIG_SPARSE_RCU_POINTER=y
 
-I'll drop this one:
+With that enabled, I get a bunch of warnings like this:
 
-NVMe: Freeze queues on shutdown
+drivers/block/nvme-core.c:942:48: warning: incorrect type in argument 1 (different address spaces)
+drivers/block/nvme-core.c:942:48:    expected struct nvme_queue *nvmeq
+drivers/block/nvme-core.c:942:48:    got struct nvme_queue [noderef] <asn:4>*<noident>
+drivers/block/nvme-core.c:948:49: warning: incorrect type in argument 1 (different address spaces)
+drivers/block/nvme-core.c:948:49:    expected struct nvme_queue *nvmeq
+drivers/block/nvme-core.c:948:49:    got struct nvme_queue [noderef] <asn:4>*<noident>
 
-but keep this one:
+The problem is that only the IO queues need to be RCU-protected, but every
+time we access the admin queue, we get a warning, because clearly there's
+no way to tell sparse "element 0 of this array isn't RCU protected,
+only elements 1-n are".
 
-NVMe: Fix double free irq
-
-Agree?
-
--- 
-Jens Axboe
+So ... I think I'll just include patch 1 out of this set and send a pull
+request to Linux today.
