@@ -1,53 +1,29 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Mon, 3 Feb 2014 11:06:35 -0500
-Subject: [PULL REQUEST] NVMe driver updates for 3.14
-Message-ID: <20140203160635.GE2285@linux.intel.com>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Wed, 5 Feb 2014 14:07:07 +0100
+Subject: [PATCH v3 6/9] nvme: Use pci_enable_msi_range() and
+ pci_enable_msix_range()
+In-Reply-To: <20140120084046.GB19068@dhcp-26-207.brq.redhat.com>
+References: <cover.1389904166.git.agordeev@redhat.com>
+ <1c441f670f33375b6c41e074baf6e84e6c7bb0c2.1389904166.git.agordeev@redhat.com>
+ <CAErSpo4g_xm4vZWZDgyjtJu+z5ARSerQLrtJ6W_peXv4bKwcgg@mail.gmail.com>
+ <alpine.LRH.2.03.1401171419370.25844@AMR>
+ <20140120083835.GA19068@dhcp-26-207.brq.redhat.com>
+ <20140120084046.GB19068@dhcp-26-207.brq.redhat.com>
+Message-ID: <20140205130707.GB27820@dhcp-26-207.brq.redhat.com>
 
+On Mon, Jan 20, 2014@09:40:46AM +0100, Alexander Gordeev wrote:
+> As result deprecation of MSI-X/MSI enablement functions
+> pci_enable_msix() and pci_enable_msi_block() all drivers
+> using these two interfaces need to be updated to use the
+> new pci_enable_msi_range() and pci_enable_msix_range()
+> interfaces.
 
-Hi Linus,
+Hi Keith,
 
-Looks like I missed the merge window ... but these are almost all bugfixes
-anyway (the ones that aren't have been baking for months).
+What about letting this change only for now and considering
+the series "NVMe: Cleanup device initialization" afterwards?
 
-The following changes since commit 2d3c627502f2a9b0a7de06a5a2df2365542a72c9:
-
-  Revert "init/Kconfig: add option to disable kernel compression" (2013-11-17 11:17:36 -0800)
-
-are available in the git repository at:
-
-  git://git.infradead.org/users/willy/linux-nvme.git master
-
-for you to fetch changes up to 9ac27090f61ea6735a62b0a98c7669c833bcdc09:
-
-  NVMe: Namespace use after free on surprise removal (2014-02-02 13:31:15 -0500)
-
-----------------------------------------------------------------
-Haiyan Hu (1):
-      NVMe: Avoid shift operation when writing cq head doorbell
-
-Keith Busch (9):
-      NVMe: compat SG_IO ioctl
-      NVMe: Device resume error handling
-      NVMe: Schedule reset for failed controllers
-      NVMe: Abort timed out commands
-      NVMe: Surprise removal handling
-      NVMe: Async IO queue deletion
-      NVMe: Disable admin queue on init failure
-      NVMe: Add a pci_driver shutdown method
-      NVMe: Namespace use after free on surprise removal
-
-Matthew Wilcox (5):
-      NVMe: Fix lockdep warnings
-      NVMe: Cache dev->pci_dev in a local pointer
-      NVMe: Dynamically allocate partition numbers
-      NVMe: Include device and queue numbers in interrupt name
-      NVMe: Correct uses of INIT_WORK
-
-Michael Opdenacker (1):
-      NVMe: remove deprecated IRQF_DISABLED
-
- drivers/block/nvme-core.c | 610 ++++++++++++++++++++++++++++++++++++++--------
- drivers/block/nvme-scsi.c | 147 +++++++++++
- include/linux/nvme.h      |   6 +-
- include/uapi/linux/nvme.h |  11 +
- 4 files changed, 668 insertions(+), 106 deletions(-)
+-- 
+Regards,
+Alexander Gordeev
+agordeev at redhat.com
