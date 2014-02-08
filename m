@@ -1,6 +1,6 @@
 From: xun.ni@intel.com (Ni, Xun)
-Date: Sat, 8 Feb 2014 04:27:51 +0000
+Date: Sat, 8 Feb 2014 04:37:50 +0000
 Subject: Recall: NVME device have unusual write performance
-Message-ID: <91E2D863603AD4478F101CE81E76E45D01908F82@SHSMSX103.ccr.corp.intel.com>
+Message-ID: <91E2D863603AD4478F101CE81E76E45D01908F9A@SHSMSX103.ccr.corp.intel.com>
 
 Ni, Xun would like to recall the message, "NVME device have unusual write performance".
