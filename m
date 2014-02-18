@@ -1,20 +1,23 @@
-From: agordeev@redhat.com (Alexander Gordeev)
-Date: Tue, 18 Feb 2014 17:53:57 +0100
-Subject: [PATCH 00/14] NVMe: Cleanup device initialization
-In-Reply-To: <cover.1390897693.git.agordeev@redhat.com>
-References: <cover.1390897693.git.agordeev@redhat.com>
-Message-ID: <20140218165357.GB28074@dhcp-26-207.brq.redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 18 Feb 2014 10:54:32 -0700 (MST)
+Subject: [PATCH v3 6/9] nvme: Use pci_enable_msi_range() and
+ pci_enable_msix_range()
+In-Reply-To: <20140120084046.GB19068@dhcp-26-207.brq.redhat.com>
+References: <cover.1389904166.git.agordeev@redhat.com>
+ <1c441f670f33375b6c41e074baf6e84e6c7bb0c2.1389904166.git.agordeev@redhat.com>
+ <CAErSpo4g_xm4vZWZDgyjtJu+z5ARSerQLrtJ6W_peXv4bKwcgg@mail.gmail.com>
+ <alpine.LRH.2.03.1401171419370.25844@AMR>
+ <20140120083835.GA19068@dhcp-26-207.brq.redhat.com>
+ <20140120084046.GB19068@dhcp-26-207.brq.redhat.com>
+Message-ID: <alpine.LRH.2.03.1402181044560.4656@AMR>
 
-On Tue, Jan 28, 2014@09:38:46AM +0100, Alexander Gordeev wrote:
-> Here are few fixes to the code that caught my eye.
+On Mon, 20 Jan 2014, Alexander Gordeev wrote:
+> As result deprecation of MSI-X/MSI enablement functions
+> pci_enable_msix() and pci_enable_msi_block() all drivers
+> using these two interfaces need to be updated to use the
+> new pci_enable_msi_range() and pci_enable_msix_range()
+> interfaces.
+>
+> Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 
-Hi Keith, Matthew,
-
-Any feedback?
-
-Thanks!
-
--- 
-Regards,
-Alexander Gordeev
-agordeev at redhat.com
+Reviewed-by: Keith Busch <keith.busch at intel.com>
