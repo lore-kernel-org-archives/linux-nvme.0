@@ -1,109 +1,114 @@
-From: tj@kernel.org (Tejun Heo)
-Date: Thu, 20 Feb 2014 15:44:28 -0500
-Subject: [PATCH 6/9] nvme: don't use PREPARE_WORK
-In-Reply-To: <1392929071-16555-1-git-send-email-tj@kernel.org>
-References: <1392929071-16555-1-git-send-email-tj@kernel.org>
-Message-ID: <1392929071-16555-7-git-send-email-tj@kernel.org>
+From: pebolle@tiscali.nl (Paul Bolle)
+Date: Thu, 20 Feb 2014 23:11:01 +0100
+Subject: [PATCH] NVMe: silence GCC warning on 32 bit
+In-Reply-To: <1392714172-2712-1-git-send-email-geert@linux-m68k.org>
+References: <1392714172-2712-1-git-send-email-geert@linux-m68k.org>
+Message-ID: <1392934261.15264.22.camel@x220>
 
-PREPARE_[DELAYED_]WORK() are being phased out.  They have few users
-and a nasty surprise in terms of reentrancy guarantee as workqueue
-considers work items to be different if they don't have the same work
-function.
+On Tue, 2014-02-18@10:02 +0100, Geert Uytterhoeven wrote:
+> *** WARNINGS ***
+> 
+> 188 regressions:
+>   [...]
+>   + /scratch/kisskb/src/drivers/block/nvme-core.c: warning: 'bvprv.bv_len' may be used uninitialized in this function [-Wuninitialized]:  => 514:18
+>   + /scratch/kisskb/src/drivers/block/nvme-core.c: warning: 'bvprv.bv_offset' may be used uninitialized in this function [-Wuninitialized]:  => 514:18
+>   + /scratch/kisskb/src/drivers/block/nvme-core.c: warning: 'bvprv.bv_page' may be used uninitialized in this function [-Wuninitialized]:  => 511:17
 
-nvme_dev->reset_work is multiplexed with multiple work functions.
-Introduce nvme_reset_workfn() which invokes nvme_dev->reset_workfn and
-always use it as the work function and update the users to set the
-->reset_workfn field instead of overriding the work function using
-PREPARE_WORK().
+And these popped up in v3.14-rc1 on 32 bit x86. This patch makes these
+warnings go away. Compile tested only (on 32 and 64 bit x86).
 
-It would probably be best to route this with other related updates
-through the workqueue tree.
+Review is appreciated, because the code I'm touching here is far from
+obvious to me.
+-------->8--------
+From: Paul Bolle <pebolle@tiscali.nl>
 
-Compile tested.
+Building nvme-core.o on 32 bit x86 triggers a rather impressive set of
+GCC warnings:
+    In file included from drivers/block/nvme-core.c:20:0:
+    drivers/block/nvme-core.c: In function 'nvme_submit_bio_queue':
+    include/linux/bio.h:154:55: warning: 'bvprv.bv_offset' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     #define bvec_to_phys(bv) (page_to_phys((bv)->bv_page) + (unsigned long) (bv)->bv_offset)
+                                                           ^
+    drivers/block/nvme-core.c:498:23: note: 'bvprv.bv_offset' was declared here
+      struct bio_vec bvec, bvprv;
+                           ^
+    In file included from drivers/block/nvme-core.c:20:0:
+    include/linux/bio.h:154:55: warning: 'bvprv.bv_len' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     #define bvec_to_phys(bv) (page_to_phys((bv)->bv_page) + (unsigned long) (bv)->bv_offset)
+                                                           ^
+    drivers/block/nvme-core.c:498:23: note: 'bvprv.bv_len' was declared here
+      struct bio_vec bvec, bvprv;
+                           ^
+    In file included from [...]/arch/x86/include/asm/page.h:70:0,
+                     from [...]/arch/x86/include/asm/processor.h:17,
+                     from [...]/arch/x86/include/asm/atomic.h:6,
+                     from include/linux/atomic.h:4,
+                     from include/linux/mutex.h:18,
+                     from include/linux/kernfs.h:13,
+                     from include/linux/sysfs.h:15,
+                     from include/linux/kobject.h:21,
+                     from include/linux/pci.h:28,
+                     from include/linux/nvme.h:23,
+                     from drivers/block/nvme-core.c:19:
+    include/asm-generic/memory_model.h:31:53: warning: 'bvprv.bv_page' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     #define __page_to_pfn(page) ((unsigned long)((page) - mem_map) + \
+                                                         ^
+    drivers/block/nvme-core.c:498:23: note: 'bvprv.bv_page' was declared here
+      struct bio_vec bvec, bvprv;
+                           ^
 
-Signed-off-by: Tejun Heo <tj at kernel.org>
-Cc: Matthew Wilcox <willy at linux.intel.com>
-Cc: linux-nvme at lists.infradead.org
+These are false positives. A bit of staring at the code reveals that
+"struct bio_vec bvprv" and "int first" operate in lockstep: if first is
+1 bvprv isn't yet initialized and if first is 0 bvprv will be
+initialized. But if we convert bvprv to a pointer and initialize it to
+NULL we can do away with first. And it turns out the warning is gone if
+we do that. So that appears to be enough to help GCC understand the
+flow of this code.
+
+Signed-off-by: Paul Bolle <pebolle at tiscali.nl>
 ---
- drivers/block/nvme-core.c | 18 ++++++++++++------
- include/linux/nvme.h      |  1 +
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ drivers/block/nvme-core.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 51824d1..8459e4e 100644
+index 51824d1..f9fb28b 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -993,7 +993,7 @@ static void nvme_abort_cmd(int cmdid, struct nvme_queue *nvmeq)
- 		dev_warn(&dev->pci_dev->dev,
- 			"I/O %d QID %d timeout, reset controller\n", cmdid,
- 								nvmeq->qid);
--		PREPARE_WORK(&dev->reset_work, nvme_reset_failed_dev);
-+		dev->reset_workfn = nvme_reset_failed_dev;
- 		queue_work(nvme_workq, &dev->reset_work);
- 		return;
- 	}
-@@ -1696,8 +1696,7 @@ static int nvme_kthread(void *data)
- 				list_del_init(&dev->node);
- 				dev_warn(&dev->pci_dev->dev,
- 					"Failed status, reset controller\n");
--				PREPARE_WORK(&dev->reset_work,
--							nvme_reset_failed_dev);
-+				dev->reset_workfn = nvme_reset_failed_dev;
- 				queue_work(nvme_workq, &dev->reset_work);
- 				continue;
- 			}
-@@ -2406,7 +2405,7 @@ static int nvme_dev_resume(struct nvme_dev *dev)
- 		return ret;
- 	if (ret == -EBUSY) {
- 		spin_lock(&dev_list_lock);
--		PREPARE_WORK(&dev->reset_work, nvme_remove_disks);
-+		dev->reset_workfn = nvme_remove_disks;
- 		queue_work(nvme_workq, &dev->reset_work);
- 		spin_unlock(&dev_list_lock);
- 	}
-@@ -2435,6 +2434,12 @@ static void nvme_reset_failed_dev(struct work_struct *ws)
- 	nvme_dev_reset(dev);
- }
- 
-+static void nvme_reset_workfn(struct work_struct *work)
-+{
-+	struct nvme_dev *dev = container_of(work, struct nvme_dev, reset_work);
-+	dev->reset_workfn(work);
-+}
-+
- static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+@@ -495,11 +495,10 @@ static int nvme_split_and_submit(struct bio *bio, struct nvme_queue *nvmeq,
+ static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+ 		struct bio *bio, enum dma_data_direction dma_dir, int psegs)
  {
- 	int result = -ENOMEM;
-@@ -2453,7 +2458,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto free;
+-	struct bio_vec bvec, bvprv;
++	struct bio_vec bvec, *bvprv = NULL;
+ 	struct bvec_iter iter;
+ 	struct scatterlist *sg = NULL;
+ 	int length = 0, nsegs = 0, split_len = bio->bi_iter.bi_size;
+-	int first = 1;
  
- 	INIT_LIST_HEAD(&dev->namespaces);
--	INIT_WORK(&dev->reset_work, nvme_reset_failed_dev);
-+	dev->reset_workfn = nvme_reset_failed_dev;
-+	INIT_WORK(&dev->reset_work, nvme_reset_workfn);
- 	dev->pci_dev = pdev;
- 	pci_set_drvdata(pdev, dev);
- 	result = nvme_set_instance(dev);
-@@ -2553,7 +2559,7 @@ static int nvme_resume(struct device *dev)
- 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+ 	if (nvmeq->dev->stripe_size)
+ 		split_len = nvmeq->dev->stripe_size -
+@@ -508,10 +507,10 @@ static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
  
- 	if (nvme_dev_resume(ndev) && !work_busy(&ndev->reset_work)) {
--		PREPARE_WORK(&ndev->reset_work, nvme_reset_failed_dev);
-+		ndev->reset_workfn = nvme_reset_failed_dev;
- 		queue_work(nvme_workq, &ndev->reset_work);
+ 	sg_init_table(iod->sg, psegs);
+ 	bio_for_each_segment(bvec, bio, iter) {
+-		if (!first && BIOVEC_PHYS_MERGEABLE(&bvprv, &bvec)) {
++		if (bvprv && BIOVEC_PHYS_MERGEABLE(bvprv, &bvec)) {
+ 			sg->length += bvec.bv_len;
+ 		} else {
+-			if (!first && BIOVEC_NOT_VIRT_MERGEABLE(&bvprv, &bvec))
++			if (bvprv && BIOVEC_NOT_VIRT_MERGEABLE(bvprv, &bvec))
+ 				return nvme_split_and_submit(bio, nvmeq,
+ 							     length);
+ 
+@@ -524,8 +523,7 @@ static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+ 		if (split_len - length < bvec.bv_len)
+ 			return nvme_split_and_submit(bio, nvmeq, split_len);
+ 		length += bvec.bv_len;
+-		bvprv = bvec;
+-		first = 0;
++		bvprv = &bvec;
  	}
- 	return 0;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 69ae03f..6b9aafe 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -87,6 +87,7 @@ struct nvme_dev {
- 	struct list_head namespaces;
- 	struct kref kref;
- 	struct miscdevice miscdev;
-+	work_func_t reset_workfn;
- 	struct work_struct reset_work;
- 	char name[12];
- 	char serial[20];
+ 	iod->nents = nsegs;
+ 	sg_mark_end(sg);
 -- 
 1.8.5.3
