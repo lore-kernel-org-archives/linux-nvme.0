@@ -1,12 +1,12 @@
 From: kmo@daterainc.com (Kent Overstreet)
-Date: Thu, 27 Feb 2014 13:27:15 -0800
+Date: Fri, 28 Feb 2014 15:30:39 -0800
 Subject: [PATCH 1/9] block: Make generic_make_request handle arbitrary
  sized bios
 In-Reply-To: <20140227172254.GI5744@linux.intel.com>
 References: <1393457997-17618-1-git-send-email-kmo@daterainc.com>
  <1393457997-17618-2-git-send-email-kmo@daterainc.com>
  <20140227172254.GI5744@linux.intel.com>
-Message-ID: <20140227212715.GA2834@kmo-pixel>
+Message-ID: <20140228233039.GA2739@moria.home.lan>
 
 On Thu, Feb 27, 2014@12:22:54PM -0500, Matthew Wilcox wrote:
 > On Wed, Feb 26, 2014@03:39:49PM -0800, Kent Overstreet wrote:
@@ -43,9 +43,7 @@ On Thu, Feb 27, 2014@12:22:54PM -0500, Matthew Wilcox wrote:
 > 
 > so that we're running the blk_queue_split() code outside the get_cpu()
 > call.
-
-Whoops, that's definitely a bug.
-
+> 
 > Now, the NVMe driver has its own rules about when BIOs have to be split.
 > Right now, that's way down inside the nvme_map_bio() call when we're
 > walking the bio to compose the scatterlist.  Should we instead have an
@@ -57,6 +55,20 @@ Whoops, that's definitely a bug.
 > so we could name __blk_bios_map_sg() better, export it to drivers and
 > call it from nvme_map_bio(), which I think would make everybody happier.
 
-Yes, definitely - and by doing it there we shoudn't even have to split
-the bios, we can just process them incrementally. I can write a patch
-for it later if you want to test it.
+Actually, reading nvme_map_bio() (it's different since last I looked at
+it) it looks like nvme should already be able to handle arbitrary size
+bios?
+
+I do intend to rework the blk_bio_map_sg() (or add a new one?) to
+incrementally map as much of a bio as will fit in the provided
+scatterlist, but it looks like nvme has some odd restrictions where it's
+using BIOVEC_PHYS_MERGABLE()/BIOVEC_NOT_VIRT_MERGABLE() so I dunno if
+it's worth bothering to try and have it use generic code.
+
+However we don't need an explicit split here: if the sg fills up (i.e.
+the places nvme_split_and_submit() is called), we can just mark the bio
+as partially completed (set bio->bi_iter = iter, i.e. use the iterator
+you passed to bio_for_each_segment), then increment bi_remaining (which
+just counts completions, i.e. bio_endio() calls before the bio is really
+completed) and resubmit the original bio. No need to allocate a split
+bio, or loop over the bio again in bio_split().
