@@ -1,29 +1,87 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Sat, 28 Jun 2014 10:05:05 -0400
-Subject: [PATCH] NVMe: Change nvme_enable_ctrl to set EN and manage CC
- thru ctrl_config.
-In-Reply-To: <1403533476-7193-1-git-send-email-daniel.mcleran@intel.com>
-References: <1403533476-7193-1-git-send-email-daniel.mcleran@intel.com>
-Message-ID: <20140628140505.GW12025@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Sat, 1 Mar 2014 10:52:15 -0700 (MST)
+Subject: [PATCH 1/9] block: Make generic_make_request handle arbitrary
+ sized bios
+In-Reply-To: <20140228233039.GA2739@moria.home.lan>
+References: <1393457997-17618-1-git-send-email-kmo@daterainc.com>
+ <1393457997-17618-2-git-send-email-kmo@daterainc.com>
+ <20140227172254.GI5744@linux.intel.com>
+ <20140228233039.GA2739@moria.home.lan>
+Message-ID: <alpine.LRH.2.03.1403011038240.2885@AMR>
 
-On Mon, Jun 23, 2014@08:24:36AM -0600, Dan McLeran wrote:
-> @@ -1465,7 +1470,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
->  	aqa = nvmeq->q_depth - 1;
->  	aqa |= aqa << 16;
->  
-> -	dev->ctrl_config = NVME_CC_ENABLE | NVME_CC_CSS_NVM;
-> +	dev->ctrl_config = NVME_CC_CSS_NVM;
->  	dev->ctrl_config |= (PAGE_SHIFT - 12) << NVME_CC_MPS_SHIFT;
->  	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
->  	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+On Fri, 28 Feb 2014, Kent Overstreet wrote:
+> On Thu, Feb 27, 2014@12:22:54PM -0500, Matthew Wilcox wrote:
+>> On Wed, Feb 26, 2014@03:39:49PM -0800, Kent Overstreet wrote:
+>>> We do this by adding calls to blk_queue_split() to the various
+>>> make_request functions that need it - a few can already handle arbitrary
+>>> size bios. Note that we add the call _after_ any call to blk_queue_bounce();
+>>> this means that blk_queue_split() and blk_recalc_rq_segments() don't need to
+>>> be concerned with bouncing affecting segment merging.
+>>
+>>> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+>>> index 51824d1f23..e4376b9613 100644
+>>> --- a/drivers/block/nvme-core.c
+>>> +++ b/drivers/block/nvme-core.c
+>>> @@ -737,6 +737,8 @@ static void nvme_make_request(struct request_queue *q, struct bio *bio)
+>>>  	struct nvme_queue *nvmeq = get_nvmeq(ns->dev);
+>>>  	int result = -EBUSY;
+>>>
+>>> +	blk_queue_split(q, &bio, q->bio_split);
+>>> +
+>>>  	if (!nvmeq) {
+>>>  		put_nvmeq(NULL);
+>>>  		bio_endio(bio, -EIO);
+>>
+>> I'd suggest that we do:
+>>
+>> -	struct nvme_queue *nvmeq = get_nvmeq(ns->dev);
+>> +	struct nvme_queue *nvmeq;
+>>  	int result = -EBUSY;
+>>
+>> +	blk_queue_split(q, &bio, q->bio_split);
+>> +
+>> +	nvmeq = get_nvmeq(ns->dev);
+>>  	if (!nvmeq) {
+>>
+>> so that we're running the blk_queue_split() code outside the get_cpu()
+>> call.
+>>
+>> Now, the NVMe driver has its own rules about when BIOs have to be split.
+>> Right now, that's way down inside the nvme_map_bio() call when we're
+>> walking the bio to compose the scatterlist.  Should we instead have an
+>> nvme_bio_split() routine that is called instead of blk_queue_split(),
+>> and we can simplify nvme_map_bio() since it'll know that it's working
+>> with bios that don't have to be split.
+>>
+>> In fact, I think it would have little NVMe-specific in it at that point,
+>> so we could name __blk_bios_map_sg() better, export it to drivers and
+>> call it from nvme_map_bio(), which I think would make everybody happier.
+>
+> Actually, reading nvme_map_bio() (it's different since last I looked at
+> it) it looks like nvme should already be able to handle arbitrary size
+> bios?
+>
+> I do intend to rework the blk_bio_map_sg() (or add a new one?) to
+> incrementally map as much of a bio as will fit in the provided
+> scatterlist, but it looks like nvme has some odd restrictions where it's
+> using BIOVEC_PHYS_MERGABLE()/BIOVEC_NOT_VIRT_MERGABLE() so I dunno if
+> it's worth bothering to try and have it use generic code.
 
-We also want this, right?
+Is nvme the only driver that has these kinds of restrictions on segment
+address offsets? If so, I guess there's no reason to make it generic.
 
-@@ -1512,7 +1512,6 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev
-        writel(aqa, &dev->bar->aqa);
-        writeq(nvmeq->sq_dma_addr, &dev->bar->asq);
-        writeq(nvmeq->cq_dma_addr, &dev->bar->acq);
--       writel(dev->ctrl_config, &dev->bar->cc);
- 
-        result = nvme_enable_ctrl(dev, cap);
-        if (result)
+> However we don't need an explicit split here: if the sg fills up (i.e.
+> the places nvme_split_and_submit() is called), we can just mark the bio
+> as partially completed (set bio->bi_iter = iter, i.e. use the iterator
+> you passed to bio_for_each_segment), then increment bi_remaining (which
+> just counts completions, i.e. bio_endio() calls before the bio is really
+> completed) and resubmit the original bio. No need to allocate a split
+> bio, or loop over the bio again in bio_split().
+
+We used to manipulate the original bio to track partial completions,
+but I changed that for reasons that haven't quite yet materialized. If we
+move the bio's bi_iter, it will make it difficult to retry the original
+request on intermittent failures, and it will break the integrity verify
+if the device format supports protection information. It's also more
+performant to submit all parts at once rather than wait for the previous
+part to complete before sending the next.
