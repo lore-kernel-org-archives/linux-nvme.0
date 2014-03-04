@@ -1,300 +1,97 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon,  3 Mar 2014 16:39:13 -0700
-Subject: [PATCH] NVMe: IOCTL path RCU protect queue access
-Message-ID: <1393889953-12982-1-git-send-email-keith.busch@intel.com>
+From: pebolle@tiscali.nl (Paul Bolle)
+Date: Tue, 04 Mar 2014 10:36:07 +0100
+Subject: [PATCH v2] NVMe: silence GCC warning on 32 bit
+In-Reply-To: <alpine.LRH.2.03.1402210921010.4656@AMR>
+References: <1392714172-2712-1-git-send-email-geert@linux-m68k.org>
+ <1392934261.15264.22.camel@x220> <alpine.LRH.2.03.1402210921010.4656@AMR>
+Message-ID: <1393925767.3038.23.camel@x220>
 
-This adds rcu protected access to a queue in the nvme IOCTL path
-to fix potential races between a surprise removal and queue usage in
-nvme_submit_sync_cmd. The fix holds the rcu_read_lock() here to prevent
-the nvme_queue from freeing while this path is executing so it can't
-sleep, and so this path will no longer wait for a available command
-id should they all be in use at the time a passthrough IOCTL request
-is received.
+Building nvme-core.o on 32 bit x86 triggers a rather impressive set of
+GCC warnings:
+    In file included from drivers/block/nvme-core.c:20:0:
+    drivers/block/nvme-core.c: In function 'nvme_submit_bio_queue':
+    include/linux/bio.h:154:55: warning: 'bvprv.bv_offset' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     #define bvec_to_phys(bv) (page_to_phys((bv)->bv_page) + (unsigned long) (bv)->bv_offset)
+                                                           ^
+    drivers/block/nvme-core.c:498:23: note: 'bvprv.bv_offset' was declared here
+      struct bio_vec bvec, bvprv;
+                           ^
+    In file included from drivers/block/nvme-core.c:20:0:
+    include/linux/bio.h:154:55: warning: 'bvprv.bv_len' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     #define bvec_to_phys(bv) (page_to_phys((bv)->bv_page) + (unsigned long) (bv)->bv_offset)
+                                                           ^
+    drivers/block/nvme-core.c:498:23: note: 'bvprv.bv_len' was declared here
+      struct bio_vec bvec, bvprv;
+                           ^
+    In file included from [...]/arch/x86/include/asm/page.h:70:0,
+                     from [...]/arch/x86/include/asm/processor.h:17,
+                     from [...]/arch/x86/include/asm/atomic.h:6,
+                     from include/linux/atomic.h:4,
+                     from include/linux/mutex.h:18,
+                     from include/linux/kernfs.h:13,
+                     from include/linux/sysfs.h:15,
+                     from include/linux/kobject.h:21,
+                     from include/linux/pci.h:28,
+                     from include/linux/nvme.h:23,
+                     from drivers/block/nvme-core.c:19:
+    include/asm-generic/memory_model.h:31:53: warning: 'bvprv.bv_page' may be used uninitialized in this function [-Wmaybe-uninitialized]
+     #define __page_to_pfn(page) ((unsigned long)((page) - mem_map) + \
+                                                         ^
+    drivers/block/nvme-core.c:498:23: note: 'bvprv.bv_page' was declared here
+      struct bio_vec bvec, bvprv;
+                           ^
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+These are false positives. Apparently GCC can't determine that bvprv
+will only be used if first is false and has, therefore, been
+initialized. It turned out hard to reorganize the code to help GCC
+understand the flow of this code. So take the easy way out and
+initialize bvprv to { NULL }.
+
+And, since we're touching this code, make first a bool.
+
+Signed-off-by: Paul Bolle <pebolle at tiscali.nl>
 ---
-This is the continuation of this patch:
+v2: redone, as required by Keith's review. Note that initializing bvprv
+to { NULL } is already done twice in block/blk-merge.c, which inspired
+me to take the easy way out here.
 
-http://merlin.infradead.org/pipermail/linux-nvme/2014-February/000709.html
+Also note that it's actually not clear to me why these warnings only
+trigger on 32 bit. I guess there's some int/long conversion lurking
+somewhere. I haven't found it. 
 
-I'm just assuming that first part in the above link is okay and I'm
-posting this follow on now because it works in our testing.
+bvprv? Would that mean bio_vec private? But it looks like some temporary
+variable, so something like tmp may make more sense. Anyhow, still
+compile tested only (on 32 and 64 bit x86).
 
- drivers/block/nvme-core.c |   81 ++++++++++++++++++++++++++++++---------------
- drivers/block/nvme-scsi.c |   31 +++--------------
- include/linux/nvme.h      |    5 +--
- 3 files changed, 60 insertions(+), 57 deletions(-)
+ drivers/block/nvme-core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 03b5342..efcf57e 100644
+index 51824d1..60f98be 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -268,18 +268,30 @@ static struct nvme_queue *raw_nvmeq(struct nvme_dev *dev, int qid)
- 	return rcu_dereference_raw(dev->queues[qid]);
- }
- 
--struct nvme_queue *get_nvmeq(struct nvme_dev *dev) __acquires(RCU)
-+static struct nvme_queue *get_nvmeq(struct nvme_dev *dev) __acquires(RCU)
+@@ -495,11 +495,11 @@ static int nvme_split_and_submit(struct bio *bio, struct nvme_queue *nvmeq,
+ static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+ 		struct bio *bio, enum dma_data_direction dma_dir, int psegs)
  {
- 	rcu_read_lock();
- 	return rcu_dereference(dev->queues[get_cpu() + 1]);
- }
+-	struct bio_vec bvec, bvprv;
++	struct bio_vec bvec, bvprv = { NULL };
+ 	struct bvec_iter iter;
+ 	struct scatterlist *sg = NULL;
+ 	int length = 0, nsegs = 0, split_len = bio->bi_iter.bi_size;
+-	int first = 1;
++	bool first = true;
  
--void put_nvmeq(struct nvme_queue *nvmeq) __releases(RCU)
-+static void put_nvmeq(struct nvme_queue *nvmeq) __releases(RCU)
- {
- 	put_cpu();
- 	rcu_read_unlock();
- }
- 
-+static struct nvme_queue *lock_nvmeq(struct nvme_dev *dev, int q_idx)
-+							__acquires(RCU)
-+{
-+	rcu_read_lock();
-+	return rcu_dereference(dev->queues[q_idx]);
-+}
-+
-+static void unlock_nvmeq(struct nvme_queue *nvmeq) __releases(RCU)
-+{
-+	rcu_read_unlock();
-+}
-+
- /**
-  * nvme_submit_cmd() - Copy a command into a queue and ring the doorbell
-  * @nvmeq: The queue to use
-@@ -292,6 +304,10 @@ static int nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
- 	unsigned long flags;
- 	u16 tail;
- 	spin_lock_irqsave(&nvmeq->q_lock, flags);
-+	if (nvmeq->q_suspended) {
-+		spin_unlock_irqrestore(&nvmeq->q_lock, flags);
-+		return -EBUSY;
-+	}
- 	tail = nvmeq->sq_tail;
- 	memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
- 	if (++tail == nvmeq->q_depth)
-@@ -894,27 +910,46 @@ static void sync_completion(struct nvme_dev *dev, void *ctx,
-  * Returns 0 on success.  If the result is negative, it's a Linux error code;
-  * if the result is positive, it's an NVM Express status code
-  */
--int nvme_submit_sync_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
-+static int nvme_submit_sync_cmd(struct nvme_dev *dev, int q_idx,
-+						struct nvme_command *cmd,
- 						u32 *result, unsigned timeout)
- {
--	int cmdid;
-+	int cmdid, ret;
- 	struct sync_cmd_info cmdinfo;
-+	struct nvme_queue *nvmeq;
-+
-+	nvmeq = lock_nvmeq(dev, q_idx);
-+	if (!nvmeq) {
-+		unlock_nvmeq(nvmeq);
-+		return -ENODEV;
-+	}
- 
- 	cmdinfo.task = current;
- 	cmdinfo.status = -EINTR;
- 
--	cmdid = alloc_cmdid_killable(nvmeq, &cmdinfo, sync_completion,
--								timeout);
--	if (cmdid < 0)
-+	cmdid = alloc_cmdid(nvmeq, &cmdinfo, sync_completion, timeout);
-+	if (cmdid < 0) {
-+		unlock_nvmeq(nvmeq);
- 		return cmdid;
-+	}
- 	cmd->common.command_id = cmdid;
- 
- 	set_current_state(TASK_KILLABLE);
--	nvme_submit_cmd(nvmeq, cmd);
-+	ret = nvme_submit_cmd(nvmeq, cmd);
-+	if (ret) {
-+		free_cmdid(nvmeq, cmdid, NULL);
-+		unlock_nvmeq(nvmeq);
-+		set_current_state(TASK_RUNNING);
-+		return ret;
-+	}
-+	unlock_nvmeq(nvmeq);
- 	schedule_timeout(timeout);
- 
- 	if (cmdinfo.status == -EINTR) {
--		nvme_abort_command(nvmeq, cmdid);
-+		nvmeq = lock_nvmeq(dev, q_idx);
-+		if (nvmeq)
-+			nvme_abort_command(nvmeq, cmdid);
-+		unlock_nvmeq(nvmeq);
- 		return -EINTR;
+ 	if (nvmeq->dev->stripe_size)
+ 		split_len = nvmeq->dev->stripe_size -
+@@ -525,7 +525,7 @@ static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+ 			return nvme_split_and_submit(bio, nvmeq, split_len);
+ 		length += bvec.bv_len;
+ 		bvprv = bvec;
+-		first = 0;
++		first = false;
  	}
- 
-@@ -935,14 +970,20 @@ static int nvme_submit_async_cmd(struct nvme_queue *nvmeq,
- 		return cmdid;
- 	cmdinfo->status = -EINTR;
- 	cmd->common.command_id = cmdid;
--	nvme_submit_cmd(nvmeq, cmd);
--	return 0;
-+	return nvme_submit_cmd(nvmeq, cmd);
- }
- 
- int nvme_submit_admin_cmd(struct nvme_dev *dev, struct nvme_command *cmd,
- 								u32 *result)
- {
--	return nvme_submit_sync_cmd(raw_nvmeq(dev, 0), cmd, result, ADMIN_TIMEOUT);
-+	return nvme_submit_sync_cmd(dev, 0, cmd, result, ADMIN_TIMEOUT);
-+}
-+
-+int nvme_submit_io_cmd(struct nvme_dev *dev, struct nvme_command *cmd,
-+								u32 *result)
-+{
-+	return nvme_submit_sync_cmd(dev, smp_processor_id() + 1, cmd, result,
-+							NVME_IO_TIMEOUT);
- }
- 
- static int nvme_submit_admin_cmd_async(struct nvme_dev *dev,
-@@ -1515,7 +1556,6 @@ void nvme_unmap_user_pages(struct nvme_dev *dev, int write,
- static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- {
- 	struct nvme_dev *dev = ns->dev;
--	struct nvme_queue *nvmeq;
- 	struct nvme_user_io io;
- 	struct nvme_command c;
- 	unsigned length, meta_len;
-@@ -1591,20 +1631,10 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 
- 	length = nvme_setup_prps(dev, &c.common, iod, length, GFP_KERNEL);
- 
--	nvmeq = get_nvmeq(dev);
--	/*
--	 * Since nvme_submit_sync_cmd sleeps, we can't keep preemption
--	 * disabled.  We may be preempted at any point, and be rescheduled
--	 * to a different CPU.  That will cause cacheline bouncing, but no
--	 * additional races since q_lock already protects against other CPUs.
--	 */
--	put_nvmeq(nvmeq);
- 	if (length != (io.nblocks + 1) << ns->lba_shift)
- 		status = -ENOMEM;
--	else if (!nvmeq || nvmeq->q_suspended)
--		status = -EBUSY;
- 	else
--		status = nvme_submit_sync_cmd(nvmeq, &c, NULL, NVME_IO_TIMEOUT);
-+		status = nvme_submit_io_cmd(dev, &c, NULL);
- 
- 	if (meta_len) {
- 		if (status == NVME_SC_SUCCESS && !(io.opcode & 1)) {
-@@ -1678,8 +1708,7 @@ static int nvme_user_admin_cmd(struct nvme_dev *dev,
- 	if (length != cmd.data_len)
- 		status = -ENOMEM;
- 	else
--		status = nvme_submit_sync_cmd(raw_nvmeq(dev, 0), &c, &cmd.result,
--								timeout);
-+		status = nvme_submit_sync_cmd(dev, 0, &c, &cmd.result, timeout);
- 
- 	if (cmd.data_len) {
- 		nvme_unmap_user_pages(dev, cmd.opcode & 1, iod);
-diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index 4a0ceb6..e157e85 100644
---- a/drivers/block/nvme-scsi.c
-+++ b/drivers/block/nvme-scsi.c
-@@ -2033,7 +2033,6 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	int res = SNTI_TRANSLATION_SUCCESS;
- 	int nvme_sc;
- 	struct nvme_dev *dev = ns->dev;
--	struct nvme_queue *nvmeq;
- 	u32 num_cmds;
- 	struct nvme_iod *iod;
- 	u64 unit_len;
-@@ -2106,18 +2105,7 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 
- 		nvme_offset += unit_num_blocks;
- 
--		nvmeq = get_nvmeq(dev);
--		/*
--		 * Since nvme_submit_sync_cmd sleeps, we can't keep
--		 * preemption disabled.  We may be preempted at any
--		 * point, and be rescheduled to a different CPU.  That
--		 * will cause cacheline bouncing, but no additional
--		 * races since q_lock already protects against other
--		 * CPUs.
--		 */
--		put_nvmeq(nvmeq);
--		nvme_sc = nvme_submit_sync_cmd(nvmeq, &c, NULL,
--						NVME_IO_TIMEOUT);
-+		nvme_sc = nvme_submit_io_cmd(dev, &c, NULL);
- 		if (nvme_sc != NVME_SC_SUCCESS) {
- 			nvme_unmap_user_pages(dev,
- 				(is_write) ? DMA_TO_DEVICE : DMA_FROM_DEVICE,
-@@ -2644,7 +2632,6 @@ static int nvme_trans_start_stop(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- {
- 	int res = SNTI_TRANSLATION_SUCCESS;
- 	int nvme_sc;
--	struct nvme_queue *nvmeq;
- 	struct nvme_command c;
- 	u8 immed, pcmod, pc, no_flush, start;
- 
-@@ -2671,10 +2658,7 @@ static int nvme_trans_start_stop(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 			c.common.opcode = nvme_cmd_flush;
- 			c.common.nsid = cpu_to_le32(ns->ns_id);
- 
--			nvmeq = get_nvmeq(ns->dev);
--			put_nvmeq(nvmeq);
--			nvme_sc = nvme_submit_sync_cmd(nvmeq, &c, NULL, NVME_IO_TIMEOUT);
--
-+			nvme_sc = nvme_submit_io_cmd(ns->dev, &c, NULL);
- 			res = nvme_trans_status_code(hdr, nvme_sc);
- 			if (res)
- 				goto out;
-@@ -2697,15 +2681,12 @@ static int nvme_trans_synchronize_cache(struct nvme_ns *ns,
- 	int res = SNTI_TRANSLATION_SUCCESS;
- 	int nvme_sc;
- 	struct nvme_command c;
--	struct nvme_queue *nvmeq;
- 
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = nvme_cmd_flush;
- 	c.common.nsid = cpu_to_le32(ns->ns_id);
- 
--	nvmeq = get_nvmeq(ns->dev);
--	put_nvmeq(nvmeq);
--	nvme_sc = nvme_submit_sync_cmd(nvmeq, &c, NULL, NVME_IO_TIMEOUT);
-+	nvme_sc = nvme_submit_io_cmd(ns->dev, &c, NULL);
- 
- 	res = nvme_trans_status_code(hdr, nvme_sc);
- 	if (res)
-@@ -2872,7 +2853,6 @@ static int nvme_trans_unmap(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	struct nvme_dev *dev = ns->dev;
- 	struct scsi_unmap_parm_list *plist;
- 	struct nvme_dsm_range *range;
--	struct nvme_queue *nvmeq;
- 	struct nvme_command c;
- 	int i, nvme_sc, res = -ENOMEM;
- 	u16 ndesc, list_len;
-@@ -2914,10 +2894,7 @@ static int nvme_trans_unmap(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	c.dsm.nr = cpu_to_le32(ndesc - 1);
- 	c.dsm.attributes = cpu_to_le32(NVME_DSMGMT_AD);
- 
--	nvmeq = get_nvmeq(dev);
--	put_nvmeq(nvmeq);
--
--	nvme_sc = nvme_submit_sync_cmd(nvmeq, &c, NULL, NVME_IO_TIMEOUT);
-+	nvme_sc = nvme_submit_io_cmd(dev, &c, NULL);
- 	res = nvme_trans_status_code(hdr, nvme_sc);
- 
- 	dma_free_coherent(&dev->pci_dev->dev, ndesc * sizeof(*range),
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 98d367b..7c3f85b 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -151,10 +151,7 @@ struct nvme_iod *nvme_map_user_pages(struct nvme_dev *dev, int write,
- 				unsigned long addr, unsigned length);
- void nvme_unmap_user_pages(struct nvme_dev *dev, int write,
- 			struct nvme_iod *iod);
--struct nvme_queue *get_nvmeq(struct nvme_dev *dev);
--void put_nvmeq(struct nvme_queue *nvmeq);
--int nvme_submit_sync_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd,
--						u32 *result, unsigned timeout);
-+int nvme_submit_io_cmd(struct nvme_dev *, struct nvme_command *, u32 *);
- int nvme_submit_flush_data(struct nvme_queue *nvmeq, struct nvme_ns *ns);
- int nvme_submit_admin_cmd(struct nvme_dev *, struct nvme_command *,
- 							u32 *result);
+ 	iod->nents = nsegs;
+ 	sg_mark_end(sg);
 -- 
-1.7.10.4
+1.8.5.3
