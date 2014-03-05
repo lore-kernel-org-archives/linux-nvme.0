@@ -1,78 +1,105 @@
-From: agordeev@redhat.com (Alexander Gordeev)
-Date: Tue, 4 Mar 2014 16:22:00 +0100
-Subject: [PATCH v2 3/2] nvme: Use pci_enable_msi_range() and
- pci_enable_msix_range()
-In-Reply-To: <cover.1393404496.git.agordeev@redhat.com>
-References: <cover.1393404496.git.agordeev@redhat.com>
-Message-ID: <20140304152200.GA18364@dhcp-26-207.brq.redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 5 Mar 2014 08:09:34 -0700 (MST)
+Subject: [PATCH v2] NVMe: silence GCC warning on 32 bit
+In-Reply-To: <1393925767.3038.23.camel@x220>
+References: <1392714172-2712-1-git-send-email-geert@linux-m68k.org>
+ <1392934261.15264.22.camel@x220> <alpine.LRH.2.03.1402210921010.4656@AMR>
+ <1393925767.3038.23.camel@x220>
+Message-ID: <alpine.LRH.2.03.1403050803090.2885@AMR>
 
-As result of deprecation of MSI-X/MSI enablement functions
-pci_enable_msix() and pci_enable_msi_block() all drivers
-using these two interfaces need to be updated to use the
-new pci_enable_msi_range()  or pci_enable_msi_exact()
-and pci_enable_msix_range() or pci_enable_msix_exact()
-interfaces.
+Looks good to me. This won't apply in linux-nvme yet and it may be a
+little while before it does, so this might be considered to go upstream
+through a different tree if you want this in sooner.
 
-Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Matthew Wilcox <willy at linux.intel.com>
-Cc: Jens Axboe <axboe at kernel.dk>
-Cc: linux-nvme at lists.infradead.org
-Cc: linux-pci at vger.kernel.org
-Reviewed-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |   33 +++++++++------------------------
- 1 files changed, 9 insertions(+), 24 deletions(-)
+On Tue, 4 Mar 2014, Paul Bolle wrote:
+> Building nvme-core.o on 32 bit x86 triggers a rather impressive set of
+> GCC warnings:
+>    In file included from drivers/block/nvme-core.c:20:0:
+>    drivers/block/nvme-core.c: In function 'nvme_submit_bio_queue':
+>    include/linux/bio.h:154:55: warning: 'bvprv.bv_offset' may be used uninitialized in this function [-Wmaybe-uninitialized]
+>     #define bvec_to_phys(bv) (page_to_phys((bv)->bv_page) + (unsigned long) (bv)->bv_offset)
+>                                                           ^
+>    drivers/block/nvme-core.c:498:23: note: 'bvprv.bv_offset' was declared here
+>      struct bio_vec bvec, bvprv;
+>                           ^
+>    In file included from drivers/block/nvme-core.c:20:0:
+>    include/linux/bio.h:154:55: warning: 'bvprv.bv_len' may be used uninitialized in this function [-Wmaybe-uninitialized]
+>     #define bvec_to_phys(bv) (page_to_phys((bv)->bv_page) + (unsigned long) (bv)->bv_offset)
+>                                                           ^
+>    drivers/block/nvme-core.c:498:23: note: 'bvprv.bv_len' was declared here
+>      struct bio_vec bvec, bvprv;
+>                           ^
+>    In file included from [...]/arch/x86/include/asm/page.h:70:0,
+>                     from [...]/arch/x86/include/asm/processor.h:17,
+>                     from [...]/arch/x86/include/asm/atomic.h:6,
+>                     from include/linux/atomic.h:4,
+>                     from include/linux/mutex.h:18,
+>                     from include/linux/kernfs.h:13,
+>                     from include/linux/sysfs.h:15,
+>                     from include/linux/kobject.h:21,
+>                     from include/linux/pci.h:28,
+>                     from include/linux/nvme.h:23,
+>                     from drivers/block/nvme-core.c:19:
+>    include/asm-generic/memory_model.h:31:53: warning: 'bvprv.bv_page' may be used uninitialized in this function [-Wmaybe-uninitialized]
+>     #define __page_to_pfn(page) ((unsigned long)((page) - mem_map) + \
+>                                                         ^
+>    drivers/block/nvme-core.c:498:23: note: 'bvprv.bv_page' was declared here
+>      struct bio_vec bvec, bvprv;
+>                           ^
+>
+> These are false positives. Apparently GCC can't determine that bvprv
+> will only be used if first is false and has, therefore, been
+> initialized. It turned out hard to reorganize the code to help GCC
+> understand the flow of this code. So take the easy way out and
+> initialize bvprv to { NULL }.
+>
+> And, since we're touching this code, make first a bool.
+>
+> Signed-off-by: Paul Bolle <pebolle at tiscali.nl>
+> ---
+> v2: redone, as required by Keith's review. Note that initializing bvprv
+> to { NULL } is already done twice in block/blk-merge.c, which inspired
+> me to take the easy way out here.
+>
+> Also note that it's actually not clear to me why these warnings only
+> trigger on 32 bit. I guess there's some int/long conversion lurking
+> somewhere. I haven't found it.
+>
+> bvprv? Would that mean bio_vec private? But it looks like some temporary
+> variable, so something like tmp may make more sense. Anyhow, still
+> compile tested only (on 32 and 64 bit x86).
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 51824d1..eca2b3e 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1837,31 +1837,16 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	/* Deregister the admin queue's interrupt */
- 	free_irq(dev->entry[0].vector, adminq);
- 
--	vecs = nr_io_queues;
--	for (i = 0; i < vecs; i++)
-+	for (i = 0; i < nr_io_queues; i++)
- 		dev->entry[i].entry = i;
--	for (;;) {
--		result = pci_enable_msix(pdev, dev->entry, vecs);
--		if (result <= 0)
--			break;
--		vecs = result;
--	}
--
--	if (result < 0) {
--		vecs = nr_io_queues;
--		if (vecs > 32)
--			vecs = 32;
--		for (;;) {
--			result = pci_enable_msi_block(pdev, vecs);
--			if (result == 0) {
--				for (i = 0; i < vecs; i++)
--					dev->entry[i].vector = i + pdev->irq;
--				break;
--			} else if (result < 0) {
--				vecs = 1;
--				break;
--			}
--			vecs = result;
-+	vecs = pci_enable_msix_range(pdev, dev->entry, 1, nr_io_queues);
-+	if (vecs < 0) {
-+		vecs = pci_enable_msi_range(pdev, 1, min(nr_io_queues, 32));
-+		if (vecs < 0) {
-+			vecs = 1;
-+		} else {
-+			for (i = 0; i < vecs; i++)
-+				dev->entry[i].vector = i + pdev->irq;
- 		}
- 	}
- 
--- 
-1.7.7.6
+bvprv == bio_vec previous
 
--- 
-Regards,
-Alexander Gordeev
-agordeev at redhat.com
+> drivers/block/nvme-core.c | 6 +++---
+> 1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> index 51824d1..60f98be 100644
+> --- a/drivers/block/nvme-core.c
+> +++ b/drivers/block/nvme-core.c
+> @@ -495,11 +495,11 @@ static int nvme_split_and_submit(struct bio *bio, struct nvme_queue *nvmeq,
+> static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+> 		struct bio *bio, enum dma_data_direction dma_dir, int psegs)
+> {
+> -	struct bio_vec bvec, bvprv;
+> +	struct bio_vec bvec, bvprv = { NULL };
+> 	struct bvec_iter iter;
+> 	struct scatterlist *sg = NULL;
+> 	int length = 0, nsegs = 0, split_len = bio->bi_iter.bi_size;
+> -	int first = 1;
+> +	bool first = true;
+>
+> 	if (nvmeq->dev->stripe_size)
+> 		split_len = nvmeq->dev->stripe_size -
+> @@ -525,7 +525,7 @@ static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+> 			return nvme_split_and_submit(bio, nvmeq, split_len);
+> 		length += bvec.bv_len;
+> 		bvprv = bvec;
+> -		first = 0;
+> +		first = false;
+> 	}
+> 	iod->nents = nsegs;
+> 	sg_mark_end(sg);
+> -- 
+> 1.8.5.3
