@@ -1,25 +1,36 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 5 Mar 2014 13:45:24 -0700 (MST)
-Subject: Expected performance level of nvme driver v0.8 (Ubuntu
- 13.10/3.11.0-12-generic)
-In-Reply-To: <53177C9B.8080606@aeoncomputing.com>
-References: <53177C9B.8080606@aeoncomputing.com>
-Message-ID: <alpine.LRH.2.03.1403051242070.2885@AMR>
+From: pebolle@tiscali.nl (Paul Bolle)
+Date: Thu, 06 Mar 2014 10:56:55 +0100
+Subject: [PATCH v2] NVMe: silence GCC warning on 32 bit
+In-Reply-To: <alpine.LRH.2.03.1403050803090.2885@AMR>
+References: <1392714172-2712-1-git-send-email-geert@linux-m68k.org>
+ <1392934261.15264.22.camel@x220> <alpine.LRH.2.03.1402210921010.4656@AMR>
+ <1393925767.3038.23.camel@x220> <alpine.LRH.2.03.1403050803090.2885@AMR>
+Message-ID: <1394099815.4592.8.camel@x220>
 
-On Wed, 5 Mar 2014, Jeff Johnson wrote:
-> Greetings,
->
-> I am doing some testing and benchmarking with the v0.8 nvme driver in
-> Ubuntu 13.10/3.11.0-12-generic. With a PCIe Gen3 nvme compliant device I
-> am seeing sequential (single thread) write and read numbers in the
-> 900MB/sec range. Based on the device I was expecting higher numbers. Is
-> this an expected level of performance for this version of the driver?
+On Wed, 2014-03-05@08:09 -0700, Keith Busch wrote:
+> Looks good to me.
 
-Hi Jeff,
-The driver is capable of performing beyond that, but it wouldn't be
-possible to say what factors contribute to the performance you're seeing
-based on this information.
+Thanks.
 
-> Thanks,
->
-> --Jeff
+> This won't apply in linux-nvme yet and it may be a
+> little while before it does, so this might be considered to go upstream
+> through a different tree if you want this in sooner.
+
+These warnings popped up in v3.14-rc1. (In v3.13 bvprv was a pointer
+initialized to NULL.) This patch is not urgent, but it would still be
+nice if the warnings were silenced in v3.14, since they are so noisy. Is
+there any tree that queues NVMe fixes to be applied during this release
+cycle?
+
+> On Tue, 4 Mar 2014, Paul Bolle wrote:
+> > bvprv? Would that mean bio_vec private? But it looks like some temporary
+> > variable, so something like tmp may make more sense. Anyhow, still
+> > compile tested only (on 32 and 64 bit x86).
+> 
+> bvprv == bio_vec previous
+
+Thanks. So perhaps that variable could be renamed to previous (or its
+more common alias prev),
+
+
+Paul Bolle
