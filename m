@@ -1,36 +1,35 @@
-From: pebolle@tiscali.nl (Paul Bolle)
-Date: Thu, 06 Mar 2014 10:56:55 +0100
-Subject: [PATCH v2] NVMe: silence GCC warning on 32 bit
-In-Reply-To: <alpine.LRH.2.03.1403050803090.2885@AMR>
-References: <1392714172-2712-1-git-send-email-geert@linux-m68k.org>
- <1392934261.15264.22.camel@x220> <alpine.LRH.2.03.1402210921010.4656@AMR>
- <1393925767.3038.23.camel@x220> <alpine.LRH.2.03.1403050803090.2885@AMR>
-Message-ID: <1394099815.4592.8.camel@x220>
+From: tj@kernel.org (Tejun Heo)
+Date: Fri, 7 Mar 2014 10:26:55 -0500
+Subject: [PATCH 6/9] nvme: don't use PREPARE_WORK
+In-Reply-To: <1392929071-16555-7-git-send-email-tj@kernel.org>
+References: <1392929071-16555-1-git-send-email-tj@kernel.org>
+ <1392929071-16555-7-git-send-email-tj@kernel.org>
+Message-ID: <20140307152655.GG30778@htj.dyndns.org>
 
-On Wed, 2014-03-05@08:09 -0700, Keith Busch wrote:
-> Looks good to me.
+On Thu, Feb 20, 2014@03:44:28PM -0500, Tejun Heo wrote:
+> PREPARE_[DELAYED_]WORK() are being phased out.  They have few users
+> and a nasty surprise in terms of reentrancy guarantee as workqueue
+> considers work items to be different if they don't have the same work
+> function.
+> 
+> nvme_dev->reset_work is multiplexed with multiple work functions.
+> Introduce nvme_reset_workfn() which invokes nvme_dev->reset_workfn and
+> always use it as the work function and update the users to set the
+> ->reset_workfn field instead of overriding the work function using
+> PREPARE_WORK().
+> 
+> It would probably be best to route this with other related updates
+> through the workqueue tree.
+> 
+> Compile tested.
+> 
+> Signed-off-by: Tejun Heo <tj at kernel.org>
+> Cc: Matthew Wilcox <willy at linux.intel.com>
+> Cc: linux-nvme at lists.infradead.org
+
+Applied to wq/for-3.15.  Please holler if there's any objection.
 
 Thanks.
 
-> This won't apply in linux-nvme yet and it may be a
-> little while before it does, so this might be considered to go upstream
-> through a different tree if you want this in sooner.
-
-These warnings popped up in v3.14-rc1. (In v3.13 bvprv was a pointer
-initialized to NULL.) This patch is not urgent, but it would still be
-nice if the warnings were silenced in v3.14, since they are so noisy. Is
-there any tree that queues NVMe fixes to be applied during this release
-cycle?
-
-> On Tue, 4 Mar 2014, Paul Bolle wrote:
-> > bvprv? Would that mean bio_vec private? But it looks like some temporary
-> > variable, so something like tmp may make more sense. Anyhow, still
-> > compile tested only (on 32 and 64 bit x86).
-> 
-> bvprv == bio_vec previous
-
-Thanks. So perhaps that variable could be renamed to previous (or its
-more common alias prev),
-
-
-Paul Bolle
+-- 
+tejun
