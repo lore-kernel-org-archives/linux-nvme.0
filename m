@@ -1,52 +1,40 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 17 Mar 2014 11:53:51 -0600 (MDT)
-Subject: [PATCH] NVMe: core: Fix bug on maximum hardware sectors support
- by driver
-In-Reply-To: <1395075645-19774-1-git-send-email-mundu2510@gmail.com>
-References: <1395075645-19774-1-git-send-email-mundu2510@gmail.com>
-Message-ID: <alpine.LRH.2.03.1403171131270.2885@AMR>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Fri, 21 Mar 2014 16:11:09 -0400
+Subject: A question about NVMe's nvme-irq
+In-Reply-To: <785daaf7.5696.144e2af49b0.Coremail.liaohengquan1986@163.com>
+References: <cover.1390897693.git.agordeev@redhat.com>
+ <20140311150841.GA25564@dhcp-26-207.brq.redhat.com>
+ <196070e8.d690.144bb7e553f.Coremail.liaohengquan1986@163.com>
+ <20140313192045.GD6091@linux.intel.com>
+ <785daaf7.5696.144e2af49b0.Coremail.liaohengquan1986@163.com>
+Message-ID: <20140321201109.GC5705@linux.intel.com>
 
-On Mon, 17 Mar 2014, Mundu wrote:
-> NVMe spec defines maximum data transfer size as 0 in case no size restriction.
-> Fixed exception - divide by zero in function nvme_trans_io_get_num_cmds.
-> Change to maximum hardware sector supports as Block safe max sectors,
-> when mdts set as zero.
->
-> Signed-off-by: Mundu <mundu2510 at gmail.com>
+On Fri, Mar 21, 2014@11:29:02AM +0800, liaohengquan1986 wrote:
+> hello,
+>          There is question confusing me recently. In the function of nvme-irq as belows:
+>           static irqreturn_t nvme_irq(int irq, void *data)
+>           {
+>                  irqreturn_t result;
+>                  struct nvme_queue *nvmeq = data;
+>                  spin_lock(&nvmeq->q_lock);
+>                  nvme_process_cq(nvmeq);
+>                  result = nvmeq->cqe_seen ? IRQ_HANDLED : IRQ_NONE;
+>                  nvmeq->cqe_seen = 0;
+>                  spin_unlock(&nvmeq->q_lock);
+>                  return result;
+>        }
+>        If there are two cqes which trigger two irqs, but they are so closed that the first nvme-irq() handles both the cqes( including the second cqe which triggers the second irq),
+>       then the second nvme_process_cq() will find there is no cqe in the CQ and return nvmeq->cqe_seen = 0, and nvme-irq will return IRQ_NONE.
+>       I think maybe this is a bug, because there actually are two irqs, it's not right to return IRQ_NONE, isn't it?
 
-That's a good catch, but I think we need to handle this differently. The
-device's max_hw_sectors is per device rather than namespace.
+        /* If the controller ignores the cq head doorbell and continuously
+         * writes to the queue, it is theoretically possible to wrap around
+         * the queue twice and mistakenly return IRQ_NONE.  Linux only
+         * requires that 0.1% of your interrupts are handled, so this isn't
+         * a big problem.
+         */
 
-I don't think the nvme-scsi should be using dev->max_hw_sectors directly,
-though. Maybe something like this instead:
+I should probably update & move that comment, but nevertheless, it
+applies to your situation too.
 
-diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index 4a0ceb6..b0bd260 100644
---- a/drivers/block/nvme-scsi.c
-+++ b/drivers/block/nvme-scsi.c
-@@ -2045,7 +2045,7 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
-  	struct nvme_command c;
-  	u8 opcode = (is_write ? nvme_cmd_write : nvme_cmd_read);
-  	u16 control;
--	u32 max_blocks = nvme_block_nr(ns, dev->max_hw_sectors);
-+	u32 max_blocks = queue_max_hw_sectors(ns->queue);
-
-  	num_cmds = nvme_trans_io_get_num_cmds(hdr, cdb_info, max_blocks);
-
-> ---
-> drivers/block/nvme-core.c | 2 ++
-> 1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index cd39390..c8c0ccc 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -1847,6 +1847,8 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid,
-> 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
-> 	if (dev->max_hw_sectors)
-> 		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
-> +	else
-> +		dev->max_hw_sectors = ns->queue->limits.max_hw_sectors;
->
-> 	disk->major = nvme_major;
-> 	disk->first_minor = 0;
+> 
