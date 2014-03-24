@@ -1,19 +1,17 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Mon, 24 Mar 2014 02:09:35 -0400
-Subject: A question about NVMe's nvme-irq
-In-Reply-To: <42744e02.6f7d.144f1b148b3.Coremail.liaohengquan1986@163.com>
-References: <cover.1390897693.git.agordeev@redhat.com>
- <20140311150841.GA25564@dhcp-26-207.brq.redhat.com>
- <196070e8.d690.144bb7e553f.Coremail.liaohengquan1986@163.com>
- <20140313192045.GD6091@linux.intel.com>
- <785daaf7.5696.144e2af49b0.Coremail.liaohengquan1986@163.com>
- <20140321201109.GC5705@linux.intel.com>
- <42744e02.6f7d.144f1b148b3.Coremail.liaohengquan1986@163.com>
-Message-ID: <20140324060935.GB5777@linux.intel.com>
+Date: Mon, 24 Mar 2014 09:11:04 -0400
+Subject: [PATCH v2] NVMe: silence GCC warning on 32 bit
+In-Reply-To: <1393925767.3038.23.camel@x220>
+References: <1392714172-2712-1-git-send-email-geert@linux-m68k.org>
+ <1392934261.15264.22.camel@x220>
+ <alpine.LRH.2.03.1402210921010.4656@AMR>
+ <1393925767.3038.23.camel@x220>
+Message-ID: <20140324131104.GC5777@linux.intel.com>
 
-On Mon, Mar 24, 2014@09:25:31AM +0800, liaohengquan1986 wrote:
-> 
-> 
-> In our server environment , The  mistakenly returning  IRQ_NONE will  make the OS(suse11 sp3) crush, should we fix it up? if yes, how?
+On Tue, Mar 04, 2014@10:36:07AM +0100, Paul Bolle wrote:
+> Also note that it's actually not clear to me why these warnings only
+> trigger on 32 bit. I guess there's some int/long conversion lurking
+> somewhere. I haven't found it. 
 
-You should raise this with SUSE.
+I bet you're using a different revision of the compiler on 32 and 64 bit.
+Different gcc revisions have different abilities to track initialisation.
