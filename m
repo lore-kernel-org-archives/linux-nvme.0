@@ -1,40 +1,18 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 21 Mar 2014 16:11:09 -0400
-Subject: A question about NVMe's nvme-irq
-In-Reply-To: <785daaf7.5696.144e2af49b0.Coremail.liaohengquan1986@163.com>
+Date: Mon, 24 Mar 2014 02:09:01 -0400
+Subject: if  the NVMe driver has been validated on dual-cpu platform
+In-Reply-To: <45840288.abae.144f2312ef0.Coremail.liaohengquan1986@163.com>
 References: <cover.1390897693.git.agordeev@redhat.com>
  <20140311150841.GA25564@dhcp-26-207.brq.redhat.com>
  <196070e8.d690.144bb7e553f.Coremail.liaohengquan1986@163.com>
  <20140313192045.GD6091@linux.intel.com>
  <785daaf7.5696.144e2af49b0.Coremail.liaohengquan1986@163.com>
-Message-ID: <20140321201109.GC5705@linux.intel.com>
+ <20140321201109.GC5705@linux.intel.com>
+ <45840288.abae.144f2312ef0.Coremail.liaohengquan1986@163.com>
+Message-ID: <20140324060901.GA5777@linux.intel.com>
 
-On Fri, Mar 21, 2014@11:29:02AM +0800, liaohengquan1986 wrote:
-> hello,
->          There is question confusing me recently. In the function of nvme-irq as belows:
->           static irqreturn_t nvme_irq(int irq, void *data)
->           {
->                  irqreturn_t result;
->                  struct nvme_queue *nvmeq = data;
->                  spin_lock(&nvmeq->q_lock);
->                  nvme_process_cq(nvmeq);
->                  result = nvmeq->cqe_seen ? IRQ_HANDLED : IRQ_NONE;
->                  nvmeq->cqe_seen = 0;
->                  spin_unlock(&nvmeq->q_lock);
->                  return result;
->        }
->        If there are two cqes which trigger two irqs, but they are so closed that the first nvme-irq() handles both the cqes( including the second cqe which triggers the second irq),
->       then the second nvme_process_cq() will find there is no cqe in the CQ and return nvmeq->cqe_seen = 0, and nvme-irq will return IRQ_NONE.
->       I think maybe this is a bug, because there actually are two irqs, it's not right to return IRQ_NONE, isn't it?
+On Mon, Mar 24, 2014@11:45:13AM +0800, liaohengquan1986 wrote:
+>                   I want to ask that if  the NVMe driver has been validated on dual-cpu platform?
 
-        /* If the controller ignores the cq head doorbell and continuously
-         * writes to the queue, it is theoretically possible to wrap around
-         * the queue twice and mistakenly return IRQ_NONE.  Linux only
-         * requires that 0.1% of your interrupts are handled, so this isn't
-         * a big problem.
-         */
-
-I should probably update & move that comment, but nevertheless, it
-applies to your situation too.
-
-> 
+I've run it on a dual socket platform.  Performance is better if the
+application is running on the socket that the card is attached to :-)
