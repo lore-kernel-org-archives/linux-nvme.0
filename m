@@ -1,60 +1,144 @@
-From: raymond.c.robles@intel.com (Robles, Raymond C)
-Date: Mon, 31 Mar 2014 20:37:30 +0000
-Subject: [PATCH] NVMe: Increase shutdown complete time
-In-Reply-To: <alpine.WNT.2.00.1403311256420.4656@DMCLERAN-MOBL.amr.corp.intel.com>
-References: <1396283044-31926-1-git-send-email-keith.busch@intel.com>
- <alpine.WNT.2.00.1403311256420.4656@DMCLERAN-MOBL.amr.corp.intel.com>
-Message-ID: <49158E750348AA499168FD41D8898360626A03D9@FMSMSX105.amr.corp.intel.com>
+From: daniel.mcleran@intel.com (Dan McLeran)
+Date: Mon, 31 Mar 2014 14:52:11 -0600
+Subject: [PATCH] NVMe: Start-stop thread during device add-remove.
+Message-ID: <1396299131-17979-1-git-send-email-daniel.mcleran@intel.com>
 
-You're probably fine waiting anywhere up to CAP.TO.
+Move starting/stopping the nvme polling kthread from the module_init/exit
+path to device add/remove so we don't have a kthread running when no
+devices are being polled.
 
------Original Message-----
-From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Dan McLeran
-Sent: Monday, March 31, 2014 11:57 AM
-To: Busch, Keith
-Cc: linux-nvme at lists.infradead.org
-Subject: Re: [PATCH] NVMe: Increase shutdown complete time
+Signed-off-by: Dan McLeran <daniel.mcleran at intel.com>
+---
+ drivers/block/nvme-core.c |   57 +++++++++++++++++++++++++++++++++------------
+ 1 file changed, 42 insertions(+), 15 deletions(-)
 
-Seems reasonable to me.
-
-On Mon, 31 Mar 2014, Keith Busch wrote:
-
-> The spec doesn't have a recommendation for shutdown beyond "that the 
-> host wait a minimum of one second for the shutdown operations to 
-> complete", so we need to choose an arbitrarily value so we don't wait 
-> forever but high enough to prevent unsafe shutdowns. Some h/w vendors 
-> say the previous two seconds is not long enough at some capacities. 
-> Twenty seconds ought to be enough for anybody, right?
->
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
-> drivers/block/nvme-core.c |    2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c 
-> index 625259d..103da93 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -1352,7 +1352,7 @@ static int nvme_shutdown_ctrl(struct nvme_dev *dev)
-> 	cc = (readl(&dev->bar->cc) & ~NVME_CC_SHN_MASK) | NVME_CC_SHN_NORMAL;
-> 	writel(cc, &dev->bar->cc);
->
-> -	timeout = 2 * HZ + jiffies;
-> +	timeout = 20 * HZ + jiffies;
-> 	while ((readl(&dev->bar->csts) & NVME_CSTS_SHST_MASK) !=
-> 							NVME_CSTS_SHST_CMPLT) {
-> 		msleep(100);
-> --
-> 1.7.10.4
->
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://merlin.infradead.org/mailman/listinfo/linux-nvme
->
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://merlin.infradead.org/mailman/listinfo/linux-nvme
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 51824d1..1d6f80a 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -58,6 +58,7 @@ static DEFINE_SPINLOCK(dev_list_lock);
+ static LIST_HEAD(dev_list);
+ static struct task_struct *nvme_thread;
+ static struct workqueue_struct *nvme_workq;
++static wait_queue_head_t nvme_kthread_wait;
+ 
+ static void nvme_reset_failed_dev(struct work_struct *ws);
+ 
+@@ -2193,15 +2194,33 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
+ 	kthread_stop(kworker_task);
+ }
+ 
++/*
++* Remove the node from the device list and check
++* for whether or not we need to stop the nvme_thread.
++*/
++static void nvme_dev_list_remove(struct nvme_dev *dev)
++{
++	struct task_struct *tmp = NULL;
++
++	spin_lock(&dev_list_lock);
++	list_del_init(&dev->node);
++	if (list_empty(&dev_list) && !IS_ERR_OR_NULL(nvme_thread)) {
++		tmp = nvme_thread;
++		nvme_thread = NULL;
++	}
++	spin_unlock(&dev_list_lock);
++
++	if (tmp)
++		kthread_stop(tmp);
++}
++
+ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ {
+ 	int i;
+ 
+ 	dev->initialized = 0;
+ 
+-	spin_lock(&dev_list_lock);
+-	list_del_init(&dev->node);
+-	spin_unlock(&dev_list_lock);
++	nvme_dev_list_remove(dev);
+ 
+ 	if (!dev->bar || (dev->bar && readl(&dev->bar->csts) == -1)) {
+ 		for (i = dev->queue_count - 1; i >= 0; i--) {
+@@ -2341,6 +2360,7 @@ static const struct file_operations nvme_dev_fops = {
+ static int nvme_dev_start(struct nvme_dev *dev)
+ {
+ 	int result;
++	bool start_thread = false;
+ 
+ 	result = nvme_dev_map(dev);
+ 	if (result)
+@@ -2351,9 +2371,24 @@ static int nvme_dev_start(struct nvme_dev *dev)
+ 		goto unmap;
+ 
+ 	spin_lock(&dev_list_lock);
++	if (list_empty(&dev_list) && IS_ERR_OR_NULL(nvme_thread)) {
++		start_thread = true;
++		nvme_thread = NULL;
++	}
+ 	list_add(&dev->node, &dev_list);
+ 	spin_unlock(&dev_list_lock);
+ 
++	if (start_thread) {
++		nvme_thread = kthread_run(nvme_kthread, NULL, "nvme");
++		wake_up(&nvme_kthread_wait);
++	} else
++		wait_event_killable(nvme_kthread_wait, nvme_thread);
++
++	if (IS_ERR_OR_NULL(nvme_thread)) {
++		result = nvme_thread ? PTR_ERR(nvme_thread) : -EINTR;
++		goto disable;
++	}
++
+ 	result = nvme_setup_io_queues(dev);
+ 	if (result && result != -EBUSY)
+ 		goto disable;
+@@ -2362,9 +2397,7 @@ static int nvme_dev_start(struct nvme_dev *dev)
+ 
+  disable:
+ 	nvme_disable_queue(dev, 0);
+-	spin_lock(&dev_list_lock);
+-	list_del_init(&dev->node);
+-	spin_unlock(&dev_list_lock);
++	nvme_dev_list_remove(dev);
+  unmap:
+ 	nvme_dev_unmap(dev);
+ 	return result;
+@@ -2594,14 +2627,10 @@ static int __init nvme_init(void)
+ {
+ 	int result;
+ 
+-	nvme_thread = kthread_run(nvme_kthread, NULL, "nvme");
+-	if (IS_ERR(nvme_thread))
+-		return PTR_ERR(nvme_thread);
+-
+-	result = -ENOMEM;
++	init_waitqueue_head(&nvme_kthread_wait);
+ 	nvme_workq = create_singlethread_workqueue("nvme");
+ 	if (!nvme_workq)
+-		goto kill_kthread;
++		return -ENOMEM;
+ 
+ 	result = register_blkdev(nvme_major, "nvme");
+ 	if (result < 0)
+@@ -2618,8 +2647,6 @@ static int __init nvme_init(void)
+ 	unregister_blkdev(nvme_major, "nvme");
+  kill_workq:
+ 	destroy_workqueue(nvme_workq);
+- kill_kthread:
+-	kthread_stop(nvme_thread);
+ 	return result;
+ }
+ 
+@@ -2628,7 +2655,7 @@ static void __exit nvme_exit(void)
+ 	pci_unregister_driver(&nvme_driver);
+ 	unregister_blkdev(nvme_major, "nvme");
+ 	destroy_workqueue(nvme_workq);
+-	kthread_stop(nvme_thread);
++	BUG_ON(nvme_thread && !IS_ERR(nvme_thread));
+ }
+ 
+ MODULE_AUTHOR("Matthew Wilcox <willy at linux.intel.com>");
+-- 
+1.7.10.4
