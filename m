@@ -1,46 +1,56 @@
-From: hverkuil@xs4all.nl (Hans Verkuil)
-Date: Mon, 30 Sep 2013 13:57:47 +0200
-Subject: [PATCH 19/51] DMA-API: media: dt3155v4l: replace
- dma_set_mask()+dma_set_coherent_mask() with new helper
-In-Reply-To: <E1VMm13-0007hO-9l@rmk-PC.arm.linux.org.uk>
-References: <20130919212235.GD12758@n2100.arm.linux.org.uk>
- <E1VMm13-0007hO-9l@rmk-PC.arm.linux.org.uk>
-Message-ID: <5249673B.5020705@xs4all.nl>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed,  2 Apr 2014 15:45:37 -0600
+Subject: [PATCH] NVMe: Add getgeo to block ops
+Message-ID: <1396475137-19091-1-git-send-email-keith.busch@intel.com>
 
-On 09/19/2013 11:44 PM, Russell King wrote:
-> Replace the following sequence:
-> 
-> 	dma_set_mask(dev, mask);
-> 	dma_set_coherent_mask(dev, mask);
-> 
-> with a call to the new helper dma_set_mask_and_coherent().
-> 
-> Signed-off-by: Russell King <rmk+kernel at arm.linux.org.uk>
+Some programs require HDIO_GETGEO work, which requires we implement
+getgeo.
 
-Acked-by: Hans Verkuil <hans.verkuil at cisco.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+For example, fdisk -l doesn't automatically list the nvme drivers
+without this. There are other programs that require this as well.
 
-Regards,
+We have to pick some values for this. I just copied the ones used by
+default from virtio-blk... Are these okay?
 
-	Hans
+ drivers/block/nvme-core.c |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-> ---
->  drivers/staging/media/dt3155v4l/dt3155v4l.c |    5 +----
->  1 files changed, 1 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/staging/media/dt3155v4l/dt3155v4l.c b/drivers/staging/media/dt3155v4l/dt3155v4l.c
-> index 90d6ac4..081407b 100644
-> --- a/drivers/staging/media/dt3155v4l/dt3155v4l.c
-> +++ b/drivers/staging/media/dt3155v4l/dt3155v4l.c
-> @@ -901,10 +901,7 @@ dt3155_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->  	int err;
->  	struct dt3155_priv *pd;
->  
-> -	err = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
-> -	if (err)
-> -		return -ENODEV;
-> -	err = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
-> +	err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
->  	if (err)
->  		return -ENODEV;
->  	pd = kzalloc(sizeof(*pd), GFP_KERNEL);
-> 
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 625259d..a113e10 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -25,6 +25,7 @@
+ #include <linux/errno.h>
+ #include <linux/fs.h>
+ #include <linux/genhd.h>
++#include <linux/hdreg.h>
+ #include <linux/idr.h>
+ #include <linux/init.h>
+ #include <linux/interrupt.h>
+@@ -1708,12 +1709,22 @@ static void nvme_release(struct gendisk *disk, fmode_t mode)
+ 	kref_put(&dev->kref, nvme_free_dev);
+ }
+ 
++static int nvme_getgeo(struct block_device *bd, struct hd_geometry *geo)
++{
++	/* some standard values */
++	geo->heads = 1 << 6;
++	geo->sectors = 1 << 5;
++	geo->cylinders = get_capacity(bd->bd_disk) >> 11;
++	return 0;
++}
++
+ static const struct block_device_operations nvme_fops = {
+ 	.owner		= THIS_MODULE,
+ 	.ioctl		= nvme_ioctl,
+ 	.compat_ioctl	= nvme_compat_ioctl,
+ 	.open		= nvme_open,
+ 	.release	= nvme_release,
++	.getgeo		= nvme_getgeo,
+ };
+ 
+ static void nvme_resubmit_bios(struct nvme_queue *nvmeq)
+-- 
+1.7.10.4
