@@ -1,19 +1,43 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 4 Apr 2014 12:31:23 -0400
-Subject: [PATCH] NVMe: Increase shutdown complete time
-In-Reply-To: <alpine.LRH.2.03.1404031709520.4731@AMR>
-References: <1396283044-31926-1-git-send-email-keith.busch@intel.com>
- <alpine.WNT.2.00.1403311256420.4656@DMCLERAN-MOBL.amr.corp.intel.com>
- <49158E750348AA499168FD41D8898360626A03D9@FMSMSX105.amr.corp.intel.com>
- <alpine.WNT.2.00.1403311755300.4656@DMCLERAN-MOBL.amr.corp.intel.com>
- <90064137F935C142B4B98BA318BB81A301DA530C@GREEN-CLEX.greenliant.com>
- <alpine.LRH.2.03.1404031709520.4731@AMR>
-Message-ID: <20140404163123.GE27299@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri,  4 Apr 2014 11:43:36 -0600
+Subject: [PATCH] NVMe: Make IO timeout a module parameter
+Message-ID: <1396633416-6000-1-git-send-email-keith.busch@intel.com>
 
-On Thu, Apr 03, 2014@05:12:34PM -0600, Keith Busch wrote:
-> +int nvme_io_timeout = 5;
-> +module_param(nvme_io_timeout, int, 0);
-> +MODULE_PARM_DESC(nvme_io_timeout, "timeout in seconds for io submitted to queue");
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/block/nvme-core.c |    5 +++++
+ include/linux/nvme.h      |    3 ++-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
 
-Any reason not to make this module_param 0644?  That would allow it to
-be written by root and read by anybody.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 625259d..b43d2b6 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -50,6 +50,11 @@
+ #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
+ #define ADMIN_TIMEOUT	(60 * HZ)
+ 
++ushort io_timeout = 5;
++module_param(io_timeout, ushort, 0644);
++MODULE_PARM_DESC(io_timeout,
++			"timeout in seconds for io submitted to h/w queue");
++
+ static int nvme_major;
+ module_param(nvme_major, int, 0);
+ 
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 15d071e..2a28d84 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -66,7 +66,8 @@ enum {
+ 
+ #define NVME_VS(major, minor)	(major << 16 | minor)
+ 
+-#define NVME_IO_TIMEOUT	(5 * HZ)
++extern ushort io_timeout;
++#define NVME_IO_TIMEOUT	(io_timeout * HZ)
+ 
+ /*
+  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+-- 
+1.7.10.4
