@@ -1,79 +1,84 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  8 Apr 2014 16:24:20 -0600
-Subject: [PATCH] NVMe: Complete shutdown & suspend asynchronously
-Message-ID: <1396995860-31211-1-git-send-email-keith.busch@intel.com>
+Date: Tue,  8 Apr 2014 17:42:20 -0600
+Subject: [PATCH 1/2] PCI: Device driver function reset notification
+Message-ID: <1397000541-1085-1-git-send-email-keith.busch@intel.com>
 
-So devices may take time to complete a shutdown. The shutdown and suspend
-driver paths can safely perform the actual device shutdown asynchronously,
-so multiple devices may be done in parallel.
-
-The async shutdown and suspend have to be handled a little differently. We
-can't use MSI/MSI-x in the shutdown path after returning, so its
-asynchronous callback will have to use and free INTx irq, where suspend
-may continue using MSI[-x].
+A user can issue a pci function level reset to a device using sysfs entry
+/sys/bus/pci/devices/.../reset. A kernel driver handling the pci device
+might like to know this reset is about to occur and when the reset attempt
+completes. This is so the driver has a chance to take appropriate device
+specific actions; for example, it may need to quiesce before the reset,
+and reinitialize the device after.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   25 +++++++++++++++++++++++--
- 1 file changed, 23 insertions(+), 2 deletions(-)
+ drivers/pci/pci.c   |   13 +++++++++++++
+ include/linux/pci.h |    3 +++
+ 2 files changed, 16 insertions(+)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 625259d..927a73e 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -17,6 +17,7 @@
-  */
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index fdbc294..cb24bbe 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -3320,6 +3320,15 @@ static int pci_dev_reset(struct pci_dev *dev, int probe)
  
- #include <linux/nvme.h>
-+#include <linux/async.h>
- #include <linux/bio.h>
- #include <linux/bitops.h>
- #include <linux/blkdev.h>
-@@ -2680,10 +2681,24 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	return result;
+ 	return rc;
  }
- 
-+static void nvme_async_shutdown(void *data, async_cookie_t cookie)
++
++static void pci_reset_notify(struct pci_dev *dev, bool prepare)
 +{
-+	struct nvme_dev *dev = data;
-+	nvme_dev_shutdown(dev);
-+	free_irq(dev->pci_dev->irq, raw_nvmeq(dev, 0));
++	const struct pci_error_handlers *err_handler =
++			dev->driver ? dev->driver->err_handler : NULL;
++	if (err_handler && err_handler->reset_notify)
++		err_handler->reset_notify(dev, prepare);
 +}
 +
- static void nvme_shutdown(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
--	nvme_dev_shutdown(dev);
-+	struct nvme_queue *adminq = raw_nvmeq(dev, 0);
-+
-+	/* MSI/MSI-x are disabled after returning from this function */	
-+	if (request_irq(dev->pci_dev->irq, nvme_irq, IRQF_SHARED,
-+					adminq->irqname, adminq))
-+		nvme_dev_shutdown(dev);
-+	else
-+		async_schedule(nvme_async_shutdown, dev);
+ /**
+  * __pci_reset_function - reset a PCI device function
+  * @dev: PCI device to reset
+@@ -3408,11 +3417,13 @@ int pci_reset_function(struct pci_dev *dev)
+ 	if (rc)
+ 		return rc;
+ 
++	pci_reset_notify(dev, true);
+ 	pci_dev_save_and_disable(dev);
+ 
+ 	rc = pci_dev_reset(dev, 0);
+ 
+ 	pci_dev_restore(dev);
++	pci_reset_notify(dev, false);
+ 
+ 	return rc;
  }
+@@ -3432,6 +3443,7 @@ int pci_try_reset_function(struct pci_dev *dev)
+ 	if (rc)
+ 		return rc;
  
- static void nvme_remove(struct pci_dev *pdev)
-@@ -2714,12 +2729,18 @@ static void nvme_remove(struct pci_dev *pdev)
- #define nvme_error_resume NULL
++	pci_reset_notify(dev, true);
+ 	pci_dev_save_and_disable(dev);
  
- #ifdef CONFIG_PM_SLEEP
-+static void nvme_async_suspend(void *data, async_cookie_t cookie)
-+{
-+	struct nvme_dev *dev = data;
-+	nvme_dev_shutdown(dev);
-+}
-+
- static int nvme_suspend(struct device *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+ 	if (pci_dev_trylock(dev)) {
+@@ -3441,6 +3453,7 @@ int pci_try_reset_function(struct pci_dev *dev)
+ 		rc = -EAGAIN;
  
--	nvme_dev_shutdown(ndev);
-+	async_schedule(nvme_async_suspend, ndev);
- 	return 0;
+ 	pci_dev_restore(dev);
++	pci_reset_notify(dev, false);
+ 
+ 	return rc;
  }
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 33aa2ca..d82dd3f 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -603,6 +603,9 @@ struct pci_error_handlers {
+ 	/* PCI slot has been reset */
+ 	pci_ers_result_t (*slot_reset)(struct pci_dev *dev);
  
++	/* PCI function reset prepare or completed */
++	void (*reset_notify)(struct pci_dev *dev, bool prepare);
++
+ 	/* Device driver may resume normal operations */
+ 	void (*resume)(struct pci_dev *dev);
+ };
 -- 
 1.7.10.4
