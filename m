@@ -1,84 +1,46 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  8 Apr 2014 17:42:20 -0600
-Subject: [PATCH 1/2] PCI: Device driver function reset notification
-Message-ID: <1397000541-1085-1-git-send-email-keith.busch@intel.com>
+Date: Tue,  8 Apr 2014 17:42:21 -0600
+Subject: [PATCH 2/2] NVMe: Implement PCI-e reset notification callback
+In-Reply-To: <1397000541-1085-1-git-send-email-keith.busch@intel.com>
+References: <1397000541-1085-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1397000541-1085-2-git-send-email-keith.busch@intel.com>
 
-A user can issue a pci function level reset to a device using sysfs entry
-/sys/bus/pci/devices/.../reset. A kernel driver handling the pci device
-might like to know this reset is about to occur and when the reset attempt
-completes. This is so the driver has a chance to take appropriate device
-specific actions; for example, it may need to quiesce before the reset,
-and reinitialize the device after.
+Disable and shutdown the device prior to reset, and restart the device
+after.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/pci/pci.c   |   13 +++++++++++++
- include/linux/pci.h |    3 +++
- 2 files changed, 16 insertions(+)
+ drivers/block/nvme-core.c |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index fdbc294..cb24bbe 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -3320,6 +3320,15 @@ static int pci_dev_reset(struct pci_dev *dev, int probe)
- 
- 	return rc;
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 625259d..273ff12 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2605,6 +2605,16 @@ static void nvme_reset_failed_dev(struct work_struct *ws)
+ 	nvme_dev_reset(dev);
  }
-+
-+static void pci_reset_notify(struct pci_dev *dev, bool prepare)
+ 
++static void nvme_reset_notify(struct pci_dev *pdev, int prepare)
 +{
-+	const struct pci_error_handlers *err_handler =
-+			dev->driver ? dev->driver->err_handler : NULL;
-+	if (err_handler && err_handler->reset_notify)
-+		err_handler->reset_notify(dev, prepare);
++	struct nvme_dev *dev = pci_get_drvdata(pdev);
++
++	if (prepare)
++		nvme_dev_shutdown(dev);
++	else
++		nvme_dev_resume(dev);
 +}
 +
- /**
-  * __pci_reset_function - reset a PCI device function
-  * @dev: PCI device to reset
-@@ -3408,11 +3417,13 @@ int pci_reset_function(struct pci_dev *dev)
- 	if (rc)
- 		return rc;
- 
-+	pci_reset_notify(dev, true);
- 	pci_dev_save_and_disable(dev);
- 
- 	rc = pci_dev_reset(dev, 0);
- 
- 	pci_dev_restore(dev);
-+	pci_reset_notify(dev, false);
- 
- 	return rc;
- }
-@@ -3432,6 +3443,7 @@ int pci_try_reset_function(struct pci_dev *dev)
- 	if (rc)
- 		return rc;
- 
-+	pci_reset_notify(dev, true);
- 	pci_dev_save_and_disable(dev);
- 
- 	if (pci_dev_trylock(dev)) {
-@@ -3441,6 +3453,7 @@ int pci_try_reset_function(struct pci_dev *dev)
- 		rc = -EAGAIN;
- 
- 	pci_dev_restore(dev);
-+	pci_reset_notify(dev, false);
- 
- 	return rc;
- }
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 33aa2ca..d82dd3f 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -603,6 +603,9 @@ struct pci_error_handlers {
- 	/* PCI slot has been reset */
- 	pci_ers_result_t (*slot_reset)(struct pci_dev *dev);
- 
-+	/* PCI function reset prepare or completed */
-+	void (*reset_notify)(struct pci_dev *dev, bool prepare);
-+
- 	/* Device driver may resume normal operations */
- 	void (*resume)(struct pci_dev *dev);
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+ 	int result = -ENOMEM;
+@@ -2744,6 +2754,7 @@ static const struct pci_error_handlers nvme_err_handler = {
+ 	.link_reset	= nvme_link_reset,
+ 	.slot_reset	= nvme_slot_reset,
+ 	.resume		= nvme_error_resume,
++	.reset_notify	= nvme_reset_notify,
  };
+ 
+ /* Move to pci_ids.h later */
 -- 
 1.7.10.4
