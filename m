@@ -1,144 +1,79 @@
-From: daniel.mcleran@intel.com (Dan McLeran)
-Date: Mon,  7 Apr 2014 17:10:11 -0600
-Subject: [PATCH] NVMe: Start-stop nvme_thread during device add-remove.
-Message-ID: <1396912211-16597-1-git-send-email-daniel.mcleran@intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue,  8 Apr 2014 16:24:20 -0600
+Subject: [PATCH] NVMe: Complete shutdown & suspend asynchronously
+Message-ID: <1396995860-31211-1-git-send-email-keith.busch@intel.com>
 
-Done to ensure nvme_thread is not running when there
-are no devices to poll.
+So devices may take time to complete a shutdown. The shutdown and suspend
+driver paths can safely perform the actual device shutdown asynchronously,
+so multiple devices may be done in parallel.
 
-Signed-off-by: Dan McLeran <daniel.mcleran at intel.com>
+The async shutdown and suspend have to be handled a little differently. We
+can't use MSI/MSI-x in the shutdown path after returning, so its
+asynchronous callback will have to use and free INTx irq, where suspend
+may continue using MSI[-x].
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   56 +++++++++++++++++++++++++++++++++------------
- 1 file changed, 42 insertions(+), 14 deletions(-)
+ drivers/block/nvme-core.c |   25 +++++++++++++++++++++++--
+ 1 file changed, 23 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 625259d..b17c0cd 100644
+index 625259d..927a73e 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -60,6 +60,7 @@ static DEFINE_SPINLOCK(dev_list_lock);
- static LIST_HEAD(dev_list);
- static struct task_struct *nvme_thread;
- static struct workqueue_struct *nvme_workq;
-+static wait_queue_head_t nvme_kthread_wait;
+@@ -17,6 +17,7 @@
+  */
  
- static void nvme_reset_failed_dev(struct work_struct *ws);
- 
-@@ -2369,6 +2370,26 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
- 	kthread_stop(kworker_task);
+ #include <linux/nvme.h>
++#include <linux/async.h>
+ #include <linux/bio.h>
+ #include <linux/bitops.h>
+ #include <linux/blkdev.h>
+@@ -2680,10 +2681,24 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	return result;
  }
  
-+/*
-+* Remove the node from the device list and check
-+* for whether or not we need to stop the nvme_thread.
-+*/
-+static void nvme_dev_list_remove(struct nvme_dev *dev)
++static void nvme_async_shutdown(void *data, async_cookie_t cookie)
 +{
-+	struct task_struct *tmp = NULL;
-+
-+	spin_lock(&dev_list_lock);
-+	list_del_init(&dev->node);
-+	if (list_empty(&dev_list) && !IS_ERR_OR_NULL(nvme_thread)) {
-+		tmp = nvme_thread;
-+		nvme_thread = NULL;
-+	}
-+	spin_unlock(&dev_list_lock);
-+
-+	if (tmp)
-+		kthread_stop(tmp);
++	struct nvme_dev *dev = data;
++	nvme_dev_shutdown(dev);
++	free_irq(dev->pci_dev->irq, raw_nvmeq(dev, 0));
 +}
 +
- static void nvme_dev_shutdown(struct nvme_dev *dev)
+ static void nvme_shutdown(struct pci_dev *pdev)
  {
- 	int i;
-@@ -2376,9 +2397,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 	dev->initialized = 0;
- 	unregister_hotcpu_notifier(&dev->nb);
- 
--	spin_lock(&dev_list_lock);
--	list_del_init(&dev->node);
--	spin_unlock(&dev_list_lock);
-+	nvme_dev_list_remove(dev);
- 
- 	if (!dev->bar || (dev->bar && readl(&dev->bar->csts) == -1)) {
- 		for (i = dev->queue_count - 1; i >= 0; i--) {
-@@ -2519,6 +2538,7 @@ static const struct file_operations nvme_dev_fops = {
- static int nvme_dev_start(struct nvme_dev *dev)
- {
- 	int result;
-+	bool start_thread = false;
- 
- 	result = nvme_dev_map(dev);
- 	if (result)
-@@ -2529,9 +2549,24 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 		goto unmap;
- 
- 	spin_lock(&dev_list_lock);
-+	if (list_empty(&dev_list) && IS_ERR_OR_NULL(nvme_thread)) {
-+		start_thread = true;
-+		nvme_thread = NULL;
-+	}
- 	list_add(&dev->node, &dev_list);
- 	spin_unlock(&dev_list_lock);
- 
-+	if (start_thread) {
-+		nvme_thread = kthread_run(nvme_kthread, NULL, "nvme");
-+		wake_up(&nvme_kthread_wait);
-+	} else
-+		wait_event_killable(nvme_kthread_wait, nvme_thread);
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+-	nvme_dev_shutdown(dev);
++	struct nvme_queue *adminq = raw_nvmeq(dev, 0);
 +
-+	if (IS_ERR_OR_NULL(nvme_thread)) {
-+		result = nvme_thread ? PTR_ERR(nvme_thread) : -EINTR;
-+		goto disable;
-+	}
-+
- 	result = nvme_setup_io_queues(dev);
- 	if (result && result != -EBUSY)
- 		goto disable;
-@@ -2540,9 +2575,7 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 
-  disable:
- 	nvme_disable_queue(dev, 0);
--	spin_lock(&dev_list_lock);
--	list_del_init(&dev->node);
--	spin_unlock(&dev_list_lock);
-+	nvme_dev_list_remove(dev);
-  unmap:
- 	nvme_dev_unmap(dev);
- 	return result;
-@@ -2771,14 +2804,11 @@ static int __init nvme_init(void)
- {
- 	int result;
- 
--	nvme_thread = kthread_run(nvme_kthread, NULL, "nvme");
--	if (IS_ERR(nvme_thread))
--		return PTR_ERR(nvme_thread);
-+	init_waitqueue_head(&nvme_kthread_wait);
- 
--	result = -ENOMEM;
- 	nvme_workq = create_singlethread_workqueue("nvme");
- 	if (!nvme_workq)
--		goto kill_kthread;
-+		return -ENOMEM;
- 
- 	result = register_blkdev(nvme_major, "nvme");
- 	if (result < 0)
-@@ -2795,8 +2825,6 @@ static int __init nvme_init(void)
- 	unregister_blkdev(nvme_major, "nvme");
-  kill_workq:
- 	destroy_workqueue(nvme_workq);
-- kill_kthread:
--	kthread_stop(nvme_thread);
- 	return result;
++	/* MSI/MSI-x are disabled after returning from this function */	
++	if (request_irq(dev->pci_dev->irq, nvme_irq, IRQF_SHARED,
++					adminq->irqname, adminq))
++		nvme_dev_shutdown(dev);
++	else
++		async_schedule(nvme_async_shutdown, dev);
  }
  
-@@ -2805,7 +2833,7 @@ static void __exit nvme_exit(void)
- 	pci_unregister_driver(&nvme_driver);
- 	unregister_blkdev(nvme_major, "nvme");
- 	destroy_workqueue(nvme_workq);
--	kthread_stop(nvme_thread);
-+	BUG_ON(nvme_thread && !IS_ERR(nvme_thread));
+ static void nvme_remove(struct pci_dev *pdev)
+@@ -2714,12 +2729,18 @@ static void nvme_remove(struct pci_dev *pdev)
+ #define nvme_error_resume NULL
+ 
+ #ifdef CONFIG_PM_SLEEP
++static void nvme_async_suspend(void *data, async_cookie_t cookie)
++{
++	struct nvme_dev *dev = data;
++	nvme_dev_shutdown(dev);
++}
++
+ static int nvme_suspend(struct device *dev)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+ 
+-	nvme_dev_shutdown(ndev);
++	async_schedule(nvme_async_suspend, ndev);
+ 	return 0;
  }
  
- MODULE_AUTHOR("Matthew Wilcox <willy at linux.intel.com>");
 -- 
 1.7.10.4
