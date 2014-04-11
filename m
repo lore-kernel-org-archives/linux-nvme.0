@@ -1,65 +1,50 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 11 Apr 2014 09:59:01 -0400
-Subject: [PATCH RFC 3/5] NVMe: Asynchronous device scan support
-In-Reply-To: <CALMYJDtMTZKf6pAYsc3LeG4LT9xfe0NFRMUEqxxarp=0yfdHUQ@mail.gmail.com>
-References: <1388399240-13828-1-git-send-email-santoshsy@gmail.com>
- <1388399240-13828-4-git-send-email-santoshsy@gmail.com>
- <20131230135025.GI4945@linux.intel.com>
- <CALMYJDtMTZKf6pAYsc3LeG4LT9xfe0NFRMUEqxxarp=0yfdHUQ@mail.gmail.com>
-Message-ID: <20140411135901.GM5727@linux.intel.com>
+Date: Fri, 11 Apr 2014 10:09:47 -0400
+Subject: [PULL REQUEST] NVMe driver updates for 3.15
+Message-ID: <20140411140947.GN5727@linux.intel.com>
 
-On Fri, Mar 28, 2014@07:32:54PM +0530, Santosh Y wrote:
-> On Mon, Dec 30, 2013@7:20 PM, Matthew Wilcox <willy@linux.intel.com> wrote:
-> > On Mon, Dec 30, 2013@03:57:18PM +0530, Santosh Y wrote:
-> >> This patch provides asynchronous device enumeration
-> >> capability. The 'probe' need not wait until the namespace scanning is
-> >> complete.
-> >
-> > I'm very interested in having something like this, except I don't think
-> > it's complete.  You don't seem to handle the cases where the device
-> > is shut down in the middle of an async scan.  Also, the only piece you
-> > seem to make async is the calls to add_disk(), which are surely not the
-> > timeconsuming parts of the scan.  I would think the time consuming parts
-> > are sending the IDENTIFY commands, which you don't make async.
-> >
-> 
-> Would you prefer changes in the following patch. Please let me know
-> your comments.
 
-There are a few things I'd like to see done differently.
+Hi Linus,
 
-For motivation, I have a device here which erroneously reports that it
-has billions of namespaces.  Every time I forget to include the patch to
-change 'nn' to 1 for that PCI device ID, the driver sends billions of
-IDENTIFY NAMESPACE commands to that device.  While I wait for that to
-happen, it gives me plenty of time to look at the system and think about
-the consequences of the code we have today :-)
+Various updates to the NVMe driver.  The most user-visible change is
+that drive hotplugging now works and CPU hotplug while an NVMe drive is
+installed should also work better.
 
-1. I want to be able to remove the module before the scan has finished.
-So the 'wait for the mutex' design you have doesn't work for this case;
-we need to be able to interrupt the scan.
+The following changes since commit dcb99fd9b08cfe1afe426af4d8d3cbc429190f15:
 
-2. Right now all of the work is being carried out by a kworker.  Since we
-have an nvme kthread, I'd like for that to be doing the work so someone
-who doesn't know nvme has a decent chance of figuring out that their
-system is misbehaving because nvme is doing something unusual.
+  Linux 3.14-rc7 (2014-03-16 18:51:24 -0700)
 
-3. The system is spewing out lots of nasty messages about tasks hanging
-waiting for mutexes, eg:
+are available in the git repository at:
 
-[  721.687298] INFO: task modprobe:1072 blocked for more than 120 seconds.
+  git://git.infradead.org/users/willy/linux-nvme.git master
 
-The mutex it is waiting for is being held by the upper level code which
-has called the nvme driver to initialise.  Therefore we must return from
-the nvme driver probe code before scanning namespaces has completed.
+for you to fetch changes up to edd10d33283899fb15d99a290dcc9ceb3604ca78:
 
-4. There is an accepted TP for nvme 1.2 that allows the device to send
-an Async Notification that some aspect of the namespace inventory has
-changed, and invites us to rescan.  I would love to take that into
-account in a patch that overhauls scanning.
+  NVMe: Retry failed commands with non-fatal errors (2014-04-10 17:11:59 -0400)
 
-5. A really good patch would also try to use the nvme 1.1 capability to
-report sparse namespaces (IDENTIFY with CNS = 2).
+----------------------------------------------------------------
+Dan McLeran (1):
+      NVMe: Start-stop nvme_thread during device add-remove.
 
-6. You need to find a better email program; the one you have is converting
-tabs to spaces.
+Jingoo Han (1):
+      NVMe: Add CONFIG_PM_SLEEP to suspend/resume functions
+
+Keith Busch (9):
+      NVMe: Initialize device reference count earlier
+      NVMe: RCU protected access to io queues
+      NVMe: IOCTL path RCU protect queue access
+      NVMe: Fix divide-by-zero in nvme_trans_io_get_num_cmds
+      NVMe: per-cpu io queues
+      NVMe: CPU hot plug notification
+      NVMe: Make I/O timeout a module parameter
+      NVMe: Add getgeo to block ops
+      NVMe: Retry failed commands with non-fatal errors
+
+Matthew Wilcox (1):
+      NVMe: Replace DEFINE_PCI_DEVICE_TABLE
+
+ drivers/block/nvme-core.c | 684 ++++++++++++++++++++++++++++++++--------------
+ drivers/block/nvme-scsi.c |  43 +--
+ include/linux/nvme.h      |  21 +-
+ include/uapi/linux/nvme.h |   1 +
+ 4 files changed, 504 insertions(+), 245 deletions(-)
