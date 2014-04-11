@@ -1,50 +1,39 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Fri, 11 Apr 2014 10:09:47 -0400
-Subject: [PULL REQUEST] NVMe driver updates for 3.15
-Message-ID: <20140411140947.GN5727@linux.intel.com>
+Date: Fri, 11 Apr 2014 10:56:43 -0400
+Subject: [PATCH] NVMe: Add more informative error messages
+Message-ID: <20140411145643.GO5727@linux.intel.com>
 
 
-Hi Linus,
+Help people diagnose what is going wrong at initialisation time by
+printing out which command has gone wrong and what the device returned.
 
-Various updates to the NVMe driver.  The most user-visible change is
-that drive hotplugging now works and CPU hotplug while an NVMe drive is
-installed should also work better.
+Signed-off-by: Matthew Wilcox <matthew.r.wilcox at intel.com>
 
-The following changes since commit dcb99fd9b08cfe1afe426af4d8d3cbc429190f15:
-
-  Linux 3.14-rc7 (2014-03-16 18:51:24 -0700)
-
-are available in the git repository at:
-
-  git://git.infradead.org/users/willy/linux-nvme.git master
-
-for you to fetch changes up to edd10d33283899fb15d99a290dcc9ceb3604ca78:
-
-  NVMe: Retry failed commands with non-fatal errors (2014-04-10 17:11:59 -0400)
-
-----------------------------------------------------------------
-Dan McLeran (1):
-      NVMe: Start-stop nvme_thread during device add-remove.
-
-Jingoo Han (1):
-      NVMe: Add CONFIG_PM_SLEEP to suspend/resume functions
-
-Keith Busch (9):
-      NVMe: Initialize device reference count earlier
-      NVMe: RCU protected access to io queues
-      NVMe: IOCTL path RCU protect queue access
-      NVMe: Fix divide-by-zero in nvme_trans_io_get_num_cmds
-      NVMe: per-cpu io queues
-      NVMe: CPU hot plug notification
-      NVMe: Make I/O timeout a module parameter
-      NVMe: Add getgeo to block ops
-      NVMe: Retry failed commands with non-fatal errors
-
-Matthew Wilcox (1):
-      NVMe: Replace DEFINE_PCI_DEVICE_TABLE
-
- drivers/block/nvme-core.c | 684 ++++++++++++++++++++++++++++++++--------------
- drivers/block/nvme-scsi.c |  43 +--
- include/linux/nvme.h      |  21 +-
- include/uapi/linux/nvme.h |   1 +
- 4 files changed, 504 insertions(+), 245 deletions(-)
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 313c0f0..f47fe7c 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2059,8 +2059,13 @@ static int set_queue_count(struct nvme_dev *dev, int count)
+ 
+ 	status = nvme_set_features(dev, NVME_FEAT_NUM_QUEUES, q_count, 0,
+ 								&result);
+-	if (status)
+-		return status < 0 ? -EIO : -EBUSY;
++	if (status < 0)
++		return status;
++	if (status > 0) {
++		dev_err(&dev->pci_dev->dev, "Could not set queue count (%d)\n",
++									status);
++		return -EBUSY;
++	}
+ 	return min(result & 0xffff, result >> 16) + 1;
+ }
+ 
+@@ -2196,6 +2201,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 
+ 	res = nvme_identify(dev, 0, 1, dma_addr);
+ 	if (res) {
++		dev_err(&pdev->dev, "Identify Controller failed (%d)\n", res);
+ 		res = -EIO;
+ 		goto out;
+ 	}
