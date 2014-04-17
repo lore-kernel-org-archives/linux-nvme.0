@@ -1,37 +1,29 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 17 Apr 2014 09:29:54 -0600 (MDT)
-Subject: [PATCH] NVMe: Change how aborts are handled
-In-Reply-To: <1397409133-18140-1-git-send-email-matthew.r.wilcox@intel.com>
-References: <1397409133-18140-1-git-send-email-matthew.r.wilcox@intel.com>
-Message-ID: <alpine.LRH.2.03.1404170919020.7391@AMR>
+Date: Thu, 17 Apr 2014 12:13:55 -0600
+Subject: [PATCH] NVMe: Use lower bits of firmware rev for SCSI Inq
+Message-ID: <1397758435-8305-1-git-send-email-keith.busch@intel.com>
 
-On Sun, 13 Apr 2014, Matthew Wilcox wrote:
-> +static void abort_cmdid(struct nvme_queue *nvmeq, u16 cmdid)
-> +{
-> +	void *ctx;
-> +	nvme_completion_fn fn;
-> +	static struct nvme_completion cqe = {
-> +		.status = cpu_to_le16(NVME_SC_ABORT_REQ << 1),
-> +	};
-> +
-> +	ctx = cancel_cmdid(nvmeq, cmdid, &fn);
-> +	if (fn(nvmeq, ctx, &cqe))
-> +		clear_bit(cmdid, nvmeq->cmdid_data);
-> +}
+Vendors indicate to me that the lower bits of the NVMe ID Controller
+firmware revision are more inidicative of the running version, so while
+this isn't aligned with the SNT, it is more useful.
 
-I don't think you want to clear the cmdid bit here. The above internally
-completes the command as failed, but the controller still technically
-owns the cmdid and may still return completion status for it, so we
-don't want to make this cmdid available for reuse just yet.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/block/nvme-scsi.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We also don't want to leak the cmdid forever either. The existing method
-will consider the controller being failed and reset it so we can reclaim
-missing cmdids. This new way doesn't appear to reset the controller
-if a command is never returned. At the very least, we probably need to
-delete and recreate the IO queue it's associated with if not go straight
-to the full controller reset.
-
-Since the "aborted" flag in nvme_cmd_info adds 4k per queue, maybe we
-can use the lower bits of the "ctx" for this flag instead, and have the
-callbacks mask it off to retrieve the true context? The lower two bits
-should never be in use if I'm not mistaken.
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index 2c3f5be..1b9b5f4 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -721,7 +721,7 @@ static int nvme_trans_standard_inquiry_page(struct nvme_ns *ns,
+ 	inq_response[7] = cmdque;	/* wbus16=0 | sync=0 | vs=0 */
+ 	strncpy(&inq_response[8], "NVMe    ", 8);
+ 	strncpy(&inq_response[16], dev->model, 16);
+-	strncpy(&inq_response[32], dev->firmware_rev, 4);
++	strncpy(&inq_response[32], dev->firmware_rev + 4, 4);
+ 
+ 	xfer_len = min(alloc_len, STANDARD_INQUIRY_LENGTH);
+ 	res = nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
+-- 
+1.7.10.4
