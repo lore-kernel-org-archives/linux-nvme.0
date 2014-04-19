@@ -1,24 +1,18 @@
-From: xnox@debian.org (Dimitri John Ledkov)
-Date: Sat, 19 Apr 2014 22:24:00 +0100
-Subject: Spec 1.1a patch
-Message-ID: <CANBHLUjTBgh8GsrVaAWikNU-_gK60zKtOobQouFvx+bnUgxJMg@mail.gmail.com>
+From: daniel.stodden@googlemail.com (Daniel Stodden)
+Date: Sat, 19 Apr 2014 16:01:11 -0700
+Subject: Smart support
+Message-ID: <1397948471.23478.30.camel@espiritosanto.int.convergent.io>
 
-Hello everyone,
 
-I've just emailed my first linux patch ever, i'm very sorry for
-duplicates, but this was my first time driving git-send-email and
-hopefully in the end i've mailed the patch to all the right people and
-include the right people in CC.
+Hi everyone.
 
-I did test build the patch (even though it only modifies the headers)
-and I did run the style check on it. It is based on top of the
-git://git.infradead.org/users/willy/linux-nvme.git tree, but applies
-cleanly on top of linus tree as well.
+I've been browsing a bit of the kernel NVMe drivers. 
 
-If I did something wrong in the patch submission process, please let
-me know. I'll make sure to correct that.
+Right now I'm mainly wondering about SMART support. I got as far as
+finding present scsi emulation code and the nvme-user.git repo.
 
--- 
-Regards,
+What's the roadmap for nvme-scsi? Is it going to evolve into a full scsi
+device translation layer? Is someone working on a smartctl driver?
 
-Dimitri.
+Cheers,
+Daniel
