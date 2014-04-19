@@ -1,29 +1,73 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 17 Apr 2014 12:13:55 -0600
-Subject: [PATCH] NVMe: Use lower bits of firmware rev for SCSI Inq
-Message-ID: <1397758435-8305-1-git-send-email-keith.busch@intel.com>
+From: dimitri.ledkov@surgut.co.uk (Dimitri John Ledkov)
+Date: Sat, 19 Apr 2014 22:17:00 +0100
+Subject: [PATCH] NVMe: Update namespace and controller identity structures as
+ per 1.1a spec
+Message-ID: <1397942220-29885-1-git-send-email-dimitri.ledkov@canonical.com>
 
-Vendors indicate to me that the lower bits of the NVMe ID Controller
-firmware revision are more inidicative of the running version, so while
-this isn't aligned with the SNT, it is more useful.
+Controller: add CNTLID, AVSCC, APSTA, NVSCC, ACWU, SGLS fields.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Namespace: add NMIC, RESCAP, EUI64 fields. EUI64 is specifically
+interesting, since it can be used to construct an UEFI NVMe device
+path for a boot entry.
+
+As per NVM Express 1.1a spec:
+http://www.nvmexpress.org/wp-content/uploads/NVM-Express-1_1a.pdf
+
+Signed-off-by: Dimitri John Ledkov <dimitri.ledkov at canonical.com>
 ---
- drivers/block/nvme-scsi.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/uapi/linux/nvme.h | 19 +++++++++++++++----
+ 1 file changed, 15 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index 2c3f5be..1b9b5f4 100644
---- a/drivers/block/nvme-scsi.c
-+++ b/drivers/block/nvme-scsi.c
-@@ -721,7 +721,7 @@ static int nvme_trans_standard_inquiry_page(struct nvme_ns *ns,
- 	inq_response[7] = cmdque;	/* wbus16=0 | sync=0 | vs=0 */
- 	strncpy(&inq_response[8], "NVMe    ", 8);
- 	strncpy(&inq_response[16], dev->model, 16);
--	strncpy(&inq_response[32], dev->firmware_rev, 4);
-+	strncpy(&inq_response[32], dev->firmware_rev + 4, 4);
- 
- 	xfer_len = min(alloc_len, STANDARD_INQUIRY_LENGTH);
- 	res = nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
+diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
+index 096fe1c..73cb2af 100644
+--- a/include/uapi/linux/nvme.h
++++ b/include/uapi/linux/nvme.h
+@@ -49,7 +49,8 @@ struct nvme_id_ctrl {
+ 	__u8			ieee[3];
+ 	__u8			mic;
+ 	__u8			mdts;
+-	__u8			rsvd78[178];
++	__le16			cntlid;
++	__u8			rsvd80[176];
+ 	__le16			oacs;
+ 	__u8			acl;
+ 	__u8			aerl;
+@@ -57,7 +58,9 @@ struct nvme_id_ctrl {
+ 	__u8			lpa;
+ 	__u8			elpe;
+ 	__u8			npss;
+-	__u8			rsvd264[248];
++	__u8			avscc;
++	__u8			apsta;
++	__u8			rsvd266[246];
+ 	__u8			sqes;
+ 	__u8			cqes;
+ 	__u8			rsvd514[2];
+@@ -68,7 +71,12 @@ struct nvme_id_ctrl {
+ 	__u8			vwc;
+ 	__le16			awun;
+ 	__le16			awupf;
+-	__u8			rsvd530[1518];
++	__u8			nvscc;
++	__u8			rsvd531;
++	__le16			acwu;
++	__u8			rsvd534[2];
++	__le32			sgls;
++	__u8			rsvd540[1508];
+ 	struct nvme_id_power_state	psd[32];
+ 	__u8			vs[1024];
+ };
+@@ -95,7 +103,10 @@ struct nvme_id_ns {
+ 	__u8			mc;
+ 	__u8			dpc;
+ 	__u8			dps;
+-	__u8			rsvd30[98];
++	__u8			nmic;
++	__u8			rescap;
++	__u8			rsvd32[88];
++	__le64			eui64;
+ 	struct nvme_lbaf	lbaf[16];
+ 	__u8			rsvd192[192];
+ 	__u8			vs[3712];
 -- 
-1.7.10.4
+1.9.1
