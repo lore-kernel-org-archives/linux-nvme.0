@@ -1,8 +1,8 @@
 From: dimitri.ledkov@surgut.co.uk (Dimitri John Ledkov)
-Date: Sat, 19 Apr 2014 22:17:00 +0100
+Date: Sat, 19 Apr 2014 22:19:57 +0100
 Subject: [PATCH] NVMe: Update namespace and controller identity structures as
  per 1.1a spec
-Message-ID: <1397942220-29885-1-git-send-email-dimitri.ledkov@canonical.com>
+Message-ID: <1397942397-29998-1-git-send-email-dimitri.ledkov@canonical.com>
 
 Controller: add CNTLID, AVSCC, APSTA, NVSCC, ACWU, SGLS fields.
 
