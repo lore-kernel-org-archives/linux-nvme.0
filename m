@@ -1,73 +1,24 @@
-From: dimitri.ledkov@surgut.co.uk (Dimitri John Ledkov)
-Date: Sat, 19 Apr 2014 22:19:57 +0100
-Subject: [PATCH] NVMe: Update namespace and controller identity structures as
- per 1.1a spec
-Message-ID: <1397942397-29998-1-git-send-email-dimitri.ledkov@canonical.com>
+From: xnox@debian.org (Dimitri John Ledkov)
+Date: Sat, 19 Apr 2014 22:24:00 +0100
+Subject: Spec 1.1a patch
+Message-ID: <CANBHLUjTBgh8GsrVaAWikNU-_gK60zKtOobQouFvx+bnUgxJMg@mail.gmail.com>
 
-Controller: add CNTLID, AVSCC, APSTA, NVSCC, ACWU, SGLS fields.
+Hello everyone,
 
-Namespace: add NMIC, RESCAP, EUI64 fields. EUI64 is specifically
-interesting, since it can be used to construct an UEFI NVMe device
-path for a boot entry.
+I've just emailed my first linux patch ever, i'm very sorry for
+duplicates, but this was my first time driving git-send-email and
+hopefully in the end i've mailed the patch to all the right people and
+include the right people in CC.
 
-As per NVM Express 1.1a spec:
-http://www.nvmexpress.org/wp-content/uploads/NVM-Express-1_1a.pdf
+I did test build the patch (even though it only modifies the headers)
+and I did run the style check on it. It is based on top of the
+git://git.infradead.org/users/willy/linux-nvme.git tree, but applies
+cleanly on top of linus tree as well.
 
-Signed-off-by: Dimitri John Ledkov <dimitri.ledkov at canonical.com>
----
- include/uapi/linux/nvme.h | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+If I did something wrong in the patch submission process, please let
+me know. I'll make sure to correct that.
 
-diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
-index 096fe1c..73cb2af 100644
---- a/include/uapi/linux/nvme.h
-+++ b/include/uapi/linux/nvme.h
-@@ -49,7 +49,8 @@ struct nvme_id_ctrl {
- 	__u8			ieee[3];
- 	__u8			mic;
- 	__u8			mdts;
--	__u8			rsvd78[178];
-+	__le16			cntlid;
-+	__u8			rsvd80[176];
- 	__le16			oacs;
- 	__u8			acl;
- 	__u8			aerl;
-@@ -57,7 +58,9 @@ struct nvme_id_ctrl {
- 	__u8			lpa;
- 	__u8			elpe;
- 	__u8			npss;
--	__u8			rsvd264[248];
-+	__u8			avscc;
-+	__u8			apsta;
-+	__u8			rsvd266[246];
- 	__u8			sqes;
- 	__u8			cqes;
- 	__u8			rsvd514[2];
-@@ -68,7 +71,12 @@ struct nvme_id_ctrl {
- 	__u8			vwc;
- 	__le16			awun;
- 	__le16			awupf;
--	__u8			rsvd530[1518];
-+	__u8			nvscc;
-+	__u8			rsvd531;
-+	__le16			acwu;
-+	__u8			rsvd534[2];
-+	__le32			sgls;
-+	__u8			rsvd540[1508];
- 	struct nvme_id_power_state	psd[32];
- 	__u8			vs[1024];
- };
-@@ -95,7 +103,10 @@ struct nvme_id_ns {
- 	__u8			mc;
- 	__u8			dpc;
- 	__u8			dps;
--	__u8			rsvd30[98];
-+	__u8			nmic;
-+	__u8			rescap;
-+	__u8			rsvd32[88];
-+	__le64			eui64;
- 	struct nvme_lbaf	lbaf[16];
- 	__u8			rsvd192[192];
- 	__u8			vs[3712];
 -- 
-1.9.1
+Regards,
+
+Dimitri.
