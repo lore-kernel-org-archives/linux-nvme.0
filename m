@@ -1,21 +1,65 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 21 Apr 2014 11:10:34 -0600 (MDT)
-Subject: Smart support
-In-Reply-To: <1398098919.10783.7.camel@omniknight.lm.intel.com>
-References: <1397948471.23478.30.camel@espiritosanto.int.convergent.io>
- <1398098919.10783.7.camel@omniknight.lm.intel.com>
-Message-ID: <alpine.LRH.2.03.1404211055140.5490@AMR>
+From: learner.study@gmail.com (Learner Study)
+Date: Mon, 21 Apr 2014 18:34:20 -0700
+Subject: [PATCH 2/2] NVMe: Implement PCI-e reset notification callback
+In-Reply-To: <1397000541-1085-2-git-send-email-keith.busch@intel.com>
+References: <1397000541-1085-1-git-send-email-keith.busch@intel.com>
+ <1397000541-1085-2-git-send-email-keith.busch@intel.com>
+Message-ID: <CAP8+hKWcybw5u_m5M4c1p4eUAaTq4x+kO+tnegwD2ciDMEFNCw@mail.gmail.com>
 
-On Mon, 21 Apr 2014, Verma, Vishal L wrote:
->> What's the roadmap for nvme-scsi? Is it going to evolve into a full scsi
->> device translation layer?
+Hi Keith,
+
+I think NVMe Reset should apply to PF mode driver only, and not to VF
+mode driver.
+Is that understanding correct? Does the NVMe driver know which mode
+its running in?
+
+Thanks!
+
+
+On Tue, Apr 8, 2014@4:42 PM, Keith Busch <keith.busch@intel.com> wrote:
 >
-> I wrote the SCSI emulation layer - and I don't think we currently have
-> any plans of extending this further (Matthew, Keith, chime in if I'm
-> wrong). Patches are, of course, welcome.
-
-Bug fixes, enhancements and updates as the translation reference changes
-would be applied as anyone submits patches, but I don't know of new
-features anyone is looking to get out of this layer. I only know of
-tools like sg3-utils and other vendor tools being used to exercise the
-driver's SCSI path and they seem to work well. Is there something missing?
+> Disable and shutdown the device prior to reset, and restart the device
+> after.
+>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/block/nvme-core.c |   11 +++++++++++
+>  1 file changed, 11 insertions(+)
+>
+> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> index 625259d..273ff12 100644
+> --- a/drivers/block/nvme-core.c
+> +++ b/drivers/block/nvme-core.c
+> @@ -2605,6 +2605,16 @@ static void nvme_reset_failed_dev(struct work_struct *ws)
+>         nvme_dev_reset(dev);
+>  }
+>
+> +static void nvme_reset_notify(struct pci_dev *pdev, int prepare)
+> +{
+> +       struct nvme_dev *dev = pci_get_drvdata(pdev);
+> +
+> +       if (prepare)
+> +               nvme_dev_shutdown(dev);
+> +       else
+> +               nvme_dev_resume(dev);
+> +}
+> +
+>  static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>  {
+>         int result = -ENOMEM;
+> @@ -2744,6 +2754,7 @@ static const struct pci_error_handlers nvme_err_handler = {
+>         .link_reset     = nvme_link_reset,
+>         .slot_reset     = nvme_slot_reset,
+>         .resume         = nvme_error_resume,
+> +       .reset_notify   = nvme_reset_notify,
+>  };
+>
+>  /* Move to pci_ids.h later */
+> --
+> 1.7.10.4
+>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://merlin.infradead.org/mailman/listinfo/linux-nvme
