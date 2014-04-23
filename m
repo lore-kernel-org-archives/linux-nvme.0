@@ -1,49 +1,43 @@
-From: learner.study@gmail.com (Learner Study)
-Date: Tue, 22 Apr 2014 09:08:22 -0700
-Subject: Wheather the NVMe driver has been tried on the IBM or Lenovo
- server?
-In-Reply-To: <CAErSpo526WATQKU9DZ4YjTTL9ot_1soGnjcs=ipgyqt2XNQ-fA@mail.gmail.com>
-References: <1397000541-1085-1-git-send-email-keith.busch@intel.com>
- <1397000541-1085-2-git-send-email-keith.busch@intel.com>
- <CAP8+hKWcybw5u_m5M4c1p4eUAaTq4x+kO+tnegwD2ciDMEFNCw@mail.gmail.com>
- <alpine.LRH.2.03.1404211935510.5490@AMR>
- <1E05E2AB-198E-473A-8AA5-87DA2E9910B8@gmail.com>
- <CAP8+hKUEygoeEv=LvY2ccp6cepnXEpi4WGVSaCnRw+zN7BUE_Q@mail.gmail.com>
- <B8DB29EA17EB2742AC3405C31A9B9EE961457B96@ORSMSX111.amr.corp.intel.com>
- <CAP8+hKV_-OqAOWHC2tZqYmt1O9pjTtauXECU=R+48rb0A3EfQA@mail.gmail.com>
- <7174f4a8.23ad7.14589360cb2.Coremail.liaohengquan1986@163.com>
- <CAErSpo526WATQKU9DZ4YjTTL9ot_1soGnjcs=ipgyqt2XNQ-fA@mail.gmail.com>
-Message-ID: <CAP8+hKVH3CBLfrLq2CgSLrr34jkxh4Dv5iC8UJ2QzfBMW8iQnw@mail.gmail.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Wed, 23 Apr 2014 11:13:04 -0400
+Subject: [PATCH] NVMe: Update namespace and controller identity
+ structures as per 1.1a spec
+In-Reply-To: <1397942397-29998-1-git-send-email-dimitri.ledkov@canonical.com>
+References: <1397942397-29998-1-git-send-email-dimitri.ledkov@canonical.com>
+Message-ID: <20140423151304.GF13050@linux.intel.com>
 
-I'd like to test out the latest NVMe driver. Could someone recommend a
-NVMe controller should I use? I haven't been  able to find anything on
-Amazon yet...
+On Sat, Apr 19, 2014@10:19:57PM +0100, Dimitri John Ledkov wrote:
+> Controller: add CNTLID, AVSCC, APSTA, NVSCC, ACWU, SGLS fields.
+> 
+> Namespace: add NMIC, RESCAP, EUI64 fields. EUI64 is specifically
+> interesting, since it can be used to construct an UEFI NVMe device
+> path for a boot entry.
+> 
+> As per NVM Express 1.1a spec:
+> http://www.nvmexpress.org/wp-content/uploads/NVM-Express-1_1a.pdf
 
-And perhaps, which version of kernel (OS distribution) should I pick?
+Thanks for the patch!
 
-Thanks
+> -	__u8			rsvd78[178];
+> +	__le16			cntlid;
+> +	__u8			rsvd80[176];
 
+I don't think cntlid is a little-endian value.  I think it's a cookie,
+so this should be __u16.
 
-On Tue, Apr 22, 2014@8:57 AM, Bjorn Helgaas <bhelgaas@google.com> wrote:
-> On Tue, Apr 22, 2014 at 5:33 AM, liaohengquan1986
-> <liaohengquan1986@163.com> wrote:
->>
->> Hi, everyone,
->>             I want to ask that weather the NVMe driver has been tried on the
->> IBM or Lenovo server?
->>             I use it on IBM(Lenovo) server with suse 11 SP3, but the MSI-X
->> irq is always could not be got by cpu(may be it is masked).
->>             Has anyone got this kind of problem?
->
-> I think your original email contained non-plain text, so it won't
-> appear on the mailing list, and some recipients may auto-discard it as
-> well.  See http://vger.kernel.org/majordomo-info.html
->
-> If you can reproduce the problem with an upstream kernel, this is the
-> right place to debug it.  We'd need a complete dmesg log and "lspci
-> -vv" output to start with.
->
-> If the problem only happens with SUSE, then you'd want to work with
-> SUSE to figure it out.
->
-> Bjorn
+> -	__u8			rsvd30[98];
+> +	__u8			nmic;
+> +	__u8			rescap;
+> +	__u8			rsvd32[88];
+> +	__le64			eui64;
+
+eui64 isn't treated as a 64-bit value elsewhere in the kernel, rather as
+an array of bytes.  So I think this one should be:
+
+	__u8			eui64[8];
+
+That matches the IEEE's recommendations:
+
+An EUI-64 is a string of eight octets, labeled as eui[0] through eui[7].
+
+(see http://standards.ieee.org/develop/regauth/tut/eui64.pdf)
