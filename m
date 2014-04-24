@@ -1,26 +1,20 @@
-From: ebrahimh@supermicro.com (Ebrahim Hashemi)
-Date: Thu, 24 Apr 2014 02:50:21 -0700
-Subject: Cmd - comp write 
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Thu, 24 Apr 2014 09:58:05 -0400
+Subject: Cmd - comp write
 In-Reply-To: <7212DDF9-6821-4D7E-BD4D-655031AD03F7@gmail.com>
 References: <7212DDF9-6821-4D7E-BD4D-655031AD03F7@gmail.com>
-Message-ID: <09F85D53A2F0C547BF5E05E214DB880A3B8A461EC7@MAIL5.supermicro.com>
+Message-ID: <20140424135805.GA5886@linux.intel.com>
 
-I think it could be used for that purpose, but it can also be used like a "semaphore" or "test and set". For example,  alleviating the need for SCSI persistent reservation.
+On Wed, Apr 23, 2014@08:37:39PM -0700, Learner wrote:
+> Hello
+> 
+> How frequently is Fused command - compare-write used? 
+> Is it for avoiding writes for SSDs if thee is no change? Ie read and compare the block to be written and don't write if there is no change.. 
 
------Original Message-----
-From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Learner
-Sent: Wednesday, April 23, 2014 8:38 PM
-To: linux-nvme
-Subject: Cmd - comp write 
+Compare-and-Write is a building block for an (unspecified, advisory)
+locking protocol.  If two entities wish to gain exclusive access to a
+range of LBAs, they can agree on a block to use as their lock, and agree
+on a bit-pattern to be found in that block to indicate 'unlocked'.
 
-Hello
-
-How frequently is Fused command - compare-write used? 
-Is it for avoiding writes for SSDs if thee is no change? Ie read and compare the block to be written and don't write if there is no change.. 
-
-Thanks 
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+If anyone is using it, they're doing so through ioctls; there's no way
+to submit a BIO that maps to a compare-and-write.
