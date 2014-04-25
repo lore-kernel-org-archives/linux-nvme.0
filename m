@@ -1,34 +1,32 @@
-From: angelusbritos@gmail.com (Angelo Brito)
-Date: Thu, 24 Apr 2014 16:22:33 -0300
-Subject: NVMe Controllers capability doubt
-In-Reply-To: <alpine.LRH.2.03.1404241249280.5490@AMR>
-References: <CAMjVwgR2KABZ_ecLqa-NR+aFGF_yRJk=uFLkZzOm+a9+u0Q5TA@mail.gmail.com>
- <alpine.LRH.2.03.1404241249280.5490@AMR>
-Message-ID: <CAMjVwgQ7KTi_Jz_3HNqO-_wW_j0kjtBb7TGr1g6_XDh-6C9rGQ@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 24 Apr 2014 18:53:50 -0600
+Subject: [PATCH] NVMe: Protect against badly formatted CQEs
+Message-ID: <1398387230-23686-1-git-send-email-keith.busch@intel.com>
 
-Thanks Keith,
+If a misbehaving device posts a CQE with a command id < depth but for
+one that was never allocated, the command info will have a callback
+function set to NULL and we don't want to try invoking that.
 
-That's exactly what I tough. Someone just got confused.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/block/nvme-core.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-
-Att,
-Angelo Silva Brito.
-http://about.me/angelobrito
-_________________________________________________
-
-
-On Thu, Apr 24, 2014@3:57 PM, Keith Busch <keith.busch@intel.com> wrote:
-> On Thu, 24 Apr 2014, Angelo Brito wrote:
->>
->> I was asked if a NVMe controller must support end user's or driver
->> developer's custom commands. I always understood that Commands beyond
->> specification can be added by the vendor if he decides to. But a
->> costumer told us that he interpreted from specs that the controller
->> must also support commands added by the end user. What are yours
->> toughs about this?
->
->
-> How on earth would an NVMe controller be able to anticipate what custom
-> commands an end user might make up? No, vendor unique commands are
-> implemented by the vendor, not the end-user. The same opcode might even
-> be completely different commands for two different devices.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index efa9c8f..d4aa4ff 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -247,8 +247,9 @@ static void *free_cmdid(struct nvme_queue *nvmeq, int cmdid,
+ 	void *ctx;
+ 	struct nvme_cmd_info *info = nvme_cmd_info(nvmeq);
+ 
+-	if (cmdid >= nvmeq->q_depth) {
+-		*fn = special_completion;
++	if (cmdid >= nvmeq->q_depth || !info[cmdid].fn) {
++		if (fn)
++			*fn = special_completion;
+ 		return CMD_CTX_INVALID;
+ 	}
+ 	if (fn)
+-- 
+1.7.10.4
