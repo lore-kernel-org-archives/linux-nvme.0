@@ -1,86 +1,147 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 28 Apr 2014 13:37:17 -0600 (MDT)
-Subject: [PATCH] NVMe: Add tracepoints
-In-Reply-To: <1398709852-19104-1-git-send-email-keith.busch@intel.com>
-References: <1398709852-19104-1-git-send-email-keith.busch@intel.com>
-Message-ID: <alpine.LRH.2.03.1404281327560.5666@AMR>
+Date: Mon, 28 Apr 2014 17:16:19 -0600
+Subject: [PATCH] NVMe: Passthrough IOCTL for IO commands
+Message-ID: <1398726979-26954-1-git-send-email-keith.busch@intel.com>
 
-Almost immediately after I sent this I saw a better way to get the
-request_queue from the bio without going to the namespace.
+The NVME_IOCTL_SUBMIT_IO only works for IO commands with block data
+transfers and isn't usable for other NVMe commands like flush,
+data set management, or any sort of vendor unique command. The
+NVME_IOCTL_ADMIN_CMD, however, can easily be modified to accept IO
+commands as well without breaking ABI compatibility. This patch just adds
+a new IOCTL to distinquish if we should submit on an IO or Admin queue.
 
-@@ -415,7 +415,6 @@ static void bio_completion(struct nvme_queue *nvmeq, void *ctx,
-  {
-  	struct nvme_iod *iod = ctx;
-  	struct bio *bio = iod->private;
--	struct nvme_ns *ns = bio->bi_bdev->bd_disk->private_data;
-  	u16 status = le16_to_cpup(&cqe->status) >> 1;
-  	int error = 0;
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
 
-@@ -439,7 +438,7 @@ static void bio_completion(struct nvme_queue *nvmeq, void *ctx,
-  	}
-  	nvme_free_iod(nvmeq->dev, iod);
+As an example of what this can get us, here's a 'flush' user program:
 
--	trace_block_bio_complete(ns->queue , bio, error);
-+	trace_block_bio_complete(bdev_get_queue(bio->bi_bdev), bio, error);
-  	bio_endio(bio, error);
-  }
+int main(int argc, char **argv)
+{
+	static const char *perrstr;
+	int err, fd;
+	unsigned nsid;
+	struct nvme_passthru_cmd cmd;
 
-@@ -526,11 +525,11 @@ static int nvme_split_and_submit(struct bio *bio, struct nvme_queue *nvmeq,
-  				 int len)
-  {
-  	struct bio *split = bio_split(bio, len >> 9, GFP_ATOMIC, NULL);
--	struct nvme_ns *ns = bio->bi_bdev->bd_disk->private_data;
-  	if (!split)
-  		return -ENOMEM;
+	if (argc < 2) {
+		fprintf(stderr, "Usage: %s <device> <nsid(optional)>\n",
+								argv[0]);
+		return 1;
+	}
 
--	trace_block_split(ns->queue, bio, split->bi_iter.bi_sector);
-+	trace_block_split(bdev_get_queue(bio->bi_bdev), bio,
-+					split->bi_iter.bi_sector);
-  	bio_chain(split, bio);
+	perrstr = argv[1];
+	fd = open(argv[1], O_RDWR);
+	if (fd < 0)
+		goto perror;
 
-  	if (!waitqueue_active(&nvmeq->sq_full))
+	if (argc == 2) {
+		perrstr = "Getting namespace ID";
+		nsid = ioctl(fd, NVME_IOCTL_ID);
+		if (nsid == (unsigned)-1)
+			goto perror;
+	} else {
+		if (sscanf(argv[2], "%i", &nsid) != 1) {
+			fprintf(stderr, "Invalid parameter:%s\n", argv[2]);
+			return 1;
+		}
+	}
 
-> @@ -413,7 +415,9 @@ static void bio_completion(struct nvme_queue *nvmeq, void *ctx,
-> {
-> 	struct nvme_iod *iod = ctx;
-> 	struct bio *bio = iod->private;
-> +	struct nvme_ns *ns = bio->bi_bdev->bd_disk->private_data;
-> 	u16 status = le16_to_cpup(&cqe->status) >> 1;
-> +	int error = 0;
->
-> 	if (unlikely(status)) {
-> 		if (!(status & NVME_SC_DNR ||
-> @@ -426,6 +430,7 @@ static void bio_completion(struct nvme_queue *nvmeq, void *ctx,
-> 			wake_up(&nvmeq->sq_full);
-> 			return;
-> 		}
-> +		error = -EIO;
-> 	}
-> 	if (iod->nents) {
-> 		dma_unmap_sg(nvmeq->q_dmadev, iod->sg, iod->nents,
-> @@ -433,10 +438,9 @@ static void bio_completion(struct nvme_queue *nvmeq, void *ctx,
-> 		nvme_end_io_acct(bio, iod->start_time);
-> 	}
-> 	nvme_free_iod(nvmeq->dev, iod);
-> -	if (status)
-> -		bio_endio(bio, -EIO);
-> -	else
-> -		bio_endio(bio, 0);
-> +
-> +	trace_block_bio_complete(ns->queue , bio, error);
-> +	bio_endio(bio, error);
-> }
->
-> /* length is in bytes.  gfp flags indicates whether we may sleep. */
-> @@ -522,9 +526,11 @@ static int nvme_split_and_submit(struct bio *bio, struct nvme_queue *nvmeq,
-> 				 int len)
-> {
-> 	struct bio *split = bio_split(bio, len >> 9, GFP_ATOMIC, NULL);
-> +	struct nvme_ns *ns = bio->bi_bdev->bd_disk->private_data;
-> 	if (!split)
-> 		return -ENOMEM;
->
-> +	trace_block_split(ns->queue, bio, split->bi_iter.bi_sector);
-> 	bio_chain(split, bio);
->
-> 	if (!waitqueue_active(&nvmeq->sq_full))
+	memset(&cmd, 0, sizeof(cmd));
+	cmd.opcode = nvme_cmd_flush;
+	cmd.nsid = nsid;
+
+	perrstr = "Flush";
+	err = ioctl(fd, NVME_IOCTL_IO_CMD, &cmd);
+	if (err < 0)
+		goto perror;
+	else if (err != 0)
+		fprintf(stderr, "NVME IO command error:%d\n", err);
+	else
+		printf("NVMe Flush: success\n");
+	return err;
+
+ perror:
+	perror(perrstr);
+	return 1;
+}
+
+ drivers/block/nvme-core.c |   17 ++++++++++++-----
+ include/uapi/linux/nvme.h |    5 ++++-
+ 2 files changed, 16 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index efa9c8f..40fa193 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1639,10 +1639,10 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 	return status;
+ }
+ 
+-static int nvme_user_admin_cmd(struct nvme_dev *dev,
+-					struct nvme_admin_cmd __user *ucmd)
++static int nvme_user_cmd(struct nvme_dev *dev,
++			struct nvme_passthru_cmd __user *ucmd, bool ioq)
+ {
+-	struct nvme_admin_cmd cmd;
++	struct nvme_passthru_cmd cmd;
+ 	struct nvme_command c;
+ 	int status, length;
+ 	struct nvme_iod *uninitialized_var(iod);
+@@ -1681,6 +1681,9 @@ static int nvme_user_admin_cmd(struct nvme_dev *dev,
+ 								ADMIN_TIMEOUT;
+ 	if (length != cmd.data_len)
+ 		status = -ENOMEM;
++	else if (ioq)
++		status = nvme_submit_sync_cmd(dev, smp_processor_id() + 1, &c,
++							&cmd.result, timeout);
+ 	else
+ 		status = nvme_submit_sync_cmd(dev, 0, &c, &cmd.result, timeout);
+ 
+@@ -1706,7 +1709,9 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
+ 		force_successful_syscall_return();
+ 		return ns->ns_id;
+ 	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_admin_cmd(ns->dev, (void __user *)arg);
++		return nvme_user_cmd(ns->dev, (void __user *)arg, false);
++	case NVME_IOCTL_IO_CMD:
++		return nvme_user_cmd(ns->dev, (void __user *)arg, true);
+ 	case NVME_IOCTL_SUBMIT_IO:
+ 		return nvme_submit_io(ns, (void __user *)arg);
+ 	case SG_GET_VERSION_NUM:
+@@ -2592,7 +2597,9 @@ static long nvme_dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+ 	struct nvme_dev *dev = f->private_data;
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_admin_cmd(dev, (void __user *)arg);
++		return nvme_user_cmd(dev, (void __user *)arg, false);
++	case NVME_IOCTL_IO_CMD:
++		return nvme_user_cmd(dev, (void __user *)arg, true);
+ 	default:
+ 		return -ENOTTY;
+ 	}
+diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
+index 096fe1c..a5f4161 100644
+--- a/include/uapi/linux/nvme.h
++++ b/include/uapi/linux/nvme.h
+@@ -461,7 +461,7 @@ struct nvme_user_io {
+ 	__u16	appmask;
+ };
+ 
+-struct nvme_admin_cmd {
++struct nvme_passthru_cmd {
+ 	__u8	opcode;
+ 	__u8	flags;
+ 	__u16	rsvd1;
+@@ -482,8 +482,11 @@ struct nvme_admin_cmd {
+ 	__u32	result;
+ };
+ 
++#define nvme_admin_cmd nvme_passthru_cmd
++
+ #define NVME_IOCTL_ID		_IO('N', 0x40)
+ #define NVME_IOCTL_ADMIN_CMD	_IOWR('N', 0x41, struct nvme_admin_cmd)
+ #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
++#define NVME_IOCTL_IO_CMD	_IOWR('N', 0x43, struct nvme_passthru_cmd)
+ 
+ #endif /* _UAPI_LINUX_NVME_H */
+-- 
+1.7.10.4
