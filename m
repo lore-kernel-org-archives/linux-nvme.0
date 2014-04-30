@@ -1,52 +1,102 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 29 Apr 2014 15:52:27 -0600
-Subject: [PATCHv2] NVMe: Use last bytes of f/w rev SCSI Inquiry
-Message-ID: <1398808347-9839-1-git-send-email-keith.busch@intel.com>
+From: bhelgaas@google.com (Bjorn Helgaas)
+Date: Wed, 30 Apr 2014 16:46:37 -0600
+Subject: [PATCH 1/2] PCI: Device driver function reset notification
+In-Reply-To: <1397000541-1085-1-git-send-email-keith.busch@intel.com>
+References: <1397000541-1085-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20140430224637.GA31315@google.com>
 
-After skipping right-padded spaces, use the last four bytes of the
-firmware revision when reporting the Inquiry Product Revision. These
-are generally more indicative to what is running.
+On Tue, Apr 08, 2014@05:42:20PM -0600, Keith Busch wrote:
+> A user can issue a pci function level reset to a device using sysfs entry
+> /sys/bus/pci/devices/.../reset. A kernel driver handling the pci device
+> might like to know this reset is about to occur and when the reset attempt
+> completes. This is so the driver has a chance to take appropriate device
+> specific actions; for example, it may need to quiesce before the reset,
+> and reinitialize the device after.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/pci/pci.c   |   13 +++++++++++++
+>  include/linux/pci.h |    3 +++
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+> index fdbc294..cb24bbe 100644
+> --- a/drivers/pci/pci.c
+> +++ b/drivers/pci/pci.c
+> @@ -3320,6 +3320,15 @@ static int pci_dev_reset(struct pci_dev *dev, int probe)
+>  
+>  	return rc;
+>  }
+> +
+> +static void pci_reset_notify(struct pci_dev *dev, bool prepare)
+> +{
+> +	const struct pci_error_handlers *err_handler =
+> +			dev->driver ? dev->driver->err_handler : NULL;
+> +	if (err_handler && err_handler->reset_notify)
+> +		err_handler->reset_notify(dev, prepare);
+> +}
+> +
+>  /**
+>   * __pci_reset_function - reset a PCI device function
+>   * @dev: PCI device to reset
+> @@ -3408,11 +3417,13 @@ int pci_reset_function(struct pci_dev *dev)
+>  	if (rc)
+>  		return rc;
+>  
+> +	pci_reset_notify(dev, true);
+>  	pci_dev_save_and_disable(dev);
+>  
+>  	rc = pci_dev_reset(dev, 0);
+>  
+>  	pci_dev_restore(dev);
+> +	pci_reset_notify(dev, false);
+>  
+>  	return rc;
+>  }
+> @@ -3432,6 +3443,7 @@ int pci_try_reset_function(struct pci_dev *dev)
+>  	if (rc)
+>  		return rc;
+>  
+> +	pci_reset_notify(dev, true);
+>  	pci_dev_save_and_disable(dev);
+>  
+>  	if (pci_dev_trylock(dev)) {
+> @@ -3441,6 +3453,7 @@ int pci_try_reset_function(struct pci_dev *dev)
+>  		rc = -EAGAIN;
+>  
+>  	pci_dev_restore(dev);
+> +	pci_reset_notify(dev, false);
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-v1 -> v2:
+You put the notify in these functions:
 
-The NVMe spec defines this field as an ASCII string, which may be
-right-padded with spaces and we don't care to use those in reporting a
-product revision.
+  pci_reset_function()
+  pci_try_reset_function()
 
-I have it on good authority that the SNT reference will be updated to
-align more like the SAT, which uses the last words of the ATA Identify
-firmware revision unless it is padded with spaces in which case it uses
-the first. In anticipation of that, here's a patch!
+but what about these:
 
- drivers/block/nvme-scsi.c |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+  pci_reset_slot()
+  pci_try_reset_slot()
+  pci_reset_bus()
+  pci_try_reset_bus()
 
-diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index 2c3f5be..00a3f18 100644
---- a/drivers/block/nvme-scsi.c
-+++ b/drivers/block/nvme-scsi.c
-@@ -686,6 +686,7 @@ static int nvme_trans_standard_inquiry_page(struct nvme_ns *ns,
- 	u8 resp_data_format = 0x02;
- 	u8 protect;
- 	u8 cmdque = 0x01 << 1;
-+	u8 fw_offset = sizeof(dev->firmware_rev);
- 
- 	mem = dma_alloc_coherent(&dev->pci_dev->dev, sizeof(struct nvme_id_ns),
- 				&dma_addr, GFP_KERNEL);
-@@ -721,7 +722,11 @@ static int nvme_trans_standard_inquiry_page(struct nvme_ns *ns,
- 	inq_response[7] = cmdque;	/* wbus16=0 | sync=0 | vs=0 */
- 	strncpy(&inq_response[8], "NVMe    ", 8);
- 	strncpy(&inq_response[16], dev->model, 16);
--	strncpy(&inq_response[32], dev->firmware_rev, 4);
-+
-+	while (dev->firmware_rev[fw_offset - 1] == ' ' && fw_offset > 4)
-+		fw_offset--;
-+	fw_offset -= 4;
-+	strncpy(&inq_response[32], dev->firmware_rev + fw_offset, 4);
- 
- 	xfer_len = min(alloc_len, STANDARD_INQUIRY_LENGTH);
- 	res = nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
--- 
-1.7.10.4
+It seems like this ought to work the same way over all kinds of reset.
+
+>  	return rc;
+>  }
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 33aa2ca..d82dd3f 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -603,6 +603,9 @@ struct pci_error_handlers {
+>  	/* PCI slot has been reset */
+>  	pci_ers_result_t (*slot_reset)(struct pci_dev *dev);
+>  
+> +	/* PCI function reset prepare or completed */
+> +	void (*reset_notify)(struct pci_dev *dev, bool prepare);
+> +
+>  	/* Device driver may resume normal operations */
+>  	void (*resume)(struct pci_dev *dev);
+>  };
+> -- 
+> 1.7.10.4
+> 
