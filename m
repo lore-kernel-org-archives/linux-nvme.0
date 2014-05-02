@@ -1,36 +1,50 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 1 May 2014 14:20:05 -0600 (MDT)
-Subject: [PATCH 1/2] PCI: Device driver function reset notification
-In-Reply-To: <CAErSpo7R9BZtJpb3ekR=8D+tkWR9tPzsT0YLY5YS-hOGQJuxQA@mail.gmail.com>
-References: <1397000541-1085-1-git-send-email-keith.busch@intel.com>
- <20140430224637.GA31315@google.com> <alpine.LRH.2.03.1405011344330.5666@AMR>
- <CAErSpo7R9BZtJpb3ekR=8D+tkWR9tPzsT0YLY5YS-hOGQJuxQA@mail.gmail.com>
-Message-ID: <alpine.LRH.2.03.1405011412500.5666@AMR>
+Date: Fri,  2 May 2014 10:40:43 -0600
+Subject: [PATCHv2 2/2] NVMe: Implement PCI-e reset notification callback
+In-Reply-To: <1399048843-9376-1-git-send-email-keith.busch@intel.com>
+References: <1399048843-9376-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1399048843-9376-2-git-send-email-keith.busch@intel.com>
 
-On Thu, 1 May 2014, Bjorn Helgaas wrote:
-> On Thu, May 1, 2014@1:57 PM, Keith Busch <keith.busch@intel.com> wrote:
->> On Wed, 30 Apr 2014, Bjorn Helgaas wrote:
->>>
->>> On Tue, Apr 08, 2014@05:42:20PM -0600, Keith Busch wrote:
->>> You put the notify in these functions:
->>>
->>>  pci_reset_function()
->>>  pci_try_reset_function()
->>>
->>> but what about these:
->>>
->>>  pci_reset_slot()
->>>  pci_try_reset_slot()
->>>  pci_reset_bus()
->>>  pci_try_reset_bus()
->>
->>
->> Good point. These all call pci_dev_save_and_disable at the start and
->> pci_dev_restore after, so I think just adding the reset prepare/complete
->> to those functions should cover all scenarios. Does this sound ok?
->
-> Sound OK to me, as long as the save/restore functions aren't used elsewhere.
+Quiesce and shutdown the device prior to reset, then restart the device
+and resume IO after.
 
-Yep, there is currently 1:1 symmetry for these in all cases. I'll make
-a note for any future use that the calling disabling/restore should
-maintain this property.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+v1 -> v2:
+
+fixed compile warning for wrong data type in function (int -> bool).
+
+ drivers/block/nvme-core.c |   11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 7c64fa7..a842c71 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2775,6 +2775,16 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	return result;
+ }
+ 
++static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
++{
++       struct nvme_dev *dev = pci_get_drvdata(pdev);
++
++       if (prepare)
++               nvme_dev_shutdown(dev);
++       else
++               nvme_dev_resume(dev);
++}
++
+ static void nvme_shutdown(struct pci_dev *pdev)
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+@@ -2839,6 +2849,7 @@ static const struct pci_error_handlers nvme_err_handler = {
+ 	.link_reset	= nvme_link_reset,
+ 	.slot_reset	= nvme_slot_reset,
+ 	.resume		= nvme_error_resume,
++	.reset_notify	= nvme_reset_notify,
+ };
+ 
+ /* Move to pci_ids.h later */
+-- 
+1.7.10.4
