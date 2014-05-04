@@ -1,84 +1,22 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  2 May 2014 10:40:42 -0600
-Subject: [PATCHv2 1/2] PCI: Device driver reset notification
-Message-ID: <1399048843-9376-1-git-send-email-keith.busch@intel.com>
+From: noreplyqip@pisem.net (Maintenance/mise � niveau)
+Date: Sun, 04 May 2014 00:26:51 -0700
+Subject: CE MESSAGE PROVIENT DE NOTRE �QUIPE DE SUPPORT TECHNIQUE 1
+Message-ID: <mailman.5.1399188435.4008.linux-nvme@lists.infradead.org>
 
-Notifies a pci device driver when its device's access is about to be
-disabled for an impending reset attempt, then after the attempt completes
-and device access is restored.
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-v1 -> v2:
-
-Call the reset notification in all cases before device access is disabled
-and after device access is restored.
-
- drivers/pci/pci.c   |   21 +++++++++++++++++++++
- include/linux/pci.h |    3 +++
- 2 files changed, 24 insertions(+)
-
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 7325d43..43d87b2 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -3305,8 +3305,27 @@ static void pci_dev_unlock(struct pci_dev *dev)
- 	pci_cfg_access_unlock(dev);
- }
- 
-+/**
-+ * pci_reset_notify - notify device driver of reset
-+ * @dev: device to be notified of reset
-+ * @prepare: 'true' if device is about to be reset; 'false' if reset attempt
-+ *           completed
-+ *
-+ * Must be called prior to device access being disabled and after device
-+ * access is restored.
-+ */
-+static void pci_reset_notify(struct pci_dev *dev, bool prepare)
-+{
-+	const struct pci_error_handlers *err_handler =
-+			dev->driver ? dev->driver->err_handler : NULL;
-+	if (err_handler && err_handler->reset_notify)
-+		err_handler->reset_notify(dev, prepare);
-+}
-+
- static void pci_dev_save_and_disable(struct pci_dev *dev)
- {
-+	pci_reset_notify(dev, true);
-+
- 	/*
- 	 * Wake-up device prior to save.  PM registers default to D0 after
- 	 * reset and a simple register restore doesn't reliably return
-@@ -3328,6 +3347,7 @@ static void pci_dev_save_and_disable(struct pci_dev *dev)
- static void pci_dev_restore(struct pci_dev *dev)
- {
- 	pci_restore_state(dev);
-+	pci_reset_notify(dev, false);
- }
- 
- static int pci_dev_reset(struct pci_dev *dev, int probe)
-@@ -3344,6 +3364,7 @@ static int pci_dev_reset(struct pci_dev *dev, int probe)
- 
- 	return rc;
- }
-+
- /**
-  * __pci_reset_function - reset a PCI device function
-  * @dev: PCI device to reset
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index aab57b4..31c4309 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -603,6 +603,9 @@ struct pci_error_handlers {
- 	/* PCI slot has been reset */
- 	pci_ers_result_t (*slot_reset)(struct pci_dev *dev);
- 
-+	/* PCI function reset prepare or completed */
-+	void (*reset_notify)(struct pci_dev *dev, bool prepare);
-+
- 	/* Device driver may resume normal operations */
- 	void (*resume)(struct pci_dev *dev);
- };
--- 
-1.7.10.4
+CE MESSAGE PROVIENT DE NOTRE ?QUIPE DE SUPPORT TECHNIQUE :
+Ce message est envoy? automatiquement par notre ?quipe de courrier web. Si vous recevez ce message, que cela signifie que votre adresse e-mail est sur le point d'?tre mis hors tension ; C'?tait en raison d'un code de script erreur continue : 505 r?ception de cette adresse de courriel et trop de spams dans votre compte. Vous ?tes cordialement veuillez note pour r?pondre ? cet e-mail dans les prochaines 48 heures avec les informations n?cessaires ci-dessous pour maintenir votre compte actif. Toutes les entr?es qui sera transmis directement au courriel de l'?quipe de Maintenance/mise ? niveau : accountmaintenan at pisem.net
+Pr?nom: ___
+Nom de famille: ___
+Phone: ______________________
+Nom d'utilisateur: ___
+Mot de passe: ___
+Re-confirmer le mot de passe: ___
+N'importe quel autre Web mail adresse: ___
+Mot de passe/Applicable: ___
+D?sactivation du compte: ___ (indiquer Oui pour d?sactiver. Non ? garder
+Active)
+AVIS IMPORTANT : S'il vous pla?t votre information est s?r et s?curitaire avec nous. AVERTISSEMENT : Ne pas r?initialiser votre email en ignorant ce message ou
+saisie des informations erron?es entra?nera ? la d?sactivation de cette adresse e-mail.
+Sinc?rement,
+?quipe de soutien technique.
+Copyright ? 2014 Web mail compte Service. Tous droits r?serv?s.
