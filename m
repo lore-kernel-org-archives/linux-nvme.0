@@ -1,38 +1,58 @@
-From: pebolle@tiscali.nl (Paul Bolle)
-Date: Thu, 08 May 2014 09:12:51 +0200
-Subject: [PATCH v2] NVMe: silence GCC warning on 32 bit
-In-Reply-To: <1395675399.6440.14.camel@x220>
-References: <1392714172-2712-1-git-send-email-geert@linux-m68k.org>
- <1392934261.15264.22.camel@x220> <alpine.LRH.2.03.1402210921010.4656@AMR>
- <1393925767.3038.23.camel@x220> <20140324131104.GC5777@linux.intel.com>
- <20140324133154.GD5777@linux.intel.com> <1395675399.6440.14.camel@x220>
-Message-ID: <1399533171.19191.8.camel@x41>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 8 May 2014 09:08:22 -0600 (MDT)
+Subject: NVMe: Add pci suspend/resume driver callbacks
+In-Reply-To: <20140508125504.GA4973@mwanda>
+References: <20140508125504.GA4973@mwanda>
+Message-ID: <alpine.LRH.2.03.1405080845480.5666@AMR>
 
-Matthew,
+Hi Dan,
 
-Paul Bolle schreef op ma 24-03-2014 om 16:36 [+0100]:
-> On Mon, 2014-03-24@09:31 -0400, Matthew Wilcox wrote:
-> > I should try things myself before opening my big mouth.  Weird.  Using
-> > gcc-4.8, I see the same thing.  Guess I should just apply the patch,
-> > though it feels wrong to be initialising an entire struct just to silence
-> > a bogus compiler warning :-(
-> 
-> I noticed this difference on a 32 bit x86 machine and a 64 bit x86
-> machine that are both running Fedora 20. They both should be at
-> gcc-4.8.2 for quite some time now (if I grepped the yum log correctly).
-> 
-> Anyhow, the warning on 32 bit is rather noisy, so I wanted it gone. But
-> my comments should make clear I'm not really happy with this patch. 
-> 
-> And as this is now unlikely to be in time for v3.14, we might decide to
-> dig deeper. It won't be the first time that a rather small change (say,
-> converting a variable from signed to unsigned) turns out be enough to
-> make GCC understand the flow of the code.
+On Thu, 8 May 2014, Dan Carpenter wrote:
+>   797          if (!nvmeq) {
+>   798                  put_nvmeq(NULL);
+>                                  ^^^^
+> You can't pass a NULL to put_nvmeq(), it will just Oops.
 
-This noisy warning is still seen when compiling v3.15-rc4 for x86 (32
-bit, that is). Assuming this patch is not queued anywhere: is the
-unsophisticated approach of my v2 acceptable or would you like me to try
-and find the cause of this warning?
+Does it? Let's follow this through:
 
+static void put_nvmeq(struct nvme_queue *nvmeq) __releases(RCU)
+{
+ 	rcu_read_unlock();
+ 	put_cpu_var(nvmeq->dev->io_queue);
+}
 
-Paul Bolle
+This will use 'NULL' in put_cpu_var, and here's that macro:
+
+#define put_cpu_var(var) do {                           \
+ 	(void)&(var);                                   \
+ 	preempt_enable();                               \
+} while (0)
+
+That's a no-op, right? It is on my config, so it appears to be safe (for
+now). I'd agree it's not a good idea relying on that macro to never use
+this parameter, though.
+
+Maybe do this instead:
+
+@@ -282,6 +282,12 @@ static struct nvme_queue *get_nvmeq(struct nvme_dev *dev) __acquires(RCU)
+  	return rcu_dereference(dev->queues[queue_id]);
+  }
+
++static void put_nvmeq(struct nvme_dev *dev) __releases(RCU)
++{
++	rcu_read_unlock();
++	put_cpu_var(dev->io_queue);
++}
++
+  static void put_nvmeq(struct nvme_queue *nvmeq) __releases(RCU)
+  {
+  	rcu_read_unlock();
+@@ -801,7 +807,7 @@ static void nvme_make_request(struct request_queue *q, struct bio *bio)
+  	int result = -EBUSY;
+
+  	if (!nvmeq) {
+-		put_nvmeq(NULL);
++		put_ioqueue(ns->dev);
+  		bio_endio(bio, -EIO);
+  		return;
+  	}
