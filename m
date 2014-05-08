@@ -1,80 +1,38 @@
-From: dimitri.ledkov@canonical.com (Dimitri John Ledkov)
-Date: Wed,  7 May 2014 20:55:30 +0100
-Subject: [PATCH v2] NVMe: Update namespace and controller identity structures
- as per 1.1a spec
-In-Reply-To: <20140423151304.GF13050@linux.intel.com>
-References: <20140423151304.GF13050@linux.intel.com>
-Message-ID: <1399492530-7774-1-git-send-email-dimitri.ledkov@canonical.com>
+From: pebolle@tiscali.nl (Paul Bolle)
+Date: Thu, 08 May 2014 09:12:51 +0200
+Subject: [PATCH v2] NVMe: silence GCC warning on 32 bit
+In-Reply-To: <1395675399.6440.14.camel@x220>
+References: <1392714172-2712-1-git-send-email-geert@linux-m68k.org>
+ <1392934261.15264.22.camel@x220> <alpine.LRH.2.03.1402210921010.4656@AMR>
+ <1393925767.3038.23.camel@x220> <20140324131104.GC5777@linux.intel.com>
+ <20140324133154.GD5777@linux.intel.com> <1395675399.6440.14.camel@x220>
+Message-ID: <1399533171.19191.8.camel@x41>
 
-Controller: add CNTLID, AVSCC, APSTA, NVSCC, ACWU, SGLS fields.
+Matthew,
 
-Namespace: add NMIC, RESCAP, EUI64 fields. EUI64 is specifically
-interesting, since it can be used to construct an UEFI NVMe device
-path for a boot entry.
+Paul Bolle schreef op ma 24-03-2014 om 16:36 [+0100]:
+> On Mon, 2014-03-24@09:31 -0400, Matthew Wilcox wrote:
+> > I should try things myself before opening my big mouth.  Weird.  Using
+> > gcc-4.8, I see the same thing.  Guess I should just apply the patch,
+> > though it feels wrong to be initialising an entire struct just to silence
+> > a bogus compiler warning :-(
+> 
+> I noticed this difference on a 32 bit x86 machine and a 64 bit x86
+> machine that are both running Fedora 20. They both should be at
+> gcc-4.8.2 for quite some time now (if I grepped the yum log correctly).
+> 
+> Anyhow, the warning on 32 bit is rather noisy, so I wanted it gone. But
+> my comments should make clear I'm not really happy with this patch. 
+> 
+> And as this is now unlikely to be in time for v3.14, we might decide to
+> dig deeper. It won't be the first time that a rather small change (say,
+> converting a variable from signed to unsigned) turns out be enough to
+> make GCC understand the flow of the code.
 
-As per NVM Express 1.1a spec:
-http://www.nvmexpress.org/wp-content/uploads/NVM-Express-1_1a.pdf
+This noisy warning is still seen when compiling v3.15-rc4 for x86 (32
+bit, that is). Assuming this patch is not queued anywhere: is the
+unsophisticated approach of my v2 acceptable or would you like me to try
+and find the cause of this warning?
 
-Signed-off-by: Dimitri John Ledkov <dimitri.ledkov at canonical.com>
----
 
- Changes since v1:
-  - Change cntlid from __le16 to __u16 ("it's a cookie")
-  - Change eui64 from __le64 to __u8[8] (as per IEEE's recommendation)
-
- include/uapi/linux/nvme.h | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
-
-diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
-index f090336..e74da78 100644
---- a/include/uapi/linux/nvme.h
-+++ b/include/uapi/linux/nvme.h
-@@ -45,7 +45,8 @@ struct nvme_id_ctrl {
- 	__u8			ieee[3];
- 	__u8			mic;
- 	__u8			mdts;
--	__u8			rsvd78[178];
-+	__u16			cntlid;
-+	__u8			rsvd80[176];
- 	__le16			oacs;
- 	__u8			acl;
- 	__u8			aerl;
-@@ -53,7 +54,9 @@ struct nvme_id_ctrl {
- 	__u8			lpa;
- 	__u8			elpe;
- 	__u8			npss;
--	__u8			rsvd264[248];
-+	__u8			avscc;
-+	__u8			apsta;
-+	__u8			rsvd266[246];
- 	__u8			sqes;
- 	__u8			cqes;
- 	__u8			rsvd514[2];
-@@ -64,7 +67,12 @@ struct nvme_id_ctrl {
- 	__u8			vwc;
- 	__le16			awun;
- 	__le16			awupf;
--	__u8			rsvd530[1518];
-+	__u8			nvscc;
-+	__u8			rsvd531;
-+	__le16			acwu;
-+	__u8			rsvd534[2];
-+	__le32			sgls;
-+	__u8			rsvd540[1508];
- 	struct nvme_id_power_state	psd[32];
- 	__u8			vs[1024];
- };
-@@ -92,7 +100,10 @@ struct nvme_id_ns {
- 	__u8			mc;
- 	__u8			dpc;
- 	__u8			dps;
--	__u8			rsvd30[98];
-+	__u8			nmic;
-+	__u8			rescap;
-+	__u8			rsvd32[88];
-+	__u8			eui64[8];
- 	struct nvme_lbaf	lbaf[16];
- 	__u8			rsvd192[192];
- 	__u8			vs[3712];
--- 
-2.0.0.rc0
+Paul Bolle
