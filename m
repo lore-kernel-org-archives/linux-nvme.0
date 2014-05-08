@@ -1,39 +1,46 @@
-From: dan.carpenter@oracle.com (Dan Carpenter)
-Date: Thu, 8 May 2014 21:19:52 +0300
-Subject: NVMe: Add pci suspend/resume driver callbacks
-In-Reply-To: <alpine.LRH.2.03.1405080845480.5666@AMR>
-References: <20140508125504.GA4973@mwanda>
- <alpine.LRH.2.03.1405080845480.5666@AMR>
-Message-ID: <20140508181952.GA4963@mwanda>
+From: gregkh@linuxfoundation.org (Greg KH)
+Date: Thu, 8 May 2014 21:03:07 +0200
+Subject: [PATCH 1/2] driver-core: allow asynchronous device shutdown
+In-Reply-To: <1399572454-30239-2-git-send-email-keith.busch@intel.com>
+References: <1399572454-30239-1-git-send-email-keith.busch@intel.com>
+ <1399572454-30239-2-git-send-email-keith.busch@intel.com>
+Message-ID: <20140508190307.GA6766@kroah.com>
 
-On Thu, May 08, 2014@09:08:22AM -0600, Keith Busch wrote:
-> Hi Dan,
+On Thu, May 08, 2014@12:07:33PM -0600, Keith Busch wrote:
+> A patch to allow .shutdown to execute asynchronously. Some devices may
+> take a long time to complete a shutdown, so this patch lets a driver
+> safely shutdown multiple devices asynchronously.
 > 
-> On Thu, 8 May 2014, Dan Carpenter wrote:
-> >  797          if (!nvmeq) {
-> >  798                  put_nvmeq(NULL);
-> >                                 ^^^^
-> >You can't pass a NULL to put_nvmeq(), it will just Oops.
+> This uses an exclusive asynchronous domain so other unrelated async
+> tasks can't cause shutdown to hold up indefinitely.
 > 
-> Does it? Let's follow this through:
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/base/core.c    |    4 ++++
+>  include/linux/device.h |    1 +
+>  2 files changed, 5 insertions(+)
 > 
-> static void put_nvmeq(struct nvme_queue *nvmeq) __releases(RCU)
-> {
-> 	rcu_read_unlock();
-> 	put_cpu_var(nvmeq->dev->io_queue);
-> }
-> 
-> This will use 'NULL' in put_cpu_var, and here's that macro:
-> 
-> #define put_cpu_var(var) do {                           \
-> 	(void)&(var);                                   \
-> 	preempt_enable();                               \
-> } while (0)
-> 
-> That's a no-op, right?
+> diff --git a/drivers/base/core.c b/drivers/base/core.c
+> index 20da3ad..71b83bb 100644
+> --- a/drivers/base/core.c
+> +++ b/drivers/base/core.c
+> @@ -10,6 +10,7 @@
+>   *
+>   */
+>  
+> +#include <linux/async.h>
+>  #include <linux/device.h>
+>  #include <linux/err.h>
+>  #include <linux/init.h>
+> @@ -1926,6 +1927,8 @@ out:
+>  }
+>  EXPORT_SYMBOL_GPL(device_move);
+>  
+> +ASYNC_DOMAIN_EXCLUSIVE(shutdown_domain);
+> +EXPORT_SYMBOL(shutdown_domain);
 
-Interesting.  You're right it's not a problem to pass the NULL pointer
-here.
+EXPORT_SYMBOL_GPL() please, for driver core functions.
 
-regards,
-dan carpenter
+thanks,
+
+greg k-h
