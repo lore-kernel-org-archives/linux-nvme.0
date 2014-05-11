@@ -1,18 +1,16 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Sat, 10 May 2014 22:52:54 -0400
+Date: Sat, 10 May 2014 22:54:55 -0400
 Subject: [PATCH] Remove redundant writes to uncached sqe memory
-In-Reply-To: <536D3E3F.9050902@micron.com>
+In-Reply-To: <CAOu_J6ntbk=CxHLk-mea5Jkza=NFgomyZoGmFe+_Zg96tQN5_g@mail.gmail.com>
 References: <536D3E3F.9050902@micron.com>
-Message-ID: <20140511025254.GC6121@linux.intel.com>
+ <CAOu_J6ntbk=CxHLk-mea5Jkza=NFgomyZoGmFe+_Zg96tQN5_g@mail.gmail.com>
+Message-ID: <20140511025455.GD6121@linux.intel.com>
 
-On Fri, May 09, 2014@01:44:47PM -0700, Sam Bradshaw wrote:
-> The memset to clear the SQE in nvme_submit_iod() is made partially 
-> redundant by subsequent writes.  This patch explicitly clears each 
-> SQE structure member in ascending order, eliminating the need for 
-> the memset.  With this change, our perf runs show ~1.5% less time
-> spent in the IO submission path and minor reduced q lock contention.
+On Fri, May 09, 2014@11:14:46PM +0200, Matias Bj?rling wrote:
+> I think a description above the declaration of struct nvme_rw_command
+> would be helpful. E.g. "If you modify this structure, please change
+> nvme_submit_iod accordingly to take care of initialization."
 
-I'm shocked!  I thought that zeroing the cacheline first would be better
-performing than storing into parts of the cacheline.  But I can't argue
-with your numbers.  I think your patch is missing a store to the metadata
-element though; care to rerun your test with that added?
+I don't think that's necessary.  There's no hidden gaps in the definition
+of nvme_rw_command, so the explicit initialisation of all the fields will
+write all of the bytes in the command.
