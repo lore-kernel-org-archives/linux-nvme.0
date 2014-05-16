@@ -1,33 +1,44 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 13 May 2014 11:42:02 -0600
-Subject: [PATCH 2/2] NVMe: Make admin timeout a module parameter
-In-Reply-To: <1400002922-7219-1-git-send-email-keith.busch@intel.com>
-References: <1400002922-7219-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1400002922-7219-2-git-send-email-keith.busch@intel.com>
+From: xuehua@gmail.com (Xuehua Chen)
+Date: Fri, 16 May 2014 16:34:57 -0700
+Subject: A small concern on driver loading and unloading
+Message-ID: <CAOu78O3CJPyyzZECbbHYZtfLR8Qc99y=byMj6qg2KOp7xLj4gg@mail.gmail.com>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |    6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Noticed something strange about the driver unloading and loading and
+would like to ask a question here.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index be4ec45..6a572c5 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -47,9 +47,13 @@
- #define NVME_Q_DEPTH 1024
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
- #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
--#define ADMIN_TIMEOUT	(60 * HZ)
-+#define ADMIN_TIMEOUT	(admin_timeout * HZ)
- #define IOD_TIMEOUT	(iod_timeout * HZ)
- 
-+unsigned char admin_timeout = 30;
-+module_param(admin_timeout, byte, 0644);
-+MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin commands");
-+
- unsigned char io_timeout = 30;
- module_param(io_timeout, byte, 0644);
- MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
--- 
-1.7.10.4
+when driver is unloaded, nvme_shutdown_ctrl is called by nvme_remove.
+
+cc = (readl(&dev->bar->cc) & ~NVME_CC_SHN_MASK) | NVME_CC_SHN_NORMAL;
+       writel(cc, &dev->bar->cc);
+
+This set NVME_CC_SHN_NORMAL in CC.
+
+Then during driver loading,  nvme_disable_ctrl is called, which does this.
+
+u32 cc = readl(&dev->bar->cc);
+
+if (cc & NVME_CC_ENABLE)
+        writel(cc & ~NVME_CC_ENABLE, &dev->bar->cc);
+
+
+Checked the NVME spec 1.a  and didn't find it mention anywhere that
+controller will reset Shutdown Notification field after shutdown
+complete(please correct if this is incorrect). So the bits stay there.
+
+When loading the driver, the NVME_CC_SHN_NORMAL is written when
+disabling controller. This can be confusing. Why disabling the
+controller and do a shutdown at the same time.
+
+Maybe changing
+writel(cc & ~NVME_CC_ENABLE, &dev->bar->cc);
+to
+writel(cc & ~NVME_CC_ENABLE & ~NVME_CC_SHN_MASK , &dev->bar->cc);
+is safer.
+
+Also it seems that
+writel(0 , &dev->bar->cc);
+can be simpler and the effects are the same. Disabling controller
+reset controller registers including CC to default values. All fields
+of the CC will be gone any way.
+
+Thanks,
