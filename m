@@ -1,44 +1,14 @@
-From: xuehua@gmail.com (Xuehua Chen)
-Date: Fri, 16 May 2014 16:34:57 -0700
-Subject: A small concern on driver loading and unloading
-Message-ID: <CAOu78O3CJPyyzZECbbHYZtfLR8Qc99y=byMj6qg2KOp7xLj4gg@mail.gmail.com>
+From: wyung@micron.com (Winson Yung (wyung))
+Date: Sun, 18 May 2014 11:55:05 +0000
+Subject: [RFC PATCH] NVMe: Runtime suspend
+Message-ID: <4153505278C0BF4DABE3DF3D82533FE29D0CBE@NTXBOIMBX05.micron.com>
 
-Noticed something strange about the driver unloading and loading and
-would like to ask a question here.
+Hi, I am new to the mailing list in case my comment mention here was discussed in the past. Please let me know the past discussion thread if it exists. Here is my comment to the patch:
 
-when driver is unloaded, nvme_shutdown_ctrl is called by nvme_remove.
+* How is the current NVMe power states defined by a storage device exposed/used in the kernel? I looked at the driver/block/nvme-scsi.c, and only can see that they were mapped to supporting scsi START STOP UNIT cmd inside nvme_trans_power_state(). So is it accurate to say that no (power management) code in linux kernel take advantage of these NVMe power states?
 
-cc = (readl(&dev->bar->cc) & ~NVME_CC_SHN_MASK) | NVME_CC_SHN_NORMAL;
-       writel(cc, &dev->bar->cc);
+* I think your patch is a good idea, but you should consider to extend it such that it uses runtime power management to create a dynamic power reduction model based on the idleness of IO activity. For example, if the storage drive supports 3 NVMe power states (0, 1, 2), we can let nvme_runtime_suspend() to determine which NVMe power states to use among 0, 1 or 2 based on the IO activity. This way creates a more scalable solution that gives better balance between power saving and performance (i.e. exit latency) in the middle of D0 and D3.
 
-This set NVME_CC_SHN_NORMAL in CC.
+* As for your observation of the potential issue, I think if a device is in suspended mode, driver should allowed to post a command to IO queue as long as the device can be awaken. Of course, the service of the command will be queued and delay serviced only after runtime resume is completed.
 
-Then during driver loading,  nvme_disable_ctrl is called, which does this.
-
-u32 cc = readl(&dev->bar->cc);
-
-if (cc & NVME_CC_ENABLE)
-        writel(cc & ~NVME_CC_ENABLE, &dev->bar->cc);
-
-
-Checked the NVME spec 1.a  and didn't find it mention anywhere that
-controller will reset Shutdown Notification field after shutdown
-complete(please correct if this is incorrect). So the bits stay there.
-
-When loading the driver, the NVME_CC_SHN_NORMAL is written when
-disabling controller. This can be confusing. Why disabling the
-controller and do a shutdown at the same time.
-
-Maybe changing
-writel(cc & ~NVME_CC_ENABLE, &dev->bar->cc);
-to
-writel(cc & ~NVME_CC_ENABLE & ~NVME_CC_SHN_MASK , &dev->bar->cc);
-is safer.
-
-Also it seems that
-writel(0 , &dev->bar->cc);
-can be simpler and the effects are the same. Disabling controller
-reset controller registers including CC to default values. All fields
-of the CC will be gone any way.
-
-Thanks,
+/Winson
