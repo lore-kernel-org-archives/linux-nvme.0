@@ -1,40 +1,28 @@
-From: sbradshaw@micron.com (Sam Bradshaw)
-Date: Wed, 21 May 2014 11:14:25 -0700
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Wed, 21 May 2014 19:17:06 -0400
 Subject: [PATCH] NVMe: Remove superfluous cqe_seen
-Message-ID: <537CED01.6040106@micron.com>
+In-Reply-To: <537CED01.6040106@micron.com>
+References: <537CED01.6040106@micron.com>
+Message-ID: <20140521231706.GP6121@linux.intel.com>
 
-cqe_seen is redundant with the return value from nvme_process_cq().
-Remove it.
+On Wed, May 21, 2014@11:14:25AM -0700, Sam Bradshaw wrote:
+> cqe_seen is redundant with the return value from nvme_process_cq().
+> Remove it.
 
-Signed-off-by: Sam Bradshaw <sbradshaw at micron.com>
----
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index cd8a8bc..c2287ac 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -102,7 +102,6 @@ struct nvme_queue {
- 	u16 cq_head;
- 	u16 qid;
- 	u8 cq_phase;
--	u8 cqe_seen;
- 	u8 q_suspended;
- 	cpumask_var_t cpu_mask;
- 	struct async_cmd_info cmdinfo;
-@@ -790,7 +789,6 @@ static int nvme_process_cq(struct nvme_queue *nvmeq)
- 	nvmeq->cq_head = head;
- 	nvmeq->cq_phase = phase;
- 
--	nvmeq->cqe_seen = 1;
- 	return 1;
- }
- 
-@@ -826,8 +824,7 @@ static irqreturn_t nvme_irq(int irq, void *data)
- 	struct nvme_queue *nvmeq = data;
- 	spin_lock(&nvmeq->q_lock);
- 	nvme_process_cq(nvmeq);
--	result = nvmeq->cqe_seen ? IRQ_HANDLED : IRQ_NONE;
--	nvmeq->cqe_seen = 0;
-+	result = nvme_process_cq(nvmeq) ? IRQ_HANDLED : IRQ_NONE;
- 	spin_unlock(&nvmeq->q_lock);
- 	return result;
- }
+Ah, but it isn't.  Look at commit e9539f47525.  The purpose of cqe_seen
+is to be 'sticky', that we *have* indeed processed something on this CQ
+since the last interrupt, and so if we get an interrupt, the device may
+have legitimately interrupted us.
+
+A more interesting patch might be to implement some kind of autotuning of
+the interrupt coalescing -- if we're seeing too many times tha the queue
+has no work on it, then we should increase the time or queue depth used.
+I'm not sure what event would cause us to *reduce* the time or queue
+depth, so I fear we'd end up set to a suboptimal value over time.
+
+You could argue that the return value from nvme_process_cq() is now
+never used, and that would be correct, but I have a patch in the works
+that will use it again, so I don't think it's worth taking out.
+
+Was there a performance problem that this solves, or did you just notice
+it, and send a cleanup?
