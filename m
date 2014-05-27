@@ -1,94 +1,53 @@
-From: bhelgaas@google.com (Bjorn Helgaas)
-Date: Tue, 27 May 2014 11:19:15 -0600
-Subject: [PATCHv2 1/2] PCI: Device driver reset notification
-In-Reply-To: <1399048843-9376-1-git-send-email-keith.busch@intel.com>
-References: <1399048843-9376-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20140527171915.GA14005@google.com>
+From: sbradshaw@micron.com (Sam Bradshaw (sbradshaw))
+Date: Tue, 27 May 2014 18:03:08 +0000
+Subject: [RFC PATCH] NVMe: Remove IOD scatter-gather list
+In-Reply-To: <1401174326-25045-1-git-send-email-keith.busch@intel.com>
+References: <1401174326-25045-1-git-send-email-keith.busch@intel.com>
+Message-ID: <80B89753B40C5141A3E2D53FE7A2A8A9943C0584@NTXBOIMBX02.micron.com>
 
-On Fri, May 02, 2014@10:40:42AM -0600, Keith Busch wrote:
-> Notifies a pci device driver when its device's access is about to be
-> disabled for an impending reset attempt, then after the attempt completes
-> and device access is restored.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-I applied both of these to my pci/hotplug branch for v3.16.  Let me know if
-you want me to drop the NVMe patch and have it go via another tree.
 
-Bjorn
+> -----Original Message-----
+> From: Keith Busch [mailto:keith.busch at intel.com]
+> Sent: Tuesday, May 27, 2014 12:05 AM
+> To: linux-nvme at lists.infradead.org; willy at linux.intel.com; Sam Bradshaw
+> (sbradshaw)
+> Cc: Keith Busch
+> Subject: [RFC PATCH] NVMe: Remove IOD scatter-gather list
+> 
+> I've seen a lot of patches recently on the mailing list about improving
+> driver side latencies and I want in on the action. :)
+> 
+> This patch proposes to remove the scatter gather list and create prp
+> lists directly from the bio's io vector. This way we don't have to walk
+> it twice, and we don't have to allocate prp lists from DMA pools when
+> we can point to them inline with the IOD and map them from there.
+> 
+> I am breaking a few things here, notably REQ_DISCARD and the IOCTL
+> passthroughs, but I'm just trying to gauge if this is actually as good
+> a win as I hope before spending too much time on it.
+> 
+> I don't have my normal test machine available to me from my remote
+> location right now, so stuck using slower hardware than I normally use
+> for these kinds of tests.
+> 
+> On 4k transfer, I measure submission side latency reduced by ~25ns.
+> On 128k transfer, same latency was reduced by ~110ns.
+> 
+> I've not been able to test at higher transfers than this. I'm not even
+> sure if this will not crash a system if we have to chain two prp lists
+> since I couldn't test that either. Maybe it will break bio splits too,
+> I'm not sure, it's just prototype code right now.
+> 
+> Would anyone be willing to give this a try on some of their faster h/w?
 
-> ---
-> v1 -> v2:
-> 
-> Call the reset notification in all cases before device access is disabled
-> and after device access is restored.
-> 
->  drivers/pci/pci.c   |   21 +++++++++++++++++++++
->  include/linux/pci.h |    3 +++
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 7325d43..43d87b2 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -3305,8 +3305,27 @@ static void pci_dev_unlock(struct pci_dev *dev)
->  	pci_cfg_access_unlock(dev);
->  }
->  
-> +/**
-> + * pci_reset_notify - notify device driver of reset
-> + * @dev: device to be notified of reset
-> + * @prepare: 'true' if device is about to be reset; 'false' if reset attempt
-> + *           completed
-> + *
-> + * Must be called prior to device access being disabled and after device
-> + * access is restored.
-> + */
-> +static void pci_reset_notify(struct pci_dev *dev, bool prepare)
-> +{
-> +	const struct pci_error_handlers *err_handler =
-> +			dev->driver ? dev->driver->err_handler : NULL;
-> +	if (err_handler && err_handler->reset_notify)
-> +		err_handler->reset_notify(dev, prepare);
-> +}
-> +
->  static void pci_dev_save_and_disable(struct pci_dev *dev)
->  {
-> +	pci_reset_notify(dev, true);
-> +
->  	/*
->  	 * Wake-up device prior to save.  PM registers default to D0 after
->  	 * reset and a simple register restore doesn't reliably return
-> @@ -3328,6 +3347,7 @@ static void pci_dev_save_and_disable(struct pci_dev *dev)
->  static void pci_dev_restore(struct pci_dev *dev)
->  {
->  	pci_restore_state(dev);
-> +	pci_reset_notify(dev, false);
->  }
->  
->  static int pci_dev_reset(struct pci_dev *dev, int probe)
-> @@ -3344,6 +3364,7 @@ static int pci_dev_reset(struct pci_dev *dev, int probe)
->  
->  	return rc;
->  }
-> +
->  /**
->   * __pci_reset_function - reset a PCI device function
->   * @dev: PCI device to reset
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index aab57b4..31c4309 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -603,6 +603,9 @@ struct pci_error_handlers {
->  	/* PCI slot has been reset */
->  	pci_ers_result_t (*slot_reset)(struct pci_dev *dev);
->  
-> +	/* PCI function reset prepare or completed */
-> +	void (*reset_notify)(struct pci_dev *dev, bool prepare);
-> +
->  	/* Device driver may resume normal operations */
->  	void (*resume)(struct pci_dev *dev);
->  };
-> -- 
-> 1.7.10.4
-> 
+Hi Keith,
+
+I tested on our hw and don't see any throughput or latency improvements.
+However, I'm limited to less than 50% of the hw top end performance due
+to some serialization in the io_acct code.  Would you like me to test with
+the patch I sent on 5/9 (NVMe: Adhere to request queue block accounting 
+enable/disable) and io stats disabled to see if there's an improvement at 
+much higher throughput levels?
+
+-Sam
