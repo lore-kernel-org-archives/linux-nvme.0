@@ -1,44 +1,33 @@
-From: vishal.l.verma@linux.intel.com (Vishal Verma)
-Date: Wed, 28 May 2014 10:40:28 -0600
-Subject: [PATCH] Fix log page buffer size passed in GetLogPage(CDW10.NUMD).
-In-Reply-To: <1401281903-25143-1-git-send-email-indraneel.m@samsung.com>
-References: <1401281903-25143-1-git-send-email-indraneel.m@samsung.com>
-Message-ID: <1401295228.13425.8.camel@omniknight.lm.intel.com>
+From: wyung@micron.com (Winson Yung (wyung))
+Date: Wed, 28 May 2014 13:35:28 -0700
+Subject: [PATCH] NVMe: Add support to receive NVMe asynchronous events
+In-Reply-To: <alpine.LRH.2.03.1405261834070.4700@AMR>
+References: <53839E67.1010006@micron.com>
+ <20140526235156.GS6121@linux.intel.com>
+ <alpine.LRH.2.03.1405261834070.4700@AMR>
+Message-ID: <53864890.5070609@micron.com>
 
-On Wed, 2014-05-28@18:28 +0530, Indraneel Mukherjee wrote:
-> diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-> index da3b252..0d9805b 100644
-> --- a/drivers/block/nvme-scsi.c
-> +++ b/drivers/block/nvme-scsi.c
-> @@ -1014,8 +1014,8 @@ static int nvme_trans_log_info_exceptions(struct nvme_ns *ns,
->  	c.common.opcode = nvme_admin_get_log_page;
->  	c.common.nsid = cpu_to_le32(0xFFFFFFFF);
->  	c.common.prp1 = cpu_to_le64(dma_addr);
-> -	c.common.cdw10[0] = cpu_to_le32(((sizeof(struct nvme_smart_log) /
-> -			BYTES_TO_DWORDS) << 16) | NVME_GET_SMART_LOG_PAGE);
-> +	c.common.cdw10[0] = cpu_to_le32((((sizeof(struct nvme_smart_log) /
-> +			BYTES_TO_DWORDS)-1) << 16) | NVME_GET_SMART_LOG_PAGE);
+I had a look of the patch, it looks it does what I was trying to enable, 
+except it misses the portion that enables it by calling set feature cmd. 
+Is it something we can consider now? Also, for these critical warnings 
+that exposed by the async events, can we also put them in the kernel log 
+as well when they enabled?
 
-Documentation/CodingStyle says both these changes should read ") - 1)"
-instead of ")-1)" (spacing difference).
+/Winson
 
->  	res = nvme_submit_admin_cmd(dev, &c, NULL);
->  	if (res != NVME_SC_SUCCESS) {
->  		temp_c = LOG_TEMP_UNKNOWN;
-> @@ -1082,8 +1082,8 @@ static int nvme_trans_log_temperature(struct nvme_ns *ns, struct sg_io_hdr *hdr,
->  	c.common.opcode = nvme_admin_get_log_page;
->  	c.common.nsid = cpu_to_le32(0xFFFFFFFF);
->  	c.common.prp1 = cpu_to_le64(dma_addr);
-> -	c.common.cdw10[0] = cpu_to_le32(((sizeof(struct nvme_smart_log) /
-> -			BYTES_TO_DWORDS) << 16) | NVME_GET_SMART_LOG_PAGE);
-> +	c.common.cdw10[0] = cpu_to_le32((((sizeof(struct nvme_smart_log) /
-> +			BYTES_TO_DWORDS)-1) << 16) | NVME_GET_SMART_LOG_PAGE);
->  	res = nvme_submit_admin_cmd(dev, &c, NULL);
->  	if (res != NVME_SC_SUCCESS) {
->  		temp_c_cur = LOG_TEMP_UNKNOWN;
-
-
-In principle, the patch is good, thanks for submitting this. I'd be
-happy to ack this once you resend with the changes.
-
-	-Vishal
+On 5/26/2014 5:56 PM, Keith Busch wrote:
+> On Mon, 26 May 2014, Matthew Wilcox wrote:
+>> You should probably take a look at Keith's work last year to allow userspace
+>> to send async event requests:
+>>
+>> http://lists.infradead.org/pipermail/linux-nvme/2013-August/000350.html
+>
+> Yeah, that proposal just lets userspace consume the results of an async
+> request from a FIFO read through the character device. The driver still
+> has to do the sending since there's no mechanism for requests from user
+> space with infinite timeout.
+>
+> I've no idea if the proposed method for consuming results of this kind
+> of information was typical. I assumed it wasn't since it didn't get much
+> traction. :)
+>
