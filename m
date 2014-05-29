@@ -1,38 +1,21 @@
-From: indraneel.m@samsung.com (Indraneel Mukherjee)
-Date: Thu, 29 May 2014 12:02:03 +0530
-Subject: [PATCH - RESEND] NVMe: Fix the buffer size passed in
- GetLogPage(CDW10.NUMD)
-Message-ID: <1401345123-3369-1-git-send-email-indraneel.m@samsung.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 29 May 2014 00:40:25 -0600 (MDT)
+Subject: [PATCH] NVMe: Add support to receive NVMe asynchronous events
+In-Reply-To: <53864890.5070609@micron.com>
+References: <53839E67.1010006@micron.com>
+ <20140526235156.GS6121@linux.intel.com>
+ <alpine.LRH.2.03.1405261834070.4700@AMR> <53864890.5070609@micron.com>
+Message-ID: <alpine.LRH.2.03.1405290035130.4995@AMR>
 
-In GetLogPage the buffer size passed to device is a 0's based value.
+On Wed, 28 May 2014, Winson Yung (wyung) wrote:
+> I had a look of the patch, it looks it does what I was trying to enable, 
+> except it misses the portion that enables it by calling set feature cmd. Is 
+> it something we can consider now? Also, for these critical warnings that 
+> exposed by the async events, can we also put them in the kernel log as well 
+> when they enabled?
 
-Signed-off-by: Indraneel M <indraneel.m at samsung.com>
+I thought we agreed it's best to let the user space do the set features
+so it gets to decide what events it wants to see.
 
-diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index da3b252..f29972f 100644
---- a/drivers/block/nvme-scsi.c
-+++ b/drivers/block/nvme-scsi.c
-@@ -1014,8 +1014,8 @@ static int nvme_trans_log_info_exceptions(struct nvme_ns *ns,
- 	c.common.opcode = nvme_admin_get_log_page;
- 	c.common.nsid = cpu_to_le32(0xFFFFFFFF);
- 	c.common.prp1 = cpu_to_le64(dma_addr);
--	c.common.cdw10[0] = cpu_to_le32(((sizeof(struct nvme_smart_log) /
--			BYTES_TO_DWORDS) << 16) | NVME_GET_SMART_LOG_PAGE);
-+	c.common.cdw10[0] = cpu_to_le32((((sizeof(struct nvme_smart_log) /
-+			BYTES_TO_DWORDS) - 1) << 16) | NVME_GET_SMART_LOG_PAGE);
- 	res = nvme_submit_admin_cmd(dev, &c, NULL);
- 	if (res != NVME_SC_SUCCESS) {
- 		temp_c = LOG_TEMP_UNKNOWN;
-@@ -1082,8 +1082,8 @@ static int nvme_trans_log_temperature(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	c.common.opcode = nvme_admin_get_log_page;
- 	c.common.nsid = cpu_to_le32(0xFFFFFFFF);
- 	c.common.prp1 = cpu_to_le64(dma_addr);
--	c.common.cdw10[0] = cpu_to_le32(((sizeof(struct nvme_smart_log) /
--			BYTES_TO_DWORDS) << 16) | NVME_GET_SMART_LOG_PAGE);
-+	c.common.cdw10[0] = cpu_to_le32((((sizeof(struct nvme_smart_log) /
-+			BYTES_TO_DWORDS) - 1) << 16) | NVME_GET_SMART_LOG_PAGE);
- 	res = nvme_submit_admin_cmd(dev, &c, NULL);
- 	if (res != NVME_SC_SUCCESS) {
- 		temp_c_cur = LOG_TEMP_UNKNOWN;
--- 
-1.8.3.2
+I don't have a strong opinion on how to present events to the user. Maybe
+just print them to the kernel log and be done with it.
