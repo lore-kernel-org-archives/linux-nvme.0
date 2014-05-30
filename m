@@ -1,29 +1,59 @@
-From: m@bjorling.me (Matias Bjorling)
-Date: Fri, 30 May 2014 21:33:13 +0200
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 30 May 2014 13:46:44 -0600
 Subject: [PATCH v4] NVMe: basic conversion to blk-mq
-In-Reply-To: <alpine.LRH.2.03.1405301027350.11244@AMR>
+In-Reply-To: <20140530150050.GD5499@linux.intel.com>
 References: <1401400285-25003-1-git-send-email-m@bjorling.me>
  <1401400285-25003-2-git-send-email-m@bjorling.me>
- <alpine.LRH.2.03.1405301027350.11244@AMR>
-Message-ID: <5388DCF9.9000204@bjorling.me>
+ <20140530150050.GD5499@linux.intel.com>
+Message-ID: <5388E024.30203@kernel.dk>
 
-On 05/30/2014 06:48 PM, Keith Busch wrote:
-> On Thu, 29 May 2014, Matias Bj?rling wrote:
->> This converts the current NVMe driver to utilize the blk-mq layer.
+On 05/30/2014 09:00 AM, Matthew Wilcox wrote:
+> On Thu, May 29, 2014@11:51:25PM +0200, Matias Bj?rling wrote:
+>> -static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+>> -		struct bio *bio, enum dma_data_direction dma_dir, int psegs)
+>> +static int nvme_map_rq(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+>> +		struct request *req, enum dma_data_direction dma_dir,
+>> +		int psegs)
+>>  {
+>> -	struct bio_vec bvec, bvprv;
+>> -	struct bvec_iter iter;
+>> -	struct scatterlist *sg = NULL;
+>> -	int length = 0, nsegs = 0, split_len = bio->bi_iter.bi_size;
+>> -	int first = 1;
+>> -
+>> -	if (nvmeq->dev->stripe_size)
+>> -		split_len = nvmeq->dev->stripe_size -
+>> -			((bio->bi_iter.bi_sector << 9) &
+>> -			 (nvmeq->dev->stripe_size - 1));
 > 
-> I'm pretty darn sure this new nvme_remove can cause a process
-> with an open reference to use queues after they're freed in the
-> nvme_submit_sync_command path, maybe even the admin tags too.
-> 
+> You take out stripe_size here, but don't appear to put it back in
+> anywhere else.
 
-You're right. I'll put a fix in v5.
+So I've been thinking about this one. What kind of performance impact
+does it have on the device in question? Because the current logic of
+adding to the congested list and waking up the thread is surely not very
+fast. I'm assuming you must have seen some win, which means that the
+hardware is pretty poor on requests that overlap the stripe size.
 
->> @@ -2802,7 +2574,7 @@ static void nvme_remove(struct pci_dev *pdev)
->>     nvme_dev_remove(dev);
->>     nvme_dev_shutdown(dev);
->>     nvme_free_queues(dev, 0);
->> -    rcu_barrier();
->> +    nvme_free_admin_tags(dev);
->>     nvme_release_instance(dev);
->>     nvme_release_prp_pools(dev);
->>     kref_put(&dev->kref, nvme_free_dev);
+Reason I ask is trying to come up with the best strategy to make this
+work. My first thought was just doing partial completions. The request
+is fully mapped, but only issue the first X bytes that fit within the
+stripe. On completion, simply reissue. Rinse and repeat until request is
+done. But this serializes the request to the hardware, which is going to
+have a performance impact as well. So the better approach would be to
+simple alloc more commands and fill those in, issue them all together.
+If we run out of commands, simply issue the ones we do have and continue
+on completion.
+
+Another approach would be to prevent these requests to begin with, but
+that would come with some runtime overhead as well.
+
+I guess what I'm asking (in a long winded way), is how big of an issue
+is this? Is this something that the device has fixed in a firmware
+update (it should), or is it something we need to care deeply about?
+
+And finally, how big is the stripe size on device in question? That
+might impact the design decision.
+
+-- 
+Jens Axboe
