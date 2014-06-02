@@ -1,45 +1,33 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 2 Jun 2014 14:09:38 -0600 (MDT)
-Subject: [PATCH] NVMe: Prevent possible NULL pointer dereference
-In-Reply-To: <538765F8.4020002@linux.intel.com>
-References: <1401337912-2691-1-git-send-email-santosh.sy@samsung.com>
- <538765F8.4020002@linux.intel.com>
-Message-ID: <alpine.LRH.2.03.1406021408460.11244@AMR>
+From: asb@cin.ufpe.br (Angelo Brito)
+Date: Mon, 2 Jun 2014 17:51:34 -0300
+Subject: A NVME command always generates some additional commands?
+In-Reply-To: <alpine.LRH.2.03.1406021342500.11244@AMR>
+References: <CAMjVwgQZQ9R+FD2sPhdLraGhdf-8OrwZngMTQVfVMh1__5QFhg@mail.gmail.com>
+ <alpine.LRH.2.03.1406021342500.11244@AMR>
+Message-ID: <CAMjVwgSN3YHDc3E4wkHzLRqjFnrGkE7A-CxNExQ1QCyRAQaAYg@mail.gmail.com>
 
-On Thu, 29 May 2014, J Freyensee wrote:
-> On 05/28/2014 09:31 PM, Santosh Y wrote:
->> kmalloc() used by the nvme_alloc_iod() to allocate memory for 'iod'
->> can fail. So check the return value.
->> 
->> Signed-off-by: Santosh Y <santosh.sy at samsung.com>
->> 
->> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
->> index cd8a8bc7..b089459 100644
->> --- a/drivers/block/nvme-core.c
->> +++ b/drivers/block/nvme-core.c
->> @@ -1488,7 +1488,11 @@ struct nvme_iod *nvme_map_user_pages(struct nvme_dev 
->> *dev, int write,
->>   		goto put_pages;
->>   	}
->> 
->> +	err = -ENOMEM;
->>   	iod = nvme_alloc_iod(count, length, GFP_KERNEL);
->> +	if (!iod)
->> +		goto put_pages;
->> +
->>   	sg = iod->sg;
->>   	sg_init_table(sg, count);
->>   	for (i = 0; i < count; i++) {
->> @@ -1501,7 +1505,6 @@ struct nvme_iod *nvme_map_user_pages(struct nvme_dev 
->> *dev, int write,
->>   	sg_mark_end(&sg[i - 1]);
->>   	iod->nents = count;
->> 
->> -	err = -ENOMEM;
+Thanks Keith!
+
+I just needed a confirmation that it was an expected behavior!
+
+
+Regards,
+Angelo Silva Brito.
+Graduate in Engenharia da Computa??o - UFPE
+http://about.me/angelobrito
+_________________________________________________
+
+
+On Mon, Jun 2, 2014@5:08 PM, Keith Busch <keith.busch@intel.com> wrote:
+> On Mon, 2 Jun 2014, Angelo Brito wrote:
+>>
+>> We are developing a NVMe device and your device is under tests right
+>> now. So we are monitoring what is requested, what is executed and what
+>> are the answers. Then every time we request a NVMe I/O Command some
+>> additional 23 I/O Read Commands are generated to read some blocks next
+>> to the end of our memory or next to the start. Is it an expected
+>> behavior? I didn't find a reason at the driver for these commands to
+>> be generated.
 >
-> I am not that familiar with this nvme code yet, but should this statement be 
-> left in?  It looks to me that this 'err = -ENOMEM;' assignment is for the 
-> case if dma_map_sg() statement below it fails.
-
-This is not being removed in the patch. It's just moved up higher in
-the function.
+>
+> Reads are generated everytime you close a block device opened for writing.
