@@ -1,30 +1,19 @@
-From: sbradshaw@micron.com (Sam Bradshaw)
-Date: Tue, 29 Jul 2014 13:31:36 -0700
-Subject: [PATCH v2] NVMe: Correctly handle IOCTL_SUBMIT_IO when cpus > online
- queues
-Message-ID: <53D804A8.5070503@micron.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 2 Jun 2014 02:42:51 -0700
+Subject: [PATCH v4] basic conversion to blk-mq
+In-Reply-To: <1401400285-25003-1-git-send-email-m@bjorling.me>
+References: <1401400285-25003-1-git-send-email-m@bjorling.me>
+Message-ID: <20140602094251.GA30612@infradead.org>
 
-nvme_submit_io_cmd() uses smp_processor_id() to pick an IO queue index.
-This patch fixes the case where there are more cpus from which the ioctl 
-call can originate than online queues, which can happen when a device 
-supports or was allocated fewer interrupt vectors than exist cpu cores.
+On Thu, May 29, 2014@11:51:24PM +0200, Matias Bj??rling wrote:
+> Hi Matthew and Keith,
+> 
+> Thanks for the quick review.
+> 
+> The patch has been updated with the feedback from Keith and Jens. It's against
+> Jens' 3.16/core tree. You may use the nvmemq_wip_review branch at:
+> 
+> https://github.com/MatiasBjorling/linux-collab nvmemq_wip_review
 
-Thanks to Keith Busch for the implementation suggestion.
-
-Signed-off-by: Sam Bradshaw <sbradshaw at micron.com>
----
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 28aec2d..e18b67b 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -979,8 +979,8 @@ int nvme_submit_admin_cmd(struct nvme_dev *dev, struct nvme_command *cmd,
- int nvme_submit_io_cmd(struct nvme_dev *dev, struct nvme_command *cmd,
- 								u32 *result)
- {
--	return nvme_submit_sync_cmd(dev, smp_processor_id() + 1, cmd, result,
--							NVME_IO_TIMEOUT);
-+	return nvme_submit_sync_cmd(dev, this_cpu_read(*dev->io_queue), cmd,
-+						result,	NVME_IO_TIMEOUT);
- }
- 
- static int nvme_submit_admin_cmd_async(struct nvme_dev *dev,
+It seems like this includes more patches than the one you're sending
+out, care to send the full series next time?
