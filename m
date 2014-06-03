@@ -1,15 +1,15 @@
-From: m@bjorling.me (=?UTF-8?B?TWF0aWFzIEJqw7hybGluZw==?=)
-Date: Tue, 03 Jun 2014 15:56:42 +0200
+From: m@bjorling.me (Matias Bjorling)
+Date: Tue, 03 Jun 2014 22:12:30 +0200
 Subject: [PATCH v5] conversion to blk-mq
 In-Reply-To: <alpine.LRH.2.03.1406021702530.11244@AMR>
 References: <1401742510-10827-1-git-send-email-m@bjorling.me>
  <alpine.LRH.2.03.1406021642480.11244@AMR>
  <alpine.LRH.2.03.1406021702530.11244@AMR>
-Message-ID: <538DD41A.7040107@bjorling.me>
+Message-ID: <538E2C2E.1010500@bjorling.me>
 
 On 06/03/2014 01:06 AM, Keith Busch wrote:
 > Depending on the timing, it might fail in alloc instead of free:
->
+> 
 > Jun  2 16:45:40 kbgrz1 kernel: [  265.421243] NULL pointer dereference
 > at           (null)
 > Jun  2 16:45:40 kbgrz1 kernel: [  265.434284] PGD 429acf067 PUD
@@ -48,7 +48,7 @@ On 06/03/2014 01:06 AM, Keith Busch wrote:
 > 0000000000000410 R12: 00000000000000d0
 > Jun  2 16:45:40 kbgrz1 kernel: [  265.602053] R13: 0000000000000001 R14:
 > 0000000000000000 R15: 0000000000000000
-> Jun  2 16:45:40 kbgrz1 kernel: [  265.610134] FS:
+> Jun  2 16:45:40 kbgrz1 kernel: [  265.610134] FS: 
 > 00007f74b8bc9700(0000) GS:ffff88043f680000(0000) knlGS:0000000000000000
 > Jun  2 16:45:40 kbgrz1 kernel: [  265.619303] CS:  0010 DS: 0000 ES:
 > 0000 CR0: 0000000080050033
@@ -88,7 +88,7 @@ On 06/03/2014 01:06 AM, Keith Busch wrote:
 > Jun  2 16:45:40 kbgrz1 kernel: [  265.764705] CR2: 0000000000000000
 > Jun  2 16:45:40 kbgrz1 kernel: [  265.768531] ---[ end trace
 > 785048a51785f51e ]---
->
+> 
 > On Mon, 2 Jun 2014, Keith Busch wrote:
 >> On Mon, 2 Jun 2014, Matias Bj?rling wrote:
 >>> Hi Matthew and Keith,
@@ -171,4 +171,4 @@ On 06/03/2014 01:06 AM, Keith Busch wrote:
 >> [ 1267.018443] ---[ end trace 1e244ae5f3ceb23b ]---
 >>
 
-Thanks. I'll look into it.
+Keith, will you take the nvmemq_wip_v6 branch for a spin? Thanks!
