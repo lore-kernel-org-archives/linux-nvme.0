@@ -1,96 +1,110 @@
-From: m@bjorling.me (=?ISO-8859-1?Q?Matias_Bj=F8rling?=)
-Date: Wed, 04 Jun 2014 11:16:22 +0200
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 4 Jun 2014 12:28:22 -0600 (MDT)
 Subject: [PATCH v5] conversion to blk-mq
-In-Reply-To: <alpine.LRH.2.03.1406031625120.11244@AMR>
+In-Reply-To: <538EE3E6.60408@bjorling.me>
 References: <1401742510-10827-1-git-send-email-m@bjorling.me>
  <alpine.LRH.2.03.1406021642480.11244@AMR>
  <alpine.LRH.2.03.1406021702530.11244@AMR> <538E2C2E.1010500@bjorling.me>
  <alpine.LRH.2.03.1406031553280.11244@AMR>
  <alpine.LRH.2.03.1406031625120.11244@AMR>
-Message-ID: <538EE3E6.60408@bjorling.me>
+ <538EE3E6.60408@bjorling.me>
+Message-ID: <alpine.LRH.2.03.1406041146280.11244@AMR>
 
-On 06/04/2014 12:27 AM, Keith Busch wrote:
->> On Tue, 3 Jun 2014, Matias Bjorling wrote:
->>>
->>> Keith, will you take the nvmemq_wip_v6 branch for a spin? Thanks!
->
-> BTW, if you want to test this out yourself, it's pretty simple to
-> recreate. I just run a simple user admin program sending nvme passthrough
-> commands in a tight loop, then run:
->
->   # echo 1 > /sys/bus/pci/devices/<bdf>/remove
-
-I can't recreate- I use the nvme_get_feature program to continuously hit 
-the ioctl path, testing using your nvme qemu branch.
-
->
->> Still fails as before:
+On Wed, 4 Jun 2014, Matias Bj?rling wrote:
+> On 06/04/2014 12:27 AM, Keith Busch wrote:
+>>> On Tue, 3 Jun 2014, Matias Bjorling wrote:
+>>>> 
+>>>> Keith, will you take the nvmemq_wip_v6 branch for a spin? Thanks!
+>> 
+>> BTW, if you want to test this out yourself, it's pretty simple to
+>> recreate. I just run a simple user admin program sending nvme passthrough
+>> commands in a tight loop, then run:
 >>
->> [   88.933881] BUG: unable to handle kernel NULL pointer dereference
->> at 0000000000000014
->> [   88.942900] IP: [<ffffffff811c51b8>] blk_mq_map_queue+0xf/0x1e
->> [   88.949605] PGD 427be0067 PUD 425495067 PMD 0
->> [   88.954915] Oops: 0000 [#1] SMP
->> [   88.958787] Modules linked in: nvme parport_pc ppdev lp parport dlm
->> sctp libcrc32c configfs nfsd auth_rpcgss oid_registry nfs_acl nfs
->> lockd fscache sunrpc md4 hmac cifs bridge stp llc joydev jfs
->> hid_generic usbhid hid loop md_mod x86_pkg_temp_thermal coretemp
->> kvm_intel kvm iTCO_wdt iTCO_vendor_support crc32c_intel
->> ghash_clmulni_intel aesni_intel aes_x86_64 glue_helper lrw gf128mul
->> ablk_helper cryptd microcode ehci_pci ehci_hcd pcspkr usbcore lpc_ich
->> ioatdma usb_common mfd_core evdev i2c_i801 wmi acpi_cpufreq tpm_tis
->> tpm ipmi_si ipmi_msghandler processor thermal_sys button ext4 crc16
->> jbd2 mbcache dm_mod nbd sg sd_mod sr_mod crc_t10dif cdrom
->> crct10dif_common isci ahci libsas igb libahci scsi_transport_sas ptp
->> pps_core i2c_algo_bit libata i2c_core scsi_mod dca
->> [   89.042529] CPU: 5 PID: 4544 Comm: nvme_id_ctrl Not tainted
->> 3.15.0-rc1+ #3
->> [   89.050295] Hardware name: Intel Corporation S2600GZ/S2600GZ, BIOS
->> SE5C600.86B.02.02.0002.122320131210 12/23/2013
->> [   89.061856] task: ffff88042bbdb0d0 ti: ffff88042c24c000 task.ti:
->> ffff88042c24c000
->> [   89.070305] RIP: 0010:[<ffffffff811c51b8>]  [<ffffffff811c51b8>]
->> blk_mq_map_queue+0xf/0x1e
->> [   89.079747] RSP: 0018:ffff88042c24dda0  EFLAGS: 00010202
->> [   89.085795] RAX: 0000000000000000 RBX: ffffe8fbffaa1b00 RCX:
->> ffff88042e8ec4b0
->> [   89.093868] RDX: 0000000000008be6 RSI: 0000000000000005 RDI:
->> ffff88042abdf048
->> [   89.101950] RBP: ffff88042c2b81c0 R08: ffff88042c24c000 R09:
->> ffff880035c58410
->> [   89.110033] R10: ffff88043f6b2dc0 R11: ffff88043f6b2dc0 R12:
->> ffff88042c24de94
->> [   89.118119] R13: 000000000000007d R14: 00007fff0cd892b0 R15:
->> 0000000000000000
->> [   89.126210] FS:  00007f39866c5700(0000) GS:ffff88043f6a0000(0000)
->> knlGS:0000000000000000
->> [   89.135387] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
->> [   89.141916] CR2: 0000000000000014 CR3: 000000042b387000 CR4:
->> 00000000000407e0
->> [   89.149997] Stack:
->> [   89.152353]  ffffffff811c6334 00000000fffffffc ffff88042c2b81c0
->> ffff88042c24de10
->> [   89.161096]  ffffffffa054dcbb 0000000000000246 00000000fffffffc
->> ffff8800b5e05cc0
->> [   89.169839]  00000000fffffff4 ffff8800b5e05cc0 ffff88042bbc3000
->> 0000000000001000
->> [   89.178583] Call Trace:
->> [   89.181429]  [<ffffffff811c6334>] ? blk_mq_free_request+0x37/0x48
->> [   89.188360]  [<ffffffffa054dcbb>] ?
->> __nvme_submit_admin_cmd+0x52/0x68 [nvme]
->> [   89.196349]  [<ffffffffa054f761>] ? nvme_user_admin_cmd+0x144/0x1b1
->> [nvme]
->> [   89.204150]  [<ffffffffa054f7eb>] ? nvme_dev_ioctl+0x1d/0x2b [nvme]
->> [   89.211278]  [<ffffffff81125916>] ? do_vfs_ioctl+0x3f2/0x43b
->> [   89.217710]  [<ffffffff81117e35>] ? vfs_write+0xde/0xfc
->> [   89.223657]  [<ffffffff811259ad>] ? SyS_ioctl+0x4e/0x7d
->> [   89.229622]  [<ffffffff8139c6d2>] ? system_call_fastpath+0x16/0x1b
->> [   89.236636] Code: 8b 4a 38 48 39 4e 38 72 12 74 06 b8 01 00 00 00
->> c3 48 8b 4a 60 48 39 4e 60 73 f0 c3 66 66 66 66 90 48 8b 87 e0 00 00
->> 00 48 63 f6 <8b> 14 b0 48 8b 87 f8 00 00 00 48 8b 04 d0 c3 89 ff f0 48
->> 0f ab
->> [   89.263435] RIP  [<ffffffff811c51b8>] blk_mq_map_queue+0xf/0x1e
->> [   89.270237]  RSP <ffff88042c24dda0>
->> [   89.274237] CR2: 0000000000000014
->> [   89.278095] ---[ end trace 54c0e8cbb1fe2ec3 ]---
->>
+>>   # echo 1 > /sys/bus/pci/devices/<bdf>/remove
+>
+> I can't recreate- I use the nvme_get_feature program to continuously hit the 
+> ioctl path, testing using your nvme qemu branch.
+
+Okay, I'll try to fix it.
+
+I think there are multiple problems, but the first is that since there
+is no gendisk associated with the admin_q, the QUEUE_FLAG_INIT_DONE flag
+is never set, and blk_mq_queue_enter returns successful whenever this
+flag is not set even though this queue is dying, so we enter with all
+its invalid pointers.
+
+Here's a couple diff's. The first fixes the kernel oops by not entering a
+dying queue. The second is just a few unrelated clean-ups in nvme-core.c.
+
+I still can't complete my current hot-removal test, though; something
+appears hung, but haven't nailed that down yet.
+
+Please let me know what you think! Thanks.
+
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index d10013b..5a9ae8a 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -105,6 +105,10 @@ static int blk_mq_queue_enter(struct request_queue *q)
+  	__percpu_counter_add(&q->mq_usage_counter, 1, 1000000);
+  	smp_wmb();
+  	/* we have problems to freeze the queue if it's initializing */
++	if (blk_queue_dying(q)) {
++		__percpu_counter_add(&q->mq_usage_counter, -1, 1000000);
++		ret = -ENODEV;
++	}
+  	if (!blk_queue_bypass(q) || !blk_queue_init_done(q))
+  		return 0;
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 243a5e6..22e9c82 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -98,7 +98,6 @@ struct nvme_queue {
+  	u8 cq_phase;
+  	u8 cqe_seen;
+  	u8 q_suspended;
+-	cpumask_var_t cpu_mask;
+  	struct async_cmd_info cmdinfo;
+  	struct blk_mq_hw_ctx *hctx;
+  };
+@@ -1055,8 +1054,6 @@ static void nvme_free_queue(struct nvme_queue *nvmeq)
+  				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
+  	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
+  					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
+-	if (nvmeq->qid)
+-		free_cpumask_var(nvmeq->cpu_mask);
+  	kfree(nvmeq);
+  }
+
+@@ -1066,9 +1063,9 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
+
+  	for (i = dev->queue_count - 1; i >= lowest; i--) {
+  		struct nvme_queue *nvmeq = dev->queues[i];
+-		nvme_free_queue(nvmeq);
+  		dev->queue_count--;
+  		dev->queues[i] = NULL;
++		nvme_free_queue(nvmeq);
+  	}
+  }
+
+@@ -1142,9 +1139,6 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+  	if (!nvmeq->sq_cmds)
+  		goto free_cqdma;
+
+-	if (qid && !zalloc_cpumask_var(&nvmeq->cpu_mask, GFP_KERNEL))
+-		goto free_sqdma;
+-
+  	nvmeq->q_dmadev = dmadev;
+  	nvmeq->dev = dev;
+  	snprintf(nvmeq->irqname, sizeof(nvmeq->irqname), "nvme%dq%d",
+@@ -1162,9 +1156,6 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+
+  	return nvmeq;
+
+- free_sqdma:
+-	dma_free_coherent(dmadev, SQ_SIZE(depth), (void *)nvmeq->sq_cmds,
+-							nvmeq->sq_dma_addr);
+   free_cqdma:
+  	dma_free_coherent(dmadev, CQ_SIZE(depth), (void *)nvmeq->cqes,
+  							nvmeq->cq_dma_addr);
