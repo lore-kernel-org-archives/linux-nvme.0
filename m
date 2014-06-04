@@ -1,5 +1,5 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 04 Jun 2014 12:55:11 -0600
+From: m@bjorling.me (Matias Bjorling)
+Date: Wed, 04 Jun 2014 22:01:09 +0200
 Subject: [PATCH v5] conversion to blk-mq
 In-Reply-To: <alpine.LRH.2.03.1406041246300.11244@AMR>
 References: <1401742510-10827-1-git-send-email-m@bjorling.me>
@@ -9,9 +9,9 @@ References: <1401742510-10827-1-git-send-email-m@bjorling.me>
  <alpine.LRH.2.03.1406031625120.11244@AMR> <538EE3E6.60408@bjorling.me>
  <alpine.LRH.2.03.1406041146280.11244@AMR> <538F68A9.50608@kernel.dk>
  <alpine.LRH.2.03.1406041246300.11244@AMR>
-Message-ID: <538F6B8F.1060107@kernel.dk>
+Message-ID: <538F7B05.70705@bjorling.me>
 
-On 06/04/2014 12:52 PM, Keith Busch wrote:
+On 06/04/2014 08:52 PM, Keith Busch wrote:
 > On Wed, 4 Jun 2014, Jens Axboe wrote:
 >> On 06/04/2014 12:28 PM, Keith Busch wrote:
 >> Are you testing against 3.13? You really need the current tree for this,
@@ -22,9 +22,7 @@ On 06/04/2014 12:52 PM, Keith Busch wrote:
 > git://github.com/MatiasBjorling/linux-collab nvmeq_wip_6
 > 
 > Is this the right one to use? Looks like a 3.15rc1+.
-
-It is, I misread that diff wrong.
-
+> 
 > Also ... obviously that's the wrong diff from before. I didn't save my
 > file before creating the diff. Should have looked like this:
 > 
@@ -43,7 +41,7 @@ It is, I misread that diff wrong.
 > 
 >      __percpu_counter_add(&q->mq_usage_counter, -1, 1000000);
 
-This looks better.
+Thanks!
 
--- 
-Jens Axboe
+I've put your patch into the nvmemq_wip_v6 branch and rebased it on top
+of Jens' for-linus.
