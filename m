@@ -1,47 +1,62 @@
-From: m@bjorling.me (Matias Bjorling)
-Date: Wed, 04 Jun 2014 22:01:09 +0200
-Subject: [PATCH v5] conversion to blk-mq
-In-Reply-To: <alpine.LRH.2.03.1406041246300.11244@AMR>
-References: <1401742510-10827-1-git-send-email-m@bjorling.me>
- <alpine.LRH.2.03.1406021642480.11244@AMR>
- <alpine.LRH.2.03.1406021702530.11244@AMR> <538E2C2E.1010500@bjorling.me>
- <alpine.LRH.2.03.1406031553280.11244@AMR>
- <alpine.LRH.2.03.1406031625120.11244@AMR> <538EE3E6.60408@bjorling.me>
- <alpine.LRH.2.03.1406041146280.11244@AMR> <538F68A9.50608@kernel.dk>
- <alpine.LRH.2.03.1406041246300.11244@AMR>
-Message-ID: <538F7B05.70705@bjorling.me>
+From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
+Date: Fri,  6 Jun 2014 14:20:24 +0200
+Subject: [PATCH v6] conversion to blk-mq
+Message-ID: <1402057225-7312-1-git-send-email-m@bjorling.me>
 
-On 06/04/2014 08:52 PM, Keith Busch wrote:
-> On Wed, 4 Jun 2014, Jens Axboe wrote:
->> On 06/04/2014 12:28 PM, Keith Busch wrote:
->> Are you testing against 3.13? You really need the current tree for this,
->> otherwise I'm sure you'll run into issues (as you appear to be :-)
-> 
-> I'm using Matias' current tree:
-> 
-> git://github.com/MatiasBjorling/linux-collab nvmeq_wip_6
-> 
-> Is this the right one to use? Looks like a 3.15rc1+.
-> 
-> Also ... obviously that's the wrong diff from before. I didn't save my
-> file before creating the diff. Should have looked like this:
-> 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index d10013b..d1b986c 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -105,7 +105,8 @@ static int blk_mq_queue_enter(struct request_queue *q)
->      __percpu_counter_add(&q->mq_usage_counter, 1, 1000000);
->      smp_wmb();
->      /* we have problems to freeze the queue if it's initializing */
-> -    if (!blk_queue_bypass(q) || !blk_queue_init_done(q))
-> +    if (!blk_queue_dying(q) && (!blk_queue_bypass(q) ||
-> +                    !blk_queue_init_done(q)))
->          return 0;
-> 
->      __percpu_counter_add(&q->mq_usage_counter, -1, 1000000);
+Hi all,
 
-Thanks!
+Here is the updated patchset, on top of Jens' latest for-linus branch. You may
+use the nvmemq_review branch at:
 
-I've put your patch into the nvmemq_wip_v6 branch and rebased it on top
-of Jens' for-linus.
+https://github.com/MatiasBjorling/linux-collab nvmemq_review
+
+and see the individual contributions in the nvmemq_v6 branch.
+
+I've removed the WIP flag, let me know if there is any outstanding work.
+If not, I'll create final version on top of latest linus master and Matthew
+master branch patches for final patch.
+
+Changes since v5:
+ * Splits are now supported directly within blk-mq
+ * Remove nvme_queue->cpu_mask variable
+ * Remove unnecessary null check
+ * Style fixups
+
+Changes since v4:
+ * Fix timeout retries
+ * Fix naming in nvme_init_hctx
+ * Fix racy behavior of admin queue in nvme_dev_remove
+ * Fix wrong return values in nvme_queue_request
+ * Put cqe_seen back
+ * Introduce abort_completion for killing timed out I/Os
+ * Move locks outside of nvme_submit_iod
+ * Various renaming and style fixes
+
+Changes since v3:
+ * Added abortion logic
+ * Fixed possible race on abortion
+ * Removed req data with flush. Handled by by blk-mq
+ * Added safety check for submitting user rq to admin queue.
+ * Use dev->online_queues for nr_hw_queues
+ * Fix loop with initialization in nvme_create_io_queues
+ * Style fixups
+
+Changes since v2:
+  * rebased on top of current 3.16/core.
+  * use blk-mq queue management for spreading io queues
+  * removed rcu handling and allocated all io queues up front for mgmt by blk-mq
+  * removed the need for hotplugging notification
+  * fixed flush data handling
+  * fixed double free of spinlock
+  * various cleanup
+
+Matias Bj?rling (1):
+  NVMe: conversion to blk-mq
+
+ drivers/block/nvme-core.c | 1178 +++++++++++++++++++--------------------------
+ drivers/block/nvme-scsi.c |    8 +-
+ include/linux/nvme.h      |   14 +-
+ 3 files changed, 496 insertions(+), 704 deletions(-)
+
+-- 
+1.9.1
