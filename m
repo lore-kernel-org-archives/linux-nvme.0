@@ -1,31 +1,34 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Mon, 9 Jun 2014 18:40:53 +0800
+From: axboe@fb.com (Jens Axboe)
+Date: Mon, 9 Jun 2014 08:08:50 -0600
 Subject: [PATCH v6] NVMe: conversion to blk-mq
-In-Reply-To: <CACVXFVM-OUFv+gUnNcGt86FhS1BABV4sQxhCqPf20KKZTwNbyQ@mail.gmail.com>
-References: <1402057225-7312-1-git-send-email-m@bjorling.me>
- <1402057225-7312-2-git-send-email-m@bjorling.me>
+In-Reply-To: <CACVXFVOieM2cT4FFJhD9MecfCLBtE3AwjCpOeGGRUcmWnN=B=A@mail.gmail.com>
+References: <1402057225-7312-1-git-send-email-m@bjorling.me>	<1402057225-7312-2-git-send-email-m@bjorling.me>
  <CACVXFVOieM2cT4FFJhD9MecfCLBtE3AwjCpOeGGRUcmWnN=B=A@mail.gmail.com>
- <CAOu_J6kXB0rFJ+Z1-FcUwEVQ7dhKZseQBzVONhT1wG=41zFNGA@mail.gmail.com>
- <CACVXFVNGB0JzRVE8rQru3s12s0U9gtxd0t_ZhnUHQao4ppH8DQ@mail.gmail.com>
- <CACVXFVM-OUFv+gUnNcGt86FhS1BABV4sQxhCqPf20KKZTwNbyQ@mail.gmail.com>
-Message-ID: <CACVXFVNzyu7k0wf-Gw9VgtHCtrYDdOs3OEDdpzivujpQOVyQfA@mail.gmail.com>
+Message-ID: <5395BFF2.2080402@fb.com>
 
-On Mon, Jun 9, 2014 at 3:53 PM, Ming Lei <tom.leiming at gmail.com>
+On 2014-06-08 22:35, Ming Lei wrote:
+> On Fri, Jun 6, 2014@8:20 PM, Matias Bj?rling <m@bjorling.me> wrote:
+>> This converts the current NVMe driver to utilize the blk-mq layer.
 >
-> After pulling from your tree, the problem still persists.
+> Looks it can't be applied cleanly against 3.15-rc8 + Jens's for-linux
+> branch, when I fix the conflict manually, below failure is triggered:
 >
-> I test nvme over qemu, and both linus/next tree can
-> work well with qemu nvme.
+> [  487.696057] nvme 0000:00:07.0: Cancelling I/O 202 QID 1
+> [  487.699005] nvme 0000:00:07.0: Aborting I/O 202 QID 1
+> [  487.704074] nvme 0000:00:07.0: Cancelling I/O 202 QID 1
+> [  487.717881] nvme 0000:00:07.0: Aborting I/O 202 QID 1
+> [  487.736093] end_request: I/O error, dev nvme0n1, sector 91532352
+> [  487.747378] nvme 0000:00:07.0: completed id 0 twice on queue 0
+>
+>
+> when running fio randread(libaio, iodepth:64) with more than 3 jobs.
+>
+> And looks no such failure when jobs is 1 or 2.
 
-One problem I found is that rq->start_time isn't set
-after you cleared IO_STAT intentionally, then the
-request can't be requeued any more. Once the request
-can be requeued, the problem becomes req hanging.
+It's a known issue, make sure you have this patch:
 
-The root cause is that device returns
-NVME_INTERNAL_DEV_ERROR(0x6) with your conversion
-patch.
+http://git.kernel.dk/?p=linux-block.git;a=commit;h=f6be4fb4bcb396fc3b1c134b7863351972de081f
 
-Thanks,
+
 -- 
-Ming Lei
+Jens Axboe
