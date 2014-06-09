@@ -1,60 +1,29 @@
-From: daniel.mcleran@intel.com (Dan McLeran)
-Date: Fri,  6 Jun 2014 08:27:27 -0600
-Subject: [PATCH] NVMe: Fix START_STOP_UNIT Scsi->NVMe translation.
-Message-ID: <1402064847-8412-1-git-send-email-daniel.mcleran@intel.com>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Mon, 9 Jun 2014 12:35:48 +0800
+Subject: [PATCH v6] NVMe: conversion to blk-mq
+In-Reply-To: <1402057225-7312-2-git-send-email-m@bjorling.me>
+References: <1402057225-7312-1-git-send-email-m@bjorling.me>
+ <1402057225-7312-2-git-send-email-m@bjorling.me>
+Message-ID: <CACVXFVOieM2cT4FFJhD9MecfCLBtE3AwjCpOeGGRUcmWnN=B=A@mail.gmail.com>
 
-This patch contains several fixes for Scsi START_STOP_UNIT. The previous code did not account for
-signed vs. unsigned arithmetic which resulted in an invalid lowest power state caculation when
-the device only supports 1 power state.
+On Fri, Jun 6, 2014@8:20 PM, Matias Bj?rling <m@bjorling.me> wrote:
+> This converts the current NVMe driver to utilize the blk-mq layer.
 
-The code for Power Condition == 2 (Idle) was not following the spec. The spec calls out
-setting the device to specific power states, depending upon Power Condition Modifier, without
-accounting for the number of power states supported by the device.
+Looks it can't be applied cleanly against 3.15-rc8 + Jens's for-linux
+branch, when I fix the conflict manually, below failure is triggered:
 
-The code for Power Condition == 3 (Standby) was using a hard-coded '0' which I replaced with the
-macro POWER_STATE_0.
+[  487.696057] nvme 0000:00:07.0: Cancelling I/O 202 QID 1
+[  487.699005] nvme 0000:00:07.0: Aborting I/O 202 QID 1
+[  487.704074] nvme 0000:00:07.0: Cancelling I/O 202 QID 1
+[  487.717881] nvme 0000:00:07.0: Aborting I/O 202 QID 1
+[  487.736093] end_request: I/O error, dev nvme0n1, sector 91532352
+[  487.747378] nvme 0000:00:07.0: completed id 0 twice on queue 0
 
-Signed-off-by: Dan McLeran <daniel.mcleran at intel.com>
----
- drivers/block/nvme-scsi.c |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index 4fc25b9..61215ca 100644
---- a/drivers/block/nvme-scsi.c
-+++ b/drivers/block/nvme-scsi.c
-@@ -1477,7 +1477,7 @@ static int nvme_trans_power_state(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		goto out_dma;
- 	}
- 	id_ctrl = mem;
--	lowest_pow_st = id_ctrl->npss - 1;
-+	lowest_pow_st = max(POWER_STATE_0, (int)(id_ctrl->npss - 1));
- 
- 	switch (pc) {
- 	case NVME_POWER_STATE_START_VALID:
-@@ -1496,18 +1496,18 @@ static int nvme_trans_power_state(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		/* Action unspecified if POWER CONDITION MODIFIER != [0,1,2] */
- 		/* min of desired state and (lps-1) because lps is STOP */
- 		if (pcmod == 0x0)
--			ps_desired = min(POWER_STATE_1, (lowest_pow_st - 1));
-+			ps_desired = POWER_STATE_1;
- 		else if (pcmod == 0x1)
--			ps_desired = min(POWER_STATE_2, (lowest_pow_st - 1));
-+			ps_desired = POWER_STATE_2;
- 		else if (pcmod == 0x2)
--			ps_desired = min(POWER_STATE_3, (lowest_pow_st - 1));
-+			ps_desired = POWER_STATE_3;
- 		break;
- 	case NVME_POWER_STATE_STANDBY:
- 		/* Action unspecified if POWER CONDITION MODIFIER != [0,1] */
- 		if (pcmod == 0x0)
--			ps_desired = max(0, (lowest_pow_st - 2));
-+			ps_desired = max(POWER_STATE_0, (lowest_pow_st - 2));
- 		else if (pcmod == 0x1)
--			ps_desired = max(0, (lowest_pow_st - 1));
-+			ps_desired = max(POWER_STATE_0, (lowest_pow_st - 1));
- 		break;
- 	case NVME_POWER_STATE_LU_CONTROL:
- 	default:
--- 
-1.7.10.4
+when running fio randread(libaio, iodepth:64) with more than 3 jobs.
+
+And looks no such failure when jobs is 1 or 2.
+
+Thanks,
+--
+Ming Lei
