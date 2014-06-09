@@ -1,56 +1,25 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Mon, 9 Jun 2014 09:10:28 -0600
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Mon, 9 Jun 2014 23:15:58 +0800
 Subject: [PATCH v6] NVMe: conversion to blk-mq
-In-Reply-To: <CACVXFVPGO9vsOv_uVa0+5AdBduu1RJ0Fmg8XPx1QgJAvnjKj_g@mail.gmail.com>
-References: <1402057225-7312-1-git-send-email-m@bjorling.me>	<1402057225-7312-2-git-send-email-m@bjorling.me>	<CACVXFVOieM2cT4FFJhD9MecfCLBtE3AwjCpOeGGRUcmWnN=B=A@mail.gmail.com>	<5395BFF2.2080402@fb.com>
+In-Reply-To: <5395CE64.6040402@fb.com>
+References: <1402057225-7312-1-git-send-email-m@bjorling.me>
+ <1402057225-7312-2-git-send-email-m@bjorling.me>
+ <CACVXFVOieM2cT4FFJhD9MecfCLBtE3AwjCpOeGGRUcmWnN=B=A@mail.gmail.com>
+ <5395BFF2.2080402@fb.com>
  <CACVXFVPGO9vsOv_uVa0+5AdBduu1RJ0Fmg8XPx1QgJAvnjKj_g@mail.gmail.com>
-Message-ID: <5395CE64.6040402@fb.com>
+ <5395CE64.6040402@fb.com>
+Message-ID: <CACVXFVMQ_ehnsj=7+6-WmKLSQAhDRDvOEnE6Ekbwj8sfYuuRAA@mail.gmail.com>
 
-On 2014-06-09 09:07, Ming Lei wrote:
-> On Mon, Jun 9, 2014@10:08 PM, Jens Axboe <axboe@fb.com> wrote:
->> On 2014-06-08 22:35, Ming Lei wrote:
->>>
->>> On Fri, Jun 6, 2014@8:20 PM, Matias Bj?rling <m@bjorling.me> wrote:
->>>>
->>>> This converts the current NVMe driver to utilize the blk-mq layer.
->>>
->>>
->>> Looks it can't be applied cleanly against 3.15-rc8 + Jens's for-linux
->>> branch, when I fix the conflict manually, below failure is triggered:
->>>
->>> [  487.696057] nvme 0000:00:07.0: Cancelling I/O 202 QID 1
->>> [  487.699005] nvme 0000:00:07.0: Aborting I/O 202 QID 1
->>> [  487.704074] nvme 0000:00:07.0: Cancelling I/O 202 QID 1
->>> [  487.717881] nvme 0000:00:07.0: Aborting I/O 202 QID 1
->>> [  487.736093] end_request: I/O error, dev nvme0n1, sector 91532352
->>> [  487.747378] nvme 0000:00:07.0: completed id 0 twice on queue 0
->>>
->>>
->>> when running fio randread(libaio, iodepth:64) with more than 3 jobs.
->>>
->>> And looks no such failure when jobs is 1 or 2.
->>
->>
->> It's a known issue, make sure you have this patch:
->>
->> https://urldefense.proofpoint.com/v1/url?u=http://git.kernel.dk/?p%3Dlinux-block.git%3Ba%3Dcommit%3Bh%3Df6be4fb4bcb396fc3b1c134b7863351972de081f&k=ZVNjlDMF0FElm4dQtryO4A%3D%3D%0A&r=3JMVyziIyZtZ5cv9eWNLwQ%3D%3D%0A&m=04gqJgKKgVgGynQnyGFy4OmxWZ5%2FJ%2FwBiXQH3K%2BEZ4U%3D%0A&s=b137111b72079e93492763bfa23fd3458cd9b287a5eb3b68f61b69c9cda6b7a5
+On Mon, Jun 9, 2014@11:10 PM, Jens Axboe <axboe@fb.com> wrote:
+> On 2014-06-09 09:07, Ming Lei wrote:
 >
-> Looks assignment to 'rq->deadline' in blk_mq_start_request()
-> may be removed,  since blk_add_timer() already did that.
->
-> But that isn't the only issue.
->
-> Another one is that req->start_time isn't set without IO_STAT in
-> nvme, which may cause similar issue too, so req->start_time
-> can be set in nvme's queue_rq callback.
->
-> My real issue should be nvme specific: NVME_INTERNAL_DEV_ERROR(0x6) is
-> returned from device
-> with the conversion patch, but no such issue in current bio mode.
+> You are right, I didn't get to the bottom of the thread first.
+> Might be better to just have ->start_time set always, regardless of io stats
+> being enabled or not.
 
-You are right, I didn't get to the bottom of the thread first.
-Might be better to just have ->start_time set always, regardless of io 
-stats being enabled or not.
+Yes, just like what non-mq code did.
 
+
+Thanks,
 -- 
-Jens Axboe
+Ming Lei
