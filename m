@@ -1,19 +1,41 @@
-From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=C3=B8rling?=)
-Date: Tue, 10 Jun 2014 21:42:14 +0200
-Subject: [PATCH v6] NVMe: conversion to blk-mq
-In-Reply-To: <5395D56C.4000304@fb.com>
-References: <1402057225-7312-1-git-send-email-m@bjorling.me>
- <1402057225-7312-2-git-send-email-m@bjorling.me>
- <CACVXFVOieM2cT4FFJhD9MecfCLBtE3AwjCpOeGGRUcmWnN=B=A@mail.gmail.com>
- <5395BFF2.2080402@fb.com>
- <CACVXFVPGO9vsOv_uVa0+5AdBduu1RJ0Fmg8XPx1QgJAvnjKj_g@mail.gmail.com>
- <5395CE64.6040402@fb.com>
- <CACVXFVMQ_ehnsj=7+6-WmKLSQAhDRDvOEnE6Ekbwj8sfYuuRAA@mail.gmail.com>
- <5395D56C.4000304@fb.com>
-Message-ID: <CAOu_J6nkMAad-tkcnmxnkz1tOzG+nXfBv86neb7vEGVGkWu1cQ@mail.gmail.com>
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 10 Jun 2014 13:58:39 -0600
+Subject: [PATCH v7] NVMe: conversion to blk-mq
+In-Reply-To: <alpine.LRH.2.03.1406101140490.4699@AMR>
+References: <1402392038-5268-1-git-send-email-m@bjorling.me>
+ <1402392038-5268-2-git-send-email-m@bjorling.me>,
+ <alpine.LRH.2.03.1406100945250.4699@AMR>
+ <A52B97CC-6D77-468B-9A9B-A5888AE63580@fb.com>
+ <alpine.LRH.2.03.1406101140490.4699@AMR>
+Message-ID: <5397636F.9050209@fb.com>
 
->
-> I queued up a fix for it.
->
+On 06/10/2014 01:29 PM, Keith Busch wrote:
+> On Tue, 10 Jun 2014, Jens Axboe wrote:
+>>> On Jun 10, 2014,@9:52 AM, Keith Busch <keith.busch@intel.com> wrote:
+>>>
+>>>> On Tue, 10 Jun 2014, Matias Bj?rling wrote:
+>>>> This converts the current NVMe driver to utilize the blk-mq layer.
+>>>
+>>> I'd like to run xfstests on this, but it is failing mkfs.xfs. I honestly
+>>> don't know much about this area, but I think this may be from the recent
+>>> chunk sectors patch causing a __bio_add_page to reject adding a new
+>>> page.
+>>
+>> Gah, yes that's a bug in the chunk patch. It must always allow a
+>> single page
+>> at any offset. I'll test and send out a fix.
+> 
+> I have two devices, one formatted 4k, the other 512. The 4k is used as
+> the TEST_DEV and 512 is used as SCRATCH_DEV. I'm always hitting a BUG when
+> unmounting the scratch dev in xfstests generic/068. The bug looks like
+> nvme was trying to use an SGL that doesn't map correctly to a PRP.
 
-Rebased nvmemq_review on top of it. Thanks!
+I'm guessing it's some of the coalescing settings, since the driver is
+now using the generic block rq mapping.
+
+> Also, it doesn't look like this driver can recover from an unresponsive
+> device, leaving tasks in uniterruptible sleep state forever. Still looking
+> into that one though; as far as I can tell the device is perfectly fine,
+> but lots of "Cancelling I/O"  messages are getting logged.
+
+If the task is still stuck, some of the IOs must not be getting cancelled.
