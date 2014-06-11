@@ -1,149 +1,36 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 11 Jun 2014 11:51:35 -0600
-Subject: [PATCH] NVMe: Fix hot cpu notification dead lock
-Message-ID: <1402509095-28305-1-git-send-email-keith.busch@intel.com>
+From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=C3=B8rling?=)
+Date: Thu, 12 Jun 2014 00:22:57 +0200
+Subject: [PATCH v7] NVMe: conversion to blk-mq
+In-Reply-To: <20140611170917.GA12025@linux.intel.com>
+References: <1402392038-5268-2-git-send-email-m@bjorling.me>
+ <alpine.LRH.2.03.1406100945250.4699@AMR>
+ <A52B97CC-6D77-468B-9A9B-A5888AE63580@fb.com>
+ <alpine.LRH.2.03.1406101140490.4699@AMR> <5397636F.9050209@fb.com>
+ <alpine.LRH.2.03.1406101458470.4699@AMR> <5397753B.2020009@fb.com>
+ <alpine.LRH.2.03.1406101515430.4699@AMR>
+ <20140610213333.GA10055@linux.intel.com> <539889DC.7090704@fb.com>
+ <20140611170917.GA12025@linux.intel.com>
+Message-ID: <CAOu_J6kocZZ1mRQeSidyqJ_Ew0F_POS30v2kgUZX2wDOOnuExg@mail.gmail.com>
 
-There is a potential dead lock if a cpu event occurs during nvme probe
-since it registered with hot cpu notification. This fixes the race by
-having the module register with notification outside of probe rather
-than have each device register.
+On Wed, Jun 11, 2014@7:09 PM, Matthew Wilcox <willy@linux.intel.com> wrote:
+> On Wed, Jun 11, 2014@10:54:52AM -0600, Jens Axboe wrote:
+>> OK, so essentially any single request must be a virtually contig piece
+>> of memory. Is there any size limitations to how big this contig segment
+>> can be?
+>
+> The maximum size of an I/O is 65536 sectors.  So on a 512-byte sector
+> device, that's 32MB, but on a 4k sector size device, that's 128MB.
+>
+>> I think this is unique requirement, at least I haven't seen other pieces
+>> of hardware have it. But it would be pretty trivial to add a setting to
+>> limit merges based on virtually contig, similarly to what is done for
+>> number of physical segments.
+>
+> I think there might be an FCoE device with that requirement too.
 
-The actual work is done in a scheduled work queue instead of in the
-notifier since assigning IO queues has the potential to block if the
-driver creates additional queues.
+I've rebased nvmemq_review and added two patches from Jens that add
+support for requests with single range virtual addresses.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-This obsoletes this patch proposal:
+Keith, will you take it for a spin and see if it fixes 068 for you?
 
-http://lists.infradead.org/pipermail/linux-nvme/2014-May/000860.html
-
-The deadlock has been reported by many people, so if this patch isn't
-okay, I think we need to pursue an alternative with some urgency.  Or just
-revert the original CPU notification patch; the driver works fine without
-it, just maybe with a little less than optimal queue-to-cpu assignment.
-
- drivers/block/nvme-core.c |   35 +++++++++++++++++++++++++----------
- include/linux/nvme.h      |    2 +-
- 2 files changed, 26 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 2af079e..e0ac121 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -73,6 +73,7 @@ static LIST_HEAD(dev_list);
- static struct task_struct *nvme_thread;
- static struct workqueue_struct *nvme_workq;
- static wait_queue_head_t nvme_kthread_wait;
-+static struct notifier_block nvme_nb;
- 
- static void nvme_reset_failed_dev(struct work_struct *ws);
- 
-@@ -2115,14 +2116,25 @@ static size_t db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
- 	return 4096 + ((nr_io_queues + 1) * 8 * dev->db_stride);
- }
- 
-+static void nvme_cpu_workfn(struct work_struct *work)
-+{
-+	struct nvme_dev *dev = container_of(work, struct nvme_dev, cpu_work);
-+	if (dev->initialized)
-+		nvme_assign_io_queues(dev);
-+}
-+
- static int nvme_cpu_notify(struct notifier_block *self,
- 				unsigned long action, void *hcpu)
- {
--	struct nvme_dev *dev = container_of(self, struct nvme_dev, nb);
-+	struct nvme_dev *dev;
-+
- 	switch (action) {
- 	case CPU_ONLINE:
- 	case CPU_DEAD:
--		nvme_assign_io_queues(dev);
-+		spin_lock(&dev_list_lock);
-+		list_for_each_entry(dev, &dev_list, node)
-+			schedule_work(&dev->cpu_work);
-+		spin_unlock(&dev_list_lock);
- 		break;
- 	}
- 	return NOTIFY_OK;
-@@ -2191,11 +2203,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	nvme_free_queues(dev, nr_io_queues + 1);
- 	nvme_assign_io_queues(dev);
- 
--	dev->nb.notifier_call = &nvme_cpu_notify;
--	result = register_hotcpu_notifier(&dev->nb);
--	if (result)
--		goto free_queues;
--
- 	return 0;
- 
-  free_queues:
-@@ -2495,8 +2502,6 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 	int i;
- 
- 	dev->initialized = 0;
--	unregister_hotcpu_notifier(&dev->nb);
--
- 	nvme_dev_list_remove(dev);
- 
- 	if (!dev->bar || (dev->bar && readl(&dev->bar->csts) == -1)) {
-@@ -2767,6 +2772,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	INIT_LIST_HEAD(&dev->namespaces);
- 	dev->reset_workfn = nvme_reset_failed_dev;
- 	INIT_WORK(&dev->reset_work, nvme_reset_workfn);
-+	INIT_WORK(&dev->cpu_work, nvme_cpu_workfn);
- 	dev->pci_dev = pdev;
- 	pci_set_drvdata(pdev, dev);
- 	result = nvme_set_instance(dev);
-@@ -2836,6 +2842,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 
- 	pci_set_drvdata(pdev, NULL);
- 	flush_work(&dev->reset_work);
-+	flush_work(&dev->cpu_work);
- 	misc_deregister(&dev->miscdev);
- 	nvme_dev_remove(dev);
- 	nvme_dev_shutdown(dev);
-@@ -2923,11 +2930,18 @@ static int __init nvme_init(void)
- 	else if (result > 0)
- 		nvme_major = result;
- 
--	result = pci_register_driver(&nvme_driver);
-+	nvme_nb.notifier_call = &nvme_cpu_notify;
-+	result = register_hotcpu_notifier(&nvme_nb);
- 	if (result)
- 		goto unregister_blkdev;
-+
-+	result = pci_register_driver(&nvme_driver);
-+	if (result)
-+		goto unregister_hotcpu;
- 	return 0;
- 
-+ unregister_hotcpu:
-+	unregister_hotcpu_notifier(&nvme_nb);
-  unregister_blkdev:
- 	unregister_blkdev(nvme_major, "nvme");
-  kill_workq:
-@@ -2938,6 +2952,7 @@ static int __init nvme_init(void)
- static void __exit nvme_exit(void)
- {
- 	pci_unregister_driver(&nvme_driver);
-+	unregister_hotcpu_notifier(&nvme_nb);
- 	unregister_blkdev(nvme_major, "nvme");
- 	destroy_workqueue(nvme_workq);
- 	BUG_ON(nvme_thread && !IS_ERR(nvme_thread));
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 8541dd9..2bf4031 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -90,7 +90,7 @@ struct nvme_dev {
- 	struct miscdevice miscdev;
- 	work_func_t reset_workfn;
- 	struct work_struct reset_work;
--	struct notifier_block nb;
-+	struct work_struct cpu_work;
- 	char name[12];
- 	char serial[20];
- 	char model[40];
--- 
-1.7.10.4
+There might still be a problem with some flushes, I'm looking into this.
