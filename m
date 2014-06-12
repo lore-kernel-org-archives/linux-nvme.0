@@ -1,25 +1,25 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 11 Jun 2014 16:51:13 -0600 (MDT)
-Subject: [PATCH v7] NVMe: conversion to blk-mq
-In-Reply-To: <CAOu_J6kocZZ1mRQeSidyqJ_Ew0F_POS30v2kgUZX2wDOOnuExg@mail.gmail.com>
-References: <1402392038-5268-2-git-send-email-m@bjorling.me>
- <alpine.LRH.2.03.1406100945250.4699@AMR>
- <A52B97CC-6D77-468B-9A9B-A5888AE63580@fb.com>
- <alpine.LRH.2.03.1406101140490.4699@AMR> <5397636F.9050209@fb.com>
- <alpine.LRH.2.03.1406101458470.4699@AMR>
- <5397753B.2020009@fb.com> <alpine.LRH.2.03.1406101515430.4699@AMR>
- <20140610213333.GA10055@linux.intel.com> <539889DC.7090704@fb.com>
- <20140611170917.GA12025@linux.intel.com>
- <CAOu_J6kocZZ1mRQeSidyqJ_Ew0F_POS30v2kgUZX2wDOOnuExg@mail.gmail.com>
-Message-ID: <alpine.LRH.2.03.1406111641180.4699@AMR>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Thu, 12 Jun 2014 08:58:38 +0800
+Subject: [PATCH v6] NVMe: conversion to blk-mq
+In-Reply-To: <CACVXFVNzyu7k0wf-Gw9VgtHCtrYDdOs3OEDdpzivujpQOVyQfA@mail.gmail.com>
+References: <1402057225-7312-1-git-send-email-m@bjorling.me>
+ <1402057225-7312-2-git-send-email-m@bjorling.me>
+ <CACVXFVOieM2cT4FFJhD9MecfCLBtE3AwjCpOeGGRUcmWnN=B=A@mail.gmail.com>
+ <CAOu_J6kXB0rFJ+Z1-FcUwEVQ7dhKZseQBzVONhT1wG=41zFNGA@mail.gmail.com>
+ <CACVXFVNGB0JzRVE8rQru3s12s0U9gtxd0t_ZhnUHQao4ppH8DQ@mail.gmail.com>
+ <CACVXFVM-OUFv+gUnNcGt86FhS1BABV4sQxhCqPf20KKZTwNbyQ@mail.gmail.com>
+ <CACVXFVNzyu7k0wf-Gw9VgtHCtrYDdOs3OEDdpzivujpQOVyQfA@mail.gmail.com>
+Message-ID: <CACVXFVPu6yZZXV_ET1M1zpnY-oa6QP6NqPdO9RzCT97nReGLvQ@mail.gmail.com>
 
-On Wed, 11 Jun 2014, Matias Bj?rling wrote:
-> I've rebased nvmemq_review and added two patches from Jens that add
-> support for requests with single range virtual addresses.
->
-> Keith, will you take it for a spin and see if it fixes 068 for you?
->
-> There might still be a problem with some flushes, I'm looking into this.
+On Mon, Jun 9, 2014@6:40 PM, Ming Lei <tom.leiming@gmail.com> wrote:
+> The root cause is that device returns
+> NVME_INTERNAL_DEV_ERROR(0x6) with your conversion
+> patch.
 
-So far so good: it passed the test that was previously failing. I'll
-let the remaining xfstests run and see what happens.
+The above problem is caused by qemu not handling -EAGAIN from
+io_submit(), so please ignore the report.
+
+
+Thanks,
+-- 
+Ming Lei
