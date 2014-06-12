@@ -1,86 +1,38 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 12 Jun 2014 10:07:24 -0600 (MDT)
-Subject: Questions on the correct Asynchronous Event Request Interface
-In-Reply-To: <27590910.290271402551648565.JavaMail.weblogic@epml14>
-References: <27590910.290271402551648565.JavaMail.weblogic@epml14>
-Message-ID: <alpine.LRH.2.03.1406120923340.4699@AMR>
+Date: Thu, 12 Jun 2014 10:24:31 -0600 (MDT)
+Subject: [PATCH v7] NVMe: conversion to blk-mq
+In-Reply-To: <5399BA00.7000705@bjorling.me>
+References: <1402392038-5268-2-git-send-email-m@bjorling.me>
+ <alpine.LRH.2.03.1406100945250.4699@AMR>
+ <A52B97CC-6D77-468B-9A9B-A5888AE63580@fb.com>
+ <alpine.LRH.2.03.1406101140490.4699@AMR> <5397636F.9050209@fb.com>
+ <alpine.LRH.2.03.1406101458470.4699@AMR>
+ <5397753B.2020009@fb.com> <alpine.LRH.2.03.1406101515430.4699@AMR>
+ <20140610213333.GA10055@linux.intel.com> <539889DC.7090704@fb.com>
+ <20140611170917.GA12025@linux.intel.com>
+ <CAOu_J6kocZZ1mRQeSidyqJ_Ew0F_POS30v2kgUZX2wDOOnuExg@mail.gmail.com>
+ <alpine.LRH.2.03.1406111641180.4699@AMR> <5399BA00.7000705@bjorling.me>
+Message-ID: <alpine.LRH.2.03.1406121015130.4699@AMR>
 
-On Wed, 11 Jun 2014, INDRANEEL MUKHERJEE wrote:
-> A couple of patches have already been posted on the Asynchronous Event
-> Request(AER) admin command.  But there is still no clarity on the what is the
-> correct interface to the application.
+On Thu, 12 Jun 2014, Matias Bj?rling wrote:
+> On 06/12/2014 12:51 AM, Keith Busch wrote:
+>> So far so good: it passed the test that was previously failing. I'll
+>> let the remaining xfstests run and see what happens.
 >
-> Here'r some questions to help summarise the requirements & finalise an
-> interface so that a patch can follow.  (References to kfifo are based on
-> Keith's patch -
-> http://lists.infradead.org/pipermail/linux-nvme/2013-August/000350.html )
+> Great.
 >
-> 1. Should the Driver return both the Async Event Completion & the
-> corresponding GetLogPage together to User Space?
->
-> This can help to avoid the Async Event getting masked accidently. It's
-> possible that any Application reads the Async Event from kfifo but fails to
-> read the corresponding Log Page masking the event indefinitely.
+> The flushes was a fluke. I haven't been able to reproduce.
 
-I don't think so. The driver has no gaurantee there is even a user
-space app consuming these events. If the driver is unmasking them,
-we could continue getting events and overrun older ones.
+Cool, most of the tests are passing, except there is some really weird
+stuff with the timeout handling. You've got two different places with the
+same two prints, so I was a little confused where they were coming from.
 
-> 2. How to have provision in driver to set the 'Temperature Threshold' &
-> 'Asynchronous Event Configuration' before sending the AER command?
->
-> This is needed as Spec says these should be set before the Async Event
-> Request command is sent.
+I've got some more things to try to debug this, but this is thwat I have
+so far:
 
-Does it? Please point me to the section in the spec, because I'm not
-finding it in either 5.2 or 5.12.1.11.
-
-Section 5.12.1.4 for Temperature Threshold feature says:
-
-"The host should configure this feature prior to enabling asynchronous
-event notification for the temperature exceeding the threshold".
-
-I take that to mean the host should set the asynchronous event
-configuration feature to enable temperature notification after you set
-the temperature threshold. All this can be done from user space and async
-event requests may be outstanding prior to this without affecting it.
-
-> One way to achieve this is by making these module parameters and doing a
-> SetFeature during Probe & Resume operations. If these module parameters are
-> provided by user during insmod, driver should ensure that these are set
-> before the kthread submits the AER.
-
-What if I have different devices with vastly different temperature
-thresholds in my machine?
-
-> 3. Should the contents kfifo be preserved when the system goes into Suspend?
-
-Maybe not. I don't think they would be relevant anymore after a resume.
-
-> 4. Only one application will get any event (kfifo ensures this). Is this
-> expected?
-
-That's how it's designed, but I didn't get feedback if that's okay. It's
-readable only by root, so the expectation is you know what you're
-doing. Any other suggestions are appreciated, though.
-
-> 5. How to have provision in the driver to cancel the current AER cmds and
-> send new ones after doing some new Set Feature?
-
-But the controller shouldn't require a new async event request in order
-to respond to changed async configuration features.
-
-> This will need the CmdIds for current AREs to be exported to User Space so
-> that they can be aborted. Should the Driver support this?
->
-> 6. Is the IOCtl interface enough? Or we want to keep the Read/Poll interface?
-
-Is the IOCTL interface enough for what? It's certainly not usable for
-async event notification as-is. You want to add a new IOCTL to consume
-aysnc events instead of getting them from a read?
-
-> 7. Is there any reference utility that can be looked at to see what such
-> monitoring applications expect?
-
-That would be something I'd like to see as well. I've no idea how these
-sorts of events are typically consumed so I just made something up.
+It looks like the abort_complete callback is broken. First, the dev_warn
+there makes no sense because you're pointing to the admin queue's abort
+request, not the IO queue's request you're aborting. Then you call
+cancel_cmd_info on the same command you're completing but it looks like
+you're expecting to be doing this on the IO request you meant to abort,
+but that could cause double completions.
