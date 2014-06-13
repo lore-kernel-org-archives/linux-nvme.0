@@ -1,36 +1,66 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 13 Jun 2014 09:16:41 -0600 (MDT)
-Subject: [PATCH v7] NVMe: conversion to blk-mq
-In-Reply-To: <539B14A9.8010204@fb.com>
-References: <1402392038-5268-2-git-send-email-m@bjorling.me>
- <alpine.LRH.2.03.1406100945250.4699@AMR>
- <A52B97CC-6D77-468B-9A9B-A5888AE63580@fb.com>
- <alpine.LRH.2.03.1406101140490.4699@AMR> <5397636F.9050209@fb.com>
- <alpine.LRH.2.03.1406101458470.4699@AMR>
- <5397753B.2020009@fb.com> <alpine.LRH.2.03.1406101515430.4699@AMR>
- <20140610213333.GA10055@linux.intel.com> <539889DC.7090704@fb.com>
- <20140611170917.GA12025@linux.intel.com>
- <CAOu_J6kocZZ1mRQeSidyqJ_Ew0F_POS30v2kgUZX2wDOOnuExg@mail.gmail.com>
- <alpine.LRH.2.03.1406111641180.4699@AMR> <5399BA00.7000705@bjorling.me>
- <alpine.LRH.2.03.1406121015130.4699@AMR>
- <alpine.LRH.2.03.1406121757130.4699@AMR> <539B05A1.7080700@fb.com>
- <alpine.LRH.2.03.1406130838210.4699@AMR> <539B14A9.8010204@fb.com>
-Message-ID: <alpine.LRH.2.03.1406130914110.4699@AMR>
+From: vishal.l.verma@intel.com (Verma, Vishal L)
+Date: Fri, 13 Jun 2014 17:32:13 +0000
+Subject: [PATCH] NVMe: Fix START_STOP_UNIT Scsi->NVMe translation.
+In-Reply-To: <1402064847-8412-1-git-send-email-daniel.mcleran@intel.com>
+References: <1402064847-8412-1-git-send-email-daniel.mcleran@intel.com>
+Message-ID: <1402680697.3909.6.camel@omniknight.lm.intel.com>
 
-On Fri, 13 Jun 2014, Jens Axboe wrote:
-> On 06/13/2014 09:05 AM, Keith Busch wrote:
->> Here are the performance drops observed with blk-mq with the existing
->> driver as baseline:
->>
->>  CPU : Drop
->>  ....:.....
->>    0 : -6%
->>    8 : -36%
->>   16 : -12%
->
-> We need the hints back for sure, I'll run some of the same tests and
-> verify to be sure. Out of curiousity, what is the topology like on your
-> box? Are 0/1 siblings, and 0..7 one node?
+On Fri, 2014-06-06@08:27 -0600, Dan McLeran wrote:
+> This patch contains several fixes for Scsi START_STOP_UNIT. The previous code did not account for
+> signed vs. unsigned arithmetic which resulted in an invalid lowest power state caculation when
+> the device only supports 1 power state.
+> 
+> The code for Power Condition == 2 (Idle) was not following the spec. The spec calls out
+> setting the device to specific power states, depending upon Power Condition Modifier, without
+> accounting for the number of power states supported by the device.
+> 
+> The code for Power Condition == 3 (Standby) was using a hard-coded '0' which I replaced with the
+> macro POWER_STATE_0.
+> 
+> Signed-off-by: Dan McLeran <daniel.mcleran at intel.com>
+> ---
+>  drivers/block/nvme-scsi.c |   12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+> 
 
-0-7 are different cores on node 0, with 16-23 being their thread
-siblings. Similiar setup with 8-15 and 24-32 on node 1.
+Looks good.
+Reviewed-by: Vishal Verma <vishal.l.verma at linux.intel.com>
+
+
+> diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+> index 4fc25b9..61215ca 100644
+> --- a/drivers/block/nvme-scsi.c
+> +++ b/drivers/block/nvme-scsi.c
+> @@ -1477,7 +1477,7 @@ static int nvme_trans_power_state(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+>  		goto out_dma;
+>  	}
+>  	id_ctrl = mem;
+> -	lowest_pow_st = id_ctrl->npss - 1;
+> +	lowest_pow_st = max(POWER_STATE_0, (int)(id_ctrl->npss - 1));
+>  
+>  	switch (pc) {
+>  	case NVME_POWER_STATE_START_VALID:
+> @@ -1496,18 +1496,18 @@ static int nvme_trans_power_state(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+>  		/* Action unspecified if POWER CONDITION MODIFIER != [0,1,2] */
+>  		/* min of desired state and (lps-1) because lps is STOP */
+>  		if (pcmod == 0x0)
+> -			ps_desired = min(POWER_STATE_1, (lowest_pow_st - 1));
+> +			ps_desired = POWER_STATE_1;
+>  		else if (pcmod == 0x1)
+> -			ps_desired = min(POWER_STATE_2, (lowest_pow_st - 1));
+> +			ps_desired = POWER_STATE_2;
+>  		else if (pcmod == 0x2)
+> -			ps_desired = min(POWER_STATE_3, (lowest_pow_st - 1));
+> +			ps_desired = POWER_STATE_3;
+>  		break;
+>  	case NVME_POWER_STATE_STANDBY:
+>  		/* Action unspecified if POWER CONDITION MODIFIER != [0,1] */
+>  		if (pcmod == 0x0)
+> -			ps_desired = max(0, (lowest_pow_st - 2));
+> +			ps_desired = max(POWER_STATE_0, (lowest_pow_st - 2));
+>  		else if (pcmod == 0x1)
+> -			ps_desired = max(0, (lowest_pow_st - 1));
+> +			ps_desired = max(POWER_STATE_0, (lowest_pow_st - 1));
+>  		break;
+>  	case NVME_POWER_STATE_LU_CONTROL:
+>  	default:
