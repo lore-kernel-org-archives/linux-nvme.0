@@ -1,39 +1,70 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Fri, 13 Jun 2014 15:28:58 -0600
-Subject: [PATCH v7] NVMe: conversion to blk-mq
-In-Reply-To: <alpine.LRH.2.03.1406131307330.4699@AMR>
-References: <1402392038-5268-2-git-send-email-m@bjorling.me>
- <alpine.LRH.2.03.1406100945250.4699@AMR>
- <A52B97CC-6D77-468B-9A9B-A5888AE63580@fb.com>
- <alpine.LRH.2.03.1406101140490.4699@AMR> <5397636F.9050209@fb.com>
- <alpine.LRH.2.03.1406101458470.4699@AMR> <5397753B.2020009@fb.com>
- <alpine.LRH.2.03.1406101515430.4699@AMR>
- <20140610213333.GA10055@linux.intel.com> <539889DC.7090704@fb.com>
- <20140611170917.GA12025@linux.intel.com>
- <CAOu_J6kocZZ1mRQeSidyqJ_Ew0F_POS30v2kgUZX2wDOOnuExg@mail.gmail.com>
- <alpine.LRH.2.03.1406111641180.4699@AMR> <5399BA00.7000705@bjorling.me>
- <alpine.LRH.2.03.1406121015130.4699@AMR>
- <alpine.LRH.2.03.1406121757130.4699@AMR> <539B05A1.7080700@fb.com>
- <alpine.LRH.2.03.1406130838210.4699@AMR> <539B14A9.8010204@fb.com>
- <alpine.LRH.2.03.1406130914110.4699@AMR> <539B3F75.7040700@fb.com>
- <alpine.LRH.2.03.1406131307330.4699@AMR>
-Message-ID: <539B6D1A.3010602@fb.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Sun, 15 Jun 2014 06:28:31 -0400
+Subject: [PULL REQUEST] NVMe driver updates for 3.16
+Message-ID: <20140615102831.GE12025@linux.intel.com>
 
-On 06/13/2014 01:22 PM, Keith Busch wrote:
-> One performance oddity we observe is that servicing the interrupt on the
-> thread sibling of the core that submitted the I/O is the worst performing
-> cpu you can chose; it's actually better to use a different core on the
-> same node. At least that's true as long as you're not utilizing the cpus
-> for other work, so YMMV.
 
-This doesn't match what I see here. Just ran some test cases - both
-sync, and higher QD. For sync performance, core or thread sibling is the
-best choice, other CPUs next. That is pretty logical.
+Hi Linus,
 
-For a more loaded run, thread sibling ends up being a better choice than
-core, since core runs out of steam (255K vs 275K here). And thread
-sibling is still a marginally better choice than some other core on the
-same node.
+Mostly bugfixes again for the NVMe driver.  I'd like to call out the
+exported tracepoint in the block layer; I believe Keith has cleared this
+with Jens.  We've had a few reports from people who're really pounding
+on NVMe devices at scale, hence the timeout changes (and new module
+parameters), hotplug cpu deadlock, tracepoints, and minor performance
+tweaks.
 
-Which pretty much matches my expectations of what the best mappings
-would be.
+The following changes since commit 89ca3b881987f5a4be4c5dbaa7f0df12bbdde2fd:
+
+  Linux 3.15-rc4 (2014-05-04 18:14:42 -0700)
+
+are available in the git repository at:
+
+  git://git.infradead.org/users/willy/linux-nvme.git 
+
+for you to fetch changes up to b8e080847a7292347a3eee76264f77e4abcb61f7:
+
+  NVMe: Fix START_STOP_UNIT Scsi->NVMe translation. (2014-06-13 13:11:00 -0400)
+
+----------------------------------------------------------------
+Dan McLeran (1):
+      NVMe: Fix START_STOP_UNIT Scsi->NVMe translation.
+
+Dimitri John Ledkov (1):
+      NVMe: Update namespace and controller identify structures to the 1.1a spec
+
+Indraneel Mukherjee (1):
+      NVMe: Fix the buffer size passed in GetLogPage(CDW10.NUMD)
+
+Keith Busch (9):
+      NVMe: Protect against badly formatted CQEs
+      NVMe: Add tracepoints
+      NVMe: Configure support for block flush
+      NVMe: Flush with data support
+      NVMe: Make iod bio timeout a parameter
+      NVMe: Make admin timeout a module parameter
+      NVMe: Fix nvme get/put queue semantics
+      NVMe: Use last bytes of f/w rev SCSI Inquiry
+      NVMe: Fix hot cpu notification dead lock
+
+Matthew Wilcox (8):
+      NVMe: Update copyright headers
+      NVMe: Improve error messages
+      NVMe: Enable BUILD_BUG_ON checks
+      NVMe: Update data structures for NVMe 1.2
+      NVMe: Delete NVME_GET_FEAT_TEMP_THRESH
+      NVMe: Rename io_timeout to nvme_io_timeout
+      NVMe: Define Log Page constants
+      NVMe: Use Log Page constants in SCSI emulation
+
+Sam Bradshaw (1):
+      NVMe: Adhere to request queue block accounting enable/disable
+
+Santosh Y (1):
+      NVMe: Prevent possible NULL pointer dereference
+
+ block/blk-core.c          |   1 +
+ drivers/block/nvme-core.c | 203 ++++++++++++++++++++++++++++++----------------
+ drivers/block/nvme-scsi.c |  36 ++++----
+ include/linux/nvme.h      |  14 ++--
+ include/uapi/linux/nvme.h |  50 +++++++++---
+ 5 files changed, 194 insertions(+), 110 deletions(-)
