@@ -1,42 +1,123 @@
-From: m@bjorling.me (Matias Bjorling)
-Date: Mon, 16 Jun 2014 18:49:43 +0200
-Subject: [PATCH v8] NVMe: convert to blk-mq
-In-Reply-To: <alpine.LRH.2.03.1406160931400.4699@AMR>
-References: <1402661396-19207-1-git-send-email-m@bjorling.me>
- <1402661396-19207-2-git-send-email-m@bjorling.me>
- <alpine.LRH.2.03.1406160931400.4699@AMR>
-Message-ID: <539F2027.1060805@bjorling.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 17 Jun 2014 16:53:58 -0600
+Subject: [PATCH] NVMe: Async event request
+Message-ID: <1403045638-16790-1-git-send-email-keith.busch@intel.com>
 
-Den 16-06-2014 17:57, Keith Busch skrev:
-> On Fri, 13 Jun 2014, Matias Bj?rling wrote:
->> This converts the current NVMe driver to utilize the blk-mq layer.
->
->> static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
->> {
->> -       struct nvme_dev *dev = pci_get_drvdata(pdev);
->> +    struct nvme_dev *dev = pci_get_drvdata(pdev);
->>
->> -       if (prepare)
->> -               nvme_dev_shutdown(dev);
->> -       else
->> -               nvme_dev_resume(dev);
->> +    spin_lock(&dev_list_lock);
->> +    if (prepare)
->> +        list_del_init(&dev->node);
->> +    else
->> +        list_add(&dev->node, &dev_list);
->> +    spin_unlock(&dev_list_lock);
->> }
->> +        if (nvme_create_queue(dev->queues[i], i))
->>             break;
->> }
->
-> The above change was just error injection test code so you can cause
-> a device to become unresponsive and trigger the timeout handling.
+Submits NVMe asynchronous event requests, one event up to the controller
+maximum or number of possible different event types (8), whichever is
+smaller. Events successfully returned by the controller are logged.
 
-Thanks, I'll take it off
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+Taking a simpler approach with this feature than previous attempts. This
+just sets up the driver to send asynchronous event requests and logs the
+result as the controller completes them. If a better way of presenting
+these is decided on, that can easily be changed in a follow on patch.
 
->
-> This latest is otherwise stable on my dev machine.
+ drivers/block/nvme-core.c |   42
+ +++++++++++++++++++++++++++++++++++++++++-
+ include/linux/nvme.h      |    1 +
+ 2 files changed, 42 insertions(+), 1 deletion(-)
 
-I'm very happy to hear!
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 02351e2..515b37f 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -207,6 +207,7 @@ static int alloc_cmdid_killable(struct nvme_queue *nvmeq, void *ctx,
+ #define CMD_CTX_COMPLETED	(0x310 + CMD_CTX_BASE)
+ #define CMD_CTX_INVALID		(0x314 + CMD_CTX_BASE)
+ #define CMD_CTX_ABORT		(0x318 + CMD_CTX_BASE)
++#define CMD_CTX_ASYNC		(0x31C + CMD_CTX_BASE)
+ 
+ static void special_completion(struct nvme_queue *nvmeq, void *ctx,
+ 						struct nvme_completion *cqe)
+@@ -229,6 +230,18 @@ static void special_completion(struct nvme_queue *nvmeq, void *ctx,
+ 				cqe->command_id, le16_to_cpup(&cqe->sq_id));
+ 		return;
+ 	}
++	if (ctx == CMD_CTX_ASYNC) {
++		u32 result = le32_to_cpup(&cqe->result);
++		u16 status = le16_to_cpup(&cqe->status) >> 1;
++
++		if (status != NVME_SC_SUCCESS)
++			return;
++		
++		dev_warn(nvmeq->q_dmadev,
++				"async event result %08x\n", result);
++		++nvmeq->dev->event_limit;
++		return;
++	}
+ 
+ 	dev_warn(nvmeq->q_dmadev, "Unknown special completion %p\n", ctx);
+ }
+@@ -1159,7 +1172,8 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
+ 
+ 		if (timeout && !time_after(now, info[cmdid].timeout))
+ 			continue;
+-		if (info[cmdid].ctx == CMD_CTX_CANCELLED)
++		if (info[cmdid].ctx == CMD_CTX_CANCELLED ||
++					info[cmdid].ctx == CMD_CTX_ASYNC)
+ 			continue;
+ 		if (timeout && nvmeq->dev->initialized) {
+ 			nvme_abort_cmd(cmdid, nvmeq);
+@@ -1823,6 +1837,25 @@ static void nvme_resubmit_iods(struct nvme_queue *nvmeq)
+ 	}
+ }
+ 
++static void nvme_submit_async_req(struct nvme_queue *nvmeq)
++{
++	struct nvme_command *c;
++	int cmdid;
++
++	cmdid = alloc_cmdid(nvmeq, CMD_CTX_ASYNC, special_completion, 0);
++	if (cmdid < 0)
++		return;
++
++	c = &nvmeq->sq_cmds[nvmeq->sq_tail];
++	memset(c, 0, sizeof(*c));
++	c->common.opcode = nvme_admin_async_event;
++	c->common.command_id = cmdid;
++
++	if (++nvmeq->sq_tail == nvmeq->q_depth)
++		nvmeq->sq_tail = 0;
++	writel(nvmeq->sq_tail, nvmeq->q_db);
++}
++
+ static void nvme_resubmit_bios(struct nvme_queue *nvmeq)
+ {
+ 	while (bio_list_peek(&nvmeq->sq_cong)) {
+@@ -1876,6 +1909,12 @@ static int nvme_kthread(void *data)
+ 				nvme_cancel_ios(nvmeq, true);
+ 				nvme_resubmit_bios(nvmeq);
+ 				nvme_resubmit_iods(nvmeq);
++
++				if (!i) {
++					for (; dev->event_limit > 0;
++							dev->event_limit--)
++						nvme_submit_async_req(nvmeq);
++				}
+  unlock:
+ 				spin_unlock_irq(&nvmeq->q_lock);
+ 			}
+@@ -2244,6 +2283,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	dev->oncs = le16_to_cpup(&ctrl->oncs);
+ 	dev->abort_limit = ctrl->acl + 1;
+ 	dev->vwc = ctrl->vwc;
++	dev->event_limit = min(ctrl->aerl + 1, 8);
+ 	memcpy(dev->serial, ctrl->sn, sizeof(ctrl->sn));
+ 	memcpy(dev->model, ctrl->mn, sizeof(ctrl->mn));
+ 	memcpy(dev->firmware_rev, ctrl->fr, sizeof(ctrl->fr));
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 2bf4031..974efd0 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -99,6 +99,7 @@ struct nvme_dev {
+ 	u32 stripe_size;
+ 	u16 oncs;
+ 	u16 abort_limit;
++	u8 event_limit;
+ 	u8 vwc;
+ 	u8 initialized;
+ };
+-- 
+1.7.10.4
