@@ -1,54 +1,53 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Tue, 17 Jun 2014 23:45:38 -0400
-Subject: [PATCH] NVMe: Async event request
-In-Reply-To: <1403045638-16790-1-git-send-email-keith.busch@intel.com>
-References: <1403045638-16790-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20140618034538.GG12025@linux.intel.com>
+From: daniel.mcleran@intel.com (Dan McLeran)
+Date: Wed, 18 Jun 2014 03:03:08 -0600
+Subject: [PATCH] NVMe: Fail SCSI->NVMe translation for UNMAP when anchor is set
+Message-ID: <1403082188-4852-1-git-send-email-daniel.mcleran@intel.com>
 
-On Tue, Jun 17, 2014@04:53:58PM -0600, Keith Busch wrote:
-> +static void nvme_submit_async_req(struct nvme_queue *nvmeq)
-> +{
-> +	struct nvme_command *c;
-> +	int cmdid;
-> +
-> +	cmdid = alloc_cmdid(nvmeq, CMD_CTX_ASYNC, special_completion, 0);
-> +	if (cmdid < 0)
-> +		return;
+SCSI UNMAP should fail if the host sends down the command with Anchor set. The
+current code does not check this condition. This patch checks Anchor and fails
+Scsi->NVMe translation if Anchor is set.
 
-Return -EBUSY here ...
+Signed-off-by: Dan McLeran <daniel.mcleran at intel.com>
+---
+ drivers/block/nvme-scsi.c |   12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-> +	c = &nvmeq->sq_cmds[nvmeq->sq_tail];
-> +	memset(c, 0, sizeof(*c));
-> +	c->common.opcode = nvme_admin_async_event;
-> +	c->common.command_id = cmdid;
-> +
-> +	if (++nvmeq->sq_tail == nvmeq->q_depth)
-> +		nvmeq->sq_tail = 0;
-> +	writel(nvmeq->sq_tail, nvmeq->q_db);
-> +}
-
-... and 0 here ...
-
->  static void nvme_resubmit_bios(struct nvme_queue *nvmeq)
->  {
->  	while (bio_list_peek(&nvmeq->sq_cong)) {
-> @@ -1876,6 +1909,12 @@ static int nvme_kthread(void *data)
->  				nvme_cancel_ios(nvmeq, true);
->  				nvme_resubmit_bios(nvmeq);
->  				nvme_resubmit_iods(nvmeq);
-> +
-> +				if (!i) {
-> +					for (; dev->event_limit > 0;
-> +							dev->event_limit--)
-> +						nvme_submit_async_req(nvmeq);
-> +				}
-
-... and make this:
-
-				while ((i == 0) && (dev->event_limit > 0)) {
-					if (nvme_submit_async_req(nvmeq))
-						break;
-					dev->event_limit--;
-				}
-
-What do you think?
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index a4cd6d6..5bcbe04 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -96,6 +96,8 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
+ #define FORMAT_UNIT_PROT_INT_OFFSET			3
+ #define FORMAT_UNIT_PROT_FIELD_USAGE_OFFSET		0
+ #define FORMAT_UNIT_PROT_FIELD_USAGE_MASK		0x07
++#define UNMAP_CDB_PARAM_ANCHOR_OFFSET			1
++#define UNMAP_CDB_PARAM_ANCHOR_MASK				0x1
+ #define UNMAP_CDB_PARAM_LIST_LENGTH_OFFSET		7
+ 
+ /* Misc. defines */
+@@ -2855,6 +2857,7 @@ static int nvme_trans_unmap(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	struct nvme_dsm_range *range;
+ 	struct nvme_command c;
+ 	int i, nvme_sc, res = -ENOMEM;
++	u8 anchor;
+ 	u16 ndesc, list_len;
+ 	dma_addr_t dma_addr;
+ 
+@@ -2870,6 +2873,15 @@ static int nvme_trans_unmap(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	if (res != SNTI_TRANSLATION_SUCCESS)
+ 		goto out;
+ 
++	anchor = GET_U8_FROM_CDB(cmd, UNMAP_CDB_PARAM_ANCHOR_OFFSET);
++	anchor &= UNMAP_CDB_PARAM_ANCHOR_MASK;
++	if (anchor != 0) {
++		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
++				ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
++				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
++		goto out;
++	}
++
+ 	ndesc = be16_to_cpu(plist->unmap_blk_desc_data_len) >> 4;
+ 	if (!ndesc || ndesc > 256) {
+ 		res = -EINVAL;
+-- 
+1.7.10.4
