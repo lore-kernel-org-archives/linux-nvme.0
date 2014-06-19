@@ -1,120 +1,46 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 18 Jun 2014 13:58:57 -0600
-Subject: [PATCHv3] NVMe: Async event request
-Message-ID: <1403121537-28806-1-git-send-email-keith.busch@intel.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Thu, 19 Jun 2014 12:59:57 -0400
+Subject: [PATCH] NVMe: Remove superfluous cqe_seen
+In-Reply-To: <80B89753B40C5141A3E2D53FE7A2A8A9943A7ADC@NTXBOIMBX02.micron.com>
+References: <537CED01.6040106@micron.com>
+ <20140521231706.GP6121@linux.intel.com>
+ <80B89753B40C5141A3E2D53FE7A2A8A9943A7ADC@NTXBOIMBX02.micron.com>
+Message-ID: <20140619165957.GK12025@linux.intel.com>
 
-Submits NVMe asynchronous event requests, one event up to the controller
-maximum or number of possible different event types (8), whichever is
-smaller. Events successfully returned by the controller are logged.
+On Thu, May 22, 2014@12:10:19AM +0000, Sam Bradshaw (sbradshaw) wrote:
+> Performance problem, though not very easily measured.  At very high iops
+> rates, most if not all cqe's are processed via nvme_process_cq() in 
+> make_request(), leaving nvme_irq() with no work to do.  Nevertheless, it
+> always writes cqe_seen, which invalidates a very hot cacheline.  This
+> is somewhat exacerbated when IO submissions originate on a remote node
+> relative to the cpu handling the irq.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-v2 -> v3:
-Reclaim available event requests on device resets and suspends.
+I was thinking "Hey, we should move cqe_seen to a different cacheline".
+So I looked at the cacheline assignments for the different variables,
+and cqe_seen is on the same cacheline as cq_head and cq_phase, so that
+cacheline is already being dirtied.  Indeed, it's in the same Dword as
+cq_phase, so I'd be amazed if the CPU didn't coalesce the two writes.
+That might be a more fruitful patch ... rearrange nvme_queue to put
+cq_head, cq_phase and cqe_seen in the same Dword, and expect the CPU to
+optimise the three assignments into a single Dword store.
 
- drivers/block/nvme-core.c |   42 ++++++++++++++++++++++++++++++++++++++++++
- include/linux/nvme.h      |    1 +
- 2 files changed, 43 insertions(+)
+I'll let you try it out since you have the setup to benchmark it.  Right now,
+this is the layout I see:
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 02351e2..90673f3 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -207,6 +207,7 @@ static int alloc_cmdid_killable(struct nvme_queue *nvmeq, void *ctx,
- #define CMD_CTX_COMPLETED	(0x310 + CMD_CTX_BASE)
- #define CMD_CTX_INVALID		(0x314 + CMD_CTX_BASE)
- #define CMD_CTX_ABORT		(0x318 + CMD_CTX_BASE)
-+#define CMD_CTX_ASYNC		(0x31C + CMD_CTX_BASE)
- 
- static void special_completion(struct nvme_queue *nvmeq, void *ctx,
- 						struct nvme_completion *cqe)
-@@ -229,6 +230,17 @@ static void special_completion(struct nvme_queue *nvmeq, void *ctx,
- 				cqe->command_id, le16_to_cpup(&cqe->sq_id));
- 		return;
- 	}
-+	if (ctx == CMD_CTX_ASYNC) {
-+		u32 result = le32_to_cpup(&cqe->result);
-+		u16 status = le16_to_cpup(&cqe->status) >> 1;
-+
-+		if (status == NVME_SC_SUCCESS || status == NVME_SC_ABORT_REQ)
-+			++nvmeq->dev->event_limit;
-+		if (status == NVME_SC_SUCCESS)
-+			dev_warn(nvmeq->q_dmadev,
-+				"async event result %08x\n", result);
-+		return;
-+	}
- 
- 	dev_warn(nvmeq->q_dmadev, "Unknown special completion %p\n", ctx);
- }
-@@ -1161,6 +1173,8 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
- 			continue;
- 		if (info[cmdid].ctx == CMD_CTX_CANCELLED)
- 			continue;
-+		if (timeout && info[cmdid].ctx == CMD_CTX_ASYNC)
-+			continue;
- 		if (timeout && nvmeq->dev->initialized) {
- 			nvme_abort_cmd(cmdid, nvmeq);
- 			continue;
-@@ -1843,6 +1857,27 @@ static void nvme_resubmit_bios(struct nvme_queue *nvmeq)
- 	}
- }
- 
-+static int nvme_submit_async_req(struct nvme_queue *nvmeq)
-+{
-+	struct nvme_command *c;
-+	int cmdid;
-+
-+	cmdid = alloc_cmdid(nvmeq, CMD_CTX_ASYNC, special_completion, 0);
-+	if (cmdid < 0)
-+		return cmdid;
-+
-+	c = &nvmeq->sq_cmds[nvmeq->sq_tail];
-+	memset(c, 0, sizeof(*c));
-+	c->common.opcode = nvme_admin_async_event;
-+	c->common.command_id = cmdid;
-+
-+	if (++nvmeq->sq_tail == nvmeq->q_depth)
-+		nvmeq->sq_tail = 0;
-+	writel(nvmeq->sq_tail, nvmeq->q_db);
-+
-+	return 0;
-+}
-+
- static int nvme_kthread(void *data)
- {
- 	struct nvme_dev *dev, *next;
-@@ -1876,6 +1911,12 @@ static int nvme_kthread(void *data)
- 				nvme_cancel_ios(nvmeq, true);
- 				nvme_resubmit_bios(nvmeq);
- 				nvme_resubmit_iods(nvmeq);
-+
-+				while ((i == 0) && (dev->event_limit > 0)) {
-+					if (nvme_submit_async_req(nvmeq))
-+						break;
-+					dev->event_limit--;
-+				}
-  unlock:
- 				spin_unlock_irq(&nvmeq->q_lock);
- 			}
-@@ -2244,6 +2285,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	dev->oncs = le16_to_cpup(&ctrl->oncs);
- 	dev->abort_limit = ctrl->acl + 1;
- 	dev->vwc = ctrl->vwc;
-+	dev->event_limit = min(ctrl->aerl + 1, 8);
- 	memcpy(dev->serial, ctrl->sn, sizeof(ctrl->sn));
- 	memcpy(dev->model, ctrl->mn, sizeof(ctrl->mn));
- 	memcpy(dev->firmware_rev, ctrl->fr, sizeof(ctrl->fr));
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 2bf4031..974efd0 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -99,6 +99,7 @@ struct nvme_dev {
- 	u32 stripe_size;
- 	u16 oncs;
- 	u16 abort_limit;
-+	u8 event_limit;
- 	u8 vwc;
- 	u8 initialized;
- };
--- 
-1.7.10.4
+        /* --- cacheline 3 boundary (192 bytes) --- */
+        u32 *                      q_db;                 /*   192     8 */
+        u16                        q_depth;              /*   200     2 */
+        u16                        cq_vector;            /*   202     2 */
+        u16                        sq_head;              /*   204     2 */
+        u16                        sq_tail;              /*   206     2 */
+        u16                        cq_head;              /*   208     2 */
+        u16                        qid;                  /*   210     2 */
+        u8                         cq_phase;             /*   212     1 */
+        u8                         cqe_seen;             /*   213     1 */
+        u8                         q_suspended;          /*   214     1 */
+
+I notice a 4-byte hole after q_lock, so moving cq_head, cq_phase and
+cqe_seen into that space would probably be a good idea (since that
+cacheline is definitely dirty).  I really haven't tried to optimise the
+frequently-updated parts of the data structure into the same cacheline,
+and it should really help your bizarre setup :-).
