@@ -1,46 +1,70 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Thu, 19 Jun 2014 12:59:57 -0400
-Subject: [PATCH] NVMe: Remove superfluous cqe_seen
-In-Reply-To: <80B89753B40C5141A3E2D53FE7A2A8A9943A7ADC@NTXBOIMBX02.micron.com>
-References: <537CED01.6040106@micron.com>
- <20140521231706.GP6121@linux.intel.com>
- <80B89753B40C5141A3E2D53FE7A2A8A9943A7ADC@NTXBOIMBX02.micron.com>
-Message-ID: <20140619165957.GK12025@linux.intel.com>
+From: daniel.mcleran@intel.com (Dan McLeran)
+Date: Thu, 19 Jun 2014 09:42:55 -0600
+Subject: [PATCH] NVMe: Change nvme_enable_ctrl behavior and track CC
+Message-ID: <1403192575-9704-1-git-send-email-daniel.mcleran@intel.com>
 
-On Thu, May 22, 2014@12:10:19AM +0000, Sam Bradshaw (sbradshaw) wrote:
-> Performance problem, though not very easily measured.  At very high iops
-> rates, most if not all cqe's are processed via nvme_process_cq() in 
-> make_request(), leaving nvme_irq() with no work to do.  Nevertheless, it
-> always writes cqe_seen, which invalidates a very hot cacheline.  This
-> is somewhat exacerbated when IO submissions originate on a remote node
-> relative to the cpu handling the irq.
+In the current implementation, nvme_enable_ctrl does not actually enable the controller.
+It waits for the controller, which has previously been enabled from nvme_configure_admin_queue,
+to become ready to receive commands. This patch moves the logic of enabling the controller into
+nvme_enable_ctrl. This patch also ensure that shutdown flags are not passed as part of enabling
+or disabling the controller. This patch also ensures the software representation of the CC
+register remains in sync with actual reads and writes to the hardware.
 
-I was thinking "Hey, we should move cqe_seen to a different cacheline".
-So I looked at the cacheline assignments for the different variables,
-and cqe_seen is on the same cacheline as cq_head and cq_phase, so that
-cacheline is already being dirtied.  Indeed, it's in the same Dword as
-cq_phase, so I'd be amazed if the CPU didn't coalesce the two writes.
-That might be a more fruitful patch ... rearrange nvme_queue to put
-cq_head, cq_phase and cqe_seen in the same Dword, and expect the CPU to
-optimise the three assignments into a single Dword store.
+Signed-off-by: Dan McLeran <daniel.mcleran at intel.com>
+---
+ drivers/block/nvme-core.c |   20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
-I'll let you try it out since you have the setup to benchmark it.  Right now,
-this is the layout I see:
-
-        /* --- cacheline 3 boundary (192 bytes) --- */
-        u32 *                      q_db;                 /*   192     8 */
-        u16                        q_depth;              /*   200     2 */
-        u16                        cq_vector;            /*   202     2 */
-        u16                        sq_head;              /*   204     2 */
-        u16                        sq_tail;              /*   206     2 */
-        u16                        cq_head;              /*   208     2 */
-        u16                        qid;                  /*   210     2 */
-        u8                         cq_phase;             /*   212     1 */
-        u8                         cqe_seen;             /*   213     1 */
-        u8                         q_suspended;          /*   214     1 */
-
-I notice a 4-byte hole after q_lock, so moving cq_head, cq_phase and
-cqe_seen into that space would probably be a good idea (since that
-cacheline is definitely dirty).  I really haven't tried to optimise the
-frequently-updated parts of the data structure into the same cacheline,
-and it should really help your bizarre setup :-).
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 02351e2..3e31b67 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1408,15 +1408,27 @@ static int nvme_wait_ready(struct nvme_dev *dev, u64 cap, bool enabled)
+  */
+ static int nvme_disable_ctrl(struct nvme_dev *dev, u64 cap)
+ {
+-	u32 cc = readl(&dev->bar->cc);
++	u32 cc = (readl(&dev->bar->cc) & ~NVME_CC_SHN_MASK);
++
++	if (cc & NVME_CC_ENABLE) {
++		cc &= ~NVME_CC_ENABLE;
++		writel(cc, &dev->bar->cc);
++		dev->ctrl_config = cc;
++	}
+ 
+-	if (cc & NVME_CC_ENABLE)
+-		writel(cc & ~NVME_CC_ENABLE, &dev->bar->cc);
+ 	return nvme_wait_ready(dev, cap, false);
+ }
+ 
+ static int nvme_enable_ctrl(struct nvme_dev *dev, u64 cap)
+ {
++	u32 cc = (readl(&dev->bar->cc) & ~NVME_CC_SHN_MASK);
++
++	if (!(cc & NVME_CC_ENABLE)) {
++		cc |= NVME_CC_ENABLE | NVME_CC_CSS_NVM;
++		writel(cc, &dev->bar->cc);
++		dev->ctrl_config = cc;
++	}
++
+ 	return nvme_wait_ready(dev, cap, true);
+ }
+ 
+@@ -1427,6 +1439,7 @@ static int nvme_shutdown_ctrl(struct nvme_dev *dev)
+ 
+ 	cc = (readl(&dev->bar->cc) & ~NVME_CC_SHN_MASK) | NVME_CC_SHN_NORMAL;
+ 	writel(cc, &dev->bar->cc);
++	dev->ctrl_config = cc;
+ 
+ 	timeout = 2 * HZ + jiffies;
+ 	while ((readl(&dev->bar->csts) & NVME_CSTS_SHST_MASK) !=
+@@ -1465,7 +1478,6 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	aqa = nvmeq->q_depth - 1;
+ 	aqa |= aqa << 16;
+ 
+-	dev->ctrl_config = NVME_CC_ENABLE | NVME_CC_CSS_NVM;
+ 	dev->ctrl_config |= (PAGE_SHIFT - 12) << NVME_CC_MPS_SHIFT;
+ 	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
+ 	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+-- 
+1.7.10.4
