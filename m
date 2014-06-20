@@ -1,48 +1,42 @@
-From: daniel.mcleran@intel.com (Dan McLeran)
-Date: Fri, 20 Jun 2014 03:22:54 -0600
-Subject: [PATCH] NVMe: Create module parameter for shutdown timeout.
-Message-ID: <1403256174-3595-1-git-send-email-daniel.mcleran@intel.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Fri, 20 Jun 2014 13:13:27 -0400
+Subject: [PATCH] NVMe: Change nvme_enable_ctrl behavior and track CC
+In-Reply-To: <1403192575-9704-1-git-send-email-daniel.mcleran@intel.com>
+References: <1403192575-9704-1-git-send-email-daniel.mcleran@intel.com>
+Message-ID: <20140620171327.GM12025@linux.intel.com>
 
-The current implementation hard-codes shutdown timeout to 2 seconds. Some devices take
-longer than this to successfully complete a normal shutdown. This patch creates a module
-parameter for shutdown timeout and sets the default to 5 seconds.
+On Thu, Jun 19, 2014@09:42:55AM -0600, Dan McLeran wrote:
+> In the current implementation, nvme_enable_ctrl does not actually enable the controller.
+> It waits for the controller, which has previously been enabled from nvme_configure_admin_queue,
+> to become ready to receive commands. This patch moves the logic of enabling the controller into
+> nvme_enable_ctrl. This patch also ensure that shutdown flags are not passed as part of enabling
+> or disabling the controller. This patch also ensures the software representation of the CC
+> register remains in sync with actual reads and writes to the hardware.
 
-Signed-off-by: Dan McLeran <daniel.mcleran at intel.com>
----
- drivers/block/nvme-core.c |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Please wrap your changelog entries to 75-ish characters.  You've also
+got three consecutive sentences starting with 'This patch' which reads
+a bit funny.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 02351e2..a3c0af7 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -48,6 +48,7 @@
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
- #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
- #define ADMIN_TIMEOUT		(admin_timeout * HZ)
-+#define SHUTDOWN_TIMEOUT	(nvme_shutdown_timeout * HZ)
- #define IOD_TIMEOUT		(retry_time * HZ)
- 
- static unsigned char admin_timeout = 60;
-@@ -62,6 +63,10 @@ static unsigned char retry_time = 30;
- module_param(retry_time, byte, 0644);
- MODULE_PARM_DESC(retry_time, "time in seconds to retry failed I/O");
- 
-+unsigned char nvme_shutdown_timeout = 5;
-+module_param_named(shutdown_timeout, nvme_shutdown_timeout, byte, 0644);
-+MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
-+
- static int nvme_major;
- module_param(nvme_major, int, 0);
- 
-@@ -1428,7 +1433,7 @@ static int nvme_shutdown_ctrl(struct nvme_dev *dev)
- 	cc = (readl(&dev->bar->cc) & ~NVME_CC_SHN_MASK) | NVME_CC_SHN_NORMAL;
- 	writel(cc, &dev->bar->cc);
- 
--	timeout = 2 * HZ + jiffies;
-+	timeout = SHUTDOWN_TIMEOUT + jiffies;
- 	while ((readl(&dev->bar->csts) & NVME_CSTS_SHST_MASK) !=
- 							NVME_CSTS_SHST_CMPLT) {
- 		msleep(100);
--- 
-1.7.10.4
+I don't understand why we'd want to clear the current settings of SHN
+when we write CC.  Wouldn't the controller infer from that the shutdown
+has been cancelled?  Leaving the bits the same seems like the right
+course of action.
+
+Looking at the meat of the patch causes me to wonder ... why are we
+reading ->cc anywhere?  We program it; the controller isn't allowed
+to modify any part of it.  This register should be write-only for us,
+using the ctrl_config soft-copy.
+
+> @@ -1465,7 +1478,6 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+>  	aqa = nvmeq->q_depth - 1;
+>  	aqa |= aqa << 16;
+>  
+> -	dev->ctrl_config = NVME_CC_ENABLE | NVME_CC_CSS_NVM;
+>  	dev->ctrl_config |= (PAGE_SHIFT - 12) << NVME_CC_MPS_SHIFT;
+>  	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
+>  	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+
+I don't think this is right.  You're reading in the register settings
+in nvme_disable_ctrl(), but the point of this routine is to initialise
+the settings in ctrl_config, not to preserve the old settings.  What
+if the BIOS had, for example, configured IOCQES to a different size?
