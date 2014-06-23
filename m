@@ -1,68 +1,88 @@
-From: daniel.mcleran@intel.com (Dan McLeran)
-Date: Mon, 23 Jun 2014 08:24:36 -0600
-Subject: [PATCH] NVMe: Change nvme_enable_ctrl to set EN and manage CC thru
- ctrl_config.
-Message-ID: <1403533476-7193-1-git-send-email-daniel.mcleran@intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 23 Jun 2014 14:25:35 -0600
+Subject: [PATCH] NVMe: Handling devices incapable of I/O
+Message-ID: <1403555135-16633-1-git-send-email-keith.busch@intel.com>
 
-Change the behavior of nvme_enable_ctrl to set EN.
-Clear CC.SH for both nvme_enable_ctrl and nvme_disable_ctrl.
-Remove reading of the CC register and manage the state in
-dev->ctrl_config.
+This is a minor refactor for handling devices that are incapable of IO.
+The driver previously used special error codes to know that IO queues
+are unavailable, but we have an online queue count now.
 
-Signed-off-by: Dan McLeran <daniel.mcleran at intel.com>
+This also fixes an issue where the driver successfully sets the queue
+count, but either is unable to allocate an IO queue or the device can't
+create one for some reason.
+
+If the driver can successfully enable the device and get responses to
+admin commands, the driver will bring up a character device for managment
+but not create block devices.
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ drivers/block/nvme-core.c |   19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 02351e2..e1c02e1 100644
+index 02351e2..522a746 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1408,25 +1408,30 @@ static int nvme_wait_ready(struct nvme_dev *dev, u64 cap, bool enabled)
-  */
- static int nvme_disable_ctrl(struct nvme_dev *dev, u64 cap)
- {
--	u32 cc = readl(&dev->bar->cc);
-+	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
-+	dev->ctrl_config &= ~NVME_CC_ENABLE;
-+	writel(dev->ctrl_config, &dev->bar->cc);
- 
--	if (cc & NVME_CC_ENABLE)
--		writel(cc & ~NVME_CC_ENABLE, &dev->bar->cc);
- 	return nvme_wait_ready(dev, cap, false);
+@@ -2106,7 +2106,7 @@ static int set_queue_count(struct nvme_dev *dev, int count)
+ 	if (status > 0) {
+ 		dev_err(&dev->pci_dev->dev, "Could not set queue count (%d)\n",
+ 									status);
+-		return -EBUSY;
++		return 0;
+ 	}
+ 	return min(result & 0xffff, result >> 16) + 1;
  }
+@@ -2148,7 +2148,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
  
- static int nvme_enable_ctrl(struct nvme_dev *dev, u64 cap)
- {
-+	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
-+	dev->ctrl_config |= NVME_CC_ENABLE;
-+	writel(dev->ctrl_config, &dev->bar->cc);
-+
- 	return nvme_wait_ready(dev, cap, true);
- }
+ 	nr_io_queues = num_possible_cpus();
+ 	result = set_queue_count(dev, nr_io_queues);
+-	if (result < 0)
++	if (result <= 0)
+ 		return result;
+ 	if (result < nr_io_queues)
+ 		nr_io_queues = result;
+@@ -2673,7 +2673,7 @@ static int nvme_dev_start(struct nvme_dev *dev)
+ 	}
  
- static int nvme_shutdown_ctrl(struct nvme_dev *dev)
- {
- 	unsigned long timeout;
--	u32 cc;
+ 	result = nvme_setup_io_queues(dev);
+-	if (result && result != -EBUSY)
++	if (result)
+ 		goto disable;
  
--	cc = (readl(&dev->bar->cc) & ~NVME_CC_SHN_MASK) | NVME_CC_SHN_NORMAL;
--	writel(cc, &dev->bar->cc);
-+	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
-+	dev->ctrl_config |= NVME_CC_SHN_NORMAL;
-+
-+	writel(dev->ctrl_config, &dev->bar->cc);
+ 	return result;
+@@ -2710,9 +2710,9 @@ static int nvme_dev_resume(struct nvme_dev *dev)
+ 	int ret;
  
- 	timeout = 2 * HZ + jiffies;
- 	while ((readl(&dev->bar->csts) & NVME_CSTS_SHST_MASK) !=
-@@ -1465,7 +1470,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	aqa = nvmeq->q_depth - 1;
- 	aqa |= aqa << 16;
+ 	ret = nvme_dev_start(dev);
+-	if (ret && ret != -EBUSY)
++	if (ret)
+ 		return ret;
+-	if (ret == -EBUSY) {
++	if (dev->online_queues < 2) {
+ 		spin_lock(&dev_list_lock);
+ 		dev->reset_workfn = nvme_remove_disks;
+ 		queue_work(nvme_workq, &dev->reset_work);
+@@ -2785,17 +2785,14 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
  
--	dev->ctrl_config = NVME_CC_ENABLE | NVME_CC_CSS_NVM;
-+	dev->ctrl_config = NVME_CC_CSS_NVM;
- 	dev->ctrl_config |= (PAGE_SHIFT - 12) << NVME_CC_MPS_SHIFT;
- 	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
- 	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+ 	kref_init(&dev->kref);
+ 	result = nvme_dev_start(dev);
+-	if (result) {
+-		if (result == -EBUSY)
+-			goto create_cdev;
++	if (result)
+ 		goto release_pools;
+-	}
+ 
+-	result = nvme_dev_add(dev);
++	if (dev->online_queues > 1)
++		result = nvme_dev_add(dev);
+ 	if (result)
+ 		goto shutdown;
+ 
+- create_cdev:
+ 	scnprintf(dev->name, sizeof(dev->name), "nvme%d", dev->instance);
+ 	dev->miscdev.minor = MISC_DYNAMIC_MINOR;
+ 	dev->miscdev.parent = &pdev->dev;
 -- 
 1.7.10.4
