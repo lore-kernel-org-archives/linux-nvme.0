@@ -1,32 +1,19 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 23 Jun 2014 15:24:53 -0600
-Subject: [PATCH] NVMe: Use pci_stop_and_remove_bus_device_locked()
-Message-ID: <1403558693-18209-1-git-send-email-keith.busch@intel.com>
+Date: Mon, 23 Jun 2014 15:28:30 -0600 (MDT)
+Subject: [PATCHv3] NVMe: Async event request
+In-Reply-To: <4153505278C0BF4DABE3DF3D82533FE23026BC6E@NTXBOIMBX05.micron.com>
+References: <1403121537-28806-1-git-send-email-keith.busch@intel.com>
+ <4153505278C0BF4DABE3DF3D82533FE23026BC6E@NTXBOIMBX05.micron.com>
+Message-ID: <alpine.LRH.2.03.1406231524580.4699@AMR>
 
-Race conditions are theoretically possible between the NVMe PCI device
-removal and the generic PCI bus rescan and device removal that can be
-triggered via sysfs.
+On Mon, 23 Jun 2014, Winson Yung (wyung) wrote:
+> Hi Keith, are you suggesting user to scan the system logs to find out all the
+> async events. I found your following patch using read/poll get async events
+> is much preferred:
+>
+> http://lists.infradead.org/pipermail/linux-nvme/2013-August/000350.html
 
-To avoid those race conditions make the NVMe code use
-pci_stop_and_remove_bus_device_locked().
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 522a746..69bad18 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2692,7 +2692,7 @@ static int nvme_remove_dead_ctrl(void *arg)
- 	struct pci_dev *pdev = dev->pci_dev;
- 
- 	if (pci_get_drvdata(pdev))
--		pci_stop_and_remove_bus_device(pdev);
-+		pci_stop_and_remove_bus_device_locked(pdev);
- 	kref_put(&dev->kref, nvme_free_dev);
- 	return 0;
- }
--- 
-1.7.10.4
+Yes, I provided my reasoning in v1 of this PATCH. Basically we can view
+this problem in two separate parts: (1) driver ability to submit async
+event requests, and (2) presenting the responses to the user. This patch
+mainly handles the former.
