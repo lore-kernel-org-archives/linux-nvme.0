@@ -1,50 +1,88 @@
-From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=C3=B8rling?=)
-Date: Tue, 24 Jun 2014 23:57:35 +0200
-Subject: [PATCH v8] NVMe: convert to blk-mq
-In-Reply-To: <alpine.LRH.2.03.1406241531350.4699@AMR>
-References: <1402661396-19207-1-git-send-email-m@bjorling.me>
- <1402661396-19207-2-git-send-email-m@bjorling.me>
- <alpine.LRH.2.03.1406160931400.4699@AMR>
- <53A9CF5F.6040806@bjorling.me>
- <alpine.LRH.2.03.1406241419080.4699@AMR>
- <CAOu_J6mz=eeimXAsQ0Mj=tya+eHpwUoiG69=XPWbSEuRO1AwjA@mail.gmail.com>
- <alpine.LRH.2.03.1406241531350.4699@AMR>
-Message-ID: <CAOu_J6mS=Wq5OBYsWrrWfvfjTXkgo3ZDdNLTJC7aaGgG=iUAaQ@mail.gmail.com>
+From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
+Date: Wed, 25 Jun 2014 01:12:10 +0200
+Subject: [PATCH v9] Convert NVMe driver to blk-mq
+Message-ID: <1403651531-24891-1-git-send-email-m@bjorling.me>
 
-On Tue, Jun 24, 2014@11:47 PM, Keith Busch <keith.busch@intel.com> wrote:
-> On Tue, 24 Jun 2014, Matias Bj?rling wrote:
->>
->> On Tue, Jun 24, 2014 at 10:33 PM, Keith Busch <keith.busch at intel.com>
->> wrote:
->>>
->>> On Tue, 24 Jun 2014, Matias Bjorling wrote:
->>>>
->>>> Den 16-06-2014 17:57, Keith Busch skrev:
->>>>>
->>>>>
->>>>> This latest is otherwise stable on my dev machine.
->>>>
->>>>
->>>> May I add an Acked-by from you?
->>>
->>>
->>> Totally up to Willy, but my feeling is "not just yet". I see the value
->>> this driver provides, but I would need to give this to a customer and
->>> hear their results before adding an "ack". It maybe a couple more weeks
->>> before they'll be able to try it.
->>
->>
->> I was hoping to get an OK before that, to make sure it is picked up
->> for the 3.17 release.
->>
->> Should I pack it up in a specific way to help it along?
->
->
-> I think what you're doing is the right way to go. I trust you removed
-> the test code from your next iteration, and this does pass my tests on my
-> machine... I was just hoping to hear what some other people with better
-> macro level benchmarking abilities would say. So okay, you can put my
-> "Acked-by" on this, but I don't have all the performance numbers yet.
+Hi all,
 
-Thanks. Yes, agree. I'll also send the patch to a couple of people
-that have nvme devices for further testing.
+Added Acked-by from Keith and Jens. Additionally to the acks, we may perform
+performance and correctness tests at a few select customers to find any setup
+specific bugs and/or regressions.
+
+The patch is based on the following:
+
+Jens for-linus up to:
+
+  66cb45aa41315d1d9972cada354fbdf7870d7714
+  block: add support for limiting gaps in SG lists
+
+Matthew master up to:
+
+  7171511eaec5bf23fb06078f59784a3a0626b38f
+  Linux 3.16-rc1
+
+The merged trees with the patch on top can be found here:
+
+  https://github.com/MatiasBjorling/linux-collab nvmemq_review
+
+and the separate changes can be found in the nvmemq_v9 branch
+
+Changes since v8:
+ * QUEUE_FLAG_VIRT_HOLE was renamed to QUEUE_FLAG_SG_GAPS
+ * Previous revertion of patches lost the IRQ affinity hint
+ * Removed test code in nvme_reset_notify
+
+Changes since v7:
+ * Jens implemented support for QUEUE_FLAG_VIRT_HOLE to limit
+   requests to a continuous range of virtual memory.
+ * Keith fixed up the abortion logic.
+ * Usual style fixups
+
+Changes since v6:
+ * Rebased on top of Matthew's master and Jens' for-linus
+ * A couple of style fixups
+
+Changes since v5:
+ * Splits are now supported directly within blk-mq
+ * Remove nvme_queue->cpu_mask variable
+ * Remove unnecessary null check
+ * Style fixups
+
+Changes since v4:
+ * Fix timeout retries
+ * Fix naming in nvme_init_hctx
+ * Fix racy behavior of admin queue in nvme_dev_remove
+ * Fix wrong return values in nvme_queue_request
+ * Put cqe_seen back
+ * Introduce abort_completion for killing timed out I/Os
+ * Move locks outside of nvme_submit_iod
+ * Various renaming and style fixes
+
+Changes since v3:
+ * Added abortion logic
+ * Fixed possible race on abortion
+ * Removed req data with flush. Handled by by blk-mq
+ * Added safety check for submitting user rq to admin queue.
+ * Use dev->online_queues for nr_hw_queues
+ * Fix loop with initialization in nvme_create_io_queues
+ * Style fixups
+
+Changes since v2:
+  * Rebased on top of current 3.16/core.
+  * Use blk-mq queue management for spreading io queues
+  * Removed rcu handling and allocated all io queues up front for mgmt by blk-mq
+  * Removed the need for hotplugging notification
+  * Fixed flush data handling
+  * Fixed double free of spinlock
+  * Various cleanups
+
+Matias Bj?rling (1):
+  NVMe: Convert to blk-mq
+
+ drivers/block/nvme-core.c | 1204 ++++++++++++++++++---------------------------
+ drivers/block/nvme-scsi.c |    8 +-
+ include/linux/nvme.h      |   15 +-
+ 3 files changed, 489 insertions(+), 738 deletions(-)
+
+-- 
+1.9.1
