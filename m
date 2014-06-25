@@ -1,30 +1,40 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Wed, 25 Jun 2014 08:37:17 -0400
-Subject: [PATCH] NVMe: Skip orderly shutdown on failed devices
-In-Reply-To: <1403545595-525-1-git-send-email-keith.busch@intel.com>
-References: <1403545595-525-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20140625123717.GR12025@linux.intel.com>
+From: azher@hep.caltech.edu (Azher Mughal)
+Date: Wed, 25 Jun 2014 07:21:25 -0700
+Subject: Kernel 3.10.0  with nvme-compatibility driver
+Message-ID: <53AADAE5.4050401@hep.caltech.edu>
 
-On Mon, Jun 23, 2014@11:46:35AM -0600, Keith Busch wrote:
-> Rather than skipping shutdown only for device's that have been removed,
-> skip the orderly shutdown on failed devices to avoid the long timeout
-> handling that inevitably happens when deleting queues on such a device.
+Hi All,
 
-How about this instead?
+I just started playing with Intel NVME PCIe cards and trying to optimize
+system performance. I am using RHEL7, kernel 3.10 and the
+nvme-compatibility drivers due to the fact that Mellanox software
+distribution don't support kernel 3.15 at the moment. Server has dual
+E5-2690 v2 processors and 64GB RAM. The aim is to design a server which
+can match WAN transfer at 100Gbps by writing on the nvme drives.
 
-@@ -2500,11 +2500,14 @@ static void nvme_dev_list_remove(struct nvme_dev *dev)
- static void nvme_dev_shutdown(struct nvme_dev *dev)
- {
-        int i;
-+       u32 csts = -1;
- 
-        dev->initialized = 0;
-        nvme_dev_list_remove(dev);
-+       if (dev->bar)
-+               csts = readl(&dev->bar->csts);
- 
--       if (!dev->bar || (dev->bar && readl(&dev->bar->csts) == -1)) {
-+       if (csts & NVME_CSTS_CFS) {
-                for (i = dev->queue_count - 1; i >= 0; i--) {
-                        struct nvme_queue *nvmeq = raw_nvmeq(dev, i);
-                        nvme_suspend_queue(nvmeq);
+The maximum performance I have seen is about 1.4GB/sec per drive running
+in parallel over 6 drives. I plan to add a total of 10 drives. In these
+tests, dd is used  "dd if=/dev/zero of=/nvme$i/$file.dump count=700000
+bs=4096k". Graphs in below URLS are created from output by dstat:
+
+http://www.ultralight.org/~azher/nvme/dd-bs4k.png
+http://www.ultralight.org/~azher/nvme/cpu-graph.PNG
+
+Disk Formatting scripts:
+http://www.ultralight.org/~azher/nvme/nvme-format.txt
+http://www.ultralight.org/~azher/nvme/nvme.txt
+
+Since the idle CPU is already at 40%, so I wonder what will happen when
+adding 4 more drives. So my questions are:
+
+1. How to force drivers and kernel to keep nvme driver on just one
+socket and let the kernel use the other processor for WAN transfer using
+Mellanox and TCP overheads ?
+2. Kernel optimizations to reduce the nvme CPU usage ? With current
+driver, I cannot change scheduler and nr_requests.
+3. Data write per drive is not steady, what could be the reason ?
+
+Any suggestions / help would be appreciated.
+
+Thanks
+-Azher
