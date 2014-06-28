@@ -1,27 +1,29 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Sat, 28 Jun 2014 09:59:17 -0400
-Subject: [PATCHv2] NVMe: Mismatched host/device page size support
-In-Reply-To: <1403544841-32685-1-git-send-email-keith.busch@intel.com>
-References: <1403544841-32685-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20140628135917.GV12025@linux.intel.com>
+Date: Sat, 28 Jun 2014 10:05:05 -0400
+Subject: [PATCH] NVMe: Change nvme_enable_ctrl to set EN and manage CC
+ thru ctrl_config.
+In-Reply-To: <1403533476-7193-1-git-send-email-daniel.mcleran@intel.com>
+References: <1403533476-7193-1-git-send-email-daniel.mcleran@intel.com>
+Message-ID: <20140628140505.GW12025@linux.intel.com>
 
-On Mon, Jun 23, 2014@11:34:01AM -0600, Keith Busch wrote:
-> @@ -511,13 +512,13 @@ int nvme_setup_prps(struct nvme_dev *dev, struct nvme_iod *iod, int total_len,
->  	if (!prp_list) {
->  		iod->first_dma = dma_addr;
-> 	iod->npages = -1;
-> -		return (total_len - length) + PAGE_SIZE;
-> +		return (total_len - length) + page_size;
->  	}
->  	list[0] = prp_list;
->  	iod->first_dma = prp_dma;
->  	i = 0;
->  	for (;;) {
-> -		if (i == PAGE_SIZE / 8) {
-> +		if (i == page_size >> 3) {
->  			__le64 *old_prp_list = prp_list;
->  			prp_list = dma_pool_alloc(pool, gfp, &prp_dma);
->  			if (!prp_list)
+On Mon, Jun 23, 2014@08:24:36AM -0600, Dan McLeran wrote:
+> @@ -1465,7 +1470,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+>  	aqa = nvmeq->q_depth - 1;
+>  	aqa |= aqa << 16;
+>  
+> -	dev->ctrl_config = NVME_CC_ENABLE | NVME_CC_CSS_NVM;
+> +	dev->ctrl_config = NVME_CC_CSS_NVM;
+>  	dev->ctrl_config |= (PAGE_SHIFT - 12) << NVME_CC_MPS_SHIFT;
+>  	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
+>  	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
 
-Something weird happened to this hunk.  There's three lines missing
-between lines 3 & 4 of it.  I think I fixed it up right, but please check.
+We also want this, right?
+
+@@ -1512,7 +1512,6 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev
+        writel(aqa, &dev->bar->aqa);
+        writeq(nvmeq->sq_dma_addr, &dev->bar->asq);
+        writeq(nvmeq->cq_dma_addr, &dev->bar->acq);
+-       writel(dev->ctrl_config, &dev->bar->cc);
+ 
+        result = nvme_enable_ctrl(dev, cap);
+        if (result)
