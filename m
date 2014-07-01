@@ -1,85 +1,84 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 31 Jan 2014 16:53:42 -0700
-Subject: [PATCHv2 4/4] NVMe: CPU hot plug notification
-In-Reply-To: <1391212422-14764-1-git-send-email-keith.busch@intel.com>
-References: <1391212422-14764-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1391212422-14764-5-git-send-email-keith.busch@intel.com>
+From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
+Date: Tue,  1 Jul 2014 16:53:01 +0200
+Subject: [PATCH v10] Convert NVMe driver to blk-mq
+Message-ID: <1404226382-7179-1-git-send-email-m@bjorling.me>
 
-Registers with hot cpu notification to rebalance - and potentially
-allocate additional - io queues among cpus.
+Hi all,
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |   23 ++++++++++++++++++++++-
- include/linux/nvme.h      |    1 +
- 2 files changed, 23 insertions(+), 1 deletion(-)
+Thanks for the feedback. I've rebased the patch on top of 3.16-rc3.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index acea1ee..c68016d 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2018,7 +2018,8 @@ static void nvme_assign_io_queues(struct nvme_dev *dev)
- 	/*
- 	 * All possible cpus must point to a valid queue. We don't have thread
- 	 * sibling info on offline cpus, so no sharing optimization on these
--	 * cpus.
-+	 * cpus. These should automatically be rebalanced from hot plug
-+	 * notification.
- 	 */
- 	cpumask_andnot(&unassigned_cpus, cpu_possible_mask, cpu_online_mask);
- 	i = 0;
-@@ -2044,6 +2045,19 @@ static size_t db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
- 	return 4096 + ((nr_io_queues + 1) * 8 * dev->db_stride);
- }
- 
-+static int nvme_cpu_notify(struct notifier_block *self,
-+				unsigned long action, void *hcpu)
-+{
-+	struct nvme_dev *dev = container_of(self, struct nvme_dev, nb);
-+	switch (action) {
-+	case CPU_ONLINE:
-+	case CPU_DEAD:
-+		nvme_assign_io_queues(dev);
-+		break;
-+	}
-+	return NOTIFY_OK;
-+}
-+
- static int nvme_setup_io_queues(struct nvme_dev *dev)
- {
- 	struct nvme_queue *adminq = dev->queues[0];
-@@ -2121,6 +2135,12 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	/* Free previously allocated queues that are no longer usable */
- 	nvme_free_queues(dev, nr_io_queues + 1);
- 	nvme_assign_io_queues(dev);
-+
-+	dev->nb.notifier_call = &nvme_cpu_notify;
-+	result = register_hotcpu_notifier(&dev->nb);
-+	if (result)
-+		goto free_queues;
-+
- 	return 0;
- 
-  free_queues:
-@@ -2398,6 +2418,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 	int i;
- 
- 	dev->initialized = 0;
-+	unregister_hotcpu_notifier(&dev->nb);
- 
- 	spin_lock(&dev_list_lock);
- 	list_del_init(&dev->node);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index d574acd..fb5911d 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -92,6 +92,7 @@ struct nvme_dev {
- 	struct kref kref;
- 	struct miscdevice miscdev;
- 	struct work_struct reset_work;
-+	struct notifier_block nb;
- 	char name[12];
- 	char serial[20];
- 	char model[40];
+Willy, if you like to rebase your current patchset for 3.17 on top of rc3.
+Then I'll rebase the patch on top. Thank you.
+
+A branch with the patch on top is found here:
+
+  https://github.com/MatiasBjorling/linux-collab nvmemq_review
+
+and the separate changes can be found in the nvmemq_v10 branch
+
+Changes since v9:
+ * Rebased on top of Linus' v3.16-rc3.
+ * Ming noted that we should remember to kick the request queue after requeue.
+ * Jens noted a couple of superfluous warnings.
+ * Christoph is removed from the contribution section. Instead he is going to
+   be added as reviewed-by.
+
+Changes since v8:
+ * QUEUE_FLAG_VIRT_HOLE was renamed to QUEUE_FLAG_SG_GAPS
+ * Previous revertion of patches lost the IRQ affinity hint
+ * Removed test code in nvme_reset_notify
+
+Changes since v7:
+ * Jens implemented support for QUEUE_FLAG_VIRT_HOLE to limit
+   requests to a continuous range of virtual memory.
+ * Keith fixed up the abortion logic.
+ * Usual style fixups
+
+Changes since v6:
+ * Rebased on top of Matthew's master and Jens' for-linus
+ * A couple of style fixups
+
+Changes since v5:
+ * Splits are now supported directly within blk-mq
+ * Remove nvme_queue->cpu_mask variable
+ * Remove unnecessary null check
+ * Style fixups
+
+Changes since v4:
+ * Fix timeout retries
+ * Fix naming in nvme_init_hctx
+ * Fix racy behavior of admin queue in nvme_dev_remove
+ * Fix wrong return values in nvme_queue_request
+ * Put cqe_seen back
+ * Introduce abort_completion for killing timed out I/Os
+ * Move locks outside of nvme_submit_iod
+ * Various renaming and style fixes
+
+Changes since v3:
+ * Added abortion logic
+ * Fixed possible race on abortion
+ * Removed req data with flush. Handled by by blk-mq
+ * Added safety check for submitting user rq to admin queue.
+ * Use dev->online_queues for nr_hw_queues
+ * Fix loop with initialization in nvme_create_io_queues
+ * Style fixups
+
+Changes since v2:
+  * rebased on top of current 3.16/core.
+  * use blk-mq queue management for spreading io queues
+  * removed rcu handling and allocated all io queues up front for mgmt by blk-mq
+  * removed the need for hotplugging notification
+  * fixed flush data handling
+  * fixed double free of spinlock
+  * various cleanup
+
+Matias Bj?rling (1):
+  NVMe: Convert to blk-mq
+
+ drivers/block/nvme-core.c | 1219 ++++++++++++++++++---------------------------
+ drivers/block/nvme-scsi.c |    8 +-
+ include/linux/nvme.h      |   15 +-
+ 3 files changed, 489 insertions(+), 753 deletions(-)
+
 -- 
-1.7.10.4
+1.9.1
