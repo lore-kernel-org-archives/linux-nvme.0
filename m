@@ -1,59 +1,66 @@
-From: daniel.mcleran@intel.com (Dan McLeran)
-Date: Wed, 2 Jul 2014 14:39:12 -0600 (Mountain Daylight Time)
-Subject: [PATCH] NVMe: Write CC before calling enable.
-In-Reply-To: <20140702201801.GZ12025@linux.intel.com>
-References: <1404229914-6776-1-git-send-email-daniel.mcleran@intel.com>
- <alpine.LRH.2.03.1407021232240.4703@AMR>
- <20140702201801.GZ12025@linux.intel.com>
-Message-ID: <alpine.WNT.2.00.1407021438500.42100@DMCLERAN-DESK.amr.corp.intel.com>
+From: indraneel.m@samsung.com (Indraneel Mukherjee)
+Date: Thu, 03 Jul 2014 18:33:06 +0530
+Subject: NVM Express Format
+In-Reply-To: <alpine.LRH.2.03.1406250940180.4699@AMR>
+References: <8838223D960CB945AFF93D316204C6369D8F16@CFWEX01.americas.cray.com>
+ <alpine.LRH.2.03.1406250940180.4699@AMR>
+Message-ID: <04ac01cf96bf$2cf2e6f0$86d8b4d0$@samsung.com>
 
-Yes, I think I got confused there. This is not necessary.
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf
+> Of Keith Busch
+> Sent: Wednesday, June 25, 2014 9:17 PM
+> To: Ian Ziemba
+> Cc: linux-nvme at lists.infradead.org
+> Subject: Re: NVM Express Format
+> 
+> On Wed, 25 Jun 2014, Ian Ziemba wrote:
+> > I am curious about how to issue a scsi format command to a PCIe SSD. I
+> > have the NVM Express Linux drivers loaded onto my system. I have tried
+> > using the Linux command "sg_format" but that does not work. Is there a
+> > NVM Express command that will accomplish this? If so, how would I go
+> > about using this command? My goal is to be able to have a method of
+> > purging the SSD in order to run performance tests on the drive.
+> 
+> sg_format should work, otherwise it's a bug. Can you tell me what you're
+> running and what happens in your test?
 
-On Wed, 2 Jul 2014, Matthew Wilcox wrote:
+sg_format does not appear to work with the NVMe driver. Reason being that
+before doing the actual format, 
+sg_format issues a MODE_SENSE with Page Code 0x1 to get info like current
+Num Of Blocks, Block Size
+and Write Protect setting for the SCSI disk in question.
+The driver does not have implementation for Page Code 1 as the current
+SCSI-NVMe translation spec(Rev 1.2) 
+does NOT support Page Code 0x1 (Read-Write Error Recovery mode page).
+The driver cannot be faulted for this.
 
-> On Wed, Jul 02, 2014@12:33:08PM -0600, Keith Busch wrote:
->> On Tue, 1 Jul 2014, Dan McLeran wrote:
->>> Write the controller configuration register to configure queue sizes,
->>> memory page size, etc. from within nvme_configure_admin_queue before
->>> calling nvme_enable_ctrl.
->>
->> I can see that you're doing that, but why? Is this fixing something?
->
-> I think I have created this confusion.  In Dan's earlier patch, this
-> writel() was left in.  I took it out as part of merging his patch (as
-> Dan himself had done in an earlier version of this patch).  I didn't
-> see the point of writing everything but enable, then writing the enable
-> bit separately.
->
->>> Signed-off-by: Dan McLeran <daniel.mcleran at intel.com>
->>> ---
->>> drivers/block/nvme-core.c |    1 +
->>> 1 file changed, 1 insertion(+)
->>>
->>> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
->>> index 28aec2d..58281d2 100644
->>> --- a/drivers/block/nvme-core.c
->>> +++ b/drivers/block/nvme-core.c
->>> @@ -1512,6 +1512,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
->>> 	writel(aqa, &dev->bar->aqa);
->>> 	writeq(nvmeq->sq_dma_addr, &dev->bar->asq);
->>> 	writeq(nvmeq->cq_dma_addr, &dev->bar->acq);
->>> +	writel(dev->ctrl_config, &dev->bar->cc);
->>>
->>> 	result = nvme_enable_ctrl(dev, cap);
->>> 	if (result)
->>> --
->>> 1.7.10.4
->>>
->>>
->>> _______________________________________________
->>> Linux-nvme mailing list
->>> Linux-nvme at lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-nvme
->>>
->>
->> _______________________________________________
->> Linux-nvme mailing list
->> Linux-nvme at lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-nvme
->
+> 
+> If you want to go with a native nvme-express option instead of using scsi,
+I have
+> some example programs at
+> 
+> http://git.infradead.org/users/kbusch/nvme-user.git
+> 
+> Assuming your kernel's uapi headers are installed, it should compile all
+the
+> programs without issue, and there's an "nvme_format" that will use the
+nvme
+> passthrough to issue a format.
+> 
+> > My system is running OpenSUSE 11 SP13. The Linux kernel version is at
+3.16.
+> >
+> > I am new to NVM Express so any thoughts or insight will be appreciated.
+> >
+> > Thanks,
+> >
+> > Ian Ziemba
+> > I/O Engineer Intern
+> > Storage and Data Management
+> > Cray Inc.
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
