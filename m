@@ -1,28 +1,41 @@
-From: mundu2510@gmail.com (mundu agarwal)
-Date: Wed, 16 Jul 2014 11:27:38 +0530
-Subject: [PATCH 1/1] Replace the dma_alloc_coherent() with
- dma_zalloc_coherent()
-In-Reply-To: <20140715182846.GG5855@linux.intel.com>
-References: <1405447906-7220-1-git-send-email-mundu2510@gmail.com>
- <20140715182846.GG5855@linux.intel.com>
-Message-ID: <CACuVHZ=-oROVOOXJRRoZ6EvXCky9DpXbjvUh0Uf3SmAjzhRGLQ@mail.gmail.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Wed, 16 Jul 2014 09:27:39 -0400
+Subject: [PATCH 1/1] NVMe I/O queue depth change to module parameter
+In-Reply-To: <CACuVHZ=vSQ1341CUziDZJjv5DkGzw-9K7WOda59yfpT3WOzG2Q@mail.gmail.com>
+References: <1405445798-6440-1-git-send-email-mundu2510@gmail.com>
+ <20140715182836.GF5855@linux.intel.com>
+ <CACuVHZ=vSQ1341CUziDZJjv5DkGzw-9K7WOda59yfpT3WOzG2Q@mail.gmail.com>
+Message-ID: <20140716132739.GH5855@linux.intel.com>
 
-Willy,
+On Wed, Jul 16, 2014@11:00:31AM +0530, mundu agarwal wrote:
+> Willy,
+> 
+> In one of the server test environment, user unable to change I/O queue
+> depth more than 1024. Controller supports much higher number but still
+> limit to 1024.
+>  Is there any thought for keeping 1024 only ?
 
-There is patch merged for dma_zalloc_coherent for cqee to avoid the
-memset, where as memset still happing for same in nvme_init_queue. I
-guess this is not needed, and rest are to maintain the consistancy. I
-feel instead of mix use of the apis, should be use as clean/single
-one. There are couple of places during initialization variables are
-reseting to 0 after allocating the memory using zalloc which we can
-avoid. In case this patch ok then my next task will be doing the
-cleanup without any impacting the current functionality.
+That's the kind of comment you need to write in the changelog description.
 
-Regards,
-Mundu
+Now, the reason I limited a queue to 1024 entries was that this was
+sufficient to saturate a PCIe bus with typical flash latencies.
 
-On Tue, Jul 15, 2014@11:58 PM, Matthew Wilcox <willy@linux.intel.com> wrote:
-> On Tue, Jul 15, 2014@11:41:46PM +0530, Mundu wrote:
->> Signed-off-by: Mundu <mundu2510 at gmail.com>
->
-> why?
+If the PCIe bus is x8 gen3, we have 8GB/s of bandwidth available.
+Assuming that I/Os are on average 4k and it's a 50/50 read/write split,
+we need to service 4 million IOPS to saturate the bus (I haven't heard
+of anyone producing a 4 million IOPS device, but let's assume someone's
+trying to).
+
+Assuming the controller takes about 100us to service any individual
+request, servicing 4 million I/Os serially would take 400 seconds, so
+we need to have at least 400 I/Os with the device at all times in order
+to hit our goal of saturating the PCIe bus.
+
+So with 1024 I/Os on any given queue, we're a factor of 2.5 above that
+goal, *per queue*.  So increasing the maximum queue depth any further
+isn't going to help us achieve our goal of saturating the PCIe bus.
+Indeed, it's only going to upset some of the other timeouts; we've already
+had reports that I/Os will start to time out if you saturate all of the
+queues as the controllers can't complete the I/Os fast enough.
+
+So what's your motivation for needing a deeper queue?
