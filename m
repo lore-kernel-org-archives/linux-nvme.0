@@ -1,24 +1,28 @@
 From: mundu2510@gmail.com (mundu agarwal)
-Date: Wed, 16 Jul 2014 11:07:43 +0530
-Subject: [PATCH 1/1] NVMe I/O queue depth change to module parameter
-In-Reply-To: <20140715182836.GF5855@linux.intel.com>
-References: <1405445798-6440-1-git-send-email-mundu2510@gmail.com>
- <20140715182836.GF5855@linux.intel.com>
-Message-ID: <CACuVHZn3RtrqUuBcxkh6aA76Ly+ajw9caRo4pf8qq3dRhMKbvw@mail.gmail.com>
+Date: Wed, 16 Jul 2014 11:27:38 +0530
+Subject: [PATCH 1/1] Replace the dma_alloc_coherent() with
+ dma_zalloc_coherent()
+In-Reply-To: <20140715182846.GG5855@linux.intel.com>
+References: <1405447906-7220-1-git-send-email-mundu2510@gmail.com>
+ <20140715182846.GG5855@linux.intel.com>
+Message-ID: <CACuVHZ=-oROVOOXJRRoZ6EvXCky9DpXbjvUh0Uf3SmAjzhRGLQ@mail.gmail.com>
 
 Willy,
 
-In one of the server test environment, user unable to change I/O queue
-depth more than 1024. Controller supports much higher number but still
-limit to 1024.
- Is there any thought for keeping 1024 only ?
+There is patch merged for dma_zalloc_coherent for cqee to avoid the
+memset, where as memset still happing for same in nvme_init_queue. I
+guess this is not needed, and rest are to maintain the consistancy. I
+feel instead of mix use of the apis, should be use as clean/single
+one. There are couple of places during initialization variables are
+reseting to 0 after allocating the memory using zalloc which we can
+avoid. In case this patch ok then my next task will be doing the
+cleanup without any impacting the current functionality.
 
 Regards,
 Mundu
 
 On Tue, Jul 15, 2014@11:58 PM, Matthew Wilcox <willy@linux.intel.com> wrote:
->
-> On Tue, Jul 15, 2014@11:06:38PM +0530, Mundu wrote:
-> > Signed-off-by: Mundu <mundu2510 at gmail.com>
+> On Tue, Jul 15, 2014@11:41:46PM +0530, Mundu wrote:
+>> Signed-off-by: Mundu <mundu2510 at gmail.com>
 >
 > why?
