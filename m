@@ -1,28 +1,37 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 16 Jul 2014 08:39:19 -0600 (MDT)
-Subject: NVME User Installation
-In-Reply-To: <8838223D960CB945AFF93D316204C6369D9F2F@CFWEX01.americas.cray.com>
-References: <8838223D960CB945AFF93D316204C6369D9F2F@CFWEX01.americas.cray.com>
-Message-ID: <alpine.LRH.2.03.1407160835170.4703@AMR>
+Date: Wed, 16 Jul 2014 08:52:55 -0600 (MDT)
+Subject: [PATCH 1/1] Replace the dma_alloc_coherent() with
+ dma_zalloc_coherent()
+In-Reply-To: <20140716141632.GI5855@linux.intel.com>
+References: <1405447906-7220-1-git-send-email-mundu2510@gmail.com>
+ <20140715182846.GG5855@linux.intel.com>
+ <CACuVHZ=-oROVOOXJRRoZ6EvXCky9DpXbjvUh0Uf3SmAjzhRGLQ@mail.gmail.com>
+ <20140716141632.GI5855@linux.intel.com>
+Message-ID: <alpine.LRH.2.03.1407160844140.4703@AMR>
 
-On Fri, 11 Jul 2014, Ian Ziemba wrote:
-> Hi,
+On Wed, 16 Jul 2014, Matthew Wilcox wrote:
+> On Wed, Jul 16, 2014@11:27:38AM +0530, mundu agarwal wrote:
+>> Willy,
+>>
+>> There is patch merged for dma_zalloc_coherent for cqee to avoid the
+>> memset, where as memset still happing for same in nvme_init_queue. I
+>> guess this is not needed, and rest are to maintain the consistancy. I
+>> feel instead of mix use of the apis, should be use as clean/single
+>> one. There are couple of places during initialization variables are
+>> reseting to 0 after allocating the memory using zalloc which we can
+>> avoid. In case this patch ok then my next task will be doing the
+>> cleanup without any impacting the current functionality.
 >
-> I am currently having trouble installing the nvme-user package on my system.
-> Currently, I have an NVMe device up and running in my system. My current
-> configuration is a Dell R720 running SLES 11 SP3 with a Linux kernel version
-> of 3.0.76. In order to get my NVMe device to run, I had to use the
-> nvme-compatibility driver. I would like to get the temperature reading off of
-> my drive, but with my current setup, I cannot install the nvme-user package.
-> Unfortunately, upgrading kernel versions is not an option.
+> Better not to guess.  Joe's quite careful to only do the ones that are
+> obviously correct.  I believe your patches to be incorrect, since some of
+> the places don't need to be zeroed (eg SQEs are zeroed before each use).
 >
-> Any insight into how to install the nvme-user package on my system would be
-> greatly appreciated.
+> In the specific case of nvme_init_queue() zeroing the memory, I think
+> it's necessary on that path because that path is called on resume from
+> D3 and we need to reinitialise the CQ state to all zeroes.  Keith should
+> be able to confirm that.
 
-Most likely you don't have the nvme driver's user-api header in your
-include path. The compatibility driver has a copy at
-
-  include/uapi/linux/nvme.h
-
-If you know where your kernel headers are installed, you can just copy
-it there and should be able compile the user tools after.
+Yes, we have to clear the cmdid data and completion queues in init for
+the resume and reset cases otherwise we would leak command id's that
+were active at the time we shut down the device, or potentially read a
+stale cq "phase" and misinterpret that as a new completion.
