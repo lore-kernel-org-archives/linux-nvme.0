@@ -1,47 +1,57 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 18 Jul 2014 11:40:20 -0600
-Subject: [PATCH] NVMe: Fix filesystem sync deadlock on removal
-Message-ID: <1405705220-26439-1-git-send-email-keith.busch@intel.com>
+From: mundu2510@gmail.com (mundu agarwal)
+Date: Sun, 20 Jul 2014 19:45:04 +0530
+Subject: [PATCH 1/1] NVMe I/O queue depth change to module parameter
+In-Reply-To: <20140716132739.GH5855@linux.intel.com>
+References: <1405445798-6440-1-git-send-email-mundu2510@gmail.com>
+ <20140715182836.GF5855@linux.intel.com>
+ <CACuVHZ=vSQ1341CUziDZJjv5DkGzw-9K7WOda59yfpT3WOzG2Q@mail.gmail.com>
+ <20140716132739.GH5855@linux.intel.com>
+Message-ID: <CACuVHZnzjuVmSZwVFHOoRbzfspuUfs-1cdNpNww60j4pcHnH_A@mail.gmail.com>
 
-This changes the order of deleting the gendisks so it happens after the
-nvme IO queues are freed. If a device is removed while a filesystem has
-associated dirty data, the removal will wait on these to complete before
-proceeding from del_gendisk, which could have caused deadlock before.
+Thanks Willy, for detailed explanation.
+ Since the HW/device/controller is under evaluation stage, device
+parameters such as queue depth, best/worst timing for command
+processing to be decide based on computing environment (slow computing
+machines - Desktop/Laptop, Fast computing device - Server systems). To
+manage the optimal configuration for queue depth, command timeout and
+other parameters of the device is needed the frequent change. For ex.
+slow performed or optimal environment these parameters (specifically
+queue depth) may not need 1024 depth though device published more than
+that as you explained in detail.
 
-The implication of this is that an orderly removal of a responsive
-device won't necessarily wait for dirty data to be written, but we are
-not guaranteed the device is even going to respond at this point either.
+Regards,
+Mundu
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 28aec2d..0f3a1cb 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2770,8 +2770,8 @@ static void nvme_remove_disks(struct work_struct *ws)
- {
- 	struct nvme_dev *dev = container_of(ws, struct nvme_dev, reset_work);
- 
--	nvme_dev_remove(dev);
- 	nvme_free_queues(dev, 1);
-+	nvme_dev_remove(dev);
- }
- 
- static int nvme_dev_resume(struct nvme_dev *dev)
-@@ -2920,10 +2920,10 @@ static void nvme_remove(struct pci_dev *pdev)
- 	flush_work(&dev->reset_work);
- 	flush_work(&dev->cpu_work);
- 	misc_deregister(&dev->miscdev);
--	nvme_dev_remove(dev);
- 	nvme_dev_shutdown(dev);
- 	nvme_free_queues(dev, 0);
- 	rcu_barrier();
-+	nvme_dev_remove(dev);
- 	nvme_release_instance(dev);
- 	nvme_release_prp_pools(dev);
- 	kref_put(&dev->kref, nvme_free_dev);
--- 
-1.7.10.4
+On Wed, Jul 16, 2014@6:57 PM, Matthew Wilcox <willy@linux.intel.com> wrote:
+> On Wed, Jul 16, 2014@11:00:31AM +0530, mundu agarwal wrote:
+>> Willy,
+>>
+>> In one of the server test environment, user unable to change I/O queue
+>> depth more than 1024. Controller supports much higher number but still
+>> limit to 1024.
+>>  Is there any thought for keeping 1024 only ?
+>
+> That's the kind of comment you need to write in the changelog description.
+>
+> Now, the reason I limited a queue to 1024 entries was that this was
+> sufficient to saturate a PCIe bus with typical flash latencies.
+>
+> If the PCIe bus is x8 gen3, we have 8GB/s of bandwidth available.
+> Assuming that I/Os are on average 4k and it's a 50/50 read/write split,
+> we need to service 4 million IOPS to saturate the bus (I haven't heard
+> of anyone producing a 4 million IOPS device, but let's assume someone's
+> trying to).
+>
+> Assuming the controller takes about 100us to service any individual
+> request, servicing 4 million I/Os serially would take 400 seconds, so
+> we need to have at least 400 I/Os with the device at all times in order
+> to hit our goal of saturating the PCIe bus.
+>
+> So with 1024 I/Os on any given queue, we're a factor of 2.5 above that
+> goal, *per queue*.  So increasing the maximum queue depth any further
+> isn't going to help us achieve our goal of saturating the PCIe bus.
+> Indeed, it's only going to upset some of the other timeouts; we've already
+> had reports that I/Os will start to time out if you saturate all of the
+> queues as the controllers can't complete the I/Os fast enough.
+>
+> So what's your motivation for needing a deeper queue?
