@@ -1,75 +1,124 @@
-From: iziemba@cray.com (Ian Ziemba)
-Date: Mon, 21 Jul 2014 16:17:25 +0000
-Subject: NVME User Installation
-In-Reply-To: <alpine.LRH.2.03.1407160835170.4703@AMR>
-References: <8838223D960CB945AFF93D316204C6369D9F2F@CFWEX01.americas.cray.com>
- <alpine.LRH.2.03.1407160835170.4703@AMR>
-Message-ID: <8838223D960CB945AFF93D316204C6369EB844@CFWEX01.americas.cray.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 21 Jul 2014 12:10:59 -0600
+Subject: [PATCH] NVMe: PCI error handling code
+Message-ID: <1405966259-26570-1-git-send-email-keith.busch@intel.com>
 
-Hi Keith,
+Implements the pci_error_handlers' .error_detected and .slot_reset. On
+unrecovered error detected, the device is requested to be reset after
+driver shuts it down and quieces IO, and resumes the device after the
+slot reset.
 
-I copied over /uapi/linux/nvme.h into the correct location. The system does not seem to have any issues finding it. But, I ran into something else right now. Here is the printout from my screen:
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+Tested with aer_inject module. Here's an example of a spec file:
 
-iosr30-5:~/iziemba/nvme-user # make
-cc -m64 -O2 -g -pthread -D_GNU_SOURCE -D_REENTRANT -W  -m64 -lm  nvme_smart.c nvme_identify.o   -o nvme_smart
-In file included from /usr/src/linux-3.0.76-0.11/include/linux/nvme.h:22,
-                 from nvme_smart.c:1:
-/usr/src/linux-3.0.76-0.11/include/linux/types.h:13:2: warning: #warning "Attempt to use kernel headers from user space, see http://kernelnewbies.org/KernelHeaders"
-nvme_smart.c:24: warning: 'struct nvme_smart_log' declared inside parameter list
-nvme_smart.c:24: warning: its scope is only this definition or declaration, which is probably not what you want
-nvme_smart.c: In function 'print_smart_log':
-nvme_smart.c:27: error: dereferencing pointer to incomplete type
-nvme_smart.c:28: error: dereferencing pointer to incomplete type
-nvme_smart.c:30: error: dereferencing pointer to incomplete type
-nvme_smart.c:32: error: dereferencing pointer to incomplete type
-nvme_smart.c:33: error: dereferencing pointer to incomplete type
-nvme_smart.c:34: error: dereferencing pointer to incomplete type
-nvme_smart.c:37: error: dereferencing pointer to incomplete type
-nvme_smart.c:40: error: dereferencing pointer to incomplete type
-nvme_smart.c:43: error: dereferencing pointer to incomplete type
-nvme_smart.c:46: error: dereferencing pointer to incomplete type
-nvme_smart.c:49: error: dereferencing pointer to incomplete type
-nvme_smart.c:52: error: dereferencing pointer to incomplete type
-nvme_smart.c:55: error: dereferencing pointer to incomplete type
-nvme_smart.c:58: error: dereferencing pointer to incomplete type
-nvme_smart.c:61: error: dereferencing pointer to incomplete type
-nvme_smart.c:64: error: dereferencing pointer to incomplete type
-nvme_smart.c: In function 'main':
-nvme_smart.c:79: error: dereferencing pointer to incomplete type
-nvme_smart.c:107: error: dereferencing pointer to incomplete type
-nvme_smart.c:108: error: dereferencing pointer to incomplete type
-nvme_smart.c:124: warning: passing argument 1 of 'print_smart_log' from incompatible pointer type
-nvme_smart.c:139: warning: passing argument 1 of 'print_smart_log' from incompatible pointer type
-make: *** [nvme_smart] Error 1
+  AER
+  BUS 9 DEV 0 FN 0
+  UNCOR_STATUS MALF_TLP
+  HEADER_LOG 0 1 2 3
 
-I have ran into this before and haven't found a way to get around it...
+Mentioned in comments in this patch, I had to add an odd hard delay to
+make this work and I'm not sure why the heck it's necessary. Maybe the
+device I'm testing with is broken, or there is something else I should
+have the driver do. ?
 
-Thanks,
-Ian
+ drivers/block/nvme-core.c |   53 +++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 49 insertions(+), 4 deletions(-)
 
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Wednesday, July 16, 2014 9:39 AM
-To: Ian Ziemba
-Cc: linux-nvme at lists.infradead.org
-Subject: Re: NVME User Installation
-
-On Fri, 11 Jul 2014, Ian Ziemba wrote:
-> Hi,
->
-> I am currently having trouble installing the nvme-user package on my system.
-> Currently, I have an NVMe device up and running in my system. My 
-> current configuration is a Dell R720 running SLES 11 SP3 with a Linux 
-> kernel version of 3.0.76. In order to get my NVMe device to run, I had 
-> to use the nvme-compatibility driver. I would like to get the 
-> temperature reading off of my drive, but with my current setup, I cannot install the nvme-user package.
-> Unfortunately, upgrading kernel versions is not an option.
->
-> Any insight into how to install the nvme-user package on my system 
-> would be greatly appreciated.
-
-Most likely you don't have the nvme driver's user-api header in your include path. The compatibility driver has a copy at
-
-  include/uapi/linux/nvme.h
-
-If you know where your kernel headers are installed, you can just copy it there and should be able compile the user tools after.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 28aec2d..985b9f0 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -13,6 +13,7 @@
+  */
+ 
+ #include <linux/nvme.h>
++#include <linux/aer.h>
+ #include <linux/bio.h>
+ #include <linux/bitops.h>
+ #include <linux/blkdev.h>
+@@ -2377,6 +2378,10 @@ static int nvme_dev_map(struct nvme_dev *dev)
+ 	dev->db_stride = 1 << NVME_CAP_STRIDE(cap);
+ 	dev->dbs = ((void __iomem *)dev->bar) + 4096;
+ 
++	/* Save PCI configuration state for recovery from PCI AER/EEH errors */
++	pci_enable_pcie_error_reporting(pdev);
++	pci_save_state(pdev);
++
+ 	return 0;
+ 
+  unmap:
+@@ -2402,8 +2407,10 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
+ 		pci_release_regions(dev->pci_dev);
+ 	}
+ 
+-	if (pci_is_enabled(dev->pci_dev))
++	if (pci_is_enabled(dev->pci_dev)) {
++		pci_disable_pcie_error_reporting(dev->pci_dev);
+ 		pci_disable_device(dev->pci_dev);
++	}
+ }
+ 
+ struct nvme_delq_ctx {
+@@ -2930,11 +2937,8 @@ static void nvme_remove(struct pci_dev *pdev)
+ }
+ 
+ /* These functions are yet to be implemented */
+-#define nvme_error_detected NULL
+ #define nvme_dump_registers NULL
+ #define nvme_link_reset NULL
+-#define nvme_slot_reset NULL
+-#define nvme_error_resume NULL
+ 
+ #ifdef CONFIG_PM_SLEEP
+ static int nvme_suspend(struct device *dev)
+@@ -2961,6 +2965,47 @@ static int nvme_resume(struct device *dev)
+ 
+ static SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
+ 
++static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
++						pci_channel_state_t state)
++{
++	struct nvme_dev *dev = pci_get_drvdata(pdev);
++	dev_warn(&pdev->dev, "%s\n", __func__);
++
++	switch (state) {
++	case pci_channel_io_normal:
++		return PCI_ERS_RESULT_CAN_RECOVER;
++	case pci_channel_io_frozen:
++		nvme_dev_shutdown(dev);
++		return PCI_ERS_RESULT_NEED_RESET;
++	case pci_channel_io_perm_failure:
++		return PCI_ERS_RESULT_DISCONNECT;
++	}
++	return PCI_ERS_RESULT_NEED_RESET;
++}
++
++static pci_ers_result_t nvme_slot_reset(struct pci_dev *pdev)
++{
++	struct nvme_dev *dev = pci_get_drvdata(pdev);
++
++	dev_warn(&pdev->dev, "%s\n", __func__);
++	pci_restore_state(pdev);
++
++	/* I've no idea why this is necessary, but device fails to initialize
++	 * if delay is removed or any lower.
++	 */
++	msleep(100);
++
++	if (!nvme_dev_resume(dev))
++		return PCI_ERS_RESULT_RECOVERED;
++	return PCI_ERS_RESULT_DISCONNECT;
++}
++
++static void nvme_error_resume(struct pci_dev *pdev)
++{
++	dev_info(&pdev->dev, "%s\n", __func__);
++	pci_cleanup_aer_uncorrect_error_status(pdev);
++}
++
+ static const struct pci_error_handlers nvme_err_handler = {
+ 	.error_detected	= nvme_error_detected,
+ 	.mmio_enabled	= nvme_dump_registers,
+-- 
+1.7.10.4
