@@ -1,57 +1,75 @@
-From: mundu2510@gmail.com (mundu agarwal)
-Date: Sun, 20 Jul 2014 19:45:04 +0530
-Subject: [PATCH 1/1] NVMe I/O queue depth change to module parameter
-In-Reply-To: <20140716132739.GH5855@linux.intel.com>
-References: <1405445798-6440-1-git-send-email-mundu2510@gmail.com>
- <20140715182836.GF5855@linux.intel.com>
- <CACuVHZ=vSQ1341CUziDZJjv5DkGzw-9K7WOda59yfpT3WOzG2Q@mail.gmail.com>
- <20140716132739.GH5855@linux.intel.com>
-Message-ID: <CACuVHZnzjuVmSZwVFHOoRbzfspuUfs-1cdNpNww60j4pcHnH_A@mail.gmail.com>
+From: iziemba@cray.com (Ian Ziemba)
+Date: Mon, 21 Jul 2014 16:17:25 +0000
+Subject: NVME User Installation
+In-Reply-To: <alpine.LRH.2.03.1407160835170.4703@AMR>
+References: <8838223D960CB945AFF93D316204C6369D9F2F@CFWEX01.americas.cray.com>
+ <alpine.LRH.2.03.1407160835170.4703@AMR>
+Message-ID: <8838223D960CB945AFF93D316204C6369EB844@CFWEX01.americas.cray.com>
 
-Thanks Willy, for detailed explanation.
- Since the HW/device/controller is under evaluation stage, device
-parameters such as queue depth, best/worst timing for command
-processing to be decide based on computing environment (slow computing
-machines - Desktop/Laptop, Fast computing device - Server systems). To
-manage the optimal configuration for queue depth, command timeout and
-other parameters of the device is needed the frequent change. For ex.
-slow performed or optimal environment these parameters (specifically
-queue depth) may not need 1024 depth though device published more than
-that as you explained in detail.
+Hi Keith,
 
-Regards,
-Mundu
+I copied over /uapi/linux/nvme.h into the correct location. The system does not seem to have any issues finding it. But, I ran into something else right now. Here is the printout from my screen:
 
-On Wed, Jul 16, 2014@6:57 PM, Matthew Wilcox <willy@linux.intel.com> wrote:
-> On Wed, Jul 16, 2014@11:00:31AM +0530, mundu agarwal wrote:
->> Willy,
->>
->> In one of the server test environment, user unable to change I/O queue
->> depth more than 1024. Controller supports much higher number but still
->> limit to 1024.
->>  Is there any thought for keeping 1024 only ?
+iosr30-5:~/iziemba/nvme-user # make
+cc -m64 -O2 -g -pthread -D_GNU_SOURCE -D_REENTRANT -W  -m64 -lm  nvme_smart.c nvme_identify.o   -o nvme_smart
+In file included from /usr/src/linux-3.0.76-0.11/include/linux/nvme.h:22,
+                 from nvme_smart.c:1:
+/usr/src/linux-3.0.76-0.11/include/linux/types.h:13:2: warning: #warning "Attempt to use kernel headers from user space, see http://kernelnewbies.org/KernelHeaders"
+nvme_smart.c:24: warning: 'struct nvme_smart_log' declared inside parameter list
+nvme_smart.c:24: warning: its scope is only this definition or declaration, which is probably not what you want
+nvme_smart.c: In function 'print_smart_log':
+nvme_smart.c:27: error: dereferencing pointer to incomplete type
+nvme_smart.c:28: error: dereferencing pointer to incomplete type
+nvme_smart.c:30: error: dereferencing pointer to incomplete type
+nvme_smart.c:32: error: dereferencing pointer to incomplete type
+nvme_smart.c:33: error: dereferencing pointer to incomplete type
+nvme_smart.c:34: error: dereferencing pointer to incomplete type
+nvme_smart.c:37: error: dereferencing pointer to incomplete type
+nvme_smart.c:40: error: dereferencing pointer to incomplete type
+nvme_smart.c:43: error: dereferencing pointer to incomplete type
+nvme_smart.c:46: error: dereferencing pointer to incomplete type
+nvme_smart.c:49: error: dereferencing pointer to incomplete type
+nvme_smart.c:52: error: dereferencing pointer to incomplete type
+nvme_smart.c:55: error: dereferencing pointer to incomplete type
+nvme_smart.c:58: error: dereferencing pointer to incomplete type
+nvme_smart.c:61: error: dereferencing pointer to incomplete type
+nvme_smart.c:64: error: dereferencing pointer to incomplete type
+nvme_smart.c: In function 'main':
+nvme_smart.c:79: error: dereferencing pointer to incomplete type
+nvme_smart.c:107: error: dereferencing pointer to incomplete type
+nvme_smart.c:108: error: dereferencing pointer to incomplete type
+nvme_smart.c:124: warning: passing argument 1 of 'print_smart_log' from incompatible pointer type
+nvme_smart.c:139: warning: passing argument 1 of 'print_smart_log' from incompatible pointer type
+make: *** [nvme_smart] Error 1
+
+I have ran into this before and haven't found a way to get around it...
+
+Thanks,
+Ian
+
+-----Original Message-----
+From: Keith Busch [mailto:keith.busch@intel.com] 
+Sent: Wednesday, July 16, 2014 9:39 AM
+To: Ian Ziemba
+Cc: linux-nvme at lists.infradead.org
+Subject: Re: NVME User Installation
+
+On Fri, 11 Jul 2014, Ian Ziemba wrote:
+> Hi,
 >
-> That's the kind of comment you need to write in the changelog description.
+> I am currently having trouble installing the nvme-user package on my system.
+> Currently, I have an NVMe device up and running in my system. My 
+> current configuration is a Dell R720 running SLES 11 SP3 with a Linux 
+> kernel version of 3.0.76. In order to get my NVMe device to run, I had 
+> to use the nvme-compatibility driver. I would like to get the 
+> temperature reading off of my drive, but with my current setup, I cannot install the nvme-user package.
+> Unfortunately, upgrading kernel versions is not an option.
 >
-> Now, the reason I limited a queue to 1024 entries was that this was
-> sufficient to saturate a PCIe bus with typical flash latencies.
->
-> If the PCIe bus is x8 gen3, we have 8GB/s of bandwidth available.
-> Assuming that I/Os are on average 4k and it's a 50/50 read/write split,
-> we need to service 4 million IOPS to saturate the bus (I haven't heard
-> of anyone producing a 4 million IOPS device, but let's assume someone's
-> trying to).
->
-> Assuming the controller takes about 100us to service any individual
-> request, servicing 4 million I/Os serially would take 400 seconds, so
-> we need to have at least 400 I/Os with the device at all times in order
-> to hit our goal of saturating the PCIe bus.
->
-> So with 1024 I/Os on any given queue, we're a factor of 2.5 above that
-> goal, *per queue*.  So increasing the maximum queue depth any further
-> isn't going to help us achieve our goal of saturating the PCIe bus.
-> Indeed, it's only going to upset some of the other timeouts; we've already
-> had reports that I/Os will start to time out if you saturate all of the
-> queues as the controllers can't complete the I/Os fast enough.
->
-> So what's your motivation for needing a deeper queue?
+> Any insight into how to install the nvme-user package on my system 
+> would be greatly appreciated.
+
+Most likely you don't have the nvme driver's user-api header in your include path. The compatibility driver has a copy at
+
+  include/uapi/linux/nvme.h
+
+If you know where your kernel headers are installed, you can just copy it there and should be able compile the user tools after.
