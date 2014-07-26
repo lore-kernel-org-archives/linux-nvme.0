@@ -1,42 +1,93 @@
-From: sbradshaw@micron.com (Sam Bradshaw (sbradshaw))
-Date: Fri, 25 Jul 2014 23:49:27 +0000
-Subject: [PATCH] NVMe: Correctly handle IOCTL_SUBMIT_IO when cpus >
- online queues
-In-Reply-To: <alpine.LRH.2.03.1407251723330.4703@AMR>
-References: <53D2CFFB.8010908@micron.com>
- <alpine.LRH.2.03.1407251723330.4703@AMR>
-Message-ID: <80B89753B40C5141A3E2D53FE7A2A8A9944773B9@NTXBOIMBX02.micron.com>
+From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
+Date: Sat, 26 Jul 2014 11:07:22 +0200
+Subject: [PATCH v11] Convert NVMe driver to blk-mq
+Message-ID: <1406365643-27020-1-git-send-email-m@bjorling.me>
 
+Hi all,
 
+Thanks for the feedback. I've rebased the patch on top of 3.16-rc6 and applied
+the current patches in Willy's master tree.
 
-> -----Original Message-----
-> From: Keith Busch [mailto:keith.busch at intel.com]
-> Sent: Friday, July 25, 2014 4:41 PM
-> To: Sam Bradshaw (sbradshaw)
-> Cc: linux-nvme at lists.infradead.org
-> Subject: Re: [PATCH] NVMe: Correctly handle IOCTL_SUBMIT_IO when cpus >
-> online queues
-> 
-> On Fri, 25 Jul 2014, Sam Bradshaw wrote:
-> > nvme_submit_io_cmd() use smp_processor_id() to pick an IO queue index.
-> This patch
-> > fixes the case where there are more cpus from which the ioctl call
-> can originate
-> > than online queues, which can happen when a device supports or was
-> allocated fewer
-> > interrupt vectors than exist cpu cores.
-> 
-> Oh you're right, but I think the idea was to use the queue associated
-> with the cpu, though the code was clearly broken before.
-> 
-> -	return nvme_submit_sync_cmd(dev, smp_processor_id() + 1, cmd,
-> result,
-> +	return nvme_submit_sync_cmd(dev, this_cpu_read(*dev->io_queues),
-> cmd, result,
->   							NVME_IO_TIMEOUT);
+A branch with the patch on top is found here:
 
-Agreed.  The above is more consistent with other queue selection paths.
+  https://github.com/MatiasBjorling/linux-collab nvmemq_review
 
-Do you want to send an updated patch or should I?
+and the separate changes can be found in the nvmemq_v11 branch
 
--Sam
+Changes since v10:
+ * Rebased on top of Linus' v3.16-rc6.
+ * Incorporated the feedback from Christoph:
+    a. Insert comment regarding the timeout flow.
+    b. Moved tags into nvmeq instead of hctx.
+    c. Moved initialization of tags and nvmeq outside of init_hctx.
+    d. Refactor submission of commands in the request queue path.
+    e. Fixes for WARN_ON and BUG_ON.
+ * Fixed a missing blk_put_request during abort.
+ * Converted the "Async event request" patch into the request model.
+
+Changes since v9:
+ * Rebased on top of Linus' v3.16-rc3.
+ * Ming noted that we should remember to kick the request queue after requeue.
+ * Jens noted a couple of superfluous warnings.
+ * Christoph is removed from the contribution section. Instead he is going to
+   be added as reviewed-by.
+
+Changes since v8:
+ * QUEUE_FLAG_VIRT_HOLE was renamed to QUEUE_FLAG_SG_GAPS
+ * Previous revertion of patches lost the IRQ affinity hint
+ * Removed test code in nvme_reset_notify
+
+Changes since v7:
+ * Jens implemented support for QUEUE_FLAG_VIRT_HOLE to limit
+   requests to a continuous range of virtual memory.
+ * Keith fixed up the abortion logic.
+ * Usual style fixups
+
+Changes since v6:
+ * Rebased on top of Matthew's master and Jens' for-linus
+ * A couple of style fixups
+
+Changes since v5:
+ * Splits are now supported directly within blk-mq
+ * Remove nvme_queue->cpu_mask variable
+ * Remove unnecessary null check
+ * Style fixups
+
+Changes since v4:
+ * Fix timeout retries
+ * Fix naming in nvme_init_hctx
+ * Fix racy behavior of admin queue in nvme_dev_remove
+ * Fix wrong return values in nvme_queue_request
+ * Put cqe_seen back
+ * Introduce abort_completion for killing timed out I/Os
+ * Move locks outside of nvme_submit_iod
+ * Various renaming and style fixes
+
+Changes since v3:
+ * Added abortion logic
+ * Fixed possible race on abortion
+ * Removed req data with flush. Handled by by blk-mq
+ * Added safety check for submitting user rq to admin queue.
+ * Use dev->online_queues for nr_hw_queues
+ * Fix loop with initialization in nvme_create_io_queues
+ * Style fixups
+
+Changes since v2:
+  * rebased on top of current 3.16/core.
+  * use blk-mq queue management for spreading io queues
+  * removed rcu handling and allocated all io queues up front for mgmt by blk-mq
+  * removed the need for hotplugging notification
+  * fixed flush data handling
+  * fixed double free of spinlock
+  * various cleanup
+
+Matias Bj?rling (1):
+  NVMe: Convert to blk-mq
+
+ drivers/block/nvme-core.c | 1303 ++++++++++++++++++---------------------------
+ drivers/block/nvme-scsi.c |    8 +-
+ include/linux/nvme.h      |   15 +-
+ 3 files changed, 534 insertions(+), 792 deletions(-)
+
+-- 
+1.9.1
