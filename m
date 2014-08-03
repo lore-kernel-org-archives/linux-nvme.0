@@ -1,102 +1,73 @@
-From: bhelgaas@google.com (Bjorn Helgaas)
-Date: Wed, 30 Apr 2014 16:46:37 -0600
-Subject: [PATCH 1/2] PCI: Device driver function reset notification
-In-Reply-To: <1397000541-1085-1-git-send-email-keith.busch@intel.com>
-References: <1397000541-1085-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20140430224637.GA31315@google.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Sun, 3 Aug 2014 11:44:14 -0600 (MDT)
+Subject: [PATCH 1/1]  If device hotplug out, controller status become
+ 0xFFFF_FFFF 1. Controller fatal status become true in nvme_kthread() 2.
+ Ready bit will not be reset to 0 in nvme_wait_ready() for controller disable
+ above two scenarios controller status dat
+In-Reply-To: <04d601cfae72$daba9740$902fc5c0$@samsung.com>
+References: <04d601cfae72$daba9740$902fc5c0$@samsung.com>
+Message-ID: <alpine.LRH.2.03.1408031127430.5109@AMR>
 
-On Tue, Apr 08, 2014@05:42:20PM -0600, Keith Busch wrote:
-> A user can issue a pci function level reset to a device using sysfs entry
-> /sys/bus/pci/devices/.../reset. A kernel driver handling the pci device
-> might like to know this reset is about to occur and when the reset attempt
-> completes. This is so the driver has a chance to take appropriate device
-> specific actions; for example, it may need to quiesce before the reset,
-> and reinitialize the device after.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  drivers/pci/pci.c   |   13 +++++++++++++
->  include/linux/pci.h |    3 +++
->  2 files changed, 16 insertions(+)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index fdbc294..cb24bbe 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -3320,6 +3320,15 @@ static int pci_dev_reset(struct pci_dev *dev, int probe)
->  
->  	return rc;
->  }
-> +
-> +static void pci_reset_notify(struct pci_dev *dev, bool prepare)
-> +{
-> +	const struct pci_error_handlers *err_handler =
-> +			dev->driver ? dev->driver->err_handler : NULL;
-> +	if (err_handler && err_handler->reset_notify)
-> +		err_handler->reset_notify(dev, prepare);
-> +}
-> +
->  /**
->   * __pci_reset_function - reset a PCI device function
->   * @dev: PCI device to reset
-> @@ -3408,11 +3417,13 @@ int pci_reset_function(struct pci_dev *dev)
->  	if (rc)
->  		return rc;
->  
-> +	pci_reset_notify(dev, true);
->  	pci_dev_save_and_disable(dev);
->  
->  	rc = pci_dev_reset(dev, 0);
->  
->  	pci_dev_restore(dev);
-> +	pci_reset_notify(dev, false);
->  
->  	return rc;
->  }
-> @@ -3432,6 +3443,7 @@ int pci_try_reset_function(struct pci_dev *dev)
->  	if (rc)
->  		return rc;
->  
-> +	pci_reset_notify(dev, true);
->  	pci_dev_save_and_disable(dev);
->  
->  	if (pci_dev_trylock(dev)) {
-> @@ -3441,6 +3453,7 @@ int pci_try_reset_function(struct pci_dev *dev)
->  		rc = -EAGAIN;
->  
->  	pci_dev_restore(dev);
-> +	pci_reset_notify(dev, false);
+On Sat, 2 Aug 2014, Indraneel Mukherjee wrote:
+>> On Tue, 22 Jul 2014, Mundu wrote:
+>>> Signed-off-by: Mundu <mundu2510 at gmail.com>
+>>> +	u32 csts;
+>>>
+>>> 	while (!kthread_should_stop()) {
+>>> 		set_current_state(TASK_INTERRUPTIBLE);
+>>> 		spin_lock(&dev_list_lock);
+>>> 		list_for_each_entry_safe(dev, next, &dev_list, node) {
+>>> 			int i;
+>>> -			if (readl(&dev->bar->csts) & NVME_CSTS_CFS &&
+>>> +			if ((csts = readl(&dev->bar->csts)) & NVME_CSTS_CFS
+>>> &&
+>>> 							dev->initialized) {
+>>> +				/* If device is hot plugout,
+>>> +				   csts become 0xFFFFFFFF */
+>>> +				if (csts == -1)
+>>> +					continue;
+>>
+>> You definitely want to let the reset work get scheduled here instead of
+>> continuing. Some platforms do not support "surprise removal", so this check
+>> guards against that by triggering a reset which will bail on the device if it appears
+>> gone and remove it from pci.
+>
+> This one is not very difficult to hit on devices that support hotplug. We
+> have seen that even hot-removing an idle device can trigger this issue
+> depending on when we hot-remove.
 
-You put the notify in these functions:
+So why is this a problem? The only thing that happens is the device is
+scheduled for reset, but the reset handler will recognize the device is
+gone. In the case your platform does not support surprise hot removal,
+this absolutely necessary. In the case your platform does support it,
+this is not doing any harm.
 
-  pci_reset_function()
-  pci_try_reset_function()
+> Why will checking dev->bar->csts for 0xFFFFFFFF cause issues for
+> unresponsive devices? The CSTS Register has many fields that are non-zero by
+> default.
+>
+> Even unresponsive devices should return a CSTS value where all the bits are
+> not 1s (or have you seen otherwise?) allowing the work to be queued.
+>
+> Below snippet should ideally work for unresponsive devices too. Can you let
+> us know if you have seen otherwise?
+>
+> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> index 28aec2d..61157d1 100644
+> --- a/drivers/block/nvme-core.c
+> +++ b/drivers/block/nvme-core.c
+> @@ -1913,6 +1913,8 @@ static int nvme_kthread(void *data)
+> 			int i;
+> 			if (readl(&dev->bar->csts) & NVME_CSTS_CFS &&
+> 							dev->initialized) {
+> +				if (readl(&dev->bar->csts) == -1)
+> +					continue;
 
-but what about these:
+No, as I mentioned before, you do not want to continue here from reading
+-1. You want the reset work to get scheduled which knows how to handle
+a removed device. What exactly are you attempting to fix by not letting
+this happen?
 
-  pci_reset_slot()
-  pci_try_reset_slot()
-  pci_reset_bus()
-  pci_try_reset_bus()
-
-It seems like this ought to work the same way over all kinds of reset.
-
->  	return rc;
->  }
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 33aa2ca..d82dd3f 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -603,6 +603,9 @@ struct pci_error_handlers {
->  	/* PCI slot has been reset */
->  	pci_ers_result_t (*slot_reset)(struct pci_dev *dev);
->  
-> +	/* PCI function reset prepare or completed */
-> +	void (*reset_notify)(struct pci_dev *dev, bool prepare);
-> +
->  	/* Device driver may resume normal operations */
->  	void (*resume)(struct pci_dev *dev);
->  };
-> -- 
-> 1.7.10.4
-> 
+> 				if (work_busy(&dev->reset_work))
+> 					continue;
+> 				list_del_init(&dev->node);
