@@ -1,9 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 5 Aug 2014 23:47:04 -0600 (MDT)
+From: shiro.itou@outlook.com (=?utf-8?B?U2hpcm8gSXRvdSDkvIrmnbE=?=)
+Date: Wed, 6 Aug 2014 00:30:51 -0700
 Subject: NVMe: Fix partition detection issue during hotplug
-In-Reply-To: <SNT149-W326B993C35AFE7F71C0FEB9AE00@phx.gbl>
-References: <SNT149-W326B993C35AFE7F71C0FEB9AE00@phx.gbl>
-Message-ID: <alpine.LRH.2.03.1408052337540.5109@AMR>
+In-Reply-To: <alpine.LRH.2.03.1408052337540.5109@AMR>
+References: <SNT149-W326B993C35AFE7F71C0FEB9AE00@phx.gbl>,
+ <alpine.LRH.2.03.1408052337540.5109@AMR>
+Message-ID: <SNT149-W4916913F367C832A6FA77D9AE00@phx.gbl>
+
+Hi Kieth,
+
+My mistake, sorry. I will use text mail.
+
+Some our SCSI engineers and some customer suggest SCSI driver work the same way for the use case as it is with patch I sent.
+
+Thank you, please advice right solution as you suggest.
+
+Thank You,
+Shiro
+
+Date: Tue, 5 Aug 2014 23:47:04 -0600
+From: keith.busch@intel.com
+To: shiro.itou at outlook.com
+Subject: Re: NVMe: Fix partition detection issue during hotplug
+CC: keith.busch at intel.com; willy at linux.intel.com; linux-nvme at lists.infradead.org
 
 Hi Shiro,
 
@@ -40,3 +58,5 @@ On Tue, 5 Aug 2014, Shiro Itou ?? wrote:
 > Shiro
 > 
 >
+
+_______________________________________________ Linux-nvme mailing list Linux-nvme at lists.infradead.org http://lists.infradead.org/mailman/listinfo/linux-nvme 		 	   		  
