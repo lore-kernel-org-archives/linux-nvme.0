@@ -1,23 +1,111 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 14 Aug 2014 12:20:24 -0600 (MDT)
+Date: Thu, 14 Aug 2014 17:09:25 -0600 (MDT)
 Subject: [PATCH v11] NVMe: Convert to blk-mq
-In-Reply-To: <53ECD842.40302@bjorling.me>
+In-Reply-To: <53ECD125.3080701@fb.com>
 References: <1406365643-27020-1-git-send-email-m@bjorling.me>
  <1406365643-27020-2-git-send-email-m@bjorling.me>
  <CAOu_J6mW-2e2Jgm+khodLPah_-RZrD599SmSH+Mszd0AjterrQ@mail.gmail.com>
  <alpine.LRH.2.03.1408131519590.14603@AMR> <53EC7273.5060303@bjorling.me>
- <53ECD125.3080701@fb.com> <53ECD842.40302@bjorling.me>
-Message-ID: <alpine.LRH.2.03.1408141209500.14603@AMR>
+ <53ECD125.3080701@fb.com>
+Message-ID: <alpine.LRH.2.03.1408141651300.14603@AMR>
 
-On Thu, 14 Aug 2014, Matias Bjorling wrote:
->> nr_tags must be uninitialized or screwed up somehow, otherwise I don't
->> see how that kmalloc() could warn on being too large. Keith, are you
->> running with slab debugging? Matias, might be worth trying.
+On Thu, 14 Aug 2014, Jens Axboe wrote:
+> nr_tags must be uninitialized or screwed up somehow, otherwise I don't
+> see how that kmalloc() could warn on being too large. Keith, are you
+> running with slab debugging? Matias, might be worth trying.
 
-The queue's tags were freed in 'blk_mq_map_swqueue' because some queues
-weren't mapped to a s/w queue, but the driver has a pointer to that
-freed memory, so it's a use-after-free error.
+The allocation and freeing of blk-mq parts seems a bit asymmetrical
+to me. The 'tags' belong to the tagset, but any request_queue using
+that tagset may free the tags. I looked to separate the tag allocation
+concerns, but that's more time than I have, so this is my quick-fix
+driver patch, forcing tag access through the hw_ctx.
 
-This part in the driver looks different than it used to be in v8 when I
-last tested. The nvme_queue used to have a pointer to the 'hctx', but now
-it points directly to the 'tags', but it doesn't appear to be very safe.
+---
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 384dc91..91432d2 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -109,7 +109,7 @@ struct nvme_queue {
+  	u8 cqe_seen;
+  	u8 q_suspended;
+  	struct async_cmd_info cmdinfo;
+-	struct blk_mq_tags *tags;
++	struct blk_mq_hw_ctx *hctx;
+  };
+
+  /*
+@@ -148,6 +148,7 @@ static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+  	struct nvme_queue *nvmeq = dev->queues[0];
+
+  	hctx->driver_data = nvmeq;
++	nvmeq->hctx = hctx;
+  	return 0;
+  }
+
+@@ -174,6 +175,7 @@ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+  	irq_set_affinity_hint(dev->entry[nvmeq->cq_vector].vector,
+  								hctx->cpumask);
+  	hctx->driver_data = nvmeq;
++	nvmeq->hctx = hctx;
+  	return 0;
+  }
+
+@@ -280,8 +282,7 @@ static void async_completion(struct nvme_queue *nvmeq, void *ctx,
+  static inline struct nvme_cmd_info *get_cmd_from_tag(struct nvme_queue *nvmeq,
+  				  unsigned int tag)
+  {
+-	struct request *req = blk_mq_tag_to_rq(nvmeq->tags, tag);
+-
++	struct request *req = blk_mq_tag_to_rq(nvmeq->hctx->tags, tag);
+  	return blk_mq_rq_to_pdu(req);
+  }
+
+@@ -654,8 +655,6 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx, struct request *req)
+  		nvme_submit_flush(nvmeq, ns, req->tag);
+  	else
+  		nvme_submit_iod(nvmeq, iod, ns);
+-
+- queued:
+  	nvme_process_cq(nvmeq);
+  	spin_unlock_irq(&nvmeq->q_lock);
+  	return BLK_MQ_RQ_QUEUE_OK;
+@@ -1051,9 +1050,8 @@ static void nvme_cancel_queue_ios(void *data, unsigned long *tag_map)
+  		if (tag >= qdepth)
+  			break;
+
+-		req = blk_mq_tag_to_rq(nvmeq->tags, tag++);
++		req = blk_mq_tag_to_rq(nvmeq->hctx->tags, tag++);
+  		cmd = blk_mq_rq_to_pdu(req);
+  		if (cmd->ctx == CMD_CTX_CANCELLED)
+  			continue;
+
+@@ -1132,8 +1130,8 @@ static void nvme_clear_queue(struct nvme_queue *nvmeq)
+  {
+  	spin_lock_irq(&nvmeq->q_lock);
+  	nvme_process_cq(nvmeq);
+-	if (nvmeq->tags)
+-		blk_mq_tag_busy_iter(nvmeq->tags, nvme_cancel_queue_ios, nvmeq);
++	if (nvmeq->hctx->tags)
++		blk_mq_tag_busy_iter(nvmeq->hctx->tags, nvme_cancel_queue_ios, nvmeq);
+  	spin_unlock_irq(&nvmeq->q_lock);
+  }
+
+@@ -1353,8 +1351,6 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
+  		if (blk_mq_alloc_tag_set(&dev->admin_tagset))
+  			return -ENOMEM;
+
+-		dev->queues[0]->tags = dev->admin_tagset.tags[0];
+-
+  		dev->admin_q = blk_mq_init_queue(&dev->admin_tagset);
+  		if (!dev->admin_q) {
+  			blk_mq_free_tag_set(&dev->admin_tagset);
+@@ -2055,9 +2051,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
+  	if (blk_mq_alloc_tag_set(&dev->tagset))
+  		goto out;
+
+-	for (i = 1; i < dev->online_queues; i++)
+-		dev->queues[i]->tags = dev->tagset.tags[i - 1];
+-
+  	id_ns = mem;
+  	for (i = 1; i <= nn; i++) {
+  		res = nvme_identify(dev, i, 0, dma_addr);
