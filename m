@@ -1,39 +1,31 @@
-From: bernat.ada@gmail.com (Andreea-Cristina Bernat)
-Date: Mon, 18 Aug 2014 17:41:01 +0300
-Subject: [PATCH] nvme: Replace rcu_assign_pointer() with RCU_INIT_POINTER()
-Message-ID: <20140818144101.GA13840@ada>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 18 Aug 2014 16:49:45 -0600 (MDT)
+Subject: [PATCH v12] NVMe: Convert to blk-mq
+In-Reply-To: <1408126604-10611-2-git-send-email-m@bjorling.me>
+References: <1408126604-10611-1-git-send-email-m@bjorling.me>
+ <1408126604-10611-2-git-send-email-m@bjorling.me>
+Message-ID: <alpine.LRH.2.03.1408181643280.4696@AMR>
 
-The use of "rcu_assign_pointer()" is NULLing out the pointer.
-According to RCU_INIT_POINTER()'s block comment:
-"1.   This use of RCU_INIT_POINTER() is NULLing out the pointer"
-it is better to use it instead of rcu_assign_pointer() because it has a
-smaller overhead.
+On Fri, 15 Aug 2014, Matias Bj?rling wrote:
+>
+> * NVMe queues are merged with the tags structure of blk-mq.
+>
 
-The following Coccinelle semantic patch was used:
-@@
-@@
+I see the driver's queue suspend logic is removed, but I didn't mean to
+imply it was safe to do so without replacing it with something else. I
+thought maybe we could use the blk_stop/start_queue() functions if I'm
+correctly understanding what they're for.
 
-- rcu_assign_pointer
-+ RCU_INIT_POINTER
-  (..., NULL)
+With what's in version 12, we could free an irq multiple times that
+doesn't even belong to the nvme queue anymore in certain error conditions.
 
-Signed-off-by: Andreea-Cristina Bernat <bernat.ada at gmail.com>
----
- drivers/block/nvme-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+A couple other things I just noticed:
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 02351e2..cb25bdd 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1209,7 +1209,7 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
- 
- 	for (i = dev->queue_count - 1; i >= lowest; i--) {
- 		struct nvme_queue *nvmeq = raw_nvmeq(dev, i);
--		rcu_assign_pointer(dev->queues[i], NULL);
-+		RCU_INIT_POINTER(dev->queues[i], NULL);
- 		call_rcu(&nvmeq->r_head, nvme_free_queue);
- 		dev->queue_count--;
- 	}
--- 
-1.9.1
+  * We lose the irq affinity hint after a suspend/resume or device reset
+  because the driver's init_hctx() isn't called in these scenarios.
+
+  * After a reset, we are not guaranteed that we even have the same number
+  of h/w queues. The driver frees ones beyond the device's capabilities,
+  so blk-mq may have references to freed memory. The driver may also
+  allocate more queues if it is capable, but blk-mq won't be able to take
+  advantage of that.
