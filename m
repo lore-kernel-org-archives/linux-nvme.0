@@ -1,98 +1,39 @@
-From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Fri, 15 Aug 2014 20:16:43 +0200
-Subject: [PATCH v12] Convert NVMe driver to blk-mq
-Message-ID: <1408126604-10611-1-git-send-email-m@bjorling.me>
+From: bernat.ada@gmail.com (Andreea-Cristina Bernat)
+Date: Mon, 18 Aug 2014 17:41:01 +0300
+Subject: [PATCH] nvme: Replace rcu_assign_pointer() with RCU_INIT_POINTER()
+Message-ID: <20140818144101.GA13840@ada>
 
-Hi all,
+The use of "rcu_assign_pointer()" is NULLing out the pointer.
+According to RCU_INIT_POINTER()'s block comment:
+"1.   This use of RCU_INIT_POINTER() is NULLing out the pointer"
+it is better to use it instead of rcu_assign_pointer() because it has a
+smaller overhead.
 
-Thanks to Keith and Jens for feedback. Three fixes have been added. The current
-patch is on top of 3.16-rc6, together with the patches from Willy's master tree.
+The following Coccinelle semantic patch was used:
+@@
+@@
 
-A branch with the patch on top can be found here:
+- rcu_assign_pointer
++ RCU_INIT_POINTER
+  (..., NULL)
 
-  https://github.com/MatiasBjorling/linux-collab nvmemq_review
+Signed-off-by: Andreea-Cristina Bernat <bernat.ada at gmail.com>
+---
+ drivers/block/nvme-core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-and the separate changes can be found in the nvmemq_v12 branch.
-
-Changes since v11:
- * remove unused dev->q_suspended.
- * remove unused "queued" label.
- * Revert replacement of nvmeq->hctx with nvmeq->tags. It allowed an
-   use-after-free error to occur when all nvme queues wasn't assigned.
-
-Changes since v10:
- * Rebased on top of Linus' v3.16-rc6.
- * Incorporated the feedback from Christoph:
-    a. Insert comment regarding the timeout flow.
-    b. Moved tags into nvmeq instead of hctx.
-    c. Moved initialization of tags and nvmeq outside of init_hctx.
-    d. Refactor submission of commands in the request queue path.
-    e. Fixes for WARN_ON and BUG_ON.
- * Fixed a missing blk_put_request during abort.
- * Converted the "Async event request" patch into the request model.
-
-Changes since v9:
- * Rebased on top of Linus' v3.16-rc3.
- * Ming noted that we should remember to kick the request queue after requeue.
- * Jens noted a couple of superfluous warnings.
- * Christoph is removed from the contribution section. Instead he is going to
-   be added as reviewed-by.
-
-Changes since v8:
- * QUEUE_FLAG_VIRT_HOLE was renamed to QUEUE_FLAG_SG_GAPS
- * Previous revertion of patches lost the IRQ affinity hint
- * Removed test code in nvme_reset_notify
-
-Changes since v7:
- * Jens implemented support for QUEUE_FLAG_VIRT_HOLE to limit
-   requests to a continuous range of virtual memory.
- * Keith fixed up the abortion logic.
- * Usual style fixups
-
-Changes since v6:
- * Rebased on top of Matthew's master and Jens' for-linus
- * A couple of style fixups
-
-Changes since v5:
- * Splits are now supported directly within blk-mq
- * Remove nvme_queue->cpu_mask variable
- * Remove unnecessary null check
- * Style fixups
-
-Changes since v4:
- * Fix timeout retries
- * Fix naming in nvme_init_hctx
- * Fix racy behavior of admin queue in nvme_dev_remove
- * Fix wrong return values in nvme_queue_request
- * Put cqe_seen back
- * Introduce abort_completion for killing timed out I/Os
- * Move locks outside of nvme_submit_iod
- * Various renaming and style fixes
-
-Changes since v3:
- * Added abortion logic
- * Fixed possible race on abortion
- * Removed req data with flush. Handled by by blk-mq
- * Added safety check for submitting user rq to admin queue.
- * Use dev->online_queues for nr_hw_queues
- * Fix loop with initialization in nvme_create_io_queues
- * Style fixups
-
-Changes since v2:
-  * rebased on top of current 3.16/core.
-  * use blk-mq queue management for spreading io queues
-  * removed rcu handling and allocated all io queues up front for mgmt by blk-mq
-  * removed the need for hotplugging notification
-  * fixed flush data handling
-  * fixed double free of spinlock
-  * various cleanup
-Matias Bj?rling (1):
-  NVMe: Convert to blk-mq
-
- drivers/block/nvme-core.c | 1324 ++++++++++++++++++---------------------------
- drivers/block/nvme-scsi.c |    8 +-
- include/linux/nvme.h      |   15 +-
- 3 files changed, 537 insertions(+), 810 deletions(-)
-
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 02351e2..cb25bdd 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1209,7 +1209,7 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
+ 
+ 	for (i = dev->queue_count - 1; i >= lowest; i--) {
+ 		struct nvme_queue *nvmeq = raw_nvmeq(dev, i);
+-		rcu_assign_pointer(dev->queues[i], NULL);
++		RCU_INIT_POINTER(dev->queues[i], NULL);
+ 		call_rcu(&nvmeq->r_head, nvme_free_queue);
+ 		dev->queue_count--;
+ 	}
 -- 
 1.9.1
