@@ -1,31 +1,58 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 18 Aug 2014 16:49:45 -0600 (MDT)
-Subject: [PATCH v12] NVMe: Convert to blk-mq
-In-Reply-To: <1408126604-10611-2-git-send-email-m@bjorling.me>
-References: <1408126604-10611-1-git-send-email-m@bjorling.me>
- <1408126604-10611-2-git-send-email-m@bjorling.me>
-Message-ID: <alpine.LRH.2.03.1408181643280.4696@AMR>
+Date: Tue, 19 Aug 2014 19:15:59 -0600
+Subject: [PATCH] NVMe: Reference count pci device
+Message-ID: <1408497359-11312-1-git-send-email-keith.busch@intel.com>
 
-On Fri, 15 Aug 2014, Matias Bj?rling wrote:
->
-> * NVMe queues are merged with the tags structure of blk-mq.
->
+If an nvme device is removed but user space has an open reference,
+the nvme driver would have been holding an invalid reference to its pci
+device. You may get a general protection fault on x86 h/w when the driver
+uses that reference in dma_map_sg(), as is done in nvme_map_user_pages()
+from the IOCTL interface.
 
-I see the driver's queue suspend logic is removed, but I didn't mean to
-imply it was safe to do so without replacing it with something else. I
-thought maybe we could use the blk_stop/start_queue() functions if I'm
-correctly understanding what they're for.
+This patch fixes the fault by taking a reference on the pci device and
+holding it even after device removal until all opens on the nvme device
+are closed.
 
-With what's in version 12, we could free an irq multiple times that
-doesn't even belong to the nvme queue anymore in certain error conditions.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reported-by: Nilesh Choudhury <nilesh.choudhury at oracle.com>
+---
+ drivers/block/nvme-core.c |    7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-A couple other things I just noticed:
-
-  * We lose the irq affinity hint after a suspend/resume or device reset
-  because the driver's init_hctx() isn't called in these scenarios.
-
-  * After a reset, we are not guaranteed that we even have the same number
-  of h/w queues. The driver frees ones beyond the device's capabilities,
-  so blk-mq may have references to freed memory. The driver may also
-  allocate more queues if it is capable, but blk-mq won't be able to take
-  advantage of that.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 28aec2d..44426a6 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2667,6 +2667,7 @@ static void nvme_free_dev(struct kref *kref)
+ {
+ 	struct nvme_dev *dev = container_of(kref, struct nvme_dev, kref);
+ 
++	pci_dev_put(dev->pci_dev);
+ 	nvme_free_namespaces(dev);
+ 	free_percpu(dev->io_queue);
+ 	kfree(dev->queues);
+@@ -2842,11 +2843,11 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	dev->reset_workfn = nvme_reset_failed_dev;
+ 	INIT_WORK(&dev->reset_work, nvme_reset_workfn);
+ 	INIT_WORK(&dev->cpu_work, nvme_cpu_workfn);
+-	dev->pci_dev = pdev;
++	dev->pci_dev = pci_dev_get(pdev);
+ 	pci_set_drvdata(pdev, dev);
+ 	result = nvme_set_instance(dev);
+ 	if (result)
+-		goto free;
++		goto put_pci;
+ 
+ 	result = nvme_setup_prp_pools(dev);
+ 	if (result)
+@@ -2884,6 +2885,8 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	nvme_release_prp_pools(dev);
+  release:
+ 	nvme_release_instance(dev);
++ put_pci:
++	pci_dev_put(dev->pci_dev);
+  free:
+ 	free_percpu(dev->io_queue);
+ 	kfree(dev->queues);
+-- 
+1.7.10.4
