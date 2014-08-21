@@ -1,58 +1,57 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 21 Aug 2014 08:19:52 -0600 (MDT)
-Subject: [PATCH v12] NVMe: Convert to blk-mq
-In-Reply-To: <53F5E0F1.20808@bjorling.me>
-References: <1408126604-10611-1-git-send-email-m@bjorling.me>
- <1408126604-10611-2-git-send-email-m@bjorling.me>
- <alpine.LRH.2.03.1408181643280.4696@AMR> <53F5E0F1.20808@bjorling.me>
-Message-ID: <alpine.LRH.2.03.1408210752180.4696@AMR>
+Date: Thu, 21 Aug 2014 13:07:06 -0600 (MDT)
+Subject: [PATCH] NVMe: Fix partition detection issue(Hot Remove followed
+ by Hot Add)
+In-Reply-To: <060001cfb175$a1c44c00$e54ce400$@samsung.com>
+References: <060001cfb175$a1c44c00$e54ce400$@samsung.com>
+Message-ID: <alpine.LRH.2.03.1408211209220.4696@AMR>
 
-On Thu, 21 Aug 2014, Matias Bj?rling wrote:
-> On 08/19/2014 12:49 AM, Keith Busch wrote:
->> I see the driver's queue suspend logic is removed, but I didn't mean to
->> imply it was safe to do so without replacing it with something else. I
->> thought maybe we could use the blk_stop/start_queue() functions if I'm
->> correctly understanding what they're for.
+On Wed, 6 Aug 2014, Indraneel Mukherjee wrote:
+> This patch addresses the same issue that has been discussed at
+> http://lists.infradead.org/pipermail/linux-nvme/2014-August/001093.html
+> recently
+> and provides the best of both worlds (both static & dynamic minor allocation
+> schemes similar to SCSI driver(sd)).
 >
-> They're usually only used for the previous request model.
+> - Partially reverts the dynamic minor allocation scheme (but retains the
+> GENHD_FL_EXT_DEVT flag to allow allocating very large of minors dynamically)
 >
-> Please correct me if I'm wrong. The flow of suspend is as following 
-> (roughly):
+>  introduced in commit 469071a37afc8a627b6b2ddf29db0a097d864845 and
+> re-introduces static minor allocation.
+> - Aligns Hot-Plug behaviour to SCSI.
+> - Uses one common ida allocation routine for allocating namespace & dev
+> instances.
+> - Introduces a new module parameter nvme_minors to manage the static minor
+> allocations(default is 64).
 >
-> 1. Freeze user threads
-> 2. Perform sys_sync
-> 3. Freeze freezable kernel threads
-> 4. Freeze devices
-> 5. ...
->
-> On nvme suspend, we process all outstanding request and cancels any 
-> outstanding IOs, before going suspending.
->
-> From what I found, is it still possible for IOs to be submitted and lost in 
-> the process?
+> Signed-off-by: Indraneel M <indraneel.m at samsung.com>
 
-For suspend/resume, I think we're okay. There are three other ways the
-drive can be reset where we'd want to quiesce IO:
 
-  I/O timeout
-  Controller Failure Status (CSTS.CFS) set
-  User initiated reset via sysfs
+Your patch has formatting issues (bad email client?) so it doesn't apply
+without some fixing.
 
->>   * After a reset, we are not guaranteed that we even have the same number
->>   of h/w queues. The driver frees ones beyond the device's capabilities,
->>   so blk-mq may have references to freed memory. The driver may also
->>   allocate more queues if it is capable, but blk-mq won't be able to take
->>   advantage of that.
+I do think we need to something like this though; the block_device that
+should go with the new disk is already opened against the removed disk
+and so the new one isn't usable.
+
+
+> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> index 28aec2d..6d01164 100644
+> --- a/drivers/block/nvme-core.c
+> +++ b/drivers/block/nvme-core.c
+> @@ -65,6 +65,10 @@ MODULE_PARM_DESC(retry_time, "time in seconds to retry
+> failed I/O");
+> static int nvme_major;
+> module_param(nvme_major, int, 0);
 >
-> Ok. Out of curiosity, why can the number of exposed nvme queues change from 
-> the hw perspective on suspend/resume?
+> +static int nvme_minors = 64;
+> +module_param(nvme_minors, int, 0644);
+> +MODULE_PARM_DESC(nvme_minors, "Minors numbers to allocate per Namespace");
 
-The only time you might expect something like that is if a f/w upgrade
-occured prior to the device reset and it supports different queues. The
-number of queues supported could be more or less than previous. I wouldn't
-normally expect different f/w to support different queue count, but it's
-certainly allowed.
+You definitely don't want to make this parameter writeable; changing it
+after the minors were setup will cause breakage. I think the permissions
+should be set to 0, but if you really want to be able to read it, 0444
+is okay.
 
-Otherwise the spec allows the controller to return errors even though
-the queue count feature was succesful. This could be for a variety of
-reasons from resource limits or other internal device errors.
+You also need to make sure the nvme_minors parameter is not 0 otherwise
+you'll hit a divide-by-zero error.
