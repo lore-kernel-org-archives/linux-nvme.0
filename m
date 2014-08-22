@@ -1,23 +1,85 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 22 Aug 2014 08:32:00 -0600 (MDT)
-Subject: [PATCH] NVMe: Fix partition detection issue(Hot Remove followed
- by Hot Add)
-In-Reply-To: <00ce01cfbe15$45f887e0$d1e997a0$@samsung.com>
-References: <060001cfb175$a1c44c00$e54ce400$@samsung.com>
- <alpine.LRH.2.03.1408211209220.4696@AMR>
- <00ce01cfbe15$45f887e0$d1e997a0$@samsung.com>
-Message-ID: <alpine.LRH.2.03.1408220827480.4696@AMR>
+Date: Fri, 22 Aug 2014 10:28:16 -0600
+Subject: [PATCH] fs/block_dev.c: Use hd_part to find block inodes
+Message-ID: <1408724896-3671-1-git-send-email-keith.busch@intel.com>
 
-On Fri, 22 Aug 2014, Indraneel Mukherjee wrote:
->> You definitely don't want to make this parameter writeable; changing it
->> after the minors were setup will cause breakage.
->
-> Won't nvme_minors be changeable only while loading the module as it's a
-> module param? Driver should be able to handle this without any breakage.
-> Idea is to provide a way to change this without compiling every time.
+When using the GENHD_FL_EXT_DEVT disk flags, a newly added device may
+be assigned the same major/minor as one that was previously removed but
+opened, and the pesky userspace refuses to close it! The inode for the
+old block_device is still open, and so bdget() finds the stale device
+instead of allocating a new one. When the newly inserted drive is added,
+you'll see a message like:
 
-The module parameter permissions are for the sysfs entry that gets
-created when the module is loaded. You'll still be able to set it to any
-valid value when the you load the module, but you don't want to change
-the vlaue after the fact since it will screw up your calculation for
-removing your IDR index.
+	nvme0n1: detected capacity change from XXX to 0
+
+and the partitions on the disk will not be usable after that.
+
+This patch uses the underlying disk's partition when trying to find
+the block device's opened inode so that two different disks that have
+a major/minor collision can coexist.
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+Maybe this is terrible idea!?
+
+This came from proposals to the nvme driver that remove the dynamic
+partitioning that was recently added, and I wanted to know why exactly
+it was failing.
+
+I don't know if there is a good reason to avoid having two devices opened
+with the same major/minor, but I think this is safe and tests out okay
+when I force that condition.
+
+In all cases, it appears getting the block device will eventually fail
+if either the disk or part do not exist, so should be okay to bail and
+assign these even earlier.
+
+ fs/block_dev.c |   20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
+
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 6d72746..9ba2bc8 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -546,12 +546,15 @@ static inline unsigned long hash(dev_t dev)
+ 
+ static int bdev_test(struct inode *inode, void *data)
+ {
+-	return BDEV_I(inode)->bdev.bd_dev == *(dev_t *)data;
++	return BDEV_I(inode)->bdev.bd_part == (struct hd_struct *)data;
+ }
+ 
+ static int bdev_set(struct inode *inode, void *data)
+ {
+-	BDEV_I(inode)->bdev.bd_dev = *(dev_t *)data;
++	struct hd_struct *part = (struct hd_struct *)data;;
++
++	BDEV_I(inode)->bdev.bd_part = part;
++	BDEV_I(inode)->bdev.bd_dev = part_devt(part);
+ 	return 0;
+ }
+ 
+@@ -561,9 +564,20 @@ struct block_device *bdget(dev_t dev)
+ {
+ 	struct block_device *bdev;
+ 	struct inode *inode;
++	struct gendisk *disk;
++	struct hd_struct *part;
++	int partno;
++
++	disk = get_gendisk(dev, &partno);
++	if (!disk)
++		return NULL;
++
++	part = disk_get_part(disk, partno);
++	if (!part)
++		return NULL;
+ 
+ 	inode = iget5_locked(blockdev_superblock, hash(dev),
+-			bdev_test, bdev_set, &dev);
++			bdev_test, bdev_set, part);
+ 
+ 	if (!inode)
+ 		return NULL;
+-- 
+1.7.10.4
