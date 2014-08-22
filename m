@@ -1,53 +1,92 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 22 Aug 2014 08:18:17 -0600 (MDT)
-Subject: SR-IOV
-In-Reply-To: <CAB7xdi=szj1-koLwHwrt3zmtbyXO3zitcM8wUr7NsJgUALJ3nQ@mail.gmail.com>
-References: <CAB7xdi=szj1-koLwHwrt3zmtbyXO3zitcM8wUr7NsJgUALJ3nQ@mail.gmail.com>
-Message-ID: <alpine.LRH.2.03.1408220811580.4696@AMR>
+From: indraneel.m@samsung.com (Indraneel Mukherjee)
+Date: Fri, 22 Aug 2014 19:57:31 +0530
+Subject: [PATCH] NVMe: Fix partition detection issue(Hot Remove followed by
+ Hot Add)
+In-Reply-To: <alpine.LRH.2.03.1408211209220.4696@AMR>
+References: <060001cfb175$a1c44c00$e54ce400$@samsung.com>
+ <alpine.LRH.2.03.1408211209220.4696@AMR>
+Message-ID: <00ce01cfbe15$45f887e0$d1e997a0$@samsung.com>
 
-On Thu, 21 Aug 2014, sheng qiu wrote:
-> May i ask is SR-IOV currently enabled on the NVMe driver side (linux)
-> ? if not, is there any plan for it?
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf
+> Of Keith Busch
+> Sent: Friday, August 22, 2014 12:37 AM
+> To: Indraneel Mukherjee
+> Cc: keith.busch at intel.com; willy at linux.intel.com; shiro.itou at outlook.com;
+> linux-nvme at lists.infradead.org
+> Subject: Re: [PATCH] NVMe: Fix partition detection issue(Hot Remove
+followed
+> by Hot Add)
+> 
+> On Wed, 6 Aug 2014, Indraneel Mukherjee wrote:
+> > This patch addresses the same issue that has been discussed at
+> > http://lists.infradead.org/pipermail/linux-nvme/2014-August/001093.htm
+> > l
+> > recently
+> > and provides the best of both worlds (both static & dynamic minor
+> > allocation schemes similar to SCSI driver(sd)).
+> >
+> > - Partially reverts the dynamic minor allocation scheme (but retains
+> > the GENHD_FL_EXT_DEVT flag to allow allocating very large of minors
+> > dynamically)
+> >
+> >  introduced in commit 469071a37afc8a627b6b2ddf29db0a097d864845 and
+> > re-introduces static minor allocation.
+> > - Aligns Hot-Plug behaviour to SCSI.
+> > - Uses one common ida allocation routine for allocating namespace &
+> > dev instances.
+> > - Introduces a new module parameter nvme_minors to manage the static
+> > minor allocations(default is 64).
+> >
+> > Signed-off-by: Indraneel M <indraneel.m at samsung.com>
+> 
+> 
+> Your patch has formatting issues (bad email client?) so it doesn't apply
+without
+> some fixing.
 
-It's not implemented in the linux driver, but no one's proposed a patch
-yet either. I've been holding on to this one for a while, but haven't
-been able to test.
----
+Will try to resend using git send-email if the firewall problem is resolved
+at my end.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 28aec2d..70b6476 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2961,6 +2961,24 @@ static int nvme_resume(struct device *dev)
+> 
+> I do think we need to something like this though; the block_device that
+should
+> go with the new disk is already opened against the removed disk and so the
+new
+> one isn't usable.
+> 
+> 
+> > diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> > index 28aec2d..6d01164 100644
+> > --- a/drivers/block/nvme-core.c
+> > +++ b/drivers/block/nvme-core.c
+> > @@ -65,6 +65,10 @@ MODULE_PARM_DESC(retry_time, "time in seconds to
+> > retry failed I/O"); static int nvme_major; module_param(nvme_major,
+> > int, 0);
+> >
+> > +static int nvme_minors = 64;
+> > +module_param(nvme_minors, int, 0644);
+> MODULE_PARM_DESC(nvme_minors,
+> > +"Minors numbers to allocate per Namespace");
+> 
+> You definitely don't want to make this parameter writeable; changing it
+after the
+> minors were setup will cause breakage.
 
-  static SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
+Won't nvme_minors be changeable only while loading the module as it's a
+module param? Driver should be able to handle this without any breakage.
+Idea is to provide a way to change this without compiling every time.
 
-+static int nvme_pci_sriov_configure(struct pci_dev *pdev, int numvfs)
-+{
-+	if (!pdev->is_physfn)
-+		return -EPERM;
-+	if (numvfs == 0) {
-+		if (pci_vfs_assigned(pdev)) {
-+			dev_warn(&pdev->dev,
-+				 "Cannot disable SR-IOV VFs while assigned\n");
-+			return -EPERM;
-+		}
-+		pci_disable_sriov(pdev);
-+	}
-+	else
-+		pci_enable_sriov(pdev, numvfs);
-+
-+	return 0;
-+}
-+
-  static const struct pci_error_handlers nvme_err_handler = {
-  	.error_detected	= nvme_error_detected,
-  	.mmio_enabled	= nvme_dump_registers,
-@@ -2988,6 +3006,7 @@ static struct pci_driver nvme_driver = {
-  	.driver		= {
-  		.pm	= &nvme_dev_pm_ops,
-  	},
-+	.sriov_configure = nvme_pci_sriov_configure,
-  	.err_handler	= &nvme_err_handler,
-  };
---
+ I think the permissions should be set to 0,
+> but if you really want to be able to read it, 0444 is okay.
+> 
+> You also need to make sure the nvme_minors parameter is not 0 otherwise
+> you'll hit a divide-by-zero error.
+
+Will add the check.
+
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
