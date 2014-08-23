@@ -1,49 +1,66 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 22 Aug 2014 14:32:41 -0600 (MDT)
-Subject: [PATCH] fs/block_dev.c: Use hd_part to find block inodes
-In-Reply-To: <alpine.LRH.2.03.1408221341280.4696@AMR>
-References: <1408724896-3671-1-git-send-email-keith.busch@intel.com>
- <20140822174848.GA11819@infradead.org>
- <alpine.LRH.2.03.1408221341280.4696@AMR>
-Message-ID: <alpine.LRH.2.03.1408221429020.4696@AMR>
+From: learner.study@gmail.com (Learner)
+Date: Sat, 23 Aug 2014 13:10:12 -0700
+Subject: SR-IOV
+In-Reply-To: <alpine.LRH.2.03.1408220811580.4696@AMR>
+References: <CAB7xdi=szj1-koLwHwrt3zmtbyXO3zitcM8wUr7NsJgUALJ3nQ@mail.gmail.com>
+ <alpine.LRH.2.03.1408220811580.4696@AMR>
+Message-ID: <C0B83244-67C7-4AE0-A86F-B32D43BC2298@gmail.com>
 
-On Fri, 22 Aug 2014, Keith Busch wrote:
-> On Fri, 22 Aug 2014, Christoph Hellwig wrote:
->> On Fri, Aug 22, 2014@10:28:16AM -0600, Keith Busch wrote:
->>> When using the GENHD_FL_EXT_DEVT disk flags, a newly added device may
->>> be assigned the same major/minor as one that was previously removed but
->>> opened, and the pesky userspace refuses to close it!
->> 
->> Which means life time rules for those dev_t allocations are broken.
->> Please fix it to not release the dev_t until the device isn't referenced
->> at all.
->
-> Okay, thanks. So a proper fix would not let extended devt minors get
-> reused while still referenced, so we can't release it unconditionally
-> from del_gendisk(). I think the following does that, but I had to add
-> a reference counter to gendisk.
+Is there a spec or guidelines to follow for implementing/designing SRIOV over nvme...I think the nvme spec doesnt cover SRIOV.
 
-Sorry for the rapid churn; I hadn't followed the function pointers through
-to discover the correct place to release the devt. This one's much simpler:
----
-diff --git a/block/genhd.c b/block/genhd.c
-index 791f419..321f1fd 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -665,7 +665,6 @@ void del_gendisk(struct gendisk *disk)
-  		sysfs_remove_link(block_depr, dev_name(disk_to_dev(disk)));
-  	pm_runtime_set_memalloc_noio(disk_to_dev(disk), false);
-  	device_del(disk_to_dev(disk));
--	blk_free_devt(disk_to_dev(disk)->devt);
-  }
-  EXPORT_SYMBOL(del_gendisk);
+Thanks for your time!
 
-@@ -1098,6 +1097,7 @@ static void disk_release(struct device *dev)
-  {
-  	struct gendisk *disk = dev_to_disk(dev);
+On Aug 22, 2014,@7:18 AM, Keith Busch <keith.busch@intel.com> wrote:
 
-+	blk_free_devt(dev->devt);
-  	disk_release_events(disk);
-  	kfree(disk->random);
-  	disk_replace_part_tbl(disk, NULL);
---
+> On Thu, 21 Aug 2014, sheng qiu wrote:
+>> May i ask is SR-IOV currently enabled on the NVMe driver side (linux)
+>> ? if not, is there any plan for it?
+> 
+> It's not implemented in the linux driver, but no one's proposed a patch
+> yet either. I've been holding on to this one for a while, but haven't
+> been able to test.
+> ---
+> 
+> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> index 28aec2d..70b6476 100644
+> --- a/drivers/block/nvme-core.c
+> +++ b/drivers/block/nvme-core.c
+> @@ -2961,6 +2961,24 @@ static int nvme_resume(struct device *dev)
+> 
+> static SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
+> 
+> +static int nvme_pci_sriov_configure(struct pci_dev *pdev, int numvfs)
+> +{
+> +    if (!pdev->is_physfn)
+> +        return -EPERM;
+> +    if (numvfs == 0) {
+> +        if (pci_vfs_assigned(pdev)) {
+> +            dev_warn(&pdev->dev,
+> +                 "Cannot disable SR-IOV VFs while assigned\n");
+> +            return -EPERM;
+> +        }
+> +        pci_disable_sriov(pdev);
+> +    }
+> +    else
+> +        pci_enable_sriov(pdev, numvfs);
+> +
+> +    return 0;
+> +}
+> +
+> static const struct pci_error_handlers nvme_err_handler = {
+>    .error_detected    = nvme_error_detected,
+>    .mmio_enabled    = nvme_dump_registers,
+> @@ -2988,6 +3006,7 @@ static struct pci_driver nvme_driver = {
+>    .driver        = {
+>        .pm    = &nvme_dev_pm_ops,
+>    },
+> +    .sriov_configure = nvme_pci_sriov_configure,
+>    .err_handler    = &nvme_err_handler,
+> };
+> --
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
