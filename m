@@ -1,83 +1,120 @@
-From: ngalbo@micron.com (Neal Galbo (ngalbo))
-Date: Sat, 23 Aug 2014 23:23:43 +0000
-Subject: SR-IOV
-In-Reply-To: <C0B83244-67C7-4AE0-A86F-B32D43BC2298@gmail.com>
-References: <CAB7xdi=szj1-koLwHwrt3zmtbyXO3zitcM8wUr7NsJgUALJ3nQ@mail.gmail.com>
- <alpine.LRH.2.03.1408220811580.4696@AMR>,
- <C0B83244-67C7-4AE0-A86F-B32D43BC2298@gmail.com>
-Message-ID: <77B9E79B-9171-4432-90E9-94FB5B3A1839@micron.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 25 Aug 2014 14:52:55 -0600
+Subject: [PATCH] block: Fix dev_t liftime allocations
+Message-ID: <1408999975-9976-1-git-send-email-keith.busch@intel.com>
 
-NVMe can accommodate SRIOV. It depends upon the controller implementation whether there is hardware support for VM's or not. Not necessary though, it can be completely done in software too. 
+Releases the dev_t minor when all references are closed to prevent
+another device from acquiring the same major/minor.
 
-PCI-SIG is the go to place for the SRIOV spec. 
+Since the partition's release may be invoked from call_rcu's soft-irq
+context, the ext_dev_idr's mutex had to be replaced with a spinlock so
+as not so sleep.
 
-~ Neal Galbo
-[iPad Air 128GB]
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+This was briefly discussed here:
 
+http://lists.infradead.org/pipermail/linux-nvme/2014-August/001120.html
 
+This patch goes one step further and fixes the same problem for partitions
+and disks.
 
-> On Aug 23, 2014,@4:15 PM, "Learner" <learner.study@gmail.com> wrote:
-> 
-> Is there a spec or guidelines to follow for implementing/designing SRIOV over nvme...I think the nvme spec doesnt cover SRIOV.
-> 
-> Thanks for your time!
-> 
->> On Aug 22, 2014,@7:18 AM, Keith Busch <keith.busch@intel.com> wrote:
->> 
->>> On Thu, 21 Aug 2014, sheng qiu wrote:
->>> May i ask is SR-IOV currently enabled on the NVMe driver side (linux)
->>> ? if not, is there any plan for it?
->> 
->> It's not implemented in the linux driver, but no one's proposed a patch
->> yet either. I've been holding on to this one for a while, but haven't
->> been able to test.
->> ---
->> 
->> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
->> index 28aec2d..70b6476 100644
->> --- a/drivers/block/nvme-core.c
->> +++ b/drivers/block/nvme-core.c
->> @@ -2961,6 +2961,24 @@ static int nvme_resume(struct device *dev)
->> 
->> static SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
->> 
->> +static int nvme_pci_sriov_configure(struct pci_dev *pdev, int numvfs)
->> +{
->> +    if (!pdev->is_physfn)
->> +        return -EPERM;
->> +    if (numvfs == 0) {
->> +        if (pci_vfs_assigned(pdev)) {
->> +            dev_warn(&pdev->dev,
->> +                 "Cannot disable SR-IOV VFs while assigned\n");
->> +            return -EPERM;
->> +        }
->> +        pci_disable_sriov(pdev);
->> +    }
->> +    else
->> +        pci_enable_sriov(pdev, numvfs);
->> +
->> +    return 0;
->> +}
->> +
->> static const struct pci_error_handlers nvme_err_handler = {
->>   .error_detected    = nvme_error_detected,
->>   .mmio_enabled    = nvme_dump_registers,
->> @@ -2988,6 +3006,7 @@ static struct pci_driver nvme_driver = {
->>   .driver        = {
->>       .pm    = &nvme_dev_pm_ops,
->>   },
->> +    .sriov_configure = nvme_pci_sriov_configure,
->>   .err_handler    = &nvme_err_handler,
->> };
->> --
->> 
->> 
->> _______________________________________________
->> Linux-nvme mailing list
->> Linux-nvme at lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-nvme
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+ block/genhd.c             |   18 +++++++++---------
+ block/partition-generic.c |    2 +-
+ 2 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/block/genhd.c b/block/genhd.c
+index 791f419..561134c 100644
+--- a/block/genhd.c
++++ b/block/genhd.c
+@@ -28,10 +28,10 @@ struct kobject *block_depr;
+ /* for extended dynamic devt allocation, currently only one major is used */
+ #define NR_EXT_DEVT		(1 << MINORBITS)
+ 
+-/* For extended devt allocation.  ext_devt_mutex prevents look up
++/* For extended devt allocation.  ext_devt_lock prevents look up
+  * results from going away underneath its user.
+  */
+-static DEFINE_MUTEX(ext_devt_mutex);
++static DEFINE_SPINLOCK(ext_devt_lock);
+ static DEFINE_IDR(ext_devt_idr);
+ 
+ static struct device_type disk_type;
+@@ -420,9 +420,9 @@ int blk_alloc_devt(struct hd_struct *part, dev_t *devt)
+ 	}
+ 
+ 	/* allocate ext devt */
+-	mutex_lock(&ext_devt_mutex);
++	spin_lock(&ext_devt_lock);
+ 	idx = idr_alloc(&ext_devt_idr, part, 0, NR_EXT_DEVT, GFP_KERNEL);
+-	mutex_unlock(&ext_devt_mutex);
++	spin_unlock(&ext_devt_lock);
+ 	if (idx < 0)
+ 		return idx == -ENOSPC ? -EBUSY : idx;
+ 
+@@ -447,9 +447,9 @@ void blk_free_devt(dev_t devt)
+ 		return;
+ 
+ 	if (MAJOR(devt) == BLOCK_EXT_MAJOR) {
+-		mutex_lock(&ext_devt_mutex);
++		spin_lock(&ext_devt_lock);
+ 		idr_remove(&ext_devt_idr, blk_mangle_minor(MINOR(devt)));
+-		mutex_unlock(&ext_devt_mutex);
++		spin_unlock(&ext_devt_lock);
+ 	}
+ }
+ 
+@@ -665,7 +665,6 @@ void del_gendisk(struct gendisk *disk)
+ 		sysfs_remove_link(block_depr, dev_name(disk_to_dev(disk)));
+ 	pm_runtime_set_memalloc_noio(disk_to_dev(disk), false);
+ 	device_del(disk_to_dev(disk));
+-	blk_free_devt(disk_to_dev(disk)->devt);
+ }
+ EXPORT_SYMBOL(del_gendisk);
+ 
+@@ -690,13 +689,13 @@ struct gendisk *get_gendisk(dev_t devt, int *partno)
+ 	} else {
+ 		struct hd_struct *part;
+ 
+-		mutex_lock(&ext_devt_mutex);
++		spin_lock(&ext_devt_lock);
+ 		part = idr_find(&ext_devt_idr, blk_mangle_minor(MINOR(devt)));
+ 		if (part && get_disk(part_to_disk(part))) {
+ 			*partno = part->partno;
+ 			disk = part_to_disk(part);
+ 		}
+-		mutex_unlock(&ext_devt_mutex);
++		spin_unlock(&ext_devt_lock);
+ 	}
+ 
+ 	return disk;
+@@ -1098,6 +1097,7 @@ static void disk_release(struct device *dev)
+ {
+ 	struct gendisk *disk = dev_to_disk(dev);
+ 
++	blk_free_devt(dev->devt);
+ 	disk_release_events(disk);
+ 	kfree(disk->random);
+ 	disk_replace_part_tbl(disk, NULL);
+diff --git a/block/partition-generic.c b/block/partition-generic.c
+index 789cdea..0d9e5f9 100644
+--- a/block/partition-generic.c
++++ b/block/partition-generic.c
+@@ -211,6 +211,7 @@ static const struct attribute_group *part_attr_groups[] = {
+ static void part_release(struct device *dev)
+ {
+ 	struct hd_struct *p = dev_to_part(dev);
++	blk_free_devt(dev->devt);
+ 	free_part_stats(p);
+ 	free_part_info(p);
+ 	kfree(p);
+@@ -253,7 +254,6 @@ void delete_partition(struct gendisk *disk, int partno)
+ 	rcu_assign_pointer(ptbl->last_lookup, NULL);
+ 	kobject_put(part->holder_dir);
+ 	device_del(part_to_dev(part));
+-	blk_free_devt(part_devt(part));
+ 
+ 	hd_struct_put(part);
+ }
+-- 
+1.7.10.4
