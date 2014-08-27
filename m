@@ -1,40 +1,191 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 27 Aug 2014 13:55:39 -0600
-Subject: [PATCH 2/2] NVMe: Fix SG_IO status values
-In-Reply-To: <1409169339-9821-1-git-send-email-keith.busch@intel.com>
-References: <1409169339-9821-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1409169339-9821-2-git-send-email-keith.busch@intel.com>
+Date: Wed, 27 Aug 2014 13:55:38 -0600
+Subject: [PATCH 1/2] NVMe: Remove duplicate compat SG_IO code
+Message-ID: <1409169339-9821-1-git-send-email-keith.busch@intel.com>
 
-We've only been setting the sg_io_hdr status values on SCSI commands
-that require an nvme command to complete the translation. The fields
-in the struct are output parameters, so we have to set them, otherwise
-user space will see whatever was in memory from before. In the case of
-compat SG_IO, this would reveal kernel memory. This fixes the issue by
-initializing the sg_io_hdr with successful status.
+We can return -ENOIOCTLCMD and the ioctl will be handled by
+fs/compat_ioctl.c instead. This removes a lot of duplicate code in the
+nvme driver.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-scsi.c |    8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/block/nvme-core.c |    4 +-
+ drivers/block/nvme-scsi.c |  146 ---------------------------------------------
+ 2 files changed, 1 insertion(+), 149 deletions(-)
 
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 28aec2d..959149b 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1797,11 +1797,9 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
+ static int nvme_compat_ioctl(struct block_device *bdev, fmode_t mode,
+ 					unsigned int cmd, unsigned long arg)
+ {
+-	struct nvme_ns *ns = bdev->bd_disk->private_data;
+-
+ 	switch (cmd) {
+ 	case SG_IO:
+-		return nvme_sg_io32(ns, arg);
++		return -ENOIOCTLCMD;
+ 	}
+ 	return nvme_ioctl(bdev, mode, cmd, arg);
+ }
 diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index dabafa6a..046ae33 100644
+index a4cd6d6..dabafa6a 100644
 --- a/drivers/block/nvme-scsi.c
 +++ b/drivers/block/nvme-scsi.c
-@@ -2915,6 +2915,14 @@ static int nvme_scsi_translate(struct nvme_ns *ns, struct sg_io_hdr *hdr)
- 	if (copy_from_user(cmd, hdr->cmdp, hdr->cmd_len))
- 		return -EFAULT;
+@@ -3016,152 +3016,6 @@ int nvme_sg_io(struct nvme_ns *ns, struct sg_io_hdr __user *u_hdr)
+ 	return retcode;
+ }
  
-+	/*
-+	 * Prime the hdr with good status for scsi commands that don't require
-+	 * an nvme command for translation.
-+	 */
-+	retcode = nvme_trans_status_code(hdr, NVME_SC_SUCCESS);
-+	if (retcode)
-+		return retcode;
-+
- 	opcode = cmd[0];
- 
- 	switch (opcode) {
+-#ifdef CONFIG_COMPAT
+-typedef struct sg_io_hdr32 {
+-	compat_int_t interface_id;	/* [i] 'S' for SCSI generic (required) */
+-	compat_int_t dxfer_direction;	/* [i] data transfer direction  */
+-	unsigned char cmd_len;		/* [i] SCSI command length ( <= 16 bytes) */
+-	unsigned char mx_sb_len;		/* [i] max length to write to sbp */
+-	unsigned short iovec_count;	/* [i] 0 implies no scatter gather */
+-	compat_uint_t dxfer_len;		/* [i] byte count of data transfer */
+-	compat_uint_t dxferp;		/* [i], [*io] points to data transfer memory
+-					      or scatter gather list */
+-	compat_uptr_t cmdp;		/* [i], [*i] points to command to perform */
+-	compat_uptr_t sbp;		/* [i], [*o] points to sense_buffer memory */
+-	compat_uint_t timeout;		/* [i] MAX_UINT->no timeout (unit: millisec) */
+-	compat_uint_t flags;		/* [i] 0 -> default, see SG_FLAG... */
+-	compat_int_t pack_id;		/* [i->o] unused internally (normally) */
+-	compat_uptr_t usr_ptr;		/* [i->o] unused internally */
+-	unsigned char status;		/* [o] scsi status */
+-	unsigned char masked_status;	/* [o] shifted, masked scsi status */
+-	unsigned char msg_status;		/* [o] messaging level data (optional) */
+-	unsigned char sb_len_wr;		/* [o] byte count actually written to sbp */
+-	unsigned short host_status;	/* [o] errors from host adapter */
+-	unsigned short driver_status;	/* [o] errors from software driver */
+-	compat_int_t resid;		/* [o] dxfer_len - actual_transferred */
+-	compat_uint_t duration;		/* [o] time taken by cmd (unit: millisec) */
+-	compat_uint_t info;		/* [o] auxiliary information */
+-} sg_io_hdr32_t;  /* 64 bytes long (on sparc32) */
+-
+-typedef struct sg_iovec32 {
+-	compat_uint_t iov_base;
+-	compat_uint_t iov_len;
+-} sg_iovec32_t;
+-
+-static int sg_build_iovec(sg_io_hdr_t __user *sgio, void __user *dxferp, u16 iovec_count)
+-{
+-	sg_iovec_t __user *iov = (sg_iovec_t __user *) (sgio + 1);
+-	sg_iovec32_t __user *iov32 = dxferp;
+-	int i;
+-
+-	for (i = 0; i < iovec_count; i++) {
+-		u32 base, len;
+-
+-		if (get_user(base, &iov32[i].iov_base) ||
+-		    get_user(len, &iov32[i].iov_len) ||
+-		    put_user(compat_ptr(base), &iov[i].iov_base) ||
+-		    put_user(len, &iov[i].iov_len))
+-			return -EFAULT;
+-	}
+-
+-	if (put_user(iov, &sgio->dxferp))
+-		return -EFAULT;
+-	return 0;
+-}
+-
+-int nvme_sg_io32(struct nvme_ns *ns, unsigned long arg)
+-{
+-	sg_io_hdr32_t __user *sgio32 = (sg_io_hdr32_t __user *)arg;
+-	sg_io_hdr_t __user *sgio;
+-	u16 iovec_count;
+-	u32 data;
+-	void __user *dxferp;
+-	int err;
+-	int interface_id;
+-
+-	if (get_user(interface_id, &sgio32->interface_id))
+-		return -EFAULT;
+-	if (interface_id != 'S')
+-		return -EINVAL;
+-
+-	if (get_user(iovec_count, &sgio32->iovec_count))
+-		return -EFAULT;
+-
+-	{
+-		void __user *top = compat_alloc_user_space(0);
+-		void __user *new = compat_alloc_user_space(sizeof(sg_io_hdr_t) +
+-				       (iovec_count * sizeof(sg_iovec_t)));
+-		if (new > top)
+-			return -EINVAL;
+-
+-		sgio = new;
+-	}
+-
+-	/* Ok, now construct.  */
+-	if (copy_in_user(&sgio->interface_id, &sgio32->interface_id,
+-			 (2 * sizeof(int)) +
+-			 (2 * sizeof(unsigned char)) +
+-			 (1 * sizeof(unsigned short)) +
+-			 (1 * sizeof(unsigned int))))
+-		return -EFAULT;
+-
+-	if (get_user(data, &sgio32->dxferp))
+-		return -EFAULT;
+-	dxferp = compat_ptr(data);
+-	if (iovec_count) {
+-		if (sg_build_iovec(sgio, dxferp, iovec_count))
+-			return -EFAULT;
+-	} else {
+-		if (put_user(dxferp, &sgio->dxferp))
+-			return -EFAULT;
+-	}
+-
+-	{
+-		unsigned char __user *cmdp;
+-		unsigned char __user *sbp;
+-
+-		if (get_user(data, &sgio32->cmdp))
+-			return -EFAULT;
+-		cmdp = compat_ptr(data);
+-
+-		if (get_user(data, &sgio32->sbp))
+-			return -EFAULT;
+-		sbp = compat_ptr(data);
+-
+-		if (put_user(cmdp, &sgio->cmdp) ||
+-		    put_user(sbp, &sgio->sbp))
+-			return -EFAULT;
+-	}
+-
+-	if (copy_in_user(&sgio->timeout, &sgio32->timeout,
+-			 3 * sizeof(int)))
+-		return -EFAULT;
+-
+-	if (get_user(data, &sgio32->usr_ptr))
+-		return -EFAULT;
+-	if (put_user(compat_ptr(data), &sgio->usr_ptr))
+-		return -EFAULT;
+-
+-	err = nvme_sg_io(ns, sgio);
+-	if (err >= 0) {
+-		void __user *datap;
+-
+-		if (copy_in_user(&sgio32->pack_id, &sgio->pack_id,
+-				 sizeof(int)) ||
+-		    get_user(datap, &sgio->usr_ptr) ||
+-		    put_user((u32)(unsigned long)datap,
+-			     &sgio32->usr_ptr) ||
+-		    copy_in_user(&sgio32->status, &sgio->status,
+-				 (4 * sizeof(unsigned char)) +
+-				 (2 * sizeof(unsigned short)) +
+-				 (3 * sizeof(int))))
+-			err = -EFAULT;
+-	}
+-
+-	return err;
+-}
+-#endif
+-
+ int nvme_sg_get_version_num(int __user *ip)
+ {
+ 	return put_user(sg_version_num, ip);
 -- 
 1.7.10.4
