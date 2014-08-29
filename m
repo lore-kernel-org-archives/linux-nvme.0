@@ -1,22 +1,49 @@
-From: vishal.l.verma@intel.com (Verma, Vishal L)
-Date: Wed, 27 Aug 2014 20:52:53 +0000
-Subject: [PATCH 2/2] NVMe: Fix SG_IO status values
-In-Reply-To: <1409169339-9821-2-git-send-email-keith.busch@intel.com>
-References: <1409169339-9821-1-git-send-email-keith.busch@intel.com>
- <1409169339-9821-2-git-send-email-keith.busch@intel.com>
-Message-ID: <1409172776.27227.1.camel@omniknight.lm.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 29 Aug 2014 09:06:12 -0600
+Subject: [PATCH] NVMe: Translate NVMe status to errno
+Message-ID: <1409324772-24999-1-git-send-email-keith.busch@intel.com>
 
-On Wed, 2014-08-27@13:55 -0600, Keith Busch wrote:
-> We've only been setting the sg_io_hdr status values on SCSI commands
-> that require an nvme command to complete the translation. The fields
-> in the struct are output parameters, so we have to set them, otherwise
-> user space will see whatever was in memory from before. In the case of
-> compat SG_IO, this would reveal kernel memory. This fixes the issue by
-> initializing the sg_io_hdr with successful status.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  drivers/block/nvme-scsi.c |    8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-Acked-by: Vishal Verma <vishal.l.verma at linux.intel.com>
+This returns a more appropriate error for the "capacity exceeded"
+status. In case other NVMe statuses have a better errno, this patch adds
+a convience function to translate an NVMe status code to an errno for
+IO commands, defaulting to the current -EIO.
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/block/nvme-core.c |   14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 959149b..abc289a 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -445,6 +445,18 @@ static void nvme_end_io_acct(struct bio *bio, unsigned long start_time)
+ 	}
+ }
+ 
++static int nvme_error_status(u16 status)
++{
++	switch (status & 0x7ff) {
++	case NVME_SC_SUCCESS:
++		return 0;
++	case NVME_SC_CAP_EXCEEDED:
++		return -ENOSPC;
++	default:
++		return -EIO;
++	}
++}
++
+ static void bio_completion(struct nvme_queue *nvmeq, void *ctx,
+ 						struct nvme_completion *cqe)
+ {
+@@ -464,7 +476,7 @@ static void bio_completion(struct nvme_queue *nvmeq, void *ctx,
+ 			wake_up(&nvmeq->sq_full);
+ 			return;
+ 		}
+-		error = -EIO;
++		error = nvme_error_status(status);
+ 	}
+ 	if (iod->nents) {
+ 		dma_unmap_sg(nvmeq->q_dmadev, iod->sg, iod->nents,
+-- 
+1.7.10.4
