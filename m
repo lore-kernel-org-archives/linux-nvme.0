@@ -1,28 +1,37 @@
 From: harryxiyou@gmail.com (harryxiyou)
-Date: Tue, 2 Sep 2014 19:57:27 -0400
-Subject: NVMe multi-core process
-In-Reply-To: <CAMjVwgRgax5bvaXAQMvKq-5R1Ea7GyzRc3QzGeUrdo9mnjRPEw@mail.gmail.com>
-References: <CAD+1EGN1P1=0Le0Z7Cd3WdC5Q3+Eca+SKFpzdfEQwpqg3LhR=w@mail.gmail.com>
- <CAD+1EGNpF2=zoZ2kTF21ud_6VHC+nZq5jFW3p3y=NkaN0tNP4g@mail.gmail.com>
- <CAMjVwgRgax5bvaXAQMvKq-5R1Ea7GyzRc3QzGeUrdo9mnjRPEw@mail.gmail.com>
-Message-ID: <CAD+1EGOhceqzdryUmxLyowGJxCJSJzMZ7Q_4ZLnxHQAFqp7vxw@mail.gmail.com>
+Date: Thu, 11 Sep 2014 03:43:08 +0800
+Subject: Which core does a NVMe IO request would go?
+Message-ID: <CAD+1EGP=RLHGJYfK6PUUjA7X_W9GMRq2QS3OP9J87vjEyJpBLg@mail.gmail.com>
 
-On Mon, Sep 1, 2014@4:52 PM, Angelo Brito <asb@cin.ufpe.br> wrote:
-> Hi Harry,
+Dear all,
 
-Dear Angelo,
+I am not sure "Which core does a NVMe IO request would go?" after
+I read the NVMe driver source codes.
 
->
-> In which version of the driver have you seen this code?
+The code says that,
 
-I run NVMe upon ESXi 5.x so I use following codes that I changed it a little
-http://git.infradead.org/users/kbusch/vmklinux-nvme
 
-> I am working with the kernels 3.10 and 3.15 and never seen more than
-> the Admin Queue and SQ1.
-> All my machines have multiple cores and one of them has multiple CPU.
+ 648 static int nvme_make_request(struct request_queue *q, struct request *req)
+ 649 {
+ 650     struct nvme_ns *ns = q->queuedata;
+ 651     struct nvme_queue *nvmeq = get_nvmeq(ns->dev);
+...
+ 659
+ 660     return result;
+ 661 }
 
-Yeah, it real supports multi-core.
+
+ 289 struct nvme_queue *get_nvmeq(struct nvme_dev *dev)
+ 290 {
+ 291     return dev->queues[get_cpu() + 1];
+ 292 }
+
+
+dev->queues[get_cpu() + 1] tells us which core it goes but I don't know
+what get_cpu() returns.
+
+
+Could you please give me some suggestions?
 
 
 Thanks, Harry
