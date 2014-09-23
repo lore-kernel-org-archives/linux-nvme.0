@@ -1,27 +1,31 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 23 Sep 2014 07:45:46 -0600 (MDT)
-Subject: [PATCHv2] NVMe: Fix partition detection issue(hot remove followed
- by hot add)
-In-Reply-To: <1411467843-3003-1-git-send-email-indraneel.m@samsung.com>
-References: <1411467843-3003-1-git-send-email-indraneel.m@samsung.com>
-Message-ID: <alpine.LRH.2.03.1409230733000.4696@AMR>
+Date: Tue, 23 Sep 2014 09:18:50 -0600
+Subject: [PATCH] NVMe: Clear QUEUE_FLAG_STACKABLE
+Message-ID: <1411485530-4203-1-git-send-email-keith.busch@intel.com>
 
-On Tue, 23 Sep 2014, Indraneel Mukherjee wrote:
-> Finally managing to re-send this patch to address the review comments
-> after Firewall issues were resolved at our end. Though not sure how
-> valid this patch is now after Keith's attempts to fix this in the block
-> layer. Keith, any thoughts on what will be the final form of this fix?
+The nvme namespace request_queue's flags are initialized to
+QUEUE_FLAG_DEFAULT, which currently sets QUEUE_FLAG_STACKABLE. The
+device-mapper indicates this flag means the block driver is requset
+based, though this driver is bio-based and problems will occur if an nvme
+namespace is used with a request based dm device. This patch clears the
+stackable flag.
 
-Hi Indraneel,
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/block/nvme-core.c |    1 +
+ 1 file changed, 1 insertion(+)
 
-Is there anything we need to do in the driver anymore? We should get
-the desired behavior with the dev_t minor allocation fix:
-
-https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/block/genhd.c?id=2da78092dda13f1efd26edbbf99a567776913750
-
-If anything, maybe the nvme_dev's instance could be released in
-nvme_free_dev(), but even that seems unnecessary. The test seems to work
-on my machine, but please let me know if something else is amiss.
-
-Thanks,
-Keith
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 49ac8714..9aeef40 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2010,6 +2010,7 @@ static struct nvme_ns *nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid,
+ 	if (!ns->queue)
+ 		goto out_free_ns;
+ 	ns->queue->queue_flags = QUEUE_FLAG_DEFAULT;
++	queue_flag_clear_unlocked(QUEUE_FLAG_STACKABLE, ns->queue);
+ 	queue_flag_set_unlocked(QUEUE_FLAG_NOMERGES, ns->queue);
+ 	queue_flag_set_unlocked(QUEUE_FLAG_NONROT, ns->queue);
+ 	blk_queue_make_request(ns->queue, nvme_make_request);
+-- 
+1.7.10.4
