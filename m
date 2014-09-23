@@ -1,30 +1,46 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 22 Sep 2014 13:46:19 -0600
-Subject: [PATCH] NVMe: Fix device probe waiting on kthread
-Message-ID: <1411415179-4224-1-git-send-email-keith.busch@intel.com>
+From: indraneel.m@samsung.com (Indraneel Mukherjee)
+Date: Tue, 23 Sep 2014 13:10:46 +0530
+Subject: Question on IOStat accounting
+In-Reply-To: <alpine.LRH.2.03.1409170820490.4696@AMR>
+References: <067e01cfd273$76dbc4e0$64934ea0$@samsung.com>
+ <alpine.LRH.2.03.1409170820490.4696@AMR>
+Message-ID: <08f801cfd701$b1b8c850$152a58f0$@samsung.com>
 
-If we ever do parallel device probing, we need to wake up all processes
-waiting for nvme kthread to start, not just one. This is currently
-serialized so the bug is not reachable today, but fixing this anyway in
-the hopes we implement parallel or asynchronous probe in the future.
+Re-posting as I think my mail was blocked due to company security policy
+banner in the previous mail :(
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+If nvme_submit_bio_queue() fails to queue the IOD, the BIO gets queued in
+the sq_cong BIO list.
+But we don't start accounting for this immediately even though the BIO is
+now queued up with the Driver.
+Any particular reason for this? Is it because it's a rare scenario we're
+talking about here?
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 65f6711..49ac8714 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2765,7 +2765,7 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 
- 	if (start_thread) {
- 		nvme_thread = kthread_run(nvme_kthread, NULL, "nvme");
--		wake_up(&nvme_kthread_wait);
-+		wake_up_all(&nvme_kthread_wait);
- 	} else
- 		wait_event_killable(nvme_kthread_wait, nvme_thread);
- 
--- 
-1.7.10.4
+
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf
+> Of Keith Busch
+> Sent: Wednesday, September 17, 2014 7:58 PM
+> To: Indraneel Mukherjee
+> Cc: linux-nvme at lists.infradead.org
+> Subject: Re: Question on IOStat accounting
+> 
+> On Wed, 17 Sep 2014, Indraneel Mukherjee wrote:
+> > In the current implementation of IO accounting in the nvme driver,
+> > accounting is started once IOD is successfully prepared.
+> > Thereafter 2 cases can happen, either IO gets successfully submitted
+> > to device or it can get queued up in the IOD list if there is a failure.
+> >
+> > So what's the definition of iostat here? In-flight in the device or
+> > in-flight in the driver ? Is there a need to make this consistent?
+> 
+> It seems consistent with other block drivers. Usually stats are handled
+above the
+> device driver at the request layer, but bio-based drivers handle the stats
+on their
+> own.
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
