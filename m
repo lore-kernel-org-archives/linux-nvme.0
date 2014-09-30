@@ -1,38 +1,20 @@
-From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=C3=B8rling?=)
-Date: Tue, 30 Sep 2014 20:10:21 +0200
-Subject: [PATCH v13] NVMe: Convert to blk-mq
-In-Reply-To: <alpine.LRH.2.03.1409301134580.4688@AMR>
-References: <1412098195-30133-1-git-send-email-m@bjorling.me>
- <1412098195-30133-2-git-send-email-m@bjorling.me>
- <alpine.LRH.2.03.1409301134580.4688@AMR>
-Message-ID: <CAOu_J6kb8pQRzhUWD=JOhi1_=mxORUiL-isSaCfrxQ-yxOUepw@mail.gmail.com>
+From: paul.grabinar@ranbarg.com (Paul Grabinar)
+Date: Tue, 30 Sep 2014 19:32:18 +0100
+Subject: CQ Doorbells can be touched after queue deleted
+Message-ID: <542AF732.3060706@ranbarg.com>
 
-On Tue, Sep 30, 2014@7:42 PM, Keith Busch <keith.busch@intel.com> wrote:
-> On Tue, 30 Sep 2014, Matias Bj?rling wrote:
->>
->> @@ -1967,27 +1801,30 @@ static struct nvme_ns *nvme_alloc_ns(struct
->> nvme_dev *dev, unsigned nsid,
->> {
->
-> ...
->>
->> -       ns->queue->queue_flags = QUEUE_FLAG_DEFAULT;
->> +       queue_flag_set_unlocked(QUEUE_FLAG_DEFAULT, ns->queue);
->
->
-> Instead of the above, you want
->
-> +       ns->queue->queue_flags |= QUEUE_FLAG_DEFAULT;
->
-> I only caught it because of the fun dm-mpath attempt with nvme and
-> blk-mq. Or maybe we don't want to include "QUEUE_FLAG_STACKABLE" right
-> now (part of the default flags) because it will kernel crash if you're
-> using dm-multipath with a blk-mq driver today.
->
+Hi All,
+I've encountered an interesting issue with the driver as in v3.17-rc7.
+The NVMe specification defines writing to CQ doorbells for non-existent
+queues as "undefined", so it is probably not a good idea to do this.
+I'm aware of at least one drive that gets very upset if you try.
 
-Great find. We should properly add a bunch of patches that add the
-necessary support after the patch has gone in. I have a feeling that
-there is a lot of interesting corner cases for getting stackable to
-work.
+The case I hit was where there is I/O running to the drive, but the
+drive is being reset in the kthread due to not responding to abort requests.
+When an I/O request came in, nvme_process_cq was called from
+nvme_make_request, but the queue no longer exists as it has been torn
+down by the reset.
+During nvme_process_cq, the doorbell is updated, which upsets the drive.
 
-> Otherwise, looks great!
+This is a bit of a corner case, but it has happened.
+We probably need to skip the doorbell update if the queue has been deleted.
