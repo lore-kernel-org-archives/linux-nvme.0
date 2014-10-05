@@ -1,60 +1,48 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  3 Oct 2014 11:15:47 -0600
-Subject: [PATCH] NVMe: Do not open disks that are being deleted
-Message-ID: <1412356547-18764-1-git-send-email-keith.busch@intel.com>
+From: Indranil.Bhattacharya@netapp.com (Bhattacharya, Indranil)
+Date: Sun, 5 Oct 2014 14:23:53 +0000
+Subject: 4K writes on nvme device vs that on ext4 running on nvme block
+ device
+In-Reply-To: <542BB9FC.5090507@bjorling.me>
+References: <eedf708ac5b545a2b26ee81b60dd49d3@hioexcmbx06-prd.hq.netapp.com>
+ <542BB9FC.5090507@bjorling.me>
+Message-ID: <fc4485778d044a1cafdcc94538456580@hioexcmbx06-prd.hq.netapp.com>
 
-It is possible the block layer will request to open a block device after
-the driver deleted it. Subsequent releases will cause a double free,
-or the disk's private_data is pointing to freed memory. This patch
-protects the driver's freed disks from being opened and accessed: the
-nvme namespaces are freed only when the device's refcount is 0, so at
-that moment there were no active openers and no more should be allowed,
-and it is safe to clear the disk's private_data that is about to be freed.
+Thanks Matias. I don't see much difference in your tests between the two. I used 16 threads in FIO. If you increase the number of threads, do you get a larger difference?
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
-Reported-by: Henry Chow <henry.chow at oracle.com>
----
- drivers/block/nvme-core.c |   20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+-Indranil
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 6c077cd..a5ea19d 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1812,11 +1812,18 @@ static int nvme_compat_ioctl(struct block_device *bdev, fmode_t mode,
- 
- static int nvme_open(struct block_device *bdev, fmode_t mode)
- {
--	struct nvme_ns *ns = bdev->bd_disk->private_data;
--	struct nvme_dev *dev = ns->dev;
-+	int ret = 0;
-+	struct nvme_ns *ns;
- 
--	kref_get(&dev->kref);
--	return 0;
-+	spin_lock(&dev_list_lock);
-+	ns = bdev->bd_disk->private_data;
-+	if (!ns)
-+		ret = -ENXIO;
-+	else if (!kref_get_unless_zero(&ns->dev->kref))
-+		ret = -ENXIO;
-+	spin_unlock(&dev_list_lock);
-+
-+	return ret;
- }
- 
- static void nvme_free_dev(struct kref *kref);
-@@ -2659,6 +2666,11 @@ static void nvme_free_namespaces(struct nvme_dev *dev)
- 
- 	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
- 		list_del(&ns->list);
-+
-+		spin_lock(&dev_list_lock);
-+		ns->disk->private_data = NULL;
-+		spin_unlock(&dev_list_lock);
-+
- 		put_disk(ns->disk);
- 		kfree(ns);
- 	}
--- 
-1.7.10.4
+> -----Original Message-----
+> From: Matias Bj?rling [mailto:m at bjorling.me]
+> Sent: 01 October 2014 13:53
+> To: linux-nvme at lists.infradead.org; Bhattacharya, Indranil
+> Subject: Re: 4K writes on nvme device vs that on ext4 running on nvme block device
+> 
+> On 10/01/2014 08:41 AM, Bhattacharya, Indranil wrote:
+> > Hi,
+> >
+> > I was recently doing some experiments using the nvme emulator (nvmeqemu) and I observed a curious thing. There was a
+> marked degradation in write-throughput when I run FIO (multithreaded, O_DIRECT writes) on an ext4 filesystem that has been
+> created on top of a nvme block device; as compared to the same tests which run directly on the nvme block device (i.e. without the
+> filesystem in between).
+> >
+> > I plan to repeat this test on a real nvme device as soon as I get one, but some insight from others on the following questions will
+> be helpful:
+> >
+> > 	1) Have others seen the same on a real nvme device?
+> 
+> Here's my results from an Intel DC P3700. 4k Random Writes, libaio, qdepth 16 and two jobs.
+> 
+> Plain
+> 
+> 112.556 IOPS
+> ~140us completion time
+> 
+> With ext4
+> 
+> 112.267 IOPS
+> ~140us completion time
+> 
+> > 	2) If yes, any possible explanation for the same?
+> 
+> ext4 does some background work in the beginning if lazy inode table init and lazy journal init have been enabled during mkfs. This
+> might be what influence your results.
