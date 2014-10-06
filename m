@@ -1,22 +1,25 @@
-From: m@bjorling.me (=?ISO-8859-1?Q?Matias_Bj=F8rling?=)
-Date: Mon, 06 Oct 2014 12:34:05 +0200
-Subject: 4K writes on nvme device vs that on ext4 running on nvme block
- device
-In-Reply-To: <fc4485778d044a1cafdcc94538456580@hioexcmbx06-prd.hq.netapp.com>
-References: <eedf708ac5b545a2b26ee81b60dd49d3@hioexcmbx06-prd.hq.netapp.com>
- <542BB9FC.5090507@bjorling.me>
- <fc4485778d044a1cafdcc94538456580@hioexcmbx06-prd.hq.netapp.com>
-Message-ID: <5432701D.5030509@bjorling.me>
+From: paul.grabinar@ranbarg.com (Paul Grabinar)
+Date: Mon, 06 Oct 2014 19:20:59 +0100
+Subject: nvme_alloc_iod for discard requests
+Message-ID: <5432DD8B.7050404@ranbarg.com>
 
-On 10/05/2014 04:23 PM, Bhattacharya, Indranil wrote:
-> Thanks Matias. I don't see much difference in your tests between the two. I used 16 threads in FIO. If you increase the number of threads, do you get a larger difference?
->
-> -Indranil
->
+Hi All,
 
-With 16 threads, and 64qdepth for each, I get:
+A quick question/observation on the driver as in the 3.17 sources.
 
-Plain: 224787 IOPS and avg. 4484us latency
-Ext4:  203671 IOPS and avg. 5008us latency
+in nvme_submit_bio_queue we call nvme_alloc_iod passing in the size of
+the request from the bio, so that the correct amount of space for the
+PRPs can be allocated.
+However, if this is a discard request, this size can be large, but I
+think only the first entry is needed, as we use an entry from the
+prp_small_pool, which holds the range.
+Is there a reason why we don't just allocate a single entry for discard
+operations?
 
-A couple of percent difference, nothing much.
+I'm asking this as I am seeing an issue where we are trying to allocate
+an order 3 atomic request, but the system does not have enough
+contiguous atomic memory to complete the call and I believe the request
+is actually a discard operation. This is not fatal, but it would be good
+to remove the large allocation if it is not needed.
+
+Thanks.
