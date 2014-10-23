@@ -1,10 +1,10 @@
 From: asb@cin.ufpe.br (Angelo Brito)
-Date: Thu, 23 Oct 2014 10:30:13 -0300
+Date: Thu, 23 Oct 2014 11:26:09 -0300
 Subject: Questions on Interruption handling
 In-Reply-To: <alpine.LNX.2.00.1410221753160.4040@jkbottox-desk>
 References: <CAMjVwgThWfs4M0pQy0QpfNONV_hv4rLQGXOPvh-OC9xkyvrHPA@mail.gmail.com>
  <alpine.LNX.2.00.1410221753160.4040@jkbottox-desk>
-Message-ID: <CAMjVwgSfRHPQKt0+rh94cmFEfEB1gXR+sv01aHNPxaFDryJUoQ@mail.gmail.com>
+Message-ID: <CAMjVwgS1N-Ym0u391zPY4dTxzL8iOs+tD2f9Xqow914K9fODRA@mail.gmail.com>
 
 Ok Keith,
 I presume you meant this:
