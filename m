@@ -1,57 +1,41 @@
 From: joe@perches.com (Joe Perches)
-Date: Sun, 26 Oct 2014 22:24:57 -0700
-Subject: [PATCH 01/11] block: nvme-scsi: Fix probable mask then right shift
- defects
-In-Reply-To: <cover.1414387334.git.joe@perches.com>
-References: <cover.1414387334.git.joe@perches.com>
-Message-ID: <8cd08200f7cc1d1a7562d61f22a0758ec7ca182a.1414387334.git.joe@perches.com>
+Date: Sun, 26 Oct 2014 22:24:56 -0700
+Subject: [PATCH 00/11] treewide: mask then shift defects and style updates
+Message-ID: <cover.1414387334.git.joe@perches.com>
 
-Precedence of & and >> is not the same and is not left to right.
-shift has higher precedence and should be done after the mask.
+logical mask has lower precedence than shift but should be
+done before the shift so parentheses are generally required.
 
-Add parentheses around the mask.
+And when masking with a fixed value after a shift, normal kernel
+style has the shift on the left, then the shift on the right so
+convert a few non-conforming uses.
 
-Signed-off-by: Joe Perches <joe at perches.com>
----
- drivers/block/nvme-scsi.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Joe Perches (11):
+  block: nvme-scsi: Fix probable mask then right shift defects
+  radeon: evergreen: Fix probable mask then right shift defects
+  aiptek: Fix probable mask then right shift defects
+  dvb-net: Fix probable mask then right shift defects
+  cx25840/cx18: Use standard ordering of mask and shift
+  wm8350-core: Fix probable mask then right shift defect
+  iwlwifi: dvm: Fix probable mask then right shift defect
+  ssb: driver_chip_comon_pmu: Fix probable mask then right shift defect
+  tty: ipwireless: Fix probable mask then right shift defects
+  hwa-hc: Fix probable mask then right shift defect
+  sound: ad1889: Fix probable mask then right shift defects
 
-diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index a4cd6d6..529ee54 100644
---- a/drivers/block/nvme-scsi.c
-+++ b/drivers/block/nvme-scsi.c
-@@ -1972,8 +1972,8 @@ static inline void nvme_trans_get_io_cdb10(u8 *cmd,
- {
- 	cdb_info->fua = GET_U8_FROM_CDB(cmd, IO_10_CDB_FUA_OFFSET) &
- 					IO_CDB_FUA_MASK;
--	cdb_info->prot_info = GET_U8_FROM_CDB(cmd, IO_10_CDB_WP_OFFSET) &
--					IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
-+	cdb_info->prot_info = (GET_U8_FROM_CDB(cmd, IO_10_CDB_WP_OFFSET) &
-+			       IO_CDB_WP_MASK) >> IO_CDB_WP_SHIFT;
- 	cdb_info->lba = GET_U32_FROM_CDB(cmd, IO_10_CDB_LBA_OFFSET);
- 	cdb_info->xfer_len = GET_U16_FROM_CDB(cmd, IO_10_CDB_TX_LEN_OFFSET);
- }
-@@ -1983,8 +1983,8 @@ static inline void nvme_trans_get_io_cdb12(u8 *cmd,
- {
- 	cdb_info->fua = GET_U8_FROM_CDB(cmd, IO_12_CDB_FUA_OFFSET) &
- 					IO_CDB_FUA_MASK;
--	cdb_info->prot_info = GET_U8_FROM_CDB(cmd, IO_12_CDB_WP_OFFSET) &
--					IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
-+	cdb_info->prot_info = (GET_U8_FROM_CDB(cmd, IO_12_CDB_WP_OFFSET) &
-+			       IO_CDB_WP_MASK) >> IO_CDB_WP_SHIFT;
- 	cdb_info->lba = GET_U32_FROM_CDB(cmd, IO_12_CDB_LBA_OFFSET);
- 	cdb_info->xfer_len = GET_U32_FROM_CDB(cmd, IO_12_CDB_TX_LEN_OFFSET);
- }
-@@ -1994,8 +1994,8 @@ static inline void nvme_trans_get_io_cdb16(u8 *cmd,
- {
- 	cdb_info->fua = GET_U8_FROM_CDB(cmd, IO_16_CDB_FUA_OFFSET) &
- 					IO_CDB_FUA_MASK;
--	cdb_info->prot_info = GET_U8_FROM_CDB(cmd, IO_16_CDB_WP_OFFSET) &
--					IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
-+	cdb_info->prot_info = (GET_U8_FROM_CDB(cmd, IO_16_CDB_WP_OFFSET) &
-+			       IO_CDB_WP_MASK) >> IO_CDB_WP_SHIFT;
- 	cdb_info->lba = GET_U64_FROM_CDB(cmd, IO_16_CDB_LBA_OFFSET);
- 	cdb_info->xfer_len = GET_U32_FROM_CDB(cmd, IO_16_CDB_TX_LEN_OFFSET);
- }
+ drivers/block/nvme-scsi.c                | 12 ++++++------
+ drivers/gpu/drm/radeon/evergreen.c       |  3 ++-
+ drivers/input/tablet/aiptek.c            |  6 +++---
+ drivers/media/dvb-core/dvb_net.c         |  4 +++-
+ drivers/media/i2c/cx25840/cx25840-core.c | 12 ++++++------
+ drivers/media/pci/cx18/cx18-av-core.c    | 16 ++++++++--------
+ drivers/mfd/wm8350-core.c                |  2 +-
+ drivers/net/wireless/iwlwifi/dvm/lib.c   |  4 ++--
+ drivers/ssb/driver_chipcommon_pmu.c      |  4 ++--
+ drivers/tty/ipwireless/hardware.c        | 12 ++++++------
+ drivers/usb/host/hwa-hc.c                |  2 +-
+ sound/pci/ad1889.c                       |  8 ++++----
+ 12 files changed, 44 insertions(+), 41 deletions(-)
+
 -- 
 2.1.2
