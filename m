@@ -1,41 +1,47 @@
-From: joe@perches.com (Joe Perches)
-Date: Sun, 26 Oct 2014 22:24:56 -0700
-Subject: [PATCH 00/11] treewide: mask then shift defects and style updates
-Message-ID: <cover.1414387334.git.joe@perches.com>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Wed, 29 Oct 2014 21:19:02 -0700
+Subject: [RFC PATCH 0/5] Enable use of Solid State Hybrid Drives
+In-Reply-To: <yq1bnoukzhe.fsf@sermon.lab.mkp.net>
+References: <20141029180454.4879.75088.stgit@stg-AndroidDev-VirtualBox>
+ <yq1k33il3b3.fsf@sermon.lab.mkp.net> <5451A3F5.9020903@fb.com>
+ <yq1bnoukzhe.fsf@sermon.lab.mkp.net>
+Message-ID: <CAPcyv4ggAXzWows0PayvspOX4aP9G0PmLDes+0Q+m6VXQcF9Mw@mail.gmail.com>
 
-logical mask has lower precedence than shift but should be
-done before the shift so parentheses are generally required.
+On Wed, Oct 29, 2014 at 8:28 PM, Martin K. Petersen
+<martin.petersen@oracle.com> wrote:
+> The next step was trying to map these hints into what was available in
+> xadvise(), NFS 4.2 and the recent T10/T13 efforts. That wasn't trivial
+> and there really isn't a 1:1 mapping that works. So I went to T10 and
+> tried to nudge things in the same direction as NFS 4.2. Mainly because
+> that's closer to what we already have in xadvise().
 
-And when masking with a fixed value after a shift, normal kernel
-style has the shift on the left, then the shift on the right so
-convert a few non-conforming uses.
+In case you still have hair left to pull wrangling these multiple
+specifications, Matthew reminds me that NVME also has cache advice at
+the transport layer.
 
-Joe Perches (11):
-  block: nvme-scsi: Fix probable mask then right shift defects
-  radeon: evergreen: Fix probable mask then right shift defects
-  aiptek: Fix probable mask then right shift defects
-  dvb-net: Fix probable mask then right shift defects
-  cx25840/cx18: Use standard ordering of mask and shift
-  wm8350-core: Fix probable mask then right shift defect
-  iwlwifi: dvm: Fix probable mask then right shift defect
-  ssb: driver_chip_comon_pmu: Fix probable mask then right shift defect
-  tty: ipwireless: Fix probable mask then right shift defects
-  hwa-hc: Fix probable mask then right shift defect
-  sound: ad1889: Fix probable mask then right shift defects
+> Jens> I think we've needed a proper API for passing in appropriate hints
+> Jens> on a per-io basis for a LONG time.
+>
+> Yup.
 
- drivers/block/nvme-scsi.c                | 12 ++++++------
- drivers/gpu/drm/radeon/evergreen.c       |  3 ++-
- drivers/input/tablet/aiptek.c            |  6 +++---
- drivers/media/dvb-core/dvb_net.c         |  4 +++-
- drivers/media/i2c/cx25840/cx25840-core.c | 12 ++++++------
- drivers/media/pci/cx18/cx18-av-core.c    | 16 ++++++++--------
- drivers/mfd/wm8350-core.c                |  2 +-
- drivers/net/wireless/iwlwifi/dvm/lib.c   |  4 ++--
- drivers/ssb/driver_chipcommon_pmu.c      |  4 ++--
- drivers/tty/ipwireless/hardware.c        | 12 ++++++------
- drivers/usb/host/hwa-hc.c                |  2 +-
- sound/pci/ad1889.c                       |  8 ++++----
- 12 files changed, 44 insertions(+), 41 deletions(-)
+I understand the desire to have per-io / per-inode xadvise()-style
+hints, but I don't see why not also include a per-pid capability?
 
--- 
-2.1.2
+Per-pid was not "icky" for flashcache [1].  It let's you flag
+processes that should not pollute the cache, as well "cache warming"
+processes pre-loading sub-ranges of files that is awkward to do with a
+per-inode hint.  Per-pid also allows hinting on behalf of other
+otherwise cache-unaware processes.
+
+> Jens> That is the big challenge. We've tried (and failed) in the past to
+> Jens> define a set of hints that make sense. It'd be a shame to add
+> Jens> something that's specific to a given transport/technology.
+>
+> Absolutely!
+
+In this RFC we end up punting the ultimate kernel-to-transport hint
+translation to userspace.  The kernel has a default interpretation,
+but it seems it will almost always be inadequate trying to account for
+per-device-quirks and platform performance policies.
+
+[1]: https://github.com/facebook/flashcache/blob/master/doc/flashcache-doc.txt#L139
