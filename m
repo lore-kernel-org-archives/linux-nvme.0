@@ -1,28 +1,37 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue,  4 Nov 2014 08:12:47 +0100
-Subject: [PATCH] nvme: fixup compiler warning
-Message-ID: <1415085167-128130-1-git-send-email-hare@suse.de>
+From: s.chawdhary@samsung.com (Swati)
+Date: Tue, 04 Nov 2014 20:11:08 +0530
+Subject: [PATCH] nvme-user: Minor enhancement and fixes
+In-Reply-To: <alpine.LNX.2.00.1410301321520.4225@localhost.lm.intel.com>
+References: <1414664449-3288-1-git-send-email-s.chawdhary@samsung.com>
+ <alpine.LNX.2.00.1410301321520.4225@localhost.lm.intel.com>
+Message-ID: <005601cff83d$63f09b40$2bd1d1c0$@samsung.com>
 
-gcc complains about a variable not initialized properly.
+Hi Keith,
 
-Cc: Matthew Wilcox <willy at linux.intel.com>
-Signed-off-by: Hannes Reinecke <hare at suse.de>
----
- drivers/block/nvme-core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>>  - During Format, if LBA Format Metadata Size(MS) is 0, set Metadata
+Settings to Extended LBA.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index e2bb8af..ff37b9f 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -571,7 +571,7 @@ static int nvme_split_and_submit(struct bio *bio, struct nvme_queue *nvmeq,
- static int nvme_map_bio(struct nvme_queue *nvmeq, struct nvme_iod *iod,
- 		struct bio *bio, enum dma_data_direction dma_dir, int psegs)
- {
--	struct bio_vec bvec, bvprv;
-+	struct bio_vec bvec, bvprv = {.bv_offset = 0, .bv_len = 0};
- 	struct bvec_iter iter;
- 	struct scatterlist *sg = NULL;
- 	int length = 0, nsegs = 0, split_len = bio->bi_iter.bi_size;
--- 
-1.8.5.2
+> Why? This is what sets identify namespace's FLBAS bit 4. The 1.1b spec
+clarified this bit is not applicable when metadata size is 0.
+
+As this was not clear before the 1.1b Spec, we have f/w where, if Metadata
+Size is 0 and this bit is not set, the format command fails with error
+status code Ah (enabling metadata to be transferred as part of a separate
+buffer when there is no metadata supported as part of the format selected)
+
+So can we have metadata handling, based on the spec version supported by the
+device? 
+The code can be changed something like this -
+
+if(NVME_PRPTO_VER_1.1b) {
+	...
+} else{
+	...
+} 
+
+I will resubmit the changes based on your opinion.  
+Also do you need a separate patch for the Secure Erase Settings(SES)
+support?
+
+Regards,
+Swati
