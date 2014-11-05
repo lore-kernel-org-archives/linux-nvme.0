@@ -1,19 +1,66 @@
-From: keith.busch@intel.com (Busch, Keith)
-Date: Tue, 4 Nov 2014 23:25:45 +0000
-Subject: [PATCH] NVMe: Re-attach waitqueue following device reset
-In-Reply-To: <80B89753B40C5141A3E2D53FE7A2A8A99458A207@NTXBOIMBX02.micron.com>
-References: <5453DE85.90407@micron.com>
- <alpine.LNX.2.00.1411041452350.4225@localhost.lm.intel.com>
- <80B89753B40C5141A3E2D53FE7A2A8A99458A207@NTXBOIMBX02.micron.com>
-Message-ID: <B58D82457FDA0744A320A2FC5AC253B93B08D540@fmsmsx104.amr.corp.intel.com>
+From: sbradshaw@micron.com (Sam Bradshaw)
+Date: Tue, 4 Nov 2014 16:18:06 -0800
+Subject: [PATCH] NVMe: Defer namespace add_disk() until after char device
+ creation
+Message-ID: <54596CBE.5070501@micron.com>
 
-> I still see queued bio's getting lost if a successful device reset
-> is followed by a failed resume.  I'm working on a patch for that case.
+In the current probe flow, each namespace gets an add_disk() then the 
+char device for the controller is registered.  For misbehaving devices 
+or namespace(s) that are not yet ready when add_disk() is called (eg. 
+namespace accesses that return NVME_SC_NS_NOT_READY and are requeued), 
+it can take time to disposition all the accesses.
 
-Oh, that doesn't sound good. If the device fails to resume, the driver requests the pci layer remove it. That then calls the driver's .remove which clears the bio lists after the queue is freed.
+This change moves add_disk() after the char device is created to give 
+manageability stacks an interface to query as IO flushes out.
 
-This sequence may deadlock when bios are queued if you don't have this commit:
+(I also considered deferring the nvme_ns_add() to an async context but
+that requires some sort of mutex between probe and remove to handle the
+surprise remove during add_disk condition and was messier than this 
+patch)
 
-http://git.infradead.org/users/willy/linux-nvme.git/commitdiff/74bae7e0dd70f3eee05d577d3d25fbcd54af4228
-
-But if you do have that commit, then something else is amiss.
+Signed-off-by: Sam Bradshaw <sbradshaw at micron.com>
+---
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 00fa5d2..1d14378 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2336,6 +2336,16 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	return result;
+ }
+ 
++static int nvme_ns_add(struct nvme_dev *dev)
++{
++	struct nvme_ns *ns;
++
++	list_for_each_entry(ns, &dev->namespaces, list)
++		add_disk(ns->disk);
++
++	return 0;
++}
++
+ /*
+  * Return: error value if an error occurred setting up the queues or calling
+  * Identify Device.  0 if these succeeded, even if adding some of the
+@@ -2398,8 +2408,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 		if (ns)
+ 			list_add_tail(&ns->list, &dev->namespaces);
+ 	}
+-	list_for_each_entry(ns, &dev->namespaces, list)
+-		add_disk(ns->disk);
+ 	res = 0;
+ 
+  out:
+@@ -2941,10 +2949,13 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (result)
+ 		goto remove;
+ 
++	nvme_ns_add(dev);
++
+ 	dev->initialized = 1;
+ 	return 0;
+ 
+  remove:
++	INIT_LIST_HEAD(&dev->namespaces);
+ 	nvme_dev_remove(dev);
+ 	nvme_free_namespaces(dev);
+  shutdown:
