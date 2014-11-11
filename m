@@ -1,60 +1,24 @@
-From: vishal.l.verma@intel.com (Verma, Vishal L)
-Date: Mon, 10 Nov 2014 19:33:54 +0000
-Subject: [PATCH 01/11] block: nvme-scsi: Fix probable mask then right
- shift defects
-In-Reply-To: <8cd08200f7cc1d1a7562d61f22a0758ec7ca182a.1414387334.git.joe@perches.com>
-References: <cover.1414387334.git.joe@perches.com>
- <8cd08200f7cc1d1a7562d61f22a0758ec7ca182a.1414387334.git.joe@perches.com>
-Message-ID: <1415648084.4373.2.camel@omniknight.lm.intel.com>
+From: sunad.s@samsung.com (Sunad Bhandary S)
+Date: Tue, 11 Nov 2014 15:07:39 +0000 (GMT)
+Subject: System hang issue during hibernation resume due to del_gendisk
+Message-ID: <908627706.204341415718459019.JavaMail.weblogic@epmlwas06b>
 
-On Sun, 2014-10-26@22:24 -0700, Joe Perches wrote:
-> Precedence of & and >> is not the same and is not left to right.
-> shift has higher precedence and should be done after the mask.
-> 
-> Add parentheses around the mask.
-> 
-> Signed-off-by: Joe Perches <joe at perches.com>
+Hi Keith,
 
-Acked-by: Vishal Verma <vishal.l.verma at linux.intel.com>
+While I was working with NVMe devices I came across a system hang issue. The following are the steps to reproduce the issue:
 
-> ---
->  drivers/block/nvme-scsi.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-> index a4cd6d6..529ee54 100644
-> --- a/drivers/block/nvme-scsi.c
-> +++ b/drivers/block/nvme-scsi.c
-> @@ -1972,8 +1972,8 @@ static inline void nvme_trans_get_io_cdb10(u8 *cmd,
->  {
->  	cdb_info->fua = GET_U8_FROM_CDB(cmd, IO_10_CDB_FUA_OFFSET) &
->  					IO_CDB_FUA_MASK;
-> -	cdb_info->prot_info = GET_U8_FROM_CDB(cmd, IO_10_CDB_WP_OFFSET) &
-> -					IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
-> +	cdb_info->prot_info = (GET_U8_FROM_CDB(cmd, IO_10_CDB_WP_OFFSET) &
-> +			       IO_CDB_WP_MASK) >> IO_CDB_WP_SHIFT;
->  	cdb_info->lba = GET_U32_FROM_CDB(cmd, IO_10_CDB_LBA_OFFSET);
->  	cdb_info->xfer_len = GET_U16_FROM_CDB(cmd, IO_10_CDB_TX_LEN_OFFSET);
->  }
-> @@ -1983,8 +1983,8 @@ static inline void nvme_trans_get_io_cdb12(u8 *cmd,
->  {
->  	cdb_info->fua = GET_U8_FROM_CDB(cmd, IO_12_CDB_FUA_OFFSET) &
->  					IO_CDB_FUA_MASK;
-> -	cdb_info->prot_info = GET_U8_FROM_CDB(cmd, IO_12_CDB_WP_OFFSET) &
-> -					IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
-> +	cdb_info->prot_info = (GET_U8_FROM_CDB(cmd, IO_12_CDB_WP_OFFSET) &
-> +			       IO_CDB_WP_MASK) >> IO_CDB_WP_SHIFT;
->  	cdb_info->lba = GET_U32_FROM_CDB(cmd, IO_12_CDB_LBA_OFFSET);
->  	cdb_info->xfer_len = GET_U32_FROM_CDB(cmd, IO_12_CDB_TX_LEN_OFFSET);
->  }
-> @@ -1994,8 +1994,8 @@ static inline void nvme_trans_get_io_cdb16(u8 *cmd,
->  {
->  	cdb_info->fua = GET_U8_FROM_CDB(cmd, IO_16_CDB_FUA_OFFSET) &
->  					IO_CDB_FUA_MASK;
-> -	cdb_info->prot_info = GET_U8_FROM_CDB(cmd, IO_16_CDB_WP_OFFSET) &
-> -					IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
-> +	cdb_info->prot_info = (GET_U8_FROM_CDB(cmd, IO_16_CDB_WP_OFFSET) &
-> +			       IO_CDB_WP_MASK) >> IO_CDB_WP_SHIFT;
->  	cdb_info->lba = GET_U64_FROM_CDB(cmd, IO_16_CDB_LBA_OFFSET);
->  	cdb_info->xfer_len = GET_U32_FROM_CDB(cmd, IO_16_CDB_TX_LEN_OFFSET);
->  }
+1) Mounted a NVMe device with  Linux NVMe Driver and EXT3 file format .
+2) Put the device to hibernate state using pm-hibernate
+3) Remove the NVMe device.
+4) Resume from hibernation
+The system hangs up with a blank screen and the only option is to force reboot.
+
+I suspect this to be a issue with the call of del_gendisk. If i make the call to del_gendisk in the cleanup path in the free_namespaces function the system resumes without any issues for the same scenario.
+
+Also the issue is not observed in EXT4 file format. 
+
+The issue seems to be the same as discussed here https://groups.google.com/forum/#!topic/fa.linux.kernel/aHbwSyQdADY . I am keen to know if this issue has been fixed in the latest kernel versions and if it is safe to call del_gendisk when
+the userspace is frozen in the latest kernel versions.
+
+Regards,
+Sunad
