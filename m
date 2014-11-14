@@ -1,40 +1,59 @@
 From: axboe@fb.com (Jens Axboe)
-Date: Fri, 14 Nov 2014 09:48:36 -0700
-Subject: [PATCH] NVMe: limit max completion iterations in nvme_process_cq()
-Message-ID: <20141114164836.GB12860@kernel.dk>
+Date: Fri, 14 Nov 2014 09:49:26 -0700
+Subject: [PATCH] NVMe: make setup work for devices that don't do INTx
+Message-ID: <20141114164926.GC12860@kernel.dk>
 
-This is an unbounded loop. If we have per-cpu queues this is
-usually not a problem, but if CPUs share a queue, then we could
-have some of them continually queueing IO and the loop could take
-forever to exit.
-
-Limit max iterations to the queue depth of the given completion
-queue, which seems like a nice number to use.
+The setup/probe part currently relies on INTx being there and
+working, that's not always the case. For devices that don't
+advertise INTx, enable a single MSIx vector early on and disable
+it again before we ask for our full range of queue vecs.
 
 Signed-off-by: Jens Axboe <axboe at fb.com>
 ---
- drivers/block/nvme-core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/block/nvme-core.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index f2964dfcea6c..fc2fc53992cb 100644
+index fc2fc53992cb..ee533aabf479 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -697,12 +697,13 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+@@ -2009,6 +2009,13 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	/* Deregister the admin queue's interrupt */
+ 	free_irq(dev->entry[0].vector, adminq);
  
- static int nvme_process_cq(struct nvme_queue *nvmeq)
- {
-+	unsigned int max_iter = nvmeq->q_depth;
- 	u16 head, phase;
- 
- 	head = nvmeq->cq_head;
- 	phase = nvmeq->cq_phase;
- 
--	for (;;) {
-+	while (max_iter--) {
- 		void *ctx;
- 		nvme_completion_fn fn;
- 		struct nvme_completion cqe = nvmeq->cqes[head];
++	/*
++	 * If we enable msix early due to not intx, disable it again before
++	 * setting up the full range we need.
++	 */
++	if (!pdev->irq)
++		pci_disable_msix(pdev);
++
+ 	for (i = 0; i < nr_io_queues; i++)
+ 		dev->entry[i].entry = i;
+ 	vecs = pci_enable_msix_range(pdev, dev->entry, 1, nr_io_queues);
+@@ -2161,10 +2168,22 @@ static int nvme_dev_map(struct nvme_dev *dev)
+ 	dev->bar = ioremap(pci_resource_start(pdev, 0), 8192);
+ 	if (!dev->bar)
+ 		goto disable;
++
+ 	if (readl(&dev->bar->csts) == -1) {
+ 		result = -ENODEV;
+ 		goto unmap;
+ 	}
++
++	/*
++	 * Some devices don't advertse INTx interrupts, pre-enable a single
++	 * MSIX vec for setup. We'll adjust this later.
++	 */
++	if (!pdev->irq) {
++		result = pci_enable_msix(pdev, dev->entry, 1);
++		if (result < 0)
++			goto unmap;
++	}
++
+ 	cap = readq(&dev->bar->cap);
+ 	dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, NVME_Q_DEPTH);
+ 	dev->db_stride = 1 << NVME_CAP_STRIDE(cap);
 -- 
 1.9.1
 
