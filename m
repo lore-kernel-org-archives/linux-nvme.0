@@ -1,35 +1,31 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 14 Nov 2014 16:30:36 -0700
-Subject: [PATCH] NVMe: Add rw_page support
-In-Reply-To: <alpine.LNX.2.00.1411142259190.4225@localhost.lm.intel.com>
-References: <1415923538-18760-1-git-send-email-keith.busch@intel.com>
- <CANvN+ekQTdNgPe33iaM_9=2Hjrfds2B2R3d3XK06K9n=SY+ZKA@mail.gmail.com>
- <alpine.LNX.2.00.1411142238330.4225@localhost.lm.intel.com>
- <546688BB.3030802@kernel.dk>
- <alpine.LNX.2.00.1411142259190.4225@localhost.lm.intel.com>
-Message-ID: <5466909C.6060208@kernel.dk>
+Date: Fri, 14 Nov 2014 21:44:23 -0700
+Subject: [PATCH] NVMe: Defer namespace add_disk() until after char device
+ creation
+In-Reply-To: <54596CBE.5070501@micron.com>
+References: <54596CBE.5070501@micron.com>
+Message-ID: <5466DA27.6000707@kernel.dk>
 
-On 2014-11-14 16:04, Keith Busch wrote:
-> On Fri, 14 Nov 2014, Jens Axboe wrote:
->> On 11/14/2014 03:50 PM, Keith Busch wrote:
->>> But nvme_cmd_info does not contain the opcode. I do have the struct
->>> request here, and I can certainly pull the data direction from its
->>> cmd_flags, so thanks for the suggestion!
->>>
->>> Now I wonder if there's something else unused in a request that I
->>> can repurpose to save the dma_addr_t in so I don't add it in the
->>> nvme_cmd_info...
->>
->> For the rw_page path, you don't use ->special to store the iod. So you
->> could use that... That might break for 32-bit platforms and 64-bit DMA,
->> though. If you really want to get nasty, ->__cmd is 16 bytes of unused
->> goodness as well, though I do want to make that one dynamically
->> allocated for the queues that need it.
+On 2014-11-04 17:18, Sam Bradshaw wrote:
+> In the current probe flow, each namespace gets an add_disk() then the
+> char device for the controller is registered.  For misbehaving devices
+> or namespace(s) that are not yet ready when add_disk() is called (eg.
+> namespace accesses that return NVME_SC_NS_NOT_READY and are requeued),
+> it can take time to disposition all the accesses.
 >
-> Ah, but I already got req->special pointing to the page. Maybe we can
-> union another field with a new "special_2" field.
+> This change moves add_disk() after the char device is created to give
+> manageability stacks an interface to query as IO flushes out.
+>
+> (I also considered deferring the nvme_ns_add() to an async context but
+> that requires some sort of mutex between probe and remove to handle the
+> surprise remove during add_disk condition and was messier than this
+> patch)
 
-Since you are the request allocator, you can use ->end_io_data as well.
+I'd love to see this get added. You need the control char dev to fixup 
+such bad situations, and it may never get created if we get stuck on 
+trying to setup and probe the block parts.
+
+Acked-by: Jens Axboe <axboe at fb.com>
 
 -- 
 Jens Axboe
