@@ -1,53 +1,20 @@
-From: sbradshaw@micron.com (Sam Bradshaw)
-Date: Mon, 17 Nov 2014 14:54:14 -0800
-Subject: [PATCH] NVMe: Reduce spinlock contention in IO timeout disposition
- path
-Message-ID: <546A7C96.8070608@micron.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 19 Nov 2014 17:54:06 +0000 (UTC)
+Subject: [PATCH] NVMe: make setup work for devices that don't do INTx
+In-Reply-To: <20141114164926.GC12860@kernel.dk>
+References: <20141114164926.GC12860@kernel.dk>
+Message-ID: <alpine.LNX.2.00.1411191600480.4225@localhost.lm.intel.com>
 
-When workload queue depths exceed hardware queue depths, the kthread is 
-constantly woken to resubmit queued IOs as cmdids free up.  The kthread 
-routine also walks the entire list of cmdids to disposition any timeouts 
-for each queue.  This sequence introduces latency variation by extending 
-queue spinlock hold times and is unnecessarily coupled with kthread 
-wakeups.  This patch causes the kthread routine to only disposition cmdid 
-timouts if a minimum duration has passed since the last timeout check.
+On Fri, 14 Nov 2014, Jens Axboe wrote:
+> The setup/probe part currently relies on INTx being there and
+> working, that's not always the case. For devices that don't
+> advertise INTx, enable a single MSIx vector early on and disable
+> it again before we ask for our full range of queue vecs.
 
-Since multiple devices share a single kthread, this patch has the added 
-benefit of improved latency consistency by reducing the unnecessary 
-spinlock contention introduced by "noisy neighbors" which trigger high 
-rates of kthread wakes.
+Acked-by: Keith Busch <keith.busch at intel.com>
 
-Signed-off-by: Sam Bradshaw <sbradshaw at micron.com>
----
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 00fa5d2..399d3ac 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1965,9 +1965,17 @@ static int nvme_submit_async_req(struct nvme_queue *nvmeq)
- static int nvme_kthread(void *data)
- {
- 	struct nvme_dev *dev, *next;
-+	unsigned long do_check, next_check = jiffies;
- 
- 	while (!kthread_should_stop()) {
- 		set_current_state(TASK_INTERRUPTIBLE);
-+
-+		do_check = 0;
-+		if (time_after(jiffies, next_check)) {
-+			do_check = 1;
-+			next_check = jiffies + HZ;
-+		}
-+
- 		spin_lock(&dev_list_lock);
- 		list_for_each_entry_safe(dev, next, &dev_list, node) {
- 			int i;
-@@ -1992,7 +2000,8 @@ static int nvme_kthread(void *data)
- 				if (nvmeq->q_suspended)
- 					goto unlock;
- 				nvme_process_cq(nvmeq);
--				nvme_cancel_ios(nvmeq, true);
-+				if (do_check)
-+					nvme_cancel_ios(nvmeq, true);
- 				nvme_resubmit_bios(nvmeq);
- 				nvme_resubmit_iods(nvmeq);
- 
+I have an early sample platform that has the same behavior. I thought
+it was just a buggy prototype, but the h/w makers tell me it's designed
+that way.
+
+> Signed-off-by: Jens Axboe <axboe at fb.com>
