@@ -1,33 +1,51 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Tue, 2 Dec 2014 16:36:07 -0500
+From: zabushima@micron.com (Zakaria Abushima (zabushima))
+Date: Wed, 3 Dec 2014 11:41:53 +0000
 Subject: [PATCH] NVMe: Update SCSI Inquiry VPD 83 translation
-In-Reply-To: <alpine.LNX.2.00.1412022059180.4225@localhost.lm.intel.com>
+In-Reply-To: <20141202205015.GW11522@wil.cx>
 References: <1417550176-14775-1-git-send-email-keith.busch@intel.com>
  <20141202205015.GW11522@wil.cx>
- <alpine.LNX.2.00.1412022059180.4225@localhost.lm.intel.com>
-Message-ID: <20141202213607.GY11522@wil.cx>
+Message-ID: <37D709DA9AEECD448AE8DD01BDD193F7ED88A3@NTXBOIMBX02.micron.com>
 
-On Tue, Dec 02, 2014@09:13:30PM +0000, Keith Busch wrote:
-> On Tue, 2 Dec 2014, Matthew Wilcox wrote:
-> >On Tue, Dec 02, 2014@12:56:16PM -0700, Keith Busch wrote:
-> >>+	if (readl(&dev->bar->vs) >= 0x10100) {
-> >
-> >I think we want an NVME_VERSION() macro that maybe looks something like this:
-> >
-> >#define NVME_VERSION(major, minor) (((major) << 16) | ((minor) << 8))
-> >
-> >Then you can make this:
-> >
-> >	if (readl(&dev->bar->vs) >= NVME_VERSION(1, 1))
-> >
-> >What do you think?
-> 
-> I didn't even know what a 1.1 revision was supposed to look like until
-> 1.2 clarified that, so a macro to hide the weirdness sounds good.
+Hi Guys,
 
-That was actually fixed in 1.1b ... but, yeah, there was argument within
-the committee about exactly what a version number was, whether 1.12 was
-greater or less than 1.2, and how we encoded versions.  I was adamant
-that no matter what we settled on, the simple comparison had to work;
-parsing the version to determine whether it was an earlier or later
-version of the spec was not acceptable.
+Off the topic, I have read that namespace in nvme is equivalent to SCSI LUN
+
+So how can I write application to create name spaces up to 32 from the userspace.
+
+In other word is there any application to write SCSI LUN from userspace,
+
+Also, it says that creating name space is a vendor specific ? how can the vendor find out the way to create a namespace ?
+
+Any explanation or clarification ?
+
+Please guide me because I'm completely lost.
+
+Zakaria.
+
+System Architect Intern at Micron.
+
+-----Original Message-----
+From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Matthew Wilcox
+Sent: 02 December 2014 20:50
+To: Keith Busch
+Cc: linux-nvme at lists.infradead.org
+Subject: Re: [PATCH] NVMe: Update SCSI Inquiry VPD 83 translation
+
+On Tue, Dec 02, 2014@12:56:16PM -0700, Keith Busch wrote:
+> +	if (readl(&dev->bar->vs) >= 0x10100) {
+
+I think we want an NVME_VERSION() macro that maybe looks something like this:
+
+#define NVME_VERSION(major, minor) (((major) << 16) | ((minor) << 8))
+
+Then you can make this:
+
+	if (readl(&dev->bar->vs) >= NVME_VERSION(1, 1))
+
+What do you think?
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
