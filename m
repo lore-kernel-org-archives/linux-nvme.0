@@ -1,103 +1,45 @@
-From: Jeff.Lien@hgst.com (Jeffrey Lien)
-Date: Thu, 4 Dec 2014 14:49:39 +0000
-Subject: Testing NVME Split BIO
-In-Reply-To: <alpine.LNX.2.00.1412032044360.4225@localhost.lm.intel.com>
-References: <BL2PR04MB1635C3D325742BB32A47B6D927B0@BL2PR04MB163.namprd04.prod.outlook.com>
- <80B89753B40C5141A3E2D53FE7A2A8A9945EDA0E@NTXBOIMBX02.micron.com>
- <CANvN+en7gSosgC3o8VyB+ALyhUswfL15jZN=V+ynKvpmgEAaWA@mail.gmail.com>
- <alpine.LNX.2.00.1412032044360.4225@localhost.lm.intel.com>
-Message-ID: <BL2PR04MB1638CDCB7D94C676EE135B392780@BL2PR04MB163.namprd04.prod.outlook.com>
+From: sbradshaw@micron.com (Sam Bradshaw)
+Date: Thu, 4 Dec 2014 09:43:47 -0800
+Subject: [PATCH] NVMe: Remove remnants of cpu hotplug
+Message-ID: <54809D53.4060404@micron.com>
 
-Thanks for the suggestions and ideas.   
+This patch cleans up some code inherited from the cpu hotplug handling, 
+including correcting a bug where hctx->cpumask included non-schedulable 
+cpus (backtrace attached).
 
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Wednesday, December 3, 2014 2:57 PM
-To: Andrey Kuzmin
-Cc: Jeffrey Lien; Sam Bradshaw (sbradshaw); linux-nvme at lists.infradead.org
-Subject: Re: Testing NVME Split BIO
-
-I don't think it's possible to synthesize split conditions from user space if you're formatted 4k physical block size.
-
-This will force splits for any <4k block format.
+Signed-off-by: Selvan Mani <smani at micron.com>
+Signed-off-by: Sam Bradshaw <sbradshaw at micron.com>
 ---
-#define _GNU_SOURCE
-
-#include <fcntl.h>
-#include <string.h>
-#include <stdio.h>
-
-int main(int argc, char **argv)
-{
- 	struct iovec iov[2];
- 	unsigned char *buffer;
- 	int fd, err;
-
- 	if (posix_memalign((void **)&buffer, 0x4000, 0x1000))
- 		return 1;
- 	if (argc < 2) {
- 		fprintf(stderr, "usage: %s <device>\n", argv[0]);
- 		return 1;
- 	}
-
- 	fd = open(argv[1], O_RDONLY | O_DIRECT);
- 	if (fd <= 0) {
- 		perror(argv[1]);
- 		return 1;
- 	}
-
- 	memset(buffer, 0, 0x4000);
-
- 	iov[0].iov_base = &buffer[0x800];
- 	iov[1].iov_base = &buffer[0x2800];
- 	iov[0].iov_len = 0x1000;
- 	iov[1].iov_len = 0x1000;
-
- 	err = readv(fd, iov, 2);
- 	if (err)
- 		perror("readv");
- 	return err;
-}
---
-
-On Wed, 3 Dec 2014, Andrey Kuzmin wrote:
-> Assuming an NVME device/namespace formatted with 4K block size, I'd 
-> give a shot to allocating, say, 8K in user-space with memalign (so 
-> that my virtual 8K occupy exactly 2 physical pages), and then issuing 
-> a 4K write to the respective nvme block device using any offset into 
-> the allocated memory you'd like, such as 2K suggested by Sam in that 
-> other email.
-> Regards,
-> Andrey
->
->
-> On Wed, Dec 3, 2014 at 9:42 PM, Sam Bradshaw (sbradshaw) 
-> <sbradshaw@micron.com> wrote:
->>
->>
->>> -----Original Message-----
->>> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On 
->>> Behalf Of Jeffrey Lien
->>> Sent: Wednesday, December 03, 2014 10:19 AM
->>> To: linux-nvme at lists.infradead.org
->>> Subject: Testing NVME Split BIO
->>>
->>> We are trying to create a testcase to verify the nvme split bio
->>> function.   Does anyone have any ideas or suggestions for a simple way
->>> to force a split bio request?
->>
->> We built a device mapper shim layer that does this.  Using a 4k transfer, single bvec, the mapper would:
->> 1) bio_alloc a bio with 2 bvecs
->> 2) point the first bvec at the original bvec but truncate the size to 
->> 2k
->> 3) alloc a 4k page, kmap it, memcpy the upper 2k from the original 
->> bvec page into a non-zero offset into the allocated page
->> 4) point the second bvec in the allocated bio at the bvec with 
->> non-zero offset
->> 5) hand it off to the driver
->>
->> Make sure your allocated bio callback does any cleanup then calls the original callback with a pointer to the original bio.
->>
->> A device mapper shim approach may not be the "easiest" but has other benefits for traffic shaping beyond this use case.
->>
->> -Sam
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index bcbdf83..57ed698 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -76,7 +76,6 @@ static LIST_HEAD(dev_list);
+ static struct task_struct *nvme_thread;
+ static struct workqueue_struct *nvme_workq;
+ static wait_queue_head_t nvme_kthread_wait;
+-static struct notifier_block nvme_nb;
+ 
+ static void nvme_reset_failed_dev(struct work_struct *ws);
+ static int nvme_process_cq(struct nvme_queue *nvmeq);
+@@ -1981,7 +1980,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	struct pci_dev *pdev = dev->pci_dev;
+ 	int result, i, vecs, nr_io_queues, size;
+ 
+-	nr_io_queues = num_possible_cpus();
++	nr_io_queues = num_online_cpus();
+ 	result = set_queue_count(dev, nr_io_queues);
+ 	if (result <= 0)
+ 		return result;
+@@ -2878,7 +2877,6 @@ static int __init nvme_init(void)
+ static void __exit nvme_exit(void)
+ {
+ 	pci_unregister_driver(&nvme_driver);
+-	unregister_hotcpu_notifier(&nvme_nb);
+ 	unregister_blkdev(nvme_major, "nvme");
+ 	destroy_workqueue(nvme_workq);
+ 	BUG_ON(nvme_thread && !IS_ERR(nvme_thread));
+-------------- next part --------------
+An embedded and charset-unspecified text was scrubbed...
+Name: bt
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20141204/645d4d01/attachment-0001.ksh>
