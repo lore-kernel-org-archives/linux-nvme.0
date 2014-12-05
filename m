@@ -1,84 +1,168 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu,  4 Dec 2014 17:13:25 -0700
-Subject: [PATCH] NVMe: Add SCSI VPD Block Limits Translation
-Message-ID: <1417738406-517-1-git-send-email-keith.busch@intel.com>
+Date: Thu,  4 Dec 2014 17:13:26 -0700
+Subject: [PATCHv2] NVMe: Update SCSI Inquiry VPD 83 translation
+In-Reply-To: <1417738406-517-1-git-send-email-keith.busch@intel.com>
+References: <1417738406-517-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1417738406-517-2-git-send-email-keith.busch@intel.com>
 
-This adds the translation for Inquriy VPD page b0 in accordance with
-the translation reference.
+The original translation reference resulted in collisions on VPD 83 for
+many devices today. Later specification revisions provided other ways
+to translate based on the device's specification revision to create
+different identifiers.
+
+For 1.1 compliant devices, this patch will use the EUI64 field to create
+a unique NAA registered identifier. If 1.0, the SCSI Name String format
+is required to generate unique bits.
+
+This fixes reported problems with customer device managers, but this
+is going to be even more important when multipath capable nvme devices
+become more common.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-scsi.c |   28 +++++++++++++++++++++++++++-
- 1 file changed, 27 insertions(+), 1 deletion(-)
+v1->v2: Used a macro for the NVMe version and fixed commit log typos.
+
+ drivers/block/nvme-scsi.c |   94 ++++++++++++++++++++++++++++++---------------
+ include/uapi/linux/nvme.h |    2 +
+ 2 files changed, 64 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index d194ac2..85c4dab 100644
+index 046ae33..d194ac2 100644
 --- a/drivers/block/nvme-scsi.c
 +++ b/drivers/block/nvme-scsi.c
-@@ -55,6 +55,7 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
- #define VPD_SERIAL_NUMBER				0x80
- #define VPD_DEVICE_IDENTIFIERS				0x83
- #define VPD_EXTENDED_INQUIRY				0x86
-+#define VPD_BLOCK_LIMITS				0xB0
- #define VPD_BLOCK_DEV_CHARACTERISTICS			0xB1
+@@ -782,11 +782,10 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	struct nvme_id_ctrl *id_ctrl;
+ 	int res = SNTI_TRANSLATION_SUCCESS;
+ 	int nvme_sc;
+-	u8 ieee[4];
+ 	int xfer_len;
+ 	__be32 tmp_id = cpu_to_be32(ns->ns_id);
  
- /* CDB offsets */
-@@ -132,9 +133,10 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
- #define INQ_UNIT_SERIAL_NUMBER_PAGE			0x80
- #define INQ_DEVICE_IDENTIFICATION_PAGE			0x83
- #define INQ_EXTENDED_INQUIRY_DATA_PAGE			0x86
-+#define INQ_BDEV_LIMITS_PAGE				0xB0
- #define INQ_BDEV_CHARACTERISTICS_PAGE			0xB1
- #define INQ_SERIAL_NUMBER_LENGTH			0x14
--#define INQ_NUM_SUPPORTED_VPD_PAGES			5
-+#define INQ_NUM_SUPPORTED_VPD_PAGES			6
- #define VERSION_SPC_4					0x06
- #define ACA_UNSUPPORTED					0
- #define STANDARD_INQUIRY_LENGTH				36
-@@ -747,6 +749,7 @@ static int nvme_trans_supported_vpd_pages(struct nvme_ns *ns,
- 	inq_response[6] = INQ_DEVICE_IDENTIFICATION_PAGE;
- 	inq_response[7] = INQ_EXTENDED_INQUIRY_DATA_PAGE;
- 	inq_response[8] = INQ_BDEV_CHARACTERISTICS_PAGE;
-+	inq_response[9] = INQ_BDEV_LIMITS_PAGE;
+-	mem = dma_alloc_coherent(&dev->pci_dev->dev, sizeof(struct nvme_id_ns),
++	mem = dma_alloc_coherent(&dev->pci_dev->dev, 4096,
+ 					&dma_addr, GFP_KERNEL);
+ 	if (mem == NULL) {
+ 		res = -ENOMEM;
+@@ -804,40 +803,71 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	}
+ 	id_ctrl = mem;
  
- 	xfer_len = min(alloc_len, STANDARD_INQUIRY_LENGTH);
+-	/* Since SCSI tried to save 4 bits... [SPC-4(r34) Table 591] */
+-	ieee[0] = id_ctrl->ieee[0] << 4;
+-	ieee[1] = id_ctrl->ieee[0] >> 4 | id_ctrl->ieee[1] << 4;
+-	ieee[2] = id_ctrl->ieee[1] >> 4 | id_ctrl->ieee[2] << 4;
+-	ieee[3] = id_ctrl->ieee[2] >> 4;
+-
+-	memset(inq_response, 0, STANDARD_INQUIRY_LENGTH);
++	memset(inq_response, 0, alloc_len);
+ 	inq_response[1] = INQ_DEVICE_IDENTIFICATION_PAGE;    /* Page Code */
+-	inq_response[3] = 20;      /* Page Length */
+-	/* Designation Descriptor start */
+-	inq_response[4] = 0x01;    /* Proto ID=0h | Code set=1h */
+-	inq_response[5] = 0x03;    /* PIV=0b | Asso=00b | Designator Type=3h */
+-	inq_response[6] = 0x00;    /* Rsvd */
+-	inq_response[7] = 16;      /* Designator Length */
+-	/* Designator start */
+-	inq_response[8] = 0x60 | ieee[3]; /* NAA=6h | IEEE ID MSB, High nibble*/
+-	inq_response[9] = ieee[2];        /* IEEE ID */
+-	inq_response[10] = ieee[1];       /* IEEE ID */
+-	inq_response[11] = ieee[0];       /* IEEE ID| Vendor Specific ID... */
+-	inq_response[12] = (dev->pci_dev->vendor & 0xFF00) >> 8;
+-	inq_response[13] = (dev->pci_dev->vendor & 0x00FF);
+-	inq_response[14] = dev->serial[0];
+-	inq_response[15] = dev->serial[1];
+-	inq_response[16] = dev->model[0];
+-	inq_response[17] = dev->model[1];
+-	memcpy(&inq_response[18], &tmp_id, sizeof(u32));
+-	/* Last 2 bytes are zero */
+ 
+-	xfer_len = min(alloc_len, STANDARD_INQUIRY_LENGTH);
++	if (readl(&dev->bar->vs) >= NVME_VERSION(1, 1)) {
++		/* 1.1 requires EUI64 */
++		struct nvme_id_ns *id_ns = mem;
++		u8 ieee[4];
++
++		nvme_sc = nvme_identify(dev, ns->ns_id, 0, dma_addr);
++		res = nvme_trans_status_code(hdr, nvme_sc);
++		if (res)
++			goto out_free;
++		if (nvme_sc) {
++			res = nvme_sc;
++			goto out_free;
++		}
++
++		/* Since SCSI tried to save 4 bits... [SPC-4(r34) Table 591] */
++		ieee[0] = id_ctrl->ieee[0] << 4;
++		ieee[1] = id_ctrl->ieee[0] >> 4 | id_ctrl->ieee[1] << 4;
++		ieee[2] = id_ctrl->ieee[1] >> 4 | id_ctrl->ieee[2] << 4;
++		ieee[3] = id_ctrl->ieee[2] >> 4;
++
++		inq_response[3] = 0x14;    /* Page Length */
++		/* Designation Descriptor start */
++		inq_response[4] = 0x01;    /* Proto ID=0h | Code set=1h */
++		inq_response[5] = 0x03;    /* PIV=0b | Asso=00b | Designator Type=3h */
++		inq_response[6] = 0x03;    /* Rsvd */
++		inq_response[7] = 0x10;    /* Designator Length */
++
++		/* Designator start */
++		inq_response[8] = 0x60 | ieee[3]; /* NAA=6h | IEEE ID MSB, High nibble*/
++		inq_response[9] = ieee[2];        /* IEEE ID */
++		inq_response[10] = ieee[1];       /* IEEE ID */
++		inq_response[11] = ieee[0];       /* IEEE ID| Vendor Specific ID... */
++		memcpy(&inq_response[12], id_ns->eui64, sizeof(id_ns->eui64));
++	} else {
++		u16 vid = dev->pci_dev->vendor;
++
++		if (alloc_len < 72) {
++			res = nvme_trans_completion(hdr,
++					SAM_STAT_CHECK_CONDITION,
++					ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
++					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
++			goto out_free;
++		}
++
++		inq_response[3] = 0x48;    /* Page Length */
++		/* Designation Descriptor start */
++		inq_response[4] = 0x03;    /* Proto ID=0h | Code set=3h */
++		inq_response[5] = 0x08;    /* PIV=0b | Asso=00b | Designator Type=8h */
++		inq_response[6] = 0x00;    /* Rsvd */
++		inq_response[7] = 0x44;    /* Designator Length */
++
++		sprintf(&inq_response[8], "%04x", vid);
++		memcpy(&inq_response[12], dev->model, sizeof(dev->model));
++		sprintf(&inq_response[52], "%04x", tmp_id);
++		memcpy(&inq_response[56], dev->serial, sizeof(dev->serial));
++	}
++
++	xfer_len = alloc_len;
  	res = nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
-@@ -956,6 +959,25 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 
+  out_free:
+-	dma_free_coherent(&dev->pci_dev->dev, sizeof(struct nvme_id_ns), mem,
+-			  dma_addr);
++	dma_free_coherent(&dev->pci_dev->dev, 4096, mem, dma_addr);
+  out_dma:
  	return res;
  }
+@@ -2222,7 +2252,7 @@ static int nvme_trans_inquiry(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	page_code = GET_INQ_PAGE_CODE(cmd);
+ 	alloc_len = GET_INQ_ALLOC_LENGTH(cmd);
  
-+static int nvme_trans_bdev_limits_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
-+					u8 *inq_response, int alloc_len)
-+{
-+	__be32 max_sectors = cpu_to_be32(queue_max_hw_sectors(ns->queue));
-+	__be32 max_discard = cpu_to_be32(ns->queue->limits.max_discard_sectors);
-+	__be32 discard_desc_count = cpu_to_be32(0x100);
+-	inq_response = kmalloc(STANDARD_INQUIRY_LENGTH, GFP_KERNEL);
++	inq_response = kmalloc(alloc_len, GFP_KERNEL);
+ 	if (inq_response == NULL) {
+ 		res = -ENOMEM;
+ 		goto out_mem;
+diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
+index 26386cf..1f7ef1a 100644
+--- a/include/uapi/linux/nvme.h
++++ b/include/uapi/linux/nvme.h
+@@ -556,4 +556,6 @@ struct nvme_passthru_cmd {
+ #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
+ #define NVME_IOCTL_IO_CMD	_IOWR('N', 0x43, struct nvme_passthru_cmd)
+ 
++#define NVME_VERSION(major, minor) (((major) << 16) | ((minor) << 8))
 +
-+	memset(inq_response, 0, STANDARD_INQUIRY_LENGTH);
-+	inq_response[1] = VPD_BLOCK_LIMITS;
-+	inq_response[3] = 0x3c; /* Page Length */
-+	memcpy(&inq_response[8], &max_sectors, sizeof(u32));
-+	memcpy(&inq_response[20], &max_discard, sizeof(u32));
-+
-+	if (max_discard)
-+		memcpy(&inq_response[24], &discard_desc_count, sizeof(u32));
-+
-+	return nvme_trans_copy_to_user(hdr, inq_response, 0x3c);
-+}
-+
- static int nvme_trans_bdev_char_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 					int alloc_len)
- {
-@@ -2286,6 +2308,10 @@ static int nvme_trans_inquiry(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		case VPD_EXTENDED_INQUIRY:
- 			res = nvme_trans_ext_inq_page(ns, hdr, alloc_len);
- 			break;
-+		case VPD_BLOCK_LIMITS:
-+			res = nvme_trans_bdev_limits_page(ns, hdr, inq_response,
-+								alloc_len);
-+			break;
- 		case VPD_BLOCK_DEV_CHARACTERISTICS:
- 			res = nvme_trans_bdev_char_page(ns, hdr, alloc_len);
- 			break;
+ #endif /* _UAPI_LINUX_NVME_H */
 -- 
 1.7.10.4
