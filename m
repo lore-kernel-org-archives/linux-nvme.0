@@ -1,168 +1,28 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu,  4 Dec 2014 17:13:26 -0700
-Subject: [PATCHv2] NVMe: Update SCSI Inquiry VPD 83 translation
-In-Reply-To: <1417738406-517-1-git-send-email-keith.busch@intel.com>
-References: <1417738406-517-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1417738406-517-2-git-send-email-keith.busch@intel.com>
+From: Stephen.Bates@pmcs.com (Stephen Bates)
+Date: Fri, 5 Dec 2014 00:18:43 +0000
+Subject: NVM Express 1.2 - Controller Memory Buffer Functionality.
+In-Reply-To: <alpine.LNX.2.00.1412042256430.4225@localhost.lm.intel.com>
+References: <36F6EBABA23FEF4391AF72944D2289016EC8C680@BBYEXM01.pmc-sierra.internal>,
+ <alpine.LNX.2.00.1412042256430.4225@localhost.lm.intel.com>
+Message-ID: <75526C13-EF09-4050-855B-CA71DD60A290@pmcs.com>
 
-The original translation reference resulted in collisions on VPD 83 for
-many devices today. Later specification revisions provided other ways
-to translate based on the device's specification revision to create
-different identifiers.
+Keith
 
-For 1.1 compliant devices, this patch will use the EUI64 field to create
-a unique NAA registered identifier. If 1.0, the SCSI Name String format
-is required to generate unique bits.
+Ah, very much a case of "be careful what you ask for" ;-). OK I will start to look at this soon.  One issue I can forsee is lack of 1.2 compliant drives to do testing on. Does anyone have any ideas how best to handle that?
 
-This fixes reported problems with customer device managers, but this
-is going to be even more important when multipath capable nvme devices
-become more common.
+Cheers
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-v1->v2: Used a macro for the NVMe version and fixed commit log typos.
+Stephen
 
- drivers/block/nvme-scsi.c |   94 ++++++++++++++++++++++++++++++---------------
- include/uapi/linux/nvme.h |    2 +
- 2 files changed, 64 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index 046ae33..d194ac2 100644
---- a/drivers/block/nvme-scsi.c
-+++ b/drivers/block/nvme-scsi.c
-@@ -782,11 +782,10 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	struct nvme_id_ctrl *id_ctrl;
- 	int res = SNTI_TRANSLATION_SUCCESS;
- 	int nvme_sc;
--	u8 ieee[4];
- 	int xfer_len;
- 	__be32 tmp_id = cpu_to_be32(ns->ns_id);
- 
--	mem = dma_alloc_coherent(&dev->pci_dev->dev, sizeof(struct nvme_id_ns),
-+	mem = dma_alloc_coherent(&dev->pci_dev->dev, 4096,
- 					&dma_addr, GFP_KERNEL);
- 	if (mem == NULL) {
- 		res = -ENOMEM;
-@@ -804,40 +803,71 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	}
- 	id_ctrl = mem;
- 
--	/* Since SCSI tried to save 4 bits... [SPC-4(r34) Table 591] */
--	ieee[0] = id_ctrl->ieee[0] << 4;
--	ieee[1] = id_ctrl->ieee[0] >> 4 | id_ctrl->ieee[1] << 4;
--	ieee[2] = id_ctrl->ieee[1] >> 4 | id_ctrl->ieee[2] << 4;
--	ieee[3] = id_ctrl->ieee[2] >> 4;
--
--	memset(inq_response, 0, STANDARD_INQUIRY_LENGTH);
-+	memset(inq_response, 0, alloc_len);
- 	inq_response[1] = INQ_DEVICE_IDENTIFICATION_PAGE;    /* Page Code */
--	inq_response[3] = 20;      /* Page Length */
--	/* Designation Descriptor start */
--	inq_response[4] = 0x01;    /* Proto ID=0h | Code set=1h */
--	inq_response[5] = 0x03;    /* PIV=0b | Asso=00b | Designator Type=3h */
--	inq_response[6] = 0x00;    /* Rsvd */
--	inq_response[7] = 16;      /* Designator Length */
--	/* Designator start */
--	inq_response[8] = 0x60 | ieee[3]; /* NAA=6h | IEEE ID MSB, High nibble*/
--	inq_response[9] = ieee[2];        /* IEEE ID */
--	inq_response[10] = ieee[1];       /* IEEE ID */
--	inq_response[11] = ieee[0];       /* IEEE ID| Vendor Specific ID... */
--	inq_response[12] = (dev->pci_dev->vendor & 0xFF00) >> 8;
--	inq_response[13] = (dev->pci_dev->vendor & 0x00FF);
--	inq_response[14] = dev->serial[0];
--	inq_response[15] = dev->serial[1];
--	inq_response[16] = dev->model[0];
--	inq_response[17] = dev->model[1];
--	memcpy(&inq_response[18], &tmp_id, sizeof(u32));
--	/* Last 2 bytes are zero */
- 
--	xfer_len = min(alloc_len, STANDARD_INQUIRY_LENGTH);
-+	if (readl(&dev->bar->vs) >= NVME_VERSION(1, 1)) {
-+		/* 1.1 requires EUI64 */
-+		struct nvme_id_ns *id_ns = mem;
-+		u8 ieee[4];
-+
-+		nvme_sc = nvme_identify(dev, ns->ns_id, 0, dma_addr);
-+		res = nvme_trans_status_code(hdr, nvme_sc);
-+		if (res)
-+			goto out_free;
-+		if (nvme_sc) {
-+			res = nvme_sc;
-+			goto out_free;
-+		}
-+
-+		/* Since SCSI tried to save 4 bits... [SPC-4(r34) Table 591] */
-+		ieee[0] = id_ctrl->ieee[0] << 4;
-+		ieee[1] = id_ctrl->ieee[0] >> 4 | id_ctrl->ieee[1] << 4;
-+		ieee[2] = id_ctrl->ieee[1] >> 4 | id_ctrl->ieee[2] << 4;
-+		ieee[3] = id_ctrl->ieee[2] >> 4;
-+
-+		inq_response[3] = 0x14;    /* Page Length */
-+		/* Designation Descriptor start */
-+		inq_response[4] = 0x01;    /* Proto ID=0h | Code set=1h */
-+		inq_response[5] = 0x03;    /* PIV=0b | Asso=00b | Designator Type=3h */
-+		inq_response[6] = 0x03;    /* Rsvd */
-+		inq_response[7] = 0x10;    /* Designator Length */
-+
-+		/* Designator start */
-+		inq_response[8] = 0x60 | ieee[3]; /* NAA=6h | IEEE ID MSB, High nibble*/
-+		inq_response[9] = ieee[2];        /* IEEE ID */
-+		inq_response[10] = ieee[1];       /* IEEE ID */
-+		inq_response[11] = ieee[0];       /* IEEE ID| Vendor Specific ID... */
-+		memcpy(&inq_response[12], id_ns->eui64, sizeof(id_ns->eui64));
-+	} else {
-+		u16 vid = dev->pci_dev->vendor;
-+
-+		if (alloc_len < 72) {
-+			res = nvme_trans_completion(hdr,
-+					SAM_STAT_CHECK_CONDITION,
-+					ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
-+					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
-+			goto out_free;
-+		}
-+
-+		inq_response[3] = 0x48;    /* Page Length */
-+		/* Designation Descriptor start */
-+		inq_response[4] = 0x03;    /* Proto ID=0h | Code set=3h */
-+		inq_response[5] = 0x08;    /* PIV=0b | Asso=00b | Designator Type=8h */
-+		inq_response[6] = 0x00;    /* Rsvd */
-+		inq_response[7] = 0x44;    /* Designator Length */
-+
-+		sprintf(&inq_response[8], "%04x", vid);
-+		memcpy(&inq_response[12], dev->model, sizeof(dev->model));
-+		sprintf(&inq_response[52], "%04x", tmp_id);
-+		memcpy(&inq_response[56], dev->serial, sizeof(dev->serial));
-+	}
-+
-+	xfer_len = alloc_len;
- 	res = nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
- 
-  out_free:
--	dma_free_coherent(&dev->pci_dev->dev, sizeof(struct nvme_id_ns), mem,
--			  dma_addr);
-+	dma_free_coherent(&dev->pci_dev->dev, 4096, mem, dma_addr);
-  out_dma:
- 	return res;
- }
-@@ -2222,7 +2252,7 @@ static int nvme_trans_inquiry(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	page_code = GET_INQ_PAGE_CODE(cmd);
- 	alloc_len = GET_INQ_ALLOC_LENGTH(cmd);
- 
--	inq_response = kmalloc(STANDARD_INQUIRY_LENGTH, GFP_KERNEL);
-+	inq_response = kmalloc(alloc_len, GFP_KERNEL);
- 	if (inq_response == NULL) {
- 		res = -ENOMEM;
- 		goto out_mem;
-diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
-index 26386cf..1f7ef1a 100644
---- a/include/uapi/linux/nvme.h
-+++ b/include/uapi/linux/nvme.h
-@@ -556,4 +556,6 @@ struct nvme_passthru_cmd {
- #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
- #define NVME_IOCTL_IO_CMD	_IOWR('N', 0x43, struct nvme_passthru_cmd)
- 
-+#define NVME_VERSION(major, minor) (((major) << 16) | ((minor) << 8))
-+
- #endif /* _UAPI_LINUX_NVME_H */
--- 
-1.7.10.4
+> On Dec 5, 2014,@7:20 AM, Keith Busch <keith.busch@intel.com> wrote:
+> 
+>> On Thu, 4 Dec 2014, Stephen Bates wrote:
+>> I was wondering if anyone has given any thought to updating the Linux NVMe
+>> driver based on the features added in 1.2? I am particularity interested in
+>> the Controller Memory Buffer functionality. I am willing to put some time and
+>> effort into this but was wondering if anyone else had already started?
+> 
+> Hi Stephen,
+> The CMB feature is on my list, but I've not started on it and now I
+> never will; thanks for volunteering! :)
