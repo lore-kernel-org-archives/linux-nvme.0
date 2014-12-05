@@ -1,76 +1,168 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 5 Dec 2014 16:58:08 +0000 (UTC)
-Subject: [PATCH v2] nvme-user: Minor enhancement and fixes
-In-Reply-To: <37D709DA9AEECD448AE8DD01BDD193F7ED8E2D@NTXBOIMBX02.micron.com>
-References: <1417182636-2990-1-git-send-email-s.chawdhary@samsung.com>
- <alpine.LNX.2.00.1412011529540.4225@localhost.lm.intel.com>
- <37D709DA9AEECD448AE8DD01BDD193F7ED8E2D@NTXBOIMBX02.micron.com>
-Message-ID: <alpine.LNX.2.00.1412051647230.4225@localhost.lm.intel.com>
+Date: Fri, 5 Dec 2014 23:28:59 +0000 (UTC)
+Subject: NVM Express 1.2 - Controller Memory Buffer Functionality.
+In-Reply-To: <5481B13D.6050805@itu.dk>
+References: <36F6EBABA23FEF4391AF72944D2289016EC8C680@BBYEXM01.pmc-sierra.internal>,
+ <alpine.LNX.2.00.1412042256430.4225@localhost.lm.intel.com>
+ <75526C13-EF09-4050-855B-CA71DD60A290@pmcs.com>
+ <alpine.LNX.2.00.1412050022300.4225@localhost.lm.intel.com>
+ <36F6EBABA23FEF4391AF72944D2289016EC8CFE6@BBYEXM01.pmc-sierra.internal>
+ <5481B13D.6050805@itu.dk>
+Message-ID: <alpine.LNX.2.00.1412052312100.4225@localhost.lm.intel.com>
 
-It appears you broke your device.
+I'm probably going to get yelled at for doing this instead of what I'm
+supposed to be doing, but sometimes fun distractions are fun!
 
-If you see /dev/nvme0n1, you can treat it like any block handle (like
-/dev/sda, for example). You shouldn't have to run an nvme format unless
-that's what you really want to do, but it doesn't sound necessary given
-your goal, and your device became unresponsive after.
+The QEMU part of CMB is applied in the my tree, as well as a few fixes
+for other merges I messed up. This is the CMB feature:
 
-After you fix your device, you can create a filesystem:
+http://git.infradead.org/users/kbusch/qemu-nvme.git/commitdiff/aee710c5ce4acb11583b85bc7f1c6ba8bea155d5
 
-   # mke2fs /dev/nvme0n1
+I was a bit lazy with it, using an exlusive BAR for controller memory
+fixed at 128M. I'm also led to believe I'm violating proper MemoryRegion
+usage by reading "private" values, but I don't see how else to do it!
 
-Then mount:
+Here's an qemu example parameters to set up your device for CMB:
 
-   # mount /dev/nvme0n1 /mnt
+   -drive file=<nvme.img>,if=none,id=foo -device nvme,drive=foo,serial=baz,cmb=1
 
-Adjust accordingly if you want a different filesystem or mount point.
+I did have to write some driver bits to test (copied below), but again,
+I was lazy and didn't do it the "right" way. Everything's hard-coded to
+match the hard-coded values on the controller side. The only CMB use below
+is allocating the Admin SQ and CQ out of the CMB. This is definitely going
+to be slower on QEMU, so don't even try to do performance comparisons. :)
 
-On Fri, 5 Dec 2014, Zakaria Abushima (zabushima) wrote:
-> Hi Keith and Swati,
->
-> I have used my vendor specific tool to create namespace and managed to create it,
->
-> It doesn't appear in GUI as a file system where I can save things in but in /dev/ it lists nvme0 and nvme0n1
+---
+diff -ur /drivers/block/nvme-core.c /drivers/block/nvme-core.c
+--- /drivers/block/nvme-core.c	2014-12-05 15:28:53.662943237 -0700
++++ /drivers/block/nvme-core.c	2014-12-05 15:41:15.760944823 -0700
+@@ -1154,10 +1154,12 @@
+  	}
+  	spin_unlock_irq(&nvmeq->q_lock);
 
-> So I thought I might need to format it ? then I have used your tool nvme-format-ns and formatted the namespace ?
+-	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
++	if (nvmeq->qid || !nvmeq->dev->ctrl_mem) {
++		dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
+  				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
+-	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
++		dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
+  					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
++	}
+  	kfree(nvmeq);
+  }
+
+@@ -1209,16 +1211,23 @@
+  	if (!nvmeq)
+  		return NULL;
+
+-	nvmeq->cqes = dma_alloc_coherent(dmadev, CQ_SIZE(depth),
+-					&nvmeq->cq_dma_addr, GFP_KERNEL);
+-	if (!nvmeq->cqes)
+-		goto free_nvmeq;
+-	memset((void *)nvmeq->cqes, 0, CQ_SIZE(depth));
++	if (qid || !dev->ctrl_mem) {
++		nvmeq->cqes = dma_alloc_coherent(dmadev, CQ_SIZE(depth),
++				&nvmeq->cq_dma_addr, GFP_KERNEL);
++		if (!nvmeq->cqes)
++			goto free_nvmeq;
+
+-	nvmeq->sq_cmds = dma_alloc_coherent(dmadev, SQ_SIZE(depth),
++		nvmeq->sq_cmds = dma_alloc_coherent(dmadev, SQ_SIZE(depth),
+  					&nvmeq->sq_dma_addr, GFP_KERNEL);
+-	if (!nvmeq->sq_cmds)
+-		goto free_cqdma;
++		if (!nvmeq->sq_cmds)
++			goto free_cqdma;
++	} else {
++		nvmeq->sq_dma_addr = pci_resource_start(dev->pci_dev, 2);
++		nvmeq->sq_cmds = dev->ctrl_mem;
++		nvmeq->cq_dma_addr = pci_resource_start(dev->pci_dev, 2) + 0x1000;
++		nvmeq->cqes = dev->ctrl_mem + 0x1000;
++	}
++	memset((void *)nvmeq->cqes, 0, CQ_SIZE(depth));
+
+  	nvmeq->q_dmadev = dmadev;
+  	nvmeq->dev = dev;
+@@ -2085,6 +2094,8 @@
+  	dev->db_stride = NVME_CAP_STRIDE(readq(&dev->bar->cap));
+  	dev->dbs = ((void __iomem *)dev->bar) + 4096;
+
++	if (readl(&dev->bar->cmbsz) || 0)
++		dev->ctrl_mem = ioremap(pci_resource_start(pdev, 2), 0x8000000);
+  	return 0;
+
+   disable:
+diff -ur /include/linux/nvme.h /include/linux/nvme.h
+--- /include/linux/nvme.h	2014-01-14 11:05:25.000000000 -0700
++++ /include/linux/nvme.h	2014-12-05 10:35:10.059748463 -0700
+@@ -36,6 +36,8 @@
+  	__u32			aqa;	/* Admin Queue Attributes */
+  	__u64			asq;	/* Admin SQ Base Address */
+  	__u64			acq;	/* Admin CQ Base Address */
++	__u32			cmbloc;	/* Controller memory buffer location */
++	__u32			cmbsz;	/* Controller memory buffer size */
+  };
+
+  #define NVME_CAP_MQES(cap)	((cap) & 0xffff)
+@@ -84,6 +86,7 @@
+  	u32 ctrl_config;
+  	struct msix_entry *entry;
+  	struct nvme_bar __iomem *bar;
++	volatile void __iomem *ctrl_mem;
+  	struct list_head namespaces;
+  	struct kref kref;
+--
+
+On Fri, 5 Dec 2014, Matias Bj?rling wrote:
+> Hi Stephen,
 >
-> Nothing success and says icotl interrupted.
+> The tree is here:
 >
-> and then I thought that I might need to mount it ? I used linux built-in mount function as following:- mount /dev/nvme0n1
+>  http://git.infradead.org/users/kbusch/qemu-nvme.git
 >
-> Since then the nvme0 and nvme0n1 disappeared and when I call lspci -v I noticed slight change, which is the " module driver in use nvme0" line has disappeared ? when it use to appear ?
+> Cheers,
+> Matias
 >
-> Any idear or help
->
-> Thanks a in advance.
->
-> Zakaria.
->
-> -----Original Message-----
-> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf Of Keith Busch
-> Sent: 01 December 2014 15:46
-> To: Swati C
-> Cc: linux-nvme at lists.infradead.org
-> Subject: Re: [PATCH v2] nvme-user: Minor enhancement and fixes
->
-> On Fri, 28 Nov 2014, Swati C wrote:
->> Addressing comments from -
->> [PATCH] nvme-user: Minor enhancement and fixes
->> (http://lists.infradead.org/pipermail/linux-nvme/2014-November/001214.
->> html)
->>
->> Minor enhancements to nvme_format_ns.c
->> 	- Make Metadata Settings a user settable value.
->> 	- Support for Secure Erase Settings.
->>
->> Signed-off-by: Swati C <s.chawdhary at samsung.com>
->
-> Thanks, applied.
->
-> On a side note, some people asked if I could take the example programs here and turn it into something more useful with just one program to run all nvme instead of a bunch of stand-alone programs. I took a stab at it:
->
-> http://git.infradead.org/users/kbusch/linux-nvme-cli.git
->
-> It's still a work in progress, but just linking here in case others have ideas or find it useful too.
+> On 12/05/2014 10:02 AM, Stephen Bates wrote:
+>> Keith
+>> 
+>> " I often implement h/w features on a virtual device if real h/w is not 
+>> available. If you're interested, I'll add CMB to my QEMU tree sometime in 
+>> the next week."
+>> 
+>> That would be great. Can you send a link to that tree?
+>> 
+>> Cheers
+>> 
+>> Stephen
+>> 
+>> -----Original Message-----
+>> From: Keith Busch [mailto:keith.busch at intel.com]
+>> Sent: Friday, December 5, 2014 8:31 AM
+>> To: Stephen Bates
+>> Cc: Keith Busch; linux-nvme at lists.infradead.org
+>> Subject: Re: NVM Express 1.2 - Controller Memory Buffer Functionality.
+>> 
+>> On Thu, 4 Dec 2014, Stephen Bates wrote:
+>>> Keith
+>>> 
+>>> Ah, very much a case of "be careful what you ask for" ;-). OK I will start 
+>>> to look at this soon.  One issue I can forsee is lack of 1.2 compliant 
+>>> drives to do testing on. Does anyone have any ideas how best to handle 
+>>> that?
+>> 
+>> I often implement h/w features on a virtual device if real h/w is not 
+>> available. If you're interested, I'll add CMB to my QEMU tree sometime in 
+>> the next week.
+>> 
+>>> Cheers
+>>> Stephen
+>> 
+>> _______________________________________________
+>> Linux-nvme mailing list
+>> Linux-nvme at lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>> 
 >
 > _______________________________________________
 > Linux-nvme mailing list
