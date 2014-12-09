@@ -1,46 +1,38 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 9 Dec 2014 16:15:04 +0000 (UTC)
-Subject: [PATCH] misc: Increase available dyanmic minors
-In-Reply-To: <3419037.dh84oOupWY@wuerfel>
-References: <1418079710-30968-1-git-send-email-keith.busch@intel.com>
- <3419037.dh84oOupWY@wuerfel>
-Message-ID: <alpine.LNX.2.00.1412091507080.3973@localhost.lm.intel.com>
+Date: Tue, 9 Dec 2014 16:18:31 +0000 (UTC)
+Subject: [PATCHv2] NVMe: Fix partition detection issue(hot remove followed
+ by hot add)
+In-Reply-To: <027101d013be$b7731170$26593450$@samsung.com>
+References: <1411467843-3003-1-git-send-email-indraneel.m@samsung.com>
+ <alpine.LRH.2.03.1409230733000.4696@AMR>
+ <027101d013be$b7731170$26593450$@samsung.com>
+Message-ID: <alpine.LNX.2.00.1412091615120.3973@localhost.lm.intel.com>
 
-On Tue, 9 Dec 2014, Arnd Bergmann wrote:
-> On Monday 08 December 2014 16:01:50 Keith Busch wrote:
->> This increases the number of available miscellaneous character device
->> dynamic minors from 63 to the max minor, 1M.
->>
->> Dynamic minor previously started at 63 and went down to zero. That's not
->> enough in some situations, and also eventually creates a collision with
->> 'psaux' misc device. This patch starts minors at the last defined misc
->> minor (255) and works up to the max possible.
->>
->> Signed-off-by: Keith Busch <keith.busch at intel.com>
+On Tue, 9 Dec 2014, Indraneel Mukherjee wrote:
+> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> --- a/drivers/block/nvme-core.c
+> +++ b/drivers/block/nvme-core.c
+> @@ -2735,7 +2735,6 @@ static void nvme_free_dev(struct kref *kref)
 >
-> I guess this will break support for ancient user space tools, and
-> possibly also old file systems that do not support more than 8-bit
-> minor numbers. I would assume that it's ok, but you definitely have
-> to mention in the changelog that things might break and how you
-> have concluded that this is safe enough.
+>        pci_dev_put(dev->pci_dev);
+>        nvme_free_namespaces(dev);
+> -       nvme_release_instance(dev);
+>        free_percpu(dev->io_queue);
+>        kfree(dev->queues);
+>        kfree(dev->entry);
+> @@ -2996,6 +2995,7 @@ static void nvme_remove(struct pci_dev *pdev)
+>        nvme_dev_shutdown(dev);
+>        nvme_free_queues(dev, 0);
+>        nvme_dev_remove(dev);
+> +       nvme_release_instance(dev);
+>        nvme_release_prp_pools(dev);
+>        kref_put(&dev->kref, nvme_free_dev);
+> }
+>
+> This ensures that the new node gets a different name (in case there is a
+> stale node).
+>
+> If the fix is okay, I can send this separately as a patch.
 
-Sure, I can call this out in the change log. I hadn't considered file
-systems on a character device. Tooling as well.
-
-If a character device is so tightly coupled to such legacy tools, maybe
-they should register a static minor, and this patch makes 63 additional
-ones available. Does that sound reasonable?
-
-> If you cannot come up with a good reasoning, it might be better
-> to combine both and use up the traditional dynamic minor numbers
-> before using the >255 range.
-
-A problem with the existing method is that anyone can use a number in the
-range it's dynamically allocating from. Once you encounter a collision,
-all following dynamic misc_device registration will fail. Most of the
-defined minors in that range are marked unused, but PSMOUSE_MINOR is
-still used.
-
-If we continue using the traditional dynamic allocator, the component
-registering as dynamic races against the one registering with its static,
-so that doesn't sound right.
+Yes, please send as a patch and I'd Ack it. You might want to make one
+against Jens' linux-block tree as well.
