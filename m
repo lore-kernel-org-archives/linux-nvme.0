@@ -1,21 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 9 Dec 2014 18:42:00 +0000 (UTC)
-Subject: how to pull out "hot plug patches alone" for nvme 
-In-Reply-To: <6891C2FAE3B0F342A5B80AFBDCFB579714EA49D223@BLRX7MCDC204.AMER.DELL.COM>
-References: <6891C2FAE3B0F342A5B80AFBDCFB579714EA49D223@BLRX7MCDC204.AMER.DELL.COM>
-Message-ID: <alpine.LNX.2.00.1412091838160.3973@localhost.lm.intel.com>
+From: sbradshaw@micron.com (Sam Bradshaw (sbradshaw))
+Date: Tue, 9 Dec 2014 20:50:28 +0000
+Subject: [PATCH] NVMe: Remove remnants of cpu hotplug
+In-Reply-To: <5480A071.3080103@kernel.dk>
+References: <54809D53.4060404@micron.com> <5480A071.3080103@kernel.dk>
+Message-ID: <80B89753B40C5141A3E2D53FE7A2A8A9945FE6A1@NTXBOIMBX02.micron.com>
 
-I assume you want to cherry-pick commits to a driver back-port. Just so
-you know, lots of hot plug fixes didn't even come from the driver, so
-you'd be missing half the picture depending on which kernel you're
-targeting.
 
-On Tue, 9 Dec 2014, Lakshmi_Narayanan_Du@Dell.com wrote:
-> Hi ,
->
-> Could you kindly help on the way to pull /get the commit id's of hot plug patches alone for NVMe. Or anyone can list all the hotplug related patches that has gone in .
-> I could search with the commit messages but not sure, how to consolidate which are the exact list of  patches  that will make the SRSI feature alone
->
-> Thanks,
-> Lakshmi
->
+> I'm curious with the num_possible -> num_online change. This should be
+> handled by blk-mq, so no worries there. But how did it trigger the
+> unset CPU in the run mask? Ran into the same issue here on a different
+> test case, just curious if you looked into this.
+
+After looking into it, the issue has been fixed on your for-3.19/core 
+branch due to:
+
+[PATCH] blk-mq: prevent unmapped hw queue from being scheduled
+
+It's straightforward enough to test that the fix works by setting 
+possible_cpus on the kernel command line to something larger than 
+online cpus.
