@@ -1,29 +1,100 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Tue, 09 Dec 2014 09:46:36 +0100
-Subject: [PATCH] misc: Increase available dyanmic minors
-In-Reply-To: <1418079710-30968-1-git-send-email-keith.busch@intel.com>
-References: <1418079710-30968-1-git-send-email-keith.busch@intel.com>
-Message-ID: <3419037.dh84oOupWY@wuerfel>
+From: indraneel.m@samsung.com (Indraneel Mukherjee)
+Date: Tue, 09 Dec 2014 20:14:59 +0530
+Subject: [PATCHv2] NVMe: Fix partition detection issue(hot remove followed
+ by hot add)
+In-Reply-To: <alpine.LRH.2.03.1409230733000.4696@AMR>
+References: <1411467843-3003-1-git-send-email-indraneel.m@samsung.com>
+ <alpine.LRH.2.03.1409230733000.4696@AMR>
+Message-ID: <027101d013be$b7731170$26593450$@samsung.com>
 
-On Monday 08 December 2014 16:01:50 Keith Busch wrote:
-> This increases the number of available miscellaneous character device
-> dynamic minors from 63 to the max minor, 1M.
+Keith,
+Resurrecting an old thread.
+Verified the partition detection issue(hot remove followed by Hot-Add) with
+the latest linux-nvme git tip after applying
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/block
+/genhd.c?id=2da78092dda13f1efd26edbbf99a567776913750
+and
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/block
+/partition-generic.c?id=2da78092dda13f1efd26edbbf99a567776913750
+
+But when the device is again hot-added and the new node (/dev/nvme0n1p1)
+appears again, mounting it fails with the following error:
+mount: mount /dev/nvme0n1p1 on /mnt failed: File exists
+
+The old nodes' FS entries still exist and hence kernel can't re-create
+procfs and sysfs entries with the same name.
+
+# ls /sys/fs/ext4/
+features  nvme0n1p1
+--> already exists
+
+This can be fixed with:
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2735,7 +2735,6 @@ static void nvme_free_dev(struct kref *kref)
+
+        pci_dev_put(dev->pci_dev);
+        nvme_free_namespaces(dev);
+-       nvme_release_instance(dev);
+        free_percpu(dev->io_queue);
+        kfree(dev->queues);
+        kfree(dev->entry);
+@@ -2996,6 +2995,7 @@ static void nvme_remove(struct pci_dev *pdev)
+        nvme_dev_shutdown(dev);
+        nvme_free_queues(dev, 0);
+        nvme_dev_remove(dev);
++       nvme_release_instance(dev);
+        nvme_release_prp_pools(dev);
+        kref_put(&dev->kref, nvme_free_dev);
+ }
+
+This ensures that the new node gets a different name (in case there is a
+stale node).
+
+If the fix is okay, I can send this separately as a patch.
+
+
+-Indro
+
+
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf
+> Of Keith Busch
+> Sent: Tuesday, September 23, 2014 7:16 PM
+> To: Indraneel Mukherjee
+> Cc: linux-nvme at lists.infradead.org
+> Subject: Re: [PATCHv2] NVMe: Fix partition detection issue(hot remove
+followed
+> by hot add)
 > 
-> Dynamic minor previously started at 63 and went down to zero. That's not
-> enough in some situations, and also eventually creates a collision with
-> 'psaux' misc device. This patch starts minors at the last defined misc
-> minor (255) and works up to the max possible.
+> On Tue, 23 Sep 2014, Indraneel Mukherjee wrote:
+> > Finally managing to re-send this patch to address the review comments
+> > after Firewall issues were resolved at our end. Though not sure how
+> > valid this patch is now after Keith's attempts to fix this in the
+> > block layer. Keith, any thoughts on what will be the final form of this
+fix?
 > 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-
-I guess this will break support for ancient user space tools, and
-possibly also old file systems that do not support more than 8-bit
-minor numbers. I would assume that it's ok, but you definitely have
-to mention in the changelog that things might break and how you
-have concluded that this is safe enough.
-
-If you cannot come up with a good reasoning, it might be better
-to combine both and use up the traditional dynamic minor numbers
-before using the >255 range.
-
-	Arnd
+> Hi Indraneel,
+> 
+> Is there anything we need to do in the driver anymore? We should get the
+> desired behavior with the dev_t minor allocation fix:
+> 
+>
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/block
+/gen
+> hd.c?id=2da78092dda13f1efd26edbbf99a567776913750
+> 
+> If anything, maybe the nvme_dev's instance could be released in
+> nvme_free_dev(), but even that seems unnecessary. The test seems to work
+on
+> my machine, but please let me know if something else is amiss.
+> 
+> Thanks,
+> Keith
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
