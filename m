@@ -1,34 +1,26 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 11 Dec 2014 08:20:44 -0700
-Subject: [PATCH] NVMe: Fix FS mount issue (hot-remove followed by hot-add)
-In-Reply-To: <alpine.LNX.2.00.1412101949260.4026@localhost.lm.intel.com>
-References: <1418221540-3696-1-git-send-email-indraneel.m@samsung.com>
- <alpine.LNX.2.00.1412101949260.4026@localhost.lm.intel.com>
-Message-ID: <5489B64C.5020209@kernel.dk>
+Date: Thu, 11 Dec 2014 08:26:09 -0700
+Subject: [PATCH][linux-block] NVMe: Fix FS mount issue(hot-remove followed
+ by hot-add)
+In-Reply-To: <1418294839-3464-1-git-send-email-indraneel.m@samsung.com>
+References: <1418294839-3464-1-git-send-email-indraneel.m@samsung.com>
+Message-ID: <5489B791.7020007@kernel.dk>
 
-On 12/10/2014 01:00 PM, Keith Busch wrote:
-> On Wed, 10 Dec 2014, Indraneel M wrote:
->> After Hot-remove of a device with a mounted partition,
->> when the device is hot-added again, the new node reappears
->> as nvme0n1. Mounting this new node fails with the error:
->>
->> mount: mount /dev/nvme0n1p1 on /mnt failed: File exists.
->>
->> The old nodes's FS entries still exist and the kernel can't re-create
->> procfs and sysfs entries for the new node with the same name.
->> The patch fixes this issue.
->>
->> Signed-off-by: Indraneel M <indraneel.m at samsung.com>
->
-> Acked-by: Keith Busch <keith.busch at intel.com>
->
-> Now where is this going? It won't apply to linux-block/for-next (though
-> it is a trivial manual merge), which I think is where the 3.19 pull
-> request to mainline will come from. I hope these trees get synced up
-> soon so we don't have these fragmented drivers.
+On 12/11/2014 03:47 AM, Indraneel M wrote:
+> Jens, this version is against the linux-block tree.
 
-He sent a for-3.19/drivers relevant patch too - I'll add your acked by 
-and queue that up.
+It's not, though:
+
+checking file drivers/block/nvme-core.c
+Hunk #1 FAILED at 2600.
+Hunk #2 FAILED at 2859.
+2 out of 2 hunks FAILED
+
+what branch are you on? It has to be against for-3.19/drivers or 
+for-next. This was simple enough to hand apply, so I did that. This is 
+the result:
+
+http://git.kernel.dk/?p=linux-block.git;a=commit;h=285dffc9101244ac65c29672a1fb3fe614b52238
 
 -- 
 Jens Axboe
