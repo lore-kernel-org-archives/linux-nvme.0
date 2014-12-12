@@ -1,47 +1,49 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 12 Dec 2014 08:57:41 -0700
-Subject: [PATCH][linux-block] NVMe: Fix FS mount issue(hot-remove followed
- by hot-add)
-In-Reply-To: <000d01d015e8$5615a740$0240f5c0$@samsung.com>
-References: <1418294839-3464-1-git-send-email-indraneel.m@samsung.com>
- <5489B791.7020007@kernel.dk> <000d01d015e8$5615a740$0240f5c0$@samsung.com>
-Message-ID: <548B1075.5000304@kernel.dk>
+Date: Fri, 12 Dec 2014 09:02:48 -0700
+Subject: [PATCH] NVMe: Re-introduce nvmeq->q_suspended
+In-Reply-To: <80B89753B40C5141A3E2D53FE7A2A8A9945FEA69@NTXBOIMBX02.micron.com>
+References: <546FD7A2.2070305@micron.com>
+ <alpine.LNX.2.00.1411220053400.4225@localhost.lm.intel.com>
+ <546FE2C4.5060905@kernel.dk>
+ <80B89753B40C5141A3E2D53FE7A2A8A9945FEA69@NTXBOIMBX02.micron.com>
+Message-ID: <548B11A8.3050006@kernel.dk>
 
-On 12/12/2014 01:47 AM, Indraneel Mukherjee wrote:
+On 12/09/2014 03:08 PM, Sam Bradshaw (sbradshaw) wrote:
+>
+>
 >> -----Original Message-----
->> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf
->> Of Jens Axboe
->> Sent: Thursday, December 11, 2014 8:56 PM
->> To: Indraneel M; linux-nvme at lists.infradead.org; Keith Busch
->> Subject: Re: [PATCH][linux-block] NVMe: Fix FS mount issue(hot-remove
->> followed by hot-add)
+>> From: Jens Axboe [mailto:axboe at kernel.dk]
+>> Sent: Friday, November 21, 2014 5:12 PM
+>> To: Keith Busch; Sam Bradshaw (sbradshaw)
+>> Cc: linux-nvme at lists.infradead.org; m at bjorling.me
+>> Subject: Re: [PATCH] NVMe: Re-introduce nvmeq->q_suspended
 >>
->> On 12/11/2014 03:47 AM, Indraneel M wrote:
->>> Jens, this version is against the linux-block tree.
+>> On 11/21/2014 06:07 PM, Keith Busch wrote:
+>>> On Fri, 21 Nov 2014, Sam Bradshaw wrote:
+>>>> At some point in the blk-mq transition, q_suspended was removed.
+>>>> This patch adds it back to address two failure modes, both
+>>>> illustrated in the attached snippet.  First, it protects the ioctl
+>>>> path from inadvertently dereferencing invalid nvme_queue data
+>>>> structures during device shutdown/reset.  Second, it protects
+>> against
+>>>> a double
+>>>> free_irq() if the shutdown/reset/resume sequence doesn't recover a
+>>>> flaky controller.
+>>>
+>>> I could have sworn there was a better way to suspend at the
+>>> request_queue level with blk-mq so we don't need this in the driver.
+>>> The blk_start/stop_queue is close, but doesn't work in the ioctl path.
+>>> Maybe I'm thinking blk-mq freeze, but that's not exported for drivers.
 >>
->> It's not, though:
->>
->> checking file drivers/block/nvme-core.c
->> Hunk #1 FAILED at 2600.
->> Hunk #2 FAILED at 2859.
->> 2 out of 2 hunks FAILED
->>
->> what branch are you on? It has to be against for-3.19/drivers or for-next.
-> This
->> was simple enough to hand apply, so I did that. This is the result:
->>
->> http://git.kernel.dk/?p=linux-
->> block.git;a=commit;h=285dffc9101244ac65c29672a1fb3fe614b52238
+>> The freeze stuff should work. I've got a prelim patch that allows
+>> attach/detach of the namespace/block parts, the first prep patch is
+>> exporting the freeze bits.
 >
->
-> Thanks Jens! I had just cloned linux-block and created a patch against it
-> without any branch switch.
+> Would it be possible either to incorporate my patch or your patch exporting freeze bits so I could build similar functionality on top of it?  I'm not able to test any interesting hot plug cases with the current state of the nvme driver in for-3.19/drivers.
 
-It's not easy to know... Generally, if we're before a merge window, 
-patches should be sent against for-3.x/drivers, where x is the next 
-release. If we're after a merge window and it needs to go into this 
-version, then patches should be against for-linus (which is generally 
-pretty close to master).
+We can definitely export the freeze bits. If you have a tested patch 
+with that approach, by all means, lets get it reviewed and incorporated.
+
 
 -- 
 Jens Axboe
