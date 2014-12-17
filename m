@@ -1,230 +1,146 @@
 From: Stephen.Bates@pmcs.com (Stephen Bates)
-Date: Tue, 16 Dec 2014 23:53:43 +0000
-Subject: NVM Express 1.2 - Controller Memory Buffer Functionality.
-In-Reply-To: <alpine.LNX.2.00.1412081847030.3973@localhost.lm.intel.com>
-References: <36F6EBABA23FEF4391AF72944D2289016EC8C680@BBYEXM01.pmc-sierra.internal>, 
- <alpine.LNX.2.00.1412042256430.4225@localhost.lm.intel.com>
- <75526C13-EF09-4050-855B-CA71DD60A290@pmcs.com>
- <alpine.LNX.2.00.1412050022300.4225@localhost.lm.intel.com>
- <36F6EBABA23FEF4391AF72944D2289016EC8CFE6@BBYEXM01.pmc-sierra.internal>
- <5481B13D.6050805@itu.dk>
- <alpine.LNX.2.00.1412052312100.4225@localhost.lm.intel.com>
- <36F6EBABA23FEF4391AF72944D2289016EC901E8@BBYEXM01.pmc-sierra.internal>
- <alpine.LNX.2.00.1412081847030.3973@localhost.lm.intel.com>
-Message-ID: <36F6EBABA23FEF4391AF72944D2289016ECA0C1C@BBYEXM01.pmc-sierra.internal>
+Date: Wed, 17 Dec 2014 00:01:14 +0000
+Subject: [PATCH][qemu-nvme] Enhancements to the CMB feature for NVM Express
+ 1.2 devices.
+Message-ID: <36F6EBABA23FEF4391AF72944D2289016ECA0C7F@BBYEXM01.pmc-sierra.internal>
 
-Keith 
+This patch adds additional configurability to the Controller Memory
+Buffer for QEMU NVMe devices and adds support for the CMBLOC and
+CMBSZ registers which were added as part of the 1.2 specification.
 
-I have a patch coming very soon for qemu-nvme that adds some enhancements to the CMB capabilities in the NVMe model. I will send them to the mailing list so others can review and comment.
+The command-line argument cmb=<cmb> is now more than a flag and can be
+used to set the size of the CMB (in MB). In additional the CMBLOC and
+CMBSZ register are setup to reflect their appropriate values.
 
-Cheers
+Signed-off-by: Stephen Bates <stephen.bates at pmcs.com>
+---
+ hw/block/nvme.c |   26 ++++++++++++++++++--------
+ hw/block/nvme.h |   45 ++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 62 insertions(+), 9 deletions(-)
 
-Stephen Bates, PhD
-Technical Director, CSTO
-PMC-Sierra
-Cell: +1 403 609 1784
-Twitter: @stepbates
-
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Monday, December 8, 2014 12:03 PM
-To: Stephen Bates
-Cc: Keith Busch; Matias Bj?rling; linux-nvme at lists.infradead.org
-Subject: RE: NVM Express 1.2 - Controller Memory Buffer Functionality.
-
-On Mon, 8 Dec 2014, Stephen Bates wrote:
-> Keith
->
-> Fun distractions can be a good thing ;-). Thanks for making that update to QEMU and for sending on your initial driver changes. I cloned your version of the QEMU tree and have it up and running on a local server. Are you OK with my adding some flexibility to the size of the CMB (for testing purposes)?
-
-Make whatever changes you like. I was going for a hastily thrown together proof-of-concept than actually making it universally useful, so feel free to send me a patch if you've got an enhancment.
-
-> Also would you mind sending me an example of how you call QEMU when testing NVMe, (there seems to be a lot of QEMU options)?
-
-There are a lot of options. Here's a basic command I can run for nvme with the CMB feature enabled:
-
-   # ./x86_64-softmmu/qemu-system-x86_64 -m 2048 --enable-kvm /vms/linux.img \
-     -drive file=/vms/nvme.img,if=none,id=foo -device nvme,drive=foo,serial=foobar,cmb=1
-
-Above, I have a linux distro installed in the "linux.img" file, which qemu will use as my boot drive.
-
-The "nvme" device is tied to the "drive" identified as "foo", which is associated to the "nvme.img" file. The nvme device carves that image into namespaces.
-
-The "cmb=1" option enables the feature by allocating an exlusive BAR for general purpose controller side memory.
-
-Clear as mud?
-
-> Also is there any open-source code for regression testing of the NVMe driver? I would hate to make some proposed changes only to find I have broken something simple that could have been caught via a simple regression test.
-
-Nothing public that I know of. If you can successfully run xfstests, you're probably okay.
-
-> Cheers
-> Stephen
->
-> -----Original Message-----
-> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On 
-> Behalf Of Keith Busch
-> Sent: Friday, December 5, 2014 4:29 PM
-> To: Matias Bj?rling
-> Cc: linux-nvme at lists.infradead.org
-> Subject: Re: NVM Express 1.2 - Controller Memory Buffer Functionality.
->
-> I'm probably going to get yelled at for doing this instead of what I'm supposed to be doing, but sometimes fun distractions are fun!
->
-> The QEMU part of CMB is applied in the my tree, as well as a few fixes for other merges I messed up. This is the CMB feature:
->
-> http://git.infradead.org/users/kbusch/qemu-nvme.git/commitdiff/aee710c
-> 5ce4acb11583b85bc7f1c6ba8bea155d5
->
-> I was a bit lazy with it, using an exlusive BAR for controller memory fixed at 128M. I'm also led to believe I'm violating proper MemoryRegion usage by reading "private" values, but I don't see how else to do it!
->
-> Here's an qemu example parameters to set up your device for CMB:
->
->   -drive file=<nvme.img>,if=none,id=foo -device 
-> nvme,drive=foo,serial=baz,cmb=1
->
-> I did have to write some driver bits to test (copied below), but 
-> again, I was lazy and didn't do it the "right" way. Everything's 
-> hard-coded to match the hard-coded values on the controller side. The 
-> only CMB use below is allocating the Admin SQ and CQ out of the CMB. 
-> This is definitely going to be slower on QEMU, so don't even try to do 
-> performance comparisons. :)
->
-> ---
-> diff -ur /drivers/block/nvme-core.c /drivers/block/nvme-core.c
-> --- /drivers/block/nvme-core.c	2014-12-05 15:28:53.662943237 -0700
-> +++ /drivers/block/nvme-core.c	2014-12-05 15:41:15.760944823 -0700
-> @@ -1154,10 +1154,12 @@
->  	}
->  	spin_unlock_irq(&nvmeq->q_lock);
->
-> -	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
-> +	if (nvmeq->qid || !nvmeq->dev->ctrl_mem) {
-> +		dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
->  				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
-> -	dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
-> +		dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
->  					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
-> +	}
->  	kfree(nvmeq);
->  }
->
-> @@ -1209,16 +1211,23 @@
->  	if (!nvmeq)
->  		return NULL;
->
-> -	nvmeq->cqes = dma_alloc_coherent(dmadev, CQ_SIZE(depth),
-> -					&nvmeq->cq_dma_addr, GFP_KERNEL);
-> -	if (!nvmeq->cqes)
-> -		goto free_nvmeq;
-> -	memset((void *)nvmeq->cqes, 0, CQ_SIZE(depth));
-> +	if (qid || !dev->ctrl_mem) {
-> +		nvmeq->cqes = dma_alloc_coherent(dmadev, CQ_SIZE(depth),
-> +				&nvmeq->cq_dma_addr, GFP_KERNEL);
-> +		if (!nvmeq->cqes)
-> +			goto free_nvmeq;
->
-> -	nvmeq->sq_cmds = dma_alloc_coherent(dmadev, SQ_SIZE(depth),
-> +		nvmeq->sq_cmds = dma_alloc_coherent(dmadev, SQ_SIZE(depth),
->  					&nvmeq->sq_dma_addr, GFP_KERNEL);
-> -	if (!nvmeq->sq_cmds)
-> -		goto free_cqdma;
-> +		if (!nvmeq->sq_cmds)
-> +			goto free_cqdma;
-> +	} else {
-> +		nvmeq->sq_dma_addr = pci_resource_start(dev->pci_dev, 2);
-> +		nvmeq->sq_cmds = dev->ctrl_mem;
-> +		nvmeq->cq_dma_addr = pci_resource_start(dev->pci_dev, 2) + 0x1000;
-> +		nvmeq->cqes = dev->ctrl_mem + 0x1000;
-> +	}
-> +	memset((void *)nvmeq->cqes, 0, CQ_SIZE(depth));
->
->  	nvmeq->q_dmadev = dmadev;
->  	nvmeq->dev = dev;
-> @@ -2085,6 +2094,8 @@
->  	dev->db_stride = NVME_CAP_STRIDE(readq(&dev->bar->cap));
->  	dev->dbs = ((void __iomem *)dev->bar) + 4096;
->
-> +	if (readl(&dev->bar->cmbsz) || 0)
-> +		dev->ctrl_mem = ioremap(pci_resource_start(pdev, 2), 0x8000000);
->  	return 0;
->
->   disable:
-> diff -ur /include/linux/nvme.h /include/linux/nvme.h
-> --- /include/linux/nvme.h	2014-01-14 11:05:25.000000000 -0700
-> +++ /include/linux/nvme.h	2014-12-05 10:35:10.059748463 -0700
-> @@ -36,6 +36,8 @@
->  	__u32			aqa;	/* Admin Queue Attributes */
->  	__u64			asq;	/* Admin SQ Base Address */
->  	__u64			acq;	/* Admin CQ Base Address */
-> +	__u32			cmbloc;	/* Controller memory buffer location */
-> +	__u32			cmbsz;	/* Controller memory buffer size */
->  };
->
->  #define NVME_CAP_MQES(cap)	((cap) & 0xffff)
-> @@ -84,6 +86,7 @@
->  	u32 ctrl_config;
->  	struct msix_entry *entry;
->  	struct nvme_bar __iomem *bar;
-> +	volatile void __iomem *ctrl_mem;
->  	struct list_head namespaces;
->  	struct kref kref;
-> --
->
-> On Fri, 5 Dec 2014, Matias Bj?rling wrote:
->> Hi Stephen,
->>
->> The tree is here:
->>
->>  http://git.infradead.org/users/kbusch/qemu-nvme.git
->>
->> Cheers,
->> Matias
->>
->> On 12/05/2014 10:02 AM, Stephen Bates wrote:
->>> Keith
->>>
->>> " I often implement h/w features on a virtual device if real h/w is 
->>> not available. If you're interested, I'll add CMB to my QEMU tree 
->>> sometime in the next week."
->>>
->>> That would be great. Can you send a link to that tree?
->>>
->>> Cheers
->>>
->>> Stephen
->>>
->>> -----Original Message-----
->>> From: Keith Busch [mailto:keith.busch at intel.com]
->>> Sent: Friday, December 5, 2014 8:31 AM
->>> To: Stephen Bates
->>> Cc: Keith Busch; linux-nvme at lists.infradead.org
->>> Subject: Re: NVM Express 1.2 - Controller Memory Buffer Functionality.
->>>
->>> On Thu, 4 Dec 2014, Stephen Bates wrote:
->>>> Keith
->>>>
->>>> Ah, very much a case of "be careful what you ask for" ;-). OK I 
->>>> will start to look at this soon.  One issue I can forsee is lack of 
->>>> 1.2 compliant drives to do testing on. Does anyone have any ideas 
->>>> how best to handle that?
->>>
->>> I often implement h/w features on a virtual device if real h/w is 
->>> not available. If you're interested, I'll add CMB to my QEMU tree 
->>> sometime in the next week.
->>>
->>>> Cheers
->>>> Stephen
->>>
->>> _______________________________________________
->>> Linux-nvme mailing list
->>> Linux-nvme at lists.infradead.org
->>> http://lists.infradead.org/mailman/listinfo/linux-nvme
->>>
->>
->> _______________________________________________
->> Linux-nvme mailing list
->> Linux-nvme at lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-nvme
->>
->
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index f6369c5..0efd23d 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -9,7 +9,7 @@
+  */
+ 
+ /**
+- * Reference Specs: http://www.nvmexpress.org, 1.1, 1.0e
++ * Reference Specs: http://www.nvmexpress.org, 1.2, 1.1, 1.0e
+  *
+  *  http://www.nvmexpress.org/resources/
+  */
+@@ -56,7 +56,7 @@
+  *  meta=<int>       : Meta-data size, Default:0
+  *  oncs=<oncs>      : Optional NVMe command support, Default:DSM
+  *  oacs=<oacs>      : Optional Admin command support, Default:Format
+- *  cmb=<cmb>        : Controller Memory Buffer, Default:0
++ *  cmb=<cmb>        : Controller Memory Buffer, size in MB, Default:0
+  *
+  * The logical block formats all start at 512 byte blocks and double for the
+  * next index. If meta-data is non-zero, half the logical block formats will
+@@ -1980,14 +1980,24 @@ static void nvme_init_pci(NvmeCtrl *n)
+     msi_init(&n->parent_obj, 0x50, 32, true, false);
+ 
+     if (n->cmb) {
+-        n->cmbuf = g_malloc0(0x8000000);
+-        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n, "nvme-cmb", 0x8000000);
+-        pci_register_bar(&n->parent_obj, 2,
++
++        /* If CMB is requested it is setup here. Currently n->cmb
++         * determines size in MB. All other properties are hard-coded
++         * (for now) to:
++         * CMBSZ  = SQS=1, CQS=1, LISTS=1, RDS=1, WDS=1, SZU=1MB
++         * CMBLOC = BIR=2, OFST=0
++         */
++
++        n->bar.cmbloc = 2;
++        n->bar.cmbsz = 0x1f | (0x2<<8) | (n->cmb << 12);
++
++        n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
++        memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n, "nvme-cmb",
++                              NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
++        pci_register_bar(&n->parent_obj, NVME_CMBLOC_BIR(n->bar.cmbloc),
+             PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64,
+             &n->ctrl_mem);
+ 
+-        n->bar.cmbloc = 2; /* BAR 2 is exclusive for CMB */
+-        n->bar.cmbsz = 0x7 | (0x8000 << 12); /* CQ, SQ, and PRP's, 4k sized units , 32k units */
+     }
+ }
+ 
+@@ -2070,7 +2080,7 @@ static Property nvme_props[] = {
+     DEFINE_PROP_UINT8("dps", NvmeCtrl, dps, 0),
+     DEFINE_PROP_UINT8("mc", NvmeCtrl, mc, 0),
+     DEFINE_PROP_UINT8("meta", NvmeCtrl, meta, 0),
+-    DEFINE_PROP_UINT8("cmb", NvmeCtrl, cmb, 0),
++    DEFINE_PROP_UINT16("cmb", NvmeCtrl, cmb, 0),
+     DEFINE_PROP_UINT16("oacs", NvmeCtrl, oacs, NVME_OACS_FORMAT),
+     DEFINE_PROP_UINT16("oncs", NvmeCtrl, oncs, NVME_ONCS_DSM),
+     DEFINE_PROP_UINT16("vid", NvmeCtrl, vid, PCI_VENDOR_ID_INTEL),
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index c8aed7d..49a838d 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -139,6 +139,49 @@ enum NvmeAqaMask {
+ #define NVME_AQA_ASQS(aqa) ((aqa >> AQA_ASQS_SHIFT) & AQA_ASQS_MASK)
+ #define NVME_AQA_ACQS(aqa) ((aqa >> AQA_ACQS_SHIFT) & AQA_ACQS_MASK)
+ 
++enum NvmeCmblocShift {
++    CMBLOC_BIR_SHIFT  = 0,
++    CMBLOC_OFST_SHIFT = 12,
++};
++
++enum NvmeCmblocMask {
++    CMBLOC_BIR_MASK  = 0x7,
++    CMBLOC_OFST_MASK = 0xfffff,
++};
++
++#define NVME_CMBLOC_BIR(cmbloc) ((cmbloc >> CMBLOC_BIR_SHIFT)  & CMBLOC_BIR_MASK)
++#define NVME_CMBLOC_OFST(cmbloc)((cmbloc >> CMBLOC_OFST_SHIFT) & CMBLOC_OFST_MASK)
++
++enum NvmeCmbszShift {
++    CMBSZ_SQS_SHIFT   = 0,
++    CMBSZ_CQS_SHIFT   = 1,
++    CMBSZ_LISTS_SHIFT = 2,
++    CMBSZ_RDS_SHIFT   = 3,
++    CMBSZ_WDS_SHIFT   = 4,
++    CMBSZ_SZU_SHIFT   = 8,
++    CMBSZ_SZ_SHIFT    = 12,
++};
++
++enum NvmeCmbszMask {
++    CMBSZ_SQS_MASK   = 0x1,
++    CMBSZ_CQS_MASK   = 0x1,
++    CMBSZ_LISTS_MASK = 0x1,
++    CMBSZ_RDS_MASK   = 0x1,
++    CMBSZ_WDS_MASK   = 0x1,
++    CMBSZ_SZU_MASK   = 0xf,
++    CMBSZ_SZ_MASK    = 0xfffff,
++};
++
++#define NVME_CMBSZ_SQS(cmbsz)  ((cmbsz >> CMBSZ_SQS_SHIFT)   & CMBSZ_SQS_MASK)
++#define NVME_CMBSZ_CQS(cmbsz)  ((cmbsz >> CMBSZ_CQS_SHIFT)   & CMBSZ_CQS_MASK)
++#define NVME_CMBSZ_LISTS(cmbsz)((cmbsz >> CMBSZ_LISTS_SHIFT) & CMBSZ_LISTS_MASK)
++#define NVME_CMBSZ_RDS(cmbsz)  ((cmbsz >> CMBSZ_RDS_SHIFT)   & CMBSZ_RDS_MASK)
++#define NVME_CMBSZ_WDS(cmbsz)  ((cmbsz >> CMBSZ_WDS_SHIFT)   & CMBSZ_WDS_MASK)
++#define NVME_CMBSZ_SZU(cmbsz)  ((cmbsz >> CMBSZ_SZU_SHIFT)   & CMBSZ_SZU_MASK)
++#define NVME_CMBSZ_SZ(cmbsz)   ((cmbsz >> CMBSZ_SZ_SHIFT)    & CMBSZ_SZ_MASK)
++
++#define NVME_CMBSZ_GETSIZE(cmbsz) (NVME_CMBSZ_SZ(cmbsz) * (1<<(12+4*NVME_CMBSZ_SZU(cmbsz))))
++
+ typedef struct NvmeCmd {
+     uint8_t     opcode;
+     uint8_t     fuse;
+@@ -772,7 +815,7 @@ typedef struct NvmeCtrl {
+     uint8_t     cqes_pending;
+     uint16_t    vid;
+     uint16_t    did;
+-    uint8_t     cmb;
++    uint16_t    cmb;
+     uint8_t     *cmbuf;
+ 
+     char            *serial;
+-- 
+1.7.10.4
