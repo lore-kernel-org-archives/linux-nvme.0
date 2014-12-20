@@ -1,22 +1,32 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 18 Dec 2014 00:14:34 +0000 (UTC)
-Subject: [PATCHv2][qemu-nvme] Enhancements to the CMB feature for NVM
- Express 1.2 devices.
-In-Reply-To: <36F6EBABA23FEF4391AF72944D2289016ECA2B15@BBYEXM01.pmc-sierra.internal>
-References: <36F6EBABA23FEF4391AF72944D2289016ECA2B15@BBYEXM01.pmc-sierra.internal>
-Message-ID: <alpine.LNX.2.00.1412180013220.4026@localhost.lm.intel.com>
+Date: Fri, 19 Dec 2014 17:54:13 -0700
+Subject: [PATCH 1/4] blk-mq: Exit queue on alloc failure
+In-Reply-To: <1419036856-16275-1-git-send-email-keith.busch@intel.com>
+References: <1419036856-16275-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1419036856-16275-2-git-send-email-keith.busch@intel.com>
 
-On Wed, 17 Dec 2014, Stephen Bates wrote:
-> This patch adds additional configurability to the Controller Memory
-> Buffer of the QEMU 1.2 device and adds support for the CMBLOC and
-> CMBSZ registers which were added as part of the 1.2 specification.
->
-> The command-line argument cmb=<cmb> is now more than a flag and can be
-> used to set the size of the CMB (in MB). In additional the CMBLOC and
-> CMBSZ register are setup to reflect their appropriate values.
->
-> Signed-off-by: Stephen Bates <sbates at raithlin.com>
+Fixes usage counter when a request could not be allocated.
 
-Thanks! Applied:
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ block/blk-mq.c |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-http://git.infradead.org/users/kbusch/qemu-nvme.git/commitdiff/4ab1b31f4281b758cba21dff6571843069e7ec1f
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 6cd94ba..68050ae 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -258,8 +258,10 @@ struct request *blk_mq_alloc_request(struct request_queue *q, int rw, gfp_t gfp,
+ 		ctx = alloc_data.ctx;
+ 	}
+ 	blk_mq_put_ctx(ctx);
+-	if (!rq)
++	if (!rq) {
++		blk_mq_queue_exit(q);
+ 		return ERR_PTR(-EWOULDBLOCK);
++	}
+ 	return rq;
+ }
+ EXPORT_SYMBOL(blk_mq_alloc_request);
+-- 
+1.7.10.4
