@@ -1,32 +1,31 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Sat, 20 Dec 2014 12:29:02 -0700
-Subject: [PATCH 0/4] nvme-blkmq fixes
-In-Reply-To: <5495B2BF.8070602@fb.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Mon, 22 Dec 2014 10:15:21 -0500
+Subject: [PATCH 3/4] NVMe: Fix double free irq
+In-Reply-To: <1419036856-16275-4-git-send-email-keith.busch@intel.com>
 References: <1419036856-16275-1-git-send-email-keith.busch@intel.com>
- <5495B2BF.8070602@fb.com>
-Message-ID: <5495CDFE.3060404@fb.com>
+ <1419036856-16275-4-git-send-email-keith.busch@intel.com>
+Message-ID: <20141222151521.GI2220@wil.cx>
 
-On 12/20/2014 10:32 AM, Jens Axboe wrote:
-> On 12/19/2014 05:54 PM, Keith Busch wrote:
->> This fixes some surprise hot plug and error handling cases.
->>
->> There is still one deadlock when we run out of tags and get stuck in
->> bt_get, but Jens sent me a test patch that I verfied fixes that when
->> used with this set.
->
-> Thanks Keith, I'll apply these for the current series. Only change I'll
-> make is turn the freeze/unfreeze exports into _GPL exports.
+On Fri, Dec 19, 2014@05:54:15PM -0700, Keith Busch wrote:
+> Sets the vector to an invalid value after it's freed so we don't free
+> it twice.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/block/nvme-core.c |   19 +++++++++++++------
+>  1 file changed, 13 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> index b1d5d87..9642c83 100644
+> --- a/drivers/block/nvme-core.c
+> +++ b/drivers/block/nvme-core.c
+> @@ -106,7 +106,7 @@ struct nvme_queue {
+>  	dma_addr_t cq_dma_addr;
+>  	u32 __iomem *q_db;
+>  	u16 q_depth;
+> -	u16 cq_vector;
+> +	int cq_vector;
 
-Here's the patch referenced. Keith, if you tested it, can I add your 
-tested/reviewed-by to it?
-
--- 
-Jens Axboe
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: blk-mq-wake-on-dying.patch
-Type: text/x-patch
-Size: 3004 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20141220/a39f758d/attachment-0001.bin>
+If you're going to change its size, can you move it up one slot so as
+to not leave a hole?  The 'pahole' tool can tell you when there are holes
+in structures.
