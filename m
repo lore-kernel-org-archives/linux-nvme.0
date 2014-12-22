@@ -1,43 +1,106 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Mon, 22 Dec 2014 11:19:21 -0700
-Subject: [PATCH 0/4] nvme-blkmq fixes
-In-Reply-To: <alpine.LNX.2.00.1412221807560.4026@localhost.lm.intel.com>
-References: <1419036856-16275-1-git-send-email-keith.busch@intel.com>
- <5495B2BF.8070602@fb.com> <5495CDFE.3060404@fb.com>
- <alpine.LNX.2.00.1412221543240.4026@localhost.lm.intel.com>
- <54984B10.6060907@fb.com>
- <alpine.LNX.2.00.1412221807560.4026@localhost.lm.intel.com>
-Message-ID: <549860A9.7060106@fb.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 22 Dec 2014 11:31:21 -0700
+Subject: [PATCHv2] NVMe: Fix double free irq
+Message-ID: <1419273081-13080-1-git-send-email-keith.busch@intel.com>
 
-On 12/22/2014 11:17 AM, Keith Busch wrote:
-> On Mon, 22 Dec 2014, Jens Axboe wrote:
->> On 12/22/2014 09:38 AM, Keith Busch wrote:
->>> Call Trace:
->>>   [<ffffffff810e75ae>] ? pcpu_free_area+0x79/0xf8
->>>   [<ffffffff8106579f>] ? __wake_up+0x35/0x46
->>>   [<ffffffff811bb67d>] ? blk_set_queue_dying+0x33/0x69
->>>   [<ffffffff811bce39>] ? blk_cleanup_queue+0x25/0xfd
->>>   [<ffffffff812b2ca5>] ? __dm_destroy+0x22c/0x254
->>
->> I wonder if it cleaned up the requests lists upfront, otherwise I
->> don't see where that would crash. I'll look into that. This particular
->> patch isn't pushed out yet.
->
-> The above failure happens because dm called blk_alloc_queue(), but
-> never made it far enough to call blk_init_allocated_queue(). One way
-> to fix is call blk_init_rl() from blk_alloc_queue_node() instead of
-> blk_init_allocated_queue(). I'm not sure if that's the right way to fix
-> it or if blk_cleanup_queue() should somehow be aware if the request_list
-> was initialized in the first place.
+Sets the vector to an invalid value after it's freed so we don't free
+it twice.
 
-OK, I'll take care of this one.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+Obsoletes this one:
 
-> Also I found out I set nvmeq->cq_vector in the wrong place, messing up
-> h/w completion queue interrupt setup (I was wondering why things got so
-> slow!), so I'll fix that along with the struct alignment.
+  http://lists.infradead.org/pipermail/linux-nvme/2014-December/001356.html
 
-Oops... I'll just fold the patches, these are queued up for this round, 
-so not a stable development base anyawy.
+v1->v2:
+  Fixed struct alignment, verified with 'pahole'.
+  Fixed initial setting of IO queue cq_vector to before creating the cq.
 
+ drivers/block/nvme-core.c |   19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index aa6be45..6c4c628 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -105,8 +105,8 @@ struct nvme_queue {
+ 	dma_addr_t sq_dma_addr;
+ 	dma_addr_t cq_dma_addr;
+ 	u32 __iomem *q_db;
++	int cq_vector;
+ 	u16 q_depth;
+-	u16 cq_vector;
+ 	u16 sq_head;
+ 	u16 sq_tail;
+ 	u16 cq_head;
+@@ -1131,10 +1131,16 @@ static void nvme_free_queues(struct nvme_dev *dev, int lowest)
+  */
+ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
+ {
+-	int vector = nvmeq->dev->entry[nvmeq->cq_vector].vector;
++	int vector;
+ 
+ 	spin_lock_irq(&nvmeq->q_lock);
++	if (nvmeq->cq_vector == -1) {
++		spin_unlock_irq(&nvmeq->q_lock);
++		return 1;
++	}
++	vector = nvmeq->dev->entry[nvmeq->cq_vector].vector;
+ 	nvmeq->dev->online_queues--;
++	nvmeq->cq_vector = -1;
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ 
+ 	irq_set_affinity_hint(vector, NULL);
+@@ -1173,7 +1179,7 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
+ }
+ 
+ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+-							int depth, int vector)
++							int depth)
+ {
+ 	struct device *dmadev = &dev->pci_dev->dev;
+ 	struct nvme_queue *nvmeq = kzalloc(sizeof(*nvmeq), GFP_KERNEL);
+@@ -1199,7 +1205,6 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+ 	nvmeq->cq_phase = 1;
+ 	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
+ 	nvmeq->q_depth = depth;
+-	nvmeq->cq_vector = vector;
+ 	nvmeq->qid = qid;
+ 	dev->queue_count++;
+ 	dev->queues[qid] = nvmeq;
+@@ -1244,6 +1249,7 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 	struct nvme_dev *dev = nvmeq->dev;
+ 	int result;
+ 
++	nvmeq->cq_vector = qid - 1;
+ 	result = adapter_alloc_cq(dev, qid, nvmeq);
+ 	if (result < 0)
+ 		return result;
+@@ -1416,7 +1422,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 
+ 	nvmeq = dev->queues[0];
+ 	if (!nvmeq) {
+-		nvmeq = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH, 0);
++		nvmeq = nvme_alloc_queue(dev, 0, NVME_AQ_DEPTH);
+ 		if (!nvmeq)
+ 			return -ENOMEM;
+ 	}
+@@ -1443,6 +1449,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	if (result)
+ 		goto free_nvmeq;
+ 
++	nvmeq->cq_vector = 0;
+ 	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
+ 	if (result)
+ 		goto free_tags;
+@@ -1944,7 +1951,7 @@ static void nvme_create_io_queues(struct nvme_dev *dev)
+ 	unsigned i;
+ 
+ 	for (i = dev->queue_count; i <= dev->max_qid; i++)
+-		if (!nvme_alloc_queue(dev, i, dev->q_depth, i - 1))
++		if (!nvme_alloc_queue(dev, i, dev->q_depth))
+ 			break;
+ 
+ 	for (i = dev->online_queues; i <= dev->queue_count - 1; i++)
 -- 
-Jens Axboe
+1.7.10.4
