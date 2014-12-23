@@ -1,78 +1,56 @@
-From: Stephen.Bates@pmcs.com (Stephen Bates)
-Date: Tue, 23 Dec 2014 17:27:46 +0000
-Subject: [PATCH][qemu-nvme] Improved support for CMBLOC and CMBSZ
-Message-ID: <36F6EBABA23FEF4391AF72944D2289016ECA91F8@BBYEXM01.pmc-sierra.internal>
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 23 Dec 2014 10:49:11 -0700
+Subject: [PATCH 0/4] nvme-blkmq fixes
+In-Reply-To: <alpine.LNX.2.00.1412222303100.4026@localhost.lm.intel.com>
+References: <1419036856-16275-1-git-send-email-keith.busch@intel.com>
+ <5495B2BF.8070602@fb.com> <5495CDFE.3060404@fb.com>
+ <alpine.LNX.2.00.1412221543240.4026@localhost.lm.intel.com>
+ <54984B10.6060907@fb.com>
+ <alpine.LNX.2.00.1412221807560.4026@localhost.lm.intel.com>
+ <549860A9.7060106@fb.com> <54987A43.9000807@fb.com>
+ <alpine.LNX.2.00.1412222053120.4026@localhost.lm.intel.com>
+ <alpine.LNX.2.00.1412222303100.4026@localhost.lm.intel.com>
+Message-ID: <5499AB17.6060805@fb.com>
 
-Added the ability to set the fields of the CMBLOC and CMBSZ registers
-and ensured those registers are set correctly at initialization.
+On 12/22/2014 06:34 PM, Keith Busch wrote:
+> On Mon, 22 Dec 2014, Keith Busch wrote:
+>> On Mon, 22 Dec 2014, Jens Axboe wrote:
+>>> Should be enough to just check for ->rq_pool being initialized or not
+>>> - if it is, we could have waiters and we know the waitqueues have
+>>> been setup, etc.
+>>>
+>>> V2 attached.
+>>
+>> Yep, that fixes the bug.
+>>
+>> I'm not sure I follow your suggestion for forcing bt_get() to abandon
+>> allocating a request tag when the queue is dying. If hctx_may_queue()
+>> fails, it returns a generic error and bt_get() reschedules itself. Should
+>> a different error than -1 be returned if the queue is dying?
+>
+> We're making good incremental improvements, but finding oddities the
+> more I test this. This one's a doozy.
+>
+> Requeued IO's are automatically dispatched, and I don't see an immediately
+> available way stop them. It causes a bug because the queue doorbells are
+> unmapped during reset, so you can't touch them when the queue should be
+> quiesced. I could fix that by having the driver not kick the requeue_list
+> when it knows a reset is in progress, but there's no immediate way
+> to drain the list if the reset fails and the device requires removal,
+> and blk_cleanup_queue() will be stuck.
+>
+> Is there something available to call that I'm missing or do I need to
+> add more removal handling?
 
-Signed-off-by: Stephen Bates <stephen.bates at pmcs.com>
----
- hw/block/nvme.c |   14 ++++++++++++--
- hw/block/nvme.h |   19 +++++++++++++++++++
- 2 files changed, 31 insertions(+), 2 deletions(-)
+So that's actually a case where having the queues auto-started on 
+requeue run is harmful, since we should be able to handle this situation 
+by stopping queues, requeueing, and then having a helper to eventually 
+abort pending requeued work, if we have to. But if you simply requeue 
+them and defer kicking the requeue list it might work. At that point 
+you'd either kick the requeues (and hence start processing them) if 
+things went well on the reset, or we could have some 
+blk_mq_abort_requeues() helper that'd kill them with -EIO instead. Would 
+that work for you?
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index b1bc0c7..4e81fb1 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1992,8 +1992,18 @@ static void nvme_init_pci(NvmeCtrl *n)
-          * CMBLOC = BIR=2, OFST=0
-          */
- 
--        n->bar.cmbloc = 2;
--        n->bar.cmbsz = 0x7 | (0x2<<8) | (n->cmb << 12);
-+        n->bar.cmbloc = 0;
-+        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
-+        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
-+
-+        n->bar.cmbsz = 0;
-+        NVME_CMBSZ_SET_SQS(n->bar.cmbsz,   1);
-+        NVME_CMBSZ_SET_CQS(n->bar.cmbsz,   1);
-+        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 1);
-+        NVME_CMBSZ_SET_RDS(n->bar.cmbsz,   0);
-+        NVME_CMBSZ_SET_WDS(n->bar.cmbsz,   0);
-+        NVME_CMBSZ_SET_SZU(n->bar.cmbsz,   2);
-+        NVME_CMBSZ_SET_SZ(n->bar.cmbsz,    n->cmb);
- 
-         n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
-         memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n, "nvme-cmb",
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 49a838d..3c0fda9 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -152,6 +152,10 @@ enum NvmeCmblocMask {
- #define NVME_CMBLOC_BIR(cmbloc) ((cmbloc >> CMBLOC_BIR_SHIFT)  & CMBLOC_BIR_MASK)
- #define NVME_CMBLOC_OFST(cmbloc)((cmbloc >> CMBLOC_OFST_SHIFT) & CMBLOC_OFST_MASK)
- 
-+#define NVME_CMBLOC_SET_BIR(cmbloc, val)   (cmbloc |= (uint64_t)(val & CMBLOC_BIR_MASK)  \
-+                                                                   << CMBLOC_BIR_SHIFT)
-+#define NVME_CMBLOC_SET_OFST(cmbloc, val)  (cmbloc |= (uint64_t)(val & CMBLOC_OFST_MASK)  \
-+                                                                   << CMBLOC_OFST_SHIFT)
- enum NvmeCmbszShift {
-     CMBSZ_SQS_SHIFT   = 0,
-     CMBSZ_CQS_SHIFT   = 1,
-@@ -180,6 +184,21 @@ enum NvmeCmbszMask {
- #define NVME_CMBSZ_SZU(cmbsz)  ((cmbsz >> CMBSZ_SZU_SHIFT)   & CMBSZ_SZU_MASK)
- #define NVME_CMBSZ_SZ(cmbsz)   ((cmbsz >> CMBSZ_SZ_SHIFT)    & CMBSZ_SZ_MASK)
- 
-+#define NVME_CMBSZ_SET_SQS(cmbsz, val)   (cmbsz |= (uint64_t)(val & CMBSZ_SQS_MASK)  \
-+                                                                << CMBSZ_SQS_SHIFT)
-+#define NVME_CMBSZ_SET_CQS(cmbsz, val)   (cmbsz |= (uint64_t)(val & CMBSZ_CQS_MASK)  \
-+                                                                 << CMBSZ_CQS_SHIFT)
-+#define NVME_CMBSZ_SET_LISTS(cmbsz, val) (cmbsz |= (uint64_t)(val & CMBSZ_LISTS_MASK)  \
-+                                                                << CMBSZ_LISTS_SHIFT)
-+#define NVME_CMBSZ_SET_RDS(cmbsz, val)   (cmbsz |= (uint64_t)(val & CMBSZ_RDS_MASK)  \
-+                                                                << CMBSZ_RDS_SHIFT)
-+#define NVME_CMBSZ_SET_WDS(cmbsz, val)   (cmbsz |= (uint64_t)(val & CMBSZ_WDS_MASK)  \
-+                                                                << CMBSZ_WDS_SHIFT)
-+#define NVME_CMBSZ_SET_SZU(cmbsz, val)   (cmbsz |= (uint64_t)(val & CMBSZ_SZU_MASK)  \
-+                                                                << CMBSZ_SZU_SHIFT)
-+#define NVME_CMBSZ_SET_SZ(cmbsz, val)    (cmbsz |= (uint64_t)(val & CMBSZ_SZ_MASK)  \
-+                                                                << CMBSZ_SZ_SHIFT)
-+
- #define NVME_CMBSZ_GETSIZE(cmbsz) (NVME_CMBSZ_SZ(cmbsz) * (1<<(12+4*NVME_CMBSZ_SZU(cmbsz))))
- 
- typedef struct NvmeCmd {
 -- 
-1.7.10.4
+Jens Axboe
