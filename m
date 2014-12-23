@@ -1,107 +1,78 @@
-From: vthakkar1994@gmail.com (Vaishali Thakkar)
-Date: Tue, 23 Dec 2014 17:52:47 +0530
-Subject: [PATCH] Drivers: block: Introduce use of put_unaligned_be64
-Message-ID: <20141223122247.GA3122@vaishali-Ideapad-Z570>
+From: Stephen.Bates@pmcs.com (Stephen Bates)
+Date: Tue, 23 Dec 2014 17:27:46 +0000
+Subject: [PATCH][qemu-nvme] Improved support for CMBLOC and CMBSZ
+Message-ID: <36F6EBABA23FEF4391AF72944D2289016ECA91F8@BBYEXM01.pmc-sierra.internal>
 
-This patch introduces the use of function put_unaligned_be64.
+Added the ability to set the fields of the CMBLOC and CMBSZ registers
+and ensured those registers are set correctly at initialization.
 
-This is done using Coccinelle and semantic patch used for this is
-as follows:
-
-// <smpl>
-@sizeb64@
-typedef u64, __be64, uint64_t;
-{u64,__be64,uint64_t} e64;
-position p,p64;
-expression len,e;
-@@
-
-len = \(8\|sizeof(u64)\|sizeof(__be64)\|sizeof(uint64_t)\|sizeof(e64)\)
-... when != len = e
-memcpy at p64(...,len)
-
-@othersizeb64 exists@
-position p != sizeb64.p,pbad;
-expression len,e,e1;
-@@
-
-len at p = e1
-... when != len = e
-memcpy at pbad(...,len)
-
-@o@
-identifier tmp;
-expression ptr;
-expression y,e;
-{u64,__be64,uint64_t} e64;
-type T;
-position p,sizeb64.p64,p1 != othersizeb64.pbad;
-@@
-
-- tmp = cpu_to_be64(y);
-
-  <+... when != tmp
-(
-- memcpy(ptr, (T)&tmp, \(8\|sizeof(u64)\|sizeof(__be64)\|sizeof(uint64_t)\|sizeof(e64)\));
-+ put_unaligned_be64(y,ptr);
-|
-- memcpy at p64@p1(ptr, (T)&tmp, ...);
-+ put_unaligned_be64(y,ptr);
-|
-- memcpy at p(ptr, (T)&tmp, ...);
-+ put_unaligned_be64(y,ptr);
-)
-  ...+>
-? tmp = e
-
-@script:python@
-p << o.p;
-@@
-
-print "dangerous second argument in %s:%s" % (p[0].file,p[0].line)
-
-@@ type T; identifier o.tmp; @@
-
-- T tmp;
-...when != tmp
-//</smpl>
-
-Signed-off-by: Vaishali Thakkar <vthakkar1994 at gmail.com>
+Signed-off-by: Stephen Bates <stephen.bates at pmcs.com>
 ---
- drivers/block/nvme-scsi.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ hw/block/nvme.c |   14 ++++++++++++--
+ hw/block/nvme.h |   19 +++++++++++++++++++
+ 2 files changed, 31 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index a4cd6d6..94abb8a 100644
---- a/drivers/block/nvme-scsi.c
-+++ b/drivers/block/nvme-scsi.c
-@@ -43,7 +43,7 @@
- #include <linux/types.h>
- #include <scsi/sg.h>
- #include <scsi/scsi.h>
--
-+#include <linux/unaligned/access_ok.h>
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index b1bc0c7..4e81fb1 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1992,8 +1992,18 @@ static void nvme_init_pci(NvmeCtrl *n)
+          * CMBLOC = BIR=2, OFST=0
+          */
  
- static int sg_version_num = 30534;	/* 2 digits for each component */
+-        n->bar.cmbloc = 2;
+-        n->bar.cmbsz = 0x7 | (0x2<<8) | (n->cmb << 12);
++        n->bar.cmbloc = 0;
++        NVME_CMBLOC_SET_BIR(n->bar.cmbloc, 2);
++        NVME_CMBLOC_SET_OFST(n->bar.cmbloc, 0);
++
++        n->bar.cmbsz = 0;
++        NVME_CMBSZ_SET_SQS(n->bar.cmbsz,   1);
++        NVME_CMBSZ_SET_CQS(n->bar.cmbsz,   1);
++        NVME_CMBSZ_SET_LISTS(n->bar.cmbsz, 1);
++        NVME_CMBSZ_SET_RDS(n->bar.cmbsz,   0);
++        NVME_CMBSZ_SET_WDS(n->bar.cmbsz,   0);
++        NVME_CMBSZ_SET_SZU(n->bar.cmbsz,   2);
++        NVME_CMBSZ_SET_SZ(n->bar.cmbsz,    n->cmb);
  
-@@ -1417,7 +1417,6 @@ static void nvme_trans_fill_read_cap(u8 *response, struct nvme_id_ns *id_ns,
- 	u64 rlba;
- 	u8 prot_en;
- 	u8 p_type_lut[4] = {0, 0, 1, 2};
--	__be64 tmp_rlba;
- 	__be32 tmp_rlba_32;
- 	__be32 tmp_len;
+         n->cmbuf = g_malloc0(NVME_CMBSZ_GETSIZE(n->bar.cmbsz));
+         memory_region_init_io(&n->ctrl_mem, OBJECT(n), &nvme_cmb_ops, n, "nvme-cmb",
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 49a838d..3c0fda9 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -152,6 +152,10 @@ enum NvmeCmblocMask {
+ #define NVME_CMBLOC_BIR(cmbloc) ((cmbloc >> CMBLOC_BIR_SHIFT)  & CMBLOC_BIR_MASK)
+ #define NVME_CMBLOC_OFST(cmbloc)((cmbloc >> CMBLOC_OFST_SHIFT) & CMBLOC_OFST_MASK)
  
-@@ -1434,9 +1433,8 @@ static void nvme_trans_fill_read_cap(u8 *response, struct nvme_id_ns *id_ns,
- 		memcpy(response, &tmp_rlba_32, sizeof(u32));
- 		memcpy(&response[4], &tmp_len, sizeof(u32));
- 	} else {
--		tmp_rlba = cpu_to_be64(rlba);
- 		tmp_len = cpu_to_be32(lba_length);
--		memcpy(response, &tmp_rlba, sizeof(u64));
-+		put_unaligned_be64(rlba, response);
- 		memcpy(&response[8], &tmp_len, sizeof(u32));
- 		response[12] = (p_type_lut[id_ns->dps & 0x3] << 1) | prot_en;
- 		/* P_I_Exponent = 0x0 | LBPPBE = 0x0 */
++#define NVME_CMBLOC_SET_BIR(cmbloc, val)   (cmbloc |= (uint64_t)(val & CMBLOC_BIR_MASK)  \
++                                                                   << CMBLOC_BIR_SHIFT)
++#define NVME_CMBLOC_SET_OFST(cmbloc, val)  (cmbloc |= (uint64_t)(val & CMBLOC_OFST_MASK)  \
++                                                                   << CMBLOC_OFST_SHIFT)
+ enum NvmeCmbszShift {
+     CMBSZ_SQS_SHIFT   = 0,
+     CMBSZ_CQS_SHIFT   = 1,
+@@ -180,6 +184,21 @@ enum NvmeCmbszMask {
+ #define NVME_CMBSZ_SZU(cmbsz)  ((cmbsz >> CMBSZ_SZU_SHIFT)   & CMBSZ_SZU_MASK)
+ #define NVME_CMBSZ_SZ(cmbsz)   ((cmbsz >> CMBSZ_SZ_SHIFT)    & CMBSZ_SZ_MASK)
+ 
++#define NVME_CMBSZ_SET_SQS(cmbsz, val)   (cmbsz |= (uint64_t)(val & CMBSZ_SQS_MASK)  \
++                                                                << CMBSZ_SQS_SHIFT)
++#define NVME_CMBSZ_SET_CQS(cmbsz, val)   (cmbsz |= (uint64_t)(val & CMBSZ_CQS_MASK)  \
++                                                                 << CMBSZ_CQS_SHIFT)
++#define NVME_CMBSZ_SET_LISTS(cmbsz, val) (cmbsz |= (uint64_t)(val & CMBSZ_LISTS_MASK)  \
++                                                                << CMBSZ_LISTS_SHIFT)
++#define NVME_CMBSZ_SET_RDS(cmbsz, val)   (cmbsz |= (uint64_t)(val & CMBSZ_RDS_MASK)  \
++                                                                << CMBSZ_RDS_SHIFT)
++#define NVME_CMBSZ_SET_WDS(cmbsz, val)   (cmbsz |= (uint64_t)(val & CMBSZ_WDS_MASK)  \
++                                                                << CMBSZ_WDS_SHIFT)
++#define NVME_CMBSZ_SET_SZU(cmbsz, val)   (cmbsz |= (uint64_t)(val & CMBSZ_SZU_MASK)  \
++                                                                << CMBSZ_SZU_SHIFT)
++#define NVME_CMBSZ_SET_SZ(cmbsz, val)    (cmbsz |= (uint64_t)(val & CMBSZ_SZ_MASK)  \
++                                                                << CMBSZ_SZ_SHIFT)
++
+ #define NVME_CMBSZ_GETSIZE(cmbsz) (NVME_CMBSZ_SZ(cmbsz) * (1<<(12+4*NVME_CMBSZ_SZU(cmbsz))))
+ 
+ typedef struct NvmeCmd {
 -- 
-1.9.1
+1.7.10.4
