@@ -1,7 +1,7 @@
 From: vthakkar1994@gmail.com (Vaishali Thakkar)
-Date: Tue, 23 Dec 2014 17:42:46 +0530
+Date: Tue, 23 Dec 2014 17:52:47 +0530
 Subject: [PATCH] Drivers: block: Introduce use of put_unaligned_be64
-Message-ID: <20141223121246.GA3032@vaishali-Ideapad-Z570>
+Message-ID: <20141223122247.GA3122@vaishali-Ideapad-Z570>
 
 This patch introduces the use of function put_unaligned_be64.
 
