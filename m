@@ -1,7 +1,7 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 31 Dec 2014 02:31:39 +0000 (UTC)
+From: axboe@fb.com (Jens Axboe)
+Date: Wed, 31 Dec 2014 09:38:34 -0700
 Subject: [PATCH 0/4] nvme-blkmq fixes
-In-Reply-To: <5499DD9B.4020508@fb.com>
+In-Reply-To: <alpine.LNX.2.00.1412310215470.4026@localhost.lm.intel.com>
 References: <1419036856-16275-1-git-send-email-keith.busch@intel.com>
  <5495B2BF.8070602@fb.com> <5495CDFE.3060404@fb.com>
  <alpine.LNX.2.00.1412221543240.4026@localhost.lm.intel.com>
@@ -14,41 +14,31 @@ References: <1419036856-16275-1-git-send-email-keith.busch@intel.com>
  <alpine.LNX.2.00.1412232024530.4026@localhost.lm.intel.com>
  <alpine.LNX.2.00.1412232120410.4026@localhost.lm.intel.com>
  <5499DD9B.4020508@fb.com>
-Message-ID: <alpine.LNX.2.00.1412310215470.4026@localhost.lm.intel.com>
+ <alpine.LNX.2.00.1412310215470.4026@localhost.lm.intel.com>
+Message-ID: <54A4268A.6030504@fb.com>
 
-Abandon the whole series...  Too many corner cases where this falls
-to pieces. I'm running high queue-depth IO with random error injection
-that causes requests to get on lists from ctx->rq_list, hctx->dispatch,
-and q->requeue_list. No matter what I do from the driver, there is
-always a case in either reset or removal where a requests get lost and
-blk_cleanup_queue never completes.
+On 12/30/2014 07:31 PM, Keith Busch wrote:
+> Abandon the whole series...  Too many corner cases where this falls
+> to pieces. I'm running high queue-depth IO with random error injection
+> that causes requests to get on lists from ctx->rq_list, hctx->dispatch,
+> and q->requeue_list. No matter what I do from the driver, there is
+> always a case in either reset or removal where a requests get lost and
+> blk_cleanup_queue never completes.
 
-On Tue, 23 Dec 2014, Jens Axboe wrote:
-> On 12/23/2014 02:23 PM, Keith Busch wrote:
->> On Tue, 23 Dec 2014, Keith Busch wrote:
->>> @@ -432,7 +432,8 @@ static void req_completion(struct nvme_queue
->>> *nvmeq, void *ctx,
->>>         if (!(status & NVME_SC_DNR || blk_noretry_request(req))
->>>             && (jiffies - req->start_time) < req->timeout) {
->>>             blk_mq_requeue_request(req);
->>> -            blk_mq_kick_requeue_list(req->q);
->>> +            if (!blk_queue_stopped(req->q))
->>> +                blk_mq_kick_requeue_list(req->q);
->>>             return;
->>>         }
->>
->> Oops, experimenting with different things, took the wrong snapshot of
->> the patch. Should be:
->>
->> +            if (nvmeq->cq_vector != -1)
->>
->> rather than:
->>
->> +            if (!blk_queue_stopped(req->q))
->>
->> Anyway, I'm going to keep messing with this until I can either hit the
->> other failures I mentioned or convince myself it's safe before sending
->> something for official consideration.
->
-> I was puzzled by the signed change for cq_vector by itself. I'll wait on
-> more results from you before doing anything.
+Back to the drawing board, I'll drop the series. Still off from work 
+here, I'll take a look when I get back soon. I'm surprised it's this 
+difficult, we already went through most of this design/test hash out 
+with scsi-mq.
+
+I'll drop this one:
+
+NVMe: Freeze queues on shutdown
+
+but keep this one:
+
+NVMe: Fix double free irq
+
+Agree?
+
+-- 
+Jens Axboe
