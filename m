@@ -1,37 +1,30 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 7 Jan 2015 03:08:12 +0000 (UTC)
-Subject: [PATCHv2 08/10] NVMe: Start and stop h/w queues on reset
-In-Reply-To: <1420599484-21582-9-git-send-email-keith.busch@intel.com>
-References: <1420599484-21582-1-git-send-email-keith.busch@intel.com>
- <1420599484-21582-9-git-send-email-keith.busch@intel.com>
-Message-ID: <alpine.LNX.2.00.1501070303300.4026@localhost.lm.intel.com>
+From: msw@amzn.com (Matt Wilson)
+Date: Tue, 6 Jan 2015 21:14:27 -0800
+Subject: Potential memory corruption caused by DMA to a killed process
+Message-ID: <20150107051426.GA7020@u109add4315675089e695.ant.amazon.com>
 
-On Tue, 6 Jan 2015, Keith Busch wrote:
-> @@ -433,7 +433,10 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
-> 		if (!(status & NVME_SC_DNR || blk_noretry_request(req))
-> 		    && (jiffies - req->start_time) < req->timeout) {
-> 			blk_mq_requeue_request(req);
-> -			blk_mq_kick_requeue_list(req->q);
-> +			spin_lock(req->q->queue_lock);
-> +			if (!blk_queue_stopped(req->q))
-> +				blk_mq_kick_requeue_list(req->q);
-> +			spin_unlock(req->q->queue_lock);
-> 			return;
-> 		}
+Hi,
 
-Ugh, been at this too long and screwed up my hand-merge when
-squashing and splitting into managable patches. The above should use
-irq save/restore locks.
+The current Linux NVMe driver sets the current task state to
+TASK_KILLABLE in nvme_submit_sync_cmd(). This does not seem safe. If a
+userspace process issues a command via ioctl(), the kernel will pin
+the relevant pages through get_user_pages_fast(). But if the process
+is killed before the NVMe device issues the DMA in response, the
+memory will be released and potentially used by something else.
 
-@@ -433,7 +433,10 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
-   		if (!(status & NVME_SC_DNR || blk_noretry_request(req))
-   		    && (jiffies - req->start_time) < req->timeout) {
-+ 			int flags;
-   			blk_mq_requeue_request(req);
--			blk_mq_kick_requeue_list(req->q);
-+			spin_lock_irqsave(req->q->queue_lock, flags);
-+			if (!blk_queue_stopped(req->q))
-+				blk_mq_kick_requeue_list(req->q);
-+			spin_unlock_irqrestore(req->q->queue_lock, flags);
-  			return;
-  		}
+We observed this actually happening in a test environment (set up by
+Anthony) with a test userspace program submitting commands to an
+emulated NVMe device that completed admin commands artificially slowly
+so that we could kill the process reliably.
+
+It would seem that tasks need to be uninterruptable from the time a
+command that references its pages is placed in the submission ring
+until the completion of the command.
+
+Additionally if the driver times out a command, it needs to be
+synchronously (and confidently) aborted before return from ioctl() or
+allow the process to be killed.
+
+Thoughts?
+
+--msw
