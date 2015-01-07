@@ -1,61 +1,44 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  6 Jan 2015 19:57:58 -0700
-Subject: [PATCHv2 04/10] blk-mq: Export abort requeue list
-In-Reply-To: <1420599484-21582-1-git-send-email-keith.busch@intel.com>
-References: <1420599484-21582-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1420599484-21582-5-git-send-email-keith.busch@intel.com>
+Date: Tue,  6 Jan 2015 19:57:54 -0700
+Subject: [PATCHv2 00/10] Second attempt at blk-mq + nvme hotplug fixes
+Message-ID: <1420599484-21582-1-git-send-email-keith.busch@intel.com>
 
-This patch lets a driver abort all requeued requests in case there are
-any pending, but the h/w queue will never become available again.
+Second try, this time tested against many more scenarios than before
+with error injection and surprise hot-removal and intermittent resets.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- block/blk-mq.c         |   20 ++++++++++++++++++++
- include/linux/blk-mq.h |    1 +
- 2 files changed, 21 insertions(+)
+I'm adding a lot of stuff outside the driver, but I didn't find a
+cleaner way to a lot of these things. This makes me a little nervous,
+so please let me know if anything seems amiss here. I don't think any
+of the blk-mq changes could possibly be harmful to anyone else since
+nvme is the only driver that uses most of the additions.
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index a976db4..f6e1225 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -533,6 +533,26 @@ void blk_mq_kick_requeue_list(struct request_queue *q)
- }
- EXPORT_SYMBOL(blk_mq_kick_requeue_list);
- 
-+void blk_mq_abort_requeue_list(struct request_queue *q)
-+{
-+	unsigned long flags;
-+	LIST_HEAD(rq_list);
-+
-+	spin_lock_irqsave(&q->requeue_lock, flags);
-+	list_splice_init(&q->requeue_list, &rq_list);
-+	spin_unlock_irqrestore(&q->requeue_lock, flags);
-+
-+	while (!list_empty(&rq_list)) {
-+		struct request *rq;
-+
-+		rq = list_first_entry(&rq_list, struct request, queuelist);
-+		list_del_init(&rq->queuelist);
-+		rq->errors = -EIO;
-+		blk_mq_end_request(rq, rq->errors);
-+	}
-+}
-+EXPORT_SYMBOL(blk_mq_abort_requeue_list);
-+
- static inline bool is_flush_request(struct request *rq,
- 		struct blk_flush_queue *fq, unsigned int tag)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index b509ef5..a09728e 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -204,6 +204,7 @@ void blk_mq_requeue_request(struct request *rq);
- void blk_mq_add_to_requeue_list(struct request *rq, bool at_head);
- void blk_mq_cancel_requeue_work(struct request_queue *q);
- void blk_mq_kick_requeue_list(struct request_queue *q);
-+void blk_mq_abort_requeue_list(struct request_queue *q);
- void blk_mq_complete_request(struct request *rq);
- 
- void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx);
+The only issue remaining I found is unfreezing queues might tigger the
+percpu_ref_reinit WARN_ON_ONCE when the driver restarts a request_queue
+with queued up IO's.
+
+This is against linux-block/for-next.
+
+Jens,
+I believe fourth one ("abort requeue list") is from you, but I didn't find
+the patch.
+
+Keith Busch (10):
+  blk-mq: Wake tasks entering a dying queue 
+  blk-mq: Export test for started requests
+  blk-mq: Let drivers cancel requeue_work
+  blk-mq: Export abort requeue list
+  blk-mq: Allow requests to never expire
+  blk-mq: End unstarted requests on a dying queue
+  NVMe: Start driver allocated requests
+  NVMe: Start and stop h/w queues on reset
+  NVMe: Admin queue error handling
+  NVMe: Command abort handling fixes
+
+ block/blk-mq.c            |   46 ++++++++++++++-
+ drivers/block/nvme-core.c |  142 +++++++++++++++++++++++++++++++--------------
+ include/linux/blk-mq.h    |    3 +
+ include/linux/blkdev.h    |    1 +
+ 4 files changed, 146 insertions(+), 46 deletions(-)
+
 -- 
 1.7.10.4
