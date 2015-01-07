@@ -1,62 +1,49 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  6 Jan 2015 19:57:59 -0700
-Subject: [PATCHv2 05/10] blk-mq: Allow requests to never expire
+Date: Tue,  6 Jan 2015 19:57:57 -0700
+Subject: [PATCHv2 03/10] blk-mq: Let drivers cancel requeue_work
 In-Reply-To: <1420599484-21582-1-git-send-email-keith.busch@intel.com>
 References: <1420599484-21582-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1420599484-21582-6-git-send-email-keith.busch@intel.com>
+Message-ID: <1420599484-21582-4-git-send-email-keith.busch@intel.com>
 
-Some requests may be started but have no gaurantee they'll ever
-complete. This defines a special timeout value that a driver can use so
-the request will never be timed out.
+Requeueing requests run h/w queues in a work_queue, which may alter the
+driver's requested state to temporarily stop them. This patch exports
+a method to cancel the q->requeue_work so a driver can be assured it's
+stopped h/w queues won't be started up when it is not ready.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- block/blk-mq.c         |    8 +++++---
- include/linux/blkdev.h |    1 +
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ block/blk-mq.c         |    6 ++++++
+ include/linux/blk-mq.h |    1 +
+ 2 files changed, 7 insertions(+)
 
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index f6e1225..5dbd315b 100644
+index 82930c0..a976db4 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -414,7 +414,8 @@ void blk_mq_start_request(struct request *rq)
- 	if (unlikely(blk_bidi_rq(rq)))
- 		rq->next_rq->resid_len = blk_rq_bytes(rq->next_rq);
- 
--	blk_add_timer(rq);
-+	if (rq->timeout != REQ_NO_TIMEOUT)
-+		blk_add_timer(rq);
- 
- 	/*
- 	 * Ensure that ->deadline is visible before set the started
-@@ -613,13 +614,14 @@ void blk_mq_rq_timed_out(struct request *req, bool reserved)
- 		break;
- 	}
+@@ -521,6 +521,12 @@ void blk_mq_add_to_requeue_list(struct request *rq, bool at_head)
  }
--		
+ EXPORT_SYMBOL(blk_mq_add_to_requeue_list);
+ 
++void blk_mq_cancel_requeue_work(struct request_queue *q)
++{
++	cancel_work_sync(&q->requeue_work);
++}
++EXPORT_SYMBOL_GPL(blk_mq_cancel_requeue_work);
 +
- static void blk_mq_check_expired(struct blk_mq_hw_ctx *hctx,
- 		struct request *rq, void *priv, bool reserved)
+ void blk_mq_kick_requeue_list(struct request_queue *q)
  {
- 	struct blk_mq_timeout_data *data = priv;
+ 	kblockd_schedule_work(&q->requeue_work);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 8bbd082..b509ef5 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -202,6 +202,7 @@ void __blk_mq_end_request(struct request *rq, int error);
  
--	if (!test_bit(REQ_ATOM_STARTED, &rq->atomic_flags))
-+	if (!test_bit(REQ_ATOM_STARTED, &rq->atomic_flags)  ||
-+				rq->timeout == REQ_NO_TIMEOUT)
- 		return;
- 
- 	if (time_after_eq(jiffies, rq->deadline)) {
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 92f4b4b..096b4f7f 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -198,6 +198,7 @@ struct request {
- 
- 	unsigned long deadline;
- 	struct list_head timeout_list;
-+#define REQ_NO_TIMEOUT UINT_MAX
- 	unsigned int timeout;
- 	int retries;
+ void blk_mq_requeue_request(struct request *rq);
+ void blk_mq_add_to_requeue_list(struct request *rq, bool at_head);
++void blk_mq_cancel_requeue_work(struct request_queue *q);
+ void blk_mq_kick_requeue_list(struct request_queue *q);
+ void blk_mq_complete_request(struct request *rq);
  
 -- 
 1.7.10.4
