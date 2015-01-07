@@ -1,36 +1,71 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  6 Jan 2015 19:58:00 -0700
-Subject: [PATCHv2 06/10] blk-mq: End unstarted requests on a dying queue
+Date: Tue,  6 Jan 2015 19:58:01 -0700
+Subject: [PATCHv2 07/10] NVMe: Start driver allocated requests
 In-Reply-To: <1420599484-21582-1-git-send-email-keith.busch@intel.com>
 References: <1420599484-21582-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1420599484-21582-7-git-send-email-keith.busch@intel.com>
+Message-ID: <1420599484-21582-8-git-send-email-keith.busch@intel.com>
 
-Requests that haven't been started prior to a queue dying can be ended
-in error without having to wait for them to time out.
+Once the nvme callback is set for a request, the driver can start it
+and make it available for timeout handling. For timed out commands on a
+device that is not initialized, this fixes potential deadlocks that can
+occur on startup and shutdown when a device is unresponsive since they
+can now be cancelled.
+
+Asynchronous requests do not have any expected timeout, so these are
+using the new "REQ_NO_TIMEOUT".
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- block/blk-mq.c |    7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/block/nvme-core.c |   16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 5dbd315b..1443c77 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -621,8 +621,13 @@ static void blk_mq_check_expired(struct blk_mq_hw_ctx *hctx,
- 	struct blk_mq_timeout_data *data = priv;
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index f7d083b..ff3012b 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -215,6 +215,7 @@ static void nvme_set_info(struct nvme_cmd_info *cmd, void *ctx,
+ 	cmd->fn = handler;
+ 	cmd->ctx = ctx;
+ 	cmd->aborted = 0;
++	blk_mq_start_request(blk_mq_rq_from_pdu(cmd));
+ }
  
- 	if (!test_bit(REQ_ATOM_STARTED, &rq->atomic_flags)  ||
--				rq->timeout == REQ_NO_TIMEOUT)
-+				rq->timeout == REQ_NO_TIMEOUT) {
-+		if (unlikely(blk_queue_dying(rq->q))) {
-+			rq->errors = -EIO;
-+			blk_mq_complete_request(rq);
-+		}
- 		return;
+ /* Special values must be less than 0x1000 */
+@@ -664,8 +665,6 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		}
+ 	}
+ 
+-	blk_mq_start_request(req);
+-
+ 	nvme_set_info(cmd, iod, req_completion);
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	if (req->cmd_flags & REQ_DISCARD)
+@@ -835,6 +834,7 @@ static int nvme_submit_async_admin_req(struct nvme_dev *dev)
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
++	req->timeout = REQ_NO_TIMEOUT;
+ 	cmd_info = blk_mq_rq_to_pdu(req);
+ 	nvme_set_info(cmd_info, req, async_req_completion);
+ 
+@@ -1086,8 +1086,16 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 
+ 	dev_warn(nvmeq->q_dmadev, "Timeout I/O %d QID %d\n", req->tag,
+ 							nvmeq->qid);
+-	if (nvmeq->dev->initialized)
+-		nvme_abort_req(req);
++
++	if (!nvmeq->dev->initialized) {
++		/*
++		 * Force cancelled command frees the request, which requires we
++		 * return BLK_EH_NOT_HANDLED.
++		 */
++		nvme_cancel_queue_ios(nvmeq->hctx, req, nvmeq, reserved);
++		return BLK_EH_NOT_HANDLED;
 +	}
++	nvme_abort_req(req);
  
- 	if (time_after_eq(jiffies, rq->deadline)) {
- 		if (!blk_mark_rq_complete(rq))
+ 	/*
+ 	 * The aborted req will be completed on receiving the abort req.
 -- 
 1.7.10.4
