@@ -1,104 +1,63 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  7 Jan 2015 18:55:52 -0700
-Subject: [PATCHv3 11/12] NVMe: Start and stop h/w queues on reset
+Date: Wed,  7 Jan 2015 18:55:45 -0700
+Subject: [PATCHv3 04/12] blk-mq: Add helper to abort requeued requests
 In-Reply-To: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
 References: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1420682153-3756-12-git-send-email-keith.busch@intel.com>
+Message-ID: <1420682153-3756-5-git-send-email-keith.busch@intel.com>
 
-This freezes and stops all the queues on device shutdown and restarts
-them on resume. This fixes hotplug and reset issues when the controller
-is actively being used.
+From: Jens Axboe <axboe@fb.com>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Adds a helper function a driver can use to abort requeued requests in
+case any are pending when h/w queues are being removed.
+
+Signed-off-by: Jens Axboe <axboe at fb.com>
 ---
- drivers/block/nvme-core.c |   44 +++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 41 insertions(+), 3 deletions(-)
+ block/blk-mq.c         |   20 ++++++++++++++++++++
+ include/linux/blk-mq.h |    1 +
+ 2 files changed, 21 insertions(+)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index f562394..761a454 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -432,8 +432,13 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
- 	if (unlikely(status)) {
- 		if (!(status & NVME_SC_DNR || blk_noretry_request(req))
- 		    && (jiffies - req->start_time) < req->timeout) {
-+			unsigned long flags;
-+
- 			blk_mq_requeue_request(req);
--			blk_mq_kick_requeue_list(req->q);
-+			spin_lock_irqsave(req->q->queue_lock, flags);
-+			if (!blk_queue_stopped(req->q))
-+				blk_mq_kick_requeue_list(req->q);
-+			spin_unlock_irqrestore(req->q->queue_lock, flags);
- 			return;
- 		}
- 		req->errors = nvme_error_status(status);
-@@ -2405,6 +2410,34 @@ static void nvme_dev_list_remove(struct nvme_dev *dev)
- 		kthread_stop(tmp);
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 0812965..a661c4f 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -533,6 +533,26 @@ void blk_mq_kick_requeue_list(struct request_queue *q)
  }
+ EXPORT_SYMBOL(blk_mq_kick_requeue_list);
  
-+static void nvme_freeze_queues(struct nvme_dev *dev)
++void blk_mq_abort_requeue_list(struct request_queue *q)
 +{
-+	struct nvme_ns *ns;
++	unsigned long flags;
++	LIST_HEAD(rq_list);
 +
-+	list_for_each_entry(ns, &dev->namespaces, list) {
-+		blk_mq_freeze_queue_start(ns->queue);
++	spin_lock_irqsave(&q->requeue_lock, flags);
++	list_splice_init(&q->requeue_list, &rq_list);
++	spin_unlock_irqrestore(&q->requeue_lock, flags);
 +
-+		spin_lock(ns->queue->queue_lock);
-+		queue_flag_set(QUEUE_FLAG_STOPPED, ns->queue);
-+		spin_unlock(ns->queue->queue_lock);
++	while (!list_empty(&rq_list)) {
++		struct request *rq;
 +
-+		blk_mq_cancel_requeue_work(ns->queue);
-+		blk_mq_stop_hw_queues(ns->queue);
++		rq = list_first_entry(&rq_list, struct request, queuelist);
++		list_del_init(&rq->queuelist);
++		rq->errors = -EIO;
++		blk_mq_end_request(rq, rq->errors);
 +	}
 +}
++EXPORT_SYMBOL(blk_mq_abort_requeue_list);
 +
-+static void nvme_unfreeze_queues(struct nvme_dev *dev)
-+{
-+	struct nvme_ns *ns;
-+
-+	list_for_each_entry(ns, &dev->namespaces, list) {
-+		queue_flag_clear_unlocked(QUEUE_FLAG_STOPPED, ns->queue);
-+		blk_mq_unfreeze_queue(ns->queue);
-+		blk_mq_start_stopped_hw_queues(ns->queue, true);
-+		blk_mq_kick_requeue_list(ns->queue);
-+	}
-+}
-+
- static void nvme_dev_shutdown(struct nvme_dev *dev)
+ static inline bool is_flush_request(struct request *rq,
+ 		struct blk_flush_queue *fq, unsigned int tag)
  {
- 	int i;
-@@ -2413,8 +2446,10 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 	dev->initialized = 0;
- 	nvme_dev_list_remove(dev);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 18684e0..5735e71 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -203,6 +203,7 @@ void blk_mq_requeue_request(struct request *rq);
+ void blk_mq_add_to_requeue_list(struct request *rq, bool at_head);
+ void blk_mq_cancel_requeue_work(struct request_queue *q);
+ void blk_mq_kick_requeue_list(struct request_queue *q);
++void blk_mq_abort_requeue_list(struct request_queue *q);
+ void blk_mq_complete_request(struct request *rq);
  
--	if (dev->bar)
-+	if (dev->bar) {
-+		nvme_freeze_queues(dev);
- 		csts = readl(&dev->bar->csts);
-+	}
- 	if (csts & NVME_CSTS_CFS || !(csts & NVME_CSTS_RDY)) {
- 		for (i = dev->queue_count - 1; i >= 0; i--) {
- 			struct nvme_queue *nvmeq = dev->queues[i];
-@@ -2670,6 +2705,9 @@ static int nvme_dev_resume(struct nvme_dev *dev)
- 		dev->reset_workfn = nvme_remove_disks;
- 		queue_work(nvme_workq, &dev->reset_work);
- 		spin_unlock(&dev_list_lock);
-+	} else {
-+		nvme_unfreeze_queues(dev);
-+		nvme_set_irq_hints(dev);
- 	}
- 	dev->initialized = 1;
- 	return 0;
-@@ -2807,8 +2845,8 @@ static void nvme_remove(struct pci_dev *pdev)
- 	pci_set_drvdata(pdev, NULL);
- 	flush_work(&dev->reset_work);
- 	misc_deregister(&dev->miscdev);
--	nvme_dev_remove(dev);
- 	nvme_dev_shutdown(dev);
-+	nvme_dev_remove(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_free_queues(dev, 0);
- 	nvme_release_prp_pools(dev);
+ void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx);
 -- 
 1.7.10.4
