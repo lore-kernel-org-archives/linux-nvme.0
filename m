@@ -1,134 +1,80 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  7 Jan 2015 18:55:50 -0700
-Subject: [PATCHv3 09/12] NVMe: Admin queue removal handling
+Date: Wed,  7 Jan 2015 18:55:53 -0700
+Subject: [PATCHv3 12/12] NVMe: Fix locking on abort handling
 In-Reply-To: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
 References: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1420682153-3756-10-git-send-email-keith.busch@intel.com>
+Message-ID: <1420682153-3756-13-git-send-email-keith.busch@intel.com>
 
-This protects admin queue access on shutdown. When the controller is
-disabled, the queue is frozen to prevent new entry, and unfrozen on
-resume, and fixes cq_vector signedness to not suspend a queue twice.
-
-Since unfreezing the queue makes it available for commands, it requires
-the queue be initialized, so this moves this part after that.
-
-Special handling is done when the device is unresponsive during
-shutdown. This can be optimized to not require subsequent commands to
-timeout, but saving that fix for later.
-
-This patch also removes the kill signals in this path that were left-over
-artifacts from the blk-mq conversion and no longer necessary.
+The queues and device need to be locked when messing with them.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   36 +++++++++++++++++++++---------------
- 1 file changed, 21 insertions(+), 15 deletions(-)
+ drivers/block/nvme-core.c |   29 +++++++++++++++++++----------
+ 1 file changed, 19 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index beb8d48..66ade19 100644
+index 761a454..e0a5b3e 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -106,7 +106,7 @@ struct nvme_queue {
- 	dma_addr_t cq_dma_addr;
- 	u32 __iomem *q_db;
- 	u16 q_depth;
--	u16 cq_vector;
-+	s16 cq_vector;
- 	u16 sq_head;
- 	u16 sq_tail;
- 	u16 cq_head;
-@@ -1183,6 +1183,8 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
- 		adapter_delete_sq(dev, qid);
- 		adapter_delete_cq(dev, qid);
- 	}
-+	if (!qid && dev->admin_q)
-+		blk_mq_freeze_queue_start(dev->admin_q);
- 	nvme_clear_queue(nvmeq);
- }
+@@ -1021,14 +1021,19 @@ static void nvme_abort_req(struct request *req)
+ 	struct nvme_command cmd;
  
-@@ -1400,7 +1402,8 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
- 			nvme_dev_remove_admin(dev);
- 			return -ENODEV;
- 		}
+ 	if (!nvmeq->qid || cmd_rq->aborted) {
++		unsigned long flags;
++
++		spin_lock_irqsave(&dev_list_lock, flags);
+ 		if (work_busy(&dev->reset_work))
+-			return;
++			goto out;
+ 		list_del_init(&dev->node);
+ 		dev_warn(&dev->pci_dev->dev,
+ 			"I/O %d QID %d timeout, reset controller\n",
+ 							req->tag, nvmeq->qid);
+ 		dev->reset_workfn = nvme_reset_failed_dev;
+ 		queue_work(nvme_workq, &dev->reset_work);
++ out:
++		spin_unlock_irqrestore(&dev_list_lock, flags);
+ 		return;
+ 	}
+ 
+@@ -1096,25 +1101,29 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	struct nvme_cmd_info *cmd = blk_mq_rq_to_pdu(req);
+ 	struct nvme_queue *nvmeq = cmd->nvmeq;
+ 
++	/*
++	 * The aborted req will be completed on receiving the abort req.
++	 * We enable the timer again. If hit twice, it'll cause a device reset,
++	 * as the device then is in a faulty state.
++	 */
++	int ret = BLK_EH_RESET_TIMER;
++
+ 	dev_warn(nvmeq->q_dmadev, "Timeout I/O %d QID %d\n", req->tag,
+ 							nvmeq->qid);
+ 
++	spin_lock_irq(&nvmeq->q_lock);
+ 	if (!nvmeq->dev->initialized) {
+ 		/*
+ 		 * Force cancelled command frees the request, which requires we
+ 		 * return BLK_EH_NOT_HANDLED.
+ 		 */
+ 		nvme_cancel_queue_ios(nvmeq->hctx, req, nvmeq, reserved);
+-		return BLK_EH_NOT_HANDLED;
 -	}
+-	nvme_abort_req(req);
++		ret = BLK_EH_NOT_HANDLED;
 +	} else
-+		blk_mq_unfreeze_queue(dev->admin_q);
++		nvme_abort_req(req);
++	spin_unlock_irq(&nvmeq->q_lock);
  
- 	return 0;
+-	/*
+-	 * The aborted req will be completed on receiving the abort req.
+-	 * We enable the timer again. If hit twice, it'll cause a device reset,
+-	 * as the device then is in a faulty state.
+-	 */
+-	return BLK_EH_RESET_TIMER;
++	return ret;
  }
-@@ -1459,19 +1462,13 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	if (result)
- 		goto free_nvmeq;
  
--	result = nvme_alloc_admin_tags(dev);
--	if (result)
--		goto free_nvmeq;
--
- 	nvmeq->cq_vector = 0;
- 	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
- 	if (result)
--		goto free_tags;
-+		goto free_nvmeq;
- 
- 	return result;
- 
-- free_tags:
--	nvme_dev_remove_admin(dev);
-  free_nvmeq:
- 	nvme_free_queues(dev, 0);
- 	return result;
-@@ -2256,13 +2253,18 @@ static void nvme_wait_dq(struct nvme_delq_ctx *dq, struct nvme_dev *dev)
- 			break;
- 		if (!schedule_timeout(ADMIN_TIMEOUT) ||
- 					fatal_signal_pending(current)) {
-+			/*
-+			 * Disable the controller first since we can't trust it
-+			 * at this point, but leave the admin queue enabled
-+			 * until all queue deletion requests are flushed.
-+			 * FIXME: This may take a while if there are more h/w
-+			 * queues than admin tags. 
-+			 */
- 			set_current_state(TASK_RUNNING);
--
- 			nvme_disable_ctrl(dev, readq(&dev->bar->cap));
--			nvme_disable_queue(dev, 0);
--
--			send_sig(SIGKILL, dq->worker->task, 1);
-+			nvme_clear_queue(dev->queues[0]);
- 			flush_kthread_worker(dq->worker);
-+			nvme_disable_queue(dev, 0);
- 			return;
- 		}
- 	}
-@@ -2339,7 +2341,6 @@ static void nvme_del_queue_start(struct kthread_work *work)
- {
- 	struct nvme_queue *nvmeq = container_of(work, struct nvme_queue,
- 							cmdinfo.work);
--	allow_signal(SIGKILL);
- 	if (nvme_delete_sq(nvmeq))
- 		nvme_del_queue_end(nvmeq);
- }
-@@ -2607,15 +2608,20 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 	}
- 
- 	nvme_init_queue(dev->queues[0], 0);
-+	result = nvme_alloc_admin_tags(dev);
-+	if (result)
-+		goto disable;
- 
- 	result = nvme_setup_io_queues(dev);
- 	if (result)
--		goto disable;
-+		goto free_tags;
- 
- 	nvme_set_irq_hints(dev);
- 
- 	return result;
- 
-+ free_tags:
-+	nvme_dev_remove_admin(dev);
-  disable:
- 	nvme_disable_queue(dev, 0);
- 	nvme_dev_list_remove(dev);
+ static void nvme_free_queue(struct nvme_queue *nvmeq)
 -- 
 1.7.10.4
