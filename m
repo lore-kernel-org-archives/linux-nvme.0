@@ -1,71 +1,134 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  7 Jan 2015 18:55:48 -0700
-Subject: [PATCHv3 07/12] NVMe: Start all requests
+Date: Wed,  7 Jan 2015 18:55:50 -0700
+Subject: [PATCHv3 09/12] NVMe: Admin queue removal handling
 In-Reply-To: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
 References: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1420682153-3756-8-git-send-email-keith.busch@intel.com>
+Message-ID: <1420682153-3756-10-git-send-email-keith.busch@intel.com>
 
-Once the nvme callback is set for a request, the driver can start it
-and make it available for timeout handling. For timed out commands on a
-device that is not initialized, this fixes potential deadlocks that can
-occur on startup and shutdown when a device is unresponsive since they
-can now be cancelled.
+This protects admin queue access on shutdown. When the controller is
+disabled, the queue is frozen to prevent new entry, and unfrozen on
+resume, and fixes cq_vector signedness to not suspend a queue twice.
 
-Asynchronous requests do not have any expected timeout, so these are
-using the new "REQ_NO_TIMEOUT" request flags.
+Since unfreezing the queue makes it available for commands, it requires
+the queue be initialized, so this moves this part after that.
+
+Special handling is done when the device is unresponsive during
+shutdown. This can be optimized to not require subsequent commands to
+timeout, but saving that fix for later.
+
+This patch also removes the kill signals in this path that were left-over
+artifacts from the blk-mq conversion and no longer necessary.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ drivers/block/nvme-core.c |   36 +++++++++++++++++++++---------------
+ 1 file changed, 21 insertions(+), 15 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index f7d083b..286fa4c 100644
+index beb8d48..66ade19 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -215,6 +215,7 @@ static void nvme_set_info(struct nvme_cmd_info *cmd, void *ctx,
- 	cmd->fn = handler;
- 	cmd->ctx = ctx;
- 	cmd->aborted = 0;
-+	blk_mq_start_request(blk_mq_rq_from_pdu(cmd));
+@@ -106,7 +106,7 @@ struct nvme_queue {
+ 	dma_addr_t cq_dma_addr;
+ 	u32 __iomem *q_db;
+ 	u16 q_depth;
+-	u16 cq_vector;
++	s16 cq_vector;
+ 	u16 sq_head;
+ 	u16 sq_tail;
+ 	u16 cq_head;
+@@ -1183,6 +1183,8 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
+ 		adapter_delete_sq(dev, qid);
+ 		adapter_delete_cq(dev, qid);
+ 	}
++	if (!qid && dev->admin_q)
++		blk_mq_freeze_queue_start(dev->admin_q);
+ 	nvme_clear_queue(nvmeq);
  }
  
- /* Special values must be less than 0x1000 */
-@@ -664,8 +665,6 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+@@ -1400,7 +1402,8 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
+ 			nvme_dev_remove_admin(dev);
+ 			return -ENODEV;
+ 		}
+-	}
++	} else
++		blk_mq_unfreeze_queue(dev->admin_q);
+ 
+ 	return 0;
+ }
+@@ -1459,19 +1462,13 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	if (result)
+ 		goto free_nvmeq;
+ 
+-	result = nvme_alloc_admin_tags(dev);
+-	if (result)
+-		goto free_nvmeq;
+-
+ 	nvmeq->cq_vector = 0;
+ 	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
+ 	if (result)
+-		goto free_tags;
++		goto free_nvmeq;
+ 
+ 	return result;
+ 
+- free_tags:
+-	nvme_dev_remove_admin(dev);
+  free_nvmeq:
+ 	nvme_free_queues(dev, 0);
+ 	return result;
+@@ -2256,13 +2253,18 @@ static void nvme_wait_dq(struct nvme_delq_ctx *dq, struct nvme_dev *dev)
+ 			break;
+ 		if (!schedule_timeout(ADMIN_TIMEOUT) ||
+ 					fatal_signal_pending(current)) {
++			/*
++			 * Disable the controller first since we can't trust it
++			 * at this point, but leave the admin queue enabled
++			 * until all queue deletion requests are flushed.
++			 * FIXME: This may take a while if there are more h/w
++			 * queues than admin tags. 
++			 */
+ 			set_current_state(TASK_RUNNING);
+-
+ 			nvme_disable_ctrl(dev, readq(&dev->bar->cap));
+-			nvme_disable_queue(dev, 0);
+-
+-			send_sig(SIGKILL, dq->worker->task, 1);
++			nvme_clear_queue(dev->queues[0]);
+ 			flush_kthread_worker(dq->worker);
++			nvme_disable_queue(dev, 0);
+ 			return;
  		}
  	}
+@@ -2339,7 +2341,6 @@ static void nvme_del_queue_start(struct kthread_work *work)
+ {
+ 	struct nvme_queue *nvmeq = container_of(work, struct nvme_queue,
+ 							cmdinfo.work);
+-	allow_signal(SIGKILL);
+ 	if (nvme_delete_sq(nvmeq))
+ 		nvme_del_queue_end(nvmeq);
+ }
+@@ -2607,15 +2608,20 @@ static int nvme_dev_start(struct nvme_dev *dev)
+ 	}
  
--	blk_mq_start_request(req);
--
- 	nvme_set_info(cmd, iod, req_completion);
- 	spin_lock_irq(&nvmeq->q_lock);
- 	if (req->cmd_flags & REQ_DISCARD)
-@@ -835,6 +834,7 @@ static int nvme_submit_async_admin_req(struct nvme_dev *dev)
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
+ 	nvme_init_queue(dev->queues[0], 0);
++	result = nvme_alloc_admin_tags(dev);
++	if (result)
++		goto disable;
  
-+	req->cmd_flags |= REQ_NO_TIMEOUT;
- 	cmd_info = blk_mq_rq_to_pdu(req);
- 	nvme_set_info(cmd_info, req, async_req_completion);
+ 	result = nvme_setup_io_queues(dev);
+ 	if (result)
+-		goto disable;
++		goto free_tags;
  
-@@ -1086,8 +1086,16 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	nvme_set_irq_hints(dev);
  
- 	dev_warn(nvmeq->q_dmadev, "Timeout I/O %d QID %d\n", req->tag,
- 							nvmeq->qid);
--	if (nvmeq->dev->initialized)
--		nvme_abort_req(req);
-+
-+	if (!nvmeq->dev->initialized) {
-+		/*
-+		 * Force cancelled command frees the request, which requires we
-+		 * return BLK_EH_NOT_HANDLED.
-+		 */
-+		nvme_cancel_queue_ios(nvmeq->hctx, req, nvmeq, reserved);
-+		return BLK_EH_NOT_HANDLED;
-+	}
-+	nvme_abort_req(req);
+ 	return result;
  
- 	/*
- 	 * The aborted req will be completed on receiving the abort req.
++ free_tags:
++	nvme_dev_remove_admin(dev);
+  disable:
+ 	nvme_disable_queue(dev, 0);
+ 	nvme_dev_list_remove(dev);
 -- 
 1.7.10.4
