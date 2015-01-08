@@ -1,29 +1,36 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  7 Jan 2015 18:55:42 -0700
-Subject: [PATCHv3 01/12] blk-mq: Wake tasks entering queue on dying
+Date: Wed,  7 Jan 2015 18:55:47 -0700
+Subject: [PATCHv3 06/12] blk-mq: End unstarted requests on a dying queue
 In-Reply-To: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
 References: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1420682153-3756-2-git-send-email-keith.busch@intel.com>
+Message-ID: <1420682153-3756-7-git-send-email-keith.busch@intel.com>
 
-When the queue is set to dying, wake up tasks that are waiting on frozen
-queue so they realize it is dying and abandon their request.
+Requests that haven't been started prior to a queue dying can be ended
+in error without waiting for them to start and time out.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- block/blk-mq.c |    1 +
- 1 file changed, 1 insertion(+)
+ block/blk-mq.c |    7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index cbd2a55..c5aa4eb 100644
+index c02a8c2..96d4356 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -160,6 +160,7 @@ void blk_mq_wake_waiters(struct request_queue *q)
- 	queue_for_each_hw_ctx(q, hctx, i)
- 		if (blk_mq_hw_queue_mapped(hctx))
- 			blk_mq_tag_wakeup_all(hctx->tags, true);
-+	wake_up_all(&q->mq_freeze_wq);
- }
+@@ -619,8 +619,13 @@ static void blk_mq_check_expired(struct blk_mq_hw_ctx *hctx,
+ {
+ 	struct blk_mq_timeout_data *data = priv;
  
- bool blk_mq_can_queue(struct blk_mq_hw_ctx *hctx)
+-	if (!test_bit(REQ_ATOM_STARTED, &rq->atomic_flags))
++	if (!test_bit(REQ_ATOM_STARTED, &rq->atomic_flags)) {
++		if (unlikely(blk_queue_dying(rq->q))) {
++			rq->errors = -EIO;
++			blk_mq_complete_request(rq);
++		}
+ 		return;
++	}
+ 	if (rq->cmd_flags & REQ_NO_TIMEOUT)
+ 		return;
+ 
 -- 
 1.7.10.4
