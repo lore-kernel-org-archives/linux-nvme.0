@@ -1,80 +1,36 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  7 Jan 2015 18:55:53 -0700
-Subject: [PATCHv3 12/12] NVMe: Fix locking on abort handling
-In-Reply-To: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
-References: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1420682153-3756-13-git-send-email-keith.busch@intel.com>
+Date: Thu, 8 Jan 2015 16:12:35 +0000 (UTC)
+Subject: Potential memory corruption caused by DMA to a killed process
+In-Reply-To: <20150107051426.GA7020@u109add4315675089e695.ant.amazon.com>
+References: <20150107051426.GA7020@u109add4315675089e695.ant.amazon.com>
+Message-ID: <alpine.LNX.2.00.1501081605520.4026@localhost.lm.intel.com>
 
-The queues and device need to be locked when messing with them.
+On Tue, 6 Jan 2015, Matt Wilson wrote:
+> Hi,
+>
+> The current Linux NVMe driver sets the current task state to
+> TASK_KILLABLE in nvme_submit_sync_cmd(). This does not seem safe. If a
+> userspace process issues a command via ioctl(), the kernel will pin
+> the relevant pages through get_user_pages_fast(). But if the process
+> is killed before the NVMe device issues the DMA in response, the
+> memory will be released and potentially used by something else.
+>
+> We observed this actually happening in a test environment (set up by
+> Anthony) with a test userspace program submitting commands to an
+> emulated NVMe device that completed admin commands artificially slowly
+> so that we could kill the process reliably.
+>
+> It would seem that tasks need to be uninterruptable from the time a
+> command that references its pages is placed in the submission ring
+> until the completion of the command.
+>
+> Additionally if the driver times out a command, it needs to be
+> synchronously (and confidently) aborted before return from ioctl() or
+> allow the process to be killed.
+>
+> Thoughts?
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |   29 +++++++++++++++++++----------
- 1 file changed, 19 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 761a454..e0a5b3e 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1021,14 +1021,19 @@ static void nvme_abort_req(struct request *req)
- 	struct nvme_command cmd;
- 
- 	if (!nvmeq->qid || cmd_rq->aborted) {
-+		unsigned long flags;
-+
-+		spin_lock_irqsave(&dev_list_lock, flags);
- 		if (work_busy(&dev->reset_work))
--			return;
-+			goto out;
- 		list_del_init(&dev->node);
- 		dev_warn(&dev->pci_dev->dev,
- 			"I/O %d QID %d timeout, reset controller\n",
- 							req->tag, nvmeq->qid);
- 		dev->reset_workfn = nvme_reset_failed_dev;
- 		queue_work(nvme_workq, &dev->reset_work);
-+ out:
-+		spin_unlock_irqrestore(&dev_list_lock, flags);
- 		return;
- 	}
- 
-@@ -1096,25 +1101,29 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	struct nvme_cmd_info *cmd = blk_mq_rq_to_pdu(req);
- 	struct nvme_queue *nvmeq = cmd->nvmeq;
- 
-+	/*
-+	 * The aborted req will be completed on receiving the abort req.
-+	 * We enable the timer again. If hit twice, it'll cause a device reset,
-+	 * as the device then is in a faulty state.
-+	 */
-+	int ret = BLK_EH_RESET_TIMER;
-+
- 	dev_warn(nvmeq->q_dmadev, "Timeout I/O %d QID %d\n", req->tag,
- 							nvmeq->qid);
- 
-+	spin_lock_irq(&nvmeq->q_lock);
- 	if (!nvmeq->dev->initialized) {
- 		/*
- 		 * Force cancelled command frees the request, which requires we
- 		 * return BLK_EH_NOT_HANDLED.
- 		 */
- 		nvme_cancel_queue_ios(nvmeq->hctx, req, nvmeq, reserved);
--		return BLK_EH_NOT_HANDLED;
--	}
--	nvme_abort_req(req);
-+		ret = BLK_EH_NOT_HANDLED;
-+	} else
-+		nvme_abort_req(req);
-+	spin_unlock_irq(&nvmeq->q_lock);
- 
--	/*
--	 * The aborted req will be completed on receiving the abort req.
--	 * We enable the timer again. If hit twice, it'll cause a device reset,
--	 * as the device then is in a faulty state.
--	 */
--	return BLK_EH_RESET_TIMER;
-+	return ret;
- }
- 
- static void nvme_free_queue(struct nvme_queue *nvmeq)
--- 
-1.7.10.4
+Right, that is a gap in this path. It will be easier to fix when/if the
+hot-plug series is applied since it "starts" driver allocated requests
+to make them elidgible for timeout handling. Then we can just set the
+state to uninterruptable and use schedule() instead of schedule_timeout().
