@@ -1,63 +1,100 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  7 Jan 2015 18:55:45 -0700
-Subject: [PATCHv3 04/12] blk-mq: Add helper to abort requeued requests
+Date: Wed,  7 Jan 2015 18:55:49 -0700
+Subject: [PATCHv3 08/12] NVMe: Reference count admin queue usage
 In-Reply-To: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
 References: <1420682153-3756-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1420682153-3756-5-git-send-email-keith.busch@intel.com>
+Message-ID: <1420682153-3756-9-git-send-email-keith.busch@intel.com>
 
-From: Jens Axboe <axboe@fb.com>
+Since there is no gendisk associated with the admin queue, the driver
+needs to hold a reference to it until all open references to the
+controller are closed.
 
-Adds a helper function a driver can use to abort requeued requests in
-case any are pending when h/w queues are being removed.
+This also combines queue cleanup with freeing the tag set since these
+should not be separate.
 
-Signed-off-by: Jens Axboe <axboe at fb.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- block/blk-mq.c         |   20 ++++++++++++++++++++
- include/linux/blk-mq.h |    1 +
- 2 files changed, 21 insertions(+)
+ drivers/block/nvme-core.c |   28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 0812965..a661c4f 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -533,6 +533,26 @@ void blk_mq_kick_requeue_list(struct request_queue *q)
- }
- EXPORT_SYMBOL(blk_mq_kick_requeue_list);
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 286fa4c..beb8d48 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1369,6 +1369,14 @@ static struct blk_mq_ops nvme_mq_ops = {
+ 	.timeout	= nvme_timeout,
+ };
  
-+void blk_mq_abort_requeue_list(struct request_queue *q)
++static void nvme_dev_remove_admin(struct nvme_dev *dev)
 +{
-+	unsigned long flags;
-+	LIST_HEAD(rq_list);
-+
-+	spin_lock_irqsave(&q->requeue_lock, flags);
-+	list_splice_init(&q->requeue_list, &rq_list);
-+	spin_unlock_irqrestore(&q->requeue_lock, flags);
-+
-+	while (!list_empty(&rq_list)) {
-+		struct request *rq;
-+
-+		rq = list_first_entry(&rq_list, struct request, queuelist);
-+		list_del_init(&rq->queuelist);
-+		rq->errors = -EIO;
-+		blk_mq_end_request(rq, rq->errors);
++	if (dev->admin_q && !blk_queue_dying(dev->admin_q)) {
++		blk_cleanup_queue(dev->admin_q);
++		blk_mq_free_tag_set(&dev->admin_tagset);
 +	}
 +}
-+EXPORT_SYMBOL(blk_mq_abort_requeue_list);
 +
- static inline bool is_flush_request(struct request *rq,
- 		struct blk_flush_queue *fq, unsigned int tag)
+ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
  {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 18684e0..5735e71 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -203,6 +203,7 @@ void blk_mq_requeue_request(struct request *rq);
- void blk_mq_add_to_requeue_list(struct request *rq, bool at_head);
- void blk_mq_cancel_requeue_work(struct request_queue *q);
- void blk_mq_kick_requeue_list(struct request_queue *q);
-+void blk_mq_abort_requeue_list(struct request_queue *q);
- void blk_mq_complete_request(struct request *rq);
+ 	if (!dev->admin_q) {
+@@ -1388,17 +1396,15 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
+ 			blk_mq_free_tag_set(&dev->admin_tagset);
+ 			return -ENOMEM;
+ 		}
++		if (!blk_get_queue(dev->admin_q)) {
++			nvme_dev_remove_admin(dev);
++			return -ENODEV;
++		}
+ 	}
  
- void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx);
+ 	return 0;
+ }
+ 
+-static void nvme_free_admin_tags(struct nvme_dev *dev)
+-{
+-	if (dev->admin_q)
+-		blk_mq_free_tag_set(&dev->admin_tagset);
+-}
+-
+ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ {
+ 	int result;
+@@ -1465,7 +1471,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	return result;
+ 
+  free_tags:
+-	nvme_free_admin_tags(dev);
++	nvme_dev_remove_admin(dev);
+  free_nvmeq:
+ 	nvme_free_queues(dev, 0);
+ 	return result;
+@@ -2415,12 +2421,6 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 	nvme_dev_unmap(dev);
+ }
+ 
+-static void nvme_dev_remove_admin(struct nvme_dev *dev)
+-{
+-	if (dev->admin_q && !blk_queue_dying(dev->admin_q))
+-		blk_cleanup_queue(dev->admin_q);
+-}
+-
+ static void nvme_dev_remove(struct nvme_dev *dev)
+ {
+ 	struct nvme_ns *ns;
+@@ -2510,6 +2510,7 @@ static void nvme_free_dev(struct kref *kref)
+ 	nvme_free_namespaces(dev);
+ 	nvme_release_instance(dev);
+ 	blk_mq_free_tag_set(&dev->tagset);
++	blk_put_queue(dev->admin_q);
+ 	kfree(dev->queues);
+ 	kfree(dev->entry);
+ 	kfree(dev);
+@@ -2795,7 +2796,6 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	nvme_dev_shutdown(dev);
+ 	nvme_dev_remove_admin(dev);
+ 	nvme_free_queues(dev, 0);
+-	nvme_free_admin_tags(dev);
+ 	nvme_release_prp_pools(dev);
+ 	kref_put(&dev->kref, nvme_free_dev);
+ }
 -- 
 1.7.10.4
