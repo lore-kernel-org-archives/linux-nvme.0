@@ -1,31 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 19 Jan 2015 14:33:05 +0000 (UTC)
-Subject: NVMe driver status
-In-Reply-To: <004b01d033df$9d6c2be0$d84483a0$@samsung.com>
-References: <004b01d033df$9d6c2be0$d84483a0$@samsung.com>
-Message-ID: <alpine.LNX.2.00.1501191414000.15481@localhost.lm.intel.com>
+From: dan.carpenter@oracle.com (Dan Carpenter)
+Date: Mon, 19 Jan 2015 17:43:27 +0300
+Subject: [patch] NVMe: return an error code if blk_mq_alloc_tag_set() fails
+Message-ID: <20150119144327.GE19086@mwanda>
 
-Hi Sunad,
+In the current code, if blk_mq_alloc_tag_set() fails then it returns
+zero (success) instead of preserving the error code.  The caller is not
+expecting that and the kernel could be left in an inconsistent state.
 
-The mainline going forward with kernel 3.19 will be blk-mq, and the
-linux-nvme tree will be there as well on the next upstream merge.
+Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
+---
+Static analysis stuff.  Not tested.
 
-I have my own repo for maintaining the bio-based version since a lot of
-OS vendors are using older kernels in their minor release cycles. I can
-push this out to a public repo on git.infradead.org if there's interest.
-
-Thanks,
-Keith
-
-On Mon, 19 Jan 2015, Sunad Bhandary wrote:
-> Hi Keith,
->
-> Currently there are two different variants of the NVMe driver, one with the
-> multi-queue implementation which is under active development and
-> the one without it which is the current driver hosted in the NVMe git page.
->
-> Going forward will the non-multi queue  driver also be maintained or will it
-> be done away with completely ?
->
-> Regards,
-> Sunad
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index cb529e9..2ff5efc 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2152,7 +2152,8 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
+ 	dev->tagset.driver_data = dev;
+ 
+-	if (blk_mq_alloc_tag_set(&dev->tagset))
++	res = blk_mq_alloc_tag_set(&dev->tagset);
++	if (res)
+ 		goto out;
+ 
+ 	id_ns = mem;
