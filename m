@@ -1,27 +1,14 @@
-From: dan.carpenter@oracle.com (Dan Carpenter)
-Date: Mon, 19 Jan 2015 17:43:27 +0300
-Subject: [patch] NVMe: return an error code if blk_mq_alloc_tag_set() fails
-Message-ID: <20150119144327.GE19086@mwanda>
+From: Lakshmi_Narayanan_Du@Dell.com (Lakshmi_Narayanan_Du@Dell.com)
+Date: Tue, 20 Jan 2015 11:22:48 +0530
+Subject: Request on information for driver contribution 
+Message-ID: <6891C2FAE3B0F342A5B80AFBDCFB5797169CFBE864@BLRX7MCDC204.AMER.DELL.COM>
 
-In the current code, if blk_mq_alloc_tag_set() fails then it returns
-zero (success) instead of preserving the error code.  The caller is not
-expecting that and the kernel could be left in an inconsistent state.
+Hi Keith,
 
-Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
----
-Static analysis stuff.  Not tested.
+I am a newbie but interested to contribute to linux upstream . I do have NVMe HW and interested to contribute for the development/issue fixing  part.
+Kindly let me know the open issues and any new implementation like blk-mq.  Sorry to ask but , please help me with the steps of how should I pitch in quickly to  
+pick the issues and start working on it.
+Do you have any list of issues that I can repro and make my start
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index cb529e9..2ff5efc 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2152,7 +2152,8 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
- 	dev->tagset.driver_data = dev;
- 
--	if (blk_mq_alloc_tag_set(&dev->tagset))
-+	res = blk_mq_alloc_tag_set(&dev->tagset);
-+	if (res)
- 		goto out;
- 
- 	id_ns = mem;
+Thanks,
+Lakshmi
