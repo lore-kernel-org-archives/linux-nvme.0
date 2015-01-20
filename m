@@ -1,71 +1,28 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 20 Jan 2015 15:46:36 +0000 (UTC)
-Subject: NVMe driver status
-In-Reply-To: <000d01d034a8$fa00f060$ee02d120$@samsung.com>
-References: <004b01d033df$9d6c2be0$d84483a0$@samsung.com>
- <alpine.LNX.2.00.1501191414000.15481@localhost.lm.intel.com>
- <000d01d034a8$fa00f060$ee02d120$@samsung.com>
-Message-ID: <alpine.LNX.2.00.1501201537470.15481@localhost.lm.intel.com>
+Date: Tue, 20 Jan 2015 16:03:24 +0000 (UTC)
+Subject: Request on information for driver contribution 
+In-Reply-To: <6891C2FAE3B0F342A5B80AFBDCFB5797169CFBE864@BLRX7MCDC204.AMER.DELL.COM>
+References: <6891C2FAE3B0F342A5B80AFBDCFB5797169CFBE864@BLRX7MCDC204.AMER.DELL.COM>
+Message-ID: <alpine.LNX.2.00.1501201546450.15481@localhost.lm.intel.com>
 
-Okay, I added the repo to here:
+Hi Lakshmi,
 
-http://git.infradead.org/users/kbusch/nvme-legacy.git
+Glad you'd like to get involved. I suppose the best way to contribute is
+to turn the question around: what feature is the current driver missing
+or doing poorly at that you'd like to see? For example, most of my recent
+patches were from testing nvme hot-plug with blk-mq.
 
-It's based off linux-stable v3.18.3, plus a merge from linux-nvme for
-nvme parts that were not committed upstream by 3.18.
+If there's a feature you want to develop before capable h/w exists,
+we can see if it'll fit in the qemu device, kind of like I did for
+Controller Memory Buffer (still hoping that works out!).
 
-I don't know what kind of activity to expect this will get, but I'll be
-happy to merge applicable upstream commits and apply patches for any new
-features or bug fixes people want to see in the bio-based nvme driver.
-
-On Tue, 20 Jan 2015, Sunad Bhandary wrote:
+On Mon, 19 Jan 2015, Lakshmi_Narayanan_Du@Dell.com wrote:
 > Hi Keith,
 >
-> Thanks for clarifying the situation.
->
-> If suppose the bio-based driver version is pushed out to a public repo, will
-> it be made  just a source repo or
-> will it be actively maintained where new patches are acceptable and can be
-> merged into the repo ?
->
-> Thanks and regards,
-> Sunad
->
-> -----Original Message-----
-> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf
-> Of Keith Busch
-> Sent: Monday, January 19, 2015 8:03 PM
-> To: Sunad Bhandary
-> Cc: 'Keith Busch'; linux-nvme at lists.infradead.org
-> Subject: Re: NVMe driver status
->
-> Hi Sunad,
->
-> The mainline going forward with kernel 3.19 will be blk-mq, and the
-> linux-nvme tree will be there as well on the next upstream merge.
->
-> I have my own repo for maintaining the bio-based version since a lot of OS
-> vendors are using older kernels in their minor release cycles. I can push
-> this out to a public repo on git.infradead.org if there's interest.
+> I am a newbie but interested to contribute to linux upstream . I do have NVMe HW and interested to contribute for the development/issue fixing  part.
+> Kindly let me know the open issues and any new implementation like blk-mq.  Sorry to ask but , please help me with the steps of how should I pitch in quickly to
+> pick the issues and start working on it.
+> Do you have any list of issues that I can repro and make my start
 >
 > Thanks,
-> Keith
->
-> On Mon, 19 Jan 2015, Sunad Bhandary wrote:
->> Hi Keith,
->>
->> Currently there are two different variants of the NVMe driver, one
->> with the multi-queue implementation which is under active development
->> and the one without it which is the current driver hosted in the NVMe git
-> page.
->>
->> Going forward will the non-multi queue  driver also be maintained or
->> will it be done away with completely ?
->>
->> Regards,
->> Sunad
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> Lakshmi
