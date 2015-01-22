@@ -1,26 +1,39 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 22 Jan 2015 18:47:11 +0000 (UTC)
+From: axboe@fb.com (Jens Axboe)
+Date: Thu, 22 Jan 2015 11:59:01 -0700
 Subject: [PATCH] NVMe: avoid kmalloc/kfree for smaller IO
-In-Reply-To: <CANvN+emqnrm1YE2Ft68=Q+aMBgDUVEUhHUTfPwPM=yBX-EhtHg@mail.gmail.com>
+In-Reply-To: <alpine.LNX.2.00.1501221702170.15481@localhost.lm.intel.com>
 References: <20150122043805.GA12546@kernel.dk>
  <alpine.LNX.2.00.1501221702170.15481@localhost.lm.intel.com>
- <CANvN+end4BQMAeBZKggbA8k+gjQzKj2xYx+=hovbTvmK_GH4Ug@mail.gmail.com>
- <alpine.LNX.2.00.1501221823430.15481@localhost.lm.intel.com>
- <CANvN+emqnrm1YE2Ft68=Q+aMBgDUVEUhHUTfPwPM=yBX-EhtHg@mail.gmail.com>
-Message-ID: <alpine.LNX.2.00.1501221840120.15481@localhost.lm.intel.com>
+Message-ID: <54C14875.2040806@fb.com>
 
-On Thu, 22 Jan 2015, Andrey Kuzmin wrote:
-> On Jan 22, 2015 9:33 PM, "Keith Busch" <keith.busch@intel.com> wrote:
-> > On Thu, 22 Jan 2015, Andrey Kuzmin wrote:
-> >> AFAIR, per spec NVMe device operates in system page size terms.
-> >
-> > That's the ideal situation, but the device and system don't always have
-> > the same capabilities. Pretty much every nvme controller supports 4k,
-> > and for many, that's all they understand. Some archs use 8k pages, so
+On 01/22/2015 10:26 AM, Keith Busch wrote:
+> On Wed, 21 Jan 2015, Jens Axboe wrote:
+>> Currently we allocate an nvme_iod for each IO, which holds the
+>> sg list, prps, and other IO related info. Set a threshold of
+>> 2 pages and/or 8KB of data, below which we can just embed this
+>> in the per-command pdu in blk-mq. For any IO at or below
+>> NVME_INT_PAGES and NVME_INT_BYTES, we save a kmalloc and kfree.
+>>
+>> For higher IOPS, this saves up to 1% of CPU time.
+>>
+>> Signed-off-by: Jens Axboe <axboe at fb.com>
+>>
+>> ----
 > 
-> Doesn't this get negotiated at PCIe level?
+>> +/*
+>> + * Max size of iod being embedded in the request payload
+>> + */
+>> +#define NVME_INT_PAGES        2
+>> +#define NVME_INT_BYTES        (NVME_INT_PAGES * PAGE_CACHE_SIZE)
+> 
+> I think the above needs to use what the device thinks a page size,
+> right? If
+> there's a mismatched host-device page size, nvme_setup_prps could end up
+> accessing a non-existent prp list.
+> 
+>   #define NVME_INT_BYTES(dev) (NVME_INT_PAGES * dev->page_size)
 
-It's initialized through NVMe controller registers during initialization
-based on its reported capabilities and the system page size. This is
-just informing the controller of the DMA alignment to use for its PRP
-scatter-gather mechanism.
+Good point, I missed that aspect of it. I'll make that change and repost.
+
+-- 
+Jens Axboe
