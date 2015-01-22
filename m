@@ -1,40 +1,64 @@
-From: Lakshmi_Narayanan_Du@Dell.com (Lakshmi_Narayanan_Du@Dell.com)
-Date: Wed, 21 Jan 2015 11:08:48 +0530
-Subject: Request on information for driver contribution 
-In-Reply-To: <alpine.LNX.2.00.1501201546450.15481@localhost.lm.intel.com>
-References: <6891C2FAE3B0F342A5B80AFBDCFB5797169CFBE864@BLRX7MCDC204.AMER.DELL.COM>
- <alpine.LNX.2.00.1501201546450.15481@localhost.lm.intel.com>
-Message-ID: <6891C2FAE3B0F342A5B80AFBDCFB5797169CFBEABE@BLRX7MCDC204.AMER.DELL.COM>
+From: yan@purestorage.com (Yan Liu)
+Date: Wed, 21 Jan 2015 16:28:23 -0800
+Subject: [PATCH 1/1] NVMe: Do not take nsid while a passthrough IO command is
+ being issued via a block device file descriptor
+Message-ID: <1421886503-25276-1-git-send-email-yan@purestorage.com>
 
-Thank you very much for the prompt response Keith . 
-So let me start playing around with blk-mq .
+When a passthrough IO command is issued with a specific block device file descriptor. It should be applied at
+the namespace which is associated with that block device file descriptor. This patch makes such passthrough
+command ingore nsid in nvme_passthru_cmd structure. Instead it takes the namespace ID asscoiated with the
+block device descriptor.
 
-Currently ,I am working with the " linux-next"  git code .. Is this fine ? 
-Kindly  help with your confirmation 
+Signed-off-by: Yan Liu <yan at purestorage.com>
+---
+ drivers/block/nvme-core.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Thanks,
-Lakshmi 
-
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Tuesday, January 20, 2015 9:33 PM
-To: Du, Lakshmi Narayanan
-Cc: keith.busch at intel.com; linux-nvme at lists.infradead.org
-Subject: Re: Request on information for driver contribution 
-
-Hi Lakshmi,
-
-Glad you'd like to get involved. I suppose the best way to contribute is to turn the question around: what feature is the current driver missing or doing poorly at that you'd like to see? For example, most of my recent patches were from testing nvme hot-plug with blk-mq.
-
-If there's a feature you want to develop before capable h/w exists, we can see if it'll fit in the qemu device, kind of like I did for Controller Memory Buffer (still hoping that works out!).
-
-On Mon, 19 Jan 2015, Lakshmi_Narayanan_Du@Dell.com wrote:
-> Hi Keith,
->
-> I am a newbie but interested to contribute to linux upstream . I do have NVMe HW and interested to contribute for the development/issue fixing  part.
-> Kindly let me know the open issues and any new implementation like 
-> blk-mq.  Sorry to ask but , please help me with the steps of how should I pitch in quickly to pick the issues and start working on it.
-> Do you have any list of issues that I can repro and make my start
->
-> Thanks,
-> Lakshmi
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 00fa5d2..865baa6 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1734,7 +1734,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 	return status;
+ }
+ 
+-static int nvme_user_cmd(struct nvme_dev *dev,
++static int nvme_user_cmd(struct nvme_dev *dev, struct nvme_ns *ns,
+ 			struct nvme_passthru_cmd __user *ucmd, bool ioq)
+ {
+ 	struct nvme_passthru_cmd cmd;
+@@ -1751,7 +1751,7 @@ static int nvme_user_cmd(struct nvme_dev *dev,
+ 	memset(&c, 0, sizeof(c));
+ 	c.common.opcode = cmd.opcode;
+ 	c.common.flags = cmd.flags;
+-	c.common.nsid = cpu_to_le32(cmd.nsid);
++	c.common.nsid = ns ? cpu_to_le32(ns->ns_id) : cpu_to_le32(cmd.nsid);
+ 	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
+ 	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
+ 	c.common.cdw10[0] = cpu_to_le32(cmd.cdw10);
+@@ -1804,9 +1804,9 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
+ 		force_successful_syscall_return();
+ 		return ns->ns_id;
+ 	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_cmd(ns->dev, (void __user *)arg, false);
++		return nvme_user_cmd(ns->dev, NULL, (void __user *)arg, false);
+ 	case NVME_IOCTL_IO_CMD:
+-		return nvme_user_cmd(ns->dev, (void __user *)arg, true);
++		return nvme_user_cmd(ns->dev, ns, (void __user *)arg, true);
+ 	case NVME_IOCTL_SUBMIT_IO:
+ 		return nvme_submit_io(ns, (void __user *)arg);
+ 	case SG_GET_VERSION_NUM:
+@@ -2762,9 +2762,9 @@ static long nvme_dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+ 	struct nvme_dev *dev = f->private_data;
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_cmd(dev, (void __user *)arg, false);
++		return nvme_user_cmd(dev, NULL, (void __user *)arg, false);
+ 	case NVME_IOCTL_IO_CMD:
+-		return nvme_user_cmd(dev, (void __user *)arg, true);
++		return nvme_user_cmd(dev, NULL, (void __user *)arg, true);
+ 	default:
+ 		return -ENOTTY;
+ 	}
+-- 
+1.9.1
