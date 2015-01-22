@@ -1,28 +1,37 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 22 Jan 2015 07:49:30 -0800
-Subject: [PATCH 1/1] NVMe: Do not take nsid while a passthrough IO
- command is being issued via a block device file descriptor
-In-Reply-To: <alpine.LNX.2.00.1501221430040.15481@localhost.lm.intel.com>
-References: <1421886503-25276-1-git-send-email-yan@purestorage.com>
- <alpine.LNX.2.00.1501220035170.15481@localhost.lm.intel.com>
- <20150122084517.GA2093@infradead.org>
- <alpine.LNX.2.00.1501221430040.15481@localhost.lm.intel.com>
-Message-ID: <20150122154930.GA28027@infradead.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 22 Jan 2015 16:48:01 +0000 (UTC)
+Subject: [patch] NVMe: return an error code if blk_mq_alloc_tag_set() fails
+In-Reply-To: <54C07F45.4070406@kernel.dk>
+References: <20150119144327.GE19086@mwanda> <54C07F45.4070406@kernel.dk>
+Message-ID: <alpine.LNX.2.00.1501221626080.15481@localhost.lm.intel.com>
 
-On Thu, Jan 22, 2015@03:21:28PM +0000, Keith Busch wrote:
-> The case I considered was the "hidden" attribute in the NVMe LBA Range
-> Type feature. It only indicates the storage should be hidden from the OS
-> for general use, but the host may still use it for special purposes. In
-> truth, the driver doesn't handle the hidden attribute very well and it
-> doesn't seem like a well thought out feature in the spec anyway.
+On Wed, 21 Jan 2015, Jens Axboe wrote:
+> On 01/19/2015 07:43 AM, Dan Carpenter wrote:
+>> In the current code, if blk_mq_alloc_tag_set() fails then it returns
+>> zero (success) instead of preserving the error code.  The caller is not
+>> expecting that and the kernel could be left in an inconsistent state.
+>> 
+>> Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
+>
+> Looks good to me, Keith, could you ack/review it? Leaving it below...
 
-At least for Linux we should simply ignore that attribute.
+Should we bail on the device if tagset allocation fails? If so, the patch
+is good, but I thought it was a concious descision to not return error
+here so the controller can be managed. Capabilities would be limited
+and a failure here probably means there's a bigger problem, so I'm okay
+either way.
 
-> But if you really need to restrict namespace access, shouldn't that be
-> enforced on the target side with reservations or similar mechanism?
-
-Think for example about containers where we give eah container access
-to a single nvme namespace, including container root access.  Here you
-don't really want container A to be able to submit I/O for another
-container.  A similar case exists for virtualization where we had
-problems with SCSI passthrough from guests.
+>> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+>> index cb529e9..2ff5efc 100644
+>> --- a/drivers/block/nvme-core.c
+>> +++ b/drivers/block/nvme-core.c
+>> @@ -2152,7 +2152,8 @@ static int nvme_dev_add(struct nvme_dev *dev)
+>>   	dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
+>>   	dev->tagset.driver_data = dev;
+>> 
+>> -	if (blk_mq_alloc_tag_set(&dev->tagset))
+>> +	res = blk_mq_alloc_tag_set(&dev->tagset);
+>> +	if (res)
+>>   		goto out;
+>>
+>>   	id_ns = mem;
