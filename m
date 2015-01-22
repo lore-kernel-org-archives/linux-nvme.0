@@ -1,42 +1,24 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 21 Jan 2015 21:40:37 -0700
-Subject: [patch] NVMe: return an error code if blk_mq_alloc_tag_set() fails
-In-Reply-To: <20150119144327.GE19086@mwanda>
-References: <20150119144327.GE19086@mwanda>
-Message-ID: <54C07F45.4070406@kernel.dk>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 22 Jan 2015 00:45:17 -0800
+Subject: [PATCH 1/1] NVMe: Do not take nsid while a passthrough IO
+ command is being issued via a block device file descriptor
+In-Reply-To: <alpine.LNX.2.00.1501220035170.15481@localhost.lm.intel.com>
+References: <1421886503-25276-1-git-send-email-yan@purestorage.com>
+ <alpine.LNX.2.00.1501220035170.15481@localhost.lm.intel.com>
+Message-ID: <20150122084517.GA2093@infradead.org>
 
-On 01/19/2015 07:43 AM, Dan Carpenter wrote:
-> In the current code, if blk_mq_alloc_tag_set() fails then it returns
-> zero (success) instead of preserving the error code.  The caller is not
-> expecting that and the kernel could be left in an inconsistent state.
->
-> Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
+On Thu, Jan 22, 2015@12:47:24AM +0000, Keith Busch wrote:
+> The IOCTL's purpose was to let someone submit completely arbitrary
+> commands on IO queues. This technically shouldn't even need a namespace
+> handle, but we don't have a request_queue associated to IO queues without
+> one like the admin queue has. In fact, we ought to fix that so we can
+> issue IO commands without namespaces.
 
-Looks good to me, Keith, could you ack/review it? Leaving it below...
+Honestly, this sounds like a horrible idea.  As namespaces aren't really
+any different from SCSI LUNs they should only be accessible through
+the device associated with the namespaces, and admin commands should
+only be allowed through the character device (if at all).
 
-> Static analysis stuff.  Not tested.
->
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index cb529e9..2ff5efc 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -2152,7 +2152,8 @@ static int nvme_dev_add(struct nvme_dev *dev)
->   	dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
->   	dev->tagset.driver_data = dev;
->
-> -	if (blk_mq_alloc_tag_set(&dev->tagset))
-> +	res = blk_mq_alloc_tag_set(&dev->tagset);
-> +	if (res)
->   		goto out;
->
->   	id_ns = mem;
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
->
-
-
--- 
-Jens Axboe
+For these security and usability reasons we did get rid of the
+SG_FLAG_LUN_INHIBIT flag in the SCSI passthrough interface, which
+allowed for similar horrible things in the distant past.
