@@ -1,28 +1,33 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 22 Jan 2015 16:58:02 +0000 (UTC)
-Subject: [PATCH 1/1] NVMe: Do not take nsid while a passthrough IO command
- is being issued via a block device file descriptor
-In-Reply-To: <20150122154930.GA28027@infradead.org>
-References: <1421886503-25276-1-git-send-email-yan@purestorage.com>
- <alpine.LNX.2.00.1501220035170.15481@localhost.lm.intel.com>
- <20150122084517.GA2093@infradead.org>
- <alpine.LNX.2.00.1501221430040.15481@localhost.lm.intel.com>
- <20150122154930.GA28027@infradead.org>
-Message-ID: <alpine.LNX.2.00.1501221651410.15481@localhost.lm.intel.com>
+Date: Thu, 22 Jan 2015 17:26:49 +0000 (UTC)
+Subject: [PATCH] NVMe: avoid kmalloc/kfree for smaller IO
+In-Reply-To: <20150122043805.GA12546@kernel.dk>
+References: <20150122043805.GA12546@kernel.dk>
+Message-ID: <alpine.LNX.2.00.1501221702170.15481@localhost.lm.intel.com>
 
-On Thu, 22 Jan 2015, Christoph Hellwig wrote:
-> On Thu, Jan 22, 2015@03:21:28PM +0000, Keith Busch wrote:
->> But if you really need to restrict namespace access, shouldn't that be
->> enforced on the target side with reservations or similar mechanism?
+On Wed, 21 Jan 2015, Jens Axboe wrote:
+> Currently we allocate an nvme_iod for each IO, which holds the
+> sg list, prps, and other IO related info. Set a threshold of
+> 2 pages and/or 8KB of data, below which we can just embed this
+> in the per-command pdu in blk-mq. For any IO at or below
+> NVME_INT_PAGES and NVME_INT_BYTES, we save a kmalloc and kfree.
 >
-> Think for example about containers where we give eah container access
-> to a single nvme namespace, including container root access.  Here you
-> don't really want container A to be able to submit I/O for another
-> container.  A similar case exists for virtualization where we had
-> problems with SCSI passthrough from guests.
+> For higher IOPS, this saves up to 1% of CPU time.
+>
+> Signed-off-by: Jens Axboe <axboe at fb.com>
+>
+> ----
 
+> +/*
+> + * Max size of iod being embedded in the request payload
+> + */
+> +#define NVME_INT_PAGES		2
+> +#define NVME_INT_BYTES		(NVME_INT_PAGES * PAGE_CACHE_SIZE)
 
-Okay, that's a great point.
+I think the above needs to use what the device thinks a page size, right? If
+there's a mismatched host-device page size, nvme_setup_prps could end up
+accessing a non-existent prp list.
 
-Yan, we should apply this if you can submit a patch for the linux-block
-tree.
+   #define NVME_INT_BYTES(dev) (NVME_INT_PAGES * dev->page_size)
+
+Otherwise, looks good!
