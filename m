@@ -1,64 +1,31 @@
-From: yan@purestorage.com (Yan Liu)
-Date: Wed, 21 Jan 2015 16:28:23 -0800
-Subject: [PATCH 1/1] NVMe: Do not take nsid while a passthrough IO command is
- being issued via a block device file descriptor
-Message-ID: <1421886503-25276-1-git-send-email-yan@purestorage.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 22 Jan 2015 00:47:24 +0000 (UTC)
+Subject: [PATCH 1/1] NVMe: Do not take nsid while a passthrough IO command
+ is being issued via a block device file descriptor
+In-Reply-To: <1421886503-25276-1-git-send-email-yan@purestorage.com>
+References: <1421886503-25276-1-git-send-email-yan@purestorage.com>
+Message-ID: <alpine.LNX.2.00.1501220035170.15481@localhost.lm.intel.com>
 
-When a passthrough IO command is issued with a specific block device file descriptor. It should be applied at
-the namespace which is associated with that block device file descriptor. This patch makes such passthrough
-command ingore nsid in nvme_passthru_cmd structure. Instead it takes the namespace ID asscoiated with the
-block device descriptor.
+On Wed, 21 Jan 2015, Yan Liu wrote:
+> When a passthrough IO command is issued with a specific block device file descriptor. It should be applied at
+> the namespace which is associated with that block device file descriptor. This patch makes such passthrough
+> command ingore nsid in nvme_passthru_cmd structure. Instead it takes the namespace ID asscoiated with the
+> block device descriptor.
+>
+> Signed-off-by: Yan Liu <yan at purestorage.com>
 
-Signed-off-by: Yan Liu <yan at purestorage.com>
----
- drivers/block/nvme-core.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+Oh it doesn't look like you tested this through the character
+handle. You've got it set to use the admin queue's request_queue for IO
+passthrough commands, so that can't be right.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 00fa5d2..865baa6 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1734,7 +1734,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	return status;
- }
- 
--static int nvme_user_cmd(struct nvme_dev *dev,
-+static int nvme_user_cmd(struct nvme_dev *dev, struct nvme_ns *ns,
- 			struct nvme_passthru_cmd __user *ucmd, bool ioq)
- {
- 	struct nvme_passthru_cmd cmd;
-@@ -1751,7 +1751,7 @@ static int nvme_user_cmd(struct nvme_dev *dev,
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = cmd.opcode;
- 	c.common.flags = cmd.flags;
--	c.common.nsid = cpu_to_le32(cmd.nsid);
-+	c.common.nsid = ns ? cpu_to_le32(ns->ns_id) : cpu_to_le32(cmd.nsid);
- 	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
- 	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
- 	c.common.cdw10[0] = cpu_to_le32(cmd.cdw10);
-@@ -1804,9 +1804,9 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
- 		force_successful_syscall_return();
- 		return ns->ns_id;
- 	case NVME_IOCTL_ADMIN_CMD:
--		return nvme_user_cmd(ns->dev, (void __user *)arg, false);
-+		return nvme_user_cmd(ns->dev, NULL, (void __user *)arg, false);
- 	case NVME_IOCTL_IO_CMD:
--		return nvme_user_cmd(ns->dev, (void __user *)arg, true);
-+		return nvme_user_cmd(ns->dev, ns, (void __user *)arg, true);
- 	case NVME_IOCTL_SUBMIT_IO:
- 		return nvme_submit_io(ns, (void __user *)arg);
- 	case SG_GET_VERSION_NUM:
-@@ -2762,9 +2762,9 @@ static long nvme_dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
- 	struct nvme_dev *dev = f->private_data;
- 	switch (cmd) {
- 	case NVME_IOCTL_ADMIN_CMD:
--		return nvme_user_cmd(dev, (void __user *)arg, false);
-+		return nvme_user_cmd(dev, NULL, (void __user *)arg, false);
- 	case NVME_IOCTL_IO_CMD:
--		return nvme_user_cmd(dev, (void __user *)arg, true);
-+		return nvme_user_cmd(dev, NULL, (void __user *)arg, true);
- 	default:
- 		return -ENOTTY;
- 	}
--- 
-1.9.1
+The IOCTL's purpose was to let someone submit completely arbitrary
+commands on IO queues. This technically shouldn't even need a namespace
+handle, but we don't have a request_queue associated to IO queues without
+one like the admin queue has. In fact, we ought to fix that so we can
+issue IO commands without namespaces.
+
+Anyway, namespaces may be hidden or some vendor special NSID trickery,
+who knows. Point is we don't want to tie the passthrough command's NSID
+down to the namespace providing the request_queue. If it is your intention
+to use that NSID, you can get the NSID using the NVME_IOCTL_ID prior to
+setting up the passthrough command.
