@@ -1,32 +1,33 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Fri, 23 Jan 2015 10:46:19 -0700
-Subject: [PATCH/RFC] NVMe: add support for doing offline/online of attached
- namespaces
-In-Reply-To: <20150123174457.GA12539@infradead.org>
-References: <20150123152430.GA6107@kernel.dk>
- <20150123171112.GA2650@infradead.org> <54C283DD.8080809@fb.com>
- <20150123173140.GB28005@infradead.org> <54C2875A.3040502@fb.com>
- <20150123174457.GA12539@infradead.org>
-Message-ID: <54C288EB.5020506@fb.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 23 Jan 2015 17:50:33 +0000 (UTC)
+Subject: [PATCH 1/1] NVMe: Do not take nsid while a passthrough IO command
+ is being issued via a block device file descriptor
+In-Reply-To: <20150123172745.GA28005@infradead.org>
+References: <1421971328-5065-1-git-send-email-yan@purestorage.com>
+ <20150123075708.GA17232@infradead.org>
+ <alpine.LNX.2.00.1501231451380.15481@localhost.lm.intel.com>
+ <20150123172745.GA28005@infradead.org>
+Message-ID: <alpine.LNX.2.00.1501231737070.15481@localhost.lm.intel.com>
 
-On 01/23/2015 10:44 AM, Christoph Hellwig wrote:
-> On Fri, Jan 23, 2015@10:39:38AM -0700, Jens Axboe wrote:
->> For the per dev host/sdev busy counters, those could be further improved if
->> they turn out to be a problem. I've got various "things" here that'll do
->> 1-2M IOPS per dev, so some test/profiling would not be a problem to do.
+On Fri, 23 Jan 2015, Christoph Hellwig wrote:
+> On Fri, Jan 23, 2015@04:22:02PM +0000, Keith Busch wrote:
+>> The namespace id should be enforced on block devices, but is there a
+>> problem allowing arbitrary commands through the management char device?
+>> I have a need for a pure passthrough, but the proposed patch requires
+>> a matching namespace id all the time.
+>>
+>> I wrote and tested the one below to override nsid on block devices,
+>> but doesn't require a visible namespace through the management device.
 >
-> We've tested up to 3M IOPS and it wasn't an issue, but none of these
-> systems had more than two sockets.
+> Allowing requests to differetn namespaces through the admin interface
+> doesn't sound too horrible in general, but I still don't like your patch
+> below.  Instead of allocating another queue that allows arbitrary nsids
+> we should simply look up the namespace when sent through the admin device,
+> and still reject it if the namespace isn't valid.  If a namespaces
+> is marked hidden we should still create a device for it in Linux,
+> as that whole concept of hiding a namespace is silly.
 
-I've got an older 4 socket here that loves to prove these are issues :-)
-
->> First issue is support for > 1 hw queue in SCSI, though.
->
-> We've added > 1 queue support for virtio-scsi and srp, but most HBAs lack
-> the hardware support for it.
-
-Is that queued up for 3.20?
-
-
--- 
-Jens Axboe
+No argument against removing the hidden attribute handling, but there
+are unadvertised NSID's that have special meaning. Like NSID 0xffffffff
+means to apply a command to all namespaces. Vendor specific commands
+may have other special NSID meanings as well.
