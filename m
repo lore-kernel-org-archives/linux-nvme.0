@@ -1,36 +1,98 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 22 Jan 2015 16:15:10 -0700
-Subject: [patch] NVMe: return an error code if blk_mq_alloc_tag_set() fails
-In-Reply-To: <alpine.LNX.2.00.1501222252300.15481@localhost.lm.intel.com>
-References: <20150119144327.GE19086@mwanda> <54C07F45.4070406@kernel.dk>
- <alpine.LNX.2.00.1501221626080.15481@localhost.lm.intel.com>
- <54C17DBF.40901@kernel.dk>
- <alpine.LNX.2.00.1501222252300.15481@localhost.lm.intel.com>
-Message-ID: <54C1847E.6010206@kernel.dk>
+From: yan@purestorage.com (Yan Liu)
+Date: Thu, 22 Jan 2015 16:02:08 -0800
+Subject: [PATCH 1/1] NVMe: Do not take nsid while a passthrough IO command is
+ being issued via a block device file descriptor
+Message-ID: <1421971328-5065-1-git-send-email-yan@purestorage.com>
 
-On 01/22/2015 04:11 PM, Keith Busch wrote:
-> On Thu, 22 Jan 2015, Jens Axboe wrote:
->> On 01/22/2015 09:48 AM, Keith Busch wrote:
->>> Should we bail on the device if tagset allocation fails? If so, the
->>> patch
->>> is good, but I thought it was a concious descision to not return error
->>> here so the controller can be managed. Capabilities would be limited
->>> and a failure here probably means there's a bigger problem, so I'm okay
->>> either way.
->>
->> That's a good point, you could still send admin IO through the ioctls
->> even if this fails. Looking at the rest of the function, the error
->> handling is a bit strange. If we fail the nvme_identify(), we'll just
->> march on. If the next works, we're good, we return success. But if the
->> failed one happens to be the last one, we return error.
->
-> It's a little simpler than that. The return value is unconditionally
-> cleared to 0 at the end so we always return success if the first
-> nvme_identify() was successful. I wouldn't trust a controller that
-> couldn't identify itself, but the remaining commands are for namespace
-> identification which can legitimately return errors.
+When a passthrough IO command is issued with a specific block device file descriptor. It should be applied at
+the namespace which is associated with that block device file descriptor. This patch makes such passthrough
+command ignore nsid in nvme_passthru_cmd structure. Instead it takes the namespace ID asscoiated with the
+block device descriptor.
 
-Ah correct, I missed that unconditional clear. I think it looks fine then.
+Signed-off-by: Yan Liu <yan at purestorage.com>
+---
+ drivers/block/nvme-core.c | 34 +++++++++++++++++++++++-----------
+ 1 file changed, 23 insertions(+), 11 deletions(-)
 
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index cb529e9..8bb08ab 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1683,7 +1683,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ }
+ 
+ static int nvme_user_cmd(struct nvme_dev *dev, struct nvme_ns *ns,
+-			struct nvme_passthru_cmd __user *ucmd)
++			struct nvme_passthru_cmd __user *ucmd, bool ioq)
+ {
+ 	struct nvme_passthru_cmd cmd;
+ 	struct nvme_command c;
+@@ -1699,7 +1699,7 @@ static int nvme_user_cmd(struct nvme_dev *dev, struct nvme_ns *ns,
+ 	memset(&c, 0, sizeof(c));
+ 	c.common.opcode = cmd.opcode;
+ 	c.common.flags = cmd.flags;
+-	c.common.nsid = cpu_to_le32(cmd.nsid);
++	c.common.nsid = ns ? cpu_to_le32(ns->ns_id) : cpu_to_le32(cmd.nsid);
+ 	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
+ 	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
+ 	c.common.cdw10[0] = cpu_to_le32(cmd.cdw10);
+@@ -1725,9 +1725,25 @@ static int nvme_user_cmd(struct nvme_dev *dev, struct nvme_ns *ns,
+ 
+ 	if (length != cmd.data_len)
+ 		status = -ENOMEM;
+-	else if (ns) {
++	else if (ioq) {
+ 		struct request *req;
+ 
++		if (!ns) {
++			if (list_empty(&dev->namespaces)) {
++				return -ENOTTY;
++
++			struct nvme_ns *ns_ptr;
++
++			list_for_each_entry(ns_ptr, &dev->namespaces, list) {
++				if (ns_ptr->ns_id == cmd.nsid) {
++					ns = ns_ptr;
++					break;
++				}
++			}
++			if (!ns)
++				return -EINVAL;
++		}
++
+ 		req = blk_mq_alloc_request(ns->queue, WRITE,
+ 						(GFP_KERNEL|__GFP_WAIT), false);
+ 		if (IS_ERR(req))
+@@ -1762,9 +1778,9 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
+ 		force_successful_syscall_return();
+ 		return ns->ns_id;
+ 	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_cmd(ns->dev, NULL, (void __user *)arg);
++		return nvme_user_cmd(ns->dev, NULL, (void __user *)arg, false);
+ 	case NVME_IOCTL_IO_CMD:
+-		return nvme_user_cmd(ns->dev, ns, (void __user *)arg);
++		return nvme_user_cmd(ns->dev, ns, (void __user *)arg, true);
+ 	case NVME_IOCTL_SUBMIT_IO:
+ 		return nvme_submit_io(ns, (void __user *)arg);
+ 	case SG_GET_VERSION_NUM:
+@@ -2589,16 +2605,12 @@ static int nvme_dev_release(struct inode *inode, struct file *f)
+ static long nvme_dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
+ {
+ 	struct nvme_dev *dev = f->private_data;
+-	struct nvme_ns *ns;
+ 
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ADMIN_CMD:
+-		return nvme_user_cmd(dev, NULL, (void __user *)arg);
++		return nvme_user_cmd(dev, NULL, (void __user *)arg, false);
+ 	case NVME_IOCTL_IO_CMD:
+-		if (list_empty(&dev->namespaces))
+-			return -ENOTTY;
+-		ns = list_first_entry(&dev->namespaces, struct nvme_ns, list);
+-		return nvme_user_cmd(dev, ns, (void __user *)arg);
++		return nvme_user_cmd(dev, NULL, (void __user *)arg, true);
+ 	default:
+ 		return -ENOTTY;
+ 	}
 -- 
-Jens Axboe
+1.9.1
