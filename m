@@ -1,51 +1,34 @@
-From: andrey.v.kuzmin@gmail.com (Andrey Kuzmin)
-Date: Thu, 29 Jan 2015 02:17:35 +0400
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Wed, 28 Jan 2015 17:28:41 -0500
 Subject: [PATCH] NVMe: Skip namespaces with interleaved meta-data
-In-Reply-To: <alpine.LNX.2.00.1501281456010.15481@localhost.lm.intel.com>
+In-Reply-To: <alpine.LNX.2.00.1501282210070.15481@localhost.lm.intel.com>
+ (Keith Busch's message of "Wed, 28 Jan 2015 22:17:21 +0000 (UTC)")
 References: <1422382021-15350-1-git-send-email-keith.busch@intel.com>
  <1422395867952.40819@hgst.com>
  <alpine.LNX.2.00.1501272203000.15481@localhost.lm.intel.com>
  <alpine.LNX.2.00.1501280111410.15481@localhost.lm.intel.com>
  <yq1zj93iszd.fsf@sermon.lab.mkp.net>
  <alpine.LNX.2.00.1501281456010.15481@localhost.lm.intel.com>
-Message-ID: <CANvN+emzvojBWwnTw+UyYU3Gi+M_b+M2LemkttS8QEybQ4=DNg@mail.gmail.com>
+ <54C94B90.20805@ranbarg.com>
+ <alpine.LNX.2.00.1501282102210.15481@localhost.lm.intel.com>
+ <54C958D1.3010209@ranbarg.com> <yq1iofqimmu.fsf@sermon.lab.mkp.net>
+ <alpine.LNX.2.00.1501282210070.15481@localhost.lm.intel.com>
+Message-ID: <yq1egqeilpi.fsf@sermon.lab.mkp.net>
 
-On Wed, Jan 28, 2015@6:11 PM, Keith Busch <keith.busch@intel.com> wrote:
-> On Tue, 27 Jan 2015, Martin K. Petersen wrote:
->>>>>>>
->>>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
->>
->> Keith,
->>
->> Keith> I can't register with the blk-integrity extentions until after
->> Keith> add_disk is completed because the disk's kobj needs to be
->> Keith> initialized before blk_integrity_register. The 'add_disk' itself
->> Keith> submits a lot of reads, though. Am I missing something, or how
->> Keith> could those succeed when the block device's required integrity
->> Keith> format hasn't been setup?
->>
->> Protection is optional and enabled on a per-I/O basis. Even if the block
->> layer's auto protection is enabled it is normal to see a flutter of
->> unprotected reads while partitions are being scanned.
->
->
-> Thanks for the info. NVMe doesn't appear to allow disabling metadata
-> per-io
+>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
 
-PRACT gives you this opportunity on a command basis
-(Read/Write/Compare), although I see Martin has already suggested this
-workaround of setting PRACT to 1 (strip).
+>> I think the best way to go about dealing with all this is to set
+>> PRACT=1 if no bip is attached to a bio bound for a name space
+>> formatted with PI.
 
-Regards,
-Andrey
+Keith> That's an option for a subset of formats I eluded to before. It
+Keith> will have the controller generate/strip if the metadata size 8
+Keith> bytes with DPS settings, but ignored otherwise. We still need a
+Keith> buffer if metadata is not used for PI, or if the metadata size
+Keith> more than 8 bytes.
 
+I agree it's a deficiency in the NVMe spec that there are no explicit
+handling flags for non-PI metadata in split mode.
 
-> except for a subset of formats. If that's correct, this driver
-> would have to provide a valid protection buffer for all IO. Checking
-> with committee comrades for clarification.
->
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+-- 
+Martin K. Petersen	Oracle Linux Engineering
