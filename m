@@ -1,35 +1,23 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 29 Jan 2015 15:44:41 +0000 (UTC)
-Subject: [PATCH] NVMe: Skip namespaces with interleaved meta-data
-In-Reply-To: <yq1a912iet4.fsf@sermon.lab.mkp.net>
-References: <1422382021-15350-1-git-send-email-keith.busch@intel.com>
- <1422395867952.40819@hgst.com>
- <alpine.LNX.2.00.1501272203000.15481@localhost.lm.intel.com>
- <alpine.LNX.2.00.1501280111410.15481@localhost.lm.intel.com>
- <yq1zj93iszd.fsf@sermon.lab.mkp.net>
- <alpine.LNX.2.00.1501281456010.15481@localhost.lm.intel.com>
- <54C94B90.20805@ranbarg.com>
- <alpine.LNX.2.00.1501282102210.15481@localhost.lm.intel.com>
- <54C958D1.3010209@ranbarg.com> <yq1iofqimmu.fsf@sermon.lab.mkp.net>
- <alpine.LNX.2.00.1501282210070.15481@localhost.lm.intel.com>
- <yq1egqeilpi.fsf@sermon.lab.mkp.net>
- <alpine.LNX.2.00.1501282232380.15481@localhost.lm.intel.com>
- <yq1a912iet4.fsf@sermon.lab.mkp.net>
-Message-ID: <alpine.LNX.2.00.1501291542270.15481@localhost.lm.intel.com>
+Date: Thu, 29 Jan 2015 17:21:21 +0000 (UTC)
+Subject: [PATCH v2] NVMe: avoid kmalloc/kfree for smaller IO
+In-Reply-To: <20150122190758.GA28666@kernel.dk>
+References: <20150122190758.GA28666@kernel.dk>
+Message-ID: <alpine.LNX.2.00.1501291714300.15481@localhost.lm.intel.com>
 
-On Wed, 28 Jan 2015, Martin K. Petersen wrote:
->>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
+On Thu, 22 Jan 2015, Jens Axboe wrote:
+> Currently we allocate an nvme_iod for each IO, which holds the
+> sg list, prps, and other IO related info. Set a threshold of
+> 2 pages and/or 8KB of data, below which we can just embed this
+> in the per-command pdu in blk-mq. For any IO at or below
+> NVME_INT_PAGES and NVME_INT_BYTES, we save a kmalloc and kfree.
 >
-> Keith> Integrity verify is broken in here. blk_mq_end_request() calls
-> Keith> blk_update_request(), which moves the bio iterator to the end.
-> Keith> When we get to bio_integrity_process(), there's nothing for it to
-> Keith> do, so verification is skipped.
->
-> Looks like 594416a72032 inadvertently broke this.
+> For higher IOPS, this saves up to 1% of CPU time.
 
-Good call, reverting that at least addresses my problem.
+Looks good to me, tests well on my machines. I had to make one minor
+modification to the diff for it to apply to your latest tree, but it's
+trivial and you'll see it (just below nvme_set_info()).
 
-> Does using __bio_for_each_segment() help?
+Reviewed-by: Keith Busch <keith.busch at intel.com>
 
-Sorry, I don't follow. That still takes an iterator, but the bio's is
-advanced to the end, and I don't see how to get it to the original start.
+> Signed-off-by: Jens Axboe <axboe at fb.com>
