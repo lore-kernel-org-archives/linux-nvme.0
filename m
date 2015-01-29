@@ -1,8 +1,7 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Wed, 28 Jan 2015 19:57:43 -0500
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 29 Jan 2015 15:44:41 +0000 (UTC)
 Subject: [PATCH] NVMe: Skip namespaces with interleaved meta-data
-In-Reply-To: <alpine.LNX.2.00.1501282232380.15481@localhost.lm.intel.com>
- (Keith Busch's message of "Thu, 29 Jan 2015 00:09:44 +0000 (UTC)")
+In-Reply-To: <yq1a912iet4.fsf@sermon.lab.mkp.net>
 References: <1422382021-15350-1-git-send-email-keith.busch@intel.com>
  <1422395867952.40819@hgst.com>
  <alpine.LNX.2.00.1501272203000.15481@localhost.lm.intel.com>
@@ -15,18 +14,22 @@ References: <1422382021-15350-1-git-send-email-keith.busch@intel.com>
  <alpine.LNX.2.00.1501282210070.15481@localhost.lm.intel.com>
  <yq1egqeilpi.fsf@sermon.lab.mkp.net>
  <alpine.LNX.2.00.1501282232380.15481@localhost.lm.intel.com>
-Message-ID: <yq1a912iet4.fsf@sermon.lab.mkp.net>
+ <yq1a912iet4.fsf@sermon.lab.mkp.net>
+Message-ID: <alpine.LNX.2.00.1501291542270.15481@localhost.lm.intel.com>
 
->>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
+On Wed, 28 Jan 2015, Martin K. Petersen wrote:
+>>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
+>
+> Keith> Integrity verify is broken in here. blk_mq_end_request() calls
+> Keith> blk_update_request(), which moves the bio iterator to the end.
+> Keith> When we get to bio_integrity_process(), there's nothing for it to
+> Keith> do, so verification is skipped.
+>
+> Looks like 594416a72032 inadvertently broke this.
 
-Keith> Integrity verify is broken in here. blk_mq_end_request() calls
-Keith> blk_update_request(), which moves the bio iterator to the end.
-Keith> When we get to bio_integrity_process(), there's nothing for it to
-Keith> do, so verification is skipped.
+Good call, reverting that at least addresses my problem.
 
-Looks like 594416a72032 inadvertently broke this.
+> Does using __bio_for_each_segment() help?
 
-Does using __bio_for_each_segment() help?
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Sorry, I don't follow. That still takes an iterator, but the bio's is
+advanced to the end, and I don't see how to get it to the original start.
