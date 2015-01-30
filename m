@@ -1,8 +1,7 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Thu, 29 Jan 2015 19:41:43 -0500
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 30 Jan 2015 00:57:21 +0000 (UTC)
 Subject: [PATCH] NVMe: Skip namespaces with interleaved meta-data
-In-Reply-To: <alpine.LNX.2.00.1501291542270.15481@localhost.lm.intel.com>
- (Keith Busch's message of "Thu, 29 Jan 2015 15:44:41 +0000 (UTC)")
+In-Reply-To: <yq1oaphgkvs.fsf@sermon.lab.mkp.net>
 References: <1422382021-15350-1-git-send-email-keith.busch@intel.com>
  <1422395867952.40819@hgst.com>
  <alpine.LNX.2.00.1501272203000.15481@localhost.lm.intel.com>
@@ -17,22 +16,24 @@ References: <1422382021-15350-1-git-send-email-keith.busch@intel.com>
  <alpine.LNX.2.00.1501282232380.15481@localhost.lm.intel.com>
  <yq1a912iet4.fsf@sermon.lab.mkp.net>
  <alpine.LNX.2.00.1501291542270.15481@localhost.lm.intel.com>
-Message-ID: <yq1oaphgkvs.fsf@sermon.lab.mkp.net>
+ <yq1oaphgkvs.fsf@sermon.lab.mkp.net>
+Message-ID: <alpine.LNX.2.00.1501300050320.15481@localhost.lm.intel.com>
 
->>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
+On Thu, 29 Jan 2015, Martin K. Petersen wrote:
+>>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
+>>> Looks like 594416a72032 inadvertently broke this.
+>
+> Keith> Good call, reverting that at least addresses my problem.
+>
+> Yeah, I can't seem to make sense of that commit now that I look at it
+> again.
+>
+> Darrick, only the topmost bio should have bio_integrity_process() run on
+> it. It should never be done to a clone.
+>
+> My test setup is tied up with a qual cycle right now. I'll take a look
+> at this once it's done tomorrow morning.
 
->> Looks like 594416a72032 inadvertently broke this.
-
-Keith> Good call, reverting that at least addresses my problem.
-
-Yeah, I can't seem to make sense of that commit now that I look at it
-again.
-
-Darrick, only the topmost bio should have bio_integrity_process() run on
-it. It should never be done to a clone.
-
-My test setup is tied up with a qual cycle right now. I'll take a look
-at this once it's done tomorrow morning.
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+While reverting it fixed the symptoms I observed, I'm not sure it's
+really at fault. The comments for blk_update_request() say its for stacked
+driver usage, so isn't blk-mq is using it wrong from blk_mq_end_request()?
