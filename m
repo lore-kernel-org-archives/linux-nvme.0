@@ -1,39 +1,208 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 30 Jan 2015 00:57:21 +0000 (UTC)
-Subject: [PATCH] NVMe: Skip namespaces with interleaved meta-data
-In-Reply-To: <yq1oaphgkvs.fsf@sermon.lab.mkp.net>
-References: <1422382021-15350-1-git-send-email-keith.busch@intel.com>
- <1422395867952.40819@hgst.com>
- <alpine.LNX.2.00.1501272203000.15481@localhost.lm.intel.com>
- <alpine.LNX.2.00.1501280111410.15481@localhost.lm.intel.com>
- <yq1zj93iszd.fsf@sermon.lab.mkp.net>
- <alpine.LNX.2.00.1501281456010.15481@localhost.lm.intel.com>
- <54C94B90.20805@ranbarg.com>
- <alpine.LNX.2.00.1501282102210.15481@localhost.lm.intel.com>
- <54C958D1.3010209@ranbarg.com> <yq1iofqimmu.fsf@sermon.lab.mkp.net>
- <alpine.LNX.2.00.1501282210070.15481@localhost.lm.intel.com>
- <yq1egqeilpi.fsf@sermon.lab.mkp.net>
- <alpine.LNX.2.00.1501282232380.15481@localhost.lm.intel.com>
- <yq1a912iet4.fsf@sermon.lab.mkp.net>
- <alpine.LNX.2.00.1501291542270.15481@localhost.lm.intel.com>
- <yq1oaphgkvs.fsf@sermon.lab.mkp.net>
-Message-ID: <alpine.LNX.2.00.1501300050320.15481@localhost.lm.intel.com>
+Date: Fri, 30 Jan 2015 09:28:44 -0700
+Subject: [PATCHv5] NVMe: Update SCSI Inquiry VPD 83h translation
+Message-ID: <1422635324-28885-1-git-send-email-keith.busch@intel.com>
 
-On Thu, 29 Jan 2015, Martin K. Petersen wrote:
->>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
->>> Looks like 594416a72032 inadvertently broke this.
->
-> Keith> Good call, reverting that at least addresses my problem.
->
-> Yeah, I can't seem to make sense of that commit now that I look at it
-> again.
->
-> Darrick, only the topmost bio should have bio_integrity_process() run on
-> it. It should never be done to a clone.
->
-> My test setup is tied up with a qual cycle right now. I'll take a look
-> at this once it's done tomorrow morning.
+The original translation created collisions on Inquiry VPD 83 for many
+existing devices. Newer specifications provide other ways to translate
+based on the device's version can be used to create unique identifiers.
 
-While reverting it fixed the symptoms I observed, I'm not sure it's
-really at fault. The comments for blk_update_request() say its for stacked
-driver usage, so isn't blk-mq is using it wrong from blk_mq_end_request()?
+Version 1.1 provides an EUI64 field that uniquely identifies each
+namespace, and 1.2 added the longer NGUID field for the same reason.
+Both follow the IEEE EUI format and readily translate to the SCSI device
+identification EUI designator type 2h. For devices implementing either,
+the translation will use this type, defaulting to the EUI64 8-byte type if
+implemented then NGUID's 16 byte version if not. If neither are provided,
+the 1.0 translation is used, and is updated to use the SCSI String format
+to guarantee a unique identifier.
+
+Knowing when to use the new fields depends on the nvme controller's
+revision. The NVME_VS macro was not decoding this correctly, so that is
+fixed in this patch and moved to a more appropriate place.
+
+Since the Identify Namespace structure required an update for the NGUID
+field, this patch adds the remaining new 1.2 fields to the structure.
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+v4->v5:
+ Someone pointed out there already exists a macro for decoding versions,
+ but that macro was broken. Fixed that and deleted the new macro.
+
+Willy,
+If these recent patches are okay, can we start staging in your tree? The
+linux-block and linux-dm trees are primed to enable NVMe multipath
+support, and this is the last unmerged piece. If you prefer I go through
+another tree, could you give a review- or ack-?
+
+ drivers/block/nvme-scsi.c |   94 +++++++++++++++++++++++++--------------------
+ include/linux/nvme.h      |    2 -
+ include/uapi/linux/nvme.h |   10 ++++-
+ 3 files changed, 62 insertions(+), 44 deletions(-)
+
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index 63efe40..fb87b95 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -779,10 +779,8 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	struct nvme_dev *dev = ns->dev;
+ 	dma_addr_t dma_addr;
+ 	void *mem;
+-	struct nvme_id_ctrl *id_ctrl;
+ 	int res = SNTI_TRANSLATION_SUCCESS;
+ 	int nvme_sc;
+-	u8 ieee[4];
+ 	int xfer_len;
+ 	__be32 tmp_id = cpu_to_be32(ns->ns_id);
+ 
+@@ -793,46 +791,60 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 		goto out_dma;
+ 	}
+ 
+-	/* nvme controller identify */
+-	nvme_sc = nvme_identify(dev, 0, 1, dma_addr);
+-	res = nvme_trans_status_code(hdr, nvme_sc);
+-	if (res)
+-		goto out_free;
+-	if (nvme_sc) {
+-		res = nvme_sc;
+-		goto out_free;
+-	}
+-	id_ctrl = mem;
+-
+-	/* Since SCSI tried to save 4 bits... [SPC-4(r34) Table 591] */
+-	ieee[0] = id_ctrl->ieee[0] << 4;
+-	ieee[1] = id_ctrl->ieee[0] >> 4 | id_ctrl->ieee[1] << 4;
+-	ieee[2] = id_ctrl->ieee[1] >> 4 | id_ctrl->ieee[2] << 4;
+-	ieee[3] = id_ctrl->ieee[2] >> 4;
+-
+-	memset(inq_response, 0, STANDARD_INQUIRY_LENGTH);
++	memset(inq_response, 0, alloc_len);
+ 	inq_response[1] = INQ_DEVICE_IDENTIFICATION_PAGE;    /* Page Code */
+-	inq_response[3] = 20;      /* Page Length */
+-	/* Designation Descriptor start */
+-	inq_response[4] = 0x01;    /* Proto ID=0h | Code set=1h */
+-	inq_response[5] = 0x03;    /* PIV=0b | Asso=00b | Designator Type=3h */
+-	inq_response[6] = 0x00;    /* Rsvd */
+-	inq_response[7] = 16;      /* Designator Length */
+-	/* Designator start */
+-	inq_response[8] = 0x60 | ieee[3]; /* NAA=6h | IEEE ID MSB, High nibble*/
+-	inq_response[9] = ieee[2];        /* IEEE ID */
+-	inq_response[10] = ieee[1];       /* IEEE ID */
+-	inq_response[11] = ieee[0];       /* IEEE ID| Vendor Specific ID... */
+-	inq_response[12] = (dev->pci_dev->vendor & 0xFF00) >> 8;
+-	inq_response[13] = (dev->pci_dev->vendor & 0x00FF);
+-	inq_response[14] = dev->serial[0];
+-	inq_response[15] = dev->serial[1];
+-	inq_response[16] = dev->model[0];
+-	inq_response[17] = dev->model[1];
+-	memcpy(&inq_response[18], &tmp_id, sizeof(u32));
+-	/* Last 2 bytes are zero */
++	if (readl(&dev->bar->vs) >= NVME_VS(1, 1)) {
++		struct nvme_id_ns *id_ns = mem;
++		void *eui = id_ns->eui64;
++		int len = sizeof(id_ns->eui64);
+ 
+-	xfer_len = min(alloc_len, STANDARD_INQUIRY_LENGTH);
++		nvme_sc = nvme_identify(dev, ns->ns_id, 0, dma_addr);
++		res = nvme_trans_status_code(hdr, nvme_sc);
++		if (res)
++			goto out_free;
++		if (nvme_sc) {
++			res = nvme_sc;
++			goto out_free;
++		}
++
++		if (readl(&dev->bar->vs) >= NVME_VS(1, 2)) {
++			if (bitmap_empty(eui, len * 8)) {
++				eui = id_ns->nguid;
++				len = sizeof(id_ns->nguid);
++			}
++		}
++		if (bitmap_empty(eui, len * 8))
++			goto scsi_string;
++
++		inq_response[3] = 4 + len; /* Page Length */
++		/* Designation Descriptor start */
++		inq_response[4] = 0x01;    /* Proto ID=0h | Code set=1h */
++		inq_response[5] = 0x02;    /* PIV=0b | Asso=00b | Designator Type=2h */
++		inq_response[6] = 0x00;    /* Rsvd */
++		inq_response[7] = len;     /* Designator Length */
++		memcpy(&inq_response[8], eui, len);
++	} else {
++ scsi_string:
++		if (alloc_len < 72) {
++			res = nvme_trans_completion(hdr,
++					SAM_STAT_CHECK_CONDITION,
++					ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
++					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
++			goto out_free;
++		}
++		inq_response[3] = 0x48;    /* Page Length */
++		/* Designation Descriptor start */
++		inq_response[4] = 0x03;    /* Proto ID=0h | Code set=3h */
++		inq_response[5] = 0x08;    /* PIV=0b | Asso=00b | Designator Type=8h */
++		inq_response[6] = 0x00;    /* Rsvd */
++		inq_response[7] = 0x44;    /* Designator Length */
++
++		sprintf(&inq_response[8], "%04x", dev->pci_dev->vendor);
++		memcpy(&inq_response[12], dev->model, sizeof(dev->model));
++		sprintf(&inq_response[52], "%04x", tmp_id);
++		memcpy(&inq_response[56], dev->serial, sizeof(dev->serial));
++	}
++	xfer_len = alloc_len;
+ 	res = nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
+ 
+  out_free:
+@@ -2222,7 +2234,7 @@ static int nvme_trans_inquiry(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	page_code = GET_INQ_PAGE_CODE(cmd);
+ 	alloc_len = GET_INQ_ALLOC_LENGTH(cmd);
+ 
+-	inq_response = kmalloc(STANDARD_INQUIRY_LENGTH, GFP_KERNEL);
++	inq_response = kmalloc(alloc_len, GFP_KERNEL);
+ 	if (inq_response == NULL) {
+ 		res = -ENOMEM;
+ 		goto out_mem;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index ed09074..a54070c 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -61,8 +61,6 @@ enum {
+ 	NVME_CSTS_SHST_MASK	= 3 << 2,
+ };
+ 
+-#define NVME_VS(major, minor)	(major << 16 | minor)
+-
+ extern unsigned char nvme_io_timeout;
+ #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
+ 
+diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
+index 26386cf..2d915a7 100644
+--- a/include/uapi/linux/nvme.h
++++ b/include/uapi/linux/nvme.h
+@@ -115,7 +115,13 @@ struct nvme_id_ns {
+ 	__le16			nawun;
+ 	__le16			nawupf;
+ 	__le16			nacwu;
+-	__u8			rsvd40[80];
++	__le16			nabsn;
++	__le16			nabo;
++	__le16			nabspf;
++	__u16			rsvd46;
++	__le64			nvmcap[2];
++	__u8			rsvd64[40];
++	__u8			nguid[16];
+ 	__u8			eui64[8];
+ 	struct nvme_lbaf	lbaf[16];
+ 	__u8			rsvd192[192];
+@@ -549,6 +555,8 @@ struct nvme_passthru_cmd {
+ 	__u32	result;
+ };
+ 
++#define NVME_VS(major, minor) (((major) << 16) | ((minor) << 8))
++
+ #define nvme_admin_cmd nvme_passthru_cmd
+ 
+ #define NVME_IOCTL_ID		_IO('N', 0x40)
+-- 
+1.7.10.4
