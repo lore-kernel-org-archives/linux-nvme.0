@@ -1,28 +1,38 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Thu, 29 Jan 2015 09:24:21 -0800
-Subject: [PATCH v2] NVMe: avoid kmalloc/kfree for smaller IO
-In-Reply-To: <alpine.LNX.2.00.1501291714300.15481@localhost.lm.intel.com>
-References: <20150122190758.GA28666@kernel.dk>
- <alpine.LNX.2.00.1501291714300.15481@localhost.lm.intel.com>
-Message-ID: <54CA6CC5.7090602@fb.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 29 Jan 2015 19:41:43 -0500
+Subject: [PATCH] NVMe: Skip namespaces with interleaved meta-data
+In-Reply-To: <alpine.LNX.2.00.1501291542270.15481@localhost.lm.intel.com>
+ (Keith Busch's message of "Thu, 29 Jan 2015 15:44:41 +0000 (UTC)")
+References: <1422382021-15350-1-git-send-email-keith.busch@intel.com>
+ <1422395867952.40819@hgst.com>
+ <alpine.LNX.2.00.1501272203000.15481@localhost.lm.intel.com>
+ <alpine.LNX.2.00.1501280111410.15481@localhost.lm.intel.com>
+ <yq1zj93iszd.fsf@sermon.lab.mkp.net>
+ <alpine.LNX.2.00.1501281456010.15481@localhost.lm.intel.com>
+ <54C94B90.20805@ranbarg.com>
+ <alpine.LNX.2.00.1501282102210.15481@localhost.lm.intel.com>
+ <54C958D1.3010209@ranbarg.com> <yq1iofqimmu.fsf@sermon.lab.mkp.net>
+ <alpine.LNX.2.00.1501282210070.15481@localhost.lm.intel.com>
+ <yq1egqeilpi.fsf@sermon.lab.mkp.net>
+ <alpine.LNX.2.00.1501282232380.15481@localhost.lm.intel.com>
+ <yq1a912iet4.fsf@sermon.lab.mkp.net>
+ <alpine.LNX.2.00.1501291542270.15481@localhost.lm.intel.com>
+Message-ID: <yq1oaphgkvs.fsf@sermon.lab.mkp.net>
 
-On 01/29/2015 09:21 AM, Keith Busch wrote:
-> On Thu, 22 Jan 2015, Jens Axboe wrote:
->> Currently we allocate an nvme_iod for each IO, which holds the
->> sg list, prps, and other IO related info. Set a threshold of
->> 2 pages and/or 8KB of data, below which we can just embed this
->> in the per-command pdu in blk-mq. For any IO at or below
->> NVME_INT_PAGES and NVME_INT_BYTES, we save a kmalloc and kfree.
->>
->> For higher IOPS, this saves up to 1% of CPU time.
->
-> Looks good to me, tests well on my machines. I had to make one minor
-> modification to the diff for it to apply to your latest tree, but it's
-> trivial and you'll see it (just below nvme_set_info()).
->
-> Reviewed-by: Keith Busch <keith.busch at intel.com>
+>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
 
-Thanks! I'll apply it for 3.20/drivers.
+>> Looks like 594416a72032 inadvertently broke this.
+
+Keith> Good call, reverting that at least addresses my problem.
+
+Yeah, I can't seem to make sense of that commit now that I look at it
+again.
+
+Darrick, only the topmost bio should have bio_integrity_process() run on
+it. It should never be done to a clone.
+
+My test setup is tied up with a qual cycle right now. I'll take a look
+at this once it's done tomorrow morning.
 
 -- 
-Jens Axboe
+Martin K. Petersen	Oracle Linux Engineering
