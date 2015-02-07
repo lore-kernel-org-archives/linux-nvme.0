@@ -1,41 +1,28 @@
-From: herbert1984106@gmail.com (sheng qiu)
-Date: Fri, 6 Feb 2015 15:04:08 -0800
+From: keith.busch@intel.com (Keith Busch)
+Date: Sat, 7 Feb 2015 02:52:10 +0000 (UTC)
 Subject: discard cmd through ioctl
-In-Reply-To: <alpine.LNX.2.00.1502061845360.15481@localhost.lm.intel.com>
+In-Reply-To: <CAB7xdikDj5=n_o16VjKNaXe7G5+Odm3kmucXAy0zaWwXXT7ikw@mail.gmail.com>
 References: <CAB7xdi=CDHmc1p-jRnTKfh1fhpVE9wY1i8ZrB6ZxO4rU9iAfvA@mail.gmail.com>
  <alpine.LNX.2.00.1502061845360.15481@localhost.lm.intel.com>
-Message-ID: <CAB7xdikDj5=n_o16VjKNaXe7G5+Odm3kmucXAy0zaWwXXT7ikw@mail.gmail.com>
+ <CAB7xdikDj5=n_o16VjKNaXe7G5+Odm3kmucXAy0zaWwXXT7ikw@mail.gmail.com>
+Message-ID: <alpine.LNX.2.00.1502070239360.15481@localhost.lm.intel.com>
 
-Hi Keith,
-
-thanks for your reply.
-for the struct "nvme_passthru_cmd", can you tell me what's the "flags"
-and "rsvd1" used for? which cmd filed does it associated to the NVMe
-Spec?
-
-just want to make sure i am composing the correct cmd format.
-
-THanks!
-Sheng
-
-On Fri, Feb 6, 2015@12:02 PM, Keith Busch <keith.busch@intel.com> wrote:
-> On Fri, 6 Feb 2015, sheng qiu wrote:
->>
->> Hi,
->>
->> May i ask is there a way to issue data set management cmd from
->> application to achieve discard function with current NVMe driver?
->>
->> i see there are regular IO or Admin interface for ioctl at driver
->> side. Is this also applicable to dsm cmd?
+On Fri, 6 Feb 2015, sheng qiu wrote:
+> Hi Keith,
 >
->
-> Sure, you can use the NVME_IOCTL_IO_CMD to submit any arbitary IO command
-> you like.
->
-> It would probably be easier to use sg_unmap or blkdiscard to achieve the
-> same thing unless you require using the DSM command's other attributes
-> in addition to deallocate.
->
->> Thanks,
->> Sheng
+> thanks for your reply.
+> for the struct "nvme_passthru_cmd", can you tell me what's the "flags"
+> and "rsvd1" used for? which cmd filed does it associated to the NVMe
+> Spec?
+
+The IOCTL's structure tries to match an NVMe command except for parts
+user space has no way of knowing about; those parts are command id and
+bus addresses.
+
+The 'flags' are CDW0's bits 8-15, just after the opcode. The only spec
+defined use for them is fuse and SGL, neither of which are supported by
+the driver, so should be cleared to 0 for now.
+
+'rsvd1' is for CDW3. The spec has no defined use for it, but we have a
+field in the IOCTL's arg so we have a placeholder for it in the future
+without breaking ABI.
