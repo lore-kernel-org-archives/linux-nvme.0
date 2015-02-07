@@ -1,28 +1,28 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Sat, 7 Feb 2015 02:52:10 +0000 (UTC)
-Subject: discard cmd through ioctl
-In-Reply-To: <CAB7xdikDj5=n_o16VjKNaXe7G5+Odm3kmucXAy0zaWwXXT7ikw@mail.gmail.com>
-References: <CAB7xdi=CDHmc1p-jRnTKfh1fhpVE9wY1i8ZrB6ZxO4rU9iAfvA@mail.gmail.com>
- <alpine.LNX.2.00.1502061845360.15481@localhost.lm.intel.com>
- <CAB7xdikDj5=n_o16VjKNaXe7G5+Odm3kmucXAy0zaWwXXT7ikw@mail.gmail.com>
-Message-ID: <alpine.LNX.2.00.1502070239360.15481@localhost.lm.intel.com>
+From: wangyijing@huawei.com (Yijing Wang)
+Date: Sat, 7 Feb 2015 12:00:01 +0800
+Subject: [PATCH] NVMe: Use pci_dev->msix_enabled instead of pci_dev->irq
+Message-ID: <1423281601-5132-1-git-send-email-wangyijing@huawei.com>
 
-On Fri, 6 Feb 2015, sheng qiu wrote:
-> Hi Keith,
->
-> thanks for your reply.
-> for the struct "nvme_passthru_cmd", can you tell me what's the "flags"
-> and "rsvd1" used for? which cmd filed does it associated to the NVMe
-> Spec?
+We should use msi_enabled flag to check whether MSI-X
+was enabled, it's better than rough use pci_dev->irq.
 
-The IOCTL's structure tries to match an NVMe command except for parts
-user space has no way of knowing about; those parts are command id and
-bus addresses.
+Signed-off-by: Yijing Wang <wangyijing at huawei.com>
+---
+ drivers/block/nvme-core.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-The 'flags' are CDW0's bits 8-15, just after the opcode. The only spec
-defined use for them is fuse and SGL, neither of which are supported by
-the driver, so should be cleared to 0 for now.
-
-'rsvd1' is for CDW3. The spec has no defined use for it, but we have a
-field in the IOCTL's arg so we have a placeholder for it in the future
-without breaking ABI.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index b3cb67d..646da30 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2099,7 +2099,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	 * If we enable msix early due to not intx, disable it again before
+ 	 * setting up the full range we need.
+ 	 */
+-	if (!pdev->irq)
++	if (pdev->msix_enabled)
+ 		pci_disable_msix(pdev);
+ 
+ 	for (i = 0; i < nr_io_queues; i++)
+-- 
+1.7.1
