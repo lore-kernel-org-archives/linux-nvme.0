@@ -1,28 +1,16 @@
-From: wangyijing@huawei.com (Yijing Wang)
-Date: Sat, 7 Feb 2015 12:00:01 +0800
-Subject: [PATCH] NVMe: Use pci_dev->msix_enabled instead of pci_dev->irq
-Message-ID: <1423281601-5132-1-git-send-email-wangyijing@huawei.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 9 Feb 2015 16:45:31 +0000 (UTC)
+Subject: linux-nvme user space tooling update
+Message-ID: <alpine.LNX.2.00.1502091601360.15481@localhost.lm.intel.com>
 
-We should use msi_enabled flag to check whether MSI-X
-was enabled, it's better than rough use pci_dev->irq.
+I've gotten really good feedback and contributions on the linux nvme
+command line interface I started up. Since it's getting some traction,
+I thought it best to further open this, so moved to a github project:
 
-Signed-off-by: Yijing Wang <wangyijing at huawei.com>
----
- drivers/block/nvme-core.c |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+   https://github.com/linux-nvme/nvme-cli
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index b3cb67d..646da30 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2099,7 +2099,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	 * If we enable msix early due to not intx, disable it again before
- 	 * setting up the full range we need.
- 	 */
--	if (!pdev->irq)
-+	if (pdev->msix_enabled)
- 		pci_disable_msix(pdev);
- 
- 	for (i = 0; i < nr_io_queues; i++)
--- 
-1.7.1
+Please feel free to join in if you're interested.
+
+Anyone more familiar with writing command line utilities may spot some
+questionable tactics, like hard-coded install paths. It's a work in
+progress. :)
