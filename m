@@ -1,138 +1,85 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 12 Feb 2015 12:07:58 -0700
-Subject: [PATCHv3] NVMe: Asynchronous controller probe
-Message-ID: <1423768078-17389-1-git-send-email-keith.busch@intel.com>
+From: sbradshaw@micron.com (Sam Bradshaw (sbradshaw))
+Date: Mon, 16 Feb 2015 18:53:22 +0000
+Subject: [PATCH] NVMe: Metadata and PI format support
+In-Reply-To: <1422670317-23420-1-git-send-email-keith.busch@intel.com>
+References: <1422670317-23420-1-git-send-email-keith.busch@intel.com>
+Message-ID: <80B89753B40C5141A3E2D53FE7A2A8A99979435A@NTXBOIMBX02.micron.com>
 
-This performs the longest parts of nvme device probe in scheduled work.
-This speeds up probe significantly when multiple devices are in use.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-v1 -> v3:
+> +/**
+> + * nvme_dif_remap - remaps ref tags to bip seed and physical lba
+> + *
+> + * The virtual start sector is the one that was originally submitted
+> by
+> +the
+> + * block layer. Due to partitioning, MD/DM cloning, etc. the actual
+> +physical
+> + * start sector may be different. Remap protection information to
+> match
+> +the
+> + * physical LBA on writes, and back to the original seed on reads.
+> + *
+> + * Type 0 and 3 do not have a ref tag, so no remapping required.
+> + */
+> +static void nvme_dif_remap(struct request *req,
+> +			void (*dif_swap)(u32 p, u32 v, struct t10_pi_tuple
+> *pi)) {
+> +	struct nvme_ns *ns = req->rq_disk->private_data;
+> +	struct bio_integrity_payload *bip;
+> +	struct t10_pi_tuple *pi;
+> +	void *p;
+> +	u32 i, nlb, ts, phys, virt;
+> +
+> +	if (!ns->pi_type || ns->pi_type == NVME_NS_DPS_PI_TYPE3)
+> +		return;
+> +
+> +	bip = bio_integrity(req->bio);
+> +	if (!bip)
+> +		return;
+> +
+> +	p = kmap_atomic(bip->bip_vec->bv_page);
 
-Using a work queue instead of a asynchronous schedule so it can be
-synchronized correctly on removal.
+I think you want:
+p = kmap_atomic(bip->bip_vec->bv_page) + bip->bip_vec->bv_offset;
 
-Initialize device kref and character device prior to scheduling the
-asynchronous device start. This makes it possible to see the character
-device before the controller admin queue is initialized, so this also
-prevents opening the device prior to that.
 
- drivers/block/nvme-core.c |   52 ++++++++++++++++++++++++++-------------------
- include/linux/nvme.h      |    1 +
- 2 files changed, 31 insertions(+), 22 deletions(-)
+> @@ -1840,16 +1997,50 @@ static int nvme_revalidate_disk(struct gendisk
+> *disk)
+>  								__func__);
+>  		return 0;
+>  	}
+> +	if (nvme_identify(dev, ns->ns_id, 0, dma_addr)) {
+> +		dev_warn(&dev->pci_dev->dev,
+> +			"identify failed ns:%d, setting capacity to 0\n",
+> +			ns->ns_id);
+> +		memset(id, 0, sizeof(*id));
+> +	}
+> 
+> -	if (nvme_identify(dev, ns->ns_id, 0, dma_addr))
+> -		goto free;
+> -
+> -	lbaf = id->flbas & 0xf;
+> +	old_ms = ns->ms;
+> +	lbaf = id->flbas & NVME_NS_FLBAS_LBA_MASK;
+>  	ns->lba_shift = id->lbaf[lbaf].ds;
+> +	ns->ms = le16_to_cpu(id->lbaf[lbaf].ms);
+> +
+> +	/*
+> +	 * If identify namespace failed, use default 512 byte block size
+> so
+> +	 * block layer can use before failing read/write for 0 capacity.
+> +	 */
+> +	if (ns->lba_shift == 0)
+> +		ns->lba_shift = 9;
+> +	bs = 1 << ns->lba_shift;
+> +
+> +	/* XXX: PI implementation requires metadata equal t10 pi tuple
+> size */
+> +	pi_type = ns->ms == sizeof(struct t10_pi_tuple) ?
+> +					id->dps & NVME_NS_DPS_PI_MASK : 0;
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index b3cb67d..55485cc 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2624,6 +2624,8 @@ static int nvme_dev_open(struct inode *inode, struct file *f)
- {
- 	struct nvme_dev *dev = container_of(f->private_data, struct nvme_dev,
- 								miscdev);
-+	if (!dev->admin_q)
-+		return -EWOULDBLOCK;
- 	kref_get(&dev->kref);
- 	f->private_data = dev;
- 	return 0;
-@@ -2799,6 +2801,7 @@ static void nvme_reset_workfn(struct work_struct *work)
- 	dev->reset_workfn(work);
- }
- 
-+static void nvme_async_probe(struct work_struct *work);
- static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
- 	int node, result = -ENOMEM;
-@@ -2834,15 +2837,6 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto release;
- 
- 	kref_init(&dev->kref);
--	result = nvme_dev_start(dev);
--	if (result)
--		goto release_pools;
--
--	if (dev->online_queues > 1)
--		result = nvme_dev_add(dev);
--	if (result)
--		goto shutdown;
--
- 	scnprintf(dev->name, sizeof(dev->name), "nvme%d", dev->instance);
- 	dev->miscdev.minor = MISC_DYNAMIC_MINOR;
- 	dev->miscdev.parent = &pdev->dev;
-@@ -2850,21 +2844,12 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	dev->miscdev.fops = &nvme_dev_fops;
- 	result = misc_register(&dev->miscdev);
- 	if (result)
--		goto remove;
--
--	nvme_set_irq_hints(dev);
--
--	dev->initialized = 1;
--	return 0;
-+		goto release_pools;
- 
-- remove:
--	nvme_dev_remove(dev);
--	nvme_dev_remove_admin(dev);
--	nvme_free_namespaces(dev);
-- shutdown:
--	nvme_dev_shutdown(dev);
-+	INIT_WORK(&dev->probe_work, nvme_async_probe);
-+	schedule_work(&dev->probe_work);
-+	return result;
-  release_pools:
--	nvme_free_queues(dev, 0);
- 	nvme_release_prp_pools(dev);
-  release:
- 	nvme_release_instance(dev);
-@@ -2877,6 +2862,28 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	return result;
- }
- 
-+static void nvme_async_probe(struct work_struct *work)
-+{
-+	struct nvme_dev *dev = container_of(work, struct nvme_dev, probe_work);
-+	int result;
-+
-+	result = nvme_dev_start(dev);
-+	if (result)
-+		goto reset;
-+
-+	if (dev->online_queues > 1)
-+		result = nvme_dev_add(dev);
-+	if (result)
-+		goto reset;
-+
-+	nvme_set_irq_hints(dev);
-+	dev->initialized = 1;
-+	return;
-+ reset:
-+	dev->reset_workfn = nvme_reset_failed_dev;
-+	queue_work(nvme_workq, &dev->reset_work);
-+}
-+
- static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
-@@ -2902,6 +2909,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	spin_unlock(&dev_list_lock);
- 
- 	pci_set_drvdata(pdev, NULL);
-+	flush_work(&dev->probe_work);
- 	flush_work(&dev->reset_work);
- 	misc_deregister(&dev->miscdev);
- 	nvme_dev_shutdown(dev);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 19a5d4b..0969b08 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -94,6 +94,7 @@ struct nvme_dev {
- 	struct miscdevice miscdev;
- 	work_func_t reset_workfn;
- 	struct work_struct reset_work;
-+	struct work_struct probe_work;
- 	char name[12];
- 	char serial[20];
- 	char model[40];
--- 
-1.7.10.4
+If there is interest in incorporating this support, we can provide
+a patch on top of this that enables 16b/32b/64b metadata with PI and
+supports PIL={0,1}
+
+-Sam
