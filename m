@@ -1,52 +1,56 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 19 Feb 2015 17:30:47 +0000 (UTC)
-Subject: [PATCH] NVMe: Check for Extended metadata in ioctl path
-In-Reply-To: <1424345859-4002-1-git-send-email-sathya.m@samsung.com>
-References: <1424345859-4002-1-git-send-email-sathya.m@samsung.com>
-Message-ID: <alpine.LNX.2.00.1502191707130.32385@localhost.lm.intel.com>
+From: sbradshaw@micron.com (Sam Bradshaw (sbradshaw))
+Date: Thu, 19 Feb 2015 17:45:08 +0000
+Subject: [PATCH] NVMe: Metadata and PI format support
+In-Reply-To: <alpine.LNX.2.00.1502191700160.32385@localhost.lm.intel.com>
+References: <1422670317-23420-1-git-send-email-keith.busch@intel.com>
+ <80B89753B40C5141A3E2D53FE7A2A8A99979435A@NTXBOIMBX02.micron.com>
+ <alpine.LNX.2.00.1502171449101.32385@localhost.lm.intel.com>
+ <54E3747A.2000902@micron.com>
+ <alpine.LNX.2.00.1502191700160.32385@localhost.lm.intel.com>
+Message-ID: <80B89753B40C5141A3E2D53FE7A2A8A99979D6B5@NTXBOIMBX02.micron.com>
 
-On Thu, 19 Feb 2015, Sathayavathi M wrote:
-> From: Sathyavathi M <sathya.m at samsung.com>
->
-> In NVME_IOCTL_SUBMIT_IO the check for the extended metadata is missing.
-> Currently, whenever an i/o request with extended metadata is issued,
-> io.metadata has to be assigned a dummy addr. If this is not assigned then the
-> check fails and returns error. This patch fixes this issue and also adds checks
-> at necessary places for extended metadata.
->
-> Signed-off-by: Sathyavathi M <sathya.m at samsung.com>
-> ---
-> drivers/block/nvme-core.c | 11 ++++++++---
-> include/linux/nvme.h      |  1 +
-> include/uapi/linux/nvme.h |  4 ++++
-> 3 files changed, 13 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index 3eaa0be..a632d78 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -1595,13 +1595,15 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
-> 	struct nvme_iod *iod, *meta_iod = NULL;
-> 	dma_addr_t meta_dma_addr;
-> 	void *meta, *uninitialized_var(meta_mem);
-> +	bool ext_lba = ns->flbas & EXT_LBA;
->
-> 	if (copy_from_user(&io, uio, sizeof(io)))
-> 		return -EFAULT;
-> 	length = (io.nblocks + 1) << ns->lba_shift;
-> 	meta_len = (io.nblocks + 1) * ns->ms;
 
-If you're using extended, the 'length' you're using for get_user_pages
-and setup_prps is wrong. You need to add the meta_len to it since we
-expect the buffer has the metadata spliced into user data.
 
-This function (and this driver for that matter) didn't expect to deal
-with extended lba's, and we have bigger problems if you're actually
-using them. There is more interest here so we should get this working,
-but patches are starting to clash with other things on the patch queue.
-It would really help if maintainer would merge, or at least comment on
-what's going on.
+> -----Original Message-----
+> From: Keith Busch [mailto:keith.busch at intel.com]
+> Sent: Thursday, February 19, 2015 9:06 AM
+> To: Sam Bradshaw (sbradshaw)
+> Cc: Keith Busch; linux-nvme at lists.infradead.org
+> Subject: Re: [PATCH] NVMe: Metadata and PI format support
+> 
+> On Tue, 17 Feb 2015, Sam Bradshaw wrote:
+> >>> If there is interest in incorporating this support, we can provide
+> a
+> >>> patch on top of this that enables 16b/32b/64b metadata with PI and
+> >>> supports PIL={0,1}
+> >>
+> >> I would also like that to work. I was hoping to reuse the
+> >> t10_pi_generate/verify functions for this. Those can work if the
+> >> iter->prot_buf is incremented by the blk_intergity's tuple_size
+> >> iter->rather
+> >> than just the 8-byte PI field.
+> >>
+> >> That'd work with PIL=0, not sure what to do with PIL=1. Maybe we
+> >> should just define our own functions for nvme even though they'd
+> >> mostly be the same as the ones scsi uses.
+> >
+> > We were unable to come up with an elegant solution that reused the
+> > t10_pi_generate/verify functions while also handling the PIL=1 case.
+> > So we defined our own functions.
+> 
+> I see you support 16/32/64 exclusively. As unlikely it may be someone
+> would implement something other than those, the specification allows
+> 64k different metadata formats with as many more combinations for PIL.
+> Could the solution be generalized to accomodate arbitrary formats in a
+> single function rather than require a definition for each possible
+> combination?
 
-Willy:
+Probably.  I see a few different solutions but perhaps the simplest would be to 
+attach an opaque pointer to struct blk_integrity to encapsulate the namespace 
+specific metadata details and have the iterator pass it back to the generator/verifier 
+function.
 
-Are you going to help us out, or wait for a coup d'etat?
+It might make sense to make these changes in combination with enhancements to the
+iterator to handle CRC calculation/verification that cross multiple bvecs.
+
+-Sam
