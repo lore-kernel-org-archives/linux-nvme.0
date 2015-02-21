@@ -1,28 +1,25 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 20 Feb 2015 10:34:31 -0800
-Subject: [PATCH] NVME: Splitting large i/o in the ioctl path
-In-Reply-To: <alpine.LNX.2.00.1502201822420.32385@localhost.lm.intel.com>
-References: <1424421870-3151-1-git-send-email-sathya.m@samsung.com>
- <alpine.LNX.2.00.1502201822420.32385@localhost.lm.intel.com>
-Message-ID: <54E77E37.9020808@kernel.dk>
+From: fengguang.wu@intel.com (kbuild test robot)
+Date: Sat, 21 Feb 2015 15:17:45 +0800
+Subject: [block:for-linus 1/10] drivers/block/nvme-core.c:2008:22: sparse:
+ symbol 'nvme_meta_noop' was not declared. Should it be static?
+Message-ID: <201502211535.pykDvoRT%fengguang.wu@intel.com>
 
-On 02/20/2015 10:31 AM, Keith Busch wrote:
-> On Fri, 20 Feb 2015, Sathayavathi M wrote:
->> +    else
->> +        dev->max_hw_sectors = BLK_DEF_MAX_SECOTRS;
->
-> I think you meant BLK_DEF_MAX_SECTORS. Sometimes I submit patches that
-> don't compile either. :)
+tree:   git://git.kernel.dk/linux-block.git for-linus
+head:   decf6d79de84e427d409ff74156af2e77ffadd84
+commit: e1e5e5641e6f271321aec257ed26a72715e4a8c2 [1/10] NVMe: Metadata format support
+reproduce:
+  # apt-get install sparse
+  git checkout e1e5e5641e6f271321aec257ed26a72715e4a8c2
+  make ARCH=x86_64 allmodconfig
+  make C=1 CF=-D__CHECK_ENDIAN__
 
-Coincidentally, that define has been removed recently...
 
-> Anyway, I think we need to fix the driver's adding disks of this extended
-> type first. Right now I think we're corrupting data and memory if we
-> encounter such a device. I proposed setting the capacity to 0 so you
-> can still access the disk media through the ioctl, but not through the
-> standard block layer.
+sparse warnings: (new ones prefixed by >>)
 
-Agree.
+>> drivers/block/nvme-core.c:2008:22: sparse: symbol 'nvme_meta_noop' was not declared. Should it be static?
 
--- 
-Jens Axboe
+Please review and possibly fold the followup patch.
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+http://lists.01.org/mailman/listinfo/kbuild                 Intel Corporation
