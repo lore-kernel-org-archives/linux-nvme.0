@@ -1,25 +1,27 @@
 From: fengguang.wu@intel.com (kbuild test robot)
 Date: Sat, 21 Feb 2015 15:17:45 +0800
-Subject: [block:for-linus 1/10] drivers/block/nvme-core.c:2008:22: sparse:
- symbol 'nvme_meta_noop' was not declared. Should it be static?
-Message-ID: <201502211535.pykDvoRT%fengguang.wu@intel.com>
+Subject: [PATCH block] NVMe: nvme_meta_noop can be static
+In-Reply-To: <201502211535.pykDvoRT%fengguang.wu@intel.com>
+References: <201502211535.pykDvoRT%fengguang.wu@intel.com>
+Message-ID: <20150221071745.GA54786@lkp-sb04>
 
-tree:   git://git.kernel.dk/linux-block.git for-linus
-head:   decf6d79de84e427d409ff74156af2e77ffadd84
-commit: e1e5e5641e6f271321aec257ed26a72715e4a8c2 [1/10] NVMe: Metadata format support
-reproduce:
-  # apt-get install sparse
-  git checkout e1e5e5641e6f271321aec257ed26a72715e4a8c2
-  make ARCH=x86_64 allmodconfig
-  make C=1 CF=-D__CHECK_ENDIAN__
+drivers/block/nvme-core.c:2008:22: sparse: symbol 'nvme_meta_noop' was not declared. Should it be static?
 
-
-sparse warnings: (new ones prefixed by >>)
-
->> drivers/block/nvme-core.c:2008:22: sparse: symbol 'nvme_meta_noop' was not declared. Should it be static?
-
-Please review and possibly fold the followup patch.
-
+Signed-off-by: Fengguang Wu <fengguang.wu at intel.com>
 ---
-0-DAY kernel test infrastructure                Open Source Technology Center
-http://lists.01.org/mailman/listinfo/kbuild                 Intel Corporation
+ nvme-core.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 3ffa57a..384c786 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2005,7 +2005,7 @@ static int nvme_noop_generate(struct blk_integrity_iter *iter)
+ 	return 0;
+ }
+ 
+-struct blk_integrity nvme_meta_noop = {
++static struct blk_integrity nvme_meta_noop = {
+ 	.name			= "NVME_META_NOOP",
+ 	.generate_fn		= nvme_noop_generate,
+ 	.verify_fn		= nvme_noop_verify,
