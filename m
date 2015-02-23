@@ -1,27 +1,40 @@
-From: fengguang.wu@intel.com (kbuild test robot)
-Date: Sat, 21 Feb 2015 15:17:45 +0800
-Subject: [PATCH block] NVMe: nvme_meta_noop can be static
-In-Reply-To: <201502211535.pykDvoRT%fengguang.wu@intel.com>
-References: <201502211535.pykDvoRT%fengguang.wu@intel.com>
-Message-ID: <20150221071745.GA54786@lkp-sb04>
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Mon, 23 Feb 2015 11:08:50 +0100
+Subject: [PATCH] NVMe: add explicit BLK_DEV_INTEGRITY dependency
+Message-ID: <6241161.LKiT8yUlIj@wuerfel>
 
-drivers/block/nvme-core.c:2008:22: sparse: symbol 'nvme_meta_noop' was not declared. Should it be static?
+A patch that was added to 4.0-rc1 in the last minute caused a
+build break in the NVMe driver unless integrity support is
+also enabled:
 
-Signed-off-by: Fengguang Wu <fengguang.wu at intel.com>
+drivers/block/nvme-core.c: In function 'nvme_dif_remap':
+drivers/block/nvme-core.c:523:24: error: dereferencing pointer to incomplete type
+  pmap = kmap_atomic(bip->bip_vec->bv_page) + bip->bip_vec->bv_offset;
+                        ^
+drivers/block/nvme-core.c:523:49: error: dereferencing pointer to incomplete type
+  pmap = kmap_atomic(bip->bip_vec->bv_page) + bip->bip_vec->bv_offset;
+                                                 ^
+
+This changes the Kconfig entry for NVMe to depend on that
+support, to avoid the build error. Using 'select' would work
+as well, but might have unintended side-effects when users
+do not actually want the integerity support.
+
+Signed-off-by: Arnd Bergmann <arnd at arndb.de>
+Fixes: e1e5e5641e6f ("NVMe: Metadata format support")
 ---
- nvme-core.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Found on ARM randconfig builds
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 3ffa57a..384c786 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2005,7 +2005,7 @@ static int nvme_noop_generate(struct blk_integrity_iter *iter)
- 	return 0;
- }
+diff --git a/drivers/block/Kconfig b/drivers/block/Kconfig
+index 1b8094d4d7af..e386dd5b94e9 100644
+--- a/drivers/block/Kconfig
++++ b/drivers/block/Kconfig
+@@ -312,7 +312,7 @@ config BLK_DEV_NBD
  
--struct blk_integrity nvme_meta_noop = {
-+static struct blk_integrity nvme_meta_noop = {
- 	.name			= "NVME_META_NOOP",
- 	.generate_fn		= nvme_noop_generate,
- 	.verify_fn		= nvme_noop_verify,
+ config BLK_DEV_NVME
+ 	tristate "NVM Express block device"
+-	depends on PCI
++	depends on PCI && BLK_DEV_INTEGRITY
+ 	---help---
+ 	  The NVM Express driver is for solid state drives directly
+ 	  connected to the PCI or PCI Express bus.  If you know you
