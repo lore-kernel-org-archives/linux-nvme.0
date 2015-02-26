@@ -1,25 +1,29 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 24 Feb 2015 21:23:38 +0000 (UTC)
-Subject: [PATCH] NVMe: write_long SCSI to NVMe translation implementation
-In-Reply-To: <1424701860-3492-1-git-send-email-sunad.s@samsung.com>
-References: <1424701860-3492-1-git-send-email-sunad.s@samsung.com>
-Message-ID: <alpine.LNX.2.00.1502242105400.32385@localhost.lm.intel.com>
+Date: Thu, 26 Feb 2015 22:15:55 +0000 (UTC)
+Subject: NVMe: Metadata format support
+In-Reply-To: <20150225111035.GA27796@mwanda>
+References: <20150225111035.GA27796@mwanda>
+Message-ID: <alpine.LNX.2.00.1502262209060.32385@localhost.lm.intel.com>
 
-On Mon, 23 Feb 2015, Sunad Bhandary S wrote:
-> From: Sunad Bhandary S <sunad.s at samsung.com>
-> +struct nvme_write_uncor_cmd {
-> +	__u8			opcode;
-> +	__u8			flags;
-> +	__u16			command_id;
-> +	__le32			nsid;
-> +	__u32			rsvd2[8];
-> +	__le64			slba;
-> +	__le32			nlb;
-> +	__u32			rsvd13[3];
-> +};
+On Wed, 25 Feb 2015, Dan Carpenter wrote:
+> The patch e1e5e5641e6f: "NVMe: Metadata format support" from Feb 19,
+> 2015, leads to the following static checker warning:
+>
+> 	drivers/block/nvme-core.c:524 nvme_dif_remap()
+> 	warn: 'pmap' can't be NULL.
+>
+> drivers/block/nvme-core.c
+>   519          bip = bio_integrity(req->bio);
+>   520          if (!bip)
+>   521                  return;
+>   522
+>   523          pmap = kmap_atomic(bip->bip_vec->bv_page) + bip->bip_vec->bv_offset;
+>   524          if (!pmap)
+>   525                  return;
+>
+> The static check here really means that we should check the return from
+> kmap_atomic() before adding "bip->bip_vec->bv_offset".  Can
+> kmap_atomic() fail here anyway?  I don't know.
 
-NLB should be a __le16 followed by a reserved __u16. It turns out the
-translation requires it always be set to 0, so it doesn't have much
-affect in this translation, but just saying.
-
-Otherwise this looks pretty reasonable.
+I didn't find a single kmap_atomic caller in the kernel checking for NULL.
+I'll remove it.
