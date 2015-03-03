@@ -1,53 +1,49 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Tue, 30 Jun 2015 11:22:52 -0600
-Subject: [PATCH] NVMe: Fix irq freeing when queue_request_irq fails
-Message-ID: <1435684972-4245-1-git-send-email-jonathan.derrick@intel.com>
+From: sunad.s@samsung.com (Sunad Bhandary)
+Date: Tue, 03 Mar 2015 09:34:24 +0530
+Subject: [PATCH] NVMe: write_long SCSI to NVMe translation implementation
+In-Reply-To: <alpine.LNX.2.00.1502242105400.32385@localhost.lm.intel.com>
+References: <1424701860-3492-1-git-send-email-sunad.s@samsung.com>
+ <alpine.LNX.2.00.1502242105400.32385@localhost.lm.intel.com>
+Message-ID: <008a01d05567$23cbb6d0$6b632470$@samsung.com>
 
-Fixes an issue when queue_reuest_irq fails in nvme_setup_io_queues. This
-patch initializes all vectors to -1 and resets the vector to -1 in the
-case of a failure in queue_request_irq. This avoids the free_irq in
-nvme_suspend_queue if the queue did not get an irq.
+Hi Keith,
 
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
----
- drivers/block/nvme-core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Sorry for the late reply as I was on leave.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 34338d7..d1d6141 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1474,6 +1474,7 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- 	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
- 	nvmeq->q_depth = depth;
- 	nvmeq->qid = qid;
-+	nvmeq->cq_vector = -1;
- 	dev->queues[qid] = nvmeq;
- 
- 	/* make sure queue descriptor is set before queue count, for kthread */
-@@ -1726,8 +1727,10 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 
- 	nvmeq->cq_vector = 0;
- 	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
--	if (result)
-+	if (result) {
-+		nvmeq->cq_vector = -1;
- 		goto free_nvmeq;
-+	}
- 
- 	return result;
- 
-@@ -2213,8 +2216,10 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	dev->max_qid = nr_io_queues;
- 
- 	result = queue_request_irq(dev, adminq, adminq->irqname);
--	if (result)
-+	if (result) {
-+		adminq->cq_vector = -1;
- 		goto free_queues;
-+	}
- 
- 	/* Free previously allocated queues that are no longer usable */
- 	nvme_free_queues(dev, nr_io_queues + 1);
--- 
-2.1.4
+I will make the necessary changes and send out the new patch .
+
+Thanks and regards,
+Sunad
+
+-----Original Message-----
+From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf
+Of Keith Busch
+Sent: Wednesday, February 25, 2015 2:54 AM
+To: Sunad Bhandary S
+Cc: linux-nvme at lists.infradead.org
+Subject: Re: [PATCH] NVMe: write_long SCSI to NVMe translation
+implementation
+
+On Mon, 23 Feb 2015, Sunad Bhandary S wrote:
+> From: Sunad Bhandary S <sunad.s at samsung.com>
+> +struct nvme_write_uncor_cmd {
+> +	__u8			opcode;
+> +	__u8			flags;
+> +	__u16			command_id;
+> +	__le32			nsid;
+> +	__u32			rsvd2[8];
+> +	__le64			slba;
+> +	__le32			nlb;
+> +	__u32			rsvd13[3];
+> +};
+
+NLB should be a __le16 followed by a reserved __u16. It turns out the
+translation requires it always be set to 0, so it doesn't have much affect
+in this translation, but just saying.
+
+Otherwise this looks pretty reasonable.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
