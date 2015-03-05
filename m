@@ -1,44 +1,36 @@
-From: olivier.mallinger@ip-maker.com (Olivier Mallinger - IP Maker)
-Date: Thu, 05 Mar 2015 15:27:09 +0100
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 5 Mar 2015 15:12:57 +0000 (UTC)
 Subject: Testing IO PRP List
-Message-ID: <54F867BD.6070806@ip-maker.com>
+In-Reply-To: <54F867BD.6070806@ip-maker.com>
+References: <54F867BD.6070806@ip-maker.com>
+Message-ID: <alpine.LNX.2.00.1503051451430.32385@localhost.lm.intel.com>
 
-Hi.
+On Thu, 5 Mar 2015, Olivier Mallinger - IP Maker wrote:
+> Continuing my investigation to test NVMe feature, I am looking for a way to 
+> test IO PRP List.
+>
+> Basically, the driver only creates contiguous queue for both submission and 
+> completion queues.
+> To test, I wanted to use nvme-cli to do the following :
+>  1 - Delete one IO submission queue using "admin-passthru" command
+>  2 - Delete one IO completion queue using "admin-passthru" command
+>  3 - Create one IO completion queue using "admin-passthru" command with 
+> support of PRP List
+>  4 - Create one IO submission queue using "admin-passthru" command with 
+> support of PRP List
+>  5 - Perform many IO read and write to check IO PRP List behavior
 
-Continuing my investigation to test NVMe feature, I am looking for a way 
-to test IO PRP List.
+I don't think you should delete or create queues from userspace.
+Deleting them out from under the driver is just going to confuse it
+when IO stops working. Creating isn't safe since the user address for
+the queue is pinned in memory only while the passthrough command is in
+flight. Plus the queue memory is freed when the "nvme" program exits
+anyway, but the h/w queue still exists.
 
-Basically, the driver only creates contiguous queue for both submission 
-and completion queues.
-To test, I wanted to use nvme-cli to do the following :
-   1 - Delete one IO submission queue using "admin-passthru" command
-   2 - Delete one IO completion queue using "admin-passthru" command
-   3 - Create one IO completion queue using "admin-passthru" command 
-with support of PRP List
-   4 - Create one IO submission queue using "admin-passthru" command 
-with support of PRP List
-   5 - Perform many IO read and write to check IO PRP List behavior
+The driver does not do any interpretation what-so-ever on passthroughs,
+so while it is possible to send those commands, it's not going to do
+what I think you're looking for.
 
-I think this sequence will work from a controller point of view, meaning 
-that command will be executed and queue deleted and then created.
-But from a host point of view, I think (and I need your confirmation 
-here) that for step 1 and 2, the "admin-passthru" command will not 
-delete the queue definition inside the driver.
-"admin-passthru" command used the ioctl NVME_IOCTL_ADMIN_CMD which never 
-call the "nvme_create_queue" inside the driver.
-Step 3 and 4 will not work for the same reason. Driver will not really 
-create a queue from the host point of view.
-
-Can you confirm my analyse is right ?
-Do you have any solution to test the IO PRP List ?
-
-Thanks.
-Regards.
-Olivier.
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: olivier_mallinger.vcf
-Type: text/x-vcard
-Size: 316 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20150305/3838d566/attachment.vcf>
+There's no reason I know of to add support for physically discontiguous
+IO queues in the Linux driver, so I don't think this feature is testable
+in this environment.
