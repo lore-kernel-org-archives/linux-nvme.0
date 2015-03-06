@@ -1,21 +1,30 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 5 Mar 2015 15:30:22 +0000 (UTC)
-Subject: Testing IO PRP List
-In-Reply-To: <54F87539.2050605@ip-maker.com>
-References: <54F867BD.6070806@ip-maker.com>
- <alpine.LNX.2.00.1503051451430.32385@localhost.lm.intel.com>
- <54F87539.2050605@ip-maker.com>
-Message-ID: <alpine.LNX.2.00.1503051526520.32385@localhost.lm.intel.com>
+From: axboe@fb.com (Jens Axboe)
+Date: Fri, 6 Mar 2015 12:56:13 -0700
+Subject: [PATCH] NVMe: increase depth of admin queue
+Message-ID: <20150306195613.GA20453@kernel.dk>
 
-On Thu, 5 Mar 2015, Olivier Mallinger - IP Maker wrote:
-> I will try to test it with an other OS, checking if queue are created with 
-> PRP List.
-> The best solution would be a PCIe exerciser but I don't have access to such 
-> equipment now.
+Hi,
 
-AIUI, the interop lab at UNH has a compliance suite that includes tests
-for physically discontiguous IO queues.
+Usually the admin queue depth of 64 is plenty, but for some use cases we
+really need it larger. Examples are use cases like MAT, where you have
+to touch all of NAND for init/format like purposes. In those cases, we
+see a good 2x increase with an increased queue depth.
 
-https://www.iol.unh.edu/testing/storage/nvme/test-suites
+Signed-off-by: Jens Axboe <axboe at fb.com>
 
-I've never tried it though, so couldn't say how it's used.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index ceb32dd52a6c..b67b520e489d 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -44,7 +44,7 @@
+ 
+ #define NVME_MINORS		(1U << MINORBITS)
+ #define NVME_Q_DEPTH		1024
+-#define NVME_AQ_DEPTH		64
++#define NVME_AQ_DEPTH		256
+ #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
+ #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
+ #define ADMIN_TIMEOUT		(admin_timeout * HZ)
+
+-- 
+Jens Axboe
