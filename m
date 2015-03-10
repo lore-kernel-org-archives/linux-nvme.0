@@ -1,16 +1,38 @@
-From: willy@wil.cx (Matthew Wilcox)
-Date: Tue, 10 Mar 2015 15:46:29 -0400
-Subject: [PATCH] NVMe: Fix error handling of class_create("nvme")
-In-Reply-To: <1426015102.18746.10.camel@jpfreyen-mobl5.amr.corp.intel.com>
-References: <1425681821-620-1-git-send-email-khoroshilov@ispras.ru>
- <1426015102.18746.10.camel@jpfreyen-mobl5.amr.corp.intel.com>
-Message-ID: <20150310194629.GQ2780@wil.cx>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 10 Mar 2015 20:01:40 +0000 (UTC)
+Subject: NVMe driver status
+In-Reply-To: <BN3PR0401MB144453DABCDC7F809E4DE017FD180@BN3PR0401MB1444.namprd04.prod.outlook.com>
+References: <004b01d033df$9d6c2be0$d84483a0$@samsung.com>
+ <alpine.LNX.2.00.1501191414000.15481@localhost.lm.intel.com>
+ <000d01d034a8$fa00f060$ee02d120$@samsung.com>
+ <alpine.LNX.2.00.1501201537470.15481@localhost.lm.intel.com>
+ <002501d05b45$cbc9b790$635d26b0$@samsung.com>
+ <BN3PR0401MB144453DABCDC7F809E4DE017FD180@BN3PR0401MB1444.namprd04.prod.outlook.com>
+Message-ID: <alpine.LNX.2.00.1503101947270.32385@localhost.lm.intel.com>
 
-On Tue, Mar 10, 2015@12:18:22PM -0700, J Freyensee wrote:
-> Looking at IS_ERR(), it uses IS_ERR_VALUE() which uses unlikely(), which
-> from what I understand is a compiler hint that means "this error is
-> unlikely to happen".
-> 
-> Well, is this error unlikely to happen?  Looks like the error could be
+I'm happy to apply requested changes. I can't necessarily guarantee a
+particular deadline, though I try to align with interested OS vendors
+ahead of their release updates if they're using the older version.
 
-Yes.  All errors are, by definition, unlikely to happen.
+Specifically on async probe and others, I'll get these merged in later
+this week.
+
+On Tue, 10 Mar 2015, David Darrington wrote:
+> I'm interested in this also. I know that the there is a quarterly planning call for the ofed Windows NVMe driver. Would there be any interest in having occasional conference calls to discuss items such as these? I would be glad to setup a call, as long as Keith and/or Mathew agree that it is worthwhile and can attend.
+>
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf Of Sunad Bhandary
+> Sent: Tuesday, March 10, 2015 10:21 AM
+> To: 'Keith Busch'
+> Cc: linux-nvme at lists.infradead.org
+> Subject: RE: NVMe driver status
+>
+> Hi Keith,
+> Can we initiate some activity on the legacy-nvme maintenance?
+>
+> Can you commit the async controller probe patch for the legacy driver also?
+> Or I can do this if you want.
+> Also, I'll be submitting the legacy-nvme version for a couple of patches that we already submitted (write_long, split i/o in IOCtl path).
+>
+> Going forward, how will the legacy-nvme be maintained?
+> The legacy-nvme was removed in 3.19. So are we going to have some restrictions on the kernel versions supported by legacy nvme driver
