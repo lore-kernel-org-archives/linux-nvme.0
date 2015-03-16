@@ -1,7 +1,7 @@
-From: brandon.schulz@hgst.com (Brandon Schulz)
-Date: Mon, 16 Mar 2015 14:52:21 +0000
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 16 Mar 2015 17:19:53 +0000 (UTC)
 Subject: NVMe driver status
-In-Reply-To: <alpine.LNX.2.00.1503120159030.32385@localhost.lm.intel.com>
+In-Reply-To: <BN1PR0401MB0931D933261F248E7B278238F2020@BN1PR0401MB0931.namprd04.prod.outlook.com>
 References: <004b01d033df$9d6c2be0$d84483a0$@samsung.com>
  <alpine.LNX.2.00.1501191414000.15481@localhost.lm.intel.com>
  <000d01d034a8$fa00f060$ee02d120$@samsung.com>
@@ -13,30 +13,21 @@ References: <004b01d033df$9d6c2be0$d84483a0$@samsung.com>
  <alpine.LNX.2.00.1503111827090.32385@localhost.lm.intel.com>
  <BN1PR0401MB0931DDBED866626676BBAE3CF2190@BN1PR0401MB0931.namprd04.prod.outlook.com>
  <alpine.LNX.2.00.1503120159030.32385@localhost.lm.intel.com>
-Message-ID: <BN1PR0401MB0931D933261F248E7B278238F2020@BN1PR0401MB0931.namprd04.prod.outlook.com>
+ <BN1PR0401MB0931D933261F248E7B278238F2020@BN1PR0401MB0931.namprd04.prod.outlook.com>
+Message-ID: <alpine.LNX.2.00.1503161710060.32385@localhost.lm.intel.com>
 
-Keith -
+If you setup a github project, I'll subscribe to it.
 
-Any more thoughts on how we proceed with setting up this co-maintained Github space?
+I merged all the upstream patches I intended to apply today and pushed to
+'for-next' branch in the nvme-legacy git tree. I haven't fully tested yet,
+otherwise I'd have just merged to master.
 
-Thanks,
-Brandon
+Also merged the lastest stable 3.18.y to master.
 
-
-
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Wednesday, March 11, 2015 9:02 PM
-To: Brandon Schulz
-Cc: Keith Busch; David Darrington; linux-nvme at lists.infradead.org
-Subject: RE: NVMe driver status
-
-On Wed, 11 Mar 2015, Brandon Schulz wrote:
-> Yes, we are interested in co-maintaining...  something like Github would work for us.
+On Mon, 16 Mar 2015, Brandon Schulz wrote:
+> Keith -
 >
-> Do you want to set something up, or how do you want to proceed?
-
-Are any of you folks at Linux Vault this week? We can put together an impromptu BoF and sort this out real quick.
-
+> Any more thoughts on how we proceed with setting up this co-maintained Github space?
+>
 > Thanks,
 > Brandon
