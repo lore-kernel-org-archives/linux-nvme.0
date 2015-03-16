@@ -1,21 +1,39 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 16 Mar 2015 19:38:40 +0000 (UTC)
-Subject: [BUG] cpu hot-remove fails with nvme device
-In-Reply-To: <alpine.LNX.2.00.1503161749290.32385@localhost.lm.intel.com>
-References: <CACTTzNa9SHC1F+WbFpu7NVax1nrV9_9cgspq=9KXEtkwb0iqNA@mail.gmail.com>
- <alpine.LNX.2.00.1503161749290.32385@localhost.lm.intel.com>
-Message-ID: <alpine.LNX.2.00.1503161926040.32385@localhost.lm.intel.com>
+From: herbert1984106@gmail.com (sheng qiu)
+Date: Mon, 16 Mar 2015 14:03:47 -0700
+Subject: discard cmd through ioctl
+In-Reply-To: <alpine.LNX.2.00.1502070239360.15481@localhost.lm.intel.com>
+References: <CAB7xdi=CDHmc1p-jRnTKfh1fhpVE9wY1i8ZrB6ZxO4rU9iAfvA@mail.gmail.com>
+ <alpine.LNX.2.00.1502061845360.15481@localhost.lm.intel.com>
+ <CAB7xdikDj5=n_o16VjKNaXe7G5+Odm3kmucXAy0zaWwXXT7ikw@mail.gmail.com>
+ <alpine.LNX.2.00.1502070239360.15481@localhost.lm.intel.com>
+Message-ID: <CAB7xdi=oDjWsoDMMAVXRs37LNxLU+X3TQ6TkWGz_w6fbDEHG8Q@mail.gmail.com>
 
-> On Mon, 16 Mar 2015, Yigal Korman wrote:
->> Using cpu hotplug to disable (offline) a cpu:
->> echo 0 > /sys/devices/system/cpu/cpu10/online
->> does not return.
+Hi all,
 
-I just got back to my lab and tried your test. It's failing because the
-blk-mq hot cpu notifier callback freezes the queues and waits for all
-who've entered to exit (i.e., no outstanding requests). The NVMe driver
-submits async admin commands that don't have a timeout, so this queue
-never has zero references until the driver shuts the controller down.
+may i ask if there's any plan to support the fused command?
 
-I don't have a good idea how to fix this right now. I'll look into it
-unless Jens or someone else has a suggestion.
+Thanks!
+Sheng
+
+On Fri, Feb 6, 2015@6:52 PM, Keith Busch <keith.busch@intel.com> wrote:
+> On Fri, 6 Feb 2015, sheng qiu wrote:
+>>
+>> Hi Keith,
+>>
+>> thanks for your reply.
+>> for the struct "nvme_passthru_cmd", can you tell me what's the "flags"
+>> and "rsvd1" used for? which cmd filed does it associated to the NVMe
+>> Spec?
+>
+>
+> The IOCTL's structure tries to match an NVMe command except for parts
+> user space has no way of knowing about; those parts are command id and
+> bus addresses.
+>
+> The 'flags' are CDW0's bits 8-15, just after the opcode. The only spec
+> defined use for them is fuse and SGL, neither of which are supported by
+> the driver, so should be cleared to 0 for now.
+>
+> 'rsvd1' is for CDW3. The spec has no defined use for it, but we have a
+> field in the IOCTL's arg so we have a placeholder for it in the future
+> without breaking ABI.
