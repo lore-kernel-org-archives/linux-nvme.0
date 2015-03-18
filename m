@@ -1,63 +1,60 @@
-From: keith.busch@intel.com (Busch, Keith)
-Date: Tue, 17 Mar 2015 20:58:57 +0000
-Subject: NVMe controller reset
-In-Reply-To: <BN1PR0401MB093179FFC1C61856942C2DD0F2030@BN1PR0401MB0931.namprd04.prod.outlook.com>
-References: <BN1PR0401MB0931875120224BBDA5E32A4AF2030@BN1PR0401MB0931.namprd04.prod.outlook.com>
- <alpine.LNX.2.00.1503172024170.32385@localhost.lm.intel.com>
- <BN1PR0401MB093179FFC1C61856942C2DD0F2030@BN1PR0401MB0931.namprd04.prod.outlook.com>
-Message-ID: <B58D82457FDA0744A320A2FC5AC253B93BA99F32@fmsmsx104.amr.corp.intel.com>
+From: sunad.s@samsung.com (Sunad Bhandary)
+Date: Wed, 18 Mar 2015 20:43:45 +0530
+Subject: [PATCHv2] NVMe: write_long SCSI to NVMe translation implementation
+In-Reply-To: <20150317125914.GB4003@linux.intel.com>
+References: <1425382201-2556-1-git-send-email-sunad.s@samsung.com>
+ <004301d060aa$99924070$ccb6c150$@samsung.com>
+ <20150317125914.GB4003@linux.intel.com>
+Message-ID: <001b01d0618e$2535fd90$6fa1f8b0$@samsung.com>
 
-You could do remove + rescan with sysfs if you don't have
-open references on your drive.
 
-Here's a different proposal from 18 months ago:
 
-http://lists.infradead.org/pipermail/linux-nvme/2013-September/000391.html
+-----Original Message-----
+From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf
+Of Matthew Wilcox
+Sent: Tuesday, March 17, 2015 6:29 PM
+To: Sunad Bhandary
+Cc: keith.busch at intel.com; linux-nvme at lists.infradead.org
+Subject: Re: [PATCHv2] NVMe: write_long SCSI to NVMe translation
+implementation
 
-I still think it's a good idea.
+> +	(id_ctrl->oncs & NVME_CTRL_ONCS_WRITE_UNCORRECTABLE) ?
+> +				(wrt_uncor = 0x01) : (wrt_uncor = 0);
 
-On Tue, 17 Mar 2015, Brandon Schulz wrote:
-> I see.  Thanks for the response.
-> 
-> So this won't work for the back-ports to 2.6.32-ish kernels, as you mentioned, so does anyone have
-> a preference for how it is done there?
-> 
-> We're going to have to implement a mechanism, and if there are strong opinions against
-> implementing it as an ioctl, I'd like to hear them before we go write the code and submit the
-> patches.
-> 
-> My objective here is to find an acceptable mechanism that can eventually be pulled into the older
-> distro kernels.  If I'm going about this the wrong way, please let me know.
-> 
-> Thanks,
-> Brandon
-> 
-> 
-> 
-> -----Original Message-----
-> From: Keith Busch [mailto:keith.busch at intel.com]
-> Sent: Tuesday, March 17, 2015 3:30 PM
-> To: Brandon Schulz
-> Cc: linux-nvme at lists.infradead.org
-> Subject: Re: NVMe controller reset
-> 
-> On Tue, 17 Mar 2015, Brandon Schulz wrote:
-> > What is the preferred way (if there is one) to force a controller reset from user-space?
-> >
-> > If, for example, a user-space tool was going to do a firmware activate that required a
-> controller reset, how would one trigger the reset?  I do not see an ioctl defined for this today,
-> or am I missing something?
-> 
-> Like this:
-> 
->    # echo 1 > /sys/class/nvme/nvme<#>/device/reset
-> 
-> This assumes you're using kernel >= 4.0. Before that'd, the entry was under "class/misc" instead
-> of "class/nvme". It was moved to a new class because 'misc' wasn't giving us enough minors to have
-> more than several dozen NVMe drives in a system, but I want hundreds.
-> 
-> It also assumes you're using a kernel >= 3.15. While the sysfs entry exists pre-3.15, it wasn't
-> safe to use because there was no notification callback for drivers to subscribe to.
-> 
-> Had I known what a pain it was to back-port the pci callback to older kernels (it apparently
-> breaks kABI), I would have used an nvme specific sysfs entry, but that's where we are today.
+>This is a weird way of writing it.  Either do it like this:
+
+>	if (id_ctrl->oncs & NVME_CTRL_ONCS_WRITE_UNCORRECTABLE)
+>		wrt_uncor = 0x01;
+>	else
+>		wrt_uncor = 0;
+
+>Or this:
+
+>	wrt_uncor = (id_ctrl->oncs & NVME_CTRL_ONCS_WRITE_UNCORRECTABLE) ? 1
+: 0;
+
+>(and what's with the 'hex for one, decimal for the other' decision you made
+there?)
+
+
+-There is nothing to the decision. I happened to pick up bits from the
+protect variable in the same function.
+
+
+> +	case WRITE_LONG:
+> +	case SERVICE_ACTION_OUT_16:
+> +		retcode = nvme_trans_write_long(ns, hdr, cmd);
+> +		break;
+
+>Umm ... SAO16 can be used for more commands than just Write Long 16.  You
+need to check the Service Action in addition to the opcode.
+
+I missed the part of SAO16 being used for other commands.
+
+Currently there seems to be no SCSI macro defined for SOA16 corresponding to
+WRITE_LONG_16 or other commands. Any check for the service action out
+would have to be against hard coded value of 0x11(write_long_16).
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
