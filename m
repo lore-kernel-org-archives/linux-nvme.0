@@ -1,30 +1,80 @@
-From: keith.busch@intel.com (Busch, Keith)
-Date: Wed, 18 Mar 2015 15:24:31 +0000
-Subject: [PATCHv2] NVMe: write_long SCSI to NVMe translation implementation
-In-Reply-To: <001b01d0618e$2535fd90$6fa1f8b0$@samsung.com>
-References: <1425382201-2556-1-git-send-email-sunad.s@samsung.com>
- <004301d060aa$99924070$ccb6c150$@samsung.com>
- <20150317125914.GB4003@linux.intel.com>
- <001b01d0618e$2535fd90$6fa1f8b0$@samsung.com>
-Message-ID: <B58D82457FDA0744A320A2FC5AC253B93BA9AA16@fmsmsx104.amr.corp.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 18 Mar 2015 16:21:18 +0000 (UTC)
+Subject: [PATCHv2] NVMe: Spliting large i/o in the ioctl path [for-linus
+ branch]
+In-Reply-To: <1424779243-14951-1-git-send-email-sathya.m@samsung.com>
+References: <1424779243-14951-1-git-send-email-sathya.m@samsung.com>
+Message-ID: <alpine.LNX.2.00.1503181525200.32385@localhost.lm.intel.com>
 
-> > +	case WRITE_LONG:
-> > +	case SERVICE_ACTION_OUT_16:
-> > +		retcode = nvme_trans_write_long(ns, hdr, cmd);
-> > +		break;
-> 
-> >Umm ... SAO16 can be used for more commands than just Write Long 16.  You
-> need to check the Service Action in addition to the opcode.
-> 
-> I missed the part of SAO16 being used for other commands.
-> 
-> Currently there seems to be no SCSI macro defined for SOA16 corresponding to
-> WRITE_LONG_16 or other commands. Any check for the service action out
-> would have to be against hard coded value of 0x11(write_long_16).
+On Tue, 24 Feb 2015, Sathayavathi M wrote:
+> From: Sathyavathi M <sathya.m at samsung.com>
+>
+> The NVME_IOCTL_SUBMIT_IO allows arbitrarily large i/o cmds if mdts is zero.
+> If the mdts has a limit, there is no check to verify if the cmd sent to device
+> is within the max transfer limit. This patch splits arbitrarily  large size i/o
+> to max_hw_sectors before submitting to device. If metadata (extended and
+> separate) is present then the i/o is split by considering both data+metadata.
 
-Sounds good. The translation for SERVICE_ACTION_IN_16 in nvme-scsi.c
-decodes the SAI_READ_CAPACITY_16, so this isn't any different.
+The spec says MDTS applies to metadata when it is interleaved, but not
+when separated.
 
-It's probably okay to add a define for SAO_WRITE_LONG_16 to
-include/scsi/scsi.h if you don't want to make it exclusive to
-nvme-scsi.
+I was actually hoping we could simplify this whole thing to not allocate
+two nvme_iod's for separate metadata since we added a metadata sg
+element to the iod. Can we take advantage of that and clean up this
+routine?
+
+> +	u32 tfr_sectors;
+> +	u32 max_tfr_sectors, num_split_cmds, offset = 0;
+> +	u64 nxt_map_addr, nxt_meta_map_addr = 0;
+> +	struct nvme_iod *iod = NULL, *meta_iod = NULL;
+> 	dma_addr_t meta_dma_addr;
+> 	void *meta, *uninitialized_var(meta_mem);
+> +	bool ext_lba = ns->flbas & EXT_LBA;
+>
+> 	if (copy_from_user(&io, uio, sizeof(io)))
+> 		return -EFAULT;
+> -	length = (io.nblocks + 1) << ns->lba_shift;
+> -	meta_len = (io.nblocks + 1) * ns->ms;
+> +	max_tfr_sectors = dev->max_hw_sectors;
+
+Your offset, max_tfr_sectors and tfr_sectors are counted as units of
+512b sectors, but you're using it as if it is the device's physical
+sector size when you set SLBA and NLB.
+
+> -	switch (io.opcode) {
+> -	case nvme_cmd_write:
+> -	case nvme_cmd_read:
+> -	case nvme_cmd_compare:
+> -		iod = nvme_map_user_pages(dev, io.opcode & 1, io.addr, length);
+> -		break;
+> -	default:
+> +	if (io.opcode != nvme_cmd_write && io.opcode != nvme_cmd_read &&
+> +						io.opcode != nvme_cmd_compare)
+> 		return -EINVAL;
+> -	}
+
+I don't think this change above is any clearer than what we had
+before. Just remove allocating the iod from the switch, right?
+
+> +		num_split_cmds = DIV_ROUND_UP(((io.nblocks + 1)
+> +			<< ns->lba_shift), (max_tfr_sectors << ns->lba_shift));
+
+The nblocks and max_tfr_sectors may not be the same unit size in your
+setup, so this division may not make sense for some formats.
+
+> +	/* Increase max transfer size if device reports MDTS=0 */
+> 	if (ctrl->mdts)
+> 		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
+> +	else
+> +		dev->max_hw_sectors = 1024;
+
+I didn't realize the block layer imposed such a low limit when the
+driver doesn't specify one. If the device doesn't have a limit though,
+why not use UINT_MAX?
+
+> +enum {
+> +	EXT_LBA		= 0x10
+> +};
+
+This enum is unnecessary. It already exists in the enum with the rest
+of the identify namespace FLBAS flags in the latest kernel.
