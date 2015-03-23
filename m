@@ -1,52 +1,192 @@
-From: sunad.s@samsung.com (Sunad Bhandary)
-Date: Thu, 19 Mar 2015 17:27:18 +0530
-Subject: [PATCHv2] NVMe: write_long SCSI to NVMe translation implementation
-In-Reply-To: <B58D82457FDA0744A320A2FC5AC253B93BA9AA16@fmsmsx104.amr.corp.intel.com>
-References: <1425382201-2556-1-git-send-email-sunad.s@samsung.com>
- <004301d060aa$99924070$ccb6c150$@samsung.com>
- <20150317125914.GB4003@linux.intel.com>
- <001b01d0618e$2535fd90$6fa1f8b0$@samsung.com>
- <B58D82457FDA0744A320A2FC5AC253B93BA9AA16@fmsmsx104.amr.corp.intel.com>
-Message-ID: <006701d0623b$e19cb340$a4d619c0$@samsung.com>
+From: sunad.s@samsung.com (Sunad Bhandary S)
+Date: Mon, 23 Mar 2015 19:18:13 +0530
+Subject: [PATCHv3] NVMe: write_long SCSI to NVMe translation implementation
+Message-ID: <1427118493-29227-1-git-send-email-sunad.s@samsung.com>
 
+From: Sunad Bhandary S <sunad.s@samsung.com>
 
+This patch implements the SCSI to NVMe translation for write_long.
+write_long is translated to the NVMe command write_uncorrectable as
+defined by the translation specification version 1.4.
 
------Original Message-----
-From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf
-Of Busch, Keith
-Sent: Wednesday, March 18, 2015 8:55 PM
-To: Sunad Bhandary; 'Matthew Wilcox'
-Cc: linux-nvme at lists.infradead.org
-Subject: RE: [PATCHv2] NVMe: write_long SCSI to NVMe translation
-implementation
+This patch also indicates the device support for write_uncorrectable
+method in the response of extended inquiry as defined in the translation
+spec.
 
-> > +	case WRITE_LONG:
-> > +	case SERVICE_ACTION_OUT_16:
-> > +		retcode = nvme_trans_write_long(ns, hdr, cmd);
-> > +		break;
-> 
-> >Umm ... SAO16 can be used for more commands than just Write Long 16.  
-> >You
-> need to check the Service Action in addition to the opcode.
-> 
-> I missed the part of SAO16 being used for other commands.
-> 
-> Currently there seems to be no SCSI macro defined for SOA16 
-> corresponding to
-> WRITE_LONG_16 or other commands. Any check for the service action out 
-> would have to be against hard coded value of 0x11(write_long_16).
+This patch is based on for-linus branch.
 
->Sounds good. The translation for SERVICE_ACTION_IN_16 in nvme-scsi.c
-decodes the SAI_READ_CAPACITY_16, so this isn't any different.
+Changes:
+v1 -> v2 : __le32 nlb field changed to __le16 nlb followed by __u16
+rsvd.
+v2 -> v3 : Check for SAO16 value for write_long_16.
 
->It's probably okay to add a define for SAO_WRITE_LONG_16 to
-include/scsi/scsi.h if you don't want to make it exclusive to nvme-scsi.
+Signed-off-by: Sunad Bhandary S <sunad.s at samsung.com>
+---
+ drivers/block/nvme-scsi.c | 78 +++++++++++++++++++++++++++++++++++++++++++++--
+ include/uapi/linux/nvme.h | 13 ++++++++
+ 2 files changed, 89 insertions(+), 2 deletions(-)
 
-Okay, I will make the changes for the SAO comparison for write_long_16
-exclusive to nvme-scsi and send out the modified patch in a couple of days.
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index e10196e..3b778e4 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -245,6 +245,17 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
+ /* Report LUNs defines */
+ #define REPORT_LUNS_FIRST_LUN_OFFSET			8
+ 
++/*Write Long defines */
++#define WRITE_LONG_CDB_COR_DIS_OFFSET			1
++#define WRITE_LONG_CDB_COR_DIS_MASK			0x80
++#define WRITE_LONG_CDB_WR_UNCOR_OFFSET			1
++#define WRITE_LONG_CDB_WR_UNCOR_MASK			0x40
++#define WRITE_LONG_CDB_PBLOCK_OFFSET			1
++#define WRITE_LONG_CDB_PBLOCK_MASK			0x20
++#define WRITE_LONG_CDB_LBA_OFFSET			2
++#define WRITE_LONG_SAO_MASK				0x1F
++#define SAO_WRITE_LONG_16				0x11
++
+ /* SCSI ADDITIONAL SENSE Codes */
+ 
+ #define SCSI_ASC_NO_SENSE				0x00
+@@ -331,6 +342,10 @@ INQUIRY_EVPD_BIT_MASK) ? 1 : 0)
+ #define IS_READ_CAP_16(cdb)					\
+ ((cdb[0] == SERVICE_ACTION_IN_16 && cdb[1] == SAI_READ_CAPACITY_16) ? 1 : 0)
+ 
++#define IS_WRITE_LONG_16(cdb)					\
++((cdb[0] == SERVICE_ACTION_OUT_16 &&				\
++(cdb[1] & WRITE_LONG_SAO_MASK) == SAO_WRITE_LONG_16) ? 1 : 0)
++
+ /* Request Sense Helper Macros */
+ #define GET_REQUEST_SENSE_ALLOC_LENGTH(cdb)			\
+ (GET_U8_FROM_CDB(cdb, REQUEST_SENSE_CDB_ALLOC_LENGTH_OFFSET))
+@@ -871,7 +886,7 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	u8 spt_lut[8] = {0, 0, 2, 1, 4, 6, 5, 7};
+ 	u8 grd_chk, app_chk, ref_chk, protect;
+ 	u8 uask_sup = 0x20;
+-	u8 v_sup;
++	u8 v_sup, wrt_uncor, wu_sup, cd_sup;
+ 	u8 luiclr = 0x01;
+ 
+ 	inq_response = kmalloc(EXTENDED_INQUIRY_DATA_PAGE_LENGTH, GFP_KERNEL);
+@@ -914,6 +929,10 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	}
+ 	id_ctrl = mem;
+ 	v_sup = id_ctrl->vwc;
++	wrt_uncor = (id_ctrl->oncs &
++				NVME_CTRL_ONCS_WRITE_UNCORRECTABLE) ? 1 : 0;
++	wu_sup = wrt_uncor << 3;
++	cd_sup = wrt_uncor << 2;
+ 
+ 	memset(inq_response, 0, EXTENDED_INQUIRY_DATA_PAGE_LENGTH);
+ 	inq_response[1] = INQ_EXTENDED_INQUIRY_DATA_PAGE;    /* Page Code */
+@@ -921,7 +940,7 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	inq_response[3] = 0x3C;    /* Page Length LSB */
+ 	inq_response[4] = microcode | spt | grd_chk | app_chk | ref_chk;
+ 	inq_response[5] = uask_sup;
+-	inq_response[6] = v_sup;
++	inq_response[6] = wu_sup | cd_sup | v_sup;
+ 	inq_response[7] = luiclr;
+ 	inq_response[8] = 0;
+ 	inq_response[9] = 0;
+@@ -2916,6 +2935,52 @@ static int nvme_trans_unmap(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	return res;
+ }
+ 
++static int nvme_trans_write_long(struct nvme_ns *ns, struct sg_io_hdr *hdr,
++				u8 *cmd)
++{
++	int res = SNTI_TRANSLATION_SUCCESS;
++	int nvme_sc;
++	struct nvme_command c;
++	u64 slba;
++	u8 cor_dis, wr_uncor, pblock;
++
++	cor_dis = GET_U8_FROM_CDB(cmd, WRITE_LONG_CDB_COR_DIS_OFFSET) &
++					WRITE_LONG_CDB_COR_DIS_MASK;
++	wr_uncor = GET_U8_FROM_CDB(cmd, WRITE_LONG_CDB_WR_UNCOR_OFFSET) &
++					WRITE_LONG_CDB_WR_UNCOR_MASK;
++	pblock = GET_U8_FROM_CDB(cmd, WRITE_LONG_CDB_PBLOCK_OFFSET) &
++					WRITE_LONG_CDB_PBLOCK_MASK;
++
++	if (!cor_dis || !wr_uncor || pblock) {
++		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
++					ILLEGAL_REQUEST,
++					SCSI_ASC_INVALID_CDB,
++					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
++		goto out;
++	}
++
++	if (cmd[0] == WRITE_LONG)
++		slba = GET_U32_FROM_CDB(cmd, WRITE_LONG_CDB_LBA_OFFSET);
++	else
++		slba = GET_U64_FROM_CDB(cmd, WRITE_LONG_CDB_LBA_OFFSET);
++
++	memset(&c, 0, sizeof(c));
++	c.wu.opcode = nvme_cmd_write_uncor;
++	c.wu.nsid = cpu_to_le32(ns->ns_id);
++	c.wu.slba = cpu_to_le64(slba);
++	c.wu.nlb = 0;
++
++	nvme_sc = nvme_submit_io_cmd(ns->dev, ns, &c, NULL);
++	res = nvme_trans_status_code(hdr, nvme_sc);
++	if (res)
++		goto out;
++	if (nvme_sc)
++		res = nvme_sc;
++
++out:
++	return res;
++}
++
+ static int nvme_scsi_translate(struct nvme_ns *ns, struct sg_io_hdr *hdr)
+ {
+ 	u8 cmd[BLK_MAX_CDB];
+@@ -3001,6 +3066,15 @@ static int nvme_scsi_translate(struct nvme_ns *ns, struct sg_io_hdr *hdr)
+ 	case UNMAP:
+ 		retcode = nvme_trans_unmap(ns, hdr, cmd);
+ 		break;
++	case WRITE_LONG:
++		retcode = nvme_trans_write_long(ns, hdr, cmd);
++		break;
++	case SERVICE_ACTION_OUT_16:
++		if (IS_WRITE_LONG_16(cmd))
++			retcode = nvme_trans_write_long(ns, hdr, cmd);
++		else
++			goto out;
++		break;
+ 	default:
+  out:
+ 		retcode = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
+index aef9a81..068db6d 100644
+--- a/include/uapi/linux/nvme.h
++++ b/include/uapi/linux/nvme.h
+@@ -310,6 +310,18 @@ struct nvme_dsm_range {
+ 	__le64			slba;
+ };
+ 
++struct nvme_write_uncor_cmd {
++	__u8			opcode;
++	__u8			flags;
++	__u16			command_id;
++	__le32			nsid;
++	__u32			rsvd2[8];
++	__le64			slba;
++	__le16			nlb;
++	__u16			rsvd;
++	__u32			rsvd13[3];
++};
++
+ /* Admin commands */
+ 
+ enum nvme_admin_opcode {
+@@ -469,6 +481,7 @@ struct nvme_command {
+ 		struct nvme_download_firmware dlfw;
+ 		struct nvme_format_cmd format;
+ 		struct nvme_dsm_cmd dsm;
++		struct nvme_write_uncor_cmd wu;
+ 		struct nvme_abort_cmd abort;
+ 	};
+ };
+-- 
+1.8.3.2
