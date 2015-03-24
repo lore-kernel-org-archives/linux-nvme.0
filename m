@@ -1,70 +1,227 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 23 Mar 2015 21:10:36 +0000 (UTC)
-Subject: NVMe controller reset
-In-Reply-To: <31FEE40556302F408590926A3C4AC65FED54F404@BBYEXM01.pmc-sierra.internal>
-References: <BN1PR0401MB0931875120224BBDA5E32A4AF2030@BN1PR0401MB0931.namprd04.prod.outlook.com>
- <alpine.LNX.2.00.1503172024170.32385@localhost.lm.intel.com>
- <BN1PR0401MB093179FFC1C61856942C2DD0F2030@BN1PR0401MB0931.namprd04.prod.outlook.com>
- <B58D82457FDA0744A320A2FC5AC253B93BA99F32@fmsmsx104.amr.corp.intel.com>
- <31FEE40556302F408590926A3C4AC65FED54F404@BBYEXM01.pmc-sierra.internal>
-Message-ID: <alpine.LNX.2.00.1503232045420.32385@localhost.lm.intel.com>
+From: sunad.s@samsung.com (Sunad Bhandary)
+Date: Tue, 24 Mar 2015 17:27:31 +0530
+Subject: [PATCHv3] NVMe: write_long SCSI to NVMe translation implementation
+In-Reply-To: <1427118493-29227-1-git-send-email-sunad.s@samsung.com>
+References: <1427118493-29227-1-git-send-email-sunad.s@samsung.com>
+Message-ID: <006501d06629$b8397550$28ac5ff0$@samsung.com>
 
-On Mon, 23 Mar 2015, David Sariel wrote:
-> Hi
-> As a matter of fact I was also paying around with reset recently.
-> And Keith's note about the pre-3.15 lack of safety explained all the strange things I saw on 3.14.16.
+Hi Keith,
 
-Yeah, the pci core would send FLR to your controller, which should get
-it back to its initial state. Prior to 3.15 no one told the device's
-*driver* this is happening, so it had to figure out all on its own that
-the device is no longer operational. Depending on what you're doing,
-that could take awhile.
+I think this patch suffices for the shortcomings of the previous versions.
+Does anything else seem amiss ?
 
-I think the sysfs entry was meant for virtualization to use prior to
-setting direct assignments, so it's not expected there's an active
-device driver, but using this entry is not enforcing that and there are
-other uses of FLR outside that case. I added the callback notification
-in case FLR is a requirement for firmware activation. As of today,
-NVMe is still the only callback subscriber.
+If I am to submit a version of the patch for the legacy-nvme , the SCSI
+macro SERVICE_ACTION _OUT_16 is not present in the kernel.
+Is it alright to define a Macro  SAO_16(0x9f)  exclusive to nvme-scsi to
+support WRITE_LONG_16?
 
-> I have installed v 3.16.2 and played a little bit more. Particularly, I have added the NVME_IOCTL_RESET to
-> See that reset works. What I did is to call the nvme_dev_reset upon the NVME_IOCTL_RESET.
-> And resets are working just fine. Even sending multiple resets under traffic only slows the traffic a little bit, but eventually fio
-> Manages to run to the completion.
+Regards,
+Sunad
 
-Oh good. The driver should be requeuing commands that were in flight, but
-didn't return successfully during the reset operation, so you shouldn't
-see IO errors unless your device takes a really long time to shutdown.
+-----Original Message-----
+From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf
+Of Sunad Bhandary S
+Sent: Monday, March 23, 2015 7:18 PM
+To: linux-nvme at lists.infradead.org; keith.busch at intel.com
+Cc: Sunad Bhandary S
+Subject: [PATCHv3] NVMe: write_long SCSI to NVMe translation implementation
 
-> Then I tried to investigate a little bit what happens with reset entry in sysfs on v 3.16.2 and it will be great if somebody could answer the questions I have:
->
-> 1) making echo 1 > /sys/class/misc/nvme0/device/reset cause no call to the nvme_dev_reset. And no controller reset was caused in the NVME controller as well.
+From: Sunad Bhandary S <sunad.s@samsung.com>
 
-Right, this does not call nvme_dev_reset because the PCIe reset
-occurs outside the nvme notification context. There's no point in
-doing the device reset when the PCIe reset is going to undo all your
-initialization.
+This patch implements the SCSI to NVMe translation for write_long.
+write_long is translated to the NVMe command write_uncorrectable as defined
+by the translation specification version 1.4.
 
-Instead this will call nvme_reset_notify. This either invokes
-nvme_dev_shutdown or nvme_dev_resume, depending on the "prepare"
-flag. That's pretty much what nvme_dev_reset() does, except in two calls
-instead of one.
+This patch also indicates the device support for write_uncorrectable method
+in the response of extended inquiry as defined in the translation spec.
 
->So the question is why resets were implemented via the reset_work? Currently resets are delivered to the controller (turning CC enable to 0 etc) under a several conditions:
-> readl(&dev->bar->csts) & NVME_CSTS_CFS && dev->initialized and then the work is only scheduled. What is the rational? Can't we just read the /sys/class/misc/nvme0/device/reset  and call to the nvme_dev_reset (of course subject to take the rcu_read_lock/ rcu_read_unlock)
+This patch is based on for-linus branch.
 
-The reset_work is used because the detection of the conditions that
-require a device reset occur in a context that can't perform a device
-shutdown and initialization.
+Changes:
+v1 -> v2 : __le32 nlb field changed to __le16 nlb followed by __u16 rsvd.
+v2 -> v3 : Check for SAO16 value for write_long_16.
 
-> 2) Is it ok to add NVME_IOCTL_RESET in case the rational for resets with sysfs/ reset_work combination is not intended to work with multiple resets under traffic? The code I have tested is very simple:
+Signed-off-by: Sunad Bhandary S <sunad.s at samsung.com>
+---
+ drivers/block/nvme-scsi.c | 78
++++++++++++++++++++++++++++++++++++++++++++++--
+ include/uapi/linux/nvme.h | 13 ++++++++
+ 2 files changed, 89 insertions(+), 2 deletions(-)
 
-I've always gotten negative reactions to adding IOCTLs. I'm totally okay
-with it, though.
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c index
+e10196e..3b778e4 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -245,6 +245,17 @@ static int sg_version_num = 30534;	/* 2 digits for each
+component */
+ /* Report LUNs defines */
+ #define REPORT_LUNS_FIRST_LUN_OFFSET			8
+ 
++/*Write Long defines */
++#define WRITE_LONG_CDB_COR_DIS_OFFSET			1
++#define WRITE_LONG_CDB_COR_DIS_MASK			0x80
++#define WRITE_LONG_CDB_WR_UNCOR_OFFSET			1
++#define WRITE_LONG_CDB_WR_UNCOR_MASK			0x40
++#define WRITE_LONG_CDB_PBLOCK_OFFSET			1
++#define WRITE_LONG_CDB_PBLOCK_MASK			0x20
++#define WRITE_LONG_CDB_LBA_OFFSET			2
++#define WRITE_LONG_SAO_MASK				0x1F
++#define SAO_WRITE_LONG_16				0x11
++
+ /* SCSI ADDITIONAL SENSE Codes */
+ 
+ #define SCSI_ASC_NO_SENSE				0x00
+@@ -331,6 +342,10 @@ INQUIRY_EVPD_BIT_MASK) ? 1 : 0)
+ #define IS_READ_CAP_16(cdb)					\
+ ((cdb[0] == SERVICE_ACTION_IN_16 && cdb[1] == SAI_READ_CAPACITY_16) ? 1 :
+0)
+ 
++#define IS_WRITE_LONG_16(cdb)					\
++((cdb[0] == SERVICE_ACTION_OUT_16 &&				\
++(cdb[1] & WRITE_LONG_SAO_MASK) == SAO_WRITE_LONG_16) ? 1 : 0)
++
+ /* Request Sense Helper Macros */
+ #define GET_REQUEST_SENSE_ALLOC_LENGTH(cdb)			\
+ (GET_U8_FROM_CDB(cdb, REQUEST_SENSE_CDB_ALLOC_LENGTH_OFFSET))
+@@ -871,7 +886,7 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns,
+struct sg_io_hdr *hdr,
+ 	u8 spt_lut[8] = {0, 0, 2, 1, 4, 6, 5, 7};
+ 	u8 grd_chk, app_chk, ref_chk, protect;
+ 	u8 uask_sup = 0x20;
+-	u8 v_sup;
++	u8 v_sup, wrt_uncor, wu_sup, cd_sup;
+ 	u8 luiclr = 0x01;
+ 
+ 	inq_response = kmalloc(EXTENDED_INQUIRY_DATA_PAGE_LENGTH,
+GFP_KERNEL); @@ -914,6 +929,10 @@ static int nvme_trans_ext_inq_page(struct
+nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	}
+ 	id_ctrl = mem;
+ 	v_sup = id_ctrl->vwc;
++	wrt_uncor = (id_ctrl->oncs &
++				NVME_CTRL_ONCS_WRITE_UNCORRECTABLE) ? 1 : 0;
++	wu_sup = wrt_uncor << 3;
++	cd_sup = wrt_uncor << 2;
+ 
+ 	memset(inq_response, 0, EXTENDED_INQUIRY_DATA_PAGE_LENGTH);
+ 	inq_response[1] = INQ_EXTENDED_INQUIRY_DATA_PAGE;    /* Page Code */
+@@ -921,7 +940,7 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns,
+struct sg_io_hdr *hdr,
+ 	inq_response[3] = 0x3C;    /* Page Length LSB */
+ 	inq_response[4] = microcode | spt | grd_chk | app_chk | ref_chk;
+ 	inq_response[5] = uask_sup;
+-	inq_response[6] = v_sup;
++	inq_response[6] = wu_sup | cd_sup | v_sup;
+ 	inq_response[7] = luiclr;
+ 	inq_response[8] = 0;
+ 	inq_response[9] = 0;
+@@ -2916,6 +2935,52 @@ static int nvme_trans_unmap(struct nvme_ns *ns,
+struct sg_io_hdr *hdr,
+ 	return res;
+ }
+ 
++static int nvme_trans_write_long(struct nvme_ns *ns, struct sg_io_hdr *hdr,
++				u8 *cmd)
++{
++	int res = SNTI_TRANSLATION_SUCCESS;
++	int nvme_sc;
++	struct nvme_command c;
++	u64 slba;
++	u8 cor_dis, wr_uncor, pblock;
++
++	cor_dis = GET_U8_FROM_CDB(cmd, WRITE_LONG_CDB_COR_DIS_OFFSET) &
++					WRITE_LONG_CDB_COR_DIS_MASK;
++	wr_uncor = GET_U8_FROM_CDB(cmd, WRITE_LONG_CDB_WR_UNCOR_OFFSET) &
++					WRITE_LONG_CDB_WR_UNCOR_MASK;
++	pblock = GET_U8_FROM_CDB(cmd, WRITE_LONG_CDB_PBLOCK_OFFSET) &
++					WRITE_LONG_CDB_PBLOCK_MASK;
++
++	if (!cor_dis || !wr_uncor || pblock) {
++		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
++					ILLEGAL_REQUEST,
++					SCSI_ASC_INVALID_CDB,
++					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
++		goto out;
++	}
++
++	if (cmd[0] == WRITE_LONG)
++		slba = GET_U32_FROM_CDB(cmd, WRITE_LONG_CDB_LBA_OFFSET);
++	else
++		slba = GET_U64_FROM_CDB(cmd, WRITE_LONG_CDB_LBA_OFFSET);
++
++	memset(&c, 0, sizeof(c));
++	c.wu.opcode = nvme_cmd_write_uncor;
++	c.wu.nsid = cpu_to_le32(ns->ns_id);
++	c.wu.slba = cpu_to_le64(slba);
++	c.wu.nlb = 0;
++
++	nvme_sc = nvme_submit_io_cmd(ns->dev, ns, &c, NULL);
++	res = nvme_trans_status_code(hdr, nvme_sc);
++	if (res)
++		goto out;
++	if (nvme_sc)
++		res = nvme_sc;
++
++out:
++	return res;
++}
++
+ static int nvme_scsi_translate(struct nvme_ns *ns, struct sg_io_hdr *hdr)
+{
+ 	u8 cmd[BLK_MAX_CDB];
+@@ -3001,6 +3066,15 @@ static int nvme_scsi_translate(struct nvme_ns *ns,
+struct sg_io_hdr *hdr)
+ 	case UNMAP:
+ 		retcode = nvme_trans_unmap(ns, hdr, cmd);
+ 		break;
++	case WRITE_LONG:
++		retcode = nvme_trans_write_long(ns, hdr, cmd);
++		break;
++	case SERVICE_ACTION_OUT_16:
++		if (IS_WRITE_LONG_16(cmd))
++			retcode = nvme_trans_write_long(ns, hdr, cmd);
++		else
++			goto out;
++		break;
+ 	default:
+  out:
+ 		retcode = nvme_trans_completion(hdr,
+SAM_STAT_CHECK_CONDITION, diff --git a/include/uapi/linux/nvme.h
+b/include/uapi/linux/nvme.h index aef9a81..068db6d 100644
+--- a/include/uapi/linux/nvme.h
++++ b/include/uapi/linux/nvme.h
+@@ -310,6 +310,18 @@ struct nvme_dsm_range {
+ 	__le64			slba;
+ };
+ 
++struct nvme_write_uncor_cmd {
++	__u8			opcode;
++	__u8			flags;
++	__u16			command_id;
++	__le32			nsid;
++	__u32			rsvd2[8];
++	__le64			slba;
++	__le16			nlb;
++	__u16			rsvd;
++	__u32			rsvd13[3];
++};
++
+ /* Admin commands */
+ 
+ enum nvme_admin_opcode {
+@@ -469,6 +481,7 @@ struct nvme_command {
+ 		struct nvme_download_firmware dlfw;
+ 		struct nvme_format_cmd format;
+ 		struct nvme_dsm_cmd dsm;
++		struct nvme_write_uncor_cmd wu;
+ 		struct nvme_abort_cmd abort;
+ 	};
+ };
+--
+1.8.3.2
 
-The only problem with your implementation is that it allows multiple
-shutdowns and initializations to occur on the same device at the same
-time. That's not safe for a lot of reasons in the existing implementation.
-For example, the init may be accessing unmapped bars, or you could have
-two processes bit-banging the CC register. The reset_work can be used
-to ensure there's only one.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
