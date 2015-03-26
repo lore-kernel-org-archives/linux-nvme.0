@@ -1,26 +1,40 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 26 Mar 2015 16:19:40 +0000 (UTC)
-Subject: [PATCH v2 1/1] nvme: Fix PRP list calculation for non-4k system
- page size
-In-Reply-To: <55142ED7.8040809@linux.vnet.ibm.com>
-References: <201503242226.t2OMQpWq011660@d03av02.boulder.ibm.com>
- <alpine.LNX.2.00.1503242233530.32385@localhost.lm.intel.com>
- <55142ED7.8040809@linux.vnet.ibm.com>
-Message-ID: <alpine.LNX.2.00.1503261618220.32385@localhost.lm.intel.com>
+Date: Thu, 26 Mar 2015 13:49:33 -0600
+Subject: [PATCH] NVMe: Freeze admin queue on device failure
+Message-ID: <1427399373-19746-1-git-send-email-keith.busch@intel.com>
 
-On Thu, 26 Mar 2015, Brian King wrote:
-> From: Murali Iyer <mniyer at us.ibm.com>
->
-> PRP list calculation is supposed to be based on device's page size.
-> Systems with page size larger than device's page size cause corruption
-> to the name space as well as system memory with out this fix.
-> Systems like x86 might not experience this issue because it uses
-> PAGE_SIZE of 4K where as powerpc uses PAGE_SIZE of 64k while NVMe device's
-> page size varies depending upon the vendor.
+This fixes a race accessing an invalid address when a controller's admin
+queue is in use during a reset for failure or hot removal occurs. The
+admin queue will be frozen to prevent new users from entering prior to
+the doorbell queue being unmapped.
 
-Thanks!
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/block/nvme-core.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Acked-by: Keith Busch <keith.busch at intel.com>
-
-> Signed-off-by: Murali Iyer <mniyer at us.ibm.com>
-> Signed-off-by: Brian King <brking at linux.vnet.ibm.com>
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 94832e1..e8baffa 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1344,6 +1344,9 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
+ 	nvmeq->cq_vector = -1;
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ 
++	if (!nvmeq->qid && nvmeq->dev->admin_q)
++		blk_mq_freeze_queue_start(nvmeq->dev->admin_q);
++
+ 	irq_set_affinity_hint(vector, NULL);
+ 	free_irq(vector, nvmeq);
+ 
+@@ -1375,8 +1378,6 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
+ 		adapter_delete_sq(dev, qid);
+ 		adapter_delete_cq(dev, qid);
+ 	}
+-	if (!qid && dev->admin_q)
+-		blk_mq_freeze_queue_start(dev->admin_q);
+ 
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	nvme_process_cq(nvmeq);
+-- 
+1.7.10.4
