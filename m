@@ -1,27 +1,44 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 25 Mar 2015 20:09:56 +0000 (UTC)
-Subject: NVMe controller reset
-In-Reply-To: <BN1PR0401MB093109D5A517B461FC5893D8F20B0@BN1PR0401MB0931.namprd04.prod.outlook.com>
-References: <BN1PR0401MB0931875120224BBDA5E32A4AF2030@BN1PR0401MB0931.namprd04.prod.outlook.com>
- <alpine.LNX.2.00.1503172024170.32385@localhost.lm.intel.com>
- <BN1PR0401MB093179FFC1C61856942C2DD0F2030@BN1PR0401MB0931.namprd04.prod.outlook.com>
- <B58D82457FDA0744A320A2FC5AC253B93BA99F32@fmsmsx104.amr.corp.intel.com>
- <31FEE40556302F408590926A3C4AC65FED54F404@BBYEXM01.pmc-sierra.internal>
- <alpine.LNX.2.00.1503232045420.32385@localhost.lm.intel.com>
- <31FEE40556302F408590926A3C4AC65FED550BAB@BBYEXM01.pmc-sierra.internal>
- <alpine.LNX.2.00.1503251458451.32385@localhost.lm.intel.com>
- <BN1PR0401MB093109D5A517B461FC5893D8F20B0@BN1PR0401MB0931.namprd04.prod.outlook.com>
-Message-ID: <alpine.LNX.2.00.1503252006360.32385@localhost.lm.intel.com>
+From: brking@linux.vnet.ibm.com (Brian King)
+Date: Thu, 26 Mar 2015 11:07:51 -0500
+Subject: [PATCH v2 1/1] nvme: Fix PRP list calculation for non-4k system page
+ size
+In-Reply-To: <alpine.LNX.2.00.1503242233530.32385@localhost.lm.intel.com>
+References: <201503242226.t2OMQpWq011660@d03av02.boulder.ibm.com>
+ <alpine.LNX.2.00.1503242233530.32385@localhost.lm.intel.com>
+Message-ID: <55142ED7.8040809@linux.vnet.ibm.com>
 
-On Wed, 25 Mar 2015, Brandon Schulz wrote:
-> One question I would pose is: Do we need to re-enumerate the namespaces after we do a reset?  It seems to me that there are situations where the set of namespaces on a device may change during a controller reset.  How would that best be handled?
+From: Murali Iyer <mniyer@us.ibm.com>
 
-Right now you should remove and rescan if the namespace inventory
-list has changed. Something like this:
+PRP list calculation is supposed to be based on device's page size.
+Systems with page size larger than device's page size cause corruption
+to the name space as well as system memory with out this fix.
+Systems like x86 might not experience this issue because it uses
+PAGE_SIZE of 4K where as powerpc uses PAGE_SIZE of 64k while NVMe device's
+page size varies depending upon the vendor.
 
-   # echo 1 > /sys/class/nvme/nvme0/device/remove
-   # echo 1 > /sys/bus/pci/rescan
+Signed-off-by: Murali Iyer <mniyer at us.ibm.com>
+Signed-off-by: Brian King <brking at linux.vnet.ibm.com>
+---
 
-If the characteristics of an existing namespace changed, like from
-a format operation, you can issue a BLKRRPART ioctl to the affected
-namespace for it to be revalidated.
+ drivers/block/nvme-core.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff -puN drivers/block/nvme-core.c~nvme_power drivers/block/nvme-core.c
+--- linux-nvme/drivers/block/nvme-core.c~nvme_power	2015-03-24 17:12:09.912743224 -0500
++++ linux-nvme-bjking1/drivers/block/nvme-core.c	2015-03-25 09:25:43.580260410 -0500
+@@ -503,12 +503,12 @@ int nvme_setup_prps(struct nvme_dev *dev
+ 	struct scatterlist *sg = iod->sg;
+ 	int dma_len = sg_dma_len(sg);
+ 	u64 dma_addr = sg_dma_address(sg);
+-	int offset = offset_in_page(dma_addr);
++	u32 page_size = dev->page_size;
++	int offset = dma_addr & (page_size - 1);
+ 	__le64 *prp_list;
+ 	__le64 **list = iod_list(iod);
+ 	dma_addr_t prp_dma;
+ 	int nprps, i;
+-	u32 page_size = dev->page_size;
+ 
+ 	length -= (page_size - offset);
+ 	if (length <= 0)
+_
