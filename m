@@ -1,40 +1,56 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 26 Mar 2015 13:49:33 -0600
-Subject: [PATCH] NVMe: Freeze admin queue on device failure
-Message-ID: <1427399373-19746-1-git-send-email-keith.busch@intel.com>
+From: chong.yuan@memblaze.com (Chong Yuan)
+Date: Fri, 27 Mar 2015 09:21:32 +0800
+Subject: [PATCH] embedded iod mask cleanup
+Message-ID: <1427419292-27518-1-git-send-email-chong.yuan@memblaze.com>
 
-This fixes a race accessing an invalid address when a controller's admin
-queue is in use during a reset for failure or hot removal occurs. The
-admin queue will be frozen to prevent new users from entering prior to
-the doorbell queue being unmapped.
+Remove unused mask in nvme_alloc_iod
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Chong Yuan <chong.yuan at memblaze.com>
+Reviewed-by: Wenbo Wang  <wenbo.wang at memblaze.com>
+Acked-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |    5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ drivers/block/nvme-core.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 94832e1..e8baffa 100644
+index e23be20..cbde95b 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1344,6 +1344,9 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- 	nvmeq->cq_vector = -1;
- 	spin_unlock_irq(&nvmeq->q_lock);
+@@ -152,6 +152,7 @@ struct nvme_cmd_info {
+  */
+ #define NVME_INT_PAGES		2
+ #define NVME_INT_BYTES(dev)	(NVME_INT_PAGES * (dev)->page_size)
++#define NVME_INT_MASK		0x01
  
-+	if (!nvmeq->qid && nvmeq->dev->admin_q)
-+		blk_mq_freeze_queue_start(nvmeq->dev->admin_q);
-+
- 	irq_set_affinity_hint(vector, NULL);
- 	free_irq(vector, nvmeq);
+ /*
+  * Will slightly overestimate the number of pages needed.  This is OK
+@@ -257,7 +258,7 @@ static void *iod_get_private(struct nvme_iod *iod)
+  */
+ static bool iod_should_kfree(struct nvme_iod *iod)
+ {
+-	return (iod->private & 0x01) == 0;
++	return (iod->private & NVME_INT_MASK) == 0;
+ }
  
-@@ -1375,8 +1378,6 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
- 		adapter_delete_sq(dev, qid);
- 		adapter_delete_cq(dev, qid);
+ /* Special values must be less than 0x1000 */
+@@ -432,7 +433,6 @@ static struct nvme_iod *nvme_alloc_iod(struct request *rq, struct nvme_dev *dev,
+ {
+ 	unsigned size = !(rq->cmd_flags & REQ_DISCARD) ? blk_rq_bytes(rq) :
+                                                 sizeof(struct nvme_dsm_range);
+-	unsigned long mask = 0;
+ 	struct nvme_iod *iod;
+ 
+ 	if (rq->nr_phys_segments <= NVME_INT_PAGES &&
+@@ -440,9 +440,8 @@ static struct nvme_iod *nvme_alloc_iod(struct request *rq, struct nvme_dev *dev,
+ 		struct nvme_cmd_info *cmd = blk_mq_rq_to_pdu(rq);
+ 
+ 		iod = cmd->iod;
+-		mask = 0x01;
+ 		iod_init(iod, size, rq->nr_phys_segments,
+-				(unsigned long) rq | 0x01);
++				(unsigned long) rq | NVME_INT_MASK);
+ 		return iod;
  	}
--	if (!qid && dev->admin_q)
--		blk_mq_freeze_queue_start(dev->admin_q);
  
- 	spin_lock_irq(&nvmeq->q_lock);
- 	nvme_process_cq(nvmeq);
 -- 
-1.7.10.4
+1.8.3.1
