@@ -1,32 +1,31 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 31 Mar 2015 10:38:58 -0600
-Subject: [PATCH] NVMe: Fix blk-mq hot cpu notification
-In-Reply-To: <1427485372-2784-1-git-send-email-keith.busch@intel.com>
-References: <1427485372-2784-1-git-send-email-keith.busch@intel.com>
-Message-ID: <551ACDA2.9010006@kernel.dk>
+Date: Tue, 31 Mar 2015 10:40:12 -0600
+Subject: [PATCH v2 1/1] nvme: Fix PRP list calculation for non-4k system
+ page size
+In-Reply-To: <alpine.LNX.2.00.1503261618220.32385@localhost.lm.intel.com>
+References: <201503242226.t2OMQpWq011660@d03av02.boulder.ibm.com>
+ <alpine.LNX.2.00.1503242233530.32385@localhost.lm.intel.com>
+ <55142ED7.8040809@linux.vnet.ibm.com>
+ <alpine.LNX.2.00.1503261618220.32385@localhost.lm.intel.com>
+Message-ID: <551ACDEC.5040303@kernel.dk>
 
-On 03/27/2015 01:42 PM, Keith Busch wrote:
-> The driver may issue commands to a device that may never return, so its
-> request_queue could always have active requests while the controller is
-> running. Waiting for the queue to freeze could block forever, which is
-> what blk-mq's hot cpu notification handler was doing when nvme drives
-> were in use.
+On 03/26/2015 10:19 AM, Keith Busch wrote:
+> On Thu, 26 Mar 2015, Brian King wrote:
+>> From: Murali Iyer <mniyer at us.ibm.com>
+>>
+>> PRP list calculation is supposed to be based on device's page size.
+>> Systems with page size larger than device's page size cause corruption
+>> to the name space as well as system memory with out this fix.
+>> Systems like x86 might not experience this issue because it uses
+>> PAGE_SIZE of 4K where as powerpc uses PAGE_SIZE of 64k while NVMe
+>> device's
+>> page size varies depending upon the vendor.
 >
-> This has the nvme driver make the asynchronous event command's tag
-> reserved and does not keep the request active. We can't have more than
-> one since the request is released back to the request_queue before the
-> command is completed. Having only one avoids potential tag collisions,
-> and reserving the tag for this purpose prevents other admin tasks from
-> reusing the tag.
+> Thanks!
 >
-> I also couldn't think of a scenario where issuing AEN requests single
-> depth is worse than issuing them in batches, so I don't think we lose
-> anything with this change.
->
-> As an added bonus, doing it this way removes "Cancelling I/O" warnings
-> observed when unbinding the nvme driver from a device.
+> Acked-by: Keith Busch <keith.busch at intel.com>
 
-Nice change, much better to handle it like a reserved tag. Applied for 4.1.
+Added for 4.1.
 
 -- 
 Jens Axboe
