@@ -1,23 +1,17 @@
-From: ken.zimmerman@enterprise3.lightning1.net (E-ZPass Support)
-Date: Mon, 30 Mar 2015 12:18:38 +0000
-Subject: Indebted for driving on toll road #00000955364
-Message-ID: <f5d1e015fc623378370612fc64b7a519@enterprise3.lightning1.net>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 31 Mar 2015 10:38:01 -0600
+Subject: [PATCH] NVMe: Freeze admin queue on device failure
+In-Reply-To: <1427399373-19746-1-git-send-email-keith.busch@intel.com>
+References: <1427399373-19746-1-git-send-email-keith.busch@intel.com>
+Message-ID: <551ACD69.7050501@kernel.dk>
 
-Notice to Appear,
+On 03/26/2015 01:49 PM, Keith Busch wrote:
+> This fixes a race accessing an invalid address when a controller's admin
+> queue is in use during a reset for failure or hot removal occurs. The
+> admin queue will be frozen to prevent new users from entering prior to
+> the doorbell queue being unmapped.
 
-You have not paid for driving on a toll road. 
-You are kindly asked to pay your debt as soon as possible.
+Applied for 4.1.
 
-You can review the invoice in the attachment.
-
-Sincerely,
-Ken Zimmerman,
-E-ZPass Manager.
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: 00000955364.zip
-Type: application/zip
-Size: 4258 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20150330/cc91ad5f/attachment.zip>
+-- 
+Jens Axboe
