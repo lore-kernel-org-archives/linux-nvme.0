@@ -1,211 +1,104 @@
-From: sathya.m@samsung.com (Sathyavathi M)
-Date: Thu, 02 Apr 2015 11:36:56 +0530
-Subject: [PATCHv3] NVMe: Spliting large i/o in the ioctl path
-Message-ID: <1427954816-3394-1-git-send-email-sathya.m@samsung.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri,  3 Apr 2015 15:20:23 -0600
+Subject: [PATCH] NVMe: Add reset controller sysfs entry
+Message-ID: <1428096023-1887-1-git-send-email-keith.busch@intel.com>
 
-From: Sathyavathi M <sathya.m@samsung.com>
+We need the ability to perform an nvme controller reset as discussed on
+the mailing list thread:
 
-The NVME_IOCTL_SUBMIT_IO allows arbitrarily large i/o cmds if mdts is zero.
-If the mdts has a limit, there is no check to verify if the cmd sent to device
-is within the max transfer limit. This patch splits arbitrarily  large size i/o
-to max_hw_sectors before submitting to device. If metadata (extended and
-separate) is present then the i/o is split by considering both data+metadata.
+  http://lists.infradead.org/pipermail/linux-nvme/2015-March/001585.html
 
-Also addresses an issue where 128KB chunk i/o is split into 2(124KB+4KB)
-when mdts is 0.
+This adds a sysfs entry that when written to will reset perform an NVMe
+controller reset if the controller was successfully initialized in the
+first place.
 
-This also merges the previously submitted "Check for Extended metadata in ioctl
-path" patch and addresses the comments for that patch.
+This also adds locking around resetting the device in the async probe
+method so the driver can't schedule two resets.
 
-This patch is generated against for-4.1 branch.
-
-v1->v2
-use of BLK_DEF_MAX_SECTORS macro is replaced with value.
-v2->v3
-Adressed the comments from Keith Busch
-
-Signed-off-by: Sathyavathi M <sathya.m at samsung.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Cc: Brandon Schultz <brandon.schulz at hgst.com>
+Cc: David Sariel <david.sariel at pmcs.com>
 ---
- drivers/block/nvme-core.c | 132 +++++++++++++++++++++++++++-------------------
- 1 file changed, 79 insertions(+), 53 deletions(-)
+The other proposals were to use an IOCTL, and I'm still open to Ack if
+someone wants to submit that patch. This patch just makes it possible
+to do with sysfs since I'm in a minority that prefers to script these
+things rather than write a program to issue ioctls.
+
+ drivers/block/nvme-core.c |   31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 94832e1..0992a96 100644
+index 0d72ff2..07b92f4 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1746,85 +1746,108 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	struct nvme_dev *dev = ns->dev;
- 	struct nvme_user_io io;
- 	struct nvme_command c;
--	unsigned length, meta_len;
--	int status, write;
--	struct nvme_iod *iod;
--	dma_addr_t meta_dma = 0;
-+	unsigned tfr_len, meta_len = 0, split_length;
-+	int status = 0, write, err = 0, count = 0, blk_sz;
-+	u32 tfr_sectors;
-+	u32 max_tfr_sectors, num_split_cmds, offset = 0;
-+	u64 nxt_map_addr, nxt_meta_map_addr = 0;
-+	struct nvme_iod *iod = NULL;
- 	void *meta = NULL;
-+	dma_addr_t meta_dma = 0;
- 
- 	if (copy_from_user(&io, uio, sizeof(io)))
- 		return -EFAULT;
--	length = (io.nblocks + 1) << ns->lba_shift;
--	meta_len = (io.nblocks + 1) * ns->ms;
--
--	if (meta_len && ((io.metadata & 3) || !io.metadata) && !ns->ext)
-+	max_tfr_sectors = dev->max_hw_sectors;
-+	if (ns->ms && ((io.metadata & 3) || !io.metadata) && !ns->ext)
- 		return -EINVAL;
--	else if (meta_len && ns->ext) {
--		length += meta_len;
--		meta_len = 0;
--	}
--
- 	write = io.opcode & 1;
- 
- 	switch (io.opcode) {
- 	case nvme_cmd_write:
- 	case nvme_cmd_read:
- 	case nvme_cmd_compare:
--		iod = nvme_map_user_pages(dev, write, io.addr, length);
- 		break;
- 	default:
- 		return -EINVAL;
- 	}
-+	blk_sz = (1 << ns->lba_shift) + ((ns->ext && ns->ms) ? ns->ms : 0);
-+	tfr_sectors = (max_tfr_sectors * 512) / blk_sz;
-+
-+	num_split_cmds = DIV_ROUND_UP((io.nblocks + 1), tfr_sectors);
- 
--	if (IS_ERR(iod))
--		return PTR_ERR(iod);
-+	for (count = 0; count < num_split_cmds; count++) {
-+		tfr_sectors = min(tfr_sectors, (io.nblocks + 1) - offset);
-+		tfr_len = tfr_sectors * blk_sz;
-+		nxt_map_addr = io.addr + (blk_sz * offset);
-+		if (ns->ms && !ns->ext) {
-+			nxt_meta_map_addr = io.metadata + (ns->ms * offset);
-+			meta_len = tfr_sectors * ns->ms;
-+		}
-+		iod = nvme_map_user_pages(dev, write, nxt_map_addr, tfr_len);
-+
-+		if (IS_ERR(iod))
-+			return PTR_ERR(iod);
- 		
--	length = nvme_setup_prps(dev, iod, length, GFP_KERNEL);
--	if (length != (io.nblocks + 1) << ns->lba_shift) {
--		status = -ENOMEM;
--		goto unmap;
--	}
--	if (meta_len) {
--		meta = dma_alloc_coherent(&dev->pci_dev->dev, meta_len,
--						&meta_dma, GFP_KERNEL);
--		if (!meta) {
-+		split_length = nvme_setup_prps(dev, iod, tfr_len, GFP_KERNEL);
-+		if (split_length != tfr_len) {
- 			status = -ENOMEM;
-+			err = true;
- 			goto unmap;
- 		}
--		if (write) {
--			if (copy_from_user(meta, (void __user *)io.metadata,
--								meta_len)) {
--				status = -EFAULT;
-+		/* Mapping not needed for Extenede LBA */
-+		if (ns->ms && !ns->ext) {
-+			meta = dma_alloc_coherent(&dev->pci_dev->dev, meta_len,
-+						&meta_dma, GFP_KERNEL);
-+			if (!meta) {
-+				status = -ENOMEM;
-+				err = true;
- 				goto unmap;
- 			}
-+			if (write) {
-+				if (copy_from_user(meta,
-+					(void __user *)nxt_meta_map_addr,
-+								meta_len)) {
-+					status = -EFAULT;
-+					err = true;
-+					goto unmap;
-+				}
-+			}
- 		}
--	}
- 
--	memset(&c, 0, sizeof(c));
--	c.rw.opcode = io.opcode;
--	c.rw.flags = io.flags;
--	c.rw.nsid = cpu_to_le32(ns->ns_id);
--	c.rw.slba = cpu_to_le64(io.slba);
--	c.rw.length = cpu_to_le16(io.nblocks);
--	c.rw.control = cpu_to_le16(io.control);
--	c.rw.dsmgmt = cpu_to_le32(io.dsmgmt);
--	c.rw.reftag = cpu_to_le32(io.reftag);
--	c.rw.apptag = cpu_to_le16(io.apptag);
--	c.rw.appmask = cpu_to_le16(io.appmask);
--	c.rw.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
--	c.rw.prp2 = cpu_to_le64(iod->first_dma);
--	c.rw.metadata = cpu_to_le64(meta_dma);
--	status = nvme_submit_io_cmd(dev, ns, &c, NULL);
-+		memset(&c, 0, sizeof(c));
-+		c.rw.opcode = io.opcode;
-+		c.rw.flags = io.flags;
-+		c.rw.nsid = cpu_to_le32(ns->ns_id);
-+		c.rw.slba = cpu_to_le64(io.slba + offset);
-+		c.rw.length = cpu_to_le16(tfr_sectors - 1);
-+		c.rw.control = cpu_to_le16(io.control);
-+		c.rw.dsmgmt = cpu_to_le32(io.dsmgmt);
-+		if (ns->pi_type) {
-+			c.rw.reftag = cpu_to_le32(io.reftag + offset);
-+			c.rw.apptag = cpu_to_le16(io.apptag);
-+			c.rw.appmask = cpu_to_le16(io.appmask);
-+		}
-+		c.rw.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
-+		c.rw.prp2 = cpu_to_le64(iod->first_dma);
-+		c.rw.metadata = cpu_to_le64(meta_dma);
-+		status = nvme_submit_io_cmd(dev, ns, &c, NULL);
-+		if (status != NVME_SC_SUCCESS)
-+			err = true;
-  unmap:
--	nvme_unmap_user_pages(dev, write, iod);
--	nvme_free_iod(dev, iod);
--	if (meta) {
--		if (status == NVME_SC_SUCCESS && !write) {
--			if (copy_to_user((void __user *)io.metadata, meta,
--								meta_len))
--				status = -EFAULT;
-+		nvme_unmap_user_pages(dev, write, iod);
-+		nvme_free_iod(dev, iod);
-+		if (meta) {
-+			if (status == NVME_SC_SUCCESS && !write) {
-+				if (copy_to_user((void __user *)io.metadata +
-+					(ns->ms * offset), meta, meta_len))
-+					status = -EFAULT;
-+			}
-+			dma_free_coherent(&dev->pci_dev->dev, meta_len, meta,
-+								meta_dma);
- 		}
--		dma_free_coherent(&dev->pci_dev->dev, meta_len, meta, meta_dma);
-+		offset += tfr_sectors;
-+		if (err)
-+			break;
- 	}
- 	return status;
+@@ -2908,6 +2908,26 @@ static void nvme_reset_workfn(struct work_struct *work)
+ 	dev->reset_workfn(work);
  }
-@@ -2310,8 +2333,11 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	memcpy(dev->serial, ctrl->sn, sizeof(ctrl->sn));
- 	memcpy(dev->model, ctrl->mn, sizeof(ctrl->mn));
- 	memcpy(dev->firmware_rev, ctrl->fr, sizeof(ctrl->fr));
-+	/* Increase max transfer size if device reports MDTS=0 */
- 	if (ctrl->mdts)
- 		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
-+	else
-+		dev->max_hw_sectors = UINT_MAX;
- 	if ((pdev->vendor == PCI_VENDOR_ID_INTEL) &&
- 			(pdev->device == 0x0953) && ctrl->vs[3]) {
- 		unsigned int max_hw_sectors;
+ 
++static ssize_t nvme_reset(struct device *dev, struct device_attribute *attr,
++                                               const char *buf, size_t count)
++{
++	struct nvme_dev *ndev = dev_get_drvdata(dev);
++
++	if (!ndev->admin_q || blk_queue_dying(ndev->admin_q))
++		return -ENODEV;
++
++	spin_lock(&dev_list_lock);
++	if (!work_pending(&ndev->reset_work)) {
++		ndev->reset_workfn = nvme_reset_failed_dev;
++		queue_work(nvme_workq, &ndev->reset_work);
++	}
++	spin_unlock(&dev_list_lock);
++
++	flush_work(&ndev->reset_work);
++	return count;
++}
++static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_reset);
++
+ static void nvme_async_probe(struct work_struct *work);
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+@@ -2952,12 +2972,20 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		goto release_pools;
+ 	}
+ 	get_device(dev->device);
++	dev_set_drvdata(dev->device, dev);
++
++	result = device_create_file(dev->device, &dev_attr_reset_controller);
++	if (result)
++		goto put_dev;
+ 
+ 	INIT_LIST_HEAD(&dev->node);
+ 	INIT_WORK(&dev->probe_work, nvme_async_probe);
+ 	schedule_work(&dev->probe_work);
+ 	return 0;
+ 
++ put_dev:
++	device_destroy(nvme_class, MKDEV(nvme_char_major, dev->instance));
++	put_device(dev->device);
+  release_pools:
+ 	nvme_release_prp_pools(dev);
+  release:
+@@ -2986,10 +3014,12 @@ static void nvme_async_probe(struct work_struct *work)
+ 		goto reset;
+ 	return;
+  reset:
++	spin_lock(&dev_list_lock);
+ 	if (!work_busy(&dev->reset_work)) {
+ 		dev->reset_workfn = nvme_reset_failed_dev;
+ 		queue_work(nvme_workq, &dev->reset_work);
+ 	}
++	spin_unlock(&dev_list_lock);
+ }
+ 
+ static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
+@@ -3019,6 +3049,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	pci_set_drvdata(pdev, NULL);
+ 	flush_work(&dev->probe_work);
+ 	flush_work(&dev->reset_work);
++	device_remove_file(dev->device, &dev_attr_reset_controller);
+ 	nvme_dev_shutdown(dev);
+ 	nvme_dev_remove(dev);
+ 	nvme_dev_remove_admin(dev);
 -- 
-1.8.4.2
+1.7.10.4
