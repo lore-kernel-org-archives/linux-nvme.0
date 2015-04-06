@@ -1,34 +1,45 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  3 Apr 2015 15:20:23 -0600
+From: brandon.schulz@hgst.com (Brandon Schulz)
+Date: Mon, 6 Apr 2015 16:56:14 +0000
 Subject: [PATCH] NVMe: Add reset controller sysfs entry
-Message-ID: <1428096023-1887-1-git-send-email-keith.busch@intel.com>
+In-Reply-To: <1428096023-1887-1-git-send-email-keith.busch@intel.com>
+References: <1428096023-1887-1-git-send-email-keith.busch@intel.com>
+Message-ID: <BN1PR0401MB0931F0B9E7345CA59544CDFBF2FE0@BN1PR0401MB0931.namprd04.prod.outlook.com>
 
-We need the ability to perform an nvme controller reset as discussed on
-the mailing list thread:
+Keith -
+
+Thanks for submitting this patch.  I think this sysfs mechanism is a good add.  I talked to Dave Darrington about getting it applied to our internal tree and let you know if he has any feedback as well.
+
+I'm also interested in eventually providing the IOCTL you mentioned, because I think they have different use-cases.
+
+David Sariel - Are you planning to revise the patch posted earlier for this, or should I talk to our team about that as well?
+
+Brandon
+
+-----Original Message-----
+From: Keith Busch [mailto:keith.busch@intel.com] 
+Sent: Friday, April 3, 2015 4:20 PM
+To: linux-nvme at lists.infradead.org
+Cc: Keith Busch; Brandon Schulz; David Sariel
+Subject: [PATCH] NVMe: Add reset controller sysfs entry
+
+We need the ability to perform an nvme controller reset as discussed on the mailing list thread:
 
   http://lists.infradead.org/pipermail/linux-nvme/2015-March/001585.html
 
-This adds a sysfs entry that when written to will reset perform an NVMe
-controller reset if the controller was successfully initialized in the
-first place.
+This adds a sysfs entry that when written to will reset perform an NVMe controller reset if the controller was successfully initialized in the first place.
 
-This also adds locking around resetting the device in the async probe
-method so the driver can't schedule two resets.
+This also adds locking around resetting the device in the async probe method so the driver can't schedule two resets.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 Cc: Brandon Schultz <brandon.schulz at hgst.com>
 Cc: David Sariel <david.sariel at pmcs.com>
 ---
-The other proposals were to use an IOCTL, and I'm still open to Ack if
-someone wants to submit that patch. This patch just makes it possible
-to do with sysfs since I'm in a minority that prefers to script these
-things rather than write a program to issue ioctls.
+The other proposals were to use an IOCTL, and I'm still open to Ack if someone wants to submit that patch. This patch just makes it possible to do with sysfs since I'm in a minority that prefers to script these things rather than write a program to issue ioctls.
 
  drivers/block/nvme-core.c |   31 +++++++++++++++++++++++++++++++
  1 file changed, 31 insertions(+)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 0d72ff2..07b92f4 100644
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c index 0d72ff2..07b92f4 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
 @@ -2908,6 +2908,26 @@ static void nvme_reset_workfn(struct work_struct *work)
@@ -36,8 +47,8 @@ index 0d72ff2..07b92f4 100644
  }
  
 +static ssize_t nvme_reset(struct device *dev, struct device_attribute *attr,
-+                                               const char *buf, size_t count)
-+{
++                                               const char *buf, size_t 
++count) {
 +	struct nvme_dev *ndev = dev_get_drvdata(dev);
 +
 +	if (!ndev->admin_q || blk_queue_dying(ndev->admin_q))
@@ -55,10 +66,7 @@ index 0d72ff2..07b92f4 100644
 +}
 +static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_reset);
 +
- static void nvme_async_probe(struct work_struct *work);
- static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
-@@ -2952,12 +2972,20 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ static void nvme_async_probe(struct work_struct *work);  static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)  { @@ -2952,12 +2972,20 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
  		goto release_pools;
  	}
  	get_device(dev->device);
@@ -91,8 +99,7 @@ index 0d72ff2..07b92f4 100644
 +	spin_unlock(&dev_list_lock);
  }
  
- static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
-@@ -3019,6 +3049,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ static void nvme_reset_notify(struct pci_dev *pdev, bool prepare) @@ -3019,6 +3049,7 @@ static void nvme_remove(struct pci_dev *pdev)
  	pci_set_drvdata(pdev, NULL);
  	flush_work(&dev->probe_work);
  	flush_work(&dev->reset_work);
@@ -100,5 +107,5 @@ index 0d72ff2..07b92f4 100644
  	nvme_dev_shutdown(dev);
  	nvme_dev_remove(dev);
  	nvme_dev_remove_admin(dev);
--- 
+--
 1.7.10.4
