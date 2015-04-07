@@ -1,111 +1,83 @@
-From: brandon.schulz@hgst.com (Brandon Schulz)
-Date: Mon, 6 Apr 2015 16:56:14 +0000
-Subject: [PATCH] NVMe: Add reset controller sysfs entry
-In-Reply-To: <1428096023-1887-1-git-send-email-keith.busch@intel.com>
-References: <1428096023-1887-1-git-send-email-keith.busch@intel.com>
-Message-ID: <BN1PR0401MB0931F0B9E7345CA59544CDFBF2FE0@BN1PR0401MB0931.namprd04.prod.outlook.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue,  7 Apr 2015 15:34:18 -0600
+Subject: [RESEND PATCH] NVMe: Add translation for block limits
+Message-ID: <1428442458-3219-1-git-send-email-keith.busch@intel.com>
 
-Keith -
-
-Thanks for submitting this patch.  I think this sysfs mechanism is a good add.  I talked to Dave Darrington about getting it applied to our internal tree and let you know if he has any feedback as well.
-
-I'm also interested in eventually providing the IOCTL you mentioned, because I think they have different use-cases.
-
-David Sariel - Are you planning to revise the patch posted earlier for this, or should I talk to our team about that as well?
-
-Brandon
-
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Friday, April 3, 2015 4:20 PM
-To: linux-nvme at lists.infradead.org
-Cc: Keith Busch; Brandon Schulz; David Sariel
-Subject: [PATCH] NVMe: Add reset controller sysfs entry
-
-We need the ability to perform an nvme controller reset as discussed on the mailing list thread:
-
-  http://lists.infradead.org/pipermail/linux-nvme/2015-March/001585.html
-
-This adds a sysfs entry that when written to will reset perform an NVMe controller reset if the controller was successfully initialized in the first place.
-
-This also adds locking around resetting the device in the async probe method so the driver can't schedule two resets.
+Adds SCSI-to-NVMe translation for VPD B0h, block limits inquiry data.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
-Cc: Brandon Schultz <brandon.schulz at hgst.com>
-Cc: David Sariel <david.sariel at pmcs.com>
 ---
-The other proposals were to use an IOCTL, and I'm still open to Ack if someone wants to submit that patch. This patch just makes it possible to do with sysfs since I'm in a minority that prefers to script these things rather than write a program to issue ioctls.
+ drivers/block/nvme-scsi.c |   28 +++++++++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
- drivers/block/nvme-core.c |   31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c index 0d72ff2..07b92f4 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2908,6 +2908,26 @@ static void nvme_reset_workfn(struct work_struct *work)
- 	dev->reset_workfn(work);
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index e10196e..6b736b0 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -55,6 +55,7 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
+ #define VPD_SERIAL_NUMBER				0x80
+ #define VPD_DEVICE_IDENTIFIERS				0x83
+ #define VPD_EXTENDED_INQUIRY				0x86
++#define VPD_BLOCK_LIMITS				0xB0
+ #define VPD_BLOCK_DEV_CHARACTERISTICS			0xB1
+ 
+ /* CDB offsets */
+@@ -132,9 +133,10 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
+ #define INQ_UNIT_SERIAL_NUMBER_PAGE			0x80
+ #define INQ_DEVICE_IDENTIFICATION_PAGE			0x83
+ #define INQ_EXTENDED_INQUIRY_DATA_PAGE			0x86
++#define INQ_BDEV_LIMITS_PAGE				0xB0
+ #define INQ_BDEV_CHARACTERISTICS_PAGE			0xB1
+ #define INQ_SERIAL_NUMBER_LENGTH			0x14
+-#define INQ_NUM_SUPPORTED_VPD_PAGES			5
++#define INQ_NUM_SUPPORTED_VPD_PAGES			6
+ #define VERSION_SPC_4					0x06
+ #define ACA_UNSUPPORTED					0
+ #define STANDARD_INQUIRY_LENGTH				36
+@@ -747,6 +749,7 @@ static int nvme_trans_supported_vpd_pages(struct nvme_ns *ns,
+ 	inq_response[6] = INQ_DEVICE_IDENTIFICATION_PAGE;
+ 	inq_response[7] = INQ_EXTENDED_INQUIRY_DATA_PAGE;
+ 	inq_response[8] = INQ_BDEV_CHARACTERISTICS_PAGE;
++	inq_response[9] = INQ_BDEV_LIMITS_PAGE;
+ 
+ 	xfer_len = min(alloc_len, STANDARD_INQUIRY_LENGTH);
+ 	res = nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
+@@ -938,6 +941,25 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	return res;
  }
  
-+static ssize_t nvme_reset(struct device *dev, struct device_attribute *attr,
-+                                               const char *buf, size_t 
-+count) {
-+	struct nvme_dev *ndev = dev_get_drvdata(dev);
++static int nvme_trans_bdev_limits_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
++					u8 *inq_response, int alloc_len)
++{
++	__be32 max_sectors = cpu_to_be32(queue_max_hw_sectors(ns->queue));
++	__be32 max_discard = cpu_to_be32(ns->queue->limits.max_discard_sectors);
++	__be32 discard_desc_count = cpu_to_be32(0x100);
 +
-+	if (!ndev->admin_q || blk_queue_dying(ndev->admin_q))
-+		return -ENODEV;
++	memset(inq_response, 0, STANDARD_INQUIRY_LENGTH);
++	inq_response[1] = VPD_BLOCK_LIMITS;
++	inq_response[3] = 0x3c; /* Page Length */
++	memcpy(&inq_response[8], &max_sectors, sizeof(u32));
++	memcpy(&inq_response[20], &max_discard, sizeof(u32));
 +
-+	spin_lock(&dev_list_lock);
-+	if (!work_pending(&ndev->reset_work)) {
-+		ndev->reset_workfn = nvme_reset_failed_dev;
-+		queue_work(nvme_workq, &ndev->reset_work);
-+	}
-+	spin_unlock(&dev_list_lock);
++	if (max_discard)
++		memcpy(&inq_response[24], &discard_desc_count, sizeof(u32));
 +
-+	flush_work(&ndev->reset_work);
-+	return count;
++	return nvme_trans_copy_to_user(hdr, inq_response, 0x3c);
 +}
-+static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_reset);
 +
- static void nvme_async_probe(struct work_struct *work);  static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)  { @@ -2952,12 +2972,20 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto release_pools;
- 	}
- 	get_device(dev->device);
-+	dev_set_drvdata(dev->device, dev);
-+
-+	result = device_create_file(dev->device, &dev_attr_reset_controller);
-+	if (result)
-+		goto put_dev;
- 
- 	INIT_LIST_HEAD(&dev->node);
- 	INIT_WORK(&dev->probe_work, nvme_async_probe);
- 	schedule_work(&dev->probe_work);
- 	return 0;
- 
-+ put_dev:
-+	device_destroy(nvme_class, MKDEV(nvme_char_major, dev->instance));
-+	put_device(dev->device);
-  release_pools:
- 	nvme_release_prp_pools(dev);
-  release:
-@@ -2986,10 +3014,12 @@ static void nvme_async_probe(struct work_struct *work)
- 		goto reset;
- 	return;
-  reset:
-+	spin_lock(&dev_list_lock);
- 	if (!work_busy(&dev->reset_work)) {
- 		dev->reset_workfn = nvme_reset_failed_dev;
- 		queue_work(nvme_workq, &dev->reset_work);
- 	}
-+	spin_unlock(&dev_list_lock);
- }
- 
- static void nvme_reset_notify(struct pci_dev *pdev, bool prepare) @@ -3019,6 +3049,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	pci_set_drvdata(pdev, NULL);
- 	flush_work(&dev->probe_work);
- 	flush_work(&dev->reset_work);
-+	device_remove_file(dev->device, &dev_attr_reset_controller);
- 	nvme_dev_shutdown(dev);
- 	nvme_dev_remove(dev);
- 	nvme_dev_remove_admin(dev);
---
+ static int nvme_trans_bdev_char_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 					int alloc_len)
+ {
+@@ -2268,6 +2290,10 @@ static int nvme_trans_inquiry(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 		case VPD_EXTENDED_INQUIRY:
+ 			res = nvme_trans_ext_inq_page(ns, hdr, alloc_len);
+ 			break;
++		case VPD_BLOCK_LIMITS:
++			res = nvme_trans_bdev_limits_page(ns, hdr, inq_response,
++								alloc_len);
++			break;
+ 		case VPD_BLOCK_DEV_CHARACTERISTICS:
+ 			res = nvme_trans_bdev_char_page(ns, hdr, alloc_len);
+ 			break;
+-- 
 1.7.10.4
