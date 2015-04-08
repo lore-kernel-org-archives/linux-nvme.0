@@ -1,25 +1,38 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 07 Apr 2015 19:09:28 -0600
-Subject: [PATCH] NVMe: Fix error handling of class_create("nvme")
-In-Reply-To: <alpine.LNX.2.00.1504072302431.32385@localhost.lm.intel.com>
-References: <1425681821-620-1-git-send-email-khoroshilov@ispras.ru>
- <alpine.LNX.2.00.1504072302431.32385@localhost.lm.intel.com>
-Message-ID: <55247FC8.9030606@kernel.dk>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Tue, 07 Apr 2015 21:15:12 -0400
+Subject: [RESEND PATCH] NVMe: Add translation for block limits
+In-Reply-To: <1428442458-3219-1-git-send-email-keith.busch@intel.com> (Keith
+ Busch's message of "Tue, 7 Apr 2015 15:34:18 -0600")
+References: <1428442458-3219-1-git-send-email-keith.busch@intel.com>
+Message-ID: <yq1y4m3fmjj.fsf@sermon.lab.mkp.net>
 
-On 04/07/2015 05:03 PM, Keith Busch wrote:
-> On Fri, 6 Mar 2015, Alexey Khoroshilov wrote:
->> class_create() returns ERR_PTR on failure,
->> so IS_ERR() should be used instead of check for NULL.
->>
->> Found by Linux Driver Verification project (linuxtesting.org).
->>
->> Signed-off-by: Alexey Khoroshilov <khoroshilov at ispras.ru>
->
-> Just resending ack for 4.1.
->
-> Acked-by: Keith Busch <keith.busch at intel.com>
 
-Thanks, I missed this one. Applied to for-4.1/drivers, thanks!
+Keith,
+
++static int nvme_trans_bdev_limits_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
++					u8 *inq_response, int alloc_len)
++{
++	__be32 max_sectors = cpu_to_be32(queue_max_hw_sectors(ns->queue));
+
+max_hw_sectors is in 512-byte units, the VPD page in logical blocks.
+
++	__be32 max_discard = cpu_to_be32(ns->queue->limits.max_discard_sectors);
+
+Same.
+
++	__be32 discard_desc_count = cpu_to_be32(0x100);
+
+max_discard_sectors is the maximum number of 512-byte contiguous blocks
+that can be discarded in a single command using however many range
+descriptors will fit in the command's payload.
+
+So max_discard_sectors for an NVMe device would technically be:
+
+   256 * 0xffffffff << (ilog2(ns block size) - 9)
+
+You only report 0xffffffff going the other way so it is not a big
+deal. Just wanted to make it clear since you're converting a value from
+Linux' block limit to NVMe/SCSI.
 
 -- 
-Jens Axboe
+Martin K. Petersen	Oracle Linux Engineering
