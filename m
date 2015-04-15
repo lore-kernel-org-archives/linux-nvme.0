@@ -1,21 +1,18 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 15 Apr 2015 14:22:07 +0000 (UTC)
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 15 Apr 2015 07:25:35 -0700
 Subject: uapi/linux/nvme.h
-In-Reply-To: <20150415061142.GA14354@infradead.org>
+In-Reply-To: <alpine.LNX.2.00.1504151412380.32385@localhost.lm.intel.com>
 References: <20150415061142.GA14354@infradead.org>
-Message-ID: <alpine.LNX.2.00.1504151412380.32385@localhost.lm.intel.com>
+ <alpine.LNX.2.00.1504151412380.32385@localhost.lm.intel.com>
+Message-ID: <20150415142535.GA29983@infradead.org>
 
-On Tue, 14 Apr 2015, Christoph Hellwig wrote:
-> The NVME UAPI header contains a lot more than just the controller
-> definitions - it's basically the whole NVME command set.
->
-> Any reason for this?  IT's very unlike what we do for ATA and SCSI, and
-> fairly dangerous as we now need to make all changes to the command set
-> headers in a way that wouldn't break userspace software.
+On Wed, Apr 15, 2015@02:22:07PM +0000, Keith Busch wrote:
+> I'll stop adding new stuff here if the kernel driver isn't explicitly
+> using it, but should we remove everything it's not currently using?
 
-Yep, this was to provide user space all the nvme definitions, but tools
-often redefine their own nvme commands and structures, and use the uapi
-header only for the ioctls.
+In theory we should never break userspace, but given how relatively
+recent NVMe is we might try to get away with it (the rule is you can
+break userspace APIs if no one notices..).
 
-I'll stop adding new stuff here if the kernel driver isn't explicitly
-using it, but should we remove everything it's not currently using?
+If people notice and complain we can set the current defs in stone
+under #ifndef __KERNEL__.
