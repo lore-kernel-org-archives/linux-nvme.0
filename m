@@ -1,62 +1,40 @@
-From: sunad.s@samsung.com (Sunad Bhandary)
-Date: Thu, 16 Apr 2015 17:34:00 +0530
-Subject: [PATCHv3] NVMe: write_long SCSI to NVMe translation implementation
-In-Reply-To: <alpine.LNX.2.00.1503241353070.32385@localhost.lm.intel.com>
-References: <1427118493-29227-1-git-send-email-sunad.s@samsung.com>
- <006501d06629$b8397550$28ac5ff0$@samsung.com>
- <alpine.LNX.2.00.1503241353070.32385@localhost.lm.intel.com>
-Message-ID: <00aa01d0783d$712a4c40$537ee4c0$@samsung.com>
+From: m@bjorling.me (=?UTF-8?B?TWF0aWFzIEJqw7hybGluZw==?=)
+Date: Thu, 16 Apr 2015 15:29:47 +0200
+Subject: [PATCH 2/5 v2] blk-mq: Support for Open-Channel SSDs
+In-Reply-To: <1429184091.16771.60.camel@x220>
+References: <1429101284-19490-1-git-send-email-m@bjorling.me>		
+ <1429101284-19490-3-git-send-email-m@bjorling.me>	
+ <1429175408.16771.45.camel@x220> <552F8D84.8030504@bjorling.me>
+ <1429184091.16771.60.camel@x220>
+Message-ID: <552FB94B.2090603@bjorling.me>
 
-Hi Keith,
-
-I see that this has not been committed yet. Are any changes needed to the
-patch from my side ?
-
-Thanks and regards,
-Sunad 
-
------Original Message-----
-From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf
-Of Keith Busch
-Sent: Tuesday, March 24, 2015 7:25 PM
-To: Sunad Bhandary
-Cc: keith.busch at intel.com; linux-nvme at lists.infradead.org
-Subject: RE: [PATCHv3] NVMe: write_long SCSI to NVMe translation
-implementation
-
-Hi Sunad,
-
-On Tue, 24 Mar 2015, Sunad Bhandary wrote:
-> Hi Keith,
+On 04/16/2015 01:34 PM, Paul Bolle wrote:
+> On Thu, 2015-04-16@12:23 +0200, Matias Bj?rling wrote:
+>> On 04/16/2015 11:10 AM, Paul Bolle wrote:
+>>> A few things I spotted (while actually fiddling with 3/5).
+>>
+>> Thanks. I'll fix them up.
 >
-> I think this patch suffices for the shortcomings of the previous versions.
-> Does anything else seem amiss ?
+> Please note that just using #ifdef instead of #if is not all that's
+> needed. See, I had some fun playing whack-a-mole with warnings and
+> errors showing up in the "CONFIG_BLK_DEV_NVM is not set" case (because I
+> was looking into things outside of this series that I don't understand).
 >
-> If I am to submit a version of the patch for the legacy-nvme , the 
-> SCSI macro SERVICE_ACTION _OUT_16 is not present in the kernel.
-> Is it alright to define a Macro  SAO_16(0x9f)  exclusive to nvme-scsi 
-> to support WRITE_LONG_16?
-
-Sounds good. Patch v3 looks good to me as well.
-
-Thanks,
-Keith
-
-> From: Sunad Bhandary S <sunad.s at samsung.com>
+> After adding the changes pasted at the end of this message (which I gave
+> almost no thought whatsoever) I ran into:
+>      block/blk-mq.c: In function ?blk_mq_init_rq_map?:
+>      block/blk-mq.c:1473:22: error: invalid application of ?sizeof? to incomplete type ?struct nvm_per_rq?
+>         cmd_size += sizeof(struct nvm_per_rq);
+>                            ^
 >
-> This patch implements the SCSI to NVMe translation for write_long.
-> write_long is translated to the NVMe command write_uncorrectable as 
-> defined by the translation specification version 1.4.
+> Then I admitted defeat.
 >
-> This patch also indicates the device support for write_uncorrectable 
-> method in the response of extended inquiry as defined in the translation
-spec.
+> Have fun with your turn of that game.
 
-Acked-by: Keith Busch <keith.busch at intel.com>
+Thanks. Nothing like a good whack-a-mole. I've fixed it up in the master at:
 
-> Signed-off-by: Sunad Bhandary S <sunad.s at samsung.com>
+   https://github.com/OpenChannelSSD/linux.git
 
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+Keith, for the nvme driver, I've packed everything neatly into a #ifdef, 
+so it looks the same as with the #ifdef integrity. It should have been 
+like that from the start.
