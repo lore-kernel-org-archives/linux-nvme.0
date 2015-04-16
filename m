@@ -1,134 +1,62 @@
-From: pebolle@tiscali.nl (Paul Bolle)
-Date: Thu, 16 Apr 2015 13:34:51 +0200
-Subject: [PATCH 2/5 v2] blk-mq: Support for Open-Channel SSDs
-In-Reply-To: <552F8D84.8030504@bjorling.me>
-References: <1429101284-19490-1-git-send-email-m@bjorling.me>
- <1429101284-19490-3-git-send-email-m@bjorling.me>
- <1429175408.16771.45.camel@x220> <552F8D84.8030504@bjorling.me>
-Message-ID: <1429184091.16771.60.camel@x220>
+From: sunad.s@samsung.com (Sunad Bhandary)
+Date: Thu, 16 Apr 2015 17:34:00 +0530
+Subject: [PATCHv3] NVMe: write_long SCSI to NVMe translation implementation
+In-Reply-To: <alpine.LNX.2.00.1503241353070.32385@localhost.lm.intel.com>
+References: <1427118493-29227-1-git-send-email-sunad.s@samsung.com>
+ <006501d06629$b8397550$28ac5ff0$@samsung.com>
+ <alpine.LNX.2.00.1503241353070.32385@localhost.lm.intel.com>
+Message-ID: <00aa01d0783d$712a4c40$537ee4c0$@samsung.com>
 
-On Thu, 2015-04-16@12:23 +0200, Matias Bj?rling wrote:
-> On 04/16/2015 11:10 AM, Paul Bolle wrote:
-> > A few things I spotted (while actually fiddling with 3/5).
-> 
-> Thanks. I'll fix them up.
+Hi Keith,
 
-Please note that just using #ifdef instead of #if is not all that's
-needed. See, I had some fun playing whack-a-mole with warnings and
-errors showing up in the "CONFIG_BLK_DEV_NVM is not set" case (because I
-was looking into things outside of this series that I don't understand).
+I see that this has not been committed yet. Are any changes needed to the
+patch from my side ?
 
-After adding the changes pasted at the end of this message (which I gave
-almost no thought whatsoever) I ran into:
-    block/blk-mq.c: In function ?blk_mq_init_rq_map?:
-    block/blk-mq.c:1473:22: error: invalid application of ?sizeof? to incomplete type ?struct nvm_per_rq?
-       cmd_size += sizeof(struct nvm_per_rq);
-                          ^
+Thanks and regards,
+Sunad 
 
-Then I admitted defeat.
+-----Original Message-----
+From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf
+Of Keith Busch
+Sent: Tuesday, March 24, 2015 7:25 PM
+To: Sunad Bhandary
+Cc: keith.busch at intel.com; linux-nvme at lists.infradead.org
+Subject: RE: [PATCHv3] NVMe: write_long SCSI to NVMe translation
+implementation
 
-Have fun with your turn of that game.
+Hi Sunad,
 
+On Tue, 24 Mar 2015, Sunad Bhandary wrote:
+> Hi Keith,
+>
+> I think this patch suffices for the shortcomings of the previous versions.
+> Does anything else seem amiss ?
+>
+> If I am to submit a version of the patch for the legacy-nvme , the 
+> SCSI macro SERVICE_ACTION _OUT_16 is not present in the kernel.
+> Is it alright to define a Macro  SAO_16(0x9f)  exclusive to nvme-scsi 
+> to support WRITE_LONG_16?
 
-Paul Bolle
+Sounds good. Patch v3 looks good to me as well.
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 95fbc98307a5..27d4ebf36a80 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -223,7 +223,7 @@ static void blk_mq_rq_ctx_init(struct request_queue *q, struct blk_mq_ctx *ctx,
- 	rq->end_io = NULL;
- 	rq->end_io_data = NULL;
- 	rq->next_rq = NULL;
--#if CONFIG_BLK_DEV_NVM
-+#ifdef CONFIG_BLK_DEV_NVM
- 	rq->phys_sector = 0;
- #endif
- 
-diff --git a/block/blk.h b/block/blk.h
-index 3e4abee7c194..19c037041006 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -294,9 +294,9 @@ extern void blk_nvm_unregister(struct request_queue *);
- extern int blk_nvm_init_sysfs(struct device *);
- extern void blk_nvm_remove_sysfs(struct device *);
- #else
--static void blk_nvm_unregister(struct request_queue *q) { }
--static int blk_nvm_init_sysfs(struct device *) { return 0; }
--static void blk_nvm_remove_sysfs(struct device *) { }
-+static inline void blk_nvm_unregister(struct request_queue *q) { }
-+static inline int blk_nvm_init_sysfs(struct device *dev) { return 0; }
-+static inline void blk_nvm_remove_sysfs(struct device *dev) { }
- #endif /* CONFIG_BLK_DEV_NVM */
- 
- #endif /* BLK_INTERNAL_H */
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 56f963586112..77d7b35a27c7 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -209,7 +209,7 @@ struct request {
- 
- 	/* for bidi */
- 	struct request *next_rq;
--#if CONFIG_BLK_DEV_NVM
-+#ifdef CONFIG_BLK_DEV_NVM
- 	sector_t phys_sector;
- #endif
- };
-@@ -914,11 +914,6 @@ static inline unsigned int blk_rq_cur_sectors(const struct request *rq)
- 	return blk_rq_cur_bytes(rq) >> 9;
- }
- 
--static inline sector_t blk_rq_phys_pos(const struct request *rq)
--{
--	return rq->phys_sector;
--}
--
- static inline unsigned int blk_queue_get_max_sectors(struct request_queue *q,
- 						     unsigned int cmd_flags)
- {
-@@ -1780,35 +1775,32 @@ static inline struct nvm_dev *blk_nvm_get_dev(struct request_queue *q)
- 	return q->nvm;
- }
- #else
-+struct nvm_dev;
- struct nvm_dev_ops;
- struct nvm_lun;
- struct nvm_block;
- struct nvm_target_type;
- 
--struct nvm_target_type *nvm_find_target_type(const char *)
-+static inline struct nvm_target_type *nvm_find_target_type(const char *name)
- {
- 	return NULL;
- }
--int nvm_register_target(struct nvm_target_type *tt) { return -EINVAL; }
--void nvm_unregister_target(struct nvm_target_type *tt) {}
--static inline int blk_nvm_register(struct request_queue *,
--						struct nvm_dev_ops *)
-+static inline int nvm_register_target(struct nvm_target_type *tt) { return -EINVAL; }
-+static inline void nvm_unregister_target(struct nvm_target_type *tt) {}
-+static inline int blk_nvm_register(struct request_queue *q,
-+						struct nvm_dev_ops *ops)
- {
- 	return -EINVAL;
- }
--static inline struct nvm_block *blk_nvm_get_blk(struct nvm_lun *, int)
-+static inline struct nvm_block *blk_nvm_get_blk(struct nvm_lun *lun, int is_gc)
- {
- 	return NULL;
- }
--static inline void blk_nvm_put_blk(struct nvm_block *) {}
--static inline int blk_nvm_erase_blk(struct nvm_dev *, struct nvm_block *)
-+static inline void blk_nvm_put_blk(struct nvm_block *block) {}
-+static inline int blk_nvm_erase_blk(struct nvm_dev *dev, struct nvm_block *blok)
- {
- 	return -EINVAL;
- }
--static inline int blk_nvm_get_dev(struct request_queue *)
--{
--	return NULL;
--}
- static inline sector_t blk_nvm_alloc_addr(struct nvm_block *block)
- {
- 	return 0;
+Thanks,
+Keith
+
+> From: Sunad Bhandary S <sunad.s at samsung.com>
+>
+> This patch implements the SCSI to NVMe translation for write_long.
+> write_long is translated to the NVMe command write_uncorrectable as 
+> defined by the translation specification version 1.4.
+>
+> This patch also indicates the device support for write_uncorrectable 
+> method in the response of extended inquiry as defined in the translation
+spec.
+
+Acked-by: Keith Busch <keith.busch at intel.com>
+
+> Signed-off-by: Sunad Bhandary S <sunad.s at samsung.com>
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
