@@ -1,1102 +1,602 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 18 Apr 2015 22:27:39 +0200
-Subject: [PATCH 3/8] nvme: fix scsi translation error handling
+Date: Sat, 18 Apr 2015 22:27:40 +0200
+Subject: [PATCH 4/8] nvme: first round at deobsfucating the scsi translation
+ code
 In-Reply-To: <1429388864-29648-1-git-send-email-hch@lst.de>
 References: <1429388864-29648-1-git-send-email-hch@lst.de>
-Message-ID: <1429388864-29648-4-git-send-email-hch@lst.de>
-
-Erorr handling for the scsi translation was completely broken, as there
-were two different positive error number spaces overlapping.  Fix this
-up by removing one of them, and centralizing the generation of the other
-positive values in a single place.  Also fix up a few places that didn't
-handle the NVMe error codes properly.
+Message-ID: <1429388864-29648-5-git-send-email-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/block/nvme-scsi.c | 379 +++++++++++++++-------------------------------
- 1 file changed, 126 insertions(+), 253 deletions(-)
+ drivers/block/nvme-scsi.c | 326 ++++++++++++----------------------------------
+ 1 file changed, 82 insertions(+), 244 deletions(-)
 
 diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index 07d5d71..5cac123 100644
+index 5cac123..69b2d11 100644
 --- a/drivers/block/nvme-scsi.c
 +++ b/drivers/block/nvme-scsi.c
-@@ -47,9 +47,6 @@
+@@ -41,6 +41,7 @@
+ #include <linux/sched.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
++#include <asm/unaligned.h>
+ #include <scsi/sg.h>
+ #include <scsi/scsi.h>
  
- static int sg_version_num = 30534;	/* 2 digits for each component */
+@@ -55,49 +56,14 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
+ #define VPD_BLOCK_LIMITS				0xB0
+ #define VPD_BLOCK_DEV_CHARACTERISTICS			0xB1
  
--#define SNTI_TRANSLATION_SUCCESS			0
--#define SNTI_INTERNAL_ERROR				1
+-/* CDB offsets */
+-#define REPORT_LUNS_CDB_ALLOC_LENGTH_OFFSET		6
+-#define REPORT_LUNS_SR_OFFSET				2
+-#define READ_CAP_16_CDB_ALLOC_LENGTH_OFFSET		10
+-#define REQUEST_SENSE_CDB_ALLOC_LENGTH_OFFSET		4
+-#define REQUEST_SENSE_DESC_OFFSET			1
+-#define REQUEST_SENSE_DESC_MASK				0x01
+-#define DESCRIPTOR_FORMAT_SENSE_DATA_TYPE		1
+-#define INQUIRY_EVPD_BYTE_OFFSET			1
+-#define INQUIRY_PAGE_CODE_BYTE_OFFSET			2
+-#define INQUIRY_EVPD_BIT_MASK				1
+-#define INQUIRY_CDB_ALLOCATION_LENGTH_OFFSET		3
+-#define START_STOP_UNIT_CDB_IMMED_OFFSET		1
+-#define START_STOP_UNIT_CDB_IMMED_MASK			0x1
+-#define START_STOP_UNIT_CDB_POWER_COND_MOD_OFFSET	3
+-#define START_STOP_UNIT_CDB_POWER_COND_MOD_MASK		0xF
+-#define START_STOP_UNIT_CDB_POWER_COND_OFFSET		4
+-#define START_STOP_UNIT_CDB_POWER_COND_MASK		0xF0
+-#define START_STOP_UNIT_CDB_NO_FLUSH_OFFSET		4
+-#define START_STOP_UNIT_CDB_NO_FLUSH_MASK		0x4
+-#define START_STOP_UNIT_CDB_START_OFFSET		4
+-#define START_STOP_UNIT_CDB_START_MASK			0x1
+-#define WRITE_BUFFER_CDB_MODE_OFFSET			1
+-#define WRITE_BUFFER_CDB_MODE_MASK			0x1F
+-#define WRITE_BUFFER_CDB_BUFFER_ID_OFFSET		2
+-#define WRITE_BUFFER_CDB_BUFFER_OFFSET_OFFSET		3
+-#define WRITE_BUFFER_CDB_PARM_LIST_LENGTH_OFFSET	6
+-#define FORMAT_UNIT_CDB_FORMAT_PROT_INFO_OFFSET		1
+-#define FORMAT_UNIT_CDB_FORMAT_PROT_INFO_MASK		0xC0
+-#define FORMAT_UNIT_CDB_FORMAT_PROT_INFO_SHIFT		6
+-#define FORMAT_UNIT_CDB_LONG_LIST_OFFSET		1
+-#define FORMAT_UNIT_CDB_LONG_LIST_MASK			0x20
+-#define FORMAT_UNIT_CDB_FORMAT_DATA_OFFSET		1
+-#define FORMAT_UNIT_CDB_FORMAT_DATA_MASK		0x10
++/* format unit paramter list offsets */
+ #define FORMAT_UNIT_SHORT_PARM_LIST_LEN			4
+ #define FORMAT_UNIT_LONG_PARM_LIST_LEN			8
+ #define FORMAT_UNIT_PROT_INT_OFFSET			3
+ #define FORMAT_UNIT_PROT_FIELD_USAGE_OFFSET		0
+ #define FORMAT_UNIT_PROT_FIELD_USAGE_MASK		0x07
+-#define UNMAP_CDB_PARAM_LIST_LENGTH_OFFSET		7
+ 
+ /* Misc. defines */
+-#define NIBBLE_SHIFT					4
+ #define FIXED_SENSE_DATA				0x70
+ #define DESC_FORMAT_SENSE_DATA				0x72
+ #define FIXED_SENSE_DATA_ADD_LENGTH			10
+@@ -145,22 +111,7 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
+ #define IO_CDB_WP_MASK					0xE0
+ #define IO_CDB_WP_SHIFT					5
+ #define IO_CDB_FUA_MASK					0x8
+-#define IO_6_CDB_LBA_OFFSET				0
+ #define IO_6_CDB_LBA_MASK				0x001FFFFF
+-#define IO_6_CDB_TX_LEN_OFFSET				4
+-#define IO_6_DEFAULT_TX_LEN				256
+-#define IO_10_CDB_LBA_OFFSET				2
+-#define IO_10_CDB_TX_LEN_OFFSET				7
+-#define IO_10_CDB_WP_OFFSET				1
+-#define IO_10_CDB_FUA_OFFSET				1
+-#define IO_12_CDB_LBA_OFFSET				2
+-#define IO_12_CDB_TX_LEN_OFFSET				6
+-#define IO_12_CDB_WP_OFFSET				1
+-#define IO_12_CDB_FUA_OFFSET				1
+-#define IO_16_CDB_FUA_OFFSET				1
+-#define IO_16_CDB_WP_OFFSET				1
+-#define IO_16_CDB_LBA_OFFSET				2
+-#define IO_16_CDB_TX_LEN_OFFSET				10
+ 
+ /* Mode Sense/Select defines */
+ #define MODE_PAGE_INFO_EXCEP				0x1C
+@@ -176,23 +127,14 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
+ #define MODE_PAGE_INF_EXC_LEN				0x0C
+ #define MODE_PAGE_ALL_LEN				0x54
+ #define MODE_SENSE6_MPH_SIZE				4
+-#define MODE_SENSE6_ALLOC_LEN_OFFSET			4
+-#define MODE_SENSE_PAGE_CONTROL_OFFSET			2
+ #define MODE_SENSE_PAGE_CONTROL_MASK			0xC0
+ #define MODE_SENSE_PAGE_CODE_OFFSET			2
+ #define MODE_SENSE_PAGE_CODE_MASK			0x3F
+-#define MODE_SENSE_LLBAA_OFFSET				1
+ #define MODE_SENSE_LLBAA_MASK				0x10
+ #define MODE_SENSE_LLBAA_SHIFT				4
+-#define MODE_SENSE_DBD_OFFSET				1
+ #define MODE_SENSE_DBD_MASK				8
+ #define MODE_SENSE_DBD_SHIFT				3
+ #define MODE_SENSE10_MPH_SIZE				8
+-#define MODE_SENSE10_ALLOC_LEN_OFFSET			7
+-#define MODE_SELECT_CDB_PAGE_FORMAT_OFFSET		1
+-#define MODE_SELECT_CDB_SAVE_PAGES_OFFSET		1
+-#define MODE_SELECT_6_CDB_PARAM_LIST_LENGTH_OFFSET	4
+-#define MODE_SELECT_10_CDB_PARAM_LIST_LENGTH_OFFSET	7
+ #define MODE_SELECT_CDB_PAGE_FORMAT_MASK		0x10
+ #define MODE_SELECT_CDB_SAVE_PAGES_MASK			0x1
+ #define MODE_SELECT_6_BD_OFFSET				3
+@@ -218,14 +160,11 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
+ #define LOG_PAGE_SUPPORTED_LOG_PAGES_LENGTH		0x07
+ #define LOG_PAGE_INFORMATIONAL_EXCEPTIONS_PAGE		0x2F
+ #define LOG_PAGE_TEMPERATURE_PAGE			0x0D
+-#define LOG_SENSE_CDB_SP_OFFSET				1
+ #define LOG_SENSE_CDB_SP_NOT_ENABLED			0
+-#define LOG_SENSE_CDB_PC_OFFSET				2
+ #define LOG_SENSE_CDB_PC_MASK				0xC0
+ #define LOG_SENSE_CDB_PC_SHIFT				6
+ #define LOG_SENSE_CDB_PC_CUMULATIVE_VALUES		1
+ #define LOG_SENSE_CDB_PAGE_CODE_MASK			0x3F
+-#define LOG_SENSE_CDB_ALLOC_LENGTH_OFFSET		7
+ #define REMAINING_INFO_EXCP_PAGE_LENGTH			0x8
+ #define LOG_INFO_EXCP_PAGE_LENGTH			0xC
+ #define REMAINING_TEMP_PAGE_LENGTH			0xC
+@@ -275,77 +214,11 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
+ #define SCSI_ASCQ_POWER_LOSS_EXPECTED			0x08
+ #define SCSI_ASCQ_INVALID_LUN_ID			0x09
+ 
+-/**
+- * DEVICE_SPECIFIC_PARAMETER in mode parameter header (see sbc2r16) to
+- * enable DPOFUA support type 0x10 value.
+- */
+-#define DEVICE_SPECIFIC_PARAMETER			0
+-#define VPD_ID_DESCRIPTOR_LENGTH sizeof(VPD_IDENTIFICATION_DESCRIPTOR)
 -
- /* VPD Page Codes */
- #define VPD_SUPPORTED_PAGES				0x00
- #define VPD_SERIAL_NUMBER				0x80
-@@ -369,8 +366,6 @@ struct nvme_trans_io_cdb {
- static int nvme_trans_copy_to_user(struct sg_io_hdr *hdr, void *from,
- 								unsigned long n)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
--	unsigned long not_copied;
- 	int i;
- 	void *index = from;
- 	size_t remaining = n;
-@@ -380,29 +375,25 @@ static int nvme_trans_copy_to_user(struct sg_io_hdr *hdr, void *from,
- 		struct sg_iovec sgl;
+-/* MACROs to extract information from CDBs */
+-
+-#define GET_OPCODE(cdb)		cdb[0]
+-
+-#define GET_U8_FROM_CDB(cdb, index) (cdb[index] << 0)
+-
+-#define GET_U16_FROM_CDB(cdb, index) ((cdb[index] << 8) | (cdb[index + 1] << 0))
+-
+-#define GET_U24_FROM_CDB(cdb, index) ((cdb[index] << 16) | \
+-(cdb[index + 1] <<  8) | \
+-(cdb[index + 2] <<  0))
+-
+-#define GET_U32_FROM_CDB(cdb, index) ((cdb[index] << 24) | \
+-(cdb[index + 1] << 16) | \
+-(cdb[index + 2] <<  8) | \
+-(cdb[index + 3] <<  0))
+-
+-#define GET_U64_FROM_CDB(cdb, index) ((((u64)cdb[index]) << 56) | \
+-(((u64)cdb[index + 1]) << 48) | \
+-(((u64)cdb[index + 2]) << 40) | \
+-(((u64)cdb[index + 3]) << 32) | \
+-(((u64)cdb[index + 4]) << 24) | \
+-(((u64)cdb[index + 5]) << 16) | \
+-(((u64)cdb[index + 6]) <<  8) | \
+-(((u64)cdb[index + 7]) <<  0))
+-
+-/* Inquiry Helper Macros */
+-#define GET_INQ_EVPD_BIT(cdb) \
+-((GET_U8_FROM_CDB(cdb, INQUIRY_EVPD_BYTE_OFFSET) &		\
+-INQUIRY_EVPD_BIT_MASK) ? 1 : 0)
+-
+-#define GET_INQ_PAGE_CODE(cdb)					\
+-(GET_U8_FROM_CDB(cdb, INQUIRY_PAGE_CODE_BYTE_OFFSET))
+-
+-#define GET_INQ_ALLOC_LENGTH(cdb)				\
+-(GET_U16_FROM_CDB(cdb, INQUIRY_CDB_ALLOCATION_LENGTH_OFFSET))
+-
+-/* Report LUNs Helper Macros */
+-#define GET_REPORT_LUNS_ALLOC_LENGTH(cdb)			\
+-(GET_U32_FROM_CDB(cdb, REPORT_LUNS_CDB_ALLOC_LENGTH_OFFSET))
+-
+-/* Read Capacity Helper Macros */
+-#define GET_READ_CAP_16_ALLOC_LENGTH(cdb)			\
+-(GET_U32_FROM_CDB(cdb, READ_CAP_16_CDB_ALLOC_LENGTH_OFFSET))
+-
+-#define IS_READ_CAP_16(cdb)					\
+-((cdb[0] == SERVICE_ACTION_IN_16 && cdb[1] == SAI_READ_CAPACITY_16) ? 1 : 0)
+-
+-/* Request Sense Helper Macros */
+-#define GET_REQUEST_SENSE_ALLOC_LENGTH(cdb)			\
+-(GET_U8_FROM_CDB(cdb, REQUEST_SENSE_CDB_ALLOC_LENGTH_OFFSET))
+-
+-/* Mode Sense Helper Macros */
+-#define GET_MODE_SENSE_DBD(cdb)					\
+-((GET_U8_FROM_CDB(cdb, MODE_SENSE_DBD_OFFSET) & MODE_SENSE_DBD_MASK) >>	\
+-MODE_SENSE_DBD_SHIFT)
+-
+-#define GET_MODE_SENSE_LLBAA(cdb)				\
+-((GET_U8_FROM_CDB(cdb, MODE_SENSE_LLBAA_OFFSET) &		\
+-MODE_SENSE_LLBAA_MASK) >> MODE_SENSE_LLBAA_SHIFT)
+-
+-#define GET_MODE_SENSE_MPH_SIZE(cdb10)				\
+-(cdb10 ? MODE_SENSE10_MPH_SIZE : MODE_SENSE6_MPH_SIZE)
+-
++/* copied from drivers/usb/gadget/function/storage_common.h */
++static inline u32 get_unaligned_be24(u8 *buf)
++{
++	return 0xffffff & (u32) get_unaligned_be32(buf - 1);
++}
  
- 		for (i = 0; i < hdr->iovec_count; i++) {
--			not_copied = copy_from_user(&sgl, hdr->dxferp +
-+			if (copy_from_user(&sgl, hdr->dxferp +
- 						i * sizeof(struct sg_iovec),
--						sizeof(struct sg_iovec));
--			if (not_copied)
-+						sizeof(struct sg_iovec)))
- 				return -EFAULT;
- 			xfer_len = min(remaining, sgl.iov_len);
--			not_copied = copy_to_user(sgl.iov_base, index,
--								xfer_len);
--			if (not_copied) {
--				res = -EFAULT;
--				break;
--			}
-+			if (copy_to_user(sgl.iov_base, index, xfer_len))
-+				return -EFAULT;
+ /* Struct to gather data that needs to be extracted from a SCSI CDB.
+    Not conforming to any particular CDB variant, but compatible with all. */
+@@ -1333,9 +1206,10 @@ static int nvme_trans_mode_page_create(struct nvme_ns *ns,
+ 	u16 mode_pages_offset_1;
+ 	u16 blk_desc_len, blk_desc_offset, mode_data_length;
+ 
+-	dbd = GET_MODE_SENSE_DBD(cmd);
+-	llbaa = GET_MODE_SENSE_LLBAA(cmd);
+-	mph_size = GET_MODE_SENSE_MPH_SIZE(cdb10);
++	dbd = (cmd[1] & MODE_SENSE_DBD_MASK) >> MODE_SENSE_DBD_SHIFT;
++	llbaa = (cmd[1] & MODE_SENSE_LLBAA_MASK) >> MODE_SENSE_LLBAA_SHIFT;
++	mph_size = cdb10 ? MODE_SENSE10_MPH_SIZE : MODE_SENSE6_MPH_SIZE;
 +
- 			index += xfer_len;
- 			remaining -= xfer_len;
- 			if (remaining == 0)
- 				break;
- 		}
--		return res;
-+		return 0;
- 	}
--	not_copied = copy_to_user(hdr->dxferp, from, n);
--	if (not_copied)
--		res = -EFAULT;
--	return res;
-+
-+	if (copy_to_user(hdr->dxferp, from, n))
-+		return -EFAULT;
-+	return 0;
+ 	blk_desc_len = nvme_trans_get_blk_desc_len(dbd, llbaa);
+ 
+ 	resp_size = mph_size + blk_desc_len + mode_pages_tot_len;
+@@ -1895,46 +1769,39 @@ static inline void nvme_trans_get_io_cdb6(u8 *cmd,
+ {
+ 	cdb_info->fua = 0;
+ 	cdb_info->prot_info = 0;
+-	cdb_info->lba = GET_U32_FROM_CDB(cmd, IO_6_CDB_LBA_OFFSET) &
+-					IO_6_CDB_LBA_MASK;
+-	cdb_info->xfer_len = GET_U8_FROM_CDB(cmd, IO_6_CDB_TX_LEN_OFFSET);
++	cdb_info->lba = get_unaligned_be32(&cmd[0]) & IO_6_CDB_LBA_MASK;
++	cdb_info->xfer_len = cmd[4];
+ 
+ 	/* sbc3r27 sec 5.32 - TRANSFER LEN of 0 implies a 256 Block transfer */
+ 	if (cdb_info->xfer_len == 0)
+-		cdb_info->xfer_len = IO_6_DEFAULT_TX_LEN;
++		cdb_info->xfer_len = 256;
  }
  
- /* Copy data from userspace memory */
-@@ -410,8 +401,6 @@ static int nvme_trans_copy_to_user(struct sg_io_hdr *hdr, void *from,
- static int nvme_trans_copy_from_user(struct sg_io_hdr *hdr, void *to,
- 								unsigned long n)
+ static inline void nvme_trans_get_io_cdb10(u8 *cmd,
+ 					struct nvme_trans_io_cdb *cdb_info)
  {
--	int res = SNTI_TRANSLATION_SUCCESS;
--	unsigned long not_copied;
- 	int i;
- 	void *index = to;
- 	size_t remaining = n;
-@@ -421,30 +410,24 @@ static int nvme_trans_copy_from_user(struct sg_io_hdr *hdr, void *to,
- 		struct sg_iovec sgl;
- 
- 		for (i = 0; i < hdr->iovec_count; i++) {
--			not_copied = copy_from_user(&sgl, hdr->dxferp +
-+			if (copy_from_user(&sgl, hdr->dxferp +
- 						i * sizeof(struct sg_iovec),
--						sizeof(struct sg_iovec));
--			if (not_copied)
-+						sizeof(struct sg_iovec)))
- 				return -EFAULT;
- 			xfer_len = min(remaining, sgl.iov_len);
--			not_copied = copy_from_user(index, sgl.iov_base,
--								xfer_len);
--			if (not_copied) {
--				res = -EFAULT;
--				break;
--			}
-+			if (copy_from_user(index, sgl.iov_base, xfer_len))
-+				return -EFAULT;
- 			index += xfer_len;
- 			remaining -= xfer_len;
- 			if (remaining == 0)
- 				break;
- 		}
--		return res;
-+		return 0;
- 	}
- 
--	not_copied = copy_from_user(to, hdr->dxferp, n);
--	if (not_copied)
--		res = -EFAULT;
--	return res;
-+	if (copy_from_user(to, hdr->dxferp, n))
-+		return -EFAULT;
-+	return 0;
+-	cdb_info->fua = GET_U8_FROM_CDB(cmd, IO_10_CDB_FUA_OFFSET) &
+-					IO_CDB_FUA_MASK;
+-	cdb_info->prot_info = GET_U8_FROM_CDB(cmd, IO_10_CDB_WP_OFFSET) &
+-					IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
+-	cdb_info->lba = GET_U32_FROM_CDB(cmd, IO_10_CDB_LBA_OFFSET);
+-	cdb_info->xfer_len = GET_U16_FROM_CDB(cmd, IO_10_CDB_TX_LEN_OFFSET);
++	cdb_info->fua = cmd[1] & IO_CDB_FUA_MASK;
++	cdb_info->prot_info = cmd[1] & IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
++	cdb_info->lba = get_unaligned_be32(&cmd[2]);
++	cdb_info->xfer_len = get_unaligned_be16(&cmd[7]);
  }
  
- /* Status/Sense Buffer Writeback */
-@@ -452,7 +435,6 @@ static int nvme_trans_copy_from_user(struct sg_io_hdr *hdr, void *to,
- static int nvme_trans_completion(struct sg_io_hdr *hdr, u8 status, u8 sense_key,
- 				 u8 asc, u8 ascq)
+ static inline void nvme_trans_get_io_cdb12(u8 *cmd,
+ 					struct nvme_trans_io_cdb *cdb_info)
  {
--	int res = SNTI_TRANSLATION_SUCCESS;
- 	u8 xfer_len;
- 	u8 resp[DESC_FMT_SENSE_DATA_SIZE];
- 
-@@ -477,25 +459,29 @@ static int nvme_trans_completion(struct sg_io_hdr *hdr, u8 status, u8 sense_key,
- 		xfer_len = min_t(u8, hdr->mx_sb_len, DESC_FMT_SENSE_DATA_SIZE);
- 		hdr->sb_len_wr = xfer_len;
- 		if (copy_to_user(hdr->sbp, resp, xfer_len) > 0)
--			res = -EFAULT;
-+			return -EFAULT;
- 	}
- 
--	return res;
-+	return 0;
+-	cdb_info->fua = GET_U8_FROM_CDB(cmd, IO_12_CDB_FUA_OFFSET) &
+-					IO_CDB_FUA_MASK;
+-	cdb_info->prot_info = GET_U8_FROM_CDB(cmd, IO_12_CDB_WP_OFFSET) &
+-					IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
+-	cdb_info->lba = GET_U32_FROM_CDB(cmd, IO_12_CDB_LBA_OFFSET);
+-	cdb_info->xfer_len = GET_U32_FROM_CDB(cmd, IO_12_CDB_TX_LEN_OFFSET);
++	cdb_info->fua = cmd[1] & IO_CDB_FUA_MASK;
++	cdb_info->prot_info = cmd[1] & IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
++	cdb_info->lba = get_unaligned_be32(&cmd[2]);
++	cdb_info->xfer_len = get_unaligned_be32(&cmd[6]);
  }
  
-+/*
-+ * Take a status code from a lowlevel routine, and if it was a positive NVMe
-+ * error code update the sense data based on it.  In either case the passed
-+ * in value is returned again, unless an -EFAULT from copy_to_user overrides
-+ * it.
-+ */
- static int nvme_trans_status_code(struct sg_io_hdr *hdr, int nvme_sc)
+ static inline void nvme_trans_get_io_cdb16(u8 *cmd,
+ 					struct nvme_trans_io_cdb *cdb_info)
  {
- 	u8 status, sense_key, asc, ascq;
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 
- 	/* For non-nvme (Linux) errors, simply return the error code */
- 	if (nvme_sc < 0)
- 		return nvme_sc;
- 
- 	/* Mask DNR, More, and reserved fields */
--	nvme_sc &= 0x7FF;
--
--	switch (nvme_sc) {
-+	switch (nvme_sc & 0x7FF) {
- 	/* Generic Command Status */
- 	case NVME_SC_SUCCESS:
- 		status = SAM_STAT_GOOD;
-@@ -662,8 +648,7 @@ static int nvme_trans_status_code(struct sg_io_hdr *hdr, int nvme_sc)
- 	}
- 
- 	res = nvme_trans_completion(hdr, status, sense_key, asc, ascq);
--
--	return res;
-+	return res ? res : nvme_sc;
+-	cdb_info->fua = GET_U8_FROM_CDB(cmd, IO_16_CDB_FUA_OFFSET) &
+-					IO_CDB_FUA_MASK;
+-	cdb_info->prot_info = GET_U8_FROM_CDB(cmd, IO_16_CDB_WP_OFFSET) &
+-					IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
+-	cdb_info->lba = GET_U64_FROM_CDB(cmd, IO_16_CDB_LBA_OFFSET);
+-	cdb_info->xfer_len = GET_U32_FROM_CDB(cmd, IO_16_CDB_TX_LEN_OFFSET);
++	cdb_info->fua = cmd[1] & IO_CDB_FUA_MASK;
++	cdb_info->prot_info = cmd[1] & IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
++	cdb_info->lba = get_unaligned_be64(&cmd[2]);
++	cdb_info->xfer_len = get_unaligned_be32(&cmd[10]);
  }
  
- /* INQUIRY Helper Functions */
-@@ -676,7 +661,7 @@ static int nvme_trans_standard_inquiry_page(struct nvme_ns *ns,
- 	dma_addr_t dma_addr;
- 	void *mem;
- 	struct nvme_id_ns *id_ns;
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int nvme_sc;
- 	int xfer_len;
- 	u8 resp_data_format = 0x02;
-@@ -694,19 +679,9 @@ static int nvme_trans_standard_inquiry_page(struct nvme_ns *ns,
- 	/* nvme ns identify - use DPS value for PROTECT field */
- 	nvme_sc = nvme_identify(dev, ns->ns_id, 0, dma_addr);
- 	res = nvme_trans_status_code(hdr, nvme_sc);
--	/*
--	 * If nvme_sc was -ve, res will be -ve here.
--	 * If nvme_sc was +ve, the status would bace been translated, and res
--	 *  can only be 0 or -ve.
--	 *    - If 0 && nvme_sc > 0, then go into next if where res gets nvme_sc
--	 *    - If -ve, return because its a Linux error.
--	 */
- 	if (res)
- 		goto out_free;
--	if (nvme_sc) {
--		res = nvme_sc;
--		goto out_free;
--	}
-+
- 	id_ns = mem;
- 	(id_ns->dps) ? (protect = 0x01) : (protect = 0);
- 
-@@ -737,7 +712,6 @@ static int nvme_trans_supported_vpd_pages(struct nvme_ns *ns,
- 					struct sg_io_hdr *hdr, u8 *inq_response,
- 					int alloc_len)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
- 	int xfer_len;
- 
- 	memset(inq_response, 0, STANDARD_INQUIRY_LENGTH);
-@@ -751,9 +725,7 @@ static int nvme_trans_supported_vpd_pages(struct nvme_ns *ns,
- 	inq_response[9] = INQ_BDEV_LIMITS_PAGE;
- 
- 	xfer_len = min(alloc_len, STANDARD_INQUIRY_LENGTH);
--	res = nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
--
--	return res;
-+	return nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
- }
- 
- static int nvme_trans_unit_serial_page(struct nvme_ns *ns,
-@@ -761,7 +733,6 @@ static int nvme_trans_unit_serial_page(struct nvme_ns *ns,
- 					int alloc_len)
- {
- 	struct nvme_dev *dev = ns->dev;
--	int res = SNTI_TRANSLATION_SUCCESS;
- 	int xfer_len;
- 
- 	memset(inq_response, 0, STANDARD_INQUIRY_LENGTH);
-@@ -770,9 +741,7 @@ static int nvme_trans_unit_serial_page(struct nvme_ns *ns,
- 	strncpy(&inq_response[4], dev->serial, INQ_SERIAL_NUMBER_LENGTH);
- 
- 	xfer_len = min(alloc_len, STANDARD_INQUIRY_LENGTH);
--	res = nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
--
--	return res;
-+	return nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
- }
- 
- static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
-@@ -781,7 +750,7 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	struct nvme_dev *dev = ns->dev;
- 	dma_addr_t dma_addr;
- 	void *mem;
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int nvme_sc;
- 	int xfer_len;
- 	__be32 tmp_id = cpu_to_be32(ns->ns_id);
-@@ -804,10 +773,6 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		res = nvme_trans_status_code(hdr, nvme_sc);
- 		if (res)
- 			goto out_free;
--		if (nvme_sc) {
--			res = nvme_sc;
--			goto out_free;
--		}
- 
- 		if (readl(&dev->bar->vs) >= NVME_VS(1, 2)) {
- 			if (bitmap_empty(eui, len * 8)) {
-@@ -859,7 +824,7 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 					int alloc_len)
- {
+ static inline u32 nvme_trans_io_get_num_cmds(struct sg_io_hdr *hdr,
+@@ -2147,9 +2014,9 @@ static int nvme_trans_inquiry(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	int alloc_len;
  	u8 *inq_response;
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int nvme_sc;
- 	struct nvme_dev *dev = ns->dev;
- 	dma_addr_t dma_addr;
-@@ -893,10 +858,7 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	res = nvme_trans_status_code(hdr, nvme_sc);
- 	if (res)
- 		goto out_free;
--	if (nvme_sc) {
--		res = nvme_sc;
--		goto out_free;
--	}
-+
- 	id_ns = mem;
- 	spt = spt_lut[(id_ns->dpc) & 0x07] << 3;
- 	(id_ns->dps) ? (protect = 0x01) : (protect = 0);
-@@ -909,10 +871,7 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	res = nvme_trans_status_code(hdr, nvme_sc);
- 	if (res)
- 		goto out_free;
--	if (nvme_sc) {
--		res = nvme_sc;
--		goto out_free;
--	}
-+
- 	id_ctrl = mem;
- 	v_sup = id_ctrl->vwc;
  
-@@ -961,7 +920,7 @@ static int nvme_trans_bdev_char_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 					int alloc_len)
+-	evpd = GET_INQ_EVPD_BIT(cmd);
+-	page_code = GET_INQ_PAGE_CODE(cmd);
+-	alloc_len = GET_INQ_ALLOC_LENGTH(cmd);
++	evpd = cmd[1] & 0x01;
++	page_code = cmd[2];
++	alloc_len = get_unaligned_be16(&cmd[3]);
+ 
+ 	inq_response = kmalloc(alloc_len, GFP_KERNEL);
+ 	if (inq_response == NULL) {
+@@ -2211,27 +2078,25 @@ static int nvme_trans_log_sense(struct nvme_ns *ns, struct sg_io_hdr *hdr,
  {
- 	u8 *inq_response;
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int xfer_len;
+ 	int res;
+ 	u16 alloc_len;
+-	u8 sp;
+ 	u8 pc;
+ 	u8 page_code;
  
- 	inq_response = kzalloc(EXTENDED_INQUIRY_DATA_PAGE_LENGTH, GFP_KERNEL);
-@@ -990,7 +949,7 @@ static int nvme_trans_bdev_char_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- static int nvme_trans_log_supp_pages(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 					int alloc_len)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int xfer_len;
- 	u8 *log_response;
- 
-@@ -1018,7 +977,7 @@ static int nvme_trans_log_supp_pages(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- static int nvme_trans_log_info_exceptions(struct nvme_ns *ns,
- 					struct sg_io_hdr *hdr, int alloc_len)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int xfer_len;
- 	u8 *log_response;
- 	struct nvme_command c;
-@@ -1084,7 +1043,7 @@ static int nvme_trans_log_info_exceptions(struct nvme_ns *ns,
- static int nvme_trans_log_temperature(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 					int alloc_len)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int xfer_len;
- 	u8 *log_response;
- 	struct nvme_command c;
-@@ -1167,7 +1126,7 @@ static int nvme_trans_fill_mode_parm_hdr(u8 *resp, int len, u8 cdb10, u8 llbaa,
- {
- 	/* Quick check to make sure I don't stomp on my own memory... */
- 	if ((cdb10 && len < 8) || (!cdb10 && len < 4))
--		return SNTI_INTERNAL_ERROR;
-+		return -EINVAL;
- 
- 	if (cdb10) {
- 		resp[0] = (mode_data_length & 0xFF00) >> 8;
-@@ -1183,13 +1142,13 @@ static int nvme_trans_fill_mode_parm_hdr(u8 *resp, int len, u8 cdb10, u8 llbaa,
- 		resp[3] = (blk_desc_len & 0x00FF);
- 	}
- 
--	return SNTI_TRANSLATION_SUCCESS;
-+	return 0;
- }
- 
- static int nvme_trans_fill_blk_desc(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 				    u8 *resp, int len, u8 llbaa)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int nvme_sc;
- 	struct nvme_dev *dev = ns->dev;
- 	dma_addr_t dma_addr;
-@@ -1199,9 +1158,9 @@ static int nvme_trans_fill_blk_desc(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	u32 lba_length;
- 
- 	if (llbaa == 0 && len < MODE_PAGE_BLK_DES_LEN)
--		return SNTI_INTERNAL_ERROR;
-+		return -EINVAL;
- 	else if (llbaa > 0 && len < MODE_PAGE_LLBAA_BLK_DES_LEN)
--		return SNTI_INTERNAL_ERROR;
-+		return -EINVAL;
- 
- 	mem = dma_alloc_coherent(dev->dev, sizeof(struct nvme_id_ns),
- 							&dma_addr, GFP_KERNEL);
-@@ -1215,10 +1174,7 @@ static int nvme_trans_fill_blk_desc(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	res = nvme_trans_status_code(hdr, nvme_sc);
- 	if (res)
- 		goto out_dma;
--	if (nvme_sc) {
--		res = nvme_sc;
--		goto out_dma;
--	}
-+
- 	id_ns = mem;
- 	flbas = (id_ns->flbas) & 0x0F;
- 	lba_length = (1 << (id_ns->lbaf[flbas].ds));
-@@ -1250,7 +1206,7 @@ static int nvme_trans_fill_control_page(struct nvme_ns *ns,
- 					int len)
- {
- 	if (len < MODE_PAGE_CONTROL_LEN)
--		return SNTI_INTERNAL_ERROR;
-+		return -EINVAL;
- 
- 	resp[0] = MODE_PAGE_CONTROL;
- 	resp[1] = MODE_PAGE_CONTROL_LEN_FIELD;
-@@ -1264,78 +1220,69 @@ static int nvme_trans_fill_control_page(struct nvme_ns *ns,
- 	resp[9] = 0xFF;
- 	/* Bytes 10,11: Extended selftest completion time = 0x0000 */
- 
--	return SNTI_TRANSLATION_SUCCESS;
-+	return 0;
- }
- 
- static int nvme_trans_fill_caching_page(struct nvme_ns *ns,
- 					struct sg_io_hdr *hdr,
- 					u8 *resp, int len)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res = 0;
- 	int nvme_sc;
- 	struct nvme_dev *dev = ns->dev;
- 	u32 feature_resp;
- 	u8 vwc;
- 
- 	if (len < MODE_PAGE_CACHING_LEN)
--		return SNTI_INTERNAL_ERROR;
-+		return -EINVAL;
- 
- 	nvme_sc = nvme_get_features(dev, NVME_FEAT_VOLATILE_WC, 0,
- 								&feature_resp);
- 	res = nvme_trans_status_code(hdr, nvme_sc);
- 	if (res)
--		goto out;
--	if (nvme_sc) {
--		res = nvme_sc;
--		goto out;
--	}
-+		return res;
-+
- 	vwc = feature_resp & 0x00000001;
- 
- 	resp[0] = MODE_PAGE_CACHING;
- 	resp[1] = MODE_PAGE_CACHING_LEN_FIELD;
- 	resp[2] = vwc << 2;
--
-- out:
--	return res;
-+	return 0;
- }
- 
- static int nvme_trans_fill_pow_cnd_page(struct nvme_ns *ns,
- 					struct sg_io_hdr *hdr, u8 *resp,
- 					int len)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
--
- 	if (len < MODE_PAGE_POW_CND_LEN)
--		return SNTI_INTERNAL_ERROR;
-+		return -EINVAL;
- 
- 	resp[0] = MODE_PAGE_POWER_CONDITION;
- 	resp[1] = MODE_PAGE_POW_CND_LEN_FIELD;
- 	/* All other bytes are zero */
- 
--	return res;
-+	return 0;
- }
- 
- static int nvme_trans_fill_inf_exc_page(struct nvme_ns *ns,
- 					struct sg_io_hdr *hdr, u8 *resp,
- 					int len)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
--
- 	if (len < MODE_PAGE_INF_EXC_LEN)
--		return SNTI_INTERNAL_ERROR;
-+		return -EINVAL;
- 
- 	resp[0] = MODE_PAGE_INFO_EXCEP;
- 	resp[1] = MODE_PAGE_INF_EXC_LEN_FIELD;
- 	resp[2] = 0x88;
- 	/* All other bytes are zero */
- 
--	return res;
-+	return 0;
- }
- 
- static int nvme_trans_fill_all_pages(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 				     u8 *resp, int len)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	u16 mode_pages_offset_1 = 0;
- 	u16 mode_pages_offset_2, mode_pages_offset_3, mode_pages_offset_4;
- 
-@@ -1345,23 +1292,18 @@ static int nvme_trans_fill_all_pages(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 
- 	res = nvme_trans_fill_caching_page(ns, hdr, &resp[mode_pages_offset_1],
- 					MODE_PAGE_CACHING_LEN);
--	if (res != SNTI_TRANSLATION_SUCCESS)
--		goto out;
-+	if (res)
-+		return res;
- 	res = nvme_trans_fill_control_page(ns, hdr, &resp[mode_pages_offset_2],
- 					MODE_PAGE_CONTROL_LEN);
--	if (res != SNTI_TRANSLATION_SUCCESS)
--		goto out;
-+	if (res)
-+		return res;
- 	res = nvme_trans_fill_pow_cnd_page(ns, hdr, &resp[mode_pages_offset_3],
- 					MODE_PAGE_POW_CND_LEN);
--	if (res != SNTI_TRANSLATION_SUCCESS)
--		goto out;
--	res = nvme_trans_fill_inf_exc_page(ns, hdr, &resp[mode_pages_offset_4],
-+	if (res)
-+		return res;
-+	return nvme_trans_fill_inf_exc_page(ns, hdr, &resp[mode_pages_offset_4],
- 					MODE_PAGE_INF_EXC_LEN);
--	if (res != SNTI_TRANSLATION_SUCCESS)
--		goto out;
--
-- out:
--	return res;
- }
- 
- static inline int nvme_trans_get_blk_desc_len(u8 dbd, u8 llbaa)
-@@ -1382,7 +1324,7 @@ static int nvme_trans_mode_page_create(struct nvme_ns *ns,
- 					struct sg_io_hdr *hdr, u8 *, int),
- 					u16 mode_pages_tot_len)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int xfer_len;
- 	u8 *response;
- 	u8 dbd, llbaa;
-@@ -1411,18 +1353,18 @@ static int nvme_trans_mode_page_create(struct nvme_ns *ns,
- 
- 	res = nvme_trans_fill_mode_parm_hdr(&response[0], mph_size, cdb10,
- 					llbaa, mode_data_length, blk_desc_len);
--	if (res != SNTI_TRANSLATION_SUCCESS)
-+	if (res)
- 		goto out_free;
- 	if (blk_desc_len > 0) {
- 		res = nvme_trans_fill_blk_desc(ns, hdr,
- 					       &response[blk_desc_offset],
- 					       blk_desc_len, llbaa);
--		if (res != SNTI_TRANSLATION_SUCCESS)
-+		if (res)
- 			goto out_free;
- 	}
- 	res = mode_page_fill_func(ns, hdr, &response[mode_pages_offset_1],
- 					mode_pages_tot_len);
--	if (res != SNTI_TRANSLATION_SUCCESS)
-+	if (res)
- 		goto out_free;
- 
- 	xfer_len = min(alloc_len, resp_size);
-@@ -1477,7 +1419,7 @@ static void nvme_trans_fill_read_cap(u8 *response, struct nvme_id_ns *id_ns,
- static int nvme_trans_power_state(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 						u8 pc, u8 pcmod, u8 start)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int nvme_sc;
- 	struct nvme_dev *dev = ns->dev;
- 	dma_addr_t dma_addr;
-@@ -1497,10 +1439,7 @@ static int nvme_trans_power_state(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	res = nvme_trans_status_code(hdr, nvme_sc);
- 	if (res)
- 		goto out_dma;
--	if (nvme_sc) {
--		res = nvme_sc;
--		goto out_dma;
--	}
-+
- 	id_ctrl = mem;
- 	lowest_pow_st = max(POWER_STATE_0, (int)(id_ctrl->npss - 1));
- 
-@@ -1543,10 +1482,7 @@ static int nvme_trans_power_state(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	nvme_sc = nvme_set_features(dev, NVME_FEAT_POWER_MGMT, ps_desired,
- 				    NULL);
- 	res = nvme_trans_status_code(hdr, nvme_sc);
--	if (res)
--		goto out_dma;
--	if (nvme_sc)
--		res = nvme_sc;
-+
-  out_dma:
- 	dma_free_coherent(dev->dev, sizeof(struct nvme_id_ctrl), mem, dma_addr);
-  out:
-@@ -1558,24 +1494,20 @@ static int nvme_trans_send_activate_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr
- {
- 	struct nvme_command c;
- 	int nvme_sc;
--	int res;
- 
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = nvme_admin_activate_fw;
- 	c.common.cdw10[0] = cpu_to_le32(buffer_id | NVME_FWACT_REPL_ACTV);
- 
- 	nvme_sc = nvme_submit_sync_cmd(ns->queue, &c);
--	res = nvme_trans_status_code(hdr, nvme_sc);
--	if (res)
--		return res;
--	return nvme_sc;
-+	return nvme_trans_status_code(hdr, nvme_sc);
- }
- 
- static int nvme_trans_send_download_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 					u8 opcode, u32 tot_len, u32 offset,
- 					u8 buffer_id)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int nvme_sc;
- 	struct nvme_dev *dev = ns->dev;
- 	struct nvme_command c;
-@@ -1610,10 +1542,6 @@ static int nvme_trans_send_download_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr
- 
- 	nvme_sc = nvme_submit_sync_cmd(dev->admin_q, &c);
- 	res = nvme_trans_status_code(hdr, nvme_sc);
--	if (res)
--		goto out_unmap;
--	if (nvme_sc)
--		res = nvme_sc;
- 
-  out_unmap:
- 	nvme_unmap_user_pages(dev, DMA_TO_DEVICE, iod);
-@@ -1681,7 +1609,7 @@ static void nvme_trans_modesel_save_bd(struct nvme_ns *ns, u8 *parm_list,
- static int nvme_trans_modesel_get_mp(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 					u8 *mode_page, u8 page_code)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res = 0;
- 	int nvme_sc;
- 	struct nvme_dev *dev = ns->dev;
- 	unsigned dword11;
-@@ -1692,12 +1620,6 @@ static int nvme_trans_modesel_get_mp(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		nvme_sc = nvme_set_features(dev, NVME_FEAT_VOLATILE_WC, dword11,
- 					    NULL);
- 		res = nvme_trans_status_code(hdr, nvme_sc);
--		if (res)
--			break;
--		if (nvme_sc) {
--			res = nvme_sc;
--			break;
--		}
- 		break;
- 	case MODE_PAGE_CONTROL:
- 		break;
-@@ -1709,8 +1631,6 @@ static int nvme_trans_modesel_get_mp(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 						ILLEGAL_REQUEST,
- 						SCSI_ASC_INVALID_PARAMETER,
- 						SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
--			if (!res)
--				res = SNTI_INTERNAL_ERROR;
- 			break;
- 		}
- 		break;
-@@ -1718,8 +1638,6 @@ static int nvme_trans_modesel_get_mp(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+-	sp = GET_U8_FROM_CDB(cmd, LOG_SENSE_CDB_SP_OFFSET);
+-	if (sp != LOG_SENSE_CDB_SP_NOT_ENABLED) {
++	if (cmd[1] != LOG_SENSE_CDB_SP_NOT_ENABLED) {
  		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
  					ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
  					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
--		if (!res)
--			res = SNTI_INTERNAL_ERROR;
- 		break;
- 	}
- 
-@@ -1730,7 +1648,7 @@ static int nvme_trans_modesel_data(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 					u8 *cmd, u16 parm_list_len, u8 pf,
- 					u8 sp, u8 cdb10)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	u8 *parm_list;
- 	u16 bd_len;
- 	u8 llbaa = 0;
-@@ -1746,7 +1664,7 @@ static int nvme_trans_modesel_data(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	}
- 
- 	res = nvme_trans_copy_from_user(hdr, parm_list, parm_list_len);
--	if (res != SNTI_TRANSLATION_SUCCESS)
-+	if (res)
- 		goto out_mem;
- 
- 	nvme_trans_modesel_get_bd_len(parm_list, cdb10, &bd_len, &llbaa);
-@@ -1784,7 +1702,7 @@ static int nvme_trans_modesel_data(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		mp_size = parm_list[index + 1] + 2;
- 		res = nvme_trans_modesel_get_mp(ns, hdr, &parm_list[index],
- 								page_code);
--		if (res != SNTI_TRANSLATION_SUCCESS)
-+		if (res)
- 			break;
- 		index += mp_size;
- 	} while (index < parm_list_len);
-@@ -1800,7 +1718,7 @@ static int nvme_trans_modesel_data(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- static int nvme_trans_fmt_set_blk_size_count(struct nvme_ns *ns,
- 					     struct sg_io_hdr *hdr)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res = 0;
- 	int nvme_sc;
- 	struct nvme_dev *dev = ns->dev;
- 	dma_addr_t dma_addr;
-@@ -1827,10 +1745,7 @@ static int nvme_trans_fmt_set_blk_size_count(struct nvme_ns *ns,
- 		res = nvme_trans_status_code(hdr, nvme_sc);
- 		if (res)
- 			goto out_dma;
--		if (nvme_sc) {
--			res = nvme_sc;
--			goto out_dma;
--		}
-+
- 		id_ns = mem;
- 
- 		if (ns->mode_select_num_blocks == 0)
-@@ -1851,7 +1766,7 @@ static int nvme_trans_fmt_set_blk_size_count(struct nvme_ns *ns,
- static int nvme_trans_fmt_get_parm_header(struct sg_io_hdr *hdr, u8 len,
- 					u8 format_prot_info, u8 *nvme_pf_code)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	u8 *parm_list;
- 	u8 pf_usage, pf_code;
- 
-@@ -1861,7 +1776,7 @@ static int nvme_trans_fmt_get_parm_header(struct sg_io_hdr *hdr, u8 len,
  		goto out;
  	}
- 	res = nvme_trans_copy_from_user(hdr, parm_list, len);
--	if (res != SNTI_TRANSLATION_SUCCESS)
-+	if (res)
- 		goto out_mem;
- 
- 	if ((parm_list[FORMAT_UNIT_IMMED_OFFSET] &
-@@ -1911,7 +1826,7 @@ static int nvme_trans_fmt_get_parm_header(struct sg_io_hdr *hdr, u8 len,
- static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 				   u8 prot_info)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int nvme_sc;
- 	struct nvme_dev *dev = ns->dev;
- 	dma_addr_t dma_addr;
-@@ -1935,10 +1850,7 @@ static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	res = nvme_trans_status_code(hdr, nvme_sc);
- 	if (res)
- 		goto out_dma;
--	if (nvme_sc) {
--		res = nvme_sc;
--		goto out_dma;
--	}
+-	pc = GET_U8_FROM_CDB(cmd, LOG_SENSE_CDB_PC_OFFSET);
+-	page_code = pc & LOG_SENSE_CDB_PAGE_CODE_MASK;
+-	pc = (pc & LOG_SENSE_CDB_PC_MASK) >> LOG_SENSE_CDB_PC_SHIFT;
 +
- 	id_ns = mem;
- 	flbas = (id_ns->flbas) & 0x0F;
- 	nlbaf = id_ns->nlbaf;
-@@ -1969,10 +1881,6 @@ static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 
- 	nvme_sc = nvme_submit_sync_cmd(dev->admin_q, &c);
- 	res = nvme_trans_status_code(hdr, nvme_sc);
--	if (res)
--		goto out_dma;
--	if (nvme_sc)
--		res = nvme_sc;
- 
-  out_dma:
- 	dma_free_coherent(dev->dev, sizeof(struct nvme_id_ns), mem, dma_addr);
-@@ -2058,8 +1966,7 @@ static u16 nvme_trans_io_get_control(struct nvme_ns *ns,
- static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 				struct nvme_trans_io_cdb *cdb_info, u8 is_write)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
--	int nvme_sc;
-+	int nvme_sc = NVME_SC_SUCCESS;
- 	struct nvme_dev *dev = ns->dev;
- 	u32 num_cmds;
- 	struct nvme_iod *iod;
-@@ -2116,18 +2023,16 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		iod = nvme_map_user_pages(dev,
- 			(is_write) ? DMA_TO_DEVICE : DMA_FROM_DEVICE,
- 			(unsigned long)next_mapping_addr, unit_len);
--		if (IS_ERR(iod)) {
--			res = PTR_ERR(iod);
--			goto out;
--		}
-+		if (IS_ERR(iod))
-+			return PTR_ERR(iod);
-+
- 		retcode = nvme_setup_prps(dev, iod, unit_len, GFP_KERNEL);
- 		if (retcode != unit_len) {
- 			nvme_unmap_user_pages(dev,
- 				(is_write) ? DMA_TO_DEVICE : DMA_FROM_DEVICE,
- 				iod);
- 			nvme_free_iod(dev, iod);
--			res = -ENOMEM;
--			goto out;
-+			return -ENOMEM;
- 		}
- 		c.rw.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
- 		c.rw.prp2 = cpu_to_le64(iod->first_dma);
-@@ -2135,23 +2040,18 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		nvme_offset += unit_num_blocks;
- 
- 		nvme_sc = nvme_submit_sync_cmd(ns->queue, &c);
--		if (nvme_sc != NVME_SC_SUCCESS) {
--			nvme_unmap_user_pages(dev,
--				(is_write) ? DMA_TO_DEVICE : DMA_FROM_DEVICE,
--				iod);
--			nvme_free_iod(dev, iod);
--			res = nvme_trans_status_code(hdr, nvme_sc);
--			goto out;
--		}
-+
- 		nvme_unmap_user_pages(dev,
- 				(is_write) ? DMA_TO_DEVICE : DMA_FROM_DEVICE,
- 				iod);
- 		nvme_free_iod(dev, iod);
-+
-+
-+		if (nvme_sc != NVME_SC_SUCCESS)
-+			break;
- 	}
--	res = nvme_trans_status_code(hdr, NVME_SC_SUCCESS);
- 
-- out:
--	return res;
-+	return nvme_trans_status_code(hdr, nvme_sc);
- }
- 
- 
-@@ -2160,7 +2060,7 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- static int nvme_trans_io(struct nvme_ns *ns, struct sg_io_hdr *hdr, u8 is_write,
- 							u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res = 0;
- 	struct nvme_trans_io_cdb cdb_info;
- 	u8 opcode = cmd[0];
- 	u64 xfer_bytes;
-@@ -2189,7 +2089,7 @@ static int nvme_trans_io(struct nvme_ns *ns, struct sg_io_hdr *hdr, u8 is_write,
- 		break;
- 	default:
- 		/* Will never really reach here */
--		res = SNTI_INTERNAL_ERROR;
-+		res = -EIO;
++	page_code = cmd[2] & LOG_SENSE_CDB_PAGE_CODE_MASK;
++	pc = (cmd[2] & LOG_SENSE_CDB_PC_MASK) >> LOG_SENSE_CDB_PC_SHIFT;
+ 	if (pc != LOG_SENSE_CDB_PC_CUMULATIVE_VALUES) {
+ 		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+ 					ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
+ 					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
  		goto out;
  	}
- 
-@@ -2231,7 +2131,7 @@ static int nvme_trans_io(struct nvme_ns *ns, struct sg_io_hdr *hdr, u8 is_write,
- 
- 	/* Send NVMe IO Command(s) */
- 	res = nvme_trans_do_nvme_io(ns, hdr, &cdb_info, is_write);
--	if (res != SNTI_TRANSLATION_SUCCESS)
-+	if (res)
- 		goto out;
- 
-  out:
-@@ -2241,7 +2141,7 @@ static int nvme_trans_io(struct nvme_ns *ns, struct sg_io_hdr *hdr, u8 is_write,
- static int nvme_trans_inquiry(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 							u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res = 0;
- 	u8 evpd;
- 	u8 page_code;
- 	int alloc_len;
-@@ -2309,7 +2209,7 @@ static int nvme_trans_inquiry(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- static int nvme_trans_log_sense(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 							u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	u16 alloc_len;
- 	u8 sp;
- 	u8 pc;
-@@ -2356,7 +2256,6 @@ static int nvme_trans_log_sense(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- static int nvme_trans_mode_select(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 							u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
- 	u8 cdb10 = 0;
- 	u16 parm_list_len;
+-	alloc_len = GET_U16_FROM_CDB(cmd, LOG_SENSE_CDB_ALLOC_LENGTH_OFFSET);
++	alloc_len = get_unaligned_be16(&cmd[7]);
+ 	switch (page_code) {
+ 	case LOG_PAGE_SUPPORTED_LOG_PAGES_PAGE:
+ 		res = nvme_trans_log_supp_pages(ns, hdr, alloc_len);
+@@ -2261,18 +2126,13 @@ static int nvme_trans_mode_select(struct nvme_ns *ns, struct sg_io_hdr *hdr,
  	u8 page_format;
-@@ -2382,17 +2281,17 @@ static int nvme_trans_mode_select(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		 * According to SPC-4 r24, a paramter list length field of 0
- 		 * shall not be considered an error
- 		 */
--		res = nvme_trans_modesel_data(ns, hdr, cmd, parm_list_len,
-+		return nvme_trans_modesel_data(ns, hdr, cmd, parm_list_len,
- 						page_format, save_pages, cdb10);
+ 	u8 save_pages;
+ 
+-	page_format = GET_U8_FROM_CDB(cmd, MODE_SELECT_CDB_PAGE_FORMAT_OFFSET);
+-	page_format &= MODE_SELECT_CDB_PAGE_FORMAT_MASK;
++	page_format = cmd[1] & MODE_SELECT_CDB_PAGE_FORMAT_MASK;
++	save_pages = cmd[1] & MODE_SELECT_CDB_SAVE_PAGES_MASK;
+ 
+-	save_pages = GET_U8_FROM_CDB(cmd, MODE_SELECT_CDB_SAVE_PAGES_OFFSET);
+-	save_pages &= MODE_SELECT_CDB_SAVE_PAGES_MASK;
+-
+-	if (GET_OPCODE(cmd) == MODE_SELECT) {
+-		parm_list_len = GET_U8_FROM_CDB(cmd,
+-				MODE_SELECT_6_CDB_PARAM_LIST_LENGTH_OFFSET);
++	if (cmd[0] == MODE_SELECT) {
++		parm_list_len = cmd[4];
+ 	} else {
+-		parm_list_len = GET_U16_FROM_CDB(cmd,
+-				MODE_SELECT_10_CDB_PARAM_LIST_LENGTH_OFFSET);
++		parm_list_len = cmd[7];
+ 		cdb10 = 1;
  	}
  
--	return res;
-+	return 0;
- }
- 
- static int nvme_trans_mode_sense(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 							u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res = 0;
+@@ -2294,29 +2154,23 @@ static int nvme_trans_mode_sense(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	int res = 0;
  	u16 alloc_len;
  	u8 cdb10 = 0;
- 	u8 page_code;
-@@ -2462,7 +2361,7 @@ static int nvme_trans_mode_sense(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- static int nvme_trans_read_capacity(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 							u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	int nvme_sc;
- 	u32 alloc_len = READ_CAP_10_RESP_SIZE;
- 	u32 resp_size = READ_CAP_10_RESP_SIZE;
-@@ -2491,10 +2390,7 @@ static int nvme_trans_read_capacity(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	res = nvme_trans_status_code(hdr, nvme_sc);
- 	if (res)
- 		goto out_dma;
--	if (nvme_sc) {
--		res = nvme_sc;
--		goto out_dma;
--	}
-+
- 	id_ns = mem;
+-	u8 page_code;
+-	u8 pc;
  
- 	response = kzalloc(resp_size, GFP_KERNEL);
-@@ -2517,7 +2413,7 @@ static int nvme_trans_read_capacity(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 							u8 *cmd)
+-	if (GET_OPCODE(cmd) == MODE_SENSE) {
+-		alloc_len = GET_U8_FROM_CDB(cmd, MODE_SENSE6_ALLOC_LEN_OFFSET);
++	if (cmd[0] == MODE_SENSE) {
++		alloc_len = cmd[4];
+ 	} else {
+-		alloc_len = GET_U16_FROM_CDB(cmd,
+-						MODE_SENSE10_ALLOC_LEN_OFFSET);
++		alloc_len = get_unaligned_be16(&cmd[7]);
+ 		cdb10 = 1;
+ 	}
+ 
+-	pc = GET_U8_FROM_CDB(cmd, MODE_SENSE_PAGE_CONTROL_OFFSET) &
+-						MODE_SENSE_PAGE_CONTROL_MASK;
+-	if (pc != MODE_SENSE_PC_CURRENT_VALUES) {
++	if ((cmd[2] & MODE_SENSE_PAGE_CONTROL_MASK) !=
++			MODE_SENSE_PC_CURRENT_VALUES) {
+ 		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+ 					ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
+ 					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
+ 		goto out;
+ 	}
+ 
+-	page_code = GET_U8_FROM_CDB(cmd, MODE_SENSE_PAGE_CODE_OFFSET) &
+-					MODE_SENSE_PAGE_CODE_MASK;
+-	switch (page_code) {
++	switch (cmd[2] & MODE_SENSE_PAGE_CODE_MASK) {
+ 	case MODE_PAGE_CACHING:
+ 		res = nvme_trans_mode_page_create(ns, hdr, cmd, alloc_len,
+ 						cdb10,
+@@ -2359,24 +2213,25 @@ static int nvme_trans_mode_sense(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ }
+ 
+ static int nvme_trans_read_capacity(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+-							u8 *cmd)
++							u8 *cmd, u8 cdb16)
  {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
+ 	int res;
+ 	int nvme_sc;
+-	u32 alloc_len = READ_CAP_10_RESP_SIZE;
+-	u32 resp_size = READ_CAP_10_RESP_SIZE;
++	u32 alloc_len;
++	u32 resp_size;
+ 	u32 xfer_len;
+-	u8 cdb16;
+ 	struct nvme_dev *dev = ns->dev;
+ 	dma_addr_t dma_addr;
+ 	void *mem;
+ 	struct nvme_id_ns *id_ns;
+ 	u8 *response;
+ 
+-	cdb16 = IS_READ_CAP_16(cmd);
+ 	if (cdb16) {
+-		alloc_len = GET_READ_CAP_16_ALLOC_LENGTH(cmd);
++		alloc_len = get_unaligned_be32(&cmd[10]);
+ 		resp_size = READ_CAP_16_RESP_SIZE;
++	} else {
++		alloc_len = READ_CAP_10_RESP_SIZE;
++		resp_size = READ_CAP_10_RESP_SIZE;
+ 	}
+ 
+ 	mem = dma_alloc_coherent(dev->dev, sizeof(struct nvme_id_ns),
+@@ -2416,7 +2271,6 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	int res;
  	int nvme_sc;
  	u32 alloc_len, xfer_len, resp_size;
- 	u8 select_report;
-@@ -2552,10 +2448,7 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		res = nvme_trans_status_code(hdr, nvme_sc);
- 		if (res)
- 			goto out_dma;
--		if (nvme_sc) {
--			res = nvme_sc;
--			goto out_dma;
--		}
-+
- 		id_ctrl = mem;
- 		ll_length = le32_to_cpu(id_ctrl->nn) * LUN_ENTRY_SIZE;
- 		resp_size = ll_length + LUN_DATA_HEADER_SIZE;
-@@ -2601,7 +2494,7 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- static int nvme_trans_request_sense(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 							u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	u8 alloc_len, xfer_len, resp_size;
- 	u8 desc_format;
+-	u8 select_report;
  	u8 *response;
-@@ -2660,7 +2553,6 @@ static int nvme_trans_security_protocol(struct nvme_ns *ns,
- static int nvme_trans_start_stop(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 							u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
- 	int nvme_sc;
- 	struct nvme_command c;
- 	u8 immed, pcmod, pc, no_flush, start;
-@@ -2678,7 +2570,7 @@ static int nvme_trans_start_stop(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	start &= START_STOP_UNIT_CDB_START_MASK;
+ 	struct nvme_dev *dev = ns->dev;
+ 	dma_addr_t dma_addr;
+@@ -2426,17 +2280,14 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	u8 lun_id_offset = REPORT_LUNS_FIRST_LUN_OFFSET;
+ 	__be32 tmp_len;
  
- 	if (immed != 0) {
+-	alloc_len = GET_REPORT_LUNS_ALLOC_LENGTH(cmd);
+-	select_report = GET_U8_FROM_CDB(cmd, REPORT_LUNS_SR_OFFSET);
+-
+-	if ((select_report != ALL_LUNS_RETURNED) &&
+-	    (select_report != ALL_WELL_KNOWN_LUNS_RETURNED) &&
+-	    (select_report != RESTRICTED_LUNS_RETURNED)) {
 -		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
++	switch (cmd[2]) {
++	default:
 +		return nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
  					ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
  					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
- 	} else {
-@@ -2689,26 +2581,16 @@ static int nvme_trans_start_stop(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 			c.common.nsid = cpu_to_le32(ns->ns_id);
- 
- 			nvme_sc = nvme_submit_sync_cmd(ns->queue, &c);
--			res = nvme_trans_status_code(hdr, nvme_sc);
--			if (res)
--				goto out;
--			if (nvme_sc) {
--				res = nvme_sc;
--				goto out;
--			}
-+			return nvme_trans_status_code(hdr, nvme_sc);
- 		}
- 		/* Setup the expected power state transition */
--		res = nvme_trans_power_state(ns, hdr, pc, pcmod, start);
-+		return nvme_trans_power_state(ns, hdr, pc, pcmod, start);
- 	}
--
-- out:
--	return res;
- }
- 
- static int nvme_trans_synchronize_cache(struct nvme_ns *ns,
- 					struct sg_io_hdr *hdr, u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
- 	int nvme_sc;
- 	struct nvme_command c;
- 
-@@ -2717,20 +2599,13 @@ static int nvme_trans_synchronize_cache(struct nvme_ns *ns,
- 	c.common.nsid = cpu_to_le32(ns->ns_id);
- 
- 	nvme_sc = nvme_submit_sync_cmd(ns->queue, &c);
--	res = nvme_trans_status_code(hdr, nvme_sc);
--	if (res)
 -		goto out;
--	if (nvme_sc)
--		res = nvme_sc;
--
-- out:
--	return res;
-+	return nvme_trans_status_code(hdr, nvme_sc);
- }
+-	} else {
++	case ALL_LUNS_RETURNED:
++	case ALL_WELL_KNOWN_LUNS_RETURNED:
++	case RESTRICTED_LUNS_RETURNED:
+ 		/* NVMe Controller Identify */
+ 		mem = dma_alloc_coherent(dev->dev, sizeof(struct nvme_id_ctrl),
+ 					&dma_addr, GFP_KERNEL);
+@@ -2453,6 +2304,7 @@ static int nvme_trans_report_luns(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 		ll_length = le32_to_cpu(id_ctrl->nn) * LUN_ENTRY_SIZE;
+ 		resp_size = ll_length + LUN_DATA_HEADER_SIZE;
  
- static int nvme_trans_format_unit(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 							u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res;
- 	u8 parm_hdr_len = 0;
++		alloc_len = get_unaligned_be32(&cmd[6]);
+ 		if (alloc_len < resp_size) {
+ 			res = nvme_trans_completion(hdr,
+ 					SAM_STAT_CHECK_CONDITION,
+@@ -2499,9 +2351,8 @@ static int nvme_trans_request_sense(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	u8 desc_format;
+ 	u8 *response;
+ 
+-	alloc_len = GET_REQUEST_SENSE_ALLOC_LENGTH(cmd);
+-	desc_format = GET_U8_FROM_CDB(cmd, REQUEST_SENSE_DESC_OFFSET);
+-	desc_format &= REQUEST_SENSE_DESC_MASK;
++	desc_format = cmd[1] & 0x01;
++	alloc_len = cmd[4];
+ 
+ 	resp_size = ((desc_format) ? (DESC_FMT_SENSE_DATA_SIZE) :
+ 					(FIXED_FMT_SENSE_DATA_SIZE));
+@@ -2511,7 +2362,7 @@ static int nvme_trans_request_sense(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 		goto out;
+ 	}
+ 
+-	if (desc_format == DESCRIPTOR_FORMAT_SENSE_DATA_TYPE) {
++	if (desc_format) {
+ 		/* Descriptor Format Sense Data */
+ 		response[0] = DESC_FORMAT_SENSE_DATA;
+ 		response[1] = NO_SENSE;
+@@ -2557,17 +2408,11 @@ static int nvme_trans_start_stop(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	struct nvme_command c;
+ 	u8 immed, pcmod, pc, no_flush, start;
+ 
+-	immed = GET_U8_FROM_CDB(cmd, START_STOP_UNIT_CDB_IMMED_OFFSET);
+-	pcmod = GET_U8_FROM_CDB(cmd, START_STOP_UNIT_CDB_POWER_COND_MOD_OFFSET);
+-	pc = GET_U8_FROM_CDB(cmd, START_STOP_UNIT_CDB_POWER_COND_OFFSET);
+-	no_flush = GET_U8_FROM_CDB(cmd, START_STOP_UNIT_CDB_NO_FLUSH_OFFSET);
+-	start = GET_U8_FROM_CDB(cmd, START_STOP_UNIT_CDB_START_OFFSET);
+-
+-	immed &= START_STOP_UNIT_CDB_IMMED_MASK;
+-	pcmod &= START_STOP_UNIT_CDB_POWER_COND_MOD_MASK;
+-	pc = (pc & START_STOP_UNIT_CDB_POWER_COND_MASK) >> NIBBLE_SHIFT;
+-	no_flush &= START_STOP_UNIT_CDB_NO_FLUSH_MASK;
+-	start &= START_STOP_UNIT_CDB_START_MASK;
++	immed = cmd[1] & 0x01;
++	pcmod = cmd[3] & 0x0f;
++	pc = (cmd[4] & 0xf0) >> 4;
++	no_flush = cmd[4] & 0x04;
++	start = cmd[4] & 0x01;
+ 
+ 	if (immed != 0) {
+ 		return nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+@@ -2610,16 +2455,9 @@ static int nvme_trans_format_unit(struct nvme_ns *ns, struct sg_io_hdr *hdr,
  	u8 nvme_pf_code = 0;
  	u8 format_prot_info, long_list, format_data;
-@@ -2768,7 +2643,7 @@ static int nvme_trans_format_unit(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	if (parm_hdr_len > 0) {
- 		res = nvme_trans_fmt_get_parm_header(hdr, parm_hdr_len,
- 					format_prot_info, &nvme_pf_code);
--		if (res != SNTI_TRANSLATION_SUCCESS)
-+		if (res)
- 			goto out;
- 	}
  
-@@ -2777,7 +2652,7 @@ static int nvme_trans_format_unit(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 
- 	/* Determine Block size and count and send format command */
- 	res = nvme_trans_fmt_set_blk_size_count(ns, hdr);
--	if (res != SNTI_TRANSLATION_SUCCESS)
-+	if (res)
- 		goto out;
- 
- 	res = nvme_trans_fmt_send_cmd(ns, hdr, nvme_pf_code);
-@@ -2790,23 +2665,20 @@ static int nvme_trans_test_unit_ready(struct nvme_ns *ns,
- 					struct sg_io_hdr *hdr,
- 					u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
- 	struct nvme_dev *dev = ns->dev;
- 
- 	if (!(readl(&dev->bar->csts) & NVME_CSTS_RDY))
--		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
-+		return nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
- 					    NOT_READY, SCSI_ASC_LUN_NOT_READY,
- 					    SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
- 	else
--		res = nvme_trans_completion(hdr, SAM_STAT_GOOD, NO_SENSE, 0, 0);
+-	format_prot_info = GET_U8_FROM_CDB(cmd,
+-				FORMAT_UNIT_CDB_FORMAT_PROT_INFO_OFFSET);
+-	long_list = GET_U8_FROM_CDB(cmd, FORMAT_UNIT_CDB_LONG_LIST_OFFSET);
+-	format_data = GET_U8_FROM_CDB(cmd, FORMAT_UNIT_CDB_FORMAT_DATA_OFFSET);
 -
--	return res;
-+		return nvme_trans_completion(hdr, SAM_STAT_GOOD, NO_SENSE, 0, 0);
- }
+-	format_prot_info = (format_prot_info &
+-				FORMAT_UNIT_CDB_FORMAT_PROT_INFO_MASK) >>
+-				FORMAT_UNIT_CDB_FORMAT_PROT_INFO_SHIFT;
+-	long_list &= FORMAT_UNIT_CDB_LONG_LIST_MASK;
+-	format_data &= FORMAT_UNIT_CDB_FORMAT_DATA_MASK;
++	format_prot_info = (cmd[1] & 0xc0) >> 6;
++	long_list = cmd[1] & 0x20;
++	format_data = cmd[1] & 0x10;
  
- static int nvme_trans_write_buffer(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 							u8 *cmd)
- {
--	int res = SNTI_TRANSLATION_SUCCESS;
-+	int res = 0;
+ 	if (format_data != 0) {
+ 		if (format_prot_info != 0) {
+@@ -2682,8 +2520,7 @@ static int nvme_trans_write_buffer(struct nvme_ns *ns, struct sg_io_hdr *hdr,
  	u32 buffer_offset, parm_list_length;
  	u8 buffer_id, mode;
  
-@@ -2836,7 +2708,7 @@ static int nvme_trans_write_buffer(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		res = nvme_trans_send_download_fw_cmd(ns, hdr, nvme_admin_download_fw,
- 						parm_list_length, buffer_offset,
- 						buffer_id);
--		if (res != SNTI_TRANSLATION_SUCCESS)
-+		if (res)
- 			goto out;
- 		res = nvme_trans_send_activate_fw_cmd(ns, hdr, buffer_id);
- 		break;
-@@ -2892,7 +2764,7 @@ static int nvme_trans_unmap(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		return -ENOMEM;
- 
- 	res = nvme_trans_copy_from_user(hdr, plist, list_len);
--	if (res != SNTI_TRANSLATION_SUCCESS)
-+	if (res)
+-	parm_list_length =
+-		GET_U24_FROM_CDB(cmd, WRITE_BUFFER_CDB_PARM_LIST_LENGTH_OFFSET);
++	parm_list_length = get_unaligned_be24(&cmd[6]);
+ 	if (parm_list_length % BYTES_TO_DWORDS != 0) {
+ 		/* NVMe expects Firmware file to be a whole number of DWORDS */
+ 		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+@@ -2691,17 +2528,15 @@ static int nvme_trans_write_buffer(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
  		goto out;
+ 	}
+-	buffer_id = GET_U8_FROM_CDB(cmd, WRITE_BUFFER_CDB_BUFFER_ID_OFFSET);
++	buffer_id = cmd[2];
+ 	if (buffer_id > NVME_MAX_FIRMWARE_SLOT) {
+ 		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+ 					ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
+ 					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
+ 		goto out;
+ 	}
+-	mode = GET_U8_FROM_CDB(cmd, WRITE_BUFFER_CDB_MODE_OFFSET) &
+-						WRITE_BUFFER_CDB_MODE_MASK;
+-	buffer_offset =
+-		GET_U24_FROM_CDB(cmd, WRITE_BUFFER_CDB_BUFFER_OFFSET_OFFSET);
++	mode = cmd[1] & 0x1f;
++	buffer_offset = get_unaligned_be24(&cmd[3]);
  
- 	ndesc = be16_to_cpu(plist->unmap_blk_desc_data_len) >> 4;
-@@ -3037,15 +2909,16 @@ int nvme_sg_io(struct nvme_ns *ns, struct sg_io_hdr __user *u_hdr)
- 	if (hdr.cmd_len > BLK_MAX_CDB)
+ 	switch (mode) {
+ 	case DOWNLOAD_SAVE_ACTIVATE:
+@@ -2755,7 +2590,7 @@ static int nvme_trans_unmap(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	u16 ndesc, list_len;
+ 	dma_addr_t dma_addr;
+ 
+-	list_len = GET_U16_FROM_CDB(cmd, UNMAP_CDB_PARAM_LIST_LENGTH_OFFSET);
++	list_len = get_unaligned_be16(&cmd[7]);
+ 	if (!list_len)
  		return -EINVAL;
  
-+	/*
-+	 * A positive return code means a NVMe status, which has been
-+	 * translated to sense data.
-+	 */
- 	retcode = nvme_scsi_translate(ns, &hdr);
- 	if (retcode < 0)
- 		return retcode;
--	if (retcode > 0)
--		retcode = SNTI_TRANSLATION_SUCCESS;
- 	if (copy_to_user(u_hdr, &hdr, sizeof(sg_io_hdr_t)) > 0)
- 		return -EFAULT;
--
--	return retcode;
-+	return 0;
- }
- 
- int nvme_sg_get_version_num(int __user *ip)
+@@ -2849,13 +2684,16 @@ static int nvme_scsi_translate(struct nvme_ns *ns, struct sg_io_hdr *hdr)
+ 		retcode = nvme_trans_mode_sense(ns, hdr, cmd);
+ 		break;
+ 	case READ_CAPACITY:
+-		retcode = nvme_trans_read_capacity(ns, hdr, cmd);
++		retcode = nvme_trans_read_capacity(ns, hdr, cmd, 0);
+ 		break;
+ 	case SERVICE_ACTION_IN_16:
+-		if (IS_READ_CAP_16(cmd))
+-			retcode = nvme_trans_read_capacity(ns, hdr, cmd);
+-		else
++		switch (cmd[1]) {
++		case SAI_READ_CAPACITY_16:
++			retcode = nvme_trans_read_capacity(ns, hdr, cmd, 1);
++			break;
++		default:
+ 			goto out;
++		}
+ 		break;
+ 	case REPORT_LUNS:
+ 		retcode = nvme_trans_report_luns(ns, hdr, cmd);
 -- 
 1.9.1
