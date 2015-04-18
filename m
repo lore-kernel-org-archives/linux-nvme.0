@@ -1,62 +1,57 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sat, 18 Apr 2015 13:16:10 -0700
-Subject: [PATCH 1/5 v2] blk-mq: Add prep/unprep support
-In-Reply-To: <5531FD7F.8070809@bjorling.me>
-References: <1429101284-19490-1-git-send-email-m@bjorling.me>
- <1429101284-19490-2-git-send-email-m@bjorling.me>
- <20150417063439.GB389@infradead.org> <5530C132.30107@bjorling.me>
- <20150417174630.GA10249@infradead.org>
- <5531FD7F.8070809@bjorling.me>
-Message-ID: <20150418201610.GB20311@infradead.org>
+From: axboe@fb.com (Jens Axboe)
+Date: Sat, 18 Apr 2015 14:17:28 -0600
+Subject: [PATCH v2] NVMe: allow discard timeouts to be configurable
+Message-ID: <20150418201728.GA19441@kernel.dk>
 
-On Sat, Apr 18, 2015@08:45:19AM +0200, Matias Bjorling wrote:
-> The low level drivers will be NVMe and vendor's own PCI-e drivers. It's very
-> generic in their nature. Each driver would duplicate the same work. Both
-> could have normal and open-channel drives attached.
 
-I didn't say the work should move into the driver, bur rather that
-driver should talk to the open channel ssd code directly instead of
-hooking into the core block code.
+On some devices, size of discard will impact how long it takes to
+process, and full device discards can run into the 1-2min range. The
+default IO timeout is 30 seconds, and even though that is configurable,
+it'd be nice to keep that at a lower value and add a separate module
+parameter for discard timeouts.
 
-> I'll like to keep blk-mq in the loop. I don't think it will be pretty to
-> have two data paths in the drivers. For blk-mq, bios are splitted/merged on
-> the way down. Thus, the actual physical addresses needs aren't known before
-> the IO is diced to the right size.
+This patch adds that module parameter, and also defaults timeouts to 300
+seconds instead of 30 seconds. That _should_ be enough for everyone.
 
-But you _do_ have two different data path already.  Nothing says you
-can't use blk-mq for your data path, ut it should be a separate entry
-point.  Similar to say how a SCSI disk and MMC device both use the block
-layer but still use different entry points.
+Signed-off-by: Jens Axboe <axboe at fb.com>
+---
 
-> The reason it shouldn't be under the a single block device, is that a target
-> should be able to provide a global address space.
-> That allows the address
-> space to grow/shrink dynamically with the disks. Allowing a continuously
-> growing address space, where disks can be added/removed as requirements grow
-> or flash ages. Not on a sector level, but on a flash block level.
+Changes since v1:
 
-I don't understand what you mean with a single block device here, but I
-suspect we're talking past each other somehow.
+- Move timeout setting into the DISCARD branch of request setup
+  earlier, which saves a branch.
 
-> >>In the future, applications can have an API to get/put flash block directly.
-> >>(using the blk_nvm_[get/put]_blk interface).
-> >
-> >s/application/filesystem/?
-> >
-> 
-> Applications. The goal is that key value stores, e.g. RocksDB, Aerospike,
-> Ceph and similar have direct access to flash storage. There won't be a
-> kernel file-system between.
-> 
-> The get/put interface can be seen as a space reservation interface for where
-> a given process is allowed to access the storage media.
-> 
-> It can also be seen in the way that we provide a block allocator in the
-> kernel, while applications implement the rest of "file-system" in
-> user-space, specially optimized for their data structures. This makes a lot
-> of sense for a small subset (LSM, Fractal trees, etc.) of database
-> applications.
+ nvme-core.c |   10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-While we'll need a proper API for that first it's just another reason of
-why we shouldnt shoe horn the open channel ssd support into the block
-layer.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 85b8036deaa3..4a5b107aee22 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -58,6 +58,10 @@ unsigned char nvme_io_timeout = 30;
+ module_param_named(io_timeout, nvme_io_timeout, byte, 0644);
+ MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
+ 
++unsigned int nvme_discard_timeout = 300;
++module_param_named(discard_timeout, nvme_discard_timeout, uint, 0644);
++MODULE_PARM_DESC(discard_timeout, "timeout in seconds for discard I/O");
++
+ static unsigned char shutdown_timeout = 5;
+ module_param(shutdown_timeout, byte, 0644);
+ MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
+@@ -848,6 +852,12 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 			goto retry_cmd;
+ 		iod_list(iod)[0] = (__le64 *)range;
+ 		iod->npages = 0;
++
++		/*
++		 * Set the discard specific timeout here, before calling
++		 * nvme_set_info() which does blk_mq_start_request().
++		 */
++		req->timeout = nvme_discard_timeout * HZ;
+ 	} else if (req->nr_phys_segments) {
+ 		dma_dir = rq_data_dir(req) ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
+ 
+
+-- 
+Jens Axboe
