@@ -1,21 +1,29 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Sun, 19 Apr 2015 16:01:14 +0000 (UTC)
-Subject: Latency of sequential vs. random small writes
-In-Reply-To: <1429382376563.7463@ren.systems>
-References: <1429382376563.7463@ren.systems>
-Message-ID: <alpine.LNX.2.00.1504191549240.32385@localhost.lm.intel.com>
+From: m@bjorling.me (Matias Bjorling)
+Date: Sun, 19 Apr 2015 20:12:58 +0200
+Subject: [PATCH 1/5 v2] blk-mq: Add prep/unprep support
+In-Reply-To: <20150418201610.GB20311@infradead.org>
+References: <1429101284-19490-1-git-send-email-m@bjorling.me>
+ <1429101284-19490-2-git-send-email-m@bjorling.me>
+ <20150417063439.GB389@infradead.org> <5530C132.30107@bjorling.me>
+ <20150417174630.GA10249@infradead.org> <5531FD7F.8070809@bjorling.me>
+ <20150418201610.GB20311@infradead.org>
+Message-ID: <5533F02A.6020208@bjorling.me>
 
-On Sat, 18 Apr 2015, Jinglei Ren wrote:
-> I am trying NVMe user utilities (http://git.infradead.org/users/kbusch/nvme-user.git) on Intel SSD DC P3600, but find some counterintuitive results.
+> On Sat, Apr 18, 2015@08:45:19AM +0200, Matias Bjorling wrote:
+<snip>
+>> The reason it shouldn't be under the a single block device, is that a target
+>> should be able to provide a global address space.
+>> That allows the address
+>> space to grow/shrink dynamically with the disks. Allowing a continuously
+>> growing address space, where disks can be added/removed as requirements grow
+>> or flash ages. Not on a sector level, but on a flash block level.
 >
-> Why individual latency of sequential 512-bytes writes is much larger than that of random ones?
->
-> In my program, I issue 100 writes via ioctl(), whose "nblocks" is set to 0, i.e., 512 bytes. "Sequential" writes mean their "slba" (starting logical block address) is from 0 to 100 in order, while "random" writes mean their "slba" is a random number (below 1000 in my case). I calculate the average time to complete each ioctl() call. As a result, sequential writes each see whopping 1500+ usec latency, while random ones see only around 80 usec each.
+> I don't understand what you mean with a single block device here, but I
+> suspect we're talking past each other somehow.
 
-This drive has a 4k physical sector. Writing less than or unaligned to
-that takes a slower path that you've found with your sequential write
-workload. The most recent f/w on downloadcenter.intel.com has improvements,
-though 4k writes will always be faster.
+Sorry. I meant that several block devices should form a single address 
+space (exposed as a single block device), consisting of all the flash 
+blocks. Applications could then get/put from that.
 
-Unless you have a reason to use 512b sectors, I usually recommend
-formatting namespaces to the native 4k sector for best performance.
+Thanks for your feedback. I'll push the pieces around and make the 
+integration self-contained outside of the block layer.
