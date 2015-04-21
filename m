@@ -1,34 +1,49 @@
-From: jmoyer@redhat.com (Jeff Moyer)
-Date: Tue, 21 Apr 2015 09:44:44 -0400
-Subject: [PATCH 1/2] added stream id write support
-In-Reply-To: <1429580863-3451-2-git-send-email-kwan.huen@samsung.com> (kwan
- huen's message of "Mon, 20 Apr 2015 18:47:42 -0700")
+From: kwan.huen@ssi.samsung.com (Kwan (Hingkwan) Huen-SSI)
+Date: Tue, 21 Apr 2015 17:48:33 +0000
+Subject: [PATCH 2/2] added two nvme commands for open/close streams and
+ garbage collection
+In-Reply-To: <100D68C7BA14664A8938383216E40DE040897FBB@FMSMSX114.amr.corp.intel.com>
 References: <1429580863-3451-1-git-send-email-kwan.huen@samsung.com>
- <1429580863-3451-2-git-send-email-kwan.huen@samsung.com>
-Message-ID: <x49y4ll8uk3.fsf@segfault.boston.devel.redhat.com>
+ <1429580863-3451-3-git-send-email-kwan.huen@samsung.com>,
+ <100D68C7BA14664A8938383216E40DE040897FBB@FMSMSX114.amr.corp.intel.com>
+Message-ID: <87B8B7C67ECB1048AE5FA3C64D62B73E97B494@SSIEXCH-MB3.ssi.samsung.com>
 
-"kwan.huen" <kwan.huen at samsung.com> writes:
+Thanks Matthew for the review!
+Agree that this is still a bit early. We are in the process of getting the spec approved and will push these patches again after it goes on-line.
+Thanks,
+kwan 
+________________________________________
+From: Wilcox, Matthew R [matthew.r.wilcox@intel.com]
+Sent: Tuesday, April 21, 2015 6:21 AM
+To: kwan.huen; Busch, Keith; Jens Axboe; Dimitri John Ledkov
+Cc: linux-nvme at lists.infradead.org; linux-kernel at vger.kernel.org; linux-api at vger.kernel.org
+Subject: RE: [PATCH 2/2] added two nvme commands for open/close streams and garbage collection
 
-> ---
->  drivers/block/nvme-core.c | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index 85b8036..332341a 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -769,6 +769,9 @@ static int nvme_submit_iod(struct nvme_queue *nvmeq, struct nvme_iod *iod,
->  	if (req->cmd_flags & REQ_RAHEAD)
->  		dsmgmt |= NVME_RW_DSM_FREQ_PREFETCH;
->  
-> +	if (rq_data_dir(req))
-> +		dsmgmt |= bio_get_streamid(req->bio) << 8;
-> +
+Woah, woah, woah!  Those command IDs have *NOT* been assigned by the NVMe working group!  NACK this patch!
 
-There's no public specification for this, yet.  How many bits are set
-aside for the stream id?  Do you need to do bounds checking/input
-validation?  What happens on adapters with older firmware when these
-bits are set?
+-----Original Message-----
+From: kwan.huen [mailto:kwan.huen@samsung.com]
+Sent: Monday, April 20, 2015 6:48 PM
+To: Wilcox, Matthew R; Busch, Keith; Jens Axboe; kwan.huen at samsung.com; Dimitri John Ledkov
+Cc: linux-nvme at lists.infradead.org; linux-kernel at vger.kernel.org; linux-api at vger.kernel.org
+Subject: [PATCH 2/2] added two nvme commands for open/close streams and garbage collection
 
-Cheers,
-Jeff
+---
+ include/uapi/linux/nvme.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
+index aef9a81..5025610 100644
+--- a/include/uapi/linux/nvme.h
++++ b/include/uapi/linux/nvme.h
+@@ -229,6 +229,8 @@ enum nvme_opcode {
+        nvme_cmd_resv_report    = 0x0e,
+        nvme_cmd_resv_acquire   = 0x11,
+        nvme_cmd_resv_release   = 0x15,
++       nvme_cmd_stream_ctrl    = 0x18,
++       nvme_cmd_gc_ctrl        = 0x1c,
+ };
+
+ struct nvme_common_command {
+--
+1.9.1
