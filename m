@@ -1,27 +1,83 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 29 Apr 2015 12:20:21 -0600
-Subject: [PATCH 1/2] blk: Define blk_set_queue_dying in header
-Message-ID: <1430331622-12638-1-git-send-email-keith.busch@intel.com>
+Date: Wed, 29 Apr 2015 12:20:22 -0600
+Subject: [PATCH 2/2] NVMe: Kill request queues on dead controllers
+In-Reply-To: <1430331622-12638-1-git-send-email-keith.busch@intel.com>
+References: <1430331622-12638-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1430331622-12638-2-git-send-email-keith.busch@intel.com>
 
-The 'blk_set_queue_dying()' function is an exported symbol, but it wasn't
-defined in a header so wasn't usable to other components.
+This fixes device removal from waiting forever on a h/w queue that isn't
+available. There are two parts for this:
 
+First, the controller is shutdown after the disks are removed. This
+allows del_gendisk to sync dirty pages in an orderly removal scenario.
+
+Second, if the nvme controller is incapable of performing IO, kill the
+request queue prior to deleting gendisks. This prevents del_gendisk
+from waiting indefinitely to sync dirty pages when there controller is
+no longer accepting new requests.
+
+Reported-by: Sunad Bhandary <sunad.s at samsung.com>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- include/linux/blkdev.h |    1 +
- 1 file changed, 1 insertion(+)
+ drivers/block/nvme-core.c |   20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 7f9a516..105a48a 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1000,6 +1000,7 @@ extern struct request_queue *blk_init_queue_node(request_fn_proc *rfn,
- extern struct request_queue *blk_init_queue(request_fn_proc *, spinlock_t *);
- extern struct request_queue *blk_init_allocated_queue(struct request_queue *,
- 						      request_fn_proc *, spinlock_t *);
-+extern void blk_set_queue_dying(struct request_queue *q);
- extern void blk_cleanup_queue(struct request_queue *);
- extern void blk_queue_make_request(struct request_queue *, make_request_fn *);
- extern void blk_queue_bounce_limit(struct request_queue *, u64);
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 85b8036..77aa061 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2633,17 +2633,31 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 		nvme_clear_queue(dev->queues[i]);
+ }
+ 
++static inline bool nvme_io_incapable(struct nvme_dev *dev)
++{
++	return (!dev->bar || readl(&dev->bar->csts) == -1 ||
++						dev->online_queues < 2);
++}
++
+ static void nvme_dev_remove(struct nvme_dev *dev)
+ {
+ 	struct nvme_ns *ns;
+ 
++	/*
++	 * If controller is not IO capable, kill request queues prior to
++	 * deleting gendisks to prevent filesystem sync from blocking.
++	 */
++	bool kill = nvme_io_incapable(dev);
++
+ 	list_for_each_entry(ns, &dev->namespaces, list) {
++		if (kill && !blk_queue_dying(ns->queue))
++			blk_set_queue_dying(ns->queue);
+ 		if (ns->disk->flags & GENHD_FL_UP) {
+ 			if (blk_get_integrity(ns->disk))
+ 				blk_integrity_unregister(ns->disk);
+ 			del_gendisk(ns->disk);
+ 		}
+-		if (!blk_queue_dying(ns->queue)) {
++		if (kill || !blk_queue_dying(ns->queue)) {
+ 			blk_mq_abort_requeue_list(ns->queue);
+ 			blk_cleanup_queue(ns->queue);
+ 		}
+@@ -2879,8 +2893,8 @@ static void nvme_remove_disks(struct work_struct *ws)
+ {
+ 	struct nvme_dev *dev = container_of(ws, struct nvme_dev, reset_work);
+ 
+-	nvme_free_queues(dev, 1);
+ 	nvme_dev_remove(dev);
++	nvme_free_queues(dev, 1);
+ }
+ 
+ static int nvme_dev_resume(struct nvme_dev *dev)
+@@ -3042,8 +3056,8 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	pci_set_drvdata(pdev, NULL);
+ 	flush_work(&dev->probe_work);
+ 	flush_work(&dev->reset_work);
+-	nvme_dev_shutdown(dev);
+ 	nvme_dev_remove(dev);
++	nvme_dev_shutdown(dev);
+ 	nvme_dev_remove_admin(dev);
+ 	device_destroy(nvme_class, MKDEV(nvme_char_major, dev->instance));
+ 	nvme_free_queues(dev, 0);
 -- 
 1.7.10.4
