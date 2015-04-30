@@ -1,83 +1,50 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 29 Apr 2015 12:20:22 -0600
-Subject: [PATCH 2/2] NVMe: Kill request queues on dead controllers
-In-Reply-To: <1430331622-12638-1-git-send-email-keith.busch@intel.com>
-References: <1430331622-12638-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1430331622-12638-2-git-send-email-keith.busch@intel.com>
+From: dingxiang@huawei.com (dingxiang)
+Date: Thu, 30 Apr 2015 09:26:13 +0800
+Subject: some questions about create I/O queues
+In-Reply-To: <alpine.LNX.2.00.1504291321260.15930@localhost.lm.intel.com>
+References: <1425382201-2556-1-git-send-email-sunad.s@samsung.com>
+ <004301d060aa$99924070$ccb6c150$@samsung.com>
+ <20150317125914.GB4003@linux.intel.com> <5540471F.5030606@huawei.com>
+ <alpine.LNX.2.00.1504291321260.15930@localhost.lm.intel.com>
+Message-ID: <554184B5.8070207@huawei.com>
 
-This fixes device removal from waiting forever on a h/w queue that isn't
-available. There are two parts for this:
+On 2015/4/29 21:22, Keith Busch wrote:
 
-First, the controller is shutdown after the disks are removed. This
-allows del_gendisk to sync dirty pages in an orderly removal scenario.
+> On Tue, 28 Apr 2015, dingxiang wrote:
+>>   When I create I/O queues and not create from qid 1,for example, I create
+>>   from qid 3,then I insmod nvme driver, there will be some error information as below
+> 
+> How did you manage to create IO queues starting from QID 3 when the
+> driver wasn't loaded?
+> 
+> 
 
-Second, if the nvme controller is incapable of performing IO, kill the
-request queue prior to deleting gendisks. This prevents del_gendisk
-from waiting indefinitely to sync dirty pages when there controller is
-no longer accepting new requests.
+HI,Keith
+   I have modified two places to create queues from QID 3 before the driver loaded,
+details are as follows:
+   kernel version:3.10
 
-Reported-by: Sunad Bhandary <sunad.s at samsung.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |   20 +++++++++++++++++---
- 1 file changed, 17 insertions(+), 3 deletions(-)
+diff --git a/nvme-core.c b/nvme-core.c
+index ce79a59..8325b58 100644
+--- a/nvme-core.c
++++ b/nvme-core.c
+@@ -226,7 +226,7 @@ static void *cancel_cmdid(struct nvme_queue *nvmeq, int cmdid,
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 85b8036..77aa061 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2633,17 +2633,31 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 		nvme_clear_queue(dev->queues[i]);
- }
- 
-+static inline bool nvme_io_incapable(struct nvme_dev *dev)
-+{
-+	return (!dev->bar || readl(&dev->bar->csts) == -1 ||
-+						dev->online_queues < 2);
-+}
-+
- static void nvme_dev_remove(struct nvme_dev *dev)
+ struct nvme_queue *get_nvmeq(struct nvme_dev *dev)
  {
- 	struct nvme_ns *ns;
- 
-+	/*
-+	 * If controller is not IO capable, kill request queues prior to
-+	 * deleting gendisks to prevent filesystem sync from blocking.
-+	 */
-+	bool kill = nvme_io_incapable(dev);
-+
- 	list_for_each_entry(ns, &dev->namespaces, list) {
-+		if (kill && !blk_queue_dying(ns->queue))
-+			blk_set_queue_dying(ns->queue);
- 		if (ns->disk->flags & GENHD_FL_UP) {
- 			if (blk_get_integrity(ns->disk))
- 				blk_integrity_unregister(ns->disk);
- 			del_gendisk(ns->disk);
- 		}
--		if (!blk_queue_dying(ns->queue)) {
-+		if (kill || !blk_queue_dying(ns->queue)) {
- 			blk_mq_abort_requeue_list(ns->queue);
- 			blk_cleanup_queue(ns->queue);
- 		}
-@@ -2879,8 +2893,8 @@ static void nvme_remove_disks(struct work_struct *ws)
- {
- 	struct nvme_dev *dev = container_of(ws, struct nvme_dev, reset_work);
- 
--	nvme_free_queues(dev, 1);
- 	nvme_dev_remove(dev);
-+	nvme_free_queues(dev, 1);
+-       return dev->queues[get_cpu() + 1];
++       return dev->queues[3];
  }
- 
- static int nvme_dev_resume(struct nvme_dev *dev)
-@@ -3042,8 +3056,8 @@ static void nvme_remove(struct pci_dev *pdev)
- 	pci_set_drvdata(pdev, NULL);
- 	flush_work(&dev->probe_work);
- 	flush_work(&dev->reset_work);
--	nvme_dev_shutdown(dev);
- 	nvme_dev_remove(dev);
-+	nvme_dev_shutdown(dev);
- 	nvme_dev_remove_admin(dev);
- 	device_destroy(nvme_class, MKDEV(nvme_char_major, dev->instance));
- 	nvme_free_queues(dev, 0);
--- 
-1.7.10.4
+
+ void put_nvmeq(struct nvme_queue *nvmeq)
+@@ -1703,7 +1703,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+
+        q_depth = min_t(int, NVME_CAP_MQES(readq(&dev->bar->cap)) + 1,
+                                                                NVME_Q_DEPTH);
+-       for (i = 0; i < nr_io_queues; i++) {
++       for (i = 2; i < nr_io_queues; i++) {
+                dev->queues[i + 1] = nvme_create_queue(dev, i + 1, q_depth, i);
+                if (IS_ERR(dev->queues[i + 1]))
+                        return PTR_ERR(dev->queues[i + 1]);
+
+   Thanks !
