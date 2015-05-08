@@ -1,137 +1,38 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri,  8 May 2015 18:00:33 +0200
-Subject: [PATCH 08/11] nvme: simplify and cleanup the READ/WRITE SCSI CDB
- parsing code
+Date: Fri,  8 May 2015 18:00:34 +0200
+Subject: [PATCH 09/11] nvme: report the DPOFUA in MODE_SENSE
 In-Reply-To: <1431100836-28112-1-git-send-email-hch@lst.de>
 References: <1431100836-28112-1-git-send-email-hch@lst.de>
-Message-ID: <1431100836-28112-9-git-send-email-hch@lst.de>
+Message-ID: <1431100836-28112-10-git-send-email-hch@lst.de>
+
+NVMe device always support the FUA bit, and the SCSI translations
+accepts the DPO bit, which doesn't have much of a meaning for us.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/block/nvme-scsi.c | 78 +++++++++++++++--------------------------------
- 1 file changed, 24 insertions(+), 54 deletions(-)
+ drivers/block/nvme-scsi.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index 4e89313..56f2790 100644
+index 56f2790..19b21cc 100644
 --- a/drivers/block/nvme-scsi.c
 +++ b/drivers/block/nvme-scsi.c
-@@ -107,12 +107,6 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
- #define EXTENDED_INQUIRY_DATA_PAGE_LENGTH		0x3C
- #define RESERVED_FIELD					0
+@@ -998,14 +998,14 @@ static int nvme_trans_fill_mode_parm_hdr(u8 *resp, int len, u8 cdb10, u8 llbaa,
+ 	if (cdb10) {
+ 		resp[0] = (mode_data_length & 0xFF00) >> 8;
+ 		resp[1] = (mode_data_length & 0x00FF);
+-		/* resp[2] and [3] are zero */
++		resp[3] = 0x10 /* DPOFUA */;
+ 		resp[4] = llbaa;
+ 		resp[5] = RESERVED_FIELD;
+ 		resp[6] = (blk_desc_len & 0xFF00) >> 8;
+ 		resp[7] = (blk_desc_len & 0x00FF);
+ 	} else {
+ 		resp[0] = (mode_data_length & 0x00FF);
+-		/* resp[1] and [2] are zero */
++		resp[2] = 0x10 /* DPOFUA */;
+ 		resp[3] = (blk_desc_len & 0x00FF);
+ 	}
  
--/* SCSI READ/WRITE Defines */
--#define IO_CDB_WP_MASK					0xE0
--#define IO_CDB_WP_SHIFT					5
--#define IO_CDB_FUA_MASK					0x8
--#define IO_6_CDB_LBA_MASK				0x001FFFFF
--
- /* Mode Sense/Select defines */
- #define MODE_PAGE_INFO_EXCEP				0x1C
- #define MODE_PAGE_CACHING				0x08
-@@ -1762,48 +1756,6 @@ static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	return res;
- }
- 
--/* Read/Write Helper Functions */
--
--static inline void nvme_trans_get_io_cdb6(u8 *cmd,
--					struct nvme_trans_io_cdb *cdb_info)
--{
--	cdb_info->fua = 0;
--	cdb_info->prot_info = 0;
--	cdb_info->lba = get_unaligned_be32(&cmd[0]) & IO_6_CDB_LBA_MASK;
--	cdb_info->xfer_len = cmd[4];
--
--	/* sbc3r27 sec 5.32 - TRANSFER LEN of 0 implies a 256 Block transfer */
--	if (cdb_info->xfer_len == 0)
--		cdb_info->xfer_len = 256;
--}
--
--static inline void nvme_trans_get_io_cdb10(u8 *cmd,
--					struct nvme_trans_io_cdb *cdb_info)
--{
--	cdb_info->fua = cmd[1] & IO_CDB_FUA_MASK;
--	cdb_info->prot_info = cmd[1] & IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
--	cdb_info->lba = get_unaligned_be32(&cmd[2]);
--	cdb_info->xfer_len = get_unaligned_be16(&cmd[7]);
--}
--
--static inline void nvme_trans_get_io_cdb12(u8 *cmd,
--					struct nvme_trans_io_cdb *cdb_info)
--{
--	cdb_info->fua = cmd[1] & IO_CDB_FUA_MASK;
--	cdb_info->prot_info = cmd[1] & IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
--	cdb_info->lba = get_unaligned_be32(&cmd[2]);
--	cdb_info->xfer_len = get_unaligned_be32(&cmd[6]);
--}
--
--static inline void nvme_trans_get_io_cdb16(u8 *cmd,
--					struct nvme_trans_io_cdb *cdb_info)
--{
--	cdb_info->fua = cmd[1] & IO_CDB_FUA_MASK;
--	cdb_info->prot_info = cmd[1] & IO_CDB_WP_MASK >> IO_CDB_WP_SHIFT;
--	cdb_info->lba = get_unaligned_be64(&cmd[2]);
--	cdb_info->xfer_len = get_unaligned_be32(&cmd[10]);
--}
--
- static inline u32 nvme_trans_io_get_num_cmds(struct sg_io_hdr *hdr,
- 					struct nvme_trans_io_cdb *cdb_info,
- 					u32 max_blocks)
-@@ -1928,7 +1880,7 @@ static int nvme_trans_io(struct nvme_ns *ns, struct sg_io_hdr *hdr, u8 is_write,
- 							u8 *cmd)
- {
- 	int res = 0;
--	struct nvme_trans_io_cdb cdb_info;
-+	struct nvme_trans_io_cdb cdb_info = { 0, };
- 	u8 opcode = cmd[0];
- 	u64 xfer_bytes;
- 	u64 sum_iov_len = 0;
-@@ -1936,23 +1888,41 @@ static int nvme_trans_io(struct nvme_ns *ns, struct sg_io_hdr *hdr, u8 is_write,
- 	int i;
- 	size_t not_copied;
- 
--	/* Extract Fields from CDB */
-+	/*
-+	 * The FUA and WPROTECT fields are not supported in 6-byte CDBs,
-+	 * but always in the same place for all others.
-+	 */
-+	switch (opcode) {
-+	case WRITE_6:
-+	case READ_6:
-+		break;
-+	default:
-+		cdb_info.fua = cmd[1] & 0x8;
-+		cdb_info.prot_info = (cmd[1] & 0xe0) >> 5;
-+	}
-+
- 	switch (opcode) {
- 	case WRITE_6:
- 	case READ_6:
--		nvme_trans_get_io_cdb6(cmd, &cdb_info);
-+		cdb_info.lba = get_unaligned_be24(&cmd[1]);
-+		cdb_info.xfer_len = cmd[4];
-+		if (cdb_info.xfer_len == 0)
-+			cdb_info.xfer_len = 256;
- 		break;
- 	case WRITE_10:
- 	case READ_10:
--		nvme_trans_get_io_cdb10(cmd, &cdb_info);
-+		cdb_info.lba = get_unaligned_be32(&cmd[2]);
-+		cdb_info.xfer_len = get_unaligned_be16(&cmd[7]);
- 		break;
- 	case WRITE_12:
- 	case READ_12:
--		nvme_trans_get_io_cdb12(cmd, &cdb_info);
-+		cdb_info.lba = get_unaligned_be32(&cmd[2]);
-+		cdb_info.xfer_len = get_unaligned_be32(&cmd[6]);
- 		break;
- 	case WRITE_16:
- 	case READ_16:
--		nvme_trans_get_io_cdb16(cmd, &cdb_info);
-+		cdb_info.lba = get_unaligned_be64(&cmd[2]);
-+		cdb_info.xfer_len = get_unaligned_be32(&cmd[10]);
- 		break;
- 	default:
- 		/* Will never really reach here */
 -- 
 1.9.1
