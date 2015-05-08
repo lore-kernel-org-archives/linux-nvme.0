@@ -1,118 +1,162 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri,  8 May 2015 18:00:29 +0200
-Subject: [PATCH 04/11] nvme: remove the unused dma_addr_t arguments to
- nvme_{get, set}_features
+Date: Fri,  8 May 2015 18:00:30 +0200
+Subject: [PATCH 05/11] nvme: split nvme_trans_send_fw_cmd
 In-Reply-To: <1431100836-28112-1-git-send-email-hch@lst.de>
 References: <1431100836-28112-1-git-send-email-hch@lst.de>
-Message-ID: <1431100836-28112-5-git-send-email-hch@lst.de>
+Message-ID: <1431100836-28112-6-git-send-email-hch@lst.de>
+
+This function handles two totally different opcodes, so split it.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/block/nvme-core.c | 9 +++------
- drivers/block/nvme-scsi.c | 9 ++++-----
- include/linux/nvme.h      | 4 ++--
- 3 files changed, 9 insertions(+), 13 deletions(-)
+ drivers/block/nvme-scsi.c | 93 ++++++++++++++++++++++++-----------------------
+ 1 file changed, 47 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 5187dc5..6f7c343 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1143,27 +1143,25 @@ int nvme_identify(struct nvme_dev *dev, unsigned nsid, unsigned cns,
- }
- 
- int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned nsid,
--					dma_addr_t dma_addr, u32 *result)
-+		u32 *result)
- {
- 	struct nvme_command c;
- 
- 	memset(&c, 0, sizeof(c));
- 	c.features.opcode = nvme_admin_get_features;
- 	c.features.nsid = cpu_to_le32(nsid);
--	c.features.prp1 = cpu_to_le64(dma_addr);
- 	c.features.fid = cpu_to_le32(fid);
- 
- 	return __nvme_submit_sync_cmd(dev->admin_q, &c, result, 0);
- }
- 
- int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned dword11,
--					dma_addr_t dma_addr, u32 *result)
-+		u32 *result)
- {
- 	struct nvme_command c;
- 
- 	memset(&c, 0, sizeof(c));
- 	c.features.opcode = nvme_admin_set_features;
--	c.features.prp1 = cpu_to_le64(dma_addr);
- 	c.features.fid = cpu_to_le32(fid);
- 	c.features.dword11 = cpu_to_le32(dword11);
- 
-@@ -2147,8 +2145,7 @@ static int set_queue_count(struct nvme_dev *dev, int count)
- 	u32 result;
- 	u32 q_count = (count - 1) | ((count - 1) << 16);
- 
--	status = nvme_set_features(dev, NVME_FEAT_NUM_QUEUES, q_count, 0,
--								&result);
-+	status = nvme_set_features(dev, NVME_FEAT_NUM_QUEUES, q_count, &result);
- 	if (status < 0)
- 		return status;
- 	if (status > 0) {
 diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
-index aa7cd8f..3c02af0 100644
+index 3c02af0..1548d53 100644
 --- a/drivers/block/nvme-scsi.c
 +++ b/drivers/block/nvme-scsi.c
-@@ -1127,8 +1127,7 @@ static int nvme_trans_log_temperature(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+@@ -1553,10 +1553,25 @@ static int nvme_trans_power_state(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	return res;
+ }
+ 
+-/* Write Buffer Helper Functions */
+-/* Also using this for Format Unit with hdr passed as NULL, and buffer_id, 0 */
++static int nvme_trans_send_activate_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
++					u8 buffer_id)
++{
++	struct nvme_command c;
++	int nvme_sc;
++	int res;
++
++	memset(&c, 0, sizeof(c));
++	c.common.opcode = nvme_admin_activate_fw;
++	c.common.cdw10[0] = cpu_to_le32(buffer_id | NVME_FWACT_REPL_ACTV);
++
++	nvme_sc = nvme_submit_sync_cmd(ns->queue, &c);
++	res = nvme_trans_status_code(hdr, nvme_sc);
++	if (res)
++		return res;
++	return nvme_sc;
++}
+ 
+-static int nvme_trans_send_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
++static int nvme_trans_send_download_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 					u8 opcode, u32 tot_len, u32 offset,
+ 					u8 buffer_id)
+ {
+@@ -1568,38 +1583,31 @@ static int nvme_trans_send_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	unsigned length;
+ 
+ 	memset(&c, 0, sizeof(c));
+-	c.common.opcode = opcode;
+-	if (opcode == nvme_admin_download_fw) {
+-		if (hdr->iovec_count > 0) {
+-			/* Assuming SGL is not allowed for this command */
+-			res = nvme_trans_completion(hdr,
+-						SAM_STAT_CHECK_CONDITION,
+-						ILLEGAL_REQUEST,
+-						SCSI_ASC_INVALID_CDB,
+-						SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
+-			goto out;
+-		}
+-		iod = nvme_map_user_pages(dev, DMA_TO_DEVICE,
+-				(unsigned long)hdr->dxferp, tot_len);
+-		if (IS_ERR(iod)) {
+-			res = PTR_ERR(iod);
+-			goto out;
+-		}
+-		length = nvme_setup_prps(dev, iod, tot_len, GFP_KERNEL);
+-		if (length != tot_len) {
+-			res = -ENOMEM;
+-			goto out_unmap;
+-		}
++	c.common.opcode = nvme_admin_download_fw;
+ 
+-		c.dlfw.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
+-		c.dlfw.prp2 = cpu_to_le64(iod->first_dma);
+-		c.dlfw.numd = cpu_to_le32((tot_len/BYTES_TO_DWORDS) - 1);
+-		c.dlfw.offset = cpu_to_le32(offset/BYTES_TO_DWORDS);
+-	} else if (opcode == nvme_admin_activate_fw) {
+-		u32 cdw10 = buffer_id | NVME_FWACT_REPL_ACTV;
+-		c.common.cdw10[0] = cpu_to_le32(cdw10);
++	if (hdr->iovec_count > 0) {
++		/* Assuming SGL is not allowed for this command */
++		return nvme_trans_completion(hdr,
++					SAM_STAT_CHECK_CONDITION,
++					ILLEGAL_REQUEST,
++					SCSI_ASC_INVALID_CDB,
++					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
++	}
++	iod = nvme_map_user_pages(dev, DMA_TO_DEVICE,
++			(unsigned long)hdr->dxferp, tot_len);
++	if (IS_ERR(iod))
++		return PTR_ERR(iod);
++	length = nvme_setup_prps(dev, iod, tot_len, GFP_KERNEL);
++	if (length != tot_len) {
++		res = -ENOMEM;
++		goto out_unmap;
  	}
  
- 	/* Get Features for Temp Threshold */
--	res = nvme_get_features(dev, NVME_FEAT_TEMP_THRESH, 0, 0,
--								&feature_resp);
-+	res = nvme_get_features(dev, NVME_FEAT_TEMP_THRESH, 0, &feature_resp);
- 	if (res != NVME_SC_SUCCESS)
- 		temp_c_thresh = LOG_TEMP_UNKNOWN;
- 	else
-@@ -1281,7 +1280,7 @@ static int nvme_trans_fill_caching_page(struct nvme_ns *ns,
- 	if (len < MODE_PAGE_CACHING_LEN)
- 		return SNTI_INTERNAL_ERROR;
- 
--	nvme_sc = nvme_get_features(dev, NVME_FEAT_VOLATILE_WC, 0, 0,
-+	nvme_sc = nvme_get_features(dev, NVME_FEAT_VOLATILE_WC, 0,
- 								&feature_resp);
++	c.dlfw.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
++	c.dlfw.prp2 = cpu_to_le64(iod->first_dma);
++	c.dlfw.numd = cpu_to_le32((tot_len/BYTES_TO_DWORDS) - 1);
++	c.dlfw.offset = cpu_to_le32(offset/BYTES_TO_DWORDS);
++
+ 	nvme_sc = nvme_submit_sync_cmd(dev->admin_q, &c);
  	res = nvme_trans_status_code(hdr, nvme_sc);
  	if (res)
-@@ -1541,7 +1540,7 @@ static int nvme_trans_power_state(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
+@@ -1608,11 +1616,8 @@ static int nvme_trans_send_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 		res = nvme_sc;
+ 
+  out_unmap:
+-	if (opcode == nvme_admin_download_fw) {
+-		nvme_unmap_user_pages(dev, DMA_TO_DEVICE, iod);
+-		nvme_free_iod(dev, iod);
+-	}
+- out:
++	nvme_unmap_user_pages(dev, DMA_TO_DEVICE, iod);
++	nvme_free_iod(dev, iod);
+ 	return res;
+ }
+ 
+@@ -2769,7 +2774,7 @@ static int nvme_trans_format_unit(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	}
+ 
+ 	/* Attempt to activate any previously downloaded firmware image */
+-	res = nvme_trans_send_fw_cmd(ns, hdr, nvme_admin_activate_fw, 0, 0, 0);
++	res = nvme_trans_send_activate_fw_cmd(ns, hdr, 0);
+ 
+ 	/* Determine Block size and count and send format command */
+ 	res = nvme_trans_fmt_set_blk_size_count(ns, hdr);
+@@ -2829,24 +2834,20 @@ static int nvme_trans_write_buffer(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 
+ 	switch (mode) {
+ 	case DOWNLOAD_SAVE_ACTIVATE:
+-		res = nvme_trans_send_fw_cmd(ns, hdr, nvme_admin_download_fw,
++		res = nvme_trans_send_download_fw_cmd(ns, hdr, nvme_admin_download_fw,
+ 						parm_list_length, buffer_offset,
+ 						buffer_id);
+ 		if (res != SNTI_TRANSLATION_SUCCESS)
+ 			goto out;
+-		res = nvme_trans_send_fw_cmd(ns, hdr, nvme_admin_activate_fw,
+-						parm_list_length, buffer_offset,
+-						buffer_id);
++		res = nvme_trans_send_activate_fw_cmd(ns, hdr, buffer_id);
  		break;
- 	}
--	nvme_sc = nvme_set_features(dev, NVME_FEAT_POWER_MGMT, ps_desired, 0,
-+	nvme_sc = nvme_set_features(dev, NVME_FEAT_POWER_MGMT, ps_desired,
- 				    NULL);
- 	res = nvme_trans_status_code(hdr, nvme_sc);
- 	if (res)
-@@ -1686,7 +1685,7 @@ static int nvme_trans_modesel_get_mp(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	case MODE_PAGE_CACHING:
- 		dword11 = ((mode_page[2] & CACHING_MODE_PAGE_WCE_MASK) ? 1 : 0);
- 		nvme_sc = nvme_set_features(dev, NVME_FEAT_VOLATILE_WC, dword11,
--					    0, NULL);
-+					    NULL);
- 		res = nvme_trans_status_code(hdr, nvme_sc);
- 		if (res)
- 			break;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index de0e49a..d1ebed1 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -162,9 +162,9 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd);
- int nvme_identify(struct nvme_dev *, unsigned nsid, unsigned cns,
- 							dma_addr_t dma_addr);
- int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned nsid,
--			dma_addr_t dma_addr, u32 *result);
-+			u32 *result);
- int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned dword11,
--			dma_addr_t dma_addr, u32 *result);
-+			u32 *result);
- 
- struct sg_io_hdr;
- 
+ 	case DOWNLOAD_SAVE_DEFER_ACTIVATE:
+-		res = nvme_trans_send_fw_cmd(ns, hdr, nvme_admin_download_fw,
++		res = nvme_trans_send_download_fw_cmd(ns, hdr, nvme_admin_download_fw,
+ 						parm_list_length, buffer_offset,
+ 						buffer_id);
+ 		break;
+ 	case ACTIVATE_DEFERRED_MICROCODE:
+-		res = nvme_trans_send_fw_cmd(ns, hdr, nvme_admin_activate_fw,
+-						parm_list_length, buffer_offset,
+-						buffer_id);
++		res = nvme_trans_send_activate_fw_cmd(ns, hdr, buffer_id);
+ 		break;
+ 	default:
+ 		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
 -- 
 1.9.1
