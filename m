@@ -1,29 +1,45 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 9 May 2015 17:53:22 +0200
-Subject: [PATCH 04/11] nvme: remove the unused dma_addr_t arguments to
- nvme_{get, set}_features
-In-Reply-To: <20150508190351.GM4003@linux.intel.com>
-References: <1431100836-28112-1-git-send-email-hch@lst.de>
- <1431100836-28112-5-git-send-email-hch@lst.de>
- <20150508190351.GM4003@linux.intel.com>
-Message-ID: <20150509155322.GA32628@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sat, 9 May 2015 09:00:07 -0700
+Subject: [PATCH v3 1/7] bio: Introduce LightNVM payload
+In-Reply-To: <1429712816-10336-2-git-send-email-m@bjorling.me>
+References: <1429712816-10336-1-git-send-email-m@bjorling.me>
+ <1429712816-10336-2-git-send-email-m@bjorling.me>
+Message-ID: <20150509160007.GA16058@infradead.org>
 
-On Fri, May 08, 2015@03:03:51PM -0400, Matthew Wilcox wrote:
-> >  int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned nsid,
-> > -					dma_addr_t dma_addr, u32 *result)
-> > +		u32 *result)
-> >  {
-> >  	struct nvme_command c;
-> >  
-> >  	memset(&c, 0, sizeof(c));
-> >  	c.features.opcode = nvme_admin_get_features;
-> >  	c.features.nsid = cpu_to_le32(nsid);
-> > -	c.features.prp1 = cpu_to_le64(dma_addr);
-> >  	c.features.fid = cpu_to_le32(fid);
-> >  
-> >  	return __nvme_submit_sync_cmd(dev->admin_q, &c, result, 0);
+On Wed, Apr 22, 2015@04:26:50PM +0200, Matias Bj??rling wrote:
+> LightNVM integrates on both sides of the block layer. The lower layer
+> implements mapping of logical to physical addressing, while the layer
+> above can string together multiple LightNVM devices and expose them as a
+> single block device.
 > 
-> Wait, what?  The PRP1 field is used for LBA Range Type and Autonomous
-> Power State Transitions.
+> Having multiple devices underneath requires a way to resolve where the
+> IO came from when submitted through the block layer. Extending bio with
+> a LightNVM payload solves this problem.
+> 
+> Signed-off-by: Matias Bj??rling <m at bjorling.me>
+> ---
+>  include/linux/bio.h       | 9 +++++++++
+>  include/linux/blk_types.h | 4 +++-
+>  2 files changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/bio.h b/include/linux/bio.h
+> index da3a127..4e31a1c 100644
+> --- a/include/linux/bio.h
+> +++ b/include/linux/bio.h
+> @@ -354,6 +354,15 @@ static inline void bip_set_seed(struct bio_integrity_payload *bip,
+>  
+>  #endif /* CONFIG_BLK_DEV_INTEGRITY */
+>  
+> +#if defined(CONFIG_NVM)
+> +
+> +/* bio open-channel ssd payload */
+> +struct bio_nvm_payload {
+> +	void *private;
+> +};
 
-None of which is, or ever was issued by the Linux driver.
+Can you explain why this needs to be done on a per-bio instead of a
+per-request level?  I don't really think a low-level driver should add
+fields to struct bio as that can be easily remapped.
+
+On the other hand in th request you can already (ab)use the ->cmd and
+related fields for your own purposes.
