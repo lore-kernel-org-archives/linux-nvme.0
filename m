@@ -1,56 +1,53 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 11 May 2015 10:00:55 +0200
-Subject: [PATCH 7/7] block: allocate block_pc data separate from struct
- request
-In-Reply-To: <5549FF0A.6010901@electrozaur.com>
-References: <1429303042-12078-1-git-send-email-hch@lst.de>
- <1429303042-12078-8-git-send-email-hch@lst.de>
- <5549FF0A.6010901@electrozaur.com>
-Message-ID: <20150511080054.GA32417@lst.de>
+From: m@bjorling.me (=?windows-1252?Q?Matias_Bj=F8rling?=)
+Date: Mon, 11 May 2015 13:58:51 +0200
+Subject: [PATCH v3 1/7] bio: Introduce LightNVM payload
+In-Reply-To: <20150509160007.GA16058@infradead.org>
+References: <1429712816-10336-1-git-send-email-m@bjorling.me>
+ <1429712816-10336-2-git-send-email-m@bjorling.me>
+ <20150509160007.GA16058@infradead.org>
+Message-ID: <5550997B.1000609@bjorling.me>
 
-On Wed, May 06, 2015@02:46:18PM +0300, Boaz Harrosh wrote:
-> > -	memset(rq->__cmd, 0, sizeof(rq->__cmd));
-> > +
-> > +	rq->block_pc = kzalloc(sizeof(*rq->block_pc) + cmd_len, gfp);
-> 
-> I wish you would not embed a dynamic allocation here for any
-> driver regardless. This extra allocation does hurt a lot. See how in
-> SCSI fs commands you embedded it in scsi_cmnd so it catches as well
-> for multi-Q pre-allocation.
-> 
-> I think you need to just make it the same as *sense pass it from outside
-> and the allocation is the caller responsibility. The caller must have
-> an end-request call back set. (Or is a sync call)
-> 
-> Usually all users already have a structure to put this in. The only bit
-> more work is to take care of the free. If they are already passing sense
-> then they already need to free at end of request. Those that are synchronous
-> can have it on the stack. Only very few places need a bit of extra work.
+On 05/09/2015 06:00 PM, Christoph Hellwig wrote:
+> On Wed, Apr 22, 2015@04:26:50PM +0200, Matias Bj??rling wrote:
+>> LightNVM integrates on both sides of the block layer. The lower layer
+>> implements mapping of logical to physical addressing, while the layer
+>> above can string together multiple LightNVM devices and expose them as a
+>> single block device.
+>>
+>> Having multiple devices underneath requires a way to resolve where the
+>> IO came from when submitted through the block layer. Extending bio with
+>> a LightNVM payload solves this problem.
+>>
+>> Signed-off-by: Matias Bj??rling <m at bjorling.me>
+>> ---
+>>   include/linux/bio.h       | 9 +++++++++
+>>   include/linux/blk_types.h | 4 +++-
+>>   2 files changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/include/linux/bio.h b/include/linux/bio.h
+>> index da3a127..4e31a1c 100644
+>> --- a/include/linux/bio.h
+>> +++ b/include/linux/bio.h
+>> @@ -354,6 +354,15 @@ static inline void bip_set_seed(struct bio_integrity_payload *bip,
+>>
+>>   #endif /* CONFIG_BLK_DEV_INTEGRITY */
+>>
+>> +#if defined(CONFIG_NVM)
+>> +
+>> +/* bio open-channel ssd payload */
+>> +struct bio_nvm_payload {
+>> +	void *private;
+>> +};
+>
+> Can you explain why this needs to be done on a per-bio instead of a
+> per-request level?  I don't really think a low-level driver should add
+> fields to struct bio as that can be easily remapped.
 
-Actually most don't have a structure ready, that's why I ressorted to this
-version.  But once this is in you can easily add low-level version that
-allows passing a preallocate cdb buffer for the OSD case.
+When a bio is submitted through the block layer, it can be 
+merged/splitted on going through the block layer. Thus, we don't know 
+the number of physical addresses that must be mapped before its on the 
+other side.
 
-> > +struct block_pc_request {
-> > +	unsigned short cmd_len;
-> > +	unsigned int sense_len;
-> > +	void *sense;
-> 
-> Better move cmd_len here the short will combine well
-> with the char array.
-
-Thanks.
-
-> > +	union {
-> > +		struct block_pc_request *block_pc;
-> > +		void *drv_private;
-> > +	};
-> > +
-> 
-> Exactly. drv_private is allocated by caller we can do the same for
-> block_pc. Also If (theoretically) a driver needs both it is just the
-> same pointer right? (container_of)
-
-I probably need to rename the field.  It's only driver private when
-the low-level driver itself submits the request, e.g. internal commands
-in the LLDD.  But in that particular case what you suggest is fine.
+There can be multiple targets using a single open-channel SSD. 
+Therefore, when its on the other side, it has to figure out which target 
+it was called from, so it can call the right mapping function.
