@@ -1,22 +1,22 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 11 May 2015 16:35:37 +0000 (UTC)
-Subject: [PATCH 04/11] nvme: remove the unused dma_addr_t arguments to
- nvme_{get, set}_features
-In-Reply-To: <20150511135425.GO4003@linux.intel.com>
-References: <1431100836-28112-1-git-send-email-hch@lst.de>
- <1431100836-28112-5-git-send-email-hch@lst.de>
- <20150508190351.GM4003@linux.intel.com> <20150509155322.GA32628@lst.de>
- <20150511135425.GO4003@linux.intel.com>
-Message-ID: <alpine.LNX.2.00.1505111623210.15930@localhost.lm.intel.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 12 May 2015 00:21:53 -0700
+Subject: [PATCH v3 1/7] bio: Introduce LightNVM payload
+In-Reply-To: <5550997B.1000609@bjorling.me>
+References: <1429712816-10336-1-git-send-email-m@bjorling.me>
+ <1429712816-10336-2-git-send-email-m@bjorling.me>
+ <20150509160007.GA16058@infradead.org>
+ <5550997B.1000609@bjorling.me>
+Message-ID: <20150512072153.GA25438@infradead.org>
 
-On Mon, 11 May 2015, Matthew Wilcox wrote:
->                res = nvme_get_features(dev, NVME_FEAT_LBA_RANGE, i,
->                                                        dma_addr + 4096, NULL);
->
-> Looks like it was (inadvertently?) deleted in February by Keith's patch to
-> add metadata support.  Keith?
+On Mon, May 11, 2015@01:58:51PM +0200, Matias Bj?rling wrote:
+> >Can you explain why this needs to be done on a per-bio instead of a
+> >per-request level?  I don't really think a low-level driver should add
+> >fields to struct bio as that can be easily remapped.
+> 
+> When a bio is submitted through the block layer, it can be merged/splitted
+> on going through the block layer. Thus, we don't know the number of physical
+> addresses that must be mapped before its on the other side.
 
-I recall we talked about this on the mailing list. There didn't seem
-to be a reason to use this feature in Linux and it wasn't a complete
-implementation from reading only the first range. No objections at the
-time to remove it, but I'll add it back if there is one now.
+For any sort of passthrough bios that should not be the case.  It's not
+for BLOCK_PC, it's not for my new pass through NVMe commands and I don't
+think it should be in this case.
