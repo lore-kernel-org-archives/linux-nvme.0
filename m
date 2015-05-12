@@ -1,22 +1,57 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 12 May 2015 00:21:53 -0700
-Subject: [PATCH v3 1/7] bio: Introduce LightNVM payload
-In-Reply-To: <5550997B.1000609@bjorling.me>
-References: <1429712816-10336-1-git-send-email-m@bjorling.me>
- <1429712816-10336-2-git-send-email-m@bjorling.me>
- <20150509160007.GA16058@infradead.org>
- <5550997B.1000609@bjorling.me>
-Message-ID: <20150512072153.GA25438@infradead.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 12 May 2015 15:10:47 +0000 (UTC)
+Subject: [PATCH] NVMe: Add reset controller sysfs entry
+In-Reply-To: <31FEE40556302F408590926A3C4AC65FED561E45@BBYEXM01.pmc-sierra.internal>
+References: <1428096023-1887-1-git-send-email-keith.busch@intel.com>
+ <BN1PR0401MB0931F0B9E7345CA59544CDFBF2FE0@BN1PR0401MB0931.namprd04.prod.outlook.com>
+ <31FEE40556302F408590926A3C4AC65FED561E45@BBYEXM01.pmc-sierra.internal>
+Message-ID: <alpine.LNX.2.00.1505121508030.15930@localhost.lm.intel.com>
 
-On Mon, May 11, 2015@01:58:51PM +0200, Matias Bj?rling wrote:
-> >Can you explain why this needs to be done on a per-bio instead of a
-> >per-request level?  I don't really think a low-level driver should add
-> >fields to struct bio as that can be easily remapped.
-> 
-> When a bio is submitted through the block layer, it can be merged/splitted
-> on going through the block layer. Thus, we don't know the number of physical
-> addresses that must be mapped before its on the other side.
+On Sun, 3 May 2015, David Sariel wrote:
+> Hi Keith, Brandon,
+> It took me a while to get hands on it. Attaching the patch according to Keith's remarks:
 
-For any sort of passthrough bios that should not be the case.  It's not
-for BLOCK_PC, it's not for my new pass through NVMe commands and I don't
-think it should be in this case.
+Could you send this in a format that can be applied? We need a proper
+patch with commit log, and I think your email client is mucking up
+the formatting.
+
+> diff -uprN a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> --- a/drivers/block/nvme-core.c	2014-09-06 02:37:11.000000000 +0300
+> +++ b/drivers/block/nvme-core.c	2015-05-03 21:05:12.000000000 +0300
+> @@ -2627,6 +2627,18 @@ static long nvme_dev_ioctl(struct file *
+> 	switch (cmd) {
+> 	case NVME_IOCTL_ADMIN_CMD:
+> 		return nvme_user_admin_cmd(dev, (void __user *)arg);
+> +	case NVME_IOCTL_RESET:
+> +        if(work_busy(&dev->reset_work) )
+> +        	return -EBUSY;
+> +
+> +        dev_warn(&dev->pci_dev->dev, "resetting controller\n");
+> +        dev->reset_workfn = nvme_reset_failed_dev;
+> +        queue_work(nvme_workq, &dev->reset_work);
+> +
+> +        /* Wait for a work to finish executing the last queueing instance */
+> +        flush_work(&dev->reset_work);
+> +
+> +		return 0;
+> 	default:
+> 		return -ENOTTY;
+> 	}
+> diff -uprN a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
+> --- a/include/uapi/linux/nvme.h	2014-09-06 02:37:11.000000000 +0300
+> +++ b/include/uapi/linux/nvme.h	2015-05-03 21:05:30.000000000 +0300
+> @@ -513,5 +513,7 @@ struct nvme_admin_cmd {
+> #define NVME_IOCTL_ID		_IO('N', 0x40)
+> #define NVME_IOCTL_ADMIN_CMD	_IOWR('N', 0x41, struct nvme_admin_cmd)
+> #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
+> +/* 0x43 is used by nvme-cli */
+> +#define NVME_IOCTL_RESET  _IO('N', 0x44)
+>
+> #endif /* _UAPI_LINUX_NVME_H */
+>
+>
+> Although the use case is for the reset is for pre 3.15 kernels, I guess that the patch should be applied to the latest kernel. Am I right?
+
+This is actually useful upstream as well if we don't want to rely on
+the pci reset to hook into NVMe controller resets. Sometimes we don't
+even have pci reset available.
