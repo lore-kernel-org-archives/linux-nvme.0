@@ -1,52 +1,76 @@
-From: brandon.schulz@hgst.com (Brandon Schulz)
-Date: Sun, 17 May 2015 15:04:35 +0000
-Subject: [PATCH] NVMe: Automatic namespace rescan
-In-Reply-To: <alpine.LNX.2.00.1505152152180.15930@localhost.lm.intel.com>
-References: <1431633707-9265-1-git-send-email-keith.busch@intel.com>
- <20150515143746.GA2729@linux.intel.com>
- <alpine.LNX.2.00.1505151440220.15930@localhost.lm.intel.com>
- <alpine.LNX.2.00.1505152152180.15930@localhost.lm.intel.com>
-Message-ID: <D17E1649.800B%brandon.schulz@hgst.com>
+From: David.Sariel@pmcs.com (David Sariel)
+Date: Mon, 18 May 2015 16:57:52 +0000
+Subject: [PATCH] NVMe: Add reset controller sysfs entry
+In-Reply-To: <alpine.LNX.2.00.1505121508030.15930@localhost.lm.intel.com>
+References: <1428096023-1887-1-git-send-email-keith.busch@intel.com>
+ <BN1PR0401MB0931F0B9E7345CA59544CDFBF2FE0@BN1PR0401MB0931.namprd04.prod.outlook.com>
+ <31FEE40556302F408590926A3C4AC65FED561E45@BBYEXM01.pmc-sierra.internal>
+ <alpine.LNX.2.00.1505121508030.15930@localhost.lm.intel.com>
+Message-ID: <31FEE40556302F408590926A3C4AC65FED5627AD@BBYEXM01.pmc-sierra.internal>
 
-Agree with your decision that we probably don?t want a bunch of zero
-capacity drives if there are gaps in the namespace IDs.  I?d like to see a
-version of your original patch get in - we have been carrying a patch
-against nvme-legacy internally that does a similar rescan-after-reset but
-haven?t had the time to prepare a patch against the current tree yet.
+Hi Keith
+Attaching the patch as a file. I have patched against https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git.
+Hope it's ok now. LMK if anything else is needed.
+Thanks!
+D
 
-If someone deletes a namespace (vs. detaching it) why wouldn?t you want to
-remove the gendisk as well?  This question is  based on your comment in
-the original patch: "If namespaces are deleted, this does not go so far as
-to delete gendisks; instead, its capacity will be set to 0."  I believe
-users would expect to see the device representing the namespace go away if
-they deleted the namespace.
 
-Brandon
 
-On 5/15/15, 4:59 PM, "Keith Busch" <keith.busch@intel.com> wrote:
+-----Original Message-----
+From: Keith Busch [mailto:keith.busch@intel.com] 
+Sent: Tuesday, May 12, 2015 6:11 PM
+To: David Sariel
+Cc: Brandon Schulz; Keith Busch; linux-nvme at lists.infradead.org; David Darrington
+Subject: RE: [PATCH] NVMe: Add reset controller sysfs entry
 
->On Fri, 15 May 2015, Keith Busch wrote:
->> On Fri, 15 May 2015, Matthew Wilcox wrote:
->>> Pondering if it's worth keeping the list sorted so we can break out
->>>early
->>> if the namespace isn't in the list?
->>
->> The list is actually already sorted since this doesn't allow gaps in
->> NSIDs. If a namespace is not attached, the driver creates a 0 capacity
->> block device for it and appends it to the list, so it's always in
->> ascending order.
->>
->> Is this a bad idea? Let's say a controller supports 128 namespaces,
->> but only NSID 128 is attached, we'd see 127 zero capacity /dev/nvme#n#
->> block devs.
+On Sun, 3 May 2015, David Sariel wrote:
+> Hi Keith, Brandon,
+> It took me a while to get hands on it. Attaching the patch according to Keith's remarks:
+
+Could you send this in a format that can be applied? We need a proper patch with commit log, and I think your email client is mucking up the formatting.
+
+> diff -uprN a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> --- a/drivers/block/nvme-core.c	2014-09-06 02:37:11.000000000 +0300
+> +++ b/drivers/block/nvme-core.c	2015-05-03 21:05:12.000000000 +0300
+> @@ -2627,6 +2627,18 @@ static long nvme_dev_ioctl(struct file *
+> 	switch (cmd) {
+> 	case NVME_IOCTL_ADMIN_CMD:
+> 		return nvme_user_admin_cmd(dev, (void __user *)arg);
+> +	case NVME_IOCTL_RESET:
+> +        if(work_busy(&dev->reset_work) )
+> +        	return -EBUSY;
+> +
+> +        dev_warn(&dev->pci_dev->dev, "resetting controller\n");
+> +        dev->reset_workfn = nvme_reset_failed_dev;
+> +        queue_work(nvme_workq, &dev->reset_work);
+> +
+> +        /* Wait for a work to finish executing the last queueing instance */
+> +        flush_work(&dev->reset_work);
+> +
+> +		return 0;
+> 	default:
+> 		return -ENOTTY;
+> 	}
+> diff -uprN a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
+> --- a/include/uapi/linux/nvme.h	2014-09-06 02:37:11.000000000 +0300
+> +++ b/include/uapi/linux/nvme.h	2015-05-03 21:05:30.000000000 +0300
+> @@ -513,5 +513,7 @@ struct nvme_admin_cmd {
+> #define NVME_IOCTL_ID		_IO('N', 0x40)
+> #define NVME_IOCTL_ADMIN_CMD	_IOWR('N', 0x41, struct nvme_admin_cmd)
+> #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
+> +/* 0x43 is used by nvme-cli */
+> +#define NVME_IOCTL_RESET  _IO('N', 0x44)
 >
->Decided we don't want a bunch of zero capacity drives if there are gaps
->in attached NSIDs. There could be millions after all. But it's not so
->simple since the nvmeq's hctx points to hctx from a single namespace's
->request_queue, and that's not right. I'll take a stab at decoupling that
->next week. In the mean time, this patch is dead.
+> #endif /* _UAPI_LINUX_NVME_H */
 >
->_______________________________________________
->Linux-nvme mailing list
->Linux-nvme at lists.infradead.org
->http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
+> Although the use case is for the reset is for pre 3.15 kernels, I guess that the patch should be applied to the latest kernel. Am I right?
+
+This is actually useful upstream as well if we don't want to rely on the pci reset to hook into NVMe controller resets. Sometimes we don't even have pci reset available.
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: reset_ioctl.patch
+Type: application/octet-stream
+Size: 1331 bytes
+Desc: reset_ioctl.patch
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20150518/68ef3a8c/attachment.obj>
