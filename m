@@ -1,41 +1,77 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 18 May 2015 13:30:23 -0600
-Subject: [PATCH 4/4] NVMe: Remove disks before shutdown
-In-Reply-To: <1431977423-31587-1-git-send-email-keith.busch@intel.com>
-References: <1431977423-31587-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1431977423-31587-5-git-send-email-keith.busch@intel.com>
+Date: Mon, 18 May 2015 16:36:47 -0600
+Subject: [PATCH] NVMe: Add nvme subsystem reset support
+Message-ID: <1431988607-16323-1-git-send-email-keith.busch@intel.com>
 
-On orderly removal, we need to shut down the controller after disks are
-deleted to prevent deadlock on a filesystem sync.
+Controllers part of an NVMe subsystem may be reset by any other controller
+in the subsystem. If the device is capable of subsystem resets, this
+patch adds detection for such events and performs appropriate controller
+initialization upon subsystem reset detection. The register bit is a
+type RW1C, so the driver needs to write a 1 to the status bit to clear
+the subsystem reset occured bit during initialization.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/block/nvme-core.c |   11 ++++++++++-
+ include/linux/nvme.h      |    3 +++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 767ea54..62a147d 100644
+index 62a147d..e3ebd27 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -2960,8 +2960,8 @@ static void nvme_remove_disks(struct work_struct *ws)
- {
- 	struct nvme_dev *dev = container_of(ws, struct nvme_dev, reset_work);
+@@ -1625,6 +1625,12 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 		page_shift = dev_page_max;
+ 	}
  
--	nvme_free_queues(dev, 1);
- 	nvme_dev_remove(dev);
-+	nvme_free_queues(dev, 1);
- }
++	dev->subsystem = readl(&dev->bar->vs) >= NVME_VS(1, 1) ?
++						NVME_CAP_NSSRC(cap) : 0;
++
++	if (dev->subsystem && (readl(&dev->bar->csts) & NVME_CSTS_NSSRO))
++		writel(NVME_CSTS_NSSRO, &dev->bar->csts);
++
+ 	result = nvme_disable_ctrl(dev, cap);
+ 	if (result < 0)
+ 		return result;
+@@ -2068,7 +2074,10 @@ static int nvme_kthread(void *data)
+ 		spin_lock(&dev_list_lock);
+ 		list_for_each_entry_safe(dev, next, &dev_list, node) {
+ 			int i;
+-			if (readl(&dev->bar->csts) & NVME_CSTS_CFS) {
++			u32 csts = readl(&dev->bar->csts);
++
++			if ((dev->subsystem && (csts & NVME_CSTS_NSSRO)) ||
++							csts & NVME_CSTS_CFS) {
+ 				if (work_busy(&dev->reset_work))
+ 					continue;
+ 				list_del_init(&dev->node);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 409d191..1f196b8 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -37,6 +37,7 @@ struct nvme_bar {
+ #define NVME_CAP_MQES(cap)	((cap) & 0xffff)
+ #define NVME_CAP_TIMEOUT(cap)	(((cap) >> 24) & 0xff)
+ #define NVME_CAP_STRIDE(cap)	(((cap) >> 32) & 0xf)
++#define NVME_CAP_NSSRC(cap)	(((cap) >> 36) & 0x1)
+ #define NVME_CAP_MPSMIN(cap)	(((cap) >> 48) & 0xf)
+ #define NVME_CAP_MPSMAX(cap)	(((cap) >> 52) & 0xf)
  
- static int nvme_dev_resume(struct nvme_dev *dev)
-@@ -3126,8 +3126,8 @@ static void nvme_remove(struct pci_dev *pdev)
- 	flush_work(&dev->probe_work);
- 	flush_work(&dev->scan_work);
- 	flush_work(&dev->reset_work);
--	nvme_dev_shutdown(dev);
- 	nvme_dev_remove(dev);
-+	nvme_dev_shutdown(dev);
- 	nvme_dev_remove_admin(dev);
- 	device_destroy(nvme_class, MKDEV(nvme_char_major, dev->instance));
- 	nvme_free_queues(dev, 0);
+@@ -55,6 +56,7 @@ enum {
+ 	NVME_CC_IOCQES		= 4 << 20,
+ 	NVME_CSTS_RDY		= 1 << 0,
+ 	NVME_CSTS_CFS		= 1 << 1,
++	NVME_CSTS_NSSRO		= 1 << 4,
+ 	NVME_CSTS_SHST_NORMAL	= 0 << 2,
+ 	NVME_CSTS_SHST_OCCUR	= 1 << 2,
+ 	NVME_CSTS_SHST_CMPLT	= 2 << 2,
+@@ -98,6 +100,7 @@ struct nvme_dev {
+ 	char serial[20];
+ 	char model[40];
+ 	char firmware_rev[8];
++	bool subsystem;
+ 	u32 max_hw_sectors;
+ 	u32 stripe_size;
+ 	u32 page_size;
 -- 
 1.7.10.4
