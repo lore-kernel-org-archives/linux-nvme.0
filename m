@@ -1,25 +1,20 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 18 May 2015 23:37:09 -0700
-Subject: fix queue_lock usage in blk-mq and nvme
-In-Reply-To: <1430984294-25859-1-git-send-email-hch@lst.de>
-References: <1430984294-25859-1-git-send-email-hch@lst.de>
-Message-ID: <20150519063709.GA22313@infradead.org>
+Date: Tue, 19 May 2015 00:46:45 -0700
+Subject: [PATCH 2/4] NVMe: Decouple nvmeq hctx from ns request queue
+In-Reply-To: <1431977423-31587-3-git-send-email-keith.busch@intel.com>
+References: <1431977423-31587-1-git-send-email-keith.busch@intel.com>
+ <1431977423-31587-3-git-send-email-keith.busch@intel.com>
+Message-ID: <20150519074645.GA21597@infradead.org>
 
-ping?
+On Mon, May 18, 2015@01:30:21PM -0600, Keith Busch wrote:
+> Preparing for namespaces to dynamically attach/detach, we can't tie
+> the nvmeq's hctx to a namespace request queue: they may be removed at
+> any time. This patch has the driver create an io request queue that
+> unaffiliated to any namespace so we always have a valid hctx for the
+> io queues.
 
-On Thu, May 07, 2015@09:38:12AM +0200, Christoph Hellwig wrote:
-> Historically we always take queue_lock with irqs disabled.  Blk-mq doesn't really
-> use the queue_lock much, but when it does it needs to follow this rules to make
-> lockdep happy.
-> 
-> The first patch removes a queue_lock usage instead of fixing things properly,
-> and the second is a bad-aid for nvme.  In the long run I'd prefer to remove
-> other users of the queue_lock from blk-mq and blk-mq based driver entirely,
-> but that will require a bit more work.
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
----end quoted text---
+I don't think this is correct.  The better fix is to stop storing
+the (or rather a hctx) in the nvmeq.  The current code only works by
+chance as is just deferenences the tags pointer in the hctx.  So
+just add a helper to find the right struct blk_mq_tags for a queue index
+and change the driver to use that.
