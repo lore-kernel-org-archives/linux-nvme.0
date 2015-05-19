@@ -1,77 +1,25 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 18 May 2015 16:36:47 -0600
-Subject: [PATCH] NVMe: Add nvme subsystem reset support
-Message-ID: <1431988607-16323-1-git-send-email-keith.busch@intel.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 18 May 2015 23:37:09 -0700
+Subject: fix queue_lock usage in blk-mq and nvme
+In-Reply-To: <1430984294-25859-1-git-send-email-hch@lst.de>
+References: <1430984294-25859-1-git-send-email-hch@lst.de>
+Message-ID: <20150519063709.GA22313@infradead.org>
 
-Controllers part of an NVMe subsystem may be reset by any other controller
-in the subsystem. If the device is capable of subsystem resets, this
-patch adds detection for such events and performs appropriate controller
-initialization upon subsystem reset detection. The register bit is a
-type RW1C, so the driver needs to write a 1 to the status bit to clear
-the subsystem reset occured bit during initialization.
+ping?
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |   11 ++++++++++-
- include/linux/nvme.h      |    3 +++
- 2 files changed, 13 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 62a147d..e3ebd27 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1625,6 +1625,12 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 		page_shift = dev_page_max;
- 	}
- 
-+	dev->subsystem = readl(&dev->bar->vs) >= NVME_VS(1, 1) ?
-+						NVME_CAP_NSSRC(cap) : 0;
-+
-+	if (dev->subsystem && (readl(&dev->bar->csts) & NVME_CSTS_NSSRO))
-+		writel(NVME_CSTS_NSSRO, &dev->bar->csts);
-+
- 	result = nvme_disable_ctrl(dev, cap);
- 	if (result < 0)
- 		return result;
-@@ -2068,7 +2074,10 @@ static int nvme_kthread(void *data)
- 		spin_lock(&dev_list_lock);
- 		list_for_each_entry_safe(dev, next, &dev_list, node) {
- 			int i;
--			if (readl(&dev->bar->csts) & NVME_CSTS_CFS) {
-+			u32 csts = readl(&dev->bar->csts);
-+
-+			if ((dev->subsystem && (csts & NVME_CSTS_NSSRO)) ||
-+							csts & NVME_CSTS_CFS) {
- 				if (work_busy(&dev->reset_work))
- 					continue;
- 				list_del_init(&dev->node);
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 409d191..1f196b8 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -37,6 +37,7 @@ struct nvme_bar {
- #define NVME_CAP_MQES(cap)	((cap) & 0xffff)
- #define NVME_CAP_TIMEOUT(cap)	(((cap) >> 24) & 0xff)
- #define NVME_CAP_STRIDE(cap)	(((cap) >> 32) & 0xf)
-+#define NVME_CAP_NSSRC(cap)	(((cap) >> 36) & 0x1)
- #define NVME_CAP_MPSMIN(cap)	(((cap) >> 48) & 0xf)
- #define NVME_CAP_MPSMAX(cap)	(((cap) >> 52) & 0xf)
- 
-@@ -55,6 +56,7 @@ enum {
- 	NVME_CC_IOCQES		= 4 << 20,
- 	NVME_CSTS_RDY		= 1 << 0,
- 	NVME_CSTS_CFS		= 1 << 1,
-+	NVME_CSTS_NSSRO		= 1 << 4,
- 	NVME_CSTS_SHST_NORMAL	= 0 << 2,
- 	NVME_CSTS_SHST_OCCUR	= 1 << 2,
- 	NVME_CSTS_SHST_CMPLT	= 2 << 2,
-@@ -98,6 +100,7 @@ struct nvme_dev {
- 	char serial[20];
- 	char model[40];
- 	char firmware_rev[8];
-+	bool subsystem;
- 	u32 max_hw_sectors;
- 	u32 stripe_size;
- 	u32 page_size;
--- 
-1.7.10.4
+On Thu, May 07, 2015@09:38:12AM +0200, Christoph Hellwig wrote:
+> Historically we always take queue_lock with irqs disabled.  Blk-mq doesn't really
+> use the queue_lock much, but when it does it needs to follow this rules to make
+> lockdep happy.
+> 
+> The first patch removes a queue_lock usage instead of fixing things properly,
+> and the second is a bad-aid for nvme.  In the long run I'd prefer to remove
+> other users of the queue_lock from blk-mq and blk-mq based driver entirely,
+> but that will require a bit more work.
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+---end quoted text---
