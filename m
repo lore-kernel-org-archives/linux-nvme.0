@@ -1,55 +1,40 @@
 From: parav.pandit@avagotech.com (Parav Pandit)
-Date: Wed, 20 May 2015 16:43:47 -0400
-Subject: [PATCHv1] NVMe: nvme_queue made cache friendly.
-Message-ID: <1432154627-12336-1-git-send-email-parav.pandit@avagotech.com>
+Date: Thu, 21 May 2015 20:12:33 -0400
+Subject: [PATCH] NVMe: Avoid interrupt disable during queue init.
+Message-ID: <1432253553-17045-1-git-send-email-parav.pandit@avagotech.com>
 
-nvme_queue structure made 64B cache friendly so that majority of the
-data elements of the structure during IO and completion path can be
-found in typical single 64B cache line size which was previously spanning
-beyond single 64B cache line size.
+Avoid diabling interrupt and holding q_lock for the queue
+which is just getting initialized.
 
-By aligning most of the fields are found at start of the structure.
-Elements which are not used in frequent IO path are moved at the
-end of structure.
+With this change, online_queues is also incremented without
+lock during queue setup stage.
+if Power management nvme_suspend() kicks in during queue setup time,
+per nvmeq based q_lock spinlock cannot protect device wide
+online_queues variable anyway.
 
 Signed-off-by: Parav Pandit <parav.pandit at avagotech.com>
 ---
- drivers/block/nvme-core.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/block/nvme-core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index b9ba36f..58041c7 100644
+index 58041c7..7f09e5e 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -98,23 +98,23 @@ struct async_cmd_info {
- struct nvme_queue {
- 	struct device *q_dmadev;
- 	struct nvme_dev *dev;
--	char irqname[24];	/* nvme4294967295-65535\0 */
--	spinlock_t q_lock;
- 	struct nvme_command *sq_cmds;
-+	struct blk_mq_hw_ctx *hctx;
- 	volatile struct nvme_completion *cqes;
--	dma_addr_t sq_dma_addr;
--	dma_addr_t cq_dma_addr;
- 	u32 __iomem *q_db;
-+	spinlock_t q_lock;
- 	u16 q_depth;
--	s16 cq_vector;
- 	u16 sq_head;
- 	u16 sq_tail;
- 	u16 cq_head;
- 	u16 qid;
-+	s16 cq_vector;
- 	u8 cq_phase;
- 	u8 cqe_seen;
- 	struct async_cmd_info cmdinfo;
--	struct blk_mq_hw_ctx *hctx;
-+	char irqname[24];	/* nvme4294967295-65535\0 */
-+	dma_addr_t sq_dma_addr;
-+	dma_addr_t cq_dma_addr;
- };
+@@ -1437,14 +1437,12 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+ {
+ 	struct nvme_dev *dev = nvmeq->dev;
  
- /*
+-	spin_lock_irq(&nvmeq->q_lock);
+ 	nvmeq->sq_tail = 0;
+ 	nvmeq->cq_head = 0;
+ 	nvmeq->cq_phase = 1;
+ 	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
+ 	memset((void *)nvmeq->cqes, 0, CQ_SIZE(nvmeq->q_depth));
+ 	dev->online_queues++;
+-	spin_unlock_irq(&nvmeq->q_lock);
+ }
+ 
+ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
 -- 
 1.8.3.1
