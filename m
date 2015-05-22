@@ -1,63 +1,59 @@
-From: parav.pandit@avagotech.com (Parav Pandit)
-Date: Fri, 22 May 2015 23:48:41 +0530
-Subject: [PATCH] NVMe: Avoid interrupt disable during queue init.
-In-Reply-To: <alpine.LNX.2.00.1505221738090.15930@localhost.lm.intel.com>
-References: <1432253553-17045-1-git-send-email-parav.pandit@avagotech.com>
- <alpine.LNX.2.00.1505211931470.15930@localhost.lm.intel.com>
- <CAGgvQNQHaZBRzedkLmYxCBtDyxq7j2wr=e0vAYfw5r+KKeVbxg@mail.gmail.com>
- <alpine.LNX.2.00.1505221446410.15930@localhost.lm.intel.com>
- <CAGgvQNRi+60uNYqaeKHMRci_9zuDngi07mkUsNSdiOyZz9QG-w@mail.gmail.com>
- <alpine.LNX.2.00.1505221453230.15930@localhost.lm.intel.com>
- <CAGgvQNRhUVujKiniazC6ha3nQm789EeM6XdwFDe42HdOESS0+g@mail.gmail.com>
- <alpine.LNX.2.00.1505221608560.15930@localhost.lm.intel.com>
- <CAGgvQNTHyLZzOdi9m5FPfwwsRtxhrvf48Uz590RNsPVkw+HMNw@mail.gmail.com>
- <alpine.LNX.2.00.1505221700120.15930@localhost.lm.intel.com>
- <CAGgvQNReNQgiXydEqX-c+PNgsjZDSbOdYkTTBz8SV-sPwCVL7Q@mail.gmail.com>
- <alpine.LNX.2.00.1505221738090.15930@localhost.lm.intel.com>
-Message-ID: <CAGgvQNQY-9YK5i=waOE8Cext_Lp6vSGw+iofcNmaU29-_kpomw@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 22 May 2015 12:28:31 -0600
+Subject: [PATCH] NVMe: Fix obtaining command result
+Message-ID: <1432319311-2895-1-git-send-email-keith.busch@intel.com>
 
-On Fri, May 22, 2015@11:17 PM, Keith Busch <keith.busch@intel.com> wrote:
-> On Fri, 22 May 2015, Parav Pandit wrote:
->>
->> I agree to it that nvmeq won't be null after mb(); That alone is not
->> sufficient.
->>
->> What I have proposed in previous email is,
->>
->> Converting,
->>
->> struct nvme_queue *nvmeq = dev->queues[i];
->> if (!nvmeq)
->>    continue;
->> spin_lock_irq(nvmeq->q_lock);
->>
->> to replace with,
->>
->> struct nvme_queue *nvmeq = rcu_dereference(dev->queues[i]);
->> if (!nvmeq)
->>    continue;
->> spin_lock_irq(nvmeq->q_lock);
->>
->> This will prevent fetching content of q_lock before checking for NULL
->> condition. Classic usage or RCU.
->
->
-> What the heck are you talking about? The value of dev->queue_count won't
-> even let the thread iterate an nvmeq before q_lock is initialized.
->
-Oh, right. My bad. I was getting confused with the possible reordering
-in reset path within,
-nvme_free_queues()
-1320                 dev->queue_count--;
-1321                 dev->queues[i] = NULL;
+Replaces req->sense_len usage, which is not owned by the LLD, to
+req->special to contain the command result for driver created commands,
+and sets the result unconditionally on completion.
 
-while nvme_kthread is working on it.
-But thats unlikely case because device is removed from the list before.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Jens Axboe <axboe at fb.com>
+---
+ drivers/block/nvme-core.c |   10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Yes, so mb() is good enough.
-I will send you the patch.
-Thanks.
-
-
-> We used to rcu protect queue access, but that was to make nvme's
-> make_request_fn safe to surprise removal, not for the polling thread.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 03bd638..c42bc53 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -606,13 +606,16 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
+ 			return;
+ 		}
+ 		if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
+-			req->sense_len = le32_to_cpup(&cqe->result);
+ 			req->errors = status;
+ 		} else {
+ 			req->errors = nvme_error_status(status);
+ 		}
+ 	} else
+ 		req->errors = 0;
++	if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
++		u32 result = le32_to_cpup(&cqe->result);
++		req->special = (void *)(uintptr_t)result;
++	}
+ 
+ 	if (cmd_rq->aborted)
+ 		dev_warn(nvmeq->dev->dev,
+@@ -1015,8 +1018,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 
+ 	req->cmd = (unsigned char *)cmd;
+ 	req->cmd_len = sizeof(struct nvme_command);
+-	req->sense = NULL;
+-	req->sense_len = 0;
++	req->special = (void *)0;
+ 
+ 	if (buffer && bufflen) {
+ 		ret = blk_rq_map_kern(q, req, buffer, bufflen, __GFP_WAIT);
+@@ -1033,7 +1035,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 	if (bio)
+ 		blk_rq_unmap_user(bio);
+ 	if (result)
+-		*result = req->sense_len;
++		*result = (u32)(uintptr_t)req->special;
+ 	ret = req->errors;
+  out:
+ 	blk_mq_free_request(req);
+-- 
+1.7.10.4
