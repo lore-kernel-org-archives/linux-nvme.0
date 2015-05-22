@@ -1,15 +1,27 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Fri, 22 May 2015 08:42:39 -0600
-Subject: nvme patchbomb, take 3
-In-Reply-To: <1432285966-31770-1-git-send-email-hch@lst.de>
-References: <1432285966-31770-1-git-send-email-hch@lst.de>
-Message-ID: <555F405F.1060204@fb.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 22 May 2015 14:48:13 +0000 (UTC)
+Subject: [PATCH] NVMe: Avoid interrupt disable during queue init.
+In-Reply-To: <CAGgvQNQHaZBRzedkLmYxCBtDyxq7j2wr=e0vAYfw5r+KKeVbxg@mail.gmail.com>
+References: <1432253553-17045-1-git-send-email-parav.pandit@avagotech.com>
+ <alpine.LNX.2.00.1505211931470.15930@localhost.lm.intel.com>
+ <CAGgvQNQHaZBRzedkLmYxCBtDyxq7j2wr=e0vAYfw5r+KKeVbxg@mail.gmail.com>
+Message-ID: <alpine.LNX.2.00.1505221446410.15930@localhost.lm.intel.com>
 
-On 05/22/2015 03:12 AM, Christoph Hellwig wrote:
-> Dropped patch 1 as it's already in the queue for 4.1, and dropped the
-> old patch 4 to keep the unused  nvme_{get, set}_features argument for now.
+On Thu, 21 May 2015, Parav Pandit wrote:
+> On Fri, May 22, 2015@1:04 AM, Keith Busch <keith.busch@intel.com> wrote:
+>> The q_lock is held to protect polling from reading inconsistent data.
 >
-Applied for 4.2.
+> ah, yes. I can see the nvme_kthread can poll the CQ while its getting
+> created through the nvme_resume().
+> I think this opens up other issue.
+>
+> nvme_kthread() should,
+>
+> Instead of,
+> struct nvme_queue *nvmeq = dev->queues[i];
+>
+> it should do,
+> struct nvme_queue *nvmeq = rcu_dereference(dev->queues[i]);
 
--- 
-Jens Axboe
+The rcu protection on nvme queues was removed with the blk-mq conversion
+as we rely on that layer for h/w access.
