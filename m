@@ -1,33 +1,30 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Wed, 27 May 2015 12:26:23 -0600
-Subject: [PATCH] NVMe: Memory barrier before queue_count is incremented
-Message-ID: <1432751183-20199-1-git-send-email-jonathan.derrick@intel.com>
+From: storagepavilion@gmail.com (Pavilion Storage)
+Date: Wed, 27 May 2015 14:30:01 -0700
+Subject: Problems writing to intel P3700 NVMe drive
+Message-ID: <CAFMq3wEyk9PMbD8Cgn5trJyDjaOKpMzR-TNzbx0zXN=Mms573Q@mail.gmail.com>
 
-Protects against reordering and/or preempting which would allow the
-kthread to access the queue descriptor before it is set up
+I am having problems with writing to an intel P3700 NVMe drive on a
+ARM based platform and I would appreciate any help in debugging this
+problem. Here are my experiments and observations so far:
 
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
----
- drivers/block/nvme-core.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+   - The drive is usable for read operations and I can run fio
+(randread, etc) but I cannot write to it.
+   - Other manufacturer's NVMe drive can be inserted into this
+platform and I can write to it
+   - I can insert the intel P3700 into an x86 host and I can perform
+write operations
+   - I have tried using the nvme-cli
+(https://github.com/linux-nvme/nvme-cli) tool and have read the error
+codes from read. It just shows 'WRITE_FAULT' which is not very
+helpful.
+   - I have looked at the SmartLog reports and the 'Critical Warning'
+is 0, i.e. the device is not in Read-Only mode
+   - I have updated the firmware using the intel SSD-DataCenterTool
+and updated the firmware on the drive the latest available version.
+The updated drive works fine on x86 platform.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index c42bc53..2b0c817 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1463,9 +1463,12 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- 	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
- 	nvmeq->q_depth = depth;
- 	nvmeq->qid = qid;
--	dev->queue_count++;
- 	dev->queues[qid] = nvmeq;
- 
-+	/* make sure queue descriptor is set before queue count, for kthread */
-+	mb();
-+	dev->queue_count++;
-+
- 	return nvmeq;
- 
-  free_cqdma:
--- 
-2.1.4
+I think there is some combination of the platform and drive that is
+causing the problem. Can anyone offer pointers on how to debug this?
+
+Thx
+Kishore
