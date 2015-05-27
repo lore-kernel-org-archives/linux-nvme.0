@@ -1,28 +1,30 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 26 May 2015 15:16:47 +0000 (UTC)
-Subject: [PATCH] NVMe: Fix obtaining command result
-In-Reply-To: <20150523130150.GA18701@lst.de>
-References: <1432319311-2895-1-git-send-email-keith.busch@intel.com>
- <20150523130150.GA18701@lst.de>
-Message-ID: <alpine.LNX.2.00.1505261512120.15930@localhost.lm.intel.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 27 May 2015 09:56:52 +0200
+Subject: nvme: submit internal commands through the block layer
+In-Reply-To: <20150526090815.GA32137@mwanda>
+References: <20150526090815.GA32137@mwanda>
+Message-ID: <20150527075652.GA24737@lst.de>
 
-On Sat, 23 May 2015, Christoph Hellwig wrote:
-> On Fri, May 22, 2015@12:28:31PM -0600, Keith Busch wrote:
->> Replaces req->sense_len usage, which is not owned by the LLD, to
->> req->special to contain the command result for driver created commands,
->> and sets the result unconditionally on completion.
->
-> Thanks Keith,
->
-> sorry for the mess, after porting this from my series to use replace
-> the BLOCK_PC specific fields to mainline I only tested this on Qemu
-> which only has a single queue.  I'll make sure to always do final
-> testing on real hardware as well.
+On Tue, May 26, 2015@12:08:15PM +0300, Dan Carpenter wrote:
+> drivers/block/nvme-core.c
+>    853		 */
+>    854		if (ns && ns->ms && !blk_integrity_rq(req)) {
+>                     ^^
+> Patch adds a new check.
 
-No problem, it's a good enhancement overall and caught early enough,
-so no a big deal. Break and fix cycles are better than doing nothing. :)
+Correctly so ..
 
-BTW, the qemu nvme block device *should* be multi-queue capable if you
-allocate multiple CPUs (-smp <cpus>) to your guest. It works in my tree
-at least, so I hope it works in qemu mainline. Maybe I'll have time this
-week to look at that.
+>    912		nvme_set_info(cmd, iod, req_completion);
+>    913		spin_lock_irq(&nvmeq->q_lock);
+>    914		if (req->cmd_type == REQ_TYPE_DRV_PRIV)
+>    915			nvme_submit_priv(nvmeq, req, iod);
+>    916		else if (req->cmd_flags & REQ_DISCARD)
+>    917			nvme_submit_discard(nvmeq, ns, req, iod);
+>                                                    ^^
+> Dereferenced inside function.
+> 
+>    918		else if (req->cmd_flags & REQ_FLUSH)
+>    919			nvme_submit_flush(nvmeq, ns, req->tag);
+
+We'll only get REQ_TYPE_DRV_PRIV requests through the passthrough
+interface, so this is unrechable.
