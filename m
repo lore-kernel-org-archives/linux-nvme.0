@@ -1,37 +1,25 @@
-From: Stephen.Bates@pmcs.com (Stephen Bates)
-Date: Thu, 28 May 2015 10:59:34 +0000
-Subject: [NVME-CLI] Status Update
-In-Reply-To: <20150528071844.GA25896@infradead.org>
-References: <36F6EBABA23FEF4391AF72944D228901B6BE2CD7@BBYEXM01.pmc-sierra.internal>
- <20150528071844.GA25896@infradead.org>
-Message-ID: <36F6EBABA23FEF4391AF72944D228901B6BE3A8F@BBYEXM01.pmc-sierra.internal>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 28 May 2015 09:48:54 -0600
+Subject: [PATCH 1/2] NVMe: Use requested sync command timeout
+Message-ID: <1432828135-31724-1-git-send-email-keith.busch@intel.com>
 
-Christoph
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/block/nvme-core.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Hmmm I should begin by saying I am not a lawyer ;-). I was under the impression that the dual licensing option was valid. However, I have passed your comment along to someone who is more knowledgeable on this topic than I am and will get back to you. We do want to make nvme-cli distributable under Apache so we will see what the options are.
-
-Cheers
-
-Stephen Bates, PhD
-Technical Director, CSTO
-PMC-Sierra
-Cell: +1 403 609 1784
-Twitter: @stepbates
-
------Original Message-----
-From: Christoph Hellwig [mailto:hch@infradead.org] 
-Sent: Thursday, May 28, 2015 1:19 AM
-To: Stephen Bates
-Cc: linux-nvme at lists.infradead.org; Busch, Keith
-Subject: Re: [NVME-CLI] Status Update
-
-On Wed, May 27, 2015@10:28:20PM +0000, Stephen Bates wrote:
-> Hi All
-> 
-> I just wanted to send out an update on the nvme-cli tool that Keith and I have been maintaining. We have performed a few upgrades over the past few months and based on traffic this tool seems to be getting some amount of usage. 
-> 
-> 1. Code is available here - https://github.com/linux-nvme/nvme-cli
-> 2. Code is now Apache licensed (except for the nvme.h file which of course has to be GPL). Hopefully this will encourage adoption.
-
-How can you use a GPL header in an otherwise Apache licenced program?
-That's contrictory licensing that makes distributing the tool basically impossible.
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index c42bc53..4eb9917 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1014,7 +1014,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 	req->__sector = (sector_t) -1;
+ 	req->bio = req->biotail = NULL;
+ 
+-	req->timeout = ADMIN_TIMEOUT;
++	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
+ 
+ 	req->cmd = (unsigned char *)cmd;
+ 	req->cmd_len = sizeof(struct nvme_command);
+-- 
+1.7.10.4
