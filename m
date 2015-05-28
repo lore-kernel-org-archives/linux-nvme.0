@@ -1,201 +1,197 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 28 May 2015 12:37:01 -0600
-Subject: [PATCH 1/2] blk-mq: Shared tag enhancements
-Message-ID: <1432838222-4076-1-git-send-email-keith.busch@intel.com>
+Date: Thu, 28 May 2015 12:37:02 -0600
+Subject: [PATCH 2/2] NVMe: Remove hctx reliance for multi-namespace
+In-Reply-To: <1432838222-4076-1-git-send-email-keith.busch@intel.com>
+References: <1432838222-4076-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1432838222-4076-2-git-send-email-keith.busch@intel.com>
 
-Storage controllers may expose multiple block devices that share hardware
-resources managed by blk-mq. This patch enhances the shared tags so a
-low-level driver can access the shared resources not tied to the unshared
-h/w contexts. This way the LLD can dynamically add and delete disks and
-request queues without having to track all the request_queue hctx's to
-iterate outstanding tags.
+The driver needs to track shared tags to support multiple namespaces
+that may be dynamically allocated or deleted. Previously relying on
+the first request_queue's hctx's is not appropriate as we cannot clear
+the outstanding tags for all namespaces on controller failure using
+this handle, nor can we readily track each request_queue's hctx's as
+namespaces are allocated and deleted. Instead, use the tags directly
+instead of through the unshared h/w contetxts.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 Cc: Jens Axboe <axboe at fb.com>
 Cc: Christoph Hellwig <hch at lst.de>
 ---
- block/blk-mq-tag.c     |   38 ++++++++++++++++++++++++++++++++++++++
- block/blk-mq-tag.h     |    1 +
- block/blk-mq.c         |   16 ++++++++++++++--
- include/linux/blk-mq.h |   14 ++++++++++++++
- 4 files changed, 67 insertions(+), 2 deletions(-)
+ drivers/block/nvme-core.c |   58 +++++++++++++++++++++++++--------------------
+ 1 file changed, 32 insertions(+), 26 deletions(-)
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index be3290c..9b6e288 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -438,6 +438,39 @@ static void bt_for_each(struct blk_mq_hw_ctx *hctx,
- 	}
- }
- 
-+static void bt_tags_for_each(struct blk_mq_tags *tags,
-+		struct blk_mq_bitmap_tags *bt, unsigned int off,
-+		busy_tag_iter_fn *fn, void *data, bool reserved)
-+{
-+	struct request *rq;
-+	int bit, i;
-+
-+	if (!tags->rqs)
-+		return;
-+	for (i = 0; i < bt->map_nr; i++) {
-+		struct blk_align_bitmap *bm = &bt->map[i];
-+
-+		for (bit = find_first_bit(&bm->word, bm->depth);
-+		     bit < bm->depth;
-+		     bit = find_next_bit(&bm->word, bm->depth, bit + 1)) {
-+			rq = blk_mq_tag_to_rq(tags, off + bit);
-+			fn(rq, data, reserved);
-+		}
-+
-+		off += (1 << bt->bits_per_word);
-+	}
-+}
-+
-+void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
-+		void *priv)
-+{
-+	if (tags->nr_reserved_tags)
-+		bt_tags_for_each(tags, &tags->breserved_tags, 0, fn, priv, true);
-+	bt_tags_for_each(tags, &tags->bitmap_tags, tags->nr_reserved_tags, fn, priv,
-+			false);
-+}
-+EXPORT_SYMBOL(blk_mq_all_tag_busy_iter);
-+
- void blk_mq_tag_busy_iter(struct blk_mq_hw_ctx *hctx, busy_iter_fn *fn,
- 		void *priv)
- {
-@@ -580,6 +613,11 @@ struct blk_mq_tags *blk_mq_init_tags(unsigned int total_tags,
- 	if (!tags)
- 		return NULL;
- 
-+	if (!zalloc_cpumask_var(&tags->cpumask, GFP_KERNEL)) {
-+		kfree(tags);
-+		return NULL;
-+	}
-+
- 	tags->nr_tags = total_tags;
- 	tags->nr_reserved_tags = reserved_tags;
- 
-diff --git a/block/blk-mq-tag.h b/block/blk-mq-tag.h
-index 90767b3..75893a3 100644
---- a/block/blk-mq-tag.h
-+++ b/block/blk-mq-tag.h
-@@ -44,6 +44,7 @@ struct blk_mq_tags {
- 	struct list_head page_list;
- 
- 	int alloc_policy;
-+	cpumask_var_t cpumask;
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index c42bc53..851dc9a 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -114,7 +114,7 @@ struct nvme_queue {
+ 	u8 cq_phase;
+ 	u8 cqe_seen;
+ 	struct async_cmd_info cmdinfo;
+-	struct blk_mq_hw_ctx *hctx;
++	struct blk_mq_tags *tags;
  };
  
+ /*
+@@ -182,8 +182,8 @@ static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 	struct nvme_dev *dev = data;
+ 	struct nvme_queue *nvmeq = dev->queues[0];
  
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index c382a34..a2df285 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1420,6 +1420,8 @@ static void blk_mq_free_rq_map(struct blk_mq_tag_set *set,
- {
- 	struct page *page;
- 
-+	if (set->ops->exit_tags)
-+		set->ops->exit_tags(set->driver_data, hctx_idx);
- 	if (tags->rqs && set->ops->exit_request) {
- 		int i;
- 
-@@ -1525,7 +1527,8 @@ static struct blk_mq_tags *blk_mq_init_rq_map(struct blk_mq_tag_set *set,
- 			i++;
- 		}
- 	}
--
-+	if (set->ops->init_tags)
-+		set->ops->init_tags(tags, set->driver_data, hctx_idx);
- 	return tags;
- 
- fail:
-@@ -1821,6 +1824,7 @@ static void blk_mq_map_swqueue(struct request_queue *q)
- 
- 		hctx = q->mq_ops->map_queue(q, i);
- 		cpumask_set_cpu(i, hctx->cpumask);
-+		cpumask_set_cpu(i, hctx->tags->cpumask);
- 		ctx->index_hw = hctx->nr_ctx;
- 		hctx->ctxs[hctx->nr_ctx++] = ctx;
- 	}
-@@ -2187,6 +2191,12 @@ static int blk_mq_alloc_rq_maps(struct blk_mq_tag_set *set)
+-	WARN_ON(nvmeq->hctx);
+-	nvmeq->hctx = hctx;
++	WARN_ON(nvmeq->tags);
++	nvmeq->tags = hctx->tags;
+ 	hctx->driver_data = nvmeq;
+ 	return 0;
+ }
+@@ -201,11 +201,23 @@ static int nvme_admin_init_request(void *data, struct request *req,
  	return 0;
  }
  
-+struct cpumask *blk_mq_tags_cpumask(struct blk_mq_tags *tags)
-+{
-+	return tags->cpumask;
+-static void nvme_exit_hctx(struct blk_mq_hw_ctx *hctx, unsigned int hctx_idx)
++static void nvme_exit_tags(void *data, unsigned int hctx_idx)
+ {
+-	struct nvme_queue *nvmeq = hctx->driver_data;
++	struct nvme_dev *dev = data;
++	struct nvme_queue *nvmeq = dev->queues[
++					(hctx_idx % dev->queue_count) + 1];
++	nvmeq->tags = NULL;
 +}
-+EXPORT_SYMBOL_GPL(blk_mq_tags_cpumask);
-+
- /*
-  * Alloc a tag set to be associated with one or more request queues.
-  * May fail with EINVAL for various error conditions. May adjust the
-@@ -2248,8 +2258,10 @@ void blk_mq_free_tag_set(struct blk_mq_tag_set *set)
- 	int i;
  
- 	for (i = 0; i < set->nr_hw_queues; i++) {
--		if (set->tags[i])
-+		if (set->tags[i]) {
- 			blk_mq_free_rq_map(set, set->tags[i], i);
-+			free_cpumask_var(set->tags[i]->cpumask);
-+		}
+-	nvmeq->hctx = NULL;
++static int nvme_init_tags(struct blk_mq_tags *tags, void *data,
++			  unsigned int hctx_idx)
++{
++	struct nvme_dev *dev = data;
++	struct nvme_queue *nvmeq = dev->queues[
++					(hctx_idx % dev->queue_count) + 1];
++	WARN_ON(nvmeq->tags);
++	nvmeq->tags = tags;
++	return 0;
+ }
+ 
+ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+@@ -215,12 +227,9 @@ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 	struct nvme_queue *nvmeq = dev->queues[
+ 					(hctx_idx % dev->queue_count) + 1];
+ 
+-	if (!nvmeq->hctx)
+-		nvmeq->hctx = hctx;
+-
+ 	/* nvmeq queues are shared between namespaces. We assume here that
+ 	 * blk-mq map the tags so they match up with the nvme queue tags. */
+-	WARN_ON(nvmeq->hctx->tags != hctx->tags);
++	WARN_ON(nvmeq->tags != hctx->tags);
+ 
+ 	hctx->driver_data = nvmeq;
+ 	return 0;
+@@ -320,7 +329,7 @@ static void abort_completion(struct nvme_queue *nvmeq, void *ctx,
+ 	u16 status = le16_to_cpup(&cqe->status) >> 1;
+ 	u32 result = le32_to_cpup(&cqe->result);
+ 
+-	blk_mq_free_hctx_request(nvmeq->hctx, req);
++	blk_mq_free_request(req);
+ 
+ 	dev_warn(nvmeq->q_dmadev, "Abort status:%x result:%x", status, result);
+ 	++nvmeq->dev->abort_limit;
+@@ -333,14 +342,13 @@ static void async_completion(struct nvme_queue *nvmeq, void *ctx,
+ 	cmdinfo->result = le32_to_cpup(&cqe->result);
+ 	cmdinfo->status = le16_to_cpup(&cqe->status) >> 1;
+ 	queue_kthread_work(cmdinfo->worker, &cmdinfo->work);
+-	blk_mq_free_hctx_request(nvmeq->hctx, cmdinfo->req);
++	blk_mq_free_request(cmdinfo->req);
+ }
+ 
+ static inline struct nvme_cmd_info *get_cmd_from_tag(struct nvme_queue *nvmeq,
+ 				  unsigned int tag)
+ {
+-	struct blk_mq_hw_ctx *hctx = nvmeq->hctx;
+-	struct request *req = blk_mq_tag_to_rq(hctx->tags, tag);
++	struct request *req = blk_mq_tag_to_rq(nvmeq->tags, tag);
+ 
+ 	return blk_mq_rq_to_pdu(req);
+ }
+@@ -1067,7 +1075,7 @@ static int nvme_submit_async_admin_req(struct nvme_dev *dev)
+ 	c.common.opcode = nvme_admin_async_event;
+ 	c.common.command_id = req->tag;
+ 
+-	blk_mq_free_hctx_request(nvmeq->hctx, req);
++	blk_mq_free_request(req);
+ 	return __nvme_submit_cmd(nvmeq, &c);
+ }
+ 
+@@ -1309,8 +1317,7 @@ static void nvme_abort_req(struct request *req)
  	}
+ }
  
- 	kfree(set->tags);
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 2056a99..b2cd53f 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -89,6 +89,8 @@ typedef struct blk_mq_hw_ctx *(map_queue_fn)(struct request_queue *, const int);
- typedef enum blk_eh_timer_return (timeout_fn)(struct request *, bool);
- typedef int (init_hctx_fn)(struct blk_mq_hw_ctx *, void *, unsigned int);
- typedef void (exit_hctx_fn)(struct blk_mq_hw_ctx *, unsigned int);
-+typedef int (init_tags_fn)(struct blk_mq_tags *, void *, unsigned int);
-+typedef void (exit_tags_fn)(void *, unsigned int);
- typedef int (init_request_fn)(void *, struct request *, unsigned int,
- 		unsigned int, unsigned int);
- typedef void (exit_request_fn)(void *, struct request *, unsigned int,
-@@ -96,6 +98,7 @@ typedef void (exit_request_fn)(void *, struct request *, unsigned int,
+-static void nvme_cancel_queue_ios(struct blk_mq_hw_ctx *hctx,
+-				struct request *req, void *data, bool reserved)
++static void nvme_cancel_queue_ios(struct request *req, void *data, bool reserved)
+ {
+ 	struct nvme_queue *nvmeq = data;
+ 	void *ctx;
+@@ -1407,11 +1414,10 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
  
- typedef void (busy_iter_fn)(struct blk_mq_hw_ctx *, struct request *, void *,
- 		bool);
-+typedef void (busy_tag_iter_fn)(struct request *, void *, bool);
+ static void nvme_clear_queue(struct nvme_queue *nvmeq)
+ {
+-	struct blk_mq_hw_ctx *hctx = nvmeq->hctx;
+-
+ 	spin_lock_irq(&nvmeq->q_lock);
+-	if (hctx && hctx->tags)
+-		blk_mq_tag_busy_iter(hctx, nvme_cancel_queue_ios, nvmeq);
++	if (nvmeq->tags)
++		blk_mq_all_tag_busy_iter(nvmeq->tags, nvme_cancel_queue_ios,
++								nvmeq);
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ }
  
- struct blk_mq_ops {
- 	/*
-@@ -124,6 +127,14 @@ struct blk_mq_ops {
- 	exit_hctx_fn		*exit_hctx;
+@@ -1604,7 +1610,6 @@ static struct blk_mq_ops nvme_mq_admin_ops = {
+ 	.queue_rq	= nvme_queue_rq,
+ 	.map_queue	= blk_mq_map_queue,
+ 	.init_hctx	= nvme_admin_init_hctx,
+-	.exit_hctx	= nvme_exit_hctx,
+ 	.init_request	= nvme_admin_init_request,
+ 	.timeout	= nvme_timeout,
+ };
+@@ -1613,7 +1618,8 @@ static struct blk_mq_ops nvme_mq_ops = {
+ 	.queue_rq	= nvme_queue_rq,
+ 	.map_queue	= blk_mq_map_queue,
+ 	.init_hctx	= nvme_init_hctx,
+-	.exit_hctx	= nvme_exit_hctx,
++	.init_tags	= nvme_init_tags,
++	.exit_tags	= nvme_exit_tags,
+ 	.init_request	= nvme_init_request,
+ 	.timeout	= nvme_timeout,
+ };
+@@ -2652,6 +2658,7 @@ static void nvme_free_dev(struct kref *kref)
+ 	nvme_release_instance(dev);
+ 	blk_mq_free_tag_set(&dev->tagset);
+ 	blk_put_queue(dev->admin_q);
++	nvme_free_queues(dev, 0);
+ 	kfree(dev->queues);
+ 	kfree(dev->entry);
+ 	kfree(dev);
+@@ -2723,11 +2730,11 @@ static void nvme_set_irq_hints(struct nvme_dev *dev)
+ 	for (i = 0; i < dev->online_queues; i++) {
+ 		nvmeq = dev->queues[i];
  
- 	/*
-+	 * Called when the block layer side of hardware tag set has been set
-+	 * up, allowing the driver to allocate/init matching structures.
-+	 * Ditto for exit/teardown.
-+	 */
-+	init_tags_fn		*init_tags;
-+	exit_tags_fn		*exit_tags;
-+
-+	/*
- 	 * Called for every command allocated by the block layer to allow
- 	 * the driver to set up driver specific data.
- 	 *
-@@ -182,6 +193,7 @@ bool blk_mq_can_queue(struct blk_mq_hw_ctx *);
- struct request *blk_mq_alloc_request(struct request_queue *q, int rw,
- 		gfp_t gfp, bool reserved);
- struct request *blk_mq_tag_to_rq(struct blk_mq_tags *tags, unsigned int tag);
-+struct cpumask *blk_mq_tags_cpumask(struct blk_mq_tags *tags);
+-		if (!nvmeq->hctx)
++		if (!nvmeq->tags)
+ 			continue;
  
- enum {
- 	BLK_MQ_UNIQUE_TAG_BITS = 16,
-@@ -224,6 +236,8 @@ void blk_mq_run_hw_queues(struct request_queue *q, bool async);
- void blk_mq_delay_queue(struct blk_mq_hw_ctx *hctx, unsigned long msecs);
- void blk_mq_tag_busy_iter(struct blk_mq_hw_ctx *hctx, busy_iter_fn *fn,
- 		void *priv);
-+void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
-+		void *priv);
- void blk_mq_freeze_queue(struct request_queue *q);
- void blk_mq_unfreeze_queue(struct request_queue *q);
- void blk_mq_freeze_queue_start(struct request_queue *q);
+ 		irq_set_affinity_hint(dev->entry[nvmeq->cq_vector].vector,
+-							nvmeq->hctx->cpumask);
++					blk_mq_tags_cpumask(nvmeq->tags));
+ 	}
+ }
+ 
+@@ -2969,7 +2976,6 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	nvme_dev_remove(dev);
+ 	nvme_dev_remove_admin(dev);
+ 	device_destroy(nvme_class, MKDEV(nvme_char_major, dev->instance));
+-	nvme_free_queues(dev, 0);
+ 	nvme_release_prp_pools(dev);
+ 	kref_put(&dev->kref, nvme_free_dev);
+ }
 -- 
 1.7.10.4
