@@ -1,73 +1,89 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Fri, 29 May 2015 15:58:25 -0600
-Subject: [PATCH] NVMe: Added IOCTL to initiate subsystem resets
-Message-ID: <1432936705-30232-1-git-send-email-jonathan.derrick@intel.com>
+From: David.Sariel@pmcs.com (David Sariel)
+Date: Sun, 31 May 2015 12:41:20 +0000
+Subject: FW: [PATCH] NVMe: Add reset controller sysfs entry
+In-Reply-To: <31FEE40556302F408590926A3C4AC65FED5627AD@BBYEXM01.pmc-sierra.internal>
+References: <1428096023-1887-1-git-send-email-keith.busch@intel.com>
+ <BN1PR0401MB0931F0B9E7345CA59544CDFBF2FE0@BN1PR0401MB0931.namprd04.prod.outlook.com>
+ <31FEE40556302F408590926A3C4AC65FED561E45@BBYEXM01.pmc-sierra.internal>
+ <alpine.LNX.2.00.1505121508030.15930@localhost.lm.intel.com>
+ <31FEE40556302F408590926A3C4AC65FED5627AD@BBYEXM01.pmc-sierra.internal>
+Message-ID: <31FEE40556302F408590926A3C4AC65FED563386@BBYEXM01.pmc-sierra.internal>
 
-Controllers can perform optional subsystem resets as introduced in NVMe
-1.1. This patch adds an IOCTL to trigger the subsystem reset by writing
-"NVMe" to the NSSR register.
+Hi Keith, Jens,
+Is everything ok with the patch? Do you need anything else from me?
+Thanks
+D
 
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
----
-This patch is contigent on the subsystem reset detection patch:
-http://lists.infradead.org/pipermail/linux-nvme/2015-May/001779.html
- drivers/block/nvme-core.c | 11 +++++++++++
- include/linux/nvme.h      |  2 +-
- include/uapi/linux/nvme.h |  1 +
- 3 files changed, 13 insertions(+), 1 deletion(-)
+-----Original Message-----
+From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of David Sariel
+Sent: Monday, May 18, 2015 7:58 PM
+To: Keith Busch
+Cc: David Darrington; Brandon Schulz; linux-nvme at lists.infradead.org
+Subject: RE: [PATCH] NVMe: Add reset controller sysfs entry
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 0cf18c2..039e1ea 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1846,6 +1846,15 @@ static int nvme_user_cmd(struct nvme_dev *dev, struct nvme_ns *ns,
- 	return status;
- }
- 
-+static int nvme_subsys_reset(struct nvme_dev *dev)
-+{
-+	if (!dev->subsystem)
-+		return -ENOTTY;
-+
-+	writel(0x4E564D65, &dev->bar->nssr); /* "NVMe" */
-+	return 0;
-+}
-+
- static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
- 							unsigned long arg)
- {
-@@ -1861,6 +1870,8 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
- 		return nvme_user_cmd(ns->dev, ns, (void __user *)arg);
- 	case NVME_IOCTL_SUBMIT_IO:
- 		return nvme_submit_io(ns, (void __user *)arg);
-+	case NVME_IOCTL_SUBSYS_RESET:
-+		return nvme_subsys_reset(ns->dev);
- 	case SG_GET_VERSION_NUM:
- 		return nvme_sg_get_version_num((void __user *)arg);
- 	case SG_IO:
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 977b0b3..35f0ece 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -28,7 +28,7 @@ struct nvme_bar {
- 	__u32			cc;	/* Controller Configuration */
- 	__u32			rsvd1;	/* Reserved */
- 	__u32			csts;	/* Controller Status */
--	__u32			rsvd2;	/* Reserved */
-+	__u32			nssr;	/* Subsystem Reset */
- 	__u32			aqa;	/* Admin Queue Attributes */
- 	__u64			asq;	/* Admin SQ Base Address */
- 	__u64			acq;	/* Admin CQ Base Address */
-diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
-index aef9a81..7d2907d 100644
---- a/include/uapi/linux/nvme.h
-+++ b/include/uapi/linux/nvme.h
-@@ -579,5 +579,6 @@ struct nvme_passthru_cmd {
- #define NVME_IOCTL_ADMIN_CMD	_IOWR('N', 0x41, struct nvme_admin_cmd)
- #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
- #define NVME_IOCTL_IO_CMD	_IOWR('N', 0x43, struct nvme_passthru_cmd)
-+#define NVME_IOCTL_SUBSYS_RESET	_IO('N', 0x44)
- 
- #endif /* _UAPI_LINUX_NVME_H */
--- 
-2.1.4
+Hi Keith
+Attaching the patch as a file. I have patched against https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git.
+Hope it's ok now. LMK if anything else is needed.
+Thanks!
+D
+
+
+
+-----Original Message-----
+From: Keith Busch [mailto:keith.busch@intel.com] 
+Sent: Tuesday, May 12, 2015 6:11 PM
+To: David Sariel
+Cc: Brandon Schulz; Keith Busch; linux-nvme at lists.infradead.org; David Darrington
+Subject: RE: [PATCH] NVMe: Add reset controller sysfs entry
+
+On Sun, 3 May 2015, David Sariel wrote:
+> Hi Keith, Brandon,
+> It took me a while to get hands on it. Attaching the patch according to Keith's remarks:
+
+Could you send this in a format that can be applied? We need a proper patch with commit log, and I think your email client is mucking up the formatting.
+
+> diff -uprN a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> --- a/drivers/block/nvme-core.c	2014-09-06 02:37:11.000000000 +0300
+> +++ b/drivers/block/nvme-core.c	2015-05-03 21:05:12.000000000 +0300
+> @@ -2627,6 +2627,18 @@ static long nvme_dev_ioctl(struct file *
+> 	switch (cmd) {
+> 	case NVME_IOCTL_ADMIN_CMD:
+> 		return nvme_user_admin_cmd(dev, (void __user *)arg);
+> +	case NVME_IOCTL_RESET:
+> +        if(work_busy(&dev->reset_work) )
+> +        	return -EBUSY;
+> +
+> +        dev_warn(&dev->pci_dev->dev, "resetting controller\n");
+> +        dev->reset_workfn = nvme_reset_failed_dev;
+> +        queue_work(nvme_workq, &dev->reset_work);
+> +
+> +        /* Wait for a work to finish executing the last queueing instance */
+> +        flush_work(&dev->reset_work);
+> +
+> +		return 0;
+> 	default:
+> 		return -ENOTTY;
+> 	}
+> diff -uprN a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
+> --- a/include/uapi/linux/nvme.h	2014-09-06 02:37:11.000000000 +0300
+> +++ b/include/uapi/linux/nvme.h	2015-05-03 21:05:30.000000000 +0300
+> @@ -513,5 +513,7 @@ struct nvme_admin_cmd {
+> #define NVME_IOCTL_ID		_IO('N', 0x40)
+> #define NVME_IOCTL_ADMIN_CMD	_IOWR('N', 0x41, struct nvme_admin_cmd)
+> #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
+> +/* 0x43 is used by nvme-cli */
+> +#define NVME_IOCTL_RESET  _IO('N', 0x44)
+>
+> #endif /* _UAPI_LINUX_NVME_H */
+>
+>
+> Although the use case is for the reset is for pre 3.15 kernels, I guess that the patch should be applied to the latest kernel. Am I right?
+
+This is actually useful upstream as well if we don't want to rely on the pci reset to hook into NVMe controller resets. Sometimes we don't even have pci reset available.
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: reset_ioctl.patch
+Type: application/octet-stream
+Size: 1331 bytes
+Desc: reset_ioctl.patch
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20150531/eb9e762e/attachment.obj>
