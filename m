@@ -1,183 +1,324 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon,  1 Jun 2015 09:29:54 -0600
-Subject: [PATCHv2 2/2] NVMe: Remove hctx reliance for multi-namespace
-In-Reply-To: <1433172594-32127-1-git-send-email-keith.busch@intel.com>
-References: <1433172594-32127-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1433172594-32127-2-git-send-email-keith.busch@intel.com>
+Date: Mon,  1 Jun 2015 14:28:14 -0600
+Subject: [PATCHv3] NVMe: Automatic namespace rescan
+Message-ID: <1433190494-19375-1-git-send-email-keith.busch@intel.com>
 
-The driver needs to track shared tags to support multiple namespaces
-that may be dynamically allocated or deleted. Relying on the first
-request_queue's hctx's is not appropriate as we cannot clear outstanding
-tags for all namespaces using this handle, nor can the driver easily track
-all request_queue's hctx as namespaces are attached/detached. Instead,
-this patch uses the nvme_dev's tagset to get the shared tag resources
-instead of through a request_queue hctx.
+Namespaces may be dynamically allocated and deleted or attached and
+detached. This has the driver rescan the device for namespace changes
+after each device reset or namespace change asynchronous event.
+
+There could potentially be many detached namespaces that we don't want
+polluting /dev/ with unusable block handles, so this will delete disks
+if the namespace is not active as indicated by the response from identify
+namespace. This also skips adding the disk if no capacity is provisioned
+to the namespace in the first place.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
-v1 -> v2:
+v2 -> v3:
 
-  Obtain reference to blk_mq_tags through the device's tagset instead
-  of requiring additional blk-mq ops.
+  Merged with latest linux-block/for-next.
 
- drivers/block/nvme-core.c |   52 +++++++++++++++++----------------------------
- 1 file changed, 19 insertions(+), 33 deletions(-)
+  Single patch instead of part of a series of dubiously related
+  patches. This is, however, depenedent on patch proposal to remove
+  blk-mq's hctx reliance for managing nvme io queue tags here:
+
+    http://lists.infradead.org/pipermail/linux-nvme/2015-June/001860.html
+
+  Keeps the namespace list sorted (proposed by Matthew Wilcox).
+
+  Removes namespaces that exceed the device's reported number of
+  namespaces since this is not guaranteed to be a fixed value.
+
+ drivers/block/nvme-core.c |  159 ++++++++++++++++++++++++++++++++++++---------
+ include/linux/nvme.h      |    1 +
+ include/uapi/linux/nvme.h |    4 ++
+ 3 files changed, 132 insertions(+), 32 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index c42bc53..4899c45 100644
+index 9cc3838..1a020e3 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -102,6 +102,7 @@ struct nvme_queue {
- 	spinlock_t q_lock;
- 	struct nvme_command *sq_cmds;
- 	volatile struct nvme_completion *cqes;
-+	struct blk_mq_tags **tags;
- 	dma_addr_t sq_dma_addr;
- 	dma_addr_t cq_dma_addr;
- 	u32 __iomem *q_db;
-@@ -114,7 +115,6 @@ struct nvme_queue {
- 	u8 cq_phase;
- 	u8 cqe_seen;
- 	struct async_cmd_info cmdinfo;
--	struct blk_mq_hw_ctx *hctx;
- };
+@@ -29,6 +29,7 @@
+ #include <linux/kdev_t.h>
+ #include <linux/kthread.h>
+ #include <linux/kernel.h>
++#include <linux/list_sort.h>
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
+@@ -299,9 +300,16 @@ static void async_req_completion(struct nvme_queue *nvmeq, void *ctx,
  
- /*
-@@ -182,9 +182,12 @@ static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
- 	struct nvme_dev *dev = data;
- 	struct nvme_queue *nvmeq = dev->queues[0];
- 
--	WARN_ON(nvmeq->hctx);
--	nvmeq->hctx = hctx;
-+	WARN_ON(hctx_idx != 0);
-+	WARN_ON(dev->admin_tagset.tags[0] != hctx->tags);
-+	WARN_ON(nvmeq->tags);
+ 	if (status == NVME_SC_SUCCESS || status == NVME_SC_ABORT_REQ)
+ 		++nvmeq->dev->event_limit;
+-	if (status == NVME_SC_SUCCESS)
+-		dev_warn(nvmeq->q_dmadev,
+-			"async event result %08x\n", result);
++	if (status != NVME_SC_SUCCESS)
++		return;
 +
- 	hctx->driver_data = nvmeq;
-+	nvmeq->tags = &dev->admin_tagset.tags[0];
- 	return 0;
++	switch (result & 0xff07) {
++	case NVME_AER_NOTICE_NS_CHANGED:
++		dev_info(nvmeq->q_dmadev, "rescanning\n");
++		schedule_work(&nvmeq->dev->scan_work);
++	default:
++		dev_warn(nvmeq->q_dmadev, "async event result %08x\n", result);
++	}
  }
  
-@@ -201,27 +204,16 @@ static int nvme_admin_init_request(void *data, struct request *req,
- 	return 0;
- }
+ static void abort_completion(struct nvme_queue *nvmeq, void *ctx,
+@@ -1940,8 +1948,13 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 	unsigned short bs;
  
--static void nvme_exit_hctx(struct blk_mq_hw_ctx *hctx, unsigned int hctx_idx)
--{
--	struct nvme_queue *nvmeq = hctx->driver_data;
--
--	nvmeq->hctx = NULL;
--}
--
- static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
- 			  unsigned int hctx_idx)
- {
- 	struct nvme_dev *dev = data;
--	struct nvme_queue *nvmeq = dev->queues[
--					(hctx_idx % dev->queue_count) + 1];
--
--	if (!nvmeq->hctx)
--		nvmeq->hctx = hctx;
-+	struct nvme_queue *nvmeq = dev->queues[hctx_idx + 1];
- 
--	/* nvmeq queues are shared between namespaces. We assume here that
--	 * blk-mq map the tags so they match up with the nvme queue tags. */
--	WARN_ON(nvmeq->hctx->tags != hctx->tags);
-+	if (!nvmeq->tags)
-+		nvmeq->tags = &dev->tagset.tags[hctx_idx];
- 
-+	WARN_ON(dev->tagset.tags[hctx_idx] != hctx->tags);
- 	hctx->driver_data = nvmeq;
- 	return 0;
- }
-@@ -320,7 +312,7 @@ static void abort_completion(struct nvme_queue *nvmeq, void *ctx,
- 	u16 status = le16_to_cpup(&cqe->status) >> 1;
- 	u32 result = le32_to_cpup(&cqe->result);
- 
--	blk_mq_free_hctx_request(nvmeq->hctx, req);
-+	blk_mq_free_request(req);
- 
- 	dev_warn(nvmeq->q_dmadev, "Abort status:%x result:%x", status, result);
- 	++nvmeq->dev->abort_limit;
-@@ -333,14 +325,13 @@ static void async_completion(struct nvme_queue *nvmeq, void *ctx,
- 	cmdinfo->result = le32_to_cpup(&cqe->result);
- 	cmdinfo->status = le16_to_cpup(&cqe->status) >> 1;
- 	queue_kthread_work(cmdinfo->worker, &cmdinfo->work);
--	blk_mq_free_hctx_request(nvmeq->hctx, cmdinfo->req);
-+	blk_mq_free_request(cmdinfo->req);
- }
- 
- static inline struct nvme_cmd_info *get_cmd_from_tag(struct nvme_queue *nvmeq,
- 				  unsigned int tag)
- {
--	struct blk_mq_hw_ctx *hctx = nvmeq->hctx;
--	struct request *req = blk_mq_tag_to_rq(hctx->tags, tag);
-+	struct request *req = blk_mq_tag_to_rq(*nvmeq->tags, tag);
- 
- 	return blk_mq_rq_to_pdu(req);
- }
-@@ -1067,7 +1058,7 @@ static int nvme_submit_async_admin_req(struct nvme_dev *dev)
- 	c.common.opcode = nvme_admin_async_event;
- 	c.common.command_id = req->tag;
- 
--	blk_mq_free_hctx_request(nvmeq->hctx, req);
-+	blk_mq_free_request(req);
- 	return __nvme_submit_cmd(nvmeq, &c);
- }
- 
-@@ -1309,8 +1300,7 @@ static void nvme_abort_req(struct request *req)
+ 	if (nvme_identify_ns(dev, ns->ns_id, &id)) {
+-		dev_warn(dev->dev, "%s: Identify failure\n", __func__);
+-		return 0;
++		dev_warn(dev->dev, "%s: Identify failure nvme%dn%d\n", __func__,
++						dev->instance, ns->ns_id);
++		return -ENODEV;
++	}
++	if (id->ncap == 0) {
++		kfree(id);
++		return -ENODEV;
  	}
+ 
+ 	old_ms = ns->ms;
+@@ -1975,7 +1988,7 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 								!ns->ext)
+ 		nvme_init_integrity(ns);
+ 
+-	if (id->ncap == 0 || (ns->ms && !blk_get_integrity(disk)))
++	if (ns->ms && !blk_get_integrity(disk))
+ 		set_capacity(disk, 0);
+ 	else
+ 		set_capacity(disk, le64_to_cpup(&id->nsze) << (ns->lba_shift - 9));
+@@ -2093,11 +2106,16 @@ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
+ 	 * requires it.
+ 	 */
+ 	set_capacity(disk, 0);
+-	nvme_revalidate_disk(ns->disk);
++	if (nvme_revalidate_disk(ns->disk))
++		goto out_free_disk;
++
+ 	add_disk(ns->disk);
+ 	if (ns->ms)
+ 		revalidate_disk(ns->disk);
+ 	return;
++ out_free_disk:
++	kfree(disk);
++	list_del(&ns->list);
+  out_free_queue:
+ 	blk_cleanup_queue(ns->queue);
+  out_free_ns:
+@@ -2220,6 +2238,99 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	return result;
  }
  
--static void nvme_cancel_queue_ios(struct blk_mq_hw_ctx *hctx,
--				struct request *req, void *data, bool reserved)
-+static void nvme_cancel_queue_ios(struct request *req, void *data, bool reserved)
++static void nvme_free_namespace(struct nvme_ns *ns)
++{
++	list_del(&ns->list);
++
++	spin_lock(&dev_list_lock);
++	ns->disk->private_data = NULL;
++	spin_unlock(&dev_list_lock);
++
++	put_disk(ns->disk);
++	kfree(ns);
++}
++
++static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
++{
++	struct nvme_ns *nsa = container_of(a, struct nvme_ns, list);
++	struct nvme_ns *nsb = container_of(b, struct nvme_ns, list);
++
++	return nsa->ns_id - nsb->ns_id;
++}
++
++static struct nvme_ns *nvme_find_ns(struct nvme_dev *dev, unsigned nsid)
++{
++	struct nvme_ns *ns;
++
++	list_for_each_entry(ns, &dev->namespaces, list) {
++		if (ns->ns_id == nsid)
++			return ns;
++		if (ns->ns_id > nsid)
++			break;
++	}
++	return NULL;
++}
++
++static inline bool nvme_io_incapable(struct nvme_dev *dev)
++{
++	return (!dev->bar || readl(&dev->bar->csts) & NVME_CSTS_CFS ||
++							dev->online_queues < 2);
++}
++
++static void nvme_ns_remove(struct nvme_ns *ns)
++{
++	bool kill = nvme_io_incapable(ns->dev) && !blk_queue_dying(ns->queue);
++
++	if (kill)
++		blk_set_queue_dying(ns->queue);
++	if (ns->disk->flags & GENHD_FL_UP) {
++		if (blk_get_integrity(ns->disk))
++			blk_integrity_unregister(ns->disk);
++		del_gendisk(ns->disk);
++	}
++	if (kill || !blk_queue_dying(ns->queue)) {
++		blk_mq_abort_requeue_list(ns->queue);
++		blk_cleanup_queue(ns->queue);
++        }
++}
++
++static void nvme_scan_namespaces(struct nvme_dev *dev, unsigned nn)
++{
++	struct nvme_ns *ns, *next;
++	unsigned i;
++
++	for (i = 1; i <= nn; i++) {
++		ns = nvme_find_ns(dev, i);
++		if (ns) {
++			if (revalidate_disk(ns->disk)) {
++				nvme_ns_remove(ns);
++				nvme_free_namespace(ns);
++			}
++		} else
++			nvme_alloc_ns(dev, i);
++	}
++	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
++		if (ns->ns_id > nn) {
++			nvme_ns_remove(ns);
++			nvme_free_namespace(ns);
++		}
++	}
++	list_sort(NULL, &dev->namespaces, ns_cmp);
++}
++
++static void nvme_dev_scan(struct work_struct *work)
++{
++	struct nvme_dev *dev = container_of(work, struct nvme_dev, scan_work);
++	struct nvme_id_ctrl *ctrl;
++
++	if (!dev->tagset.tags)
++		return;
++	if (nvme_identify_ctrl(dev, &ctrl))
++		return;
++	nvme_scan_namespaces(dev, le32_to_cpup(&ctrl->nn));
++	kfree(ctrl);
++}
++
+ /*
+  * Return: error value if an error occurred setting up the queues or calling
+  * Identify Device.  0 if these succeeded, even if adding some of the
+@@ -2230,7 +2341,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
  {
- 	struct nvme_queue *nvmeq = data;
- 	void *ctx;
-@@ -1407,11 +1397,9 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int res;
+-	unsigned nn, i;
++	unsigned nn;
+ 	struct nvme_id_ctrl *ctrl;
+ 	int shift = NVME_CAP_MPSMIN(readq(&dev->bar->cap)) + 12;
  
- static void nvme_clear_queue(struct nvme_queue *nvmeq)
- {
--	struct blk_mq_hw_ctx *hctx = nvmeq->hctx;
+@@ -2276,9 +2387,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	if (blk_mq_alloc_tag_set(&dev->tagset))
+ 		return 0;
+ 
+-	for (i = 1; i <= nn; i++)
+-		nvme_alloc_ns(dev, i);
 -
- 	spin_lock_irq(&nvmeq->q_lock);
--	if (hctx && hctx->tags)
--		blk_mq_tag_busy_iter(hctx, nvme_cancel_queue_ios, nvmeq);
-+	if (nvmeq->tags && *nvmeq->tags)
-+		blk_mq_all_tag_busy_iter(*nvmeq->tags, nvme_cancel_queue_ios, nvmeq);
- 	spin_unlock_irq(&nvmeq->q_lock);
++	schedule_work(&dev->scan_work);
+ 	return 0;
  }
  
-@@ -1604,7 +1592,6 @@ static struct blk_mq_ops nvme_mq_admin_ops = {
- 	.queue_rq	= nvme_queue_rq,
- 	.map_queue	= blk_mq_map_queue,
- 	.init_hctx	= nvme_admin_init_hctx,
--	.exit_hctx	= nvme_exit_hctx,
- 	.init_request	= nvme_admin_init_request,
- 	.timeout	= nvme_timeout,
- };
-@@ -1613,7 +1600,6 @@ static struct blk_mq_ops nvme_mq_ops = {
- 	.queue_rq	= nvme_queue_rq,
- 	.map_queue	= blk_mq_map_queue,
- 	.init_hctx	= nvme_init_hctx,
--	.exit_hctx	= nvme_exit_hctx,
- 	.init_request	= nvme_init_request,
- 	.timeout	= nvme_timeout,
- };
-@@ -2723,11 +2709,11 @@ static void nvme_set_irq_hints(struct nvme_dev *dev)
- 	for (i = 0; i < dev->online_queues; i++) {
- 		nvmeq = dev->queues[i];
+@@ -2578,17 +2687,8 @@ static void nvme_dev_remove(struct nvme_dev *dev)
+ {
+ 	struct nvme_ns *ns;
  
--		if (!nvmeq->hctx)
-+		if (!nvmeq->tags || !(*nvmeq->tags))
- 			continue;
+-	list_for_each_entry(ns, &dev->namespaces, list) {
+-		if (ns->disk->flags & GENHD_FL_UP) {
+-			if (blk_get_integrity(ns->disk))
+-				blk_integrity_unregister(ns->disk);
+-			del_gendisk(ns->disk);
+-		}
+-		if (!blk_queue_dying(ns->queue)) {
+-			blk_mq_abort_requeue_list(ns->queue);
+-			blk_cleanup_queue(ns->queue);
+-		}
+-	}
++	list_for_each_entry(ns, &dev->namespaces, list)
++		nvme_ns_remove(ns);
+ }
  
- 		irq_set_affinity_hint(dev->entry[nvmeq->cq_vector].vector,
--							nvmeq->hctx->cpumask);
-+					blk_mq_tags_cpumask(*nvmeq->tags));
+ static int nvme_setup_prp_pools(struct nvme_dev *dev)
+@@ -2647,16 +2747,8 @@ static void nvme_free_namespaces(struct nvme_dev *dev)
+ {
+ 	struct nvme_ns *ns, *next;
+ 
+-	list_for_each_entry_safe(ns, next, &dev->namespaces, list) {
+-		list_del(&ns->list);
+-
+-		spin_lock(&dev_list_lock);
+-		ns->disk->private_data = NULL;
+-		spin_unlock(&dev_list_lock);
+-
+-		put_disk(ns->disk);
+-		kfree(ns);
+-	}
++	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
++		nvme_free_namespace(ns);
+ }
+ 
+ static void nvme_free_dev(struct kref *kref)
+@@ -2837,6 +2929,7 @@ static int nvme_dev_resume(struct nvme_dev *dev)
+ 		spin_unlock(&dev_list_lock);
+ 	} else {
+ 		nvme_unfreeze_queues(dev);
++		schedule_work(&dev->scan_work);
+ 		nvme_set_irq_hints(dev);
  	}
- }
+ 	return 0;
+@@ -2940,6 +3033,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 		goto put_dev;
  
+ 	INIT_LIST_HEAD(&dev->node);
++	INIT_WORK(&dev->scan_work, nvme_dev_scan);
+ 	INIT_WORK(&dev->probe_work, nvme_async_probe);
+ 	schedule_work(&dev->probe_work);
+ 	return 0;
+@@ -3012,6 +3106,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	pci_set_drvdata(pdev, NULL);
+ 	flush_work(&dev->probe_work);
+ 	flush_work(&dev->reset_work);
++	flush_work(&dev->scan_work);
+ 	device_remove_file(dev->device, &dev_attr_reset_controller);
+ 	nvme_dev_shutdown(dev);
+ 	nvme_dev_remove(dev);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 77ffa04..6f70c4d 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -95,6 +95,7 @@ struct nvme_dev {
+ 	work_func_t reset_workfn;
+ 	struct work_struct reset_work;
+ 	struct work_struct probe_work;
++	struct work_struct scan_work;
+ 	char name[12];
+ 	char serial[20];
+ 	char model[40];
+diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
+index 7d2907d..1620baa 100644
+--- a/include/uapi/linux/nvme.h
++++ b/include/uapi/linux/nvme.h
+@@ -179,6 +179,10 @@ enum {
+ 	NVME_SMART_CRIT_VOLATILE_MEMORY	= 1 << 4,
+ };
+ 
++enum {
++	NVME_AER_NOTICE_NS_CHANGED	= 0x0002,
++};
++
+ struct nvme_lba_range_type {
+ 	__u8			type;
+ 	__u8			attributes;
 -- 
 1.7.10.4
