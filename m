@@ -1,26 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 4 Jun 2015 15:26:03 +0000 (UTC)
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 4 Jun 2015 08:39:09 -0700
 Subject: [PATCH] NVMe: Add reset controller sysfs entry
-In-Reply-To: <D195D453.84EA%brandon.schulz@hgst.com>
+In-Reply-To: <alpine.LNX.2.00.1506041518030.15930@localhost.lm.intel.com>
 References: <D195D453.84EA%brandon.schulz@hgst.com>
-Message-ID: <alpine.LNX.2.00.1506041518030.15930@localhost.lm.intel.com>
+ <alpine.LNX.2.00.1506041518030.15930@localhost.lm.intel.com>
+Message-ID: <20150604153909.GA18137@infradead.org>
 
-On Thu, 4 Jun 2015, Brandon Schulz wrote:
-> Do you plan to merge this into your legacy tree somewhere that we can
-> reference in Bugzillas/etc. with the Linux distro vendors?
+On Thu, Jun 04, 2015@03:26:03PM +0000, Keith Busch wrote:
+> On Thu, 4 Jun 2015, Brandon Schulz wrote:
+> >Do you plan to merge this into your legacy tree somewhere that we can
+> >reference in Bugzillas/etc. with the Linux distro vendors?
+> 
+> There is a strong preference with vendors to see fixes upstream prior
+> to backporting but this is a long-standing percieved weakness in Linux
+> vs. other operating systems; no one wants to reboot their machine for
+> a f/w upgrade ... so, okay, I'll apply it to legacy and see if I can
+> lobby OSVs to take out-of-stream fixes.
 
-There is a strong preference with vendors to see fixes upstream prior
-to backporting but this is a long-standing percieved weakness in Linux
-vs. other operating systems; no one wants to reboot their machine for
-a f/w upgrade ... so, okay, I'll apply it to legacy and see if I can
-lobby OSVs to take out-of-stream fixes.
-
-> On 6/1/15, 9:13 AM, "Keith Busch" <keith.busch@intel.com> wrote:
->
->> On Sun, 31 May 2015, David Sariel wrote:
->>> Hi Keith, Jens,
->>> Is everything ok with the patch? Do you need anything else from me?
->>> Thanks
->>> D
->>
->> Looks goot to me. This is as far as I can take it though.
+Eww.  Jens, can you please just apply this patch so that we're not
+having such a mess?
