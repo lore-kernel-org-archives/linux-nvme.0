@@ -1,33 +1,18 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon,  8 Jun 2015 10:08:14 -0600
-Subject: [PATCH 2/3] NVMe: Don't use fake status on cancelled command
-In-Reply-To: <1433779695-15866-1-git-send-email-keith.busch@intel.com>
-References: <1433779695-15866-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1433779695-15866-3-git-send-email-keith.busch@intel.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 9 Jun 2015 00:31:51 -0700
+Subject: [PATCH v4 2/8] nvme: don't overwrite req->cmd_flags on sync cmd
+In-Reply-To: <1433508870-28251-3-git-send-email-m@bjorling.me>
+References: <1433508870-28251-1-git-send-email-m@bjorling.me>
+ <1433508870-28251-3-git-send-email-m@bjorling.me>
+Message-ID: <20150609073151.GA20450@infradead.org>
 
-Synchronized commands do different things for timed out commands
-vs. controller returned errors.
+On Fri, Jun 05, 2015@02:54:24PM +0200, Matias Bj??rling wrote:
+> In __nvme_submit_sync_cmd, the request direction is overwritten when
+> the REQ_FAILFAST_DRIVER flag is set.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+Looks good,
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 8513321..52742d4 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -613,7 +613,10 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
- 			return;
- 		}
- 		if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
--			req->errors = status;
-+			if (cmd_rq->ctx == CMD_CTX_CANCELLED)
-+				req->errors = -EINTR;
-+			else
-+				req->errors = status;
- 		} else {
- 			req->errors = nvme_error_status(status);
- 		}
--- 
-1.7.10.4
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+This is a fix for a last minute regression and needs to got into the
+drivers/for-4.2 tree ASAP.
