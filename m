@@ -1,18 +1,22 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 9 Jun 2015 00:31:51 -0700
-Subject: [PATCH v4 2/8] nvme: don't overwrite req->cmd_flags on sync cmd
-In-Reply-To: <1433508870-28251-3-git-send-email-m@bjorling.me>
+Date: Tue, 9 Jun 2015 00:46:43 -0700
+Subject: [PATCH v4 0/8] Support for Open-Channel SSDs
+In-Reply-To: <1433508870-28251-1-git-send-email-m@bjorling.me>
 References: <1433508870-28251-1-git-send-email-m@bjorling.me>
- <1433508870-28251-3-git-send-email-m@bjorling.me>
-Message-ID: <20150609073151.GA20450@infradead.org>
+Message-ID: <20150609074643.GA5707@infradead.org>
 
-On Fri, Jun 05, 2015@02:54:24PM +0200, Matias Bj??rling wrote:
-> In __nvme_submit_sync_cmd, the request direction is overwritten when
-> the REQ_FAILFAST_DRIVER flag is set.
+Hi Matias,
 
-Looks good,
+I've been looking over this and I really think it needs a fundamental
+rearchitecture still.  The design of using a separate stacking
+block device and all kinds of private hooks does not look very
+maintainable.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Here is my counter suggestion:
 
-This is a fix for a last minute regression and needs to got into the
-drivers/for-4.2 tree ASAP.
+ - the stacking block device goes away
+ - the nvm_target_type make_rq and prep_rq callbacks are combined
+   into one and called from the nvme/null_blk ->queue_rq method
+   early on to prepare the FTL state.  The drivers that are LightNVM
+   enabled reserve a pointer to it in their per request data, which
+   the unprep_rq callback is called on durign I/O completion.
