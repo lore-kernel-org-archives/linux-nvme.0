@@ -1,26 +1,28 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 11 Jun 2015 06:24:46 -0700
-Subject: abort question
-In-Reply-To: <20150611131254.GM2729@linux.intel.com>
-References: <20150611104603.GA1754@infradead.org>
- <20150611131254.GM2729@linux.intel.com>
-Message-ID: <20150611132446.GA21761@infradead.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 11 Jun 2015 14:10:17 +0000 (UTC)
+Subject: [PATCHv2] NVMe: Stripe queue IRQ vector assignments
+In-Reply-To: <20150611073826.GA27065@infradead.org>
+References: <1433954490-22939-1-git-send-email-jonathan.derrick@intel.com>
+ <20150610190812.GA6200@infradead.org>
+ <alpine.LNX.2.00.1506110020180.15930@localhost.lm.intel.com>
+ <20150611073826.GA27065@infradead.org>
+Message-ID: <alpine.LNX.2.00.1506111350580.15930@localhost.lm.intel.com>
 
-On Thu, Jun 11, 2015@09:12:54AM -0400, Matthew Wilcox wrote:
-> On Thu, Jun 11, 2015@03:46:03AM -0700, Christoph Hellwig wrote:
-> > Don't we need to reserve a request and SQ entry to that we can
-> > always send an abort?  Otherwise a lockded up controller will never
-> > send a abort and always just reset the timer, and never escalate
-> > to a controller reset.
-> 
-> Aborts are sent on the admin queue, not the IO queue.  There should
-> always be plenty of space on the admin queue.
+On Thu, 11 Jun 2015, Christoph Hellwig wrote:
+> Sorry if I wasn't clear - I meant the fact that we avoid the vectors
+> that have the admin queue assigned for I?O queue vectors.  While it's
+> fine to use separate vectors if we have enough I'd rather share an I/O
+> queue with the admin queue than with another I/O queue if that's not the
+> case.
 
-The default admin queue has 256 entries, of which we reserve one for the
-AEN command.  I've been hacking up a NVMe command fuzzer that sends
-semi-random [1] commands to a device, and I manage to reproduce a case
-where it seems like aborts don't make progress.  I haven't fully sorted
-it out yet, but it seems like aborts don't happen.
+Right, I think Jon's patch captures that. If there are not enough for
+1:1, the irqs are shared modulo the number of vectors, so the first
+shared vector is the admin queue's vector 0.
 
-[1] I had to black list commands like I/O CQ/SQ deletion as that crashes
-the driver pretty reliably.
+> The limitation seems odd enough and specific to a piece of silicone that
+> I think we really need a comment and even better a quirk to document it.
+
+It's an errata, but I can imagine what the implementers were thinking:
+per the spec, the admin queue never participates in interrupt coalescing,
+and the admin queue always gets interrupt vector 0. The feature was
+incorrectly tied to the vector rather than the queue.
