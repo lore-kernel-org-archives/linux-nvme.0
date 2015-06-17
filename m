@@ -1,50 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 17 Jun 2015 16:24:56 +0000 (UTC)
-Subject: [PATCH 1/1] NVMe : Corrected memory freeing.
-In-Reply-To: <1434557459-4732-1-git-send-email-dheepthi.s@gracelabs.com>
-References: <1434557459-4732-1-git-send-email-dheepthi.s@gracelabs.com>
-Message-ID: <alpine.LNX.2.00.1506171622030.15930@localhost.lm.intel.com>
+From: m@bjorling.me (Matias Bjorling)
+Date: Wed, 17 Jun 2015 20:04:07 +0200
+Subject: [PATCH v4 0/8] Support for Open-Channel SSDs
+In-Reply-To: <20150617135905.GA17119@infradead.org>
+References: <1433508870-28251-1-git-send-email-m@bjorling.me>
+ <20150609074643.GA5707@infradead.org> <55787DDE.7020801@bjorling.me>
+ <20150611102935.GA4419@infradead.org> <557C5787.3000608@bjorling.me>
+ <20150617135905.GA17119@infradead.org>
+Message-ID: <5581B697.2060800@bjorling.me>
 
-On Wed, 17 Jun 2015, Dheepthi K wrote:
-> Memory freeing order has been corrected incase of
-> allocation failure.
-
-This isn't necessary. The nvme_dev is zero'ed on allocation, and
-kfree(NULL or (void *)0) is okay to do.
-
-
-> Signed-off-by: Dheepthi K <dheepthi.s at gracelabs.com>
-> ---
-> drivers/block/nvme-core.c |    7 ++++---
-> 1 file changed, 4 insertions(+), 3 deletions(-)
+> I don't think the current abuses of the block API are acceptable though.
+> The crazy deep merging shouldn't be too relevant for SSD-type devices
+> so I think you'd do better than trying to reuse the TYPE_FS level
+> blk-mq merging code.  If you want to reuse the request
+> allocation/submission code that's still doable.
 >
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index 683dff2..9bac53b 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -2947,11 +2947,11 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> 	dev->entry = kzalloc_node(num_possible_cpus() * sizeof(*dev->entry),
-> 							GFP_KERNEL, node);
-> 	if (!dev->entry)
-> -		goto free;
-> +		goto free_dev;
-> 	dev->queues = kzalloc_node((num_possible_cpus() + 1) * sizeof(void *),
-> 							GFP_KERNEL, node);
-> 	if (!dev->queues)
-> -		goto free;
-> +		goto free_entry;
+> As a start add a new submit_io method to the nvm_dev_ops, and add
+> an implementation similar to pscsi_execute_cmd in
+> drivers/target/target_core_pscsi.c for nvme, and a trivial no op
+> for a null-nvm driver replacing the null-blk additions.  This
+> will give you very similar behavior to your current code, while
+> allowing to drop all the hacks in the block code.  Note that simple
+> plugging will work just fine which should be all you'll need.
 >
-> 	INIT_LIST_HEAD(&dev->namespaces);
-> 	dev->reset_workfn = nvme_reset_failed_dev;
-> @@ -2987,9 +2987,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-> 	nvme_release_instance(dev);
->  put_pci:
-> 	pci_dev_put(dev->pci_dev);
-> - free:
-> 	kfree(dev->queues);
-> + free_entry:
-> 	kfree(dev->entry);
-> + free_dev:
-> 	kfree(dev);
-> 	return result;
-> }
+
+Thanks, I appreciate you taking the time to go through it. I'll respin 
+the patches and remove the block hacks.
