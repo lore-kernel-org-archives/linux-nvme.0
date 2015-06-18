@@ -1,27 +1,51 @@
-From: m@bjorling.me (Matias Bjorling)
-Date: Wed, 17 Jun 2015 20:04:07 +0200
-Subject: [PATCH v4 0/8] Support for Open-Channel SSDs
-In-Reply-To: <20150617135905.GA17119@infradead.org>
-References: <1433508870-28251-1-git-send-email-m@bjorling.me>
- <20150609074643.GA5707@infradead.org> <55787DDE.7020801@bjorling.me>
- <20150611102935.GA4419@infradead.org> <557C5787.3000608@bjorling.me>
- <20150617135905.GA17119@infradead.org>
-Message-ID: <5581B697.2060800@bjorling.me>
+From: Parav.pandit@avagotech.com (Parav Pandit)
+Date: Thu, 18 Jun 2015 16:13:50 +0530
+Subject: [PATCH] NVMe: Fixed race between nvme_thread & probe path.
+Message-ID: <1434624230-25050-1-git-send-email-Parav.pandit@avagotech.com>
 
-> I don't think the current abuses of the block API are acceptable though.
-> The crazy deep merging shouldn't be too relevant for SSD-type devices
-> so I think you'd do better than trying to reuse the TYPE_FS level
-> blk-mq merging code.  If you want to reuse the request
-> allocation/submission code that's still doable.
->
-> As a start add a new submit_io method to the nvm_dev_ops, and add
-> an implementation similar to pscsi_execute_cmd in
-> drivers/target/target_core_pscsi.c for nvme, and a trivial no op
-> for a null-nvm driver replacing the null-blk additions.  This
-> will give you very similar behavior to your current code, while
-> allowing to drop all the hacks in the block code.  Note that simple
-> plugging will work just fine which should be all you'll need.
->
+Kernel thread nvme_thread and driver load process can be executing
+in parallel on different CPU. This leads to race condition whenever
+nvme_alloc_queue() instructions are executed out of order that can
+reflects incorrect value for nvme_thread.
+Memory barrier in nvme_alloc_queue() ensures that it maintains the
+order and and data dependency read barrier in reader thread ensures
+that cpu cache is synced.
 
-Thanks, I appreciate you taking the time to go through it. I'll respin 
-the patches and remove the block hacks.
+Signed-off-by: Parav Pandit <Parav.pandit at avagotech.com>
+---
+ drivers/block/nvme-core.c |   12 ++++++++++--
+ 1 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 5961ed7..90fb0ce 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1403,8 +1403,10 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+ 	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
+ 	nvmeq->q_depth = depth;
+ 	nvmeq->qid = qid;
+-	dev->queue_count++;
+ 	dev->queues[qid] = nvmeq;
++	/* update queues first before updating queue_count */
++	smp_wmb();
++	dev->queue_count++;
+ 
+ 	return nvmeq;
+ 
+@@ -2073,7 +2075,13 @@ static int nvme_kthread(void *data)
+ 				continue;
+ 			}
+ 			for (i = 0; i < dev->queue_count; i++) {
+-				struct nvme_queue *nvmeq = dev->queues[i];
++				struct nvme_queue *nvmeq;
++
++				/* make sure to read queue_count before
++				 * traversing queues.
++				 */
++				smp_read_barrier_depends();
++				nvmeq = dev->queues[i];
+ 				if (!nvmeq)
+ 					continue;
+ 				spin_lock_irq(&nvmeq->q_lock);
+-- 
+1.7.1
