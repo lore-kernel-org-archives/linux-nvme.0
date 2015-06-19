@@ -1,15 +1,21 @@
-From: junjie.qian@yahoo.com (Junjie Qian)
-Date: Thu, 18 Jun 2015 23:46:30 +0000 (UTC)
-Subject: Question on the hardware dispatch queue in blk-mq and NVMe
- submission queue
-Message-ID: <103340548.1813618.1434671190366.JavaMail.yahoo@mail.yahoo.com>
+From: shane.conner@acceleratebiz.com (FedEx 2Day A.M.)
+Date: Fri, 19 Jun 2015 00:10:28 +0000
+Subject: We could not deliver your parcel, #00000466114
+Message-ID: <416a06cc99e63fcc3921d09261b36a04@acceleratebiz.com>
 
-Hi all, 
+Dear Customer,
 
-I have one question (in latest kernel, 4.1.0) regarding the hardware dispatch queue in blk-mq and the submission queue in NVMe, that are these two queues the same one in the implementation? 
+Courier was unable to deliver the parcel to you.
+Shipment Label is attached to email.
 
-In another word, one IO (to SSD connected with NVMe) is issued from CPU, goes to the per-core software queue, then to hardware dispatch queue, what is next? The submission queue in NVMe or the device? 
+Warm regards,
+Shane Conner,
+FedEx Delivery Manager.
 
-Thanks! 
-Best 
-Junjie
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: FedEx_ID_00000466114.zip
+Type: application/zip
+Size: 1809 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20150619/e6fc689a/attachment.zip>
