@@ -1,30 +1,41 @@
-From: sbradshaw@micron.com (Sam Bradshaw (sbradshaw))
-Date: Fri, 19 Jun 2015 22:47:04 +0000
-Subject: [PATCH] NVMe: Use CMB for the SQ if available
-In-Reply-To: <1434750357-29162-1-git-send-email-jonathan.derrick@intel.com>
-References: <1434750357-29162-1-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <80B89753B40C5141A3E2D53FE7A2A8A9D03A71F1@NTXBOIMBX02.micron.com>
+From: axel.lin@ingics.com (Axel Lin)
+Date: Sat, 20 Jun 2015 16:29:14 +0800
+Subject: [PATCH] block: nvme-scsi: Catch kcalloc failure
+Message-ID: <1434788954.21528.3.camel@ingics.com>
 
+res variable was initialized to -ENOMEM, but it's override by
+nvme_trans_copy_from_user(). So current code returns 0 if kcalloc fails.
+Fix it to return proper error code.
 
+Signed-off-by: Axel Lin <axel.lin at ingics.com>
+---
+ drivers/block/nvme-scsi.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> @@ -376,7 +394,12 @@ static int __nvme_submit_cmd(struct nvme_queue
-> *nvmeq, struct nvme_command *cmd)  {
->  	u16 tail = nvmeq->sq_tail;
-> 
-> -	memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
-> +	if (nvmeq->cmb_mapped)
-> +		memcpy_toio(&nvmeq->sq_cmds[tail], cmd,
-> +				sizeof(*cmd));
-> +	else
-> +		memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
-> +
->  	if (++tail == nvmeq->q_depth)
->  		tail = 0;
->  	writel(tail, nvmeq->q_db);
-
-I think a store fence is necessary between memcpy_toio() and the doorbell ring.
-This applies elsewhere in the patch as well.
-
-For example, we've seen rare cases where Haswells do not emit the whole SQE out 
-of the write combine buffers before the doorbell write traverses PCIe.  Other 
-architectures may have a similar need.  
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index a0fade9..e5a63f0 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -2377,7 +2377,7 @@ static int nvme_trans_unmap(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	struct scsi_unmap_parm_list *plist;
+ 	struct nvme_dsm_range *range;
+ 	struct nvme_command c;
+-	int i, nvme_sc, res = -ENOMEM;
++	int i, nvme_sc, res;
+ 	u16 ndesc, list_len;
+ 
+ 	list_len = get_unaligned_be16(&cmd[7]);
+@@ -2399,8 +2399,10 @@ static int nvme_trans_unmap(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	}
+ 
+ 	range = kcalloc(ndesc, sizeof(*range), GFP_KERNEL);
+-	if (!range)
++	if (!range) {
++		res = -ENOMEM;
+ 		goto out;
++	}
+ 
+ 	for (i = 0; i < ndesc; i++) {
+ 		range[i].nlb = cpu_to_le32(be32_to_cpu(plist->desc[i].nlb));
+-- 
+2.1.0
