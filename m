@@ -1,25 +1,48 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 22 Jun 2015 17:39:00 +0200
-Subject: [PATCH] NVMe: Fix IO for extended metadata formats
-In-Reply-To: <B58D82457FDA0744A320A2FC5AC253B93CBA2D95@fmsmsx104.amr.corp.intel.com>
-References: <1434733650-16440-1-git-send-email-keith.busch@intel.com>
- <20150622053417.GA29813@lst.de>
- <B58D82457FDA0744A320A2FC5AC253B93CBA2D95@fmsmsx104.amr.corp.intel.com>
-Message-ID: <20150622153900.GA7952@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 22 Jun 2015 17:18:33 +0000 (UTC)
+Subject: [PATCH] NVMe: Use CMB for the SQ if available
+In-Reply-To: <20150622150615.GD1971@linux.intel.com>
+References: <1434750357-29162-1-git-send-email-jonathan.derrick@intel.com>
+ <20150622150615.GD1971@linux.intel.com>
+Message-ID: <alpine.LNX.2.00.1506221518110.15930@localhost.lm.intel.com>
 
-On Mon, Jun 22, 2015@03:17:07PM +0000, Busch, Keith wrote:
-> Similar to SG_IO, we can submit arbitrary length commands using the nvme
-> passthrough. It seems to work. Here's a test I did using the "nvme-cli"
-> program.
+On Mon, 22 Jun 2015, Matthew Wilcox wrote:
+> On Fri, Jun 19, 2015@03:45:57PM -0600, Jon Derrick wrote:
+>>  	u32 __iomem *q_db;
+>> +	bool cmb_mapped;
+>> +	struct nvme_command cmb_cmd ____cacheline_aligned;
+>>  	u16 q_depth;
+>
+> I don't like this.  Some of the places which submit commands today
+> construct the command on the stack, and others construct them directly
+> in the host-side queue memory.  I'd rather see them all construct on
+> the stack, rather than in the nvme_queue.
 
-Yeah, I was mostly worried about the request mapping code tripping
-up on these unaligned sized.  I don't have a device that supports it
-so I couldn't test it myself.
+We thought constructing directly in the queue's entry was a
+micro-optimization for the fast path. I can measure a small (~1%)
+performance drop from buffering the nvme command on the stack vs writing
+it inline. This test synthesized an infinitely fast nvme device, though;
+the loss is more insignificant on real h/w.
 
-Btw, given your test below:  I had thought for a while to add unit
-tests to the nvme-cli package for cases like the one you had below.
+>> +		/* Ensure the reduced q_depth is above some threshold where it
+>> +		would be better to map queues in system memory with the
+>> +		original depth */
+>> +		if (q_depth < 64)
+>> +			return -ENOMEM;
+>> +	}
+>
+> It seems to me that rather than avoiding use of the CMB entirely if it's
+> too small, or the number of queues is too large, we should use the CMB
+> for the first N queues and use host memory for the rest.  Yes, there'll
+> be a performance difference between the queues, but there's already a
+> performance difference between queues in memory that's NUMA-local to
+> the adapter and memory that's NUMA-far.
 
-The use case would be mostly to verify the driver, less the hardware
-unless the two are tangled up or the hardware specific cases are simple
-enough.  I've had good succeed with the cunit based SCSI testsuite
-in libiscsi, so I could come up with a skeleton for it.
+At least with NUMA, a user can discover where the local node is and
+control their applications for better performance.
+
+If some queues are CMB and some are not, and we don't control which
+CPUs are assigned a queue, there's no good way a user can know how to
+tune their application to use one type of queue or another. It seemed
+preferable to avoid a potentially confusing performance variability
+scenario.
