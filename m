@@ -1,46 +1,71 @@
 From: willy@linux.intel.com (Matthew Wilcox)
-Date: Mon, 22 Jun 2015 10:48:05 -0400
+Date: Mon, 22 Jun 2015 11:06:15 -0400
 Subject: [PATCH] NVMe: Use CMB for the SQ if available
-In-Reply-To: <80B89753B40C5141A3E2D53FE7A2A8A9D03A71F1@NTXBOIMBX02.micron.com>
+In-Reply-To: <1434750357-29162-1-git-send-email-jonathan.derrick@intel.com>
 References: <1434750357-29162-1-git-send-email-jonathan.derrick@intel.com>
- <80B89753B40C5141A3E2D53FE7A2A8A9D03A71F1@NTXBOIMBX02.micron.com>
-Message-ID: <20150622144805.GC1971@linux.intel.com>
+Message-ID: <20150622150615.GD1971@linux.intel.com>
 
-On Fri, Jun 19, 2015@10:47:04PM +0000, Sam Bradshaw (sbradshaw) wrote:
-> > @@ -376,7 +394,12 @@ static int __nvme_submit_cmd(struct nvme_queue
-> > *nvmeq, struct nvme_command *cmd)  {
-> >  	u16 tail = nvmeq->sq_tail;
-> > 
-> > -	memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
-> > +	if (nvmeq->cmb_mapped)
-> > +		memcpy_toio(&nvmeq->sq_cmds[tail], cmd,
-> > +				sizeof(*cmd));
-> > +	else
-> > +		memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
-> > +
-> >  	if (++tail == nvmeq->q_depth)
-> >  		tail = 0;
-> >  	writel(tail, nvmeq->q_db);
-> 
-> I think a store fence is necessary between memcpy_toio() and the doorbell ring.
-> This applies elsewhere in the patch as well.
-> 
-> For example, we've seen rare cases where Haswells do not emit the whole SQE out 
-> of the write combine buffers before the doorbell write traverses PCIe.  Other 
-> architectures may have a similar need.  
+On Fri, Jun 19, 2015@03:45:57PM -0600, Jon Derrick wrote:
+> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+> index 12d5b7b..ebbba55 100644
+> --- a/drivers/block/nvme-core.c
+> +++ b/drivers/block/nvme-core.c
+> @@ -108,6 +108,8 @@ struct nvme_queue {
+>  	dma_addr_t sq_dma_addr;
+>  	dma_addr_t cq_dma_addr;
+>  	u32 __iomem *q_db;
+> +	bool cmb_mapped;
+> +	struct nvme_command cmb_cmd ____cacheline_aligned;
+>  	u16 q_depth;
+>  	s16 cq_vector;
+>  	u16 sq_head;
 
-That isn't supposed to happen.  A write to an uncached area is supposed
-to flush the WC buffers.  See section 11.3 in the Intel SDM volume 3:
+I don't like this.  Some of the places which submit commands today
+construct the command on the stack, and others construct them directly
+in the host-side queue memory.  I'd rather see them all construct on
+the stack, rather than in the nvme_queue.
 
-   Write Combining (WC) ? System memory locations are not cached
-   (as with uncacheable memory) and coherency is not enforced by
-   the processor?s bus coherency protocol. Speculative reads are
-   allowed. Writes may be delayed and combined in the write combining
-   buffer (WC buffer) to reduce memory accesses. If the WC buffer is
-   partially filled, the writes may be delayed until the next occurrence
-   of a serializing event; such as, an SFENCE or MFENCE instruction,
-   CPUID execution, a read or write to uncached memory, an interrupt
-   occurrence, or a LOCK instruction execution.
+> @@ -376,7 +394,12 @@ static int __nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
+>  {
+>  	u16 tail = nvmeq->sq_tail;
+>  
+> -	memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
+> +	if (nvmeq->cmb_mapped)
+> +		memcpy_toio(&nvmeq->sq_cmds[tail], cmd,
+> +				sizeof(*cmd));
+> +	else
+> +		memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
+> +
 
-Of course, any CPU may have errata, but I'd like something a little
-stronger than the assertion above before we put in an explicit fence.
+This part is going to become common, and should be factored out; either an
+inline function or a macro.
+
+> @@ -1434,6 +1461,41 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
+>  	spin_unlock_irq(&nvmeq->q_lock);
+>  }
+>  
+> +static int nvme_cmb_qdepth(struct nvme_dev *dev, int nr_io_queues,
+> +				int entry_size)
+> +{
+> +	int q_depth = dev->q_depth;
+> +	unsigned q_size_aligned = roundup(q_depth * entry_size, dev->page_size);
+> +	if (q_size_aligned * nr_io_queues > dev->cmb_size) {
+> +		q_depth = rounddown(dev->cmb_size / nr_io_queues,
+> +					dev->page_size) / entry_size;
+> +
+> +		/* Ensure the reduced q_depth is above some threshold where it
+> +		would be better to map queues in system memory with the
+> +		original depth */
+> +		if (q_depth < 64)
+> +			return -ENOMEM;
+> +	}
+> +
+> +	return q_depth;
+> +}
+
+It seems to me that rather than avoiding use of the CMB entirely if it's
+too small, or the number of queues is too large, we should use the CMB
+for the first N queues and use host memory for the rest.  Yes, there'll
+be a performance difference between the queues, but there's already a
+performance difference between queues in memory that's NUMA-local to
+the adapter and memory that's NUMA-far.
