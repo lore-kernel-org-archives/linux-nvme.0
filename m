@@ -1,71 +1,63 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Mon, 22 Jun 2015 11:06:15 -0400
-Subject: [PATCH] NVMe: Use CMB for the SQ if available
-In-Reply-To: <1434750357-29162-1-git-send-email-jonathan.derrick@intel.com>
-References: <1434750357-29162-1-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <20150622150615.GD1971@linux.intel.com>
+From: keith.busch@intel.com (Busch, Keith)
+Date: Mon, 22 Jun 2015 15:17:07 +0000
+Subject: [PATCH] NVMe: Fix IO for extended metadata formats
+In-Reply-To: <20150622053417.GA29813@lst.de>
+References: <1434733650-16440-1-git-send-email-keith.busch@intel.com>
+ <20150622053417.GA29813@lst.de>
+Message-ID: <B58D82457FDA0744A320A2FC5AC253B93CBA2D95@fmsmsx104.amr.corp.intel.com>
 
-On Fri, Jun 19, 2015@03:45:57PM -0600, Jon Derrick wrote:
-> diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> index 12d5b7b..ebbba55 100644
-> --- a/drivers/block/nvme-core.c
-> +++ b/drivers/block/nvme-core.c
-> @@ -108,6 +108,8 @@ struct nvme_queue {
->  	dma_addr_t sq_dma_addr;
->  	dma_addr_t cq_dma_addr;
->  	u32 __iomem *q_db;
-> +	bool cmb_mapped;
-> +	struct nvme_command cmb_cmd ____cacheline_aligned;
->  	u16 q_depth;
->  	s16 cq_vector;
->  	u16 sq_head;
+> On Fri, Jun 19, 2015@11:07:30AM -0600, Keith Busch wrote:
+> > This fixes io submit ioctl handling when using extended metadata
+> > formats. When these formats are used, the user provides a single virtually
+> > contiguous buffer containing both the block and metadata interleaved,
+> > so the metadata size needs to be added to the total length and not mapped
+> > as a separate transfer.
+> >
+> > The command is also driver generated, so this patch does not enforce
+> > blk-integrity extensions provide the metadata buffer.
+> 
+> Does this actually work properly?  I'd assume the block layer might
+> not be too happy if we have weird arbitrary sizes for this additional
+> metadata.
 
-I don't like this.  Some of the places which submit commands today
-construct the command on the stack, and others construct them directly
-in the host-side queue memory.  I'd rather see them all construct on
-the stack, rather than in the nvme_queue.
+Similar to SG_IO, we can submit arbitrary length commands using the nvme
+passthrough. It seems to work. Here's a test I did using the "nvme-cli"
+program.
 
-> @@ -376,7 +394,12 @@ static int __nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
->  {
->  	u16 tail = nvmeq->sq_tail;
->  
-> -	memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
-> +	if (nvmeq->cmb_mapped)
-> +		memcpy_toio(&nvmeq->sq_cmds[tail], cmd,
-> +				sizeof(*cmd));
-> +	else
-> +		memcpy(&nvmeq->sq_cmds[tail], cmd, sizeof(*cmd));
-> +
+First showing the namespace is formatted using a metadata size 8,
+capable of only extended settings.
 
-This part is going to become common, and should be factored out; either an
-inline function or a macro.
+  # nvme id-ns /dev/nvme0n1
+  ...
+  mc      : 0x1
+  ...
+  lbaf  1 : ms:8   ds:9  rp:0x2 (in use)
+  ...
 
-> @@ -1434,6 +1461,41 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
->  	spin_unlock_irq(&nvmeq->q_lock);
->  }
->  
-> +static int nvme_cmb_qdepth(struct nvme_dev *dev, int nr_io_queues,
-> +				int entry_size)
-> +{
-> +	int q_depth = dev->q_depth;
-> +	unsigned q_size_aligned = roundup(q_depth * entry_size, dev->page_size);
-> +	if (q_size_aligned * nr_io_queues > dev->cmb_size) {
-> +		q_depth = rounddown(dev->cmb_size / nr_io_queues,
-> +					dev->page_size) / entry_size;
-> +
-> +		/* Ensure the reduced q_depth is above some threshold where it
-> +		would be better to map queues in system memory with the
-> +		original depth */
-> +		if (q_depth < 64)
-> +			return -ENOMEM;
-> +	}
-> +
-> +	return q_depth;
-> +}
+Create a random 520 byte file (512 bytes for data + 8 for metadata):
 
-It seems to me that rather than avoiding use of the CMB entirely if it's
-too small, or the number of queues is too large, we should use the CMB
-for the first N queues and use host memory for the rest.  Yes, there'll
-be a performance difference between the queues, but there's already a
-performance difference between queues in memory that's NUMA-local to
-the adapter and memory that's NUMA-far.
+  # dd if=/dev/urandom of=rand.file.out bs=520 count=1
+
+Write that 520 bytes using the write passthru:
+
+  # nvme write /dev/nvme0n1 --data-size=520 --data=rand.file.out
+  write success
+
+Read it back:
+
+  # nvme read /dev/nvme0n1 --data-size=520 --data=rand.file.in
+  read success
+
+Verify the two files are the same:
+
+  # diff rand.file.in rand.file.out
+  # echo $?
+  0
+
+Similar test using 8 blocks instead of 1:
+
+  # dd if=/dev/urandom of=rand.file.out bs=520 count=8
+  # nvme write /dev/nvme0n1 --block-count=7 --data-size=4160 --data=rand.file.out
+  # nvme read /dev/nvme0n1 --block-count=7 --data-size=4160 --data=rand.file.in
+  # diff rand.file.out rand.file.in
+  #
