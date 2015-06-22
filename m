@@ -1,19 +1,20 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Sun, 21 Jun 2015 18:12:04 -0600
-Subject: [PATCH] NVMe: Use CMB for the SQ if available
-In-Reply-To: <80B89753B40C5141A3E2D53FE7A2A8A9D03A71F1@NTXBOIMBX02.micron.com>
-References: <1434750357-29162-1-git-send-email-jonathan.derrick@intel.com>
- <80B89753B40C5141A3E2D53FE7A2A8A9D03A71F1@NTXBOIMBX02.micron.com>
-Message-ID: <20150622001204.GA2087@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 22 Jun 2015 07:34:18 +0200
+Subject: [PATCH] NVMe: Fix IO for extended metadata formats
+In-Reply-To: <1434733650-16440-1-git-send-email-keith.busch@intel.com>
+References: <1434733650-16440-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20150622053417.GA29813@lst.de>
 
+On Fri, Jun 19, 2015@11:07:30AM -0600, Keith Busch wrote:
+> This fixes io submit ioctl handling when using extended metadata
+> formats. When these formats are used, the user provides a single virtually
+> contiguous buffer containing both the block and metadata interleaved,
+> so the metadata size needs to be added to the total length and not mapped
+> as a separate transfer.
 > 
-> I think a store fence is necessary between memcpy_toio() and the doorbell ring.
-> This applies elsewhere in the patch as well.
-> 
-> For example, we've seen rare cases where Haswells do not emit the whole SQE out 
-> of the write combine buffers before the doorbell write traverses PCIe.  Other 
-> architectures may have a similar need.  
-> 
->
+> The command is also driver generated, so this patch does not enforce
+> blk-integrity extensions provide the metadata buffer.
 
-I suspect you may be right. X86's memcpy_toio decays to a memcpy, but many other architectures decay to writeb/l loops, so those are probably safe. I imagine in the general case, that a write barrier before writing the doorbell is required. 
+Does this actually work properly?  I'd assume the block layer might
+not be too happy if we have weird arbitrary sizes for this additional
+metadata.
