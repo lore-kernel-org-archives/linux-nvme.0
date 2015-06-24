@@ -1,31 +1,18 @@
-From: jonathan.derrick@intel.com (Derrick, Jonathan)
-Date: Wed, 24 Jun 2015 14:52:08 +0000
-Subject: [PATCH] NVMe: Make nvme_meta_noop to supress Sparse warning
-In-Reply-To: <20150624121941.GA14590@infradead.org>
-References: <1435006888-13851-1-git-send-email-jonathan.derrick@intel.com>
- <20150624121941.GA14590@infradead.org>
-Message-ID: <8D943B239464E04C9184454D8B3F5CFF0A8473F4@ORSMSX105.amr.corp.intel.com>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Wed, 24 Jun 2015 14:49:44 -0600
+Subject: [PATCHv3 0/2] NVMe: Enable SQes on the CMB
+Message-ID: <1435178986-1623-1-git-send-email-jonathan.derrick@intel.com>
 
-Drats! Good catch
+This set unifies the command submission path, enables the cmb, and  maps
+submission queues onto the controller memory buffer.
 
------Original Message-----
-From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Christoph Hellwig
-Sent: Wednesday, June 24, 2015 6:20 AM
-To: Derrick, Jonathan
-Cc: linux-nvme at lists.infradead.org
-Subject: Re: [PATCH] NVMe: Make nvme_meta_noop to supress Sparse warning
+Jon Derrick (2):
+  NVMe: Unify SQ entry writing and doorbell ringing
+  NVMe: Use CMB for the SQ if available
 
-On Mon, Jun 22, 2015@03:01:28PM -0600, Jon Derrick wrote:
-> Supresses warning emitted by Sparse.
-> 
-> Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+ drivers/block/nvme-core.c | 192 ++++++++++++++++++++++++++++++++++------------
+ include/linux/nvme.h      |  17 ++++
+ 2 files changed, 159 insertions(+), 50 deletions(-)
 
-Looks good, but the subject line seems be be missing a "static"
-somewhere :)
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+-- 
+2.1.4
