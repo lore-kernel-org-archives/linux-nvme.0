@@ -1,27 +1,60 @@
-From: Stephen.Bates@pmcs.com (Stephen Bates)
-Date: Wed, 1 Jul 2015 08:10:36 +0000
-Subject: [PATCHv2 2/2] NVMe: Use CMB for the SQ if available
-In-Reply-To: <1435098787-13083-3-git-send-email-jonathan.derrick@intel.com>
-References: <1435098787-13083-1-git-send-email-jonathan.derrick@intel.com>
- <1435098787-13083-3-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <36F6EBABA23FEF4391AF72944D228901EB289031@BBYEXM02.pmc-sierra.internal>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 1 Jul 2015 16:17:44 +0000 (UTC)
+Subject: Question about NVMe share I/O
+In-Reply-To: <55935989.70809@huawei.com>
+References: <1433779695-15866-1-git-send-email-keith.busch@intel.com>
+ <1433779695-15866-3-git-send-email-keith.busch@intel.com>
+ <20150611104033.GA21107@infradead.org>
+ <alpine.LNX.2.00.1506111410500.15930@localhost.lm.intel.com>
+ <20150611152348.GB1292@infradead.org> <55935989.70809@huawei.com>
+Message-ID: <alpine.LNX.2.00.1507011612070.15930@localhost.lm.intel.com>
 
-Hi Jon
+On Tue, 30 Jun 2015, dingxiang wrote:
+> Hi,All
+> We are now using NVMe to develop a share I/O model,the topology is
+>
+>   |------|        |------|
+>   |Host A|        |Host B|
+>   |______|        |______|
+>       \              /
+>        \            /
+>         \ |------| /
+>          \| nvme |/
+>           |______|
 
-Thanks for starting the work on this.
 
-> +static void nvme_alloc_sq_cmds(struct nvme_dev *dev, struct
-> nvme_queue *nvmeq,
-> +				int qid, int depth)
-> +{
-> +	if (qid && NVME_CMB_SQS(dev->cmbsz) && dev->cmb) {
-> +		unsigned offset = (qid - 1) *
-> +					roundup(SQ_SIZE(depth), dev-
-> >page_size);
-> +		nvmeq->cmb_mapped = true;
+I think I'm missing part of the picture here. Could you explain how
+you managed to get two hosts to talk to a single nvme controller. More
+specifically, how are they able to safely share the admin queue and the
+pci-e function's nvme registers?
 
-This seems a little backwards to me in the sense that if the drive advertises CMB with SQ support the host is forced into using the CMB for SQs. Surely the host should have some ability to over-ride what the drive says? At the very least an argument into the  module to ignore CMB capabilities seems appropriate. Ultimately it would be good to have the host have the ability to use its preference when a device is reset. Or am I missing something?
 
-Aside from this the patch looks good to me.
-
-Stephen
+> We assign one queue for every host,
+> here are the details of host A and B:
+>
+> Host A:
+>  QID     :2
+>  MSIX irq:117
+>  cq prp1 :0x31253530000
+>  sq prp1 :0x3124af30000
+>
+> Host B:
+>  QID     :3
+>  MSIX irq:118
+>  cq prp1 :0x35252470000
+>  sq prp1 :0x3524d820000
+>
+> Then we run test script in both hosts,the script is :
+>  insmod nvme.ko
+>  sleep 2
+>  rmmod nvme
+>  sleep 2
+>
+> When the script runs after a period of time,Host B will crash in function "nvme_process_cq",
+> and Host A will print "I/O Buffer error" messages.
+> We found when host B crash,the QID Host B processed is QID 2,and the command_id
+> in struct "nvme_completion" is not the value allocate in Host B, but same as Host A ,
+> the MSIX and prp value of host B are not change.
+> My doubt is why Host B can receive Host A's nvmeq info? In my opinion,the queues of Host A and B
+> are independent, should not interfere with each other.
+> Thanks!
