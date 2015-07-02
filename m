@@ -1,17 +1,38 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 02 Jul 2015 09:03:03 -0600
-Subject: [PATCH] NVMe: Fix irq freeing when queue_request_irq fails
-In-Reply-To: <1435684972-4245-1-git-send-email-jonathan.derrick@intel.com>
-References: <1435684972-4245-1-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <559552A7.2000600@kernel.dk>
+From: xerofoify@gmail.com (Nicholas Krause)
+Date: Thu,  2 Jul 2015 11:39:33 -0400
+Subject: [PATCH] nvme:Make the function nvme_submit_iod void
+Message-ID: <1435851573-21805-1-git-send-email-xerofoify@gmail.com>
 
-On 06/30/2015 11:22 AM, Jon Derrick wrote:
-> Fixes an issue when queue_reuest_irq fails in nvme_setup_io_queues. This
-> patch initializes all vectors to -1 and resets the vector to -1 in the
-> case of a failure in queue_request_irq. This avoids the free_irq in
-> nvme_suspend_queue if the queue did not get an irq.
+This makes the function nvme_submit_iod void due to always completing
+successfully without any non recoverable errors ever time this function
+is called.
 
-Looks good to me, added for this series.
+Signed-off-by: Nicholas Krause <xerofoify at gmail.com>
+---
+ drivers/block/nvme-core.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 34338d7..b9f6c8f 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -788,7 +788,7 @@ static void nvme_submit_flush(struct nvme_queue *nvmeq, struct nvme_ns *ns,
+ 	writel(nvmeq->sq_tail, nvmeq->q_db);
+ }
+ 
+-static int nvme_submit_iod(struct nvme_queue *nvmeq, struct nvme_iod *iod,
++static void nvme_submit_iod(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+ 							struct nvme_ns *ns)
+ {
+ 	struct request *req = iod_get_private(iod);
+@@ -838,8 +838,6 @@ static int nvme_submit_iod(struct nvme_queue *nvmeq, struct nvme_iod *iod,
+ 	if (++nvmeq->sq_tail == nvmeq->q_depth)
+ 		nvmeq->sq_tail = 0;
+ 	writel(nvmeq->sq_tail, nvmeq->q_db);
+-
+-	return 0;
+ }
+ 
+ /*
 -- 
-Jens Axboe
+2.1.4
