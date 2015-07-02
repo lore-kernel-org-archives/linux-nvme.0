@@ -1,63 +1,73 @@
-From: Stephen.Bates@pmcs.com (Stephen Bates)
-Date: Wed, 1 Jul 2015 19:14:57 +0000
-Subject: [PATCHv2 2/2] NVMe: Use CMB for the SQ if available
-In-Reply-To: <20150701165448.GA3290@localhost.localdomain>
-References: <1435098787-13083-1-git-send-email-jonathan.derrick@intel.com>
- <1435098787-13083-3-git-send-email-jonathan.derrick@intel.com>
- <36F6EBABA23FEF4391AF72944D228901EB289031@BBYEXM02.pmc-sierra.internal>
- <20150701165448.GA3290@localhost.localdomain>
-Message-ID: <36F6EBABA23FEF4391AF72944D228901EB289BEC@BBYEXM02.pmc-sierra.internal>
+From: dingxiang@huawei.com (dingxiang)
+Date: Thu, 2 Jul 2015 15:11:49 +0800
+Subject: Question about NVMe share I/O
+In-Reply-To: <alpine.LNX.2.00.1507011612070.15930@localhost.lm.intel.com>
+References: <1433779695-15866-1-git-send-email-keith.busch@intel.com>
+ <1433779695-15866-3-git-send-email-keith.busch@intel.com>
+ <20150611104033.GA21107@infradead.org>
+ <alpine.LNX.2.00.1506111410500.15930@localhost.lm.intel.com>
+ <20150611152348.GB1292@infradead.org> <55935989.70809@huawei.com>
+ <alpine.LNX.2.00.1507011612070.15930@localhost.lm.intel.com>
+Message-ID: <5594E435.8060306@huawei.com>
 
-Jon
 
-> > This seems a little backwards to me in the sense that if the drive advertises
-> CMB with SQ support the host is forced into using the CMB for SQs. Surely
-> the host should have some ability to over-ride what the drive says? At the
-> very least an argument into the  module to ignore CMB capabilities seems
-> appropriate.
+
+? 2015/7/2 0:17, Keith Busch wrote:
+> On Tue, 30 Jun 2015, dingxiang wrote:
+>> Hi,All
+>> We are now using NVMe to develop a share I/O model,the topology is
+>>
+>>   |------|        |------|
+>>   |Host A|        |Host B|
+>>   |______|        |______|
+>>       \              /
+>>        \            /
+>>         \ |------| /
+>>          \| nvme |/
+>>           |______|
 > 
-> That seems like a good idea to allow it to be disabled as a module param
-
-Great.
-
 > 
-> >Ultimately it would be good to have the host have the ability to use its
-> preference when a device is reset. Or am I missing something?
+> I think I'm missing part of the picture here. Could you explain how
+> you managed to get two hosts to talk to a single nvme controller. More
+> specifically, how are they able to safely share the admin queue and the
+> pci-e function's nvme registers?
 > 
-> Would using a module param cover your concerns here?
-
-I would find that acceptable to get the CMB support started and sufficient for your patchset. As we add support for other CMB areas I think we need something a bit more flexible for two reasons:
-
-1. To allocate the CMB space up for SQs, CQ, WDS, RDS zones. The host should have a way of controlling how the CMB is split  up when we have support for more than one CMB  data type.
-
-2. As noted in my earlier email we might want to change the allocation in a semi-dynamic fashion (via a device reset perhaps).
-
-But I think we can add this functionality over time. Happy to hear what others think though.
-
-Cheers
-
-Stephen Bates
-
-> -----Original Message-----
-> From: Jon Derrick [mailto:jonathan.derrick at intel.com]
-> Sent: Wednesday, July 1, 2015 5:55 PM
-> To: Stephen Bates
-> Cc: linux-nvme at lists.infradead.org; keith.busch at intel.com
-> Subject: Re: [PATCHv2 2/2] NVMe: Use CMB for the SQ if available
 > 
-> Hi Stephen,
+We create admin queue and an I/O queue(QID:1) in nvme server before Host A&B start,
+host A&B send amdin commands to nvme controller through a PLX chip,then nvme controller
+can handle admin commands that from host A&B,and there is no error in admin commands pci-e
+messages, host A&B can create I/O queue and perform other amdin commands normally .
+So Host A&B can share the admin queue and the pci-e function's nvme registers safely.
+
+>> We assign one queue for every host,
+>> here are the details of host A and B:
+>>
+>> Host A:
+>>  QID     :2
+>>  MSIX irq:117
+>>  cq prp1 :0x31253530000
+>>  sq prp1 :0x3124af30000
+>>
+>> Host B:
+>>  QID     :3
+>>  MSIX irq:118
+>>  cq prp1 :0x35252470000
+>>  sq prp1 :0x3524d820000
+>>
+>> Then we run test script in both hosts,the script is :
+>>  insmod nvme.ko
+>>  sleep 2
+>>  rmmod nvme
+>>  sleep 2
+>>
+>> When the script runs after a period of time,Host B will crash in function "nvme_process_cq",
+>> and Host A will print "I/O Buffer error" messages.
+>> We found when host B crash,the QID Host B processed is QID 2,and the command_id
+>> in struct "nvme_completion" is not the value allocate in Host B, but same as Host A ,
+>> the MSIX and prp value of host B are not change.
+>> My doubt is why Host B can receive Host A's nvmeq info? In my opinion,the queues of Host A and B
+>> are independent, should not interfere with each other.
+>> Thanks!
 > 
-> Thanks for reviewing
+> .
 > 
-> > This seems a little backwards to me in the sense that if the drive advertises
-> CMB with SQ support the host is forced into using the CMB for SQs. Surely
-> the host should have some ability to over-ride what the drive says? At the
-> very least an argument into the  module to ignore CMB capabilities seems
-> appropriate.
-> 
-> That seems like a good idea to allow it to be disabled as a module param
-> 
-> >Ultimately it would be good to have the host have the ability to use its
-> preference when a device is reset. Or am I missing something?
-> 
-> Would using a module param cover your concerns here?
