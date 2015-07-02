@@ -1,5 +1,5 @@
-From: dingxiang@huawei.com (dingxiang)
-Date: Thu, 2 Jul 2015 15:11:49 +0800
+From: wangyijing@huawei.com (Yijing Wang)
+Date: Thu, 2 Jul 2015 20:42:17 +0800
 Subject: Question about NVMe share I/O
 In-Reply-To: <alpine.LNX.2.00.1507011612070.15930@localhost.lm.intel.com>
 References: <1433779695-15866-1-git-send-email-keith.busch@intel.com>
@@ -8,11 +8,9 @@ References: <1433779695-15866-1-git-send-email-keith.busch@intel.com>
  <alpine.LNX.2.00.1506111410500.15930@localhost.lm.intel.com>
  <20150611152348.GB1292@infradead.org> <55935989.70809@huawei.com>
  <alpine.LNX.2.00.1507011612070.15930@localhost.lm.intel.com>
-Message-ID: <5594E435.8060306@huawei.com>
+Message-ID: <559531A9.5040704@huawei.com>
 
-
-
-? 2015/7/2 0:17, Keith Busch wrote:
+On 2015/7/2 0:17, Keith Busch wrote:
 > On Tue, 30 Jun 2015, dingxiang wrote:
 >> Hi,All
 >> We are now using NVMe to develop a share I/O model,the topology is
@@ -31,14 +29,34 @@ Message-ID: <5594E435.8060306@huawei.com>
 > you managed to get two hosts to talk to a single nvme controller. More
 > specifically, how are they able to safely share the admin queue and the
 > pci-e function's nvme registers?
-> 
-> 
-We create admin queue and an I/O queue(QID:1) in nvme server before Host A&B start,
-host A&B send amdin commands to nvme controller through a PLX chip,then nvme controller
-can handle admin commands that from host A&B,and there is no error in admin commands pci-e
-messages, host A&B can create I/O queue and perform other amdin commands normally .
-So Host A&B can share the admin queue and the pci-e function's nvme registers safely.
 
+Hi Keith, it's not a traditional topology, the physical NVMe device is located in
+a manager OS which is independent of other hosts.  Every Host connects to manager OS
+by some PCIe interconnect topology(something like NTB bridge). All hosts share the admin
+queue which is created in manager OS, so if host want to deliver a admin command to nvme controller,
+it would first send the admin command to the manager OS, then manger OS would post the admin command
+to nvme controller instead.  Thanks to the PCIe interconnect fabric ,every Host could exclusively
+occupy several NVMe IO queues which bypass the manager OS, the DMA packet could be routed to
+correct Host by the PCIe interconnect fabric.
+
+In our test case, we have two host A and B, and a manager OS, Manger OS occupy the admin queue and first IO
+queue(id = 1), Host A occupy IO queue 2 and 3, Host B occupy IO queue 4 and 5. Every IO queue has its own
+completion queue.
+
+Most of the time, the Host and NVMe work fine, we could read/write the same nvme by different Host,
+but if we do test which insmod and rmmod nvme driver(we reworked) in both hosts, a system crash would happen,
+and the root cause is in Host B we receive a completion which does not belong to it, we found it belong to
+Host A, because submit queue id in completion is 2. It's so strange, according to NVMe spec, I think
+every IO queue should independent.
+
+So is there some possibility a NVMe completion would deliver to another IO queue completion queue ?
+
+Thanks!
+Yijing.
+
+
+> 
+> 
 >> We assign one queue for every host,
 >> here are the details of host A and B:
 >>
@@ -69,5 +87,14 @@ So Host A&B can share the admin queue and the pci-e function's nvme registers sa
 >> are independent, should not interfere with each other.
 >> Thanks!
 > 
-> .
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
 > 
+> 
+
+
+-- 
+Thanks!
+Yijing
