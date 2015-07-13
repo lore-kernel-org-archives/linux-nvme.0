@@ -1,26 +1,19 @@
-From: paul.grabinar@ranbarg.com (Paul Grabinar)
-Date: Mon, 13 Jul 2015 19:50:41 +0100
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 13 Jul 2015 19:16:25 +0000 (UTC)
 Subject: Partitions and end-to-end protection
-Message-ID: <55A40881.5000108@ranbarg.com>
+In-Reply-To: <55A40881.5000108@ranbarg.com>
+References: <55A40881.5000108@ranbarg.com>
+Message-ID: <alpine.LNX.2.00.1507131909210.15930@localhost.lm.intel.com>
 
-Hi All,
+On Mon, 13 Jul 2015, Paul Grabinar wrote:
+> What seems to be happening is that the driver starts off by setting the
+> capacity to zero whilst it validates the meta-data configuration and
+> then sets the real size after this validation. However, setting the
+> capacity does not seem to be enough to tell the kernel to re-read the
+> partition table.
 
-I've had a problem reported against the NVMe driver on the v4.1 kernel.
-The user has formatted a namespace with 512 byte sectors, separate
-buffer 8 byte meta-data and protection type 1.
-That should all be okay, and indeed reads and writes work fine.
-However, if a partition table is created in the namespace and then the
-machine is rebooted, or the driver is unloaded and loaded, the
-partitions don't appear again unless they are manually probed.
-
-What seems to be happening is that the driver starts off by setting the
-capacity to zero whilst it validates the meta-data configuration and
-then sets the real size after this validation. However, setting the
-capacity does not seem to be enough to tell the kernel to re-read the
-partition table.
-
-Anyone else seeing this?
-
-Thanks,
-
-Paul.
+The driver did it this way because we need a disk allocated before we can
+subscribe to block integrity extensions. I think we can fix the partition
+issue by making a call to blkdev_reread_part() right after the second
+revalidate_disk if the namespace is a meta-data formatted. I'll test it
+out and post a patch if it works out.
