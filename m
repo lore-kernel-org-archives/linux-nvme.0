@@ -1,24 +1,95 @@
-From: paul.grabinar@ranbarg.com (Paul Grabinar)
-Date: Mon, 13 Jul 2015 20:22:45 +0100
-Subject: Partitions and end-to-end protection
-In-Reply-To: <alpine.LNX.2.00.1507131909210.15930@localhost.lm.intel.com>
-References: <55A40881.5000108@ranbarg.com>
- <alpine.LNX.2.00.1507131909210.15930@localhost.lm.intel.com>
-Message-ID: <55A41005.9060808@ranbarg.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 14 Jul 2015 11:57:32 -0600
+Subject: [PATCH] NVMe: Allow reserved minors
+Message-ID: <1436896652-27332-1-git-send-email-keith.busch@intel.com>
 
-On 13/07/15 20:16, Keith Busch wrote:
-> On Mon, 13 Jul 2015, Paul Grabinar wrote:
->> What seems to be happening is that the driver starts off by setting the
->> capacity to zero whilst it validates the meta-data configuration and
->> then sets the real size after this validation. However, setting the
->> capacity does not seem to be enough to tell the kernel to re-read the
->> partition table.
->
-> The driver did it this way because we need a disk allocated before we can
-> subscribe to block integrity extensions. I think we can fix the partition
-> issue by making a call to blkdev_reread_part() right after the second
-> revalidate_disk if the namespace is a meta-data formatted. I'll test it
-> out and post a patch if it works out.
->
+The patch is to aid users transitioning from SCSI to NVM-Express. Some
+storage applications inherited from scsi have fixed minor requirements
+for partitions, so this patch allows a user to specify a number of
+minors they want reserved per namespace, defaulting to 0 to match
+existing functionality; set to 16 to match scsi.
 
-Thanks Keith.
+Reported-by: Dammi Wickramanayake <dammi_wickramanayake at symantec.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Cc: Matthew Wilcox <willy at linux.intel.com>
+---
+ drivers/block/nvme-core.c |   42 +++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 41 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 7920c27..e9127ad 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -66,6 +66,10 @@ MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown")
+ static int nvme_major;
+ module_param(nvme_major, int, 0);
+ 
++static unsigned char nvme_minors = 0;
++module_param_named(minors, nvme_minors, byte, 0444);
++MODULE_PARM_DESC(minors, "number of minors per nvme namespace");
++
+ static int nvme_char_major;
+ module_param(nvme_char_major, int, 0);
+ 
+@@ -2052,6 +2056,33 @@ static int nvme_kthread(void *data)
+ 	return 0;
+ }
+ 
++static DEFINE_IDA(nvme_index_ida);
++
++static int nvme_get_ns_idx(void)
++{
++	int index, error;
++
++	do {
++		if (!ida_pre_get(&nvme_index_ida, GFP_KERNEL))
++			return -1;
++
++		spin_lock(&dev_list_lock);
++		error = ida_get_new(&nvme_index_ida, &index);
++		spin_unlock(&dev_list_lock);
++	} while (error == -EAGAIN);
++
++	if (error)
++		index = -1;
++	return index;
++}
++
++static void nvme_put_ns_idx(int index)
++{
++	spin_lock(&dev_list_lock);
++	ida_remove(&nvme_index_ida, index);
++	spin_unlock(&dev_list_lock);
++}
++
+ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
+ {
+ 	struct nvme_ns *ns;
+@@ -2089,7 +2120,13 @@ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
+ 		blk_queue_flush(ns->queue, REQ_FLUSH | REQ_FUA);
+ 
+ 	disk->major = nvme_major;
+-	disk->first_minor = 0;
++	disk->minors = nvme_minors;
++
++	if (nvme_minors)
++		disk->first_minor = nvme_minors * nvme_get_ns_idx();
++	else
++		disk->first_minor = 0;
++
+ 	disk->fops = &nvme_fops;
+ 	disk->private_data = ns;
+ 	disk->queue = ns->queue;
+@@ -2249,7 +2286,10 @@ static void nvme_free_namespace(struct nvme_ns *ns)
+ 	ns->disk->private_data = NULL;
+ 	spin_unlock(&dev_list_lock);
+ 
++	if (nvme_minors)
++		nvme_put_ns_idx(ns->disk->first_minor / nvme_minors);
+ 	put_disk(ns->disk);
++
+ 	kfree(ns);
+ }
+ 
+-- 
+1.7.10.4
