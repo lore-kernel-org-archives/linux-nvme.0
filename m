@@ -1,30 +1,23 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Tue, 14 Jul 2015 14:58:17 -0400
-Subject: Partitions and end-to-end protection
-In-Reply-To: <20150714184344.GA29437@infradead.org> (Christoph Hellwig's
- message of "Tue, 14 Jul 2015 11:43:44 -0700")
-References: <55A40881.5000108@ranbarg.com>
- <alpine.LNX.2.00.1507131909210.15930@localhost.lm.intel.com>
- <20150714180634.GB10203@infradead.org>
- <yq1a8uyshso.fsf@sermon.lab.mkp.net>
- <20150714184344.GA29437@infradead.org>
-Message-ID: <yq11tgash12.fsf@sermon.lab.mkp.net>
+From: paul.grabinar@ranbarg.com (Paul Grabinar)
+Date: Tue, 14 Jul 2015 20:01:18 +0100
+Subject: [PATCH] NVMe: Reread partitions on metadata formats
+In-Reply-To: <55A559B5.2000303@fb.com>
+References: <1436896668-27373-1-git-send-email-keith.busch@intel.com>
+ <55A559B5.2000303@fb.com>
+Message-ID: <55A55C7E.3090001@ranbarg.com>
 
->>>>> "Christoph" == Christoph Hellwig <hch at infradead.org> writes:
+On 14/07/15 19:49, Jens Axboe wrote:
+> On 07/14/2015 11:57 AM, Keith Busch wrote:
+>> This patch has the driver automatically reread partitions if a namespace
+>> has a separate metadata format. Previously revalidating a disk was
+>> sufficient to get the correct capacity set on such formatted drives,
+>> but partitions that may exist would not have been surfaced.
+>
+> Looks sane to me. Paul, does this fix your issue?
+>
+>
 
->> The gendisk is a prerequisite by virtue of the integrity profile
->> hanging off of it.
+I won't be able to confirm until tomorrow. I will certainly try it and
+let you know.
 
-Christoph> Having one allocated is.  But why do we need to have it added
-Christoph> (at which point it is live)?
-
-Well, we're poking at the queue (for block size) and the bdi. I guess we
-could split things up and have another function to twiddle these
-parameters separately. During revalidate, perhaps.
-
-But the fundamental question remains: Why is it a prerequisite for the
-NVMe integrity profile to be added before the disk is live? Nobody else
-requires this (sd, md, dm).
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Thanks.
