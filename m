@@ -1,15 +1,19 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Tue, 14 Jul 2015 10:58:53 -0700
-Subject: virtio nvme
-Message-ID: <CAF1ivSYFfA__tX06bkMf_=mQKF0A4Ezu35WCwUuEB=z93YJv+A@mail.gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 14 Jul 2015 11:03:10 -0700
+Subject: [PATCH] NVMe: Allow reserved minors
+In-Reply-To: <1436896652-27332-1-git-send-email-keith.busch@intel.com>
+References: <1436896652-27332-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20150714180310.GA10203@infradead.org>
 
-Hi,
+On Tue, Jul 14, 2015@11:57:32AM -0600, Keith Busch wrote:
+> The patch is to aid users transitioning from SCSI to NVM-Express. Some
+> storage applications inherited from scsi have fixed minor requirements
+> for partitions, so this patch allows a user to specify a number of
+> minors they want reserved per namespace, defaulting to 0 to match
+> existing functionality; set to 16 to match scsi.
 
-I heard LIO target for NVMe is under development.
-I wonder if virtio-nvme(similar as virtio-scsi) make sense?
+NAK.  Different block devices always hard different minor number
+schemes.
 
-For example,
-http://www.minggr.net/wp-content/uploads/2015/07/virtio_nvme.png
-
-Thanks,
-Ming
+Symantec should fix their broken application if they want to take
+advantage of new storage hardware.
