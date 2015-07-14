@@ -1,21 +1,18 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 14 Jul 2015 11:43:44 -0700
-Subject: Partitions and end-to-end protection
-In-Reply-To: <yq1a8uyshso.fsf@sermon.lab.mkp.net>
-References: <55A40881.5000108@ranbarg.com>
- <alpine.LNX.2.00.1507131909210.15930@localhost.lm.intel.com>
- <20150714180634.GB10203@infradead.org>
- <yq1a8uyshso.fsf@sermon.lab.mkp.net>
-Message-ID: <20150714184344.GA29437@infradead.org>
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 14 Jul 2015 12:49:25 -0600
+Subject: [PATCH] NVMe: Reread partitions on metadata formats
+In-Reply-To: <1436896668-27373-1-git-send-email-keith.busch@intel.com>
+References: <1436896668-27373-1-git-send-email-keith.busch@intel.com>
+Message-ID: <55A559B5.2000303@fb.com>
 
-On Tue, Jul 14, 2015@02:41:43PM -0400, Martin K. Petersen wrote:
-> >>>>> "Christoph" == Christoph Hellwig <hch at infradead.org> writes:
-> 
-> >> The driver did it this way because we need a disk allocated before we
-> >> can subscribe to block integrity extensions.
-> 
-> The gendisk is a prerequisite by virtue of the integrity profile hanging
-> off of it.
+On 07/14/2015 11:57 AM, Keith Busch wrote:
+> This patch has the driver automatically reread partitions if a namespace
+> has a separate metadata format. Previously revalidating a disk was
+> sufficient to get the correct capacity set on such formatted drives,
+> but partitions that may exist would not have been surfaced.
 
-Having one allocated is.  But why do we need to have it added (at which
-point it is live)?
+Looks sane to me. Paul, does this fix your issue?
+
+
+-- 
+Jens Axboe
