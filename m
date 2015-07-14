@@ -1,23 +1,26 @@
-From: paul.grabinar@ranbarg.com (Paul Grabinar)
-Date: Tue, 14 Jul 2015 20:01:18 +0100
-Subject: [PATCH] NVMe: Reread partitions on metadata formats
-In-Reply-To: <55A559B5.2000303@fb.com>
-References: <1436896668-27373-1-git-send-email-keith.busch@intel.com>
- <55A559B5.2000303@fb.com>
-Message-ID: <55A55C7E.3090001@ranbarg.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 14 Jul 2015 19:25:53 +0000 (UTC)
+Subject: Partitions and end-to-end protection
+In-Reply-To: <yq11tgash12.fsf@sermon.lab.mkp.net>
+References: <55A40881.5000108@ranbarg.com>
+ <alpine.LNX.2.00.1507131909210.15930@localhost.lm.intel.com>
+ <20150714180634.GB10203@infradead.org> <yq1a8uyshso.fsf@sermon.lab.mkp.net>
+ <20150714184344.GA29437@infradead.org> <yq11tgash12.fsf@sermon.lab.mkp.net>
+Message-ID: <alpine.LNX.2.00.1507141916210.15930@localhost.lm.intel.com>
 
-On 14/07/15 19:49, Jens Axboe wrote:
-> On 07/14/2015 11:57 AM, Keith Busch wrote:
->> This patch has the driver automatically reread partitions if a namespace
->> has a separate metadata format. Previously revalidating a disk was
->> sufficient to get the correct capacity set on such formatted drives,
->> but partitions that may exist would not have been surfaced.
->
-> Looks sane to me. Paul, does this fix your issue?
->
->
+On Tue, 14 Jul 2015, Martin K. Petersen wrote:
+> But the fundamental question remains: Why is it a prerequisite for the
+> NVMe integrity profile to be added before the disk is live? Nobody else
+> requires this (sd, md, dm).
 
-I won't be able to confirm until tomorrow. I will certainly try it and
-let you know.
+NVMe doesn't provide a way to disable transferring metadata
+per-io. Capacity zero prevents IO when it's added because we don't have
+a metadata buffer to assign CMD.MPTR. The drive will unconditionally
+attempt DMA to/from MPTR, so it's potential memory and data corruption
+if we let it happen.
 
-Thanks.
+An alternative to requiring blk integrity provide the metadata buffer,
+we could have the driver allocate a large scratch buffer just so we have
+something valid to set MPTR even. I didn't do that initially because we
+can't use the metadata for anything at that point, and it seems odd to
+have the driver implement this special case just to satisfy add_disk().
