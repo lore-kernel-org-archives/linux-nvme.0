@@ -1,52 +1,28 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Wed, 15 Jul 2015 13:43:49 -0700
-Subject: virtio nvme
-In-Reply-To: <alpine.LNX.2.00.1507152022070.15930@localhost.lm.intel.com>
-References: <CAF1ivSYFfA__tX06bkMf_=mQKF0A4Ezu35WCwUuEB=z93YJv+A@mail.gmail.com>
- <CAF1ivSYpP-RbAmJbusB_-zGGSjj26f82ro8Sgy6OK3nF=Q0eog@mail.gmail.com>
- <alpine.LNX.2.00.1507152022070.15930@localhost.lm.intel.com>
-Message-ID: <CAF1ivSaUdyF8Y9eJDvJwckEUN5yht2mCcozuw4PXCWSRfX-z_g@mail.gmail.com>
+From: axboe@fb.com (Jens Axboe)
+Date: Wed, 15 Jul 2015 15:36:17 -0600
+Subject: [PATCH] NVMe: Reread partitions on metadata formats
+In-Reply-To: <CAA9_cmc2Kb=XRwPpOijT+T_1-qfPH-h7LeM0AGSP6ZOW72MjwQ@mail.gmail.com>
+References: <1436896668-27373-1-git-send-email-keith.busch@intel.com>	<55A559B5.2000303@fb.com>
+ <CAA9_cmc2Kb=XRwPpOijT+T_1-qfPH-h7LeM0AGSP6ZOW72MjwQ@mail.gmail.com>
+Message-ID: <55A6D251.9050801@fb.com>
 
-On Wed, Jul 15, 2015@1:26 PM, Keith Busch <keith.busch@intel.com> wrote:
-> On Wed, 15 Jul 2015, Ming Lin wrote:
->>
->> On Tue, Jul 14, 2015@10:58 AM, Ming Lin <mlin@kernel.org> wrote:
+On 07/14/2015 09:48 PM, Dan Williams wrote:
+> On Tue, Jul 14, 2015@11:49 AM, Jens Axboe <axboe@fb.com> wrote:
+>> On 07/14/2015 11:57 AM, Keith Busch wrote:
 >>>
->>> Hi,
->>>
->>> I heard LIO target for NVMe is under development.
->>> I wonder if virtio-nvme(similar as virtio-scsi) make sense?
->>>
->>> For example,
->>> http://www.minggr.net/wp-content/uploads/2015/07/virtio_nvme.png
+>>> This patch has the driver automatically reread partitions if a namespace
+>>> has a separate metadata format. Previously revalidating a disk was
+>>> sufficient to get the correct capacity set on such formatted drives,
+>>> but partitions that may exist would not have been surfaced.
 >>
 >>
->> Hi Keith,
->>
->> Is virtio-nvme probably a valuable thing to to?
+>> Looks sane to me. Paul, does this fix your issue?
 >
->
-> Hi Ming,
->
-> You're looking for a qemu NVMe device? There is an emulated one there
-> already, but it's just called 'nvme' and a guest machine can use it
-> with the mainline linux nvme driver.
+> NVDIMM namespaces with metadata space will run into this same problem.
+> Why not make revalidate_disk re-read partitions?
 
-No.
+Yeah that's a good point, we should try that. I'll queue up Keith's fix 
+for now since it's fixing a real bug, then we can revisit and kill it later.
 
-I'm thinking of implementing things similar as virtio-scsi/vhost-scsi for guest
-to use host's nvme device more efficiently, as this picture shows:
-http://www.minggr.net/wp-content/uploads/2015/07/virtio_nvme.png
-
-For host's device: /dev/nvme0n1,
-I know we can use LIO target's IBLOCK to export it, then guest to access it via
-virtio-scsi/vhost-scsi. Guest will see, for example, /dev/sda
-
-Is this use case, guest actually speaks scsi protocol.
-
-I'm thinking is there any benefit for guest to speak nvme protocol directly?
-Probably also improve guest's performance to access host's nvme device.
-
-And I assume LIO NVMe target will be available in the near future.
-
-Thanks.
+-- 
+Jens Axboe
