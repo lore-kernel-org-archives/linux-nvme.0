@@ -1,45 +1,37 @@
-From: mst@redhat.com (Michael S. Tsirkin)
-Date: Wed, 15 Jul 2015 19:05:41 +0300
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 15 Jul 2015 17:19:33 +0000 (UTC)
 Subject: [Ksummit-discuss] [TECH TOPIC] IRQ affinity
-In-Reply-To: <20150715120708.GA24534@infradead.org>
+In-Reply-To: <55A67F11.1030709@sandisk.com>
 References: <20150715120708.GA24534@infradead.org>
-Message-ID: <20150715160540.GA757@redhat.com>
+ <alpine.DEB.2.11.1507151408570.18576@nanos> <55A67F11.1030709@sandisk.com>
+Message-ID: <alpine.LNX.2.00.1507151700300.15930@localhost.lm.intel.com>
 
-On Wed, Jul 15, 2015@05:07:08AM -0700, Christoph Hellwig wrote:
-> Many years ago we decided to move setting of IRQ to core affnities to
-> userspace with the irqbalance daemon.
-> 
-> These days we have systems with lots of MSI-X vector, and we have
-> hardware and subsystem support for per-CPU I/O queues in the block
-> layer, the RDMA subsystem and probably the network stack (I'm not too
-> familar with the recent developments there).  It would really help the
-> out of the box performance and experience if we could allow such
-> subsystems to bind interrupt vectors to the node that the queue is
-> configured on.
+On Wed, 15 Jul 2015, Bart Van Assche wrote:
+> * With blk-mq and scsi-mq optimal performance can only be achieved if
+>  the relationship between MSI-X vector and NUMA node does not change
+>  over time. This is necessary to allow a blk-mq/scsi-mq driver to
+>  ensure that interrupts are processed on the same NUMA node as the
+>  node on which the data structures for a communication channel have
+>  been allocated. However, today there is no API that allows
+>  blk-mq/scsi-mq drivers and irqbalanced to exchange information
+>  about the relationship between MSI-X vector ranges and NUMA nodes.
 
-I think you are right, it's true for networking.
+We could have low-level drivers provide blk-mq the controller's irq
+associated with a particular h/w context, and the block layer can provide
+the context's cpumask to irqbalance with the smp affinity hint.
 
-Whenever someone tries to benchmark networking, first thing done is
-always disabling irqbalance and pinning IRQs manually away from
-whereever the benchmark is running, but at the same numa node.
+The nvme driver already uses the hwctx cpumask to set hints, but this
+doesn't seems like it should be a driver responsibility. It currently
+doesn't work correctly anyway with hot-cpu since blk-mq could rebalance
+the h/w contexts without syncing with the low-level driver.
 
-Without that, interrupts don't let the benchmark make progress.
+If we can add this to blk-mq, one additional case to consider is if the
+same interrupt vector is used with multiple h/w contexts. Blk-mq's cpu
+assignment needs to be aware of this to prevent sharing a vector across
+NUMA nodes.
 
-Alternatively, people give up on interrupts completely and
-start polling hardware aggressively. Nice for a benchmark,
-not nice for the environment.
-
-> 
-> I'd like to discuss if the rationale for moving the IRQ affinity setting
-> fully to userspace are still correct in todays world any any pitfalls
-> we'll have to learn from in irqbalanced and the old in-kernel affinity
-> code.
-
-IMHO there could be a benefit from a better integration with the scheduler.
-Maybe an interrupt handler can be viewed as a kind of thread,
-so scheduler can make decisions about where to run it next?
-
-> _______________________________________________
-> Ksummit-discuss mailing list
-> Ksummit-discuss at lists.linuxfoundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/ksummit-discuss
+>  The only approach I know of that works today to define IRQ affinity
+>  for blk-mq/scsi-mq drivers is to disable irqbalanced and to run a
+>  custom script that defines IRQ affinity (see e.g. the
+>  spread-mlx4-ib-interrupts attachment of 
+> http://thread.gmane.org/gmane.linux.kernel.device-mapper.devel/21312/focus=98409).
