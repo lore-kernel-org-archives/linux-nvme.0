@@ -1,23 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 14 Jul 2015 20:14:26 +0000 (UTC)
-Subject: Partitions and end-to-end protection
-In-Reply-To: <yq1si8qqz91.fsf@sermon.lab.mkp.net>
-References: <55A40881.5000108@ranbarg.com>
- <alpine.LNX.2.00.1507131909210.15930@localhost.lm.intel.com>
- <20150714180634.GB10203@infradead.org> <yq1a8uyshso.fsf@sermon.lab.mkp.net>
- <20150714184344.GA29437@infradead.org> <yq11tgash12.fsf@sermon.lab.mkp.net>
- <alpine.LNX.2.00.1507141916210.15930@localhost.lm.intel.com>
- <yq1wpy2r0lz.fsf@sermon.lab.mkp.net>
- <alpine.LNX.2.00.1507141941140.15930@localhost.lm.intel.com>
- <yq1si8qqz91.fsf@sermon.lab.mkp.net>
-Message-ID: <alpine.LNX.2.00.1507142009010.15930@localhost.lm.intel.com>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Tue, 14 Jul 2015 20:48:29 -0700
+Subject: [PATCH] NVMe: Reread partitions on metadata formats
+In-Reply-To: <55A559B5.2000303@fb.com>
+References: <1436896668-27373-1-git-send-email-keith.busch@intel.com>
+ <55A559B5.2000303@fb.com>
+Message-ID: <CAA9_cmc2Kb=XRwPpOijT+T_1-qfPH-h7LeM0AGSP6ZOW72MjwQ@mail.gmail.com>
 
-On Tue, 14 Jul 2015, Martin K. Petersen wrote:
->>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
-> Keith> PRACT=1 strips/generates PI only for a subset of valid NVMe
-> Keith> meta-data formats, so we need something for the others.
+On Tue, Jul 14, 2015@11:49 AM, Jens Axboe <axboe@fb.com> wrote:
+> On 07/14/2015 11:57 AM, Keith Busch wrote:
+>>
+>> This patch has the driver automatically reread partitions if a namespace
+>> has a separate metadata format. Previously revalidating a disk was
+>> sufficient to get the correct capacity set on such formatted drives,
+>> but partitions that may exist would not have been surfaced.
 >
-> *sigh* I hate that non-PI metadata stuff so much.
+>
+> Looks sane to me. Paul, does this fix your issue?
 
-And it gets even worse! PI formatted drives with metadata size > 8 bytes
-don't use PRACT either.
+NVDIMM namespaces with metadata space will run into this same problem.
+Why not make revalidate_disk re-read partitions?
