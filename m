@@ -1,149 +1,62 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 15 Jul 2015 22:28:32 +0000 (UTC)
-Subject: [PATCH] NVMe: Reread partitions on metadata formats
-In-Reply-To: <55A6D251.9050801@fb.com>
-References: <1436896668-27373-1-git-send-email-keith.busch@intel.com>
- <55A559B5.2000303@fb.com>
- <CAA9_cmc2Kb=XRwPpOijT+T_1-qfPH-h7LeM0AGSP6ZOW72MjwQ@mail.gmail.com>
- <55A6D251.9050801@fb.com>
-Message-ID: <alpine.LNX.2.00.1507152142070.15930@localhost.lm.intel.com>
+From: mst@redhat.com (Michael S. Tsirkin)
+Date: Thu, 16 Jul 2015 09:13:37 +0300
+Subject: [Ksummit-discuss] [TECH TOPIC] IRQ affinity
+In-Reply-To: <20150715184800.GL13681@linux.intel.com>
+References: <20150715120708.GA24534@infradead.org>
+ <alpine.DEB.2.11.1507151408570.18576@nanos>
+ <55A67F11.1030709@sandisk.com>
+ <alpine.LNX.2.00.1507151700300.15930@localhost.lm.intel.com>
+ <55A697A3.3090305@kernel.dk>
+ <20150715184800.GL13681@linux.intel.com>
+Message-ID: <20150716075454-mutt-send-email-mst@redhat.com>
 
-On Wed, 15 Jul 2015, Jens Axboe wrote:
-> On 07/14/2015 09:48 PM, Dan Williams wrote:
->> NVDIMM namespaces with metadata space will run into this same problem.
->> Why not make revalidate_disk re-read partitions?
->
-> Yeah that's a good point, we should try that. I'll queue up Keith's fix for 
-> now since it's fixing a real bug, then we can revisit and kill it later.
+On Wed, Jul 15, 2015@02:48:00PM -0400, Matthew Wilcox wrote:
+> On Wed, Jul 15, 2015@11:25:55AM -0600, Jens Axboe wrote:
+> > On 07/15/2015 11:19 AM, Keith Busch wrote:
+> > >On Wed, 15 Jul 2015, Bart Van Assche wrote:
+> > >>* With blk-mq and scsi-mq optimal performance can only be achieved if
+> > >> the relationship between MSI-X vector and NUMA node does not change
+> > >> over time. This is necessary to allow a blk-mq/scsi-mq driver to
+> > >> ensure that interrupts are processed on the same NUMA node as the
+> > >> node on which the data structures for a communication channel have
+> > >> been allocated. However, today there is no API that allows
+> > >> blk-mq/scsi-mq drivers and irqbalanced to exchange information
+> > >> about the relationship between MSI-X vector ranges and NUMA nodes.
+> > >
+> > >We could have low-level drivers provide blk-mq the controller's irq
+> > >associated with a particular h/w context, and the block layer can provide
+> > >the context's cpumask to irqbalance with the smp affinity hint.
+> > >
+> > >The nvme driver already uses the hwctx cpumask to set hints, but this
+> > >doesn't seems like it should be a driver responsibility. It currently
+> > >doesn't work correctly anyway with hot-cpu since blk-mq could rebalance
+> > >the h/w contexts without syncing with the low-level driver.
+> > >
+> > >If we can add this to blk-mq, one additional case to consider is if the
+> > >same interrupt vector is used with multiple h/w contexts. Blk-mq's cpu
+> > >assignment needs to be aware of this to prevent sharing a vector across
+> > >NUMA nodes.
+> > 
+> > Exactly. I may have promised to do just that at the last LSF/MM conference,
+> > just haven't done it yet. The point is to share the mask, I'd ideally like
+> > to take it all the way where the driver just asks for a number of vecs
+> > through a nice API that takes care of all this. Lots of duplicated code in
+> > drivers for this these days, and it's a mess.
+> 
+> Yes.  I think the fundamental problem is that our MSI-X API is so funky.
+> We have this incredibly flexible scheme where each MSI-X vector could
+> have its own interrupt handler, but that's not what drivers want.
+> They want to say "Give me eight MSI-X vectors spread across the CPUs,
+> and use this interrupt handler for all of them".  That is, instead of
+> the current scheme where each MSI-X vector gets its own Linux interrupt,
+> we should have one interrupt handler (of the per-cpu interrupt type),
+> which shows up with N bits set in its CPU mask.
 
-Should we make it so a driver can register with blk-integrity prior to
-calling add_disk()? The other thread on this issue sounded like that'd
-be better and removes the extra driver complexity to call blk_reread_part
-or revalidate after add_disk.
+It would definitely be nice to have a way to express that.  But it's
+also pretty common for drivers to have e.g. RX and TX use separate
+vectors, and these need separate handlers.
 
-Here's a patch for that and the resulting nvme driver. It works the same
-as today if registered after add_disk(), but safe to call prior. If
-called prior, add_disk() handles the queue and backing info settings
-for integrity, and adds the kobj.
-
----
-diff --git a/block/blk-integrity.c b/block/blk-integrity.c
-index f548b64..d5d1bb9 100644
---- a/block/blk-integrity.c
-+++ b/block/blk-integrity.c
-@@ -426,17 +426,19 @@ int blk_integrity_register(struct gendisk *disk, struct blk_integrity *template)
-  		if (!bi)
-  			return -1;
-
--		if (kobject_init_and_add(&bi->kobj, &integrity_ktype,
-+		if ((disk->flags & GENHD_FL_UP)) {
-+			if (kobject_init_and_add(&bi->kobj, &integrity_ktype,
-  					 &disk_to_dev(disk)->kobj,
-  					 "%s", "integrity")) {
--			kmem_cache_free(integrity_cachep, bi);
--			return -1;
--		}
--
--		kobject_uevent(&bi->kobj, KOBJ_ADD);
-+				kmem_cache_free(integrity_cachep, bi);
-+				return -1;
-+			}
-+			kobject_uevent(&bi->kobj, KOBJ_ADD);
-+			bi->interval = queue_logical_block_size(disk->queue);
-+		} else
-+			kobject_init(&bi->kobj, &integrity_ktype);
-
-  		bi->flags |= BLK_INTEGRITY_VERIFY | BLK_INTEGRITY_GENERATE;
--		bi->interval = queue_logical_block_size(disk->queue);
-  		disk->integrity = bi;
-  	} else
-  		bi = disk->integrity;
-@@ -452,8 +454,8 @@ int blk_integrity_register(struct gendisk *disk, struct blk_integrity *template)
-  	} else
-  		bi->name = bi_unsupported_name;
-
--	disk->queue->backing_dev_info.capabilities |= BDI_CAP_STABLE_WRITES;
--
-+	if (disk->flags & GENHD_FL_UP)
-+		disk->queue->backing_dev_info.capabilities |= BDI_CAP_STABLE_WRITES;
-  	return 0;
-  }
-  EXPORT_SYMBOL(blk_integrity_register);
-diff --git a/block/genhd.c b/block/genhd.c
-index 59a1395..a6f731d 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -582,6 +582,7 @@ exit:
-   */
-  void add_disk(struct gendisk *disk)
-  {
-+	struct blk_integrity *bi = disk->integrity;
-  	struct backing_dev_info *bdi;
-  	dev_t devt;
-  	int retval;
-@@ -616,6 +617,10 @@ void add_disk(struct gendisk *disk)
-
-  	blk_register_region(disk_devt(disk), disk->minors, NULL,
-  			    exact_match, exact_lock, disk);
-+	if (bi) {
-+		bi->interval = queue_logical_block_size(disk->queue);
-+		bdi->capabilities |= BDI_CAP_STABLE_WRITES;
-+	}
-  	register_disk(disk);
-  	blk_register_queue(disk);
-
-@@ -630,6 +635,10 @@ void add_disk(struct gendisk *disk)
-  	WARN_ON(retval);
-
-  	disk_add_events(disk);
-+
-+	if (bi && kobject_add(&bi->kobj, &disk_to_dev(disk)->kobj,
-+						"%s", "integrity"))
-+		blk_integrity_unregister(disk);
-  }
-  EXPORT_SYMBOL(add_disk);
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index e9127ad..d9792b7 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1989,8 +1989,7 @@ static int nvme_revalidate_disk(struct gendisk *disk)
-  	ns->pi_type = pi_type;
-  	blk_queue_logical_block_size(ns->queue, bs);
-
--	if (ns->ms && !blk_get_integrity(disk) && (disk->flags & GENHD_FL_UP) &&
--								!ns->ext)
-+	if (ns->ms && !blk_get_integrity(disk) && !ns->ext)
-  		nvme_init_integrity(ns);
-
-  	if (ns->ms && !blk_get_integrity(disk))
-@@ -2134,28 +2133,9 @@ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
-  	disk->flags = GENHD_FL_EXT_DEVT;
-  	sprintf(disk->disk_name, "nvme%dn%d", dev->instance, nsid);
-
--	/*
--	 * Initialize capacity to 0 until we establish the namespace format and
--	 * setup integrity extentions if necessary. The revalidate_disk after
--	 * add_disk allows the driver to register with integrity if the format
--	 * requires it.
--	 */
--	set_capacity(disk, 0);
-  	if (nvme_revalidate_disk(ns->disk))
-  		goto out_free_disk;
--
-  	add_disk(ns->disk);
--	if (ns->ms) {
--		struct block_device *bd = bdget_disk(ns->disk, 0);
--		if (!bd)
--			return;
--		if (blkdev_get(bd, FMODE_READ, NULL)) {
--			bdput(bd);
--			return;
--		}
--		blkdev_reread_part(bd);
--		blkdev_put(bd, FMODE_READ);
--	}
-  	return;
-   out_free_disk:
-  	kfree(disk);
---
+> _______________________________________________
+> Ksummit-discuss mailing list
+> Ksummit-discuss at lists.linuxfoundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/ksummit-discuss
