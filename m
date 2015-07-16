@@ -1,32 +1,19 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 16 Jul 2015 02:19:57 -0700
-Subject: [PATCH] NVMe: Reread partitions on metadata formats
-In-Reply-To: <alpine.LNX.2.00.1507152142070.15930@localhost.lm.intel.com>
-References: <1436896668-27373-1-git-send-email-keith.busch@intel.com>
- <55A559B5.2000303@fb.com>
- <CAA9_cmc2Kb=XRwPpOijT+T_1-qfPH-h7LeM0AGSP6ZOW72MjwQ@mail.gmail.com>
- <55A6D251.9050801@fb.com>
- <alpine.LNX.2.00.1507152142070.15930@localhost.lm.intel.com>
-Message-ID: <20150716091957.GA18310@infradead.org>
+Date: Thu, 16 Jul 2015 02:26:46 -0700
+Subject: [PATCH 3/3] block: Refuse adding appending a gapped integrity
+ page to a bio
+In-Reply-To: <55A67C17.4080706@kernel.dk>
+References: <1436966356-8979-1-git-send-email-sagig@mellanox.com>
+ <1436966356-8979-4-git-send-email-sagig@mellanox.com>
+ <55A67C17.4080706@kernel.dk>
+Message-ID: <20150716092646.GA17712@infradead.org>
 
-On Wed, Jul 15, 2015@10:28:32PM +0000, Keith Busch wrote:
-> Should we make it so a driver can register with blk-integrity prior to
-> calling add_disk()? The other thread on this issue sounded like that'd
-> be better and removes the extra driver complexity to call blk_reread_part
-> or revalidate after add_disk.
-> 
-> Here's a patch for that and the resulting nvme driver. It works the same
-> as today if registered after add_disk(), but safe to call prior. If
-> called prior, add_disk() handles the queue and backing info settings
-> for integrity, and adds the kobj.
+On Wed, Jul 15, 2015@09:28:23AM -0600, Jens Axboe wrote:
+> This chunk of code largely ends up being duplicated in several places with
+> your patches, might be a good idea to pull that into a helper function. Then
+> you can add the comment in one place as well :-)
 
-This looks sensible to me as a quick fix for the issue.
-
-In the lng run I'd prefer to just pass the integrity template
-to add_disk (or rather an add_disk_integrity helper, for which
-add_disk becomes a wrapper).
-
-Also the way struct blk_integrity is used is a bit of a mess,
-instead of passing it and then copying into a newly allocated
-copy of it I'd rather move the kobj to struct gendisk and then
-just have a pointer to the original template in struct gendisk.
+Basically all the bio_vec-related code in block-integrity is copy &
+paste of the I/O path.  In the long run we'll need to refactor it by
+adding bio_vec iteration helpers that can pick different anchors from
+the bio.  But for now I think I'd rather have this quick fix.
