@@ -1,19 +1,42 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 16 Jul 2015 02:26:46 -0700
-Subject: [PATCH 3/3] block: Refuse adding appending a gapped integrity
- page to a bio
-In-Reply-To: <55A67C17.4080706@kernel.dk>
-References: <1436966356-8979-1-git-send-email-sagig@mellanox.com>
- <1436966356-8979-4-git-send-email-sagig@mellanox.com>
- <55A67C17.4080706@kernel.dk>
-Message-ID: <20150716092646.GA17712@infradead.org>
+From: m@bjorling.me (=?windows-1252?Q?Matias_Bj=F8rling?=)
+Date: Thu, 16 Jul 2015 14:23:44 +0200
+Subject: [PATCH v4 0/8] Support for Open-Channel SSDs
+In-Reply-To: <20150617135905.GA17119@infradead.org>
+References: <1433508870-28251-1-git-send-email-m@bjorling.me>
+ <20150609074643.GA5707@infradead.org> <55787DDE.7020801@bjorling.me>
+ <20150611102935.GA4419@infradead.org> <557C5787.3000608@bjorling.me>
+ <20150617135905.GA17119@infradead.org>
+Message-ID: <55A7A250.5050307@bjorling.me>
 
-On Wed, Jul 15, 2015@09:28:23AM -0600, Jens Axboe wrote:
-> This chunk of code largely ends up being duplicated in several places with
-> your patches, might be a good idea to pull that into a helper function. Then
-> you can add the comment in one place as well :-)
+> As a start add a new submit_io method to the nvm_dev_ops, and add
+> an implementation similar to pscsi_execute_cmd in
+> drivers/target/target_core_pscsi.c for nvme, and a trivial no op
+> for a null-nvm driver replacing the null-blk additions.  This
+> will give you very similar behavior to your current code, while
+> allowing to drop all the hacks in the block code.  Note that simple
+> plugging will work just fine which should be all you'll need.
+>
 
-Basically all the bio_vec-related code in block-integrity is copy &
-paste of the I/O path.  In the long run we'll need to refactor it by
-adding bio_vec iteration helpers that can pick different anchors from
-the bio.  But for now I think I'd rather have this quick fix.
+A quick question. The flow is getting into place and it is looking good.
+
+However, the code path is still left with a per device flash block 
+management core data structure in gendisk->nvm. ->nvm holds the device 
+configuration (number of flash chips, channels, flash page sizes, etc.), 
+free/used blocks in the media and other small structures. Basically 
+keeping track of the state of the blocks on the media.
+
+It is nice to have it associated with gendisk, as it then easily can be 
+accessed from lightnvm code, without knowing which device driver that is 
+underneath.
+
+If moving it outside gendisk, one approach would be to create a separate 
+block device for each open-channel ssd initialized. E.g. /dev/nvme0n1 
+has its block management information exposed through 
+/dev/lnvm/nvme0n1_bm. For each *_bm, the private field holds a map 
+between request_queue and bm. Effectively using a gendisk to act as a 
+link between the real device and any FTL target. This seems just as 
+hacky as the gendisk approach.
+
+Any other approaches or is gendisk good for now?
+
+Thanks, Matias
