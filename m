@@ -1,21 +1,27 @@
-From: m@bjorling.me (=?windows-1252?Q?Matias_Bj=F8rling?=)
-Date: Thu, 16 Jul 2015 15:06:59 +0200
-Subject: [PATCH v4 0/8] Support for Open-Channel SSDs
-In-Reply-To: <20150716124641.GA11298@infradead.org>
-References: <1433508870-28251-1-git-send-email-m@bjorling.me>
- <20150609074643.GA5707@infradead.org> <55787DDE.7020801@bjorling.me>
- <20150611102935.GA4419@infradead.org> <557C5787.3000608@bjorling.me>
- <20150617135905.GA17119@infradead.org> <55A7A250.5050307@bjorling.me>
- <20150716124641.GA11298@infradead.org>
-Message-ID: <55A7AC73.9070309@bjorling.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 16 Jul 2015 09:58:46 -0600
+Subject: [PATCH 3/3] block: Refuse adding appending a gapped integrity
+ page to a bio
+In-Reply-To: <20150716092646.GA17712@infradead.org>
+References: <1436966356-8979-1-git-send-email-sagig@mellanox.com>
+ <1436966356-8979-4-git-send-email-sagig@mellanox.com>
+ <55A67C17.4080706@kernel.dk> <20150716092646.GA17712@infradead.org>
+Message-ID: <55A7D4B6.9020101@kernel.dk>
 
-On 07/16/2015 02:46 PM, Christoph Hellwig wrote:
-> Hi Matias,
+On 07/16/2015 03:26 AM, Christoph Hellwig wrote:
+> On Wed, Jul 15, 2015@09:28:23AM -0600, Jens Axboe wrote:
+>> This chunk of code largely ends up being duplicated in several places with
+>> your patches, might be a good idea to pull that into a helper function. Then
+>> you can add the comment in one place as well :-)
 >
-> the underlying lighnvm driver (nvme or NULL) shouldn't register
-> a gendisk - the only gendisk you'll need is that for the block
-> device that sits on top of lightnvm.
->
+> Basically all the bio_vec-related code in block-integrity is copy &
+> paste of the I/O path.  In the long run we'll need to refactor it by
+> adding bio_vec iteration helpers that can pick different anchors from
+> the bio.  But for now I think I'd rather have this quick fix.
 
-That could work as well. I'll refactor the nvme/null drivers to allow 
-that instead. Thanks
+I wasn't asking for a refactor of the bio_vec integrity code (though 
+that would be nice...), just that we don't add 3 more instances of 'does 
+this gap with previous'.
+
+-- 
+Jens Axboe
