@@ -1,17 +1,31 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Thu, 16 Jul 2015 15:47:31 -0400
-Subject: [PATCH 1/3] block: copy multi iovec user mappings if
- QUEUE_FLAG_SG_GAPS is set
-In-Reply-To: <55A7E0B2.900@kernel.dk>
-References: <1436966356-8979-1-git-send-email-sagig@mellanox.com>
- <1436966356-8979-2-git-send-email-sagig@mellanox.com>
- <alpine.LNX.2.00.1507161633270.15930@localhost.lm.intel.com>
- <55A7E0B2.900@kernel.dk>
-Message-ID: <20150716194731.GN13681@linux.intel.com>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Thu, 16 Jul 2015 16:51:26 -0600
+Subject: [PATCHv4 0/2] NVMe: Enable SQes on the CMB
+Message-ID: <1437087088-1628-1-git-send-email-jonathan.derrick@intel.com>
 
-On Thu, Jul 16, 2015@10:49:54AM -0600, Jens Axboe wrote:
-> SG_GAPS is a bit of a misnomer, but it's not easy to explain exactly what
-> that logic is in a few short words! SG gaps was the closest I could come up
-> with.
+This set unifies the command submission path, enables the cmb, and  maps
+submission queues onto the controller memory buffer.
 
-The sense is wrong -- surely it should be 'NOGAPS'?
+Applies against axboe's linux-block/master
+
+v4: Fixed shift-overflow with cmbszu having 4GB+ units (Reported by
+Stephen Bates). Added module parameter to disable cmb sqes mapping, which
+will also disable cmb mapping as there are no other users of the cmb.
+
+v3: Added separate __iomem sq_cmds_io pointer
+
+v2: Removed nvme_{get,put}_cmd and added __iomem sq_cmds pointer
+
+v1: Initial
+
+
+Jon Derrick (2):
+  NVMe: Unify SQ entry writing and doorbell ringing
+  NVMe: Use CMB for the IO SQes if available
+
+ drivers/block/nvme-core.c | 199 ++++++++++++++++++++++++++++++++++------------
+ include/linux/nvme.h      |  17 ++++
+ 2 files changed, 166 insertions(+), 50 deletions(-)
+
+-- 
+2.1.4
