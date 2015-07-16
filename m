@@ -1,27 +1,36 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 16 Jul 2015 09:58:46 -0600
-Subject: [PATCH 3/3] block: Refuse adding appending a gapped integrity
- page to a bio
-In-Reply-To: <20150716092646.GA17712@infradead.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 16 Jul 2015 16:47:12 +0000 (UTC)
+Subject: [PATCH 1/3] block: copy multi iovec user mappings if
+ QUEUE_FLAG_SG_GAPS is set
+In-Reply-To: <1436966356-8979-2-git-send-email-sagig@mellanox.com>
 References: <1436966356-8979-1-git-send-email-sagig@mellanox.com>
- <1436966356-8979-4-git-send-email-sagig@mellanox.com>
- <55A67C17.4080706@kernel.dk> <20150716092646.GA17712@infradead.org>
-Message-ID: <55A7D4B6.9020101@kernel.dk>
+ <1436966356-8979-2-git-send-email-sagig@mellanox.com>
+Message-ID: <alpine.LNX.2.00.1507161633270.15930@localhost.lm.intel.com>
 
-On 07/16/2015 03:26 AM, Christoph Hellwig wrote:
-> On Wed, Jul 15, 2015@09:28:23AM -0600, Jens Axboe wrote:
->> This chunk of code largely ends up being duplicated in several places with
->> your patches, might be a good idea to pull that into a helper function. Then
->> you can add the comment in one place as well :-)
->
-> Basically all the bio_vec-related code in block-integrity is copy &
-> paste of the I/O path.  In the long run we'll need to refactor it by
-> adding bio_vec iteration helpers that can pick different anchors from
-> the bio.  But for now I think I'd rather have this quick fix.
+On Wed, 15 Jul 2015, Sagi Grimberg wrote:
+> For drivers that don't support gaps in the SG lists handed to them we must
+> not create bios from multiple iovecs as they can be (and usually are)
+> discontiguous.  This doesn't matter for any current user, but will help
+> to allow iSER which can't handle gaps to use the QUEUE_FLAG_SG_GAPS flag
+> instead of using driver-local bounce buffering.
 
-I wasn't asking for a refactor of the bio_vec integrity code (though 
-that would be nice...), just that we don't add 3 more instances of 'does 
-this gap with previous'.
+Maybe SG_GAPS is a bit of a misnomer. There are cases we can directly
+map a user iov with multiple discontiguous vectors. At least for NVMe
+it'd work if each iov's base and length are on page boundaries, we don't
+need to do the indirect copy.
 
--- 
-Jens Axboe
+Like with this user example:
+---
+ 	int fd = open("/dev/nvme0n1", O_RDONLY | O_DIRECT);
+ 	struct iovec iov[2];
+  	unsigned char *buffer;
+
+  	posix_memalign((void **)&buffer, 0x4000, 0x1000);
+
+  	iov[0].iov_base = &buffer[0];
+  	iov[1].iov_base = &buffer[0x2000];
+  	iov[0].iov_len = 0x1000;
+  	iov[1].iov_len = 0x1000;
+
+ 	readv(fd, iov, 2);
+--
