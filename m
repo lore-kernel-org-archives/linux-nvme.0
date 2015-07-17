@@ -1,26 +1,22 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Thu, 16 Jul 2015 21:47:15 -0400
-Subject: [PATCH] NVMe: Reread partitions on metadata formats
-In-Reply-To: <20150716091957.GA18310@infradead.org> (Christoph Hellwig's
- message of "Thu, 16 Jul 2015 02:19:57 -0700")
-References: <1436896668-27373-1-git-send-email-keith.busch@intel.com>
- <55A559B5.2000303@fb.com>
- <CAA9_cmc2Kb=XRwPpOijT+T_1-qfPH-h7LeM0AGSP6ZOW72MjwQ@mail.gmail.com>
- <55A6D251.9050801@fb.com>
- <alpine.LNX.2.00.1507152142070.15930@localhost.lm.intel.com>
- <20150716091957.GA18310@infradead.org>
-Message-ID: <yq1380no8rg.fsf@sermon.lab.mkp.net>
+Date: Thu, 16 Jul 2015 21:50:21 -0400
+Subject: [PATCH 3/3] block: Refuse adding appending a gapped integrity
+ page to a bio
+In-Reply-To: <20150716092646.GA17712@infradead.org> (Christoph Hellwig's
+ message of "Thu, 16 Jul 2015 02:26:46 -0700")
+References: <1436966356-8979-1-git-send-email-sagig@mellanox.com>
+ <1436966356-8979-4-git-send-email-sagig@mellanox.com>
+ <55A67C17.4080706@kernel.dk> <20150716092646.GA17712@infradead.org>
+Message-ID: <yq1y4ifmu1u.fsf@sermon.lab.mkp.net>
 
 >>>>> "Christoph" == Christoph Hellwig <hch at infradead.org> writes:
 
-Christoph> Also the way struct blk_integrity is used is a bit of a mess,
-Christoph> instead of passing it and then copying into a newly allocated
-Christoph> copy of it I'd rather move the kobj to struct gendisk and
-Christoph> then just have a pointer to the original template in struct
-Christoph> gendisk.
+Christoph> In the long run we'll need to refactor it by adding bio_vec
+Christoph> iteration helpers that can pick different anchors from the
+Christoph> bio.
 
-The flags, protection interval, tag size, etc. are per-device
-properties.
+Yep. Always wanted to avoid that duplication. Keith's work made it
+easier. I just haven't taken things one step further yet...
 
 -- 
 Martin K. Petersen	Oracle Linux Engineering
