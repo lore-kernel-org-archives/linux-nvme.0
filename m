@@ -1,92 +1,77 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Tue, 21 Jul 2015 02:02:57 -0400
-Subject: [PATCH 3/5] block: Reduce the size of struct blk_integrity
+Date: Tue, 21 Jul 2015 02:02:58 -0400
+Subject: [PATCH 4/5] block: Export integrity data interval size in sysfs
 In-Reply-To: <1437458579-18706-1-git-send-email-martin.petersen@oracle.com>
 References: <20150716091957.GA18310@infradead.org>
  <1437458579-18706-1-git-send-email-martin.petersen@oracle.com>
-Message-ID: <1437458579-18706-4-git-send-email-martin.petersen@oracle.com>
+Message-ID: <1437458579-18706-5-git-send-email-martin.petersen@oracle.com>
 
-The per-device properties in the blk_integrity structure were previously
-unsigned short. However, most of the values fit inside a char. The only
-exception is the data interval size and we can work around that by
-storing it as a power of two.
-
-This cuts the size of the dynamic portion of blk_integrity in half.
+The size of the data interval was not exported in the sysfs integrity
+directory. Export it so that userland apps can tell whether the interval
+is different from the device's logical block size.
 
 Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
-Reported-by: Christoph Hellwig <hch at lst.de>
 ---
- block/bio-integrity.c  | 4 ++--
- block/blk-integrity.c  | 6 +++---
- include/linux/blkdev.h | 8 ++++----
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ Documentation/ABI/testing/sysfs-block |  7 +++++++
+ block/blk-integrity.c                 | 14 ++++++++++++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index f09531130cff..4da7fbc28845 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -197,7 +197,7 @@ EXPORT_SYMBOL(bio_integrity_enabled);
- static inline unsigned int bio_integrity_intervals(struct blk_integrity *bi,
- 						   unsigned int sectors)
- {
--	return sectors >> (ilog2(bi->interval) - 9);
-+	return sectors >> (bi->interval_exp - 9);
- }
+diff --git a/Documentation/ABI/testing/sysfs-block b/Documentation/ABI/testing/sysfs-block
+index 8df003963d99..a61f1e2165ee 100644
+--- a/Documentation/ABI/testing/sysfs-block
++++ b/Documentation/ABI/testing/sysfs-block
+@@ -60,6 +60,13 @@ Description:
+ 		Indicates whether a storage device is capable of storing
+ 		integrity metadata. Set if the device is T10 PI-capable.
  
- static inline unsigned int bio_integrity_bytes(struct blk_integrity *bi,
-@@ -224,7 +224,7 @@ static int bio_integrity_process(struct bio *bio,
- 		bip->bip_vec->bv_offset;
++What:		/sys/block/<disk>/integrity/data_interval_bytes
++Date:		July 2015
++Contact:	Martin K. Petersen <martin.petersen at oracle.com>
++Description:
++		Describes the number of data bytes which are protected
++		by one integrity tuple. Typically the device's logical
++		block size.
  
- 	iter.disk_name = bio->bi_bdev->bd_disk->disk_name;
--	iter.interval = bi->interval;
-+	iter.interval = 1 << bi->interval_exp;
- 	iter.seed = bip_get_seed(bip);
- 	iter.prot_buf = prot_buf;
- 
+ What:		/sys/block/<disk>/integrity/write_generate
+ Date:		June 2008
 diff --git a/block/blk-integrity.c b/block/blk-integrity.c
-index 5e5280d58c61..70ba9389d0dd 100644
+index 70ba9389d0dd..16d5a15d632a 100644
 --- a/block/blk-integrity.c
 +++ b/block/blk-integrity.c
-@@ -155,10 +155,10 @@ int blk_integrity_compare(struct gendisk *gd1, struct gendisk *gd2)
- 	if (!b1 || !b2)
- 		return -1;
+@@ -286,6 +286,14 @@ static ssize_t integrity_tag_size_show(struct blk_integrity *bi, char *page)
+ 		return sprintf(page, "0\n");
+ }
  
--	if (b1->interval != b2->interval) {
-+	if (b1->interval_exp != b2->interval_exp) {
- 		pr_err("%s: %s/%s protection interval %u != %u\n",
- 		       __func__, gd1->disk_name, gd2->disk_name,
--		       b1->interval, b2->interval);
-+		       1 << b1->interval_exp, 1 << b2->interval_exp);
- 		return -1;
- 	}
- 
-@@ -437,7 +437,7 @@ int blk_integrity_register(struct gendisk *disk, struct blk_integrity *template)
- 		kobject_uevent(&disk->integrity_kobj, KOBJ_ADD);
- 
- 		bi->flags |= BLK_INTEGRITY_VERIFY | BLK_INTEGRITY_GENERATE;
--		bi->interval = queue_logical_block_size(disk->queue);
-+		bi->interval_exp = ilog2(queue_logical_block_size(disk->queue));
- 		disk->integrity = bi;
- 	} else
- 		bi = disk->integrity;
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 4fbb3b9f7f2e..c01ce2f7168b 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1435,10 +1435,10 @@ struct blk_integrity_profile {
- 
- struct blk_integrity {
- 	struct blk_integrity_profile	*profile;
--	unsigned short			flags;
--	unsigned short			tuple_size;
--	unsigned short			interval;
--	unsigned short			tag_size;
-+	unsigned char			flags;
-+	unsigned char			tuple_size;
-+	unsigned char			interval_exp;
-+	unsigned char			tag_size;
++static ssize_t integrity_interval_show(struct blk_integrity *bi, char *page)
++{
++	if (bi != NULL)
++		return sprintf(page, "%u\n", 1 << bi->interval_exp);
++	else
++		return sprintf(page, "0\n");
++}
++
+ static ssize_t integrity_verify_store(struct blk_integrity *bi,
+ 				      const char *page, size_t count)
+ {
+@@ -340,6 +348,11 @@ static struct integrity_sysfs_entry integrity_tag_size_entry = {
+ 	.show = integrity_tag_size_show,
  };
  
- extern bool blk_integrity_is_initialized(struct gendisk *);
++static struct integrity_sysfs_entry integrity_interval_entry = {
++	.attr = { .name = "data_interval_bytes", .mode = S_IRUGO },
++	.show = integrity_interval_show,
++};
++
+ static struct integrity_sysfs_entry integrity_verify_entry = {
+ 	.attr = { .name = "read_verify", .mode = S_IRUGO | S_IWUSR },
+ 	.show = integrity_verify_show,
+@@ -360,6 +373,7 @@ static struct integrity_sysfs_entry integrity_device_entry = {
+ static struct attribute *integrity_attrs[] = {
+ 	&integrity_format_entry.attr,
+ 	&integrity_tag_size_entry.attr,
++	&integrity_interval_entry.attr,
+ 	&integrity_verify_entry.attr,
+ 	&integrity_generate_entry.attr,
+ 	&integrity_device_entry.attr,
 -- 
 2.4.3
