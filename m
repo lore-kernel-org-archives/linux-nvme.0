@@ -1,23 +1,17 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 21 Jul 2015 05:21:16 -0700
-Subject: [PATCHv5 2/2] NVMe: Use CMB for the IO SQes if available
-In-Reply-To: <1437408849-4099-3-git-send-email-jonathan.derrick@intel.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 21 Jul 2015 09:40:53 -0600
+Subject: [PATCHv5 0/2] NVMe: Enable SQes on the CMB
+In-Reply-To: <1437408849-4099-1-git-send-email-jonathan.derrick@intel.com>
 References: <1437408849-4099-1-git-send-email-jonathan.derrick@intel.com>
- <1437408849-4099-3-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <20150721122116.GB7430@infradead.org>
+Message-ID: <55AE6805.6080308@kernel.dk>
 
-On Mon, Jul 20, 2015@10:14:09AM -0600, Jon Derrick wrote:
-> Some controllers have a controller-side memory buffer available for use
-> for submissions, completions, lists, or data.
-> 
-> If a CMB is available, the entire CMB will be ioremapped and it will
-> attempt to map the IO SQes onto the CMB. The queues will be shrunk as
-> needed. The CMB will not be used if the queue depth is shrunk below some
-> threshold where it may have reduced performance over a larger queue
-> in system memory.
-> 
-> Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+On 07/20/2015 10:14 AM, Jon Derrick wrote:
+> This set unifies the command submission path, enables the cmb, and  maps
+> submission queues onto the controller memory buffer.
+>
+> Applies against axboe's linux-block/master
 
-Looks good,
+Applied for 4.3.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+-- 
+Jens Axboe
