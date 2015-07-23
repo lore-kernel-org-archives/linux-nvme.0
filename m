@@ -1,10 +1,17 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 23 Jul 2015 02:53:51 -0700
-Subject: [PATCH v5 4/5] null_blk: LightNVM support
-In-Reply-To: <1437587464-7964-5-git-send-email-mb@lightnvm.io>
+From: mb@lightnvm.io (=?windows-1252?Q?Matias_Bj=F8rling?=)
+Date: Thu, 23 Jul 2015 12:38:02 +0200
+Subject: [PATCH v5 1/5] lightnvm: Support for Open-Channel SSDs
+In-Reply-To: <20150723095329.GA26420@infradead.org>
 References: <1437587464-7964-1-git-send-email-mb@lightnvm.io>
- <1437587464-7964-5-git-send-email-mb@lightnvm.io>
-Message-ID: <20150723095351.GB26420@infradead.org>
+ <1437587464-7964-2-git-send-email-mb@lightnvm.io>
+ <20150723095329.GA26420@infradead.org>
+Message-ID: <55B0C40A.80602@lightnvm.io>
 
-Any reason you're adding this to null_blk instead of having a separate
-null_nvm driver?
+On 07/23/2015 11:53 AM, Christoph Hellwig wrote:
+> Hi Matias,
+> 
+> I like this new architecture.
+
+Thanks, great to hear. :)
+
+I will get the nitpicks fixed.
