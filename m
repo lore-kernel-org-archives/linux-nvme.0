@@ -1,26 +1,19 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Fri, 24 Jul 2015 11:26:58 -0400
-Subject: [PATCH 4/5] block: Export integrity data interval size in sysfs
-In-Reply-To: <55AF8064.4040409@dev.mellanox.co.il> (Sagi Grimberg's message of
- "Wed, 22 Jul 2015 14:37:08 +0300")
-References: <20150716091957.GA18310@infradead.org>
- <1437458579-18706-1-git-send-email-martin.petersen@oracle.com>
- <1437458579-18706-5-git-send-email-martin.petersen@oracle.com>
- <55AF8064.4040409@dev.mellanox.co.il>
-Message-ID: <yq1mvyly3st.fsf@sermon.lab.mkp.net>
+From: junjie.qian@yahoo.com (Junjie Qian)
+Date: Fri, 24 Jul 2015 20:00:00 +0000 (UTC)
+Subject: Extremely high context switches of i/o to NVM
+Message-ID: <2140969145.2200151.1437768000851.JavaMail.yahoo@mail.yahoo.com>
 
->>>>> "Sagi" == Sagi Grimberg <sagig at dev.mellanox.co.il> writes:
+Hi List,
 
->> +What: /sys/block/<disk>/integrity/data_interval_bytes
+I run experiment with NVM on NUMA, and found the context switch is extremely high.
 
-Sagi> I wander if pi_interval is not a more suitable name...
+The platform is, 1. Linux 4.1-rc7 with multi-queue enabled, kernel is polling enabled (5 secs polling, but the results show little difference between polling and interrupt); 2. 4-socket NUMA machine; 3. Intel PC3700 NVM
 
-I have always found the SBC notion of "protection information interval"
-a bit confusing. The interval describes the protected data, not the
-protection information.
+The command is sudo perf state -e context-switches nice -n -20 numactl -C 0 fio-master/fio --name=1 --bs=4k --ioengine=libaio --iodepth=1 --rw=read --numjobs=1 --filename=/dev/nvme0n1 --thread --direct=1 --group_reporting --time_based=1 --runtime=60
 
-I am OK with protection_interval_bytes too. But I do think that having
-data in there makes things clearer.
+The result is 3,567,428 context switches.
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Would someone give me some help on explaining this? Is this reasonable?
+ Thanks!
+Best
+Junjie
