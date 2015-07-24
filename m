@@ -1,22 +1,26 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Fri, 24 Jul 2015 11:14:55 -0400
-Subject: [PATCH 3/5] block: Reduce the size of struct blk_integrity
-In-Reply-To: <20150721115347.GA1654@infradead.org> (Christoph Hellwig's
- message of "Tue, 21 Jul 2015 04:53:47 -0700")
+Date: Fri, 24 Jul 2015 11:26:58 -0400
+Subject: [PATCH 4/5] block: Export integrity data interval size in sysfs
+In-Reply-To: <55AF8064.4040409@dev.mellanox.co.il> (Sagi Grimberg's message of
+ "Wed, 22 Jul 2015 14:37:08 +0300")
 References: <20150716091957.GA18310@infradead.org>
  <1437458579-18706-1-git-send-email-martin.petersen@oracle.com>
- <1437458579-18706-4-git-send-email-martin.petersen@oracle.com>
- <20150721115347.GA1654@infradead.org>
-Message-ID: <yq1r3nxy4cw.fsf@sermon.lab.mkp.net>
+ <1437458579-18706-5-git-send-email-martin.petersen@oracle.com>
+ <55AF8064.4040409@dev.mellanox.co.il>
+Message-ID: <yq1mvyly3st.fsf@sermon.lab.mkp.net>
 
->>>>> "Christoph" == Christoph Hellwig <hch at infradead.org> writes:
+>>>>> "Sagi" == Sagi Grimberg <sagig at dev.mellanox.co.il> writes:
 
-Christoph> Just curious: why do we event bother with storing the
-Christoph> interval?  Seem like our current impplementation forces it to
-Christoph> the block size anyway.
+>> +What: /sys/block/<disk>/integrity/data_interval_bytes
 
-There are SCSI devices that permit the PI at different intervals than
-the logical block size. I have a patch set in the pipeline.
+Sagi> I wander if pi_interval is not a more suitable name...
+
+I have always found the SBC notion of "protection information interval"
+a bit confusing. The interval describes the protected data, not the
+protection information.
+
+I am OK with protection_interval_bytes too. But I do think that having
+data in there makes things clearer.
 
 -- 
 Martin K. Petersen	Oracle Linux Engineering
