@@ -1,38 +1,37 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 29 Jul 2015 00:55:57 -0700
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 29 Jul 2015 14:28:52 +0000 (UTC)
 Subject: SGL support of driver
-In-Reply-To: <20150728143500.GX13681@linux.intel.com>
+In-Reply-To: <20150729075557.GA11755@infradead.org>
 References: <CAB7xdimg82dhfMY5mVAfZZ5=Ub-Dz5N+x1gQ5QWg7qPwb5fsXA@mail.gmail.com>
  <20150727163123.GA5034@infradead.org>
  <alpine.LNX.2.00.1507271636430.15930@localhost.lm.intel.com>
  <20150727165756.GA8847@infradead.org>
  <20150728143500.GX13681@linux.intel.com>
-Message-ID: <20150729075557.GA11755@infradead.org>
+ <20150729075557.GA11755@infradead.org>
+Message-ID: <alpine.LNX.2.00.1507291356440.15930@localhost.lm.intel.com>
 
-On Tue, Jul 28, 2015@10:35:00AM -0400, Matthew Wilcox wrote:
-> On Mon, Jul 27, 2015@09:57:56AM -0700, Christoph Hellwig wrote:
-> > It also requires pagecache I/O to be split into multiple commands
-> > where other block devices can handle it a lot more efficiently.
-> 
-> Wait, what?  pagecache I/O is page aligned and page sized.  That can
-> always be represented by a PRP list.
+On Wed, 29 Jul 2015, Christoph Hellwig wrote:
+> 64k page size, 4k file system block size, raid 0 with a stripe size of
+> 8k and two legs.
+>
+> The typical SGL feds to the hardware driver for streaming I/O will be:
+>
+> page A, offset 0, len 8k
+> page A, offset 16k, len 8k
+> page A, offset 32k, len 8k
+> page A, offset 48k, len 8k
+> page B, offset 0, len 8k
 
-Pagecache I/O is not nessecarily page aligned.
+I think we can easily optimize for this. It would work w/ PRP if the
+device's page size is set to <= 8k, which I believe all nvme controllers
+support. We just need to make a small change to bvec_gap_to_prev()
+to use the device's page size instead of PAGE_SIZE.
 
-Think of this case thay I remember clearly because it exposed a bug
-a few years ago:
+> This is clearly something PRP list will not handle well.  Note that I'm
+> not nessecarily saying this is soemthing to optimize for, the more
+> interesting case for NVMe really is the vectored direct I/O case.
 
-64k page size, 4k file system block size, raid 0 with a stripe size of
-8k and two legs.
+Vectored direct never split when the block size >= page size.
 
-The typical SGL feds to the hardware driver for streaming I/O will be:
-
-page A, offset 0, len 8k
-page A, offset 16k, len 8k
-page A, offset 32k, len 8k
-page A, offset 48k, len 8k
-page B, offset 0, len 8k
-
-This is clearly something PRP list will not handle well.  Note that I'm
-not nessecarily saying this is soemthing to optimize for, the more
-interesting case for NVMe really is the vectored direct I/O case.
+512b sectors is still common in NVMe though, so yeah, those may need
+separate req's.
