@@ -1,37 +1,31 @@
-From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Thu, 30 Jul 2015 11:23:20 +0200
-Subject: [PATCH] NVMe: removed unused nn var from nvme_dev_add
-Message-ID: <1438248200-3360-1-git-send-email-m@bjorling.me>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 30 Jul 2015 07:52:22 -0700
+Subject: [RFC] Multi level NVMe stack
+In-Reply-To: <1438214118.24174.9.camel@ssi>
+References: <1438214118.24174.9.camel@ssi>
+Message-ID: <20150730145222.GA12744@infradead.org>
 
-The logic in nvme_dev_add to enumerate namespaces was moved to
-nvme_dev_scan. When moved, the nn variable is no longer used. This patch
-removes it.
+On Wed, Jul 29, 2015@04:55:18PM -0700, Ming Lin wrote:
+> I'm working on a virtio-nvme driver.
+> NVMe over Fabrics initiator will probably be available some time.
+> 
+> I wonder does it make sense to have a multi level NVMe stack(similar as
+> SCSI). So we can re-use the NVMe core code.
 
-Fixes: a5768aai ("NVMe: Automatic namespace rescan")
-Signed-off-by: Matias Bj?rling <m at bjorling.me>
----
- drivers/block/nvme-core.c | 2 --
- 1 file changed, 2 deletions(-)
+Hi Ming,
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index d844ec4..82a3241 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2344,7 +2344,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
- {
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int res;
--	unsigned nn;
- 	struct nvme_id_ctrl *ctrl;
- 	int shift = NVME_CAP_MPSMIN(readq(&dev->bar->cap)) + 12;
- 
-@@ -2354,7 +2353,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 		return -EIO;
- 	}
- 
--	nn = le32_to_cpup(&ctrl->nn);
- 	dev->oncs = le16_to_cpup(&ctrl->oncs);
- 	dev->abort_limit = ctrl->acl + 1;
- 	dev->vwc = ctrl->vwc;
--- 
-2.1.4
+I've put some work in for abstraction, see the work to submit the
+internal NVMe command through struct request.
+
+Once we actually get other transports we can split main data structures,
+and move the parts sitting above that abstraction out into a separate
+module.
+
+>From both looking at the I/O code I'd prefer not to add any abstractions
+in the I/O code for.
+
+I'd suggest you prototype the code without big refactoring first,
+and then compare your implementation against the NVMe virtualization
+extensions from Google and check if it's worth it:
+
+http://lists.infradead.org/pipermail/linux-nvme/2014-July/001076.html
