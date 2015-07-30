@@ -1,20 +1,37 @@
-From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Thu, 30 Jul 2015 12:04:19 +0300
-Subject: [PATCH] blk: add vector gaps queue parameter
-In-Reply-To: <1438189313-29722-1-git-send-email-keith.busch@intel.com>
-References: <1438189313-29722-1-git-send-email-keith.busch@intel.com>
-Message-ID: <55B9E893.7050509@dev.mellanox.co.il>
+From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
+Date: Thu, 30 Jul 2015 11:23:20 +0200
+Subject: [PATCH] NVMe: removed unused nn var from nvme_dev_add
+Message-ID: <1438248200-3360-1-git-send-email-m@bjorling.me>
 
+The logic in nvme_dev_add to enumerate namespaces was moved to
+nvme_dev_scan. When moved, the nn variable is no longer used. This patch
+removes it.
 
-> diff --git a/block/blk-settings.c b/block/blk-settings.c
-> index 12600bf..4acd505 100644
-> --- a/block/blk-settings.c
-> +++ b/block/blk-settings.c
-> @@ -111,6 +111,7 @@ void blk_set_default_limits(struct queue_limits *lim)
->   	lim->max_segments = BLK_MAX_SEGMENTS;
->   	lim->max_integrity_segments = 0;
->   	lim->seg_boundary_mask = BLK_SEG_BOUNDARY_MASK;
-> +	lim->virt_mask = 0;
+Fixes: a5768aai ("NVMe: Automatic namespace rescan")
+Signed-off-by: Matias Bj?rling <m at bjorling.me>
+---
+ drivers/block/nvme-core.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-I wander if its better to default to PAGE_SIZE to not change the
-existing functionality? Or do we want to force drivers to set virt_mask?
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index d844ec4..82a3241 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2344,7 +2344,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ {
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int res;
+-	unsigned nn;
+ 	struct nvme_id_ctrl *ctrl;
+ 	int shift = NVME_CAP_MPSMIN(readq(&dev->bar->cap)) + 12;
+ 
+@@ -2354,7 +2353,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 		return -EIO;
+ 	}
+ 
+-	nn = le32_to_cpup(&ctrl->nn);
+ 	dev->oncs = le16_to_cpup(&ctrl->oncs);
+ 	dev->abort_limit = ctrl->acl + 1;
+ 	dev->vwc = ctrl->vwc;
+-- 
+2.1.4
