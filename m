@@ -1,32 +1,16 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 30 Jul 2015 20:00:13 +0000 (UTC)
-Subject: [PATCH V2] NVMe: Using PRACT bit to generate and verify PI by
- controller
-In-Reply-To: <1438094033-2693-1-git-send-email-pandey.alok@samsung.com>
-References: <1438094033-2693-1-git-send-email-pandey.alok@samsung.com>
-Message-ID: <alpine.LNX.2.00.1507301956330.15930@localhost.lm.intel.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 30 Jul 2015 18:02:38 -0400
+Subject: [PATCHv2] blk: Replace SG_GAPGS with new queue limits mask
+In-Reply-To: <1438285118-24146-1-git-send-email-keith.busch@intel.com> (Keith
+ Busch's message of "Thu, 30 Jul 2015 13:38:38 -0600")
+References: <1438285118-24146-1-git-send-email-keith.busch@intel.com>
+Message-ID: <yq1d1z9l2wx.fsf@sermon.lab.mkp.net>
 
-On Tue, 28 Jul 2015, Alok Pandey wrote:
-> This patch enables the PRCHK and reftag support when PRACT bit is set, and
-> block layer integrity is disabled.
+>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
 
-Thanks!
+Maybe virt_boundary_mask to make it symmetric with seg_boundary_mask?
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Otherwise it looks OK.
 
-> Signed-off-by: Alok Pandey <pandey.alok at samsung.com>
-> ---
-> @@ -815,11 +815,10 @@ static int nvme_submit_iod(struct nvme_queue *nvmeq, struct nvme_iod *iod,
-> 	cmnd->rw.slba = cpu_to_le64(nvme_block_nr(ns, blk_rq_pos(req)));
-> 	cmnd->rw.length = cpu_to_le16((blk_rq_bytes(req) >> ns->lba_shift) - 1);
->
-> -	if (blk_integrity_rq(req)) {
-> -		cmnd->rw.metadata = cpu_to_le64(sg_dma_address(iod->meta_sg));
-> +	if (ns->ms) {
-> 		switch (ns->pi_type) {
-> 		case NVME_NS_DPS_PI_TYPE3:
-> -			control |= NVME_RW_PRINFO_PRCHK_GUARD;
-> +		control |= NVME_RW_PRINFO_PRCHK_GUARD;
-> 			break;
-
-Though the tab change here must have been an accident.
+-- 
+Martin K. Petersen	Oracle Linux Engineering
