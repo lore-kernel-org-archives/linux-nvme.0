@@ -1,37 +1,45 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 31 Jul 2015 16:03:59 -0600
-Subject: [PATCH] NVMe: Add device id to vendor specific chunk size
-Message-ID: <1438380239-29643-1-git-send-email-keith.busch@intel.com>
+Date: Fri, 31 Jul 2015 21:56:27 +0000 (UTC)
+Subject: driver for apple storage controller 106b:2001
+In-Reply-To: <CAL1_imkB-bz_wUELxMqEreJiyqE+y1_dPRMYyaxuJtko4+Q9Bg@mail.gmail.com>
+References: <CAL1_imkB-bz_wUELxMqEreJiyqE+y1_dPRMYyaxuJtko4+Q9Bg@mail.gmail.com>
+Message-ID: <alpine.LNX.2.00.1507312144160.15930@localhost.lm.intel.com>
 
-A controller with a new device id supports the same striping feature
-currently used with DID 0953h, so appending the new device identifier
-to the check that enables this feature.
+On Fri, 31 Jul 2015, David Craven wrote:
+> I'm having trouble getting the ssd controller in the new apple macbook
+> 2015 model to work.
+>
+> This is what I tried:
+> insmod /usr/lib/modules/4.0.7-2-ARCH/kernel/drivers/block/nvme.ko.gz
+> echo "106b 2001" > /sys/bus/pci/drivers/nvme/new_id
+>
+> And this is the error I got:
+> - @archiso ..ules/4.0.7-2-ARCH/kernel/drivers/block # echo "106b 2001"
+>> /sys/bus/pci/driuers/nume/new_id
+>
+> [318.531670] nvme 0000:03:00.0: Minimum device page size (134217728) too large for host (4096)
+>
+> [318.553789] BUG: unable to handle kernel NULL pointer dereference at  00000000000004ac
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Hi,
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 7e9dd11..8f936f3 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2347,6 +2347,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	unsigned nn;
- 	struct nvme_id_ctrl *ctrl;
- 	int shift = NVME_CAP_MPSMIN(readq(&dev->bar->cap)) + 12;
-+	u16 did = pdev->device;
- 
- 	res = nvme_identify_ctrl(dev, &ctrl);
- 	if (res) {
-@@ -2364,7 +2365,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	if (ctrl->mdts)
- 		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
- 	if ((pdev->vendor == PCI_VENDOR_ID_INTEL) &&
--			(pdev->device == 0x0953) && ctrl->vs[3]) {
-+			(did == 0x0953 || did == 0x0a54) && ctrl->vs[3]) {
- 		unsigned int max_hw_sectors;
- 
- 		dev->stripe_size = 1 << (ctrl->vs[3] + shift);
--- 
-1.7.10.4
+This doesn't appear to be an NVMe device. Its "minimum page size"
+supported is so absurd that I can't believe this is came from an NVMe
+device register set.
+
+If this were an NVMe device, you should not have needed to manually bind
+the VID/DID to the nvme driver since it is a generic driver that binds
+to all devices with an NVM-Express class code (10802h).
+
+But since you've done this, you've discovered a bug that was present in
+4.0, but fixed in 4.2. I should probably post these fixes to stable...
+
+> Does this error message make sense to you guys? Is this the correct
+> driver for the 106b:2001, or does that need a totally different
+> driver? How can I go about deciphering this error? How do I find other
+> people with the same issue / am I at the right place here?
+> I'd really appreciate any pointers, help or suggestions you can give me.
+
+I think this needs a different driver. If this really is an NVMe device,
+then the h/w vendor either needs to adjust their implementation or supply
+a quirk patch.
