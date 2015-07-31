@@ -1,84 +1,37 @@
-From: sunad.s@samsung.com (Sunad Bhandary)
-Date: Fri, 31 Jul 2015 18:56:58 +0530
-Subject: [PATCH] NVMe:Remove unreachable code in nvme_abort_req
-Message-ID: <1438349218-8907-1-git-send-email-sunad.s@samsung.com>
+From: mlin@kernel.org (Ming Lin)
+Date: Fri, 31 Jul 2015 10:04:28 -0700
+Subject: [RFC] Multi level NVMe stack
+In-Reply-To: <20150730145222.GA12744@infradead.org>
+References: <1438214118.24174.9.camel@ssi>
+ <20150730145222.GA12744@infradead.org>
+Message-ID: <CAF1ivSaK_G_ukWeEv0c07WG0s2BieA7JPJD_DfzmGpORvj8qWQ@mail.gmail.com>
 
-Removing unreachable code from nvme_abort_req as nvme_submit_cmd has no
-failure status to return.
+On Thu, Jul 30, 2015@7:52 AM, Christoph Hellwig <hch@infradead.org> wrote:
+> On Wed, Jul 29, 2015@04:55:18PM -0700, Ming Lin wrote:
+>> I'm working on a virtio-nvme driver.
+>> NVMe over Fabrics initiator will probably be available some time.
+>>
+>> I wonder does it make sense to have a multi level NVMe stack(similar as
+>> SCSI). So we can re-use the NVMe core code.
+>
+> Hi Ming,
+>
+> I've put some work in for abstraction, see the work to submit the
+> internal NVMe command through struct request.
+>
+> Once we actually get other transports we can split main data structures,
+> and move the parts sitting above that abstraction out into a separate
+> module.
+>
+> From both looking at the I/O code I'd prefer not to add any abstractions
+> in the I/O code for.
+>
+> I'd suggest you prototype the code without big refactoring first,
+> and then compare your implementation against the NVMe virtualization
+> extensions from Google and check if it's worth it:
+>
+> http://lists.infradead.org/pipermail/linux-nvme/2014-July/001076.html
 
-Signed-off-by: Sunad Bhandary <sunad.s at samsung.com>
----
- drivers/block/nvme-core.c | 24 +++++++++---------------
- 1 file changed, 9 insertions(+), 15 deletions(-)
+I'll prototype the code.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 7920c27..d0bb311 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -379,7 +379,8 @@ static void *nvme_finish_cmd(struct nvme_queue *nvmeq, int tag,
-  *
-  * Safe to use from interrupt context
-  */
--static int __nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
-+static void __nvme_submit_cmd(struct nvme_queue *nvmeq,
-+						struct nvme_command *cmd)
- {
- 	u16 tail = nvmeq->sq_tail;
- 
-@@ -388,18 +389,14 @@ static int __nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
- 		tail = 0;
- 	writel(tail, nvmeq->q_db);
- 	nvmeq->sq_tail = tail;
--
--	return 0;
- }
- 
--static int nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
-+static void nvme_submit_cmd(struct nvme_queue *nvmeq, struct nvme_command *cmd)
- {
- 	unsigned long flags;
--	int ret;
- 	spin_lock_irqsave(&nvmeq->q_lock, flags);
--	ret = __nvme_submit_cmd(nvmeq, cmd);
-+	__nvme_submit_cmd(nvmeq, cmd);
- 	spin_unlock_irqrestore(&nvmeq->q_lock, flags);
--	return ret;
- }
- 
- static __le64 **iod_list(struct nvme_iod *iod)
-@@ -1080,7 +1077,8 @@ static int nvme_submit_async_admin_req(struct nvme_dev *dev)
- 	c.common.command_id = req->tag;
- 
- 	blk_mq_free_request(req);
--	return __nvme_submit_cmd(nvmeq, &c);
-+	__nvme_submit_cmd(nvmeq, &c);
-+	return 0;
- }
- 
- static int nvme_submit_admin_async_cmd(struct nvme_dev *dev,
-@@ -1103,7 +1101,8 @@ static int nvme_submit_admin_async_cmd(struct nvme_dev *dev,
- 
- 	cmd->common.command_id = req->tag;
- 
--	return nvme_submit_cmd(nvmeq, cmd);
-+	nvme_submit_cmd(nvmeq, cmd);
-+	return 0;
- }
- 
- static int adapter_delete_queue(struct nvme_dev *dev, u8 opcode, u16 id)
-@@ -1315,12 +1314,7 @@ static void nvme_abort_req(struct request *req)
- 
- 	dev_warn(nvmeq->q_dmadev, "Aborting I/O %d QID %d\n", req->tag,
- 							nvmeq->qid);
--	if (nvme_submit_cmd(dev->queues[0], &cmd) < 0) {
--		dev_warn(nvmeq->q_dmadev,
--				"Could not abort I/O %d QID %d",
--				req->tag, nvmeq->qid);
--		blk_mq_free_request(abort_req);
--	}
-+	nvme_submit_cmd(dev->queues[0], &cmd);
- }
- 
- static void nvme_cancel_queue_ios(struct request *req, void *data, bool reserved)
--- 
-1.9.1
+Thanks.
