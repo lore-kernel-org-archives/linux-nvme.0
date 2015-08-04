@@ -1,10 +1,12 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 4 Aug 2015 04:28:34 -0700
-Subject: [PATCH] NVMe: removed unused nn var from nvme_dev_add
-In-Reply-To: <1438248200-3360-1-git-send-email-m@bjorling.me>
-References: <1438248200-3360-1-git-send-email-m@bjorling.me>
-Message-ID: <20150804112834.GB8395@infradead.org>
+Date: Tue, 4 Aug 2015 04:30:13 -0700
+Subject: [PATCH v6 0/5] Support for Open-Channel SSDs
+In-Reply-To: <1438082268-13496-1-git-send-email-mb@lightnvm.io>
+References: <1438082268-13496-1-git-send-email-mb@lightnvm.io>
+Message-ID: <20150804113013.GC8395@infradead.org>
 
-Looks good,
+Hi Matias,
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+the architecture looks fine to me.  Probab;y not worth merging until
+your have the multipage I/O sorted out and real hardware, or do you want
+to aim for fast inclusion?
