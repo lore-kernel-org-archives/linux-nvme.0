@@ -1,166 +1,34 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue,  4 Aug 2015 09:11:11 +0200
-Subject: [PATCH 6/6] dm: add support for passing through persistent
- reservations
-In-Reply-To: <1438672271-11309-1-git-send-email-hch@lst.de>
-References: <1438672271-11309-1-git-send-email-hch@lst.de>
-Message-ID: <1438672271-11309-7-git-send-email-hch@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 4 Aug 2015 04:28:17 -0700
+Subject: [PATCHv3] blk: Replace SG_GAPGS with new queue limits mask
+In-Reply-To: <1438372071-24898-1-git-send-email-keith.busch@intel.com>
+References: <1438372071-24898-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20150804112817.GA8395@infradead.org>
 
-This adds support to pass through persistent reservation requests
-similar to the existing ioctl handling, and with the same limitations,
-e.g. devices may only have a single target attached.
+> -		if (q->queue_flags & (1 << QUEUE_FLAG_SG_GAPS) &&
+> -		    bvec_gap_to_prev(prev, offset))
+> +		if (queue_virt_boundary(q) && bvec_gap_to_prev(prev, offset,
+> +							queue_virt_boundary(q)))
 
-This is mostly intended for multipathing.
+Nipick:  This would look nicer as:
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/md/dm.c | 122 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 122 insertions(+)
+		if (queue_virt_boundary(q) &&
+		     bvec_gap_to_prev(prev, offset, queue_virt_boundary(q)))
 
-diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-index 8dfc760..3388fa6 100644
---- a/drivers/md/dm.c
-+++ b/drivers/md/dm.c
-@@ -24,6 +24,7 @@
- #include <linux/ktime.h>
- #include <linux/elevator.h> /* for rq_end_sector() */
- #include <linux/blk-mq.h>
-+#include <linux/pr.h>
- 
- #include <trace/events/block.h>
- 
-@@ -3670,11 +3671,132 @@ void dm_free_md_mempools(struct dm_md_mempools *pools)
- 	kfree(pools);
- }
- 
-+static int dm_pr_register(struct block_device *bdev, u64 old_key, u64 new_key,
-+		bool ignore)
-+{
-+	struct mapped_device *md = bdev->bd_disk->private_data;
-+	const struct pr_ops *ops;
-+	struct dm_target *tgt;
-+	fmode_t mode;
-+	int srcu_idx, r;
-+
-+	r = dm_get_ioctl_table(md, &tgt, &bdev, &mode, &srcu_idx);
-+	if (r < 0)
-+		return r;
-+
-+	ops = bdev->bd_disk->fops->pr_ops;
-+	if (ops && ops->pr_register)
-+		r = ops->pr_register(bdev, old_key, new_key, ignore);
-+	else
-+		r = -EOPNOTSUPP;
-+
-+	dm_put_live_table(md, srcu_idx);
-+	return r;
-+}
-+
-+static int dm_pr_reserve(struct block_device *bdev, u64 key, enum pr_type type)
-+{
-+	struct mapped_device *md = bdev->bd_disk->private_data;
-+	const struct pr_ops *ops;
-+	struct dm_target *tgt;
-+	fmode_t mode;
-+	int srcu_idx, r;
-+
-+	r = dm_get_ioctl_table(md, &tgt, &bdev, &mode, &srcu_idx);
-+	if (r < 0)
-+		return r;
-+
-+	ops = bdev->bd_disk->fops->pr_ops;
-+	if (ops && ops->pr_reserve)
-+		r = ops->pr_reserve(bdev, key, type);
-+	else
-+		r = -EOPNOTSUPP;
-+
-+	dm_put_live_table(md, srcu_idx);
-+	return r;
-+}
-+
-+static int dm_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
-+{
-+	struct mapped_device *md = bdev->bd_disk->private_data;
-+	const struct pr_ops *ops;
-+	struct dm_target *tgt;
-+	fmode_t mode;
-+	int srcu_idx, r;
-+
-+	r = dm_get_ioctl_table(md, &tgt, &bdev, &mode, &srcu_idx);
-+	if (r < 0)
-+		return r;
-+
-+	ops = bdev->bd_disk->fops->pr_ops;
-+	if (ops && ops->pr_release)
-+		r = ops->pr_release(bdev, key, type);
-+	else
-+		r = -EOPNOTSUPP;
-+
-+	dm_put_live_table(md, srcu_idx);
-+	return r;
-+}
-+
-+static int dm_pr_preempt(struct block_device *bdev, u64 old_key, u64 new_key,
-+		enum pr_type type, bool abort)
-+{
-+	struct mapped_device *md = bdev->bd_disk->private_data;
-+	const struct pr_ops *ops;
-+	struct dm_target *tgt;
-+	fmode_t mode;
-+	int srcu_idx, r;
-+
-+	r = dm_get_ioctl_table(md, &tgt, &bdev, &mode, &srcu_idx);
-+	if (r < 0)
-+		return r;
-+
-+	ops = bdev->bd_disk->fops->pr_ops;
-+	if (ops && ops->pr_preempt)
-+		r = ops->pr_preempt(bdev, old_key, new_key, type, abort);
-+	else
-+		r = -EOPNOTSUPP;
-+
-+	dm_put_live_table(md, srcu_idx);
-+	return r;
-+}
-+
-+static int dm_pr_clear(struct block_device *bdev, u64 key)
-+{
-+	struct mapped_device *md = bdev->bd_disk->private_data;
-+	const struct pr_ops *ops;
-+	struct dm_target *tgt;
-+	fmode_t mode;
-+	int srcu_idx, r;
-+
-+	r = dm_get_ioctl_table(md, &tgt, &bdev, &mode, &srcu_idx);
-+	if (r < 0)
-+		return r;
-+
-+	ops = bdev->bd_disk->fops->pr_ops;
-+	if (ops && ops->pr_clear)
-+		r = ops->pr_clear(bdev, key);
-+	else
-+		r = -EOPNOTSUPP;
-+
-+	dm_put_live_table(md, srcu_idx);
-+	return r;
-+}
-+
-+static const struct pr_ops dm_pr_ops = {
-+	.pr_register	= dm_pr_register,
-+	.pr_reserve	= dm_pr_reserve,
-+	.pr_release	= dm_pr_release,
-+	.pr_preempt	= dm_pr_preempt,
-+	.pr_clear	= dm_pr_clear,
-+};
-+
- static const struct block_device_operations dm_blk_dops = {
- 	.open = dm_blk_open,
- 	.release = dm_blk_close,
- 	.ioctl = dm_blk_ioctl,
- 	.getgeo = dm_blk_getgeo,
-+	.pr_ops = &dm_pr_ops,
- 	.owner = THIS_MODULE
- };
- 
--- 
-1.9.1
+But why don't we hide all this beind a better implementation of
+bvec_gap_to_prev:
+
+> +static inline bool bvec_gap_to_prev(struct bio_vec *bprv, unsigned int offset, unsigned long mask)
+>  {
+> -	return offset || ((bprv->bv_offset + bprv->bv_len) & (PAGE_SIZE - 1));
+> +	return offset || ((bprv->bv_offset + bprv->bv_len) & mask);
+>  }
+
+static inline bool bvec_gap_to_prev(struct request_queue *q,
+		struct bio_vec *bprv, unsigned int offset)
+{
+	if (!queue_virt_boundary(q))
+		return false;
+	return offset ||
+		((bprv->bv_offset + bprv->bv_len) & queue_virt_boundary(q);
+}
