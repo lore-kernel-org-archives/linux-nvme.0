@@ -1,108 +1,166 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue,  4 Aug 2015 09:11:10 +0200
-Subject: [PATCH 5/6] dm: split out a helper to find the ioctl target
+Date: Tue,  4 Aug 2015 09:11:11 +0200
+Subject: [PATCH 6/6] dm: add support for passing through persistent
+ reservations
 In-Reply-To: <1438672271-11309-1-git-send-email-hch@lst.de>
 References: <1438672271-11309-1-git-send-email-hch@lst.de>
-Message-ID: <1438672271-11309-6-git-send-email-hch@lst.de>
+Message-ID: <1438672271-11309-7-git-send-email-hch@lst.de>
 
-We want to reuse this code for the persistent reservation handling,
-so move it into a helper.
+This adds support to pass through persistent reservation requests
+similar to the existing ioctl handling, and with the same limitations,
+e.g. devices may only have a single target attached.
+
+This is mostly intended for multipathing.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/md/dm.c | 50 ++++++++++++++++++++++++++++++++------------------
- 1 file changed, 32 insertions(+), 18 deletions(-)
+ drivers/md/dm.c | 122 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 122 insertions(+)
 
 diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-index c68eb91..8dfc760 100644
+index 8dfc760..3388fa6 100644
 --- a/drivers/md/dm.c
 +++ b/drivers/md/dm.c
-@@ -556,18 +556,16 @@ static int dm_blk_getgeo(struct block_device *bdev, struct hd_geometry *geo)
- 	return dm_get_geometry(md, geo);
+@@ -24,6 +24,7 @@
+ #include <linux/ktime.h>
+ #include <linux/elevator.h> /* for rq_end_sector() */
+ #include <linux/blk-mq.h>
++#include <linux/pr.h>
+ 
+ #include <trace/events/block.h>
+ 
+@@ -3670,11 +3671,132 @@ void dm_free_md_mempools(struct dm_md_mempools *pools)
+ 	kfree(pools);
  }
  
--static int dm_blk_ioctl(struct block_device *bdev, fmode_t mode,
--			unsigned int cmd, unsigned long arg)
-+static int dm_get_ioctl_table(struct mapped_device *md,
-+		struct dm_target **tgt, struct block_device **bdev,
-+		fmode_t *mode, int *srcu_idx)
- {
--	struct mapped_device *md = bdev->bd_disk->private_data;
--	int srcu_idx;
- 	struct dm_table *map;
--	struct dm_target *tgt;
--	int r = -ENOTTY;
-+	int r;
- 
- retry:
--	map = dm_get_live_table(md, &srcu_idx);
--
-+	r = -ENOTTY;
-+	map = dm_get_live_table(md, srcu_idx);
- 	if (!map || !dm_table_get_size(map))
- 		goto out;
- 
-@@ -575,8 +573,9 @@ retry:
- 	if (dm_table_get_num_targets(map) != 1)
- 		goto out;
- 
--	tgt = dm_table_get_target(map, 0);
--	if (!tgt->type->ioctl)
-+	*tgt = dm_table_get_target(map, 0);
-+
-+	if (!(*tgt)->type->ioctl)
- 		goto out;
- 
- 	if (dm_suspended_md(md)) {
-@@ -584,10 +583,32 @@ retry:
- 		goto out;
- 	}
- 
--	r = tgt->type->ioctl(tgt, &bdev, &mode);
-+	r = (*tgt)->type->ioctl(*tgt, bdev, mode);
- 	if (r < 0)
- 		goto out;
- 
-+	return r;
-+
-+out:
-+	dm_put_live_table(md, *srcu_idx);
-+	if (r == -ENOTCONN) {
-+		msleep(10);
-+		goto retry;
-+	}
-+	return r;
-+}
-+
-+static int dm_blk_ioctl(struct block_device *bdev, fmode_t mode,
-+			unsigned int cmd, unsigned long arg)
++static int dm_pr_register(struct block_device *bdev, u64 old_key, u64 new_key,
++		bool ignore)
 +{
 +	struct mapped_device *md = bdev->bd_disk->private_data;
++	const struct pr_ops *ops;
 +	struct dm_target *tgt;
++	fmode_t mode;
 +	int srcu_idx, r;
 +
 +	r = dm_get_ioctl_table(md, &tgt, &bdev, &mode, &srcu_idx);
 +	if (r < 0)
 +		return r;
 +
- 	if (r > 0) {
- 		r = scsi_verify_blk_ioctl(NULL, cmd);
- 		if (r)
-@@ -595,15 +616,8 @@ retry:
- 	}
- 
- 	r =  __blkdev_driver_ioctl(bdev, mode, cmd, arg);
--
- out:
- 	dm_put_live_table(md, srcu_idx);
--
--	if (r == -ENOTCONN) {
--		msleep(10);
--		goto retry;
--	}
--
- 	return r;
- }
++	ops = bdev->bd_disk->fops->pr_ops;
++	if (ops && ops->pr_register)
++		r = ops->pr_register(bdev, old_key, new_key, ignore);
++	else
++		r = -EOPNOTSUPP;
++
++	dm_put_live_table(md, srcu_idx);
++	return r;
++}
++
++static int dm_pr_reserve(struct block_device *bdev, u64 key, enum pr_type type)
++{
++	struct mapped_device *md = bdev->bd_disk->private_data;
++	const struct pr_ops *ops;
++	struct dm_target *tgt;
++	fmode_t mode;
++	int srcu_idx, r;
++
++	r = dm_get_ioctl_table(md, &tgt, &bdev, &mode, &srcu_idx);
++	if (r < 0)
++		return r;
++
++	ops = bdev->bd_disk->fops->pr_ops;
++	if (ops && ops->pr_reserve)
++		r = ops->pr_reserve(bdev, key, type);
++	else
++		r = -EOPNOTSUPP;
++
++	dm_put_live_table(md, srcu_idx);
++	return r;
++}
++
++static int dm_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
++{
++	struct mapped_device *md = bdev->bd_disk->private_data;
++	const struct pr_ops *ops;
++	struct dm_target *tgt;
++	fmode_t mode;
++	int srcu_idx, r;
++
++	r = dm_get_ioctl_table(md, &tgt, &bdev, &mode, &srcu_idx);
++	if (r < 0)
++		return r;
++
++	ops = bdev->bd_disk->fops->pr_ops;
++	if (ops && ops->pr_release)
++		r = ops->pr_release(bdev, key, type);
++	else
++		r = -EOPNOTSUPP;
++
++	dm_put_live_table(md, srcu_idx);
++	return r;
++}
++
++static int dm_pr_preempt(struct block_device *bdev, u64 old_key, u64 new_key,
++		enum pr_type type, bool abort)
++{
++	struct mapped_device *md = bdev->bd_disk->private_data;
++	const struct pr_ops *ops;
++	struct dm_target *tgt;
++	fmode_t mode;
++	int srcu_idx, r;
++
++	r = dm_get_ioctl_table(md, &tgt, &bdev, &mode, &srcu_idx);
++	if (r < 0)
++		return r;
++
++	ops = bdev->bd_disk->fops->pr_ops;
++	if (ops && ops->pr_preempt)
++		r = ops->pr_preempt(bdev, old_key, new_key, type, abort);
++	else
++		r = -EOPNOTSUPP;
++
++	dm_put_live_table(md, srcu_idx);
++	return r;
++}
++
++static int dm_pr_clear(struct block_device *bdev, u64 key)
++{
++	struct mapped_device *md = bdev->bd_disk->private_data;
++	const struct pr_ops *ops;
++	struct dm_target *tgt;
++	fmode_t mode;
++	int srcu_idx, r;
++
++	r = dm_get_ioctl_table(md, &tgt, &bdev, &mode, &srcu_idx);
++	if (r < 0)
++		return r;
++
++	ops = bdev->bd_disk->fops->pr_ops;
++	if (ops && ops->pr_clear)
++		r = ops->pr_clear(bdev, key);
++	else
++		r = -EOPNOTSUPP;
++
++	dm_put_live_table(md, srcu_idx);
++	return r;
++}
++
++static const struct pr_ops dm_pr_ops = {
++	.pr_register	= dm_pr_register,
++	.pr_reserve	= dm_pr_reserve,
++	.pr_release	= dm_pr_release,
++	.pr_preempt	= dm_pr_preempt,
++	.pr_clear	= dm_pr_clear,
++};
++
+ static const struct block_device_operations dm_blk_dops = {
+ 	.open = dm_blk_open,
+ 	.release = dm_blk_close,
+ 	.ioctl = dm_blk_ioctl,
+ 	.getgeo = dm_blk_getgeo,
++	.pr_ops = &dm_pr_ops,
+ 	.owner = THIS_MODULE
+ };
  
 -- 
 1.9.1
