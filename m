@@ -1,32 +1,28 @@
-From: havenyang@126.com (HavenYang)
-Date: Wed, 5 Aug 2015 08:53:30 +0800 (CST)
-Subject: what time does host will re-used the prplist memory region.
-In-Reply-To: <20150804134000.GB13681@linux.intel.com>
-References: <e06add8.1a3fb.14ef6c204d6.Coremail.havenyang@126.com>
- <20150804134000.GB13681@linux.intel.com>
-Message-ID: <756479b3.d0e.14efb594bf2.Coremail.havenyang@126.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Tue, 04 Aug 2015 21:45:54 -0400
+Subject: [PATCHv4] blk: Replace SG_GAPGS with new queue limits mask
+In-Reply-To: <1438716733-566-1-git-send-email-keith.busch@intel.com> (Keith
+ Busch's message of "Tue, 4 Aug 2015 13:32:13 -0600")
+References: <1438716733-566-1-git-send-email-keith.busch@intel.com>
+Message-ID: <yq1oaimik31.fsf@sermon.lab.mkp.net>
 
+>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
 
-Dear Matthew
+Keith> The SG_GAPS queue flag caused checks for bio vector alignment
+Keith> against PAGE_SIZE, but the device may have different
+Keith> constraints. This patch adds a queue limits so a driver with such
+Keith> constraints can set to allow requests that would have been
+Keith> unnecessarily split. The new gaps check takes the request_queue
+Keith> as a parameter to simplify the logic around invoking this
+Keith> function.
 
-Thank you for your feedback, it's very important to me.
-I suggest your comment for my first question should be wrote to the spec, 
-otherwise, there maybe others confused for this issue and go to the wrong way.
+Keith> This new limit makes the queue flag redundant, so removing it and
+Keith> all usage. Device-mappers will inherit the correct settings
+Keith> through blk_stack_limits().
 
+This looks good to me except for the typo in the Subject: line.
 
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
 
-At 2015-08-04 21:40:00, "Matthew Wilcox" <willy@linux.intel.com> wrote:
->On Tue, Aug 04, 2015@11:29:47AM +0800, HavenYang wrote:
->> It says the SQhead indicate Submission Queue entries may be re-used, but it not say the PRPlist related to this command may be re-used or not, I confused.
->> 
->> my question is:
->> 1. from host side,?what is the condition can host re-used the prplist memory region for a host command, SQHead or command complete?
->
->The host can only reuse the PRP list memory when the command has been
->completed.  The device is entitled to use the PRP list throughout
->execution of the command.
->
->> 2. from device side, what is the condition to update SQHead, fetched command head(simple) or fetched all prp from prplist(complex)?
->
->The first; the host only takes this as an indication that it can reuse
->the SQ entry.
+-- 
+Martin K. Petersen	Oracle Linux Engineering
