@@ -1,7 +1,7 @@
 From: xerofoify@gmail.com (Nicholas Krause)
-Date: Thu,  6 Aug 2015 14:53:15 -0400
+Date: Thu,  6 Aug 2015 15:03:00 -0400
 Subject: [PATCH] nvme:Fix error handling in the function nvme_init_integrity
-Message-ID: <1438887195-3955-1-git-send-email-xerofoify@gmail.com>
+Message-ID: <1438887780-4104-1-git-send-email-xerofoify@gmail.com>
 
 This fixes error handling in the function nvme_init_integrity
 by checking if the call to the function blck_integrity_register
