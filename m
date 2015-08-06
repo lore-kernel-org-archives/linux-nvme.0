@@ -1,28 +1,14 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Tue, 04 Aug 2015 21:45:54 -0400
-Subject: [PATCHv4] blk: Replace SG_GAPGS with new queue limits mask
-In-Reply-To: <1438716733-566-1-git-send-email-keith.busch@intel.com> (Keith
- Busch's message of "Tue, 4 Aug 2015 13:32:13 -0600")
-References: <1438716733-566-1-git-send-email-keith.busch@intel.com>
-Message-ID: <yq1oaimik31.fsf@sermon.lab.mkp.net>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 6 Aug 2015 15:44:46 +0200
+Subject: Persistent Reservation API
+In-Reply-To: <20150804175349.GA29013@redhat.com>
+References: <1438672271-11309-1-git-send-email-hch@lst.de>
+ <20150804175349.GA29013@redhat.com>
+Message-ID: <20150806134446.GA1646@lst.de>
 
->>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
+On Tue, Aug 04, 2015@01:53:49PM -0400, Mike Snitzer wrote:
+> The DM changes need to go through linux-dm.git.  Once the block and SCSI
+> bits land I'll rebase accordingly.  That cross-maintainer logisitics
+> aside, I'll reply with feedback on the DM patches.
 
-Keith> The SG_GAPS queue flag caused checks for bio vector alignment
-Keith> against PAGE_SIZE, but the device may have different
-Keith> constraints. This patch adds a queue limits so a driver with such
-Keith> constraints can set to allow requests that would have been
-Keith> unnecessarily split. The new gaps check takes the request_queue
-Keith> as a parameter to simplify the logic around invoking this
-Keith> function.
-
-Keith> This new limit makes the queue flag redundant, so removing it and
-Keith> all usage. Device-mappers will inherit the correct settings
-Keith> through blk_stack_limits().
-
-This looks good to me except for the typo in the Subject: line.
-
-Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+That sounds fine to me, thanks!
