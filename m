@@ -1,76 +1,78 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 10 Aug 2015 15:20:41 -0600
-Subject: [RESEND PATCH 2/2] NVMe: Add nvme subsystem reset IOCTL
-In-Reply-To: <1439241641-3444-1-git-send-email-keith.busch@intel.com>
-References: <1439241641-3444-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1439241641-3444-2-git-send-email-keith.busch@intel.com>
+Date: Mon, 10 Aug 2015 15:20:40 -0600
+Subject: [RESEND PATCH 1/2] NVMe: Add nvme subsystem reset support
+Message-ID: <1439241641-3444-1-git-send-email-keith.busch@intel.com>
 
-From: Jon Derrick <jonathan.derrick@intel.com>
+Controllers part of an NVMe subsystem may be reset by any other controller
+in the subsystem. If the device is capable of subsystem resets, this
+patch adds detection for such events and performs appropriate controller
+initialization upon subsystem reset detection.
 
-Controllers can perform optional subsystem resets as introduced in NVMe
-1.1. This patch adds an IOCTL to trigger the subsystem reset by writing
-"NVMe" to the NSSR register.
+The register bit is a RW1C type, so the driver needs to write a 1 to the
+status bit to clear the subsystem reset occured bit during initialization.
 
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
-Acked-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/block/nvme-core.c |   11 +++++++++++
- include/linux/nvme.h      |    2 +-
- include/uapi/linux/nvme.h |    1 +
- 3 files changed, 13 insertions(+), 1 deletion(-)
+ drivers/block/nvme-core.c |   11 ++++++++++-
+ include/linux/nvme.h      |    3 +++
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 4e19c8a..613c1bc 100644
+index 7e9dd11..4e19c8a 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -1862,6 +1862,15 @@ static int nvme_user_cmd(struct nvme_dev *dev, struct nvme_ns *ns,
- 	return status;
- }
- 
-+static int nvme_subsys_reset(struct nvme_dev *dev)
-+{
-+	if (!dev->subsystem)
-+		return -ENOTTY;
-+
-+	writel(0x4E564D65, &dev->bar->nssr); /* "NVMe" */
-+	return 0;
-+}
-+
- static int nvme_ioctl(struct block_device *bdev, fmode_t mode, unsigned int cmd,
- 							unsigned long arg)
- {
-@@ -2829,6 +2838,8 @@ static long nvme_dev_ioctl(struct file *f, unsigned int cmd, unsigned long arg)
- 	case NVME_IOCTL_RESET:
- 		dev_warn(dev->dev, "resetting controller\n");
- 		return nvme_reset(dev);
-+	case NVME_IOCTL_SUBSYS_RESET:
-+		return nvme_subsys_reset(dev);
- 	default:
- 		return -ENOTTY;
+@@ -1696,6 +1696,12 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 		page_shift = dev_page_max;
  	}
+ 
++	dev->subsystem = readl(&dev->bar->vs) >= NVME_VS(1, 1) ?
++						NVME_CAP_NSSRC(cap) : 0;
++
++	if (dev->subsystem && (readl(&dev->bar->csts) & NVME_CSTS_NSSRO))
++		writel(NVME_CSTS_NSSRO, &dev->bar->csts);
++
+ 	result = nvme_disable_ctrl(dev, cap);
+ 	if (result < 0)
+ 		return result;
+@@ -2020,7 +2026,10 @@ static int nvme_kthread(void *data)
+ 		spin_lock(&dev_list_lock);
+ 		list_for_each_entry_safe(dev, next, &dev_list, node) {
+ 			int i;
+-			if (readl(&dev->bar->csts) & NVME_CSTS_CFS) {
++			u32 csts = readl(&dev->bar->csts);
++
++			if ((dev->subsystem && (csts & NVME_CSTS_NSSRO)) ||
++							csts & NVME_CSTS_CFS) {
+ 				if (work_busy(&dev->reset_work))
+ 					continue;
+ 				list_del_init(&dev->node);
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index a566b41..4d08354 100644
+index c0d94ed..a566b41 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -28,7 +28,7 @@ struct nvme_bar {
- 	__u32			cc;	/* Controller Configuration */
- 	__u32			rsvd1;	/* Reserved */
- 	__u32			csts;	/* Controller Status */
--	__u32			rsvd2;	/* Reserved */
-+	__u32			nssr;	/* Subsystem Reset */
- 	__u32			aqa;	/* Admin Queue Attributes */
- 	__u64			asq;	/* Admin SQ Base Address */
- 	__u64			acq;	/* Admin CQ Base Address */
-diff --git a/include/uapi/linux/nvme.h b/include/uapi/linux/nvme.h
-index 732b32e..8864194 100644
---- a/include/uapi/linux/nvme.h
-+++ b/include/uapi/linux/nvme.h
-@@ -584,5 +584,6 @@ struct nvme_passthru_cmd {
- #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
- #define NVME_IOCTL_IO_CMD	_IOWR('N', 0x43, struct nvme_passthru_cmd)
- #define NVME_IOCTL_RESET	_IO('N', 0x44)
-+#define NVME_IOCTL_SUBSYS_RESET	_IO('N', 0x45)
+@@ -37,6 +37,7 @@ struct nvme_bar {
+ #define NVME_CAP_MQES(cap)	((cap) & 0xffff)
+ #define NVME_CAP_TIMEOUT(cap)	(((cap) >> 24) & 0xff)
+ #define NVME_CAP_STRIDE(cap)	(((cap) >> 32) & 0xf)
++#define NVME_CAP_NSSRC(cap)	(((cap) >> 36) & 0x1)
+ #define NVME_CAP_MPSMIN(cap)	(((cap) >> 48) & 0xf)
+ #define NVME_CAP_MPSMAX(cap)	(((cap) >> 52) & 0xf)
  
- #endif /* _UAPI_LINUX_NVME_H */
+@@ -55,6 +56,7 @@ enum {
+ 	NVME_CC_IOCQES		= 4 << 20,
+ 	NVME_CSTS_RDY		= 1 << 0,
+ 	NVME_CSTS_CFS		= 1 << 1,
++	NVME_CSTS_NSSRO		= 1 << 4,
+ 	NVME_CSTS_SHST_NORMAL	= 0 << 2,
+ 	NVME_CSTS_SHST_OCCUR	= 1 << 2,
+ 	NVME_CSTS_SHST_CMPLT	= 2 << 2,
+@@ -97,6 +99,7 @@ struct nvme_dev {
+ 	char serial[20];
+ 	char model[40];
+ 	char firmware_rev[8];
++	bool subsystem;
+ 	u32 max_hw_sectors;
+ 	u32 stripe_size;
+ 	u32 page_size;
 -- 
 1.7.10.4
