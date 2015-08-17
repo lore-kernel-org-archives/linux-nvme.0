@@ -1,21 +1,21 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Mon, 17 Aug 2015 15:51:55 -0600
-Subject: [PATCH] NVMe: Set queue max segments
-In-Reply-To: <1439417874-8925-1-git-send-email-keith.busch@intel.com>
-References: <1439417874-8925-1-git-send-email-keith.busch@intel.com>
-Message-ID: <55D2577B.9020905@fb.com>
+From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=C3=B8rling?=)
+Date: Tue, 18 Aug 2015 01:19:33 +0200
+Subject: [PATCH] NVMe: removed unused nn var from nvme_dev_add
+In-Reply-To: <20150804112834.GB8395@infradead.org>
+References: <1438248200-3360-1-git-send-email-m@bjorling.me>
+ <20150804112834.GB8395@infradead.org>
+Message-ID: <CAOu_J6m_Wa7BHfjWLS3hQmGABxRC--mZSrx3stpFKTdrNuAmOg@mail.gmail.com>
 
-On 08/12/2015 04:17 PM, Keith Busch wrote:
-> This sets the queue's max segment size to match the device's
-> capabilities. The default of 128 is usable until a device's transfer
-> capability exceeds 512k, assuming a device page size of 4k. Many nvme
-> devices exceed that transfer limit, so this lets the block layer know what
-> kind of commands it to allow to form rather than unnecessarily split them.
+Can this be picked up?
+
+Thanks
+
+On Tue, Aug 4, 2015@1:28 PM, Christoph Hellwig <hch@infradead.org> wrote:
+> Looks good,
 >
-> One additional segment is added to account for a transfer that may start
-> in the middle of a page.
-
-Applied for 4.3.
-
--- 
-Jens Axboe
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
