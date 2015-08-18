@@ -1,21 +1,19 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 18 Aug 2015 11:56:53 -0600
-Subject: [RESEND PATCH 1/2] NVMe: Add nvme subsystem reset support
-In-Reply-To: <1439241641-3444-1-git-send-email-keith.busch@intel.com>
-References: <1439241641-3444-1-git-send-email-keith.busch@intel.com>
-Message-ID: <55D371E5.3090804@kernel.dk>
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 18 Aug 2015 11:58:59 -0600
+Subject: Persistent Reservation API V2
+In-Reply-To: <20150817191328.GB9383@infradead.org>
+References: <1439360604-16192-1-git-send-email-hch@lst.de>
+ <20150817191328.GB9383@infradead.org>
+Message-ID: <55D37263.5080106@fb.com>
 
-On 08/10/2015 03:20 PM, Keith Busch wrote:
-> Controllers part of an NVMe subsystem may be reset by any other controller
-> in the subsystem. If the device is capable of subsystem resets, this
-> patch adds detection for such events and performs appropriate controller
-> initialization upon subsystem reset detection.
+On 08/17/2015 01:13 PM, Christoph Hellwig wrote:
+> Does this look fine to you Jens?
 >
-> The register bit is a RW1C type, so the driver needs to write a 1 to the
-> status bit to clear the subsystem reset occured bit during initialization.
+> I'd love to get this API into 4.3 so I can submit the NFS SCSI layout
+> patches that depend on it for 4.4.
+>
 
-Applied 1+2.
-
+I'll take a look at this today.
 
 -- 
 Jens Axboe
