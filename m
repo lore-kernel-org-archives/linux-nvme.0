@@ -1,20 +1,16 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Wed, 19 Aug 2015 14:26:56 -0700
-Subject: [PATCHv4] blk: Replace SG_GAPGS with new queue limits mask
-In-Reply-To: <B58D82457FDA0744A320A2FC5AC253B93CBE3F9E@fmsmsx104.amr.corp.intel.com>
-References: <1438716733-566-1-git-send-email-keith.busch@intel.com>
- <20150806135018.GA8666@infradead.org>
- <B58D82457FDA0744A320A2FC5AC253B93CBE3F9E@fmsmsx104.amr.corp.intel.com>
-Message-ID: <55D4F4A0.4090807@fb.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 19 Aug 2015 14:29:06 -0700
+Subject: [PATCH] NVMe:Remove unreachable code in nvme_abort_req
+In-Reply-To: <01b801d0da8e$9f779590$de66c0b0$@samsung.com>
+References: <1438349218-8907-1-git-send-email-sunad.s@samsung.com>
+ <alpine.LNX.2.00.1508061632370.15930@localhost.lm.intel.com>
+ <01b801d0da8e$9f779590$de66c0b0$@samsung.com>
+Message-ID: <55D4F522.30006@kernel.dk>
 
-On 08/19/2015 12:12 PM, Busch, Keith wrote:
-> Hi,
->
-> Can this be applied for 4.3?
+On 08/19/2015 07:52 AM, Sunad Bhandary wrote:
+> Can this be picked up?
 
-Applied - the patch wasn't against for-4.3/core, so I had to hand apply 
-some bits and fixup another spot where bvec_gap_to_prev() was used that 
-the patch didn't touch.
+Applied.
 
 -- 
 Jens Axboe
