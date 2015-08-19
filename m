@@ -1,25 +1,35 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 19 Aug 2015 03:42:46 -0700
-Subject: [PATCH 3/3] block: Refuse adding appending a gapped integrity
- page to a bio
-In-Reply-To: <55D45AE0.50805@dev.mellanox.co.il>
-References: <1436966356-8979-1-git-send-email-sagig@mellanox.com>
- <1436966356-8979-4-git-send-email-sagig@mellanox.com>
- <55A67C17.4080706@kernel.dk> <20150716092646.GA17712@infradead.org>
- <55A7D4B6.9020101@kernel.dk> <55ABBFB1.7070201@dev.mellanox.co.il>
- <20150819094003.GB14734@infradead.org>
- <55D45AE0.50805@dev.mellanox.co.il>
-Message-ID: <20150819104246.GA4956@infradead.org>
+From: sunad.s@samsung.com (Sunad Bhandary)
+Date: Wed, 19 Aug 2015 20:22:05 +0530
+Subject: [PATCH] NVMe:Remove unreachable code in nvme_abort_req
+In-Reply-To: <alpine.LNX.2.00.1508061632370.15930@localhost.lm.intel.com>
+References: <1438349218-8907-1-git-send-email-sunad.s@samsung.com>
+ <alpine.LNX.2.00.1508061632370.15930@localhost.lm.intel.com>
+Message-ID: <01b801d0da8e$9f779590$de66c0b0$@samsung.com>
 
-On Wed, Aug 19, 2015@01:30:56PM +0300, Sagi Grimberg wrote:
-> Actually I didn't. I started to, but then I noticed that
-> I was still seeing gaps when using cfq (e.g. non-mq code
-> path), I assume that this was never tested?
+Can this be picked up?
 
-It probably wasn't.  The only user so far is the NVMe driver which
-is blk-mq only.
+Thanks,
+Sunad
 
-> Since I was busy with the iser-target iWARP support with Steve
-> so I didn't get a chance to get back to it yet...
+-----Original Message-----
+From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf
+Of Keith Busch
+Sent: Thursday, August 06, 2015 10:04 PM
+To: Sunad Bhandary
+Cc: keith.busch at intel.com; linux-nvme at lists.infradead.org
+Subject: Re: [PATCH] NVMe:Remove unreachable code in nvme_abort_req
 
-Ok.
+On Fri, 31 Jul 2015, Sunad Bhandary wrote:
+> Removing unreachable code from nvme_abort_req as nvme_submit_cmd has 
+> no failure status to return
+
+Thanks.
+
+Acked-by: Keith Busch <keith.busch at intel.com>
+
+> Signed-off-by: Sunad Bhandary <sunad.s at samsung.com>
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
