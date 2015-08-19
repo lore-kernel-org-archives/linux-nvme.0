@@ -1,53 +1,34 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Tue, 18 Aug 2015 16:11:49 -0700
-Subject: [RFC] Multi level NVMe stack
-In-Reply-To: <CAF1ivSaK_G_ukWeEv0c07WG0s2BieA7JPJD_DfzmGpORvj8qWQ@mail.gmail.com>
-References: <1438214118.24174.9.camel@ssi>
- <20150730145222.GA12744@infradead.org>
- <CAF1ivSaK_G_ukWeEv0c07WG0s2BieA7JPJD_DfzmGpORvj8qWQ@mail.gmail.com>
-Message-ID: <1439939509.30705.17.camel@ssi>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 19 Aug 2015 10:16:04 +0200
+Subject: [PATCH 1/2] nvme: remove spurious use of *_to_cpup helpers
+In-Reply-To: <55D370B2.9060006@fb.com>
+References: <1439838580-29647-1-git-send-email-hch@lst.de>
+ <1439838580-29647-2-git-send-email-hch@lst.de>
+ <20150817201237.GC9645@linux.intel.com> <55D370B2.9060006@fb.com>
+Message-ID: <20150819081604.GA18215@lst.de>
 
-On Fri, 2015-07-31@10:04 -0700, Ming Lin wrote:
-> On Thu, Jul 30, 2015@7:52 AM, Christoph Hellwig <hch@infradead.org> wrote:
-> > On Wed, Jul 29, 2015@04:55:18PM -0700, Ming Lin wrote:
-> >> I'm working on a virtio-nvme driver.
-> >> NVMe over Fabrics initiator will probably be available some time.
-> >>
-> >> I wonder does it make sense to have a multi level NVMe stack(similar as
-> >> SCSI). So we can re-use the NVMe core code.
-> >
-> > Hi Ming,
-> >
-> > I've put some work in for abstraction, see the work to submit the
-> > internal NVMe command through struct request.
-> >
-> > Once we actually get other transports we can split main data structures,
-> > and move the parts sitting above that abstraction out into a separate
-> > module.
-> >
-> > From both looking at the I/O code I'd prefer not to add any abstractions
-> > in the I/O code for.
-> >
-> > I'd suggest you prototype the code without big refactoring first,
-> > and then compare your implementation against the NVMe virtualization
-> > extensions from Google and check if it's worth it:
-> >
-> > http://lists.infradead.org/pipermail/linux-nvme/2014-July/001076.html
-> 
-> I'll prototype the code.
+On Tue, Aug 18, 2015@11:51:46AM -0600, Jens Axboe wrote:
+> All those nvme equipped sparc and s390's? :-)
 
-So here is the super draft prototype code.
-It's basically modified from linux/nvme-core.c and qemu/nvme.c.
+I'm pretty sure there are some power systems that have them.
 
-http://minggr.noip.me/cgit/cgit.cgi/linux/log/?h=virtio-nvme/prototype
-http://minggr.noip.me/cgit/cgit.cgi/qemu/log/?h=virtio-nvme/prototype
+> Joke aside, do we really have that 'load-reversed-endian' addition to the 
+> endianness conversion API just because of two rather esoteric platforms? 
+> Seems silly.
 
-I haven't tried Google extensions yet.
-A quick comparison with qemu-nvme:
+As mentioned before BE platforms don't need it, compilers have handled
+it fine every since the invention of peephole optimization in the 60s.
 
-		qemu-nvme	qemu-virtio-nvme
-4k read: 	95.7MB/s	105.3MB/s	+10%
-4k write:	90.2MB/s	96.3MB/s	+6.7%
+The cpup helpers are more useful if you iterate over an array of
+descriptors:
 
-I'll post the patches after I make it in good shape and do more
-optimizations.
+fs/nfs/blocklayout/dev.c:       b->type = be32_to_cpup(p++);
+fs/nfs/blocklayout/dev.c:               b->simple.nr_sigs = be32_to_cpup(p++);
+fs/nfs/blocklayout/dev.c:                       b->simple.sigs[i].sig_len = be32_to_cpup(p++);
+fs/nfs/blocklayout/dev.c:               b->slice.volume = be32_to_cpup(p++);
+fs/nfs/blocklayout/dev.c:               b->concat.volumes_count = be32_to_cpup(p++);
+fs/nfs/blocklayout/dev.c:                       b->concat.volumes[i] = be32_to_cpup(p++);
+fs/nfs/blocklayout/dev.c:               b->stripe.volumes_count = be32_to_cpup(p++);
+fs/nfs/blocklayout/dev.c:                       b->stripe.volumes[i] = be32_to_cpup(p++);
+
+XDR decoding is full of them for example.
