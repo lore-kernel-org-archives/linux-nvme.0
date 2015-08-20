@@ -1,16 +1,16 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 19 Aug 2015 14:29:06 -0700
-Subject: [PATCH] NVMe:Remove unreachable code in nvme_abort_req
-In-Reply-To: <01b801d0da8e$9f779590$de66c0b0$@samsung.com>
-References: <1438349218-8907-1-git-send-email-sunad.s@samsung.com>
- <alpine.LNX.2.00.1508061632370.15930@localhost.lm.intel.com>
- <01b801d0da8e$9f779590$de66c0b0$@samsung.com>
-Message-ID: <55D4F522.30006@kernel.dk>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 20 Aug 2015 16:41:49 -0400
+Subject: Simplify block integrity registration
+In-Reply-To: <20150721120102.GB1654@infradead.org>
+References: <20150721120102.GB1654@infradead.org>
+Message-ID: <1440103314-31610-1-git-send-email-martin.petersen@oracle.com>
 
-On 08/19/2015 07:52 AM, Sunad Bhandary wrote:
-> Can this be picked up?
 
-Applied.
+Had a couple of requests this week so here is the latest version of the
+patch set that removes the dynamic integrity allocation to ease the
+registration headaches for nvme and nvdimm.
+
+Mike, I'd appreciate if you could check the DM bits.
 
 -- 
-Jens Axboe
+Martin K. Petersen	Oracle Linux Engineering
