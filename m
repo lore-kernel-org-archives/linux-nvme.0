@@ -1,686 +1,116 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Thu, 20 Aug 2015 16:41:54 -0400
-Subject: [PATCH 5/5] block: Inline blk_integrity in struct gendisk
+Date: Thu, 20 Aug 2015 16:41:50 -0400
+Subject: [PATCH 1/5] block: Move integrity kobject to struct gendisk
 In-Reply-To: <1440103314-31610-1-git-send-email-martin.petersen@oracle.com>
 References: <20150721120102.GB1654@infradead.org>
  <1440103314-31610-1-git-send-email-martin.petersen@oracle.com>
-Message-ID: <1440103314-31610-6-git-send-email-martin.petersen@oracle.com>
+Message-ID: <1440103314-31610-2-git-send-email-martin.petersen@oracle.com>
 
-Up until now the_integrity profile has been dynamically allocated and
-attached to struct gendisk after the disk has been made active.
-
-This causes problems because NVMe devices need to register the profile
-prior to the partition table being read due to a mandatory metadata
-buffer requirement. In addition, DM goes through hoops to deal with
-preallocating, but not initializing integrity profiles.
-
-Since the integrity profile is small (4 bytes + a pointer), Christoph
-suggested moving it to struct gendisk proper. This requires several
-changes:
-
- - Moving the blk_integrity definition to genhd.h.
-
- - Inlining blk_integrity in struct gendisk.
-
- - Removing the dynamic allocation code.
-
- - Adding helper functions which allow gendisk to set up and tear down
-   the integrity sysfs dir when a disk is added/deleted.
-
- - Adding a blk_integrity_revalidate() callback for updating the stable
-   pages bdi setting.
-
- - The calls that depend on whether a device has an integrity profile or
-   not now key off of the bi->profile pointer.
-
- - Simplifying the integrity support routines in DM.
+The integrity kobject purely exists to support the integrity
+subdirectory in sysfs and doesn't really have anything to do with the
+blk_integrity data structure. Move the kobject to struct gendisk where
+it belongs.
 
 Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
 Reported-by: Christoph Hellwig <hch at lst.de>
 Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
-Cc: Mike Snitzer <snitzer at redhat.com>
-Cc: Dan Williams <dan.j.williams at intel.com>
 ---
- block/blk-integrity.c     | 160 +++++++++++++++++-----------------------------
- block/genhd.c             |   2 +
- block/partition-generic.c |   1 +
- drivers/block/nvme-core.c |   2 +-
- drivers/md/dm-table.c     |  89 +++++++-------------------
- drivers/md/md.c           |   9 +--
- drivers/nvdimm/core.c     |   6 +-
- fs/block_dev.c            |   2 +-
- include/linux/blkdev.h    |  33 ++++------
- include/linux/genhd.h     |  26 +++++++-
- 10 files changed, 126 insertions(+), 204 deletions(-)
+ block/blk-integrity.c  | 22 +++++++++++-----------
+ include/linux/blkdev.h |  2 --
+ include/linux/genhd.h  |  1 +
+ 3 files changed, 12 insertions(+), 13 deletions(-)
 
 diff --git a/block/blk-integrity.c b/block/blk-integrity.c
-index 72b427c3ed1e..80398bb4eee4 100644
+index f548b64be092..6a173a7d1ec6 100644
 --- a/block/blk-integrity.c
 +++ b/block/blk-integrity.c
-@@ -30,10 +30,6 @@
- 
- #include "blk.h"
- 
--static struct kmem_cache *integrity_cachep;
--
--static const char *bi_unsupported_name = "unsupported";
--
- /**
-  * blk_rq_count_integrity_sg - Count number of integrity scatterlist elements
-  * @q:		request queue
-@@ -146,13 +142,13 @@ EXPORT_SYMBOL(blk_rq_map_integrity_sg);
-  */
- int blk_integrity_compare(struct gendisk *gd1, struct gendisk *gd2)
- {
--	struct blk_integrity *b1 = gd1->integrity;
--	struct blk_integrity *b2 = gd2->integrity;
-+	struct blk_integrity *b1 = &gd1->integrity;
-+	struct blk_integrity *b2 = &gd2->integrity;
- 
--	if (!b1 && !b2)
-+	if (!b1->profile && !b2->profile)
- 		return 0;
- 
--	if (!b1 || !b2)
-+	if (!b1->profile || !b2->profile)
- 		return -1;
- 
- 	if (b1->interval_exp != b2->interval_exp) {
-@@ -163,21 +159,21 @@ int blk_integrity_compare(struct gendisk *gd1, struct gendisk *gd2)
- 	}
- 
- 	if (b1->tuple_size != b2->tuple_size) {
--		printk(KERN_ERR "%s: %s/%s tuple sz %u != %u\n", __func__,
-+		pr_err("%s: %s/%s tuple sz %u != %u\n", __func__,
- 		       gd1->disk_name, gd2->disk_name,
- 		       b1->tuple_size, b2->tuple_size);
- 		return -1;
- 	}
- 
- 	if (b1->tag_size && b2->tag_size && (b1->tag_size != b2->tag_size)) {
--		printk(KERN_ERR "%s: %s/%s tag sz %u != %u\n", __func__,
-+		pr_err("%s: %s/%s tag sz %u != %u\n", __func__,
- 		       gd1->disk_name, gd2->disk_name,
- 		       b1->tag_size, b2->tag_size);
- 		return -1;
- 	}
- 
- 	if (b1->profile != b2->profile) {
--		printk(KERN_ERR "%s: %s/%s type %s != %s\n", __func__,
-+		pr_err("%s: %s/%s type %s != %s\n", __func__,
- 		       gd1->disk_name, gd2->disk_name,
- 		       b1->profile->name, b2->profile->name);
- 		return -1;
-@@ -247,7 +243,7 @@ static ssize_t integrity_attr_show(struct kobject *kobj, struct attribute *attr,
+@@ -246,8 +246,8 @@ struct integrity_sysfs_entry {
+ static ssize_t integrity_attr_show(struct kobject *kobj, struct attribute *attr,
  				   char *page)
  {
- 	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
--	struct blk_integrity *bi = blk_get_integrity(disk);
-+	struct blk_integrity *bi = &disk->integrity;
+-	struct blk_integrity *bi =
+-		container_of(kobj, struct blk_integrity, kobj);
++	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
++	struct blk_integrity *bi = blk_get_integrity(disk);
  	struct integrity_sysfs_entry *entry =
  		container_of(attr, struct integrity_sysfs_entry, attr);
  
-@@ -259,7 +255,7 @@ static ssize_t integrity_attr_store(struct kobject *kobj,
+@@ -258,8 +258,8 @@ static ssize_t integrity_attr_store(struct kobject *kobj,
+ 				    struct attribute *attr, const char *page,
  				    size_t count)
  {
- 	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
--	struct blk_integrity *bi = blk_get_integrity(disk);
-+	struct blk_integrity *bi = &disk->integrity;
+-	struct blk_integrity *bi =
+-		container_of(kobj, struct blk_integrity, kobj);
++	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
++	struct blk_integrity *bi = blk_get_integrity(disk);
  	struct integrity_sysfs_entry *entry =
  		container_of(attr, struct integrity_sysfs_entry, attr);
  	ssize_t ret = 0;
-@@ -272,7 +268,7 @@ static ssize_t integrity_attr_store(struct kobject *kobj,
+@@ -382,8 +382,8 @@ subsys_initcall(blk_dev_integrity_init);
  
- static ssize_t integrity_format_show(struct blk_integrity *bi, char *page)
+ static void blk_integrity_release(struct kobject *kobj)
  {
--	if (bi != NULL && bi->profile->name != NULL)
-+	if (bi->profile && bi->profile->name)
- 		return sprintf(page, "%s\n", bi->profile->name);
- 	else
- 		return sprintf(page, "none\n");
-@@ -280,18 +276,13 @@ static ssize_t integrity_format_show(struct blk_integrity *bi, char *page)
+-	struct blk_integrity *bi =
+-		container_of(kobj, struct blk_integrity, kobj);
++	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
++	struct blk_integrity *bi = blk_get_integrity(disk);
  
- static ssize_t integrity_tag_size_show(struct blk_integrity *bi, char *page)
- {
--	if (bi != NULL)
--		return sprintf(page, "%u\n", bi->tag_size);
--	else
--		return sprintf(page, "0\n");
-+	return sprintf(page, "%u\n", bi->tag_size);
+ 	kmem_cache_free(integrity_cachep, bi);
  }
+@@ -426,14 +426,14 @@ int blk_integrity_register(struct gendisk *disk, struct blk_integrity *template)
+ 		if (!bi)
+ 			return -1;
  
- static ssize_t integrity_interval_show(struct blk_integrity *bi, char *page)
- {
--	if (bi != NULL)
--		return sprintf(page, "%u\n", 1 << bi->interval_exp);
--	else
--		return sprintf(page, "0\n");
-+	return sprintf(page, "%u\n",
-+		       bi->interval_exp ? 1 << bi->interval_exp : 0);
+-		if (kobject_init_and_add(&bi->kobj, &integrity_ktype,
++		if (kobject_init_and_add(&disk->integrity_kobj, &integrity_ktype,
+ 					 &disk_to_dev(disk)->kobj,
+ 					 "%s", "integrity")) {
+ 			kmem_cache_free(integrity_cachep, bi);
+ 			return -1;
+ 		}
+ 
+-		kobject_uevent(&bi->kobj, KOBJ_ADD);
++		kobject_uevent(&disk->integrity_kobj, KOBJ_ADD);
+ 
+ 		bi->flags |= BLK_INTEGRITY_VERIFY | BLK_INTEGRITY_GENERATE;
+ 		bi->interval = queue_logical_block_size(disk->queue);
+@@ -476,9 +476,9 @@ void blk_integrity_unregister(struct gendisk *disk)
+ 
+ 	bi = disk->integrity;
+ 
+-	kobject_uevent(&bi->kobj, KOBJ_REMOVE);
+-	kobject_del(&bi->kobj);
+-	kobject_put(&bi->kobj);
++	kobject_uevent(&disk->integrity_kobj, KOBJ_REMOVE);
++	kobject_del(&disk->integrity_kobj);
++	kobject_put(&disk->integrity_kobj);
+ 	disk->integrity = NULL;
  }
- 
- static ssize_t integrity_verify_store(struct blk_integrity *bi,
-@@ -385,113 +376,78 @@ static const struct sysfs_ops integrity_ops = {
- 	.store	= &integrity_attr_store,
- };
- 
--static int __init blk_dev_integrity_init(void)
--{
--	integrity_cachep = kmem_cache_create("blkdev_integrity",
--					     sizeof(struct blk_integrity),
--					     0, SLAB_PANIC, NULL);
--	return 0;
--}
--subsys_initcall(blk_dev_integrity_init);
--
--static void blk_integrity_release(struct kobject *kobj)
--{
--	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
--	struct blk_integrity *bi = blk_get_integrity(disk);
--
--	kmem_cache_free(integrity_cachep, bi);
--}
--
- static struct kobj_type integrity_ktype = {
- 	.default_attrs	= integrity_attrs,
- 	.sysfs_ops	= &integrity_ops,
--	.release	= blk_integrity_release,
- };
- 
--bool blk_integrity_is_initialized(struct gendisk *disk)
--{
--	struct blk_integrity *bi = blk_get_integrity(disk);
--
--	return (bi && bi->profile->name && strcmp(bi->profile->name,
--						  bi_unsupported_name) != 0);
--}
--EXPORT_SYMBOL(blk_integrity_is_initialized);
--
- /**
-  * blk_integrity_register - Register a gendisk as being integrity-capable
-  * @disk:	struct gendisk pointer to make integrity-aware
-- * @template:	optional integrity profile to register
-+ * @template:	block integrity profile to register
-  *
-- * Description: When a device needs to advertise itself as being able
-- * to send/receive integrity metadata it must use this function to
-- * register the capability with the block layer.  The template is a
-- * blk_integrity struct with values appropriate for the underlying
-- * hardware.  If template is NULL the new profile is allocated but
-- * not filled out. See Documentation/block/data-integrity.txt.
-+ * Description: When a device needs to advertise itself as being able to
-+ * send/receive integrity metadata it must use this function to register
-+ * the capability with the block layer. The template is a blk_integrity
-+ * struct with values appropriate for the underlying hardware. See
-+ * Documentation/block/data-integrity.txt.
-  */
--int blk_integrity_register(struct gendisk *disk, struct blk_integrity *template)
-+void blk_integrity_register(struct gendisk *disk, struct blk_integrity *template)
- {
--	struct blk_integrity *bi;
--
--	BUG_ON(disk == NULL);
-+	struct blk_integrity *bi = &disk->integrity;
- 
--	if (disk->integrity == NULL) {
--		bi = kmem_cache_alloc(integrity_cachep,
--				      GFP_KERNEL | __GFP_ZERO);
--		if (!bi)
--			return -1;
-+	bi->flags = BLK_INTEGRITY_VERIFY | BLK_INTEGRITY_GENERATE |
-+		template->flags;
-+	bi->interval_exp = ilog2(queue_logical_block_size(disk->queue));
-+	bi->profile = template->profile;
-+	bi->tuple_size = template->tuple_size;
-+	bi->tag_size = template->tag_size;
- 
--		if (kobject_init_and_add(&disk->integrity_kobj, &integrity_ktype,
--					 &disk_to_dev(disk)->kobj,
--					 "%s", "integrity")) {
--			kmem_cache_free(integrity_cachep, bi);
--			return -1;
--		}
--
--		kobject_uevent(&disk->integrity_kobj, KOBJ_ADD);
--
--		bi->flags |= BLK_INTEGRITY_VERIFY | BLK_INTEGRITY_GENERATE;
--		bi->interval_exp = ilog2(queue_logical_block_size(disk->queue));
--		disk->integrity = bi;
--	} else
--		bi = disk->integrity;
--
--	/* Use the provided profile as template */
--	if (template != NULL) {
--		bi->profile = template->profile;
--		bi->tuple_size = template->tuple_size;
--		bi->tag_size = template->tag_size;
--		bi->flags |= template->flags;
--	} else
--		bi->profile->name = bi_unsupported_name;
--
--	disk->queue->backing_dev_info.capabilities |= BDI_CAP_STABLE_WRITES;
--
--	return 0;
-+	blk_integrity_revalidate(disk);
- }
- EXPORT_SYMBOL(blk_integrity_register);
- 
- /**
-- * blk_integrity_unregister - Remove block integrity profile
-- * @disk:	disk whose integrity profile to deallocate
-+ * blk_integrity_unregister - Unregister block integrity profile
-+ * @disk:	disk whose integrity profile to unregister
-  *
-- * Description: This function frees all memory used by the block
-- * integrity profile.  To be called at device teardown.
-+ * Description: This function unregisters the integrity capability from
-+ * a block device.
-  */
- void blk_integrity_unregister(struct gendisk *disk)
- {
--	struct blk_integrity *bi;
-+	blk_integrity_revalidate(disk);
-+	memset(&disk->integrity, 0, sizeof(struct blk_integrity));
-+}
-+EXPORT_SYMBOL(blk_integrity_unregister);
- 
--	if (!disk || !disk->integrity)
-+void blk_integrity_revalidate(struct gendisk *disk)
-+{
-+	struct blk_integrity *bi = &disk->integrity;
-+
-+	if (!(disk->flags & GENHD_FL_UP))
- 		return;
- 
--	disk->queue->backing_dev_info.capabilities &= ~BDI_CAP_STABLE_WRITES;
-+	if (bi->profile)
-+		disk->queue->backing_dev_info.capabilities |=
-+			BDI_CAP_STABLE_WRITES;
-+	else
-+		disk->queue->backing_dev_info.capabilities &=
-+			~BDI_CAP_STABLE_WRITES;
-+}
- 
--	bi = disk->integrity;
-+void blk_integrity_add(struct gendisk *disk)
-+{
-+	if (kobject_init_and_add(&disk->integrity_kobj, &integrity_ktype,
-+				 &disk_to_dev(disk)->kobj, "%s", "integrity"))
-+		return;
- 
-+	kobject_uevent(&disk->integrity_kobj, KOBJ_ADD);
-+}
-+
-+void blk_integrity_del(struct gendisk *disk)
-+{
- 	kobject_uevent(&disk->integrity_kobj, KOBJ_REMOVE);
- 	kobject_del(&disk->integrity_kobj);
- 	kobject_put(&disk->integrity_kobj);
--	disk->integrity = NULL;
- }
--EXPORT_SYMBOL(blk_integrity_unregister);
-diff --git a/block/genhd.c b/block/genhd.c
-index 0c706f33a599..e5cafa51567c 100644
---- a/block/genhd.c
-+++ b/block/genhd.c
-@@ -630,6 +630,7 @@ void add_disk(struct gendisk *disk)
- 	WARN_ON(retval);
- 
- 	disk_add_events(disk);
-+	blk_integrity_add(disk);
- }
- EXPORT_SYMBOL(add_disk);
- 
-@@ -638,6 +639,7 @@ void del_gendisk(struct gendisk *disk)
- 	struct disk_part_iter piter;
- 	struct hd_struct *part;
- 
-+	blk_integrity_del(disk);
- 	disk_del_events(disk);
- 
- 	/* invalidate stuff */
-diff --git a/block/partition-generic.c b/block/partition-generic.c
-index e7711133284e..3b030157ec85 100644
---- a/block/partition-generic.c
-+++ b/block/partition-generic.c
-@@ -428,6 +428,7 @@ rescan:
- 
- 	if (disk->fops->revalidate_disk)
- 		disk->fops->revalidate_disk(disk);
-+	blk_integrity_revalidate(disk);
- 	check_disk_size_change(disk, bdev);
- 	bdev->bd_invalidated = 0;
- 	if (!get_capacity(disk) || !(state = check_partition(disk, bdev)))
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index e26eb1524bfd..75ec6895c378 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -529,7 +529,7 @@ static void nvme_dif_remap(struct request *req,
- 	virt = bip_get_seed(bip);
- 	phys = nvme_block_nr(ns, blk_rq_pos(req));
- 	nlb = (blk_rq_bytes(req) >> ns->lba_shift);
--	ts = ns->disk->integrity->tuple_size;
-+	ts = ns->disk->integrity.tuple_size;
- 
- 	for (i = 0; i < nlb; i++, virt++, phys++) {
- 		pi = (struct t10_pi_tuple *)p;
-diff --git a/drivers/md/dm-table.c b/drivers/md/dm-table.c
-index afb4ad3dfeb3..25c33b7f4749 100644
---- a/drivers/md/dm-table.c
-+++ b/drivers/md/dm-table.c
-@@ -1016,13 +1016,9 @@ static int dm_table_build_index(struct dm_table *t)
- 
- /*
-  * Get a disk whose integrity profile reflects the table's profile.
-- * If %match_all is true, all devices' profiles must match.
-- * If %match_all is false, all devices must at least have an
-- * allocated integrity profile; but uninitialized is ok.
-  * Returns NULL if integrity support was inconsistent or unavailable.
-  */
--static struct gendisk * dm_table_get_integrity_disk(struct dm_table *t,
--						    bool match_all)
-+static struct gendisk * dm_table_get_integrity_disk(struct dm_table *t)
- {
- 	struct list_head *devices = dm_table_get_devices(t);
- 	struct dm_dev_internal *dd = NULL;
-@@ -1030,11 +1026,7 @@ static struct gendisk * dm_table_get_integrity_disk(struct dm_table *t,
- 
- 	list_for_each_entry(dd, devices, list) {
- 		template_disk = dd->dm_dev->bdev->bd_disk;
--		if (!blk_get_integrity(template_disk))
--			goto no_integrity;
--		if (!match_all && !blk_integrity_is_initialized(template_disk))
--			continue; /* skip uninitialized profiles */
--		else if (prev_disk &&
-+		if (prev_disk &&
- 			 blk_integrity_compare(prev_disk, template_disk) < 0)
- 			goto no_integrity;
- 		prev_disk = template_disk;
-@@ -1052,43 +1044,34 @@ no_integrity:
- }
- 
- /*
-- * Register the mapped device for blk_integrity support if
-- * the underlying devices have an integrity profile.  But all devices
-- * may not have matching profiles (checking all devices isn't reliable
-+ * Register the mapped device for blk_integrity support if the
-+ * underlying devices have an integrity profile.  But all devices may
-+ * not have matching profiles (checking all devices isn't reliable
-  * during table load because this table may use other DM device(s) which
-- * must be resumed before they will have an initialized integity profile).
-- * Stacked DM devices force a 2 stage integrity profile validation:
-- * 1 - during load, validate all initialized integrity profiles match
-- * 2 - during resume, validate all integrity profiles match
-+ * must be resumed before they will have an initialized integity
-+ * profile).  Consequently, stacked DM devices force a 2 stage integrity
-+ * profile validation: First pass during table load, final pass during
-+ * resume.
-  */
--static int dm_table_prealloc_integrity(struct dm_table *t, struct mapped_device *md)
-+static int dm_table_set_integrity(struct dm_table *t)
- {
- 	struct gendisk *template_disk = NULL;
-+	bool existing_profile = blk_get_integrity(dm_disk(t->md));
- 
--	template_disk = dm_table_get_integrity_disk(t, false);
--	if (!template_disk)
--		return 0;
--
--	if (!blk_integrity_is_initialized(dm_disk(md))) {
-+	template_disk = dm_table_get_integrity_disk(t);
-+	if (template_disk) {
-+		blk_integrity_register(dm_disk(t->md),
-+				       blk_get_integrity(template_disk));
- 		t->integrity_supported = 1;
--		return blk_integrity_register(dm_disk(md), NULL);
--	}
--
--	/*
--	 * If DM device already has an initalized integrity
--	 * profile the new profile should not conflict.
--	 */
--	if (blk_integrity_is_initialized(template_disk) &&
--	    blk_integrity_compare(dm_disk(md), template_disk) < 0) {
--		DMWARN("%s: conflict with existing integrity profile: "
--		       "%s profile mismatch",
--		       dm_device_name(t->md),
--		       template_disk->disk_name);
-+	} else if (existing_profile) {
-+		blk_integrity_unregister(dm_disk(t->md));
-+		DMWARN("%s: device no longer has a valid integrity profile",
-+		       dm_device_name(t->md));
- 		return 1;
--	}
-+	} else
-+		DMWARN("%s: unable to establish an integrity profile",
-+		       dm_device_name(t->md));
- 
--	/* Preserve existing initialized integrity profile */
--	t->integrity_supported = 1;
- 	return 0;
- }
- 
-@@ -1112,7 +1095,7 @@ int dm_table_complete(struct dm_table *t)
- 		return r;
- 	}
- 
--	r = dm_table_prealloc_integrity(t, t->md);
-+	r = dm_table_set_integrity(t);
- 	if (r) {
- 		DMERR("could not register integrity profile.");
- 		return r;
-@@ -1277,32 +1260,6 @@ combine_limits:
- 	return validate_hardware_logical_block_alignment(table, limits);
- }
- 
--/*
-- * Set the integrity profile for this device if all devices used have
-- * matching profiles.  We're quite deep in the resume path but still
-- * don't know if all devices (particularly DM devices this device
-- * may be stacked on) have matching profiles.  Even if the profiles
-- * don't match we have no way to fail (to resume) at this point.
-- */
--static void dm_table_set_integrity(struct dm_table *t)
--{
--	struct gendisk *template_disk = NULL;
--
--	if (!blk_get_integrity(dm_disk(t->md)))
--		return;
--
--	template_disk = dm_table_get_integrity_disk(t, true);
--	if (template_disk)
--		blk_integrity_register(dm_disk(t->md),
--				       blk_get_integrity(template_disk));
--	else if (blk_integrity_is_initialized(dm_disk(t->md)))
--		DMWARN("%s: device no longer has a valid integrity profile",
--		       dm_device_name(t->md));
--	else
--		DMWARN("%s: unable to establish an integrity profile",
--		       dm_device_name(t->md));
--}
--
- static int device_flush_capable(struct dm_target *ti, struct dm_dev *dev,
- 				sector_t start, sector_t len, void *data)
- {
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index d28bf5cea224..dd7b7c31f3f2 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -1959,12 +1959,9 @@ int md_integrity_register(struct mddev *mddev)
- 	 * All component devices are integrity capable and have matching
- 	 * profiles, register the common profile for the md device.
- 	 */
--	if (blk_integrity_register(mddev->gendisk,
--			bdev_get_integrity(reference->bdev)) != 0) {
--		printk(KERN_ERR "md: failed to register integrity for %s\n",
--			mdname(mddev));
--		return -EINVAL;
--	}
-+	blk_integrity_register(mddev->gendisk,
-+			       bdev_get_integrity(reference->bdev));
-+
- 	printk(KERN_NOTICE "md: data integrity enabled on %s\n", mdname(mddev));
- 	if (bioset_integrity_create(mddev->bio_set, BIO_POOL_SIZE)) {
- 		printk(KERN_ERR "md: failed to create integrity pool for %s\n",
-diff --git a/drivers/nvdimm/core.c b/drivers/nvdimm/core.c
-index 9e1b0f656a9b..9b6ac57c6e73 100644
---- a/drivers/nvdimm/core.c
-+++ b/drivers/nvdimm/core.c
-@@ -405,7 +405,6 @@ int nd_integrity_init(struct gendisk *disk, unsigned long meta_size)
- 		.generate_fn = nd_pi_nop_generate_verify,
- 		.verify_fn = nd_pi_nop_generate_verify,
- 	};
--	int ret;
- 
- 	if (meta_size == 0)
- 		return 0;
-@@ -414,10 +413,7 @@ int nd_integrity_init(struct gendisk *disk, unsigned long meta_size)
- 	bi.tuple_size = meta_size;
- 	bi.tag_size = meta_size;
- 
--	ret = blk_integrity_register(disk, &bi);
--	if (ret)
--		return ret;
--
-+	blk_integrity_register(disk, &bi);
- 	blk_queue_max_integrity_segments(disk->queue, 1);
- 
- 	return 0;
-diff --git a/fs/block_dev.c b/fs/block_dev.c
-index 198243717da5..918170c0099a 100644
---- a/fs/block_dev.c
-+++ b/fs/block_dev.c
-@@ -1074,7 +1074,7 @@ int revalidate_disk(struct gendisk *disk)
- 
- 	if (disk->fops->revalidate_disk)
- 		ret = disk->fops->revalidate_disk(disk);
--
-+	blk_integrity_revalidate(disk);
- 	bdev = bdget_disk(disk, 0);
- 	if (!bdev)
- 		return ret;
+ EXPORT_SYMBOL(blk_integrity_unregister);
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 2d93d3875586..15a29ac1eb66 100644
+index e427debc7008..e879473873d5 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -1427,16 +1427,7 @@ struct blk_integrity_profile {
- 	const char			*name;
+@@ -1431,8 +1431,6 @@ struct blk_integrity {
+ 	unsigned short		tag_size;
+ 
+ 	const char		*name;
+-
+-	struct kobject		kobj;
  };
  
--struct blk_integrity {
--	struct blk_integrity_profile	*profile;
--	unsigned char			flags;
--	unsigned char			tuple_size;
--	unsigned char			interval_exp;
--	unsigned char			tag_size;
--};
--
--extern bool blk_integrity_is_initialized(struct gendisk *);
--extern int blk_integrity_register(struct gendisk *, struct blk_integrity *);
-+extern void blk_integrity_register(struct gendisk *, struct blk_integrity *);
- extern void blk_integrity_unregister(struct gendisk *);
- extern int blk_integrity_compare(struct gendisk *, struct gendisk *);
- extern int blk_rq_map_integrity_sg(struct request_queue *, struct bio *,
-@@ -1447,15 +1438,20 @@ extern bool blk_integrity_merge_rq(struct request_queue *, struct request *,
- extern bool blk_integrity_merge_bio(struct request_queue *, struct request *,
- 				    struct bio *);
- 
--static inline
--struct blk_integrity *bdev_get_integrity(struct block_device *bdev)
-+static inline struct blk_integrity *blk_get_integrity(struct gendisk *disk)
- {
--	return bdev->bd_disk->integrity;
-+	struct blk_integrity *bi = &disk->integrity;
-+
-+	if (!bi->profile)
-+		return NULL;
-+
-+	return bi;
- }
- 
--static inline struct blk_integrity *blk_get_integrity(struct gendisk *disk)
-+static inline
-+struct blk_integrity *bdev_get_integrity(struct block_device *bdev)
- {
--	return disk->integrity;
-+	return blk_get_integrity(bdev->bd_disk);
- }
- 
- static inline bool blk_integrity_rq(struct request *rq)
-@@ -1509,10 +1505,9 @@ static inline int blk_integrity_compare(struct gendisk *a, struct gendisk *b)
- {
- 	return 0;
- }
--static inline int blk_integrity_register(struct gendisk *d,
-+static inline void blk_integrity_register(struct gendisk *d,
- 					 struct blk_integrity *b)
- {
--	return 0;
- }
- static inline void blk_integrity_unregister(struct gendisk *d)
- {
-@@ -1537,10 +1532,6 @@ static inline bool blk_integrity_merge_bio(struct request_queue *rq,
- {
- 	return true;
- }
--static inline bool blk_integrity_is_initialized(struct gendisk *g)
--{
--	return 0;
--}
- 
- #endif /* CONFIG_BLK_DEV_INTEGRITY */
- 
+ extern bool blk_integrity_is_initialized(struct gendisk *);
 diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 9e6e0dfa97ad..82f4911e0ad8 100644
+index 2adbfa6d02bc..9e6e0dfa97ad 100644
 --- a/include/linux/genhd.h
 +++ b/include/linux/genhd.h
-@@ -163,6 +163,18 @@ struct disk_part_tbl {
- 
- struct disk_events;
- 
-+#if defined(CONFIG_BLK_DEV_INTEGRITY)
-+
-+struct blk_integrity {
-+	struct blk_integrity_profile	*profile;
-+	unsigned char			flags;
-+	unsigned char			tuple_size;
-+	unsigned char			interval_exp;
-+	unsigned char			tag_size;
-+};
-+
-+#endif	/* CONFIG_BLK_DEV_INTEGRITY */
-+
- struct gendisk {
- 	/* major, first_minor and minors are input parameters only,
- 	 * don't use directly.  Use disk_devt() and disk_max_parts().
-@@ -198,9 +210,9 @@ struct gendisk {
- 	atomic_t sync_io;		/* RAID */
+@@ -199,6 +199,7 @@ struct gendisk {
  	struct disk_events *ev;
  #ifdef  CONFIG_BLK_DEV_INTEGRITY
--	struct blk_integrity *integrity;
-+	struct blk_integrity integrity;
- 	struct kobject integrity_kobj;
--#endif
-+#endif	/* CONFIG_BLK_DEV_INTEGRITY */
+ 	struct blk_integrity *integrity;
++	struct kobject integrity_kobj;
+ #endif
  	int node_id;
  };
- 
-@@ -728,6 +740,16 @@ static inline void part_nr_sects_write(struct hd_struct *part, sector_t size)
- #endif
- }
- 
-+#if defined(CONFIG_BLK_DEV_INTEGRITY)
-+extern void blk_integrity_add(struct gendisk *);
-+extern void blk_integrity_del(struct gendisk *);
-+extern void blk_integrity_revalidate(struct gendisk *);
-+#else	/* CONFIG_BLK_DEV_INTEGRITY */
-+static inline void blk_integrity_add(struct gendisk *disk) { }
-+static inline void blk_integrity_del(struct gendisk *disk) { }
-+static inline void blk_integrity_revalidate(struct gendisk *disk) { }
-+#endif	/* CONFIG_BLK_DEV_INTEGRITY */
-+
- #else /* CONFIG_BLOCK */
- 
- static inline void printk_all_partitions(void) { }
 -- 
 2.4.3
