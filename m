@@ -1,33 +1,28 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 20 Aug 2015 23:56:36 +0000 (UTC)
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 21 Aug 2015 08:59:54 +0200
 Subject: Persistent Reservation API V2
-In-Reply-To: <1439360604-16192-1-git-send-email-hch@lst.de>
+In-Reply-To: <alpine.LNX.2.00.1508202317270.15930@localhost.lm.intel.com>
 References: <1439360604-16192-1-git-send-email-hch@lst.de>
-Message-ID: <alpine.LNX.2.00.1508202317270.15930@localhost.lm.intel.com>
+ <alpine.LNX.2.00.1508202317270.15930@localhost.lm.intel.com>
+Message-ID: <20150821065954.GA14559@lst.de>
 
-On Tue, 11 Aug 2015, Christoph Hellwig wrote:
-> This series adds support for a simplified Persistent Reservation API
-> to the block layer.  The intent is that both in-kernel and userspace
-> consumers can use the API instead of having to hand craft SCSI or NVMe
-> command through the various pass through interfaces.  It also adds
-> DM support as getting reservations through dm-multipath is a major
-> pain with the current scheme.
->
-> NVMe support currently isn't included as I don't have a multihost
-> NVMe setup to test on, but Keith offered to test it and I'll have
-> a patch for it shortly.
+On Thu, Aug 20, 2015@11:56:36PM +0000, Keith Busch wrote:
 
-Hi Christoph,
+> NVMe can also specify
+> if whether or not a reservation should persist through power-loss.
 
-I wrote an nvme implementation and it seems to work as expected with your
-pr-tests (minor modification to open an nvme target). While API appears to
-work as designed, there are a few features of NVMe that are unreachable
-with it. For example, NVMe can ignore existing keys when acquiring a
-reservation in addition to registering a new key. NVMe can also specify
-if whether or not a reservation should persist through power-loss.
+SCSI does as well, it's the APTPL flag.  However reservations not persistent
+through a power loss are basically useless, so I decided to force them on
+in the API.  From the documentation:
 
-Anyway, I don't think SCSI has these same options. Should this new IOCTL
-API accommodate the common subset to maintain its simplicity, or make
-it more expressive for all features? The more important question might
-be if there are any users requiring these features, and I honestly don't
-know that right now.
+"All implementations are expected to ensure the reservations survive
+ a power loss"
+
+So I would prefer not to add it, or if we really have to as a negative flag
+to specifically opt out of the APTPL behavior.
+
+> with it. For example, NVMe can ignore existing keys when acquiring a
+> reservation in addition to registering a new key.
+
+This sounds like a sensible addition to me, and I wouldn't be surprised
+if future SPC versions will add this flag.
