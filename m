@@ -1,39 +1,67 @@
-From: keith.busch@intel.com (Busch, Keith)
-Date: Fri, 21 Aug 2015 23:47:31 +0000
-Subject: [PATCH 5/5] block: Inline blk_integrity in struct gendisk
-In-Reply-To: <1440103314-31610-6-git-send-email-martin.petersen@oracle.com>
-References: <20150721120102.GB1654@infradead.org>
- <1440103314-31610-1-git-send-email-martin.petersen@oracle.com>
- <1440103314-31610-6-git-send-email-martin.petersen@oracle.com>
-Message-ID: <B58D82457FDA0744A320A2FC5AC253B93CBE5758@fmsmsx104.amr.corp.intel.com>
+From: sujithpshankar@gmail.com (Sujith Pandel)
+Date: Tue, 25 Aug 2015 10:24:39 +0530
+Subject: [PATCH] NVMe:Expose model attribute in sysfs
+Message-ID: <20150825045412.GA20360@localhost.localdomain>
 
-On Thu, Aug 20 2015, Martin K. Petersen wrote:
-> -static struct gendisk * dm_table_get_integrity_disk(struct dm_table *t,
-> -						    bool match_all)
-> +static struct gendisk * dm_table_get_integrity_disk(struct dm_table *t)
->  {
->  	struct list_head *devices = dm_table_get_devices(t);
->  	struct dm_dev_internal *dd = NULL;
-> @@ -1030,11 +1026,7 @@ static struct gendisk * dm_table_get_integrity_disk(struct dm_table *t,
-> 
->  	list_for_each_entry(dd, devices, list) {
->  		template_disk = dd->dm_dev->bdev->bd_disk;
-> -		if (!blk_get_integrity(template_disk))
-> -			goto no_integrity;
+Currently, nvme driver does not show the model attribute of disk in sysfs.
+nvme_dev already has this attribute populated during nvme_dev_add().
+Define the end of string for model and create the sysfs model entry.
 
+Signed-off-by: Sujith Pandel <sujithpshankar at gmail.com>
+Reviewed-by: David Milburn <dmilburn at redhat.com>
+---
+ drivers/block/nvme-core.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
 
-The blk_get_integrity check is necessary to prevent a kernel crash. Without it,
-this function will return a template disk without integrity and later attempt to
-register a NULL disk->integrity.
-
-Otherwise, looks good! I will post the nvme driver patch removing the two pass
-disk revalidation since that's no longer necessary with this good stuff.
-
-
-> -		if (!match_all && !blk_integrity_is_initialized(template_disk))
-> -			continue; /* skip uninitialized profiles */
-> -		else if (prev_disk &&
-> +		if (prev_disk &&
->  			 blk_integrity_compare(prev_disk, template_disk) < 0)
->  			goto no_integrity;
->  		prev_disk = template_disk;
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index 7920c27..1098856 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -2360,6 +2360,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	dev->vwc = ctrl->vwc;
+ 	memcpy(dev->serial, ctrl->sn, sizeof(ctrl->sn));
+ 	memcpy(dev->model, ctrl->mn, sizeof(ctrl->mn));
++	dev->model[sizeof(ctrl->mn) - 1] = '\0';
+ 	memcpy(dev->firmware_rev, ctrl->fr, sizeof(ctrl->fr));
+ 	if (ctrl->mdts)
+ 		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
+@@ -3031,6 +3032,16 @@ static ssize_t nvme_sysfs_reset(struct device *dev,
+ }
+ static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_sysfs_reset);
+ 
++/* Expose model name in sysfs */
++static ssize_t nvme_sysfs_model(struct device *dev,
++				struct device_attribute *attr, char *buf)
++{
++	struct nvme_dev *ndev = dev_get_drvdata(dev);
++
++	return sprintf(buf, "%s\n", ndev->model);
++}
++static DEVICE_ATTR(model, S_IRUGO, nvme_sysfs_model, NULL);
++
+ static void nvme_async_probe(struct work_struct *work);
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+@@ -3081,6 +3092,12 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (result)
+ 		goto put_dev;
+ 
++	result = device_create_file(dev->device, &dev_attr_model);
++	if (result) {
++		device_remove_file(dev->device, &dev_attr_reset_controller);
++		goto put_dev;
++	}
++
+ 	INIT_LIST_HEAD(&dev->node);
+ 	INIT_WORK(&dev->scan_work, nvme_dev_scan);
+ 	INIT_WORK(&dev->probe_work, nvme_async_probe);
+@@ -3140,6 +3157,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	flush_work(&dev->reset_work);
+ 	flush_work(&dev->scan_work);
+ 	device_remove_file(dev->device, &dev_attr_reset_controller);
++	device_remove_file(dev->device, &dev_attr_model);
+ 	nvme_dev_remove(dev);
+ 	nvme_dev_shutdown(dev);
+ 	nvme_dev_remove_admin(dev);
+-- 
+2.4.3
