@@ -1,30 +1,37 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 26 Aug 2015 09:00:28 -0600
-Subject: [PATCH V2] NVMe: Using PRACT bit to generate and verify PI by
- controller
-In-Reply-To: <55DDD459.8060405@kernel.dk>
-References: <1438094033-2693-1-git-send-email-pandey.alok@samsung.com>
- <alpine.LNX.2.00.1507301956330.15930@localhost.lm.intel.com>
- <000001d0dfba$7ad40210$707c0630$@samsung.com> <55DDD459.8060405@kernel.dk>
-Message-ID: <55DDD48C.2030602@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 26 Aug 2015 18:03:13 +0200
+Subject: Persistent Reservation API V3
+Message-ID: <1440604998-10597-1-git-send-email-hch@lst.de>
 
-On 08/26/2015 08:59 AM, Jens Axboe wrote:
-> On 08/25/2015 10:46 PM, Alok wrote:
->> Can it be picked up.
->
-> Applied for 4.3:
->
-> http://git.kernel.dk/cgit/linux-block/commit/?h=for-4.3/drivers&id=e3f879bf1ea3e03f433d292b0114807785f0754b
->
->
-> Please double check the patch, I had to hand apply it due to conflicts.
-> In the future, base patches for revision x.y of the kernel against
-> for-x.y/drivers. Thanks!
+This series adds support for a simplified Persistent Reservation API
+to the block layer.  The intent is that both in-kernel and userspace
+consumers can use the API instead of having to hand craft SCSI or NVMe
+command through the various pass through interfaces.  It also adds
+DM support as getting reservations through dm-multipath is a major
+pain with the current scheme.
 
-Ooops, this is the right commit, of course:
+NVMe support currently isn't included as I don't have a multihost
+NVMe setup to test on, but Keith offered to test it and I'll have
+a patch for it shortly.
 
-http://git.kernel.dk/cgit/linux-block/commit/?h=for-4.3/drivers&id=e19b127f5b76ec03b9c52b64f117dc75bb39eda1
+The ioctl API is documented in Documentation/block/pr.txt, but to
+fully understand the concept you'll have to read up the SPC spec,
+PRs are too complicated that trying to rephrase them into different
+terminology is just going to create confusion.
 
+Note that Mike wants to include the DM patches so through the DM
+tree, so they are only included for reference.
 
--- 
-Jens Axboe
+I also have a set of simple test tools available at:
+
+	git://git.infradead.org/users/hch/pr-tests.git
+
+Changes since V2:
+  - added an ignore flag to the reserve opertion as well, and redid
+    the ioctl API to have general flags fields
+  - rebased on top of the latest block layer tree updates
+Changes since V1:
+  - rename DM ->ioctl to ->prepare_ioctl
+  - rename dm_get_ioctl_table to dm_get_live_table_for_ioctl
+  - merge two DM patches into one
+  - various spelling fixes
