@@ -1,13 +1,23 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 27 Aug 2015 12:44:11 +0000 (UTC)
+From: wes@sol1.com.au (Wes Cilldhaire)
+Date: Thu, 27 Aug 2015 23:12:33 +1000 (EST)
 Subject: driver for apple storage controller 106b:2001
-In-Reply-To: <867299369.1895690.1440660234198.JavaMail.zimbra@sol1.com.au>
+In-Reply-To: <alpine.LNX.2.00.1508271235480.3969@localhost.lm.intel.com>
 References: <929615901.1885031.1440642840254.JavaMail.zimbra@sol1.com.au>
  <2064995530.1885067.1440642920364.JavaMail.zimbra@sol1.com.au>
  <CAHxQtxMLPSpn3iZjFVv+f2wngpHG4yBBEq-ZxsrwiBdARB1Frw@mail.gmail.com>
  <232457292.1895635.1440660003028.JavaMail.zimbra@sol1.com.au>
  <867299369.1895690.1440660234198.JavaMail.zimbra@sol1.com.au>
-Message-ID: <alpine.LNX.2.00.1508271235480.3969@localhost.lm.intel.com>
+ <alpine.LNX.2.00.1508271235480.3969@localhost.lm.intel.com>
+Message-ID: <909180063.1899374.1440681153053.JavaMail.zimbra@sol1.com.au>
+
+Thanks for the response Keith.  The vendor does market it as NVMExpress, but this could just be marketing perhaps.  With the vendor being Apple I doubt we will hear much from them on the subject directly - I wouldn't even know where to begin asking.
+
+----- Original Message -----
+From: "Keith Busch" <keith.busch@intel.com>
+To: "Wes Cilldhaire" <wes at sol1.com.au>
+Cc: linux-nvme at lists.infradead.org, "Julien Grossholtz" <julien.grossholtz at gmail.com>
+Sent: Thursday, 27 August, 2015 10:44:11 PM
+Subject: Re: driver for apple storage controller 106b:2001
 
 On Thu, 27 Aug 2015, Wes Cilldhaire wrote:
 > When I have time (and I've made a backup!) I'm happy to tinker with
