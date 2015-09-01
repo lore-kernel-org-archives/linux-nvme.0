@@ -1,24 +1,38 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 1 Sep 2015 16:20:18 +0000 (UTC)
-Subject: [PATCHv4] blk: Replace SG_GAPGS with new queue limits mask
-In-Reply-To: <55E5AFD2.6080200@dev.mellanox.co.il>
-References: <1438716733-566-1-git-send-email-keith.busch@intel.com>
- <55E5AFD2.6080200@dev.mellanox.co.il>
-Message-ID: <alpine.LNX.2.00.1509011609120.23840@localhost.lm.intel.com>
+From: sujithpshankar@gmail.com (Sujith Pandel)
+Date: Tue, 1 Sep 2015 22:08:58 +0530
+Subject: [PATCH] NVMe:Expose model attribute in sysfs
+In-Reply-To: <20150825153854.GA2862@linux.intel.com>
+References: <20150825045412.GA20360@localhost.localdomain>
+ <20150825153854.GA2862@linux.intel.com>
+Message-ID: <20150901163850.GA12201@localhost.localdomain>
 
-On Tue, 1 Sep 2015, Sagi Grimberg wrote:
->> -static int req_gap_to_prev(struct request *req, struct request *next)
->> +static int req_gap_to_prev(struct request *req, struct bio *next)
->>   {
->>   	struct bio *prev = req->biotail;
->> 
->> -	return bvec_gap_to_prev(&prev->bi_io_vec[prev->bi_vcnt - 1],
->> -				next->bio->bi_io_vec[0].bv_offset);
->> +	return bvec_gap_to_prev(req->q, &prev->bi_io_vec[prev->bi_vcnt - 1],
->> +			next->bi_io_vec[1].bv_offset);
->
-> Keith,
->
-> is the index change in the bi_io_vec intentional?
+On Tue, Aug 25, 2015@10:38:54AM -0500, Matthew Wilcox wrote:
+> > @@ -2360,6 +2360,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+> >  	memcpy(dev->model, ctrl->mn, sizeof(ctrl->mn));
+> > +	dev->model[sizeof(ctrl->mn) - 1] = '\0';
+> >  	memcpy(dev->firmware_rev, ctrl->fr, sizeof(ctrl->fr));
+> 
+> You've overwritten the last byte of the model name with a NUL byte.  There
+> could be useful information in that byte.
 
-Oh no, that is a mistake. Thank you for the notice, fix coming shortly.
+Agree with you on this. I will remove that statement.
+
+> > +static ssize_t nvme_sysfs_model(struct device *dev,
+> > +				struct device_attribute *attr, char *buf)
+> > +{
+> > +	struct nvme_dev *ndev = dev_get_drvdata(dev);
+> > +
+> > +	return sprintf(buf, "%s\n", ndev->model);
+> 
+> Instead, how about:
+> 
+> 	return sprintf(buf, "%.40s\n", ndev->model);
+
+Can we use:
+	return sprintf(buf, "%.*s\n", (int)sizeof(ndev->model), ndev->model); 
+
+This way we need not hard-code the model attribute size in it.
+Please let me know your thoughts on this.
+
+Regards,
+Sujith
