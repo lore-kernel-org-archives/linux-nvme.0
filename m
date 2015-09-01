@@ -1,28 +1,41 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  1 Sep 2015 10:46:44 -0600
-Subject: [PATCH] blk: Fix bio_io_vec index when checking bvec gaps
-Message-ID: <1441126004-19708-1-git-send-email-keith.busch@intel.com>
+From: sujithpshankar@gmail.com (Sujith Pandel)
+Date: Tue, 1 Sep 2015 22:25:58 +0530
+Subject: [PATCH] NVMe:Expose model attribute in sysfs
+In-Reply-To: <alpine.LNX.2.00.1508251510330.3969@localhost.lm.intel.com>
+References: <20150825045412.GA20360@localhost.localdomain>
+ <alpine.LNX.2.00.1508251510330.3969@localhost.lm.intel.com>
+Message-ID: <20150901165554.GB12201@localhost.localdomain>
 
-Corrects a coding error from earlier patch.
+On Tue, Aug 25, 2015@12:14:39PM -0500, Keith Busch wrote:
+> On Mon, 24 Aug 2015, Sujith Pandel wrote:
+> > +	result = device_create_file(dev->device, &dev_attr_model);
+> > +	if (result) {
+> > +		device_remove_file(dev->device, &dev_attr_reset_controller);
+> > +		goto put_dev;
+> > +	}
+> 
+> This isn't a very maintainable way to unwind on failure. A new label to
+> 'goto' would be better.
+> 
+> But if we're going to have more than one sysfs entry, we can manage
+> this easier using attribute groups instead. There are lots of examples
+> in the kernel for this, like scsi_sysfs.c or blk-mq-sysfs.c
 
-Reported by: Sagi Grimberg <sagig at dev.mellanox.co.il>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- block/blk-merge.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Since there are only two sysfs attributes here as of now,
+I will be going with your former suggestion of using a new goto label.
+Will this be okay:
 
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 53bb485..d088cff 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -488,7 +488,7 @@ static int req_gap_to_prev(struct request *req, struct bio *next)
- 	struct bio *prev = req->biotail;
- 
- 	return bvec_gap_to_prev(req->q, &prev->bi_io_vec[prev->bi_vcnt - 1],
--			next->bi_io_vec[1].bv_offset);
-+			next->bi_io_vec[0].bv_offset);
- }
- 
- static int ll_merge_requests_fn(struct request_queue *q, struct request *req,
--- 
-1.7.10.4
++       result = device_create_file(dev->device, &dev_attr_model);
++       if (result)
++               goto remove_file;
++
+
++ remove_file:
++       device_remove_file(dev->device, &dev_attr_reset_controller);
+  put_dev:
+
+Please let me know. 
+Will send the version-2 of this patch once you confirm.
+
+Regards,
+Sujith
