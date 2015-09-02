@@ -1,127 +1,60 @@
-From: ks0204.kim@samsung.com (=?ks_c_5601-1987?B?seiw5rvq?=)
-Date: Wed, 02 Sep 2015 19:26:44 +0900
-Subject: setting nvme irq per cpu affinity in device driver
-Message-ID: <003c01d0e569$dd9a7b40$98cf71c0$@samsung.com>
+From: m@bjorling.me (=?UTF-8?B?TWF0aWFzIEJqw7hybGluZw==?=)
+Date: Wed, 02 Sep 2015 12:48:58 +0200
+Subject: [PATCH v7 1/5] lightnvm: Support for Open-Channel SSDs
+In-Reply-To: <55E67218.9010701@cn.fujitsu.com>
+References: <1438957791-24632-1-git-send-email-mb@lightnvm.io>
+ <1438957791-24632-2-git-send-email-mb@lightnvm.io>
+ <55E67218.9010701@cn.fujitsu.com>
+Message-ID: <55E6D41A.5060100@bjorling.me>
 
-Hello.
-Recently, we've experienced two bad conditions in the use of nvme ssd.
+>> +
+>> +    /* register with device with a supported BM */
+>> +    list_for_each_entry(bt, &nvm_bms, list) {
+>> +        ret = bt->register_bm(dev);
+>> +        if (ret < 0)
+>> +            goto err; /* initialization failed */
+>> +        if (ret > 0) {
+>> +            dev->bm = bt;
+>> +            break; /* successfully initialized */
+>> +        }
+>> +    }
+>
+> Why just search it from head to tail? Can user specific it
+> in nvm_create_target()?
 
-First one was, soft-lockup kernel warning has continually displayed when we
-run fio test with high jobs(>32) on a SMP system(usually more than 32 CPUs).
-Second one was, scalability has significantly decreased under multi SSD
-device environment. 
-The more we use nvme SSDs in our test, the lower scalability has shown. 
-Those two were critical issue for us as it hinders to archive high IOPS.
+Hi Yang,
 
+Currently only the rrpc and a couple of out of tree block managers are 
+built. The register_bm only tries to find a block manager that supports 
+the device, when it finds it, that  one is initialized. It is an open 
+question on how we choose the right block manager, e.g. a proprietary 
+and a open-source block manager is in place. Priorities might be a way 
+to go? or mark certain block managers as a catch all?
 
-We've investigated to find out the cause of the problem and we've found it.
-The root cause was that the majority of interrupt handling has been
-processed by a CPU, mostly by CPU0,
-unlikely our expectation that an interrupt would be also handled by the
-same CPU that handled SQ submission.
-When we balanced IRQ processing over multi CPUs, both of the phenomenon has
-disappeared and significantly improved.
+Hopefully we will get away with only a single or two block managers in 
+the future, so we won't have one for each type of device.
 
-Actually, in current status, device driver already tries to set
-affinity_hint for IRQs during Q initialization.
-But in our tests, it does not guarantee the CPU distribution on system-wide
-even with irqbalance daemon working, failing to resolve above issues.
-Later I've thought that setting affinity by shell script, but come to know
-that it has limitation to make it always work well. 
+>> +
+>> +    if (!ret) {
+>> +        pr_info("nvm: no compatible bm was found.\n");
+>> +        return 0;
+>> +    }
+>
+> If we allow nvm_device registered with no bm, we would get
+> a NULL pointer reference problem in later using.
+>
 
-So, we become thought that a clear way to solve the problems is setting the
-nvme irq affinity from device driver by itself.
-With this modification, we could archive high scalability under large IO
-requests with multi SSD devices.
-We think this can help those who want to expect high IOPS as we did.
+Yes, definitely. In the care that happens, I envision it should be 
+possible to register a block manager after a device is loaded, and then 
+any outstanding devices (which does not have a registered block 
+manager), will be probed again.
 
+> As mentioned above, why we have to choose bm for nvm in nvm_register?
 
-As a result, we  suggest the patch providing a new module option,
-use_set_irq_affinity(default=0).
-When it is enabled(=1),  insmod nvme.ko use_set_irq_affinity=1, 
-nvme IRQ per CPU matching is proceeded in the process of Q initialization.
-It finally effects on /proc/irq/$IRQNO/smp_affinity.
-Of course, system administrator can change it later on purpose for some
-reason.
+Without a block manager, we don't know the structure of the device and 
+how to interact with it. I want to initialize that as soon as possible. 
+So that layers on top can start interacting.
 
-We hope the snippet merge on mainstream. Please review the modification.
-It is created from 4.2-rc6 nvme-core.c
-
-
---- nvme-core.c.426.org 2015-09-02 23:54:16.479746463 +0900
-+++ nvme-core.c 2015-09-03 01:10:48.944251952 +0900
-@@ -63,6 +63,14 @@
- module_param(shutdown_timeout, byte, 0644);
- MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller
-shutdown");
-
-+static int use_set_irq_affinity;
-+module_param(use_set_irq_affinity, int, 0);
-+MODULE_PARM_DESC(use_set_irq_affinity, "set irq affinity to assign CPU per
-IRQ evenly");
-+
-+static int interrupt_coalescing_param;
-+module_param(interrupt_coalescing_param, int, 0);
-+MODULE_PARM_DESC(interrupt_coalescing_param, "interrupt coalescing
-param(time/threshold : 0x00~0xFF");
-+
- static int nvme_major;
- module_param(nvme_major, int, 0);
-
-@@ -249,6 +257,29 @@
-        blk_mq_start_request(blk_mq_rq_from_pdu(cmd));
- }
-
-+static int nvme_set_irq_affinity(unsigned int irq, const struct cpumask
-*mask, bool force)
-+{
-+       int ret;
-+       unsigned long flags;
-+       struct irq_desc *desc;
-+       struct irq_data *data;
-+       struct irq_chip *chip;
-+
-+       desc = irq_to_desc(irq);
-+       if (!desc)
-+               return -EINVAL;
-+       data = irq_desc_get_irq_data(desc);
-+       if(!data)
-+               return -EINVAL;
-+       chip = irq_data_get_irq_chip(data);
-+       if(!chip)
-+               return -EINVAL;
-+       raw_spin_lock_irqsave(&desc->lock, flags);
-+       ret = chip->irq_set_affinity(data, mask, force);
-+       raw_spin_unlock_irqrestore(&desc->lock, flags);
-+       return ret;
-+}
-+
-
-static void *iod_get_private(struct nvme_iod *iod)
- {
-        return (void *) (iod->private & ~0x1UL);
-@@ -2839,13 +2866,19 @@
-        int i;
-
-        for (i = 0; i < dev->online_queues; i++) {
-+               int cpu_id;
-                nvmeq = dev->queues[i];
-
--               if (!nvmeq->tags || !(*nvmeq->tags))
-+               if (!nvmeq)
-                        continue;
-
--               irq_set_affinity_hint(dev->entry[nvmeq->cq_vector].vector,
--                                       blk_mq_tags_cpumask(*nvmeq->tags));
-+               cpu_id = (i <= 1) ? 0 : i-1;
-+               irq_set_affinity_hint(dev->entry[nvmeq-
->cq_vector].vector,get_cpu_mask(cpu_id));
-+               if(use_set_irq_affinity){
-+                       dev_info(dev->dev,"set affinity(IRQ%d-
->CPU%d)\n",dev->entry[nvmeq->cq_vector].vector,cpu_id);
-+                       nvme_set_irq_affinity(dev->entry[nvmeq-
->cq_vector].vector,get_cpu_mask(cpu_id),false);
-+               }
-+
-        }
- }
+>
+> Thanx
+> Yang
