@@ -1,90 +1,38 @@
 From: sagig@mellanox.com (Sagi Grimberg)
-Date: Thu,  3 Sep 2015 19:28:21 +0300
-Subject: [PATCH 2/4] block: Refuse request/bio merges with gaps in the
- integrity payload
+Date: Thu,  3 Sep 2015 19:28:22 +0300
+Subject: [PATCH 3/4] block: Refuse adding appending a gaped integrity page to
+ a bio
 In-Reply-To: <1441297703-10753-1-git-send-email-sagig@mellanox.com>
 References: <1441297703-10753-1-git-send-email-sagig@mellanox.com>
-Message-ID: <1441297703-10753-3-git-send-email-sagig@mellanox.com>
+Message-ID: <1441297703-10753-4-git-send-email-sagig@mellanox.com>
 
-If a driver sets the block queue virtual boundary mask, it means that
-it cannot handle gaps so we must not allow those in the integrity
-payload as well.
+This is only theoretical at the moment given that the only
+subsystems that generate integrity payloads are the block layer
+itself and the scsi target (which generate well aligned integrity
+payloads). But when we will expose integrity meta-data to user-space,
+we'll need to refuse appending a page with a gap (if the queue
+virtual boundary is set).
 
 Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
 ---
- block/blk-integrity.c  |  3 +++
- block/blk-merge.c      |  6 ++++++
- include/linux/blkdev.h | 20 ++++++++++++++++++++
- 3 files changed, 29 insertions(+)
+ block/bio-integrity.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/block/blk-integrity.c b/block/blk-integrity.c
-index f548b64be092..75f29cf70188 100644
---- a/block/blk-integrity.c
-+++ b/block/blk-integrity.c
-@@ -204,6 +204,9 @@ bool blk_integrity_merge_rq(struct request_queue *q, struct request *req,
- 	    q->limits.max_integrity_segments)
- 		return false;
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index 719b7152aed1..4e5a43465ddb 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -140,6 +140,11 @@ int bio_integrity_add_page(struct bio *bio, struct page *page,
  
-+	if (integrity_req_gap_back_merge(req, next->bio))
-+		return false;
-+
- 	return true;
- }
- EXPORT_SYMBOL(blk_integrity_merge_rq);
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index 8fbe79829d79..b4be61f4b65e 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -314,6 +314,9 @@ int ll_back_merge_fn(struct request_queue *q, struct request *req,
- {
- 	if (req_gap_back_merge(req, bio))
- 		return 0;
-+	if (blk_integrity_rq(req) &&
-+	    integrity_req_gap_back_merge(req, bio))
+ 	iv = bip->bip_vec + bip->bip_vcnt;
+ 
++	if (bip->bip_vcnt &&
++	    bvec_gap_to_prev(bdev_get_queue(bio->bi_bdev),
++			     &bip->bip_vec[bip->bip_vcnt - 1], offset))
 +		return 0;
- 	if (blk_rq_sectors(req) + bio_sectors(bio) >
- 	    blk_rq_get_max_sectors(req)) {
- 		req->cmd_flags |= REQ_NOMERGE;
-@@ -335,6 +338,9 @@ int ll_front_merge_fn(struct request_queue *q, struct request *req,
- 
- 	if (req_gap_front_merge(req, bio))
- 		return 0;
-+	if (blk_integrity_rq(req) &&
-+	    integrity_req_gap_front_merge(req, bio))
-+		return 0;
- 	if (blk_rq_sectors(req) + bio_sectors(bio) >
- 	    blk_rq_get_max_sectors(req)) {
- 		req->cmd_flags |= REQ_NOMERGE;
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index a65b94480422..dead6088af1c 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1393,6 +1393,26 @@ static inline bool req_gap_front_merge(struct request *req, struct bio *bio)
- 	return bio_will_gap(req->q, bio, req->bio);
- }
- 
-+static inline bool integrity_req_gap_back_merge(struct request *req,
-+						struct bio *next)
-+{
-+	struct bio_integrity_payload *bip = bio_integrity(req->bio);
-+	struct bio_integrity_payload *bip_next = bio_integrity(next);
 +
-+	return bvec_gap_to_prev(req->q, &bip->bip_vec[bip->bip_vcnt - 1],
-+				bip_next->bip_vec[0].bv_offset);
-+}
-+
-+static inline bool integrity_req_gap_front_merge(struct request *req,
-+						 struct bio *bio)
-+{
-+	struct bio_integrity_payload *bip = bio_integrity(bio);
-+	struct bio_integrity_payload *bip_next = bio_integrity(req->bio);
-+
-+	return bvec_gap_to_prev(req->q, &bip->bip_vec[bip->bip_vcnt - 1],
-+				bip_next->bip_vec[0].bv_offset);
-+}
-+
- struct work_struct;
- int kblockd_schedule_work(struct work_struct *work);
- int kblockd_schedule_delayed_work(struct delayed_work *dwork, unsigned long delay);
+ 	iv->bv_page = page;
+ 	iv->bv_len = len;
+ 	iv->bv_offset = offset;
 -- 
 1.8.4.3
