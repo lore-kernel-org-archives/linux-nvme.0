@@ -1,86 +1,70 @@
-From: ks0204.kim@samsung.com (=?ks_c_5601-1987?B?seiw5rvq?=)
-Date: Thu, 03 Sep 2015 14:01:07 +0900
-Subject: setting nvme irq per cpu affinity in device driver
-In-Reply-To: <20150902140517.GA9787@infradead.org>
-References: <003c01d0e569$dd9a7b40$98cf71c0$@samsung.com>
- <20150902140517.GA9787@infradead.org>
-Message-ID: <007c01d0e605$8b054df0$a10fe9d0$@samsung.com>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Thu, 3 Sep 2015 12:07:32 +0300
+Subject: [PATCH 3/3] block: Refuse adding appending a gapped integrity
+ page to a bio
+In-Reply-To: <20150902191714.GD14454@kernel.dk>
+References: <55A67C17.4080706@kernel.dk>
+ <20150716092646.GA17712@infradead.org> <55A7D4B6.9020101@kernel.dk>
+ <55ABBFB1.7070201@dev.mellanox.co.il> <20150819094003.GB14734@infradead.org>
+ <55D45AE0.50805@dev.mellanox.co.il> <20150819104246.GA4956@infradead.org>
+ <55E6ADA4.5040905@dev.mellanox.co.il> <20150902143756.GA11062@kernel.dk>
+ <55E7324B.3060601@dev.mellanox.co.il> <20150902191714.GD14454@kernel.dk>
+Message-ID: <55E80DD4.9000505@dev.mellanox.co.il>
 
-Hi Christoph Hellwig,
-Thank you for your comment.
-I've fixed to call kernel API, irq_set_affinity(), assuming it will be
-provided again.
+On 9/2/2015 10:18 PM, Jens Axboe wrote:
+> On Wed, Sep 02 2015, Sagi Grimberg wrote:
+>>> Does the below work for you?
+>>
+>> It's not on top of Keith virt_boundary patch right?
+>> First glance looks ok though.
+>
+> Updated for that.
+>
 
-Let me ask one thing.
-My current approach is that assigning a CPU to an IRQ for a CQ interrupt by
-retrieving cpu id with get_cpu_mask().
-Do you think blk_mq_tags_cpumask() might work better?
+Thanks Jens,
 
+I'll test it.
 
+>
+> diff --git a/block/blk-merge.c b/block/blk-merge.c
+> index b2625271a572..5f35a05337b1 100644
+> --- a/block/blk-merge.c
+> +++ b/block/blk-merge.c
+> @@ -436,9 +436,27 @@ no_merge:
+>   	return 0;
+>   }
+>
+> +static bool req_gap_to_prev(struct request *req, struct bio *next)
+> +{
+> +	struct bio *prev = req->biotail;
+> +
+> +	return bvec_gap_to_prev(req->q, &prev->bi_io_vec[prev->bi_vcnt - 1],
+> +				next->bi_io_vec[0].bv_offset);
+> +}
+> +
+> +static bool req_gap_to_next(struct request *req, struct bio *bio)
+> +{
+> +	struct bio *next = req->bio;
+> +
+> +	return bvec_gap_to_prev(req->q, &bio->bi_io_vec[bio->bi_vcnt - 1],
+> +				next->bi_io_vec[0].bv_offset);
+> +}
+> +
+>   int ll_back_merge_fn(struct request_queue *q, struct request *req,
+>   		     struct bio *bio)
+>   {
+> +	if (bio_has_data(bio) && req_gap_to_prev(req, bio))
+> +		return 0;
+>   	if (blk_rq_sectors(req) + bio_sectors(bio) >
+>   	    blk_rq_get_max_sectors(req)) {
+>   		req->cmd_flags |= REQ_NOMERGE;
+> @@ -457,6 +475,9 @@ int ll_back_merge_fn(struct request_queue *q, struct request *req,
+>   int ll_front_merge_fn(struct request_queue *q, struct request *req,
+>   		      struct bio *bio)
+>   {
+> +
+> +	if (bio_has_data(bio) && req_gap_to_next(req, bio))
+> +		return 0;
 
-module_param(shutdown_timeout, byte, 0644);
- MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller
-shutdown");
-
-+static int use_set_irq_affinity;
-+module_param(use_set_irq_affinity, int, 0);
-+MODULE_PARM_DESC(use_set_irq_affinity, "set irq affinity to assign CPU per
-IRQ evenly");
-+
- static int nvme_major;
- module_param(nvme_major, int, 0);
-
-@@ -249,6 +253,14 @@
-        blk_mq_start_request(blk_mq_rq_from_pdu(cmd));
- }
-
-+static nvme_set_irq_affinity(unsigned int irq, const struct cpumask *mask)
-+{
-+       int ret = 0;
-+       /* call kernel API  when provided */
-+       /* ret = irq_set_affinity() */
-+       return ret;
-+}
-+
- static void *iod_get_private(struct nvme_iod *iod)
- {
-        return (void *) (iod->private & ~0x1UL);
-@@ -2839,13 +2851,19 @@
-        int i;
-
-        for (i = 0; i < dev->online_queues; i++) {
-+               int cpu_id;
-                nvmeq = dev->queues[i];
-
--               if (!nvmeq->tags || !(*nvmeq->tags))
-+               if (!nvmeq)
-                        continue;
-
--               irq_set_affinity_hint(dev->entry[nvmeq->cq_vector].vector,
--                                       blk_mq_tags_cpumask(*nvmeq->tags));
-+               cpu_id = (i <= 1) ? 0 : i-1;
-+               irq_set_affinity_hint(dev->entry[nvmeq-
->cq_vector].vector,get_cpu_mask(cpu_id));
-+               if(use_set_irq_affinity){
-+                       dev_info(dev->dev,"set affinity(IRQ%d-
->CPU%d)\n",dev->entry[nvmeq->cq_vector].vector,cpu_id);
-+                       nvme_set_irq_affinity(dev->entry[nvmeq-
->cq_vector].vector,get_cpu_mask(cpu_id),false);
-+               }
-+
-        }
- }
-
-
------Original Message-----
-From: Christoph Hellwig [mailto:hch@infradead.org] 
-Sent: Wednesday, September 02, 2015 11:05 PM
-To: ??????
-Cc: Linux-nvme at lists.infradead.org
-Subject: Re: setting nvme irq per cpu affinity in device driver
-
-We'll need a proper API in the interrupt subsystem to set the affinity
-instead of poking directly into the internals.  The irq subsystem
-maintainer already indicated he's fine with adding suh an API in principle.
-Please go ahead and propose something similar to your implementation, just
-as an exported API in kernel/irq instead of inside the NVMe driver.
+I think it will be cleaner to git bio_has_data(bio) check into
+req_gap_to_[prev|next]
