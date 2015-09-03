@@ -1,41 +1,28 @@
-From: sagig@mellanox.com (Sagi Grimberg)
-Date: Thu,  3 Sep 2015 19:28:19 +0300
-Subject: [PATCH 0/4] Fix gaps detection in bio merges
-Message-ID: <1441297703-10753-1-git-send-email-sagig@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 3 Sep 2015 20:38:09 +0000 (UTC)
+Subject: [PATCH] block: Inline blk_integrity in struct gendisk
+In-Reply-To: <1440635121-8765-1-git-send-email-martin.petersen@oracle.com>
+References: <B58D82457FDA0744A320A2FC5AC253B93CBE5758@fmsmsx104.amr.corp.intel.com>
+ <1440635121-8765-1-git-send-email-martin.petersen@oracle.com>
+Message-ID: <alpine.LNX.2.00.1509032035360.23840@localhost.lm.intel.com>
 
-This series makes gaps go away for real if a driver
-asked to not see them (nvme and soon iser).
+On Wed, 26 Aug 2015, Martin K. Petersen wrote:
+> @@ -1985,14 +1985,10 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+> 	ns->pi_type = pi_type;
+> 	blk_queue_logical_block_size(ns->queue, bs);
+>
+> -	if (ns->ms && !blk_get_integrity(disk) && (disk->flags & GENHD_FL_UP) &&
+> -								!ns->ext)
+> +	if (ns->ms && !ns->ext)
+> 		nvme_init_integrity(ns);
+>
+> -	if (ns->ms && !blk_get_integrity(disk))
+> -		set_capacity(disk, 0);
+> -	else
+> -		set_capacity(disk, le64_to_cpup(&id->nsze) << (ns->lba_shift - 9));
+> +	set_capacity(disk, le64_to_cpup(&id->nsze) << (ns->lba_shift - 9));
 
-patch 1 addresses front merges where gaps weren't
-checked at all.
-
-patches 2,3 adds gap detection for integrity payloads.
-
-patch 4 makes blk_rq_map_user_iov turn to bounce buffer
-in case of an iovec with gaps.
-
-I've been testing this for a couple of days now and I'll
-run some more tests on this, but since it was very easy
-to trigger these cases before I'm pretty sure we are covered.
-
-Once this lands in, I will be able to get rid of the
-bounce buffer logic in the iser driver as it will rely
-on the block layer to get it right.
-
-Jens Axboe (1):
-  block: Check for gaps on front and back merges
-
-Sagi Grimberg (3):
-  block: Refuse request/bio merges with gaps in the integrity payload
-  block: Refuse adding appending a gaped integrity page to a bio
-  block: Copy a user iovec if it includes gaps
-
- block/bio-integrity.c  |  5 +++++
- block/blk-integrity.c  |  3 +++
- block/blk-map.c        | 26 ++++++++++++++++++++++++--
- block/blk-merge.c      | 25 ++++++++++++-------------
- include/linux/blkdev.h | 40 ++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 84 insertions(+), 15 deletions(-)
-
--- 
-1.8.4.3
+We still ought to set the capacity to 0 if there is no block integrity
+support for the disk when it has meta data formats. This would happen
+with either extended metadata, or kernel config does not include integrity
+extensions.
