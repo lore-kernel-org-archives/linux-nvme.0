@@ -1,60 +1,111 @@
-From: brown@freenet.carleton.ca (peter brown)
-Date: Thu, 3 Sep 2015 23:57:22 -0400
-Subject: Does /dev/nvme0n1p1 take a long time to created in /dev/ on boot?
-Message-ID: <55E916A2.5090005@freenet.carleton.ca>
+From: sujithpshankar@gmail.com (Sujith Pandel)
+Date: Fri, 4 Sep 2015 10:24:48 +0530
+Subject: [PATCH] NVMe:Expose model attribute in sysfs
+In-Reply-To: <alpine.LNX.2.00.1509011717550.23840@localhost.lm.intel.com>
+References: <20150825045412.GA20360@localhost.localdomain>
+ <alpine.LNX.2.00.1508251510330.3969@localhost.lm.intel.com>
+ <20150901165554.GB12201@localhost.localdomain>
+ <alpine.LNX.2.00.1509011717550.23840@localhost.lm.intel.com>
+Message-ID: <20150904045439.GA10044@localhost.localdomain>
 
-Hi,
+Hi Keith,
+On Tue, Sep 01, 2015@12:25:48PM -0500, Keith Busch wrote:
+> >> But if we're going to have more than one sysfs entry, we can manage
+> >> this easier using attribute groups instead. There are lots of examples
+> >> in the kernel for this, like scsi_sysfs.c or blk-mq-sysfs.c
+> >
+> > Since there are only two sysfs attributes here as of now,
+> > I will be going with your former suggestion of using a new goto label.
+> 
+> Aww, that just forces the person who finds a need to add a third entry
+> to implement a better design, or maybe he/she will use the same reasoning
+> to shift that problem to the next person.
+> 
+> The "zero, one, infinity rule" puts 2 in the same catagory as infinity.
+ 
+:) Appreciate the way you and David are making me (a kernel newbie) interested to contribute more on this one.
+Hoping that this turns out to be my first kernel-patch!
 
- I'm having several problems with a new Intel 750 ssd device
-on a linux 4.2.0 kernel (or 4.1.6).
+Does this approach look okay?
+If any new attributes are required, it can be added in the existing array or else,
+have to create a new group and call sysfs_create_group()/sysfs_remove_group() on it.
 
- I'm trying to use the 750 ssd as the root file system. I'm using an initramfs
-created via genkernel. I cannot boot from the ssd because the motherboard
-bios does not support nvme.
+Please let me know your thoughts on this.
 
- The os gets booted fine and the temporary root file system (initramfs) is
-loaded and the the linuxrc script tries to mount /dev/nvme0n1p1.. and fails.
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -3151,6 +3151,44 @@ static ssize_t nvme_sysfs_reset(struct device *dev,
+ }
+ static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_sysfs_reset);
 
- It seems it cannot find /dev/nvme0n1p1. It then allows the user to drop into a
-shell... which can see /dev/nvme0n1p1. After exiting the shell I can manually
-enter the root file system name as "/dev/nvme0n1p1" and things boot fine.
++#define nvme_string_attr(name)                                             \
++static ssize_t  name##_show(struct device *dev,                            \
++                struct device_attribute *attr, char *buf)                  \
++{                                                                          \
++        struct nvme_dev *ndev = dev_get_drvdata(dev);                      \
++        return sprintf(buf, "%.*s\n", (int)sizeof(ndev->name), ndev->name);\
++}                                                                          \
++static DEVICE_ATTR(name, S_IRUGO, name##_show, NULL);
++
++/*
++ * Device string attributes.
++ * Can add serial and firmware_rev attributes here.
++ */
++nvme_string_attr(model);
++
++static struct attribute *nvme_dev_attrs[] = {
++        &dev_attr_reset_controller.attr,
++        &dev_attr_model.attr,
++        NULL
++};
++
++static struct attribute_group nvme_dev_attrs_group = {
++        .attrs = nvme_dev_attrs,
++};
++
++void nvme_remove_sysfs_files(struct device *dev)
++{
++        sysfs_remove_group(&dev->kobj, &nvme_dev_attrs_group);
++}
++
++/*
++ * Create sysfs entries for device attributes.
++ */
++int nvme_create_sysfs_files(struct device *dev)
++{
++        return sysfs_create_group(&dev->kobj, &nvme_dev_attrs_group);
++}
++
+ static void nvme_async_probe(struct work_struct *work);
+ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ {
+@@ -3197,7 +3235,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+        get_device(dev->device);
+        dev_set_drvdata(dev->device, dev);
 
- I modified the linuxrc script to wait 3 seconds before attempting to mount
-/dev/nvme0n1p1 and sometimes it works and sometimes it fails. If it fails then
-I can manually enter the root file system which then works fine.
+-       result = device_create_file(dev->device, &dev_attr_reset_controller);
++       result = nvme_create_sysfs_files(dev->device);
+        if (result)
+                goto put_dev;
 
- I guess I could add more delay but I find this very unusual.
-I'm wondering if this has been seen before or what the cause could be.
+@@ -3208,6 +3246,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+        return 0;
 
- If I try and use the 750 ssd as the root file system without the initramfs
-method the boot fails with the unknown root device. (This is from my bad memory
-and I have no logs etc.). This is kinda like the inintramfs method but without
-the opportunity to retry.
-
- Note that the nvme driver is not compiled as a module. Also, I'm not aware of
-any other settings for the nvme driver.
-
- As a side note... I'm wondering if the 720 ssd card is broken.
-I'm getting very very poor performance from the card. It works
-(no bad logs in syslog) but the device is almost as slow as my
-Seagate hard drive!
-
-hdparm -tT /dev/nvme0n1p1
-/dev/nvme0n1p1:
- Timing cached reads:   28348 MB in  2.00 seconds = 14188.57 MB/sec
- Timing buffered disk reads: 434 MB in  3.01 seconds = 144.25 MB/sec
+  put_dev:
++       nvme_remove_sysfs_files(dev->device);
+        device_destroy(nvme_class, MKDEV(nvme_char_major, dev->instance));
+        put_device(dev->device);
+  release_pools:
+@@ -3259,7 +3298,7 @@ static void nvme_remove(struct pci_dev *pdev)
+        flush_work(&dev->probe_work);
+        flush_work(&dev->reset_work);
+        flush_work(&dev->scan_work);
+-       device_remove_file(dev->device, &dev_attr_reset_controller);
++       nvme_remove_sysfs_files(dev->device);
+        nvme_dev_remove(dev);
+        nvme_dev_shutdown(dev);
+        nvme_dev_remove_admin(dev);
 
 
-hdparm -tT /dev/sdc (seagate drive)
-/dev/sdc:
- Timing cached reads:   29430 MB in  2.00 seconds = 14730.72 MB/sec
- Timing buffered disk reads: 380 MB in  3.00 seconds = 126.49 MB/sec
-
- This is on a gentoo system running linux 4.2.0.
-The motherboard is a p9x79 and the 750 ssd is installed in
-a pcie 3.0x16 slot (second video card slot). It was also in the 3rd pcie 3 video
-card slot with the same poor performance.
-
- Any suggestions would be appreciated.
-
- -pb
+Regards,
+Sujith
