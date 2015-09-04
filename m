@@ -1,32 +1,32 @@
-From: m@bjorling.me (=?UTF-8?B?TWF0aWFzIEJqw7hybGluZw==?=)
-Date: Fri, 04 Sep 2015 10:49:33 +0200
-Subject: [PATCH v7 1/5] lightnvm: Support for Open-Channel SSDs
-In-Reply-To: <55E955DF.5020303@cn.fujitsu.com>
-References: <1438957791-24632-1-git-send-email-mb@lightnvm.io>
- <1438957791-24632-2-git-send-email-mb@lightnvm.io>
- <55E67218.9010701@cn.fujitsu.com> <55E6D41A.5060100@bjorling.me>
- <55E94301.3010501@cn.fujitsu.com> <55E950BA.50203@bjorling.me>
- <55E955DF.5020303@cn.fujitsu.com>
-Message-ID: <55E95B1D.1010700@bjorling.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 4 Sep 2015 15:12:29 +0000 (UTC)
+Subject: [PATCH] NVMe: Set affinity after allocating request queues
+In-Reply-To: <000101d0e6e8$d7a74850$86f5d8f0$@samsung.com>
+References: <1441289897-16839-1-git-send-email-keith.busch@intel.com>
+ <000101d0e6e8$d7a74850$86f5d8f0$@samsung.com>
+Message-ID: <alpine.LNX.2.00.1509041505230.23840@localhost.lm.intel.com>
 
-On 09/04/2015 10:27 AM, Dongsheng Yang wrote:
-> On 09/04/2015 04:05 PM, Matias Bj?rling wrote:
->>>
->>> So here is a suggestion, register_bm again
->>> if we found nvm_dev->bm == NULL in create_target(). And if it is still
->>> NULL after that. return an error "nvm: no compatible bm was found"
->>> and stop target creating. Otherwise, there would be a NULL Pointer
->>> reference problem.
->>>
->>> That's a real problem I met in my testing and I did this change
->>> in my local using. I hope that's useful to you.
->>>
->> Hi Yang,
->> ac
->> Similar to this?
+On Fri, 4 Sep 2015, ??? wrote:
+> Hello, Keith Busch.
+> Thank you for the patch. I've confirmed  that setting hint is now working with the patch.
 >
-> Okey, I attached two changes in my local using. I hope that
-> useful to you.
+> However, I think setting affinity hint is not sufficient to balance interrupts.
+> We've observed that affinity hint has not much impact on distributing interrupts across cores on  a distro such as debian 7.0
+> while setting affinity directly has worked on the distro.
 >
+> Plus, hint information is also provided by device driver with intention that balances interrupt loads across cores.
+> And it also needs to collaborate with irqbalance option to work on.
+> So, I think setting affinity is a clear way to achieve balancing effect provided by driver rather than hint information.
+> I hope to listen your opinion regarding this.
 
-Thanks! Applied and pushed to master.
+No argument from me against having an API to directly set the irq
+affinity. I think it's a great idea.
+
+This patch just puts the hint where it ought to be. My machines have a
+different patch that create a request_queue without a namespace (for
+hidden access), so I didn't notice the async scanning broke the hint
+on mainline.
+
+With this patch, and when the new irq affinity set function is
+exported (assuming that is being done), you can just change the
+irq_set_affinity_hint() to the new function.
