@@ -1,111 +1,68 @@
-From: ks0204.kim@samsung.com (=?utf-8?B?6rmA6rK97IKw?=)
-Date: Fri, 04 Sep 2015 17:08:11 +0900
-Subject: [PATCH] NVMe: Set affinity after allocating request queues
-In-Reply-To: <1441289897-16839-1-git-send-email-keith.busch@intel.com>
-References: <1441289897-16839-1-git-send-email-keith.busch@intel.com>
-Message-ID: <000101d0e6e8$d7a74850$86f5d8f0$@samsung.com>
+From: yangds.fnst@cn.fujitsu.com (Dongsheng Yang)
+Date: Fri, 4 Sep 2015 16:27:11 +0800
+Subject: [PATCH v7 1/5] lightnvm: Support for Open-Channel SSDs
+In-Reply-To: <55E950BA.50203@bjorling.me>
+References: <1438957791-24632-1-git-send-email-mb@lightnvm.io>
+ <1438957791-24632-2-git-send-email-mb@lightnvm.io>
+ <55E67218.9010701@cn.fujitsu.com> <55E6D41A.5060100@bjorling.me>
+ <55E94301.3010501@cn.fujitsu.com> <55E950BA.50203@bjorling.me>
+Message-ID: <55E955DF.5020303@cn.fujitsu.com>
 
-Hello, Keith Busch.
-Thank you for the patch. I've confirmed  that setting hint is now working with the patch.
+On 09/04/2015 04:05 PM, Matias Bj?rling wrote:
+>>
+>> So here is a suggestion, register_bm again
+>> if we found nvm_dev->bm == NULL in create_target(). And if it is still
+>> NULL after that. return an error "nvm: no compatible bm was found"
+>> and stop target creating. Otherwise, there would be a NULL Pointer
+>> reference problem.
+>>
+>> That's a real problem I met in my testing and I did this change
+>> in my local using. I hope that's useful to you.
+>>
+> Hi Yang,
+> ac
+> Similar to this?
 
-However, I think setting affinity hint is not sufficient to balance interrupts.
-We've observed that affinity hint has not much impact on distributing interrupts across cores on  a distro such as debian 7.0
-while setting affinity directly has worked on the distro.
+Okey, I attached two changes in my local using. I hope that
+useful to you.
 
-Plus, hint information is also provided by device driver with intention that balances interrupt loads across cores.
-And it also needs to collaborate with irqbalance option to work on.
-So, I think setting affinity is a clear way to achieve balancing effect provided by driver rather than hint information.
-I hope to listen your opinion regarding this.
+Yang
+>
+> diff --git i/drivers/lightnvm/core.c w/drivers/lightnvm/core.c
+> index 5e4c2b8..0d2e5e3 100644
+> --- i/drivers/lightnvm/core.c
+> +++ w/drivers/lightnvm/core.c
+> @@ -262,8 +262,9 @@ int nvm_init(struct nvm_dev *dev)
+>          }
+>
+>          if (!ret) {
+> -               pr_info("nvm: no compatible bm was found.\n");
+> -               return 0;
+> +               pr_info("nvm: %s was not initialized due to no
+> compatible bm.\n",
+> +                                                               dev->name);
+> +               return -EINVAL;
+>          }
+>
+>          pr_info("nvm: registered %s with luns: %u blocks: %lu sector
+> size: %d\n",
+>
+>
+>
+> .
+>
 
-
------Original Message-----
-From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Keith Busch
-Sent: Thursday, September 03, 2015 11:18 PM
-To: linux-nvme at lists.infradead.org
-Cc: ???; Keith Busch
-Subject: [PATCH] NVMe: Set affinity after allocating request queues
-
-The asynchronous namespace scanning caused affinity hints to be set before its tagset initialized, so there was no cpu mask to set the hint. This patch moves the affinity hint setting to after namespaces are scanned.
-
-Reported-by: ??? <ks0204.kim at samsung.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |   36 +++++++++++++++++-------------------
- 1 file changed, 17 insertions(+), 19 deletions(-)
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c index b97fc3f..30758bd 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2439,6 +2439,22 @@ static void nvme_scan_namespaces(struct nvme_dev *dev, unsigned nn)
- 	list_sort(NULL, &dev->namespaces, ns_cmp);  }
- 
-+static void nvme_set_irq_hints(struct nvme_dev *dev) {
-+	struct nvme_queue *nvmeq;
-+	int i;
-+
-+	for (i = 0; i < dev->online_queues; i++) {
-+		nvmeq = dev->queues[i];
-+
-+		if (!nvmeq->tags || !(*nvmeq->tags))
-+			continue;
-+
-+		irq_set_affinity_hint(dev->entry[nvmeq->cq_vector].vector,
-+					blk_mq_tags_cpumask(*nvmeq->tags));
-+	}
-+}
-+
- static void nvme_dev_scan(struct work_struct *work)  {
- 	struct nvme_dev *dev = container_of(work, struct nvme_dev, scan_work); @@ -2450,6 +2466,7 @@ static void nvme_dev_scan(struct work_struct *work)
- 		return;
- 	nvme_scan_namespaces(dev, le32_to_cpup(&ctrl->nn));
- 	kfree(ctrl);
-+	nvme_set_irq_hints(dev);
- }
- 
- /*
-@@ -2953,22 +2970,6 @@ static const struct file_operations nvme_dev_fops = {
- 	.compat_ioctl	= nvme_dev_ioctl,
- };
- 
--static void nvme_set_irq_hints(struct nvme_dev *dev) -{
--	struct nvme_queue *nvmeq;
--	int i;
--
--	for (i = 0; i < dev->online_queues; i++) {
--		nvmeq = dev->queues[i];
--
--		if (!nvmeq->tags || !(*nvmeq->tags))
--			continue;
--
--		irq_set_affinity_hint(dev->entry[nvmeq->cq_vector].vector,
--					blk_mq_tags_cpumask(*nvmeq->tags));
--	}
--}
--
- static int nvme_dev_start(struct nvme_dev *dev)  {
- 	int result;
-@@ -3010,8 +3011,6 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 	if (result)
- 		goto free_tags;
- 
--	nvme_set_irq_hints(dev);
--
- 	dev->event_limit = 1;
- 	return result;
- 
-@@ -3062,7 +3061,6 @@ static int nvme_dev_resume(struct nvme_dev *dev)
- 	} else {
- 		nvme_unfreeze_queues(dev);
- 		nvme_dev_add(dev);
--		nvme_set_irq_hints(dev);
- 	}
- 	return 0;
- }
---
-1.7.10.4
-
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0002-lightNVM-register-bm-in-nvm_create_target-if-dev-bm-.patch
+Type: text/x-patch
+Size: 1558 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20150904/62365bf4/attachment.bin>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0001-lightNVM-fix-a-compatibility-problem-in-compiling.patch
+Type: text/x-patch
+Size: 5428 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20150904/62365bf4/attachment-0001.bin>
