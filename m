@@ -1,32 +1,27 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 4 Sep 2015 15:12:29 +0000 (UTC)
-Subject: [PATCH] NVMe: Set affinity after allocating request queues
-In-Reply-To: <000101d0e6e8$d7a74850$86f5d8f0$@samsung.com>
-References: <1441289897-16839-1-git-send-email-keith.busch@intel.com>
- <000101d0e6e8$d7a74850$86f5d8f0$@samsung.com>
-Message-ID: <alpine.LNX.2.00.1509041505230.23840@localhost.lm.intel.com>
+Date: Fri, 4 Sep 2015 15:44:38 +0000 (UTC)
+Subject: Does /dev/nvme0n1p1 take a long time to created in /dev/ on boot?
+In-Reply-To: <55E916A2.5090005@freenet.carleton.ca>
+References: <55E916A2.5090005@freenet.carleton.ca>
+Message-ID: <alpine.LNX.2.00.1509041521000.23840@localhost.lm.intel.com>
 
-On Fri, 4 Sep 2015, ??? wrote:
-> Hello, Keith Busch.
-> Thank you for the patch. I've confirmed  that setting hint is now working with the patch.
+On Thu, 3 Sep 2015, peter brown wrote:
+> As a side note... I'm wondering if the 720 ssd card is broken.
+> I'm getting very very poor performance from the card. It works
+> (no bad logs in syslog) but the device is almost as slow as my
+> Seagate hard drive!
 >
-> However, I think setting affinity hint is not sufficient to balance interrupts.
-> We've observed that affinity hint has not much impact on distributing interrupts across cores on  a distro such as debian 7.0
-> while setting affinity directly has worked on the distro.
->
-> Plus, hint information is also provided by device driver with intention that balances interrupt loads across cores.
-> And it also needs to collaborate with irqbalance option to work on.
-> So, I think setting affinity is a clear way to achieve balancing effect provided by driver rather than hint information.
-> I hope to listen your opinion regarding this.
+> hdparm -tT /dev/nvme0n1p1
+> /dev/nvme0n1p1:
+> Timing cached reads:   28348 MB in  2.00 seconds = 14188.57 MB/sec
+> Timing buffered disk reads: 434 MB in  3.01 seconds = 144.25 MB/sec
 
-No argument from me against having an API to directly set the irq
-affinity. I think it's a great idea.
+That is well below h/w spec. Any difference if you run 'hdparma -t'
+to the raw /dev/nvme0n1 partition? Even a badly aligned partition can't
+account for that much off the h/w spec, but curious to know if there's
+a difference.
 
-This patch just puts the hint where it ought to be. My machines have a
-different patch that create a request_queue without a namespace (for
-hidden access), so I didn't notice the async scanning broke the hint
-on mainline.
-
-With this patch, and when the new irq affinity set function is
-exported (assuming that is being done), you can just change the
-irq_set_affinity_hint() to the new function.
+With your boot issue, it sounds like the drive + driver are working, but
+the init sequence is not waiting for the root partition to mount. Not sure
+what logs to get that will tell us what we need to tune. Maybe a dmesg
+to start. And something else depending on what init process you're using. ?
