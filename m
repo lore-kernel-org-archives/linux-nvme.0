@@ -1,111 +1,76 @@
-From: sujithpshankar@gmail.com (Sujith Pandel)
-Date: Fri, 4 Sep 2015 10:24:48 +0530
-Subject: [PATCH] NVMe:Expose model attribute in sysfs
-In-Reply-To: <alpine.LNX.2.00.1509011717550.23840@localhost.lm.intel.com>
-References: <20150825045412.GA20360@localhost.localdomain>
- <alpine.LNX.2.00.1508251510330.3969@localhost.lm.intel.com>
- <20150901165554.GB12201@localhost.localdomain>
- <alpine.LNX.2.00.1509011717550.23840@localhost.lm.intel.com>
-Message-ID: <20150904045439.GA10044@localhost.localdomain>
+From: yangds.fnst@cn.fujitsu.com (Dongsheng Yang)
+Date: Fri, 4 Sep 2015 15:06:41 +0800
+Subject: [PATCH v7 1/5] lightnvm: Support for Open-Channel SSDs
+In-Reply-To: <55E6D41A.5060100@bjorling.me>
+References: <1438957791-24632-1-git-send-email-mb@lightnvm.io>
+ <1438957791-24632-2-git-send-email-mb@lightnvm.io>
+ <55E67218.9010701@cn.fujitsu.com> <55E6D41A.5060100@bjorling.me>
+Message-ID: <55E94301.3010501@cn.fujitsu.com>
 
-Hi Keith,
-On Tue, Sep 01, 2015@12:25:48PM -0500, Keith Busch wrote:
-> >> But if we're going to have more than one sysfs entry, we can manage
-> >> this easier using attribute groups instead. There are lots of examples
-> >> in the kernel for this, like scsi_sysfs.c or blk-mq-sysfs.c
-> >
-> > Since there are only two sysfs attributes here as of now,
-> > I will be going with your former suggestion of using a new goto label.
-> 
-> Aww, that just forces the person who finds a need to add a third entry
-> to implement a better design, or maybe he/she will use the same reasoning
-> to shift that problem to the next person.
-> 
-> The "zero, one, infinity rule" puts 2 in the same catagory as infinity.
- 
-:) Appreciate the way you and David are making me (a kernel newbie) interested to contribute more on this one.
-Hoping that this turns out to be my first kernel-patch!
+On 09/02/2015 06:48 PM, Matias Bj?rling wrote:
+>>> +
+>>> +    /* register with device with a supported BM */
+>>> +    list_for_each_entry(bt, &nvm_bms, list) {
+>>> +        ret = bt->register_bm(dev);
+>>> +        if (ret < 0)
+>>> +            goto err; /* initialization failed */
+>>> +        if (ret > 0) {
+>>> +            dev->bm = bt;
+>>> +            break; /* successfully initialized */
+>>> +        }
+>>> +    }
+>>
+>> Why just search it from head to tail? Can user specific it
+>> in nvm_create_target()?
+>
+> Hi Yang,
+>
+> Currently only the rrpc and a couple of out of tree block managers are
+> built. The register_bm only tries to find a block manager that supports
+> the device, when it finds it, that  one is initialized. It is an open
+> question on how we choose the right block manager, e.g. a proprietary
+> and a open-source block manager is in place. Priorities might be a way
+> to go? or mark certain block managers as a catch all?
+>
+> Hopefully we will get away with only a single or two block managers in
+> the future, so we won't have one for each type of device.
+>
+>>> +
+>>> +    if (!ret) {
+>>> +        pr_info("nvm: no compatible bm was found.\n");
+>>> +        return 0;
+>>> +    }
+>>
+>> If we allow nvm_device registered with no bm, we would get
+>> a NULL pointer reference problem in later using.
+>>
+>
+> Yes, definitely.
 
-Does this approach look okay?
-If any new attributes are required, it can be added in the existing array or else,
-have to create a new group and call sysfs_create_group()/sysfs_remove_group() on it.
+So here is a suggestion, register_bm again
+if we found nvm_dev->bm == NULL in create_target(). And if it is still
+NULL after that. return an error "nvm: no compatible bm was found"
+and stop target creating. Otherwise, there would be a NULL Pointer
+reference problem.
 
-Please let me know your thoughts on this.
+That's a real problem I met in my testing and I did this change
+in my local using. I hope that's useful to you.
 
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -3151,6 +3151,44 @@ static ssize_t nvme_sysfs_reset(struct device *dev,
- }
- static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_sysfs_reset);
-
-+#define nvme_string_attr(name)                                             \
-+static ssize_t  name##_show(struct device *dev,                            \
-+                struct device_attribute *attr, char *buf)                  \
-+{                                                                          \
-+        struct nvme_dev *ndev = dev_get_drvdata(dev);                      \
-+        return sprintf(buf, "%.*s\n", (int)sizeof(ndev->name), ndev->name);\
-+}                                                                          \
-+static DEVICE_ATTR(name, S_IRUGO, name##_show, NULL);
-+
-+/*
-+ * Device string attributes.
-+ * Can add serial and firmware_rev attributes here.
-+ */
-+nvme_string_attr(model);
-+
-+static struct attribute *nvme_dev_attrs[] = {
-+        &dev_attr_reset_controller.attr,
-+        &dev_attr_model.attr,
-+        NULL
-+};
-+
-+static struct attribute_group nvme_dev_attrs_group = {
-+        .attrs = nvme_dev_attrs,
-+};
-+
-+void nvme_remove_sysfs_files(struct device *dev)
-+{
-+        sysfs_remove_group(&dev->kobj, &nvme_dev_attrs_group);
-+}
-+
-+/*
-+ * Create sysfs entries for device attributes.
-+ */
-+int nvme_create_sysfs_files(struct device *dev)
-+{
-+        return sysfs_create_group(&dev->kobj, &nvme_dev_attrs_group);
-+}
-+
- static void nvme_async_probe(struct work_struct *work);
- static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
-@@ -3197,7 +3235,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-        get_device(dev->device);
-        dev_set_drvdata(dev->device, dev);
-
--       result = device_create_file(dev->device, &dev_attr_reset_controller);
-+       result = nvme_create_sysfs_files(dev->device);
-        if (result)
-                goto put_dev;
-
-@@ -3208,6 +3246,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
-        return 0;
-
-  put_dev:
-+       nvme_remove_sysfs_files(dev->device);
-        device_destroy(nvme_class, MKDEV(nvme_char_major, dev->instance));
-        put_device(dev->device);
-  release_pools:
-@@ -3259,7 +3298,7 @@ static void nvme_remove(struct pci_dev *pdev)
-        flush_work(&dev->probe_work);
-        flush_work(&dev->reset_work);
-        flush_work(&dev->scan_work);
--       device_remove_file(dev->device, &dev_attr_reset_controller);
-+       nvme_remove_sysfs_files(dev->device);
-        nvme_dev_remove(dev);
-        nvme_dev_shutdown(dev);
-        nvme_dev_remove_admin(dev);
-
-
-Regards,
-Sujith
+Thanx
+Yang
+> In the care that happens, I envision it should be
+> possible to register a block manager after a device is loaded, and then
+> any outstanding devices (which does not have a registered block
+> manager), will be probed again.
+>
+>> As mentioned above, why we have to choose bm for nvm in nvm_register?
+>
+> Without a block manager, we don't know the structure of the device and
+> how to interact with it. I want to initialize that as soon as possible.
+> So that layers on top can start interacting.
+>
+>>
+>> Thanx
+>> Yang
+> .
+>
