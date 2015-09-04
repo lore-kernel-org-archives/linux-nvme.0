@@ -1,27 +1,21 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Thu, 03 Sep 2015 23:24:40 -0400
-Subject: [PATCH 3/4] block: Refuse adding appending a gaped integrity page
- to a bio
-In-Reply-To: <1441297703-10753-4-git-send-email-sagig@mellanox.com> (Sagi
- Grimberg's message of "Thu, 3 Sep 2015 19:28:22 +0300")
-References: <1441297703-10753-1-git-send-email-sagig@mellanox.com>
- <1441297703-10753-4-git-send-email-sagig@mellanox.com>
-Message-ID: <yq1a8t2amtj.fsf@sermon.lab.mkp.net>
+Date: Thu, 03 Sep 2015 23:25:09 -0400
+Subject: [PATCH] block: Inline blk_integrity in struct gendisk
+In-Reply-To: <alpine.LNX.2.00.1509032035360.23840@localhost.lm.intel.com>
+ (Keith Busch's message of "Thu, 3 Sep 2015 20:38:09 +0000 (UTC)")
+References: <B58D82457FDA0744A320A2FC5AC253B93CBE5758@fmsmsx104.amr.corp.intel.com>
+ <1440635121-8765-1-git-send-email-martin.petersen@oracle.com>
+ <alpine.LNX.2.00.1509032035360.23840@localhost.lm.intel.com>
+Message-ID: <yq1613qamsq.fsf@sermon.lab.mkp.net>
 
->>>>> "Sagi" == Sagi Grimberg <sagig at mellanox.com> writes:
+>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
 
-Sagi> This is only theoretical at the moment given that the only
-Sagi> subsystems that generate integrity payloads are the block layer
-Sagi> itself and the scsi target (which generate well aligned integrity
-Sagi> payloads). But when we will expose integrity meta-data to
-Sagi> user-space, we'll need to refuse appending a page with a gap (if
-Sagi> the queue virtual boundary is set).
+Keith> We still ought to set the capacity to 0 if there is no block
+Keith> integrity support for the disk when it has meta data
+Keith> formats. This would happen with either extended metadata, or
+Keith> kernel config does not include integrity extensions.
 
-Code looks fine but my concerns outlined in:
-
-http://lists.infradead.org/pipermail/linux-nvme/2015-July/002063.html
-
-still stand.
+Gotcha. Will fix!
 
 -- 
 Martin K. Petersen	Oracle Linux Engineering
