@@ -1,38 +1,32 @@
-From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Sun, 6 Sep 2015 10:46:35 +0300
-Subject: [PATCH 3/4] block: Refuse adding appending a gaped integrity page
- to a bio
-In-Reply-To: <yq1a8t2amtj.fsf@sermon.lab.mkp.net>
-References: <1441297703-10753-1-git-send-email-sagig@mellanox.com>
- <1441297703-10753-4-git-send-email-sagig@mellanox.com>
- <yq1a8t2amtj.fsf@sermon.lab.mkp.net>
-Message-ID: <55EBEF5B.3030608@dev.mellanox.co.il>
+From: ks0204.kim@samsung.com (=?ks_c_5601-1987?B?seiw5rvq?=)
+Date: Sun, 06 Sep 2015 17:06:24 +0900
+Subject: setting nvme irq per cpu affinity in device driver
+In-Reply-To: <20150902140517.GA9787@infradead.org>
+References: <003c01d0e569$dd9a7b40$98cf71c0$@samsung.com>
+ <20150902140517.GA9787@infradead.org>
+Message-ID: <000001d0e87a$ec9905d0$c5cb1170$@samsung.com>
 
-On 9/4/2015 6:24 AM, Martin K. Petersen wrote:
->>>>>> "Sagi" == Sagi Grimberg <sagig at mellanox.com> writes:
->
-> Sagi> This is only theoretical at the moment given that the only
-> Sagi> subsystems that generate integrity payloads are the block layer
-> Sagi> itself and the scsi target (which generate well aligned integrity
-> Sagi> payloads). But when we will expose integrity meta-data to
-> Sagi> user-space, we'll need to refuse appending a page with a gap (if
-> Sagi> the queue virtual boundary is set).
->
+Hi Christoph Hellwig,
 
-Hi Martin,
+I'd like to know the plan to provide the API from irq sybsystem.
+Let me kindly ask you to how can I get to know the status.
+Do you think should I need to contact to the irq maintainer? 
 
-> Code looks fine but my concerns outlined in:
->
-> http://lists.infradead.org/pipermail/linux-nvme/2015-July/002063.html
+-----Original Message-----
+From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf
+Of Christoph Hellwig
+Sent: Wednesday, September 02, 2015 11:05 PM
+To: ??????
+Cc: Linux-nvme at lists.infradead.org
+Subject: Re: setting nvme irq per cpu affinity in device driver
 
-So given that this is a bug fix (was completely not handled before) I
-think we should make an incremental progress towards getting it right.
-Are you fine with that?
+We'll need a proper API in the interrupt subsystem to set the affinity
+instead of poking directly into the internals.  The irq subsystem
+maintainer already indicated he's fine with adding suh an API in principle.
+Please go ahead and propose something similar to your implementation, just
+as an exported API in kernel/irq instead of inside the NVMe driver.
 
-Now, given that drivers which set virt_boundary won't be able to accept
-8-byte sg elements for DIX, would you prefer it being bounced rather
-than refusing the merge? This would require some additional logic given
-that we won't want to bounce on every merge attempt but only when the
-request is kicked?
-
-Sagi.
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
