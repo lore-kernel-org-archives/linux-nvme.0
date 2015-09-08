@@ -1,46 +1,37 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  8 Sep 2015 14:13:07 -0600
-Subject: [PATCH] NVMe: Force cancel commands on hot-removal
-Message-ID: <1441743187-12277-1-git-send-email-keith.busch@intel.com>
+Date: Tue, 8 Sep 2015 21:29:54 +0000 (UTC)
+Subject: [PATCH] NVMe:Expose model attribute in sysfs
+In-Reply-To: <20150904045439.GA10044@localhost.localdomain>
+References: <20150825045412.GA20360@localhost.localdomain>
+ <alpine.LNX.2.00.1508251510330.3969@localhost.lm.intel.com>
+ <20150901165554.GB12201@localhost.localdomain>
+ <alpine.LNX.2.00.1509011717550.23840@localhost.lm.intel.com>
+ <20150904045439.GA10044@localhost.localdomain>
+Message-ID: <alpine.LNX.2.00.1509082123370.23840@localhost.lm.intel.com>
 
-On a surprise removal when pciehp is in use, the port services driver
-will usually notify the nvme driver to remove the device before the
-nvme polling thread detects it is gone. If this happens, the queues are
-not shutdown prior to deleting namespace gendisks, so there may be IO
-outstanding that will never complete. An unnecessarily long timeout has to
-happen in order to complete the IO's with failure status. This patch fixes
-that by clearing the queues first when we know the device is IO incapable.
+On Thu, 3 Sep 2015, Sujith Pandel wrote:
+> :) Appreciate the way you and David are making me (a kernel newbie) interested to contribute more on this one.
+> Hoping that this turns out to be my first kernel-patch!
 
-Reported-by: Mohana Goli <mohana.goli at seagate.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/block/nvme-core.c |   13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+Ha, I was only half-serious and would have submitted an attribute group
+clean-up on the next sysfs I need to propose, but this looks pretty
+good! :)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index b97fc3f..cf052b5 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2402,8 +2402,19 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- {
- 	bool kill = nvme_io_incapable(ns->dev) && !blk_queue_dying(ns->queue);
- 
--	if (kill)
-+	if (kill) {
-+		int i;
-+		struct blk_mq_hw_ctx *hctx;
-+
- 		blk_set_queue_dying(ns->queue);
-+		queue_for_each_hw_ctx(ns->queue, hctx, i) {
-+			if (!hctx->tags)
-+				continue;
-+			blk_mq_all_tag_busy_iter(hctx->tags,
-+						nvme_cancel_queue_ios,
-+						hctx->driver_data);
-+		}
-+	}
- 	if (ns->disk->flags & GENHD_FL_UP) {
- 		if (blk_get_integrity(ns->disk))
- 			blk_integrity_unregister(ns->disk);
--- 
-1.7.10.4
+I'm wondering why you chose to add the device model number to sysfs since
+this is available via other methods. Is it to maintain parity with scsi?
+
+> +       result = nvme_create_sysfs_files(dev->device);
+>        if (result)
+>                goto put_dev;
+>
+> @@ -3208,6 +3246,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+>        return 0;
+>
+>  put_dev:
+> +       nvme_remove_sysfs_files(dev->device);
+
+You don't need to remove the sysfs files if creating them was not
+successful, so you shouldn't have to add this to the error out at this
+label. We'd need to add a new label with this in the future if the driver
+performs more tasks that could potentially fail, but this is the last
+thing this section of code does, so no need to unwind this.
