@@ -1,19 +1,34 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 8 Sep 2015 14:47:39 +0000 (UTC)
-Subject: setting nvme irq per cpu affinity in device driver
-In-Reply-To: <000001d0e87a$ec9905d0$c5cb1170$@samsung.com>
-References: <003c01d0e569$dd9a7b40$98cf71c0$@samsung.com>
- <20150902140517.GA9787@infradead.org>
- <000001d0e87a$ec9905d0$c5cb1170$@samsung.com>
-Message-ID: <alpine.LNX.2.00.1509081446250.23840@localhost.lm.intel.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Tue, 08 Sep 2015 14:24:27 -0400
+Subject: [PATCH 3/4] block: Refuse adding appending a gaped integrity page
+ to a bio
+In-Reply-To: <55EBEF5B.3030608@dev.mellanox.co.il> (Sagi Grimberg's message of
+ "Sun, 6 Sep 2015 10:46:35 +0300")
+References: <1441297703-10753-1-git-send-email-sagig@mellanox.com>
+ <1441297703-10753-4-git-send-email-sagig@mellanox.com>
+ <yq1a8t2amtj.fsf@sermon.lab.mkp.net>
+ <55EBEF5B.3030608@dev.mellanox.co.il>
+Message-ID: <yq137yo6a78.fsf@sermon.lab.mkp.net>
 
-On Sun, 6 Sep 2015, ??? wrote:
-> Hi Christoph Hellwig,
->
-> I'd like to know the plan to provide the API from irq sybsystem.
-> Let me kindly ask you to how can I get to know the status.
-> Do you think should I need to contact to the irq maintainer?
+>>>>> "Sagi" == Sagi Grimberg <sagig at dev.mellanox.co.il> writes:
 
-I think it'd be great to propose to the irq subsystem, but I think this
-doesn't necessarilly solve the problem. Won't irqbalance still undo
-whatever the driver requested?
+Sagi,
+
+Sagi> So given that this is a bug fix (was completely not handled
+Sagi> before) I think we should make an incremental progress towards
+Sagi> getting it right.  Are you fine with that?
+
+Yeah, I don't have an objection to your changes.
+
+Sagi> Now, given that drivers which set virt_boundary won't be able to
+Sagi> accept 8-byte sg elements for DIX, would you prefer it being
+Sagi> bounced rather than refusing the merge? This would require some
+Sagi> additional logic given that we won't want to bounce on every merge
+Sagi> attempt but only when the request is kicked?
+
+For some workloads I think bouncing is inevitable by virtue of the PI
+payload being teeny tiny by design. I don't mind that happening in block
+as opposed to the driver. This would also help things like NVMe.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
