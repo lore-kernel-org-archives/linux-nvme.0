@@ -1,37 +1,40 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 8 Sep 2015 21:29:54 +0000 (UTC)
-Subject: [PATCH] NVMe:Expose model attribute in sysfs
-In-Reply-To: <20150904045439.GA10044@localhost.localdomain>
-References: <20150825045412.GA20360@localhost.localdomain>
- <alpine.LNX.2.00.1508251510330.3969@localhost.lm.intel.com>
- <20150901165554.GB12201@localhost.localdomain>
- <alpine.LNX.2.00.1509011717550.23840@localhost.lm.intel.com>
- <20150904045439.GA10044@localhost.localdomain>
-Message-ID: <alpine.LNX.2.00.1509082123370.23840@localhost.lm.intel.com>
+From: ks0204.kim@samsung.com (=?ks_c_5601-1987?B?seiw5rvq?=)
+Date: Wed, 09 Sep 2015 09:35:08 +0900
+Subject: setting nvme irq per cpu affinity in device driver
+In-Reply-To: <alpine.LNX.2.00.1509081446250.23840@localhost.lm.intel.com>
+References: <003c01d0e569$dd9a7b40$98cf71c0$@samsung.com>
+ <20150902140517.GA9787@infradead.org>
+ <000001d0e87a$ec9905d0$c5cb1170$@samsung.com>
+ <alpine.LNX.2.00.1509081446250.23840@localhost.lm.intel.com>
+Message-ID: <006501d0ea97$6174cbf0$245e63d0$@samsung.com>
 
-On Thu, 3 Sep 2015, Sujith Pandel wrote:
-> :) Appreciate the way you and David are making me (a kernel newbie) interested to contribute more on this one.
-> Hoping that this turns out to be my first kernel-patch!
+Actually, That's true.
+Even though driver sets affinity during  queue initialization, irqbalance
+overwrite the setting when it run. 
+So, My suggestion is remain this feature for those who need to archieve
+high IOPS with a direction exposed like something below.
 
-Ha, I was only half-serious and would have submitted an attribute group
-clean-up on the next sysfs I need to propose, but this looks pretty
-good! :)
+-disable irqbalance
+-insmod nvme.ko use_set_irq_affinity=1
+-optionally, enable irqbalance again with -i option lists, nvme irq lists
+monitoring banned
 
-I'm wondering why you chose to add the device model number to sysfs since
-this is available via other methods. Is it to maintain parity with scsi?
 
-> +       result = nvme_create_sysfs_files(dev->device);
->        if (result)
->                goto put_dev;
+-----Original Message-----
+From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf
+Of Keith Busch
+Sent: Tuesday, September 08, 2015 11:48 PM
+To: ???
+Cc: 'Christoph Hellwig'; Linux-nvme at lists.infradead.org
+Subject: RE: setting nvme irq per cpu affinity in device driver
+
+On Sun, 6 Sep 2015, ??? wrote:
+> Hi Christoph Hellwig,
 >
-> @@ -3208,6 +3246,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
->        return 0;
->
->  put_dev:
-> +       nvme_remove_sysfs_files(dev->device);
+> I'd like to know the plan to provide the API from irq sybsystem.
+> Let me kindly ask you to how can I get to know the status.
+> Do you think should I need to contact to the irq maintainer?
 
-You don't need to remove the sysfs files if creating them was not
-successful, so you shouldn't have to add this to the error out at this
-label. We'd need to add a new label with this in the future if the driver
-performs more tasks that could potentially fail, but this is the last
-thing this section of code does, so no need to unwind this.
+I think it'd be great to propose to the irq subsystem, but I think this
+doesn't necessarilly solve the problem. Won't irqbalance still undo
+whatever the driver requested?
