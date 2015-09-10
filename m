@@ -1,83 +1,28 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Thu, 10 Sep 2015 10:28:18 -0700
-Subject: [RFC PATCH 0/2] virtio nvme
-In-Reply-To: <CAJSP0QUmtgoh23G3u64xRnBbJkAoO19AEi=vkyPPyg9n9jqC2Q@mail.gmail.com>
-References: <1441864112-12765-1-git-send-email-mlin@kernel.org>
- <CAJSP0QUmtgoh23G3u64xRnBbJkAoO19AEi=vkyPPyg9n9jqC2Q@mail.gmail.com>
-Message-ID: <1441906098.18716.21.camel@ssi>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Thu, 10 Sep 2015 18:22:47 -0400
+Subject: [PATCH 3/4] block: Refuse adding appending a gaped integrity page
+ to a bio
+In-Reply-To: <55F1490C.7050105@dev.mellanox.co.il> (Sagi Grimberg's message of
+ "Thu, 10 Sep 2015 12:10:36 +0300")
+References: <1441297703-10753-1-git-send-email-sagig@mellanox.com>
+ <1441297703-10753-4-git-send-email-sagig@mellanox.com>
+ <yq1a8t2amtj.fsf@sermon.lab.mkp.net>
+ <55EBEF5B.3030608@dev.mellanox.co.il>
+ <yq137yo6a78.fsf@sermon.lab.mkp.net>
+ <55F1490C.7050105@dev.mellanox.co.il>
+Message-ID: <yq1twr13oeg.fsf@sermon.lab.mkp.net>
 
-On Thu, 2015-09-10@15:38 +0100, Stefan Hajnoczi wrote:
-> On Thu, Sep 10, 2015@6:48 AM, Ming Lin <mlin@kernel.org> wrote:
-> > These 2 patches added virtio-nvme to kernel and qemu,
-> > basically modified from virtio-blk and nvme code.
-> >
-> > As title said, request for your comments.
-> >
-> > Play it in Qemu with:
-> > -drive file=disk.img,format=raw,if=none,id=D22 \
-> > -device virtio-nvme-pci,drive=D22,serial=1234,num_queues=4
-> >
-> > The goal is to have a full NVMe stack from VM guest(virtio-nvme)
-> > to host(vhost_nvme) to LIO NVMe-over-fabrics target.
-> 
-> Why is a virtio-nvme guest device needed?  I guess there must either
-> be NVMe-only features that you want to pass through, or you think the
-> performance will be significantly better than virtio-blk/virtio-scsi?
+>>>>> "Sagi" == Sagi Grimberg <sagig at dev.mellanox.co.il> writes:
 
-It simply passes through NVMe commands.
+>> For some workloads I think bouncing is inevitable by virtue of the PI
+>> payload being teeny tiny by design.
 
-Right now performance is poor. Performance tunning is on my todo list.
-It should be as good as virtio-blk/virtio-scsi.
+Sagi> I see. I guess we can bounce DIX data, but is it always "right" to
+Sagi> bounce? I don't know, as you say, it is workload dependent.
 
-> 
-> At first glance it seems like the virtio_nvme guest driver is just
-> another block driver like virtio_blk, so I'm not clear why a
-> virtio-nvme device makes sense.
+The right place to make that call, I guess, is in
+bio_integrity_add_page() based on whether we exceed any of the
+constraints set by the LLD.
 
-I think the future "LIO NVMe target" only speaks NVMe protocol.
-
-Nick(CCed), could you correct me if I'm wrong?
-
-For SCSI stack, we have:
-virtio-scsi(guest)
-tcm_vhost(or vhost_scsi, host)
-LIO-scsi-target
-
-For NVMe stack, we'll have similar components:
-virtio-nvme(guest)
-vhost_nvme(host)
-LIO-NVMe-target
-
-> 
-> > Now there are lots of duplicated code with linux/nvme-core.c and qemu/nvme.c.
-> > The ideal result is to have a multi level NVMe stack(similar as SCSI).
-> > So we can re-use the nvme code, for example
-> >
-> >                         .-------------------------.
-> >                         | NVMe device register    |
-> >   Upper level           | NVMe protocol process   |
-> >                         |                         |
-> >                         '-------------------------'
-> >
-> >
-> >
-> >               .-----------.    .-----------.    .------------------.
-> >  Lower level  |   PCIe    |    | VIRTIO    |    |NVMe over Fabrics |
-> >               |           |    |           |    |initiator         |
-> >               '-----------'    '-----------'    '------------------'
-> 
-> You mentioned LIO and SCSI.  How will NVMe over Fabrics be integrated
-> into LIO?  If it is mapped to SCSI then using virtio_scsi in the guest
-> and tcm_vhost should work.
-
-I think it's not mapped to SCSI.
-
-Nick, would you share more here?
-
-> 
-> Please also post virtio draft specifications documenting the virtio device.
-
-I'll do this later.
-
-> 
-> Stefan
+-- 
+Martin K. Petersen	Oracle Linux Engineering
