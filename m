@@ -1,17 +1,44 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 10 Sep 2015 13:48:01 +0000 (UTC)
-Subject: [PATCH] Increase the max transfer size when mdts is 0
-In-Reply-To: <1441884544-10183-1-git-send-email-sathya.m@samsung.com>
-References: <1441884544-10183-1-git-send-email-sathya.m@samsung.com>
-Message-ID: <alpine.LNX.2.00.1509101347280.23840@localhost.lm.intel.com>
+Date: Thu, 10 Sep 2015 14:02:57 +0000 (UTC)
+Subject: [RFC PATCH 0/2] virtio nvme
+In-Reply-To: <1441864112-12765-1-git-send-email-mlin@kernel.org>
+References: <1441864112-12765-1-git-send-email-mlin@kernel.org>
+Message-ID: <alpine.LNX.2.00.1509101356200.23840@localhost.lm.intel.com>
 
-On Thu, 10 Sep 2015, Sathyavathi M wrote:
-> From: Sathyavathi M <sathya.m at samsung.com>
+On Wed, 9 Sep 2015, Ming Lin wrote:
+> The goal is to have a full NVMe stack from VM guest(virtio-nvme)
+> to host(vhost_nvme) to LIO NVMe-over-fabrics target.
 >
-> This patch address the issue when IO with 128KB from FIO is splitted as two
-> parts, 124KB and 4KB due to max transfer size(127KB).This degrades the device
-> performance.
+> Now there are lots of duplicated code with linux/nvme-core.c and qemu/nvme.c.
+> The ideal result is to have a multi level NVMe stack(similar as SCSI).
+> So we can re-use the nvme code, for example
 >
-> Signed-off-by: Sathyavathi M <sathya.m at samsung.com>
+>                        .-------------------------.
+>                        | NVMe device register    |
+>  Upper level           | NVMe protocol process   |
+>                        |                         |
+>                        '-------------------------'
+>
+>
+>
+>              .-----------.    .-----------.    .------------------.
+> Lower level  |   PCIe    |    | VIRTIO    |    |NVMe over Fabrics |
+>              |           |    |           |    |initiator         |
+>              '-----------'    '-----------'    '------------------'
+>
+> todo:
+> - tune performance. Should be as good as virtio-blk/virtio-scsi
+> - support discard/flush/integrity
+> - need Redhat's help for the VIRTIO_ID_NVME pci id
+> - multi level NVMe stack
 
-Acked-by: Keith Busch <keith.busch at intel.com>
+Hi Ming,
+
+I'll be out for travel for the next week, so I won't have much time to
+do a proper review till the following week.
+
+I think it'd be better to get this hierarchy setup to make the most reuse
+possible than to have this much code duplication between the existing
+driver and emulated qemu nvme. For better or worse, I think the generic
+nvme layer is where things are going. Are you signed up with the fabrics
+contributors?
