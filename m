@@ -1,83 +1,69 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Fri, 11 Sep 2015 10:46:29 -0700
+From: stefanha@gmail.com (Stefan Hajnoczi)
+Date: Fri, 11 Sep 2015 18:53:41 +0100
 Subject: [RFC PATCH 0/2] virtio nvme
-In-Reply-To: <1441904521.18716.4.camel@ssi>
+In-Reply-To: <1441992101.802.11.camel@ssi>
 References: <1441864112-12765-1-git-send-email-mlin@kernel.org>
- <alpine.LNX.2.00.1509101356200.23840@localhost.lm.intel.com>
- <1441904521.18716.4.camel@ssi>
-Message-ID: <1441993589.7919.28.camel@linux.intel.com>
+ <CAJSP0QUmtgoh23G3u64xRnBbJkAoO19AEi=vkyPPyg9n9jqC2Q@mail.gmail.com>
+ <1441906098.18716.21.camel@ssi>
+ <CAJSP0QXbjY5kbz0jTJSDyo=Zh9B+DRZorTY0m3bRC8yhJT=Nvw@mail.gmail.com>
+ <1441992101.802.11.camel@ssi>
+Message-ID: <CAJSP0QXz_w+FasdZ2zZsVmjuBmJLgAnrG5vV+c2eLr=pdnRm5Q@mail.gmail.com>
 
-On Thu, 2015-09-10@10:02 -0700, Ming Lin wrote:
-> On Thu, 2015-09-10@14:02 +0000, Keith Busch wrote:
-> > On Wed, 9 Sep 2015, Ming Lin wrote:
-> > > The goal is to have a full NVMe stack from VM guest(virtio-nvme)
-> > > to host(vhost_nvme) to LIO NVMe-over-fabrics target.
-> > > 
-> > > Now there are lots of duplicated code with linux/nvme-core.c and 
-> > > qemu/nvme.c.
-> > > The ideal result is to have a multi level NVMe stack(similar as 
-> > > SCSI).
-> > > So we can re-use the nvme code, for example
-> > > 
-> > >                        .-------------------------.
-> > >                        | NVMe device register    |
-> > >  Upper level           | NVMe protocol process   |
-> > >                        |                         |
-> > >                        '-------------------------'
-> > > 
-> > > 
-> > > 
-> > >              .-----------.    .-----------.    .-----------------
-> > > -.
-> > > Lower level  |   PCIe    |    | VIRTIO    |    |NVMe over Fabrics 
-> > > |
-> > >              |           |    |           |    |initiator        
-> > >  |
-> > >              '-----------'    '-----------'    '-----------------
-> > > -'
-> > > 
-> > > todo:
-> > > - tune performance. Should be as good as virtio-blk/virtio-scsi
-> > > - support discard/flush/integrity
-> > > - need Redhat's help for the VIRTIO_ID_NVME pci id
-> > > - multi level NVMe stack
-> > 
-> > Hi Ming,
-> 
-> Hi Keith,
-> 
-> > 
-> > I'll be out for travel for the next week, so I won't have much time 
-> > to
-> > do a proper review till the following week.
-> > 
-> > I think it'd be better to get this hierarchy setup to make the most 
-> > reuse
-> > possible than to have this much code duplication between the 
-> > existing
-> > driver and emulated qemu nvme. For better or worse, I think the 
-> > generic
-> > nvme layer is where things are going. Are you signed up with the 
-> > fabrics
-> > contributors?
-> 
-> No. How to sign up?
+On Fri, Sep 11, 2015@6:21 PM, Ming Lin <mlin@kernel.org> wrote:
+> On Fri, 2015-09-11@08:48 +0100, Stefan Hajnoczi wrote:
+>> On Thu, Sep 10, 2015@6:28 PM, Ming Lin <mlin@kernel.org> wrote:
+>> > On Thu, 2015-09-10@15:38 +0100, Stefan Hajnoczi wrote:
+>> >> On Thu, Sep 10, 2015@6:48 AM, Ming Lin <mlin@kernel.org> wrote:
+>> >> > These 2 patches added virtio-nvme to kernel and qemu,
+>> >> > basically modified from virtio-blk and nvme code.
+>> >> >
+>> >> > As title said, request for your comments.
+>> >> >
+>> >> > Play it in Qemu with:
+>> >> > -drive file=disk.img,format=raw,if=none,id=D22 \
+>> >> > -device virtio-nvme-pci,drive=D22,serial=1234,num_queues=4
+>> >> >
+>> >> > The goal is to have a full NVMe stack from VM guest(virtio-nvme)
+>> >> > to host(vhost_nvme) to LIO NVMe-over-fabrics target.
+>> >>
+>> >> Why is a virtio-nvme guest device needed?  I guess there must either
+>> >> be NVMe-only features that you want to pass through, or you think the
+>> >> performance will be significantly better than virtio-blk/virtio-scsi?
+>> >
+>> > It simply passes through NVMe commands.
+>>
+>> I understand that.  My question is why the guest needs to send NVMe commands?
+>>
+>> If the virtio_nvme.ko guest driver only sends read/write/flush then
+>> there's no advantage over virtio-blk.
+>>
+>> There must be something you are trying to achieve which is not
+>> possible with virtio-blk or virtio-scsi.  What is that?
+>
+> I actually learned from your virtio-scsi work.
+> http://www.linux-kvm.org/images/f/f5/2011-forum-virtio-scsi.pdf
+>
+> Then I thought a full NVMe stack from guest to host to target seems
+> reasonable.
+>
+> Trying to achieve similar things as virtio-scsi, but all NVMe protocol.
+>
+> - Effective NVMe passthrough
+> - Multiple target choices: QEMU, LIO-NVMe(vhost_nvme)
+> - Almost unlimited scalability. Thousands of namespaces per PCI device
+> - True NVMe device
+> - End-to-end Protection Information
+> - ....
 
-Ming,
+The advantages you mentioned are already available in virtio-scsi,
+except for the NVMe command set.
 
-Here is the email Keith sent out on this list that says how to sign up:
+I don't understand what unique problem virtio-nvme solves yet.  If
+someone asked me to explain why NVMe-over-virtio makes sense compared
+to the existing virtio-blk/virtio-scsi or NVMe SR-IOV options, I
+wouldn't know the answer.  I'd like to learn that from you or anyone
+else on CC.
 
-http://lists.infradead.org/pipermail/linux-nvme/2015
--September/002331.html
+Do you have a use case in mind?
 
-Jay
-
-
-
-> 
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Stefan
