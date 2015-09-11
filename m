@@ -1,28 +1,55 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Thu, 10 Sep 2015 18:22:47 -0400
-Subject: [PATCH 3/4] block: Refuse adding appending a gaped integrity page
- to a bio
-In-Reply-To: <55F1490C.7050105@dev.mellanox.co.il> (Sagi Grimberg's message of
- "Thu, 10 Sep 2015 12:10:36 +0300")
-References: <1441297703-10753-1-git-send-email-sagig@mellanox.com>
- <1441297703-10753-4-git-send-email-sagig@mellanox.com>
- <yq1a8t2amtj.fsf@sermon.lab.mkp.net>
- <55EBEF5B.3030608@dev.mellanox.co.il>
- <yq137yo6a78.fsf@sermon.lab.mkp.net>
- <55F1490C.7050105@dev.mellanox.co.il>
-Message-ID: <yq1twr13oeg.fsf@sermon.lab.mkp.net>
+From: mlin@kernel.org (Ming Lin)
+Date: Thu, 10 Sep 2015 21:55:52 -0700
+Subject: [RFC PATCH 0/2] virtio nvme
+In-Reply-To: <1441904521.18716.4.camel@ssi>
+References: <1441864112-12765-1-git-send-email-mlin@kernel.org>
+ <alpine.LNX.2.00.1509101356200.23840@localhost.lm.intel.com>
+ <1441904521.18716.4.camel@ssi>
+Message-ID: <CAF1ivSZTZRtbsW78kvi8eZnJpYhLw-3kx-fKQ5ZCU2rR41t2YQ@mail.gmail.com>
 
->>>>> "Sagi" == Sagi Grimberg <sagig at dev.mellanox.co.il> writes:
+On Thu, Sep 10, 2015@10:02 AM, Ming Lin <mlin@kernel.org> wrote:
+> On Thu, 2015-09-10@14:02 +0000, Keith Busch wrote:
+>> On Wed, 9 Sep 2015, Ming Lin wrote:
+>> > The goal is to have a full NVMe stack from VM guest(virtio-nvme)
+>> > to host(vhost_nvme) to LIO NVMe-over-fabrics target.
+>> >
+>> > Now there are lots of duplicated code with linux/nvme-core.c and qemu/nvme.c.
+>> > The ideal result is to have a multi level NVMe stack(similar as SCSI).
+>> > So we can re-use the nvme code, for example
+>> >
+>> >                        .-------------------------.
+>> >                        | NVMe device register    |
+>> >  Upper level           | NVMe protocol process   |
+>> >                        |                         |
+>> >                        '-------------------------'
+>> >
+>> >
+>> >
+>> >              .-----------.    .-----------.    .------------------.
+>> > Lower level  |   PCIe    |    | VIRTIO    |    |NVMe over Fabrics |
+>> >              |           |    |           |    |initiator         |
+>> >              '-----------'    '-----------'    '------------------'
+>> >
+>> > todo:
+>> > - tune performance. Should be as good as virtio-blk/virtio-scsi
+>> > - support discard/flush/integrity
+>> > - need Redhat's help for the VIRTIO_ID_NVME pci id
+>> > - multi level NVMe stack
+>>
+>> Hi Ming,
+>
+> Hi Keith,
+>
+>>
+>> I'll be out for travel for the next week, so I won't have much time to
+>> do a proper review till the following week.
+>>
+>> I think it'd be better to get this hierarchy setup to make the most reuse
+>> possible than to have this much code duplication between the existing
+>> driver and emulated qemu nvme. For better or worse, I think the generic
+>> nvme layer is where things are going. Are you signed up with the fabrics
+>> contributors?
+>
+> No. How to sign up?
 
->> For some workloads I think bouncing is inevitable by virtue of the PI
->> payload being teeny tiny by design.
-
-Sagi> I see. I guess we can bounce DIX data, but is it always "right" to
-Sagi> bounce? I don't know, as you say, it is workload dependent.
-
-The right place to make that call, I guess, is in
-bio_integrity_add_page() based on whether we exceed any of the
-constraints set by the LLD.
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Got it. Just saw your previous mail: A message on NVMe Over Fabrics
