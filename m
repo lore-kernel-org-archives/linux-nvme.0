@@ -1,77 +1,33 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Fri, 11 Sep 2015 11:54:02 -0700
-Subject: [RFC PATCH 0/2] virtio nvme
-In-Reply-To: <CAJSP0QXz_w+FasdZ2zZsVmjuBmJLgAnrG5vV+c2eLr=pdnRm5Q@mail.gmail.com>
-References: <1441864112-12765-1-git-send-email-mlin@kernel.org>
- <CAJSP0QUmtgoh23G3u64xRnBbJkAoO19AEi=vkyPPyg9n9jqC2Q@mail.gmail.com>
- <1441906098.18716.21.camel@ssi>
- <CAJSP0QXbjY5kbz0jTJSDyo=Zh9B+DRZorTY0m3bRC8yhJT=Nvw@mail.gmail.com>
- <1441992101.802.11.camel@ssi>
- <CAJSP0QXz_w+FasdZ2zZsVmjuBmJLgAnrG5vV+c2eLr=pdnRm5Q@mail.gmail.com>
-Message-ID: <CAF1ivSZvWfBO3vMBvi7_CfM0SwtgyrSjvAWag4kNAdDOhL-Lsw@mail.gmail.com>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Sun, 13 Sep 2015 10:53:01 +0300
+Subject: [PATCH 3/4] block: Refuse adding appending a gaped integrity page
+ to a bio
+In-Reply-To: <yq1twr13oeg.fsf@sermon.lab.mkp.net>
+References: <1441297703-10753-1-git-send-email-sagig@mellanox.com>
+ <1441297703-10753-4-git-send-email-sagig@mellanox.com>
+ <yq1a8t2amtj.fsf@sermon.lab.mkp.net> <55EBEF5B.3030608@dev.mellanox.co.il>
+ <yq137yo6a78.fsf@sermon.lab.mkp.net> <55F1490C.7050105@dev.mellanox.co.il>
+ <yq1twr13oeg.fsf@sermon.lab.mkp.net>
+Message-ID: <55F52B5D.5030205@dev.mellanox.co.il>
 
-On Fri, Sep 11, 2015@10:53 AM, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> On Fri, Sep 11, 2015@6:21 PM, Ming Lin <mlin@kernel.org> wrote:
->> On Fri, 2015-09-11@08:48 +0100, Stefan Hajnoczi wrote:
->>> On Thu, Sep 10, 2015@6:28 PM, Ming Lin <mlin@kernel.org> wrote:
->>> > On Thu, 2015-09-10@15:38 +0100, Stefan Hajnoczi wrote:
->>> >> On Thu, Sep 10, 2015@6:48 AM, Ming Lin <mlin@kernel.org> wrote:
->>> >> > These 2 patches added virtio-nvme to kernel and qemu,
->>> >> > basically modified from virtio-blk and nvme code.
->>> >> >
->>> >> > As title said, request for your comments.
->>> >> >
->>> >> > Play it in Qemu with:
->>> >> > -drive file=disk.img,format=raw,if=none,id=D22 \
->>> >> > -device virtio-nvme-pci,drive=D22,serial=1234,num_queues=4
->>> >> >
->>> >> > The goal is to have a full NVMe stack from VM guest(virtio-nvme)
->>> >> > to host(vhost_nvme) to LIO NVMe-over-fabrics target.
->>> >>
->>> >> Why is a virtio-nvme guest device needed?  I guess there must either
->>> >> be NVMe-only features that you want to pass through, or you think the
->>> >> performance will be significantly better than virtio-blk/virtio-scsi?
->>> >
->>> > It simply passes through NVMe commands.
->>>
->>> I understand that.  My question is why the guest needs to send NVMe commands?
->>>
->>> If the virtio_nvme.ko guest driver only sends read/write/flush then
->>> there's no advantage over virtio-blk.
->>>
->>> There must be something you are trying to achieve which is not
->>> possible with virtio-blk or virtio-scsi.  What is that?
->>
->> I actually learned from your virtio-scsi work.
->> http://www.linux-kvm.org/images/f/f5/2011-forum-virtio-scsi.pdf
->>
->> Then I thought a full NVMe stack from guest to host to target seems
->> reasonable.
->>
->> Trying to achieve similar things as virtio-scsi, but all NVMe protocol.
->>
->> - Effective NVMe passthrough
->> - Multiple target choices: QEMU, LIO-NVMe(vhost_nvme)
->> - Almost unlimited scalability. Thousands of namespaces per PCI device
->> - True NVMe device
->> - End-to-end Protection Information
->> - ....
+On 9/11/2015 1:22 AM, Martin K. Petersen wrote:
+>>>>>> "Sagi" == Sagi Grimberg <sagig at dev.mellanox.co.il> writes:
 >
-> The advantages you mentioned are already available in virtio-scsi,
-> except for the NVMe command set.
+>>> For some workloads I think bouncing is inevitable by virtue of the PI
+>>> payload being teeny tiny by design.
 >
-> I don't understand what unique problem virtio-nvme solves yet.  If
-> someone asked me to explain why NVMe-over-virtio makes sense compared
-> to the existing virtio-blk/virtio-scsi or NVMe SR-IOV options, I
-> wouldn't know the answer.  I'd like to learn that from you or anyone
-> else on CC.
+> Sagi> I see. I guess we can bounce DIX data, but is it always "right" to
+> Sagi> bounce? I don't know, as you say, it is workload dependent.
 >
-> Do you have a use case in mind?
+> The right place to make that call, I guess, is in
+> bio_integrity_add_page() based on whether we exceed any of the
+> constraints set by the LLD.
 
-One use case is for All NVMe storage array. There is no SCSI device at all.
+In case the consumer passed a gappy integrity payload then we can bounce 
+but AFAICT, merge flows do not include a call site to
+bio_integrity_add_page.
 
-Samsung demoed one in flash memory summit 2015.
-http://www.tomsitpro.com/articles/best-of-flash-memory-summit,1-2806.html
+It would be easy enough to bounce gappy IOs and refuse gappy merges,
+would that be sufficient?
 
->
-> Stefan
+Sagi.
