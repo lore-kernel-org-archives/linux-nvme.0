@@ -1,33 +1,60 @@
-From: sathya.m@samsung.com (Sathyavathi M)
-Date: Wed, 16 Sep 2015 10:03:35 +0000 (GMT)
-Subject: Fwd: Fwd: Fwd: Re: Fwd: Fwd: Re: PCIe error handling patch
-Message-ID: <1107870359.1155791442397814537.JavaMail.weblogic@ep2mlwas06d>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Wed, 16 Sep 2015 13:26:01 -0400
+Subject: [PATCH 1/5] block: Move integrity kobject to struct gendisk
+In-Reply-To: <1440103314-31610-2-git-send-email-martin.petersen@oracle.com>
+References: <20150721120102.GB1654@infradead.org>
+ <1440103314-31610-1-git-send-email-martin.petersen@oracle.com>
+ <1440103314-31610-2-git-send-email-martin.petersen@oracle.com>
+Message-ID: <20150916172601.GA25973@redhat.com>
 
-Hi Keith,
+On Thu, Aug 20 2015 at  4:41pm -0400,
+Martin K. Petersen <martin.petersen@oracle.com> wrote:
 
-Can you merge the below patch to latest kernels.
-http://lists.infradead.org/pipermail/linux-nvme/2015-June/001949.html
+> The integrity kobject purely exists to support the integrity
+> subdirectory in sysfs and doesn't really have anything to do with the
+> blk_integrity data structure. Move the kobject to struct gendisk where
+> it belongs.
+> 
+> Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
+> Reported-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
 
+[I understand both Martin and Keith are on vacation but I'm putting the
+time to this now with the understanding that a proper exchange may be
+delayed.]
 
-Regards,
-Sathya
-------- Original Message -------
-Sender : Keith Busch
-Date : Jun 12, 2015 23:06 (GMT+09:00)
-Title : Re: Fwd: Fwd: Re: PCIe error handling patch
+Thinking about this series further: I don't really agree with it.
+Maybe in the end the benefit of embedding in gendisk outweighs the
+complexity of dynamic allocation... but I need to see it for myself.
 
-On Fri, 12 Jun 2015, Sathyavathi M wrote:
-> I was able to test the PCIe error handling patch on IBM power pc machine.
-> The patch works for me without the delay mention in the NVMe: PCI error handling code patch.
-> If an EEH is triggered the system recovers and resume back any ios.
-> So I would request you to pull the EEH patch without the delay.
+Christoph, if you _know_ this to be the right way forward I can accept
+it but please elaborate further.
 
-Hi Sathya,
+What we currently have (before this patchset) has the very real benefit
+of not wasting any memory if the block device doesn't have integrity
+(DIF/DIX) support.  Especially given how rare bip supporting devices
+still are.  Is there reason to expect they won't be so rare in the
+future?  Every NVMe and nvdimm device will have integrity support?
 
-You're saying the same AER patch, plus removing the msleep, tests
-successfully with EEH h/w? If so, that's great! I'll have it merged up
-to the latest kernel to test on other platforms, then we can resubmit
-the patch.
+This patch moves thes 64 byte 'struct kobject' out into 'struct
+gendisk'.  I'm not seeing why (on x86_64 anyway) we'd what to always
+allocate an extra 76 bytes (blk_integrity + kobject) for _every_ gendisk
+regardless of whether a bip is needed..
 
-Thanks,
-Keith
+76 bytes may not sound like a lot but in the context of DM-mpath that
+adds up when you have systems with 1000s of devices with multiple paths
+and then a DM mpath device (with its own gendisk) ontop -- 1000 devices
+with 4 paths can waste 5000 * 76bytes = ~372K (even 372K isn't much...)
+
+If DM-core could support existing dynamic bip (albeit with more involved
+code born out of DM-specific quirks of device stacking and inactive and
+active tables) then I have to believe NVMe can too.
+
+As such I'm now going to shift my focus to revisiting what is so hard
+for NVMe that it cannot cope with the existing dynamic allocation of
+struct blk_integrity.
+
+[If that turns out to be a waste of time (and NVMe/nvdimm/whatever would
+be needlessly inconvenienced) then I'll switch back to fixing DM to cope
+with this change.  But to be clear the current proposed DM changes
+_cannot_ go upstream.]
