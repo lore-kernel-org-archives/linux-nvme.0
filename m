@@ -1,17 +1,33 @@
-From: sujithpshankar@gmail.com (Sujith Pandel)
-Date: Tue, 15 Sep 2015 16:26:09 -0400
-Subject: [PATCH v2] NVMe:Expose model attribute in sysfs
-In-Reply-To: <20150909062713.GA14279@localhost.localdomain>
-References: <20150909062713.GA14279@localhost.localdomain>
-Message-ID: <20150915202603.GA3619@localhost.localdomain>
+From: sathya.m@samsung.com (Sathyavathi M)
+Date: Wed, 16 Sep 2015 10:03:35 +0000 (GMT)
+Subject: Fwd: Fwd: Fwd: Re: Fwd: Fwd: Re: PCIe error handling patch
+Message-ID: <1107870359.1155791442397814537.JavaMail.weblogic@ep2mlwas06d>
 
-On Wed, Sep 09, 2015@01:27:36AM -0500, Sujith Pandel wrote:
-> nvme driver does not show the model attribute of disk in sysfs.
-> nvme_dev already has this attribute populated during nvme_dev_add().
-> Group model and other the device attributes as an attribute group
-> and create sysfs files for the group using sysfs_create_group().
+Hi Keith,
 
-Any updates on this? Can this be considered for inclusion?
+Can you merge the below patch to latest kernels.
+http://lists.infradead.org/pipermail/linux-nvme/2015-June/001949.html
 
-Thanks!
-Sujith
+
+Regards,
+Sathya
+------- Original Message -------
+Sender : Keith Busch
+Date : Jun 12, 2015 23:06 (GMT+09:00)
+Title : Re: Fwd: Fwd: Re: PCIe error handling patch
+
+On Fri, 12 Jun 2015, Sathyavathi M wrote:
+> I was able to test the PCIe error handling patch on IBM power pc machine.
+> The patch works for me without the delay mention in the NVMe: PCI error handling code patch.
+> If an EEH is triggered the system recovers and resume back any ios.
+> So I would request you to pull the EEH patch without the delay.
+
+Hi Sathya,
+
+You're saying the same AER patch, plus removing the msleep, tests
+successfully with EEH h/w? If so, that's great! I'll have it merged up
+to the latest kernel to test on other platforms, then we can resubmit
+the patch.
+
+Thanks,
+Keith
