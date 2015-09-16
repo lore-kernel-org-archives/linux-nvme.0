@@ -1,33 +1,67 @@
-From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Sun, 13 Sep 2015 10:53:01 +0300
-Subject: [PATCH 3/4] block: Refuse adding appending a gaped integrity page
- to a bio
-In-Reply-To: <yq1twr13oeg.fsf@sermon.lab.mkp.net>
-References: <1441297703-10753-1-git-send-email-sagig@mellanox.com>
- <1441297703-10753-4-git-send-email-sagig@mellanox.com>
- <yq1a8t2amtj.fsf@sermon.lab.mkp.net> <55EBEF5B.3030608@dev.mellanox.co.il>
- <yq137yo6a78.fsf@sermon.lab.mkp.net> <55F1490C.7050105@dev.mellanox.co.il>
- <yq1twr13oeg.fsf@sermon.lab.mkp.net>
-Message-ID: <55F52B5D.5030205@dev.mellanox.co.il>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Tue, 15 Sep 2015 21:07:21 -0400
+Subject: [PATCH 5/5] block: Inline blk_integrity in struct gendisk
+In-Reply-To: <1440103314-31610-6-git-send-email-martin.petersen@oracle.com>
+References: <20150721120102.GB1654@infradead.org>
+ <1440103314-31610-1-git-send-email-martin.petersen@oracle.com>
+ <1440103314-31610-6-git-send-email-martin.petersen@oracle.com>
+Message-ID: <20150916010720.GA21398@redhat.com>
 
-On 9/11/2015 1:22 AM, Martin K. Petersen wrote:
->>>>>> "Sagi" == Sagi Grimberg <sagig at dev.mellanox.co.il> writes:
->
->>> For some workloads I think bouncing is inevitable by virtue of the PI
->>> payload being teeny tiny by design.
->
-> Sagi> I see. I guess we can bounce DIX data, but is it always "right" to
-> Sagi> bounce? I don't know, as you say, it is workload dependent.
->
-> The right place to make that call, I guess, is in
-> bio_integrity_add_page() based on whether we exceed any of the
-> constraints set by the LLD.
+On Thu, Aug 20 2015 at  4:41pm -0400,
+Martin K. Petersen <martin.petersen@oracle.com> wrote:
 
-In case the consumer passed a gappy integrity payload then we can bounce 
-but AFAICT, merge flows do not include a call site to
-bio_integrity_add_page.
+> Up until now the_integrity profile has been dynamically allocated and
+> attached to struct gendisk after the disk has been made active.
+> 
+> This causes problems because NVMe devices need to register the profile
+> prior to the partition table being read due to a mandatory metadata
+> buffer requirement. In addition, DM goes through hoops to deal with
+> preallocating, but not initializing integrity profiles.
 
-It would be easy enough to bounce gappy IOs and refuse gappy merges,
-would that be sufficient?
+Yes, but only if the underlying device(s) actually support bip.  This
+change to inlining blk_integrity (purely to make NVMe happy) comes at
+the cost of _always_ allocating the memory 'struct blk_integrity' (via
+gendisk inline) even if there is absolutely no need for it.
 
-Sagi.
+That said, with your changes the blk_integrity structure is no longer
+large (previously was 96 bytes).. so I can let that part go.
+
+> Since the integrity profile is small (4 bytes + a pointer), Christoph
+> suggested moving it to struct gendisk proper. This requires several
+> changes:
+> 
+>  - Moving the blk_integrity definition to genhd.h.
+> 
+>  - Inlining blk_integrity in struct gendisk.
+> 
+>  - Removing the dynamic allocation code.
+> 
+>  - Adding helper functions which allow gendisk to set up and tear down
+>    the integrity sysfs dir when a disk is added/deleted.
+> 
+>  - Adding a blk_integrity_revalidate() callback for updating the stable
+>    pages bdi setting.
+> 
+>  - The calls that depend on whether a device has an integrity profile or
+>    not now key off of the bi->profile pointer.
+> 
+>  - Simplifying the integrity support routines in DM.
+
+But I cannot let this DM "simplifying" go (vast majority of it breaks
+bip for DM).  You missed the fact that DM has inactive and active
+tables.  And that the top-level DM device can only be changed once an
+inactive table is made active via DM's resume.  The bip for the DM
+device cannot be changed during table load.  Such a change can only be
+done during table resume.  Reason is an inactive DM table can get thrown
+away at any time; so changing the top-level DM device during the load of
+an inactive table isn't right.
+
+Please review the commit header from commit a63a5cf84 ("dm: improve
+block integrity support").
+
+Long story short, DM changes that eliminate the checks/code for
+allocating the blk_integrity structure should be all that is needed for
+this patch.
+
+I'll work through this further.  Hope to send an incremental patch that
+fixes things up in the next day or so.
