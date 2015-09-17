@@ -1,60 +1,99 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Wed, 16 Sep 2015 13:26:01 -0400
-Subject: [PATCH 1/5] block: Move integrity kobject to struct gendisk
-In-Reply-To: <1440103314-31610-2-git-send-email-martin.petersen@oracle.com>
-References: <20150721120102.GB1654@infradead.org>
- <1440103314-31610-1-git-send-email-martin.petersen@oracle.com>
- <1440103314-31610-2-git-send-email-martin.petersen@oracle.com>
-Message-ID: <20150916172601.GA25973@redhat.com>
+From: nab@linux-iscsi.org (Nicholas A. Bellinger)
+Date: Wed, 16 Sep 2015 23:10:41 -0700
+Subject: [RFC PATCH 0/2] virtio nvme
+In-Reply-To: <1441906098.18716.21.camel@ssi>
+References: <1441864112-12765-1-git-send-email-mlin@kernel.org>
+ <CAJSP0QUmtgoh23G3u64xRnBbJkAoO19AEi=vkyPPyg9n9jqC2Q@mail.gmail.com>
+ <1441906098.18716.21.camel@ssi>
+Message-ID: <1442470241.23132.77.camel@haakon3.risingtidesystems.com>
 
-On Thu, Aug 20 2015 at  4:41pm -0400,
-Martin K. Petersen <martin.petersen@oracle.com> wrote:
+Hi Ming & Co,
 
-> The integrity kobject purely exists to support the integrity
-> subdirectory in sysfs and doesn't really have anything to do with the
-> blk_integrity data structure. Move the kobject to struct gendisk where
-> it belongs.
+On Thu, 2015-09-10@10:28 -0700, Ming Lin wrote:
+> On Thu, 2015-09-10@15:38 +0100, Stefan Hajnoczi wrote:
+> > On Thu, Sep 10, 2015@6:48 AM, Ming Lin <mlin@kernel.org> wrote:
+> > > These 2 patches added virtio-nvme to kernel and qemu,
+> > > basically modified from virtio-blk and nvme code.
+> > >
+> > > As title said, request for your comments.
+
+<SNIP>
+
+> > 
+> > At first glance it seems like the virtio_nvme guest driver is just
+> > another block driver like virtio_blk, so I'm not clear why a
+> > virtio-nvme device makes sense.
 > 
-> Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
-> Reported-by: Christoph Hellwig <hch at lst.de>
-> Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
+> I think the future "LIO NVMe target" only speaks NVMe protocol.
+> 
+> Nick(CCed), could you correct me if I'm wrong?
+> 
+> For SCSI stack, we have:
+> virtio-scsi(guest)
+> tcm_vhost(or vhost_scsi, host)
+> LIO-scsi-target
+> 
+> For NVMe stack, we'll have similar components:
+> virtio-nvme(guest)
+> vhost_nvme(host)
+> LIO-NVMe-target
+> 
 
-[I understand both Martin and Keith are on vacation but I'm putting the
-time to this now with the understanding that a proper exchange may be
-delayed.]
+I think it's more interesting to consider a 'vhost style' driver that
+can be used with unmodified nvme host OS drivers.
 
-Thinking about this series further: I don't really agree with it.
-Maybe in the end the benefit of embedding in gendisk outweighs the
-complexity of dynamic allocation... but I need to see it for myself.
+Dr. Hannes (CC'ed) had done something like this for megasas a few years
+back using specialized QEMU emulation + eventfd based LIO fabric driver,
+and got it working with Linux + MSFT guests.
 
-Christoph, if you _know_ this to be the right way forward I can accept
-it but please elaborate further.
+Doing something similar for nvme would (potentially) be on par with
+current virtio-scsi+vhost-scsi small-block performance for scsi-mq
+guests, without the extra burden of a new command set specific virtio
+driver.
 
-What we currently have (before this patchset) has the very real benefit
-of not wasting any memory if the block device doesn't have integrity
-(DIF/DIX) support.  Especially given how rare bip supporting devices
-still are.  Is there reason to expect they won't be so rare in the
-future?  Every NVMe and nvdimm device will have integrity support?
+> > 
+> > > Now there are lots of duplicated code with linux/nvme-core.c and qemu/nvme.c.
+> > > The ideal result is to have a multi level NVMe stack(similar as SCSI).
+> > > So we can re-use the nvme code, for example
+> > >
+> > >                         .-------------------------.
+> > >                         | NVMe device register    |
+> > >   Upper level           | NVMe protocol process   |
+> > >                         |                         |
+> > >                         '-------------------------'
+> > >
+> > >
+> > >
+> > >               .-----------.    .-----------.    .------------------.
+> > >  Lower level  |   PCIe    |    | VIRTIO    |    |NVMe over Fabrics |
+> > >               |           |    |           |    |initiator         |
+> > >               '-----------'    '-----------'    '------------------'
+> > 
+> > You mentioned LIO and SCSI.  How will NVMe over Fabrics be integrated
+> > into LIO?  If it is mapped to SCSI then using virtio_scsi in the guest
+> > and tcm_vhost should work.
+> 
+> I think it's not mapped to SCSI.
+> 
+> Nick, would you share more here?
+> 
 
-This patch moves thes 64 byte 'struct kobject' out into 'struct
-gendisk'.  I'm not seeing why (on x86_64 anyway) we'd what to always
-allocate an extra 76 bytes (blk_integrity + kobject) for _every_ gendisk
-regardless of whether a bip is needed..
+(Adding Dave M. CC')
 
-76 bytes may not sound like a lot but in the context of DM-mpath that
-adds up when you have systems with 1000s of devices with multiple paths
-and then a DM mpath device (with its own gendisk) ontop -- 1000 devices
-with 4 paths can waste 5000 * 76bytes = ~372K (even 372K isn't much...)
+So NVMe target code needs to function in at least two different modes:
 
-If DM-core could support existing dynamic bip (albeit with more involved
-code born out of DM-specific quirks of device stacking and inactive and
-active tables) then I have to believe NVMe can too.
+- Direct mapping of nvme backend driver provided hw queues to nvme
+  fabric driver provided hw queues.
 
-As such I'm now going to shift my focus to revisiting what is so hard
-for NVMe that it cannot cope with the existing dynamic allocation of
-struct blk_integrity.
+- Decoding of NVMe command set for basic Read/Write/Flush I/O for 
+  submission to existing backend drivers (eg: iblock, fileio, rd_mcp)
 
-[If that turns out to be a waste of time (and NVMe/nvdimm/whatever would
-be needlessly inconvenienced) then I'll switch back to fixing DM to cope
-with this change.  But to be clear the current proposed DM changes
-_cannot_ go upstream.]
+With the former case, it's safe to assumes there to be anywhere from a
+very small amount of code involved, to no code involved for fast-path
+operation.
+
+For more involved logic like PR, ALUA, and EXTENDED_COPY, I think both
+modes will still mostly likely handle some aspects of this in software,
+and not entirely behind a backend nvme host hw interface.
+
+--nab
