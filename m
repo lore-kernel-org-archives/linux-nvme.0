@@ -1,22 +1,43 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 24 Sep 2015 13:51:33 +0000 (UTC)
-Subject: [PATCH 2/7] nvme: switch AEN processing to use
- blk_execute_rq_nowait
-In-Reply-To: <20150924133850.GA6350@lst.de>
-References: <1442860853-26447-1-git-send-email-hch@lst.de>
- <1442860853-26447-3-git-send-email-hch@lst.de>
- <alpine.LNX.2.00.1509232128470.23840@localhost.lm.intel.com>
- <20150924133850.GA6350@lst.de>
-Message-ID: <alpine.LNX.2.00.1509241346570.23840@localhost.lm.intel.com>
+From: a.hajda@samsung.com (Andrzej Hajda)
+Date: Thu, 24 Sep 2015 16:00:27 +0200
+Subject: [PATCH 19/19] block: nvme-scsi: make nvme_trans_get_blk_desc_len
+ return unsigned
+In-Reply-To: <1443103227-25612-1-git-send-email-a.hajda@samsung.com>
+References: <1443103227-25612-1-git-send-email-a.hajda@samsung.com>
+Message-ID: <1443103227-25612-20-git-send-email-a.hajda@samsung.com>
 
-On Thu, 24 Sep 2015, Christoph Hellwig wrote:
-> Unfortunately we really need to keep the struct request around to
-> avoid special casing AENs in the completion path.
->
-> Yigal, is there a nice easy way to trigger the CPU hotplug migration
-> through sysfs or another userspace interface?  I think I can solve
-> this without freeing the AEN early with a little more thought.
+The function returns always non-negative values.
 
-To take a cpu offline and trigger a removal:
+The problem has been detected using proposed semantic patch
+scripts/coccinelle/tests/assign_signed_to_unsigned.cocci [1].
 
-   echo 0 > /sys/devices/system/cpu/cpu1/online
+[1]: http://permalink.gmane.org/gmane.linux.kernel/2046107
+
+Signed-off-by: Andrzej Hajda <a.hajda at samsung.com>
+---
+Hi,
+
+To avoid problems with too many mail recipients I have sent whole
+patchset only to LKML. Anyway patches have no dependencies.
+
+Regards
+Andrzej
+---
+ drivers/block/nvme-scsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index e5a63f0..2d65e20 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -1091,7 +1091,7 @@ static int nvme_trans_fill_all_pages(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 					MODE_PAGE_INF_EXC_LEN);
+ }
+ 
+-static inline int nvme_trans_get_blk_desc_len(u8 dbd, u8 llbaa)
++static inline unsigned int nvme_trans_get_blk_desc_len(u8 dbd, u8 llbaa)
+ {
+ 	if (dbd == MODE_SENSE_BLK_DESC_ENABLED) {
+ 		/* SPC-4: len = 8 x Num_of_descriptors if llbaa = 0, 16x if 1 */
+-- 
+1.9.1
