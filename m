@@ -1,61 +1,19 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Thu, 24 Sep 2015 12:20:11 -0600
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 24 Sep 2015 19:23:27 +0000 (UTC)
 Subject: [PATCH] nvme: Add error checking in nvme_create_io_queues
-Message-ID: <1443118811-2153-1-git-send-email-jonathan.derrick@intel.com>
+In-Reply-To: <1443118811-2153-1-git-send-email-jonathan.derrick@intel.com>
+References: <1443118811-2153-1-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <alpine.LNX.2.00.1509241920360.23840@localhost.lm.intel.com>
 
-allow nvme_create_io_queues to return an error if the first io queue
-fails to be allocated or initialized
+On Thu, 24 Sep 2015, Jon Derrick wrote:
+> allow nvme_create_io_queues to return an error if the first io queue
+> fails to be allocated or initialized
 
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
----
- drivers/block/nvme-core.c | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+If the driver gets far enough to attempt creating IO queues, the device
+can be managed so I don't think we want to error out and bail on the
+device in this scenario, even though it is not IO capable.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index b97fc3f..e0ec139 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -2186,17 +2186,25 @@ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
- 	kfree(ns);
- }
- 
--static void nvme_create_io_queues(struct nvme_dev *dev)
-+static int nvme_create_io_queues(struct nvme_dev *dev)
- {
- 	unsigned i;
- 
- 	for (i = dev->queue_count; i <= dev->max_qid; i++)
--		if (!nvme_alloc_queue(dev, i, dev->q_depth))
-+		if (!nvme_alloc_queue(dev, i, dev->q_depth)) {
-+			if (dev->queue_count == 1)
-+				return -ENODEV;
- 			break;
-+		}
- 
- 	for (i = dev->online_queues; i <= dev->queue_count - 1; i++)
--		if (nvme_create_queue(dev->queues[i], i))
-+		if (nvme_create_queue(dev->queues[i], i)) {
-+			if (dev->online_queues == 1)
-+				return -ENODEV;
- 			break;
-+		}
-+
-+	return 0;
- }
- 
- static int set_queue_count(struct nvme_dev *dev, int count)
-@@ -2350,7 +2358,11 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 
- 	/* Free previously allocated queues that are no longer usable */
- 	nvme_free_queues(dev, nr_io_queues + 1);
--	nvme_create_io_queues(dev);
-+	result = nvme_create_io_queues(dev);
-+	if (result) {
-+		dev_warn(dev->dev, "Failed to create io queues\n");
-+		goto free_queues;
-+	}
- 
- 	return 0;
- 
--- 
-2.5.0
+> Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+> ---
+> drivers/block/nvme-core.c | 20 ++++++++++++++++----
+> 1 file changed, 16 insertions(+), 4 deletions(-)
