@@ -1,46 +1,46 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Fri, 25 Sep 2015 22:32:36 -0700
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sat, 26 Sep 2015 09:09:33 -0700
 Subject: [PATCH] Move nvme driver source into subdirectory and move pci
  specifics from core into separate file
-In-Reply-To: <20150925000251.GA25904@infradead.org>
+In-Reply-To: <1443193953.3304.18.camel@linux.intel.com>
 References: <1443130050.6973.125.camel@linux.intel.com>
  <20150925000251.GA25904@infradead.org>
-Message-ID: <CAF1ivSYwe41J+kEuna_VYQvHSLanZzx-qqOOQ3X9EzLWYK_bFQ@mail.gmail.com>
+ <1443193953.3304.18.camel@linux.intel.com>
+Message-ID: <20150926160933.GA30551@infradead.org>
 
-On Thu, Sep 24, 2015@5:02 PM, Christoph Hellwig <hch@infradead.org> wrote:
-> Hi J,
->
-> thanks for starting this important work, but I think we need to do
-> this in smaller steps.  This large patch does a few things at the same
-> time:
->
->  - move files to a new directory
->  - split data structures
->  - split files
->  - introduces a new internal API
->
-> Which need to be split over a few patches.  I'd suggest we start with
-> the easiest and most important parts first and then iterate through the
-> rest.
->
-> My suggestion would be:
->
->  a) move files to a new directory.  My suggestion for that would be
->     driver/nvme/host/ as I have a software NVMe controller
->     implementation under development which I'd like to also add under
->     a different subdirectory of drivers/nvme.
+On Fri, Sep 25, 2015@08:12:33AM -0700, J Freyensee wrote:
+> > My suggestion would be:
+> > 
+> >  a) move files to a new directory.  My suggestion for that would be
+> >     driver/nvme/host/ as I have a software NVMe controller
+> >     implementation under development which I'd like to also add under
+> >     a different subdirectory of drivers/nvme.
+> 
+> Would that directory be slightly confusing name as the split
+> implementation in this patch can still be used as the NVMe PCIe driver
+> for SSD devices inside a given computer (laptop, PC, etc)?  I have no
+> issue with the name, just posing a question.
 
-What's the "software NVMe controller"? Is it the initiator for NVMe
-over fabrics?
+Host is what the NVMe spec uses when referring to the computer housing
+the NVMe card, that's why I came up with it.  But I'm open for alternate
+suggestions.
 
->  b) start splitting struct nvme_dev into a generic struct nvme_ctrl
->     and a PCI-specific nvme_pci_ctrl
+> I can see that.  However we started with the split we had just out of
+> the concern for backwards compatibility and worry of breaking something
+> with the initial split.  There was the thought we can optimize some of
+> the operations and remove them on future patches on operations that we
+> know are safe to remove.
 
-Nice. I'll possibly have a virtio-specific nvme_virtio_ctrl.
+If you look at the NVMe spec we're basically down to two sort of
+operations: NVMe commands, and MMIO read/write access to the main
+BAR, so those seem the most important abstraction.  My nvme_command
+passthrough through struct request takes care of the first, so some
+{read,write}_bar_{32,64} ops seem to be most important ops.  Depending
+on how exactly the initialization path is structured there might be a
+frw more, but I'd tend towards duplicating a bit more in doubt there
+initially.
 
->
-> Based on that we can start thinking about an API and move the PCI code
-> to it's own file.  Note that most of your operations should not be
-> needed.  With my ongoing work we now have the nvme_submit*cmd* APIs
-> that give a nice separatation for anything related to NVMe commans,
-> so we'd just need abstractions for the BAR access.
+Note that I've done a pre-"NVMe over Fabrics" RDMA transport and a
+nvme-loop driver that directy injects commands from a front end
+driver into a virtual controller about a year ago, and both fit this
+scheme pretty well, as does the virtio-nvme code from Ming.
