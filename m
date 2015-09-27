@@ -1,23 +1,23 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sat, 26 Sep 2015 09:11:21 -0700
-Subject: [PATCH] Move nvme driver source into subdirectory and move pci
- specifics from core into separate file
-In-Reply-To: <CAF1ivSYwe41J+kEuna_VYQvHSLanZzx-qqOOQ3X9EzLWYK_bFQ@mail.gmail.com>
-References: <1443130050.6973.125.camel@linux.intel.com>
- <20150925000251.GA25904@infradead.org>
- <CAF1ivSYwe41J+kEuna_VYQvHSLanZzx-qqOOQ3X9EzLWYK_bFQ@mail.gmail.com>
-Message-ID: <20150926161121.GB30551@infradead.org>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Sat, 26 Sep 2015 18:34:19 -0700
+Subject: 4 Patch summary of PCIe re-arrangement of nvme code for future
+ technology expansion
+Message-ID: <1443317659.4357.22.camel@linux.intel.com>
 
-On Fri, Sep 25, 2015@10:32:36PM -0700, Ming Lin wrote:
-> >  a) move files to a new directory.  My suggestion for that would be
-> >     driver/nvme/host/ as I have a software NVMe controller
-> >     implementation under development which I'd like to also add under
-> >     a different subdirectory of drivers/nvme.
-> 
-> What's the "software NVMe controller"? Is it the initiator for NVMe
-> over fabrics?
+The four patch series following this email is based on a previous email
+thread and the following suggestion:
 
-It's a software implementation of the NVMe subsystem and controller
-interface.  It could be frontended by a future fabrics implementation,
-a virtio-nvme implementation, a nvme-loop implementation or with some
-additional work maybe even a Linux-based PCIe target device.
+ a) move files to a new directory.
+ b) start splitting struct nvme_dev into a generic struct nvme_ctrl
+    and a PCI-specific nvme_pci_ctrl
+
+The goal is still based on the previous patch submission (subject "Move
+nvme driver source into subdirectory and move pci specifics from core
+into separate file") which:
+
+ - moved files to a new directory
+ - split data structures
+ - split files
+ - introduced a new internal API
+
+to enable future technology expansion of the NVMe protocol.
