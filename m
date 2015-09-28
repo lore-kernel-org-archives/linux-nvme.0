@@ -1,26 +1,22 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 28 Sep 2015 14:35:10 +0000 (UTC)
-Subject: [PATCH] nvme: Add error checking in nvme_create_io_queues
-In-Reply-To: <20150928142317.GA29320@infradead.org>
-References: <1443118811-2153-1-git-send-email-jonathan.derrick@intel.com>
- <alpine.LNX.2.00.1509241920360.23840@localhost.lm.intel.com>
- <20150927063950.GA18398@infradead.org>
- <alpine.LNX.2.00.1509281345370.23840@localhost.lm.intel.com>
- <20150928142317.GA29320@infradead.org>
-Message-ID: <alpine.LNX.2.00.1509281427490.23840@localhost.lm.intel.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Mon, 28 Sep 2015 08:58:14 -0700
+Subject: [PATCH 1/4] nvme: move driver into subdirectory
+In-Reply-To: <20150927064104.GB18398@infradead.org>
+References: <1443317710.4357.25.camel@linux.intel.com>
+ <20150927064104.GB18398@infradead.org>
+Message-ID: <1443455894.2826.2.camel@linux.intel.com>
 
-On Mon, 28 Sep 2015, Christoph Hellwig wrote:
-> On Mon, Sep 28, 2015@01:50:23PM +0000, Keith Busch wrote:
->> A resume from S3/S4 will deadlock if we try to delete inaccessible
->> disks from the resume context, so using the work queue instead. There
->> is probably a better way to do this now that we probe asynchronously,
->> we can resume the same way.
->
-> Is this still the case with the nvme_io_incapable check in place?  What
-> are the symptoms?  Unfortunately I can't test PM easily on my test
-> systems with NVMe cards as they are all remotely managed server class
-> systems.
+On Sat, 2015-09-26@23:41 -0700, Christoph Hellwig wrote:
+> So, why not drivers/nvme/host?  As said I'm not dead set on the host
+> name, but having a drivers/nvme sounds useful with all the additional
+> nvme-related code we're going to get soon.
 
-Good point, I think that will work. I don't recall the exact sympotoms
-(it's been two years), but I believe related to the same deadlock.
-I'll try this out on a desktop system.
+Sorry for the mix up, yes, that sounds fine.  We can fix that.  I'm not
+dead-set on the name.  One of my colleagues may come up with something
+better.
+
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
