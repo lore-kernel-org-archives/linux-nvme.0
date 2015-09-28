@@ -1,24 +1,25 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 28 Sep 2015 10:26:29 -0700
-Subject: [PATCH 1/4] nvme: move driver into subdirectory
-In-Reply-To: <14D8B1FAF8567C4FBE58AB68AB695A9D9B8498D7@ORSMSX115.amr.corp.intel.com>
-References: <1443317710.4357.25.camel@linux.intel.com>
- <20150927064104.GB18398@infradead.org>
- <1443455894.2826.2.camel@linux.intel.com>
- <14D8B1FAF8567C4FBE58AB68AB695A9D9B8498D7@ORSMSX115.amr.corp.intel.com>
-Message-ID: <20150928172629.GA26554@infradead.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 28 Sep 2015 17:39:47 +0000 (UTC)
+Subject: [PATCH 04/10] blk-mq: kill undead requests during CPU hotplug
+ notify
+In-Reply-To: <1443380518-6829-5-git-send-email-hch@lst.de>
+References: <1443380518-6829-1-git-send-email-hch@lst.de>
+ <1443380518-6829-5-git-send-email-hch@lst.de>
+Message-ID: <alpine.LNX.2.00.1509281709460.23840@localhost.lm.intel.com>
 
-Hi Phil,
+On Sun, 27 Sep 2015, Christoph Hellwig wrote:
+> REQ_NO_TIMEOUT requests can linger out basically forever, so we need
+> to kill them before waiting for all requests to complete in the
+> hotplug CPU notification.  Note that we really should be doing an
+> abort here, but that will require much more invasive changes to allow
+> certain preemptable requests to be started while the queue has already
+> been frozen.  As this new code isn't any worse than the early request
+> freeing done currently by the nvme driver I'd like to get it in for now
+> and sort the full hornet's nest later.
 
-On Mon, Sep 28, 2015@04:06:13PM +0000, Cayton, Phil wrote:
-> Two questions:
-> 1. Since this is the block driver for NVMe why would we not put this under block (e.g., drivers/block/nvme)
+The command is still owned by the device and breaks if the controller
+happens to complete the command after a cpu hot event. This was 'ok'
+when the driver provided special completion handling.
 
-Because we mostly use that for simple block drivers.  Everything that
-is growing into a complex subsystems moves out, e.g. drivers/scsi,
-drivers/cdrom/, drivers/memstick, drivers/mmc, etc.
-
-> 2. Are we assuming any target code will go in this path as well?  Why would not any target code go under drivers/target?
-
-drivers/target is a SCSI target and a totally different codebase. In
-retrospective it really should have been drivers/scsi/target.
+We'd have to reset the controller to reliably recover the command,
+but that's a bit heavy handed.
