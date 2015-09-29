@@ -1,14 +1,33 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 29 Sep 2015 21:46:34 +0000 (UTC)
-Subject: Intel P3600 writes after hot add (RHEL7.1)
-In-Reply-To: <alpine.LNX.2.00.1509292129180.23840@localhost.lm.intel.com>
-References: <CA+At7pUsnjH__0bkcbS7TyaCxdnym0Du6takuuVe9c6jeoK-xQ@mail.gmail.com>
- <alpine.LNX.2.00.1509292129180.23840@localhost.lm.intel.com>
-Message-ID: <alpine.LNX.2.00.1509292144070.23840@localhost.lm.intel.com>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Wed, 30 Sep 2015 05:59:42 +0800
+Subject: [PATCH 0/3] blk-mq & nvme: introduce .map_changed
+In-Reply-To: <20150929070722.GA15110@lst.de>
+References: <1443496857-26887-1-git-send-email-tom.leiming@gmail.com>
+ <20150929070722.GA15110@lst.de>
+Message-ID: <CACVXFVP92ua+30AW_n7nDCH9rJjQgVENpiswxtTpU5QekbDNbQ@mail.gmail.com>
 
-On Tue, 29 Sep 2015, Keith Busch wrote:
-> The device is hot-added with a mismatched PCI-e Max Payload Size,
-> so data can only go one way: host -> device.
+On Tue, Sep 29, 2015@3:07 PM, Christoph Hellwig <hch@lst.de> wrote:
+> Hi Ming,
+>
+> from a quick gance this looks very useful.  Please split the callback
+> into two instead of overloading them with the bool mapped parameter.
 
-Correction, meant device -> host; reads succeed in this scenario, but
-writes will not.
+The mapped parameter can be removed since it can be figured out by
+checking 'hctx->tags'.
+
+IMO, it isn't good to split it into two callback, such as,
+map_activate/map_deactivate or other names, and the two callback
+can't be symmetrical at all.  When CPU hotplug happened, it is just
+the mapping changed, neigher setuping nor tearing down since it is
+1:N mapping between hw queue and percpu sw queue.
+
+So I suggest to keep it as .map_changed(), or do you have better idea?
+
+>
+> Please keep Akinobu Mita in the loop, as this should go on top of his blk-mq
+> fixes.
+
+OK.
+
+-- 
+Ming Lei
