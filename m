@@ -1,47 +1,34 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 29 Sep 2015 20:03:06 +0000 (UTC)
-Subject: [PATCH] NVMe: Prevent bogus synchronous IO command timeouts.
-In-Reply-To: <BL2PR04MB163B7D4ED51C81B2A964344924E0@BL2PR04MB163.namprd04.prod.outlook.com>
-References: <BL2PR04MB163B7D4ED51C81B2A964344924E0@BL2PR04MB163.namprd04.prod.outlook.com>
-Message-ID: <alpine.LNX.2.00.1509291952040.23840@localhost.lm.intel.com>
+From: jcagle@gmail.com (j cagle)
+Date: Tue, 29 Sep 2015 16:23:50 -0500
+Subject: Intel P3600 writes after hot add (RHEL7.1)
+Message-ID: <CA+At7pUsnjH__0bkcbS7TyaCxdnym0Du6takuuVe9c6jeoK-xQ@mail.gmail.com>
 
-On Tue, 29 Sep 2015, Jeffrey Lien wrote:
-> Attached the patch since I can't get it sent via send-email.
+I'm having a problem with 2.5" Intel P3600 & P3700 Series NVMe drives
+with RHEL7.1.
 
-If possible, you will want to remove the confidentiality disclaimer from
-emails to public lists.
+I can quiesce the drive, then hot-remove it, and there's no problem.
 
-On your patch, I think it will be very bad for performance. We can
-achieve the protection you're going for without spinlocks and use memory
-barriers instead. What do you think for the following?
+I can then hot-add it and it is discovered properly - no problem.
 
----
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 78e51c2..2d21827 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -200,9 +200,10 @@ static int alloc_cmdid(struct nvme_queue *nvmeq, void *ctx,
-  	} while (test_and_set_bit(cmdid, nvmeq->cmdid_data));
+Then I can read from the drive, again - no problem.
 
-  	info[cmdid].fn = handler;
--	info[cmdid].ctx = ctx;
-  	info[cmdid].timeout = jiffies + timeout;
-  	info[cmdid].aborted = 0;
-+	wmb();
-+	info[cmdid].ctx = ctx;
-  	return cmdid;
-  }
+The problem is that the server crashes (PCIe unrecoverable error) as
+soon as I attempt to write anything to the drive:
 
-@@ -1354,9 +1355,9 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
-  			.status = cpu_to_le16(NVME_SC_ABORT_REQ << 1),
-  		};
+[ 9838.102041] {1}[Hardware Error]: event severity: fatal
+[ 9838.102042] {1}[Hardware Error]:  Error 0, type: fatal
+[ 9838.102042] {1}[Hardware Error]:   section_type: PCIe error
+[ 9838.102043] {1}[Hardware Error]:   port_type: 0, PCIe end point
+[ 9838.102043] {1}[Hardware Error]:   version: 1.16
+[ 9838.102044] {1}[Hardware Error]:   command: 0x0406, status: 0x0010
+[ 9838.102045] {1}[Hardware Error]:   device_id: 0000:84:00.0
+[ 9838.102045] {1}[Hardware Error]:   slot: 0
+[ 9838.102045] {1}[Hardware Error]:   secondary_bus: 0x00
+[ 9838.102046] {1}[Hardware Error]:   vendor_id: 0x8086, device_id: 0x0953
+[ 9838.102046] {1}[Hardware Error]:   class_code: 020801
+[ 9838.102062] Kernel panic - not syncing: Fatal hardware error!
 
--		if (timeout && !time_after(now, info[cmdid].timeout))
-+		if (info[cmdid].ctx == CMD_CTX_CANCELLED || info[cmdid].ctx == CMD_CTX_COMPLETED)
-  			continue;
--		if (info[cmdid].ctx == CMD_CTX_CANCELLED)
-+		if (timeout && !time_after(now, info[cmdid].timeout))
-  			continue;
-  		if (timeout && info[cmdid].ctx == CMD_CTX_ASYNC)
-  			continue;
---
+Has anyone seen this error before?
+
+Thanks,
+John
