@@ -1,117 +1,99 @@
 From: tom.leiming@gmail.com (Ming Lei)
-Date: Tue, 29 Sep 2015 11:20:56 +0800
-Subject: [PATCH 2/3] block: nvme: use map_changed to set irq affinity hint
+Date: Tue, 29 Sep 2015 11:20:57 +0800
+Subject: [PATCH 3/3] blk-mq: remove cpumask from 'struct blk_mq_tags'
 In-Reply-To: <1443496857-26887-1-git-send-email-tom.leiming@gmail.com>
 References: <1443496857-26887-1-git-send-email-tom.leiming@gmail.com>
-Message-ID: <1443496857-26887-3-git-send-email-tom.leiming@gmail.com>
+Message-ID: <1443496857-26887-4-git-send-email-tom.leiming@gmail.com>
 
-This patch uses the .map_changed callback to set irq affinity
-hint, then the irq affinity can be updated when CPU topo
-is changed.
+The 'cpumask' of 'struct blk_mq_tags' is introduced to set
+the irq affinity of NVMe queue, but now we have introduced
+.map_changed callback which can cover the use case and looks
+more flexible.
 
 Signed-off-by: Ming Lei <tom.leiming at gmail.com>
 ---
- drivers/block/nvme-core.c | 53 ++++++++++++++++++++++++++++++-----------------
- 1 file changed, 34 insertions(+), 19 deletions(-)
+ block/blk-mq-tag.c     |  5 -----
+ block/blk-mq-tag.h     |  1 -
+ block/blk-mq.c         | 11 +----------
+ include/linux/blk-mq.h |  1 -
+ 4 files changed, 1 insertion(+), 17 deletions(-)
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index b97fc3f..cac16a6f 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -105,6 +105,8 @@ struct nvme_queue {
- 	struct device *q_dmadev;
- 	struct nvme_dev *dev;
- 	char irqname[24];	/* nvme4294967295-65535\0 */
-+	unsigned long mapped:1;
-+	unsigned long irq_affinity_set:1;
- 	spinlock_t q_lock;
- 	struct nvme_command *sq_cmds;
- 	struct nvme_command __iomem *sq_cmds_io;
-@@ -232,6 +234,37 @@ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
- 	return 0;
- }
+diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+index 9115c6d..931b62d 100644
+--- a/block/blk-mq-tag.c
++++ b/block/blk-mq-tag.c
+@@ -613,11 +613,6 @@ struct blk_mq_tags *blk_mq_init_tags(unsigned int total_tags,
+ 	if (!tags)
+ 		return NULL;
  
-+/*
-+ * Since namespaces shared tagset and the 'hctx' with same
-+ * index shared one same nvme queue & tag, also the mapping
-+ * between sw queue and hw queue is global and only depends
-+ * on CPUs topo, this callback only sets irq affinity once
-+ * by using the cpumask from one of hctx.
-+ * */
-+static void nvme_map_changed(struct blk_mq_hw_ctx *hctx,
-+		unsigned int hctx_idx, bool mapped)
-+{
-+	struct nvme_queue *nvmeq = hctx->driver_data;
-+	struct nvme_dev *dev = nvmeq->dev;
-+	unsigned int irq;
-+
-+	if (nvmeq->mapped != mapped)
-+		nvmeq->irq_affinity_set = 0;
-+
-+	nvmeq->mapped = mapped;
-+
-+	if (nvmeq->irq_affinity_set)
-+		return;
-+
-+	irq = dev->entry[nvmeq->cq_vector].vector;
-+	if (mapped)
-+		irq_set_affinity_hint(irq, hctx->cpumask);
-+	else
-+		irq_set_affinity_hint(irq, NULL);
-+
-+	nvmeq->irq_affinity_set = 1;
-+}
-+
- static int nvme_init_request(void *data, struct request *req,
- 				unsigned int hctx_idx, unsigned int rq_idx,
- 				unsigned int numa_node)
-@@ -1664,6 +1697,7 @@ static struct blk_mq_ops nvme_mq_ops = {
- 	.queue_rq	= nvme_queue_rq,
- 	.map_queue	= blk_mq_map_queue,
- 	.init_hctx	= nvme_init_hctx,
-+	.map_changed    = nvme_map_changed,
- 	.init_request	= nvme_init_request,
- 	.timeout	= nvme_timeout,
- };
-@@ -2953,22 +2987,6 @@ static const struct file_operations nvme_dev_fops = {
- 	.compat_ioctl	= nvme_dev_ioctl,
- };
- 
--static void nvme_set_irq_hints(struct nvme_dev *dev)
--{
--	struct nvme_queue *nvmeq;
--	int i;
--
--	for (i = 0; i < dev->online_queues; i++) {
--		nvmeq = dev->queues[i];
--
--		if (!nvmeq->tags || !(*nvmeq->tags))
--			continue;
--
--		irq_set_affinity_hint(dev->entry[nvmeq->cq_vector].vector,
--					blk_mq_tags_cpumask(*nvmeq->tags));
+-	if (!zalloc_cpumask_var(&tags->cpumask, GFP_KERNEL)) {
+-		kfree(tags);
+-		return NULL;
 -	}
--}
 -
- static int nvme_dev_start(struct nvme_dev *dev)
- {
- 	int result;
-@@ -3010,8 +3028,6 @@ static int nvme_dev_start(struct nvme_dev *dev)
- 	if (result)
- 		goto free_tags;
+ 	tags->nr_tags = total_tags;
+ 	tags->nr_reserved_tags = reserved_tags;
  
--	nvme_set_irq_hints(dev);
--
- 	dev->event_limit = 1;
- 	return result;
+diff --git a/block/blk-mq-tag.h b/block/blk-mq-tag.h
+index 9eb2cf4..d5a9612 100644
+--- a/block/blk-mq-tag.h
++++ b/block/blk-mq-tag.h
+@@ -44,7 +44,6 @@ struct blk_mq_tags {
+ 	struct list_head page_list;
  
-@@ -3062,7 +3078,6 @@ static int nvme_dev_resume(struct nvme_dev *dev)
- 	} else {
- 		nvme_unfreeze_queues(dev);
- 		nvme_dev_add(dev);
--		nvme_set_irq_hints(dev);
+ 	int alloc_policy;
+-	cpumask_var_t cpumask;
+ };
+ 
+ 
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 181e438..8196011 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1811,7 +1811,6 @@ static void blk_mq_map_swqueue(struct request_queue *q)
+ 
+ 		hctx = q->mq_ops->map_queue(q, i);
+ 		cpumask_set_cpu(i, hctx->cpumask);
+-		cpumask_set_cpu(i, hctx->tags->cpumask);
+ 		ctx->index_hw = hctx->nr_ctx;
+ 		hctx->ctxs[hctx->nr_ctx++] = ctx;
  	}
+@@ -2198,12 +2197,6 @@ static int blk_mq_alloc_rq_maps(struct blk_mq_tag_set *set)
  	return 0;
  }
+ 
+-struct cpumask *blk_mq_tags_cpumask(struct blk_mq_tags *tags)
+-{
+-	return tags->cpumask;
+-}
+-EXPORT_SYMBOL_GPL(blk_mq_tags_cpumask);
+-
+ /*
+  * Alloc a tag set to be associated with one or more request queues.
+  * May fail with EINVAL for various error conditions. May adjust the
+@@ -2265,10 +2258,8 @@ void blk_mq_free_tag_set(struct blk_mq_tag_set *set)
+ 	int i;
+ 
+ 	for (i = 0; i < set->nr_hw_queues; i++) {
+-		if (set->tags[i]) {
++		if (set->tags[i])
+ 			blk_mq_free_rq_map(set, set->tags[i], i);
+-			free_cpumask_var(set->tags[i]->cpumask);
+-		}
+ 	}
+ 
+ 	kfree(set->tags);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index a4a7433..79d4aaf 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -190,7 +190,6 @@ bool blk_mq_can_queue(struct blk_mq_hw_ctx *);
+ struct request *blk_mq_alloc_request(struct request_queue *q, int rw,
+ 		gfp_t gfp, bool reserved);
+ struct request *blk_mq_tag_to_rq(struct blk_mq_tags *tags, unsigned int tag);
+-struct cpumask *blk_mq_tags_cpumask(struct blk_mq_tags *tags);
+ 
+ enum {
+ 	BLK_MQ_UNIQUE_TAG_BITS = 16,
 -- 
 1.9.1
