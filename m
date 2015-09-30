@@ -1,49 +1,57 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Wed, 30 Sep 2015 08:08:07 +0800
-Subject: [PATCH 0/3] blk-mq & nvme: introduce .map_changed
-In-Reply-To: <alpine.LNX.2.00.1509292240250.23840@localhost.lm.intel.com>
-References: <1443496857-26887-1-git-send-email-tom.leiming@gmail.com>
- <alpine.LNX.2.00.1509291418270.23840@localhost.lm.intel.com>
- <560AA46A.9060205@kernel.dk>
- <CACVXFVNQAO0rPQ_S4VWiywqa=7vzzAeoS7fN5ENw55DyL4Hzcw@mail.gmail.com>
- <alpine.LNX.2.00.1509292240250.23840@localhost.lm.intel.com>
-Message-ID: <CACVXFVMMirA+5dMSK2TyRq4HMfOGBpHBcme5MfLx9iQF25tXWg@mail.gmail.com>
+From: Jeff.Lien@hgst.com (Jeffrey Lien)
+Date: Wed, 30 Sep 2015 14:45:30 +0000
+Subject: [PATCH] NVMe: Prevent bogus synchronous IO command timeouts.
+In-Reply-To: <alpine.LNX.2.00.1509291952040.23840@localhost.lm.intel.com>
+References: <BL2PR04MB163B7D4ED51C81B2A964344924E0@BL2PR04MB163.namprd04.prod.outlook.com>
+ <alpine.LNX.2.00.1509291952040.23840@localhost.lm.intel.com>
+Message-ID: <BL2PR04MB163C7FAAC14DFE4779DD203924D0@BL2PR04MB163.namprd04.prod.outlook.com>
 
-On Wed, Sep 30, 2015@6:45 AM, Keith Busch <keith.busch@intel.com> wrote:
-> On Tue, 29 Sep 2015, Ming Lei wrote:
->>
->> Yes, I thought of that before, but it has the following cons:
->>
->> - some drivers/devices may need different IRQ affinity policy, such as
->> virtio
->> devices which has its own set affinity handler(see
->> virtqueue_set_affinity()),
->
->
-> That's not a very good example to support your cause; virtio_scsi's use
-> is a perfect example for one that would benefit from letting blk-mq
-> handle affinity. virtio_scsi sets affinity only when there is a 1:1
-> mapping of cpu's to queue's, but this driver doesn't know the mapping
-> that blk-mq used, creating a potentially less than optimal mapping.
+Keith,
+This looks like a much simpler fix with less impact on performance.   I'll do some testing of it to verify it indeed resolves the problem we were seeing.  I'll let you know how it goes in a day or 2.   Thanks.  
 
-The 1:1 mapping is introduced before blk-mq, and that doesn't mean we
-have to do that for blk-mq.
+-----Original Message-----
+From: Keith Busch [mailto:keith.busch@intel.com] 
+Sent: Tuesday, September 29, 2015 3:03 PM
+To: Jeffrey Lien <Jeff.Lien at hgst.com>
+Cc: Busch, Keith <keith.busch at intel.com>; linux-nvme at lists.infradead.org
+Subject: Re: [PATCH] NVMe: Prevent bogus synchronous IO command timeouts.
 
-Actualy I mean virtio-scsi just lets the 1st CPU of the cpumask handle
-the virt-queue's irq, instead of all CPUs mapped to the hw queue(virt-queue).
+On Tue, 29 Sep 2015, Jeffrey Lien wrote:
+> Attached the patch since I can't get it sent via send-email.
 
->
->> - block core has to get the irq vector information which has to be
->> setup/finalized
->> before blk-mq uses that for setting irq affinity, for example, in case
->> NVMe's admin
->> queue, its vector can be changed after admin queue's initialization.
->
->
-> Why do you want to put a hint on the admin queue's irq?
+If possible, you will want to remove the confidentiality disclaimer from emails to public lists.
 
-No, I don't want, and it is just a example, I mean other drivers/devices
-may have this kind of situation too.
+On your patch, I think it will be very bad for performance. We can achieve the protection you're going for without spinlocks and use memory barriers instead. What do you think for the following?
 
--- 
-Ming Lei
+---
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c index 78e51c2..2d21827 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -200,9 +200,10 @@ static int alloc_cmdid(struct nvme_queue *nvmeq, void *ctx,
+  	} while (test_and_set_bit(cmdid, nvmeq->cmdid_data));
+
+  	info[cmdid].fn = handler;
+-	info[cmdid].ctx = ctx;
+  	info[cmdid].timeout = jiffies + timeout;
+  	info[cmdid].aborted = 0;
++	wmb();
++	info[cmdid].ctx = ctx;
+  	return cmdid;
+  }
+
+@@ -1354,9 +1355,9 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
+  			.status = cpu_to_le16(NVME_SC_ABORT_REQ << 1),
+  		};
+
+-		if (timeout && !time_after(now, info[cmdid].timeout))
++		if (info[cmdid].ctx == CMD_CTX_CANCELLED || info[cmdid].ctx == 
++CMD_CTX_COMPLETED)
+  			continue;
+-		if (info[cmdid].ctx == CMD_CTX_CANCELLED)
++		if (timeout && !time_after(now, info[cmdid].timeout))
+  			continue;
+  		if (timeout && info[cmdid].ctx == CMD_CTX_ASYNC)
+  			continue;
+--
+HGST E-mail Confidentiality Notice & Disclaimer:
+This e-mail and any files transmitted with it may contain confidential or legally privileged information of HGST and are intended solely for the use of the individual or entity to which they are addressed. If you are not the intended recipient, any disclosure, copying, distribution or any action taken or omitted to be taken in reliance on it, is prohibited.  If you have received this e-mail in error, please notify the sender immediately and delete the e-mail in its entirety from your system.
