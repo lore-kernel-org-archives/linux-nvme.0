@@ -1,38 +1,36 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 30 Sep 2015 15:32:40 +0000 (UTC)
-Subject: Deadlock on Fast hotplug with NVMe drives
-In-Reply-To: <CAPYzm7TRasa6xKtHp=41bD-3DQx1fo5YeT1Zc7CQjaj69AA8ZQ@mail.gmail.com>
-References: <CAPYzm7TRasa6xKtHp=41bD-3DQx1fo5YeT1Zc7CQjaj69AA8ZQ@mail.gmail.com>
-Message-ID: <alpine.LNX.2.00.1509301528120.23840@localhost.lm.intel.com>
+From: linux@rasmusvillemoes.dk (Rasmus Villemoes)
+Date: Wed, 30 Sep 2015 21:48:50 +0200
+Subject: [PATCH] block: nvme-scsi: use kzalloc in nvme_trans_ext_inq_page()
+Message-ID: <1443642530-2573-1-git-send-email-linux@rasmusvillemoes.dk>
 
-On Wed, 30 Sep 2015, Mohana Goli wrote:
-> Hi Keith,
->
-> I am seeing a kernel freeze ,a possible deadlock when i do hot
-> plug/unplug with NVMe drives.
-> I have observed that after hot adding the drive,if we remove within 3
-> secs Kernel simply freezes.
-> Observations:
->
-> 1. nvme_dev_scan ,worker  is taking around 2.2 secs when  hot added the device.
-> 2. If the device is removed, once scan_work is completed,no issue is seen.
-> 3. If the device is removed while scan work is going,remove worker
-> thread and scan worker thread both are deadlocked.
-> 4. I induced kernel panic when this issue happens,i see remove worker
-> is waiting on scan_work to complete and scan_worker is struck while
-> adding disk
-> 5. nvme_dev_scan completes in less than a second if the device is
-> already present and if i do unload and load of the driver.This could
-> be because the drive is
->   already powered up and ready to service the IOs,where as in
-> hot-added device case drive firmware needs to be up before servicing
-> the IOs.
-> 6.This is easily reproducible on my setup.
->
-> As of now i do not have why this is happening.If you have any comments
-> please let me know on this issue.
+This saves a little .text and is consistent with similar allocations
+in the rest of the file.
 
-Thanks for the notice. The IO should timeout and trigger the recovery
-action, which cancels all commands and disables the request queues. If
-that's not happening, something is broken. Please let me know if you
-find anything, and I'll look into it as well.
+Signed-off-by: Rasmus Villemoes <linux at rasmusvillemoes.dk>
+---
+ drivers/block/nvme-scsi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/block/nvme-scsi.c b/drivers/block/nvme-scsi.c
+index e5a63f06fb0f..efe562b81127 100644
+--- a/drivers/block/nvme-scsi.c
++++ b/drivers/block/nvme-scsi.c
+@@ -684,7 +684,7 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	u8 v_sup;
+ 	u8 luiclr = 0x01;
+ 
+-	inq_response = kmalloc(EXTENDED_INQUIRY_DATA_PAGE_LENGTH, GFP_KERNEL);
++	inq_response = kzalloc(EXTENDED_INQUIRY_DATA_PAGE_LENGTH, GFP_KERNEL);
+ 	if (inq_response == NULL)
+ 		return -ENOMEM;
+ 
+@@ -712,7 +712,6 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	v_sup = id_ctrl->vwc;
+ 	kfree(id_ctrl);
+ 
+-	memset(inq_response, 0, EXTENDED_INQUIRY_DATA_PAGE_LENGTH);
+ 	inq_response[1] = INQ_EXTENDED_INQUIRY_DATA_PAGE;    /* Page Code */
+ 	inq_response[2] = 0x00;    /* Page Length MSB */
+ 	inq_response[3] = 0x3C;    /* Page Length LSB */
+-- 
+2.1.3
