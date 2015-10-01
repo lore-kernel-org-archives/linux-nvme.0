@@ -1,45 +1,38 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Mon, 30 Nov 2015 15:20:39 -0800
-Subject: [RFC PATCH 0/9] vhost-nvme: new qemu nvme backend using nvme
- target
-In-Reply-To: <56531F5F.3050709@redhat.com>
-References: <1447978868-17138-1-git-send-email-mlin@kernel.org>
- <56506D95.70101@redhat.com> <1448266667.18175.5.camel@hasee>
- <56531F5F.3050709@redhat.com>
-Message-ID: <1448925639.27669.7.camel@ssi>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 1 Oct 2015 00:39:51 -0700
+Subject: [PATCH 04/10] blk-mq: kill undead requests during CPU hotplug
+ notify
+In-Reply-To: <alpine.LNX.2.00.1509281758200.23840@localhost.lm.intel.com>
+References: <1443380518-6829-1-git-send-email-hch@lst.de>
+ <1443380518-6829-5-git-send-email-hch@lst.de>
+ <alpine.LNX.2.00.1509281709460.23840@localhost.lm.intel.com>
+ <20150928174648.GA2136@lst.de>
+ <alpine.LNX.2.00.1509281758200.23840@localhost.lm.intel.com>
+Message-ID: <20151001073951.GA1989@infradead.org>
 
-On Mon, 2015-11-23@15:14 +0100, Paolo Bonzini wrote:
+On Mon, Sep 28, 2015@06:15:47PM +0000, Keith Busch wrote:
+> >My impression was that's it's flakey to broken already and we don't
+> >change that situation.  With my changes we'll mark it as completed
+> >and if the command comes in during the small hotplug CPU window the
+> >completion handler will see it already completed and ignore the
+> >actual hardware completion.
 > 
-> On 23/11/2015 09:17, Ming Lin wrote:
-> > On Sat, 2015-11-21@14:11 +0100, Paolo Bonzini wrote:
-> >>
-> >> On 20/11/2015 01:20, Ming Lin wrote:
-> >>> One improvment could be to use google's NVMe vendor extension that
-> >>> I send in another thread, aslo here:
-> >>> https://git.kernel.org/cgit/linux/kernel/git/mlin/linux.git/log/?h=nvme-google-ext
-> >>>
-> >>> Qemu side:
-> >>> http://www.minggr.net/cgit/cgit.cgi/qemu/log/?h=vhost-nvme.0
-> >>> Kernel side also here:
-> >>> https://git.kernel.org/cgit/linux/kernel/git/mlin/linux.git/log/?h=vhost-nvme.0
-> >>
-> >> How much do you get with vhost-nvme plus vendor extension, compared to
-> >> 190 MB/s for QEMU?
-> > 
-> > There is still some bug. I'll update.
+> It's not only during the window that there is a problem. Without
+> a controller reset, the driver and drive will be permanently out of
+> sync with the block layer after a hot cpu event, so we'll never have a
+> successful async event notification.
 > 
-> Sure.
+> Yes, the original was a kludge, but worked.
+> 
+> It'd be really cool if we can run the blk-mq cpu mapping on unfrozen
+> queues. It doesn't look safe, though.
 
-Fixed it after Thanksgiving holiday :)
-https://git.kernel.org/cgit/linux/kernel/git/mlin/linux.git/log/?h=vhost-nvme.0-ext
+I've looked into AENs a it more, and the situation is worse than I
+though:  AENs can't even be aborted on most devices I have access to
+(after hacking the driver to allow aborts on admin commands), so
+we can't even cancel them on a queue freeze.
 
-Combined with previous test results(lower to higher):
-
-qemu-nvme: 148MB/s
-vhost-nvme + google-ext: 230MB/s
-qemu-nvme + google-ext + eventfd: 294MB/s
-virtio-scsi: 296MB/s
-virtio-blk: 344MB/s
-
-"vhost-nvme + google-ext" didn't get good enough performance.
-Still tuning.
+So I'm goint to look into moving them entirely into the nvme driver
+and remove the REQ_NO_TIMEOUT hacks in the block layer.  Given that we
+only have on of AEN request, and it as a fixed tag number there
+shouldn't be any need to abuse blk-mq as a tag allocator for them.
