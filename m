@@ -1,24 +1,34 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 2 Oct 2015 21:36:26 +0000 (UTC)
-Subject: [PATCH 6/7] nvme: properly handle partially initialized queues
- in nvme_create_io_queues
-In-Reply-To: <1443808699-4738-7-git-send-email-hch@lst.de>
-References: <1443808699-4738-1-git-send-email-hch@lst.de>
- <1443808699-4738-7-git-send-email-hch@lst.de>
-Message-ID: <alpine.LNX.2.00.1510022129280.23840@localhost.lm.intel.com>
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Sat, 03 Oct 2015 07:35:09 +1000
+Subject: [PATCH 0/5 v2] Fix NVMe driver support on Power with 32-bit DMA
+In-Reply-To: <20151002210435.GM8040@linux.vnet.ibm.com>
+References: <20151002171606.GA41011@linux.vnet.ibm.com>
+ <20151002200953.GB40695@linux.vnet.ibm.com>
+ <1443819066.27295.19.camel@kernel.crashing.org>
+ <20151002210435.GM8040@linux.vnet.ibm.com>
+Message-ID: <1443821709.27295.20.camel@kernel.crashing.org>
 
-On Fri, 2 Oct 2015, Christoph Hellwig wrote:
-> This avoids having to clean up later in a seemingly unrelated place.
->
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+On Fri, 2015-10-02@14:04 -0700, Nishanth Aravamudan wrote:
+> Right, I did start with your advice and tried that approach, but it
+> turned out I was wrong about the actual issue at the time. The problem
+> for NVMe isn't actually the starting address alignment (which it can
+> handle not being aligned to the device's page size). It doesn't handle
+> (addr + len % dev_page_size != 0). That is, it's really a length
+> alignment issue.
+> 
+> It seems incredibly device specific to have a an API into the DMA code
+> to request an end alignment -- no other device seems to have this
+> issue/design. If you think that's better, I can fiddle with that
+> instead.
+> 
+> Sorry, I should have called this out better as an alternative
+> consideration.
 
-Somewhat related to this area of code but not a new concern, I think we're
-in trouble if the controller resets after we have active request_queue,
-but controller allows fewer IO queues than originally configured with
-the blk-mq tagset. On the other hand, we don't have a way to provide
-additional IO queues to the tagset after a reset either, so I think we
-need a new blk-mq API to notify it of changes to number of h/w contexts.
+Nah it's fine. Ok. Also adding the alignment requirement to the API
+would have been a much more complex patch since it would have had to
+be implemented for all archs.
 
-This part looks good.
+I think your current solution is fine.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Cheers,
+Ben.
