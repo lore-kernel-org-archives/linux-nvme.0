@@ -1,23 +1,15 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 2 Oct 2015 15:48:58 +0000 (UTC)
-Subject: nvme header reshuffle
-In-Reply-To: <1443794643-12730-1-git-send-email-hch@lst.de>
-References: <1443794643-12730-1-git-send-email-hch@lst.de>
-Message-ID: <alpine.LNX.2.00.1510021546580.23840@localhost.lm.intel.com>
+Date: Fri, 2 Oct 2015 15:51:42 +0000 (UTC)
+Subject: [PATCH] NVMe: Prevent bogus synchronous IO command timeouts.
+In-Reply-To: <BL2PR04MB16324D2BC07BFAA67D0D12E924B0@BL2PR04MB163.namprd04.prod.outlook.com>
+References: <BL2PR04MB163B7D4ED51C81B2A964344924E0@BL2PR04MB163.namprd04.prod.outlook.com>
+ <alpine.LNX.2.00.1509291952040.23840@localhost.lm.intel.com>
+ <BL2PR04MB163C7FAAC14DFE4779DD203924D0@BL2PR04MB163.namprd04.prod.outlook.com>
+ <BL2PR04MB16324D2BC07BFAA67D0D12E924B0@BL2PR04MB163.namprd04.prod.outlook.com>
+Message-ID: <alpine.LNX.2.00.1510021551120.23840@localhost.lm.intel.com>
 
-On Fri, 2 Oct 2015, Christoph Hellwig wrote:
-> This series reworks the header organisation in the nvme driver.  Currently
-> there are two headers: include/uapi/linux/nvme.h, which contains the ioctl
-> ABI and a lot of hardware description constants and include/linux/nvme.h
-> which contains more hardware descriptions constants as well as driver
-> internals.
->
-> This series splits them into one header each for the ioctl ABI, hardware
-> descr?ption and driver internals.
+On Fri, 2 Oct 2015, Jeffrey Lien wrote:
+> Keith,
+> I wasn't able to recreate the original failure with your version of the fix so I'd say it's good to go.  Are you going to push your modified fix into the legacy tree then?
 
-Thanks, looks good. There are some clashes with my most recent series,
-but happy to sort it out as things merge.
-
-For the series,
-
-Acked-by: Keith Busch <keith.busch at intel.com>
+Great, thanks! Will apply to the legacy repo today.
