@@ -1,60 +1,48 @@
-From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
-Date: Fri, 2 Oct 2015 13:30:22 -0700
-Subject: [PATCH 5/5 v2] drivers/nvme: default to the IOMMU page size
+From: lkp@intel.com (kbuild test robot)
+Date: Sat, 3 Oct 2015 04:33:00 +0800
+Subject: [PATCH 4/5 v2] pseries/iommu: implement DDW-aware
+ dma_get_page_shift
 In-Reply-To: <20151002202151.GJ8040@linux.vnet.ibm.com>
-References: <20151002171606.GA41011@linux.vnet.ibm.com>
- <20151002200953.GB40695@linux.vnet.ibm.com>
- <20151002201142.GC40695@linux.vnet.ibm.com>
- <20151002201647.GH8040@linux.vnet.ibm.com>
- <20151002201914.GI8040@linux.vnet.ibm.com>
- <20151002202151.GJ8040@linux.vnet.ibm.com>
-Message-ID: <20151002203022.GK8040@linux.vnet.ibm.com>
+Message-ID: <201510030421.d9fvrbXU%fengguang.wu@intel.com>
 
-We received a bug report recently when DDW (64-bit direct DMA on Power)
-is not enabled for NVMe devices. In that case, we fall back to 32-bit
-DMA via the IOMMU, which is always done via 4K TCEs (Translation Control
-Entries).
+Hi Nishanth,
 
-The NVMe device driver, though, assumes that the DMA alignment for the
-PRP entries will match the device's page size, and that the DMA aligment
-matches the kernel's page aligment. On Power, the the IOMMU page size,
-as mentioned above, can be 4K, while the device can have a page size of
-8K, while the kernel has a page size of 64K. This eventually trips the
-BUG_ON in nvme_setup_prps(), as we have a 'dma_len' that is a multiple
-of 4K but not 8K (e.g., 0xF000).
+[auto build test results on v4.3-rc3 -- if it's inappropriate base, please ignore]
 
-In this particular case of page sizes, we clearly want to use the
-IOMMU's page size in the driver. And generally, the NVMe driver in this
-function should be using the IOMMU's page size for the default device
-page size, rather than the kernel's page size.
+config: powerpc-defconfig (attached as .config)
+reproduce:
+        wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        make.cross ARCH=powerpc 
 
-With this patch, a NVMe device survives our internal hardware
-exerciser; the kernel BUGs within a few seconds without the patch.
+All error/warnings (new ones prefixed by >>):
+
+   arch/powerpc/platforms/pseries/iommu.c: In function 'iommu_init_early_pSeries':
+>> arch/powerpc/platforms/pseries/iommu.c:1433:9: error: 'struct machdep_calls' has no member named 'dma_get_page_shift'
+      ppc_md.dma_get_page_shift = dma_get_page_shift_pSeriesLP;
+            ^
+
+vim +1433 arch/powerpc/platforms/pseries/iommu.c
+
+  1427	
+  1428		if (firmware_has_feature(FW_FEATURE_LPAR)) {
+  1429			pseries_pci_controller_ops.dma_bus_setup = pci_dma_bus_setup_pSeriesLP;
+  1430			pseries_pci_controller_ops.dma_dev_setup = pci_dma_dev_setup_pSeriesLP;
+  1431			ppc_md.dma_set_mask = dma_set_mask_pSeriesLP;
+  1432			ppc_md.dma_get_required_mask = dma_get_required_mask_pSeriesLP;
+> 1433			ppc_md.dma_get_page_shift = dma_get_page_shift_pSeriesLP;
+  1434		} else {
+  1435			pseries_pci_controller_ops.dma_bus_setup = pci_dma_bus_setup_pSeries;
+  1436			pseries_pci_controller_ops.dma_dev_setup = pci_dma_dev_setup_pSeries;
 
 ---
-v1 -> v2:
-  Based upon feedback from Christoph Hellwig, implement the IOMMU page
-  size lookup as a generic DMA API, rather than an architecture-specific
-  hack.
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index b97fc3f..c561137 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -18,6 +18,7 @@
- #include <linux/blk-mq.h>
- #include <linux/cpu.h>
- #include <linux/delay.h>
-+#include <linux/dma-mapping.h>
- #include <linux/errno.h>
- #include <linux/fs.h>
- #include <linux/genhd.h>
-@@ -1713,7 +1714,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	u32 aqa;
- 	u64 cap = readq(&dev->bar->cap);
- 	struct nvme_queue *nvmeq;
--	unsigned page_shift = PAGE_SHIFT;
-+	unsigned page_shift = dma_get_page_shift(dev->dev);
- 	unsigned dev_page_min = NVME_CAP_MPSMIN(cap) + 12;
- 	unsigned dev_page_max = NVME_CAP_MPSMAX(cap) + 12;
- 
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/octet-stream
+Size: 21511 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20151003/f5223439/attachment-0001.obj>
