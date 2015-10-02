@@ -1,47 +1,51 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Sat, 3 Oct 2015 02:57:08 +0800
-Subject: [PATCH 2/2] drivers/nvme: default to the IOMMU page size on Power
-In-Reply-To: <20151002172313.GC41011@linux.vnet.ibm.com>
-Message-ID: <201510030213.VRbm26W0%fengguang.wu@intel.com>
+From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
+Date: Fri, 2 Oct 2015 13:09:53 -0700
+Subject: [PATCH 0/5 v2] Fix NVMe driver support on Power with 32-bit DMA
+In-Reply-To: <20151002171606.GA41011@linux.vnet.ibm.com>
+References: <20151002171606.GA41011@linux.vnet.ibm.com>
+Message-ID: <20151002200953.GB40695@linux.vnet.ibm.com>
 
-Hi Nishanth,
+We received a bug report recently when DDW (64-bit direct DMA on Power)
+is not enabled for NVMe devices. In that case, we fall back to 32-bit
+DMA via the IOMMU, which is always done via 4K TCEs (Translation Control
+Entries).
+ 
+The NVMe device driver, though, assumes that the DMA alignment for the
+PRP entries will match the device's page size, and that the DMA aligment
+matches the kernel's page aligment. On Power, the the IOMMU page size,
+as mentioned above, can be 4K, while the device can have a page size of
+8K, while the kernel has a page size of 64K. This eventually trips the
+BUG_ON in nvme_setup_prps(), as we have a 'dma_len' that is a multiple
+of 4K but not 8K (e.g., 0xF000).
+ 
+In this particular case, and generally, we want to use the IOMMU's page
+size for the default device page size, rather than the kernel's page
+size.
+ 
+This series consists of five patches:
 
-[auto build test results on v4.3-rc3 -- if it's inappropriate base, please ignore]
+1) add a generic dma_get_page_shift implementation that just returns
+PAGE_SHIFT
+2) override the generic implementation on Power to use the IOMMU table's
+page shift if available
+3) allow further specific overriding on power with machdep platform
+overrides
+4) use the machdep override on pseries, as the DDW code puts the TCE
+shift in a special property and there is no IOMMU table available
+5) leverage the new API in the NVMe driver
+ 
+With these patches, a NVMe device survives our internal hardware
+exerciser; the kernel BUGs within a few seconds without the patch.
 
-config: arm64-allmodconfig (attached as .config)
-reproduce:
-        wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        make.cross ARCH=arm64 
+ arch/powerpc/include/asm/dma-mapping.h   |  3 +++
+ arch/powerpc/include/asm/machdep.h       |  3 ++-
+ arch/powerpc/kernel/dma.c                | 11 +++++++++++
+ arch/powerpc/platforms/pseries/iommu.c   | 36 ++++++++++++++++++++++++++++++++++++
+ drivers/block/nvme-core.c                |  3 ++-
+ include/asm-generic/dma-mapping-common.h |  7 +++++++
+ 6 files changed, 61 insertions(+), 2 deletions(-)
 
-All error/warnings (new ones prefixed by >>):
-
->> drivers/block/nvme-core.c:45:23: fatal error: asm/iommu.h: No such file or directory
-    #include <asm/iommu.h>
-                          ^
-   compilation terminated.
-
-vim +45 drivers/block/nvme-core.c
-
-    39	#include <linux/sched.h>
-    40	#include <linux/slab.h>
-    41	#include <linux/t10-pi.h>
-    42	#include <linux/types.h>
-    43	#include <scsi/sg.h>
-    44	#include <asm-generic/io-64-nonatomic-lo-hi.h>
-  > 45	#include <asm/iommu.h>
-    46	
-    47	#define NVME_MINORS		(1U << MINORBITS)
-    48	#define NVME_Q_DEPTH		1024
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 45525 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20151003/961f1921/attachment-0001.obj>
+v1 -> v2:
+  Based upon feedback from Christoph Hellwig, rather than using an
+  arch-specific hack, expose the DMA page shift via a generic DMA API and
+  override it on Power as needed.
