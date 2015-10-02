@@ -1,35 +1,22 @@
-From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
-Date: Fri, 2 Oct 2015 14:04:35 -0700
-Subject: [PATCH 0/5 v2] Fix NVMe driver support on Power with 32-bit DMA
-In-Reply-To: <1443819066.27295.19.camel@kernel.crashing.org>
-References: <20151002171606.GA41011@linux.vnet.ibm.com>
- <20151002200953.GB40695@linux.vnet.ibm.com>
- <1443819066.27295.19.camel@kernel.crashing.org>
-Message-ID: <20151002210435.GM8040@linux.vnet.ibm.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 2 Oct 2015 21:13:22 +0000 (UTC)
+Subject: [PATCH 1/7] nvme: delete dev from dev_list in nvme_reset
+In-Reply-To: <1443808699-4738-2-git-send-email-hch@lst.de>
+References: <1443808699-4738-1-git-send-email-hch@lst.de>
+ <1443808699-4738-2-git-send-email-hch@lst.de>
+Message-ID: <alpine.LNX.2.00.1510022041060.23840@localhost.lm.intel.com>
 
-On 03.10.2015 [06:51:06 +1000], Benjamin Herrenschmidt wrote:
-> On Fri, 2015-10-02@13:09 -0700, Nishanth Aravamudan wrote:
-> 
-> > 1) add a generic dma_get_page_shift implementation that just returns
-> > PAGE_SHIFT
-> 
-> So you chose to return the granularity of the iommu to the driver
-> rather than providing a way for the driver to request a specific
-> alignment for DMA mappings. Any specific reason ?
+On Fri, 2 Oct 2015, Christoph Hellwig wrote:
+> Device resets need to delete the device from the device list before
+> kicking of the reset an re-probe, otherwise we get the device added
+> to the list twice.  nvme_reset is the only side missing this deletion
+> at the moment, and this patch adds it.
 
-Right, I did start with your advice and tried that approach, but it
-turned out I was wrong about the actual issue at the time. The problem
-for NVMe isn't actually the starting address alignment (which it can
-handle not being aligned to the device's page size). It doesn't handle
-(addr + len % dev_page_size != 0). That is, it's really a length
-alignment issue.
+A moment of panic when I saw this, but we're 'ok'. The reset handler calls
+nvme_dev_shutdown() first, and that removes the device from the list,
+so we won't really see a controller twice added in the list.
 
-It seems incredibly device specific to have a an API into the DMA code
-to request an end alignment -- no other device seems to have this
-issue/design. If you think that's better, I can fiddle with that
-instead.
+Still, there's no reason to poll a device that's about to reset, so it's
+a good change.
 
-Sorry, I should have called this out better as an alternative
-consideration.
-
--Nish
+Reviewed-by: Keith Busch <keith.busch at intel.com>
