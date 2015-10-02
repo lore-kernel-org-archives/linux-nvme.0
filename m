@@ -1,23 +1,76 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 2 Oct 2015 07:31:56 -0700
-Subject: [PATCH 1/2] NVMe: Reference count open namespaces
-In-Reply-To: <alpine.LNX.2.00.1510021417360.23840@localhost.lm.intel.com>
-References: <1443741251-13274-1-git-send-email-keith.busch@intel.com>
- <1443741251-13274-2-git-send-email-keith.busch@intel.com>
- <20151002125932.GA11175@infradead.org>
- <alpine.LNX.2.00.1510021417360.23840@localhost.lm.intel.com>
-Message-ID: <20151002143156.GA20337@infradead.org>
+From: Jeff.Lien@hgst.com (Jeffrey Lien)
+Date: Fri, 2 Oct 2015 14:45:26 +0000
+Subject: [PATCH] NVMe: Prevent bogus synchronous IO command timeouts.
+In-Reply-To: <BL2PR04MB163C7FAAC14DFE4779DD203924D0@BL2PR04MB163.namprd04.prod.outlook.com>
+References: <BL2PR04MB163B7D4ED51C81B2A964344924E0@BL2PR04MB163.namprd04.prod.outlook.com>
+ <alpine.LNX.2.00.1509291952040.23840@localhost.lm.intel.com>
+ <BL2PR04MB163C7FAAC14DFE4779DD203924D0@BL2PR04MB163.namprd04.prod.outlook.com>
+Message-ID: <BL2PR04MB16324D2BC07BFAA67D0D12E924B0@BL2PR04MB163.namprd04.prod.outlook.com>
 
-On Fri, Oct 02, 2015@02:26:22PM +0000, Keith Busch wrote:
-> On Fri, 2 Oct 2015, Christoph Hellwig wrote:
-> >Shouldn't each namesapce have a reference on the nvme_dev while we're at
-> >it?
-> 
-> We just need to make a small change to the device removal. An orderly
-> removal won't drop the final namespace ref until after the last device ref
-> is closed first. This relationship isn't necessary and can be simplified
-> even more if we remove it.
-> 
-> Should I fix and resend this patch, or patch on top of this one?
+Keith,
+I wasn't able to recreate the original failure with your version of the fix so I'd say it's good to go.  Are you going to push your modified fix into the legacy tree then?   
 
-Doing that on top of this patch sounds fine to me.
+-----Original Message-----
+From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Jeffrey Lien
+Sent: Wednesday, September 30, 2015 9:46 AM
+To: Keith Busch <keith.busch at intel.com>
+Cc: linux-nvme at lists.infradead.org
+Subject: RE: [PATCH] NVMe: Prevent bogus synchronous IO command timeouts.
+
+Keith,
+This looks like a much simpler fix with less impact on performance.   I'll do some testing of it to verify it indeed resolves the problem we were seeing.  I'll let you know how it goes in a day or 2.   Thanks.  
+
+-----Original Message-----
+From: Keith Busch [mailto:keith.busch@intel.com] 
+Sent: Tuesday, September 29, 2015 3:03 PM
+To: Jeffrey Lien <Jeff.Lien at hgst.com>
+Cc: Busch, Keith <keith.busch at intel.com>; linux-nvme at lists.infradead.org
+Subject: Re: [PATCH] NVMe: Prevent bogus synchronous IO command timeouts.
+
+On Tue, 29 Sep 2015, Jeffrey Lien wrote:
+> Attached the patch since I can't get it sent via send-email.
+
+If possible, you will want to remove the confidentiality disclaimer from emails to public lists.
+
+On your patch, I think it will be very bad for performance. We can achieve the protection you're going for without spinlocks and use memory barriers instead. What do you think for the following?
+
+---
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c index 78e51c2..2d21827 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -200,9 +200,10 @@ static int alloc_cmdid(struct nvme_queue *nvmeq, void *ctx,
+  	} while (test_and_set_bit(cmdid, nvmeq->cmdid_data));
+
+  	info[cmdid].fn = handler;
+-	info[cmdid].ctx = ctx;
+  	info[cmdid].timeout = jiffies + timeout;
+  	info[cmdid].aborted = 0;
++	wmb();
++	info[cmdid].ctx = ctx;
+  	return cmdid;
+  }
+
+@@ -1354,9 +1355,9 @@ static void nvme_cancel_ios(struct nvme_queue *nvmeq, bool timeout)
+  			.status = cpu_to_le16(NVME_SC_ABORT_REQ << 1),
+  		};
+
+-		if (timeout && !time_after(now, info[cmdid].timeout))
++		if (info[cmdid].ctx == CMD_CTX_CANCELLED || info[cmdid].ctx == 
++CMD_CTX_COMPLETED)
+  			continue;
+-		if (info[cmdid].ctx == CMD_CTX_CANCELLED)
++		if (timeout && !time_after(now, info[cmdid].timeout))
+  			continue;
+  		if (timeout && info[cmdid].ctx == CMD_CTX_ASYNC)
+  			continue;
+--
+HGST E-mail Confidentiality Notice & Disclaimer:
+This e-mail and any files transmitted with it may contain confidential or legally privileged information of HGST and are intended solely for the use of the individual or entity to which they are addressed. If you are not the intended recipient, any disclosure, copying, distribution or any action taken or omitted to be taken in reliance on it, is prohibited.  If you have received this e-mail in error, please notify the sender immediately and delete the e-mail in its entirety from your system.
+
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
+HGST E-mail Confidentiality Notice & Disclaimer:
+This e-mail and any files transmitted with it may contain confidential or legally privileged information of HGST and are intended solely for the use of the individual or entity to which they are addressed. If you are not the intended recipient, any disclosure, copying, distribution or any action taken or omitted to be taken in reliance on it, is prohibited.  If you have received this e-mail in error, please notify the sender immediately and delete the e-mail in its entirety from your system.
