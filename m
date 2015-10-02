@@ -1,40 +1,19 @@
-From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
-Date: Fri, 2 Oct 2015 14:48:00 -0700
-Subject: [PATCH 0/5 v2] Fix NVMe driver support on Power with 32-bit DMA
-In-Reply-To: <1443821709.27295.20.camel@kernel.crashing.org>
-References: <20151002171606.GA41011@linux.vnet.ibm.com>
- <20151002200953.GB40695@linux.vnet.ibm.com>
- <1443819066.27295.19.camel@kernel.crashing.org>
- <20151002210435.GM8040@linux.vnet.ibm.com>
- <1443821709.27295.20.camel@kernel.crashing.org>
-Message-ID: <20151002214800.GN8040@linux.vnet.ibm.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 2 Oct 2015 21:54:20 +0000 (UTC)
+Subject: [PATCH 7/7] nvme: remove failed controllers directly from
+ probe/reset context
+In-Reply-To: <1443808699-4738-8-git-send-email-hch@lst.de>
+References: <1443808699-4738-1-git-send-email-hch@lst.de>
+ <1443808699-4738-8-git-send-email-hch@lst.de>
+Message-ID: <alpine.LNX.2.00.1510022146590.23840@localhost.lm.intel.com>
 
-On 03.10.2015 [07:35:09 +1000], Benjamin Herrenschmidt wrote:
-> On Fri, 2015-10-02@14:04 -0700, Nishanth Aravamudan wrote:
-> > Right, I did start with your advice and tried that approach, but it
-> > turned out I was wrong about the actual issue at the time. The problem
-> > for NVMe isn't actually the starting address alignment (which it can
-> > handle not being aligned to the device's page size). It doesn't handle
-> > (addr + len % dev_page_size != 0). That is, it's really a length
-> > alignment issue.
-> > 
-> > It seems incredibly device specific to have a an API into the DMA code
-> > to request an end alignment -- no other device seems to have this
-> > issue/design. If you think that's better, I can fiddle with that
-> > instead.
-> > 
-> > Sorry, I should have called this out better as an alternative
-> > consideration.
-> 
-> Nah it's fine. Ok. Also adding the alignment requirement to the API
-> would have been a much more complex patch since it would have had to
-> be implemented for all archs.
-> 
-> I think your current solution is fine.
+On Fri, 2 Oct 2015, Christoph Hellwig wrote:
+> Now that all probing and resets happen from workqueue context we can remove
+> the controller directly without any risk of deadlocking.
+>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Great, thanks. Also, while it's possible an alignment API would be more
-performant...we're already not using DDW on Power in this case,
-performance is not a primary concern. We want to simply be
-functional/correct in this configuration.
-
--Nish
+I don't know about this one. If you call pci_stop_and_remove_bus_device(),
+that will get to the driver's ->remove() callback in the same context. The
+first thing this driver does is flush the probe and reset work, and
+I don't think a work queue can flush itself.
