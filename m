@@ -1,61 +1,87 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri,  2 Oct 2015 19:58:18 +0200
-Subject: [PATCH 6/7] nvme: properly handle partially initialized queues in
- nvme_create_io_queues
+Date: Fri,  2 Oct 2015 19:58:19 +0200
+Subject: [PATCH 7/7] nvme: remove failed controllers directly from probe/reset
+ context
 In-Reply-To: <1443808699-4738-1-git-send-email-hch@lst.de>
 References: <1443808699-4738-1-git-send-email-hch@lst.de>
-Message-ID: <1443808699-4738-7-git-send-email-hch@lst.de>
+Message-ID: <1443808699-4738-8-git-send-email-hch@lst.de>
 
-This avoids having to clean up later in a seemingly unrelated place.
+Now that all probing and resets happen from workqueue context we can remove
+the controller directly without any risk of deadlocking.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/block/nvme-core.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ drivers/block/nvme-core.c | 37 +++++++++++--------------------------
+ 1 file changed, 11 insertions(+), 26 deletions(-)
 
 diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index c35ead3..48688d6 100644
+index 48688d6..39c40bb 100644
 --- a/drivers/block/nvme-core.c
 +++ b/drivers/block/nvme-core.c
-@@ -2191,6 +2191,13 @@ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
- 	kfree(ns);
+@@ -87,7 +87,6 @@ static struct class *nvme_class;
+ static int __nvme_reset(struct nvme_dev *dev);
+ static int nvme_reset(struct nvme_dev *dev);
+ static int nvme_process_cq(struct nvme_queue *nvmeq);
+-static void nvme_dead_ctrl(struct nvme_dev *dev);
+ 
+ struct async_cmd_info {
+ 	struct kthread_work work;
+@@ -2960,6 +2959,15 @@ static void nvme_set_irq_hints(struct nvme_dev *dev)
+ 	}
  }
  
-+/*
-+ * Create I/O queues.  Failing to create an I/O queue is not an issue,
-+ * we can continue with less than the desired amount of queues, and
-+ * even a controller without I/O queues an still be used to issue
-+ * admin commands.  This might be useful to upgrade a buggy firmware
-+ * for example.
-+ */
- static void nvme_create_io_queues(struct nvme_dev *dev)
++static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
++{
++	struct pci_dev *pdev = to_pci_dev(dev->dev);
++
++	dev_warn(dev->dev, "Device failed to start.\n");
++
++	if (pci_get_drvdata(pdev))
++		pci_stop_and_remove_bus_device_locked(pdev);
++}
+ 
+ static void nvme_probe_work(struct work_struct *work)
  {
- 	unsigned i;
-@@ -2200,8 +2207,10 @@ static void nvme_create_io_queues(struct nvme_dev *dev)
- 			break;
- 
- 	for (i = dev->online_queues; i <= dev->queue_count - 1; i++)
--		if (nvme_create_queue(dev->queues[i], i))
-+		if (nvme_create_queue(dev->queues[i], i)) {
-+			nvme_free_queues(dev, i);
- 			break;
-+		}
+@@ -3033,30 +3041,7 @@ static void nvme_probe_work(struct work_struct *work)
+ 	nvme_dev_unmap(dev);
+  out:
+ 	if (!work_busy(&dev->reset_work))
+-		nvme_dead_ctrl(dev);
+-}
+-
+-static int nvme_remove_dead_ctrl(void *arg)
+-{
+-	struct nvme_dev *dev = (struct nvme_dev *)arg;
+-	struct pci_dev *pdev = to_pci_dev(dev->dev);
+-
+-	if (pci_get_drvdata(pdev))
+-		pci_stop_and_remove_bus_device_locked(pdev);
+-	kref_put(&dev->kref, nvme_free_dev);
+-	return 0;
+-}
+-
+-static void nvme_dead_ctrl(struct nvme_dev *dev)
+-{
+-	dev_warn(dev->dev, "Device failed to resume\n");
+-	kref_get(&dev->kref);
+-	if (IS_ERR(kthread_run(nvme_remove_dead_ctrl, dev, "nvme%d",
+-						dev->instance))) {
+-		dev_err(dev->dev,
+-			"Failed to start controller remove task\n");
+-		kref_put(&dev->kref, nvme_free_dev);
+-	}
++		nvme_remove_dead_ctrl(dev);
  }
  
- static int set_queue_count(struct nvme_dev *dev, int count)
-@@ -2998,9 +3007,12 @@ static void nvme_probe_work(struct work_struct *work)
- 
- 	dev->event_limit = 1;
- 
-+	/*
-+	 * Keep the controller around but remove all namespaces if we don't have
-+	 * any working I/O queue.
-+	 */
- 	if (dev->online_queues < 2) {
- 		dev_warn(dev->dev, "IO queues not created\n");
--		nvme_free_queues(dev, 1);
- 		nvme_dev_remove(dev);
- 	} else {
- 		nvme_unfreeze_queues(dev);
+ static void nvme_reset_work(struct work_struct *ws)
+@@ -3073,7 +3058,7 @@ static void nvme_reset_work(struct work_struct *ws)
+ 	/* Fail this device if reset occured during probe to avoid
+ 	 * infinite initialization loops. */
+ 	if (in_probe) {
+-		nvme_dead_ctrl(dev);
++		nvme_remove_dead_ctrl(dev);
+ 		return;
+ 	}
+ 	/* Schedule device resume asynchronously so the reset work is available
 -- 
 1.9.1
