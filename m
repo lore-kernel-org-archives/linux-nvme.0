@@ -1,149 +1,93 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  2 Oct 2015 10:37:29 -0600
-Subject: [PATCHv2 2/2] NVMe: Simplify device resume on io queue failure
-In-Reply-To: <1443803849-7268-1-git-send-email-keith.busch@intel.com>
-References: <1443803849-7268-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1443803849-7268-2-git-send-email-keith.busch@intel.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Fri, 02 Oct 2015 09:39:44 -0700
+Subject: [PATCH 3/4] nvme: split pci specific functionality out of core
+ code
+In-Reply-To: <20151002131529.GA27956@infradead.org>
+References: <1443493257.3449.15.camel@linux.intel.com>
+ <560D2D26.5000703@dev.mellanox.co.il>
+ <1443717338.2803.58.camel@linux.intel.com>
+ <20151002131529.GA27956@infradead.org>
+Message-ID: <1443803984.2801.7.camel@linux.intel.com>
 
-Releasing IO queues and disks was done in a work queue outside the
-controller resume context to delete namespaces if the controller failed
-after a resume from suspend. This is unnecessary since we can resume
-a device asynchronously.
+On Fri, 2015-10-02@06:15 -0700, Christoph Hellwig wrote:
+> On Thu, Oct 01, 2015@09:35:38AM -0700, J Freyensee wrote:
+> > What is not clear that the summary email and the the 'Subject' line 
+> > is
+> > not explaining?
+> 
+> The summary is just a little intro, you need to explain the purpose
+> of the patch in the that patch as that's the only thing that will be
+> in the commit and thus easily available later.
+> 
+> > Would you like me to just include the summary email
+> > into patch 2/4 and 3/4?
+> 
+> Yes!
+> 
+> > Other than that, is the actual patch ok?  I was about ready to send 
+> > an
+> > email asking if the silence of this patch set means it is OK and 
+> > will
+> > be applied to the nvme tree to submission to the upstream kernel?
+> 
+> This is not at all.  I think it's the polar opposite of how I'd like 
+> to
+> see the split.  I fear I can't explain all the details due to NDAs 
+> here,
+> but we can take it up offline as you're bound by the same NDA.
+> 
+> Anyway, here is my suggestion on how to move forward.
+> 
+> (1) please work on fixing all the process issues first.
+> 
+> Your mail line wraps the patches, which make them impossible to 
+> apply.
 
-This patch makes resume use probe_work so it can directly remove
-namespaces if the device is manageable but not IO capable. Since the
-deleting disks was the only reason we had the convoluted "reset_workfn",
-this patch removes that unnecessary indirection.
+I took a separate clone of Jen's tree and applied the patches
+successfully before emailing so I'm not sure exactly why they were not
+applying.  But I'll look into this.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
-v1->v2:
+> Ask other people like Keith how to get git-send-email working inside 
+> the
+> intel environment.  That'll also take care of proper threading of the
+> multiple patches and the intro mail while we're at it.  Write proper
+> changeslogs.
+> 
+> (2) Let's get the file move in.  I would suggest to move the current
+> nvme-core.c to drivers/nvme/host/pci.  This is because it actually
+> contains way more PCI specific than common code, and also because 
+> this
+> means we can move pieces of code to the common layer in small bits 
+> once
+> we agree on the exact abstractions.
+> 
+> (3) We need to sort out the headers.  Currently the two nvme.h 
+> headers
+> are a good example on how not to set up headers for a kernel driver. 
+>  We
+> need to have one for the actual ioctl API, one for the common nvme
+> hardware / protocol defintions, and one for structures and prototypes
+> at least.  I have started some work on this, and I can put it on the
+> backburner.  It's pretty independend of (1) and (2) so this looks 
+> like
+> a good split of work.
+> 
+> After than we can start moving existing common data structures (e.g.
+> struct nvme_ns) to the common code, and start splitting out common
+> bits from nvme_dev and nvme_queue and move them.  I do not agree with
+> the current split in your patches as it moves way too much into 
+> common
+> code.  
 
-  Removed unrelated nvme work_queue changes.
+We can look into this.  But our primary concern has been not breaking
+something in the driver code for the initial split yet coming up with
+something that allows extending core nvme protocol, then refining the
+split with follow-on patches.  
 
-  Merge conflict from the previous commit.
 
-  I'll also point out the new print here should satisfy Jon's case he
-  brought up here:
-
-    http://lists.infradead.org/pipermail/linux-nvme/2015-September/002401.html
-
- drivers/block/nvme-core.c |   34 ++++++----------------------------
- include/linux/nvme.h      |    1 -
- 2 files changed, 6 insertions(+), 29 deletions(-)
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 904b54f..bf35846 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1285,7 +1285,6 @@ static void nvme_abort_req(struct request *req)
- 		list_del_init(&dev->node);
- 		dev_warn(dev->dev, "I/O %d QID %d timeout, reset controller\n",
- 							req->tag, nvmeq->qid);
--		dev->reset_workfn = nvme_reset_failed_dev;
- 		queue_work(nvme_workq, &dev->reset_work);
-  out:
- 		spin_unlock_irqrestore(&dev_list_lock, flags);
-@@ -2089,7 +2088,6 @@ static int nvme_kthread(void *data)
- 				dev_warn(dev->dev,
- 					"Failed status: %x, reset controller\n",
- 					readl(&dev->bar->csts));
--				dev->reset_workfn = nvme_reset_failed_dev;
- 				queue_work(nvme_workq, &dev->reset_work);
- 				continue;
- 			}
-@@ -3025,14 +3023,6 @@ static int nvme_remove_dead_ctrl(void *arg)
- 	return 0;
- }
- 
--static void nvme_remove_disks(struct work_struct *ws)
--{
--	struct nvme_dev *dev = container_of(ws, struct nvme_dev, reset_work);
--
--	nvme_free_queues(dev, 1);
--	nvme_dev_remove(dev);
--}
--
- static int nvme_dev_resume(struct nvme_dev *dev)
- {
- 	int ret;
-@@ -3041,10 +3031,9 @@ static int nvme_dev_resume(struct nvme_dev *dev)
- 	if (ret)
- 		return ret;
- 	if (dev->online_queues < 2) {
--		spin_lock(&dev_list_lock);
--		dev->reset_workfn = nvme_remove_disks;
--		queue_work(nvme_workq, &dev->reset_work);
--		spin_unlock(&dev_list_lock);
-+		dev_warn(dev->dev, "IO queues not created\n");
-+		nvme_free_queues(dev, 1);
-+		nvme_dev_remove(dev);
- 	} else {
- 		nvme_unfreeze_queues(dev);
- 		nvme_dev_add(dev);
-@@ -3091,12 +3080,6 @@ static void nvme_reset_failed_dev(struct work_struct *ws)
- 	nvme_dev_reset(dev);
- }
- 
--static void nvme_reset_workfn(struct work_struct *work)
--{
--	struct nvme_dev *dev = container_of(work, struct nvme_dev, reset_work);
--	dev->reset_workfn(work);
--}
--
- static int nvme_reset(struct nvme_dev *dev)
- {
- 	int ret = -EBUSY;
-@@ -3106,7 +3089,6 @@ static int nvme_reset(struct nvme_dev *dev)
- 
- 	spin_lock(&dev_list_lock);
- 	if (!work_pending(&dev->reset_work)) {
--		dev->reset_workfn = nvme_reset_failed_dev;
- 		queue_work(nvme_workq, &dev->reset_work);
- 		ret = 0;
- 	}
-@@ -3159,8 +3141,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 		goto free;
- 
- 	INIT_LIST_HEAD(&dev->namespaces);
--	dev->reset_workfn = nvme_reset_failed_dev;
--	INIT_WORK(&dev->reset_work, nvme_reset_workfn);
-+	INIT_WORK(&dev->reset_work, nvme_reset_failed_dev);
- 	dev->dev = get_device(&pdev->dev);
- 	pci_set_drvdata(pdev, dev);
- 	result = nvme_set_instance(dev);
-@@ -3223,7 +3204,7 @@ static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
- 	if (prepare)
- 		nvme_dev_shutdown(dev);
- 	else
--		nvme_dev_resume(dev);
-+		schedule_work(&dev->probe_work);
- }
- 
- static void nvme_shutdown(struct pci_dev *pdev)
-@@ -3277,10 +3258,7 @@ static int nvme_resume(struct device *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
- 
--	if (nvme_dev_resume(ndev) && !work_busy(&ndev->reset_work)) {
--		ndev->reset_workfn = nvme_reset_failed_dev;
--		queue_work(nvme_workq, &ndev->reset_work);
--	}
-+	schedule_work(&ndev->probe_work);
- 	return 0;
- }
- #endif
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 992b9c1..7725b4c 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -104,7 +104,6 @@ struct nvme_dev {
- 	struct list_head namespaces;
- 	struct kref kref;
- 	struct device *device;
--	work_func_t reset_workfn;
- 	struct work_struct reset_work;
- 	struct work_struct probe_work;
- 	struct work_struct scan_work;
--- 
-1.7.10.4
+> After that grunt work is done we can start moving functionality
+> to the common code one bit at a time while adding operations vectors
+> as needed.  I would suggest to start with the scsi translation layer
+> as that sits on top of the request structure and would only has an
+> absolutely minimal dependency on the PCI code.  Namespace scanning
+> would be a next logical step after than.
