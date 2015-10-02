@@ -1,24 +1,29 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 2 Oct 2015 09:57:26 -0700
-Subject: [PATCHv2 2/2] NVMe: Simplify device resume on io queue failure
-In-Reply-To: <1443803849-7268-2-git-send-email-keith.busch@intel.com>
-References: <1443803849-7268-1-git-send-email-keith.busch@intel.com>
- <1443803849-7268-2-git-send-email-keith.busch@intel.com>
-Message-ID: <20151002165726.GB2405@infradead.org>
+From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
+Date: Fri, 2 Oct 2015 10:16:06 -0700
+Subject: [PATCH 0/2] Fix NVMe driver support on Power with 32-bit DMA
+Message-ID: <20151002171606.GA41011@linux.vnet.ibm.com>
 
-On Fri, Oct 02, 2015@10:37:29AM -0600, Keith Busch wrote:
-> Releasing IO queues and disks was done in a work queue outside the
-> controller resume context to delete namespaces if the controller failed
-> after a resume from suspend. This is unnecessary since we can resume
-> a device asynchronously.
-> 
-> This patch makes resume use probe_work so it can directly remove
-> namespaces if the device is manageable but not IO capable. Since the
-> deleting disks was the only reason we had the convoluted "reset_workfn",
-> this patch removes that unnecessary indirection.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+We received a bug report recently when DDW (64-bit direct DMA on Power)
+is not enabled for NVMe devices. In that case, we fall back to 32-bit
+DMA via the IOMMU, which is always done via 4K TCEs (Translation Control
+Entries).
 
-Looks good,
+The NVMe device driver, though, assumes that the DMA alignment for the
+PRP entries will match the device's page size, and that the DMA aligment
+matches the kernel's page aligment. On Power, the the IOMMU page size,
+as mentioned above, can be 4K, while the device can have a page size of
+8K, while the kernel has a page size of 64K. This eventually trips the
+BUG_ON in nvme_setup_prps(), as we have a 'dma_len' that is a multiple
+of 4K but not 8K (e.g., 0xF000).
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+In this particular case, and generally, we want to use the IOMMU's page
+size for the default device page size, rather than the kernel's page
+size.
+
+This series consists of two patches, one of which exposes the IOMMU's
+page shift on Power (currently only the page size is exposed, and it
+seems unnecessary to ilog2 that value in the driver). The second patch
+leverages this value on Power in the NVMe driver.
+
+With these patches, a NVMe device survives our internal hardware
+exerciser; the kernel BUGs within a few seconds without the patch.
