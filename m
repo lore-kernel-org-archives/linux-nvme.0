@@ -1,21 +1,17 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sat, 3 Oct 2015 01:19:52 -0700
-Subject: [PATCH 0/5 v2] Fix NVMe driver support on Power with 32-bit DMA
-In-Reply-To: <1443819066.27295.19.camel@kernel.crashing.org>
-References: <20151002171606.GA41011@linux.vnet.ibm.com>
- <20151002200953.GB40695@linux.vnet.ibm.com>
- <1443819066.27295.19.camel@kernel.crashing.org>
-Message-ID: <20151003081952.GC24025@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 3 Oct 2015 12:01:59 +0200
+Subject: [PATCH 1/7] nvme: delete dev from dev_list in nvme_reset
+In-Reply-To: <alpine.LNX.2.00.1510022041060.23840@localhost.lm.intel.com>
+References: <1443808699-4738-1-git-send-email-hch@lst.de>
+ <1443808699-4738-2-git-send-email-hch@lst.de>
+ <alpine.LNX.2.00.1510022041060.23840@localhost.lm.intel.com>
+Message-ID: <20151003100159.GA851@lst.de>
 
-On Sat, Oct 03, 2015@06:51:06AM +1000, Benjamin Herrenschmidt wrote:
-> On Fri, 2015-10-02@13:09 -0700, Nishanth Aravamudan wrote:
-> 
-> > 1) add a generic dma_get_page_shift implementation that just returns
-> > PAGE_SHIFT
-> 
-> So you chose to return the granularity of the iommu to the driver
-> rather than providing a way for the driver to request a specific
-> alignment for DMA mappings. Any specific reason ?
+On Fri, Oct 02, 2015@09:13:22PM +0000, Keith Busch wrote:
+> A moment of panic when I saw this, but we're 'ok'. The reset handler calls
+> nvme_dev_shutdown() first, and that removes the device from the list,
+> so we won't really see a controller twice added in the list.
 
-At least for NVMe that's the way to go - it allows to set a page set in
-the device which should fit the IOMMU page size.
+Oh.  So we get a double list del there.  I though list debuging would
+complain about this.  Anyway, let's make the deletion uniform and so that
+any fixes can be applied to all callers in the same way.
