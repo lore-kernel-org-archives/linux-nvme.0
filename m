@@ -1,19 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 2 Oct 2015 21:54:20 +0000 (UTC)
-Subject: [PATCH 7/7] nvme: remove failed controllers directly from
- probe/reset context
-In-Reply-To: <1443808699-4738-8-git-send-email-hch@lst.de>
-References: <1443808699-4738-1-git-send-email-hch@lst.de>
- <1443808699-4738-8-git-send-email-hch@lst.de>
-Message-ID: <alpine.LNX.2.00.1510022146590.23840@localhost.lm.intel.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sat, 3 Oct 2015 01:19:52 -0700
+Subject: [PATCH 0/5 v2] Fix NVMe driver support on Power with 32-bit DMA
+In-Reply-To: <1443819066.27295.19.camel@kernel.crashing.org>
+References: <20151002171606.GA41011@linux.vnet.ibm.com>
+ <20151002200953.GB40695@linux.vnet.ibm.com>
+ <1443819066.27295.19.camel@kernel.crashing.org>
+Message-ID: <20151003081952.GC24025@infradead.org>
 
-On Fri, 2 Oct 2015, Christoph Hellwig wrote:
-> Now that all probing and resets happen from workqueue context we can remove
-> the controller directly without any risk of deadlocking.
->
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+On Sat, Oct 03, 2015@06:51:06AM +1000, Benjamin Herrenschmidt wrote:
+> On Fri, 2015-10-02@13:09 -0700, Nishanth Aravamudan wrote:
+> 
+> > 1) add a generic dma_get_page_shift implementation that just returns
+> > PAGE_SHIFT
+> 
+> So you chose to return the granularity of the iommu to the driver
+> rather than providing a way for the driver to request a specific
+> alignment for DMA mappings. Any specific reason ?
 
-I don't know about this one. If you call pci_stop_and_remove_bus_device(),
-that will get to the driver's ->remove() callback in the same context. The
-first thing this driver does is flush the probe and reset work, and
-I don't think a work queue can flush itself.
+At least for NVMe that's the way to go - it allows to set a page set in
+the device which should fit the IOMMU page size.
