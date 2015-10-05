@@ -1,28 +1,21 @@
-From: James.Bottomley@HansenPartnership.com (James Bottomley)
-Date: Mon, 05 Oct 2015 10:52:48 -0700
-Subject: [PATCH 0/5] Modify ida_* users to use ida_simple_*
-In-Reply-To: <20151005174426.GB11164@htj.duckdns.org>
-References: <cover.1443723136.git.lduncan@suse.com>
- <20151005174426.GB11164@htj.duckdns.org>
-Message-ID: <1444067568.2238.25.camel@HansenPartnership.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 5 Oct 2015 19:24:19 +0000 (UTC)
+Subject: [PATCH v2] NVMe:Expose model attribute in sysfs
+In-Reply-To: <20151004223222.GA4280@localhost.localdomain>
+References: <20151004223222.GA4280@localhost.localdomain>
+Message-ID: <alpine.LNX.2.00.1510051924020.23840@localhost.lm.intel.com>
 
-On Mon, 2015-10-05@13:44 -0400, Tejun Heo wrote:
-> On Thu, Oct 01, 2015@11:59:04AM -0700, Lee Duncan wrote:
-> > The ida index management routines are used in several
-> > driver modules to manage allocation and release of
-> > index values. Reviewing the way in which the
-> > ida routines were called, together with the small
-> > number of such clients, led to the belief that
-> > these users should all be able to share a simple
-> > built-in lock in the ida module by calling the
-> > ida_simple_*() functions instead of the non-simple
-> > versions. This means that ida does all the
-> > required locking so that clients don't have to
-> > manage that.
-> 
-> The whole series looks good to me.  Please feel free to add
+On Sun, 4 Oct 2015, Sujith Pandel wrote:
+> Hi,
+>>> nvme driver does not show the model attribute of disk in sysfs.
+>>> nvme_dev already has this attribute populated during nvme_dev_add().
+>>> Group model and other the device attributes as an attribute group
+>>> and create sysfs files for the group using sysfs_create_group().
+>>
+>> Any updates on this? Can this be considered for inclusion?
+>
+> Any thoughts/feedback on this?
 
-Since they're all independent, they can go via the correct trees without
-adverse consequences.  It's probably me: 1/5; Jens 2-4/5; Greg 5/5
+Looks good to me, thanks.
 
-James
+Reviewed-by: Keith Busch <keith.busch at intel.com>
