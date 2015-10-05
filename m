@@ -1,30 +1,28 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat,  3 Oct 2015 15:51:12 +0200
-Subject: [PATCH 3/3] nvme.h: add missing nvme_id_ctrl endianess annotations
-In-Reply-To: <1443880272-25801-1-git-send-email-hch@lst.de>
-References: <1443880272-25801-1-git-send-email-hch@lst.de>
-Message-ID: <1443880272-25801-4-git-send-email-hch@lst.de>
+From: tj@kernel.org (Tejun Heo)
+Date: Mon, 5 Oct 2015 13:44:26 -0400
+Subject: [PATCH 0/5] Modify ida_* users to use ida_simple_*
+In-Reply-To: <cover.1443723136.git.lduncan@suse.com>
+References: <cover.1443723136.git.lduncan@suse.com>
+Message-ID: <20151005174426.GB11164@htj.duckdns.org>
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Acked-by: Keith Busch <keith.busch at intel.com>
----
- include/linux/nvme.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On Thu, Oct 01, 2015@11:59:04AM -0700, Lee Duncan wrote:
+> The ida index management routines are used in several
+> driver modules to manage allocation and release of
+> index values. Reviewing the way in which the
+> ida routines were called, together with the small
+> number of such clients, led to the belief that
+> these users should all be able to share a simple
+> built-in lock in the ida module by calling the
+> ida_simple_*() functions instead of the non-simple
+> versions. This means that ida does all the
+> required locking so that clients don't have to
+> manage that.
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 91a8054..9668d35 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -104,8 +104,8 @@ struct nvme_id_ctrl {
- 	__u8			ieee[3];
- 	__u8			mic;
- 	__u8			mdts;
--	__u16			cntlid;
--	__u32			ver;
-+	__le16			cntlid;
-+	__le32			ver;
- 	__u8			rsvd84[172];
- 	__le16			oacs;
- 	__u8			acl;
+The whole series looks good to me.  Please feel free to add
+
+Reviewed-by: Tejun Heo <tj at kernel.org>
+
+Thanks.
+
 -- 
-1.9.1
+tejun
