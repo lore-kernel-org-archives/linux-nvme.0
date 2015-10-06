@@ -1,50 +1,30 @@
-From: david@gibson.dropbear.id.au (David Gibson)
-Date: Tue, 6 Oct 2015 14:19:43 +1100
-Subject: [PATCH 1/2] powerpc/iommu: expose IOMMU page shift
-In-Reply-To: <20151002171800.GB41011@linux.vnet.ibm.com>
-References: <20151002171606.GA41011@linux.vnet.ibm.com>
- <20151002171800.GB41011@linux.vnet.ibm.com>
-Message-ID: <20151006031943.GC3861@voom.fritz.box>
+From: mpe@ellerman.id.au (Michael Ellerman)
+Date: Tue, 06 Oct 2015 14:39:06 +1100
+Subject: [PATCH 4/5 v2] pseries/iommu: implement DDW-aware
+ dma_get_page_shift
+In-Reply-To: <201510030421.d9fvrbXU%fengguang.wu@intel.com>
+References: <201510030421.d9fvrbXU%fengguang.wu@intel.com>
+Message-ID: <1444102746.16909.4.camel@ellerman.id.au>
 
-On Fri, Oct 02, 2015@10:18:00AM -0700, Nishanth Aravamudan wrote:
-> We will leverage this macro in the NVMe driver, which needs to know the
-> configured IOMMU page shift to properly configure its device's page
-> size.
+On Sat, 2015-10-03@04:33 +0800, kbuild test robot wrote:
+> Hi Nishanth,
 > 
-> Signed-off-by: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
+> [auto build test results on v4.3-rc3 -- if it's inappropriate base, please ignore]
 > 
-> ---
-> Given this is available, it seems reasonable to expose -- and it doesn't
-> really make sense to make the driver do a log2 call on the existing
-> IOMMU_PAGE_SIZE() value.
+> config: powerpc-defconfig (attached as .config)
+> reproduce:
+>         wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
+>         chmod +x ~/bin/make.cross
+>         # save the attached .config to linux build tree
+>         make.cross ARCH=powerpc 
 > 
-> diff --git a/arch/powerpc/include/asm/iommu.h b/arch/powerpc/include/asm/iommu.h
-> index ca18cff..6fdf857 100644
-> --- a/arch/powerpc/include/asm/iommu.h
-> +++ b/arch/powerpc/include/asm/iommu.h
-> @@ -36,6 +36,7 @@
->  #define IOMMU_PAGE_MASK_4K       (~((1 << IOMMU_PAGE_SHIFT_4K) - 1))
->  #define IOMMU_PAGE_ALIGN_4K(addr) _ALIGN_UP(addr, IOMMU_PAGE_SIZE_4K)
->  
-> +#define IOMMU_PAGE_SHIFT(tblptr) (tblptr)->it_page_shift
->  #define IOMMU_PAGE_SIZE(tblptr) (ASM_CONST(1) << (tblptr)->it_page_shift)
+> All error/warnings (new ones prefixed by >>):
+> 
+>    arch/powerpc/platforms/pseries/iommu.c: In function 'iommu_init_early_pSeries':
+> >> arch/powerpc/platforms/pseries/iommu.c:1433:9: error: 'struct machdep_calls' has no member named 'dma_get_page_shift'
+>       ppc_md.dma_get_page_shift = dma_get_page_shift_pSeriesLP;
 
-Seems like it would be a touch safer to alter IOMMU_PAGE_SIZE so it
-uses the new IOMMU_PAGE_SHIFT macro.
+It was added in patch 3/5, so I think this error is bogus. Unless there's a
+typo I'm missing?
 
->  #define IOMMU_PAGE_MASK(tblptr) (~((1 << (tblptr)->it_page_shift) - 1))
->  #define IOMMU_PAGE_ALIGN(addr, tblptr) _ALIGN_UP(addr, IOMMU_PAGE_SIZE(tblptr))
-> 
-
--- 
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 819 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20151006/655bdd8a/attachment.sig>
+cheers
