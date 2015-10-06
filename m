@@ -1,15 +1,44 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 6 Oct 2015 02:51:36 -0700
-Subject: [PATCH 1/5 v2] dma-mapping: add generic dma_get_page_shift API
-In-Reply-To: <20151002201142.GC40695@linux.vnet.ibm.com>
-References: <20151002171606.GA41011@linux.vnet.ibm.com>
- <20151002200953.GB40695@linux.vnet.ibm.com>
- <20151002201142.GC40695@linux.vnet.ibm.com>
-Message-ID: <20151006095136.GB14144@infradead.org>
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Tue, 06 Oct 2015 22:37:11 +0200
+Subject: [PATCH] nvme: fix 32-bit build warning
+Message-ID: <5851501.PBMrs03XFb@wuerfel>
 
-Do we need a function here or can we just have a IOMMU_PAGE_SHIFT define
-with an #ifndef in common code?
+Compiling the nvme driver on 32-bit warns about a cast from a __u64
+variable to a pointer:
 
-Also not all architectures use dma-mapping-common.h yet, so you either
-need to update all of those as well, or just add the #ifndef directly
-to linux/dma-mapping.h.
+drivers/block/nvme-core.c: In function 'nvme_submit_io':
+drivers/block/nvme-core.c:1847:4: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+    (void __user *)io.addr, length, NULL, 0);
+
+The cast here is intentional and safe, so we can shut up the
+gcc warning by adding an intermediate cast to 'unsigned long'.
+
+I had previously submitted a patch to fix this problem in the
+nvme driver, but it was accepted on the same day that two new
+warnings got added.
+
+Signed-off-by: Arnd Bergmann <arnd at arndb.de>
+Fixes: d29ec8241c10e ("nvme: submit internal commands through the block layer")
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index e917cf304ad0..f9faf276ce74 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1844,7 +1844,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 	c.rw.metadata = cpu_to_le64(meta_dma);
+ 
+ 	status = __nvme_submit_sync_cmd(ns->queue, &c, NULL,
+-			(void __user *)io.addr, length, NULL, 0);
++			(void __user *)(unsigned long)io.addr, length, NULL, 0);
+  unmap:
+ 	if (meta) {
+ 		if (status == NVME_SC_SUCCESS && !write) {
+@@ -1886,7 +1886,7 @@ static int nvme_user_cmd(struct nvme_dev *dev, struct nvme_ns *ns,
+ 		timeout = msecs_to_jiffies(cmd.timeout_ms);
+ 
+ 	status = __nvme_submit_sync_cmd(ns ? ns->queue : dev->admin_q, &c,
+-			NULL, (void __user *)cmd.addr, cmd.data_len,
++			NULL, (void __user *)(unsigned long)cmd.addr, cmd.data_len,
+ 			&cmd.result, timeout);
+ 	if (status >= 0) {
+ 		if (put_user(cmd.result, &ucmd->result))
