@@ -1,30 +1,39 @@
 From: mpe@ellerman.id.au (Michael Ellerman)
-Date: Tue, 06 Oct 2015 14:39:06 +1100
-Subject: [PATCH 4/5 v2] pseries/iommu: implement DDW-aware
- dma_get_page_shift
-In-Reply-To: <201510030421.d9fvrbXU%fengguang.wu@intel.com>
-References: <201510030421.d9fvrbXU%fengguang.wu@intel.com>
-Message-ID: <1444102746.16909.4.camel@ellerman.id.au>
+Date: Tue, 06 Oct 2015 14:43:36 +1100
+Subject: [PATCH 1/5 v2] dma-mapping: add generic dma_get_page_shift API
+In-Reply-To: <20151002201142.GC40695@linux.vnet.ibm.com>
+References: <20151002171606.GA41011@linux.vnet.ibm.com>
+ <20151002200953.GB40695@linux.vnet.ibm.com>
+ <20151002201142.GC40695@linux.vnet.ibm.com>
+Message-ID: <1444103016.16909.6.camel@ellerman.id.au>
 
-On Sat, 2015-10-03@04:33 +0800, kbuild test robot wrote:
-> Hi Nishanth,
+On Fri, 2015-10-02@13:11 -0700, Nishanth Aravamudan wrote:
+> Drivers like NVMe need to be able to determine the page size used for
+> DMA transfers. Add a new API that defaults to return PAGE_SHIFT on all
+> architectures.
 > 
-> [auto build test results on v4.3-rc3 -- if it's inappropriate base, please ignore]
+> Signed-off-by: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
 > 
-> config: powerpc-defconfig (attached as .config)
-> reproduce:
->         wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
->         chmod +x ~/bin/make.cross
->         # save the attached .config to linux build tree
->         make.cross ARCH=powerpc 
+> diff --git a/include/asm-generic/dma-mapping-common.h b/include/asm-generic/dma-mapping-common.h
+> index b1bc954..86e4e97 100644
+> --- a/include/asm-generic/dma-mapping-common.h
+> +++ b/include/asm-generic/dma-mapping-common.h
+> @@ -355,4 +355,11 @@ static inline int dma_set_mask(struct device *dev, u64 mask)
+>  }
+>  #endif
+>  
+> +#ifndef HAVE_ARCH_DMA_GET_PAGE_SHIFT
+> +static inline unsigned long dma_get_page_shift(struct device *dev)
+> +{
+> +	return PAGE_SHIFT;
+> +}
+> +#endif
+> +
+>  #endif
 > 
-> All error/warnings (new ones prefixed by >>):
-> 
->    arch/powerpc/platforms/pseries/iommu.c: In function 'iommu_init_early_pSeries':
-> >> arch/powerpc/platforms/pseries/iommu.c:1433:9: error: 'struct machdep_calls' has no member named 'dma_get_page_shift'
->       ppc_md.dma_get_page_shift = dma_get_page_shift_pSeriesLP;
 
-It was added in patch 3/5, so I think this error is bogus. Unless there's a
-typo I'm missing?
+Adding Arnd who is asm-generic maintainer.
+
+Arnd/Christoph can one of you give us an ack for this patch?
 
 cheers
