@@ -1,38 +1,22 @@
-From: lkp@intel.com (Fengguang Wu)
-Date: Wed, 7 Oct 2015 21:56:02 +0800
-Subject: [kbuild-all] [PATCH 4/5 v2] pseries/iommu: implement DDW-aware
- dma_get_page_shift
-In-Reply-To: <1444102746.16909.4.camel@ellerman.id.au>
-References: <201510030421.d9fvrbXU%fengguang.wu@intel.com>
- <1444102746.16909.4.camel@ellerman.id.au>
-Message-ID: <20151007135602.GA17377@wfg-t540p.sh.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 7 Oct 2015 16:59:44 +0000 (UTC)
+Subject: Command Effects log support in NVMe Driver.
+In-Reply-To: <CAGrovxVrJM8QxSquUraTPSor23oikKqD7mRzNTfGqSiK74Z-Dw@mail.gmail.com>
+References: <CAGrovxVrJM8QxSquUraTPSor23oikKqD7mRzNTfGqSiK74Z-Dw@mail.gmail.com>
+Message-ID: <alpine.LNX.2.00.1510071650250.23840@localhost.lm.intel.com>
 
-On Tue, Oct 06, 2015@02:39:06PM +1100, Michael Ellerman wrote:
-> On Sat, 2015-10-03@04:33 +0800, kbuild test robot wrote:
-> > Hi Nishanth,
-> > 
-> > [auto build test results on v4.3-rc3 -- if it's inappropriate base, please ignore]
-> > 
-> > config: powerpc-defconfig (attached as .config)
-> > reproduce:
-> >         wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # save the attached .config to linux build tree
-> >         make.cross ARCH=powerpc 
-> > 
-> > All error/warnings (new ones prefixed by >>):
-> > 
-> >    arch/powerpc/platforms/pseries/iommu.c: In function 'iommu_init_early_pSeries':
-> > >> arch/powerpc/platforms/pseries/iommu.c:1433:9: error: 'struct machdep_calls' has no member named 'dma_get_page_shift'
-> >       ppc_md.dma_get_page_shift = dma_get_page_shift_pSeriesLP;
-> 
-> It was added in patch 3/5, so I think this error is bogus. Unless there's a
-> typo I'm missing?
+On Tue, 6 Oct 2015, royy walls wrote:
+> Our proposal is to have the nvme driver act on the information
+> provided by the command effects log, instead of replying on other user
+> space management applications. For example, the driver would read and
+> store the command effects log during device initialization. Any
+> commands issued after this would be looked up in the stored command
+> effects log data and recommended actions would automatically
+> happen.i.e. restricting concurrent access to a namespace,
+> re-enumerating namespaces, etc..
 
-Yes sorry, the patchset was not detected correctly in your case,
-ending up the patches being tested as individual ones.
-
-I'll fixup the robot.
-
-Thanks,
-Fengguang
+It sounds reasonable, but it's not a complete solution. What if you
+submit a namespace attachment command from one host, attaching it to a
+different controller in the subsystem? There's no action the driver can do
+to help from knowing the command effects. I think maybe the action should
+be taken by the user space that sent the command in the first place.
