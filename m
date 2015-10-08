@@ -1,5 +1,5 @@
-From: mpe@ellerman.id.au (Michael Ellerman)
-Date: Thu, 08 Oct 2015 15:06:27 +1100
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 8 Oct 2015 00:46:16 -0700
 Subject: [kbuild-all] [PATCH 4/5 v2] pseries/iommu: implement DDW-aware
  dma_get_page_shift
 In-Reply-To: <20151008011609.GA25163@wfg-t540p.sh.intel.com>
@@ -9,76 +9,25 @@ References: <201510030421.d9fvrbXU%fengguang.wu@intel.com>
  <1444263119.31685.4.camel@ellerman.id.au>
  <20151008010603.GA24198@wfg-t540p.sh.intel.com>
  <20151008011609.GA25163@wfg-t540p.sh.intel.com>
-Message-ID: <1444277187.9940.7.camel@ellerman.id.au>
+Message-ID: <20151008074616.GA16089@infradead.org>
 
-On Thu, 2015-10-08@09:16 +0800, Fengguang Wu wrote:
-> On Thu, Oct 08, 2015@09:06:03AM +0800, Fengguang Wu wrote:
-> > On Thu, Oct 08, 2015@11:11:59AM +1100, Michael Ellerman wrote:
-> > > On Wed, 2015-10-07@21:56 +0800, Fengguang Wu wrote:
-> > > > On Tue, Oct 06, 2015@02:39:06PM +1100, Michael Ellerman wrote:
-> > > > > On Sat, 2015-10-03@04:33 +0800, kbuild test robot wrote:
-> > > > > > Hi Nishanth,
-> > > > > > 
-> > > > > > [auto build test results on v4.3-rc3 -- if it's inappropriate base, please ignore]
-> > > > > > 
-> > > > > > config: powerpc-defconfig (attached as .config)
-> > > > > > reproduce:
-> > > > > >         wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
-> > > > > >         chmod +x ~/bin/make.cross
-> > > > > >         # save the attached .config to linux build tree
-> > > > > >         make.cross ARCH=powerpc 
-> > > > > > 
-> > > > > > All error/warnings (new ones prefixed by >>):
-> > > > > > 
-> > > > > >    arch/powerpc/platforms/pseries/iommu.c: In function 'iommu_init_early_pSeries':
-> > > > > > >> arch/powerpc/platforms/pseries/iommu.c:1433:9: error: 'struct machdep_calls' has no member named 'dma_get_page_shift'
-> > > > > >       ppc_md.dma_get_page_shift = dma_get_page_shift_pSeriesLP;
-> > > > > 
-> > > > > It was added in patch 3/5, so I think this error is bogus. Unless there's a
-> > > > > typo I'm missing?
-> > > > 
-> > > > Yes sorry, the patchset was not detected correctly in your case,
-> > > > ending up the patches being tested as individual ones.
-> > > > 
-> > > > I'll fixup the robot.
-> > > 
-> > > Thanks.
-> > > 
-> > > How did the robot decide to build this series in the first place? Does it build
-> > > everything sent to one of the lists on CC?
-> > 
-> > Yes, currently the following mailing lists are subscribed.  Patches
-> > sent to them will be tested if they can be git-am to RC or linux-next
-> > kernels:
-> > 
-> > kvm
-> > linux-acpi
-> > linux-bluetooth
-> > linux-btrfs
-> > linux-embedded
-> > linux-ext4
-> > linux-fsdevel
-> > linux-media
-> > linux-mmc
-> > linux-nfs
-> > linux-omap
-> > linux-pci
-> > linux-pm
-> > linux-raid
-> > linux-rdma
-> > linux-scsi
-> > linux-usb
-> > linux-wireless
-> > netdev
-> > netfilter-devel
-> > linux-mm
-> > driverdev-devel
-> > intel-gfx
-> 
+Hi Fengguang,
+
+I think this proactive testing does a little more harm than good in
+it's current form.  While offering testing for patches that aren't in
+git trees and or by people that don't even have a git tree that the
+build bots known about does seem useful, blindly doing it for every
+patch against something that most likely isn't the right base seems
+counter intertuitive.  We'll probaby need some annotation in the O/n
+mail that asks for a test and sets a base tree to actually make it
+useful.  With those few tweaks it should be really useful!
+
+Maybe we should have a discussion about this at kernel summit?
+
+
+On Thu, Oct 08, 2015@09:16:09AM +0800, Fengguang Wu wrote:
 > And of course linux-kernel. More lists could be added in future.
-
-So do you mind adding linuxppc-dev at lists.ozlabs.org ? :)
-
-It's pretty low traffic compared to lkml.
-
-cheers
+> 
+> Thanks,
+> Fengguang
+---end quoted text---
