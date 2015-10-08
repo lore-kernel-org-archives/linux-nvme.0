@@ -1,44 +1,75 @@
-From: mpe@ellerman.id.au (Michael Ellerman)
-Date: Thu, 08 Oct 2015 11:11:59 +1100
+From: lkp@intel.com (Fengguang Wu)
+Date: Thu, 8 Oct 2015 09:06:03 +0800
 Subject: [kbuild-all] [PATCH 4/5 v2] pseries/iommu: implement DDW-aware
  dma_get_page_shift
-In-Reply-To: <20151007135602.GA17377@wfg-t540p.sh.intel.com>
+In-Reply-To: <1444263119.31685.4.camel@ellerman.id.au>
 References: <201510030421.d9fvrbXU%fengguang.wu@intel.com>
  <1444102746.16909.4.camel@ellerman.id.au>
  <20151007135602.GA17377@wfg-t540p.sh.intel.com>
-Message-ID: <1444263119.31685.4.camel@ellerman.id.au>
+ <1444263119.31685.4.camel@ellerman.id.au>
+Message-ID: <20151008010603.GA24198@wfg-t540p.sh.intel.com>
 
-On Wed, 2015-10-07@21:56 +0800, Fengguang Wu wrote:
-> On Tue, Oct 06, 2015@02:39:06PM +1100, Michael Ellerman wrote:
-> > On Sat, 2015-10-03@04:33 +0800, kbuild test robot wrote:
-> > > Hi Nishanth,
+On Thu, Oct 08, 2015@11:11:59AM +1100, Michael Ellerman wrote:
+> On Wed, 2015-10-07@21:56 +0800, Fengguang Wu wrote:
+> > On Tue, Oct 06, 2015@02:39:06PM +1100, Michael Ellerman wrote:
+> > > On Sat, 2015-10-03@04:33 +0800, kbuild test robot wrote:
+> > > > Hi Nishanth,
+> > > > 
+> > > > [auto build test results on v4.3-rc3 -- if it's inappropriate base, please ignore]
+> > > > 
+> > > > config: powerpc-defconfig (attached as .config)
+> > > > reproduce:
+> > > >         wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
+> > > >         chmod +x ~/bin/make.cross
+> > > >         # save the attached .config to linux build tree
+> > > >         make.cross ARCH=powerpc 
+> > > > 
+> > > > All error/warnings (new ones prefixed by >>):
+> > > > 
+> > > >    arch/powerpc/platforms/pseries/iommu.c: In function 'iommu_init_early_pSeries':
+> > > > >> arch/powerpc/platforms/pseries/iommu.c:1433:9: error: 'struct machdep_calls' has no member named 'dma_get_page_shift'
+> > > >       ppc_md.dma_get_page_shift = dma_get_page_shift_pSeriesLP;
 > > > 
-> > > [auto build test results on v4.3-rc3 -- if it's inappropriate base, please ignore]
-> > > 
-> > > config: powerpc-defconfig (attached as .config)
-> > > reproduce:
-> > >         wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
-> > >         chmod +x ~/bin/make.cross
-> > >         # save the attached .config to linux build tree
-> > >         make.cross ARCH=powerpc 
-> > > 
-> > > All error/warnings (new ones prefixed by >>):
-> > > 
-> > >    arch/powerpc/platforms/pseries/iommu.c: In function 'iommu_init_early_pSeries':
-> > > >> arch/powerpc/platforms/pseries/iommu.c:1433:9: error: 'struct machdep_calls' has no member named 'dma_get_page_shift'
-> > >       ppc_md.dma_get_page_shift = dma_get_page_shift_pSeriesLP;
+> > > It was added in patch 3/5, so I think this error is bogus. Unless there's a
+> > > typo I'm missing?
 > > 
-> > It was added in patch 3/5, so I think this error is bogus. Unless there's a
-> > typo I'm missing?
+> > Yes sorry, the patchset was not detected correctly in your case,
+> > ending up the patches being tested as individual ones.
+> > 
+> > I'll fixup the robot.
 > 
-> Yes sorry, the patchset was not detected correctly in your case,
-> ending up the patches being tested as individual ones.
+> Thanks.
 > 
-> I'll fixup the robot.
+> How did the robot decide to build this series in the first place? Does it build
+> everything sent to one of the lists on CC?
 
-Thanks.
+Yes, currently the following mailing lists are subscribed.  Patches
+sent to them will be tested if they can be git-am to RC or linux-next
+kernels:
 
-How did the robot decide to build this series in the first place? Does it build
-everything sent to one of the lists on CC?
+kvm
+linux-acpi
+linux-bluetooth
+linux-btrfs
+linux-embedded
+linux-ext4
+linux-fsdevel
+linux-media
+linux-mmc
+linux-nfs
+linux-omap
+linux-pci
+linux-pm
+linux-raid
+linux-rdma
+linux-scsi
+linux-usb
+linux-wireless
+netdev
+netfilter-devel
+linux-mm
+driverdev-devel
+intel-gfx
 
-cheers
+Thanks,
+Fengguang
