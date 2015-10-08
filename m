@@ -1,17 +1,16 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 8 Oct 2015 15:47:31 +0000 (UTC)
-Subject: [PATCH 1/8] NVMe: Reference count open namespaces
-In-Reply-To: <56168F18.5070207@dev.mellanox.co.il>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Thu, 8 Oct 2015 18:52:24 +0300
+Subject: [PATCH 8/8] nvme: properly handle partially initialized queues in
+ nvme_create_io_queues
+In-Reply-To: <1443879587-23553-9-git-send-email-hch@lst.de>
 References: <1443879587-23553-1-git-send-email-hch@lst.de>
- <1443879587-23553-2-git-send-email-hch@lst.de>
- <56168F18.5070207@dev.mellanox.co.il>
-Message-ID: <alpine.LNX.2.00.1510081546370.27742@localhost.lm.intel.com>
+ <1443879587-23553-9-git-send-email-hch@lst.de>
+Message-ID: <56169138.90804@dev.mellanox.co.il>
 
-On Thu, 8 Oct 2015, Sagi Grimberg wrote:
-> On 10/3/2015 4:39 PM, Christoph Hellwig wrote:
->> +	else if (!kref_get_unless_zero(&ns->dev->kref)) {
->> +		kref_put(&ns->kref, nvme_free_ns);
+On 10/3/2015 4:39 PM, Christoph Hellwig wrote:
+> This avoids having to clean up later in a seemingly unrelated place.
 >
-> Is this calling nvme_free_ns with dev_list_lock taken?
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
 
-Yeah, patch 2/8 in this series fixes it. I should have squashed those two.
+I assume Keith reviewed this one correct? :)
