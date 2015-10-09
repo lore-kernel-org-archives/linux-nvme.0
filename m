@@ -1,65 +1,52 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Fri, 09 Oct 2015 20:58:46 +0200
-Subject: [PATCH v2] nvme: fix 32-bit build warning
-In-Reply-To: <20151009144221.GA12760@infradead.org>
-References: <5851501.PBMrs03XFb@wuerfel> <20151009144221.GA12760@infradead.org>
-Message-ID: <6199457.Ih8H4dRbvg@wuerfel>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 9 Oct 2015 19:52:27 +0000 (UTC)
+Subject: [PATCH] NVMe: Log Sense Temperature doesn't handle negative values
+In-Reply-To: <BL2PR04MB1637F56809BDE2AC26E682C92350@BL2PR04MB163.namprd04.prod.outlook.com>
+References: <BL2PR04MB1637F56809BDE2AC26E682C92350@BL2PR04MB163.namprd04.prod.outlook.com>
+Message-ID: <alpine.LNX.2.00.1510091945030.27742@localhost.lm.intel.com>
 
->From 877a323df080bda54a71e26ecf20b4244b31a180 Mon Sep 17 00:00:00 2001
-From: Arnd Bergmann <arnd@arndb.de>
-Date: Tue, 6 Oct 2015 22:29:48 +0200
-Subject: [PATCH] nvme: fix 32-bit build warning
+On Thu, 8 Oct 2015, Jeffrey Lien wrote:
+> From 4f8b0146b5d310b944cb99b5a68deed08ed89b6b Mon Sep 17 00:00:00 2001
+> From: Jeff Lien <jlien at ddtest-jeff.hgst.com>
+> Date: Wed, 7 Oct 2015 14:25:07 -0500
+> Subject: [PATCH] NVMe: Log Sense Temperature doesn't handle negative values
+>  properly.
+> 
+> To meet the SCSI Command Spec (T10 SPC-4 r37), the log sense temperature cannot
+> be negative.   From the spec:
+> 
+> The TEMPERATURE field indicates the temperature of the SCSI target device in
+> degrees Celsius at the time the LOG SENSE command is performed. Temperatures
+> equal to or less than zero degrees Celsius shall cause the TEMPERATURE field
+> to be set to zero. If the device server is unable to detect a valid
+> temperature because of a sensor failure or other condition, then the
+> TEMPERATURE field shall be set to FFh. The temperature should be reported
+> with an accuracy of plus or minus three Celsius degrees while the SCSI target
+> device is operating at a steady state within its environmental limits.
+> 
+> With the current code, a value of -2 C will be shown as 254 C since it was not
+> written to handle negative vales.  This same issue also exists in
+> nvme_trans_log_info_exceptions.
 
-Compiling the nvme driver on 32-bit warns about a cast from a __u64
-variable to a pointer:
+[snip]
 
-drivers/block/nvme-core.c: In function 'nvme_submit_io':
-drivers/block/nvme-core.c:1847:4: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
-    (void __user *)io.addr, length, NULL, 0);
+> @@ -1097,7 +1101,7 @@ static int nvme_trans_log_temperature(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+>  	dma_addr_t dma_addr;
+>  	void *mem;
+>  	u32 feature_resp;
+> -	u8 temp_c_cur, temp_c_thresh;
+> +	s8 temp_c_cur, temp_c_thresh;
+>  	u16 temp_k;
+>  	log_response = kzalloc(LOG_TEMP_PAGE_LENGTH, GFP_KERNEL);
+> @@ -1129,6 +1133,10 @@ static int nvme_trans_log_temperature(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+>  		temp_k = (smart_log->temperature[1] << 8) +
+>  				(smart_log->temperature[0]);
+>  		temp_c_cur = temp_k - KELVIN_TEMP_FACTOR;
+> +		/* if temp_c_cur is negative,          */
+> +		/* set to 0 to meet Scsi Command Spec  */
+> +		if (temp_c_cur < 0)
+> +			temp_c_cur = 0;
 
-The cast here is intentional and safe, so we can shut up the
-gcc warning by adding an intermediate cast to 'uintptr_t'.
-
-I had previously submitted a patch to fix this problem in the
-nvme driver, but it was accepted on the same day that two new
-warnings got added.
-
-For clarification, I also change the third instance of this cast
-to use uintptr_t instead of unsigned long now.
-
-Signed-off-by: Arnd Bergmann <arnd at arndb.de>
-Fixes: d29ec8241c10e ("nvme: submit internal commands through the block layer")
----
-v2: use uintptr_t for intermediate cast
-
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index e917cf304ad0..e8ff16c63977 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -1804,7 +1804,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 
- 	length = (io.nblocks + 1) << ns->lba_shift;
- 	meta_len = (io.nblocks + 1) * ns->ms;
--	metadata = (void __user *)(unsigned long)io.metadata;
-+	metadata = (void __user *)(uintptr_t)io.metadata;
- 	write = io.opcode & 1;
- 
- 	if (ns->ext) {
-@@ -1844,7 +1844,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- 	c.rw.metadata = cpu_to_le64(meta_dma);
- 
- 	status = __nvme_submit_sync_cmd(ns->queue, &c, NULL,
--			(void __user *)io.addr, length, NULL, 0);
-+			(void __user *)(uintptr_t)io.addr, length, NULL, 0);
-  unmap:
- 	if (meta) {
- 		if (status == NVME_SC_SUCCESS && !write) {
-@@ -1886,7 +1886,7 @@ static int nvme_user_cmd(struct nvme_dev *dev, struct nvme_ns *ns,
- 		timeout = msecs_to_jiffies(cmd.timeout_ms);
- 
- 	status = __nvme_submit_sync_cmd(ns ? ns->queue : dev->admin_q, &c,
--			NULL, (void __user *)cmd.addr, cmd.data_len,
-+			NULL, (void __user *)(uintptr_t)cmd.addr, cmd.data_len,
- 			&cmd.result, timeout);
- 	if (status >= 0) {
- 		if (put_user(cmd.result, &ucmd->result))
+Interesting, < 0C is colder than I might have expected. What if they
+can get hotter than expected, like 128C? I don't think we want to report
+that as 0.
