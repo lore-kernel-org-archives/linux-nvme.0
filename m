@@ -1,30 +1,23 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri,  9 Oct 2015 18:19:20 +0200
-Subject: [PATCH] =?UTF-8?q?nvme:=20include=20<linux/types.=C4=A5>=20in=20<?=
- =?UTF-8?q?linux/nvme.h>?=
-Message-ID: <1444407560-23454-1-git-send-email-hch@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 9 Oct 2015 16:30:00 +0000 (UTC)
+Subject: [PATCH] nvme: move to a new drivers/nvme/host directory
+In-Reply-To: <1444407426-23072-1-git-send-email-hch@lst.de>
+References: <1444407426-23072-1-git-send-email-hch@lst.de>
+Message-ID: <alpine.LNX.2.00.1510091622320.27742@localhost.lm.intel.com>
 
-The buildbot complains about this even if it doesn't generate
-a a build warning.  But it's an easy fix, so here we go:
+On Fri, 9 Oct 2015, Christoph Hellwig wrote:
+> From: Jay Sternberg <jay.e.sternberg at intel.com>
+>
+> This patch moves the NVMe driver from drivers/block/ to its own new
+> drivers/nvme/host/ directory.  This is in preparation of splitting the
+> current monolithic driver up and add support for the upcoming NVMe
+> over Fabrics standard.  The drivers/nvme/host/ is chose to leave space
+> for a NVMe target implementation in addition to this host side driver.
+>
+> Signed-off-by: Jay Sternberg <jay.e.sternberg at intel.com>
+> [hch: rebased, renamed core.c to pci.c, slight tweaks]
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Reported-by: kbuild test robot <fengguang.wu at intel.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- include/linux/nvme.h | 2 ++
- 1 file changed, 2 insertions(+)
+Looks good to me!
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 9668d35..3af5f45 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -15,6 +15,8 @@
- #ifndef _LINUX_NVME_H
- #define _LINUX_NVME_H
- 
-+#include <linux/types.h>
-+
- struct nvme_bar {
- 	__u64			cap;	/* Controller Capabilities */
- 	__u32			vs;	/* Version */
--- 
-1.9.1
+Acked-by: Keith Busch <keith.busch at intel.com>
