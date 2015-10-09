@@ -1,11 +1,11 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 9 Oct 2015 16:30:00 +0000 (UTC)
+From: axboe@fb.com (Jens Axboe)
+Date: Fri, 9 Oct 2015 10:30:18 -0600
 Subject: [PATCH] nvme: move to a new drivers/nvme/host directory
 In-Reply-To: <1444407426-23072-1-git-send-email-hch@lst.de>
 References: <1444407426-23072-1-git-send-email-hch@lst.de>
-Message-ID: <alpine.LNX.2.00.1510091622320.27742@localhost.lm.intel.com>
+Message-ID: <5617EB9A.1000903@fb.com>
 
-On Fri, 9 Oct 2015, Christoph Hellwig wrote:
+On 10/09/2015 10:17 AM, Christoph Hellwig wrote:
 > From: Jay Sternberg <jay.e.sternberg at intel.com>
 >
 > This patch moves the NVMe driver from drivers/block/ to its own new
@@ -18,6 +18,7 @@ On Fri, 9 Oct 2015, Christoph Hellwig wrote:
 > [hch: rebased, renamed core.c to pci.c, slight tweaks]
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Looks good to me!
+Looks fine to me, I'll await a response from Keith before shoving this in.
 
-Acked-by: Keith Busch <keith.busch at intel.com>
+-- 
+Jens Axboe
