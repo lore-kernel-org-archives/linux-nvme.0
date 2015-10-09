@@ -1,39 +1,43 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Fri, 9 Oct 2015 10:38:40 -0700
-Subject: [PATCH] Move nvme driver source into subdirectory and move pci
- specifics from core into separate file
-In-Reply-To: <20150926161121.GB30551@infradead.org>
-References: <1443130050.6973.125.camel@linux.intel.com>
- <20150925000251.GA25904@infradead.org>
- <CAF1ivSYwe41J+kEuna_VYQvHSLanZzx-qqOOQ3X9EzLWYK_bFQ@mail.gmail.com>
- <20150926161121.GB30551@infradead.org>
-Message-ID: <CAF1ivSa4zCLHenbwT3GNk2gkWWPQwM_G5M_FtrEY9rVq8n7iVg@mail.gmail.com>
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Fri, 09 Oct 2015 20:55:26 +0200
+Subject: [PATCH] nvme: fix 32-bit build warning
+In-Reply-To: <20151009144221.GA12760@infradead.org>
+References: <5851501.PBMrs03XFb@wuerfel> <20151009144221.GA12760@infradead.org>
+Message-ID: <5008376.3nLbRZSJUc@wuerfel>
 
-On Sat, Sep 26, 2015@9:11 AM, Christoph Hellwig <hch@infradead.org> wrote:
-> On Fri, Sep 25, 2015@10:32:36PM -0700, Ming Lin wrote:
->> >  a) move files to a new directory.  My suggestion for that would be
->> >     driver/nvme/host/ as I have a software NVMe controller
->> >     implementation under development which I'd like to also add under
->> >     a different subdirectory of drivers/nvme.
->>
->> What's the "software NVMe controller"? Is it the initiator for NVMe
->> over fabrics?
->
-> It's a software implementation of the NVMe subsystem and controller
-> interface.  It could be frontended by a future fabrics implementation,
-> a virtio-nvme implementation, a nvme-loop implementation or with some
-> additional work maybe even a Linux-based PCIe target device.
+On Friday 09 October 2015 07:42:21 Christoph Hellwig wrote:
+> On Tue, Oct 06, 2015@10:37:11PM +0200, Arnd Bergmann wrote:
+> > Compiling the nvme driver on 32-bit warns about a cast from a __u64
+> > variable to a pointer:
+> > 
+> > drivers/block/nvme-core.c: In function 'nvme_submit_io':
+> > drivers/block/nvme-core.c:1847:4: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
+> >     (void __user *)io.addr, length, NULL, 0);
+> > 
+> > The cast here is intentional and safe, so we can shut up the
+> > gcc warning by adding an intermediate cast to 'unsigned long'.
+> 
+> It really should be a uintptr_t, which would also avoid the > 80
+> character lines.  I wonder if we need a u64_to_ptr helper given these
+> ioctl ABIs that pass pointers as a u64 seems to be everywhere these
+> days.
 
-Hi Christoph,
+I'll send a new version with uintptr_t for now, but having a proper
+interface for this sounds like a good idea.
 
-I have been writing vhost-nvme driver for a while.
-http://www.minggr.net/cgit/cgit.cgi/linux/commit/?h=vhost-nvme/v1
+I've seen a couple of cases like this, and most but not
+all actually want a __user pointer like this one. That seems
+similar to the common ioctl use case where we want a user pointer
+from an 'unsigned long', so we could use the same function for both,
+like
 
-Seems I have to do similar submission/completion queue simulation
-in vhost-nvme as in qemu/nvme.c.
+static inline void __user *get_uptr(unsigned long arg)
+{
+	return (void __user *)arg;
+}
 
-Will the "software NVMe controller" do these simulation?
-If yes, could you share a draft version then I can try build vhost-nvme
-on top of it?
+With this definition, you can pass any scalar type (u64 or
+unsigned long normally) and get the pointer, and we can
+put that into include/linux/uaccess.h.
 
-Thanks.
+	Arnd
