@@ -1,18 +1,26 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 10 Oct 2015 09:28:40 +0200
-Subject: [PATCH 3/3] nvme: refactor nvme_queue_rq
-In-Reply-To: <20151009201154.GA29924@localhost.localdomain>
-References: <1444409756-7317-1-git-send-email-hch@lst.de>
- <1444409756-7317-4-git-send-email-hch@lst.de>
- <20151009201154.GA29924@localhost.localdomain>
-Message-ID: <20151010072840.GA18358@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sat, 10 Oct 2015 00:30:44 -0700
+Subject: [PATCH] Move nvme driver source into subdirectory and move pci
+ specifics from core into separate file
+In-Reply-To: <CAF1ivSa4zCLHenbwT3GNk2gkWWPQwM_G5M_FtrEY9rVq8n7iVg@mail.gmail.com>
+References: <1443130050.6973.125.camel@linux.intel.com>
+ <20150925000251.GA25904@infradead.org>
+ <CAF1ivSYwe41J+kEuna_VYQvHSLanZzx-qqOOQ3X9EzLWYK_bFQ@mail.gmail.com>
+ <20150926161121.GB30551@infradead.org>
+ <CAF1ivSa4zCLHenbwT3GNk2gkWWPQwM_G5M_FtrEY9rVq8n7iVg@mail.gmail.com>
+Message-ID: <20151010073044.GA11346@infradead.org>
 
-On Fri, Oct 09, 2015@02:11:54PM -0600, Jon Derrick wrote:
-> Hi Christoph,
+On Fri, Oct 09, 2015@10:38:40AM -0700, Ming Lin wrote:
+> I have been writing vhost-nvme driver for a while.
+> http://www.minggr.net/cgit/cgit.cgi/linux/commit/?h=vhost-nvme/v1
 > 
-> > +	if (!nvme_setup_prps(dev, iod, blk_rq_bytes(req)))
-> > +	    	goto out_unmap;
-> Git am complains about whitespacing here.
+> Seems I have to do similar submission/completion queue simulation
+> in vhost-nvme as in qemu/nvme.c.
+> 
+> Will the "software NVMe controller" do these simulation?
+> If yes, could you share a draft version then I can try build vhost-nvme
+> on top of it?
 
-Ok, I fixed the whitespaces in patch 2 and reintroducem them in 3, I'll
-fix it in the next resend.
+I'd call it impementation, but not simulation, but otherwise yes.  I'll
+talk to the people in charge as I think joining forces would be very
+useful.
