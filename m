@@ -1,16 +1,18 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 10 Oct 2015 08:55:14 +0200
-Subject: [PATCH 1/3] nvme: add missing unmaps in nvme_queue_rq
-In-Reply-To: <561851EB.1070503@dev.mellanox.co.il>
+Date: Sat, 10 Oct 2015 09:28:40 +0200
+Subject: [PATCH 3/3] nvme: refactor nvme_queue_rq
+In-Reply-To: <20151009201154.GA29924@localhost.localdomain>
 References: <1444409756-7317-1-git-send-email-hch@lst.de>
- <1444409756-7317-2-git-send-email-hch@lst.de>
- <561851EB.1070503@dev.mellanox.co.il>
-Message-ID: <20151010065514.GB17885@lst.de>
+ <1444409756-7317-4-git-send-email-hch@lst.de>
+ <20151009201154.GA29924@localhost.localdomain>
+Message-ID: <20151010072840.GA18358@lst.de>
 
-On Sat, Oct 10, 2015@02:46:51AM +0300, Sagi Grimberg wrote:
-> Would it be better to unmap the data sg once at error_cmd tag?
+On Fri, Oct 09, 2015@02:11:54PM -0600, Jon Derrick wrote:
+> Hi Christoph,
+> 
+> > +	if (!nvme_setup_prps(dev, iod, blk_rq_bytes(req)))
+> > +	    	goto out_unmap;
+> Git am complains about whitespacing here.
 
-We'd need unmap versions of the error_cmd and retry_cmd goto labels,
-which was too much churn for this quick fix.  Patch 3 now has a single
-exit path with a ret variable for the helper this has been factored out
-to, so this has been taken care off there.
+Ok, I fixed the whitespaces in patch 2 and reintroducem them in 3, I'll
+fix it in the next resend.
