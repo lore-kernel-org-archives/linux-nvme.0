@@ -1,28 +1,20 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 12 Oct 2015 11:37:38 -0600
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 12 Oct 2015 19:42:46 +0200
 Subject: [PATCH] NVMe: Add explicit block config dependency
-Message-ID: <1444671458-9947-1-git-send-email-keith.busch@intel.com>
+In-Reply-To: <1444671458-9947-1-git-send-email-keith.busch@intel.com>
+References: <1444671458-9947-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20151012174246.GA30222@lst.de>
 
-The nvme driver was moved from drivers/block, losing our implicit
-dependency on CONFIG_BLOCK. This makes it an explicit driver dependency.
+On Mon, Oct 12, 2015@11:37:38AM -0600, Keith Busch wrote:
+> The nvme driver was moved from drivers/block, losing our implicit
+> dependency on CONFIG_BLOCK. This makes it an explicit driver dependency.
+> 
+> Reported-by: Jim Davis <jim.epost at gmail.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-Reported-by: Jim Davis <jim.epost at gmail.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/Kconfig |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Oh, that explains the odd errors - I actually just got a similar one
+from the buildbot and couldn't make sense of it.
 
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index 0089f78..002a94a 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -1,6 +1,6 @@
- config BLK_DEV_NVME
- 	tristate "NVM Express block device"
--	depends on PCI
-+	depends on PCI && BLOCK
- 	---help---
- 	  The NVM Express driver is for solid state drives directly
- 	  connected to the PCI or PCI Express bus.  If you know you
--- 
-1.7.10.4
+Looks good,
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
