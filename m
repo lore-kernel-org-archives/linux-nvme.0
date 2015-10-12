@@ -1,25 +1,28 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 12 Oct 2015 17:31:54 +0000 (UTC)
-Subject: nvme driver split, the easy part
-In-Reply-To: <20151012172430.GA29517@lst.de>
-References: <1444633456-27698-1-git-send-email-hch@lst.de>
- <alpine.LNX.2.00.1510121505490.27742@localhost.lm.intel.com>
- <20151012172430.GA29517@lst.de>
-Message-ID: <alpine.LNX.2.00.1510121729431.27742@localhost.lm.intel.com>
+Date: Mon, 12 Oct 2015 11:37:38 -0600
+Subject: [PATCH] NVMe: Add explicit block config dependency
+Message-ID: <1444671458-9947-1-git-send-email-keith.busch@intel.com>
 
-On Mon, 12 Oct 2015, Christoph Hellwig wrote:
-> On Mon, Oct 12, 2015@05:20:25PM +0000, Keith Busch wrote:
->> Your second series will take a few days to process, but I can already
->> tell the meta-data patch [2/8] is incomplete. At the least, we need to
->> set cmnd.rw.meta in nvme_submit_priv(), but I'll give a more thorough
->> review later this week.
->
-> That's handled by "nvme: refactor nvme_queue_rq" which now uses
-> a common helper to map data and metadata shared by the read/write
-> and passthrough path.
+The nvme driver was moved from drivers/block, losing our implicit
+dependency on CONFIG_BLOCK. This makes it an explicit driver dependency.
 
-Aha, so it is. Very cool, I'm still getting used to the recent changes. :)
+Reported-by: Jim Davis <jim.epost at gmail.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/Kconfig |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Thanks for the offer for testing!
-
-No problem!
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index 0089f78..002a94a 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -1,6 +1,6 @@
+ config BLK_DEV_NVME
+ 	tristate "NVM Express block device"
+-	depends on PCI
++	depends on PCI && BLOCK
+ 	---help---
+ 	  The NVM Express driver is for solid state drives directly
+ 	  connected to the PCI or PCI Express bus.  If you know you
+-- 
+1.7.10.4
