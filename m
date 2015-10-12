@@ -1,22 +1,20 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 12 Oct 2015 19:44:02 +0200
-Subject: nvme driver split, the easy part
-In-Reply-To: <alpine.LNX.2.00.1510121729431.27742@localhost.lm.intel.com>
-References: <1444633456-27698-1-git-send-email-hch@lst.de>
- <alpine.LNX.2.00.1510121505490.27742@localhost.lm.intel.com>
- <20151012172430.GA29517@lst.de>
- <alpine.LNX.2.00.1510121729431.27742@localhost.lm.intel.com>
-Message-ID: <20151012174402.GA30245@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 12 Oct 2015 11:41:45 -0700
+Subject: [Ksummit-discuss] [TECH TOPIC] IRQ affinity
+In-Reply-To: <20151012160948.GD20210@thunk.org>
+References: <20150715120708.GA24534@infradead.org>
+ <20151012160948.GD20210@thunk.org>
+Message-ID: <20151012184145.GA22633@infradead.org>
 
-On Mon, Oct 12, 2015@05:31:54PM +0000, Keith Busch wrote:
->> That's handled by "nvme: refactor nvme_queue_rq" which now uses
->> a common helper to map data and metadata shared by the read/write
->> and passthrough path.
->
-> Aha, so it is. Very cool, I'm still getting used to the recent changes. :)
+On Mon, Oct 12, 2015@12:09:48PM -0400, Theodore Ts'o wrote:
+> Hi Christoph,
+> 
+> Do you think this is still an issue that would be worth discsussing at
+> the kernel summit as a technical topic?  If so, would you be willing
+> to be responsible for kicking off the discussion for this topic?
 
-I only sent that out late last week, and it still needs a throughout
-review from you.
+Hi Ted,
 
-Note that only this second series depends on that series, the first
-one only touches unrelated code.
+while we have a high level agreement there's still some discussion
+needed.  I can prepare a few slides for 10 minute discussion and then
+take it to the hallways with the interested people.
