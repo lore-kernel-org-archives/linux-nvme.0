@@ -1,27 +1,65 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Mon, 12 Oct 2015 13:22:36 -0600
-Subject: [PATCH v2] nvme: fix 32-bit build warning
-In-Reply-To: <5683852.vTfiqtLZLZ@wuerfel>
-References: <5851501.PBMrs03XFb@wuerfel> <20151012190339.GA31736@lst.de>
- <561C0599.1090904@fb.com> <5683852.vTfiqtLZLZ@wuerfel>
-Message-ID: <561C087C.1010900@fb.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 12 Oct 2015 21:23:39 +0200
+Subject: [PATCH] nvme: use an integer value to Linux errno values
+Message-ID: <1444677819-23822-1-git-send-email-hch@lst.de>
 
-On 10/12/2015 01:14 PM, Arnd Bergmann wrote:
-> On Monday 12 October 2015 13:10:17 Jens Axboe wrote:
->> On 10/12/2015 01:03 PM, Christoph Hellwig wrote:
->>> Looks good,
->>>
->>> Reviewed-by: Christoph Hellwig <hch at lst.de>
->>>
->>> Note that we're moved the nvme driver to a new directory in the
->>> block tree, but I can rebase it for you if you want.
->>
->> I man handled it on both branches, so we should be good.
->
-> Thanks! I already saw the move, and it caused another build error
-> when CONFIG_BLOCK is disabled. Do you have this one?
+Use a separate integer variable to hold the signed Linux errno
+values we pass back to the block layer.  Note that for pass through
+commands those might still be NVMe values, but those fit into the
+int as well.
 
-I do, Keith sent that one in earlier today, it's in the 4.4 branch.
+Fixes: f4829a9b7a61: ("blk-mq: fix racy updates of rq->errors")
+Reported-by: Dan Carpenter <dan.carpenter at oracle.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/pci.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index a526696..9049888 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -606,8 +606,8 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
+ 	struct nvme_iod *iod = ctx;
+ 	struct request *req = iod_get_private(iod);
+ 	struct nvme_cmd_info *cmd_rq = blk_mq_rq_to_pdu(req);
+-
+ 	u16 status = le16_to_cpup(&cqe->status) >> 1;
++	int error;
+ 
+ 	if (unlikely(status)) {
+ 		if (!(status & NVME_SC_DNR || blk_noretry_request(req))
+@@ -624,9 +624,11 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
+ 
+ 		if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
+ 			if (cmd_rq->ctx == CMD_CTX_CANCELLED)
+-				status = -EINTR;
++				error = -EINTR;
++			else
++				error = status;
+ 		} else {
+-			status = nvme_error_status(status);
++			error = nvme_error_status(status);
+ 		}
+ 	}
+ 
+@@ -638,7 +640,7 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
+ 	if (cmd_rq->aborted)
+ 		dev_warn(nvmeq->dev->dev,
+ 			"completing aborted command with status:%04x\n",
+-			status);
++			error);
+ 
+ 	if (iod->nents) {
+ 		dma_unmap_sg(nvmeq->dev->dev, iod->sg, iod->nents,
+@@ -652,7 +654,7 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
+ 	}
+ 	nvme_free_iod(nvmeq->dev, iod);
+ 
+-	blk_mq_complete_request(req, status);
++	blk_mq_complete_request(req, error);
+ }
+ 
+ /* length is in bytes.  gfp flags indicates whether we may sleep. */
 -- 
-Jens Axboe
+1.9.1
