@@ -1,19 +1,22 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 12 Oct 2015 21:05:22 +0200
-Subject: blk-mq: fix racy updates of rq->errors
-In-Reply-To: <20151006185442.GA19820@mwanda>
-References: <20151006185442.GA19820@mwanda>
-Message-ID: <20151012190522.GB31736@lst.de>
+From: axboe@fb.com (Jens Axboe)
+Date: Mon, 12 Oct 2015 13:10:17 -0600
+Subject: [PATCH v2] nvme: fix 32-bit build warning
+In-Reply-To: <20151012190339.GA31736@lst.de>
+References: <5851501.PBMrs03XFb@wuerfel>
+ <20151009144221.GA12760@infradead.org> <6199457.Ih8H4dRbvg@wuerfel>
+ <20151012190339.GA31736@lst.de>
+Message-ID: <561C0599.1090904@fb.com>
 
-On Tue, Oct 06, 2015@09:54:42PM +0300, Dan Carpenter wrote:
->    622                  if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
->    623                          if (cmd_rq->ctx == CMD_CTX_CANCELLED)
->    624                                  status = -EINTR;
-> 
-> This looks like it's supposed to be a bitmap.
+On 10/12/2015 01:03 PM, Christoph Hellwig wrote:
+> Looks good,
+>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+>
+> Note that we're moved the nvme driver to a new directory in the
+> block tree, but I can rebase it for you if you want.
 
-It's not - it's a value that can have either positive (nvme status codes)
-or negative Linux errnos.  It really should be an int just like req->errors
-was before.  I'll send a patch to Jens.
+I man handled it on both branches, so we should be good.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
+
+-- 
+Jens Axboe
