@@ -1,40 +1,20 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Mon, 12 Oct 2015 14:26:27 -0600
-Subject: [PATCH, RFC] blk-mq: use a delayed work item for timeouts
-In-Reply-To: <20151012202217.GA880@lst.de>
-References: <1444678154-24766-1-git-send-email-hch@lst.de>
- <561C0B3C.70004@fb.com> <561C1324.3030800@fb.com>
- <20151012202217.GA880@lst.de>
-Message-ID: <561C1773.9020309@fb.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Mon, 12 Oct 2015 17:05:07 -0400
+Subject: Block integrity registration update
+In-Reply-To: <B58D82457FDA0744A320A2FC5AC253B93CBE5758@fmsmsx104.amr.corp.intel.com>
+References: <B58D82457FDA0744A320A2FC5AC253B93CBE5758@fmsmsx104.amr.corp.intel.com>
+Message-ID: <1444683912-7140-1-git-send-email-martin.petersen@oracle.com>
 
-On 10/12/2015 02:22 PM, Christoph Hellwig wrote:
-> On Mon, Oct 12, 2015@02:08:04PM -0600, Jens Axboe wrote:
->>> No that's definitely fine with me, imho most error handling callbacks
->>> should be in process context for ease of use in the driver.
->>
->> Took a closer look. The patch looks incomplete. The hot path for blk-mq is
->> blk_add_timer(), looks like you left that one alone in the conversion?
->
-> Oh, damn.  I had that part in my initial version that also crudely
-> converted the old request code and dropped a bit too much.  That should
-> defintively do the queue_deayed_work.
+As requested, here's the integrity registration update for 4.4. Only
+delta is patch 5 which retains the non-PI metadata check as requested by
+Keith as well as the DM rework by Mike. I rebased on top of
+block/for-4.4/drivers to accommodate the NVMe shuffle.
 
-Yep
-
->> Might be easier to just leave the timer alone, and if it actually fires
->> _and_ we have to do something, punt to a workqueue instead of invoking the
->> timeout handler directly.
->
-> queue_delayed_work just assigns two additional fields, then sets
-> timer->experies and does an add_timer.  So it's the generic implementation
-> of your above scheme.  I'd much rather use the generic version if
-> possible instead of trying to recreate it.
-
-I agree, converting to delayed work in general is the cleaner solution. 
-The hot path is really NOT doing anything at all, that's the usual path. 
-If it isn't, then we've screwed up. And the conversion to 
-delayed_work_pending() from timer_pending() looks fine as well, that's 
-another important piece.
+[PATCH 1/5] block: Move integrity kobject to struct gendisk
+[PATCH 2/5] block: Consolidate static integrity profile properties
+[PATCH 3/5] block: Reduce the size of struct blk_integrity
+[PATCH 4/5] block: Export integrity data interval size in sysfs
+[PATCH 5/5] block: Inline blk_integrity in struct gendisk
 
 -- 
-Jens Axboe
+Martin K. Petersen	Oracle Linux Engineering
