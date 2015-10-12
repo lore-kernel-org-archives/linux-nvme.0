@@ -1,45 +1,51 @@
-From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
-Date: Mon, 12 Oct 2015 14:10:19 -0700
-Subject: [PATCH 1/2] powerpc/iommu: expose IOMMU page shift
-In-Reply-To: <20151012160352.GA24212@linux.vnet.ibm.com>
-References: <20151002171606.GA41011@linux.vnet.ibm.com>
- <20151002171800.GB41011@linux.vnet.ibm.com>
- <20151006031943.GC3861@voom.fritz.box>
- <20151012160352.GA24212@linux.vnet.ibm.com>
-Message-ID: <20151012211019.GC26702@linux.vnet.ibm.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Mon, 12 Oct 2015 19:06:33 -0400
+Subject: [PATCH 5/5] block: Inline blk_integrity in struct gendisk
+In-Reply-To: <1444683912-7140-6-git-send-email-martin.petersen@oracle.com>
+References: <B58D82457FDA0744A320A2FC5AC253B93CBE5758@fmsmsx104.amr.corp.intel.com>
+ <1444683912-7140-1-git-send-email-martin.petersen@oracle.com>
+ <1444683912-7140-6-git-send-email-martin.petersen@oracle.com>
+Message-ID: <20151012230632.GA9918@redhat.com>
 
-On 12.10.2015 [09:03:52 -0700], Nishanth Aravamudan wrote:
-> On 06.10.2015 [14:19:43 +1100], David Gibson wrote:
-> > On Fri, Oct 02, 2015@10:18:00AM -0700, Nishanth Aravamudan wrote:
-> > > We will leverage this macro in the NVMe driver, which needs to know the
-> > > configured IOMMU page shift to properly configure its device's page
-> > > size.
-> > > 
-> > > Signed-off-by: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
-> > > 
-> > > ---
-> > > Given this is available, it seems reasonable to expose -- and it doesn't
-> > > really make sense to make the driver do a log2 call on the existing
-> > > IOMMU_PAGE_SIZE() value.
-> > > 
-> > > diff --git a/arch/powerpc/include/asm/iommu.h b/arch/powerpc/include/asm/iommu.h
-> > > index ca18cff..6fdf857 100644
-> > > --- a/arch/powerpc/include/asm/iommu.h
-> > > +++ b/arch/powerpc/include/asm/iommu.h
-> > > @@ -36,6 +36,7 @@
-> > >  #define IOMMU_PAGE_MASK_4K       (~((1 << IOMMU_PAGE_SHIFT_4K) - 1))
-> > >  #define IOMMU_PAGE_ALIGN_4K(addr) _ALIGN_UP(addr, IOMMU_PAGE_SIZE_4K)
-> > >  
-> > > +#define IOMMU_PAGE_SHIFT(tblptr) (tblptr)->it_page_shift
-> > >  #define IOMMU_PAGE_SIZE(tblptr) (ASM_CONST(1) << (tblptr)->it_page_shift)
-> > 
-> > Seems like it would be a touch safer to alter IOMMU_PAGE_SIZE so it
-> > uses the new IOMMU_PAGE_SHIFT macro.
+On Mon, Oct 12 2015 at  5:05pm -0400,
+Martin K. Petersen <martin.petersen@oracle.com> wrote:
+
+> Up until now the_integrity profile has been dynamically allocated and
+> attached to struct gendisk after the disk has been made active.
 > 
-> Yes absolutely! Sorry, I initially didn't add the first macro, so didn't
-> think that through. Will update.
+> This causes problems because NVMe devices need to register the profile
+> prior to the partition table being read due to a mandatory metadata
+> buffer requirement. In addition, DM goes through hoops to deal with
+> preallocating, but not initializing integrity profiles.
+> 
+> Since the integrity profile is small (4 bytes + a pointer), Christoph
+> suggested moving it to struct gendisk proper. This requires several
+> changes:
+> 
+>  - Moving the blk_integrity definition to genhd.h.
+> 
+>  - Inlining blk_integrity in struct gendisk.
+> 
+>  - Removing the dynamic allocation code.
+> 
+>  - Adding helper functions which allow gendisk to set up and tear down
+>    the integrity sysfs dir when a disk is added/deleted.
+> 
+>  - Adding a blk_integrity_revalidate() callback for updating the stable
+>    pages bdi setting.
+> 
+>  - The calls that depend on whether a device has an integrity profile or
+>    not now key off of the bi->profile pointer.
+> 
+>  - Simplifying the integrity support routines in DM (Mike Snitzer).
+> 
+> Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
+> Reported-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
+> Cc: Mike Snitzer <snitzer at redhat.com>
+> Cc: Dan Williams <dan.j.williams at intel.com>
 
-Err, replied too quickly -- just got back from vacation -- this is
-from an old version of the patchset, we no longer introduce this macro.
+Thanks Martin.
 
--Nish
+Please replace the Cc: Mike Snitzer <snitzer at redhat.com> above with
+Signed-off-by: Mike Snitzer <snitzer at redhat.com>
