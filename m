@@ -1,65 +1,80 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 12 Oct 2015 21:23:39 +0200
-Subject: [PATCH] nvme: use an integer value to Linux errno values
-Message-ID: <1444677819-23822-1-git-send-email-hch@lst.de>
+Date: Mon, 12 Oct 2015 21:29:14 +0200
+Subject: [PATCH, RFC] blk-mq: use a delayed work item for timeouts
+Message-ID: <1444678154-24766-1-git-send-email-hch@lst.de>
 
-Use a separate integer variable to hold the signed Linux errno
-values we pass back to the block layer.  Note that for pass through
-commands those might still be NVMe values, but those fit into the
-int as well.
-
-Fixes: f4829a9b7a61: ("blk-mq: fix racy updates of rq->errors")
-Reported-by: Dan Carpenter <dan.carpenter at oracle.com>
-Signed-off-by: Christoph Hellwig <hch at lst.de>
+For some pending NVMe work I'd really love to be able to get my timeouts
+from process context.  So far it seems only SCSI and NVMe use the blk-mq
+timeout handler, and both don't seem to be particularly excited about
+being called from time context.  Does anyone have an objection against
+the patch below that switches it to use a delayed work item?  I could
+make use of this quickly for NVMe, but for SCSI we still have to deal
+with the old request code which can't be switched to a delayed work
+as easily.
 ---
- drivers/nvme/host/pci.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ block/blk-mq.c         | 11 ++++++-----
+ include/linux/blkdev.h |  5 ++++-
+ 2 files changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a526696..9049888 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -606,8 +606,8 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
- 	struct nvme_iod *iod = ctx;
- 	struct request *req = iod_get_private(iod);
- 	struct nvme_cmd_info *cmd_rq = blk_mq_rq_to_pdu(req);
--
- 	u16 status = le16_to_cpup(&cqe->status) >> 1;
-+	int error;
- 
- 	if (unlikely(status)) {
- 		if (!(status & NVME_SC_DNR || blk_noretry_request(req))
-@@ -624,9 +624,11 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
- 
- 		if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
- 			if (cmd_rq->ctx == CMD_CTX_CANCELLED)
--				status = -EINTR;
-+				error = -EINTR;
-+			else
-+				error = status;
- 		} else {
--			status = nvme_error_status(status);
-+			error = nvme_error_status(status);
- 		}
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index d921cd5..a7ae387 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -635,9 +635,10 @@ static void blk_mq_check_expired(struct blk_mq_hw_ctx *hctx,
  	}
- 
-@@ -638,7 +640,7 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
- 	if (cmd_rq->aborted)
- 		dev_warn(nvmeq->dev->dev,
- 			"completing aborted command with status:%04x\n",
--			status);
-+			error);
- 
- 	if (iod->nents) {
- 		dma_unmap_sg(nvmeq->dev->dev, iod->sg, iod->nents,
-@@ -652,7 +654,7 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
- 	}
- 	nvme_free_iod(nvmeq->dev, iod);
- 
--	blk_mq_complete_request(req, status);
-+	blk_mq_complete_request(req, error);
  }
  
- /* length is in bytes.  gfp flags indicates whether we may sleep. */
+-static void blk_mq_rq_timer(unsigned long priv)
++static void blk_mq_rq_timer_work(struct work_struct *work)
+ {
+-	struct request_queue *q = (struct request_queue *)priv;
++	struct request_queue *q =
++		container_of(work, struct request_queue, timeout_work.work);
+ 	struct blk_mq_timeout_data data = {
+ 		.next		= 0,
+ 		.next_set	= 0,
+@@ -648,7 +649,7 @@ static void blk_mq_rq_timer(unsigned long priv)
+ 
+ 	if (data.next_set) {
+ 		data.next = blk_rq_timeout(round_jiffies_up(data.next));
+-		mod_timer(&q->timeout, data.next);
++		mod_delayed_work(system_wq, &q->timeout_work, data.next);
+ 	} else {
+ 		struct blk_mq_hw_ctx *hctx;
+ 
+@@ -2008,7 +2009,7 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+ 			    PERCPU_REF_INIT_ATOMIC, GFP_KERNEL))
+ 		goto err_hctxs;
+ 
+-	setup_timer(&q->timeout, blk_mq_rq_timer, (unsigned long) q);
++	INIT_DELAYED_WORK(&q->timeout_work, blk_mq_rq_timer_work);
+ 	blk_queue_rq_timeout(q, set->timeout ? set->timeout : 30 * HZ);
+ 
+ 	q->nr_queues = nr_cpu_ids;
+@@ -2173,7 +2174,7 @@ static int blk_mq_queue_reinit_notify(struct notifier_block *nb,
+ 		 * timeout handler can't touch hw queue during the
+ 		 * reinitialization
+ 		 */
+-		del_timer_sync(&q->timeout);
++		cancel_delayed_work_sync(&q->timeout_work);
+ 	}
+ 
+ 	list_for_each_entry(q, &all_q_list, all_q_node)
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 19c2e94..ecce48f 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -401,7 +401,10 @@ struct request_queue {
+ 	unsigned int		request_fn_active;
+ 
+ 	unsigned int		rq_timeout;
+-	struct timer_list	timeout;
++	union {
++		struct timer_list	timeout;	/* legacy */
++		struct delayed_work	timeout_work;	/* blk-mq */
++	};
+ 	struct list_head	timeout_list;
+ 
+ 	struct list_head	icq_list;
 -- 
 1.9.1
