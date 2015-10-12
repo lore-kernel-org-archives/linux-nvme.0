@@ -1,74 +1,404 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 12 Oct 2015 09:04:12 +0200
-Subject: [PATCH 1/5] nvme: move struct nvme_iod to pci.c
+Date: Mon, 12 Oct 2015 09:04:13 +0200
+Subject: [PATCH 2/5] nvme: split command submission helpers out of pci.c
 In-Reply-To: <1444633456-27698-1-git-send-email-hch@lst.de>
 References: <1444633456-27698-1-git-send-email-hch@lst.de>
-Message-ID: <1444633456-27698-2-git-send-email-hch@lst.de>
+Message-ID: <1444633456-27698-3-git-send-email-hch@lst.de>
 
-This structure is specific to the PCIe driver internals and should be moved
-to pci.c.
+Create a new core.c and start by adding the command submission helpers
+to it, which are already abstracted away from the actual hardware queues
+by the block layer.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/nvme.h | 17 -----------------
- drivers/nvme/host/pci.c  | 17 +++++++++++++++++
- 2 files changed, 17 insertions(+), 17 deletions(-)
+ drivers/nvme/host/Makefile |   2 +-
+ drivers/nvme/host/core.c   | 172 +++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h   |   3 +
+ drivers/nvme/host/pci.c    | 153 +---------------------------------------
+ 4 files changed, 177 insertions(+), 153 deletions(-)
+ create mode 100644 drivers/nvme/host/core.c
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index c1f41bf..835941b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -88,23 +88,6 @@ struct nvme_ns {
- 	u32 mode_select_block_len;
- };
+diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+index cfb6679..336b4ea 100644
+--- a/drivers/nvme/host/Makefile
++++ b/drivers/nvme/host/Makefile
+@@ -1,4 +1,4 @@
  
--/*
-- * The nvme_iod describes the data in an I/O, including the list of PRP
-- * entries.  You can't see it in this data structure because C doesn't let
-- * me express that.  Use nvme_alloc_iod to ensure there's enough space
-- * allocated to store the PRP list.
-- */
--struct nvme_iod {
--	unsigned long private;	/* For the use of the submitter of the I/O */
--	int npages;		/* In the PRP list. 0 means small pool in use */
--	int offset;		/* Of PRP list */
--	int nents;		/* Used in scatterlist */
--	int length;		/* Of data, in bytes */
--	dma_addr_t first_dma;
--	struct scatterlist meta_sg[1]; /* metadata requires single contiguous buffer */
--	struct scatterlist sg[0];
--};
--
- static inline u64 nvme_block_nr(struct nvme_ns *ns, sector_t sector)
- {
- 	return (sector >> (ns->lba_shift - 9));
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 1dc5db5..f494324 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -128,6 +128,23 @@ struct nvme_queue {
- };
+ obj-$(CONFIG_BLK_DEV_NVME)     += nvme.o
  
- /*
-+ * The nvme_iod describes the data in an I/O, including the list of PRP
-+ * entries.  You can't see it in this data structure because C doesn't let
-+ * me express that.  Use nvme_alloc_iod to ensure there's enough space
-+ * allocated to store the PRP list.
+-nvme-y		+= pci.o scsi.o
++nvme-y		+= core.o pci.o scsi.o
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+new file mode 100644
+index 0000000..dfb528d
+--- /dev/null
++++ b/drivers/nvme/host/core.c
+@@ -0,0 +1,172 @@
++/*
++ * NVM Express device driver
++ * Copyright (c) 2011-2014, Intel Corporation.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
 + */
-+struct nvme_iod {
-+	unsigned long private;	/* For the use of the submitter of the I/O */
-+	int npages;		/* In the PRP list. 0 means small pool in use */
-+	int offset;		/* Of PRP list */
-+	int nents;		/* Used in scatterlist */
-+	int length;		/* Of data, in bytes */
-+	dma_addr_t first_dma;
-+	struct scatterlist meta_sg[1]; /* metadata requires single contiguous buffer */
-+	struct scatterlist sg[0];
-+};
++
++#include <linux/blkdev.h>
++#include <linux/blk-mq.h>
++#include <linux/errno.h>
++#include <linux/kernel.h>
++#include <linux/slab.h>
++#include <linux/types.h>
++
++#include "nvme.h"
 +
 +/*
-  * Check we didin't inadvertently grow the command struct
++ * Returns 0 on success.  If the result is negative, it's a Linux error code;
++ * if the result is positive, it's an NVM Express status code
++ */
++int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
++		void *buffer, void __user *ubuffer, unsigned bufflen,
++		u32 *result, unsigned timeout)
++{
++	bool write = cmd->common.opcode & 1;
++	struct bio *bio = NULL;
++	struct request *req;
++	int ret;
++
++	req = blk_mq_alloc_request(q, write, GFP_KERNEL, false);
++	if (IS_ERR(req))
++		return PTR_ERR(req);
++
++	req->cmd_type = REQ_TYPE_DRV_PRIV;
++	req->cmd_flags |= REQ_FAILFAST_DRIVER;
++	req->__data_len = 0;
++	req->__sector = (sector_t) -1;
++	req->bio = req->biotail = NULL;
++
++	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
++
++	req->cmd = (unsigned char *)cmd;
++	req->cmd_len = sizeof(struct nvme_command);
++	req->special = (void *)0;
++
++	if (buffer && bufflen) {
++		ret = blk_rq_map_kern(q, req, buffer, bufflen, __GFP_WAIT);
++		if (ret)
++			goto out;
++	} else if (ubuffer && bufflen) {
++		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen, __GFP_WAIT);
++		if (ret)
++			goto out;
++		bio = req->bio;
++	}
++
++	blk_execute_rq(req->q, NULL, req, 0);
++	if (bio)
++		blk_rq_unmap_user(bio);
++	if (result)
++		*result = (u32)(uintptr_t)req->special;
++	ret = req->errors;
++ out:
++	blk_mq_free_request(req);
++	return ret;
++}
++
++int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
++		void *buffer, unsigned bufflen)
++{
++	return __nvme_submit_sync_cmd(q, cmd, buffer, NULL, bufflen, NULL, 0);
++}
++
++int nvme_identify_ctrl(struct nvme_dev *dev, struct nvme_id_ctrl **id)
++{
++	struct nvme_command c = { };
++	int error;
++
++	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
++	c.identify.opcode = nvme_admin_identify;
++	c.identify.cns = cpu_to_le32(1);
++
++	*id = kmalloc(sizeof(struct nvme_id_ctrl), GFP_KERNEL);
++	if (!*id)
++		return -ENOMEM;
++
++	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
++			sizeof(struct nvme_id_ctrl));
++	if (error)
++		kfree(*id);
++	return error;
++}
++
++int nvme_identify_ns(struct nvme_dev *dev, unsigned nsid,
++		struct nvme_id_ns **id)
++{
++	struct nvme_command c = { };
++	int error;
++
++	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
++	c.identify.opcode = nvme_admin_identify,
++	c.identify.nsid = cpu_to_le32(nsid),
++
++	*id = kmalloc(sizeof(struct nvme_id_ns), GFP_KERNEL);
++	if (!*id)
++		return -ENOMEM;
++
++	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
++			sizeof(struct nvme_id_ns));
++	if (error)
++		kfree(*id);
++	return error;
++}
++
++int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned nsid,
++					dma_addr_t dma_addr, u32 *result)
++{
++	struct nvme_command c;
++
++	memset(&c, 0, sizeof(c));
++	c.features.opcode = nvme_admin_get_features;
++	c.features.nsid = cpu_to_le32(nsid);
++	c.features.prp1 = cpu_to_le64(dma_addr);
++	c.features.fid = cpu_to_le32(fid);
++
++	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 0,
++			result, 0);
++}
++
++int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned dword11,
++					dma_addr_t dma_addr, u32 *result)
++{
++	struct nvme_command c;
++
++	memset(&c, 0, sizeof(c));
++	c.features.opcode = nvme_admin_set_features;
++	c.features.prp1 = cpu_to_le64(dma_addr);
++	c.features.fid = cpu_to_le32(fid);
++	c.features.dword11 = cpu_to_le32(dword11);
++
++	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 0,
++			result, 0);
++}
++
++int nvme_get_log_page(struct nvme_dev *dev, struct nvme_smart_log **log)
++{
++	struct nvme_command c = { };
++	int error;
++
++	c.common.opcode = nvme_admin_get_log_page,
++	c.common.nsid = cpu_to_le32(0xFFFFFFFF),
++	c.common.cdw10[0] = cpu_to_le32(
++			(((sizeof(struct nvme_smart_log) / 4) - 1) << 16) |
++			 NVME_LOG_SMART),
++
++	*log = kmalloc(sizeof(struct nvme_smart_log), GFP_KERNEL);
++	if (!*log)
++		return -ENOMEM;
++
++	error = nvme_submit_sync_cmd(dev->admin_q, &c, *log,
++			sizeof(struct nvme_smart_log));
++	if (error)
++		kfree(*log);
++	return error;
++}
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 835941b..0633a7b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -22,6 +22,9 @@
+ extern unsigned char nvme_io_timeout;
+ #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
+ 
++extern unsigned char admin_timeout;
++#define ADMIN_TIMEOUT	(admin_timeout * HZ)
++
+ /*
+  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
   */
- static inline void _nvme_check_size(void)
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f494324..538e3e1 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -50,10 +50,9 @@
+ #define NVME_AQ_DEPTH		256
+ #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
+ #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
+-#define ADMIN_TIMEOUT		(admin_timeout * HZ)
+ #define SHUTDOWN_TIMEOUT	(shutdown_timeout * HZ)
+ 
+-static unsigned char admin_timeout = 60;
++unsigned char admin_timeout = 60;
+ module_param(admin_timeout, byte, 0644);
+ MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin commands");
+ 
+@@ -1002,63 +1001,6 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
+ 	return IRQ_WAKE_THREAD;
+ }
+ 
+-/*
+- * Returns 0 on success.  If the result is negative, it's a Linux error code;
+- * if the result is positive, it's an NVM Express status code
+- */
+-int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+-		void *buffer, void __user *ubuffer, unsigned bufflen,
+-		u32 *result, unsigned timeout)
+-{
+-	bool write = cmd->common.opcode & 1;
+-	struct bio *bio = NULL;
+-	struct request *req;
+-	int ret;
+-
+-	req = blk_mq_alloc_request(q, write, GFP_KERNEL, false);
+-	if (IS_ERR(req))
+-		return PTR_ERR(req);
+-
+-	req->cmd_type = REQ_TYPE_DRV_PRIV;
+-	req->cmd_flags |= REQ_FAILFAST_DRIVER;
+-	req->__data_len = 0;
+-	req->__sector = (sector_t) -1;
+-	req->bio = req->biotail = NULL;
+-
+-	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
+-
+-	req->cmd = (unsigned char *)cmd;
+-	req->cmd_len = sizeof(struct nvme_command);
+-	req->special = (void *)0;
+-
+-	if (buffer && bufflen) {
+-		ret = blk_rq_map_kern(q, req, buffer, bufflen, __GFP_WAIT);
+-		if (ret)
+-			goto out;
+-	} else if (ubuffer && bufflen) {
+-		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen, __GFP_WAIT);
+-		if (ret)
+-			goto out;
+-		bio = req->bio;
+-	}
+-
+-	blk_execute_rq(req->q, NULL, req, 0);
+-	if (bio)
+-		blk_rq_unmap_user(bio);
+-	if (result)
+-		*result = (u32)(uintptr_t)req->special;
+-	ret = req->errors;
+- out:
+-	blk_mq_free_request(req);
+-	return ret;
+-}
+-
+-int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+-		void *buffer, unsigned bufflen)
+-{
+-	return __nvme_submit_sync_cmd(q, cmd, buffer, NULL, bufflen, NULL, 0);
+-}
+-
+ static int nvme_submit_async_admin_req(struct nvme_dev *dev)
+ {
+ 	struct nvme_queue *nvmeq = dev->queues[0];
+@@ -1170,99 +1112,6 @@ static int adapter_delete_sq(struct nvme_dev *dev, u16 sqid)
+ 	return adapter_delete_queue(dev, nvme_admin_delete_sq, sqid);
+ }
+ 
+-int nvme_identify_ctrl(struct nvme_dev *dev, struct nvme_id_ctrl **id)
+-{
+-	struct nvme_command c = { };
+-	int error;
+-
+-	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
+-	c.identify.opcode = nvme_admin_identify;
+-	c.identify.cns = cpu_to_le32(1);
+-
+-	*id = kmalloc(sizeof(struct nvme_id_ctrl), GFP_KERNEL);
+-	if (!*id)
+-		return -ENOMEM;
+-
+-	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
+-			sizeof(struct nvme_id_ctrl));
+-	if (error)
+-		kfree(*id);
+-	return error;
+-}
+-
+-int nvme_identify_ns(struct nvme_dev *dev, unsigned nsid,
+-		struct nvme_id_ns **id)
+-{
+-	struct nvme_command c = { };
+-	int error;
+-
+-	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
+-	c.identify.opcode = nvme_admin_identify,
+-	c.identify.nsid = cpu_to_le32(nsid),
+-
+-	*id = kmalloc(sizeof(struct nvme_id_ns), GFP_KERNEL);
+-	if (!*id)
+-		return -ENOMEM;
+-
+-	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
+-			sizeof(struct nvme_id_ns));
+-	if (error)
+-		kfree(*id);
+-	return error;
+-}
+-
+-int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned nsid,
+-					dma_addr_t dma_addr, u32 *result)
+-{
+-	struct nvme_command c;
+-
+-	memset(&c, 0, sizeof(c));
+-	c.features.opcode = nvme_admin_get_features;
+-	c.features.nsid = cpu_to_le32(nsid);
+-	c.features.prp1 = cpu_to_le64(dma_addr);
+-	c.features.fid = cpu_to_le32(fid);
+-
+-	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 0,
+-			result, 0);
+-}
+-
+-int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned dword11,
+-					dma_addr_t dma_addr, u32 *result)
+-{
+-	struct nvme_command c;
+-
+-	memset(&c, 0, sizeof(c));
+-	c.features.opcode = nvme_admin_set_features;
+-	c.features.prp1 = cpu_to_le64(dma_addr);
+-	c.features.fid = cpu_to_le32(fid);
+-	c.features.dword11 = cpu_to_le32(dword11);
+-
+-	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 0,
+-			result, 0);
+-}
+-
+-int nvme_get_log_page(struct nvme_dev *dev, struct nvme_smart_log **log)
+-{
+-	struct nvme_command c = { };
+-	int error;
+-
+-	c.common.opcode = nvme_admin_get_log_page,
+-	c.common.nsid = cpu_to_le32(0xFFFFFFFF),
+-	c.common.cdw10[0] = cpu_to_le32(
+-			(((sizeof(struct nvme_smart_log) / 4) - 1) << 16) |
+-			 NVME_LOG_SMART),
+-
+-	*log = kmalloc(sizeof(struct nvme_smart_log), GFP_KERNEL);
+-	if (!*log)
+-		return -ENOMEM;
+-
+-	error = nvme_submit_sync_cmd(dev->admin_q, &c, *log,
+-			sizeof(struct nvme_smart_log));
+-	if (error)
+-		kfree(*log);
+-	return error;
+-}
+-
+ /**
+  * nvme_abort_req - Attempt aborting a request
+  *
 -- 
 1.9.1
