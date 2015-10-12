@@ -1,20 +1,22 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 12 Oct 2015 19:42:46 +0200
-Subject: [PATCH] NVMe: Add explicit block config dependency
-In-Reply-To: <1444671458-9947-1-git-send-email-keith.busch@intel.com>
-References: <1444671458-9947-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20151012174246.GA30222@lst.de>
+Date: Mon, 12 Oct 2015 19:44:02 +0200
+Subject: nvme driver split, the easy part
+In-Reply-To: <alpine.LNX.2.00.1510121729431.27742@localhost.lm.intel.com>
+References: <1444633456-27698-1-git-send-email-hch@lst.de>
+ <alpine.LNX.2.00.1510121505490.27742@localhost.lm.intel.com>
+ <20151012172430.GA29517@lst.de>
+ <alpine.LNX.2.00.1510121729431.27742@localhost.lm.intel.com>
+Message-ID: <20151012174402.GA30245@lst.de>
 
-On Mon, Oct 12, 2015@11:37:38AM -0600, Keith Busch wrote:
-> The nvme driver was moved from drivers/block, losing our implicit
-> dependency on CONFIG_BLOCK. This makes it an explicit driver dependency.
-> 
-> Reported-by: Jim Davis <jim.epost at gmail.com>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+On Mon, Oct 12, 2015@05:31:54PM +0000, Keith Busch wrote:
+>> That's handled by "nvme: refactor nvme_queue_rq" which now uses
+>> a common helper to map data and metadata shared by the read/write
+>> and passthrough path.
+>
+> Aha, so it is. Very cool, I'm still getting used to the recent changes. :)
 
-Oh, that explains the odd errors - I actually just got a similar one
-from the buildbot and couldn't make sense of it.
+I only sent that out late last week, and it still needs a throughout
+review from you.
 
-Looks good,
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Note that only this second series depends on that series, the first
+one only touches unrelated code.
