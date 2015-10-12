@@ -1,36 +1,23 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Mon, 12 Oct 2015 21:14:24 +0200
-Subject: [PATCH v2] nvme: fix 32-bit build warning
-In-Reply-To: <561C0599.1090904@fb.com>
-References: <5851501.PBMrs03XFb@wuerfel> <20151012190339.GA31736@lst.de>
- <561C0599.1090904@fb.com>
-Message-ID: <5683852.vTfiqtLZLZ@wuerfel>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 12 Oct 2015 21:15:16 +0200
+Subject: blk-mq: fix racy updates of rq->errors
+In-Reply-To: <20151012190522.GB31736@lst.de>
+References: <20151006185442.GA19820@mwanda> <20151012190522.GB31736@lst.de>
+Message-ID: <20151012191516.GA31985@lst.de>
 
-On Monday 12 October 2015 13:10:17 Jens Axboe wrote:
-> On 10/12/2015 01:03 PM, Christoph Hellwig wrote:
-> > Looks good,
-> >
-> > Reviewed-by: Christoph Hellwig <hch at lst.de>
-> >
-> > Note that we're moved the nvme driver to a new directory in the
-> > block tree, but I can rebase it for you if you want.
+On Mon, Oct 12, 2015@09:05:22PM +0200, Christoph Hellwig wrote:
+> On Tue, Oct 06, 2015@09:54:42PM +0300, Dan Carpenter wrote:
+> >    622                  if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
+> >    623                          if (cmd_rq->ctx == CMD_CTX_CANCELLED)
+> >    624                                  status = -EINTR;
+> > 
+> > This looks like it's supposed to be a bitmap.
 > 
-> I man handled it on both branches, so we should be good.
+> It's not - it's a value that can have either positive (nvme status codes)
+> or negative Linux errnos.  It really should be an int just like req->errors
+> was before.  I'll send a patch to Jens.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Thanks! I already saw the move, and it caused another build error
-when CONFIG_BLOCK is disabled. Do you have this one?
-
-	Arnd
-
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index 0089f78b4071..002a94abdbc4 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -1,6 +1,6 @@
- config BLK_DEV_NVME
- 	tristate "NVM Express block device"
--	depends on PCI
-+	depends on PCI && BLOCK
- 	---help---
- 	  The NVM Express driver is for solid state drives directly
- 	  connected to the PCI or PCI Express bus.  If you know you
+And next time I'll wait with the signoff until I've tested and sent
+the patch :)
