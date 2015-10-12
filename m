@@ -1,222 +1,217 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 12 Oct 2015 09:10:04 +0200
-Subject: [PATCH 1/8] nvme: split __nvme_submit_sync_cmd
+Date: Mon, 12 Oct 2015 09:10:05 +0200
+Subject: [PATCH 2/8] nvme: use the block layer for userspace passthrough
+ metadata
 In-Reply-To: <1444633811-28319-1-git-send-email-hch@lst.de>
 References: <1444633811-28319-1-git-send-email-hch@lst.de>
-Message-ID: <1444633811-28319-2-git-send-email-hch@lst.de>
+Message-ID: <1444633811-28319-3-git-send-email-hch@lst.de>
 
-Add a separate nvme_submit_user_cmd for commands that directly DMA
-to or from userspace.  We'll add metadata support to that soon and
-the common version would become too messy.
+Use the integrity API to pass through metadata from userspace.  For PI
+enabled devices this means that we now validate the reftag, which seems
+like an unintentional ommission in the old code.
+
+WARNING: This is completely untested, I don't have a metadata capable device.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 82 ++++++++++++++++++++++++++++++++++--------------
- drivers/nvme/host/nvme.h |  6 ++--
- drivers/nvme/host/pci.c  |  6 ++--
- drivers/nvme/host/scsi.c |  4 +--
- 4 files changed, 67 insertions(+), 31 deletions(-)
+ drivers/nvme/host/core.c | 69 ++++++++++++++++++++++++++++++++++++++++++------
+ drivers/nvme/host/nvme.h |  4 +++
+ drivers/nvme/host/pci.c  | 40 +++++-----------------------
+ 3 files changed, 71 insertions(+), 42 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e2e8818..9d05df0 100644
+index 9d05df0..01a805f 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -21,22 +21,15 @@
+@@ -81,12 +81,15 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 	return __nvme_submit_sync_cmd(q, cmd, buffer, bufflen, NULL, 0);
+ }
  
- #include "nvme.h"
- 
--/*
-- * Returns 0 on success.  If the result is negative, it's a Linux error code;
-- * if the result is positive, it's an NVM Express status code
-- */
--int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
--		void *buffer, void __user *ubuffer, unsigned bufflen,
--		u32 *result, unsigned timeout)
-+static struct request *nvme_alloc_request(struct request_queue *q,
-+		struct nvme_command *cmd)
+-int nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+-		void __user *ubuffer, unsigned bufflen, u32 *result,
+-		unsigned timeout)
++int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
++		void __user *ubuffer, unsigned bufflen,
++		void __user *meta_buffer, unsigned meta_len, u32 meta_seed,
++		u32 *result, unsigned timeout)
  {
- 	bool write = cmd->common.opcode & 1;
 -	struct bio *bio = NULL;
++	bool write = cmd->common.opcode & 1;
  	struct request *req;
--	int ret;
++	struct bio *bio = NULL;
++	void *meta = NULL;
+ 	int ret;
  
- 	req = blk_mq_alloc_request(q, write, GFP_KERNEL, false);
- 	if (IS_ERR(req))
--		return PTR_ERR(req);
-+		return req;
+ 	req = nvme_alloc_request(q, cmd);
+@@ -94,26 +97,76 @@ int nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		return PTR_ERR(req);
  
- 	req->cmd_type = REQ_TYPE_DRV_PRIV;
- 	req->cmd_flags |= REQ_FAILFAST_DRIVER;
-@@ -44,26 +37,36 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 	req->__sector = (sector_t) -1;
- 	req->bio = req->biotail = NULL;
- 
--	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
+ 	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
 -
- 	req->cmd = (unsigned char *)cmd;
- 	req->cmd_len = sizeof(struct nvme_command);
- 	req->special = (void *)0;
- 
-+	return req;
-+}
-+
-+/*
-+ * Returns 0 on success.  If the result is negative, it's a Linux error code;
-+ * if the result is positive, it's an NVM Express status code
-+ */
-+int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
-+		void *buffer, unsigned bufflen, u32 *result, unsigned timeout)
-+{
-+	struct request *req;
-+	int ret;
-+
-+	req = nvme_alloc_request(q, cmd);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
-+
- 	if (buffer && bufflen) {
- 		ret = blk_rq_map_kern(q, req, buffer, bufflen, __GFP_WAIT);
++	
+ 	if (ubuffer && bufflen) {
+ 		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
+ 				__GFP_WAIT);
  		if (ret)
  			goto out;
--	} else if (ubuffer && bufflen) {
--		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen, __GFP_WAIT);
--		if (ret)
--			goto out;
--		bio = req->bio;
+ 		bio = req->bio;
++
++		if (meta_buffer) {
++			struct bio_integrity_payload *bip;
++
++			meta = kmalloc(meta_len, GFP_KERNEL);
++			if (!meta) {
++				ret = -ENOMEM;
++				goto out_unmap;
++			}
++
++			if (write) {
++				if (copy_from_user(meta, meta_buffer,
++						meta_len)) {
++					ret = -EFAULT;
++					goto out_free_meta;
++				}
++			}
++
++			bip = bio_integrity_alloc(bio, GFP_KERNEL, 1);
++			if (!bip) {
++				ret = -ENOMEM;
++				goto out_free_meta;
++			}
++
++			bip->bip_iter.bi_size = meta_len;
++			bip->bip_iter.bi_sector = meta_seed;
++
++			ret = bio_integrity_add_page(bio, virt_to_page(meta),
++					meta_len, offset_in_page(meta));
++			if (ret != meta_len) {
++				ret = -ENOMEM;
++				goto out_free_meta;
++			}
++		}
  	}
  
  	blk_execute_rq(req->q, NULL, req, 0);
 -	if (bio)
 -		blk_rq_unmap_user(bio);
++	ret = req->errors;
  	if (result)
  		*result = (u32)(uintptr_t)req->special;
- 	ret = req->errors;
-@@ -75,7 +78,40 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buffer, unsigned bufflen)
- {
--	return __nvme_submit_sync_cmd(q, cmd, buffer, NULL, bufflen, NULL, 0);
-+	return __nvme_submit_sync_cmd(q, cmd, buffer, bufflen, NULL, 0);
-+}
+-	ret = req->errors;
++	if (meta && !ret && !write) {
++		if (copy_to_user(meta_buffer, meta, meta_len))
++			ret = -EFAULT;
++	}
 +
++ out_free_meta:
++	kfree(meta);
++ out_unmap:
++	if (bio)
++		blk_rq_unmap_user(bio);
+  out:
+ 	blk_mq_free_request(req);
+ 	return ret;
+ }
+ 
 +int nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
 +		void __user *ubuffer, unsigned bufflen, u32 *result,
 +		unsigned timeout)
 +{
-+	struct bio *bio = NULL;
-+	struct request *req;
-+	int ret;
++	return __nvme_submit_user_cmd(q, cmd, ubuffer, bufflen, NULL, 0, 0,
++			result, timeout);
++}
 +
-+	req = nvme_alloc_request(q, cmd);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
-+
-+	if (ubuffer && bufflen) {
-+		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
-+				__GFP_WAIT);
-+		if (ret)
-+			goto out;
-+		bio = req->bio;
-+	}
-+
-+	blk_execute_rq(req->q, NULL, req, 0);
-+	if (bio)
-+		blk_rq_unmap_user(bio);
-+	if (result)
-+		*result = (u32)(uintptr_t)req->special;
-+	ret = req->errors;
-+ out:
-+	blk_mq_free_request(req);
-+	return ret;
- }
- 
  int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
-@@ -130,8 +166,7 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
- 	c.features.prp1 = cpu_to_le64(dma_addr);
- 	c.features.fid = cpu_to_le32(fid);
- 
--	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 0,
--			result, 0);
-+	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, 0, result, 0);
- }
- 
- int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
-@@ -145,8 +180,7 @@ int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
- 	c.features.fid = cpu_to_le32(fid);
- 	c.features.dword11 = cpu_to_le32(dword11);
- 
--	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 0,
--			result, 0);
-+	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, 0, result, 0);
- }
- 
- int nvme_get_log_page(struct nvme_ctrl *dev, struct nvme_smart_log **log)
+ {
+ 	struct nvme_command c = { };
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 3e409fa..4d13354 100644
+index 4d13354..0d0725c 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -83,8 +83,10 @@ static inline u64 nvme_block_nr(struct nvme_ns *ns, sector_t sector)
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buf, unsigned bufflen);
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
--		void *buffer, void __user *ubuffer, unsigned bufflen,
--		u32 *result, unsigned timeout);
-+		void *buffer, unsigned bufflen,  u32 *result, unsigned timeout);
-+int nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
-+		void __user *ubuffer, unsigned bufflen, u32 *result,
-+		unsigned timeout);
+@@ -87,6 +87,10 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ int nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		void __user *ubuffer, unsigned bufflen, u32 *result,
+ 		unsigned timeout);
++int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
++		void __user *ubuffer, unsigned bufflen,
++		void __user *meta_buffer, unsigned meta_len, u32 meta_seed,
++		u32 *result, unsigned timeout);
  int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id);
  int nvme_identify_ns(struct nvme_ctrl *dev, unsigned nsid,
  		struct nvme_id_ns **id);
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 08c716e..29b48a2 100644
+index 29b48a2..21755ee 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1736,7 +1736,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+@@ -1674,13 +1674,9 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 
+ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ {
+-	struct nvme_dev *dev = to_nvme_dev(ns->ctrl);
+ 	struct nvme_user_io io;
+ 	struct nvme_command c;
+ 	unsigned length, meta_len;
+-	int status, write;
+-	dma_addr_t meta_dma = 0;
+-	void *meta = NULL;
+ 	void __user *metadata;
+ 
+ 	if (copy_from_user(&io, uio, sizeof(io)))
+@@ -1698,29 +1694,13 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 	length = (io.nblocks + 1) << ns->lba_shift;
+ 	meta_len = (io.nblocks + 1) * ns->ms;
+ 	metadata = (void __user *)(unsigned long)io.metadata;
+-	write = io.opcode & 1;
+ 
+ 	if (ns->ext) {
+ 		length += meta_len;
+ 		meta_len = 0;
+-	}
+-	if (meta_len) {
+-		if (((io.metadata & 3) || !io.metadata) && !ns->ext)
++	} else if (meta_len) {
++		if ((io.metadata & 3) || !io.metadata)
+ 			return -EINVAL;
+-
+-		meta = dma_alloc_coherent(dev->dev, meta_len,
+-						&meta_dma, GFP_KERNEL);
+-
+-		if (!meta) {
+-			status = -ENOMEM;
+-			goto unmap;
+-		}
+-		if (write) {
+-			if (copy_from_user(meta, metadata, meta_len)) {
+-				status = -EFAULT;
+-				goto unmap;
+-			}
+-		}
+ 	}
+ 
+ 	memset(&c, 0, sizeof(c));
+@@ -1734,19 +1714,11 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+ 	c.rw.reftag = cpu_to_le32(io.reftag);
+ 	c.rw.apptag = cpu_to_le16(io.apptag);
  	c.rw.appmask = cpu_to_le16(io.appmask);
- 	c.rw.metadata = cpu_to_le64(meta_dma);
+-	c.rw.metadata = cpu_to_le64(meta_dma);
  
--	status = __nvme_submit_sync_cmd(ns->queue, &c, NULL,
-+	status = nvme_submit_user_cmd(ns->queue, &c,
- 			(void __user *)io.addr, length, NULL, 0);
-  unmap:
- 	if (meta) {
-@@ -1778,8 +1778,8 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
- 	if (cmd.timeout_ms)
- 		timeout = msecs_to_jiffies(cmd.timeout_ms);
- 
--	status = __nvme_submit_sync_cmd(ns ? ns->queue : ctrl->admin_q, &c,
--			NULL, (void __user *)cmd.addr, cmd.data_len,
-+	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
-+			(void __user *)cmd.addr, cmd.data_len,
- 			&cmd.result, timeout);
- 	if (status >= 0) {
- 		if (put_user(cmd.result, &ucmd->result))
-diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
-index 00d0bdd..b673fe4 100644
---- a/drivers/nvme/host/scsi.c
-+++ b/drivers/nvme/host/scsi.c
-@@ -1295,7 +1295,7 @@ static int nvme_trans_send_download_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr
- 	c.dlfw.numd = cpu_to_le32((tot_len/BYTES_TO_DWORDS) - 1);
- 	c.dlfw.offset = cpu_to_le32(offset/BYTES_TO_DWORDS);
- 
--	nvme_sc = __nvme_submit_sync_cmd(ns->ctrl->admin_q, &c, NULL,
-+	nvme_sc = nvme_submit_user_cmd(ns->ctrl->admin_q, &c,
- 			hdr->dxferp, tot_len, NULL, 0);
- 	return nvme_trans_status_code(hdr, nvme_sc);
+-	status = nvme_submit_user_cmd(ns->queue, &c,
+-			(void __user *)io.addr, length, NULL, 0);
+- unmap:
+-	if (meta) {
+-		if (status == NVME_SC_SUCCESS && !write) {
+-			if (copy_to_user(metadata, meta, meta_len))
+-				status = -EFAULT;
+-		}
+-		dma_free_coherent(dev->dev, meta_len, meta, meta_dma);
+-	}
+-	return status;
++	return __nvme_submit_user_cmd(ns->queue, &c,
++			(void __user *)io.addr, length,
++			metadata, meta_len, c.rw.slba,
++			NULL, 0);
  }
-@@ -1699,7 +1699,7 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 			nvme_sc = NVME_SC_LBA_RANGE;
- 			break;
- 		}
--		nvme_sc = __nvme_submit_sync_cmd(ns->queue, &c, NULL,
-+		nvme_sc = nvme_submit_user_cmd(ns->queue, &c,
- 				next_mapping_addr, unit_len, NULL, 0);
- 		if (nvme_sc)
- 			break;
+ 
+ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
 -- 
 1.9.1
