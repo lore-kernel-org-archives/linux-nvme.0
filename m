@@ -1,89 +1,196 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 12 Oct 2015 09:10:07 +0200
-Subject: [PATCH 4/8] nvme: add explicit quirk handling
+Date: Mon, 12 Oct 2015 09:10:08 +0200
+Subject: [PATCH 5/8] nvme: add a common helper to read Identify Controller data
 In-Reply-To: <1444633811-28319-1-git-send-email-hch@lst.de>
 References: <1444633811-28319-1-git-send-email-hch@lst.de>
-Message-ID: <1444633811-28319-5-git-send-email-hch@lst.de>
+Message-ID: <1444633811-28319-6-git-send-email-hch@lst.de>
 
-Add an enum for all workarounds not in the spec and identify the affected
-controllers at probe time.
+And add the 64-bit register read operation for it.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/nvme.h | 13 +++++++++++++
- drivers/nvme/host/pci.c  |  8 +++++---
- 2 files changed, 18 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c | 50 +++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  4 ++++
+ drivers/nvme/host/pci.c  | 51 ++++++++++++++----------------------------------
+ 3 files changed, 69 insertions(+), 36 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2efdeaa..3e2e819 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -27,6 +27,18 @@ extern unsigned char nvme_io_timeout;
- extern unsigned char admin_timeout;
- #define ADMIN_TIMEOUT	(admin_timeout * HZ)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 16d4bb7..c83f7e1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -566,6 +566,56 @@ const struct block_device_operations nvme_fops = {
+ 	.revalidate_disk= nvme_revalidate_disk,
+ };
  
 +/*
-+ * List of workarounds for devices that required behavior not specified in
-+ * the standard.
++ * Initialize the cached copies of the Identify data and various controller
++ * register in our nvme_ctrl structure.  This should be called as soon as
++ * the admin queue is fully up and running.
 + */
-+enum nvme_quirks {
-+	/*
-+	 * Prefers I/O aligned to a stripe size specified in a vendor
-+	 * specific Identify field.
-+	 */
-+	NVME_QUIRK_STRIPE_SIZE			= (1 << 0),
-+};
++int nvme_init_identify(struct nvme_ctrl *ctrl)
++{
++	struct nvme_id_ctrl *id;
++	u64 cap;
++	int ret, page_shift;
 +
- struct nvme_ctrl {
- 	const struct nvme_ctrl_ops *ops;
- 	struct request_queue *admin_q;
-@@ -43,6 +55,7 @@ struct nvme_ctrl {
++	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &cap);
++	if (ret) {	
++		dev_err(ctrl->dev, "Reading CAP failed (%d)\n", ret);
++		return ret;
++	}
++	page_shift = NVME_CAP_MPSMIN(cap) + 12;
++
++	ret = nvme_identify_ctrl(ctrl, &id);
++	if (ret) {
++		dev_err(ctrl->dev, "Identify Controller failed (%d)\n", ret);
++		return -EIO;
++	}
++
++	ctrl->oncs = le16_to_cpup(&id->oncs);
++	ctrl->abort_limit = id->acl + 1;
++	ctrl->vwc = id->vwc;
++	memcpy(ctrl->serial, id->sn, sizeof(id->sn));
++	memcpy(ctrl->model, id->mn, sizeof(id->mn));
++	memcpy(ctrl->firmware_rev, id->fr, sizeof(id->fr));
++	if (id->mdts)
++		ctrl->max_hw_sectors = 1 << (id->mdts + page_shift - 9);
++
++	if ((ctrl->quirks & NVME_QUIRK_STRIPE_SIZE) && id->vs[3]) {
++		unsigned int max_hw_sectors;
++
++		ctrl->stripe_size = 1 << (id->vs[3] + page_shift);
++		max_hw_sectors = ctrl->stripe_size >> (page_shift - 9);
++		if (ctrl->max_hw_sectors) {
++			ctrl->max_hw_sectors = min(max_hw_sectors,
++							ctrl->max_hw_sectors);
++		} else {
++			ctrl->max_hw_sectors = max_hw_sectors;
++		}
++	}
++
++	kfree(id);
++	return 0;
++}
++
+ static void nvme_free_ctrl(struct kref *kref)
+ {
+ 	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 3e2e819..f2abff5 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -50,6 +50,8 @@ struct nvme_ctrl {
+ 	char serial[20];
+ 	char model[40];
+ 	char firmware_rev[8];
++	u32 max_hw_sectors;
++	u32 stripe_size;
+ 	u16 oncs;
+ 	u16 abort_limit;
  	u8 event_limit;
- 	u8 vwc;
- 	u16 vendor;
-+	unsigned long quirks;
+@@ -80,6 +82,7 @@ struct nvme_ns {
+ 
+ struct nvme_ctrl_ops {
+ 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
++	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+ 	void (*free_ctrl)(struct nvme_ctrl *ctrl);
  };
  
- /*
+@@ -98,6 +101,7 @@ static inline u64 nvme_block_nr(struct nvme_ns *ns, sector_t sector)
+ }
+ 
+ void nvme_put_ctrl(struct nvme_ctrl *ctrl);
++int nvme_init_identify(struct nvme_ctrl *ctrl);
+ void nvme_put_ns(struct nvme_ns *ns);
+ 
+ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5ad7bab..afe0b69 100644
+index afe0b69..54868eb 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2050,7 +2050,6 @@ static void nvme_dev_scan(struct work_struct *work)
-  */
+@@ -127,8 +127,6 @@ struct nvme_dev {
+ 	struct work_struct probe_work;
+ 	struct work_struct scan_work;
+ 	bool subsystem;
+-	u32 max_hw_sectors;
+-	u32 stripe_size;
+ 	u32 page_size;
+ 	void __iomem *cmb;
+ 	dma_addr_t cmb_dma_addr;
+@@ -1709,13 +1707,13 @@ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
+ 	list_add_tail(&ns->list, &dev->namespaces);
+ 
+ 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
+-	if (dev->max_hw_sectors) {
+-		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
++	if (dev->ctrl.max_hw_sectors) {
++		blk_queue_max_hw_sectors(ns->queue, dev->ctrl.max_hw_sectors);
+ 		blk_queue_max_segments(ns->queue,
+-			((dev->max_hw_sectors << 9) / dev->page_size) + 1);
++			((dev->ctrl.max_hw_sectors << 9) / dev->page_size) + 1);
+ 	}
+-	if (dev->stripe_size)
+-		blk_queue_chunk_sectors(ns->queue, dev->stripe_size >> 9);
++	if (dev->ctrl.stripe_size)
++		blk_queue_chunk_sectors(ns->queue, dev->ctrl.stripe_size >> 9);
+ 	if (dev->ctrl.vwc & NVME_CTRL_VWC_PRESENT)
+ 		blk_queue_flush(ns->queue, REQ_FLUSH | REQ_FUA);
+ 	blk_queue_virt_boundary(ns->queue, dev->page_size - 1);
+@@ -2051,36 +2049,10 @@ static void nvme_dev_scan(struct work_struct *work)
  static int nvme_dev_add(struct nvme_dev *dev)
  {
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
  	int res;
- 	struct nvme_id_ctrl *ctrl;
- 	int shift = NVME_CAP_MPSMIN(readq(dev->bar + NVME_REG_CAP)) + 12;
-@@ -2069,8 +2068,8 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	memcpy(dev->ctrl.firmware_rev, ctrl->fr, sizeof(ctrl->fr));
- 	if (ctrl->mdts)
- 		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
--	if ((pdev->vendor == PCI_VENDOR_ID_INTEL) &&
--			(pdev->device == 0x0953) && ctrl->vs[3]) {
+-	struct nvme_id_ctrl *ctrl;
+-	int shift = NVME_CAP_MPSMIN(readq(dev->bar + NVME_REG_CAP)) + 12;
+-
+-	res = nvme_identify_ctrl(&dev->ctrl, &ctrl);
+-	if (res) {
+-		dev_err(dev->dev, "Identify Controller failed (%d)\n", res);
+-		return -EIO;
+-	}
+ 
+-	dev->ctrl.oncs = le16_to_cpup(&ctrl->oncs);
+-	dev->ctrl.abort_limit = ctrl->acl + 1;
+-	dev->ctrl.vwc = ctrl->vwc;
+-	memcpy(dev->ctrl.serial, ctrl->sn, sizeof(ctrl->sn));
+-	memcpy(dev->ctrl.model, ctrl->mn, sizeof(ctrl->mn));
+-	memcpy(dev->ctrl.firmware_rev, ctrl->fr, sizeof(ctrl->fr));
+-	if (ctrl->mdts)
+-		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
+-
+-	if ((dev->ctrl.quirks & NVME_QUIRK_STRIPE_SIZE) && ctrl->vs[3]) {
+-		unsigned int max_hw_sectors;
+-
+-		dev->stripe_size = 1 << (ctrl->vs[3] + shift);
+-		max_hw_sectors = dev->stripe_size >> (shift - 9);
+-		if (dev->max_hw_sectors) {
+-			dev->max_hw_sectors = min(max_hw_sectors,
+-							dev->max_hw_sectors);
+-		} else
+-			dev->max_hw_sectors = max_hw_sectors;
+-	}
+-	kfree(ctrl);
++	res = nvme_init_identify(&dev->ctrl);
++	if (res)
++		return res;
+ 
+ 	if (!dev->tagset.tags) {
+ 		dev->tagset.ops = &nvme_mq_ops;
+@@ -2701,8 +2673,15 @@ static int nvme_pci_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
+ 	return 0;
+ }
+ 
++static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
++{
++	*val = readq(to_nvme_dev(ctrl)->bar + off);
++	return 0;
++}
 +
-+	if ((dev->ctrl.quirks & NVME_QUIRK_STRIPE_SIZE) && ctrl->vs[3]) {
- 		unsigned int max_hw_sectors;
- 
- 		dev->stripe_size = 1 << (ctrl->vs[3] + shift);
-@@ -2736,6 +2735,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	dev->ctrl.vendor = pdev->vendor;
- 	dev->ctrl.ops = &nvme_pci_ctrl_ops;
- 	dev->ctrl.dev = dev->dev;
-+	dev->ctrl.quirks = id->driver_data;
- 
- 	result = nvme_set_instance(dev);
- 	if (result)
-@@ -2863,6 +2863,8 @@ static const struct pci_error_handlers nvme_err_handler = {
- #define PCI_CLASS_STORAGE_EXPRESS	0x010802
- 
- static const struct pci_device_id nvme_id_table[] = {
-+	{ PCI_VDEVICE(INTEL, 0x0953),
-+		.driver_data = NVME_QUIRK_STRIPE_SIZE, },
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ 0, }
+ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
+ 	.reg_read32		= nvme_pci_reg_read32,
++	.reg_read64		= nvme_pci_reg_read64,
+ 	.free_ctrl		= nvme_pci_free_ctrl,
  };
+ 
 -- 
 1.9.1
