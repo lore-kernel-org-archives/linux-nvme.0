@@ -1,374 +1,78 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Mon, 12 Oct 2015 17:05:09 -0400
-Subject: [PATCH 2/5] block: Consolidate static integrity profile properties
+Date: Mon, 12 Oct 2015 17:05:11 -0400
+Subject: [PATCH 4/5] block: Export integrity data interval size in sysfs
 In-Reply-To: <1444683912-7140-1-git-send-email-martin.petersen@oracle.com>
 References: <B58D82457FDA0744A320A2FC5AC253B93CBE5758@fmsmsx104.amr.corp.intel.com>
  <1444683912-7140-1-git-send-email-martin.petersen@oracle.com>
-Message-ID: <1444683912-7140-3-git-send-email-martin.petersen@oracle.com>
+Message-ID: <1444683912-7140-5-git-send-email-martin.petersen@oracle.com>
 
-We previously made a complete copy of a device's data integrity profile
-even though several of the fields inside the blk_integrity struct are
-pointers to fixed template entries in t10-pi.c.
-
-Split the static and per-device portions so that we can reference the
-template directly.
+The size of the data interval was not exported in the sysfs integrity
+directory. Export it so that userland apps can tell whether the interval
+is different from the device's logical block size.
 
 Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
-Reported-by: Christoph Hellwig <hch at lst.de>
 Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
-Cc: Dan Williams <dan.j.williams at intel.com>
 ---
- block/bio-integrity.c               |  8 ++++----
- block/blk-integrity.c               | 17 ++++++++---------
- block/t10-pi.c                      | 16 ++++------------
- drivers/nvdimm/core.c               | 11 +++++++----
- drivers/nvme/host/pci.c             |  8 ++++----
- drivers/scsi/sd_dif.c               | 29 ++++++++++++++++-------------
- drivers/target/target_core_iblock.c | 10 +++++-----
- include/linux/blkdev.h              | 20 +++++++++++---------
- include/linux/t10-pi.h              |  8 ++++----
- 9 files changed, 63 insertions(+), 64 deletions(-)
+ Documentation/ABI/testing/sysfs-block |  7 +++++++
+ block/blk-integrity.c                 | 14 ++++++++++++++
+ 2 files changed, 21 insertions(+)
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index 14b8faf8b09d..a10ffe19a8dd 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -177,11 +177,11 @@ bool bio_integrity_enabled(struct bio *bio)
- 	if (bi == NULL)
- 		return false;
+diff --git a/Documentation/ABI/testing/sysfs-block b/Documentation/ABI/testing/sysfs-block
+index 8df003963d99..71d184dbb70d 100644
+--- a/Documentation/ABI/testing/sysfs-block
++++ b/Documentation/ABI/testing/sysfs-block
+@@ -60,6 +60,13 @@ Description:
+ 		Indicates whether a storage device is capable of storing
+ 		integrity metadata. Set if the device is T10 PI-capable.
  
--	if (bio_data_dir(bio) == READ && bi->verify_fn != NULL &&
-+	if (bio_data_dir(bio) == READ && bi->profile->verify_fn != NULL &&
- 	    (bi->flags & BLK_INTEGRITY_VERIFY))
- 		return true;
++What:		/sys/block/<disk>/integrity/protection_interval_bytes
++Date:		July 2015
++Contact:	Martin K. Petersen <martin.petersen at oracle.com>
++Description:
++		Describes the number of data bytes which are protected
++		by one integrity tuple. Typically the device's logical
++		block size.
  
--	if (bio_data_dir(bio) == WRITE && bi->generate_fn != NULL &&
-+	if (bio_data_dir(bio) == WRITE && bi->profile->generate_fn != NULL &&
- 	    (bi->flags & BLK_INTEGRITY_GENERATE))
- 		return true;
- 
-@@ -340,7 +340,7 @@ int bio_integrity_prep(struct bio *bio)
- 
- 	/* Auto-generate integrity metadata if this is a write */
- 	if (bio_data_dir(bio) == WRITE)
--		bio_integrity_process(bio, bi->generate_fn);
-+		bio_integrity_process(bio, bi->profile->generate_fn);
- 
- 	return 0;
- }
-@@ -361,7 +361,7 @@ static void bio_integrity_verify_fn(struct work_struct *work)
- 	struct bio *bio = bip->bip_bio;
- 	struct blk_integrity *bi = bdev_get_integrity(bio->bi_bdev);
- 
--	bio->bi_error = bio_integrity_process(bio, bi->verify_fn);
-+	bio->bi_error = bio_integrity_process(bio, bi->profile->verify_fn);
- 
- 	/* Restore original bio completion handler */
- 	bio->bi_end_io = bip->bip_end_io;
+ What:		/sys/block/<disk>/integrity/write_generate
+ Date:		June 2008
 diff --git a/block/blk-integrity.c b/block/blk-integrity.c
-index 182bfd2383ea..daf590ab3b46 100644
+index c7508654faff..7a96f57ed195 100644
 --- a/block/blk-integrity.c
 +++ b/block/blk-integrity.c
-@@ -176,10 +176,10 @@ int blk_integrity_compare(struct gendisk *gd1, struct gendisk *gd2)
- 		return -1;
- 	}
- 
--	if (strcmp(b1->name, b2->name)) {
-+	if (b1->profile != b2->profile) {
- 		printk(KERN_ERR "%s: %s/%s type %s != %s\n", __func__,
- 		       gd1->disk_name, gd2->disk_name,
--		       b1->name, b2->name);
-+		       b1->profile->name, b2->profile->name);
- 		return -1;
- 	}
- 
-@@ -275,8 +275,8 @@ static ssize_t integrity_attr_store(struct kobject *kobj,
- 
- static ssize_t integrity_format_show(struct blk_integrity *bi, char *page)
- {
--	if (bi != NULL && bi->name != NULL)
--		return sprintf(page, "%s\n", bi->name);
-+	if (bi != NULL && bi->profile->name != NULL)
-+		return sprintf(page, "%s\n", bi->profile->name);
- 	else
- 		return sprintf(page, "none\n");
- }
-@@ -401,7 +401,8 @@ bool blk_integrity_is_initialized(struct gendisk *disk)
- {
- 	struct blk_integrity *bi = blk_get_integrity(disk);
- 
--	return (bi && bi->name && strcmp(bi->name, bi_unsupported_name) != 0);
-+	return (bi && bi->profile->name && strcmp(bi->profile->name,
-+						  bi_unsupported_name) != 0);
- }
- EXPORT_SYMBOL(blk_integrity_is_initialized);
- 
-@@ -446,14 +447,12 @@ int blk_integrity_register(struct gendisk *disk, struct blk_integrity *template)
- 
- 	/* Use the provided profile as template */
- 	if (template != NULL) {
--		bi->name = template->name;
--		bi->generate_fn = template->generate_fn;
--		bi->verify_fn = template->verify_fn;
-+		bi->profile = template->profile;
- 		bi->tuple_size = template->tuple_size;
- 		bi->tag_size = template->tag_size;
- 		bi->flags |= template->flags;
- 	} else
--		bi->name = bi_unsupported_name;
-+		bi->profile->name = bi_unsupported_name;
- 
- 	disk->queue->backing_dev_info.capabilities |= BDI_CAP_STABLE_WRITES;
- 
-diff --git a/block/t10-pi.c b/block/t10-pi.c
-index 24d6e9715318..2c97912335a9 100644
---- a/block/t10-pi.c
-+++ b/block/t10-pi.c
-@@ -160,38 +160,30 @@ static int t10_pi_type3_verify_ip(struct blk_integrity_iter *iter)
- 	return t10_pi_verify(iter, t10_pi_ip_fn, 3);
+@@ -289,6 +289,14 @@ static ssize_t integrity_tag_size_show(struct blk_integrity *bi, char *page)
+ 		return sprintf(page, "0\n");
  }
  
--struct blk_integrity t10_pi_type1_crc = {
-+struct blk_integrity_profile t10_pi_type1_crc = {
- 	.name			= "T10-DIF-TYPE1-CRC",
- 	.generate_fn		= t10_pi_type1_generate_crc,
- 	.verify_fn		= t10_pi_type1_verify_crc,
--	.tuple_size		= sizeof(struct t10_pi_tuple),
--	.tag_size		= 0,
- };
- EXPORT_SYMBOL(t10_pi_type1_crc);
- 
--struct blk_integrity t10_pi_type1_ip = {
-+struct blk_integrity_profile t10_pi_type1_ip = {
- 	.name			= "T10-DIF-TYPE1-IP",
- 	.generate_fn		= t10_pi_type1_generate_ip,
- 	.verify_fn		= t10_pi_type1_verify_ip,
--	.tuple_size		= sizeof(struct t10_pi_tuple),
--	.tag_size		= 0,
- };
- EXPORT_SYMBOL(t10_pi_type1_ip);
- 
--struct blk_integrity t10_pi_type3_crc = {
-+struct blk_integrity_profile t10_pi_type3_crc = {
- 	.name			= "T10-DIF-TYPE3-CRC",
- 	.generate_fn		= t10_pi_type3_generate_crc,
- 	.verify_fn		= t10_pi_type3_verify_crc,
--	.tuple_size		= sizeof(struct t10_pi_tuple),
--	.tag_size		= 0,
- };
- EXPORT_SYMBOL(t10_pi_type3_crc);
- 
--struct blk_integrity t10_pi_type3_ip = {
-+struct blk_integrity_profile t10_pi_type3_ip = {
- 	.name			= "T10-DIF-TYPE3-IP",
- 	.generate_fn		= t10_pi_type3_generate_ip,
- 	.verify_fn		= t10_pi_type3_verify_ip,
--	.tuple_size		= sizeof(struct t10_pi_tuple),
--	.tag_size		= 0,
- };
- EXPORT_SYMBOL(t10_pi_type3_ip);
-diff --git a/drivers/nvdimm/core.c b/drivers/nvdimm/core.c
-index cb62ec6a12d0..9e1b0f656a9b 100644
---- a/drivers/nvdimm/core.c
-+++ b/drivers/nvdimm/core.c
-@@ -399,19 +399,22 @@ static int nd_pi_nop_generate_verify(struct blk_integrity_iter *iter)
- 
- int nd_integrity_init(struct gendisk *disk, unsigned long meta_size)
- {
--	struct blk_integrity integrity = {
-+	struct blk_integrity bi;
-+	struct blk_integrity_profile profile = {
- 		.name = "ND-PI-NOP",
- 		.generate_fn = nd_pi_nop_generate_verify,
- 		.verify_fn = nd_pi_nop_generate_verify,
--		.tuple_size = meta_size,
--		.tag_size = meta_size,
- 	};
- 	int ret;
- 
- 	if (meta_size == 0)
- 		return 0;
- 
--	ret = blk_integrity_register(disk, &integrity);
-+	bi.profile = &profile;
-+	bi.tuple_size = meta_size;
-+	bi.tag_size = meta_size;
++static ssize_t integrity_interval_show(struct blk_integrity *bi, char *page)
++{
++	if (bi != NULL)
++		return sprintf(page, "%u\n", 1 << bi->interval_exp);
++	else
++		return sprintf(page, "0\n");
++}
 +
-+	ret = blk_integrity_register(disk, &bi);
- 	if (ret)
- 		return ret;
+ static ssize_t integrity_verify_store(struct blk_integrity *bi,
+ 				      const char *page, size_t count)
+ {
+@@ -343,6 +351,11 @@ static struct integrity_sysfs_entry integrity_tag_size_entry = {
+ 	.show = integrity_tag_size_show,
+ };
  
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ad58ee3c3b57..5dba51d4bae6 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -558,7 +558,7 @@ static int nvme_noop_generate(struct blk_integrity_iter *iter)
- 	return 0;
- }
- 
--struct blk_integrity nvme_meta_noop = {
-+struct blk_integrity_profile nvme_meta_noop = {
- 	.name			= "NVME_META_NOOP",
- 	.generate_fn		= nvme_noop_generate,
- 	.verify_fn		= nvme_noop_verify,
-@@ -570,14 +570,14 @@ static void nvme_init_integrity(struct nvme_ns *ns)
- 
- 	switch (ns->pi_type) {
- 	case NVME_NS_DPS_PI_TYPE3:
--		integrity = t10_pi_type3_crc;
-+		integrity.profile = &t10_pi_type3_crc;
- 		break;
- 	case NVME_NS_DPS_PI_TYPE1:
- 	case NVME_NS_DPS_PI_TYPE2:
--		integrity = t10_pi_type1_crc;
-+		integrity.profile = &t10_pi_type1_crc;
- 		break;
- 	default:
--		integrity = nvme_meta_noop;
-+		integrity.profile = &nvme_meta_noop;
- 		break;
- 	}
- 	integrity.tuple_size = ns->ms;
-diff --git a/drivers/scsi/sd_dif.c b/drivers/scsi/sd_dif.c
-index 5c06d292b94c..5a5ec9aa26b3 100644
---- a/drivers/scsi/sd_dif.c
-+++ b/drivers/scsi/sd_dif.c
-@@ -43,6 +43,7 @@ void sd_dif_config_host(struct scsi_disk *sdkp)
- 	struct scsi_device *sdp = sdkp->device;
- 	struct gendisk *disk = sdkp->disk;
- 	u8 type = sdkp->protection_type;
-+	struct blk_integrity bi;
- 	int dif, dix;
- 
- 	dif = scsi_host_dif_capable(sdp->host, type);
-@@ -58,36 +59,38 @@ void sd_dif_config_host(struct scsi_disk *sdkp)
- 	/* Enable DMA of protection information */
- 	if (scsi_host_get_guard(sdkp->device->host) & SHOST_DIX_GUARD_IP) {
- 		if (type == SD_DIF_TYPE3_PROTECTION)
--			blk_integrity_register(disk, &t10_pi_type3_ip);
-+			bi.profile = &t10_pi_type3_ip;
- 		else
--			blk_integrity_register(disk, &t10_pi_type1_ip);
-+			bi.profile = &t10_pi_type1_ip;
- 
--		disk->integrity->flags |= BLK_INTEGRITY_IP_CHECKSUM;
-+		bi.flags |= BLK_INTEGRITY_IP_CHECKSUM;
- 	} else
- 		if (type == SD_DIF_TYPE3_PROTECTION)
--			blk_integrity_register(disk, &t10_pi_type3_crc);
-+			bi.profile = &t10_pi_type3_crc;
- 		else
--			blk_integrity_register(disk, &t10_pi_type1_crc);
-+			bi.profile = &t10_pi_type1_crc;
- 
-+	bi.tuple_size = sizeof(struct t10_pi_tuple);
- 	sd_printk(KERN_NOTICE, sdkp,
--		  "Enabling DIX %s protection\n", disk->integrity->name);
-+		  "Enabling DIX %s protection\n", bi.profile->name);
- 
--	/* Signal to block layer that we support sector tagging */
- 	if (dif && type) {
--
--		disk->integrity->flags |= BLK_INTEGRITY_DEVICE_CAPABLE;
-+		bi.flags |= BLK_INTEGRITY_DEVICE_CAPABLE;
- 
- 		if (!sdkp->ATO)
--			return;
-+			goto out;
- 
- 		if (type == SD_DIF_TYPE3_PROTECTION)
--			disk->integrity->tag_size = sizeof(u16) + sizeof(u32);
-+			bi.tag_size = sizeof(u16) + sizeof(u32);
- 		else
--			disk->integrity->tag_size = sizeof(u16);
-+			bi.tag_size = sizeof(u16);
- 
- 		sd_printk(KERN_NOTICE, sdkp, "DIF application tag size %u\n",
--			  disk->integrity->tag_size);
-+			  bi.tag_size);
- 	}
-+
-+out:
-+	blk_integrity_register(disk, &bi);
- }
- 
- /*
-diff --git a/drivers/target/target_core_iblock.c b/drivers/target/target_core_iblock.c
-index 0f19e11acac2..f29c69120054 100644
---- a/drivers/target/target_core_iblock.c
-+++ b/drivers/target/target_core_iblock.c
-@@ -155,17 +155,17 @@ static int iblock_configure_device(struct se_device *dev)
- 	if (bi) {
- 		struct bio_set *bs = ib_dev->ibd_bio_set;
- 
--		if (!strcmp(bi->name, "T10-DIF-TYPE3-IP") ||
--		    !strcmp(bi->name, "T10-DIF-TYPE1-IP")) {
-+		if (!strcmp(bi->profile->name, "T10-DIF-TYPE3-IP") ||
-+		    !strcmp(bi->profile->name, "T10-DIF-TYPE1-IP")) {
- 			pr_err("IBLOCK export of blk_integrity: %s not"
--			       " supported\n", bi->name);
-+			       " supported\n", bi->profile->name);
- 			ret = -ENOSYS;
- 			goto out_blkdev_put;
- 		}
- 
--		if (!strcmp(bi->name, "T10-DIF-TYPE3-CRC")) {
-+		if (!strcmp(bi->profile->name, "T10-DIF-TYPE3-CRC")) {
- 			dev->dev_attrib.pi_prot_type = TARGET_DIF_TYPE3_PROT;
--		} else if (!strcmp(bi->name, "T10-DIF-TYPE1-CRC")) {
-+		} else if (!strcmp(bi->profile->name, "T10-DIF-TYPE1-CRC")) {
- 			dev->dev_attrib.pi_prot_type = TARGET_DIF_TYPE1_PROT;
- 		}
- 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 830f9c07d4bb..f36c6476f1c7 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1462,16 +1462,18 @@ struct blk_integrity_iter {
- 
- typedef int (integrity_processing_fn) (struct blk_integrity_iter *);
- 
--struct blk_integrity {
--	integrity_processing_fn	*generate_fn;
--	integrity_processing_fn	*verify_fn;
--
--	unsigned short		flags;
--	unsigned short		tuple_size;
--	unsigned short		interval;
--	unsigned short		tag_size;
-+struct blk_integrity_profile {
-+	integrity_processing_fn		*generate_fn;
-+	integrity_processing_fn		*verify_fn;
-+	const char			*name;
++static struct integrity_sysfs_entry integrity_interval_entry = {
++	.attr = { .name = "protection_interval_bytes", .mode = S_IRUGO },
++	.show = integrity_interval_show,
 +};
- 
--	const char		*name;
-+struct blk_integrity {
-+	struct blk_integrity_profile	*profile;
-+	unsigned short			flags;
-+	unsigned short			tuple_size;
-+	unsigned short			interval;
-+	unsigned short			tag_size;
- };
- 
- extern bool blk_integrity_is_initialized(struct gendisk *);
-diff --git a/include/linux/t10-pi.h b/include/linux/t10-pi.h
-index 6a8b9942632d..dd8de82cf5b5 100644
---- a/include/linux/t10-pi.h
-+++ b/include/linux/t10-pi.h
-@@ -14,9 +14,9 @@ struct t10_pi_tuple {
- };
- 
- 
--extern struct blk_integrity t10_pi_type1_crc;
--extern struct blk_integrity t10_pi_type1_ip;
--extern struct blk_integrity t10_pi_type3_crc;
--extern struct blk_integrity t10_pi_type3_ip;
-+extern struct blk_integrity_profile t10_pi_type1_crc;
-+extern struct blk_integrity_profile t10_pi_type1_ip;
-+extern struct blk_integrity_profile t10_pi_type3_crc;
-+extern struct blk_integrity_profile t10_pi_type3_ip;
- 
- #endif
++
+ static struct integrity_sysfs_entry integrity_verify_entry = {
+ 	.attr = { .name = "read_verify", .mode = S_IRUGO | S_IWUSR },
+ 	.show = integrity_verify_show,
+@@ -363,6 +376,7 @@ static struct integrity_sysfs_entry integrity_device_entry = {
+ static struct attribute *integrity_attrs[] = {
+ 	&integrity_format_entry.attr,
+ 	&integrity_tag_size_entry.attr,
++	&integrity_interval_entry.attr,
+ 	&integrity_verify_entry.attr,
+ 	&integrity_generate_entry.attr,
+ 	&integrity_device_entry.attr,
 -- 
 2.4.3
