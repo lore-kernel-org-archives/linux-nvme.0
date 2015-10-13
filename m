@@ -1,29 +1,33 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 13 Oct 2015 04:50:11 -0700
-Subject: [PATCH v6 05/11] block: remove split code in
- blkdev_issue_{discard,write_same}
-In-Reply-To: <1439363241-31772-6-git-send-email-mlin@kernel.org>
-References: <1439363241-31772-1-git-send-email-mlin@kernel.org>
- <1439363241-31772-6-git-send-email-mlin@kernel.org>
-Message-ID: <20151013115011.GA6546@infradead.org>
+From: hch@infradead.org (hch@infradead.org)
+Date: Tue, 13 Oct 2015 05:26:08 -0700
+Subject: Block integrity registration update
+In-Reply-To: <1444701214.9780.23.camel@intel.com>
+References: <B58D82457FDA0744A320A2FC5AC253B93CBE5758@fmsmsx104.amr.corp.intel.com>
+ <1444683912-7140-1-git-send-email-martin.petersen@oracle.com>
+ <1444696266.9780.13.camel@intel.com>
+ <1444701214.9780.23.camel@intel.com>
+Message-ID: <20151013122608.GA18816@infradead.org>
 
-On Wed, Aug 12, 2015@12:07:15AM -0700, Ming Lin wrote:
-> From: Ming Lin <ming.l at ssi.samsung.com>
+On Tue, Oct 13, 2015@01:53:34AM +0000, Williams, Dan J wrote:
+> ...i.e. that we're destroying the integrity profile while i/o is still
+> in flight.  As far as I can see any driver that calls
+> blk_integrity_unregister() before blk_cleanup_queue() can hit this.  
 > 
-> The split code in blkdev_issue_{discard,write_same} can go away
-> now that any driver that cares does the split. We have to make
-> sure bio size doesn't overflow.
-> 
-> For discard, we set max discard sectors to (1<<31)>>9 to ensure
-> it doesn't overflow bi_size and hopefully it is of the proper
-> granularity as long as the granularity is a power of two.
+> However, with the change to static allocation I'm not sure why a driver
+> would ever need to call blk_integrity_unregister() in its shutdown path.
 
-This ends up breaking discard on NVMe devices for a me.  An mkfs.xfs
-which does a discard of the whole device now hangs the system.
-Something in here makes it send discard command that the device doesn't
-like and the aborts don't seem to help either, although that might be
-an issue with the abort handling in the driver.
+It shouldn't.
 
-Just a heads up for now, once I get a bit more time I'll try to collect
-a blktrace to figure out how the commands sent to the driver look
-different before and after the patch.
+> It seems this would only be necessary for disabling integrity at run
+> time, but it can only do it safely when the queue is known to be idle.
+
+Yes.  And even for that case we should a) only clear ->flags not the
+whole integrity profile (and fix blk_integrity_revalidate to check the
+right thing) and b) clear flags before calling blk_integrity_revalidate.
+
+> Is there a way to solve this without the generic blk_freeze_queue()
+> implementation? [1].  The immediate fix for libnvdimm is to just stop
+> calling blk_integrity_unregister().
+
+Seems like only nvme ever updates the profile, and nvme is blk-mq
+only. 
