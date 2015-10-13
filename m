@@ -1,36 +1,35 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Tue, 13 Oct 2015 10:44:11 -0700
-Subject: [PATCH v6 05/11] block: remove split code in
- blkdev_issue_{discard, write_same}
-In-Reply-To: <20151013115011.GA6546@infradead.org>
-References: <1439363241-31772-1-git-send-email-mlin@kernel.org>
- <1439363241-31772-6-git-send-email-mlin@kernel.org>
- <20151013115011.GA6546@infradead.org>
-Message-ID: <CAF1ivSbsH7JsduHE+a2d+BEbZL6Fo7uJWS2NCTTMNTSAUMt0UA@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 13 Oct 2015 19:31:57 +0000 (UTC)
+Subject: [PATCH 7/8] nvme: move namespace scanning to common code
+In-Reply-To: <1444633811-28319-8-git-send-email-hch@lst.de>
+References: <1444633811-28319-1-git-send-email-hch@lst.de>
+ <1444633811-28319-8-git-send-email-hch@lst.de>
+Message-ID: <alpine.LNX.2.00.1510131918560.27742@localhost.lm.intel.com>
 
-On Tue, Oct 13, 2015@4:50 AM, Christoph Hellwig <hch@infradead.org> wrote:
-> On Wed, Aug 12, 2015@12:07:15AM -0700, Ming Lin wrote:
->> From: Ming Lin <ming.l at ssi.samsung.com>
->>
->> The split code in blkdev_issue_{discard,write_same} can go away
->> now that any driver that cares does the split. We have to make
->> sure bio size doesn't overflow.
->>
->> For discard, we set max discard sectors to (1<<31)>>9 to ensure
->> it doesn't overflow bi_size and hopefully it is of the proper
->> granularity as long as the granularity is a power of two.
+On Mon, 12 Oct 2015, Christoph Hellwig wrote:
+> The namespace scanning code has been mostly generic already, we just
+> need to store a pointer to the tagset in the nvme_ctrl structure, and
+> add a method to check if a controller is I/O incapable.  The latter
+> will hopefully be replaced by a proper controller state machine soon.
 >
-> This ends up breaking discard on NVMe devices for a me.  An mkfs.xfs
-> which does a discard of the whole device now hangs the system.
-> Something in here makes it send discard command that the device doesn't
-> like and the aborts don't seem to help either, although that might be
-> an issue with the abort handling in the driver.
->
-> Just a heads up for now, once I get a bit more time I'll try to collect
-> a blktrace to figure out how the commands sent to the driver look
-> different before and after the patch.
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-I just did a quick test with a Samsung 900G NVMe device.
-mkfs.xfs is OK on 4.3-rc5.
+> +void __exit nvme_core_exit(void)
+> +{
+> +	unregister_blkdev(nvme_major, "nvme");
+> +}
 
-What's your device model? I may find a similar one to try.
+> @@ -2898,7 +2737,7 @@ static int __init nvme_init(void)
+>  unregister_chrdev:
+> 	__unregister_chrdev(nvme_char_major, 0, NVME_MINORS, "nvme");
+>  unregister_blkdev:
+> -	unregister_blkdev(nvme_major, "nvme");
+> +	nvme_core_exit();
+
+The "__exit" section on nvme_core_exit causes a mismatch reference warning
+since it's being called from an __init section. Just drop __exit from
+the core function.
+
+Other than that, this is series has gone very smoothly; initial sanity
+testing hasn't hit any issues yet. I'll run tests on metadata formats
+later today/early tomorrow and will let you know how that goes.
