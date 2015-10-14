@@ -1,28 +1,23 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 14 Oct 2015 00:23:03 -0700
-Subject: [PATCH 2/5] block: Consolidate static integrity profile properties
-In-Reply-To: <CAPcyv4it_ju8JoNcmG7K3yiKyzS_hEsNRYhiLrU1ZvqfQHjVXw@mail.gmail.com>
-References: <B58D82457FDA0744A320A2FC5AC253B93CBE5758@fmsmsx104.amr.corp.intel.com>
- <1444683912-7140-1-git-send-email-martin.petersen@oracle.com>
- <1444683912-7140-3-git-send-email-martin.petersen@oracle.com>
- <CAPcyv4it_ju8JoNcmG7K3yiKyzS_hEsNRYhiLrU1ZvqfQHjVXw@mail.gmail.com>
-Message-ID: <20151014072303.GA2544@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 14 Oct 2015 14:53:05 +0200
+Subject: [PATCH 7/8] nvme: move namespace scanning to common code
+In-Reply-To: <alpine.LNX.2.00.1510131918560.27742@localhost.lm.intel.com>
+References: <1444633811-28319-1-git-send-email-hch@lst.de>
+ <1444633811-28319-8-git-send-email-hch@lst.de>
+ <alpine.LNX.2.00.1510131918560.27742@localhost.lm.intel.com>
+Message-ID: <20151014125305.GA14457@lst.de>
 
-On Tue, Oct 13, 2015@06:11:50PM -0700, Dan Williams wrote:
-> >  int nd_integrity_init(struct gendisk *disk, unsigned long meta_size)
-> >  {
-> > -       struct blk_integrity integrity = {
-> > +       struct blk_integrity bi;
-> > +       struct blk_integrity_profile profile = {
-> >                 .name = "ND-PI-NOP",
-> >                 .generate_fn = nd_pi_nop_generate_verify,
-> >                 .verify_fn = nd_pi_nop_generate_verify,
-> > -               .tuple_size = meta_size,
-> > -               .tag_size = meta_size,
-> 
-> 'profile' here needs to be made static since we reference rather than
-> copy the profile data at blk_integrity_register() time.  This is part
-> of, but I don't think all of, my blk_integrity shutdown woes.
+On Tue, Oct 13, 2015@07:31:57PM +0000, Keith Busch wrote:
+> The "__exit" section on nvme_core_exit causes a mismatch reference warning
+> since it's being called from an __init section. Just drop __exit from
+> the core function.
+>
+> Other than that, this is series has gone very smoothly; initial sanity
+> testing hasn't hit any issues yet. I'll run tests on metadata formats
+> later today/early tomorrow and will let you know how that goes.
 
-Oh, yes.  Can we also add a single noop profile to block/blk-integrity.c
-while we're at it?
+Thanks.  I've found another small bug where I pass a __le64 value
+without endianess conversion, but that shouldn't impact your testing
+on little endian platforms.  I'm not going to resend anything before I
+have results on the metadata ioctls.  Talking about those:  What userspace
+programs actually use the NVME_IOCTL_SUBMIT_IO?
