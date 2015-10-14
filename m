@@ -1,51 +1,25 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Thu, 15 Oct 2015 07:03:45 +0800
-Subject: [PATCH v10 2/5] gennvm: Generic NVM manager
-In-Reply-To: <1444850524-16827-3-git-send-email-m@bjorling.me>
-Message-ID: <201510150725.Mgz2ut75%fengguang.wu@intel.com>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Wed, 14 Oct 2015 16:31:38 -0700
+Subject: [PATCH 10/11] block: move blk_integrity to request_queue
+In-Reply-To: <yq1si5djcq3.fsf@sermon.lab.mkp.net>
+References: <20151014022757.34443.25800.stgit@dwillia2-desk3.jf.intel.com>
+ <20151014022852.34443.87630.stgit@dwillia2-desk3.jf.intel.com>
+ <yq1si5djcq3.fsf@sermon.lab.mkp.net>
+Message-ID: <CAPcyv4hbTNy9j-TufuwYhwc70GfoALrPgq680jfx8fbau+jg9g@mail.gmail.com>
 
-Hi Matias,
+On Wed, Oct 14, 2015 at 3:40 PM, Martin K. Petersen
+<martin.petersen@oracle.com> wrote:
+>>>>>> "Dan" == Dan Williams <dan.j.williams at intel.com> writes:
+>
+> Dan> Given that a request_queue is pinned while i/o is in flight and
+> Dan> that a gendisk is allowed to have a shorter lifetime, move
+> Dan> blk_integrity to request_queue to satisfy requests arriving after
+> Dan> the gendisk has been torn down.
+>
+> There was a really good reason why the integrity stuff was hanging off
+> of gendisk but it's been so long that I can't remember what it was. And
+> whatever it was, it is probably no longer valid.
+>
+> Do you have a git tree I can use to run my DIF/DIX qual on?
 
-[auto build test WARNING on block/for-next -- if it's inappropriate base, please suggest rules for selecting the more suitable base]
-
-url:    https://github.com/0day-ci/linux/commits/Matias-Bj-rling/Support-for-Open-Channel-SSDs/20151014-224617
-reproduce:
-        # apt-get install sparse
-        make ARCH=x86_64 allmodconfig
-        make C=1 CF=-D__CHECK_ENDIAN__
-
-
-sparse warnings: (new ones prefixed by >>)
-
-
-vim +109 drivers/lightnvm/gennvm.c
-
-    93	{
-    94		struct nvm_dev *dev = private;
-    95		struct gen_nvm *gn = dev->mp;
-    96		sector_t max_pages = dev->total_pages * (dev->sec_size >> 9);
-    97		u64 elba = slba + nlb;
-    98		struct gen_lun *lun;
-    99		struct nvm_block *blk;
-   100		u64 i;
-   101		int lun_id;
-   102	
-   103		if (unlikely(elba > dev->total_pages)) {
-   104			pr_err("gen_nvm: L2P data from device is out of bounds!\n");
-   105			return -EINVAL;
-   106		}
-   107	
-   108		for (i = 0; i < nlb; i++) {
- > 109			u64 pba = le64_to_cpu(entries[i]);
-   110	
-   111			if (unlikely(pba >= max_pages && pba != U64_MAX)) {
-   112				pr_err("gen_nvm: L2P data entry is out of bounds!\n");
-   113				return -EINVAL;
-   114			}
-   115	
-   116			/* Address zero is a special one. The first page on a disk is
-   117			 * protected. It often holds internal device boot
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+git://git.kernel.org/pub/scm/linux/kernel/git/djbw/nvdimm for-4.4/blk-integrity
