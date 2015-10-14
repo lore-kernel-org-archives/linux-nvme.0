@@ -1,20 +1,20 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 14 Oct 2015 09:50:31 -0700
-Subject: [PATCH v6 05/11] block: remove split code in
- blkdev_issue_{discard,write_same}B
-In-Reply-To: <alpine.LNX.2.00.1510141620500.27742@localhost.lm.intel.com>
-References: <1439363241-31772-1-git-send-email-mlin@kernel.org>
- <1439363241-31772-6-git-send-email-mlin@kernel.org>
- <20151013115011.GA6546@infradead.org>
- <CAF1ivSbsH7JsduHE+a2d+BEbZL6Fo7uJWS2NCTTMNTSAUMt0UA@mail.gmail.com>
- <20151014132700.GA19401@infradead.org>
- <alpine.LNX.2.00.1510141620500.27742@localhost.lm.intel.com>
-Message-ID: <20151014165031.GA32274@infradead.org>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Wed, 14 Oct 2015 10:56:13 -0600
+Subject: [PATCH] NVMe: Log Sense Temperature doesn't handle negative values
+In-Reply-To: <BL2PR04MB163949A29712B7F490C6A0E923F0@BL2PR04MB163.namprd04.prod.outlook.com>
+References: <BL2PR04MB1637F56809BDE2AC26E682C92350@BL2PR04MB163.namprd04.prod.outlook.com>
+ <alpine.LNX.2.00.1510091945030.27742@localhost.lm.intel.com>
+ <20151009201533.GA29975@localhost.localdomain>
+ <20151009204108.GA30167@localhost.localdomain>
+ <BL2PR04MB163D243F18A279514DE4C1492310@BL2PR04MB163.namprd04.prod.outlook.com>
+ <BL2PR04MB163949A29712B7F490C6A0E923F0@BL2PR04MB163.namprd04.prod.outlook.com>
+Message-ID: <20151014165613.GA30653@localhost.localdomain>
 
-On Wed, Oct 14, 2015@04:38:50PM +0000, Keith Busch wrote:
-> I see why the proposal is an improvement, but I don't understand why the
-> current situation results in a hang. Are we missing some kind of error
-> recovery in the driver?
+On Wed, Oct 14, 2015@03:50:32PM +0000, Jeffrey Lien wrote:
+> Attached an updated patch with change Jon recommended below.   
+> 
+> 
 
-The driver tries to abort the commands and eventually gets into a death
-spiral.  I'm still trying to understand what exactly is going on.
+Looks good.
+
+Acked-by: Jon Derrick <jonathan.derrick at intel.com>
