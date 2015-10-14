@@ -1,49 +1,31 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Wed, 14 Oct 2015 23:03:20 +0800
-Subject: [PATCH v9 5/5] nvme: LightNVM support
-In-Reply-To: <1444833738-8961-6-git-send-email-m@bjorling.me>
-Message-ID: <201510142338.3CJa0qym%fengguang.wu@intel.com>
+From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
+Date: Wed, 14 Oct 2015 08:39:00 -0700
+Subject: [PATCH 1/5 v2] dma-mapping: add generic dma_get_page_shift API
+In-Reply-To: <20151012210651.GB26702@linux.vnet.ibm.com>
+References: <20151002171606.GA41011@linux.vnet.ibm.com>
+ <20151002200953.GB40695@linux.vnet.ibm.com>
+ <20151002201142.GC40695@linux.vnet.ibm.com>
+ <20151006095136.GB14144@infradead.org>
+ <20151012210651.GB26702@linux.vnet.ibm.com>
+Message-ID: <20151014153900.GC30179@linux.vnet.ibm.com>
 
-Hi Matias,
+Hi Christoph,
 
-[auto build test ERROR on block/for-next -- if it's inappropriate base, please suggest rules for selecting the more suitable base]
+On 12.10.2015 [14:06:51 -0700], Nishanth Aravamudan wrote:
+> On 06.10.2015 [02:51:36 -0700], Christoph Hellwig wrote:
+> > Do we need a function here or can we just have a IOMMU_PAGE_SHIFT define
+> > with an #ifndef in common code?
+> 
+> On Power, since it's technically variable, we'd need a function. So are
+> you suggesting define'ing it to a function just on Power and leaving it
+> a constant elsewhere?
+> 
+> I noticed that sparc has a IOMMU_PAGE_SHIFT already, fwiw.
 
-url:    https://github.com/0day-ci/linux/commits/Matias-Bj-rling/Support-for-Open-Channel-SSDs/20151014-224617
-config: x86_64-randconfig-s0-10141707 (attached as .config)
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=x86_64 
+Sorry, I should have been more specific -- I'm ready to spin out a v3,
+with a sparc-specific function.
 
-All errors (new ones prefixed by >>):
+Are you ok with leaving it a function for now (the only caller is in
+NVMe obviously).
 
->> drivers/nvme/host/lightnvm.c:592:6: error: conflicting types for 'nvme_nvm_unregister'
-    void nvme_nvm_unregister(char *disk_name) {};
-         ^
-   In file included from drivers/nvme/host/lightnvm.c:23:0:
-   drivers/nvme/host/nvme.h:141:6: note: previous declaration of 'nvme_nvm_unregister' was here
-    void nvme_nvm_unregister(struct request_queue *q, char *disk_name);
-         ^
-
-vim +/nvme_nvm_unregister +592 drivers/nvme/host/lightnvm.c
-
-   586	}
-   587	#else
-   588	int nvme_nvm_register(struct request_queue *q, char *disk_name)
-   589	{
-   590		return 0;
-   591	}
- > 592	void nvme_nvm_unregister(char *disk_name) {};
-   593	int nvme_nvm_ns_supported(struct nvme_ns *ns, struct nvme_id_ns *id)
-   594	{
-   595		return 0;
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 26158 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20151014/0ff7225b/attachment-0001.obj>
+-Nish
