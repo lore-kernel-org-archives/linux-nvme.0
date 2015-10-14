@@ -1,20 +1,22 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Wed, 14 Oct 2015 10:56:13 -0600
-Subject: [PATCH] NVMe: Log Sense Temperature doesn't handle negative values
-In-Reply-To: <BL2PR04MB163949A29712B7F490C6A0E923F0@BL2PR04MB163.namprd04.prod.outlook.com>
-References: <BL2PR04MB1637F56809BDE2AC26E682C92350@BL2PR04MB163.namprd04.prod.outlook.com>
- <alpine.LNX.2.00.1510091945030.27742@localhost.lm.intel.com>
- <20151009201533.GA29975@localhost.localdomain>
- <20151009204108.GA30167@localhost.localdomain>
- <BL2PR04MB163D243F18A279514DE4C1492310@BL2PR04MB163.namprd04.prod.outlook.com>
- <BL2PR04MB163949A29712B7F490C6A0E923F0@BL2PR04MB163.namprd04.prod.outlook.com>
-Message-ID: <20151014165613.GA30653@localhost.localdomain>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Wed, 14 Oct 2015 11:17:20 -0700
+Subject: [PATCH 08/11] nvme: suspend i/o during runtime
+ blk_integrity_unregister
+In-Reply-To: <alpine.LNX.2.00.1510141355250.27742@localhost.lm.intel.com>
+References: <20151014022757.34443.25800.stgit@dwillia2-desk3.jf.intel.com>
+ <20151014022841.34443.28017.stgit@dwillia2-desk3.jf.intel.com>
+ <alpine.LNX.2.00.1510141355250.27742@localhost.lm.intel.com>
+Message-ID: <CAPcyv4iCGu4osMe+SJTykDQjx103DzDdamqkK0J6b=H3Y5OHRw@mail.gmail.com>
 
-On Wed, Oct 14, 2015@03:50:32PM +0000, Jeffrey Lien wrote:
-> Attached an updated patch with change Jon recommended below.   
-> 
-> 
+On Wed, Oct 14, 2015@6:59 AM, Keith Busch <keith.busch@intel.com> wrote:
+> On Tue, 13 Oct 2015, Dan Williams wrote:
+>>
+>> Synchronize pending i/o against a change in the integrity profile to
+>> avoid the possibility of spurious integrity errors.
+>
+>
+> Looks good. Do we need to freeze the queue if we are register an
+> integrity profile as well?
+>
 
-Looks good.
-
-Acked-by: Jon Derrick <jonathan.derrick at intel.com>
+Indeed we do, I'll refresh the patch.  Thanks for that catch.
