@@ -1,52 +1,43 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Tue, 13 Oct 2015 16:23:18 -0700
-Subject: RFC: nvme driver split, the main part
-In-Reply-To: <1444633811-28319-1-git-send-email-hch@lst.de>
-References: <1444633811-28319-1-git-send-email-hch@lst.de>
-Message-ID: <1444778598.20969.11.camel@ssi>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Tue, 13 Oct 2015 18:11:50 -0700
+Subject: [PATCH 2/5] block: Consolidate static integrity profile properties
+In-Reply-To: <1444683912-7140-3-git-send-email-martin.petersen@oracle.com>
+References: <B58D82457FDA0744A320A2FC5AC253B93CBE5758@fmsmsx104.amr.corp.intel.com>
+ <1444683912-7140-1-git-send-email-martin.petersen@oracle.com>
+ <1444683912-7140-3-git-send-email-martin.petersen@oracle.com>
+Message-ID: <CAPcyv4it_ju8JoNcmG7K3yiKyzS_hEsNRYhiLrU1ZvqfQHjVXw@mail.gmail.com>
 
+On Mon, Oct 12, 2015 at 2:05 PM, Martin K. Petersen
+<martin.petersen@oracle.com> wrote:
+> We previously made a complete copy of a device's data integrity profile
+> even though several of the fields inside the blk_integrity struct are
+> pointers to fixed template entries in t10-pi.c.
+>
+> Split the static and per-device portions so that we can reference the
+> template directly.
+>
+> Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
+> Reported-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
+> Cc: Dan Williams <dan.j.williams at intel.com>
+[..]
+> diff --git a/drivers/nvdimm/core.c b/drivers/nvdimm/core.c
+> index cb62ec6a12d0..9e1b0f656a9b 100644
+> --- a/drivers/nvdimm/core.c
+> +++ b/drivers/nvdimm/core.c
+> @@ -399,19 +399,22 @@ static int nd_pi_nop_generate_verify(struct blk_integrity_iter *iter)
+>
+>  int nd_integrity_init(struct gendisk *disk, unsigned long meta_size)
+>  {
+> -       struct blk_integrity integrity = {
+> +       struct blk_integrity bi;
+> +       struct blk_integrity_profile profile = {
+>                 .name = "ND-PI-NOP",
+>                 .generate_fn = nd_pi_nop_generate_verify,
+>                 .verify_fn = nd_pi_nop_generate_verify,
+> -               .tuple_size = meta_size,
+> -               .tag_size = meta_size,
 
-On Mon, 2015-10-12@09:10 +0200, Christoph Hellwig wrote:
-> And this is where the real work starts.  This moves all the block device,
-> char device and sysfs interface code as well as the controller identification
-> and namespaces scanning into the common code.  I've ported both my nvme-loop
-> and the fabrics driver over to this scheme to validate that it works fine.
-> 
-> The main complication here is patch two which uses the block layer PI
-> infrastructure for metdata passthrough.  I can't test it because I don't
-> have access to a metadata capable device so I'll have to rely on testers.
-> 
-> Once this this series is done there are a few more items remaining:
-> 
->  - remove a few library-like functions to core.c (trivial)
->  - abort rewrite to sit on top of the struct request infrastructure (in progress)
->  - AEN rewrite, including making a small part of it common
->  - a proper state machine for probing, scanning and resets (will take a while)
-> 
-> To make testing easier I've pushed out a git tree with this and all dependencies:
-> 
->     git://git.infradead.org/users/hch/block.git nvme-split.4
-
-I ported virtio-nvme to nvme-split. It works.
-https://git.kernel.org/cgit/linux/kernel/git/mlin/linux.git/log/?h=nvme-split/virtio
-
-root at wheezy:/sys/class/nvme# ll
-lrwxrwxrwx  1 root root 0 Oct 13 16:06 nvme0 -> ../../devices/pci0000:00/0000:00:04.0/nvme/nvme0/
-lrwxrwxrwx  1 root root 0 Oct 13 16:06 nvme1 -> ../../devices/pci0000:00/0000:00:05.0/virtio1/nvme/nvme1/
-
-root at wheezy:/sys/block# ll nvme*
-lrwxrwxrwx 1 root root 0 Oct 13 16:07 nvme0n1 -> ../devices/pci0000:00/0000:00:04.0/nvme/nvme0/nvme0n1/
-lrwxrwxrwx 1 root root 0 Oct 13 16:07 nvme1n1 -> ../devices/pci0000:00/0000:00:05.0/virtio1/nvme/nvme1/nvme1n1/
-
-For the core part, I only moved the call of nvme_core_{init,exit} from
-pci.c to core.c.
-
-For the naming, how about:
-- for core data structures/functions, prefixed all with nvme_core_*
-- for pci data structures/functions, prefixed all with nvme_pci_*
-
-I did this naming in drivers/nvme/host/virtio.c.
-
-I can send a patch if you agree.
-
-Thanks.
+'profile' here needs to be made static since we reference rather than
+copy the profile data at blk_integrity_register() time.  This is part
+of, but I don't think all of, my blk_integrity shutdown woes.
