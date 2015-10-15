@@ -1,28 +1,39 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 15 Oct 2015 07:27:32 +0200
-Subject: [PATCH 2/8] nvme: use the block layer for userspace
- passthrough metadata
-In-Reply-To: <alpine.LNX.2.00.1510142038370.27742@localhost.lm.intel.com>
-References: <1444633811-28319-1-git-send-email-hch@lst.de>
- <1444633811-28319-3-git-send-email-hch@lst.de>
- <alpine.LNX.2.00.1510142038370.27742@localhost.lm.intel.com>
-Message-ID: <20151015052732.GA21725@lst.de>
+Date: Thu, 15 Oct 2015 14:10:46 +0200
+Subject: Persistent Reservation API V4
+Message-ID: <1444911052-9423-1-git-send-email-hch@lst.de>
 
-On Wed, Oct 14, 2015@09:19:23PM +0000, Keith Busch wrote:
-> We need to set REQ_INTEGRITY in req->cmd_flags here since requests
-> submitted through blk_execute_rq don't copy the bio flags.
->
->> 	}
->>
->> 	blk_execute_rq(req->q, NULL, req, 0);
->
-> And need to provide the gendisk instead of NULL so the nvme_map_data()
-> -> nvme_dif_remap() doesn't dereference NULL to get the namespace's PI
-> type; there are other ways to get to this, but setting the disk here
-> looks the simplist from: ((struct nvme_ns *)q->queuedata)->disk;
->
-> Similarly, we need to set bio->bi_bdev to 'bdev_get(ns->disk, 0)' to
-> fix a NULL pointer in bio_integrity_advance in the completion path.
+This series adds support for a simplified Persistent Reservation API
+to the block layer.  The intent is that both in-kernel and userspace
+consumers can use the API instead of having to hand craft SCSI or NVMe
+command through the various pass through interfaces.  It also adds
+DM support as getting reservations through dm-multipath is a major
+pain with the current scheme.
 
-Do you have a patch that implements all your suggestions?  I probably could
-recreated it, but folding in a tested patch is way easier.
+The ioctl API is documented in Documentation/block/pr.txt, but to
+fully understand the concept you'll have to read up the SPC spec,
+PRs are too complicated that trying to rephrase them into different
+terminology is just going to create confusion.
+
+Note that Mike wants to include the DM patches so through the DM
+tree, so they are only included for reference.
+
+I also have a set of simple test tools available at
+
+	git://git.infradead.org/users/hch/pr-tests.git
+
+Changes since V3:
+  - added NVMe support (from Keith Busch)
+  - add a CAP_SYS_ADMIN check for the ioctl
+  - tr?vial rebase to Jens' latests block tree
+
+Changes since V2:
+  - added an ignore flag to the reserve opertion as well, and redid
+    the ioctl API to have general flags fields
+  - rebased on top of the latest block layer tree updates
+
+Changes since V1:
+  - rename DM ->ioctl to ->prepare_ioctl
+  - rename dm_get_ioctl_table to dm_get_live_table_for_ioctl
+  - merge two DM patches into one
+  - various spelling fixes
