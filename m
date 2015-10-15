@@ -1,140 +1,96 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 15 Oct 2015 14:10:52 +0200
-Subject: [PATCH 6/6] NVMe: Add persistent reservation ops
-In-Reply-To: <1444911052-9423-1-git-send-email-hch@lst.de>
-References: <1444911052-9423-1-git-send-email-hch@lst.de>
-Message-ID: <1444911052-9423-7-git-send-email-hch@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 15 Oct 2015 14:44:02 +0000 (UTC)
+Subject: [PATCH 2/8] nvme: use the block layer for userspace	passthrough
+ metadata
+In-Reply-To: <20151015052732.GA21725@lst.de>
+References: <1444633811-28319-1-git-send-email-hch@lst.de>
+ <1444633811-28319-3-git-send-email-hch@lst.de>
+ <alpine.LNX.2.00.1510142038370.27742@localhost.lm.intel.com>
+ <20151015052732.GA21725@lst.de>
+Message-ID: <alpine.LNX.2.00.1510151442300.27742@localhost.lm.intel.com>
 
-From: Keith Busch <keith.busch@intel.com>
+There's not much, so here's all the fixes for the whole series in
+one diff:
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
-[hch: rebased, set PTPL=1]
-Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 95 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 95 insertions(+)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f056513..eb9e25a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -139,6 +139,7 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+  {
+  	bool write = cmd->common.opcode & 1;
+  	struct request *req;
++	struct nvme_ns *ns = q->queuedata;
+  	struct bio *bio = NULL;
+  	void *meta = NULL;
+  	int ret;
+@@ -156,6 +157,11 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+  			goto out;
+  		bio = req->bio;
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ad58ee3..6230608 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -39,8 +39,10 @@
- #include <linux/slab.h>
- #include <linux/t10-pi.h>
- #include <linux/types.h>
-+#include <linux/pr.h>
- #include <scsi/sg.h>
- #include <asm-generic/io-64-nonatomic-lo-hi.h>
-+#include <asm/unaligned.h>
- 
- #include <uapi/linux/nvme_ioctl.h>
- #include "nvme.h"
-@@ -2058,6 +2060,98 @@ static int nvme_revalidate_disk(struct gendisk *disk)
- 	return 0;
- }
- 
-+static char nvme_pr_type(enum pr_type type)
-+{
-+	switch (type) {
-+	case PR_WRITE_EXCLUSIVE:
-+		return 1;
-+	case PR_EXCLUSIVE_ACCESS:
-+		return 2;
-+	case PR_WRITE_EXCLUSIVE_REG_ONLY:
-+		return 3;
-+	case PR_EXCLUSIVE_ACCESS_REG_ONLY:
-+		return 4;
-+	case PR_WRITE_EXCLUSIVE_ALL_REGS:
-+		return 5;
-+	case PR_EXCLUSIVE_ACCESS_ALL_REGS:
-+		return 6;
-+	default:
-+		return 0;
++		bio->bi_bdev = bdget_disk(ns->disk, 0);
++		if (!bio->bi_bdev) {
++			ret = -ENODEV;
++			goto out_unmap;
++		}
+  		if (meta_buffer) {
+  			struct bio_integrity_payload *bip;
+
+@@ -188,10 +194,11 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+  				ret = -ENOMEM;
+  				goto out_free_meta;
+  			}
++			req->cmd_flags |= REQ_INTEGRITY;
+  		}
+  	}
+
+-	blk_execute_rq(req->q, NULL, req, 0);
++	blk_execute_rq(req->q, ns->disk, req, 0);
+  	ret = req->errors;
+  	if (result)
+  		*result = (u32)(uintptr_t)req->special;
+@@ -203,8 +210,11 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+   out_free_meta:
+  	kfree(meta);
+   out_unmap:
+-	if (bio)
++	if (bio) {
++		if (bio->bi_bdev)
++			bdput(bio->bi_bdev);
+  		blk_rq_unmap_user(bio);
 +	}
-+};
-+
-+static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
-+				u64 key, u64 sa_key, u8 op)
-+{
-+	struct nvme_ns *ns = bdev->bd_disk->private_data;
-+	struct nvme_command c;
-+	u8 data[16] = { 0, };
-+
-+	put_unaligned_le64(key, &data[0]);
-+	put_unaligned_le64(sa_key, &data[8]);
-+
-+	memset(&c, 0, sizeof(c));
-+	c.common.opcode = op;
-+	c.common.nsid = ns->ns_id;
-+	c.common.cdw10[0] = cdw10;
-+
-+	return nvme_submit_sync_cmd(ns->queue, &c, data, 16);
-+}
-+
-+static int nvme_pr_register(struct block_device *bdev, u64 old,
-+		u64 new, unsigned flags)
-+{
-+	u32 cdw10;
-+
-+	if (flags & ~PR_FL_IGNORE_KEY)
-+		return -EOPNOTSUPP;
-+
-+	cdw10 = old ? 2 : 0;
-+	cdw10 |= (flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0;
-+	cdw10 |= (1 << 30) | (1 << 31); /* PTPL=1 */
-+	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_register);
-+}
-+
-+static int nvme_pr_reserve(struct block_device *bdev, u64 key,
-+		enum pr_type type, unsigned flags)
-+{
-+	u32 cdw10;
-+
-+	if (flags & ~PR_FL_IGNORE_KEY)
-+		return -EOPNOTSUPP;
-+
-+	cdw10 = nvme_pr_type(type) << 8;
-+	cdw10 |= ((flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0);
-+	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_acquire);
-+}
-+
-+static int nvme_pr_preempt(struct block_device *bdev, u64 old, u64 new,
-+		enum pr_type type, bool abort)
-+{
-+	u32 cdw10 = nvme_pr_type(type) << 8 | abort ? 2 : 1;
-+	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_acquire);
-+}
-+
-+static int nvme_pr_clear(struct block_device *bdev, u64 key)
-+{
-+	u32 cdw10 = 1 | key ? 1 << 3 : 0;
-+	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_register);
-+}
-+
-+static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
-+{
-+	u32 cdw10 = nvme_pr_type(type) << 8 | key ? 1 << 3 : 0;
-+	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
-+}
-+
-+static const struct pr_ops nvme_pr_ops = {
-+	.pr_register	= nvme_pr_register,
-+	.pr_reserve	= nvme_pr_reserve,
-+	.pr_release	= nvme_pr_release,
-+	.pr_preempt	= nvme_pr_preempt,
-+	.pr_clear	= nvme_pr_clear,
-+};
-+
- static const struct block_device_operations nvme_fops = {
- 	.owner		= THIS_MODULE,
- 	.ioctl		= nvme_ioctl,
-@@ -2066,6 +2160,7 @@ static const struct block_device_operations nvme_fops = {
- 	.release	= nvme_release,
- 	.getgeo		= nvme_getgeo,
- 	.revalidate_disk= nvme_revalidate_disk,
-+	.pr_ops		= &nvme_pr_ops,
- };
- 
- static int nvme_kthread(void *data)
--- 
-1.9.1
+   out:
+  	blk_mq_free_request(req);
+  	return ret;
+@@ -958,7 +968,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+  		goto out_release_instance;
+  	}
+  	get_device(ctrl->device);
+-	dev_set_drvdata(ctrl->device, dev);
++	dev_set_drvdata(ctrl->device, ctrl);
+
+  	ret = device_create_file(ctrl->device, &dev_attr_reset_controller);
+  	if (ret)
+@@ -1011,7 +1011,7 @@ int __init nvme_core_init(void)
+  	return result;
+  }
+
+-void __exit nvme_core_exit(void)
++void nvme_core_exit(void)
+  {
+  	unregister_blkdev(nvme_major, "nvme");
+  	class_destroy(nvme_class);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 5d45ca2..45bea69 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -164,6 +164,6 @@ int nvme_sg_io32(struct nvme_ns *ns, unsigned long arg);
+  int nvme_sg_get_version_num(int __user *ip);
+
+  int __init nvme_core_init(void);
+-void __exit nvme_core_exit(void);
++void nvme_core_exit(void);
+
+  #endif /* _NVME_H */
+--
