@@ -1,37 +1,81 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Thu, 15 Oct 2015 13:40:46 -0600
-Subject: [PATCH] NVMe: Fix memory leak on retried commands
-In-Reply-To: <alpine.LNX.2.00.1510151904520.27742@localhost.lm.intel.com>
-References: <1444774416-12648-1-git-send-email-keith.busch@intel.com>
- <alpine.LNX.2.00.1510151904520.27742@localhost.lm.intel.com>
-Message-ID: <5620013E.9020109@fb.com>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Thu, 15 Oct 2015 15:59:39 -0400
+Subject: [PATCH v2 00/12] blk-integrity lifetime fixes
+Message-ID: <20151015195939.20721.23101.stgit@dwillia2-desk3.jf.intel.com>
 
-On 10/15/2015 01:34 PM, Keith Busch wrote:
-> On Tue, 13 Oct 2015, Keith Busch wrote:
->> Resources are reallocated for requeued commands, so unmap and release
->> the iod for the failed command.
->
-> Hi Jens,
->
-> Since you're applying changes for 4.3, can you add this one? It's a
-> pretty bad memory leak and causes a kernel hang if you remove a drive
-> because of a busy dma pool. You'll get messages spewing like this:
->
->    nvme 0000:xx:xx.x: dma_pool_destroy prp list 256, ffff880420dec000 busy
->
-> and lock up pci and the driver since removal never completes while
-> holding a lock.
+Changes since v1 [1]:
+1/ Added a unification of nop profile definitions (Christoph)
 
-Yeah, it's applied. It's hand applied since it no longer applied after 
-the error fixup from Christoph:
+2/ Fixed the CONFIG_BLK_DEV_INTEGRITY=n case (Martin)
 
-http://git.kernel.dk/cgit/linux-block/commit/?h=for-linus&id=0dfc70c33409afc232ef0b9ec210535dfbf9bc61
+3/ Folded a fix into "block: Consolidate static integrity profile
+   properties", and squahsed the blk_integrity_unregister() removal patches
+   into one. (Christoph, Martin)
 
-> I think this should go into stable back to 4.0. I'm not entirely sure how
-> to do that. Will the Cc on the original achieve that when this is merged?
+4/ Collected Acked and Tested -by's from Keith, Neil, Vishal, and Ross
 
-I think your patch is fine, it's marked stable and with 4.0 and up. So 
-should be no need to do anything else.
+5/ Fixed up Documentation/ABI/testing/sysfs-block to reflect moving
+   "integrity" sysfs attributes from "disk" to "disk/queue".
 
--- 
-Jens Axboe
+[1]: https://lists.01.org/pipermail/linux-nvdimm/2015-October/002430.html
+
+---
+
+The recent "Block integrity registration update" caused a failing
+signature that had been triggering intermittently in the libnvdimm unit
+tests to start failing reliably every run.  These tests run through
+several blk_integrity configurations and as result exercise the
+block-device setup/teardown path.  This is a re-flow of "Block integrity
+registration update" with incremental fixes.
+
+Patches apply on Jens' block.git for-4.4/drivers, also available here:
+
+   git://git.kernel.org/pub/scm/linux/kernel/git/djbw/nvdimm for-4.4/blk-integrity
+
+---
+
+Dan Williams (7):
+      md, dm, scsi, nvme, libnvdimm: drop blk_integrity_unregister() at shutdown
+      md: suspend i/o during runtime blk_integrity_unregister
+      nvme: suspend i/o during runtime blk_integrity_unregister
+      block: generic request_queue reference counting
+      block: move blk_integrity to request_queue
+      block: blk_flush_integrity() for bio-based drivers
+      block, libnvdimm, nvme: provide a built-in blk_integrity nop profile
+
+Martin K. Petersen (5):
+      block: Move integrity kobject to struct gendisk
+      block: Consolidate static integrity profile properties
+      block: Reduce the size of struct blk_integrity
+      block: Export integrity data interval size in sysfs
+      block: Inline blk_integrity in struct gendisk
+
+
+ Documentation/ABI/testing/sysfs-block |   17 ++-
+ block/bio-integrity.c                 |   17 ++-
+ block/blk-core.c                      |   74 +++++++++++-
+ block/blk-integrity.c                 |  199 +++++++++++++++------------------
+ block/blk-mq-sysfs.c                  |    6 -
+ block/blk-mq.c                        |   80 ++++---------
+ block/blk-sysfs.c                     |    7 +
+ block/blk.h                           |   22 ++++
+ block/partition-generic.c             |    1 
+ block/t10-pi.c                        |   16 +--
+ drivers/md/dm-table.c                 |   88 ++++++++-------
+ drivers/md/dm.c                       |    2 
+ drivers/md/md.c                       |   13 +-
+ drivers/md/multipath.c                |    2 
+ drivers/md/raid1.c                    |    2 
+ drivers/md/raid10.c                   |    2 
+ drivers/nvdimm/btt.c                  |    1 
+ drivers/nvdimm/core.c                 |   21 +--
+ drivers/nvme/host/pci.c               |   40 ++-----
+ drivers/scsi/sd.c                     |    1 
+ drivers/scsi/sd_dif.c                 |   29 +++--
+ drivers/target/target_core_iblock.c   |   10 +-
+ fs/block_dev.c                        |    2 
+ include/linux/blk-mq.h                |    1 
+ include/linux/blkdev.h                |   54 ++++-----
+ include/linux/genhd.h                 |   25 ++++
+ include/linux/t10-pi.h                |    8 +
+ 27 files changed, 383 insertions(+), 357 deletions(-)
