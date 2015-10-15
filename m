@@ -1,75 +1,57 @@
-From: dan.j.williams@intel.com (Dan Williams)
-Date: Thu, 15 Oct 2015 16:00:40 -0400
-Subject: [PATCH v2 11/12] block: blk_flush_integrity() for bio-based drivers
-In-Reply-To: <20151015195939.20721.23101.stgit@dwillia2-desk3.jf.intel.com>
-References: <20151015195939.20721.23101.stgit@dwillia2-desk3.jf.intel.com>
-Message-ID: <20151015200040.20721.83768.stgit@dwillia2-desk3.jf.intel.com>
+From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
+Date: Thu, 15 Oct 2015 15:52:19 -0700
+Subject: [PATCH 1/5 v2] dma-mapping: add generic dma_get_page_shift API
+In-Reply-To: <20151014154251.GA7271@infradead.org>
+References: <20151002171606.GA41011@linux.vnet.ibm.com>
+ <20151002200953.GB40695@linux.vnet.ibm.com>
+ <20151002201142.GC40695@linux.vnet.ibm.com>
+ <20151006095136.GB14144@infradead.org>
+ <20151012210651.GB26702@linux.vnet.ibm.com>
+ <20151014153900.GC30179@linux.vnet.ibm.com>
+ <20151014154251.GA7271@infradead.org>
+Message-ID: <20151015225219.GD30179@linux.vnet.ibm.com>
 
-Since they lack requests to pin the request_queue active, synchronous
-bio-based drivers may have in-flight integrity work from
-bio_integrity_endio() that is not flushed by blk_freeze_queue().  Flush
-that work to prevent races to free the queue and the final usage of the
-blk_integrity profile.
+On 14.10.2015 [08:42:51 -0700], Christoph Hellwig wrote:
+> Hi Nishanth,
+> 
+> sorry for the late reply.
+> 
+> > > On Power, since it's technically variable, we'd need a function. So are
+> > > you suggesting define'ing it to a function just on Power and leaving it
+> > > a constant elsewhere?
+> > > 
+> > > I noticed that sparc has a IOMMU_PAGE_SHIFT already, fwiw.
+> > 
+> > Sorry, I should have been more specific -- I'm ready to spin out a v3,
+> > with a sparc-specific function.
+> > 
+> > Are you ok with leaving it a function for now (the only caller is in
+> > NVMe obviously).
+> 
+> 
+> I guess we do indeed need a function then.  I'll take a look at your
+> patch, but as long you found a way to avoid adding too much boilerplate
+> code it should be fine.
 
-This is temporary unless/until bio-based drivers start to generically
-take a q_usage_counter reference while a bio is in-flight.
+Ok, so I've got the moved function (include/linux/dma-mapping.h instead
+of dma-mapping-common.h) ready to go, which should only involve changing
+the first patch in the series. But I'm really mystified by what to do
+for sparc, which defines IOMMU_PAGE_SHIFT and IO_PAGE_SHIFT in
+arch/sparc/kernel/iommu_common.h.
 
-Cc: Martin K. Petersen <martin.petersen at oracle.com>
-[martin: fix the CONFIG_BLK_DEV_INTEGRITY=n case]
-Tested-by: Ross Zwisler <ross.zwisler at linux.intel.com>
-Signed-off-by: Dan Williams <dan.j.williams at intel.com>
----
- block/bio-integrity.c |    5 +++++
- block/blk-core.c      |    3 +++
- block/blk.h           |    8 ++++++++
- 3 files changed, 16 insertions(+)
+1) Which constant reflects the value we mean for this function on sparc?
+I assume it should be IOMMU_PAGE_SHIFT, but they are the same value and
+I want to make sure I get the semantics right.
 
-diff --git a/block/bio-integrity.c b/block/bio-integrity.c
-index 6a90eca9cea1..f6325d573c10 100644
---- a/block/bio-integrity.c
-+++ b/block/bio-integrity.c
-@@ -32,6 +32,11 @@
- static struct kmem_cache *bip_slab;
- static struct workqueue_struct *kintegrityd_wq;
- 
-+void blk_flush_integrity(void)
-+{
-+	flush_workqueue(kintegrityd_wq);
-+}
-+
- /**
-  * bio_integrity_alloc - Allocate integrity payload and attach it to bio
-  * @bio:	bio to attach integrity metadata to
-diff --git a/block/blk-core.c b/block/blk-core.c
-index 9b4d735cb5b8..6ebe33ed5154 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -561,6 +561,9 @@ void blk_cleanup_queue(struct request_queue *q)
- 	queue_flag_set(QUEUE_FLAG_DEAD, q);
- 	spin_unlock_irq(lock);
- 
-+	/* for synchronous bio-based driver finish in-flight integrity i/o */
-+	blk_flush_integrity();
-+
- 	/* @q won't process any more request, flush async actions */
- 	del_timer_sync(&q->backing_dev_info.laptop_mode_wb_timer);
- 	blk_sync_queue(q);
-diff --git a/block/blk.h b/block/blk.h
-index 5b2cd393afbe..157c93d54dc9 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -87,6 +87,14 @@ static inline void blk_queue_enter_live(struct request_queue *q)
- 	percpu_ref_get(&q->q_usage_counter);
- }
- 
-+#ifdef CONFIG_BLK_DEV_INTEGRITY
-+void blk_flush_integrity(void);
-+#else
-+static inline void blk_flush_integrity(void)
-+{
-+}
-+#endif
-+
- void blk_rq_timed_out_timer(unsigned long data);
- unsigned long blk_rq_timeout(unsigned long timeout);
- void blk_add_timer(struct request *req);
+2) Where would I put sparc's definition of dma_get_page_shift()? Should
+it be in a asm/dma-mapping.h? Should we move some of the constants from
+arch/sparc/kernel/iommu_common.h to
+arch/sparc/include/asm/iommu_common.h and then #include that in
+asm/dma-mapping.h?
+
+Dave M., any opinions/insights? Essentially, this helper function
+assists the NVMe driver in determining what page size it should use to
+satisfy both the device and IOMMU's requirements. Maybe I misunderstand
+the constants on sparc and PAGE_SHIFT is fine there too?
+
+-Nish
