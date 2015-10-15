@@ -1,40 +1,24 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Thu, 15 Oct 2015 09:51:35 -0600
-Subject: [PATCH] nvme: use an integer value to Linux errno values
-In-Reply-To: <20151015153032.GA2156@infradead.org>
-References: <1444677819-23822-1-git-send-email-hch@lst.de>
- <20151015145752.GA8622@infradead.org>
- <alpine.LNX.2.00.1510151500510.27742@localhost.lm.intel.com>
- <20151015153032.GA2156@infradead.org>
-Message-ID: <561FCB87.6090006@fb.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 15 Oct 2015 19:34:16 +0000 (UTC)
+Subject: [PATCH] NVMe: Fix memory leak on retried commands
+In-Reply-To: <1444774416-12648-1-git-send-email-keith.busch@intel.com>
+References: <1444774416-12648-1-git-send-email-keith.busch@intel.com>
+Message-ID: <alpine.LNX.2.00.1510151904520.27742@localhost.lm.intel.com>
 
-On 10/15/2015 09:30 AM, Christoph Hellwig wrote:
-> On Thu, Oct 15, 2015@03:13:23PM +0000, Keith Busch wrote:
->> On Thu, 15 Oct 2015, Christoph Hellwig wrote:
->>> On Mon, Oct 12, 2015@09:23:39PM +0200, Christoph Hellwig wrote:
->>>> drivers/nvme/host/pci.c | 12 +++++++-----
->>>> 1 file changed, 7 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->>>> index a526696..9049888 100644
->>>> --- a/drivers/nvme/host/pci.c
->>>> +++ b/drivers/nvme/host/pci.c
->>>> @@ -606,8 +606,8 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
->>>> 	struct nvme_iod *iod = ctx;
->>>> 	struct request *req = iod_get_private(iod);
->>>> 	struct nvme_cmd_info *cmd_rq = blk_mq_rq_to_pdu(req);
->>>> -
->>>> 	u16 status = le16_to_cpup(&cqe->status) >> 1;
->>>> +	int error;
->>
->> My compiler didn't warn, so maybe I'm missing something, but this looks
->> like this needs to initialize error to 0, right? It's setting error only
->> in the non-zero status case, but used in both cases.
->
-> Yes, it should be set to zero.  That's what I did in the tested version
-> because this one will actually blow up.
+On Tue, 13 Oct 2015, Keith Busch wrote:
+> Resources are reallocated for requeued commands, so unmap and release
+> the iod for the failed command.
 
-Good catch Keith, I've fixed it up.
+Hi Jens,
 
--- 
-Jens Axboe
+Since you're applying changes for 4.3, can you add this one? It's a
+pretty bad memory leak and causes a kernel hang if you remove a drive
+because of a busy dma pool. You'll get messages spewing like this:
+
+   nvme 0000:xx:xx.x: dma_pool_destroy prp list 256, ffff880420dec000 busy
+
+and lock up pci and the driver since removal never completes while
+holding a lock.
+
+I think this should go into stable back to 4.0. I'm not entirely sure how
+to do that. Will the Cc on the original achieve that when this is merged?
