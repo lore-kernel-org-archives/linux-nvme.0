@@ -1,39 +1,75 @@
 From: dan.j.williams@intel.com (Dan Williams)
-Date: Thu, 15 Oct 2015 16:00:23 -0400
-Subject: [PATCH v2 08/12] nvme: suspend i/o during runtime
- blk_integrity_unregister
+Date: Thu, 15 Oct 2015 16:00:40 -0400
+Subject: [PATCH v2 11/12] block: blk_flush_integrity() for bio-based drivers
 In-Reply-To: <20151015195939.20721.23101.stgit@dwillia2-desk3.jf.intel.com>
 References: <20151015195939.20721.23101.stgit@dwillia2-desk3.jf.intel.com>
-Message-ID: <20151015200023.20721.84329.stgit@dwillia2-desk3.jf.intel.com>
+Message-ID: <20151015200040.20721.83768.stgit@dwillia2-desk3.jf.intel.com>
 
-Synchronize pending i/o against a change in the integrity profile to
-avoid the possibility of spurious integrity errors.
+Since they lack requests to pin the request_queue active, synchronous
+bio-based drivers may have in-flight integrity work from
+bio_integrity_endio() that is not flushed by blk_freeze_queue().  Flush
+that work to prevent races to free the queue and the final usage of the
+blk_integrity profile.
 
-Cc: Matthew Wilcox <willy at linux.intel.com>
-Acked-by: Keith Busch <keith.busch at intel.com>
-[keith: also protect dynamic integrity registration]
+This is temporary unless/until bio-based drivers start to generically
+take a q_usage_counter reference while a bio is in-flight.
+
+Cc: Martin K. Petersen <martin.petersen at oracle.com>
+[martin: fix the CONFIG_BLK_DEV_INTEGRITY=n case]
+Tested-by: Ross Zwisler <ross.zwisler at linux.intel.com>
 Signed-off-by: Dan Williams <dan.j.williams at intel.com>
 ---
- drivers/nvme/host/pci.c |    2 ++
- 1 file changed, 2 insertions(+)
+ block/bio-integrity.c |    5 +++++
+ block/blk-core.c      |    3 +++
+ block/blk.h           |    8 ++++++++
+ 3 files changed, 16 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 65190e51aa47..5578de67f406 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2033,6 +2033,7 @@ static int nvme_revalidate_disk(struct gendisk *disk)
- 	pi_type = ns->ms == sizeof(struct t10_pi_tuple) ?
- 					id->dps & NVME_NS_DPS_PI_MASK : 0;
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index 6a90eca9cea1..f6325d573c10 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -32,6 +32,11 @@
+ static struct kmem_cache *bip_slab;
+ static struct workqueue_struct *kintegrityd_wq;
  
-+	blk_mq_freeze_queue(disk->queue);
- 	if (blk_get_integrity(disk) && (ns->pi_type != pi_type ||
- 				ns->ms != old_ms ||
- 				bs != queue_logical_block_size(disk->queue) ||
-@@ -2052,6 +2053,7 @@ static int nvme_revalidate_disk(struct gendisk *disk)
++void blk_flush_integrity(void)
++{
++	flush_workqueue(kintegrityd_wq);
++}
++
+ /**
+  * bio_integrity_alloc - Allocate integrity payload and attach it to bio
+  * @bio:	bio to attach integrity metadata to
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 9b4d735cb5b8..6ebe33ed5154 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -561,6 +561,9 @@ void blk_cleanup_queue(struct request_queue *q)
+ 	queue_flag_set(QUEUE_FLAG_DEAD, q);
+ 	spin_unlock_irq(lock);
  
- 	if (dev->oncs & NVME_CTRL_ONCS_DSM)
- 		nvme_config_discard(ns);
-+	blk_mq_unfreeze_queue(disk->queue);
++	/* for synchronous bio-based driver finish in-flight integrity i/o */
++	blk_flush_integrity();
++
+ 	/* @q won't process any more request, flush async actions */
+ 	del_timer_sync(&q->backing_dev_info.laptop_mode_wb_timer);
+ 	blk_sync_queue(q);
+diff --git a/block/blk.h b/block/blk.h
+index 5b2cd393afbe..157c93d54dc9 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -87,6 +87,14 @@ static inline void blk_queue_enter_live(struct request_queue *q)
+ 	percpu_ref_get(&q->q_usage_counter);
+ }
  
- 	kfree(id);
- 	return 0;
++#ifdef CONFIG_BLK_DEV_INTEGRITY
++void blk_flush_integrity(void);
++#else
++static inline void blk_flush_integrity(void)
++{
++}
++#endif
++
+ void blk_rq_timed_out_timer(unsigned long data);
+ unsigned long blk_rq_timeout(unsigned long timeout);
+ void blk_add_timer(struct request *req);
