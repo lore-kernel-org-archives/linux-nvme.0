@@ -1,25 +1,52 @@
-From: dan.j.williams@intel.com (Dan Williams)
-Date: Wed, 14 Oct 2015 16:31:38 -0700
-Subject: [PATCH 10/11] block: move blk_integrity to request_queue
-In-Reply-To: <yq1si5djcq3.fsf@sermon.lab.mkp.net>
-References: <20151014022757.34443.25800.stgit@dwillia2-desk3.jf.intel.com>
- <20151014022852.34443.87630.stgit@dwillia2-desk3.jf.intel.com>
- <yq1si5djcq3.fsf@sermon.lab.mkp.net>
-Message-ID: <CAPcyv4hbTNy9j-TufuwYhwc70GfoALrPgq680jfx8fbau+jg9g@mail.gmail.com>
+From: lkp@intel.com (kbuild test robot)
+Date: Thu, 15 Oct 2015 09:09:51 +0800
+Subject: [PATCH v10 3/5] rrpc: Round-robin sector target with cost-based gc
+In-Reply-To: <1444850524-16827-4-git-send-email-m@bjorling.me>
+Message-ID: <201510150917.fYoN1atS%fengguang.wu@intel.com>
 
-On Wed, Oct 14, 2015 at 3:40 PM, Martin K. Petersen
-<martin.petersen@oracle.com> wrote:
->>>>>> "Dan" == Dan Williams <dan.j.williams at intel.com> writes:
->
-> Dan> Given that a request_queue is pinned while i/o is in flight and
-> Dan> that a gendisk is allowed to have a shorter lifetime, move
-> Dan> blk_integrity to request_queue to satisfy requests arriving after
-> Dan> the gendisk has been torn down.
->
-> There was a really good reason why the integrity stuff was hanging off
-> of gendisk but it's been so long that I can't remember what it was. And
-> whatever it was, it is probably no longer valid.
->
-> Do you have a git tree I can use to run my DIF/DIX qual on?
+Hi Matias,
 
-git://git.kernel.org/pub/scm/linux/kernel/git/djbw/nvdimm for-4.4/blk-integrity
+[auto build test WARNING on block/for-next -- if it's inappropriate base, please suggest rules for selecting the more suitable base]
+
+url:    https://github.com/0day-ci/linux/commits/Matias-Bj-rling/Support-for-Open-Channel-SSDs/20151014-224617
+reproduce:
+        # apt-get install sparse
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF=-D__CHECK_ENDIAN__
+
+
+sparse warnings: (new ones prefixed by >>)
+
+>> drivers/lightnvm/rrpc.c:917:27: sparse: cast to restricted __le64
+
+vim +917 drivers/lightnvm/rrpc.c
+
+   901	static int rrpc_l2p_update(u64 slba, u64 nlb, u64 *entries, void *private)
+   902	{
+   903		struct rrpc *rrpc = (struct rrpc *)private;
+   904		struct nvm_dev *dev = rrpc->dev;
+   905		struct rrpc_addr *addr = rrpc->trans_map + slba;
+   906		struct rrpc_rev_addr *raddr = rrpc->rev_trans_map;
+   907		sector_t max_pages = dev->total_pages * (dev->sec_size >> 9);
+   908		u64 elba = slba + nlb;
+   909		u64 i;
+   910	
+   911		if (unlikely(elba > dev->total_pages)) {
+   912			pr_err("nvm: L2P data from device is out of bounds!\n");
+   913			return -EINVAL;
+   914		}
+   915	
+   916		for (i = 0; i < nlb; i++) {
+ > 917			u64 pba = le64_to_cpu(entries[i]);
+   918			/* LNVM treats address-spaces as silos, LBA and PBA are
+   919			 * equally large and zero-indexed.
+   920			 */
+   921			if (unlikely(pba >= max_pages && pba != U64_MAX)) {
+   922				pr_err("nvm: L2P data entry is out of bounds!\n");
+   923				return -EINVAL;
+   924			}
+   925	
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
