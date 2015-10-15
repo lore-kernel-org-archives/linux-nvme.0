@@ -1,17 +1,21 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 15 Oct 2015 16:58:44 +0200
-Subject: [PATCH 2/8] nvme: use the block layer for userspace
- passthrough metadata
-In-Reply-To: <alpine.LNX.2.00.1510151442300.27742@localhost.lm.intel.com>
-References: <1444633811-28319-1-git-send-email-hch@lst.de>
- <1444633811-28319-3-git-send-email-hch@lst.de>
- <alpine.LNX.2.00.1510142038370.27742@localhost.lm.intel.com>
- <20151015052732.GA21725@lst.de>
- <alpine.LNX.2.00.1510151442300.27742@localhost.lm.intel.com>
-Message-ID: <20151015145844.GA2737@lst.de>
+From: axboe@fb.com (Jens Axboe)
+Date: Thu, 15 Oct 2015 09:04:26 -0600
+Subject: [PATCH] nvme: use an integer value to Linux errno values
+In-Reply-To: <1444677819-23822-1-git-send-email-hch@lst.de>
+References: <1444677819-23822-1-git-send-email-hch@lst.de>
+Message-ID: <561FC07A.10205@fb.com>
 
-On Thu, Oct 15, 2015@02:44:02PM +0000, Keith Busch wrote:
-> There's not much, so here's all the fixes for the whole series in
-> one diff:
+On 10/12/2015 01:23 PM, Christoph Hellwig wrote:
+> Use a separate integer variable to hold the signed Linux errno
+> values we pass back to the block layer.  Note that for pass through
+> commands those might still be NVMe values, but those fit into the
+> int as well.
+>
+> Fixes: f4829a9b7a61: ("blk-mq: fix racy updates of rq->errors")
+> Reported-by: Dan Carpenter <dan.carpenter at oracle.com>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Thanks, I'll fold them and will resend the series later today.
+Looks good to me. I'll manually fold this into the 4.3 base as well.
+
+-- 
+Jens Axboe
