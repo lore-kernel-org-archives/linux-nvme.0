@@ -1,8 +1,8 @@
 From: lkp@intel.com (kbuild test robot)
-Date: Thu, 15 Oct 2015 09:09:51 +0800
-Subject: [PATCH v10 3/5] rrpc: Round-robin sector target with cost-based gc
-In-Reply-To: <1444850524-16827-4-git-send-email-m@bjorling.me>
-Message-ID: <201510150917.fYoN1atS%fengguang.wu@intel.com>
+Date: Thu, 15 Oct 2015 10:46:16 +0800
+Subject: [PATCH v9 5/5] nvme: LightNVM support
+In-Reply-To: <1444833738-8961-6-git-send-email-m@bjorling.me>
+Message-ID: <201510151007.f6nvy7gi%fengguang.wu@intel.com>
 
 Hi Matias,
 
@@ -17,35 +17,80 @@ reproduce:
 
 sparse warnings: (new ones prefixed by >>)
 
->> drivers/lightnvm/rrpc.c:917:27: sparse: cast to restricted __le64
+>> drivers/nvme/host/lightnvm.c:282:23: sparse: incorrect type in assignment (different base types)
+   drivers/nvme/host/lightnvm.c:282:23:    expected restricted __le32 [assigned] [usertype] nsid
+   drivers/nvme/host/lightnvm.c:282:23:    got unsigned int [unsigned] ns_id
+>> drivers/nvme/host/lightnvm.c:291:19: sparse: cast to restricted __le64
+   drivers/nvme/host/lightnvm.c:292:19: sparse: cast to restricted __le64
+>> drivers/nvme/host/lightnvm.c:331:28: sparse: incorrect type in assignment (different base types)
+   drivers/nvme/host/lightnvm.c:331:28:    expected restricted __le64 [assigned] [usertype] slba
+   drivers/nvme/host/lightnvm.c:331:28:    got unsigned long long [unsigned] [usertype] cmd_slba
+>> drivers/nvme/host/lightnvm.c:332:27: sparse: incorrect type in assignment (different base types)
+   drivers/nvme/host/lightnvm.c:332:27:    expected restricted __le32 [assigned] [usertype] nlb
+   drivers/nvme/host/lightnvm.c:332:27:    got unsigned long long [unsigned] [usertype] cmd_nlb
 
-vim +917 drivers/lightnvm/rrpc.c
+vim +282 drivers/nvme/host/lightnvm.c
 
-   901	static int rrpc_l2p_update(u64 slba, u64 nlb, u64 *entries, void *private)
-   902	{
-   903		struct rrpc *rrpc = (struct rrpc *)private;
-   904		struct nvm_dev *dev = rrpc->dev;
-   905		struct rrpc_addr *addr = rrpc->trans_map + slba;
-   906		struct rrpc_rev_addr *raddr = rrpc->rev_trans_map;
-   907		sector_t max_pages = dev->total_pages * (dev->sec_size >> 9);
-   908		u64 elba = slba + nlb;
-   909		u64 i;
-   910	
-   911		if (unlikely(elba > dev->total_pages)) {
-   912			pr_err("nvm: L2P data from device is out of bounds!\n");
-   913			return -EINVAL;
-   914		}
-   915	
-   916		for (i = 0; i < nlb; i++) {
- > 917			u64 pba = le64_to_cpu(entries[i]);
-   918			/* LNVM treats address-spaces as silos, LBA and PBA are
-   919			 * equally large and zero-indexed.
-   920			 */
-   921			if (unlikely(pba >= max_pages && pba != U64_MAX)) {
-   922				pr_err("nvm: L2P data entry is out of bounds!\n");
-   923				return -EINVAL;
-   924			}
-   925	
+   276		struct nvme_nvm_command c = {};
+   277		int sz = sizeof(struct nvm_get_features);
+   278		int ret;
+   279		u64 *resp;
+   280	
+   281		c.common.opcode = nvme_nvm_admin_get_features;
+ > 282		c.common.nsid = ns->ns_id;
+   283		resp = kmalloc(sz, GFP_KERNEL);
+   284		if (!resp)
+   285			return -ENOMEM;
+   286	
+   287		ret = nvme_submit_sync_cmd(q, (struct nvme_command *)&c, resp, sz);
+   288		if (ret)
+   289			goto done;
+   290	
+ > 291		gf->rsp = le64_to_cpu(resp[0]);
+   292		gf->ext = le64_to_cpu(resp[1]);
+   293	
+   294	done:
+   295		kfree(resp);
+   296		return ret;
+   297	}
+   298	
+   299	static int nvme_nvm_set_resp(struct request_queue *q, u64 resp)
+   300	{
+   301		struct nvme_ns *ns = q->queuedata;
+   302		struct nvme_nvm_command c = {};
+   303	
+   304		c.resp.opcode = nvme_nvm_admin_set_resp;
+   305		c.resp.nsid = cpu_to_le32(ns->ns_id);
+   306		c.resp.resp = cpu_to_le64(resp);
+   307		return nvme_submit_sync_cmd(q, (struct nvme_command *)&c, NULL, 0);
+   308	}
+   309	
+   310	static int nvme_nvm_get_l2p_tbl(struct request_queue *q, u64 slba, u64 nlb,
+   311					nvm_l2p_update_fn *update_l2p, void *priv)
+   312	{
+   313		struct nvme_ns *ns = q->queuedata;
+   314		struct nvme_dev *dev = ns->dev;
+   315		struct nvme_nvm_command c = {};
+   316		u32 len = queue_max_hw_sectors(q) << 9;
+   317		u64 nlb_pr_rq = len / sizeof(u64);
+   318		u64 cmd_slba = slba;
+   319		void *entries;
+   320		int ret = 0;
+   321	
+   322		c.l2p.opcode = nvme_nvm_admin_get_l2p_tbl;
+   323		c.l2p.nsid = cpu_to_le32(ns->ns_id);
+   324		entries = kmalloc(len, GFP_KERNEL);
+   325		if (!entries)
+   326			return -ENOMEM;
+   327	
+   328		while (nlb) {
+   329			u64 cmd_nlb = min_t(u64, nlb_pr_rq, nlb);
+   330	
+ > 331			c.l2p.slba = cmd_slba;
+ > 332			c.l2p.nlb = cmd_nlb;
+   333	
+   334			ret = nvme_submit_sync_cmd(q, (struct nvme_command *)&c,
+   335									entries, len);
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Center
