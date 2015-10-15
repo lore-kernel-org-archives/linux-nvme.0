@@ -1,93 +1,94 @@
 From: dan.j.williams@intel.com (Dan Williams)
-Date: Thu, 15 Oct 2015 16:00:12 -0400
-Subject: [PATCH v2 06/12] md, dm, scsi, nvme,
- libnvdimm: drop blk_integrity_unregister() at shutdown
+Date: Thu, 15 Oct 2015 15:59:56 -0400
+Subject: [PATCH v2 03/12] block: Reduce the size of struct blk_integrity
 In-Reply-To: <20151015195939.20721.23101.stgit@dwillia2-desk3.jf.intel.com>
 References: <20151015195939.20721.23101.stgit@dwillia2-desk3.jf.intel.com>
-Message-ID: <20151015200012.20721.16024.stgit@dwillia2-desk3.jf.intel.com>
+Message-ID: <20151015195956.20721.41442.stgit@dwillia2-desk3.jf.intel.com>
 
-Now that the integrity profile is statically allocated there is no work
-to do when shutting down an integrity enabled block device.
+From: Martin K. Petersen <martin.petersen@oracle.com>
 
-Cc: Matthew Wilcox <willy at linux.intel.com>
-Cc: Mike Snitzer <snitzer at redhat.com>
-Cc: James Bottomley <JBottomley at Odin.com>
-Acked-by: NeilBrown <neilb at suse.com>
-Acked-by: Keith Busch <keith.busch at intel.com>
-Acked-by: Vishal Verma <vishal.l.verma at intel.com>
+The per-device properties in the blk_integrity structure were previously
+unsigned short. However, most of the values fit inside a char. The only
+exception is the data interval size and we can work around that by
+storing it as a power of two.
+
+This cuts the size of the dynamic portion of blk_integrity in half.
+
+Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
+Reported-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
 Tested-by: Ross Zwisler <ross.zwisler at linux.intel.com>
 Signed-off-by: Dan Williams <dan.j.williams at intel.com>
 ---
- drivers/md/dm.c         |    2 --
- drivers/md/md.c         |    1 -
- drivers/nvdimm/btt.c    |    1 -
- drivers/nvme/host/pci.c |    5 +----
- drivers/scsi/sd.c       |    1 -
- 5 files changed, 1 insertion(+), 9 deletions(-)
+ block/bio-integrity.c  |    4 ++--
+ block/blk-integrity.c  |    6 +++---
+ include/linux/blkdev.h |    8 ++++----
+ 3 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-index 6264781dc69a..f4d953e10e2f 100644
---- a/drivers/md/dm.c
-+++ b/drivers/md/dm.c
-@@ -2233,8 +2233,6 @@ static void cleanup_mapped_device(struct mapped_device *md)
- 		spin_lock(&_minor_lock);
- 		md->disk->private_data = NULL;
- 		spin_unlock(&_minor_lock);
--		if (blk_get_integrity(md->disk))
--			blk_integrity_unregister(md->disk);
- 		del_gendisk(md->disk);
- 		put_disk(md->disk);
- 	}
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index 2af9d590e1a0..7d07caceb349 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -5539,7 +5539,6 @@ static int do_md_stop(struct mddev *mddev, int mode,
- 		if (mddev->hold_active == UNTIL_STOP)
- 			mddev->hold_active = 0;
- 	}
--	blk_integrity_unregister(disk);
- 	md_new_event(mddev);
- 	sysfs_notify_dirent_safe(mddev->sysfs_state);
- 	return 0;
-diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
-index 254239746020..eae93ab8ffcd 100644
---- a/drivers/nvdimm/btt.c
-+++ b/drivers/nvdimm/btt.c
-@@ -1279,7 +1279,6 @@ static int btt_blk_init(struct btt *btt)
- 
- static void btt_blk_cleanup(struct btt *btt)
+diff --git a/block/bio-integrity.c b/block/bio-integrity.c
+index a10ffe19a8dd..6a90eca9cea1 100644
+--- a/block/bio-integrity.c
++++ b/block/bio-integrity.c
+@@ -202,7 +202,7 @@ EXPORT_SYMBOL(bio_integrity_enabled);
+ static inline unsigned int bio_integrity_intervals(struct blk_integrity *bi,
+ 						   unsigned int sectors)
  {
--	blk_integrity_unregister(btt->btt_disk);
- 	del_gendisk(btt->btt_disk);
- 	put_disk(btt->btt_disk);
- 	blk_cleanup_queue(btt->btt_queue);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d5d877716fd6..65190e51aa47 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2405,11 +2405,8 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+-	return sectors >> (ilog2(bi->interval) - 9);
++	return sectors >> (bi->interval_exp - 9);
+ }
  
- 	if (kill)
- 		blk_set_queue_dying(ns->queue);
--	if (ns->disk->flags & GENHD_FL_UP) {
--		if (blk_get_integrity(ns->disk))
--			blk_integrity_unregister(ns->disk);
-+	if (ns->disk->flags & GENHD_FL_UP)
- 		del_gendisk(ns->disk);
--	}
- 	if (kill || !blk_queue_dying(ns->queue)) {
- 		blk_mq_abort_requeue_list(ns->queue);
- 		blk_cleanup_queue(ns->queue);
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index 3f370228bf31..9e85211ea1d1 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -3068,7 +3068,6 @@ static void scsi_disk_release(struct device *dev)
- 	ida_remove(&sd_index_ida, sdkp->index);
- 	spin_unlock(&sd_index_lock);
+ static inline unsigned int bio_integrity_bytes(struct blk_integrity *bi,
+@@ -229,7 +229,7 @@ static int bio_integrity_process(struct bio *bio,
+ 		bip->bip_vec->bv_offset;
  
--	blk_integrity_unregister(disk);
- 	disk->private_data = NULL;
- 	put_disk(disk);
- 	put_device(&sdkp->device->sdev_gendev);
+ 	iter.disk_name = bio->bi_bdev->bd_disk->disk_name;
+-	iter.interval = bi->interval;
++	iter.interval = 1 << bi->interval_exp;
+ 	iter.seed = bip_get_seed(bip);
+ 	iter.prot_buf = prot_buf;
+ 
+diff --git a/block/blk-integrity.c b/block/blk-integrity.c
+index daf590ab3b46..c7508654faff 100644
+--- a/block/blk-integrity.c
++++ b/block/blk-integrity.c
+@@ -155,10 +155,10 @@ int blk_integrity_compare(struct gendisk *gd1, struct gendisk *gd2)
+ 	if (!b1 || !b2)
+ 		return -1;
+ 
+-	if (b1->interval != b2->interval) {
++	if (b1->interval_exp != b2->interval_exp) {
+ 		pr_err("%s: %s/%s protection interval %u != %u\n",
+ 		       __func__, gd1->disk_name, gd2->disk_name,
+-		       b1->interval, b2->interval);
++		       1 << b1->interval_exp, 1 << b2->interval_exp);
+ 		return -1;
+ 	}
+ 
+@@ -440,7 +440,7 @@ int blk_integrity_register(struct gendisk *disk, struct blk_integrity *template)
+ 		kobject_uevent(&disk->integrity_kobj, KOBJ_ADD);
+ 
+ 		bi->flags |= BLK_INTEGRITY_VERIFY | BLK_INTEGRITY_GENERATE;
+-		bi->interval = queue_logical_block_size(disk->queue);
++		bi->interval_exp = ilog2(queue_logical_block_size(disk->queue));
+ 		disk->integrity = bi;
+ 	} else
+ 		bi = disk->integrity;
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index f36c6476f1c7..4f1968f15e30 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1470,10 +1470,10 @@ struct blk_integrity_profile {
+ 
+ struct blk_integrity {
+ 	struct blk_integrity_profile	*profile;
+-	unsigned short			flags;
+-	unsigned short			tuple_size;
+-	unsigned short			interval;
+-	unsigned short			tag_size;
++	unsigned char			flags;
++	unsigned char			tuple_size;
++	unsigned char			interval_exp;
++	unsigned char			tag_size;
+ };
+ 
+ extern bool blk_integrity_is_initialized(struct gendisk *);
