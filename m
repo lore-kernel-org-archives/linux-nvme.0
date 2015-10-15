@@ -1,167 +1,140 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 15 Oct 2015 14:10:51 +0200
-Subject: [PATCH 5/6] dm: add support for passing through persistent
- reservations
+Date: Thu, 15 Oct 2015 14:10:52 +0200
+Subject: [PATCH 6/6] NVMe: Add persistent reservation ops
 In-Reply-To: <1444911052-9423-1-git-send-email-hch@lst.de>
 References: <1444911052-9423-1-git-send-email-hch@lst.de>
-Message-ID: <1444911052-9423-6-git-send-email-hch@lst.de>
+Message-ID: <1444911052-9423-7-git-send-email-hch@lst.de>
 
-This adds support to pass through persistent reservation requests
-similar to the existing ioctl handling, and with the same limitations,
-e.g. devices may only have a single target attached.
+From: Keith Busch <keith.busch@intel.com>
 
-This is mostly intended for multipathing.
-
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+[hch: rebased, set PTPL=1]
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/md/dm.c | 123 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 123 insertions(+)
+ drivers/nvme/host/pci.c | 95 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 95 insertions(+)
 
-diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-index 017c712..4f5e655 100644
---- a/drivers/md/dm.c
-+++ b/drivers/md/dm.c
-@@ -24,6 +24,7 @@
- #include <linux/ktime.h>
- #include <linux/elevator.h> /* for rq_end_sector() */
- #include <linux/blk-mq.h>
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ad58ee3..6230608 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -39,8 +39,10 @@
+ #include <linux/slab.h>
+ #include <linux/t10-pi.h>
+ #include <linux/types.h>
 +#include <linux/pr.h>
+ #include <scsi/sg.h>
+ #include <asm-generic/io-64-nonatomic-lo-hi.h>
++#include <asm/unaligned.h>
  
- #include <trace/events/block.h>
- 
-@@ -3544,11 +3545,133 @@ void dm_free_md_mempools(struct dm_md_mempools *pools)
- 	kfree(pools);
+ #include <uapi/linux/nvme_ioctl.h>
+ #include "nvme.h"
+@@ -2058,6 +2060,98 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 	return 0;
  }
  
-+static int dm_pr_register(struct block_device *bdev, u64 old_key, u64 new_key,
-+		u32 flags)
++static char nvme_pr_type(enum pr_type type)
 +{
-+	struct mapped_device *md = bdev->bd_disk->private_data;
-+	const struct pr_ops *ops;
-+	struct dm_target *tgt;
-+	fmode_t mode;
-+	int srcu_idx, r;
-+
-+	r = dm_get_live_table_for_ioctl(md, &tgt, &bdev, &mode, &srcu_idx);
-+	if (r < 0)
-+		return r;
-+
-+	ops = bdev->bd_disk->fops->pr_ops;
-+	if (ops && ops->pr_register)
-+		r = ops->pr_register(bdev, old_key, new_key, flags);
-+	else
-+		r = -EOPNOTSUPP;
-+
-+	dm_put_live_table(md, srcu_idx);
-+	return r;
-+}
-+
-+static int dm_pr_reserve(struct block_device *bdev, u64 key, enum pr_type type,
-+		u32 flags)
-+{
-+	struct mapped_device *md = bdev->bd_disk->private_data;
-+	const struct pr_ops *ops;
-+	struct dm_target *tgt;
-+	fmode_t mode;
-+	int srcu_idx, r;
-+
-+	r = dm_get_live_table_for_ioctl(md, &tgt, &bdev, &mode, &srcu_idx);
-+	if (r < 0)
-+		return r;
-+
-+	ops = bdev->bd_disk->fops->pr_ops;
-+	if (ops && ops->pr_reserve)
-+		r = ops->pr_reserve(bdev, key, type, flags);
-+	else
-+		r = -EOPNOTSUPP;
-+
-+	dm_put_live_table(md, srcu_idx);
-+	return r;
-+}
-+
-+static int dm_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
-+{
-+	struct mapped_device *md = bdev->bd_disk->private_data;
-+	const struct pr_ops *ops;
-+	struct dm_target *tgt;
-+	fmode_t mode;
-+	int srcu_idx, r;
-+
-+	r = dm_get_live_table_for_ioctl(md, &tgt, &bdev, &mode, &srcu_idx);
-+	if (r < 0)
-+		return r;
-+
-+	ops = bdev->bd_disk->fops->pr_ops;
-+	if (ops && ops->pr_release)
-+		r = ops->pr_release(bdev, key, type);
-+	else
-+		r = -EOPNOTSUPP;
-+
-+	dm_put_live_table(md, srcu_idx);
-+	return r;
-+}
-+
-+static int dm_pr_preempt(struct block_device *bdev, u64 old_key, u64 new_key,
-+		enum pr_type type, bool abort)
-+{
-+	struct mapped_device *md = bdev->bd_disk->private_data;
-+	const struct pr_ops *ops;
-+	struct dm_target *tgt;
-+	fmode_t mode;
-+	int srcu_idx, r;
-+
-+	r = dm_get_live_table_for_ioctl(md, &tgt, &bdev, &mode, &srcu_idx);
-+	if (r < 0)
-+		return r;
-+
-+	ops = bdev->bd_disk->fops->pr_ops;
-+	if (ops && ops->pr_preempt)
-+		r = ops->pr_preempt(bdev, old_key, new_key, type, abort);
-+	else
-+		r = -EOPNOTSUPP;
-+
-+	dm_put_live_table(md, srcu_idx);
-+	return r;
-+}
-+
-+static int dm_pr_clear(struct block_device *bdev, u64 key)
-+{
-+	struct mapped_device *md = bdev->bd_disk->private_data;
-+	const struct pr_ops *ops;
-+	struct dm_target *tgt;
-+	fmode_t mode;
-+	int srcu_idx, r;
-+
-+	r = dm_get_live_table_for_ioctl(md, &tgt, &bdev, &mode, &srcu_idx);
-+	if (r < 0)
-+		return r;
-+
-+	ops = bdev->bd_disk->fops->pr_ops;
-+	if (ops && ops->pr_clear)
-+		r = ops->pr_clear(bdev, key);
-+	else
-+		r = -EOPNOTSUPP;
-+
-+	dm_put_live_table(md, srcu_idx);
-+	return r;
-+}
-+
-+static const struct pr_ops dm_pr_ops = {
-+	.pr_register	= dm_pr_register,
-+	.pr_reserve	= dm_pr_reserve,
-+	.pr_release	= dm_pr_release,
-+	.pr_preempt	= dm_pr_preempt,
-+	.pr_clear	= dm_pr_clear,
++	switch (type) {
++	case PR_WRITE_EXCLUSIVE:
++		return 1;
++	case PR_EXCLUSIVE_ACCESS:
++		return 2;
++	case PR_WRITE_EXCLUSIVE_REG_ONLY:
++		return 3;
++	case PR_EXCLUSIVE_ACCESS_REG_ONLY:
++		return 4;
++	case PR_WRITE_EXCLUSIVE_ALL_REGS:
++		return 5;
++	case PR_EXCLUSIVE_ACCESS_ALL_REGS:
++		return 6;
++	default:
++		return 0;
++	}
 +};
 +
- static const struct block_device_operations dm_blk_dops = {
- 	.open = dm_blk_open,
- 	.release = dm_blk_close,
- 	.ioctl = dm_blk_ioctl,
- 	.getgeo = dm_blk_getgeo,
-+	.pr_ops = &dm_pr_ops,
- 	.owner = THIS_MODULE
++static int nvme_pr_command(struct block_device *bdev, u32 cdw10,
++				u64 key, u64 sa_key, u8 op)
++{
++	struct nvme_ns *ns = bdev->bd_disk->private_data;
++	struct nvme_command c;
++	u8 data[16] = { 0, };
++
++	put_unaligned_le64(key, &data[0]);
++	put_unaligned_le64(sa_key, &data[8]);
++
++	memset(&c, 0, sizeof(c));
++	c.common.opcode = op;
++	c.common.nsid = ns->ns_id;
++	c.common.cdw10[0] = cdw10;
++
++	return nvme_submit_sync_cmd(ns->queue, &c, data, 16);
++}
++
++static int nvme_pr_register(struct block_device *bdev, u64 old,
++		u64 new, unsigned flags)
++{
++	u32 cdw10;
++
++	if (flags & ~PR_FL_IGNORE_KEY)
++		return -EOPNOTSUPP;
++
++	cdw10 = old ? 2 : 0;
++	cdw10 |= (flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0;
++	cdw10 |= (1 << 30) | (1 << 31); /* PTPL=1 */
++	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_register);
++}
++
++static int nvme_pr_reserve(struct block_device *bdev, u64 key,
++		enum pr_type type, unsigned flags)
++{
++	u32 cdw10;
++
++	if (flags & ~PR_FL_IGNORE_KEY)
++		return -EOPNOTSUPP;
++
++	cdw10 = nvme_pr_type(type) << 8;
++	cdw10 |= ((flags & PR_FL_IGNORE_KEY) ? 1 << 3 : 0);
++	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_acquire);
++}
++
++static int nvme_pr_preempt(struct block_device *bdev, u64 old, u64 new,
++		enum pr_type type, bool abort)
++{
++	u32 cdw10 = nvme_pr_type(type) << 8 | abort ? 2 : 1;
++	return nvme_pr_command(bdev, cdw10, old, new, nvme_cmd_resv_acquire);
++}
++
++static int nvme_pr_clear(struct block_device *bdev, u64 key)
++{
++	u32 cdw10 = 1 | key ? 1 << 3 : 0;
++	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_register);
++}
++
++static int nvme_pr_release(struct block_device *bdev, u64 key, enum pr_type type)
++{
++	u32 cdw10 = nvme_pr_type(type) << 8 | key ? 1 << 3 : 0;
++	return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_release);
++}
++
++static const struct pr_ops nvme_pr_ops = {
++	.pr_register	= nvme_pr_register,
++	.pr_reserve	= nvme_pr_reserve,
++	.pr_release	= nvme_pr_release,
++	.pr_preempt	= nvme_pr_preempt,
++	.pr_clear	= nvme_pr_clear,
++};
++
+ static const struct block_device_operations nvme_fops = {
+ 	.owner		= THIS_MODULE,
+ 	.ioctl		= nvme_ioctl,
+@@ -2066,6 +2160,7 @@ static const struct block_device_operations nvme_fops = {
+ 	.release	= nvme_release,
+ 	.getgeo		= nvme_getgeo,
+ 	.revalidate_disk= nvme_revalidate_disk,
++	.pr_ops		= &nvme_pr_ops,
  };
  
+ static int nvme_kthread(void *data)
 -- 
 1.9.1
