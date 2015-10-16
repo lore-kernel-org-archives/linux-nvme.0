@@ -1,54 +1,75 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 16 Oct 2015 07:58:31 +0200
-Subject: [PATCH 01/18] nvme: add missing unmaps in nvme_queue_rq
+Date: Fri, 16 Oct 2015 07:58:32 +0200
+Subject: [PATCH 02/18] nvme: move struct nvme_iod to pci.c
 In-Reply-To: <1444975128-8768-1-git-send-email-hch@lst.de>
 References: <1444975128-8768-1-git-send-email-hch@lst.de>
-Message-ID: <1444975128-8768-2-git-send-email-hch@lst.de>
+Message-ID: <1444975128-8768-3-git-send-email-hch@lst.de>
 
-When we fail various metadata related operations in nvme_queue_rq we
-need to unmap the data SGL.
+This structure is specific to the PCIe driver internals and should be moved
+to pci.c.
 
-Cc: stable at vger.kernel.org
 Signed-off-by: Christoph Hellwig <hch at lst.de>
+Acked-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ drivers/nvme/host/nvme.h | 17 -----------------
+ drivers/nvme/host/pci.c  | 17 +++++++++++++++++
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index c1f41bf..835941b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -88,23 +88,6 @@ struct nvme_ns {
+ 	u32 mode_select_block_len;
+ };
+ 
+-/*
+- * The nvme_iod describes the data in an I/O, including the list of PRP
+- * entries.  You can't see it in this data structure because C doesn't let
+- * me express that.  Use nvme_alloc_iod to ensure there's enough space
+- * allocated to store the PRP list.
+- */
+-struct nvme_iod {
+-	unsigned long private;	/* For the use of the submitter of the I/O */
+-	int npages;		/* In the PRP list. 0 means small pool in use */
+-	int offset;		/* Of PRP list */
+-	int nents;		/* Used in scatterlist */
+-	int length;		/* Of data, in bytes */
+-	dma_addr_t first_dma;
+-	struct scatterlist meta_sg[1]; /* metadata requires single contiguous buffer */
+-	struct scatterlist sg[0];
+-};
+-
+ static inline u64 nvme_block_nr(struct nvme_ns *ns, sector_t sector)
+ {
+ 	return (sector >> (ns->lba_shift - 9));
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 22d8375..2f05292 100644
+index 2f05292..7e1b438 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -906,19 +906,28 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 			goto retry_cmd;
- 		}
- 		if (blk_integrity_rq(req)) {
--			if (blk_rq_count_integrity_sg(req->q, req->bio) != 1)
-+			if (blk_rq_count_integrity_sg(req->q, req->bio) != 1) {
-+				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
-+						dma_dir);
- 				goto error_cmd;
-+			}
+@@ -128,6 +128,23 @@ struct nvme_queue {
+ };
  
- 			sg_init_table(iod->meta_sg, 1);
- 			if (blk_rq_map_integrity_sg(
--					req->q, req->bio, iod->meta_sg) != 1)
-+					req->q, req->bio, iod->meta_sg) != 1) {
-+				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
-+						dma_dir);
- 				goto error_cmd;
-+			}
- 
- 			if (rq_data_dir(req))
- 				nvme_dif_remap(req, nvme_dif_prep);
- 
--			if (!dma_map_sg(nvmeq->q_dmadev, iod->meta_sg, 1, dma_dir))
-+			if (!dma_map_sg(nvmeq->q_dmadev, iod->meta_sg, 1, dma_dir)) {
-+				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
-+						dma_dir);
- 				goto error_cmd;
-+			}
- 		}
- 	}
- 
+ /*
++ * The nvme_iod describes the data in an I/O, including the list of PRP
++ * entries.  You can't see it in this data structure because C doesn't let
++ * me express that.  Use nvme_alloc_iod to ensure there's enough space
++ * allocated to store the PRP list.
++ */
++struct nvme_iod {
++	unsigned long private;	/* For the use of the submitter of the I/O */
++	int npages;		/* In the PRP list. 0 means small pool in use */
++	int offset;		/* Of PRP list */
++	int nents;		/* Used in scatterlist */
++	int length;		/* Of data, in bytes */
++	dma_addr_t first_dma;
++	struct scatterlist meta_sg[1]; /* metadata requires single contiguous buffer */
++	struct scatterlist sg[0];
++};
++
++/*
+  * Check we didin't inadvertently grow the command struct
+  */
+ static inline void _nvme_check_size(void)
 -- 
 1.9.1
