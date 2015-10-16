@@ -1,214 +1,41 @@
-From: dan.j.williams@intel.com (Williams, Dan J)
-Date: Fri, 16 Oct 2015 00:42:19 +0000
-Subject: [PATCH v2 10/12] block: move blk_integrity to request_queue
-In-Reply-To: <20151015200034.20721.23425.stgit@dwillia2-desk3.jf.intel.com>
-References: <20151015195939.20721.23101.stgit@dwillia2-desk3.jf.intel.com>
- <20151015200034.20721.23425.stgit@dwillia2-desk3.jf.intel.com>
-Message-ID: <1444956139.2737.7.camel@intel.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 16 Oct 2015 07:58:30 +0200
+Subject: nvme driver split V2
+Message-ID: <1444975128-8768-1-git-send-email-hch@lst.de>
 
-On Thu, 2015-10-15@16:00 -0400, Dan Williams wrote:
-> A trace like the following proceeds a crash in bio_integrity_process()
-> when it goes to use an already freed blk_integrity profile.
-> 
->  BUG: unable to handle kernel paging request at ffff8800d31b10d8
->  IP: [<ffff8800d31b10d8>] 0xffff8800d31b10d8
->  PGD 2f65067 PUD 21fffd067 PMD 80000000d30001e3
->  Oops: 0011 [#1] SMP
->  Dumping ftrace buffer:
->  ---------------------------------
->     ndctl-2222    2.... 44526245us : disk_release: pmem1s
->  systemd--2223    4.... 44573945us : bio_integrity_endio: pmem1s
->     <...>-409     4.... 44574005us : bio_integrity_process: pmem1s
->  ---------------------------------
-> [..]
->   Call Trace:
->   [<ffffffff8144e0f9>] ? bio_integrity_process+0x159/0x2d0
->   [<ffffffff8144e4f6>] bio_integrity_verify_fn+0x36/0x60
->   [<ffffffff810bd2dc>] process_one_work+0x1cc/0x4e0
-> 
-> Given that a request_queue is pinned while i/o is in flight and that a
-> gendisk is allowed to have a shorter lifetime, move blk_integrity to
-> request_queue to satisfy requests arriving after the gendisk has been
-> torn down.
-> 
-> Cc: Christoph Hellwig <hch at lst.de>
-> Cc: Martin K. Petersen <martin.petersen at oracle.com>
-> [martin: fix the CONFIG_BLK_DEV_INTEGRITY=n case]
-> Tested-by: Ross Zwisler <ross.zwisler at linux.intel.com>
-> Signed-off-by: Dan Williams <dan.j.williams at intel.com>
-> ---
->  Documentation/ABI/testing/sysfs-block |   12 +++---
->  block/blk-integrity.c                 |   63 +++++++++++++++++----------------
->  block/blk-sysfs.c                     |    4 ++
->  block/genhd.c                         |    2 -
->  block/partition-generic.c             |    2 +
->  drivers/md/dm-table.c                 |    4 +-
->  drivers/md/md.c                       |    4 +-
->  drivers/nvdimm/core.c                 |    2 +
->  drivers/nvme/host/pci.c               |    8 +++-
->  drivers/scsi/sd_dif.c                 |    2 +
->  fs/block_dev.c                        |    2 +
->  include/linux/blkdev.h                |   16 ++++++--
->  include/linux/genhd.h                 |   16 +++-----
->  13 files changed, 72 insertions(+), 65 deletions(-)
-> 
+This series contains most of the work of splitting the nvme driver into a
+core driver, a PCIe frontend for it and the possibility of future other
+frontends like virtio or Fabrics.
 
-Martin pointed out that I broke compatibility by changing the sysfs
-layout of the integrity attributes.  Rather than add a sysfs-link we can
-make this patch simpler by only moving struct blk_integrity to
-request_queue and leave integrity_kobj where it is in gendisk.
+This creates a new core.c with functions sitting on top of the block layer,
+splits and split a new struct nvme_ctrl out of struct nvme_dev so that the
+SCSI translation layer is decoupled from the PCI driver internals.  A new
+struct nvme_ctrl_ops is introduced to call into the low level driver, and
+this is subsequently used to move all the block device, char device and
+sysfs interface code as well as the controller identification and namespace
+scanning into the common code.  I've ported both my nvme-loop and the
+fabrics driver over to this scheme to validate that it works fine, and Ming
+ported over virtio_nvme,
 
-Also undo the conversion of blk_integrity apis take a request_queue.
-Through this simplification I also noticed that I had broken
-blk_integrity_compare()
+Once this this series is done there are a few more items remaining:
 
-Here's the much smaller v3, and I also refreshed for-4.4/blk-integrity
+ - abort rewrite to sit on top of struct request infrastructure (in progress)
+ - AEN rewrite, including making a small part of it common
+ - a proper state machine for probing, scanning and resets (will take a while)
 
-8<-----
-Subject: block: move blk_integrity to request_queue
+To make testing easier I've pushed out a git tree with this and all
+dependencies:
 
-From: Dan Williams <dan.j.williams@intel.com>
+    git://git.infradead.org/users/hch/block.git nvme-split.5
 
-A trace like the following proceeds a crash in bio_integrity_process()
-when it goes to use an already freed blk_integrity profile.
+or in gitweb:
 
- BUG: unable to handle kernel paging request at ffff8800d31b10d8
- IP: [<ffff8800d31b10d8>] 0xffff8800d31b10d8
- PGD 2f65067 PUD 21fffd067 PMD 80000000d30001e3
- Oops: 0011 [#1] SMP
- Dumping ftrace buffer:
- ---------------------------------
-    ndctl-2222    2.... 44526245us : disk_release: pmem1s
- systemd--2223    4.... 44573945us : bio_integrity_endio: pmem1s
-    <...>-409     4.... 44574005us : bio_integrity_process: pmem1s
- ---------------------------------
-[..]
-  Call Trace:
-  [<ffffffff8144e0f9>] ? bio_integrity_process+0x159/0x2d0
-  [<ffffffff8144e4f6>] bio_integrity_verify_fn+0x36/0x60
-  [<ffffffff810bd2dc>] process_one_work+0x1cc/0x4e0
+    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-split.5
 
-Given that a request_queue is pinned while i/o is in flight and that a
-gendisk is allowed to have a shorter lifetime, move blk_integrity to
-request_queue to satisfy requests arriving after the gendisk has been
-torn down.
-
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Martin K. Petersen <martin.petersen at oracle.com>
-[martin: fix the CONFIG_BLK_DEV_INTEGRITY=n case]
-Tested-by: Ross Zwisler <ross.zwisler at linux.intel.com>
-Signed-off-by: Dan Williams <dan.j.williams at intel.com>
----
- block/blk-integrity.c   |   14 +++++++-------
- drivers/nvme/host/pci.c |    2 +-
- include/linux/blkdev.h  |    6 +++++-
- include/linux/genhd.h   |    1 -
- 4 files changed, 13 insertions(+), 10 deletions(-)
-
-diff --git a/block/blk-integrity.c b/block/blk-integrity.c
-index 4615a3386798..5d339ae64d56 100644
---- a/block/blk-integrity.c
-+++ b/block/blk-integrity.c
-@@ -142,8 +142,8 @@ EXPORT_SYMBOL(blk_rq_map_integrity_sg);
-  */
- int blk_integrity_compare(struct gendisk *gd1, struct gendisk *gd2)
- {
--	struct blk_integrity *b1 = &gd1->integrity;
--	struct blk_integrity *b2 = &gd2->integrity;
-+	struct blk_integrity *b1 = &gd1->queue->integrity;
-+	struct blk_integrity *b2 = &gd2->queue->integrity;
- 
- 	if (!b1->profile && !b2->profile)
- 		return 0;
-@@ -246,7 +246,7 @@ static ssize_t integrity_attr_show(struct kobject *kobj, struct attribute *attr,
- 				   char *page)
- {
- 	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
--	struct blk_integrity *bi = &disk->integrity;
-+	struct blk_integrity *bi = &disk->queue->integrity;
- 	struct integrity_sysfs_entry *entry =
- 		container_of(attr, struct integrity_sysfs_entry, attr);
- 
-@@ -258,7 +258,7 @@ static ssize_t integrity_attr_store(struct kobject *kobj,
- 				    size_t count)
- {
- 	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
--	struct blk_integrity *bi = &disk->integrity;
-+	struct blk_integrity *bi = &disk->queue->integrity;
- 	struct integrity_sysfs_entry *entry =
- 		container_of(attr, struct integrity_sysfs_entry, attr);
- 	ssize_t ret = 0;
-@@ -397,7 +397,7 @@ static struct kobj_type integrity_ktype = {
-  */
- void blk_integrity_register(struct gendisk *disk, struct blk_integrity *template)
- {
--	struct blk_integrity *bi = &disk->integrity;
-+	struct blk_integrity *bi = &disk->queue->integrity;
- 
- 	bi->flags = BLK_INTEGRITY_VERIFY | BLK_INTEGRITY_GENERATE |
- 		template->flags;
-@@ -420,13 +420,13 @@ EXPORT_SYMBOL(blk_integrity_register);
- void blk_integrity_unregister(struct gendisk *disk)
- {
- 	blk_integrity_revalidate(disk);
--	memset(&disk->integrity, 0, sizeof(struct blk_integrity));
-+	memset(&disk->queue->integrity, 0, sizeof(struct blk_integrity));
- }
- EXPORT_SYMBOL(blk_integrity_unregister);
- 
- void blk_integrity_revalidate(struct gendisk *disk)
- {
--	struct blk_integrity *bi = &disk->integrity;
-+	struct blk_integrity *bi = &disk->queue->integrity;
- 
- 	if (!(disk->flags & GENHD_FL_UP))
- 		return;
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5578de67f406..2a39314fc61a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -538,7 +538,7 @@ static void nvme_dif_remap(struct request *req,
- 	virt = bip_get_seed(bip);
- 	phys = nvme_block_nr(ns, blk_rq_pos(req));
- 	nlb = (blk_rq_bytes(req) >> ns->lba_shift);
--	ts = ns->disk->integrity.tuple_size;
-+	ts = ns->disk->queue->integrity.tuple_size;
- 
- 	for (i = 0; i < nlb; i++, virt++, phys++) {
- 		pi = (struct t10_pi_tuple *)p;
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 3e0465257d68..cf57884db4b7 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -369,6 +369,10 @@ struct request_queue {
- 	 */
- 	struct kobject mq_kobj;
- 
-+#ifdef  CONFIG_BLK_DEV_INTEGRITY
-+	struct blk_integrity integrity;
-+#endif	/* CONFIG_BLK_DEV_INTEGRITY */
-+
- #ifdef CONFIG_PM
- 	struct device		*dev;
- 	int			rpm_status;
-@@ -1481,7 +1485,7 @@ extern bool blk_integrity_merge_bio(struct request_queue *, struct request *,
- 
- static inline struct blk_integrity *blk_get_integrity(struct gendisk *disk)
- {
--	struct blk_integrity *bi = &disk->integrity;
-+	struct blk_integrity *bi = &disk->queue->integrity;
- 
- 	if (!bi->profile)
- 		return NULL;
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 82f4911e0ad8..847cc1d91634 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -210,7 +210,6 @@ struct gendisk {
- 	atomic_t sync_io;		/* RAID */
- 	struct disk_events *ev;
- #ifdef  CONFIG_BLK_DEV_INTEGRITY
--	struct blk_integrity integrity;
- 	struct kobject integrity_kobj;
- #endif	/* CONFIG_BLK_DEV_INTEGRITY */
- 	int node_id;
+Chances since V1:
+  - fixed a section mismatch
+  - fixed missing byte swap
+  - fixed metadata passthrough (thanks Keith!)
+  - merged the previously separate series into a single one
+  - one whitespace fix
+  - added two additional patches to move trivial I/O path helpers to nvme.h
