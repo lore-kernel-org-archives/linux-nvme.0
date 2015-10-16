@@ -1,31 +1,31 @@
-From: keith.busch@intel.com (Busch, Keith)
-Date: Fri, 16 Oct 2015 17:30:33 +0000
-Subject: [PATCH 05/18] nvme: use offset instead of a struct for registers
-In-Reply-To: <1444975128-8768-6-git-send-email-hch@lst.de>
-References: <1444975128-8768-1-git-send-email-hch@lst.de>
- <1444975128-8768-6-git-send-email-hch@lst.de>
-Message-ID: <20151016173032.GA24702@localhost.localdomain>
+From: james_p_freyensee@linux.intel.com (Jay Freyensee)
+Date: Fri, 16 Oct 2015 10:48:31 -0700
+Subject: [PATCH] Update target repo for nvme patch contributions
+Message-ID: <1445017711-4371-1-git-send-email-james_p_freyensee@linux.intel.com>
 
-On Fri, Oct 16, 2015@07:58:35AM +0200, Christoph Hellwig wrote:
-> This makes life easier for future non-PCI drivers where access to the
-> registers might be more complicated.  Note that Linux drivers are
-> pretty evenly split between the two versions, and in fact the NVMe
-> driver already uses offsets for the doorbells.
+Per http://www.nvmexpress.org/resources/linux-driver-information/, the
+old nvme git repo is stale.  Updating MAINTAINERS to the Supported
+target currently used by the community.
 
-> +enum {
-> +	NVME_REG_CAP	= 0x0000,	/* Controller Capabilities */
-> +	NVME_REG_VS	= 0x0008,	/* Version */
-> +	NVME_REG_INTMS	= 0x000c,	/* Interrupt Mask Set */
-> +	NVME_REG_INTMC	= 0x0010,	/* Interrupt Mask Set */
-> +	NVME_REG_CC	= 0x0014,	/* Controller Configuration */
-> +	NVME_REG_CSTS	= 0x001c,	/* Controller Status */
-> +	NVME_REG_NSSR	= 0x0020,	/* NVM Subsystem Reset */
-> +	NVME_REG_AQA	= 0x0024,	/* Admin Queue Attributes */
-> +	NVME_REG_ASQ	= 0x0028,	/* Admin SQ Base Address */
-> +	NVME_REG_ACQ	= 0x0030,	/* Admin SQ Base Address */
-> +	NVME_REG_CMBLOC = 0x0038,	/* Controller Memory Buffer Location */
-> +	NVME_REG_CMBSZ	= 0x0040,	/* Controller Memory Buffer Size */
->  };
+Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+---
+ MAINTAINERS | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Darn, CMBSZ is offset 0x3c. Missed that in the first review; controllers
-with this capability haven't made it to my sanity test machines yet...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 601d766..578563b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -7441,7 +7441,8 @@ F:	drivers/video/fbdev/nvidia/
+ NVM EXPRESS DRIVER
+ M:	Matthew Wilcox <willy at linux.intel.com>
+ L:	linux-nvme at lists.infradead.org
+-T:	git git://git.infradead.org/users/willy/linux-nvme.git
++T:	git git://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git
++W:	https://kernel.googlesource.com/pub/scm/linux/kernel/git/axboe/linux-block/
+ S:	Supported
+ F:	drivers/nvme/host/
+ F:	include/linux/nvme.h
+-- 
+2.4.3
