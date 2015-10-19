@@ -1,32 +1,61 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 18 Oct 2015 20:23:37 +0200
-Subject: [PATCH] Update target repo for nvme patch contributions
-In-Reply-To: <20151016234700.GA13234@localhost.localdomain>
-References: <1445017711-4371-1-git-send-email-james_p_freyensee@linux.intel.com>
- <20151016234700.GA13234@localhost.localdomain>
-Message-ID: <20151018182337.GB21211@lst.de>
+From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
+Date: Mon, 19 Oct 2015 10:56:35 -0700
+Subject: [PATCH 1/5 v2] dma-mapping: add generic dma_get_page_shift API
+In-Reply-To: <20151015225219.GD30179@linux.vnet.ibm.com>
+References: <20151002171606.GA41011@linux.vnet.ibm.com>
+ <20151002200953.GB40695@linux.vnet.ibm.com>
+ <20151002201142.GC40695@linux.vnet.ibm.com>
+ <20151006095136.GB14144@infradead.org>
+ <20151012210651.GB26702@linux.vnet.ibm.com>
+ <20151014153900.GC30179@linux.vnet.ibm.com>
+ <20151014154251.GA7271@infradead.org>
+ <20151015225219.GD30179@linux.vnet.ibm.com>
+Message-ID: <20151019175635.GG30179@linux.vnet.ibm.com>
 
-On Fri, Oct 16, 2015@11:47:01PM +0000, Busch, Keith wrote:
-> This is not in drivers/block anymore, so question to Jens: do you want
-> to take on maintenance for driver/nvme? We've been doing it this way
-> de-facto for the past year, so if you're okay with listing your tree
-> for nvme, that's definitely okay with me too.
+On 15.10.2015 [15:52:19 -0700], Nishanth Aravamudan wrote:
+> On 14.10.2015 [08:42:51 -0700], Christoph Hellwig wrote:
+> > Hi Nishanth,
+> > 
+> > sorry for the late reply.
+> > 
+> > > > On Power, since it's technically variable, we'd need a function. So are
+> > > > you suggesting define'ing it to a function just on Power and leaving it
+> > > > a constant elsewhere?
+> > > > 
+> > > > I noticed that sparc has a IOMMU_PAGE_SHIFT already, fwiw.
+> > > 
+> > > Sorry, I should have been more specific -- I'm ready to spin out a v3,
+> > > with a sparc-specific function.
+> > > 
+> > > Are you ok with leaving it a function for now (the only caller is in
+> > > NVMe obviously).
+> > 
+> > 
+> > I guess we do indeed need a function then.  I'll take a look at your
+> > patch, but as long you found a way to avoid adding too much boilerplate
+> > code it should be fine.
 > 
-> I'll just throw out for the next merge window that I'm happy to herd all
-> the nvme patches out there into a pull request in a public tree if that
-> would help.
+> Ok, so I've got the moved function (include/linux/dma-mapping.h
+> instead of dma-mapping-common.h) ready to go, which should only
+> involve changing the first patch in the series. But I'm really
+> mystified by what to do for sparc, which defines IOMMU_PAGE_SHIFT and
+> IO_PAGE_SHIFT in arch/sparc/kernel/iommu_common.h.
 > 
-> I've started this one, so far just with Christoph's latest, plus a fix
-> from me from the fallout:
+> 1) Which constant reflects the value we mean for this function on
+> sparc?  I assume it should be IOMMU_PAGE_SHIFT, but they are the same
+> value and I want to make sure I get the semantics right.
 > 
->   http://git.infradead.org/users/kbusch/linux-nvme.git
+> 2) Where would I put sparc's definition of dma_get_page_shift()?
+> Should it be in a asm/dma-mapping.h? Should we move some of the
+> constants from arch/sparc/kernel/iommu_common.h to
+> arch/sparc/include/asm/iommu_common.h and then #include that in
+> asm/dma-mapping.h?
 > 
-> I'll be happy to add patches from other developers that appear to have
-> been left behind as well.
+> Dave M., any opinions/insights? Essentially, this helper function
+> assists the NVMe driver in determining what page size it should use to
+> satisfy both the device and IOMMU's requirements. Maybe I
+> misunderstand the constants on sparc and PAGE_SHIFT is fine there too?
 
-A nvme tree sounds useful to me, and I'd love to see you handle it.
+Anyone with sparc knowledge have an opinion/input?
 
-But for now I think it might be a good idea if it gets pulled by Jens
-into the block layer tree given that nvme is driving a lot of the block
-layer work and having both merged early is going to make everyones life
-a lot easier.
+-Nish
