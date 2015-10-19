@@ -1,61 +1,31 @@
-From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
-Date: Mon, 19 Oct 2015 10:56:35 -0700
-Subject: [PATCH 1/5 v2] dma-mapping: add generic dma_get_page_shift API
-In-Reply-To: <20151015225219.GD30179@linux.vnet.ibm.com>
-References: <20151002171606.GA41011@linux.vnet.ibm.com>
- <20151002200953.GB40695@linux.vnet.ibm.com>
- <20151002201142.GC40695@linux.vnet.ibm.com>
- <20151006095136.GB14144@infradead.org>
- <20151012210651.GB26702@linux.vnet.ibm.com>
- <20151014153900.GC30179@linux.vnet.ibm.com>
- <20151014154251.GA7271@infradead.org>
- <20151015225219.GD30179@linux.vnet.ibm.com>
-Message-ID: <20151019175635.GG30179@linux.vnet.ibm.com>
+From: Jeff.Lien@hgst.com (Jeffrey Lien)
+Date: Mon, 19 Oct 2015 22:46:03 +0000
+Subject: [PATCH] NVMe: Log Sense Temperature doesn't handle negative values
+In-Reply-To: <20151014165613.GA30653@localhost.localdomain>
+References: <BL2PR04MB1637F56809BDE2AC26E682C92350@BL2PR04MB163.namprd04.prod.outlook.com>
+ <alpine.LNX.2.00.1510091945030.27742@localhost.lm.intel.com>
+ <20151009201533.GA29975@localhost.localdomain>
+ <20151009204108.GA30167@localhost.localdomain>
+ <BL2PR04MB163D243F18A279514DE4C1492310@BL2PR04MB163.namprd04.prod.outlook.com>
+ <BL2PR04MB163949A29712B7F490C6A0E923F0@BL2PR04MB163.namprd04.prod.outlook.com>
+ <20151014165613.GA30653@localhost.localdomain>
+Message-ID: <BL2PR04MB16371C8DE737D0B5106D25F923A0@BL2PR04MB163.namprd04.prod.outlook.com>
 
-On 15.10.2015 [15:52:19 -0700], Nishanth Aravamudan wrote:
-> On 14.10.2015 [08:42:51 -0700], Christoph Hellwig wrote:
-> > Hi Nishanth,
-> > 
-> > sorry for the late reply.
-> > 
-> > > > On Power, since it's technically variable, we'd need a function. So are
-> > > > you suggesting define'ing it to a function just on Power and leaving it
-> > > > a constant elsewhere?
-> > > > 
-> > > > I noticed that sparc has a IOMMU_PAGE_SHIFT already, fwiw.
-> > > 
-> > > Sorry, I should have been more specific -- I'm ready to spin out a v3,
-> > > with a sparc-specific function.
-> > > 
-> > > Are you ok with leaving it a function for now (the only caller is in
-> > > NVMe obviously).
-> > 
-> > 
-> > I guess we do indeed need a function then.  I'll take a look at your
-> > patch, but as long you found a way to avoid adding too much boilerplate
-> > code it should be fine.
-> 
-> Ok, so I've got the moved function (include/linux/dma-mapping.h
-> instead of dma-mapping-common.h) ready to go, which should only
-> involve changing the first patch in the series. But I'm really
-> mystified by what to do for sparc, which defines IOMMU_PAGE_SHIFT and
-> IO_PAGE_SHIFT in arch/sparc/kernel/iommu_common.h.
-> 
-> 1) Which constant reflects the value we mean for this function on
-> sparc?  I assume it should be IOMMU_PAGE_SHIFT, but they are the same
-> value and I want to make sure I get the semantics right.
-> 
-> 2) Where would I put sparc's definition of dma_get_page_shift()?
-> Should it be in a asm/dma-mapping.h? Should we move some of the
-> constants from arch/sparc/kernel/iommu_common.h to
-> arch/sparc/include/asm/iommu_common.h and then #include that in
-> asm/dma-mapping.h?
-> 
-> Dave M., any opinions/insights? Essentially, this helper function
-> assists the NVMe driver in determining what page size it should use to
-> satisfy both the device and IOMMU's requirements. Maybe I
-> misunderstand the constants on sparc and PAGE_SHIFT is fine there too?
+Keith,
+Are you going to push this patch?   
 
-Anyone with sparc knowledge have an opinion/input?
+-----Original Message-----
+From: Jon Derrick [mailto:jonathan.derrick@intel.com] 
+Sent: Wednesday, October 14, 2015 11:56 AM
+To: Jeffrey Lien <Jeff.Lien at hgst.com>
+Cc: Keith Busch <keith.busch at intel.com>; axboe at fb.com; David Darrington <david.darrington at hgst.com>; linux-nvme at lists.infradead.org
+Subject: Re: [PATCH] NVMe: Log Sense Temperature doesn't handle negative values
 
--Nish
+On Wed, Oct 14, 2015@03:50:32PM +0000, Jeffrey Lien wrote:
+> Attached an updated patch with change Jon recommended below.   
+> 
+> 
+
+Looks good.
+
+Acked-by: Jon Derrick <jonathan.derrick at intel.com>
