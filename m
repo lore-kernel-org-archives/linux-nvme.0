@@ -1,18 +1,46 @@
-From: cmartin@altera.com (Chris Martin)
-Date: Tue, 20 Oct 2015 14:38:57 +0000
-Subject: Help with NVMe Driver on Altera SoCs
-In-Reply-To: <20151020141744.GA18345@localhost.localdomain>
-References: <20B8CF9DC7757148B9D6420301E14D590AE5E744@SJ-ITEXCH02.altera.priv.altera.com>
- <20151020141744.GA18345@localhost.localdomain>
-Message-ID: <20B8CF9DC7757148B9D6420301E14D590AE5E79D@SJ-ITEXCH02.altera.priv.altera.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Tue, 20 Oct 2015 10:38:38 -0700
+Subject: [PATCH] Update target repo for nvme patch contributions
+In-Reply-To: <20151018182337.GB21211@lst.de>
+References: <1445017711-4371-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <20151016234700.GA13234@localhost.localdomain>
+ <20151018182337.GB21211@lst.de>
+Message-ID: <1445362718.2819.40.camel@linux.intel.com>
 
+On Sun, 2015-10-18@20:23 +0200, Christoph Hellwig wrote:
+> On Fri, Oct 16, 2015@11:47:01PM +0000, Busch, Keith wrote:
+> > This is not in drivers/block anymore, so question to Jens: do you 
+> > want
+> > to take on maintenance for driver/nvme? We've been doing it this 
+> > way
+> > de-facto for the past year, so if you're okay with listing your 
+> > tree
+> > for nvme, that's definitely okay with me too.
+> > 
+> > I'll just throw out for the next merge window that I'm happy to 
+> > herd all
+> > the nvme patches out there into a pull request in a public tree if 
+> > that
+> > would help.
+> > 
+> > I've started this one, so far just with Christoph's latest, plus a 
+> > fix
+> > from me from the fallout:
+> > 
+> >   http://git.infradead.org/users/kbusch/linux-nvme.git
+> > 
+> > I'll be happy to add patches from other developers that appear to 
+> > have
+> > been left behind as well.
+> 
+> A nvme tree sounds useful to me, and I'd love to see you handle it.
+> 
+> But for now I think it might be a good idea if it gets pulled by Jens
+> into the block layer tree given that nvme is driving a lot of the 
+> block
+> layer work and having both merged early is going to make everyones 
+> life
+> a lot easier.
 
->Yes, this says that there were no memory resources available to assign to BAR0, which is the controller registers.
->If the driver is unable to remap the controller registers, it won't be able to drive it. It returns -ENOMEM since the error is a memory resource.
-
-Thanks, Keith.  I'll work on adjusting the hardware and see what we can do in the PCIe driver.  Thanks! --Chris
-
-________________________________
-
-Confidentiality Notice.
-This message may contain information that is confidential or otherwise protected from disclosure. If you are not the intended recipient, you are hereby notified that any use, disclosure, dissemination, distribution, or copying of this message, or any attachments, is strictly prohibited. If you have received this message in error, please advise the sender by reply e-mail, and delete the message and any attachments. Thank you.
+Let me know if there is a different target or other info you'd like me
+to add to this patch and I'll change it.
