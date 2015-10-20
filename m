@@ -1,31 +1,38 @@
-From: Jeff.Lien@hgst.com (Jeffrey Lien)
-Date: Mon, 19 Oct 2015 22:46:03 +0000
-Subject: [PATCH] NVMe: Log Sense Temperature doesn't handle negative values
-In-Reply-To: <20151014165613.GA30653@localhost.localdomain>
-References: <BL2PR04MB1637F56809BDE2AC26E682C92350@BL2PR04MB163.namprd04.prod.outlook.com>
- <alpine.LNX.2.00.1510091945030.27742@localhost.lm.intel.com>
- <20151009201533.GA29975@localhost.localdomain>
- <20151009204108.GA30167@localhost.localdomain>
- <BL2PR04MB163D243F18A279514DE4C1492310@BL2PR04MB163.namprd04.prod.outlook.com>
- <BL2PR04MB163949A29712B7F490C6A0E923F0@BL2PR04MB163.namprd04.prod.outlook.com>
- <20151014165613.GA30653@localhost.localdomain>
-Message-ID: <BL2PR04MB16371C8DE737D0B5106D25F923A0@BL2PR04MB163.namprd04.prod.outlook.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Mon, 19 Oct 2015 22:24:27 -0400
+Subject: [PATCH v2 10/12] block: move blk_integrity to request_queue
+In-Reply-To: <1444956139.2737.7.camel@intel.com> (Dan J. Williams's message of
+ "Fri, 16 Oct 2015 00:42:19 +0000")
+References: <20151015195939.20721.23101.stgit@dwillia2-desk3.jf.intel.com>
+ <20151015200034.20721.23425.stgit@dwillia2-desk3.jf.intel.com>
+ <1444956139.2737.7.camel@intel.com>
+Message-ID: <yq1fv16gtus.fsf@sermon.lab.mkp.net>
 
-Keith,
-Are you going to push this patch?   
+>>>>> "Dan" == Williams, Dan J <dan.j.williams at intel.com> writes:
 
------Original Message-----
-From: Jon Derrick [mailto:jonathan.derrick@intel.com] 
-Sent: Wednesday, October 14, 2015 11:56 AM
-To: Jeffrey Lien <Jeff.Lien at hgst.com>
-Cc: Keith Busch <keith.busch at intel.com>; axboe at fb.com; David Darrington <david.darrington at hgst.com>; linux-nvme at lists.infradead.org
-Subject: Re: [PATCH] NVMe: Log Sense Temperature doesn't handle negative values
+Dan> Martin pointed out that I broke compatibility by changing the sysfs
+Dan> layout of the integrity attributes.  Rather than add a sysfs-link
+Dan> we can make this patch simpler by only moving struct blk_integrity
+Dan> to request_queue and leave integrity_kobj where it is in gendisk.
 
-On Wed, Oct 14, 2015@03:50:32PM +0000, Jeffrey Lien wrote:
-> Attached an updated patch with change Jon recommended below.   
-> 
-> 
+Dan> Also undo the conversion of blk_integrity apis take a
+Dan> request_queue.  Through this simplification I also noticed that I
+Dan> had broken blk_integrity_compare()
 
-Looks good.
+Dan> Here's the much smaller v3, and I also refreshed
+Dan> for-4.4/blk-integrity
 
-Acked-by: Jon Derrick <jonathan.derrick at intel.com>
+Much better.
+
+I ran some test on our combined trees over the weekend and tripped a bug
+on some SCSI configs. Turned out to be my fault so I'll repost with a
+fixed patch 2.
+
+You can either rebase on top of the new series or maybe Jens will merge
+my patches first. Either way works for me.
+
+In any case I'm OK with your latest changes. Feel free to add my
+Acked-by.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
