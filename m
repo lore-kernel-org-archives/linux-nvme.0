@@ -1,101 +1,463 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Wed, 21 Oct 2015 14:18:12 -0400
-Subject: [PATCH v6 05/11] block: remove split code in
- blkdev_issue_{discard,write_same}
-In-Reply-To: <1445448806.26847.6.camel@ssi>
-References: <1439363241-31772-1-git-send-email-mlin@kernel.org>
- <1439363241-31772-6-git-send-email-mlin@kernel.org>
- <20151013115011.GA6546@infradead.org>
- <CAF1ivSbsH7JsduHE+a2d+BEbZL6Fo7uJWS2NCTTMNTSAUMt0UA@mail.gmail.com>
- <20151014132700.GA19401@infradead.org>
- <20151021160232.GA5089@redhat.com>
- <20151021161947.GA5212@redhat.com> <1445448806.26847.6.camel@ssi>
-Message-ID: <20151021181812.GA5807@redhat.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Wed, 21 Oct 2015 11:48:54 -0700
+Subject: [PATCH 03/18] nvme: split command submission helpers out of pci.c
+In-Reply-To: <1444975128-8768-4-git-send-email-hch@lst.de>
+References: <1444975128-8768-1-git-send-email-hch@lst.de>
+ <1444975128-8768-4-git-send-email-hch@lst.de>
+Message-ID: <1445453334.3307.37.camel@linux.intel.com>
 
-On Wed, Oct 21 2015 at  1:33pm -0400,
-Ming Lin <mlin@kernel.org> wrote:
-
-> On Wed, 2015-10-21@12:19 -0400, Mike Snitzer wrote:
-> > On Wed, Oct 21 2015 at 12:02pm -0400,
-> > Mike Snitzer <snitzer@redhat.com> wrote:
-> > 
-> > > On Wed, Oct 14 2015 at  9:27am -0400,
-> > > Christoph Hellwig <hch@infradead.org> wrote:
-> > > 
-> > > > On Tue, Oct 13, 2015@10:44:11AM -0700, Ming Lin wrote:
-> > > > > I just did a quick test with a Samsung 900G NVMe device.
-> > > > > mkfs.xfs is OK on 4.3-rc5.
-> > > > > 
-> > > > > What's your device model? I may find a similar one to try.
-> > > > 
-> > > > This is a HGST Ultrastar SN100
-> > > > 
-> > > > Analsys and tentativ fix below:
-> > > > 
-> > > > blktrace for before the commit:
-> > > > 
-> > > > 259,0    1        2     0.000002543  2394  G   D 0 + 8388607 [mkfs.xfs]
-> > > > 259,0    1        3     0.000008230  2394  I   D 0 + 8388607 [mkfs.xfs]
-> > > > 259,0    1        4     0.000031090   207  D   D 0 + 8388607 [kworker/1:1H]
-> > > > 259,0    1        5     0.000044869  2394  Q   D 8388607 + 8388607 [mkfs.xfs]
-> > > > 259,0    1        6     0.000045992  2394  G   D 8388607 + 8388607 [mkfs.xfs]
-> > > > 259,0    1        7     0.000049559  2394  I   D 8388607 + 8388607 [mkfs.xfs]
-> > > > 259,0    1        8     0.000061551   207  D   D 8388607 + 8388607 [kworker/1:1H]
-> > > > 
-> > > > .. and so on.
-> > > > 
-> > > > blktrace with the commit:
-> > > > 
-> > > > 259,0    2        1     0.000000000  1228  Q   D 0 + 4194304 [mkfs.xfs]
-> > > > 259,0    2        2     0.000002543  1228  G   D 0 + 4194304 [mkfs.xfs]
-> > > > 259,0    2        3     0.000010080  1228  I   D 0 + 4194304 [mkfs.xfs]
-> > > > 259,0    2        4     0.000082187   267  D   D 0 + 4194304 [kworker/2:1H]
-> > > > 259,0    2        5     0.000224869  1228  Q   D 4194304 + 4194304 [mkfs.xfs]
-> > > > 259,0    2        6     0.000225835  1228  G   D 4194304 + 4194304 [mkfs.xfs]
-> > > > 259,0    2        7     0.000229457  1228  I   D 4194304 + 4194304 [mkfs.xfs]
-> > > > 259,0    2        8     0.000238507   267  D   D 4194304 + 4194304 [kworker/2:1H]
-> > > > 
-> > > > So discards are smaller, but better aligned.  Now if I tweak a single
-> > > > line in blk-lib.c to be able to use all of bi_size I get the old I/O
-> > > > pattern back and everything works fine again:
-> > > > 
-> > > > diff --git a/block/blk-lib.c b/block/blk-lib.c
-> > > > index bd40292..65b61dc 100644
-> > > > --- a/block/blk-lib.c
-> > > > +++ b/block/blk-lib.c
-> > > > @@ -82,7 +82,7 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
-> > > >  			break;
-> > > >  		}
-> > > >  
-> > > > -		req_sects = min_t(sector_t, nr_sects, MAX_BIO_SECTORS);
-> > > > +		req_sects = min_t(sector_t, nr_sects, UINT_MAX >> 9);
-> > > >  		end_sect = sector + req_sects;
-> > > >  
-> > > >  		bio->bi_iter.bi_sector = sector;
-> > > 
-> > > Can we change UINT_MAX >> 9 to rounddown to the first factor of
-> > > minimum_io_size?
-> > > 
-> > > That should work for all devices and for dm-thinp (and dm-cache) in
-> > > particular will ensure that all discards that are issued will be a
-> > > multiple of the underlying device's blocksize.
-> > 
-> > Jeff Moyer pointed out having req_sects be a factor of
-> > discard_granularity makes more sense.  And I agree.  Same difference in
-> > the end (since dm-thinp sets discard_granularity to the thinp
-> > blocksize).
+On Fri, 2015-10-16@07:58 +0200, Christoph Hellwig wrote:
+> Create a new core.c and start by adding the command submission 
+> helpers
+> to it, which are already abstracted away from the actual hardware 
+> queues
+> by the block layer.
 > 
-> An old version of this patch did use discard_granularity
-> https://www.redhat.com/archives/dm-devel/2015-August/msg00000.html
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Acked-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/Makefile |   2 +-
+>  drivers/nvme/host/core.c   | 172 
+> +++++++++++++++++++++++++++++++++++++++++++++
+>  drivers/nvme/host/nvme.h   |   3 +
+>  drivers/nvme/host/pci.c    | 153 +----------------------------------
+> -----
+>  4 files changed, 177 insertions(+), 153 deletions(-)
+>  create mode 100644 drivers/nvme/host/core.c
 > 
-> But you didn't agree.
-> https://www.redhat.com/archives/dm-devel/2015-August/msg00001.html
-> 
-> Maybe we can re-add discard_granularity now?
+> diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+> index cfb6679..336b4ea 100644
+> --- a/drivers/nvme/host/Makefile
+> +++ b/drivers/nvme/host/Makefile
+> @@ -1,4 +1,4 @@
+>  
+>  obj-$(CONFIG_BLK_DEV_NVME)     += nvme.o
+>  
+> -nvme-y		+= pci.o scsi.o
+> +nvme-y		+= core.o pci.o scsi.o
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> new file mode 100644
+> index 0000000..dfb528d
+> --- /dev/null
+> +++ b/drivers/nvme/host/core.c
+> @@ -0,0 +1,172 @@
+> +/*
+> + * NVM Express device driver
+> + * Copyright (c) 2011-2014, Intel Corporation.
+> + *
+> + * This program is free software; you can redistribute it and/or 
+> modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but 
+> WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of 
+> MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public 
+> License for
+> + * more details.
+> + */
+> +
+> +#include <linux/blkdev.h>
+> +#include <linux/blk-mq.h>
+> +#include <linux/errno.h>
+> +#include <linux/kernel.h>
+> +#include <linux/slab.h>
+> +#include <linux/types.h>
+> +
+> +#include "nvme.h"
+> +
+> +/*
+> + * Returns 0 on success.  If the result is negative, it's a Linux 
+> error code;
+> + * if the result is positive, it's an NVM Express status code
+> + */
+> +int __nvme_submit_sync_cmd(struct request_queue *q, struct 
+> nvme_command *cmd,
+> +		void *buffer, void __user *ubuffer, unsigned 
+> bufflen,
+> +		u32 *result, unsigned timeout)
+> +{
+> +	bool write = cmd->common.opcode & 1;
+> +	struct bio *bio = NULL;
+> +	struct request *req;
+> +	int ret;
+> +
+> +	req = blk_mq_alloc_request(q, write, GFP_KERNEL, false);
+> +	if (IS_ERR(req))
+> +		return PTR_ERR(req);
+> +
+> +	req->cmd_type = REQ_TYPE_DRV_PRIV;
+> +	req->cmd_flags |= REQ_FAILFAST_DRIVER;
+> +	req->__data_len = 0;
+> +	req->__sector = (sector_t) -1;
+> +	req->bio = req->biotail = NULL;
+> +
+> +	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
+> +
+> +	req->cmd = (unsigned char *)cmd;
+> +	req->cmd_len = sizeof(struct nvme_command);
+> +	req->special = (void *)0;
+> +
+> +	if (buffer && bufflen) {
+> +		ret = blk_rq_map_kern(q, req, buffer, bufflen, 
+> __GFP_WAIT);
+> +		if (ret)
+> +			goto out;
+> +	} else if (ubuffer && bufflen) {
+> +		ret = blk_rq_map_user(q, req, NULL, ubuffer, 
+> bufflen, __GFP_WAIT);
+> +		if (ret)
+> +			goto out;
+> +		bio = req->bio;
+> +	}
+> +
+> +	blk_execute_rq(req->q, NULL, req, 0);
+> +	if (bio)
+> +		blk_rq_unmap_user(bio);
+> +	if (result)
+> +		*result = (u32)(uintptr_t)req->special;
+> +	ret = req->errors;
+> + out:
+> +	blk_mq_free_request(req);
+> +	return ret;
+> +}
+> +
+> +int nvme_submit_sync_cmd(struct request_queue *q, struct 
+> nvme_command *cmd,
+> +		void *buffer, unsigned bufflen)
+> +{
+> +	return __nvme_submit_sync_cmd(q, cmd, buffer, NULL, bufflen, 
+> NULL, 0);
+> +}
+> +
+> +int nvme_identify_ctrl(struct nvme_dev *dev, struct nvme_id_ctrl 
+> **id)
+> +{
+> +	struct nvme_command c = { };
+> +	int error;
+> +
+> +	/* gcc-4.4.4 (at least) has issues with initializers and 
+> anon unions */
+> +	c.identify.opcode = nvme_admin_identify;
+> +	c.identify.cns = cpu_to_le32(1);
+> +
+> +	*id = kmalloc(sizeof(struct nvme_id_ctrl), GFP_KERNEL);
+> +	if (!*id)
+> +		return -ENOMEM;
+> +
+> +	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
+> +			sizeof(struct nvme_id_ctrl));
+> +	if (error)
+> +		kfree(*id);
+> +	return error;
+> +}
+> +
+> +int nvme_identify_ns(struct nvme_dev *dev, unsigned nsid,
+> +		struct nvme_id_ns **id)
+> +{
+> +	struct nvme_command c = { };
+> +	int error;
+> +
+> +	/* gcc-4.4.4 (at least) has issues with initializers and 
+> anon unions */
+> +	c.identify.opcode = nvme_admin_identify,
+> +	c.identify.nsid = cpu_to_le32(nsid),
+> +
+> +	*id = kmalloc(sizeof(struct nvme_id_ns), GFP_KERNEL);
+> +	if (!*id)
+> +		return -ENOMEM;
+> +
+> +	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
+> +			sizeof(struct nvme_id_ns));
+> +	if (error)
+> +		kfree(*id);
+> +	return error;
+> +}
+> +
+> +int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned 
+> nsid,
+> +					dma_addr_t dma_addr, u32 
+> *result)
+> +{
+> +	struct nvme_command c;
+> +
+> +	memset(&c, 0, sizeof(c));
+> +	c.features.opcode = nvme_admin_get_features;
+> +	c.features.nsid = cpu_to_le32(nsid);
+> +	c.features.prp1 = cpu_to_le64(dma_addr);
+> +	c.features.fid = cpu_to_le32(fid);
+> +
+> +	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 
+> 0,
+> +			result, 0);
+> +}
+> +
+> +int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned 
+> dword11,
+> +					dma_addr_t dma_addr, u32 
+> *result)
+> +{
+> +	struct nvme_command c;
+> +
+> +	memset(&c, 0, sizeof(c));
+> +	c.features.opcode = nvme_admin_set_features;
+> +	c.features.prp1 = cpu_to_le64(dma_addr);
+> +	c.features.fid = cpu_to_le32(fid);
+> +	c.features.dword11 = cpu_to_le32(dword11);
+> +
+> +	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 
+> 0,
+> +			result, 0);
+> +}
+> +
+> +int nvme_get_log_page(struct nvme_dev *dev, struct nvme_smart_log 
+> **log)
+> +{
+> +	struct nvme_command c = { };
+> +	int error;
+> +
+> +	c.common.opcode = nvme_admin_get_log_page,
+> +	c.common.nsid = cpu_to_le32(0xFFFFFFFF),
+> +	c.common.cdw10[0] = cpu_to_le32(
+> +			(((sizeof(struct nvme_smart_log) / 4) - 1) 
+> << 16) |
+> +			 NVME_LOG_SMART),
+> +
+> +	*log = kmalloc(sizeof(struct nvme_smart_log), GFP_KERNEL);
+> +	if (!*log)
+> +		return -ENOMEM;
+> +
+> +	error = nvme_submit_sync_cmd(dev->admin_q, &c, *log,
+> +			sizeof(struct nvme_smart_log));
+> +	if (error)
+> +		kfree(*log);
+> +	return error;
+> +}
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 835941b..0633a7b 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -22,6 +22,9 @@
+>  extern unsigned char nvme_io_timeout;
+>  #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
+>  
+> +extern unsigned char admin_timeout;
+> +#define ADMIN_TIMEOUT	(admin_timeout * HZ)
+> +
+>  /*
+>   * Represents an NVM Express device.  Each nvme_dev is a PCI 
+> function.
+>   */
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 7e1b438..628c572 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -50,10 +50,9 @@
+>  #define NVME_AQ_DEPTH		256
+>  #define SQ_SIZE(depth)		(depth * sizeof(struct 
+> nvme_command))
+>  #define CQ_SIZE(depth)		(depth * sizeof(struct 
+> nvme_completion))
+> -#define ADMIN_TIMEOUT		(admin_timeout * HZ)
+>  #define SHUTDOWN_TIMEOUT	(shutdown_timeout * HZ)
 
-I disagreed on a more generic level than discard_granularity shaping the
-split boundary.
+I think some or all of these #defines should be moved out of the .c
+file and stuck into a .h file as well?  Why would any of the queue
+depths or the shutdown timeout be PCIe specific?
 
-But we are where we are.  If we're going to split (due to 32-bit limits
-in bio->bi_iter.bi_size) then we should at least do so in terms of the
-support discard_granularity.
+>  
+> -static unsigned char admin_timeout = 60;
+> +unsigned char admin_timeout = 60;
+>  module_param(admin_timeout, byte, 0644);
+>  MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin 
+> commands");
+>  
+
+
+> @@ -1031,63 +1030,6 @@ static irqreturn_t nvme_irq_check(int irq, 
+> void *data)
+>  	return IRQ_WAKE_THREAD;
+>  }
+>  
+> -/*
+> - * Returns 0 on success.  If the result is negative, it's a Linux 
+> error code;
+> - * if the result is positive, it's an NVM Express status code
+> - */
+> -int __nvme_submit_sync_cmd(struct request_queue *q, struct 
+> nvme_command *cmd,
+> -		void *buffer, void __user *ubuffer, unsigned 
+> bufflen,
+> -		u32 *result, unsigned timeout)
+> -{
+> -	bool write = cmd->common.opcode & 1;
+> -	struct bio *bio = NULL;
+> -	struct request *req;
+> -	int ret;
+> -
+> -	req = blk_mq_alloc_request(q, write, GFP_KERNEL, false);
+> -	if (IS_ERR(req))
+> -		return PTR_ERR(req);
+> -
+> -	req->cmd_type = REQ_TYPE_DRV_PRIV;
+> -	req->cmd_flags |= REQ_FAILFAST_DRIVER;
+> -	req->__data_len = 0;
+> -	req->__sector = (sector_t) -1;
+> -	req->bio = req->biotail = NULL;
+> -
+> -	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
+> -
+> -	req->cmd = (unsigned char *)cmd;
+> -	req->cmd_len = sizeof(struct nvme_command);
+> -	req->special = (void *)0;
+> -
+> -	if (buffer && bufflen) {
+> -		ret = blk_rq_map_kern(q, req, buffer, bufflen, 
+> __GFP_WAIT);
+> -		if (ret)
+> -			goto out;
+> -	} else if (ubuffer && bufflen) {
+> -		ret = blk_rq_map_user(q, req, NULL, ubuffer, 
+> bufflen, __GFP_WAIT);
+> -		if (ret)
+> -			goto out;
+> -		bio = req->bio;
+> -	}
+> -
+> -	blk_execute_rq(req->q, NULL, req, 0);
+> -	if (bio)
+> -		blk_rq_unmap_user(bio);
+> -	if (result)
+> -		*result = (u32)(uintptr_t)req->special;
+> -	ret = req->errors;
+> - out:
+> -	blk_mq_free_request(req);
+> -	return ret;
+> -}
+> -
+> -int nvme_submit_sync_cmd(struct request_queue *q, struct 
+> nvme_command *cmd,
+> -		void *buffer, unsigned bufflen)
+> -{
+> -	return __nvme_submit_sync_cmd(q, cmd, buffer, NULL, bufflen, 
+> NULL, 0);
+> -}
+> -
+>  static int nvme_submit_async_admin_req(struct nvme_dev *dev)
+>  {
+>  	struct nvme_queue *nvmeq = dev->queues[0];
+> @@ -1199,99 +1141,6 @@ static int adapter_delete_sq(struct nvme_dev 
+> *dev, u16 sqid)
+>  	return adapter_delete_queue(dev, nvme_admin_delete_sq, 
+> sqid);
+>  }
+>  
+> -int nvme_identify_ctrl(struct nvme_dev *dev, struct nvme_id_ctrl 
+> **id)
+> -{
+> -	struct nvme_command c = { };
+> -	int error;
+> -
+> -	/* gcc-4.4.4 (at least) has issues with initializers and 
+> anon unions */
+> -	c.identify.opcode = nvme_admin_identify;
+> -	c.identify.cns = cpu_to_le32(1);
+> -
+> -	*id = kmalloc(sizeof(struct nvme_id_ctrl), GFP_KERNEL);
+> -	if (!*id)
+> -		return -ENOMEM;
+> -
+> -	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
+> -			sizeof(struct nvme_id_ctrl));
+> -	if (error)
+> -		kfree(*id);
+> -	return error;
+> -}
+> -
+> -int nvme_identify_ns(struct nvme_dev *dev, unsigned nsid,
+> -		struct nvme_id_ns **id)
+> -{
+> -	struct nvme_command c = { };
+> -	int error;
+> -
+> -	/* gcc-4.4.4 (at least) has issues with initializers and 
+> anon unions */
+> -	c.identify.opcode = nvme_admin_identify,
+> -	c.identify.nsid = cpu_to_le32(nsid),
+> -
+> -	*id = kmalloc(sizeof(struct nvme_id_ns), GFP_KERNEL);
+> -	if (!*id)
+> -		return -ENOMEM;
+> -
+> -	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
+> -			sizeof(struct nvme_id_ns));
+> -	if (error)
+> -		kfree(*id);
+> -	return error;
+> -}
+> -
+> -int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned 
+> nsid,
+> -					dma_addr_t dma_addr, u32 
+> *result)
+> -{
+> -	struct nvme_command c;
+> -
+> -	memset(&c, 0, sizeof(c));
+> -	c.features.opcode = nvme_admin_get_features;
+> -	c.features.nsid = cpu_to_le32(nsid);
+> -	c.features.prp1 = cpu_to_le64(dma_addr);
+> -	c.features.fid = cpu_to_le32(fid);
+> -
+> -	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 
+> 0,
+> -			result, 0);
+> -}
+> -
+> -int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned 
+> dword11,
+> -					dma_addr_t dma_addr, u32 
+> *result)
+> -{
+> -	struct nvme_command c;
+> -
+> -	memset(&c, 0, sizeof(c));
+> -	c.features.opcode = nvme_admin_set_features;
+> -	c.features.prp1 = cpu_to_le64(dma_addr);
+> -	c.features.fid = cpu_to_le32(fid);
+> -	c.features.dword11 = cpu_to_le32(dword11);
+> -
+> -	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 
+> 0,
+> -			result, 0);
+> -}
+> -
+> -int nvme_get_log_page(struct nvme_dev *dev, struct nvme_smart_log 
+> **log)
+> -{
+> -	struct nvme_command c = { };
+> -	int error;
+> -
+> -	c.common.opcode = nvme_admin_get_log_page,
+> -	c.common.nsid = cpu_to_le32(0xFFFFFFFF),
+> -	c.common.cdw10[0] = cpu_to_le32(
+> -			(((sizeof(struct nvme_smart_log) / 4) - 1) 
+> << 16) |
+> -			 NVME_LOG_SMART),
+> -
+> -	*log = kmalloc(sizeof(struct nvme_smart_log), GFP_KERNEL);
+> -	if (!*log)
+> -		return -ENOMEM;
+> -
+> -	error = nvme_submit_sync_cmd(dev->admin_q, &c, *log,
+> -			sizeof(struct nvme_smart_log));
+> -	if (error)
+> -		kfree(*log);
+> -	return error;
+> -}
+> -
+>  /**
+>   * nvme_abort_req - Attempt aborting a request
+>   *
