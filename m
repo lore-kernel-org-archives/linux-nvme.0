@@ -1,73 +1,22 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Wed, 21 Oct 2015 11:58:11 -0700
+From: keith.busch@intel.com (Busch, Keith)
+Date: Wed, 21 Oct 2015 19:10:55 +0000
 Subject: [PATCH 04/18] nvme: add a vendor field to struct nvme_dev
-In-Reply-To: <1444975128-8768-5-git-send-email-hch@lst.de>
+In-Reply-To: <1445453891.3307.41.camel@linux.intel.com>
 References: <1444975128-8768-1-git-send-email-hch@lst.de>
  <1444975128-8768-5-git-send-email-hch@lst.de>
-Message-ID: <1445453891.3307.41.camel@linux.intel.com>
+ <1445453891.3307.41.camel@linux.intel.com>
+Message-ID: <20151021191054.GA18645@localhost.localdomain>
 
-On Fri, 2015-10-16@07:58 +0200, Christoph Hellwig wrote:
-> The SCSI translation layer currently has to poke into the PCI device
-> structure to find a vendor ID for the device identification fallback.
-> We won't nessecarily have a PCI device behind the device structure in
-> the future, so add a new vendor field that can be filled out by the
-> PCIe driver instead.
+On Wed, Oct 21, 2015@11:58:11AM -0700, J Freyensee wrote:
+> On Fri, 2015-10-16@07:58 +0200, Christoph Hellwig wrote:
+> > -		sprintf(&inq_response[8], "%04x", to_pci_dev(dev
+> > ->dev)->vendor);
+> > +		sprintf(&inq_response[8], "%04x", dev->vendor);
 > 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> Acked-by: Keith Busch <keith.busch at intel.com>
-> ---
->  drivers/nvme/host/nvme.h | 1 +
->  drivers/nvme/host/pci.c  | 3 +++
->  drivers/nvme/host/scsi.c | 2 +-
->  3 files changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 0633a7b..706f678 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -69,6 +69,7 @@ struct nvme_dev {
->  	u16 abort_limit;
->  	u8 event_limit;
->  	u8 vwc;
-> +	u16 vendor;
->  };
->  
->  /*
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 628c572..cd731f5 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -3025,6 +3025,9 @@ static int nvme_probe(struct pci_dev *pdev, 
-> const struct pci_device_id *id)
->  	INIT_WORK(&dev->reset_work, nvme_reset_work);
->  	dev->dev = get_device(&pdev->dev);
->  	pci_set_drvdata(pdev, dev);
-> +
-> +	dev->vendor = pdev->vendor;
-> +
->  	result = nvme_set_instance(dev);
->  	if (result)
->  		goto put_pci;
-> diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
-> index c3d8d38..8f2d2c5 100644
-> --- a/drivers/nvme/host/scsi.c
-> +++ b/drivers/nvme/host/scsi.c
-> @@ -657,7 +657,7 @@ static int nvme_trans_device_id_page(struct 
-> nvme_ns *ns, struct sg_io_hdr *hdr,
->  		inq_response[6] = 0x00;    /* Rsvd */
->  		inq_response[7] = 0x44;    /* Designator Length */
->  
-> -		sprintf(&inq_response[8], "%04x", to_pci_dev(dev
-> ->dev)->vendor);
-> +		sprintf(&inq_response[8], "%04x", dev->vendor);
+> I'm ok with this patch, but I wanted to ask the question for my own
+> benefit, what is the Linux kernel open-source practice of using
+> sprintf() and string settings?  I typically try to use snprintf().
 
-I'm ok with this patch, but I wanted to ask the question for my own
-benefit, what is the Linux kernel open-source practice of using
-sprintf() and string settings?  I typically try to use snprintf().
-
-
->  		memcpy(&inq_response[12], dev->model, sizeof(dev
-> ->model));
->  		sprintf(&inq_response[52], "%04x", tmp_id);
->  		memcpy(&inq_response[56], dev->serial, sizeof(dev
-> ->serial));
+Generally yes, snprintf is preferred, though the usage in this specific
+example is more similar to a memcpy. We know the buffer size and the
+length being copied into it is fixed; sprintf is just convenient.
