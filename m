@@ -1,73 +1,64 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Wed, 21 Oct 2015 10:18:22 -0700
-Subject: [PATCH v6 05/11] block: remove split code in
- blkdev_issue_{discard,write_same}
-In-Reply-To: <20151021153351.GA4984@redhat.com>
-References: <1439363241-31772-1-git-send-email-mlin@kernel.org>
- <1439363241-31772-6-git-send-email-mlin@kernel.org>
- <20151013115011.GA6546@infradead.org>
- <CAF1ivSbsH7JsduHE+a2d+BEbZL6Fo7uJWS2NCTTMNTSAUMt0UA@mail.gmail.com>
- <20151021072126.GA7671@infradead.org>
- <x49io60wdap.fsf@segfault.boston.devel.redhat.com>
- <1445439679.3126.5.camel@hasee> <20151021153351.GA4984@redhat.com>
-Message-ID: <1445447902.26847.3.camel@ssi>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Wed, 21 Oct 2015 13:19:22 -0400
+Subject: [PATCH v3 00/12] Simplify block integrity registration v3
+Message-ID: <20151021171921.6456.1646.stgit@dwillia2-desk3.amr.corp.intel.com>
 
-On Wed, 2015-10-21@11:33 -0400, Mike Snitzer wrote:
-> On Wed, Oct 21 2015 at 11:01am -0400,
-> Ming Lin <mlin@kernel.org> wrote:
-> 
-> > On Wed, 2015-10-21@09:39 -0400, Jeff Moyer wrote:
-> > > Christoph Hellwig <hch at infradead.org> writes:
-> > > 
-> > > > Jens, Ming:
-> > > >
-> > > > are you fine with the one liner change to get back to the old I/O
-> > > > pattern?  While it looks like the cards fault I'd like to avoid this
-> > > > annoying regression.
-> > > 
-> > > I'm not Jens or Ming, but your patch looks fine to me, though you'll
-> > > want to remove the MAX_BIO_SECTORS definition since it's now unused.
-> > > It's not clear to me why the limit was lowered in the first place.
-> > 
-> > UINT_MAX >> 9 is not power of 2 and it causes dm-thinp discard fails.
-> > 
-> > At the lengthy discussion:
-> > [PATCH v5 01/11] block: make generic_make_request handle arbitrarily sized bios
-> > We agreed to cap discard to 2G as an interim solution for 4.3 until the
-> > dm-thinp discard code is rewritten.
-> 
-> But did Jens ever commit that change to cap at 2G?  I don't recall
-> seeing it.
+Changes since v2 [1]:
 
-Yes, commit b49a0871
+1/ Fold in static declaration fix to "block: Consolidate static
+   integrity profile properties"
 
-> 
-> > Hi Mike,
-> > 
-> > Will the dm-thinp discard rewritten ready for 4.4?
-> 
-> No.  I'm not clear what needs changing in dm-thinp.  I'll have to
-> revisit the thread to refresh my memory.
-> 
-> BTW, DM thinp can easily handle discards that aren't a power-of-2 so
-> long as the requested discard is a factor of the thinp blocksize.
+2/ Rebase on latest for-4.4/drivers from block.git
 
-You are right. It's not about power-of-2.
+3/ Merge the pending lifetime fixes
 
-Copy my old post here about why dm-thinp discard may fail with "UINT_MAX
->> 9".
+[1]: http://lists.infradead.org/pipermail/linux-nvme/2015-October/002783.html
 
-      4G: 8388608 sectors
-UINT_MAX: 8388607 sectors
+---
 
-dm-thinp block size = default discard granularity = 128 sectors
+Dan Williams (7):
+      md, dm, scsi, nvme, libnvdimm: drop blk_integrity_unregister() at shutdown
+      md: suspend i/o during runtime blk_integrity_unregister
+      nvme: suspend i/o during runtime blk_integrity_unregister
+      block: generic request_queue reference counting
+      block: move blk_integrity to request_queue
+      block: blk_flush_integrity() for bio-based drivers
+      block, libnvdimm, nvme: provide a built-in blk_integrity nop profile
 
-blkdev_issue_discard(sector=0, nr_sectors=8388608)
+Martin K. Petersen (5):
+      block: Move integrity kobject to struct gendisk
+      block: Consolidate static integrity profile properties
+      block: Reduce the size of struct blk_integrity
+      block: Export integrity data interval size in sysfs
+      block: Inline blk_integrity in struct gendisk
 
-[start_sector, end_sector]
-[0, 8388607]
-    [0, 8388606], then dm-thinp splits it to 2 bios
-        [0, 8388479]
-        [8388480, 8388606] ---> this has problem in process_discard_bio(),
-                                because the discard size(7 sectors) covers less than a block(128 sectors)
-    [8388607, 8388607] ---> same problem 
+
+ Documentation/ABI/testing/sysfs-block |    7 +
+ block/bio-integrity.c                 |   17 ++-
+ block/blk-core.c                      |   74 +++++++++++--
+ block/blk-integrity.c                 |  192 +++++++++++++++------------------
+ block/blk-mq-sysfs.c                  |    6 -
+ block/blk-mq.c                        |   80 ++++----------
+ block/blk-sysfs.c                     |    3 -
+ block/blk.h                           |   22 ++++
+ block/genhd.c                         |    2 
+ block/partition-generic.c             |    1 
+ block/t10-pi.c                        |   16 +--
+ drivers/md/dm-table.c                 |   88 ++++++++-------
+ drivers/md/dm.c                       |    2 
+ drivers/md/md.c                       |   11 +-
+ drivers/md/multipath.c                |    2 
+ drivers/md/raid1.c                    |    2 
+ drivers/md/raid10.c                   |    2 
+ drivers/nvdimm/btt.c                  |    1 
+ drivers/nvdimm/core.c                 |   21 +---
+ drivers/nvme/host/pci.c               |   34 +-----
+ drivers/scsi/sd.c                     |    1 
+ drivers/scsi/sd_dif.c                 |   31 +++--
+ drivers/target/target_core_iblock.c   |   10 +-
+ fs/block_dev.c                        |    2 
+ include/linux/blk-mq.h                |    1 
+ include/linux/blkdev.h                |   48 ++++----
+ include/linux/genhd.h                 |   26 ++++
+ include/linux/t10-pi.h                |    8 +
+ 28 files changed, 367 insertions(+), 343 deletions(-)
