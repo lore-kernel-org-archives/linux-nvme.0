@@ -1,239 +1,45 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Wed, 21 Oct 2015 15:44:23 -0700
-Subject: [PATCH 15/18] nvme: add a common helper to read Identify
- Controller data
-In-Reply-To: <1444975128-8768-16-git-send-email-hch@lst.de>
+From: keith.busch@intel.com (Busch, Keith)
+Date: Wed, 21 Oct 2015 22:51:00 +0000
+Subject: [PATCH 06/18] nvme: split a new struct nvme_ctrl out of struct
+ nvme_dev
+In-Reply-To: <1445462626.3307.64.camel@linux.intel.com>
 References: <1444975128-8768-1-git-send-email-hch@lst.de>
- <1444975128-8768-16-git-send-email-hch@lst.de>
-Message-ID: <1445467463.3307.72.camel@linux.intel.com>
+ <1444975128-8768-7-git-send-email-hch@lst.de>
+ <1445462626.3307.64.camel@linux.intel.com>
+Message-ID: <20151021225059.GA21840@localhost.localdomain>
 
-On Fri, 2015-10-16@07:58 +0200, Christoph Hellwig wrote:
-> And add the 64-bit register read operation for it.
-
-I apologize, but I am getting tripped up by the subject line of this
-patch and then the following description.
-
-To me, this patch sounds and looks like it is doing two distinct,
-separate things, thereby two separate patches:
-
-1. Add a helper function to read and cache Identify Controller data
-2. Add a 64-bit read register function pointer to nvme_ctrl_ops
-
-I think it was PATCH 6 of this series that introduced "int
-(*reg_read32)()".  If it is easier, it would also make sense to also
-add "int (*reg_read64)()" there, instead of its own separate patch.
- > 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  drivers/nvme/host/core.c | 50 
-> +++++++++++++++++++++++++++++++++++++++++++++
->  drivers/nvme/host/nvme.h |  4 ++++
->  drivers/nvme/host/pci.c  | 53 +++++++++++++++-----------------------
-> ----------
->  3 files changed, 70 insertions(+), 37 deletions(-)
+On Wed, Oct 21, 2015@02:23:46PM -0700, J Freyensee wrote:
+> >  	char firmware_rev[8];
+> > -	bool subsystem;
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 1b27fd9..3e88901 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -574,6 +574,56 @@ const struct block_device_operations nvme_fops = 
-> {
->  	.revalidate_disk= nvme_revalidate_disk,
->  };
->  
-> +/*
-> + * Initialize the cached copies of the Identify data and various 
-> controller
-> + * register in our nvme_ctrl structure.  This should be called as 
-> soon as
-> + * the admin queue is fully up and running.
-> + */
-> +int nvme_init_identify(struct nvme_ctrl *ctrl)
-> +{
-> +	struct nvme_id_ctrl *id;
-> +	u64 cap;
-> +	int ret, page_shift;
-> +
-> +	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &cap);
-> +	if (ret) {
-> +		dev_err(ctrl->dev, "Reading CAP failed (%d)\n", 
-> ret);
-> +		return ret;
-> +	}
-> +	page_shift = NVME_CAP_MPSMIN(cap) + 12;
-> +
-> +	ret = nvme_identify_ctrl(ctrl, &id);
-> +	if (ret) {
-> +		dev_err(ctrl->dev, "Identify Controller failed 
-> (%d)\n", ret);
-> +		return -EIO;
-> +	}
-> +
-> +	ctrl->oncs = le16_to_cpup(&id->oncs);
-> +	ctrl->abort_limit = id->acl + 1;
-> +	ctrl->vwc = id->vwc;
-> +	memcpy(ctrl->serial, id->sn, sizeof(id->sn));
-> +	memcpy(ctrl->model, id->mn, sizeof(id->mn));
-> +	memcpy(ctrl->firmware_rev, id->fr, sizeof(id->fr));
-> +	if (id->mdts)
-> +		ctrl->max_hw_sectors = 1 << (id->mdts + page_shift - 
-> 9);
-> +
-> +	if ((ctrl->quirks & NVME_QUIRK_STRIPE_SIZE) && id->vs[3]) {
-> +		unsigned int max_hw_sectors;
-> +
-> +		ctrl->stripe_size = 1 << (id->vs[3] + page_shift);
-> +		max_hw_sectors = ctrl->stripe_size >> (page_shift - 
-> 9);
-> +		if (ctrl->max_hw_sectors) {
-> +			ctrl->max_hw_sectors = min(max_hw_sectors,
-> +							ctrl
-> ->max_hw_sectors);
-> +		} else {
-> +			ctrl->max_hw_sectors = max_hw_sectors;
-> +		}
-> +	}
-> +
-> +	kfree(id);
-> +	return 0;
-> +}
-> +
->  static void nvme_free_ctrl(struct kref *kref)
->  {
->  	struct nvme_ctrl *ctrl = container_of(kref, struct 
-> nvme_ctrl, kref);
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 1ebd0da..48b221a 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -50,6 +50,8 @@ struct nvme_ctrl {
->  	char serial[20];
->  	char model[40];
->  	char firmware_rev[8];
-> +	u32 max_hw_sectors;
-> +	u32 stripe_size;
->  	u16 oncs;
->  	u16 abort_limit;
->  	u8 event_limit;
-> @@ -80,6 +82,7 @@ struct nvme_ns {
->  
->  struct nvme_ctrl_ops {
->  	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 
-> *val);
-> +	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 
-> *val);
->  	void (*free_ctrl)(struct nvme_ctrl *ctrl);
->  };
->  
-> @@ -161,6 +164,7 @@ static inline int nvme_error_status(u16 status)
->  }
->  
->  void nvme_put_ctrl(struct nvme_ctrl *ctrl);
-> +int nvme_init_identify(struct nvme_ctrl *ctrl);
->  void nvme_put_ns(struct nvme_ns *ns);
->  
->  int nvme_submit_sync_cmd(struct request_queue *q, struct 
-> nvme_command *cmd,
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 2c13d7a..7a25d6f 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -127,8 +127,6 @@ struct nvme_dev {
->  	struct work_struct probe_work;
->  	struct work_struct scan_work;
->  	bool subsystem;
-> -	u32 max_hw_sectors;
-> -	u32 stripe_size;
->  	u32 page_size;
->  	void __iomem *cmb;
->  	dma_addr_t cmb_dma_addr;
-> @@ -1650,13 +1648,13 @@ static void nvme_alloc_ns(struct nvme_dev 
-> *dev, unsigned nsid)
->  	list_add_tail(&ns->list, &dev->namespaces);
->  
->  	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
-> -	if (dev->max_hw_sectors) {
-> -		blk_queue_max_hw_sectors(ns->queue, dev
-> ->max_hw_sectors);
-> +	if (dev->ctrl.max_hw_sectors) {
-> +		blk_queue_max_hw_sectors(ns->queue, dev
-> ->ctrl.max_hw_sectors);
->  		blk_queue_max_segments(ns->queue,
-> -			((dev->max_hw_sectors << 9) / dev
-> ->page_size) + 1);
-> +			((dev->ctrl.max_hw_sectors << 9) / dev
-> ->page_size) + 1);
->  	}
-> -	if (dev->stripe_size)
-> -		blk_queue_chunk_sectors(ns->queue, dev->stripe_size 
-> >> 9);
-> +	if (dev->ctrl.stripe_size)
-> +		blk_queue_chunk_sectors(ns->queue, dev
-> ->ctrl.stripe_size >> 9);
->  	if (dev->ctrl.vwc & NVME_CTRL_VWC_PRESENT)
->  		blk_queue_flush(ns->queue, REQ_FLUSH | REQ_FUA);
->  	blk_queue_virt_boundary(ns->queue, dev->page_size - 1);
-> @@ -1992,36 +1990,10 @@ static void nvme_dev_scan(struct work_struct 
-> *work)
->  static int nvme_dev_add(struct nvme_dev *dev)
->  {
->  	int res;
-> -	struct nvme_id_ctrl *ctrl;
-> -	int shift = NVME_CAP_MPSMIN(readq(dev->bar + NVME_REG_CAP)) 
-> + 12;
-> -
-> -	res = nvme_identify_ctrl(&dev->ctrl, &ctrl);
-> -	if (res) {
-> -		dev_err(dev->dev, "Identify Controller failed 
-> (%d)\n", res);
-> -		return -EIO;
-> -	}
-> -
-> -	dev->ctrl.oncs = le16_to_cpup(&ctrl->oncs);
-> -	dev->ctrl.abort_limit = ctrl->acl + 1;
-> -	dev->ctrl.vwc = ctrl->vwc;
-> -	memcpy(dev->ctrl.serial, ctrl->sn, sizeof(ctrl->sn));
-> -	memcpy(dev->ctrl.model, ctrl->mn, sizeof(ctrl->mn));
-> -	memcpy(dev->ctrl.firmware_rev, ctrl->fr, sizeof(ctrl->fr));
-> -	if (ctrl->mdts)
-> -		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
-> -
-> -	if ((dev->ctrl.quirks & NVME_QUIRK_STRIPE_SIZE) && ctrl
-> ->vs[3]) {
-> -		unsigned int max_hw_sectors;
-> -
-> -		dev->stripe_size = 1 << (ctrl->vs[3] + shift);
-> -		max_hw_sectors = dev->stripe_size >> (shift - 9);
-> -		if (dev->max_hw_sectors) {
-> -			dev->max_hw_sectors = min(max_hw_sectors,
-> -							dev
-> ->max_hw_sectors);
-> -		} else
-> -			dev->max_hw_sectors = max_hw_sectors;
-> -	}
-> -	kfree(ctrl);
-> +
-> +	res = nvme_init_identify(&dev->ctrl);
-> +	if (res)
-> +		return res;
->  
->  	if (!dev->tagset.tags) {
->  		dev->tagset.ops = &nvme_mq_ops;
-> @@ -2642,8 +2614,15 @@ static int nvme_pci_reg_read32(struct 
-> nvme_ctrl *ctrl, u32 off, u32 *val)
->  	return 0;
->  }
->  
-> +static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 
-> *val)
-> +{
-> +	*val = readq(to_nvme_dev(ctrl)->bar + off);
-> +	return 0;
-> +}
-> +
->  static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
->  	.reg_read32		= nvme_pci_reg_read32,
-> +	.reg_read64		= nvme_pci_reg_read64,
->  	.free_ctrl		= nvme_pci_free_ctrl,
->  };
->  
+> Also, this is something probably a bit more far visioned, but I think
+> struct nvme_ctrl would need a mechanism to know what NVMe subsystem it
+> sits in.  Even if 'subsystem' stayed in the struct, I'm not sure how a
+> bool would work for this.
+
+The bool is not to identify a specific subsystem. It's only to notify
+the driver that this controller is subsystem capable. In other words,
+please periodically check the subsystem reset notification since that
+can happen at anytime externally from host connected to the controller,
+and we want to know when such events occur.
+
+> > @@ -78,7 +48,7 @@ struct nvme_dev {
+> >  struct nvme_ns {
+> >  	struct list_head list;
+> >  
+> > -	struct nvme_dev *dev;
+> > +	struct nvme_ctrl *ctrl;
+> 
+> This seems a bit backwards to me.  It's the controller (cntlid) that is
+> going to tell the host how many namespaces are associated with it via
+> the NVMe Identify commands.  Thus, I would have thought that a list of
+> struct nvme_ns instances would be in a struct nvme_ctrl definition, not
+> vice-versa.  Unless '*ctrl' is going to be used as a back pointer?  But
+> then in 'struct nvme_ctrl' I didn't see initially see anything that
+> associates itself to the namespaces attached to it.
+
+The 'ctrl' pointer is a back pointer to the owning controller.
+
+The controller itself contains a list_head appropriately called
+'namespaces' to hold a reference to all its namespaces. The nvme_ns
+list_head 'list' is simply the entry item for that list.
