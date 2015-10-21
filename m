@@ -1,29 +1,24 @@
-From: jmoyer@redhat.com (Jeff Moyer)
-Date: Wed, 21 Oct 2015 09:39:58 -0400
-Subject: [PATCH v6 05/11] block: remove split code in
- blkdev_issue_{discard, write_same}
-In-Reply-To: <20151021072126.GA7671@infradead.org> (Christoph Hellwig's
- message of "Wed, 21 Oct 2015 00:21:26 -0700")
-References: <1439363241-31772-1-git-send-email-mlin@kernel.org>
- <1439363241-31772-6-git-send-email-mlin@kernel.org>
- <20151013115011.GA6546@infradead.org>
- <CAF1ivSbsH7JsduHE+a2d+BEbZL6Fo7uJWS2NCTTMNTSAUMt0UA@mail.gmail.com>
- <20151021072126.GA7671@infradead.org>
-Message-ID: <x49io60wdap.fsf@segfault.boston.devel.redhat.com>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Wed, 21 Oct 2015 17:40:42 +0300
+Subject: [PATCH 06/18] nvme: split a new struct nvme_ctrl out of struct
+ nvme_dev
+In-Reply-To: <20151020113041.GA31462@lst.de>
+References: <1444975128-8768-1-git-send-email-hch@lst.de>
+ <1444975128-8768-7-git-send-email-hch@lst.de>
+ <56261541.9030702@dev.mellanox.co.il> <20151020102617.GA29824@lst.de>
+ <56261AF1.2040408@dev.mellanox.co.il> <20151020113041.GA31462@lst.de>
+Message-ID: <5627A3EA.7070305@dev.mellanox.co.il>
 
-Christoph Hellwig <hch at infradead.org> writes:
-
-> Jens, Ming:
+On 10/20/2015 2:30 PM, Christoph Hellwig wrote:
+> On Tue, Oct 20, 2015@01:44:01PM +0300, Sagi Grimberg wrote:
+>> I wasn't suggesting moving it to nvme_ctrl, I was suggesting to keep it
+>> in nvme_dev and maybe add a helper have nvme_ctrl_to_dev(ctrl)->dev used
+>> in slow paths. It would allow to remove the copy pointer in nvme_ctrl.
 >
-> are you fine with the one liner change to get back to the old I/O
-> pattern?  While it looks like the cards fault I'd like to avoid this
-> annoying regression.
+> But it would require adding a function pointer to get the location from
+> the different transport drivers.  A pointer seems much simpler than that.
+>
 
-I'm not Jens or Ming, but your patch looks fine to me, though you'll
-want to remove the MAX_BIO_SECTORS definition since it's now unused.
-It's not clear to me why the limit was lowered in the first place.
+Yea, I'm fine with that...
 
-You can add my Reviewed-by: Jeff Moyer <jmoyer at redhat.com> if you resend
-the patch.
-
--Jeff
+Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
