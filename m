@@ -1,23 +1,16 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 21 Oct 2015 08:55:10 +0200
-Subject: [PATCH 10/18] nvme: move nvme_setup_flush and nvme_setup_rw to
- common code
-In-Reply-To: <56261EF2.3080507@dev.mellanox.co.il>
-References: <1444975128-8768-1-git-send-email-hch@lst.de>
- <1444975128-8768-11-git-send-email-hch@lst.de>
- <56261EF2.3080507@dev.mellanox.co.il>
-Message-ID: <20151021065510.GA19280@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 21 Oct 2015 00:21:26 -0700
+Subject: [PATCH v6 05/11] block: remove split code in
+ blkdev_issue_{discard,write_same}
+In-Reply-To: <CAF1ivSbsH7JsduHE+a2d+BEbZL6Fo7uJWS2NCTTMNTSAUMt0UA@mail.gmail.com>
+References: <1439363241-31772-1-git-send-email-mlin@kernel.org>
+ <1439363241-31772-6-git-send-email-mlin@kernel.org>
+ <20151013115011.GA6546@infradead.org>
+ <CAF1ivSbsH7JsduHE+a2d+BEbZL6Fo7uJWS2NCTTMNTSAUMt0UA@mail.gmail.com>
+Message-ID: <20151021072126.GA7671@infradead.org>
 
-On Tue, Oct 20, 2015@02:01:06PM +0300, Sagi Grimberg wrote:
-> I do agree that making these static inline can speed things up here,
-> but the coding style documentation asks to avoid inline'ing functions
-> longer than a few lines of code (See Documentation/CodingStyle Chapter
-> 15: "The inline disease").
->
-> Do you think this case qualifies as an exception?
+Jens, Ming:
 
-Yes.  The inline is only used once per NVMe transport driver and it's
-used in the absolute fast path in a place where being able to optimize
-the assignments inside and outside the function call will become useful.
-Also all the code is trivial assignments and simple conditionals so it's
-actually pretty small in terms of generated code.
+are you fine with the one liner change to get back to the old I/O
+pattern?  While it looks like the cards fault I'd like to avoid this
+annoying regression.
