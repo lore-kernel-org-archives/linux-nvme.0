@@ -1,152 +1,128 @@
 From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Wed, 21 Oct 2015 13:28:49 -0700
-Subject: [PATCH 05/18] nvme: use offset instead of a struct for registers
-In-Reply-To: <1444975128-8768-6-git-send-email-hch@lst.de>
+Date: Wed, 21 Oct 2015 14:23:46 -0700
+Subject: [PATCH 06/18] nvme: split a new struct nvme_ctrl out of struct
+ nvme_dev
+In-Reply-To: <1444975128-8768-7-git-send-email-hch@lst.de>
 References: <1444975128-8768-1-git-send-email-hch@lst.de>
- <1444975128-8768-6-git-send-email-hch@lst.de>
-Message-ID: <1445459329.3307.46.camel@linux.intel.com>
+ <1444975128-8768-7-git-send-email-hch@lst.de>
+Message-ID: <1445462626.3307.64.camel@linux.intel.com>
 
 On Fri, 2015-10-16@07:58 +0200, Christoph Hellwig wrote:
-> This makes life easier for future non-PCI drivers where access to the
-> registers might be more complicated.  Note that Linux drivers are
-> pretty evenly split between the two versions, and in fact the NVMe
-> driver already uses offsets for the doorbells.
+> The new struct nvme_ctrl will be used by the common NVMe code that 
+> sits
+> on top of struct request_queue and the new nvme_ctrl_ops abstraction.
+> It only contains the bare minimum required, which consists of values
+> sampled during controller probe, the admin queue pointer and a second
+> struct device pointer at the moment, but more will follow later. 
+>  Only
+> values that are not used in the I/O fast path should be moved to
+> struct nvme_ctrl so that drivers can optimize their cache line usage
+> easily.  That's also the reason why we have two device pointers as
+> the struct device is used for DMA mapping purposes.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > Acked-by: Keith Busch <keith.busch at intel.com>
 > ---
->  drivers/nvme/host/nvme.h |  2 +-
->  drivers/nvme/host/pci.c  | 58 +++++++++++++++++++++++++-------------
+>  drivers/nvme/host/core.c |  10 +--
+>  drivers/nvme/host/nvme.h |  61 ++++++---------
+>  drivers/nvme/host/pci.c  | 190 +++++++++++++++++++++++++++++++------
 > ----------
->  drivers/nvme/host/scsi.c |  6 ++---
->  include/linux/nvme.h     | 27 +++++++++++-----------
->  4 files changed, 47 insertions(+), 46 deletions(-)
+>  drivers/nvme/host/scsi.c |  85 ++++++++++-----------
+>  4 files changed, 190 insertions(+), 156 deletions(-)
 > 
+
+<snipped>
+
+
 > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 706f678..370aa5b 100644
+> index 370aa5b..3e409fa 100644
 > --- a/drivers/nvme/host/nvme.h
 > +++ b/drivers/nvme/host/nvme.h
-> @@ -46,7 +46,7 @@ struct nvme_dev {
->  	u32 db_stride;
->  	u32 ctrl_config;
->  	struct msix_entry *entry;
-> -	struct nvme_bar __iomem *bar;
-> +	void __iomem *bar;
->  	struct list_head namespaces;
->  	struct kref kref;
->  	struct device *device;
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index cd731f5..6b0dcb6 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1307,7 +1307,7 @@ static void nvme_disable_queue(struct nvme_dev 
-> *dev, int qid)
+> @@ -25,46 +25,16 @@ extern unsigned char nvme_io_timeout;
+>  extern unsigned char admin_timeout;
+>  #define ADMIN_TIMEOUT	(admin_timeout * HZ)
 >  
->  	/* Don't tell the adapter to delete the admin queue.
->  	 * Don't tell a removed adapter to delete IO queues. */
-> -	if (qid && readl(&dev->bar->csts) != -1) {
-> +	if (qid && readl(dev->bar + NVME_REG_CSTS) != -1) {
->  		adapter_delete_sq(dev, qid);
->  		adapter_delete_cq(dev, qid);
->  	}
-> @@ -1460,7 +1460,7 @@ static int nvme_wait_ready(struct nvme_dev 
-> *dev, u64 cap, bool enabled)
->  
->  	timeout = ((NVME_CAP_TIMEOUT(cap) + 1) * HZ / 2) + jiffies;
->  
-> -	while ((readl(&dev->bar->csts) & NVME_CSTS_RDY) != bit) {
-> +	while ((readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_RDY) != 
-> bit) {
->  		msleep(100);
->  		if (fatal_signal_pending(current))
->  			return -EINTR;
-> @@ -1485,7 +1485,7 @@ static int nvme_disable_ctrl(struct nvme_dev 
-> *dev, u64 cap)
->  {
->  	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
->  	dev->ctrl_config &= ~NVME_CC_ENABLE;
-> -	writel(dev->ctrl_config, &dev->bar->cc);
-> +	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
->  
->  	return nvme_wait_ready(dev, cap, false);
->  }
-> @@ -1494,7 +1494,7 @@ static int nvme_enable_ctrl(struct nvme_dev 
-> *dev, u64 cap)
->  {
->  	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
->  	dev->ctrl_config |= NVME_CC_ENABLE;
-> -	writel(dev->ctrl_config, &dev->bar->cc);
-> +	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
->  
->  	return nvme_wait_ready(dev, cap, true);
->  }
-> @@ -1506,10 +1506,10 @@ static int nvme_shutdown_ctrl(struct nvme_dev 
-> *dev)
->  	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
->  	dev->ctrl_config |= NVME_CC_SHN_NORMAL;
->  
-> -	writel(dev->ctrl_config, &dev->bar->cc);
-> +	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
->  
->  	timeout = SHUTDOWN_TIMEOUT + jiffies;
-> -	while ((readl(&dev->bar->csts) & NVME_CSTS_SHST_MASK) !=
-> +	while ((readl(dev->bar + NVME_REG_CSTS) & 
-> NVME_CSTS_SHST_MASK) !=
->  							NVME_CSTS_SH
-> ST_CMPLT) {
->  		msleep(100);
->  		if (fatal_signal_pending(current))
-> @@ -1584,7 +1584,7 @@ static int nvme_configure_admin_queue(struct 
-> nvme_dev *dev)
->  {
->  	int result;
->  	u32 aqa;
-> -	u64 cap = readq(&dev->bar->cap);
-> +	u64 cap = readq(dev->bar + NVME_REG_CAP);
->  	struct nvme_queue *nvmeq;
->  	unsigned page_shift = PAGE_SHIFT;
->  	unsigned dev_page_min = NVME_CAP_MPSMIN(cap) + 12;
-> @@ -1605,11 +1605,12 @@ static int nvme_configure_admin_queue(struct 
-> nvme_dev *dev)
->  		page_shift = dev_page_max;
->  	}
->  
-> -	dev->subsystem = readl(&dev->bar->vs) >= NVME_VS(1, 1) ?
-> +	dev->subsystem = readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 
-> 1) ?
->  						NVME_CAP_NSSRC(cap) 
-> : 0;
->  
-> -	if (dev->subsystem && (readl(&dev->bar->csts) & 
-> NVME_CSTS_NSSRO))
-> -		writel(NVME_CSTS_NSSRO, &dev->bar->csts);
-> +	if (dev->subsystem &&
-> +	    (readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_NSSRO))
-> +		writel(NVME_CSTS_NSSRO, dev->bar + NVME_REG_CSTS);
->  
->  	result = nvme_disable_ctrl(dev, cap);
->  	if (result < 0)
-> @@ -1632,9 +1633,9 @@ static int nvme_configure_admin_queue(struct 
-> nvme_dev *dev)
->  	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
->  	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
->  
-> -	writel(aqa, &dev->bar->aqa);
-> -	writeq(nvmeq->sq_dma_addr, &dev->bar->asq);
-> -	writeq(nvmeq->cq_dma_addr, &dev->bar->acq);
-> +	writel(aqa, dev->bar + NVME_REG_AQA);
-> +	writeq(nvmeq->sq_dma_addr, dev->bar + NVME_REG_ASQ);
-> +	writeq(nvmeq->cq_dma_addr, dev->bar + NVME_REG_ACQ);
->  
->  	result = nvme_enable_ctrl(dev, cap);
->  	if (result)
-> @@ -1776,7 +1777,7 @@ static int nvme_subsys_reset(struct nvme_dev 
-> *dev)
->  	if (!dev->subsystem)
->  		return -ENOTTY;
->  
-> -	writel(0x4E564D65, &dev->bar->nssr); /* "NVMe" */
-> +	writel(0x4E564D65, dev->bar + NVME_REG_NSSR); /* "NVMe" */
+> -/*
+> - * Represents an NVM Express device.  Each nvme_dev is a PCI 
+> function.
+> - */
+> -struct nvme_dev {
+> -	struct list_head node;
+> -	struct nvme_queue **queues;
+> +struct nvme_ctrl {
 
-It would be nice if this value was a macro in a .h file as this is not
-necessarily specific to PCIe.
+Whether it is a PCIe NVMe device with multiple controllers or something
+beyond PCIe, I think an instance of struct nvme_ctrl is going to need
+to know its cntlid.  How does this struct know its cntlid?  I'm not
+initially seeing it.  I think it would make more sense to have struct
+nvme_ctrl have a member that stores its cntlid value.  It would
+basically be the "name" of the specific nvme_ctrl instance allocated.
+
+
+> +	const struct nvme_ctrl_ops *ops;
+>  	struct request_queue *admin_q;
+> -	struct blk_mq_tag_set tagset;
+> -	struct blk_mq_tag_set admin_tagset;
+> -	u32 __iomem *dbs;
+>  	struct device *dev;
+> -	struct dma_pool *prp_page_pool;
+> -	struct dma_pool *prp_small_pool;
+>  	int instance;
+> -	unsigned queue_count;
+> -	unsigned online_queues;
+> -	unsigned max_qid;
+> -	int q_depth;
+> -	u32 db_stride;
+> -	u32 ctrl_config;
+> -	struct msix_entry *entry;
+> -	void __iomem *bar;
+> -	struct list_head namespaces;
+> -	struct kref kref;
+> -	struct device *device;
+> -	struct work_struct reset_work;
+> -	struct work_struct probe_work;
+> -	struct work_struct scan_work;
+> +
+>  	char name[12];
+>  	char serial[20];
+>  	char model[40];
+>  	char firmware_rev[8];
+> -	bool subsystem;
+
+Also, this is something probably a bit more far visioned, but I think
+struct nvme_ctrl would need a mechanism to know what NVMe subsystem it
+sits in.  Even if 'subsystem' stayed in the struct, I'm not sure how a
+bool would work for this.
+
+> -	u32 max_hw_sectors;
+> -	u32 stripe_size;
+> -	u32 page_size;
+> -	void __iomem *cmb;
+> -	dma_addr_t cmb_dma_addr;
+> -	u64 cmb_size;
+> -	u32 cmbsz;
+>  	u16 oncs;
+>  	u16 abort_limit;
+>  	u8 event_limit;
+> @@ -78,7 +48,7 @@ struct nvme_dev {
+>  struct nvme_ns {
+>  	struct list_head list;
+>  
+> -	struct nvme_dev *dev;
+> +	struct nvme_ctrl *ctrl;
+
+This seems a bit backwards to me.  It's the controller (cntlid) that is
+going to tell the host how many namespaces are associated with it via
+the NVMe Identify commands.  Thus, I would have thought that a list of
+struct nvme_ns instances would be in a struct nvme_ctrl definition, not
+vice-versa.  Unless '*ctrl' is going to be used as a back pointer?  But
+then in 'struct nvme_ctrl' I didn't see initially see anything that
+associates itself to the namespaces attached to it.
+
+>  	struct request_queue *queue;
+>  	struct gendisk *disk;
+>  	struct kref kref;
+> @@ -92,6 +62,19 @@ struct nvme_ns {
+>  	u32 mode_select_block_len;
+>  };
+>  
