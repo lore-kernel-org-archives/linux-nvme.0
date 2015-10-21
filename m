@@ -1,64 +1,116 @@
 From: dan.j.williams@intel.com (Dan Williams)
-Date: Wed, 21 Oct 2015 13:19:22 -0400
-Subject: [PATCH v3 00/12] Simplify block integrity registration v3
-Message-ID: <20151021171921.6456.1646.stgit@dwillia2-desk3.amr.corp.intel.com>
+Date: Wed, 21 Oct 2015 13:19:27 -0400
+Subject: [PATCH v3 01/12] block: Move integrity kobject to struct gendisk
+In-Reply-To: <20151021171921.6456.1646.stgit@dwillia2-desk3.amr.corp.intel.com>
+References: <20151021171921.6456.1646.stgit@dwillia2-desk3.amr.corp.intel.com>
+Message-ID: <20151021171927.6456.60156.stgit@dwillia2-desk3.amr.corp.intel.com>
 
-Changes since v2 [1]:
+From: Martin K. Petersen <martin.petersen@oracle.com>
 
-1/ Fold in static declaration fix to "block: Consolidate static
-   integrity profile properties"
+The integrity kobject purely exists to support the integrity
+subdirectory in sysfs and doesn't really have anything to do with the
+blk_integrity data structure. Move the kobject to struct gendisk where
+it belongs.
 
-2/ Rebase on latest for-4.4/drivers from block.git
-
-3/ Merge the pending lifetime fixes
-
-[1]: http://lists.infradead.org/pipermail/linux-nvme/2015-October/002783.html
-
+Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
+Reported-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
+Signed-off-by: Dan Williams <dan.j.williams at intel.com>
 ---
+ block/blk-integrity.c  |   22 +++++++++++-----------
+ include/linux/blkdev.h |    2 --
+ include/linux/genhd.h  |    1 +
+ 3 files changed, 12 insertions(+), 13 deletions(-)
 
-Dan Williams (7):
-      md, dm, scsi, nvme, libnvdimm: drop blk_integrity_unregister() at shutdown
-      md: suspend i/o during runtime blk_integrity_unregister
-      nvme: suspend i/o during runtime blk_integrity_unregister
-      block: generic request_queue reference counting
-      block: move blk_integrity to request_queue
-      block: blk_flush_integrity() for bio-based drivers
-      block, libnvdimm, nvme: provide a built-in blk_integrity nop profile
-
-Martin K. Petersen (5):
-      block: Move integrity kobject to struct gendisk
-      block: Consolidate static integrity profile properties
-      block: Reduce the size of struct blk_integrity
-      block: Export integrity data interval size in sysfs
-      block: Inline blk_integrity in struct gendisk
-
-
- Documentation/ABI/testing/sysfs-block |    7 +
- block/bio-integrity.c                 |   17 ++-
- block/blk-core.c                      |   74 +++++++++++--
- block/blk-integrity.c                 |  192 +++++++++++++++------------------
- block/blk-mq-sysfs.c                  |    6 -
- block/blk-mq.c                        |   80 ++++----------
- block/blk-sysfs.c                     |    3 -
- block/blk.h                           |   22 ++++
- block/genhd.c                         |    2 
- block/partition-generic.c             |    1 
- block/t10-pi.c                        |   16 +--
- drivers/md/dm-table.c                 |   88 ++++++++-------
- drivers/md/dm.c                       |    2 
- drivers/md/md.c                       |   11 +-
- drivers/md/multipath.c                |    2 
- drivers/md/raid1.c                    |    2 
- drivers/md/raid10.c                   |    2 
- drivers/nvdimm/btt.c                  |    1 
- drivers/nvdimm/core.c                 |   21 +---
- drivers/nvme/host/pci.c               |   34 +-----
- drivers/scsi/sd.c                     |    1 
- drivers/scsi/sd_dif.c                 |   31 +++--
- drivers/target/target_core_iblock.c   |   10 +-
- fs/block_dev.c                        |    2 
- include/linux/blk-mq.h                |    1 
- include/linux/blkdev.h                |   48 ++++----
- include/linux/genhd.h                 |   26 ++++
- include/linux/t10-pi.h                |    8 +
- 28 files changed, 367 insertions(+), 343 deletions(-)
+diff --git a/block/blk-integrity.c b/block/blk-integrity.c
+index 75f29cf70188..182bfd2383ea 100644
+--- a/block/blk-integrity.c
++++ b/block/blk-integrity.c
+@@ -249,8 +249,8 @@ struct integrity_sysfs_entry {
+ static ssize_t integrity_attr_show(struct kobject *kobj, struct attribute *attr,
+ 				   char *page)
+ {
+-	struct blk_integrity *bi =
+-		container_of(kobj, struct blk_integrity, kobj);
++	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
++	struct blk_integrity *bi = blk_get_integrity(disk);
+ 	struct integrity_sysfs_entry *entry =
+ 		container_of(attr, struct integrity_sysfs_entry, attr);
+ 
+@@ -261,8 +261,8 @@ static ssize_t integrity_attr_store(struct kobject *kobj,
+ 				    struct attribute *attr, const char *page,
+ 				    size_t count)
+ {
+-	struct blk_integrity *bi =
+-		container_of(kobj, struct blk_integrity, kobj);
++	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
++	struct blk_integrity *bi = blk_get_integrity(disk);
+ 	struct integrity_sysfs_entry *entry =
+ 		container_of(attr, struct integrity_sysfs_entry, attr);
+ 	ssize_t ret = 0;
+@@ -385,8 +385,8 @@ subsys_initcall(blk_dev_integrity_init);
+ 
+ static void blk_integrity_release(struct kobject *kobj)
+ {
+-	struct blk_integrity *bi =
+-		container_of(kobj, struct blk_integrity, kobj);
++	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
++	struct blk_integrity *bi = blk_get_integrity(disk);
+ 
+ 	kmem_cache_free(integrity_cachep, bi);
+ }
+@@ -429,14 +429,14 @@ int blk_integrity_register(struct gendisk *disk, struct blk_integrity *template)
+ 		if (!bi)
+ 			return -1;
+ 
+-		if (kobject_init_and_add(&bi->kobj, &integrity_ktype,
++		if (kobject_init_and_add(&disk->integrity_kobj, &integrity_ktype,
+ 					 &disk_to_dev(disk)->kobj,
+ 					 "%s", "integrity")) {
+ 			kmem_cache_free(integrity_cachep, bi);
+ 			return -1;
+ 		}
+ 
+-		kobject_uevent(&bi->kobj, KOBJ_ADD);
++		kobject_uevent(&disk->integrity_kobj, KOBJ_ADD);
+ 
+ 		bi->flags |= BLK_INTEGRITY_VERIFY | BLK_INTEGRITY_GENERATE;
+ 		bi->interval = queue_logical_block_size(disk->queue);
+@@ -479,9 +479,9 @@ void blk_integrity_unregister(struct gendisk *disk)
+ 
+ 	bi = disk->integrity;
+ 
+-	kobject_uevent(&bi->kobj, KOBJ_REMOVE);
+-	kobject_del(&bi->kobj);
+-	kobject_put(&bi->kobj);
++	kobject_uevent(&disk->integrity_kobj, KOBJ_REMOVE);
++	kobject_del(&disk->integrity_kobj);
++	kobject_put(&disk->integrity_kobj);
+ 	disk->integrity = NULL;
+ }
+ EXPORT_SYMBOL(blk_integrity_unregister);
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 19c2e947d4d1..830f9c07d4bb 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1472,8 +1472,6 @@ struct blk_integrity {
+ 	unsigned short		tag_size;
+ 
+ 	const char		*name;
+-
+-	struct kobject		kobj;
+ };
+ 
+ extern bool blk_integrity_is_initialized(struct gendisk *);
+diff --git a/include/linux/genhd.h b/include/linux/genhd.h
+index 2adbfa6d02bc..9e6e0dfa97ad 100644
+--- a/include/linux/genhd.h
++++ b/include/linux/genhd.h
+@@ -199,6 +199,7 @@ struct gendisk {
+ 	struct disk_events *ev;
+ #ifdef  CONFIG_BLK_DEV_INTEGRITY
+ 	struct blk_integrity *integrity;
++	struct kobject integrity_kobj;
+ #endif
+ 	int node_id;
+ };
