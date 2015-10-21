@@ -1,16 +1,29 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 21 Oct 2015 00:22:45 -0700
-Subject: Simplify block integrity registration v2
-In-Reply-To: <1445309132-31824-1-git-send-email-martin.petersen@oracle.com>
-References: <yq1fv16gtus.fsf@sermon.lab.mkp.net>
- <1445309132-31824-1-git-send-email-martin.petersen@oracle.com>
-Message-ID: <20151021072245.GA12393@infradead.org>
+From: jmoyer@redhat.com (Jeff Moyer)
+Date: Wed, 21 Oct 2015 09:39:58 -0400
+Subject: [PATCH v6 05/11] block: remove split code in
+ blkdev_issue_{discard, write_same}
+In-Reply-To: <20151021072126.GA7671@infradead.org> (Christoph Hellwig's
+ message of "Wed, 21 Oct 2015 00:21:26 -0700")
+References: <1439363241-31772-1-git-send-email-mlin@kernel.org>
+ <1439363241-31772-6-git-send-email-mlin@kernel.org>
+ <20151013115011.GA6546@infradead.org>
+ <CAF1ivSbsH7JsduHE+a2d+BEbZL6Fo7uJWS2NCTTMNTSAUMt0UA@mail.gmail.com>
+ <20151021072126.GA7671@infradead.org>
+Message-ID: <x49io60wdap.fsf@segfault.boston.devel.redhat.com>
 
-On Mon, Oct 19, 2015@10:45:27PM -0400, Martin K. Petersen wrote:
-> Changes since last version:
-> 
->  - Patch 2/5: Zero template to prevent problems on SCSI devices w/ ATO=0
->  - Patch 5/5: Add Mike's SoB
+Christoph Hellwig <hch at infradead.org> writes:
 
-Can you post a series that also includes Dan series so that we have one
-coherent batch of both?
+> Jens, Ming:
+>
+> are you fine with the one liner change to get back to the old I/O
+> pattern?  While it looks like the cards fault I'd like to avoid this
+> annoying regression.
+
+I'm not Jens or Ming, but your patch looks fine to me, though you'll
+want to remove the MAX_BIO_SECTORS definition since it's now unused.
+It's not clear to me why the limit was lowered in the first place.
+
+You can add my Reviewed-by: Jeff Moyer <jmoyer at redhat.com> if you resend
+the patch.
+
+-Jeff
