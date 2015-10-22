@@ -1,32 +1,32 @@
 From: keith.busch@intel.com (Busch, Keith)
-Date: Thu, 22 Oct 2015 13:48:30 +0000
-Subject: [PATCH 17/18] nvme: move namespace scanning to common code
-In-Reply-To: <20151022073940.GD20076@lst.de>
-References: <1444975128-8768-1-git-send-email-hch@lst.de>
- <1444975128-8768-18-git-send-email-hch@lst.de>
- <1445470059.3307.85.camel@linux.intel.com> <20151022073940.GD20076@lst.de>
-Message-ID: <B58D82457FDA0744A320A2FC5AC253B93CD26AE0@fmsmsx104.amr.corp.intel.com>
+Date: Thu, 22 Oct 2015 14:44:19 +0000
+Subject: [PATCH 6/9] nvme: abort requests on the reqeueue list when
+ shutting down a controller
+In-Reply-To: <1445515421-4940-7-git-send-email-hch@lst.de>
+References: <1445515421-4940-1-git-send-email-hch@lst.de>
+ <1445515421-4940-7-git-send-email-hch@lst.de>
+Message-ID: <20151022144419.GB21840@localhost.localdomain>
 
-> -----Original Message-----
-> From: Christoph Hellwig [mailto:hch at lst.de]
-> Sent: Thursday, October 22, 2015 1:40 AM
-> To: J Freyensee
-> Cc: Christoph Hellwig; axboe at fb.com; Busch, Keith; Sternberg, Jay E; Cayton, Phil;
-> mlin at kernel.org; linux-nvme at lists.infradead.org
-> Subject: Re: [PATCH 17/18] nvme: move namespace scanning to common code
-> 
-> On Wed, Oct 21, 2015@04:27:39PM -0700, J Freyensee wrote:
-> > I know this is basically just a move into core.c, but with the concept
-> > of namespace management in the 1.2 spec, would something like
-> > list_for_each_entry_safe() and/or a spinlock be more appropriate?
-> 
-> Yes, someone should sit down and think about the concurrency model
-> for namespace scanning.  Also we really should look into using Identify
-> for the active name space list as that will be a lot more efficient for
-> controllers with lots of namespaces.
+On Thu, Oct 22, 2015@02:03:38PM +0200, Christoph Hellwig wrote:
+> Otherwise we might never complete them as nvme_clear_queue won't find these
+> requests.
 
-Here's a namespace list proposal:
+With this change, requests will be ended in failure even though they
+may have succeeded immediately after a reset. Nvme's unfreeze kicks the
+namespaces' requeue_list just for that reason.
 
-http://lists.infradead.org/pipermail/linux-nvme/2015-September/002325.html
+We shouldn't want to abort the requeue list unless we're freeing the
+request_queue too, right?
 
-I'll rebase it on the latest and resend.
+I'm still trying to figure out what gap this is filling.
+
+>  static void nvme_dev_shutdown(struct nvme_dev *dev)
+>  {
+> +	struct nvme_ns *ns;
+>  	int i;
+>  	u32 csts = -1;
+>  
+>  	nvme_dev_list_remove(dev);
+>  
+> +	list_for_each_entry(ns, &dev->ctrl.namespaces, list)
+> +		blk_mq_abort_requeue_list(ns->queue);
