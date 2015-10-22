@@ -1,91 +1,23 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 22 Oct 2015 09:45:29 +0200
-Subject: [PATCH 18/18] nvme: move chardev and sysfs interface to common
- code
-In-Reply-To: <1445472671.3307.111.camel@linux.intel.com>
-References: <1444975128-8768-1-git-send-email-hch@lst.de>
- <1444975128-8768-19-git-send-email-hch@lst.de>
- <1445472671.3307.111.camel@linux.intel.com>
-Message-ID: <20151022074529.GE20076@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 22 Oct 2015 03:24:44 -0700
+Subject: [PATCH v6 05/11] block: remove split code in
+ blkdev_issue_{discard,write_same}
+In-Reply-To: <1445458389.26847.10.camel@ssi>
+References: <1439363241-31772-1-git-send-email-mlin@kernel.org>
+ <1439363241-31772-6-git-send-email-mlin@kernel.org>
+ <20151013115011.GA6546@infradead.org>
+ <CAF1ivSbsH7JsduHE+a2d+BEbZL6Fo7uJWS2NCTTMNTSAUMt0UA@mail.gmail.com>
+ <20151014132700.GA19401@infradead.org>
+ <20151021160232.GA5089@redhat.com>
+ <20151021161947.GA5212@redhat.com> <1445448806.26847.6.camel@ssi>
+ <20151021181812.GA5807@redhat.com> <1445458389.26847.10.camel@ssi>
+Message-ID: <20151022102444.GA13610@infradead.org>
 
-On Wed, Oct 21, 2015@05:11:11PM -0700, J Freyensee wrote:
-> > +	spin_lock(&dev_list_lock);
-> > +	list_for_each_entry(ctrl, &nvme_ctrl_list, node) {
+On Wed, Oct 21, 2015@01:13:09PM -0700, Ming Lin wrote:
+> How about below?
+> It actually reverts commit b49a0871 and adds patch at
+> https://www.redhat.com/archives/dm-devel/2015-August/msg00000.html
 > 
-> list_for_each_entry_safe() and/or some type of lock access?
+> Christoph, could you help to try it?
 
-list_for_each_entry_safe does not synchronize, it just ensures you
-can continue to iterate after deleting the current item.
-
-And the spin_lock() call above provides the required synchronization.
-
-> > +	if (result < 0)
-> > +		goto unregister_blkdev;
-> > +	else if (result > 0)
-> > +		nvme_char_major = result;
-> > +
-> > +	nvme_class = class_create(THIS_MODULE, "nvme");
-> 
-> It would be better to have "nvme" as a #define somewhere, probably in
-> the .h?
-
-Why?
-
-> >  	char name[12];
-> >  	char serial[20];
-> > @@ -60,6 +59,8 @@ struct nvme_ctrl {
-> >  	u16 abort_limit;
-> >  	u8 event_limit;
-> >  	u8 vwc;
-> > +	u32 vs;
-> > +	bool subsystem;
-> 
-> OK, so 'bool subsystem' got added back in.  Not sure still how a bool
-> helps define a controller into a given subsystem.  Isn't the definition
-> of an NVM subsystem 1 or more controllers?  So every new 'struct
-> nvme_ctrl' instance is going to set this to 'true'?
-
-In NVMe 1.0 the concept of subsystems didn't exist.  Now strictly speaking
-what we care about here is if a subsystem _reset_ is supported, but I've
-kept the name from the existing code for now.
-
-> Or looking into the future, say if this is on a future fabric
-> connection, there could be lots of controllers under lots of distinct
-> subsystems.  Then I don't know how 'bool subsystem' makes sense and
-> distinguishes a controller in a given NVM subsystem.
-
-That's not what the flag is used for.  It just indicates if we can do
-a subsystem reset.
-
-> > @@ -87,7 +88,9 @@ struct nvme_ns {
-> >  struct nvme_ctrl_ops {
-> >  	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 
-> > *val);
-> >  	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 
-> > *val);
-> > +	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 
-> > val);
-> 
-> I don't think they are being used currently, but the ACQ and ASQ 8-byte
-> registers do have RW fields.  Maybe add "int (*reg_write64)()" as well?
-
-We can do that once we actually need it.  But at least ACQ and ASQ are
-deeply tied to PCI specific initialization so right now there is no need
-for that.
-
-> >  	bool (*io_incapable)(struct nvme_ctrl *ctrl);
-> > +	int (*reset_ctrl)(struct nvme_ctrl *ctrl);
-> 
-> Probably would want a "(*shutdown_ctrl)()" as well?
-
-We currently don't shut the controller down from generic code, so until
-we have a state machine that might do that there's no need for that.
-
-> 
-> > +	return ctrl->ops->reg_write32(ctrl, NVME_REG_NSSR, 
-> > 0x4E564D65);
-> 
-> It would be really good to have the hex value in a #define, most likely
-> located in the nvme.h file.
-
-Feel free to send incremental patches for these sorts of cleanups!
+Still causes hickups with my controller unfortunately.
