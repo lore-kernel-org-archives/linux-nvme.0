@@ -1,102 +1,38 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 22 Oct 2015 14:03:37 +0200
-Subject: [PATCH 5/9] nvme: simplify resets
+Date: Thu, 22 Oct 2015 14:03:38 +0200
+Subject: [PATCH 6/9] nvme: abort requests on the reqeueue list when shutting
+ down a controller
 In-Reply-To: <1445515421-4940-1-git-send-email-hch@lst.de>
 References: <1445515421-4940-1-git-send-email-hch@lst.de>
-Message-ID: <1445515421-4940-6-git-send-email-hch@lst.de>
+Message-ID: <1445515421-4940-7-git-send-email-hch@lst.de>
 
-Don't delete the controller from dev_list before queuing a reset, instead
-just check for it being reset in the polling kthread.  This allows to remove
-the dev_list_lock in various places, and in addition we can simply rely on
-checking the queue_work return value to see if we could reset a controller.
+Otherwise we might never complete them as nvme_clear_queue won't find these
+requests.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 39 +++++++++++++--------------------------
- 1 file changed, 13 insertions(+), 26 deletions(-)
+ drivers/nvme/host/pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a3250b8..fb44100 100644
+index fb44100..73d015d 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -75,7 +75,6 @@ static wait_queue_head_t nvme_kthread_wait;
- struct nvme_dev;
- struct nvme_queue;
+@@ -2116,11 +2116,15 @@ static void nvme_unfreeze_queues(struct nvme_dev *dev)
  
--static int __nvme_reset(struct nvme_dev *dev);
- static int nvme_reset(struct nvme_dev *dev);
- static int nvme_process_cq(struct nvme_queue *nvmeq);
- static void nvme_dead_ctrl(struct nvme_dev *dev);
-@@ -1056,13 +1055,11 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	 * the admin queue.
- 	 */
- 	if (!nvmeq->qid || cmd_rq->aborted) {
--		spin_lock_irq(&dev_list_lock);
--		if (!__nvme_reset(dev)) {
-+		if (queue_work(nvme_workq, &dev->reset_work)) {
- 			dev_warn(dev->dev,
- 				 "I/O %d QID %d timeout, reset controller\n",
- 				 req->tag, nvmeq->qid);
- 		}
--		spin_unlock_irq(&dev_list_lock);
- 
- 		req->errors = -EIO;
- 		return BLK_EH_HANDLED;
-@@ -1555,9 +1552,15 @@ static int nvme_kthread(void *data)
- 			int i;
- 			u32 csts = readl(dev->bar + NVME_REG_CSTS);
- 
-+			/*
-+			 * Skip controllers currently under reset.
-+			 */
-+			if (work_pending(&dev->reset_work) || work_busy(&dev->reset_work))
-+				continue;
-+
- 			if ((dev->subsystem && (csts & NVME_CSTS_NSSRO)) ||
- 							csts & NVME_CSTS_CFS) {
--				if (!__nvme_reset(dev)) {
-+				if (queue_work(nvme_workq, &dev->reset_work)) {
- 					dev_warn(dev->dev,
- 						"Failed status: %x, reset controller\n",
- 						readl(dev->bar + NVME_REG_CSTS));
-@@ -2282,33 +2285,17 @@ static void nvme_reset_work(struct work_struct *ws)
- 	schedule_work(&dev->probe_work);
- }
- 
--static int __nvme_reset(struct nvme_dev *dev)
--{
--	if (work_pending(&dev->reset_work))
--		return -EBUSY;
--	list_del_init(&dev->node);
--	queue_work(nvme_workq, &dev->reset_work);
--	return 0;
--}
--
- static int nvme_reset(struct nvme_dev *dev)
+ static void nvme_dev_shutdown(struct nvme_dev *dev)
  {
--	int ret;
--
- 	if (!dev->ctrl.admin_q || blk_queue_dying(dev->ctrl.admin_q))
- 		return -ENODEV;
++	struct nvme_ns *ns;
+ 	int i;
+ 	u32 csts = -1;
  
--	spin_lock(&dev_list_lock);
--	ret = __nvme_reset(dev);
--	spin_unlock(&dev_list_lock);
--
--	if (!ret) {
--		flush_work(&dev->reset_work);
--		flush_work(&dev->probe_work);
--		return 0;
--	}
-+	if (!queue_work(nvme_workq, &dev->reset_work))
-+		return -EBUSY;
+ 	nvme_dev_list_remove(dev);
  
--	return ret;
-+	flush_work(&dev->reset_work);
-+	flush_work(&dev->probe_work);
-+	return 0;
- }
- 
- static int nvme_pci_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
++	list_for_each_entry(ns, &dev->ctrl.namespaces, list)
++		blk_mq_abort_requeue_list(ns->queue);
++
+ 	if (dev->bar) {
+ 		nvme_freeze_queues(dev);
+ 		csts = readl(dev->bar + NVME_REG_CSTS);
 -- 
 1.9.1
