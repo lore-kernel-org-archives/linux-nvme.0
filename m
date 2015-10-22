@@ -1,29 +1,27 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 22 Oct 2015 18:27:10 +0200
-Subject: [PATCH 6/9] nvme: abort requests on the reqeueue list when
- shutting down a controller
-In-Reply-To: <20151022151625.GC21840@localhost.localdomain>
+From: keith.busch@intel.com (Busch, Keith)
+Date: Thu, 22 Oct 2015 16:27:03 +0000
+Subject: [PATCH 4/9] nvme: do not restart the request timeout if we're
+ resetting the controller
+In-Reply-To: <1445515421-4940-5-git-send-email-hch@lst.de>
 References: <1445515421-4940-1-git-send-email-hch@lst.de>
- <1445515421-4940-7-git-send-email-hch@lst.de>
- <20151022144419.GB21840@localhost.localdomain>
- <20151022145842.GA32062@lst.de>
- <20151022151625.GC21840@localhost.localdomain>
-Message-ID: <20151022162710.GA20934@lst.de>
+ <1445515421-4940-5-git-send-email-hch@lst.de>
+Message-ID: <20151022162702.GD21840@localhost.localdomain>
 
-On Thu, Oct 22, 2015@03:16:26PM +0000, Busch, Keith wrote:
-> This is a bit subtle. nvme_clear_queue at the end of shutdown allows
-> active commands being aborted to requeue based on the state of the
-> namespace's request_queue: if it isn't "dying", nvme_clear_queue won't
-> set NVMe CQE "do-not-retry" (DNR) bit, so req_completion may requeue.
-> 
-> In the reset scenario, this change would fail requests that happen to be
-> on the requeue_list, but active commands being cancelled will be allowed
-> to retry. That's not fair to requests that got on the list early. :)
-> 
-> But it sounds like you may have found the real fix to the gap in a
-> different patch, so I'll skip this as suggested and continue with the
-> rest of the series.
+On Thu, Oct 22, 2015@02:03:36PM +0200, Christoph Hellwig wrote:
+> Otherwise we're never going to complete a command when it is restarted just
+> after we completed all other outstanding commands in nvme_clear_queue.
 
-Oh, so you want to resubmit them after the reset.  I guess this makes
-sense in general, although in my particular case it delays recovery
-significantly.
+Returning BLK_EH_HANDLED to block mq's timeout handler has the block layer
+complete the request. However, the reset work is going to force cancel
+the request anyway, so the same command will be completed twice. That
+can't be right ... right?
+
+> @@ -1063,7 +1063,9 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>  				 req->tag, nvmeq->qid);
+>  		}
+>  		spin_unlock_irq(&dev_list_lock);
+> -		return BLK_EH_RESET_TIMER;
+> +
+> +		req->errors = -EIO;
+> +		return BLK_EH_HANDLED;
+>  	}
