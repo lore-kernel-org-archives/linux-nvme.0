@@ -1,129 +1,68 @@
-From: jmoyer@redhat.com (Jeff Moyer)
-Date: Fri, 23 Oct 2015 16:21:16 -0400
-Subject: [PATCH v2 01/12] block: Move integrity kobject to struct gendisk
-In-Reply-To: <20151015195945.20721.41097.stgit@dwillia2-desk3.jf.intel.com>
- (Dan Williams's message of "Thu, 15 Oct 2015 15:59:45 -0400")
-References: <20151015195939.20721.23101.stgit@dwillia2-desk3.jf.intel.com>
- <20151015195945.20721.41097.stgit@dwillia2-desk3.jf.intel.com>
-Message-ID: <x49vb9xcp4z.fsf@segfault.boston.devel.redhat.com>
+From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
+Date: Fri, 23 Oct 2015 13:54:20 -0700
+Subject: [PATCH 0/5 v3] Fix NVMe driver support on Power with 32-bit DMA
+Message-ID: <20151023205420.GA10197@linux.vnet.ibm.com>
 
-Dan Williams <dan.j.williams at intel.com> writes:
+We received a bug report recently when DDW (64-bit direct DMA on Power)
+is not enabled for NVMe devices. In that case, we fall back to 32-bit
+DMA via the IOMMU, which is always done via 4K TCEs (Translation Control
+Entries).
 
-> From: Martin K. Petersen <martin.petersen at oracle.com>
->
-> The integrity kobject purely exists to support the integrity
-> subdirectory in sysfs and doesn't really have anything to do with the
-> blk_integrity data structure. Move the kobject to struct gendisk where
-> it belongs.
->
-> Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
-> Reported-by: Christoph Hellwig <hch at lst.de>
-> Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
-> Tested-by: Ross Zwisler <ross.zwisler at linux.intel.com>
-> Signed-off-by: Dan Williams <dan.j.williams at intel.com>
+The NVMe device driver, though, assumes that the DMA alignment for the
+PRP entries will match the device's page size, and that the DMA aligment
+matches the kernel's page aligment. On Power, the the IOMMU page size,
+as mentioned above, can be 4K, while the device can have a page size of
+8K, while the kernel has a page size of 64K. This eventually trips the
+BUG_ON in nvme_setup_prps(), as we have a 'dma_len' that is a multiple
+of 4K but not 8K (e.g., 0xF000).
 
-Reviewed-by: Jeff Moyer <jmoyer at redhat.com>
+In this particular case, and generally, we want to use the IOMMU's page
+size for the default device page size, rather than the kernel's page
+size.
 
-> ---
->  block/blk-integrity.c  |   22 +++++++++++-----------
->  include/linux/blkdev.h |    2 --
->  include/linux/genhd.h  |    1 +
->  3 files changed, 12 insertions(+), 13 deletions(-)
->
-> diff --git a/block/blk-integrity.c b/block/blk-integrity.c
-> index 75f29cf70188..182bfd2383ea 100644
-> --- a/block/blk-integrity.c
-> +++ b/block/blk-integrity.c
-> @@ -249,8 +249,8 @@ struct integrity_sysfs_entry {
->  static ssize_t integrity_attr_show(struct kobject *kobj, struct attribute *attr,
->  				   char *page)
->  {
-> -	struct blk_integrity *bi =
-> -		container_of(kobj, struct blk_integrity, kobj);
-> +	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
-> +	struct blk_integrity *bi = blk_get_integrity(disk);
->  	struct integrity_sysfs_entry *entry =
->  		container_of(attr, struct integrity_sysfs_entry, attr);
->  
-> @@ -261,8 +261,8 @@ static ssize_t integrity_attr_store(struct kobject *kobj,
->  				    struct attribute *attr, const char *page,
->  				    size_t count)
->  {
-> -	struct blk_integrity *bi =
-> -		container_of(kobj, struct blk_integrity, kobj);
-> +	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
-> +	struct blk_integrity *bi = blk_get_integrity(disk);
->  	struct integrity_sysfs_entry *entry =
->  		container_of(attr, struct integrity_sysfs_entry, attr);
->  	ssize_t ret = 0;
-> @@ -385,8 +385,8 @@ subsys_initcall(blk_dev_integrity_init);
->  
->  static void blk_integrity_release(struct kobject *kobj)
->  {
-> -	struct blk_integrity *bi =
-> -		container_of(kobj, struct blk_integrity, kobj);
-> +	struct gendisk *disk = container_of(kobj, struct gendisk, integrity_kobj);
-> +	struct blk_integrity *bi = blk_get_integrity(disk);
->  
->  	kmem_cache_free(integrity_cachep, bi);
->  }
-> @@ -429,14 +429,14 @@ int blk_integrity_register(struct gendisk *disk, struct blk_integrity *template)
->  		if (!bi)
->  			return -1;
->  
-> -		if (kobject_init_and_add(&bi->kobj, &integrity_ktype,
-> +		if (kobject_init_and_add(&disk->integrity_kobj, &integrity_ktype,
->  					 &disk_to_dev(disk)->kobj,
->  					 "%s", "integrity")) {
->  			kmem_cache_free(integrity_cachep, bi);
->  			return -1;
->  		}
->  
-> -		kobject_uevent(&bi->kobj, KOBJ_ADD);
-> +		kobject_uevent(&disk->integrity_kobj, KOBJ_ADD);
->  
->  		bi->flags |= BLK_INTEGRITY_VERIFY | BLK_INTEGRITY_GENERATE;
->  		bi->interval = queue_logical_block_size(disk->queue);
-> @@ -479,9 +479,9 @@ void blk_integrity_unregister(struct gendisk *disk)
->  
->  	bi = disk->integrity;
->  
-> -	kobject_uevent(&bi->kobj, KOBJ_REMOVE);
-> -	kobject_del(&bi->kobj);
-> -	kobject_put(&bi->kobj);
-> +	kobject_uevent(&disk->integrity_kobj, KOBJ_REMOVE);
-> +	kobject_del(&disk->integrity_kobj);
-> +	kobject_put(&disk->integrity_kobj);
->  	disk->integrity = NULL;
->  }
->  EXPORT_SYMBOL(blk_integrity_unregister);
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index 19c2e947d4d1..830f9c07d4bb 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -1472,8 +1472,6 @@ struct blk_integrity {
->  	unsigned short		tag_size;
->  
->  	const char		*name;
-> -
-> -	struct kobject		kobj;
->  };
->  
->  extern bool blk_integrity_is_initialized(struct gendisk *);
-> diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-> index 2adbfa6d02bc..9e6e0dfa97ad 100644
-> --- a/include/linux/genhd.h
-> +++ b/include/linux/genhd.h
-> @@ -199,6 +199,7 @@ struct gendisk {
->  	struct disk_events *ev;
->  #ifdef  CONFIG_BLK_DEV_INTEGRITY
->  	struct blk_integrity *integrity;
-> +	struct kobject integrity_kobj;
->  #endif
->  	int node_id;
->  };
->
-> _______________________________________________
-> Linux-nvdimm mailing list
-> Linux-nvdimm at lists.01.org
-> https://lists.01.org/mailman/listinfo/linux-nvdimm
+This series consists of five patches:
+
+1) add a generic dma_get_page_shift implementation that just returns
+PAGE_SHIFT
+2) override the generic implementation on Power to use the IOMMU table's
+page shift if available
+3) allow further specific overriding on power with machdep platform
+overrides
+4) use the machdep override on pseries, as the DDW code puts the TCE
+shift in a special property and there is no IOMMU table available
+5) move some sparc code around to make IOMMU_PAGE_SHIFT available in
+include/asm
+6) override the generic implementation on sparce to use IOMMU_PAGE_SHIFT
+7) leverage the new API in the NVMe driver
+
+With these patches, a NVMe device survives our internal hardware
+exerciser; the kernel BUGs within a few seconds without the patch.
+
+ arch/powerpc/include/asm/dma-mapping.h |  3 +++
+ arch/powerpc/include/asm/machdep.h     |  3 ++-
+ arch/powerpc/kernel/dma.c              | 11 +++++++++++
+ arch/powerpc/platforms/pseries/iommu.c | 36 ++++++++++++++++++++++++++++++++++++
+ arch/sparc/include/asm/dma-mapping.h   |  8 ++++++++
+ arch/sparc/include/asm/iommu_common.h  | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
+ arch/sparc/kernel/iommu.c              |  2 +-
+ arch/sparc/kernel/iommu_common.h       | 51 ---------------------------------------------------
+ arch/sparc/kernel/pci_psycho.c         |  2 +-
+ arch/sparc/kernel/pci_sabre.c          |  2 +-
+ arch/sparc/kernel/pci_schizo.c         |  2 +-
+ arch/sparc/kernel/pci_sun4v.c          |  2 +-
+ arch/sparc/kernel/psycho_common.c      |  2 +-
+ arch/sparc/kernel/sbus.c               |  3 +--
+ drivers/block/nvme-core.c              |  3 ++-
+ include/linux/dma-mapping.h            |  7 +++++++
+ 16 files changed, 127 insertions(+), 61 deletions(-)
+
+v1 -> v2:
+  Based upon feedback from Christoph Hellwig, rather than using an
+  arch-specific hack, expose the DMA page shift via a generic DMA API and
+  override it on Power as needed.
+v2 -> v3:
+  Based upon feedback from Christoph Hellwig, put the generic
+  implementation in include/linux/dma-mapping.h, since not all archs use
+  include/asm-generic/dma-mapping-common.h.
+  Add sparc implementation, as that arch seems to have a different IOMMU
+  page size.
