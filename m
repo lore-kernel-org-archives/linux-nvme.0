@@ -1,46 +1,55 @@
 From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
-Date: Fri, 23 Oct 2015 13:56:10 -0700
-Subject: [PATCH 1/7 v3] dma-mapping: add generic dma_get_page_shift API
+Date: Fri, 23 Oct 2015 13:57:18 -0700
+Subject: [PATCH 2/7 v2] powerpc/dma-mapping: override dma_get_page_shift
 In-Reply-To: <20151023205420.GA10197@linux.vnet.ibm.com>
 References: <20151023205420.GA10197@linux.vnet.ibm.com>
-Message-ID: <20151023205610.GB10197@linux.vnet.ibm.com>
+Message-ID: <20151023205718.GC10197@linux.vnet.ibm.com>
 
-Drivers like NVMe need to be able to determine the page size used for
-DMA transfers. Add a new API that defaults to return PAGE_SHIFT on all
-architectures.
+On Power, the kernel's page size can differ from the IOMMU's page size,
+so we need to override the generic implementation, which always returns
+the kernel's page size. Lookup the IOMMU's page size from struct
+iommu_table, if available. Fallback to the kernel's page size,
+otherwise.
 
 Signed-off-by: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
-
 ---
-v1 -> v2:
-  Based upon feedback from Christoph Hellwig, implement the IOMMU page
-  size lookup as a generic DMA API, rather than an architecture-specific
-  hack.
-v2 -> v3:
-  Based upon feedback from Christoph Hellwig that not all architectures
-  have moved to dma-mapping-common.h, so move the #ifdef and default to
-  linux/dma-mapping.h.
----
- include/linux/dma-mapping.h | 7 +++++++
- 1 file changed, 7 insertions(+)
+ arch/powerpc/include/asm/dma-mapping.h | 3 +++
+ arch/powerpc/kernel/dma.c              | 9 +++++++++
+ 2 files changed, 12 insertions(+)
 
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index ac07ff0..7eaba8d 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -95,6 +95,13 @@ static inline u64 dma_get_mask(struct device *dev)
- 	return DMA_BIT_MASK(32);
- }
+diff --git a/arch/powerpc/include/asm/dma-mapping.h b/arch/powerpc/include/asm/dma-mapping.h
+index 7f522c0..c5638f4 100644
+--- a/arch/powerpc/include/asm/dma-mapping.h
++++ b/arch/powerpc/include/asm/dma-mapping.h
+@@ -125,6 +125,9 @@ static inline void set_dma_offset(struct device *dev, dma_addr_t off)
+ #define HAVE_ARCH_DMA_SET_MASK 1
+ extern int dma_set_mask(struct device *dev, u64 dma_mask);
  
-+#ifndef HAVE_ARCH_DMA_GET_PAGE_SHIFT
-+static inline unsigned long dma_get_page_shift(struct device *dev)
++#define HAVE_ARCH_DMA_GET_PAGE_SHIFT 1
++extern unsigned long dma_get_page_shift(struct device *dev);
++
+ #include <asm-generic/dma-mapping-common.h>
+ 
+ extern int __dma_set_mask(struct device *dev, u64 dma_mask);
+diff --git a/arch/powerpc/kernel/dma.c b/arch/powerpc/kernel/dma.c
+index 59503ed..e805af2 100644
+--- a/arch/powerpc/kernel/dma.c
++++ b/arch/powerpc/kernel/dma.c
+@@ -335,6 +335,15 @@ int dma_set_mask(struct device *dev, u64 dma_mask)
+ }
+ EXPORT_SYMBOL(dma_set_mask);
+ 
++unsigned long dma_get_page_shift(struct device *dev)
 +{
++	struct iommu_table *tbl = get_iommu_table_base(dev);
++	if (tbl)
++		return tbl->it_page_shift;
 +	return PAGE_SHIFT;
 +}
-+#endif
++EXPORT_SYMBOL(dma_get_page_shift);
 +
- #ifdef CONFIG_ARCH_HAS_DMA_SET_COHERENT_MASK
- int dma_set_coherent_mask(struct device *dev, u64 mask);
- #else
+ u64 __dma_get_required_mask(struct device *dev)
+ {
+ 	struct dma_map_ops *dma_ops = get_dma_ops(dev);
 -- 
 1.9.1
