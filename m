@@ -1,456 +1,293 @@
 From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Tue, 27 Oct 2015 15:55:19 +0100
-Subject: [PATCH v12 5/5] nvme: LightNVM support
+Date: Tue, 27 Oct 2015 15:55:18 +0100
+Subject: [PATCH v12 4/5] null_nvm: LightNVM test driver
 In-Reply-To: <1445957719-5368-1-git-send-email-m@bjorling.me>
 References: <1445957719-5368-1-git-send-email-m@bjorling.me>
-Message-ID: <1445957719-5368-6-git-send-email-m@bjorling.me>
+Message-ID: <1445957719-5368-5-git-send-email-m@bjorling.me>
 
-The first generation of Open-Channel SSDs is based on NVMe. The NVMe
-driver is extended with support for the LightNVM command set.
+This driver implements the I/O flow for a LightNVM device driver. It
+does no transfers. It can be used to test setup/teardown of devices and
+evaluating performance of media managers and targets.
 
-Detection is made through PCI IDs. Current supported devices are the
-qemu nvme simulator and CNEX Labs Westlake SSD. The qemu nvme enables
-support through vendor specific bits in the namespace identification and
-the CNEX card is configured for LightNVM upon boot and does not need
-detection other than PCI id.
+The framework of the driver is derived from the null_blk module.
 
-After detection, vendor specific codes are used to identify the device
-and enumerate supported features.
-
-Signed-off-by: Javier Gonz?lez <jg at lightnvm.io>
 Signed-off-by: Matias Bj?rling <m at bjorling.me>
 ---
- drivers/nvme/host/Makefile   |   2 +-
- drivers/nvme/host/lightnvm.c | 524 +++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h     |  10 +
- drivers/nvme/host/pci.c      |  39 +++-
- 4 files changed, 563 insertions(+), 12 deletions(-)
- create mode 100644 drivers/nvme/host/lightnvm.c
+ drivers/lightnvm/Kconfig    |   6 +
+ drivers/lightnvm/Makefile   |   1 +
+ drivers/lightnvm/null_nvm.c | 457 ++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 464 insertions(+)
+ create mode 100644 drivers/lightnvm/null_nvm.c
 
-diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-index cfb6679..219dc206 100644
---- a/drivers/nvme/host/Makefile
-+++ b/drivers/nvme/host/Makefile
-@@ -1,4 +1,4 @@
+diff --git a/drivers/lightnvm/Kconfig b/drivers/lightnvm/Kconfig
+index a16bf56..9111170 100644
+--- a/drivers/lightnvm/Kconfig
++++ b/drivers/lightnvm/Kconfig
+@@ -39,4 +39,10 @@ config NVM_RRPC
+ 	host. The target is implemented using a linear mapping table and
+ 	cost-based garbage collection. It is optimized for 4K IO sizes.
  
- obj-$(CONFIG_BLK_DEV_NVME)     += nvme.o
- 
--nvme-y		+= pci.o scsi.o
-+nvme-y		+= pci.o scsi.o lightnvm.o
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
++config NVM_NULL_NVM
++	tristate "Null test LightNVM driver"
++	---help---
++	The null test driver can be used to evaluate targets without an
++	underlying device.
++
+ endif # NVM
+diff --git a/drivers/lightnvm/Makefile b/drivers/lightnvm/Makefile
+index 7e0f42a..2f1287b 100644
+--- a/drivers/lightnvm/Makefile
++++ b/drivers/lightnvm/Makefile
+@@ -5,3 +5,4 @@
+ obj-$(CONFIG_NVM)		:= core.o
+ obj-$(CONFIG_NVM_GENNVM) 	+= gennvm.o
+ obj-$(CONFIG_NVM_RRPC)		+= rrpc.o
++obj-$(CONFIG_NVM_NULL_NVM)	+= null_nvm.o
+diff --git a/drivers/lightnvm/null_nvm.c b/drivers/lightnvm/null_nvm.c
 new file mode 100644
-index 0000000..f8af905
+index 0000000..f191d98
 --- /dev/null
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -0,0 +1,524 @@
++++ b/drivers/lightnvm/null_nvm.c
+@@ -0,0 +1,457 @@
 +/*
-+ * nvme-lightnvm.c - LightNVM NVMe device
-+ *
-+ * Copyright (C) 2014-2015 IT University of Copenhagen
-+ * Initial release: Matias Bjorling <mb at lightnvm.io>
-+ *
-+ * This program is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU General Public License version
-+ * 2 as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope that it will be useful, but
-+ * WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; see the file COPYING.  If not, write to
-+ * the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139,
-+ * USA.
-+ *
++ * derived from Jens Axboe's block/null_blk.c
 + */
 +
-+#include "nvme.h"
++#include <linux/module.h>
 +
-+#ifdef CONFIG_NVM
-+
-+#include <linux/nvme.h>
-+#include <linux/bitops.h>
++#include <linux/moduleparam.h>
++#include <linux/sched.h>
++#include <linux/blkdev.h>
++#include <linux/init.h>
++#include <linux/slab.h>
++#include <linux/blk-mq.h>
++#include <linux/hrtimer.h>
 +#include <linux/lightnvm.h>
-+#include <linux/vmalloc.h>
 +
-+enum nvme_nvm_admin_opcode {
-+	nvme_nvm_admin_identity		= 0xe2,
-+	nvme_nvm_admin_get_l2p_tbl	= 0xea,
-+	nvme_nvm_admin_get_bb_tbl	= 0xf2,
-+	nvme_nvm_admin_set_bb_tbl	= 0xf1,
++static struct kmem_cache *ppa_cache;
++struct nulln_cmd {
++	struct llist_node ll_list;
++	struct request *rq;
 +};
 +
-+struct nvme_nvm_hb_rw {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__u64			rsvd2;
-+	__le64			metadata;
-+	__le64			prp1;
-+	__le64			prp2;
-+	__le64			spba;
-+	__le16			length;
-+	__le16			control;
-+	__le32			dsmgmt;
-+	__le64			slba;
++struct nulln {
++	struct list_head list;
++	unsigned int index;
++	struct request_queue *q;
++	struct blk_mq_tag_set tag_set;
++	struct hrtimer timer;
++	char disk_name[DISK_NAME_LEN];
 +};
 +
-+struct nvme_nvm_ph_rw {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__u64			rsvd2;
-+	__le64			metadata;
-+	__le64			prp1;
-+	__le64			prp2;
-+	__le64			spba;
-+	__le16			length;
-+	__le16			control;
-+	__le32			dsmgmt;
-+	__le64			resv;
++static LIST_HEAD(nulln_list);
++static struct mutex nulln_lock;
++static int nulln_indexes;
++
++struct completion_queue {
++	struct llist_head list;
++	struct hrtimer timer;
 +};
-+
-+struct nvme_nvm_identity {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__u64			rsvd[2];
-+	__le64			prp1;
-+	__le64			prp2;
-+	__le32			chnl_off;
-+	__u32			rsvd11[5];
-+};
-+
-+struct nvme_nvm_l2ptbl {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__le32			cdw2[4];
-+	__le64			prp1;
-+	__le64			prp2;
-+	__le64			slba;
-+	__le32			nlb;
-+	__le16			cdw14[6];
-+};
-+
-+struct nvme_nvm_bbtbl {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__u64			rsvd[2];
-+	__le64			prp1;
-+	__le64			prp2;
-+	__le32			prp1_len;
-+	__le32			prp2_len;
-+	__le32			lbb;
-+	__u32			rsvd11[3];
-+};
-+
-+struct nvme_nvm_erase_blk {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__le32			nsid;
-+	__u64			rsvd[2];
-+	__le64			prp1;
-+	__le64			prp2;
-+	__le64			spba;
-+	__le16			length;
-+	__le16			control;
-+	__le32			dsmgmt;
-+	__le64			resv;
-+};
-+
-+struct nvme_nvm_command {
-+	union {
-+		struct nvme_common_command common;
-+		struct nvme_nvm_identity identity;
-+		struct nvme_nvm_hb_rw hb_rw;
-+		struct nvme_nvm_ph_rw ph_rw;
-+		struct nvme_nvm_l2ptbl l2p;
-+		struct nvme_nvm_bbtbl get_bb;
-+		struct nvme_nvm_bbtbl set_bb;
-+		struct nvme_nvm_erase_blk erase;
-+	};
-+};
-+
-+struct nvme_nvm_id_group {
-+	__u8			mtype;
-+	__u8			fmtype;
-+	__le16			res16;
-+	__u8			num_ch;
-+	__u8			num_lun;
-+	__u8			num_pln;
-+	__le16			num_blk;
-+	__le16			num_pg;
-+	__le16			fpg_sz;
-+	__le16			csecs;
-+	__le16			sos;
-+	__le32			trdt;
-+	__le32			trdm;
-+	__le32			tprt;
-+	__le32			tprm;
-+	__le32			tbet;
-+	__le32			tbem;
-+	__le32			mpos;
-+	__le16			cpar;
-+	__u8			reserved[913];
-+} __packed;
-+
-+struct nvme_nvm_addr_format {
-+	__u8			ch_offset;
-+	__u8			ch_len;
-+	__u8			lun_offset;
-+	__u8			lun_len;
-+	__u8			pln_offset;
-+	__u8			pln_len;
-+	__u8			blk_offset;
-+	__u8			blk_len;
-+	__u8			pg_offset;
-+	__u8			pg_len;
-+	__u8			sect_offset;
-+	__u8			sect_len;
-+	__u8			res[4];
-+} __packed;
-+
-+struct nvme_nvm_id {
-+	__u8			ver_id;
-+	__u8			vmnt;
-+	__u8			cgrps;
-+	__u8			res[5];
-+	__le32			cap;
-+	__le32			dom;
-+	struct nvme_nvm_addr_format ppaf;
-+	__u8			ppat;
-+	__u8			resv[223];
-+	struct nvme_nvm_id_group groups[4];
-+} __packed;
 +
 +/*
-+ * Check we didn't inadvertently grow the command struct
++ * These are per-cpu for now, they will need to be configured by the
++ * complete_queues parameter and appropriately mapped.
 + */
-+static inline void _nvme_nvm_check_size(void)
++static DEFINE_PER_CPU(struct completion_queue, null_comp_queues);
++
++enum {
++	NULL_IRQ_NONE		= 0,
++	NULL_IRQ_SOFTIRQ	= 1,
++	NULL_IRQ_TIMER		= 2,
++};
++
++static int submit_queues;
++module_param(submit_queues, int, S_IRUGO);
++MODULE_PARM_DESC(submit_queues, "Number of submission queues");
++
++static int home_node = NUMA_NO_NODE;
++module_param(home_node, int, S_IRUGO);
++MODULE_PARM_DESC(home_node, "Home node for the device");
++
++static int null_param_store_val(const char *str, int *val, int min, int max)
 +{
-+	BUILD_BUG_ON(sizeof(struct nvme_nvm_identity) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_nvm_hb_rw) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_nvm_ph_rw) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_nvm_bbtbl) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_nvm_l2ptbl) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_nvm_erase_blk) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_nvm_id_group) != 960);
-+	BUILD_BUG_ON(sizeof(struct nvme_nvm_addr_format) != 128);
-+	BUILD_BUG_ON(sizeof(struct nvme_nvm_id) != 4096);
++	int ret, new_val;
++
++	ret = kstrtoint(str, 10, &new_val);
++	if (ret)
++		return -EINVAL;
++
++	if (new_val < min || new_val > max)
++		return -EINVAL;
++
++	*val = new_val;
++	return 0;
 +}
 +
-+static int init_grps(struct nvm_id *nvm_id, struct nvme_nvm_id *nvme_nvm_id)
++static int gb = 250;
++module_param(gb, int, S_IRUGO);
++MODULE_PARM_DESC(gb, "Size in GB");
++
++static int bs = 4096;
++module_param(bs, int, S_IRUGO);
++MODULE_PARM_DESC(bs, "Block size (in bytes)");
++
++static int nr_devices = 1;
++module_param(nr_devices, int, S_IRUGO);
++MODULE_PARM_DESC(nr_devices, "Number of devices to register");
++
++static int irqmode = NULL_IRQ_SOFTIRQ;
++
++static int null_set_irqmode(const char *str, const struct kernel_param *kp)
 +{
-+	struct nvme_nvm_id_group *src;
-+	struct nvm_id_group *dst;
-+	int i, end;
++	return null_param_store_val(str, &irqmode, NULL_IRQ_NONE,
++					NULL_IRQ_TIMER);
++}
 +
-+	end = min_t(u32, 4, nvm_id->cgrps);
++static const struct kernel_param_ops null_irqmode_param_ops = {
++	.set	= null_set_irqmode,
++	.get	= param_get_int,
++};
 +
-+	for (i = 0; i < end; i++) {
-+		src = &nvme_nvm_id->groups[i];
-+		dst = &nvm_id->groups[i];
++device_param_cb(irqmode, &null_irqmode_param_ops, &irqmode, S_IRUGO);
++MODULE_PARM_DESC(irqmode, "IRQ completion handler. 0-none, 1-softirq, 2-timer");
 +
-+		dst->mtype = src->mtype;
-+		dst->fmtype = src->fmtype;
-+		dst->num_ch = src->num_ch;
-+		dst->num_lun = src->num_lun;
-+		dst->num_pln = src->num_pln;
++static int completion_nsec = 10000;
++module_param(completion_nsec, int, S_IRUGO);
++MODULE_PARM_DESC(completion_nsec, "Time in ns to complete a request in hardware. Default: 10,000ns");
 +
-+		dst->num_pg = le16_to_cpu(src->num_pg);
-+		dst->num_blk = le16_to_cpu(src->num_blk);
-+		dst->fpg_sz = le16_to_cpu(src->fpg_sz);
-+		dst->csecs = le16_to_cpu(src->csecs);
-+		dst->sos = le16_to_cpu(src->sos);
++static int hw_queue_depth = 64;
++module_param(hw_queue_depth, int, S_IRUGO);
++MODULE_PARM_DESC(hw_queue_depth, "Queue depth for each hardware queue. Default: 64");
 +
-+		dst->trdt = le32_to_cpu(src->trdt);
-+		dst->trdm = le32_to_cpu(src->trdm);
-+		dst->tprt = le32_to_cpu(src->tprt);
-+		dst->tprm = le32_to_cpu(src->tprm);
-+		dst->tbet = le32_to_cpu(src->tbet);
-+		dst->tbem = le32_to_cpu(src->tbem);
-+		dst->mpos = le32_to_cpu(src->mpos);
++static bool use_per_node_hctx;
++module_param(use_per_node_hctx, bool, S_IRUGO);
++MODULE_PARM_DESC(use_per_node_hctx, "Use per-node allocation for hardware context queues. Default: false");
 +
-+		dst->cpar = le16_to_cpu(src->cpar);
++static int num_channels = 1;
++module_param(num_channels, int, S_IRUGO);
++MODULE_PARM_DESC(num_channels, "Number of channels to be exposed. Default: 1");
++
++static enum hrtimer_restart null_cmd_timer_expired(struct hrtimer *timer)
++{
++	struct completion_queue *cq;
++	struct llist_node *entry;
++	struct nulln_cmd *cmd;
++
++	cq = &per_cpu(null_comp_queues, smp_processor_id());
++
++	while ((entry = llist_del_all(&cq->list)) != NULL) {
++		entry = llist_reverse_order(entry);
++		do {
++			cmd = container_of(entry, struct nulln_cmd, ll_list);
++			entry = entry->next;
++			blk_mq_end_request(cmd->rq, 0);
++
++			if (cmd->rq) {
++				struct request_queue *q = cmd->rq->q;
++
++				if (!q->mq_ops && blk_queue_stopped(q)) {
++					spin_lock(q->queue_lock);
++					if (blk_queue_stopped(q))
++						blk_start_queue(q);
++					spin_unlock(q->queue_lock);
++				}
++			}
++		} while (entry);
 +	}
++
++	return HRTIMER_NORESTART;
++}
++
++static void null_cmd_end_timer(struct nulln_cmd *cmd)
++{
++	struct completion_queue *cq = &per_cpu(null_comp_queues, get_cpu());
++
++	cmd->ll_list.next = NULL;
++	if (llist_add(&cmd->ll_list, &cq->list)) {
++		ktime_t kt = ktime_set(0, completion_nsec);
++
++		hrtimer_start(&cq->timer, kt, HRTIMER_MODE_REL_PINNED);
++	}
++
++	put_cpu();
++}
++
++static void null_softirq_done_fn(struct request *rq)
++{
++	blk_mq_end_request(rq, 0);
++}
++
++static inline void null_handle_cmd(struct nulln_cmd *cmd)
++{
++	/* Complete IO by inline, softirq or timer */
++	switch (irqmode) {
++	case NULL_IRQ_SOFTIRQ:
++	case NULL_IRQ_NONE:
++		blk_mq_complete_request(cmd->rq, cmd->rq->errors);
++		break;
++	case NULL_IRQ_TIMER:
++		null_cmd_end_timer(cmd);
++		break;
++	}
++}
++
++static int null_id(struct request_queue *q, struct nvm_id *id)
++{
++	sector_t size = gb * 1024 * 1024 * 1024ULL;
++	unsigned long per_chnl_size =
++				size / bs / num_channels;
++	struct nvm_id_group *grp;
++
++	id->ver_id = 0x1;
++	id->vmnt = 0;
++	id->cgrps = 1;
++	id->cap = 0x3;
++	id->dom = 0x1;
++	id->ppat = NVM_ADDRMODE_LINEAR;
++
++	grp = &id->groups[0];
++	grp->mtype = 0;
++	grp->fmtype = 1;
++	grp->num_ch = 1;
++	grp->num_lun = num_channels;
++	grp->num_pln = 1;
++	grp->num_blk = per_chnl_size / 256;
++	grp->num_pg = 256;
++	grp->fpg_sz = bs;
++	grp->csecs = bs;
++	grp->trdt = 25000;
++	grp->trdm = 25000;
++	grp->tprt = 500000;
++	grp->tprm = 500000;
++	grp->tbet = 1500000;
++	grp->tbem = 1500000;
++	grp->mpos = 0x010101; /* single plane rwe */
++	grp->cpar = hw_queue_depth;
 +
 +	return 0;
 +}
 +
-+static int nvme_nvm_identity(struct request_queue *q, struct nvm_id *nvm_id)
-+{
-+	struct nvme_ns *ns = q->queuedata;
-+	struct nvme_nvm_id *nvme_nvm_id;
-+	struct nvme_nvm_command c = {};
-+	int ret;
-+
-+	c.identity.opcode = nvme_nvm_admin_identity;
-+	c.identity.nsid = cpu_to_le32(ns->ns_id);
-+	c.identity.chnl_off = 0;
-+	nvme_nvm_id = kmalloc(sizeof(struct nvme_nvm_id), GFP_KERNEL);
-+	if (!nvme_nvm_id)
-+		return -ENOMEM;
-+
-+	ret = nvme_submit_sync_cmd(q, (struct nvme_command *)&c, nvme_nvm_id,
-+						sizeof(struct nvme_nvm_id));
-+	if (ret) {
-+		ret = -EIO;
-+		goto out;
-+	}
-+
-+	nvm_id->ver_id = nvme_nvm_id->ver_id;
-+	nvm_id->vmnt = nvme_nvm_id->vmnt;
-+	nvm_id->cgrps = nvme_nvm_id->cgrps;
-+	nvm_id->cap = le32_to_cpu(nvme_nvm_id->cap);
-+	nvm_id->dom = le32_to_cpu(nvme_nvm_id->dom);
-+
-+	ret = init_grps(nvm_id, nvme_nvm_id);
-+out:
-+	kfree(nvme_nvm_id);
-+	return ret;
-+}
-+
-+static int nvme_nvm_get_l2p_tbl(struct request_queue *q, u64 slba, u32 nlb,
-+				nvm_l2p_update_fn *update_l2p, void *priv)
-+{
-+	struct nvme_ns *ns = q->queuedata;
-+	struct nvme_dev *dev = ns->dev;
-+	struct nvme_nvm_command c = {};
-+	u32 len = queue_max_hw_sectors(q) << 9;
-+	u64 nlb_pr_rq = len / sizeof(u64);
-+	u64 cmd_slba = slba;
-+	void *entries;
-+	int ret = 0;
-+
-+	c.l2p.opcode = nvme_nvm_admin_get_l2p_tbl;
-+	c.l2p.nsid = cpu_to_le32(ns->ns_id);
-+	entries = kmalloc(len, GFP_KERNEL);
-+	if (!entries)
-+		return -ENOMEM;
-+
-+	while (nlb) {
-+		u32 cmd_nlb = min_t(u32, nlb_pr_rq, nlb);
-+
-+		c.l2p.slba = cpu_to_le64(cmd_slba);
-+		c.l2p.nlb = cpu_to_le32(cmd_nlb);
-+
-+		ret = nvme_submit_sync_cmd(q, (struct nvme_command *)&c,
-+								entries, len);
-+		if (ret) {
-+			dev_err(dev->dev, "L2P table transfer failed (%d)\n",
-+									ret);
-+			ret = -EIO;
-+			goto out;
-+		}
-+
-+		if (update_l2p(cmd_slba, cmd_nlb, entries, priv)) {
-+			ret = -EINTR;
-+			goto out;
-+		}
-+
-+		cmd_slba += cmd_nlb;
-+		nlb -= cmd_nlb;
-+	}
-+
-+out:
-+	kfree(entries);
-+	return ret;
-+}
-+
-+static int nvme_nvm_get_bb_tbl(struct request_queue *q, int lunid,
-+				unsigned int nr_blocks,
-+				nvm_bb_update_fn *update_bbtbl, void *priv)
-+{
-+	struct nvme_ns *ns = q->queuedata;
-+	struct nvme_dev *dev = ns->dev;
-+	struct nvme_nvm_command c = {};
-+	void *bb_bitmap;
-+	u16 bb_bitmap_size;
-+	int ret = 0;
-+
-+	c.get_bb.opcode = nvme_nvm_admin_get_bb_tbl;
-+	c.get_bb.nsid = cpu_to_le32(ns->ns_id);
-+	c.get_bb.lbb = cpu_to_le32(lunid);
-+	bb_bitmap_size = ((nr_blocks >> 15) + 1) * PAGE_SIZE;
-+	bb_bitmap = kmalloc(bb_bitmap_size, GFP_KERNEL);
-+	if (!bb_bitmap)
-+		return -ENOMEM;
-+
-+	bitmap_zero(bb_bitmap, nr_blocks);
-+
-+	ret = nvme_submit_sync_cmd(q, (struct nvme_command *)&c, bb_bitmap,
-+								bb_bitmap_size);
-+	if (ret) {
-+		dev_err(dev->dev, "get bad block table failed (%d)\n", ret);
-+		ret = -EIO;
-+		goto out;
-+	}
-+
-+	ret = update_bbtbl(lunid, bb_bitmap, nr_blocks, priv);
-+	if (ret) {
-+		ret = -EINTR;
-+		goto out;
-+	}
-+
-+out:
-+	kfree(bb_bitmap);
-+	return ret;
-+}
-+
-+static inline void nvme_nvm_rqtocmd(struct request *rq, struct nvm_rq *rqd,
-+				struct nvme_ns *ns, struct nvme_nvm_command *c)
-+{
-+	c->ph_rw.opcode = rqd->opcode;
-+	c->ph_rw.nsid = cpu_to_le32(ns->ns_id);
-+	c->ph_rw.spba = cpu_to_le64(rqd->ppa_addr.ppa);
-+	c->ph_rw.control = cpu_to_le16(rqd->flags);
-+	c->ph_rw.length = cpu_to_le16(rqd->nr_pages - 1);
-+
-+	if (rqd->opcode == NVM_OP_HBWRITE || rqd->opcode == NVM_OP_HBREAD)
-+		c->hb_rw.slba = cpu_to_le64(nvme_block_nr(ns,
-+						rqd->bio->bi_iter.bi_sector));
-+}
-+
-+static void nvme_nvm_end_io(struct request *rq, int error)
++static void null_end_io(struct request *rq, int error)
 +{
 +	struct nvm_rq *rqd = rq->end_io_data;
 +	struct nvm_dev *dev = rqd->dev;
 +
-+	if (dev->mt->end_io(rqd, error))
-+		pr_err("nvme: err status: %x result: %lx\n",
-+				rq->errors, (unsigned long)rq->special);
++	dev->mt->end_io(rqd, error);
 +
-+	kfree(rq->cmd);
-+	blk_mq_free_request(rq);
++	blk_put_request(rq);
 +}
 +
-+static int nvme_nvm_submit_io(struct request_queue *q, struct nvm_rq *rqd)
++static int null_submit_io(struct request_queue *q, struct nvm_rq *rqd)
 +{
-+	struct nvme_ns *ns = q->queuedata;
 +	struct request *rq;
 +	struct bio *bio = rqd->bio;
-+	struct nvme_nvm_command *cmd;
 +
 +	rq = blk_mq_alloc_request(q, bio_rw(bio), GFP_KERNEL, 0);
 +	if (IS_ERR(rq))
 +		return -ENOMEM;
 +
-+	cmd = kzalloc(sizeof(struct nvme_nvm_command), GFP_KERNEL);
-+	if (!cmd) {
-+		blk_mq_free_request(rq);
-+		return -ENOMEM;
-+	}
-+
 +	rq->cmd_type = REQ_TYPE_DRV_PRIV;
++	rq->__sector = bio->bi_iter.bi_sector;
 +	rq->ioprio = bio_prio(bio);
 +
 +	if (bio_has_data(bio))
@@ -459,218 +296,215 @@ index 0000000..f8af905
 +	rq->__data_len = bio->bi_iter.bi_size;
 +	rq->bio = rq->biotail = bio;
 +
-+	nvme_nvm_rqtocmd(rq, rqd, ns, cmd);
-+
-+	rq->cmd = (unsigned char *)cmd;
-+	rq->cmd_len = sizeof(struct nvme_nvm_command);
-+	rq->special = (void *)0;
-+
 +	rq->end_io_data = rqd;
 +
-+	blk_execute_rq_nowait(q, NULL, rq, 0, nvme_nvm_end_io);
++	blk_execute_rq_nowait(q, NULL, rq, 0, null_end_io);
 +
 +	return 0;
 +}
 +
-+static int nvme_nvm_erase_block(struct request_queue *q, struct nvm_rq *rqd)
++static void *null_create_dma_pool(struct request_queue *q, char *name)
 +{
-+	struct nvme_ns *ns = q->queuedata;
-+	struct nvme_nvm_command c = {};
++	mempool_t *virtmem_pool;
 +
-+	c.erase.opcode = NVM_OP_ERASE;
-+	c.erase.nsid = cpu_to_le32(ns->ns_id);
-+	c.erase.spba = cpu_to_le64(rqd->ppa_addr.ppa);
-+	c.erase.length = cpu_to_le16(rqd->nr_pages - 1);
++	ppa_cache = kmem_cache_create(name, PAGE_SIZE, 0, 0, NULL);
++	if (!ppa_cache) {
++		pr_err("null_nvm: Unable to create kmem cache\n");
++		return NULL;
++	}
 +
-+	return nvme_submit_sync_cmd(q, (struct nvme_command *)&c, NULL, 0);
++	virtmem_pool = mempool_create_slab_pool(64, ppa_cache);
++	if (!virtmem_pool) {
++		pr_err("null_nvm: Unable to create virtual memory pool\n");
++		return NULL;
++	}
++
++	return virtmem_pool;
 +}
 +
-+static void *nvme_nvm_create_dma_pool(struct request_queue *q, char *name)
++static void null_destroy_dma_pool(void *pool)
 +{
-+	struct nvme_ns *ns = q->queuedata;
-+	struct nvme_dev *dev = ns->dev;
++	mempool_t *virtmem_pool = pool;
 +
-+	return dma_pool_create(name, dev->dev, PAGE_SIZE, PAGE_SIZE, 0);
++	mempool_destroy(virtmem_pool);
 +}
 +
-+static void nvme_nvm_destroy_dma_pool(void *pool)
++static void *null_dev_dma_alloc(struct request_queue *q, void *pool,
++				gfp_t mem_flags, dma_addr_t *dma_handler)
 +{
-+	struct dma_pool *dma_pool = pool;
-+
-+	dma_pool_destroy(dma_pool);
++	return mempool_alloc(pool, mem_flags);
 +}
 +
-+static void *nvme_nvm_dev_dma_alloc(struct request_queue *q, void *pool,
-+				    gfp_t mem_flags, dma_addr_t *dma_handler)
++static void null_dev_dma_free(void *pool, void *entry, dma_addr_t dma_handler)
 +{
-+	return dma_pool_alloc(pool, mem_flags, dma_handler);
++	mempool_free(entry, pool);
 +}
 +
-+static void nvme_nvm_dev_dma_free(void *pool, void *ppa_list,
-+							dma_addr_t dma_handler)
-+{
-+	dma_pool_free(pool, ppa_list, dma_handler);
-+}
++static struct nvm_dev_ops nulln_dev_ops = {
++	.identity		= null_id,
++	.submit_io		= null_submit_io,
 +
-+static struct nvm_dev_ops nvme_nvm_dev_ops = {
-+	.identity		= nvme_nvm_identity,
++	.create_dma_pool	= null_create_dma_pool,
++	.destroy_dma_pool	= null_destroy_dma_pool,
++	.dev_dma_alloc		= null_dev_dma_alloc,
++	.dev_dma_free		= null_dev_dma_free,
 +
-+	.get_l2p_tbl		= nvme_nvm_get_l2p_tbl,
-+
-+	.get_bb_tbl		= nvme_nvm_get_bb_tbl,
-+
-+	.submit_io		= nvme_nvm_submit_io,
-+	.erase_block		= nvme_nvm_erase_block,
-+
-+	.create_dma_pool	= nvme_nvm_create_dma_pool,
-+	.destroy_dma_pool	= nvme_nvm_destroy_dma_pool,
-+	.dev_dma_alloc		= nvme_nvm_dev_dma_alloc,
-+	.dev_dma_free		= nvme_nvm_dev_dma_free,
-+
++	/* Emulate nvme protocol */
 +	.max_phys_sect		= 64,
 +};
 +
-+int nvme_nvm_register(struct request_queue *q, char *disk_name)
++static int null_queue_rq(struct blk_mq_hw_ctx *hctx,
++			 const struct blk_mq_queue_data *bd)
 +{
-+	return nvm_register(q, disk_name, &nvme_nvm_dev_ops);
++	struct nulln_cmd *cmd = blk_mq_rq_to_pdu(bd->rq);
++
++	cmd->rq = bd->rq;
++
++	blk_mq_start_request(bd->rq);
++
++	null_handle_cmd(cmd);
++	return BLK_MQ_RQ_QUEUE_OK;
 +}
 +
-+void nvme_nvm_unregister(struct request_queue *q, char *disk_name)
-+{
-+	nvm_unregister(disk_name);
-+}
-+
-+int nvme_nvm_ns_supported(struct nvme_ns *ns, struct nvme_id_ns *id)
-+{
-+	struct nvme_dev *dev = ns->dev;
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+
-+	/* QEMU NVMe simulator - LightNVM detection*/
-+	if (pdev->vendor == PCI_VENDOR_ID_INTEL && pdev->device == 0x5845 &&
-+							id->vs[0] == 0x1)
-+		return 1;
-+
-+	/* CNEX Labs */
-+	if (pdev->vendor == 0x1d1d && pdev->device == 0x2807)
-+		return 1;
-+
-+	return 0;
-+}
-+#else
-+int nvme_nvm_register(struct request_queue *q, char *disk_name)
-+{
-+	return 0;
-+}
-+void nvme_nvm_unregister(struct request_queue *q, char *disk_name) {};
-+int nvme_nvm_ns_supported(struct nvme_ns *ns, struct nvme_id_ns *id)
-+{
-+	return 0;
-+}
-+#endif /* CONFIG_NVM */
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index c1f41bf..fdb4e5b 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -22,6 +22,11 @@
- extern unsigned char nvme_io_timeout;
- #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
- 
-+enum {
-+	NVME_NS_LBA		= 0,
-+	NVME_NS_LIGHTNVM	= 1,
++static struct blk_mq_ops null_mq_ops = {
++	.queue_rq	= null_queue_rq,
++	.map_queue	= blk_mq_map_queue,
++	.complete	= null_softirq_done_fn,
 +};
 +
- /*
-  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
-  */
-@@ -84,6 +89,7 @@ struct nvme_ns {
- 	u16 ms;
- 	bool ext;
- 	u8 pi_type;
-+	int type;
- 	u64 mode_select_num_blocks;
- 	u32 mode_select_block_len;
- };
-@@ -130,4 +136,8 @@ int nvme_sg_io(struct nvme_ns *ns, struct sg_io_hdr __user *u_hdr);
- int nvme_sg_io32(struct nvme_ns *ns, unsigned long arg);
- int nvme_sg_get_version_num(int __user *ip);
- 
-+int nvme_nvm_ns_supported(struct nvme_ns *ns, struct nvme_id_ns *id);
-+int nvme_nvm_register(struct request_queue *q, char *disk_name);
-+void nvme_nvm_unregister(struct request_queue *q, char *disk_name);
++static void null_del_dev(struct nulln *nulln)
++{
++	list_del_init(&nulln->list);
 +
- #endif /* _NVME_H */
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 22d8375..ff47a8b 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1948,6 +1948,9 @@ static void nvme_free_ns(struct kref *kref)
- {
- 	struct nvme_ns *ns = container_of(kref, struct nvme_ns, kref);
- 
-+	if (ns->type == NVME_NS_LIGHTNVM)
-+		nvme_nvm_unregister(ns->queue, ns->disk->disk_name);
++	nvm_unregister(nulln->disk_name);
 +
- 	spin_lock(&dev_list_lock);
- 	ns->disk->private_data = NULL;
- 	spin_unlock(&dev_list_lock);
-@@ -2017,6 +2020,16 @@ static int nvme_revalidate_disk(struct gendisk *disk)
- 		return -ENODEV;
- 	}
- 
-+	if (nvme_nvm_ns_supported(ns, id) && ns->type != NVME_NS_LIGHTNVM) {
-+		if (nvme_nvm_register(ns->queue, disk->disk_name)) {
-+			dev_warn(dev->dev,
-+				"%s: LightNVM init failure\n", __func__);
-+			kfree(id);
-+			return -ENODEV;
-+		}
-+		ns->type = NVME_NS_LIGHTNVM;
++	blk_cleanup_queue(nulln->q);
++	blk_mq_free_tag_set(&nulln->tag_set);
++	kfree(nulln);
++}
++
++static int null_add_dev(void)
++{
++	struct nulln *nulln;
++	int rv;
++
++	nulln = kzalloc_node(sizeof(*nulln), GFP_KERNEL, home_node);
++	if (!nulln) {
++		rv = -ENOMEM;
++		goto out;
 +	}
 +
- 	old_ms = ns->ms;
- 	lbaf = id->flbas & NVME_NS_FLBAS_LBA_MASK;
- 	ns->lba_shift = id->lbaf[lbaf].ds;
-@@ -2048,7 +2061,9 @@ static int nvme_revalidate_disk(struct gendisk *disk)
- 								!ns->ext)
- 		nvme_init_integrity(ns);
- 
--	if (ns->ms && !(ns->ms == 8 && ns->pi_type) && !blk_get_integrity(disk))
-+	if ((ns->ms && !(ns->ms == 8 && ns->pi_type) &&
-+						!blk_get_integrity(disk)) ||
-+						ns->type == NVME_NS_LIGHTNVM)
- 		set_capacity(disk, 0);
- 	else
- 		set_capacity(disk, le64_to_cpup(&id->nsze) << (ns->lba_shift - 9));
-@@ -2171,17 +2186,19 @@ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
- 		goto out_free_disk;
- 
- 	kref_get(&dev->kref);
--	add_disk(ns->disk);
--	if (ns->ms) {
--		struct block_device *bd = bdget_disk(ns->disk, 0);
--		if (!bd)
--			return;
--		if (blkdev_get(bd, FMODE_READ, NULL)) {
--			bdput(bd);
--			return;
-+	if (ns->type != NVME_NS_LIGHTNVM) {
-+		add_disk(ns->disk);
-+		if (ns->ms) {
-+			struct block_device *bd = bdget_disk(ns->disk, 0);
-+			if (!bd)
-+				return;
-+			if (blkdev_get(bd, FMODE_READ, NULL)) {
-+				bdput(bd);
-+				return;
-+			}
-+			blkdev_reread_part(bd);
-+			blkdev_put(bd, FMODE_READ);
- 		}
--		blkdev_reread_part(bd);
--		blkdev_put(bd, FMODE_READ);
- 	}
- 	return;
-  out_free_disk:
++	if (use_per_node_hctx)
++		submit_queues = nr_online_nodes;
++
++	nulln->tag_set.ops = &null_mq_ops;
++	nulln->tag_set.nr_hw_queues = submit_queues;
++	nulln->tag_set.queue_depth = hw_queue_depth;
++	nulln->tag_set.numa_node = home_node;
++	nulln->tag_set.cmd_size = sizeof(struct nulln_cmd);
++	nulln->tag_set.driver_data = nulln;
++
++	rv = blk_mq_alloc_tag_set(&nulln->tag_set);
++	if (rv)
++		goto out_free_nulln;
++
++	nulln->q = blk_mq_init_queue(&nulln->tag_set);
++	if (IS_ERR(nulln->q)) {
++		rv = -ENOMEM;
++		goto out_cleanup_tags;
++	}
++
++	nulln->q->queuedata = nulln;
++	queue_flag_set_unlocked(QUEUE_FLAG_NONROT, nulln->q);
++	queue_flag_clear_unlocked(QUEUE_FLAG_ADD_RANDOM, nulln->q);
++
++	mutex_lock(&nulln_lock);
++	list_add_tail(&nulln->list, &nulln_list);
++	nulln->index = nulln_indexes++;
++	mutex_unlock(&nulln_lock);
++
++	blk_queue_logical_block_size(nulln->q, bs);
++	blk_queue_physical_block_size(nulln->q, bs);
++
++	sprintf(nulln->disk_name, "nulln%d", nulln->index);
++
++	rv = nvm_register(nulln->q, nulln->disk_name, &nulln_dev_ops);
++	if (rv)
++		goto out_cleanup_blk_queue;
++
++	return 0;
++
++out_cleanup_blk_queue:
++	blk_cleanup_queue(nulln->q);
++out_cleanup_tags:
++	blk_mq_free_tag_set(&nulln->tag_set);
++out_free_nulln:
++	kfree(nulln);
++out:
++	return rv;
++}
++
++static int __init null_init(void)
++{
++	unsigned int i;
++
++	if (bs > PAGE_SIZE) {
++		pr_warn("null_nvm: invalid block size\n");
++		pr_warn("null_nvm: defaults block size to %lu\n", PAGE_SIZE);
++		bs = PAGE_SIZE;
++	}
++
++	if (use_per_node_hctx) {
++		if (submit_queues < nr_online_nodes) {
++			pr_warn("null_nvm: submit_queues param is set to %u.",
++							nr_online_nodes);
++			submit_queues = nr_online_nodes;
++		}
++	} else if (submit_queues > nr_cpu_ids)
++		submit_queues = nr_cpu_ids;
++	else if (!submit_queues)
++		submit_queues = 1;
++
++	mutex_init(&nulln_lock);
++
++	/* Initialize a separate list for each CPU for issuing softirqs */
++	for_each_possible_cpu(i) {
++		struct completion_queue *cq = &per_cpu(null_comp_queues, i);
++
++		init_llist_head(&cq->list);
++
++		if (irqmode != NULL_IRQ_TIMER)
++			continue;
++
++		hrtimer_init(&cq->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
++		cq->timer.function = null_cmd_timer_expired;
++	}
++
++	for (i = 0; i < nr_devices; i++) {
++		if (null_add_dev())
++			return -EINVAL;
++	}
++
++	pr_info("null_nvm: module loaded\n");
++	return 0;
++}
++
++static void __exit null_exit(void)
++{
++	struct nulln *nulln;
++
++	mutex_lock(&nulln_lock);
++	while (!list_empty(&nulln_list)) {
++		nulln = list_entry(nulln_list.next, struct nulln, list);
++		null_del_dev(nulln);
++	}
++	mutex_unlock(&nulln_lock);
++}
++
++module_init(null_init);
++module_exit(null_exit);
++
++MODULE_AUTHOR("Matias Bjorling <mb at lightnvm.io>");
++MODULE_LICENSE("GPL");
 -- 
 2.1.4
