@@ -1,94 +1,67 @@
 From: aik@ozlabs.ru (Alexey Kardashevskiy)
-Date: Tue, 27 Oct 2015 16:56:10 +1100
-Subject: [PATCH 4/7 v2] pseries/iommu: implement DDW-aware
- dma_get_page_shift
-In-Reply-To: <20151023205925.GF10197@linux.vnet.ibm.com>
+Date: Tue, 27 Oct 2015 17:02:16 +1100
+Subject: [PATCH 2/7 v2] powerpc/dma-mapping: override dma_get_page_shift
+In-Reply-To: <20151023205718.GC10197@linux.vnet.ibm.com>
 References: <20151023205420.GA10197@linux.vnet.ibm.com>
- <20151023205925.GF10197@linux.vnet.ibm.com>
-Message-ID: <562F11FA.9090805@ozlabs.ru>
+ <20151023205718.GC10197@linux.vnet.ibm.com>
+Message-ID: <562F1368.1030204@ozlabs.ru>
 
-On 10/24/2015 07:59 AM, Nishanth Aravamudan wrote:
-> When DDW (Dynamic DMA Windows) are present for a device, we have stored
-> the TCE (Translation Control Entry) size in a special device tree
-> property. Check if we have enabled DDW for the device and return the TCE
-> size from that property if present. If the property isn't present,
-> fallback to looking the value up in struct iommu_table. If we don't find
-> a iommu_table, fallback to the kernel's page size.
+On 10/24/2015 07:57 AM, Nishanth Aravamudan wrote:
+> On Power, the kernel's page size can differ from the IOMMU's page size,
+> so we need to override the generic implementation, which always returns
+> the kernel's page size. Lookup the IOMMU's page size from struct
+> iommu_table, if available. Fallback to the kernel's page size,
+> otherwise.
 >
 > Signed-off-by: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
 > ---
->   arch/powerpc/platforms/pseries/iommu.c | 36 ++++++++++++++++++++++++++++++++++
->   1 file changed, 36 insertions(+)
+>   arch/powerpc/include/asm/dma-mapping.h | 3 +++
+>   arch/powerpc/kernel/dma.c              | 9 +++++++++
+>   2 files changed, 12 insertions(+)
 >
-> diff --git a/arch/powerpc/platforms/pseries/iommu.c b/arch/powerpc/platforms/pseries/iommu.c
-> index 0946b98..1bf6471 100644
-> --- a/arch/powerpc/platforms/pseries/iommu.c
-> +++ b/arch/powerpc/platforms/pseries/iommu.c
-> @@ -1292,6 +1292,40 @@ static u64 dma_get_required_mask_pSeriesLP(struct device *dev)
->   	return dma_iommu_ops.get_required_mask(dev);
+> diff --git a/arch/powerpc/include/asm/dma-mapping.h b/arch/powerpc/include/asm/dma-mapping.h
+> index 7f522c0..c5638f4 100644
+> --- a/arch/powerpc/include/asm/dma-mapping.h
+> +++ b/arch/powerpc/include/asm/dma-mapping.h
+> @@ -125,6 +125,9 @@ static inline void set_dma_offset(struct device *dev, dma_addr_t off)
+>   #define HAVE_ARCH_DMA_SET_MASK 1
+>   extern int dma_set_mask(struct device *dev, u64 dma_mask);
+>
+> +#define HAVE_ARCH_DMA_GET_PAGE_SHIFT 1
+> +extern unsigned long dma_get_page_shift(struct device *dev);
+> +
+>   #include <asm-generic/dma-mapping-common.h>
+>
+>   extern int __dma_set_mask(struct device *dev, u64 dma_mask);
+> diff --git a/arch/powerpc/kernel/dma.c b/arch/powerpc/kernel/dma.c
+> index 59503ed..e805af2 100644
+> --- a/arch/powerpc/kernel/dma.c
+> +++ b/arch/powerpc/kernel/dma.c
+> @@ -335,6 +335,15 @@ int dma_set_mask(struct device *dev, u64 dma_mask)
 >   }
+>   EXPORT_SYMBOL(dma_set_mask);
 >
-> +static unsigned long dma_get_page_shift_pSeriesLP(struct device *dev)
+> +unsigned long dma_get_page_shift(struct device *dev)
 > +{
-> +	struct iommu_table *tbl;
-> +
-> +	if (!disable_ddw && dev_is_pci(dev)) {
-> +		struct pci_dev *pdev = to_pci_dev(dev);
-> +		struct device_node *dn;
-> +
-> +		dn = pci_device_to_OF_node(pdev);
-> +
-> +		/* search upwards for ibm,dma-window */
-> +		for (; dn && PCI_DN(dn) && !PCI_DN(dn)->table_group;
-> +				dn = dn->parent)
-> +			if (of_get_property(dn, "ibm,dma-window", NULL))
-> +				break;
-> +		/*
-> +		 * if there is a DDW configuration, the TCE shift is stored in
-> +		 * the property
-> +		 */
-> +		if (dn && PCI_DN(dn)) {
-> +			const struct dynamic_dma_window_prop *direct64 =
-> +				of_get_property(dn, DIRECT64_PROPNAME, NULL);
-
-
-This DIRECT64_PROPNAME property is only present under pHyp, QEMU/KVM does 
-not set it as 64bit windows are dynamic there so something like 
-find_existing_ddw() needs to be used here.
-
-
-
-> +			if (direct64)
-> +				return be32_to_cpu(direct64->tce_shift);
-> +		}
-> +	}
-> +
-> +	tbl = get_iommu_table_base(dev);
+> +	struct iommu_table *tbl = get_iommu_table_base(dev);
 > +	if (tbl)
 > +		return tbl->it_page_shift;
-> +
+
+
+All PCI devices have this initialized on POWER (at least, our, IBM's POWER) 
+so 4K will always be returned here while in the case of 
+(get_dma_ops(dev)==&dma_direct_ops) it could actually return PAGE_SHIFT. Is 
+4K still preferred value to return here?
+
+
+
 > +	return PAGE_SHIFT;
 > +}
+> +EXPORT_SYMBOL(dma_get_page_shift);
 > +
->   #else  /* CONFIG_PCI */
->   #define pci_dma_bus_setup_pSeries	NULL
->   #define pci_dma_dev_setup_pSeries	NULL
-> @@ -1299,6 +1333,7 @@ static u64 dma_get_required_mask_pSeriesLP(struct device *dev)
->   #define pci_dma_dev_setup_pSeriesLP	NULL
->   #define dma_set_mask_pSeriesLP		NULL
->   #define dma_get_required_mask_pSeriesLP	NULL
-> +#define dma_get_page_shift_pSeriesLP	NULL
->   #endif /* !CONFIG_PCI */
->
->   static int iommu_mem_notifier(struct notifier_block *nb, unsigned long action,
-> @@ -1395,6 +1430,7 @@ void iommu_init_early_pSeries(void)
->   		pseries_pci_controller_ops.dma_dev_setup = pci_dma_dev_setup_pSeriesLP;
->   		ppc_md.dma_set_mask = dma_set_mask_pSeriesLP;
->   		ppc_md.dma_get_required_mask = dma_get_required_mask_pSeriesLP;
-> +		ppc_md.dma_get_page_shift = dma_get_page_shift_pSeriesLP;
->   	} else {
->   		pseries_pci_controller_ops.dma_bus_setup = pci_dma_bus_setup_pSeries;
->   		pseries_pci_controller_ops.dma_dev_setup = pci_dma_dev_setup_pSeries;
+>   u64 __dma_get_required_mask(struct device *dev)
+>   {
+>   	struct dma_map_ops *dma_ops = get_dma_ops(dev);
 >
 
 
