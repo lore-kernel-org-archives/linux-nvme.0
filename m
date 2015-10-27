@@ -1,59 +1,77 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Wed, 28 Oct 2015 06:24:08 +0800
-Subject: [PATCH v12 4/5] null_nvm: LightNVM test driver
-In-Reply-To: <1445957719-5368-5-git-send-email-m@bjorling.me>
-Message-ID: <201510280624.MNBYeaNl%fengguang.wu@intel.com>
+From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
+Date: Tue, 27 Oct 2015 15:27:06 -0700
+Subject: [PATCH 2/7 v2] powerpc/dma-mapping: override dma_get_page_shift
+In-Reply-To: <562F1368.1030204@ozlabs.ru>
+References: <20151023205420.GA10197@linux.vnet.ibm.com>
+ <20151023205718.GC10197@linux.vnet.ibm.com>
+ <562F1368.1030204@ozlabs.ru>
+Message-ID: <20151027222706.GF7716@linux.vnet.ibm.com>
 
-Hi Matias,
+On 27.10.2015 [17:02:16 +1100], Alexey Kardashevskiy wrote:
+> On 10/24/2015 07:57 AM, Nishanth Aravamudan wrote:
+> >On Power, the kernel's page size can differ from the IOMMU's page size,
+> >so we need to override the generic implementation, which always returns
+> >the kernel's page size. Lookup the IOMMU's page size from struct
+> >iommu_table, if available. Fallback to the kernel's page size,
+> >otherwise.
+> >
+> >Signed-off-by: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
+> >---
+> >  arch/powerpc/include/asm/dma-mapping.h | 3 +++
+> >  arch/powerpc/kernel/dma.c              | 9 +++++++++
+> >  2 files changed, 12 insertions(+)
+> >
+> >diff --git a/arch/powerpc/include/asm/dma-mapping.h b/arch/powerpc/include/asm/dma-mapping.h
+> >index 7f522c0..c5638f4 100644
+> >--- a/arch/powerpc/include/asm/dma-mapping.h
+> >+++ b/arch/powerpc/include/asm/dma-mapping.h
+> >@@ -125,6 +125,9 @@ static inline void set_dma_offset(struct device *dev, dma_addr_t off)
+> >  #define HAVE_ARCH_DMA_SET_MASK 1
+> >  extern int dma_set_mask(struct device *dev, u64 dma_mask);
+> >
+> >+#define HAVE_ARCH_DMA_GET_PAGE_SHIFT 1
+> >+extern unsigned long dma_get_page_shift(struct device *dev);
+> >+
+> >  #include <asm-generic/dma-mapping-common.h>
+> >
+> >  extern int __dma_set_mask(struct device *dev, u64 dma_mask);
+> >diff --git a/arch/powerpc/kernel/dma.c b/arch/powerpc/kernel/dma.c
+> >index 59503ed..e805af2 100644
+> >--- a/arch/powerpc/kernel/dma.c
+> >+++ b/arch/powerpc/kernel/dma.c
+> >@@ -335,6 +335,15 @@ int dma_set_mask(struct device *dev, u64 dma_mask)
+> >  }
+> >  EXPORT_SYMBOL(dma_set_mask);
+> >
+> >+unsigned long dma_get_page_shift(struct device *dev)
+> >+{
+> >+	struct iommu_table *tbl = get_iommu_table_base(dev);
+> >+	if (tbl)
+> >+		return tbl->it_page_shift;
+> 
+> 
+> All PCI devices have this initialized on POWER (at least, our, IBM's
+> POWER) so 4K will always be returned here while in the case of
+> (get_dma_ops(dev)==&dma_direct_ops) it could actually return
+> PAGE_SHIFT. Is 4K still preferred value to return here?
 
-[auto build test ERROR on next-20151022 -- if it's inappropriate base, please suggest rules for selecting the more suitable base]
+Right, so the logic of my series, goes like this:
 
-url:    https://github.com/0day-ci/linux/commits/Matias-Bj-rling/Support-for-Open-Channel-SSDs/20151027-230440
-config: i386-allyesconfig (attached as .config)
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=i386 
+a) We currently are assuming DMA_PAGE_SHIFT (conceptual constant) is
+PAGE_SHIFT everywhere, including Power.
 
-All errors (new ones prefixed by >>):
+b) After 2/7, the Power code will return either the IOMMU table's shift
+value, if set, or PAGE_SHIFT (I guess this would be the case if
+get_dma_ops(dev) == &dma_direct_ops, as you said). That is no different
+than we have now, except we can return the accurate IOMMU value if
+available.
 
-   drivers/built-in.o: In function `addr_to_generic_mode':
-   gennvm.c:(.text+0x88e078): undefined reference to `__umoddi3'
-   gennvm.c:(.text+0x88e090): undefined reference to `__udivdi3'
-   gennvm.c:(.text+0x88e0a1): undefined reference to `__umoddi3'
-   gennvm.c:(.text+0x88e0c7): undefined reference to `__udivdi3'
-   gennvm.c:(.text+0x88e0d5): undefined reference to `__umoddi3'
-   gennvm.c:(.text+0x88e10d): undefined reference to `__udivdi3'
-   gennvm.c:(.text+0x88e11b): undefined reference to `__umoddi3'
-   gennvm.c:(.text+0x88e144): undefined reference to `__udivdi3'
-   drivers/built-in.o: In function `gennvm_block_map':
-   gennvm.c:(.text+0x88e298): undefined reference to `__udivdi3'
-   gennvm.c:(.text+0x88e2c9): undefined reference to `__udivdi3'
-   drivers/built-in.o: In function `gennvm_erase_blk':
-   gennvm.c:(.text+0x88e459): undefined reference to `__umoddi3'
-   drivers/built-in.o: In function `__linear_to_generic_addr':
-   rrpc.c:(.text+0x88e961): undefined reference to `__umoddi3'
-   rrpc.c:(.text+0x88e979): undefined reference to `__udivdi3'
-   rrpc.c:(.text+0x88e98a): undefined reference to `__umoddi3'
-   rrpc.c:(.text+0x88e9b0): undefined reference to `__udivdi3'
-   rrpc.c:(.text+0x88e9be): undefined reference to `__umoddi3'
-   rrpc.c:(.text+0x88e9f6): undefined reference to `__udivdi3'
-   rrpc.c:(.text+0x88ea04): undefined reference to `__umoddi3'
-   rrpc.c:(.text+0x88ea2d): undefined reference to `__udivdi3'
-   drivers/built-in.o: In function `rrpc_capacity':
-   rrpc.c:(.text+0x88ebd7): undefined reference to `__udivdi3'
-   drivers/built-in.o: In function `rrpc_page_invalidate':
-   rrpc.c:(.text+0x88ef75): undefined reference to `__umoddi3'
-   drivers/built-in.o: In function `null_id':
->> null_nvm.c:(.text+0x890537): undefined reference to `__udivdi3'
-   null_nvm.c:(.text+0x89054b): undefined reference to `__udivdi3'
+3) After 3/7, the platform can override the generic Power
+get_dma_page_shift().
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 51870 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20151028/42234317/attachment-0001.obj>
+4) After 4/7, pseries will return the DDW value, if available, then
+fallback to the IOMMU table's value. I think in the case of
+get_dma_ops(dev)==&dma_direct_ops, the only way that can happen is if we
+are using DDW, right?
+
+-Nish
