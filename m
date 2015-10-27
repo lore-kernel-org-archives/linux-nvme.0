@@ -1,68 +1,59 @@
-From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
-Date: Tue, 27 Oct 2015 15:22:29 -0700
-Subject: [PATCH 4/7 v2] pseries/iommu: implement DDW-aware
- dma_get_page_shift
-In-Reply-To: <562F11FA.9090805@ozlabs.ru>
-References: <20151023205420.GA10197@linux.vnet.ibm.com>
- <20151023205925.GF10197@linux.vnet.ibm.com>
- <562F11FA.9090805@ozlabs.ru>
-Message-ID: <20151027222229.GE7716@linux.vnet.ibm.com>
+From: lkp@intel.com (kbuild test robot)
+Date: Wed, 28 Oct 2015 06:24:08 +0800
+Subject: [PATCH v12 4/5] null_nvm: LightNVM test driver
+In-Reply-To: <1445957719-5368-5-git-send-email-m@bjorling.me>
+Message-ID: <201510280624.MNBYeaNl%fengguang.wu@intel.com>
 
-On 27.10.2015 [16:56:10 +1100], Alexey Kardashevskiy wrote:
-> On 10/24/2015 07:59 AM, Nishanth Aravamudan wrote:
-> >When DDW (Dynamic DMA Windows) are present for a device, we have stored
-> >the TCE (Translation Control Entry) size in a special device tree
-> >property. Check if we have enabled DDW for the device and return the TCE
-> >size from that property if present. If the property isn't present,
-> >fallback to looking the value up in struct iommu_table. If we don't find
-> >a iommu_table, fallback to the kernel's page size.
-> >
-> >Signed-off-by: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
-> >---
-> >  arch/powerpc/platforms/pseries/iommu.c | 36 ++++++++++++++++++++++++++++++++++
-> >  1 file changed, 36 insertions(+)
-> >
-> >diff --git a/arch/powerpc/platforms/pseries/iommu.c b/arch/powerpc/platforms/pseries/iommu.c
-> >index 0946b98..1bf6471 100644
-> >--- a/arch/powerpc/platforms/pseries/iommu.c
-> >+++ b/arch/powerpc/platforms/pseries/iommu.c
-> >@@ -1292,6 +1292,40 @@ static u64 dma_get_required_mask_pSeriesLP(struct device *dev)
-> >  	return dma_iommu_ops.get_required_mask(dev);
-> >  }
-> >
-> >+static unsigned long dma_get_page_shift_pSeriesLP(struct device *dev)
-> >+{
-> >+	struct iommu_table *tbl;
-> >+
-> >+	if (!disable_ddw && dev_is_pci(dev)) {
-> >+		struct pci_dev *pdev = to_pci_dev(dev);
-> >+		struct device_node *dn;
-> >+
-> >+		dn = pci_device_to_OF_node(pdev);
-> >+
-> >+		/* search upwards for ibm,dma-window */
-> >+		for (; dn && PCI_DN(dn) && !PCI_DN(dn)->table_group;
-> >+				dn = dn->parent)
-> >+			if (of_get_property(dn, "ibm,dma-window", NULL))
-> >+				break;
-> >+		/*
-> >+		 * if there is a DDW configuration, the TCE shift is stored in
-> >+		 * the property
-> >+		 */
-> >+		if (dn && PCI_DN(dn)) {
-> >+			const struct dynamic_dma_window_prop *direct64 =
-> >+				of_get_property(dn, DIRECT64_PROPNAME, NULL);
-> 
-> 
-> This DIRECT64_PROPNAME property is only present under pHyp, QEMU/KVM
-> does not set it as 64bit windows are dynamic there so something like
-> find_existing_ddw() needs to be used here.
+Hi Matias,
 
-DIRECT64_PROPNAME is a Linux thing, not a pHyp or QEMU/KVM thing -- it's
-created by the Linux DDW logic and left in the device-tree when we
-successfully configure DDW.
+[auto build test ERROR on next-20151022 -- if it's inappropriate base, please suggest rules for selecting the more suitable base]
 
-You're right, though, that logically find_existing_ddw() would be better
-to use here. I'll spin up a new version.
+url:    https://github.com/0day-ci/linux/commits/Matias-Bj-rling/Support-for-Open-Channel-SSDs/20151027-230440
+config: i386-allyesconfig (attached as .config)
+reproduce:
+        # save the attached .config to linux build tree
+        make ARCH=i386 
 
--Nish
+All errors (new ones prefixed by >>):
+
+   drivers/built-in.o: In function `addr_to_generic_mode':
+   gennvm.c:(.text+0x88e078): undefined reference to `__umoddi3'
+   gennvm.c:(.text+0x88e090): undefined reference to `__udivdi3'
+   gennvm.c:(.text+0x88e0a1): undefined reference to `__umoddi3'
+   gennvm.c:(.text+0x88e0c7): undefined reference to `__udivdi3'
+   gennvm.c:(.text+0x88e0d5): undefined reference to `__umoddi3'
+   gennvm.c:(.text+0x88e10d): undefined reference to `__udivdi3'
+   gennvm.c:(.text+0x88e11b): undefined reference to `__umoddi3'
+   gennvm.c:(.text+0x88e144): undefined reference to `__udivdi3'
+   drivers/built-in.o: In function `gennvm_block_map':
+   gennvm.c:(.text+0x88e298): undefined reference to `__udivdi3'
+   gennvm.c:(.text+0x88e2c9): undefined reference to `__udivdi3'
+   drivers/built-in.o: In function `gennvm_erase_blk':
+   gennvm.c:(.text+0x88e459): undefined reference to `__umoddi3'
+   drivers/built-in.o: In function `__linear_to_generic_addr':
+   rrpc.c:(.text+0x88e961): undefined reference to `__umoddi3'
+   rrpc.c:(.text+0x88e979): undefined reference to `__udivdi3'
+   rrpc.c:(.text+0x88e98a): undefined reference to `__umoddi3'
+   rrpc.c:(.text+0x88e9b0): undefined reference to `__udivdi3'
+   rrpc.c:(.text+0x88e9be): undefined reference to `__umoddi3'
+   rrpc.c:(.text+0x88e9f6): undefined reference to `__udivdi3'
+   rrpc.c:(.text+0x88ea04): undefined reference to `__umoddi3'
+   rrpc.c:(.text+0x88ea2d): undefined reference to `__udivdi3'
+   drivers/built-in.o: In function `rrpc_capacity':
+   rrpc.c:(.text+0x88ebd7): undefined reference to `__udivdi3'
+   drivers/built-in.o: In function `rrpc_page_invalidate':
+   rrpc.c:(.text+0x88ef75): undefined reference to `__umoddi3'
+   drivers/built-in.o: In function `null_id':
+>> null_nvm.c:(.text+0x890537): undefined reference to `__udivdi3'
+   null_nvm.c:(.text+0x89054b): undefined reference to `__udivdi3'
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/octet-stream
+Size: 51870 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20151028/42234317/attachment-0001.obj>
