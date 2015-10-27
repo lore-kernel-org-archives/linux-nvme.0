@@ -1,77 +1,31 @@
-From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
-Date: Tue, 27 Oct 2015 15:27:06 -0700
-Subject: [PATCH 2/7 v2] powerpc/dma-mapping: override dma_get_page_shift
-In-Reply-To: <562F1368.1030204@ozlabs.ru>
+From: keith.busch@intel.com (Busch, Keith)
+Date: Tue, 27 Oct 2015 22:36:43 +0000
+Subject: [PATCH 0/5 v3] Fix NVMe driver support on Power with 32-bit DMA
+In-Reply-To: <20151027222010.GD7716@linux.vnet.ibm.com>
 References: <20151023205420.GA10197@linux.vnet.ibm.com>
- <20151023205718.GC10197@linux.vnet.ibm.com>
- <562F1368.1030204@ozlabs.ru>
-Message-ID: <20151027222706.GF7716@linux.vnet.ibm.com>
+ <20151026.182746.1323901353520152838.davem@davemloft.net>
+ <20151027222010.GD7716@linux.vnet.ibm.com>
+Message-ID: <20151027223643.GA25332@localhost.localdomain>
 
-On 27.10.2015 [17:02:16 +1100], Alexey Kardashevskiy wrote:
-> On 10/24/2015 07:57 AM, Nishanth Aravamudan wrote:
-> >On Power, the kernel's page size can differ from the IOMMU's page size,
-> >so we need to override the generic implementation, which always returns
-> >the kernel's page size. Lookup the IOMMU's page size from struct
-> >iommu_table, if available. Fallback to the kernel's page size,
-> >otherwise.
-> >
-> >Signed-off-by: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
-> >---
-> >  arch/powerpc/include/asm/dma-mapping.h | 3 +++
-> >  arch/powerpc/kernel/dma.c              | 9 +++++++++
-> >  2 files changed, 12 insertions(+)
-> >
-> >diff --git a/arch/powerpc/include/asm/dma-mapping.h b/arch/powerpc/include/asm/dma-mapping.h
-> >index 7f522c0..c5638f4 100644
-> >--- a/arch/powerpc/include/asm/dma-mapping.h
-> >+++ b/arch/powerpc/include/asm/dma-mapping.h
-> >@@ -125,6 +125,9 @@ static inline void set_dma_offset(struct device *dev, dma_addr_t off)
-> >  #define HAVE_ARCH_DMA_SET_MASK 1
-> >  extern int dma_set_mask(struct device *dev, u64 dma_mask);
-> >
-> >+#define HAVE_ARCH_DMA_GET_PAGE_SHIFT 1
-> >+extern unsigned long dma_get_page_shift(struct device *dev);
-> >+
-> >  #include <asm-generic/dma-mapping-common.h>
-> >
-> >  extern int __dma_set_mask(struct device *dev, u64 dma_mask);
-> >diff --git a/arch/powerpc/kernel/dma.c b/arch/powerpc/kernel/dma.c
-> >index 59503ed..e805af2 100644
-> >--- a/arch/powerpc/kernel/dma.c
-> >+++ b/arch/powerpc/kernel/dma.c
-> >@@ -335,6 +335,15 @@ int dma_set_mask(struct device *dev, u64 dma_mask)
-> >  }
-> >  EXPORT_SYMBOL(dma_set_mask);
-> >
-> >+unsigned long dma_get_page_shift(struct device *dev)
-> >+{
-> >+	struct iommu_table *tbl = get_iommu_table_base(dev);
-> >+	if (tbl)
-> >+		return tbl->it_page_shift;
+On Tue, Oct 27, 2015@03:20:10PM -0700, Nishanth Aravamudan wrote:
+> On 26.10.2015 [18:27:46 -0700], David Miller wrote:
+> > From: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
+> > Date: Fri, 23 Oct 2015 13:54:20 -0700
+> > 
+> > > 1) add a generic dma_get_page_shift implementation that just returns
+> > > PAGE_SHIFT
+> > 
+> > I won't object to this patch series, but if I had implemented this I
+> > would have required the architectures to implement this explicitly,
+> > one-by-one.  I think it is less error prone and more likely to end
+> > up with all the architectures setting this correctly.
 > 
-> 
-> All PCI devices have this initialized on POWER (at least, our, IBM's
-> POWER) so 4K will always be returned here while in the case of
-> (get_dma_ops(dev)==&dma_direct_ops) it could actually return
-> PAGE_SHIFT. Is 4K still preferred value to return here?
+> Well, looks like I should spin up a v4 anyways for the powerpc changes.
+> So, to make sure I understand your point, should I make the generic
+> dma_get_page_shift a compile-error kind of thing? It will only fail on
+> architectures that actually build the NVME driver (as the only caller).
+> But I'm not sure how exactly to achieve that, if you could give a bit
+> more detail I'd appreciate it!
 
-Right, so the logic of my series, goes like this:
-
-a) We currently are assuming DMA_PAGE_SHIFT (conceptual constant) is
-PAGE_SHIFT everywhere, including Power.
-
-b) After 2/7, the Power code will return either the IOMMU table's shift
-value, if set, or PAGE_SHIFT (I guess this would be the case if
-get_dma_ops(dev) == &dma_direct_ops, as you said). That is no different
-than we have now, except we can return the accurate IOMMU value if
-available.
-
-3) After 3/7, the platform can override the generic Power
-get_dma_page_shift().
-
-4) After 4/7, pseries will return the DDW value, if available, then
-fallback to the IOMMU table's value. I think in the case of
-get_dma_ops(dev)==&dma_direct_ops, the only way that can happen is if we
-are using DDW, right?
-
--Nish
+If you're suggesting to compile-time break architectures that currently
+work just fine with NVMe, let me stop you right there.
