@@ -1,43 +1,29 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Wed, 28 Oct 2015 05:18:51 +0800
-Subject: [PATCH v12 2/5] gennvm: Generic NVM manager
-In-Reply-To: <1445957719-5368-3-git-send-email-m@bjorling.me>
-Message-ID: <201510280545.eLwfUREZ%fengguang.wu@intel.com>
+From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
+Date: Tue, 27 Oct 2015 15:20:10 -0700
+Subject: [PATCH 0/5 v3] Fix NVMe driver support on Power with 32-bit DMA
+In-Reply-To: <20151026.182746.1323901353520152838.davem@davemloft.net>
+References: <20151023205420.GA10197@linux.vnet.ibm.com>
+ <20151026.182746.1323901353520152838.davem@davemloft.net>
+Message-ID: <20151027222010.GD7716@linux.vnet.ibm.com>
 
-Hi Matias,
+On 26.10.2015 [18:27:46 -0700], David Miller wrote:
+> From: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
+> Date: Fri, 23 Oct 2015 13:54:20 -0700
+> 
+> > 1) add a generic dma_get_page_shift implementation that just returns
+> > PAGE_SHIFT
+> 
+> I won't object to this patch series, but if I had implemented this I
+> would have required the architectures to implement this explicitly,
+> one-by-one.  I think it is less error prone and more likely to end
+> up with all the architectures setting this correctly.
 
-[auto build test ERROR on next-20151022 -- if it's inappropriate base, please suggest rules for selecting the more suitable base]
+Well, looks like I should spin up a v4 anyways for the powerpc changes.
+So, to make sure I understand your point, should I make the generic
+dma_get_page_shift a compile-error kind of thing? It will only fail on
+architectures that actually build the NVME driver (as the only caller).
+But I'm not sure how exactly to achieve that, if you could give a bit
+more detail I'd appreciate it!
 
-url:    https://github.com/0day-ci/linux/commits/Matias-Bj-rling/Support-for-Open-Channel-SSDs/20151027-230440
-config: i386-allyesconfig (attached as .config)
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=i386 
-
-All errors (new ones prefixed by >>):
-
-   drivers/built-in.o: In function `addr_to_generic_mode':
->> gennvm.c:(.text+0x88e078): undefined reference to `__umoddi3'
->> gennvm.c:(.text+0x88e090): undefined reference to `__udivdi3'
-   gennvm.c:(.text+0x88e0a1): undefined reference to `__umoddi3'
-   gennvm.c:(.text+0x88e0c7): undefined reference to `__udivdi3'
-   gennvm.c:(.text+0x88e0d5): undefined reference to `__umoddi3'
-   gennvm.c:(.text+0x88e10d): undefined reference to `__udivdi3'
-   gennvm.c:(.text+0x88e11b): undefined reference to `__umoddi3'
-   gennvm.c:(.text+0x88e144): undefined reference to `__udivdi3'
-   drivers/built-in.o: In function `gennvm_block_map':
-   gennvm.c:(.text+0x88e298): undefined reference to `__udivdi3'
-   gennvm.c:(.text+0x88e2c9): undefined reference to `__udivdi3'
-   drivers/built-in.o: In function `gennvm_erase_blk':
-   gennvm.c:(.text+0x88e459): undefined reference to `__umoddi3'
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 51860 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20151028/122298a6/attachment-0001.obj>
+Thanks,
+Nish
