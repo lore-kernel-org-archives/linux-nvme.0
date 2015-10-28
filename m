@@ -1,176 +1,583 @@
 From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Wed, 28 Oct 2015 01:30:28 +0100
-Subject: [PATCH v13 0/5] Support for Open-Channel SSDs
-Message-ID: <1445992233-676-1-git-send-email-m@bjorling.me>
+Date: Wed, 28 Oct 2015 01:30:30 +0100
+Subject: [PATCH v13 2/5] gennvm: Generic NVM manager
+In-Reply-To: <1445992233-676-1-git-send-email-m@bjorling.me>
+References: <1445992233-676-1-git-send-email-m@bjorling.me>
+Message-ID: <1445992233-676-3-git-send-email-m@bjorling.me>
 
-This patchset implements support for Open-Channel SSDs.
+The implementation for Open-Channel SSDs is divided into media
+management and targets. This patch implements a generic media manager
+for open-channel SSDs. After a media manager has been initialized,
+single or multiple targets can be instantiated with the media managed as
+the backend.
 
-Applies against Jens' for-4.4/drivers and is available through the lkml_v13
-branch at:
-
-  https://github.com/OpenChannelSSD/linux
-
-Changes since v12:
- - Fixes for 64bit divisions on 32bit architectures (kbuild).
- - Coccinelle spotted a use for memdup_user (kbuild).
-
-Changes since v11:
- - Add support for group identifiers.
- - Fixed kbuild error on nvme_nvm_unregister.
-
-Changes since v10:
- - Fix sparse errors.
- - Enable flash command support for SLC mode, suspend/resume, plane hints.
- - A couple of optimizations for the rq to nvme conversion.
- - static function fixes (Fengguang Wu)
-
-Changes since v9:
- - Fix compilation of the kernel without LightNVM selected.
- - Make static completion_queues variable unique so it doesn't collide with
-   the null_blk module.
-
-Changes since v8:
- - Specification was changed to define a SSD configuration using a single entry.
-   This replaces the per-lun specification with a single configuration. Easing
-   the access to global geometry values and simplifies address calculations.
- - Implement PPA addressing modes. Encode NAND flash structure into physical
-   page addresses. An address now has bits reserved for each part of the flash
-   units (sectors, page, block, plane, lun, channels), replacing the linear
-   address space previously found in the LightNVM specification.
- - Rename bm_hb to gennvm (generic nvm manager). This part now covers any type
-   of non-volatile memory media. Thus, it is not only a block manager, but
-   manages several pieces of core information.
- - Add detection for CNEX Westlake controller.
- - Completion of I/Os was previously directly completed in the target. Push
-   completion through the media manager first and then target.
- - Rebased on top of latest changes to the NVMe device driver architecture.
- - Various fixes and refactoring.
-
-Changes since v7:
- - The IOCTL management interface have been created. Devices can now be
-   managed through the lightnvm-adm tool (ladm). This is available from:
-     https://github.com/OpenChannelSSD/lightnvm-adm.git
- - The debugging management interface is now only available if debugging
-   is enabled. (/sys/module/lnvm/parameters/configure_debug)
- - GCC compatibility fixes (Dongsheng Yang)
- - Fix for BM initialization (Dongsheng Yang)
- - Fix for error during rrpc init (Javier Gonzalez)
- - Refactor NVMe driver to not expect non-standard behavior. Added PCI
-   id identification for selected devices (qemu-nvme and cnex).
- - Enable NVMe metadata to be passed from target.
- - Create ioctl interface for management.
- - Add NVM_DEBUG flag to explicit enable/diskable parameter
-   configure_debug access. The interface is only available if debugging
-   is enabled.
- - Add support for physical block address commands.
- - Added uapi/lightnvm.h header to expose ioctl interface.
- - Fix qemu-nvme initialization extensions regarding L2P translation
-   support.
- - Clean up of dead code.
- - Updated e-mails, copyrights, etc.
-
-Changes since v6:
- - Multipage support (Javier Gonzalez)
- - General code cleanups
- - Fixed memleak on register failure
-
-Changes since v5:
-Feedback from Christoph Hellwig.
- - Created new null_nvm from null_blk to register itself as a lightnvm
-   device.
- - Changed the interface of register/unregister to only take disk_name.
-   The gendisk alloc in nvme is kept. Most instantiations will
-   involve the device gendisk, therefore wait with refactoring to a
-   later time.
- - Renamed global parameters in core.c and rrpc.c
-
-Changes since v4:
- - Remove gendisk->nvm dependency
- - Remove device driver rq private field dependency.
- - Update submission and completion. The flow is now
-     Target -> Block Manager -> Device Driver, replacing callbacks in
-     device driver.
- - Abstracted out the block manager into its own module. Other block
-   managers can now be implemented. For example to support fully
-   host-based SSDs.
- - No longer exposes the device driver gendisk to user-space.
- - Management is moved into /sys/modules/lnvm/parameters/configure_debug
-
-Changes since v3:
-
- - Remove dependency on REQ_NVM_GC
- - Refactor nvme integration to use nvme_submit_sync_cmd for
-   internal commands.
- - Fix race condition bug on multiple threads on RRPC target.
- - Rename sysfs entry under the block device from nvm to lightnvm.
-   The configuration is found in /sys/block/*/lightnvm/
-
-Changes since v2:
-
- Feedback from Paul Bolle:
- - Fix license to GPLv2, documentation, compilation.
- Feedback from Keith Busch:
- - nvme: Move lightnvm out and into nvme-lightnvm.c.
- - nvme: Set controller css on lightnvm command set.
- - nvme: Remove OACS.
- Feedback from Christoph Hellwig:
- - lightnvm: Move out of block layer into /drivers/lightnvm/core.c
- - lightnvm: refactor request->phys_sector into device drivers.
- - lightnvm: refactor prep/unprep into device drivers.
- - lightnvm: move nvm_dev from request_queue to gendisk.
-
- New
- - Bad block table support (From Javier).
- - Update maintainers file.
-
-Changes since v1:
-
- - Splitted LightNVM into two parts. A get/put interface for flash
-   blocks and the respective targets that implement flash translation
-   layer logic.
- - Updated the patches according to the LightNVM specification changes.
- - Added interface to add/remove targets for a block device.
-
-Thanks to Jens Axboe, Christoph Hellwig, Keith Busch, Paul Bolle,
-Javier Gonzalez and Jesper Madsen for discussions and contributions.
-
-Matias Bj?rling (5):
-  lightnvm: Support for Open-Channel SSDs
-  gennvm: Generic NVM manager
-  rrpc: Round-robin sector target with cost-based gc
-  null_nvm: LightNVM test driver
-  nvme: LightNVM support
-
- Documentation/ioctl/ioctl-number.txt |    1 +
- MAINTAINERS                          |    8 +
- drivers/Kconfig                      |    2 +
- drivers/Makefile                     |    1 +
- drivers/lightnvm/Kconfig             |   48 ++
- drivers/lightnvm/Makefile            |    8 +
- drivers/lightnvm/core.c              |  826 +++++++++++++++++++++
- drivers/lightnvm/gennvm.c            |  475 ++++++++++++
- drivers/lightnvm/gennvm.h            |   46 ++
- drivers/lightnvm/null_nvm.c          |  452 ++++++++++++
- drivers/lightnvm/rrpc.c              | 1318 ++++++++++++++++++++++++++++++++++
- drivers/lightnvm/rrpc.h              |  239 ++++++
- drivers/nvme/host/Makefile           |    2 +-
- drivers/nvme/host/lightnvm.c         |  524 ++++++++++++++
- drivers/nvme/host/nvme.h             |   10 +
- drivers/nvme/host/pci.c              |   39 +-
- include/linux/lightnvm.h             |  544 ++++++++++++++
- include/uapi/linux/lightnvm.h        |  130 ++++
- 18 files changed, 4661 insertions(+), 12 deletions(-)
- create mode 100644 drivers/lightnvm/Kconfig
- create mode 100644 drivers/lightnvm/Makefile
- create mode 100644 drivers/lightnvm/core.c
+Signed-off-by: Matias Bj?rling <m at bjorling.me>
+---
+ drivers/lightnvm/Kconfig  |   7 +
+ drivers/lightnvm/Makefile |   1 +
+ drivers/lightnvm/gennvm.c | 475 ++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/lightnvm/gennvm.h |  46 +++++
+ 4 files changed, 529 insertions(+)
  create mode 100644 drivers/lightnvm/gennvm.c
  create mode 100644 drivers/lightnvm/gennvm.h
- create mode 100644 drivers/lightnvm/null_nvm.c
- create mode 100644 drivers/lightnvm/rrpc.c
- create mode 100644 drivers/lightnvm/rrpc.h
- create mode 100644 drivers/nvme/host/lightnvm.c
- create mode 100644 include/linux/lightnvm.h
- create mode 100644 include/uapi/linux/lightnvm.h
 
+diff --git a/drivers/lightnvm/Kconfig b/drivers/lightnvm/Kconfig
+index d4f309f..2a27971 100644
+--- a/drivers/lightnvm/Kconfig
++++ b/drivers/lightnvm/Kconfig
+@@ -25,4 +25,11 @@ config NVM_DEBUG
+ 
+ 	It is required to create/remove targets without IOCTLs.
+ 
++config NVM_GENNVM
++	tristate "Generic NVM manager for Open-Channel SSDs"
++	---help---
++	NVM media manager for Open-Channel SSDs that offload management
++	functionality to device, while keeping data placement and garbage
++	collection decisions on the host.
++
+ endif # NVM
+diff --git a/drivers/lightnvm/Makefile b/drivers/lightnvm/Makefile
+index 38185e9..e2428e0 100644
+--- a/drivers/lightnvm/Makefile
++++ b/drivers/lightnvm/Makefile
+@@ -3,3 +3,4 @@
+ #
+ 
+ obj-$(CONFIG_NVM)		:= core.o
++obj-$(CONFIG_NVM_GENNVM) 	+= gennvm.o
+diff --git a/drivers/lightnvm/gennvm.c b/drivers/lightnvm/gennvm.c
+new file mode 100644
+index 0000000..d8fc4bd
+--- /dev/null
++++ b/drivers/lightnvm/gennvm.c
+@@ -0,0 +1,475 @@
++/*
++ * Copyright (C) 2015 Matias Bjorling <m at bjorling.me>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License version
++ * 2 as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; see the file COPYING.  If not, write to
++ * the Free Software Foundation, 675 Mass Ave, Cambridge, MA 02139,
++ * USA.
++ *
++ * Implementation of a generic nvm manager for Open-Channel SSDs.
++ */
++
++#include "gennvm.h"
++
++static void gennvm_blocks_free(struct nvm_dev *dev)
++{
++	struct gen_nvm *gn = dev->mp;
++	struct gen_lun *lun;
++	int i;
++
++	gennvm_for_each_lun(gn, lun, i) {
++		if (!lun->vlun.blocks)
++			break;
++		vfree(lun->vlun.blocks);
++	}
++}
++
++static void gennvm_luns_free(struct nvm_dev *dev)
++{
++	struct gen_nvm *gn = dev->mp;
++
++	kfree(gn->luns);
++}
++
++static int gennvm_luns_init(struct nvm_dev *dev, struct gen_nvm *gn)
++{
++	struct gen_lun *lun;
++	int i;
++
++	gn->luns = kcalloc(dev->nr_luns, sizeof(struct gen_lun), GFP_KERNEL);
++	if (!gn->luns)
++		return -ENOMEM;
++
++	gennvm_for_each_lun(gn, lun, i) {
++		spin_lock_init(&lun->vlun.lock);
++		INIT_LIST_HEAD(&lun->free_list);
++		INIT_LIST_HEAD(&lun->used_list);
++		INIT_LIST_HEAD(&lun->bb_list);
++
++		lun->reserved_blocks = 2; /* for GC only */
++		lun->vlun.id = i;
++		lun->vlun.lun_id = i % dev->luns_per_chnl;
++		lun->vlun.chnl_id = i / dev->luns_per_chnl;
++		lun->vlun.nr_free_blocks = dev->blks_per_lun;
++	}
++	return 0;
++}
++
++static int gennvm_block_bb(u32 lun_id, void *bb_bitmap, unsigned int nr_blocks,
++								void *private)
++{
++	struct gen_nvm *gn = private;
++	struct gen_lun *lun = &gn->luns[lun_id];
++	struct nvm_block *block;
++	int i;
++
++	if (unlikely(bitmap_empty(bb_bitmap, nr_blocks)))
++		return 0;
++
++	i = -1;
++	while ((i = find_next_bit(bb_bitmap, nr_blocks, i + 1)) <
++			nr_blocks) {
++		block = &lun->vlun.blocks[i];
++		if (!block) {
++			pr_err("gen_nvm: BB data is out of bounds.\n");
++			return -EINVAL;
++		}
++		list_move_tail(&block->list, &lun->bb_list);
++	}
++
++	return 0;
++}
++
++static int gennvm_block_map(u64 slba, u32 nlb, __le64 *entries, void *private)
++{
++	struct nvm_dev *dev = private;
++	struct gen_nvm *gn = dev->mp;
++	sector_t max_pages = dev->total_pages * (dev->sec_size >> 9);
++	u64 elba = slba + nlb;
++	struct gen_lun *lun;
++	struct nvm_block *blk;
++	u64 i;
++	int lun_id;
++
++	if (unlikely(elba > dev->total_pages)) {
++		pr_err("gen_nvm: L2P data from device is out of bounds!\n");
++		return -EINVAL;
++	}
++
++	for (i = 0; i < nlb; i++) {
++		u64 pba = le64_to_cpu(entries[i]);
++
++		if (unlikely(pba >= max_pages && pba != U64_MAX)) {
++			pr_err("gen_nvm: L2P data entry is out of bounds!\n");
++			return -EINVAL;
++		}
++
++		/* Address zero is a special one. The first page on a disk is
++		 * protected. It often holds internal device boot
++		 * information.
++		 */
++		if (!pba)
++			continue;
++
++		/* resolve block from physical address */
++		lun_id = div_u64(pba, dev->sec_per_lun);
++		lun = &gn->luns[lun_id];
++
++		/* Calculate block offset into lun */
++		pba = pba - (dev->sec_per_lun * lun_id);
++		blk = &lun->vlun.blocks[div_u64(pba, dev->sec_per_blk)];
++
++		if (!blk->type) {
++			/* at this point, we don't know anything about the
++			 * block. It's up to the FTL on top to re-etablish the
++			 * block state
++			 */
++			list_move_tail(&blk->list, &lun->used_list);
++			blk->type = 1;
++			lun->vlun.nr_free_blocks--;
++		}
++	}
++
++	return 0;
++}
++
++static int gennvm_blocks_init(struct nvm_dev *dev, struct gen_nvm *gn)
++{
++	struct gen_lun *lun;
++	struct nvm_block *block;
++	sector_t lun_iter, blk_iter, cur_block_id = 0;
++	int ret;
++
++	gennvm_for_each_lun(gn, lun, lun_iter) {
++		lun->vlun.blocks = vzalloc(sizeof(struct nvm_block) *
++							dev->blks_per_lun);
++		if (!lun->vlun.blocks)
++			return -ENOMEM;
++
++		for (blk_iter = 0; blk_iter < dev->blks_per_lun; blk_iter++) {
++			block = &lun->vlun.blocks[blk_iter];
++
++			INIT_LIST_HEAD(&block->list);
++
++			block->lun = &lun->vlun;
++			block->id = cur_block_id++;
++
++			/* First block is reserved for device */
++			if (unlikely(lun_iter == 0 && blk_iter == 0))
++				continue;
++
++			list_add_tail(&block->list, &lun->free_list);
++		}
++
++		if (dev->ops->get_bb_tbl) {
++			ret = dev->ops->get_bb_tbl(dev->q, lun->vlun.id,
++					dev->blks_per_lun, gennvm_block_bb, gn);
++			if (ret)
++				pr_err("gen_nvm: could not read BB table\n");
++		}
++	}
++
++	if (dev->ops->get_l2p_tbl) {
++		ret = dev->ops->get_l2p_tbl(dev->q, 0, dev->total_pages,
++							gennvm_block_map, dev);
++		if (ret) {
++			pr_err("gen_nvm: could not read L2P table.\n");
++			pr_warn("gen_nvm: default block initialization");
++		}
++	}
++
++	return 0;
++}
++
++static int gennvm_register(struct nvm_dev *dev)
++{
++	struct gen_nvm *gn;
++	int ret;
++
++	gn = kzalloc(sizeof(struct gen_nvm), GFP_KERNEL);
++	if (!gn)
++		return -ENOMEM;
++
++	gn->nr_luns = dev->nr_luns;
++	dev->mp = gn;
++
++	ret = gennvm_luns_init(dev, gn);
++	if (ret) {
++		pr_err("gen_nvm: could not initialize luns\n");
++		goto err;
++	}
++
++	ret = gennvm_blocks_init(dev, gn);
++	if (ret) {
++		pr_err("gen_nvm: could not initialize blocks\n");
++		goto err;
++	}
++
++	return 1;
++err:
++	kfree(gn);
++	return ret;
++}
++
++static void gennvm_unregister(struct nvm_dev *dev)
++{
++	gennvm_blocks_free(dev);
++	gennvm_luns_free(dev);
++	kfree(dev->mp);
++	dev->mp = NULL;
++}
++
++static struct nvm_block *gennvm_get_blk(struct nvm_dev *dev,
++				struct nvm_lun *vlun, unsigned long flags)
++{
++	struct gen_lun *lun = container_of(vlun, struct gen_lun, vlun);
++	struct nvm_block *blk = NULL;
++	int is_gc = flags & NVM_IOTYPE_GC;
++
++	BUG_ON(!lun);
++
++	spin_lock(&vlun->lock);
++
++	if (list_empty(&lun->free_list)) {
++		pr_err_ratelimited("gen_nvm: lun %u have no free pages available",
++								lun->vlun.id);
++		spin_unlock(&vlun->lock);
++		goto out;
++	}
++
++	while (!is_gc && lun->vlun.nr_free_blocks < lun->reserved_blocks) {
++		spin_unlock(&vlun->lock);
++		goto out;
++	}
++
++	blk = list_first_entry(&lun->free_list, struct nvm_block, list);
++	list_move_tail(&blk->list, &lun->used_list);
++	blk->type = 1;
++
++	lun->vlun.nr_free_blocks--;
++
++	spin_unlock(&vlun->lock);
++out:
++	return blk;
++}
++
++static void gennvm_put_blk(struct nvm_dev *dev, struct nvm_block *blk)
++{
++	struct nvm_lun *vlun = blk->lun;
++	struct gen_lun *lun = container_of(vlun, struct gen_lun, vlun);
++
++	spin_lock(&vlun->lock);
++
++	switch (blk->type) {
++	case 1:
++		list_move_tail(&blk->list, &lun->free_list);
++		lun->vlun.nr_free_blocks++;
++		blk->type = 0;
++		break;
++	case 2:
++		list_move_tail(&blk->list, &lun->bb_list);
++		break;
++	default:
++		BUG();
++	}
++
++	spin_unlock(&vlun->lock);
++}
++
++static void gennvm_addr_to_generic_mode(struct nvm_dev *dev, struct nvm_rq *rqd)
++{
++	int i;
++
++	if (rqd->nr_pages > 1)
++		for (i = 0; i < rqd->nr_pages; i++)
++			rqd->ppa_list[i] = addr_to_generic_mode(dev,
++							rqd->ppa_list[i]);
++	else
++		rqd->ppa_addr = addr_to_generic_mode(dev, rqd->ppa_addr);
++}
++
++static void gennvm_generic_to_addr_mode(struct nvm_dev *dev, struct nvm_rq *rqd)
++{
++	int i;
++
++	if (rqd->nr_pages > 1)
++		for (i = 0; i < rqd->nr_pages; i++)
++			rqd->ppa_list[i] = generic_to_addr_mode(dev,
++							rqd->ppa_list[i]);
++	else
++		rqd->ppa_addr = generic_to_addr_mode(dev, rqd->ppa_addr);
++}
++
++static int gennvm_submit_io(struct nvm_dev *dev, struct nvm_rq *rqd)
++{
++	if (!dev->ops->submit_io)
++		return 0;
++
++	/* Convert address space */
++	gennvm_generic_to_addr_mode(dev, rqd);
++
++	rqd->dev = dev;
++	return dev->ops->submit_io(dev->q, rqd);
++}
++
++static void gennvm_blk_set_type(struct nvm_dev *dev, struct ppa_addr *ppa,
++								int type)
++{
++	struct gen_nvm *gn = dev->mp;
++	struct gen_lun *lun;
++	struct nvm_block *blk;
++
++	BUG_ON(ppa->g.ch > dev->nr_chnls);
++	BUG_ON(ppa->g.lun > dev->luns_per_chnl);
++	BUG_ON(ppa->g.blk > dev->blks_per_lun);
++
++	lun = &gn->luns[ppa->g.lun * ppa->g.ch];
++	blk = &lun->vlun.blocks[ppa->g.blk];
++
++	/* will be moved to bb list on put_blk from target */
++	blk->type = type;
++}
++
++/* mark block bad. It is expected the target recover from the error. */
++static void gennvm_mark_blk_bad(struct nvm_dev *dev, struct nvm_rq *rqd)
++{
++	int i;
++
++	if (!dev->ops->set_bb)
++		return;
++
++	if (dev->ops->set_bb(dev->q, rqd, 1))
++		return;
++
++	gennvm_addr_to_generic_mode(dev, rqd);
++
++	/* look up blocks and mark them as bad */
++	if (rqd->nr_pages > 1)
++		for (i = 0; i < rqd->nr_pages; i++)
++			gennvm_blk_set_type(dev, &rqd->ppa_list[i], 2);
++	else
++		gennvm_blk_set_type(dev, &rqd->ppa_addr, 2);
++}
++
++static int gennvm_end_io(struct nvm_rq *rqd, int error)
++{
++	struct nvm_tgt_instance *ins = rqd->ins;
++	int ret = 0;
++
++	switch (error) {
++	case NVM_RSP_SUCCESS:
++		break;
++	case NVM_RSP_ERR_EMPTYPAGE:
++		break;
++	case NVM_RSP_ERR_FAILWRITE:
++		gennvm_mark_blk_bad(rqd->dev, rqd);
++	default:
++		ret++;
++	}
++
++	ret += ins->tt->end_io(rqd, error);
++
++	return ret;
++}
++
++static int gennvm_erase_blk(struct nvm_dev *dev, struct nvm_block *blk,
++							unsigned long flags)
++{
++	int plane_cnt = 0, pl_idx, ret;
++	struct ppa_addr addr;
++	struct nvm_rq rqd;
++
++	if (!dev->ops->erase_block)
++		return 0;
++
++	addr = block_to_ppa(dev, blk);
++
++	if (dev->plane_mode == NVM_PLANE_SINGLE) {
++		rqd.nr_pages = 1;
++		rqd.ppa_addr = addr;
++	} else {
++		plane_cnt = (1 << dev->plane_mode);
++		rqd.nr_pages = plane_cnt;
++
++		rqd.ppa_list = nvm_dev_dma_alloc(dev, GFP_KERNEL,
++							&rqd.dma_ppa_list);
++		if (!rqd.ppa_list) {
++			pr_err("gen_nvm: failed to allocate dma memory\n");
++			return -ENOMEM;
++		}
++
++		for (pl_idx = 0; pl_idx < plane_cnt; pl_idx++) {
++			addr.g.pl = pl_idx;
++			rqd.ppa_list[pl_idx] = addr;
++		}
++	}
++
++	gennvm_generic_to_addr_mode(dev, &rqd);
++
++	ret = dev->ops->erase_block(dev->q, &rqd);
++
++	if (plane_cnt)
++		nvm_dev_dma_free(dev, rqd.ppa_list, rqd.dma_ppa_list);
++
++	return ret;
++}
++
++static struct nvm_lun *gennvm_get_lun(struct nvm_dev *dev, int lunid)
++{
++	struct gen_nvm *gn = dev->mp;
++
++	return &gn->luns[lunid].vlun;
++}
++
++static void gennvm_free_blocks_print(struct nvm_dev *dev)
++{
++	struct gen_nvm *gn = dev->mp;
++	struct gen_lun *lun;
++	unsigned int i;
++
++	gennvm_for_each_lun(gn, lun, i)
++		pr_info("%s: lun%8u\t%u\n",
++					dev->name, i, lun->vlun.nr_free_blocks);
++}
++
++static struct nvmm_type gennvm = {
++	.name		= "gennvm",
++	.version	= {0, 1, 0},
++
++	.register_mgr	= gennvm_register,
++	.unregister_mgr	= gennvm_unregister,
++
++	.get_blk	= gennvm_get_blk,
++	.put_blk	= gennvm_put_blk,
++
++	.submit_io	= gennvm_submit_io,
++	.end_io		= gennvm_end_io,
++	.erase_blk	= gennvm_erase_blk,
++
++	.get_lun	= gennvm_get_lun,
++	.free_blocks_print = gennvm_free_blocks_print,
++};
++
++static int __init gennvm_module_init(void)
++{
++	return nvm_register_mgr(&gennvm);
++}
++
++static void gennvm_module_exit(void)
++{
++	nvm_unregister_mgr(&gennvm);
++}
++
++module_init(gennvm_module_init);
++module_exit(gennvm_module_exit);
++MODULE_LICENSE("GPL v2");
++MODULE_DESCRIPTION("Block manager for Hybrid Open-Channel SSDs");
+diff --git a/drivers/lightnvm/gennvm.h b/drivers/lightnvm/gennvm.h
+new file mode 100644
+index 0000000..d23bd35
+--- /dev/null
++++ b/drivers/lightnvm/gennvm.h
+@@ -0,0 +1,46 @@
++/*
++ * Copyright: Matias Bjorling <mb at bjorling.me>
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public License version
++ * 2 as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ */
++
++#ifndef GENNVM_H_
++#define GENNVM_H_
++
++#include <linux/module.h>
++#include <linux/vmalloc.h>
++
++#include <linux/lightnvm.h>
++
++struct gen_lun {
++	struct nvm_lun vlun;
++
++	int reserved_blocks;
++	/* lun block lists */
++	struct list_head used_list;	/* In-use blocks */
++	struct list_head free_list;	/* Not used blocks i.e. released
++					 * and ready for use
++					 */
++	struct list_head bb_list;	/* Bad blocks. Mutually exclusive with
++					 * free_list and used_list
++					 */
++};
++
++struct gen_nvm {
++	int nr_luns;
++	struct gen_lun *luns;
++};
++
++#define gennvm_for_each_lun(bm, lun, i) \
++		for ((i) = 0, lun = &(bm)->luns[0]; \
++			(i) < (bm)->nr_luns; (i)++, lun = &(bm)->luns[(i)])
++
++#endif /* GENNVM_H_ */
 -- 
 2.1.4
