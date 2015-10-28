@@ -1,18 +1,23 @@
 From: davem@davemloft.net (David Miller)
-Date: Tue, 27 Oct 2015 17:54:43 -0700 (PDT)
+Date: Tue, 27 Oct 2015 18:00:11 -0700 (PDT)
 Subject: [PATCH 0/5 v3] Fix NVMe driver support on Power with 32-bit DMA
-In-Reply-To: <20151027223643.GA25332@localhost.localdomain>
-References: <20151026.182746.1323901353520152838.davem@davemloft.net>
- <20151027222010.GD7716@linux.vnet.ibm.com>
- <20151027223643.GA25332@localhost.localdomain>
-Message-ID: <20151027.175443.140992924519172506.davem@davemloft.net>
+In-Reply-To: <CAGRGNgVvvcjHFjU4H1wnj6bGy69X19d-xR9O+Xc-p-TmtPxNgQ@mail.gmail.com>
+References: <CAGRGNgXV+RJvjOBe351HyguYkonQ8F=CM3uZTijcqoQg6ArAcw@mail.gmail.com>
+ <20151027234018.GA48779@linux.vnet.ibm.com>
+ <CAGRGNgVvvcjHFjU4H1wnj6bGy69X19d-xR9O+Xc-p-TmtPxNgQ@mail.gmail.com>
+Message-ID: <20151027.180011.1597667162481700758.davem@davemloft.net>
 
-From: "Busch, Keith" <keith.busch@intel.com>
-Date: Tue, 27 Oct 2015 22:36:43 +0000
+From: Julian Calaby <julian.calaby@gmail.com>
+Date: Wed, 28 Oct 2015 10:43:35 +1100
 
-> If you're suggesting to compile-time break architectures that currently
-> work just fine with NVMe, let me stop you right there.
+> You'll be CCing the maintainers of each architecture on the patches to
+> add the functions, so if they do have specific requirements, I'm sure
+> they'll let you know or provide patches.
 
-Silently "working" without the architecture maintainer having to explicity
-look at the new interface and make sure his platform is implementing it
-properly is an extremely bad practice.
+People miss things, maintainers get busy, so while a CC: is important
+and appreciated, it doesn't ensure a correct implementation is likely
+to result.
+
+Personally, I'd much rather my arch stop building so I have to go in
+there to explicitly look at the reason why and make sure I fill in the
+missing pieces properly and accurately.
