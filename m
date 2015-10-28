@@ -1,30 +1,27 @@
-From: keith.busch@intel.com (Busch, Keith)
-Date: Wed, 28 Oct 2015 13:59:23 +0000
-Subject: [PATCH 0/5 v3] Fix NVMe driver support on Power with 32-bit DMA
-In-Reply-To: <20151027.175443.140992924519172506.davem@davemloft.net>
-References: <20151026.182746.1323901353520152838.davem@davemloft.net>
- <20151027222010.GD7716@linux.vnet.ibm.com>
- <20151027223643.GA25332@localhost.localdomain>
- <20151027.175443.140992924519172506.davem@davemloft.net>
-Message-ID: <20151028135922.GA27909@localhost.localdomain>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Wed, 28 Oct 2015 14:43:56 -0400
+Subject: Persistent Reservation API V4
+In-Reply-To: <1444911052-9423-1-git-send-email-hch@lst.de>
+References: <1444911052-9423-1-git-send-email-hch@lst.de>
+Message-ID: <20151028184356.GA21933@redhat.com>
 
-On Tue, Oct 27, 2015@05:54:43PM -0700, David Miller wrote:
-> From: "Busch, Keith" <keith.busch at intel.com>
-> Date: Tue, 27 Oct 2015 22:36:43 +0000
+On Thu, Oct 15 2015 at  8:10am -0400,
+Christoph Hellwig <hch@lst.de> wrote:
+
+> This series adds support for a simplified Persistent Reservation API
+> to the block layer.  The intent is that both in-kernel and userspace
+> consumers can use the API instead of having to hand craft SCSI or NVMe
+> command through the various pass through interfaces.  It also adds
+> DM support as getting reservations through dm-multipath is a major
+> pain with the current scheme.
 > 
-> > If you're suggesting to compile-time break architectures that currently
-> > work just fine with NVMe, let me stop you right there.
+> The ioctl API is documented in Documentation/block/pr.txt, but to
+> fully understand the concept you'll have to read up the SPC spec,
+> PRs are too complicated that trying to rephrase them into different
+> terminology is just going to create confusion.
 > 
-> Silently "working" without the architecture maintainer having to explicity
-> look at the new interface and make sure his platform is implementing it
-> properly is an extremely bad practice.
+> Note that Mike wants to include the DM patches so through the DM
+> tree, so they are only included for reference.
 
-It won't work if it's wrong. It'll BUG_ON, and I'll be assigned to help
-fix it, like what's happened here (on a private bugzilla).
-
-The "new" interface for all the other architectures is the same as the
-old one we've been using for the last 5 years.
-
-I welcome x86 maintainer feedback to confirm virtual and DMA addresses
-have the same offset at 4k alignment, but I have to insist we don't
-break my currently working hardware to force their attention.
+I looked at these again and the DM changes look good.  Any update on
+if/when the block changes will land?
