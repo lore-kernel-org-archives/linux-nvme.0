@@ -1,233 +1,176 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Wed, 28 Oct 2015 07:44:47 +0800
-Subject: [PATCH v12 3/5] rrpc: Round-robin sector target with cost-based gc
-In-Reply-To: <1445957719-5368-4-git-send-email-m@bjorling.me>
-Message-ID: <201510280706.vGLrJ3Hi%fengguang.wu@intel.com>
+From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
+Date: Wed, 28 Oct 2015 01:30:28 +0100
+Subject: [PATCH v13 0/5] Support for Open-Channel SSDs
+Message-ID: <1445992233-676-1-git-send-email-m@bjorling.me>
 
-Hi Matias,
+This patchset implements support for Open-Channel SSDs.
 
-[auto build test ERROR on next-20151022 -- if it's inappropriate base, please suggest rules for selecting the more suitable base]
+Applies against Jens' for-4.4/drivers and is available through the lkml_v13
+branch at:
 
-url:    https://github.com/0day-ci/linux/commits/Matias-Bj-rling/Support-for-Open-Channel-SSDs/20151027-230440
-config: microblaze-allmodconfig (attached as .config)
-reproduce:
-        wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        make.cross ARCH=microblaze 
+  https://github.com/OpenChannelSSD/linux
 
-All errors (new ones prefixed by >>):
+Changes since v12:
+ - Fixes for 64bit divisions on 32bit architectures (kbuild).
+ - Coccinelle spotted a use for memdup_user (kbuild).
 
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/dt2814.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/dt2811.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/dt2801.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/dmm32at.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/das800.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/das6402.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/das1800.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/das16m1.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/das16.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/das08.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/dac02.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/contec_pci_dio.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/comedi_parport.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/comedi_8255.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/comedi_8254.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/cb_pcimdda.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/cb_pcimdas.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/cb_pcidda.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/cb_pcidas.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/c6xdigio.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/amplc_pci263.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/amplc_pci236.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/amplc_pci230.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/amplc_pci224.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/amplc_pc263.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/amplc_dio200_common.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/aio_iiro_16.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/aio_aio12_8.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/adv_pci_dio.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/adv_pci1724.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/adv_pci1723.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/adv_pci1710.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/adq12b.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/adl_pci9118.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/adl_pci9111.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/adl_pci8164.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/adl_pci7x3x.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/adl_pci6208.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/addi_watchdog.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/addi_apci_3xxx.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/addi_apci_3501.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/addi_apci_3120.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/addi_apci_2200.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/addi_apci_2032.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/addi_apci_16xx.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/addi_apci_1564.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/addi_apci_1516.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/addi_apci_1500.ko] undefined!
-   ERROR: "isa_io_base" [drivers/staging/comedi/drivers/addi_apci_1032.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/qla2xxx/qla2xxx.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/ppa.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/nsp32.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/mvsas/mvsas.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/megaraid.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/ips.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/initio.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/imm.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/fdomain.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/dmx3191d.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/dc395x.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/atp870u.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/aic94xx/aic94xx.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/aic7xxx/aic7xxx.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/aic7xxx/aic79xx.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/advansys.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/a100u2w.ko] undefined!
-   ERROR: "isa_io_base" [drivers/scsi/3w-xxxx.ko] undefined!
-   ERROR: "isa_io_base" [drivers/rtc/rtc-bq4802.ko] undefined!
-   ERROR: "isa_io_base" [drivers/platform/chrome/cros_ec_lpc.ko] undefined!
-   ERROR: "isa_io_base" [drivers/parport/parport_pc.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/wireless/hostap/hostap_plx.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/wireless/atmel.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/wan/lmc/lmc.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/wan/farsync.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/irda/vlsi_ir.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/irda/donauboe.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/hamradio/yam.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/hamradio/baycom_ser_hdx.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/hamradio/baycom_ser_fdx.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/ethernet/via/via-rhine.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/ethernet/ti/tlan.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/ethernet/sis/sis900.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/ethernet/sis/sis190.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/ethernet/intel/e1000/e1000.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/ethernet/hp/hp100.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/ethernet/dec/tulip/de4x5.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/ethernet/amd/pcnet32.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/ethernet/8390/ne2k-pci.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/ethernet/8390/8390.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/ethernet/3com/3c59x.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/can/sja1000/sja1000_isa.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/can/cc770/cc770_isa.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/arcnet/com90xx.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/arcnet/com90io.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/arcnet/com20020.ko] undefined!
-   ERROR: "isa_io_base" [drivers/net/arcnet/com20020-pci.ko] undefined!
-   ERROR: "isa_io_base" [drivers/misc/altera-stapl/altera-stapl.ko] undefined!
-   ERROR: "isa_io_base" [drivers/message/fusion/mptbase.ko] undefined!
-   ERROR: "isa_io_base" [drivers/media/radio/radio-maxiradio.ko] undefined!
-   ERROR: "isa_io_base" [drivers/media/pci/dm1105/dm1105.ko] undefined!
->> ERROR: "__udivdi3" [drivers/lightnvm/rrpc.ko] undefined!
->> ERROR: "__umoddi3" [drivers/lightnvm/rrpc.ko] undefined!
-   ERROR: "__udivdi3" [drivers/lightnvm/gennvm.ko] undefined!
-   ERROR: "__umoddi3" [drivers/lightnvm/gennvm.ko] undefined!
-   ERROR: "isa_io_base" [drivers/leds/leds-ot200.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hysdn/hysdn.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hisax/hisax_fcpcipnp.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hisax/hisax.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hisax/hfc4s8s_l1.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hardware/mISDN/w6692.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hardware/mISDN/speedfax.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hardware/mISDN/netjet.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hardware/mISDN/mISDNinfineon.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hardware/mISDN/hfcmulti.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hardware/mISDN/avmfritz.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hardware/eicon/divas.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hardware/avm/b1pci.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hardware/avm/b1dma.ko] undefined!
-   ERROR: "isa_io_base" [drivers/isdn/hardware/avm/b1.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/touchscreen/mk712.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/serio/pcips2.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/tmdc.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/sidewinder.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/joydump.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/interact.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/guillemot.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/grip_mp.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/grip.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/gf2k.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/cobra.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/analog.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/adi.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/joystick/a3d.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/gameport/ns558.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/gameport/lightning.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/gameport/gameport.ko] undefined!
-   ERROR: "isa_io_base" [drivers/input/gameport/fm801-gp.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-viapro.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-via.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-sis96x.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-sis630.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-sis5595.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-piix4.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-parport-light.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-nforce2.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-isch.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-i801.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-amd8111.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-amd756.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-ali15x3.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-ali1563.ko] undefined!
-   ERROR: "isa_io_base" [drivers/i2c/busses/i2c-ali1535.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/w83627hf.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/w83627ehf.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/vt8231.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/vt1211.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/via686a.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/smsc47m1.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/smsc47b397.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/sis5595.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/sch56xx-common.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/pc87427.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/pc87360.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/nct6775.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/nct6683.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/it87.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/f71882fg.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/f71805f.ko] undefined!
-   ERROR: "isa_io_base" [drivers/hwmon/dme1737.ko] undefined!
-   ERROR: "isa_io_base" [drivers/gpu/drm/qxl/qxl.ko] undefined!
-   ERROR: "isa_io_base" [drivers/gpu/drm/cirrus/cirrus.ko] undefined!
-   ERROR: "isa_io_base" [drivers/gpu/drm/bochs/bochs-drm.ko] undefined!
-   ERROR: "isa_io_base" [drivers/gpio/gpio-vx855.ko] undefined!
-   ERROR: "isa_io_base" [drivers/gpio/gpio-ts5500.ko] undefined!
-   ERROR: "isa_io_base" [drivers/gpio/gpio-sch311x.ko] undefined!
-   ERROR: "isa_io_base" [drivers/gpio/gpio-amd8111.ko] undefined!
-   ERROR: "isa_io_base" [drivers/char/tpm/tpm_atmel.ko] undefined!
-   ERROR: "isa_io_base" [drivers/char/ipmi/ipmi_si.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/on26.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/on20.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/ktti.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/kbic.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/frpw.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/friq.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/fit3.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/fit2.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/epia.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/epat.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/dstr.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/comm.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/bpck6.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/bpck.ko] undefined!
-   ERROR: "isa_io_base" [drivers/block/paride/aten.ko] undefined!
-   ERROR: "isa_io_base" [drivers/atm/zatm.ko] undefined!
-   ERROR: "isa_io_base" [drivers/atm/horizon.ko] undefined!
-   ERROR: "isa_io_base" [drivers/atm/ambassador.ko] undefined!
-   ERROR: "isa_io_base" [drivers/ata/pata_sc1200.ko] undefined!
-   ERROR: "isa_io_base" [drivers/ata/pata_pdc202xx_old.ko] undefined!
-   ERROR: "isa_io_base" [drivers/ata/pata_optidma.ko] undefined!
-   ERROR: "isa_io_base" [drivers/ata/pata_legacy.ko] undefined!
-   ERROR: "isa_io_base" [drivers/ata/pata_hpt3x2n.ko] undefined!
-   ERROR: "isa_io_base" [drivers/ata/pata_hpt37x.ko] undefined!
+Changes since v11:
+ - Add support for group identifiers.
+ - Fixed kbuild error on nvme_nvm_unregister.
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 42873 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20151028/7495ae70/attachment-0001.obj>
+Changes since v10:
+ - Fix sparse errors.
+ - Enable flash command support for SLC mode, suspend/resume, plane hints.
+ - A couple of optimizations for the rq to nvme conversion.
+ - static function fixes (Fengguang Wu)
+
+Changes since v9:
+ - Fix compilation of the kernel without LightNVM selected.
+ - Make static completion_queues variable unique so it doesn't collide with
+   the null_blk module.
+
+Changes since v8:
+ - Specification was changed to define a SSD configuration using a single entry.
+   This replaces the per-lun specification with a single configuration. Easing
+   the access to global geometry values and simplifies address calculations.
+ - Implement PPA addressing modes. Encode NAND flash structure into physical
+   page addresses. An address now has bits reserved for each part of the flash
+   units (sectors, page, block, plane, lun, channels), replacing the linear
+   address space previously found in the LightNVM specification.
+ - Rename bm_hb to gennvm (generic nvm manager). This part now covers any type
+   of non-volatile memory media. Thus, it is not only a block manager, but
+   manages several pieces of core information.
+ - Add detection for CNEX Westlake controller.
+ - Completion of I/Os was previously directly completed in the target. Push
+   completion through the media manager first and then target.
+ - Rebased on top of latest changes to the NVMe device driver architecture.
+ - Various fixes and refactoring.
+
+Changes since v7:
+ - The IOCTL management interface have been created. Devices can now be
+   managed through the lightnvm-adm tool (ladm). This is available from:
+     https://github.com/OpenChannelSSD/lightnvm-adm.git
+ - The debugging management interface is now only available if debugging
+   is enabled. (/sys/module/lnvm/parameters/configure_debug)
+ - GCC compatibility fixes (Dongsheng Yang)
+ - Fix for BM initialization (Dongsheng Yang)
+ - Fix for error during rrpc init (Javier Gonzalez)
+ - Refactor NVMe driver to not expect non-standard behavior. Added PCI
+   id identification for selected devices (qemu-nvme and cnex).
+ - Enable NVMe metadata to be passed from target.
+ - Create ioctl interface for management.
+ - Add NVM_DEBUG flag to explicit enable/diskable parameter
+   configure_debug access. The interface is only available if debugging
+   is enabled.
+ - Add support for physical block address commands.
+ - Added uapi/lightnvm.h header to expose ioctl interface.
+ - Fix qemu-nvme initialization extensions regarding L2P translation
+   support.
+ - Clean up of dead code.
+ - Updated e-mails, copyrights, etc.
+
+Changes since v6:
+ - Multipage support (Javier Gonzalez)
+ - General code cleanups
+ - Fixed memleak on register failure
+
+Changes since v5:
+Feedback from Christoph Hellwig.
+ - Created new null_nvm from null_blk to register itself as a lightnvm
+   device.
+ - Changed the interface of register/unregister to only take disk_name.
+   The gendisk alloc in nvme is kept. Most instantiations will
+   involve the device gendisk, therefore wait with refactoring to a
+   later time.
+ - Renamed global parameters in core.c and rrpc.c
+
+Changes since v4:
+ - Remove gendisk->nvm dependency
+ - Remove device driver rq private field dependency.
+ - Update submission and completion. The flow is now
+     Target -> Block Manager -> Device Driver, replacing callbacks in
+     device driver.
+ - Abstracted out the block manager into its own module. Other block
+   managers can now be implemented. For example to support fully
+   host-based SSDs.
+ - No longer exposes the device driver gendisk to user-space.
+ - Management is moved into /sys/modules/lnvm/parameters/configure_debug
+
+Changes since v3:
+
+ - Remove dependency on REQ_NVM_GC
+ - Refactor nvme integration to use nvme_submit_sync_cmd for
+   internal commands.
+ - Fix race condition bug on multiple threads on RRPC target.
+ - Rename sysfs entry under the block device from nvm to lightnvm.
+   The configuration is found in /sys/block/*/lightnvm/
+
+Changes since v2:
+
+ Feedback from Paul Bolle:
+ - Fix license to GPLv2, documentation, compilation.
+ Feedback from Keith Busch:
+ - nvme: Move lightnvm out and into nvme-lightnvm.c.
+ - nvme: Set controller css on lightnvm command set.
+ - nvme: Remove OACS.
+ Feedback from Christoph Hellwig:
+ - lightnvm: Move out of block layer into /drivers/lightnvm/core.c
+ - lightnvm: refactor request->phys_sector into device drivers.
+ - lightnvm: refactor prep/unprep into device drivers.
+ - lightnvm: move nvm_dev from request_queue to gendisk.
+
+ New
+ - Bad block table support (From Javier).
+ - Update maintainers file.
+
+Changes since v1:
+
+ - Splitted LightNVM into two parts. A get/put interface for flash
+   blocks and the respective targets that implement flash translation
+   layer logic.
+ - Updated the patches according to the LightNVM specification changes.
+ - Added interface to add/remove targets for a block device.
+
+Thanks to Jens Axboe, Christoph Hellwig, Keith Busch, Paul Bolle,
+Javier Gonzalez and Jesper Madsen for discussions and contributions.
+
+Matias Bj?rling (5):
+  lightnvm: Support for Open-Channel SSDs
+  gennvm: Generic NVM manager
+  rrpc: Round-robin sector target with cost-based gc
+  null_nvm: LightNVM test driver
+  nvme: LightNVM support
+
+ Documentation/ioctl/ioctl-number.txt |    1 +
+ MAINTAINERS                          |    8 +
+ drivers/Kconfig                      |    2 +
+ drivers/Makefile                     |    1 +
+ drivers/lightnvm/Kconfig             |   48 ++
+ drivers/lightnvm/Makefile            |    8 +
+ drivers/lightnvm/core.c              |  826 +++++++++++++++++++++
+ drivers/lightnvm/gennvm.c            |  475 ++++++++++++
+ drivers/lightnvm/gennvm.h            |   46 ++
+ drivers/lightnvm/null_nvm.c          |  452 ++++++++++++
+ drivers/lightnvm/rrpc.c              | 1318 ++++++++++++++++++++++++++++++++++
+ drivers/lightnvm/rrpc.h              |  239 ++++++
+ drivers/nvme/host/Makefile           |    2 +-
+ drivers/nvme/host/lightnvm.c         |  524 ++++++++++++++
+ drivers/nvme/host/nvme.h             |   10 +
+ drivers/nvme/host/pci.c              |   39 +-
+ include/linux/lightnvm.h             |  544 ++++++++++++++
+ include/uapi/linux/lightnvm.h        |  130 ++++
+ 18 files changed, 4661 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/lightnvm/Kconfig
+ create mode 100644 drivers/lightnvm/Makefile
+ create mode 100644 drivers/lightnvm/core.c
+ create mode 100644 drivers/lightnvm/gennvm.c
+ create mode 100644 drivers/lightnvm/gennvm.h
+ create mode 100644 drivers/lightnvm/null_nvm.c
+ create mode 100644 drivers/lightnvm/rrpc.c
+ create mode 100644 drivers/lightnvm/rrpc.h
+ create mode 100644 drivers/nvme/host/lightnvm.c
+ create mode 100644 include/linux/lightnvm.h
+ create mode 100644 include/uapi/linux/lightnvm.h
+
+-- 
+2.1.4
