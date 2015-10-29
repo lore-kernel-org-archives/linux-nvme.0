@@ -1,26 +1,23 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 29 Oct 2015 16:34:55 +0900
-Subject: [PATCH v13 2/5] gennvm: Generic NVM manager
-In-Reply-To: <56315D0F.5010602@cn.fujitsu.com>
-References: <1445992233-676-1-git-send-email-m@bjorling.me>
- <1445992233-676-3-git-send-email-m@bjorling.me>
- <56315D0F.5010602@cn.fujitsu.com>
-Message-ID: <5631CC1F.5050107@kernel.dk>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 29 Oct 2015 04:55:36 -0700
+Subject: [PATCH 0/5 v3] Fix NVMe driver support on Power with 32-bit DMA
+In-Reply-To: <20151028135922.GA27909@localhost.localdomain>
+References: <20151026.182746.1323901353520152838.davem@davemloft.net>
+ <20151027222010.GD7716@linux.vnet.ibm.com>
+ <20151027223643.GA25332@localhost.localdomain>
+ <20151027.175443.140992924519172506.davem@davemloft.net>
+ <20151028135922.GA27909@localhost.localdomain>
+Message-ID: <20151029115536.GA28090@infradead.org>
 
-On 10/29/2015 08:41 AM, Dongsheng Yang wrote:
-> On 10/28/2015 08:30 AM, Matias Bj?rling wrote:
->> The implementation for Open-Channel SSDs is divided into media
-> [...]
->> +        lun->reserved_blocks = 2; /* for GC only */
->> +        lun->vlun.id = i;
->> +        lun->vlun.lun_id = i % dev->luns_per_chnl;
->> +        lun->vlun.chnl_id = i / dev->luns_per_chnl;
->
-> Please use do_div(). % would be not supported in some platforms, as
-> the kbuild pointed in V12.
+On Wed, Oct 28, 2015@01:59:23PM +0000, Busch, Keith wrote:
+> The "new" interface for all the other architectures is the same as the
+> old one we've been using for the last 5 years.
+> 
+> I welcome x86 maintainer feedback to confirm virtual and DMA addresses
+> have the same offset at 4k alignment, but I have to insist we don't
+> break my currently working hardware to force their attention.
 
-Neither of those are 64-bit variables, which is where you end up with 
-the problem on 32-bit archs.
-
--- 
-Jens Axboe
+We had a quick cht about this issue and I think we simply should
+default to a NVMe controler page size of 4k everywhere as that's the
+safe default.  This is also what we do for RDMA Memory reigstrations and
+it works fine there for SRP and iSER.
