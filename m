@@ -1,59 +1,57 @@
 From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
-Date: Thu, 29 Oct 2015 18:59:12 +0100
+Date: Thu, 29 Oct 2015 20:46:38 +0100
 Subject: [PATCH] nvme: prepare support for Apple NVMe controller
-In-Reply-To: <CAKajsGOy_JjQFvDePw=A1xmP-o_JPoHxE48VvXW5Gsi18gC49A@mail.gmail.com>
+In-Reply-To: <20151029151056.GA2580@localhost.localdomain>
 References: <bd1f730603ee00205657774a362aab10@localhost>
  <20151029151056.GA2580@localhost.localdomain>
- <CAKajsGOy_JjQFvDePw=A1xmP-o_JPoHxE48VvXW5Gsi18gC49A@mail.gmail.com>
-Message-ID: <aa2cd8baee2f28f08559aef8be46bac0@localhost>
+Message-ID: <1765c91018bf3b7840ce79d9b51762e8@localhost>
 
-On 2015/October/29 10:06, Vedant Lath wrote:
-> Hi Stephan,
+On 2015/October/29 09:10, Jon Derrick wrote:
+> > +#define readq lo_hi_readq
+> > +#define writeq lo_hi_writeq
+> > +
 > 
-> Thank you! I am glad to see that Linux support for this SSD is workable.
-> 
-> I have a MacBookAir7,1 (11" Macbook Air (Early 2015)) which uses the
-> same (or similar) SSD (PCI ID 106b:2001). I am extremely interested to
+> Good job figuring that one out. But this should be a quirk:
+> a) It will sacrifice some io cycles on other devices
+> b) It may get lost at some point in the name of performance
 
-You are right, the latest 11" MacBook Air presumably uses the same
-controller.
-
-> test the patch on this laptop. Which kernel tree should I apply this
-> patch on? Can I apply it on stable (4.2.5)?
-
-I tested against 4.3-rc7. However, since the patch consits of 2 lines it 
-is very likely that it it also applies to older kernels.
+Yep.
 
 > 
-> I had thought it might have been something related to initialising the
-> controller because lspci showed correctable errors (DevSta: CorrErr+)
-> on Linux but not on OS X. I also got discouraged because of the
-> vendor-specific PCI class (018002) instead of the nvme PCI class
-> (010802) which indicated a non-standard protocol. It's a nice feeling
-> to know it only requires a quirk to work.
+> Christoph recently added a quirks mechanism where I think it would fit
 
-Do not forget to bind it manually. And there is still a long way, at 
-least for the MacBook8,1 as there is still no clue why the internal 
-keyboard is not working...
+To be honest we don't know what mechanism you are referring to. Please 
+give us pointer.
 
-> 
-> On Thu, Oct 29, 2015@8:40 PM, Jon Derrick <jonathan.derrick@intel.com> wrote:
-> >> +#define readq lo_hi_readq
-> >> +#define writeq lo_hi_writeq
-> >> +
-> >
-> > Good job figuring that one out. But this should be a quirk:
-> > a) It will sacrifice some io cycles on other devices
-> > b) It may get lost at some point in the name of performance
-> >
-> > Christoph recently added a quirks mechanism where I think it would fit
-> >
-> > _______________________________________________
-> > Linux-nvme mailing list
-> > Linux-nvme at lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-nvme
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+
+I assume that we concur that this workaround--as well as making the nvme 
+driver claim the Apple controller--should be a runtime-decisions based 
+on the device id. That avoids both penalties in terms of cpu cycles and 
+the tedious manual binding.
+
+How to do that sanely is a bit unclear to me. Detection at runtime would 
+require that
+
+1) the nvme driver attempts to bind to non-nvme devices (pci class 
+018002),
+
+2) checks whether or not that is Apples special controller (106b 2001), 
+and in that case
+
+3) binds to the device while using ordered split writes on 64bit 
+platforms, which probably requires a set of function pointers to 
+low-level ops.
+
+
+Another approach might be to write an intermediate driver that relies on 
+the nvme driver but encapsulates the remaining stuff.
+
+
+If Apple's controller is expected to be the only exception, the latter 
+approach would make sense. But I don't believe that Apple builds the 
+only custom nvme controller that is "almost" compatible. (assuming that 
+018002 instead of 010802 isn't a typo anyways).
+
+
+Best,
+Stephan
