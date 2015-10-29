@@ -1,16 +1,36 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Thu, 29 Oct 2015 09:10:56 -0600
-Subject: [PATCH] nvme: prepare support for Apple NVMe controller
-In-Reply-To: <bd1f730603ee00205657774a362aab10@localhost>
-References: <bd1f730603ee00205657774a362aab10@localhost>
-Message-ID: <20151029151056.GA2580@localhost.localdomain>
+From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
+Date: Thu, 29 Oct 2015 08:57:01 -0700
+Subject: [PATCH 0/5 v3] Fix NVMe driver support on Power with 32-bit DMA
+In-Reply-To: <20151029115536.GA28090@infradead.org>
+References: <20151026.182746.1323901353520152838.davem@davemloft.net>
+ <20151027222010.GD7716@linux.vnet.ibm.com>
+ <20151027223643.GA25332@localhost.localdomain>
+ <20151027.175443.140992924519172506.davem@davemloft.net>
+ <20151028135922.GA27909@localhost.localdomain>
+ <20151029115536.GA28090@infradead.org>
+Message-ID: <20151029155701.GJ7716@linux.vnet.ibm.com>
 
-> +#define readq lo_hi_readq
-> +#define writeq lo_hi_writeq
-> +
+On 29.10.2015 [04:55:36 -0700], Christoph Hellwig wrote:
+> On Wed, Oct 28, 2015@01:59:23PM +0000, Busch, Keith wrote:
+> > The "new" interface for all the other architectures is the same as the
+> > old one we've been using for the last 5 years.
+> > 
+> > I welcome x86 maintainer feedback to confirm virtual and DMA addresses
+> > have the same offset at 4k alignment, but I have to insist we don't
+> > break my currently working hardware to force their attention.
+> 
+> We had a quick cht about this issue and I think we simply should
+> default to a NVMe controler page size of 4k everywhere as that's the
+> safe default.  This is also what we do for RDMA Memory reigstrations and
+> it works fine there for SRP and iSER.
 
-Good job figuring that one out. But this should be a quirk:
-a) It will sacrifice some io cycles on other devices
-b) It may get lost at some point in the name of performance
+So, would that imply changing just the NVMe driver code rather than
+adding the dma_page_shift API at all? What about
+architectures that can support the larger page sizes? There is an
+implied performance impact, at least, of shifting the IO size down.
 
-Christoph recently added a quirks mechanism where I think it would fit
+Sorry for the continuing questions -- I got lots of conflicting feedback
+on the last series and want to make sure v4 is more acceptable.
+
+Thanks,
+Nish
