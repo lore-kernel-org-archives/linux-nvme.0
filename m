@@ -1,22 +1,47 @@
-From: davem@davemloft.net (David Miller)
-Date: Thu, 29 Oct 2015 18:49:55 -0700 (PDT)
-Subject: [PATCH 0/5 v3] Fix NVMe driver support on Power with 32-bit DMA
-In-Reply-To: <20151029155701.GJ7716@linux.vnet.ibm.com>
-References: <20151028135922.GA27909@localhost.localdomain>
- <20151029115536.GA28090@infradead.org>
- <20151029155701.GJ7716@linux.vnet.ibm.com>
-Message-ID: <20151029.184955.728736673434401711.davem@davemloft.net>
+From: olivier.mallinger@ip-maker.com (Olivier Mallinger - IP Maker)
+Date: Fri, 30 Oct 2015 12:36:27 +0100
+Subject: IOCTL question.
+Message-ID: <5633563B.3000901@ip-maker.com>
 
-From: Nishanth Aravamudan <nacc@linux.vnet.ibm.com>
-Date: Thu, 29 Oct 2015 08:57:01 -0700
+Hello.
 
-> So, would that imply changing just the NVMe driver code rather than
-> adding the dma_page_shift API at all? What about
-> architectures that can support the larger page sizes? There is an
-> implied performance impact, at least, of shifting the IO size down.
-> 
-> Sorry for the continuing questions -- I got lots of conflicting feedback
-> on the last series and want to make sure v4 is more acceptable.
+I want to use the driver's ioctl and nvme cli with pass-through command 
+to manage queues.
+The purpose is to create a queue with Submission and completion PRP List.
 
-In the long term I would be very happy to see us having a real interface
-for this stuff, just my opinion...
+I did a script doing the following :
+   - Delete all submission queue (ex. : nvme admin-passthru /dev/nvme0 
+--opcode=0x00 --cdw10=0x1)
+   - Delete all completion queue (ex. : nvme admin-passthru /dev/nvme0 
+--opcode=0x04 --cdw10=0x1)
+  - Create new completion queue (ex. : nvme admin-passthru /dev/nvme0 
+--opcode=0x05 --cdw10=0x3ff0001 --cdw11=0x2)
+   - Create new submission queue (ex. : nvme admin-passthru /dev/nvme0 
+--opcode=0x01 --cdw10=0x3ff0001 --cdw11=0x00010000)
+
+Until now, the device has completed all the command successfully and is 
+ready to perform I/O command with this new queue.
+
+Then, i try to send a single write command (ex. : nvme write 
+/dev/nvme0n1 -s 0 -c 0 -z 4096 -y 0 -r 0 -d essai.txt -p 0 -m 0 -a 0 -l 
+0 -t 0 -f 0).
+The device is never warn that a new command is available and the write 
+is never fetch and not executed.
+
+Can I manage the queue with the driver ioctl in that way ?
+What is the driver behavior when I delete and create queue ?
+
+Thanks.
+Regards.
+Olivier.
+
+
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: olivier_mallinger.vcf
+Type: text/x-vcard
+Size: 316 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20151030/d59a63c1/attachment.vcf>
