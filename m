@@ -1,31 +1,28 @@
-From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
-Date: Fri, 30 Oct 2015 14:35:46 -0700
-Subject: [PATCH 0/5 v3] Fix NVMe driver support on Power with 32-bit DMA
-In-Reply-To: <20151029.184955.728736673434401711.davem@davemloft.net>
-References: <20151028135922.GA27909@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 30 Oct 2015 21:48:48 +0000
+Subject: [PATCH 1/1 v3] drivers/nvme: default to 4k device page size
+In-Reply-To: <20151030213511.GK7716@linux.vnet.ibm.com>
+References: <20151026.182746.1323901353520152838.davem@davemloft.net>
+ <20151027222010.GD7716@linux.vnet.ibm.com>
+ <20151027223643.GA25332@localhost.localdomain>
+ <20151027.175443.140992924519172506.davem@davemloft.net>
+ <20151028135922.GA27909@localhost.localdomain>
  <20151029115536.GA28090@infradead.org>
  <20151029155701.GJ7716@linux.vnet.ibm.com>
- <20151029.184955.728736673434401711.davem@davemloft.net>
-Message-ID: <20151030213546.GL7716@linux.vnet.ibm.com>
+ <20151029172043.GA8343@localhost.localdomain>
+ <20151030213511.GK7716@linux.vnet.ibm.com>
+Message-ID: <20151030214848.GC13904@localhost.localdomain>
 
-On 29.10.2015 [18:49:55 -0700], David Miller wrote:
-> From: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
-> Date: Thu, 29 Oct 2015 08:57:01 -0700
-> 
-> > So, would that imply changing just the NVMe driver code rather than
-> > adding the dma_page_shift API at all? What about
-> > architectures that can support the larger page sizes? There is an
-> > implied performance impact, at least, of shifting the IO size down.
-> > 
-> > Sorry for the continuing questions -- I got lots of conflicting feedback
-> > on the last series and want to make sure v4 is more acceptable.
-> 
-> In the long term I would be very happy to see us having a real interface
-> for this stuff, just my opinion...
+On Fri, Oct 30, 2015@02:35:11PM -0700, Nishanth Aravamudan wrote:
+> Given that it's 4K just about everywhere by default (and sort of
+> implicitly expected to be, I guess), I think I'd prefer we default to
+> 4K. That should mitigate the performance impact (I'll ask our IO team to
+> do some runs, but since this impacts functionality on some hardware, I
+> don't think it's too relevant for now). Unless there are NVMe devcies
+> with a MPSMAX < 4K? 
 
-Yep, I think I'll try and balance the two -- fix NVMe for now with a 4K
-page size as suggested by Christoph, and then work on the more complete
-API for the next merge.
+Right, I assumed MPSMIN was always 4k for the same reason you mentioned,
+but you can hard code it like you've done in your patch.
 
-Thanks,
-Nish
+The spec defines MPSMAX such that it's impossible to find a device
+with MPSMAX < 4k.
