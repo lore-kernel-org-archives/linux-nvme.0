@@ -1,47 +1,102 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 30 Oct 2015 13:38:28 +0000
-Subject: IOCTL question.
-In-Reply-To: <5633563B.3000901@ip-maker.com>
-References: <5633563B.3000901@ip-maker.com>
-Message-ID: <20151030133828.GA13904@localhost.localdomain>
+From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
+Date: Fri, 30 Oct 2015 14:35:11 -0700
+Subject: [PATCH 1/1 v3] drivers/nvme: default to 4k device page size
+In-Reply-To: <20151029172043.GA8343@localhost.localdomain>
+References: <20151026.182746.1323901353520152838.davem@davemloft.net>
+ <20151027222010.GD7716@linux.vnet.ibm.com>
+ <20151027223643.GA25332@localhost.localdomain>
+ <20151027.175443.140992924519172506.davem@davemloft.net>
+ <20151028135922.GA27909@localhost.localdomain>
+ <20151029115536.GA28090@infradead.org>
+ <20151029155701.GJ7716@linux.vnet.ibm.com>
+ <20151029172043.GA8343@localhost.localdomain>
+Message-ID: <20151030213511.GK7716@linux.vnet.ibm.com>
 
-On Fri, Oct 30, 2015@12:36:27PM +0100, Olivier Mallinger - IP Maker wrote:
-> Hello.
+On 29.10.2015 [17:20:43 +0000], Busch, Keith wrote:
+> On Thu, Oct 29, 2015@08:57:01AM -0700, Nishanth Aravamudan wrote:
+> > On 29.10.2015 [04:55:36 -0700], Christoph Hellwig wrote:
+> > > We had a quick cht about this issue and I think we simply should
+> > > default to a NVMe controler page size of 4k everywhere as that's the
+> > > safe default.  This is also what we do for RDMA Memory reigstrations and
+> > > it works fine there for SRP and iSER.
+> > 
+> > So, would that imply changing just the NVMe driver code rather than
+> > adding the dma_page_shift API at all? What about
+> > architectures that can support the larger page sizes? There is an
+> > implied performance impact, at least, of shifting the IO size down.
 > 
-> I want to use the driver's ioctl and nvme cli with pass-through
-> command to manage queues.
->
-> The purpose is to create a queue with Submission and completion PRP List.
-> I did a script doing the following :
->   - Delete all submission queue (ex. : nvme admin-passthru
-> /dev/nvme0 --opcode=0x00 --cdw10=0x1)
->   - Delete all completion queue (ex. : nvme admin-passthru
-> /dev/nvme0 --opcode=0x04 --cdw10=0x1)
->  - Create new completion queue (ex. : nvme admin-passthru /dev/nvme0
-> --opcode=0x05 --cdw10=0x3ff0001 --cdw11=0x2)
->   - Create new submission queue (ex. : nvme admin-passthru
-> /dev/nvme0 --opcode=0x01 --cdw10=0x3ff0001 --cdw11=0x00010000)
-> 
-> Until now, the device has completed all the command successfully and
-> is ready to perform I/O command with this new queue.
-> 
-> Then, i try to send a single write command (ex. : nvme write
-> /dev/nvme0n1 -s 0 -c 0 -z 4096 -y 0 -r 0 -d essai.txt -p 0 -m 0 -a 0
-> -l 0 -t 0 -f 0).
-> The device is never warn that a new command is available and the
-> write is never fetch and not executed.
-> 
-> Can I manage the queue with the driver ioctl in that way ?
-> What is the driver behavior when I delete and create queue ?
+> It is the safe option, but you're right that it might have a
+> measurable performance impact (can you run an experiment?). Maybe we
+> should just change the driver to always use MPSMIN for the moment in
+> the interest of time, and you can flush out the new API before the
+> next merge window.
 
-This is outside the scope of what the driver provides. The driver passes
-through what you requested without further interpretation or examination
-for sanity. It has no idea you just deleted the queues, so you're
-just going to confuse the driver when the queues it created no longer
-work. Similarly, the driver is not aware that you're creating new queues.
+Given that it's 4K just about everywhere by default (and sort of
+implicitly expected to be, I guess), I think I'd prefer we default to
+4K. That should mitigate the performance impact (I'll ask our IO team to
+do some runs, but since this impacts functionality on some hardware, I
+don't think it's too relevant for now). Unless there are NVMe devcies
+with a MPSMAX < 4K? 
 
-Creating queues requires DMA mapped memory. You can't do that with the
-nvme-cli. Passthrough memory, if any is provided (which you have not
-in your example), is pinned and mapped by the driver for only as long
-as the command is in flight. Once complete, the driver unmaps it, then
-the cli frees it.
+Something like the following?
+
+
+
+We received a bug report recently when DDW (64-bit direct DMA on Power)
+is not enabled for NVMe devices. In that case, we fall back to 32-bit
+DMA via the IOMMU, which is always done via 4K TCEs (Translation Control
+Entries).
+
+The NVMe device driver, though, assumes that the DMA alignment for the
+PRP entries will match the device's page size, and that the DMA aligment
+matches the kernel's page aligment. On Power, the the IOMMU page size,
+as mentioned above, can be 4K, while the device can have a page size of
+8K, while the kernel has a page size of 64K. This eventually trips the
+BUG_ON in nvme_setup_prps(), as we have a 'dma_len' that is a multiple
+of 4K but not 8K (e.g., 0xF000).
+
+In this particular case of page sizes, we clearly want to use the
+IOMMU's page size in the driver. And generally, the NVMe driver in this
+function should be using the IOMMU's page size for the default device
+page size, rather than the kernel's page size. There is not currently an
+API to obtain the IOMMU's page size across all architectures and in the
+interest of a stop-gap fix to this functional issue, default the NVMe
+device page size to 4K, with the intent of adding such an API and
+implementation across all architectures in the next merge window.
+
+Signed-off-by: Nishanth Aravamudan <nacc at linux.vnet.ibm.com>
+
+---
+v1 -> v2:
+  Based upon feedback from Christoph Hellwig, implement the IOMMU page
+  size lookup as a generic DMA API, rather than an architecture-specific
+  hack.
+
+v2 -> v3:
+  In the interest of fixing the functional problem in the short-term,
+  just force the device page size to 4K and work on adding the new API
+  in the next merge window.
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index ccc0c1f93daa..a9a5285bdb39 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -1717,7 +1717,12 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	u32 aqa;
+ 	u64 cap = readq(&dev->bar->cap);
+ 	struct nvme_queue *nvmeq;
+-	unsigned page_shift = PAGE_SHIFT;
++	/*
++	 * default to a 4K page size, with the intention to update this
++	 * path in the future to accomodate architectures with differing
++	 * kernel and IO page sizes.
++	 */
++	unsigned page_shift = 12;
+ 	unsigned dev_page_min = NVME_CAP_MPSMIN(cap) + 12;
+ 	unsigned dev_page_max = NVME_CAP_MPSMAX(cap) + 12;
+ 
+
+
+
+
+-Nish
