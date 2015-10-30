@@ -1,54 +1,22 @@
-From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
-Date: Thu, 29 Oct 2015 21:41:45 +0100
-Subject: [PATCH] nvme: prepare support for Apple NVMe controller
-In-Reply-To: <20151029203115.GA12930@localhost.localdomain>
-References: <bd1f730603ee00205657774a362aab10@localhost>
- <20151029151056.GA2580@localhost.localdomain>
- <1765c91018bf3b7840ce79d9b51762e8@localhost>
- <20151029203115.GA12930@localhost.localdomain>
-Message-ID: <522dda87abb1d285ba3e7ef46f5ac0a1@localhost>
+From: davem@davemloft.net (David Miller)
+Date: Thu, 29 Oct 2015 18:49:55 -0700 (PDT)
+Subject: [PATCH 0/5 v3] Fix NVMe driver support on Power with 32-bit DMA
+In-Reply-To: <20151029155701.GJ7716@linux.vnet.ibm.com>
+References: <20151028135922.GA27909@localhost.localdomain>
+ <20151029115536.GA28090@infradead.org>
+ <20151029155701.GJ7716@linux.vnet.ibm.com>
+Message-ID: <20151029.184955.728736673434401711.davem@davemloft.net>
 
-On 2015/October/29 08:31, Keith Busch wrote:
-> On Thu, Oct 29, 2015@08:46:38PM +0100, Stephan G?nther wrote:
-> > On 2015/October/29 09:10, Jon Derrick wrote:
-> > > Christoph recently added a quirks mechanism where I think it would fit
-> > 
-> > To be honest we don't know what mechanism you are referring to. Please 
-> > give us pointer.
+From: Nishanth Aravamudan <nacc@linux.vnet.ibm.com>
+Date: Thu, 29 Oct 2015 08:57:01 -0700
+
+> So, would that imply changing just the NVMe driver code rather than
+> adding the dma_page_shift API at all? What about
+> architectures that can support the larger page sizes? There is an
+> implied performance impact, at least, of shifting the IO size down.
 > 
-> It's new, not merged in an official tree. A copy is on the mailing list
-> somewhere. I committed it to my personal tree here:
-> 
-> http://git.infradead.org/users/kbusch/linux-nvme.git/commitdiff/e43f1dc5d9f31380090cc6b67fd3fa43a15089e6
->  
-> > I assume that we concur that this workaround--as well as making the nvme 
-> > driver claim the Apple controller--should be a runtime-decisions based 
-> > on the device id. That avoids both penalties in terms of cpu cycles and 
-> > the tedious manual binding.
-> 
-> Just append the Vendor + Device to struct pci_device_id nvme_id_table
-> if the 64 bit register access really is the only problem preventing it
-> from working in an NVMe compliant way. You can check at run time for
-> the lo_hi_[read/write]q quirk.
+> Sorry for the continuing questions -- I got lots of conflicting feedback
+> on the last series and want to make sure v4 is more acceptable.
 
-Great, I will give this a try.
-
-> 
-> If it really works with only this one change to the nvme driver, I also
-> wonder Apple typo'ed their class code.
-
-The only thing that prevents me from wiping the ssd and debootstrapping 
-is the problem with the internal keyboard. That's another story but I'm
-looking into that.
-
-Now that there is a way to get the controller working (read/write was ok
-when I tested it on the Macbook's EFI partition), we will hopefully have
-some answers soon.
-
-
-Of course everyone should make some backups before trying that... I did 
-not test anything else than writing a couple of text files to the
-device, syncing and deleting the files afterwards.
-
-Best,
-Stephan
+In the long term I would be very happy to see us having a real interface
+for this stuff, just my opinion...
