@@ -1,28 +1,32 @@
-From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
-Date: Tue, 3 Nov 2015 21:43:34 +0100
-Subject: [PATCH] nvme: prepare support for Apple NVMe controller
-In-Reply-To: <20151103130206.GA19495@infradead.org>
-References: <bd1f730603ee00205657774a362aab10@localhost>
- <20151029151056.GA2580@localhost.localdomain>
- <20151103130206.GA19495@infradead.org>
-Message-ID: <b02c090484e910da98458776b63682b0@localhost>
+From: dan.carpenter@oracle.com (Dan Carpenter)
+Date: Wed, 4 Nov 2015 01:37:31 +0300
+Subject: [patch] nvme: lightnvm: clean up a data type
+Message-ID: <20151103223731.GE19280@mwanda>
 
-On 2015/November/03 05:02, Christoph Hellwig wrote:
-> On Thu, Oct 29, 2015@09:10:56AM -0600, Jon Derrick wrote:
-> > > +#define readq lo_hi_readq
-> > > +#define writeq lo_hi_writeq
-> > > +
-> > 
-> > Good job figuring that one out. But this should be a quirk:
-> > a) It will sacrifice some io cycles on other devices
-> > b) It may get lost at some point in the name of performance
-> > 
-> > Christoph recently added a quirks mechanism where I think it would fit
-> 
-> We never access 64 bit registers in the fast path.  I'd be fine to
-> apply the patch from Stephan as-is as long as we document in detail why
-> we are doing this.  Stephan, can you respin the patch with a comment
-> and also with the PCI ID for the Apple controller added to the ID table?
+"nlb_pr_rq" can't be more than u32 because "len" is a u32.  Later we
+truncate it to u32 anyway when we calculate min_t().
 
-We are testing the new version of the patch and will submit it
-afterwards.
+Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
+
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index 133c839..e0b7b95 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -282,7 +282,7 @@ static int nvme_nvm_get_l2p_tbl(struct request_queue *q, u64 slba, u32 nlb,
+ 	struct nvme_dev *dev = ns->dev;
+ 	struct nvme_nvm_command c = {};
+ 	u32 len = queue_max_hw_sectors(q) << 9;
+-	u64 nlb_pr_rq = len / sizeof(u64);
++	u32 nlb_pr_rq = len / sizeof(u64);
+ 	u64 cmd_slba = slba;
+ 	void *entries;
+ 	int ret = 0;
+@@ -294,7 +294,7 @@ static int nvme_nvm_get_l2p_tbl(struct request_queue *q, u64 slba, u32 nlb,
+ 		return -ENOMEM;
+ 
+ 	while (nlb) {
+-		u32 cmd_nlb = min_t(u32, nlb_pr_rq, nlb);
++		u32 cmd_nlb = min(nlb_pr_rq, nlb);
+ 
+ 		c.l2p.slba = cpu_to_le64(cmd_slba);
+ 		c.l2p.nlb = cpu_to_le32(cmd_nlb);
