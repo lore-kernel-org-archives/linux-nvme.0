@@ -1,41 +1,27 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 3 Nov 2015 13:46:25 +0000
-Subject: [PATCH 1/1 v3] drivers/nvme: default to 4k device page size
-In-Reply-To: <20151103131824.GA12232@infradead.org>
-References: <20151026.182746.1323901353520152838.davem@davemloft.net>
- <20151027222010.GD7716@linux.vnet.ibm.com>
- <20151027223643.GA25332@localhost.localdomain>
- <20151027.175443.140992924519172506.davem@davemloft.net>
- <20151028135922.GA27909@localhost.localdomain>
- <20151029115536.GA28090@infradead.org>
- <20151029155701.GJ7716@linux.vnet.ibm.com>
- <20151029172043.GA8343@localhost.localdomain>
- <20151030213511.GK7716@linux.vnet.ibm.com>
- <20151103131824.GA12232@infradead.org>
-Message-ID: <20151103134624.GG13904@localhost.localdomain>
+Date: Tue, 3 Nov 2015 15:39:58 +0000
+Subject: NVMe: Add persistent reservation ops
+In-Reply-To: <20151103125815.GA5825@mwanda>
+References: <20151103125815.GA5825@mwanda>
+Message-ID: <20151103153958.GH13904@localhost.localdomain>
 
-On Tue, Nov 03, 2015@05:18:24AM -0800, Christoph Hellwig wrote:
-> On Fri, Oct 30, 2015@02:35:11PM -0700, Nishanth Aravamudan wrote:
-> > diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-> > index ccc0c1f93daa..a9a5285bdb39 100644
-> > --- a/drivers/block/nvme-core.c
-> > +++ b/drivers/block/nvme-core.c
-> > @@ -1717,7 +1717,12 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
-> >  	u32 aqa;
-> >  	u64 cap = readq(&dev->bar->cap);
-> >  	struct nvme_queue *nvmeq;
-> > -	unsigned page_shift = PAGE_SHIFT;
-> > +	/*
-> > +	 * default to a 4K page size, with the intention to update this
-> > +	 * path in the future to accomodate architectures with differing
-> > +	 * kernel and IO page sizes.
-> > +	 */
-> > +	unsigned page_shift = 12;
-> >  	unsigned dev_page_min = NVME_CAP_MPSMIN(cap) + 12;
-> >  	unsigned dev_page_max = NVME_CAP_MPSMAX(cap) + 12;
+On Tue, Nov 03, 2015@03:58:15PM +0300, Dan Carpenter wrote:
 > 
-> Looks good as a start.  Note that all the MPSMIN/MAX checking could
-> be removed as NVMe devices must support 4k pages.
+> 	drivers/nvme/host/pci.c:2143 nvme_pr_clear()
+> 	warn: suspicious bitop condition
+> 
+> drivers/nvme/host/pci.c
+>   2141  static int nvme_pr_clear(struct block_device *bdev, u64 key)
+>   2142  {
+>   2143          u32 cdw10 = 1 | key ? 1 << 3 : 0;
+> 
+> Is this supposed to be?
+> 
+> 		u32 cdw10 = 1 | (key ? 1 << 3 : 0);
+> 
+>   2144          return nvme_pr_command(bdev, cdw10, key, 0, nvme_cmd_resv_register);
+>   2145  }
 
-MAX can go, and while it's probably the case that all devices support 4k,
-it's not a spec requirement, so we should keep the dev_page_min check.
+Thanks for the catch. Must have pulled the patch from the wrong machine
+when I added it to the persistent reservation series. Do you want to
+send the fixing patch?
