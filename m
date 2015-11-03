@@ -1,16 +1,42 @@
 From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
-Date: Wed, 4 Nov 2015 00:31:51 +0100
-Subject: [PATCH 0/2] nvme: adding support for Apple's NVMe controller
-Message-ID: <33537e8a12dff1f96eaec9098724d01e@localhost>
+Date: Wed, 4 Nov 2015 00:47:40 +0100
+Subject: [PATCH 1/2] nvme: add support for Apple NVMe controller
+In-Reply-To: <33537e8a12dff1f96eaec9098724d01e@localhost>
+References: <33537e8a12dff1f96eaec9098724d01e@localhost>
+Message-ID: <a59fbe4252293ecbcbf8063659f06d51@localhost>
 
-Adding support for Apple's NVMe controller. Patches are tested on
-linux-4.3 on a MacBook8,1. /dev/nvme0n1p* are recognized, bulk transfers
-work, and the previous patches have been confirmed to work on NVMe-based
-MacBookAir7,1 (see patches for details).
+Some controllers may require ordered split transfers even on 64bit
+machines, e.g. Apple's NVMe controller as found in the MacBook8,1 and
+MacBookAir7,1 (256/512GB models).
 
-Stephan G?nther (2):
-  nvme: enforce ordered split transfers
-  nvme: add pci device id for Apple NVMe controller
+This patch enforces ordered split transfers on 64bit platforms, which
+works around that issue for all controllers. As pointed out by Christoph
+[1] there should be no performance impact due to that modification.
 
- drivers/block/nvme-core.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+[1] http://lists.infradead.org/pipermail/linux-nvme/2015-November/002965.html
+
+Signed-off-by: Stephan Guenther <guenther at tum.de>
+Signed-off-by: Maurice Leclaire <leclaire at in.tum.de>
+---
+ drivers/block/nvme-core.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
+index ccc0c1f..2f1766b 100644
+--- a/drivers/block/nvme-core.c
++++ b/drivers/block/nvme-core.c
+@@ -43,6 +43,14 @@
+ #include <scsi/sg.h>
+ #include <asm-generic/io-64-nonatomic-lo-hi.h>
+ 
++/*
++ * Some controllers may require ordered split transfers even on 64bit
++ * platforms, e.g. Apple's NVMe controller as found in the MacBook8,1 and
++ * MacBookAir7,1 (256/512GB models).
++ */
++#define readq lo_hi_readq
++#define writeq lo_hi_writeq
++
+ #define NVME_MINORS		(1U << MINORBITS)
+ #define NVME_Q_DEPTH		1024
+ #define NVME_AQ_DEPTH		256
