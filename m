@@ -1,15 +1,16 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Tue, 3 Nov 2015 16:02:08 -0700
-Subject: [patch] nvme: lightnvm: clean up a data type
-In-Reply-To: <20151103223731.GE19280@mwanda>
-References: <20151103223731.GE19280@mwanda>
-Message-ID: <56393CF0.9050509@fb.com>
+From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
+Date: Wed, 4 Nov 2015 00:31:51 +0100
+Subject: [PATCH 0/2] nvme: adding support for Apple's NVMe controller
+Message-ID: <33537e8a12dff1f96eaec9098724d01e@localhost>
 
-On 11/03/2015 03:37 PM, Dan Carpenter wrote:
-> "nlb_pr_rq" can't be more than u32 because "len" is a u32.  Later we
-> truncate it to u32 anyway when we calculate min_t().
+Adding support for Apple's NVMe controller. Patches are tested on
+linux-4.3 on a MacBook8,1. /dev/nvme0n1p* are recognized, bulk transfers
+work, and the previous patches have been confirmed to work on NVMe-based
+MacBookAir7,1 (see patches for details).
 
-Thanks Dan, applied.
+Stephan G?nther (2):
+  nvme: enforce ordered split transfers
+  nvme: add pci device id for Apple NVMe controller
 
--- 
-Jens Axboe
+ drivers/block/nvme-core.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
