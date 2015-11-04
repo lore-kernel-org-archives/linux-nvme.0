@@ -1,27 +1,42 @@
-From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
-Date: Wed, 4 Nov 2015 00:49:45 +0100
-Subject: [PATCH 2/2] nvme: add support for Apple NVMe controller
-In-Reply-To: <33537e8a12dff1f96eaec9098724d01e@localhost>
-References: <33537e8a12dff1f96eaec9098724d01e@localhost>
-Message-ID: <945882bb63ee0a329046b67b0342452a@localhost>
+From: m@bjorling.me (Matias Bjorling)
+Date: Wed, 4 Nov 2015 03:27:33 +0100
+Subject: [patch] nvme: lightnvm: clean up a data type
+In-Reply-To: <B58D82457FDA0744A320A2FC5AC253B93CD3C236@fmsmsx104.amr.corp.intel.com>
+References: <20151103223731.GE19280@mwanda>
+ <B58D82457FDA0744A320A2FC5AC253B93CD3C236@fmsmsx104.amr.corp.intel.com>
+Message-ID: <56396D15.4020700@bjorling.me>
 
-Add PCI ID of Apple's NVMe controller.
+On 11/03/2015 11:45 PM, Busch, Keith wrote:
+> Looks right to me. Adding Matias for the last word.
 
-Signed-off-by: Stephan Guenther <guenther at tum.de>
-Signed-off-by: Maurice Leclaire <leclaire at in.tum.de>
----
- drivers/block/nvme-core.c | 1 +
- 1 file changed, 1 insertion(+)
+Thanks Keith and Dan. Looks good to me as well.
 
-diff --git a/drivers/block/nvme-core.c b/drivers/block/nvme-core.c
-index 2f1766b..ed088cf 100644
---- a/drivers/block/nvme-core.c
-+++ b/drivers/block/nvme-core.c
-@@ -3326,6 +3326,7 @@ static const struct pci_error_handlers nvme_err_handler = {
- 
- static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
-+	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
- 	{ 0, }
- };
- MODULE_DEVICE_TABLE(pci, nvme_id_table);
+> 
+> On Tue, Nov 3, 2015, Dan Carpentar wrote:
+>> "nlb_pr_rq" can't be more than u32 because "len" is a u32.  Later we
+>> truncate it to u32 anyway when we calculate min_t().
+>>
+>> Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
+>>
+>> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+>> index 133c839..e0b7b95 100644
+>> --- a/drivers/nvme/host/lightnvm.c
+>> +++ b/drivers/nvme/host/lightnvm.c
+>> @@ -282,7 +282,7 @@ static int nvme_nvm_get_l2p_tbl(struct request_queue *q, u64 slba, u32 nlb,
+>>  	struct nvme_dev *dev = ns->dev;
+>>  	struct nvme_nvm_command c = {};
+>>  	u32 len = queue_max_hw_sectors(q) << 9;
+>> -	u64 nlb_pr_rq = len / sizeof(u64);
+>> +	u32 nlb_pr_rq = len / sizeof(u64);
+>>  	u64 cmd_slba = slba;
+>>  	void *entries;
+>>  	int ret = 0;
+>> @@ -294,7 +294,7 @@ static int nvme_nvm_get_l2p_tbl(struct request_queue *q, u64 slba, u32 nlb,
+>>  		return -ENOMEM;
+>>
+>>  	while (nlb) {
+>> -		u32 cmd_nlb = min_t(u32, nlb_pr_rq, nlb);
+>> +		u32 cmd_nlb = min(nlb_pr_rq, nlb);
+>>
+>>  		c.l2p.slba = cpu_to_le64(cmd_slba);
+>>  		c.l2p.nlb = cpu_to_le32(cmd_nlb);
