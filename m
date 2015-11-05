@@ -1,9 +1,8 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 5 Nov 2015 11:58:39 -0800
+From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
+Date: Thu, 5 Nov 2015 13:54:03 -0800
 Subject: [PATCH 1/1 v4] drivers/nvme: default to 4k device page size
-In-Reply-To: <20151105170145.GB16308@linux.vnet.ibm.com>
-References: <20151027223643.GA25332@localhost.localdomain>
- <20151027.175443.140992924519172506.davem@davemloft.net>
+In-Reply-To: <20151105195839.GB3194@infradead.org>
+References: <20151027.175443.140992924519172506.davem@davemloft.net>
  <20151028135922.GA27909@localhost.localdomain>
  <20151029115536.GA28090@infradead.org>
  <20151029155701.GJ7716@linux.vnet.ibm.com>
@@ -12,13 +11,19 @@ References: <20151027223643.GA25332@localhost.localdomain>
  <20151103131824.GA12232@infradead.org>
  <20151103134624.GG13904@localhost.localdomain>
  <20151105170145.GB16308@linux.vnet.ibm.com>
-Message-ID: <20151105195839.GB3194@infradead.org>
+ <20151105195839.GB3194@infradead.org>
+Message-ID: <20151105215403.GA18259@linux.vnet.ibm.com>
 
-Looks fine,
+On 05.11.2015 [11:58:39 -0800], Christoph Hellwig wrote:
+> Looks fine,
+> 
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> 
+> ... but I doubt we'll ever bother updating it.  Most architectures
+> with arger page sizes also have iommus and would need different settings
+> for different iommus vs direct mapping for very little gain.  There's a
+> reason why we never bothered for RDMA either.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Fair enough :) Thanks for all your reviews and comments.
 
-... but I doubt we'll ever bother updating it.  Most architectures
-with arger page sizes also have iommus and would need different settings
-for different iommus vs direct mapping for very little gain.  There's a
-reason why we never bothered for RDMA either.
+-Nish
