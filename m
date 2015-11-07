@@ -1,129 +1,108 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat,  7 Nov 2015 09:44:56 +0100
-Subject: [PATCH 02/12] block: defer timeouts to a workqueue
+Date: Sat,  7 Nov 2015 09:44:57 +0100
+Subject: [PATCH 03/12] nvme: factor out a nvme_unmap_data helper
 In-Reply-To: <1446885906-20967-1-git-send-email-hch@lst.de>
 References: <1446885906-20967-1-git-send-email-hch@lst.de>
-Message-ID: <1446885906-20967-3-git-send-email-hch@lst.de>
+Message-ID: <1446885906-20967-4-git-send-email-hch@lst.de>
 
-Timer context is not very useful for drivers to perform any meaningful abort
-action from.  So instead of calling the driver from this useless context
-defer it to a workqueue as soon as possible.
-
-Note that while a delayed_work item would seem the right thing here I didn't
-dare to use it due to the magic in blk_add_timer that pokes deep into timer
-internals.  But maybe this encourages Tejun to add a sensible API for that to
-the workqueue API and we'll all be fine in the end :)
+This is the counter part to nvme_map_data.  The forward declaration will
+go away later in the series.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- block/blk-core.c       | 8 ++++++++
- block/blk-mq.c         | 8 +++++---
- block/blk-timeout.c    | 5 +++--
- block/blk.h            | 2 +-
- include/linux/blkdev.h | 1 +
- 5 files changed, 18 insertions(+), 6 deletions(-)
+ drivers/nvme/host/pci.c | 43 +++++++++++++++++++++++++------------------
+ 1 file changed, 25 insertions(+), 18 deletions(-)
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index aecb544..2df634a 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -664,6 +664,13 @@ static void blk_queue_usage_counter_release(struct percpu_ref *ref)
- 	wake_up_all(&q->mq_freeze_wq);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 7911c43..a68ff1c6 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -75,10 +75,12 @@ static wait_queue_head_t nvme_kthread_wait;
+ 
+ struct nvme_dev;
+ struct nvme_queue;
++struct nvme_iod;
+ 
+ static int nvme_reset(struct nvme_dev *dev);
+ static int nvme_process_cq(struct nvme_queue *nvmeq);
+ static void nvme_remove_dead_ctrl(struct nvme_dev *dev);
++static void nvme_unmap_data(struct nvme_dev *dev, struct nvme_iod *iod);
+ 
+ struct async_cmd_info {
+ 	struct kthread_work work;
+@@ -601,7 +603,6 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
+ 	struct request *req = iod_get_private(iod);
+ 	struct nvme_cmd_info *cmd_rq = blk_mq_rq_to_pdu(req);
+ 	u16 status = le16_to_cpup(&cqe->status) >> 1;
+-	bool requeue = false;
+ 	int error = 0;
+ 
+ 	if (unlikely(status)) {
+@@ -609,13 +610,14 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
+ 		    && (jiffies - req->start_time) < req->timeout) {
+ 			unsigned long flags;
+ 
+-			requeue = true;
++			nvme_unmap_data(nvmeq->dev, iod);
++
+ 			blk_mq_requeue_request(req);
+ 			spin_lock_irqsave(req->q->queue_lock, flags);
+ 			if (!blk_queue_stopped(req->q))
+ 				blk_mq_kick_requeue_list(req->q);
+ 			spin_unlock_irqrestore(req->q->queue_lock, flags);
+-			goto release_iod;
++			return;
+ 		}
+ 
+ 		if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
+@@ -638,21 +640,8 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
+ 			"completing aborted command with status:%04x\n",
+ 			error);
+ 
+-release_iod:
+-	if (iod->nents) {
+-		dma_unmap_sg(nvmeq->dev->dev, iod->sg, iod->nents,
+-			rq_data_dir(req) ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
+-		if (blk_integrity_rq(req)) {
+-			if (!rq_data_dir(req))
+-				nvme_dif_remap(req, nvme_dif_complete);
+-			dma_unmap_sg(nvmeq->dev->dev, iod->meta_sg, 1,
+-				rq_data_dir(req) ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
+-		}
+-	}
+-	nvme_free_iod(nvmeq->dev, iod);
+-
+-	if (likely(!requeue))
+-		blk_mq_complete_request(req, error);
++	nvme_unmap_data(nvmeq->dev, iod);
++	blk_mq_complete_request(req, error);
  }
  
-+static void blk_rq_timed_out_timer(unsigned long data)
+ static bool nvme_setup_prps(struct nvme_dev *dev, struct nvme_iod *iod,
+@@ -783,6 +772,24 @@ out:
+ 	return ret;
+ }
+ 
++static void nvme_unmap_data(struct nvme_dev *dev, struct nvme_iod *iod)
 +{
-+	struct request_queue *q = (struct request_queue *)data;
++	struct request *req = iod_get_private(iod);
++	enum dma_data_direction dma_dir = rq_data_dir(req) ?
++			DMA_TO_DEVICE : DMA_FROM_DEVICE;
 +
-+	kblockd_schedule_work(&q->timeout_work);
++	if (iod->nents) {
++		dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
++		if (blk_integrity_rq(req)) {
++			if (!rq_data_dir(req))
++				nvme_dif_remap(req, nvme_dif_complete);
++			dma_unmap_sg(dev->dev, iod->meta_sg, 1, dma_dir);
++		}
++	}
++
++	nvme_free_iod(dev, iod);
 +}
 +
- struct request_queue *blk_alloc_queue_node(gfp_t gfp_mask, int node_id)
- {
- 	struct request_queue *q;
-@@ -825,6 +832,7 @@ blk_init_allocated_queue(struct request_queue *q, request_fn_proc *rfn,
- 	if (blk_init_rl(&q->root_rl, q, GFP_KERNEL))
- 		goto fail;
- 
-+	INIT_WORK(&q->timeout_work, blk_timeout_work);
- 	q->request_fn		= rfn;
- 	q->prep_rq_fn		= NULL;
- 	q->unprep_rq_fn		= NULL;
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index c85c448..3a919ff 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -85,6 +85,7 @@ void blk_mq_freeze_queue_start(struct request_queue *q)
- 	freeze_depth = atomic_inc_return(&q->mq_freeze_depth);
- 	if (freeze_depth == 1) {
- 		percpu_ref_kill(&q->q_usage_counter);
-+		cancel_work_sync(&q->timeout_work);
- 		blk_mq_run_hw_queues(q, false);
- 	}
- }
-@@ -617,9 +618,10 @@ static void blk_mq_check_expired(struct blk_mq_hw_ctx *hctx,
- 	}
- }
- 
--static void blk_mq_rq_timer(unsigned long priv)
-+static void blk_mq_timeout_work(struct work_struct *work)
- {
--	struct request_queue *q = (struct request_queue *)priv;
-+	struct request_queue *q =
-+		container_of(work, struct request_queue, timeout_work);
- 	struct blk_mq_timeout_data data = {
- 		.next		= 0,
- 		.next_set	= 0,
-@@ -1978,7 +1980,7 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
- 		hctxs[i]->queue_num = i;
- 	}
- 
--	setup_timer(&q->timeout, blk_mq_rq_timer, (unsigned long) q);
-+	INIT_WORK(&q->timeout_work, blk_mq_timeout_work);
- 	blk_queue_rq_timeout(q, set->timeout ? set->timeout : 30 * HZ);
- 
- 	q->nr_queues = nr_cpu_ids;
-diff --git a/block/blk-timeout.c b/block/blk-timeout.c
-index aa40aa9..aedd128 100644
---- a/block/blk-timeout.c
-+++ b/block/blk-timeout.c
-@@ -127,9 +127,10 @@ static void blk_rq_check_expired(struct request *rq, unsigned long *next_timeout
- 	}
- }
- 
--void blk_rq_timed_out_timer(unsigned long data)
-+void blk_timeout_work(struct work_struct *work)
- {
--	struct request_queue *q = (struct request_queue *) data;
-+	struct request_queue *q =
-+		container_of(work, struct request_queue, timeout_work);
- 	unsigned long flags, next = 0;
- 	struct request *rq, *tmp;
- 	int next_set = 0;
-diff --git a/block/blk.h b/block/blk.h
-index 157c93d..f8d1784 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -95,7 +95,7 @@ static inline void blk_flush_integrity(void)
- }
- #endif
- 
--void blk_rq_timed_out_timer(unsigned long data);
-+void blk_timeout_work(struct work_struct *work);
- unsigned long blk_rq_timeout(unsigned long timeout);
- void blk_add_timer(struct request *req);
- void blk_delete_timer(struct request *);
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index d045ca8..ed11b7a 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -407,6 +407,7 @@ struct request_queue {
- 
- 	unsigned int		rq_timeout;
- 	struct timer_list	timeout;
-+	struct work_struct	timeout_work;
- 	struct list_head	timeout_list;
- 
- 	struct list_head	icq_list;
+ /*
+  * We reuse the small pool to allocate the 16-byte range here as it is not
+  * worth having a special pool for these or additional cases to handle freeing
 -- 
 1.9.1
