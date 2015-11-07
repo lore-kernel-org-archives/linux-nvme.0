@@ -1,31 +1,30 @@
-From: nacc@linux.vnet.ibm.com (Nishanth Aravamudan)
-Date: Fri, 6 Nov 2015 08:13:45 -0800
-Subject: [PATCH 1/1 v4] drivers/nvme: default to 4k device page size
-In-Reply-To: <20151105195839.GB3194@infradead.org>
-References: <20151027.175443.140992924519172506.davem@davemloft.net>
- <20151028135922.GA27909@localhost.localdomain>
- <20151029115536.GA28090@infradead.org>
- <20151029155701.GJ7716@linux.vnet.ibm.com>
- <20151029172043.GA8343@localhost.localdomain>
- <20151030213511.GK7716@linux.vnet.ibm.com>
- <20151103131824.GA12232@infradead.org>
- <20151103134624.GG13904@localhost.localdomain>
- <20151105170145.GB16308@linux.vnet.ibm.com>
- <20151105195839.GB3194@infradead.org>
-Message-ID: <20151106161345.GB18259@linux.vnet.ibm.com>
+From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
+Date: Sat, 7 Nov 2015 02:32:15 +0100
+Subject: [PATCH 0/2] nvme: adding support for Apple's NVMe controller
+In-Reply-To: <20151104142503.GB20776@infradead.org>
+References: <33537e8a12dff1f96eaec9098724d01e@localhost>
+ <20151104142503.GB20776@infradead.org>
+Message-ID: <f2f93645dfc169a8b99d27df755e6fee@localhost>
 
-On 05.11.2015 [11:58:39 -0800], Christoph Hellwig wrote:
+On 2015/November/04 06:25, Christoph Hellwig wrote:
 > Looks fine,
-> 
+>
 > Reviewed-by: Christoph Hellwig <hch at lst.de>
-> 
-> ... but I doubt we'll ever bother updating it.  Most architectures
-> with arger page sizes also have iommus and would need different settings
-> for different iommus vs direct mapping for very little gain.  There's a
-> reason why we never bothered for RDMA either.
+>
 
-FWIW, whose tree should this go through? The bug only appears on Power,
-afaik, but the patch is now just an NVMe change.
+So far I had 2 feedbacks regarding controller resets and data loss using
+the patch while debootstrapping or using a partition as root file
+system.
 
-Thanks,
-Nish
+Might be that controller properties exported to userspace are
+subject to the same issue with 64bit atomic operations like the NVMe
+module itself.
+
+We will further investigate those problems in our spare time, and of
+course welcome any suggestions what might cause those issues.
+
+
+Although I was not able to reproduce the problem so far (there is also a
+firmware upgrade going on with OSX 10.11.2), I must point out more I did
+before that using our Apple NVMe patch might cause data loss if being
+used careless.
