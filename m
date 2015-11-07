@@ -1,53 +1,51 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat,  7 Nov 2015 18:00:39 +0100
-Subject: [PATCH 4/8] nvme: move the timeout module paramters to common code
+Date: Sat,  7 Nov 2015 18:00:40 +0100
+Subject: [PATCH 5/8] nvme: add segment limitations
 In-Reply-To: <1446915643-21175-1-git-send-email-hch@lst.de>
 References: <1446915643-21175-1-git-send-email-hch@lst.de>
-Message-ID: <1446915643-21175-5-git-send-email-hch@lst.de>
+Message-ID: <1446915643-21175-6-git-send-email-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 8 ++++++++
- drivers/nvme/host/pci.c  | 8 --------
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ drivers/nvme/host/core.c | 11 +++++++++--
+ drivers/nvme/host/nvme.h |  2 ++
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2254ce9..6737aaf 100644
+index 6737aaf..14ee152 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -33,6 +33,14 @@
- 
- #define NVME_MINORS		(1U << MINORBITS)
- 
-+unsigned char admin_timeout = 60;
-+module_param(admin_timeout, byte, 0644);
-+MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin commands");
+@@ -982,9 +982,16 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
+ 	if (ctrl->max_hw_sectors) {
+ 		blk_queue_max_hw_sectors(ns->queue, ctrl->max_hw_sectors);
+-		blk_queue_max_segments(ns->queue,
+-			((ctrl->max_hw_sectors << 9) / ctrl->page_size) + 1);
 +
-+unsigned char nvme_io_timeout = 30;
-+module_param_named(io_timeout, nvme_io_timeout, byte, 0644);
-+MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
++		if (!ctrl->max_segments)
++			ctrl->max_segments = ((ctrl->max_hw_sectors << 9) /
++						ctrl->page_size) + 1;
+ 	}
 +
- static unsigned char shutdown_timeout = 5;
- module_param(shutdown_timeout, byte, 0644);
- MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 45255e3..91522bb 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -49,14 +49,6 @@
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
- #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
- 
--unsigned char admin_timeout = 60;
--module_param(admin_timeout, byte, 0644);
--MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin commands");
--
--unsigned char nvme_io_timeout = 30;
--module_param_named(io_timeout, nvme_io_timeout, byte, 0644);
--MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
--
- static int use_threaded_interrupts;
- module_param(use_threaded_interrupts, int, 0);
- 
++	if (ctrl->max_segments)
++		blk_queue_max_segments(ns->queue, ctrl->max_segments);
++	if (ctrl->max_segment_size)
++		blk_queue_max_segment_size(ns->queue, ctrl->max_segment_size);
+ 	if (ctrl->stripe_size)
+ 		blk_queue_chunk_sectors(ns->queue, ctrl->stripe_size >> 9);
+ 	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 8cf6fa5..8377a3f 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -55,6 +55,8 @@ struct nvme_ctrl {
+ 	u32 ctrl_config;
+ 	u32 max_hw_sectors;
+ 	u32 stripe_size;
++	u32 max_segments;
++	u32 max_segment_size;
+ 	u32 page_size;
+ 	u16 oncs;
+ 	atomic_t abort_limit;
 -- 
 1.9.1
