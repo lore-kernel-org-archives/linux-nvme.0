@@ -1,21 +1,41 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Sat, 7 Nov 2015 17:20:37 -0700
-Subject: [PATCH 0/2] nvme: adding support for Apple's NVMe controller
-In-Reply-To: <33537e8a12dff1f96eaec9098724d01e@localhost>
-References: <33537e8a12dff1f96eaec9098724d01e@localhost>
-Message-ID: <563E9555.5010503@kernel.dk>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Sun, 8 Nov 2015 12:26:04 +0200
+Subject: [PATCH 7/8] nvmet: add a generic NVMe target
+In-Reply-To: <1446915643-21175-8-git-send-email-hch@lst.de>
+References: <1446915643-21175-1-git-send-email-hch@lst.de>
+ <1446915643-21175-8-git-send-email-hch@lst.de>
+Message-ID: <563F233C.5000603@dev.mellanox.co.il>
 
-On 11/03/2015 04:31 PM, Stephan G?nther wrote:
-> Adding support for Apple's NVMe controller. Patches are tested on
-> linux-4.3 on a MacBook8,1. /dev/nvme0n1p* are recognized, bulk transfers
-> work, and the previous patches have been confirmed to work on NVMe-based
-> MacBookAir7,1 (see patches for details).
->
-> Stephan G?nther (2):
->    nvme: enforce ordered split transfers
->    nvme: add pci device id for Apple NVMe controller
 
-Added for 4.4.
+> +void nvmet_ns_free(struct nvmet_ns *ns)
+> +{
+> +	struct nvmet_subsys *subsys = ns->subsys;
+> +
+> +	mutex_lock(&subsys->lock);
+> +	if (!list_empty(&ns->dev_link))
+> +		list_del_init(&ns->dev_link);
+> +	mutex_unlock(&subsys->lock);
+> +
+> +	nvmet_put_namespace(ns);
+> +}
+> +
+> +struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+> +{
+> +	struct nvmet_ns *ns;
+> +
+> +	ns = kzalloc(sizeof(*ns), GFP_KERNEL);
+> +	if (!ns)
+> +		return NULL;
+> +
 
--- 
-Jens Axboe
+This lacks also:
+INIT_LIST_HEAD(&ns->dev_link);
+
+So the list_empty() check in ns_free won't be bogus...
+It causes a NULL deref on configfs rmdir.
+
+> +	kref_init(&ns->ref);
+> +	ns->nsid = nsid;
+> +	ns->subsys = subsys;
+> +	return ns;
+> +}
