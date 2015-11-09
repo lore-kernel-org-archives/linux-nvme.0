@@ -1,18 +1,22 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 9 Nov 2015 11:12:37 +0100
-Subject: [PATCH 2/8] nvme: move enable/disable/shutdown_ctrl to common code
-In-Reply-To: <563F7ADD.9010502@dev.mellanox.co.il>
-References: <1446915643-21175-1-git-send-email-hch@lst.de>
- <1446915643-21175-3-git-send-email-hch@lst.de>
- <563F7ADD.9010502@dev.mellanox.co.il>
-Message-ID: <20151109101237.GA29661@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 9 Nov 2015 15:43:49 +0000
+Subject: [PATCH v2] NVMe:Expose model attribute in sysfs
+In-Reply-To: <20150915202603.GA3619@localhost.localdomain>
+References: <20150909062713.GA14279@localhost.localdomain>
+ <20150915202603.GA3619@localhost.localdomain>
+Message-ID: <20151109154349.GA4735@localhost.localdomain>
 
-On Sun, Nov 08, 2015@06:39:57PM +0200, Sagi Grimberg wrote:
-> Maybe it'd be better to split this to two patches.
-> 1. pass ctrl to enable/disable/shutdown_ctrl
-> 2. move enable/disable/shutdown_ctrl to common code
->
-> Other then that looks good.
+On Tue, Sep 15, 2015@04:26:09PM -0400, Sujith Pandel wrote:
+> On Wed, Sep 09, 2015@01:27:36AM -0500, Sujith Pandel wrote:
+> > nvme driver does not show the model attribute of disk in sysfs.
+> > nvme_dev already has this attribute populated during nvme_dev_add().
+> > Group model and other the device attributes as an attribute group
+> > and create sysfs files for the group using sysfs_create_group().
+> 
+> Any updates on this? Can this be considered for inclusion?
 
-I haven't really done that for any of the previous split patches either
-as it sees a bit confusing.
+Yes, I'd like to see this included. It will make it easier to add new
+attributes to help the systemd developers[1] identify nvme controllers
+and their namespaces.
+
+ [1]  https://github.com/systemd/systemd/issues/1453
