@@ -1,25 +1,32 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 9 Nov 2015 19:56:18 +0100
-Subject: [PATCH 03/12] nvme: factor out a nvme_unmap_data helper
-In-Reply-To: <20151109184723.GA5386@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 9 Nov 2015 18:57:31 +0000
+Subject: [PATCH 09/12] nvme: properly free resources for cancelled command
+In-Reply-To: <1446885906-20967-10-git-send-email-hch@lst.de>
 References: <1446885906-20967-1-git-send-email-hch@lst.de>
- <1446885906-20967-4-git-send-email-hch@lst.de>
- <20151109184723.GA5386@localhost.localdomain>
-Message-ID: <20151109185618.GA10260@lst.de>
+ <1446885906-20967-10-git-send-email-hch@lst.de>
+Message-ID: <20151109185731.GB5386@localhost.localdomain>
 
-On Mon, Nov 09, 2015@06:47:23PM +0000, Keith Busch wrote:
-> On Sat, Nov 07, 2015@09:44:57AM +0100, Christoph Hellwig wrote:
-> > This is the counter part to nvme_map_data.  The forward declaration will
-> > go away later in the series.
-> 
-> Generally, the whole series looks great, but we must be missing one or
-> more patches here. I don't see the "nvme_map_data" part, which I suspect
-> is why this patch and others fail to apply using linux-block/for-next.
-> Once I clear up which patches to apply to which tree, I'd like to run
-> this through a few test systems to make sure there won't be any surprises.
+On Sat, Nov 07, 2015@09:45:03AM +0100, Christoph Hellwig wrote:
+> +	if (unlikely(req->errors)) {
+> +		/*
+> +		 * Some silly Intel userspace code breaks if it doesn't get a
+> +		 * negative errno back for driver returns values.
+> +		 */
 
-I used your linux-nvme.git tree as base. I had to revert the Identify
-nslist changes for now as they break qemu testing, but that shouldn't have
-affected these patches.  The full git tree is here:
+Whoa now, it's neither Intel nor userpace that needs this. It's to know
+if the controller is unresponsive or returned an error. The difference
+matters to the driver for initialization.
 
-http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-req.7
+> +		if (req->errors < 0) {
+> +			error = req->errors;
+> +		} else {
+> +			if (nvme_req_needs_retry(req, req->errors)) {
+> +				nvme_requeue_req(req);
+> +				return;
+> +			}
+> +
+> +			if (req->cmd_type == REQ_TYPE_DRV_PRIV)
+> +				error = req->errors;
+> +			else
+> +				error = nvme_error_status(req->errors);
+> +		}
