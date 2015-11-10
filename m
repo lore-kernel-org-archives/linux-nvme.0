@@ -1,25 +1,20 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 9 Nov 2015 14:48:31 -0700
-Subject: [PATCH 07/12] nvme: special case AEN requests
-In-Reply-To: <20151109214038.GE5386@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 10 Nov 2015 06:56:04 +0100
+Subject: [PATCH 06/12] nvme: switch abort to blk_execute_rq_nowait
+In-Reply-To: <56411452.8060509@kernel.dk>
 References: <1446885906-20967-1-git-send-email-hch@lst.de>
- <1446885906-20967-8-git-send-email-hch@lst.de>
- <20151109214038.GE5386@localhost.localdomain>
-Message-ID: <564114AF.4010201@kernel.dk>
+ <1446885906-20967-7-git-send-email-hch@lst.de>
+ <20151109212844.GD5386@localhost.localdomain> <56411452.8060509@kernel.dk>
+Message-ID: <20151110055604.GA19753@lst.de>
 
-On 11/09/2015 02:43 PM, Keith Busch wrote:
-> On Sat, Nov 07, 2015@09:45:01AM +0100, Christoph Hellwig wrote:
->> +		if (unlikely(nvmeq->qid == 0 &&
->> +				cqe.command_id < NVME_NR_AEN_COMMANDS)) {
->> +			nvme_finish_aen_cmd(nvmeq->dev, &cqe);
->> +			continue;
+On Mon, Nov 09, 2015@02:46:58PM -0700, Jens Axboe wrote:
+> Looks like a mixup of __GFP_WAIT and 'reserved'. Looks like we need to pass 
+> in both 'nowait' and 'reserved' to nvme_alloc_request(), so it can do the 
+> right thing.
 >
-> As long as we're guaranteed the "reserved" tags are the lowest possible
-> tag values, this'll work. But that seems more coincidence than by design.
+> Though both call sites should tolerate sleeping, since we changed the 
+> timeout handler to be in process context.
 
-That fact is just implementation detail, I don't think we should make 
-assumptions about the range of reserved vs normal tags. That's just 
-asking for trouble if this changes at some point.
-
--- 
-Jens Axboe
+My earlier series actually had a patch to pass a flags argument to
+blk_mq_alloc_request instead of the gfp_mask and the nowait bool,
+I'll resurrect it.
