@@ -1,63 +1,32 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 10 Nov 2015 15:51:10 +0000
-Subject: nvme: controller resets
-In-Reply-To: <33aa688b8da3f41960d36e66aa1703d8@localhost>
-References: <33aa688b8da3f41960d36e66aa1703d8@localhost>
-Message-ID: <20151110155110.GA31697@localhost.localdomain>
+Date: Tue, 10 Nov 2015 16:03:45 +0000
+Subject: [PATCH 09/12] nvme: properly free resources for cancelled command
+In-Reply-To: <20151110081357.GA21708@lst.de>
+References: <1446885906-20967-1-git-send-email-hch@lst.de>
+ <1446885906-20967-10-git-send-email-hch@lst.de>
+ <20151109185731.GB5386@localhost.localdomain>
+ <20151109192518.GA10681@lst.de>
+ <20151109201232.GC5386@localhost.localdomain>
+ <20151110081357.GA21708@lst.de>
+Message-ID: <20151110160344.GB31697@localhost.localdomain>
 
-On Tue, Nov 10, 2015@03:30:43PM +0100, Stephan G?nther wrote:
-> Hello,
+On Tue, Nov 10, 2015@09:13:57AM +0100, Christoph Hellwig wrote:
+> Set Features for set_queue_count times out we'll call the reset handler,
+> which because we are inside the probe handler will remove the device.
+> How do we care about the return value in that case?
 > 
-> recently we submitted a small patch that enabled support for the Apple
-> NVMe controller. More testing revealed some interesting behavior we
-> cannot explain:
-> 
-> 1) Formatting a partition as vfat or ext2 works fine and so far,
-> arbitrary loads are handled correctly by the controller.
-> 
-> 2) ext3/4 fails, but may be not immediately.
-> 
-> 3) mkfs.btrfs fails immediately.
-> 
-> The error is the same every time:
-> | nvme 0000:03:00.0: Failed status: 3, reset controller
-> | nvme 0000:03:00.0: Cancelling I/O 38 QID 1
-> | nvme 0000:03:00.0: Cancelling I/O 39 QID 1
-> | nvme 0000:03:00.0: Device not ready; aborting reset
-> | nvme 0000:03:00.0: Device failed to resume
-> | blk_update_request: I/O error, dev nvme0n1, sector 0
-> | blk_update_request: I/O error, dev nvme0n1, sector 977104768
-> | Buffer I/O error on dev nvme0n1p3, logical block 120827120, async page read
+> Can you write down a few sentences on why/how we care?  I'll volunteer
+> to put them into the driver in comment form once we have all this sorted
+> out so that anyone touching the driver in the future won't be as confused.
 
-It says the controller asserted an internal failure status, then failed
-the reset recovery. Sounds like there are other quirks to this device
-you may have to reverse engineer.
+Perhaps I am thinking how probing serially worked before, and don't
+understand how this works anymore. :)
 
-> While trying to isolate the problem we found that running 'partprobe -d'
-> also causes the problem.
-> 
-> So we attached strace to determine the failing ioctl/syscall. However,
-> running 'strace -f partprobe -d' suddenly worked fine. Similar to that
-> 'strace -f mkfs.btrfs' worked. However, mounting the file system caused
-> the problem again.
-> 
-> Due to the different behavior with and without strace we assume there
-> could be some kind of race condition.
-> 
-> Any ideas how we can track the problem further?
+You're right, we don't really care anymore if the reset handler unwinds
+it. This path is then safe to see a fake error code.
 
-Not sure really. Normally I file a f/w bug for this kind of thing. :)
-
-But I'll throw out some potential ideas. Try trottling driver capabilities
-and see if anything improves: reduce queue count to 1 and depth to 2
-(requires code change).
-
-If you're able to recreate with reduced settings, then your controller's
-failure can be caused by a single command, and it's hopefully just a
-matter of finding that command.
-
-If the problem is not reproducible with reduced settings, then perhaps
-it's related to concurrent queue usage or high depth, and you can play
-with either to see if you discover anything interesting.
-
-Of course, I could be way off...
+But the reset handler is the same "work" as probe now, so it won't get
+scheduled. Now I completely understand why we changed nvme_timeout()
+to end the request with -EIO instead of waiting for the reset work to
+cancel it. That's still unsafe since it frees the command for reuse
+while the ID is still technically owned by the controller.
