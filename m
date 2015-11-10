@@ -1,47 +1,29 @@
-From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
-Date: Tue, 10 Nov 2015 23:02:54 +0100
+From: vedant@lath.in (Vedant Lath)
+Date: Wed, 11 Nov 2015 03:58:16 +0530
 Subject: nvme: controller resets
-In-Reply-To: <CAKajsGPLmCiVc4it0bY1qAeLKmrMQMM0FRKcJoAntFb_nE1erA@mail.gmail.com>
+In-Reply-To: <20151110155110.GA31697@localhost.localdomain>
 References: <33aa688b8da3f41960d36e66aa1703d8@localhost>
  <20151110155110.GA31697@localhost.localdomain>
- <3dda89a86dbd6c8ede4057884c43170c@localhost>
- <CAKajsGMkdckHbYyb8XY=ByYsHF0=-cNA2o5RnTN0XKVSopyiDQ@mail.gmail.com>
- <3736f57d17ee808526a8f35bb4c50eea@localhost>
- <CAKajsGPLmCiVc4it0bY1qAeLKmrMQMM0FRKcJoAntFb_nE1erA@mail.gmail.com>
-Message-ID: <583e84ac40f8b40a0929dbfee15c9322@localhost>
+Message-ID: <CAKajsGOdxWzK8TfpaLYpf25h=ZRfQbxRW47Q4aAHhCOunLK+FQ@mail.gmail.com>
 
-On 2015/November/11 03:13, Vedant Lath wrote:
-> On Wed, Nov 11, 2015@3:04 AM, Stephan G?nther <guenther@tum.de> wrote:
-> > Mine:
-> >
-> > | NVME Identify Controller:
-> > | vid     : 0x106b
-> > | ssvid   : 0x106b
-> > | sn      : C025xxxxxxxxxxxxxx
-> > | mn      : APPLE SSD AP0512H
-> > | fr      : 5.841.01
-> >
-> > I have reports of other guys with firmware 5.831.01 and 5.844.01. Both
-> > have the same problems.
-> 
-> That's a different firmware revision than mine. Mine is 7.831.01. But
-> the minor version and patch number is same. :/ Maybe the first digit
-> is indicative of the MacBook it is built for?
+On Tue, Nov 10, 2015@9:21 PM, Keith Busch <keith.busch@intel.com> wrote:
+> Not sure really. Normally I file a f/w bug for this kind of thing. :)
+>
+> But I'll throw out some potential ideas. Try trottling driver capabilities
+> and see if anything improves: reduce queue count to 1 and depth to 2
+> (requires code change).
+>
+> If you're able to recreate with reduced settings, then your controller's
+> failure can be caused by a single command, and it's hopefully just a
+> matter of finding that command.
+>
+> If the problem is not reproducible with reduced settings, then perhaps
+> it's related to concurrent queue usage or high depth, and you can play
+> with either to see if you discover anything interesting.
+>
+> Of course, I could be way off...
 
-Educated guess since you have a MacBook7,1.
-
-> 
-> I have a feeling that this SSD's NVMe implementation is more like a
-> draft implementation of the NVMe standard. I am hopeful that future
-> firmware upgrades will make it fully compliant with NVMe.
-
-I don't have much hope regarding that. But let's see.
-
-I wrote to opensource at apple.com asking for help in that matter. After
-the pleasant surprise with Broadcom/WLAN yesterday I have some hope.
-
-> 
-> > Are using a MacBook8,1 oder MacBook7,1?
-> 
-> I am using a MacBookAir7,1. It is the 11" MacBook Air (Early 2015)
-> model with 256 GB SSD.
+Is there any way to monitor all the commands going through the wire?
+Wouldn't that help? That would at least tell us which NVMe command
+results in a reset, and the flow of the commands leading up to the
+reset can give us more context into the error.
