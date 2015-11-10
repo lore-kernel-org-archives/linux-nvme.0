@@ -1,43 +1,32 @@
-From: vedant@lath.in (Vedant Lath)
-Date: Wed, 11 Nov 2015 02:46:19 +0530
+From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
+Date: Tue, 10 Nov 2015 22:34:59 +0100
 Subject: nvme: controller resets
-In-Reply-To: <3dda89a86dbd6c8ede4057884c43170c@localhost>
+In-Reply-To: <CAKajsGMkdckHbYyb8XY=ByYsHF0=-cNA2o5RnTN0XKVSopyiDQ@mail.gmail.com>
 References: <33aa688b8da3f41960d36e66aa1703d8@localhost>
  <20151110155110.GA31697@localhost.localdomain>
  <3dda89a86dbd6c8ede4057884c43170c@localhost>
-Message-ID: <CAKajsGMkdckHbYyb8XY=ByYsHF0=-cNA2o5RnTN0XKVSopyiDQ@mail.gmail.com>
+ <CAKajsGMkdckHbYyb8XY=ByYsHF0=-cNA2o5RnTN0XKVSopyiDQ@mail.gmail.com>
+Message-ID: <3736f57d17ee808526a8f35bb4c50eea@localhost>
 
-> Starting the kernel with nr_cpus=1 didn't change anything although race
-> conditions are probably still possible due to async signalling or
-> interrupts.
->
->
-> The only thing that might still explain something: 'nvme show-regs'
-> suffers from the same problems with readq. If for any reason other
-> userspace tools work in a similar way to read the controller's
-> capabilities, it has to fail.
->
-> But I know of no reason why, e.g. mkfs.btrfs should do somehting like
-> that.
+On 2015/November/11 02:46, Vedant Lath wrote:
+> I tried nvme-cli to get the error log but that was empty.
 
-I was able to run mkfs.btrfs successfully two times (without strace).
-Once with btrfs-progs v3.17 and second time with btrfs-progs v4.3.
-However my third attempt produced a similar error as yours. So your
-successful runs with mkfs.btrfs might not have been related to strace
-but might be the nature of this intermittent error.
+dito.
 
-partprobe always resulted in a crash for me.
+> Could you please check if the firmware version of your SSD is the same
+> as mine? I have posted details given by nvme-cli at
+> http://pastebin.ubuntu.com/13049434/ .
 
-I tried nvme-cli to get the error log but that was empty.
+Mine:
 
-> $ sudo ./nvme get-feature /dev/nvme0 -f 0x07 -H
-> get-feature: 0x07 (Number of Queues), Current value: 00000000
->         Number of IO Completion Queues Allocated (NCQA): 1
->         Number of IO Submission Queues Allocated (NSQA): 1
+| NVME Identify Controller:
+| vid     : 0x106b
+| ssvid   : 0x106b
+| sn      : C025xxxxxxxxxxxxxx
+| mn      : APPLE SSD AP0512H
+| fr      : 5.841.01
 
-Does this mean the SSD supports only one queue? But all features from
-0x00 to 0x0B return 0 so I'm not sure how if that value is legitimate.
+I have reports of other guys with firmware 5.831.01 and 5.844.01. Both 
+have the same problems.
 
-Could you please check if the firmware version of your SSD is the same
-as mine? I have posted details given by nvme-cli at
-http://pastebin.ubuntu.com/13049434/ .
+Are using a MacBook8,1 oder MacBook7,1?
