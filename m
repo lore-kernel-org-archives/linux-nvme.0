@@ -1,27 +1,50 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 11 Nov 2015 22:14:33 +0000
-Subject: nvme: controller resets
-In-Reply-To: <CAKajsGNGvWw1+B7X8HxdvP0MyvAawb_PStu_adOC8wogOF-Fbg@mail.gmail.com>
-References: <33aa688b8da3f41960d36e66aa1703d8@localhost>
- <20151110155110.GA31697@localhost.localdomain>
- <CAKajsGOdxWzK8TfpaLYpf25h=ZRfQbxRW47Q4aAHhCOunLK+FQ@mail.gmail.com>
- <CAKajsGNGvWw1+B7X8HxdvP0MyvAawb_PStu_adOC8wogOF-Fbg@mail.gmail.com>
-Message-ID: <20151111221433.GA11250@localhost.localdomain>
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Wed, 11 Nov 2015 23:46:13 +0100
+Subject: [PATCH v14 1/5] lightnvm: Support for Open-Channel SSDs
+In-Reply-To: <1446058499-24150-2-git-send-email-m@bjorling.me>
+References: <1446058499-24150-1-git-send-email-m@bjorling.me>
+ <1446058499-24150-2-git-send-email-m@bjorling.me>
+Message-ID: <CAMuHMdVfboMmbWcd_iCJ2KqAAmYjYUZ9_i4yFut6rRwQ75X+eQ@mail.gmail.com>
 
-On Thu, Nov 12, 2015@03:26:04AM +0530, Vedant Lath wrote:
-> [  235.496753] nvme: submit: QID 1 CMD opcode 2 flags 0 cid 1 NSID 1
-> [  235.496755] nvme: submit: rsvd2 0 metadata 0 prp1 5897535488 prp2
-> 2318221568 slba 41495303 length 0 control 0 dsmgmt 0 reftag 0 apptag 0
-> appmask 0
+On Wed, Oct 28, 2015@7:54 PM, Matias Bj?rling <m@bjorling.me> wrote:
+> +struct nvm_dev_ops {
 
-Let's examine the above command.
+[...]
 
-You've got PRP1 set to 0x15f854000, and length set to 0 (1 block). Based
-on other info provided on this device, a block is 4k.
+> +       uint8_t                 max_phys_sect;
+> +};
 
-Seeing PRP1 is 4k aligned and you're transferring 4k of data should
-mean you only need one PRP. Your command however shows PRP2 is used and
-pointing to a list (must be a list rather than data since the offset is
-0x100 aligned).
+> --- /dev/null
+> +++ b/drivers/lightnvm/core.c
 
-Either your new prints are incomplete, or there's a nasty bug somewhere.
+> +int nvm_register(struct request_queue *q, char *disk_name,
+> +                                                       struct nvm_dev_ops *ops)
+> +{
+
+[...]
+
+> +       } else if (dev->ops->max_phys_sect > 256) {
+
+drivers/nfc/nfcmrvl/i2c.c:52: warning: comparison is always false due
+to limited range of data type
+
+Indeed, max_phys_sect is "uint8_t", so its maximum value is 255.
+
+> +               pr_info("nvm: max sectors supported is 256.\n");
+
+Hence this message is not correct. What's the intended maximum value?
+255 or 256?
+
+> +               return -EINVAL;
+> +       }
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
