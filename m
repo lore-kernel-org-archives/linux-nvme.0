@@ -1,22 +1,17 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 13 Nov 2015 15:08:11 +0000
-Subject: [PATCH 1/1 v4] drivers/nvme: default to 4k device page size
-In-Reply-To: <20151113073754.GA19688@infradead.org>
-References: <20151028135922.GA27909@localhost.localdomain>
- <20151029115536.GA28090@infradead.org>
- <20151029155701.GJ7716@linux.vnet.ibm.com>
- <20151029172043.GA8343@localhost.localdomain>
- <20151030213511.GK7716@linux.vnet.ibm.com>
- <20151103131824.GA12232@infradead.org>
- <20151103134624.GG13904@localhost.localdomain>
- <20151105170145.GB16308@linux.vnet.ibm.com>
- <20151105195839.GB3194@infradead.org>
- <20151113073754.GA19688@infradead.org>
-Message-ID: <20151113150811.GA27275@localhost.localdomain>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Sun, 15 Nov 2015 21:18:34 +0200
+Subject: [PATCH 8/8] nvme-loop: add a NVMe loopback device
+In-Reply-To: <1446915643-21175-9-git-send-email-hch@lst.de>
+References: <1446915643-21175-1-git-send-email-hch@lst.de>
+ <1446915643-21175-9-git-send-email-hch@lst.de>
+Message-ID: <5648DA8A.6060705@dev.mellanox.co.il>
 
-On Thu, Nov 12, 2015@11:37:54PM -0800, Christoph Hellwig wrote:
-> Jens, Keith: any chance to get this to Linux for 4.4 (and -stable)?
 
-I agreed, looks good to me.
+> +	ctrl->queue_count = 1; /* admin queue */;
+> +	if (nr_io_queues > 0)
+> +		ctrl->queue_count += nr_io_queues;
+> +	else
+> +		ctrl->queue_count += num_possible_cpus();
 
-Acked-by: Keith Busch <keith.busch at intel.com>
+This should really be num_online_cpus(), I get way more than
+I need with num_possible_cpus()...
