@@ -1,28 +1,11 @@
-From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Mon, 16 Nov 2015 11:35:34 +0200
-Subject: [PATCH 8/8] nvme-loop: add a NVMe loopback device
-In-Reply-To: <20151116082946.GB21218@lst.de>
-References: <1446915643-21175-1-git-send-email-hch@lst.de>
- <1446915643-21175-9-git-send-email-hch@lst.de>
- <5648DA8A.6060705@dev.mellanox.co.il> <20151116082946.GB21218@lst.de>
-Message-ID: <5649A366.8080509@dev.mellanox.co.il>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 16 Nov 2015 01:54:58 -0800
+Subject: [PATCH RFC] nvmet: Reference namespaces percpu
+In-Reply-To: <1447666323-16796-1-git-send-email-sagig@mellanox.com>
+Message-ID: <20151116095458.GA15599@infradead.org>
 
+Thanks Sagi,
 
-
-On 16/11/2015 10:29, Christoph Hellwig wrote:
-> On Sun, Nov 15, 2015@09:18:34PM +0200, Sagi Grimberg wrote:
->>
->>> +	ctrl->queue_count = 1; /* admin queue */;
->>> +	if (nr_io_queues > 0)
->>> +		ctrl->queue_count += nr_io_queues;
->>> +	else
->>> +		ctrl->queue_count += num_possible_cpus();
->>
->> This should really be num_online_cpus(), I get way more than
->> I need with num_possible_cpus()...
->
-> Maybe.  But then we'd want a hot plug event.  The whole number of
-> contexts thing is a bit of a mess.
-
-Or we can just remain with more or less queues then cpus... it is
-already possible if the user used nr_io_queues != num_online_cpus()...
+this looks good to me.  If only the percpu_ref API would call ->release
+in a useful context we could get rid of all this workqueue boilerplate
+code in most users..
