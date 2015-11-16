@@ -1,44 +1,39 @@
 From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Mon, 16 Nov 2015 15:34:42 +0100
-Subject: [PATCH 08/13] lightnvm: prematurely activate nvm_dev
+Date: Mon, 16 Nov 2015 15:34:47 +0100
+Subject: [PATCH 13/13] lightnvm: cleanup queue before target removal
 In-Reply-To: <1447684487-25539-1-git-send-email-m@bjorling.me>
 References: <1447684487-25539-1-git-send-email-m@bjorling.me>
-Message-ID: <1447684487-25539-9-git-send-email-m@bjorling.me>
+Message-ID: <1447684487-25539-14-git-send-email-m@bjorling.me>
 
-We register with nvm_devices when there registration can still fail.
-Move the final registration at the end of the nvm_register function
-to make sure we are fully registered when added to the nvm_devices list.
+From: Javier Gonz?lez <javier@javigon.com>
 
+This prevents outstanding IOs to be sent for completion to target after
+the target has been removed. The flow is now: stop new IOs > cleanup
+queue > remove target.
+
+Signed-off-by: Javier Gonzalez <javier at cnexlabs.com>
 Signed-off-by: Matias Bj?rling <m at bjorling.me>
 ---
- drivers/lightnvm/core.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/lightnvm/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
-index 0985a03..40e6cfa 100644
+index 790b1d7..8a556f3 100644
 --- a/drivers/lightnvm/core.c
 +++ b/drivers/lightnvm/core.c
-@@ -318,10 +318,6 @@ int nvm_register(struct request_queue *q, char *disk_name,
- 	if (ret)
- 		goto err_init;
+@@ -460,11 +460,11 @@ static void nvm_remove_target(struct nvm_target *t)
+ 	lockdep_assert_held(&nvm_lock);
  
--	down_write(&nvm_lock);
--	list_add(&dev->devices, &nvm_devices);
--	up_write(&nvm_lock);
--
- 	if (dev->ops->max_phys_sect > 1) {
- 		dev->ppalist_pool = dev->ops->create_dma_pool(dev->q,
- 								"ppalist");
-@@ -334,6 +330,10 @@ int nvm_register(struct request_queue *q, char *disk_name,
- 		return -EINVAL;
- 	}
- 
-+	down_write(&nvm_lock);
-+	list_add(&dev->devices, &nvm_devices);
-+	up_write(&nvm_lock);
+ 	del_gendisk(tdisk);
++	blk_cleanup_queue(q);
 +
- 	return 0;
- err_init:
- 	kfree(dev);
+ 	if (tt->exit)
+ 		tt->exit(tdisk->private_data);
+ 
+-	blk_cleanup_queue(q);
+-
+ 	put_disk(tdisk);
+ 
+ 	list_del(&t->list);
 -- 
 2.1.4
