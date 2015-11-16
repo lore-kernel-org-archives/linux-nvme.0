@@ -1,60 +1,38 @@
 From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Mon, 16 Nov 2015 15:34:40 +0100
-Subject: [PATCH 06/13] lightnvm: remove unused attrs in nvm_id structs
+Date: Mon, 16 Nov 2015 15:34:41 +0100
+Subject: [PATCH 07/13] lightnvm: check for NAND flash and its type
 In-Reply-To: <1447684487-25539-1-git-send-email-m@bjorling.me>
 References: <1447684487-25539-1-git-send-email-m@bjorling.me>
-Message-ID: <1447684487-25539-7-git-send-email-m@bjorling.me>
+Message-ID: <1447684487-25539-8-git-send-email-m@bjorling.me>
 
-The nvm_id, nvm_id_group and nvm_addr_format data structures contain
-reserved attributes. They are unused by media managers and targets.
-Remove them.
+Only NAND flash with SLC and MLC is supported. Make sure to not try to
+initialize TLC memory or other non-volatile memory types.
 
 Signed-off-by: Matias Bj?rling <m at bjorling.me>
 ---
- include/linux/lightnvm.h | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ drivers/lightnvm/core.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
-index 2572856..e6ef8aa 100644
---- a/include/linux/lightnvm.h
-+++ b/include/linux/lightnvm.h
-@@ -58,7 +58,6 @@ enum {
- struct nvm_id_group {
- 	u8	mtype;
- 	u8	fmtype;
--	u16	res16;
- 	u8	num_ch;
- 	u8	num_lun;
- 	u8	num_pln;
-@@ -76,8 +75,7 @@ struct nvm_id_group {
- 	u32	mpos;
- 	u32	mccap;
- 	u16	cpar;
--	u8	res[913];
--} __packed;
-+};
+diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
+index f659e60..0985a03 100644
+--- a/drivers/lightnvm/core.c
++++ b/drivers/lightnvm/core.c
+@@ -185,6 +185,16 @@ static int nvm_core_init(struct nvm_dev *dev)
+ 	dev->plane_mode = NVM_PLANE_SINGLE;
+ 	dev->max_rq_size = dev->ops->max_phys_sect * dev->sec_size;
  
- struct nvm_addr_format {
- 	u8	ch_offset;
-@@ -92,19 +90,16 @@ struct nvm_addr_format {
- 	u8	pg_len;
- 	u8	sect_offset;
- 	u8	sect_len;
--	u8	res[4];
- };
- 
- struct nvm_id {
- 	u8	ver_id;
- 	u8	vmnt;
- 	u8	cgrps;
--	u8	res[5];
- 	u32	cap;
- 	u32	dom;
- 	struct nvm_addr_format ppaf;
- 	u8	ppat;
--	u8	resv[224];
- 	struct nvm_id_group groups[4];
- } __packed;
- 
++	if (grp->mtype != 0) {
++		pr_err("nvm: memory type not supported\n");
++		return -EINVAL;
++	}
++
++	if (grp->fmtype != 0 && grp->fmtype != 1) {
++		pr_err("nvm: flash type not supported\n");
++		return -EINVAL;
++	}
++
+ 	if (grp->mpos & 0x020202)
+ 		dev->plane_mode = NVM_PLANE_DOUBLE;
+ 	if (grp->mpos & 0x040404)
 -- 
 2.1.4
