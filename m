@@ -1,22 +1,15 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 16 Nov 2015 09:29:46 +0100
-Subject: [PATCH 8/8] nvme-loop: add a NVMe loopback device
-In-Reply-To: <5648DA8A.6060705@dev.mellanox.co.il>
+Date: Mon, 16 Nov 2015 09:32:32 +0100
+Subject: [RFC] generic NVMe target and NVMe loop driver
+In-Reply-To: <1447661338.10221.8.camel@hasee>
 References: <1446915643-21175-1-git-send-email-hch@lst.de>
- <1446915643-21175-9-git-send-email-hch@lst.de>
- <5648DA8A.6060705@dev.mellanox.co.il>
-Message-ID: <20151116082946.GB21218@lst.de>
+ <1447659004.23230.102.camel@haakon3.risingtidesystems.com>
+ <1447661338.10221.8.camel@hasee>
+Message-ID: <20151116083232.GC21218@lst.de>
 
-On Sun, Nov 15, 2015@09:18:34PM +0200, Sagi Grimberg wrote:
->
->> +	ctrl->queue_count = 1; /* admin queue */;
->> +	if (nr_io_queues > 0)
->> +		ctrl->queue_count += nr_io_queues;
->> +	else
->> +		ctrl->queue_count += num_possible_cpus();
->
-> This should really be num_online_cpus(), I get way more than
-> I need with num_possible_cpus()...
+On Mon, Nov 16, 2015@12:08:58AM -0800, Ming Lin wrote:
+> But the tests I have done so far didn't show competitive performance
+> compared with vhost-scsi. Maybe because the mmio thing is slow.
 
-Maybe.  But then we'd want a hot plug event.  The whole number of
-contexts thing is a bit of a mess.
+It is.  Take a look at the google patches for the NVMe even index
+extension, which make it behave a lot more like virtio.
