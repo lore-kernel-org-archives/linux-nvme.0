@@ -1,31 +1,46 @@
-From: Jeff.Lien@hgst.com (Jeffrey Lien)
-Date: Wed, 18 Nov 2015 19:21:49 +0000
-Subject: FW: [PATCH] NVMe: Correct casting in GET_U32_FROM_CDB to eliminate
- negative values
-Message-ID: <BL2PR04MB16312935B46C389B335CD56921C0@BL2PR04MB163.namprd04.prod.outlook.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 18 Nov 2015 22:58:20 +0000
+Subject: Drives with MDTS set to zero
+In-Reply-To: <564B9366.1090904@ranbarg.com>
+References: <564B9366.1090904@ranbarg.com>
+Message-ID: <20151118225820.GB24252@localhost.localdomain>
 
+On Tue, Nov 17, 2015@08:51:50PM +0000, Paul Grabinar wrote:
+> I have a drive that sets MDTS to zero. According to the NVMe
+> specification, that is valid and means that the drive does not have a
+> limit on the transfer size.
+> 
+> In the current 4.4 kernel driver, we detect this and set
+> dev->max_hw_sectors to UINT_MAX.
+> 
+> Later, when a namespace is allocated, we set the block level
+> max_hw_sectors and max_segments based on dev->max_hw_sectors. This
+> operations perform shifts on the value, but we are already at UINT_MAX,
+> so end up with strange results.
+> 
+> I'm not entirely sure what is supposed to happen. The following patch
+> sets max_hw_sectors to
+> 
+> BLK_DEF_MAX_SECTORS and max_segments to BLK_MAX_SEGMENTS, but this still does not seem right, as drives with a large MDTS will set max_segments higher than this.
 
+Nice find. The original code was written before the segment count, so
+probably was not tested together (my controllers define MDTS, so I've
+never tested it at all).
 
------Original Message-----
-From: Jeffrey Lien 
-Sent: Wednesday, November 18, 2015 1:20 PM
-To: Keith Busch <keith.busch at intel.com>; 'llinux-nvme at lists.infradead.org' <llinux-nvme at lists.infradead.org>
-Cc: David Darrington <david.darrington at hgst.com>
-Subject: [PATCH] NVMe: Correct casting in GET_U32_FROM_CDB to eliminate negative values
-
-Attached a patch for the nvme legacy tree.? 
-
-Jeff Lien
-
-Jeff.Lien at hgst.com
-507 322-2416/23-2416
-3605 Hwy 52 N.? 
-Rochester, MN 55901
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: 0001-NVMe-Correct-casting-in-GET_U32_FROM_CDB-to-eliminat.patch
-Type: application/octet-stream
-Size: 1641 bytes
-Desc: 0001-NVMe-Correct-casting-in-GET_U32_FROM_CDB-to-eliminat.patch
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20151118/05265076/attachment.obj>
+We can fix this by reordering the math instead of artificially reducing
+the transfer size.
+---
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5aca81c..f17e3d3 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2266,7 +2266,7 @@ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
+ 	if (dev->max_hw_sectors) {
+ 		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
+ 		blk_queue_max_segments(ns->queue,
+-			((dev->max_hw_sectors << 9) / dev->page_size) + 1);
++			((dev->max_hw_sectors / (dev->page_size >> 9) + 1);
+ 	}
+ 	if (dev->stripe_size)
+ 		blk_queue_chunk_sectors(ns->queue, dev->stripe_size >> 9);
+--
