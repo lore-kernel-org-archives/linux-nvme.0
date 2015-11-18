@@ -1,25 +1,31 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 18 Nov 2015 06:42:03 -0800
-Subject: [PATCH 1/1 v4] drivers/nvme: default to 4k device page size
-In-Reply-To: <20151113150811.GA27275@localhost.localdomain>
-References: <20151029115536.GA28090@infradead.org>
- <20151029155701.GJ7716@linux.vnet.ibm.com>
- <20151029172043.GA8343@localhost.localdomain>
- <20151030213511.GK7716@linux.vnet.ibm.com>
- <20151103131824.GA12232@infradead.org>
- <20151103134624.GG13904@localhost.localdomain>
- <20151105170145.GB16308@linux.vnet.ibm.com>
- <20151105195839.GB3194@infradead.org>
- <20151113073754.GA19688@infradead.org>
- <20151113150811.GA27275@localhost.localdomain>
-Message-ID: <20151118144203.GA1819@infradead.org>
+From: Jeff.Lien@hgst.com (Jeffrey Lien)
+Date: Wed, 18 Nov 2015 19:21:49 +0000
+Subject: FW: [PATCH] NVMe: Correct casting in GET_U32_FROM_CDB to eliminate
+ negative values
+Message-ID: <BL2PR04MB16312935B46C389B335CD56921C0@BL2PR04MB163.namprd04.prod.outlook.com>
 
-On Fri, Nov 13, 2015@03:08:11PM +0000, Keith Busch wrote:
-> On Thu, Nov 12, 2015@11:37:54PM -0800, Christoph Hellwig wrote:
-> > Jens, Keith: any chance to get this to Linux for 4.4 (and -stable)?
-> 
-> I agreed, looks good to me.
-> 
-> Acked-by: Keith Busch <keith.busch at intel.com>
 
-Jens, can you pick this one for -rc2?
+
+-----Original Message-----
+From: Jeffrey Lien 
+Sent: Wednesday, November 18, 2015 1:20 PM
+To: Keith Busch <keith.busch at intel.com>; 'llinux-nvme at lists.infradead.org' <llinux-nvme at lists.infradead.org>
+Cc: David Darrington <david.darrington at hgst.com>
+Subject: [PATCH] NVMe: Correct casting in GET_U32_FROM_CDB to eliminate negative values
+
+Attached a patch for the nvme legacy tree.? 
+
+Jeff Lien
+
+Jeff.Lien at hgst.com
+507 322-2416/23-2416
+3605 Hwy 52 N.? 
+Rochester, MN 55901
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0001-NVMe-Correct-casting-in-GET_U32_FROM_CDB-to-eliminat.patch
+Type: application/octet-stream
+Size: 1641 bytes
+Desc: 0001-NVMe-Correct-casting-in-GET_U32_FROM_CDB-to-eliminat.patch
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20151118/05265076/attachment.obj>
