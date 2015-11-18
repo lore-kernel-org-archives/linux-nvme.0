@@ -1,56 +1,52 @@
-From: paul.grabinar@ranbarg.com (Paul Grabinar)
-Date: Tue, 17 Nov 2015 20:51:50 +0000
-Subject: Drives with MDTS set to zero
-Message-ID: <564B9366.1090904@ranbarg.com>
+From: mlin@kernel.org (Ming Lin)
+Date: Tue, 17 Nov 2015 21:47:02 -0800
+Subject: [RFC PATCH 0/2] Google extension to improve qemu-nvme performance
+Message-ID: <1447825624-17011-1-git-send-email-mlin@kernel.org>
 
-Hi,
+Hi Rob & Mihai,
 
-I have a drive that sets MDTS to zero. According to the NVMe
-specification, that is valid and means that the drive does not have a
-limit on the transfer size.
+I wrote vhost-nvme patches on top of Christoph's NVMe target.
+vhost-nvme still uses mmio. So the guest OS can run unmodified NVMe
+driver. But the tests I have done didn't show competitive performance
+compared to virtio-blk/virtio-scsi. The bottleneck is in mmio. Your nvme
+vendor extension patches reduces greatly the number of MMIO writes.
+So I'd like to push it upstream.
 
-In the current 4.4 kernel driver, we detect this and set
-dev->max_hw_sectors to UINT_MAX.
+I port these 2 patches to newer kernel and qemu.
+I use ram disk as backend to compare performance.
 
-Later, when a namespace is allocated, we set the block level
-max_hw_sectors and max_segments based on dev->max_hw_sectors. This
-operations perform shifts on the value, but we are already at UINT_MAX,
-so end up with strange results.
+qemu-nvme: 29MB/s
+qemu-nvme+google-ext: 100MB/s
+virtio-blk: 174MB/s
+virtio-scsi: 118MB/s
 
-I'm not entirely sure what is supposed to happen. The following patch
-sets max_hw_sectors to
+I'll show you qemu-vhost-nvme+google-ext number later.
 
-BLK_DEF_MAX_SECTORS and max_segments to BLK_MAX_SEGMENTS, but this still does not seem right, as drives with a large MDTS will set max_segments higher than this.
+root at guest:~# cat test.job 
+[global]
+bs=4k
+ioengine=libaio
+iodepth=64
+direct=1
+runtime=120
+time_based
+rw=randread
+norandommap
+group_reporting
+gtod_reduce=1
+numjobs=2
 
+[job1]
+filename=/dev/nvme0n1
+#filename=/dev/vdb
+#filename=/dev/sda
+rw=read
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8187df2..be35401 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2265,11 +2265,12 @@ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
- 	list_add_tail(&ns->list, &dev->namespaces);
- 
- 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
--	if (dev->max_hw_sectors) {
--		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
--		blk_queue_max_segments(ns->queue,
--			((dev->max_hw_sectors << 9) / dev->page_size) + 1);
--	}
-+	blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors ?
-+		dev->max_hw_sectors : BLK_DEF_MAX_SECTORS);
-+	blk_queue_max_segments(ns->queue,
-+		dev->max_hw_sectors ?
-+		((dev->max_hw_sectors << 9) / dev->page_size) + 1 :
-+		BLK_MAX_SEGMENTS);
- 	if (dev->stripe_size)
- 		blk_queue_chunk_sectors(ns->queue, dev->stripe_size >> 9);
- 	if (dev->vwc & NVME_CTRL_VWC_PRESENT)
-@@ -2622,8 +2623,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	memcpy(dev->firmware_rev, ctrl->fr, sizeof(ctrl->fr));
- 	if (ctrl->mdts)
- 		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
--	else
--		dev->max_hw_sectors = UINT_MAX;
- 	if ((pdev->vendor == PCI_VENDOR_ID_INTEL) &&
- 			(pdev->device == 0x0953) && ctrl->vs[3]) {
- 		unsigned int max_hw_sectors;
+Patches also available at:
+kernel:
+https://git.kernel.org/cgit/linux/kernel/git/mlin/linux.git/log/?h=nvme-google-ext
+qemu:
+http://www.minggr.net/cgit/cgit.cgi/qemu/log/?h=nvme-google-ext 
+
+Thanks,
+Ming
