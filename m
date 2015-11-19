@@ -1,20 +1,48 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 19 Nov 2015 14:24:35 -0800
-Subject: [PATCH] nvme: allow queues the chance to quiesce after freezing
- them
-In-Reply-To: <20151119222012.GB22690@localhost.localdomain>
-References: <1447960312-2245-1-git-send-email-jonathan.derrick@intel.com>
- <20151119214156.GA22690@localhost.localdomain>
- <20151119215311.GA19302@infradead.org>
- <20151119222012.GB22690@localhost.localdomain>
-Message-ID: <20151119222435.GA8800@infradead.org>
+Date: Thu, 19 Nov 2015 14:34:39 -0800
+Subject: [RESEND PATCH] NVMe: Add pci error handlers
+In-Reply-To: <1447966729-23141-1-git-send-email-keith.busch@intel.com>
+References: <1447966729-23141-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20151119223439.GA17172@infradead.org>
 
-On Thu, Nov 19, 2015@10:20:12PM +0000, Keith Busch wrote:
-> I don't see how we can disable the controller to forcefully end commands
-> with merged probe and reset work, and thinking these need to be kept
-> separate. Timeouts are done in a workqueue now, so can we do controller
-> shutdown inline with the timeout handler?
+> We've heard from a few testers that this is successful and necessary to
+> recover from some errors, but this is getting more attention priority now,
+> otherwise I'd have made a fuss for its inclusion earlier.
 
-That's one of the two options I'm exploring.  The other is a new request
-flag that tells the block later not to reuse the tag after a return from
-the timeout handler.
+
+The code here seems sufficiently close to magic, so it could do with
+a few comments.
+
+>  /* These functions are yet to be implemented */
+> -#define nvme_error_detected NULL
+>  #define nvme_dump_registers NULL
+>  #define nvme_link_reset NULL
+> -#define nvme_slot_reset NULL
+> -#define nvme_error_resume NULL
+
+
+Can you kill the other two silly defines as well and just leave the
+struct members implicitly zero initialized?
+
+> +static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+> +						pci_channel_state_t state)
+> +{
+> +	struct nvme_dev *dev = pci_get_drvdata(pdev);
+> +
+> +	dev_warn(&pdev->dev, "%s: state:%d\n", __func__, state);
+> +	switch (state) {
+> +	case pci_channel_io_normal:
+> +		return PCI_ERS_RESULT_CAN_RECOVER;
+> +	case pci_channel_io_frozen:
+> +		nvme_dev_shutdown(dev);
+> +		return PCI_ERS_RESULT_NEED_RESET;
+> +	case pci_channel_io_perm_failure:
+> +		return PCI_ERS_RESULT_DISCONNECT;
+> +	}
+> +	return PCI_ERS_RESULT_NEED_RESET;
+> +}
+
+
+This seems to be somewhat of a default methods used by various drivers,
+and looks rather boiler plate-y.  Any reason this conversion isn't done
+by core code?
