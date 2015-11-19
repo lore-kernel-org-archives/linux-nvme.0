@@ -1,114 +1,56 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 19 Nov 2015 13:58:49 -0700
-Subject: [RESEND PATCH] NVMe: Add pci error handlers
-Message-ID: <1447966729-23141-1-git-send-email-keith.busch@intel.com>
+Date: Thu, 19 Nov 2015 21:41:57 +0000
+Subject: [PATCH] nvme: allow queues the chance to quiesce after
+ freezing them
+In-Reply-To: <1447960312-2245-1-git-send-email-jonathan.derrick@intel.com>
+References: <1447960312-2245-1-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <20151119214156.GA22690@localhost.localdomain>
 
-Shutdown controller on error for impending reset, then resume after
-slot reset.
+On Thu, Nov 19, 2015@12:11:52PM -0700, Jon Derrick wrote:
+> A panic was discovered while doing io and hitting the sysfs reset.
+> Because io was completing successfully, the nvme_dev_shutdown code
+> detected this non-idle state as a stuck state and started to tear down
+> the queues. This resulted in a paging error when nvme_process_cq wrote
+> the doorbell of a deleted queue.
+> 
+> This patch allows some time after starting the queue freeze for queues
+> to quiesce on their own. It also sets a new nvme_queue member, frozen,
+> to prevent writing of the cq doorbell. If the queues successfully
+> quiesce, nvme_process_cq will run upon resuming. If the queues don't
+> quiesce, existing code considers it a dead controller and is torn down.
 
-Cc: Matthew Wilcox <willy at linux.intel.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+I think all we really want is skip notifying completions on a
+"suspended" queue. We can tell by the value of the cq-vector,
+and it's already lock protected.
+
+It also sounds like we need to poll the cq after the delete completes
+to catch successful completions before we force cancel the rest.
+
+This appears to work for me. Does it pass your test?
 ---
-This is just a merge up from something I posted long ago:
-
-  http://lists.infradead.org/pipermail/linux-nvme/2014-July/001073.html
-
-And Kelly re-did this earlier this year as well:
-
-  http://lists.infradead.org/pipermail/linux-nvme/2015-June/001949.html
-
-We've heard from a few testers that this is successful and necessary to
-recover from some errors, but this is getting more attention priority now,
-otherwise I'd have made a fuss for its inclusion earlier.
-
- drivers/nvme/host/pci.c | 44 ++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 40 insertions(+), 4 deletions(-)
-
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 394fd16..eb3adf4 100644
+index 394fd16..930042fa 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -12,6 +12,7 @@
-  * more details.
-  */
+@@ -968,7 +968,8 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
+ 	if (head == nvmeq->cq_head && phase == nvmeq->cq_phase)
+ 		return;
  
-+#include <linux/aer.h>
- #include <linux/bitops.h>
- #include <linux/blkdev.h>
- #include <linux/blk-mq.h>
-@@ -2704,6 +2705,8 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	if (readl(&dev->bar->vs) >= NVME_VS(1, 2))
- 		dev->cmb = nvme_map_cmb(dev);
+-	writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
++	if (likely(nvmeq->cq_vector >= 0))
++		writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
+ 	nvmeq->cq_head = head;
+ 	nvmeq->cq_phase = phase;
  
-+	pci_enable_pcie_error_reporting(pdev);
-+	pci_save_state(pdev);
- 	return 0;
- 
-  unmap:
-@@ -2731,8 +2734,10 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
- 		pci_release_regions(pdev);
- 	}
- 
--	if (pci_is_enabled(pdev))
-+	if (pci_is_enabled(pdev)) {
-+		pci_disable_pcie_error_reporting(pdev);
- 		pci_disable_device(pdev);
-+	}
+@@ -2787,6 +2788,10 @@ static void nvme_del_queue_end(struct nvme_queue *nvmeq)
+ {
+ 	struct nvme_delq_ctx *dq = nvmeq->cmdinfo.ctx;
+ 	nvme_put_dq(dq);
++
++	spin_lock_irq(&nvmeq->q_lock);
++	nvme_process_cq(nvmeq);
++	spin_unlock_irq(&nvmeq->q_lock);
  }
  
- struct nvme_delq_ctx {
-@@ -3361,11 +3366,8 @@ static void nvme_remove(struct pci_dev *pdev)
- }
- 
- /* These functions are yet to be implemented */
--#define nvme_error_detected NULL
- #define nvme_dump_registers NULL
- #define nvme_link_reset NULL
--#define nvme_slot_reset NULL
--#define nvme_error_resume NULL
- 
- #ifdef CONFIG_PM_SLEEP
- static int nvme_suspend(struct device *dev)
-@@ -3389,6 +3391,40 @@ static int nvme_resume(struct device *dev)
- 
- static SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
- 
-+static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
-+						pci_channel_state_t state)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	dev_warn(&pdev->dev, "%s: state:%d\n", __func__, state);
-+	switch (state) {
-+	case pci_channel_io_normal:
-+		return PCI_ERS_RESULT_CAN_RECOVER;
-+	case pci_channel_io_frozen:
-+		nvme_dev_shutdown(dev);
-+		return PCI_ERS_RESULT_NEED_RESET;
-+	case pci_channel_io_perm_failure:
-+		return PCI_ERS_RESULT_DISCONNECT;
-+	}
-+	return PCI_ERS_RESULT_NEED_RESET;
-+}
-+
-+static pci_ers_result_t nvme_slot_reset(struct pci_dev *pdev)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	dev_info(&pdev->dev, "%s\n", __func__);
-+	pci_restore_state(pdev);
-+	schedule_work(&dev->probe_work);
-+	return PCI_ERS_RESULT_RECOVERED;
-+}
-+
-+static void nvme_error_resume(struct pci_dev *pdev)
-+{
-+	dev_info(&pdev->dev, "%s\n", __func__);
-+	pci_cleanup_aer_uncorrect_error_status(pdev);
-+}
-+
- static const struct pci_error_handlers nvme_err_handler = {
- 	.error_detected	= nvme_error_detected,
- 	.mmio_enabled	= nvme_dump_registers,
--- 
-2.6.2.307.g37023ba
+ static int adapter_async_del_queue(struct nvme_queue *nvmeq, u8 opcode,
+--
