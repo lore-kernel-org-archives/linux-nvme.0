@@ -1,42 +1,30 @@
-From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
-Date: Fri, 20 Nov 2015 19:57:06 +0100
-Subject: [PATCH 1/1] nvme: temporary fix for Apple NVMe controller reset
-Message-ID: <6ed9ad799884d9d4bdbfbdf94185c3f2@localhost>
+From: raymond.c.robles@intel.com (Robles, Raymond C)
+Date: Fri, 20 Nov 2015 19:54:40 +0000
+Subject: Question on NVMe SCSI Translation Ref 1.5
+In-Reply-To: <20151120183206.GA11043@infradead.org>
+References: <BL2PR04MB1634A1D6C773CDEC0C45D9A921A0@BL2PR04MB163.namprd04.prod.outlook.com>
+ <20151120183206.GA11043@infradead.org>
+Message-ID: <49158E750348AA499168FD41D889836072538066@fmsmsx117.amr.corp.intel.com>
 
-Recent patches added basic support for the Apple NVMe controller but
-still cause controller resets and data corruption when a specific
-pattern of read/flush commands occurs on that controller.
+Hi Chris/Jeff,
 
-This patch prevents that and was tested for a weeek by myself running
-4.4-rc1. It is also confirmed to work around that problem by at least
-one other guy.
+The SCSI to NVMe translation spec was written as part of the NVMe working group initiative to enable broad adoption of NVMe in the ecosystem. There are other OS environments besides Linux (i.e. VMware, Windows, etc.) where the NVMe driver resides within a SCSI storage stack and therefore receives native OS SCSI commands. For Linux, agreed it does not have much usage considering where the NVMe driver sites in the Linux kernel. However, the NVMe spec or translation spec was not written just for Linux. 
 
-Maybe this hotfix can be done in a more elegant way, but something
-like that should definitely go into 4.4 as the controller will otherwise
-destroy file systems.
+Thanks,
+Ray
 
+-----Original Message-----
+From: Linux-nvme [mailto:linux-nvme-bounces@lists.infradead.org] On Behalf Of Christoph Hellwig
+Sent: Friday, November 20, 2015 11:32 AM
+To: Jeffrey Lien
+Cc: linux-nvme at lists.infradead.org
+Subject: Re: Question on NVMe SCSI Translation Ref 1.5
 
-Signed-off-by: Stephan G?nther <guenther at tum.de>
-Signed-off-by: Maurice Leclaure <leclaire at in.tum.de
----
- drivers/nvme/host/pci.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Hi Jeffrey,
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8187df2..15bbedb 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2701,6 +2701,14 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, NVME_Q_DEPTH);
- 	dev->db_stride = 1 << NVME_CAP_STRIDE(cap);
- 	dev->dbs = ((void __iomem *)dev->bar) + 4096;
-+
-+	/*
-+	 * Temporary fix for the Apple controller found in the MacBook8,1 and
-+	 * some MacBook7,1 to avoid controller resets and data loss.
-+	 */
-+	if (pdev->vendor == PCI_VENDOR_ID_APPLE && pdev->device == 0x2001)
-+		dev->q_depth = 2;
-+
- 	if (readl(&dev->bar->vs) >= NVME_VS(1, 2))
- 		dev->cmb = nvme_map_cmb(dev);
+SG_IO is sent to a device node.  For actualy SCSI devices you'll get the LUN from sdev->lun.  For NVMe there obviously aren't any LUNs, so you'll have to come up with a tranlation.  The current Linux driver translated namespaces 1 to LUN 0 and so on.  In general sending a REPORT LUNS to a NVMe device node does not seem very useful, and I have no idea why it even was specified.  Then again the whole SCSI translation layer concept seems incredbile braindead and I think we should at least optionally remove it from the NVMe driver.
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
