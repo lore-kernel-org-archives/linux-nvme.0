@@ -1,33 +1,44 @@
-From: m@bjorling.me (=?windows-1252?Q?Matias_Bj=F8rling?=)
-Date: Fri, 20 Nov 2015 22:26:27 +0100
-Subject: nvme lightnvm comments
-In-Reply-To: <20151120164709.GA9931@infradead.org>
-References: <20151120105022.GA22131@infradead.org>
- <564EFEBC.3040603@bjorling.me> <20151120164709.GA9931@infradead.org>
-Message-ID: <564F9003.5080109@bjorling.me>
+From: jmoyer@redhat.com (Jeff Moyer)
+Date: Fri, 20 Nov 2015 16:43:05 -0500
+Subject: [PATCH 02/47] block: fix blk_abort_request for blk-mq drivers
+In-Reply-To: <1448037342-18384-3-git-send-email-hch@lst.de> (Christoph
+ Hellwig's message of "Fri, 20 Nov 2015 17:34:57 +0100")
+References: <1448037342-18384-1-git-send-email-hch@lst.de>
+ <1448037342-18384-3-git-send-email-hch@lst.de>
+Message-ID: <x491tbkcpp2.fsf@segfault.boston.devel.redhat.com>
 
-On 11/20/2015 05:47 PM, Christoph Hellwig wrote:
-> On Fri, Nov 20, 2015@12:06:36PM +0100, Matias Bj?rling wrote:
->>>   2) please build the lightnvm.o object conditionally in the makefile
->>
->> Then the functions
->>
->> nvme_nvm_register
->> nvme_nvm_unregister
->> nvme_nvm_register
->>
->> have to be #ifdef'ed in the pci file. Do you want that instead? It was on
->> purpose the other way around, so that the nvme_nvm_* functions was null
->> functions if lightnvm isn't compiled in.
+Christoph Hellwig <hch at lst.de> writes:
+
+> We only added the request to the request list for the !blk-mq case,
+> so we should only delete it in that case as well.
+
+Sorry, I don't follow.  Do you mean the timeout_list?  It appears to me
+that blk_add_timer is called for both the old and mq paths.
+
+-Jeff
+
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  block/blk-timeout.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 >
-> Just keep the stubs as inlines in the header.
->
-
-
-That'll do.
-
-Do you have any plans for exposing the completion_entry on 
-req_completion in the driver? I'm interested in the fields ->result and 
-->rsvd in struct nvme_completion. They contain the completion bits for 
-each of the PPA entries. Which I'll need higher up in the stack to 
-perform correct retries and so forth.
+> diff --git a/block/blk-timeout.c b/block/blk-timeout.c
+> index 246dfb1..aa40aa9 100644
+> --- a/block/blk-timeout.c
+> +++ b/block/blk-timeout.c
+> @@ -158,11 +158,13 @@ void blk_abort_request(struct request *req)
+>  {
+>  	if (blk_mark_rq_complete(req))
+>  		return;
+> -	blk_delete_timer(req);
+> -	if (req->q->mq_ops)
+> +
+> +	if (req->q->mq_ops) {
+>  		blk_mq_rq_timed_out(req, false);
+> -	else
+> +	} else {
+> +		blk_delete_timer(req);
+>  		blk_rq_timed_out(req);
+> +	}
+>  }
+>  EXPORT_SYMBOL_GPL(blk_abort_request);
