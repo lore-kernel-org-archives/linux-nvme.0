@@ -1,166 +1,145 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Thu, 19 Nov 2015 16:21:04 -0800
-Subject: [RFC PATCH 5/9] nvme-vhost: add controller "start" callback
+Date: Thu, 19 Nov 2015 16:21:07 -0800
+Subject: [RFC PATCH 8/9] nvme-vhost: add vhost memory helpers
 In-Reply-To: <1447978868-17138-1-git-send-email-mlin@kernel.org>
 References: <1447978868-17138-1-git-send-email-mlin@kernel.org>
-Message-ID: <1447978868-17138-6-git-send-email-mlin@kernel.org>
+Message-ID: <1447978868-17138-9-git-send-email-mlin@kernel.org>
 
 From: Ming Lin <ming.l@ssi.samsung.com>
 
+This borrows code from Hannes Reinecke's rts-megasas.
+
+Cc: Hannes Reinecke <hare at suse.de>
 Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
 ---
- drivers/nvme/target/vhost.c | 106 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 106 insertions(+)
+ drivers/nvme/target/vhost.c | 108 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 108 insertions(+)
 
 diff --git a/drivers/nvme/target/vhost.c b/drivers/nvme/target/vhost.c
-index 01c44b8..4a147d6 100644
+index 04ed0bc..6847c86 100644
 --- a/drivers/nvme/target/vhost.c
 +++ b/drivers/nvme/target/vhost.c
-@@ -10,6 +10,35 @@
+@@ -5,6 +5,7 @@
+ #include <linux/miscdevice.h>
+ #include <linux/mutex.h>
+ #include <linux/file.h>
++#include <linux/highmem.h>
+ #include "../../vhost/vhost.h"
+ #include "nvmet.h"
  
- #define NVMET_VHOST_AQ_DEPTH		256
- 
-+enum NvmeCcShift {
-+	CC_MPS_SHIFT	= 7,
-+	CC_IOSQES_SHIFT	= 16,
-+	CC_IOCQES_SHIFT	= 20,
-+};
-+
-+enum NvmeCcMask {
-+	CC_MPS_MASK	= 0xf,
-+	CC_IOSQES_MASK	= 0xf,
-+	CC_IOCQES_MASK	= 0xf,
-+};
-+
-+#define NVME_CC_MPS(cc)    ((cc >> CC_MPS_SHIFT)    & CC_MPS_MASK)
-+#define NVME_CC_IOSQES(cc) ((cc >> CC_IOSQES_SHIFT) & CC_IOSQES_MASK)
-+#define NVME_CC_IOCQES(cc) ((cc >> CC_IOCQES_SHIFT) & CC_IOCQES_MASK)
-+
-+enum NvmeAqaShift {
-+	AQA_ASQS_SHIFT	= 0,
-+	AQA_ACQS_SHIFT	= 16,
-+};
-+
-+enum NvmeAqaMask {
-+	AQA_ASQS_MASK	= 0xfff,
-+	AQA_ACQS_MASK	= 0xfff,
-+};
-+
-+#define NVME_AQA_ASQS(aqa) ((aqa >> AQA_ASQS_SHIFT) & AQA_ASQS_MASK)
-+#define NVME_AQA_ACQS(aqa) ((aqa >> AQA_ACQS_SHIFT) & AQA_ACQS_MASK)
-+
- struct nvmet_vhost_ctrl_eventfd {
- 	struct file *call;
- 	struct eventfd_ctx *call_ctx;
-@@ -19,12 +48,23 @@ struct nvmet_vhost_ctrl_eventfd {
- 
- struct nvmet_vhost_cq {
- 	struct nvmet_cq		cq;
-+	struct nvmet_vhost_ctrl	*ctrl;
- 
-+	u32			head;
-+	u32			tail;
-+	u8			phase;
-+	u64			dma_addr;
- 	struct eventfd_ctx	*eventfd;
+@@ -95,6 +96,113 @@ struct nvmet_vhost_ctrl {
+ 	u32 page_size;
  };
  
- struct nvmet_vhost_sq {
- 	struct nvmet_sq		sq;
-+	struct nvmet_vhost_ctrl	*ctrl;
-+
-+	u32			head;
-+	u32			tail;
-+	u64			dma_addr;
-+	u16			cqid;
- };
- 
- struct nvmet_vhost_ctrl {
-@@ -37,12 +77,76 @@ struct nvmet_vhost_ctrl {
- 
- 	struct nvmet_vhost_cq **cqs;
- 	struct nvmet_vhost_sq **sqs;
-+	struct nvmet_vhost_cq admin_cq;
-+	struct nvmet_vhost_sq admin_sq;
- 
- 	u32 aqa;
- 	u64 asq;
- 	u64 acq;
-+	u16 cqe_size;
-+	u16 sqe_size;
-+	u16 max_prp_ents;
-+	u16 page_bits;
-+	u32 page_size;
- };
- 
-+static int nvmet_vhost_init_cq(struct nvmet_vhost_cq *cq,
-+		struct nvmet_vhost_ctrl *n, u64 dma_addr,
-+		u16 cqid, u16 size, struct eventfd_ctx *eventfd,
-+		u16 vector, u16 irq_enabled)
++const struct vhost_memory_region *
++find_region(struct vhost_dev *hba, __u64 addr, __u32 len)
 +{
-+	cq->ctrl = n;
-+	cq->dma_addr = dma_addr;
-+	cq->phase = 1;
-+	cq->head = cq->tail = 0;
-+	cq->eventfd = eventfd;
-+	n->cqs[cqid] = cq;
++	struct vhost_memory *mem;
++	struct vhost_memory_region *reg;
++	int i;
 +
-+	nvmet_cq_init(n->ctrl, &cq->cq, cqid, size);
++	if (!hba->memory)
++		return NULL;
 +
-+	return 0;
++	mem = hba->memory;
++	/* linear search is not brilliant, but we really have on the order of 6
++	 * regions in practice */
++	for (i = 0; i < mem->nregions; ++i) {
++		reg = mem->regions + i;
++		if (reg->guest_phys_addr <= addr &&
++		    reg->guest_phys_addr + reg->memory_size - 1 >= addr)
++			return reg;
++	}
++	return NULL;
 +}
 +
-+static int nvmet_vhost_init_sq(struct nvmet_vhost_sq *sq,
-+		struct nvmet_vhost_ctrl *n, u64 dma_addr,
-+		u16 sqid, u16 cqid, u16 size)
++static bool check_region_boundary(const struct vhost_memory_region *reg,
++				  uint64_t addr, size_t len)
 +{
-+	sq->ctrl = n;
-+	sq->dma_addr = dma_addr;
-+	sq->cqid = cqid;
-+	sq->head = sq->tail = 0;
-+	n->sqs[sqid] = sq;
++	unsigned long max_size;
 +
-+	nvmet_sq_init(n->ctrl, &sq->sq, sqid, size);
-+
-+	return 0;
++	max_size = reg->memory_size - addr + reg->guest_phys_addr;
++	return (max_size < len);
 +}
 +
-+static void nvmet_vhost_start_ctrl(void *opaque)
++static void __user *map_to_region(const struct vhost_memory_region *reg,
++				   uint64_t addr)
 +{
-+	struct nvmet_vhost_ctrl *n = opaque;
-+	u32 page_bits = NVME_CC_MPS(n->ctrl->cc) + 12;
-+	u32 page_size = 1 << page_bits;
++	return (void __user *)(unsigned long)
++		(reg->userspace_addr + addr - reg->guest_phys_addr);
++}
++
++static void __user *map_guest_to_host(struct vhost_dev *dev,
++				       uint64_t addr, int size)
++{
++	const struct vhost_memory_region *reg = NULL;
++
++	reg = find_region(dev, addr, size);
++	if (unlikely(!reg))
++		return ERR_PTR(-EPERM);
++
++	if (unlikely(check_region_boundary(reg, addr, size)))
++		return ERR_PTR(-EFAULT);
++
++	return map_to_region(reg, addr);
++}
++
++static int nvmet_vhost_rw(struct vhost_dev *dev, u64 guest_pa,
++		void *buf, uint32_t size, int write)
++{
++	void __user *host_user_va;
++	void *host_kernel_va;
++	struct page *page;
++	uintptr_t offset;
 +	int ret;
 +
-+	n->page_bits = page_bits;
-+	n->page_size = page_size;
-+	n->max_prp_ents = n->page_size / sizeof(uint64_t);
-+	n->cqe_size = 1 << NVME_CC_IOCQES(n->ctrl->cc);
-+	n->sqe_size = 1 << NVME_CC_IOSQES(n->ctrl->cc);
-+
-+	nvmet_vhost_init_cq(&n->admin_cq, n, n->acq, 0,
-+		NVME_AQA_ACQS(n->aqa) + 1, n->eventfd[0].call_ctx,
-+		0, 1);
-+
-+	ret = nvmet_vhost_init_sq(&n->admin_sq, n, n->asq, 0, 0,
-+		NVME_AQA_ASQS(n->aqa) + 1);
-+	if (ret) {
-+		pr_warn("nvmet_vhost_init_sq failed!!!\n");
-+		BUG_ON(1);
++	host_user_va = map_guest_to_host(dev, guest_pa, size);
++	if (unlikely(!host_user_va)) {
++		pr_warn("cannot map guest addr %p, error %ld\n",
++			(void *)guest_pa, PTR_ERR(host_user_va));
++		return -EINVAL;
 +	}
++
++	ret = get_user_pages(current, dev->mm,
++				(unsigned long)host_user_va, 1,
++				false, 0, &page, NULL);
++	if (unlikely(ret != 1)) {
++		pr_warn("get_user_pages fail!!!\n");
++		return -EINVAL;
++	}
++
++	host_kernel_va = kmap(page);
++	if (unlikely(!host_kernel_va)) {
++		pr_warn("kmap fail!!!\n");
++		put_page(page);
++		return -EINVAL;
++	}
++
++	offset = (uintptr_t)host_user_va & ~PAGE_MASK;
++	if (write)
++		memcpy(host_kernel_va + offset, buf, size);
++	else
++		memcpy(buf, host_kernel_va + offset, size);
++	kunmap(host_kernel_va);
++	put_page(page);
++
++	return 0;
 +}
 +
- static int
- nvmet_vhost_set_endpoint(struct nvmet_vhost_ctrl *n,
- 			struct vhost_nvme_target *c)
-@@ -67,6 +171,8 @@ nvmet_vhost_set_endpoint(struct nvmet_vhost_ctrl *n,
- 	n->cntlid = ctrl->cntlid;
- 	n->ctrl = ctrl;
- 	n->num_queues = subsys->max_qid + 1;
-+	ctrl->opaque = n;
-+	ctrl->start = nvmet_vhost_start_ctrl;
++int nvmet_vhost_read(struct vhost_dev *dev, u64 guest_pa,
++		void *buf, uint32_t size)
++{
++	return nvmet_vhost_rw(dev, guest_pa, buf, size, 0);
++}
++
++int nvmet_vhost_write(struct vhost_dev *dev, u64 guest_pa,
++		void *buf, uint32_t size)
++{
++	return nvmet_vhost_rw(dev, guest_pa, buf, size, 1);
++}
++
+ #define sq_to_vsq(sq) container_of(sq, struct nvmet_vhost_sq, sq)
+ #define cq_to_vcq(cq) container_of(cq, struct nvmet_vhost_cq, cq)
  
- 	num_queues = ctrl->subsys->max_qid + 1;
- 	n->cqs = kzalloc(sizeof(*n->cqs) * num_queues, GFP_KERNEL);
 -- 
 1.9.1
