@@ -1,63 +1,312 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 20 Nov 2015 17:35:04 +0100
-Subject: [PATCH 09/47] nvme: add a vendor field to struct nvme_dev
+Date: Fri, 20 Nov 2015 17:35:05 +0100
+Subject: [PATCH 10/47] nvme: use offset instead of a struct for registers
 In-Reply-To: <1448037342-18384-1-git-send-email-hch@lst.de>
 References: <1448037342-18384-1-git-send-email-hch@lst.de>
-Message-ID: <1448037342-18384-10-git-send-email-hch@lst.de>
+Message-ID: <1448037342-18384-11-git-send-email-hch@lst.de>
 
-The SCSI translation layer currently has to poke into the PCI device
-structure to find a vendor ID for the device identification fallback.
-We won't nessecarily have a PCI device behind the device structure in
-the future, so add a new vendor field that can be filled out by the
-PCIe driver instead.
+This makes life easier for future non-PCI drivers where access to the
+registers might be more complicated.  Note that Linux drivers are
+pretty evenly split between the two versions, and in fact the NVMe
+driver already uses offsets for the doorbells.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Acked-by: Keith Busch <keith.busch at intel.com>
+[Fixed CMBSZ offset]
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/nvme.h | 1 +
- drivers/nvme/host/pci.c  | 3 +++
- drivers/nvme/host/scsi.c | 2 +-
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ drivers/nvme/host/nvme.h |  2 +-
+ drivers/nvme/host/pci.c  | 60 ++++++++++++++++++++++++++----------------------
+ drivers/nvme/host/scsi.c |  6 ++---
+ include/linux/nvme.h     | 27 +++++++++++-----------
+ 4 files changed, 49 insertions(+), 46 deletions(-)
 
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a53977c..02fca73 100644
+index 02fca73..93e268c 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -74,6 +74,7 @@ struct nvme_dev {
- 	u16 abort_limit;
- 	u8 event_limit;
- 	u8 vwc;
-+	u16 vendor;
- };
- 
- /*
+@@ -51,7 +51,7 @@ struct nvme_dev {
+ 	u32 db_stride;
+ 	u32 ctrl_config;
+ 	struct msix_entry *entry;
+-	struct nvme_bar __iomem *bar;
++	void __iomem *bar;
+ 	struct list_head namespaces;
+ 	struct kref kref;
+ 	struct device *device;
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 094c355..79bca52 100644
+index 79bca52..e9de117 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -3150,6 +3150,9 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	INIT_WORK(&dev->reset_work, nvme_reset_work);
- 	dev->dev = get_device(&pdev->dev);
- 	pci_set_drvdata(pdev, dev);
-+
-+	dev->vendor = pdev->vendor;
-+
- 	result = nvme_set_instance(dev);
+@@ -1321,7 +1321,7 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
+ 
+ 	/* Don't tell the adapter to delete the admin queue.
+ 	 * Don't tell a removed adapter to delete IO queues. */
+-	if (qid && readl(&dev->bar->csts) != -1) {
++	if (qid && readl(dev->bar + NVME_REG_CSTS) != -1) {
+ 		adapter_delete_sq(dev, qid);
+ 		adapter_delete_cq(dev, qid);
+ 	}
+@@ -1474,7 +1474,7 @@ static int nvme_wait_ready(struct nvme_dev *dev, u64 cap, bool enabled)
+ 
+ 	timeout = ((NVME_CAP_TIMEOUT(cap) + 1) * HZ / 2) + jiffies;
+ 
+-	while ((readl(&dev->bar->csts) & NVME_CSTS_RDY) != bit) {
++	while ((readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_RDY) != bit) {
+ 		msleep(100);
+ 		if (fatal_signal_pending(current))
+ 			return -EINTR;
+@@ -1499,7 +1499,7 @@ static int nvme_disable_ctrl(struct nvme_dev *dev, u64 cap)
+ {
+ 	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
+ 	dev->ctrl_config &= ~NVME_CC_ENABLE;
+-	writel(dev->ctrl_config, &dev->bar->cc);
++	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
+ 
+ 	return nvme_wait_ready(dev, cap, false);
+ }
+@@ -1508,7 +1508,7 @@ static int nvme_enable_ctrl(struct nvme_dev *dev, u64 cap)
+ {
+ 	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
+ 	dev->ctrl_config |= NVME_CC_ENABLE;
+-	writel(dev->ctrl_config, &dev->bar->cc);
++	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
+ 
+ 	return nvme_wait_ready(dev, cap, true);
+ }
+@@ -1520,10 +1520,10 @@ static int nvme_shutdown_ctrl(struct nvme_dev *dev)
+ 	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
+ 	dev->ctrl_config |= NVME_CC_SHN_NORMAL;
+ 
+-	writel(dev->ctrl_config, &dev->bar->cc);
++	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
+ 
+ 	timeout = SHUTDOWN_TIMEOUT + jiffies;
+-	while ((readl(&dev->bar->csts) & NVME_CSTS_SHST_MASK) !=
++	while ((readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_SHST_MASK) !=
+ 							NVME_CSTS_SHST_CMPLT) {
+ 		msleep(100);
+ 		if (fatal_signal_pending(current))
+@@ -1599,7 +1599,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ {
+ 	int result;
+ 	u32 aqa;
+-	u64 cap = lo_hi_readq(&dev->bar->cap);
++	u64 cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
+ 	struct nvme_queue *nvmeq;
+ 	unsigned page_shift = PAGE_SHIFT;
+ 	unsigned dev_page_min = NVME_CAP_MPSMIN(cap) + 12;
+@@ -1620,11 +1620,12 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 		page_shift = dev_page_max;
+ 	}
+ 
+-	dev->subsystem = readl(&dev->bar->vs) >= NVME_VS(1, 1) ?
++	dev->subsystem = readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 1) ?
+ 						NVME_CAP_NSSRC(cap) : 0;
+ 
+-	if (dev->subsystem && (readl(&dev->bar->csts) & NVME_CSTS_NSSRO))
+-		writel(NVME_CSTS_NSSRO, &dev->bar->csts);
++	if (dev->subsystem &&
++	    (readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_NSSRO))
++		writel(NVME_CSTS_NSSRO, dev->bar + NVME_REG_CSTS);
+ 
+ 	result = nvme_disable_ctrl(dev, cap);
+ 	if (result < 0)
+@@ -1647,9 +1648,9 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
+ 	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+ 
+-	writel(aqa, &dev->bar->aqa);
+-	lo_hi_writeq(nvmeq->sq_dma_addr, &dev->bar->asq);
+-	lo_hi_writeq(nvmeq->cq_dma_addr, &dev->bar->acq);
++	writel(aqa, dev->bar + NVME_REG_AQA);
++	lo_hi_writeq(nvmeq->sq_dma_addr, dev->bar + NVME_REG_ASQ);
++	lo_hi_writeq(nvmeq->cq_dma_addr, dev->bar + NVME_REG_ACQ);
+ 
+ 	result = nvme_enable_ctrl(dev, cap);
  	if (result)
- 		goto put_pci;
+@@ -1791,7 +1792,7 @@ static int nvme_subsys_reset(struct nvme_dev *dev)
+ 	if (!dev->subsystem)
+ 		return -ENOTTY;
+ 
+-	writel(0x4E564D65, &dev->bar->nssr); /* "NVMe" */
++	writel(0x4E564D65, dev->bar + NVME_REG_NSSR); /* "NVMe" */
+ 	return 0;
+ }
+ 
+@@ -2078,14 +2079,14 @@ static int nvme_kthread(void *data)
+ 		spin_lock(&dev_list_lock);
+ 		list_for_each_entry_safe(dev, next, &dev_list, node) {
+ 			int i;
+-			u32 csts = readl(&dev->bar->csts);
++			u32 csts = readl(dev->bar + NVME_REG_CSTS);
+ 
+ 			if ((dev->subsystem && (csts & NVME_CSTS_NSSRO)) ||
+ 							csts & NVME_CSTS_CFS) {
+ 				if (!__nvme_reset(dev)) {
+ 					dev_warn(dev->dev,
+ 						"Failed status: %x, reset controller\n",
+-						readl(&dev->bar->csts));
++						readl(dev->bar + NVME_REG_CSTS));
+ 				}
+ 				continue;
+ 			}
+@@ -2245,11 +2246,11 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+ 	if (!use_cmb_sqes)
+ 		return NULL;
+ 
+-	dev->cmbsz = readl(&dev->bar->cmbsz);
++	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
+ 	if (!(NVME_CMB_SZ(dev->cmbsz)))
+ 		return NULL;
+ 
+-	cmbloc = readl(&dev->bar->cmbloc);
++	cmbloc = readl(dev->bar + NVME_REG_CMBLOC);
+ 
+ 	szu = (u64)1 << (12 + 4 * NVME_CMB_SZU(dev->cmbsz));
+ 	size = szu * NVME_CMB_SZ(dev->cmbsz);
+@@ -2323,7 +2324,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 				return -ENOMEM;
+ 			size = db_bar_size(dev, nr_io_queues);
+ 		} while (1);
+-		dev->dbs = ((void __iomem *)dev->bar) + 4096;
++		dev->dbs = dev->bar + 4096;
+ 		adminq->q_db = dev->dbs;
+ 	}
+ 
+@@ -2399,8 +2400,9 @@ static struct nvme_ns *nvme_find_ns(struct nvme_dev *dev, unsigned nsid)
+ 
+ static inline bool nvme_io_incapable(struct nvme_dev *dev)
+ {
+-	return (!dev->bar || readl(&dev->bar->csts) & NVME_CSTS_CFS ||
+-							dev->online_queues < 2);
++	return (!dev->bar ||
++		readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_CFS ||
++		dev->online_queues < 2);
+ }
+ 
+ static void nvme_ns_remove(struct nvme_ns *ns)
+@@ -2480,7 +2482,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int res;
+ 	struct nvme_id_ctrl *ctrl;
+-	int shift = NVME_CAP_MPSMIN(lo_hi_readq(&dev->bar->cap)) + 12;
++	int shift = NVME_CAP_MPSMIN(lo_hi_readq(dev->bar + NVME_REG_CAP)) + 12;
+ 
+ 	res = nvme_identify_ctrl(dev, &ctrl);
+ 	if (res) {
+@@ -2556,7 +2558,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
+ 	if (!dev->bar)
+ 		goto disable;
+ 
+-	if (readl(&dev->bar->csts) == -1) {
++	if (readl(dev->bar + NVME_REG_CSTS) == -1) {
+ 		result = -ENODEV;
+ 		goto unmap;
+ 	}
+@@ -2571,11 +2573,12 @@ static int nvme_dev_map(struct nvme_dev *dev)
+ 			goto unmap;
+ 	}
+ 
+-	cap = lo_hi_readq(&dev->bar->cap);
++	cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
++
+ 	dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, NVME_Q_DEPTH);
+ 	dev->db_stride = 1 << NVME_CAP_STRIDE(cap);
+-	dev->dbs = ((void __iomem *)dev->bar) + 4096;
+-	if (readl(&dev->bar->vs) >= NVME_VS(1, 2))
++	dev->dbs = dev->bar + 4096;
++	if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 2))
+ 		dev->cmb = nvme_map_cmb(dev);
+ 
+ 	return 0;
+@@ -2634,7 +2637,8 @@ static void nvme_wait_dq(struct nvme_delq_ctx *dq, struct nvme_dev *dev)
+ 			 * queues than admin tags.
+ 			 */
+ 			set_current_state(TASK_RUNNING);
+-			nvme_disable_ctrl(dev, lo_hi_readq(&dev->bar->cap));
++			nvme_disable_ctrl(dev,
++				lo_hi_readq(dev->bar + NVME_REG_CAP));
+ 			nvme_clear_queue(dev->queues[0]);
+ 			flush_kthread_worker(dq->worker);
+ 			nvme_disable_queue(dev, 0);
+@@ -2806,7 +2810,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 
+ 	if (dev->bar) {
+ 		nvme_freeze_queues(dev);
+-		csts = readl(&dev->bar->csts);
++		csts = readl(dev->bar + NVME_REG_CSTS);
+ 	}
+ 	if (csts & NVME_CSTS_CFS || !(csts & NVME_CSTS_RDY)) {
+ 		for (i = dev->queue_count - 1; i >= 0; i--) {
 diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
-index c3d8d38..8f2d2c5 100644
+index 8f2d2c5..a5f6af1 100644
 --- a/drivers/nvme/host/scsi.c
 +++ b/drivers/nvme/host/scsi.c
-@@ -657,7 +657,7 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		inq_response[6] = 0x00;    /* Rsvd */
- 		inq_response[7] = 0x44;    /* Designator Length */
+@@ -611,7 +611,7 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
  
--		sprintf(&inq_response[8], "%04x", to_pci_dev(dev->dev)->vendor);
-+		sprintf(&inq_response[8], "%04x", dev->vendor);
- 		memcpy(&inq_response[12], dev->model, sizeof(dev->model));
- 		sprintf(&inq_response[52], "%04x", tmp_id);
- 		memcpy(&inq_response[56], dev->serial, sizeof(dev->serial));
+ 	memset(inq_response, 0, alloc_len);
+ 	inq_response[1] = INQ_DEVICE_IDENTIFICATION_PAGE;    /* Page Code */
+-	if (readl(&dev->bar->vs) >= NVME_VS(1, 1)) {
++	if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 1)) {
+ 		struct nvme_id_ns *id_ns;
+ 		void *eui;
+ 		int len;
+@@ -623,7 +623,7 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 
+ 		eui = id_ns->eui64;
+ 		len = sizeof(id_ns->eui64);
+-		if (readl(&dev->bar->vs) >= NVME_VS(1, 2)) {
++		if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 2)) {
+ 			if (bitmap_empty(eui, len * 8)) {
+ 				eui = id_ns->nguid;
+ 				len = sizeof(id_ns->nguid);
+@@ -2297,7 +2297,7 @@ static int nvme_trans_test_unit_ready(struct nvme_ns *ns,
+ {
+ 	struct nvme_dev *dev = ns->dev;
+ 
+-	if (!(readl(&dev->bar->csts) & NVME_CSTS_RDY))
++	if (!(readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_RDY))
+ 		return nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+ 					    NOT_READY, SCSI_ASC_LUN_NOT_READY,
+ 					    SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 3af5f45..a55986f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -17,20 +17,19 @@
+ 
+ #include <linux/types.h>
+ 
+-struct nvme_bar {
+-	__u64			cap;	/* Controller Capabilities */
+-	__u32			vs;	/* Version */
+-	__u32			intms;	/* Interrupt Mask Set */
+-	__u32			intmc;	/* Interrupt Mask Clear */
+-	__u32			cc;	/* Controller Configuration */
+-	__u32			rsvd1;	/* Reserved */
+-	__u32			csts;	/* Controller Status */
+-	__u32			nssr;	/* Subsystem Reset */
+-	__u32			aqa;	/* Admin Queue Attributes */
+-	__u64			asq;	/* Admin SQ Base Address */
+-	__u64			acq;	/* Admin CQ Base Address */
+-	__u32			cmbloc; /* Controller Memory Buffer Location */
+-	__u32			cmbsz;  /* Controller Memory Buffer Size */
++enum {
++	NVME_REG_CAP	= 0x0000,	/* Controller Capabilities */
++	NVME_REG_VS	= 0x0008,	/* Version */
++	NVME_REG_INTMS	= 0x000c,	/* Interrupt Mask Set */
++	NVME_REG_INTMC	= 0x0010,	/* Interrupt Mask Set */
++	NVME_REG_CC	= 0x0014,	/* Controller Configuration */
++	NVME_REG_CSTS	= 0x001c,	/* Controller Status */
++	NVME_REG_NSSR	= 0x0020,	/* NVM Subsystem Reset */
++	NVME_REG_AQA	= 0x0024,	/* Admin Queue Attributes */
++	NVME_REG_ASQ	= 0x0028,	/* Admin SQ Base Address */
++	NVME_REG_ACQ	= 0x0030,	/* Admin SQ Base Address */
++	NVME_REG_CMBLOC = 0x0038,	/* Controller Memory Buffer Location */
++	NVME_REG_CMBSZ	= 0x003c,	/* Controller Memory Buffer Size */
+ };
+ 
+ #define NVME_CAP_MQES(cap)	((cap) & 0xffff)
 -- 
 1.9.1
