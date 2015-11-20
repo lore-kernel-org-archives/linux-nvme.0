@@ -1,44 +1,23 @@
-From: jmoyer@redhat.com (Jeff Moyer)
-Date: Fri, 20 Nov 2015 16:43:05 -0500
+From: axboe@fb.com (Jens Axboe)
+Date: Fri, 20 Nov 2015 14:47:30 -0700
 Subject: [PATCH 02/47] block: fix blk_abort_request for blk-mq drivers
-In-Reply-To: <1448037342-18384-3-git-send-email-hch@lst.de> (Christoph
- Hellwig's message of "Fri, 20 Nov 2015 17:34:57 +0100")
+In-Reply-To: <x491tbkcpp2.fsf@segfault.boston.devel.redhat.com>
 References: <1448037342-18384-1-git-send-email-hch@lst.de>
  <1448037342-18384-3-git-send-email-hch@lst.de>
-Message-ID: <x491tbkcpp2.fsf@segfault.boston.devel.redhat.com>
+ <x491tbkcpp2.fsf@segfault.boston.devel.redhat.com>
+Message-ID: <564F94F2.1030603@fb.com>
 
-Christoph Hellwig <hch at lst.de> writes:
-
-> We only added the request to the request list for the !blk-mq case,
-> so we should only delete it in that case as well.
-
-Sorry, I don't follow.  Do you mean the timeout_list?  It appears to me
-that blk_add_timer is called for both the old and mq paths.
-
--Jeff
-
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  block/blk-timeout.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+On 11/20/2015 02:43 PM, Jeff Moyer wrote:
+> Christoph Hellwig <hch at lst.de> writes:
 >
-> diff --git a/block/blk-timeout.c b/block/blk-timeout.c
-> index 246dfb1..aa40aa9 100644
-> --- a/block/blk-timeout.c
-> +++ b/block/blk-timeout.c
-> @@ -158,11 +158,13 @@ void blk_abort_request(struct request *req)
->  {
->  	if (blk_mark_rq_complete(req))
->  		return;
-> -	blk_delete_timer(req);
-> -	if (req->q->mq_ops)
-> +
-> +	if (req->q->mq_ops) {
->  		blk_mq_rq_timed_out(req, false);
-> -	else
-> +	} else {
-> +		blk_delete_timer(req);
->  		blk_rq_timed_out(req);
-> +	}
->  }
->  EXPORT_SYMBOL_GPL(blk_abort_request);
+>> We only added the request to the request list for the !blk-mq case,
+>> so we should only delete it in that case as well.
+>
+> Sorry, I don't follow.  Do you mean the timeout_list?  It appears to me
+> that blk_add_timer is called for both the old and mq paths.
+
+It is called for both, but only !mq adds it to the list. We don't need 
+that tracking on the mq side, as we can look it up in our tags.
+
+-- 
+Jens Axboe
