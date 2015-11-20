@@ -1,77 +1,22 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 20 Nov 2015 17:35:29 +0100
-Subject: [PATCH 34/47] NVMe: Remove device management handles on remove
-In-Reply-To: <1448037342-18384-1-git-send-email-hch@lst.de>
-References: <1448037342-18384-1-git-send-email-hch@lst.de>
-Message-ID: <1448037342-18384-35-git-send-email-hch@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 20 Nov 2015 08:47:09 -0800
+Subject: nvme lightnvm comments
+In-Reply-To: <564EFEBC.3040603@bjorling.me>
+References: <20151120105022.GA22131@infradead.org>
+ <564EFEBC.3040603@bjorling.me>
+Message-ID: <20151120164709.GA9931@infradead.org>
 
-From: Keith Busch <keith.busch@intel.com>
+On Fri, Nov 20, 2015@12:06:36PM +0100, Matias Bj?rling wrote:
+> >  2) please build the lightnvm.o object conditionally in the makefile
+> 
+> Then the functions
+> 
+> nvme_nvm_register
+> nvme_nvm_unregister
+> nvme_nvm_register
+> 
+> have to be #ifdef'ed in the pci file. Do you want that instead? It was on
+> purpose the other way around, so that the nvme_nvm_* functions was null
+> functions if lightnvm isn't compiled in.
 
-We don't want to allow new references to open on a device that is
-removed. This ties the lifetime of these handles to the physical device's
-presence rather than to the open reference count.
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 13 +++++++++----
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  |  1 +
- 3 files changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 38d2ecc..379003b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1078,17 +1078,22 @@ static void nvme_release_instance(struct nvme_ctrl *ctrl)
- 	spin_unlock(&dev_list_lock);
- }
- 
--static void nvme_free_ctrl(struct kref *kref)
--{
--	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
-+void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
-+ {
-+	device_remove_file(ctrl->device, &dev_attr_reset_controller);
-+	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
- 
- 	spin_lock(&dev_list_lock);
- 	list_del(&ctrl->node);
- 	spin_unlock(&dev_list_lock);
-+}
-+
-+static void nvme_free_ctrl(struct kref *kref)
-+{
-+	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
- 
- 	put_device(ctrl->device);
- 	nvme_release_instance(ctrl);
--	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
- 
- 	ctrl->ops->free_ctrl(ctrl);
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 993767e..84bde22 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -195,6 +195,7 @@ static inline int nvme_error_status(u16 status)
- 	}
- }
- 
-+void nvme_uninit_ctrl(struct nvme_ctrl *ctrl);
- int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 		const struct nvme_ctrl_ops *ops, u16 vendor,
- 		unsigned long quirks);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3a61331..c5187b5 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2451,6 +2451,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	flush_work(&dev->reset_work);
- 	flush_work(&dev->scan_work);
- 	nvme_remove_namespaces(&dev->ctrl);
-+	nvme_uninit_ctrl(&dev->ctrl);
- 	nvme_dev_shutdown(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_free_queues(dev, 0);
--- 
-1.9.1
+Just keep the stubs as inlines in the header.
