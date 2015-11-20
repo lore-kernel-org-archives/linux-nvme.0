@@ -1,13 +1,17 @@
-From: Jeff.Lien@hgst.com (Jeffrey Lien)
-Date: Fri, 20 Nov 2015 18:02:28 +0000
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 20 Nov 2015 10:32:06 -0800
 Subject: Question on NVMe SCSI Translation Ref 1.5
-Message-ID: <BL2PR04MB1634A1D6C773CDEC0C45D9A921A0@BL2PR04MB163.namprd04.prod.outlook.com>
+In-Reply-To: <BL2PR04MB1634A1D6C773CDEC0C45D9A921A0@BL2PR04MB163.namprd04.prod.outlook.com>
+References: <BL2PR04MB1634A1D6C773CDEC0C45D9A921A0@BL2PR04MB163.namprd04.prod.outlook.com>
+Message-ID: <20151120183206.GA11043@infradead.org>
 
-In the SCSI Translation Ref 1.5 spec, section 4.5 Reports LUNs, the actions for the different Select Report fields are defined.   For value 11h, it describes what should be done when the LUN addressed in the command is for LUN 0 vs not.  My question is how do we know which LUN is being addressed?   I didn't see anything in the CDB or the sg_io_hdr that specified  a LUN.   Does anyone know how to clarify this?   
+Hi Jeffrey,
 
-Jeff Lien
-
-Jeff.Lien at hgst.com
-507 322-2416/23-2416
-3605 Hwy 52 N.  
-Rochester, MN 55901
+SG_IO is sent to a device node.  For actualy SCSI devices you'll
+get the LUN from sdev->lun.  For NVMe there obviously aren't any LUNs,
+so you'll have to come up with a tranlation.  The current Linux driver
+translated namespaces 1 to LUN 0 and so on.  In general sending a
+REPORT LUNS to a NVMe device node does not seem very useful, and I have
+no idea why it even was specified.  Then again the whole SCSI
+translation layer concept seems incredbile braindead and I think we
+should at least optionally remove it from the NVMe driver.
