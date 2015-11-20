@@ -1,55 +1,38 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 20 Nov 2015 17:34:56 +0100
-Subject: [PATCH 01/47] nvme: add missing unmaps in nvme_queue_rq
+Date: Fri, 20 Nov 2015 17:34:57 +0100
+Subject: [PATCH 02/47] block: fix blk_abort_request for blk-mq drivers
 In-Reply-To: <1448037342-18384-1-git-send-email-hch@lst.de>
 References: <1448037342-18384-1-git-send-email-hch@lst.de>
-Message-ID: <1448037342-18384-2-git-send-email-hch@lst.de>
+Message-ID: <1448037342-18384-3-git-send-email-hch@lst.de>
 
-When we fail various metadata related operations in nvme_queue_rq we
-need to unmap the data SGL.
+We only added the request to the request list for the !blk-mq case,
+so we should only delete it in that case as well.
 
-Cc: stable at vger.kernel.org
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ block/blk-timeout.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 394fd16..9444884 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -896,19 +896,28 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 			goto retry_cmd;
- 		}
- 		if (blk_integrity_rq(req)) {
--			if (blk_rq_count_integrity_sg(req->q, req->bio) != 1)
-+			if (blk_rq_count_integrity_sg(req->q, req->bio) != 1) {
-+				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
-+						dma_dir);
- 				goto error_cmd;
-+			}
- 
- 			sg_init_table(iod->meta_sg, 1);
- 			if (blk_rq_map_integrity_sg(
--					req->q, req->bio, iod->meta_sg) != 1)
-+					req->q, req->bio, iod->meta_sg) != 1) {
-+				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
-+						dma_dir);
- 				goto error_cmd;
-+			}
- 
- 			if (rq_data_dir(req))
- 				nvme_dif_remap(req, nvme_dif_prep);
- 
--			if (!dma_map_sg(nvmeq->q_dmadev, iod->meta_sg, 1, dma_dir))
-+			if (!dma_map_sg(nvmeq->q_dmadev, iod->meta_sg, 1, dma_dir)) {
-+				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
-+						dma_dir);
- 				goto error_cmd;
-+			}
- 		}
- 	}
+diff --git a/block/blk-timeout.c b/block/blk-timeout.c
+index 246dfb1..aa40aa9 100644
+--- a/block/blk-timeout.c
++++ b/block/blk-timeout.c
+@@ -158,11 +158,13 @@ void blk_abort_request(struct request *req)
+ {
+ 	if (blk_mark_rq_complete(req))
+ 		return;
+-	blk_delete_timer(req);
+-	if (req->q->mq_ops)
++
++	if (req->q->mq_ops) {
+ 		blk_mq_rq_timed_out(req, false);
+-	else
++	} else {
++		blk_delete_timer(req);
+ 		blk_rq_timed_out(req);
++	}
+ }
+ EXPORT_SYMBOL_GPL(blk_abort_request);
  
 -- 
 1.9.1
