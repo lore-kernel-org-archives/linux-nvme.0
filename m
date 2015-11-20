@@ -1,48 +1,113 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 20 Nov 2015 17:35:20 +0100
-Subject: [PATCH 25/47] nvme: don't take the I/O queue q_lock in nvme_timeout
+Date: Fri, 20 Nov 2015 17:35:21 +0100
+Subject: [PATCH 26/47] nvme: merge nvme_abort_req and nvme_timeout
 In-Reply-To: <1448037342-18384-1-git-send-email-hch@lst.de>
 References: <1448037342-18384-1-git-send-email-hch@lst.de>
-Message-ID: <1448037342-18384-26-git-send-email-hch@lst.de>
+Message-ID: <1448037342-18384-27-git-send-email-hch@lst.de>
 
-There is nothing it protects, but it makes lockdep unhappy in many different
-ways.
+We want to be able to return bettern error values frmo nvme_timeout, which
+is significantly easier if the two functions are merged.  Also clean up and
+reduce the printk spew so that we only get one message per abort.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/nvme/host/pci.c | 47 ++++++++++++++++++-----------------------------
+ 1 file changed, 18 insertions(+), 29 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c8e381b..df3ddeb 100644
+index df3ddeb..58cff75 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1086,13 +1086,13 @@ static void nvme_abort_req(struct request *req)
+@@ -1070,13 +1070,7 @@ static int adapter_delete_sq(struct nvme_dev *dev, u16 sqid)
+ 	return adapter_delete_queue(dev, nvme_admin_delete_sq, sqid);
+ }
+ 
+-/**
+- * nvme_abort_req - Attempt aborting a request
+- *
+- * Schedule controller reset if the command was already aborted once before and
+- * still hasn't been returned to the driver, or if this is the admin queue.
+- */
+-static void nvme_abort_req(struct request *req)
++static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ {
+ 	struct nvme_cmd_info *cmd_rq = blk_mq_rq_to_pdu(req);
+ 	struct nvme_queue *nvmeq = cmd_rq->nvmeq;
+@@ -1085,6 +1079,11 @@ static void nvme_abort_req(struct request *req)
+ 	struct nvme_cmd_info *abort_cmd;
  	struct nvme_command cmd;
  
++	/*
++	 * Schedule controller reset if the command was already aborted once
++	 * before and still hasn't been returned to the driver, or if this is
++	 * the admin queue.
++	 */
  	if (!nvmeq->qid || cmd_rq->aborted) {
--		spin_lock(&dev_list_lock);
-+		spin_lock_irq(&dev_list_lock);
+ 		spin_lock_irq(&dev_list_lock);
  		if (!__nvme_reset(dev)) {
- 			dev_warn(dev->dev,
- 				 "I/O %d QID %d timeout, reset controller\n",
+@@ -1093,16 +1092,16 @@ static void nvme_abort_req(struct request *req)
  				 req->tag, nvmeq->qid);
  		}
--		spin_unlock(&dev_list_lock);
-+		spin_unlock_irq(&dev_list_lock);
- 		return;
+ 		spin_unlock_irq(&dev_list_lock);
+-		return;
++		return BLK_EH_RESET_TIMER;
  	}
  
-@@ -1156,9 +1156,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	if (!dev->ctrl.abort_limit)
+-		return;
++		return BLK_EH_RESET_TIMER;
  
- 	dev_warn(nvmeq->q_dmadev, "Timeout I/O %d QID %d\n", req->tag,
- 							nvmeq->qid);
--	spin_lock_irq(&nvmeq->q_lock);
- 	nvme_abort_req(req);
--	spin_unlock_irq(&nvmeq->q_lock);
+ 	abort_req = blk_mq_alloc_request(dev->ctrl.admin_q, WRITE,
+ 			BLK_MQ_REQ_NOWAIT);
+ 	if (IS_ERR(abort_req))
+-		return;
++		return BLK_EH_RESET_TIMER;
  
- 	/*
- 	 * The aborted req will be completed on receiving the abort req.
+ 	abort_cmd = blk_mq_rq_to_pdu(abort_req);
+ 	nvme_set_info(abort_cmd, abort_req, abort_completion);
+@@ -1116,9 +1115,16 @@ static void nvme_abort_req(struct request *req)
+ 	--dev->ctrl.abort_limit;
+ 	cmd_rq->aborted = 1;
+ 
+-	dev_warn(nvmeq->q_dmadev, "Aborting I/O %d QID %d\n", req->tag,
+-							nvmeq->qid);
++	dev_warn(nvmeq->q_dmadev, "I/O %d QID %d timeout, aborting\n",
++				 req->tag, nvmeq->qid);
+ 	nvme_submit_cmd(dev->queues[0], &cmd);
++
++	/*
++	 * The aborted req will be completed on receiving the abort req.
++	 * We enable the timer again. If hit twice, it'll cause a device reset,
++	 * as the device then is in a faulty state.
++	 */
++	return BLK_EH_RESET_TIMER;
+ }
+ 
+ static void nvme_cancel_queue_ios(struct request *req, void *data, bool reserved)
+@@ -1149,23 +1155,6 @@ static void nvme_cancel_queue_ios(struct request *req, void *data, bool reserved
+ 	fn(nvmeq, ctx, &cqe);
+ }
+ 
+-static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+-{
+-	struct nvme_cmd_info *cmd = blk_mq_rq_to_pdu(req);
+-	struct nvme_queue *nvmeq = cmd->nvmeq;
+-
+-	dev_warn(nvmeq->q_dmadev, "Timeout I/O %d QID %d\n", req->tag,
+-							nvmeq->qid);
+-	nvme_abort_req(req);
+-
+-	/*
+-	 * The aborted req will be completed on receiving the abort req.
+-	 * We enable the timer again. If hit twice, it'll cause a device reset,
+-	 * as the device then is in a faulty state.
+-	 */
+-	return BLK_EH_RESET_TIMER;
+-}
+-
+ static void nvme_free_queue(struct nvme_queue *nvmeq)
+ {
+ 	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
 -- 
 1.9.1
