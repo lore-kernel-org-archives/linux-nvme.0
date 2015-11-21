@@ -1,20 +1,22 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Sat, 21 Nov 2015 00:19:09 -0800
-Subject: nvme lightnvm comments
-In-Reply-To: <564F9003.5080109@bjorling.me>
-References: <20151120105022.GA22131@infradead.org>
- <564EFEBC.3040603@bjorling.me>
- <20151120164709.GA9931@infradead.org>
- <564F9003.5080109@bjorling.me>
-Message-ID: <20151121081909.GB16229@infradead.org>
+Date: Sat, 21 Nov 2015 00:20:41 -0800
+Subject: [PATCH 1/1] nvme: temporary fix for Apple NVMe controller reset
+In-Reply-To: <6ed9ad799884d9d4bdbfbdf94185c3f2@localhost>
+References: <6ed9ad799884d9d4bdbfbdf94185c3f2@localhost>
+Message-ID: <20151121082041.GA17935@infradead.org>
 
-On Fri, Nov 20, 2015@10:26:27PM +0100, Matias Bj?rling wrote:
-> Do you have any plans for exposing the completion_entry on req_completion in
-> the driver? I'm interested in the fields ->result and ->rsvd in struct
-> nvme_completion. They contain the completion bits for each of the PPA
-> entries. Which I'll need higher up in the stack to perform correct retries
-> and so forth.
+Hi Stephan,
 
-->result is available already for passthrough commands.  But for Fabrics
-I actually need the full CQE as well, and I'm working on that at the
-moment.  Stay tuned!
+> +	/*
+> +	 * Temporary fix for the Apple controller found in the MacBook8,1 and
+> +	 * some MacBook7,1 to avoid controller resets and data loss.
+> +	 */
+> +	if (pdev->vendor == PCI_VENDOR_ID_APPLE && pdev->device == 0x2001)
+> +		dev->q_depth = 2;
+
+Can you add a dev_warn() here?  A NVMe device with queue depth is going
+to perform bady, and we should tell people that we're applying a crude
+workaround.
+
+Otherwise this looks fine to me to get you guys going, but I really hope
+we'll find the root cause soon.
