@@ -1,33 +1,66 @@
-From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
-Date: Sat, 21 Nov 2015 13:16:11 +0100
-Subject: [PATCH 1/1] nvme: temporary fix for Apple NVMe controller reset
-In-Reply-To: <20151121082041.GA17935@infradead.org>
-References: <6ed9ad799884d9d4bdbfbdf94185c3f2@localhost>
- <20151121082041.GA17935@infradead.org>
-Message-ID: <4e6635a1510af922268cd5a6a242f5bb@localhost>
+From: pbonzini@redhat.com (Paolo Bonzini)
+Date: Sat, 21 Nov 2015 13:56:16 +0100
+Subject: [PATCH -qemu] nvme: support Google vendor extension
+In-Reply-To: <1448060745.6565.1.camel@ssi>
+References: <1447825624-17011-1-git-send-email-mlin@kernel.org>
+ <1447825624-17011-3-git-send-email-mlin@kernel.org>
+ <564DA682.8050706@redhat.com> <1448007096.3473.10.camel@hasee>
+ <564EE0A0.1020800@redhat.com> <1448060745.6565.1.camel@ssi>
+Message-ID: <565069F0.5000805@redhat.com>
 
-On 2015/November/21 12:20, Christoph Hellwig wrote:
-> Hi Stephan,
+
+
+On 21/11/2015 00:05, Ming Lin wrote:
+> [    1.752129] Freeing unused kernel memory: 420K (ffff880001b97000 - ffff880001c00000)
+> [    1.986573] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x30e5c9bbf83, max_idle_ns: 440795378954 ns
+> [    1.988187] clocksource: Switched to clocksource tsc
+> [    3.235423] clocksource: timekeeping watchdog: Marking clocksource 'tsc' as unstable because the skew is too large:
+> [    3.358713] clocksource:                       'refined-jiffies' wd_now: fffeddf3 wd_last: fffedd76 mask: ffffffff
+> [    3.410013] clocksource:                       'tsc' cs_now: 3c121d4ec cs_last: 340888eb7 mask: ffffffffffffffff
+> [    3.450026] clocksource: Switched to clocksource refined-jiffies
+> [    7.696769] Adding 392188k swap on /dev/vda5.  Priority:-1 extents:1 across:392188k 
+> [    7.902174] EXT4-fs (vda1): re-mounted. Opts: (null)
+> [    8.734178] EXT4-fs (vda1): re-mounted. Opts: errors=remount-ro
 > 
-> > +	/*
-> > +	 * Temporary fix for the Apple controller found in the MacBook8,1 and
-> > +	 * some MacBook7,1 to avoid controller resets and data loss.
-> > +	 */
-> > +	if (pdev->vendor == PCI_VENDOR_ID_APPLE && pdev->device == 0x2001)
-> > +		dev->q_depth = 2;
+> Then it doesn't response input for almost 1 minute.
+> Without this patch, kernel loads quickly.
+
+Interesting.  I guess there's time to debug it, since QEMU 2.6 is still 
+a few months away.  In the meanwhile we can apply your patch as is, 
+apart from disabling the "if (new_head >= cq->size)" and the similar 
+one for "if (new_ tail >= sq->size".
+
+But, I have a possible culprit.  In your nvme_cq_notifier you are not doing the 
+equivalent of:
+
+	start_sqs = nvme_cq_full(cq) ? 1 : 0;
+        cq->head = new_head;
+        if (start_sqs) {
+            NvmeSQueue *sq;
+            QTAILQ_FOREACH(sq, &cq->sq_list, entry) {
+                timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+            }
+            timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+        }
+
+Instead, you are just calling nvme_post_cqes, which is the equivalent of
+
+	timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+
+Adding a loop to nvme_cq_notifier, and having it call nvme_process_sq, might
+fix the weird 1-minute delay.
+
+Paolo
+
+> void memory_region_add_eventfd(MemoryRegion *mr,
+>                                hwaddr addr,
+>                                unsigned size,
+>                                bool match_data,
+>                                uint64_t data,
+>                                EventNotifier *e)
 > 
-> Can you add a dev_warn() here?  A NVMe device with queue depth is going
-> to perform bady, and we should tell people that we're applying a crude
-> workaround.
+> Could you help to explain what "match_data" and "data" mean?
 
-I'll resend the patch with an updated commit message and dev_warn().
+If match_data is true, the eventfd is only signalled if "data" is being written to memory.
 
-Interestingly, I cannot really complain about performance with that
-patch applied. That little notebook behaves really well. But that queue
-depth cannot be the solution of course.
-
-> 
-> Otherwise this looks fine to me to get you guys going, but I really hope
-> we'll find the root cause soon.
-
-I wish Apple would show any interest in that matter...
+Paolo
