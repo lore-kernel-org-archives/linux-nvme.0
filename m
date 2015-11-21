@@ -1,20 +1,16 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 21 Nov 2015 08:34:10 +0100
-Subject: [PATCH 02/47] block: fix blk_abort_request for blk-mq drivers
-In-Reply-To: <x49oaeob9ei.fsf@segfault.boston.devel.redhat.com>
-References: <1448037342-18384-1-git-send-email-hch@lst.de>
- <1448037342-18384-3-git-send-email-hch@lst.de>
- <x49oaeob9ei.fsf@segfault.boston.devel.redhat.com>
-Message-ID: <20151121073410.GA23894@lst.de>
+From: hch@infradead.org ('Christoph Hellwig')
+Date: Sat, 21 Nov 2015 00:18:04 -0800
+Subject: Question on NVMe SCSI Translation Ref 1.5
+In-Reply-To: <49158E750348AA499168FD41D889836072538066@fmsmsx117.amr.corp.intel.com>
+References: <BL2PR04MB1634A1D6C773CDEC0C45D9A921A0@BL2PR04MB163.namprd04.prod.outlook.com>
+ <20151120183206.GA11043@infradead.org>
+ <49158E750348AA499168FD41D889836072538066@fmsmsx117.amr.corp.intel.com>
+Message-ID: <20151121081804.GA16229@infradead.org>
 
-On Fri, Nov 20, 2015@05:20:21PM -0500, Jeff Moyer wrote:
-> > We only added the request to the request list for the !blk-mq case,
-> > so we should only delete it in that case as well.
-> 
-> I think I'd rather see the conditional moved into blk_delete_timer.
-> Breaking the balance of add/delete seems ugly to me.  I had expected to
-> see a later patch make use of the list, but nothing does.  So, this is
-> just a cleanup (as opposed to a preparatory patch), yes ?
+Hi Raymond,
 
-It was needed in an earlier version of the series.  Note that it's still
-needed e.g. for libsas.
+I'm not complaining about the spec - I think it's clearly useful
+as a reference.  For example it allows my pNFS SCSI layout spec to be
+used with NVMe by providing a reference mapping, even if we never even
+send SCSI commands in that case.  I just think the implementing it in
+the Linux kernel is useless as we provide a rich block I/O abstraction.
