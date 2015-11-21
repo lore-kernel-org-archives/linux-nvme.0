@@ -1,81 +1,77 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 21 Nov 2015 08:28:20 +0100
-Subject: [PATCH 02/16] NVMe: Use unbounded work queue for all work
+Date: Sat, 21 Nov 2015 08:28:21 +0100
+Subject: [PATCH 03/16] NVMe: Remove device management handles on remove
 In-Reply-To: <1448090914-13121-1-git-send-email-hch@lst.de>
 References: <1448090914-13121-1-git-send-email-hch@lst.de>
-Message-ID: <1448090914-13121-3-git-send-email-hch@lst.de>
+Message-ID: <1448090914-13121-4-git-send-email-hch@lst.de>
 
 From: Keith Busch <keith.busch@intel.com>
 
-Removes all usage of the global work queue so work can't be
-scheduled on two different work queues, and removes nvme's work queue
-singlethreadedness so controllers can be driven in parallel.
+We don't want to allow new references to open on a device that is
+removed. This ties the lifetime of these handles to the physical device's
+presence rather than to the open reference count.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
-[hch: keep the dead controller removal on the system workqueue to avoid
- deadlocks]
-Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/nvme/host/core.c | 13 +++++++++----
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/pci.c  |  1 +
+ 3 files changed, 11 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 38d2ecc..379003b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1078,17 +1078,22 @@ static void nvme_release_instance(struct nvme_ctrl *ctrl)
+ 	spin_unlock(&dev_list_lock);
+ }
+ 
+-static void nvme_free_ctrl(struct kref *kref)
+-{
+-	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
++void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
++ {
++	device_remove_file(ctrl->device, &dev_attr_reset_controller);
++	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
+ 
+ 	spin_lock(&dev_list_lock);
+ 	list_del(&ctrl->node);
+ 	spin_unlock(&dev_list_lock);
++}
++
++static void nvme_free_ctrl(struct kref *kref)
++{
++	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
+ 
+ 	put_device(ctrl->device);
+ 	nvme_release_instance(ctrl);
+-	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
+ 
+ 	ctrl->ops->free_ctrl(ctrl);
+ }
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 993767e..84bde22 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -195,6 +195,7 @@ static inline int nvme_error_status(u16 status)
+ 	}
+ }
+ 
++void nvme_uninit_ctrl(struct nvme_ctrl *ctrl);
+ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 		const struct nvme_ctrl_ops *ops, u16 vendor,
+ 		unsigned long quirks);
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 425e48a..3a61331 100644
+index 3a61331..c5187b5 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -368,7 +368,7 @@ static void async_req_completion(struct nvme_queue *nvmeq, void *ctx,
- 	switch (result & 0xff07) {
- 	case NVME_AER_NOTICE_NS_CHANGED:
- 		dev_info(nvmeq->q_dmadev, "rescanning\n");
--		schedule_work(&nvmeq->dev->scan_work);
-+		queue_work(nvme_workq, &nvmeq->dev->scan_work);
- 	default:
- 		dev_warn(nvmeq->q_dmadev, "async event result %08x\n", result);
- 	}
-@@ -1867,7 +1867,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 			return 0;
- 		dev->ctrl.tagset = &dev->tagset;
- 	}
--	schedule_work(&dev->scan_work);
-+	queue_work(nvme_workq, &dev->scan_work);
- 	return 0;
- }
- 
-@@ -2409,7 +2409,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (result)
- 		goto release_pools;
- 
--	schedule_work(&dev->reset_work);
-+	queue_work(nvme_workq, &dev->reset_work);
- 	return 0;
- 
-  release_pools:
-@@ -2430,7 +2430,7 @@ static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
- 	if (prepare)
- 		nvme_dev_shutdown(dev);
- 	else
--		schedule_work(&dev->reset_work);
-+		queue_work(nvme_workq, &dev->reset_work);
- }
- 
- static void nvme_shutdown(struct pci_dev *pdev)
-@@ -2481,7 +2481,7 @@ static int nvme_resume(struct device *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev);
- 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
- 
--	schedule_work(&ndev->reset_work);
-+	queue_work(nvme_workq, &ndev->reset_work);
- 	return 0;
- }
- #endif
-@@ -2527,7 +2527,7 @@ static int __init nvme_init(void)
- 
- 	init_waitqueue_head(&nvme_kthread_wait);
- 
--	nvme_workq = create_singlethread_workqueue("nvme");
-+	nvme_workq = alloc_workqueue("nvme", WQ_UNBOUND | WQ_MEM_RECLAIM, 0);
- 	if (!nvme_workq)
- 		return -ENOMEM;
- 
+@@ -2451,6 +2451,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	flush_work(&dev->reset_work);
+ 	flush_work(&dev->scan_work);
+ 	nvme_remove_namespaces(&dev->ctrl);
++	nvme_uninit_ctrl(&dev->ctrl);
+ 	nvme_dev_shutdown(dev);
+ 	nvme_dev_remove_admin(dev);
+ 	nvme_free_queues(dev, 0);
 -- 
 1.9.1
