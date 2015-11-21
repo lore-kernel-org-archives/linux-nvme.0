@@ -1,22 +1,55 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 21 Nov 2015 08:19:40 +0100
-Subject: NVMe mega patchbomb for Linux 4.5-rc (resend)
-Message-ID: <1448090427-18749-1-git-send-email-hch@lst.de>
+Date: Sat, 21 Nov 2015 08:19:41 +0100
+Subject: [PATCH 01/47] nvme: add missing unmaps in nvme_queue_rq
+In-Reply-To: <1448090427-18749-1-git-send-email-hch@lst.de>
+References: <1448090427-18749-1-git-send-email-hch@lst.de>
+Message-ID: <1448090427-18749-2-git-send-email-hch@lst.de>
 
-This series is a respin of all my pending NVMe patches that didn't make
-it into 4.4-rc, as well a few patches from Keith that logically were
-inbetween them, and include:
+When we fail various metadata related operations in nvme_queue_rq we
+need to unmap the data SGL.
 
- - split of them NVMe driver ?nto a core and PCIe specific part
- - lots of abort / reset fixes
- - optimizations of the completion path by better relying on blk-mq
+Cc: stable at vger.kernel.org
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
-Since the last posting of all the series the major changes are another
-set of fixes to the abort path to hopefully make it rock solide now.
-To get there we had to add another core block request flag to avoid
-struct request reuse just before a reset.  Note that various patches
-have been squashed into the original patches to avoid fixups.
-
-A git tree is also available at:
-
-	http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-req.9
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 394fd16..9444884 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -896,19 +896,28 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 			goto retry_cmd;
+ 		}
+ 		if (blk_integrity_rq(req)) {
+-			if (blk_rq_count_integrity_sg(req->q, req->bio) != 1)
++			if (blk_rq_count_integrity_sg(req->q, req->bio) != 1) {
++				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
++						dma_dir);
+ 				goto error_cmd;
++			}
+ 
+ 			sg_init_table(iod->meta_sg, 1);
+ 			if (blk_rq_map_integrity_sg(
+-					req->q, req->bio, iod->meta_sg) != 1)
++					req->q, req->bio, iod->meta_sg) != 1) {
++				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
++						dma_dir);
+ 				goto error_cmd;
++			}
+ 
+ 			if (rq_data_dir(req))
+ 				nvme_dif_remap(req, nvme_dif_prep);
+ 
+-			if (!dma_map_sg(nvmeq->q_dmadev, iod->meta_sg, 1, dma_dir))
++			if (!dma_map_sg(nvmeq->q_dmadev, iod->meta_sg, 1, dma_dir)) {
++				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
++						dma_dir);
+ 				goto error_cmd;
++			}
+ 		}
+ 	}
+ 
+-- 
+1.9.1
