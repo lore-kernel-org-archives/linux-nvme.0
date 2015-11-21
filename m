@@ -1,9 +1,33 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sat, 21 Nov 2015 03:12:10 -0800
-Subject: nvme lightnvm comments
-In-Reply-To: <20151120105022.GA22131@infradead.org>
-References: <20151120105022.GA22131@infradead.org>
-Message-ID: <20151121111210.GA19360@infradead.org>
+From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
+Date: Sat, 21 Nov 2015 13:16:11 +0100
+Subject: [PATCH 1/1] nvme: temporary fix for Apple NVMe controller reset
+In-Reply-To: <20151121082041.GA17935@infradead.org>
+References: <6ed9ad799884d9d4bdbfbdf94185c3f2@localhost>
+ <20151121082041.GA17935@infradead.org>
+Message-ID: <4e6635a1510af922268cd5a6a242f5bb@localhost>
 
-Btw, another one: it seems like LightNVM devices still claim to
-use the NVM I/O set per CAP and CC, which seems a little odd.
+On 2015/November/21 12:20, Christoph Hellwig wrote:
+> Hi Stephan,
+> 
+> > +	/*
+> > +	 * Temporary fix for the Apple controller found in the MacBook8,1 and
+> > +	 * some MacBook7,1 to avoid controller resets and data loss.
+> > +	 */
+> > +	if (pdev->vendor == PCI_VENDOR_ID_APPLE && pdev->device == 0x2001)
+> > +		dev->q_depth = 2;
+> 
+> Can you add a dev_warn() here?  A NVMe device with queue depth is going
+> to perform bady, and we should tell people that we're applying a crude
+> workaround.
+
+I'll resend the patch with an updated commit message and dev_warn().
+
+Interestingly, I cannot really complain about performance with that
+patch applied. That little notebook behaves really well. But that queue
+depth cannot be the solution of course.
+
+> 
+> Otherwise this looks fine to me to get you guys going, but I really hope
+> we'll find the root cause soon.
+
+I wish Apple would show any interest in that matter...
