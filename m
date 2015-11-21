@@ -1,316 +1,65 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 21 Nov 2015 08:19:53 +0100
-Subject: [PATCH 13/47] nvme: refactor nvme_queue_rq
+Date: Sat, 21 Nov 2015 08:19:54 +0100
+Subject: [PATCH 14/47] nvme: move nvme_error_status to common code
 In-Reply-To: <1448090427-18749-1-git-send-email-hch@lst.de>
 References: <1448090427-18749-1-git-send-email-hch@lst.de>
-Message-ID: <1448090427-18749-14-git-send-email-hch@lst.de>
+Message-ID: <1448090427-18749-15-git-send-email-hch@lst.de>
 
-This "backports" the structure I've used for the fabrics driver.  It
-mostly started out as a cleanup so that I could actually understand
-the code, but I think it also qualifies as a micro-optimization due
-to the reduced time we hold q_lock and disable interrupts.
+And mark it inline so that we don't slow down the completion path by
+having to turn it into a forced out of line call.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 219 +++++++++++++++++++++---------------------------
- 1 file changed, 97 insertions(+), 122 deletions(-)
+ drivers/nvme/host/nvme.h | 12 ++++++++++++
+ drivers/nvme/host/pci.c  | 12 ------------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 71e81e5..c06bb9c 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -86,6 +86,18 @@ static inline u64 nvme_block_nr(struct nvme_ns *ns, sector_t sector)
+ 	return (sector >> (ns->lba_shift - 9));
+ }
+ 
++static inline int nvme_error_status(u16 status)
++{
++	switch (status & 0x7ff) {
++	case NVME_SC_SUCCESS:
++		return 0;
++	case NVME_SC_CAP_EXCEEDED:
++		return -ENOSPC;
++	default:
++		return -EIO;
++	}
++}
++
+ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		void *buf, unsigned bufflen);
+ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 39ae49b..74a829b 100644
+index 74a829b..92fb388 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -788,19 +788,53 @@ static bool nvme_setup_prps(struct nvme_dev *dev, struct nvme_iod *iod,
- 	return true;
+@@ -545,18 +545,6 @@ static void nvme_free_iod(struct nvme_dev *dev, struct nvme_iod *iod)
+ 		kfree(iod);
  }
  
--static void nvme_submit_priv(struct nvme_queue *nvmeq, struct request *req,
--		struct nvme_iod *iod)
-+static int nvme_map_data(struct nvme_dev *dev, struct nvme_iod *iod,
-+		struct nvme_command *cmnd)
+-static int nvme_error_status(u16 status)
+-{
+-	switch (status & 0x7ff) {
+-	case NVME_SC_SUCCESS:
+-		return 0;
+-	case NVME_SC_CAP_EXCEEDED:
+-		return -ENOSPC;
+-	default:
+-		return -EIO;
+-	}
+-}
+-
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ static void nvme_dif_prep(u32 p, u32 v, struct t10_pi_tuple *pi)
  {
--	struct nvme_command cmnd;
-+	struct request *req = iod_get_private(iod);
-+	struct request_queue *q = req->q;
-+	enum dma_data_direction dma_dir = rq_data_dir(req) ?
-+			DMA_TO_DEVICE : DMA_FROM_DEVICE;
-+	int ret = BLK_MQ_RQ_QUEUE_ERROR;
-+
-+	sg_init_table(iod->sg, req->nr_phys_segments);
-+	iod->nents = blk_rq_map_sg(q, req, iod->sg);
-+	if (!iod->nents)
-+		goto out;
-+
-+	ret = BLK_MQ_RQ_QUEUE_BUSY;
-+	if (!dma_map_sg(dev->dev, iod->sg, iod->nents, dma_dir))
-+		goto out;
-+
-+	if (!nvme_setup_prps(dev, iod, blk_rq_bytes(req)))
-+		goto out_unmap;
-+
-+	ret = BLK_MQ_RQ_QUEUE_ERROR;
-+	if (blk_integrity_rq(req)) {
-+		if (blk_rq_count_integrity_sg(q, req->bio) != 1)
-+			goto out_unmap;
-+
-+		sg_init_table(iod->meta_sg, 1);
-+		if (blk_rq_map_integrity_sg(q, req->bio, iod->meta_sg) != 1)
-+			goto out_unmap;
- 
--	memcpy(&cmnd, req->cmd, sizeof(cmnd));
--	cmnd.rw.command_id = req->tag;
--	if (req->nr_phys_segments) {
--		cmnd.rw.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
--		cmnd.rw.prp2 = cpu_to_le64(iod->first_dma);
-+		if (rq_data_dir(req))
-+			nvme_dif_remap(req, nvme_dif_prep);
-+
-+		if (!dma_map_sg(dev->dev, iod->meta_sg, 1, dma_dir))
-+			goto out_unmap;
- 	}
- 
--	__nvme_submit_cmd(nvmeq, &cmnd);
-+	cmnd->rw.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
-+	cmnd->rw.prp2 = cpu_to_le64(iod->first_dma);
-+	if (blk_integrity_rq(req))
-+		cmnd->rw.metadata = cpu_to_le64(sg_dma_address(iod->meta_sg));
-+	return BLK_MQ_RQ_QUEUE_OK;
-+
-+out_unmap:
-+	dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
-+out:
-+	return ret;
- }
- 
- /*
-@@ -808,46 +842,42 @@ static void nvme_submit_priv(struct nvme_queue *nvmeq, struct request *req,
-  * worth having a special pool for these or additional cases to handle freeing
-  * the iod.
-  */
--static void nvme_submit_discard(struct nvme_queue *nvmeq, struct nvme_ns *ns,
--		struct request *req, struct nvme_iod *iod)
-+static int nvme_setup_discard(struct nvme_queue *nvmeq, struct nvme_ns *ns,
-+		struct nvme_iod *iod, struct nvme_command *cmnd)
- {
--	struct nvme_dsm_range *range =
--				(struct nvme_dsm_range *)iod_list(iod)[0];
--	struct nvme_command cmnd;
-+	struct request *req = iod_get_private(iod);
-+	struct nvme_dsm_range *range;
-+
-+	range = dma_pool_alloc(nvmeq->dev->prp_small_pool, GFP_ATOMIC,
-+						&iod->first_dma);
-+	if (!range)
-+		return BLK_MQ_RQ_QUEUE_BUSY;
-+	iod_list(iod)[0] = (__le64 *)range;
-+	iod->npages = 0;
- 
- 	range->cattr = cpu_to_le32(0);
- 	range->nlb = cpu_to_le32(blk_rq_bytes(req) >> ns->lba_shift);
- 	range->slba = cpu_to_le64(nvme_block_nr(ns, blk_rq_pos(req)));
- 
--	memset(&cmnd, 0, sizeof(cmnd));
--	cmnd.dsm.opcode = nvme_cmd_dsm;
--	cmnd.dsm.command_id = req->tag;
--	cmnd.dsm.nsid = cpu_to_le32(ns->ns_id);
--	cmnd.dsm.prp1 = cpu_to_le64(iod->first_dma);
--	cmnd.dsm.nr = 0;
--	cmnd.dsm.attributes = cpu_to_le32(NVME_DSMGMT_AD);
--
--	__nvme_submit_cmd(nvmeq, &cmnd);
-+	memset(cmnd, 0, sizeof(*cmnd));
-+	cmnd->dsm.opcode = nvme_cmd_dsm;
-+	cmnd->dsm.nsid = cpu_to_le32(ns->ns_id);
-+	cmnd->dsm.prp1 = cpu_to_le64(iod->first_dma);
-+	cmnd->dsm.nr = 0;
-+	cmnd->dsm.attributes = cpu_to_le32(NVME_DSMGMT_AD);
-+	return BLK_MQ_RQ_QUEUE_OK;
- }
- 
--static void nvme_submit_flush(struct nvme_queue *nvmeq, struct nvme_ns *ns,
--								int cmdid)
-+static void nvme_setup_flush(struct nvme_ns *ns, struct nvme_command *cmnd)
- {
--	struct nvme_command cmnd;
--
--	memset(&cmnd, 0, sizeof(cmnd));
--	cmnd.common.opcode = nvme_cmd_flush;
--	cmnd.common.command_id = cmdid;
--	cmnd.common.nsid = cpu_to_le32(ns->ns_id);
--
--	__nvme_submit_cmd(nvmeq, &cmnd);
-+	memset(cmnd, 0, sizeof(*cmnd));
-+	cmnd->common.opcode = nvme_cmd_flush;
-+	cmnd->common.nsid = cpu_to_le32(ns->ns_id);
- }
- 
--static int nvme_submit_iod(struct nvme_queue *nvmeq, struct nvme_iod *iod,
--							struct nvme_ns *ns)
-+static void nvme_setup_rw(struct nvme_ns *ns, struct request *req,
-+		struct nvme_command *cmnd)
- {
--	struct request *req = iod_get_private(iod);
--	struct nvme_command cmnd;
- 	u16 control = 0;
- 	u32 dsmgmt = 0;
- 
-@@ -859,14 +889,12 @@ static int nvme_submit_iod(struct nvme_queue *nvmeq, struct nvme_iod *iod,
- 	if (req->cmd_flags & REQ_RAHEAD)
- 		dsmgmt |= NVME_RW_DSM_FREQ_PREFETCH;
- 
--	memset(&cmnd, 0, sizeof(cmnd));
--	cmnd.rw.opcode = (rq_data_dir(req) ? nvme_cmd_write : nvme_cmd_read);
--	cmnd.rw.command_id = req->tag;
--	cmnd.rw.nsid = cpu_to_le32(ns->ns_id);
--	cmnd.rw.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
--	cmnd.rw.prp2 = cpu_to_le64(iod->first_dma);
--	cmnd.rw.slba = cpu_to_le64(nvme_block_nr(ns, blk_rq_pos(req)));
--	cmnd.rw.length = cpu_to_le16((blk_rq_bytes(req) >> ns->lba_shift) - 1);
-+	memset(cmnd, 0, sizeof(*cmnd));
-+	cmnd->rw.opcode = (rq_data_dir(req) ? nvme_cmd_write : nvme_cmd_read);
-+	cmnd->rw.command_id = req->tag;
-+	cmnd->rw.nsid = cpu_to_le32(ns->ns_id);
-+	cmnd->rw.slba = cpu_to_le64(nvme_block_nr(ns, blk_rq_pos(req)));
-+	cmnd->rw.length = cpu_to_le16((blk_rq_bytes(req) >> ns->lba_shift) - 1);
- 
- 	if (ns->ms) {
- 		switch (ns->pi_type) {
-@@ -877,23 +905,16 @@ static int nvme_submit_iod(struct nvme_queue *nvmeq, struct nvme_iod *iod,
- 		case NVME_NS_DPS_PI_TYPE2:
- 			control |= NVME_RW_PRINFO_PRCHK_GUARD |
- 					NVME_RW_PRINFO_PRCHK_REF;
--			cmnd.rw.reftag = cpu_to_le32(
-+			cmnd->rw.reftag = cpu_to_le32(
- 					nvme_block_nr(ns, blk_rq_pos(req)));
- 			break;
- 		}
--		if (blk_integrity_rq(req))
--			cmnd.rw.metadata =
--				cpu_to_le64(sg_dma_address(iod->meta_sg));
--		else
-+		if (!blk_integrity_rq(req))
- 			control |= NVME_RW_PRINFO_PRACT;
- 	}
- 
--	cmnd.rw.control = cpu_to_le16(control);
--	cmnd.rw.dsmgmt = cpu_to_le32(dsmgmt);
--
--	__nvme_submit_cmd(nvmeq, &cmnd);
--
--	return 0;
-+	cmnd->rw.control = cpu_to_le16(control);
-+	cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
- }
- 
- /*
-@@ -908,7 +929,8 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	struct request *req = bd->rq;
- 	struct nvme_cmd_info *cmd = blk_mq_rq_to_pdu(req);
- 	struct nvme_iod *iod;
--	enum dma_data_direction dma_dir;
-+	struct nvme_command cmnd;
-+	int ret = BLK_MQ_RQ_QUEUE_OK;
- 
- 	/*
- 	 * If formated with metadata, require the block layer provide a buffer
-@@ -928,80 +950,33 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		return BLK_MQ_RQ_QUEUE_BUSY;
- 
- 	if (req->cmd_flags & REQ_DISCARD) {
--		void *range;
--		/*
--		 * We reuse the small pool to allocate the 16-byte range here
--		 * as it is not worth having a special pool for these or
--		 * additional cases to handle freeing the iod.
--		 */
--		range = dma_pool_alloc(dev->prp_small_pool, GFP_ATOMIC,
--						&iod->first_dma);
--		if (!range)
--			goto retry_cmd;
--		iod_list(iod)[0] = (__le64 *)range;
--		iod->npages = 0;
--	} else if (req->nr_phys_segments) {
--		dma_dir = rq_data_dir(req) ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
--
--		sg_init_table(iod->sg, req->nr_phys_segments);
--		iod->nents = blk_rq_map_sg(req->q, req, iod->sg);
--		if (!iod->nents)
--			goto error_cmd;
--
--		if (!dma_map_sg(nvmeq->q_dmadev, iod->sg, iod->nents, dma_dir))
--			goto retry_cmd;
--
--		if (!nvme_setup_prps(dev, iod, blk_rq_bytes(req))) {
--			dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
--			goto retry_cmd;
--		}
--		if (blk_integrity_rq(req)) {
--			if (blk_rq_count_integrity_sg(req->q, req->bio) != 1) {
--				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
--						dma_dir);
--				goto error_cmd;
--			}
--
--			sg_init_table(iod->meta_sg, 1);
--			if (blk_rq_map_integrity_sg(
--					req->q, req->bio, iod->meta_sg) != 1) {
--				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
--						dma_dir);
--				goto error_cmd;
--			}
--
--			if (rq_data_dir(req))
--				nvme_dif_remap(req, nvme_dif_prep);
-+		ret = nvme_setup_discard(nvmeq, ns, iod, &cmnd);
-+	} else {
-+		if (req->cmd_type == REQ_TYPE_DRV_PRIV)
-+			memcpy(&cmnd, req->cmd, sizeof(cmnd));
-+		else if (req->cmd_flags & REQ_FLUSH)
-+			nvme_setup_flush(ns, &cmnd);
-+		else
-+			nvme_setup_rw(ns, req, &cmnd);
- 
--			if (!dma_map_sg(nvmeq->q_dmadev, iod->meta_sg, 1, dma_dir)) {
--				dma_unmap_sg(dev->dev, iod->sg, iod->nents,
--						dma_dir);
--				goto error_cmd;
--			}
--		}
-+		if (req->nr_phys_segments)
-+			ret = nvme_map_data(dev, iod, &cmnd);
- 	}
- 
-+	if (ret)
-+		goto out;
-+
-+	cmnd.common.command_id = req->tag;
- 	nvme_set_info(cmd, iod, req_completion);
--	spin_lock_irq(&nvmeq->q_lock);
--	if (req->cmd_type == REQ_TYPE_DRV_PRIV)
--		nvme_submit_priv(nvmeq, req, iod);
--	else if (req->cmd_flags & REQ_DISCARD)
--		nvme_submit_discard(nvmeq, ns, req, iod);
--	else if (req->cmd_flags & REQ_FLUSH)
--		nvme_submit_flush(nvmeq, ns, req->tag);
--	else
--		nvme_submit_iod(nvmeq, iod, ns);
- 
-+	spin_lock_irq(&nvmeq->q_lock);
-+	__nvme_submit_cmd(nvmeq, &cmnd);
- 	nvme_process_cq(nvmeq);
- 	spin_unlock_irq(&nvmeq->q_lock);
- 	return BLK_MQ_RQ_QUEUE_OK;
--
-- error_cmd:
--	nvme_free_iod(dev, iod);
--	return BLK_MQ_RQ_QUEUE_ERROR;
-- retry_cmd:
-+out:
- 	nvme_free_iod(dev, iod);
--	return BLK_MQ_RQ_QUEUE_BUSY;
-+	return ret;
- }
- 
- static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
 -- 
 1.9.1
