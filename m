@@ -1,42 +1,82 @@
-From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
-Date: Sun, 22 Nov 2015 03:28:37 +0100
-Subject: [PATCH v2] nvme: temporary fix for Apple controller reset
-Message-ID: <781f695dc3cedc678faf29070a6f6bf5@localhost>
+From: mlin@kernel.org (Ming Lin)
+Date: Sat, 21 Nov 2015 23:45:45 -0800
+Subject: [PATCH -qemu] nvme: support Google vendor extension
+In-Reply-To: <565069F0.5000805@redhat.com>
+References: <1447825624-17011-1-git-send-email-mlin@kernel.org>
+ <1447825624-17011-3-git-send-email-mlin@kernel.org>
+ <564DA682.8050706@redhat.com> <1448007096.3473.10.camel@hasee>
+ <564EE0A0.1020800@redhat.com> <1448060745.6565.1.camel@ssi>
+ <565069F0.5000805@redhat.com>
+Message-ID: <1448178345.7480.2.camel@hasee>
 
-Recent patches added basic support for the Apple NVMe controller but
-still cause resets and data corruption on that particular controller
-when a specific pattern of read/flush commands occurs. Limiting the
-queue depth to 2 works around that issue.
+On Sat, 2015-11-21@13:56 +0100, Paolo Bonzini wrote:
+> 
+> On 21/11/2015 00:05, Ming Lin wrote:
+> > [    1.752129] Freeing unused kernel memory: 420K (ffff880001b97000 - ffff880001c00000)
+> > [    1.986573] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x30e5c9bbf83, max_idle_ns: 440795378954 ns
+> > [    1.988187] clocksource: Switched to clocksource tsc
+> > [    3.235423] clocksource: timekeeping watchdog: Marking clocksource 'tsc' as unstable because the skew is too large:
+> > [    3.358713] clocksource:                       'refined-jiffies' wd_now: fffeddf3 wd_last: fffedd76 mask: ffffffff
+> > [    3.410013] clocksource:                       'tsc' cs_now: 3c121d4ec cs_last: 340888eb7 mask: ffffffffffffffff
+> > [    3.450026] clocksource: Switched to clocksource refined-jiffies
+> > [    7.696769] Adding 392188k swap on /dev/vda5.  Priority:-1 extents:1 across:392188k 
+> > [    7.902174] EXT4-fs (vda1): re-mounted. Opts: (null)
+> > [    8.734178] EXT4-fs (vda1): re-mounted. Opts: errors=remount-ro
+> > 
+> > Then it doesn't response input for almost 1 minute.
+> > Without this patch, kernel loads quickly.
+> 
+> Interesting.  I guess there's time to debug it, since QEMU 2.6 is still 
+> a few months away.  In the meanwhile we can apply your patch as is, 
+> apart from disabling the "if (new_head >= cq->size)" and the similar 
+> one for "if (new_ tail >= sq->size".
+> 
+> But, I have a possible culprit.  In your nvme_cq_notifier you are not doing the 
+> equivalent of:
+> 
+> 	start_sqs = nvme_cq_full(cq) ? 1 : 0;
+>         cq->head = new_head;
+>         if (start_sqs) {
+>             NvmeSQueue *sq;
+>             QTAILQ_FOREACH(sq, &cq->sq_list, entry) {
+>                 timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+>             }
+>             timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+>         }
+> 
+> Instead, you are just calling nvme_post_cqes, which is the equivalent of
+> 
+> 	timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+> 
+> Adding a loop to nvme_cq_notifier, and having it call nvme_process_sq, might
+> fix the weird 1-minute delay.
 
-This patch enforces that limit only for the Apple controller and is
-considered a temporary fix until we find the root source of that
-problem.
+I found it.
 
-Signed-off-by: Stephan G?nther <guenther at tum.de>
-Signed-off-by: Maurice Leclaire <leclaire at in.tum.de>
----
- drivers/nvme/host/pci.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 31572f2..f27fd35 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -548,6 +548,7 @@ static void nvme_cq_notifier(EventNotifier *e)
+     NvmeCQueue *cq =
+         container_of(e, NvmeCQueue, notifier);
+ 
++    event_notifier_test_and_clear(&cq->notifier);
+     nvme_post_cqes(cq);
+ }
+ 
+@@ -567,6 +568,7 @@ static void nvme_sq_notifier(EventNotifier *e)
+     NvmeSQueue *sq =
+         container_of(e, NvmeSQueue, notifier);
+ 
++    event_notifier_test_and_clear(&sq->notifier);
+     nvme_process_sq(sq);
+ }
+ 
+Here is new performance number:
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 8187df2..d3c2b03 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2701,6 +2701,18 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, NVME_Q_DEPTH);
- 	dev->db_stride = 1 << NVME_CAP_STRIDE(cap);
- 	dev->dbs = ((void __iomem *)dev->bar) + 4096;
-+
-+	/*
-+ 	 * Temporary fix for the Apple controller found in the MacBook8,1 and
-+	 * some MacBook7,1 to avoid controller resets and data loss.
-+ 	 */
-+	if (pdev->vendor == PCI_VENDOR_ID_APPLE && pdev->device == 0x2001) {
-+ 		dev->q_depth = 2;
-+		dev_warn(dev->dev, "detected Apple NVMe controller, set "
-+			"queue depth=%u to work around controller resets\n",
-+			dev->q_depth);
-+	}
-+
- 	if (readl(&dev->bar->vs) >= NVME_VS(1, 2))
- 		dev->cmb = nvme_map_cmb(dev);
+qemu-nvme + google-ext + eventfd: 294MB/s
+virtio-blk: 344MB/s
+virtio-scsi: 296MB/s
+
+It's almost same as virtio-scsi. Nice.
