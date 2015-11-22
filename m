@@ -1,35 +1,42 @@
-From: pbonzini@redhat.com (Paolo Bonzini)
-Date: Sat, 21 Nov 2015 14:11:49 +0100
-Subject: [RFC PATCH 0/9] vhost-nvme: new qemu nvme backend using nvme
- target
-In-Reply-To: <1447978868-17138-1-git-send-email-mlin@kernel.org>
-References: <1447978868-17138-1-git-send-email-mlin@kernel.org>
-Message-ID: <56506D95.70101@redhat.com>
+From: guenther@tum.de (Stephan =?utf-8?Q?G=C3=BCnther?=)
+Date: Sun, 22 Nov 2015 03:28:37 +0100
+Subject: [PATCH v2] nvme: temporary fix for Apple controller reset
+Message-ID: <781f695dc3cedc678faf29070a6f6bf5@localhost>
 
+Recent patches added basic support for the Apple NVMe controller but
+still cause resets and data corruption on that particular controller
+when a specific pattern of read/flush commands occurs. Limiting the
+queue depth to 2 works around that issue.
 
+This patch enforces that limit only for the Apple controller and is
+considered a temporary fix until we find the root source of that
+problem.
 
-On 20/11/2015 01:20, Ming Lin wrote:
-> One improvment could be to use google's NVMe vendor extension that
-> I send in another thread, aslo here:
-> https://git.kernel.org/cgit/linux/kernel/git/mlin/linux.git/log/?h=nvme-google-ext
-> 
-> Qemu side:
-> http://www.minggr.net/cgit/cgit.cgi/qemu/log/?h=vhost-nvme.0
-> Kernel side also here:
-> https://git.kernel.org/cgit/linux/kernel/git/mlin/linux.git/log/?h=vhost-nvme.0
+Signed-off-by: Stephan G?nther <guenther at tum.de>
+Signed-off-by: Maurice Leclaire <leclaire at in.tum.de>
+---
+ drivers/nvme/host/pci.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-How much do you get with vhost-nvme plus vendor extension, compared to
-190 MB/s for QEMU?
-
-Note that in all likelihood, QEMU can actually do better than 190 MB/s,
-and gain more parallelism too, by moving the processing of the
-ioeventfds to a separate thread.  This is similar to
-hw/block/dataplane/virtio-blk.c.
-
-It's actually pretty easy to do.  Even though
-hw/block/dataplane/virtio-blk.c is still using some old APIs, all memory
-access in QEMU is now thread-safe.  I have pending patches for 2.6 that
-cut that file down to a mere 200 lines of code, NVMe would probably be
-about the same.
-
-Paolo
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8187df2..d3c2b03 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2701,6 +2701,18 @@ static int nvme_dev_map(struct nvme_dev *dev)
+ 	dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, NVME_Q_DEPTH);
+ 	dev->db_stride = 1 << NVME_CAP_STRIDE(cap);
+ 	dev->dbs = ((void __iomem *)dev->bar) + 4096;
++
++	/*
++ 	 * Temporary fix for the Apple controller found in the MacBook8,1 and
++	 * some MacBook7,1 to avoid controller resets and data loss.
++ 	 */
++	if (pdev->vendor == PCI_VENDOR_ID_APPLE && pdev->device == 0x2001) {
++ 		dev->q_depth = 2;
++		dev_warn(dev->dev, "detected Apple NVMe controller, set "
++			"queue depth=%u to work around controller resets\n",
++			dev->q_depth);
++	}
++
+ 	if (readl(&dev->bar->vs) >= NVME_VS(1, 2))
+ 		dev->cmb = nvme_map_cmb(dev);
