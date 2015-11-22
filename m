@@ -1,82 +1,31 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Sat, 21 Nov 2015 23:45:45 -0800
-Subject: [PATCH -qemu] nvme: support Google vendor extension
-In-Reply-To: <565069F0.5000805@redhat.com>
-References: <1447825624-17011-1-git-send-email-mlin@kernel.org>
- <1447825624-17011-3-git-send-email-mlin@kernel.org>
- <564DA682.8050706@redhat.com> <1448007096.3473.10.camel@hasee>
- <564EE0A0.1020800@redhat.com> <1448060745.6565.1.camel@ssi>
- <565069F0.5000805@redhat.com>
-Message-ID: <1448178345.7480.2.camel@hasee>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sun, 22 Nov 2015 09:49:07 +0100
+Subject: NVMe mega patchbomb for Linux 4.5-rc (resend)
+In-Reply-To: <CAPb2fE8TDoMwWBgJmB6cBm5aywEj4DHLKfhReZauKq3WBp3EPg@mail.gmail.com>
+References: <1448090427-18749-1-git-send-email-hch@lst.de>
+ <CAPb2fE8TDoMwWBgJmB6cBm5aywEj4DHLKfhReZauKq3WBp3EPg@mail.gmail.com>
+Message-ID: <20151122084907.GA11401@lst.de>
 
-On Sat, 2015-11-21@13:56 +0100, Paolo Bonzini wrote:
-> 
-> On 21/11/2015 00:05, Ming Lin wrote:
-> > [    1.752129] Freeing unused kernel memory: 420K (ffff880001b97000 - ffff880001c00000)
-> > [    1.986573] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x30e5c9bbf83, max_idle_ns: 440795378954 ns
-> > [    1.988187] clocksource: Switched to clocksource tsc
-> > [    3.235423] clocksource: timekeeping watchdog: Marking clocksource 'tsc' as unstable because the skew is too large:
-> > [    3.358713] clocksource:                       'refined-jiffies' wd_now: fffeddf3 wd_last: fffedd76 mask: ffffffff
-> > [    3.410013] clocksource:                       'tsc' cs_now: 3c121d4ec cs_last: 340888eb7 mask: ffffffffffffffff
-> > [    3.450026] clocksource: Switched to clocksource refined-jiffies
-> > [    7.696769] Adding 392188k swap on /dev/vda5.  Priority:-1 extents:1 across:392188k 
-> > [    7.902174] EXT4-fs (vda1): re-mounted. Opts: (null)
-> > [    8.734178] EXT4-fs (vda1): re-mounted. Opts: errors=remount-ro
-> > 
-> > Then it doesn't response input for almost 1 minute.
-> > Without this patch, kernel loads quickly.
-> 
-> Interesting.  I guess there's time to debug it, since QEMU 2.6 is still 
-> a few months away.  In the meanwhile we can apply your patch as is, 
-> apart from disabling the "if (new_head >= cq->size)" and the similar 
-> one for "if (new_ tail >= sq->size".
-> 
-> But, I have a possible culprit.  In your nvme_cq_notifier you are not doing the 
-> equivalent of:
-> 
-> 	start_sqs = nvme_cq_full(cq) ? 1 : 0;
->         cq->head = new_head;
->         if (start_sqs) {
->             NvmeSQueue *sq;
->             QTAILQ_FOREACH(sq, &cq->sq_list, entry) {
->                 timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
->             }
->             timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
->         }
-> 
-> Instead, you are just calling nvme_post_cqes, which is the equivalent of
-> 
-> 	timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
-> 
-> Adding a loop to nvme_cq_notifier, and having it call nvme_process_sq, might
-> fix the weird 1-minute delay.
+On Sun, Nov 22, 2015@08:14:38AM +0530, Madhu (Macaque Labs) wrote:
+> With respect to the split of the driver into PCIe and PCIe agnostic parts,
+> would you deem the split complete ? Or is there work still to be done.
 
-I found it.
+I'd say about 95% done relative to my initial target.  There's some trivial
+code moves that I have queued up after this series, and then we need to
+look into a proper controller state machine.  But as always in Linux
+we have moving targets, so things could change in the future.
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 31572f2..f27fd35 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -548,6 +548,7 @@ static void nvme_cq_notifier(EventNotifier *e)
-     NvmeCQueue *cq =
-         container_of(e, NvmeCQueue, notifier);
- 
-+    event_notifier_test_and_clear(&cq->notifier);
-     nvme_post_cqes(cq);
- }
- 
-@@ -567,6 +568,7 @@ static void nvme_sq_notifier(EventNotifier *e)
-     NvmeSQueue *sq =
-         container_of(e, NvmeSQueue, notifier);
- 
-+    event_notifier_test_and_clear(&sq->notifier);
-     nvme_process_sq(sq);
- }
- 
-Here is new performance number:
+> A good exercise would be to graft the upcoming SRIO driver and see
+> how that coupling works.
 
-qemu-nvme + google-ext + eventfd: 294MB/s
-virtio-blk: 344MB/s
-virtio-scsi: 296MB/s
+SRIO as in Serial Rapid I/O?  How does that driver differ from the PCIe
+one?  I'd expect it to still use MMIO access, the DMA API and a similar
+queueing model as PCIe, in which case duplicating the whole PCIe driver
+would seem wasteful.
 
-It's almost same as virtio-scsi. Nice.
+Maybe you can post what you have currenly?  
+
+> As part of our proposed lightstor standard (NVMe + extensions),
+
+And the specs for your SRIO transport as well as your extension.  Did you
+bring either of them up in the NVMe technical working group?
