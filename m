@@ -1,47 +1,26 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 23 Nov 2015 11:59:06 -0800
-Subject: [PATCH] NVMe: Split shutdown work
-Message-ID: <20151123195906.GB18448@infradead.org>
+From: m@bjorling.me (=?windows-1252?Q?Matias_Bj=F8rling?=)
+Date: Mon, 23 Nov 2015 21:09:47 +0100
+Subject: nvme lightnvm comments
+In-Reply-To: <20151123195306.GA18448@infradead.org>
+References: <20151120105022.GA22131@infradead.org>
+ <20151121111210.GA19360@infradead.org> <565206C3.3000200@bjorling.me>
+ <20151123154557.GA20924@infradead.org>
+ <20151123160319.GA7208@localhost.localdomain>
+ <20151123195306.GA18448@infradead.org>
+Message-ID: <5653728B.4030004@bjorling.me>
 
-Hi Keith,
+On 11/23/2015 08:53 PM, Christoph Hellwig wrote:
+> On Mon, Nov 23, 2015@04:03:20PM +0000, Keith Busch wrote:
+>> We also thought it'd have been cleaner to have a different command set,
+>> but the committee hasn't taken on assigning these reserved bits for any
+>> new purposes yet. LightNVM detection is done with the vendor + device
+>> id at the moment.
+>
+> I saw the vendor + device, but even with that I'd rather see a reserved
+> value in the command set in addition.  Claiming that we're NVM if we're
+> not is a bad idea.
+>
 
-thanks - we should indeed try to shutdown the controller first.  The
-code looks godo in general, but a few comments:
-
-> @@ -1510,11 +1512,12 @@ static int set_queue_count(struct nvme_dev *dev, int count)
->  
->  	status = nvme_set_features(&dev->ctrl, NVME_FEAT_NUM_QUEUES, q_count, 0,
->  								&result);
-> -	if (status < 0)
-> -		return status;
-> -	if (status > 0) {
-> -		dev_err(dev->dev, "Could not set queue count (%d)\n", status);
-> -		return 0;
-> +	if (status) {
-> +		bool enabled = pci_is_enabled(to_pci_dev(dev->dev));
-> +
-> +		dev_err(dev->dev, "Could not set queue count (%d) enabled:%d\n",
-> +								status, enabled);
-> +		return enabled ? 0 : -ENODEV;
->  	}
->  	return min(result & 0xffff, result >> 16) + 1;
->  }
-
-I would really like to move set_queue_count to common code, and in fact
-a patch to do that is in my NVMe target/loop driver series.
-
-Can we instead handled this in the caller, and to do that change
-the signature so that it always returns the status from
-nvme_set_features as the return value, and instead gets a pass by
-reference argument for the queue count?
-
-> +	if (dev->bar) {
-> +		queue_work(nvme_workq, &dev->shutdown_work);
-> +		flush_work(&dev->shutdown_work);
-> +	}
-
-These synchronous workqueue calls always make my a bit nervous.
-This is fine for now, but I'd love to have a single threaded workqueue
-per controller that handles reset / shutdown and everything the kthread
-handles in the long run.  I'm happy to do the work for that once your
-patch is in.
+Well, I would too. However, we can't add a new mode without breaking 
+compatibility at some other point in time. We're working on the 
+standardization process.
