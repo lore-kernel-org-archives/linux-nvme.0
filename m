@@ -1,17 +1,26 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 23 Nov 2015 07:46:40 -0800
-Subject: [PATCH] nvmet: Improve device_path output
-In-Reply-To: <1448287153-28318-1-git-send-email-ianb@mellanox.com>
-References: <1448287153-28318-1-git-send-email-ianb@mellanox.com>
-Message-ID: <20151123154640.GB20924@infradead.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 23 Nov 2015 16:03:20 +0000
+Subject: nvme lightnvm comments
+In-Reply-To: <20151123154557.GA20924@infradead.org>
+References: <20151120105022.GA22131@infradead.org>
+ <20151121111210.GA19360@infradead.org>
+ <565206C3.3000200@bjorling.me>
+ <20151123154557.GA20924@infradead.org>
+Message-ID: <20151123160319.GA7208@localhost.localdomain>
 
-On Mon, Nov 23, 2015@03:59:13PM +0200, Ian Bakshan wrote:
-> Add '\n' when printing device path.
+On Mon, Nov 23, 2015@07:45:57AM -0800, Christoph Hellwig wrote:
+> On Sun, Nov 22, 2015@07:17:39PM +0100, Matias Bj?rling wrote:
+> > On 11/21/2015 12:12 PM, Christoph Hellwig wrote:
+> > >Btw, another one: it seems like LightNVM devices still claim to
+> > >use the NVM I/O set per CAP and CC, which seems a little odd.
+> > >
+> > 
+> > Oh, where have you seen it? Thought I had it changed everywhere.
 > 
-> Signed-off-by: Ian Bakshan <ianb at mellanox.com>
-> Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
+> nvme_configure_admin_queue still hardcodes then NVM comman set when
+> enabling the controller.
 
-
-Thanks, this looks sensibe.  Note that it can't currently handle
-a newline at the input side either, they might be even more useful to
-fix.
+We also thought it'd have been cleaner to have a different command set,
+but the committee hasn't taken on assigning these reserved bits for any
+new purposes yet. LightNVM detection is done with the vendor + device
+id at the moment.
