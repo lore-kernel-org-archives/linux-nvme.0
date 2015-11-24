@@ -1,26 +1,17 @@
 From: axboe@fb.com (Jens Axboe)
-Date: Tue, 24 Nov 2015 14:21:10 -0700
-Subject: [PATCH 06/47] blk-mq: add a flags parameter to
- blk_mq_alloc_request
-In-Reply-To: <1448037342-18384-7-git-send-email-hch@lst.de>
+Date: Tue, 24 Nov 2015 14:22:40 -0700
+Subject: [PATCH 05/47] block: remoe REQ_ATOM_COMPLETE wrappers
+In-Reply-To: <1448037342-18384-6-git-send-email-hch@lst.de>
 References: <1448037342-18384-1-git-send-email-hch@lst.de>
- <1448037342-18384-7-git-send-email-hch@lst.de>
-Message-ID: <5654D4C6.7010601@fb.com>
+ <1448037342-18384-6-git-send-email-hch@lst.de>
+Message-ID: <5654D520.3070604@fb.com>
 
 On 11/20/2015 09:35 AM, Christoph Hellwig wrote:
-> We already have the reserved flag, and a nowait flag awkwardly encoded as
-> a gfp_t.  Add a real flags argument to make the scheme more extensible and
-> allow for a nicer calling convention.
+> We only use them inconsistenly, and the other flags don't use wrappers like
+> this either.
 
-I've been reviewing these in the nvme-req.9 branch, I'll pick them out 
-when for-4.5/xx is forked off. That should happen when Linus pulls the 
-recent for-linus pull request.
-
-This one looks fine, but:
-
->   create mode 100644 drivers/nvme/host/core.c
-
-that should obviously not be there.
+Also fine with this, but it should go sooner in the series (before the 
+previous one, to be specific).
 
 -- 
 Jens Axboe
