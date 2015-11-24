@@ -1,25 +1,26 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 24 Nov 2015 20:57:57 +0000
-Subject: [PATCHv2 2/2] NVMe: Shutdown fixes
-In-Reply-To: <5654C7E4.6080602@fb.com>
-References: <1448390128-25758-1-git-send-email-keith.busch@intel.com>
- <1448390128-25758-2-git-send-email-keith.busch@intel.com>
- <5654BDBA.9080406@fb.com>
- <20151124202033.GA6248@localhost.localdomain>
- <5654C7E4.6080602@fb.com>
-Message-ID: <20151124205757.GB6248@localhost.localdomain>
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 24 Nov 2015 14:21:10 -0700
+Subject: [PATCH 06/47] blk-mq: add a flags parameter to
+ blk_mq_alloc_request
+In-Reply-To: <1448037342-18384-7-git-send-email-hch@lst.de>
+References: <1448037342-18384-1-git-send-email-hch@lst.de>
+ <1448037342-18384-7-git-send-email-hch@lst.de>
+Message-ID: <5654D4C6.7010601@fb.com>
 
-On Tue, Nov 24, 2015@01:26:12PM -0700, Jens Axboe wrote:
-> On 11/24/2015 01:20 PM, Keith Busch wrote:
-> >Sure, I'm all for a better solution. We just need to prevent two threads
-> >from hitting the same controller registers, and return when queues are
-> >cleared. Is there a better way to control this?
-> >
-> >The driver's queue structures are already protected, but the existing
-> >implementation allows one thread to pass the first that's waiting for
-> >orderly queue deletion.
-> 
-> Just use a mutex? Check shutdown state after having held the lock,
-> exit if we don't need to do anything.
+On 11/20/2015 09:35 AM, Christoph Hellwig wrote:
+> We already have the reserved flag, and a nowait flag awkwardly encoded as
+> a gfp_t.  Add a real flags argument to make the scheme more extensible and
+> allow for a nicer calling convention.
 
-Got it, thanks. Will send an update.
+I've been reviewing these in the nvme-req.9 branch, I'll pick them out 
+when for-4.5/xx is forked off. That should happen when Linus pulls the 
+recent for-linus pull request.
+
+This one looks fine, but:
+
+>   create mode 100644 drivers/nvme/host/core.c
+
+that should obviously not be there.
+
+-- 
+Jens Axboe
