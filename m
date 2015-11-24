@@ -1,151 +1,115 @@
-From: jmoyer@redhat.com (Jeff Moyer)
-Date: Mon, 23 Nov 2015 16:23:29 -0500
-Subject: [PATCH 05/47] block: remoe REQ_ATOM_COMPLETE wrappers
-In-Reply-To: <1448037342-18384-6-git-send-email-hch@lst.de> (Christoph
- Hellwig's message of "Fri, 20 Nov 2015 17:35:00 +0100")
-References: <1448037342-18384-1-git-send-email-hch@lst.de>
- <1448037342-18384-6-git-send-email-hch@lst.de>
-Message-ID: <x49io4smmum.fsf@segfault.boston.devel.redhat.com>
+From: mlin@kernel.org (Ming Lin)
+Date: Mon, 23 Nov 2015 22:29:08 -0800
+Subject: [PATCH -qemu] nvme: support Google vendor extension
+In-Reply-To: <1448178345.7480.2.camel@hasee>
+References: <1447825624-17011-1-git-send-email-mlin@kernel.org>
+ <1447825624-17011-3-git-send-email-mlin@kernel.org>
+ <564DA682.8050706@redhat.com> <1448007096.3473.10.camel@hasee>
+ <564EE0A0.1020800@redhat.com> <1448060745.6565.1.camel@ssi>
+ <565069F0.5000805@redhat.com> <1448178345.7480.2.camel@hasee>
+Message-ID: <1448346548.5392.4.camel@hasee>
 
-Christoph Hellwig <hch at lst.de> writes:
-
-> We only use them inconsistenly, and the other flags don't use wrappers like
-> this either.
-
-Fine by me.
-
-Reviewed-by: Jeff Moyer <jmoyer at redhat.com>
-
->
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  block/blk-core.c    |  2 +-
->  block/blk-mq.c      |  6 +++---
->  block/blk-softirq.c |  2 +-
->  block/blk-timeout.c |  6 +++---
->  block/blk.h         | 18 ++++--------------
->  5 files changed, 12 insertions(+), 22 deletions(-)
->
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index 1de0974..af9c315 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -1375,7 +1375,7 @@ EXPORT_SYMBOL(blk_rq_set_block_pc);
->  void blk_requeue_request(struct request_queue *q, struct request *rq)
->  {
->  	blk_delete_timer(rq);
-> -	blk_clear_rq_complete(rq);
-> +	clear_bit(REQ_ATOM_COMPLETE, &rq->atomic_flags);
->  	trace_block_rq_requeue(q, rq);
+On Sat, 2015-11-21@23:45 -0800, Ming Lin wrote:
+> On Sat, 2015-11-21@13:56 +0100, Paolo Bonzini wrote:
+> > 
+> > On 21/11/2015 00:05, Ming Lin wrote:
+> > > [    1.752129] Freeing unused kernel memory: 420K (ffff880001b97000 - ffff880001c00000)
+> > > [    1.986573] clocksource: tsc: mask: 0xffffffffffffffff max_cycles: 0x30e5c9bbf83, max_idle_ns: 440795378954 ns
+> > > [    1.988187] clocksource: Switched to clocksource tsc
+> > > [    3.235423] clocksource: timekeeping watchdog: Marking clocksource 'tsc' as unstable because the skew is too large:
+> > > [    3.358713] clocksource:                       'refined-jiffies' wd_now: fffeddf3 wd_last: fffedd76 mask: ffffffff
+> > > [    3.410013] clocksource:                       'tsc' cs_now: 3c121d4ec cs_last: 340888eb7 mask: ffffffffffffffff
+> > > [    3.450026] clocksource: Switched to clocksource refined-jiffies
+> > > [    7.696769] Adding 392188k swap on /dev/vda5.  Priority:-1 extents:1 across:392188k 
+> > > [    7.902174] EXT4-fs (vda1): re-mounted. Opts: (null)
+> > > [    8.734178] EXT4-fs (vda1): re-mounted. Opts: errors=remount-ro
+> > > 
+> > > Then it doesn't response input for almost 1 minute.
+> > > Without this patch, kernel loads quickly.
+> > 
+> > Interesting.  I guess there's time to debug it, since QEMU 2.6 is still 
+> > a few months away.  In the meanwhile we can apply your patch as is, 
+> > apart from disabling the "if (new_head >= cq->size)" and the similar 
+> > one for "if (new_ tail >= sq->size".
+> > 
+> > But, I have a possible culprit.  In your nvme_cq_notifier you are not doing the 
+> > equivalent of:
+> > 
+> > 	start_sqs = nvme_cq_full(cq) ? 1 : 0;
+> >         cq->head = new_head;
+> >         if (start_sqs) {
+> >             NvmeSQueue *sq;
+> >             QTAILQ_FOREACH(sq, &cq->sq_list, entry) {
+> >                 timer_mod(sq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+> >             }
+> >             timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+> >         }
+> > 
+> > Instead, you are just calling nvme_post_cqes, which is the equivalent of
+> > 
+> > 	timer_mod(cq->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + 500);
+> > 
+> > Adding a loop to nvme_cq_notifier, and having it call nvme_process_sq, might
+> > fix the weird 1-minute delay.
+> 
+> I found it.
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 31572f2..f27fd35 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -548,6 +548,7 @@ static void nvme_cq_notifier(EventNotifier *e)
+>      NvmeCQueue *cq =
+>          container_of(e, NvmeCQueue, notifier);
 >  
->  	if (rq->cmd_flags & REQ_QUEUED)
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 76773dc..c932605 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -383,7 +383,7 @@ void blk_mq_complete_request(struct request *rq, int error)
->  
->  	if (unlikely(blk_should_fake_timeout(q)))
->  		return;
-> -	if (!blk_mark_rq_complete(rq) ||
-> +	if (!test_and_set_bit(REQ_ATOM_COMPLETE, &rq->atomic_flags) ||
->  	    test_and_clear_bit(REQ_ATOM_QUIESCED, &rq->atomic_flags)) {
->  		rq->errors = error;
->  		__blk_mq_complete_request(rq);
-> @@ -583,7 +583,7 @@ void blk_mq_rq_timed_out(struct request *req, bool reserved)
->  		break;
->  	case BLK_EH_RESET_TIMER:
->  		blk_add_timer(req);
-> -		blk_clear_rq_complete(req);
-> +		clear_bit(REQ_ATOM_COMPLETE, &req->atomic_flags);
->  		break;
->  	case BLK_EH_NOT_HANDLED:
->  		break;
-> @@ -614,7 +614,7 @@ static void blk_mq_check_expired(struct blk_mq_hw_ctx *hctx,
->  		return;
->  
->  	if (time_after_eq(jiffies, rq->deadline)) {
-> -		if (!blk_mark_rq_complete(rq))
-> +		if (!test_and_set_bit(REQ_ATOM_COMPLETE, &rq->atomic_flags))
->  			blk_mq_rq_timed_out(rq, reserved);
->  	} else if (!data->next_set || time_after(data->next, rq->deadline)) {
->  		data->next = rq->deadline;
-> diff --git a/block/blk-softirq.c b/block/blk-softirq.c
-> index 9d47fbc..b89f655 100644
-> --- a/block/blk-softirq.c
-> +++ b/block/blk-softirq.c
-> @@ -167,7 +167,7 @@ void blk_complete_request(struct request *req)
->  {
->  	if (unlikely(blk_should_fake_timeout(req->q)))
->  		return;
-> -	if (!blk_mark_rq_complete(req) ||
-> +	if (!test_and_set_bit(REQ_ATOM_COMPLETE, &req->atomic_flags) ||
->  	    test_and_clear_bit(REQ_ATOM_QUIESCED, &req->atomic_flags))
->  		__blk_complete_request(req);
+> +    event_notifier_test_and_clear(&cq->notifier);
+>      nvme_post_cqes(cq);
 >  }
-> diff --git a/block/blk-timeout.c b/block/blk-timeout.c
-> index b3a7f20..cc10db2 100644
-> --- a/block/blk-timeout.c
-> +++ b/block/blk-timeout.c
-> @@ -94,7 +94,7 @@ static void blk_rq_timed_out(struct request *req)
->  		break;
->  	case BLK_EH_RESET_TIMER:
->  		blk_add_timer(req);
-> -		blk_clear_rq_complete(req);
-> +		clear_bit(REQ_ATOM_COMPLETE, &req->atomic_flags);
->  		break;
->  	case BLK_EH_QUIESCED:
->  		set_bit(REQ_ATOM_QUIESCED, &req->atomic_flags);
-> @@ -122,7 +122,7 @@ static void blk_rq_check_expired(struct request *rq, unsigned long *next_timeout
->  		/*
->  		 * Check if we raced with end io completion
->  		 */
-> -		if (!blk_mark_rq_complete(rq))
-> +		if (!test_and_set_bit(REQ_ATOM_COMPLETE, &rq->atomic_flags))
->  			blk_rq_timed_out(rq);
->  	} else if (!*next_set || time_after(*next_timeout, rq->deadline)) {
->  		*next_timeout = rq->deadline;
-> @@ -160,7 +160,7 @@ void blk_timeout_work(struct work_struct *work)
->   */
->  void blk_abort_request(struct request *req)
->  {
-> -	if (blk_mark_rq_complete(req))
-> +	if (test_and_set_bit(REQ_ATOM_COMPLETE, &req->atomic_flags))
->  		return;
 >  
->  	if (req->q->mq_ops) {
-> diff --git a/block/blk.h b/block/blk.h
-> index f4c98f8..1d95107 100644
-> --- a/block/blk.h
-> +++ b/block/blk.h
-> @@ -118,26 +118,16 @@ void blk_account_io_done(struct request *req);
->   * Internal atomic flags for request handling
->   */
->  enum rq_atomic_flags {
-> +	/*
-> +	 * EH timer and IO completion will both attempt to 'grab' the request,
-> +	 * make sure that only one of them succeeds by setting this flag.
-> +	 */
->  	REQ_ATOM_COMPLETE = 0,
->  	REQ_ATOM_STARTED,
->  	REQ_ATOM_QUIESCED,
->  };
+> @@ -567,6 +568,7 @@ static void nvme_sq_notifier(EventNotifier *e)
+>      NvmeSQueue *sq =
+>          container_of(e, NvmeSQueue, notifier);
 >  
->  /*
-> - * EH timer and IO completion will both attempt to 'grab' the request, make
-> - * sure that only one of them succeeds
-> - */
-> -static inline int blk_mark_rq_complete(struct request *rq)
-> -{
-> -	return test_and_set_bit(REQ_ATOM_COMPLETE, &rq->atomic_flags);
-> -}
-> -
-> -static inline void blk_clear_rq_complete(struct request *rq)
-> -{
-> -	clear_bit(REQ_ATOM_COMPLETE, &rq->atomic_flags);
-> -}
-> -
-> -/*
->   * Internal elevator interface
->   */
->  #define ELV_ON_HASH(rq) ((rq)->cmd_flags & REQ_HASHED)
+> +    event_notifier_test_and_clear(&sq->notifier);
+>      nvme_process_sq(sq);
+>  }
+>  
+> Here is new performance number:
+> 
+> qemu-nvme + google-ext + eventfd: 294MB/s
+> virtio-blk: 344MB/s
+> virtio-scsi: 296MB/s
+> 
+> It's almost same as virtio-scsi. Nice.
+
+(strip CC)
+
+Looks like "regular MMIO" runs in vcpu thread, while "eventfd MMIO" runs
+in the main loop thread.
+
+Could you help to explain why eventfd MMIO gets better performance?
+
+call stack: regular MMIO
+========================
+nvme_mmio_write (qemu/hw/block/nvme.c:921)
+memory_region_write_accessor (qemu/memory.c:451)
+access_with_adjusted_size (qemu/memory.c:506)
+memory_region_dispatch_write (qemu/memory.c:1158)
+address_space_rw (qemu/exec.c:2547)
+kvm_cpu_exec (qemu/kvm-all.c:1849)
+qemu_kvm_cpu_thread_fn (qemu/cpus.c:1050)
+start_thread (pthread_create.c:312)
+clone
+
+call stack: eventfd MMIO
+=========================
+nvme_sq_notifier (qemu/hw/block/nvme.c:598)
+aio_dispatch (qemu/aio-posix.c:329)
+aio_ctx_dispatch (qemu/async.c:232)
+g_main_context_dispatch
+glib_pollfds_poll (qemu/main-loop.c:213)
+os_host_main_loop_wait (qemu/main-loop.c:257)
+main_loop_wait (qemu/main-loop.c:504)
+main_loop (qemu/vl.c:1920)
+main (qemu/vl.c:4682)
+__libc_start_main
