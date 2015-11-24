@@ -1,41 +1,51 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 24 Nov 2015 16:13:02 +0000
-Subject: [PATCH] NVMe: Split shutdown work
-In-Reply-To: <20151124153107.GA4326@infradead.org>
-References: <1448302665-9703-1-git-send-email-keith.busch@intel.com>
- <20151124073448.GA17979@infradead.org>
- <20151124151406.GA3936@localhost.localdomain>
- <20151124153107.GA4326@infradead.org>
-Message-ID: <20151124161302.GA5193@localhost.localdomain>
+From: jmoyer@redhat.com (Jeff Moyer)
+Date: Tue, 24 Nov 2015 11:34:22 -0500
+Subject: [PATCH 04/47] block: provide a new BLK_EH_QUIESCED timeout return
+ value
+In-Reply-To: <20151124155609.GA6251@lst.de> (Christoph Hellwig's message of
+ "Tue, 24 Nov 2015 16:56:09 +0100")
+References: <1448037342-18384-1-git-send-email-hch@lst.de>
+ <1448037342-18384-5-git-send-email-hch@lst.de>
+ <x49mvu32zrw.fsf@segfault.boston.devel.redhat.com>
+ <20151124154019.GB5939@lst.de>
+ <x491tbf2y6v.fsf@segfault.boston.devel.redhat.com>
+ <20151124155609.GA6251@lst.de>
+Message-ID: <x49wpt71hm9.fsf@segfault.boston.devel.redhat.com>
 
-On Tue, Nov 24, 2015@07:31:07AM -0800, Christoph Hellwig wrote:
-> On Tue, Nov 24, 2015@03:14:06PM +0000, Keith Busch wrote:
-> > Security locked drives may reject "set feature". Some of my drives in
-> > manufacturing mode also fail it.
-> 
-> Is there any wording in the spec that allows this?  What number of
-> I/O queues will show up on these drives?   Allowing to ignore this
-> failure is defintively black magic and needs long comments explaining
-> the why and how, or it will get broken accidentally again and again.
+Christoph Hellwig <hch at lst.de> writes:
 
-Heh, my reasoning is focused a bit too narrowly. :)
+> We always set REQ_ATOM_COMPLETE before calling into ->timeout and thus
+> even having a chance to REQ_ATOM_QUIESCED.  Maybe we're talking past
+> each other, so if it feels like I'm off track try to explain the
+> race in a bit more detail.
 
-Instead of examining a specific command's failure modes, can we agree
-there is a difference in how we should handle a controller that responds
-to initialization with failure status vs one that doesn't respond
-at all? I don't want to rat hole commentary for an exceedingly rare
-scenario, but it helps tremendously to have this distinction if it
-happens.
+Sure.
 
-> We need serialization not just of shutdown calls, but also of shutdown
-> vs reset.  Thinking about it aren't we doing the shutdown from the
-> pci_driver ->removal callback with my current branch?
+CPU 0 executes the following:
 
-There's actually lots of entry points to shutdown: system suspend,
-shutdown, PCI-e Function Level Reset, NVMe Controller Level Reset, NVMe
-Subsystem Reset Occurred/Controller Failure Status, and PCI removal. PCI
-removal can happen from PCI-e hotplug event, driver requested, or user
-requested.
+blk_rq_check_expired():
+        if (!blk_mark_rq_complete(rq))  // this succeeds, so we call blk_rq_timed_out
+                blk_rq_timed_out(rq);
+blk_rq_timed_out():
+        if (q->rq_timed_out_fn)
+                ret = q->rq_timed_out_fn(req);
+        switch (ret) {  // QUIESCED is returned
+...
+        case BLK_EH_QUIESCED:
+                set_bit(REQ_ATOM_QUIESCED, &req->atomic_flags);
+                break;
 
-I've never seen these events occur simultaneously in practice. There's
-no handling for it, but we can fix it utilizing the new device flags.
+CPU 1 takes an interrupt for the completion of the same request:
+
+blk_complete_request():
+        if (!blk_mark_rq_complete(req) ||  // this fails, as it's already marked complete
+            test_and_clear_bit(REQ_ATOM_QUIESCED, &req->atomic_flags))  // this succeeds
+                __blk_complete_request(req); // so we complete the request
+
+Later, after the adapter reset is finished, you mentioned that all
+requests will be completed.  My question is: will this result in a
+double completion for this particular request?
+
+I hope that's more clear.
+
+-Jeff
