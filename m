@@ -1,26 +1,40 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 24 Nov 2015 09:56:19 -0800
-Subject: [PATCH 04/47] block: provide a new BLK_EH_QUIESCED timeout
- return value
-In-Reply-To: <x49wpt71hm9.fsf@segfault.boston.devel.redhat.com>
-References: <1448037342-18384-1-git-send-email-hch@lst.de>
- <1448037342-18384-5-git-send-email-hch@lst.de>
- <x49mvu32zrw.fsf@segfault.boston.devel.redhat.com>
- <20151124154019.GB5939@lst.de>
- <x491tbf2y6v.fsf@segfault.boston.devel.redhat.com>
- <20151124155609.GA6251@lst.de>
- <x49wpt71hm9.fsf@segfault.boston.devel.redhat.com>
-Message-ID: <20151124175619.GA13224@infradead.org>
+Date: Tue, 24 Nov 2015 09:58:03 -0800
+Subject: [PATCH] NVMe: Split shutdown work
+In-Reply-To: <20151124161302.GA5193@localhost.localdomain>
+References: <1448302665-9703-1-git-send-email-keith.busch@intel.com>
+ <20151124073448.GA17979@infradead.org>
+ <20151124151406.GA3936@localhost.localdomain>
+ <20151124153107.GA4326@infradead.org>
+ <20151124161302.GA5193@localhost.localdomain>
+Message-ID: <20151124175803.GB13224@infradead.org>
 
-On Tue, Nov 24, 2015@11:34:22AM -0500, Jeff Moyer wrote:
-> CPU 1 takes an interrupt for the completion of the same request:
+On Tue, Nov 24, 2015@04:13:02PM +0000, Keith Busch wrote:
+> Heh, my reasoning is focused a bit too narrowly. :)
 > 
-> blk_complete_request():
->         if (!blk_mark_rq_complete(req) ||  // this fails, as it's already marked complete
->             test_and_clear_bit(REQ_ATOM_QUIESCED, &req->atomic_flags))  // this succeeds
+> Instead of examining a specific command's failure modes, can we agree
+> there is a difference in how we should handle a controller that responds
+> to initialization with failure status vs one that doesn't respond
+> at all? I don't want to rat hole commentary for an exceedingly rare
+> scenario, but it helps tremendously to have this distinction if it
+> happens.
 
-and clears the flag, so we'd need a race betweem this call to
-blk_mq_complete request and the later completion of all outstanding
-commands from reset.  For NVMe we ensure this by not taking completions
-onc we start reset, but we probably need to document this better.  I
-will ensure all this is properly documented in the next version!
+If we ignore a return value that shouldn't fail per spec we will need
+a comment either way.  But yes, handling an error return vs timeout
+differently makes sense independent of that.
+
+> 
+> > We need serialization not just of shutdown calls, but also of shutdown
+> > vs reset.  Thinking about it aren't we doing the shutdown from the
+> > pci_driver ->removal callback with my current branch?
+> 
+> There's actually lots of entry points to shutdown: system suspend,
+> shutdown, PCI-e Function Level Reset, NVMe Controller Level Reset, NVMe
+> Subsystem Reset Occurred/Controller Failure Status, and PCI removal. PCI
+> removal can happen from PCI-e hotplug event, driver requested, or user
+> requested.
+> 
+> I've never seen these events occur simultaneously in practice. There's
+> no handling for it, but we can fix it utilizing the new device flags.
+
+Ok.
