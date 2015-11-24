@@ -1,55 +1,41 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 24 Nov 2015 16:56:09 +0100
-Subject: [PATCH 04/47] block: provide a new BLK_EH_QUIESCED timeout
- return value
-In-Reply-To: <x491tbf2y6v.fsf@segfault.boston.devel.redhat.com>
-References: <1448037342-18384-1-git-send-email-hch@lst.de>
- <1448037342-18384-5-git-send-email-hch@lst.de>
- <x49mvu32zrw.fsf@segfault.boston.devel.redhat.com>
- <20151124154019.GB5939@lst.de>
- <x491tbf2y6v.fsf@segfault.boston.devel.redhat.com>
-Message-ID: <20151124155609.GA6251@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 24 Nov 2015 16:13:02 +0000
+Subject: [PATCH] NVMe: Split shutdown work
+In-Reply-To: <20151124153107.GA4326@infradead.org>
+References: <1448302665-9703-1-git-send-email-keith.busch@intel.com>
+ <20151124073448.GA17979@infradead.org>
+ <20151124151406.GA3936@localhost.localdomain>
+ <20151124153107.GA4326@infradead.org>
+Message-ID: <20151124161302.GA5193@localhost.localdomain>
 
-On Tue, Nov 24, 2015@10:51:04AM -0500, Jeff Moyer wrote:
-> >> 
-> >> blk_complete_request:
-> >> A  if (!blk_mark_rq_complete(rq) ||
-> >> B      test_and_cleart_bit(REQ_ATOM_QUIESCED, &req->atomic_flags)) {
-> >> C        __blk_mq_complete_request(rq);
-> >> 
-> >> could run alongside of:
-> >> 
-> >> blk_rq_check_expired:
-> >> 1 if (!blk_mark_rq_complete(rq))
-> >> 2   blk_rq_timed_out(rq);
-> >> 
-> >> So, if 1 comes before A, we have two cases to consider:
-> >> 
-> >> i.  the expiration path does not yet set REQ_ATOM_QUIESCED before the
-> >>     completion code runs, and so the completion code does nothing.
-> >
-> > The command has timed out and sets REQ_ATOM_COMPLETED first,
-> > the the actual completion comes in and does indeed nothing.  We now
-> > set REQ_ATOM_QUIESCED and kick off a controller reset, which will
-> > ultimatively complete all commands using blk_mq_complete_request.
-> > Now REQ_ATOM_QUIESCED is set on the command that caused the timeout,
-> > so it will be completed as well.
-> >
-> >> ii. the expiration path *does* SET REQ_ATOM_QUIESCED.  In this instance,
-> >>     will we get yet another completion for the request when the command
-> >>     is ultimately retired by the adapter reset?
-> >
-> > The command has timed out and sets REQ_ATOM_COMPLETED first, then
-> > REQ_ATOM_QUIESCED as well.  Now the actual completion comes in and does
-> > nothing because REQ_ATOM_COMPLETED was set.  We will then kick off the
+On Tue, Nov 24, 2015@07:31:07AM -0800, Christoph Hellwig wrote:
+> On Tue, Nov 24, 2015@03:14:06PM +0000, Keith Busch wrote:
+> > Security locked drives may reject "set feature". Some of my drives in
+> > manufacturing mode also fail it.
 > 
-> See B above.  REQ_ATOM_COMPLETE is set, so the first half of that
-> statement is false, but then test_and_clear_bit(REQ_ATOM_QUIESCED...)
-> returns true, so we call __blk_complete_request.  So the question is,
-> will we get a double completion for that request after the reset is
-> performed?
+> Is there any wording in the spec that allows this?  What number of
+> I/O queues will show up on these drives?   Allowing to ignore this
+> failure is defintively black magic and needs long comments explaining
+> the why and how, or it will get broken accidentally again and again.
 
-We always set REQ_ATOM_COMPLETE before calling into ->timeout and thus
-even having a chance to REQ_ATOM_QUIESCED.  Maybe we're talking past
-each other, so if it feels like I'm off track try to explain the
-race in a bit more detail.
+Heh, my reasoning is focused a bit too narrowly. :)
+
+Instead of examining a specific command's failure modes, can we agree
+there is a difference in how we should handle a controller that responds
+to initialization with failure status vs one that doesn't respond
+at all? I don't want to rat hole commentary for an exceedingly rare
+scenario, but it helps tremendously to have this distinction if it
+happens.
+
+> We need serialization not just of shutdown calls, but also of shutdown
+> vs reset.  Thinking about it aren't we doing the shutdown from the
+> pci_driver ->removal callback with my current branch?
+
+There's actually lots of entry points to shutdown: system suspend,
+shutdown, PCI-e Function Level Reset, NVMe Controller Level Reset, NVMe
+Subsystem Reset Occurred/Controller Failure Status, and PCI removal. PCI
+removal can happen from PCI-e hotplug event, driver requested, or user
+requested.
+
+I've never seen these events occur simultaneously in practice. There's
+no handling for it, but we can fix it utilizing the new device flags.
