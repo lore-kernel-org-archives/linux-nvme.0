@@ -1,30 +1,19 @@
-From: pbonzini@redhat.com (Paolo Bonzini)
-Date: Wed, 25 Nov 2015 20:32:36 +0100
-Subject: [RFC PATCH 0/9] vhost-nvme: new qemu nvme backend using nvme
- target
-In-Reply-To: <1448477482.6540.3.camel@ssi>
-References: <1447978868-17138-1-git-send-email-mlin@kernel.org>
- <56506D95.70101@redhat.com> <1448266667.18175.5.camel@hasee>
- <56531F5F.3050709@redhat.com> <1448350074.6696.3.camel@hasee>
- <56544122.3010300@redhat.com> <1448393115.2925.2.camel@ssi>
- <56559B36.90406@redhat.com> <1448477482.6540.3.camel@ssi>
-Message-ID: <56560CD4.8090805@redhat.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 25 Nov 2015 11:38:51 -0800
+Subject: [PATCH] NVMe: Shutdown fixes
+In-Reply-To: <20151125182439.GE2587@localhost.localdomain>
+References: <1448407814-12544-1-git-send-email-keith.busch@intel.com>
+ <20151125085537.GA19066@infradead.org>
+ <20151125160544.GA2587@localhost.localdomain>
+ <20151125164257.GB4321@infradead.org>
+ <20151125165703.GC2587@localhost.localdomain>
+ <20151125170842.GA29291@infradead.org>
+ <20151125172845.GD2587@localhost.localdomain>
+ <20151125175512.GA23638@infradead.org>
+ <20151125182439.GE2587@localhost.localdomain>
+Message-ID: <20151125193851.GA16415@infradead.org>
 
-
-
-On 25/11/2015 19:51, Ming Lin wrote:
-> > Do you still have a blk_set_aio_context somewhere?  I'm losing track of
-> > the changes.
-> 
-> No.
-
-You'll need it.  That's what causes your error.
-
-> BTW, I'm not sure about qemu upstream policy.
-> Do I need to first make the kernel side patch upstream?
-> https://git.kernel.org/cgit/linux/kernel/git/mlin/linux.git/log/?h=nvme-google-ext
-
-No problem, there's time.  QEMU is in freeze right now, and the 2.6
-cycle will last until March or so.
-
-Paolo
+I'll give this a spin the next day.  I assume you and Jns will be out
+for a long weekend starting tomorrow, so I should have a new series
+ready for review.  I'll fold a modified version of your patch in, as I
+think we should get this right from the start.
