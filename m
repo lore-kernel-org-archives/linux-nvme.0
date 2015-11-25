@@ -1,293 +1,105 @@
-From: m@bjorling.me (=?windows-1252?Q?Matias_Bj=F8rling?=)
-Date: Wed, 25 Nov 2015 16:39:54 +0100
-Subject: [PATCH 2/3] lightnvm: handle targets when corresponding nvm device
- exit
-In-Reply-To: <1448455376-5020-3-git-send-email-ww.tao0320@gmail.com>
-References: <1448455376-5020-1-git-send-email-ww.tao0320@gmail.com>
- <1448455376-5020-3-git-send-email-ww.tao0320@gmail.com>
-Message-ID: <5655D64A.4090604@bjorling.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 25 Nov 2015 16:05:45 +0000
+Subject: [PATCH] NVMe: Shutdown fixes
+In-Reply-To: <20151125085537.GA19066@infradead.org>
+References: <1448407814-12544-1-git-send-email-keith.busch@intel.com>
+ <20151125085537.GA19066@infradead.org>
+Message-ID: <20151125160544.GA2587@localhost.localdomain>
 
-On 11/25/2015 01:42 PM, Wenwei Tao wrote:
-> block creations of new targets, remove exiting targets when
-> underlying device was gone.
->
-> Signed-off-by: Wenwei Tao <ww.tao0320 at gmail.com>
-> ---
->   drivers/lightnvm/core.c  | 127 ++++++++++++++++++++++++++++++-----------------
->   include/linux/lightnvm.h |   3 ++
->   2 files changed, 85 insertions(+), 45 deletions(-)
->
-> diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
-> index 39aec3a..0b71dd2 100644
-> --- a/drivers/lightnvm/core.c
-> +++ b/drivers/lightnvm/core.c
-> @@ -33,6 +33,17 @@ static LIST_HEAD(nvm_targets);
->   static LIST_HEAD(nvm_mgrs);
->   static LIST_HEAD(nvm_devices);
->   static DECLARE_RWSEM(nvm_lock);
-> +#define NVM_EXITING	1
-> +
-> +static inline int NvmExiting(struct nvm_dev *dev)
-> +{
-> +	return ((unsigned long)dev->ppalist_pool & NVM_EXITING) != 0;
-> +}
-> +
-> +static inline void *ppalist_pool(struct nvm_dev *dev)
-> +{
-> +	return (void *)((unsigned long)dev->ppalist_pool & ~NVM_EXITING);
-> +}
->
+On Wed, Nov 25, 2015@12:55:37AM -0800, Christoph Hellwig wrote:
+> > +static inline void nvme_end_req(struct request *req, int error)
+> > +{
+> > +	/*
+> > +	 * The request may already be marked "complete" by blk-mq if
+> > +	 * completion occurs during a timeout. We set req->errors
+> > +	 * before telling blk-mq in case this is the target request
+> > +	 * of a timeout handler. This is safe since this driver never
+> > +	 * completes the same command twice.
+> > +	 */
+> > +	req->errors = error;
+> > +	blk_mq_complete_request(req, req->errors);
+> 
+> I don't think overwriting req->errors on an already completed request
+> is a good idea - it's what we used to earlier, but I specificly changed
+> the blk_mq_complete_request so that we don't do that.  Can you explain
+> when you want to overwrite the value exactly and why?
 
-I think I rather want to have a state variable (so we have a state 
-machine for three state. Initializing, running, and stopping.
+Explanation follows:
 
-What was the reason you'll like to put it in the ppalist_pool?
+> >  	if (test_bit(NVME_CTRL_RESETTING, &dev->flags)) {
+> > -		req->errors = NVME_SC_ABORT_REQ | NVME_SC_DNR;
+> > +		dev_warn(dev->dev,
+> > +				"I/O %d QID %d timeout, disable controller\n",
+> > +				 req->tag, nvmeq->qid);
+> > +		nvme_dev_shutdown(dev);
+> >  		return BLK_EH_HANDLED;
+> 
+> So here you return BLK_EH_HANDLED without setting req->errors, which
+> sounds like it might be related to the above issue.
 
-ps. could you rebase it on top of the latest master. Then I'll review 
-the rest of it.
+Right, we don't want to set req->errors here. nvme_dev_shutdown
+unconditionally reaps every request known to the driver, so it's safe
+assume the timed out request is completed and return EH_HANDLED.
 
->   static struct nvm_tgt_type *nvm_find_target_type(const char *name)
->   {
-> @@ -74,7 +85,7 @@ EXPORT_SYMBOL(nvm_unregister_target);
->   void *nvm_dev_dma_alloc(struct nvm_dev *dev, gfp_t mem_flags,
->   							dma_addr_t *dma_handler)
->   {
-> -	return dev->ops->dev_dma_alloc(dev->q, dev->ppalist_pool, mem_flags,
-> +	return dev->ops->dev_dma_alloc(dev->q, ppalist_pool(dev), mem_flags,
->   								dma_handler);
->   }
->   EXPORT_SYMBOL(nvm_dev_dma_alloc);
-> @@ -82,7 +93,7 @@ EXPORT_SYMBOL(nvm_dev_dma_alloc);
->   void nvm_dev_dma_free(struct nvm_dev *dev, void *ppa_list,
->   							dma_addr_t dma_handler)
->   {
-> -	dev->ops->dev_dma_free(dev->ppalist_pool, ppa_list, dma_handler);
-> +	dev->ops->dev_dma_free(ppalist_pool(dev), ppa_list, dma_handler);
->   }
->   EXPORT_SYMBOL(nvm_dev_dma_free);
+Executing the nvme_timeout code path more often than not means the
+controller isn't going to return that command, but we can't count on that.
+So there are two possibilities:
+
+  1. request completes through nvme_process_cq
+  2. request completes through nvme_cancel_queue_ios
+
+In either case, req->errors is set through the new nvme_end_req, as you
+surmised. We don't want to set req->errors here directly in case the
+request completes through process_cq. We should prefer the controller's
+status rather than make one up.
+
+> > +		 * Mark the request as handled, since the inline shutdown
+> > +		 * forces all outstanding requests to complete.
+> >  		 */
+> > -		return BLK_EH_QUIESCED;
+> > +		return BLK_EH_HANDLED;
+> 
+> Again we're not setting req->errors here.
+
+Yep, same reasoning as above. This also fixes this race:
+
+        CPU 0                           CPU 1
+
+  blk_mq_check_expired                nvme_irq
+    set_bit(REQ_ATOM_COMPLETE)          nvme_process_cq
+    nvme_timeout                          blk_mq_complete_request
+                                            if (!test_and_set_bit(REQ_ATOM_COMPLETE, &rq->atomic_flags) ||
+	                                         test_and_clear_bit(REQ_ATOM_QUIESCED, &rq->atomic_flags))
+      return BLK_EH_QUIESCED
+    set_bit REQ_ATOM_QUIESCED
+
+Both checks on blk_mq_complete_request will fail since the timeout
+handler hasn't returned "quiesce" yet, and the request will be orphaned.
+
+Instead we can let nvme_dev_shudtown reap the request and set req->errors
+directly through one of the two paths described above, then return
+BLK_EH_HANDLED.
+ 
+> > @@ -2023,6 +2038,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+> >  
+> >  	nvme_dev_list_remove(dev);
+> >  
+> > +	mutex_lock(&dev->shutdown_lock);
+> 
+> Shoudn't we also have a state check that skips all the work here if
+> the controller has already been shut down?
+
+This is implied through dev->bar != NULL, and the nvmeq's cq_vector value.
+
+> > +	 * The pci device will be disabled if a timeout occurs while setting up
+> > +	 * IO queues, but return 0 for "result", so we have to check both.
+> > +	 */
+> > +	if (result || !pci_is_enabled(to_pci_dev(dev->dev)))
+> >  		goto free_tags;
 >
-> @@ -206,17 +217,6 @@ static int nvm_core_init(struct nvm_dev *dev)
->   	return 0;
->   }
->
-> -static void nvm_free(struct nvm_dev *dev)
-> -{
-> -	if (!dev)
-> -		return;
-> -
-> -	if (dev->mt)
-> -		dev->mt->unregister_mgr(dev);
-> -
-> -	nvm_core_free(dev);
-> -}
-> -
->   static int nvm_init(struct nvm_dev *dev)
->   {
->   	struct nvmm_type *mt;
-> @@ -262,6 +262,7 @@ static int nvm_init(struct nvm_dev *dev)
->   		}
->   	}
->
-> +	kref_init(&dev->kref);
->   	if (!ret) {
->   		pr_info("nvm: no compatible manager found.\n");
->   		return 0;
-> @@ -278,11 +279,47 @@ err:
->   	return ret;
->   }
->
-> -static void nvm_exit(struct nvm_dev *dev)
-> +static void nvm_remove_target(struct nvm_target *t)
->   {
-> -	if (dev->ppalist_pool)
-> -		dev->ops->destroy_dma_pool(dev->ppalist_pool);
-> -	nvm_free(dev);
-> +	struct nvm_tgt_type *tt = t->type;
-> +	struct gendisk *tdisk = t->disk;
-> +	struct request_queue *q = tdisk->queue;
-> +
-> +	lockdep_assert_held(&nvm_lock);
-> +
-> +	del_gendisk(tdisk);
-> +	if (tt->exit)
-> +		tt->exit(tdisk->private_data);
-> +
-> +	blk_cleanup_queue(q);
-> +
-> +	put_disk(tdisk);
-> +
-> +	list_del(&t->list);
-> +	kfree(t);
-> +}
-> +
-> +static inline void nvm_remove_targets(struct nvm_dev *dev)
-> +{
-> +	struct nvm_target *t, *n;
-> +
-> +	list_for_each_entry_safe(t, n, &dev->online_targets, list)
-> +		nvm_remove_target(t);
-> +}
-> +
-> +static void nvm_exit(struct kref *kref)
-> +{
-> +	struct nvm_dev *dev;
-> +
-> +	dev = container_of(kref, struct nvm_dev, kref);
-> +	if (ppalist_pool(dev))
-> +		dev->ops->destroy_dma_pool(ppalist_pool(dev));
-> +
-> +	if (dev->mt)
-> +		dev->mt->unregister_mgr(dev);
-> +
-> +	if (dev->ops->dev_remove)
-> +		dev->ops->dev_remove(dev->q);
->
->   	pr_info("nvm: successfully unloaded\n");
->   }
-> @@ -344,8 +381,10 @@ void nvm_unregister(char *disk_name)
->   	}
->
->   	list_del(&dev->devices);
-> +	nvm_remove_targets(dev);
-> +	dev->ppalist_pool += NVM_EXITING;
->   	up_write(&nvm_lock);
-> -	nvm_exit(dev);
-> +	kref_put(&dev->kref, nvm_exit);
->   }
->   EXPORT_SYMBOL(nvm_unregister);
->
-> @@ -366,6 +405,10 @@ static int nvm_create_target(struct nvm_dev *dev,
->   	int ret = 0;
->
->   	down_write(&nvm_lock);
-> +	if (NvmExiting(dev)) {
-> +		up_write(&nvm_lock);
-> +		return -ENODEV;
-> +	}
->   	if (!dev->mt) {
->   		/* register with device with a supported NVM manager */
->   		list_for_each_entry(mt, &nvm_mgrs, list) {
-> @@ -439,10 +482,16 @@ static int nvm_create_target(struct nvm_dev *dev,
->   	t->disk = tdisk;
->
->   	down_write(&nvm_lock);
-> +	if (NvmExiting(dev)) {
-> +		up_write(&nvm_lock);
-> +		goto err_nvm_exiting;
-> +	}
->   	list_add_tail(&t->list, &dev->online_targets);
->   	up_write(&nvm_lock);
->
->   	return 0;
-> +err_nvm_exiting:
-> +	del_gendisk(tdisk);
->   err_init:
->   	put_disk(tdisk);
->   err_queue:
-> @@ -452,62 +501,50 @@ err_t:
->   	return -ENOMEM;
->   }
->
-> -static void nvm_remove_target(struct nvm_target *t)
-> -{
-> -	struct nvm_tgt_type *tt = t->type;
-> -	struct gendisk *tdisk = t->disk;
-> -	struct request_queue *q = tdisk->queue;
-> -
-> -	lockdep_assert_held(&nvm_lock);
-> -
-> -	del_gendisk(tdisk);
-> -	if (tt->exit)
-> -		tt->exit(tdisk->private_data);
-> -
-> -	blk_cleanup_queue(q);
-> -
-> -	put_disk(tdisk);
-> -
-> -	list_del(&t->list);
-> -	kfree(t);
-> -}
-> -
->   static int __nvm_configure_create(struct nvm_ioctl_create *create)
->   {
->   	struct nvm_dev *dev;
->   	struct nvm_ioctl_create_simple *s;
-> +	int ret = -EINVAL;
-> +
->   	down_write(&nvm_lock);
->   	dev = nvm_find_nvm_dev(create->dev);
-> -	up_write(&nvm_lock);
->   	if (!dev) {
->   		pr_err("nvm: device not found\n");
-> -		return -EINVAL;
-> +		up_write(&nvm_lock);
-> +		goto out;
->   	}
-> +	kref_get(&dev->kref);
-> +	up_write(&nvm_lock);
->
->   	if (create->conf.type != NVM_CONFIG_TYPE_SIMPLE) {
->   		pr_err("nvm: config type not valid\n");
-> -		return -EINVAL;
-> +		goto out;
->   	}
->   	s = &create->conf.s;
->
->   	if (s->lun_begin > s->lun_end || s->lun_end > dev->nr_luns) {
->   		pr_err("nvm: lun out of bound (%u:%u > %u)\n",
->   			s->lun_begin, s->lun_end, dev->nr_luns);
-> -		return -EINVAL;
-> +		goto out;
->   	}
->
-> -	return nvm_create_target(dev, create);
-> +	ret = nvm_create_target(dev, create);
-> +out:
-> +	if (dev)
-> +		kref_put(&dev->kref, nvm_exit);
-> +	return ret;
->   }
->
->   static int __nvm_configure_remove(struct nvm_ioctl_remove *remove)
->   {
-> -	struct nvm_target *t = NULL;
-> +	struct nvm_target *n, *t = NULL;
->   	struct nvm_dev *dev;
->   	int ret = -1;
->
->   	down_write(&nvm_lock);
->   	list_for_each_entry(dev, &nvm_devices, devices)
-> -		list_for_each_entry(t, &dev->online_targets, list) {
-> +		list_for_each_entry_safe(t, n, &dev->online_targets, list) {
->   			if (!strcmp(remove->tgtname, t->disk->disk_name)) {
->   				nvm_remove_target(t);
->   				ret = 0;
-> diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
-> index 69c9057..1b42305 100644
-> --- a/include/linux/lightnvm.h
-> +++ b/include/linux/lightnvm.h
-> @@ -205,6 +205,7 @@ typedef void (nvm_destroy_dma_pool_fn)(void *);
->   typedef void *(nvm_dev_dma_alloc_fn)(struct request_queue *, void *, gfp_t,
->   								dma_addr_t *);
->   typedef void (nvm_dev_dma_free_fn)(void *, void*, dma_addr_t);
-> +typedef void (nvm_dev_remove_fn) (struct request_queue *);
->
->   struct nvm_dev_ops {
->   	nvm_id_fn		*identity;
-> @@ -219,6 +220,7 @@ struct nvm_dev_ops {
->   	nvm_destroy_dma_pool_fn	*destroy_dma_pool;
->   	nvm_dev_dma_alloc_fn	*dev_dma_alloc;
->   	nvm_dev_dma_free_fn	*dev_dma_free;
-> +	nvm_dev_remove_fn	*dev_remove;
->
->   	uint8_t			max_phys_sect;
->   };
-> @@ -252,6 +254,7 @@ struct nvm_dev {
->
->   	/* Media manager */
->   	struct nvmm_type *mt;
-> +	struct kref kref;
->   	void *mp;
->
->   	/* Device information */
->
+> I don't think we should return zero here in that case - that seems to
+> be a bug in setting up req->errrors in the timeout handler.
+
+To set an appropriate non-zero result, we'd need to add pci_is_enabled()
+checks in nvme_setup_io_queues to distinguish a non-fatal command error
+vs timeout. Is that preferable to the check where I have it?
