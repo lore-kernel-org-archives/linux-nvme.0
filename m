@@ -1,448 +1,200 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 30 Nov 2015 09:40:17 +0100
-Subject: [PATCH 4/9] nvme: move nvme_{enable, disable,
- shutdown}_ctrl to common code
+Date: Mon, 30 Nov 2015 09:40:18 +0100
+Subject: [PATCH 5/9] nvme: add a common helper to read Identify Controller data
 In-Reply-To: <1448872822-4789-1-git-send-email-hch@lst.de>
 References: <1448872822-4789-1-git-send-email-hch@lst.de>
-Message-ID: <1448872822-4789-5-git-send-email-hch@lst.de>
+Message-ID: <1448872822-4789-6-git-send-email-hch@lst.de>
+
+And add the 64-bit register read operation for it.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 106 +++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |  11 ++++
- drivers/nvme/host/pci.c  | 133 +++++++++--------------------------------------
- 3 files changed, 141 insertions(+), 109 deletions(-)
+ drivers/nvme/host/core.c | 52 +++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  4 ++++
+ drivers/nvme/host/pci.c  | 53 ++++++++++++++----------------------------------
+ 3 files changed, 71 insertions(+), 38 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 63ec86a..e3179b3 100644
+index e3179b3..1c9f09c 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -14,6 +14,7 @@
+@@ -776,6 +776,58 @@ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
+ 	return ret;
+ }
  
- #include <linux/blkdev.h>
- #include <linux/blk-mq.h>
-+#include <linux/delay.h>
- #include <linux/errno.h>
- #include <linux/hdreg.h>
- #include <linux/kernel.h>
-@@ -670,6 +671,111 @@ const struct block_device_operations nvme_fops = {
- 	.pr_ops		= &nvme_pr_ops,
- };
- 
-+static int nvme_wait_ready(struct nvme_ctrl *ctrl, u64 cap, bool enabled)
-+{
-+	unsigned long timeout =
-+		((NVME_CAP_TIMEOUT(cap) + 1) * HZ / 2) + jiffies;
-+	u32 csts, bit = enabled ? NVME_CSTS_RDY : 0;
-+	int ret;
-+
-+	while ((ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts)) == 0) {
-+		if ((csts & NVME_CSTS_RDY) == bit)
-+			break;
-+
-+		msleep(100);
-+		if (fatal_signal_pending(current))
-+			return -EINTR;
-+		if (time_after(jiffies, timeout)) {
-+			dev_err(ctrl->dev,
-+				"Device not ready; aborting %s\n", enabled ?
-+						"initialisation" : "reset");
-+			return -ENODEV;
-+		}
-+	}
-+
-+	return ret;
-+}
-+
 +/*
-+ * If the device has been passed off to us in an enabled state, just clear
-+ * the enabled bit.  The spec says we should set the 'shutdown notification
-+ * bits', but doing so may cause the device to complete commands to the
-+ * admin queue ... and we don't know what memory that might be pointing at!
++ * Initialize the cached copies of the Identify data and various controller
++ * register in our nvme_ctrl structure.  This should be called as soon as
++ * the admin queue is fully up and running.
 + */
-+int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
++int nvme_init_identify(struct nvme_ctrl *ctrl)
 +{
-+	int ret;
++	struct nvme_id_ctrl *id;
++	u64 cap;
++	int ret, page_shift;
 +
-+	ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
-+	ctrl->ctrl_config &= ~NVME_CC_ENABLE;
-+
-+	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
-+	if (ret)
++	ret = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &cap);
++	if (ret) {
++		dev_err(ctrl->dev, "Reading CAP failed (%d)\n", ret);
 +		return ret;
-+	return nvme_wait_ready(ctrl, cap, false);
-+}
++	}
++	page_shift = NVME_CAP_MPSMIN(cap) + 12;
 +
-+int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
-+{
-+	/*
-+	 * Default to a 4K page size, with the intention to update this
-+	 * path in the future to accomodate architectures with differing
-+	 * kernel and IO page sizes.
-+	 */
-+	unsigned dev_page_min = NVME_CAP_MPSMIN(cap) + 12, page_shift = 12;
-+	int ret;
-+
-+	if (page_shift < dev_page_min) {
-+		dev_err(ctrl->dev,
-+			"Minimum device page size %u too large for host (%u)\n",
-+			1 << dev_page_min, 1 << page_shift);
-+		return -ENODEV;
++	ret = nvme_identify_ctrl(ctrl, &id);
++	if (ret) {
++		dev_err(ctrl->dev, "Identify Controller failed (%d)\n", ret);
++		return -EIO;
 +	}
 +
-+	ctrl->page_size = 1 << page_shift;
++	ctrl->oncs = le16_to_cpup(&id->oncs);
++	ctrl->abort_limit = id->acl + 1;
++	ctrl->vwc = id->vwc;
++	memcpy(ctrl->serial, id->sn, sizeof(id->sn));
++	memcpy(ctrl->model, id->mn, sizeof(id->mn));
++	memcpy(ctrl->firmware_rev, id->fr, sizeof(id->fr));
++	if (id->mdts)
++		ctrl->max_hw_sectors = 1 << (id->mdts + page_shift - 9);
++	else
++		ctrl->max_hw_sectors = UINT_MAX;
 +
-+	ctrl->ctrl_config = NVME_CC_CSS_NVM;
-+	ctrl->ctrl_config |= (page_shift - 12) << NVME_CC_MPS_SHIFT;
-+	ctrl->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
-+	ctrl->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
-+	ctrl->ctrl_config |= NVME_CC_ENABLE;
++	if ((ctrl->quirks & NVME_QUIRK_STRIPE_SIZE) && id->vs[3]) {
++		unsigned int max_hw_sectors;
 +
-+	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
-+	if (ret)
-+		return ret;
-+	return nvme_wait_ready(ctrl, cap, true);
-+}
-+
-+int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
-+{
-+	unsigned long timeout = SHUTDOWN_TIMEOUT + jiffies;
-+	u32 csts;
-+	int ret;
-+
-+	ctrl->ctrl_config &= ~NVME_CC_SHN_MASK;
-+	ctrl->ctrl_config |= NVME_CC_SHN_NORMAL;
-+
-+	ret = ctrl->ops->reg_write32(ctrl, NVME_REG_CC, ctrl->ctrl_config);
-+	if (ret)
-+		return ret;
-+
-+	while ((ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts)) == 0) {
-+		if ((csts & NVME_CSTS_SHST_MASK) == NVME_CSTS_SHST_CMPLT)
-+			break;
-+
-+		msleep(100);
-+		if (fatal_signal_pending(current))
-+			return -EINTR;
-+		if (time_after(jiffies, timeout)) {
-+			dev_err(ctrl->dev,
-+				"Device shutdown incomplete; abort shutdown\n");
-+			return -ENODEV;
++		ctrl->stripe_size = 1 << (id->vs[3] + page_shift);
++		max_hw_sectors = ctrl->stripe_size >> (page_shift - 9);
++		if (ctrl->max_hw_sectors) {
++			ctrl->max_hw_sectors = min(max_hw_sectors,
++							ctrl->max_hw_sectors);
++		} else {
++			ctrl->max_hw_sectors = max_hw_sectors;
 +		}
 +	}
 +
-+	return ret;
++	kfree(id);
++	return 0;
 +}
 +
  static void nvme_free_ctrl(struct kref *kref)
  {
  	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index f7f16e3..b6c5a55 100644
+index b6c5a55..a624add7 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -27,6 +27,9 @@ extern unsigned char nvme_io_timeout;
- extern unsigned char admin_timeout;
- #define ADMIN_TIMEOUT	(admin_timeout * HZ)
+@@ -62,6 +62,8 @@ struct nvme_ctrl {
+ 	u32 ctrl_config;
  
-+extern unsigned char shutdown_timeout;
-+#define SHUTDOWN_TIMEOUT	(shutdown_timeout * HZ)
-+
- enum {
- 	NVME_NS_LBA		= 0,
- 	NVME_NS_LIGHTNVM	= 1,
-@@ -55,6 +58,10 @@ struct nvme_ctrl {
- 	char serial[20];
- 	char model[40];
- 	char firmware_rev[8];
-+
-+	u32 ctrl_config;
-+
-+	u32 page_size;
+ 	u32 page_size;
++	u32 max_hw_sectors;
++	u32 stripe_size;
  	u16 oncs;
  	u16 abort_limit;
  	u8 event_limit;
-@@ -85,6 +92,7 @@ struct nvme_ns {
- 
+@@ -93,6 +95,7 @@ struct nvme_ns {
  struct nvme_ctrl_ops {
  	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
-+	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+ 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
++	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
  	void (*free_ctrl)(struct nvme_ctrl *ctrl);
  };
  
-@@ -165,6 +173,9 @@ static inline int nvme_error_status(u16 status)
- 	}
- }
- 
-+int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
-+int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
-+int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
+@@ -177,6 +180,7 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+ int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
  void nvme_put_ctrl(struct nvme_ctrl *ctrl);
++int nvme_init_identify(struct nvme_ctrl *ctrl);
  void nvme_put_ns(struct nvme_ns *ns);
  
+ struct request *nvme_alloc_request(struct request_queue *q,
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 1ae94cd..ccb3151 100644
+index ccb3151..086563f 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -52,7 +52,6 @@
- #define NVME_AQ_DEPTH		256
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
- #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
--#define SHUTDOWN_TIMEOUT	(shutdown_timeout * HZ)
- 
- unsigned char admin_timeout = 60;
- module_param(admin_timeout, byte, 0644);
-@@ -62,7 +61,7 @@ unsigned char nvme_io_timeout = 30;
- module_param_named(io_timeout, nvme_io_timeout, byte, 0644);
- MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
- 
--static unsigned char shutdown_timeout = 5;
-+unsigned char shutdown_timeout = 5;
- module_param(shutdown_timeout, byte, 0644);
- MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
- 
-@@ -122,7 +121,6 @@ struct nvme_dev {
- 	unsigned max_qid;
- 	int q_depth;
- 	u32 db_stride;
--	u32 ctrl_config;
- 	struct msix_entry *entry;
- 	void __iomem *bar;
- 	struct list_head namespaces;
-@@ -133,7 +131,6 @@ struct nvme_dev {
+@@ -129,8 +129,6 @@ struct nvme_dev {
+ 	struct work_struct probe_work;
+ 	struct work_struct scan_work;
  	bool subsystem;
- 	u32 max_hw_sectors;
- 	u32 stripe_size;
--	u32 page_size;
+-	u32 max_hw_sectors;
+-	u32 stripe_size;
  	void __iomem *cmb;
  	dma_addr_t cmb_dma_addr;
  	u64 cmb_size;
-@@ -225,7 +222,7 @@ struct nvme_cmd_info {
-  * Max size of iod being embedded in the request payload
-  */
- #define NVME_INT_PAGES		2
--#define NVME_INT_BYTES(dev)	(NVME_INT_PAGES * (dev)->page_size)
-+#define NVME_INT_BYTES(dev)	(NVME_INT_PAGES * (dev)->ctrl.page_size)
- #define NVME_INT_MASK		0x01
+@@ -1592,13 +1590,13 @@ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
+ 	list_add_tail(&ns->list, &dev->namespaces);
  
- /*
-@@ -235,7 +232,8 @@ struct nvme_cmd_info {
-  */
- static int nvme_npages(unsigned size, struct nvme_dev *dev)
- {
--	unsigned nprps = DIV_ROUND_UP(size + dev->page_size, dev->page_size);
-+	unsigned nprps = DIV_ROUND_UP(size + dev->ctrl.page_size,
-+				      dev->ctrl.page_size);
- 	return DIV_ROUND_UP(8 * nprps, PAGE_SIZE - 8);
- }
- 
-@@ -527,7 +525,7 @@ static struct nvme_iod *nvme_alloc_iod(struct request *rq, struct nvme_dev *dev,
- 
- static void nvme_free_iod(struct nvme_dev *dev, struct nvme_iod *iod)
- {
--	const int last_prp = dev->page_size / 8 - 1;
-+	const int last_prp = dev->ctrl.page_size / 8 - 1;
- 	int i;
- 	__le64 **list = iod_list(iod);
- 	dma_addr_t prp_dma = iod->first_dma;
-@@ -668,7 +666,7 @@ static bool nvme_setup_prps(struct nvme_dev *dev, struct nvme_iod *iod,
- 	struct scatterlist *sg = iod->sg;
- 	int dma_len = sg_dma_len(sg);
- 	u64 dma_addr = sg_dma_address(sg);
--	u32 page_size = dev->page_size;
-+	u32 page_size = dev->ctrl.page_size;
- 	int offset = dma_addr & (page_size - 1);
- 	__le64 *prp_list;
- 	__le64 **list = iod_list(iod);
-@@ -1275,11 +1273,12 @@ static int nvme_cmb_qdepth(struct nvme_dev *dev, int nr_io_queues,
- 				int entry_size)
- {
- 	int q_depth = dev->q_depth;
--	unsigned q_size_aligned = roundup(q_depth * entry_size, dev->page_size);
-+	unsigned q_size_aligned = roundup(q_depth * entry_size,
-+					  dev->ctrl.page_size);
- 
- 	if (q_size_aligned * nr_io_queues > dev->cmb_size) {
- 		u64 mem_per_q = div_u64(dev->cmb_size, nr_io_queues);
--		mem_per_q = round_down(mem_per_q, dev->page_size);
-+		mem_per_q = round_down(mem_per_q, dev->ctrl.page_size);
- 		q_depth = div_u64(mem_per_q, entry_size);
- 
- 		/*
-@@ -1298,8 +1297,8 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- 				int qid, int depth)
- {
- 	if (qid && dev->cmb && use_cmb_sqes && NVME_CMB_SQS(dev->cmbsz)) {
--		unsigned offset = (qid - 1) *
--					roundup(SQ_SIZE(depth), dev->page_size);
-+		unsigned offset = (qid - 1) * roundup(SQ_SIZE(depth),
-+						      dev->ctrl.page_size);
- 		nvmeq->sq_dma_addr = dev->cmb_dma_addr + offset;
- 		nvmeq->sq_cmds_io = dev->cmb + offset;
- 	} else {
-@@ -1407,97 +1406,6 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
- 	return result;
- }
- 
--static int nvme_wait_ready(struct nvme_dev *dev, u64 cap, bool enabled)
--{
--	unsigned long timeout;
--	u32 bit = enabled ? NVME_CSTS_RDY : 0;
--
--	timeout = ((NVME_CAP_TIMEOUT(cap) + 1) * HZ / 2) + jiffies;
--
--	while ((readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_RDY) != bit) {
--		msleep(100);
--		if (fatal_signal_pending(current))
--			return -EINTR;
--		if (time_after(jiffies, timeout)) {
--			dev_err(dev->dev,
--				"Device not ready; aborting %s\n", enabled ?
--						"initialisation" : "reset");
--			return -ENODEV;
--		}
--	}
--
--	return 0;
--}
--
--/*
-- * If the device has been passed off to us in an enabled state, just clear
-- * the enabled bit.  The spec says we should set the 'shutdown notification
-- * bits', but doing so may cause the device to complete commands to the
-- * admin queue ... and we don't know what memory that might be pointing at!
-- */
--static int nvme_disable_ctrl(struct nvme_dev *dev, u64 cap)
--{
--	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
--	dev->ctrl_config &= ~NVME_CC_ENABLE;
--	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
--
--	return nvme_wait_ready(dev, cap, false);
--}
--
--static int nvme_enable_ctrl(struct nvme_dev *dev, u64 cap)
--{
--	/*
--	 * Default to a 4K page size, with the intention to update this
--	 * path in the future to accomodate architectures with differing
--	 * kernel and IO page sizes.
--	 */
--	unsigned dev_page_min = NVME_CAP_MPSMIN(cap) + 12, page_shift = 12;
--
--	if (page_shift < dev_page_min) {
--		dev_err(dev->dev,
--			"Minimum device page size %u too large for host (%u)\n",
--			1 << dev_page_min, 1 << page_shift);
--		return -ENODEV;
--	}
--
--	dev->page_size = 1 << page_shift;
--
--	dev->ctrl_config = NVME_CC_CSS_NVM;
--	dev->ctrl_config |= (page_shift - 12) << NVME_CC_MPS_SHIFT;
--	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
--	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
--	dev->ctrl_config |= NVME_CC_ENABLE;
--
--	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
--
--	return nvme_wait_ready(dev, cap, true);
--}
--
--static int nvme_shutdown_ctrl(struct nvme_dev *dev)
--{
--	unsigned long timeout;
--
--	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
--	dev->ctrl_config |= NVME_CC_SHN_NORMAL;
--
--	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
--
--	timeout = SHUTDOWN_TIMEOUT + jiffies;
--	while ((readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_SHST_MASK) !=
--							NVME_CSTS_SHST_CMPLT) {
--		msleep(100);
--		if (fatal_signal_pending(current))
--			return -EINTR;
--		if (time_after(jiffies, timeout)) {
--			dev_err(dev->dev,
--				"Device shutdown incomplete; abort shutdown\n");
--			return -ENODEV;
--		}
--	}
--
--	return 0;
--}
--
- static struct blk_mq_ops nvme_mq_admin_ops = {
- 	.queue_rq	= nvme_queue_rq,
- 	.map_queue	= blk_mq_map_queue,
-@@ -1569,7 +1477,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	    (readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_NSSRO))
- 		writel(NVME_CSTS_NSSRO, dev->bar + NVME_REG_CSTS);
- 
--	result = nvme_disable_ctrl(dev, cap);
-+	result = nvme_disable_ctrl(&dev->ctrl, cap);
- 	if (result < 0)
- 		return result;
- 
-@@ -1587,7 +1495,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	lo_hi_writeq(nvmeq->sq_dma_addr, dev->bar + NVME_REG_ASQ);
- 	lo_hi_writeq(nvmeq->cq_dma_addr, dev->bar + NVME_REG_ACQ);
- 
--	result = nvme_enable_ctrl(dev, cap);
-+	result = nvme_enable_ctrl(&dev->ctrl, cap);
- 	if (result)
- 		goto free_nvmeq;
- 
-@@ -1687,13 +1595,13 @@ static void nvme_alloc_ns(struct nvme_dev *dev, unsigned nsid)
- 	if (dev->max_hw_sectors) {
- 		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
+ 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
+-	if (dev->max_hw_sectors) {
+-		blk_queue_max_hw_sectors(ns->queue, dev->max_hw_sectors);
++	if (dev->ctrl.max_hw_sectors) {
++		blk_queue_max_hw_sectors(ns->queue, dev->ctrl.max_hw_sectors);
  		blk_queue_max_segments(ns->queue,
--			(dev->max_hw_sectors / (dev->page_size >> 9)) + 1);
-+			(dev->max_hw_sectors / (dev->ctrl.page_size >> 9)) + 1);
+-			(dev->max_hw_sectors / (dev->ctrl.page_size >> 9)) + 1);
++			(dev->ctrl.max_hw_sectors / (dev->ctrl.page_size >> 9)) + 1);
  	}
- 	if (dev->stripe_size)
- 		blk_queue_chunk_sectors(ns->queue, dev->stripe_size >> 9);
+-	if (dev->stripe_size)
+-		blk_queue_chunk_sectors(ns->queue, dev->stripe_size >> 9);
++	if (dev->ctrl.stripe_size)
++		blk_queue_chunk_sectors(ns->queue, dev->ctrl.stripe_size >> 9);
  	if (dev->ctrl.vwc & NVME_CTRL_VWC_PRESENT)
  		blk_queue_flush(ns->queue, REQ_FLUSH | REQ_FUA);
--	blk_queue_virt_boundary(ns->queue, dev->page_size - 1);
-+	blk_queue_virt_boundary(ns->queue, dev->ctrl.page_size - 1);
+ 	blk_queue_virt_boundary(ns->queue, dev->ctrl.page_size - 1);
+@@ -1933,38 +1931,10 @@ static void nvme_dev_scan(struct work_struct *work)
+ static int nvme_dev_add(struct nvme_dev *dev)
+ {
+ 	int res;
+-	struct nvme_id_ctrl *ctrl;
+-	int shift = NVME_CAP_MPSMIN(lo_hi_readq(dev->bar + NVME_REG_CAP)) + 12;
+-
+-	res = nvme_identify_ctrl(&dev->ctrl, &ctrl);
+-	if (res) {
+-		dev_err(dev->dev, "Identify Controller failed (%d)\n", res);
+-		return -EIO;
+-	}
+-
+-	dev->ctrl.oncs = le16_to_cpup(&ctrl->oncs);
+-	dev->ctrl.abort_limit = ctrl->acl + 1;
+-	dev->ctrl.vwc = ctrl->vwc;
+-	memcpy(dev->ctrl.serial, ctrl->sn, sizeof(ctrl->sn));
+-	memcpy(dev->ctrl.model, ctrl->mn, sizeof(ctrl->mn));
+-	memcpy(dev->ctrl.firmware_rev, ctrl->fr, sizeof(ctrl->fr));
+-	if (ctrl->mdts)
+-		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
+-	else
+-		dev->max_hw_sectors = UINT_MAX;
+-
+-	if ((dev->ctrl.quirks & NVME_QUIRK_STRIPE_SIZE) && ctrl->vs[3]) {
+-		unsigned int max_hw_sectors;
  
- 	disk->major = nvme_major;
- 	disk->first_minor = 0;
-@@ -2181,7 +2089,7 @@ static void nvme_wait_dq(struct nvme_delq_ctx *dq, struct nvme_dev *dev)
- 			 * queues than admin tags.
- 			 */
- 			set_current_state(TASK_RUNNING);
--			nvme_disable_ctrl(dev,
-+			nvme_disable_ctrl(&dev->ctrl,
- 				lo_hi_readq(dev->bar + NVME_REG_CAP));
- 			nvme_clear_queue(dev->queues[0]);
- 			flush_kthread_worker(dq->worker);
-@@ -2367,7 +2275,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
- 		}
- 	} else {
- 		nvme_disable_io_queues(dev);
--		nvme_shutdown_ctrl(dev);
-+		nvme_shutdown_ctrl(&dev->ctrl);
- 		nvme_disable_queue(dev, 0);
- 	}
- 	nvme_dev_unmap(dev);
-@@ -2683,8 +2591,15 @@ static int nvme_pci_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
+-		dev->stripe_size = 1 << (ctrl->vs[3] + shift);
+-		max_hw_sectors = dev->stripe_size >> (shift - 9);
+-		if (dev->max_hw_sectors) {
+-			dev->max_hw_sectors = min(max_hw_sectors,
+-							dev->max_hw_sectors);
+-		} else
+-			dev->max_hw_sectors = max_hw_sectors;
+-	}
+-	kfree(ctrl);
++	res = nvme_init_identify(&dev->ctrl);
++	if (res)
++		return res;
+ 
+ 	if (!dev->tagset.tags) {
+ 		dev->tagset.ops = &nvme_mq_ops;
+@@ -2597,9 +2567,16 @@ static int nvme_pci_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
  	return 0;
  }
  
-+static int nvme_pci_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
++static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
 +{
-+	writel(val, to_nvme_dev(ctrl)->bar + off);
++	*val = readq(to_nvme_dev(ctrl)->bar + off);
 +	return 0;
 +}
 +
  static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
  	.reg_read32		= nvme_pci_reg_read32,
-+	.reg_write32		= nvme_pci_reg_write32,
+ 	.reg_write32		= nvme_pci_reg_write32,
++	.reg_read64		= nvme_pci_reg_read64,
  	.free_ctrl		= nvme_pci_free_ctrl,
  };
  
