@@ -1,107 +1,65 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 30 Nov 2015 09:36:20 +0100
-Subject: [PATCH 10/23] nvme: factor out a nvme_unmap_data helper
+Date: Mon, 30 Nov 2015 09:36:21 +0100
+Subject: [PATCH 11/23] nvme: move nvme_error_status to common code
 In-Reply-To: <1448872593-4096-1-git-send-email-hch@lst.de>
 References: <1448872593-4096-1-git-send-email-hch@lst.de>
-Message-ID: <1448872593-4096-11-git-send-email-hch@lst.de>
+Message-ID: <1448872593-4096-12-git-send-email-hch@lst.de>
 
-This is the counter part to nvme_map_data.
+And mark it inline so that we don't slow down the completion path by
+having to turn it into a forced out of line call.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 43 +++++++++++++++++++++++++------------------
- 1 file changed, 25 insertions(+), 18 deletions(-)
+ drivers/nvme/host/nvme.h | 12 ++++++++++++
+ drivers/nvme/host/pci.c  | 12 ------------
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e5f53f1..801d51d 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -89,10 +89,12 @@ static struct class *nvme_class;
- 
- struct nvme_dev;
- struct nvme_queue;
-+struct nvme_iod;
- 
- static int __nvme_reset(struct nvme_dev *dev);
- static int nvme_reset(struct nvme_dev *dev);
- static void nvme_process_cq(struct nvme_queue *nvmeq);
-+static void nvme_unmap_data(struct nvme_dev *dev, struct nvme_iod *iod);
- static void nvme_dead_ctrl(struct nvme_dev *dev);
- 
- struct async_cmd_info {
-@@ -655,7 +657,6 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
- 	struct request *req = iod_get_private(iod);
- 	struct nvme_cmd_info *cmd_rq = blk_mq_rq_to_pdu(req);
- 	u16 status = le16_to_cpup(&cqe->status) >> 1;
--	bool requeue = false;
- 	int error = 0;
- 
- 	if (unlikely(status)) {
-@@ -663,13 +664,14 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
- 		    && (jiffies - req->start_time) < req->timeout) {
- 			unsigned long flags;
- 
--			requeue = true;
-+			nvme_unmap_data(nvmeq->dev, iod);
-+
- 			blk_mq_requeue_request(req);
- 			spin_lock_irqsave(req->q->queue_lock, flags);
- 			if (!blk_queue_stopped(req->q))
- 				blk_mq_kick_requeue_list(req->q);
- 			spin_unlock_irqrestore(req->q->queue_lock, flags);
--			goto release_iod;
-+			return;
- 		}
- 
- 		if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
-@@ -692,21 +694,8 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
- 			"completing aborted command with status:%04x\n",
- 			error);
- 
--release_iod:
--	if (iod->nents) {
--		dma_unmap_sg(nvmeq->dev->dev, iod->sg, iod->nents,
--			rq_data_dir(req) ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
--		if (blk_integrity_rq(req)) {
--			if (!rq_data_dir(req))
--				nvme_dif_remap(req, nvme_dif_complete);
--			dma_unmap_sg(nvmeq->dev->dev, iod->meta_sg, 1,
--				rq_data_dir(req) ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
--		}
--	}
--	nvme_free_iod(nvmeq->dev, iod);
--
--	if (likely(!requeue))
--		blk_mq_complete_request(req, error);
-+	nvme_unmap_data(nvmeq->dev, iod);
-+	blk_mq_complete_request(req, error);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 19583e1..9f77126 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -85,6 +85,18 @@ static inline u64 nvme_block_nr(struct nvme_ns *ns, sector_t sector)
+ 	return (sector >> (ns->lba_shift - 9));
  }
  
- static bool nvme_setup_prps(struct nvme_dev *dev, struct nvme_iod *iod,
-@@ -837,6 +826,24 @@ out:
- 	return ret;
- }
- 
-+static void nvme_unmap_data(struct nvme_dev *dev, struct nvme_iod *iod)
++static inline int nvme_error_status(u16 status)
 +{
-+	struct request *req = iod_get_private(iod);
-+	enum dma_data_direction dma_dir = rq_data_dir(req) ?
-+			DMA_TO_DEVICE : DMA_FROM_DEVICE;
-+
-+	if (iod->nents) {
-+		dma_unmap_sg(dev->dev, iod->sg, iod->nents, dma_dir);
-+		if (blk_integrity_rq(req)) {
-+			if (!rq_data_dir(req))
-+				nvme_dif_remap(req, nvme_dif_complete);
-+			dma_unmap_sg(dev->dev, iod->meta_sg, 1, dma_dir);
-+		}
++	switch (status & 0x7ff) {
++	case NVME_SC_SUCCESS:
++		return 0;
++	case NVME_SC_CAP_EXCEEDED:
++		return -ENOSPC;
++	default:
++		return -EIO;
 +	}
-+
-+	nvme_free_iod(dev, iod);
 +}
 +
- /*
-  * We reuse the small pool to allocate the 16-byte range here as it is not
-  * worth having a special pool for these or additional cases to handle freeing
+ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		void *buf, unsigned bufflen);
+ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 801d51d..d29d36d 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -547,18 +547,6 @@ static void nvme_free_iod(struct nvme_dev *dev, struct nvme_iod *iod)
+ 		kfree(iod);
+ }
+ 
+-static int nvme_error_status(u16 status)
+-{
+-	switch (status & 0x7ff) {
+-	case NVME_SC_SUCCESS:
+-		return 0;
+-	case NVME_SC_CAP_EXCEEDED:
+-		return -ENOSPC;
+-	default:
+-		return -EIO;
+-	}
+-}
+-
+ #ifdef CONFIG_BLK_DEV_INTEGRITY
+ static void nvme_dif_prep(u32 p, u32 v, struct t10_pi_tuple *pi)
+ {
 -- 
 1.9.1
