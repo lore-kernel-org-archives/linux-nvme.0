@@ -1,112 +1,28 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 30 Nov 2015 09:40:22 +0100
-Subject: [PATCH 9/9] nvme: refactor set_queue_count
-In-Reply-To: <1448872822-4789-1-git-send-email-hch@lst.de>
-References: <1448872822-4789-1-git-send-email-hch@lst.de>
-Message-ID: <1448872822-4789-10-git-send-email-hch@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 30 Nov 2015 00:47:18 -0800
+Subject: [PATCH] NVMe: Shutdown fixes
+In-Reply-To: <20151125193851.GA16415@infradead.org>
+References: <1448407814-12544-1-git-send-email-keith.busch@intel.com>
+ <20151125085537.GA19066@infradead.org>
+ <20151125160544.GA2587@localhost.localdomain>
+ <20151125164257.GB4321@infradead.org>
+ <20151125165703.GC2587@localhost.localdomain>
+ <20151125170842.GA29291@infradead.org>
+ <20151125172845.GD2587@localhost.localdomain>
+ <20151125175512.GA23638@infradead.org>
+ <20151125182439.GE2587@localhost.localdomain>
+ <20151125193851.GA16415@infradead.org>
+Message-ID: <20151130084718.GA12727@infradead.org>
 
-Split out a helper that just issues the Set Features and interprets the
-result which can go to common code, and document why we are ignoring
-non-timeout error returns in the PCIe driver.
+On Wed, Nov 25, 2015@11:38:51AM -0800, Christoph Hellwig wrote:
+> I'll give this a spin the next day.  I assume you and Jns will be out
+> for a long weekend starting tomorrow, so I should have a new series
+> ready for review.  I'll fold a modified version of your patch in, as I
+> think we should get this right from the start.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/core.c | 16 ++++++++++++++++
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  | 34 +++++++++++++---------------------
- 3 files changed, 30 insertions(+), 21 deletions(-)
+Can you review the code in
+http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-req.11
+and see if this fits your intention?
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9c7dfd1..c61bde9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -327,6 +327,22 @@ int nvme_get_log_page(struct nvme_ctrl *dev, struct nvme_smart_log **log)
- 	return error;
- }
- 
-+int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
-+{
-+	u32 q_count = (*count - 1) | ((*count - 1) << 16);
-+	u32 result;
-+	int status, nr_io_queues;
-+
-+	status = nvme_set_features(ctrl, NVME_FEAT_NUM_QUEUES, q_count, 0,
-+			&result);
-+	if (status)
-+		return status;
-+
-+	nr_io_queues = min(result & 0xffff, result >> 16) + 1;
-+	*count = min(*count, nr_io_queues);
-+	return 0;
-+}
-+
- static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
- {
- 	struct nvme_user_io io;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 93378be..b75d41e 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -232,6 +232,7 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
- 			dma_addr_t dma_addr, u32 *result);
- int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
- 			dma_addr_t dma_addr, u32 *result);
-+int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
- 
- extern spinlock_t dev_list_lock;
- 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 87ad57bc..a64d0ba 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1559,23 +1559,6 @@ static void nvme_create_io_queues(struct nvme_dev *dev)
- 		}
- }
- 
--static int set_queue_count(struct nvme_dev *dev, int count)
--{
--	int status;
--	u32 result;
--	u32 q_count = (count - 1) | ((count - 1) << 16);
--
--	status = nvme_set_features(&dev->ctrl, NVME_FEAT_NUM_QUEUES, q_count, 0,
--								&result);
--	if (status < 0)
--		return status;
--	if (status > 0) {
--		dev_err(dev->dev, "Could not set queue count (%d)\n", status);
--		return 0;
--	}
--	return min(result & 0xffff, result >> 16) + 1;
--}
--
- static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
- {
- 	u64 szu, size, offset;
-@@ -1640,11 +1623,20 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	int result, i, vecs, nr_io_queues, size;
- 
- 	nr_io_queues = num_possible_cpus();
--	result = set_queue_count(dev, nr_io_queues);
--	if (result <= 0)
-+	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
-+	if (result < 0)
- 		return result;
--	if (result < nr_io_queues)
--		nr_io_queues = result;
-+
-+	/*
-+	 * Degraded controllers might return an error when setting the queue
-+	 * count.  We still want to be able to bring them online and offer
-+	 * access to the admin queue, as that might be only way to fix them up.
-+	 */
-+	if (result > 0) {
-+		dev_err(dev->dev, "Could not set queue count (%d)\n", result);
-+		nr_io_queues = 0;
-+		result = 0;
-+	}
- 
- 	if (dev->cmb && NVME_CMB_SQS(dev->cmbsz)) {
- 		result = nvme_cmb_qdepth(dev, nr_io_queues,
--- 
-1.9.1
+I've only sent out the hopefully uncontroversial first part for now
+to limit the amount of patch traffic on the list.
