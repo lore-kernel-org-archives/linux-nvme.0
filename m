@@ -1,168 +1,60 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 30 Nov 2015 09:36:15 +0100
-Subject: [PATCH 05/23] nvme: split nvme_trans_device_id_page
+Date: Mon, 30 Nov 2015 09:36:16 +0100
+Subject: [PATCH 06/23] nvme: use vendor it from identify
 In-Reply-To: <1448872593-4096-1-git-send-email-hch@lst.de>
 References: <1448872593-4096-1-git-send-email-hch@lst.de>
-Message-ID: <1448872593-4096-6-git-send-email-hch@lst.de>
+Message-ID: <1448872593-4096-7-git-send-email-hch@lst.de>
+
+Use the vendor ID from the identify data instead of the PCI device to
+make the SCSI translation layer independent from the PCI driver.  The NVMe
+spec defines them as having the same value for current PCIe devices.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/scsi.c | 135 +++++++++++++++++++++++++++--------------------
- 1 file changed, 79 insertions(+), 56 deletions(-)
+ drivers/nvme/host/scsi.c | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
-index 8586994..b42cf44 100644
+index b42cf44..0bf90b6 100644
 --- a/drivers/nvme/host/scsi.c
 +++ b/drivers/nvme/host/scsi.c
-@@ -600,70 +600,93 @@ static int nvme_trans_unit_serial_page(struct nvme_ns *ns,
- 	return nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
- }
- 
--static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
--					u8 *inq_response, int alloc_len)
-+static int nvme_fill_device_id_eui64(struct nvme_ns *ns, struct sg_io_hdr *hdr,
-+		u8 *inq_response, int alloc_len)
+@@ -649,6 +649,8 @@ static int nvme_fill_device_id_scsi_string(struct nvme_ns *ns,
+ 		struct sg_io_hdr *hdr, u8 *inq_response, int alloc_len)
  {
--	struct nvme_dev *dev = ns->dev;
--	int res;
--	int nvme_sc;
--	int xfer_len;
--	__be32 tmp_id = cpu_to_be32(ns->ns_id);
-+	struct nvme_id_ns *id_ns;
+ 	struct nvme_dev *dev = ns->dev;
++	struct nvme_id_ctrl *id_ctrl;
 +	int nvme_sc, res;
-+	size_t len;
-+	void *eui;
  
--	memset(inq_response, 0, alloc_len);
--	inq_response[1] = INQ_DEVICE_IDENTIFICATION_PAGE;    /* Page Code */
--	if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 1)) {
--		struct nvme_id_ns *id_ns;
--		void *eui;
--		int len;
-+	nvme_sc = nvme_identify_ns(ns->dev, ns->ns_id, &id_ns);
+ 	if (alloc_len < 72) {
+ 		return nvme_trans_completion(hdr,
+@@ -657,6 +659,11 @@ static int nvme_fill_device_id_scsi_string(struct nvme_ns *ns,
+ 				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
+ 	}
+ 
++	nvme_sc = nvme_identify_ctrl(dev, &id_ctrl);
 +	res = nvme_trans_status_code(hdr, nvme_sc);
 +	if (res)
 +		return res;
- 
--		nvme_sc = nvme_identify_ns(dev, ns->ns_id, &id_ns);
--		res = nvme_trans_status_code(hdr, nvme_sc);
--		if (res)
--			return res;
-+	eui = id_ns->eui64;
-+	len = sizeof(id_ns->eui64);
- 
--		eui = id_ns->eui64;
--		len = sizeof(id_ns->eui64);
--		if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 2)) {
--			if (bitmap_empty(eui, len * 8)) {
--				eui = id_ns->nguid;
--				len = sizeof(id_ns->nguid);
--			}
--		}
-+	if (readl(ns->dev->bar + NVME_REG_VS) >= NVME_VS(1, 2)) {
- 		if (bitmap_empty(eui, len * 8)) {
--			kfree(id_ns);
--			goto scsi_string;
-+			eui = id_ns->nguid;
-+			len = sizeof(id_ns->nguid);
- 		}
-+	}
- 
--		inq_response[3] = 4 + len; /* Page Length */
--		/* Designation Descriptor start */
--		inq_response[4] = 0x01;    /* Proto ID=0h | Code set=1h */
--		inq_response[5] = 0x02;    /* PIV=0b | Asso=00b | Designator Type=2h */
--		inq_response[6] = 0x00;    /* Rsvd */
--		inq_response[7] = len;     /* Designator Length */
--		memcpy(&inq_response[8], eui, len);
--		kfree(id_ns);
--	} else {
-- scsi_string:
--		if (alloc_len < 72) {
--			return nvme_trans_completion(hdr,
--					SAM_STAT_CHECK_CONDITION,
--					ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
--					SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
--		}
--		inq_response[3] = 0x48;    /* Page Length */
--		/* Designation Descriptor start */
--		inq_response[4] = 0x03;    /* Proto ID=0h | Code set=3h */
--		inq_response[5] = 0x08;    /* PIV=0b | Asso=00b | Designator Type=8h */
--		inq_response[6] = 0x00;    /* Rsvd */
--		inq_response[7] = 0x44;    /* Designator Length */
--
--		sprintf(&inq_response[8], "%04x", to_pci_dev(dev->dev)->vendor);
--		memcpy(&inq_response[12], dev->model, sizeof(dev->model));
--		sprintf(&inq_response[52], "%04x", tmp_id);
--		memcpy(&inq_response[56], dev->serial, sizeof(dev->serial));
-+	if (bitmap_empty(eui, len * 8)) {
-+		res = -EOPNOTSUPP;
-+		goto out_free_id;
- 	}
--	xfer_len = alloc_len;
--	return nvme_trans_copy_to_user(hdr, inq_response, xfer_len);
 +
-+	memset(inq_response, 0, alloc_len);
-+	inq_response[1] = INQ_DEVICE_IDENTIFICATION_PAGE;
-+	inq_response[3] = 4 + len; /* Page Length */
-+
-+	/* Designation Descriptor start */
-+	inq_response[4] = 0x01;	/* Proto ID=0h | Code set=1h */
-+	inq_response[5] = 0x02;	/* PIV=0b | Asso=00b | Designator Type=2h */
-+	inq_response[6] = 0x00;	/* Rsvd */
-+	inq_response[7] = len;	/* Designator Length */
-+	memcpy(&inq_response[8], eui, len);
-+
+ 	memset(inq_response, 0, alloc_len);
+ 	inq_response[1] = INQ_DEVICE_IDENTIFICATION_PAGE;
+ 	inq_response[3] = 0x48;	/* Page Length */
+@@ -667,12 +674,14 @@ static int nvme_fill_device_id_scsi_string(struct nvme_ns *ns,
+ 	inq_response[6] = 0x00;	/* Rsvd */
+ 	inq_response[7] = 0x44;	/* Designator Length */
+ 
+-	sprintf(&inq_response[8], "%04x", to_pci_dev(dev->dev)->vendor);
++	sprintf(&inq_response[8], "%04x", le16_to_cpu(id_ctrl->vid));
+ 	memcpy(&inq_response[12], dev->model, sizeof(dev->model));
+ 	sprintf(&inq_response[52], "%04x", cpu_to_be32(ns->ns_id));
+ 	memcpy(&inq_response[56], dev->serial, sizeof(dev->serial));
+ 
+-	return nvme_trans_copy_to_user(hdr, inq_response, alloc_len);
 +	res = nvme_trans_copy_to_user(hdr, inq_response, alloc_len);
-+out_free_id:
-+	kfree(id_ns);
++	kfree(id_ctrl);
 +	return res;
-+}
-+
-+static int nvme_fill_device_id_scsi_string(struct nvme_ns *ns,
-+		struct sg_io_hdr *hdr, u8 *inq_response, int alloc_len)
-+{
-+	struct nvme_dev *dev = ns->dev;
-+
-+	if (alloc_len < 72) {
-+		return nvme_trans_completion(hdr,
-+				SAM_STAT_CHECK_CONDITION,
-+				ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
-+				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
-+	}
-+
-+	memset(inq_response, 0, alloc_len);
-+	inq_response[1] = INQ_DEVICE_IDENTIFICATION_PAGE;
-+	inq_response[3] = 0x48;	/* Page Length */
-+
-+	/* Designation Descriptor start */
-+	inq_response[4] = 0x03;	/* Proto ID=0h | Code set=3h */
-+	inq_response[5] = 0x08;	/* PIV=0b | Asso=00b | Designator Type=8h */
-+	inq_response[6] = 0x00;	/* Rsvd */
-+	inq_response[7] = 0x44;	/* Designator Length */
-+
-+	sprintf(&inq_response[8], "%04x", to_pci_dev(dev->dev)->vendor);
-+	memcpy(&inq_response[12], dev->model, sizeof(dev->model));
-+	sprintf(&inq_response[52], "%04x", cpu_to_be32(ns->ns_id));
-+	memcpy(&inq_response[56], dev->serial, sizeof(dev->serial));
-+
-+	return nvme_trans_copy_to_user(hdr, inq_response, alloc_len);
-+}
-+
-+static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
-+					u8 *resp, int alloc_len)
-+{
-+	int res;
-+
-+	if (readl(ns->dev->bar + NVME_REG_VS) >= NVME_VS(1, 1)) {
-+		res = nvme_fill_device_id_eui64(ns, hdr, resp, alloc_len);
-+		if (res != -EOPNOTSUPP)
-+			return res;
-+	}
-+
-+	return nvme_fill_device_id_scsi_string(ns, hdr, resp, alloc_len);
  }
  
- static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
 -- 
 1.9.1
