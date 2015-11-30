@@ -1,90 +1,88 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 30 Nov 2015 09:40:15 +0100
-Subject: [PATCH 2/9] nvme: add explicit quirk handling
+Date: Mon, 30 Nov 2015 09:40:16 +0100
+Subject: [PATCH 3/9] nvme: move remaining CC setup into nvme_enable_ctrl
 In-Reply-To: <1448872822-4789-1-git-send-email-hch@lst.de>
 References: <1448872822-4789-1-git-send-email-hch@lst.de>
-Message-ID: <1448872822-4789-3-git-send-email-hch@lst.de>
+Message-ID: <1448872822-4789-4-git-send-email-hch@lst.de>
 
-Add an enum for all workarounds not in the spec and identify the affected
-controllers at probe time.
+Remove the calculation of all the bits written into the CC register into
+nvme_enable_ctrl, so that they can be moved into the core NVMe driver in
+the future.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/nvme.h | 13 +++++++++++++
- drivers/nvme/host/pci.c  |  8 +++++---
- 2 files changed, 18 insertions(+), 3 deletions(-)
+ drivers/nvme/host/pci.c | 44 +++++++++++++++++++++-----------------------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 3b3f855..f7f16e3 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -32,6 +32,18 @@ enum {
- 	NVME_NS_LIGHTNVM	= 1,
- };
- 
-+/*
-+ * List of workarounds for devices that required behavior not specified in
-+ * the standard.
-+ */
-+enum nvme_quirks {
-+	/*
-+	 * Prefers I/O aligned to a stripe size specified in a vendor
-+	 * specific Identify field.
-+	 */
-+	NVME_QUIRK_STRIPE_SIZE			= (1 << 0),
-+};
-+
- struct nvme_ctrl {
- 	const struct nvme_ctrl_ops *ops;
- 	struct request_queue *admin_q;
-@@ -47,6 +59,7 @@ struct nvme_ctrl {
- 	u16 abort_limit;
- 	u8 event_limit;
- 	u8 vwc;
-+	unsigned long quirks;
- };
- 
- /*
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e0f40af..27d7449 100644
+index 27d7449..1ae94cd 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2026,7 +2026,6 @@ static void nvme_dev_scan(struct work_struct *work)
-  */
- static int nvme_dev_add(struct nvme_dev *dev)
+@@ -1446,8 +1446,28 @@ static int nvme_disable_ctrl(struct nvme_dev *dev, u64 cap)
+ 
+ static int nvme_enable_ctrl(struct nvme_dev *dev, u64 cap)
  {
--	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int res;
- 	struct nvme_id_ctrl *ctrl;
- 	int shift = NVME_CAP_MPSMIN(lo_hi_readq(dev->bar + NVME_REG_CAP)) + 12;
-@@ -2047,8 +2046,8 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 		dev->max_hw_sectors = 1 << (ctrl->mdts + shift - 9);
- 	else
- 		dev->max_hw_sectors = UINT_MAX;
--	if ((pdev->vendor == PCI_VENDOR_ID_INTEL) &&
--			(pdev->device == 0x0953) && ctrl->vs[3]) {
+-	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
++	/*
++	 * Default to a 4K page size, with the intention to update this
++	 * path in the future to accomodate architectures with differing
++	 * kernel and IO page sizes.
++	 */
++	unsigned dev_page_min = NVME_CAP_MPSMIN(cap) + 12, page_shift = 12;
 +
-+	if ((dev->ctrl.quirks & NVME_QUIRK_STRIPE_SIZE) && ctrl->vs[3]) {
- 		unsigned int max_hw_sectors;
++	if (page_shift < dev_page_min) {
++		dev_err(dev->dev,
++			"Minimum device page size %u too large for host (%u)\n",
++			1 << dev_page_min, 1 << page_shift);
++		return -ENODEV;
++	}
++
++	dev->page_size = 1 << page_shift;
++
++	dev->ctrl_config = NVME_CC_CSS_NVM;
++	dev->ctrl_config |= (page_shift - 12) << NVME_CC_MPS_SHIFT;
++	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
++	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+ 	dev->ctrl_config |= NVME_CC_ENABLE;
++
+ 	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
  
- 		dev->stripe_size = 1 << (ctrl->vs[3] + shift);
-@@ -2719,6 +2718,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	return nvme_wait_ready(dev, cap, true);
+@@ -1541,21 +1561,6 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	u32 aqa;
+ 	u64 cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
+ 	struct nvme_queue *nvmeq;
+-	/*
+-	 * default to a 4K page size, with the intention to update this
+-	 * path in the future to accomodate architectures with differing
+-	 * kernel and IO page sizes.
+-	 */
+-	unsigned page_shift = 12;
+-	unsigned dev_page_min = NVME_CAP_MPSMIN(cap) + 12;
+-
+-	if (page_shift < dev_page_min) {
+-		dev_err(dev->dev,
+-				"Minimum device page size (%u) too large for "
+-				"host (%u)\n", 1 << dev_page_min,
+-				1 << page_shift);
+-		return -ENODEV;
+-	}
  
- 	dev->ctrl.ops = &nvme_pci_ctrl_ops;
- 	dev->ctrl.dev = dev->dev;
-+	dev->ctrl.quirks = id->driver_data;
+ 	dev->subsystem = readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 1) ?
+ 						NVME_CAP_NSSRC(cap) : 0;
+@@ -1578,13 +1583,6 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	aqa = nvmeq->q_depth - 1;
+ 	aqa |= aqa << 16;
  
- 	result = nvme_set_instance(dev);
- 	if (result)
-@@ -2846,6 +2846,8 @@ static const struct pci_error_handlers nvme_err_handler = {
- #define PCI_CLASS_STORAGE_EXPRESS	0x010802
- 
- static const struct pci_device_id nvme_id_table[] = {
-+	{ PCI_VDEVICE(INTEL, 0x0953),
-+		.driver_data = NVME_QUIRK_STRIPE_SIZE, },
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
- 	{ 0, }
+-	dev->page_size = 1 << page_shift;
+-
+-	dev->ctrl_config = NVME_CC_CSS_NVM;
+-	dev->ctrl_config |= (page_shift - 12) << NVME_CC_MPS_SHIFT;
+-	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
+-	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+-
+ 	writel(aqa, dev->bar + NVME_REG_AQA);
+ 	lo_hi_writeq(nvmeq->sq_dma_addr, dev->bar + NVME_REG_ASQ);
+ 	lo_hi_writeq(nvmeq->cq_dma_addr, dev->bar + NVME_REG_ACQ);
 -- 
 1.9.1
