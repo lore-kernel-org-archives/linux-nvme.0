@@ -1,409 +1,312 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 30 Nov 2015 09:36:13 +0100
-Subject: [PATCH 03/23] nvme: split command submission helpers out of pci.c
+Date: Mon, 30 Nov 2015 09:36:14 +0100
+Subject: [PATCH 04/23] nvme: use offset instead of a struct for registers
 In-Reply-To: <1448872593-4096-1-git-send-email-hch@lst.de>
 References: <1448872593-4096-1-git-send-email-hch@lst.de>
-Message-ID: <1448872593-4096-4-git-send-email-hch@lst.de>
+Message-ID: <1448872593-4096-5-git-send-email-hch@lst.de>
 
-Create a new core.c and start by adding the command submission helpers
-to it, which are already abstracted away from the actual hardware queues
-by the block layer.
+This makes life easier for future non-PCI drivers where access to the
+registers might be more complicated.  Note that Linux drivers are
+pretty evenly split between the two versions, and in fact the NVMe
+driver already uses offsets for the doorbells.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Acked-by: Keith Busch <keith.busch at intel.com>
+[Fixed CMBSZ offset]
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/Makefile |   2 +-
- drivers/nvme/host/core.c   | 173 +++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h   |   3 +
- drivers/nvme/host/pci.c    | 155 +---------------------------------------
- 4 files changed, 178 insertions(+), 155 deletions(-)
- create mode 100644 drivers/nvme/host/core.c
+ drivers/nvme/host/nvme.h |  2 +-
+ drivers/nvme/host/pci.c  | 60 ++++++++++++++++++++++++++----------------------
+ drivers/nvme/host/scsi.c |  6 ++---
+ include/linux/nvme.h     | 27 +++++++++++-----------
+ 4 files changed, 49 insertions(+), 46 deletions(-)
 
-diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-index 219dc206..3e26dc9 100644
---- a/drivers/nvme/host/Makefile
-+++ b/drivers/nvme/host/Makefile
-@@ -1,4 +1,4 @@
- 
- obj-$(CONFIG_BLK_DEV_NVME)     += nvme.o
- 
--nvme-y		+= pci.o scsi.o lightnvm.o
-+nvme-y		+= core.o pci.o scsi.o lightnvm.o
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-new file mode 100644
-index 0000000..ce938a4
---- /dev/null
-+++ b/drivers/nvme/host/core.c
-@@ -0,0 +1,173 @@
-+/*
-+ * NVM Express device driver
-+ * Copyright (c) 2011-2014, Intel Corporation.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ */
-+
-+#include <linux/blkdev.h>
-+#include <linux/blk-mq.h>
-+#include <linux/errno.h>
-+#include <linux/kernel.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
-+
-+#include "nvme.h"
-+
-+/*
-+ * Returns 0 on success.  If the result is negative, it's a Linux error code;
-+ * if the result is positive, it's an NVM Express status code
-+ */
-+int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
-+		void *buffer, void __user *ubuffer, unsigned bufflen,
-+		u32 *result, unsigned timeout)
-+{
-+	bool write = cmd->common.opcode & 1;
-+	struct bio *bio = NULL;
-+	struct request *req;
-+	int ret;
-+
-+	req = blk_mq_alloc_request(q, write, 0);
-+	if (IS_ERR(req))
-+		return PTR_ERR(req);
-+
-+	req->cmd_type = REQ_TYPE_DRV_PRIV;
-+	req->cmd_flags |= REQ_FAILFAST_DRIVER;
-+	req->__data_len = 0;
-+	req->__sector = (sector_t) -1;
-+	req->bio = req->biotail = NULL;
-+
-+	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
-+
-+	req->cmd = (unsigned char *)cmd;
-+	req->cmd_len = sizeof(struct nvme_command);
-+	req->special = (void *)0;
-+
-+	if (buffer && bufflen) {
-+		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
-+		if (ret)
-+			goto out;
-+	} else if (ubuffer && bufflen) {
-+		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
-+				GFP_KERNEL);
-+		if (ret)
-+			goto out;
-+		bio = req->bio;
-+	}
-+
-+	blk_execute_rq(req->q, NULL, req, 0);
-+	if (bio)
-+		blk_rq_unmap_user(bio);
-+	if (result)
-+		*result = (u32)(uintptr_t)req->special;
-+	ret = req->errors;
-+ out:
-+	blk_mq_free_request(req);
-+	return ret;
-+}
-+
-+int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
-+		void *buffer, unsigned bufflen)
-+{
-+	return __nvme_submit_sync_cmd(q, cmd, buffer, NULL, bufflen, NULL, 0);
-+}
-+
-+int nvme_identify_ctrl(struct nvme_dev *dev, struct nvme_id_ctrl **id)
-+{
-+	struct nvme_command c = { };
-+	int error;
-+
-+	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
-+	c.identify.opcode = nvme_admin_identify;
-+	c.identify.cns = cpu_to_le32(1);
-+
-+	*id = kmalloc(sizeof(struct nvme_id_ctrl), GFP_KERNEL);
-+	if (!*id)
-+		return -ENOMEM;
-+
-+	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
-+			sizeof(struct nvme_id_ctrl));
-+	if (error)
-+		kfree(*id);
-+	return error;
-+}
-+
-+int nvme_identify_ns(struct nvme_dev *dev, unsigned nsid,
-+		struct nvme_id_ns **id)
-+{
-+	struct nvme_command c = { };
-+	int error;
-+
-+	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
-+	c.identify.opcode = nvme_admin_identify,
-+	c.identify.nsid = cpu_to_le32(nsid),
-+
-+	*id = kmalloc(sizeof(struct nvme_id_ns), GFP_KERNEL);
-+	if (!*id)
-+		return -ENOMEM;
-+
-+	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
-+			sizeof(struct nvme_id_ns));
-+	if (error)
-+		kfree(*id);
-+	return error;
-+}
-+
-+int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned nsid,
-+					dma_addr_t dma_addr, u32 *result)
-+{
-+	struct nvme_command c;
-+
-+	memset(&c, 0, sizeof(c));
-+	c.features.opcode = nvme_admin_get_features;
-+	c.features.nsid = cpu_to_le32(nsid);
-+	c.features.prp1 = cpu_to_le64(dma_addr);
-+	c.features.fid = cpu_to_le32(fid);
-+
-+	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 0,
-+			result, 0);
-+}
-+
-+int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned dword11,
-+					dma_addr_t dma_addr, u32 *result)
-+{
-+	struct nvme_command c;
-+
-+	memset(&c, 0, sizeof(c));
-+	c.features.opcode = nvme_admin_set_features;
-+	c.features.prp1 = cpu_to_le64(dma_addr);
-+	c.features.fid = cpu_to_le32(fid);
-+	c.features.dword11 = cpu_to_le32(dword11);
-+
-+	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 0,
-+			result, 0);
-+}
-+
-+int nvme_get_log_page(struct nvme_dev *dev, struct nvme_smart_log **log)
-+{
-+	struct nvme_command c = { };
-+	int error;
-+
-+	c.common.opcode = nvme_admin_get_log_page,
-+	c.common.nsid = cpu_to_le32(0xFFFFFFFF),
-+	c.common.cdw10[0] = cpu_to_le32(
-+			(((sizeof(struct nvme_smart_log) / 4) - 1) << 16) |
-+			 NVME_LOG_SMART),
-+
-+	*log = kmalloc(sizeof(struct nvme_smart_log), GFP_KERNEL);
-+	if (!*log)
-+		return -ENOMEM;
-+
-+	error = nvme_submit_sync_cmd(dev->admin_q, &c, *log,
-+			sizeof(struct nvme_smart_log));
-+	if (error)
-+		kfree(*log);
-+	return error;
-+}
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2cead2c..a53977c 100644
+index a53977c..66550b7 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -22,6 +22,9 @@
- extern unsigned char nvme_io_timeout;
- #define NVME_IO_TIMEOUT	(nvme_io_timeout * HZ)
- 
-+extern unsigned char admin_timeout;
-+#define ADMIN_TIMEOUT	(admin_timeout * HZ)
-+
- enum {
- 	NVME_NS_LBA		= 0,
- 	NVME_NS_LIGHTNVM	= 1,
+@@ -51,7 +51,7 @@ struct nvme_dev {
+ 	u32 db_stride;
+ 	u32 ctrl_config;
+ 	struct msix_entry *entry;
+-	struct nvme_bar __iomem *bar;
++	void __iomem *bar;
+ 	struct list_head namespaces;
+ 	struct kref kref;
+ 	struct device *device;
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0f24d3c..9963562 100644
+index 9963562..bfea7ec 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -52,10 +52,9 @@
- #define NVME_AQ_DEPTH		256
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
- #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
--#define ADMIN_TIMEOUT		(admin_timeout * HZ)
- #define SHUTDOWN_TIMEOUT	(shutdown_timeout * HZ)
+@@ -1322,7 +1322,7 @@ static void nvme_disable_queue(struct nvme_dev *dev, int qid)
  
--static unsigned char admin_timeout = 60;
-+unsigned char admin_timeout = 60;
- module_param(admin_timeout, byte, 0644);
- MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin commands");
+ 	/* Don't tell the adapter to delete the admin queue.
+ 	 * Don't tell a removed adapter to delete IO queues. */
+-	if (qid && readl(&dev->bar->csts) != -1) {
++	if (qid && readl(dev->bar + NVME_REG_CSTS) != -1) {
+ 		adapter_delete_sq(dev, qid);
+ 		adapter_delete_cq(dev, qid);
+ 	}
+@@ -1475,7 +1475,7 @@ static int nvme_wait_ready(struct nvme_dev *dev, u64 cap, bool enabled)
  
-@@ -1045,65 +1044,6 @@ static int nvme_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+ 	timeout = ((NVME_CAP_TIMEOUT(cap) + 1) * HZ / 2) + jiffies;
+ 
+-	while ((readl(&dev->bar->csts) & NVME_CSTS_RDY) != bit) {
++	while ((readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_RDY) != bit) {
+ 		msleep(100);
+ 		if (fatal_signal_pending(current))
+ 			return -EINTR;
+@@ -1500,7 +1500,7 @@ static int nvme_disable_ctrl(struct nvme_dev *dev, u64 cap)
+ {
+ 	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
+ 	dev->ctrl_config &= ~NVME_CC_ENABLE;
+-	writel(dev->ctrl_config, &dev->bar->cc);
++	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
+ 
+ 	return nvme_wait_ready(dev, cap, false);
+ }
+@@ -1509,7 +1509,7 @@ static int nvme_enable_ctrl(struct nvme_dev *dev, u64 cap)
+ {
+ 	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
+ 	dev->ctrl_config |= NVME_CC_ENABLE;
+-	writel(dev->ctrl_config, &dev->bar->cc);
++	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
+ 
+ 	return nvme_wait_ready(dev, cap, true);
+ }
+@@ -1521,10 +1521,10 @@ static int nvme_shutdown_ctrl(struct nvme_dev *dev)
+ 	dev->ctrl_config &= ~NVME_CC_SHN_MASK;
+ 	dev->ctrl_config |= NVME_CC_SHN_NORMAL;
+ 
+-	writel(dev->ctrl_config, &dev->bar->cc);
++	writel(dev->ctrl_config, dev->bar + NVME_REG_CC);
+ 
+ 	timeout = SHUTDOWN_TIMEOUT + jiffies;
+-	while ((readl(&dev->bar->csts) & NVME_CSTS_SHST_MASK) !=
++	while ((readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_SHST_MASK) !=
+ 							NVME_CSTS_SHST_CMPLT) {
+ 		msleep(100);
+ 		if (fatal_signal_pending(current))
+@@ -1600,7 +1600,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ {
+ 	int result;
+ 	u32 aqa;
+-	u64 cap = lo_hi_readq(&dev->bar->cap);
++	u64 cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
+ 	struct nvme_queue *nvmeq;
+ 	/*
+ 	 * default to a 4K page size, with the intention to update this
+@@ -1618,11 +1618,12 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 		return -ENODEV;
+ 	}
+ 
+-	dev->subsystem = readl(&dev->bar->vs) >= NVME_VS(1, 1) ?
++	dev->subsystem = readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 1) ?
+ 						NVME_CAP_NSSRC(cap) : 0;
+ 
+-	if (dev->subsystem && (readl(&dev->bar->csts) & NVME_CSTS_NSSRO))
+-		writel(NVME_CSTS_NSSRO, &dev->bar->csts);
++	if (dev->subsystem &&
++	    (readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_NSSRO))
++		writel(NVME_CSTS_NSSRO, dev->bar + NVME_REG_CSTS);
+ 
+ 	result = nvme_disable_ctrl(dev, cap);
+ 	if (result < 0)
+@@ -1645,9 +1646,9 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	dev->ctrl_config |= NVME_CC_ARB_RR | NVME_CC_SHN_NONE;
+ 	dev->ctrl_config |= NVME_CC_IOSQES | NVME_CC_IOCQES;
+ 
+-	writel(aqa, &dev->bar->aqa);
+-	lo_hi_writeq(nvmeq->sq_dma_addr, &dev->bar->asq);
+-	lo_hi_writeq(nvmeq->cq_dma_addr, &dev->bar->acq);
++	writel(aqa, dev->bar + NVME_REG_AQA);
++	lo_hi_writeq(nvmeq->sq_dma_addr, dev->bar + NVME_REG_ASQ);
++	lo_hi_writeq(nvmeq->cq_dma_addr, dev->bar + NVME_REG_ACQ);
+ 
+ 	result = nvme_enable_ctrl(dev, cap);
+ 	if (result)
+@@ -1789,7 +1790,7 @@ static int nvme_subsys_reset(struct nvme_dev *dev)
+ 	if (!dev->subsystem)
+ 		return -ENOTTY;
+ 
+-	writel(0x4E564D65, &dev->bar->nssr); /* "NVMe" */
++	writel(0x4E564D65, dev->bar + NVME_REG_NSSR); /* "NVMe" */
  	return 0;
  }
  
--/*
-- * Returns 0 on success.  If the result is negative, it's a Linux error code;
-- * if the result is positive, it's an NVM Express status code
-- */
--int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
--		void *buffer, void __user *ubuffer, unsigned bufflen,
--		u32 *result, unsigned timeout)
--{
--	bool write = cmd->common.opcode & 1;
--	struct bio *bio = NULL;
--	struct request *req;
--	int ret;
--
--	req = blk_mq_alloc_request(q, write, 0);
--	if (IS_ERR(req))
--		return PTR_ERR(req);
--
--	req->cmd_type = REQ_TYPE_DRV_PRIV;
--	req->cmd_flags |= REQ_FAILFAST_DRIVER;
--	req->__data_len = 0;
--	req->__sector = (sector_t) -1;
--	req->bio = req->biotail = NULL;
--
--	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
--
--	req->cmd = (unsigned char *)cmd;
--	req->cmd_len = sizeof(struct nvme_command);
--	req->special = (void *)0;
--
--	if (buffer && bufflen) {
--		ret = blk_rq_map_kern(q, req, buffer, bufflen,
--				      __GFP_DIRECT_RECLAIM);
--		if (ret)
--			goto out;
--	} else if (ubuffer && bufflen) {
--		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
--				      __GFP_DIRECT_RECLAIM);
--		if (ret)
--			goto out;
--		bio = req->bio;
--	}
--
--	blk_execute_rq(req->q, NULL, req, 0);
--	if (bio)
--		blk_rq_unmap_user(bio);
--	if (result)
--		*result = (u32)(uintptr_t)req->special;
--	ret = req->errors;
-- out:
--	blk_mq_free_request(req);
--	return ret;
--}
--
--int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
--		void *buffer, unsigned bufflen)
--{
--	return __nvme_submit_sync_cmd(q, cmd, buffer, NULL, bufflen, NULL, 0);
--}
--
- static int nvme_submit_async_admin_req(struct nvme_dev *dev)
+@@ -2076,14 +2077,14 @@ static int nvme_kthread(void *data)
+ 		spin_lock(&dev_list_lock);
+ 		list_for_each_entry_safe(dev, next, &dev_list, node) {
+ 			int i;
+-			u32 csts = readl(&dev->bar->csts);
++			u32 csts = readl(dev->bar + NVME_REG_CSTS);
+ 
+ 			if ((dev->subsystem && (csts & NVME_CSTS_NSSRO)) ||
+ 							csts & NVME_CSTS_CFS) {
+ 				if (!__nvme_reset(dev)) {
+ 					dev_warn(dev->dev,
+ 						"Failed status: %x, reset controller\n",
+-						readl(&dev->bar->csts));
++						readl(dev->bar + NVME_REG_CSTS));
+ 				}
+ 				continue;
+ 			}
+@@ -2243,11 +2244,11 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
+ 	if (!use_cmb_sqes)
+ 		return NULL;
+ 
+-	dev->cmbsz = readl(&dev->bar->cmbsz);
++	dev->cmbsz = readl(dev->bar + NVME_REG_CMBSZ);
+ 	if (!(NVME_CMB_SZ(dev->cmbsz)))
+ 		return NULL;
+ 
+-	cmbloc = readl(&dev->bar->cmbloc);
++	cmbloc = readl(dev->bar + NVME_REG_CMBLOC);
+ 
+ 	szu = (u64)1 << (12 + 4 * NVME_CMB_SZU(dev->cmbsz));
+ 	size = szu * NVME_CMB_SZ(dev->cmbsz);
+@@ -2321,7 +2322,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 				return -ENOMEM;
+ 			size = db_bar_size(dev, nr_io_queues);
+ 		} while (1);
+-		dev->dbs = ((void __iomem *)dev->bar) + 4096;
++		dev->dbs = dev->bar + 4096;
+ 		adminq->q_db = dev->dbs;
+ 	}
+ 
+@@ -2397,8 +2398,9 @@ static struct nvme_ns *nvme_find_ns(struct nvme_dev *dev, unsigned nsid)
+ 
+ static inline bool nvme_io_incapable(struct nvme_dev *dev)
  {
- 	struct nvme_queue *nvmeq = dev->queues[0];
-@@ -1216,99 +1156,6 @@ static int adapter_delete_sq(struct nvme_dev *dev, u16 sqid)
- 	return adapter_delete_queue(dev, nvme_admin_delete_sq, sqid);
+-	return (!dev->bar || readl(&dev->bar->csts) & NVME_CSTS_CFS ||
+-							dev->online_queues < 2);
++	return (!dev->bar ||
++		readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_CFS ||
++		dev->online_queues < 2);
  }
  
--int nvme_identify_ctrl(struct nvme_dev *dev, struct nvme_id_ctrl **id)
--{
--	struct nvme_command c = { };
--	int error;
--
--	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
--	c.identify.opcode = nvme_admin_identify;
--	c.identify.cns = cpu_to_le32(1);
--
--	*id = kmalloc(sizeof(struct nvme_id_ctrl), GFP_KERNEL);
--	if (!*id)
--		return -ENOMEM;
--
--	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
--			sizeof(struct nvme_id_ctrl));
--	if (error)
--		kfree(*id);
--	return error;
--}
--
--int nvme_identify_ns(struct nvme_dev *dev, unsigned nsid,
--		struct nvme_id_ns **id)
--{
--	struct nvme_command c = { };
--	int error;
--
--	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
--	c.identify.opcode = nvme_admin_identify,
--	c.identify.nsid = cpu_to_le32(nsid),
--
--	*id = kmalloc(sizeof(struct nvme_id_ns), GFP_KERNEL);
--	if (!*id)
--		return -ENOMEM;
--
--	error = nvme_submit_sync_cmd(dev->admin_q, &c, *id,
--			sizeof(struct nvme_id_ns));
--	if (error)
--		kfree(*id);
--	return error;
--}
--
--int nvme_get_features(struct nvme_dev *dev, unsigned fid, unsigned nsid,
--					dma_addr_t dma_addr, u32 *result)
--{
--	struct nvme_command c;
--
--	memset(&c, 0, sizeof(c));
--	c.features.opcode = nvme_admin_get_features;
--	c.features.nsid = cpu_to_le32(nsid);
--	c.features.prp1 = cpu_to_le64(dma_addr);
--	c.features.fid = cpu_to_le32(fid);
--
--	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 0,
--			result, 0);
--}
--
--int nvme_set_features(struct nvme_dev *dev, unsigned fid, unsigned dword11,
--					dma_addr_t dma_addr, u32 *result)
--{
--	struct nvme_command c;
--
--	memset(&c, 0, sizeof(c));
--	c.features.opcode = nvme_admin_set_features;
--	c.features.prp1 = cpu_to_le64(dma_addr);
--	c.features.fid = cpu_to_le32(fid);
--	c.features.dword11 = cpu_to_le32(dword11);
--
--	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, NULL, 0,
--			result, 0);
--}
--
--int nvme_get_log_page(struct nvme_dev *dev, struct nvme_smart_log **log)
--{
--	struct nvme_command c = { };
--	int error;
--
--	c.common.opcode = nvme_admin_get_log_page,
--	c.common.nsid = cpu_to_le32(0xFFFFFFFF),
--	c.common.cdw10[0] = cpu_to_le32(
--			(((sizeof(struct nvme_smart_log) / 4) - 1) << 16) |
--			 NVME_LOG_SMART),
--
--	*log = kmalloc(sizeof(struct nvme_smart_log), GFP_KERNEL);
--	if (!*log)
--		return -ENOMEM;
--
--	error = nvme_submit_sync_cmd(dev->admin_q, &c, *log,
--			sizeof(struct nvme_smart_log));
--	if (error)
--		kfree(*log);
--	return error;
--}
--
- /**
-  * nvme_abort_req - Attempt aborting a request
-  *
+ static void nvme_ns_remove(struct nvme_ns *ns)
+@@ -2478,7 +2480,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int res;
+ 	struct nvme_id_ctrl *ctrl;
+-	int shift = NVME_CAP_MPSMIN(lo_hi_readq(&dev->bar->cap)) + 12;
++	int shift = NVME_CAP_MPSMIN(lo_hi_readq(dev->bar + NVME_REG_CAP)) + 12;
+ 
+ 	res = nvme_identify_ctrl(dev, &ctrl);
+ 	if (res) {
+@@ -2554,7 +2556,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
+ 	if (!dev->bar)
+ 		goto disable;
+ 
+-	if (readl(&dev->bar->csts) == -1) {
++	if (readl(dev->bar + NVME_REG_CSTS) == -1) {
+ 		result = -ENODEV;
+ 		goto unmap;
+ 	}
+@@ -2569,11 +2571,12 @@ static int nvme_dev_map(struct nvme_dev *dev)
+ 			goto unmap;
+ 	}
+ 
+-	cap = lo_hi_readq(&dev->bar->cap);
++	cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
++
+ 	dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, NVME_Q_DEPTH);
+ 	dev->db_stride = 1 << NVME_CAP_STRIDE(cap);
+-	dev->dbs = ((void __iomem *)dev->bar) + 4096;
+-	if (readl(&dev->bar->vs) >= NVME_VS(1, 2))
++	dev->dbs = dev->bar + 4096;
++	if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 2))
+ 		dev->cmb = nvme_map_cmb(dev);
+ 
+ 	return 0;
+@@ -2632,7 +2635,8 @@ static void nvme_wait_dq(struct nvme_delq_ctx *dq, struct nvme_dev *dev)
+ 			 * queues than admin tags.
+ 			 */
+ 			set_current_state(TASK_RUNNING);
+-			nvme_disable_ctrl(dev, lo_hi_readq(&dev->bar->cap));
++			nvme_disable_ctrl(dev,
++				lo_hi_readq(dev->bar + NVME_REG_CAP));
+ 			nvme_clear_queue(dev->queues[0]);
+ 			flush_kthread_worker(dq->worker);
+ 			nvme_disable_queue(dev, 0);
+@@ -2808,7 +2812,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 
+ 	if (dev->bar) {
+ 		nvme_freeze_queues(dev);
+-		csts = readl(&dev->bar->csts);
++		csts = readl(dev->bar + NVME_REG_CSTS);
+ 	}
+ 	if (csts & NVME_CSTS_CFS || !(csts & NVME_CSTS_RDY)) {
+ 		for (i = dev->queue_count - 1; i >= 0; i--) {
+diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
+index c3d8d38..8586994 100644
+--- a/drivers/nvme/host/scsi.c
++++ b/drivers/nvme/host/scsi.c
+@@ -611,7 +611,7 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 
+ 	memset(inq_response, 0, alloc_len);
+ 	inq_response[1] = INQ_DEVICE_IDENTIFICATION_PAGE;    /* Page Code */
+-	if (readl(&dev->bar->vs) >= NVME_VS(1, 1)) {
++	if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 1)) {
+ 		struct nvme_id_ns *id_ns;
+ 		void *eui;
+ 		int len;
+@@ -623,7 +623,7 @@ static int nvme_trans_device_id_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 
+ 		eui = id_ns->eui64;
+ 		len = sizeof(id_ns->eui64);
+-		if (readl(&dev->bar->vs) >= NVME_VS(1, 2)) {
++		if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 2)) {
+ 			if (bitmap_empty(eui, len * 8)) {
+ 				eui = id_ns->nguid;
+ 				len = sizeof(id_ns->nguid);
+@@ -2297,7 +2297,7 @@ static int nvme_trans_test_unit_ready(struct nvme_ns *ns,
+ {
+ 	struct nvme_dev *dev = ns->dev;
+ 
+-	if (!(readl(&dev->bar->csts) & NVME_CSTS_RDY))
++	if (!(readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_RDY))
+ 		return nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+ 					    NOT_READY, SCSI_ASC_LUN_NOT_READY,
+ 					    SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 3af5f45..a55986f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -17,20 +17,19 @@
+ 
+ #include <linux/types.h>
+ 
+-struct nvme_bar {
+-	__u64			cap;	/* Controller Capabilities */
+-	__u32			vs;	/* Version */
+-	__u32			intms;	/* Interrupt Mask Set */
+-	__u32			intmc;	/* Interrupt Mask Clear */
+-	__u32			cc;	/* Controller Configuration */
+-	__u32			rsvd1;	/* Reserved */
+-	__u32			csts;	/* Controller Status */
+-	__u32			nssr;	/* Subsystem Reset */
+-	__u32			aqa;	/* Admin Queue Attributes */
+-	__u64			asq;	/* Admin SQ Base Address */
+-	__u64			acq;	/* Admin CQ Base Address */
+-	__u32			cmbloc; /* Controller Memory Buffer Location */
+-	__u32			cmbsz;  /* Controller Memory Buffer Size */
++enum {
++	NVME_REG_CAP	= 0x0000,	/* Controller Capabilities */
++	NVME_REG_VS	= 0x0008,	/* Version */
++	NVME_REG_INTMS	= 0x000c,	/* Interrupt Mask Set */
++	NVME_REG_INTMC	= 0x0010,	/* Interrupt Mask Set */
++	NVME_REG_CC	= 0x0014,	/* Controller Configuration */
++	NVME_REG_CSTS	= 0x001c,	/* Controller Status */
++	NVME_REG_NSSR	= 0x0020,	/* NVM Subsystem Reset */
++	NVME_REG_AQA	= 0x0024,	/* Admin Queue Attributes */
++	NVME_REG_ASQ	= 0x0028,	/* Admin SQ Base Address */
++	NVME_REG_ACQ	= 0x0030,	/* Admin SQ Base Address */
++	NVME_REG_CMBLOC = 0x0038,	/* Controller Memory Buffer Location */
++	NVME_REG_CMBSZ	= 0x003c,	/* Controller Memory Buffer Size */
+ };
+ 
+ #define NVME_CAP_MQES(cap)	((cap) & 0xffff)
 -- 
 1.9.1
