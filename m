@@ -1,176 +1,261 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue,  1 Dec 2015 19:55:50 +0100
-Subject: [PATCH 06/11] nvme: special case AEN requests
+Date: Tue,  1 Dec 2015 19:55:51 +0100
+Subject: [PATCH 07/11] nvme: simplify completion handling
 In-Reply-To: <1448996155-12072-1-git-send-email-hch@lst.de>
 References: <1448996155-12072-1-git-send-email-hch@lst.de>
-Message-ID: <1448996155-12072-7-git-send-email-hch@lst.de>
+Message-ID: <1448996155-12072-8-git-send-email-hch@lst.de>
 
-AEN requests are different from other requests in that they don't time out
-or can easily be cancelled.  Because of that we should not use the blk-mq
-infrastructure but just special case them in the completion path.
+Now that all commands are executed as block layer requests we can remove the
+internal completion in the NVMe driver.  Note that we can simply call
+blk_mq_complete_request to abort commands as the block layer will protect
+against double copletions internally.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 75 ++++++++++++++++++++++++++-----------------------
- 1 file changed, 40 insertions(+), 35 deletions(-)
+ drivers/nvme/host/pci.c | 141 +++++++++---------------------------------------
+ 1 file changed, 26 insertions(+), 115 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 6a32a92..0497ff6 100644
+index 0497ff6..84ac46f 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -48,6 +48,13 @@
- #define NVME_AQ_DEPTH		256
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
- #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
-+		
-+/*
-+ * We handle AEN commands ourselves and don't even let the
-+ * block layer know about them.
-+ */
-+#define NVME_NR_AEN_COMMANDS	1
-+#define NVME_AQ_BLKMQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
- 
- unsigned char admin_timeout = 60;
- module_param(admin_timeout, byte, 0644);
-@@ -355,23 +362,23 @@ static void *cancel_cmd_info(struct nvme_cmd_info *cmd, nvme_completion_fn *fn)
- 	return ctx;
+@@ -199,15 +199,11 @@ static inline void _nvme_check_size(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_smart_log) != 512);
  }
  
--static void async_req_completion(struct nvme_queue *nvmeq, void *ctx,
--						struct nvme_completion *cqe)
-+static void nvme_complete_async_event(struct nvme_dev *dev,
-+		struct nvme_completion *cqe)
- {
--	u32 result = le32_to_cpup(&cqe->result);
--	u16 status = le16_to_cpup(&cqe->status) >> 1;
-+	u16 status = le16_to_cpu(cqe->status) >> 1;
-+	u32 result = le32_to_cpu(cqe->result);
+-typedef void (*nvme_completion_fn)(struct nvme_queue *, void *,
+-						struct nvme_completion *);
+-
+ struct nvme_cmd_info {
+-	nvme_completion_fn fn;
+-	void *ctx;
+ 	int aborted;
+ 	struct nvme_queue *nvmeq;
+-	struct nvme_iod iod[0];
++	struct nvme_iod *iod;
++	struct nvme_iod __iod;
+ };
  
- 	if (status == NVME_SC_SUCCESS || status == NVME_SC_ABORT_REQ)
--		++nvmeq->dev->ctrl.event_limit;
-+		++dev->ctrl.event_limit;
- 	if (status != NVME_SC_SUCCESS)
- 		return;
- 
- 	switch (result & 0xff07) {
- 	case NVME_AER_NOTICE_NS_CHANGED:
--		dev_info(nvmeq->q_dmadev, "rescanning\n");
--		queue_work(nvme_workq, &nvmeq->dev->scan_work);
-+		dev_info(dev->dev, "rescanning\n");
-+		queue_work(nvme_workq, &dev->scan_work);
- 	default:
--		dev_warn(nvmeq->q_dmadev, "async event result %08x\n", result);
-+		dev_warn(dev->dev, "async event result %08x\n", result);
- 	}
- }
- 
-@@ -404,7 +411,7 @@ static void *nvme_finish_cmd(struct nvme_queue *nvmeq, int tag,
- }
- 
- /**
-- * nvme_submit_cmd() - Copy a command into a queue and ring the doorbell
-+ * __nvme_submit_cmd() - Copy a command into a queue and ring the doorbell
-  * @nvmeq: The queue to use
-  * @cmd: The command to send
-  *
-@@ -853,15 +860,31 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
- 		void *ctx;
- 		nvme_completion_fn fn;
- 		struct nvme_completion cqe = nvmeq->cqes[head];
--		if ((le16_to_cpu(cqe.status) & 1) != phase)
-+		u16 status = le16_to_cpu(cqe.status);
-+
-+		if ((status & 1) != phase)
- 			break;
- 		nvmeq->sq_head = le16_to_cpu(cqe.sq_head);
- 		if (++head == nvmeq->q_depth) {
- 			head = 0;
- 			phase = !phase;
- 		}
-+
- 		if (tag && *tag == cqe.command_id)
- 			*tag = -1;
-+
-+		/*
-+		 * AEN requests are special as they don't time out and can
-+		 * survive any kind of queue freeze and often don't respond to
-+		 * aborts.  We don't even bother to allocate a struct request
-+		 * for them but rather special case them here.
-+		 */
-+		if (unlikely(nvmeq->qid == 0 &&
-+				cqe.command_id >= NVME_AQ_BLKMQ_DEPTH)) {
-+			nvme_complete_async_event(nvmeq->dev, &cqe);
-+			continue;
-+		}
-+
- 		ctx = nvme_finish_cmd(nvmeq, cqe.command_id, &fn);
- 		fn(nvmeq, ctx, &cqe);
- 	}
-@@ -926,29 +949,15 @@ static int nvme_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+ /*
+@@ -302,15 +298,6 @@ static int nvme_init_request(void *data, struct request *req,
  	return 0;
  }
  
--static int nvme_submit_async_admin_req(struct nvme_dev *dev)
-+static void nvme_submit_async_event(struct nvme_dev *dev)
+-static void nvme_set_info(struct nvme_cmd_info *cmd, void *ctx,
+-				nvme_completion_fn handler)
+-{
+-	cmd->fn = handler;
+-	cmd->ctx = ctx;
+-	cmd->aborted = 0;
+-	blk_mq_start_request(blk_mq_rq_from_pdu(cmd));
+-}
+-
+ static void *iod_get_private(struct nvme_iod *iod)
  {
--	struct nvme_queue *nvmeq = dev->queues[0];
- 	struct nvme_command c;
--	struct nvme_cmd_info *cmd_info;
--	struct request *req;
--
--	req = blk_mq_alloc_request(dev->ctrl.admin_q, WRITE,
--			BLK_MQ_REQ_NOWAIT | BLK_MQ_REQ_RESERVED);
--	if (IS_ERR(req))
--		return PTR_ERR(req);
--
--	req->cmd_flags |= REQ_NO_TIMEOUT;
--	cmd_info = blk_mq_rq_to_pdu(req);
--	nvme_set_info(cmd_info, NULL, async_req_completion);
- 
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = nvme_admin_async_event;
--	c.common.command_id = req->tag;
-+	c.common.command_id = NVME_AQ_BLKMQ_DEPTH + --dev->ctrl.event_limit;
- 
--	blk_mq_free_request(req);
--	__nvme_submit_cmd(nvmeq, &c);
--	return 0;
-+	__nvme_submit_cmd(dev->queues[0], &c);
+ 	return (void *) (iod->private & ~0x1UL);
+@@ -324,44 +311,6 @@ static bool iod_should_kfree(struct nvme_iod *iod)
+ 	return (iod->private & NVME_INT_MASK) == 0;
  }
  
- static void async_cmd_info_endio(struct request *req, int error)
-@@ -1387,8 +1396,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
- 	if (!dev->ctrl.admin_q) {
- 		dev->admin_tagset.ops = &nvme_mq_admin_ops;
- 		dev->admin_tagset.nr_hw_queues = 1;
--		dev->admin_tagset.queue_depth = NVME_AQ_DEPTH;
--		dev->admin_tagset.reserved_tags = 1;
-+		dev->admin_tagset.queue_depth = NVME_AQ_BLKMQ_DEPTH;
- 		dev->admin_tagset.timeout = ADMIN_TIMEOUT;
- 		dev->admin_tagset.numa_node = dev_to_node(dev->dev);
- 		dev->admin_tagset.cmd_size = nvme_cmd_size(dev);
-@@ -1496,11 +1504,8 @@ static int nvme_kthread(void *data)
- 				spin_lock_irq(&nvmeq->q_lock);
- 				nvme_process_cq(nvmeq);
+-/* Special values must be less than 0x1000 */
+-#define CMD_CTX_BASE		((void *)POISON_POINTER_DELTA)
+-#define CMD_CTX_CANCELLED	(0x30C + CMD_CTX_BASE)
+-#define CMD_CTX_COMPLETED	(0x310 + CMD_CTX_BASE)
+-#define CMD_CTX_INVALID		(0x314 + CMD_CTX_BASE)
+-
+-static void special_completion(struct nvme_queue *nvmeq, void *ctx,
+-						struct nvme_completion *cqe)
+-{
+-	if (ctx == CMD_CTX_CANCELLED)
+-		return;
+-	if (ctx == CMD_CTX_COMPLETED) {
+-		dev_warn(nvmeq->q_dmadev,
+-				"completed id %d twice on queue %d\n",
+-				cqe->command_id, le16_to_cpup(&cqe->sq_id));
+-		return;
+-	}
+-	if (ctx == CMD_CTX_INVALID) {
+-		dev_warn(nvmeq->q_dmadev,
+-				"invalid id %d completed on queue %d\n",
+-				cqe->command_id, le16_to_cpup(&cqe->sq_id));
+-		return;
+-	}
+-	dev_warn(nvmeq->q_dmadev, "Unknown special completion %p\n", ctx);
+-}
+-
+-static void *cancel_cmd_info(struct nvme_cmd_info *cmd, nvme_completion_fn *fn)
+-{
+-	void *ctx;
+-
+-	if (fn)
+-		*fn = cmd->fn;
+-	ctx = cmd->ctx;
+-	cmd->fn = special_completion;
+-	cmd->ctx = CMD_CTX_CANCELLED;
+-	return ctx;
+-}
+-
+ static void nvme_complete_async_event(struct nvme_dev *dev,
+ 		struct nvme_completion *cqe)
+ {
+@@ -382,34 +331,6 @@ static void nvme_complete_async_event(struct nvme_dev *dev,
+ 	}
+ }
  
--				while (i == 0 && dev->ctrl.event_limit > 0) {
--					if (nvme_submit_async_admin_req(dev))
--						break;
--					dev->ctrl.event_limit--;
--				}
-+				while (i == 0 && dev->ctrl.event_limit > 0)
-+					nvme_submit_async_event(dev);
- 				spin_unlock_irq(&nvmeq->q_lock);
- 			}
+-static inline struct nvme_cmd_info *get_cmd_from_tag(struct nvme_queue *nvmeq,
+-				  unsigned int tag)
+-{
+-	struct request *req = blk_mq_tag_to_rq(*nvmeq->tags, tag);
+-
+-	return blk_mq_rq_to_pdu(req);
+-}
+-
+-/*
+- * Called with local interrupts disabled and the q_lock held.  May not sleep.
+- */
+-static void *nvme_finish_cmd(struct nvme_queue *nvmeq, int tag,
+-						nvme_completion_fn *fn)
+-{
+-	struct nvme_cmd_info *cmd = get_cmd_from_tag(nvmeq, tag);
+-	void *ctx;
+-	if (tag >= nvmeq->q_depth) {
+-		*fn = special_completion;
+-		return CMD_CTX_INVALID;
+-	}
+-	if (fn)
+-		*fn = cmd->fn;
+-	ctx = cmd->ctx;
+-	cmd->fn = special_completion;
+-	cmd->ctx = CMD_CTX_COMPLETED;
+-	return ctx;
+-}
+-
+ /**
+  * __nvme_submit_cmd() - Copy a command into a queue and ring the doorbell
+  * @nvmeq: The queue to use
+@@ -473,7 +394,7 @@ static struct nvme_iod *nvme_alloc_iod(struct request *rq, struct nvme_dev *dev,
+ 	    size <= NVME_INT_BYTES(dev)) {
+ 		struct nvme_cmd_info *cmd = blk_mq_rq_to_pdu(rq);
+ 
+-		iod = cmd->iod;
++		iod = &cmd->__iod;
+ 		iod_init(iod, size, rq->nr_phys_segments,
+ 				(unsigned long) rq | NVME_INT_MASK);
+ 		return iod;
+@@ -570,12 +491,11 @@ static void nvme_dif_complete(u32 p, u32 v, struct t10_pi_tuple *pi)
+ }
+ #endif
+ 
+-static void req_completion(struct nvme_queue *nvmeq, void *ctx,
+-						struct nvme_completion *cqe)
++static void req_completion(struct nvme_queue *nvmeq, struct nvme_completion *cqe)
+ {
+-	struct nvme_iod *iod = ctx;
+-	struct request *req = iod_get_private(iod);
++	struct request *req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
+ 	struct nvme_cmd_info *cmd_rq = blk_mq_rq_to_pdu(req);
++	struct nvme_iod *iod = cmd_rq->iod;
+ 	u16 status = le16_to_cpup(&cqe->status) >> 1;
+ 	int error = 0;
+ 
+@@ -586,14 +506,10 @@ static void req_completion(struct nvme_queue *nvmeq, void *ctx,
+ 			return;
  		}
-@@ -2151,7 +2156,7 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (result)
- 		goto free_tags;
  
--	dev->ctrl.event_limit = 1;
-+	dev->ctrl.event_limit = NVME_NR_AEN_COMMANDS;
+-		if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
+-			if (cmd_rq->ctx == CMD_CTX_CANCELLED)
+-				error = NVME_SC_CANCELLED;
+-			else
+-				error = status;
+-		} else {
++		if (req->cmd_type == REQ_TYPE_DRV_PRIV)
++			error = status;
++		else
+ 			error = nvme_error_status(status);
+-		}
+ 	}
  
- 	result = nvme_dev_list_add(dev);
- 	if (result)
+ 	if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
+@@ -836,8 +752,10 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	if (ret)
+ 		goto out;
+ 
++	cmd->iod = iod;
++	cmd->aborted = 0;
+ 	cmnd.common.command_id = req->tag;
+-	nvme_set_info(cmd, iod, req_completion);
++	blk_mq_start_request(req);
+ 
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	__nvme_submit_cmd(nvmeq, &cmnd);
+@@ -857,8 +775,6 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
+ 	phase = nvmeq->cq_phase;
+ 
+ 	for (;;) {
+-		void *ctx;
+-		nvme_completion_fn fn;
+ 		struct nvme_completion cqe = nvmeq->cqes[head];
+ 		u16 status = le16_to_cpu(cqe.status);
+ 
+@@ -873,6 +789,13 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
+ 		if (tag && *tag == cqe.command_id)
+ 			*tag = -1;
+ 
++		if (unlikely(cqe.command_id >= nvmeq->q_depth)) {
++			dev_warn(nvmeq->q_dmadev,
++				"invalid id %d completed on queue %d\n",
++				cqe.command_id, le16_to_cpu(cqe.sq_id));
++			continue;
++		}
++
+ 		/*
+ 		 * AEN requests are special as they don't time out and can
+ 		 * survive any kind of queue freeze and often don't respond to
+@@ -885,8 +808,7 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
+ 			continue;
+ 		}
+ 
+-		ctx = nvme_finish_cmd(nvmeq, cqe.command_id, &fn);
+-		fn(nvmeq, ctx, &cqe);
++		req_completion(nvmeq, &cqe);
+ 	}
+ 
+ 	/* If the controller ignores the cq head doorbell and continuously
+@@ -1125,29 +1047,18 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ static void nvme_cancel_queue_ios(struct request *req, void *data, bool reserved)
+ {
+ 	struct nvme_queue *nvmeq = data;
+-	void *ctx;
+-	nvme_completion_fn fn;
+-	struct nvme_cmd_info *cmd;
+-	struct nvme_completion cqe;
++	int status;
+ 
+ 	if (!blk_mq_request_started(req))
+ 		return;
+ 
+-	cmd = blk_mq_rq_to_pdu(req);
+-
+-	if (cmd->ctx == CMD_CTX_CANCELLED)
+-		return;
++	dev_warn(nvmeq->q_dmadev,
++		 "Cancelling I/O %d QID %d\n", req->tag, nvmeq->qid);
+ 
++	status = NVME_SC_CANCELLED;
+ 	if (blk_queue_dying(req->q))
+-		cqe.status = cpu_to_le16((NVME_SC_ABORT_REQ | NVME_SC_DNR) << 1);
+-	else
+-		cqe.status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
+-
+-
+-	dev_warn(nvmeq->q_dmadev, "Cancelling I/O %d QID %d\n",
+-						req->tag, nvmeq->qid);
+-	ctx = cancel_cmd_info(cmd, &fn);
+-	fn(nvmeq, ctx, &cqe);
++		status |= NVME_SC_DNR;
++	blk_mq_complete_request(req, status);
+ }
+ 
+ static void nvme_free_queue(struct nvme_queue *nvmeq)
 -- 
 1.9.1
