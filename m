@@ -1,173 +1,81 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue,  1 Dec 2015 19:52:48 +0100
-Subject: [PATCH 13/26] NVMe: Implement namespace list scanning
+Date: Tue,  1 Dec 2015 19:52:49 +0100
+Subject: [PATCH 14/26] NVMe: Use unbounded work queue for all work
 In-Reply-To: <1448995981-11982-1-git-send-email-hch@lst.de>
 References: <1448995981-11982-1-git-send-email-hch@lst.de>
-Message-ID: <1448995981-11982-14-git-send-email-hch@lst.de>
+Message-ID: <1448995981-11982-15-git-send-email-hch@lst.de>
 
 From: Keith Busch <keith.busch@intel.com>
 
-The NVMe 1.1 specification provides an identify mode to return a
-list of active namespaces. This is more efficient to discover which
-namespace identifiers are active on a controller, providing potentially
-significant improvement in scan time for controllers with sparesly
-populated namespaces.
+Removes all usage of the global work queue so work can't be
+scheduled on two different work queues, and removes nvme's work queue
+singlethreadedness so controllers can be driven in parallel.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
-[hch: add quirk for the broken Qemu Identify implementation.  To be relaxed
- later]
+[hch: keep the dead controller removal on the system workqueue to avoid
+ deadlocks]
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 80 ++++++++++++++++++++++++++++++++++++++++++------
- drivers/nvme/host/nvme.h |  6 ++++
- drivers/nvme/host/pci.c  |  2 ++
- 3 files changed, 79 insertions(+), 9 deletions(-)
+ drivers/nvme/host/pci.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6088e88..bd7de8f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -256,6 +256,16 @@ int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
- 	return error;
- }
- 
-+static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *ns_list)
-+{
-+	struct nvme_command c = { };
-+
-+	c.identify.opcode = nvme_admin_identify;
-+	c.identify.cns = cpu_to_le32(2);
-+	c.identify.nsid = cpu_to_le32(nsid);
-+	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list, 0x1000);
-+}
-+
- int nvme_identify_ns(struct nvme_ctrl *dev, unsigned nsid,
- 		struct nvme_id_ns **id)
- {
-@@ -1071,33 +1081,85 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	nvme_put_ns(ns);
- }
- 
-+static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
-+{
-+	struct nvme_ns *ns;
-+
-+	ns = nvme_find_ns(ctrl, nsid);
-+	if (ns) {
-+		if (revalidate_disk(ns->disk))
-+			nvme_ns_remove(ns);
-+	} else
-+		nvme_alloc_ns(ctrl, nsid);
-+}
-+
-+static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
-+{
-+	struct nvme_ns *ns;
-+	__le32 *ns_list;
-+	unsigned i, j, nsid, prev = 0, num_lists = DIV_ROUND_UP(nn, 1024);
-+	int ret = 0;
-+
-+	ns_list = kzalloc(0x1000, GFP_KERNEL);
-+	if (!ns_list)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < num_lists; i++) {
-+		ret = nvme_identify_ns_list(ctrl, prev, ns_list);
-+		if (ret)
-+			goto out;
-+
-+		for (j = 0; j < min(nn, 1024U); j++) {
-+			nsid = le32_to_cpu(ns_list[j]);
-+			if (!nsid)
-+				goto out;
-+
-+			nvme_validate_ns(ctrl, nsid);
-+
-+			while (++prev < nsid) {
-+				ns = nvme_find_ns(ctrl, prev);
-+				if (ns)
-+					nvme_ns_remove(ns);
-+			}
-+		}
-+		nn -= j;
-+	}
-+ out:
-+	kfree(ns_list);
-+	return ret;
-+}
-+
- static void __nvme_scan_namespaces(struct nvme_ctrl *ctrl, unsigned nn)
- {
- 	struct nvme_ns *ns, *next;
- 	unsigned i;
- 
--	for (i = 1; i <= nn; i++) {
--		ns = nvme_find_ns(ctrl, i);
--		if (ns) {
--			if (revalidate_disk(ns->disk))
--				nvme_ns_remove(ns);
--		} else
--			nvme_alloc_ns(ctrl, i);
--	}
-+	for (i = 1; i <= nn; i++)
-+		nvme_validate_ns(ctrl, i);
-+
- 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
- 		if (ns->ns_id > nn)
- 			nvme_ns_remove(ns);
- 	}
--	list_sort(NULL, &ctrl->namespaces, ns_cmp);
- }
- 
- void nvme_scan_namespaces(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_id_ctrl *id;
-+	unsigned nn;
- 
- 	if (nvme_identify_ctrl(ctrl, &id))
- 		return;
-+
-+	nn = le32_to_cpu(id->nn);
-+	if (ctrl->vs >= NVME_VS(1, 1) &&
-+	    !(ctrl->quirks & NVME_QUIRK_IDENTIFY_CNS)) {
-+		if (!nvme_scan_ns_list(ctrl, nn))
-+			goto done;
-+	}
- 	__nvme_scan_namespaces(ctrl, le32_to_cpup(&id->nn));
-+ done:
-+	list_sort(NULL, &ctrl->namespaces, ns_cmp);
- 	kfree(id);
- }
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 982fa30..2965c46 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -53,6 +53,12 @@ enum nvme_quirks {
- 	 * specific Identify field.
- 	 */
- 	NVME_QUIRK_STRIPE_SIZE			= (1 << 0),
-+
-+	/*
-+	 * The controller doesn't handle Identify value others than 0 or 1
-+	 * correctly.
-+	 */
-+	NVME_QUIRK_IDENTIFY_CNS			= (1 << 1),
- };
- 
- struct nvme_ctrl {
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 1ad7f18..fac1de8 100644
+index fac1de8..a909a8b 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2425,6 +2425,8 @@ static const struct pci_error_handlers nvme_err_handler = {
- static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, 0x0953),
- 		.driver_data = NVME_QUIRK_STRIPE_SIZE, },
-+	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
-+		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
- 	{ 0, }
+@@ -371,7 +371,7 @@ static void async_req_completion(struct nvme_queue *nvmeq, void *ctx,
+ 	switch (result & 0xff07) {
+ 	case NVME_AER_NOTICE_NS_CHANGED:
+ 		dev_info(nvmeq->q_dmadev, "rescanning\n");
+-		schedule_work(&nvmeq->dev->scan_work);
++		queue_work(nvme_workq, &nvmeq->dev->scan_work);
+ 	default:
+ 		dev_warn(nvmeq->q_dmadev, "async event result %08x\n", result);
+ 	}
+@@ -1782,7 +1782,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 			return 0;
+ 		dev->ctrl.tagset = &dev->tagset;
+ 	}
+-	schedule_work(&dev->scan_work);
++	queue_work(nvme_workq, &dev->scan_work);
+ 	return 0;
+ }
+ 
+@@ -2331,7 +2331,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	if (result)
+ 		goto release_pools;
+ 
+-	schedule_work(&dev->reset_work);
++	queue_work(nvme_workq, &dev->reset_work);
+ 	return 0;
+ 
+  release_pools:
+@@ -2352,7 +2352,7 @@ static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
+ 	if (prepare)
+ 		nvme_dev_shutdown(dev);
+ 	else
+-		schedule_work(&dev->reset_work);
++		queue_work(nvme_workq, &dev->reset_work);
+ }
+ 
+ static void nvme_shutdown(struct pci_dev *pdev)
+@@ -2403,7 +2403,7 @@ static int nvme_resume(struct device *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+ 
+-	schedule_work(&ndev->reset_work);
++	queue_work(nvme_workq, &ndev->reset_work);
+ 	return 0;
+ }
+ #endif
+@@ -2451,7 +2451,7 @@ static int __init nvme_init(void)
+ 
+ 	init_waitqueue_head(&nvme_kthread_wait);
+ 
+-	nvme_workq = create_singlethread_workqueue("nvme");
++	nvme_workq = alloc_workqueue("nvme", WQ_UNBOUND | WQ_MEM_RECLAIM, 0);
+ 	if (!nvme_workq)
+ 		return -ENOMEM;
+ 
 -- 
 1.9.1
