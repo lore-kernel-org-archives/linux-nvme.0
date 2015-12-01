@@ -1,117 +1,62 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue,  1 Dec 2015 19:52:38 +0100
-Subject: [PATCH 03/26] nvme: only add a controller to dev_list after it's been
- fully initialized
+Date: Tue,  1 Dec 2015 19:52:39 +0100
+Subject: [PATCH 04/26] nvme: protect against simultaneous shutdown invocations
 In-Reply-To: <1448995981-11982-1-git-send-email-hch@lst.de>
 References: <1448995981-11982-1-git-send-email-hch@lst.de>
-Message-ID: <1448995981-11982-4-git-send-email-hch@lst.de>
+Message-ID: <1448995981-11982-5-git-send-email-hch@lst.de>
 
-Without this we can easily get bad derferences on nvmeq->d_db when the nvme
-kthread tries to poll the CQs for controllers that are in half initialized
-state.
+From: Keith Busch <keith.busch@intel.com>
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
+[hch: split from a larger patch]
+Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/pci.c | 51 +++++++++++++++++++++++++++++--------------------
- 1 file changed, 30 insertions(+), 21 deletions(-)
+ drivers/nvme/host/pci.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 1f92b32..d82f08d 100644
+index d82f08d..ad6d5cc 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1994,6 +1994,30 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
- 	kthread_stop(kworker_task);
+@@ -31,6 +31,7 @@
+ #include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/moduleparam.h>
++#include <linux/mutex.h>
+ #include <linux/pci.h>
+ #include <linux/poison.h>
+ #include <linux/ptrace.h>
+@@ -113,6 +114,7 @@ struct nvme_dev {
+ 	struct work_struct reset_work;
+ 	struct work_struct probe_work;
+ 	struct work_struct scan_work;
++	struct mutex shutdown_lock;
+ 	bool subsystem;
+ 	void __iomem *cmb;
+ 	dma_addr_t cmb_dma_addr;
+@@ -2073,6 +2075,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 
+ 	nvme_dev_list_remove(dev);
+ 
++	mutex_lock(&dev->shutdown_lock);
+ 	if (dev->bar) {
+ 		nvme_freeze_queues(dev);
+ 		csts = readl(dev->bar + NVME_REG_CSTS);
+@@ -2091,6 +2094,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 
+ 	for (i = dev->queue_count - 1; i >= 0; i--)
+ 		nvme_clear_queue(dev->queues[i]);
++	mutex_unlock(&dev->shutdown_lock);
  }
  
-+static int nvme_dev_list_add(struct nvme_dev *dev)
-+{
-+	bool start_thread = false;
-+
-+	spin_lock(&dev_list_lock);
-+	if (list_empty(&dev_list) && IS_ERR_OR_NULL(nvme_thread)) {
-+		start_thread = true;
-+		nvme_thread = NULL;
-+	}
-+	list_add(&dev->node, &dev_list);
-+	spin_unlock(&dev_list_lock);
-+
-+	if (start_thread) {
-+		nvme_thread = kthread_run(nvme_kthread, NULL, "nvme");
-+		wake_up_all(&nvme_kthread_wait);
-+	} else
-+		wait_event_killable(nvme_kthread_wait, nvme_thread);
-+
-+	if (IS_ERR_OR_NULL(nvme_thread))
-+		return nvme_thread ? PTR_ERR(nvme_thread) : -EINTR;
-+
-+	return 0;
-+}
-+
- /*
- * Remove the node from the device list and check
- * for whether or not we need to stop the nvme_thread.
-@@ -2109,7 +2133,6 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
- static void nvme_probe_work(struct work_struct *work)
- {
- 	struct nvme_dev *dev = container_of(work, struct nvme_dev, probe_work);
--	bool start_thread = false;
- 	int result;
+ static int nvme_setup_prp_pools(struct nvme_dev *dev)
+@@ -2333,6 +2337,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	INIT_WORK(&dev->scan_work, nvme_dev_scan);
+ 	INIT_WORK(&dev->probe_work, nvme_probe_work);
+ 	INIT_WORK(&dev->reset_work, nvme_reset_work);
++	mutex_init(&dev->shutdown_lock);
  
- 	result = nvme_dev_map(dev);
-@@ -2120,25 +2143,6 @@ static void nvme_probe_work(struct work_struct *work)
+ 	result = nvme_setup_prp_pools(dev);
  	if (result)
- 		goto unmap;
- 
--	spin_lock(&dev_list_lock);
--	if (list_empty(&dev_list) && IS_ERR_OR_NULL(nvme_thread)) {
--		start_thread = true;
--		nvme_thread = NULL;
--	}
--	list_add(&dev->node, &dev_list);
--	spin_unlock(&dev_list_lock);
--
--	if (start_thread) {
--		nvme_thread = kthread_run(nvme_kthread, NULL, "nvme");
--		wake_up_all(&nvme_kthread_wait);
--	} else
--		wait_event_killable(nvme_kthread_wait, nvme_thread);
--
--	if (IS_ERR_OR_NULL(nvme_thread)) {
--		result = nvme_thread ? PTR_ERR(nvme_thread) : -EINTR;
--		goto disable;
--	}
--
- 	nvme_init_queue(dev->queues[0], 0);
- 	result = nvme_alloc_admin_tags(dev);
- 	if (result)
-@@ -2154,6 +2158,10 @@ static void nvme_probe_work(struct work_struct *work)
- 
- 	dev->ctrl.event_limit = 1;
- 
-+	result = nvme_dev_list_add(dev);
-+	if (result)
-+		goto remove;
-+
- 	/*
- 	 * Keep the controller around but remove all namespaces if we don't have
- 	 * any working I/O queue.
-@@ -2168,6 +2176,8 @@ static void nvme_probe_work(struct work_struct *work)
- 
- 	return;
- 
-+ remove:
-+	nvme_dev_list_remove(dev);
-  free_tags:
- 	nvme_dev_remove_admin(dev);
- 	blk_put_queue(dev->ctrl.admin_q);
-@@ -2175,7 +2185,6 @@ static void nvme_probe_work(struct work_struct *work)
- 	dev->queues[0]->tags = NULL;
-  disable:
- 	nvme_disable_queue(dev, 0);
--	nvme_dev_list_remove(dev);
-  unmap:
- 	nvme_dev_unmap(dev);
-  out:
 -- 
 1.9.1
