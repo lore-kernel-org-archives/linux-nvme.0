@@ -1,77 +1,88 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue,  1 Dec 2015 19:52:50 +0100
-Subject: [PATCH 15/26] NVMe: Remove device management handles on remove
+Date: Tue,  1 Dec 2015 19:52:51 +0100
+Subject: [PATCH 16/26] NVMe: Simplify metadata setup
 In-Reply-To: <1448995981-11982-1-git-send-email-hch@lst.de>
 References: <1448995981-11982-1-git-send-email-hch@lst.de>
-Message-ID: <1448995981-11982-16-git-send-email-hch@lst.de>
+Message-ID: <1448995981-11982-17-git-send-email-hch@lst.de>
 
 From: Keith Busch <keith.busch@intel.com>
 
-We don't want to allow new references to open on a device that is
-removed. This ties the lifetime of these handles to the physical device's
-presence rather than to the open reference count.
+We no longer require the two-pass setup for block integrity.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 13 +++++++++----
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  |  1 +
- 3 files changed, 11 insertions(+), 4 deletions(-)
+ drivers/nvme/host/core.c | 28 +++-------------------------
+ 1 file changed, 3 insertions(+), 25 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index bd7de8f..d2ede9b 100644
+index d2ede9b..41e5efa 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1200,17 +1200,22 @@ static void nvme_release_instance(struct nvme_ctrl *ctrl)
- 	spin_unlock(&dev_list_lock);
- }
+@@ -576,7 +576,6 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 	if (ns->lba_shift == 0)
+ 		ns->lba_shift = 9;
+ 	bs = 1 << ns->lba_shift;
+-
+ 	/* XXX: PI implementation requires metadata equal t10 pi tuple size */
+ 	pi_type = ns->ms == sizeof(struct t10_pi_tuple) ?
+ 					id->dps & NVME_NS_DPS_PI_MASK : 0;
+@@ -591,9 +590,8 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 	ns->pi_type = pi_type;
+ 	blk_queue_logical_block_size(ns->queue, bs);
  
--static void nvme_free_ctrl(struct kref *kref)
--{
--	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
-+void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
-+ {
-+	device_remove_file(ctrl->device, &dev_attr_reset_controller);
-+	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
+-	if (ns->ms && !ns->ext)
++	if (ns->ms && !blk_get_integrity(disk) && !ns->ext)
+ 		nvme_init_integrity(ns);
+-
+ 	if (ns->ms && !(ns->ms == 8 && ns->pi_type) && !blk_get_integrity(disk))
+ 		set_capacity(disk, 0);
+ 	else
+@@ -1002,7 +1000,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	ns->ns_id = nsid;
+ 	ns->disk = disk;
+ 	ns->lba_shift = 9; /* set to a default value for 512 until disk is validated */
+-	list_add_tail(&ns->list, &ctrl->namespaces);
  
- 	spin_lock(&dev_list_lock);
- 	list_del(&ctrl->node);
- 	spin_unlock(&dev_list_lock);
-+}
-+
-+static void nvme_free_ctrl(struct kref *kref)
-+{
-+	struct nvme_ctrl *ctrl = container_of(kref, struct nvme_ctrl, kref);
+ 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
+ 	if (ctrl->max_hw_sectors) {
+@@ -1025,36 +1022,17 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	disk->flags = GENHD_FL_EXT_DEVT;
+ 	sprintf(disk->disk_name, "nvme%dn%d", ctrl->instance, nsid);
  
- 	put_device(ctrl->device);
- 	nvme_release_instance(ctrl);
--	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
+-	/*
+-	 * Initialize capacity to 0 until we establish the namespace format and
+-	 * setup integrity extentions if necessary. The revalidate_disk after
+-	 * add_disk allows the driver to register with integrity if the format
+-	 * requires it.
+-	 */
+-	set_capacity(disk, 0);
+ 	if (nvme_revalidate_disk(ns->disk))
+ 		goto out_free_disk;
  
- 	ctrl->ops->free_ctrl(ctrl);
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2965c46..aa4b42e 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -221,6 +221,7 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
- int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
- int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 		const struct nvme_ctrl_ops *ops, unsigned long quirks);
-+void nvme_uninit_ctrl(struct nvme_ctrl *ctrl);
- void nvme_put_ctrl(struct nvme_ctrl *ctrl);
- int nvme_init_identify(struct nvme_ctrl *ctrl);
++	list_add_tail(&ns->list, &ctrl->namespaces);
+ 	kref_get(&ctrl->kref);
+-	if (ns->type != NVME_NS_LIGHTNVM) {
++	if (ns->type != NVME_NS_LIGHTNVM)
+ 		add_disk(ns->disk);
+-		if (ns->ms) {
+-			struct block_device *bd = bdget_disk(ns->disk, 0);
+-			if (!bd)
+-				return;
+-			if (blkdev_get(bd, FMODE_READ, NULL)) {
+-				bdput(bd);
+-				return;
+-			}
+-			blkdev_reread_part(bd);
+-			blkdev_put(bd, FMODE_READ);
+-		}
+-	}
  
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a909a8b..c83f0d8 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2373,6 +2373,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	flush_work(&dev->reset_work);
- 	flush_work(&dev->scan_work);
- 	nvme_remove_namespaces(&dev->ctrl);
-+	nvme_uninit_ctrl(&dev->ctrl);
- 	nvme_dev_shutdown(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_free_queues(dev, 0);
+ 	return;
+  out_free_disk:
+ 	kfree(disk);
+-	list_del(&ns->list);
+  out_free_queue:
+ 	blk_cleanup_queue(ns->queue);
+  out_free_ns:
 -- 
 1.9.1
