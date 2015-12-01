@@ -1,79 +1,117 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue,  1 Dec 2015 19:52:37 +0100
-Subject: [PATCH 02/26] nvme: only ignore hardware errors in
- nvme_create_io_queues
+Date: Tue,  1 Dec 2015 19:52:38 +0100
+Subject: [PATCH 03/26] nvme: only add a controller to dev_list after it's been
+ fully initialized
 In-Reply-To: <1448995981-11982-1-git-send-email-hch@lst.de>
 References: <1448995981-11982-1-git-send-email-hch@lst.de>
-Message-ID: <1448995981-11982-3-git-send-email-hch@lst.de>
+Message-ID: <1448995981-11982-4-git-send-email-hch@lst.de>
 
-Half initialized queues due to kernel error returns or timeout are still a
-good reason to give up on initializing a controller.
+Without this we can easily get bad derferences on nvmeq->d_db when the nvme
+kthread tries to poll the CQs for controllers that are in half initialized
+state.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 35 ++++++++++++++++++++---------------
- 1 file changed, 20 insertions(+), 15 deletions(-)
+ drivers/nvme/host/pci.c | 51 +++++++++++++++++++++++++++++--------------------
+ 1 file changed, 30 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a64d0ba..1f92b32 100644
+index 1f92b32..d82f08d 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1537,26 +1537,33 @@ static int nvme_kthread(void *data)
- 	return 0;
+@@ -1994,6 +1994,30 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
+ 	kthread_stop(kworker_task);
  }
  
--/*
-- * Create I/O queues.  Failing to create an I/O queue is not an issue,
-- * we can continue with less than the desired amount of queues, and
-- * even a controller without I/O queues an still be used to issue
-- * admin commands.  This might be useful to upgrade a buggy firmware
-- * for example.
-- */
--static void nvme_create_io_queues(struct nvme_dev *dev)
-+static int nvme_create_io_queues(struct nvme_dev *dev)
- {
- 	unsigned i;
-+	int ret = 0;
- 
--	for (i = dev->queue_count; i <= dev->max_qid; i++)
--		if (!nvme_alloc_queue(dev, i, dev->q_depth))
-+	for (i = dev->queue_count; i <= dev->max_qid; i++) {
-+		if (!nvme_alloc_queue(dev, i, dev->q_depth)) {
-+			ret = -ENOMEM;
- 			break;
-+		}
-+	}
- 
--	for (i = dev->online_queues; i <= dev->queue_count - 1; i++)
--		if (nvme_create_queue(dev->queues[i], i)) {
-+	for (i = dev->online_queues; i <= dev->queue_count - 1; i++) {
-+		ret = nvme_create_queue(dev->queues[i], i);
-+		if (ret) {
- 			nvme_free_queues(dev, i);
- 			break;
- 		}
-+	}
++static int nvme_dev_list_add(struct nvme_dev *dev)
++{
++	bool start_thread = false;
 +
-+	/*
-+	 * Ignore failing Create SQ/CQ commands, we can continue with less
-+	 * than the desired aount of queues, and even a controller without
-+	 * I/O queues an still be used to issue admin commands.  This might
-+	 * be useful to upgrade a buggy firmware for example.
-+	 */
-+	return ret >= 0 ? 0 : ret;
- }
++	spin_lock(&dev_list_lock);
++	if (list_empty(&dev_list) && IS_ERR_OR_NULL(nvme_thread)) {
++		start_thread = true;
++		nvme_thread = NULL;
++	}
++	list_add(&dev->node, &dev_list);
++	spin_unlock(&dev_list_lock);
++
++	if (start_thread) {
++		nvme_thread = kthread_run(nvme_kthread, NULL, "nvme");
++		wake_up_all(&nvme_kthread_wait);
++	} else
++		wait_event_killable(nvme_kthread_wait, nvme_thread);
++
++	if (IS_ERR_OR_NULL(nvme_thread))
++		return nvme_thread ? PTR_ERR(nvme_thread) : -EINTR;
++
++	return 0;
++}
++
+ /*
+ * Remove the node from the device list and check
+ * for whether or not we need to stop the nvme_thread.
+@@ -2109,7 +2133,6 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
+ static void nvme_probe_work(struct work_struct *work)
+ {
+ 	struct nvme_dev *dev = container_of(work, struct nvme_dev, probe_work);
+-	bool start_thread = false;
+ 	int result;
  
- static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
-@@ -1702,9 +1709,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	result = nvme_dev_map(dev);
+@@ -2120,25 +2143,6 @@ static void nvme_probe_work(struct work_struct *work)
+ 	if (result)
+ 		goto unmap;
  
- 	/* Free previously allocated queues that are no longer usable */
- 	nvme_free_queues(dev, nr_io_queues + 1);
--	nvme_create_io_queues(dev);
+-	spin_lock(&dev_list_lock);
+-	if (list_empty(&dev_list) && IS_ERR_OR_NULL(nvme_thread)) {
+-		start_thread = true;
+-		nvme_thread = NULL;
+-	}
+-	list_add(&dev->node, &dev_list);
+-	spin_unlock(&dev_list_lock);
 -
--	return 0;
-+	return nvme_create_io_queues(dev);
+-	if (start_thread) {
+-		nvme_thread = kthread_run(nvme_kthread, NULL, "nvme");
+-		wake_up_all(&nvme_kthread_wait);
+-	} else
+-		wait_event_killable(nvme_kthread_wait, nvme_thread);
+-
+-	if (IS_ERR_OR_NULL(nvme_thread)) {
+-		result = nvme_thread ? PTR_ERR(nvme_thread) : -EINTR;
+-		goto disable;
+-	}
+-
+ 	nvme_init_queue(dev->queues[0], 0);
+ 	result = nvme_alloc_admin_tags(dev);
+ 	if (result)
+@@ -2154,6 +2158,10 @@ static void nvme_probe_work(struct work_struct *work)
  
-  free_queues:
- 	nvme_free_queues(dev, 1);
+ 	dev->ctrl.event_limit = 1;
+ 
++	result = nvme_dev_list_add(dev);
++	if (result)
++		goto remove;
++
+ 	/*
+ 	 * Keep the controller around but remove all namespaces if we don't have
+ 	 * any working I/O queue.
+@@ -2168,6 +2176,8 @@ static void nvme_probe_work(struct work_struct *work)
+ 
+ 	return;
+ 
++ remove:
++	nvme_dev_list_remove(dev);
+  free_tags:
+ 	nvme_dev_remove_admin(dev);
+ 	blk_put_queue(dev->ctrl.admin_q);
+@@ -2175,7 +2185,6 @@ static void nvme_probe_work(struct work_struct *work)
+ 	dev->queues[0]->tags = NULL;
+  disable:
+ 	nvme_disable_queue(dev, 0);
+-	nvme_dev_list_remove(dev);
+  unmap:
+ 	nvme_dev_unmap(dev);
+  out:
 -- 
 1.9.1
