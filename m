@@ -1,84 +1,85 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue,  1 Dec 2015 19:52:46 +0100
-Subject: [PATCH 11/26] nvme: remove dead controllers from a work item
+Date: Tue,  1 Dec 2015 19:52:47 +0100
+Subject: [PATCH 12/26] nvme: switch abort_limit to an atomic_t
 In-Reply-To: <1448995981-11982-1-git-send-email-hch@lst.de>
 References: <1448995981-11982-1-git-send-email-hch@lst.de>
-Message-ID: <1448995981-11982-12-git-send-email-hch@lst.de>
+Message-ID: <1448995981-11982-13-git-send-email-hch@lst.de>
 
-Compared to the kthread this gives us multiple call prevention for free.
+There is no lock to sychronize access to the abort_limit field of
+struct nvme_ctrl, so switch it to an atomic_t.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 22 +++++++++-------------
- 1 file changed, 9 insertions(+), 13 deletions(-)
+ drivers/nvme/host/core.c | 2 +-
+ drivers/nvme/host/nvme.h | 2 +-
+ drivers/nvme/host/pci.c  | 9 +++++----
+ 3 files changed, 7 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c61bde9..6088e88 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -839,7 +839,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	}
+ 
+ 	ctrl->oncs = le16_to_cpup(&id->oncs);
+-	ctrl->abort_limit = id->acl + 1;
++	atomic_set(&ctrl->abort_limit, id->acl + 1);
+ 	ctrl->vwc = id->vwc;
+ 	memcpy(ctrl->serial, id->sn, sizeof(id->sn));
+ 	memcpy(ctrl->model, id->mn, sizeof(id->mn));
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 88950f36..982fa30 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -77,7 +77,7 @@ struct nvme_ctrl {
+ 	u32 max_hw_sectors;
+ 	u32 stripe_size;
+ 	u16 oncs;
+-	u16 abort_limit;
++	atomic_t abort_limit;
+ 	u8 event_limit;
+ 	u8 vwc;
+ 	u32 vs;
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 23cbd93..26e9823 100644
+index 26e9823..1ad7f18 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -80,7 +80,7 @@ struct nvme_iod;
- static int nvme_reset(struct nvme_dev *dev);
- static void nvme_process_cq(struct nvme_queue *nvmeq);
- static void nvme_unmap_data(struct nvme_dev *dev, struct nvme_iod *iod);
--static void nvme_dead_ctrl(struct nvme_dev *dev);
-+static void nvme_remove_dead_ctrl(struct nvme_dev *dev);
- static void nvme_dev_shutdown(struct nvme_dev *dev);
+@@ -388,7 +388,7 @@ static void abort_completion(struct nvme_queue *nvmeq, void *ctx,
+ 	blk_mq_free_request(req);
  
- struct async_cmd_info {
-@@ -113,6 +113,7 @@ struct nvme_dev {
- 	void __iomem *bar;
- 	struct work_struct reset_work;
- 	struct work_struct scan_work;
-+	struct work_struct remove_work;
- 	struct mutex shutdown_lock;
- 	bool subsystem;
- 	void __iomem *cmb;
-@@ -2218,31 +2219,25 @@ static void nvme_reset_work(struct work_struct *work)
-  unmap:
- 	nvme_dev_unmap(dev);
-  out:
--	if (!work_pending(&dev->reset_work))
--		nvme_dead_ctrl(dev);
-+	nvme_remove_dead_ctrl(dev);
+ 	dev_warn(nvmeq->q_dmadev, "Abort status:%x result:%x", status, result);
+-	++nvmeq->dev->ctrl.abort_limit;
++	atomic_inc(&nvmeq->dev->ctrl.abort_limit);
  }
  
--static int nvme_remove_dead_ctrl(void *arg)
-+static void nvme_remove_dead_ctrl_work(struct work_struct *work)
- {
--	struct nvme_dev *dev = (struct nvme_dev *)arg;
-+	struct nvme_dev *dev = container_of(work, struct nvme_dev, remove_work);
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ static void async_completion(struct nvme_queue *nvmeq, void *ctx,
+@@ -1124,13 +1124,15 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 		return BLK_EH_HANDLED;
+ 	}
  
- 	if (pci_get_drvdata(pdev))
- 		pci_stop_and_remove_bus_device_locked(pdev);
- 	nvme_put_ctrl(&dev->ctrl);
--	return 0;
- }
+-	if (!dev->ctrl.abort_limit)
++	if (atomic_dec_and_test(&dev->ctrl.abort_limit))
+ 		return BLK_EH_RESET_TIMER;
  
--static void nvme_dead_ctrl(struct nvme_dev *dev)
-+static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
- {
--	dev_warn(dev->dev, "Device failed to resume\n");
-+	dev_warn(dev->dev, "Removing after probe failure\n");
- 	kref_get(&dev->ctrl.kref);
--	if (IS_ERR(kthread_run(nvme_remove_dead_ctrl, dev, "nvme%d",
--						dev->ctrl.instance))) {
--		dev_err(dev->dev,
--			"Failed to start controller remove task\n");
-+	if (!schedule_work(&dev->remove_work))
- 		nvme_put_ctrl(&dev->ctrl);
--	}
- }
+ 	abort_req = blk_mq_alloc_request(dev->ctrl.admin_q, WRITE,
+ 			BLK_MQ_REQ_NOWAIT);
+-	if (IS_ERR(abort_req))
++	if (IS_ERR(abort_req)) {
++		atomic_inc(&dev->ctrl.abort_limit);
+ 		return BLK_EH_RESET_TIMER;
++	}
  
- static int nvme_reset(struct nvme_dev *dev)
-@@ -2323,6 +2318,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	INIT_LIST_HEAD(&dev->node);
- 	INIT_WORK(&dev->scan_work, nvme_dev_scan);
- 	INIT_WORK(&dev->reset_work, nvme_reset_work);
-+	INIT_WORK(&dev->remove_work, nvme_remove_dead_ctrl_work);
- 	mutex_init(&dev->shutdown_lock);
+ 	abort_cmd = blk_mq_rq_to_pdu(abort_req);
+ 	nvme_set_info(abort_cmd, abort_req, abort_completion);
+@@ -1141,7 +1143,6 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	cmd.abort.sqid = cpu_to_le16(nvmeq->qid);
+ 	cmd.abort.command_id = abort_req->tag;
  
- 	result = nvme_setup_prp_pools(dev);
+-	--dev->ctrl.abort_limit;
+ 	cmd_rq->aborted = 1;
+ 
+ 	dev_warn(nvmeq->q_dmadev, "I/O %d QID %d timeout, aborting\n",
 -- 
 1.9.1
