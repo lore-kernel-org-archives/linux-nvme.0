@@ -1,44 +1,31 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 1 Dec 2015 04:36:22 -0800
-Subject: [PATCH] NVMe: Shutdown fixes
-In-Reply-To: <20151130214209.GB25958@localhost.localdomain>
-References: <20151125160544.GA2587@localhost.localdomain>
- <20151125164257.GB4321@infradead.org>
- <20151125165703.GC2587@localhost.localdomain>
- <20151125170842.GA29291@infradead.org>
- <20151125172845.GD2587@localhost.localdomain>
- <20151125175512.GA23638@infradead.org>
- <20151125182439.GE2587@localhost.localdomain>
- <20151125193851.GA16415@infradead.org>
- <20151130084718.GA12727@infradead.org>
- <20151130214209.GB25958@localhost.localdomain>
-Message-ID: <20151201123622.GA6370@infradead.org>
+From: pbonzini@redhat.com (Paolo Bonzini)
+Date: Tue, 1 Dec 2015 17:02:19 +0100
+Subject: [RFC PATCH 0/9] vhost-nvme: new qemu nvme backend using nvme
+ target
+In-Reply-To: <1448925639.27669.7.camel@ssi>
+References: <1447978868-17138-1-git-send-email-mlin@kernel.org>
+ <56506D95.70101@redhat.com> <1448266667.18175.5.camel@hasee>
+ <56531F5F.3050709@redhat.com> <1448925639.27669.7.camel@ssi>
+Message-ID: <565DC48B.6030903@redhat.com>
 
-On Mon, Nov 30, 2015@09:42:10PM +0000, Keith Busch wrote:
-> > Can you review the code in
-> > http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-req.11
-> > and see if this fits your intention?
+
+
+On 01/12/2015 00:20, Ming Lin wrote:
+> qemu-nvme: 148MB/s
+> vhost-nvme + google-ext: 230MB/s
+> qemu-nvme + google-ext + eventfd: 294MB/s
+> virtio-scsi: 296MB/s
+> virtio-blk: 344MB/s
 > 
-> Looking good so far, passing all tests.
+> "vhost-nvme + google-ext" didn't get good enough performance.
 
-Thanks.  I'll send it out once I got your Ack and Jens has picked up
-the currently posted batch.
+I'd expect it to be on par of qemu-nvme with ioeventfd but the question
+is: why should it be better?  For vhost-net, the answer is that more
+zerocopy can be done if you put the data path in the kernel.
 
-> For something new not related to this work, I was recently copied on an
-> issue and wanted to check with you for your opinion on how to fix.
-> 
-> We probe in a workqueue to improve startup time, but not blocking probe
-> messes up some user space software looking for expected mount
-> points. I was comparing how SCSI works, and it looks like it relies on
-> async_schedule and wait_for_device_probe.
-> 
-> We didn't use async_shedule in nvme because nvme_remove can't synchronize
-> its own work. It doesn't look like much trouble to make "remove" not require
-> flushing startup, so I'm thinking we can just remove all the work queues
-> and just use the async API instead. Does that sound reasonable, or any
-> other ideas?
+But qemu-nvme is already using io_submit for the data path, perhaps
+there's not much to gain from vhost-nvme...
 
-The async mechnisms are a huge nightmare in SCSI and I would strongly
-suggest not to introduce any new users.  Code mounting file systems
-must wait for the device node to appear and not rely on the modprobe
-return anyway.
+Paolo
+
+> Still tuning.
