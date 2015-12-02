@@ -1,64 +1,44 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 1 Dec 2015 13:21:14 -0700
-Subject: [PATCH v2] nvme: temporary fix for Apple controller reset
-In-Reply-To: <2b5655ec98dda469696608bf34344e5a@localhost>
-References: <781f695dc3cedc678faf29070a6f6bf5@localhost>
- <9cc23b98072a89f0f469f528f6e8f74e@localhost> <565DFB7F.6000807@kernel.dk>
- <2b5655ec98dda469696608bf34344e5a@localhost>
-Message-ID: <565E013A.10105@kernel.dk>
+From: mlin@kernel.org (Ming Lin)
+Date: Tue, 01 Dec 2015 21:13:11 -0800
+Subject: [RFC PATCH 0/9] vhost-nvme: new qemu nvme backend using nvme
+ target
+In-Reply-To: <998355860.30506151.1448989146641.JavaMail.zimbra@redhat.com>
+References: <1447978868-17138-1-git-send-email-mlin@kernel.org>
+ <56506D95.70101@redhat.com> <1448266667.18175.5.camel@hasee>
+ <56531F5F.3050709@redhat.com> <1448925639.27669.7.camel@ssi>
+ <565DC48B.6030903@redhat.com> <1448987171.3041.2.camel@hasee>
+ <998355860.30506151.1448989146641.JavaMail.zimbra@redhat.com>
+Message-ID: <1449033191.3041.11.camel@hasee>
 
-On 12/01/2015 01:05 PM, Stephan G?nther wrote:
-> On 2015/December/01 12:56, Jens Axboe wrote:
->> On 12/01/2015 12:46 PM, Stephan G?nther wrote:
->>> The patch below has been reviewed by Christoph and reported to work.
->>> However, there is still no sign that it will be applied to linux-4.4.
->>>
->>> Please either undo commit c74dc7801d515d01847fd5cf2b472489fa5717b1,
->>> which added the PCI ID of the Apple controller, or merge the patch below
->>> asap.
->>>
->>>
->>> Currently, the driver will make that controller destroy data!
->>
->> Honestly, I'd rather revert the pci id addition, unless there's conclusive
->> evidence that limiting the (per queue) depth to 2 really does fix the issue.
->
-> Wes Cilldhaire tested the patch (his answer is in that thread) - as I
-> did the past 3 weeks ago as I'm running solely Linux on that broken
-> MacBook.
->
->> Is this what the OSX driver does? What testing was done to ascertain that 2
->> is the magic number? Does it just make it harder to hit, or does it really
->> fix it?
->
-> I do not know what the OSX driver does. Apple is of absolutely no help
-> whatsoever.
+On Tue, 2015-12-01@11:59 -0500, Paolo Bonzini wrote:
+> > What do you think about virtio-nvme+vhost-nvme?
+> 
+> What would be the advantage over virtio-blk?  Multiqueue is not supported
+> by QEMU but it's already supported by Linux (commit 6a27b656fc).
 
-That's unfortunately not news... I used to run linux on a macbook, and 
-some of the ahci based SSDs would randomly hang if msi interrupts were 
-used. We had to quirk around that too, and as far as I know, nobody got 
-any response from Apple on that issue either.
+I expect performance would be better.
 
-> But without that patch `mkfs btrfs` immediately fails. Even `partprobe
-> /dev/nvme0n1` will reset the controller (the latter one without data
-> loss).
->
-> As I am running a btrfs on a luks container for 3 weeks with that patch,
-> it *does* work. Performance is, obviously, not the best one I have seen.
-> But given the circumstances I cannot complain at all.
->
->
-> So again: please either revert the previous patch and leave it to the
-> more interested individuals to try it (probably slowing down Linux
-> support for that MacBook as not detecting the hard-soldered disk is
-> quite a blocker), or merge that hotfix until we find a better solution.
->
-> With 4.5 that may even become a quirk.
+Seems google cloud VM uses both nvme and virtio-scsi. Not sure if
+virtio-blk is also used.
+https://cloud.google.com/compute/docs/disks/local-ssd#runscript
 
-As per your other message on the device being single queue, then that 
-does make the case more believable. I guess if you guys are fine with 
-it, it's better to have it in.
+> 
+> To me, the advantage of nvme is that it provides more than decent performance on
+> unmodified Windows guests, and thanks to your vendor extension can be used
+> on Linux as well with speeds comparable to virtio-blk.  So it's potentially
+> a very good choice for a cloud provider that wants to support Windows guests
+> (together with e.g. a fast SAS emulated controller to replace virtio-scsi,
+> and emulated igb or ixgbe to replace virtio-net).
 
+vhost-nvme patches are learned from rts-megasas, which could possibly be
+a fast SAS emulated controller.
+https://github.com/Datera/rts-megasas
 
--- 
-Jens Axboe
+> 
+> Which features are supported by NVMe and not virtio-blk?
+
+Rob (CCed),
+
+Would you share whether google uses any NVMe specific feature?
+
+Thanks.
