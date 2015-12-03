@@ -1,7 +1,7 @@
-From: angelusbritos@gmail.com (Angelo Brito)
-Date: Thu, 3 Dec 2015 17:51:18 -0500
-Subject: IRQ and CPU Affinity
-Message-ID: <CAMjVwgR+7Dp=H7qFPncKxA4YeTgppPehpTTyp+NYq6XTrw2nSg@mail.gmail.com>
+From: asb@cin.ufpe.br (Angelo Brito)
+Date: Thu, 3 Dec 2015 18:35:55 -0500
+Subject: IRQ and CPU Affinity on new Kernels
+Message-ID: <CAMjVwgQRoPi8Chta3sXdxAZX3KCsQOu9fqRvL_i9qRqg1BkFmQ@mail.gmail.com>
 
 Hello Gentlemen,
 
@@ -41,5 +41,6 @@ the not corresponding Completion Queue?
 
 Regards,
 Angelo Silva Brito.
+B.S. in Computer Engineering - UFPE Brazil
 http://about.me/angelobrito
 _________________________________________________
