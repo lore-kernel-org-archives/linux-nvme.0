@@ -1,69 +1,45 @@
-From: pbonzini@redhat.com (Paolo Bonzini)
-Date: Wed, 2 Dec 2015 11:07:36 +0100
-Subject: [RFC PATCH 0/9] vhost-nvme: new qemu nvme backend using nvme
- target
-In-Reply-To: <1449033191.3041.11.camel@hasee>
-References: <1447978868-17138-1-git-send-email-mlin@kernel.org>
- <56506D95.70101@redhat.com> <1448266667.18175.5.camel@hasee>
- <56531F5F.3050709@redhat.com> <1448925639.27669.7.camel@ssi>
- <565DC48B.6030903@redhat.com> <1448987171.3041.2.camel@hasee>
- <998355860.30506151.1448989146641.JavaMail.zimbra@redhat.com>
- <1449033191.3041.11.camel@hasee>
-Message-ID: <565EC2E8.9010508@redhat.com>
+From: angelusbritos@gmail.com (Angelo Brito)
+Date: Thu, 3 Dec 2015 17:51:18 -0500
+Subject: IRQ and CPU Affinity
+Message-ID: <CAMjVwgR+7Dp=H7qFPncKxA4YeTgppPehpTTyp+NYq6XTrw2nSg@mail.gmail.com>
 
+Hello Gentlemen,
 
+We had some problems with a controller and some commands were missing
+(timeouts and cancelling I/O).
+I noticed that some interruptions were handled by different CPUs, like
+in this example:
 
-On 02/12/2015 06:13, Ming Lin wrote:
-> On Tue, 2015-12-01@11:59 -0500, Paolo Bonzini wrote:
->>> What do you think about virtio-nvme+vhost-nvme?
->>
->> What would be the advantage over virtio-blk?  Multiqueue is not supported
->> by QEMU but it's already supported by Linux (commit 6a27b656fc).
-> 
-> I expect performance would be better.
+[root at schenberg ~]# uname -a
+Linux schenberg 4.3.0-1.el7.elrepo.x86_64 #1 SMP Tue Nov 3 20:15:39
+EST 2015 x86_64 x86_64 x86_64 GNU/Linux
+[root at schenberg ~]# cat /proc/interrupts | grep nvme
+           CPU0       CPU1       CPU2       CPU3       CPU4       CPU5
+      CPU6       CPU7
+ 38:  158075552          0          0          0          3          0
+         0          0  IR-PCI-MSI 524288-edge      nvme0q0, nvme0q1
+ 39:          0  155369176          0          0          0          0
+         0          0  IR-PCI-MSI 524289-edge      nvme0q2
+ 40:          0          0  166645563          0          0          0
+         0          0  IR-PCI-MSI 524290-edge      nvme0q3
+ 41:          0          0          0  185969937          0          0
+         0          0  IR-PCI-MSI 524291-edge      nvme0q4
+ 42:          1          0          0          0   91441357          1
+         0          0  IR-PCI-MSI 524292-edge      nvme0q5
+ 43:          0          0          0          0          0   92262534
+         0          0  IR-PCI-MSI 524293-edge      nvme0q6
+ 44:          0          0          0          0          0          0
+  96782665          0  IR-PCI-MSI 524294-edge      nvme0q7
+ 45:          0          0          0          0          0          0
+         0   79111494  IR-PCI-MSI 524295-edge      nvme0q8
 
-Why?  nvme and virtio-blk are almost the same, even more so with the
-doorbell extension.  virtio is designed to only hit paths that are not
-slowed down by virtualization.  It's really hard to do better, except
-perhaps with VFIO (and then you don't need your vendor extension).
+nvme0q0, nvme0q1 interrupted the host and CPU4 3 times and nvme0q5
+interrupts were handled by CPU0, CPU4 and CPU5.
 
->> To me, the advantage of nvme is that it provides more than decent performance on
->> unmodified Windows guests, and thanks to your vendor extension can be used
->> on Linux as well with speeds comparable to virtio-blk.  So it's potentially
->> a very good choice for a cloud provider that wants to support Windows guests
->> (together with e.g. a fast SAS emulated controller to replace virtio-scsi,
->> and emulated igb or ixgbe to replace virtio-net).
-> 
-> vhost-nvme patches are learned from rts-megasas, which could possibly be
-> a fast SAS emulated controller.
-> https://github.com/Datera/rts-megasas
+Is it a common behavior? Why would others CPU handles interrupts from
+the not corresponding Completion Queue?
 
-Why the hate for userspace? :)
-
-I don't see a reason why vhost-nvme would be faster than a userspace
-implementation.  vhost-blk was never committed upstream for similar
-reasons: it lost all the userspace features (snapshots, storage
-migration, etc.)---which are nice to have and do not cost performance if
-you do not use them---without any compelling performance gain.
-
-Without the doorbell extension you'd have to go back to userspace on
-every write and ioctl to vhost (see MEGASAS_IOC_FRAME in rts-megasas).
-With the doorbell extension you're doing exactly the same work, and then
-kernel thread vs. userspace thread shouldn't matter much given similar
-optimization effort.  A userspace NVMe, however, will gain all
-optimization that is done to QEMU's block layer for free.  We have done
-a lot and have more planned.
-
->> Which features are supported by NVMe and not virtio-blk?
-
-Having read the driver, the main improvements of NVMe compared to
-virtio-blk are support for discard and FUA.  Discard is easy to add to
-virtio-blk.  In the past the idea was "just use virtio-scsi", but it may
-be worth adding it now that SSDs are more common.
-
-Thus, FUA is pretty much the only reason for a kernel-based
-implementation, because it is not exported in userspace.  However, does
-it actually make a difference on real-world workloads?  Local SSDs on
-Google Cloud are not even persistent, so you never need to flush to them.
-
-Paolo
+Regards,
+Angelo Silva Brito.
+http://about.me/angelobrito
+_________________________________________________
