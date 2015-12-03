@@ -1,46 +1,23 @@
-From: asb@cin.ufpe.br (Angelo Brito)
-Date: Thu, 3 Dec 2015 18:35:55 -0500
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 3 Dec 2015 23:50:41 +0000
 Subject: IRQ and CPU Affinity on new Kernels
-Message-ID: <CAMjVwgQRoPi8Chta3sXdxAZX3KCsQOu9fqRvL_i9qRqg1BkFmQ@mail.gmail.com>
+In-Reply-To: <CAMjVwgQRoPi8Chta3sXdxAZX3KCsQOu9fqRvL_i9qRqg1BkFmQ@mail.gmail.com>
+References: <CAMjVwgQRoPi8Chta3sXdxAZX3KCsQOu9fqRvL_i9qRqg1BkFmQ@mail.gmail.com>
+Message-ID: <20151203235041.GA3565@localhost.localdomain>
 
-Hello Gentlemen,
+On Thu, Dec 03, 2015@06:35:55PM -0500, Angelo Brito wrote:
+> Hello Gentlemen,
+> 
+> We had some problems with a controller and some commands were missing
+> (timeouts and cancelling I/O).
+>
+> I noticed that some interruptions were handled by different CPUs, like
+> in this example:
 
-We had some problems with a controller and some commands were missing
-(timeouts and cancelling I/O).
-I noticed that some interruptions were handled by different CPUs, like
-in this example:
+I doubt the interrupt affinity you're seeing could have anything
+to do with timeouts or missing commands.
 
-[root at schenberg ~]# uname -a
-Linux schenberg 4.3.0-1.el7.elrepo.x86_64 #1 SMP Tue Nov 3 20:15:39
-EST 2015 x86_64 x86_64 x86_64 GNU/Linux
-[root at schenberg ~]# cat /proc/interrupts | grep nvme
-           CPU0       CPU1       CPU2       CPU3       CPU4       CPU5
-      CPU6       CPU7
- 38:  158075552          0          0          0          3          0
-         0          0  IR-PCI-MSI 524288-edge      nvme0q0, nvme0q1
- 39:          0  155369176          0          0          0          0
-         0          0  IR-PCI-MSI 524289-edge      nvme0q2
- 40:          0          0  166645563          0          0          0
-         0          0  IR-PCI-MSI 524290-edge      nvme0q3
- 41:          0          0          0  185969937          0          0
-         0          0  IR-PCI-MSI 524291-edge      nvme0q4
- 42:          1          0          0          0   91441357          1
-         0          0  IR-PCI-MSI 524292-edge      nvme0q5
- 43:          0          0          0          0          0   92262534
-         0          0  IR-PCI-MSI 524293-edge      nvme0q6
- 44:          0          0          0          0          0          0
-  96782665          0  IR-PCI-MSI 524294-edge      nvme0q7
- 45:          0          0          0          0          0          0
-         0   79111494  IR-PCI-MSI 524295-edge      nvme0q8
-
-nvme0q0, nvme0q1 interrupted the host and CPU4 3 times and nvme0q5
-interrupts were handled by CPU0, CPU4 and CPU5.
-
-Is it a common behavior? Why would others CPU handles interrupts from
-the not corresponding Completion Queue?
-
-Regards,
-Angelo Silva Brito.
-B.S. in Computer Engineering - UFPE Brazil
-http://about.me/angelobrito
-_________________________________________________
+There is a small window of time when a disk is initially brought online,
+but before the affinity hints are provided. Because of that, even if
+you properly affinitize all irqs to use the driver's hint, you'll likely
+see a few irqs on non-optimal CPU.
