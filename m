@@ -1,120 +1,106 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon,  7 Dec 2015 15:30:31 -0700
-Subject: [PATCHv2] NVMe: Add pci error handlers
-Message-ID: <1449527431-23749-1-git-send-email-keith.busch@intel.com>
+Date: Mon,  7 Dec 2015 16:20:55 -0700
+Subject: [PATCH] NVMe: Export NVMe attributes to sysfs group
+Message-ID: <1449530455-25485-1-git-send-email-keith.busch@intel.com>
 
-Requests enabling pcie aer support. Shuts down the controller on error
-detected with io frozen state prior to requesting slot reset; resumes
-controller after reset completes.
+Adds all controller information to attribute list exposed to sysfs, and
+appends the reset_controller attribute to it. The nvme device is created
+with this attribute list, so driver no long manages its attributes.
 
+Reported-by: Sujith Pandel <sujithpshankar at gmail.com>
+Cc: Sujith Pandel <sujithpshankar@ gmail.com>
+Cc: David Milburn <dmilburn at redhat.com>
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
-Changes from previous version:
-  Merged up to Christoph's block repository.
+This is based on the patch from Sujith. It is merged up to Christoph's
+block tree, exposes all the saved nvme controller attributes, aligns
+coding conventions with scsi, and simplifies sysfs attribute management
+by providing it at device allocation time.
 
-  Removed the NULL function defines and the references to them.
+ drivers/nvme/host/core.c | 44 +++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 33 insertions(+), 11 deletions(-)
 
-  A comment that says what's happening in the error, with a description
-  on how IO restarts through the other error callbacks.
-
- drivers/nvme/host/pci.c | 54 ++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 44 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b88708a..b82bbea 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -12,6 +12,7 @@
-  * more details.
-  */
- 
-+#include <linux/aer.h>
- #include <linux/bitops.h>
- #include <linux/blkdev.h>
- #include <linux/blk-mq.h>
-@@ -1670,6 +1671,8 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 2))
- 		dev->cmb = nvme_map_cmb(dev);
- 
-+	pci_enable_pcie_error_reporting(pdev);
-+	pci_save_state(pdev);
- 	return 0;
- 
-  unmap:
-@@ -1697,8 +1700,10 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
- 		pci_release_regions(pdev);
- 	}
- 
--	if (pci_is_enabled(pdev))
-+	if (pci_is_enabled(pdev)) {
-+		pci_disable_pcie_error_reporting(pdev);
- 		pci_disable_device(pdev);
-+	}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 0a7a510..cd2a64f 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -964,6 +964,36 @@ static ssize_t nvme_sysfs_reset(struct device *dev,
  }
+ static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_sysfs_reset);
  
- struct nvme_delq_ctx {
-@@ -2225,13 +2230,6 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_put_ctrl(&dev->ctrl);
- }
- 
--/* These functions are yet to be implemented */
--#define nvme_error_detected NULL
--#define nvme_dump_registers NULL
--#define nvme_link_reset NULL
--#define nvme_slot_reset NULL
--#define nvme_error_resume NULL
--
- #ifdef CONFIG_PM_SLEEP
- static int nvme_suspend(struct device *dev)
++#define nvme_show_function(field)						\
++static ssize_t  field##_show(struct device *dev,				\
++			    struct device_attribute *attr, char *buf)		\
++{										\
++        struct nvme_ctrl *ctrl = dev_get_drvdata(dev);				\
++        return sprintf(buf, "%.*s\n", (int)sizeof(ctrl->field), ctrl->field);	\
++}										\
++static DEVICE_ATTR(field, S_IRUGO, field##_show, NULL);
++
++nvme_show_function(model);
++nvme_show_function(serial);
++nvme_show_function(firmware_rev);
++
++static struct attribute *nvme_dev_attrs[] = {
++	&dev_attr_reset_controller.attr,
++	&dev_attr_model.attr,
++	&dev_attr_serial.attr,
++	&dev_attr_firmware_rev.attr,
++	NULL
++};
++
++static struct attribute_group nvme_dev_attrs_group = {
++	.attrs = nvme_dev_attrs,
++};
++
++static const struct attribute_group *nvme_dev_attr_groups[] = {
++	&nvme_dev_attrs_group,
++	NULL
++};
++
+ static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
  {
-@@ -2254,10 +2252,46 @@ static int nvme_resume(struct device *dev)
+ 	struct nvme_ns *nsa = container_of(a, struct nvme_ns, list);
+@@ -1191,7 +1221,6 @@ static void nvme_release_instance(struct nvme_ctrl *ctrl)
  
- static SIMPLE_DEV_PM_OPS(nvme_dev_pm_ops, nvme_suspend, nvme_resume);
+ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
+  {
+-	device_remove_file(ctrl->device, &dev_attr_reset_controller);
+ 	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
  
-+static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
-+						pci_channel_state_t state)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	/*
-+	 * A frozen channel requires a reset. When detected, this method will
-+	 * shutdown the controller to quiesce. The controller will be restarted
-+	 * after the slot reset through driver's slot_reset callback.
-+	 */
-+	dev_warn(&pdev->dev, "error detected: state:%d\n", state);
-+	switch (state) {
-+	case pci_channel_io_normal:
-+		return PCI_ERS_RESULT_CAN_RECOVER;
-+	case pci_channel_io_frozen:
-+		nvme_dev_shutdown(dev);
-+		return PCI_ERS_RESULT_NEED_RESET;
-+	case pci_channel_io_perm_failure:
-+		return PCI_ERS_RESULT_DISCONNECT;
-+	}
-+	return PCI_ERS_RESULT_NEED_RESET;
-+}
-+
-+static pci_ers_result_t nvme_slot_reset(struct pci_dev *pdev)
-+{
-+	struct nvme_dev *dev = pci_get_drvdata(pdev);
-+
-+	dev_info(&pdev->dev, "restart after slot reset\n");
-+	pci_restore_state(pdev);
-+	queue_work(nvme_workq, &dev->reset_work);
-+	return PCI_ERS_RESULT_RECOVERED;
-+}
-+
-+static void nvme_error_resume(struct pci_dev *pdev)
-+{
-+	pci_cleanup_aer_uncorrect_error_status(pdev);
-+}
-+
- static const struct pci_error_handlers nvme_err_handler = {
- 	.error_detected	= nvme_error_detected,
--	.mmio_enabled	= nvme_dump_registers,
--	.link_reset	= nvme_link_reset,
- 	.slot_reset	= nvme_slot_reset,
- 	.resume		= nvme_error_resume,
- 	.reset_notify	= nvme_reset_notify,
+ 	spin_lock(&dev_list_lock);
+@@ -1234,9 +1263,10 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	if (ret)
+ 		goto out;
+ 
+-	ctrl->device = device_create(nvme_class, ctrl->dev,
++	ctrl->device = device_create_with_groups(nvme_class, ctrl->dev,
+ 				MKDEV(nvme_char_major, ctrl->instance),
+-				dev, "nvme%d", ctrl->instance);
++				dev, nvme_dev_attr_groups,
++				"nvme%d", ctrl->instance);
+ 	if (IS_ERR(ctrl->device)) {
+ 		ret = PTR_ERR(ctrl->device);
+ 		goto out_release_instance;
+@@ -1244,19 +1274,11 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	get_device(ctrl->device);
+ 	dev_set_drvdata(ctrl->device, ctrl);
+ 
+-	ret = device_create_file(ctrl->device, &dev_attr_reset_controller);
+-	if (ret)
+-		goto out_put_device;
+-
+ 	spin_lock(&dev_list_lock);
+ 	list_add_tail(&ctrl->node, &nvme_ctrl_list);
+ 	spin_unlock(&dev_list_lock);
+ 
+ 	return 0;
+-
+-out_put_device:
+-	put_device(ctrl->device);
+-	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
+ out_release_instance:
+ 	nvme_release_instance(ctrl);
+ out:
 -- 
 2.6.2.307.g37023ba
