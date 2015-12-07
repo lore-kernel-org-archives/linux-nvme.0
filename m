@@ -1,18 +1,26 @@
-From: asb@cin.ufpe.br (Angelo Brito)
-Date: Fri, 4 Dec 2015 12:19:34 -0300
-Subject: IRQ and CPU Affinity on new Kernels
-In-Reply-To: <20151203235041.GA3565@localhost.localdomain>
-References: <CAMjVwgQRoPi8Chta3sXdxAZX3KCsQOu9fqRvL_i9qRqg1BkFmQ@mail.gmail.com>
- <20151203235041.GA3565@localhost.localdomain>
-Message-ID: <CAMjVwgSB-ZG9zdZ_n6MLMZpe038PMRZOrUAUUj_OYdMdR90j6g@mail.gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 7 Dec 2015 06:12:47 -0800
+Subject: [PATCH] NVMe: Shutdown fixes
+In-Reply-To: <20151130214209.GB25958@localhost.localdomain>
+References: <20151125160544.GA2587@localhost.localdomain>
+ <20151125164257.GB4321@infradead.org>
+ <20151125165703.GC2587@localhost.localdomain>
+ <20151125170842.GA29291@infradead.org>
+ <20151125172845.GD2587@localhost.localdomain>
+ <20151125175512.GA23638@infradead.org>
+ <20151125182439.GE2587@localhost.localdomain>
+ <20151125193851.GA16415@infradead.org>
+ <20151130084718.GA12727@infradead.org>
+ <20151130214209.GB25958@localhost.localdomain>
+Message-ID: <20151207141247.GA16550@infradead.org>
 
-Thanks Keith,
+On Mon, Nov 30, 2015@09:42:10PM +0000, Keith Busch wrote:
+> > Can you review the code in
+> > http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/nvme-req.11
+> > and see if this fits your intention?
+> 
+> Looking good so far, passing all tests.
 
-I understand the nvme0q0 (Admin SQ) to be handled by others CPU during
-startup but the nvme0q5 I wasn't sure.
-
-Regards,
-Angelo Silva Brito.
-B.S. in Computer Engineering - UFPE Brazil
-http://about.me/angelobrito
-_________________________________________________
+Can you Ack the remaining patches on the list?  I'd like to get them
+into the safe harbour of Jens' tree before starting on the round of
+updates.
