@@ -1,24 +1,37 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 8 Dec 2015 00:00:29 +0000
-Subject: [PATCH] NVMe: Export NVMe attributes to sysfs group
-In-Reply-To: <20151207233112.GB26585@infradead.org>
-References: <1449530455-25485-1-git-send-email-keith.busch@intel.com>
- <20151207233112.GB26585@infradead.org>
-Message-ID: <20151208000029.GC31067@localhost.localdomain>
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Tue, 08 Dec 2015 16:22:17 +0100
+Subject: [PATCH] nvme: fix another 32-bit build warning
+Message-ID: <8914775.foiT9pJv7s@wuerfel>
 
-On Mon, Dec 07, 2015@03:31:12PM -0800, Christoph Hellwig wrote:
-> We really need to expose the NGUID on the namespace at the same time.
-> Otherwise people will use this information to incorrectly provide a
-> serial number of the block devices in udev because not better
-> information is available.
+The nvme_user_cmd function was recently moved around from one file
+to another, which made a warning reappear that I had fixed before
+at some point:
 
-I'm planning to tackle that next. NGUID can not be in the same attribute
-group. It needs to be in a new namespace group instead.
+drivers/nvme/host/core.c: In function 'nvme_user_cmd':
+drivers/nvme/host/core.c:424:4: warning: cast to pointer from integer of different size [-Wint-to-pointer-cast]
 
-Right now all I got is the NGUID/EUI64. Any opinion on what to name the
-attribute? I was going with "id". The systemd developers didn't provide
-a very strong opinion, and I think they were confusing "serial" as a
-unique identifier.
+This applies the same workaround that we have elsewhere in the
+driver with an extra type cast to uintptr_t.
 
-While I'm in this area, are there other namespace attributes anyone is
-interested in exposing?
+Signed-off-by: Arnd Bergmann <arnd at arndb.de>
+Fixes: 1673f1f08c88 ("nvme: move block_device_operations and ns/ctrl freeing to common code")
+Link: https://lkml.org/lkml/2015/10/9/611
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f9c4e80c2441..47ebfb85b14b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -421,7 +421,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
+ 		timeout = msecs_to_jiffies(cmd.timeout_ms);
+ 
+ 	status = nvme_submit_user_cmd(ns ? ns->queue : ctrl->admin_q, &c,
+-			(void __user *)cmd.addr, cmd.data_len,
++			(void __user *)(uintptr_t)cmd.addr, cmd.data_len,
+ 			&cmd.result, timeout);
+ 	if (status >= 0) {
+ 		if (put_user(cmd.result, &ucmd->result))
+-- 
+2.1.0.rc2
