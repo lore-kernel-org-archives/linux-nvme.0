@@ -1,28 +1,24 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 7 Dec 2015 15:31:12 -0800
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 8 Dec 2015 00:00:29 +0000
 Subject: [PATCH] NVMe: Export NVMe attributes to sysfs group
-In-Reply-To: <1449530455-25485-1-git-send-email-keith.busch@intel.com>
+In-Reply-To: <20151207233112.GB26585@infradead.org>
 References: <1449530455-25485-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20151207233112.GB26585@infradead.org>
+ <20151207233112.GB26585@infradead.org>
+Message-ID: <20151208000029.GC31067@localhost.localdomain>
 
-On Mon, Dec 07, 2015@04:20:55PM -0700, Keith Busch wrote:
-> Adds all controller information to attribute list exposed to sysfs, and
-> appends the reset_controller attribute to it. The nvme device is created
-> with this attribute list, so driver no long manages its attributes.
-> 
-> Reported-by: Sujith Pandel <sujithpshankar at gmail.com>
-> Cc: Sujith Pandel <sujithpshankar@ gmail.com>
-> Cc: David Milburn <dmilburn at redhat.com>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
-> This is based on the patch from Sujith. It is merged up to Christoph's
-> block tree, exposes all the saved nvme controller attributes, aligns
-> coding conventions with scsi, and simplifies sysfs attribute management
-> by providing it at device allocation time.
+On Mon, Dec 07, 2015@03:31:12PM -0800, Christoph Hellwig wrote:
+> We really need to expose the NGUID on the namespace at the same time.
+> Otherwise people will use this information to incorrectly provide a
+> serial number of the block devices in udev because not better
+> information is available.
 
-This looks good, BUT:
+I'm planning to tackle that next. NGUID can not be in the same attribute
+group. It needs to be in a new namespace group instead.
 
-We really need to expose the NGUID on the namespace at the same time.
-Otherwise people will use this information to incorrectly provide a
-serial number of the block devices in udev because not better
-information is available.
+Right now all I got is the NGUID/EUI64. Any opinion on what to name the
+attribute? I was going with "id". The systemd developers didn't provide
+a very strong opinion, and I think they were confusing "serial" as a
+unique identifier.
+
+While I'm in this area, are there other namespace attributes anyone is
+interested in exposing?
