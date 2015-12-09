@@ -1,29 +1,124 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 9 Dec 2015 22:43:28 +0000
-Subject: kernel BUG at drivers/block/nvme-core.c:732!
-In-Reply-To: <3AAC62DB-A747-48D7-9D9F-F96433D71FFE@roche.com>
-References: <3AAC62DB-A747-48D7-9D9F-F96433D71FFE@roche.com>
-Message-ID: <20151209224328.GA4617@localhost.localdomain>
+Date: Wed,  9 Dec 2015 16:06:53 -0700
+Subject: [PATCHv3] printf: Add format for 8-byte EUI-64 type
+Message-ID: <1449702413-25598-1-git-send-email-keith.busch@intel.com>
 
-On Wed, Dec 09, 2015@02:14:37PM -0800, Seufert, Tim wrote:
-> Computer: i7-6700k CPU, Supermicro X11SS-Q motherboard, and a Samsung 950 Pro NVME SSD
-> Linux version: CentOS 6.7 with ElRepo kernel-ml 4.3.0
-> 
-> What led up to the event: This is a very new system and I had just put it together and copied over a KVM guest (the guest OS is also CentOS 6.7).  At the time the ?kernel BUG? occurred, the guest was midway through updating itself, so yum/rpm was generating plenty of I/O. Since its disk image file was located on the host?s 950 Pro, this was generating NVME traffic.  The BUG resulted in the guest hanging forever (couldn?t open new terminals, make SSH connections, or do anything else that required disk I/O), but oddly enough the host did not hang even though its root FS was on the same NVME SSD partition containing the guest image.  I had to reboot the host to recover.
-> 
-> I have since replaced the host OS installation with a fresh install of CentOS 7, but am still running kernel-ml 4.3.0.  So far I have not seen a repetition of this BUG.
+MAC addresses may be formed using rules based on EUI-64, which is 2 bytes
+longer than a typical 6-byte MAC. This patch adds a long specifier to
+the %pM format to support the extended unique identifier.
 
-The BUG_ON below means the driver detected the SGL list it was provided
-is not PRP'able. In the past, this has meant that the virtual address
-page offset does not match the DMA address offset.
+Since there are multiple valid possible permutations of format specifiers,
+the decoding is done in a loop, and the default ':' separator is
+initialized at declaration time. A side effect of this allows 'F' and
+'R' both be specified, so these are appended to the documentation.
 
-I've not seen this repeat on x86 architectures before. If you can find
-a test case that reproduces this, we should be able to figure out what
-is making this happen.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+>From previous version:
 
-> A side question: Is the advice to not enable discard in Intel?s NVME driver reference guide (https://downloadmirror.intel.com/23929/eng/Intel_Linux_NVMe_Driver_Reference_Guide_330602-002.pdf) still considered valid? It claims "You want to allow the SSD manage blocks and its activity between the NVM (non-volatile memory) and host with more advanced and consistent approaches in the SSD Controller? but it?s not clear to me how the SSD controller can have a more advanced and consistent approach if it isn?t ever notified when blocks are okay to throw away.
+  Use 'while (isalpha(*++fmt))' to loop over all the format specfiers,
+  and updated documentation with the new possible formats.
 
-Not sure what the guide taking about. I'll check with the author.
+ Documentation/printk-formats.txt | 15 ++++++++++++---
+ lib/vsprintf.c                   | 40 +++++++++++++++++++++-------------------
+ 2 files changed, 33 insertions(+), 22 deletions(-)
+
+diff --git a/Documentation/printk-formats.txt b/Documentation/printk-formats.txt
+index b784c27..b39eb37 100644
+--- a/Documentation/printk-formats.txt
++++ b/Documentation/printk-formats.txt
+@@ -136,14 +136,23 @@ Raw buffer as a hex string:
+ MAC/FDDI addresses:
  
-> Dec  1 19:08:52 verra kernel: ------------[ cut here ]------------
-> Dec  1 19:08:52 verra kernel: kernel BUG at drivers/block/nvme-core.c:732!
+ 	%pM	00:01:02:03:04:05
++	%pMl	00:01:02:03:04:05:06:07
+ 	%pMR	05:04:03:02:01:00
++	%pMRl	07:06:05:04:03:02:01:00
+ 	%pMF	00-01-02-03-04-05
++	%pMFl	00-01-02-03-04-05-06-07
++	%pMFR	05-04-03-02-01-00
++	%pMFRl	07-06-05-04-03-02-01-00
+ 	%pm	000102030405
++	%pml	0001020304050607
+ 	%pmR	050403020100
++	%pmRl	0706050403020100
+ 
+-	For printing 6-byte MAC/FDDI addresses in hex notation. The 'M' and 'm'
+-	specifiers result in a printed address with ('M') or without ('m') byte
+-	separators. The default byte separator is the colon (':').
++	For printing 6 or 8-byte MAC/FDDI addresses in hex notation. The
++	'M' and 'm' specifiers result in a printed address with ('M')
++	or without ('m') byte separators. The default byte separator is
++	the colon (':'). Append 'l' to specify an 8-byte in accordance
++	with EUI-64 format.
+ 
+ 	Where FDDI addresses are concerned the 'F' specifier can be used after
+ 	the 'M' specifier to use dash ('-') separators instead of the default
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index f9cee8e..01b7ebd 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -889,33 +889,33 @@ static noinline_for_stack
+ char *mac_address_string(char *buf, char *end, u8 *addr,
+ 			 struct printf_spec spec, const char *fmt)
+ {
+-	char mac_addr[sizeof("xx:xx:xx:xx:xx:xx")];
++	char mac_addr[sizeof("xx:xx:xx:xx:xx:xx:xx:xx")];
+ 	char *p = mac_addr;
+-	int i;
+-	char separator;
+-	bool reversed = false;
+-
+-	switch (fmt[1]) {
+-	case 'F':
+-		separator = '-';
+-		break;
++	int i, bytes = 6;
++	char separator = ':';
++	bool reversed = false, separate = (fmt[0] == 'M');
+ 
+-	case 'R':
+-		reversed = true;
+-		/* fall through */
+-
+-	default:
+-		separator = ':';
+-		break;
++	while (isalpha(*++fmt)) {
++		switch (*fmt) {
++		case 'F':
++			separator = '-';
++			break;
++		case 'R':
++			reversed = true;
++			break;
++		case 'l':
++			bytes = 8;
++			break;
++		}
+ 	}
+ 
+-	for (i = 0; i < 6; i++) {
++	for (i = 0; i < bytes; i++) {
+ 		if (reversed)
+-			p = hex_byte_pack(p, addr[5 - i]);
++			p = hex_byte_pack(p, addr[(bytes - 1) - i]);
+ 		else
+ 			p = hex_byte_pack(p, addr[i]);
+ 
+-		if (fmt[0] == 'M' && i != 5)
++		if (separate && i != (bytes - 1))
+ 			*p++ = separator;
+ 	}
+ 	*p = '\0';
+@@ -1496,6 +1496,8 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+ 	case 'm':			/* Contiguous: 000102030405 */
+ 					/* [mM]F (FDDI) */
+ 					/* [mM]R (Reverse order; Bluetooth) */
++					/* [mM]l (EUI-64) */
++					/* [mM][FM]l (FDDI/Reverse order EUI-64) */
+ 		return mac_address_string(buf, end, ptr, spec, fmt);
+ 	case 'I':			/* Formatted IP supported
+ 					 * 4:	1.2.3.4
+-- 
+2.6.2.307.g37023ba
