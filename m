@@ -1,130 +1,89 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  9 Dec 2015 11:42:57 -0700
-Subject: [PATCHv2 2/2] NVMe: Expose namespace identity attribute to sysfs
+Date: Wed,  9 Dec 2015 11:42:56 -0700
+Subject: [PATCHv2 1/2] Print: Add print format for 8-byte EUI-64 type
 In-Reply-To: <1449686577-6319-1-git-send-email-keith.busch@intel.com>
 References: <1449686577-6319-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1449686577-6319-3-git-send-email-keith.busch@intel.com>
+Message-ID: <1449686577-6319-2-git-send-email-keith.busch@intel.com>
 
-Adds EUI-64 and NGUID attributes to sysfs under the gendisk kobject
-path. The files' visibility depends on the namespace capabilities. User
-space needs to check the existence of both files to determine how to
-identify the namespace.
-
-NGUID format: 00000000-0000-0000-0000-000000000000
-EUI64 format: 00-00-00-00-00-00-00-00
+MAC addresses may be formed using rules based on EUI-64, which is 2 bytes
+longer than a typical 6-byte MAC. This patch adds a long specifier to
+the %pM format to support the extended unique identifier.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 60 ++++++++++++++++++++++++++++++++++++++++++++++--
- drivers/nvme/host/nvme.h |  3 +++
- 2 files changed, 61 insertions(+), 2 deletions(-)
+ Documentation/printk-formats.txt | 13 ++++++++++---
+ lib/vsprintf.c                   | 17 ++++++++++++-----
+ 2 files changed, 22 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cd2a64f..bc85318 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -574,6 +574,11 @@ static int nvme_revalidate_disk(struct gendisk *disk)
- 		ns->type = NVME_NS_LIGHTNVM;
- 	}
+diff --git a/Documentation/printk-formats.txt b/Documentation/printk-formats.txt
+index b784c27..e2fe4ed 100644
+--- a/Documentation/printk-formats.txt
++++ b/Documentation/printk-formats.txt
+@@ -136,14 +136,21 @@ Raw buffer as a hex string:
+ MAC/FDDI addresses:
  
-+	if (ns->ctrl->vs >= NVME_VS(1, 1))
-+		memcpy(ns->eui, id->eui64, sizeof(ns->eui));
-+	if (ns->ctrl->vs >= NVME_VS(1, 2))
-+		memcpy(ns->uuid, id->nguid, sizeof(ns->uuid));
-+
- 	old_ms = ns->ms;
- 	lbaf = id->flbas & NVME_NS_FLBAS_LBA_MASK;
- 	ns->lba_shift = id->lbaf[lbaf].ds;
-@@ -994,6 +999,50 @@ static const struct attribute_group *nvme_dev_attr_groups[] = {
- 	NULL
- };
+ 	%pM	00:01:02:03:04:05
++	%pMl	00:01:02:03:04:05:06:07
+ 	%pMR	05:04:03:02:01:00
++	%pMRl	07:06:05:04:03:02:01:00
+ 	%pMF	00-01-02-03-04-05
++	%pMFl	00-01-02-03-04-05-06-07
+ 	%pm	000102030405
++	%pml	0001020304050607
+ 	%pmR	050403020100
++	%pmRl	0706050403020100
  
-+static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
-+								char *buf)
-+{
-+	struct nvme_ns *ns = dev_to_disk(dev)->private_data;
-+	return sprintf(buf, "%pU\n", ns->uuid);
-+}
-+static DEVICE_ATTR(uuid, S_IRUGO, uuid_show, NULL);
-+
-+static ssize_t eui_show(struct device *dev, struct device_attribute *attr,
-+								char *buf)
-+{
-+	struct nvme_ns *ns = dev_to_disk(dev)->private_data;
-+	return sprintf(buf, "%pMFl\n", ns->eui);
-+}
-+static DEVICE_ATTR(eui, S_IRUGO, eui_show, NULL);
-+
-+static struct attribute *nvme_ns_attrs[] = {
-+	&dev_attr_uuid.attr,
-+	&dev_attr_eui.attr,
-+	NULL,
-+};
-+
-+static umode_t nvme_attrs_are_visible(struct kobject *kobj,
-+		struct attribute *a, int n)
-+{
-+	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct nvme_ns *ns = dev_to_disk(dev)->private_data;
-+
-+	if (a == &dev_attr_uuid.attr) {
-+		if (!memchr_inv(ns->uuid, 0, sizeof(ns->uuid)))
-+			return 0;
-+	}
-+	if (a == &dev_attr_eui.attr) {
-+		if (!memchr_inv(ns->eui, 0, sizeof(ns->eui)))
-+			return 0;
-+	}
-+	return a->mode;
-+}
-+
-+static const struct attribute_group nvme_ns_attr_group = {
-+	.attrs		= nvme_ns_attrs,
-+	.is_visible	= nvme_attrs_are_visible,
-+};
-+
- static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
+-	For printing 6-byte MAC/FDDI addresses in hex notation. The 'M' and 'm'
+-	specifiers result in a printed address with ('M') or without ('m') byte
+-	separators. The default byte separator is the colon (':').
++	For printing 6 or 8-byte MAC/FDDI addresses in hex notation. The
++	'M' and 'm' specifiers result in a printed address with ('M')
++	or without ('m') byte separators. The default byte separator is
++	the colon (':'). Append 'l' to specify an 8-byte in accordance
++	with EUI-64 format.
+ 
+ 	Where FDDI addresses are concerned the 'F' specifier can be used after
+ 	the 'M' specifier to use dash ('-') separators instead of the default
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index f9cee8e..a2d20b7 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -889,9 +889,9 @@ static noinline_for_stack
+ char *mac_address_string(char *buf, char *end, u8 *addr,
+ 			 struct printf_spec spec, const char *fmt)
  {
- 	struct nvme_ns *nsa = container_of(a, struct nvme_ns, list);
-@@ -1068,9 +1117,14 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+-	char mac_addr[sizeof("xx:xx:xx:xx:xx:xx")];
++	char mac_addr[sizeof("xx:xx:xx:xx:xx:xx:xx:xx")];
+ 	char *p = mac_addr;
+-	int i;
++	int i, bytes = 6;
+ 	char separator;
+ 	bool reversed = false;
  
- 	list_add_tail(&ns->list, &ctrl->namespaces);
- 	kref_get(&ctrl->kref);
--	if (ns->type != NVME_NS_LIGHTNVM)
--		add_disk(ns->disk);
-+	if (ns->type == NVME_NS_LIGHTNVM)
-+		return;
- 
-+	add_disk(ns->disk);
-+	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
-+					&nvme_ns_attr_group))
-+		pr_warn("%s: failed to create sysfs group for identification\n",
-+			ns->disk->disk_name);
- 	return;
-  out_free_disk:
- 	kfree(disk);
-@@ -1090,6 +1144,8 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	if (ns->disk->flags & GENHD_FL_UP) {
- 		if (blk_get_integrity(ns->disk))
- 			blk_integrity_unregister(ns->disk);
-+		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
-+					&nvme_ns_attr_group);
- 		del_gendisk(ns->disk);
+@@ -908,14 +908,21 @@ char *mac_address_string(char *buf, char *end, u8 *addr,
+ 		separator = ':';
+ 		break;
  	}
- 	if (kill || !blk_queue_dying(ns->queue)) {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index b041762..d88cf45 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -102,6 +102,9 @@ struct nvme_ns {
- 	struct gendisk *disk;
- 	struct kref kref;
++	switch (fmt[2]) {
++	case 'l':
++		bytes = 8;
++		break;
++	default:
++		break;
++	}
  
-+	u8 eui[8];
-+	u8 uuid[16];
-+
- 	unsigned ns_id;
- 	int lba_shift;
- 	u16 ms;
+-	for (i = 0; i < 6; i++) {
++	for (i = 0; i < bytes; i++) {
+ 		if (reversed)
+-			p = hex_byte_pack(p, addr[5 - i]);
++			p = hex_byte_pack(p, addr[(bytes - 1) - i]);
+ 		else
+ 			p = hex_byte_pack(p, addr[i]);
+ 
+-		if (fmt[0] == 'M' && i != 5)
++		if (fmt[0] == 'M' && i != (bytes - 1))
+ 			*p++ = separator;
+ 	}
+ 	*p = '\0';
 -- 
 2.6.2.307.g37023ba
