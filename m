@@ -1,15 +1,14 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 9 Dec 2015 18:15:53 +0000
-Subject: [patch] nvme: precedence bug in nvme_pr_clear()
-In-Reply-To: <56686D52.5060900@fb.com>
-References: <20151209102406.GD3173@mwanda> <56686B55.7020900@fb.com>
- <20151209180018.GA19448@lst.de> <56686D52.5060900@fb.com>
-Message-ID: <20151209181553.GB31657@localhost.localdomain>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 9 Dec 2015 10:33:49 -0800
+Subject: [PATCH] NVMe: Export NVMe attributes to sysfs group
+In-Reply-To: <20151208000029.GC31067@localhost.localdomain>
+References: <1449530455-25485-1-git-send-email-keith.busch@intel.com>
+ <20151207233112.GB26585@infradead.org>
+ <20151208000029.GC31067@localhost.localdomain>
+Message-ID: <20151209183349.GA29473@infradead.org>
 
-On Wed, Dec 09, 2015@11:05:06AM -0700, Jens Axboe wrote:
-> 
-> Alright you are off the hook, the ban will be instated in Keith instead :-)
+On Tue, Dec 08, 2015@12:00:29AM +0000, Keith Busch wrote:
+> While I'm in this area, are there other namespace attributes anyone is
+> interested in exposing?
 
-*humbled*
-
-;)
+I think the nsid would be really useful!
