@@ -1,64 +1,25 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 11 Dec 2015 13:14:28 -0700
-Subject: [PATCH for-4.4] NVMe: IO ending fixes on surprise removal
-Message-ID: <1449864868-8216-1-git-send-email-keith.busch@intel.com>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Fri, 11 Dec 2015 13:25:46 -0700
+Subject: [PATCH] nvme: Allow controllers to specify a min queue depth for
+ CMB
+In-Reply-To: <20151211200653.GA26595@lst.de>
+References: <1449862594-26103-1-git-send-email-jonathan.derrick@intel.com>
+ <20151211200653.GA26595@lst.de>
+Message-ID: <20151211202546.GA4116@localhost.localdomain>
 
-This patch fixes a lost request discovered during IO + hot removal.
+Hi Christoph,
 
-The driver's pci removal deletes gendisks prior to shutting down the
-controller to allow dirty data to sync. Dirty data can not be synced on
-a surprise removal, though, and would potentially block indefinitely.
+>  - please don't overload the quirks bitmap with actual values
+I agree it may not have been the best place for it, but I wasn't sure how/where it could go to be matched with specific devices. Certain devices may want 8, 16, or 32.
 
-The driver previously had marked the queue as dying in this scenario
-to prevent new requests from attempting, however it will still block
-for requests that already entered the queue. This patch fixes this by
-quiescing IO first, then aborting the requeued requests before deleting
-disks.
+>  - why do we even need to set a size instead of using up the CMB
+>    size?
+Consider a device with 32kB allocated for CMB. The SQes alignment restriction (detailed below) requires us to align to the controller page size. If we consider an example of 4kB pages, that gives us 8 SQes in the CMB, each with 64 entries (assuming 64B-sized sq entries).
 
-Reported-by: Sujith Pandel <sujith_pandel at dell.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+Or instead, we could have 32 queues, each with 1K alignment, and 16 entries (assuming the device is fast enough).
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9e294ff..0c67b57 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2540,8 +2540,17 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- {
- 	bool kill = nvme_io_incapable(ns->dev) && !blk_queue_dying(ns->queue);
- 
--	if (kill)
-+	if (kill) {
- 		blk_set_queue_dying(ns->queue);
-+
-+		/*
-+		 * The controller was shutdown first if we got here through
-+		 * device removal. The shutdown may requeue outstanding
-+		 * requests. These need to be aborted immediately so
-+		 * del_gendisk doesn't block indefinitely for their completion.
-+		 */
-+		blk_mq_abort_requeue_list(ns->queue);
-+	}
- 	if (ns->disk->flags & GENHD_FL_UP)
- 		del_gendisk(ns->disk);
- 	if (kill || !blk_queue_dying(ns->queue)) {
-@@ -2977,6 +2986,15 @@ static void nvme_dev_remove(struct nvme_dev *dev)
- {
- 	struct nvme_ns *ns, *next;
- 
-+	if (nvme_io_incapable(dev)) {
-+		/*
-+		 * If the device is not capable of IO (surprise hot-removal,
-+		 * for example), we need to quiesce prior to deleting the
-+		 * namespaces. This will end outstanding requests and prevent
-+		 * attempts to sync dirty data.
-+		 */
-+		nvme_dev_shutdown(dev);
-+	}
- 	list_for_each_entry_safe(ns, next, &dev->namespaces, list)
- 		nvme_ns_remove(ns);
- }
--- 
-2.6.2.307.g37023ba
+>  - why do we even need to add a quirk?  I quick look at the spec
+>    doesn't seem to require us to align the submission queue size
+>  - this patchs adds a quirk, but no use of it so it's effectively just dead
+>    code
+It is not that apparent. It inherits the restriction on the Create I/O Submission Queue command (NVM-Express 1.2a, 5.4, Figure 54).
