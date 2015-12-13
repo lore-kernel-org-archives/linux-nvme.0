@@ -1,19 +1,29 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Fri, 11 Dec 2015 13:59:34 -0700
-Subject: [PATCH] nvme: Allow controllers to specify a min queue depth for
- CMB
-In-Reply-To: <20151211203358.GA24365@localhost.localdomain>
-References: <1449862594-26103-1-git-send-email-jonathan.derrick@intel.com>
- <20151211200653.GA26595@lst.de>
- <20151211202546.GA4116@localhost.localdomain>
- <20151211203358.GA24365@localhost.localdomain>
-Message-ID: <20151211205934.GA4235@localhost.localdomain>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Sun, 13 Dec 2015 16:59:52 +0200
+Subject: [PATCH for-4.4] NVMe: IO ending fixes on surprise removal
+In-Reply-To: <1449864868-8216-1-git-send-email-keith.busch@intel.com>
+References: <1449864868-8216-1-git-send-email-keith.busch@intel.com>
+Message-ID: <566D87E8.3000305@dev.mellanox.co.il>
 
-> > >  - please don't overload the quirks bitmap with actual values
-> > I agree it may not have been the best place for it, but I wasn't sure how/where it could go to be matched with specific devices. Certain devices may want 8, 16, or 32.
-> 
-> IMHO, I think these need to be tunable from sysfs. There are several
-> ideas on carving up CMB for various purposes, and don't think we can
-> let the driver make these policy decisions for the user.
->  
-I like that idea. We could do some interesting things by letting users/udev tweak the CMB's uses.
+
+> -	if (kill)
+> +	if (kill) {
+>   		blk_set_queue_dying(ns->queue);
+> +
+> +		/*
+> +		 * The controller was shutdown first if we got here through
+> +		 * device removal. The shutdown may requeue outstanding
+> +		 * requests. These need to be aborted immediately so
+> +		 * del_gendisk doesn't block indefinitely for their completion.
+> +		 */
+> +		blk_mq_abort_requeue_list(ns->queue);
+
+Something looks convoluted a bit here.
+We abort_requeue_list here and...
+
+> +	}
+>   	if (ns->disk->flags & GENHD_FL_UP)
+>   		del_gendisk(ns->disk);
+>   	if (kill || !blk_queue_dying(ns->queue)) {
+
+Here again?
