@@ -1,31 +1,26 @@
-From: sujith_pandel@dell.com (Sujith Pandel)
-Date: Fri, 18 Dec 2015 00:19:42 -0500
-Subject: [PATCH for-4.4] NVMe: IO ending fixes on surprise removal
-In-Reply-To: <1449864868-8216-1-git-send-email-keith.busch@intel.com>
-References: <1449864868-8216-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20151218051936.GA9107@localhost.localdomain>
+From: asb@cin.ufpe.br (Angelo Brito)
+Date: Fri, 18 Dec 2015 17:17:19 -0200
+Subject: NVMe Generic Devices Linux x Windows
+Message-ID: <CAMjVwgQ+WicdTLjXb5Xa70XC+BnQdvyob+iGhjBt_t3Z9bw=dA@mail.gmail.com>
 
-On Fri, Dec 11, 2015@02:14:28PM -0600, Keith Busch wrote:
-> This patch fixes a lost request discovered during IO + hot removal.
-> 
-> The driver's pci removal deletes gendisks prior to shutting down the
-> controller to allow dirty data to sync. Dirty data can not be synced on
-> a surprise removal, though, and would potentially block indefinitely.
-> 
-> The driver previously had marked the queue as dying in this scenario
-> to prevent new requests from attempting, however it will still block
-> for requests that already entered the queue. This patch fixes this by
-> quiescing IO first, then aborting the requeued requests before deleting
-> disks.
-> 
-> Reported-by: Sujith Pandel <sujith_pandel at dell.com>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+Hello All,
 
-Tested this patch against linux-4.4-rc4.
-I/O terminated successfully everytime and hotplug-removal is clean i.e
-no remnants of the removed NVMe disk is present.
+I have a generic NVMe device that works perfectly on Linux but does
+not work on Windows. The device is recognized as a Default NVMe
+Controller with Microsoft as vendor but issue an error code 10: This
+device cannot start. I am aware that this is a generic error code and
+could mean any thing.
 
-Tested-by: Sujith Pandel <sujith_pandel at dell.com>
+I have started to debug from the device perspective and the Host CPU
+just writes the MSI configuration registers during startup. I use
+Altera?s PCIe Hard IP to implement the PCIe and my controller is
+hosted on FPGA. The NVMe controller was never started. Is it an
+expected behavior to work on Linux but not on windows?
+Someone can share any more leads to debug? Why windows doesn?t start my device?
 
-Thanks and Regards,
-Sujith
+
+Regards,
+Angelo Silva Brito.
+B.S. in Computer Engineering - UFPE Brazil
+http://about.me/angelobrito
+_________________________________________________
