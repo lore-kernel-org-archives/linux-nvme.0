@@ -1,41 +1,64 @@
-From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Tue, 15 Dec 2015 17:45:24 +0200
-Subject: [PATCH for-4.4] NVMe: IO ending fixes on surprise removal
-In-Reply-To: <20151214162901.GA24668@localhost.localdomain>
-References: <1449864868-8216-1-git-send-email-keith.busch@intel.com>
- <566D87E8.3000305@dev.mellanox.co.il>
- <20151214162901.GA24668@localhost.localdomain>
-Message-ID: <56703594.2080309@dev.mellanox.co.il>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 17 Dec 2015 17:08:15 -0700
+Subject: [PATCH 2/2] NVMe: Fix possible queue use after freed
+In-Reply-To: <1450397295-24031-1-git-send-email-keith.busch@intel.com>
+References: <1450397295-24031-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1450397295-24031-2-git-send-email-keith.busch@intel.com>
 
+This notifies blk-mq when the tag set contains a different number of
+queues prior to freeing unused ones that the request queue points to.
 
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
 
-On 14/12/2015 18:29, Keith Busch wrote:
-> On Sun, Dec 13, 2015@04:59:52PM +0200, Sagi Grimberg wrote:
->>> +		 * The controller was shutdown first if we got here through
->>> +		 * device removal. The shutdown may requeue outstanding
->>> +		 * requests. These need to be aborted immediately so
->>> +		 * del_gendisk doesn't block indefinitely for their completion.
->>> +		 */
->>> +		blk_mq_abort_requeue_list(ns->queue);
->>
->> Something looks convoluted a bit here.
->> We abort_requeue_list here and...
->>
->>> +	}
->>>   	if (ns->disk->flags & GENHD_FL_UP)
->>>   		del_gendisk(ns->disk);
->>>   	if (kill || !blk_queue_dying(ns->queue)) {
->>
->> Here again?
->
-> Correct. It's solving two different problems. The first is to end
-> requeued commands that del_gendisk would wait for, like what happens on
-> a surprise removal with filesystem data syncing. The second is to end
-> requeued commands that blk_cleanup_queue would wait for, like direct
-> and passthrough.
->
-> One might wonder why the first requeue list abort doesn't address the
-> second case: we don't execute the path containing the first abort requeue
-> list on an orderly removal to allow filesystem data to sync first.
-
-Makes sense, the arrangement is just a bit confusing here.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index b82bbea..b03631c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1392,7 +1392,7 @@ static int nvme_kthread(void *data)
+ 
+ static int nvme_create_io_queues(struct nvme_dev *dev)
+ {
+-	unsigned i;
++	unsigned i, max;
+ 	int ret = 0;
+ 
+ 	for (i = dev->queue_count; i <= dev->max_qid; i++) {
+@@ -1402,7 +1402,8 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
+ 		}
+ 	}
+ 
+-	for (i = dev->online_queues; i <= dev->queue_count - 1; i++) {
++	max = min(dev->max_qid, dev->queue_count - 1);
++	for (i = dev->online_queues; i <= max; i++) {
+ 		ret = nvme_create_queue(dev->queues[i], i);
+ 		if (ret) {
+ 			nvme_free_queues(dev, i);
+@@ -1559,9 +1560,6 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 		adminq->cq_vector = -1;
+ 		goto free_queues;
+ 	}
+-
+-	/* Free previously allocated queues that are no longer usable */
+-	nvme_free_queues(dev, nr_io_queues + 1);
+ 	return nvme_create_io_queues(dev);
+ 
+  free_queues:
+@@ -1617,7 +1615,13 @@ static int nvme_dev_add(struct nvme_dev *dev)
+ 		if (blk_mq_alloc_tag_set(&dev->tagset))
+ 			return 0;
+ 		dev->ctrl.tagset = &dev->tagset;
++	} else {
++		blk_mq_update_nr_hw_queues(&dev->tagset, dev->online_queues - 1);
++
++		/* Free previously allocated queues that are no longer usable */
++		nvme_free_queues(dev, dev->online_queues);
+ 	}
++
+ 	queue_work(nvme_workq, &dev->scan_work);
+ 	return 0;
+ }
+-- 
+2.6.2.307.g37023ba
