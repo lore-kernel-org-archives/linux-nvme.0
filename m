@@ -1,25 +1,52 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 24 Dec 2015 12:12:48 +0100
-Subject: [PATCH 3/3] nvme: make SG_IO support optional
-In-Reply-To: <567BCB6C.6000502@dev.mellanox.co.il>
-References: <1450952155-8693-1-git-send-email-hch@lst.de>
- <1450952155-8693-4-git-send-email-hch@lst.de>
- <567BCB6C.6000502@dev.mellanox.co.il>
-Message-ID: <20151224111248.GB15268@lst.de>
+From: sagig@mellanox.com (Sagi Grimberg)
+Date: Thu, 24 Dec 2015 13:24:01 +0200
+Subject: [PATCH RFC 4/4] blk-mq: Make blk_mq_all_tag_busy_iter static
+In-Reply-To: <1450956241-4626-1-git-send-email-sagig@mellanox.com>
+References: <1450956241-4626-1-git-send-email-sagig@mellanox.com>
+Message-ID: <1450956241-4626-5-git-send-email-sagig@mellanox.com>
 
-On Thu, Dec 24, 2015@12:39:40PM +0200, Sagi Grimberg wrote:
->
->> Translation SCSI commands to NVMe commands is rather pointless in general
->> as applications must not expext to be able to use SCSI commands on a
->> generic block device.
->>
->> Make the huge translation layer optional and hope no one will ever enable
->> it in the future.
->
-> Umm, this is needed to support multipathing (at least in the multipath
-> daemon current form). I'm not sure this is a good idea just yet...
+No caller outside the blk-mq code so we can settle with it static.
 
-It's not required, it's just you being lazy.  I defintivively want
-to avoid people relying on this before actual multi path hardware
-ships.  So feel free to enable it while you're lazy for now, but
-I want people to disable it normally.
+Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
+---
+ block/blk-mq-tag.c     |    5 ++---
+ include/linux/blk-mq.h |    2 --
+ 2 files changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+index 39660ca..be635fa 100644
+--- a/block/blk-mq-tag.c
++++ b/block/blk-mq-tag.c
+@@ -464,15 +464,14 @@ static void bt_tags_for_each(struct blk_mq_tags *tags,
+ 	}
+ }
+ 
+-void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
+-		void *priv)
++static void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags,
++		busy_tag_iter_fn *fn, void *priv)
+ {
+ 	if (tags->nr_reserved_tags)
+ 		bt_tags_for_each(tags, &tags->breserved_tags, 0, fn, priv, true);
+ 	bt_tags_for_each(tags, &tags->bitmap_tags, tags->nr_reserved_tags, fn, priv,
+ 			false);
+ }
+-EXPORT_SYMBOL(blk_mq_all_tag_busy_iter);
+ 
+ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
+ 		busy_tag_iter_fn *fn, void *priv)
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 97a4652..b5e6af4 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -240,8 +240,6 @@ void blk_mq_start_hw_queues(struct request_queue *q);
+ void blk_mq_start_stopped_hw_queues(struct request_queue *q, bool async);
+ void blk_mq_run_hw_queues(struct request_queue *q, bool async);
+ void blk_mq_delay_queue(struct blk_mq_hw_ctx *hctx, unsigned long msecs);
+-void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
+-		void *priv);
+ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
+ 		busy_tag_iter_fn *fn, void *priv);
+ void blk_mq_freeze_queue(struct request_queue *q);
+-- 
+1.7.1
