@@ -1,138 +1,80 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 24 Dec 2015 15:27:00 +0100
-Subject: [PATCH 2/4] nvme: synchronize access to ctrl->namespaces
+Date: Thu, 24 Dec 2015 15:27:01 +0100
+Subject: [PATCH 3/4] nvme: fixes for NVME_IOCTL_IO_CMD on the char device
 In-Reply-To: <1450967222-10404-1-git-send-email-hch@lst.de>
 References: <1450967222-10404-1-git-send-email-hch@lst.de>
-Message-ID: <1450967222-10404-3-git-send-email-hch@lst.de>
+Message-ID: <1450967222-10404-4-git-send-email-hch@lst.de>
 
-Currently traversal and modification of ctrl->namespaces happens completely
-unsynchronized, which can be fixed by the addition of a simple mutex.
-
-Note: nvme_dev_ioctl will be handled in the next patch.
+Make sure we synchronize access to the namespaces list and grab a reference
+to the namespace before doing I/O.  Make sure to reject the ioctl if multiple
+namespaces are present as it's entirely unsafe, and warn when using it even
+with a single namespace.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
 ---
- drivers/nvme/host/core.c | 17 +++++++++++++++++
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 18 insertions(+)
+ drivers/nvme/host/core.c | 39 ++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 34 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2713005..a928ad5 100644
+index a928ad5..51f6fc8 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1034,6 +1034,8 @@ static struct nvme_ns *nvme_find_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- {
- 	struct nvme_ns *ns;
- 
-+	lockdep_assert_held(&ctrl->namespaces_mutex);
-+
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
- 		if (ns->ns_id == nsid)
- 			return ns;
-@@ -1049,6 +1051,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	struct gendisk *disk;
- 	int node = dev_to_node(ctrl->dev);
- 
-+	lockdep_assert_held(&ctrl->namespaces_mutex);
-+
- 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
- 	if (!ns)
- 		return;
-@@ -1118,6 +1122,8 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	bool kill = nvme_io_incapable(ns->ctrl) &&
- 			!blk_queue_dying(ns->queue);
- 
-+	lockdep_assert_held(&ns->ctrl->namespaces_mutex);
-+
- 	if (kill)
- 		blk_set_queue_dying(ns->queue);
- 	if (ns->disk->flags & GENHD_FL_UP) {
-@@ -1188,6 +1194,8 @@ static void __nvme_scan_namespaces(struct nvme_ctrl *ctrl, unsigned nn)
- 	struct nvme_ns *ns, *next;
- 	unsigned i;
- 
-+	lockdep_assert_held(&ctrl->namespaces_mutex);
-+
- 	for (i = 1; i <= nn; i++)
- 		nvme_validate_ns(ctrl, i);
- 
-@@ -1205,6 +1213,7 @@ void nvme_scan_namespaces(struct nvme_ctrl *ctrl)
- 	if (nvme_identify_ctrl(ctrl, &id))
- 		return;
- 
-+	mutex_lock(&ctrl->namespaces_mutex);
- 	nn = le32_to_cpu(id->nn);
- 	if (ctrl->vs >= NVME_VS(1, 1) &&
- 	    !(ctrl->quirks & NVME_QUIRK_IDENTIFY_CNS)) {
-@@ -1214,6 +1223,7 @@ void nvme_scan_namespaces(struct nvme_ctrl *ctrl)
- 	__nvme_scan_namespaces(ctrl, le32_to_cpup(&id->nn));
-  done:
- 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
-+	mutex_unlock(&ctrl->namespaces_mutex);
- 	kfree(id);
+@@ -922,21 +922,50 @@ static int nvme_dev_release(struct inode *inode, struct file *file)
+ 	return 0;
  }
  
-@@ -1221,8 +1231,10 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns, *next;
- 
++static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp)
++{
++	struct nvme_ns *ns;
++	int ret;
++
 +	mutex_lock(&ctrl->namespaces_mutex);
- 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list)
- 		nvme_ns_remove(ns);
++	if (list_empty(&ctrl->namespaces)) {
++		ret = -ENOTTY;
++		goto out_unlock;
++	}
++
++	ns = list_first_entry(&ctrl->namespaces, struct nvme_ns, list);
++	if (ns != list_last_entry(&ctrl->namespaces, struct nvme_ns, list)) {
++		dev_warn(ctrl->dev,
++			"NVME_IOCTL_IO_CMD not supported when multiple namespaces present!\n");
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	dev_warn(ctrl->dev,
++		"using deprecated NVME_IOCTL_IO_CMD ioctl on the char device!\n");
++	kref_get(&ns->kref);
 +	mutex_unlock(&ctrl->namespaces_mutex);
- }
- 
- static DEFINE_IDA(nvme_instance_ida);
-@@ -1290,6 +1302,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	int ret;
- 
- 	INIT_LIST_HEAD(&ctrl->namespaces);
-+	mutex_init(&ctrl->namespaces_mutex);
- 	kref_init(&ctrl->kref);
- 	ctrl->dev = dev;
- 	ctrl->ops = ops;
-@@ -1332,6 +1345,7 @@ void nvme_freeze_queues(struct nvme_ctrl *ctrl)
++
++	ret = nvme_user_cmd(ctrl, ns, argp);
++	nvme_put_ns(ns);
++	return ret;
++
++out_unlock:
++	mutex_unlock(&ctrl->namespaces_mutex);
++	return ret;
++}
++
+ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ 		unsigned long arg)
  {
- 	struct nvme_ns *ns;
+ 	struct nvme_ctrl *ctrl = file->private_data;
+ 	void __user *argp = (void __user *)arg;
+-	struct nvme_ns *ns;
  
-+	mutex_lock(&ctrl->namespaces_mutex);
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
- 		blk_mq_freeze_queue_start(ns->queue);
- 
-@@ -1342,18 +1356,21 @@ void nvme_freeze_queues(struct nvme_ctrl *ctrl)
- 		blk_mq_cancel_requeue_work(ns->queue);
- 		blk_mq_stop_hw_queues(ns->queue);
- 	}
-+	mutex_unlock(&ctrl->namespaces_mutex);
- }
- 
- void nvme_unfreeze_queues(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
- 
-+	mutex_lock(&ctrl->namespaces_mutex);
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
- 		queue_flag_clear_unlocked(QUEUE_FLAG_STOPPED, ns->queue);
- 		blk_mq_unfreeze_queue(ns->queue);
- 		blk_mq_start_stopped_hw_queues(ns->queue, true);
- 		blk_mq_kick_requeue_list(ns->queue);
- 	}
-+	mutex_unlock(&ctrl->namespaces_mutex);
- }
- 
- int __init nvme_core_init(void)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 0da6747..4437592 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -69,6 +69,7 @@ struct nvme_ctrl {
- 	int instance;
- 	struct blk_mq_tag_set *tagset;
- 	struct list_head namespaces;
-+	struct mutex namespaces_mutex;
- 	struct device *device;	/* char device */
- 	struct list_head node;
- 
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ADMIN_CMD:
+ 		return nvme_user_cmd(ctrl, NULL, argp);
+ 	case NVME_IOCTL_IO_CMD:
+-		if (list_empty(&ctrl->namespaces))
+-			return -ENOTTY;
+-		ns = list_first_entry(&ctrl->namespaces, struct nvme_ns, list);
+-		return nvme_user_cmd(ctrl, ns, argp);
++		return nvme_dev_user_cmd(ctrl, argp);
+ 	case NVME_IOCTL_RESET:
+ 		dev_warn(ctrl->dev, "resetting controller\n");
+ 		return ctrl->ops->reset_ctrl(ctrl);
 -- 
 1.9.1
