@@ -1,80 +1,70 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 24 Dec 2015 15:27:01 +0100
-Subject: [PATCH 3/4] nvme: fixes for NVME_IOCTL_IO_CMD on the char device
+Date: Thu, 24 Dec 2015 15:27:02 +0100
+Subject: [PATCH 4/4] nvme: make SG_IO support optional
 In-Reply-To: <1450967222-10404-1-git-send-email-hch@lst.de>
 References: <1450967222-10404-1-git-send-email-hch@lst.de>
-Message-ID: <1450967222-10404-4-git-send-email-hch@lst.de>
+Message-ID: <1450967222-10404-5-git-send-email-hch@lst.de>
 
-Make sure we synchronize access to the namespaces list and grab a reference
-to the namespace before doing I/O.  Make sure to reject the ioctl if multiple
-namespaces are present as it's entirely unsafe, and warn when using it even
-with a single namespace.
+Translation SCSI commands to NVMe commands is rather pointless in general
+as applications must not expext to be able to use SCSI commands on a
+generic block device.
+
+Make the huge translation layer optional and hope no one will ever enable
+it in the future.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
 ---
- drivers/nvme/host/core.c | 39 ++++++++++++++++++++++++++++++++++-----
- 1 file changed, 34 insertions(+), 5 deletions(-)
+ drivers/nvme/host/Kconfig  | 11 +++++++++++
+ drivers/nvme/host/Makefile |  3 ++-
+ drivers/nvme/host/core.c   |  2 ++
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index 002a94a..5d62373 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -8,3 +8,14 @@ config BLK_DEV_NVME
+ 
+ 	  To compile this driver as a module, choose M here: the
+ 	  module will be called nvme.
++
++config BLK_DEV_NVME_SCSI
++	bool "SCSI emulation for NVMe device nodes"
++	depends on BLK_DEV_NVME
++	---help---
++	  This adds support for the SG_IO ioctl on the NVMe character
++	  and block devices nodes, as well a a translation for a small
++	  number of selected SCSI commands to NVMe commands to the NVMe
++	  driver.  If you don't know what this means you probably want
++	  to say N here, and if you know what it means you probably
++	  want to say N as well.
+diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+index 3e26dc9..baf9f52 100644
+--- a/drivers/nvme/host/Makefile
++++ b/drivers/nvme/host/Makefile
+@@ -1,4 +1,5 @@
+ 
+ obj-$(CONFIG_BLK_DEV_NVME)     += nvme.o
+ 
+-nvme-y		+= core.o pci.o scsi.o lightnvm.o
++nvme-y					+= core.o pci.o lightnvm.o
++nvme-$(CONFIG_BLK_DEV_NVME_SCSI)        += scsi.o
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a928ad5..51f6fc8 100644
+index 51f6fc8..8da4a8a 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -922,21 +922,50 @@ static int nvme_dev_release(struct inode *inode, struct file *file)
- 	return 0;
- }
- 
-+static int nvme_dev_user_cmd(struct nvme_ctrl *ctrl, void __user *argp)
-+{
-+	struct nvme_ns *ns;
-+	int ret;
-+
-+	mutex_lock(&ctrl->namespaces_mutex);
-+	if (list_empty(&ctrl->namespaces)) {
-+		ret = -ENOTTY;
-+		goto out_unlock;
-+	}
-+
-+	ns = list_first_entry(&ctrl->namespaces, struct nvme_ns, list);
-+	if (ns != list_last_entry(&ctrl->namespaces, struct nvme_ns, list)) {
-+		dev_warn(ctrl->dev,
-+			"NVME_IOCTL_IO_CMD not supported when multiple namespaces present!\n");
-+		ret = -EINVAL;
-+		goto out_unlock;
-+	}
-+
-+	dev_warn(ctrl->dev,
-+		"using deprecated NVME_IOCTL_IO_CMD ioctl on the char device!\n");
-+	kref_get(&ns->kref);
-+	mutex_unlock(&ctrl->namespaces_mutex);
-+
-+	ret = nvme_user_cmd(ctrl, ns, argp);
-+	nvme_put_ns(ns);
-+	return ret;
-+
-+out_unlock:
-+	mutex_unlock(&ctrl->namespaces_mutex);
-+	return ret;
-+}
-+
- static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 		unsigned long arg)
- {
- 	struct nvme_ctrl *ctrl = file->private_data;
- 	void __user *argp = (void __user *)arg;
--	struct nvme_ns *ns;
- 
- 	switch (cmd) {
- 	case NVME_IOCTL_ADMIN_CMD:
- 		return nvme_user_cmd(ctrl, NULL, argp);
- 	case NVME_IOCTL_IO_CMD:
--		if (list_empty(&ctrl->namespaces))
--			return -ENOTTY;
--		ns = list_first_entry(&ctrl->namespaces, struct nvme_ns, list);
--		return nvme_user_cmd(ctrl, ns, argp);
-+		return nvme_dev_user_cmd(ctrl, argp);
- 	case NVME_IOCTL_RESET:
- 		dev_warn(ctrl->dev, "resetting controller\n");
- 		return ctrl->ops->reset_ctrl(ctrl);
+@@ -467,10 +467,12 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 		return nvme_user_cmd(ns->ctrl, ns, (void __user *)arg);
+ 	case NVME_IOCTL_SUBMIT_IO:
+ 		return nvme_submit_io(ns, (void __user *)arg);
++#ifdef CONFIG_BLK_DEV_NVME_SCSI
+ 	case SG_GET_VERSION_NUM:
+ 		return nvme_sg_get_version_num((void __user *)arg);
+ 	case SG_IO:
+ 		return nvme_sg_io(ns, (void __user *)arg);
++#endif
+ 	default:
+ 		return -ENOTTY;
+ 	}
 -- 
 1.9.1
