@@ -1,18 +1,23 @@
-From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Thu, 24 Dec 2015 12:39:40 +0200
-Subject: [PATCH 3/3] nvme: make SG_IO support optional
-In-Reply-To: <1450952155-8693-4-git-send-email-hch@lst.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 24 Dec 2015 12:08:31 +0100
+Subject: [PATCH 1/3] nvme: synchronize access to ctrl->namespaces
+In-Reply-To: <567BCA91.9090709@dev.mellanox.co.il>
 References: <1450952155-8693-1-git-send-email-hch@lst.de>
- <1450952155-8693-4-git-send-email-hch@lst.de>
-Message-ID: <567BCB6C.6000502@dev.mellanox.co.il>
+ <1450952155-8693-2-git-send-email-hch@lst.de>
+ <567BCA91.9090709@dev.mellanox.co.il>
+Message-ID: <20151224110831.GA15268@lst.de>
 
-
-> Translation SCSI commands to NVMe commands is rather pointless in general
-> as applications must not expext to be able to use SCSI commands on a
-> generic block device.
+On Thu, Dec 24, 2015@12:36:01PM +0200, Sagi Grimberg wrote:
+>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>> index b82bbea..e4a6868 100644
+>> --- a/drivers/nvme/host/pci.c
+>> +++ b/drivers/nvme/host/pci.c
 >
-> Make the huge translation layer optional and hope no one will ever enable
-> it in the future.
+> Umm, I submitted a patch to move these to the core (which you reviewed
+> :)). I've not seen any negative feedback on it so far.
+>
+> Jens, are you planning on taking it? and if you do,
+> Christoph, would you mind rebasing a top of it?
 
-Umm, this is needed to support multipathing (at least in the multipath
-daemon current form). I'm not sure this is a good idea just yet...
+I'm fine with rebasing.  Those were the last accesses to the namespace
+list outside the core driver anyway.
