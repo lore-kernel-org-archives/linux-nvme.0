@@ -1,26 +1,23 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 24 Dec 2015 06:25:28 -0800
-Subject: [PATCH RFC 3/4] nvme: Move IO termination code to the core
-In-Reply-To: <1450956241-4626-4-git-send-email-sagig@mellanox.com>
-References: <1450956241-4626-1-git-send-email-sagig@mellanox.com>
- <1450956241-4626-4-git-send-email-sagig@mellanox.com>
-Message-ID: <20151224142528.GD2646@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 24 Dec 2015 15:26:58 +0100
+Subject: namespace list locking and ioctl fixes V2
+Message-ID: <1450967222-10404-1-git-send-email-hch@lst.de>
 
-> +void nvme_fail_admin_cmds(struct nvme_ctrl *ctrl,
-> +		busy_tag_iter_fn *terminate_io, void *priv)
-> +{
-> +	blk_mq_tagset_busy_iter(ctrl->admin_tagset, terminate_io, priv);
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_fail_admin_cmds);
-> +
-> +void nvme_fail_io_cmds(struct nvme_ctrl *ctrl,
-> +		busy_tag_iter_fn *terminate_io, void *priv)
-> +{
-> +	blk_mq_tagset_busy_iter(ctrl->tagset, terminate_io, priv);
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_fail_io_cmds);
+This series fixes locking for the namespace list in the
+nvme controller, and also sorts out two major issue with
+the ioctl interface:
 
-But I see absolutely no point for these helpers.  These are trivial
-one-liners that can stay in the transport drivers.  And with that we
-also don't need the admin_tagset pointer in the generic controller
-(at least yet..)
+ (1) it fixes access to the namespace in the NVME_IOCTL_IO_CMD ioctl
+     on the character device and disables it for the unsafe case
+     of a device with multiple namepaces.  It also warns about
+     this usage in general.
+ (2) it makes the SG_IO emulation optional.  There is no need to
+     emulate SCSI commands for a Linux block device, and the
+     current code actually is bigger than the rest of the NVMe
+     core driver in source and binary form.  Anyone who cares
+     about build size or reduce attack surface should disable
+     it.  In fact I can't see any good reason to enabe it at all.
+
+Changes since V1:
+ - rebased ontop of a code move patch from Sagi, which is now included
+   as new first patch in the series.
