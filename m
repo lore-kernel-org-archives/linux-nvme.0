@@ -1,70 +1,63 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 24 Dec 2015 11:15:55 +0100
-Subject: [PATCH 3/3] nvme: make SG_IO support optional
-In-Reply-To: <1450952155-8693-1-git-send-email-hch@lst.de>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Thu, 24 Dec 2015 12:36:01 +0200
+Subject: [PATCH 1/3] nvme: synchronize access to ctrl->namespaces
+In-Reply-To: <1450952155-8693-2-git-send-email-hch@lst.de>
 References: <1450952155-8693-1-git-send-email-hch@lst.de>
-Message-ID: <1450952155-8693-4-git-send-email-hch@lst.de>
+ <1450952155-8693-2-git-send-email-hch@lst.de>
+Message-ID: <567BCA91.9090709@dev.mellanox.co.il>
 
-Translation SCSI commands to NVMe commands is rather pointless in general
-as applications must not expext to be able to use SCSI commands on a
-generic block device.
 
-Make the huge translation layer optional and hope no one will ever enable
-it in the future.
+> Currently traversal and modification of ctrl->namespaces happens completely
+> unsynchronized, which can be fixed by the addition of a simple mutex.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/Kconfig  | 11 +++++++++++
- drivers/nvme/host/Makefile |  3 ++-
- drivers/nvme/host/core.c   |  2 ++
- 3 files changed, 15 insertions(+), 1 deletion(-)
+Ha yes, I may have seen strange behavior in this area wrt to
+deletes and resets.
 
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index 002a94a..5d62373 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -8,3 +8,14 @@ config BLK_DEV_NVME
- 
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called nvme.
-+
-+config BLK_DEV_NVME_SCSI
-+	bool "SCSI emulation for NVMe device nodes"
-+	depends on BLK_DEV_NVME
-+	---help---
-+	  This adds support for the SG_IO ioctl on the NVMe character
-+	  and block devices nodes, as well a a translation for a small
-+	  number of selected SCSI commands to NVMe commands to the NVMe
-+	  driver.  If you don't know what this means you probably want
-+	  to say N here, and if you know what it means you probably
-+	  want to say N as well.
-diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
-index 3e26dc9..baf9f52 100644
---- a/drivers/nvme/host/Makefile
-+++ b/drivers/nvme/host/Makefile
-@@ -1,4 +1,5 @@
- 
- obj-$(CONFIG_BLK_DEV_NVME)     += nvme.o
- 
--nvme-y		+= core.o pci.o scsi.o lightnvm.o
-+nvme-y					+= core.o pci.o lightnvm.o
-+nvme-$(CONFIG_BLK_DEV_NVME_SCSI)        += scsi.o
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 19b854e..570a36c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -467,10 +467,12 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
- 		return nvme_user_cmd(ns->ctrl, ns, (void __user *)arg);
- 	case NVME_IOCTL_SUBMIT_IO:
- 		return nvme_submit_io(ns, (void __user *)arg);
-+#ifdef CONFIG_BLK_DEV_NVME_SCSI
- 	case SG_GET_VERSION_NUM:
- 		return nvme_sg_get_version_num((void __user *)arg);
- 	case SG_IO:
- 		return nvme_sg_io(ns, (void __user *)arg);
-+#endif
- 	default:
- 		return -ENOTTY;
- 	}
--- 
-1.9.1
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index b82bbea..e4a6868 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+
+Umm, I submitted a patch to move these to the core (which you reviewed
+:)). I've not seen any negative feedback on it so far.
+
+Jens, are you planning on taking it? and if you do,
+Christoph, would you mind rebasing a top of it?
+
+Otherwise,
+
+Looks good,
+
+Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
+
+> @@ -1907,6 +1907,7 @@ static void nvme_freeze_queues(struct nvme_dev *dev)
+>   {
+>   	struct nvme_ns *ns;
+>
+> +	mutex_lock(&dev->ctrl.namespaces_mutex);
+>   	list_for_each_entry(ns, &dev->ctrl.namespaces, list) {
+>   		blk_mq_freeze_queue_start(ns->queue);
+>
+> @@ -1917,18 +1918,21 @@ static void nvme_freeze_queues(struct nvme_dev *dev)
+>   		blk_mq_cancel_requeue_work(ns->queue);
+>   		blk_mq_stop_hw_queues(ns->queue);
+>   	}
+> +	mutex_unlock(&dev->ctrl.namespaces_mutex);
+>   }
+>
+>   static void nvme_unfreeze_queues(struct nvme_dev *dev)
+>   {
+>   	struct nvme_ns *ns;
+>
+> +	mutex_lock(&dev->ctrl.namespaces_mutex);
+>   	list_for_each_entry(ns, &dev->ctrl.namespaces, list) {
+>   		queue_flag_clear_unlocked(QUEUE_FLAG_STOPPED, ns->queue);
+>   		blk_mq_unfreeze_queue(ns->queue);
+>   		blk_mq_start_stopped_hw_queues(ns->queue, true);
+>   		blk_mq_kick_requeue_list(ns->queue);
+>   	}
+> +	mutex_unlock(&dev->ctrl.namespaces_mutex);
+>   }
+>
+>   static void nvme_dev_shutdown(struct nvme_dev *dev)
+>
