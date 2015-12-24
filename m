@@ -1,11 +1,10 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 24 Dec 2015 06:23:15 -0800
-Subject: [PATCH 2/2] NVMe: Fix possible queue use after freed
-In-Reply-To: <1450397295-24031-2-git-send-email-keith.busch@intel.com>
-References: <1450397295-24031-1-git-send-email-keith.busch@intel.com>
- <1450397295-24031-2-git-send-email-keith.busch@intel.com>
-Message-ID: <20151224142315.GB2646@infradead.org>
+Date: Thu, 24 Dec 2015 06:24:24 -0800
+Subject: [PATCH RFC 1/4] blk-mq: Export a busy tagset iterator helper
+In-Reply-To: <1450956241-4626-2-git-send-email-sagig@mellanox.com>
+References: <1450956241-4626-1-git-send-email-sagig@mellanox.com>
+ <1450956241-4626-2-git-send-email-sagig@mellanox.com>
+Message-ID: <20151224142424.GC2646@infradead.org>
 
-Looks good:
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Looks okay to me, although I'm not really sold on absolutely
+needing this helper..
