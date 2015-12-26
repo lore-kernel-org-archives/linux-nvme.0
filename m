@@ -1,28 +1,45 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 24 Dec 2015 16:45:12 +0100
-Subject: [PATCH 3/3] nvme: make SG_IO support optional
-In-Reply-To: <20151224152945.GA7262@localhost.localdomain>
-References: <1450952155-8693-1-git-send-email-hch@lst.de>
- <1450952155-8693-4-git-send-email-hch@lst.de>
- <567BCB6C.6000502@dev.mellanox.co.il> <20151224111248.GB15268@lst.de>
- <567BD794.2020607@dev.mellanox.co.il> <20151224114040.GA17820@lst.de>
- <20151224152945.GA7262@localhost.localdomain>
-Message-ID: <20151224154512.GA22789@lst.de>
+From: hofrat@osadl.org (Nicholas Mc Guire)
+Date: Sat, 26 Dec 2015 19:19:03 +0100
+Subject: [PATCH] nvme: consolidate kmallc + memset 0 into kzalloc
+Message-ID: <1451153943-8725-1-git-send-email-hofrat@osadl.org>
 
-On Thu, Dec 24, 2015@03:29:46PM +0000, Keith Busch wrote:
-> On Thu, Dec 24, 2015@12:40:40PM +0100, Christoph Hellwig wrote:
-> > On Thu, Dec 24, 2015@01:31:32PM +0200, Sagi Grimberg wrote:
-> > > OK, I see what you mean. We can look at having multipathd ioctl'ing
-> > > identify_ns at some point...
-> > 
-> > block/for-next has the nguid available as a sysfs attribute, that's
-> > all we should need.
-> 
-> Off the top of your head, do you happen to know how to point multipathd
-> to the new attribute? Is this a code change or just a configuration rule?
+This is an API consolidation only. The use of kmalloc + memset to 0
+here should be equivalent to kzalloc.
 
-With the most recent mutlipath-tools there should be no need to patch
-mutipath-tools.  Just make sure udev sets the ID_SERIAL attribute
-correctly, which I think some folks were already looking into.  An
-explicit getuid callout that just reads the file should also work
-with any versions, although the most recent ones call it deprectated.
+Signed-off-by: Nicholas Mc Guire <hofrat at osadl.org>
+---
+
+Found by coccinelle script (relaxed version of
+scripts/coccinelle/api/alloc/kzalloc-simple.cocci)
+
+Patch was compile tested with: x86_64_defconfig
+CONFIG_BLK_DEV_NVME=m
+
+Patch is against linux-next (localversion-next is -next-20151222)
+
+ drivers/nvme/host/scsi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
+index e947e29..8f447e3 100644
+--- a/drivers/nvme/host/scsi.c
++++ b/drivers/nvme/host/scsi.c
+@@ -715,7 +715,7 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	u8 v_sup;
+ 	u8 luiclr = 0x01;
+ 
+-	inq_response = kmalloc(EXTENDED_INQUIRY_DATA_PAGE_LENGTH, GFP_KERNEL);
++	inq_response = kzalloc(EXTENDED_INQUIRY_DATA_PAGE_LENGTH, GFP_KERNEL);
+ 	if (inq_response == NULL)
+ 		return -ENOMEM;
+ 
+@@ -743,7 +743,6 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	v_sup = id_ctrl->vwc;
+ 	kfree(id_ctrl);
+ 
+-	memset(inq_response, 0, EXTENDED_INQUIRY_DATA_PAGE_LENGTH);
+ 	inq_response[1] = INQ_EXTENDED_INQUIRY_DATA_PAGE;    /* Page Code */
+ 	inq_response[2] = 0x00;    /* Page Length MSB */
+ 	inq_response[3] = 0x3C;    /* Page Length LSB */
+-- 
+2.1.4
