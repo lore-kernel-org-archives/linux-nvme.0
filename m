@@ -1,45 +1,47 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 30 Dec 2015 10:18:04 -0800
-Subject: [PATCH 2/5] NVMe: Use a retryable error code on reset
-In-Reply-To: <20151230180908.GB12454@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 30 Dec 2015 19:07:06 +0000
+Subject: [PATCH 5/5] NVMe: IO queue deletion re-write
+In-Reply-To: <20151230180430.GA12828@infradead.org>
 References: <1451496471-29370-1-git-send-email-keith.busch@intel.com>
- <1451496471-29370-3-git-send-email-keith.busch@intel.com>
- <20151230175232.GC21400@infradead.org>
- <20151230180908.GB12454@localhost.localdomain>
-Message-ID: <20151230181804.GA6359@infradead.org>
+ <1451496471-29370-6-git-send-email-keith.busch@intel.com>
+ <20151230180430.GA12828@infradead.org>
+Message-ID: <20151230190706.GC12454@localhost.localdomain>
 
-On Wed, Dec 30, 2015@06:09:08PM +0000, Keith Busch wrote:
-> > I thought I only added this to make you happy, so I'm fine with
-> > changing it.
-> > 
-> > But I don't understand why NVME_SC_CANCELLED isn't retryable,
-> > nvme_req_needs_retry doesn't treat negative error codes special.
-> > If it did we'd need to fix it as we want to be able to rety
-> > the other cases where it is returned as well.
-> 
-> nvme_req_needs_retry checks NVME status bit "DNR", which happens to be
-> set with a negative return code.
+On Wed, Dec 30, 2015@10:04:30AM -0800, Christoph Hellwig wrote:
+> I love the overall scheme, but I think some of the implementation
+> detail will need a few changes to be long term maintainable:
 
-Uh-oh.  I had specificly written a little test case to check if
-DNR works with a signed value, and it did.  But I forgot to do the
-negative check.
+Thanks! I don't think anyone liked the existing way, but it hasn't been
+completely trivial to replace it and preserve functionality.
 
-This means I need to revisit this scheme entirely as NVME_SC_CANCELLED
-should not imply a DNR in general.
+> First the 'wait' workqueue is a per-controller wait, so it should
+> be in nvme_ctrl instead of a union inside the queue. 
 
-> Yeah, a timed out command isn't retryable here. The check is to allow
-> requeuing when a controller reset occured for reasons other than
-> a timeout.
+Okay. I was trying to save a few bytes. Certainly not worth it.
 
-Generally we want to be able to retry after a timeout, so both
-this and the above issue need to be fixed.
+> Second it
+> should really be a wait queue, and it should only wake the caller
+> when all pending queues have been deleted to avoid spurious wakeups.
 
-> A long time ago, we had total command lifetime timeout value just to
-> allow timed out commands to requeue after a reset, but that was removed
-> with the blk-mq conversion. I didn't think it was a big deal, though. The
-> amount of time it takes to trigger a reset is 60 seconds by default, so
-> that's a heck of a long time to wait just to requeue the IO. Some users
-> I spoke with prefered to just fail the command sooner, so I didn't make
-> any attempt to change this behavior.
+The "completion" API counts the completions so the driver doesn't have to,
+and waking the thread on each completion notifies the waiter a request
+tag is available so it may continue submitting queue deletions.
 
-For SCSI we have a separate error handlind deadline fo that. 
+> The other things is the use of nvme_requeue_req for submitting
+> a different command, which looks rather hacky.  I'd suggest to
+> just wake a per-queue work item to do a proper command allocation
+> and submission, which also means we can use the normal on-stack
+> commands.
+
+Aww, I really liked the re-queuing! :) It encapsulates deleting a
+queue-pair as a single, two-step operation.
+
+There's a failure scenario that complicates work item handling. It has
+the same flaw kthread workers had if work is queued deeper than available
+tags, and then the controller stops responding. It's a mess to clean
+that up and synchronize when everything times out. Issuing everything
+from the main thread and irq callback is painless in comparison.
+
+But I didn't like having to store the "struct command" in the nvme_queue
+either, so I'm happy to consider alternatives if I've missed seeing an
+elegant solution.
