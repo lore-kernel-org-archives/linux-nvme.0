@@ -1,47 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 30 Dec 2015 19:07:06 +0000
-Subject: [PATCH 5/5] NVMe: IO queue deletion re-write
-In-Reply-To: <20151230180430.GA12828@infradead.org>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Wed, 30 Dec 2015 22:42:12 +0200
+Subject: [PATCH 3/5] NVMe: Remove queue freezing on resets
+In-Reply-To: <1451496471-29370-4-git-send-email-keith.busch@intel.com>
 References: <1451496471-29370-1-git-send-email-keith.busch@intel.com>
- <1451496471-29370-6-git-send-email-keith.busch@intel.com>
- <20151230180430.GA12828@infradead.org>
-Message-ID: <20151230190706.GC12454@localhost.localdomain>
+ <1451496471-29370-4-git-send-email-keith.busch@intel.com>
+Message-ID: <568441A4.3030007@dev.mellanox.co.il>
 
-On Wed, Dec 30, 2015@10:04:30AM -0800, Christoph Hellwig wrote:
-> I love the overall scheme, but I think some of the implementation
-> detail will need a few changes to be long term maintainable:
 
-Thanks! I don't think anyone liked the existing way, but it hasn't been
-completely trivial to replace it and preserve functionality.
+> NVMe submits all commands through the block layer now. This means we
+> can let requests queue at the blk-mq hardware context since there is no
+> path that bypasses this anymore. This means we don't need to freeze the
+> queues anymore and simply stop the h/w queues from running during a reset.
 
-> First the 'wait' workqueue is a per-controller wait, so it should
-> be in nvme_ctrl instead of a union inside the queue. 
+Does this have any dependencies? I tried this at some point but it
+didn't work as I expected it to.
 
-Okay. I was trying to save a few bytes. Certainly not worth it.
+> This also fixes a WARN in percpu_ref_reinit when the queue was unfrozen
+> with requeued requests.
 
-> Second it
-> should really be a wait queue, and it should only wake the caller
-> when all pending queues have been deleted to avoid spurious wakeups.
-
-The "completion" API counts the completions so the driver doesn't have to,
-and waking the thread on each completion notifies the waiter a request
-tag is available so it may continue submitting queue deletions.
-
-> The other things is the use of nvme_requeue_req for submitting
-> a different command, which looks rather hacky.  I'd suggest to
-> just wake a per-queue work item to do a proper command allocation
-> and submission, which also means we can use the normal on-stack
-> commands.
-
-Aww, I really liked the re-queuing! :) It encapsulates deleting a
-queue-pair as a single, two-step operation.
-
-There's a failure scenario that complicates work item handling. It has
-the same flaw kthread workers had if work is queued deeper than available
-tags, and then the controller stops responding. It's a mess to clean
-that up and synchronize when everything times out. Issuing everything
-from the main thread and irq callback is painless in comparison.
-
-But I didn't like having to store the "struct command" in the nvme_queue
-either, so I'm happy to consider alternatives if I've missed seeing an
-elegant solution.
+Oh yes, I've seen this one too! I'll test it for sure.
