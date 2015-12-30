@@ -1,71 +1,37 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Wed, 30 Dec 2015 10:47:59 -0700
-Subject: [PATCH 3/3] NVMe: Create CMB resource sysfs file
-In-Reply-To: <1451497679-1195-1-git-send-email-jonathan.derrick@intel.com>
-References: <1451497679-1195-1-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <1451497679-1195-4-git-send-email-jonathan.derrick@intel.com>
+From: axboe@fb.com (Jens Axboe)
+Date: Wed, 30 Dec 2015 10:53:39 -0700
+Subject: [PATCH 1/5] NVMe: Fix admin queue ring wrap
+In-Reply-To: <1451496471-29370-2-git-send-email-keith.busch@intel.com>
+References: <1451496471-29370-1-git-send-email-keith.busch@intel.com>
+ <1451496471-29370-2-git-send-email-keith.busch@intel.com>
+Message-ID: <56841A23.1010000@fb.com>
 
-Creates a CMB resource file which lists the whole CMB resource in the
-first line, and allocations in each line below it. This information is
-already reflected in /proc/iomem in the PCI NVMe driver.
+On 12/30/2015 10:27 AM, Keith Busch wrote:
+> The tag set queue depth needs to be one less than the h/w queue depth
+> so we don't wrap the circular buffer. This conforms to the specification
+> defined "Full Queue" condition.
+>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>   drivers/nvme/host/pci.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index b82bbea..2e6e665 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1271,7 +1271,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
+>   	if (!dev->ctrl.admin_q) {
+>   		dev->admin_tagset.ops = &nvme_mq_admin_ops;
+>   		dev->admin_tagset.nr_hw_queues = 1;
+> -		dev->admin_tagset.queue_depth = NVME_AQ_BLKMQ_DEPTH;
+> +		dev->admin_tagset.queue_depth = NVME_AQ_BLKMQ_DEPTH - 1;
+>   		dev->admin_tagset.timeout = ADMIN_TIMEOUT;
+>   		dev->admin_tagset.numa_node = dev_to_node(dev->dev);
+>   		dev->admin_tagset.cmd_size = nvme_cmd_size(dev);
 
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
----
- drivers/nvme/host/core.c | 28 ++++++++++++++++++++++++++++
- 1 file changed, 28 insertions(+)
+I missed this during review, which is a little sad since I ran into the 
+same thing in the initial conversion of the nvme driver to blk-mq.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 5d12ae4..c691c57 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -969,6 +969,29 @@ static ssize_t nvme_sysfs_reset(struct device *dev,
- }
- static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_sysfs_reset);
- 
-+static ssize_t nvme_cmb_resource_show(struct device *dev,
-+					struct device_attribute *attr,
-+					char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	struct nvme_cmb *cmb = ctrl->cmb;
-+	struct resource *res = cmb->res;
-+	char *str = buf;
-+
-+	str += sprintf(str, "0x%016llx 0x%016llx 0x%016llx\n",
-+			(unsigned long long)res->start,
-+			(unsigned long long)res->end,
-+			(unsigned long long)res->flags);
-+	for (res = res->child; res; res = res->sibling) {
-+		str += sprintf(str, "0x%016llx 0x%016llx 0x%016llx\n",
-+				(unsigned long long)res->start,
-+				(unsigned long long)res->end,
-+				(unsigned long long)res->flags);
-+	}
-+	return (str - buf);
-+}
-+static DEVICE_ATTR(cmb_resource, S_IRUGO, nvme_cmb_resource_show, NULL);
-+
- static ssize_t nvme_cmb_sq_depth_show(struct device *dev,
- 					struct device_attribute *attr,
- 					char *buf)
-@@ -1024,6 +1047,7 @@ static DEVICE_ATTR(cmb_sq_offset, S_IWUSR | S_IRUGO, nvme_cmb_sq_offset_show,
- 						nvme_cmb_sq_offset_store);
- 
- static struct attribute *nvme_cmb_attrs[] = {
-+	&dev_attr_cmb_resource.attr,
- 	&dev_attr_cmb_sq_depth.attr,
- 	&dev_attr_cmb_sq_offset.attr,
- 	NULL
-@@ -1036,6 +1060,10 @@ static umode_t nvme_cmb_attrs_are_visible(struct kobject *kobj,
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
- 	struct nvme_cmb *cmb = ctrl->cmb;
- 
-+	if (a == &dev_attr_cmb_resource.attr) {
-+		if (!cmb->res || !resource_size(cmb->res))
-+			return 0;
-+	}
- 	if ((a == &dev_attr_cmb_sq_depth.attr) ||
- 	    (a == &dev_attr_cmb_sq_offset.attr)) {
- 		if (!(cmb->flags & NVME_CMB_SQ_SUPPORTED))
 -- 
-2.1.4
+Jens Axboe
