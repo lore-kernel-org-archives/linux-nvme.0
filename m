@@ -1,30 +1,45 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 30 Dec 2015 17:56:58 +0000
-Subject: [PATCH 1/5] NVMe: Fix admin queue ring wrap
-In-Reply-To: <20151230174954.GB21400@infradead.org>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 30 Dec 2015 09:58:29 -0800
+Subject: [PATCH 4/5] NVMe: Shutdown controller only for power-off
+In-Reply-To: <1451496471-29370-5-git-send-email-keith.busch@intel.com>
 References: <1451496471-29370-1-git-send-email-keith.busch@intel.com>
- <1451496471-29370-2-git-send-email-keith.busch@intel.com>
- <20151230174954.GB21400@infradead.org>
-Message-ID: <20151230175658.GB22501@localhost.localdomain>
+ <1451496471-29370-5-git-send-email-keith.busch@intel.com>
+Message-ID: <20151230175829.GE21400@infradead.org>
 
-On Wed, Dec 30, 2015@09:49:54AM -0800, Christoph Hellwig wrote:
-> On Wed, Dec 30, 2015@10:27:47AM -0700, Keith Busch wrote:
-> > The tag set queue depth needs to be one less than the h/w queue depth
-> > so we don't wrap the circular buffer. This conforms to the specification
-> > defined "Full Queue" condition.
+On Wed, Dec 30, 2015@10:27:50AM -0700, Keith Busch wrote:
+> We don't need to shutdown a controller for a reset. A controller in a
+> shutdown state may take longer to become ready than one that was simply
+> disabled. This patch has the driver shut down a controller only if the
+> device is about to be powered off or being removed. When the taking
+> the controller down for a reset reason, the controller will be disabled
+> instead.
 > 
-> You'll need to change NVME_AQ_DEPTH to make sure the magic for the
-> AEN commands still work.
+> Function names have been updated in this patch to reflect their changed
+> semantics.
 
-It'll still work. The command id is just a cookie to the controller,
-and the AEN command id is still higher than the highest request "tag",
-so the logic all works.
- 
-> But can you explain the actual issue a little more while we're at it?
-> Preferably in a comment in the code!
+Am I missing something?  What happens to the calls to nvme_disable_queue
+in nvme_disable_io_queues and nvme_wait_dq?
 
-Our admin queue depth is fixed to 256. We reserve one for AEN, so the
-depth we told blk-mq is 255. If we use all 255 tags, plus the special one
-for AEN, we wrapped the queue. In practice, it is unlikely you're going
-to use up 255 admin tags, so I don't think it's a condition frequently
-tested, but we need to tell blk-mq to use only 254 tags instead.
+> -static void nvme_disable_queue(struct nvme_dev *dev, int qid)
+> +static void nvme_disable_admin_queue(struct nvme_dev *dev, bool disable_ctrl)
+>  {
+> -	struct nvme_queue *nvmeq = dev->queues[qid];
+> +	struct nvme_queue *nvmeq = dev->queues[0];
+>  
+>  	if (!nvmeq)
+>  		return;
+>  	if (nvme_suspend_queue(nvmeq))
+>  		return;
+>  
+> -	/* Don't tell the adapter to delete the admin queue.
+> -	 * Don't tell a removed adapter to delete IO queues. */
+> -	if (qid && readl(dev->bar + NVME_REG_CSTS) != -1) {
+> -		adapter_delete_sq(dev, qid);
+> -		adapter_delete_cq(dev, qid);
+> -	}
+> +	if (disable_ctrl)
+> +		nvme_disable_ctrl(&dev->ctrl,
+> +			lo_hi_readq(dev->bar + NVME_REG_CAP));
+
+Why can't this be done outside this function, similar to the
+shutdown case?
