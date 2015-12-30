@@ -1,16 +1,16 @@
-From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Wed, 30 Dec 2015 22:44:36 +0200
-Subject: [PATCH 3/5] NVMe: Remove queue freezing on resets
-In-Reply-To: <20151230175337.GD21400@infradead.org>
-References: <1451496471-29370-1-git-send-email-keith.busch@intel.com>
- <1451496471-29370-4-git-send-email-keith.busch@intel.com>
- <20151230175337.GD21400@infradead.org>
-Message-ID: <56844234.1010704@dev.mellanox.co.il>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Wed, 30 Dec 2015 13:59:41 -0700
+Subject: [PATCH 2/3] NVMe: Generate resource tree for CMB
+In-Reply-To: <1451497679-1195-3-git-send-email-jonathan.derrick@intel.com>
+References: <1451497679-1195-1-git-send-email-jonathan.derrick@intel.com>
+ <1451497679-1195-3-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <20151230205941.GA5808@localhost.localdomain>
 
+> Maintains a resource tree for CMB resources. A sysfs file is exposed
+> which is similar to a pci_dev resources file. The top entry is the
+> range of the whole CMB resource, and the entries below that are the
+> driver-reserved regions (currently only used by SQes).
+> 
 
-> Looks fine to me, but this conflicts with Sagis patch to move
-> nvme_{un,}freeze_queues to common code and my patches that sit
-> on top of that.  Guess I'll need to rebase that series again.
-
-Is there any reason not to take that patch? I have no problem
-resending it if it'd save you guys some time...
+2 & 3's logs got mixed up when I split them.
+If the patches look fine I will resend with better logs.
