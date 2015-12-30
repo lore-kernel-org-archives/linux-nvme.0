@@ -1,13 +1,25 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 30 Dec 2015 09:53:37 -0800
-Subject: [PATCH 3/5] NVMe: Remove queue freezing on resets
-In-Reply-To: <1451496471-29370-4-git-send-email-keith.busch@intel.com>
-References: <1451496471-29370-1-git-send-email-keith.busch@intel.com>
- <1451496471-29370-4-git-send-email-keith.busch@intel.com>
-Message-ID: <20151230175337.GD21400@infradead.org>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Wed, 30 Dec 2015 10:47:56 -0700
+Subject: [PATCH 0/3] NVMe: Introduce CMB allocation scheme
+Message-ID: <1451497679-1195-1-git-send-email-jonathan.derrick@intel.com>
 
-Looks fine to me, but this conflicts with Sagis patch to move
-nvme_{un,}freeze_queues to common code and my patches that sit
-on top of that.  Guess I'll need to rebase that series again.
+Applies to Jens' for-4.5/nvme
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+This patchset changes the CMB allocation scheme. Instead of reserving
+the entire range for SQes and automatically placing the SQes in the CMB,
+this set creates sysfs knobs to manage it. This allows partial usage of
+the CMB for SQes, so that the remainder can be mmapped or used for other
+NVMe-defined CMB usages.
+
+Jon Derrick (3):
+  NVMe: Introduce sysfs entries for submission queues in CMB
+  NVMe: Generate resource tree for CMB
+  NVMe: Create CMB resource sysfs file
+
+ drivers/nvme/host/core.c | 161 ++++++++++++++++++++++++++++++++++-
+ drivers/nvme/host/nvme.h |  21 +++++
+ drivers/nvme/host/pci.c  | 212 ++++++++++++++++++++++++++++++-----------------
+ 3 files changed, 313 insertions(+), 81 deletions(-)
+
+-- 
+2.1.4
