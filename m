@@ -1,42 +1,14 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 30 Dec 2015 18:09:08 +0000
-Subject: [PATCH 2/5] NVMe: Use a retryable error code on reset
-In-Reply-To: <20151230175232.GC21400@infradead.org>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 30 Dec 2015 10:09:54 -0800
+Subject: [PATCH 1/5] NVMe: Fix admin queue ring wrap
+In-Reply-To: <56841A23.1010000@fb.com>
 References: <1451496471-29370-1-git-send-email-keith.busch@intel.com>
- <1451496471-29370-3-git-send-email-keith.busch@intel.com>
- <20151230175232.GC21400@infradead.org>
-Message-ID: <20151230180908.GB12454@localhost.localdomain>
+ <1451496471-29370-2-git-send-email-keith.busch@intel.com>
+ <56841A23.1010000@fb.com>
+Message-ID: <20151230180954.GA27087@infradead.org>
 
-On Wed, Dec 30, 2015@09:52:32AM -0800, Christoph Hellwig wrote:
-> On Wed, Dec 30, 2015@10:27:48AM -0700, Keith Busch wrote:
-> > Use a fake status that can potentially be retried on reset.
-> 
-> I thought I only added this to make you happy, so I'm fine with
-> changing it.
-> 
-> But I don't understand why NVME_SC_CANCELLED isn't retryable,
-> nvme_req_needs_retry doesn't treat negative error codes special.
-> If it did we'd need to fix it as we want to be able to rety
-> the other cases where it is returned as well.
+On Wed, Dec 30, 2015@10:53:39AM -0700, Jens Axboe wrote:
+> I missed this during review, which is a little sad since I ran into the same
+> thing in the initial conversion of the nvme driver to blk-mq.
 
-nvme_req_needs_retry checks NVME status bit "DNR", which happens to be
-set with a negative return code.
- 
-> Which btw brings me to a bug I noticed a while ago but didn't
-> have time to fully understand: nvme_req_needs_retry looks
-> at req->start_time vs req->timeout, but that means we'll
-> fail any command that times out, even if we resubmit it
-> after a controller reset.  Should we really have that clause
-> in there?
-
-Yeah, a timed out command isn't retryable here. The check is to allow
-requeuing when a controller reset occured for reasons other than
-a timeout.
-
-A long time ago, we had total command lifetime timeout value just to
-allow timed out commands to requeue after a reset, but that was removed
-with the blk-mq conversion. I didn't think it was a big deal, though. The
-amount of time it takes to trigger a reset is 60 seconds by default, so
-that's a heck of a long time to wait just to requeue the IO. Some users
-I spoke with prefered to just fail the command sooner, so I didn't make
-any attempt to change this behavior.
+Another reason to finally add a comment and explain the magic one off..
