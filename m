@@ -1,45 +1,29 @@
-From: hofrat@osadl.org (Nicholas Mc Guire)
-Date: Sat, 26 Dec 2015 19:19:03 +0100
-Subject: [PATCH] nvme: consolidate kmallc + memset 0 into kzalloc
-Message-ID: <1451153943-8725-1-git-send-email-hofrat@osadl.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 30 Dec 2015 10:27:48 -0700
+Subject: [PATCH 2/5] NVMe: Use a retryable error code on reset
+In-Reply-To: <1451496471-29370-1-git-send-email-keith.busch@intel.com>
+References: <1451496471-29370-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1451496471-29370-3-git-send-email-keith.busch@intel.com>
 
-This is an API consolidation only. The use of kmalloc + memset to 0
-here should be equivalent to kzalloc.
+Use a fake status that can potentially be retried on reset.
 
-Signed-off-by: Nicholas Mc Guire <hofrat at osadl.org>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Found by coccinelle script (relaxed version of
-scripts/coccinelle/api/alloc/kzalloc-simple.cocci)
-
-Patch was compile tested with: x86_64_defconfig
-CONFIG_BLK_DEV_NVME=m
-
-Patch is against linux-next (localversion-next is -next-20151222)
-
- drivers/nvme/host/scsi.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
-index e947e29..8f447e3 100644
---- a/drivers/nvme/host/scsi.c
-+++ b/drivers/nvme/host/scsi.c
-@@ -715,7 +715,7 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	u8 v_sup;
- 	u8 luiclr = 0x01;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 2e6e665..3abcb3a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1017,7 +1017,7 @@ static void nvme_cancel_queue_ios(struct request *req, void *data, bool reserved
+ 	dev_warn(nvmeq->q_dmadev,
+ 		 "Cancelling I/O %d QID %d\n", req->tag, nvmeq->qid);
  
--	inq_response = kmalloc(EXTENDED_INQUIRY_DATA_PAGE_LENGTH, GFP_KERNEL);
-+	inq_response = kzalloc(EXTENDED_INQUIRY_DATA_PAGE_LENGTH, GFP_KERNEL);
- 	if (inq_response == NULL)
- 		return -ENOMEM;
- 
-@@ -743,7 +743,6 @@ static int nvme_trans_ext_inq_page(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	v_sup = id_ctrl->vwc;
- 	kfree(id_ctrl);
- 
--	memset(inq_response, 0, EXTENDED_INQUIRY_DATA_PAGE_LENGTH);
- 	inq_response[1] = INQ_EXTENDED_INQUIRY_DATA_PAGE;    /* Page Code */
- 	inq_response[2] = 0x00;    /* Page Length MSB */
- 	inq_response[3] = 0x3C;    /* Page Length LSB */
+-	status = NVME_SC_CANCELLED;
++	status = NVME_SC_ABORT_REQ;
+ 	if (blk_queue_dying(req->q))
+ 		status |= NVME_SC_DNR;
+ 	blk_mq_complete_request(req, status);
 -- 
-2.1.4
+2.6.2.307.g37023ba
