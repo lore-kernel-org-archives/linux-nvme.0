@@ -1,58 +1,42 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 30 Dec 2015 10:04:30 -0800
-Subject: [PATCH 5/5] NVMe: IO queue deletion re-write
-In-Reply-To: <1451496471-29370-6-git-send-email-keith.busch@intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 30 Dec 2015 18:09:08 +0000
+Subject: [PATCH 2/5] NVMe: Use a retryable error code on reset
+In-Reply-To: <20151230175232.GC21400@infradead.org>
 References: <1451496471-29370-1-git-send-email-keith.busch@intel.com>
- <1451496471-29370-6-git-send-email-keith.busch@intel.com>
-Message-ID: <20151230180430.GA12828@infradead.org>
+ <1451496471-29370-3-git-send-email-keith.busch@intel.com>
+ <20151230175232.GC21400@infradead.org>
+Message-ID: <20151230180908.GB12454@localhost.localdomain>
 
-On Wed, Dec 30, 2015@10:27:51AM -0700, Keith Busch wrote:
-> The nvme driver deletes IO queues asynchronously since this operation
-> may potentially take an undesirable amount of time with a large number
-> of queues if done serially.
+On Wed, Dec 30, 2015@09:52:32AM -0800, Christoph Hellwig wrote:
+> On Wed, Dec 30, 2015@10:27:48AM -0700, Keith Busch wrote:
+> > Use a fake status that can potentially be retried on reset.
 > 
-> The driver used to manage coordinating asynchronous deletions. This
-> patch simplifies that by leveraging the block layer rather than using
-> kthread workers and complicated callback chaining.
+> I thought I only added this to make you happy, so I'm fine with
+> changing it.
 > 
-> Beyond just being a simpler method, this also fixes a theoretical hang
-> if the controller stops responding while the worker thread was queued
-> deeper than the admin queue depth.
+> But I don't understand why NVME_SC_CANCELLED isn't retryable,
+> nvme_req_needs_retry doesn't treat negative error codes special.
+> If it did we'd need to fix it as we want to be able to rety
+> the other cases where it is returned as well.
 
-I love the overall scheme, but I think some of the implementation
-detail will need a few changes to be long term maintainable:
+nvme_req_needs_retry checks NVME status bit "DNR", which happens to be
+set with a negative return code.
+ 
+> Which btw brings me to a bug I noticed a while ago but didn't
+> have time to fully understand: nvme_req_needs_retry looks
+> at req->start_time vs req->timeout, but that means we'll
+> fail any command that times out, even if we resubmit it
+> after a controller reset.  Should we really have that clause
+> in there?
 
-First the 'wait' workqueue is a per-controller wait, so it should
-be in nvme_ctrl instead of a union inside the queue.  Second it
-should really be a wait queue, and it should only wake the caller
-when all pending queues have been deleted to avoid spurious wakeups.
+Yeah, a timed out command isn't retryable here. The check is to allow
+requeuing when a controller reset occured for reasons other than
+a timeout.
 
-The other things is the use of nvme_requeue_req for submitting
-a different command, which looks rather hacky.  I'd suggest to
-just wake a per-queue work item to do a proper command allocation
-and submission, which also means we can use the normal on-stack
-commands.
-
-Btw:
-
-> +static int nvme_delete_queue(struct nvme_queue *nvmeq, struct request_queue *q)
-> +{
-> +	struct request *req;
-> +
-> +	req = nvme_alloc_request(q, (struct nvme_command *)&nvmeq->dq,
-> +							BLK_MQ_REQ_NOWAIT);
-> +	if (IS_ERR(req))
-> +		return -1;
-> +
-> +	memset(&nvmeq->dq, 0, sizeof(nvmeq->dq));
-> +	nvmeq->dq.opcode = nvme_admin_delete_sq;
-> +	nvmeq->dq.qid = cpu_to_le16(nvmeq->qid);
-> +
-> +	req->end_io_data = nvmeq;
-> +	req->timeout = ADMIN_TIMEOUT;
-> +
-> +	blk_execute_rq_nowait(q, NULL, req, false, nvme_del_sq_end);
-> +	return 0;
-
-Please return either a Linux error code or a bool, but not a 0 vs -1
-integer.
+A long time ago, we had total command lifetime timeout value just to
+allow timed out commands to requeue after a reset, but that was removed
+with the blk-mq conversion. I didn't think it was a big deal, though. The
+amount of time it takes to trigger a reset is 60 seconds by default, so
+that's a heck of a long time to wait just to requeue the IO. Some users
+I spoke with prefered to just fail the command sooner, so I didn't make
+any attempt to change this behavior.
