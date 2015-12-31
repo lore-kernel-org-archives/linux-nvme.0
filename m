@@ -1,186 +1,332 @@
-From: yuan.zhang@intel.com (Zhang, Yuan)
-Date: Thu, 31 Dec 2015 00:38:09 +0000
-Subject: [RFC] CPU: New state for iopoll
-In-Reply-To: <1451520039-18220-2-git-send-email-keith.busch@intel.com>
-References: <1451520039-18220-1-git-send-email-keith.busch@intel.com>,
- <1451520039-18220-2-git-send-email-keith.busch@intel.com>
-Message-ID: <433D32F2-3F85-4690-BA73-9976B5309415@intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 31 Dec 2015 09:41:55 -0700
+Subject: [PATCHv2 4/5] NVMe: IO queue deletion re-write
+In-Reply-To: <1451580116-12252-1-git-send-email-keith.busch@intel.com>
+References: <1451580116-12252-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1451580116-12252-5-git-send-email-keith.busch@intel.com>
 
-This is really goods do helpful, thanks Keith
+The nvme driver deletes IO queues asynchronously since this operation
+may potentially take an undesirable amount of time if done serially with
+a large number of queues.
 
-Sent from my iPhone
+The driver used to manage coordinating asynchronous deletions. This
+patch simplifies that by leveraging the block layer rather than using
+kthread workers and chaining complicated callbacks.
 
-> On Dec 30, 2015,@4:02 PM, Keith Busch <keith.busch@intel.com> wrote:
-> 
-> This accounts for CPU time spent polling for IO seperately from system
-> time.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
-> block/blk-core.c            | 7 ++++++-
-> fs/proc/stat.c              | 8 ++++++--
-> include/linux/kernel_stat.h | 1 +
-> include/linux/sched.h       | 1 +
-> kernel/sched/cpuacct.c      | 1 +
-> kernel/sched/cputime.c      | 7 ++++++-
-> 6 files changed, 21 insertions(+), 4 deletions(-)
-> 
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index 93810f2..b46fc2c 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -3330,6 +3330,7 @@ bool blk_poll(struct request_queue *q, blk_qc_t cookie)
->    if (plug)
->        blk_flush_plug_list(plug, false);
-> 
-> +    current->in_iopoll = 1;
->    state = current->state;
->    while (!need_resched()) {
->        unsigned int queue_num = blk_qc_t_to_queue_num(cookie);
-> @@ -3342,19 +3343,23 @@ bool blk_poll(struct request_queue *q, blk_qc_t cookie)
->        if (ret > 0) {
->            hctx->poll_success++;
->            set_current_state(TASK_RUNNING);
-> +            current->in_iopoll = 0;
->            return true;
->        }
-> 
->        if (signal_pending_state(state, current))
->            set_current_state(TASK_RUNNING);
-> 
-> -        if (current->state == TASK_RUNNING)
-> +        if (current->state == TASK_RUNNING) {
-> +            current->in_iopoll = 0;
->            return true;
-> +        }
->        if (ret < 0)
->            break;
->        cpu_relax();
->    }
-> 
-> +    current->in_iopoll = 0;
->    return false;
-> }
-> 
-> diff --git a/fs/proc/stat.c b/fs/proc/stat.c
-> index 510413eb..5982efc 100644
-> --- a/fs/proc/stat.c
-> +++ b/fs/proc/stat.c
-> @@ -81,14 +81,14 @@ static int show_stat(struct seq_file *p, void *v)
-> {
->    int i, j;
->    unsigned long jif;
-> -    u64 user, nice, system, idle, iowait, irq, softirq, steal;
-> +    u64 user, nice, system, idle, iowait, iopoll, irq, softirq, steal;
->    u64 guest, guest_nice;
->    u64 sum = 0;
->    u64 sum_softirq = 0;
->    unsigned int per_softirq_sums[NR_SOFTIRQS] = {0};
->    struct timespec boottime;
-> 
-> -    user = nice = system = idle = iowait =
-> +    user = nice = system = idle = iowait = iopoll =
->        irq = softirq = steal = 0;
->    guest = guest_nice = 0;
->    getboottime(&boottime);
-> @@ -98,6 +98,7 @@ static int show_stat(struct seq_file *p, void *v)
->        user += kcpustat_cpu(i).cpustat[CPUTIME_USER];
->        nice += kcpustat_cpu(i).cpustat[CPUTIME_NICE];
->        system += kcpustat_cpu(i).cpustat[CPUTIME_SYSTEM];
-> +        iopoll += kcpustat_cpu(i).cpustat[CPUTIME_IOPOLL];
->        idle += get_idle_time(i);
->        iowait += get_iowait_time(i);
->        irq += kcpustat_cpu(i).cpustat[CPUTIME_IRQ];
-> @@ -128,6 +129,7 @@ static int show_stat(struct seq_file *p, void *v)
->    seq_put_decimal_ull(p, ' ', cputime64_to_clock_t(steal));
->    seq_put_decimal_ull(p, ' ', cputime64_to_clock_t(guest));
->    seq_put_decimal_ull(p, ' ', cputime64_to_clock_t(guest_nice));
-> +    seq_put_decimal_ull(p, ' ', cputime64_to_clock_t(iopoll));
->    seq_putc(p, '\n');
-> 
->    for_each_online_cpu(i) {
-> @@ -135,6 +137,7 @@ static int show_stat(struct seq_file *p, void *v)
->        user = kcpustat_cpu(i).cpustat[CPUTIME_USER];
->        nice = kcpustat_cpu(i).cpustat[CPUTIME_NICE];
->        system = kcpustat_cpu(i).cpustat[CPUTIME_SYSTEM];
-> +        iopoll = kcpustat_cpu(i).cpustat[CPUTIME_IOPOLL];
->        idle = get_idle_time(i);
->        iowait = get_iowait_time(i);
->        irq = kcpustat_cpu(i).cpustat[CPUTIME_IRQ];
-> @@ -153,6 +156,7 @@ static int show_stat(struct seq_file *p, void *v)
->        seq_put_decimal_ull(p, ' ', cputime64_to_clock_t(steal));
->        seq_put_decimal_ull(p, ' ', cputime64_to_clock_t(guest));
->        seq_put_decimal_ull(p, ' ', cputime64_to_clock_t(guest_nice));
-> +        seq_put_decimal_ull(p, ' ', cputime64_to_clock_t(iopoll));
->        seq_putc(p, '\n');
->    }
->    seq_printf(p, "intr %llu", (unsigned long long)sum);
-> diff --git a/include/linux/kernel_stat.h b/include/linux/kernel_stat.h
-> index 25a822f..c092745 100644
-> --- a/include/linux/kernel_stat.h
-> +++ b/include/linux/kernel_stat.h
-> @@ -28,6 +28,7 @@ enum cpu_usage_stat {
->    CPUTIME_STEAL,
->    CPUTIME_GUEST,
->    CPUTIME_GUEST_NICE,
-> +    CPUTIME_IOPOLL,
->    NR_STATS,
-> };
-> 
-> diff --git a/include/linux/sched.h b/include/linux/sched.h
-> index edad7a4..b34830e 100644
-> --- a/include/linux/sched.h
-> +++ b/include/linux/sched.h
-> @@ -1458,6 +1458,7 @@ struct task_struct {
->    unsigned in_execve:1;    /* Tell the LSMs that the process is doing an
->                 * execve */
->    unsigned in_iowait:1;
-> +    unsigned in_iopoll:1;
-> 
->    /* Revert to default priority/policy when forking */
->    unsigned sched_reset_on_fork:1;
-> diff --git a/kernel/sched/cpuacct.c b/kernel/sched/cpuacct.c
-> index dd7cbb5..5ad3ad4 100644
-> --- a/kernel/sched/cpuacct.c
-> +++ b/kernel/sched/cpuacct.c
-> @@ -200,6 +200,7 @@ static int cpuacct_stats_show(struct seq_file *sf, void *v)
->    for_each_online_cpu(cpu) {
->        struct kernel_cpustat *kcpustat = per_cpu_ptr(ca->cpustat, cpu);
->        val += kcpustat->cpustat[CPUTIME_SYSTEM];
-> +        val += kcpustat->cpustat[CPUTIME_IOPOLL];
->        val += kcpustat->cpustat[CPUTIME_IRQ];
->        val += kcpustat->cpustat[CPUTIME_SOFTIRQ];
->    }
-> diff --git a/kernel/sched/cputime.c b/kernel/sched/cputime.c
-> index 05de80b..887c1a9 100644
-> --- a/kernel/sched/cputime.c
-> +++ b/kernel/sched/cputime.c
-> @@ -222,6 +222,8 @@ void account_system_time(struct task_struct *p, int hardirq_offset,
->        index = CPUTIME_IRQ;
->    else if (in_serving_softirq())
->        index = CPUTIME_SOFTIRQ;
-> +    else if (p->in_iopoll)
-> +        index = CPUTIME_IOPOLL;
->    else
->        index = CPUTIME_SYSTEM;
-> 
-> @@ -367,7 +369,10 @@ static void irqtime_account_process_tick(struct task_struct *p, int user_tick,
->    } else if (p->flags & PF_VCPU) { /* System time or guest time */
->        account_guest_time(p, cputime, scaled);
->    } else {
-> -        __account_system_time(p, cputime, scaled,    CPUTIME_SYSTEM);
-> +        if (p->in_iopoll)
-> +            __account_system_time(p, cputime, scaled, CPUTIME_IOPOLL);
-> +        else
-> +            __account_system_time(p, cputime, scaled, CPUTIME_SYSTEM);
->    }
-> }
-> 
-> -- 
-> 2.6.2.307.g37023ba
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Beyond just being a simpler method, this also fixes a theoretical hang
+if the controller stops responding while the worker thread was queued
+deeper than the admin queue depth.
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 250 ++++++++++++++++--------------------------------
+ 1 file changed, 80 insertions(+), 170 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5e1e8cd..d2eecd8 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -89,13 +89,6 @@ static void nvme_process_cq(struct nvme_queue *nvmeq);
+ static void nvme_remove_dead_ctrl(struct nvme_dev *dev);
+ static void nvme_dev_shutdown(struct nvme_dev *dev);
+ 
+-struct async_cmd_info {
+-	struct kthread_work work;
+-	struct kthread_worker *worker;
+-	int status;
+-	void *ctx;
+-};
+-
+ /*
+  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+  */
+@@ -125,9 +118,11 @@ struct nvme_dev {
+ 	u64 cmb_size;
+ 	u32 cmbsz;
+ 	unsigned long flags;
++
+ #define NVME_CTRL_RESETTING    0
+ 
+ 	struct nvme_ctrl ctrl;
++	struct completion ioq_wait;
+ };
+ 
+ static inline struct nvme_dev *to_nvme_dev(struct nvme_ctrl *ctrl)
+@@ -159,7 +154,7 @@ struct nvme_queue {
+ 	u16 qid;
+ 	u8 cq_phase;
+ 	u8 cqe_seen;
+-	struct async_cmd_info cmdinfo;
++	struct nvme_delete_queue dq;
+ };
+ 
+ /*
+@@ -844,15 +839,6 @@ static void nvme_submit_async_event(struct nvme_dev *dev)
+ 	__nvme_submit_cmd(dev->queues[0], &c);
+ }
+ 
+-static void async_cmd_info_endio(struct request *req, int error)
+-{
+-	struct async_cmd_info *cmdinfo = req->end_io_data;
+-
+-	cmdinfo->status = req->errors;
+-	queue_kthread_work(cmdinfo->worker, &cmdinfo->work);
+-	blk_mq_free_request(req);
+-}
+-
+ static int adapter_delete_queue(struct nvme_dev *dev, u8 opcode, u16 id)
+ {
+ 	struct nvme_command c;
+@@ -1600,6 +1586,82 @@ static void nvme_dev_scan(struct work_struct *work)
+ 	nvme_set_irq_hints(dev);
+ }
+ 
++static void nvme_del_queue_end(struct request *req, int error)
++{
++	unsigned long flags;
++	struct nvme_queue *nvmeq = req->end_io_data;
++
++	blk_mq_free_request(req);
++
++	spin_lock_irqsave(&nvmeq->q_lock, flags);
++	nvme_process_cq(nvmeq);
++	spin_unlock_irqrestore(&nvmeq->q_lock, flags);
++
++	complete(&nvmeq->dev->ioq_wait);
++}
++
++static void nvme_del_sq_end(struct request *req, int error)
++{
++	struct nvme_queue *nvmeq = req->end_io_data;
++
++	if (error) {
++		nvme_del_queue_end(req, error);
++		return;
++	}
++
++	nvmeq->dq.opcode = nvme_admin_delete_cq;
++	req->end_io = nvme_del_queue_end;
++
++	/* Must requeue. This callback occurs in irq w/ q_lock held */
++	nvme_requeue_req(req);
++}
++
++static int nvme_delete_queue(struct nvme_queue *nvmeq, struct request_queue *q)
++{
++	struct request *req;
++
++	req = nvme_alloc_request(q, (struct nvme_command *)&nvmeq->dq,
++							BLK_MQ_REQ_NOWAIT);
++	if (IS_ERR(req))
++		return PTR_ERR(req);
++
++	memset(&nvmeq->dq, 0, sizeof(nvmeq->dq));
++	nvmeq->dq.opcode = nvme_admin_delete_sq;
++	nvmeq->dq.qid = cpu_to_le16(nvmeq->qid);
++
++	req->end_io_data = nvmeq;
++	req->timeout = ADMIN_TIMEOUT;
++
++	blk_execute_rq_nowait(q, NULL, req, false, nvme_del_sq_end);
++	return 0;
++}
++
++static void nvme_disable_io_queues(struct nvme_dev *dev)
++{
++	struct request_queue *q = dev->ctrl.admin_q;
++	int i = dev->queue_count - 1, sent = 0;
++	unsigned long timeout;
++
++	reinit_completion(&dev->ioq_wait);
++ retry:
++	timeout = ADMIN_TIMEOUT;
++	for (; i > 0; i--) {
++		struct nvme_queue *nvmeq = dev->queues[i];
++
++		nvme_suspend_queue(nvmeq);
++		if (nvme_delete_queue(nvmeq, q))
++			break;
++		++sent;
++	}
++	while (sent--) {
++		timeout = wait_for_completion_io_timeout(&dev->ioq_wait, timeout);
++		if (timeout == 0)
++			return;
++		if (i)
++			goto retry;
++	}
++}
++
+ /*
+  * Return: error value if an error occurred setting up the queues or calling
+  * Identify Device.  0 if these succeeded, even if adding some of the
+@@ -1711,159 +1773,6 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
+ 	}
+ }
+ 
+-struct nvme_delq_ctx {
+-	struct task_struct *waiter;
+-	struct kthread_worker *worker;
+-	atomic_t refcount;
+-};
+-
+-static void nvme_wait_dq(struct nvme_delq_ctx *dq, struct nvme_dev *dev)
+-{
+-	dq->waiter = current;
+-	mb();
+-
+-	for (;;) {
+-		set_current_state(TASK_KILLABLE);
+-		if (!atomic_read(&dq->refcount))
+-			break;
+-		if (!schedule_timeout(ADMIN_TIMEOUT) ||
+-					fatal_signal_pending(current)) {
+-			/*
+-			 * Disable the controller first since we can't trust it
+-			 * at this point, but leave the admin queue enabled
+-			 * until all queue deletion requests are flushed.
+-			 * FIXME: This may take a while if there are more h/w
+-			 * queues than admin tags.
+-			 */
+-			set_current_state(TASK_RUNNING);
+-			nvme_disable_ctrl(&dev->ctrl,
+-				lo_hi_readq(dev->bar + NVME_REG_CAP));
+-			nvme_clear_queue(dev->queues[0]);
+-			flush_kthread_worker(dq->worker);
+-			nvme_disable_queue(dev, 0);
+-			return;
+-		}
+-	}
+-	set_current_state(TASK_RUNNING);
+-}
+-
+-static void nvme_put_dq(struct nvme_delq_ctx *dq)
+-{
+-	atomic_dec(&dq->refcount);
+-	if (dq->waiter)
+-		wake_up_process(dq->waiter);
+-}
+-
+-static struct nvme_delq_ctx *nvme_get_dq(struct nvme_delq_ctx *dq)
+-{
+-	atomic_inc(&dq->refcount);
+-	return dq;
+-}
+-
+-static void nvme_del_queue_end(struct nvme_queue *nvmeq)
+-{
+-	struct nvme_delq_ctx *dq = nvmeq->cmdinfo.ctx;
+-	nvme_put_dq(dq);
+-
+-	spin_lock_irq(&nvmeq->q_lock);
+-	nvme_process_cq(nvmeq);
+-	spin_unlock_irq(&nvmeq->q_lock);
+-}
+-
+-static int adapter_async_del_queue(struct nvme_queue *nvmeq, u8 opcode,
+-						kthread_work_func_t fn)
+-{
+-	struct request *req;
+-	struct nvme_command c;
+-
+-	memset(&c, 0, sizeof(c));
+-	c.delete_queue.opcode = opcode;
+-	c.delete_queue.qid = cpu_to_le16(nvmeq->qid);
+-
+-	init_kthread_work(&nvmeq->cmdinfo.work, fn);
+-
+-	req = nvme_alloc_request(nvmeq->dev->ctrl.admin_q, &c, 0);
+-	if (IS_ERR(req))
+-		return PTR_ERR(req);
+-
+-	req->timeout = ADMIN_TIMEOUT;
+-	req->end_io_data = &nvmeq->cmdinfo;
+-	blk_execute_rq_nowait(req->q, NULL, req, 0, async_cmd_info_endio);
+-	return 0;
+-}
+-
+-static void nvme_del_cq_work_handler(struct kthread_work *work)
+-{
+-	struct nvme_queue *nvmeq = container_of(work, struct nvme_queue,
+-							cmdinfo.work);
+-	nvme_del_queue_end(nvmeq);
+-}
+-
+-static int nvme_delete_cq(struct nvme_queue *nvmeq)
+-{
+-	return adapter_async_del_queue(nvmeq, nvme_admin_delete_cq,
+-						nvme_del_cq_work_handler);
+-}
+-
+-static void nvme_del_sq_work_handler(struct kthread_work *work)
+-{
+-	struct nvme_queue *nvmeq = container_of(work, struct nvme_queue,
+-							cmdinfo.work);
+-	int status = nvmeq->cmdinfo.status;
+-
+-	if (!status)
+-		status = nvme_delete_cq(nvmeq);
+-	if (status)
+-		nvme_del_queue_end(nvmeq);
+-}
+-
+-static int nvme_delete_sq(struct nvme_queue *nvmeq)
+-{
+-	return adapter_async_del_queue(nvmeq, nvme_admin_delete_sq,
+-						nvme_del_sq_work_handler);
+-}
+-
+-static void nvme_del_queue_start(struct kthread_work *work)
+-{
+-	struct nvme_queue *nvmeq = container_of(work, struct nvme_queue,
+-							cmdinfo.work);
+-	if (nvme_delete_sq(nvmeq))
+-		nvme_del_queue_end(nvmeq);
+-}
+-
+-static void nvme_disable_io_queues(struct nvme_dev *dev)
+-{
+-	int i;
+-	DEFINE_KTHREAD_WORKER_ONSTACK(worker);
+-	struct nvme_delq_ctx dq;
+-	struct task_struct *kworker_task = kthread_run(kthread_worker_fn,
+-					&worker, "nvme%d", dev->ctrl.instance);
+-
+-	if (IS_ERR(kworker_task)) {
+-		dev_err(dev->dev,
+-			"Failed to create queue del task\n");
+-		for (i = dev->queue_count - 1; i > 0; i--)
+-			nvme_disable_queue(dev, i);
+-		return;
+-	}
+-
+-	dq.waiter = NULL;
+-	atomic_set(&dq.refcount, 0);
+-	dq.worker = &worker;
+-	for (i = dev->queue_count - 1; i > 0; i--) {
+-		struct nvme_queue *nvmeq = dev->queues[i];
+-
+-		if (nvme_suspend_queue(nvmeq))
+-			continue;
+-		nvmeq->cmdinfo.ctx = nvme_get_dq(&dq);
+-		nvmeq->cmdinfo.worker = dq.worker;
+-		init_kthread_work(&nvmeq->cmdinfo.work, nvme_del_queue_start);
+-		queue_kthread_work(dq.worker, &nvmeq->cmdinfo.work);
+-	}
+-	nvme_wait_dq(&dq, dev);
+-	kthread_stop(kworker_task);
+-}
+-
+ static int nvme_dev_list_add(struct nvme_dev *dev)
+ {
+ 	bool start_thread = false;
+@@ -2171,6 +2080,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	INIT_WORK(&dev->reset_work, nvme_reset_work);
+ 	INIT_WORK(&dev->remove_work, nvme_remove_dead_ctrl_work);
+ 	mutex_init(&dev->shutdown_lock);
++	init_completion(&dev->ioq_wait);
+ 
+ 	result = nvme_setup_prp_pools(dev);
+ 	if (result)
+-- 
+2.6.2.307.g37023ba
