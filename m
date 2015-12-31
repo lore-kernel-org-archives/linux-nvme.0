@@ -1,36 +1,34 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 31 Dec 2015 09:41:51 -0700
-Subject: [PATCHv2 0/5] NVMe fixes and updates, version 2
-Message-ID: <1451580116-12252-1-git-send-email-keith.busch@intel.com>
+Date: Thu, 31 Dec 2015 09:41:53 -0700
+Subject: [PATCHv2 2/5] NVMe: Use a retryable error code on reset
+In-Reply-To: <1451580116-12252-1-git-send-email-keith.busch@intel.com>
+References: <1451580116-12252-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1451580116-12252-3-git-send-email-keith.busch@intel.com>
 
-Changes since v1:
+The negative status has the "do not retry" bit set, which makes it not
+retryable. Use a fake status that can potentially be retried on reset.
 
-  Fixed the patch order. Previously 4/5 and 5/5 were swapped.
+An aborted command's status is still overridden by the timeout handler
+with the CANCELLED status, which is needed for initialization to
+distinguish an unresponsive controller.
 
-  Added a code comment to make the clarify the queue full condition.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  Better commit log messages.
-
-  Moved the "struct completion" from an nvme_queue union to struct nvme_dev.
-
-  Simplified the shutdown patch based on review comments. The logic is
-  pushed into a single admin queue handling function, and the result is
-  more understandable.
-
-There are suggestions for other mechanisms to handle async io queue
-deletion (patch 4/5, previously 5/5), but I'm sticking with the original
-idea this time. I'll spin another patch if the alternate proposals compel
-new version.
-
-Keith Busch (5):
-  NVMe: Fix admin queue ring wrap
-  NVMe: Use a retryable error code on reset
-  NVMe: Remove queue freezing on resets
-  NVMe: IO queue deletion re-write
-  NVMe: Shutdown controller only for power-off
-
- drivers/nvme/host/pci.c | 314 +++++++++++++++++-------------------------------
- 1 file changed, 112 insertions(+), 202 deletions(-)
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 67cb406..71f43ff 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1017,7 +1017,7 @@ static void nvme_cancel_queue_ios(struct request *req, void *data, bool reserved
+ 	dev_warn(nvmeq->q_dmadev,
+ 		 "Cancelling I/O %d QID %d\n", req->tag, nvmeq->qid);
+ 
+-	status = NVME_SC_CANCELLED;
++	status = NVME_SC_ABORT_REQ;
+ 	if (blk_queue_dying(req->q))
+ 		status |= NVME_SC_DNR;
+ 	blk_mq_complete_request(req, status);
 -- 
 2.6.2.307.g37023ba
