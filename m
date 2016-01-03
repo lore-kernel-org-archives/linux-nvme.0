@@ -1,11 +1,11 @@
 From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Sun, 3 Jan 2016 18:36:33 +0200
-Subject: [PATCH 4/4] nvme: make SG_IO support optional
-In-Reply-To: <1450967222-10404-5-git-send-email-hch@lst.de>
-References: <1450967222-10404-1-git-send-email-hch@lst.de>
- <1450967222-10404-5-git-send-email-hch@lst.de>
-Message-ID: <56894E11.3010500@dev.mellanox.co.il>
+Date: Sun, 3 Jan 2016 18:41:47 +0200
+Subject: [PATCHv2 3/5] NVMe: Remove queue freezing on resets
+In-Reply-To: <1451580116-12252-4-git-send-email-keith.busch@intel.com>
+References: <1451580116-12252-1-git-send-email-keith.busch@intel.com>
+ <1451580116-12252-4-git-send-email-keith.busch@intel.com>
+Message-ID: <56894F4B.3020803@dev.mellanox.co.il>
 
-To complete the set, looks fine,
+Since this wasn't added in v2:
 
-Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
+Tested-by: Sagi Grimberg <sagig at mellanox.com>
