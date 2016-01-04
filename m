@@ -1,22 +1,56 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 4 Jan 2016 17:41:17 +0100
-Subject: [PATCH 4/4] nvme: make SG_IO support optional
-In-Reply-To: <20160104151925.GG31375@localhost.localdomain>
-References: <1450967222-10404-1-git-send-email-hch@lst.de>
- <1450967222-10404-5-git-send-email-hch@lst.de>
- <20160104151925.GG31375@localhost.localdomain>
-Message-ID: <20160104164117.GB17409@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon,  4 Jan 2016 11:24:55 -0700
+Subject: [PATCH for-4.4] block: split bios to max possible length
+Message-ID: <1451931895-17474-1-git-send-email-keith.busch@intel.com>
 
-On Mon, Jan 04, 2016@03:19:25PM +0000, Keith Busch wrote:
-> On Thu, Dec 24, 2015@03:27:02PM +0100, Christoph Hellwig wrote:
-> > +config BLK_DEV_NVME_SCSI
-> > +	bool "SCSI emulation for NVMe device nodes"
-> > +	depends on BLK_DEV_NVME
-> 
-> Can we make this "default y"? I strongly advocate for native NVMe over
-> SCSI translations too, but I know of users relying on this. It's been
-> built in for years and not aware of it breaking anything, so think it
-> should be opt-out.
+This allows bio splits in the middle of a vector to form the largest
+possible bio at the h/w's desired alignment, and guarantees the bio being
+split will have some data. Previously, if the first vector's length was
+greater than the allowable amount, the bio would split at a zero length
+and hit a kernel BUG.
 
-I'd really prefer not having to carry it around.  But if any actual
-breakage shows I'd be happy to default it to y ASAP.
+The length check is moved after the SG_GAPS check so that check doesn't
+need to be duplicated in the split case.
+
+Fixes: d3805611130af9b911e908af9f67a3f64f4f0914
+bugzilla: https://bugzilla.kernel.org/show_bug.cgi?id=110231
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ block/blk-merge.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index e73846a..e886a7d 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -81,9 +81,6 @@ static struct bio *blk_bio_segment_split(struct request_queue *q,
+ 	struct bio *new = NULL;
+ 
+ 	bio_for_each_segment(bv, bio, iter) {
+-		if (sectors + (bv.bv_len >> 9) > blk_max_size_offset(q, bio->bi_iter.bi_sector))
+-			goto split;
+-
+ 		/*
+ 		 * If the queue doesn't support SG gaps and adding this
+ 		 * offset would create a gap, disallow it.
+@@ -91,6 +88,17 @@ static struct bio *blk_bio_segment_split(struct request_queue *q,
+ 		if (bvprvp && bvec_gap_to_prev(q, bvprvp, bv.bv_offset))
+ 			goto split;
+ 
++		if (sectors + (bv.bv_len >> 9) > blk_max_size_offset(q, bio->bi_iter.bi_sector)) {
++			/*
++			 * Consider this a new segment if we're taking any part
++			 * of this vector.
++			 */
++			if (sectors < blk_max_size_offset(q, bio->bi_iter.bi_sector))
++				++nsegs;
++			sectors = blk_max_size_offset(q, bio->bi_iter.bi_sector);
++			goto split;
++		}
++
+ 		if (bvprvp && blk_queue_cluster(q)) {
+ 			if (seg_size + bv.bv_len > queue_max_segment_size(q))
+ 				goto new_segment;
+-- 
+2.6.2.307.g37023ba
