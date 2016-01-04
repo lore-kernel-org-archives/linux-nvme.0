@@ -1,15 +1,22 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 4 Jan 2016 08:36:32 -0800
-Subject: [PATCHv3 0/5] NVMe fixes and updates, v3
-In-Reply-To: <1451923859-14187-1-git-send-email-keith.busch@intel.com>
-References: <1451923859-14187-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20160104163632.GA7013@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 4 Jan 2016 17:41:17 +0100
+Subject: [PATCH 4/4] nvme: make SG_IO support optional
+In-Reply-To: <20160104151925.GG31375@localhost.localdomain>
+References: <1450967222-10404-1-git-send-email-hch@lst.de>
+ <1450967222-10404-5-git-send-email-hch@lst.de>
+ <20160104151925.GG31375@localhost.localdomain>
+Message-ID: <20160104164117.GB17409@lst.de>
 
-I'm fine with the first three, and I think I alredy gave your my review,
-but if not it's here:
+On Mon, Jan 04, 2016@03:19:25PM +0000, Keith Busch wrote:
+> On Thu, Dec 24, 2015@03:27:02PM +0100, Christoph Hellwig wrote:
+> > +config BLK_DEV_NVME_SCSI
+> > +	bool "SCSI emulation for NVMe device nodes"
+> > +	depends on BLK_DEV_NVME
+> 
+> Can we make this "default y"? I strongly advocate for native NVMe over
+> SCSI translations too, but I know of users relying on this. It's been
+> built in for years and not aware of it breaking anything, so think it
+> should be opt-out.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-
-I really dislike 4, and I'll look over your previous mails once I
-got an urgent issue of my back.  5 looks fine but depends on 4, so
-let's wait on that for now as well.
+I'd really prefer not having to carry it around.  But if any actual
+breakage shows I'd be happy to default it to y ASAP.
