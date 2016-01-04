@@ -1,42 +1,21 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Sun, 3 Jan 2016 18:04:12 +0000
-Subject: [PATCH 5/5] NVMe: IO queue deletion re-write
-In-Reply-To: <20160103162625.GB31375@localhost.localdomain>
-References: <1451496471-29370-1-git-send-email-keith.busch@intel.com>
- <1451496471-29370-6-git-send-email-keith.busch@intel.com>
- <20151230180430.GA12828@infradead.org>
- <20151230190706.GC12454@localhost.localdomain>
- <20160102170730.GA30184@infradead.org>
- <20160102213008.GA10969@localhost.localdomain>
- <20160103114052.GA24893@infradead.org>
- <20160103154331.GA31375@localhost.localdomain>
- <20160103161704.GA5111@infradead.org>
- <20160103162625.GB31375@localhost.localdomain>
-Message-ID: <20160103180412.GC31375@localhost.localdomain>
+Date: Mon, 4 Jan 2016 15:08:48 +0000
+Subject: [PATCH 3/4] nvme: fixes for NVME_IOCTL_IO_CMD on the char device
+In-Reply-To: <1450967222-10404-4-git-send-email-hch@lst.de>
+References: <1450967222-10404-1-git-send-email-hch@lst.de>
+ <1450967222-10404-4-git-send-email-hch@lst.de>
+Message-ID: <20160104150847.GD31375@localhost.localdomain>
 
-On Sun, Jan 03, 2016@04:26:25PM +0000, Keith Busch wrote:
-> In the scenario I'm describing you _don't_ want it to succeed in getting
-> a request. You don't want it to wait indefinitely for one either.
+On Thu, Dec 24, 2015@03:27:01PM +0100, Christoph Hellwig wrote:
+> Make sure we synchronize access to the namespaces list and grab a reference
+> to the namespace before doing I/O.  Make sure to reject the ioctl if multiple
+> namespaces are present as it's entirely unsafe, and warn when using it even
+> with a single namespace.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
 
-I may be doing a bad job explaining this scenario. I'm sure it'll make
-sense if you synthesize it.
+Okay, I accept the argument for allowing these to "hidden" namespaces
+is not sufficiently justified.
 
-Here's one way: run qemu with this patch and "-smp" set to 8. In the
-linux nvme driver, set NVME_AQ_DEPTH to something lower than 8, like
-4. Then reset the controller in the guest. This will fake an unresponsive
-controller during reset.
-
----
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 169e4fa..6433337 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -305,6 +305,7 @@ static uint16_t nvme_del_sq(NvmeCtrl *n, NvmeCmd *cmd)
-     if (!qid || nvme_check_sqid(n, qid)) {
-         return NVME_INVALID_QID | NVME_DNR;
-     }
-+    return NVME_NO_COMPLETE;
- 
-     sq = n->sq[qid];
-     while (!QTAILQ_EMPTY(&sq->out_req_list)) {
---
+Acked-by: Keith Busch <keith.busch at intel.com>
