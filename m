@@ -1,18 +1,24 @@
-From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Mon, 4 Jan 2016 18:08:18 +0200
-Subject: [PATCHv2 5/5] NVMe: Shutdown controller only for power-off
-In-Reply-To: <20160104155431.GH31375@localhost.localdomain>
-References: <1451580116-12252-1-git-send-email-keith.busch@intel.com>
- <1451580116-12252-6-git-send-email-keith.busch@intel.com>
- <568951C7.5010504@dev.mellanox.co.il>
- <20160104155431.GH31375@localhost.localdomain>
-Message-ID: <568A98F2.9060707@dev.mellanox.co.il>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon,  4 Jan 2016 09:10:54 -0700
+Subject: [PATCHv3 0/5] NVMe fixes and updates, v3
+Message-ID: <1451923859-14187-1-git-send-email-keith.busch@intel.com>
 
+This new version just merges up with the latest from Christoph and Sagi.
 
->> Just out of curiosity, what's "longer"? how much does this patch save us?
->
-> It depends on the device's capacity in my experience. Testing on a 2TB
-> P3700, a complete reset takes about 8 seconds when using controller
-> shutdown, and ~3 seconds without it.
+I guess 4/5 is still controversial, but confident it will make sense
+when the failure cases are exercised.
 
-Fair enough.
+Keith Busch (5):
+  NVMe: Fix admin queue ring wrap
+  NVMe: Use a retryable error code on reset
+  NVMe: Remove queue freezing on resets
+  NVMe: IO queue deletion re-write
+  NVMe: Shutdown controller only for power-off
+
+ drivers/nvme/host/core.c |   7 +-
+ drivers/nvme/host/nvme.h |   4 +-
+ drivers/nvme/host/pci.c  | 307 +++++++++++++++++------------------------------
+ 3 files changed, 114 insertions(+), 204 deletions(-)
+
+-- 
+2.6.2.307.g37023ba
