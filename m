@@ -1,43 +1,32 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 5 Jan 2016 15:09:38 +0000
-Subject: [PATCH for-4.4] block: split bios to max possible length
-In-Reply-To: <CACVXFVPOYra24SNmGBthcheYv_kY=5Fv-6s=-bSwwZijudXapw@mail.gmail.com>
-References: <1451931895-17474-1-git-send-email-keith.busch@intel.com>
- <CACVXFVPOYra24SNmGBthcheYv_kY=5Fv-6s=-bSwwZijudXapw@mail.gmail.com>
-Message-ID: <20160105150938.GA20832@localhost.localdomain>
+From: james.p.freyensee@intel.com (Freyensee, James P)
+Date: Tue, 5 Jan 2016 18:53:01 +0000
+Subject: [NVME-CLI] nvme-cli now available via Ubuntu PPA
+In-Reply-To: <36F6EBABA23FEF4391AF72944D228901EB6CEFFE@BBYEXM01.pmc-sierra.internal>
+References: <36F6EBABA23FEF4391AF72944D228901EB6CEFFE@BBYEXM01.pmc-sierra.internal>
+Message-ID: <1452019981.3228.16.camel@intel.com>
 
-On Tue, Jan 05, 2016@12:54:53PM +0800, Ming Lei wrote:
-> On Tue, Jan 5, 2016@2:24 AM, Keith Busch <keith.busch@intel.com> wrote:
-> > This allows bio splits in the middle of a vector to form the largest
+On Mon, 2016-01-04@22:15 +0000, Stephen Bates wrote:
+> Hi All
 > 
-> Wrt. the current block stack, one segment always hold one or more bvec,
-> instead of part of bvec, so better to be careful about this handling.
-
-Hi Ming,
-
-Could you help me understand your concern here? If we split a vector
-somewhere in the middle, it becomes two different bvecs. The first is
-the last segment in the first bio, the second is the first segment in
-the split bio, right?
-
-It's not necessarily a new segment if it is physically contiguous with
-the previous (if it exists at all), but duplicating the logic to coalesce
-addresses doesn't seem to be worth that optimization.
- 
-> > possible bio at the h/w's desired alignment, and guarantees the bio being
-> > split will have some data. Previously, if the first vector's length was
-> > greater than the allowable amount, the bio would split at a zero length
-> > and hit a kernel BUG.
+> I just wanted to let you know that thanks to an effort by the nvme
+> -cli team that this tool is now available via an Ubuntu PPA (i.e. apt
+> -get install nvme-cli). For instructions on this install method and
+> supported architectures and releases please see [1]. You can log any
+> issues or requests via [2].
 > 
-> That is introduced by d3805611130a, and zero length can't be splitted
-> previously because queue_max_sectors() is at least one PAGE_SIZE.
+> Note we are happy to see PRs for support for other distros too!
+> 
+> Cheers
+> 
+> Stephen (on behalf of the nvme-cli team)
 
-Can a bvec's length exceed a PAGE_SIZE? They point to pages, so I
-suppose not.
+Nice work all!
 
-But it should be more efficient to split to the largest allowed by the
-hardware. We can contrive a scenario where a bio would be split many
-times more than necessary without this patch. Let's say queue_max_sectors
-is a PAGE_SIZE, and we want to submit '2 * PAGE_SIZE' worth of data
-addressed in 3 bvecs. Previously that would split three times; now it
-will split only twice.
+> 
+> [1] https://github.com/linux-nvme/nvme-cli/blob/master/README.md
+> [2] https://github.com/linux-nvme/nvme-cli/issues
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
