@@ -1,46 +1,57 @@
-From: Stephen.Bates@pmcs.com (Stephen Bates)
-Date: Wed, 6 Jan 2016 21:24:54 +0000
-Subject: [PATCH 0/3] NVMe: Introduce CMB allocation scheme
-In-Reply-To: <20160106201308.GB21311@localhost.localdomain>
-References: <1451497679-1195-1-git-send-email-jonathan.derrick@intel.com>
- <20160106201308.GB21311@localhost.localdomain>
-Message-ID: <36F6EBABA23FEF4391AF72944D228901EB6D16C8@BBYEXM01.pmc-sierra.internal>
+From: xuehua@marvell.com (Xuehua Chen)
+Date: Wed, 6 Jan 2016 21:56:24 +0000
+Subject: Maximum NVMe IO command size > 1MB?
+In-Reply-To: <680a6c16f5464419b7e1974d04026951@SC-EXCH01.marvell.com>
+References: <cc642ee3fec8476b9034e1ee397e8f42@SC-EXCH01.marvell.com>,
+ <20160106193127.GA20732@localhost.localdomain>,
+ <680a6c16f5464419b7e1974d04026951@SC-EXCH01.marvell.com>
+Message-ID: <ba6abd8303c84156b1c530dcbf101f40@SC-EXCH01.marvell.com>
 
-> >
-> > This patchset changes the CMB allocation scheme. Instead of reserving
-> > the entire range for SQes and automatically placing the SQes in the
-> > CMB, this set creates sysfs knobs to manage it. This allows partial
-> > usage of the CMB for SQes, so that the remainder can be mmapped or
-> > used for other NVMe-defined CMB usages.
-> 
-> Thanks, Jon.
-> 
-> In general, I like the control and visibility this provides. With this, I think we're
-> on the verge of warranting a new drivers/nvme/host/sysfs.c file to keep all
-> the nvme sysfs management in one place.
+Hi, Keith, 
 
-I would like to +1 this idea. Seems like there is enough sysfs stuff now to warrant its own file.
+I wonder whether this could be caused by BIO_MAX_PAGES defined as 256, which means 1MB at most.
+What do you think?
 
-> 
-> I don't think anyone is in a rush to see this in the 4.5 merge window, so I'll
-> load this on a CMB capable machine and provide a more thorough review in
-> the next week or so.
+Xuehua
 
-I will do the same and hope to get you some feedback in the next week or so. Thanks for doing this!
+________________________________________
+From: Linux-nvme [linux-nvme-bounces@lists.infradead.org] on behalf of Xuehua Chen [xuehua@marvell.com]
+Sent: Wednesday, January 6, 2016 11:51 AM
+To: Keith Busch
+Cc: linux-nvme at lists.infradead.org
+Subject: RE: Maximum NVMe IO command size > 1MB?
 
-> 
-> > Jon Derrick (3):
-> >   NVMe: Introduce sysfs entries for submission queues in CMB
-> >   NVMe: Generate resource tree for CMB
-> >   NVMe: Create CMB resource sysfs file
-> >
-> >  drivers/nvme/host/core.c | 161
-> ++++++++++++++++++++++++++++++++++-
-> >  drivers/nvme/host/nvme.h |  21 +++++
-> >  drivers/nvme/host/pci.c  | 212
-> > ++++++++++++++++++++++++++++++-----------------
-> >  3 files changed, 313 insertions(+), 81 deletions(-)
-> >
-> > --
-> > 2.1.4
-> >
+The value is 2048, which seems to be 2MB.
+
+
+________________________________________
+From: Keith Busch [keith.busch@intel.com]
+Sent: Wednesday, January 6, 2016 11:31 AM
+To: Xuehua Chen
+Cc: linux-nvme at lists.infradead.org
+Subject: Re: Maximum NVMe IO command size > 1MB?
+
+On Wed, Jan 06, 2016@07:23:53PM +0000, Xuehua Chen wrote:
+> It seems to me kernel 4.3 supports NVMe IO command size > 512k after the following is added.
+>
+> blk_queue_max_segments(ns->queue,
+>        ((dev->max_hw_sectors << 9) / dev->page_size) + 1);
+>
+> If I run the fllowing,
+> fio --name=iotest --filename=/dev/nvme0n1 --iodepth=1 --ioengine=libaio --direct=1 --size=1M --bs=1M --rw=read
+>
+> I can see one read with data transfer size 1MB is sent to device.
+>
+> But if I increase the bs to 2M as below, I still see two 1MB commands are sent out instead of one 2MB read command
+> fio --name=iotest --filename=/dev/nvme0n1 --iodepth=1 --ioengine=libaio --direct=1 --size=2M --bs=2M --rw=read
+>
+> Is there any other settings in kernel that make it split a 2M command into two 1M commands?
+
+Is the device actually capable of 2MB transfers? You can confirm with:
+
+  # cat /sys/block/nvme0n1/queue/max_hw_sectors_kb
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
