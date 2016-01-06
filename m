@@ -1,53 +1,25 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 6 Jan 2016 16:21:17 +0000
-Subject: [PATCH for-4.4] block: split bios to max possible length
-In-Reply-To: <CACVXFVM7BDvqWREUaZtbf+LwxLUWEgDrgrOyXPObE7H1PjHsAQ@mail.gmail.com>
-References: <1451931895-17474-1-git-send-email-keith.busch@intel.com>
- <CACVXFVPOYra24SNmGBthcheYv_kY=5Fv-6s=-bSwwZijudXapw@mail.gmail.com>
- <20160105150938.GA20832@localhost.localdomain>
- <CACVXFVNQQNd8_3ti4AAhZB4KN0uJEN8sdmB+xsmpykJaCLfebA@mail.gmail.com>
- <20160106055133.GA4868@localhost.localdomain>
- <CACVXFVNWTSD9Few9KLT6r+yvgynfMduAoLEbP0t3Yo=ye5UDHA@mail.gmail.com>
- <CACVXFVPifqQP_LdLv79Lv_EF-evfh9LFT2nfVvDKMuLJ-OCH5g@mail.gmail.com>
- <20160106151836.GB15113@localhost.localdomain>
- <CACVXFVM7BDvqWREUaZtbf+LwxLUWEgDrgrOyXPObE7H1PjHsAQ@mail.gmail.com>
-Message-ID: <20160106162117.GE15113@localhost.localdomain>
+From: xuehua@marvell.com (Xuehua Chen)
+Date: Wed, 6 Jan 2016 19:23:53 +0000
+Subject: Maximum NVMe IO command size > 1MB?
+Message-ID: <cc642ee3fec8476b9034e1ee397e8f42@SC-EXCH01.marvell.com>
 
-On Wed, Jan 06, 2016@11:43:45PM +0800, Ming Lei wrote:
-> Please see the 1st line code of __blk_segment_map_sg(), in which only
-> one whole bvec is handled, and partial bvec can't be figured out there.
-> 
-> Think of it further, drivers often use bv.bv_len directly in the
-> iterator, for example:
-> 
->         bio_for_each_segment(bvec, bio, iter)
->                 memcpy(page_address(bvec.bv_page) +
->                                             bvec.bv_offset,  addr +
-> offset, bvec.bv_len);
-> 
-> So your patch will break these drivers, won't it?
+Hi, 
 
-CC'ing Kent in hopes he will clarify what happens on a split.
+It seems to me kernel 4.3 supports NVMe IO command size > 512k after the following is added. 
 
-The bio_advance() code comments say it's handled:
+blk_queue_max_segments(ns->queue,
+       ((dev->max_hw_sectors << 9) / dev->page_size) + 1);
 
-"
- * This updates bi_sector, bi_size and bi_idx; if the number of bytes to
- * complete doesn't align with a bvec boundary, then bv_len and bv_offset will
- * be updated on the last bvec as well.
-"
+If I run the fllowing, 
+fio --name=iotest --filename=/dev/nvme0n1 --iodepth=1 --ioengine=libaio --direct=1 --size=1M --bs=1M --rw=read
 
-I admit I'm having a hard time seeing where bv_len and bv_offset updated
-in this path. It was obviously handled after 054bdf646e then changed
-with 4550dd6c6b.
+I can see one read with data transfer size 1MB is sent to device. 
 
-If I follow correctly, 4550dd6c6b will implicity update the bvec's offset
-and length during the split here since bio_iter_iovec resets the bvec's
-length and offset:
----
-#define __bio_for_each_segment(bvl, bio, iter, start)			\
-	for (iter = (start);						\
-	     (iter).bi_size &&						\
-		((bvl = bio_iter_iovec((bio), (iter))), 1);		\
-	     bio_advance_iter((bio), &(iter), (bvl).bv_len))
---
+But if I increase the bs to 2M as below, I still see two 1MB commands are sent out instead of one 2MB read command
+fio --name=iotest --filename=/dev/nvme0n1 --iodepth=1 --ioengine=libaio --direct=1 --size=2M --bs=2M --rw=read
+
+Is there any other settings in kernel that make it split a 2M command into two 1M commands? 
+
+Thanks, 
+
+Xuehua
