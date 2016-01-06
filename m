@@ -1,57 +1,22 @@
-From: xuehua@marvell.com (Xuehua Chen)
-Date: Wed, 6 Jan 2016 21:56:24 +0000
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 6 Jan 2016 22:54:57 +0000
 Subject: Maximum NVMe IO command size > 1MB?
-In-Reply-To: <680a6c16f5464419b7e1974d04026951@SC-EXCH01.marvell.com>
-References: <cc642ee3fec8476b9034e1ee397e8f42@SC-EXCH01.marvell.com>,
- <20160106193127.GA20732@localhost.localdomain>,
+In-Reply-To: <ba6abd8303c84156b1c530dcbf101f40@SC-EXCH01.marvell.com>
+References: <cc642ee3fec8476b9034e1ee397e8f42@SC-EXCH01.marvell.com>
+ <20160106193127.GA20732@localhost.localdomain>
  <680a6c16f5464419b7e1974d04026951@SC-EXCH01.marvell.com>
-Message-ID: <ba6abd8303c84156b1c530dcbf101f40@SC-EXCH01.marvell.com>
+ <ba6abd8303c84156b1c530dcbf101f40@SC-EXCH01.marvell.com>
+Message-ID: <20160106225457.GA23888@localhost.localdomain>
 
-Hi, Keith, 
+On Wed, Jan 06, 2016@09:56:24PM +0000, Xuehua Chen wrote:
+> Hi, Keith, 
+> 
+> I wonder whether this could be caused by BIO_MAX_PAGES defined as 256, which means 1MB at most.
+> What do you think?
 
-I wonder whether this could be caused by BIO_MAX_PAGES defined as 256, which means 1MB at most.
-What do you think?
+I think you got it. You're running O_DIRECT, and fs/direct-io.c,
+dio_new_bio() allocates up to BIO_MAX_PAGES.
 
-Xuehua
-
-________________________________________
-From: Linux-nvme [linux-nvme-bounces@lists.infradead.org] on behalf of Xuehua Chen [xuehua@marvell.com]
-Sent: Wednesday, January 6, 2016 11:51 AM
-To: Keith Busch
-Cc: linux-nvme at lists.infradead.org
-Subject: RE: Maximum NVMe IO command size > 1MB?
-
-The value is 2048, which seems to be 2MB.
-
-
-________________________________________
-From: Keith Busch [keith.busch@intel.com]
-Sent: Wednesday, January 6, 2016 11:31 AM
-To: Xuehua Chen
-Cc: linux-nvme at lists.infradead.org
-Subject: Re: Maximum NVMe IO command size > 1MB?
-
-On Wed, Jan 06, 2016@07:23:53PM +0000, Xuehua Chen wrote:
-> It seems to me kernel 4.3 supports NVMe IO command size > 512k after the following is added.
->
-> blk_queue_max_segments(ns->queue,
->        ((dev->max_hw_sectors << 9) / dev->page_size) + 1);
->
-> If I run the fllowing,
-> fio --name=iotest --filename=/dev/nvme0n1 --iodepth=1 --ioengine=libaio --direct=1 --size=1M --bs=1M --rw=read
->
-> I can see one read with data transfer size 1MB is sent to device.
->
-> But if I increase the bs to 2M as below, I still see two 1MB commands are sent out instead of one 2MB read command
-> fio --name=iotest --filename=/dev/nvme0n1 --iodepth=1 --ioengine=libaio --direct=1 --size=2M --bs=2M --rw=read
->
-> Is there any other settings in kernel that make it split a 2M command into two 1M commands?
-
-Is the device actually capable of 2MB transfers? You can confirm with:
-
-  # cat /sys/block/nvme0n1/queue/max_hw_sectors_kb
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+I can't tell where the value for came from (looks like it was there from
+the very first git commit), but maybe you can propose raising it if you
+set BIO_MAX_PAGES higher without issue.
