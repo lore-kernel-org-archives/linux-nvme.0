@@ -1,60 +1,136 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Wed, 6 Jan 2016 17:46:39 +0800
-Subject: [PATCH for-4.4] block: split bios to max possible length
-In-Reply-To: <20160106055133.GA4868@localhost.localdomain>
-References: <1451931895-17474-1-git-send-email-keith.busch@intel.com>
- <CACVXFVPOYra24SNmGBthcheYv_kY=5Fv-6s=-bSwwZijudXapw@mail.gmail.com>
- <20160105150938.GA20832@localhost.localdomain>
- <CACVXFVNQQNd8_3ti4AAhZB4KN0uJEN8sdmB+xsmpykJaCLfebA@mail.gmail.com>
- <20160106055133.GA4868@localhost.localdomain>
-Message-ID: <20160106174639.65e0ced4@tom-T450>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 6 Jan 2016 05:04:19 -0800
+Subject: [PATCHv3 4/5] NVMe: IO queue deletion re-write
+In-Reply-To: <1451923859-14187-5-git-send-email-keith.busch@intel.com>
+References: <1451923859-14187-1-git-send-email-keith.busch@intel.com>
+ <1451923859-14187-5-git-send-email-keith.busch@intel.com>
+Message-ID: <20160106130419.GA23245@infradead.org>
 
-On Wed, 6 Jan 2016 05:51:34 +0000
-Keith Busch <keith.busch@intel.com> wrote:
+This is my counter-suggestion to the requeue abuse:
 
-> On Wed, Jan 06, 2016@10:17:51AM +0800, Ming Lei wrote:
-> 
-> But this patch was to split on stripe boundaries, which is an even worse
-> penalty if we get the split wrong.
-> 
-> > +	bool no_sg_merge = !!test_bit(QUEUE_FLAG_NO_SG_MERGE, &q->queue_flags);
-> >  
-> >  	bio_for_each_segment(bv, bio, iter) {
-> > -		if (sectors + (bv.bv_len >> 9) > blk_max_size_offset(q, bio->bi_iter.bi_sector))
-> > +		if (no_sg_merge)
-> > +			goto new_segment;
-> 
-> Bad idea for NVMe. We need to split on SG gaps, which you've skipped,
-> or you will BUG_ON in the NVMe driver.
+simply do two passes of your algorithm, one for the SQs, one for the
+CQs.  Patch relative to the whole series below:
 
-Given it is close to v4.4 release, I propose the following fix instead
-of the bvec splitting approach, which is not ready in current block stack.
-
------
- block/blk-merge.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index e73846a..9ffe431 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -81,8 +81,16 @@ static struct bio *blk_bio_segment_split(struct request_queue *q,
- 	struct bio *new = NULL;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 3f536c2..4f3d1e3 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -154,7 +154,6 @@ struct nvme_queue {
+ 	u16 qid;
+ 	u8 cq_phase;
+ 	u8 cqe_seen;
+-	struct nvme_delete_queue dq;
+ };
  
- 	bio_for_each_segment(bv, bio, iter) {
--		if (sectors + (bv.bv_len >> 9) > blk_max_size_offset(q, bio->bi_iter.bi_sector))
-+		if (sectors + (bv.bv_len >> 9) > blk_max_size_offset(q,
-+					bio->bi_iter.bi_sector)) {
-+			/*
-+			 * avoid to split out zero length bio if size to
-+			 * chunk boundary is too small
-+			 */
-+			if (!sectors)
-+				goto new_segment;
- 			goto split;
-+		}
+ /*
+@@ -1587,57 +1586,52 @@ static void nvme_dev_scan(struct work_struct *work)
  
- 		/*
- 		 * If the queue doesn't support SG gaps and adding this
--- 
-1.9.1
+ static void nvme_del_queue_end(struct request *req, int error)
+ {
+-	unsigned long flags;
+ 	struct nvme_queue *nvmeq = req->end_io_data;
+ 
+ 	blk_mq_free_request(req);
+-
+-	spin_lock_irqsave(&nvmeq->q_lock, flags);
+-	nvme_process_cq(nvmeq);
+-	spin_unlock_irqrestore(&nvmeq->q_lock, flags);
+-
+ 	complete(&nvmeq->dev->ioq_wait);
+ }
+ 
+-static void nvme_del_sq_end(struct request *req, int error)
++static void nvme_del_cq_end(struct request *req, int error)
+ {
+ 	struct nvme_queue *nvmeq = req->end_io_data;
+ 
+-	if (error) {
+-		nvme_del_queue_end(req, error);
+-		return;
+-	}
++	if (!error) {
++		unsigned long flags;
+ 
+-	nvmeq->dq.opcode = nvme_admin_delete_cq;
+-	req->end_io = nvme_del_queue_end;
++		spin_lock_irqsave(&nvmeq->q_lock, flags);
++		nvme_process_cq(nvmeq);
++		spin_unlock_irqrestore(&nvmeq->q_lock, flags);
++	}
+ 
+-	/* Must requeue. This callback occurs in irq w/ q_lock held */
+-	nvme_requeue_req(req);
++	nvme_del_queue_end(req, error);
+ }
+ 
+-static int nvme_delete_queue(struct nvme_queue *nvmeq, struct request_queue *q)
++static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+ {
++	struct request_queue *q = nvmeq->dev->ctrl.admin_q;
+ 	struct request *req;
++	struct nvme_command cmd;
+ 
+-	req = nvme_alloc_request(q, (struct nvme_command *)&nvmeq->dq,
+-							BLK_MQ_REQ_NOWAIT);
++	memset(&cmd, 0, sizeof(cmd));
++	cmd.delete_queue.opcode = nvme_admin_delete_sq;
++	cmd.delete_queue.qid = cpu_to_le16(nvmeq->qid);
++
++	req = nvme_alloc_request(q, &cmd, BLK_MQ_REQ_NOWAIT);
+ 	if (IS_ERR(req))
+ 		return PTR_ERR(req);
+ 
+-	memset(&nvmeq->dq, 0, sizeof(nvmeq->dq));
+-	nvmeq->dq.opcode = nvme_admin_delete_sq;
+-	nvmeq->dq.qid = cpu_to_le16(nvmeq->qid);
+-
+-	req->end_io_data = nvmeq;
+ 	req->timeout = ADMIN_TIMEOUT;
++	req->end_io_data = nvmeq;
+ 
+-	blk_execute_rq_nowait(q, NULL, req, false, nvme_del_sq_end);
++	blk_execute_rq_nowait(q, NULL, req, false,
++			opcode == nvme_admin_delete_cq ?
++				nvme_del_cq_end : nvme_del_queue_end);
+ 	return 0;
+ }
+ 
+-static void nvme_disable_io_queues(struct nvme_dev *dev)
++static int nvme_disable_io_queues(struct nvme_dev *dev, u8 opcode)
+ {
+-	struct request_queue *q = dev->ctrl.admin_q;
+ 	int i = dev->queue_count - 1, sent = 0;
+ 	unsigned long timeout;
+ 
+@@ -1648,17 +1642,19 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
+ 		struct nvme_queue *nvmeq = dev->queues[i];
+ 
+ 		nvme_suspend_queue(nvmeq);
+-		if (nvme_delete_queue(nvmeq, q))
++		if (nvme_delete_queue(nvmeq, opcode))
+ 			break;
+ 		++sent;
+ 	}
+ 	while (sent--) {
+ 		timeout = wait_for_completion_io_timeout(&dev->ioq_wait, timeout);
+ 		if (timeout == 0)
+-			return;
++			return -EIO;
+ 		if (i)
+ 			goto retry;
+ 	}
++
++	return 0;
+ }
+ 
+ /*
+@@ -1834,7 +1830,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 			nvme_suspend_queue(nvmeq);
+ 		}
+ 	} else {
+-		nvme_disable_io_queues(dev);
++		if (!nvme_disable_io_queues(dev, nvme_admin_delete_sq))
++			nvme_disable_io_queues(dev, nvme_admin_delete_cq);
+ 		nvme_disable_admin_queue(dev, shutdown);
+ 	}
+ 	nvme_dev_unmap(dev);
