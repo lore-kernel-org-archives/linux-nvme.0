@@ -1,22 +1,63 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 6 Jan 2016 22:54:57 +0000
-Subject: Maximum NVMe IO command size > 1MB?
-In-Reply-To: <ba6abd8303c84156b1c530dcbf101f40@SC-EXCH01.marvell.com>
-References: <cc642ee3fec8476b9034e1ee397e8f42@SC-EXCH01.marvell.com>
- <20160106193127.GA20732@localhost.localdomain>
- <680a6c16f5464419b7e1974d04026951@SC-EXCH01.marvell.com>
- <ba6abd8303c84156b1c530dcbf101f40@SC-EXCH01.marvell.com>
-Message-ID: <20160106225457.GA23888@localhost.localdomain>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Thu, 7 Jan 2016 08:14:56 +0800
+Subject: [PATCH for-4.4] block: split bios to max possible length
+In-Reply-To: <20160106162117.GE15113@localhost.localdomain>
+References: <1451931895-17474-1-git-send-email-keith.busch@intel.com>
+ <CACVXFVPOYra24SNmGBthcheYv_kY=5Fv-6s=-bSwwZijudXapw@mail.gmail.com>
+ <20160105150938.GA20832@localhost.localdomain>
+ <CACVXFVNQQNd8_3ti4AAhZB4KN0uJEN8sdmB+xsmpykJaCLfebA@mail.gmail.com>
+ <20160106055133.GA4868@localhost.localdomain>
+ <CACVXFVNWTSD9Few9KLT6r+yvgynfMduAoLEbP0t3Yo=ye5UDHA@mail.gmail.com>
+ <CACVXFVPifqQP_LdLv79Lv_EF-evfh9LFT2nfVvDKMuLJ-OCH5g@mail.gmail.com>
+ <20160106151836.GB15113@localhost.localdomain>
+ <CACVXFVM7BDvqWREUaZtbf+LwxLUWEgDrgrOyXPObE7H1PjHsAQ@mail.gmail.com>
+ <20160106162117.GE15113@localhost.localdomain>
+Message-ID: <CACVXFVO7+NXM-3Bo+kSSvhnWxDamj1ibkDrr8PVSNP2G7ZU5Jw@mail.gmail.com>
 
-On Wed, Jan 06, 2016@09:56:24PM +0000, Xuehua Chen wrote:
-> Hi, Keith, 
-> 
-> I wonder whether this could be caused by BIO_MAX_PAGES defined as 256, which means 1MB at most.
-> What do you think?
+On Thu, Jan 7, 2016@12:21 AM, Keith Busch <keith.busch@intel.com> wrote:
+> On Wed, Jan 06, 2016@11:43:45PM +0800, Ming Lei wrote:
+>> Please see the 1st line code of __blk_segment_map_sg(), in which only
+>> one whole bvec is handled, and partial bvec can't be figured out there.
+>>
+>> Think of it further, drivers often use bv.bv_len directly in the
+>> iterator, for example:
+>>
+>>         bio_for_each_segment(bvec, bio, iter)
+>>                 memcpy(page_address(bvec.bv_page) +
+>>                                             bvec.bv_offset,  addr +
+>> offset, bvec.bv_len);
+>>
+>> So your patch will break these drivers, won't it?
+>
+> CC'ing Kent in hopes he will clarify what happens on a split.
+>
+> The bio_advance() code comments say it's handled:
+>
+> "
+>  * This updates bi_sector, bi_size and bi_idx; if the number of bytes to
+>  * complete doesn't align with a bvec boundary, then bv_len and bv_offset will
+>  * be updated on the last bvec as well.
+> "
 
-I think you got it. You're running O_DIRECT, and fs/direct-io.c,
-dio_new_bio() allocates up to BIO_MAX_PAGES.
+One exception is that both can be reseted in bio_clone_bioset().
 
-I can't tell where the value for came from (looks like it was there from
-the very first git commit), but maybe you can propose raising it if you
-set BIO_MAX_PAGES higher without issue.
+>
+> I admit I'm having a hard time seeing where bv_len and bv_offset updated
+> in this path. It was obviously handled after 054bdf646e then changed
+> with 4550dd6c6b.
+>
+> If I follow correctly, 4550dd6c6b will implicity update the bvec's offset
+> and length during the split here since bio_iter_iovec resets the bvec's
+> length and offset:
+> ---
+> #define __bio_for_each_segment(bvl, bio, iter, start)                   \
+>         for (iter = (start);                                            \
+>              (iter).bi_size &&                                          \
+>                 ((bvl = bio_iter_iovec((bio), (iter))), 1);             \
+>              bio_advance_iter((bio), &(iter), (bvl).bv_len))
+> --
+
+
+
+-- 
+Ming Lei
