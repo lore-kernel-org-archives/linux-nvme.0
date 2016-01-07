@@ -1,21 +1,31 @@
 From: xuehua@marvell.com (Xuehua Chen)
-Date: Thu, 7 Jan 2016 17:34:53 +0000
+Date: Thu, 7 Jan 2016 17:38:21 +0000
 Subject: Maximum NVMe IO command size > 1MB?
-In-Reply-To: <568E4E6A.5000907@dev.mellanox.co.il>
+In-Reply-To: <20160106225457.GA23888@localhost.localdomain>
 References: <cc642ee3fec8476b9034e1ee397e8f42@SC-EXCH01.marvell.com>
  <20160106193127.GA20732@localhost.localdomain>
  <680a6c16f5464419b7e1974d04026951@SC-EXCH01.marvell.com>
- <568E4E6A.5000907@dev.mellanox.co.il>
-Message-ID: <6828ca62cf25413a9be3b1ab8bcbe0e4@SC-EXCH01.marvell.com>
+ <ba6abd8303c84156b1c530dcbf101f40@SC-EXCH01.marvell.com>,
+ <20160106225457.GA23888@localhost.localdomain>
+Message-ID: <db5ba696fc464726a126742f6cd973f0@SC-EXCH01.marvell.com>
 
->I think 2048 is 1MB...
-Could you double check?
->From https://www.kernel.org/doc/Documentation/block/queue-sysfs.txt
+Thanks, will try raising it and see how it go. 
+________________________________________
+From: Keith Busch [keith.busch@intel.com]
+Sent: Wednesday, January 6, 2016 2:54 PM
+To: Xuehua Chen
+Cc: linux-nvme at lists.infradead.org
+Subject: Re: Maximum NVMe IO command size > 1MB?
 
-max_hw_sectors_kb (RO)
-----------------------
-This is the maximum number of kilobytes supported in a single data transfer.
+On Wed, Jan 06, 2016@09:56:24PM +0000, Xuehua Chen wrote:
+> Hi, Keith,
+>
+> I wonder whether this could be caused by BIO_MAX_PAGES defined as 256, which means 1MB at most.
+> What do you think?
 
-> I don't think it's coming from any other limitation in the block layer since I'm able to transfer 8M and more in a single request with iser.
+I think you got it. You're running O_DIRECT, and fs/direct-io.c,
+dio_new_bio() allocates up to BIO_MAX_PAGES.
 
-Is this transfer done via a single bio? How did you determine the single transfer size?
+I can't tell where the value for came from (looks like it was there from
+the very first git commit), but maybe you can propose raising it if you
+set BIO_MAX_PAGES higher without issue.
