@@ -1,25 +1,25 @@
 From: axboe@fb.com (Jens Axboe)
-Date: Tue, 12 Jan 2016 15:11:30 -0700
-Subject: [PATCH] block: split bios to max possible length
-In-Reply-To: <1452636519-32697-1-git-send-email-keith.busch@intel.com>
-References: <1452636519-32697-1-git-send-email-keith.busch@intel.com>
-Message-ID: <56957A12.8040902@fb.com>
+Date: Tue, 12 Jan 2016 15:12:22 -0700
+Subject: [PATCH RESEND] NVMe: Export NVMe attributes to sysfs group
+In-Reply-To: <1452636571-309-1-git-send-email-keith.busch@intel.com>
+References: <1452636571-309-1-git-send-email-keith.busch@intel.com>
+Message-ID: <56957A46.70107@fb.com>
 
-On 01/12/2016 03:08 PM, Keith Busch wrote:
-> This splits bio in the middle of a vector to form the largest possible
-> bio at the h/w's desired alignment, and guarantees the bio being split
-> will have some data.
+On 01/12/2016 03:09 PM, Keith Busch wrote:
+> Adds all controller information to attribute list exposed to sysfs, and
+> appends the reset_controller attribute to it. The nvme device is created
+> with this attribute list, so driver no long manages its attributes.
 >
-> The criteria for splitting is changed from the max sectors to the h/w's
-> optimal sector alignment if it is provided. For h/w that advertise their
-> block storage's underlying chunk size, it's a big performance win to not
-> submit commands that cross them. If sector alignment is not provided,
-> this patch uses the max sectors as before.
->
-> This addresses the performance issue commit d380561113 attempted to
-> fix, but was reverted due to splitting logic error.
+> Reported-by: Sujith Pandel <sujithpshankar at gmail.com>
+> Cc: Sujith Pandel <sujithpshankar@ gmail.com>
+> Cc: David Milburn <dmilburn at redhat.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+> I think this was meant to be picked up. At least the namespace attributes
+> were that came right after this. This patch respins on top of that one
+> so it applies cleanly.
 
-Thanks Keith, added for 4.5.
+Agree, added now.
 
 -- 
 Jens Axboe
