@@ -1,21 +1,167 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 12 Jan 2016 14:41:16 -0700
-Subject: [PATCH 0/2] NVMe updates
-Message-ID: <1452634878-31125-1-git-send-email-keith.busch@intel.com>
+Date: Tue, 12 Jan 2016 14:41:18 -0700
+Subject: [PATCH 2/2] NVMe: Shutdown controller only for power-off
+In-Reply-To: <1452634878-31125-1-git-send-email-keith.busch@intel.com>
+References: <1452634878-31125-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1452634878-31125-3-git-send-email-keith.busch@intel.com>
 
-These are the last two with the folded in suggestions from reviewers.
+We don't need to shutdown a controller for a reset. A controller in a
+shutdown state may take longer to become ready than one that was simply
+disabled. This patch has the driver shut down a controller only if the
+device is about to be powered off or being removed. When taking the
+controller down for a reset reason, the controller will be disabled
+instead.
 
-The first 3 patches in the series are still here, and some of this based
-on updates from Christoph and Sagi.
+Function names have been updated in this patch to reflect their changed
+semantics.
 
-  http://lists.infradead.org/pipermail/linux-nvme/2016-January/003561.html
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
+---
+ drivers/nvme/host/pci.c | 40 +++++++++++++++++++---------------------
+ 1 file changed, 19 insertions(+), 21 deletions(-)
 
-Keith Busch (2):
-  NVMe: IO queue deletion re-write
-  NVMe: Shutdown controller only for power-off
-
- drivers/nvme/host/pci.c | 291 +++++++++++++++++-------------------------------
- 1 file changed, 100 insertions(+), 191 deletions(-)
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0fdef0a..0b67e9e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -87,7 +87,7 @@ struct nvme_queue;
+ static int nvme_reset(struct nvme_dev *dev);
+ static void nvme_process_cq(struct nvme_queue *nvmeq);
+ static void nvme_remove_dead_ctrl(struct nvme_dev *dev);
+-static void nvme_dev_shutdown(struct nvme_dev *dev);
++static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
+ 
+ /*
+  * Represents an NVM Express device.  Each nvme_dev is a PCI function.
+@@ -932,7 +932,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 		dev_warn(dev->dev,
+ 			 "I/O %d QID %d timeout, disable controller\n",
+ 			 req->tag, nvmeq->qid);
+-		nvme_dev_shutdown(dev);
++		nvme_dev_disable(dev, false);
+ 		req->errors = NVME_SC_CANCELLED;
+ 		return BLK_EH_HANDLED;
+ 	}
+@@ -946,7 +946,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 		dev_warn(dev->dev,
+ 			 "I/O %d QID %d timeout, reset controller\n",
+ 			 req->tag, nvmeq->qid);
+-		nvme_dev_shutdown(dev);
++		nvme_dev_disable(dev, false);
+ 		queue_work(nvme_workq, &dev->reset_work);
+ 
+ 		/*
+@@ -1065,21 +1065,20 @@ static void nvme_clear_queue(struct nvme_queue *nvmeq)
+ 	spin_unlock_irq(&nvmeq->q_lock);
+ }
+ 
+-static void nvme_disable_queue(struct nvme_dev *dev, int qid)
++static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+ {
+-	struct nvme_queue *nvmeq = dev->queues[qid];
++	struct nvme_queue *nvmeq = dev->queues[0];
+ 
+ 	if (!nvmeq)
+ 		return;
+ 	if (nvme_suspend_queue(nvmeq))
+ 		return;
+ 
+-	/* Don't tell the adapter to delete the admin queue.
+-	 * Don't tell a removed adapter to delete IO queues. */
+-	if (qid && readl(dev->bar + NVME_REG_CSTS) != -1) {
+-		adapter_delete_sq(dev, qid);
+-		adapter_delete_cq(dev, qid);
+-	}
++	if (shutdown)
++		nvme_shutdown_ctrl(&dev->ctrl);
++	else
++		nvme_disable_ctrl(&dev->ctrl, lo_hi_readq(
++						dev->bar + NVME_REG_CAP));
+ 
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	nvme_process_cq(nvmeq);
+@@ -1813,7 +1812,7 @@ static void nvme_dev_list_remove(struct nvme_dev *dev)
+ 		kthread_stop(tmp);
+ }
+ 
+-static void nvme_dev_shutdown(struct nvme_dev *dev)
++static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ {
+ 	int i;
+ 	u32 csts = -1;
+@@ -1832,8 +1831,7 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
+ 		}
+ 	} else {
+ 		nvme_disable_io_queues(dev);
+-		nvme_shutdown_ctrl(&dev->ctrl);
+-		nvme_disable_queue(dev, 0);
++		nvme_disable_admin_queue(dev, shutdown);
+ 	}
+ 	nvme_dev_unmap(dev);
+ 
+@@ -1892,7 +1890,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 	 * moving on.
+ 	 */
+ 	if (dev->bar)
+-		nvme_dev_shutdown(dev);
++		nvme_dev_disable(dev, false);
+ 
+ 	set_bit(NVME_CTRL_RESETTING, &dev->flags);
+ 
+@@ -1946,7 +1944,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 	dev->ctrl.admin_q = NULL;
+ 	dev->queues[0]->tags = NULL;
+  disable:
+-	nvme_disable_queue(dev, 0);
++	nvme_disable_admin_queue(dev, false);
+  unmap:
+ 	nvme_dev_unmap(dev);
+  out:
+@@ -2081,7 +2079,7 @@ static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+ 
+ 	if (prepare)
+-		nvme_dev_shutdown(dev);
++		nvme_dev_disable(dev, false);
+ 	else
+ 		queue_work(nvme_workq, &dev->reset_work);
+ }
+@@ -2089,7 +2087,7 @@ static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
+ static void nvme_shutdown(struct pci_dev *pdev)
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+-	nvme_dev_shutdown(dev);
++	nvme_dev_disable(dev, true);
+ }
+ 
+ static void nvme_remove(struct pci_dev *pdev)
+@@ -2105,7 +2103,7 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	flush_work(&dev->scan_work);
+ 	nvme_remove_namespaces(&dev->ctrl);
+ 	nvme_uninit_ctrl(&dev->ctrl);
+-	nvme_dev_shutdown(dev);
++	nvme_dev_disable(dev, true);
+ 	nvme_dev_remove_admin(dev);
+ 	nvme_free_queues(dev, 0);
+ 	nvme_release_cmb(dev);
+@@ -2119,7 +2117,7 @@ static int nvme_suspend(struct device *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+ 
+-	nvme_dev_shutdown(ndev);
++	nvme_dev_disable(ndev, true);
+ 	return 0;
+ }
+ 
+@@ -2150,7 +2148,7 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+ 	case pci_channel_io_normal:
+ 		return PCI_ERS_RESULT_CAN_RECOVER;
+ 	case pci_channel_io_frozen:
+-		nvme_dev_shutdown(dev);
++		nvme_dev_disable(dev, false);
+ 		return PCI_ERS_RESULT_NEED_RESET;
+ 	case pci_channel_io_perm_failure:
+ 		return PCI_ERS_RESULT_DISCONNECT;
 -- 
 2.6.2.307.g37023ba
