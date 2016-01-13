@@ -1,60 +1,74 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 13 Jan 2016 09:26:29 +0100
-Subject: NVM and swap device
-In-Reply-To: <20160112194030.5b74ecdc@xeon-e3>
-References: <20160112194030.5b74ecdc@xeon-e3>
-Message-ID: <56960A35.9020507@suse.de>
-
-On 01/13/2016 04:40 AM, Stephen Hemminger wrote:
-> I have a nice shiny new Intel NVM PCI card; decided to use it for a filesystem and swap.
-> The filesystem (btrfs) is doing fine, but the swap device was throwing occasional
-> random errors. Suspect a driver problem rather than hardware.
->
-> I am using 4.4 kernel without patches.
->
-> kern.log:Jan 12 08:11:57 xeon-e3 kernel: [159474.037390] Read-error on swap-device (259:0:17597808)
-> kern.log.1:Jan  7 08:32:10 xeon-e3 kernel: [87938.855526] Read-error on swap-device (259:0:11355648)
-> kern.log.1:Jan  7 08:32:10 xeon-e3 kernel: [87938.855530] Read-error on swap-device (259:0:11355656)
-> kern.log.1:Jan  7 08:32:10 xeon-e3 kernel: [87939.855467] Read-error on swap-device (259:0:16180824)
-> kern.log.1:Jan  8 08:24:07 xeon-e3 kernel: [63670.777981] Read-error on swap-device (259:0:32690768)
-> kern.log.1:Jan  9 09:25:02 xeon-e3 kernel: [153720.919325] Read-error on swap-device (259:0:220488)
-> kern.log.1:Jan  9 16:40:05 xeon-e3 kernel: [179820.957675] Read-error on swap-device (259:0:24476232)
-> kern.log.1:Jan  9 16:40:05 xeon-e3 kernel: [179820.962673] Read-error on swap-device (259:0:33292816)
->
-> The swap device was being added via /etc/fstab by UUID.
->
-> I gave up and went back to spinning rust for swap device for stabilty.
->
-> Device partitions are:
->
-> Disk /dev/nvme0n1: 781422768 sectors, 372.6 GiB
-> Logical sector size: 512 bytes
-> Disk identifier (GUID): 304117A4-18EF-4B51-92F4-8015758B5CB0
-> Partition table holds up to 128 entries
-> First usable sector is 34, last usable sector is 781422734
-> Partitions will be aligned on 8-sector boundaries
-> Total free space is 0 sectors (0 bytes)
->
-> Number  Start (sector)    End (sector)  Size       Code  Name
->     1              34            2047   1007.0 KiB  EF02  BIOS boot partition
->     2            2048        33556479   16.0 GiB    8200  Linux swap
->     3        33556480       781422734   356.6 GiB   8300  Linux filesystem
->
-Ouch.
-
-34 sectors is aligned to basically nothing, and is guaranteed to 
-trip any alignment issues there are.
-
-Please repartition the device and use some sane value like 2M alignment.
-
-Cheers,
-
-Hannes
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Wed, 13 Jan 2016 12:50:03 +0200
+Subject: [LSF/MM ATTEND][LSF/MM TOPIC] Multipath redesign
+In-Reply-To: <56961493.5010901@suse.de>
+References: <56961493.5010901@suse.de>
+Message-ID: <56962BDB.4080509@dev.mellanox.co.il>
 
 
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+> Hi all,
+>
+> I'd like to attend LSF/MM and would like to present my ideas for a
+> multipath redesign.
+>
+> The overall idea is to break up the centralized multipath handling in
+> device-mapper (and multipath-tools) and delegate to the appropriate
+> sub-systems.
+
+I agree that would be very useful. Great topic. I'd like to attend
+this talk as well.
+
+>
+> Individually the plan is:
+> a) use the 'wwid' sysfs attribute to detect multipath devices;
+>     this removes the need of the current 'path_id' functionality
+>     in multipath-tools
+
+CC'ing Linux-nvme,
+
+I've recently looked at multipathing support for nvme (and nvme over
+fabrics) as well. For nvme the wwid equivalent is the nsid (namespace
+identifier). I'm wandering if we can have better abstraction for
+user-space so it won't need to change its behavior for scsi/nvme.
+The same applies for the the timeout attribute for example which
+assumes scsi device sysfs structure.
+
+> b) leverage topology information from scsi_dh_alua (which we will
+>     have once my ALUA handler update is in) to detect the multipath
+>     topology. This removes the need of a 'prio' infrastructure
+>     in multipath-tools
+
+This would require further attention for nvme.
+
+> c) implement block or scsi events whenever a remote port becomes
+>     unavailable. This removes the need of the 'path_checker'
+>     functionality in multipath-tools.
+
+I'd prefer if we'd have it in the block layer so we can have it for all
+block drivers. Also, this assumes that port events are independent of
+I/O. This assumption is incorrect in SRP for example which detects port
+failures only by I/O errors (which makes path sensing a must).
+
+> d) leverage these events to handle path-up/path-down events
+>     in-kernel
+> e) move the I/O redirection logic out of device-mapper proper
+>     and use blk-mq to redirect I/O. This is still a bit of
+>     hand-waving, and definitely would need discussion to figure
+>     out if and how it can be achieved.
+>     This is basically the same topic Mike Snitzer proposed, but
+>     coming from a different angle.
+
+Another (adjacent) topic is multipath performance with blk-mq.
+
+As I said, I've been looking at nvme multipathing support and
+initial measurements show huge contention on the multipath lock
+which really defeats the entire point of blk-mq...
+
+I have yet to report this as my work is still in progress. I'm not sure
+if it's a topic on it's own but I'd love to talk about that as well...
+
+> But in the end we should be able to do strip down the current (rather
+> complex) multipath-tools to just handle topology changes; everything
+> else will be done internally.
+
+I'd love to see that happening.
