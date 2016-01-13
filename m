@@ -1,53 +1,50 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Wed, 13 Jan 2016 10:13:05 -0500
-Subject: NVM and swap device
-In-Reply-To: <56960A35.9020507@suse.de>
-References: <20160112194030.5b74ecdc@xeon-e3>
- <56960A35.9020507@suse.de>
-Message-ID: <20160113151305.GD8945@linux.intel.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Wed, 13 Jan 2016 10:42:43 -0500
+Subject: [LSF/MM ATTEND][LSF/MM TOPIC] Multipath redesign
+In-Reply-To: <56962BDB.4080509@dev.mellanox.co.il>
+References: <56961493.5010901@suse.de>
+ <56962BDB.4080509@dev.mellanox.co.il>
+Message-ID: <20160113154243.GA2563@redhat.com>
 
-On Wed, Jan 13, 2016@09:26:29AM +0100, Hannes Reinecke wrote:
-> On 01/13/2016 04:40 AM, Stephen Hemminger wrote:
-> >I have a nice shiny new Intel NVM PCI card; decided to use it for a filesystem and swap.
-> >The filesystem (btrfs) is doing fine, but the swap device was throwing occasional
-> >random errors. Suspect a driver problem rather than hardware.
-> >
-> >I am using 4.4 kernel without patches.
-> >
-> >kern.log:Jan 12 08:11:57 xeon-e3 kernel: [159474.037390] Read-error on swap-device (259:0:17597808)
-> >kern.log.1:Jan  7 08:32:10 xeon-e3 kernel: [87938.855526] Read-error on swap-device (259:0:11355648)
-> >kern.log.1:Jan  7 08:32:10 xeon-e3 kernel: [87938.855530] Read-error on swap-device (259:0:11355656)
-> >kern.log.1:Jan  7 08:32:10 xeon-e3 kernel: [87939.855467] Read-error on swap-device (259:0:16180824)
-> >kern.log.1:Jan  8 08:24:07 xeon-e3 kernel: [63670.777981] Read-error on swap-device (259:0:32690768)
-> >kern.log.1:Jan  9 09:25:02 xeon-e3 kernel: [153720.919325] Read-error on swap-device (259:0:220488)
-> >kern.log.1:Jan  9 16:40:05 xeon-e3 kernel: [179820.957675] Read-error on swap-device (259:0:24476232)
-> >kern.log.1:Jan  9 16:40:05 xeon-e3 kernel: [179820.962673] Read-error on swap-device (259:0:33292816)
-> >
-> >The swap device was being added via /etc/fstab by UUID.
-> >
-> >I gave up and went back to spinning rust for swap device for stabilty.
-> >
-> >Device partitions are:
-> >
-> >Disk /dev/nvme0n1: 781422768 sectors, 372.6 GiB
-> >Logical sector size: 512 bytes
-> >Disk identifier (GUID): 304117A4-18EF-4B51-92F4-8015758B5CB0
-> >Partition table holds up to 128 entries
-> >First usable sector is 34, last usable sector is 781422734
-> >Partitions will be aligned on 8-sector boundaries
-> >Total free space is 0 sectors (0 bytes)
-> >
-> >Number  Start (sector)    End (sector)  Size       Code  Name
-> >    1              34            2047   1007.0 KiB  EF02  BIOS boot partition
-> >    2            2048        33556479   16.0 GiB    8200  Linux swap
-> >    3        33556480       781422734   356.6 GiB   8300  Linux filesystem
-> >
-> Ouch.
+On Wed, Jan 13 2016 at  5:50am -0500,
+Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
+ 
+> Another (adjacent) topic is multipath performance with blk-mq.
 > 
-> 34 sectors is aligned to basically nothing, and is guaranteed to trip any
-> alignment issues there are.
+> As I said, I've been looking at nvme multipathing support and
+> initial measurements show huge contention on the multipath lock
+> which really defeats the entire point of blk-mq...
+> 
+> I have yet to report this as my work is still in progress. I'm not sure
+> if it's a topic on it's own but I'd love to talk about that as well...
 
-Maybe, but that's the BIOS boot partition; who cares?  The swap partition
-is aligned to 2048 sectors which should be good enough for anyone (it's 1MB).
+This sounds like you aren't actually using blk-mq for the top-level DM
+multipath queue.  And your findings contradicts what I heard from Keith
+Busch when I developed request-based DM's blk-mq support, from commit 
+bfebd1cdb497 ("dm: add full blk-mq support to request-based DM"):
 
-Can you run a straight 'dd' from that partition, to see if you get errors?
+     "Just providing a performance update. All my fio tests are getting
+      roughly equal performance whether accessed through the raw block
+      device or the multipath device mapper (~470k IOPS). I could only push
+      ~20% of the raw iops through dm before this conversion, so this latest
+      tree is looking really solid from a performance standpoint."
+
+> >But in the end we should be able to do strip down the current (rather
+> >complex) multipath-tools to just handle topology changes; everything
+> >else will be done internally.
+> 
+> I'd love to see that happening.
+
+Honestly, this needs to be a hardened plan that is hashed out _before_
+LSF and then findings presented.  It is a complete waste of time to
+debate nuance with Hannes in a one hour session.
+
+Until I implemented the above DM core changes hch and Hannes were very
+enthusiastic to throw away the existing DM multipath and multipath-tools
+code (the old .request_fn queue lock bottleneck being the straw that
+broke the camel's back).  Seems Hannes' enthusiasm hasn't tempered but
+his hand-waving is still in full form.
+
+Details matter.  I have no doubts aspects of what we have could be
+improved but I really fail to see how moving multipathing to blk-mq is a
+constructive way forward.
