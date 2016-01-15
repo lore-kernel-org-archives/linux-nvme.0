@@ -1,10 +1,10 @@
 From: stephen@networkplumber.org (Stephen Hemminger)
-Date: Fri, 15 Jan 2016 10:18:19 -0800
+Date: Fri, 15 Jan 2016 10:20:52 -0800
 Subject: NVM and swap device
 In-Reply-To: <20160115174236.GC11165@localhost.localdomain>
 References: <20160112194030.5b74ecdc@xeon-e3>
  <20160115174236.GC11165@localhost.localdomain>
-Message-ID: <20160115101819.2e63b19b@xeon-e3>
+Message-ID: <20160115102052.0091a976@xeon-e3>
 
 On Fri, 15 Jan 2016 17:42:36 +0000
 Keith Busch <keith.busch@intel.com> wrote:
@@ -57,4 +57,31 @@ Keith Busch <keith.busch@intel.com> wrote:
 >   media_errors                        : 0
 >   num_err_log_entries                 : 0
 
-I wanted to run more stress tests before reporting back.
+Are these logs persistant?
+
+# ./nvme smart-log /dev/nvme0
+Smart Log for NVME device:/dev/nvme0 namespace-id:ffffffff
+critical_warning                    : 0
+temperature                         : 29 C
+available_spare                     : 100%
+available_spare_threshold           : 10%
+percentage_used                     : 0%
+data_units_read                     : 2,768,267
+data_units_written                  : 4,085,497
+host_read_commands                  : 74,458,451
+host_write_commands                 : 68,420,945
+controller_busy_time                : 12
+power_cycles                        : 33
+power_on_hours                      : 227
+unsafe_shutdowns                    : 6
+media_errors                        : 0
+num_err_log_entries                 : 0
+Critical Composite Temperature Time : 0
+Temperature Sensor 1                : 0 C
+Temperature Sensor 2                : 0 C
+Temperature Sensor 3                : 0 C
+Temperature Sensor 4                : 0 C
+Temperature Sensor 5                : 0 C
+Temperature Sensor 6                : 0 C
+Temperature Sensor 7                : 0 C
+Temperature Sensor 8                : 0 C
