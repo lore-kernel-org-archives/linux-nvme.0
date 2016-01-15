@@ -1,22 +1,54 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 15 Jan 2016 16:48:53 +0000
-Subject: [PATCH v1 2/3] nvme: Use blk-mq helper for IO termination
-In-Reply-To: <1452416389-19664-3-git-send-email-sagig@mellanox.com>
-References: <1452416389-19664-1-git-send-email-sagig@mellanox.com>
- <1452416389-19664-3-git-send-email-sagig@mellanox.com>
-Message-ID: <20160115164853.GB11165@localhost.localdomain>
+Date: Fri, 15 Jan 2016 17:42:36 +0000
+Subject: NVM and swap device
+In-Reply-To: <20160112194030.5b74ecdc@xeon-e3>
+References: <20160112194030.5b74ecdc@xeon-e3>
+Message-ID: <20160115174236.GC11165@localhost.localdomain>
 
-On Sun, Jan 10, 2016@10:59:48AM +0200, Sagi Grimberg wrote:
-> blk-mq offers a tagset iterator so let's use that
-> instead of using nvme_clear_queues.
+On Tue, Jan 12, 2016@07:40:30PM -0800, Stephen Hemminger wrote:
+> I have a nice shiny new Intel NVM PCI card; decided to use it for a filesystem and swap.
+> The filesystem (btrfs) is doing fine, but the swap device was throwing occasional
+> random errors. Suspect a driver problem rather than hardware.
 > 
-> Note, we changed nvme_queue_cancel_ios name to nvme_cancel_io
-> as there is no concept of a queue now in this function (we
-> also lost the print).
+> I am using 4.4 kernel without patches.
 > 
-> Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> kern.log:Jan 12 08:11:57 xeon-e3 kernel: [159474.037390] Read-error on swap-device (259:0:17597808)
+> kern.log.1:Jan  7 08:32:10 xeon-e3 kernel: [87938.855526] Read-error on swap-device (259:0:11355648)
+> kern.log.1:Jan  7 08:32:10 xeon-e3 kernel: [87938.855530] Read-error on swap-device (259:0:11355656)
+> kern.log.1:Jan  7 08:32:10 xeon-e3 kernel: [87939.855467] Read-error on swap-device (259:0:16180824)
+> kern.log.1:Jan  8 08:24:07 xeon-e3 kernel: [63670.777981] Read-error on swap-device (259:0:32690768)
+> kern.log.1:Jan  9 09:25:02 xeon-e3 kernel: [153720.919325] Read-error on swap-device (259:0:220488)
+> kern.log.1:Jan  9 16:40:05 xeon-e3 kernel: [179820.957675] Read-error on swap-device (259:0:24476232)
+> kern.log.1:Jan  9 16:40:05 xeon-e3 kernel: [179820.962673] Read-error on swap-device (259:0:33292816)
+> 
+> The swap device was being added via /etc/fstab by UUID. 
 
-Looks good to me.
+If you haven't any further insights into the issue, could you check the
+device's health? I'd be surprised if there is a problem with that since
+you mentioned it was new card, but would like to rule that out if this
+has hit a dead end on the other testing.
 
-Acked-by: Keith Busch <keith.busch at intel.com>
+For that, we need smart logs. There are various tools available that
+can read those logs. Here's an open source version:
+
+  https://github.com/linux-nvme/nvme-cli
+
+Here's example output from one of my drives with the above tool:
+
+  # nvme smart-log /dev/nvme0
+  Smart Log for NVME device:/dev/nvme0 namespace-id:ffffffff
+  critical_warning                    : 0
+  temperature                         : 29 C
+  available_spare                     : 100%
+  available_spare_threshold           : 10%
+  percentage_used                     : 0%
+  data_units_read                     : 577,600
+  data_units_written                  : 3,182,404
+  host_read_commands                  : 4,537,801
+  host_write_commands                 : 18,713,235
+  controller_busy_time                : 17
+  power_cycles                        : 1
+  power_on_hours                      : 163
+  unsafe_shutdowns                    : 1
+  media_errors                        : 0
+  num_err_log_entries                 : 0
