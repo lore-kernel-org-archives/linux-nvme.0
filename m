@@ -1,31 +1,25 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 15 Jan 2016 21:19:01 +0000
-Subject: NVM and swap device
-In-Reply-To: <20160115102052.0091a976@xeon-e3>
-References: <20160112194030.5b74ecdc@xeon-e3>
- <20160115174236.GC11165@localhost.localdomain>
- <20160115102052.0091a976@xeon-e3>
-Message-ID: <20160115211901.GB14947@localhost.localdomain>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Sun, 17 Jan 2016 10:54:35 +0200
+Subject: [PATCH RFC] nvme-core: Log the ctrl device instance name
+In-Reply-To: <20160115164031.GA11165@localhost.localdomain>
+References: <1452416444-22714-1-git-send-email-sagig@mellanox.com>
+ <20160115164031.GA11165@localhost.localdomain>
+Message-ID: <569B56CB.5090107@dev.mellanox.co.il>
 
-On Fri, Jan 15, 2016@10:20:52AM -0800, Stephen Hemminger wrote:
-> Are these logs persistant?
 
-Yep, these are persistent logs.
+>> Having the ctrl instance name "nvmeX" seems much more friendly than
+>> the underlying device name. Also, with other nvme transports
+>> such as the soon to come nvme-loop we don't have an underlying
+>> device and it doesn't makes sense to make up one.
+>
+> For PCI, I think this is okay if you add a message each time a device gets
+> an instance that ties it back to PCI device's name. Without something
+> like that, it doesn't look straight forward to match the NVMe device
+> name to it's PCI function just from the logs.
 
-Nothing unusual here. Sorry for the digression.
+That sounds ok to me too.
 
-> critical_warning                    : 0
-> temperature                         : 29 C
-> available_spare                     : 100%
-> available_spare_threshold           : 10%
-> percentage_used                     : 0%
-> data_units_read                     : 2,768,267
-> data_units_written                  : 4,085,497
-> host_read_commands                  : 74,458,451
-> host_write_commands                 : 68,420,945
-> controller_busy_time                : 12
-> power_cycles                        : 33
-> power_on_hours                      : 227
-> unsafe_shutdowns                    : 6
-> media_errors                        : 0
-> num_err_log_entries                 : 0
+So I'll convert the pci.c logging as well and add a log message that
+ties an instance to a pci function.
+
+Thanks Keith!
