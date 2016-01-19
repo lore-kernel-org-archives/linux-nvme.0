@@ -1,45 +1,65 @@
-From: luto@amacapital.net (Andy Lutomirski)
-Date: Tue, 19 Jan 2016 11:37:40 -0800
-Subject: Anyone working on nvme power management?
-In-Reply-To: <20160119144422.GB2948@linux.intel.com>
-References: <CALCETrUDmjXDYzHrhpS=0UokebFys4rWhot5Ti1dxa=KX_9+9g@mail.gmail.com>
- <20160119144422.GB2948@linux.intel.com>
-Message-ID: <CALCETrUHMrAbG5s8utgvrGUgn0E5mn80iWyNUef4+h1v8eY8yg@mail.gmail.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Tue, 19 Jan 2016 17:45:12 -0500
+Subject: dm-multipath low performance with blk-mq
+In-Reply-To: <569E11EA.8000305@dev.mellanox.co.il>
+Message-ID: <20160119224512.GA10515@redhat.com>
 
-On Tue, Jan 19, 2016@6:44 AM, Matthew Wilcox <willy@linux.intel.com> wrote:
-> On Mon, Jan 18, 2016@03:23:31PM -0800, Andy Lutomirski wrote:
->> Also, the host memory buffer feature seems related, although I can't
->> find anything in the spec saying what its purpose is.  Is it related
->> to the power management features?  Does it give faster low-power
->> exits?
+On Mon, Jan 18 2016 at  7:04am -0500,
+Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
+
+> Hi All,
+> 
+> I've recently tried out dm-multipath over a "super-fast" nvme device
+> and noticed a serious lock contention in dm-multipath that requires some
+> extra attention. The nvme device is a simple loopback device emulation
+> backed by null_blk device.
+> 
+> With this I've seen dm-multipath pushing around ~470K IOPs while
+> the native (loopback) nvme performance can easily push up to 1500K+ IOPs.
+> 
+> perf output [1] reveals a huge lock contention on the multipath lock
+> which is a per-dm_target contention point which seem to defeat the
+> purpose of blk-mq i/O path.
+> 
+> The two current bottlenecks seem to come from multipath_busy and
+> __multipath_map. Would it make better sense to move to a percpu_ref
+> model with freeze/unfreeze logic for updates similar to what blk-mq
+> is doing?
 >
-> The host memory buffer exists because some bright spark working on a
-> drive noticed that it's significantly quicker & higher bandwidth to store
-> various data in host DRAM than it is to store them on the drive's flash.
-> So as long as they can twist our arms into allocating host DRAM for
-> them and tolerate the fact that the contents of the host memory buffer
-> go away at power-loss, they're going to store all kinds of things there
-> that they don't want to keep in the drive's own DRAM.
->
-> So yes, the HMB may well be used by the drive to store the (hopefully
-> encrypted) contents of its own DRAM during low-power states where it
-> wants to power down its DRAM, but it may also be used during regular
-> operation for other things.
+> Thoughts?
 
-This scares me a bit.
+Your perf output clearly does identify the 'struct multipath' spinlock
+as a bottleneck.
 
-Suppose I own an nvme device, I enable HMB, and the power fails.
-Suppose further that it's a reasonable quality part with power-fail
-caps.  How much do we believe that the power-fail code won't try to
-access the HMB?
+Is it fair to assume that implied in your test is that you increased
+md->tag_set.nr_hw_queues to > 1 in dm_init_request_based_blk_mq_queue()?
 
-Also, all of the slow-but-operational power states seem semi-useless.
-They don't tell us how slow they are except in the "I am slower than
-this other state" sense.
+I'd like to start by replicating your testbed.  So I'll see about
+setting up the nvme loop driver you referenced in earlier mail.
+Can you share your fio job file and fio commandline for your test?
 
-Maybe I'll try to implement some basic control over the autonomous
-transition policy in the driver.  That's a lot less work than getting
-D3 transitions to work without blowing up the driver state or taking
-forever to wake back up and restore all the queues.
+Unrolling the dm-mpath.c implementation of .request_fn vs blk-mq and
+identifiying a locking strategy for the 'struct multipath' member
+accesses will take time to investigate.  If others can spare their
+expertise to help speed up the discovery of the proper way forward I'd
+very much appreciate it.
 
---Andy
+I'll consult with people like Mikulas (who did work to improve DM core's
+scalability with changes like commit 83d5e5b0af9 "dm: optimize use SRCU
+and RCU").
+
+But I'll need to do further research on what fix is appropriate for
+increasing the parallelism of the locking across blk-mq queues.  Part of
+the challenge associated with that is that while blk-mq will know there
+are multiple queues: the DM multipath target is currently oblivious.
+Pushing that understanding down to the multipath target is likely needed
+so that resources can be initialized and managed accordingly.  Certainly
+made more complex when you consider we do still have support for the old
+.request_fn code path (via dm-mpath.c:multipath_map).  But it could
+easily be that this new locking strategy will work if number of queues
+is 1 or >1.
+
+This discovery will take time but I'll make it a priority and do my
+best.
+
+Mike
