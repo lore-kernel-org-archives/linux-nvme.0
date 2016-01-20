@@ -1,65 +1,60 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Tue, 19 Jan 2016 17:45:12 -0500
-Subject: dm-multipath low performance with blk-mq
-In-Reply-To: <569E11EA.8000305@dev.mellanox.co.il>
-Message-ID: <20160119224512.GA10515@redhat.com>
+From: mail_weber_wang@163.com (Wenbo Wang)
+Date: Tue, 19 Jan 2016 23:57:40 -0500
+Subject: [PATCH] NVMe: init nvme queue before enabling irq
+Message-ID: <1453265860-31080-1-git-send-email-mail_weber_wang@163.com>
 
-On Mon, Jan 18 2016 at  7:04am -0500,
-Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
+During reset process, the nvme_dev->bar (ioremapped) may change,
+so nvmeq->q_db shall be also updated by nvme_init_queue().
 
-> Hi All,
-> 
-> I've recently tried out dm-multipath over a "super-fast" nvme device
-> and noticed a serious lock contention in dm-multipath that requires some
-> extra attention. The nvme device is a simple loopback device emulation
-> backed by null_blk device.
-> 
-> With this I've seen dm-multipath pushing around ~470K IOPs while
-> the native (loopback) nvme performance can easily push up to 1500K+ IOPs.
-> 
-> perf output [1] reveals a huge lock contention on the multipath lock
-> which is a per-dm_target contention point which seem to defeat the
-> purpose of blk-mq i/O path.
-> 
-> The two current bottlenecks seem to come from multipath_busy and
-> __multipath_map. Would it make better sense to move to a percpu_ref
-> model with freeze/unfreeze logic for updates similar to what blk-mq
-> is doing?
->
-> Thoughts?
+Currently nvmeq irq is enabled before queue init, so a spurious
+interrupt triggered nvme_process_cq may access nvmeq->q_db just
+before it is updated, this could cause kernel panic.
 
-Your perf output clearly does identify the 'struct multipath' spinlock
-as a bottleneck.
+Signed-off-by: Wenbo Wang <wenbo.wang at memblaze.com>
+Reviewed-by: Wenwei Tao <wenwei.tao at memblaze.com>
+---
+ drivers/nvme/host/pci.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-Is it fair to assume that implied in your test is that you increased
-md->tag_set.nr_hw_queues to > 1 in dm_init_request_based_blk_mq_queue()?
-
-I'd like to start by replicating your testbed.  So I'll see about
-setting up the nvme loop driver you referenced in earlier mail.
-Can you share your fio job file and fio commandline for your test?
-
-Unrolling the dm-mpath.c implementation of .request_fn vs blk-mq and
-identifiying a locking strategy for the 'struct multipath' member
-accesses will take time to investigate.  If others can spare their
-expertise to help speed up the discovery of the proper way forward I'd
-very much appreciate it.
-
-I'll consult with people like Mikulas (who did work to improve DM core's
-scalability with changes like commit 83d5e5b0af9 "dm: optimize use SRCU
-and RCU").
-
-But I'll need to do further research on what fix is appropriate for
-increasing the parallelism of the locking across blk-mq queues.  Part of
-the challenge associated with that is that while blk-mq will know there
-are multiple queues: the DM multipath target is currently oblivious.
-Pushing that understanding down to the multipath target is likely needed
-so that resources can be initialized and managed accordingly.  Certainly
-made more complex when you consider we do still have support for the old
-.request_fn code path (via dm-mpath.c:multipath_map).  But it could
-easily be that this new locking strategy will work if number of queues
-is 1 or >1.
-
-This discovery will take time but I'll make it a priority and do my
-best.
-
-Mike
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f5c0e26..df55f28 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1590,11 +1590,17 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
+ 	if (result < 0)
+ 		goto release_cq;
+ 
++	/*
++	 * Init queue door bell ioremap address before enabling irq, if not,
++	 * a spurious interrupt triggered nvme_process_cq may access invalid
++	 * address
++	 */
++	nvme_init_queue(nvmeq, qid);
++
+ 	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
+ 	if (result < 0)
+ 		goto release_sq;
+ 
+-	nvme_init_queue(nvmeq, qid);
+ 	return result;
+ 
+  release_sq:
+@@ -1789,6 +1795,8 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	if (result)
+ 		goto free_nvmeq;
+ 
++	nvme_init_queue(nvmeq, 0);
++
+ 	nvmeq->cq_vector = 0;
+ 	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
+ 	if (result) {
+@@ -3164,7 +3172,6 @@ static void nvme_probe_work(struct work_struct *work)
+ 		goto disable;
+ 	}
+ 
+-	nvme_init_queue(dev->queues[0], 0);
+ 	result = nvme_alloc_admin_tags(dev);
+ 	if (result)
+ 		goto disable;
+-- 
+1.8.3.1
