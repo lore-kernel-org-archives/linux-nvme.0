@@ -1,12 +1,22 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 20 Jan 2016 11:22:28 +0100
+From: wenbo.wang@memblaze.com (Wenbo Wang)
+Date: Wed, 20 Jan 2016 10:41:29 +0000
 Subject: [PATCH] NVMe: init nvme queue before enabling irq
-In-Reply-To: <569F59B1.3040207@dev.mellanox.co.il>
+In-Reply-To: <20160120102228.GP2742@c203.arch.suse.de>
 References: <1453265860-31080-1-git-send-email-mail_weber_wang@163.com>
  <20160120090931.GO2742@c203.arch.suse.de>
  <BJXPR01MB199909E00F32CCC29F15C43E0C20@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
  <569F59B1.3040207@dev.mellanox.co.il>
-Message-ID: <20160120102228.GP2742@c203.arch.suse.de>
+ <20160120102228.GP2742@c203.arch.suse.de>
+Message-ID: <BJXPR01MB19942F16BD7672E12033DFCE0C20@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+
+Thanks for this information. I'll add this.
+
+-----Original Message-----
+From: linux-kernel-owner@vger.kernel.org [mailto:linux-kernel-owner@vger.kernel.org] On Behalf Of Johannes Thumshirn
+Sent: Wednesday, January 20, 2016 6:22 PM
+To: Sagi Grimberg
+Cc: Wenbo Wang; Wenbo Wang; keith.busch at intel.com; axboe at fb.com; Wenwei.Tao; linux-kernel at vger.kernel.org; linux-nvme at lists.infradead.org
+Subject: Re: [PATCH] NVMe: init nvme queue before enabling irq
 
 On Wed, Jan 20, 2016@11:56:01AM +0200, Sagi Grimberg wrote:
 > 
@@ -21,9 +31,7 @@ On Wed, Jan 20, 2016@11:56:01AM +0200, Sagi Grimberg wrote:
 > "CC: stable at vger.kernel.org" tag.
 > 
 
-Exactly. This makes work for us distribution people a lot easier (i.e. we do
-not have to manually scan all commits and decide if we need to backport a
-patch or not)
+Exactly. This makes work for us distribution people a lot easier (i.e. we do not have to manually scan all commits and decide if we need to backport a patch or not)
 
 Thanks
 
@@ -36,6 +44,4 @@ Thanks
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton HRB 21284 (AG N?rnberg) Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
