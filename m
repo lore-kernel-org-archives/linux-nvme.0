@@ -1,9 +1,9 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 20 Jan 2016 16:13:48 +0100
+From: gregkh@linuxfoundation.org (Greg KH)
+Date: Wed, 20 Jan 2016 09:12:23 -0800
 Subject: [PATH v2] NVMe: init nvme queue before enabling irq
 In-Reply-To: <1453286915-18814-1-git-send-email-mail_weber_wang@163.com>
 References: <1453286915-18814-1-git-send-email-mail_weber_wang@163.com>
-Message-ID: <20160120151348.GQ2742@c203.arch.suse.de>
+Message-ID: <20160120171223.GA28243@kroah.com>
 
 On Wed, Jan 20, 2016@05:48:35AM -0500, Wenbo Wang wrote:
 > From: Wenbo Wang <wenbo.wang at memblaze.com>
@@ -20,75 +20,11 @@ On Wed, Jan 20, 2016@05:48:35AM -0500, Wenbo Wang wrote:
 > ---
 >  drivers/nvme/host/pci.c | 14 +++++++++-----
 >  1 file changed, 9 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index f5c0e26..3371c18 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1529,9 +1529,6 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
->  	snprintf(nvmeq->irqname, sizeof(nvmeq->irqname), "nvme%dq%d",
->  			dev->instance, qid);
->  	spin_lock_init(&nvmeq->q_lock);
-> -	nvmeq->cq_head = 0;
-> -	nvmeq->cq_phase = 1;
-> -	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
->  	nvmeq->q_depth = depth;
->  	nvmeq->qid = qid;
->  	nvmeq->cq_vector = -1;
-> @@ -1590,11 +1587,17 @@ static int nvme_create_queue(struct nvme_queue *nvmeq, int qid)
->  	if (result < 0)
->  		goto release_cq;
->  
-> +	/*
-> +	 * Init queue door bell ioremap address before enabling irq, if not,
-> +	 * a spurious interrupt triggered nvme_process_cq may access invalid
-> +	 * address
-> +	 */
-> +	nvme_init_queue(nvmeq, qid);
-> +
->  	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
->  	if (result < 0)
->  		goto release_sq;
->  
-> -	nvme_init_queue(nvmeq, qid);
->  	return result;
->  
->   release_sq:
-> @@ -1789,6 +1792,8 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
->  	if (result)
->  		goto free_nvmeq;
->  
-> +	nvme_init_queue(nvmeq, 0);
-> +
->  	nvmeq->cq_vector = 0;
->  	result = queue_request_irq(dev, nvmeq, nvmeq->irqname);
->  	if (result) {
-> @@ -3164,7 +3169,6 @@ static void nvme_probe_work(struct work_struct *work)
->  		goto disable;
->  	}
->  
-> -	nvme_init_queue(dev->queues[0], 0);
->  	result = nvme_alloc_admin_tags(dev);
->  	if (result)
->  		goto disable;
-> -- 
-> 1.8.3.1
-> 
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
 
+<formletter>
 
+This is not the correct way to submit patches for inclusion in the
+stable kernel tree.  Please read Documentation/stable_kernel_rules.txt
+for how to do this properly.
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+</formletter>
