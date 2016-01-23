@@ -1,14 +1,37 @@
-From: josdotso@cisco.com (Joshua Dotson -T (josdotso - SELECT GROUP LLC THE@Cisco))
-Date: Sat, 23 Jan 2016 04:10:32 +0000
-Subject: "Couldn't open file /tmp/nvme-skip"
-Message-ID: <2268CE55-80F6-42C6-8D5D-18DCC2AFD75E@cisco.com>
+From: mike@fireburn.co.uk (Mike Lothian)
+Date: Sat, 23 Jan 2016 17:02:47 +0000
+Subject: NVME Issues with Suspend
+Message-ID: <CAHbf0-GSRV+SH4FvDj8_gfLFjEO+_KUBXZQ2VKjrFzszwcY-ww@mail.gmail.com>
 
+Hi
 
-Hi folks.
+I currently have a 3 partition NVME setup, however when I suspend and
+resume my laptop the drive isn't re-initialised correctly, the console
+is filled with access errors and I can't run any commands as they
+can't be found. After hard rebooting my machine sometimes it can't
+find the GPD partition and I have to use testdisk to restore the
+partition table
 
-Could you give any hint as to what this message means, as seen in the logs during a PXE boot, and also how to safely avoid it? I don?t have a lot of details on the matter, as I?m investigating on behalf of a colleague, but I also cannot find a reference to this file anywhere in my searches of Google, Github, Linux kernel source, nvme-cli, RedHat Bugzilla, Ubuntu Launchpad.  
+I have an Alienware 15 laptop with a 1TB NVME harddisk running kernel
+4.5-rc0. As I don't suspend my laptop often I'm not sure if this is a
+regression brought in from the merge window or an existing issue
 
-I suppose the message might emit from a custom script in the mix in my colleague?s environment, but at this point that doesn?t seem the case.
+I can bisect if needed
 
-Thanks,
-Joshua
+3e:00.0 Non-Volatile memory controller [0108]: Samsung Electronics Co
+Ltd Device [144d:a802] (rev 01)
+       Subsystem: Samsung Electronics Co Ltd Device a801
+       Kernel driver in use: nvme
+
+[    1.050096]  nvme0n1: p1 p2 p3
+
+I was going to submit a bug on bugzilla.kernel.org but I wasn't sure
+which Product / Component it should be filed under
+
+I haven't figured out a good way of collecting logs when the system
+stops responding so please let me know if you know how I can collect
+logs - I don't think SSH sessions survive suspend / resume cycles
+
+Thanks
+
+Mike
