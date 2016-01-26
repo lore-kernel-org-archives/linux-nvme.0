@@ -1,26 +1,57 @@
 From: snitzer@redhat.com (Mike Snitzer)
-Date: Tue, 26 Jan 2016 10:27:36 -0500
+Date: Tue, 26 Jan 2016 11:03:24 -0500
 Subject: dm-multipath low performance with blk-mq
-In-Reply-To: <20160126145652.GA25437@infradead.org>
+In-Reply-To: <20160125214016.GA10060@redhat.com>
 References: <569E11EA.8000305@dev.mellanox.co.il>
  <20160119224512.GA10515@redhat.com>
  <20160125214016.GA10060@redhat.com>
- <20160125233717.GQ24960@octiron.msp.redhat.com>
- <20160126132939.GA23967@redhat.com> <56A77C21.90605@suse.de>
- <20160126144713.GA24239@redhat.com>
- <20160126145652.GA25437@infradead.org>
-Message-ID: <20160126152736.GA24517@redhat.com>
+Message-ID: <20160126160324.GA24665@redhat.com>
 
-On Tue, Jan 26 2016 at  9:56am -0500,
-Christoph Hellwig <hch@infradead.org> wrote:
+On Mon, Jan 25 2016 at  4:40pm -0500,
+Mike Snitzer <snitzer@redhat.com> wrote:
 
-> On Tue, Jan 26, 2016@09:47:13AM -0500, Mike Snitzer wrote:
-> > [you're killing me.. you nuked all CCs again]
+> On Tue, Jan 19 2016 at  5:45P -0500,
+> Mike Snitzer <snitzer@redhat.com> wrote:
 > 
-> I think that's the reply-to defaults for dm-devel.  They try to do that
-> to me all that time, but fortunately I configure mutt to not blindly
-> follow that bad advice but ask me instead.
+> > On Mon, Jan 18 2016 at  7:04am -0500,
+> > Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
+> > 
+> > > Hi All,
+> > > 
+> > > I've recently tried out dm-multipath over a "super-fast" nvme device
+> > > and noticed a serious lock contention in dm-multipath that requires some
+> > > extra attention. The nvme device is a simple loopback device emulation
+> > > backed by null_blk device.
+> > > 
+> > > With this I've seen dm-multipath pushing around ~470K IOPs while
+> > > the native (loopback) nvme performance can easily push up to 1500K+ IOPs.
+> > > 
+> > > perf output [1] reveals a huge lock contention on the multipath lock
+> > > which is a per-dm_target contention point which seem to defeat the
+> > > purpose of blk-mq i/O path.
+> > > 
+> > > The two current bottlenecks seem to come from multipath_busy and
+> > > __multipath_map. Would it make better sense to move to a percpu_ref
+> > > model with freeze/unfreeze logic for updates similar to what blk-mq
+> > > is doing?
+> > >
+> > > Thoughts?
+> > 
+> > Your perf output clearly does identify the 'struct multipath' spinlock
+> > as a bottleneck.
+> > 
+> > Is it fair to assume that implied in your test is that you increased
+> > md->tag_set.nr_hw_queues to > 1 in dm_init_request_based_blk_mq_queue()?
+> > 
+> > I'd like to start by replicating your testbed.  So I'll see about
+> > setting up the nvme loop driver you referenced in earlier mail.
+> > Can you share your fio job file and fio commandline for your test?
+> 
+> Would still appreciate answers to my 2 questions above (did you modify
+> md->tag_set.nr_hw_queues and can you share your fio job?)
+> 
+> I've yet to reproduce your config (using hch's nvme loop driver) or
 
-Right, mutt saves me too.
+Christoph, any chance you could rebase your 'nvme-loop.2' on v4.5-rc1?
 
-I'll see about fixing the dm-devel list config.
+Or point me to a branch that is more current...
