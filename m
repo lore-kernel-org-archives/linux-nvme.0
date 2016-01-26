@@ -1,29 +1,54 @@
-From: bmarzins@redhat.com (Benjamin Marzinski)
-Date: Tue, 26 Jan 2016 15:40:35 -0600
-Subject: [dm-devel] dm-multipath low performance with blk-mq
-In-Reply-To: <20160126160324.GA24665@redhat.com>
-References: <569E11EA.8000305@dev.mellanox.co.il>
- <20160119224512.GA10515@redhat.com>
- <20160125214016.GA10060@redhat.com>
- <20160126160324.GA24665@redhat.com>
-Message-ID: <20160126214035.GU24960@octiron.msp.redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 26 Jan 2016 23:59:22 +0000
+Subject: [PATCH 1/2] NVMe: Make surprise removal work again
+In-Reply-To: <20160126165334.GB609@infradead.org>
+References: <1453757017-13640-1-git-send-email-keith.busch@intel.com>
+ <20160126165334.GB609@infradead.org>
+Message-ID: <20160126235922.GB18103@localhost.localdomain>
 
-On Tue, Jan 26, 2016@11:03:24AM -0500, Mike Snitzer wrote:
+On Tue, Jan 26, 2016@08:53:34AM -0800, Christoph Hellwig wrote:
+> >  	if (kill) {
+> >  		blk_set_queue_dying(ns->queue);
+> > +		mb();
 > 
-> Christoph, any chance you could rebase your 'nvme-loop.2' on v4.5-rc1?
+> Please always comment memory barriers, I can't really make any sense
+> of this one.
+
+I meant to remove this before posting. It was for an error I thought
+occured when testing the patch, but didn't confirm: did a h/w queue
+restart and not see the dying flag in nvme_queue_rq? I don't think that's
+what happened, but left that in by mistake.
+
+I'll respin.
+
+> >  		blk_mq_abort_requeue_list(ns->queue);
+> > +		__nvme_start_queue_locked(ns);
 > 
-> Or point me to a branch that is more current...
+> Also why do we need a kick of the requeue list above if we just aborted
+> all requests on it?
 
-Failing that, you could try using the null_blk device directly. It
-doesn't provide enough information for multipathd to set up a device on
-it, but you could manually create one with dmsetup. Without multipathd
-you won't get failback working, but it should be good fine for
-performance work.
+Just reusing existing code. We don't need to abort the requeue list
+first. It's just a short cut to ending commands.
 
--Ben
+I don't think the queue restarting was necessary before since requests
+used to wait on a frozen queue before failing. Now they wait on tags,
+so need some way to flush them to failure.
 
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -640,6 +640,10 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+> >  	struct nvme_command cmnd;
+> >  	int ret = BLK_MQ_RQ_QUEUE_OK;
+> >  
+> > +	if (unlikely(blk_queue_dying(req->q))) {
+> > +		blk_mq_end_request(req, -EIO);
+> > +		return BLK_MQ_RQ_QUEUE_OK;
+> > +	}
 > 
-> --
-> dm-devel mailing list
-> dm-devel at redhat.com
-> https://www.redhat.com/mailman/listinfo/dm-devel
+> Seems like this is something blk-mq should be doing.
+
+Sounds good to me.
+
+I was a afraid to handle this at the generic layer since it could change
+what other protocols see. It looks safe, though SCSI tracks device state
+differently, and I've a bad record of breaking other drivers with block
+layer "fixes" recently. :)
