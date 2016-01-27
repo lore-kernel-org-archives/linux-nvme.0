@@ -1,31 +1,58 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 27 Jan 2016 14:19:32 +0000
-Subject: [PATCH 1/2] NVMe: Make surprise removal work again
-In-Reply-To: <56A8AE61.6070100@dev.mellanox.co.il>
-References: <1453757017-13640-1-git-send-email-keith.busch@intel.com>
- <56A8AE61.6070100@dev.mellanox.co.il>
-Message-ID: <20160127141931.GA19346@localhost.localdomain>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Wed, 27 Jan 2016 12:48:29 -0500
+Subject: dm-multipath low performance with blk-mq
+In-Reply-To: <56A8A6A8.9090003@dev.mellanox.co.il>
+References: <569E11EA.8000305@dev.mellanox.co.il>
+ <20160119224512.GA10515@redhat.com>
+ <20160125214016.GA10060@redhat.com>
+ <20160125233717.GQ24960@octiron.msp.redhat.com>
+ <20160126132939.GA23967@redhat.com>
+ <56A8A6A8.9090003@dev.mellanox.co.il>
+Message-ID: <20160127174828.GA31802@redhat.com>
 
-On Wed, Jan 27, 2016@01:47:45PM +0200, Sagi Grimberg wrote:
-> >  		blk_mq_abort_requeue_list(ns->queue);
-> >+		__nvme_start_queue_locked(ns);
+On Wed, Jan 27 2016 at  6:14am -0500,
+Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
+
 > 
-> Why not making sure that all the pending requests are moved to
-> the requeue list before we even get here? call nvme_cancel_io on
-> pending requests which would either fail the requests (blk_queue_dying)
-> or move them to the requeue list?
-
-That works only for active requests. There could be processes that entered
-the queue and waiting for request tags to become available. These need
-to be flushed to completion somehow ... maybe they shouldn't even succeed
-in getting a request on a dying queue?
-
-> >+	if (unlikely(blk_queue_dying(req->q))) {
-> >+		blk_mq_end_request(req, -EIO);
-> >+		return BLK_MQ_RQ_QUEUE_OK;
-> >+	}
+> >>I don't think this is going to help __multipath_map() without some
+> >>configuration changes.  Now that we're running on already merged
+> >>requests instead of bios, the m->repeat_count is almost always set to 1,
+> >>so we call the path_selector every time, which means that we'll always
+> >>need the write lock. Bumping up the number of IOs we send before calling
+> >>the path selector again will give this patch a change to do some good
+> >>here.
+> >>
+> >>To do that you need to set:
+> >>
+> >>	rr_min_io_rq <something_bigger_than_one>
+> >>
+> >>in the defaults section of /etc/multipath.conf and then reload the
+> >>multipathd service.
+> >>
+> >>The patch should hopefully help in multipath_busy() regardless of the
+> >>the rr_min_io_rq setting.
+> >
+> >This patch, while generic, is meant to help the blk-mq case.  A blk-mq
+> >request_queue doesn't have an elevator so the requests will not have
+> >seen merging.
+> >
+> >But yes, implied in the patch is the requirement to increase
+> >m->repeat_count via multipathd's rr_min_io_rq (I'll backfill a proper
+> >header once it is tested).
 > 
-> This is something we should try our best to move away from IMO...
+> I'll test it once I get some spare time (hopefully soon...)
 
-Agreed, though I think this is better than relying on queue freeze that
-used to happen.
+OK thanks.
+
+BTW, I _cannot_ get null_blk to come even close to your reported 1500K+
+IOPs on 2 "fast" systems I have access to.  Which arguments are you
+loading the null_blk module with?
+
+I've been using:
+modprobe null_blk gb=4 bs=4096 nr_devices=1 queue_mode=2 submit_queues=12
+
+On my 1 system is a 12 core single socket, single NUMA node with 12G of
+memory, I can only get ~500K read IOPs and ~85K write IOPs.
+
+On another much larger system with 72 cores and 4 NUMA nodes with 128G
+of memory, I can only get ~310K read IOPs and ~175K write IOPs.
