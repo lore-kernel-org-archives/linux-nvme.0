@@ -1,26 +1,21 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Thu, 28 Jan 2016 07:16:22 -0800
-Subject: [LSF/MM TOPIC] NVMe target support
-In-Reply-To: <1453956103.6746.195.camel@haakon3.risingtidesystems.com>
-References: <1453956103.6746.195.camel@haakon3.risingtidesystems.com>
-Message-ID: <56AA30C6.10806@sandisk.com>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Thu, 28 Jan 2016 17:20:49 +0200
+Subject: [PATCH 1/2] NVMe: Make surprise removal work again
+In-Reply-To: <20160128145550.GB3863@localhost.localdomain>
+References: <1453757017-13640-1-git-send-email-keith.busch@intel.com>
+ <56A8AE61.6070100@dev.mellanox.co.il>
+ <20160127141931.GA19346@localhost.localdomain>
+ <56AA2A30.2040304@dev.mellanox.co.il>
+ <20160128145550.GB3863@localhost.localdomain>
+Message-ID: <56AA31D1.1010202@dev.mellanox.co.il>
 
-On 01/27/16 20:41, Nicholas A. Bellinger wrote:
-> [ ... ]
-> The folks for such a discussion would include:
+
+>> Isn't that what blk_mq_wake_waiters() is for?
 >
->     Christoph Hellwig, Hannes Reinecke, Dave Minturn, Sagi Grimberg,
->     Ming Lin, Roland Dreier and Mike Christie.
+> Yes, that'll wake processes waiting on tags, but not to their
+> demise. They'll get a tag and send it to the h/w context. We need to
+> start these back up so the driver can end those requests, or we need to
+> do something to end them at the block layer. It sounds like developers
+> are preferring the latter.
 
-Hello Nic,
-
-Since the LSF/MM summit is organized by the Linux Foundation and since 
-one of the goals of the Linux Foundation is to promote Linux I think 
-every company that is active in both the NVMeOF committee and in the 
-Linux kernel community should be invited. That includes but is not 
-limited to companies like Oracle, Micron, EMC, NetApp, HGST and also my 
-own employer SanDisk (see e.g. http://www.nvmexpress.org/).
-
-Thanks,
-
-Bart.
+Yes please.
