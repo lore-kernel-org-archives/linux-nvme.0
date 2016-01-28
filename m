@@ -1,51 +1,17 @@
-From: James.Bottomley@HansenPartnership.com (James Bottomley)
-Date: Thu, 28 Jan 2016 07:25:25 -0800
-Subject: [Lsf-pc] [LSF/MM TOPIC] NVMe target support
-In-Reply-To: <56AA30C6.10806@sandisk.com>
-References: <1453956103.6746.195.camel@haakon3.risingtidesystems.com>
- <56AA30C6.10806@sandisk.com>
-Message-ID: <1453994725.2342.5.camel@HansenPartnership.com>
+From: Stephen.Bates@pmcs.com (Stephen Bates)
+Date: Thu, 28 Jan 2016 22:24:27 +0000
+Subject: [LSF/MM ATTEND] blk-mq polling, nvme, pmem (for iomem) and
+ non-block based SSDs.
+Message-ID: <36F6EBABA23FEF4391AF72944D228901EB6F1F59@BBYEXM01.pmc-sierra.internal>
 
-On Thu, 2016-01-28@07:16 -0800, Bart Van Assche wrote:
-> On 01/27/16 20:41, Nicholas A. Bellinger wrote:
-> > [ ... ]
-> > The folks for such a discussion would include:
-> > 
-> >     Christoph Hellwig, Hannes Reinecke, Dave Minturn, Sagi
-> > Grimberg,
-> >     Ming Lin, Roland Dreier and Mike Christie.
-> 
-> Hello Nic,
-> 
-> Since the LSF/MM summit is organized by the Linux Foundation
+Hi
 
-This is a misperception.  LSF/MM is organised by a group of volunteers
-as a Linux Kernel mini summit to discuss current topics around those
-subsystems.
+I would like to attend LSF/MM 2016 to participate in discussions around the optimization of the block layer and memory management for low latency NVM technologies. I'd be very interested in discussions pertaining to where we can take the work being done to add polling into the block layer and tying that into file-systems and applications. I would also be keen to discuss how we might extend the recent work to facilitate large persistent memory regions to IO memory (e.g. PCIe devices with large, persistent, memory regions).
 
->  and since one of the goals of the Linux Foundation is to promote
-> Linux I think every company that is active in both the NVMeOF
-> committee and in the Linux kernel community should be invited.
+I am also keen to discuss topics associated with non-block based hardware devices including things like NVDIMM, OpenChannel SSDs and persistent memory exposed on PCIe devices.
 
-  We use the LF to do the logistics, but it's in no way controlled by
-them or aligned with their member companies.  The first LSF/MM was
-aided logistically by google, the next by Intel, then USENIX for a
-while and now the LF.
+I spend quite a bit of time working on elements of the block layer (especially NVMe), the RDMA stack and (more recently) the NVDIMM/PMEM/DAX sections of the kernel.
 
-I certainly wouldn't be in favour of turning LSF/MM into a corporate
-discussion forum ... that's what standards bodies are for.
+Cheers
 
-James
-
->  That includes but is not limited to companies like Oracle, Micron,
-> EMC, NetApp, HGST and also my own employer SanDisk (see e.g. 
-> http://www.nvmexpress.org/).
-> 
-> Thanks,
-> 
-> Bart.
-> _______________________________________________
-> Lsf-pc mailing list
-> Lsf-pc at lists.linux-foundation.org
-> https://lists.linuxfoundation.org/mailman/listinfo/lsf-pc
-> 
+Stephen
