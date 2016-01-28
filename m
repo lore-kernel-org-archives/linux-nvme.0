@@ -1,24 +1,24 @@
 From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Thu, 28 Jan 2016 15:53:05 +0200
-Subject: [LSF/MM ATTEND] dm-multipath, nvme, (remote) pmem and friends
-Message-ID: <56AA1D41.2060806@dev.mellanox.co.il>
+Date: Thu, 28 Jan 2016 16:48:16 +0200
+Subject: [PATCH 1/2] NVMe: Make surprise removal work again
+In-Reply-To: <20160127141931.GA19346@localhost.localdomain>
+References: <1453757017-13640-1-git-send-email-keith.busch@intel.com>
+ <56A8AE61.6070100@dev.mellanox.co.il>
+ <20160127141931.GA19346@localhost.localdomain>
+Message-ID: <56AA2A30.2040304@dev.mellanox.co.il>
 
-Hi,
 
-I'd like to attend LSF/MM 2016.
+>>>   		blk_mq_abort_requeue_list(ns->queue);
+>>> +		__nvme_start_queue_locked(ns);
+>>
+>> Why not making sure that all the pending requests are moved to
+>> the requeue list before we even get here? call nvme_cancel_io on
+>> pending requests which would either fail the requests (blk_queue_dying)
+>> or move them to the requeue list?
+>
+> That works only for active requests. There could be processes that entered
+> the queue and waiting for request tags to become available. These need
+> to be flushed to completion somehow ... maybe they shouldn't even succeed
+> in getting a request on a dying queue?
 
-I've been working on scsi rdma transports and the target stack for some
-time now. Lately I've been looking at nvme as well and I think I can
-contribute to the dm-multipath discussions in the context of nvme and
-blk-mq performance. If we plan to talk about nvme target then I think
-I can contribute to the discussion as well.
-
-In addition as an active contributor to the RDMA stack, I'm very
-interested in discussing the possibilities of remote access to
-persistent memory devices suggested by Chuck. I suspect we'll gradually
-see more and more applications utilizing such a model and it would be
-very beneficial if we can come up with something general enough for
-everyone to use.
-
-Cheers,
-Sagi.
+Isn't that what blk_mq_wake_waiters() is for?
