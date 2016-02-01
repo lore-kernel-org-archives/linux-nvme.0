@@ -1,13 +1,38 @@
-From: wenbo.wang@memblaze.com (Wenbo Wang)
-Date: Mon, 1 Feb 2016 16:36:00 +0000
-Subject: Is nvme_clear_queue() correct?
-Message-ID: <BJXPR01MB1993DAAA2A2F862E41AA849E0DE0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+From: axboe@fb.com (Jens Axboe)
+Date: Mon, 1 Feb 2016 09:54:13 -0700
+Subject: [PATCH] NVMe: do not touch sq door bell if nvmeq has been
+ suspended
+In-Reply-To: <1454341324-21273-1-git-send-email-mail_weber_wang@163.com>
+References: <1454341324-21273-1-git-send-email-mail_weber_wang@163.com>
+Message-ID: <56AF8DB5.70206@fb.com>
 
-Hi,
+On 02/01/2016 08:42 AM, Wenbo Wang wrote:
+> If __nvme_submit_cmd races with nvme_dev_disable, nvmeq
+> could have been suspended and dev->bar could have been
+> unmapped. Do not touch sq door bell in this case.
+>
+> Signed-off-by: Wenbo Wang <wenbo.wang at memblaze.com>
+> Reviewed-by: Wenwei Tao <wenwei.tao at memblaze.com>
+> CC: linux-nvme at lists.infradead.org
+> ---
+>   drivers/nvme/host/pci.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 8b1a725..2288712 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -325,7 +325,8 @@ static void __nvme_submit_cmd(struct nvme_queue *nvmeq,
+>
+>   	if (++tail == nvmeq->q_depth)
+>   		tail = 0;
+> -	writel(tail, nvmeq->q_db);
+> +	if (likely(nvmeq->cq_vector >= 0))
+> +		writel(tail, nvmeq->q_db);
+>   	nvmeq->sq_tail = tail;
 
-nvme_clear_queue() is invoked by nvme_dev_disable. It finds all inuse tags and cancels the corresponding requests. However, it seems to have some issues:
+What Keith said (this should not happen), and additionally, this won't 
+work for a polled CQ without a vector.
 
-1. Some requests might be in q->request_list, ctx->rq_list or hctx->dispatch. nvme_clear_queue does not remove them from these lists, it may cause problems.
-2. Some blk_mq_run_hw_queue might be running concurrently with nvme_dev_disable, they are not aware that the requests have been canceled.
-
-Looking forward to your comments. Thanks.
+-- 
+Jens Axboe
