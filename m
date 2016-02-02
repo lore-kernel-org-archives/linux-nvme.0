@@ -1,29 +1,115 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 2 Feb 2016 17:25:03 +0000
-Subject: [PATCH] NVMe: do not touch sq door bell if nvmeq has been
- suspended
-In-Reply-To: <BJXPR01MB19940BA759DBBADC6BF6BD2E0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
-References: <1454341324-21273-1-git-send-email-mail_weber_wang@163.com>
- <56AF8DB5.70206@fb.com>
- <BJXPR01MB19940BA759DBBADC6BF6BD2E0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
-Message-ID: <20160202172503.GC10728@localhost.localdomain>
+From: mark_jacobson@stackvelocity.com (Mark Jacobson)
+Date: Wed, 3 Feb 2016 00:31:22 +0100
+Subject: NVMe and IRQ Affinity
+Message-ID: <CACo6K_bSDJwt61mnKDpYvcXjCVA9UKGO17pythzcJ8Rnjh19sA@mail.gmail.com>
 
-On Tue, Feb 02, 2016@07:15:57AM +0000, Wenbo Wang wrote:
-> Jens,
-> 
-> I did the following test to validate the issue.
-> 
-> 1. Modify code as below to increase the chance of races.
-> 	Add 10s delay after nvme_dev_unmap() in nvme_dev_disable()
-> 	Add 10s delay before __nvme_submit_cmd()
+Hello there,
 
-If running sync IO, preempt is disabled. You can't just put a 10 second
-delay there. Wouldn't you hit a "scheduling while atomic" bug instead?
+I had a question regarding the NVMe driver and IRQ affinity. For
+context, I'm running Centos 7.1 with the 4.2.3-1.el7.elrepo.x86_64
+kernel on a system with two E5-2650 v3 CPUs.
 
-If blk-mq is running the h/w context from its work queue, that might
-be a different issue. Maybe we can change the "cancel_delayed_work" to
-"cancel_delayed_work_sync" in blk_mq_stop_hw_queues.
+I've been battling soft core lockups in a system with 24 NVMe drives
+and noticed that the drives I'm working with (Samsung PM953) will by
+default only route interrupts to CPU0 despite having affinity for all
+cores and I figured I'd ask here since that seemed like a driver
+issue.
 
-If there's still a window where blk-mq can insert a request after the
-driver requested to stop queues, I think we should try to close it with
-the block layer.
+I've tried adjusting the smp_affinity for the various IRQ handlers,
+but 1) That seems to essentially force (most of the) interrupts up to
+the higher MSI-X vectors that do still have CPU 0 available, and 2)
+there seems to be a huge performance hit swapping to another CPU (say
+CPU2).  Is this something that makes any kind of sense from a driver
+perspective? (I know high-speed NICs commonly distribute interrupts
+across many cores, so it doesn't seem normal to me.) Is there a newer
+kernel version that would help with this problem? Or barring any of
+that, does this seem like a hardware issue?
+
+(And yes, I realize eventually my IRQ masks should only point to cores
+associated with the NUMA node they're connected to. I've been ignoring
+that for debugging.)
+
+Trimmed interrupt table (forgive the many, many wraps) below. The
+spikes on cores on interrupt 159 are for when I forced interrupts away
+from CPU0 by masking off some of the lower order irq affinity bits.
+
+ 159:  145078914          0          0          0   11994376
+0          0          0    5139627          0          0          0
+      0          0          0          0          0          0
+ 0          0    2766162
+         0          0          0          0          0          0
+    0          0          0          0          0          0
+0          0          0          0          0          0          0
+IR-PCI-MSI 12058624-edge
+   nvme7q0, nvme7q1
+ 160:   12514715          0          0          0          0
+0          0          0          0          0          0          0
+      0          0          0          0          0          0
+ 0          0          0
+         0          0          0          0          0          0
+    0          0          0          0          0          0
+0          0          0          0          0          0          0
+IR-PCI-MSI 12058625-edge
+   nvme7q2
+ 161:     985758          0          0          0          0
+0          0          0          0          0          0          0
+      0          0          0          0          0          0
+ 0          0          0
+         0          0          0          0          0          0
+    0          0          0          0          0          0
+0          0          0          0          0          0          0
+IR-PCI-MSI 12058626-edge
+   nvme7q3
+ 162:    6155130          0          0          0          0
+0          0          0          0          0          0          0
+      0          0          0          0          0          0
+ 0          0          0
+         0          0          0          0          0          0
+    0          0          0          0          0          0
+0          0          0          0          0          0          0
+IR-PCI-MSI 12058627-edge
+   nvme7q4
+ 163:      61111          0          0          0          0
+0          0          0          0          0          0          0
+      0          0          0          0          0          0
+ 0          0          0
+         0          0          0          0          0          0
+    0          0          0          0          0          0
+0          0          0          0          0          0          0
+IR-PCI-MSI 12058628-edge
+   nvme7q5
+ 164:      53257          0          0          0          0
+0          0          0          0          0          0          0
+      0          0          0          0          0          0
+ 0          0          0
+         0          0          0          0          0          0
+    0          0          0          0          0          0
+0          0          0          0          0          0          0
+IR-PCI-MSI 12058629-edge
+   nvme7q6
+ 165:      52186          0          0          0          0
+0          0          0          0          0          0          0
+      0          0          0          0          0          0
+ 0          0          0
+         0          0          0          0          0          0
+    0          0          0          0          0          0
+0          0          0          0          0          0          0
+IR-PCI-MSI 12058630-edge
+   nvme7q7
+ 166:      28943          0          0          0          0
+0          0          0          0          0          0          0
+      0          0          0          0          0          0
+ 0          0          0
+         0          0          0          0          0          0
+    0          0          0          0          0          0
+0          0          0          0          0          0          0
+IR-PCI-MSI 12058631-edge
+   nvme7q8
+
+Any help would be appreciated!
+
+Thank you,
+
+Mark Jacobson
+Software Test Engineer
+Stack Velocity
