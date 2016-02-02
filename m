@@ -1,62 +1,73 @@
-From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Tue, 2 Feb 2016 14:41:37 +0200
-Subject: [PATCH] NVMe: do not touch sq door bell if nvmeq has been
- suspended
-In-Reply-To: <BJXPR01MB19940BA759DBBADC6BF6BD2E0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
-References: <1454341324-21273-1-git-send-email-mail_weber_wang@163.com>
- <56AF8DB5.70206@fb.com>
- <BJXPR01MB19940BA759DBBADC6BF6BD2E0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
-Message-ID: <56B0A401.30306@dev.mellanox.co.il>
+From: sagig@mellanox.com (Sagi Grimberg)
+Date: Tue,  2 Feb 2016 14:44:58 +0200
+Subject: [PATCH v1 2/3] nvme: Use blk-mq helper for IO termination
+In-Reply-To: <1454417099-19332-1-git-send-email-sagig@mellanox.com>
+References: <1454417099-19332-1-git-send-email-sagig@mellanox.com>
+Message-ID: <1454417099-19332-3-git-send-email-sagig@mellanox.com>
 
+blk-mq offers a tagset iterator so let's use that
+instead of using nvme_clear_queues.
 
-> Jens,
->
-> I did the following test to validate the issue.
->
-> 1. Modify code as below to increase the chance of races.
-> 	Add 10s delay after nvme_dev_unmap() in nvme_dev_disable()
-> 	Add 10s delay before __nvme_submit_cmd()
-> 2. Run dd and at the same time, echo 1 to reset_controller to trigger device reset. Finally kernel crashes due to accessing unmapped door bell register.
->
-> Following is the execution order of the two code paths:
-> __blk_mq_run_hw_queue
->    Test BLK_MQ_S_STOPPED
-> 					nvme_dev_disable()
-> 					     nvme_stop_queues()  <-- set BLK_MQ_S_STOPPED
-> 					     nvme_dev_unmap(dev)  <-- unmap door bell
->    nvme_queue_rq()
->        Touch door bell	<-- panic here
+Note, we changed nvme_queue_cancel_ios name to nvme_cancel_io
+as there is no concept of a queue now in this function (we
+also lost the print).
 
-First of all, I think we need to cancel all
-inflight requests before nvme_dev_unmap.
+Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Acked-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
 
-With my patches that move I/O termination to the
-nvme core ([PATCH v1 0/3] Move active IO termination to the core)
-the change needed is:
---
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e921165..2288bdb 100644
+index 6e80390d8bd5..7872dd884c6b 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1890,10 +1890,11 @@ static void nvme_dev_shutdown(struct nvme_dev *dev)
-                 nvme_shutdown_ctrl(&dev->ctrl);
-                 nvme_disable_queue(dev, 0);
-         }
--       nvme_dev_unmap(dev);
-
-         blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_io, dev);
-         blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_io, dev);
-+
-+       nvme_dev_unmap(dev);
-  }
-
-  static int nvme_setup_prp_pools(struct nvme_dev *dev)
---
-
-But still we need a way to wait out for all active
-queue_rq to end. It seems like we need to maintain
-the request_fn_active for blk-mq and provide an
-API (blk_mq_wait_for_active_requests ?) that waits for
-it to drop to zero.
-
-Thoughts?
+@@ -991,16 +991,15 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	return BLK_EH_RESET_TIMER;
+ }
+ 
+-static void nvme_cancel_queue_ios(struct request *req, void *data, bool reserved)
++static void nvme_cancel_io(struct request *req, void *data, bool reserved)
+ {
+-	struct nvme_queue *nvmeq = data;
++	struct nvme_dev *dev = data;
+ 	int status;
+ 
+ 	if (!blk_mq_request_started(req))
+ 		return;
+ 
+-	dev_warn(nvmeq->q_dmadev,
+-		 "Cancelling I/O %d QID %d\n", req->tag, nvmeq->qid);
++	dev_warn(dev->dev, "Cancelling I/O %d\n", req->tag);
+ 
+ 	status = NVME_SC_ABORT_REQ;
+ 	if (blk_queue_dying(req->q))
+@@ -1057,14 +1056,6 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
+ 	return 0;
+ }
+ 
+-static void nvme_clear_queue(struct nvme_queue *nvmeq)
+-{
+-	spin_lock_irq(&nvmeq->q_lock);
+-	if (nvmeq->tags && *nvmeq->tags)
+-		blk_mq_all_tag_busy_iter(*nvmeq->tags, nvme_cancel_queue_ios, nvmeq);
+-	spin_unlock_irq(&nvmeq->q_lock);
+-}
+-
+ static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
+ {
+ 	struct nvme_queue *nvmeq = dev->queues[0];
+@@ -1836,8 +1827,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	}
+ 	nvme_dev_unmap(dev);
+ 
+-	for (i = dev->queue_count - 1; i >= 0; i--)
+-		nvme_clear_queue(dev->queues[i]);
++	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_io, dev);
++	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_io, dev);
+ 	mutex_unlock(&dev->shutdown_lock);
+ }
+ 
+-- 
+1.8.4.3
