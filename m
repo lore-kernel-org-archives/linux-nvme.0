@@ -1,54 +1,18 @@
-From: sagig@mellanox.com (Sagi Grimberg)
-Date: Tue,  2 Feb 2016 14:44:59 +0200
-Subject: [PATCH v1 3/3] blk-mq: Make blk_mq_all_tag_busy_iter static
-In-Reply-To: <1454417099-19332-1-git-send-email-sagig@mellanox.com>
-References: <1454417099-19332-1-git-send-email-sagig@mellanox.com>
-Message-ID: <1454417099-19332-4-git-send-email-sagig@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 2 Feb 2016 14:27:57 +0000
+Subject: [PATCH] NVMe: do not touch sq door bell if nvmeq has been
+ suspended
+In-Reply-To: <56B0A401.30306@dev.mellanox.co.il>
+References: <1454341324-21273-1-git-send-email-mail_weber_wang@163.com>
+ <56AF8DB5.70206@fb.com>
+ <BJXPR01MB19940BA759DBBADC6BF6BD2E0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+ <56B0A401.30306@dev.mellanox.co.il>
+Message-ID: <20160202142756.GA10690@localhost.localdomain>
 
-No caller outside the blk-mq code so we can settle
-with it static.
+On Tue, Feb 02, 2016@02:41:37PM +0200, Sagi Grimberg wrote:
+> First of all, I think we need to cancel all
+> inflight requests before nvme_dev_unmap.
 
-Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
----
- block/blk-mq-tag.c     | 5 ++---
- include/linux/blk-mq.h | 2 --
- 2 files changed, 2 insertions(+), 5 deletions(-)
-
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index 39660ca8945b..be635faaeae8 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -464,15 +464,14 @@ static void bt_tags_for_each(struct blk_mq_tags *tags,
- 	}
- }
- 
--void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
--		void *priv)
-+static void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags,
-+		busy_tag_iter_fn *fn, void *priv)
- {
- 	if (tags->nr_reserved_tags)
- 		bt_tags_for_each(tags, &tags->breserved_tags, 0, fn, priv, true);
- 	bt_tags_for_each(tags, &tags->bitmap_tags, tags->nr_reserved_tags, fn, priv,
- 			false);
- }
--EXPORT_SYMBOL(blk_mq_all_tag_busy_iter);
- 
- void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
- 		busy_tag_iter_fn *fn, void *priv)
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index ecab7b2b6a06..60a19aaf51ad 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -238,8 +238,6 @@ void blk_mq_start_hw_queues(struct request_queue *q);
- void blk_mq_start_stopped_hw_queues(struct request_queue *q, bool async);
- void blk_mq_run_hw_queues(struct request_queue *q, bool async);
- void blk_mq_delay_queue(struct blk_mq_hw_ctx *hctx, unsigned long msecs);
--void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
--		void *priv);
- void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
- 		busy_tag_iter_fn *fn, void *priv);
- void blk_mq_freeze_queue(struct request_queue *q);
--- 
-1.8.4.3
+IO cancelling is where it is because it protects against host memory
+corruption. If you're going to mess with the ordering, just make sure
+the PCI device is disabled from bus mastering first.
