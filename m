@@ -1,27 +1,29 @@
-From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Tue, 2 Feb 2016 19:20:01 +0200
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 2 Feb 2016 17:25:03 +0000
 Subject: [PATCH] NVMe: do not touch sq door bell if nvmeq has been
  suspended
-In-Reply-To: <20160202144648.GA10728@localhost.localdomain>
+In-Reply-To: <BJXPR01MB19940BA759DBBADC6BF6BD2E0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
 References: <1454341324-21273-1-git-send-email-mail_weber_wang@163.com>
  <56AF8DB5.70206@fb.com>
  <BJXPR01MB19940BA759DBBADC6BF6BD2E0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
- <56B0A401.30306@dev.mellanox.co.il>
- <20160202142756.GA10690@localhost.localdomain>
- <56B0BE26.6070208@dev.mellanox.co.il>
- <20160202144648.GA10728@localhost.localdomain>
-Message-ID: <56B0E541.1000907@dev.mellanox.co.il>
+Message-ID: <20160202172503.GC10728@localhost.localdomain>
 
+On Tue, Feb 02, 2016@07:15:57AM +0000, Wenbo Wang wrote:
+> Jens,
+> 
+> I did the following test to validate the issue.
+> 
+> 1. Modify code as below to increase the chance of races.
+> 	Add 10s delay after nvme_dev_unmap() in nvme_dev_disable()
+> 	Add 10s delay before __nvme_submit_cmd()
 
-> We free the transfer buffers when a command is cancelled. The controller,
-> however, may still own the command and may try to write to them. We
-> have to fence the controller off from being able to do that, so we can't
-> cancel inflight commands while the PCI device is still bus master enabled.
->
-> In a perfect world, we could trust in disabling with NVMe registers,
-> but sometimes we can't rely on that.
+If running sync IO, preempt is disabled. You can't just put a 10 second
+delay there. Wouldn't you hit a "scheduling while atomic" bug instead?
 
-OK, I wasn't aware that we cannot rely on that.
+If blk-mq is running the h/w context from its work queue, that might
+be a different issue. Maybe we can change the "cancel_delayed_work" to
+"cancel_delayed_work_sync" in blk_mq_stop_hw_queues.
 
-So it looks like we cannot change the ordering. So this leaves us with
-the need to guarantee that no queue_rq is inflight before we unmap.
+If there's still a window where blk-mq can insert a request after the
+driver requested to stop queues, I think we should try to close it with
+the block layer.
