@@ -1,17 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 2 Feb 2016 16:49:15 +0000
-Subject: [PATCH v1 2/3] nvme: Use blk-mq helper for IO termination
-In-Reply-To: <BJXPR01MB1992E35D667BC3289F424CAE0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
-References: <1454417099-19332-1-git-send-email-sagig@mellanox.com>
- <1454417099-19332-3-git-send-email-sagig@mellanox.com>
- <BJXPR01MB1992E35D667BC3289F424CAE0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
-Message-ID: <20160202164915.GB10728@localhost.localdomain>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Tue, 2 Feb 2016 19:20:01 +0200
+Subject: [PATCH] NVMe: do not touch sq door bell if nvmeq has been
+ suspended
+In-Reply-To: <20160202144648.GA10728@localhost.localdomain>
+References: <1454341324-21273-1-git-send-email-mail_weber_wang@163.com>
+ <56AF8DB5.70206@fb.com>
+ <BJXPR01MB19940BA759DBBADC6BF6BD2E0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+ <56B0A401.30306@dev.mellanox.co.il>
+ <20160202142756.GA10690@localhost.localdomain>
+ <56B0BE26.6070208@dev.mellanox.co.il>
+ <20160202144648.GA10728@localhost.localdomain>
+Message-ID: <56B0E541.1000907@dev.mellanox.co.il>
 
-On Tue, Feb 02, 2016@04:32:33PM +0000, Wenbo Wang wrote:
-> If some requests are in q->request_list or ctx->rq_list, does nvme_cancel_io remove them from these lists? If not, will it cause any issue?
 
-It's fine to let them queue there if we expect to restart the
-controller. We're going to restart the queues shortly.
+> We free the transfer buffers when a command is cancelled. The controller,
+> however, may still own the command and may try to write to them. We
+> have to fence the controller off from being able to do that, so we can't
+> cancel inflight commands while the PCI device is still bus master enabled.
+>
+> In a perfect world, we could trust in disabling with NVMe registers,
+> but sometimes we can't rely on that.
 
-If we're about to kill the queue, blk-mq's timeout handler kills
-unstarted requests.
+OK, I wasn't aware that we cannot rely on that.
+
+So it looks like we cannot change the ordering. So this leaves us with
+the need to guarantee that no queue_rq is inflight before we unmap.
