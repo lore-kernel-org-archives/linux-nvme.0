@@ -1,34 +1,28 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  3 Feb 2016 09:05:43 -0700
-Subject: [PATCH 4/4] blk-mq: End unstarted requests on dying queue
+Date: Wed,  3 Feb 2016 09:05:41 -0700
+Subject: [PATCH 2/4] NVMe: Sync stopped queues with block layer
 In-Reply-To: <1454515543-21683-1-git-send-email-keith.busch@intel.com>
 References: <1454515543-21683-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1454515543-21683-5-git-send-email-keith.busch@intel.com>
+Message-ID: <1454515543-21683-3-git-send-email-keith.busch@intel.com>
 
-Go directly to ending a request if it wasn't started. Previously, completing a
-request may invoke a driver callback for a request it didn't initialize.
+Make sure no work will submit requests to a stopped h/w queue.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- block/blk-mq.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 4c0622f..56c0a72 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -599,8 +599,10 @@ static void blk_mq_check_expired(struct blk_mq_hw_ctx *hctx,
- 		 * If a request wasn't started before the queue was
- 		 * marked dying, kill it here or it'll go unnoticed.
- 		 */
--		if (unlikely(blk_queue_dying(rq->q)))
--			blk_mq_complete_request(rq, -EIO);
-+		if (unlikely(blk_queue_dying(rq->q))) {
-+			rq->errors = -EIO;
-+			blk_mq_end_request(rq, rq->errors);
-+		}
- 		return;
- 	}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c5bf001..9d415489 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1415,6 +1415,7 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl)
  
+ 		blk_mq_cancel_requeue_work(ns->queue);
+ 		blk_mq_stop_hw_queues(ns->queue);
++		blk_sync_queue(ns->queue);
+ 	}
+ 	mutex_unlock(&ctrl->namespaces_mutex);
+ }
 -- 
 2.6.2.307.g37023ba
