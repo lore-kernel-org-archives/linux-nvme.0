@@ -1,64 +1,65 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Wed, 3 Feb 2016 13:24:24 -0500
-Subject: dm-multipath low performance with blk-mq
-In-Reply-To: <20160203180406.GA11591@redhat.com>
-References: <20160125233717.GQ24960@octiron.msp.redhat.com>
- <20160126132939.GA23967@redhat.com>
- <56A8A6A8.9090003@dev.mellanox.co.il>
- <20160127174828.GA31802@redhat.com>
- <56A904B6.50407@dev.mellanox.co.il>
- <20160129233504.GA13661@redhat.com> <56AC79D0.5060104@suse.de>
- <20160130191238.GA18686@redhat.com> <56AEFF63.7050606@suse.de>
- <20160203180406.GA11591@redhat.com>
-Message-ID: <20160203182423.GA12913@redhat.com>
+From: azher@hep.caltech.edu (Azher Mughal)
+Date: Wed, 3 Feb 2016 10:31:45 -0800
+Subject: NVMe and IRQ Affinity
+In-Reply-To: <20160203143055.GA23910@localhost.localdomain>
+References: <CACo6K_bSDJwt61mnKDpYvcXjCVA9UKGO17pythzcJ8Rnjh19sA@mail.gmail.com>
+ <20160202234540.GA21046@localhost.localdomain>
+ <CACo6K_YGiH2ER4s21OzmD69LDL+ES0PO54jJ_efcSFw7pHADvQ@mail.gmail.com>
+ <20160202235818.GB21046@localhost.localdomain>
+ <CACo6K_Zry4303xcvjoqMCCnzmxAVrWgT1+JPWGqXObGu9LnU1g@mail.gmail.com>
+ <20160203143055.GA23910@localhost.localdomain>
+Message-ID: <56B24791.7040807@hep.caltech.edu>
 
-On Wed, Feb 03 2016 at  1:04pm -0500,
-Mike Snitzer <snitzer@redhat.com> wrote:
- 
-> I'm still not clear on where the considerable performance loss is coming
-> from (on null_blk device I see ~1900K read IOPs but I'm still only
-> seeing ~1000K read IOPs when blk-mq DM-multipath is layered ontop).
-> What is very much apparent is: layering dm-mq multipath ontop of null_blk
-> results in a HUGE amount of additional context switches.  I can only
-> infer that the request completion for this stacked device (blk-mq queue
-> ontop of blk-mq queue, with 2 completions: 1 for clone completing on
-> underlying device and 1 for original request completing) is the reason
-> for all the extra context switches.
+Hi Keith,
 
-Starts to explain, certainly not the "reason"; that is still very much
-TBD...
+I have similar affinity issues in CentOS 7.2. The nvme module is generic
+that came along with this distro. Is there a git repo which can be used
+with the kernel "3.10.0-327.4.5" ?
 
-> Here are pictures of 'perf report' for perf datat collected using
-> 'perf record -ag -e cs'.
-> 
-> Against null_blk:
-> http://people.redhat.com/msnitzer/perf-report-cs-null_blk.png
+Thanks
+-Azher
 
-if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=1
-  cpu          : usr=25.53%, sys=74.40%, ctx=1970, majf=0, minf=474
-if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=4
-  cpu          : usr=26.79%, sys=73.15%, ctx=2067, majf=0, minf=479
+# modinfo nvme
+filename:      
+/lib/modules/3.10.0-327.4.5.el7.x86_64/kernel/drivers/block/nvme.ko
+version:        1.0
+license:        GPL
+author:         Matthew Wilcox <willy at linux.intel.com>
+rhelversion:    7.2
+srcversion:     6FE34EC5F6A703F8EDE6C77
+alias:          pci:v*d*sv*sd*bc01sc08i02*
+depends:       
+intree:         Y
+vermagic:       3.10.0-327.4.5.el7.x86_64 SMP mod_unload modversions
+signer:         CentOS Linux kernel signing key
+sig_key:        10:5D:A1:3D:CA:AA:74:AE:50:00:17:E7:D5:2C:DA:9B:7C:C5:10:93
+sig_hashalgo:   sha256
+parm:           admin_timeout:timeout in seconds for admin commands (byte)
+parm:           io_timeout:timeout in seconds for I/O (byte)
+parm:           shutdown_timeout:timeout in seconds for controller
+shutdown (byte)
+parm:           nvme_major:int
+parm:           nvme_char_major:int
+parm:           use_threaded_interrupts:int
 
-> Against dm-mpath ontop of the same null_blk:
-> http://people.redhat.com/msnitzer/perf-report-cs-dm_mq.png
 
-if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=1
-  cpu          : usr=11.07%, sys=33.90%, ctx=667784, majf=0, minf=466
-if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=4
-  cpu          : usr=15.22%, sys=48.44%, ctx=2314901, majf=0, minf=466
-
-So yeah, the percentages reflected in these respective images didn't do
-the huge increase in context switches justice... we _must_ figure out
-why we're seeing so many context switches with dm-mq.
-
-The same fio job is ran to measure these context switches, e.g.:
-
-fio --cpus_allowed_policy=split --group_reporting --rw=randread --bs=4k
---numjobs=12 --iodepth=32 --runtime=10 --time_based --loops=1
---ioengine=libaio --direct=1 --invalidate=1 --randrepeat=1 --norandommap
---exitall --name task_nullb0 --filename=/dev/nullb0
-
-fio --cpus_allowed_policy=split --group_reporting --rw=randread --bs=4k
---numjobs=12 --iodepth=32 --runtime=10 --time_based --loops=1
---ioengine=libaio --direct=1 --invalidate=1 --randrepeat=1 --norandommap
---exitall --name task_dm_mq --filename=/dev/mapper/dm_mq
+On 2/3/2016 6:30 AM, Keith Busch wrote:
+> On Wed, Feb 03, 2016@01:13:23AM +0100, Mark Jacobson wrote:
+>> 1. When you say out-of-tree, do you mean a loadable kernel module?
+>> (My understanding is that the NVMe driver is now part of the mainline
+>> Linux kernel source tree, so I'm a bit confused as to where to nab
+>> that from.)
+> Yes, a loadable kernel module or a package that can build one. I am not
+> aware of any publicly available. Perhaps your vendor provides one.
+>
+>> 2. Does the upstream 4.4.1 kernel have any of these fixes if I were to
+>> build it myself with the appropriate support ticked off?
+> The 4.3 kernel has the fixes, and anything newer than that should also
+> work. I think it was just the 4.2 kernel that had this wrong (will see
+> if there's are any stable patch candidates).
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
