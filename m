@@ -1,37 +1,34 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  3 Feb 2016 09:05:39 -0700
-Subject: [PATCH 0/4] NVMe: Surprise removal fixes
-Message-ID: <1454515543-21683-1-git-send-email-keith.busch@intel.com>
+Date: Wed,  3 Feb 2016 09:05:43 -0700
+Subject: [PATCH 4/4] blk-mq: End unstarted requests on dying queue
+In-Reply-To: <1454515543-21683-1-git-send-email-keith.busch@intel.com>
+References: <1454515543-21683-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1454515543-21683-5-git-send-email-keith.busch@intel.com>
 
-First on the 'dd' experiements, I did not find kernel that "worked"
-as expected on a surprise removal. The IO process runs until SIGKILL
-is recieved. I don't think that's right, and it causes noticable system
-performance issues for unrelated tasks.
+Go directly to ending a request if it wasn't started. Previously, completing a
+request may invoke a driver callback for a request it didn't initialize.
 
-This series is just focusing on getting the driver to cleanup its part
-so it can unbind from a controller.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ block/blk-mq.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Earlier feedback suggested this functionality be in the block layer. I
-don't have the devices to test what happens with other drivers, and
-the desired sequence seems unique to NVMe. Maybe that's an indication
-that the driver's flow could benefit from some redesign, or maybe it's
-an artifact from having the controller and storage being the same device.
-
-In any case, I would like to isolate this fix to the NVMe driver in
-the interest of time, and flush out the block layer before the next
-merge window.
-
-Keith Busch (4):
-  NVMe: Fix io incapable return values
-  NVMe: Sync stopped queues with block layer
-  NVMe: Surprise removal fixes
-  blk-mq: End unstarted requests on dying queue
-
- block/blk-mq.c           |  6 ++++--
- drivers/nvme/host/core.c | 14 ++++++++------
- drivers/nvme/host/nvme.h |  4 ++--
- drivers/nvme/host/pci.c  | 14 ++++++++++++++
- 4 files changed, 28 insertions(+), 10 deletions(-)
-
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 4c0622f..56c0a72 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -599,8 +599,10 @@ static void blk_mq_check_expired(struct blk_mq_hw_ctx *hctx,
+ 		 * If a request wasn't started before the queue was
+ 		 * marked dying, kill it here or it'll go unnoticed.
+ 		 */
+-		if (unlikely(blk_queue_dying(rq->q)))
+-			blk_mq_complete_request(rq, -EIO);
++		if (unlikely(blk_queue_dying(rq->q))) {
++			rq->errors = -EIO;
++			blk_mq_end_request(rq, rq->errors);
++		}
+ 		return;
+ 	}
+ 
 -- 
 2.6.2.307.g37023ba
