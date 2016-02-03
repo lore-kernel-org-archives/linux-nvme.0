@@ -1,25 +1,39 @@
 From: wenbo.wang@memblaze.com (Wenbo Wang)
-Date: Wed, 3 Feb 2016 00:35:55 +0000
-Subject: [PATCH v1 2/3] nvme: Use blk-mq helper for IO termination
-In-Reply-To: <20160202164915.GB10728@localhost.localdomain>
-References: <1454417099-19332-1-git-send-email-sagig@mellanox.com>
- <1454417099-19332-3-git-send-email-sagig@mellanox.com>
- <BJXPR01MB1992E35D667BC3289F424CAE0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
- <20160202164915.GB10728@localhost.localdomain>
-Message-ID: <BJXPR01MB1999CBB2644C70CE07E4B28E0D00@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+Date: Wed, 3 Feb 2016 00:49:14 +0000
+Subject: [PATCH] NVMe: do not touch sq door bell if nvmeq has been
+ suspended
+In-Reply-To: <56B0E541.1000907@dev.mellanox.co.il>
+References: <1454341324-21273-1-git-send-email-mail_weber_wang@163.com>
+ <56AF8DB5.70206@fb.com>
+ <BJXPR01MB19940BA759DBBADC6BF6BD2E0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+ <56B0A401.30306@dev.mellanox.co.il>
+ <20160202142756.GA10690@localhost.localdomain>
+ <56B0BE26.6070208@dev.mellanox.co.il>
+ <20160202144648.GA10728@localhost.localdomain>
+ <56B0E541.1000907@dev.mellanox.co.il>
+Message-ID: <BJXPR01MB199FB54890F656169E92617E0D00@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
 
-After canceling these requests, the requests and tags are freed. If queues are restarted shortly, these already freed requests will be queue_rq again? This seems not correct.
+nvme interrupt handler touches cq door bell, so actually before unmap it must be taken care of too. Currently it checks cq_vector >= 0 to avoid touching unmapped door bell. 
+
+I think it is better to let queue_rq and interrupt handler use the same mechanism to detect unmap, by driver itself (e.g. cq_vector) or by block layer (e.g. a new API to guarantee no inflight IO under hw queue).
+
 
 -----Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Wednesday, February 3, 2016 12:49 AM
-To: Wenbo Wang
-Cc: Sagi Grimberg; Jens Axboe; linux-nvme at lists.infradead.org
-Subject: Re: [PATCH v1 2/3] nvme: Use blk-mq helper for IO termination
+From: Sagi Grimberg [mailto:sagig@dev.mellanox.co.il] 
+Sent: Wednesday, February 3, 2016 1:20 AM
+To: Keith Busch
+Cc: Wenbo Wang; Jens Axboe; Wenbo Wang; Wenwei.Tao; linux-kernel at vger.kernel.org; linux-nvme at lists.infradead.org
+Subject: Re: [PATCH] NVMe: do not touch sq door bell if nvmeq has been suspended
 
-On Tue, Feb 02, 2016@04:32:33PM +0000, Wenbo Wang wrote:
-> If some requests are in q->request_list or ctx->rq_list, does nvme_cancel_io remove them from these lists? If not, will it cause any issue?
 
-It's fine to let them queue there if we expect to restart the controller. We're going to restart the queues shortly.
+> We free the transfer buffers when a command is cancelled. The 
+> controller, however, may still own the command and may try to write to 
+> them. We have to fence the controller off from being able to do that, 
+> so we can't cancel inflight commands while the PCI device is still bus master enabled.
+>
+> In a perfect world, we could trust in disabling with NVMe registers, 
+> but sometimes we can't rely on that.
 
-If we're about to kill the queue, blk-mq's timeout handler kills unstarted requests.
+OK, I wasn't aware that we cannot rely on that.
+
+So it looks like we cannot change the ordering. So this leaves us with the need to guarantee that no queue_rq is inflight before we unmap.
