@@ -1,23 +1,53 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 3 Feb 2016 18:58:30 +0000
-Subject: NVMe and IRQ Affinity
-In-Reply-To: <56B24791.7040807@hep.caltech.edu>
-References: <CACo6K_bSDJwt61mnKDpYvcXjCVA9UKGO17pythzcJ8Rnjh19sA@mail.gmail.com>
- <20160202234540.GA21046@localhost.localdomain>
- <CACo6K_YGiH2ER4s21OzmD69LDL+ES0PO54jJ_efcSFw7pHADvQ@mail.gmail.com>
- <20160202235818.GB21046@localhost.localdomain>
- <CACo6K_Zry4303xcvjoqMCCnzmxAVrWgT1+JPWGqXObGu9LnU1g@mail.gmail.com>
- <20160203143055.GA23910@localhost.localdomain>
- <56B24791.7040807@hep.caltech.edu>
-Message-ID: <20160203185829.GA28747@localhost.localdomain>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Wed, 3 Feb 2016 14:22:57 -0500
+Subject: dm-multipath low performance with blk-mq
+In-Reply-To: <20160203182423.GA12913@redhat.com>
+References: <20160126132939.GA23967@redhat.com>
+ <56A8A6A8.9090003@dev.mellanox.co.il>
+ <20160127174828.GA31802@redhat.com>
+ <56A904B6.50407@dev.mellanox.co.il>
+ <20160129233504.GA13661@redhat.com> <56AC79D0.5060104@suse.de>
+ <20160130191238.GA18686@redhat.com> <56AEFF63.7050606@suse.de>
+ <20160203180406.GA11591@redhat.com>
+ <20160203182423.GA12913@redhat.com>
+Message-ID: <20160203192257.GA13076@redhat.com>
 
-On Wed, Feb 03, 2016@10:31:45AM -0800, Azher Mughal wrote:
-> I have similar affinity issues in CentOS 7.2. The nvme module is generic
-> that came along with this distro.
 
-Yes, it's the same issue.
+On Wed, Feb 03 2016 at  1:24pm -0500,
+Mike Snitzer <snitzer@redhat.com> wrote:
+ 
+> > Here are pictures of 'perf report' for perf datat collected using
+> > 'perf record -ag -e cs'.
+> > 
+> > Against null_blk:
+> > http://people.redhat.com/msnitzer/perf-report-cs-null_blk.png
+> 
+> if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=1
+>   cpu          : usr=25.53%, sys=74.40%, ctx=1970, majf=0, minf=474
+> if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=4
+>   cpu          : usr=26.79%, sys=73.15%, ctx=2067, majf=0, minf=479
+> 
+> > Against dm-mpath ontop of the same null_blk:
+> > http://people.redhat.com/msnitzer/perf-report-cs-dm_mq.png
+> 
+> if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=1
+>   cpu          : usr=11.07%, sys=33.90%, ctx=667784, majf=0, minf=466
+> if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=4
+>   cpu          : usr=15.22%, sys=48.44%, ctx=2314901, majf=0, minf=466
 
-> Is there a git repo which can be used
-> with the kernel "3.10.0-327.4.5" ?
+I promise, this is my last reply to myself ;)
 
-Not that I know of.
+The above dm-mq results were _without_ using this commit:
+"dm: don't blk_mq_run_hw_queues in blk-mq request completion"
+https://git.kernel.org/cgit/linux/kernel/git/device-mapper/linux-dm.git/commit/?h=dm-4.6&id=cc6ca783e8f0669112c5f4154f51a7cb17b76006
+
+But with that commit I'm still seeing the high context switches:
+
+if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=1
+   cpu          : usr=11.78%, sys=36.11%, ctx=690262, majf=0, minf=470
+if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=4
+  cpu          : usr=15.62%, sys=49.95%, ctx=2425084, majf=0, minf=466
+
+So running blk_mq_run_hw_queues (async to punt to kblockd) on dm-mq
+request completion isn't the source of any of the accounted context
+switches...
