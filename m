@@ -1,12 +1,26 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 4 Feb 2016 15:52:22 +0000
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Thu, 4 Feb 2016 17:55:05 +0200
 Subject: [PATCH 0/4] NVMe: Surprise removal fixes
-In-Reply-To: <BJXPR01MB1997AE807A93FA2EBB32076E0D10@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+In-Reply-To: <1454515543-21683-1-git-send-email-keith.busch@intel.com>
 References: <1454515543-21683-1-git-send-email-keith.busch@intel.com>
- <BJXPR01MB1997AE807A93FA2EBB32076E0D10@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
-Message-ID: <20160204155221.GC28747@localhost.localdomain>
+Message-ID: <56B37459.3080602@dev.mellanox.co.il>
 
-On Thu, Feb 04, 2016@03:25:50AM +0000, Wenbo Wang wrote:
-> Isn't the dd behavior correct? For non-direct dd, even if a surprise remove happened, it simply keeps dirtying the page cache and is not aware of any errors below.
+Hi Keith,
 
-Try it with a usb drive. It ends with ENOSPC error.
+> Earlier feedback suggested this functionality be in the block layer. I
+> don't have the devices to test what happens with other drivers, and
+> the desired sequence seems unique to NVMe.
+
+Umm, it actually isn't. I think this is what all the block drivers
+want.
+
+> Maybe that's an indication
+> that the driver's flow could benefit from some redesign, or maybe it's
+> an artifact from having the controller and storage being the same device.
+>
+> In any case, I would like to isolate this fix to the NVMe driver in
+> the interest of time, and flush out the block layer before the next
+> merge window.
+
+I'm fine with that. But we definitely want to avoid the queue_rq
+conditional in the long run...
