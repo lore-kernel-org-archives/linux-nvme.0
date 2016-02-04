@@ -1,40 +1,31 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Thu, 4 Feb 2016 09:09:59 -0500
-Subject: dm-multipath low performance with blk-mq
-In-Reply-To: <56B358EE.6000007@suse.de>
-References: <56A904B6.50407@dev.mellanox.co.il>
- <20160129233504.GA13661@redhat.com> <56AC79D0.5060104@suse.de>
- <20160130191238.GA18686@redhat.com> <56AEFF63.7050606@suse.de>
- <20160203180406.GA11591@redhat.com>
- <20160203182423.GA12913@redhat.com> <56B2F5BC.1010700@suse.de>
- <20160204135420.GA18227@redhat.com> <56B358EE.6000007@suse.de>
-Message-ID: <20160204140959.GA18328@redhat.com>
+From: wenbo.wang@memblaze.com (Wenbo Wang)
+Date: Thu, 4 Feb 2016 14:28:24 +0000
+Subject: [PATCH v1 2/3] nvme: Use blk-mq helper for IO termination
+In-Reply-To: <20160203012638.GC21046@localhost.localdomain>
+References: <1454417099-19332-1-git-send-email-sagig@mellanox.com>
+ <1454417099-19332-3-git-send-email-sagig@mellanox.com>
+ <BJXPR01MB1992E35D667BC3289F424CAE0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+ <20160202164915.GB10728@localhost.localdomain>
+ <BJXPR01MB1999CBB2644C70CE07E4B28E0D00@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+ <20160203012638.GC21046@localhost.localdomain>
+Message-ID: <BJXPR01MB19990484665533561B21DB3E0D10@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
 
-On Thu, Feb 04 2016 at  8:58am -0500,
-Hannes Reinecke <hare@suse.de> wrote:
+Is the following execution valid?
 
-> On 02/04/2016 02:54 PM, Mike Snitzer wrote:
-> > On Thu, Feb 04 2016 at  1:54am -0500,
-> > Hannes Reinecke <hare@suse.de> wrote:
-> > 
-> [ .. ]
-> >> But anyway, I'll be looking at your patches.
-> > 
-> > Thanks, sadly none of the patches are going to fix the performance
-> > problems but I do think they are a step forward.
-> > 
-> Hmm. I've got a slew of patches converting dm-mpath to use atomic_t
-> and bitops; with that we should be able to move to rcu for path
-> lookup and do away with most of the locking.
-> Quite raw, though; drop me a mail if you're interested.
+1. request A is linked in q->request_list
+2. device reset
+3. all requests (including request A) are cancelled by nvme_dev_disable()->nvme_clear_queue()
+4. device restarted
+5. flush q->request_list, and request A is again running in queue_rq.         <-- since request A has been cancelled, it shall not be running again
 
-Hmm, ok I just switched m->lock from spinlock_t to rwlock_t, see:
-https://git.kernel.org/cgit/linux/kernel/git/device-mapper/linux-dm.git/commit/?h=dm-4.6&id=a5226e23a6958ac9b7ade13a983604c43d232c7d
+-----Original Message-----
+From: Keith Busch [mailto:keith.busch@intel.com] 
+Sent: Wednesday, February 3, 2016 9:27 AM
+To: Wenbo Wang
+Cc: Sagi Grimberg; Jens Axboe; linux-nvme at lists.infradead.org
+Subject: Re: [PATCH v1 2/3] nvme: Use blk-mq helper for IO termination
 
-So any patch you'd have in this area would need rebasing.  I'll gladly
-look at what you have (even if it isn't rebased).  So yes please share.
+On Wed, Feb 03, 2016@12:35:55AM +0000, Wenbo Wang wrote:
+> After canceling these requests, the requests and tags are freed. If queues are restarted shortly, these already freed requests will be queue_rq again? This seems not correct.
 
-(it could be that there isn't a big enough win associated with switching
-to rwlock_t -- that we could get away without doing that particular
-churn.. open to that if you think rwlock_t pointless given we'll take
-the write lock after repeat_count drops to 0)
+That's not true. We only set DNR if the queue is dead. Otherwise the requests are eligible for requeuing if they haven't exceeded total time.
