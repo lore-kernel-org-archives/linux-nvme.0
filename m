@@ -1,53 +1,37 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Wed, 3 Feb 2016 14:22:57 -0500
-Subject: dm-multipath low performance with blk-mq
-In-Reply-To: <20160203182423.GA12913@redhat.com>
-References: <20160126132939.GA23967@redhat.com>
- <56A8A6A8.9090003@dev.mellanox.co.il>
- <20160127174828.GA31802@redhat.com>
- <56A904B6.50407@dev.mellanox.co.il>
- <20160129233504.GA13661@redhat.com> <56AC79D0.5060104@suse.de>
- <20160130191238.GA18686@redhat.com> <56AEFF63.7050606@suse.de>
- <20160203180406.GA11591@redhat.com>
- <20160203182423.GA12913@redhat.com>
-Message-ID: <20160203192257.GA13076@redhat.com>
+From: wenbo.wang@memblaze.com (Wenbo Wang)
+Date: Thu, 4 Feb 2016 03:25:50 +0000
+Subject: [PATCH 0/4] NVMe: Surprise removal fixes
+In-Reply-To: <1454515543-21683-1-git-send-email-keith.busch@intel.com>
+References: <1454515543-21683-1-git-send-email-keith.busch@intel.com>
+Message-ID: <BJXPR01MB1997AE807A93FA2EBB32076E0D10@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
 
+Isn't the dd behavior correct? For non-direct dd, even if a surprise remove happened, it simply keeps dirtying the page cache and is not aware of any errors below.
 
-On Wed, Feb 03 2016 at  1:24pm -0500,
-Mike Snitzer <snitzer@redhat.com> wrote:
- 
-> > Here are pictures of 'perf report' for perf datat collected using
-> > 'perf record -ag -e cs'.
-> > 
-> > Against null_blk:
-> > http://people.redhat.com/msnitzer/perf-report-cs-null_blk.png
-> 
-> if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=1
->   cpu          : usr=25.53%, sys=74.40%, ctx=1970, majf=0, minf=474
-> if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=4
->   cpu          : usr=26.79%, sys=73.15%, ctx=2067, majf=0, minf=479
-> 
-> > Against dm-mpath ontop of the same null_blk:
-> > http://people.redhat.com/msnitzer/perf-report-cs-dm_mq.png
-> 
-> if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=1
->   cpu          : usr=11.07%, sys=33.90%, ctx=667784, majf=0, minf=466
-> if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=4
->   cpu          : usr=15.22%, sys=48.44%, ctx=2314901, majf=0, minf=466
+-----Original Message-----
+From: Keith Busch [mailto:keith.busch@intel.com] 
+Sent: Thursday, February 4, 2016 12:06 AM
+To: linux-nvme at lists.infradead.org; Jens Axboe
+Cc: Christoph Hellwig; Sagi Grimberg; Wenbo Wang; Keith Busch
+Subject: [PATCH 0/4] NVMe: Surprise removal fixes
 
-I promise, this is my last reply to myself ;)
+First on the 'dd' experiements, I did not find kernel that "worked"
+as expected on a surprise removal. The IO process runs until SIGKILL is recieved. I don't think that's right, and it causes noticable system performance issues for unrelated tasks.
 
-The above dm-mq results were _without_ using this commit:
-"dm: don't blk_mq_run_hw_queues in blk-mq request completion"
-https://git.kernel.org/cgit/linux/kernel/git/device-mapper/linux-dm.git/commit/?h=dm-4.6&id=cc6ca783e8f0669112c5f4154f51a7cb17b76006
+This series is just focusing on getting the driver to cleanup its part so it can unbind from a controller.
 
-But with that commit I'm still seeing the high context switches:
+Earlier feedback suggested this functionality be in the block layer. I don't have the devices to test what happens with other drivers, and the desired sequence seems unique to NVMe. Maybe that's an indication that the driver's flow could benefit from some redesign, or maybe it's an artifact from having the controller and storage being the same device.
 
-if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=1
-   cpu          : usr=11.78%, sys=36.11%, ctx=690262, majf=0, minf=470
-if dm-mq nr_hw_queues=1 and null_blk nr_hw_queues=4
-  cpu          : usr=15.62%, sys=49.95%, ctx=2425084, majf=0, minf=466
+In any case, I would like to isolate this fix to the NVMe driver in the interest of time, and flush out the block layer before the next merge window.
 
-So running blk_mq_run_hw_queues (async to punt to kblockd) on dm-mq
-request completion isn't the source of any of the accounted context
-switches...
+Keith Busch (4):
+  NVMe: Fix io incapable return values
+  NVMe: Sync stopped queues with block layer
+  NVMe: Surprise removal fixes
+  blk-mq: End unstarted requests on dying queue
+
+ block/blk-mq.c           |  6 ++++--
+ drivers/nvme/host/core.c | 14 ++++++++------  drivers/nvme/host/nvme.h |  4 ++--  drivers/nvme/host/pci.c  | 14 ++++++++++++++
+ 4 files changed, 28 insertions(+), 10 deletions(-)
+
+--
+2.6.2.307.g37023ba
