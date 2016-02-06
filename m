@@ -1,121 +1,59 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Fri, 5 Feb 2016 14:19:10 -0500
-Subject: [RFC PATCH] dm: fix excessive dm-mq context switching
-In-Reply-To: <20160205180515.GA25808@redhat.com>
-References: <20160129233504.GA13661@redhat.com> <56AC79D0.5060104@suse.de>
- <20160130191238.GA18686@redhat.com> <56AEFF63.7050606@suse.de>
- <20160203180406.GA11591@redhat.com>
- <20160203182423.GA12913@redhat.com> <56B2F5BC.1010700@suse.de>
- <20160204135420.GA18227@redhat.com>
- <20160205151334.GA82754@redhat.com>
- <20160205180515.GA25808@redhat.com>
-Message-ID: <20160205191909.GA25982@redhat.com>
+From: wenbo.wang@memblaze.com (Wenbo Wang)
+Date: Sat, 6 Feb 2016 14:32:24 +0000
+Subject: [PATCH] NVMe: do not touch sq door bell if nvmeq has been
+ suspended
+In-Reply-To: <20160203163808.GC23910@localhost.localdomain>
+References: <1454341324-21273-1-git-send-email-mail_weber_wang@163.com>
+ <56AF8DB5.70206@fb.com>
+ <BJXPR01MB19940BA759DBBADC6BF6BD2E0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+ <20160203144123.GB23910@localhost.localdomain>
+ <BJXPR01MB1992FFD0706FCD368F5AD16E0D00@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+ <20160203163808.GC23910@localhost.localdomain>
+Message-ID: <BJXPR01MB19916231021454BD8731EBDE0D30@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
 
-On Fri, Feb 05 2016 at  1:05pm -0500,
-Mike Snitzer <snitzer@redhat.com> wrote:
+Keith,
 
-> On Fri, Feb 05 2016 at 10:13am -0500,
-> Mike Snitzer <snitzer@redhat.com> wrote:
->  
-> > Following is RFC because it really speaks to dm-mq _needing_ a variant
-> > of blk_mq_complete_request() that supports partial completions.  Not
-> > supporting partial completions really isn't an option for DM multipath.
-> > 
-> > From: Mike Snitzer <snitzer at redhat.com>
-> > Date: Fri, 5 Feb 2016 08:49:01 -0500
-> > Subject: [RFC PATCH] dm: fix excessive dm-mq context switching
-> > 
-> > Request-based DM's blk-mq support (dm-mq) was reported to be 50% slower
-> > than if an underlying null_blk device were used directly.  This biggest
-> > reason for this drop in performance is that blk_insert_clone_request()
-> > was calling blk_mq_insert_request() with @async=true.  This forced the
-> > use of kblockd_schedule_delayed_work_on() to run the queues which
-> > ushered in ping-ponging between process context (fio in this case) and
-> > kblockd's kworker to submit the cloned request.  The ftrace
-> > function_graph tracer showed:
-> > 
-> >   kworker-2013  =>   fio-12190
-> >   fio-12190    =>  kworker-2013
-> >   ...
-> >   kworker-2013  =>   fio-12190
-> >   fio-12190    =>  kworker-2013
-> >   ...
-> > 
-> > Fixing blk_mq_insert_request() to _not_ use kblockd to submit the cloned
-> > requests isn't enough to fix eliminated the oberved context switches.
-> > 
-> > In addition to this dm-mq specific blk-core fix, there were 2 DM core
-> > fixes to dm-mq that (when paired with the blk-core fix) completely
-> > eliminate the observed context switching:
-> > 
-> > 1)  don't blk_mq_run_hw_queues in blk-mq request completion
-> > 
-> >     Motivated by desire to reduce overhead of dm-mq, punting to kblockd
-> >     just increases context switches.
-> > 
-> >     In my testing against a really fast null_blk device there was no benefit
-> >     to running blk_mq_run_hw_queues() on completion (and no other blk-mq
-> >     driver does this).  So hopefully this change doesn't induce the need for
-> >     yet another revert like commit 621739b00e16ca2d !
-> > 
-> > 2)  use blk_mq_complete_request() in dm_complete_request()
-> > 
-> >     blk_complete_request() doesn't offer the traditional q->mq_ops vs
-> >     .request_fn branching pattern that other historic block interfaces
-> >     do (e.g. blk_get_request).  Using blk_mq_complete_request() for
-> >     blk-mq requests is important for performance but it doesn't handle
-> >     partial completions -- which is a pretty big problem given the
-> >     potential for partial completions with DM multipath due to path
-> >     failure(s).  As such this makes this entire patch only RFC-worthy.
-> 
-> > diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-> > index c683f6d..a618477 100644
-> > --- a/drivers/md/dm.c
-> > +++ b/drivers/md/dm.c
-> > @@ -1344,7 +1340,10 @@ static void dm_complete_request(struct request *rq, int error)
-> >  	struct dm_rq_target_io *tio = tio_from_request(rq);
-> >  
-> >  	tio->error = error;
-> > -	blk_complete_request(rq);
-> > +	if (!rq->q->mq_ops)
-> > +		blk_complete_request(rq);
-> > +	else
-> > +		blk_mq_complete_request(rq, rq->errors);
-> >  }
-> >  
-> >  /*
-> 
-> Looking closer, DM is very likely OK just using blk_mq_complete_request.
-> 
-> blk_complete_request() also doesn't provide native partial completion
-> support (it relies on the driver to do it, which DM core does):
-> 
-> /**
->  * blk_complete_request - end I/O on a request
->  * @req:      the request being processed
->  *
->  * Description:
->  *     Ends all I/O on a request. It does not handle partial completions,
->  *     unless the driver actually implements this in its completion callback
->  *     through requeueing. The actual completion happens out-of-order,
->  *     through a softirq handler. The user must have registered a completion
->  *     callback through blk_queue_softirq_done().
->  **/
-> 
-> blk_mq_complete_request() is effectively implemented in a comparable
-> fashion to blk_complete_request().  Given that DM core is providing
-> partial completion support by dm.c:end_clone_bio() triggering requeueing
-> of the request via dm-mpath.c:multipath_end_io()'s return of
-> DM_ENDIO_REQUEUE.
-> 
-> So I'm thinking I can drop the "RFC" for this patch and run with
-> it.. once I get Jens' feedback (hopefully) confirming my understanding.
-> 
-> Jens, please advise.  If you're comfortable providing your Acked-by I
-> can get this fix in for 4.5-rc4 or so...
+Is the following solution OK?
+synchronize_rcu guarantee that no queue_rq is running concurrently with device disable code. Together with your another patch (adding blk_sync_queue), both sync/async path shall be handled correctly.
 
-FYI, here is the latest revised patch:
-https://git.kernel.org/cgit/linux/kernel/git/device-mapper/linux-dm.git/commit/?h=dm-4.6&id=a5b835282422ec41991c1dbdb88daa4af7d166d2
+Do you think synchronize_rcu shall be added to blk_sync_queue?
 
-(revised patch header and fixed a thinko in the dm.c:rq_completed()
-change from the RFC patch I posted earlier)
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 4c0622f..bfe9132 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -865,7 +865,9 @@ void blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx, bool async)
+        if (!async) {
+                int cpu = get_cpu();
+                if (cpumask_test_cpu(cpu, hctx->cpumask)) {
++                       rcu_read_lock();
+                        __blk_mq_run_hw_queue(hctx);
++                       rcu_read_unlock();
+                        put_cpu();
+                        return;
+                }
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 8b1a725..d1e5e63 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1861,6 +1861,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+                nvme_disable_io_queues(dev);
+                nvme_disable_admin_queue(dev, shutdown);
+        }
++       synchronize_rcu();
+        nvme_dev_unmap(dev);
+
+        for (i = dev->queue_count - 1; i >= 0; i--)
+
+-----Original Message-----
+From: Keith Busch [mailto:keith.busch@intel.com] 
+Sent: Thursday, February 4, 2016 12:38 AM
+To: Wenbo Wang
+Cc: Jens Axboe; Wenbo Wang; linux-kernel at vger.kernel.org; linux-nvme at lists.infradead.org; Wenwei.Tao
+Subject: Re: [PATCH] NVMe: do not touch sq door bell if nvmeq has been suspended
+
+On Wed, Feb 03, 2016@04:35:03PM +0000, Wenbo Wang wrote:
+> For async io (executed by run_work worker) it should work. However for sync io in blk_mq_run_hw_queue, this seems not help, there is still a window.
+
+Alright, for lack of a better way to sync a stopped queue, the driver's indication looks like the best we can do at this point.
