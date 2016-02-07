@@ -1,232 +1,107 @@
-From: mike@fireburn.co.uk (Mike Lothian)
-Date: Sun, 7 Feb 2016 16:43:35 +0000
-Subject: NVME Issues with Suspend
-In-Reply-To: <CAHbf0-GDmbx3xO+Kmb8y8X-41TxnaetQ=k4FR-NonMZoL-U2UA@mail.gmail.com>
-References: <CAHbf0-GSRV+SH4FvDj8_gfLFjEO+_KUBXZQ2VKjrFzszwcY-ww@mail.gmail.com>
- <CAHbf0-GDmbx3xO+Kmb8y8X-41TxnaetQ=k4FR-NonMZoL-U2UA@mail.gmail.com>
-Message-ID: <CAHbf0-GWxOd2E+yPu9L_EXYHfJ_7C02=ybXYwkHnCw_6dPzj4A@mail.gmail.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Sun, 7 Feb 2016 11:53:40 -0500
+Subject: [RFC PATCH] dm: fix excessive dm-mq context switching
+In-Reply-To: <56B77444.3030106@dev.mellanox.co.il>
+References: <20160203180406.GA11591@redhat.com>
+ <20160203182423.GA12913@redhat.com> <56B2F5BC.1010700@suse.de>
+ <20160204135420.GA18227@redhat.com>
+ <20160205151334.GA82754@redhat.com>
+ <20160205180515.GA25808@redhat.com>
+ <20160205191909.GA25982@redhat.com>
+ <56B7659C.8040601@dev.mellanox.co.il>
+ <56B772D6.2090403@sandisk.com>
+ <56B77444.3030106@dev.mellanox.co.il>
+Message-ID: <20160207165340.GA6298@redhat.com>
 
-Hi
+On Sun, Feb 07 2016 at 11:43am -0500,
+Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
 
-I just thought I'd pop in an update
+> 
+> >Hello Sagi,
+> 
+> Hey Bart,
+> 
+> >Did you run your test on a NUMA system ?
+> 
+> I did.
+> 
+> >If so, can you check with e.g.
+> >perf record -ags -e LLC-load-misses sleep 10 && perf report whether this
+> >workload triggers perhaps lock contention ? What you need to look for in
+> >the perf output is whether any functions occupy more than 10% CPU time.
+> 
+> I will, thanks for the tip!
 
-I've just managed to fix this by changing my PCIe options in my kernel config
+Also, I found ftrace's function_graph tracer very helpful (it is how I
+found the various issues fixed by the first context switch patch).  Here
+is my latest script:
 
-The problem showed up with:
+#!/bin/sh
 
-[*] PCI support
+set -xv
 
-      ? ?
- ? ?
-           [*]   Support mmconfig PCI config space access
+NULL_BLK_HW_QUEUES=4
+NULL_BLK_QUEUE_DEPTH=4096
 
-                 ? ?
- ? ?
-           [*]   PCI Express Port Bus support
+DM_MQ_HW_QUEUES=4
+DM_MQ_QUEUE_DEPTH=2048
 
-                 ? ?
- ? ?
-           [*]     PCI Express Hotplug driver
+FIO=/root/snitm/git/fio/fio
+FIO_QUEUE_DEPTH=32
+FIO_RUNTIME=10
+FIO_NUMJOBS=12
 
-                 ? ?
- ? ?
-           [*]     Root Port Advanced Error Reporting support
+PERF=perf
+#PERF=/root/snitm/git/linux/tools/perf/perf
 
-                 ? ?
- ? ?
-           [*]       PCI Express ECRC settings control
+run_fio() {
+    DEVICE=$1
+    TASK_NAME=$(basename ${DEVICE})
+    PERF_RECORD=$2
+    RUN_CMD="${FIO} --cpus_allowed_policy=split --group_reporting --rw=randread --bs=4k --numjobs=${FIO_NUMJOBS} \
+              --iodepth=${FIO_QUEUE_DEPTH} --runtime=${FIO_RUNTIME} --time_based --loops=1 --ioengine=libaio \
+              --direct=1 --invalidate=1 --randrepeat=1 --norandommap --exitall --name task_${TASK_NAME} --filename=${DEVICE}"
 
-                 ? ?
- ? ?
-           < >       PCIe AER error injector support
+    if [ ! -z "${PERF_RECORD}" ]; then
+    ${PERF_RECORD} ${RUN_CMD}
+    mv perf.data perf.data.${TASK_NAME}
+    else
+    ${RUN_CMD}
+    fi
+}
 
-                 ? ?
- ? ?
-           -*-     PCI Express ASPM control
+run_fio_with_ftrace() {
+    DEVICE=$1
+    TASK_NAME=$(basename ${DEVICE})
 
-                 ? ?
- ? ?
-           [ ]       Debug PCI Express ASPM
+    echo > /sys/kernel/debug/tracing/trace
+    echo 0 > /sys/kernel/debug/tracing/tracing_on
+    echo function_graph > /sys/kernel/debug/tracing/current_tracer
+    echo 1 > /sys/kernel/debug/tracing/tracing_on
+    run_fio $DEVICE
+    echo 0 > /sys/kernel/debug/tracing/tracing_on
+    cat /sys/kernel/debug/tracing/trace > trace.${TASK_NAME}
+    echo nop > /sys/kernel/debug/tracing/current_tracer
+}
 
-                 ? ?
- ? ?
-                     Default ASPM policy (BIOS default)  --->
+dmsetup remove dm_mq
+modprobe -r null_blk
 
-                 ? ?
- ? ?
-           [*]   Message Signaled Interrupts (MSI and MSI-X)
+modprobe null_blk gb=4 bs=512 hw_queue_depth=${NULL_BLK_QUEUE_DEPTH} nr_devices=1 queue_mode=2 irqmode=1 completion_nsec=1 submit_queues=${NULL_BLK_HW_QUEUES}
+#run_fio /dev/nullb0 "${PERF} record -ag -e cs"
+#run_fio /dev/nullb0 "${PERF} stat"
 
-                 ? ?
- ? ?
-           [ ]   PCI Debugging
+echo Y > /sys/module/dm_mod/parameters/use_blk_mq
+echo ${DM_MQ_QUEUE_DEPTH} > /sys/module/dm_mod/parameters/blk_mq_queue_depth
+echo ${DM_MQ_HW_QUEUES} > /sys/module/dm_mod/parameters/blk_mq_nr_hw_queues
+echo "0 8388608 multipath 0 0 1 1 service-time 0 1 2 /dev/nullb0 1000 1" | dmsetup create dm_mq
+#echo "0 8388608 linear /dev/nullb0 0" | dmsetup create dm_mq
 
-                 ? ?
- ? ?
-           [*]   Enable PCI resource re-allocation detection
+run_fio_with_ftrace /dev/mapper/dm_mq
 
-                 ? ?
- ? ?
-           < >   PCI Stub driver
+#run_fio /dev/mapper/dm_mq
+#run_fio /dev/mapper/dm_mq "${PERF} record -ag -e cs"
+#run_fio /dev/mapper/dm_mq "${PERF} record -ag"
+#run_fio /dev/mapper/dm_mq "${PERF} stat"
 
-                 ? ?
- ? ?
-           [*]   Interrupts on hypertransport devices
-
-                 ? ?
- ? ?
-           [ ] PCI IOV support
-
-                 ? ?
- ? ?
-           [*] PCI PRI support
-
-                 ? ?
- ? ?
-           -*- PCI PASID support
-
-                 ? ?
- ? ?
-               PCI host controller drivers  ----
-
-                 ? ?
- ? ?
-           < > PCCard (PCMCIA/CardBus) support  ----
-
-                 ? ?
- ? ?
-           [*] Support for PCI Hotplug  --->
-
-                 ? ?
- ? ?
-           < > RapidIO support
-
-                 ? ?
-
-
-This is what I have now:
-
-[*] PCI support
-
-      ? ?
- ? ?
-           [*]   Support mmconfig PCI config space access
-
-                 ? ?
- ? ?
-           [*]   PCI Express Port Bus support
-
-                 ? ?
- ? ?
-           [ ]     Root Port Advanced Error Reporting support
-
-                 ? ?
- ? ?
-           -*-     PCI Express ASPM control
-
-                 ? ?
- ? ?
-           [ ]       Debug PCI Express ASPM
-
-                 ? ?
- ? ?
-                     Default ASPM policy (BIOS default)  --->
-
-                 ? ?
- ? ?
-           [*]   Message Signaled Interrupts (MSI and MSI-X)
-
-                 ? ?
- ? ?
-           [*]   PCI Debugging
-
-                 ? ?
- ? ?
-           [ ]   Enable PCI resource re-allocation detection
-
-                 ? ?
- ? ?
-           < >   PCI Stub driver
-
-                 ? ?
- ? ?
-           [*]   Interrupts on hypertransport devices
-
-                 ? ?
- ? ?
-           [ ] PCI IOV support
-
-                 ? ?
- ? ?
-           [ ] PCI PRI support
-
-                 ? ?
- ? ?
-           [ ] PCI PASID support
-
-                 ? ?
- ? ?
-               PCI host controller drivers  ----
-
-                 ? ?
- ? ?
-           < > PCCard (PCMCIA/CardBus) support  ----
-
-                 ? ?
- ? ?
-           [ ] Support for PCI Hotplug  ----
-
-                 ? ?
- ? ?
-           < > RapidIO support
-
-So I guess the problem probably lies either in the PCIe subsystem or
-something it interacts with in the "bios"
-
-On 25 January 2016@01:30, Mike Lothian <mike@fireburn.co.uk> wrote:
-> Hi
->
-> I managed to capture the dmesg by copying the dmesg and sync binaries
-> to a usb disk and executing and writing to there after the suspend
->
-> I hope this helps in some way and I'll happily raise a proper bug if
-> you tell me which product / component I should use for nvme
->
-> I also tried disabling IOMMU but that had no affect
->
-> Cheers
->
-> Mike
->
-> On 23 January 2016@17:02, Mike Lothian <mike@fireburn.co.uk> wrote:
->> Hi
->>
->> I currently have a 3 partition NVME setup, however when I suspend and
->> resume my laptop the drive isn't re-initialised correctly, the console
->> is filled with access errors and I can't run any commands as they
->> can't be found. After hard rebooting my machine sometimes it can't
->> find the GPD partition and I have to use testdisk to restore the
->> partition table
->>
->> I have an Alienware 15 laptop with a 1TB NVME harddisk running kernel
->> 4.5-rc0. As I don't suspend my laptop often I'm not sure if this is a
->> regression brought in from the merge window or an existing issue
->>
->> I can bisect if needed
->>
->> 3e:00.0 Non-Volatile memory controller [0108]: Samsung Electronics Co
->> Ltd Device [144d:a802] (rev 01)
->>        Subsystem: Samsung Electronics Co Ltd Device a801
->>        Kernel driver in use: nvme
->>
->> [    1.050096]  nvme0n1: p1 p2 p3
->>
->> I was going to submit a bug on bugzilla.kernel.org but I wasn't sure
->> which Product / Component it should be filed under
->>
->> I haven't figured out a good way of collecting logs when the system
->> stops responding so please let me know if you know how I can collect
->> logs - I don't think SSH sessions survive suspend / resume cycles
->>
->> Thanks
->>
->> Mike
+#run_fio /dev/mapper/dm_mq "trace-cmd record -e all"
