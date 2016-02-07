@@ -1,36 +1,43 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Sun, 7 Feb 2016 12:20:56 -0500
-Subject: [RFC PATCH] dm: fix excessive dm-mq context switching
-In-Reply-To: <56B776DE.30101@dev.mellanox.co.il>
-References: <20160203182423.GA12913@redhat.com> <56B2F5BC.1010700@suse.de>
- <20160204135420.GA18227@redhat.com>
- <20160205151334.GA82754@redhat.com>
- <20160205180515.GA25808@redhat.com>
- <20160205191909.GA25982@redhat.com>
- <56B7659C.8040601@dev.mellanox.co.il>
- <56B772D6.2090403@sandisk.com>
- <56B77444.3030106@dev.mellanox.co.il>
- <56B776DE.30101@dev.mellanox.co.il>
-Message-ID: <20160207172055.GA6477@redhat.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Sun, 7 Feb 2016 15:28:55 -0700
+Subject: complete boot failure in 4.5-rc1 caused by nvme: make SG_IO
+ support optional
+In-Reply-To: <1454861040.2329.4.camel@HansenPartnership.com>
+References: <1454783624.2809.6.camel@HansenPartnership.com>
+ <20160207092241.GA15331@lst.de>
+ <1454861040.2329.4.camel@HansenPartnership.com>
+Message-ID: <56B7C527.6050300@kernel.dk>
 
-On Sun, Feb 07 2016 at 11:54am -0500,
-Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
+On 02/07/2016 09:04 AM, James Bottomley wrote:
+> On Sun, 2016-02-07@10:22 +0100, Christoph Hellwig wrote:
+>> Keith said it should be on by default, and I promised him to change
+>> it once we run into problems, which I guess this counts as.
+>>
+>> But just curious:  what distro are you using?  Upstream systemd
+>> explicitly rejected using scsi_id for NVMe here:
+>>
+>> 	https://github.com/systemd/systemd/issues/1453
+>>
+>> and all my test systems don't do this either.
+>
+> This was SUSE (in my case, openSUSE Leap).  I just checked the source
+> package; they patch the by-id rules back in for NVME:
+>
+> # PATCH-FIX-SUSE 1101-rules-persistent-device-names-for-NVMe-devices.patch (bsc#944132)
+> Patch1101:      1101-rules-persistent-device-names-for-NVMe-devices.patch
+>
+> The bugzilla is giving access denied for bug id 944132, so it's likely
+> some proprietary vendor problem.  The patch has no preamble, so it's
+> hard to tell what they were thinking.
 
-> 
-> >>If so, can you check with e.g.
-> >>perf record -ags -e LLC-load-misses sleep 10 && perf report whether this
-> >>workload triggers perhaps lock contention ? What you need to look for in
-> >>the perf output is whether any functions occupy more than 10% CPU time.
-> >
-> >I will, thanks for the tip!
-> 
-> The perf report is very similar to the one that started this effort..
-> 
-> I'm afraid we'll need to resolve the per-target m->lock in order
-> to scale with NUMA...
+I run root-on-nvme on my laptop, and I haven't observed any problems. 
+Generally I hate for options to default y unless absolutely necessary, 
+it's a sure fire way to feature creep your kernel without noticing. I 
+don't think getting all hot about this issue is fair, if the only known 
+case is suse.
 
-Could be.  Just for testing, you can try the 2 topmost commits I've put
-here (once applied both __multipath_map and multipath_busy won't have
-_any_ locking.. again, very much test-only):
+If anything, let's make the description better. It's trying to be funny, 
+it'd be better if it was descriptive and covered this case as well.
 
-http://git.kernel.org/cgit/linux/kernel/git/snitzer/linux.git/log/?h=devel2
+-- 
+Jens Axboe
