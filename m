@@ -1,103 +1,59 @@
-From: bhelgaas@google.com (Bjorn Helgaas)
-Date: Mon, 8 Feb 2016 07:51:13 -0600
-Subject: [Bug 112121] New: Some PCIe options cause devices to be removed
- after syspend
-In-Reply-To: <bug-112121-41252@https.bugzilla.kernel.org/>
-References: <bug-112121-41252@https.bugzilla.kernel.org/>
-Message-ID: <CAErSpo4beDk_ajsgqMUNJ3TGxDv=ysyPzhXHcx2AhUEUE9ROKA@mail.gmail.com>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Mon, 8 Feb 2016 09:34:00 -0500
+Subject: [RFC PATCH] dm: fix excessive dm-mq context switching
+In-Reply-To: <56B88867.4060308@dev.mellanox.co.il>
+References: <20160204135420.GA18227@redhat.com>
+ <20160205151334.GA82754@redhat.com>
+ <20160205180515.GA25808@redhat.com>
+ <20160205191909.GA25982@redhat.com>
+ <56B7659C.8040601@dev.mellanox.co.il>
+ <56B772D6.2090403@sandisk.com>
+ <56B77444.3030106@dev.mellanox.co.il>
+ <56B776DE.30101@dev.mellanox.co.il>
+ <20160207172055.GA6477@redhat.com>
+ <56B88867.4060308@dev.mellanox.co.il>
+Message-ID: <20160208143359.GA12132@redhat.com>
 
-[+cc linux-pci, NVMe folks,  power management folks]
+On Mon, Feb 08 2016 at  7:21am -0500,
+Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
 
-On Sun, Feb 7, 2016@11:04 AM,  <bugzilla-daemon@bugzilla.kernel.org> wrote:
-> https://bugzilla.kernel.org/show_bug.cgi?id=112121
->
->             Bug ID: 112121
->            Summary: Some PCIe options cause devices to be removed after
->                     syspend
->            Product: Drivers
->            Version: 2.5
->     Kernel Version: 4.5-rc2
->           Hardware: All
->                 OS: Linux
->               Tree: Mainline
->             Status: NEW
->           Severity: normal
->           Priority: P1
->          Component: PCI
->           Assignee: drivers_pci at kernel-bugs.osdl.org
->           Reporter: mike at fireburn.co.uk
->         Regression: No
->
-> Created attachment 203091
->   --> https://bugzilla.kernel.org/attachment.cgi?id=203091&action=edit
-> Dmesg showing PCIe device removals
->
-> I was having issues with suspend, when the machine was being resumed iommu
-> started removing devices - including my PCIe NVMe drive which contained my root
-> partition
->
-> The problem showed up with:
->
-> [*] PCI support
-> [*]   Support mmconfig PCI config space access
-> [*]   PCI Express Port Bus support
-> [*]     PCI Express Hotplug driver
-> [*]     Root Port Advanced Error Reporting support
-> [*]       PCI Express ECRC settings control
-> < >       PCIe AER error injector support
-> -*-     PCI Express ASPM control
-> [ ]       Debug PCI Express ASPM
->           Default ASPM policy (BIOS default)  --->
-> [*]   Message Signaled Interrupts (MSI and MSI-X)
-> [ ]   PCI Debugging
-> [*]   Enable PCI resource re-allocation detection
-> < >   PCI Stub driver
-> [*]   Interrupts on hypertransport devices
-> [ ] PCI IOV support
-> [*] PCI PRI support
-> -*- PCI PASID support
->     PCI host controller drivers  ----
-> < > PCCard (PCMCIA/CardBus) support  ----
-> [*] Support for PCI Hotplug  --->
-> < > RapidIO support
->
->
-> This is what I have now:
->
-> [*] PCI support
-> [*]   Support mmconfig PCI config space access
-> [*]   PCI Express Port Bus support
-> [ ]     Root Port Advanced Error Reporting support
-> -*-     PCI Express ASPM control
-> [ ]       Debug PCI Express ASPM
->           Default ASPM policy (BIOS default)  --->
-> [*]   Message Signaled Interrupts (MSI and MSI-X)
-> [*]   PCI Debugging
-> [ ]   Enable PCI resource re-allocation detection
-> < >   PCI Stub driver
-> [*]   Interrupts on hypertransport devices
-> [ ] PCI IOV support
-> [ ] PCI PRI support
-> [ ] PCI PASID support
->     PCI host controller drivers  ----
-> < > PCCard (PCMCIA/CardBus) support  ----
-> [ ] Support for PCI Hotplug  ----
-> < > RapidIO support
->
-> I tried disabling the iommu driver first but it had no effect
->
-> If people are interested I could play with the above options to see which one
-> causes the issue
+> 
+> >>The perf report is very similar to the one that started this effort..
+> >>
+> >>I'm afraid we'll need to resolve the per-target m->lock in order
+> >>to scale with NUMA...
+> >
+> >Could be.  Just for testing, you can try the 2 topmost commits I've put
+> >here (once applied both __multipath_map and multipath_busy won't have
+> >_any_ locking.. again, very much test-only):
+> >
+> >http://git.kernel.org/cgit/linux/kernel/git/snitzer/linux.git/log/?h=devel2
+> 
+> Hi Mike,
+> 
+> So I still don't see the IOPs scale like I expected. With these two
+> patches applied I see ~670K IOPs while the perf output is different
+> and does not indicate a clear lock contention.
 
-My guess is that PCI hotplug is the important one.  It would be nice
-if dmesg contained enough information to connect nvme0n1 to a PCI
-device.  It'd be even nicer if the PCI core noted device removals or
-whatever happened here.
+Right, perf (with default events) isn't the right tool to track this down.
 
-You don't get any more details if you boot with "ignore_loglevel", do you?
+But I'm seeing something that speaks to you not running with the first
+context switching fix (which seems odd):
 
-Mike, you didn't mark this as a regression, so I assume it's always
-been this way, and we just haven't noticed it because most people
-enable PCI hotplug (or whatever the relevant config option is).
+> -   2.07%      ksoftirqd/6  [kernel.kallsyms]        [k]
+> blk_mq_run_hw_queues
+>    - blk_mq_run_hw_queues
+>       - 99.70% rq_completed
+>            dm_done
+>            dm_softirq_done
+>            blk_done_softirq
+>          + __do_softirq
 
-Bjorn
+As you can see here:
+https://git.kernel.org/cgit/linux/kernel/git/device-mapper/linux-dm.git/commit/?h=for-next&id=a5b835282422ec41991c1dbdb88daa4af7d166d2
+
+rq_completed() shouldn't be calling blk_mq_run_hw_queues() with the
+latest code.
+
+Please triple check you have the latest code, e.g.:
+git diff snitzer/devel2
