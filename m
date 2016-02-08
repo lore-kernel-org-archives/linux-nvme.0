@@ -1,27 +1,37 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 8 Feb 2016 16:15:59 +0000
-Subject: complete boot failure in 4.5-rc1 caused by nvme: make SG_IO
- support optional
-In-Reply-To: <56B8B1F1.4070605@suse.de>
-References: <1454783624.2809.6.camel@HansenPartnership.com>
- <20160207092241.GA15331@lst.de>
- <1454861040.2329.4.camel@HansenPartnership.com>
- <56B7C527.6050300@kernel.dk>
- <1454886441.2329.27.camel@HansenPartnership.com>
- <56B8448A.3000106@suse.de> <56B8676C.20600@dev.mellanox.co.il>
- <20160208101350.GA32632@lst.de>
- <20160208151258.GB25111@localhost.localdomain>
- <56B8B1F1.4070605@suse.de>
-Message-ID: <20160208161559.GC25111@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon,  8 Feb 2016 19:07:36 +0100
+Subject: [PATCH] nvme: fix drvdata setup for the nvme device
+Message-ID: <1454954856-32236-1-git-send-email-hch@lst.de>
 
-On Mon, Feb 08, 2016@04:19:13PM +0100, Hannes Reinecke wrote:
-> Ok, so what about having a 'wwid' attribute which provides combined
-> information (like scsi has)?
+See http://www.infradead.org/rpr.html
 
-That looks like the sensible thing to do. Thanks for pointer.
+Pass the right private data to device_create_with_groups from the
+beginning, and remove the superflous call to dev_set_drvdata.
 
-Going forward, I will solicite more feedback from scsi developers
-so NVMe's external attributes better align with storage that already
-solved our issues. I agree with Christoph that we never should have
-relied on SCSI translations for NVMe, but we don't want to reinvent
-generic solutions either.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/core.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c5bf001..c326931 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1383,14 +1383,13 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 
+ 	ctrl->device = device_create_with_groups(nvme_class, ctrl->dev,
+ 				MKDEV(nvme_char_major, ctrl->instance),
+-				dev, nvme_dev_attr_groups,
++				ctrl, nvme_dev_attr_groups,
+ 				"nvme%d", ctrl->instance);
+ 	if (IS_ERR(ctrl->device)) {
+ 		ret = PTR_ERR(ctrl->device);
+ 		goto out_release_instance;
+ 	}
+ 	get_device(ctrl->device);
+-	dev_set_drvdata(ctrl->device, ctrl);
+ 
+ 	spin_lock(&dev_list_lock);
+ 	list_add_tail(&ctrl->node, &nvme_ctrl_list);
+-- 
+2.1.4
