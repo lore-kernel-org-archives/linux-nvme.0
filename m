@@ -1,16 +1,22 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Mon, 8 Feb 2016 12:28:48 -0700
-Subject: [PATCH 2/2] NVMe: Fix possible queue use after freed
-In-Reply-To: <1450397295-24031-2-git-send-email-keith.busch@intel.com>
-References: <1450397295-24031-1-git-send-email-keith.busch@intel.com>
- <1450397295-24031-2-git-send-email-keith.busch@intel.com>
-Message-ID: <20160208192848.GA8151@localhost.localdomain>
+From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
+Date: Mon, 8 Feb 2016 20:47:42 +0100
+Subject: [PATCH] nvme: return the whole CQE through the request
+ passthrough interface
+In-Reply-To: <1454954988-32306-2-git-send-email-hch@lst.de>
+References: <1454954988-32306-1-git-send-email-hch@lst.de>
+ <1454954988-32306-2-git-send-email-hch@lst.de>
+Message-ID: <56B8F0DE.5090808@bjorling.me>
 
-Hi Jens,
+>   		req = blk_mq_tag_to_rq(*nvmeq->tags, cqe.command_id);
+> -		if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
+> -			u32 result = le32_to_cpu(cqe.result);
+> -			req->special = (void *)(uintptr_t)result;
+> -		}
+> +		if (req->cmd_type == REQ_TYPE_DRV_PRIV && req->special)
+> +			memcpy(req->special, &cqe, sizeof(cqe));
 
-This set was acked a while back by Christoph and reviewed by me.
-I just tested it again and it still works well against 4.5-rc3.
+Thanks for sending the patch.
 
-Is there any chance we can get this in for 4.6?
-
-Cheers
+When LightNVM send asynchronous data commands, it would need to allocate 
+extra memory for cqe. Would it make sense to pass cqe directly and 
+assume that it is live through the blk_mq_complete_request call?
