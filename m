@@ -1,59 +1,25 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Mon, 8 Feb 2016 09:34:00 -0500
-Subject: [RFC PATCH] dm: fix excessive dm-mq context switching
-In-Reply-To: <56B88867.4060308@dev.mellanox.co.il>
-References: <20160204135420.GA18227@redhat.com>
- <20160205151334.GA82754@redhat.com>
- <20160205180515.GA25808@redhat.com>
- <20160205191909.GA25982@redhat.com>
- <56B7659C.8040601@dev.mellanox.co.il>
- <56B772D6.2090403@sandisk.com>
- <56B77444.3030106@dev.mellanox.co.il>
- <56B776DE.30101@dev.mellanox.co.il>
- <20160207172055.GA6477@redhat.com>
- <56B88867.4060308@dev.mellanox.co.il>
-Message-ID: <20160208143359.GA12132@redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 8 Feb 2016 15:01:33 +0000
+Subject: [PATCH] NVMe: do not touch sq door bell if nvmeq has been
+ suspended
+In-Reply-To: <BJXPR01MB19916231021454BD8731EBDE0D30@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+References: <1454341324-21273-1-git-send-email-mail_weber_wang@163.com>
+ <56AF8DB5.70206@fb.com>
+ <BJXPR01MB19940BA759DBBADC6BF6BD2E0DF0@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+ <20160203144123.GB23910@localhost.localdomain>
+ <BJXPR01MB1992FFD0706FCD368F5AD16E0D00@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+ <20160203163808.GC23910@localhost.localdomain>
+ <BJXPR01MB19916231021454BD8731EBDE0D30@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+Message-ID: <20160208150132.GA25111@localhost.localdomain>
 
-On Mon, Feb 08 2016 at  7:21am -0500,
-Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
-
+On Sat, Feb 06, 2016@02:32:24PM +0000, Wenbo Wang wrote:
+> Keith,
 > 
-> >>The perf report is very similar to the one that started this effort..
-> >>
-> >>I'm afraid we'll need to resolve the per-target m->lock in order
-> >>to scale with NUMA...
-> >
-> >Could be.  Just for testing, you can try the 2 topmost commits I've put
-> >here (once applied both __multipath_map and multipath_busy won't have
-> >_any_ locking.. again, very much test-only):
-> >
-> >http://git.kernel.org/cgit/linux/kernel/git/snitzer/linux.git/log/?h=devel2
+> Is the following solution OK?
+> synchronize_rcu guarantee that no queue_rq is running concurrently with device disable code. Together with your another patch (adding blk_sync_queue), both sync/async path shall be handled correctly.
 > 
-> Hi Mike,
-> 
-> So I still don't see the IOPs scale like I expected. With these two
-> patches applied I see ~670K IOPs while the perf output is different
-> and does not indicate a clear lock contention.
+> Do you think synchronize_rcu shall be added to blk_sync_queue?
 
-Right, perf (with default events) isn't the right tool to track this down.
-
-But I'm seeing something that speaks to you not running with the first
-context switching fix (which seems odd):
-
-> -   2.07%      ksoftirqd/6  [kernel.kallsyms]        [k]
-> blk_mq_run_hw_queues
->    - blk_mq_run_hw_queues
->       - 99.70% rq_completed
->            dm_done
->            dm_softirq_done
->            blk_done_softirq
->          + __do_softirq
-
-As you can see here:
-https://git.kernel.org/cgit/linux/kernel/git/device-mapper/linux-dm.git/commit/?h=for-next&id=a5b835282422ec41991c1dbdb88daa4af7d166d2
-
-rq_completed() shouldn't be calling blk_mq_run_hw_queues() with the
-latest code.
-
-Please triple check you have the latest code, e.g.:
-git diff snitzer/devel2
+I was nearly going to suggest the same last week, but it feels wrong since
+no one takes rcu_read_lock in the path we're trying to sychronoize. Is
+this safe if the task is interrupted?
