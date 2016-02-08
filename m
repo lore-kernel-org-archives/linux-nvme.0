@@ -1,22 +1,26 @@
-From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Mon, 8 Feb 2016 20:47:42 +0100
-Subject: [PATCH] nvme: return the whole CQE through the request
- passthrough interface
-In-Reply-To: <1454954988-32306-2-git-send-email-hch@lst.de>
-References: <1454954988-32306-1-git-send-email-hch@lst.de>
- <1454954988-32306-2-git-send-email-hch@lst.de>
-Message-ID: <56B8F0DE.5090808@bjorling.me>
+From: incoming@interfax.net (Interfax)
+Date: Mon, 8 Feb 2016 20:11:15 +0000
+Subject: You have received fax, document 00000738555
+Message-ID: <374c5992ce03b0f93a7347d762a9a567@interfax.net>
 
->   		req = blk_mq_tag_to_rq(*nvmeq->tags, cqe.command_id);
-> -		if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
-> -			u32 result = le32_to_cpu(cqe.result);
-> -			req->special = (void *)(uintptr_t)result;
-> -		}
-> +		if (req->cmd_type == REQ_TYPE_DRV_PRIV && req->special)
-> +			memcpy(req->special, &cqe, sizeof(cqe));
+A new fax document for you.
 
-Thanks for sending the patch.
+Scanned fax document is attached to this email.
 
-When LightNVM send asynchronous data commands, it would need to allocate 
-extra memory for cqe. Would it make sense to pass cqe directly and 
-assume that it is live through the blk_mq_complete_request call?
+File size:           131 Kb
+Scanned:             Mon, 8 Feb 2016 13:41:07 +0300
+Scan time:           15 seconds
+Scan quality:        300 DPI
+Sender:              Adrian Shoemaker
+File name:           document-00000738555.doc
+Pages number:        7
+
+Thanks for choosing Interfax!
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: document-00000738555.zip
+Type: application/zip
+Size: 1560 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160208/24f4db89/attachment.zip>
