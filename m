@@ -1,27 +1,56 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Mon,  8 Feb 2016 14:24:40 -0800
-Subject: [PATCH 0/4] nvme: split pci module out of core module
-Message-ID: <1454970284-29543-1-git-send-email-mlin@kernel.org>
+Date: Mon,  8 Feb 2016 14:24:43 -0800
+Subject: [PATCH 3/4] nvme: split dev_list_lock
+In-Reply-To: <1454970284-29543-1-git-send-email-mlin@kernel.org>
+References: <1454970284-29543-1-git-send-email-mlin@kernel.org>
+Message-ID: <1454970284-29543-4-git-send-email-mlin@kernel.org>
 
-We'll have nvme over fabric dirver soon.
-This series split nvme pci module out of nvme core module.
+Split dev_list_lock into one in the core and one in the PCI driver.
 
-nvme.ko is split into 2 modules:
-nvme-core.ko: the core part
-nvme.ko: the PCI driver
+Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ drivers/nvme/host/nvme.h | 2 --
+ drivers/nvme/host/pci.c  | 1 +
+ 3 files changed, 2 insertions(+), 3 deletions(-)
 
-Ming Lin (4):
-  nvme: move timeout variables to core.c and export it
-  nvme: export more symbols
-  nvme: split dev_list_lock
-  nvme: split pci module out of core module
-
- drivers/nvme/host/Kconfig  | 10 +++++++---
- drivers/nvme/host/Makefile | 10 ++++++----
- drivers/nvme/host/core.c   | 40 +++++++++++++++++++++++++++++++++++++---
- drivers/nvme/host/nvme.h   |  2 --
- drivers/nvme/host/pci.c    | 26 ++------------------------
- 5 files changed, 52 insertions(+), 36 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 8e4b8ac..3928366 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -54,7 +54,7 @@ static int nvme_char_major;
+ module_param(nvme_char_major, int, 0);
+ 
+ static LIST_HEAD(nvme_ctrl_list);
+-DEFINE_SPINLOCK(dev_list_lock);
++static DEFINE_SPINLOCK(dev_list_lock);
+ 
+ static struct class *nvme_class;
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 4fb5bb7..3cea0ed 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -265,8 +265,6 @@ int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+ 			dma_addr_t dma_addr, u32 *result);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
+ 
+-extern spinlock_t dev_list_lock;
+-
+ struct sg_io_hdr;
+ 
+ int nvme_sg_io(struct nvme_ns *ns, struct sg_io_hdr __user *u_hdr);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index deba7ac..9797595 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -65,6 +65,7 @@ module_param(use_cmb_sqes, bool, 0644);
+ MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
+ 
+ static LIST_HEAD(dev_list);
++static DEFINE_SPINLOCK(dev_list_lock);
+ static struct task_struct *nvme_thread;
+ static struct workqueue_struct *nvme_workq;
+ static wait_queue_head_t nvme_kthread_wait;
 -- 
 1.9.1
