@@ -1,39 +1,19 @@
-From: dmonakhov@openvz.org (Dmitry Monakhov)
-Date: Mon, 08 Feb 2016 12:00:22 +0300
-Subject: [LSF/MM ATTEND] ext4, DAX pmem/fsync
-Message-ID: <87lh6vwp95.fsf@openvz.org>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Mon, 8 Feb 2016 12:01:16 +0200
+Subject: complete boot failure in 4.5-rc1 caused by nvme: make SG_IO
+ support optional
+In-Reply-To: <56B8448A.3000106@suse.de>
+References: <1454783624.2809.6.camel@HansenPartnership.com>
+ <20160207092241.GA15331@lst.de>
+ <1454861040.2329.4.camel@HansenPartnership.com> <56B7C527.6050300@kernel.dk>
+ <1454886441.2329.27.camel@HansenPartnership.com> <56B8448A.3000106@suse.de>
+Message-ID: <56B8676C.20600@dev.mellanox.co.il>
 
 
+> Do we have defined sysfs attributes for NVMe devices nowadays?
 
-I would like to attend LSF/MM 2016 to participate in discussions around
-the optimization of the block and MM for low latency NVM technologies.
-Primary target of interests is to improving DAX performance for general
-purpose FS.
-While working on LightVM project (approach lighter that traditional VM, but more
-secure that containers) we found that existing DAX infrastructure is too
-far from optimum:
-0) DAX msync/fsync patch-set is has a lot in TODO list
-1) DAX implementation has number of significant SMP scalability issues.
+/sys/block/nvme0n1/uuid
 
-I would like to attend LSF/MM this year. I believe I could contribute to the
-following discussions:
+> If so I'd be willing to create/send some sysfs rules for them.
 
-*  Block & Filesystem interface from Steven Whitehouse
-http://www.spinics.net/lists/linux-fsdevel/msg93552.html
-
-* Persistent memory: pmem as storage device vs pmem as memory from Dan Williams
-https://lists.01.org/pipermail/linux-nvdimm/2016-February/004331.html
-
-* Persistent Memory Error Handling from Jeff Moyer:
-http://www.spinics.net/lists/linux-mm/msg100560.html
-
-* FS block allocator modification for SMR Zoned Block Devices
-
-* EXT4-mini sumit
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 472 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160208/74eaf1a4/attachment-0001.sig>
+That'd be great!
