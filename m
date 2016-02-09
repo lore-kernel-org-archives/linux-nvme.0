@@ -1,36 +1,21 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Tue, 09 Feb 2016 10:26:45 -0800
-Subject: [PATCH 4/4] nvme: split pci module out of core module
-In-Reply-To: <20160209085656.GJ27969@c203.arch.suse.de>
-References: <1454970284-29543-1-git-send-email-mlin@kernel.org>
- <1454970284-29543-5-git-send-email-mlin@kernel.org>
- <20160209085656.GJ27969@c203.arch.suse.de>
-Message-ID: <1455042405.8832.4.camel@ssi>
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 9 Feb 2016 12:39:52 -0700
+Subject: [PATCH 2/2] NVMe: Fix possible queue use after freed
+In-Reply-To: <20160208192848.GA8151@localhost.localdomain>
+References: <1450397295-24031-1-git-send-email-keith.busch@intel.com>
+ <1450397295-24031-2-git-send-email-keith.busch@intel.com>
+ <20160208192848.GA8151@localhost.localdomain>
+Message-ID: <56BA4088.40001@fb.com>
 
-On Tue, 2016-02-09@09:56 +0100, Johannes Thumshirn wrote:
-> On Mon, Feb 08, 2016@02:24:44PM -0800, Ming Lin wrote:
-> > This splits nvme.ko into 2 modules:
-> > nvme-core.ko: the core part
-> > nvme.ko: the PCI driver
-> > 
-> > Also changes config name:
-> > s/CONFIG_BLK_DEV_NVME/CONFIG_NVME_PCI
-> > s/CONFIG_BLK_DEV_NVME_SCSI/CONFIG_NVME_SCSI
-> 
-> Is there any auto-migration for those who already have CONFIG_BLK_DEV_NVME set
-> in their kernel configs? If not, this could lead to a bunch of non-booting
-> systems.
+On 02/08/2016 12:28 PM, Jon Derrick wrote:
+> Hi Jens,
+>
+> This set was acked a while back by Christoph and reviewed by me.
+> I just tested it again and it still works well against 4.5-rc3.
+>
+> Is there any chance we can get this in for 4.6?
 
-Hi Michal(CCed),
+Yes, it will go into 4.6.
 
-As you saw above, I'm changing:
-CONFIG_BLK_DEV_NVME to CONFIG_NVME_PCI
-and 
-CONFIG_BLK_DEV_NVME_SCSI to CONFIG_NVME_SCSI
-
-Is there Kconfig magic to keep existing config working?
-ie, if CONFIG_BLK_DEV_NVME was set in .config, then CONFIG_NVME_PCI
-should be set automatically?
-
-Thanks,
-Ming
+-- 
+Jens Axboe
