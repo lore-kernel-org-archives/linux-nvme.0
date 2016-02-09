@@ -1,22 +1,34 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 9 Feb 2016 06:29:38 -0700
-Subject: complete boot failure in 4.5-rc1 caused by nvme: make SG_IO
- support optional
-In-Reply-To: <20160209125011.GC25353@lst.de>
-References: <1454783624.2809.6.camel@HansenPartnership.com>
- <20160207092241.GA15331@lst.de>
- <1454861040.2329.4.camel@HansenPartnership.com> <56B7C527.6050300@kernel.dk>
- <20160209125011.GC25353@lst.de>
-Message-ID: <CB24E0BA-5A48-4D57-9B81-A81F6598F32F@kernel.dk>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 9 Feb 2016 14:34:12 +0100
+Subject: [PATCH 3/4] nvme: split dev_list_lock
+In-Reply-To: <20160209131408.GA25813@lst.de>
+References: <1454970284-29543-1-git-send-email-mlin@kernel.org>
+ <1454970284-29543-4-git-send-email-mlin@kernel.org>
+ <20160209124134.GM27969@c203.arch.suse.de>
+ <20160209131408.GA25813@lst.de>
+Message-ID: <20160209133412.GP27969@c203.arch.suse.de>
 
-On Feb 9, 2016,@5:50 AM, Christoph Hellwig <hch@lst.de> wrote:
+On Tue, Feb 09, 2016@02:14:08PM +0100, Christoph Hellwig wrote:
+> On Tue, Feb 09, 2016@01:41:34PM +0100, Johannes Thumshirn wrote:
+> > On Mon, Feb 08, 2016@02:24:43PM -0800, Ming Lin wrote:
+> > > Split dev_list_lock into one in the core and one in the PCI driver.
+> > 
+> > The dev_list_lock in core.c doesn't really protect the dev_list, like it does
+> > in pci.c. Wouldn't it be better to rename it to something more appropriate? I
+> > just can't come up with a name, as it seems to be some kind of catch all lock.
 > 
-> Jens,
+> I plans to remove the core.c dev_list_lock by rewriting the character
+> device interface code.  Let's keep the name for now, it'll go away.
 > 
-> do you want a 'default y' patch or just a better description?  I'd be
-> happy to send either one.
+> (and the pci.c might be gone even sooner, but at least it has the right name
+> :))
 
-A better description  
+OK, then I'm fine with it.
 
 -- 
-Jens Axboe
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
