@@ -1,151 +1,187 @@
 From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Tue, 9 Feb 2016 13:56:36 +0100
-Subject: [PATCH 2/4] nvme: export more symbols
-In-Reply-To: <1454970284-29543-3-git-send-email-mlin@kernel.org>
-References: <1454970284-29543-1-git-send-email-mlin@kernel.org>
- <1454970284-29543-3-git-send-email-mlin@kernel.org>
-Message-ID: <56B9E204.4080702@bjorling.me>
+Date: Tue, 9 Feb 2016 14:05:04 +0100
+Subject: [PATCH] nvme: return the whole CQE through the request
+ passthrough interface
+In-Reply-To: <1454954988-32306-2-git-send-email-hch@lst.de>
+References: <1454954988-32306-1-git-send-email-hch@lst.de>
+ <1454954988-32306-2-git-send-email-hch@lst.de>
+Message-ID: <56B9E400.3010702@bjorling.me>
 
-On 02/08/2016 11:24 PM, Ming Lin wrote:
-> Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
+On 02/08/2016 07:09 PM, Christoph Hellwig wrote:
+> Both LighNVM and NVMe over Fabrics need to look at more than just the
+> status and result field.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
+> Reviewed-by: Jay Freyensee <james.p.freyensee at intel.com>
+> Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
 > ---
->  drivers/nvme/host/core.c | 17 ++++++++++++++++-
->  1 file changed, 16 insertions(+), 1 deletion(-)
+>  drivers/nvme/host/core.c | 27 +++++++++++++++++++--------
+>  drivers/nvme/host/nvme.h |  3 ++-
+>  drivers/nvme/host/pci.c  | 10 +++-------
+>  3 files changed, 24 insertions(+), 16 deletions(-)
 > 
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 3faed20..8e4b8ac 100644
+> index c326931..6715bbf 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -102,6 +102,7 @@ void nvme_requeue_req(struct request *req)
->  		blk_mq_kick_requeue_list(req->q);
->  	spin_unlock_irqrestore(req->q->queue_lock, flags);
->  }
-> +EXPORT_SYMBOL_GPL(nvme_requeue_req);
+> @@ -107,7 +107,6 @@ struct request *nvme_alloc_request(struct request_queue *q,
 >  
->  struct request *nvme_alloc_request(struct request_queue *q,
->  		struct nvme_command *cmd, unsigned int flags)
-> @@ -125,6 +126,7 @@ struct request *nvme_alloc_request(struct request_queue *q,
+>  	req->cmd = (unsigned char *)cmd;
+>  	req->cmd_len = sizeof(struct nvme_command);
+> -	req->special = (void *)0;
 >  
 >  	return req;
 >  }
-> +EXPORT_SYMBOL_GPL(nvme_alloc_request);
->  
->  /*
->   * Returns 0 on success.  If the result is negative, it's a Linux error code;
-> @@ -162,6 +164,7 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+> @@ -117,7 +116,8 @@ struct request *nvme_alloc_request(struct request_queue *q,
+>   * if the result is positive, it's an NVM Express status code
+>   */
+>  int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+> -		void *buffer, unsigned bufflen, u32 *result, unsigned timeout)
+> +		struct nvme_completion *cqe, void *buffer, unsigned bufflen,
+> +		unsigned timeout)
 >  {
->  	return __nvme_submit_sync_cmd(q, cmd, buffer, bufflen, NULL, 0);
+>  	struct request *req;
+>  	int ret;
+> @@ -127,6 +127,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  		return PTR_ERR(req);
+>  
+>  	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
+> +	req->special = cqe;
+>  
+>  	if (buffer && bufflen) {
+>  		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
+> @@ -135,8 +136,6 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  	}
+>  
+>  	blk_execute_rq(req->q, NULL, req, 0);
+> -	if (result)
+> -		*result = (u32)(uintptr_t)req->special;
+>  	ret = req->errors;
+>   out:
+>  	blk_mq_free_request(req);
+> @@ -146,7 +145,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  		void *buffer, unsigned bufflen)
+>  {
+> -	return __nvme_submit_sync_cmd(q, cmd, buffer, bufflen, NULL, 0);
+> +	return __nvme_submit_sync_cmd(q, cmd, NULL, buffer, bufflen, 0);
 >  }
-> +EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
 >  
 >  int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
->  		void __user *ubuffer, unsigned bufflen,
-> @@ -377,6 +380,7 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
->  	*count = min(*count, nr_io_queues);
->  	return 0;
->  }
-> +EXPORT_SYMBOL_GPL(nvme_set_queue_count);
->  
->  static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
+> @@ -155,6 +154,7 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  		u32 *result, unsigned timeout)
 >  {
-> @@ -783,6 +787,7 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
->  		return ret;
->  	return nvme_wait_ready(ctrl, cap, false);
->  }
-> +EXPORT_SYMBOL_GPL(nvme_disable_ctrl);
+>  	bool write = cmd->common.opcode & 1;
+> +	struct nvme_completion cqe;
+>  	struct nvme_ns *ns = q->queuedata;
+>  	struct gendisk *disk = ns ? ns->disk : NULL;
+>  	struct request *req;
+> @@ -167,6 +167,7 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  		return PTR_ERR(req);
 >  
->  int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
+>  	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
+> +	req->special = &cqe;
+>  
+>  	if (ubuffer && bufflen) {
+>  		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
+> @@ -221,7 +222,7 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  	blk_execute_rq(req->q, disk, req, 0);
+>  	ret = req->errors;
+>  	if (result)
+> -		*result = (u32)(uintptr_t)req->special;
+> +		*result = le32_to_cpu(cqe.result);
+>  	if (meta && !ret && !write) {
+>  		if (copy_to_user(meta_buffer, meta, meta_len))
+>  			ret = -EFAULT;
+> @@ -302,6 +303,8 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
+>  					dma_addr_t dma_addr, u32 *result)
 >  {
-> @@ -814,6 +819,7 @@ int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
->  		return ret;
->  	return nvme_wait_ready(ctrl, cap, true);
->  }
-> +EXPORT_SYMBOL_GPL(nvme_enable_ctrl);
+>  	struct nvme_command c;
+> +	struct nvme_completion cqe;
+> +	int ret;
 >  
->  int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
+>  	memset(&c, 0, sizeof(c));
+>  	c.features.opcode = nvme_admin_get_features;
+> @@ -309,13 +312,18 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
+>  	c.features.prp1 = cpu_to_le64(dma_addr);
+>  	c.features.fid = cpu_to_le32(fid);
+>  
+> -	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, 0, result, 0);
+> +	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, NULL, 0, 0);
+> +	if (ret >= 0)
+> +		*result = le32_to_cpu(cqe.result);
+> +	return ret;
+>  }
+>  
+>  int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+>  					dma_addr_t dma_addr, u32 *result)
 >  {
-> @@ -844,6 +850,7 @@ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
+>  	struct nvme_command c;
+> +	struct nvme_completion cqe;
+> +	int ret;
 >  
->  	return ret;
->  }
-> +EXPORT_SYMBOL_GPL(nvme_shutdown_ctrl);
+>  	memset(&c, 0, sizeof(c));
+>  	c.features.opcode = nvme_admin_set_features;
+> @@ -323,7 +331,10 @@ int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+>  	c.features.fid = cpu_to_le32(fid);
+>  	c.features.dword11 = cpu_to_le32(dword11);
 >  
->  /*
->   * Initialize the cached copies of the Identify data and various controller
-> @@ -905,6 +912,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->  	kfree(id);
->  	return 0;
->  }
-> +EXPORT_SYMBOL_GPL(nvme_init_identify);
->  
->  static int nvme_dev_open(struct inode *inode, struct file *file)
->  {
-> @@ -1310,6 +1318,7 @@ void nvme_scan_namespaces(struct nvme_ctrl *ctrl)
->  	mutex_unlock(&ctrl->namespaces_mutex);
->  	kfree(id);
->  }
-> +EXPORT_SYMBOL_GPL(nvme_scan_namespaces);
->  
->  void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
->  {
-> @@ -1320,6 +1329,7 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
->  		nvme_ns_remove(ns);
->  	mutex_unlock(&ctrl->namespaces_mutex);
->  }
-> +EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
->  
->  static DEFINE_IDA(nvme_instance_ida);
->  
-> @@ -1351,13 +1361,14 @@ static void nvme_release_instance(struct nvme_ctrl *ctrl)
+> -	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, 0, result, 0);
+> +	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, NULL, 0, 0);
+> +	if (ret >= 0)
+> +		*result = le32_to_cpu(cqe.result);
+> +	return ret;
 >  }
 >  
->  void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
-> - {
-> +{
->  	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
+>  int nvme_get_log_page(struct nvme_ctrl *dev, struct nvme_smart_log **log)
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 4fb5bb7..d85997f 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -247,7 +247,8 @@ void nvme_requeue_req(struct request *req);
+>  int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  		void *buf, unsigned bufflen);
+>  int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
+> -		void *buffer, unsigned bufflen,  u32 *result, unsigned timeout);
+> +		struct nvme_completion *cqe, void *buffer, unsigned bufflen,
+> +		unsigned timeout);
+>  int nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+>  		void __user *ubuffer, unsigned bufflen, u32 *result,
+>  		unsigned timeout);
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 72ef832..f8ae20c 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -759,10 +759,8 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
+>  		}
 >  
->  	spin_lock(&dev_list_lock);
->  	list_del(&ctrl->node);
->  	spin_unlock(&dev_list_lock);
->  }
-> +EXPORT_SYMBOL_GPL(nvme_uninit_ctrl);
+>  		req = blk_mq_tag_to_rq(*nvmeq->tags, cqe.command_id);
+> -		if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
+> -			u32 result = le32_to_cpu(cqe.result);
+> -			req->special = (void *)(uintptr_t)result;
+> -		}
+> +		if (req->cmd_type == REQ_TYPE_DRV_PRIV && req->special)
+> +			memcpy(req->special, &cqe, sizeof(cqe));
+>  		blk_mq_complete_request(req, status >> 1);
 >  
->  static void nvme_free_ctrl(struct kref *kref)
->  {
-> @@ -1373,6 +1384,7 @@ void nvme_put_ctrl(struct nvme_ctrl *ctrl)
->  {
->  	kref_put(&ctrl->kref, nvme_free_ctrl);
->  }
-> +EXPORT_SYMBOL_GPL(nvme_put_ctrl);
->  
->  /*
->   * Initialize a NVMe controller structures.  This needs to be called during
-> @@ -1416,6 +1428,7 @@ out_release_instance:
->  out:
->  	return ret;
->  }
-> +EXPORT_SYMBOL_GPL(nvme_init_ctrl);
->  
->  void nvme_stop_queues(struct nvme_ctrl *ctrl)
->  {
-> @@ -1432,6 +1445,7 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl)
 >  	}
->  	mutex_unlock(&ctrl->namespaces_mutex);
->  }
-> +EXPORT_SYMBOL_GPL(nvme_stop_queues);
->  
->  void nvme_start_queues(struct nvme_ctrl *ctrl)
+> @@ -905,12 +903,10 @@ static void abort_endio(struct request *req, int error)
 >  {
-> @@ -1445,6 +1459,7 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
->  	}
->  	mutex_unlock(&ctrl->namespaces_mutex);
->  }
-> +EXPORT_SYMBOL_GPL(nvme_start_queues);
+>  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+>  	struct nvme_queue *nvmeq = iod->nvmeq;
+> -	u32 result = (u32)(uintptr_t)req->special;
+>  	u16 status = req->errors;
 >  
->  int __init nvme_core_init(void)
->  {
+> -	dev_warn(nvmeq->q_dmadev, "Abort status:%x result:%x", status, result);
+> +	dev_warn(nvmeq->q_dmadev, "Abort status 0x%x\n", status);
+>  	atomic_inc(&nvmeq->dev->ctrl.abort_limit);
+> -
+>  	blk_mq_free_request(req);
+>  }
+>  
 > 
 
-Hi Ming,
+Thanks.
 
-Can these be exported without _GPL?
+Reviewed-by: Matias Bj?rling <m at bjorling.me>
