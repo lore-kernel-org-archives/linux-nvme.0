@@ -1,34 +1,60 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 9 Feb 2016 14:34:12 +0100
-Subject: [PATCH 3/4] nvme: split dev_list_lock
-In-Reply-To: <20160209131408.GA25813@lst.de>
-References: <1454970284-29543-1-git-send-email-mlin@kernel.org>
- <1454970284-29543-4-git-send-email-mlin@kernel.org>
- <20160209124134.GM27969@c203.arch.suse.de>
- <20160209131408.GA25813@lst.de>
-Message-ID: <20160209133412.GP27969@c203.arch.suse.de>
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Tue, 9 Feb 2016 09:55:47 -0500
+Subject: [RFC PATCH] dm: fix excessive dm-mq context switching
+In-Reply-To: <56B99A49.5050400@suse.de>
+References: <20160204135420.GA18227@redhat.com>
+ <20160205151334.GA82754@redhat.com>
+ <20160205180515.GA25808@redhat.com>
+ <20160205191909.GA25982@redhat.com>
+ <56B7659C.8040601@dev.mellanox.co.il>
+ <56B772D6.2090403@sandisk.com>
+ <56B77444.3030106@dev.mellanox.co.il>
+ <56B776DE.30101@dev.mellanox.co.il>
+ <20160207172055.GA6477@redhat.com> <56B99A49.5050400@suse.de>
+Message-ID: <20160209145547.GA21623@redhat.com>
 
-On Tue, Feb 09, 2016@02:14:08PM +0100, Christoph Hellwig wrote:
-> On Tue, Feb 09, 2016@01:41:34PM +0100, Johannes Thumshirn wrote:
-> > On Mon, Feb 08, 2016@02:24:43PM -0800, Ming Lin wrote:
-> > > Split dev_list_lock into one in the core and one in the PCI driver.
+On Tue, Feb 09 2016 at  2:50am -0500,
+Hannes Reinecke <hare@suse.de> wrote:
+
+> On 02/07/2016 06:20 PM, Mike Snitzer wrote:
+> > On Sun, Feb 07 2016 at 11:54am -0500,
+> > Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
 > > 
-> > The dev_list_lock in core.c doesn't really protect the dev_list, like it does
-> > in pci.c. Wouldn't it be better to rename it to something more appropriate? I
-> > just can't come up with a name, as it seems to be some kind of catch all lock.
-> 
-> I plans to remove the core.c dev_list_lock by rewriting the character
-> device interface code.  Let's keep the name for now, it'll go away.
-> 
-> (and the pci.c might be gone even sooner, but at least it has the right name
-> :))
+> >>
+> >>>> If so, can you check with e.g.
+> >>>> perf record -ags -e LLC-load-misses sleep 10 && perf report whether this
+> >>>> workload triggers perhaps lock contention ? What you need to look for in
+> >>>> the perf output is whether any functions occupy more than 10% CPU time.
+> >>>
+> >>> I will, thanks for the tip!
+> >>
+> >> The perf report is very similar to the one that started this effort..
+> >>
+> >> I'm afraid we'll need to resolve the per-target m->lock in order
+> >> to scale with NUMA...
+> > 
+> > Could be.  Just for testing, you can try the 2 topmost commits I've put
+> > here (once applied both __multipath_map and multipath_busy won't have
+> > _any_ locking.. again, very much test-only):
+> > 
+> > http://git.kernel.org/cgit/linux/kernel/git/snitzer/linux.git/log/?h=devel2
+> > 
+> So, I gave those patches a spin.
+> Sad to say, they do _not_ resolve the issue fully.
+>
+> My testbed (2 paths per LUN, 40 CPUs, 4 cores) yields 505k IOPs with
+> those patches.
 
-OK, then I'm fine with it.
+That isn't a surprise.  We knew the m->lock spinlock contention to be a
+problem.  And NUMA makes it even worse.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+> Using a single path (without those patches, but still running
+> multipath on top of that path) the same testbed yields 550k IOPs.
+> Which very much smells like a lock contention ...
+> We do get a slight improvement, though; without those patches I
+> could only get about 350k IOPs. But still, I would somehow expect 2
+> paths to be faster than just one ..
+
+https://www.redhat.com/archives/dm-devel/2016-February/msg00036.html
+
+hint hint...
