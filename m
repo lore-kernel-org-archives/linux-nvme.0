@@ -1,74 +1,21 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 9 Feb 2016 16:32:25 +0100
-Subject: [RFC PATCH] dm: fix excessive dm-mq context switching
-In-Reply-To: <20160209145547.GA21623@redhat.com>
-References: <20160204135420.GA18227@redhat.com>
- <20160205151334.GA82754@redhat.com> <20160205180515.GA25808@redhat.com>
- <20160205191909.GA25982@redhat.com> <56B7659C.8040601@dev.mellanox.co.il>
- <56B772D6.2090403@sandisk.com> <56B77444.3030106@dev.mellanox.co.il>
- <56B776DE.30101@dev.mellanox.co.il> <20160207172055.GA6477@redhat.com>
- <56B99A49.5050400@suse.de> <20160209145547.GA21623@redhat.com>
-Message-ID: <56BA0689.9030007@suse.de>
+From: James.Bottomley@HansenPartnership.com (James Bottomley)
+Date: Tue, 09 Feb 2016 07:37:37 -0800
+Subject: complete boot failure in 4.5-rc1 caused by nvme: make SG_IO
+ support optional
+In-Reply-To: <20160209125011.GC25353@lst.de>
+References: <1454783624.2809.6.camel@HansenPartnership.com>
+ <20160207092241.GA15331@lst.de>
+ <1454861040.2329.4.camel@HansenPartnership.com>
+ <56B7C527.6050300@kernel.dk> <20160209125011.GC25353@lst.de>
+Message-ID: <1455032257.2340.1.camel@HansenPartnership.com>
 
-On 02/09/2016 03:55 PM, Mike Snitzer wrote:
-> On Tue, Feb 09 2016 at  2:50am -0500,
-> Hannes Reinecke <hare@suse.de> wrote:
+On Tue, 2016-02-09@13:50 +0100, Christoph Hellwig wrote:
+> Jens,
 > 
->> On 02/07/2016 06:20 PM, Mike Snitzer wrote:
->>> On Sun, Feb 07 2016 at 11:54am -0500,
->>> Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
->>>
->>>>
->>>>>> If so, can you check with e.g.
->>>>>> perf record -ags -e LLC-load-misses sleep 10 && perf report whether this
->>>>>> workload triggers perhaps lock contention ? What you need to look for in
->>>>>> the perf output is whether any functions occupy more than 10% CPU time.
->>>>>
->>>>> I will, thanks for the tip!
->>>>
->>>> The perf report is very similar to the one that started this effort..
->>>>
->>>> I'm afraid we'll need to resolve the per-target m->lock in order
->>>> to scale with NUMA...
->>>
->>> Could be.  Just for testing, you can try the 2 topmost commits I've put
->>> here (once applied both __multipath_map and multipath_busy won't have
->>> _any_ locking.. again, very much test-only):
->>>
->>> http://git.kernel.org/cgit/linux/kernel/git/snitzer/linux.git/log/?h=devel2
->>>
->> So, I gave those patches a spin.
->> Sad to say, they do _not_ resolve the issue fully.
->>
->> My testbed (2 paths per LUN, 40 CPUs, 4 cores) yields 505k IOPs with
->> those patches.
-> 
-> That isn't a surprise.  We knew the m->lock spinlock contention to be a
-> problem.  And NUMA makes it even worse.
-> 
->> Using a single path (without those patches, but still running
->> multipath on top of that path) the same testbed yields 550k IOPs.
->> Which very much smells like a lock contention ...
->> We do get a slight improvement, though; without those patches I
->> could only get about 350k IOPs. But still, I would somehow expect 2
->> paths to be faster than just one ..
-> 
-> https://www.redhat.com/archives/dm-devel/2016-February/msg00036.html
-> 
-> hint hint...
-> 
-I hoped they wouldn't be needed with your patches.
-Plus perf revealed that I first need to address a spinlock
-contention in the lpfc driver before that even would make sense.
+> do you want a 'default y' patch or just a better description?  I'd be
+> happy to send either one.
 
-So more debugging to follow.
+Since it only appears to be SUSE and they've now been told, better
+description is fine.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+James
