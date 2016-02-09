@@ -1,56 +1,28 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 9 Feb 2016 08:50:33 +0100
-Subject: [RFC PATCH] dm: fix excessive dm-mq context switching
-In-Reply-To: <20160207172055.GA6477@redhat.com>
-References: <20160203182423.GA12913@redhat.com> <56B2F5BC.1010700@suse.de>
- <20160204135420.GA18227@redhat.com> <20160205151334.GA82754@redhat.com>
- <20160205180515.GA25808@redhat.com> <20160205191909.GA25982@redhat.com>
- <56B7659C.8040601@dev.mellanox.co.il> <56B772D6.2090403@sandisk.com>
- <56B77444.3030106@dev.mellanox.co.il> <56B776DE.30101@dev.mellanox.co.il>
- <20160207172055.GA6477@redhat.com>
-Message-ID: <56B99A49.5050400@suse.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 9 Feb 2016 09:56:57 +0100
+Subject: [PATCH 4/4] nvme: split pci module out of core module
+In-Reply-To: <1454970284-29543-5-git-send-email-mlin@kernel.org>
+References: <1454970284-29543-1-git-send-email-mlin@kernel.org>
+ <1454970284-29543-5-git-send-email-mlin@kernel.org>
+Message-ID: <20160209085656.GJ27969@c203.arch.suse.de>
 
-On 02/07/2016 06:20 PM, Mike Snitzer wrote:
-> On Sun, Feb 07 2016 at 11:54am -0500,
-> Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
+On Mon, Feb 08, 2016@02:24:44PM -0800, Ming Lin wrote:
+> This splits nvme.ko into 2 modules:
+> nvme-core.ko: the core part
+> nvme.ko: the PCI driver
 > 
->>
->>>> If so, can you check with e.g.
->>>> perf record -ags -e LLC-load-misses sleep 10 && perf report whether this
->>>> workload triggers perhaps lock contention ? What you need to look for in
->>>> the perf output is whether any functions occupy more than 10% CPU time.
->>>
->>> I will, thanks for the tip!
->>
->> The perf report is very similar to the one that started this effort..
->>
->> I'm afraid we'll need to resolve the per-target m->lock in order
->> to scale with NUMA...
-> 
-> Could be.  Just for testing, you can try the 2 topmost commits I've put
-> here (once applied both __multipath_map and multipath_busy won't have
-> _any_ locking.. again, very much test-only):
-> 
-> http://git.kernel.org/cgit/linux/kernel/git/snitzer/linux.git/log/?h=devel2
-> 
-So, I gave those patches a spin.
-Sad to say, they do _not_ resolve the issue fully.
+> Also changes config name:
+> s/CONFIG_BLK_DEV_NVME/CONFIG_NVME_PCI
+> s/CONFIG_BLK_DEV_NVME_SCSI/CONFIG_NVME_SCSI
 
-My testbed (2 paths per LUN, 40 CPUs, 4 cores) yields 505k IOPs with
-those patches.
-Using a single path (without those patches, but still running
-multipath on top of that path) the same testbed yields 550k IOPs.
-Which very much smells like a lock contention ...
-We do get a slight improvement, though; without those patches I
-could only get about 350k IOPs. But still, I would somehow expect 2
-paths to be faster than just one ..
+Is there any auto-migration for those who already have CONFIG_BLK_DEV_NVME set
+in their kernel configs? If not, this could lead to a bunch of non-booting
+systems.
 
-Cheers,
-
-Hannes
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
 HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
