@@ -1,21 +1,42 @@
-From: James.Bottomley@HansenPartnership.com (James Bottomley)
-Date: Tue, 09 Feb 2016 07:37:37 -0800
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 9 Feb 2016 18:12:29 +0100
 Subject: complete boot failure in 4.5-rc1 caused by nvme: make SG_IO
  support optional
-In-Reply-To: <20160209125011.GC25353@lst.de>
+In-Reply-To: <CB24E0BA-5A48-4D57-9B81-A81F6598F32F@kernel.dk>
 References: <1454783624.2809.6.camel@HansenPartnership.com>
  <20160207092241.GA15331@lst.de>
- <1454861040.2329.4.camel@HansenPartnership.com>
- <56B7C527.6050300@kernel.dk> <20160209125011.GC25353@lst.de>
-Message-ID: <1455032257.2340.1.camel@HansenPartnership.com>
+ <1454861040.2329.4.camel@HansenPartnership.com> <56B7C527.6050300@kernel.dk>
+ <20160209125011.GC25353@lst.de>
+ <CB24E0BA-5A48-4D57-9B81-A81F6598F32F@kernel.dk>
+Message-ID: <20160209171229.GA30378@lst.de>
 
-On Tue, 2016-02-09@13:50 +0100, Christoph Hellwig wrote:
-> Jens,
-> 
-> do you want a 'default y' patch or just a better description?  I'd be
-> happy to send either one.
+Does this looks reasonable?
 
-Since it only appears to be SUSE and they've now been told, better
-description is fine.
+---
+>From 7843fae979df3fc14007735f54cc6bb2f6f66dc5 Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Tue, 9 Feb 2016 18:11:32 +0100
+Subject: nvme: fix Kconfig description for BLK_DEV_NVME_SCSI
 
-James
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/Kconfig | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index 59307f8..2e24156 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -17,8 +17,8 @@ config BLK_DEV_NVME_SCSI
+ 	  and block devices nodes, as well a a translation for a small
+ 	  number of selected SCSI commands to NVMe commands to the NVMe
+ 	  driver.  If you don't know what this means you probably want
+-	  to say N here, and if you know what it means you probably
+-	  want to say N as well.
++	  to say N here, unless you run a distro that abuses this for
++	  stable device names like some OpenSuSE and SLES versions.
+ 
+ config NVME_FABRICS
+ 	tristate
+-- 
+2.1.4
