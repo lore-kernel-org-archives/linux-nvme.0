@@ -1,28 +1,56 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 8 Feb 2016 23:48:55 +0000
-Subject: [PATCH 3/4] NVMe: Surprise removal fixes
-In-Reply-To: <20160208183823.GA29157@localhost.localdomain>
-References: <1454515543-21683-1-git-send-email-keith.busch@intel.com>
- <1454515543-21683-4-git-send-email-keith.busch@intel.com>
- <20160208181640.GD13126@infradead.org>
- <20160208183823.GA29157@localhost.localdomain>
-Message-ID: <20160208234855.GA3058@localhost.localdomain>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 9 Feb 2016 08:50:33 +0100
+Subject: [RFC PATCH] dm: fix excessive dm-mq context switching
+In-Reply-To: <20160207172055.GA6477@redhat.com>
+References: <20160203182423.GA12913@redhat.com> <56B2F5BC.1010700@suse.de>
+ <20160204135420.GA18227@redhat.com> <20160205151334.GA82754@redhat.com>
+ <20160205180515.GA25808@redhat.com> <20160205191909.GA25982@redhat.com>
+ <56B7659C.8040601@dev.mellanox.co.il> <56B772D6.2090403@sandisk.com>
+ <56B77444.3030106@dev.mellanox.co.il> <56B776DE.30101@dev.mellanox.co.il>
+ <20160207172055.GA6477@redhat.com>
+Message-ID: <56B99A49.5050400@suse.de>
 
-On Mon, Feb 08, 2016@06:38:23PM +0000, Keith Busch wrote:
-> On Mon, Feb 08, 2016@10:16:40AM -0800, Christoph Hellwig wrote:
-> > Do we really still need all this magic if ->queue_rq returns a failure
-> > if the queue is dying?
+On 02/07/2016 06:20 PM, Mike Snitzer wrote:
+> On Sun, Feb 07 2016 at 11:54am -0500,
+> Sagi Grimberg <sagig@dev.mellanox.co.il> wrote:
 > 
-> This is far from perfect. Let me try explaining what's happening, then
-> I hope to abandon this patch and do it correctly. :)
+>>
+>>>> If so, can you check with e.g.
+>>>> perf record -ags -e LLC-load-misses sleep 10 && perf report whether this
+>>>> workload triggers perhaps lock contention ? What you need to look for in
+>>>> the perf output is whether any functions occupy more than 10% CPU time.
+>>>
+>>> I will, thanks for the tip!
+>>
+>> The perf report is very similar to the one that started this effort..
+>>
+>> I'm afraid we'll need to resolve the per-target m->lock in order
+>> to scale with NUMA...
+> 
+> Could be.  Just for testing, you can try the 2 topmost commits I've put
+> here (once applied both __multipath_map and multipath_busy won't have
+> _any_ locking.. again, very much test-only):
+> 
+> http://git.kernel.org/cgit/linux/kernel/git/snitzer/linux.git/log/?h=devel2
+> 
+So, I gave those patches a spin.
+Sad to say, they do _not_ resolve the issue fully.
 
-I've a new patch that passes all my tests, including the removal deadlock
-using device states.
+My testbed (2 paths per LUN, 40 CPUs, 4 cores) yields 505k IOPs with
+those patches.
+Using a single path (without those patches, but still running
+multipath on top of that path) the same testbed yields 550k IOPs.
+Which very much smells like a lock contention ...
+We do get a slight improvement, though; without those patches I
+could only get about 350k IOPs. But still, I would somehow expect 2
+paths to be faster than just one ..
 
-I have namespace capacity set to 0 and revalidate to get buffered writers
-to end. The error handling is done in the nvme_workq, which currently
-has WQ_MEM_RECLAIM set. That trigger a warning when revalidate_disk
-attempts to sync with a non-MEM_RECLAIM work queue, so I removed the
-flag from NVMe's to suppress the warning, but I don't see what having
-that flag gained us in the first place. It looks to me that it just
-spawns a rescuer, but do we need that?
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
