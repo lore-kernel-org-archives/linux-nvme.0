@@ -1,18 +1,29 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 10 Feb 2016 21:10:26 +0000
-Subject: [PATCH for-4.5 13/13] NVMe: Rate limit nvme IO warnings
-In-Reply-To: <20160210185404.GB10459@infradead.org>
+From: axboe@fb.com (Jens Axboe)
+Date: Wed, 10 Feb 2016 14:19:23 -0700
+Subject: [PATCH for-4.5 03/13] NVMe: Allow request merges
+In-Reply-To: <20160210210103.GB23402@localhost.localdomain>
 References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
- <1455128250-5984-14-git-send-email-keith.busch@intel.com>
- <20160210185404.GB10459@infradead.org>
-Message-ID: <20160210211025.GC23402@localhost.localdomain>
+ <1455128250-5984-4-git-send-email-keith.busch@intel.com>
+ <20160210183627.GA7512@infradead.org> <56BB8351.8040401@fb.com>
+ <20160210210103.GB23402@localhost.localdomain>
+Message-ID: <56BBA95B.8070203@fb.com>
 
-On Wed, Feb 10, 2016@10:54:04AM -0800, Christoph Hellwig wrote:
-> On Wed, Feb 10, 2016@11:17:30AM -0700, Keith Busch wrote:
-> > We don't need to spam the kernel logs with thousands of messages. We
-> > can infer all IO's are being cancelled with fewer messages.
-> 
-> Do we need this message at all?
+On 02/10/2016 02:01 PM, Keith Busch wrote:
+> On Wed, Feb 10, 2016@11:37:05AM -0700, Jens Axboe wrote:
+>> On 02/10/2016 11:36 AM, Christoph Hellwig wrote:
+>>> In general it is, but it might be good to try to understand
+>>> why this flag was set in the first place, and why the argument
+>>> for that isn't true anymore, or never was.
+>>
+>> IIRC, it was set when the conversion to blk-mq happened, since the
+>> original driver could not do merges being bio based.
+>
+> This actually carried over from when it was still bio-based. The flag
+> was set in the driver's initial commit, but should not have been.
 
-I don't find it useful for anything other than confirming a test hit
-that path. Delete it?
+Yeah, but the flag was a no-op back then, since no merging is done for 
+bio based drivers. So flag or no flag back then, no merging would have 
+been done.
+
+-- 
+Jens Axboe
