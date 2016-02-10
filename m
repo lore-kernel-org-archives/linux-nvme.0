@@ -1,27 +1,40 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Wed, 10 Feb 2016 09:29:36 -0800
-Subject: [PATCH v2 0/5] split pci module out of core module
-In-Reply-To: <20160210162233.GA17738@lst.de>
-References: <1455062873-18392-1-git-send-email-mlin@kernel.org>
- <20160210082146.GA9171@lst.de>
- <CAF1ivSYhZUXZEK74CWPy4fq-vyOE=++gxgJqngnUbSqMFwEoeQ@mail.gmail.com>
- <20160210161108.GB17241@lst.de>
- <CAF1ivSZxXypVYQ_vpSS41ObBsL0Fi1r+6T3FYF6X9n6bh5nDaA@mail.gmail.com>
- <20160210162233.GA17738@lst.de>
-Message-ID: <CAF1ivSbCZq0vYMVLhUG5LEz8M3ROf4Xxn7c461y8vQ9g1z79Zw@mail.gmail.com>
+Date: Wed, 10 Feb 2016 10:03:28 -0800
+Subject: [PATCH v3 0/4] split pci module out of core module
+Message-ID: <1455127412-23940-1-git-send-email-mlin@kernel.org>
 
-On Wed, Feb 10, 2016@8:22 AM, Christoph Hellwig <hch@lst.de> wrote:
-> On Wed, Feb 10, 2016@08:20:19AM -0800, Ming Lin wrote:
->> > Ok, let's move all the exports into a single patch then.
->>
->> OK. I'll merge patch 2 & 3.
->
-> Can I suggest the following:
->
->  - patch 1: as-is
->  - patch 2: drop the exports, just do the move
->  - patch 3: fold into patch 5
->  - patch 4: as-is
->  - patch 5: all existing changes, plus all exports
+From: Ming Lin <ming.l@ssi.samsung.com>
 
-OK, will send v3.
+We'll have nvme over fabrics dirver soon.
+This series split nvme pci module out of nvme core module.
+
+nvme.ko is split into 2 modules:
+nvme-core.ko: the core part
+nvme.ko: the PCI driver
+
+v3:
+  - restructure patches as suggested by hch
+  - add more review tags
+
+v2:
+  - add Sagi's patch to take proper references to the transport driver on open
+  - add review tags
+  - don't change the CONFIG name
+
+Ming Lin (3):
+  nvme: move timeout variables to core.c
+  nvme: split dev_list_lock
+  nvme: split pci module out of core module
+
+Sagi Grimberg (1):
+  nvme/host: reference the fabric module for each bdev open callout
+
+ drivers/nvme/host/Kconfig  |  6 ++++-
+ drivers/nvme/host/Makefile | 10 ++++----
+ drivers/nvme/host/core.c   | 57 ++++++++++++++++++++++++++++++++++++++++++----
+ drivers/nvme/host/nvme.h   |  3 +--
+ drivers/nvme/host/pci.c    | 27 +++-------------------
+ 5 files changed, 67 insertions(+), 36 deletions(-)
+
+-- 
+1.9.1
