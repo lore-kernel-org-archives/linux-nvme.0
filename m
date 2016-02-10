@@ -1,31 +1,44 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 10 Feb 2016 11:17:23 -0700
-Subject: [PATCH for-4.5 06/13] NVMe: Remove WQ_MEM_RECLAIM from nvme work queue
-In-Reply-To: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
-References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1455128250-5984-7-git-send-email-keith.busch@intel.com>
+Date: Wed, 10 Feb 2016 11:17:17 -0700
+Subject: [PATCH for-4.5 00/13] NVMe fixups for 4.5 
+Message-ID: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
 
-This isn't used for work in the memory reclaim path, and we may need
-to sync with work queues that also are not flagged memory relaim. This
-fixes a kernel warning if we ever do sync with such a work queue.
+Sorry for the patch bomb in the middle of rc, though this is fixing
+legit issues.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Patches 1 and 2 are already reviewed/acked, and added those to this
+reviewers (thanks!).
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 72ef832..5bea054 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2227,7 +2227,7 @@ static int __init nvme_init(void)
- 
- 	init_waitqueue_head(&nvme_kthread_wait);
- 
--	nvme_workq = alloc_workqueue("nvme", WQ_UNBOUND | WQ_MEM_RECLAIM, 0);
-+	nvme_workq = alloc_workqueue("nvme", WQ_UNBOUND, 0);
- 	if (!nvme_workq)
- 		return -ENOMEM;
- 
+Patches 3 and 4 are performance related and pretty straight forward.
+
+The remaining are specifically for surprise removal and other controller
+failure scenarios. I had all these in a single patch, but there was
+too much going on, so I split at what appears to be reasonable and self
+contained features.
+
+To test what was previously broken: run buffered writes to an nvme drive,
+remove the drive via sysfs, then pull the drive out.
+
+Keith Busch (13):
+  blk-mq: End unstarted requests on dying queue
+  NVMe: Fix io incapable return values
+  NVMe: Allow request merges
+  NVMe: Set queue limits max_dev_sectors
+  NVMe: Fix namespace removal deadlock
+  NVMe: Remove WQ_MEM_RECLAIM from nvme work queue
+  NVMe: Requeue requests on suspended queues
+  NVMe: Poll device while still active during remove
+  NVMe: Simplify device reset failure
+  NVMe: Move error handling to failed reset handler
+  NVMe: Dead namespace handling
+  NVMe: Mark queues as dead on degraded controller
+  NVMe: Rate limit nvme IO warnings
+
+ block/blk-mq.c           |  6 ++--
+ drivers/nvme/host/core.c | 74 ++++++++++++++++++++++-----------------
+ drivers/nvme/host/nvme.h | 12 +++++--
+ drivers/nvme/host/pci.c  | 91 ++++++++++++++++++++++++++++++------------------
+ 4 files changed, 113 insertions(+), 70 deletions(-)
+
 -- 
 2.6.2.307.g37023ba
