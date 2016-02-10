@@ -1,122 +1,30 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 10 Feb 2016 11:17:26 -0700
-Subject: [PATCH for-4.5 09/13] NVMe: Simplify device reset failure
+Date: Wed, 10 Feb 2016 11:17:30 -0700
+Subject: [PATCH for-4.5 13/13] NVMe: Rate limit nvme IO warnings
 In-Reply-To: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
 References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1455128250-5984-10-git-send-email-keith.busch@intel.com>
+Message-ID: <1455128250-5984-14-git-send-email-keith.busch@intel.com>
 
-A reset failure schedules the device to unbind from the driver through
-the pci driver's remove. This cleans up all intialization, so there is
-no need to duplicate the potentially racy cleanup.
-
-To help understand why a reset failed, the status is logged with the
-existed warning message.
+We don't need to spam the kernel logs with thousands of messages. We
+can infer all IO's are being cancelled with fewer messages.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 43 ++++++++++++++++---------------------------
- 1 file changed, 16 insertions(+), 27 deletions(-)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0303936..3381bac 100644
+index 18c14f6..4d3b3d0 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -86,7 +86,6 @@ struct nvme_queue;
+@@ -1005,7 +1005,7 @@ static void nvme_cancel_queue_ios(struct request *req, void *data, bool reserved
+ 	if (!blk_mq_request_started(req))
+ 		return;
  
- static int nvme_reset(struct nvme_dev *dev);
- static void nvme_process_cq(struct nvme_queue *nvmeq);
--static void nvme_remove_dead_ctrl(struct nvme_dev *dev);
- static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
+-	dev_warn(nvmeq->q_dmadev,
++	dev_warn_ratelimited(nvmeq->q_dmadev,
+ 		 "Cancelling I/O %d QID %d\n", req->tag, nvmeq->qid);
  
- /*
-@@ -1899,10 +1898,19 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
- 	kfree(dev);
- }
- 
-+static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
-+{
-+	dev_warn(dev->dev, "Removing after probe failure status:%d\n", status);
-+
-+	kref_get(&dev->ctrl.kref);
-+	if (!schedule_work(&dev->remove_work))
-+		nvme_put_ctrl(&dev->ctrl);
-+}
-+
- static void nvme_reset_work(struct work_struct *work)
- {
- 	struct nvme_dev *dev = container_of(work, struct nvme_dev, reset_work);
--	int result;
-+	int result = ENODEV;
- 
- 	if (WARN_ON(test_bit(NVME_CTRL_RESETTING, &dev->flags)))
- 		goto out;
-@@ -1922,26 +1930,26 @@ static void nvme_reset_work(struct work_struct *work)
- 
- 	result = nvme_configure_admin_queue(dev);
- 	if (result)
--		goto unmap;
-+		goto out;
- 
- 	nvme_init_queue(dev->queues[0], 0);
- 	result = nvme_alloc_admin_tags(dev);
- 	if (result)
--		goto disable;
-+		goto out;
- 
- 	result = nvme_init_identify(&dev->ctrl);
- 	if (result)
--		goto free_tags;
-+		goto out;
- 
- 	result = nvme_setup_io_queues(dev);
- 	if (result)
--		goto free_tags;
-+		goto out;
- 
- 	dev->ctrl.event_limit = NVME_NR_AEN_COMMANDS;
- 
- 	result = nvme_dev_list_add(dev);
- 	if (result)
--		goto remove;
-+		goto out;
- 
- 	/*
- 	 * Keep the controller around but remove all namespaces if we don't have
-@@ -1958,19 +1966,8 @@ static void nvme_reset_work(struct work_struct *work)
- 	clear_bit(NVME_CTRL_RESETTING, &dev->flags);
- 	return;
- 
-- remove:
--	nvme_dev_list_remove(dev);
-- free_tags:
--	nvme_dev_remove_admin(dev);
--	blk_put_queue(dev->ctrl.admin_q);
--	dev->ctrl.admin_q = NULL;
--	dev->queues[0]->tags = NULL;
-- disable:
--	nvme_disable_admin_queue(dev, false);
-- unmap:
--	nvme_dev_unmap(dev);
-  out:
--	nvme_remove_dead_ctrl(dev);
-+	nvme_remove_dead_ctrl(dev, result);
- }
- 
- static void nvme_remove_dead_ctrl_work(struct work_struct *work)
-@@ -1983,14 +1980,6 @@ static void nvme_remove_dead_ctrl_work(struct work_struct *work)
- 	nvme_put_ctrl(&dev->ctrl);
- }
- 
--static void nvme_remove_dead_ctrl(struct nvme_dev *dev)
--{
--	dev_warn(dev->dev, "Removing after probe failure\n");
--	kref_get(&dev->ctrl.kref);
--	if (!schedule_work(&dev->remove_work))
--		nvme_put_ctrl(&dev->ctrl);
--}
--
- static int nvme_reset(struct nvme_dev *dev)
- {
- 	if (!dev->ctrl.admin_q || blk_queue_dying(dev->ctrl.admin_q))
+ 	status = NVME_SC_ABORT_REQ;
 -- 
 2.6.2.307.g37023ba
