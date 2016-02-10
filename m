@@ -1,19 +1,14 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 10 Feb 2016 18:24:17 +0000
-Subject: [PATCH for-4.5 04/13] NVMe: Set queue limits max_dev_sectors
-In-Reply-To: <20160210182051.GA28235@infradead.org>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 10 Feb 2016 10:36:27 -0800
+Subject: [PATCH for-4.5 03/13] NVMe: Allow request merges
+In-Reply-To: <1455128250-5984-4-git-send-email-keith.busch@intel.com>
 References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
- <1455128250-5984-5-git-send-email-keith.busch@intel.com>
- <20160210182051.GA28235@infradead.org>
-Message-ID: <20160210182416.GC32064@localhost.localdomain>
+ <1455128250-5984-4-git-send-email-keith.busch@intel.com>
+Message-ID: <20160210183627.GA7512@infradead.org>
 
-On Wed, Feb 10, 2016@10:20:51AM -0800, Christoph Hellwig wrote:
-> On Wed, Feb 10, 2016@11:17:21AM -0700, Keith Busch wrote:
-> > Signed-off-by: Keith Busch <keith.busch at intel.com>
-> 
-> why?
+On Wed, Feb 10, 2016@11:17:20AM -0700, Keith Busch wrote:
+> It is generally more efficient to submit larger IO.
 
-Ah, missing change log here.
-
-It is so the queue limits will be correct. The max_hw_sectors will be
-wrong without this.
+In general it is, but it might be good to try to understand
+why this flag was set in the first place, and why the argument
+for that isn't true anymore, or never was.
