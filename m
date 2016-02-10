@@ -1,43 +1,114 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 10 Feb 2016 11:17:25 -0700
-Subject: [PATCH for-4.5 08/13] NVMe: Poll device while still active during
- remove
+Date: Wed, 10 Feb 2016 11:17:27 -0700
+Subject: [PATCH for-4.5 10/13] NVMe: Move error handling to failed reset
+ handler
 In-Reply-To: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
 References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1455128250-5984-9-git-send-email-keith.busch@intel.com>
+Message-ID: <1455128250-5984-11-git-send-email-keith.busch@intel.com>
 
-A device failure or link down wouldn't have been detected during namespace
-removal. This patch keeps the device in the list for polling so that the
-thread may see such failure and initiate a reset. The device is removed
-from the list after disable, so we can safely flush the reset work as
-it can't be requeued when disable completes.
+This moves the dead queue handling out of the namespace removal path
+and into the reset failure path. It fixes a deadlock condition if the
+controller fails or link down during del_gendisk.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ drivers/nvme/host/core.c | 19 ++-----------------
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/pci.c  | 22 ++++++++++++++++++++++
+ 3 files changed, 25 insertions(+), 17 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index be27f9f..41b595c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -64,7 +64,7 @@ static void nvme_free_ns(struct kref *kref)
+ 	kfree(ns);
+ }
+ 
+-static void nvme_put_ns(struct nvme_ns *ns)
++void nvme_put_ns(struct nvme_ns *ns)
+ {
+ 	kref_put(&ns->kref, nvme_free_ns);
+ }
+@@ -1113,28 +1113,13 @@ static struct nvme_ns *nvme_find_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ static void nvme_ns_remove_work(struct work_struct *work)
+ {
+ 	struct nvme_ns *ns = container_of(work, struct nvme_ns, remove_work);
+-	bool kill = nvme_io_incapable(ns->ctrl) &&
+-			!blk_queue_dying(ns->queue);
+-
+-	if (kill) {
+-		blk_set_queue_dying(ns->queue);
+-
+-		/*
+-		 * The controller was shutdown first if we got here through
+-		 * device removal. The shutdown may requeue outstanding
+-		 * requests. These need to be aborted immediately so
+-		 * del_gendisk doesn't block indefinitely for their completion.
+-		 */
+-		blk_mq_abort_requeue_list(ns->queue);
+-	}
++
+ 	if (ns->disk->flags & GENHD_FL_UP) {
+ 		if (blk_get_integrity(ns->disk))
+ 			blk_integrity_unregister(ns->disk);
+ 		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
+ 					&nvme_ns_attr_group);
+ 		del_gendisk(ns->disk);
+-	}
+-	if (kill || !blk_queue_dying(ns->queue)) {
+ 		blk_mq_abort_requeue_list(ns->queue);
+ 		blk_cleanup_queue(ns->queue);
+ 	}
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index d330512..19a64b2 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -270,6 +270,7 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
+ int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+ 			dma_addr_t dma_addr, u32 *result);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
++void nvme_put_ns(struct nvme_ns *ns);
+ 
+ extern spinlock_t dev_list_lock;
+ 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index f8bb781..0303936 100644
+index 3381bac..a18e4ab 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2116,16 +2116,12 @@ static void nvme_remove(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+@@ -1898,11 +1898,33 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
+ 	kfree(dev);
+ }
  
--	spin_lock(&dev_list_lock);
--	list_del_init(&dev->node);
--	spin_unlock(&dev_list_lock);
--
- 	pci_set_drvdata(pdev, NULL);
--	flush_work(&dev->reset_work);
- 	flush_work(&dev->scan_work);
- 	nvme_remove_namespaces(&dev->ctrl);
- 	nvme_uninit_ctrl(&dev->ctrl);
- 	nvme_dev_disable(dev, true);
-+	flush_work(&dev->reset_work);
- 	nvme_dev_remove_admin(dev);
- 	nvme_free_queues(dev, 0);
- 	nvme_release_cmb(dev);
++static void nvme_kill_ns_queues(struct nvme_dev *dev)
++{
++	struct nvme_ns *ns;
++	struct nvme_ctrl *ctrl = &dev->ctrl;
++
++	nvme_dev_disable(dev, false);
++
++	mutex_lock(&ctrl->namespaces_mutex);
++	list_for_each_entry(ns, &ctrl->namespaces, list) {
++		if (!kref_get_unless_zero(&ns->kref))
++			continue;
++
++		blk_set_queue_dying(ns->queue);
++		blk_mq_abort_requeue_list(ns->queue);
++		blk_mq_start_stopped_hw_queues(ns->queue, true);
++
++		nvme_put_ns(ns);
++	}
++	mutex_unlock(&ctrl->namespaces_mutex);
++}
++
+ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
+ {
+ 	dev_warn(dev->dev, "Removing after probe failure status:%d\n", status);
+ 
+ 	kref_get(&dev->ctrl.kref);
++	nvme_kill_ns_queues(dev);
+ 	if (!schedule_work(&dev->remove_work))
+ 		nvme_put_ctrl(&dev->ctrl);
+ }
 -- 
 2.6.2.307.g37023ba
