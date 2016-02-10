@@ -1,69 +1,95 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Wed, 10 Feb 2016 10:03:30 -0800
-Subject: [PATCH v3 2/4] nvme: move timeout variables to core.c
+Date: Wed, 10 Feb 2016 10:03:29 -0800
+Subject: [PATCH v3 1/4] nvme/host: reference the fabric module for each bdev
+ open callout
 In-Reply-To: <1455127412-23940-1-git-send-email-mlin@kernel.org>
 References: <1455127412-23940-1-git-send-email-mlin@kernel.org>
-Message-ID: <1455127412-23940-3-git-send-email-mlin@kernel.org>
+Message-ID: <1455127412-23940-2-git-send-email-mlin@kernel.org>
 
-From: Ming Lin <ming.l@ssi.samsung.com>
+From: Sagi Grimberg <sagig@mellanox.com>
 
-These variables are used by PCI driver and will also be used in the
-forthcoming NVMe over Fabrics drivers.
+We don't want to be able to unload the fabric driver when we have
+openened referenced to our namespaces. Thus, for each nvme_open we
+take a reference on the fabric driver and put it in nvme_release.
+This behavior is consistent with the scsi model.
 
+This resolves the panic when unloading a fabric module with
+mpath holders.
+
+Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Ian Bakshan <ianb at mellanox.com>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
 Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
 ---
- drivers/nvme/host/core.c | 12 ++++++++++++
- drivers/nvme/host/pci.c  | 12 ------------
- 2 files changed, 12 insertions(+), 12 deletions(-)
+ drivers/nvme/host/core.c | 19 ++++++++++++++++---
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/pci.c  |  1 +
+ 3 files changed, 18 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8adc598..8714847 100644
+index c5bf001..8adc598 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -33,6 +33,18 @@
+@@ -71,11 +71,21 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk)
  
- #define NVME_MINORS		(1U << MINORBITS)
+ 	spin_lock(&dev_list_lock);
+ 	ns = disk->private_data;
+-	if (ns && !kref_get_unless_zero(&ns->kref))
+-		ns = NULL;
++	if (ns) {
++		if (!kref_get_unless_zero(&ns->kref))
++			goto fail;
++		if (!try_module_get(ns->ctrl->ops->module))
++			goto fail_put_ns;
++	}
+ 	spin_unlock(&dev_list_lock);
  
-+unsigned char admin_timeout = 60;
-+module_param(admin_timeout, byte, 0644);
-+MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin commands");
+ 	return ns;
 +
-+unsigned char nvme_io_timeout = 30;
-+module_param_named(io_timeout, nvme_io_timeout, byte, 0644);
-+MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
-+
-+unsigned char shutdown_timeout = 5;
-+module_param(shutdown_timeout, byte, 0644);
-+MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
-+
- static int nvme_major;
- module_param(nvme_major, int, 0);
++fail_put_ns:
++	kref_put(&ns->kref, nvme_free_ns);
++fail:
++	spin_unlock(&dev_list_lock);
++	return NULL;
+ }
  
+ void nvme_requeue_req(struct request *req)
+@@ -499,7 +509,10 @@ static int nvme_open(struct block_device *bdev, fmode_t mode)
+ 
+ static void nvme_release(struct gendisk *disk, fmode_t mode)
+ {
+-	nvme_put_ns(disk->private_data);
++	struct nvme_ns *ns = disk->private_data;
++
++	module_put(ns->ctrl->ops->module);
++	nvme_put_ns(ns);
+ }
+ 
+ static int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 4fb5bb7..9f77386 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -117,6 +117,7 @@ struct nvme_ns {
+ };
+ 
+ struct nvme_ctrl_ops {
++	struct module *module;
+ 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+ 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+ 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e36ca02..e3552d1 100644
+index 72ef832..e36ca02 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -57,18 +57,6 @@
- #define NVME_NR_AEN_COMMANDS	1
- #define NVME_AQ_BLKMQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AEN_COMMANDS)
+@@ -2029,6 +2029,7 @@ static int nvme_pci_reset_ctrl(struct nvme_ctrl *ctrl)
+ }
  
--unsigned char admin_timeout = 60;
--module_param(admin_timeout, byte, 0644);
--MODULE_PARM_DESC(admin_timeout, "timeout in seconds for admin commands");
--
--unsigned char nvme_io_timeout = 30;
--module_param_named(io_timeout, nvme_io_timeout, byte, 0644);
--MODULE_PARM_DESC(io_timeout, "timeout in seconds for I/O");
--
--unsigned char shutdown_timeout = 5;
--module_param(shutdown_timeout, byte, 0644);
--MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
--
- static int use_threaded_interrupts;
- module_param(use_threaded_interrupts, int, 0);
- 
+ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
++	.module			= THIS_MODULE,
+ 	.reg_read32		= nvme_pci_reg_read32,
+ 	.reg_write32		= nvme_pci_reg_write32,
+ 	.reg_read64		= nvme_pci_reg_read64,
 -- 
 1.9.1
