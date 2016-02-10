@@ -1,36 +1,31 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 10 Feb 2016 11:17:24 -0700
-Subject: [PATCH for-4.5 07/13] NVMe: Requeue requests on suspended queues
+Date: Wed, 10 Feb 2016 11:17:23 -0700
+Subject: [PATCH for-4.5 06/13] NVMe: Remove WQ_MEM_RECLAIM from nvme work queue
 In-Reply-To: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
 References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1455128250-5984-8-git-send-email-keith.busch@intel.com>
+Message-ID: <1455128250-5984-7-git-send-email-keith.busch@intel.com>
 
-It's possible a request may get to the driver after the nvme queue was
-disabled. This has the request requeue if that happens.
-
-Note the request is still "started" by the driver, but requeuing will
-clear the start state for timeout handling.
+This isn't used for work in the memory reclaim path, and we may need
+to sync with work queues that also are not flagged memory relaim. This
+fixes a kernel warning if we ever do sync with such a work queue.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5bea054..f8bb781 100644
+index 72ef832..5bea054 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -678,6 +678,11 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	blk_mq_start_request(req);
+@@ -2227,7 +2227,7 @@ static int __init nvme_init(void)
  
- 	spin_lock_irq(&nvmeq->q_lock);
-+	if (unlikely(nvmeq->cq_vector < 0)) {
-+		ret = BLK_MQ_RQ_QUEUE_BUSY;
-+		spin_unlock_irq(&nvmeq->q_lock);
-+		goto out;
-+	}
- 	__nvme_submit_cmd(nvmeq, &cmnd);
- 	nvme_process_cq(nvmeq);
- 	spin_unlock_irq(&nvmeq->q_lock);
+ 	init_waitqueue_head(&nvme_kthread_wait);
+ 
+-	nvme_workq = alloc_workqueue("nvme", WQ_UNBOUND | WQ_MEM_RECLAIM, 0);
++	nvme_workq = alloc_workqueue("nvme", WQ_UNBOUND, 0);
+ 	if (!nvme_workq)
+ 		return -ENOMEM;
+ 
 -- 
 2.6.2.307.g37023ba
