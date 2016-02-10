@@ -1,15 +1,12 @@
 From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Wed, 10 Feb 2016 12:14:05 +0200
-Subject: [PATCH v1] nvme: Log the ctrl device name instead of the
- undelying pci device name
-In-Reply-To: <1453126453-17976-1-git-send-email-sagig@mellanox.com>
-References: <1453126453-17976-1-git-send-email-sagig@mellanox.com>
-Message-ID: <56BB0D6D.8050802@dev.mellanox.co.il>
+Date: Wed, 10 Feb 2016 12:37:02 +0200
+Subject: [PATCH v2 2/5] nvme: move timeout variables to core.c and export
+ it
+In-Reply-To: <1455062873-18392-3-git-send-email-mlin@kernel.org>
+References: <1455062873-18392-1-git-send-email-mlin@kernel.org>
+ <1455062873-18392-3-git-send-email-mlin@kernel.org>
+Message-ID: <56BB12CE.4060303@dev.mellanox.co.il>
 
-Jens, care to pick this up for 4.6?
+Looks good,
 
-This patch got an ack from Keith and didn't
-raise any objections so far...
-
-Cheers,
-Sagi.
+Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
