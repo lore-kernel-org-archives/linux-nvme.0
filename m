@@ -1,29 +1,27 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Wed, 10 Feb 2016 14:19:23 -0700
-Subject: [PATCH for-4.5 03/13] NVMe: Allow request merges
-In-Reply-To: <20160210210103.GB23402@localhost.localdomain>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Wed, 10 Feb 2016 17:53:10 -0500
+Subject: [PATCH for-4.5 04/13] NVMe: Set queue limits max_dev_sectors
+In-Reply-To: <20160210194907.GA23402@localhost.localdomain> (Keith Busch's
+ message of "Wed, 10 Feb 2016 19:49:07 +0000")
 References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
- <1455128250-5984-4-git-send-email-keith.busch@intel.com>
- <20160210183627.GA7512@infradead.org> <56BB8351.8040401@fb.com>
- <20160210210103.GB23402@localhost.localdomain>
-Message-ID: <56BBA95B.8070203@fb.com>
+ <1455128250-5984-5-git-send-email-keith.busch@intel.com>
+ <20160210182051.GA28235@infradead.org>
+ <20160210182416.GC32064@localhost.localdomain>
+ <20160210184031.GB7512@infradead.org>
+ <20160210194907.GA23402@localhost.localdomain>
+Message-ID: <yq1bn7o9nzd.fsf@sermon.lab.mkp.net>
 
-On 02/10/2016 02:01 PM, Keith Busch wrote:
-> On Wed, Feb 10, 2016@11:37:05AM -0700, Jens Axboe wrote:
->> On 02/10/2016 11:36 AM, Christoph Hellwig wrote:
->>> In general it is, but it might be good to try to understand
->>> why this flag was set in the first place, and why the argument
->>> for that isn't true anymore, or never was.
->>
->> IIRC, it was set when the conversion to blk-mq happened, since the
->> original driver could not do merges being bio based.
->
-> This actually carried over from when it was still bio-based. The flag
-> was set in the driver's initial commit, but should not have been.
+>>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
 
-Yeah, but the flag was a no-op back then, since no merging is done for 
-bio based drivers. So flag or no flag back then, no merging would have 
-been done.
+Keith> Heh, that's pretty funny. I mentioned something along those lines
+Keith> after I broke the the block layer in rc1, but thought it was done
+Keith> that way on purpose. :)
+
+Keith> So instead of this nvme specific patch, we should do this?
+
+Yes. Thinko on my part, sorry about that.
+
+Acked-by: Martin K. Petersen <martin.petersen at oracle.com>
 
 -- 
-Jens Axboe
+Martin K. Petersen	Oracle Linux Engineering
