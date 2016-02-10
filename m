@@ -1,44 +1,43 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 10 Feb 2016 11:17:17 -0700
-Subject: [PATCH for-4.5 00/13] NVMe fixups for 4.5 
-Message-ID: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
+Date: Wed, 10 Feb 2016 11:17:25 -0700
+Subject: [PATCH for-4.5 08/13] NVMe: Poll device while still active during
+ remove
+In-Reply-To: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
+References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1455128250-5984-9-git-send-email-keith.busch@intel.com>
 
-Sorry for the patch bomb in the middle of rc, though this is fixing
-legit issues.
+A device failure or link down wouldn't have been detected during namespace
+removal. This patch keeps the device in the list for polling so that the
+thread may see such failure and initiate a reset. The device is removed
+from the list after disable, so we can safely flush the reset work as
+it can't be requeued when disable completes.
 
-Patches 1 and 2 are already reviewed/acked, and added those to this
-reviewers (thanks!).
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-Patches 3 and 4 are performance related and pretty straight forward.
-
-The remaining are specifically for surprise removal and other controller
-failure scenarios. I had all these in a single patch, but there was
-too much going on, so I split at what appears to be reasonable and self
-contained features.
-
-To test what was previously broken: run buffered writes to an nvme drive,
-remove the drive via sysfs, then pull the drive out.
-
-Keith Busch (13):
-  blk-mq: End unstarted requests on dying queue
-  NVMe: Fix io incapable return values
-  NVMe: Allow request merges
-  NVMe: Set queue limits max_dev_sectors
-  NVMe: Fix namespace removal deadlock
-  NVMe: Remove WQ_MEM_RECLAIM from nvme work queue
-  NVMe: Requeue requests on suspended queues
-  NVMe: Poll device while still active during remove
-  NVMe: Simplify device reset failure
-  NVMe: Move error handling to failed reset handler
-  NVMe: Dead namespace handling
-  NVMe: Mark queues as dead on degraded controller
-  NVMe: Rate limit nvme IO warnings
-
- block/blk-mq.c           |  6 ++--
- drivers/nvme/host/core.c | 74 ++++++++++++++++++++++-----------------
- drivers/nvme/host/nvme.h | 12 +++++--
- drivers/nvme/host/pci.c  | 91 ++++++++++++++++++++++++++++++------------------
- 4 files changed, 113 insertions(+), 70 deletions(-)
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f8bb781..0303936 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2116,16 +2116,12 @@ static void nvme_remove(struct pci_dev *pdev)
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+ 
+-	spin_lock(&dev_list_lock);
+-	list_del_init(&dev->node);
+-	spin_unlock(&dev_list_lock);
+-
+ 	pci_set_drvdata(pdev, NULL);
+-	flush_work(&dev->reset_work);
+ 	flush_work(&dev->scan_work);
+ 	nvme_remove_namespaces(&dev->ctrl);
+ 	nvme_uninit_ctrl(&dev->ctrl);
+ 	nvme_dev_disable(dev, true);
++	flush_work(&dev->reset_work);
+ 	nvme_dev_remove_admin(dev);
+ 	nvme_free_queues(dev, 0);
+ 	nvme_release_cmb(dev);
 -- 
 2.6.2.307.g37023ba
