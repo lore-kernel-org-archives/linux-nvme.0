@@ -1,14 +1,15 @@
 From: sagig@dev.mellanox.co.il (Sagi Grimberg)
-Date: Wed, 10 Feb 2016 12:12:19 +0200
-Subject: [PATCH RESEND v1 0/3] Move active IO termination to the core
-In-Reply-To: <1454417099-19332-1-git-send-email-sagig@mellanox.com>
-References: <1454417099-19332-1-git-send-email-sagig@mellanox.com>
-Message-ID: <56BB0D03.8050301@dev.mellanox.co.il>
+Date: Wed, 10 Feb 2016 12:14:05 +0200
+Subject: [PATCH v1] nvme: Log the ctrl device name instead of the
+ undelying pci device name
+In-Reply-To: <1453126453-17976-1-git-send-email-sagig@mellanox.com>
+References: <1453126453-17976-1-git-send-email-sagig@mellanox.com>
+Message-ID: <56BB0D6D.8050802@dev.mellanox.co.il>
 
-Jens, can you pick this up for 4.6?
+Jens, care to pick this up for 4.6?
 
-This set got review tags from hch and ack from
-keith on the nvme core changes.
+This patch got an ack from Keith and didn't
+raise any objections so far...
 
 Cheers,
 Sagi.
