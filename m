@@ -1,95 +1,61 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Wed, 10 Feb 2016 10:03:29 -0800
-Subject: [PATCH v3 1/4] nvme/host: reference the fabric module for each bdev
- open callout
+Date: Wed, 10 Feb 2016 10:03:31 -0800
+Subject: [PATCH v3 3/4] nvme: split dev_list_lock
 In-Reply-To: <1455127412-23940-1-git-send-email-mlin@kernel.org>
 References: <1455127412-23940-1-git-send-email-mlin@kernel.org>
-Message-ID: <1455127412-23940-2-git-send-email-mlin@kernel.org>
+Message-ID: <1455127412-23940-4-git-send-email-mlin@kernel.org>
 
-From: Sagi Grimberg <sagig@mellanox.com>
+From: Ming Lin <ming.l@ssi.samsung.com>
 
-We don't want to be able to unload the fabric driver when we have
-openened referenced to our namespaces. Thus, for each nvme_open we
-take a reference on the fabric driver and put it in nvme_release.
-This behavior is consistent with the scsi model.
+Split dev_list_lock into one in the core and one in the PCI driver.
 
-This resolves the panic when unloading a fabric module with
-mpath holders.
-
-Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Ian Bakshan <ianb at mellanox.com>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
 Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
 ---
- drivers/nvme/host/core.c | 19 ++++++++++++++++---
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  |  1 +
- 3 files changed, 18 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c | 2 +-
+ drivers/nvme/host/nvme.h | 2 --
+ drivers/nvme/host/pci.c  | 1 +
+ 3 files changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c5bf001..8adc598 100644
+index 8714847..38db08d 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -71,11 +71,21 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk)
+@@ -52,7 +52,7 @@ static int nvme_char_major;
+ module_param(nvme_char_major, int, 0);
  
- 	spin_lock(&dev_list_lock);
- 	ns = disk->private_data;
--	if (ns && !kref_get_unless_zero(&ns->kref))
--		ns = NULL;
-+	if (ns) {
-+		if (!kref_get_unless_zero(&ns->kref))
-+			goto fail;
-+		if (!try_module_get(ns->ctrl->ops->module))
-+			goto fail_put_ns;
-+	}
- 	spin_unlock(&dev_list_lock);
+ static LIST_HEAD(nvme_ctrl_list);
+-DEFINE_SPINLOCK(dev_list_lock);
++static DEFINE_SPINLOCK(dev_list_lock);
  
- 	return ns;
-+
-+fail_put_ns:
-+	kref_put(&ns->kref, nvme_free_ns);
-+fail:
-+	spin_unlock(&dev_list_lock);
-+	return NULL;
- }
+ static struct class *nvme_class;
  
- void nvme_requeue_req(struct request *req)
-@@ -499,7 +509,10 @@ static int nvme_open(struct block_device *bdev, fmode_t mode)
- 
- static void nvme_release(struct gendisk *disk, fmode_t mode)
- {
--	nvme_put_ns(disk->private_data);
-+	struct nvme_ns *ns = disk->private_data;
-+
-+	module_put(ns->ctrl->ops->module);
-+	nvme_put_ns(ns);
- }
- 
- static int nvme_getgeo(struct block_device *bdev, struct hd_geometry *geo)
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 4fb5bb7..9f77386 100644
+index 9f77386..63ba8a5 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -117,6 +117,7 @@ struct nvme_ns {
- };
+@@ -266,8 +266,6 @@ int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+ 			dma_addr_t dma_addr, u32 *result);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
  
- struct nvme_ctrl_ops {
-+	struct module *module;
- 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
- 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
- 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+-extern spinlock_t dev_list_lock;
+-
+ struct sg_io_hdr;
+ 
+ int nvme_sg_io(struct nvme_ns *ns, struct sg_io_hdr __user *u_hdr);
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 72ef832..e36ca02 100644
+index e3552d1..f7266cc 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -2029,6 +2029,7 @@ static int nvme_pci_reset_ctrl(struct nvme_ctrl *ctrl)
- }
+@@ -65,6 +65,7 @@ module_param(use_cmb_sqes, bool, 0644);
+ MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
  
- static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
-+	.module			= THIS_MODULE,
- 	.reg_read32		= nvme_pci_reg_read32,
- 	.reg_write32		= nvme_pci_reg_write32,
- 	.reg_read64		= nvme_pci_reg_read64,
+ static LIST_HEAD(dev_list);
++static DEFINE_SPINLOCK(dev_list_lock);
+ static struct task_struct *nvme_thread;
+ static struct workqueue_struct *nvme_workq;
+ static wait_queue_head_t nvme_kthread_wait;
 -- 
 1.9.1
