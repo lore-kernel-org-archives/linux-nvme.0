@@ -1,27 +1,42 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Thu, 11 Feb 2016 15:38:02 -0700
-Subject: [PATCHv2-4.5 00/10] NVMe fixes
-In-Reply-To: <20160211222848.GA19595@localhost.localdomain>
-References: <1455221147-24228-1-git-send-email-keith.busch@intel.com>
- <20160211222848.GA19595@localhost.localdomain>
-Message-ID: <56BD0D4A.60003@fb.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 11 Feb 2016 16:00:26 -0700
+Subject: [PATCH 2/2] NVMe: NULL pointer check for admin queues
+In-Reply-To: <1455231626-7166-1-git-send-email-keith.busch@intel.com>
+References: <1455231626-7166-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1455231626-7166-2-git-send-email-keith.busch@intel.com>
 
-On 02/11/2016 03:28 PM, Keith Busch wrote:
-> Just want to point out a couple issues. Both are easy fixes and will
-> send in a few minutes.
->
-> First, admin queues don't have namespaces, so the new namespace state
-> check isn't always correct. I haven't been able to synthesize a test that
-> gets an admin command down this path in the disabled queue condition,
-> but it's clearly not correct.
->
-> The second issue potentially existed all along, but it's a littlie easier
-> to hit now: we need to lock out shutdown from manipulating registers
-> while they're being setup. This was hit by forcing controller reset from
-> the shelll in a loop, then "rmmod nvme" at the same time.
+Admin commands don't have a namespace, so don't check the state when
+there isn't one.
 
-I already applied these for 4.5, just didn't send the ack before I had 
-done some testing. JFYI.
+An admin command that does happen to make it to a disabled queue can
+failed immediatly: Initialization commands should not be requeued
+across resets as they would mess up the controller if/when it is
+reinitialized. If a user command made hits this condition, it should
+be able to handle this error as that's the existing result for commands
+when the controller is reset with outstanding admin commands.
 
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 24a7972..44ccd23 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -678,7 +678,12 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	if (unlikely(nvmeq->cq_vector < 0)) {
+-		ret = test_bit(NVME_NS_DEAD, &ns->flags) ?
++		/*
++		 * Admin commands need to fail immediatly when device is
++		 * disabled: initialization commands should not requeue
++		 * across resets.
++		 */
++		ret = !ns || test_bit(NVME_NS_DEAD, &ns->flags) ?
+ 					BLK_MQ_RQ_QUEUE_ERROR :
+ 					BLK_MQ_RQ_QUEUE_BUSY;
+ 		spin_unlock_irq(&nvmeq->q_lock);
 -- 
-Jens Axboe
+2.6.2.307.g37023ba
