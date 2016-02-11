@@ -1,43 +1,19 @@
-From: wenbo.wang@memblaze.com (Wenbo Wang)
-Date: Thu, 11 Feb 2016 16:47:31 +0000
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 11 Feb 2016 17:00:12 +0000
 Subject: [PATCH for-4.5 07/13] NVMe: Requeue requests on suspended queues
-In-Reply-To: <1455128250-5984-8-git-send-email-keith.busch@intel.com>
+In-Reply-To: <BJXPR01MB19918E58636267AE304ACC1E0A80@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
 References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
  <1455128250-5984-8-git-send-email-keith.busch@intel.com>
-Message-ID: <BJXPR01MB19918E58636267AE304ACC1E0A80@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+ <BJXPR01MB19918E58636267AE304ACC1E0A80@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+Message-ID: <20160211170012.GE11908@localhost.localdomain>
 
-If adding synchronize_rcu and blk_sync_queue, I guess this is not needed.
+On Thu, Feb 11, 2016@04:47:31PM +0000, Wenbo Wang wrote:
+> If adding synchronize_rcu and blk_sync_queue, I guess this is not needed.
 
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Thursday, February 11, 2016 2:17 AM
-To: linux-nvme at lists.infradead.org; Jens Axboe
-Cc: Christoph Hellwig; Sagi Grimberg; Wenbo Wang; Keith Busch
-Subject: [PATCH for-4.5 07/13] NVMe: Requeue requests on suspended queues
+That was to sync IO tasks to make sure they saw the h/w cxt STOPPED
+flag. We still need to restart those queues at some point to flush queued
+requests to completion, and this patch is just prepping for that.
 
-It's possible a request may get to the driver after the nvme queue was disabled. This has the request requeue if that happens.
-
-Note the request is still "started" by the driver, but requeuing will clear the start state for timeout handling.
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c index 5bea054..f8bb781 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -678,6 +678,11 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	blk_mq_start_request(req);
- 
- 	spin_lock_irq(&nvmeq->q_lock);
-+	if (unlikely(nvmeq->cq_vector < 0)) {
-+		ret = BLK_MQ_RQ_QUEUE_BUSY;
-+		spin_unlock_irq(&nvmeq->q_lock);
-+		goto out;
-+	}
- 	__nvme_submit_cmd(nvmeq, &cmnd);
- 	nvme_process_cq(nvmeq);
- 	spin_unlock_irq(&nvmeq->q_lock);
---
-2.6.2.307.g37023ba
+I used "blk_queue_dying" in a previous patch series. I went going back
+and forth on using that criteria. SCSI has device states, so trying to
+apply those ideas to namespaces.
