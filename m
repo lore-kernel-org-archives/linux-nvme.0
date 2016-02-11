@@ -1,35 +1,32 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 11 Feb 2016 13:05:39 -0700
-Subject: [PATCHv2-4.5 02/10] NVMe: Fix io incapable return values
+Date: Thu, 11 Feb 2016 13:05:46 -0700
+Subject: [PATCHv2-4.5 09/10] NVMe: Mark queues as dead on degraded controller
 In-Reply-To: <1455221147-24228-1-git-send-email-keith.busch@intel.com>
 References: <1455221147-24228-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1455221147-24228-3-git-send-email-keith.busch@intel.com>
+Message-ID: <1455221147-24228-10-git-send-email-keith.busch@intel.com>
 
-The function returns true when the controller can't handle IO.
+If a previously optimal controller goes degraded, the IO queues will
+stop working, but the controller is still managable. Prior to removing
+namespace, we need to fail the queues so queued and new IO will fail
+and allow namespace removal to progress.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-Acked-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/nvme.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/host/pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 4fb5bb7..9664d07 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -139,9 +139,9 @@ static inline bool nvme_io_incapable(struct nvme_ctrl *ctrl)
- 	u32 val = 0;
- 
- 	if (ctrl->ops->io_incapable(ctrl))
--		return false;
-+		return true;
- 	if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &val))
--		return false;
-+		return true;
- 	return val & NVME_CSTS_CFS;
- }
- 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 32286e9..4de17ae 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1960,6 +1960,7 @@ static void nvme_reset_work(struct work_struct *work)
+ 	 */
+ 	if (dev->online_queues < 2) {
+ 		dev_warn(dev->dev, "IO queues not created\n");
++		nvme_kill_ns_queues(&dev->ctrl);
+ 		nvme_remove_namespaces(&dev->ctrl);
+ 	} else {
+ 		nvme_start_queues(&dev->ctrl);
 -- 
 2.6.2.307.g37023ba
