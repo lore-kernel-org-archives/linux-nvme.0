@@ -1,61 +1,30 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 11 Feb 2016 13:05:37 -0700
-Subject: [PATCHv2-4.5 00/10] NVMe fixes
-Message-ID: <1455221147-24228-1-git-send-email-keith.busch@intel.com>
+Date: Thu, 11 Feb 2016 13:05:40 -0700
+Subject: [PATCHv2-4.5 03/10] NVMe: Allow request merges
+In-Reply-To: <1455221147-24228-1-git-send-email-keith.busch@intel.com>
+References: <1455221147-24228-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1455221147-24228-4-git-send-email-keith.busch@intel.com>
 
-Thank you everyone for the earlier review comments.
+It is generally more efficient to submit larger IO.
 
-The entire series is here, though most of the code is not changing from
-the previous.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
+---
+ drivers/nvme/host/core.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-I'll gladly handle merging this with the 4.6 branch if/when this goes
-through.
-
-v1 -> v2:
-
-  Added all recieved "Reviewed-by".
-
-  Dropped patch for NVMe's max_dev_sectors. This is fixed in the block
-  layer with a different and generic patch external to this series.
-
-  Dropped patch removing nvme_workq's WQ_MEM_RECLAIM. The flush sync
-  warning that patch was trying to address is fixed by moving the
-  namespace cleanup from the nvme_workq to an existing nvme callback
-  scheduled on the system workqueue.
-
-  Implemented Sagi's suggestion to move the "nvme_kill_ns_queues" to from
-  pci to core. There was no real dependency on PCI after a very minor
-  modification. Also added code comments to explain the function usage.
-
-  Combined the "NS_DEAD" state patch with the namespace queue cleanup
-  handling in the reset_work. The first really counted on the second to
-  actually be useful, so making it a single commit.
-
-  Fixed an error code to be negative, pointed out in review.
-
-  Commented the requirement for nvme_remove()'s necessity to handle a
-  partially initialized.
-
-  Made nvme's "Cancelling I/O ..." message debug level, in addition to
-  rate limted.
-
-Keith Busch (10):
-  blk-mq: End unstarted requests on dying queue
-  NVMe: Fix io incapable return values
-  NVMe: Allow request merges
-  NVMe: Fix namespace removal deadlock
-  NVMe: Requeue requests on suspended queues
-  NVMe: Poll device while still active during remove
-  NVMe: Simplify device reset failure
-  NVMe: Move error handling to failed reset handler
-  NVMe: Mark queues as dead on degraded controller
-  NVMe: Rate limit nvme IO warnings
-
- block/blk-mq.c           |   6 ++-
- drivers/nvme/host/core.c | 105 ++++++++++++++++++++++++++++++++---------------
- drivers/nvme/host/nvme.h |  13 +++++-
- drivers/nvme/host/pci.c  |  66 ++++++++++++++---------------
- 4 files changed, 121 insertions(+), 69 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c5bf001..3cd921e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1121,7 +1121,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	ns->queue = blk_mq_init_queue(ctrl->tagset);
+ 	if (IS_ERR(ns->queue))
+ 		goto out_free_ns;
+-	queue_flag_set_unlocked(QUEUE_FLAG_NOMERGES, ns->queue);
+ 	queue_flag_set_unlocked(QUEUE_FLAG_NONROT, ns->queue);
+ 	ns->queue->queuedata = ns;
+ 	ns->ctrl = ctrl;
 -- 
 2.6.2.307.g37023ba
