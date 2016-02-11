@@ -1,27 +1,17 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 11 Feb 2016 13:28:24 +0100
-Subject: [PATCH for-4.5 09/13] NVMe: Simplify device reset failure
-In-Reply-To: <1455128250-5984-10-git-send-email-keith.busch@intel.com>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Thu, 11 Feb 2016 14:29:59 +0200
+Subject: [PATCH for-4.5 13/13] NVMe: Rate limit nvme IO warnings
+In-Reply-To: <20160210211025.GC23402@localhost.localdomain>
 References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
- <1455128250-5984-10-git-send-email-keith.busch@intel.com>
-Message-ID: <20160211122824.GI27969@c203.arch.suse.de>
+ <1455128250-5984-14-git-send-email-keith.busch@intel.com>
+ <20160210185404.GB10459@infradead.org>
+ <20160210211025.GC23402@localhost.localdomain>
+Message-ID: <56BC7EC7.6020208@dev.mellanox.co.il>
 
-On Wed, Feb 10, 2016@11:17:26AM -0700, Keith Busch wrote:
-> A reset failure schedules the device to unbind from the driver through
-> the pci driver's remove. This cleans up all intialization, so there is
-> no need to duplicate the potentially racy cleanup.
-> 
-> To help understand why a reset failed, the status is logged with the
-> existed warning message.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+>> Do we need this message at all?
+>
+> I don't find it useful for anything other than confirming a test hit
+> that path. Delete it?
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Perhaps we can have it dev_dbg.
