@@ -1,26 +1,61 @@
-From: wenbo.wang@memblaze.com (Wenbo Wang)
-Date: Thu, 11 Feb 2016 17:21:45 +0000
-Subject: [PATCH for-4.5 07/13] NVMe: Requeue requests on suspended queues
-In-Reply-To: <20160211170012.GE11908@localhost.localdomain>
-References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
- <1455128250-5984-8-git-send-email-keith.busch@intel.com>
- <BJXPR01MB19918E58636267AE304ACC1E0A80@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
- <20160211170012.GE11908@localhost.localdomain>
-Message-ID: <BJXPR01MB199232746608AC5BE884F52E0A80@BJXPR01MB199.CHNPR01.prod.partner.outlook.cn>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 11 Feb 2016 13:05:37 -0700
+Subject: [PATCHv2-4.5 00/10] NVMe fixes
+Message-ID: <1455221147-24228-1-git-send-email-keith.busch@intel.com>
 
-If device is removed, I think nvme_clear_queue cleans all those pending requests.
-If devices is restarted, should not cq_vector be setup before enabling the h/w ctx?
+Thank you everyone for the earlier review comments.
 
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Friday, February 12, 2016 1:00 AM
-To: Wenbo Wang
-Cc: linux-nvme at lists.infradead.org; Jens Axboe; Christoph Hellwig; Sagi Grimberg
-Subject: Re: [PATCH for-4.5 07/13] NVMe: Requeue requests on suspended queues
+The entire series is here, though most of the code is not changing from
+the previous.
 
-On Thu, Feb 11, 2016@04:47:31PM +0000, Wenbo Wang wrote:
-> If adding synchronize_rcu and blk_sync_queue, I guess this is not needed.
+I'll gladly handle merging this with the 4.6 branch if/when this goes
+through.
 
-That was to sync IO tasks to make sure they saw the h/w cxt STOPPED flag. We still need to restart those queues at some point to flush queued requests to completion, and this patch is just prepping for that.
+v1 -> v2:
 
-I used "blk_queue_dying" in a previous patch series. I went going back and forth on using that criteria. SCSI has device states, so trying to apply those ideas to namespaces.
+  Added all recieved "Reviewed-by".
+
+  Dropped patch for NVMe's max_dev_sectors. This is fixed in the block
+  layer with a different and generic patch external to this series.
+
+  Dropped patch removing nvme_workq's WQ_MEM_RECLAIM. The flush sync
+  warning that patch was trying to address is fixed by moving the
+  namespace cleanup from the nvme_workq to an existing nvme callback
+  scheduled on the system workqueue.
+
+  Implemented Sagi's suggestion to move the "nvme_kill_ns_queues" to from
+  pci to core. There was no real dependency on PCI after a very minor
+  modification. Also added code comments to explain the function usage.
+
+  Combined the "NS_DEAD" state patch with the namespace queue cleanup
+  handling in the reset_work. The first really counted on the second to
+  actually be useful, so making it a single commit.
+
+  Fixed an error code to be negative, pointed out in review.
+
+  Commented the requirement for nvme_remove()'s necessity to handle a
+  partially initialized.
+
+  Made nvme's "Cancelling I/O ..." message debug level, in addition to
+  rate limted.
+
+Keith Busch (10):
+  blk-mq: End unstarted requests on dying queue
+  NVMe: Fix io incapable return values
+  NVMe: Allow request merges
+  NVMe: Fix namespace removal deadlock
+  NVMe: Requeue requests on suspended queues
+  NVMe: Poll device while still active during remove
+  NVMe: Simplify device reset failure
+  NVMe: Move error handling to failed reset handler
+  NVMe: Mark queues as dead on degraded controller
+  NVMe: Rate limit nvme IO warnings
+
+ block/blk-mq.c           |   6 ++-
+ drivers/nvme/host/core.c | 105 ++++++++++++++++++++++++++++++++---------------
+ drivers/nvme/host/nvme.h |  13 +++++-
+ drivers/nvme/host/pci.c  |  66 ++++++++++++++---------------
+ 4 files changed, 121 insertions(+), 69 deletions(-)
+
+-- 
+2.6.2.307.g37023ba
