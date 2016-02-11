@@ -1,22 +1,19 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 11 Feb 2016 13:19:44 +0100
-Subject: [PATCH for-4.5 05/13] NVMe: Fix namespace removal deadlock
-In-Reply-To: <1455128250-5984-6-git-send-email-keith.busch@intel.com>
+Date: Thu, 11 Feb 2016 13:22:05 +0100
+Subject: [PATCH for-4.5 07/13] NVMe: Requeue requests on suspended queues
+In-Reply-To: <1455128250-5984-8-git-send-email-keith.busch@intel.com>
 References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
- <1455128250-5984-6-git-send-email-keith.busch@intel.com>
-Message-ID: <20160211121944.GF27969@c203.arch.suse.de>
+ <1455128250-5984-8-git-send-email-keith.busch@intel.com>
+Message-ID: <20160211122205.GG27969@c203.arch.suse.de>
 
-On Wed, Feb 10, 2016@11:17:22AM -0700, Keith Busch wrote:
-> Namespace removal holds the namespace list mutex. If the controller
-> fails during namespace removal, the reset work will deadlock trying to
-> acquire the mutex, and no progress will be made.
+On Wed, Feb 10, 2016@11:17:24AM -0700, Keith Busch wrote:
+> It's possible a request may get to the driver after the nvme queue was
+> disabled. This has the request requeue if that happens.
 > 
-> This patch completes the potentially blocking parts of namespace
-> removal in a controller work queue so that reset work can cleanup a
-> failed controller.
+> Note the request is still "started" by the driver, but requeuing will
+> clear the start state for timeout handling.
 > 
 > Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
 
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
