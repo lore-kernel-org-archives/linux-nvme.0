@@ -1,28 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 11 Feb 2016 14:52:14 +0000
-Subject: [PATCH for-4.5 06/13] NVMe: Remove WQ_MEM_RECLAIM from nvme
- work queue
-In-Reply-To: <20160210184641.GA26933@infradead.org>
-References: <1455128250-5984-1-git-send-email-keith.busch@intel.com>
- <1455128250-5984-7-git-send-email-keith.busch@intel.com>
- <20160210184641.GA26933@infradead.org>
-Message-ID: <20160211145214.GA11908@localhost.localdomain>
+From: axboe@fb.com (Jens Axboe)
+Date: Thu, 11 Feb 2016 08:07:54 -0700
+Subject: [PATCH v3 0/4] split pci module out of core module
+In-Reply-To: <1455127412-23940-1-git-send-email-mlin@kernel.org>
+References: <1455127412-23940-1-git-send-email-mlin@kernel.org>
+Message-ID: <56BCA3CA.4020808@fb.com>
 
-On Wed, Feb 10, 2016@10:46:41AM -0800, Christoph Hellwig wrote:
-> On Wed, Feb 10, 2016@11:17:23AM -0700, Keith Busch wrote:
-> > This isn't used for work in the memory reclaim path, and we may need
-> > to sync with work queues that also are not flagged memory relaim. This
-> > fixes a kernel warning if we ever do sync with such a work queue.
-> 
-> We do need it during memory reclaim: memory reclaim in general
-> does I/O, which can be on NVMe.  We then need the workqueue to
-> abort a command or reset an overloaded controller to make progress.
-> Not having WQ_MEM_RECLAIM risks deadlocks in heavily loaded systems.
+On 02/10/2016 11:03 AM, Ming Lin wrote:
+> From: Ming Lin <ming.l at ssi.samsung.com>
+>
+> We'll have nvme over fabrics dirver soon.
+> This series split nvme pci module out of nvme core module.
+>
+> nvme.ko is split into 2 modules:
+> nvme-core.ko: the core part
+> nvme.ko: the PCI driver
 
-There was a more obvious way to do this that took me another day to
-see. We schedule remove_work on the system work queue, and all this
-cleanup can happen there instead of in the reset_work on the nvme
-work queue.
+Applied for 4.6.
 
-I will drop the unneeded patches from this series, and resubmit the rest
-with the reviews, fixes, and recommended code changes and documentation.
+-- 
+Jens Axboe
