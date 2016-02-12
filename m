@@ -1,50 +1,25 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 11 Feb 2016 16:00:25 -0700
-Subject: [PATCH 1/2] NVMe: Lock out shutdown during pci init
-Message-ID: <1455231626-7166-1-git-send-email-keith.busch@intel.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 12 Feb 2016 09:16:19 +0100
+Subject: [PATCHv2-4.5 10/10] NVMe: Rate limit nvme IO warnings
+In-Reply-To: <1455221147-24228-11-git-send-email-keith.busch@intel.com>
+References: <1455221147-24228-1-git-send-email-keith.busch@intel.com>
+ <1455221147-24228-11-git-send-email-keith.busch@intel.com>
+Message-ID: <20160212081619.GN27969@c203.arch.suse.de>
 
-An unexpected driver unbind needs to be prevented from unmapping the
-pci nvme registers while they're being initialized.
+On Thu, Feb 11, 2016@01:05:47PM -0700, Keith Busch wrote:
+> We don't need to spam the kernel logs with thousands of IO cancelling
+> messages. We can infer all IO's are being cancelled with fewer, or
+> even none at all. This patch rate limits the message and uses the debug
+> log level as it is mainly used for testing purposes.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 1b0e447..24a7972 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1927,13 +1927,19 @@ static void nvme_reset_work(struct work_struct *work)
- 
- 	set_bit(NVME_CTRL_RESETTING, &dev->flags);
- 
-+	/*
-+	 * Lock out shutdown so an unexpected driver removal won't unmap
-+	 * registers while reset work is setting them up.
-+	 */
-+	mutex_lock(&dev->shutdown_lock);
- 	result = nvme_dev_map(dev);
- 	if (result)
--		goto out;
-+		goto out_unlock;
- 
- 	result = nvme_configure_admin_queue(dev);
- 	if (result)
--		goto out;
-+		goto out_unlock;
-+	mutex_unlock(&dev->shutdown_lock);
- 
- 	nvme_init_queue(dev->queues[0], 0);
- 	result = nvme_alloc_admin_tags(dev);
-@@ -1970,6 +1976,8 @@ static void nvme_reset_work(struct work_struct *work)
- 	clear_bit(NVME_CTRL_RESETTING, &dev->flags);
- 	return;
- 
-+ out_unlock:
-+	mutex_unlock(&dev->shutdown_lock);
-  out:
- 	nvme_remove_dead_ctrl(dev, result);
- }
 -- 
-2.6.2.307.g37023ba
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
