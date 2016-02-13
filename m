@@ -1,56 +1,23 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Fri, 12 Feb 2016 13:00:32 -0500
-Subject: RCU-ified dm-mpath for testing/review
-In-Reply-To: <56BE0295.4090809@suse.de>
-References: <20160207172055.GA6477@redhat.com> <56B99A49.5050400@suse.de>
- <20160209145547.GA21623@redhat.com> <56BA0689.9030007@suse.de>
- <20160210004518.GA23646@redhat.com>
- <20160211015030.GA4481@redhat.com>
- <20160211153452.GA7827@redhat.com> <56BDF7D7.8040106@suse.de>
- <20160212152651.GB11104@redhat.com> <56BE0295.4090809@suse.de>
-Message-ID: <20160212180032.GA14013@redhat.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sat, 13 Feb 2016 01:21:02 -0800
+Subject: [PATCHv2-4.5 07/10] NVMe: Simplify device reset failure
+In-Reply-To: <1455221147-24228-8-git-send-email-keith.busch@intel.com>
+References: <1455221147-24228-1-git-send-email-keith.busch@intel.com>
+ <1455221147-24228-8-git-send-email-keith.busch@intel.com>
+Message-ID: <20160213092102.GA31848@infradead.org>
 
-On Fri, Feb 12 2016 at 11:04am -0500,
-Hannes Reinecke <hare@suse.de> wrote:
+On Thu, Feb 11, 2016@01:05:44PM -0700, Keith Busch wrote:
+> A reset failure schedules the device to unbind from the driver through
+> the pci driver's 'remove'. This already cleans up all intialization
+> from a partial or completed state, so there is no need to duplicate the
+> cleanup that could potentially race with a pci hot removal.
+> 
+> To help understand why a reset failed, the status is logged with the
+> existing warning message.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-> On 02/12/2016 04:26 PM, Mike Snitzer wrote:
-> >On Fri, Feb 12 2016 at 10:18am -0500,
-> >Hannes Reinecke <hare@suse.de> wrote:
-> >>>
-> >>Good news is that I've managed to hit the roof for my array with the
-> >>devel2 version of those patches. (And a _heavily_ patched-up lpfc
-> >>driver :-)
-> >>So from that perspective everything's fine now; we've reached the
-> >>hardware limit for my setup.
-> >>Which in itself is quite impressive; beating Intel P3700 with 16FC
-> >>is not bad methinks :-)
-> >>
-> >>So thanks for all your work here.
-> >
-> >Ah, that's really good news!  But devel2 is definitely _not_ destined
-> >for upstream.  'devel3' is much closer to "ready".  But your testing and
-> >review would really push it forward.
-> >
-> >Please see/test:
-> >http://git.kernel.org/cgit/linux/kernel/git/snitzer/linux.git/log/?h=devel3
-> >
-> >Also, please read this header:
-> >http://git.kernel.org/cgit/linux/kernel/git/snitzer/linux.git/commit/?h=devel3&id=65a01b76502dd68e8ca298ee6614c0151b677f4a
-> >
-> >Even with devel2 I hacked it such that repeat_count > 1 is effectively
-> >broken.  I'm now _seriously_ considering deprecating repeat_count
-> >completely (adding a DMWARN that will inform the user. e.g.:
-> >"repeat_count > 1 is no longer supported").  I see no point going to
-> >great lengths to maintain a dm-mpath feature that was only a hack for
-> >when dm-mpath was bio-based.  What do you think?
->
-> Drop it, and make setting of which a no-op.
-> Never liked it anyway, and these decisions should really be
-> delegated to the path selector.
+Looks good,
 
-Sure, but my point is DM-mpath will no longer be able to provide the
-ability to properly handle repeat_count > 1 (because updating the
-->current_pgpath crushes the write-side of the RCU).
-
-As such I've rebased 'devel3' to impose repeat_count = 1 (both in
-dm-mpath.c and the defaults in each path selector).
+Reviewed-by: Christoph Hellwig <hch at lst.de>
