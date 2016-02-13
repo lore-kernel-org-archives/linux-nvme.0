@@ -1,21 +1,21 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Sat, 13 Feb 2016 01:59:24 -0800
-Subject: [PATCH 2/2] NVMe: NULL pointer check for admin queues
-In-Reply-To: <1455231626-7166-2-git-send-email-keith.busch@intel.com>
-References: <1455231626-7166-1-git-send-email-keith.busch@intel.com>
- <1455231626-7166-2-git-send-email-keith.busch@intel.com>
-Message-ID: <20160213095924.GB15206@infradead.org>
+Date: Sat, 13 Feb 2016 02:01:01 -0800
+Subject: [PATCH] nvme: lightnvm: return ppa completion status
+In-Reply-To: <1455190589-20016-2-git-send-email-m@bjorling.me>
+References: <1455190589-20016-1-git-send-email-m@bjorling.me>
+ <1455190589-20016-2-git-send-email-m@bjorling.me>
+Message-ID: <20160213100101.GA28353@infradead.org>
 
-On Thu, Feb 11, 2016@04:00:26PM -0700, Keith Busch wrote:
-> Admin commands don't have a namespace, so don't check the state when
-> there isn't one.
+On Thu, Feb 11, 2016@12:36:29PM +0100, Matias Bj??rling wrote:
+> PPAs sent to device is separately acknowledge in a 64bit status
+> variable. The status is stored in DW0 and DW1 of the completion queue
+> entry. Store this status inside the nvm_rq for further processing.
 > 
-> An admin command that does happen to make it to a disabled queue can
-> failed immediatly: Initialization commands should not be requeued
-> across resets as they would mess up the controller if/when it is
-> reinitialized. If a user command made hits this condition, it should
-> be able to handle this error as that's the existing result for commands
-> when the controller is reset with outstanding admin commands.
+> This can later be used to implement retry techniques for failed writes
+> and reads.
+> 
+> Signed-off-by: Matias Bj??rling <m at bjorling.me>
 
-Looks fine, but I'd say fold this directly into the respin of the patch
-introducing the check.
+Looks reasonable:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
