@@ -1,259 +1,466 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Sun, 14 Feb 2016 04:32:58 -0500
-Subject: M2/NVM vs M2/Sata vs SATA/6GB benchmarks
-In-Reply-To: <20160214031333.GA20879@merlins.org>
-References: <20160214031333.GA20879@merlins.org>
-Message-ID: <20160214093258.GC2590@linux.intel.com>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Sun, 14 Feb 2016 11:59:28 +0200
+Subject: 4.5-rc iser issues
+In-Reply-To: <56C04294.3090701@dev.mellanox.co.il>
+References: <20160214074119.GA24558@infradead.org>
+ <56C04294.3090701@dev.mellanox.co.il>
+Message-ID: <56C05000.1040001@dev.mellanox.co.il>
 
 
-Hi Marc,
+>> The only other kernel version I had available quickly is 3.16 from Debian
+>> Jessie, and that works fine.
+>
+> Thanks for reporting, I'll have a look.
+>
+> I suspect this is coming from Keith+Ming changes in
+> blk_bio_segment_split()...
 
-I shan't have time to look at this for another week, but I've added
-the NVMe mailing list so somebody else can comment in the meantime. 
+OK,
 
-On Sat, Feb 13, 2016@07:13:33PM -0800, Marc MERLIN wrote:
-> Hi Matthew,
-> 
-> I didn't find a list for NVMe, I'll Cc linux-ide in case this is useful
-> to others.
-> 
-> I just got a Thinkpad P70 skylake laptop and thought I'd try 3 SSDs:
-> NVMe/M2 vs Sata/M2 vs Sata/6GB.
-> I'm not a benchmarking filesystem expert, so my apologies if I made some
-> stupid choices, but hopefully the benchmarks are still useful.
-> 
-> I'll give the conclusions first. The buffer cache issue with NVMe is weird,
-> maybe there is a non default setting I need to tweak?
-> 
-> a) NVMe is faster for big contiguous I/O, even through dmcrypt
-> b) M2 NVMe and M2 sata do not seem to go through buffer cache for writes, but SATA/6GB does
-> c) When using buffer cache, SATA/6GB beats NVMe/M2 and SATA/M2 by a lot on block reads. Why?
-> d) for random I/O, NVMe is up to 50% faster, and faster with ext4 than btrfs
-> e) Encrypted NVMe is a bit faster than non encrypted Sata/M2
-> f) At $328 for 512GB M2/NVMe vs $168 for 500GB M2/Sata, unless you're doing big contiguous I/O, the 2x price difference is hard to justify, cached I/O and random I/O are not significantly faster on NVMe.
-> 
-> 
-> 
-> 3 SSDs:
-> 1) M2/SATA Samsung 850 EVO 500 GB M.2 3.5-Inch SSD (MZ-N5E500BW) 33c/GB
-> 
-> 2) M2/NVMe: Samsung 950 PRO -Series 512GB PCIe NVMe - M.2 Internal SSD 2-Inch MZ-V5P512BW 64c/GB
-> 70:00.0 Non-Volatile memory controller: Samsung Electronics Co Ltd Device a802 (rev 01)
-> 
-> 3) SATA6G: Samsung 850 EVO 2 TB 2.5-Inch SATA III Internal SSD (MZ-75E2T0B/AM) 30c/GB
-> 
-> For price comparison
-> Seagate 2TB Laptop HDD SATA 6Gb/s 32MB Cache 2.5-Inch Internal Bare Drive (ST2000LM003) 4.6c/GB
-> 
-> Laptop: Skylake Lenovo Thinkpad P70
-> Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz x 8 (4 cores HT)
-> 
-> Filesystem: btrfs on top of 
-> cryptsetup luksFormat --align-payload=8192 -s 256 -c aes-xts-plain64 /dev/device
-> ddd test: sync; dd if=/mnt/ram/file of=file bs=100M count=100 conv=fdatasync; dd if=file of=/dev/null bs=100M
-> dd0 test: sync; dd if=/dev/zero of=file bs=100M count=100 conv=fdatasync; dd if=file of=/dev/null bs=1M
-> 
-> Summary: 
-> 0) NVMe only really looks faster on big block sequential read/write (indeed 4X read, 2X write).
->    On Random I/O, it's no faster. Other overheads kill its performance advantage.
-> 1) For Cached I/O NVMe seems slowed down by dmcrypt in hdparm/ioz ranread/write whereas M2/Sata is not
-> 2) 2TB Sata 6GB SSD is faster for read/write encrypted than NVMe is non encrypted (except hdparm)
-> 3) iozone through block cache is faster on M2/SATA than M2/NVMe, weird
-> 4) iozone through block cache is much faster for everything on Sata6G, also weird
-> 5) iozone direct I/O shows NVMe is fastest (by 50% only) and external SATA just a bit faster than M2/Sata
-> 6) when using dmcrypt, NVMe is only marginally faster in iozone than Sata/M2 or Sata/6G
-> 7) kernel build speed is same on SATA/M2 and NVMe/M2, encrypted or not, but SATA6G is 10% faster (probably the same effect that block cache works better on SATA/6G than SATA/M2 or NVMe/M2)
-> 8) ext4 does better on iozone -I (directIO) than btrfs, 2x as fast on random read for NVMe
-> 
-> 
-> 
-> 		SATA/M2 dmcrypt	SATA/M2		NVMe dmcrypt	NVMe		SATA6GB/dmcrypt
-> hdparm -t	 534MB/s	 517MB/s	1307MB/s	2140MB/s	 534MB/s
-> ddd 10GB read	 550MB/s	 560MB/s	2000MB/s	2400MB/s	 550MB/s
-> ddd 10GB write	 500MB/s	 503MB/s	1300MB/s	1200MB/s	 506MB/s
-> 
-> dd with /dev/zero hits optimizations that actually penalize NVMe:
-> dd0 10GB read	   7GB/s	 6.7GB/s	 2.3GB/s	 4.4GB/s	 6.6GB/s
-> dd0 10GB write	 495MB/s	 503MB/s	 1.3GB/s	 1.3GB/s	 2.0GB/s
-> 
-> iozone -e -a -s 4096 -i 0 -i 1 -i 2 (cache makes Sata6G faster than M2, weird):
-> ioz read 4KB	1760MB/s	1790MB/s	 675MB/s	 766MB/s	7863MB/s
-> ioz write 4KB	 268MB/s	 298MB/s	 295MB/s	 291MB/s	 777MB/s
-> ioz ranread4KB	5535MB/s	7392MB/s	3185MB/s	7261MB/s	7892MB/s
-> ioz ranwrite4KB	 288MB/s	 329MB/s	 205MB/s	 381MB/s	 796MB/s
-> 
-> iozone -I -e -a -s 4096 -i 0 -i 1 -i 2 (direct IO):
-> 		SATA/M2 dmcrypt	 SATA/M2	 NVMe dmcrypt	 NVMe		 SATA6GB
-> 										 dmcrypt notcrypted
-> 		 btrfs		 btrfs   ext4	 btrfs		 btrfs   ext4	 btrfs     ext4
-> ioz read 4KB	 255MB/s	 303MB/s 408MB/s 303MB/s	 396MB/s 562MB/s 310MB/s 379MB/s
-> ioz write 4KB	 195MB/s	 238MB/s 344MB/s 257MB/s	 358MB/s 361MB/s 233MB/s 365MB/s
-> ioz ranread4KB	 305MB/s	 351MB/s 482MB/s 476MB/s	 699MB/s1434MB/s 309MB/s 475MB/s
-> ioz ranwrite4KB	 265MB/s	 223MB/s 392MB/s 260MB/s	 217MB/s 315MB/s 254MB/s 366MB/s
-> 
-> 
-> Details of each test, per type of drive;
-> ================================================================================
-> saruman M2 SATA 512GB encrypted btrfs
-> 
-> saruman:/tmp# hdparm -t /dev/mapper/cryptroot
->  Timing buffered disk reads: 1604 MB in  3.00 seconds = 534.03 MB/sec
-> 
-> iozone -e -a -s 4096 -i 0 -i 1 -i 2:
->                                                               random    random
->               kB  reclen    write  rewrite    read    reread    read     write
->             4096       4   257076   281089  1761711  6094733  6066754   290373
->             4096     512   277108   295167  1588844  8426437 11128258   318731
->             4096    4096   268940   308248  1760087  8062616  8377131   320802
-> 
-> iozone -I -e -a -s 4096 -i 0 -i 1 -i 2:
->             4096       4    38626    45227   102236   111141    30936    64317
->             4096     512   138467   128878   134674   137832   140067   126248
->             4096    4096   195439   273100   255379   307300   305605   265093
-> 
-> 
-> saruman:/mnt/mnt# sync; dd if=/dev/zero of=file bs=100M count=100 conv=fdatasync; dd if=file of=/dev/null bs=1M
-> 10485760000 bytes (10 GB) copied, 21.1761 s, 495 MB/s
-> 10485760000 bytes (10 GB) copied, 1.49373 s, 7.0 GB/s
-> 
-> kernel 4.4.1 make -j8:
-> real    17m54.712s
-> user    126m26.620s
-> sys     6m21.948s
-> 
-> btrfs send/receive encrypted partition to non encrypted, 87GB: 10mn30
-> 
-> saruman M2 SATA non encrypted btrfs
-> -----------------------------------
-> saruman:/mnt/mnt4# hdparm -t /dev/sdc4
-> /dev/sdc4:
->  Timing buffered disk reads: 1554 MB in  3.00 seconds = 517.93 MB/sec
-> 
-> iozone -e -a -s 4096 -i 0 -i 1 -i 2:
->                                                               random    random
->               kB  reclen    write  rewrite    read    reread    read     write
->             4096       4   285020   297565  1739944  7434579  6605595   305785
->             4096     512   310937   336617  1298278  3703511  5483860   299416
->             4096    4096   298433   317101  1790911  7392988  7434579   337476
-> iozone -I -e -a -s 4096 -i 0 -i 1 -i 2:
->             4096       4    47219    93497   118900   126065    39160    86462
->             4096     512   214381   213388   194307   209215   206951   209289
->             4096    4096   238792   221839   303768   352951   351342   223618
-> ext4 iozone -I -e -a -s 4096 -i 0 -i 1 -i 2:
->             4096       4   119524   146035   150173   159105    53090   140697
->             4096     512   358954   354810   366466   423088   419760   375542
->             4096    4096   344087   398828   408259   478337   482569   392487
-> 
-> saruman:/mnt/mnt3#  sync; dd if=/dev/zero of=file bs=100M count=100 conv=fdatasync; dd if=file of=/dev/null bs=1M
-> 10485760000 bytes (10 GB) copied, 20.8537 s, 503 MB/s
-> 10485760000 bytes (10 GB) copied, 1.55651 s, 6.7 GB/s
-> 
-> kernel 4.4.1 make -j8:
-> real    17m55.612s
-> user    126m31.952s
-> sys     6m27.452s
-> 
-> 
-> ********************************************************************************
-> saruman M2 NVMe 512GB encrypted btrfs
-> 
-> saruman:/tmp# hdparm -t /dev/mapper/cryptroot2
-> /dev/mapper/cryptroot2:
->  Timing buffered disk reads: 3924 MB in  3.00 seconds = 1307.56 MB/sec
-> 
-> iozone -e -a -s 4096 -i 0 -i 1 -i 2:
->                                                               random    random
->               kB  reclen    write  rewrite    read    reread    read     write
->             4096       4   284205   341651   742181  6195843  6178018   341101
->             4096     512   314351   319573   864883  8865630  8902382   384993
->             4096    4096   295741   201042   675234  3281854  3185110   205974
-> iozone -I -e -a -s 4096 -i 0 -i 1 -i 2:
->             4096       4    80042    83160   122616   127129    41421    53963
->             4096     512   168713   153333   167710   209923   198123   168026
->             4096    4096   257968   258566   303023   490828   476440   260014
-> 
-> 
-> saruman:/mnt/mnt2# sync; dd if=/dev/zero of=file bs=100M count=100 conv=fdatasync; dd if=file of=/dev/null bs=1M
-> 10485760000 bytes (10 GB) copied, 8.01494 s, 1.3 GB/s
-> 10485760000 bytes (10 GB) copied, 4.63397 s, 2.3 GB/s
-> 
-> kernel 4.4.1 make -j8:
-> real    17m57.513s
-> user    126m58.360s
-> sys     6m25.164s
-> 
-> btrfs send/receive encrypted partition to non encrypted, 87GB: 7mn
-> (33% faster than Sata M2)
-> 
-> saruman M2 NVMe non encrypted btrfs
-> -----------------------------------
-> saruman:/mnt/mnt4# hdparm -t /dev/nvme0n1p4
-> /dev/nvme0n1p4:
->  Timing buffered disk reads: 6422 MB in  3.00 seconds = 2140.38 MB/sec
-> 
-> 
-> iozone -e -a -s 4096 -i 0 -i 1 -i 2:
->                                                               random    random
->               kB  reclen    write  rewrite    read    reread    read     write
->             4096       4   274808   271851   684271  2634219  2280673   177630
->             4096     512   290191   336755   668196  3362795  4039655   184779
->             4096    4096   291427   340345   766588  7355007  7261741   381768
-> iozone -I -e -a -s 4096 -i 0 -i 1 -i 2:
->             4096       4    94814   117116   147645   159695    44075   108039
->             4096     512   271130   267800   239969   325933   301841   271062
->             4096    4096   358602   275933   396591   719099   699939   217665
-> ext4 iozone -I -e -a -s 4096 -i 0 -i 1 -i 2:
->             4096       4   107281   200735   205900   263035    54832   124219
->             4096     512   537478   374641   525060  1173664  1139338   558807
->             4096    4096   361545   526137   562632  1483477  1434069   315883
-> 
-> saruman:/mnt/mnt4# sync; dd if=/dev/zero of=file bs=100M count=100 conv=fdatasync; dd if=file of=/dev/null bs=1M
-> 10485760000 bytes (10 GB) copied, 7.90653 s, 1.3 GB/s
-> 10485760000 bytes (10 GB) copied, 2.35863 s, 4.4 GB/s
-> 
-> kernel 4.4.1 make -j8:
-> real    17m54.221s
-> user    126m46.264s
-> sys     6m10.592s
-> 
-> 
-> ********************************************************************************
-> saruman Samsung Evo 850 2TB SSD encrypted btrfs
-> 
-> hdparm -t
->  Timing buffered disk reads: 1606 MB in  3.00 seconds = 534.87 MB/sec
-> 
-> iozone -e -a -s 4096 -i 0 -i 1 -i 2:
->                                                               random    random
->               kB  reclen    write  rewrite    read    reread    read     write
->             4096       4   513924   738957  8586475  9144037  8017464   697665
->             4096     512   772100   820362  9287391 10136778 10586522   840551
->             4096    4096   719099   777517  7863339  8047509  7892238   796108
-> 
-> iozone -I -e -a -s 4096 -i 0 -i 1 -i 2
->             4096       4    76626    47961    92886    80947    36063    63788
->             4096     512   135087   138998   143127   150981   144393   132219
->             4096    4096   233245   234058   310797   311552   309855   254080
-> 
-> ext4 iozone -I -e -a -s 4096 -i 0 -i 1 -i 2 (unencrypted)
->             4096       4   118013   141212   130575   111534    42343   138654
->             4096     512   336347   312192   332847   414404   424542   342707
->             4096    4096   365227   364638   379298   484160   475122   366536
-> 
-> 
-> saruman:/tmp# sync; dd if=/dev/zero of=file bs=100M count=100 conv=fdatasync; dd if=file of=/dev/null bs=1M
-> 10485760000 bytes (10 GB) copied, 5.23919 s, 2.0 GB/s
-> 10485760000 bytes (10 GB) copied, 1.58287 s, 6.6 GB/s
-> 
-> 
-> kernel 4.4.1 make -j8:
-> real    16m4.305s
-> user    104m0.816s
-> sys     7m2.832s
-> 
-> 
-> -- 
-> "A mouse is a device used to point at the xterm you want to type in" - A.S.R.
-> Microsoft is to operating systems ....
->                                       .... what McDonalds is to gourmet cooking
-> Home page: http://marc.merlins.org/                         | PGP 1024R/763BE901
+I can clearly see that the block layer commitment to respect the
+driver virtual boundary was broken in 4.5.
+
+ From the log:
+iser: sg[0] dma_addr:0x85FC06000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[1] dma_addr:0x860334000 off:0x0 sz:0x200 dma_len:0x200 <-- gap
+iser: sg[2] dma_addr:0x860335000 off:0x0 sz:0x200 dma_len:0x200 <-- gap
+iser: sg[3] dma_addr:0x8621EA000 off:0x0 sz:0x200 dma_len:0x200 ...
+iser: sg[4] dma_addr:0x8621EB000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[5] dma_addr:0x860384000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[6] dma_addr:0x860385000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[7] dma_addr:0x860316000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[8] dma_addr:0x860317000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[9] dma_addr:0x860294000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[10] dma_addr:0x860295000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[11] dma_addr:0x8609F8000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[12] dma_addr:0x8609F9000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[13] dma_addr:0x8607DA000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[14] dma_addr:0x8607DB000 off:0x0 sz:0x200 dma_len:0x200
+iser: sg[15] dma_addr:0x8607D4000 off:0x0 sz:0x200 dma_len:0x200
+--
+
+While iser sets the virtual boundary to be 4096, we can
+clearly see that each of the SG elements contain a gap
+and should not ever see those...
+
+I'm bisecting now, there are a couple of patches from Ming in
+the area of the bio splitting code...
+
+CC'ing Ming, Linux-block and Linux-nvme as iser is identical to nvme
+wrt the virtual boundary so I think nvme will break as well.
+
+Attaching a small test program I used to force gappy I/O.
+
+$ ./scatter_data -l 64k -n 128 -d <dev>
+-------------- next part --------------
+/**
+ * Scattered IO test
+ *
+ * Author: Adir Lev
+ **/
+#define _GNU_SOURCE
+
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <malloc.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <errno.h>
+#include <string.h>
+#include <getopt.h>
+#include <sys/uio.h>
+#include <sys/time.h>
+#include <assert.h>
+
+
+#define MAX_SGE 128
+
+int do_write = 0;
+int count = 1;
+int num_sge = 0;
+int bs = 0;
+char *dev;
+size_t page_size;
+void *ibuf;
+void *obuf;
+long disk_sz = 0;
+
+
+double time_diff(struct timeval x , struct timeval y) {
+	double x_ms , y_ms , diff;
+	x_ms = (double)x.tv_sec*1000000 + (double)x.tv_usec;
+	y_ms = (double)y.tv_sec*1000000 + (double)y.tv_usec;
+	diff = (double)y_ms - (double)x_ms;
+	return diff;
+}
+
+void print_usage(char* cmd) {
+	printf("USAGE: %s -l 1024 -n 2 -d /dev/sdb [-C 1000]\n", cmd);
+	printf("\t-l bs in KBytes\n");
+	printf("\t-n num of sges to use\n");
+	printf("\t-d block device\n");
+	printf("\t[-C] num of iterations\n");
+}
+
+int open_block_dev() {
+	FILE *fp;
+	int fd, rc;
+	long sz;
+
+	printf("Device: %s\n", dev);
+	fd = open(dev, O_RDWR|O_DIRECT|O_SYNC, 777);
+	if (fd < 0) {
+		perror("Unable to open block device");
+		return fd;
+	}
+
+	fp = fdopen(fd, "w+");
+	if (!fp) {
+		printf("failed to fdopen, errno=%d\n", errno);
+		return -1;
+	}
+
+	rc = fseek(fp, 0, SEEK_END);
+	if (rc < 0) {
+		printf("failed to fseek, errno=%d\n", errno);
+		return -1;
+	}
+
+	disk_sz = ftell(fp);
+	if (disk_sz < 0) {
+		printf("failed to ftell, errno=%d\n", errno);
+		return -1;
+	}
+
+	rewind(fp);
+
+	return fd;
+}
+
+int my_rewind(fd) {
+	FILE *fp;
+
+	fp = fdopen(fd, "w+");
+	if (!fp) {
+		printf("failed to fdopen, errno=%d\n", errno);
+		return -1;
+	}
+	rewind(fp);
+	return 0;
+}
+
+int parse_args(int argc, char **argv) {
+	int option = 0;
+
+	while ((option = getopt(argc, argv,"wC:l:n:d:")) != -1) {
+		switch (option) {
+			case 'w':
+				do_write = 1;
+				break;
+			case 'C':
+				count = atoi(optarg);
+				break;
+			case 'd':
+				dev = optarg;
+				break;
+			case 'l':
+				bs = atoi(optarg);
+				break;
+			case 'n':
+				num_sge = atoi(optarg);
+				break;
+			default:
+				print_usage(argv[0]);
+				return -1;
+		}
+	}
+
+	/* sanity check args */
+	if (optind < 4) {
+		printf("Mandatory argument(s) missing\n");
+		print_usage(argv[0]);
+		return -1;
+	}
+
+	if (bs == 512) {
+		printf("ERROR: Block size must exceed 512Bytes \n");
+		return -1;
+	}
+	bs = bs * 1024;
+	if (num_sge > MAX_SGE) {
+		printf("ERROR: num_sge (-n) cannot exceed 128\n");
+		return -1;
+	}
+
+	if (bs % 512 != 0) {
+		printf("ERROR: Block size must be multiple of 512\n");
+		return -1;
+	}
+
+	if ((bs / num_sge) % 512 != 0) {
+		printf("ERROR: Block size/num_sge must be multiple of 512\n");
+		return -1;
+	}
+
+	if (bs > (page_size * 128)) {
+		printf("ERROR: Block size cannot exceed 524288 Bytes (4096B * 128)\n");
+		return -1;
+	}
+
+	if (count < 1) {
+		printf("ERROR: count needs to be higher than 0\n");
+		return -1;
+	}
+
+	return 0;
+}
+
+void* alloc_sges()
+{
+	void *buf;
+	int sge_size = bs / num_sge;
+
+	if (sge_size > page_size) {
+		printf("ERROR: sge size cannot exceed page size\n");
+		return NULL;
+	}
+
+	buf = memalign(page_size, num_sge * page_size);
+	if (!buf)
+		perror( "ERROR: cannot allocate memory");
+
+	memset(buf, 0, num_sge * page_size);
+
+	return buf;
+}
+
+int sample_counter() {
+	FILE *fp;
+	int val;
+
+	system("iscsiadm -m session -s | grep fmr_un | awk '{print $2}'"
+	       " | awk '{ sum+=$1} END {print sum}' >> /tmp/indir_counter");
+
+	fp = fopen("/tmp/indir_counter", "rw");
+	if (!fp) {
+		perror("Unable to open counter file");
+		return -1;
+	}
+
+	fscanf(fp, "%d", &val);
+
+	if (val < 0) {
+		printf("Failed to get fmr_unaligned counter\n");
+		return -1;
+	}
+
+	fclose(fp);
+	unlink("/tmp/indir_counter");
+	return val;
+}
+
+void get_stats(struct timeval t_before, struct timeval t_after) {
+	double t_diff;
+	float iops;
+	long bw;
+
+	t_diff = time_diff(t_before, t_after);
+	iops = (float)count / t_diff * 1000;
+	bw = iops * bs;
+
+	printf("time elapsed in sec %f\n", t_diff/1000000);
+	printf("iops: %.2fkiops\n", iops);
+	printf("BW: %ldKB\n", bw);
+}
+
+int calc_counter(int before, int after) {
+	int total = 0;
+
+	total = after - before;
+	if (total != count * 2) {
+		printf("count: %d, fmr_unaligned_cntr: %d\n", count, total);
+		return -1;
+	} else {
+		return 0;
+	}
+}
+
+static void dump_bufs(void *s1, void *s2, int len)
+{
+	int i;
+
+	for (i = 0; i < len; i += 8) {
+		uint64_t idword = *(uint64_t *)&(((char *)s2)[i]);
+		uint64_t odword = *(uint64_t *)&(((char *)s1)[i]);
+
+		printf("obuf[%x]: %x,		ibuf[%x]: %x\n",
+			i, odword, i, idword);
+	}
+}
+
+static int run_rw(int is_write, int fd, void *buf)
+{
+	struct iovec iov[num_sge];
+	int sge_size = bs / num_sge;
+	int max = page_size - sge_size;
+	int i = 0, j = 0, offset = 0, rc = 0;
+	ssize_t bytes_read;
+	long bytes_left = disk_sz;
+
+	/* for every iteration */
+	for (i = 0; i < count; i++) {
+		if (max > 0)
+			offset = (512 * i) % max;
+		if (bytes_left < bs) {
+			rc = my_rewind(fd);
+			if (rc < 0)
+				return rc;
+			printf("count: %d, no space left on block "
+			       "device, rewinding\n", i);
+			bytes_left = disk_sz;
+		}
+		/* for every sge */
+		for (j = 0; j < num_sge; j++) {
+			/* change offset in page */
+			iov[j].iov_base = buf + (page_size * j) + offset;
+			iov[j].iov_len = sge_size;
+			if (is_write)
+				memset(iov[j].iov_base, i+j, iov[j].iov_len);
+		}
+
+		if (is_write) {
+			bytes_read = writev(fd, iov, num_sge);
+			if (bytes_read < bs) {
+				if (bytes_read < 0) {
+					printf("failed to writev, bytes=%d, "
+						"errno=%d\n", bytes_read, errno);
+					perror("failed to writev");
+				} else
+					printf("writev less than expected. "
+						"Bytes=%d, expected %d\n", bytes_read, bs);
+				return -1;
+			}
+		} else {
+			bytes_read = readv(fd, iov, num_sge);
+			if (bytes_read < bs) {
+				if (bytes_read < 0) {
+					printf("failed to readv, bytes=%d, "
+						"errno=%d\n", bytes_read, errno);
+					perror("failed to readv");
+				} else
+					printf("readv less than expected. "
+						"Bytes=%d, expected %d\n", bytes_read, bs);
+				return -1;
+			}
+		}
+		bytes_left -= bs;
+	}
+
+	return 0;
+}
+
+int run_iovec_traffic(int fd)
+{
+	int rc;
+
+	rc = my_rewind(fd);
+	if (rc) {
+		printf("rewind failed\n");
+		return -1;
+	}
+
+	rc = run_rw(1, fd, obuf);
+	if (rc) {
+		printf("write failed\n");
+		return -1;
+	}
+
+	rc = my_rewind(fd);
+	if (rc) {
+		printf("rewind failed\n");
+		return -1;
+	}
+
+	rc = run_rw(0, fd, ibuf);
+	if (rc) {
+		printf("read failed\n");
+		return -1;
+	}
+
+	rc = memcmp(ibuf, obuf, bs);
+	if (rc) {
+		printf("memcmp failed\n");
+		dump_bufs(obuf, ibuf, bs);
+		return -1;
+	}
+
+	return rc;
+}
+
+int main(int argc, char **argv) {
+	struct timeval t_before, t_after;
+	void **page_list = NULL;
+	int fd, before_counter = 0, after_counter = 0, rc = 0;
+
+	page_size = sysconf(_SC_PAGESIZE);
+	rc = parse_args(argc, argv);
+	if (rc)
+		return -1;
+
+	fd = open_block_dev();
+	if (fd < 0)
+		return -1;
+
+	ibuf = alloc_sges();
+	if (!ibuf) {
+		rc = -ENOMEM;
+		goto out;
+	}
+
+	obuf = alloc_sges();
+	if (!obuf) {
+		rc = -ENOMEM;
+		goto out;
+	}
+
+	before_counter = sample_counter();
+	if (before_counter < 0) {
+		rc = -1;
+		goto out;
+	}
+
+	gettimeofday(&t_before, NULL);
+	rc = run_iovec_traffic(fd);
+	gettimeofday(&t_after, NULL);
+
+	if (rc) {
+		printf("Exiting with rc=%d\n", rc);
+		goto out;
+	}
+
+	get_stats(t_before, t_after);
+
+	after_counter = sample_counter();
+	if (after_counter < 0) {
+		rc = -1;
+		goto out;
+	}
+
+	rc = calc_counter(before_counter, after_counter);
+	if (rc) {
+		printf("Test Failed unaligned count\n");
+		goto out;
+	}
+
+	printf("Test Passes\n");
+out:
+	close(fd);
+	free (ibuf);
+	free (obuf);
+
+	return rc;
+}
