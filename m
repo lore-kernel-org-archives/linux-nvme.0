@@ -1,88 +1,73 @@
-From: ming.lei@canonical.com (Ming Lei)
-Date: Mon, 15 Feb 2016 00:39:04 +0800
-Subject: 4.5-rc iser issues
-In-Reply-To: <56C0AB84.9040004@dev.mellanox.co.il>
-References: <20160214074119.GA24558@infradead.org>
- <56C04294.3090701@dev.mellanox.co.il>
- <56C05000.1040001@dev.mellanox.co.il>
- <56C066AF.6050901@dev.mellanox.co.il>
- <56C088EA.1050901@dev.mellanox.co.il>
- <20160214152223.GA5323@infradead.org>
- <CACVXFVNAkf5+XFyf2JkcfeEPO2sv9bqHMR+N+=kKFzrtXpFEnA@mail.gmail.com>
- <56C0AB84.9040004@dev.mellanox.co.il>
-Message-ID: <CACVXFVOYu0j12ixWokg-LfQusKb8TMUCKAiAo3N80z3xMpdTYQ@mail.gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Mon, 15 Feb 2016 07:47:35 +0100
+Subject: RCU-ified dm-mpath for testing/review
+In-Reply-To: <20160212180032.GA14013@redhat.com>
+References: <20160207172055.GA6477@redhat.com> <56B99A49.5050400@suse.de>
+ <20160209145547.GA21623@redhat.com> <56BA0689.9030007@suse.de>
+ <20160210004518.GA23646@redhat.com> <20160211015030.GA4481@redhat.com>
+ <20160211153452.GA7827@redhat.com> <56BDF7D7.8040106@suse.de>
+ <20160212152651.GB11104@redhat.com> <56BE0295.4090809@suse.de>
+ <20160212180032.GA14013@redhat.com>
+Message-ID: <56C17487.7050301@suse.de>
 
-On Mon, Feb 15, 2016 at 12:29 AM, Sagi Grimberg
-<sagig@dev.mellanox.co.il> wrote:
->> Hi Sagi,
->
->
-> Hey,
->
->>> But I don't think simply not cloning the biovecs is the right thing
->>> to do in the end.  This must be something with the bvec iterators.
->>
->>
->> I agree with Christoph, and there might be issues somewhere.
->>
->
-> Me too, it was just an isolation step...
->
->>>  From the log:
->>> iser: sg[0] dma_addr:0x85FC06000 off:0x0 sz:0x200 dma_len:0x200
->>> iser: sg[1] dma_addr:0x860334000 off:0x0 sz:0x200 dma_len:0x200 <-- gap
->>> iser: sg[2] dma_addr:0x860335000 off:0x0 sz:0x200 dma_len:0x200 <-- gap
->>
->>
->> The above gap shouldn't have come since blk_bio_segment_split() splits
->> out one new bio if gap is detected.
->>
->> Sort of the following code can be added in driver or prep_fn to check if
->> bvec of  the rq is correct:
->>
->> rq_for_each_segment(bvec, sc->request, iter) {
->>       //check if there is gap between bvec
->> }
->
->
-> I added this indication and the gap detection does trigger a bio
-> split.
-
-Then I suggest to add the similar check inside blk_queue_split()
-further to see if the result bio('res' bio in the function) has gap.
-
->
->>
->> I don't know how to use iser, and looks everything works fine after
->> I setup virt boundary as 4095 for null_blk by the attachment
->> patch.
->
->
-> That's probably because it's artificial and there is no HW with a real
-> limitation...
-
-I do check the trace_printk log, and basically one rq only includes one
-segment if I set bs as 512 in fio test.
-
-Thanks,
-
->
->>
->>> Full quote for Ming:
+On 02/12/2016 07:00 PM, Mike Snitzer wrote:
+> On Fri, Feb 12 2016 at 11:04am -0500,
+> Hannes Reinecke <hare@suse.de> wrote:
+> 
+>> On 02/12/2016 04:26 PM, Mike Snitzer wrote:
+>>> On Fri, Feb 12 2016 at 10:18am -0500,
+>>> Hannes Reinecke <hare@suse.de> wrote:
+>>>>>
+>>>> Good news is that I've managed to hit the roof for my array with the
+>>>> devel2 version of those patches. (And a _heavily_ patched-up lpfc
+>>>> driver :-)
+>>>> So from that perspective everything's fine now; we've reached the
+>>>> hardware limit for my setup.
+>>>> Which in itself is quite impressive; beating Intel P3700 with 16FC
+>>>> is not bad methinks :-)
+>>>>
+>>>> So thanks for all your work here.
 >>>
->>> On Sun, Feb 14, 2016@04:02:18PM +0200, Sagi Grimberg wrote:
->>>>
->>>>
->>>>>> I'm bisecting now, there are a couple of patches from Ming in
->>>>>> the area of the bio splitting code...
->>>>>>
->>>>>> CC'ing Ming, Linux-block and Linux-nvme as iser is identical to nvme
->>>>>> wrt the virtual boundary so I think nvme will break as well.
+>>> Ah, that's really good news!  But devel2 is definitely _not_ destined
+>>> for upstream.  'devel3' is much closer to "ready".  But your testing and
+>>> review would really push it forward.
+>>>
+>>> Please see/test:
+>>> http://git.kernel.org/cgit/linux/kernel/git/snitzer/linux.git/log/?h=devel3
+>>>
+>>> Also, please read this header:
+>>> http://git.kernel.org/cgit/linux/kernel/git/snitzer/linux.git/commit/?h=devel3&id=65a01b76502dd68e8ca298ee6614c0151b677f4a
+>>>
+>>> Even with devel2 I hacked it such that repeat_count > 1 is effectively
+>>> broken.  I'm now _seriously_ considering deprecating repeat_count
+>>> completely (adding a DMWARN that will inform the user. e.g.:
+>>> "repeat_count > 1 is no longer supported").  I see no point going to
+>>> great lengths to maintain a dm-mpath feature that was only a hack for
+>>> when dm-mpath was bio-based.  What do you think?
 >>
->>
->> The bisected commit is merged to v4.3, and looks no such kind of
->> report from nvme.
->
->
-> I'm wandering how can that be... because clearly iser is seeing gaps
-> which like nvme, it can't handle those. Maybe this is scsi specific?
+>> Drop it, and make setting of which a no-op.
+>> Never liked it anyway, and these decisions should really be
+>> delegated to the path selector.
+> 
+> Sure, but my point is DM-mpath will no longer be able to provide the
+> ability to properly handle repeat_count > 1 (because updating the
+> ->current_pgpath crushes the write-side of the RCU).
+> 
+Fully understood. But as I said, the _need_ for repeat_count has
+essentially vanished with the move to request-based multipath.
+
+> As such I've rebased 'devel3' to impose repeat_count = 1 (both in
+> dm-mpath.c and the defaults in each path selector).
+
+Kewl.
+I'll give it a go.
+
+Cheers,
+
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
