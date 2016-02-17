@@ -1,48 +1,38 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 17 Feb 2016 11:36:51 -0700
-Subject: [PATCH-4.5-v3 1/5] NVMe: Add controller removing state
-In-Reply-To: <1455734215-20396-1-git-send-email-keith.busch@intel.com>
-References: <1455734215-20396-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1455734215-20396-2-git-send-email-keith.busch@intel.com>
+Date: Wed, 17 Feb 2016 11:36:50 -0700
+Subject: [PATCH-4.5-v3 0/5] NVMe hot plug stuff
+Message-ID: <1455734215-20396-1-git-send-email-keith.busch@intel.com>
 
-The patch is preparing for reducing the scope of the namespace mutex. It
-adds a removing state the namespace scan work uses to know if it is safe
-to proceed. The scan work is flushed after setting the device state so
-the removal path can safely walk the namespace list without locking it.
+This is based of the current linux-block/for-linus branch.
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Only 4/5 is the same as from v2, and have retained the reviews. The rest
+are new or different.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a128672..f0e97a3 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -120,6 +120,7 @@ struct nvme_dev {
- 	unsigned long flags;
- 
- #define NVME_CTRL_RESETTING    0
-+#define NVME_CTRL_REMOVING     1
- 
- 	struct nvme_ctrl ctrl;
- 	struct completion ioq_wait;
-@@ -1583,6 +1584,8 @@ static void nvme_dev_scan(struct work_struct *work)
- {
- 	struct nvme_dev *dev = container_of(work, struct nvme_dev, scan_work);
- 
-+	if (test_bit(NVME_CTRL_REMOVING, &dev->flags))
-+		return;
- 	if (!dev->tagset.tags)
- 		return;
- 	nvme_scan_namespaces(&dev->ctrl);
-@@ -2116,6 +2119,7 @@ static void nvme_remove(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
- 
-+	set_bit(NVME_CTRL_REMOVING, &dev->flags);
- 	pci_set_drvdata(pdev, NULL);
- 	flush_work(&dev->scan_work);
- 	nvme_remove_namespaces(&dev->ctrl);
+v2->v3:
+
+  Used a different approach to the namespace removal deadlock by reducing
+  the scope of the namespace mutex so removal doesn't hold it during
+  IO. This has a dependency on the first patch to ensure a scan doesn't
+  somehow trigger (however unlikely) during removal.
+
+  Squashed v2's follow up fix for checking namespace state in nvme's queue_rq.
+
+  The final patch doesn't unmap controller registers until removal. This
+  makes it safe to run startup and shutdown concurrently. We could
+  possibly later micro optimize the IO path since the queue doorbell is
+  always mapped. The patch was tested with suspend/resume using rtcwake.
+
+Keith Busch (5):
+  NVMe: Add controller removing state
+  NVMe: Fix namespace removal deadlock
+  NVMe: Simplify device reset failure
+  NVMe: Move error handling to failed reset handler
+  NVMe: Don't unmap controller registers on reset
+
+ drivers/nvme/host/core.c |  62 +++++++++++++++--------
+ drivers/nvme/host/nvme.h |   6 +++
+ drivers/nvme/host/pci.c  | 125 ++++++++++++++++++++++++++---------------------
+ 3 files changed, 118 insertions(+), 75 deletions(-)
+
 -- 
 2.6.2.307.g37023ba
