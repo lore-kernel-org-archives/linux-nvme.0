@@ -1,196 +1,165 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 17 Feb 2016 11:36:55 -0700
-Subject: [PATCH-4.5-v3 5/5] NVMe: Don't unmap controller registers on reset
+Date: Wed, 17 Feb 2016 11:36:54 -0700
+Subject: [PATCH-4.5-v3 4/5] NVMe: Move error handling to failed reset handler
 In-Reply-To: <1455734215-20396-1-git-send-email-keith.busch@intel.com>
 References: <1455734215-20396-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1455734215-20396-6-git-send-email-keith.busch@intel.com>
+Message-ID: <1455734215-20396-5-git-send-email-keith.busch@intel.com>
 
-Unmapping the registers on reset or shutdown is not necessary. Keeping
-the mapping simplifies reset handling.
+This moves failed queue handling out of the namespace removal path and
+into the reset failure path, fixing a hanging condition if the controller
+fails or link down during del_gendisk. Previously the driver had to see
+the controller as degraded prior to calling del_gendisk to setup the
+queues to fail. If the controller happened to fail after this though,
+there was no task to end the request_queue.
+
+On failure, all namespace states are set to dead. This has capacity
+revalidate to 0, and ends all new requests with error status.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 71 +++++++++++++++++++++++++++++--------------------
- 1 file changed, 42 insertions(+), 29 deletions(-)
+ drivers/nvme/host/core.c | 53 ++++++++++++++++++++++++++++++++----------------
+ drivers/nvme/host/nvme.h |  2 ++
+ drivers/nvme/host/pci.c  |  7 ++++++-
+ 3 files changed, 44 insertions(+), 18 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1b7387d..face31f 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -560,6 +560,10 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 	u16 old_ms;
+ 	unsigned short bs;
+ 
++	if (test_bit(NVME_NS_DEAD, &ns->flags)) {
++		set_capacity(disk, 0);
++		return -ENODEV;
++	}
+ 	if (nvme_identify_ns(ns->ctrl, ns->ns_id, &id)) {
+ 		dev_warn(ns->ctrl->dev, "%s: Identify failure nvme%dn%d\n",
+ 				__func__, ns->ctrl->instance, ns->ns_id);
+@@ -1183,32 +1187,15 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 
+ static void nvme_ns_remove(struct nvme_ns *ns)
+ {
+-	bool kill;
+-
+ 	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
+ 		return;
+ 
+-	kill = nvme_io_incapable(ns->ctrl) &&
+-			!blk_queue_dying(ns->queue);
+-	if (kill) {
+-		blk_set_queue_dying(ns->queue);
+-
+-		/*
+-		 * The controller was shutdown first if we got here through
+-		 * device removal. The shutdown may requeue outstanding
+-		 * requests. These need to be aborted immediately so
+-		 * del_gendisk doesn't block indefinitely for their completion.
+-		 */
+-		blk_mq_abort_requeue_list(ns->queue);
+-	}
+ 	if (ns->disk->flags & GENHD_FL_UP) {
+ 		if (blk_get_integrity(ns->disk))
+ 			blk_integrity_unregister(ns->disk);
+ 		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
+ 					&nvme_ns_attr_group);
+ 		del_gendisk(ns->disk);
+-	}
+-	if (kill || !blk_queue_dying(ns->queue)) {
+ 		blk_mq_abort_requeue_list(ns->queue);
+ 		blk_cleanup_queue(ns->queue);
+ 	}
+@@ -1405,6 +1392,38 @@ out:
+ 	return ret;
+ }
+ 
++/**
++ * nvme_kill_queues(): Ends all namespace queues
++ * @ctrl: the dead controller that needs to end
++ *
++ * Call this function when the driver determines it is unable to get the
++ * controller in a state capable of servicing IO.
++ */
++void nvme_kill_queues(struct nvme_ctrl *ctrl)
++{
++	struct nvme_ns *ns;
++
++	mutex_lock(&ctrl->namespaces_mutex);
++	list_for_each_entry(ns, &ctrl->namespaces, list) {
++		if (!kref_get_unless_zero(&ns->kref))
++			continue;
++
++		/*
++		 * Revalidating a dead namespace sets capacity to 0. This will
++		 * end buffered writers dirtying pages that can't be synced.
++		 */
++		if (!test_and_set_bit(NVME_NS_DEAD, &ns->flags))
++			revalidate_disk(ns->disk);
++
++		blk_set_queue_dying(ns->queue);
++		blk_mq_abort_requeue_list(ns->queue);
++		blk_mq_start_stopped_hw_queues(ns->queue, true);
++
++		nvme_put_ns(ns);
++	}
++	mutex_unlock(&ctrl->namespaces_mutex);
++}
++
+ void nvme_stop_queues(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index db413a7..dcdc2d7 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -115,6 +115,7 @@ struct nvme_ns {
+ 	unsigned long flags;
+ 
+ #define NVME_NS_REMOVING 0
++#define NVME_NS_DEAD     1
+ 
+ 	u64 mode_select_num_blocks;
+ 	u32 mode_select_block_len;
+@@ -244,6 +245,7 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
+ 
+ void nvme_stop_queues(struct nvme_ctrl *ctrl);
+ void nvme_start_queues(struct nvme_ctrl *ctrl);
++void nvme_kill_queues(struct nvme_ctrl *ctrl);
+ 
+ struct request *nvme_alloc_request(struct request_queue *q,
+ 		struct nvme_command *cmd, unsigned int flags);
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 27042c0..f11daba 100644
+index 9e050dd..27042c0 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1699,10 +1699,10 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 	return 0;
- }
+@@ -679,7 +679,10 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
  
--static int nvme_dev_map(struct nvme_dev *dev)
-+static int nvme_pci_enable(struct nvme_dev *dev)
- {
- 	u64 cap;
--	int bars, result = -ENOMEM;
-+	int result = -ENOMEM;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	if (pci_enable_device_mem(pdev))
-@@ -1710,24 +1710,14 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 
- 	dev->entry[0].vector = pdev->irq;
- 	pci_set_master(pdev);
--	bars = pci_select_bars(pdev, IORESOURCE_MEM);
--	if (!bars)
--		goto disable_pci;
--
--	if (pci_request_selected_regions(pdev, bars, "nvme"))
--		goto disable_pci;
- 
- 	if (dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(64)) &&
- 	    dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(32)))
- 		goto disable;
- 
--	dev->bar = ioremap(pci_resource_start(pdev, 0), 8192);
--	if (!dev->bar)
--		goto disable;
--
- 	if (readl(dev->bar + NVME_REG_CSTS) == -1) {
- 		result = -ENODEV;
--		goto unmap;
-+		goto disable;
- 	}
- 
- 	/*
-@@ -1737,7 +1727,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	if (!pdev->irq) {
- 		result = pci_enable_msix(pdev, dev->entry, 1);
- 		if (result < 0)
--			goto unmap;
-+			goto disable;
- 	}
- 
- 	cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
-@@ -1764,18 +1754,20 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	pci_save_state(pdev);
- 	return 0;
- 
-- unmap:
--	iounmap(dev->bar);
--	dev->bar = NULL;
-  disable:
--	pci_release_regions(pdev);
-- disable_pci:
- 	pci_disable_device(pdev);
- 	return result;
- }
- 
- static void nvme_dev_unmap(struct nvme_dev *dev)
- {
-+	if (dev->bar)
-+		iounmap(dev->bar);
-+	pci_release_regions(to_pci_dev(dev->dev));
-+}
-+
-+static void nvme_pci_disable(struct nvme_dev *dev)
-+{
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
- 	if (pdev->msi_enabled)
-@@ -1783,12 +1775,6 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
- 	else if (pdev->msix_enabled)
- 		pci_disable_msix(pdev);
- 
--	if (dev->bar) {
--		iounmap(dev->bar);
--		dev->bar = NULL;
--		pci_release_regions(pdev);
--	}
--
- 	if (pci_is_enabled(pdev)) {
- 		pci_disable_pcie_error_reporting(pdev);
- 		pci_disable_device(pdev);
-@@ -1847,7 +1833,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	nvme_dev_list_remove(dev);
- 
- 	mutex_lock(&dev->shutdown_lock);
--	if (dev->bar) {
-+	if (pci_is_enabled(to_pci_dev(dev->dev))) {
- 		nvme_stop_queues(&dev->ctrl);
- 		csts = readl(dev->bar + NVME_REG_CSTS);
- 	}
-@@ -1860,7 +1846,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 		nvme_disable_io_queues(dev);
- 		nvme_disable_admin_queue(dev, shutdown);
- 	}
--	nvme_dev_unmap(dev);
-+	nvme_pci_disable(dev);
- 
- 	for (i = dev->queue_count - 1; i >= 0; i--)
- 		nvme_clear_queue(dev->queues[i]);
-@@ -1926,12 +1912,12 @@ static void nvme_reset_work(struct work_struct *work)
- 	 * If we're called to reset a live controller first shut it down before
- 	 * moving on.
- 	 */
--	if (dev->bar)
-+	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
- 		nvme_dev_disable(dev, false);
- 
- 	set_bit(NVME_CTRL_RESETTING, &dev->flags);
- 
--	result = nvme_dev_map(dev);
-+	result = nvme_pci_enable(dev);
- 	if (result)
+ 	spin_lock_irq(&nvmeq->q_lock);
+ 	if (unlikely(nvmeq->cq_vector < 0)) {
+-		ret = BLK_MQ_RQ_QUEUE_BUSY;
++		if (ns && test_bit(NVME_NS_DEAD, &ns->flags))
++			ret = BLK_MQ_RQ_QUEUE_ERROR;
++		else
++			ret = BLK_MQ_RQ_QUEUE_BUSY;
+ 		spin_unlock_irq(&nvmeq->q_lock);
  		goto out;
+ 	}
+@@ -1906,6 +1909,7 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
+ 	dev_warn(dev->dev, "Removing after probe failure status: %d\n", status);
  
-@@ -2039,6 +2025,27 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 	.free_ctrl		= nvme_pci_free_ctrl,
- };
- 
-+static int nvme_dev_map(struct nvme_dev *dev)
-+{
-+	int bars;
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+
-+	bars = pci_select_bars(pdev, IORESOURCE_MEM);
-+	if (!bars)
-+		return -ENODEV;
-+	if (pci_request_selected_regions(pdev, bars, "nvme"))
-+		return -ENODEV;
-+
-+	dev->bar = ioremap(pci_resource_start(pdev, 0), 8192);
-+	if (!dev->bar)
-+		goto release;
-+
-+       return 0;
-+  release:
-+       pci_release_regions(pdev);
-+       return -ENODEV;
-+}
-+
- static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
- 	int node, result = -ENOMEM;
-@@ -2063,6 +2070,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	dev->dev = get_device(&pdev->dev);
- 	pci_set_drvdata(pdev, dev);
- 
-+	result = nvme_dev_map(dev);
-+	if (result)
-+		goto free;
-+
- 	INIT_LIST_HEAD(&dev->node);
- 	INIT_WORK(&dev->scan_work, nvme_dev_scan);
- 	INIT_WORK(&dev->reset_work, nvme_reset_work);
-@@ -2086,6 +2097,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	nvme_release_prp_pools(dev);
-  put_pci:
- 	put_device(dev->dev);
-+	nvme_dev_unmap(dev);
-  free:
- 	kfree(dev->queues);
- 	kfree(dev->entry);
-@@ -2129,6 +2141,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_free_queues(dev, 0);
- 	nvme_release_cmb(dev);
- 	nvme_release_prp_pools(dev);
-+	nvme_dev_unmap(dev);
- 	nvme_put_ctrl(&dev->ctrl);
+ 	kref_get(&dev->ctrl.kref);
++	nvme_dev_disable(dev, false);
+ 	if (!schedule_work(&dev->remove_work))
+ 		nvme_put_ctrl(&dev->ctrl);
  }
+@@ -1978,6 +1982,7 @@ static void nvme_remove_dead_ctrl_work(struct work_struct *work)
+ 	struct nvme_dev *dev = container_of(work, struct nvme_dev, remove_work);
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
  
++	nvme_kill_queues(&dev->ctrl);
+ 	if (pci_get_drvdata(pdev))
+ 		pci_stop_and_remove_bus_device_locked(pdev);
+ 	nvme_put_ctrl(&dev->ctrl);
 -- 
 2.6.2.307.g37023ba
