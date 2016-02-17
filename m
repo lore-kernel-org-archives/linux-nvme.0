@@ -1,21 +1,19 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 17 Feb 2016 18:44:01 +0000
-Subject: [PATCH 2/3] nvme: don't poll the CQ from the kthread
-In-Reply-To: <1455732194-30790-3-git-send-email-hch@lst.de>
+Date: Wed, 17 Feb 2016 18:44:19 +0000
+Subject: [PATCH 3/3] nvme: replace the kthread with a per-device
+ watchdog timer
+In-Reply-To: <1455732194-30790-4-git-send-email-hch@lst.de>
 References: <1455732194-30790-1-git-send-email-hch@lst.de>
- <1455732194-30790-3-git-send-email-hch@lst.de>
-Message-ID: <20160217184400.GD30059@localhost.localdomain>
+ <1455732194-30790-4-git-send-email-hch@lst.de>
+Message-ID: <20160217184418.GE30059@localhost.localdomain>
 
-On Wed, Feb 17, 2016@07:03:13PM +0100, Christoph Hellwig wrote:
-> There is no reason to do unconditional polling of CQs per the NVMe
-> spec.
+On Wed, Feb 17, 2016@07:03:14PM +0100, Christoph Hellwig wrote:
+> The only work left in the kthread is the periodic health check for each
+> controller.  There is no need to run this from process context or keep
+> a thread context around for it, so replace it with a simpler timer.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Looks good. Now we'll find out if anyone was unknowingly relying on
-this. :)
-
-The legacy IRQ used for the very first NVMe command after reset tripped
-up some devices in the past, but the polling hid the breakage.
+Looks good.
 
 Reviewed-by: Keith Busch <keith.busch at intel.com>
