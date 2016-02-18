@@ -1,21 +1,24 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 17 Feb 2016 20:11:22 -0800
-Subject: [PATCH-4.5-v3 4/5] NVMe: Move error handling to failed reset
- handler
-In-Reply-To: <1455734215-20396-5-git-send-email-keith.busch@intel.com>
-References: <1455734215-20396-1-git-send-email-keith.busch@intel.com>
- <1455734215-20396-5-git-send-email-keith.busch@intel.com>
-Message-ID: <20160218041122.GC12379@infradead.org>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 18 Feb 2016 09:32:29 +0100
+Subject: [PATCH 1/3] nvme: use a work item to submit async event requests
+In-Reply-To: <1455732194-30790-2-git-send-email-hch@lst.de>
+References: <1455732194-30790-1-git-send-email-hch@lst.de>
+ <1455732194-30790-2-git-send-email-hch@lst.de>
+Message-ID: <20160218083229.GN18134@c203.arch.suse.de>
 
-> +/**
-> + * nvme_kill_queues(): Ends all namespace queues
-> + * @ctrl: the dead controller that needs to end
-> + *
-> + * Call this function when the driver determines it is unable to get the
-> + * controller in a state capable of servicing IO.
-> + */
-> +void nvme_kill_queues(struct nvme_ctrl *ctrl)
+On Wed, Feb 17, 2016@07:03:12PM +0100, Christoph Hellwig wrote:
+> Use a dedicated work item to submit async event requests instead of the
+> global kthread.  This simplifies the code and reduces the latencies to
+> resubmit a request once an even notification happened.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Is there a good reason to skyp the admin queue here entirely?
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-Otherwise looks fine to me.
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
