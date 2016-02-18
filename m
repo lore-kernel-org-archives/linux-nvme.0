@@ -1,56 +1,48 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 18 Feb 2016 16:21:15 -0700
-Subject: [PATCH-4.6 1/3] NVMe: Use simple ida interface
-Message-ID: <1455837677-23248-1-git-send-email-keith.busch@intel.com>
+Date: Thu, 18 Feb 2016 16:21:17 -0700
+Subject: [PATCH-4.6 3/3] NVMe: Don't allow unsupported flags
+In-Reply-To: <1455837677-23248-1-git-send-email-keith.busch@intel.com>
+References: <1455837677-23248-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1455837677-23248-3-git-send-email-keith.busch@intel.com>
 
-This is an easier interface to use and removes one of the overloaded
-dev_list_lock uses.
+The command flags can change the meaning of other fields in the command
+that the driver is not prepared to handle. Specifically, the user could
+passthrough an SGL flag, causing the controller to misinterpret the PRP
+list the driver created, potentially corrupting memory or data.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
-Feature was originally posted by Lee Duncan last October, but this missed
-being applied.
+Alternatively I have a different patch that builds SGL's if the flags
+has it set and the device supports SGL. Any interest?
 
- drivers/nvme/host/core.c | 20 ++++----------------
- 1 file changed, 4 insertions(+), 16 deletions(-)
+I didn't post it since the fast path only gets PRP-able scatter lists,
+and the additional logic to handle SGL's complicates handling the NVMe
+IO descriptor.
+
+ drivers/nvme/host/core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9b1253f..04443b2 100644
+index 33ad10d..d8c3a55 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1334,29 +1334,17 @@ static DEFINE_IDA(nvme_instance_ida);
+@@ -398,7 +398,7 @@ static int nvme_submit_io(struct nvme_ns *ns, struct nvme_user_io __user *uio)
  
- static int nvme_set_instance(struct nvme_ctrl *ctrl)
- {
--	int instance, error;
--
--	do {
--		if (!ida_pre_get(&nvme_instance_ida, GFP_KERNEL))
--			return -ENODEV;
--
--		spin_lock(&dev_list_lock);
--		error = ida_get_new(&nvme_instance_ida, &instance);
--		spin_unlock(&dev_list_lock);
--	} while (error == -EAGAIN);
--
--	if (error)
--		return -ENODEV;
-+	int instance = ida_simple_get(&nvme_instance_ida, 0, 0, GFP_KERNEL);
+ 	memset(&c, 0, sizeof(c));
+ 	c.rw.opcode = io.opcode;
+-	c.rw.flags = io.flags;
++	c.rw.flags = 0;
+ 	c.rw.nsid = cpu_to_le32(ns->ns_id);
+ 	c.rw.slba = cpu_to_le64(io.slba);
+ 	c.rw.length = cpu_to_le16(io.nblocks);
+@@ -428,7 +428,7 @@ static int nvme_user_cmd(struct nvme_ctrl *ctrl, struct nvme_ns *ns,
  
-+	if (instance < 0)
-+		return instance;
- 	ctrl->instance = instance;
- 	return 0;
- }
- 
- static void nvme_release_instance(struct nvme_ctrl *ctrl)
- {
--	spin_lock(&dev_list_lock);
--	ida_remove(&nvme_instance_ida, ctrl->instance);
--	spin_unlock(&dev_list_lock);
-+	ida_simple_remove(&nvme_instance_ida, ctrl->instance);
- }
- 
- void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
+ 	memset(&c, 0, sizeof(c));
+ 	c.common.opcode = cmd.opcode;
+-	c.common.flags = cmd.flags;
++	c.common.flags = 0;
+ 	c.common.nsid = cpu_to_le32(cmd.nsid);
+ 	c.common.cdw2[0] = cpu_to_le32(cmd.cdw2);
+ 	c.common.cdw2[1] = cpu_to_le32(cmd.cdw3);
 -- 
 2.6.2.307.g37023ba
