@@ -1,23 +1,59 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 18 Feb 2016 10:45:08 +0100
-Subject: [PATCH-4.5-v3 5/5] NVMe: Don't unmap controller registers on reset
-In-Reply-To: <1455734215-20396-6-git-send-email-keith.busch@intel.com>
-References: <1455734215-20396-1-git-send-email-keith.busch@intel.com>
- <1455734215-20396-6-git-send-email-keith.busch@intel.com>
-Message-ID: <20160218094508.GU18134@c203.arch.suse.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Thu, 18 Feb 2016 14:04:28 +0100
+Subject: NVMe wwid revisited
+Message-ID: <56C5C15C.8030903@suse.de>
 
-On Wed, Feb 17, 2016@11:36:55AM -0700, Keith Busch wrote:
-> Unmapping the registers on reset or shutdown is not necessary. Keeping
-> the mapping simplifies reset handling.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+Hi Keith,
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+I've had a look at the current NVMe implementation for SCSI VPD page
+0x83, in order to implement a generic 'wwid' field.
 
+And I've even looked at the NVM-Express-SCSI-Translation Reference
+version 1.1. What a mess :-(
+
+First of all, there's an error in the spec:
+
+Section 6.1.4.3 T10 Vendor ID Based Descriptor has:
+
+DESIGNATOR TYPE
+Shall be set to 8h indicating SCSI name string format and assignment
+authority.
+
+T10 VENDOR IDENTIFICATION
+Refer to 3.12
+
+VENDOR SPECIFIC IDENTIFIER
+Shall be set the concatenation of the translation of PRODUCT
+IDENTIFICATION field from standard INQUIRY data as specified in
+3.9, and the IEEE Extended Unique Identifier (EUI64) field of the
+Identify Namespace Data Structure
+
+This does _not_ match with T-10 usage; T-10 Vendor ID based
+identification is _NOT_ a scsi name string.
+And the scsi name string has to start with either 'eui.', 'naa.' or
+'iqn.'. Plus the SCSI name string has to be in UTF-8, not ASCII.
+
+So I guess they actually meant for the designator type to be of T-10
+Vendor Identification (ie designator type 1).
+
+Can you address this with the NVMe committee?
+Or do you have someone which I can poke?
+
+Which, of course, raises the question: What _is_ the correct
+identification?
+Implement it according to the translation spec, leaving out the 'T10
+Vendor Identification' field?
+Or implement it with the correct designator type?
+
+(Which is interesting in itself; one simply _cannot_ implement a
+valid translation according to the spec. How curious ...)
+
+Cheers,
+
+Hannes
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
 HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
