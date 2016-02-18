@@ -1,22 +1,14 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 18 Feb 2016 10:42:36 +0100
-Subject: [PATCH-4.5-v3 4/5] NVMe: Move error handling to failed reset
- handler
-In-Reply-To: <1455734215-20396-5-git-send-email-keith.busch@intel.com>
+Date: Thu, 18 Feb 2016 10:45:08 +0100
+Subject: [PATCH-4.5-v3 5/5] NVMe: Don't unmap controller registers on reset
+In-Reply-To: <1455734215-20396-6-git-send-email-keith.busch@intel.com>
 References: <1455734215-20396-1-git-send-email-keith.busch@intel.com>
- <1455734215-20396-5-git-send-email-keith.busch@intel.com>
-Message-ID: <20160218094236.GT18134@c203.arch.suse.de>
+ <1455734215-20396-6-git-send-email-keith.busch@intel.com>
+Message-ID: <20160218094508.GU18134@c203.arch.suse.de>
 
-On Wed, Feb 17, 2016@11:36:54AM -0700, Keith Busch wrote:
-> This moves failed queue handling out of the namespace removal path and
-> into the reset failure path, fixing a hanging condition if the controller
-> fails or link down during del_gendisk. Previously the driver had to see
-> the controller as degraded prior to calling del_gendisk to setup the
-> queues to fail. If the controller happened to fail after this though,
-> there was no task to end the request_queue.
-> 
-> On failure, all namespace states are set to dead. This has capacity
-> revalidate to 0, and ends all new requests with error status.
+On Wed, Feb 17, 2016@11:36:55AM -0700, Keith Busch wrote:
+> Unmapping the registers on reset or shutdown is not necessary. Keeping
+> the mapping simplifies reset handling.
 > 
 > Signed-off-by: Keith Busch <keith.busch at intel.com>
 
