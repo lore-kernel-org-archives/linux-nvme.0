@@ -1,18 +1,18 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 18 Feb 2016 09:36:52 +0100
-Subject: [PATCH 3/3] nvme: replace the kthread with a per-device watchdog
- timer
-In-Reply-To: <1455732194-30790-4-git-send-email-hch@lst.de>
-References: <1455732194-30790-1-git-send-email-hch@lst.de>
- <1455732194-30790-4-git-send-email-hch@lst.de>
-Message-ID: <20160218083651.GP18134@c203.arch.suse.de>
+Date: Thu, 18 Feb 2016 10:37:09 +0100
+Subject: [PATCH-4.5-v3 1/5] NVMe: Add controller removing state
+In-Reply-To: <1455734215-20396-2-git-send-email-keith.busch@intel.com>
+References: <1455734215-20396-1-git-send-email-keith.busch@intel.com>
+ <1455734215-20396-2-git-send-email-keith.busch@intel.com>
+Message-ID: <20160218093709.GR18134@c203.arch.suse.de>
 
-On Wed, Feb 17, 2016@07:03:14PM +0100, Christoph Hellwig wrote:
-> The only work left in the kthread is the periodic health check for each
-> controller.  There is no need to run this from process context or keep
-> a thread context around for it, so replace it with a simpler timer.
+On Wed, Feb 17, 2016@11:36:51AM -0700, Keith Busch wrote:
+> The patch is preparing for reducing the scope of the namespace mutex. It
+> adds a removing state the namespace scan work uses to know if it is safe
+> to proceed. The scan work is flushed after setting the device state so
+> the removal path can safely walk the namespace list without locking it.
 > 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
