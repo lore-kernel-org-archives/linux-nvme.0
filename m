@@ -1,16 +1,21 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 21 Feb 2016 08:17:14 -0800
-Subject: [PATCH-4.5-v3 2/5] NVMe: Fix namespace removal deadlock
-In-Reply-To: <1455734215-20396-3-git-send-email-keith.busch@intel.com>
-References: <1455734215-20396-1-git-send-email-keith.busch@intel.com>
- <1455734215-20396-3-git-send-email-keith.busch@intel.com>
-Message-ID: <20160221161714.GB21896@infradead.org>
+Date: Sun, 21 Feb 2016 08:18:20 -0800
+Subject: [PATCH-4.6 1/3] NVMe: Use simple ida interface
+In-Reply-To: <1455837677-23248-1-git-send-email-keith.busch@intel.com>
+References: <1455837677-23248-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20160221161820.GC21896@infradead.org>
 
-On Wed, Feb 17, 2016@11:36:52AM -0700, Keith Busch wrote:
-> This patch makes nvme namespace removal lockless. It is up to the caller
-> to ensure no active namespace scanning is occuring.
+On Thu, Feb 18, 2016@04:21:15PM -0700, Keith Busch wrote:
+> This is an easier interface to use and removes one of the overloaded
+> dev_list_lock uses.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+> Feature was originally posted by Lee Duncan last October, but this missed
+> being applied.
 
-I wonder if it wouldn't be safer in the long run if we just switch
-to RCU locking - that way we don't need any locks in the readers, they
-can just grab a reference under rcu_read_lock(), and we don't need to
-rely in implicit serialization for the updaters.
+So is Lee's patch or yours?
+
+Either way it looks fine to me:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
