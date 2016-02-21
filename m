@@ -1,14 +1,11 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 21 Feb 2016 08:12:49 -0800
-Subject: [PATCH] NVMe: Use IDA for namespace disk naming
-In-Reply-To: <1455819485-3730-1-git-send-email-keith.busch@intel.com>
-References: <1455819485-3730-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20160221161249.GA21099@infradead.org>
+Date: Sun, 21 Feb 2016 08:15:02 -0800
+Subject: [PATCH-4.5-v3 5/5] NVMe: Don't unmap controller registers on reset
+In-Reply-To: <1455734215-20396-6-git-send-email-keith.busch@intel.com>
+References: <1455734215-20396-1-git-send-email-keith.busch@intel.com>
+ <1455734215-20396-6-git-send-email-keith.busch@intel.com>
+Message-ID: <20160221161502.GA21896@infradead.org>
 
-On Thu, Feb 18, 2016@11:18:05AM -0700, Keith Busch wrote:
-> A namespace may be detached from a controller, but a user may be holding
-> a reference to it. Attaching a new namespace with the same NSID will create
-> duplicate names when using the NSID to name the disk.
+Looks fine,
 
-This looks sensible, but I fear we might be running into the same
-issue with the backing_device embedded in the request_queue.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
