@@ -1,184 +1,57 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 29 Feb 2016 15:59:47 +0100
-Subject: [PATCH 4/4] nvme: return the whole CQE through the request
- passthrough interface
+Date: Mon, 29 Feb 2016 15:59:45 +0100
+Subject: [PATCH 2/4] nvme: don't poll the CQ from the kthread
 In-Reply-To: <1456757987-7244-1-git-send-email-hch@lst.de>
 References: <1456757987-7244-1-git-send-email-hch@lst.de>
-Message-ID: <1456757987-7244-5-git-send-email-hch@lst.de>
+Message-ID: <1456757987-7244-3-git-send-email-hch@lst.de>
 
-Both LighNVM and NVMe over Fabrics need to look at more than just the
-status and result field.
+There is no reason to do unconditional polling of CQs per the NVMe
+spec.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Matias Bj?rling <m at bjorling.me>
-Reviewed-by: Jay Freyensee <james.p.freyensee at intel.com>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
 Reviewed-by: Sagi Grimberg <sagig at mellanox.com>
-Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/core.c | 27 +++++++++++++++++++--------
- drivers/nvme/host/nvme.h |  3 ++-
- drivers/nvme/host/pci.c  | 11 +++--------
- 3 files changed, 24 insertions(+), 17 deletions(-)
+ drivers/nvme/host/pci.c | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 07b7ec69..66fd3d9 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -132,7 +132,6 @@ struct request *nvme_alloc_request(struct request_queue *q,
- 
- 	req->cmd = (unsigned char *)cmd;
- 	req->cmd_len = sizeof(struct nvme_command);
--	req->special = (void *)0;
- 
- 	return req;
- }
-@@ -143,7 +142,8 @@ EXPORT_SYMBOL_GPL(nvme_alloc_request);
-  * if the result is positive, it's an NVM Express status code
-  */
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
--		void *buffer, unsigned bufflen, u32 *result, unsigned timeout)
-+		struct nvme_completion *cqe, void *buffer, unsigned bufflen,
-+		unsigned timeout)
- {
- 	struct request *req;
- 	int ret;
-@@ -153,6 +153,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		return PTR_ERR(req);
- 
- 	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
-+	req->special = cqe;
- 
- 	if (buffer && bufflen) {
- 		ret = blk_rq_map_kern(q, req, buffer, bufflen, GFP_KERNEL);
-@@ -161,8 +162,6 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 	}
- 
- 	blk_execute_rq(req->q, NULL, req, 0);
--	if (result)
--		*result = (u32)(uintptr_t)req->special;
- 	ret = req->errors;
-  out:
- 	blk_mq_free_request(req);
-@@ -172,7 +171,7 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buffer, unsigned bufflen)
- {
--	return __nvme_submit_sync_cmd(q, cmd, buffer, bufflen, NULL, 0);
-+	return __nvme_submit_sync_cmd(q, cmd, NULL, buffer, bufflen, 0);
- }
- EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
- 
-@@ -182,6 +181,7 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		u32 *result, unsigned timeout)
- {
- 	bool write = cmd->common.opcode & 1;
-+	struct nvme_completion cqe;
- 	struct nvme_ns *ns = q->queuedata;
- 	struct gendisk *disk = ns ? ns->disk : NULL;
- 	struct request *req;
-@@ -194,6 +194,7 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		return PTR_ERR(req);
- 
- 	req->timeout = timeout ? timeout : ADMIN_TIMEOUT;
-+	req->special = &cqe;
- 
- 	if (ubuffer && bufflen) {
- 		ret = blk_rq_map_user(q, req, NULL, ubuffer, bufflen,
-@@ -248,7 +249,7 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
- 	blk_execute_rq(req->q, disk, req, 0);
- 	ret = req->errors;
- 	if (result)
--		*result = (u32)(uintptr_t)req->special;
-+		*result = le32_to_cpu(cqe.result);
- 	if (meta && !ret && !write) {
- 		if (copy_to_user(meta_buffer, meta, meta_len))
- 			ret = -EFAULT;
-@@ -329,6 +330,8 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
- 					dma_addr_t dma_addr, u32 *result)
- {
- 	struct nvme_command c;
-+	struct nvme_completion cqe;
-+	int ret;
- 
- 	memset(&c, 0, sizeof(c));
- 	c.features.opcode = nvme_admin_get_features;
-@@ -336,13 +339,18 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
- 	c.features.prp1 = cpu_to_le64(dma_addr);
- 	c.features.fid = cpu_to_le32(fid);
- 
--	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, 0, result, 0);
-+	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, NULL, 0, 0);
-+	if (ret >= 0)
-+		*result = le32_to_cpu(cqe.result);
-+	return ret;
- }
- 
- int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
- 					dma_addr_t dma_addr, u32 *result)
- {
- 	struct nvme_command c;
-+	struct nvme_completion cqe;
-+	int ret;
- 
- 	memset(&c, 0, sizeof(c));
- 	c.features.opcode = nvme_admin_set_features;
-@@ -350,7 +358,10 @@ int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
- 	c.features.fid = cpu_to_le32(fid);
- 	c.features.dword11 = cpu_to_le32(dword11);
- 
--	return __nvme_submit_sync_cmd(dev->admin_q, &c, NULL, 0, result, 0);
-+	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, NULL, 0, 0);
-+	if (ret >= 0)
-+		*result = le32_to_cpu(cqe.result);
-+	return ret;
- }
- 
- int nvme_get_log_page(struct nvme_ctrl *dev, struct nvme_smart_log **log)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 63ba8a5..2ac7539 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -248,7 +248,8 @@ void nvme_requeue_req(struct request *req);
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buf, unsigned bufflen);
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
--		void *buffer, unsigned bufflen,  u32 *result, unsigned timeout);
-+		struct nvme_completion *cqe, void *buffer, unsigned bufflen,
-+		unsigned timeout);
- int nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void __user *ubuffer, unsigned bufflen, u32 *result,
- 		unsigned timeout);
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a623360..d47b087 100644
+index 21b0be4..10839f7 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -748,10 +748,8 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
- 		}
- 
- 		req = blk_mq_tag_to_rq(*nvmeq->tags, cqe.command_id);
--		if (req->cmd_type == REQ_TYPE_DRV_PRIV) {
--			u32 result = le32_to_cpu(cqe.result);
--			req->special = (void *)(uintptr_t)result;
--		}
-+		if (req->cmd_type == REQ_TYPE_DRV_PRIV && req->special)
-+			memcpy(req->special, &cqe, sizeof(cqe));
- 		blk_mq_complete_request(req, status >> 1);
- 
- 	}
-@@ -901,13 +899,10 @@ static void abort_endio(struct request *req, int error)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	struct nvme_queue *nvmeq = iod->nvmeq;
--	u32 result = (u32)(uintptr_t)req->special;
- 	u16 status = req->errors;
- 
--	dev_warn(nvmeq->dev->ctrl.device,
--		"Abort status:%x result:%x", status, result);
-+	dev_warn(nvmeq->dev->ctrl.device, "Abort status: 0x%x", status);
- 	atomic_inc(&nvmeq->dev->ctrl.abort_limit);
+@@ -1156,9 +1156,6 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+ 	nvmeq->qid = qid;
+ 	nvmeq->cq_vector = -1;
+ 	dev->queues[qid] = nvmeq;
 -
- 	blk_mq_free_request(req);
- }
+-	/* make sure queue descriptor is set before queue count, for kthread */
+-	mb();
+ 	dev->queue_count++;
  
+ 	return nvmeq;
+@@ -1345,7 +1342,6 @@ static int nvme_kthread(void *data)
+ 		set_current_state(TASK_INTERRUPTIBLE);
+ 		spin_lock(&dev_list_lock);
+ 		list_for_each_entry_safe(dev, next, &dev_list, node) {
+-			int i;
+ 			u32 csts = readl(dev->bar + NVME_REG_CSTS);
+ 
+ 			/*
+@@ -1363,14 +1359,6 @@ static int nvme_kthread(void *data)
+ 				}
+ 				continue;
+ 			}
+-			for (i = 0; i < dev->queue_count; i++) {
+-				struct nvme_queue *nvmeq = dev->queues[i];
+-				if (!nvmeq)
+-					continue;
+-				spin_lock_irq(&nvmeq->q_lock);
+-				nvme_process_cq(nvmeq);
+-				spin_unlock_irq(&nvmeq->q_lock);
+-			}
+ 		}
+ 		spin_unlock(&dev_list_lock);
+ 		schedule_timeout(round_jiffies_relative(HZ));
 -- 
 2.1.4
