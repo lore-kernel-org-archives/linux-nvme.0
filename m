@@ -1,42 +1,24 @@
-From: dan.j.williams@intel.com (Dan Williams)
-Date: Thu, 30 Jun 2016 18:29:31 -0700
-Subject: [PATCH v2 00/12] gendisk: Generate uevent after attribute
- available
-In-Reply-To: <20160701010113.GB10122@ad.usersys.redhat.com>
-References: <20160630015953.6888-1-famz@redhat.com>
- <20160630062442.GA19761@infradead.org>
- <20160630063554.GE23296@ad.usersys.redhat.com>
- <20160630063839.GA17205@infradead.org>
- <20160701010113.GB10122@ad.usersys.redhat.com>
-Message-ID: <CAA9_cmeb99S+UoZ7A-4HHmT_rFRgnSaBX=YszEk8+4_=n9cOnA@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 1 Mar 2016 09:49:38 +0100
+Subject: [PATCH 2/4] nvme: don't poll the CQ from the kthread
+In-Reply-To: <20160229205607.GC3730@linux.intel.com>
+References: <1456757987-7244-1-git-send-email-hch@lst.de>
+ <1456757987-7244-3-git-send-email-hch@lst.de>
+ <20160229205607.GC3730@linux.intel.com>
+Message-ID: <20160301084938.GA1748@lst.de>
 
-On Thu, Jun 30, 2016@6:01 PM, Fam Zheng <famz@redhat.com> wrote:
-> On Wed, 06/29 23:38, Christoph Hellwig wrote:
->> On Thu, Jun 30, 2016@02:35:54PM +0800, Fam Zheng wrote:
->> > also more code and less flexible IMO.  For example, we need at least two
->> > variants, for attribute_group and device_attribute separately, right?
->>
->> Yes, or maybe just a calling convention that just passes both.
->
-> OK, I can look into that, but I'm not sure about the error handling. Currently
-> add_disk returns void, do you have any plan on that too? should I change it in
-> v3 (to at least return the attribute creation failure)?
+On Mon, Feb 29, 2016@03:56:07PM -0500, Matthew Wilcox wrote:
+> On Mon, Feb 29, 2016@03:59:45PM +0100, Christoph Hellwig wrote:
+> > There is no reason to do unconditional polling of CQs per the NVMe
+> > spec.
+> 
+> Sure, per the spec there isn't.  But in reality, devices ship with
+> broken interrupt support.  What's your plan for dealing with the bug
+> reports from users who have misconfigured MSI support or IRQ lines that
+> are routed to the wrong place?  From my time maintaining SCSI drivers,
+> this wasn't an uncommon bug report.
 
-I think we should only support a "groups" interface to
-device_add_disk() and convert all the drivers that currently do
-device_create_file() after add_disk() to pass in a group list instead.
-That way we follow the expectation that the only way to get an
-attribute for a device to show up before KOBJ_ADD, is to define a
-group:
-
->From Documentation/driver-model/device.txt:
-    As explained in Documentation/kobject.txt, device attributes must be be
-    created before the KOBJ_ADD uevent is generated. The only way to realize
-    that is by defining an attribute group.
-
-Let's defer the return value fixing for now.
-
-You can find the pending device_add_disk() patches in the nvdimm
-patchwork starting with "block: introduce device_add_disk()"
-
-https://patchwork.kernel.org/project/linux-nvdimm/list/
+The same as for all other devices that have drivers without a dedicated
+once per second polling loop?  That is: fix the irq routing if possible
+and find a specific workaround if really needed and required by
+a blacklist instead of papering over it just in case.
