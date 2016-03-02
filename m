@@ -1,19 +1,19 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 2 Mar 2016 22:18:57 +0100
-Subject: [PATCH 4/5] block: fix blk_rq_get_max_sectors for driver
- private requests
-In-Reply-To: <20160302191705.GD27636@localhost.localdomain>
+Date: Wed, 2 Mar 2016 22:20:01 +0100
+Subject: [PATCH 5/5] block: support large requests in blk_rq_map_user_iov
+In-Reply-To: <20160302193422.GE27636@localhost.localdomain>
 References: <1456938434-20387-1-git-send-email-hch@lst.de>
- <1456938434-20387-5-git-send-email-hch@lst.de>
- <20160302191705.GD27636@localhost.localdomain>
-Message-ID: <20160302211857.GB3803@lst.de>
+ <1456938434-20387-6-git-send-email-hch@lst.de>
+ <20160302193422.GE27636@localhost.localdomain>
+Message-ID: <20160302212001.GC3803@lst.de>
 
-On Wed, Mar 02, 2016@07:17:05PM +0000, Keith Busch wrote:
-> check for the one type that does support checking chunk sectors instead:
-> 
-> 	if (unlikely(rq->cmd_type != REQ_TYPE_FS))
-> 
-> But it looks fine as-is, too.
+On Wed, Mar 02, 2016@07:34:22PM +0000, Keith Busch wrote:
+> This looks good too, though I think patch 2/5 in this series on its
+> own should have fixed the transfer issues for NVMe. AFAICT, the only
+> reason the iterator couldn't be fully copied into a single bio is if
+> blk_add_pc_page already hit a queue limit, and blk_rq_append_bio would
+> fail for the same reason.
 
-Yes, that's probably better in the long run.  Jens, can you fold the 
-suggestion from Keith into the patch?
+For requests <= 1MB that's true.  But the firmware dump is using larger
+transfers, and unless we can merge enough fragments we're still going
+to need multiple bios.
