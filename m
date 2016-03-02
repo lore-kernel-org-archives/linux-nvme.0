@@ -1,39 +1,76 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  2 Mar 2016 18:07:12 +0100
-Subject: [PATCH 3/5] nvme: fix max_segments integer truncation
+Date: Wed,  2 Mar 2016 18:07:11 +0100
+Subject: [PATCH 2/5] nvme: set queue limits for the admin queue
 In-Reply-To: <1456938434-20387-1-git-send-email-hch@lst.de>
 References: <1456938434-20387-1-git-send-email-hch@lst.de>
-Message-ID: <1456938434-20387-4-git-send-email-hch@lst.de>
+Message-ID: <1456938434-20387-3-git-send-email-hch@lst.de>
 
-The block layer uses an unsigned short for max_segments.  The way we
-calculate the value for NVMe tends to generate very large 32-bit values,
-which after integer truncation may lead to a zero value instead of
-the desired outcome.
+Factor out a helper to set all the device specific queue limits and apply
+them to the admin queue in addition to the I/O queues.  Without this the
+command size on the admin queue is arbitrarily low, and the missing
+other limitations are just minefields waiting for victims.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Reported-by: Jeff Lien <Jeff.Lien at hgst.com>
 Tested-by: Jeff Lien <Jeff.Lien at hgst.com>
 ---
- drivers/nvme/host/core.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 29 +++++++++++++++++++----------
+ 1 file changed, 19 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index cfee6ac..c30cb10 100644
+index 470d4f3..cfee6ac 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -844,9 +844,11 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
- 		struct request_queue *q)
- {
- 	if (ctrl->max_hw_sectors) {
-+		u32 max_segments = 
-+			(ctrl->max_hw_sectors / (ctrl->page_size >> 9)) + 1;
+@@ -840,6 +840,21 @@ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
+ 	return ret;
+ }
+ 
++static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
++		struct request_queue *q)
++{
++	if (ctrl->max_hw_sectors) {
++		blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
++		blk_queue_max_segments(q,
++			(ctrl->max_hw_sectors / (ctrl->page_size >> 9)) + 1);
++	}
++	if (ctrl->stripe_size)
++		blk_queue_chunk_sectors(q, ctrl->stripe_size >> 9);
++	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
++		blk_queue_flush(q, REQ_FLUSH | REQ_FUA);
++	blk_queue_virt_boundary(q, ctrl->page_size - 1);
++}
 +
- 		blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
--		blk_queue_max_segments(q,
--			(ctrl->max_hw_sectors / (ctrl->page_size >> 9)) + 1);
-+		blk_queue_max_segments(q, min_t(u32, max_segments, USHRT_MAX));
+ /*
+  * Initialize the cached copies of the Identify data and various controller
+  * register in our nvme_ctrl structure.  This should be called as soon as
+@@ -897,6 +912,8 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 		}
  	}
- 	if (ctrl->stripe_size)
- 		blk_queue_chunk_sectors(q, ctrl->stripe_size >> 9);
+ 
++	nvme_set_queue_limits(ctrl, ctrl->admin_q);
++
+ 	kfree(id);
+ 	return 0;
+ }
+@@ -1147,17 +1164,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	ns->disk = disk;
+ 	ns->lba_shift = 9; /* set to a default value for 512 until disk is validated */
+ 
++
+ 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
+-	if (ctrl->max_hw_sectors) {
+-		blk_queue_max_hw_sectors(ns->queue, ctrl->max_hw_sectors);
+-		blk_queue_max_segments(ns->queue,
+-			(ctrl->max_hw_sectors / (ctrl->page_size >> 9)) + 1);
+-	}
+-	if (ctrl->stripe_size)
+-		blk_queue_chunk_sectors(ns->queue, ctrl->stripe_size >> 9);
+-	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
+-		blk_queue_flush(ns->queue, REQ_FLUSH | REQ_FUA);
+-	blk_queue_virt_boundary(ns->queue, ctrl->page_size - 1);
++	nvme_set_queue_limits(ctrl, ns->queue);
+ 
+ 	disk->major = nvme_major;
+ 	disk->first_minor = 0;
 -- 
 2.1.4
