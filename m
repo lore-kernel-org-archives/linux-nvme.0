@@ -1,31 +1,28 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  2 Mar 2016 18:07:10 +0100
-Subject: [PATCH 1/5] nvme: also set BLK_MQ_F_SHOULD_MERGE for the admin queue
-In-Reply-To: <1456938434-20387-1-git-send-email-hch@lst.de>
-References: <1456938434-20387-1-git-send-email-hch@lst.de>
-Message-ID: <1456938434-20387-2-git-send-email-hch@lst.de>
+From: olivier.mallinger@ip-maker.com (Olivier Mallinger - IP Maker)
+Date: Wed, 2 Mar 2016 18:32:41 +0100
+Subject: Tested LBA size ?
+Message-ID: <56D723B9.6030004@ip-maker.com>
 
-There is no reason to treat the admin queue different in terms of
-request merging.
+Hello.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reported-by: Jeff Lien <Jeff.Lien at hgst.com>
-Tested-by: Jeff Lien <Jeff.Lien at hgst.com>
----
- drivers/nvme/host/pci.c | 1 +
- 1 file changed, 1 insertion(+)
+Does anyone already experience to use a NVMe SSD with a namespace 
+defined with a  LBA size higher or equal to 8kB.
+I successfully tested a device with LBA sizes of 512 bytes, 1kB, 2kB or 4kB.
+But when I use a LBA size of 8kB, the NVMe initialization is good but I 
+can not see any read command access to drive after.
+The controller is enable but the host does not perform any access expect 
+for CSTS read.
+My host page size is 4kB.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 680f578..19be56a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1289,6 +1289,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
- 		dev->admin_tagset.timeout = ADMIN_TIMEOUT;
- 		dev->admin_tagset.numa_node = dev_to_node(dev->dev);
- 		dev->admin_tagset.cmd_size = nvme_cmd_size(dev);
-+		dev->admin_tagset.flags = BLK_MQ_F_SHOULD_MERGE;
- 		dev->admin_tagset.driver_data = dev;
- 
- 		if (blk_mq_alloc_tag_set(&dev->admin_tagset))
--- 
-2.1.4
+Any idea (bad configuration, ...) ? I don't understand what is expecting 
+the driver.
+Thanks.
+Regards.
+Olivier.
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: olivier_mallinger.vcf
+Type: text/x-vcard
+Size: 316 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160302/e2256369/attachment.vcf>
