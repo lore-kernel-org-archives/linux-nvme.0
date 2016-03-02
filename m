@@ -1,76 +1,31 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  2 Mar 2016 18:07:11 +0100
-Subject: [PATCH 2/5] nvme: set queue limits for the admin queue
+Date: Wed,  2 Mar 2016 18:07:10 +0100
+Subject: [PATCH 1/5] nvme: also set BLK_MQ_F_SHOULD_MERGE for the admin queue
 In-Reply-To: <1456938434-20387-1-git-send-email-hch@lst.de>
 References: <1456938434-20387-1-git-send-email-hch@lst.de>
-Message-ID: <1456938434-20387-3-git-send-email-hch@lst.de>
+Message-ID: <1456938434-20387-2-git-send-email-hch@lst.de>
 
-Factor out a helper to set all the device specific queue limits and apply
-them to the admin queue in addition to the I/O queues.  Without this the
-command size on the admin queue is arbitrarily low, and the missing
-other limitations are just minefields waiting for victims.
+There is no reason to treat the admin queue different in terms of
+request merging.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Reported-by: Jeff Lien <Jeff.Lien at hgst.com>
 Tested-by: Jeff Lien <Jeff.Lien at hgst.com>
 ---
- drivers/nvme/host/core.c | 29 +++++++++++++++++++----------
- 1 file changed, 19 insertions(+), 10 deletions(-)
+ drivers/nvme/host/pci.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 470d4f3..cfee6ac 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -840,6 +840,21 @@ int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl)
- 	return ret;
- }
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 680f578..19be56a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1289,6 +1289,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
+ 		dev->admin_tagset.timeout = ADMIN_TIMEOUT;
+ 		dev->admin_tagset.numa_node = dev_to_node(dev->dev);
+ 		dev->admin_tagset.cmd_size = nvme_cmd_size(dev);
++		dev->admin_tagset.flags = BLK_MQ_F_SHOULD_MERGE;
+ 		dev->admin_tagset.driver_data = dev;
  
-+static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
-+		struct request_queue *q)
-+{
-+	if (ctrl->max_hw_sectors) {
-+		blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
-+		blk_queue_max_segments(q,
-+			(ctrl->max_hw_sectors / (ctrl->page_size >> 9)) + 1);
-+	}
-+	if (ctrl->stripe_size)
-+		blk_queue_chunk_sectors(q, ctrl->stripe_size >> 9);
-+	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
-+		blk_queue_flush(q, REQ_FLUSH | REQ_FUA);
-+	blk_queue_virt_boundary(q, ctrl->page_size - 1);
-+}
-+
- /*
-  * Initialize the cached copies of the Identify data and various controller
-  * register in our nvme_ctrl structure.  This should be called as soon as
-@@ -897,6 +912,8 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 		}
- 	}
- 
-+	nvme_set_queue_limits(ctrl, ctrl->admin_q);
-+
- 	kfree(id);
- 	return 0;
- }
-@@ -1147,17 +1164,9 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	ns->disk = disk;
- 	ns->lba_shift = 9; /* set to a default value for 512 until disk is validated */
- 
-+
- 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
--	if (ctrl->max_hw_sectors) {
--		blk_queue_max_hw_sectors(ns->queue, ctrl->max_hw_sectors);
--		blk_queue_max_segments(ns->queue,
--			(ctrl->max_hw_sectors / (ctrl->page_size >> 9)) + 1);
--	}
--	if (ctrl->stripe_size)
--		blk_queue_chunk_sectors(ns->queue, ctrl->stripe_size >> 9);
--	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
--		blk_queue_flush(ns->queue, REQ_FLUSH | REQ_FUA);
--	blk_queue_virt_boundary(ns->queue, ctrl->page_size - 1);
-+	nvme_set_queue_limits(ctrl, ns->queue);
- 
- 	disk->major = nvme_major;
- 	disk->first_minor = 0;
+ 		if (blk_mq_alloc_tag_set(&dev->admin_tagset))
 -- 
 2.1.4
