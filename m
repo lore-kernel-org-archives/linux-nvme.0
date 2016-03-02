@@ -1,28 +1,19 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 2 Mar 2016 22:17:29 +0100
-Subject: [PATCH 1/5] nvme: also set BLK_MQ_F_SHOULD_MERGE for the admin
- queue
-In-Reply-To: <56D7247C.4000208@dev.mellanox.co.il>
+Date: Wed, 2 Mar 2016 22:18:57 +0100
+Subject: [PATCH 4/5] block: fix blk_rq_get_max_sectors for driver
+ private requests
+In-Reply-To: <20160302191705.GD27636@localhost.localdomain>
 References: <1456938434-20387-1-git-send-email-hch@lst.de>
- <1456938434-20387-2-git-send-email-hch@lst.de>
- <56D7247C.4000208@dev.mellanox.co.il>
-Message-ID: <20160302211729.GA3803@lst.de>
+ <1456938434-20387-5-git-send-email-hch@lst.de>
+ <20160302191705.GD27636@localhost.localdomain>
+Message-ID: <20160302211857.GB3803@lst.de>
 
-On Wed, Mar 02, 2016@07:35:56PM +0200, Sagi Grimberg wrote:
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index 680f578..19be56a 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -1289,6 +1289,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
->>   		dev->admin_tagset.timeout = ADMIN_TIMEOUT;
->>   		dev->admin_tagset.numa_node = dev_to_node(dev->dev);
->>   		dev->admin_tagset.cmd_size = nvme_cmd_size(dev);
->> +		dev->admin_tagset.flags = BLK_MQ_F_SHOULD_MERGE;
->
-> I still don't understand what's the point?
+On Wed, Mar 02, 2016@07:17:05PM +0000, Keith Busch wrote:
+> check for the one type that does support checking chunk sectors instead:
+> 
+> 	if (unlikely(rq->cmd_type != REQ_TYPE_FS))
+> 
+> But it looks fine as-is, too.
 
-still? :)
-
-But yes, we're not going to hit the merge case for the passthrough
-command indeed.  Except for keeping the flags in sync, which sounds
-like a good ?dea in general there is not reall need for this one.
+Yes, that's probably better in the long run.  Jens, can you fold the 
+suggestion from Keith into the patch?
