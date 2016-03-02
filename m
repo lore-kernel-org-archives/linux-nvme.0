@@ -1,27 +1,21 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 2 Mar 2016 18:15:17 +0000
-Subject: [PATCH 1/5] nvme: also set BLK_MQ_F_SHOULD_MERGE for the admin
- queue
-In-Reply-To: <56D7247C.4000208@dev.mellanox.co.il>
+Date: Wed, 2 Mar 2016 18:27:58 +0000
+Subject: [PATCH 3/5] nvme: fix max_segments integer truncation
+In-Reply-To: <1456938434-20387-4-git-send-email-hch@lst.de>
 References: <1456938434-20387-1-git-send-email-hch@lst.de>
- <1456938434-20387-2-git-send-email-hch@lst.de>
- <56D7247C.4000208@dev.mellanox.co.il>
-Message-ID: <20160302181516.GA27636@localhost.localdomain>
+ <1456938434-20387-4-git-send-email-hch@lst.de>
+Message-ID: <20160302182758.GB27636@localhost.localdomain>
 
-On Wed, Mar 02, 2016@07:35:56PM +0200, Sagi Grimberg wrote:
+On Wed, Mar 02, 2016@06:07:12PM +0100, Christoph Hellwig wrote:
+> The block layer uses an unsigned short for max_segments.  The way we
+> calculate the value for NVMe tends to generate very large 32-bit values,
+> which after integer truncation may lead to a zero value instead of
+> the desired outcome.
 > 
-> >diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> >index 680f578..19be56a 100644
-> >--- a/drivers/nvme/host/pci.c
-> >+++ b/drivers/nvme/host/pci.c
-> >@@ -1289,6 +1289,7 @@ static int nvme_alloc_admin_tags(struct nvme_dev *dev)
-> >  		dev->admin_tagset.timeout = ADMIN_TIMEOUT;
-> >  		dev->admin_tagset.numa_node = dev_to_node(dev->dev);
-> >  		dev->admin_tagset.cmd_size = nvme_cmd_size(dev);
-> >+		dev->admin_tagset.flags = BLK_MQ_F_SHOULD_MERGE;
-> 
-> I still don't understand what's the point?
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reported-by: Jeff Lien <Jeff.Lien at hgst.com>
+> Tested-by: Jeff Lien <Jeff.Lien at hgst.com>
 
-I agree, this looks like a no-op. The admin request queue isn't for
-block data, and the admin queue only uses cmd_type REQ_TYPE_DRV_PRIV. I
-believe only requests of REQ_TYPE_FS type are mergable.
+Looks good.
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
