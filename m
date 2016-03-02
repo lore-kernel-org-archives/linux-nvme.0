@@ -1,150 +1,34 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  2 Mar 2016 18:07:14 +0100
-Subject: [PATCH 5/5] block: support large requests in blk_rq_map_user_iov
+Date: Wed,  2 Mar 2016 18:07:13 +0100
+Subject: [PATCH 4/5] block: fix blk_rq_get_max_sectors for driver private
+ requests
 In-Reply-To: <1456938434-20387-1-git-send-email-hch@lst.de>
 References: <1456938434-20387-1-git-send-email-hch@lst.de>
-Message-ID: <1456938434-20387-6-git-send-email-hch@lst.de>
+Message-ID: <1456938434-20387-5-git-send-email-hch@lst.de>
 
-This patch adds support for larger requests in blk_rq_map_user_iov by
-allowing it to build multiple bios for a request.  This functionality
-used to exist for the non-vectored blk_rq_map_user in the past, and
-this patch reuses the existing functionality for it on the unmap side,
-which stuck around.  Thanks to the iov_iter API supporting multiple
-bios is fairly trivial, as we can just iterate the iov until we've
-consumed the whole iov_iter.
+Driver private request types should not get the artifical cap for the
+FS requests.  This is important to use the full device capabilities
+for internal command or NVMe pass through commands.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 Reported-by: Jeff Lien <Jeff.Lien at hgst.com>
 Tested-by: Jeff Lien <Jeff.Lien at hgst.com>
 ---
- block/blk-map.c | 91 ++++++++++++++++++++++++++++++++++++++-------------------
- 1 file changed, 61 insertions(+), 30 deletions(-)
+ include/linux/blkdev.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/blk-map.c b/block/blk-map.c
-index f565e11..a54f054 100644
---- a/block/blk-map.c
-+++ b/block/blk-map.c
-@@ -57,6 +57,49 @@ static int __blk_rq_unmap_user(struct bio *bio)
- 	return ret;
- }
- 
-+static int __blk_rq_map_user_iov(struct request *rq,
-+		struct rq_map_data *map_data, struct iov_iter *iter,
-+		gfp_t gfp_mask, bool copy)
-+{
-+	struct request_queue *q = rq->q;
-+	struct bio *bio, *orig_bio;
-+	int ret;
-+
-+	if (copy)
-+		bio = bio_copy_user_iov(q, map_data, iter, gfp_mask);
-+	else
-+		bio = bio_map_user_iov(q, iter, gfp_mask);
-+
-+	if (IS_ERR(bio))
-+		return PTR_ERR(bio);
-+
-+	if (map_data && map_data->null_mapped)
-+		bio_set_flag(bio, BIO_NULL_MAPPED);
-+
-+	iov_iter_advance(iter, bio->bi_iter.bi_size);
-+	if (map_data)
-+		map_data->offset += bio->bi_iter.bi_size;
-+
-+	orig_bio = bio;
-+	blk_queue_bounce(q, &bio);
-+
-+	/*
-+	 * We link the bounce buffer in and could have to traverse it
-+	 * later so we have to get a ref to prevent it from being freed
-+	 */
-+	bio_get(bio);
-+
-+	ret = blk_rq_append_bio(q, rq, bio);
-+	if (ret) {
-+		bio_endio(bio);
-+		__blk_rq_unmap_user(orig_bio);
-+		bio_put(bio);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- /**
-  * blk_rq_map_user_iov - map user data to a request, for REQ_TYPE_BLOCK_PC usage
-  * @q:		request queue where request should be inserted
-@@ -82,10 +125,11 @@ int blk_rq_map_user_iov(struct request_queue *q, struct request *rq,
- 			struct rq_map_data *map_data,
- 			const struct iov_iter *iter, gfp_t gfp_mask)
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index d7f6bca..f831dc0 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -895,7 +895,7 @@ static inline unsigned int blk_rq_get_max_sectors(struct request *rq)
  {
--	struct bio *bio;
--	int unaligned = 0;
--	struct iov_iter i;
- 	struct iovec iov, prv = {.iov_base = NULL, .iov_len = 0};
-+	bool copy = (q->dma_pad_mask & iter->count) || map_data;
-+	struct bio *bio = NULL;
-+	struct iov_iter i;
-+	int ret;
+ 	struct request_queue *q = rq->q;
  
- 	if (!iter || !iter->count)
- 		return -EINVAL;
-@@ -101,42 +145,29 @@ int blk_rq_map_user_iov(struct request_queue *q, struct request *rq,
- 		 */
- 		if ((uaddr & queue_dma_alignment(q)) ||
- 		    iovec_gap_to_prv(q, &prv, &iov))
--			unaligned = 1;
-+			copy = true;
+-	if (unlikely(rq->cmd_type == REQ_TYPE_BLOCK_PC))
++	if (unlikely(rq->cmd_type >= REQ_TYPE_BLOCK_PC))
+ 		return q->limits.max_hw_sectors;
  
- 		prv.iov_base = iov.iov_base;
- 		prv.iov_len = iov.iov_len;
- 	}
- 
--	if (unaligned || (q->dma_pad_mask & iter->count) || map_data)
--		bio = bio_copy_user_iov(q, map_data, iter, gfp_mask);
--	else
--		bio = bio_map_user_iov(q, iter, gfp_mask);
--
--	if (IS_ERR(bio))
--		return PTR_ERR(bio);
--
--	if (map_data && map_data->null_mapped)
--		bio_set_flag(bio, BIO_NULL_MAPPED);
--
--	if (bio->bi_iter.bi_size != iter->count) {
--		/*
--		 * Grab an extra reference to this bio, as bio_unmap_user()
--		 * expects to be able to drop it twice as it happens on the
--		 * normal IO completion path
--		 */
--		bio_get(bio);
--		bio_endio(bio);
--		__blk_rq_unmap_user(bio);
--		return -EINVAL;
--	}
-+	i = *iter;
-+	do {
-+		ret =__blk_rq_map_user_iov(rq, map_data, &i, gfp_mask, copy);
-+		if (ret)
-+			goto unmap_rq;
-+		if (!bio)
-+			bio = rq->bio;
-+	} while (iov_iter_count(&i));
- 
- 	if (!bio_flagged(bio, BIO_USER_MAPPED))
- 		rq->cmd_flags |= REQ_COPY_USER;
--
--	blk_queue_bounce(q, &bio);
--	bio_get(bio);
--	blk_rq_bio_prep(q, rq, bio);
- 	return 0;
-+
-+unmap_rq:
-+	__blk_rq_unmap_user(bio);
-+	rq->bio = NULL;
-+	return -EINVAL;
- }
- EXPORT_SYMBOL(blk_rq_map_user_iov);
- 
+ 	if (!q->limits.chunk_sectors || (rq->cmd_flags & REQ_DISCARD))
 -- 
 2.1.4
