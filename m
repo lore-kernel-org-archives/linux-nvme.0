@@ -1,25 +1,15 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Wed, 2 Mar 2016 15:16:18 -0700
-Subject: [PATCH 4/5] block: fix blk_rq_get_max_sectors for driver private
- requests
-In-Reply-To: <20160302211857.GB3803@lst.de>
-References: <1456938434-20387-1-git-send-email-hch@lst.de>
- <1456938434-20387-5-git-send-email-hch@lst.de>
- <20160302191705.GD27636@localhost.localdomain> <20160302211857.GB3803@lst.de>
-Message-ID: <56D76632.2010301@fb.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 2 Mar 2016 22:42:17 +0000
+Subject: [PATCH] block: Initialize max_dev_sectors to 0
+In-Reply-To: <20160301151951.GA21997@infradead.org>
+References: <1455148367-25208-1-git-send-email-keith.busch@intel.com>
+ <56BCA6F4.6030807@fb.com> <20160301151951.GA21997@infradead.org>
+Message-ID: <20160302224216.GF27636@localhost.localdomain>
 
-On 03/02/2016 02:18 PM, Christoph Hellwig wrote:
-> On Wed, Mar 02, 2016@07:17:05PM +0000, Keith Busch wrote:
->> check for the one type that does support checking chunk sectors instead:
->>
->> 	if (unlikely(rq->cmd_type != REQ_TYPE_FS))
->>
->> But it looks fine as-is, too.
->
-> Yes, that's probably better in the long run.  Jens, can you fold the
-> suggestion from Keith into the patch?
+On Tue, Mar 01, 2016@07:19:51AM -0800, Christoph Hellwig wrote:
+> Btw, I think we also needs this for 4.4-stable, especially as it's
+> going to be a long term release.
 
-Too late to fold, but I fixed it separately.
-
--- 
-Jens Axboe
+Agreed, I even received bug reports this week for this issue from
+folks using 4.4-stable at the NVMe plugfest. I posted this patch to the
+stable list.
