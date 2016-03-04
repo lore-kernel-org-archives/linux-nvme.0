@@ -1,72 +1,86 @@
-From: tgooding@us.ibm.com (Thomas Gooding)
-Date: Thu, 3 Mar 2016 11:00:01 -0600
-Subject: Tested LBA size ?
-In-Reply-To: <56D85087.7060909@ip-maker.com>
-References: <56D723B9.6030004@ip-maker.com>
- <20160303084729.GA1280@infradead.org>
- <56D80AB7.4040607@ip-maker.com>
- <20160303141659.GB1004@localhost.localdomain> <56D85087.7060909@ip-maker.com>
-Message-ID: <201603031700.u23H0DIh011483@d01av03.pok.ibm.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri,  4 Mar 2016 10:45:22 -0700
+Subject: [PATCH] NVMe: Create discard zero quirk white list
+Message-ID: <1457113522-14099-1-git-send-email-keith.busch@intel.com>
 
-For what its worth, Linux on OpenPower typically runs with a memory page 
-size of 64kB.  That would give the opportunity to test with a larger LBA. 
+The NVMe specification does not require discarded blocks return zeroes on
+read, but provides that behavior as a possibility. Some applications more
+efficiently use an SSD if reads on discarded blocks were deterministically
+zero, based on the "discard_zeroes_data" queue attribute.
+
+There is no specification defined way to determine device behavior on
+discarded blocks, so the driver always left the queue setting disabled. We
+can only know behavior based on individual device models, so this patch
+adds a flag to the NVMe "quirk" list that vendors may set if they know
+their controller works that way. The patch also sets the new flag for one
+such known device.
+
+Suggested-by: Artur Paszkiewicz <artur.paszkiewicz at intel.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 9 +++++++--
+ drivers/nvme/host/nvme.h | 6 ++++++
+ drivers/nvme/host/pci.c  | 3 ++-
+ 3 files changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 1100a6d..6efa489 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -587,8 +587,14 @@ static void nvme_init_integrity(struct nvme_ns *ns)
  
-
-Tom
-
-
-"Linux-nvme" <linux-nvme-bounces at lists.infradead.org> wrote on 03/03/2016 
-08:56:07 AM:
-
-> From: Olivier Mallinger - IP Maker <olivier.mallinger at ip-maker.com>
-> To: Keith Busch <keith.busch at intel.com>
-> Cc: Christoph Hellwig <hch at infradead.org>, 
-linux-nvme at lists.infradead.org
-> Date: 03/03/2016 08:58 AM
-> Subject: Re: Tested LBA size ?
-> Sent by: "Linux-nvme" <linux-nvme-bounces at lists.infradead.org>
-> 
-> So, "getconf PAGESIZE" returns 4096.
-> 
-> For my understanding, in NVMe system for data transfers, basically two 
-> sizes have to be managed :
->    - MPS :Memory Page Size which defines the size of pages to be 
-transferred
->    - LBA data size which defines the size of the logical block.
-> 
->  From the NVMe controller point of view, these two value needs to be 
-> computed for each command (Read/Write) to know the number of page (MPS) 
-> to be transferred.
-> So controller has to be able to support all combination of MPS and LBA 
-size.
-> 
->  From the Linux point of view, your answer make me think that all is 
-> based on PAGESIZE and so PAGESIZE defined both MPS and LBA Size (or at 
-> least their maximum values as it works with 512 bytes LBA size for 
-example).
-> Am I right ? And so a NVMe device including namespace with LBA size 
-> higher than 4kB will never work on a Linux with a PAGESIZE set to 4096 ?
-> 
-> Thanks.
-> Regards.
-> Olivier.
-> 
-> Le 03/03/2016 15:17, Keith Busch a ?crit :
-> > On Thu, Mar 03, 2016 at 10:58:15AM +0100, Olivier Mallinger - IP 
-> Maker wrote:
-> >> By VM, you mean "Virtual Machine" ?
-> > VM -- Virtual Memory
-> >
-> >> Can I conclude that VM page size is generally 4kB today ? an you
-> >> confirm that ?
-> > Probably. 4k is the most common VM page size. It's the only supported 
-size
-> > on x86. If using something else, YMMV. To confirm, run:
-> >
-> >    # getconf PAGESIZE
-> 
-> [attachment "olivier_mallinger.vcf" deleted by Thomas Gooding/
-> Rochester/IBM] _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+ static void nvme_config_discard(struct nvme_ns *ns)
+ {
++	struct nvme_ctrl *ctrl = ns->ctrl;
+ 	u32 logical_block_size = queue_logical_block_size(ns->queue);
+-	ns->queue->limits.discard_zeroes_data = 0;
++
++	if (ctrl->quirks & NVME_QUIRK_DISCARD_ZEROES)
++		ns->queue->limits.discard_zeroes_data = 1;
++	else
++		ns->queue->limits.discard_zeroes_data = 0;
++
+ 	ns->queue->limits.discard_alignment = logical_block_size;
+ 	ns->queue->limits.discard_granularity = logical_block_size;
+ 	blk_queue_max_discard_sectors(ns->queue, 0xffffffff);
+@@ -1250,7 +1256,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	ns->disk = disk;
+ 	ns->lba_shift = 9; /* set to a default value for 512 until disk is validated */
+ 
+-
+ 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
+ 	nvme_set_queue_limits(ctrl, ns->queue);
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index b760de1..1c6bcaa 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -59,6 +59,12 @@ enum nvme_quirks {
+ 	 * correctly.
+ 	 */
+ 	NVME_QUIRK_IDENTIFY_CNS			= (1 << 1),
++
++	/*
++	 * The controller deterministically returns O's on reads to discarded
++	 * logical blocks.
++	 */
++	NVME_QUIRK_DISCARD_ZEROES		= (1 << 1),
+ };
+ 
+ struct nvme_ctrl {
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5869f20..86b4c78 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2164,7 +2164,8 @@ static const struct pci_error_handlers nvme_err_handler = {
+ 
+ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, 0x0953),
+-		.driver_data = NVME_QUIRK_STRIPE_SIZE, },
++		.driver_data = NVME_QUIRK_STRIPE_SIZE |
++				NVME_QUIRK_DISCARD_ZEROES, },
+ 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+ 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+-- 
+2.7.2
