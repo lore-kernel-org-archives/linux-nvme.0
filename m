@@ -1,19 +1,40 @@
 From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Tue,  8 Mar 2016 10:34:52 -0700
-Subject: [PATCH 0/2] Some performance fixes for fastpath
-Message-ID: <1457458494-10550-1-git-send-email-jonathan.derrick@intel.com>
+Date: Tue,  8 Mar 2016 10:34:53 -0700
+Subject: [PATCH 1/2] Block: Disable polling stats when iostats are disabled
+In-Reply-To: <1457458494-10550-1-git-send-email-jonathan.derrick@intel.com>
+References: <1457458494-10550-1-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <1457458494-10550-2-git-send-email-jonathan.derrick@intel.com>
 
-This is a small set of hopefully uncontroversial, performance-related
-patches. Local testing on new hardware showed a 5-10MBps increase in
-4k and 1M sequential synchronous null reads from an NVMe device.
+Extends iostats to encompass polling statistics to save a few cycles
+when disabled.
 
-Jon Derrick (2):
-  Block: Disable polling stats when iostats are disabled
-  NVMe: Remove unused sq_head read in completion path
+Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+---
+ block/blk-core.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
- block/blk-core.c        | 7 +++++--
- drivers/nvme/host/pci.c | 2 --
- 2 files changed, 5 insertions(+), 4 deletions(-)
-
+diff --git a/block/blk-core.c b/block/blk-core.c
+index ab51685..354d03b 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -3350,13 +3350,16 @@ bool blk_poll(struct request_queue *q, blk_qc_t cookie)
+ 	while (!need_resched()) {
+ 		unsigned int queue_num = blk_qc_t_to_queue_num(cookie);
+ 		struct blk_mq_hw_ctx *hctx = q->queue_hw_ctx[queue_num];
++		int io_stat = blk_queue_io_stat(q);
+ 		int ret;
+ 
+-		hctx->poll_invoked++;
++		if (io_stat)
++			hctx->poll_invoked++;
+ 
+ 		ret = q->mq_ops->poll(hctx, blk_qc_t_to_tag(cookie));
+ 		if (ret > 0) {
+-			hctx->poll_success++;
++			if (io_stat)
++				hctx->poll_success++;
+ 			set_current_state(TASK_RUNNING);
+ 			return true;
+ 		}
 -- 
 1.8.3.1
