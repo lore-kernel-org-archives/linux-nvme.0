@@ -1,34 +1,43 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Tue,  8 Mar 2016 10:34:54 -0700
-Subject: [PATCH 2/2] NVMe: Remove unused sq_head read in completion path
-In-Reply-To: <1457458494-10550-1-git-send-email-jonathan.derrick@intel.com>
+From: sagig@dev.mellanox.co.il (Sagi Grimberg)
+Date: Tue, 8 Mar 2016 19:38:41 +0200
+Subject: [PATCH 1/2] Block: Disable polling stats when iostats are disabled
+In-Reply-To: <1457458494-10550-2-git-send-email-jonathan.derrick@intel.com>
 References: <1457458494-10550-1-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <1457458494-10550-3-git-send-email-jonathan.derrick@intel.com>
+ <1457458494-10550-2-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <56DF0E21.4000907@dev.mellanox.co.il>
 
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
----
- drivers/nvme/host/pci.c | 2 --
- 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 74514c7..e9f18e1 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -134,7 +134,6 @@ struct nvme_queue {
- 	u32 __iomem *q_db;
- 	u16 q_depth;
- 	s16 cq_vector;
--	u16 sq_head;
- 	u16 sq_tail;
- 	u16 cq_head;
- 	u16 qid;
-@@ -719,7 +718,6 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
- 
- 		if ((status & 1) != phase)
- 			break;
--		nvmeq->sq_head = le16_to_cpu(cqe.sq_head);
- 		if (++head == nvmeq->q_depth) {
- 			head = 0;
- 			phase = !phase;
--- 
-1.8.3.1
+> Extends iostats to encompass polling statistics to save a few cycles
+> when disabled.
+>
+> Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+> ---
+>   block/blk-core.c | 7 +++++--
+>   1 file changed, 5 insertions(+), 2 deletions(-)
+>
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index ab51685..354d03b 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -3350,13 +3350,16 @@ bool blk_poll(struct request_queue *q, blk_qc_t cookie)
+>   	while (!need_resched()) {
+>   		unsigned int queue_num = blk_qc_t_to_queue_num(cookie);
+>   		struct blk_mq_hw_ctx *hctx = q->queue_hw_ctx[queue_num];
+> +		int io_stat = blk_queue_io_stat(q);
+>   		int ret;
+>
+> -		hctx->poll_invoked++;
+> +		if (io_stat)
+> +			hctx->poll_invoked++;
+>
+>   		ret = q->mq_ops->poll(hctx, blk_qc_t_to_tag(cookie));
+>   		if (ret > 0) {
+> -			hctx->poll_success++;
+> +			if (io_stat)
+> +				hctx->poll_success++;
+>   			set_current_state(TASK_RUNNING);
+>   			return true;
+>   		}
+
+I fail to see how replacing incrementation with a branch statement helps
+performance or even not making it worse...
