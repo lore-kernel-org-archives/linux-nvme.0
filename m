@@ -1,23 +1,20 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Tue, 8 Mar 2016 11:02:59 -0700
-Subject: [PATCH 1/2] Block: Disable polling stats when iostats are disabled
-In-Reply-To: <56DF0E9E.8030302@fb.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 9 Mar 2016 08:54:16 +0100
+Subject: [PATCH 2/2] NVMe: Remove unused sq_head read in completion path
+In-Reply-To: <1457458494-10550-3-git-send-email-jonathan.derrick@intel.com>
 References: <1457458494-10550-1-git-send-email-jonathan.derrick@intel.com>
- <1457458494-10550-2-git-send-email-jonathan.derrick@intel.com>
- <56DF0E9E.8030302@fb.com>
-Message-ID: <20160308180259.GB8867@localhost.localdomain>
+ <1457458494-10550-3-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <20160309075416.GE3464@c203.arch.suse.de>
 
-> Not sure this is a great idea. First of all, the poll stats are per hardware
-> queue. How many submission queues and CPUs do you have in your setup? For
+On Tue, Mar 08, 2016@10:34:54AM -0700, Jon Derrick wrote:
+> Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
 
-31 hq, 64 cpus (so actually just 31 sq)- but the test I ran was:
-taskset -c 1 fio --name=global --gtod_reduce=1 --filename=/dev/nvme0n1 --bs=4k --rw=read --ioengine=sync --iodepth=1 --numjobs=1 --direct=1 --name=job 
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-I was a bit surprised at the delta I saw, but it may have been coincidental
-
-> most cases, I'd assume there'd be a 1:1 mapping between the two, which makes
-> the stats essentially free. And secondly, even for a less optimal mapping,
-> the poll stats are a lot cheaper than the io stats. So bundling them
-> together might not make a ton of sense.
-
-Fair enough :)
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
