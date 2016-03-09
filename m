@@ -1,20 +1,16 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 9 Mar 2016 08:54:16 +0100
-Subject: [PATCH 2/2] NVMe: Remove unused sq_head read in completion path
-In-Reply-To: <1457458494-10550-3-git-send-email-jonathan.derrick@intel.com>
-References: <1457458494-10550-1-git-send-email-jonathan.derrick@intel.com>
- <1457458494-10550-3-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <20160309075416.GE3464@c203.arch.suse.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 9 Mar 2016 06:32:04 -0800
+Subject: [PATCH RESEND v1 0/3] Move active IO termination to the core
+In-Reply-To: <56BB0D03.8050301@dev.mellanox.co.il>
+References: <1454417099-19332-1-git-send-email-sagig@mellanox.com>
+ <56BB0D03.8050301@dev.mellanox.co.il>
+Message-ID: <20160309143204.GA10348@infradead.org>
 
-On Tue, Mar 08, 2016@10:34:54AM -0700, Jon Derrick wrote:
-> Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+On Wed, Feb 10, 2016@12:12:19PM +0200, Sagi Grimberg wrote:
+> Jens, can you pick this up for 4.6?
+> 
+> This set got review tags from hch and ack from
+> keith on the nvme core changes.
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+What's the status of these patches?  Sagi, maybe it's time to resend
+the series?
