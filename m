@@ -1,65 +1,71 @@
 From: neilb@suse.com (NeilBrown)
 Date: Thu, 10 Mar 2016 08:59:28 +1100
-Subject: [PATCH 1/4] nvdimm/blk: don't allocate unused major device number
+Subject: [PATCH 2/4] nvdimm/btt: don't allocate unused major device number
 In-Reply-To: <20160309215702.20904.61407.stgit@noble>
 References: <20160309215702.20904.61407.stgit@noble>
-Message-ID: <20160309215928.20904.11773.stgit@noble>
+Message-ID: <20160309215928.20904.21111.stgit@noble>
 
-When alloc_disk(0) is used ->major is completely ignored, all devices
-are allocated with a "major" of BLOCK_EXT_MAJOR.
+alloc_disk(0) does not require or use a ->major number,
+all devices are allocated with a major of BLOCK_EXT_MAJOR.
 
-So don't allocate nd_blk_major
+So don't allocate btt_major.
 
 Signed-off-by: NeilBrown <neilb at suse.com>
 ---
- drivers/nvdimm/blk.c |   18 +-----------------
- 1 file changed, 1 insertion(+), 17 deletions(-)
+ drivers/nvdimm/btt.c |   19 ++-----------------
+ 1 file changed, 2 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/nvdimm/blk.c b/drivers/nvdimm/blk.c
-index 91a336ea8c4f..e9ff9229d942 100644
---- a/drivers/nvdimm/blk.c
-+++ b/drivers/nvdimm/blk.c
-@@ -31,8 +31,6 @@ struct nd_blk_device {
- 	u32 internal_lbasize;
+diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
+index efb2c1ceef98..c32cbb593600 100644
+--- a/drivers/nvdimm/btt.c
++++ b/drivers/nvdimm/btt.c
+@@ -31,8 +31,6 @@ enum log_ent_request {
+ 	LOG_OLD_ENT
  };
  
--static int nd_blk_major;
+-static int btt_major;
 -
- static u32 nd_blk_meta_size(struct nd_blk_device *blk_dev)
+ static int arena_read_bytes(struct arena_info *arena, resource_size_t offset,
+ 		void *buf, size_t n)
  {
- 	return blk_dev->nsblk->lbasize - blk_dev->sector_size;
-@@ -264,7 +262,6 @@ static int nd_blk_attach_disk(struct nd_namespace_common *ndns,
- 	}
+@@ -1246,7 +1244,6 @@ static int btt_blk_init(struct btt *btt)
  
- 	disk->driverfs_dev	= &ndns->dev;
--	disk->major		= nd_blk_major;
- 	disk->first_minor	= 0;
- 	disk->fops		= &nd_blk_fops;
- 	disk->private_data	= blk_dev;
-@@ -358,25 +355,12 @@ static struct nd_device_driver nd_blk_driver = {
+ 	nvdimm_namespace_disk_name(ndns, btt->btt_disk->disk_name);
+ 	btt->btt_disk->driverfs_dev = &btt->nd_btt->dev;
+-	btt->btt_disk->major = btt_major;
+ 	btt->btt_disk->first_minor = 0;
+ 	btt->btt_disk->fops = &btt_fops;
+ 	btt->btt_disk->private_data = btt;
+@@ -1423,22 +1420,11 @@ EXPORT_SYMBOL(nvdimm_namespace_detach_btt);
  
- static int __init nd_blk_init(void)
+ static int __init nd_btt_init(void)
  {
 -	int rc;
 -
--	rc = register_blkdev(0, "nd_blk");
--	if (rc < 0)
--		return rc;
--
--	nd_blk_major = rc;
--	rc = nd_driver_register(&nd_blk_driver);
--
--	if (rc < 0)
--		unregister_blkdev(nd_blk_major, "nd_blk");
--
--	return rc;
-+	return nd_driver_register(&nd_blk_driver);
- }
+-	btt_major = register_blkdev(0, "btt");
+-	if (btt_major < 0)
+-		return btt_major;
++	int rc = 0;
  
- static void __exit nd_blk_exit(void)
+ 	debugfs_root = debugfs_create_dir("btt", NULL);
+-	if (IS_ERR_OR_NULL(debugfs_root)) {
++	if (IS_ERR_OR_NULL(debugfs_root))
+ 		rc = -ENXIO;
+-		goto err_debugfs;
+-	}
+-
+-	return 0;
+-
+- err_debugfs:
+-	unregister_blkdev(btt_major, "btt");
+ 
+ 	return rc;
+ }
+@@ -1446,7 +1432,6 @@ static int __init nd_btt_init(void)
+ static void __exit nd_btt_exit(void)
  {
- 	driver_unregister(&nd_blk_driver.drv);
--	unregister_blkdev(nd_blk_major, "nd_blk");
+ 	debugfs_remove_recursive(debugfs_root);
+-	unregister_blkdev(btt_major, "btt");
  }
  
- MODULE_AUTHOR("Ross Zwisler <ross.zwisler at linux.intel.com>");
+ MODULE_ALIAS_ND_DEVICE(ND_DEVICE_BTT);
