@@ -1,71 +1,55 @@
 From: neilb@suse.com (NeilBrown)
 Date: Thu, 10 Mar 2016 08:59:28 +1100
-Subject: [PATCH 2/4] nvdimm/btt: don't allocate unused major device number
+Subject: [PATCH 3/4] memstick: don't allocate unused major for ms_block
 In-Reply-To: <20160309215702.20904.61407.stgit@noble>
 References: <20160309215702.20904.61407.stgit@noble>
-Message-ID: <20160309215928.20904.21111.stgit@noble>
+Message-ID: <20160309215928.20904.10315.stgit@noble>
 
-alloc_disk(0) does not require or use a ->major number,
-all devices are allocated with a major of BLOCK_EXT_MAJOR.
+When alloc_disk(0) is used the ->major number is completely ignored.
+All devices are allocated with a major of BLOCK_EXT_MAJOR.
 
-So don't allocate btt_major.
+So remove registration and deregistration of 'major'.
 
 Signed-off-by: NeilBrown <neilb at suse.com>
 ---
- drivers/nvdimm/btt.c |   19 ++-----------------
- 1 file changed, 2 insertions(+), 17 deletions(-)
+ drivers/memstick/core/ms_block.c |   17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
 
-diff --git a/drivers/nvdimm/btt.c b/drivers/nvdimm/btt.c
-index efb2c1ceef98..c32cbb593600 100644
---- a/drivers/nvdimm/btt.c
-+++ b/drivers/nvdimm/btt.c
-@@ -31,8 +31,6 @@ enum log_ent_request {
- 	LOG_OLD_ENT
+diff --git a/drivers/memstick/core/ms_block.c b/drivers/memstick/core/ms_block.c
+index 84abf9d3c24e..3d086f1d1234 100644
+--- a/drivers/memstick/core/ms_block.c
++++ b/drivers/memstick/core/ms_block.c
+@@ -2340,23 +2340,11 @@ static struct memstick_driver msb_driver = {
+ 	.resume   = msb_resume
  };
  
--static int btt_major;
+-static int major;
 -
- static int arena_read_bytes(struct arena_info *arena, resource_size_t offset,
- 		void *buf, size_t n)
+ static int __init msb_init(void)
  {
-@@ -1246,7 +1244,6 @@ static int btt_blk_init(struct btt *btt)
- 
- 	nvdimm_namespace_disk_name(ndns, btt->btt_disk->disk_name);
- 	btt->btt_disk->driverfs_dev = &btt->nd_btt->dev;
--	btt->btt_disk->major = btt_major;
- 	btt->btt_disk->first_minor = 0;
- 	btt->btt_disk->fops = &btt_fops;
- 	btt->btt_disk->private_data = btt;
-@@ -1423,22 +1420,11 @@ EXPORT_SYMBOL(nvdimm_namespace_detach_btt);
- 
- static int __init nd_btt_init(void)
- {
--	int rc;
+-	int rc = register_blkdev(0, DRIVER_NAME);
 -
--	btt_major = register_blkdev(0, "btt");
--	if (btt_major < 0)
--		return btt_major;
-+	int rc = 0;
- 
- 	debugfs_root = debugfs_create_dir("btt", NULL);
--	if (IS_ERR_OR_NULL(debugfs_root)) {
-+	if (IS_ERR_OR_NULL(debugfs_root))
- 		rc = -ENXIO;
--		goto err_debugfs;
+-	if (rc < 0) {
+-		pr_err("failed to register major (error %d)\n", rc);
+-		return rc;
 -	}
 -
--	return 0;
--
-- err_debugfs:
--	unregister_blkdev(btt_major, "btt");
+-	major = rc;
+-	rc = memstick_register_driver(&msb_driver);
+-	if (rc) {
+-		unregister_blkdev(major, DRIVER_NAME);
++	int rc = memstick_register_driver(&msb_driver);
++	if (rc)
+ 		pr_err("failed to register memstick driver (error %d)\n", rc);
+-	}
  
  	return rc;
  }
-@@ -1446,7 +1432,6 @@ static int __init nd_btt_init(void)
- static void __exit nd_btt_exit(void)
+@@ -2364,7 +2352,6 @@ static int __init msb_init(void)
+ static void __exit msb_exit(void)
  {
- 	debugfs_remove_recursive(debugfs_root);
--	unregister_blkdev(btt_major, "btt");
+ 	memstick_unregister_driver(&msb_driver);
+-	unregister_blkdev(major, DRIVER_NAME);
+ 	idr_destroy(&msb_disk_idr);
  }
  
- MODULE_ALIAS_ND_DEVICE(ND_DEVICE_BTT);
