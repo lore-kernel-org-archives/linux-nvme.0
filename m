@@ -1,54 +1,89 @@
-From: sagig@mellanox.com (Sagi Grimberg)
-Date: Wed,  9 Mar 2016 19:23:04 +0200
-Subject: [PATCH v2 for-4.6 3/3] blk-mq: Make blk_mq_all_tag_busy_iter static
-In-Reply-To: <1457544184-2838-1-git-send-email-sagig@mellanox.com>
-References: <1457544184-2838-1-git-send-email-sagig@mellanox.com>
-Message-ID: <1457544184-2838-4-git-send-email-sagig@mellanox.com>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Wed, 9 Mar 2016 14:07:31 -0500
+Subject: [PATCH] nvme: add a constant for the identify payload size
+In-Reply-To: <1457542477-25191-1-git-send-email-hch@lst.de>
+References: <1457542477-25191-1-git-send-email-hch@lst.de>
+Message-ID: <20160309190731.GD2464@linux.intel.com>
 
-No caller outside the blk-mq code so we can settle
-with it static.
+On Wed, Mar 09, 2016@05:54:37PM +0100, Christoph Hellwig wrote:
+> The NVMe spec specifies a hardcoded payload length of 4k for all
+> types of Identify commands.  Use a constant instead of hardcoded
+> values that can be confused for the page size.
 
-Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
----
- block/blk-mq-tag.c     | 5 ++---
- include/linux/blk-mq.h | 2 --
- 2 files changed, 2 insertions(+), 5 deletions(-)
+I think the problem here is that we don't have a struct for nvme_ns_list.
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index 2fd04286f103..56a0c37a3d06 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -464,15 +464,14 @@ static void bt_tags_for_each(struct blk_mq_tags *tags,
- 	}
+Something like this:
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index e2d11d6..a4a7210 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -296,14 +296,16 @@ int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
+ 	return error;
  }
  
--void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
--		void *priv)
-+static void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags,
-+		busy_tag_iter_fn *fn, void *priv)
+-static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *ns_list)
++static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid,
++				struct nvme_id_ns_list *ns_list)
  {
- 	if (tags->nr_reserved_tags)
- 		bt_tags_for_each(tags, &tags->breserved_tags, 0, fn, priv, true);
- 	bt_tags_for_each(tags, &tags->bitmap_tags, tags->nr_reserved_tags, fn, priv,
- 			false);
- }
--EXPORT_SYMBOL(blk_mq_all_tag_busy_iter);
+ 	struct nvme_command c = { };
  
- void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
- 		busy_tag_iter_fn *fn, void *priv)
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 865ee7016b72..ecd7ea33a99f 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -238,8 +238,6 @@ void blk_mq_start_hw_queues(struct request_queue *q);
- void blk_mq_start_stopped_hw_queues(struct request_queue *q, bool async);
- void blk_mq_run_hw_queues(struct request_queue *q, bool async);
- void blk_mq_delay_queue(struct blk_mq_hw_ctx *hctx, unsigned long msecs);
--void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
--		void *priv);
- void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
- 		busy_tag_iter_fn *fn, void *priv);
- void blk_mq_freeze_queue(struct request_queue *q);
--- 
-1.8.4.3
+ 	c.identify.opcode = nvme_admin_identify;
+ 	c.identify.cns = cpu_to_le32(2);
+ 	c.identify.nsid = cpu_to_le32(nsid);
+-	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list, 0x1000);
++	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list,
++					sizeof(*ns_list));
+ }
+ 
+ int nvme_identify_ns(struct nvme_ctrl *dev, unsigned nsid,
+@@ -1296,11 +1298,11 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
+ {
+ 	struct nvme_ns *ns;
+-	__le32 *ns_list;
++	struct nvme_id_ns_list *ns_list;
+ 	unsigned i, j, nsid, prev = 0, num_lists = DIV_ROUND_UP(nn, 1024);
+ 	int ret = 0;
+ 
+-	ns_list = kzalloc(0x1000, GFP_KERNEL);
++	ns_list = kzalloc(sizeof(*ns_list), GFP_KERNEL);
+ 	if (!ns_list)
+ 		return -ENOMEM;
+ 
+@@ -1310,7 +1312,7 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
+ 			goto out;
+ 
+ 		for (j = 0; j < min(nn, 1024U); j++) {
+-			nsid = le32_to_cpu(ns_list[j]);
++			nsid = le32_to_cpu(ns_list->nsid[j]);
+ 			if (!nsid)
+ 				goto out;
+ 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index aff71ef..ec2198c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -175,6 +175,7 @@ static inline void _nvme_check_size(void)
+ 	BUILD_BUG_ON(sizeof(struct nvme_command) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl) != 4096);
+ 	BUILD_BUG_ON(sizeof(struct nvme_id_ns) != 4096);
++	BUILD_BUG_ON(sizeof(struct nvme_id_ns_list) != 4096);
+ 	BUILD_BUG_ON(sizeof(struct nvme_lba_range_type) != 64);
+ 	BUILD_BUG_ON(sizeof(struct nvme_smart_log) != 512);
+ }
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index a55986f..e9122cf 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -183,6 +183,10 @@ struct nvme_id_ns {
+ 	__u8			vs[3712];
+ };
+ 
++struct nvme_id_ns_list {
++	__le32			nsid[1024];
++};
++
+ enum {
+ 	NVME_NS_FEAT_THIN	= 1 << 0,
+ 	NVME_NS_FLBAS_LBA_MASK	= 0xf,
