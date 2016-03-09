@@ -1,89 +1,51 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Wed, 9 Mar 2016 14:07:31 -0500
-Subject: [PATCH] nvme: add a constant for the identify payload size
-In-Reply-To: <1457542477-25191-1-git-send-email-hch@lst.de>
-References: <1457542477-25191-1-git-send-email-hch@lst.de>
-Message-ID: <20160309190731.GD2464@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 9 Mar 2016 20:54:36 +0000
+Subject: [PATCH v2 for-4.6 3/3] blk-mq: Make blk_mq_all_tag_busy_iter
+ static
+In-Reply-To: <1457544184-2838-4-git-send-email-sagig@mellanox.com>
+References: <1457544184-2838-1-git-send-email-sagig@mellanox.com>
+ <1457544184-2838-4-git-send-email-sagig@mellanox.com>
+Message-ID: <20160309205436.GA22470@localhost.localdomain>
 
-On Wed, Mar 09, 2016@05:54:37PM +0100, Christoph Hellwig wrote:
-> The NVMe spec specifies a hardcoded payload length of 4k for all
-> types of Identify commands.  Use a constant instead of hardcoded
-> values that can be confused for the page size.
+On Wed, Mar 09, 2016@07:23:04PM +0200, Sagi Grimberg wrote:
+> No caller outside the blk-mq code so we can settle
+> with it static.
 
-I think the problem here is that we don't have a struct for nvme_ns_list.
+Hi Sagi,
 
-Something like this:
+The mtip32xx driver in linux-block/for-next is using
+blk_mq_all_tag_busy_iter. This looks like the equivalent change for
+that driver:
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index e2d11d6..a4a7210 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -296,14 +296,16 @@ int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
- 	return error;
- }
+---
+diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+index 1c330b6..71bb370 100644
+--- a/drivers/block/mtip32xx/mtip32xx.c
++++ b/drivers/block/mtip32xx/mtip32xx.c
+@@ -3000,14 +3000,14 @@ restart_eh:
+ 					"Completion workers still active!");
  
--static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *ns_list)
-+static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid,
-+				struct nvme_id_ns_list *ns_list)
- {
- 	struct nvme_command c = { };
+ 			spin_lock(dd->queue->queue_lock);
+-			blk_mq_all_tag_busy_iter(*dd->tags.tags,
++			blk_mq_tagset_busy_iter(&dd->tags,
+ 							mtip_queue_cmd, dd);
+ 			spin_unlock(dd->queue->queue_lock);
  
- 	c.identify.opcode = nvme_admin_identify;
- 	c.identify.cns = cpu_to_le32(2);
- 	c.identify.nsid = cpu_to_le32(nsid);
--	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list, 0x1000);
-+	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list,
-+					sizeof(*ns_list));
- }
+ 			set_bit(MTIP_PF_ISSUE_CMDS_BIT, &dd->port->flags);
  
- int nvme_identify_ns(struct nvme_ctrl *dev, unsigned nsid,
-@@ -1296,11 +1298,11 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
- {
- 	struct nvme_ns *ns;
--	__le32 *ns_list;
-+	struct nvme_id_ns_list *ns_list;
- 	unsigned i, j, nsid, prev = 0, num_lists = DIV_ROUND_UP(nn, 1024);
- 	int ret = 0;
+ 			if (mtip_device_reset(dd))
+-				blk_mq_all_tag_busy_iter(*dd->tags.tags,
++				blk_mq_tagset_busy_iter(&dd->tags,
+ 							mtip_abort_cmd, dd);
  
--	ns_list = kzalloc(0x1000, GFP_KERNEL);
-+	ns_list = kzalloc(sizeof(*ns_list), GFP_KERNEL);
- 	if (!ns_list)
- 		return -ENOMEM;
+ 			clear_bit(MTIP_PF_TO_ACTIVE_BIT, &dd->port->flags);
+@@ -4175,7 +4175,7 @@ static int mtip_block_remove(struct driver_data *dd)
  
-@@ -1310,7 +1312,7 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
- 			goto out;
+ 	blk_mq_freeze_queue_start(dd->queue);
+ 	blk_mq_stop_hw_queues(dd->queue);
+-	blk_mq_all_tag_busy_iter(dd->tags.tags[0], mtip_no_dev_cleanup, dd);
++	blk_mq_tagset_busy_iter(&dd->tags, mtip_no_dev_cleanup, dd);
  
- 		for (j = 0; j < min(nn, 1024U); j++) {
--			nsid = le32_to_cpu(ns_list[j]);
-+			nsid = le32_to_cpu(ns_list->nsid[j]);
- 			if (!nsid)
- 				goto out;
- 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index aff71ef..ec2198c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -175,6 +175,7 @@ static inline void _nvme_check_size(void)
- 	BUILD_BUG_ON(sizeof(struct nvme_command) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl) != 4096);
- 	BUILD_BUG_ON(sizeof(struct nvme_id_ns) != 4096);
-+	BUILD_BUG_ON(sizeof(struct nvme_id_ns_list) != 4096);
- 	BUILD_BUG_ON(sizeof(struct nvme_lba_range_type) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_smart_log) != 512);
- }
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index a55986f..e9122cf 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -183,6 +183,10 @@ struct nvme_id_ns {
- 	__u8			vs[3712];
- };
- 
-+struct nvme_id_ns_list {
-+	__le32			nsid[1024];
-+};
-+
- enum {
- 	NVME_NS_FEAT_THIN	= 1 << 0,
- 	NVME_NS_FLBAS_LBA_MASK	= 0xf,
+ 	/*
+ 	 * Delete our gendisk structure. This also removes the device
+--
