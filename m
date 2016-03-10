@@ -1,21 +1,19 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 10 Mar 2016 09:33:55 +0100
-Subject: [PATCH v2 for-4.6 2/3] nvme: Use blk-mq helper for IO termination
-In-Reply-To: <1457544184-2838-3-git-send-email-sagig@mellanox.com>
+Date: Thu, 10 Mar 2016 09:38:15 +0100
+Subject: [PATCH v2 for-4.6 3/3] blk-mq: Make blk_mq_all_tag_busy_iter
+ static
+In-Reply-To: <1457544184-2838-4-git-send-email-sagig@mellanox.com>
 References: <1457544184-2838-1-git-send-email-sagig@mellanox.com>
- <1457544184-2838-3-git-send-email-sagig@mellanox.com>
-Message-ID: <20160310083355.GL3464@c203.arch.suse.de>
+ <1457544184-2838-4-git-send-email-sagig@mellanox.com>
+Message-ID: <20160310083815.GM3464@c203.arch.suse.de>
 
-On Wed, Mar 09, 2016@07:23:03PM +0200, Sagi Grimberg wrote:
-> blk-mq offers a tagset iterator so let's use that
-> instead of using nvme_clear_queues.
-> 
-> Note, we changed nvme_queue_cancel_ios name to nvme_cancel_io
-> as there is no concept of a queue now in this function (we
-> also lost the print).
+On Wed, Mar 09, 2016@07:23:04PM +0200, Sagi Grimberg wrote:
+> No caller outside the blk-mq code so we can settle
+> with it static.
 > 
 > Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
 
+With the mtip32xx changes
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
 -- 
