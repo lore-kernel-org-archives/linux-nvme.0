@@ -1,14 +1,18 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 10 Mar 2016 09:33:13 +0100
-Subject: [PATCH v2 for-4.6 1/3] blk-mq: Export tagset iter function
-In-Reply-To: <1457544184-2838-2-git-send-email-sagig@mellanox.com>
+Date: Thu, 10 Mar 2016 09:33:55 +0100
+Subject: [PATCH v2 for-4.6 2/3] nvme: Use blk-mq helper for IO termination
+In-Reply-To: <1457544184-2838-3-git-send-email-sagig@mellanox.com>
 References: <1457544184-2838-1-git-send-email-sagig@mellanox.com>
- <1457544184-2838-2-git-send-email-sagig@mellanox.com>
-Message-ID: <20160310083313.GK3464@c203.arch.suse.de>
+ <1457544184-2838-3-git-send-email-sagig@mellanox.com>
+Message-ID: <20160310083355.GL3464@c203.arch.suse.de>
 
-On Wed, Mar 09, 2016@07:23:02PM +0200, Sagi Grimberg wrote:
-> Its useful to iterate on all the active tags in cases
-> where we will need to fail all the queues IO.
+On Wed, Mar 09, 2016@07:23:03PM +0200, Sagi Grimberg wrote:
+> blk-mq offers a tagset iterator so let's use that
+> instead of using nvme_clear_queues.
+> 
+> Note, we changed nvme_queue_cancel_ios name to nvme_cancel_io
+> as there is no concept of a queue now in this function (we
+> also lost the print).
 > 
 > Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
 
