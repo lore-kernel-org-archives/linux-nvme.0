@@ -1,57 +1,40 @@
 From: sagig@mellanox.com (Sagi Grimberg)
-Date: Thu, 10 Mar 2016 13:58:46 +0200
-Subject: [PATCH v3 for-4.6 1/4] blk-mq: Export tagset iter function
-In-Reply-To: <1457611129-8036-1-git-send-email-sagig@mellanox.com>
-References: <1457611129-8036-1-git-send-email-sagig@mellanox.com>
-Message-ID: <1457611129-8036-2-git-send-email-sagig@mellanox.com>
+Date: Thu, 10 Mar 2016 13:58:45 +0200
+Subject: [PATCH v3 for-4.6 0/4] Provide better active I/O termination handlers
+Message-ID: <1457611129-8036-1-git-send-email-sagig@mellanox.com>
 
-Its useful to iterate on all the active tags in cases
-where we will need to fail all the queues IO.
+This patchset adds helper to active IO termination to block layer
+based on the pci nvme_clear_queues() functionality. This is needed
+for live shutdowns and resets during live IO and it's not nvme/pci
+specific and will be needed for other transports as well.
 
-Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
-[hch: carefully check for valid tagsets]
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- block/blk-mq-tag.c     | 12 ++++++++++++
- include/linux/blk-mq.h |  2 ++
- 2 files changed, 14 insertions(+)
+This patchset applies on top of "for-4.6-drivers" patchset.
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index abdbb47405cb..2fd04286f103 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -474,6 +474,18 @@ void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
- }
- EXPORT_SYMBOL(blk_mq_all_tag_busy_iter);
- 
-+void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
-+		busy_tag_iter_fn *fn, void *priv)
-+{
-+	int i;
-+
-+	for (i = 0; i < tagset->nr_hw_queues; i++) {
-+		if (tagset->tags && tagset->tags[i])
-+			blk_mq_all_tag_busy_iter(tagset->tags[i], fn, priv);
-+	}
-+}
-+EXPORT_SYMBOL(blk_mq_tagset_busy_iter);
-+
- void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
- 		void *priv)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 15a73d49fd1d..865ee7016b72 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -240,6 +240,8 @@ void blk_mq_run_hw_queues(struct request_queue *q, bool async);
- void blk_mq_delay_queue(struct blk_mq_hw_ctx *hctx, unsigned long msecs);
- void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
- 		void *priv);
-+void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
-+		busy_tag_iter_fn *fn, void *priv);
- void blk_mq_freeze_queue(struct request_queue *q);
- void blk_mq_unfreeze_queue(struct request_queue *q);
- void blk_mq_freeze_queue_start(struct request_queue *q);
+Changes from v2:
+- Added mtip32xxx conversion from Keith
+
+Changes from v1:
+- rebase on top of for-4.6-drivers (small fuzz)
+- incorporate a fix from hch to carefully check for valid tagsets
+
+Changes from v0:
+- Removed the nvme core helpers for IO termination and have pci
+  use blk-mq helper directly
+- Rebased on top of Keith and Christoph's patches
+
+Keith Busch (1):
+  mtip32xx: Convert to use blk_mq_tagset_busy_iter
+
+Sagi Grimberg (3):
+  blk-mq: Export tagset iter function
+  nvme: Use blk-mq helper for IO termination
+  blk-mq: Make blk_mq_all_tag_busy_iter static
+
+ block/blk-mq-tag.c                | 17 ++++++++++++++---
+ drivers/block/mtip32xx/mtip32xx.c |  6 +++---
+ drivers/nvme/host/pci.c           | 19 +++++--------------
+ include/linux/blk-mq.h            |  4 ++--
+ 4 files changed, 24 insertions(+), 22 deletions(-)
+
 -- 
 1.8.4.3
