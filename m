@@ -1,28 +1,22 @@
-From: willy@linux.intel.com (Matthew Wilcox)
-Date: Thu, 10 Mar 2016 09:30:18 -0500
-Subject: [PATCH] nvme: add a constant for the identify payload size
-In-Reply-To: <20160310080628.GB716@lst.de>
-References: <1457542477-25191-1-git-send-email-hch@lst.de>
- <20160309190731.GD2464@linux.intel.com>
- <20160310080628.GB716@lst.de>
-Message-ID: <20160310143018.GE2464@linux.intel.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 10 Mar 2016 06:36:50 -0800
+Subject: [PATCH] nvme: avoid cqe corruption when update at the same time
+ as read
+In-Reply-To: <881149974.3314758.1457608128188.JavaMail.zimbra@kalray.eu>
+References: <1963234885.1121305.1457109031908.JavaMail.zimbra@kalray.eu>
+ <1380738962.1128342.1457162595145.JavaMail.zimbra@kalray.eu>
+ <20160309170846.GA14926@infradead.org>
+ <881149974.3314758.1457608128188.JavaMail.zimbra@kalray.eu>
+Message-ID: <20160310143650.GA8689@infradead.org>
 
-On Thu, Mar 10, 2016@09:06:28AM +0100, Christoph Hellwig wrote:
-> On Wed, Mar 09, 2016@02:07:31PM -0500, Matthew Wilcox wrote:
-> > On Wed, Mar 09, 2016@05:54:37PM +0100, Christoph Hellwig wrote:
-> > > The NVMe spec specifies a hardcoded payload length of 4k for all
-> > > types of Identify commands.  Use a constant instead of hardcoded
-> > > values that can be confused for the page size.
-> > 
-> > I think the problem here is that we don't have a struct for nvme_ns_list.
-> 
-> I think this structure is useful, but I'd still like to see a constant
-> for the identify payload - the spec clearly specifies it as a hardcoded
-> limit for all of identify.  E.g. from NVMe 1.2, section 5.11:
+On Thu, Mar 10, 2016@12:08:48PM +0100, Marta Rybczynska wrote:
+> Looks like a good refactoring to me. However, it seems to me that in
+> nvme_cqe_valid we should be checking for phase, not for head.
 
-The spec clearly specifies a lot of things as hardcoded values, and our
-reaction to that is to create structs that are that size, and assert
-that they are that size (in case somebody mistakenly tweaks the struct).
-This patch makes the ns_list be treated the same way as every other
-structure, rather than treating the size of the data block returned from
-identify as being special.
+Yeah, this doesn't work as-is.  I still think that non-obvious
+check should be split out into something.  Maybe just:
+
+static inline bool nvme_cqe_valid(struct nvme_queue *nvmeq, u16 head, u16 phase)
+{
+	return (le16_to_cpu(nvmeq->cqes[head].status) & 1) == phase;
+}
