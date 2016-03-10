@@ -1,104 +1,98 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 10 Mar 2016 09:27:00 +0100
-Subject: [PATCH] nvme: add a constant for the identify payload size
-In-Reply-To: <20160309190731.GD2464@linux.intel.com>
-References: <1457542477-25191-1-git-send-email-hch@lst.de>
- <20160309190731.GD2464@linux.intel.com>
-Message-ID: <20160310082700.GI3464@c203.arch.suse.de>
+Date: Thu, 10 Mar 2016 09:31:42 +0100
+Subject: [PATCH] nvme: avoid cqe corruption when update at the same time
+ as read
+In-Reply-To: <20160309170846.GA14926@infradead.org>
+References: <1963234885.1121305.1457109031908.JavaMail.zimbra@kalray.eu>
+ <1380738962.1128342.1457162595145.JavaMail.zimbra@kalray.eu>
+ <20160309170846.GA14926@infradead.org>
+Message-ID: <20160310083142.GJ3464@c203.arch.suse.de>
 
-On Wed, Mar 09, 2016@02:07:31PM -0500, Matthew Wilcox wrote:
-> On Wed, Mar 09, 2016@05:54:37PM +0100, Christoph Hellwig wrote:
-> > The NVMe spec specifies a hardcoded payload length of 4k for all
-> > types of Identify commands.  Use a constant instead of hardcoded
-> > values that can be confused for the page size.
+On Wed, Mar 09, 2016@09:08:46AM -0800, Christoph Hellwig wrote:
+> On Sat, Mar 05, 2016@08:23:15AM +0100, Marta Rybczynska wrote:
+> > The cqe structure read normally happens from lower to upper addresses
+> > and the validity bit (status) is at the highest address. If the PCI
+> > updates the memory when the cqe is read by multiple non-atomic loads,
+> > the structure may be corrupted. Avoid this by reading the status
+> > first and then the whole structure.
 > 
-> I think the problem here is that we don't have a struct for nvme_ns_list.
+> Doing the phase check separately sounds sensible to me, but how about
+> doing something like the version below, which ensures we only read the
+> whole cqe after the check, and cleans things up a bit by using a common
+> helper:
 > 
-> Something like this:
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index e2d11d6..a4a7210 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -296,14 +296,16 @@ int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
->  	return error;
->  }
->  
-> -static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *ns_list)
-> +static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid,
-> +				struct nvme_id_ns_list *ns_list)
->  {
->  	struct nvme_command c = { };
->  
->  	c.identify.opcode = nvme_admin_identify;
->  	c.identify.cns = cpu_to_le32(2);
->  	c.identify.nsid = cpu_to_le32(nsid);
-> -	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list, 0x1000);
-> +	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list,
-> +					sizeof(*ns_list));
->  }
->  
->  int nvme_identify_ns(struct nvme_ctrl *dev, unsigned nsid,
-> @@ -1296,11 +1298,11 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
->  static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
->  {
->  	struct nvme_ns *ns;
-> -	__le32 *ns_list;
-> +	struct nvme_id_ns_list *ns_list;
->  	unsigned i, j, nsid, prev = 0, num_lists = DIV_ROUND_UP(nn, 1024);
->  	int ret = 0;
->  
-> -	ns_list = kzalloc(0x1000, GFP_KERNEL);
-> +	ns_list = kzalloc(sizeof(*ns_list), GFP_KERNEL);
->  	if (!ns_list)
->  		return -ENOMEM;
->  
-> @@ -1310,7 +1312,7 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
->  			goto out;
->  
->  		for (j = 0; j < min(nn, 1024U); j++) {
-> -			nsid = le32_to_cpu(ns_list[j]);
-> +			nsid = le32_to_cpu(ns_list->nsid[j]);
->  			if (!nsid)
->  				goto out;
->  
 > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index aff71ef..ec2198c 100644
+> index 1d1c6d1..f6ea5d3 100644
 > --- a/drivers/nvme/host/pci.c
 > +++ b/drivers/nvme/host/pci.c
-> @@ -175,6 +175,7 @@ static inline void _nvme_check_size(void)
->  	BUILD_BUG_ON(sizeof(struct nvme_command) != 64);
->  	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl) != 4096);
->  	BUILD_BUG_ON(sizeof(struct nvme_id_ns) != 4096);
-> +	BUILD_BUG_ON(sizeof(struct nvme_id_ns_list) != 4096);
->  	BUILD_BUG_ON(sizeof(struct nvme_lba_range_type) != 64);
->  	BUILD_BUG_ON(sizeof(struct nvme_smart_log) != 512);
+> @@ -704,6 +704,11 @@ static void nvme_complete_rq(struct request *req)
+>  	blk_mq_end_request(req, error);
 >  }
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index a55986f..e9122cf 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -183,6 +183,10 @@ struct nvme_id_ns {
->  	__u8			vs[3712];
->  };
 >  
-> +struct nvme_id_ns_list {
-> +	__le32			nsid[1024];
-> +};
+> +static inline bool nvme_cqe_valid(struct nvme_queue *nvmeq, u16 head)
+> +{
+> +	return (le16_to_cpu(nvmeq->cqes[nvmeq->cq_head].status) & 1) == head;
+> +}
 > +
->  enum {
->  	NVME_NS_FEAT_THIN	= 1 << 0,
->  	NVME_NS_FLBAS_LBA_MASK	= 0xf,
-> 
+>  static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
+>  {
+>  	u16 head, phase;
+> @@ -711,13 +716,10 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
+>  	head = nvmeq->cq_head;
+>  	phase = nvmeq->cq_phase;
+>  
+> -	for (;;) {
+> +	while (nvme_cqe_valid(nvmeq, head)) {
+>  		struct nvme_completion cqe = nvmeq->cqes[head];
+> -		u16 status = le16_to_cpu(cqe.status);
+>  		struct request *req;
+>  
+> -		if ((status & 1) != phase)
+> -			break;
+>  		if (++head == nvmeq->q_depth) {
+>  			head = 0;
+>  			phase = !phase;
+> @@ -748,7 +750,7 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
+>  		req = blk_mq_tag_to_rq(*nvmeq->tags, cqe.command_id);
+>  		if (req->cmd_type == REQ_TYPE_DRV_PRIV && req->special)
+>  			memcpy(req->special, &cqe, sizeof(cqe));
+> -		blk_mq_complete_request(req, status >> 1);
+> +		blk_mq_complete_request(req, le16_to_cpu(cqe.status) >> 1);
+>  
+>  	}
+>  
+> @@ -789,18 +791,17 @@ static irqreturn_t nvme_irq(int irq, void *data)
+>  static irqreturn_t nvme_irq_check(int irq, void *data)
+>  {
+>  	struct nvme_queue *nvmeq = data;
+> -	struct nvme_completion cqe = nvmeq->cqes[nvmeq->cq_head];
+> -	if ((le16_to_cpu(cqe.status) & 1) != nvmeq->cq_phase)
+> -		return IRQ_NONE;
+> -	return IRQ_WAKE_THREAD;
+> +
+> +	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head))
+> +		return IRQ_WAKE_THREAD;
+> +	return IRQ_NONE;
+>  }
+>  
+>  static int nvme_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+>  {
+>  	struct nvme_queue *nvmeq = hctx->driver_data;
+>  
+> -	if ((le16_to_cpu(nvmeq->cqes[nvmeq->cq_head].status) & 1) ==
+> -	    nvmeq->cq_phase) {
+> +	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head)) {
+>  		spin_lock_irq(&nvmeq->q_lock);
+>  		__nvme_process_cq(nvmeq, &tag);
+>  		spin_unlock_irq(&nvmeq->q_lock);
 > 
 > _______________________________________________
 > Linux-nvme mailing list
 > Linux-nvme at lists.infradead.org
 > http://lists.infradead.org/mailman/listinfo/linux-nvme
 
-IMHO Christoph's version is more readable.
-
-Johannes
+This looks sensible,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
 -- 
 Johannes Thumshirn                                          Storage
