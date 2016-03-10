@@ -1,74 +1,55 @@
 From: sagig@mellanox.com (Sagi Grimberg)
-Date: Thu, 10 Mar 2016 13:58:47 +0200
-Subject: [PATCH v3 for-4.6 2/4] nvme: Use blk-mq helper for IO termination
+Date: Thu, 10 Mar 2016 13:58:49 +0200
+Subject: [PATCH v3 for-4.6 4/4] blk-mq: Make blk_mq_all_tag_busy_iter static
 In-Reply-To: <1457611129-8036-1-git-send-email-sagig@mellanox.com>
 References: <1457611129-8036-1-git-send-email-sagig@mellanox.com>
-Message-ID: <1457611129-8036-3-git-send-email-sagig@mellanox.com>
+Message-ID: <1457611129-8036-5-git-send-email-sagig@mellanox.com>
 
-blk-mq offers a tagset iterator so let's use that
-instead of using nvme_clear_queues.
-
-Note, we changed nvme_queue_cancel_ios name to nvme_cancel_io
-as there is no concept of a queue now in this function (we
-also lost the print).
+No caller outside the blk-mq code so we can settle
+with it static.
 
 Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
-Acked-by: Keith Busch <keith.busch at intel.com>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/pci.c | 19 +++++--------------
- 1 file changed, 5 insertions(+), 14 deletions(-)
+ block/blk-mq-tag.c     | 5 ++---
+ include/linux/blk-mq.h | 2 --
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index e9f18e1d73e5..b713b390aa4f 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -982,16 +982,15 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	return BLK_EH_RESET_TIMER;
- }
- 
--static void nvme_cancel_queue_ios(struct request *req, void *data, bool reserved)
-+static void nvme_cancel_io(struct request *req, void *data, bool reserved)
- {
--	struct nvme_queue *nvmeq = data;
-+	struct nvme_dev *dev = data;
- 	int status;
- 
- 	if (!blk_mq_request_started(req))
- 		return;
- 
--	dev_warn(nvmeq->dev->ctrl.device,
--		 "Cancelling I/O %d QID %d\n", req->tag, nvmeq->qid);
-+	dev_warn(dev->ctrl.device, "Cancelling I/O %d\n", req->tag);
- 
- 	status = NVME_SC_ABORT_REQ;
- 	if (blk_queue_dying(req->q))
-@@ -1048,14 +1047,6 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
- 	return 0;
- }
- 
--static void nvme_clear_queue(struct nvme_queue *nvmeq)
--{
--	spin_lock_irq(&nvmeq->q_lock);
--	if (nvmeq->tags && *nvmeq->tags)
--		blk_mq_all_tag_busy_iter(*nvmeq->tags, nvme_cancel_queue_ios, nvmeq);
--	spin_unlock_irq(&nvmeq->q_lock);
--}
--
- static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
- {
- 	struct nvme_queue *nvmeq = dev->queues[0];
-@@ -1779,8 +1770,8 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+index 2fd04286f103..56a0c37a3d06 100644
+--- a/block/blk-mq-tag.c
++++ b/block/blk-mq-tag.c
+@@ -464,15 +464,14 @@ static void bt_tags_for_each(struct blk_mq_tags *tags,
  	}
- 	nvme_dev_unmap(dev);
- 
--	for (i = dev->queue_count - 1; i >= 0; i--)
--		nvme_clear_queue(dev->queues[i]);
-+	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_io, dev);
-+	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_io, dev);
- 	mutex_unlock(&dev->shutdown_lock);
  }
  
+-void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
+-		void *priv)
++static void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags,
++		busy_tag_iter_fn *fn, void *priv)
+ {
+ 	if (tags->nr_reserved_tags)
+ 		bt_tags_for_each(tags, &tags->breserved_tags, 0, fn, priv, true);
+ 	bt_tags_for_each(tags, &tags->bitmap_tags, tags->nr_reserved_tags, fn, priv,
+ 			false);
+ }
+-EXPORT_SYMBOL(blk_mq_all_tag_busy_iter);
+ 
+ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
+ 		busy_tag_iter_fn *fn, void *priv)
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 865ee7016b72..ecd7ea33a99f 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -238,8 +238,6 @@ void blk_mq_start_hw_queues(struct request_queue *q);
+ void blk_mq_start_stopped_hw_queues(struct request_queue *q, bool async);
+ void blk_mq_run_hw_queues(struct request_queue *q, bool async);
+ void blk_mq_delay_queue(struct blk_mq_hw_ctx *hctx, unsigned long msecs);
+-void blk_mq_all_tag_busy_iter(struct blk_mq_tags *tags, busy_tag_iter_fn *fn,
+-		void *priv);
+ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
+ 		busy_tag_iter_fn *fn, void *priv);
+ void blk_mq_freeze_queue(struct request_queue *q);
 -- 
 1.8.4.3
