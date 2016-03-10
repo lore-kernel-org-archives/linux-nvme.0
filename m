@@ -1,33 +1,51 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Thu, 10 Mar 2016 12:08:48 +0100 (CET)
-Subject: [PATCH] nvme: avoid cqe corruption when update at the same time
- as read
-In-Reply-To: <20160309170846.GA14926@infradead.org>
-References: <1963234885.1121305.1457109031908.JavaMail.zimbra@kalray.eu>
- <1380738962.1128342.1457162595145.JavaMail.zimbra@kalray.eu>
- <20160309170846.GA14926@infradead.org>
-Message-ID: <881149974.3314758.1457608128188.JavaMail.zimbra@kalray.eu>
+From: sagig@mellanox.com (Sagi Grimberg)
+Date: Thu, 10 Mar 2016 13:58:48 +0200
+Subject: [PATCH v3 for-4.6 3/4] mtip32xx: Convert to use
+ blk_mq_tagset_busy_iter
+In-Reply-To: <1457611129-8036-1-git-send-email-sagig@mellanox.com>
+References: <1457611129-8036-1-git-send-email-sagig@mellanox.com>
+Message-ID: <1457611129-8036-4-git-send-email-sagig@mellanox.com>
 
+From: Keith Busch <keith.busch@intel.com>
 
------ Le 9 Mar 16, ? 18:08, Christoph Hellwig hch at infradead.org a ?crit :
+Only a single tags array anyway.
 
-> On Sat, Mar 05, 2016@08:23:15AM +0100, Marta Rybczynska wrote:
->> The cqe structure read normally happens from lower to upper addresses
->> and the validity bit (status) is at the highest address. If the PCI
->> updates the memory when the cqe is read by multiple non-atomic loads,
->> the structure may be corrupted. Avoid this by reading the status
->> first and then the whole structure.
-> 
-> Doing the phase check separately sounds sensible to me, but how about
-> doing something like the version below, which ensures we only read the
-> whole cqe after the check, and cleans things up a bit by using a common
-> helper:
-> 
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
+---
+ drivers/block/mtip32xx/mtip32xx.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Looks like a good refactoring to me. However, it seems to me that in
-nvme_cqe_valid we should be checking for phase, not for head.
-
-I will test it and re-submit.
-
-Regards,
-Marta Rybczynska
+diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+index cc2e71d0a77f..2cc86f70c01f 100644
+--- a/drivers/block/mtip32xx/mtip32xx.c
++++ b/drivers/block/mtip32xx/mtip32xx.c
+@@ -3000,14 +3000,14 @@ restart_eh:
+ 					"Completion workers still active!");
+ 
+ 			spin_lock(dd->queue->queue_lock);
+-			blk_mq_all_tag_busy_iter(*dd->tags.tags,
++			blk_mq_tagset_busy_iter(&dd->tags,
+ 							mtip_queue_cmd, dd);
+ 			spin_unlock(dd->queue->queue_lock);
+ 
+ 			set_bit(MTIP_PF_ISSUE_CMDS_BIT, &dd->port->flags);
+ 
+ 			if (mtip_device_reset(dd))
+-				blk_mq_all_tag_busy_iter(*dd->tags.tags,
++				blk_mq_tagset_busy_iter(&dd->tags,
+ 							mtip_abort_cmd, dd);
+ 
+ 			clear_bit(MTIP_PF_TO_ACTIVE_BIT, &dd->port->flags);
+@@ -4174,7 +4174,7 @@ static int mtip_block_remove(struct driver_data *dd)
+ 
+ 	blk_mq_freeze_queue_start(dd->queue);
+ 	blk_mq_stop_hw_queues(dd->queue);
+-	blk_mq_all_tag_busy_iter(dd->tags.tags[0], mtip_no_dev_cleanup, dd);
++	blk_mq_tagset_busy_iter(&dd->tags, mtip_no_dev_cleanup, dd);
+ 
+ 	/*
+ 	 * Delete our gendisk structure. This also removes the device
+-- 
+1.8.4.3
