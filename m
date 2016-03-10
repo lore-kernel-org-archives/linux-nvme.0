@@ -1,16 +1,16 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 10 Mar 2016 10:05:02 +0100
-Subject: [PATCH 1/4] nvdimm/blk: don't allocate unused major device number
-In-Reply-To: <20160309215928.20904.11773.stgit@noble>
+Date: Thu, 10 Mar 2016 10:05:13 +0100
+Subject: [PATCH 2/4] nvdimm/btt: don't allocate unused major device number
+In-Reply-To: <20160309215928.20904.21111.stgit@noble>
 References: <20160309215702.20904.61407.stgit@noble>
- <20160309215928.20904.11773.stgit@noble>
-Message-ID: <20160310090502.GN3464@c203.arch.suse.de>
+ <20160309215928.20904.21111.stgit@noble>
+Message-ID: <20160310090513.GO3464@c203.arch.suse.de>
 
 On Thu, Mar 10, 2016@08:59:28AM +1100, NeilBrown wrote:
-> When alloc_disk(0) is used ->major is completely ignored, all devices
-> are allocated with a "major" of BLOCK_EXT_MAJOR.
+> alloc_disk(0) does not require or use a ->major number,
+> all devices are allocated with a major of BLOCK_EXT_MAJOR.
 > 
-> So don't allocate nd_blk_major
+> So don't allocate btt_major.
 > 
 > Signed-off-by: NeilBrown <neilb at suse.com>
 
