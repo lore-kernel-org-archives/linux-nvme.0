@@ -1,19 +1,19 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 10 Mar 2016 09:38:15 +0100
-Subject: [PATCH v2 for-4.6 3/3] blk-mq: Make blk_mq_all_tag_busy_iter
- static
-In-Reply-To: <1457544184-2838-4-git-send-email-sagig@mellanox.com>
-References: <1457544184-2838-1-git-send-email-sagig@mellanox.com>
- <1457544184-2838-4-git-send-email-sagig@mellanox.com>
-Message-ID: <20160310083815.GM3464@c203.arch.suse.de>
+Date: Thu, 10 Mar 2016 10:05:02 +0100
+Subject: [PATCH 1/4] nvdimm/blk: don't allocate unused major device number
+In-Reply-To: <20160309215928.20904.11773.stgit@noble>
+References: <20160309215702.20904.61407.stgit@noble>
+ <20160309215928.20904.11773.stgit@noble>
+Message-ID: <20160310090502.GN3464@c203.arch.suse.de>
 
-On Wed, Mar 09, 2016@07:23:04PM +0200, Sagi Grimberg wrote:
-> No caller outside the blk-mq code so we can settle
-> with it static.
+On Thu, Mar 10, 2016@08:59:28AM +1100, NeilBrown wrote:
+> When alloc_disk(0) is used ->major is completely ignored, all devices
+> are allocated with a "major" of BLOCK_EXT_MAJOR.
 > 
-> Signed-off-by: Sagi Grimberg <sagig at mellanox.com>
+> So don't allocate nd_blk_major
+> 
+> Signed-off-by: NeilBrown <neilb at suse.com>
 
-With the mtip32xx changes
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
 -- 
