@@ -1,31 +1,18 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 15 Mar 2016 13:52:46 +0100
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 15 Mar 2016 06:30:02 -0700
 Subject: [PATCH v2] nvme: avoid cqe corruption when update at the same
  time as  read
 In-Reply-To: <2110767714.5479030.1458045053603.JavaMail.zimbra@kalray.eu>
 References: <2110767714.5479030.1458045053603.JavaMail.zimbra@kalray.eu>
-Message-ID: <20160315125246.GN14621@c203.arch.suse.de>
+Message-ID: <20160315133002.GA15981@infradead.org>
 
-On Tue, Mar 15, 2016@01:30:53PM +0100, Marta Rybczynska wrote:
-> Make sure the CQE phase (validity) is read before the rest of the
-> structure. The phase bit is the highest address and the CQE
-> read will happen on most platforms from lower to upper addresses
-> and will be done by multiple non-atomic loads. If the structure
-> is updated by PCI during the reads from the processor, the
-> processor may get a corrupted copy.
-> 
-> The addition of the new nvme_cqe_valid function that verifies
-> the validity bit also allows refactoring of the other CQE read
-> sequences.
-> 
-> Signed-off-by: Marta Rybczynska <marta.rybczynska at kalray.eu>
+> +/* We read the CQE phase first to check if the rest of the entry is valid */
+> +static inline bool nvme_cqe_valid(struct nvme_queue *nvmeq, u16 head,
+> +	u16 phase)
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+the second line here would normally get a two tab indent.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+
+Except for this minor nitpick this looks fine:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
