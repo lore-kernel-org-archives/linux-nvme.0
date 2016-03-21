@@ -1,32 +1,125 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 21 Mar 2016 16:29:31 +0000
-Subject: [PATCH RFC] nvme: rewrite discard support
-In-Reply-To: <20160321155736.GA14643@lst.de>
-References: <1458170132-16031-1-git-send-email-mlin@kernel.org>
- <20160317153335.GB6217@localhost.lm.intel.com>
- <20160321144759.GA12934@lst.de>
- <20160321155138.GA19307@localhost.localdomain>
- <20160321155736.GA14643@lst.de>
-Message-ID: <20160321162930.GB19307@localhost.localdomain>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Mon, 21 Mar 2016 11:36:37 -0500
+Subject: [Bug 112121] New: Some PCIe options cause devices to be removed
+ after suspend
+In-Reply-To: <CAHbf0-GBiMVr4=n3ZT1NSH8Xgdh3TcdDd=Di+pok6Ep6h42ZOQ@mail.gmail.com>
+References: <bug-112121-41252@https.bugzilla.kernel.org/>
+ <CAErSpo4beDk_ajsgqMUNJ3TGxDv=ysyPzhXHcx2AhUEUE9ROKA@mail.gmail.com>
+ <CAHbf0-GBiMVr4=n3ZT1NSH8Xgdh3TcdDd=Di+pok6Ep6h42ZOQ@mail.gmail.com>
+Message-ID: <20160321163637.GA12288@localhost>
 
-On Mon, Mar 21, 2016@04:57:36PM +0100, Christoph Hellwig wrote:
-> On Mon, Mar 21, 2016@03:51:39PM +0000, Keith Busch wrote:
-> > It looks like SCSI's special handling lead to what the code comments
-> > describe as a "horrible hack", so that's not convincing this is a good
-> > example to follow.
+Hi Mike,
+
+I'm sorry this slipped through the cracks.   I apologize for the
+inability of Google Inbox to send plaintext email; I use mutt
+because that's a hassle for me, too.
+
+On Sat, Feb 13, 2016@11:39:52PM +0000, Mike Lothian wrote:
+> On 8 February 2016@13:51, Bjorn Helgaas <bhelgaas@google.com> wrote:
+> > [+cc linux-pci, NVMe folks, power management folks]
+> >
+> > On Sun, Feb 7, 2016@11:04 AM,  <bugzilla-daemon@bugzilla.kernel.org> wrote:
+> >> https://bugzilla.kernel.org/show_bug.cgi?id=112121
+> >>
+> >>             Bug ID: 112121
+> >>            Summary: Some PCIe options cause devices to be removed after
+> >>                     syspend
+> >>            Product: Drivers
+> >>            Version: 2.5
+> >>     Kernel Version: 4.5-rc2
+> >>           Hardware: All
+> >>                 OS: Linux
+> >>               Tree: Mainline
+> >>             Status: NEW
+> >>           Severity: normal
+> >>           Priority: P1
+> >>          Component: PCI
+> >>           Assignee: drivers_pci at kernel-bugs.osdl.org
+> >>           Reporter: mike at fireburn.co.uk
+> >>         Regression: No
+> >>
+> >> Created attachment 203091
+> >>   --> https://bugzilla.kernel.org/attachment.cgi?id=203091&action=edit
+> >> Dmesg showing PCIe device removals
+> >>
+> >> I was having issues with suspend, when the machine was being resumed iommu
+> >> started removing devices - including my PCIe NVMe drive which contained my root
+> >> partition
+> >>
+> >> The problem showed up with:
+> >>
+> >> [*] PCI support
+> >> [*]   Support mmconfig PCI config space access
+> >> [*]   PCI Express Port Bus support
+> >> [*]     PCI Express Hotplug driver
+> >> [*]     Root Port Advanced Error Reporting support
+> >> [*]       PCI Express ECRC settings control
+> >> < >       PCIe AER error injector support
+> >> -*-     PCI Express ASPM control
+> >> [ ]       Debug PCI Express ASPM
+> >>           Default ASPM policy (BIOS default)  --->
+> >> [*]   Message Signaled Interrupts (MSI and MSI-X)
+> >> [ ]   PCI Debugging
+> >> [*]   Enable PCI resource re-allocation detection
+> >> < >   PCI Stub driver
+> >> [*]   Interrupts on hypertransport devices
+> >> [ ] PCI IOV support
+> >> [*] PCI PRI support
+> >> -*- PCI PASID support
+> >>     PCI host controller drivers  ----
+> >> < > PCCard (PCMCIA/CardBus) support  ----
+> >> [*] Support for PCI Hotplug  --->
+> >> < > RapidIO support
+> >>
+> >>
+> >> This is what I have now:
+> >>
+> >> [*] PCI support
+> >> [*]   Support mmconfig PCI config space access
+> >> [*]   PCI Express Port Bus support
+> >> [ ]     Root Port Advanced Error Reporting support
+> >> -*-     PCI Express ASPM control
+> >> [ ]       Debug PCI Express ASPM
+> >>           Default ASPM policy (BIOS default)  --->
+> >> [*]   Message Signaled Interrupts (MSI and MSI-X)
+> >> [*]   PCI Debugging
+> >> [ ]   Enable PCI resource re-allocation detection
+> >> < >   PCI Stub driver
+> >> [*]   Interrupts on hypertransport devices
+> >> [ ] PCI IOV support
+> >> [ ] PCI PRI support
+> >> [ ] PCI PASID support
+> >>     PCI host controller drivers  ----
+> >> < > PCCard (PCMCIA/CardBus) support  ----
+> >> [ ] Support for PCI Hotplug  ----
+> >> < > RapidIO support
+> >>
+> >> I tried disabling the iommu driver first but it had no effect
+> >>
+> >> If people are interested I could play with the above options to see which one
+> >> causes the issue
+> >
+> > My guess is that PCI hotplug is the important one.  It would be nice
+> > if dmesg contained enough information to connect nvme0n1 to a PCI
+> > device.  It'd be even nicer if the PCI core noted device removals or
+> > whatever happened here.
+> >
+> > You don't get any more details if you boot with "ignore_loglevel", do you?
+> >
+> > Mike, you didn't mark this as a regression, so I assume it's always
+> > been this way, and we just haven't noticed it because most people
+> > enable PCI hotplug (or whatever the relevant config option is).
 > 
-> Nah, the "horrible hack" is adding a payload to the request.  We went
-> over and over this and everyone but Kent agrees it's the least horrible
-> option to handle discards in generic code.  NVMe side steps this a bit
-> by not trying to handle this in common code, but that only works as
-> long as it's a single tightly integrated driver, not for a layer
-> architecture like SCSI, or what NVMe is increasingly moving to.
+> I've just tested this again, I enabled PCI Hotplug & PCIe Hotplug and
+> nothing - then I noticed I hadn't enabled the ACPI Hotplug driver -
+> once I did the issue re-appeared
+> 
+> I then had to use testdisk to restore my partition table :'(
+> 
+> I've attached the updated dmesg & my .config
 
-Fair enough. Every discard payload is specific to the protocol, so
-understood on the need. General consensus prevails.
+Correct me if I'm wrong:
 
-Let's see the next version. It'd be nice if we can get away with
-allocating only the necessary amount for the payload.
-
-Final comment on the original patch: it shouldn't return BLKPREP_DEFER
-when out of memory as it's not applicable for blk-mq drivers.
+  - With CONFIG_HOTPLUG_PCI_ACPI not set, suspend/resume works fine
+  - With CONFIG_HOTPLUG_PCI_ACPI=y, resume fails as shown in your dmesg log
+    (https://bugzilla.kernel.org/attachment.cgi?id=203621)
