@@ -1,26 +1,23 @@
-From: peter@picnicpark.org (Peter Amidon)
-Date: Mon, 21 Mar 2016 08:14:02 -0700
-Subject: Samsung NVMe SSD discard option?
-Message-ID: <81io0foocl.fsf@DIY-PC.picnicpark.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 21 Mar 2016 15:51:39 +0000
+Subject: [PATCH RFC] nvme: rewrite discard support
+In-Reply-To: <20160321144759.GA12934@lst.de>
+References: <1458170132-16031-1-git-send-email-mlin@kernel.org>
+ <20160317153335.GB6217@localhost.lm.intel.com>
+ <20160321144759.GA12934@lst.de>
+Message-ID: <20160321155138.GA19307@localhost.localdomain>
 
-I'm trying to set up an MS Surface Book with Linux, and am unsure
-whether I should enable discard support on the internal NVMe SSD, which
-appears to be a Samsung device (lspci: "Samsung Electronics Co Ltd
-Device a802 (rev 01)").  I was planning on setting this up with an ext4
-filesystem, so I need to manually enable discard if necessary.  I found
-an Intel Linux reference guide [1] which recommends disabling discard
-support, but I also found a presentation [2] which seems to indicate
-that discard is well-supported by Linux now.  Since I have a Samsung
-drive, and this mailing list seems to have had a number of patches about
-discard support, I'm not sure whether the advice in the guide still
-applies.
+On Mon, Mar 21, 2016@03:47:59PM +0100, Christoph Hellwig wrote:
+> I think we should just do a 16 byte (or rather cache line size) kmalloc,
+> as there is no need for a mempool for discards.  Would a version of
+> that be fine with you?  Because discard is currently the only thing
+> preventing us from having a split between transport and commanset specific
+> setup for NVMe.  And as things like Fabrics and LighNVM show I think
+> a clean split there would be rather benefitical in the long run.
 
-This question seems to have been asked on this list once before as a
-side note at [3], but I've been unable to find a definitive response in
-the archives; I apologize sincerely if I have missed something which
-answers this question.
+We only used the mempool for the driver to leverage normal IO clean up
+so that discard isn't special.
 
-
-[1] https://downloadmirror.intel.com/23929/eng/Intel_Linux_NVMe_Driver_Reference_Guide_330602-002.pdf
-[2] http://www.flashmemorysummit.com/English/Collaterals/Proceedings/2014/20140804_Seminar_F_Busch.pdf
-[3] http://lists.infradead.org/pipermail/linux-nvme/2015-December/003428.html
+It looks like SCSI's special handling lead to what the code comments
+describe as a "horrible hack", so that's not convincing this is a good
+example to follow.
