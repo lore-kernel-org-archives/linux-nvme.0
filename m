@@ -1,15 +1,16 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 22 Mar 2016 17:57:28 +0000
-Subject: guaranteed progress for NVME commands?
-In-Reply-To: <20160322144615.GA24460@localhost.localdomain>
-References: <20160322074531.GA32289@infradead.org>
- <20160322144615.GA24460@localhost.localdomain>
-Message-ID: <20160322175727.GA4188@localhost.localdomain>
+Date: Tue, 22 Mar 2016 20:40:52 +0000
+Subject: [PATCH v2 0/4] rewrites discard support
+In-Reply-To: <1458631486-14120-1-git-send-email-mlin@kernel.org>
+References: <1458631486-14120-1-git-send-email-mlin@kernel.org>
+Message-ID: <20160322204051.GB4188@localhost.localdomain>
 
-On Tue, Mar 22, 2016@02:46:16PM +0000, Keith Busch wrote:
-> I'm not sure why the driver is even considering that.
-> The transfer size doesn't matter; only nr_phys_segments should determine how
-> many elements the nvme_iod sgl needs to have.
+On Tue, Mar 22, 2016@12:24:42AM -0700, Ming Lin wrote:
+> From: Ming Lin <ming.l at ssi.samsung.com>
+> 
+> This rewrites nvme_setup_discard() with blk_add_request_payload().
+> And moves it to common code so fabrics driver can also use it.
 
-err, scratch that. The size has to be accounted for when considering
-PRP lists, which are unnamed fields in struct nvme_iod.
+Looks fine, for the series.
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
