@@ -1,125 +1,33 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Mon, 21 Mar 2016 11:36:37 -0500
-Subject: [Bug 112121] New: Some PCIe options cause devices to be removed
- after suspend
-In-Reply-To: <CAHbf0-GBiMVr4=n3ZT1NSH8Xgdh3TcdDd=Di+pok6Ep6h42ZOQ@mail.gmail.com>
-References: <bug-112121-41252@https.bugzilla.kernel.org/>
- <CAErSpo4beDk_ajsgqMUNJ3TGxDv=ysyPzhXHcx2AhUEUE9ROKA@mail.gmail.com>
- <CAHbf0-GBiMVr4=n3ZT1NSH8Xgdh3TcdDd=Di+pok6Ep6h42ZOQ@mail.gmail.com>
-Message-ID: <20160321163637.GA12288@localhost>
+From: mlin@kernel.org (Ming Lin)
+Date: Tue, 22 Mar 2016 00:24:42 -0700
+Subject: [PATCH v2 0/4] rewrites discard support
+Message-ID: <1458631486-14120-1-git-send-email-mlin@kernel.org>
 
-Hi Mike,
+From: Ming Lin <ming.l@ssi.samsung.com>
 
-I'm sorry this slipped through the cracks.   I apologize for the
-inability of Google Inbox to send plaintext email; I use mutt
-because that's a hassle for me, too.
+This rewrites nvme_setup_discard() with blk_add_request_payload().
+And moves it to common code so fabrics driver can also use it.
 
-On Sat, Feb 13, 2016@11:39:52PM +0000, Mike Lothian wrote:
-> On 8 February 2016@13:51, Bjorn Helgaas <bhelgaas@google.com> wrote:
-> > [+cc linux-pci, NVMe folks, power management folks]
-> >
-> > On Sun, Feb 7, 2016@11:04 AM,  <bugzilla-daemon@bugzilla.kernel.org> wrote:
-> >> https://bugzilla.kernel.org/show_bug.cgi?id=112121
-> >>
-> >>             Bug ID: 112121
-> >>            Summary: Some PCIe options cause devices to be removed after
-> >>                     syspend
-> >>            Product: Drivers
-> >>            Version: 2.5
-> >>     Kernel Version: 4.5-rc2
-> >>           Hardware: All
-> >>                 OS: Linux
-> >>               Tree: Mainline
-> >>             Status: NEW
-> >>           Severity: normal
-> >>           Priority: P1
-> >>          Component: PCI
-> >>           Assignee: drivers_pci at kernel-bugs.osdl.org
-> >>           Reporter: mike at fireburn.co.uk
-> >>         Regression: No
-> >>
-> >> Created attachment 203091
-> >>   --> https://bugzilla.kernel.org/attachment.cgi?id=203091&action=edit
-> >> Dmesg showing PCIe device removals
-> >>
-> >> I was having issues with suspend, when the machine was being resumed iommu
-> >> started removing devices - including my PCIe NVMe drive which contained my root
-> >> partition
-> >>
-> >> The problem showed up with:
-> >>
-> >> [*] PCI support
-> >> [*]   Support mmconfig PCI config space access
-> >> [*]   PCI Express Port Bus support
-> >> [*]     PCI Express Hotplug driver
-> >> [*]     Root Port Advanced Error Reporting support
-> >> [*]       PCI Express ECRC settings control
-> >> < >       PCIe AER error injector support
-> >> -*-     PCI Express ASPM control
-> >> [ ]       Debug PCI Express ASPM
-> >>           Default ASPM policy (BIOS default)  --->
-> >> [*]   Message Signaled Interrupts (MSI and MSI-X)
-> >> [ ]   PCI Debugging
-> >> [*]   Enable PCI resource re-allocation detection
-> >> < >   PCI Stub driver
-> >> [*]   Interrupts on hypertransport devices
-> >> [ ] PCI IOV support
-> >> [*] PCI PRI support
-> >> -*- PCI PASID support
-> >>     PCI host controller drivers  ----
-> >> < > PCCard (PCMCIA/CardBus) support  ----
-> >> [*] Support for PCI Hotplug  --->
-> >> < > RapidIO support
-> >>
-> >>
-> >> This is what I have now:
-> >>
-> >> [*] PCI support
-> >> [*]   Support mmconfig PCI config space access
-> >> [*]   PCI Express Port Bus support
-> >> [ ]     Root Port Advanced Error Reporting support
-> >> -*-     PCI Express ASPM control
-> >> [ ]       Debug PCI Express ASPM
-> >>           Default ASPM policy (BIOS default)  --->
-> >> [*]   Message Signaled Interrupts (MSI and MSI-X)
-> >> [*]   PCI Debugging
-> >> [ ]   Enable PCI resource re-allocation detection
-> >> < >   PCI Stub driver
-> >> [*]   Interrupts on hypertransport devices
-> >> [ ] PCI IOV support
-> >> [ ] PCI PRI support
-> >> [ ] PCI PASID support
-> >>     PCI host controller drivers  ----
-> >> < > PCCard (PCMCIA/CardBus) support  ----
-> >> [ ] Support for PCI Hotplug  ----
-> >> < > RapidIO support
-> >>
-> >> I tried disabling the iommu driver first but it had no effect
-> >>
-> >> If people are interested I could play with the above options to see which one
-> >> causes the issue
-> >
-> > My guess is that PCI hotplug is the important one.  It would be nice
-> > if dmesg contained enough information to connect nvme0n1 to a PCI
-> > device.  It'd be even nicer if the PCI core noted device removals or
-> > whatever happened here.
-> >
-> > You don't get any more details if you boot with "ignore_loglevel", do you?
-> >
-> > Mike, you didn't mark this as a regression, so I assume it's always
-> > been this way, and we just haven't noticed it because most people
-> > enable PCI hotplug (or whatever the relevant config option is).
-> 
-> I've just tested this again, I enabled PCI Hotplug & PCIe Hotplug and
-> nothing - then I noticed I hadn't enabled the ACPI Hotplug driver -
-> once I did the issue re-appeared
-> 
-> I then had to use testdisk to restore my partition table :'(
-> 
-> I've attached the updated dmesg & my .config
+v2:
+ - add helper nvme_map_len()
+ - allocates only 16 bytes for discard payload
+ - moves command setup to common helper nvme_setup_cmd()
+ - returns BLK_MQ_RQ_QUEUE_BUSY when out of memory
 
-Correct me if I'm wrong:
+Ming Lin (4):
+  nvme: add helper nvme_map_len()
+  block: add offset in blk_add_request_payload()
+  nvme: rewrite discard support
+  nvme: add helper nvme_setup_cmd()
 
-  - With CONFIG_HOTPLUG_PCI_ACPI not set, suspend/resume works fine
-  - With CONFIG_HOTPLUG_PCI_ACPI=y, resume fails as shown in your dmesg log
-    (https://bugzilla.kernel.org/attachment.cgi?id=203621)
+ block/blk-core.c         |   5 ++-
+ drivers/block/skd_main.c |   2 +-
+ drivers/nvme/host/core.c | 105 +++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  55 ++++---------------------
+ drivers/nvme/host/pci.c  |  68 +++++++-----------------------
+ drivers/scsi/sd.c        |   2 +-
+ include/linux/blkdev.h   |   2 +-
+ 7 files changed, 133 insertions(+), 106 deletions(-)
+
+-- 
+1.9.1
