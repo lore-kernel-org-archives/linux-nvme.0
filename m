@@ -1,80 +1,87 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Tue, 22 Mar 2016 00:24:43 -0700
-Subject: [PATCH v2 1/4] nvme: add helper nvme_map_len()
+Date: Tue, 22 Mar 2016 00:24:44 -0700
+Subject: [PATCH v2 2/4] block: add offset in blk_add_request_payload()
 In-Reply-To: <1458631486-14120-1-git-send-email-mlin@kernel.org>
 References: <1458631486-14120-1-git-send-email-mlin@kernel.org>
-Message-ID: <1458631486-14120-2-git-send-email-mlin@kernel.org>
+Message-ID: <1458631486-14120-3-git-send-email-mlin@kernel.org>
 
 From: Ming Lin <ming.l@ssi.samsung.com>
 
-The helper returns the number of bytes that need to be mapped
-using PRPs/SGL entries.
+We could kmalloc() the payload, so need the offset in page.
 
 Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
 ---
- drivers/nvme/host/nvme.h |  8 ++++++++
- drivers/nvme/host/pci.c  | 13 +++++--------
- 2 files changed, 13 insertions(+), 8 deletions(-)
+ block/blk-core.c         | 5 +++--
+ drivers/block/skd_main.c | 2 +-
+ drivers/scsi/sd.c        | 2 +-
+ include/linux/blkdev.h   | 2 +-
+ 4 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 75982b9..331d437 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -181,6 +181,14 @@ static inline u64 nvme_block_nr(struct nvme_ns *ns, sector_t sector)
- 	return (sector >> (ns->lba_shift - 9));
+diff --git a/block/blk-core.c b/block/blk-core.c
+index 47e9f27..f320c38 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -1523,6 +1523,7 @@ EXPORT_SYMBOL(blk_put_request);
+  * blk_add_request_payload - add a payload to a request
+  * @rq: request to update
+  * @page: page backing the payload
++ * @offset: offset in page
+  * @len: length of the payload.
+  *
+  * This allows to later add a payload to an already submitted request by
+@@ -1533,12 +1534,12 @@ EXPORT_SYMBOL(blk_put_request);
+  * discard requests should ever use it.
+  */
+ void blk_add_request_payload(struct request *rq, struct page *page,
+-		unsigned int len)
++		int offset, unsigned int len)
+ {
+ 	struct bio *bio = rq->bio;
+ 
+ 	bio->bi_io_vec->bv_page = page;
+-	bio->bi_io_vec->bv_offset = 0;
++	bio->bi_io_vec->bv_offset = offset;
+ 	bio->bi_io_vec->bv_len = len;
+ 
+ 	bio->bi_iter.bi_size = len;
+diff --git a/drivers/block/skd_main.c b/drivers/block/skd_main.c
+index 586f916..9a9ec21 100644
+--- a/drivers/block/skd_main.c
++++ b/drivers/block/skd_main.c
+@@ -562,7 +562,7 @@ skd_prep_discard_cdb(struct skd_scsi_request *scsi_req,
+ 	put_unaligned_be32(count, &buf[16]);
+ 
+ 	req = skreq->req;
+-	blk_add_request_payload(req, page, len);
++	blk_add_request_payload(req, page, 0, len);
  }
  
-+static inline unsigned nvme_map_len(struct request *rq)
-+{
-+	if (rq->cmd_flags & REQ_DISCARD)
-+		return sizeof(struct nvme_dsm_range);
-+	else
-+		return blk_rq_bytes(rq);
-+}
-+
- static inline void nvme_setup_flush(struct nvme_ns *ns,
- 		struct nvme_command *cmnd)
- {
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4301584..2db6f89 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -348,16 +348,11 @@ static __le64 **iod_list(struct request *req)
- 	return (__le64 **)(iod->sg + req->nr_phys_segments);
- }
+ static void skd_request_fn_not_online(struct request_queue *q);
+diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+index d749da7..a4b927c2 100644
+--- a/drivers/scsi/sd.c
++++ b/drivers/scsi/sd.c
+@@ -779,7 +779,7 @@ static int sd_setup_discard_cmnd(struct scsi_cmnd *cmd)
+ 	 * discarded on disk. This allows us to report completion on the full
+ 	 * amount of blocks described by the request.
+ 	 */
+-	blk_add_request_payload(rq, page, len);
++	blk_add_request_payload(rq, page, 0, len);
+ 	ret = scsi_init_io(cmd);
+ 	rq->__data_len = nr_bytes;
  
--static int nvme_init_iod(struct request *rq, struct nvme_dev *dev)
-+static int nvme_init_iod(struct request *rq, unsigned size,
-+		struct nvme_dev *dev)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(rq);
- 	int nseg = rq->nr_phys_segments;
--	unsigned size;
--
--	if (rq->cmd_flags & REQ_DISCARD)
--		size = sizeof(struct nvme_dsm_range);
--	else
--		size = blk_rq_bytes(rq);
- 
- 	if (nseg > NVME_INT_PAGES || size > NVME_INT_BYTES(dev)) {
- 		iod->sg = kmalloc(nvme_iod_alloc_size(dev, size, nseg), GFP_ATOMIC);
-@@ -651,6 +646,7 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	struct nvme_dev *dev = nvmeq->dev;
- 	struct request *req = bd->rq;
- 	struct nvme_command cmnd;
-+	unsigned map_len;
- 	int ret = BLK_MQ_RQ_QUEUE_OK;
- 
- 	/*
-@@ -666,7 +662,8 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		}
- 	}
- 
--	ret = nvme_init_iod(req, dev);
-+	map_len = nvme_map_len(req);
-+	ret = nvme_init_iod(req, map_len, dev);
- 	if (ret)
- 		return ret;
- 
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 413c84f..121eebc 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -778,7 +778,7 @@ extern struct request *blk_make_request(struct request_queue *, struct bio *,
+ extern void blk_rq_set_block_pc(struct request *);
+ extern void blk_requeue_request(struct request_queue *, struct request *);
+ extern void blk_add_request_payload(struct request *rq, struct page *page,
+-		unsigned int len);
++		int offset, unsigned int len);
+ extern int blk_lld_busy(struct request_queue *q);
+ extern int blk_rq_prep_clone(struct request *rq, struct request *rq_src,
+ 			     struct bio_set *bs, gfp_t gfp_mask,
 -- 
 1.9.1
