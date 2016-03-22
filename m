@@ -1,12 +1,13 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 22 Mar 2016 08:38:58 +0100
-Subject: [PATCH v2 4/4] nvme: add helper nvme_setup_cmd()
-In-Reply-To: <1458631486-14120-5-git-send-email-mlin@kernel.org>
-References: <1458631486-14120-1-git-send-email-mlin@kernel.org>
- <1458631486-14120-5-git-send-email-mlin@kernel.org>
-Message-ID: <20160322073858.GB23403@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 22 Mar 2016 00:45:31 -0700
+Subject: guaranteed progress for NVME commands?
+Message-ID: <20160322074531.GA32289@infradead.org>
 
-Great!  This is exactly how I wanted the interface to the I/O
-command set specific setup to look like.
+Hi All,
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+in SCSI and other block drivers we go through great pains to only
+use mempool backed allocations in the I/O path, so that we can make
+guaranteed progress for swap or the writeback daemons.  But it seems
+like the NVMe driver is using plain kmalloc everywhere and seems to
+be getting away with that just for now.  Is no one using swap on
+NVMe or am I missing a secret trick somewhere?
