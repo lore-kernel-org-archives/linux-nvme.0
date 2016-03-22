@@ -1,24 +1,15 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Tue, 22 Mar 2016 10:28:07 -0600
-Subject: [PATCH v3 RESEND] nvme: avoid cqe corruption when update at the
- same time as read
-In-Reply-To: <927773622.9658030.1458658926133.JavaMail.zimbra@kalray.eu>
-References: <927773622.9658030.1458658926133.JavaMail.zimbra@kalray.eu>
-Message-ID: <56F17297.50900@fb.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 22 Mar 2016 17:57:28 +0000
+Subject: guaranteed progress for NVME commands?
+In-Reply-To: <20160322144615.GA24460@localhost.localdomain>
+References: <20160322074531.GA32289@infradead.org>
+ <20160322144615.GA24460@localhost.localdomain>
+Message-ID: <20160322175727.GA4188@localhost.localdomain>
 
-On 03/22/2016 09:02 AM, Marta Rybczynska wrote:
-> Make sure the CQE phase (validity) is read before the rest of the
-> structure. The phase bit is the highest address and the CQE
-> read will happen on most platforms from lower to upper addresses
-> and will be done by multiple non-atomic loads. If the structure
-> is updated by PCI during the reads from the processor, the
-> processor may get a corrupted copy.
->
-> The addition of the new nvme_cqe_valid function that verifies
-> the validity bit also allows refactoring of the other CQE read
-> sequences.
+On Tue, Mar 22, 2016@02:46:16PM +0000, Keith Busch wrote:
+> I'm not sure why the driver is even considering that.
+> The transfer size doesn't matter; only nr_phys_segments should determine how
+> many elements the nvme_iod sgl needs to have.
 
-Added for this merge window, thanks.
-
--- 
-Jens Axboe
+err, scratch that. The size has to be accounted for when considering
+PRP lists, which are unnamed fields in struct nvme_iod.
