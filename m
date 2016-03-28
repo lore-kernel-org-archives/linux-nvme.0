@@ -1,31 +1,67 @@
-From: muhlemmer@gmail.com (Tim Mohlmann)
-Date: Mon, 28 Mar 2016 19:44:20 +0300
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 28 Mar 2016 17:24:24 +0000
 Subject: nvme device timeout
-Message-ID: <CAHOCc18wCgprYh1k0m0ow1FhU51J-1JN-X2Fj-8VKHDVi-Zo9Q@mail.gmail.com>
+In-Reply-To: <CAHOCc18wCgprYh1k0m0ow1FhU51J-1JN-X2Fj-8VKHDVi-Zo9Q@mail.gmail.com>
+References: <CAHOCc18wCgprYh1k0m0ow1FhU51J-1JN-X2Fj-8VKHDVi-Zo9Q@mail.gmail.com>
+Message-ID: <20160328172423.GA22481@localhost.localdomain>
 
-Hi,
+On Mon, Mar 28, 2016@07:44:20PM +0300, Tim Mohlmann wrote:
+> Hi,
+> 
+> During boot my nvme device is not showing up. I've found the following
+> dmesg output from nvme:
+> [    0.634251] nvme 0000:04:00.0: PCI INT A: no GSI
+> [   61.703015] nvme 0000:04:00.0: I/O 0 QID 0 timeout, disable controller
+> [   61.704028] nvme 0000:04:00.0: Identify Controller failed (-4)
+> [   61.705016] nvme 0000:04:00.0: Removing after probe failure status: -5
+> 
+> lspci does not list device anymore.
 
-During boot my nvme device is not showing up. I've found the following
-dmesg output from nvme:
-[    0.634251] nvme 0000:04:00.0: PCI INT A: no GSI
-[   61.703015] nvme 0000:04:00.0: I/O 0 QID 0 timeout, disable controller
-[   61.704028] nvme 0000:04:00.0: Identify Controller failed (-4)
-[   61.705016] nvme 0000:04:00.0: Removing after probe failure status: -5
+Thanks for mentioning that. Removing the device from the pci topology
+might be a bit heavy handed. We really only need to unbind the driver
+in this case (will send a different patch).
+ 
+> This problem occured after upgrading my kernel from 4.4.5 to 4.5-rc7.
 
-lspci does not list device anymore.
+I'll venture a guess that you were unknowingly relying on the driver's
+polling completion feature, and your controller doesn't support legacy
+irq.
 
-This problem occured after upgrading my kernel from 4.4.5 to 4.5-rc7.
+We used to poll the drive for completions immediately after controller
+enable completed, so every command could have been polled. That was moved
+a little later in initialization in 4.5 (and removed entirely in 4.6 ...).
 
-I'm new to posting about bugs in the kernel, so please advise how I
-can provide you with more meaningful info.
+> I'm new to posting about bugs in the kernel, so please advise how I
+> can provide you with more meaningful info.
 
-Regards,
+Could you apply the test patch below (created against 4.5-stable),
+and confirm if it still fails?
 
-Tim
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: dmesg
-Type: application/octet-stream
-Size: 54785 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160328/bf047afc/attachment-0001.obj>
+---
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 680f578..b9c989c 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1945,17 +1945,16 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (result)
+ 		goto out;
+ 
+-	result = nvme_init_identify(&dev->ctrl);
++	dev->ctrl.event_limit = NVME_NR_AEN_COMMANDS;
++	result = nvme_dev_list_add(dev);
+ 	if (result)
+ 		goto out;
+ 
+-	result = nvme_setup_io_queues(dev);
++	result = nvme_init_identify(&dev->ctrl);
+ 	if (result)
+ 		goto out;
+ 
+-	dev->ctrl.event_limit = NVME_NR_AEN_COMMANDS;
+-
+-	result = nvme_dev_list_add(dev);
++	result = nvme_setup_io_queues(dev);
+ 	if (result)
+ 		goto out;
+ 
+--
