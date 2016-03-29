@@ -1,74 +1,25 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 29 Mar 2016 14:38:18 +0000
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Tue, 29 Mar 2016 10:42:41 -0400
 Subject: nvme device timeout
-In-Reply-To: <1604554248.106551459228253752.JavaMail.weblogic@epmlwas03c>
-References: <1604554248.106551459228253752.JavaMail.weblogic@epmlwas03c>
-Message-ID: <20160329143818.GC27195@localhost.localdomain>
+In-Reply-To: <20160329110659.GA10015@infradead.org>
+References: <CAHOCc18wCgprYh1k0m0ow1FhU51J-1JN-X2Fj-8VKHDVi-Zo9Q@mail.gmail.com>
+ <20160328172423.GA22481@localhost.localdomain>
+ <36E8D38D6B771A4BBDB1C0D800158A51865EF73D@SSIEXCH-MB3.ssi.samsung.com>
+ <20160328225411.GB27195@localhost.localdomain>
+ <20160329070328.GA8910@infradead.org>
+ <36E8D38D6B771A4BBDB1C0D800158A51865EFB85@SSIEXCH-MB3.ssi.samsung.com>
+ <20160329110659.GA10015@infradead.org>
+Message-ID: <20160329144241.GA2396@linux.intel.com>
 
-
-On Tue, Mar 29, 2016@05:10:53AM +0000, Amit Kumar Pandey wrote:
-> I fear that test patch may not work for Tim's reported issue. Since nvme_ktherad will not process any CQ until reset_work is completed, it may not be able to complete identify cmd and will result into failure. 
+On Tue, Mar 29, 2016@04:06:59AM -0700, Christoph Hellwig wrote:
+> On Tue, Mar 29, 2016@11:04:51AM +0000, Judy Brock-SSI wrote:
+> > I think controllers that need it won't know they need it (like Keith hypothesized, will have an unknowing reliance on polling for completions during probe) and so a quirk flag won't do a lot of good.
+> > Seems like it makes sense to put it back in to avoid breaking HW that do need it if there is not a compelling functional reason not to do so. Since 4.6 is still in RC stage, maybe it could be put back into 4.6.
 > 
-> static int nvme_kthread(void *data)
-> /*
-> * Skip controllers currently under reset.
-> */
->  if (work_pending(&dev->reset_work) || work_busy(&dev->reset_work))
->   continue;
+> It's not about not knowing - these controllers are broken plain and
+> simple and need to be fixed.  It's the same as we do for all kinds of
+> USB crap in SCSI - we don't simple tolerate broken behavior but instead
+> require a quirk for it.
 
-Thanks, good catch!
-
-Have you confirmed that this controller is indeed relying on polling
-completions during early init, or do you want to try a fix for kthread
-polling? The test patch is appeneded below if you still need to confirm
-it.
-
-If the controller really doesn't work with legacy interrupts, would it
-be possible to permanently set the PCI interrupt pin register to 0? You
-shouldn't advertise the capability if it doesn't work, and the driver
-would have used MSI-x if that was the case.
-
-If we absolutely need to add a quirk, either polling or force using
-MSI-x sound like possible solutions.
-
----
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 680f578..05eb152 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1371,12 +1371,6 @@ static int nvme_kthread(void *data)
- 			int i;
- 			u32 csts = readl(dev->bar + NVME_REG_CSTS);
- 
--			/*
--			 * Skip controllers currently under reset.
--			 */
--			if (work_pending(&dev->reset_work) || work_busy(&dev->reset_work))
--				continue;
--
- 			if ((dev->subsystem && (csts & NVME_CSTS_NSSRO)) ||
- 							csts & NVME_CSTS_CFS) {
- 				if (queue_work(nvme_workq, &dev->reset_work)) {
-@@ -1945,17 +1939,16 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (result)
- 		goto out;
- 
--	result = nvme_init_identify(&dev->ctrl);
-+	dev->ctrl.event_limit = NVME_NR_AEN_COMMANDS;
-+	result = nvme_dev_list_add(dev);
- 	if (result)
- 		goto out;
- 
--	result = nvme_setup_io_queues(dev);
-+	result = nvme_init_identify(&dev->ctrl);
- 	if (result)
- 		goto out;
- 
--	dev->ctrl.event_limit = NVME_NR_AEN_COMMANDS;
--
--	result = nvme_dev_list_add(dev);
-+	result = nvme_setup_io_queues(dev);
- 	if (result)
- 		goto out;
- 
---
+I doubt it's the controller.  Usually it's ACPI or how the PCI bridge
+got wired up.
