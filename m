@@ -1,12 +1,16 @@
-From: jonathan.derrick@intel.com (Derrick, Jonathan)
-Date: Fri, 1 Apr 2016 16:25:07 +0000
-Subject: nvme device timeout
-In-Reply-To: <8D943B239464E04C9184454D8B3F5CFF0ACD84F3@ORSMSX101.amr.corp.intel.com>
-References: <1604554248.106551459228253752.JavaMail.weblogic@epmlwas03c>
- <20160329143818.GC27195@localhost.localdomain>
- <8D943B239464E04C9184454D8B3F5CFF0ACD84F3@ORSMSX101.amr.corp.intel.com>
-Message-ID: <8D943B239464E04C9184454D8B3F5CFF0ACD8553@ORSMSX101.amr.corp.intel.com>
+From: sagi@grimberg.me (sagig)
+Date: Sun, 3 Apr 2016 19:30:13 +0300
+Subject: [PATCH v3 for-4.6 0/4] Provide better active I/O termination
+ handlers
+In-Reply-To: <1457611129-8036-1-git-send-email-sagig@mellanox.com>
+References: <1457611129-8036-1-git-send-email-sagig@mellanox.com>
+Message-ID: <57014515.3080109@grimberg.me>
 
->Acked-by: Jon Derrick <jonathan.derrick at intel.com>
+Hey Jens,
 
-For 4.5 stable of course :)
+So this got left behind in the 4.6 pull request...
+
+Can we at least queue it up for 4.7?
+
+Cheers,
+Sagi.
