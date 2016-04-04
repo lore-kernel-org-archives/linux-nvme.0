@@ -1,42 +1,38 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 4 Apr 2016 19:14:15 +0000
-Subject: [PATCHv2] NVMe: Fix reset/remove race
-In-Reply-To: <57014716.5050901@grimberg.me>
-References: <1458683375-27496-1-git-send-email-keith.busch@intel.com>
- <57014716.5050901@grimberg.me>
-Message-ID: <20160404191414.GA21477@localhost.localdomain>
+Date: Mon,  4 Apr 2016 14:30:14 -0600
+Subject: [PATCH] NVMe: Reduce driver log spamming
+Message-ID: <1459801814-4473-1-git-send-email-keith.busch@intel.com>
 
-On Sun, Apr 03, 2016@07:38:46PM +0300, sagig wrote:
-> On 22/03/16 23:49, Keith Busch wrote:
-> >  drivers/nvme/host/pci.c | 6 ++++--
-> >  1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> >diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> >index 24ccda3..660ec84 100644
-> >--- a/drivers/nvme/host/pci.c
-> >+++ b/drivers/nvme/host/pci.c
-> >@@ -1859,6 +1859,9 @@ static void nvme_reset_work(struct work_struct *work)
-> >  	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
-> >  		nvme_dev_disable(dev, false);
-> >+	if (test_bit(NVME_CTRL_REMOVING, &dev->flags))
-> >+		goto out;
-> >+
-> >  	set_bit(NVME_CTRL_RESETTING, &dev->flags);
-> >  	result = nvme_pci_enable(dev);
-> >@@ -2078,11 +2081,10 @@ static void nvme_remove(struct pci_dev *pdev)
-> >  {
-> >  	struct nvme_dev *dev = pci_get_drvdata(pdev);
-> >-	del_timer_sync(&dev->watchdog_timer);
-> >-
-> >  	set_bit(NVME_CTRL_REMOVING, &dev->flags);
-> >  	pci_set_drvdata(pdev, NULL);
-> >  	flush_work(&dev->async_work);
-> >+	flush_work(&dev->reset_work);
-> 
-> Do we need the same for scan_work? AFAICT it can still
-> sneak in while we're removing...
+Reduce error logging when no corrective action is required.
 
-It is flushed in the very next line not included in your reply. :)
+Suggessted-by: Chris Petersen <cpetersen at fb.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-scan_work isn't queued again when the "NVME_CTRL_REMOVING" flag is set,
-so we're safe from seeing that queue again.
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 5acd6e4..29f31bc 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2130,14 +2130,17 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+ 	 * shutdown the controller to quiesce. The controller will be restarted
+ 	 * after the slot reset through driver's slot_reset callback.
+ 	 */
+-	dev_warn(dev->ctrl.device, "error detected: state:%d\n", state);
+ 	switch (state) {
+ 	case pci_channel_io_normal:
+ 		return PCI_ERS_RESULT_CAN_RECOVER;
+ 	case pci_channel_io_frozen:
++		dev_warn(dev->ctrl.device,
++			"frozen state error detected, reset controller\n");
+ 		nvme_dev_disable(dev, false);
+ 		return PCI_ERS_RESULT_NEED_RESET;
+ 	case pci_channel_io_perm_failure:
++		dev_warn(dev->ctrl.device,
++			"failure state error detected, request disconnect\n");
+ 		return PCI_ERS_RESULT_DISCONNECT;
+ 	}
+ 	return PCI_ERS_RESULT_NEED_RESET;
+-- 
+2.7.2
