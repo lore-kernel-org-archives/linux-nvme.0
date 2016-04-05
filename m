@@ -1,19 +1,82 @@
-From: stephen.bates@microsemi.com (Stephen Bates)
-Date: Tue, 5 Apr 2016 18:07:19 +0000
-Subject: [PATCH 0/2] Block: Give option to force io polling
-In-Reply-To: <20160405172749.GB31055@infradead.org>
-References: <1459455554-2794-1-git-send-email-jonathan.derrick@intel.com>
- <20160405123832.GA27788@infradead.org>
- <20160405155453.GB12625@localhost.localdomain>
- <20160405172749.GB31055@infradead.org>
-Message-ID: <D87A37E7A4AA544D853031D9A919C70B168CB351@avsrvexchmbx2.microsemi.net>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 5 Apr 2016 21:39:04 +0000
+Subject: [PATCH] NVMe: Re-introduce polling for completions
+In-Reply-To: <20160405175437.GC12625@localhost.localdomain>
+References: <1459808689-7689-1-git-send-email-keith.busch@intel.com>
+ <20160405123523.GA19495@infradead.org>
+ <20160405175437.GC12625@localhost.localdomain>
+Message-ID: <20160405213904.GD12625@localhost.localdomain>
 
-> > I think it's more about providing opt-in control to make the
-> > low-latency benefit reachable to users with existing programs.
+On Tue, Apr 05, 2016@05:54:37PM +0000, Keith Busch wrote:
+> On Tue, Apr 05, 2016@05:35:23AM -0700, Christoph Hellwig wrote:
+> > So how do any other PCIe device work given that almost no driver does
+> > unconditionaly polling?
 > 
-> What program benefits from unconditional polling for all I/O on a given
-> device?
+> I honestly don't have a good answer to that, and I agree with you
+> that this shouldn't be necessary ... but this is a harmless way to not
+> frustrate people who purchase these devices.
+> 
+> I suspect other PCI device drivers either at least try to never use the
+> legacy IRQ, or they've never been tested in platforms that break them.
 
-End users  who want to avail of the polling benefits for low latency NVMe devices without having to resort to rewriting their code would like to see something like what Jon is proposing. As I understand it this could be polling control per queue not per device but I can see caching applications where polling for the whole NVMe device would be desirable.
+Before I resend with the requested code comments, I'd like to hear your
+opinion on an alternate solution (patch below).
 
-Stephen
+Currently the driver uses legacy IRQ if available only until we know how
+many queues it can create. The legacy IRQ use is tripping up some h/w,
+but I've not heard such issues with MSI/MSI-x.
+
+Would you prefer going straight to MSI-x? The driver does that when
+there is no INTx, but we wouldn't need to poll from the watchdog timer
+if we make MSI-x the default behavior,
+
+---
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 9e03fe3..5954f40 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1518,7 +1518,9 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	 * If we enable msix early due to not intx, disable it again before
+ 	 * setting up the full range we need.
+ 	 */
+-	if (!pdev->irq)
++	if (pdev->msi_enabled)
++		pci_disable_msi(pdev);
++	else if (pdev->msix_enabled)
+ 		pci_disable_msix(pdev);
+ 
+ 	for (i = 0; i < nr_io_queues; i++)
+@@ -1701,7 +1703,6 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 	if (pci_enable_device_mem(pdev))
+ 		return result;
+ 
+-	dev->entry[0].vector = pdev->irq;
+ 	pci_set_master(pdev);
+ 
+ 	if (dma_set_mask_and_coherent(dev->dev, DMA_BIT_MASK(64)) &&
+@@ -1714,13 +1715,18 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 	}
+ 
+ 	/*
+-	 * Some devices don't advertse INTx interrupts, pre-enable a single
+-	 * MSIX vec for setup. We'll adjust this later.
++	 * Some devices and/or platforms don't advertise or work with INTx
++	 * interrupts. Pre-enable a single MSIX or MSI vec for setup. We'll
++	 * adjust this later.
+ 	 */
+-	if (!pdev->irq) {
+-		result = pci_enable_msix(pdev, dev->entry, 1);
+-		if (result < 0)
+-			goto disable;
++	if (pci_enable_msix(pdev, dev->entry, 1)) {
++		pci_enable_msi(pdev);
++		dev->entry[0].vector = pdev->irq;
++	}
++
++	if (!dev->entry[0].vector) {
++		result = -ENODEV;
++		goto disable;
+ 	}
+ 
+ 	cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
+--
