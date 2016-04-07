@@ -1,20 +1,36 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 7 Apr 2016 08:07:59 -0700
-Subject: [PATCH v3 for-4.6 0/4] Provide better active I/O termination
- handlers
-In-Reply-To: <57014515.3080109@grimberg.me>
-References: <1457611129-8036-1-git-send-email-sagig@mellanox.com>
- <57014515.3080109@grimberg.me>
-Message-ID: <CFAE0758-BD28-44BD-BD16-CEC9ECE6904C@kernel.dk>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Thu, 7 Apr 2016 12:42:29 -0300
+Subject: [PATCH] Avoid reset work on watchdog timer function during error
+ recovery
+In-Reply-To: <20160407142449.GA9586@localhost.localdomain>
+References: <1459974635-16178-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
+ <20160407131131.GA2063@infradead.org>
+ <20160407142449.GA9586@localhost.localdomain>
+Message-ID: <57067FE5.7060002@linux.vnet.ibm.com>
 
 
 
-> On Apr 3, 2016,@9:30 AM, sagig <sagi@grimberg.me> wrote:
-> 
-> Hey Jens,
-> 
-> So this got left behind in the 4.6 pull request...
-> 
-> Can we at least queue it up for 4.7?
+On 04/07/2016 11:24 AM, Keith Busch wrote:
+> On Thu, Apr 07, 2016@06:11:31AM -0700, Christoph Hellwig wrote:
+>> static bool nvme_should_reset(struct nvme_dev *dev)
+>> {
+>> 	u32 csts = readl(dev->bar + NVME_REG_CSTS);
+>>
+>> 	if (!(csts & NVME_CSTS_CFS) &&
+>> 	    !((dev->subsystem && (csts & NVME_CSTS_NSSRO))))
+>> 		return false;
+>>
+>> 	if (work_pending(&dev->reset_work))
+>> 		return false;
+>> 	if (work_busy(&dev->reset_work))
+>> 		return false;
+>
+> We could also skip checking work_pending since work_busy does that for us.
+>
 
-I'll queue it up for 4.7 - traveling this week, will get to it Monday. 
+Great! What name should/can I choose for the function?
+
+Thanks,
+
+
+Guilherme
