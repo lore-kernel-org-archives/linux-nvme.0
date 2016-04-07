@@ -1,18 +1,24 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 7 Apr 2016 06:26:12 -0700
-Subject: [PATCH] Avoid reset work on watchdog timer function during error
- recovery
-In-Reply-To: <57065E3B.7070805@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 7 Apr 2016 14:24:50 +0000
+Subject: [PATCH] Avoid reset work on watchdog timer function during
+ error recovery
+In-Reply-To: <20160407131131.GA2063@infradead.org>
 References: <1459974635-16178-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
  <20160407131131.GA2063@infradead.org>
- <57065E3B.7070805@grimberg.me>
-Message-ID: <20160407132612.GA1054@infradead.org>
+Message-ID: <20160407142449.GA9586@localhost.localdomain>
 
-On Thu, Apr 07, 2016@04:18:51PM +0300, Sagi Grimberg wrote:
-> Agreed, but nvme_should_reset() sounds like you are checking if a reset
-> is needed,
+On Thu, Apr 07, 2016@06:11:31AM -0700, Christoph Hellwig wrote:
+> static bool nvme_should_reset(struct nvme_dev *dev)
+> {
+> 	u32 csts = readl(dev->bar + NVME_REG_CSTS);
+> 
+> 	if (!(csts & NVME_CSTS_CFS) &&
+> 	    !((dev->subsystem && (csts & NVME_CSTS_NSSRO))))
+> 		return false;
+> 
+> 	if (work_pending(&dev->reset_work))
+> 		return false;
+> 	if (work_busy(&dev->reset_work))
+> 		return false;
 
-But that's exaxtly what it does!  It reads CSTS to check for one of the
-two bits in there indicating that we should initiate a reset, except for
-various conditions why we think we better shouldn't reset at the
-moment..
+We could also skip checking work_pending since work_busy does that for us.
