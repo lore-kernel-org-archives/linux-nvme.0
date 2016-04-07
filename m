@@ -1,12 +1,12 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 6 Apr 2016 20:50:23 +0000
-Subject: [PATCH] Avoid reset work on watchdog timer function during
- error recovery
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 07 Apr 2016 10:05:41 +0200
+Subject: [PATCH] Avoid reset work on watchdog timer function during error
+ recovery
 In-Reply-To: <1459974635-16178-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
 References: <1459974635-16178-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
-Message-ID: <20160406205023.GA4140@localhost.localdomain>
+Message-ID: <1802104.y6NSSh3rgK@c203>
 
-On Wed, Apr 06, 2016@05:30:35PM -0300, Guilherme G. Piccoli wrote:
+On Mittwoch, 6. April 2016 17:30:35 CEST Guilherme G. Piccoli wrote:
 > This patch adds a check on nvme_watchdog_timer() function to avoid the
 > call to reset_work() when an error recovery process is ongoing on
 > controller. The check is made by looking at pci_channel_offline()
@@ -20,4 +20,12 @@ On Wed, Apr 06, 2016@05:30:35PM -0300, Guilherme G. Piccoli wrote:
 > 
 > Signed-off-by: Guilherme G. Piccoli <gpiccoli at linux.vnet.ibm.com>
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
