@@ -1,64 +1,23 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri,  8 Apr 2016 16:11:02 -0600
-Subject: [RESEND PATCH] NVMe: Fix reset/remove race
-Message-ID: <1460153462-5178-1-git-send-email-keith.busch@intel.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 8 Apr 2016 16:11:17 -0700
+Subject: [PATCH] NVMe: Skip async events for degraded controllers
+In-Reply-To: <1460153396-5070-1-git-send-email-keith.busch@intel.com>
+References: <1460153396-5070-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20160408231117.GA9149@infradead.org>
 
-This fixes a scenario where device is present and being reset, but a
-request to unbind the driver occurs.
+On Fri, Apr 08, 2016@04:09:56PM -0600, Keith Busch wrote:
+> If the controller is degraded, the driver should stay out of the way so
+> the user can recover the drive. This patch skips driver initiated async
+> event requests when the drive is in this state.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+> This is to fix communication with a specific controller, but I thought
+> this was generally applicable anyway. If anyone really wants to see async
+> events on degraded controllers, I can provide this as a quirk instead.
 
-A previous patch series addressing a device failure removal scenario
-flushed reset_work after controller disable to unblock reset_work waiting
-on a completion that wouldn't occur. This isn't safe as-is. The broken
-scenario can potentially be induced with:
-
-  modprobe nvme && modprobe -r nvme
-
-To fix, the reset work is flushed immediately after setting the controller
-removing flag, and any subsequent reset will not proceed with controller
-initialization if the flag is set.
-
-The controller status must be polled while active, so the watchdog timer
-is also left active until the controller is disabled to cleanup requests
-that may be stuck during namespace removal.
-
-[Fixes: ff23a2a15a2117245b4599c1352343c8b8fb4c43]
-Signed-off-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
----
-v1->v2:
-  Removed the untested change on IO timeout handling that skipped queueing
-  reset work.
-
- drivers/nvme/host/pci.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 24ccda3..660ec84 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1859,6 +1859,9 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
- 		nvme_dev_disable(dev, false);
- 
-+	if (test_bit(NVME_CTRL_REMOVING, &dev->flags))
-+		goto out;
-+
- 	set_bit(NVME_CTRL_RESETTING, &dev->flags);
- 
- 	result = nvme_pci_enable(dev);
-@@ -2078,11 +2081,10 @@ static void nvme_remove(struct pci_dev *pdev)
- {
- 	struct nvme_dev *dev = pci_get_drvdata(pdev);
- 
--	del_timer_sync(&dev->watchdog_timer);
--
- 	set_bit(NVME_CTRL_REMOVING, &dev->flags);
- 	pci_set_drvdata(pdev, NULL);
- 	flush_work(&dev->async_work);
-+	flush_work(&dev->reset_work);
- 	flush_work(&dev->scan_work);
- 	nvme_remove_namespaces(&dev->ctrl);
- 	nvme_uninit_ctrl(&dev->ctrl);
--- 
-2.7.2
+Hah, I was going to prepare something fairly similar for Fabrics
+enablement, so I'm fine with it.  But a comment on why we're doing
+this would be really nice.  I wonder if we should simply have a
+wrapper function for the queue_count check that has a descriptive
+and has the detailed description might be useful.
