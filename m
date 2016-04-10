@@ -1,9 +1,10 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 10 Apr 2016 16:21:17 +0300
-Subject: [RESEND PATCH] NVMe: Fix reset/remove race
-In-Reply-To: <1460153462-5178-1-git-send-email-keith.busch@intel.com>
-References: <1460153462-5178-1-git-send-email-keith.busch@intel.com>
-Message-ID: <570A534D.9030301@grimberg.me>
+Date: Sun, 10 Apr 2016 16:47:49 +0300
+Subject: [PATCH] nvme/host: Add missing blk_integrity tag_size + flags
+ assignments
+In-Reply-To: <1460171082-7212-1-git-send-email-nab@daterainc.com>
+References: <1460171082-7212-1-git-send-email-nab@daterainc.com>
+Message-ID: <570A5985.6080404@grimberg.me>
 
 Looks fine,
 
