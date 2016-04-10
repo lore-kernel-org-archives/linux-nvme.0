@@ -1,10 +1,10 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 10 Apr 2016 16:59:30 +0200
-Subject: [PATCH] nvme/host: Add missing blk_integrity tag_size + flags
- assignments
-In-Reply-To: <1460171082-7212-1-git-send-email-nab@daterainc.com>
-References: <1460171082-7212-1-git-send-email-nab@daterainc.com>
-Message-ID: <20160410145930.GA21909@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 10 Apr 2016 20:20:25 +0300
+Subject: [PATCH] NVMe: Skip async events for degraded controllers
+In-Reply-To: <1460153396-5070-1-git-send-email-keith.busch@intel.com>
+References: <1460153396-5070-1-git-send-email-keith.busch@intel.com>
+Message-ID: <570A8B59.7050309@grimberg.me>
 
-Does NVMe really force ATO=1?  Sorry, didn't have much time to spend
-with that part of the spec.
+Look good,
+
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
