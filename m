@@ -1,21 +1,17 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Mon, 11 Apr 2016 16:27:45 -0400
-Subject: [PATCH] nvme/host: Add missing blk_integrity tag_size + flags
- assignments
-In-Reply-To: <1460171082-7212-1-git-send-email-nab@daterainc.com> (Nicholas
- A. Bellinger's message of "Sat, 9 Apr 2016 03:04:42 +0000")
-References: <1460171082-7212-1-git-send-email-nab@daterainc.com>
-Message-ID: <yq1h9f73n7i.fsf@sermon.lab.mkp.net>
+From: willy@linux.intel.com (Matthew Wilcox)
+Date: Mon, 11 Apr 2016 16:48:23 -0400
+Subject: [PATCH 1/2] nvme: Fix pci_device_id table by adding the most
+ generic devices in the end
+In-Reply-To: <1460405751-8884-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
+References: <1460405751-8884-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
+Message-ID: <20160411204823.GL2781@linux.intel.com>
 
->>>>> "Nicholas" == Nicholas A Bellinger <nab at daterainc.com> writes:
+On Mon, Apr 11, 2016@05:15:50PM -0300, Guilherme G. Piccoli wrote:
+> The struct pci_device_id is used on a PCI driver probe by the PCI core
+> mechanism to match the devices present on the system with the driver
+> being probed. For each device, the match procedure reads each entry in
+> the pci_device_id struct provided by the driver and tries to match the
+> first entry it is able to do.
 
-Nicholas> While doing recent bring-up of nvme/host with target-core
-Nicholas> T10-PI, I noticed
-Nicholas> /sys/block/nvme*/integrity/device_is_integrity_capable was
-Nicholas> false, and /sys/block/nvme*/integrity/tag_size contained a
-Nicholas> bogus value.
-
-Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+What you're missing is that the Apple device doesn't have the NVMe
+programming model / class code.  So this patch actually has no effect.
