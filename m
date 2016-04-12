@@ -1,18 +1,17 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 12 Apr 2016 12:02:52 -0700
-Subject: [PATCHv2] NVMe: Skip async events for degraded controllers
-In-Reply-To: <1460481191-19012-1-git-send-email-keith.busch@intel.com>
-References: <1460481191-19012-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20160412190252.GF32482@infradead.org>
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 12 Apr 2016 13:04:03 -0600
+Subject: [PATCH v2] nvme: add missing lock nesting notation
+In-Reply-To: <20160412190121.GC32482@infradead.org>
+References: <1459877524-15471-1-git-send-email-mlin@kernel.org>
+ <20160412190121.GC32482@infradead.org>
+Message-ID: <570D46A3.1040304@fb.com>
 
-On Tue, Apr 12, 2016@11:13:11AM -0600, Keith Busch wrote:
-> If the controller is degraded, the driver should stay out of the way so
-> the user can recover the drive. This patch skips driver initiated async
-> event requests when the drive is in this state.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+On 04/12/2016 01:01 PM, Christoph Hellwig wrote:
+> Jens, is this something we could still add to 4.6 to kill this annoying
+> warning?
 
-Looks fine,
+Can't it wait until 4.7? It's not a regression in this merge window, 
+looks like it happened for 4.5.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+-- 
+Jens Axboe
