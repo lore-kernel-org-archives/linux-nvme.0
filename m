@@ -1,33 +1,46 @@
-From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
-Date: Mon, 11 Apr 2016 17:57:19 -0300
-Subject: [PATCH 1/2] nvme: Fix pci_device_id table by adding the most
- generic devices in the end
-In-Reply-To: <20160411204823.GL2781@linux.intel.com>
-References: <1460405751-8884-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
- <20160411204823.GL2781@linux.intel.com>
-Message-ID: <570C0FAF.6030000@linux.vnet.ibm.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 12 Apr 2016 11:13:11 -0600
+Subject: [PATCHv2] NVMe: Skip async events for degraded controllers
+Message-ID: <1460481191-19012-1-git-send-email-keith.busch@intel.com>
 
-On 04/11/2016 05:48 PM, Matthew Wilcox wrote:
-> On Mon, Apr 11, 2016@05:15:50PM -0300, Guilherme G. Piccoli wrote:
->> The struct pci_device_id is used on a PCI driver probe by the PCI core
->> mechanism to match the devices present on the system with the driver
->> being probed. For each device, the match procedure reads each entry in
->> the pci_device_id struct provided by the driver and tries to match the
->> first entry it is able to do.
->
-> What you're missing is that the Apple device doesn't have the NVMe
-> programming model / class code.  So this patch actually has no effect.
->
+If the controller is degraded, the driver should stay out of the way so
+the user can recover the drive. This patch skips driver initiated async
+event requests when the drive is in this state.
 
-Oh, okay. Thanks for pointing this. I imagined that it would be possible 
-that this Apple device does not have NVMe class code (or it would been a 
-mistake have added the entry after the PCI_DEVICE_CLASS() in that table).
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-Anyway, my choice was to send the patch and take the shot. Do you want 
-me to re-send the 2nd part of this patch alone, as v2?
+---
+v1 -> v2:
 
-Cheers,
+   Added comment explaining the degraded controller condition and reasoning for
+   skipping the event notification.
 
+ drivers/nvme/host/pci.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-
-Guilherme
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 28d434d..dda19cc 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1890,8 +1890,16 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (result)
+ 		goto out;
+ 
+-	dev->ctrl.event_limit = NVME_NR_AEN_COMMANDS;
+-	queue_work(nvme_workq, &dev->async_work);
++	/*
++	 * A controller that can not execute IO typically requires user
++	 * intervention to correct. For such degraded controllers, the driver
++	 * should not submit commands the user did not request, so skip
++	 * registering for asynchronous event notification on this condition.
++	 */
++	if (dev->online_queues > 1) {
++		dev->ctrl.event_limit = NVME_NR_AEN_COMMANDS;
++		queue_work(nvme_workq, &dev->async_work);
++	}
+ 
+ 	mod_timer(&dev->watchdog_timer, round_jiffies(jiffies + HZ));
+ 
+-- 
+2.7.2
