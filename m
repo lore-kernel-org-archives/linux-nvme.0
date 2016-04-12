@@ -1,21 +1,22 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Tue, 12 Apr 2016 13:17:28 -0600
-Subject: [PATCH v2] nvme: add missing lock nesting notation
-In-Reply-To: <20160412191530.GA1107@infradead.org>
-References: <1459877524-15471-1-git-send-email-mlin@kernel.org>
- <20160412190121.GC32482@infradead.org> <570D46A3.1040304@fb.com>
- <20160412190826.GA20168@infradead.org> <570D48BD.2080700@fb.com>
- <20160412191530.GA1107@infradead.org>
-Message-ID: <570D49C8.2080804@fb.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 12 Apr 2016 13:42:55 -0600
+Subject: [PATCH v3 for-4.6 0/4] Provide better active I/O termination
+ handlers
+In-Reply-To: <57014515.3080109@grimberg.me>
+References: <1457611129-8036-1-git-send-email-sagig@mellanox.com>
+ <57014515.3080109@grimberg.me>
+Message-ID: <570D4FBF.4050501@kernel.dk>
 
-On 04/12/2016 01:15 PM, Christoph Hellwig wrote:
-> On Tue, Apr 12, 2016@01:13:01PM -0600, Jens Axboe wrote:
->> Not disagreeing with that, just trying to keep it extra clean this round...
->> So if it's not introduced in this cycle, let's defer it for the next.
+On 04/03/2016 10:30 AM, sagig wrote:
+> Hey Jens,
 >
-> Allright, no need to piss Linus off :)
-                                  ^
-                            any further :-)
+> So this got left behind in the 4.6 pull request...
+
+It was late for 4.6, sent out the day before...
+
+> Can we at least queue it up for 4.7?
+
+Certainly, being queued up now.
 
 -- 
 Jens Axboe
