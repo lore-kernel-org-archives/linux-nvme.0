@@ -1,16 +1,18 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 12 Apr 2016 12:02:22 -0700
-Subject: [PATCH] NVMe: Re-introduce polling for completions
-In-Reply-To: <20160412190053.GB32482@infradead.org>
-References: <1459808689-7689-1-git-send-email-keith.busch@intel.com>
- <20160405123523.GA19495@infradead.org>
- <20160405175437.GC12625@localhost.localdomain>
- <20160405213904.GD12625@localhost.localdomain>
- <20160412190053.GB32482@infradead.org>
-Message-ID: <20160412190222.GE32482@infradead.org>
+Date: Tue, 12 Apr 2016 12:02:52 -0700
+Subject: [PATCHv2] NVMe: Skip async events for degraded controllers
+In-Reply-To: <1460481191-19012-1-git-send-email-keith.busch@intel.com>
+References: <1460481191-19012-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20160412190252.GF32482@infradead.org>
 
-On Tue, Apr 12, 2016@12:00:53PM -0700, Christoph Hellwig wrote:
-> Can you resend this to Jens for 4.6 with a proper signoff?
+On Tue, Apr 12, 2016@11:13:11AM -0600, Keith Busch wrote:
+> If the controller is degraded, the driver should stay out of the way so
+> the user can recover the drive. This patch skips driver initiated async
+> event requests when the drive is in this state.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-Ooops just noticed you resent it and Jens picked it up.  Feel free to
-ignore my comment :)
+Looks fine,
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
