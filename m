@@ -1,22 +1,19 @@
-From: hiroysato@gmail.com (Hiroyuki Sato)
-Date: Wed, 13 Apr 2016 13:58:18 +0900
+From: thwu@lunartoday.com (Tai-Hong (Type) Wu)
+Date: Wed, 13 Apr 2016 13:18:53 +0800
 Subject: Newbie question Two Intel P3600 Cards and RAID0
 In-Reply-To: <CA+Tq-RpVZaB-OQ6RdA94dcXvdtPmhjqznrYHWXqm5d9F2TzFGQ@mail.gmail.com>
 References: <CA+Tq-RpVZaB-OQ6RdA94dcXvdtPmhjqznrYHWXqm5d9F2TzFGQ@mail.gmail.com>
-Message-ID: <CA+Tq-Rp4_EuyvFnXM5RwYi_UJUrFZ-w349==YwdZ4Hyf3rKrRw@mail.gmail.com>
+Message-ID: <CAMrWnbEuidHt2a7wVWPmtsHW4ZS=oS4VEzDFfL_h27SpnCEtKA@mail.gmail.com>
 
-I found this article.
+Q: Can I use mdadm for NVMe?
 
-https://communities.intel.com/community/itpeernetwork/blog/2015/10/01/how-to-use-and-benchmark-nvme-ssd-create-a-software-raid-and-analyze-performance-the-answers-are-here
+Ans: Yes, of course
+        I've tried using dozens of NVMe disks to assemble an MD-RAID0,
+        and the MD-RAID0 was looking just good.
 
-It documented about Software RAID with Intel matrix storage Manager Software.
+        Setup:  Default 512KiB stripe,  at CentOS 7 (x86-64 SMP 3.10.0-327+)
 
-Thanks.
-
-
-
-
-2016-04-13 11:06 GMT+09:00 Hiroyuki Sato <hiroysato at gmail.com>:
+2016-04-13 10:06 GMT+08:00 Hiroyuki Sato <hiroysato at gmail.com>:
 > Hello members.
 >
 > I have two Intel P3600 400GB, NVMe PCIe 3.0 cards.
@@ -43,8 +40,8 @@ Thanks.
 >
 > --
 > Hiroyuki Sato
-
-
-
--- 
-Hiroyuki Sato
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
