@@ -1,23 +1,31 @@
-From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
-Date: Tue, 12 Apr 2016 20:33:40 -0300
-Subject: [PATCH] Avoid reset work on watchdog timer function during error
- recovery
-In-Reply-To: <20160412190145.GD32482@infradead.org>
-References: <1459974635-16178-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
- <20160407131131.GA2063@infradead.org>
- <20160407142449.GA9586@localhost.localdomain>
- <57067FE5.7060002@linux.vnet.ibm.com>
- <20160407154600.GB9586@localhost.localdomain>
- <570684B6.4060404@linux.vnet.ibm.com> <20160412190145.GD32482@infradead.org>
-Message-ID: <570D85D4.1080608@linux.vnet.ibm.com>
+From: hiroysato@gmail.com (Hiroyuki Sato)
+Date: Wed, 13 Apr 2016 11:06:54 +0900
+Subject: Newbie question Two Intel P3600 Cards and RAID0
+Message-ID: <CA+Tq-RpVZaB-OQ6RdA94dcXvdtPmhjqznrYHWXqm5d9F2TzFGQ@mail.gmail.com>
 
-On 04/12/2016 04:01 PM, Christoph Hellwig wrote:
-> Did you manage to get around resending it?
->
+Hello members.
 
-Just sent the v2. Sorry for my delay.
+I have two Intel P3600 400GB, NVMe PCIe 3.0 cards.
 
-Thanks,
+I want to use this cards for large calculation area.
+(RAID0 or something)
+
+My question is following.
+
+* Can I use mdadm for NVMe.
+* It it better to use mtd-raid? (I found this keywords on this mailing list)
+* Or any other recommend way?
+
+Could you point me any documentation link for that?
+
+My environment
+* OS: CentOS7
+* Kernel: 4.4 (build myself)
+
+I already mount those cards as single file system.
+
+Best regards.
 
 
-Guilherme
+-- 
+Hiroyuki Sato
