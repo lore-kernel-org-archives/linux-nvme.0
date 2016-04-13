@@ -1,71 +1,99 @@
-From: hiroysato@gmail.com (Hiroyuki Sato)
-Date: Wed, 13 Apr 2016 15:16:49 +0900
-Subject: Newbie question Two Intel P3600 Cards and RAID0
-In-Reply-To: <CAMrWnbEuidHt2a7wVWPmtsHW4ZS=oS4VEzDFfL_h27SpnCEtKA@mail.gmail.com>
-References: <CA+Tq-RpVZaB-OQ6RdA94dcXvdtPmhjqznrYHWXqm5d9F2TzFGQ@mail.gmail.com>
- <CAMrWnbEuidHt2a7wVWPmtsHW4ZS=oS4VEzDFfL_h27SpnCEtKA@mail.gmail.com>
-Message-ID: <CA+Tq-Rr94L8zStHMXFRfewJV_HzxhU1gvsO08DOgXJeumbk+pw@mail.gmail.com>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Wed, 13 Apr 2016 11:08:20 -0300
+Subject: [PATCH v3] nvme: Avoid reset work on watchdog timer function during
+ error recovery
+Message-ID: <1460556500-7815-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
 
-Hello
+This patch adds a check on nvme_watchdog_timer() function to avoid the
+call to reset_work() when an error recovery process is ongoing on
+controller. The check is made by looking at pci_channel_offline()
+result.
 
-I've succeed to create RAID0 with NVMe cards.
-I executed following commands.
+If we don't check for this on nvme_watchdog_timer(), error recovery
+mechanism can't recover well, because reset_work() won't be able to
+do its job (since we're in the middle of an error) and so the
+controller is removed from the system before error recovery mechanism
+can perform slot reset (which would allow the adapter to recover).
 
-mdadm -C /dev/md/imsm0 /dev/nvme0n1 /dev/nvme1n1 -n 2 -e imsm -f
-mdadm -C /dev/md0 /dev/md/imsm0 -n 2 -l 0 -c 128 -f
+In this patch we also have split the huge condition expression on
+nvme_watchdog_timer() by introducing an auxiliary function to help
+make the code more readable.
 
-I followed this instruction.
+Reviewed-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli at linux.vnet.ibm.com>
+---
+ drivers/nvme/host/pci.c | 38 ++++++++++++++++++++++++++++++--------
+ 1 file changed, 30 insertions(+), 8 deletions(-)
 
-https://communities.intel.com/community/itpeernetwork/blog/2015/10/01/how-to-use-and-benchmark-nvme-ssd-create-a-software-raid-and-analyze-performance-the-answers-are-here
+v3:
+* Removed warning in compilation by use the nssro variable, that was
+  declared but never used.
 
-Thanks.
+* Put multiline comments on the correct style.
 
-P.S
-Is this(mdadm) better than mtd_raid technorogy?
+* Corrected typo in commit message.
 
-2016-04-13 14:18 GMT+09:00 Tai-Hong (Type) Wu <thwu at lunartoday.com>:
-> Q: Can I use mdadm for NVMe?
->
-> Ans: Yes, of course
->         I've tried using dozens of NVMe disks to assemble an MD-RAID0,
->         and the MD-RAID0 was looking just good.
->
->         Setup:  Default 512KiB stripe,  at CentOS 7 (x86-64 SMP 3.10.0-327+)
->
-> 2016-04-13 10:06 GMT+08:00 Hiroyuki Sato <hiroysato at gmail.com>:
->> Hello members.
->>
->> I have two Intel P3600 400GB, NVMe PCIe 3.0 cards.
->>
->> I want to use this cards for large calculation area.
->> (RAID0 or something)
->>
->> My question is following.
->>
->> * Can I use mdadm for NVMe.
->> * It it better to use mtd-raid? (I found this keywords on this mailing list)
->> * Or any other recommend way?
->>
->> Could you point me any documentation link for that?
->>
->> My environment
->> * OS: CentOS7
->> * Kernel: 4.4 (build myself)
->>
->> I already mount those cards as single file system.
->>
->> Best regards.
->>
->>
->> --
->> Hiroyuki Sato
->>
->> _______________________________________________
->> Linux-nvme mailing list
->> Linux-nvme at lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-nvme
+v2:
+* Refactored the if condition on nvme_watchdog_timer() into a
+  new auxiliary function to improve readability.
 
-
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 24ccda3..06ced57 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1350,22 +1350,44 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+ 	return result;
+ }
+ 
++static bool nvme_should_reset(struct nvme_dev *dev, u32 csts)
++{
++
++	/* If true, indicates loss of adapter communication, possibly by a
++	 * NVMe Subsystem reset.
++	 */
++	bool nssro = dev->subsystem && (csts & NVME_CSTS_NSSRO);
++
++	/* If there is a reset ongoing, we shouldn't reset again. */
++	if (work_busy(&dev->reset_work))
++		return false;
++
++	/* We shouldn't reset unless the controller is on fatal error state
++	 * _or_ if we lost the communication with it.
++	 */
++	if (!(csts & NVME_CSTS_CFS) && !nssro)
++		return false;
++
++	/* If PCI error recovery process is happening, we cannot reset or
++	 * the recovery mechanism will surely fail.
++	 */
++	if (pci_channel_offline(to_pci_dev(dev->dev)))
++		return false;
++
++	return true;
++}
++
+ static void nvme_watchdog_timer(unsigned long data)
+ {
+ 	struct nvme_dev *dev = (struct nvme_dev *)data;
+ 	u32 csts = readl(dev->bar + NVME_REG_CSTS);
+ 
+-	/*
+-	 * Skip controllers currently under reset.
+-	 */
+-	if (!work_pending(&dev->reset_work) && !work_busy(&dev->reset_work) &&
+-	    ((csts & NVME_CSTS_CFS) ||
+-	     (dev->subsystem && (csts & NVME_CSTS_NSSRO)))) {
+-		if (queue_work(nvme_workq, &dev->reset_work)) {
++	/* Skip controllers under certain specific conditions. */
++	if (nvme_should_reset(dev, csts)) {
++		if (queue_work(nvme_workq, &dev->reset_work))
+ 			dev_warn(dev->dev,
+ 				"Failed status: 0x%x, reset controller.\n",
+ 				csts);
+-		}
+ 		return;
+ 	}
+ 
 -- 
-Hiroyuki Sato
+2.1.0
