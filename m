@@ -1,47 +1,28 @@
-From: thwu@lunartoday.com (Tai-Hong (Type) Wu)
-Date: Wed, 13 Apr 2016 13:18:53 +0800
-Subject: Newbie question Two Intel P3600 Cards and RAID0
-In-Reply-To: <CA+Tq-RpVZaB-OQ6RdA94dcXvdtPmhjqznrYHWXqm5d9F2TzFGQ@mail.gmail.com>
-References: <CA+Tq-RpVZaB-OQ6RdA94dcXvdtPmhjqznrYHWXqm5d9F2TzFGQ@mail.gmail.com>
-Message-ID: <CAMrWnbEuidHt2a7wVWPmtsHW4ZS=oS4VEzDFfL_h27SpnCEtKA@mail.gmail.com>
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 12 Apr 2016 23:22:48 -0600
+Subject: [PATCH v2] nvme: Avoid reset work on watchdog timer function
+ during error recovery
+In-Reply-To: <1460503929-22613-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
+References: <1460503929-22613-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
+Message-ID: <570DD7A8.9050607@fb.com>
 
-Q: Can I use mdadm for NVMe?
+On 04/12/2016 05:32 PM, Guilherme G. Piccoli wrote:
+> This patch adds a check on nvme_watchdog_timer() function to avoid the
+> call to reset_work() when an error recovery process is ongoing on
+> controller. The check is made by looking at pci_channel_offline()
+> result.
+>
+> If we don't check for this on nvme_watchdog_timer(), error recovery
+> mechanism can't recover well, because reset_work() won't be able to
+> do its job (since we're in the middle of an error) and so the
+> controller is removed from the system before error recovery mechanism
+> can perform slot reset (which would allow the adapter to recover).
+>
+> In this patch we also have splitted the huge condition expression in
+> nvme_watchdog_timer() by introducing an auxiliary function to help
+> make the code more readable.
 
-Ans: Yes, of course
-        I've tried using dozens of NVMe disks to assemble an MD-RAID0,
-        and the MD-RAID0 was looking just good.
+Added for 4.7, thanks.
 
-        Setup:  Default 512KiB stripe,  at CentOS 7 (x86-64 SMP 3.10.0-327+)
-
-2016-04-13 10:06 GMT+08:00 Hiroyuki Sato <hiroysato at gmail.com>:
-> Hello members.
->
-> I have two Intel P3600 400GB, NVMe PCIe 3.0 cards.
->
-> I want to use this cards for large calculation area.
-> (RAID0 or something)
->
-> My question is following.
->
-> * Can I use mdadm for NVMe.
-> * It it better to use mtd-raid? (I found this keywords on this mailing list)
-> * Or any other recommend way?
->
-> Could you point me any documentation link for that?
->
-> My environment
-> * OS: CentOS7
-> * Kernel: 4.4 (build myself)
->
-> I already mount those cards as single file system.
->
-> Best regards.
->
->
-> --
-> Hiroyuki Sato
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+-- 
+Jens Axboe
