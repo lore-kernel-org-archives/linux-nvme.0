@@ -1,43 +1,38 @@
-From: smj@fastmail.com (Sam McLeod)
-Date: Thu, 14 Apr 2016 15:13:22 +1000
-Subject: I/O 0 QID 0 timeout,
- disable controller - kernel 4.4 / 4.5 NVMe controller dropouts
-Message-ID: <1DC99E13-F6CB-4B7F-AFD7-187825DEE523@fastmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 14 Apr 2016 13:21:14 +0000
+Subject: I/O 0 QID 0 timeout, disable controller - kernel 4.4 / 4.5
+ NVMe controller dropouts
+In-Reply-To: <1DC99E13-F6CB-4B7F-AFD7-187825DEE523@fastmail.com>
+References: <1DC99E13-F6CB-4B7F-AFD7-187825DEE523@fastmail.com>
+Message-ID: <20160414132113.GA21794@localhost.localdomain>
 
-We have 6 Supermicro servers all of the same (or very similar spec),
+On Thu, Apr 14, 2016@03:13:22PM +1000, Sam McLeod wrote:
+> We have 6 Supermicro servers all of the same (or very similar spec),
+> 
+> Since Kernel 4.4 / 4.5 we've had NVMe devices randomly dropping.
+> It does not relate to a particular server, disk, controller etc... and downgrading to kernel 4.1.
+> 
+> With kernel 4.4 the servers would load and the disk randomly disappear.
+> With 4.5 the server loads with one of the disks missing every time.
+> 
+> 
+> ```
+> [   66.856719] nvme 0000:03:00.0: I/O 0 QID 0 timeout, disable controller
+> [   66.957911] nvme 0000:03:00.0: Identify Controller failed (-4)
+> [   66.957961] nvme 0000:03:00.0: Removing after probe failure status: -5
+> ```
 
-Since Kernel 4.4 / 4.5 we've had NVMe devices randomly dropping.
-It does not relate to a particular server, disk, controller etc... and downgrading to kernel 4.1.
+Looks like more fallout from reducing the scope of admin queue completion
+polling...
 
-With kernel 4.4 the servers would load and the disk randomly disappear.
-With 4.5 the server loads with one of the disks missing every time.
+Jens:
 
+Could we please apply the MSI-x fix commit to 4.6 instead of 4.7 so 4.6
+isn't equally broken? Currently staged in for-next here:
 
-```
-[   66.856719] nvme 0000:03:00.0: I/O 0 QID 0 timeout, disable controller
-[   66.957911] nvme 0000:03:00.0: Identify Controller failed (-4)
-[   66.957961] nvme 0000:03:00.0: Removing after probe failure status: -5
-```
+  http://git.kernel.dk/?p=linux-block.git;a=commitdiff;h=788e15abbb9408c9399d7e3445ac9afb3b2fd7d6;hp=e0489487ec9cd79ee1fa0dc5d3789c08b0e51a2c
 
-We have tried:
+I'd also like to submit an apporpriate port to stable if no objections.
 
-- Swapping the disk
-- Swapping the NVMe cables
-- Swapping the NVMe controller (motherboard)
-- Swapping the backplane
-- Downgrading from Kernel 4.5.0 to 4.4.2 given recent changes to the storage subsystem
-- Upgrading disk and motherboard firmwares
-- Swapping the motherboard
-
-So it's essentially a whole new server except that we haven't done a reinstall - why? Because I want to understand the problem and if reinstalling fixes it we'll never know why it's happening on this machine and not on our other 5.
-
-- No SMART or nvme-cli errors are reported on the drive when it is functioning.
-- If the drive is swapped into another bay it works fine and whatever drive is replaced into that bay then eventually times out / fails.
-
-
-- CentOS 7 (Latest patches installed)
-- Kernel 4.5.0
-- 2x Intel DC3600 NVMe (2.5" FF)
-- Intel Corporation C610/X99 series chipset
-- Full `lspci -tvv` output: https://gist.github.com/sammcj/8839c536b2cf6d4def8d2572eb1b4e8a
-- Full kernel config: https://gist.github.com/sammcj/7d1e79775bf984424b92679d16c015c6
+Thanks,
+Keith
