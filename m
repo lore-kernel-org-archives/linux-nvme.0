@@ -1,115 +1,52 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 15 Apr 2016 18:35:47 -0700
-Subject: [PATCH 3/8] genirq: add a helper spread an affinity mask for
- MSI/MSI-X vectors
+Date: Fri, 15 Apr 2016 18:35:48 -0700
+Subject: [PATCH 4/8] genirq: add a helper to program the pre-set affinity mask
+ into the controller
 In-Reply-To: <1460770552-31260-1-git-send-email-hch@lst.de>
 References: <1460770552-31260-1-git-send-email-hch@lst.de>
-Message-ID: <1460770552-31260-4-git-send-email-hch@lst.de>
+Message-ID: <1460770552-31260-5-git-send-email-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- include/linux/interrupt.h | 10 +++++++++
- kernel/irq/Makefile       |  1 +
- kernel/irq/affinity.c     | 54 +++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 65 insertions(+)
- create mode 100644 kernel/irq/affinity.c
+ include/linux/interrupt.h |  2 ++
+ kernel/irq/manage.c       | 14 ++++++++++++++
+ 2 files changed, 16 insertions(+)
 
 diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index 9fcabeb..67bc1e1f 100644
+index 67bc1e1f..ae345da 100644
 --- a/include/linux/interrupt.h
 +++ b/include/linux/interrupt.h
-@@ -278,6 +278,9 @@ extern int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m);
- extern int
- irq_set_affinity_notifier(unsigned int irq, struct irq_affinity_notify *notify);
+@@ -713,4 +713,6 @@ extern char __softirqentry_text_end[];
+ #define __softirq_entry
+ #endif
  
-+int irq_create_affinity_mask(struct cpumask **affinity_mask,
-+		unsigned int nr_vecs);
++void irq_program_affinity(unsigned int irq);
 +
- #else /* CONFIG_SMP */
- 
- static inline int irq_set_affinity(unsigned int irq, const struct cpumask *m)
-@@ -308,6 +311,13 @@ irq_set_affinity_notifier(unsigned int irq, struct irq_affinity_notify *notify)
- {
- 	return 0;
+ #endif
+diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+index cc1cc64..02552a4 100644
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -240,6 +240,20 @@ int __irq_set_affinity(unsigned int irq, const struct cpumask *mask, bool force)
+ 	return ret;
  }
-+
-+static inline int irq_create_affinity_mask(struct cpumask **affinity_mask,
-+		unsigned int nr_vecs)
-+{
-+	*affinity_mask = NULL;
-+	return 0;
-+}
- #endif /* CONFIG_SMP */
  
- /*
-diff --git a/kernel/irq/Makefile b/kernel/irq/Makefile
-index 2ee42e9..1d3ee31 100644
---- a/kernel/irq/Makefile
-+++ b/kernel/irq/Makefile
-@@ -9,3 +9,4 @@ obj-$(CONFIG_GENERIC_IRQ_MIGRATION) += cpuhotplug.o
- obj-$(CONFIG_PM_SLEEP) += pm.o
- obj-$(CONFIG_GENERIC_MSI_IRQ) += msi.o
- obj-$(CONFIG_GENERIC_IRQ_IPI) += ipi.o
-+obj-$(CONFIG_SMP) += affinity.o
-diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-new file mode 100644
-index 0000000..ecb8915
---- /dev/null
-+++ b/kernel/irq/affinity.c
-@@ -0,0 +1,54 @@
-+
-+#include <linux/kernel.h>
-+#include <linux/slab.h>
-+#include <linux/cpu.h>
-+
-+static int get_first_sibling(unsigned int cpu)
++void irq_program_affinity(unsigned int irq)
 +{
-+	unsigned int ret;
++	struct irq_desc *desc = irq_to_desc(irq);
++	struct irq_data *data = irq_desc_get_irq_data(desc);
++	unsigned long flags;
 +
-+	ret = cpumask_first(topology_sibling_cpumask(cpu));
-+	if (ret < nr_cpu_ids)
-+		return ret;
-+	return cpu;
++	if (WARN_ON_ONCE(!desc))
++		return;
++
++	raw_spin_lock_irqsave(&desc->lock, flags);
++	irq_set_affinity_locked(data, desc->irq_common_data.affinity, false);
++	raw_spin_unlock_irqrestore(&desc->lock, flags);
 +}
 +
-+/*
-+ * Take a map of online CPUs and the number of available interrupt vectors
-+ * and generate an output cpumask suitable for spreading MSI/MSI-X vectors
-+ * so that they are distributed as good as possible around the CPUs.  If
-+ * more vectors than CPUs are available we'll map one to each CPU,
-+ * otherwise we map one to the first sibling of each socket.
-+ *
-+ * If there are more vectors than CPUs we will still only have one bit
-+ * set per CPU, but interrupt code will keep on assining the vectors from
-+ * the start of the bitmap until we run out of vectors.
-+ */
-+int irq_create_affinity_mask(struct cpumask **affinity_mask,
-+		unsigned int nr_vecs)
-+{
-+	if (nr_vecs == 1) {
-+		*affinity_mask = NULL;
-+		return 0;
-+	}
-+
-+	*affinity_mask = kzalloc(cpumask_size(), GFP_KERNEL);
-+	if (!*affinity_mask)
-+		return -ENOMEM;
-+
-+	if (nr_vecs >= num_online_cpus()) {
-+		cpumask_copy(*affinity_mask, cpu_online_mask);
-+	} else {
-+		unsigned int cpu;
-+
-+		for_each_online_cpu(cpu) {
-+			if (cpu == get_first_sibling(cpu))
-+				cpumask_set_cpu(cpu, *affinity_mask);
-+
-+			if (--nr_vecs == 0)
-+				break;
-+		}
-+	}
-+
-+	return 0;
-+}
+ int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m)
+ {
+ 	unsigned long flags;
 -- 
 2.1.4
