@@ -1,296 +1,189 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 15 Apr 2016 18:35:49 -0700
-Subject: [PATCH 5/8] blk-mq: allow the driver to pass in an affinity mask
+Date: Fri, 15 Apr 2016 18:35:50 -0700
+Subject: [PATCH 6/8] pci: provide sensible irq vector alloc/free routines
 In-Reply-To: <1460770552-31260-1-git-send-email-hch@lst.de>
 References: <1460770552-31260-1-git-send-email-hch@lst.de>
-Message-ID: <1460770552-31260-6-git-send-email-hch@lst.de>
+Message-ID: <1460770552-31260-7-git-send-email-hch@lst.de>
 
-Allow drivers to pass in the affinity mask from the generic interrupt
-layer, and spread queues based on that.  If the driver doesn't pass in
-a mask we will create it using the genirq helper.  As this helper was
-modelled after the blk-mq algorithm there should be no change in behavior.
-
-XXX: Just as with the core IRQ spreading code this doesn't handle CPU
-hotplug yet.
+Hide all the MSI-X vs MSI vs legacy bullshit, and provide an array of
+interrupt vectors in the pci_dev structure, and ensure we get proper
+interrupt affinity by default.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- block/Makefile         |   2 +-
- block/blk-mq-cpumap.c  | 120 -------------------------------------------------
- block/blk-mq.c         |  60 ++++++++++++++++++++++++-
- block/blk-mq.h         |   8 ----
- include/linux/blk-mq.h |   1 +
- 5 files changed, 60 insertions(+), 131 deletions(-)
- delete mode 100644 block/blk-mq-cpumap.c
+ drivers/pci/irq.c   | 89 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ drivers/pci/msi.c   |  2 +-
+ drivers/pci/pci.h   |  5 +++
+ include/linux/pci.h |  5 +++
+ 4 files changed, 99 insertions(+), 2 deletions(-)
 
-diff --git a/block/Makefile b/block/Makefile
-index 9eda232..aeb318d 100644
---- a/block/Makefile
-+++ b/block/Makefile
-@@ -6,7 +6,7 @@ obj-$(CONFIG_BLOCK) := bio.o elevator.o blk-core.o blk-tag.o blk-sysfs.o \
- 			blk-flush.o blk-settings.o blk-ioc.o blk-map.o \
- 			blk-exec.o blk-merge.o blk-softirq.o blk-timeout.o \
- 			blk-lib.o blk-mq.o blk-mq-tag.o \
--			blk-mq-sysfs.o blk-mq-cpu.o blk-mq-cpumap.o ioctl.o \
-+			blk-mq-sysfs.o blk-mq-cpu.o ioctl.o \
- 			genhd.o scsi_ioctl.o partition-generic.o ioprio.o \
- 			badblocks.o partitions/
- 
-diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-deleted file mode 100644
-index d0634bc..0000000
---- a/block/blk-mq-cpumap.c
-+++ /dev/null
-@@ -1,120 +0,0 @@
--/*
-- * CPU <-> hardware queue mapping helpers
-- *
-- * Copyright (C) 2013-2014 Jens Axboe
-- */
--#include <linux/kernel.h>
--#include <linux/threads.h>
--#include <linux/module.h>
--#include <linux/mm.h>
--#include <linux/smp.h>
--#include <linux/cpu.h>
--
--#include <linux/blk-mq.h>
--#include "blk.h"
--#include "blk-mq.h"
--
--static int cpu_to_queue_index(unsigned int nr_cpus, unsigned int nr_queues,
--			      const int cpu)
--{
--	return cpu * nr_queues / nr_cpus;
--}
--
--static int get_first_sibling(unsigned int cpu)
--{
--	unsigned int ret;
--
--	ret = cpumask_first(topology_sibling_cpumask(cpu));
--	if (ret < nr_cpu_ids)
--		return ret;
--
--	return cpu;
--}
--
--int blk_mq_update_queue_map(unsigned int *map, unsigned int nr_queues,
--			    const struct cpumask *online_mask)
--{
--	unsigned int i, nr_cpus, nr_uniq_cpus, queue, first_sibling;
--	cpumask_var_t cpus;
--
--	if (!alloc_cpumask_var(&cpus, GFP_ATOMIC))
--		return 1;
--
--	cpumask_clear(cpus);
--	nr_cpus = nr_uniq_cpus = 0;
--	for_each_cpu(i, online_mask) {
--		nr_cpus++;
--		first_sibling = get_first_sibling(i);
--		if (!cpumask_test_cpu(first_sibling, cpus))
--			nr_uniq_cpus++;
--		cpumask_set_cpu(i, cpus);
--	}
--
--	queue = 0;
--	for_each_possible_cpu(i) {
--		if (!cpumask_test_cpu(i, online_mask)) {
--			map[i] = 0;
--			continue;
--		}
--
--		/*
--		 * Easy case - we have equal or more hardware queues. Or
--		 * there are no thread siblings to take into account. Do
--		 * 1:1 if enough, or sequential mapping if less.
--		 */
--		if (nr_queues >= nr_cpus || nr_cpus == nr_uniq_cpus) {
--			map[i] = cpu_to_queue_index(nr_cpus, nr_queues, queue);
--			queue++;
--			continue;
--		}
--
--		/*
--		 * Less then nr_cpus queues, and we have some number of
--		 * threads per cores. Map sibling threads to the same
--		 * queue.
--		 */
--		first_sibling = get_first_sibling(i);
--		if (first_sibling == i) {
--			map[i] = cpu_to_queue_index(nr_uniq_cpus, nr_queues,
--							queue);
--			queue++;
--		} else
--			map[i] = map[first_sibling];
--	}
--
--	free_cpumask_var(cpus);
--	return 0;
--}
--
--unsigned int *blk_mq_make_queue_map(struct blk_mq_tag_set *set)
--{
--	unsigned int *map;
--
--	/* If cpus are offline, map them to first hctx */
--	map = kzalloc_node(sizeof(*map) * nr_cpu_ids, GFP_KERNEL,
--				set->numa_node);
--	if (!map)
--		return NULL;
--
--	if (!blk_mq_update_queue_map(map, set->nr_hw_queues, cpu_online_mask))
--		return map;
--
--	kfree(map);
--	return NULL;
--}
--
--/*
-- * We have no quick way of doing reverse lookups. This is only used at
-- * queue init time, so runtime isn't important.
-- */
--int blk_mq_hw_queue_to_node(unsigned int *mq_map, unsigned int index)
--{
--	int i;
--
--	for_each_possible_cpu(i) {
--		if (index == mq_map[i])
--			return local_memory_node(cpu_to_node(i));
--	}
--
--	return NUMA_NO_NODE;
--}
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 1699baf..ab156bb 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -22,6 +22,7 @@
- #include <linux/sched/sysctl.h>
- #include <linux/delay.h>
- #include <linux/crash_dump.h>
-+#include <linux/interrupt.h>
- 
- #include <trace/events/block.h>
- 
-@@ -1954,6 +1955,22 @@ struct request_queue *blk_mq_init_queue(struct blk_mq_tag_set *set)
- }
- EXPORT_SYMBOL(blk_mq_init_queue);
- 
-+/*
-+ * We have no quick way of doing reverse lookups. This is only used at
-+ * queue init time, so runtime isn't important.
-+ */
-+static int blk_mq_hw_queue_to_node(unsigned int *mq_map, unsigned int index)
-+{
-+	int i;
-+
-+	for_each_possible_cpu(i) {
-+		if (index == mq_map[i])
-+			return local_memory_node(cpu_to_node(i));
-+	}
-+
-+	return NUMA_NO_NODE;
-+}
-+
- static void blk_mq_realloc_hw_ctxs(struct blk_mq_tag_set *set,
- 						struct request_queue *q)
- {
-@@ -2013,6 +2030,30 @@ static void blk_mq_realloc_hw_ctxs(struct blk_mq_tag_set *set,
- 	blk_mq_sysfs_register(q);
- }
- 
-+static unsigned int *
-+affinity_mask_to_queue_map(const struct cpumask *affinity_mask, int node)
-+{
-+	unsigned int *map;
-+	int queue = -1, cpu = 0;
-+
-+	map = kzalloc_node(sizeof(*map) * nr_cpu_ids, GFP_KERNEL, node);
-+	if (!map)
-+		return NULL;
-+
-+	if (!affinity_mask)
-+		return map;	/* map all cpus to queue 0 */
-+
-+	/* If cpus are offline, map them to first hctx */
-+	for_each_online_cpu(cpu) {
-+		if (cpumask_test_cpu(cpu, affinity_mask))
-+			queue++;
-+		if (queue > 0)
-+			map[cpu] = queue;
-+	}
-+
-+	return map;
-+}
-+
- struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
- 						  struct request_queue *q)
- {
-@@ -2028,7 +2069,21 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
- 	if (!q->queue_hw_ctx)
- 		goto err_percpu;
- 
--	q->mq_map = blk_mq_make_queue_map(set);
-+	if (set->affinity_mask) {
-+		q->mq_map = affinity_mask_to_queue_map(set->affinity_mask,
-+				set->numa_node);
-+	} else {
-+		struct cpumask *affinity_mask;
-+		int ret;
-+
-+		ret = irq_create_affinity_mask(&affinity_mask, set->nr_hw_queues);
-+		if (ret)
-+			goto err_map;
-+
-+		q->mq_map = affinity_mask_to_queue_map(affinity_mask, set->numa_node);
-+		kfree(affinity_mask);
-+	}
-+
- 	if (!q->mq_map)
- 		goto err_map;
- 
-@@ -2111,7 +2166,8 @@ static void blk_mq_queue_reinit(struct request_queue *q,
- 
- 	blk_mq_sysfs_unregister(q);
- 
--	blk_mq_update_queue_map(q->mq_map, q->nr_hw_queues, online_mask);
-+//	XXX: figure out what to do about cpu hotplug in the new world order
-+//	blk_mq_update_queue_map(q->mq_map, q->nr_hw_queues, online_mask);
- 
- 	/*
- 	 * redo blk_mq_init_cpu_queues and blk_mq_init_hw_queues. FIXME: maybe
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index 9087b11..fe7e21f 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -45,14 +45,6 @@ void blk_mq_enable_hotplug(void);
- void blk_mq_disable_hotplug(void);
- 
+diff --git a/drivers/pci/irq.c b/drivers/pci/irq.c
+index 6684f15..b683465 100644
+--- a/drivers/pci/irq.c
++++ b/drivers/pci/irq.c
+@@ -1,7 +1,8 @@
  /*
-- * CPU -> queue mappings
-- */
--extern unsigned int *blk_mq_make_queue_map(struct blk_mq_tag_set *set);
--extern int blk_mq_update_queue_map(unsigned int *map, unsigned int nr_queues,
--				   const struct cpumask *online_mask);
--extern int blk_mq_hw_queue_to_node(unsigned int *map, unsigned int);
--
--/*
-  * sysfs helpers
+- * PCI IRQ failure handing code
++ * PCI IRQ handing code
+  *
+  * Copyright (c) 2008 James Bottomley <James.Bottomley at HansenPartnership.com>
++ * Copyright (c) 2016 Christoph Hellwig.
   */
- extern int blk_mq_sysfs_register(struct request_queue *q);
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 2498fdf..21ffe10 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -74,6 +74,7 @@ struct blk_mq_tag_set {
- 	unsigned int		timeout;
- 	unsigned int		flags;		/* BLK_MQ_F_* */
- 	void			*driver_data;
-+	struct cpumask		*affinity_mask;
  
- 	struct blk_mq_tags	**tags;
+ #include <linux/acpi.h>
+@@ -9,6 +10,92 @@
+ #include <linux/kernel.h>
+ #include <linux/export.h>
+ #include <linux/pci.h>
++#include <linux/interrupt.h>
++#include "pci.h"
++
++static int pci_nr_irq_vectors(struct pci_dev *pdev)
++{
++	int nr_entries;
++
++	nr_entries = pci_msix_vec_count(pdev);
++	if (nr_entries <= 0 && pci_msi_supported(pdev, 1))
++		nr_entries = pci_msi_vec_count(pdev);
++	if (nr_entries <= 0)
++		nr_entries = 1;
++	return nr_entries;
++}
++
++static int pci_enable_msix_range_wrapper(struct pci_dev *pdev, u32 *irqs,
++		int nr_vecs)
++{
++	struct msix_entry *msix_entries;
++	int vecs, i;
++
++	msix_entries = kcalloc(nr_vecs, sizeof(struct msix_entry), GFP_KERNEL);
++	if (!msix_entries)
++		return -ENOMEM;
++
++	for (i = 0; i < nr_vecs; i++)
++		msix_entries[i].entry = i;
++
++	vecs = pci_enable_msix_range(pdev, msix_entries, 1, nr_vecs);
++	if (vecs > 0) {
++		for (i = 0; i < vecs; i++)
++			irqs[i] = msix_entries[i].vector;
++	}
++
++	kfree(msix_entries);
++	return vecs;
++}
++
++int pci_alloc_irq_vectors(struct pci_dev *pdev, int nr_vecs)
++{
++	int vecs, ret, i;
++	u32 *irqs;
++
++	nr_vecs = min(nr_vecs, pci_nr_irq_vectors(pdev));
++
++	irqs = kcalloc(nr_vecs, sizeof(u32), GFP_KERNEL);
++	if (!irqs)
++		return -ENOMEM;
++
++	vecs = pci_enable_msix_range_wrapper(pdev, irqs, nr_vecs);
++	if (vecs <= 0) {
++		vecs = pci_enable_msi_range(pdev, 1, min(nr_vecs, 32));
++		if (vecs <= 0) {
++			ret = -EIO;
++			if (!pdev->irq)
++				goto out_free_irqs;
++
++			/* use legacy irq */
++			vecs = 1;
++		}
++
++		for (i = 0; i < vecs; i++)
++			irqs[i] = pdev->irq + i;
++	}
++
++	pdev->irqs = irqs;
++	return vecs;
++
++out_free_irqs:
++	kfree(irqs);
++	return ret;
++}
++EXPORT_SYMBOL(pci_alloc_irq_vectors);
++
++void pci_free_irq_vectors(struct pci_dev *pdev)
++{
++	if (pdev->msi_enabled)
++		pci_disable_msi(pdev);
++	else if (pdev->msix_enabled)
++		pci_disable_msix(pdev);
++
++	kfree(pdev->dev.irq_affinity);
++	pdev->dev.irq_affinity = NULL;
++	kfree(pdev->irqs);
++}
++EXPORT_SYMBOL(pci_free_irq_vectors);
  
+ static void pci_note_irq_problem(struct pci_dev *pdev, const char *reason)
+ {
+diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
+index a080f44..544d306 100644
+--- a/drivers/pci/msi.c
++++ b/drivers/pci/msi.c
+@@ -815,7 +815,7 @@ out_free:
+  * to determine if MSI/-X are supported for the device. If MSI/-X is
+  * supported return 1, else return 0.
+  **/
+-static int pci_msi_supported(struct pci_dev *dev, int nvec)
++int pci_msi_supported(struct pci_dev *dev, int nvec)
+ {
+ 	struct pci_bus *bus;
+ 
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index d0fb934..263422c 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -144,8 +144,13 @@ extern unsigned int pci_pm_d3_delay;
+ 
+ #ifdef CONFIG_PCI_MSI
+ void pci_no_msi(void);
++int pci_msi_supported(struct pci_dev *dev, int nvec);
+ #else
+ static inline void pci_no_msi(void) { }
++static int pci_msi_supported(struct pci_dev *dev, int nvec)
++{
++	return 0;
++}
+ #endif
+ 
+ static inline void pci_msi_set_enable(struct pci_dev *dev, int enable)
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 004b813..4fbc14f 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -322,6 +322,7 @@ struct pci_dev {
+ 	 * directly, use the values stored here. They might be different!
+ 	 */
+ 	unsigned int	irq;
++	unsigned int	*irqs;
+ 	struct resource resource[DEVICE_COUNT_RESOURCE]; /* I/O and memory regions + expansion ROMs */
+ 
+ 	bool match_driver;		/* Skip attaching driver */
+@@ -1235,6 +1236,9 @@ resource_size_t pcibios_iov_resource_alignment(struct pci_dev *dev, int resno);
+ int pci_set_vga_state(struct pci_dev *pdev, bool decode,
+ 		      unsigned int command_bits, u32 flags);
+ 
++int pci_alloc_irq_vectors(struct pci_dev *dev, int nr_vecs);
++void pci_free_irq_vectors(struct pci_dev *pdev);
++
+ /* kmem_cache style wrapper around pci_alloc_consistent() */
+ 
+ #include <linux/pci-dma.h>
+@@ -1282,6 +1286,7 @@ static inline int pci_enable_msix_exact(struct pci_dev *dev,
+ 		return rc;
+ 	return 0;
+ }
++
+ #else
+ static inline int pci_msi_vec_count(struct pci_dev *dev) { return -ENOSYS; }
+ static inline void pci_msi_shutdown(struct pci_dev *dev) { }
 -- 
 2.1.4
