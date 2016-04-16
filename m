@@ -1,25 +1,15 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 15 Apr 2016 16:22:42 +0000
-Subject: I/O 0 QID 0 timeout, disable controller - kernel 4.4 / 4.5
- NVMe controller dropouts
-In-Reply-To: <9EB299CB-C271-4F3D-A91A-5D3F5BD7C120@fastmail.com>
-References: <1DC99E13-F6CB-4B7F-AFD7-187825DEE523@fastmail.com>
- <20160414132113.GA21794@localhost.localdomain>
- <570FA450.7080105@fb.com> <20160414152326.GA12458@infradead.org>
- <570FF797.2000109@fb.com>
- <9EB299CB-C271-4F3D-A91A-5D3F5BD7C120@fastmail.com>
-Message-ID: <20160415162242.GC30635@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 15 Apr 2016 18:35:44 -0700
+Subject: RFC: automatic interrupt affinity for MSI/MSI-X capable devices
+Message-ID: <1460770552-31260-1-git-send-email-hch@lst.de>
 
-On Fri, Apr 15, 2016@09:38:45AM +1000, Sam McLeod wrote:
-> Thank you all involved, is there anything we can set in the mean time to prevent this or do you suggest rolling back to a much older kernel?
+This series enhances the irq and PCI code to allow spreading around MSI and
+MSI-X vectors so that they have per-cpu affinity if possible, or at least
+per-node.  For that it takes the algorithm from blk-mq, moves it to
+a common place, and makes it available through a vastly simplified PCI
+interrupt allocation API.  It then switches blk-mq to be able to pick up
+the queue mapping from the device if available, and demostrates all this
+using the NVMe driver.
 
-Hi Sam,
-
-Until we get the fix submitted to stable, you'll unfortunately have
-to use kernels older than 4.4 or use 4.6 when the fix is applied to
-mainline. There's no viable work-around without changing the driver.
-
-If you want to apply a kernel patch to your own tree in the meantime,
-a possible work-around patch is provided here:
-
-  http://lists.infradead.org/pipermail/linux-nvme/2016-March/004277.html
+There is still some work todo, mostly related to handling PCI hotplug,
+more details are in the individual patches.
