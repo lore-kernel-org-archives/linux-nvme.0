@@ -1,10 +1,8 @@
-From: sunad.s@samsung.com (Sunad Bhandary S)
-Date: Mon, 18 Apr 2016 12:00:51 +0000 (GMT)
-Subject: Namespace removal deadlock in case of namespace detach command
-Message-ID: <168786720.663071460980851178.JavaMail.weblogic@ep2mlwas04b>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 18 Apr 2016 08:34:48 -0400
+Subject: proper controller state machine and more common code
+Message-ID: <1460982893-11315-1-git-send-email-hch@lst.de>
 
-On receipt of a namespace attribute changed AER, we acquire the namespace mutex lock before proceeding to scan and validate the namespace list.
-In case of namespace detach/delete command, nvme_ns_remove function deadlocks trying to acquire the already held lock.
-
-Thanks and Regards,
-Sunad
+This series introduces a controller state machine based on code that Sagi
+did for the Fabrics driver, and moves the namespace scanning and AER code
+to nvme-core now that we have that state machine.
