@@ -1,19 +1,18 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Mon, 18 Apr 2016 10:37:42 -0700
-Subject: [PATCH] nvme: add helper nvme_cleanup_cmd()
-In-Reply-To: <20160418152800.GB4640@localhost.localdomain>
-References: <1460871346-10811-1-git-send-email-mlin@kernel.org>
- <20160418152800.GB4640@localhost.localdomain>
-Message-ID: <CAF1ivSbpzSOvqjSnvZVQpR_KvOYXvvh7hh_ZcUXteG2YBG1t2g@mail.gmail.com>
+Date: Mon, 18 Apr 2016 10:52:39 -0700
+Subject: Namespace removal deadlock in case of namespace detach command
+In-Reply-To: <20160418145756.GA4640@localhost.localdomain>
+References: <168786720.663071460980851178.JavaMail.weblogic@ep2mlwas04b>
+ <20160418145756.GA4640@localhost.localdomain>
+Message-ID: <CAF1ivSaOuFphqevFvV-4gCHEAww4p9n0nvsfH-MVM3ovucfu7Q@mail.gmail.com>
 
-On Mon, Apr 18, 2016@8:28 AM, Keith Busch <keith.busch@intel.com> wrote:
-> On Sat, Apr 16, 2016@10:35:46PM -0700, Ming Lin wrote:
->> From: Ming Lin <ming.l at ssi.samsung.com>
->>
->> This hides command cleanup into core.c and fabrics drivers will
->> also use it.
+On Mon, Apr 18, 2016@7:57 AM, Keith Busch <keith.busch@intel.com> wrote:
+> On Mon, Apr 18, 2016@12:00:51PM +0000, Sunad Bhandary S wrote:
+>> On receipt of a namespace attribute changed AER, we acquire the namespace mutex lock before proceeding to scan and validate the namespace list.
+>> In case of namespace detach/delete command, nvme_ns_remove function deadlocks trying to acquire the already held lock.
 >
-> Can we just make this a static inline in nvme.h instead of adding a
-> new export?
+> You're right, thanks for the catch. Do you have a fix, or should we
+> propose one?
 
-OK to me. I'll send a new one if no objection.
+We have a fix in nvme over fabrics tree.
+Let me post here soon.
