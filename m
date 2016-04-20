@@ -1,28 +1,26 @@
-From: shhuiw@foxmail.com (Wang Sheng-Hui)
-Date: Wed, 20 Apr 2016 10:04:32 +0800
-Subject: [PATCH] NVMe: small typo in section BLK_DEV_NVME_SCSI of host/Kconfig
-Message-ID: <1461117872-30435-1-git-send-email-shhuiw@foxmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 20 Apr 2016 20:25:53 +0300
+Subject: [PATCH 2/5] nvme: introduce a controller state machine
+In-Reply-To: <20160419183700.GA1211@lst.de>
+References: <1460982893-11315-1-git-send-email-hch@lst.de>
+ <1460982893-11315-3-git-send-email-hch@lst.de> <5715294A.3020309@grimberg.me>
+ <20160418201710.GA4921@lst.de> <571543EA.6080700@grimberg.me>
+ <20160419182545.GA989@lst.de> <57167A68.5050206@grimberg.me>
+ <20160419183700.GA1211@lst.de>
+Message-ID: <5717BBA1.4020404@grimberg.me>
 
-"as well as " is miss typed "as well a " in section
-"config BLK_DEV_NVME_SCSI"
 
-Signed-off-by: Wang Sheng-Hui <shhuiw at foxmail.com>
----
- drivers/nvme/host/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>>> Let's allocate states on an as needed basis and avoid that new
+>>> state for now.
+>>
+>> Didn't mean a new state, just a transition to NVME_CTRL_DELETING
+>> if nvme_reset_work fails...
+>
+> Oh, we can't actually do that - for PCIe deleting is only set
+> for calls from the PCI ->remove callback, which we'll invoke a
+> little later through the driver model from the workqueue we just
+> kicked off.
 
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index c894841..d296fc3 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -18,7 +18,7 @@ config BLK_DEV_NVME_SCSI
- 	depends on NVME_CORE
- 	---help---
- 	  This adds support for the SG_IO ioctl on the NVMe character
--	  and block devices nodes, as well a a translation for a small
-+	  and block devices nodes, as well as a translation for a small
- 	  number of selected SCSI commands to NVMe commands to the NVMe
- 	  driver.  If you don't know what this means you probably want
- 	  to say N here, unless you run a distro that abuses the SCSI
--- 
-2.8.1
+Fair enough,
+
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
