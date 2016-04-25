@@ -1,26 +1,62 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Mon, 25 Apr 2016 14:20:17 -0700
-Subject: [PATCH v2 0/2] nvme_ns_remove() deadlock fix
-Message-ID: <1461619219-18144-1-git-send-email-mlin@kernel.org>
+Date: Mon, 25 Apr 2016 14:20:19 -0700
+Subject: [PATCH v2 2/2] nvme: fix nvme_ns_remove() deadlock
+In-Reply-To: <1461619219-18144-1-git-send-email-mlin@kernel.org>
+References: <1461619219-18144-1-git-send-email-mlin@kernel.org>
+Message-ID: <1461619219-18144-3-git-send-email-mlin@kernel.org>
 
 From: Ming Lin <ming.l@ssi.samsung.com>
 
-Hi Sunad,
+On receipt of a namespace attribute changed AER, we acquire the
+namespace mutex lock before proceeding to scan and validate the
+namespace list. In case of namespace detach/delete command,
+nvme_ns_remove function deadlocks trying to acquire the already held
+lock.
 
-I don't have device that can do namespace attribute change.
-Could you help to verify these 2 patches fix the ns remove deadlock?
+All callers, except nvme_remove_namespaces(), of nvme_ns_remove()
+already held namespaces_mutex. So we can simply fix the deadlock by
+not acquiring the mutex in nvme_ns_remove() and acquiring it in
+nvme_remove_namespaces().
 
-Thanks.
+Reported-by: Sunad Bhandary S <sunad.s at samsung.com>
+Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
+---
+ drivers/nvme/host/core.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-v2:
-  - switch to RCU freeing the namespace
-
-Ming Lin (2):
-  nvme: switch to RCU freeing the namespace
-  nvme: fix nvme_ns_remove() deadlock
-
- drivers/nvme/host/core.c | 27 +++++++++++++++------------
- 1 file changed, 15 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 914d336..4fff373 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1403,6 +1403,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 
+ static void nvme_ns_remove(struct nvme_ns *ns)
+ {
++	lockdep_assert_held(&ns->ctrl->namespaces_mutex);
++
+ 	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
+ 		return;
+ 
+@@ -1415,9 +1417,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 		blk_mq_abort_requeue_list(ns->queue);
+ 		blk_cleanup_queue(ns->queue);
+ 	}
+-	mutex_lock(&ns->ctrl->namespaces_mutex);
+ 	list_del_init(&ns->list);
+-	mutex_unlock(&ns->ctrl->namespaces_mutex);
+ 	synchronize_rcu();
+ 	nvme_put_ns(ns);
+ }
+@@ -1513,8 +1513,10 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns, *next;
+ 
++	mutex_lock(&ctrl->namespaces_mutex);
+ 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list)
+ 		nvme_ns_remove(ns);
++	mutex_unlock(&ctrl->namespaces_mutex);
+ }
+ EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
+ 
 -- 
 1.9.1
