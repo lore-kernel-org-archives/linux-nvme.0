@@ -1,28 +1,20 @@
-From: mnghuan@gmail.com (Minfei Huang)
-Date: Mon, 25 Apr 2016 11:13:29 +0800
-Subject: [PATCH] Use MICRO UINT_MAX instead of actual value
-Message-ID: <1461554009-1695-1-git-send-email-mnghuan@gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 25 Apr 2016 01:24:08 -0700
+Subject: [PATCH 0/2] Add Opal unlock support to NVMe.
+In-Reply-To: <1461366732-31779-1-git-send-email-rafael.antognolli@intel.com>
+References: <1461366732-31779-1-git-send-email-rafael.antognolli@intel.com>
+Message-ID: <20160425082408.GA13629@infradead.org>
 
-It's more elegant to use MICRO UINT_MAX to represent the max value of
-type unsigned int. So replace the actual value by using this MICRO.
+On Fri, Apr 22, 2016@04:12:10PM -0700, Rafael Antognolli wrote:
+> This patch series implement a small set of the Opal protocol for self
+> encrypting devices. It's implemented only what is needed for saving a password
+> and unlocking a given "locking range". The password is saved on the driver and
+> replayed back to the device on resume from suspend to RAM. It is specifically
+> supporting the single user mode.
+> 
+> It is not planned to implement the full Opal protocol (at least not for now).
 
-Signed-off-by: Minfei Huang <mnghuan at gmail.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 643f457..2c0bb13 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -597,7 +597,7 @@ static void nvme_config_discard(struct nvme_ns *ns)
- 
- 	ns->queue->limits.discard_alignment = logical_block_size;
- 	ns->queue->limits.discard_granularity = logical_block_size;
--	blk_queue_max_discard_sectors(ns->queue, 0xffffffff);
-+	blk_queue_max_discard_sectors(ns->queue, UINT_MAX);
- 	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
- }
- 
--- 
-2.6.3
+I think the OPAL code should be a generic library outside the NVMe
+code so that we can use it for SATA and SAS as well, just with a little
+glue code for the Security Send / Receive commands to wire it up to
+NVMe.
