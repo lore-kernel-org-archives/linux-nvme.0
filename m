@@ -1,34 +1,12 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 25 Apr 2016 10:39:05 +0200
-Subject: [PATCH 0/2] Add Opal unlock support to NVMe.
-In-Reply-To: <20160425082408.GA13629@infradead.org>
-References: <1461366732-31779-1-git-send-email-rafael.antognolli@intel.com>
- <20160425082408.GA13629@infradead.org>
-Message-ID: <571DD7A9.406@suse.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 25 Apr 2016 12:44:58 +0300
+Subject: [PATCH] Use MICRO UINT_MAX instead of actual value
+In-Reply-To: <1461554009-1695-1-git-send-email-mnghuan@gmail.com>
+References: <1461554009-1695-1-git-send-email-mnghuan@gmail.com>
+Message-ID: <571DE71A.7060408@grimberg.me>
 
-On 04/25/2016 10:24 AM, Christoph Hellwig wrote:
-> On Fri, Apr 22, 2016@04:12:10PM -0700, Rafael Antognolli wrote:
->> This patch series implement a small set of the Opal protocol for self
->> encrypting devices. It's implemented only what is needed for saving a password
->> and unlocking a given "locking range". The password is saved on the driver and
->> replayed back to the device on resume from suspend to RAM. It is specifically
->> supporting the single user mode.
->>
->> It is not planned to implement the full Opal protocol (at least not for now).
-> 
-> I think the OPAL code should be a generic library outside the NVMe
-> code so that we can use it for SATA and SAS as well, just with a little
-> glue code for the Security Send / Receive commands to wire it up to
-> NVMe.
-> 
-Fully agree. Having generic OPAL support would be a major benefit.
 
-Cheers,
+> It's more elegant to use MICRO UINT_MAX to represent the max value of
+> type unsigned int. So replace the actual value by using this MICRO.
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+You mean macro right?
