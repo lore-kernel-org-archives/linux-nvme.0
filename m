@@ -1,85 +1,32 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Tue, 26 Apr 2016 09:24:06 -0600
-Subject: [PATCH 1/5] nvme: remove the io_incapable method
-In-Reply-To: <1461671520-4758-2-git-send-email-hch@lst.de>
-References: <1461671520-4758-1-git-send-email-hch@lst.de>
- <1461671520-4758-2-git-send-email-hch@lst.de>
-Message-ID: <20160426152406.GA13040@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 26 Apr 2016 15:39:22 +0000
+Subject: [PATCH v2 0/2] nvme_ns_remove() deadlock fix
+In-Reply-To: <1461619219-18144-1-git-send-email-mlin@kernel.org>
+References: <1461619219-18144-1-git-send-email-mlin@kernel.org>
+Message-ID: <20160426153922.GD21270@localhost.localdomain>
 
-Looks good
+On Mon, Apr 25, 2016@02:20:17PM -0700, Ming Lin wrote:
+> From: Ming Lin <ming.l at ssi.samsung.com>
+> 
+> Hi Sunad,
+> 
+> I don't have device that can do namespace attribute change.
+> Could you help to verify these 2 patches fix the ns remove deadlock?
+> 
+> Thanks.
+> 
+> v2:
+>   - switch to RCU freeing the namespace
+> 
+> Ming Lin (2):
+>   nvme: switch to RCU freeing the namespace
+>   nvme: fix nvme_ns_remove() deadlock
+> 
+>  drivers/nvme/host/core.c | 27 +++++++++++++++------------
+>  1 file changed, 15 insertions(+), 12 deletions(-)
 
-Acked-by: Jon Derrick <jonathan.derrick at intel.com>
+This looks good, and successfully tested on a namespace management capable
+controller. These tests will be run more often from now on. Thanks for
+the patches.
 
-On Tue, Apr 26, 2016@01:51:56PM +0200, Christoph Hellwig wrote:
-> It's unused since "NVMe: Move error handling to failed reset handler".
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  drivers/nvme/host/nvme.h | 12 ------------
->  drivers/nvme/host/pci.c  |  8 --------
->  2 files changed, 20 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 8e8fae8..c6b32c5 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -136,7 +136,6 @@ struct nvme_ctrl_ops {
->  	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
->  	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
->  	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
-> -	bool (*io_incapable)(struct nvme_ctrl *ctrl);
->  	int (*reset_ctrl)(struct nvme_ctrl *ctrl);
->  	void (*free_ctrl)(struct nvme_ctrl *ctrl);
->  };
-> @@ -150,17 +149,6 @@ static inline bool nvme_ctrl_ready(struct nvme_ctrl *ctrl)
->  	return val & NVME_CSTS_RDY;
->  }
->  
-> -static inline bool nvme_io_incapable(struct nvme_ctrl *ctrl)
-> -{
-> -	u32 val = 0;
-> -
-> -	if (ctrl->ops->io_incapable(ctrl))
-> -		return true;
-> -	if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &val))
-> -		return true;
-> -	return val & NVME_CSTS_CFS;
-> -}
-> -
->  static inline int nvme_reset_subsystem(struct nvme_ctrl *ctrl)
->  {
->  	if (!ctrl->subsystem)
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index ff3c8d7..23998c7 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1941,13 +1941,6 @@ static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
->  	return 0;
->  }
->  
-> -static bool nvme_pci_io_incapable(struct nvme_ctrl *ctrl)
-> -{
-> -	struct nvme_dev *dev = to_nvme_dev(ctrl);
-> -
-> -	return !dev->bar || dev->online_queues < 2;
-> -}
-> -
->  static int nvme_pci_reset_ctrl(struct nvme_ctrl *ctrl)
->  {
->  	return nvme_reset(to_nvme_dev(ctrl));
-> @@ -1958,7 +1951,6 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
->  	.reg_read32		= nvme_pci_reg_read32,
->  	.reg_write32		= nvme_pci_reg_write32,
->  	.reg_read64		= nvme_pci_reg_read64,
-> -	.io_incapable		= nvme_pci_io_incapable,
->  	.reset_ctrl		= nvme_pci_reset_ctrl,
->  	.free_ctrl		= nvme_pci_free_ctrl,
->  };
-> -- 
-> 2.1.4
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Reviewed-by: Keith Busch <keith.busch at intel.com>
