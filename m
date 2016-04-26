@@ -1,10 +1,9 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 27 Apr 2016 00:09:52 +0300
-Subject: [PATCH v2] nvme: add helper nvme_cleanup_cmd()
-In-Reply-To: <1461620000-18707-1-git-send-email-mlin@kernel.org>
-References: <1461620000-18707-1-git-send-email-mlin@kernel.org>
-Message-ID: <571FD920.9010505@grimberg.me>
-
-Looks good,
+Date: Wed, 27 Apr 2016 00:10:42 +0300
+Subject: [PATCH] NVMe: small typo in section BLK_DEV_NVME_SCSI of
+ host/Kconfig
+In-Reply-To: <1461117872-30435-1-git-send-email-shhuiw@foxmail.com>
+References: <1461117872-30435-1-git-send-email-shhuiw@foxmail.com>
+Message-ID: <571FD952.4070400@grimberg.me>
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
