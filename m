@@ -1,32 +1,33 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 26 Apr 2016 15:39:22 +0000
-Subject: [PATCH v2 0/2] nvme_ns_remove() deadlock fix
-In-Reply-To: <1461619219-18144-1-git-send-email-mlin@kernel.org>
-References: <1461619219-18144-1-git-send-email-mlin@kernel.org>
-Message-ID: <20160426153922.GD21270@localhost.localdomain>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Tue, 26 Apr 2016 10:18:34 -0600
+Subject: [PATCH 2/5] nvme: introduce a controller state machine
+In-Reply-To: <1461671520-4758-3-git-send-email-hch@lst.de>
+References: <1461671520-4758-1-git-send-email-hch@lst.de>
+ <1461671520-4758-3-git-send-email-hch@lst.de>
+Message-ID: <20160426161833.GA13324@localhost.localdomain>
 
-On Mon, Apr 25, 2016@02:20:17PM -0700, Ming Lin wrote:
-> From: Ming Lin <ming.l at ssi.samsung.com>
-> 
-> Hi Sunad,
-> 
-> I don't have device that can do namespace attribute change.
-> Could you help to verify these 2 patches fix the ns remove deadlock?
-> 
-> Thanks.
-> 
-> v2:
->   - switch to RCU freeing the namespace
-> 
-> Ming Lin (2):
->   nvme: switch to RCU freeing the namespace
->   nvme: fix nvme_ns_remove() deadlock
-> 
->  drivers/nvme/host/core.c | 27 +++++++++++++++------------
->  1 file changed, 15 insertions(+), 12 deletions(-)
+Hi Christoph,
 
-This looks good, and successfully tested on a namespace management capable
-controller. These tests will be run more often from now on. Thanks for
-the patches.
+> @@ -1835,7 +1829,7 @@ static void nvme_reset_work(struct work_struct *work)
+>  	struct nvme_dev *dev = container_of(work, struct nvme_dev, reset_work);
+>  	int result = -ENODEV;
+>  
+> -	if (WARN_ON(test_bit(NVME_CTRL_RESETTING, &dev->flags)))
+> +	if (WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING))
+>  		goto out;
+>  
+>  	/*
+> @@ -1845,7 +1839,8 @@ static void nvme_reset_work(struct work_struct *work)
+>  	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
+>  		nvme_dev_disable(dev, false);
+>  
+> -	set_bit(NVME_CTRL_RESETTING, &dev->flags);
+> +	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
+> +		goto out;
+>  
+Seems redundant to above WARN_ON test
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+
+Otherwise looks good
+
+Acked-by Jon Derrick: <jonathan.derrick at intel.com>
