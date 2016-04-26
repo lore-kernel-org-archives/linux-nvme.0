@@ -1,33 +1,85 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Tue, 26 Apr 2016 08:31:07 -0600
-Subject: [PATCH] nvme: fix cntlid type
-In-Reply-To: <1460833078-15646-1-git-send-email-hch@lst.de>
-References: <1460833078-15646-1-git-send-email-hch@lst.de>
-Message-ID: <571F7BAB.6080808@fb.com>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Tue, 26 Apr 2016 09:24:06 -0600
+Subject: [PATCH 1/5] nvme: remove the io_incapable method
+In-Reply-To: <1461671520-4758-2-git-send-email-hch@lst.de>
+References: <1461671520-4758-1-git-send-email-hch@lst.de>
+ <1461671520-4758-2-git-send-email-hch@lst.de>
+Message-ID: <20160426152406.GA13040@localhost.localdomain>
 
-On 04/16/2016 12:57 PM, Christoph Hellwig wrote:
-> Controller IDs in NVMe are unsigned 16-bit types.  In the Fabrics driver we
-> actually pass ctrl->id by reference, so we need it to have the correct type.
->
+Looks good
+
+Acked-by: Jon Derrick <jonathan.derrick at intel.com>
+
+On Tue, Apr 26, 2016@01:51:56PM +0200, Christoph Hellwig wrote:
+> It's unused since "NVMe: Move error handling to failed reset handler".
+> 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
->   drivers/nvme/host/nvme.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
+>  drivers/nvme/host/nvme.h | 12 ------------
+>  drivers/nvme/host/pci.c  |  8 --------
+>  2 files changed, 20 deletions(-)
+> 
 > diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 8e8fae8..9b96e75 100644
+> index 8e8fae8..c6b32c5 100644
 > --- a/drivers/nvme/host/nvme.h
 > +++ b/drivers/nvme/host/nvme.h
-> @@ -84,7 +84,7 @@ struct nvme_ctrl {
->   	char serial[20];
->   	char model[40];
->   	char firmware_rev[8];
-> -	int cntlid;
-> +	u16 cntlid;
->
->   	u32 ctrl_config;
-
-Looks fine, added for 4.7.
-
--- 
-Jens Axboe
+> @@ -136,7 +136,6 @@ struct nvme_ctrl_ops {
+>  	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+>  	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+>  	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
+> -	bool (*io_incapable)(struct nvme_ctrl *ctrl);
+>  	int (*reset_ctrl)(struct nvme_ctrl *ctrl);
+>  	void (*free_ctrl)(struct nvme_ctrl *ctrl);
+>  };
+> @@ -150,17 +149,6 @@ static inline bool nvme_ctrl_ready(struct nvme_ctrl *ctrl)
+>  	return val & NVME_CSTS_RDY;
+>  }
+>  
+> -static inline bool nvme_io_incapable(struct nvme_ctrl *ctrl)
+> -{
+> -	u32 val = 0;
+> -
+> -	if (ctrl->ops->io_incapable(ctrl))
+> -		return true;
+> -	if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &val))
+> -		return true;
+> -	return val & NVME_CSTS_CFS;
+> -}
+> -
+>  static inline int nvme_reset_subsystem(struct nvme_ctrl *ctrl)
+>  {
+>  	if (!ctrl->subsystem)
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index ff3c8d7..23998c7 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1941,13 +1941,6 @@ static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
+>  	return 0;
+>  }
+>  
+> -static bool nvme_pci_io_incapable(struct nvme_ctrl *ctrl)
+> -{
+> -	struct nvme_dev *dev = to_nvme_dev(ctrl);
+> -
+> -	return !dev->bar || dev->online_queues < 2;
+> -}
+> -
+>  static int nvme_pci_reset_ctrl(struct nvme_ctrl *ctrl)
+>  {
+>  	return nvme_reset(to_nvme_dev(ctrl));
+> @@ -1958,7 +1951,6 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
+>  	.reg_read32		= nvme_pci_reg_read32,
+>  	.reg_write32		= nvme_pci_reg_write32,
+>  	.reg_read64		= nvme_pci_reg_read64,
+> -	.io_incapable		= nvme_pci_io_incapable,
+>  	.reset_ctrl		= nvme_pci_reset_ctrl,
+>  	.free_ctrl		= nvme_pci_free_ctrl,
+>  };
+> -- 
+> 2.1.4
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
