@@ -1,11 +1,11 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 27 Apr 2016 00:17:26 +0300
-Subject: [PATCH v2 1/2] nvme: switch to RCU freeing the namespace
-In-Reply-To: <1461619219-18144-2-git-send-email-mlin@kernel.org>
-References: <1461619219-18144-1-git-send-email-mlin@kernel.org>
- <1461619219-18144-2-git-send-email-mlin@kernel.org>
-Message-ID: <571FDAE6.90000@grimberg.me>
+Date: Wed, 27 Apr 2016 00:19:02 +0300
+Subject: [PATCH 1/5] nvme: remove the io_incapable method
+In-Reply-To: <1461671520-4758-2-git-send-email-hch@lst.de>
+References: <1461671520-4758-1-git-send-email-hch@lst.de>
+ <1461671520-4758-2-git-send-email-hch@lst.de>
+Message-ID: <571FDB46.3030601@grimberg.me>
 
-Looks good,
+Looks fine,
 
-Reviewed-by: Sagi Grimbeg <sagi at grimberg.me>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
