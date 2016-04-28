@@ -1,29 +1,35 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 27 Apr 2016 15:51:18 -0600
-Subject: [PATCH] NVMe: Fix check_flush_dependency warning
-Message-ID: <1461793878-14732-1-git-send-email-keith.busch@intel.com>
+From: shhuiw@foxmail.com (Wang Sheng-Hui)
+Date: Thu, 28 Apr 2016 16:19:31 +0800
+Subject: [PATCH] NVMe: nvme_core_exit() should do cleanup in the reverse order
+ as nvme_core_init does
+Message-ID: <1461831571-5248-1-git-send-email-shhuiw@foxmail.com>
 
-If the controller fails and is degraded after a reset, we need to kill
-off all requests queues before removing the inaccessble namespaces. This
-will prevent del_gendisk from syncing dirty data, which we can't due
-from a WQ_MEM_RECLAIM work queue.
+nvme_core_init does:
+    1) register_blkdev
+    2) __register_chrdev
+    3) class_create
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+nvme_core_exit should do cleanup in the reverse order.
+
+Signed-off-by: Wang Sheng-Hui <shhuiw at foxmail.com>
 ---
- drivers/nvme/host/pci.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index dda19cc..6d49e47 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1909,6 +1909,7 @@ static void nvme_reset_work(struct work_struct *work)
- 	 */
- 	if (dev->online_queues < 2) {
- 		dev_warn(dev->ctrl.device, "IO queues not created\n");
-+		nvme_kill_queues(&dev->ctrl);
- 		nvme_remove_namespaces(&dev->ctrl);
- 	} else {
- 		nvme_start_queues(&dev->ctrl);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 643f457..49bc4c0 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1607,9 +1607,9 @@ int __init nvme_core_init(void)
+ 
+ void nvme_core_exit(void)
+ {
+-	unregister_blkdev(nvme_major, "nvme");
+ 	class_destroy(nvme_class);
+ 	__unregister_chrdev(nvme_char_major, 0, NVME_MINORS, "nvme");
++	unregister_blkdev(nvme_major, "nvme");
+ }
+ 
+ MODULE_LICENSE("GPL");
 -- 
-2.7.2
+2.7.4
