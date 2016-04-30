@@ -1,224 +1,39 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Fri, 29 Apr 2016 16:16:39 -0500
-Subject: [PATCH 6/8] pci: provide sensible irq vector alloc/free routines
-In-Reply-To: <1460770552-31260-7-git-send-email-hch@lst.de>
-References: <1460770552-31260-1-git-send-email-hch@lst.de>
- <1460770552-31260-7-git-send-email-hch@lst.de>
-Message-ID: <20160429211638.GB28261@localhost>
+From: mnghuan@gmail.com (Minfei Huang)
+Date: Sat, 30 Apr 2016 18:13:03 +0800
+Subject: [PATCH] Use MICRO UINT_MAX instead of actual value
+In-Reply-To: <1461554009-1695-1-git-send-email-mnghuan@gmail.com>
+References: <1461554009-1695-1-git-send-email-mnghuan@gmail.com>
+Message-ID: <20160430101303.GB27909@huangminfeis-MacBook-Pro.local>
 
-[+cc Alexander]
+Ping.
 
-Sorry to be a pedant, but can you please edit the subject to be:
+Any comment is appreciate.
 
-  PCI: Provide sensible IRQ vector alloc/free routines
+Thanks
+Minfei
 
-so it matches the drivers/pci convention?
-
-I like this idea a lot.  The MSI-X/MSI interfaces are much better than
-they used to be, and I think this would be another significant
-improvement.  What do you think, Alexander?  Here's the whole series
-in case you don't have it handy:
-http://lkml.kernel.org/r/1460770552-31260-1-git-send-email-hch at lst.de
-
-On Fri, Apr 15, 2016@06:35:50PM -0700, Christoph Hellwig wrote:
-> Hide all the MSI-X vs MSI vs legacy bullshit, and provide an array of
-> interrupt vectors in the pci_dev structure, and ensure we get proper
-> interrupt affinity by default.
-
-This patch doesn't do anything for affinity by itself.
-
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  drivers/pci/irq.c   | 89 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  drivers/pci/msi.c   |  2 +-
->  drivers/pci/pci.h   |  5 +++
->  include/linux/pci.h |  5 +++
->  4 files changed, 99 insertions(+), 2 deletions(-)
+On 04/25/16@11:13P, Minfei Huang wrote:
+> It's more elegant to use MICRO UINT_MAX to represent the max value of
+> type unsigned int. So replace the actual value by using this MICRO.
 > 
-> diff --git a/drivers/pci/irq.c b/drivers/pci/irq.c
-> index 6684f15..b683465 100644
-> --- a/drivers/pci/irq.c
-> +++ b/drivers/pci/irq.c
-> @@ -1,7 +1,8 @@
->  /*
-> - * PCI IRQ failure handing code
-> + * PCI IRQ handing code
-
-s/handing/handling/ :)
-
->   *
->   * Copyright (c) 2008 James Bottomley <James.Bottomley at HansenPartnership.com>
-> + * Copyright (c) 2016 Christoph Hellwig.
->   */
+> Signed-off-by: Minfei Huang <mnghuan at gmail.com>
+> ---
+>  drivers/nvme/host/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 643f457..2c0bb13 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -597,7 +597,7 @@ static void nvme_config_discard(struct nvme_ns *ns)
 >  
->  #include <linux/acpi.h>
-> @@ -9,6 +10,92 @@
->  #include <linux/kernel.h>
->  #include <linux/export.h>
->  #include <linux/pci.h>
-> +#include <linux/interrupt.h>
-> +#include "pci.h"
-> +
-> +static int pci_nr_irq_vectors(struct pci_dev *pdev)
-> +{
-> +	int nr_entries;
-> +
-> +	nr_entries = pci_msix_vec_count(pdev);
-> +	if (nr_entries <= 0 && pci_msi_supported(pdev, 1))
-> +		nr_entries = pci_msi_vec_count(pdev);
-> +	if (nr_entries <= 0)
-> +		nr_entries = 1;
-> +	return nr_entries;
-> +}
-> +
-> +static int pci_enable_msix_range_wrapper(struct pci_dev *pdev, u32 *irqs,
-> +		int nr_vecs)
-> +{
-> +	struct msix_entry *msix_entries;
-> +	int vecs, i;
-> +
-> +	msix_entries = kcalloc(nr_vecs, sizeof(struct msix_entry), GFP_KERNEL);
-> +	if (!msix_entries)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < nr_vecs; i++)
-> +		msix_entries[i].entry = i;
-> +
-> +	vecs = pci_enable_msix_range(pdev, msix_entries, 1, nr_vecs);
-> +	if (vecs > 0) {
-> +		for (i = 0; i < vecs; i++)
-> +			irqs[i] = msix_entries[i].vector;
-> +	}
-> +
-> +	kfree(msix_entries);
-> +	return vecs;
-> +}
-> +
-> +int pci_alloc_irq_vectors(struct pci_dev *pdev, int nr_vecs)
-> +{
-> +	int vecs, ret, i;
-> +	u32 *irqs;
-> +
-> +	nr_vecs = min(nr_vecs, pci_nr_irq_vectors(pdev));
-> +
-> +	irqs = kcalloc(nr_vecs, sizeof(u32), GFP_KERNEL);
-> +	if (!irqs)
-> +		return -ENOMEM;
-> +
-> +	vecs = pci_enable_msix_range_wrapper(pdev, irqs, nr_vecs);
-> +	if (vecs <= 0) {
-> +		vecs = pci_enable_msi_range(pdev, 1, min(nr_vecs, 32));
-
-I don't see one, but seems like we should have a #define for this
-"32".  I guess pci_enable_msi_range() already protects itself, so this
-min() is probably not strictly necessary anyway.
-
-> +		if (vecs <= 0) {
-> +			ret = -EIO;
-> +			if (!pdev->irq)
-> +				goto out_free_irqs;
-> +
-> +			/* use legacy irq */
-> +			vecs = 1;
-> +		}
-> +
-> +		for (i = 0; i < vecs; i++)
-> +			irqs[i] = pdev->irq + i;
-> +	}
-> +
-> +	pdev->irqs = irqs;
-> +	return vecs;
-> +
-> +out_free_irqs:
-> +	kfree(irqs);
-> +	return ret;
-
-  return -EIO;
-
-and remove "ret".
-
-> +}
-> +EXPORT_SYMBOL(pci_alloc_irq_vectors);
-> +
-> +void pci_free_irq_vectors(struct pci_dev *pdev)
-> +{
-> +	if (pdev->msi_enabled)
-> +		pci_disable_msi(pdev);
-> +	else if (pdev->msix_enabled)
-> +		pci_disable_msix(pdev);
-> +
-> +	kfree(pdev->dev.irq_affinity);
-> +	pdev->dev.irq_affinity = NULL;
-
-These two lines belong in a different patch.
-
-> +	kfree(pdev->irqs);
-> +}
-> +EXPORT_SYMBOL(pci_free_irq_vectors);
->  
->  static void pci_note_irq_problem(struct pci_dev *pdev, const char *reason)
->  {
-> diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-> index a080f44..544d306 100644
-> --- a/drivers/pci/msi.c
-> +++ b/drivers/pci/msi.c
-> @@ -815,7 +815,7 @@ out_free:
->   * to determine if MSI/-X are supported for the device. If MSI/-X is
->   * supported return 1, else return 0.
->   **/
-> -static int pci_msi_supported(struct pci_dev *dev, int nvec)
-> +int pci_msi_supported(struct pci_dev *dev, int nvec)
->  {
->  	struct pci_bus *bus;
->  
-> diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-> index d0fb934..263422c 100644
-> --- a/drivers/pci/pci.h
-> +++ b/drivers/pci/pci.h
-> @@ -144,8 +144,13 @@ extern unsigned int pci_pm_d3_delay;
->  
->  #ifdef CONFIG_PCI_MSI
->  void pci_no_msi(void);
-> +int pci_msi_supported(struct pci_dev *dev, int nvec);
->  #else
->  static inline void pci_no_msi(void) { }
-> +static int pci_msi_supported(struct pci_dev *dev, int nvec)
-> +{
-> +	return 0;
-> +}
->  #endif
->  
->  static inline void pci_msi_set_enable(struct pci_dev *dev, int enable)
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index 004b813..4fbc14f 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -322,6 +322,7 @@ struct pci_dev {
->  	 * directly, use the values stored here. They might be different!
->  	 */
->  	unsigned int	irq;
-> +	unsigned int	*irqs;
->  	struct resource resource[DEVICE_COUNT_RESOURCE]; /* I/O and memory regions + expansion ROMs */
->  
->  	bool match_driver;		/* Skip attaching driver */
-> @@ -1235,6 +1236,9 @@ resource_size_t pcibios_iov_resource_alignment(struct pci_dev *dev, int resno);
->  int pci_set_vga_state(struct pci_dev *pdev, bool decode,
->  		      unsigned int command_bits, u32 flags);
->  
-> +int pci_alloc_irq_vectors(struct pci_dev *dev, int nr_vecs);
-> +void pci_free_irq_vectors(struct pci_dev *pdev);
-> +
->  /* kmem_cache style wrapper around pci_alloc_consistent() */
->  
->  #include <linux/pci-dma.h>
-> @@ -1282,6 +1286,7 @@ static inline int pci_enable_msix_exact(struct pci_dev *dev,
->  		return rc;
->  	return 0;
+>  	ns->queue->limits.discard_alignment = logical_block_size;
+>  	ns->queue->limits.discard_granularity = logical_block_size;
+> -	blk_queue_max_discard_sectors(ns->queue, 0xffffffff);
+> +	blk_queue_max_discard_sectors(ns->queue, UINT_MAX);
+>  	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
 >  }
-> +
->  #else
->  static inline int pci_msi_vec_count(struct pci_dev *dev) { return -ENOSYS; }
->  static inline void pci_msi_shutdown(struct pci_dev *dev) { }
+>  
 > -- 
-> 2.1.4
+> 2.6.3
 > 
