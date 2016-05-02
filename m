@@ -1,37 +1,73 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Mon,  2 May 2016 09:54:02 -0600
-Subject: [PATCHv2] nvme: Make CMB module parameter read-only
-Message-ID: <1462204442-3368-1-git-send-email-jonathan.derrick@intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon,  2 May 2016 11:12:08 -0600
+Subject: [PATCH-4.7 3/3] NVMe: Set capacity to 0 on all unusable namespaces
+In-Reply-To: <1462209128-12376-1-git-send-email-keith.busch@intel.com>
+References: <1462209128-12376-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1462209128-12376-4-git-send-email-keith.busch@intel.com>
 
-This patch changes the use_cmb_sqes module parameter to read-only. This
-parameter allows the driver to place IO submission queues within the
-Controller Memory Buffer. The parameter is currently writable through
-sysfs at /sys/module/nvme/parameters/use_cmb_sqes.
+Set the disk capacity to 0 if unable to identify a namespace for any
+reason. This way revalidating detached namespaces will be deleted quicker
+since dirty data can't be sync'ed.
 
-Memory allocations for queues aren't dynamically reallocated between
-resets. For this reason, allowing the use_cmb_sqes module parameter to
-be written while the drive is loaded may be confusing because we have no
-mechanism to dynamically remap the queues.
-
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
-v2: More thorough log message
+ drivers/nvme/host/core.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4fd733f..83de5569 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -61,7 +61,7 @@ static int use_threaded_interrupts;
- module_param(use_threaded_interrupts, int, 0);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9f1f318..b9de770 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -771,31 +771,27 @@ static void nvme_config_discard(struct nvme_ns *ns)
+ static int nvme_revalidate_disk(struct gendisk *disk)
+ {
+ 	struct nvme_ns *ns = disk->private_data;
+-	struct nvme_id_ns *id;
++	struct nvme_id_ns *id = NULL;
+ 	u8 lbaf, pi_type;
+ 	u16 old_ms;
+ 	unsigned short bs;
  
- static bool use_cmb_sqes = true;
--module_param(use_cmb_sqes, bool, 0644);
-+module_param(use_cmb_sqes, bool, 0444);
- MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
+-	if (test_bit(NVME_NS_DEAD, &ns->flags)) {
+-		set_capacity(disk, 0);
+-		return -ENODEV;
+-	}
++	if (test_bit(NVME_NS_DEAD, &ns->flags))
++		goto no_dev;
++
+ 	if (nvme_identify_ns(ns->ctrl, ns->ns_id, &id)) {
+ 		dev_warn(disk_to_dev(ns->disk), "%s: Identify failure\n",
+ 				__func__);
+-		return -ENODEV;
+-	}
+-	if (id->ncap == 0) {
+-		kfree(id);
+-		return -ENODEV;
++		goto no_dev;
+ 	}
++	if (id->ncap == 0)
++		goto no_dev;
  
- static struct workqueue_struct *nvme_workq;
+ 	if (nvme_nvm_ns_supported(ns, id) && ns->type != NVME_NS_LIGHTNVM) {
+ 		if (nvme_nvm_register(ns->queue, disk->disk_name)) {
+ 			dev_warn(disk_to_dev(ns->disk),
+ 				"%s: LightNVM init failure\n", __func__);
+-			kfree(id);
+-			return -ENODEV;
++			goto no_dev;
+ 		}
+ 		ns->type = NVME_NS_LIGHTNVM;
+ 	}
+@@ -845,6 +841,10 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 
+ 	kfree(id);
+ 	return 0;
++ no_dev:
++	kfree(id);
++	set_capacity(disk, 0);
++	return -ENODEV;
+ }
+ 
+ static char nvme_pr_type(enum pr_type type)
 -- 
-1.8.3.1
+2.7.2
