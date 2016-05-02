@@ -1,32 +1,37 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Mon,  2 May 2016 09:28:12 -0600
-Subject: [PATCH] nvme: Make CMB module parameter read-only
-Message-ID: <1462202892-3429-1-git-send-email-jonathan.derrick@intel.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Mon, 2 May 2016 10:29:29 -0500
+Subject: [PATCH 6/8] pci: provide sensible irq vector alloc/free routines
+In-Reply-To: <20160502144203.GA32221@lst.de>
+References: <1460770552-31260-1-git-send-email-hch@lst.de>
+ <1460770552-31260-7-git-send-email-hch@lst.de>
+ <20160429211638.GB28261@localhost> <20160501180149.GA11131@lst.de>
+ <20160502131124.GA18527@localhost> <20160502144203.GA32221@lst.de>
+Message-ID: <20160502152929.GA24851@localhost>
 
-This patch changes the use_cmb_sqes module parameter to read-only. This
-parameter allows the driver to place IO submission queues within the
-Controller Memory Buffer. Memory allocated for queues aren't
-dynamically reallocated between resets. For this reason, allowing the
-use_cmb_sqes module parameter to be written may be confusing because it
-should not be allowed.
+On Mon, May 02, 2016@04:42:03PM +0200, Christoph Hellwig wrote:
+> On Mon, May 02, 2016@08:11:24AM -0500, Bjorn Helgaas wrote:
+> > On Sun, May 01, 2016@08:01:49PM +0200, Christoph Hellwig wrote:
+> > > FYI, I spent some time trying to convert more drivers to this, and
+> > > I think we'll need an additional flag to skip MSI or MSI-X as there
+> > > is plenty of hardware claiming support in the capabilities flag,
+> > > but not actually supporting one of them.
+> > 
+> > Or maybe add a "pdev->msix_broken" bit and quirks to set it?  Or if
+> > pci_fixup_final quirks merely cleared pdev->msix_cap, I think the PCI
+> > core would never try to enable MSI-X.
+> 
+> Can't say I'm excited about quirks - now we'd have to patch core
+> code for something that previously was entirely in the driver.
 
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Yeah, you're right.  I was imagining a quirk in the driver itself, but
+now that I look at it, I don't see any infrastructure for that.  I
+think there are a lot of existing quirks that could be moved from the
+core to a driver if we had support for quirks in drivers.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4fd733f..83de5569 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -61,7 +61,7 @@ static int use_threaded_interrupts;
- module_param(use_threaded_interrupts, int, 0);
- 
- static bool use_cmb_sqes = true;
--module_param(use_cmb_sqes, bool, 0644);
-+module_param(use_cmb_sqes, bool, 0444);
- MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
- 
- static struct workqueue_struct *nvme_workq;
--- 
-1.8.3.1
+It just seems a shame to complicate the pci_alloc_irq_vectors()
+interface with flags about broken devices.
+
+I guess if we added a "pdev->msix_broken" bit, it would be visible to
+drivers, and they could easily set it themselves in their .probe()
+methods even without any actual quirk mechanism.  But a flag to
+pci_alloc_irq_vectors() would certainly be more direct.
