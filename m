@@ -1,18 +1,19 @@
 From: axboe@fb.com (Jens Axboe)
-Date: Mon, 2 May 2016 09:13:45 -0600
-Subject: [PATCH] NVMe: correct comment for offset enum of controller
- registers in nvme.h
-In-Reply-To: <1461759016-7829-1-git-send-email-shhuiw@foxmail.com>
-References: <1461759016-7829-1-git-send-email-shhuiw@foxmail.com>
-Message-ID: <57276EA9.3060702@fb.com>
+Date: Mon, 2 May 2016 09:16:32 -0600
+Subject: [PATCH v2 0/2] nvme_ns_remove() deadlock fix
+In-Reply-To: <1461619219-18144-1-git-send-email-mlin@kernel.org>
+References: <1461619219-18144-1-git-send-email-mlin@kernel.org>
+Message-ID: <57276F50.3090308@fb.com>
 
-On 04/27/2016 06:10 AM, Wang Sheng-Hui wrote:
-> Section 3.1 gives the comment for the offset of controller registers
-> in the specification 1.2a.
+On 04/25/2016 03:20 PM, Ming Lin wrote:
+> From: Ming Lin <ming.l at ssi.samsung.com>
 >
-> Some are mis-copied in the header file nvme.h. Correct them.
+> Hi Sunad,
+>
+> I don't have device that can do namespace attribute change.
+> Could you help to verify these 2 patches fix the ns remove deadlock?
 
-Added to 4.7.
+Applied for 4.7, thanks.
 
 -- 
 Jens Axboe
