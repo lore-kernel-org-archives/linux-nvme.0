@@ -1,15 +1,16 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 2 May 2016 09:12:13 -0600
-Subject: [PATCH v2] nvme: add helper nvme_cleanup_cmd()
-In-Reply-To: <1461620000-18707-1-git-send-email-mlin@kernel.org>
-References: <1461620000-18707-1-git-send-email-mlin@kernel.org>
-Message-ID: <57276E4D.5090801@kernel.dk>
+From: axboe@fb.com (Jens Axboe)
+Date: Mon, 2 May 2016 09:13:45 -0600
+Subject: [PATCH] NVMe: correct comment for offset enum of controller
+ registers in nvme.h
+In-Reply-To: <1461759016-7829-1-git-send-email-shhuiw@foxmail.com>
+References: <1461759016-7829-1-git-send-email-shhuiw@foxmail.com>
+Message-ID: <57276EA9.3060702@fb.com>
 
-On 04/25/2016 03:33 PM, Ming Lin wrote:
-> From: Ming Lin <ming.l at ssi.samsung.com>
+On 04/27/2016 06:10 AM, Wang Sheng-Hui wrote:
+> Section 3.1 gives the comment for the offset of controller registers
+> in the specification 1.2a.
 >
-> This hides command cleanup into nvme.h and fabrics drivers will
-> also use it.
+> Some are mis-copied in the header file nvme.h. Correct them.
 
 Added to 4.7.
 
