@@ -1,14 +1,18 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 2 May 2016 12:30:37 +0300
-Subject: [PATCH] nvme/lightnvm: Log using the ctrl named device
-In-Reply-To: <57270A98.70209@bjorling.me>
-References: <1462073144-30533-1-git-send-email-sagi@grimberg.me>
- <57270A98.70209@bjorling.me>
-Message-ID: <57271E3D.5060106@grimberg.me>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Mon, 2 May 2016 08:11:24 -0500
+Subject: [PATCH 6/8] pci: provide sensible irq vector alloc/free routines
+In-Reply-To: <20160501180149.GA11131@lst.de>
+References: <1460770552-31260-1-git-send-email-hch@lst.de>
+ <1460770552-31260-7-git-send-email-hch@lst.de>
+ <20160429211638.GB28261@localhost> <20160501180149.GA11131@lst.de>
+Message-ID: <20160502131124.GA18527@localhost>
 
+On Sun, May 01, 2016@08:01:49PM +0200, Christoph Hellwig wrote:
+> FYI, I spent some time trying to convert more drivers to this, and
+> I think we'll need an additional flag to skip MSI or MSI-X as there
+> is plenty of hardware claiming support in the capabilities flag,
+> but not actually supporting one of them.
 
-> Thanks Sagi. I have a couple of patches on top of lightnvm.c that
-> conflicts. Will it be okay with you if I carry it through my for-next
-> branch that I send to Jens?
-
-Sure, go ahead.
+Or maybe add a "pdev->msix_broken" bit and quirks to set it?  Or if
+pci_fixup_final quirks merely cleared pdev->msix_cap, I think the PCI
+core would never try to enable MSI-X.
