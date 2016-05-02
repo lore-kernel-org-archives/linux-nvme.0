@@ -1,73 +1,80 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon,  2 May 2016 11:12:08 -0600
-Subject: [PATCH-4.7 3/3] NVMe: Set capacity to 0 on all unusable namespaces
+Date: Mon,  2 May 2016 11:12:07 -0600
+Subject: [PATCH-4.7 2/3] NVMe: Short-cut removal on surprise hot-unplug
 In-Reply-To: <1462209128-12376-1-git-send-email-keith.busch@intel.com>
 References: <1462209128-12376-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1462209128-12376-4-git-send-email-keith.busch@intel.com>
+Message-ID: <1462209128-12376-3-git-send-email-keith.busch@intel.com>
 
-Set the disk capacity to 0 if unable to identify a namespace for any
-reason. This way revalidating detached namespaces will be deleted quicker
-since dirty data can't be sync'ed.
+This patch adds a new state that when set has the core automatically
+kill request queues prior to removing namespaces. If PCI device is not
+present at the time the nvme driver's remove is called, we can kill all
+IO queues immediately instead of waiting for the watchdog thread to do
+that at its polling interval. This improves scenarios where multiple hot
+plug events occur at the same time since it doesn't block pci enumeration.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/core.c | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
+ drivers/nvme/host/core.c | 12 ++++++++++++
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/pci.c  |  4 ++++
+ 3 files changed, 17 insertions(+)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9f1f318..b9de770 100644
+index e7fbe1f..9f1f318 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -771,31 +771,27 @@ static void nvme_config_discard(struct nvme_ns *ns)
- static int nvme_revalidate_disk(struct gendisk *disk)
- {
- 	struct nvme_ns *ns = disk->private_data;
--	struct nvme_id_ns *id;
-+	struct nvme_id_ns *id = NULL;
- 	u8 lbaf, pi_type;
- 	u16 old_ms;
- 	unsigned short bs;
- 
--	if (test_bit(NVME_NS_DEAD, &ns->flags)) {
--		set_capacity(disk, 0);
--		return -ENODEV;
--	}
-+	if (test_bit(NVME_NS_DEAD, &ns->flags))
-+		goto no_dev;
-+
- 	if (nvme_identify_ns(ns->ctrl, ns->ns_id, &id)) {
- 		dev_warn(disk_to_dev(ns->disk), "%s: Identify failure\n",
- 				__func__);
--		return -ENODEV;
--	}
--	if (id->ncap == 0) {
--		kfree(id);
--		return -ENODEV;
-+		goto no_dev;
- 	}
-+	if (id->ncap == 0)
-+		goto no_dev;
- 
- 	if (nvme_nvm_ns_supported(ns, id) && ns->type != NVME_NS_LIGHTNVM) {
- 		if (nvme_nvm_register(ns->queue, disk->disk_name)) {
- 			dev_warn(disk_to_dev(ns->disk),
- 				"%s: LightNVM init failure\n", __func__);
--			kfree(id);
--			return -ENODEV;
-+			goto no_dev;
+@@ -95,6 +95,15 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 			break;
  		}
- 		ns->type = NVME_NS_LIGHTNVM;
+ 		break;
++	case NVME_CTRL_DEAD:
++		switch (old_state) {
++		case NVME_CTRL_DELETING:
++			changed = true;
++			/* FALLTHRU */
++		default:
++			break;
++		}
++		break;
+ 	default:
+ 		break;
  	}
-@@ -845,6 +841,10 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+@@ -1584,6 +1593,9 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns, *next;
  
- 	kfree(id);
- 	return 0;
-+ no_dev:
-+	kfree(id);
-+	set_capacity(disk, 0);
-+	return -ENODEV;
- }
++	if (ctrl->state == NVME_CTRL_DEAD)
++		nvme_kill_queues(ctrl);
++
+ 	mutex_lock(&ctrl->namespaces_mutex);
+ 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list)
+ 		nvme_ns_remove(ns);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 48c7f3c..78135cd 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -72,6 +72,7 @@ enum nvme_ctrl_state {
+ 	NVME_CTRL_LIVE,
+ 	NVME_CTRL_RESETTING,
+ 	NVME_CTRL_DELETING,
++	NVME_CTRL_DEAD,
+ };
  
- static char nvme_pr_type(enum pr_type type)
+ struct nvme_ctrl {
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index f99833b..0881b54 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2019,6 +2019,10 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
+ 
+ 	pci_set_drvdata(pdev, NULL);
++
++	if (!pci_device_is_present(pdev))
++		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
++
+ 	nvme_uninit_ctrl(&dev->ctrl);
+ 	nvme_dev_disable(dev, true);
+ 	flush_work(&dev->reset_work);
 -- 
 2.7.2
