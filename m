@@ -1,19 +1,21 @@
 From: axboe@fb.com (Jens Axboe)
-Date: Mon, 2 May 2016 09:10:27 -0600
-Subject: [PATCH] NVMe: Fix check_flush_dependency warning
-In-Reply-To: <1461793878-14732-1-git-send-email-keith.busch@intel.com>
-References: <1461793878-14732-1-git-send-email-keith.busch@intel.com>
-Message-ID: <57276DE3.8000306@fb.com>
+Date: Mon, 2 May 2016 09:11:02 -0600
+Subject: [PATCH] NVMe: nvme_core_exit() should do cleanup in the reverse
+ order as nvme_core_init does
+In-Reply-To: <1461831571-5248-1-git-send-email-shhuiw@foxmail.com>
+References: <1461831571-5248-1-git-send-email-shhuiw@foxmail.com>
+Message-ID: <57276E06.3050002@fb.com>
 
-On 04/27/2016 03:51 PM, Keith Busch wrote:
-> If the controller fails and is degraded after a reset, we need to kill
-> off all requests queues before removing the inaccessble namespaces. This
-> will prevent del_gendisk from syncing dirty data, which we can't due
-> from a WQ_MEM_RECLAIM work queue.
+On 04/28/2016 02:19 AM, Wang Sheng-Hui wrote:
+> nvme_core_init does:
+>      1) register_blkdev
+>      2) __register_chrdev
+>      3) class_create
 >
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> nvme_core_exit should do cleanup in the reverse order.
 
-Applied for 4.7.
+Added for 4.7.
+
 
 -- 
 Jens Axboe
