@@ -1,28 +1,32 @@
-From: helen.koike@collabora.co.uk (Helen Koike)
-Date: Mon,  2 May 2016 12:17:37 -0300
-Subject: [PATCH] NVMe: add missing command size checks
-Message-ID: <1462202257-13525-1-git-send-email-helen.koike@collabora.co.uk>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Mon,  2 May 2016 09:28:12 -0600
+Subject: [PATCH] nvme: Make CMB module parameter read-only
+Message-ID: <1462202892-3429-1-git-send-email-jonathan.derrick@intel.com>
 
-Some commands were not being checked
+This patch changes the use_cmb_sqes module parameter to read-only. This
+parameter allows the driver to place IO submission queues within the
+Controller Memory Buffer. Memory allocated for queues aren't
+dynamically reallocated between resets. For this reason, allowing the
+use_cmb_sqes module parameter to be written may be confusing because it
+should not be allowed.
 
-Signed-off-by: Helen Koike <helen.koike at collabora.co.uk>
+Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
 ---
- drivers/nvme/host/pci.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4fd733f..caf8e45 100644
+index 4fd733f..83de5569 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -171,6 +171,9 @@ static inline void _nvme_check_size(void)
- 	BUILD_BUG_ON(sizeof(struct nvme_features) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_format_cmd) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_abort_cmd) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_identify) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_download_firmware) != 64);
-+	BUILD_BUG_ON(sizeof(struct nvme_dsm_cmd) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_command) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_id_ctrl) != 4096);
- 	BUILD_BUG_ON(sizeof(struct nvme_id_ns) != 4096);
+@@ -61,7 +61,7 @@ static int use_threaded_interrupts;
+ module_param(use_threaded_interrupts, int, 0);
+ 
+ static bool use_cmb_sqes = true;
+-module_param(use_cmb_sqes, bool, 0644);
++module_param(use_cmb_sqes, bool, 0444);
+ MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
+ 
+ static struct workqueue_struct *nvme_workq;
 -- 
-1.9.1
+1.8.3.1
