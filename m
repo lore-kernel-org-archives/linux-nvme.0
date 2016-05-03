@@ -1,31 +1,16 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon,  2 May 2016 14:36:07 -0600
-Subject: [PATCH] NVMe: Add device ID's with stripe quirk
-Message-ID: <1462221367-28539-1-git-send-email-keith.busch@intel.com>
+From: shhuiw@foxmail.com (=?ISO-8859-1?B?V2FuZyBTaGVuZy1IdWk=?=)
+Date: Tue, 3 May 2016 14:33:32 +0800
+Subject: May nvme_get_ns_from_disk introduce deadlock?
+Message-ID: <tencent_0E8E6EA15D543CDF17012F42@qq.com>
 
-Adds two Intel controllers that have the "stripe" quirk.
+Hi,
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+I'm reading the code, and found that nvme_get_ns_from_disk *may* 
+introduce deadlock by invoking nvme_free_ns in core.c (nested
+spin_lock(&dev_list_lock) ). 
+But I can't figure out which condition can lead to deadlock.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 2bffb94..e02950c 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2106,6 +2106,12 @@ static const struct pci_device_id nvme_id_table[] = {
- 	{ PCI_VDEVICE(INTEL, 0x0953),
- 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
- 				NVME_QUIRK_DISCARD_ZEROES, },
-+	{ PCI_VDEVICE(INTEL, 0x0a53),
-+		.driver_data = NVME_QUIRK_STRIPE_SIZE |
-+				NVME_QUIRK_DISCARD_ZEROES, },
-+	{ PCI_VDEVICE(INTEL, 0x0a54),
-+		.driver_data = NVME_QUIRK_STRIPE_SIZE |
-+				NVME_QUIRK_DISCARD_ZEROES, },
- 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
- 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
--- 
-2.7.2
+Will someone help to explain the code that how can it escape from deadlock?
+
+Thanks,
+Wang Sheng-Hui
