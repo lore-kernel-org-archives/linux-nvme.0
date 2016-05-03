@@ -1,46 +1,29 @@
 From: keith.busch@intel.com (Busch, Keith)
-Date: Tue, 3 May 2016 14:04:16 +0000
-Subject: [PATCH] NVMe: eliminate potential deadlock by
- nvme_get_ns_from_disk invoking nvme_free_ns
-In-Reply-To: <1462263954-2475-1-git-send-email-shhuiw@foxmail.com>
-References: <1462263954-2475-1-git-send-email-shhuiw@foxmail.com>
-Message-ID: <B58D82457FDA0744A320A2FC5AC253B93D578BBE@fmsmsx104.amr.corp.intel.com>
+Date: Tue, 3 May 2016 14:19:28 +0000
+Subject: [PATCH-4.7 1/3] NVMe: Return ENODEV error on invalid namespace
+In-Reply-To: <20160503075821.GA31768@infradead.org>
+References: <1462209128-12376-1-git-send-email-keith.busch@intel.com>
+ <1462209128-12376-2-git-send-email-keith.busch@intel.com>
+ <20160503075821.GA31768@infradead.org>
+Message-ID: <B58D82457FDA0744A320A2FC5AC253B93D578C4F@fmsmsx104.amr.corp.intel.com>
 
 > -----Original Message-----
-> From: Wang Sheng-Hui [mailto:shhuiw at foxmail.com]
-> Sent: Tuesday, May 03, 2016 2:26 AM
-> To: hch at lst.de; sagig at mellanox.com; Busch, Keith; axboe at fb.com; linux-nvme at lists.infradead.org
-> Subject: [PATCH] NVMe: eliminate potential deadlock by nvme_get_ns_from_disk invoking nvme_free_ns
+> From: Christoph Hellwig [mailto:hch at infradead.org]
+> Sent: Tuesday, May 03, 2016 1:58 AM
+> To: Busch, Keith
+> Cc: Jens Axboe; Christoph Hellwig; linux-nvme at lists.infradead.org
+> Subject: Re: [PATCH-4.7 1/3] NVMe: Return ENODEV error on invalid namespace
 > 
-> Release dev_list_lock before enter nvme_free_ns from
-> nvme_get_ns_from_disk to avoid potential deadlock.
+> On Mon, May 02, 2016@11:12:06AM -0600, Keith Busch wrote:
+> > If there is no namespace associated with the request, return an error
+> > code that notifies the application the device isn't there.
 > 
-> Signed-off-by: Wang Sheng-Hui <shhuiw at foxmail.com>
-> ---
->  drivers/nvme/host/core.c | 21 ++++++++++-----------
->  1 file changed, 10 insertions(+), 11 deletions(-)
+> I think we're heading in the wrong direction here.  I actually had some
+> discussion with Jens and Marting on how we should get rid of overloading
+> random errnos in the block layer and instead have block layer error
+> codes.
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 49bc4c0..81e397b 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -87,20 +87,19 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk)
->  	spin_lock(&dev_list_lock);
->  	ns = disk->private_data;
->  	if (ns) {
-> -		if (!kref_get_unless_zero(&ns->kref))
-> -			goto fail;
-> -		if (!try_module_get(ns->ctrl->ops->module))
-> -			goto fail_put_ns;
-> +		if (!kref_get_unless_zero(&ns->kref)) {
-> +			ns = NULL;
-> +			goto out;
-> +		}
-> +		if (!try_module_get(ns->ctrl->ops->module)) {
-> +			spin_unlock(&dev_list_lock);
-> +			kref_put(&ns->kref, nvme_free_ns);
-> +			return NULL;
-> +		}
->  	}
+> What applications care?  And where are the meanings of these error
+> codes documented?
 
-Swapping the ns and module reference gets order would have been simpler.
+This was added at the joint request from one OSV and IHV. I've no idea what they're software is doing with this, but they say it doesn't do the right thing with 'EIO'. ENODEV for invalid namespaces sounded like a reasonable error.
