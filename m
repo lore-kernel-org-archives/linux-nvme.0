@@ -1,24 +1,47 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Tue, 3 May 2016 16:37:56 -0500
-Subject: [PATCH 6/8] pci: provide sensible irq vector alloc/free routines
-In-Reply-To: <20160503211945.GA25167@lst.de>
-References: <1460770552-31260-1-git-send-email-hch@lst.de>
- <1460770552-31260-7-git-send-email-hch@lst.de>
- <20160429211638.GB28261@localhost> <20160501180149.GA11131@lst.de>
- <20160502131124.GA18527@localhost> <20160502144203.GA32221@lst.de>
- <20160502152929.GA24851@localhost> <20160503211945.GA25167@lst.de>
-Message-ID: <20160503213756.GA17170@localhost>
+From: shhuiw@foxmail.com (Wang Sheng-Hui)
+Date: Wed,  4 May 2016 09:08:34 +0800
+Subject: [PATCH v2] NVMe: eliminate potential deadlock by
+ nvme_get_ns_from_disk invoking nvme_free_ns
+Message-ID: <1462324114-3716-1-git-send-email-shhuiw@foxmail.com>
 
-On Tue, May 03, 2016@11:19:46PM +0200, Christoph Hellwig wrote:
-> Hi Bjorn,
-> 
-> I've implemented your suggestion and I'm getting ready to send out
-> a new version.  One thing that came to mind is:  do you prefer this
-> code in irq.c or would you rather have it in msi.c?  While it
-> also has a legacy irq fallback most of it tied pretty closely to
-> the msi.c code, so I wonder if we should group them together.
+Release dev_list_lock before enter nvme_free_ns from
+nvme_get_ns_from_disk to avoid potential deadlock.
 
-Good question.  There isn't much in irq.c, and the interesting bits
-are the MSI-related things, so maybe msi.c would make more sense.
+Signed-off-by: Wang Sheng-Hui <shhuiw at foxmail.com>
+---
+ drivers/nvme/host/core.c | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
 
-Bjorn
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 643f457..ab12892 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -87,20 +87,17 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk)
+ 	spin_lock(&dev_list_lock);
+ 	ns = disk->private_data;
+ 	if (ns) {
++		if (!try_module_get(ns->ctrl->ops->module)) {
++			spin_unlock(&dev_list_lock);
++			kref_put(&ns->kref, nvme_free_ns);
++			return NULL;
++		}
+ 		if (!kref_get_unless_zero(&ns->kref))
+-			goto fail;
+-		if (!try_module_get(ns->ctrl->ops->module))
+-			goto fail_put_ns;
++			ns = NULL;
+ 	}
+ 	spin_unlock(&dev_list_lock);
+ 
+ 	return ns;
+-
+-fail_put_ns:
+-	kref_put(&ns->kref, nvme_free_ns);
+-fail:
+-	spin_unlock(&dev_list_lock);
+-	return NULL;
+ }
+ 
+ void nvme_requeue_req(struct request *req)
+-- 
+2.7.4
