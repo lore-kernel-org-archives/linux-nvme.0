@@ -1,57 +1,30 @@
 From: keith.busch@intel.com (Busch, Keith)
-Date: Wed, 4 May 2016 14:44:59 +0000
-Subject: [PATCH v2] NVMe: eliminate potential deadlock by
- nvme_get_ns_from_disk invoking nvme_free_ns
-In-Reply-To: <20160504095004.GA15483@lst.de>
-References: <1462324114-3716-1-git-send-email-shhuiw@foxmail.com>
- <20160504095004.GA15483@lst.de>
-Message-ID: <B58D82457FDA0744A320A2FC5AC253B93D57C07D@fmsmsx104.amr.corp.intel.com>
-
-
-I can't be bothered to fix up my dev machines this week, so I get to reply with outlook. :(
-
+Date: Wed, 4 May 2016 14:59:11 +0000
+Subject: RFC: what to do about abort?
+In-Reply-To: <20160504105815.GA20848@infradead.org>
+References: <20160504100313.GA22726@infradead.org>
+ <5729CCC9.9060307@suse.de> <20160504105815.GA20848@infradead.org>
+Message-ID: <B58D82457FDA0744A320A2FC5AC253B93D57C119@fmsmsx104.amr.corp.intel.com>
 
 > -----Original Message-----
-> From: Christoph Hellwig [mailto:hch at lst.de]
-> Sent: Wednesday, May 04, 2016 3:50 AM
-> To: Wang Sheng-Hui
-> Cc: hch at lst.de; sagig at mellanox.com; Busch, Keith; axboe at fb.com; linux-nvme at lists.infradead.org
-> Subject: Re: [PATCH v2] NVMe: eliminate potential deadlock by nvme_get_ns_from_disk invoking
-> nvme_free_ns
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf Of Christoph Hellwig
+> Sent: Wednesday, May 04, 2016 4:58 AM
+> To: Hannes Reinecke
+> Cc: linux-nvme at lists.infradead.org
+> Subject: Re: RFC: what to do about abort?
 
-<snip>
 
-> What about this variant instead?
+> The NVMe spec is extremely vague about Abort doing anything:
 > 
-> 	ns = disk->private_data;
-> 	if (ns) {
-> 		if (!kref_get_unless_zero(&ns->kref))
-> 			ns = NULL;
-> 		else if (!try_module_get(ns->ctrl->ops->module))
-> 			goto out_put_ns;
-> 	}
-> 	spin_unlock(&dev_list_lock);
-> 	return ns;
+> "An Abort command is a best effort command; the command to abort may
+>  have already completed, currently be in execution, or may be deeply
+>  queued. It is implementation specific if/when a controller chooses
+>  to complete the command when the command to abort is not found."
 > 
-> out_put_ns:
-> 	spin_unlock(&dev_list_lock);
-> 	kref_put(&ns->kref, nvme_free_ns);
-> 	return NULL;
+> And various controllers make full use of the ambiguity offered.
 
-I was trying to suggest a smaller change by swapping the module and ns reference order, then unwinding failure is simpler without goto's:
+That's an unfortunate way to the spec describes this command. All my controllers immediately post success status with the CQE's DWORD0 set to 0;abort is essentially a no-op.
 
----
-	spin_lock(&dev_list_lock);
-	ns = disk->private_data;
-	if (ns) {
-		if (!try_module_get(ns->ctrl->ops->module))
-			ns = NULL;
-		else if (!kref_get_unless_zero(&ns->kref)) {
-			module_put(ns->ctrl->ops->module);
-			ns = NULL;
-		}
-	}
-	spin_unlock(&dev_list_lock);
+Even though it's a no-op for me, the main benefit is that abort makes for an awesome trigger for analyzers and firmware. It's been a valuable tool for debugging issues, and I'd hate to lose it.
 
-	return ns;
---
+Can we propose changing the spec instead?
