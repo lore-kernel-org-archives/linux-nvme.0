@@ -1,78 +1,57 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 4 May 2016 03:58:15 -0700
-Subject: RFC: what to do about abort?
-In-Reply-To: <5729CCC9.9060307@suse.de>
-References: <20160504100313.GA22726@infradead.org> <5729CCC9.9060307@suse.de>
-Message-ID: <20160504105815.GA20848@infradead.org>
+From: keith.busch@intel.com (Busch, Keith)
+Date: Wed, 4 May 2016 14:44:59 +0000
+Subject: [PATCH v2] NVMe: eliminate potential deadlock by
+ nvme_get_ns_from_disk invoking nvme_free_ns
+In-Reply-To: <20160504095004.GA15483@lst.de>
+References: <1462324114-3716-1-git-send-email-shhuiw@foxmail.com>
+ <20160504095004.GA15483@lst.de>
+Message-ID: <B58D82457FDA0744A320A2FC5AC253B93D57C07D@fmsmsx104.amr.corp.intel.com>
 
-On Wed, May 04, 2016@12:19:53PM +0200, Hannes Reinecke wrote:
-> Failure to respond to an abort command?
-> IE you send the abort and never ever get a completion for the abort?
-> Uh-oh.
 
-The NVMe spec is extremely vague about Abort doing anything:
+I can't be bothered to fix up my dev machines this week, so I get to reply with outlook. :(
 
-"An Abort command is a best effort command; the command to abort may
- have already completed, currently be in execution, or may be deeply
- queued. It is implementation specific if/when a controller chooses
- to complete the command when the command to abort is not found."
 
-And various controllers make full use of the ambiguity offered.
+> -----Original Message-----
+> From: Christoph Hellwig [mailto:hch at lst.de]
+> Sent: Wednesday, May 04, 2016 3:50 AM
+> To: Wang Sheng-Hui
+> Cc: hch at lst.de; sagig at mellanox.com; Busch, Keith; axboe at fb.com; linux-nvme at lists.infradead.org
+> Subject: Re: [PATCH v2] NVMe: eliminate potential deadlock by nvme_get_ns_from_disk invoking
+> nvme_free_ns
 
-> How would be able to figure out if the card has been able to process
-> the abort?
+<snip>
 
-We don't.  Once the abort command itself times out we finally reset
-the controller.  And I've not seen a Abort command doing anything but
-timing out in the wild.
+> What about this variant instead?
 > 
-> > Based on that I came to the conclusion that we'd be much better off
-> > to just use the 60 second timeout for I/O command as well, and simply
-> > avoid ever sending the abort command.  RFC patch below:
-> > 
-> Doesn't really help if the command has been dropped into a black
-> hole somewhere on the way, right?
-
-It does.  We still end up resetting the controller about 60 seconds
-after the black hole appeared, but we put a whole lot less stress
-on the host and controller in the meantime.
-
-> In general you _do_ want to handle aborts; there might be
-> long-running commands or the array might be genuinely stuck.
-> In which case you do want to send an abort to inform the array that
-> it should stop processing the command.
-
-There might be special cases where we want to abort a long running
-command without touching the rest of the controller state.  However
-for the current NVMe driver there are no such long running commands
-except for the asynchronous event requests (which never respond to
-aborts anyway in practice), and there is no infrastructure to abort
-commands except for from the timeout handler.  This mail and patch
-should not be interpreted as blocking that use case of abort in the
-long run.
-
+> 	ns = disk->private_data;
+> 	if (ns) {
+> 		if (!kref_get_unless_zero(&ns->kref))
+> 			ns = NULL;
+> 		else if (!try_module_get(ns->ctrl->ops->module))
+> 			goto out_put_ns;
+> 	}
+> 	spin_unlock(&dev_list_lock);
+> 	return ns;
 > 
-> If and how the aborts are handled from the initiator side is another
-> story, but for the transport you do need them.
+> out_put_ns:
+> 	spin_unlock(&dev_list_lock);
+> 	kref_put(&ns->kref, nvme_free_ns);
+> 	return NULL;
 
-Which transport?  NVMe aborts are protocol level aborts that are just
-another command as far as the transport is concerned.
+I was trying to suggest a smaller change by swapping the module and ns reference order, then unwinding failure is simpler without goto's:
 
-> And increasing the timeout is just deferring the issue to another
-> time; why should any command return within the increased timeout, if
-> it already failed to return within the original timeout?
+---
+	spin_lock(&dev_list_lock);
+	ns = disk->private_data;
+	if (ns) {
+		if (!try_module_get(ns->ctrl->ops->module))
+			ns = NULL;
+		else if (!kref_get_unless_zero(&ns->kref)) {
+			module_put(ns->ctrl->ops->module);
+			ns = NULL;
+		}
+	}
+	spin_unlock(&dev_list_lock);
 
-No good reason.  I'm just trying to keep existing behavior as much
-as possible, and the existing behavior is:
-
- 60 second timeouts for admin command, then reset the controller
- 30 second timeouts for I/O commands, then:
-
-    a) send a abort command if under the abort limit
-    b) reset the timer for another 30 seconds
-
-The I/O command behavior essentially is a 60 to 90 second timeout due to
-the way aborts are actually implemented.  Setting a consistent 60 second
-timeout and do the deterministic reset will provide us with a much more
-consistent behavior, and put a lot less stress on the host and
-controller in the even of the timeout.
+	return ns;
+--
