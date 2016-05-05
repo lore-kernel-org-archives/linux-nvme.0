@@ -1,28 +1,38 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 5 May 2016 07:11:18 -0700
-Subject: RFC: what to do about abort?
-In-Reply-To: <B58D82457FDA0744A320A2FC5AC253B93D57C119@fmsmsx104.amr.corp.intel.com>
-References: <20160504100313.GA22726@infradead.org> <5729CCC9.9060307@suse.de>
- <20160504105815.GA20848@infradead.org>
- <B58D82457FDA0744A320A2FC5AC253B93D57C119@fmsmsx104.amr.corp.intel.com>
-Message-ID: <20160505141118.GA5260@infradead.org>
+Date: Thu, 5 May 2016 07:17:49 -0700
+Subject: [PATCH v2 RFC] nvme: improve performance for virtual NVMe devices
+In-Reply-To: <572A27EB.5060202@collabora.co.uk>
+References: <1460657059-21214-1-git-send-email-helen.koike@collabora.co.uk>
+ <5718D697.3050800@collabora.co.uk>
+ <20160421133823.GA13563@infradead.org>
+ <1461262295.4797.11.camel@ssi>
+ <20160503080552.GA13239@infradead.org>
+ <572A27EB.5060202@collabora.co.uk>
+Message-ID: <20160505141749.GB5260@infradead.org>
 
-On Wed, May 04, 2016@02:59:11PM +0000, Busch, Keith wrote:
-> That's an unfortunate way to the spec describes this command. All my
-> controllers immediately post success status with the CQE's DWORD0 set
-> to 0;abort is essentially a no-op.
+On Wed, May 04, 2016@01:48:43PM -0300, Helen Koike wrote:
+> 1) I predict the command Set Doorbell/EventIdx Memory in the proposal,
+> should have an Unset command?
 
-That's one of the most common behaviors instead.
+Why would you unset it?  What's probably more important is to define
+that you do / do not need to set it again after a reset.  Probably the
+former.
 
-> Even though it's a no-op for me, the main benefit is that abort makes
-> for an awesome trigger for analyzers and firmware. It's been a valuable
-> tool for debugging issues, and I'd hate to lose it.
+> 2) What should be filled in the function field in figure 40?
 
-You're the maintainer, so it's up to you - it just doesn't seem very
-useful to me from both the host and device perspectice.
+Probably nothing for now, just let the editor update it.
 
-> Can we propose changing the spec instead?
+> 3) In the original patch, the command Set Doorbell/EventIdx Memory is
+> assumed to be performed after all the queues are created, then what should
+> happen if a queue is created after this command? We should abort the create
+> queue command? Or we should first unset the doorbel/eventIdx memory then
+> create the queues and then set it again? Or we just change the original
+> proposal and if the controller has this functionality, it should support
+> queues being created after the Set Doorbell/EventIdx Memory command?
+> Personally I think the controller should support creating queues after the
+> Set Doorbell/EventIdx Memory command was performed, what do you think?
 
-Good luck changing existing NVMe behavior.  We could probably introduce
-an optional well defined abort, but I'm not sure lots of vendors would
-even bother to implement it unless there is a hard requirement for it.
+I would not treat it any different than the existing doorbell registers,
+which have the same issue.  NVMe allows you to create I/O queues
+any time, but you better get the sizing of the bar / memory right
+for the maximum possible number of queues allocated.
