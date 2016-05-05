@@ -1,45 +1,77 @@
-From: stephen.bates@microsemi.com (Stephen Bates)
-Date: Thu, 5 May 2016 19:44:29 +0000
-Subject: [PATCH 0/2] Block: Give option to force io polling
-In-Reply-To: <1459455554-2794-1-git-send-email-jonathan.derrick@intel.com>
+From: jmoyer@redhat.com (Jeff Moyer)
+Date: Thu, 05 May 2016 17:23:47 -0400
+Subject: [PATCH 1/2] block: add queue flag to always poll
+In-Reply-To: <1459455554-2794-2-git-send-email-jonathan.derrick@intel.com>
+ (Jon Derrick's message of "Thu, 31 Mar 2016 14:19:13 -0600")
 References: <1459455554-2794-1-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <D87A37E7A4AA544D853031D9A919C70B168FDA58@avsrvexchmbx2.microsemi.net>
+ <1459455554-2794-2-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <x49lh3o5hcs.fsf@segfault.boston.devel.redhat.com>
 
-> 
-> In 4.6, enabling io polling in direct-io was switched to a per-io flag.
-> This had an unintended result of giving a significant difference when doing
-> benchmarks between 4.5 and 4.6, using fio's sync engine.
-> 
-> I was able to regain the performance by getting the pvsync2 engine working
-> with the new p{read,write}v2 syscalls, but this patchset allows polling to be
-> tried in the direct-io path with the other syscalls.
-> 
-> Rather than having to convert applications to prwv2 syscalls, users can enable
-> this knob that let's them see the same performance as they may have seen
-> in 4.5 when it always polled.
-> 
-> Jon Derrick (2):
->   block: add queue flag to always poll
->   block: add forced polling sysfs controls
-> 
->  block/blk-core.c       |  8 ++++++++
->  block/blk-sysfs.c      | 38 ++++++++++++++++++++++++++++++++++++++
->  fs/direct-io.c         |  7 ++++++-
->  include/linux/blkdev.h |  2 ++
->  4 files changed, 54 insertions(+), 1 deletion(-)
-> 
+Jon Derrick <jonathan.derrick at intel.com> writes:
 
-Hi
+> This patch adds poll-by-default functionality back for 4.6 by adding a
+> queue flag which specifies that it should always try polling, rather
+> than only if the io specifies it.
 
-Revisiting this discussion from late March...
+I'm not against the functionality, but it somehow feels like you've
+implemented this at the wrong layer.  I'd much rather polling be forced
+on for the file or the mountpoint, and then all requests would come down
+with RWF_HIPRI and there would be no special casing in the direct I/O
+code.
 
-I am very interested in seeing this added. There are use cases involving super-low latency (non-NAND based) NVMe devices and they want the fastest possible IO response times for ALL IO to that device. They also have no desire to wait for the new system calls and glibc updates needed to tie their applications into polling or to rewrite their applications to avail of those new calls. I have done some testing on Jon's "big hammer" and it seems to work well for this use case and applied cleanly against v4.6-rc6.
+In case others disagree, I've provided a couple of comments below.
+Really, though, I think this is implemented upside-down.
 
-For the series...
+-Jeff
 
-Reviewed-by: Stephen Bates <stephen.bates at microsemi.com>
-Tested-by: Stephen Bates <stephen.bates at microsemi.com>
+> Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+> ---
+>  block/blk-core.c       | 8 ++++++++
+>  fs/direct-io.c         | 7 ++++++-
+>  include/linux/blkdev.h | 2 ++
+>  3 files changed, 16 insertions(+), 1 deletion(-)
+>
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index 827f8ba..d85f913 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -3335,6 +3335,14 @@ void blk_finish_plug(struct blk_plug *plug)
+>  }
+>  EXPORT_SYMBOL(blk_finish_plug);
+>  
+> +bool blk_force_poll(struct request_queue *q)
+> +{
+> +	if (!q->mq_ops || !q->mq_ops->poll ||
+> +	    !test_bit(QUEUE_FLAG_POLL_FORCE, &q->queue_flags))
+> +		return false;
+> +	return true;
+> +}
 
-Cheers
+The flag shouldn't be set if it doesn't make sense, and these checks are
+re-done inside blk_poll, anyway.  Just do the test bit:
 
-Stephen
+	return test_bit(QUEUE_FLAG_POLL_FORCE, &q->queue_flags);
+
+>  bool blk_poll(struct request_queue *q, blk_qc_t cookie)
+>  {
+>  	struct blk_plug *plug;
+> diff --git a/fs/direct-io.c b/fs/direct-io.c
+> index 476f1ec..2775552 100644
+> --- a/fs/direct-io.c
+> +++ b/fs/direct-io.c
+> @@ -450,7 +450,12 @@ static struct bio *dio_await_one(struct dio *dio)
+>  		__set_current_state(TASK_UNINTERRUPTIBLE);
+>  		dio->waiter = current;
+>  		spin_unlock_irqrestore(&dio->bio_lock, flags);
+> -		if (!(dio->iocb->ki_flags & IOCB_HIPRI) ||
+> +		/*
+> +		 * Polling must be enabled explicitly on a per-IO basis,
+> +		 * or through the queue's sysfs io_poll_force control
+> +		 */
+> +		if (!((dio->iocb->ki_flags & IOCB_HIPRI) ||
+> +		      (blk_force_poll(bdev_get_queue(dio->bio_bdev)))) ||
+>  		    !blk_poll(bdev_get_queue(dio->bio_bdev), dio->bio_cookie))
+
+Make a local variable for the queue, please.
+
+-Jeff
