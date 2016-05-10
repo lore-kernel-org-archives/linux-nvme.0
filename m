@@ -1,45 +1,28 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 10 May 2016 15:14:28 +0200
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 10 May 2016 15:16:45 +0200
 Subject: [PATCH] NVMe: Only release requested regions
-Message-ID: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
+In-Reply-To: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
+References: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
+Message-ID: <5731DF3D.4000306@suse.de>
 
-The NVMe driver only requests the PCIe device's memory regions but releases
-all possible regions (including eventual I/O regions). This leads to a stale
-warning entry in dmesg about freeing non existent resources.
+On 05/10/2016 03:14 PM, Johannes Thumshirn wrote:
+> The NVMe driver only requests the PCIe device's memory regions but releases
+> all possible regions (including eventual I/O regions). This leads to a stale
+> warning entry in dmesg about freeing non existent resources.
+> 
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> ---
+>  drivers/nvme/host/pci.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- drivers/nvme/host/pci.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Cheers,
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index eec73fe..6f5ad07 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1759,9 +1759,14 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 
- static void nvme_dev_unmap(struct nvme_dev *dev)
- {
-+	struct pci_dev *pdev = to_pci_dev(dev->dev);
-+	int bars;
-+
- 	if (dev->bar)
- 		iounmap(dev->bar);
--	pci_release_regions(to_pci_dev(dev->dev));
-+
-+	bars = pci_select_bars(pdev, IORESOURCE_MEM);
-+	pci_release_selected_regions(pdev, bars);
- }
- 
- static void nvme_pci_disable(struct nvme_dev *dev)
-@@ -1998,7 +2003,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 
-        return 0;
-   release:
--       pci_release_regions(pdev);
-+       pci_release_selected_regions(pdev, bars);
-        return -ENODEV;
- }
- 
+Hannes
 -- 
-1.8.5.6
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
