@@ -1,28 +1,32 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 10 May 2016 15:16:45 +0200
-Subject: [PATCH] NVMe: Only release requested regions
-In-Reply-To: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
-References: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
-Message-ID: <5731DF3D.4000306@suse.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 10 May 2016 11:27:09 -0400
+Subject: [PATCH 2/2] nvme: switch to use pci_alloc_irq_vectors
+In-Reply-To: <1462457096-19795-3-git-send-email-hch@lst.de>
+References: <1462457096-19795-1-git-send-email-hch@lst.de>
+ <1462457096-19795-3-git-send-email-hch@lst.de>
+Message-ID: <20160510152708.GB21151@localhost.localdomain>
 
-On 05/10/2016 03:14 PM, Johannes Thumshirn wrote:
-> The NVMe driver only requests the PCIe device's memory regions but releases
-> all possible regions (including eventual I/O regions). This leads to a stale
-> warning entry in dmesg about freeing non existent resources.
-> 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-> ---
->  drivers/nvme/host/pci.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+On Thu, May 05, 2016@04:04:56PM +0200, Christoph Hellwig wrote:
+> -static void nvme_set_irq_hints(struct nvme_dev *dev)
+> -{
+> -	struct nvme_queue *nvmeq;
+> -	int i;
+> -
+> -	for (i = 0; i < dev->online_queues; i++) {
+> -		nvmeq = dev->queues[i];
+> -
+> -		if (!nvmeq->tags || !(*nvmeq->tags))
+> -			continue;
+> -
+> -		irq_set_affinity_hint(dev->entry[nvmeq->cq_vector].vector,
+> -					blk_mq_tags_cpumask(*nvmeq->tags));
+> -	}
+> -}
 
-Cheers,
+The above doesn't merge with linux-block/for-next since the scanning was
+moved to core. If this is going through linux-pci, then it merges fine,
+but someone will have to fix this later.
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Otherwise, looks good.
+
+Acked-by: Keith Busch <keith.busch at intel.com>
