@@ -1,32 +1,27 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 10 May 2016 11:27:09 -0400
-Subject: [PATCH 2/2] nvme: switch to use pci_alloc_irq_vectors
-In-Reply-To: <1462457096-19795-3-git-send-email-hch@lst.de>
-References: <1462457096-19795-1-git-send-email-hch@lst.de>
- <1462457096-19795-3-git-send-email-hch@lst.de>
-Message-ID: <20160510152708.GB21151@localhost.localdomain>
+Date: Tue, 10 May 2016 15:16:27 -0400
+Subject: [PATCH-4.7 2/3] NVMe: Short-cut removal on surprise hot-unplug
+In-Reply-To: <20160503080140.GB31768@infradead.org>
+References: <1462209128-12376-1-git-send-email-keith.busch@intel.com>
+ <1462209128-12376-3-git-send-email-keith.busch@intel.com>
+ <20160503080140.GB31768@infradead.org>
+Message-ID: <20160510191627.GB21426@localhost.localdomain>
 
-On Thu, May 05, 2016@04:04:56PM +0200, Christoph Hellwig wrote:
-> -static void nvme_set_irq_hints(struct nvme_dev *dev)
-> -{
-> -	struct nvme_queue *nvmeq;
-> -	int i;
-> -
-> -	for (i = 0; i < dev->online_queues; i++) {
-> -		nvmeq = dev->queues[i];
-> -
-> -		if (!nvmeq->tags || !(*nvmeq->tags))
-> -			continue;
-> -
-> -		irq_set_affinity_hint(dev->entry[nvmeq->cq_vector].vector,
-> -					blk_mq_tags_cpumask(*nvmeq->tags));
-> -	}
-> -}
+On Tue, May 03, 2016@01:01:40AM -0700, Christoph Hellwig wrote:
+> > @@ -1584,6 +1593,9 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
+> >  {
+> >  	struct nvme_ns *ns, *next;
+> >  
+> > +	if (ctrl->state == NVME_CTRL_DEAD)
+> > +		nvme_kill_queues(ctrl);
+> > +
+> >  	mutex_lock(&ctrl->namespaces_mutex);
+> >  	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list)
+> >  		nvme_ns_remove(ns);
+> 
+> Not happy about so much magic.. At least add comments explaining why
+> you're doing this, and that it's just an optimization.
 
-The above doesn't merge with linux-block/for-next since the scanning was
-moved to core. If this is going through linux-pci, then it merges fine,
-but someone will have to fix this later.
-
-Otherwise, looks good.
-
-Acked-by: Keith Busch <keith.busch at intel.com>
+We could just call nvme_kill_queues from the pci driver's nvme_remove
+instead of adding the state. I just thought this was universally useful
+for a non-graceful disconnect.
