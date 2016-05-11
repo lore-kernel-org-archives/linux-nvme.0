@@ -1,28 +1,78 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 11 May 2016 11:40:02 +0200
-Subject: [PATCH] NVMe: User initiated rescan
-In-Reply-To: <1462919010-2569-1-git-send-email-keith.busch@intel.com>
-References: <1462919010-2569-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20160511093930.GA25134@c203.arch.suse.de>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Wed, 11 May 2016 11:44:32 +0200
+Subject: [PATCH 1/2] PCI: Provide sensible irq vector alloc/free routines
+In-Reply-To: <20160511085049.GA20279@lst.de>
+References: <1462457096-19795-1-git-send-email-hch@lst.de>
+ <1462457096-19795-2-git-send-email-hch@lst.de>
+ <20160511074527.GA31347@agordeev.lab.eng.brq.redhat.com>
+ <20160511085049.GA20279@lst.de>
+Message-ID: <20160511094432.GB31347@agordeev.lab.eng.brq.redhat.com>
 
-On Tue, May 10, 2016@04:23:30PM -0600, Keith Busch wrote:
-> This provides user ioctl and sysfs methods that can be used to request
-> the driver rescan a controller and its namespaces. This is less harsh
-> than doing a controller reset, which temporarily halts all IO just to
-> surface a newly attached namespace.
+On Wed, May 11, 2016@10:50:49AM +0200, Christoph Hellwig wrote:
+> Hi Alexander,
 > 
-> This is mainly useful for controllers that implement namespace management,
-> but do not support the namespace notify change asynchronous event
-> notification.
+> > Moreover, patch 2/2 not only removed pci_enable_msi[x]_range()
+> > internal fallback logic (from desired number of interrupts to
+> > available number of interrupts), but it also removed MSI-X to
+> > MSI fallback.
 > 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> That is done in the very begining of the function, see the quoted
+> part of the patch just below:
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Nope. This check verifies MSI info, but fail to call arch-specific
+arch_setup_msi_irqs() function - that is where an arch actually
+does MSI interrupt allocation. I.e. some PPC platforms are known
+for its run-time quota which fails to allocate as many vectors as
+device MSI header reports. Such conditions are circumvented with a
+cycle in range family functions:
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+	do {
+		/* pci_enable_msix() calls arch_setup_msi_irqs() */
+		rc = pci_enable_msix(dev, entries, nvec);
+		if (rc < 0) {
+			return rc;
+		} else if (rc > 0) {
+			if (rc < minvec)
+				return -ENOSPC;
+			nvec = rc;
+		}
+	} while (rc);
+
+> > > +	if (dev->msix_cap && !(flags & PCI_IRQ_NOMSIX))
+> > > +		nr_vecs = min_t(unsigned int, nr_vecs, pci_msix_vec_count(dev));
+> > > +	else if (dev->msi_cap)
+> > > +		nr_vecs = min_t(unsigned int, nr_vecs, pci_msi_vec_count(dev));
+> > > +	else
+> > > +		goto use_legacy_irq;
+
+So above and below you choose either MSI-X or MSI. That is not a fallback
+from MSI-X to MSI, nor most possible number of whatever type of MSI vectors
+obtained from the underlying architecture. By contrast, the current NVMe
+driver implementation does it:
+
+	vecs = pci_enable_msix_range(pdev, dev->entry, 1, nr_io_queues);
+	if (vecs < 0) {
+		vecs = pci_enable_msi_range(pdev, 1, min(nr_io_queues, 32));
+		if (vecs < 0) {
+			vecs = 1;
+		} else {
+			for (i = 0; i < vecs; i++)
+				dev->entry[i].vector = i + pdev->irq;
+		}
+	}
+
+Again, I do not know what change to NVMe driver is needed. I am just
+pointing out that the changlog for pci_alloc_irq_vectors() function is
+not entirely correct and the change to NVMe driver might be undesirable.
+
+> > > +	if (dev->msix_cap && !(flags & PCI_IRQ_NOMSIX))
+> > > +		ret = __pci_enable_msix(dev, nr_vecs);
+> > > +	else
+> > > +		ret = __pci_enable_msi(dev, nr_vecs);
+> > 
+> > 1. No fallbacks.
+> 
+> I read through the code in msi.c in detail and could not find a legitimate
+> case where we have msix_cap but actually fail the MSI-X allocation.  If that
+> is a valid case I can happily add the fallback here as well.
+> 
