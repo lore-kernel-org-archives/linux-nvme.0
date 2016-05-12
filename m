@@ -1,40 +1,69 @@
-From: stephen.bates@microsemi.com (Stephen Bates)
-Date: Thu, 12 May 2016 17:27:59 +0000
-Subject: [PATCH 0/2] Block: Give option to force io polling
-In-Reply-To: <20160512070805.GE20802@infradead.org>
-References: <1459455554-2794-1-git-send-email-jonathan.derrick@intel.com>
- <D87A37E7A4AA544D853031D9A919C70B168FDA58@avsrvexchmbx2.microsemi.net>
- <20160508090257.GG15458@infradead.org>
- <D87A37E7A4AA544D853031D9A919C70B16901010@avsrvexchmbx2.microsemi.net>
- <20160512070805.GE20802@infradead.org>
-Message-ID: <D87A37E7A4AA544D853031D9A919C70B16905A94@avsrvexchmbx2.microsemi.net>
+From: mikew@google.com (Mike Waychison)
+Date: Thu, 12 May 2016 10:29:42 -0700
+Subject: [PATCH v2 RFC] nvme: improve performance for virtual NVMe devices
+In-Reply-To: <CAPst7KAAymUqbNwzxNAczduF6iLXQAMm5-auEdXZ_zHwhHtbWQ@mail.gmail.com>
+References: <1460657059-21214-1-git-send-email-helen.koike@collabora.co.uk>
+ <5718D697.3050800@collabora.co.uk> <20160421133823.GA13563@infradead.org>
+ <573362D1.3040401@collabora.co.uk>
+ <20160511174306.GB31047@localhost.localdomain>
+ <5734010C.5080800@collabora.co.uk> <20160512070525.GC20802@infradead.org>
+ <CALu-fzt8=kmzZDqKsRYE42Q+F+Zu3U_s6XErpd9izXdxG1cUMA@mail.gmail.com>
+ <CAPst7KAAymUqbNwzxNAczduF6iLXQAMm5-auEdXZ_zHwhHtbWQ@mail.gmail.com>
+Message-ID: <CAGTjWtAYfND1o_K6iji+VzQMCO8AryNzBK25Q5H+jA1QDZ78dA@mail.gmail.com>
 
-> 
-> 
-> On Mon, May 09, 2016@02:53:30PM +0000, Stephen Bates wrote:
-> > Christoph, this is a DRAM based NVMe device, the code for polling in
-> NVMe was merged in 4.5 right? We are using the inbox NVMe driver. Here is
-> some performance data:
-> >
-> > QD=1, single thread, random 4KB reads
-> >
-> > Polling Off: 12us Avg / 40us 99.99% ;
-> > Polling On: 9.5us Avg / 25us 99.99%
-> >
-> > Both the average and 99.99% reduction are of interest.
-> 
-> How does CPU usage look for common workloads with polling force enabled?
+On Thu, May 12, 2016@7:40 AM, Monish Shah <monish@google.com> wrote:
+>
+> [+mikew]
+>
+> Hello all,
+>
+> I don't have all the context, but this sounds like the same thing that Mike Waychison discussed with me recently.  Mike has been added to the Technical Working Group e-mail alias and can communicate on Google's behalf.  I'm happy to help, where I can.
+>
+> Monish
+>
+>
+> Monish Shah | Hardware Engineer | monish at google.com | 650-253-2822
+>
+>
+> On Thu, May 12, 2016@7:21 AM, Rob Nelson <rlnelson@google.com> wrote:
+>>
+>> Apologies for my absence here but I've since left my position working on virtualization here at Google.
+>>
+>> Monish is the lead contact for Google with the NVMe working group, so he might help here. However, Frank/Eric
+>> are still on the virtualization team and can comment if they are interested in moving forward here.
+>>
+>> RIght after I left (end of last year), I thought there was already a proposal that was virtualization friendly
+>> (not my extenstion) but something similar to reduce number of guest exits. I'll let Monish comment on
+>> that since I have no clue where it went.
+>>
+>> On Thu, May 12, 2016@12:05 AM, Christoph Hellwig <hch@infradead.org> wrote:
+>>>
+>>> On Thu, May 12, 2016@01:05:32AM -0300, Helen Koike wrote:
+>>> > No, I am not, that is why I am asking. If it's not a burden to you I would
+>>> > appreciate some help to start the proposal with the NVMe technical
+>>> > workgroup, otherwise I'll need to go through a more bureaucratic path to do
+>>> > it in Google's name.
+>>>
+>>> As far as I understand the disclosure rules prohibit memebers from
+>>> bringing up proposal from others.  It would be really helpful
+>>> if you/Google were part of this.
+>>
+>>
 
-Christoph, CPU load added. 
+-html
 
-Polling Off: 12us Avg / 40us 99.99% ; CPU 0.39 H/W Threads
-Polling On: 9.5us Avg / 25us 99.99% ; CPU 0.98 H/W Threads
+Hi Christoph,
 
-> If it's really an overall win we should just add a quirk to the NVMe driver to
-> always force polling for this device based on the PCI ID.
+Helen and team have been looking at this on my team's behalf.  In
+summary, we'd like to work together to get the feature in question
+accepted upstream, and understand that this needs to go through the
+working group for it to be adopted.
 
-While I like the "big hammer" approach I think we have to have some control over when it is swung ;-). Always turning on polling for a specific device seems a bit too Mj?lnir [1] of a solution. The bonus of polling is only when QD and/or thread-count is low and not everyone will use the device that way.  I also suspect other low latency NVMe devices are coming and having a quirk for each and every one of them does not make sense. We could use a module param or sysfs entry in the NVMe driver itself if we want to avoid having this control in the block layer?
+I'm relatively unfamiliar with affecting change through the working
+group so far, but would like to work together to do so nevertheless if
+this is what is required.  Please help direct what is needed from us
+to move this forward and we will do our best to oblige.
 
-Stephen
+Thanks,
 
-[1] Mj?lnir = Thor's Hammer ;-).
+Mike Waychison
