@@ -1,35 +1,50 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 12 May 2016 09:12:08 +0200
-Subject: [PATH v2] NVMe: init nvme queue before enabling irq
-In-Reply-To: <20160511191632.GC31047@localhost.localdomain>
-References: <1453286915-18814-1-git-send-email-mail_weber_wang@163.com>
- <e41c65a6b6637ef16f7f11ac147a9466@suse.de>
- <20160511191632.GC31047@localhost.localdomain>
-Message-ID: <20160512071207.GC25134@c203.arch.suse.de>
+Date: Thu, 12 May 2016 09:34:56 +0200
+Subject: [PATCH] NVMe: Only release requested regions
+In-Reply-To: <20160512070352.GB20802@infradead.org>
+References: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
+ <20160512070352.GB20802@infradead.org>
+Message-ID: <20160512073456.GD25134@c203.arch.suse.de>
 
-On Wed, May 11, 2016@03:16:33PM -0400, Keith Busch wrote:
-> On Wed, May 11, 2016@11:25:16AM +0200, Johannes Thumshirn wrote:
-> > What ever happened to this patch?
-> > I can easily reproduce the bug using
-> > while [ true ]; do rmmod nvme nvme_core; modprobe nvme; done
+On Thu, May 12, 2016@12:03:52AM -0700, Christoph Hellwig wrote:
+> >  static void nvme_dev_unmap(struct nvme_dev *dev)
+> >  {
+> > +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> > +	int bars;
+> > +
+> >  	if (dev->bar)
+> >  		iounmap(dev->bar);
+> > -	pci_release_regions(to_pci_dev(dev->dev));
+> > +
+> > +	bars = pci_select_bars(pdev, IORESOURCE_MEM);
+> > +	pci_release_selected_regions(pdev, bars);
 > 
-> This patch was supposed to fix using a doorbell between resets when the
-> driver had BAR0 unmapped. We don't ever unmap the bar anymore, so this
-> patch shouldn't be necessary: the doorbell is already set during queue
-> allocation before requset_irq.
+> This looks fine, but I really hate this API.
 > 
-> The test doesn't seem like this patch would help either. It sounds
-> more like you're hitting somethine else if you don't have this fix:
-> 
->   https://git.kernel.org/cgit/linux/kernel/git/axboe/linux-block.git/commit/?h=for-linus&id=9bf2b972afeaffd173fe2ce211ebc555ea7e8a87
-> 
-> If you do have that fix already, I'd like to see the panic stack trace
-> (assuming that's what happened).
+> Can someone add these two nice helpers to pci.h:
 
-Yup, having that commit.
+Well I could send a patch, but then this is your code...
 
-I'm going to reproduce (with current Linus' master) w/o the patch applied
-later today.
+> 
+> static inline int
+> pci_request_mem_regions(struct pci_dev *pdev, const char *name)
+> {
+> 	return pci_request_selected_regions(pdev,
+> 			pci_select_bars(pdev, IORESOURCE_MEM), name);
+> }
+> 
+> static inline void
+> pci_release_mem_regions(struct pci_dev *pdev)
+> {
+> 	return pci_release_selected_regions(pdev,
+> 			pci_select_bars(pdev, IORESOURCE_MEM));
+> }
+> 
+> But for now this should do it:
+> 
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+Thanks
 
 -- 
 Johannes Thumshirn                                          Storage
