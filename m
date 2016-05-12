@@ -1,53 +1,29 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 12 May 2016 08:13:30 -0600
-Subject: [PATCH] nvme/pci: Provide SR-IOV support
-Message-ID: <1463062410-10009-1-git-send-email-keith.busch@intel.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 12 May 2016 16:16:50 +0200
+Subject: [PATCHv2] NVMe: Allow user initiated rescan
+In-Reply-To: <1463061497-8742-1-git-send-email-keith.busch@intel.com>
+References: <1463061497-8742-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20160512141650.GB17154@c203.arch.suse.de>
 
-This registers a standard boiler-plate sr-iov callback for nvme.
+On Thu, May 12, 2016@07:58:17AM -0600, Keith Busch wrote:
+> This exposes ioctl and sysfs methods a user can invoke to request the
+> driver rescan a controller and its namespaces. This is less harsh than
+> doing a controller reset, which temporarilly halts all IO, just to
+> surface a newly attached namespace.
+> 
+> This is mainly useful for controllers that implement the namespace
+> management command, but do not support the namespace notify change
+> asynchronous event notification.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Still looks OK for me,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 9c57a10..9bc0c19 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2033,6 +2033,26 @@ static void nvme_remove(struct pci_dev *pdev)
- 	nvme_put_ctrl(&dev->ctrl);
- }
- 
-+static int nvme_pci_sriov_configure(struct pci_dev *pdev, int numvfs)
-+{
-+	int ret = 0;
-+
-+	if (!pdev->is_physfn)
-+		return -EPERM;
-+
-+	if (numvfs == 0) {
-+		if (pci_vfs_assigned(pdev)) {
-+			dev_warn(&pdev->dev,
-+				"Cannot disable SR-IOV VFs while assigned\n");
-+			return -EPERM;
-+		}
-+		pci_disable_sriov(pdev);
-+	} else
-+		ret = pci_enable_sriov(pdev, numvfs);
-+
-+	return ret ? ret : numvfs;
-+}
-+
- #ifdef CONFIG_PM_SLEEP
- static int nvme_suspend(struct device *dev)
- {
-@@ -2127,6 +2147,7 @@ static struct pci_driver nvme_driver = {
- 	.driver		= {
- 		.pm	= &nvme_dev_pm_ops,
- 	},
-+	.sriov_configure = nvme_pci_sriov_configure,
- 	.err_handler	= &nvme_err_handler,
- };
- 
 -- 
-2.7.2
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
