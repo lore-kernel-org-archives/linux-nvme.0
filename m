@@ -1,64 +1,79 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 12 May 2016 14:19:33 +0200
-Subject: [PATCH 1/2] PCI: Provide sensible irq vector alloc/free routines
-In-Reply-To: <20160512121155.GB8681@agordeev.lab.eng.brq.redhat.com>
-References: <1462457096-19795-1-git-send-email-hch@lst.de>
- <1462457096-19795-2-git-send-email-hch@lst.de>
- <20160511074527.GA31347@agordeev.lab.eng.brq.redhat.com>
- <20160511085049.GA20279@lst.de>
- <20160511094432.GB31347@agordeev.lab.eng.brq.redhat.com>
- <20160512073552.GA4027@lst.de>
- <20160512094432.GA14671@agordeev.lab.eng.brq.redhat.com>
- <20160512110318.GA9192@lst.de>
- <20160512121155.GB8681@agordeev.lab.eng.brq.redhat.com>
-Message-ID: <20160512121933.GA11084@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 12 May 2016 07:58:17 -0600
+Subject: [PATCHv2] NVMe: Allow user initiated rescan
+Message-ID: <1463061497-8742-1-git-send-email-keith.busch@intel.com>
 
-On Thu, May 12, 2016@02:11:57PM +0200, Alexander Gordeev wrote:
-> Not this way. MSI vectors could be a scarce resource in a platform. So
-> even though devices could support more MSI-Xs than MSIs the underlying
-> platform might fail to fulfil a device request. 
+This exposes ioctl and sysfs methods a user can invoke to request the
+driver rescan a controller and its namespaces. This is less harsh than
+doing a controller reset, which temporarilly halts all IO, just to
+surface a newly attached namespace.
 
-I can go back to just calling the existing exported functions like
-the first version did for now, that'll handle it for now.
+This is mainly useful for controllers that implement the namespace
+management command, but do not support the namespace notify change
+asynchronous event notification.
 
-> > > Another thing, pci_alloc_irq_vectors() tries to allocate vectors in a
-> > > range from 1 to nr_vecs now. So this function implicitly falls into
-> > > the other two range functions family and therefore:
-> > > 
-> > >   (a) pci_alloc_irq_vectors() name is not perfec;
-> > 
-> > What would you call it instead?
-> 
-> I do not know, really :( I would expect "range" within the name since
-> a range requested indeed, but I am just hinting here.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+v1 -> v2:
 
-We're requesting multiple vectors, so I think the naming should be fine.
+  Removed the nvme_queue_scan error returns. It had a wrong return
+  code in the successful case before, but even in the error case, the
+  information it conveys to the user isn't userful.
 
-> > >   (b) why not introduce 'minvec' minimal number of interrupts then?
-> > >       We could have a handy pci_enable_irq_range() as result;
-> > 
-> > That seems pretty pointless, when the caller can simply treat a too
-> > small number as failure and use the existing failure path for that.
-> 
-> There was a huge discussion on this few years ago, when the range
-> functions were introduced. Actually, the prototypes of these two is
-> the outcome of that discussion. I almost sure your point was expressed
-> by many at the time ;)
+ drivers/nvme/host/core.c        | 15 +++++++++++++++
+ include/uapi/linux/nvme_ioctl.h |  1 +
+ 2 files changed, 16 insertions(+)
 
-A quick audit shows that there are indeed a few users of this
-interface.  I can add pci_alloc_irq_vectors_range that allows passing
-a minvec, and the old pci_alloc_irq_vectors interface for everyone
-who wants to keep it simple.
-
-> > pci_enable_msi_range still has a horrible API that forces the caller
-> > to deal with the irq numbers differently than the MSI-X case, so it
-> > should also go away in the long run.
-> 
-> Well, if we introduce pci_enable_irq_range() (or something) and
-> pci_get_dev_irq(int vector) (or something) that covers MSI-X, MSI and
-> legacy IRQs then we can get it done now. Your pci_alloc_irq_vectors()
-> is just few steps from there, huh?
-
-Or we can just look at pdev->irqs as in my patch.  That'll work without
-much overhead for the single IRQ case as it can just point to ->irq,
-and gives a neat interface for MSI-X and the rare multi-MSI case.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2df0351d..a6a89da 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1216,6 +1216,9 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ 		return ctrl->ops->reset_ctrl(ctrl);
+ 	case NVME_IOCTL_SUBSYS_RESET:
+ 		return nvme_reset_subsystem(ctrl);
++	case NVME_IOCTL_RESCAN:
++		nvme_queue_scan(ctrl);
++		return 0;
+ 	default:
+ 		return -ENOTTY;
+ 	}
+@@ -1243,6 +1246,17 @@ static ssize_t nvme_sysfs_reset(struct device *dev,
+ }
+ static DEVICE_ATTR(reset_controller, S_IWUSR, NULL, nvme_sysfs_reset);
+ 
++static ssize_t nvme_sysfs_rescan(struct device *dev,
++				struct device_attribute *attr, const char *buf,
++				size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	nvme_queue_scan(ctrl);
++	return count;
++}
++static DEVICE_ATTR(rescan_controller, S_IWUSR, NULL, nvme_sysfs_rescan);
++
+ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
+ 								char *buf)
+ {
+@@ -1346,6 +1360,7 @@ nvme_show_int_function(cntlid);
+ 
+ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_reset_controller.attr,
++	&dev_attr_rescan_controller.attr,
+ 	&dev_attr_model.attr,
+ 	&dev_attr_serial.attr,
+ 	&dev_attr_firmware_rev.attr,
+diff --git a/include/uapi/linux/nvme_ioctl.h b/include/uapi/linux/nvme_ioctl.h
+index c4b2a3f..50ff21f 100644
+--- a/include/uapi/linux/nvme_ioctl.h
++++ b/include/uapi/linux/nvme_ioctl.h
+@@ -61,5 +61,6 @@ struct nvme_passthru_cmd {
+ #define NVME_IOCTL_IO_CMD	_IOWR('N', 0x43, struct nvme_passthru_cmd)
+ #define NVME_IOCTL_RESET	_IO('N', 0x44)
+ #define NVME_IOCTL_SUBSYS_RESET	_IO('N', 0x45)
++#define NVME_IOCTL_RESCAN	_IO('N', 0x46)
+ 
+ #endif /* _UAPI_LINUX_NVME_IOCTL_H */
+-- 
+2.7.2
