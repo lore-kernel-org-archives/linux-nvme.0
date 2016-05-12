@@ -1,32 +1,24 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 12 May 2016 00:06:18 -0700
-Subject: [PATCH-4.7 2/3] NVMe: Short-cut removal on surprise hot-unplug
-In-Reply-To: <20160510191627.GB21426@localhost.localdomain>
-References: <1462209128-12376-1-git-send-email-keith.busch@intel.com>
- <1462209128-12376-3-git-send-email-keith.busch@intel.com>
- <20160503080140.GB31768@infradead.org>
- <20160510191627.GB21426@localhost.localdomain>
-Message-ID: <20160512070618.GD20802@infradead.org>
+From: hch@infradead.org (hch@infradead.org)
+Date: Thu, 12 May 2016 00:08:05 -0700
+Subject: [PATCH 0/2] Block: Give option to force io polling
+In-Reply-To: <D87A37E7A4AA544D853031D9A919C70B16901010@avsrvexchmbx2.microsemi.net>
+References: <1459455554-2794-1-git-send-email-jonathan.derrick@intel.com>
+ <D87A37E7A4AA544D853031D9A919C70B168FDA58@avsrvexchmbx2.microsemi.net>
+ <20160508090257.GG15458@infradead.org>
+ <D87A37E7A4AA544D853031D9A919C70B16901010@avsrvexchmbx2.microsemi.net>
+Message-ID: <20160512070805.GE20802@infradead.org>
 
-On Tue, May 10, 2016@03:16:27PM -0400, Keith Busch wrote:
-> On Tue, May 03, 2016@01:01:40AM -0700, Christoph Hellwig wrote:
-> > > @@ -1584,6 +1593,9 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
-> > >  {
-> > >  	struct nvme_ns *ns, *next;
-> > >  
-> > > +	if (ctrl->state == NVME_CTRL_DEAD)
-> > > +		nvme_kill_queues(ctrl);
-> > > +
-> > >  	mutex_lock(&ctrl->namespaces_mutex);
-> > >  	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list)
-> > >  		nvme_ns_remove(ns);
-> > 
-> > Not happy about so much magic.. At least add comments explaining why
-> > you're doing this, and that it's just an optimization.
+On Mon, May 09, 2016@02:53:30PM +0000, Stephen Bates wrote:
+> Christoph, this is a DRAM based NVMe device, the code for polling in NVMe was merged in 4.5 right? We are using the inbox NVMe driver. Here is some performance data:
 > 
-> We could just call nvme_kill_queues from the pci driver's nvme_remove
-> instead of adding the state. I just thought this was universally useful
-> for a non-graceful disconnect.
+> QD=1, single thread, random 4KB reads
+> 
+> Polling Off: 12us Avg / 40us 99.99% ;
+> Polling On: 9.5us Avg / 25us 99.99%
+> 
+> Both the average and 99.99% reduction are of interest.
 
-I think it's useful, it's just a little too magic to go without a
-comment.  Can you add comments explaining it and resend?
+How does CPU usage look for common workloads with polling force
+enabled?  If it's really an overall win we should just add a quirk
+to the NVMe driver to always force polling for this device based on the
+PCI ID.
