@@ -1,37 +1,40 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 12 May 2016 00:00:01 -0700
-Subject: [PATCH] NVMe: User initiated rescan
-In-Reply-To: <1462919010-2569-1-git-send-email-keith.busch@intel.com>
-References: <1462919010-2569-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20160512070001.GA20802@infradead.org>
+Date: Thu, 12 May 2016 00:03:52 -0700
+Subject: [PATCH] NVMe: Only release requested regions
+In-Reply-To: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
+References: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
+Message-ID: <20160512070352.GB20802@infradead.org>
 
-Looks fine in general, but a little nitpick below:
-
-> -void nvme_queue_scan(struct nvme_ctrl *ctrl)
-> +int nvme_queue_scan(struct nvme_ctrl *ctrl)
+>  static void nvme_dev_unmap(struct nvme_dev *dev)
 >  {
->  	/*
->  	 * Do not queue new scan work when a controller is reset during
->  	 * removal.
->  	 */
->  	if (ctrl->state == NVME_CTRL_LIVE)
-> -		schedule_work(&ctrl->scan_work);
-> +		return schedule_work(&ctrl->scan_work);
-> +	return -EBUSY;
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +	int bars;
+> +
+>  	if (dev->bar)
+>  		iounmap(dev->bar);
+> -	pci_release_regions(to_pci_dev(dev->dev));
+> +
+> +	bars = pci_select_bars(pdev, IORESOURCE_MEM);
+> +	pci_release_selected_regions(pdev, bars);
 
-Do we really care about that EBUSY?  If the controller is being
-reset it will be rescanned after that reset has completed, and if
-it's removed there is no point in the error either.
+This looks fine, but I really hate this API.
 
-Also returning schedule_work returns 1 if it successfully queue the
-job, and false if it's already queued up, so you'll return something
-bogus for the normal case.
+Can someone add these two nice helpers to pci.h:
 
-I'd suggest to not return an error at all here, but if you really want to
-keep the EBUSY we should at least ignore the schedule_work return
-value, and write the conditional the natural way around:
+static inline int
+pci_request_mem_regions(struct pci_dev *pdev, const char *name)
+{
+	return pci_request_selected_regions(pdev,
+			pci_select_bars(pdev, IORESOURCE_MEM), name);
+}
 
-	if (ctrl->state != NVME_CTRL_LIVE)
-		return -EBUSY;
-	schedule_work(&ctrl->scan_work);
-	return 0;
+static inline void
+pci_release_mem_regions(struct pci_dev *pdev)
+{
+	return pci_release_selected_regions(pdev,
+			pci_select_bars(pdev, IORESOURCE_MEM));
+}
+
+But for now this should do it:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
