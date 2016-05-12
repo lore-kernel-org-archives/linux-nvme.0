@@ -1,24 +1,40 @@
-From: hch@infradead.org (hch@infradead.org)
-Date: Thu, 12 May 2016 00:08:05 -0700
-Subject: [PATCH 0/2] Block: Give option to force io polling
-In-Reply-To: <D87A37E7A4AA544D853031D9A919C70B16901010@avsrvexchmbx2.microsemi.net>
-References: <1459455554-2794-1-git-send-email-jonathan.derrick@intel.com>
- <D87A37E7A4AA544D853031D9A919C70B168FDA58@avsrvexchmbx2.microsemi.net>
- <20160508090257.GG15458@infradead.org>
- <D87A37E7A4AA544D853031D9A919C70B16901010@avsrvexchmbx2.microsemi.net>
-Message-ID: <20160512070805.GE20802@infradead.org>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 12 May 2016 09:12:08 +0200
+Subject: [PATH v2] NVMe: init nvme queue before enabling irq
+In-Reply-To: <20160511191632.GC31047@localhost.localdomain>
+References: <1453286915-18814-1-git-send-email-mail_weber_wang@163.com>
+ <e41c65a6b6637ef16f7f11ac147a9466@suse.de>
+ <20160511191632.GC31047@localhost.localdomain>
+Message-ID: <20160512071207.GC25134@c203.arch.suse.de>
 
-On Mon, May 09, 2016@02:53:30PM +0000, Stephen Bates wrote:
-> Christoph, this is a DRAM based NVMe device, the code for polling in NVMe was merged in 4.5 right? We are using the inbox NVMe driver. Here is some performance data:
+On Wed, May 11, 2016@03:16:33PM -0400, Keith Busch wrote:
+> On Wed, May 11, 2016@11:25:16AM +0200, Johannes Thumshirn wrote:
+> > What ever happened to this patch?
+> > I can easily reproduce the bug using
+> > while [ true ]; do rmmod nvme nvme_core; modprobe nvme; done
 > 
-> QD=1, single thread, random 4KB reads
+> This patch was supposed to fix using a doorbell between resets when the
+> driver had BAR0 unmapped. We don't ever unmap the bar anymore, so this
+> patch shouldn't be necessary: the doorbell is already set during queue
+> allocation before requset_irq.
 > 
-> Polling Off: 12us Avg / 40us 99.99% ;
-> Polling On: 9.5us Avg / 25us 99.99%
+> The test doesn't seem like this patch would help either. It sounds
+> more like you're hitting somethine else if you don't have this fix:
 > 
-> Both the average and 99.99% reduction are of interest.
+>   https://git.kernel.org/cgit/linux/kernel/git/axboe/linux-block.git/commit/?h=for-linus&id=9bf2b972afeaffd173fe2ce211ebc555ea7e8a87
+> 
+> If you do have that fix already, I'd like to see the panic stack trace
+> (assuming that's what happened).
 
-How does CPU usage look for common workloads with polling force
-enabled?  If it's really an overall win we should just add a quirk
-to the NVMe driver to always force polling for this device based on the
-PCI ID.
+Yup, having that commit.
+
+I'm going to reproduce (with current Linus' master) w/o the patch applied
+later today.
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
