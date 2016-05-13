@@ -1,63 +1,32 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Fri, 13 May 2016 12:01:11 -0600
-Subject: [RFC 1/2] block: allow other bd i_node flags when DAX is disabled
-In-Reply-To: <CAPcyv4j-ioz0FensEkBWR1QyYwSe2rjJ9N+gY+qV7+Y8KzM+Dg@mail.gmail.com>
-References: <1463074986-3070-1-git-send-email-jonathan.derrick@intel.com>
- <1463074986-3070-2-git-send-email-jonathan.derrick@intel.com>
- <CAA9_cmeaa6qGKeDfRXWm-BkNtw0hJrbc9kqsLfOEJ2ZE-Mubgw@mail.gmail.com>
- <x49d1op982x.fsf@segfault.boston.devel.redhat.com>
- <CAPcyv4j-ioz0FensEkBWR1QyYwSe2rjJ9N+gY+qV7+Y8KzM+Dg@mail.gmail.com>
-Message-ID: <20160513180110.GA1259@localhost.localdomain>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 13 May 2016 12:09:51 -0600
+Subject: [PATCH] NVMe: Allocate queues only for online cpus
+Message-ID: <1463162991-31653-1-git-send-email-keith.busch@intel.com>
 
-On Fri, May 13, 2016@10:53:37AM -0700, Dan Williams wrote:
-> On Fri, May 13, 2016@10:33 AM, Jeff Moyer <jmoyer@redhat.com> wrote:
-> > Dan Williams <dan.j.williams at intel.com> writes:
-> >
-> >> On Thu, May 12, 2016 at 10:43 AM, Jon Derrick
-> >> <jonathan.derrick@intel.com> wrote:
-> >>> When DAX is not compiled into the kernel or the device does not support
-> >>> direct-access, the block device file's inode flags are fully cleared.
-> >>> This patch changes it to only clear the S_DAX flag when DAX is disabled.
-> >>>
-> >>> This reverts to i_flags behavior prior to
-> >>> bbab37ddc20bae4709bca8745c128c4f46fe63c5
-> >>>
-> >>> Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
-> >>> ---
-> >>>  fs/block_dev.c | 2 +-
-> >>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/fs/block_dev.c b/fs/block_dev.c
-> >>> index 20a2c02..d4fa725 100644
-> >>> --- a/fs/block_dev.c
-> >>> +++ b/fs/block_dev.c
-> >>> @@ -1208,7 +1208,7 @@ static int __blkdev_get(struct block_device *bdev, fmode_t mode, int for_part)
-> >>>                 if (IS_ENABLED(CONFIG_BLK_DEV_DAX) && disk->fops->direct_access)
-> >>>                         bdev->bd_inode->i_flags = S_DAX;
-> >>>                 else
-> >>> -                       bdev->bd_inode->i_flags = 0;
-> >>> +                       bdev->bd_inode->i_flags &= ~S_DAX;
-> >>
-> >> Setting S_DAX is atomic, but the above change makes it a non-atomic
-> >> read-modify-write.  Do we need exclusion / locking in this path?
-> >
-> > First, I don't see how you'd ever get a read-modify-write here, as S_DAX
-> > surely won't ever be set if direct_access isn't supported.  Second,
-> > there is existing code that already does this very thing.  See further
-> > down in __blkdev_get:
-> >
-> >                         if (!ret) {
-> >                                 bd_set_size(bdev,(loff_t)get_capacity(disk)<<9);
-> >                                 if (!blkdev_dax_capable(bdev))
-> >                                         bdev->bd_inode->i_flags &= ~S_DAX;
-> >                         }
-> >
-> > What relies on S_DAX being set or cleared atomically?
-> 
-> So, when I wrote the above "&= ~S_DAX" I was worried about the
-> non-atomic update with respect to the BLKDAXSET ioctl, but we killed
-> BLKDAXSET so the worry went away.  Now an inode flag setting ioctl is
-> back for the S_HIPRI case.  Can that collide with these other flag
-> touches?
+The driver previously requested allocating queues for the total possible
+number of CPUs so that blk-mq could rebalance these if CPUs were added
+after initialization. The number of hardware contexts can now be changed
+at runtime, so we only need to allocate the number of online queues
+since we can add more later.
 
-The S_DAX case is unclear to me, but the new ioctl certainly does need a i_mutex lock and to use inode_set_flags.
+Suggested-by: Jeff Lien <jeff.lien at hgst.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 9bc0c19..ac84711 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1394,7 +1394,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev->dev);
+ 	int result, i, vecs, nr_io_queues, size;
+ 
+-	nr_io_queues = num_possible_cpus();
++	nr_io_queues = num_online_cpus();
+ 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
+ 	if (result < 0)
+ 		return result;
+-- 
+2.7.2
