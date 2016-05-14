@@ -1,15 +1,42 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 13 May 2016 17:03:03 -0400
-Subject: Hang Condition in nvme_ns_remove
-In-Reply-To: <BL2PR04MB163363775AA16EECA5666CE92740@BL2PR04MB163.namprd04.prod.outlook.com>
-References: <BL2PR04MB163363775AA16EECA5666CE92740@BL2PR04MB163.namprd04.prod.outlook.com>
-Message-ID: <20160513210302.GA14531@localhost.localdomain>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Fri, 13 May 2016 18:02:45 -0600
+Subject: [RFCv2 0/3] Support for high-priority block device flag
+Message-ID: <1463184168-3381-1-git-send-email-jonathan.derrick@intel.com>
 
-On Fri, May 13, 2016@08:52:15PM +0000, Jeff Lien wrote:
-> I encountered another hang condition in the nvme_ns_remove function.  It's caused when nvme_ns_remove is called by nvme_scan_namespaces/__nvme_scan_namespaces.  In nvme_scan_namespaces, the namespaces_mutex is locked; nvme_ns_remove will also try to get that mutex right before the call to list_del_init.  When that handles it hangs there.   
-> 
-> It could be fixed by removing the mutex_lock call in nvme_ns_remove and then changing the code so that all other callers of ns_remove get the lock instead.  Since I'm not real familiar with this part of the code, I don't know if this is the best fix or not.   Asking for your input on that.   
 
-Should be fixed if you pick up this commit (and any dependencies):
+V2: Added inode locking as appropriate when setting i_flags
 
-  https://git.kernel.org/cgit/linux/kernel/git/axboe/linux-block.git/commit?id=b7b9c2278752e37dc7ae918cda823aa2a078e03b
+
+This set intends to recreate block polling (now HIPRI) behavior that was
+present in 4.5, where all IO on a queue could be selected to use
+block polling behavior. The set allows a block device file to subscribe
+to block polling on a block device granularity, rather than a per-queue
+granularity.
+
+There have been few-to-no arguments in support of the per-queue,
+always-poll functionality that 4.5 offered, moreso in favor of enabling
+polling on the entire block device (or indivual IOs as 4.6 offers).
+
+I've been made aware that streams and ioprio may supercede this
+functionality in the future, but I'm hoping this is an acceptable
+stopgap in the meantime.
+
+This set applies against 4.6-rc7 as well as Jens' for-4.7/core
+
+(I've also been made aware that it may not apply cleanly to 4.7 after
+several DAX changes)
+
+
+Jon Derrick (3):
+  block: allow other bd i_node flags when DAX is disabled
+  block: add helper for setting and clearing S_DAX on inode
+  block: Introduce S_HIPRI inode flag
+
+ block/ioctl.c           | 43 +++++++++++++++++++++++++++++++++++++++++++
+ fs/block_dev.c          | 23 +++++++++++++++++++----
+ include/linux/fs.h      |  2 ++
+ include/uapi/linux/fs.h |  2 ++
+ 4 files changed, 66 insertions(+), 4 deletions(-)
+
+-- 
+1.8.3.1
