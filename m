@@ -1,42 +1,34 @@
 From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Fri, 13 May 2016 18:02:45 -0600
-Subject: [RFCv2 0/3] Support for high-priority block device flag
-Message-ID: <1463184168-3381-1-git-send-email-jonathan.derrick@intel.com>
+Date: Fri, 13 May 2016 18:02:46 -0600
+Subject: [RFCv2 1/3] block: allow other bd i_node flags when DAX is disabled
+In-Reply-To: <1463184168-3381-1-git-send-email-jonathan.derrick@intel.com>
+References: <1463184168-3381-1-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <1463184168-3381-2-git-send-email-jonathan.derrick@intel.com>
 
+When DAX is not compiled into the kernel or the device does not support
+direct-access, the block device file's inode flags are fully cleared.
+This patch changes it to only clear the S_DAX flag when DAX is disabled.
 
-V2: Added inode locking as appropriate when setting i_flags
+This reverts to i_flags behavior prior to
+bbab37ddc20bae4709bca8745c128c4f46fe63c5
 
+Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+---
+ fs/block_dev.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-This set intends to recreate block polling (now HIPRI) behavior that was
-present in 4.5, where all IO on a queue could be selected to use
-block polling behavior. The set allows a block device file to subscribe
-to block polling on a block device granularity, rather than a per-queue
-granularity.
-
-There have been few-to-no arguments in support of the per-queue,
-always-poll functionality that 4.5 offered, moreso in favor of enabling
-polling on the entire block device (or indivual IOs as 4.6 offers).
-
-I've been made aware that streams and ioprio may supercede this
-functionality in the future, but I'm hoping this is an acceptable
-stopgap in the meantime.
-
-This set applies against 4.6-rc7 as well as Jens' for-4.7/core
-
-(I've also been made aware that it may not apply cleanly to 4.7 after
-several DAX changes)
-
-
-Jon Derrick (3):
-  block: allow other bd i_node flags when DAX is disabled
-  block: add helper for setting and clearing S_DAX on inode
-  block: Introduce S_HIPRI inode flag
-
- block/ioctl.c           | 43 +++++++++++++++++++++++++++++++++++++++++++
- fs/block_dev.c          | 23 +++++++++++++++++++----
- include/linux/fs.h      |  2 ++
- include/uapi/linux/fs.h |  2 ++
- 4 files changed, 66 insertions(+), 4 deletions(-)
-
+diff --git a/fs/block_dev.c b/fs/block_dev.c
+index 20a2c02..d4fa725 100644
+--- a/fs/block_dev.c
++++ b/fs/block_dev.c
+@@ -1208,7 +1208,7 @@ static int __blkdev_get(struct block_device *bdev, fmode_t mode, int for_part)
+ 		if (IS_ENABLED(CONFIG_BLK_DEV_DAX) && disk->fops->direct_access)
+ 			bdev->bd_inode->i_flags = S_DAX;
+ 		else
+-			bdev->bd_inode->i_flags = 0;
++			bdev->bd_inode->i_flags &= ~S_DAX;
+ 
+ 		if (!partno) {
+ 			ret = -ENXIO;
 -- 
 1.8.3.1
