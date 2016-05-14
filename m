@@ -1,53 +1,32 @@
-From: elliott@hpe.com (Elliott, Robert (Persistent Memory))
-Date: Sat, 14 May 2016 05:05:59 +0000
-Subject: [RFCv2 2/3] block: add helper for setting and clearing S_DAX on
- inode
-In-Reply-To: <1463184168-3381-3-git-send-email-jonathan.derrick@intel.com>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Sat, 14 May 2016 07:22:29 -0700
+Subject: [RFCv2 3/3] block: Introduce S_HIPRI inode flag
+In-Reply-To: <1463184168-3381-4-git-send-email-jonathan.derrick@intel.com>
 References: <1463184168-3381-1-git-send-email-jonathan.derrick@intel.com>
- <1463184168-3381-3-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <94D0CD8314A33A4D9D801C0FE68B4029639701CA@G4W3202.americas.hpqcorp.net>
+ <1463184168-3381-4-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <CAPcyv4ibBEh7xm8jUX-aq0a2ecqbZugDa_L1K=dbFujbKaDVVw@mail.gmail.com>
+
+[ adding Martin, given his hint infrastructure that is in the works... ]
 
 
+On Fri, May 13, 2016@5:02 PM, Jon Derrick <jonathan.derrick@intel.com> wrote:
+> S_HIPRI is a hint that indicates the file (currently only block devices)
+> is a high priority file. This hint allows direct-io to the block device
+> to poll for completions if polling is available to the block device.
+>
+> The motivation for this patch comes from tiered caching solutions. A
+> user may wish to have low-latency block devices act as a cache for
+> higher-latency storage media.
+>
+> With the introduction of block polling, polling could be enabled on a
+> queue of a block device. The preadv2/pwritev2 sets allowed a user to
+> specify per-io polling, but removed the ability to poll per-queue.
+>
+> Instead of having a user modify their software to use preadv2/pwritev2,
+> this patch allows a user to set S_HIPRI on a block device file to request
+> all direct-io for this file to be polled.
 
-> -----Original Message-----
-> From: linux-block-owner at vger.kernel.org [mailto:linux-block-
-> owner at vger.kernel.org] On Behalf Of Jon Derrick
-> Sent: Friday, May 13, 2016 7:03 PM
-...
-> Subject: [RFCv2 2/3] block: add helper for setting and clearing S_DAX on
-> inode
-> 
-> inode->i_flags locking rules suggest using the i_mutex lock. This patch
-> adds a helper to do the locking and setting of S_DAX on the block device
-> inode.
-...
-> +static void bd_set_dax(struct block_device *bdev, bool enabled)
-> +{
-> +	struct inode *inode = bdev->bd_inode;
-> +
-> +	inode_lock(inode);
-> +	if (enabled)
-> +		inode->i_flags = S_DAX;
-> +	else
-> +		inode->i_flags &= ~S_DAX;
-> +	inode_unlock(inode);
-> +}
-
-This is not symmetric - setting wipes out any other bits, but
-clearing only clears the S_DAX bit. That seems confusing for
-a helper function.
-
-Using |= would be symmetric, but wouldn't replace what 
-__blkdev_get does (if what it does is appropriate).
-
-> @@ -1206,9 +1218,9 @@ static int __blkdev_get(struct block_device *bdev,
-> fmode_t mode, int for_part)
->  		bdev->bd_queue = disk->queue;
->  		bdev->bd_contains = bdev;
->  		if (IS_ENABLED(CONFIG_BLK_DEV_DAX) && disk->fops-
-> >direct_access)
-> -			bdev->bd_inode->i_flags = S_DAX;
-> +			bd_set_dax(bdev, 1);
->  		else
-> -			bdev->bd_inode->i_flags &= ~S_DAX;
-> +			bd_set_dax(bdev, 0);
+Setting aside whether this should be a per-task ioprio hint vs a block
+device inode hint, this single flag loses the granularity of whether
+reads or writes are polled.  Low latency reads with posted writes
+seems a valid configuration.
