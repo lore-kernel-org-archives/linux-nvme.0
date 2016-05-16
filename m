@@ -1,37 +1,45 @@
 From: nvme@elfenteich.de (Carina Willbold)
-Date: Mon, 16 May 2016 19:52:09 +0200
-Subject: [PATCH] NVMe: Recognize the MacBook9,1 NVMe controller
-Message-ID: <20160516175209.GA21751@speicherleck.de>
+Date: Mon, 16 May 2016 19:55:15 +0200
+Subject: Accessing the NVMe flash drive of the April 2016 MacBook 12"
+ (A1534) [SOLVED]
+In-Reply-To: <20160516144653.GA10776@localhost.localdomain>
+References: <10c3272709f4fc720d862c81da85e6e9@speicherleck.de>
+ <eaaba356177409f3a40afc33d938d42c@speicherleck.de>
+ <21472d94e79a410912937ae5722c2fb4@speicherleck.de>
+ <20160516144653.GA10776@localhost.localdomain>
+Message-ID: <21f8acc3ad1b38406b1f7ce45aed139d@www.speicherleck.de>
 
-With this patch, the flash drive of the April 2016 MacBook9,1 12"
-(A1534) is properly recognized and works just fine.
+Dear Keith,
 
-Signed-off-by: Carina Willbold <nvme at elfenteich.de>
+Am 2016-05-16 16:46, schrieb Keith Busch:
+> On Mon, May 16, 2016@04:59:51AM +0200, Carina Willbold wrote:
+[ Trying to get the flash disk on the new MacBook recognized ]
+>> I can now happily confirm that accessing the flash drive works using 
+>> kernel
+>> 4.6.0-rc7 and manually binding using:
+>>
+>>     echo 106b 2003 > /sys/bus/pci/drivers/nvme/new_id
+>>
+>> No controller resets or other IO errors occur even with (moderately)
+>> drive-intense activities like compiling and installing packages.
+>>
+>> I'll submit a patch which will make the manual binding superfluous 
+>> tomorrow.
+>
+> It was starting to sound like you might need to copy the current 
+> Apple
+> driver quirk for the 0x2001 device, but if it's working without, you
+> can just append the VID/DID to nvme's pci_device_id table.
 
----
- drivers/nvme/host/pci.c | 3 +++
- 1 file changed, 3 insertions(+)
+yes, thought so too, but it's working without. I can confirm that the 
+flash drive works fine and is automatically detected with the (trivial) 
+patch given in the other mail. The patch is against 4.6, but it applies 
+cleanly against the current linux-next and axboe/linux-block.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4fd733f..207c697 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1732,6 +1732,8 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 	/*
- 	 * Temporary fix for the Apple controller found in the MacBook8,1 and
- 	 * some MacBook7,1 to avoid controller resets and data loss.
-+	 * For the controller found in the MacBook9,1 (device ID 0x2003), it
-+	 * seems that this workaround is not necessary.
- 	 */
- 	if (pdev->vendor == PCI_VENDOR_ID_APPLE && pdev->device == 0x2001) {
- 		dev->q_depth = 2;
-@@ -2181,6 +2183,7 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
-+	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },  /* for the MacBook 9,1 */
- 	{ 0, }
- };
- MODULE_DEVICE_TABLE(pci, nvme_id_table);
--- 
-2.8.2
+In my boot scripts, I had to include a short sleep because I was too 
+lazy to properly wait for the device files to come into existence.
+
+Thank you for your answer!
+
+LLAP,
+Carina
