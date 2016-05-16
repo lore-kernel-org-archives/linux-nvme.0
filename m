@@ -1,56 +1,105 @@
-From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
-Date: Mon, 16 May 2016 19:19:34 -0300
-Subject: [PATCH] Use MICRO UINT_MAX instead of actual value
-In-Reply-To: <20160430101303.GB27909@huangminfeis-MacBook-Pro.local>
-References: <1461554009-1695-1-git-send-email-mnghuan@gmail.com>
- <20160430101303.GB27909@huangminfeis-MacBook-Pro.local>
-Message-ID: <201605162219.u4GMItgk019087@mx0a-001b2d01.pphosted.com>
+From: mlin@kernel.org (Ming Lin)
+Date: Mon, 16 May 2016 15:38:38 -0700
+Subject: [PATCH v2 1/2] nvme: switch to RCU freeing the namespace
+In-Reply-To: <1463295520.5272.4.camel@kernel.org>
+References: <1461619219-18144-1-git-send-email-mlin@kernel.org>
+ <1461619219-18144-2-git-send-email-mlin@kernel.org>
+ <1463295520.5272.4.camel@kernel.org>
+Message-ID: <CAF1ivSaOMqLP=a9KgNy0Gbn9w_KkCzwbuY80e=sCJR+4Vg2kNw@mail.gmail.com>
 
-On 04/30/2016 07:13 AM, Minfei Huang wrote:
-> Ping.
->
-> Any comment is appreciate.
-
-Hi Minfei, I guess a good idea would be to resend the patch with the 
-typo fixed, as a v2 patch. What do you think?
-
-Cheers,
-
-
-Guilherme
-
->
-> Thanks
-> Minfei
->
-> On 04/25/16@11:13P, Minfei Huang wrote:
->> It's more elegant to use MICRO UINT_MAX to represent the max value of
->> type unsigned int. So replace the actual value by using this MICRO.
+On Sat, May 14, 2016@11:58 PM, Ming Lin <mlin@kernel.org> wrote:
+> On Mon, 2016-04-25@14:20 -0700, Ming Lin wrote:
 >>
->> Signed-off-by: Minfei Huang <mnghuan at gmail.com>
->> ---
->>   drivers/nvme/host/core.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
+>> @@ -1654,8 +1655,8 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl)
+>>  {
+>>       struct nvme_ns *ns;
 >>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 643f457..2c0bb13 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -597,7 +597,7 @@ static void nvme_config_discard(struct nvme_ns *ns)
->>
->>   	ns->queue->limits.discard_alignment = logical_block_size;
->>   	ns->queue->limits.discard_granularity = logical_block_size;
->> -	blk_queue_max_discard_sectors(ns->queue, 0xffffffff);
->> +	blk_queue_max_discard_sectors(ns->queue, UINT_MAX);
->>   	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
->>   }
->>
->> --
->> 2.6.3
->>
+>> -     mutex_lock(&ctrl->namespaces_mutex);
+>> -     list_for_each_entry(ns, &ctrl->namespaces, list) {
+>> +     rcu_read_lock();
+>> +     list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
+>>               spin_lock_irq(ns->queue->queue_lock);
+>>               queue_flag_set(QUEUE_FLAG_STOPPED, ns->queue);
+>>               spin_unlock_irq(ns->queue->queue_lock);
+>> @@ -1663,7 +1664,7 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl)
+>>               blk_mq_cancel_requeue_work(ns->queue);
+
+Hi Keith,
+
+I haven't found a way to fix below bug.
+Could you help me to understand why blk_mq_cancel_requeue_work() here?
+
+I know blk_mq_cancel_requeue_work() was introduced in:
+
+commit c68ed59f534c318716c6189050af3c5ea03b8071
+Author: Keith Busch <keith.busch at intel.com>
+Date:   Wed Jan 7 18:55:44 2015 -0700
+
+    blk-mq: Let drivers cancel requeue_work
+
+    Kicking requeued requests will start h/w queues in a work_queue, which
+    may alter the driver's requested state to temporarily stop them. This
+    patch exports a method to cancel the q->requeue_work so a driver can be
+    assured stopped h/w queues won't be started up before it is ready.
+
+    Signed-off-by: Keith Busch <keith.busch at intel.com>
+    Signed-off-by: Jens Axboe <axboe at fb.com>
+
+
+Thanks,
+Ming
+
+
 >
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> Blame myself.
 >
+> We hold RCU lock, but blk_mq_cancel_requeue_work() may sleep.
+>
+> So "echo 1 > /sys/class/nvme/nvme0/reset_controller" triggers below
+> BUG.
+>
+> Thinking on the fix ...
+>
+> [ 2348.050146] BUG: sleeping function called from invalid context at /home/mlin/linux/kernel/workqueue.c:2783
+> [ 2348.062044] in_atomic(): 0, irqs_disabled(): 0, pid: 1696, name: kworker/u16:0
+> [ 2348.070810] 4 locks held by kworker/u16:0/1696:
+> [ 2348.076900]  #0:  ("nvme"){++++.+}, at: [<ffffffff81088c87>] process_one_work+0x147/0x430
+> [ 2348.086626]  #1:  ((&dev->reset_work)){+.+.+.}, at: [<ffffffff81088c87>] process_one_work+0x147/0x430
+> [ 2348.097326]  #2:  (&dev->shutdown_lock){+.+...}, at: [<ffffffffc08cef2a>] nvme_dev_disable+0x4a/0x350 [nvme]
+> [ 2348.108577]  #3:  (rcu_read_lock){......}, at: [<ffffffffc0813980>] nvme_stop_queues+0x0/0x1a0 [nvme_core]
+> [ 2348.119620] CPU: 3 PID: 1696 Comm: kworker/u16:0 Tainted: G           OE   4.6.0-rc3+ #197
+> [ 2348.129220] Hardware name: Dell Inc. OptiPlex 7010/0773VG, BIOS A12 01/10/2013
+> [ 2348.137827] Workqueue: nvme nvme_reset_work [nvme]
+> [ 2348.144012]  0000000000000000 ffff8800d94d3a48 ffffffff81379e4c ffff88011a639640
+> [ 2348.152867]  ffffffff81a12688 ffff8800d94d3a70 ffffffff81094814 ffffffff81a12688
+> [ 2348.161728]  0000000000000adf 0000000000000000 ffff8800d94d3a98 ffffffff81094904
+> [ 2348.170584] Call Trace:
+> [ 2348.174441]  [<ffffffff81379e4c>] dump_stack+0x85/0xc9
+> [ 2348.181004]  [<ffffffff81094814>] ___might_sleep+0x144/0x1f0
+> [ 2348.188065]  [<ffffffff81094904>] __might_sleep+0x44/0x80
+> [ 2348.194863]  [<ffffffff81087b5e>] flush_work+0x6e/0x290
+> [ 2348.201492]  [<ffffffff81087af0>] ? __queue_delayed_work+0x150/0x150
+> [ 2348.209266]  [<ffffffff81126cf5>] ? irq_work_queue+0x75/0x90
+> [ 2348.216335]  [<ffffffff810ca136>] ? wake_up_klogd+0x36/0x50
+> [ 2348.223330]  [<ffffffff810b7fa6>] ? mark_held_locks+0x66/0x90
+> [ 2348.230495]  [<ffffffff81088898>] ? __cancel_work_timer+0xf8/0x1c0
+> [ 2348.238088]  [<ffffffff8108883b>] __cancel_work_timer+0x9b/0x1c0
+> [ 2348.245496]  [<ffffffff810cadaa>] ? vprintk_default+0x1a/0x20
+> [ 2348.252629]  [<ffffffff81142558>] ? printk+0x48/0x4a
+> [ 2348.258984]  [<ffffffff8108896b>] cancel_work_sync+0xb/0x10
+> [ 2348.265951]  [<ffffffff81350fb0>] blk_mq_cancel_requeue_work+0x10/0x20
+> [ 2348.273868]  [<ffffffffc0813ae7>] nvme_stop_queues+0x167/0x1a0 [nvme_core]
+> [ 2348.282132]  [<ffffffffc0813980>] ? nvme_kill_queues+0x190/0x190 [nvme_core]
+> [ 2348.290568]  [<ffffffffc08cef51>] nvme_dev_disable+0x71/0x350 [nvme]
+> [ 2348.298308]  [<ffffffff810b8f40>] ? __lock_acquire+0xa80/0x1ad0
+> [ 2348.305614]  [<ffffffff810944b6>] ? finish_task_switch+0xa6/0x2c0
+> [ 2348.313099]  [<ffffffffc08cffd4>] nvme_reset_work+0x214/0xd40 [nvme]
+> [ 2348.320841]  [<ffffffff8176df17>] ? _raw_spin_unlock_irq+0x27/0x50
+> [ 2348.328410]  [<ffffffff81088ce3>] process_one_work+0x1a3/0x430
+> [ 2348.335633]  [<ffffffff81088c87>] ? process_one_work+0x147/0x430
+> [ 2348.343030]  [<ffffffff810891d6>] worker_thread+0x266/0x4a0
+> [ 2348.349986]  [<ffffffff8176871b>] ? __schedule+0x2fb/0x8d0
+> [ 2348.356852]  [<ffffffff81088f70>] ? process_one_work+0x430/0x430
+> [ 2348.364238]  [<ffffffff8108f529>] kthread+0xf9/0x110
+> [ 2348.370581]  [<ffffffff8176e912>] ret_from_fork+0x22/0x50
+> [ 2348.377344]  [<ffffffff8108f430>] ? kthread_create_on_node+0x230/0x230
