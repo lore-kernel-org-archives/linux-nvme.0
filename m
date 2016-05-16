@@ -1,30 +1,56 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Mon, 16 May 2016 14:39:29 -0500
-Subject: [PATCH 1/2] PCI: Provide sensible irq vector alloc/free routines
-In-Reply-To: <20160509224631.GB18501@localhost>
-References: <1462457096-19795-1-git-send-email-hch@lst.de>
- <1462457096-19795-2-git-send-email-hch@lst.de>
- <20160509224631.GB18501@localhost>
-Message-ID: <20160516193929.GA20759@localhost>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Mon, 16 May 2016 19:19:34 -0300
+Subject: [PATCH] Use MICRO UINT_MAX instead of actual value
+In-Reply-To: <20160430101303.GB27909@huangminfeis-MacBook-Pro.local>
+References: <1461554009-1695-1-git-send-email-mnghuan@gmail.com>
+ <20160430101303.GB27909@huangminfeis-MacBook-Pro.local>
+Message-ID: <201605162219.u4GMItgk019087@mx0a-001b2d01.pphosted.com>
 
-On Mon, May 09, 2016@05:46:31PM -0500, Bjorn Helgaas wrote:
-> On Thu, May 05, 2016@04:04:55PM +0200, Christoph Hellwig wrote:
-> > Add a new pci_alloc_irq_vectors helper that allocates MSI-X or multi-MSI
-> > vectors for PCI device while isolating the driver from the arcane details.
-> > 
-> > This include handling both MSI-X, MSI and legacy interrupt fallbacks
-> > transparently, automatic capping to the available vectors as well as storing
-> > the information needed for request_irq in the PCI device itself so that
-> > a lot of boiler plate code in the driver can be removed.
-> > 
-> > In the future this will also allow us to automatically set up spreading
-> > for interrupt vectors without having to duplicate it in all the drivers.
-> > 
-> > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> 
-> Thanks, I applied this to pci/msi for v4.7.
+On 04/30/2016 07:13 AM, Minfei Huang wrote:
+> Ping.
+>
+> Any comment is appreciate.
 
-Given the subsequent discussion, it seems a little premature to merge
-this for v4.7, so I'm dropping this for now.
+Hi Minfei, I guess a good idea would be to resend the patch with the 
+typo fixed, as a v2 patch. What do you think?
 
-Bjorn
+Cheers,
+
+
+Guilherme
+
+>
+> Thanks
+> Minfei
+>
+> On 04/25/16@11:13P, Minfei Huang wrote:
+>> It's more elegant to use MICRO UINT_MAX to represent the max value of
+>> type unsigned int. So replace the actual value by using this MICRO.
+>>
+>> Signed-off-by: Minfei Huang <mnghuan at gmail.com>
+>> ---
+>>   drivers/nvme/host/core.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 643f457..2c0bb13 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -597,7 +597,7 @@ static void nvme_config_discard(struct nvme_ns *ns)
+>>
+>>   	ns->queue->limits.discard_alignment = logical_block_size;
+>>   	ns->queue->limits.discard_granularity = logical_block_size;
+>> -	blk_queue_max_discard_sectors(ns->queue, 0xffffffff);
+>> +	blk_queue_max_discard_sectors(ns->queue, UINT_MAX);
+>>   	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
+>>   }
+>>
+>> --
+>> 2.6.3
+>>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
