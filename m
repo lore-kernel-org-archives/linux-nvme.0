@@ -1,56 +1,39 @@
 From: nvme@elfenteich.de (Carina Willbold)
-Date: Mon, 16 May 2016 01:48:00 +0200
+Date: Mon, 16 May 2016 04:59:51 +0200
 Subject: Accessing the NVMe flash drive of the April 2016 MacBook 12"
- (A1534)
-In-Reply-To: <10c3272709f4fc720d862c81da85e6e9@speicherleck.de>
+ (A1534) [SOLVED]
+In-Reply-To: <eaaba356177409f3a40afc33d938d42c@speicherleck.de>
 References: <10c3272709f4fc720d862c81da85e6e9@speicherleck.de>
-Message-ID: <eaaba356177409f3a40afc33d938d42c@speicherleck.de>
+ <eaaba356177409f3a40afc33d938d42c@speicherleck.de>
+Message-ID: <21472d94e79a410912937ae5722c2fb4@speicherleck.de>
 
 Dear NVMe hackers,
 
-Am 2016-05-15 22:19, schrieb Carina Willbold:
-> I'm trying to access the built-in flash drive of the new April 2016
-> MacBook 12" (A1534).
+I promise that this is the last time I'll spam this list.
 
-please forgive me for commiting a basic newbie mistake: I went with the
-default Arch Linux kernel (4.5.1) instead of going for the newest one.
-I'm sorry for the noise.
+Am 2016-05-16 01:48, schrieb Carina Willbold:
+> Am 2016-05-15 22:19, schrieb Carina Willbold:
+>> I'm trying to access the built-in flash drive of the new April 2016
+>> MacBook 12" (A1534).
+[...]
+> However actually trying to access one of the partitions (for 
+> instance, trying
+> to mount them or executing head -c 20 /dev/nvme0n1p1) results in 
+> timeouts:
+[...]
 
-With 4.6.0-rc7, after binding using
+After a reboot, the timeouts vanished.
+
+I can now happily confirm that accessing the flash drive works using 
+kernel 4.6.0-rc7 and manually binding using:
 
      echo 106b 2003 > /sys/bus/pci/drivers/nvme/new_id
 
-the flash disk *is* recognized:
+No controller resets or other IO errors occur even with (moderately) 
+drive-intense activities like compiling and installing packages.
 
-     [  126.904767] nvme nvme0: pci function 0000:01:00.0
-     [  127.117492]  nvme0n1: p1 p2 p3 p4
-
-However actually trying to access one of the partitions (for instance, 
-trying
-to mount them or executing head -c 20 /dev/nvme0n1p1) results in 
-timeouts:
-
-     [  187.354937] nvme nvme0: I/O 0 QID 0 timeout, reset controller
-     [  187.365069] nvme nvme0: I/O 0 QID 1 timeout, aborting
-     [  200.322625] nvme nvme0: completing aborted command with status: 
-0000
-     [  200.322634] nvme nvme0: completing aborted command with status: 
-0000
-     [  269.366379] nvme nvme0: I/O 1 QID 1 timeout, reset controller
-     [  308.027258] nvme nvme0: completing aborted command with status: 
-0000
-     [  308.027295] nvme nvme0: completing aborted command with status: 
-0000
-     [  308.027314] nvme nvme0: completing aborted command with status: 
-0000
-
-At one point printing the first few bytes of /dev/nvme0n1p1 actually 
-succeeded
-(giving the expected EFI/FAT32 headers).
-
-I'm happy to provide any additional information or start hacking the 
-driver code
-(if given a starting point).
+I'll submit a patch which will make the manual binding superfluous 
+tomorrow.
 
 LLAP,
 Carina
