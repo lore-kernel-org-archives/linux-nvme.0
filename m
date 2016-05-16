@@ -1,66 +1,37 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Mon, 16 May 2016 11:31:06 -0600
-Subject: [RFCv2 2/3] block: add helper for setting and clearing S_DAX on
- inode
-In-Reply-To: <94D0CD8314A33A4D9D801C0FE68B4029639701CA@G4W3202.americas.hpqcorp.net>
-References: <1463184168-3381-1-git-send-email-jonathan.derrick@intel.com>
- <1463184168-3381-3-git-send-email-jonathan.derrick@intel.com>
- <94D0CD8314A33A4D9D801C0FE68B4029639701CA@G4W3202.americas.hpqcorp.net>
-Message-ID: <20160516173106.GA1769@localhost.localdomain>
+From: nvme@elfenteich.de (Carina Willbold)
+Date: Mon, 16 May 2016 19:52:09 +0200
+Subject: [PATCH] NVMe: Recognize the MacBook9,1 NVMe controller
+Message-ID: <20160516175209.GA21751@speicherleck.de>
 
-On Sat, May 14, 2016@05:05:59AM +0000, Elliott, Robert (Persistent Memory) wrote:
-> 
-> 
-> > -----Original Message-----
-> > From: linux-block-owner at vger.kernel.org [mailto:linux-block-
-> > owner at vger.kernel.org] On Behalf Of Jon Derrick
-> > Sent: Friday, May 13, 2016 7:03 PM
-> ...
-> > Subject: [RFCv2 2/3] block: add helper for setting and clearing S_DAX on
-> > inode
-> > 
-> > inode->i_flags locking rules suggest using the i_mutex lock. This patch
-> > adds a helper to do the locking and setting of S_DAX on the block device
-> > inode.
-> ...
-> > +static void bd_set_dax(struct block_device *bdev, bool enabled)
-> > +{
-> > +	struct inode *inode = bdev->bd_inode;
-> > +
-> > +	inode_lock(inode);
-> > +	if (enabled)
-> > +		inode->i_flags = S_DAX;
-> > +	else
-> > +		inode->i_flags &= ~S_DAX;
-> > +	inode_unlock(inode);
-> > +}
-> 
-> This is not symmetric - setting wipes out any other bits, but
-> clearing only clears the S_DAX bit. That seems confusing for
-> a helper function.
-> 
-> Using |= would be symmetric, but wouldn't replace what 
-> __blkdev_get does (if what it does is appropriate).
-> 
-I'm under the impression that S_DAX is the only inode flag appropriate for a block device inode with direct-access, even though it does break the 'flag' semantic.
+With this patch, the flash drive of the April 2016 MacBook9,1 12"
+(A1534) is properly recognized and works just fine.
 
-It does bring up an interesting question about the fate of the block device inode when S_DAX is set and then cleared later due to the two other conditions that can clear S_DAX.
+Signed-off-by: Carina Willbold <nvme at elfenteich.de>
 
-I think the appropriate fix is to save the inode flags when setting DAX and restore them when we need to clear S_DAX.
+---
+ drivers/nvme/host/pci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> > @@ -1206,9 +1218,9 @@ static int __blkdev_get(struct block_device *bdev,
-> > fmode_t mode, int for_part)
-> >  		bdev->bd_queue = disk->queue;
-> >  		bdev->bd_contains = bdev;
-> >  		if (IS_ENABLED(CONFIG_BLK_DEV_DAX) && disk->fops-
-> > >direct_access)
-> > -			bdev->bd_inode->i_flags = S_DAX;
-> > +			bd_set_dax(bdev, 1);
-> >  		else
-> > -			bdev->bd_inode->i_flags &= ~S_DAX;
-> > +			bd_set_dax(bdev, 0);
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-block" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4fd733f..207c697 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1732,6 +1732,8 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 	/*
+ 	 * Temporary fix for the Apple controller found in the MacBook8,1 and
+ 	 * some MacBook7,1 to avoid controller resets and data loss.
++	 * For the controller found in the MacBook9,1 (device ID 0x2003), it
++	 * seems that this workaround is not necessary.
+ 	 */
+ 	if (pdev->vendor == PCI_VENDOR_ID_APPLE && pdev->device == 0x2001) {
+ 		dev->q_depth = 2;
+@@ -2181,6 +2183,7 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },  /* for the MacBook 9,1 */
+ 	{ 0, }
+ };
+ MODULE_DEVICE_TABLE(pci, nvme_id_table);
+-- 
+2.8.2
