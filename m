@@ -1,22 +1,31 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 17 May 2016 09:39:00 +0200
-Subject: [PATCH] NVMe: Recognize the MacBook9,1 NVMe controller
-In-Reply-To: <20160516175209.GA21751@speicherleck.de>
-References: <20160516175209.GA21751@speicherleck.de>
-Message-ID: <20160517073900.GG17154@c203.arch.suse.de>
+From: mnghuan@gmail.com (Minfei Huang)
+Date: Tue, 17 May 2016 15:58:41 +0800
+Subject: [PATCH V2] Use MACRO UINT_MAX instead of actual value
+Message-ID: <1463471921-20261-1-git-send-email-mnghuan@gmail.com>
 
-On Mon, May 16, 2016@07:52:09PM +0200, Carina Willbold wrote:
-> With this patch, the flash drive of the April 2016 MacBook9,1 12"
-> (A1534) is properly recognized and works just fine.
-> 
-> Signed-off-by: Carina Willbold <nvme at elfenteich.de>
+It's more elegant to use MACRO UINT_MAX to represent the max value of
+type unsigned int. So replace the actual value by using this MACRO.
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Signed-off-by: Minfei Huang <mnghuan at gmail.com>
+---
+v1:
+- fix typo
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 643f457..2c0bb13 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -597,7 +597,7 @@ static void nvme_config_discard(struct nvme_ns *ns)
+ 
+ 	ns->queue->limits.discard_alignment = logical_block_size;
+ 	ns->queue->limits.discard_granularity = logical_block_size;
+-	blk_queue_max_discard_sectors(ns->queue, 0xffffffff);
++	blk_queue_max_discard_sectors(ns->queue, UINT_MAX);
+ 	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
+ }
+ 
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.6.3
