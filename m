@@ -1,19 +1,15 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 17 May 2016 09:36:22 +0200
-Subject: [PATCH] NVMe: Allocate queues only for online cpus
-In-Reply-To: <1463162991-31653-1-git-send-email-keith.busch@intel.com>
-References: <1463162991-31653-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20160517073622.GF17154@c203.arch.suse.de>
+Date: Tue, 17 May 2016 09:39:00 +0200
+Subject: [PATCH] NVMe: Recognize the MacBook9,1 NVMe controller
+In-Reply-To: <20160516175209.GA21751@speicherleck.de>
+References: <20160516175209.GA21751@speicherleck.de>
+Message-ID: <20160517073900.GG17154@c203.arch.suse.de>
 
-On Fri, May 13, 2016@12:09:51PM -0600, Keith Busch wrote:
-> The driver previously requested allocating queues for the total possible
-> number of CPUs so that blk-mq could rebalance these if CPUs were added
-> after initialization. The number of hardware contexts can now be changed
-> at runtime, so we only need to allocate the number of online queues
-> since we can add more later.
+On Mon, May 16, 2016@07:52:09PM +0200, Carina Willbold wrote:
+> With this patch, the flash drive of the April 2016 MacBook9,1 12"
+> (A1534) is properly recognized and works just fine.
 > 
-> Suggested-by: Jeff Lien <jeff.lien at hgst.com>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> Signed-off-by: Carina Willbold <nvme at elfenteich.de>
 
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
