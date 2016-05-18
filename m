@@ -1,88 +1,77 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Wed, 18 May 2016 14:05:02 -0700
-Subject: [PATCH v2 2/2] nvme: move nvme_cancel_request() to common code
-In-Reply-To: <1463605502-27839-1-git-send-email-mlin@kernel.org>
-References: <1463605502-27839-1-git-send-email-mlin@kernel.org>
-Message-ID: <1463605502-27839-3-git-send-email-mlin@kernel.org>
+From: rafael.antognolli@intel.com (Rafael Antognolli)
+Date: Wed, 18 May 2016 16:54:56 -0700
+Subject: [PATCH 0/2] Add Opal unlock support to NVMe.
+In-Reply-To: <20160426213349.GA17078@intel.com>
+References: <1461366732-31779-1-git-send-email-rafael.antognolli@intel.com>
+ <20160425082408.GA13629@infradead.org>
+ <94D0CD8314A33A4D9D801C0FE68B40295C43485D@G9W0745.americas.hpqcorp.net>
+ <20160426213349.GA17078@intel.com>
+Message-ID: <20160518235455.GA4242@intel.com>
 
-From: Ming Lin <ming.l@samsung.com>
+On Tue, Apr 26, 2016@02:33:49PM -0700, Rafael Antognolli wrote:
+> On Mon, Apr 25, 2016@08:29:22PM -0700, Elliott, Robert (Persistent Memory) wrote:
+> > 
+> > 
+> > > -----Original Message-----
+> > > From: linux-block-owner at vger.kernel.org [mailto:linux-block-
+> > > owner at vger.kernel.org] On Behalf Of Christoph Hellwig
+> > > Sent: Monday, April 25, 2016 3:24 AM
+> > > To: Rafael Antognolli <rafael.antognolli at intel.com>
+> > > Cc: linux-nvme at lists.infradead.org; linux-kernel at vger.kernel.org;
+> > > linux-block at vger.kernel.org
+> > > Subject: Re: [PATCH 0/2] Add Opal unlock support to NVMe.
+> > >
+> > > On Fri, Apr 22, 2016@04:12:10PM -0700, Rafael Antognolli wrote:
+> > > > This patch series implement a small set of the Opal protocol for
+> > > > self encrypting devices. It's implemented only what is needed for
+> > > > saving a password and unlocking a given "locking range". The
+> > > > password is saved on the driver and replayed back to the device
+> > > > on resume from suspend to RAM. It is specifically supporting
+> > > > the single user mode.
+> > 
+> > Passwords stored in memory are subject to cold boot attacks.
+> > 
+> > Could you tie this into the keyring infrastructure, so it would
+> > least be no worse than other kernel modules?  This would allow
+> > support for TPM-based keys (if present) to resist more attacks.
+> > If register-based key storage or other techniques prove viable,
+> > they would probably show up there first.
+> 
+> I'll take a look at it.
 
-So it can be used by fabrics driver also.
+Hi Robert, I've been looking at possibilities to integrate this into the
+keyring infra as you suggested, particularly with the trusted
+(TPM-based) and/or encrypted key types. However, these key types do not
+support any way of loading a key from userspace; the API for creating
+trusted or encrypted keys generate them inside the kernel and it's never
+available to userspace. And at the same time, the current utility to set
+a password on Opal devices (sedutil [1]) is a userspace program.
 
-Signed-off-by: Ming Lin <ming.l at samsung.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/core.c | 17 +++++++++++++++++
- drivers/nvme/host/nvme.h |  1 +
- drivers/nvme/host/pci.c  | 16 ----------------
- 3 files changed, 18 insertions(+), 16 deletions(-)
+I could not find an easy way to connect both things unless, for
+instance, I generated a trusted key that the Opal kernel code can
+access, and used that key to encrypt the password to the Opal device.
+That would work but would mean the user has to request a
+trusted/encrypted key to be created, and then point to that when
+requesting to save the password. IMHO the API of this module would start
+to be a bit tricky.
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ac950d1..12835b3 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -59,6 +59,23 @@ static DEFINE_SPINLOCK(dev_list_lock);
- 
- static struct class *nvme_class;
- 
-+void nvme_cancel_request(struct request *req, void *data, bool reserved)
-+{
-+	int status;
-+
-+	if (!blk_mq_request_started(req))
-+		return;
-+
-+	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
-+				"Cancelling I/O %d", req->tag);
-+
-+	status = NVME_SC_ABORT_REQ;
-+	if (blk_queue_dying(req->q))
-+		status |= NVME_SC_DNR;
-+	blk_mq_complete_request(req, status);
-+}
-+EXPORT_SYMBOL_GPL(nvme_cancel_request);
-+
- bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		enum nvme_ctrl_state new_state)
- {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index fab6507..3f3945a 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -229,6 +229,7 @@ static inline bool nvme_req_needs_retry(struct request *req, u16 status)
- 		(jiffies - req->start_time) < req->timeout;
- }
- 
-+void nvme_cancel_request(struct request *req, void *data, bool reserved);
- bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		enum nvme_ctrl_state new_state);
- int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 16da89d..02105da 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -925,22 +925,6 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	return BLK_EH_RESET_TIMER;
- }
- 
--static void nvme_cancel_request(struct request *req, void *data, bool reserved)
--{
--	int status;
--
--	if (!blk_mq_request_started(req))
--		return;
--
--	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
--				"Cancelling I/O %d", req->tag);
--
--	status = NVME_SC_ABORT_REQ;
--	if (blk_queue_dying(req->q))
--		status |= NVME_SC_DNR;
--	blk_mq_complete_request(req, status);
--}
--
- static void nvme_free_queue(struct nvme_queue *nvmeq)
- {
- 	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
--- 
-1.9.1
+Another solution would be to add support to at least encrypted or
+trusted keys to be loaded from userspace (as unencrypted keys, not
+encrypted blobs), even if they never get available again to userspace.
+This should be easy to do, I'm just not sure if it would make sense to
+have that on the trusted/encrypted keys.
+
+And yet another solution would be to implement a lot more of the Opal
+protocol in this module, and make it support setting up the locking
+ranges and passwords (trusted/encrypted keys that the userspace never
+saw unencrypted). But at least for now, my intention was to implement
+just the least needed to unlock devices, not really implement the whole
+OPAL spec.
+
+Anyway, do you see other options, or would you mind giving your opinion
+about this?
+
+[1]: https://github.com/Drive-Trust-Alliance/sedutil
+
+Thank you,
+Rafael
