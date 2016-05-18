@@ -1,27 +1,32 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 18 May 2016 11:11:33 -0400
+From: mlin@kernel.org (Ming Lin)
+Date: Wed, 18 May 2016 13:23:18 -0700
 Subject: [PATCH 1/2] nvme: update nvme_cancel_io() a bit
-In-Reply-To: <1463551019-16687-2-git-send-email-mlin@kernel.org>
+In-Reply-To: <20160518151133.GE19325@localhost.localdomain>
 References: <1463551019-16687-1-git-send-email-mlin@kernel.org>
  <1463551019-16687-2-git-send-email-mlin@kernel.org>
-Message-ID: <20160518151133.GE19325@localhost.localdomain>
+ <20160518151133.GE19325@localhost.localdomain>
+Message-ID: <CAF1ivSaaOotzPaArg9QV0+4uZajc0OC+QPDf9sAbNAp6WnLdRg@mail.gmail.com>
 
-On Tue, May 17, 2016@10:56:58PM -0700, Ming Lin wrote:
->  static void nvme_cancel_io(struct request *req, void *data, bool reserved)
->  {
-> +	struct nvme_ctrl *ctrl = data;
->  	int status;
->  
->  	if (!blk_mq_request_started(req))
->  		return;
->  
-> -	dev_dbg_ratelimited(((struct nvme_dev *) data)->ctrl.device,
-> -				"Cancelling I/O %d", req->tag);
-> +	dev_dbg_ratelimited(ctrl->device, "Cancelling I/O %d", req->tag);
+On Wed, May 18, 2016@8:11 AM, Keith Busch <keith.busch@intel.com> wrote:
+> On Tue, May 17, 2016@10:56:58PM -0700, Ming Lin wrote:
+>>  static void nvme_cancel_io(struct request *req, void *data, bool reserved)
+>>  {
+>> +     struct nvme_ctrl *ctrl = data;
+>>       int status;
+>>
+>>       if (!blk_mq_request_started(req))
+>>               return;
+>>
+>> -     dev_dbg_ratelimited(((struct nvme_dev *) data)->ctrl.device,
+>> -                             "Cancelling I/O %d", req->tag);
+>> +     dev_dbg_ratelimited(ctrl->device, "Cancelling I/O %d", req->tag);
+>
+> Since you're not using ctrl for anything but the debug print, you
+> should remove declaring it and instead do like what's currently there.
+> This way the driver doesn't produce an unused variable warning in some
+> kernel configurations. See commit 7e197930 that fixed this before.
 
-Since you're not using ctrl for anything but the debug print, you
-should remove declaring it and instead do like what's currently there.
-This way the driver doesn't produce an unused variable warning in some
-kernel configurations. See commit 7e197930 that fixed this before.
+Will update. Thanks.
 
-Otherwise, looks fine.
+>
+> Otherwise, looks fine.
