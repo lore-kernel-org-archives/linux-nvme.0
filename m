@@ -1,32 +1,24 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Wed, 18 May 2016 13:23:18 -0700
-Subject: [PATCH 1/2] nvme: update nvme_cancel_io() a bit
-In-Reply-To: <20160518151133.GE19325@localhost.localdomain>
-References: <1463551019-16687-1-git-send-email-mlin@kernel.org>
- <1463551019-16687-2-git-send-email-mlin@kernel.org>
- <20160518151133.GE19325@localhost.localdomain>
-Message-ID: <CAF1ivSaaOotzPaArg9QV0+4uZajc0OC+QPDf9sAbNAp6WnLdRg@mail.gmail.com>
+Date: Wed, 18 May 2016 14:05:00 -0700
+Subject: [PATCH v2 0/2] move nvme_cancel_io() to common code
+Message-ID: <1463605502-27839-1-git-send-email-mlin@kernel.org>
 
-On Wed, May 18, 2016@8:11 AM, Keith Busch <keith.busch@intel.com> wrote:
-> On Tue, May 17, 2016@10:56:58PM -0700, Ming Lin wrote:
->>  static void nvme_cancel_io(struct request *req, void *data, bool reserved)
->>  {
->> +     struct nvme_ctrl *ctrl = data;
->>       int status;
->>
->>       if (!blk_mq_request_started(req))
->>               return;
->>
->> -     dev_dbg_ratelimited(((struct nvme_dev *) data)->ctrl.device,
->> -                             "Cancelling I/O %d", req->tag);
->> +     dev_dbg_ratelimited(ctrl->device, "Cancelling I/O %d", req->tag);
->
-> Since you're not using ctrl for anything but the debug print, you
-> should remove declaring it and instead do like what's currently there.
-> This way the driver doesn't produce an unused variable warning in some
-> kernel configurations. See commit 7e197930 that fixed this before.
+From: Ming Lin <ming.l@samsung.com>
 
-Will update. Thanks.
+So it can be used by fabrics driver also.
 
->
-> Otherwise, looks fine.
+v2:
+  - not declare "ctrl"
+  - rename nvme_cancel_io to nvme_cancel_request
+
+Ming Lin (2):
+  nvme: update and rename nvme_cancel_io to nvme_cancel_request
+  nvme: move nvme_cancel_request() to common code
+
+ drivers/nvme/host/core.c | 17 +++++++++++++++++
+ drivers/nvme/host/nvme.h |  1 +
+ drivers/nvme/host/pci.c  | 20 ++------------------
+ 3 files changed, 20 insertions(+), 18 deletions(-)
+
+-- 
+1.9.1
