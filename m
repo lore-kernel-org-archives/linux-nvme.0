@@ -1,77 +1,124 @@
-From: rafael.antognolli@intel.com (Rafael Antognolli)
-Date: Wed, 18 May 2016 16:54:56 -0700
-Subject: [PATCH 0/2] Add Opal unlock support to NVMe.
-In-Reply-To: <20160426213349.GA17078@intel.com>
-References: <1461366732-31779-1-git-send-email-rafael.antognolli@intel.com>
- <20160425082408.GA13629@infradead.org>
- <94D0CD8314A33A4D9D801C0FE68B40295C43485D@G9W0745.americas.hpqcorp.net>
- <20160426213349.GA17078@intel.com>
-Message-ID: <20160518235455.GA4242@intel.com>
+From: mlin@kernel.org (Ming Lin)
+Date: Wed, 18 May 2016 22:52:26 -0700
+Subject: [PATCH v2 1/2] nvme: switch to RCU freeing the namespace
+In-Reply-To: <20160517212542.GC19325@localhost.localdomain>
+References: <1461619219-18144-1-git-send-email-mlin@kernel.org>
+ <1461619219-18144-2-git-send-email-mlin@kernel.org>
+ <1463295520.5272.4.camel@kernel.org>
+ <CAF1ivSaOMqLP=a9KgNy0Gbn9w_KkCzwbuY80e=sCJR+4Vg2kNw@mail.gmail.com>
+ <20160517150511.GB14260@localhost.localdomain>
+ <20160517152359.GC14260@localhost.localdomain>
+ <20160517153003.GA18529@localhost.localdomain>
+ <CAF1ivSaEg2wiH3hwpRmeK7ua69ERT5MP8MqZyuc6Dtb2fes6gg@mail.gmail.com>
+ <20160517210706.GB19325@localhost.localdomain>
+ <CAF1ivSbi8rXgsM885w0EMyzMnDuiGOUUfu3o+RKbz1KG2jJW6Q@mail.gmail.com>
+ <20160517212542.GC19325@localhost.localdomain>
+Message-ID: <1463637146.8610.4.camel@kernel.org>
 
-On Tue, Apr 26, 2016@02:33:49PM -0700, Rafael Antognolli wrote:
-> On Mon, Apr 25, 2016@08:29:22PM -0700, Elliott, Robert (Persistent Memory) wrote:
+On Tue, 2016-05-17@17:25 -0400, Keith Busch wrote:
+> On Tue, May 17, 2016@02:09:34PM -0700, Ming Lin wrote:
+> > On Tue, May 17, 2016 at 2:07 PM, Keith Busch <keith.busch at intel.com
+> > > wrote:
+> > > Great, thanks. I was getting good results with this as well.
 > > 
-> > 
-> > > -----Original Message-----
-> > > From: linux-block-owner at vger.kernel.org [mailto:linux-block-
-> > > owner at vger.kernel.org] On Behalf Of Christoph Hellwig
-> > > Sent: Monday, April 25, 2016 3:24 AM
-> > > To: Rafael Antognolli <rafael.antognolli at intel.com>
-> > > Cc: linux-nvme at lists.infradead.org; linux-kernel at vger.kernel.org;
-> > > linux-block at vger.kernel.org
-> > > Subject: Re: [PATCH 0/2] Add Opal unlock support to NVMe.
-> > >
-> > > On Fri, Apr 22, 2016@04:12:10PM -0700, Rafael Antognolli wrote:
-> > > > This patch series implement a small set of the Opal protocol for
-> > > > self encrypting devices. It's implemented only what is needed for
-> > > > saving a password and unlocking a given "locking range". The
-> > > > password is saved on the driver and replayed back to the device
-> > > > on resume from suspend to RAM. It is specifically supporting
-> > > > the single user mode.
-> > 
-> > Passwords stored in memory are subject to cold boot attacks.
-> > 
-> > Could you tie this into the keyring infrastructure, so it would
-> > least be no worse than other kernel modules?  This would allow
-> > support for TPM-based keys (if present) to resist more attacks.
-> > If register-based key storage or other techniques prove viable,
-> > they would probably show up there first.
+> > Thanks for the fix. Could you send the patch formally?
 > 
-> I'll take a look at it.
+> Will do. Sending shortly.
+> 
+> > > Bummer. Is your controller using sparse namespaces? The kernel
+> > > message
+> > > before the bug appears to indicate that.
+> > 
+> > No. Only 1 namespace.
+> 
+> Something must be corrupt then. The below line shows an unallocated
+> namespace is failing to identify itself, but if you only report 1 ns,
+> we shouldn't have been able to get here from a simple nvme reset.
+> 
+> I think your resets are occuring faster than we anticipated and
+> you've
+> uncovered another bug. It looks like these may cause trouble if reset
+> occurs during active scan work.
 
-Hi Robert, I've been looking at possibilities to integrate this into the
-keyring infra as you suggested, particularly with the trusted
-(TPM-based) and/or encrypted key types. However, these key types do not
-support any way of loading a key from userspace; the API for creating
-trusted or encrypted keys generate them inside the kernel and it's never
-available to userspace. And at the same time, the current utility to set
-a password on Opal devices (sedutil [1]) is a userspace program.
+I have not found the root cause yet.
+Below patch makes reset not occur during active scan work.
+And I didn't see the crash any more with this patch.
 
-I could not find an easy way to connect both things unless, for
-instance, I generated a trusted key that the Opal kernel code can
-access, and used that key to encrypt the password to the Opal device.
-That would work but would mean the user has to request a
-trusted/encrypted key to be created, and then point to that when
-requesting to save the password. IMHO the API of this module would start
-to be a bit tricky.
+So it seems there is a race somewhere between reset work and scan work.
 
-Another solution would be to add support to at least encrypted or
-trusted keys to be loaded from userspace (as unencrypted keys, not
-encrypted blobs), even if they never get available again to userspace.
-This should be easy to do, I'm just not sure if it would make sense to
-have that on the trusted/encrypted keys.
+?drivers/nvme/host/core.c | 13 ++++++++++++-
+?drivers/nvme/host/nvme.h |??1 +
+?drivers/nvme/host/pci.c??|??3 +++
+?3 files changed, 16 insertions(+), 1 deletion(-)
 
-And yet another solution would be to implement a lot more of the Opal
-protocol in this module, and make it support setting up the locking
-ranges and passwords (trusted/encrypted keys that the userspace never
-saw unencrypted). But at least for now, my intention was to implement
-just the least needed to unlock devices, not really implement the whole
-OPAL spec.
-
-Anyway, do you see other options, or would you mind giving your opinion
-about this?
-
-[1]: https://github.com/Drive-Trust-Alliance/sedutil
-
-Thank you,
-Rafael
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a57ccd3..8560774 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -89,6 +89,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+?		case NVME_CTRL_NEW:
+?		case NVME_CTRL_RESETTING:
+?		case NVME_CTRL_RECONNECTING:
++		case NVME_CTRL_SCANING:
+?			changed = true;
+?			/* FALLTHRU */
+?		default:
+@@ -126,6 +127,14 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+?			break;
+?		}
+?		break;
++	case NVME_CTRL_SCANING:
++		switch (old_state) {
++		case NVME_CTRL_LIVE:
++			changed = true;
++			/* FALLTHRU */
++		default:
++			break;
++		}
+?	default:
+?		break;
+?	}
+@@ -1755,7 +1764,7 @@ static void nvme_scan_work(struct work_struct *work)
+?	struct nvme_id_ctrl *id;
+?	unsigned nn;
+?
+-	if (ctrl->state != NVME_CTRL_LIVE)
++	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_SCANING))
+?		return;
+?
+?	if (nvme_identify_ctrl(ctrl, &id))
+@@ -1776,6 +1785,8 @@ static void nvme_scan_work(struct work_struct *work)
+?
+?	if (ctrl->ops->post_scan)
+?		ctrl->ops->post_scan(ctrl);
++
++	nvme_change_ctrl_state(ctrl, NVME_CTRL_LIVE);
+?}
+?
+?void nvme_queue_scan(struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 3f3945a..2827825 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -76,6 +76,7 @@ enum nvme_ctrl_state {
+?	NVME_CTRL_RESETTING,
+?	NVME_CTRL_RECONNECTING,
+?	NVME_CTRL_DELETING,
++	NVME_CTRL_SCANING,
+?};
+?
+?struct nvme_ctrl {
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 02105da..71260c8 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1761,6 +1761,9 @@ static void nvme_reset_work(struct work_struct *work)
+?	struct nvme_dev *dev = container_of(work, struct nvme_dev, reset_work);
+?	int result = -ENODEV;
+?
++	if (dev->ctrl.state == NVME_CTRL_SCANING)
++		return;
++
+?	if (WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING))
+?		goto out;
+?
