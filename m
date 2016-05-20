@@ -1,15 +1,20 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 20 May 2016 09:45:53 +0200
-Subject: [PATCH v2 2/2] nvme: move nvme_cancel_request() to common code
-In-Reply-To: <1463605502-27839-3-git-send-email-mlin@kernel.org>
+Date: Fri, 20 May 2016 09:46:08 +0200
+Subject: [PATCH v2 1/2] nvme: update and rename nvme_cancel_io to
+ nvme_cancel_request
+In-Reply-To: <1463605502-27839-2-git-send-email-mlin@kernel.org>
 References: <1463605502-27839-1-git-send-email-mlin@kernel.org>
- <1463605502-27839-3-git-send-email-mlin@kernel.org>
-Message-ID: <20160520074553.GC4413@c203.arch.suse.de>
+ <1463605502-27839-2-git-send-email-mlin@kernel.org>
+Message-ID: <20160520074607.GD4413@c203.arch.suse.de>
 
-On Wed, May 18, 2016@02:05:02PM -0700, Ming Lin wrote:
+On Wed, May 18, 2016@02:05:01PM -0700, Ming Lin wrote:
 > From: Ming Lin <ming.l at samsung.com>
 > 
-> So it can be used by fabrics driver also.
+> nvme_cancel_io is a bit confusing (given the distinction of io/admin),
+> so rename it to nvme_cancel_request.
+> 
+> And update it a bit to pass in struct nvme_ctrl, so it can be used
+> by Fabrics driver also.
 > 
 > Signed-off-by: Ming Lin <ming.l at samsung.com>
 
