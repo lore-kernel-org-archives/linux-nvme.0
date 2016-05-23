@@ -1,36 +1,65 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 23 May 2016 11:22:09 -0400
-Subject: [PATCH v2 1/2] nvme: switch to RCU freeing the namespace
-In-Reply-To: <20160523103858.GA21986@lst.de>
-References: <20160517152359.GC14260@localhost.localdomain>
- <20160517153003.GA18529@localhost.localdomain>
- <CAF1ivSaEg2wiH3hwpRmeK7ua69ERT5MP8MqZyuc6Dtb2fes6gg@mail.gmail.com>
- <20160517210706.GB19325@localhost.localdomain>
- <CAF1ivSbi8rXgsM885w0EMyzMnDuiGOUUfu3o+RKbz1KG2jJW6Q@mail.gmail.com>
- <20160517212542.GC19325@localhost.localdomain>
- <1463637146.8610.4.camel@kernel.org>
- <20160519204829.GB28795@localhost.localdomain>
- <20160520141649.GC28795@localhost.localdomain>
- <20160523103858.GA21986@lst.de>
-Message-ID: <20160523152209.GC17208@localhost.localdomain>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Mon, 23 May 2016 12:06:52 -0500
+Subject: [PATCH 2/2] nvme/pci: Enable SR-IOV capabilities
+In-Reply-To: <1463521199-16604-2-git-send-email-keith.busch@intel.com>
+References: <1463521199-16604-1-git-send-email-keith.busch@intel.com>
+ <1463521199-16604-2-git-send-email-keith.busch@intel.com>
+Message-ID: <20160523170652.GA12826@localhost>
 
-On Mon, May 23, 2016@12:38:58PM +0200, Christoph Hellwig wrote:
-> On Fri, May 20, 2016@10:16:50AM -0400, Keith Busch wrote:
-> > +static int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
-> > +{
-> > +	ctrl->state = NVME_CTRL_NEW;
+On Tue, May 17, 2016@03:39:59PM -0600, Keith Busch wrote:
+> Registers a standard boiler-plate SR-IOV configure callback for NVMe.
 > 
-> Please always go through nvme_change_ctrl_state for state machine
-> changes - this function documents the possible ?tate transitions.
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/pci.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> Also I don't think returning to state called _new is a good idea,
-> I'd rather have a different name for a state like that.  That being
-> said I thinkg we absolutely need a state for the time between
-> scheduling a reset and changing the state to NVME_CTRL_RESETTING
-> in nvme_reset_work.  I just can't think of a really food name for it.
-> NVME_CTRL_PRE_RESET?  NVME_CTRL_RESET_PENDING?
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index fbe8cc2..8379b9a 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -2033,6 +2033,18 @@ static void nvme_remove(struct pci_dev *pdev)
+>  	nvme_put_ctrl(&dev->ctrl);
+>  }
+>  
+> +static int nvme_sriov_configure(struct pci_dev *pdev, int numvfs)
+> +{
+> +	int ret = 0;
+> +
+> +	if (numvfs == 0)
+> +		pci_disable_sriov(pdev);
+> +	else
+> +		ret = pci_enable_sriov(pdev, numvfs);
+> +
+> +	return ret ? ret : numvfs;
+> +}
 
-Thanks for the suggestions. I'll fix it up as a proper patch and send
-for consideration.
+I do not subscribe to the belief that every function should have a
+single exit.  In this case, I think it makes the function much harder
+to understand than this:
 
-NVME_CTRL_SCHED_RESET? Naming is hard ...
+  if (numvfs == 0)
+    pci_disable_sriov(pdev);
+    return 0;
+  }
+
+  return pci_enable_sriov(pdev, numvfs);
+
+>  #ifdef CONFIG_PM_SLEEP
+>  static int nvme_suspend(struct device *dev)
+>  {
+> @@ -2127,6 +2139,7 @@ static struct pci_driver nvme_driver = {
+>  	.driver		= {
+>  		.pm	= &nvme_dev_pm_ops,
+>  	},
+> +	.sriov_configure = nvme_sriov_configure,
+>  	.err_handler	= &nvme_err_handler,
+>  };
+>  
+> -- 
+> 2.7.2
+> 
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-pci" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
