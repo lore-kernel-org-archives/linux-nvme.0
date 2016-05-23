@@ -1,53 +1,55 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 23 May 2016 10:55:56 -0400
-Subject: [PATCH] NVMe: Fix possible scheduling while atomic error
-In-Reply-To: <20160523143631.GA28107@infradead.org>
-References: <1463521062-16488-1-git-send-email-keith.busch@intel.com>
- <20160523105807.GC26331@infradead.org>
- <20160523134116.GA17208@localhost.localdomain>
- <20160523143631.GA28107@infradead.org>
-Message-ID: <20160523145556.GB17208@localhost.localdomain>
+From: alex.williamson@redhat.com (Alex Williamson)
+Date: Mon, 23 May 2016 09:07:11 -0600
+Subject: [PATCH 1/2] pci: Error disabling SR-IOV if in VFs assigned
+In-Reply-To: <20160523105532.GB26331@infradead.org>
+References: <1463521199-16604-1-git-send-email-keith.busch@intel.com>
+ <20160517160832.51fc0304@t450s.home>
+ <20160523105532.GB26331@infradead.org>
+Message-ID: <20160523090711.12fa34f9@ul30vt.home>
 
-On Mon, May 23, 2016@07:36:31AM -0700, Christoph Hellwig wrote:
-> On Mon, May 23, 2016@09:41:16AM -0400, Keith Busch wrote:
-> > On Mon, May 23, 2016@03:58:07AM -0700, Christoph Hellwig wrote:
-> > > On Tue, May 17, 2016@03:37:42PM -0600, Keith Busch wrote:
-> > > >  	rcu_read_lock();
-> > > >  	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
-> > > > -		queue_flag_clear_unlocked(QUEUE_FLAG_STOPPED, ns->queue);
-> > > > +		spin_lock_irq(ns->queue->queue_lock);
-> > > > +		queue_flag_clear(QUEUE_FLAG_STOPPED, ns->queue);
-> > > > +		spin_unlock_irq(ns->queue->queue_lock);
-> > > 
-> > > What's the rationale for this change? 
+On Mon, 23 May 2016 03:55:32 -0700
+Christoph Hellwig <hch@infradead.org> wrote:
+
+> On Tue, May 17, 2016@04:08:32PM -0600, Alex Williamson wrote:
+> > On Tue, 17 May 2016 15:39:58 -0600
+> > Keith Busch <keith.busch@intel.com> wrote:
+> >   
+> > > Every sriov capable driver has to check if any guest is using a virtual
+> > > function prior to disabling, so let's make it common code.  
 > > 
-> > That was to make it so nvme_queue_rq wouldn't see a stopped flag just
-> > before it was starting.
+> > This is not true, the PCI_DEV_FLAGS_ASSIGNED flag is inherently racy,
+> > so checking it is really only a courtesy for broken drivers that
+> > still make use of it.  I don't object to adding it here, though I
+> > wish the entire interface was deprecated, but it's only a minimal amount
+> > of insurance as a VF might get assigned immediately following your added
+> > test or might not participate in the assigned device flagging at all.  
 > 
-> I don't really see how that helps us with any race..
+> Si should we just kill it? As far as I can tell it's only used in these
+> kinds of boilerplate checks.
 
-Without the additional spin lock protecting QUEUE_FLAG_STOPPED:
+Long term, yes, but perhaps KVM legacy PCI device assignment needs to
+be not only deprecated, but removed first.
 
-  CPU A                                      CPU B
-  -----                                      -----
-  nvme_start_queues                          nvme_queue_rq
-                                              if (nvmeq->cq_vector < 0) <--  queue is disabled during reset, returning BLK_MQ_RQ_QUEUE_BUSY
-                                                 goto out;
-                                              if (blk_queue_stopped())  <--  returns true
-    queue_flag_clear
-    blk_mq_start_stopped_hw_queues
-                                                blk_mq_stop_hw_queues() <--  incorrectly stops h/w queues
-
-Locking the queue in nvme_start_queues before clearing the flag fixes
-that up.
-
-
-> > It's moved out of that function holding the rcu read lock since
-> > blk_mq_stop_hw_queues potentially sleeps.
+> > I
+> > believe the better way to handle this is with proper host drivers for
+> > assigned devices that manage the driver .remove callback properly while
+> > devices are in use.  The only reason to handle assigned devices
+> > specially in this case is when they don't have proper host drivers
+> > managing them, which is a problem that we've fixed.  Thanks,  
 > 
-> blk_mq_stop_hw_queues is a loop around blk_mq_stop_hw_queue,
-> which itself does two calls to cancel_delayed_work and a set_bit.
-> None of them can block.
+> We always use pci-stub now, don't we?
 
-Oops, I'm crossing wires and mixing up what API's do what ... need to
-wake up before starting work.
+pci-stub's only purpose is to prevent other drivers from binding to a
+device, such as while it's in used by legacy KVM device assignment.
+pci-stub has no visibility whether a device is in use or not, and will
+happily unbind the device at any point in time.  Thus legacy KVM device
+assignment with pci-stub makes use of this horrible flag in a vain
+attempt to prevent devices from disappearing, littering every possible
+remove path with these sorts of checks when really the driver holding
+the assigned device should block or maybe allow an error return from
+the .remove callback.  Xen pci-back also sets this flag, but I would
+hope there's a sensible solution available there and they just adopted
+use of this flag without really questioning that it works or makes
+sense. Thanks,
+
+Alex
