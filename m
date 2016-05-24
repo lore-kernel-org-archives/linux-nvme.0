@@ -1,19 +1,24 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 24 May 2016 15:59:21 -0400
-Subject: [PATCH] NVMe: Fix possible scheduling while atomic error
-In-Reply-To: <CAF1ivSbWrkNUu0HgDdvev6yOV9bSbOjkDQ8mtS0VSq=k9SEqng@mail.gmail.com>
-References: <1463521062-16488-1-git-send-email-keith.busch@intel.com>
- <20160523105807.GC26331@infradead.org>
- <20160523134116.GA17208@localhost.localdomain>
- <20160523143631.GA28107@infradead.org>
- <20160523145556.GB17208@localhost.localdomain>
- <CAF1ivSbWrkNUu0HgDdvev6yOV9bSbOjkDQ8mtS0VSq=k9SEqng@mail.gmail.com>
-Message-ID: <20160524195921.GB24347@localhost.localdomain>
+Date: Tue, 24 May 2016 17:39:54 -0400
+Subject: [PATCHv2] NVMe: Sync reset and scan work
+In-Reply-To: <20160524155938.wzzsmje6bhlkghwk@c203.arch.suse.de>
+References: <1464102370-11283-1-git-send-email-keith.busch@intel.com>
+ <20160524155938.wzzsmje6bhlkghwk@c203.arch.suse.de>
+Message-ID: <20160524213954.GD24347@localhost.localdomain>
 
-On Tue, May 24, 2016@11:43:21AM -0700, Ming Lin wrote:
+On Tue, May 24, 2016@05:59:38PM +0200, Johannes Thumshirn wrote:
+> On Tue, May 24, 2016@09:06:10AM -0600, Keith Busch wrote:
+> >  
+> > +static int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
+> > +{
+> > +	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_SCHED_RESET))
+> > +		return -EPERM;
 > 
-> It's blk_mq_cancel_requeue_work() that potentially sleeps.
+> Is there a specific reason why you're using EPERM instead of EINVAL? I always
+> understood EPERM as a privilege level error code, while EINVAL would be a more
+> appropriate error code for an illegal state transition, IMHO.
 
-Right, I don't know what I was thinking... 
-
-AFAICT, the patch is fine as-is if Christoph is okay with it.
+The EPERM description sounded about right: "Operation not permitted". The
+user just attempted a reset at an impermissable time, but didn't give any
+illegal arguments. The exact same action could very well be successful
+a moment later. Maybe EBUSY or EAGAIN?
