@@ -1,17 +1,83 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 24 May 2016 10:29:20 -0400
-Subject: [PATCH] NVMe: Only release requested regions
-In-Reply-To: <20160524091917.GA10185@infradead.org>
-References: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
- <20160524091552.wmquryos2itoi767@c203.arch.suse.de>
- <20160524091917.GA10185@infradead.org>
-Message-ID: <20160524142919.GG17208@localhost.localdomain>
+Date: Tue, 24 May 2016 08:49:01 -0600
+Subject: [PATCH] NVMe: Sync reset and scan work
+Message-ID: <1464101341-9986-1-git-send-email-keith.busch@intel.com>
 
-On Tue, May 24, 2016@02:19:17AM -0700, Christoph Hellwig wrote:
-> On Tue, May 24, 2016@11:15:52AM +0200, Johannes Thumshirn wrote:
-> > As I've probably missed v4.7, is it possible to get it for v4.8?
-> > Or should I take on the PCI helper functions Christoph suggested first?
-> 
-> Let's get the quick fix in first, and I think it's still 4.7 material.
+This adds a new state for scheduling a reset and synchronizes that state
+with active scanning work. This is so a user can't interrupt namespace
+discovery, which can cause identification to fail.
 
-Agreed.
+Reported-by: Ming Lin <mlin at kernel.org>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 21 +++++++++++++++++++--
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 20 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 6290477..25d9b49 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -66,6 +66,14 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 
+ 	spin_lock_irq(&ctrl->lock);
+ 	switch (new_state) {
++	case NVME_CTRL_SCHED_RESET:
++		switch (old_state) {
++		case NVME_CTRL_LIVE:
++			changed = true;
++			/* FALLTHRU */
++		default:
++			break;
++		}
+ 	case NVME_CTRL_LIVE:
+ 		switch (old_state) {
+ 		case NVME_CTRL_RESETTING:
+@@ -1209,6 +1217,15 @@ out_unlock:
+ 	return ret;
+ }
+ 
++static int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
++{
++	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_SCHED_RESET))
++		return -EPERM;
++
++	flush_work(&ctrl->scan_work);
++	return ctrl->ops->reset_ctrl(ctrl);
++}
++
+ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ 		unsigned long arg)
+ {
+@@ -1222,7 +1239,7 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ 		return nvme_dev_user_cmd(ctrl, argp);
+ 	case NVME_IOCTL_RESET:
+ 		dev_warn(ctrl->device, "resetting controller\n");
+-		return ctrl->ops->reset_ctrl(ctrl);
++		return nvme_reset_ctrl(ctrl);
+ 	case NVME_IOCTL_SUBSYS_RESET:
+ 		return nvme_reset_subsystem(ctrl);
+ 	case NVME_IOCTL_RESCAN:
+@@ -1248,7 +1265,7 @@ static ssize_t nvme_sysfs_reset(struct device *dev,
+ 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+ 	int ret;
+ 
+-	ret = ctrl->ops->reset_ctrl(ctrl);
++	ret = nvme_reset_ctrl(ctrl);
+ 	if (ret < 0)
+ 		return ret;
+ 	return count;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 1daa048..2206f32 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -73,6 +73,7 @@ enum nvme_ctrl_state {
+ 	NVME_CTRL_RESETTING,
+ 	NVME_CTRL_DELETING,
+ 	NVME_CTRL_DEAD,
++	NVME_CTRL_SCHED_RESET,
+ };
+ 
+ struct nvme_ctrl {
+-- 
+2.7.2
