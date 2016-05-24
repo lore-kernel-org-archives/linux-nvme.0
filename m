@@ -1,83 +1,22 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 24 May 2016 08:49:01 -0600
+Date: Tue, 24 May 2016 11:02:55 -0400
 Subject: [PATCH] NVMe: Sync reset and scan work
-Message-ID: <1464101341-9986-1-git-send-email-keith.busch@intel.com>
+In-Reply-To: <1464101341-9986-1-git-send-email-keith.busch@intel.com>
+References: <1464101341-9986-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20160524150255.GH17208@localhost.localdomain>
 
-This adds a new state for scheduling a reset and synchronizes that state
-with active scanning work. This is so a user can't interrupt namespace
-discovery, which can cause identification to fail.
+On Tue, May 24, 2016@08:49:01AM -0600, Keith Busch wrote:
+>  	spin_lock_irq(&ctrl->lock);
+>  	switch (new_state) {
+> +	case NVME_CTRL_SCHED_RESET:
+> +		switch (old_state) {
+> +		case NVME_CTRL_LIVE:
+> +			changed = true;
+> +			/* FALLTHRU */
+> +		default:
+> +			break;
+> +		}
 
-Reported-by: Ming Lin <mlin at kernel.org>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 21 +++++++++++++++++++--
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 20 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6290477..25d9b49 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -66,6 +66,14 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 
- 	spin_lock_irq(&ctrl->lock);
- 	switch (new_state) {
-+	case NVME_CTRL_SCHED_RESET:
-+		switch (old_state) {
-+		case NVME_CTRL_LIVE:
-+			changed = true;
-+			/* FALLTHRU */
-+		default:
-+			break;
-+		}
- 	case NVME_CTRL_LIVE:
- 		switch (old_state) {
- 		case NVME_CTRL_RESETTING:
-@@ -1209,6 +1217,15 @@ out_unlock:
- 	return ret;
- }
- 
-+static int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
-+{
-+	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_SCHED_RESET))
-+		return -EPERM;
-+
-+	flush_work(&ctrl->scan_work);
-+	return ctrl->ops->reset_ctrl(ctrl);
-+}
-+
- static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 		unsigned long arg)
- {
-@@ -1222,7 +1239,7 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
- 		return nvme_dev_user_cmd(ctrl, argp);
- 	case NVME_IOCTL_RESET:
- 		dev_warn(ctrl->device, "resetting controller\n");
--		return ctrl->ops->reset_ctrl(ctrl);
-+		return nvme_reset_ctrl(ctrl);
- 	case NVME_IOCTL_SUBSYS_RESET:
- 		return nvme_reset_subsystem(ctrl);
- 	case NVME_IOCTL_RESCAN:
-@@ -1248,7 +1265,7 @@ static ssize_t nvme_sysfs_reset(struct device *dev,
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
- 	int ret;
- 
--	ret = ctrl->ops->reset_ctrl(ctrl);
-+	ret = nvme_reset_ctrl(ctrl);
- 	if (ret < 0)
- 		return ret;
- 	return count;
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 1daa048..2206f32 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -73,6 +73,7 @@ enum nvme_ctrl_state {
- 	NVME_CTRL_RESETTING,
- 	NVME_CTRL_DELETING,
- 	NVME_CTRL_DEAD,
-+	NVME_CTRL_SCHED_RESET,
- };
- 
- struct nvme_ctrl {
--- 
-2.7.2
+Uh, the new state needs to be added as changeable from the old state
+going to NVME_CTRL_RESETTING. It's important to test the same code as the
+emailed patch, and that would have been obvious nothing was happening...
