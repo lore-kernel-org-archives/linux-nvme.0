@@ -1,18 +1,46 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 27 May 2016 00:34:14 -0700
-Subject: [PATCHv2] NVMe: Sync reset and scan work
-In-Reply-To: <1464102370-11283-1-git-send-email-keith.busch@intel.com>
-References: <1464102370-11283-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20160527073414.GA950@infradead.org>
+Date: Fri, 27 May 2016 00:40:20 -0700
+Subject: [PATCH] NVMe: Fix possible scheduling while atomic error
+In-Reply-To: <20160525175736.GB28668@localhost.localdomain>
+References: <1463521062-16488-1-git-send-email-keith.busch@intel.com>
+ <20160523105807.GC26331@infradead.org>
+ <20160523134116.GA17208@localhost.localdomain>
+ <20160523143631.GA28107@infradead.org>
+ <20160523145556.GB17208@localhost.localdomain>
+ <CAF1ivSbWrkNUu0HgDdvev6yOV9bSbOjkDQ8mtS0VSq=k9SEqng@mail.gmail.com>
+ <20160524195921.GB24347@localhost.localdomain>
+ <20160525081842.GA22766@infradead.org>
+ <20160525175736.GB28668@localhost.localdomain>
+Message-ID: <20160527074020.GB950@infradead.org>
 
-As mentioned before I like this a lot, but not that I looked into
-porting this over to Fabrics I have a few more nitpicks..
+On Wed, May 25, 2016@01:57:37PM -0400, Keith Busch wrote:
+> > > On Tue, May 24, 2016@11:43:21AM -0700, Ming Lin wrote:
+> > > > 
+> > > > It's blk_mq_cancel_requeue_work() that potentially sleeps.
+> > > 
+> > > Right, I don't know what I was thinking... 
+> > > 
+> > > AFAICT, the patch is fine as-is if Christoph is okay with it.
+> > 
+> > I still don't why we need to delay the call to blk_mq_stop_hw_queues
+> > to ->queue_rq.
+> 
+> Eh? It's still stopped in the same place as always, so it's not
+> delayed. We just call it again from queue_rq because requeue_work can
+> start h/w queues on its own. This is very similar to scsi's queue_rq
+> in scsi_lib.c.
 
- - we really should go through nvme_reset_ctrl and thus the
-   nvme_reset_ctrl for all places that schedule a reset
- - past that the transitions should be tightened so that we
-   can only transition from SCHED_RESET to RESETTING, and the
-   check for NVME_CTRL_RESETTING in the beginning of nvme_reset_work
-   can go away.
- - isn't the flushing of the scan work better done from the
-   reset work so that we don't block the caller?
+The rationale in SCSI is that we stop the queue when we are above
+the hosts or targets queuing limit, and only I/O ocmpletions will
+wake it up again.  Kicking of the sotpped queues in blk_mq_requeue_work
+is SCSI specific behavior that leaked into the core, and it's my fault..
+
+Well' let's get the fix in as-is for now, but I really need to sort
+this out properly, so maybe add some comments.
+
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+---end quoted text---
