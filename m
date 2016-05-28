@@ -1,34 +1,34 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 27 May 2016 09:28:36 -0400
-Subject: [PATCHv2] NVMe: Fix removal in case of active namespace list
- scanning method
-In-Reply-To: <1464344983-19521-1-git-send-email-sunad.s@samsung.com>
-References: <1464344983-19521-1-git-send-email-sunad.s@samsung.com>
-Message-ID: <20160527132834.GA19990@localhost.localdomain>
+From: nvme@elfenteich.de (Carina Willbold)
+Date: Sat, 28 May 2016 23:22:35 +0200
+Subject: [PATCH v2] NVMe: Recognize the MacBook9,1 NVMe controller
+Message-ID: <20160528212235.GB27943@speicherleck.de>
 
-On Fri, May 27, 2016@03:59:43PM +0530, Sunad Bhandary S wrote:
->  static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
->  {
->  	struct nvme_ns *ns;
-> @@ -1497,7 +1508,7 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
->  	for (i = 0; i < num_lists; i++) {
->  		ret = nvme_identify_ns_list(ctrl, prev, ns_list);
->  		if (ret)
-> -			goto out;
-> +			goto free;
->  
->  		for (j = 0; j < min(nn, 1024U); j++) {
->  			nsid = le32_to_cpu(ns_list[j]);
-> @@ -1515,13 +1526,14 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
->  		nn -= j;
->  	}
->   out:
-> +	nvme_remove_invalid_namespaces(ctrl, prev);
-> + free:
+With this patch, the flash drive of the April 2016 MacBook9,1 12"
+(A1534) is properly recognized and works just fine.
 
-We don't want to remove the namespaces on error here. That could remove
-valid, in use namespaces: if nvme_identify_ns_list fails (maybe controller
-just doesn't support that identify mode), we do the sequential scanning.
+Signed-off-by: Carina Willbold <nvme at elfenteich.de>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 
-Just leave the 'goto free' alone, and call nvme_remove_invalid_namespaces
-only on success.
+---
+ drivers/nvme/host/pci.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4fd733f..3d4c25d 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2180,7 +2180,11 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+ 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
++        /*
++         * Controllers that don't use the NVMe class code:
++         */
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
++	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
+ 	{ 0, }
+ };
+ MODULE_DEVICE_TABLE(pci, nvme_id_table);
+-- 
+2.8.2
