@@ -1,55 +1,235 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 31 May 2016 10:53:06 -0400
-Subject: why use alloc_workqueue instead of create_singlethread_workqueue
- to create nvme_workq
-In-Reply-To: <tencent_4323E1CE03D759181B6B4507@qq.com>
-References: <tencent_4323E1CE03D759181B6B4507@qq.com>
-Message-ID: <20160531145306.GB24107@localhost.localdomain>
+Date: Tue, 31 May 2016 13:49:07 -0600
+Subject: [PATCH 1/2] NVMe: Add controller state for scheduling resets
+Message-ID: <1464724148-11169-1-git-send-email-keith.busch@intel.com>
 
-On Tue, May 31, 2016@04:43:34PM +0800, Wang Sheng-Hui wrote:
-> Recently I noticed warning on NVME probe if CMA is enabled on my SoC platform
-> (ZONE_DMA, ZONE_DMA32 and CMA enabled in the config file):
-> --------------------------------------------------------------------------------
-> WARNING: CPU: 0 PID: 6 at linux/kernel/workqueue.c:2448 check_flush_dependency+0xb4/0x10c
-> [    0.154083] [<fffffc00080d6de0>] check_flush_dependency+0xb4/0x10c
-> [    0.154088] [<fffffc00080d8e80>] flush_work+0x54/0x140
-> [    0.154092] [<fffffc0008166a0c>] lru_add_drain_all+0x138/0x188
-> [    0.154097] [<fffffc00081ab2dc>] migrate_prep+0xc/0x18
-> [    0.154101] [<fffffc0008160e88>] alloc_contig_range+0xf4/0x350
-> [    0.154105] [<fffffc00081bcef8>] cma_alloc+0xec/0x1e4
-> [    0.154110] [<fffffc0008446ad0>] dma_alloc_from_contiguous+0x38/0x40
-> [    0.154114] [<fffffc00080a093c>] __dma_alloc+0x74/0x25c
-> [    0.154119] [<fffffc00084828d8>] nvme_alloc_queue+0xcc/0x36c
-> [    0.154123] [<fffffc0008484b2c>] nvme_reset_work+0x5c4/0xda8
-> [    0.154128] [<fffffc00080d9528>] process_one_work+0x128/0x2ec
-> [    0.154132] [<fffffc00080d9744>] worker_thread+0x58/0x434
-> [    0.154136] [<fffffc00080df0ec>] kthread+0xd4/0xe8
-> [    0.154141] [<fffffc0008093ac0>] ret_from_fork+0x10/0x50
+All resets now must be submitted through the new state. This makes it
+easier to coordinate controller tasks and simplifies the reset logic.
 
-The lru drain work is scheduled on the system work queue, which is not
-used for memory reclaim. But this work is used for swap, so maybe it
-should be scheduled on a such a work queue, and this warning would go
-away. Unless there's a reason not to have a system memory reclaim work
-queue, I'll look into that.
+Since all resets go through the same state machine, and most of these
+don't want to block for the reset to complete, this patch makes user
+initiated resets asynchronous as well. Making user resets block until
+complete wasn't necessary in the first place.
 
-> But the log only explained why changed to workqueue instead of schedule_work, 
-> no comments why use alloc_workqueue instead of create_singlethread_workqueue,
-> though 
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 26 ++++++++++++++++++++++----
+ drivers/nvme/host/nvme.h |  2 ++
+ drivers/nvme/host/pci.c  | 40 ++++++++++++++++------------------------
+ 3 files changed, 40 insertions(+), 28 deletions(-)
 
-We removed single threaded work queues so multiple controllers can be
-probed in parallel.
-
->        "The original create_*workqueue() functions are deprecated and scheduled for removal." 
-> (Documentation/workqueue.txt; https://patchwork.ozlabs.org/patch/575570/). 
-> 
-> The key point is "__WQ_LEGACY" was dropped. 
-> If I change to use "nvme_workq = create_singlethread_workqueue("nvme");",  then no
-> warning on NVME probe in my case.
-> 
-> My question is, why you decide drop the flag "__WQ_LEGACY" for nvme_workq?
-
-I didn't decide to drop this. The flag is used for deprecated usage,
-but this is new usage.
-
-I think the real issue is nvme uses a WQ_MEM_RECLAIM work queue but swap
-does not. One of these probably needs to change.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 6290477..c822977 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -66,6 +66,15 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 
+ 	spin_lock_irq(&ctrl->lock);
+ 	switch (new_state) {
++	case NVME_CTRL_SCHED_RESET:
++		switch (old_state) {
++		case NVME_CTRL_NEW:
++		case NVME_CTRL_LIVE:
++			changed = true;
++			/* FALLTHRU */
++		default:
++			break;
++		}
+ 	case NVME_CTRL_LIVE:
+ 		switch (old_state) {
+ 		case NVME_CTRL_RESETTING:
+@@ -77,8 +86,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		break;
+ 	case NVME_CTRL_RESETTING:
+ 		switch (old_state) {
+-		case NVME_CTRL_NEW:
+-		case NVME_CTRL_LIVE:
++		case NVME_CTRL_SCHED_RESET:
+ 			changed = true;
+ 			/* FALLTHRU */
+ 		default:
+@@ -89,6 +97,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		switch (old_state) {
+ 		case NVME_CTRL_LIVE:
+ 		case NVME_CTRL_RESETTING:
++		case NVME_CTRL_SCHED_RESET:
+ 			changed = true;
+ 			/* FALLTHRU */
+ 		default:
+@@ -1209,6 +1218,15 @@ out_unlock:
+ 	return ret;
+ }
+ 
++int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
++{
++	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_SCHED_RESET))
++		return -EBUSY;
++
++	return ctrl->ops->reset_ctrl(ctrl);
++}
++EXPORT_SYMBOL(nvme_reset_ctrl);
++
+ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ 		unsigned long arg)
+ {
+@@ -1222,7 +1240,7 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+ 		return nvme_dev_user_cmd(ctrl, argp);
+ 	case NVME_IOCTL_RESET:
+ 		dev_warn(ctrl->device, "resetting controller\n");
+-		return ctrl->ops->reset_ctrl(ctrl);
++		return nvme_reset_ctrl(ctrl);
+ 	case NVME_IOCTL_SUBSYS_RESET:
+ 		return nvme_reset_subsystem(ctrl);
+ 	case NVME_IOCTL_RESCAN:
+@@ -1248,7 +1266,7 @@ static ssize_t nvme_sysfs_reset(struct device *dev,
+ 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+ 	int ret;
+ 
+-	ret = ctrl->ops->reset_ctrl(ctrl);
++	ret = nvme_reset_ctrl(ctrl);
+ 	if (ret < 0)
+ 		return ret;
+ 	return count;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 1daa048..b948f26 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -73,6 +73,7 @@ enum nvme_ctrl_state {
+ 	NVME_CTRL_RESETTING,
+ 	NVME_CTRL_DELETING,
+ 	NVME_CTRL_DEAD,
++	NVME_CTRL_SCHED_RESET,
+ };
+ 
+ struct nvme_ctrl {
+@@ -207,6 +208,7 @@ static inline bool nvme_req_needs_retry(struct request *req, u16 status)
+ 		(jiffies - req->start_time) < req->timeout;
+ }
+ 
++int nvme_reset_ctrl(struct nvme_ctrl *ctrl);
+ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		enum nvme_ctrl_state new_state);
+ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index cd5f445..dfb8f2a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -68,7 +68,6 @@ static struct workqueue_struct *nvme_workq;
+ struct nvme_dev;
+ struct nvme_queue;
+ 
+-static int nvme_reset(struct nvme_dev *dev);
+ static void nvme_process_cq(struct nvme_queue *nvmeq);
+ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
+ 
+@@ -868,7 +867,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 			 "I/O %d QID %d timeout, reset controller\n",
+ 			 req->tag, nvmeq->qid);
+ 		nvme_dev_disable(dev, false);
+-		queue_work(nvme_workq, &dev->reset_work);
++		nvme_reset_ctrl(&dev->ctrl);
+ 
+ 		/*
+ 		 * Mark the request as handled, since the inline shutdown
+@@ -1285,7 +1284,7 @@ static void nvme_watchdog_timer(unsigned long data)
+ 
+ 	/* Skip controllers under certain specific conditions. */
+ 	if (nvme_should_reset(dev, csts)) {
+-		if (queue_work(nvme_workq, &dev->reset_work))
++		if (nvme_reset_ctrl(&dev->ctrl))
+ 			dev_warn(dev->dev,
+ 				"Failed status: 0x%x, reset controller.\n",
+ 				csts);
+@@ -1773,7 +1772,11 @@ static void nvme_reset_work(struct work_struct *work)
+ 	struct nvme_dev *dev = container_of(work, struct nvme_dev, reset_work);
+ 	int result = -ENODEV;
+ 
+-	if (WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING))
++	/*
++	 * The controller is being removed if its state machine can't
++	 * transition to reset.
++	 */
++	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
+ 		goto out;
+ 
+ 	/*
+@@ -1783,9 +1786,6 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
+ 		nvme_dev_disable(dev, false);
+ 
+-	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
+-		goto out;
+-
+ 	result = nvme_pci_enable(dev);
+ 	if (result)
+ 		goto out;
+@@ -1855,18 +1855,6 @@ static void nvme_remove_dead_ctrl_work(struct work_struct *work)
+ 	nvme_put_ctrl(&dev->ctrl);
+ }
+ 
+-static int nvme_reset(struct nvme_dev *dev)
+-{
+-	if (!dev->ctrl.admin_q || blk_queue_dying(dev->ctrl.admin_q))
+-		return -ENODEV;
+-
+-	if (!queue_work(nvme_workq, &dev->reset_work))
+-		return -EBUSY;
+-
+-	flush_work(&dev->reset_work);
+-	return 0;
+-}
+-
+ static int nvme_pci_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
+ {
+ 	*val = readl(to_nvme_dev(ctrl)->bar + off);
+@@ -1887,7 +1875,11 @@ static int nvme_pci_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
+ 
+ static int nvme_pci_reset_ctrl(struct nvme_ctrl *ctrl)
+ {
+-	return nvme_reset(to_nvme_dev(ctrl));
++	if (WARN_ON(ctrl->state != NVME_CTRL_SCHED_RESET))
++		return -EBUSY;
++	if (!queue_work(nvme_workq, &(to_nvme_dev(ctrl)->reset_work)))
++		return -EBUSY;
++	return 0;
+ }
+ 
+ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
+@@ -1968,7 +1960,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
+ 
+-	queue_work(nvme_workq, &dev->reset_work);
++	nvme_reset_ctrl(&dev->ctrl);
+ 	return 0;
+ 
+  release_pools:
+@@ -1990,7 +1982,7 @@ static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
+ 	if (prepare)
+ 		nvme_dev_disable(dev, false);
+ 	else
+-		queue_work(nvme_workq, &dev->reset_work);
++		nvme_reset_ctrl(&dev->ctrl);
+ }
+ 
+ static void nvme_shutdown(struct pci_dev *pdev)
+@@ -2041,7 +2033,7 @@ static int nvme_resume(struct device *dev)
+ 	struct pci_dev *pdev = to_pci_dev(dev);
+ 	struct nvme_dev *ndev = pci_get_drvdata(pdev);
+ 
+-	queue_work(nvme_workq, &ndev->reset_work);
++	nvme_reset_ctrl(&ndev->ctrl);
+ 	return 0;
+ }
+ #endif
+@@ -2080,7 +2072,7 @@ static pci_ers_result_t nvme_slot_reset(struct pci_dev *pdev)
+ 
+ 	dev_info(dev->ctrl.device, "restart after slot reset\n");
+ 	pci_restore_state(pdev);
+-	queue_work(nvme_workq, &dev->reset_work);
++	nvme_reset_ctrl(&dev->ctrl);
+ 	return PCI_ERS_RESULT_RECOVERED;
+ }
+ 
+-- 
+2.7.2
