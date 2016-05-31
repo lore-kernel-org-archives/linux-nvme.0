@@ -1,80 +1,134 @@
-From: hiroysato@gmail.com (Hiroyuki Sato)
-Date: Tue, 31 May 2016 18:41:03 +0900
-Subject: RAID0 mdadm Question
-Message-ID: <CA+Tq-RoTOSwAbJJFBgkDEC8LV-CiFOHKvbC3i3tkUUoxu03ziQ@mail.gmail.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 31 May 2016 14:05:08 +0200
+Subject: [PATCH 0/5] Introduce pci_(request|release)_(mem|io)_regions
+Message-ID: <cover.1464694724.git.jthumshirn@suse.de>
 
-Hello
+The first patch in this series introduces the following 4 helper functions to
+the PCI core:
 
-NVMe Newbie question.
+* pci_request_mem_regions()
+* pci_request_io_regions()
+* pci_release_mem_regions()
+* pci_release_io_regions()
 
-I have two P3600 PCIe NVMe Cards.
-And I created RAID0 volume with mdadm command.
-It works fine. But after reboot, I can't mount file system it.
-It seems lost partition table.
-(No partition information)
+which encapsulate the request and release of a PCI device's memory or I/O
+bars.
 
-Environment
-  - NVMe: Intel P3600 cards * 2
-  - Linux: 4.4.0
-  - OS: CentOS7
+The subsequent patches convert the drivers, which use the
+pci_request_selected_regions(pdev, 
+	pci_select_bars(pdev, IORESOURCE_MEM), name); 
+and similar pattern to use the new interface.
 
-Question
+This was suggested by Christoph Hellwig in
+http://lists.infradead.org/pipermail/linux-nvme/2016-May/004570.html and
+tested on kernel v4.6 with NVMe.
 
-  1, Do I need re-create file system on each Boot time?
+The conversion of the drivers has been performed by the following coccinelle
+spatch:
+// IORESOURCE_MEM
+@@
+expression err, pdev, name;
+@@
 
-  2, If not What step is missing?
+- err = pci_request_selected_regions(pdev, pci_select_bars(pdev,
+IORESOURCE_MEM), name);
++ err = pci_request_mem_regions(pdev, name);
 
-    generate mdadm.conf?
+@@
+expression pdev;
+@@
+- pci_release_selected_regions(pdev, pci_select_bars(pdev, IORESOURCE_MEM));
++ pci_release_mem_regions(pdev);
 
-Best regards.
+@@
+expression err, pdev, name;
+identifier bars;
+@@
+- bars = pci_select_bars(pdev, IORESOURCE_MEM);
+...
+- err = pci_request_selected_regions(pdev, bars, name);
++ err = pci_request_mem_regions(pdev, name);
 
-NVMe RAID step
+@@
+expression pdev;
+identifier bars;
+@@
+- bars = pci_select_bars(pdev, IORESOURCE_MEM);
+...
+- pci_release_selected_regions(pdev, bars);
++ pci_release_mem_regions(pdev);
 
-  Basically I followed this doc
-    https://communities.intel.com/community/itpeernetwork/blog/2015/10/01/how-to-use-and-benchmark-nvme-ssd-create-a-software-raid-and-analyze-performance-the-answers-are-here
+// IORESOURCE_IO
+@@
+expression err, pdev, name;
+@@
 
-  Step1: create container
+- err = pci_request_selected_regions(pdev, pci_select_bars(pdev,
+IORESOURCE_IO), name);
++ err = pci_request_io_regions(pdev, name);
 
-    mdadm -C /dev/md/imsm0 /dev/nvme0n1 /dev/nvme1n1 -n 2 -e imsm -f
-    mdadm: /dev/nvme0n1 appears to be part of a raid array:
-           level=raid0 devices=0 ctime=Thu Jan  1 09:00:00 1970
-    Continue creating array? y
-    mdadm: container /dev/md/imsm0 prepared.
+@@
+expression pdev;
+@@
+- pci_release_selected_regions(pdev, pci_select_bars(pdev, IORESOURCE_IO));
++ pci_release_io_regions(pdev);
 
-  Step2, create md device
-    mdadm -C /dev/md0 /dev/md/imsm0 -n 2 -l 0 -c 128 -f
-    mdadm: array /dev/md0 started.
+@@
+expression err, pdev, name;
+identifier bars;
+@@
+- bars = pci_select_bars(pdev, IORESOURCE_IO);
+...
+- err = pci_request_selected_regions(pdev, bars, name);
++ err = pci_request_io_regions(pdev, name);
 
-  Step3: Create Partition
-    parted /dev/md0
-
-    (parted) mkpart
-    Partition name?  []?
-    File system type?  [ext2]? xfs
-    Start? 0%
-    End? -1
-
-    (parted) p
-    Model: Linux Software RAID Array (md)
-    Disk /dev/md0: 800GB
-    Sector size (logical/physical): 512B/512B
-    Partition Table: gpt
-    Disk Flags:
-
-    Number  Start   End    Size   File system  Name  Flags
-     1      1049kB  800GB  800GB
-
-    (parted) quit
-    Information: You may need to update /etc/fstab.
-
-  Step4: Newfs
-
-    /sbin/mkfs.xfs -K /dev/md0p1 -f
-
-  Step5: mount
-
-    mount -o noatime,nodiratime,nobarrier /dev/md0p1 /mnt/nvme1
+@@
+expression pdev;
+identifier bars;
+@@
+- bars = pci_select_bars(pdev, IORESOURCE_IO);
+...
+- pci_release_selected_regions(pdev, bars);
++ pci_release_io_regions(pdev);
 
 
+Johannes Thumshirn (5):
+  PCI: Add helpers to request/release memory and I/O regions
+  NVMe: Use pci_(request|release)_mem_regions
+  scsi: Use pci_(request|release)_mem_regions
+  GenWQE: Use pci_(request|release)_mem_regions
+  ethernet: Use pci_(request|release)_mem_regions
+
+ drivers/misc/genwqe/card_base.c               | 13 +++++-------
+ drivers/net/ethernet/atheros/alx/main.c       | 12 +++++------
+ drivers/net/ethernet/intel/e1000e/netdev.c    |  6 ++----
+ drivers/net/ethernet/intel/fm10k/fm10k_pci.c  | 11 +++-------
+ drivers/net/ethernet/intel/i40e/i40e_main.c   |  9 +++------
+ drivers/net/ethernet/intel/igb/igb_main.c     | 10 +++------
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c |  9 +++------
+ drivers/nvme/host/pci.c                       | 10 +++------
+ drivers/scsi/lpfc/lpfc_init.c                 |  5 +----
+ include/linux/pci.h                           | 29 +++++++++++++++++++++++++++
+ 10 files changed, 57 insertions(+), 57 deletions(-)
+
+Cc: Christoph Hellwig <hch at infradead.org>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Jens Axboe <axboe at fb.com>
+Cc: linux-nvme at lists.infradead.org
+Cc: James Smart <james.smart at avagotech.com>
+Cc: Dick Kennedy <dick.kennedy at avagotech.com>
+Cc: "James E.J. Bottomley" <jejb at linux.vnet.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
+Cc: linux-scsi at vger.kernel.org
+Cc: linux-kernel at vger.kernel.org
+Cc: Frank Haverkamp <haver at linux.vnet.ibm.com>
+Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+Cc: Jay Cliburn <jcliburn at gmail.com>
+Cc: Chris Snook <chris.snook at gmail.com>
+Cc: Jeff Kirsher <jeffrey.t.kirsher at intel.com>
+Cc: David S. Miller <davem at davemloft.net>
+Cc: netdev at vger.kernel.org
+Cc: linux-kernel at vger.kernel.org
+Cc: intel-wired-lan at lists.osuosl.org
 -- 
-Hiroyuki Sato
+1.8.5.6
