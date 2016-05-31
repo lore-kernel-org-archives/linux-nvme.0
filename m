@@ -1,59 +1,86 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 31 May 2016 14:05:10 +0200
-Subject: [PATCH 2/5] NVMe: Use pci_(request|release)_mem_regions
-In-Reply-To: <cover.1464694724.git.jthumshirn@suse.de>
-References: <cover.1464694724.git.jthumshirn@suse.de>
-Message-ID: <1c28b653e543d25754e39f6294ab044ce73b2107.1464694724.git.jthumshirn@suse.de>
+From: artur.paszkiewicz@intel.com (Artur Paszkiewicz)
+Date: Tue, 31 May 2016 15:54:24 +0200
+Subject: RAID0 mdadm Question
+In-Reply-To: <CA+Tq-RoTOSwAbJJFBgkDEC8LV-CiFOHKvbC3i3tkUUoxu03ziQ@mail.gmail.com>
+References: <CA+Tq-RoTOSwAbJJFBgkDEC8LV-CiFOHKvbC3i3tkUUoxu03ziQ@mail.gmail.com>
+Message-ID: <574D9790.1080106@intel.com>
 
-Now that we do have pci_request_mem_regions() and pci_release_mem_regions() at
-hand, use it in the NVMe driver.
+On 05/31/2016 11:41 AM, Hiroyuki Sato wrote:
+> Hello
+> 
+> NVMe Newbie question.
+> 
+> I have two P3600 PCIe NVMe Cards.
+> And I created RAID0 volume with mdadm command.
+> It works fine. But after reboot, I can't mount file system it.
+> It seems lost partition table.
+> (No partition information)
+> 
+> Environment
+>   - NVMe: Intel P3600 cards * 2
+>   - Linux: 4.4.0
+>   - OS: CentOS7
+> 
+> Question
+> 
+>   1, Do I need re-create file system on each Boot time?
+> 
+>   2, If not What step is missing?
+> 
+>     generate mdadm.conf?
+> 
+> Best regards.
+> 
+> NVMe RAID step
+> 
+>   Basically I followed this doc
+>     https://communities.intel.com/community/itpeernetwork/blog/2015/10/01/how-to-use-and-benchmark-nvme-ssd-create-a-software-raid-and-analyze-performance-the-answers-are-here
+> 
+>   Step1: create container
+> 
+>     mdadm -C /dev/md/imsm0 /dev/nvme0n1 /dev/nvme1n1 -n 2 -e imsm -f
+>     mdadm: /dev/nvme0n1 appears to be part of a raid array:
+>            level=raid0 devices=0 ctime=Thu Jan  1 09:00:00 1970
+>     Continue creating array? y
+>     mdadm: container /dev/md/imsm0 prepared.
+> 
+>   Step2, create md device
+>     mdadm -C /dev/md0 /dev/md/imsm0 -n 2 -l 0 -c 128 -f
+>     mdadm: array /dev/md0 started.
+> 
+>   Step3: Create Partition
+>     parted /dev/md0
+> 
+>     (parted) mkpart
+>     Partition name?  []?
+>     File system type?  [ext2]? xfs
+>     Start? 0%
+>     End? -1
+> 
+>     (parted) p
+>     Model: Linux Software RAID Array (md)
+>     Disk /dev/md0: 800GB
+>     Sector size (logical/physical): 512B/512B
+>     Partition Table: gpt
+>     Disk Flags:
+> 
+>     Number  Start   End    Size   File system  Name  Flags
+>      1      1049kB  800GB  800GB
+> 
+>     (parted) quit
+>     Information: You may need to update /etc/fstab.
+> 
+>   Step4: Newfs
+> 
+>     /sbin/mkfs.xfs -K /dev/md0p1 -f
+> 
+>   Step5: mount
+> 
+>     mount -o noatime,nodiratime,nobarrier /dev/md0p1 /mnt/nvme1
+> 
 
-Suggested-by: Christoph Hellwig <hch at infradead.org>
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Cc: Christoph Hellwig <hch at infradead.org>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Jens Axboe <axboe at fb.com>
-Cc: linux-nvme at lists.infradead.org
----
- drivers/nvme/host/pci.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+Maybe the array has not assembled automatically after reboot. Check
+/proc/mdstat.  Also, the device you created in step 2 could have
+assembled under a different name, like /dev/md126.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4fd733f..e7d17ae 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1756,7 +1756,7 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
- {
- 	if (dev->bar)
- 		iounmap(dev->bar);
--	pci_release_regions(to_pci_dev(dev->dev));
-+	pci_release_mem_regions(to_pci_dev(dev->dev));
- }
- 
- static void nvme_pci_disable(struct nvme_dev *dev)
-@@ -1979,13 +1979,9 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 
- static int nvme_dev_map(struct nvme_dev *dev)
- {
--	int bars;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	bars = pci_select_bars(pdev, IORESOURCE_MEM);
--	if (!bars)
--		return -ENODEV;
--	if (pci_request_selected_regions(pdev, bars, "nvme"))
-+	if (pci_request_mem_regions(pdev, "nvme"))
- 		return -ENODEV;
- 
- 	dev->bar = ioremap(pci_resource_start(pdev, 0), 8192);
-@@ -1994,7 +1990,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 
-        return 0;
-   release:
--       pci_release_regions(pdev);
-+       pci_release_mem_regions(pdev);
-        return -ENODEV;
- }
- 
--- 
-1.8.5.6
+Artur
