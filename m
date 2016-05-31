@@ -1,86 +1,16 @@
-From: artur.paszkiewicz@intel.com (Artur Paszkiewicz)
-Date: Tue, 31 May 2016 15:54:24 +0200
-Subject: RAID0 mdadm Question
-In-Reply-To: <CA+Tq-RoTOSwAbJJFBgkDEC8LV-CiFOHKvbC3i3tkUUoxu03ziQ@mail.gmail.com>
-References: <CA+Tq-RoTOSwAbJJFBgkDEC8LV-CiFOHKvbC3i3tkUUoxu03ziQ@mail.gmail.com>
-Message-ID: <574D9790.1080106@intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 31 May 2016 10:35:08 -0400
+Subject: [PATCHv2] NVMe: Fix removal in case of active namespace list
+ scanning method
+In-Reply-To: <574C19D5.1060106@samsung.com>
+References: <20160527132834.GA19990@localhost.localdomain>
+ <574C19D5.1060106@samsung.com>
+Message-ID: <20160531143507.GA24107@localhost.localdomain>
 
-On 05/31/2016 11:41 AM, Hiroyuki Sato wrote:
-> Hello
-> 
-> NVMe Newbie question.
-> 
-> I have two P3600 PCIe NVMe Cards.
-> And I created RAID0 volume with mdadm command.
-> It works fine. But after reboot, I can't mount file system it.
-> It seems lost partition table.
-> (No partition information)
-> 
-> Environment
->   - NVMe: Intel P3600 cards * 2
->   - Linux: 4.4.0
->   - OS: CentOS7
-> 
-> Question
-> 
->   1, Do I need re-create file system on each Boot time?
-> 
->   2, If not What step is missing?
-> 
->     generate mdadm.conf?
-> 
-> Best regards.
-> 
-> NVMe RAID step
-> 
->   Basically I followed this doc
->     https://communities.intel.com/community/itpeernetwork/blog/2015/10/01/how-to-use-and-benchmark-nvme-ssd-create-a-software-raid-and-analyze-performance-the-answers-are-here
-> 
->   Step1: create container
-> 
->     mdadm -C /dev/md/imsm0 /dev/nvme0n1 /dev/nvme1n1 -n 2 -e imsm -f
->     mdadm: /dev/nvme0n1 appears to be part of a raid array:
->            level=raid0 devices=0 ctime=Thu Jan  1 09:00:00 1970
->     Continue creating array? y
->     mdadm: container /dev/md/imsm0 prepared.
-> 
->   Step2, create md device
->     mdadm -C /dev/md0 /dev/md/imsm0 -n 2 -l 0 -c 128 -f
->     mdadm: array /dev/md0 started.
-> 
->   Step3: Create Partition
->     parted /dev/md0
-> 
->     (parted) mkpart
->     Partition name?  []?
->     File system type?  [ext2]? xfs
->     Start? 0%
->     End? -1
-> 
->     (parted) p
->     Model: Linux Software RAID Array (md)
->     Disk /dev/md0: 800GB
->     Sector size (logical/physical): 512B/512B
->     Partition Table: gpt
->     Disk Flags:
-> 
->     Number  Start   End    Size   File system  Name  Flags
->      1      1049kB  800GB  800GB
-> 
->     (parted) quit
->     Information: You may need to update /etc/fstab.
-> 
->   Step4: Newfs
-> 
->     /sbin/mkfs.xfs -K /dev/md0p1 -f
-> 
->   Step5: mount
-> 
->     mount -o noatime,nodiratime,nobarrier /dev/md0p1 /mnt/nvme1
-> 
+On Mon, May 30, 2016@04:15:41PM +0530, Sunad Bhandary wrote:
+> In the patch, the namespaces are not removed on failure of identify
+> list. If nvme_identify_ns_list fails, the value is returned and
+> sequential scanning is done. The call to nvme_remove_invalid_namespaces is
+> done when the value of nsid in the list is 0.
 
-Maybe the array has not assembled automatically after reboot. Check
-/proc/mdstat.  Also, the device you created in step 2 could have
-assembled under a different name, like /dev/md126.
-
-Artur
+Sorry, my mistake. You're right, it is good as-is.
