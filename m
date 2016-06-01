@@ -1,19 +1,19 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 1 Jun 2016 09:20:35 +0200
-Subject: [PATCH 2/2] NVMe: Synchronize resets with scan work
-In-Reply-To: <1464724148-11169-2-git-send-email-keith.busch@intel.com>
-References: <1464724148-11169-1-git-send-email-keith.busch@intel.com>
- <1464724148-11169-2-git-send-email-keith.busch@intel.com>
-Message-ID: <20160601072035.bpctrskpwpwxdxrz@c203.arch.suse.de>
+Date: Wed, 1 Jun 2016 09:21:32 +0200
+Subject: [PATCH v3] NVMe: Add controller state for scheduling resets
+In-Reply-To: <1464729927-14574-1-git-send-email-keith.busch@intel.com>
+References: <1464729927-14574-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20160601072132.x5ehityotpi5if3x@c203.arch.suse.de>
 
-On Tue, May 31, 2016@01:49:08PM -0600, Keith Busch wrote:
-> A user could continuously reset a controller, which aborts active
-> commands. If the controller is currently scanning live namespaces, the
-> aborted commands could cause namespaces to fail. This patch synchronizes
-> the reset on a live controller with namespace scanning work to prevent
-> this from occuring.
+On Tue, May 31, 2016@03:25:27PM -0600, Keith Busch wrote:
+> All resets now must be submitted through the new state. This makes it
+> easier to coordinate controller tasks and simplifies the reset logic.
 > 
-> Reported-by: Ming Lin <mlin at kernel.org>
+> Since all resets go through the same state machine, and most of these
+> don't want to block for the reset to complete, this patch makes user
+> initiated resets asynchronous as well. Making user resets block until
+> complete wasn't necessary in the first place.
+> 
 > Signed-off-by: Keith Busch <keith.busch at intel.com>
 
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
