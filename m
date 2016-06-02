@@ -1,60 +1,140 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu,  2 Jun 2016 09:30:30 +0200
-Subject: [PATCH v2 2/6] NVMe: Use pci_(request|release)_mem_regions
-In-Reply-To: <cover.1464795082.git.jthumshirn@suse.de>
-References: <cover.1464795082.git.jthumshirn@suse.de>
-Message-ID: <9cdb60ecb1d5124311a05c6b75d16f48526593f0.1464795082.git.jthumshirn@suse.de>
+Date: Thu,  2 Jun 2016 09:30:28 +0200
+Subject: [PATCH v2 0/6] Introduce pci_(request|release)_(mem|io)_regions
+Message-ID: <cover.1464795082.git.jthumshirn@suse.de>
 
-Now that we do have pci_request_mem_regions() and pci_release_mem_regions() at
-hand, use it in the NVMe driver.
+The first patch in this series introduces the following 4 helper functions to
+the PCI core:
 
-Suggested-by: Christoph Hellwig <hch at infradead.org>
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+* pci_request_mem_regions()
+* pci_request_io_regions()
+* pci_release_mem_regions()
+* pci_release_io_regions()
+
+which encapsulate the request and release of a PCI device's memory or I/O
+bars.
+
+The subsequent patches convert the drivers, which use the
+pci_request_selected_regions(pdev, 
+	pci_select_bars(pdev, IORESOURCE_MEM), name); 
+and similar pattern to use the new interface.
+
+This was suggested by Christoph Hellwig in
+http://lists.infradead.org/pipermail/linux-nvme/2016-May/004570.html and
+tested on kernel v4.6 with NVMe.
+
+The conversion of the drivers has been performed by the following coccinelle
+spatch:
+// IORESOURCE_MEM
+@@
+expression err, pdev, name;
+@@
+
+- err = pci_request_selected_regions(pdev, pci_select_bars(pdev, IORESOURCE_MEM), name);
++ err = pci_request_mem_regions(pdev, name);
+
+@@
+expression pdev;
+@@
+- pci_release_selected_regions(pdev, pci_select_bars(pdev, IORESOURCE_MEM));
++ pci_release_mem_regions(pdev);
+
+@@
+expression err, pdev, name;
+identifier bars;
+@@
+- bars = pci_select_bars(pdev, IORESOURCE_MEM);
+...
+- err = pci_request_selected_regions(pdev, bars, name);
++ err = pci_request_mem_regions(pdev, name);
+
+@@
+expression pdev;
+identifier bars;
+@@
+- bars = pci_select_bars(pdev, IORESOURCE_MEM);
+...
+- pci_release_selected_regions(pdev, bars);
++ pci_release_mem_regions(pdev);
+
+// IORESOURCE_IO
+@@
+expression err, pdev, name;
+@@
+
+- err = pci_request_selected_regions(pdev, pci_select_bars(pdev,
+IORESOURCE_IO), name);
++ err = pci_request_io_regions(pdev, name);
+
+@@
+expression pdev;
+@@
+- pci_release_selected_regions(pdev, pci_select_bars(pdev, IORESOURCE_IO));
++ pci_release_io_regions(pdev);
+
+@@
+expression err, pdev, name;
+identifier bars;
+@@
+- bars = pci_select_bars(pdev, IORESOURCE_IO);
+...
+- err = pci_request_selected_regions(pdev, bars, name);
++ err = pci_request_io_regions(pdev, name);
+
+@@
+expression pdev;
+identifier bars;
+@@
+- bars = pci_select_bars(pdev, IORESOURCE_IO);
+...
+- pci_release_selected_regions(pdev, bars);
++ pci_release_io_regions(pdev);
+
+Changes since v1:
+* Fixed indendatoin in pci.h patch to not cross the 80 chars boundary.
+* Split Ethernet patches into two, one for Atheros and one for Intel drivers.
+* Correctly named lpfc patch.
+* Converted init-path of lpfc driver as well.
+* Added Reviewed-by tags were appropriate.
+
+Johannes Thumshirn (6):
+  PCI: Add helpers to request/release memory and I/O regions
+  NVMe: Use pci_(request|release)_mem_regions
+  lpfc: Use pci_(request|release)_mem_regions
+  GenWQE: Use pci_(request|release)_mem_regions
+  ethernet/intel: Use pci_(request|release)_mem_regions
+  alx: Use pci_(request|release)_mem_regions
+
+ drivers/misc/genwqe/card_base.c               | 13 +++++--------
+ drivers/net/ethernet/atheros/alx/main.c       | 12 +++++-------
+ drivers/net/ethernet/intel/e1000e/netdev.c    |  6 ++----
+ drivers/net/ethernet/intel/fm10k/fm10k_pci.c  | 11 +++--------
+ drivers/net/ethernet/intel/i40e/i40e_main.c   |  9 +++------
+ drivers/net/ethernet/intel/igb/igb_main.c     | 10 +++-------
+ drivers/net/ethernet/intel/ixgbe/ixgbe_main.c |  9 +++------
+ drivers/nvme/host/pci.c                       | 10 +++-------
+ drivers/scsi/lpfc/lpfc_init.c                 | 15 ++++----------
+ include/linux/pci.h                           | 28 +++++++++++++++++++++++++++
+ 10 files changed, 59 insertions(+), 64 deletions(-)
+
 Cc: Christoph Hellwig <hch at infradead.org>
 Cc: Keith Busch <keith.busch at intel.com>
 Cc: Jens Axboe <axboe at fb.com>
 Cc: linux-nvme at lists.infradead.org
----
- drivers/nvme/host/pci.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4fd733f..e7d17ae 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1756,7 +1756,7 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
- {
- 	if (dev->bar)
- 		iounmap(dev->bar);
--	pci_release_regions(to_pci_dev(dev->dev));
-+	pci_release_mem_regions(to_pci_dev(dev->dev));
- }
- 
- static void nvme_pci_disable(struct nvme_dev *dev)
-@@ -1979,13 +1979,9 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 
- static int nvme_dev_map(struct nvme_dev *dev)
- {
--	int bars;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	bars = pci_select_bars(pdev, IORESOURCE_MEM);
--	if (!bars)
--		return -ENODEV;
--	if (pci_request_selected_regions(pdev, bars, "nvme"))
-+	if (pci_request_mem_regions(pdev, "nvme"))
- 		return -ENODEV;
- 
- 	dev->bar = ioremap(pci_resource_start(pdev, 0), 8192);
-@@ -1994,7 +1990,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 
-        return 0;
-   release:
--       pci_release_regions(pdev);
-+       pci_release_mem_regions(pdev);
-        return -ENODEV;
- }
- 
+Cc: James Smart <james.smart at avagotech.com>
+Cc: Dick Kennedy <dick.kennedy at avagotech.com>
+Cc: "James E.J. Bottomley" <jejb at linux.vnet.ibm.com>
+Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
+Cc: linux-scsi at vger.kernel.org
+Cc: linux-kernel at vger.kernel.org
+Cc: Frank Haverkamp <haver at linux.vnet.ibm.com>
+Cc: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+Cc: Jay Cliburn <jcliburn at gmail.com>
+Cc: Chris Snook <chris.snook at gmail.com>
+Cc: Jeff Kirsher <jeffrey.t.kirsher at intel.com>
+Cc: David S. Miller <davem at davemloft.net>
+Cc: netdev at vger.kernel.org
+Cc: linux-kernel at vger.kernel.org
+Cc: intel-wired-lan at lists.osuosl.org
 -- 
 1.8.5.6
