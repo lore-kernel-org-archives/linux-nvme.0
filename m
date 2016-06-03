@@ -1,37 +1,31 @@
-From: james.p.freyensee@intel.com (Jay Freyensee)
-Date: Thu,  2 Jun 2016 08:51:25 -0700
-Subject: [PATCH] nvme: initialize variable before logical OR'ing it
-Message-ID: <1464882685-4531-1-git-send-email-james.p.freyensee@intel.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri,  3 Jun 2016 14:44:18 +0200
+Subject: [PATCH] nvme: lightnvme: make MLC num_pairs little endian
+Message-ID: <1464957858-59392-1-git-send-email-jthumshirn@suse.de>
 
-It is typically not good coding or secure coding practice
-to logical OR a variable without an initialization value first.
-Here on this line:
+According to the OpenChannel SSD interface specification the NAND flash
+MLC page pairing information's number of page page pairings field is the
+first two bytes in the MLC Page Pairing data structure. The hardware's
+data structure itself is little endian so annotate it as such, like the
+rest of lighnvm's data structures.
 
-integrity.flags |= BLK_INTEGRITY_DEVICE_CAPABLE;
-
-BLK_INTEGRITY_DEVICE_CAPABLE is being OR'ed to a member variable
-never set to an initial value. This patch fixes that.
-
-Signed-off-by: Jay Freyensee <james.p.freyensee at intel.com>
-Reviewed-by: Ming Lin <ming.l at samsung.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/lightnvm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f6f6fdf..33fe610 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -843,6 +843,7 @@ static void nvme_init_integrity(struct nvme_ns *ns)
- {
- 	struct blk_integrity integrity;
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index 9461dd6..ea36cbb 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -156,7 +156,7 @@ struct nvme_nvm_completion {
  
-+	memset(&integrity, 0, sizeof(integrity));
- 	switch (ns->pi_type) {
- 	case NVME_NS_DPS_PI_TYPE3:
- 		integrity.profile = &t10_pi_type3_crc;
+ #define NVME_NVM_LP_MLC_PAIRS 886
+ struct nvme_nvm_lp_mlc {
+-	__u16			num_pairs;
++	__le16			num_pairs;
+ 	__u8			pairs[NVME_NVM_LP_MLC_PAIRS];
+ };
+ 
 -- 
-2.4.3
+1.8.5.6
