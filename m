@@ -1,72 +1,102 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon,  6 Jun 2016 23:23:32 +0200
-Subject: [PATCH 2/5] nvme: add new reconnecting controller state
+Date: Mon,  6 Jun 2016 23:23:33 +0200
+Subject: [PATCH 3/5] nvme-rdma.h: Add includes for nvme rdma_cm negotiation
 In-Reply-To: <1465248215-18186-1-git-send-email-hch@lst.de>
 References: <1465248215-18186-1-git-send-email-hch@lst.de>
-Message-ID: <1465248215-18186-3-git-send-email-hch@lst.de>
+Message-ID: <1465248215-18186-4-git-send-email-hch@lst.de>
 
-The nvme fabric (RDMA, FC, etc...) can introduce port, link or node
-failures that may require a reconnect to re-establish the connection.
+From: Sagi Grimberg <sagi@grimberg.me>
 
-Add a new reconnecting state that will initially be used by the RDMA
-driver.
+NVMe over Fabrics RDMA transport defines a connection establishment
+protocol over the RDMA connection manager. This header will be used by
+both the host and target drivers to negotiate the connection
+establishment parameters.
 
-Reviewed-by: Jay Freyensee <james.p.freyensee at intel.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Jay Freyensee <james.p.freyensee at intel.com>
+Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 12 ++++++++++++
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 13 insertions(+)
+ include/linux/nvme-rdma.h | 71 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 71 insertions(+)
+ create mode 100644 include/linux/nvme-rdma.h
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 6f4361b..5bd5de1 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -88,6 +88,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		switch (old_state) {
- 		case NVME_CTRL_NEW:
- 		case NVME_CTRL_RESETTING:
-+		case NVME_CTRL_RECONNECTING:
- 			changed = true;
- 			/* FALLTHRU */
- 		default:
-@@ -98,6 +99,16 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		switch (old_state) {
- 		case NVME_CTRL_NEW:
- 		case NVME_CTRL_LIVE:
-+		case NVME_CTRL_RECONNECTING:
-+			changed = true;
-+			/* FALLTHRU */
-+		default:
-+			break;
-+		}
-+		break;
-+	case NVME_CTRL_RECONNECTING:
-+		switch (old_state) {
-+		case NVME_CTRL_LIVE:
- 			changed = true;
- 			/* FALLTHRU */
- 		default:
-@@ -108,6 +119,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 		switch (old_state) {
- 		case NVME_CTRL_LIVE:
- 		case NVME_CTRL_RESETTING:
-+		case NVME_CTRL_RECONNECTING:
- 			changed = true;
- 			/* FALLTHRU */
- 		default:
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index d25eaab..a288974 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -74,6 +74,7 @@ enum nvme_ctrl_state {
- 	NVME_CTRL_NEW,
- 	NVME_CTRL_LIVE,
- 	NVME_CTRL_RESETTING,
-+	NVME_CTRL_RECONNECTING,
- 	NVME_CTRL_DELETING,
- 	NVME_CTRL_DEAD,
- };
+diff --git a/include/linux/nvme-rdma.h b/include/linux/nvme-rdma.h
+new file mode 100644
+index 0000000..bf240a3
+--- /dev/null
++++ b/include/linux/nvme-rdma.h
+@@ -0,0 +1,71 @@
++/*
++ * Copyright (c) 2015 Mellanox Technologies. All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ */
++
++#ifndef _LINUX_NVME_RDMA_H
++#define _LINUX_NVME_RDMA_H
++
++enum nvme_rdma_cm_fmt {
++	NVME_RDMA_CM_FMT_1_0 = 0x0,
++};
++
++enum nvme_rdma_cm_status {
++	NVME_RDMA_CM_INVALID_LEN	= 0x01,
++	NVME_RDMA_CM_INVALID_RECFMT	= 0x02,
++	NVME_RDMA_CM_INVALID_QID	= 0x03,
++	NVME_RDMA_CM_INVALID_HSQSIZE	= 0x04,
++	NVME_RDMA_CM_INVALID_HRQSIZE	= 0x05,
++	NVME_RDMA_CM_NO_RSC		= 0x06,
++	NVME_RDMA_CM_INVALID_IRD	= 0x07,
++	NVME_RDMA_CM_INVALID_ORD	= 0x08,
++};
++
++/**
++ * struct nvme_rdma_cm_req - rdma connect request
++ *
++ * @recfmt:        format of the RDMA Private Data
++ * @qid:           queue Identifier for the Admin or I/O Queue
++ * @hrqsize:       host receive queue size to be created
++ * @hsqsize:       host send queue size to be created
++ */
++struct nvme_rdma_cm_req {
++	__le16		recfmt;
++	__le16		qid;
++	__le16		hrqsize;
++	__le16		hsqsize;
++	u8		rsvd[24];
++};
++
++/**
++ * struct nvme_rdma_cm_rep - rdma connect reply
++ *
++ * @recfmt:        format of the RDMA Private Data
++ * @crqsize:       controller receive queue size
++ */
++struct nvme_rdma_cm_rep {
++	__le16		recfmt;
++	__le16		crqsize;
++	u8		rsvd[28];
++};
++
++/**
++ * struct nvme_rdma_cm_rej - rdma connect reject
++ *
++ * @recfmt:        format of the RDMA Private Data
++ * @fsts:          error status for the associated connect request
++ */
++struct nvme_rdma_cm_rej {
++	__le16		recfmt;
++	__le16		sts;
++};
++
++#endif /* _LINUX_NVME_RDMA_H */
 -- 
 2.1.4
