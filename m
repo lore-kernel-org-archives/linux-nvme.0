@@ -1,90 +1,72 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon,  6 Jun 2016 23:23:31 +0200
-Subject: [PATCH 1/5] blk-mq: Introduce blk_mq_reinit_tagset
+Date: Mon,  6 Jun 2016 23:23:32 +0200
+Subject: [PATCH 2/5] nvme: add new reconnecting controller state
 In-Reply-To: <1465248215-18186-1-git-send-email-hch@lst.de>
 References: <1465248215-18186-1-git-send-email-hch@lst.de>
-Message-ID: <1465248215-18186-2-git-send-email-hch@lst.de>
+Message-ID: <1465248215-18186-3-git-send-email-hch@lst.de>
 
-From: Sagi Grimberg <sagi@grimberg.me>
+The nvme fabric (RDMA, FC, etc...) can introduce port, link or node
+failures that may require a reconnect to re-establish the connection.
 
-The new nvme-rdma driver will need to reinitialize all the tags as part of
-the error recovery procedure (realloc the tag memory region). Add a helper
-in blk-mq for it that can iterate over all requests in a tagset to make
-this easier.
+Add a new reconnecting state that will initially be used by the RDMA
+driver.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Tested-by: Ming Lin <ming.l at ssi.samsung.com>
-Reviewed-by: Stephen Bates <Stephen.Bates at pmcs.com>
+Reviewed-by: Jay Freyensee <james.p.freyensee at intel.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- block/blk-mq-tag.c     | 26 ++++++++++++++++++++++++++
- include/linux/blk-mq.h |  3 +++
- 2 files changed, 29 insertions(+)
+ drivers/nvme/host/core.c | 12 ++++++++++++
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 13 insertions(+)
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index 56a0c37..729bac3 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -485,6 +485,32 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
- }
- EXPORT_SYMBOL(blk_mq_tagset_busy_iter);
- 
-+int blk_mq_reinit_tagset(struct blk_mq_tag_set *set)
-+{
-+	int i, j, ret = 0;
-+
-+	if (!set->ops->reinit_request)
-+		goto out;
-+
-+	for (i = 0; i < set->nr_hw_queues; i++) {
-+		struct blk_mq_tags *tags = set->tags[i];
-+
-+		for (j = 0; j < tags->nr_tags; j++) {
-+			if (!tags->rqs[j])
-+				continue;
-+
-+			ret = set->ops->reinit_request(set->driver_data,
-+						tags->rqs[j]);
-+			if (ret)
-+				goto out;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 6f4361b..5bd5de1 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -88,6 +88,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		switch (old_state) {
+ 		case NVME_CTRL_NEW:
+ 		case NVME_CTRL_RESETTING:
++		case NVME_CTRL_RECONNECTING:
+ 			changed = true;
+ 			/* FALLTHRU */
+ 		default:
+@@ -98,6 +99,16 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		switch (old_state) {
+ 		case NVME_CTRL_NEW:
+ 		case NVME_CTRL_LIVE:
++		case NVME_CTRL_RECONNECTING:
++			changed = true;
++			/* FALLTHRU */
++		default:
++			break;
 +		}
-+	}
-+
-+out:
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_reinit_tagset);
-+
- void blk_mq_queue_tag_busy_iter(struct request_queue *q, busy_iter_fn *fn,
- 		void *priv)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 6bf8735..9a5d581 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -96,6 +96,7 @@ typedef int (init_request_fn)(void *, struct request *, unsigned int,
- 		unsigned int, unsigned int);
- typedef void (exit_request_fn)(void *, struct request *, unsigned int,
- 		unsigned int);
-+typedef int (reinit_request_fn)(void *, struct request *);
- 
- typedef void (busy_iter_fn)(struct blk_mq_hw_ctx *, struct request *, void *,
- 		bool);
-@@ -145,6 +146,7 @@ struct blk_mq_ops {
- 	 */
- 	init_request_fn		*init_request;
- 	exit_request_fn		*exit_request;
-+	reinit_request_fn	*reinit_request;
++		break;
++	case NVME_CTRL_RECONNECTING:
++		switch (old_state) {
++		case NVME_CTRL_LIVE:
+ 			changed = true;
+ 			/* FALLTHRU */
+ 		default:
+@@ -108,6 +119,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		switch (old_state) {
+ 		case NVME_CTRL_LIVE:
+ 		case NVME_CTRL_RESETTING:
++		case NVME_CTRL_RECONNECTING:
+ 			changed = true;
+ 			/* FALLTHRU */
+ 		default:
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index d25eaab..a288974 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -74,6 +74,7 @@ enum nvme_ctrl_state {
+ 	NVME_CTRL_NEW,
+ 	NVME_CTRL_LIVE,
+ 	NVME_CTRL_RESETTING,
++	NVME_CTRL_RECONNECTING,
+ 	NVME_CTRL_DELETING,
+ 	NVME_CTRL_DEAD,
  };
- 
- enum {
-@@ -245,6 +247,7 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
- void blk_mq_freeze_queue(struct request_queue *q);
- void blk_mq_unfreeze_queue(struct request_queue *q);
- void blk_mq_freeze_queue_start(struct request_queue *q);
-+int blk_mq_reinit_tagset(struct blk_mq_tag_set *set);
- 
- void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues);
- 
 -- 
 2.1.4
