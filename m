@@ -1,74 +1,54 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon,  6 Jun 2016 23:20:50 +0200
-Subject: [PATCH 08/10] nvme: move the workaround for I/O queue-less
- controllers from PCIe to core
+Date: Mon,  6 Jun 2016 23:20:51 +0200
+Subject: [PATCH 09/10] nvme: update nvme_cancel_io() a bit
 In-Reply-To: <1465248052-17811-1-git-send-email-hch@lst.de>
 References: <1465248052-17811-1-git-send-email-hch@lst.de>
-Message-ID: <1465248052-17811-9-git-send-email-hch@lst.de>
+Message-ID: <1465248052-17811-10-git-send-email-hch@lst.de>
 
-We want to apply this to Fabrics drivers as well, so move it to common
-code.
+From: Ming Lin <ming.l@samsung.com>
 
-Reviewed-by: Jay Freyensee <james.p.freyensee at intel.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Tested-by: Ming Lin <ming.l at ssi.samsung.com>
+Pass in nvme_ctrl, so it can be used by the fabrics drivers also.
+Also update to upstream version and rename it to nvme_cancel_request.
+
+Signed-off-by: Ming Lin <ming.l at samsung.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 17 ++++++++++++++---
- drivers/nvme/host/pci.c  | 10 +---------
- 2 files changed, 15 insertions(+), 12 deletions(-)
+ drivers/nvme/host/pci.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ffd9910..972029a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -557,11 +557,22 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
- 
- 	status = nvme_set_features(ctrl, NVME_FEAT_NUM_QUEUES, q_count, 0,
- 			&result);
--	if (status)
-+	if (status < 0)
- 		return status;
- 
--	nr_io_queues = min(result & 0xffff, result >> 16) + 1;
--	*count = min(*count, nr_io_queues);
-+	/*
-+	 * Degraded controllers might return an error when setting the queue
-+	 * count.  We still want to be able to bring them online and offer
-+	 * access to the admin queue, as that might be only way to fix them up.
-+	 */
-+	if (status > 0) {
-+		dev_err(ctrl->dev, "Could not set queue count (%d)\n", status);
-+		*count = 0;
-+	} else {
-+		nr_io_queues = min(result & 0xffff, result >> 16) + 1;
-+		*count = min(*count, nr_io_queues);
-+	}
-+
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(nvme_set_queue_count);
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 78dca31..cf7ea73 100644
+index cf7ea73..5ae5804 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1399,16 +1399,8 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	if (result < 0)
- 		return result;
+@@ -919,14 +919,14 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 	return BLK_EH_RESET_TIMER;
+ }
  
--	/*
--	 * Degraded controllers might return an error when setting the queue
--	 * count.  We still want to be able to bring them online and offer
--	 * access to the admin queue, as that might be only way to fix them up.
--	 */
--	if (result > 0) {
--		dev_err(dev->ctrl.device,
--			"Could not set queue count (%d)\n", result);
-+	if (nr_io_queues == 0)
- 		return 0;
--	}
+-static void nvme_cancel_io(struct request *req, void *data, bool reserved)
++static void nvme_cancel_request(struct request *req, void *data, bool reserved)
+ {
+ 	int status;
  
- 	if (dev->cmb && NVME_CMB_SQS(dev->cmbsz)) {
- 		result = nvme_cmb_qdepth(dev, nr_io_queues,
+ 	if (!blk_mq_request_started(req))
+ 		return;
+ 
+-	dev_dbg_ratelimited(((struct nvme_dev *) data)->ctrl.device,
++	dev_dbg_ratelimited(((struct nvme_ctrl *) data)->device,
+ 				"Cancelling I/O %d", req->tag);
+ 
+ 	status = NVME_SC_ABORT_REQ;
+@@ -1714,8 +1714,9 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	}
+ 	nvme_pci_disable(dev);
+ 
+-	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_io, dev);
+-	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_io, dev);
++	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
++	blk_mq_tagset_busy_iter(&dev->admin_tagset,
++				nvme_cancel_request, &dev->ctrl);
+ 	mutex_unlock(&dev->shutdown_lock);
+ }
+ 
 -- 
 2.1.4
