@@ -1,45 +1,60 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon,  6 Jun 2016 23:20:48 +0200
-Subject: [PATCH 06/10] nvme: allow for size limitations from transport drivers
+Date: Mon,  6 Jun 2016 23:20:49 +0200
+Subject: [PATCH 07/10] nvme: factor out a add nvme_is_write helper
 In-Reply-To: <1465248052-17811-1-git-send-email-hch@lst.de>
 References: <1465248052-17811-1-git-send-email-hch@lst.de>
-Message-ID: <1465248052-17811-7-git-send-email-hch@lst.de>
+Message-ID: <1465248052-17811-8-git-send-email-hch@lst.de>
 
-Some transport drivers may have a lower transfer size than
-the controller. So allow the transport to set it in the
-controller max_hw_sectors.
+Centralize the check if a given NVMe command reads or writes data.
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Jay Freyensee <james.p.freyensee at intel.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/nvme/host/core.c | 5 ++---
+ include/linux/nvme.h     | 5 +++++
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1a51584..b582c11 100644
+index b582c11..ffd9910 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1088,6 +1088,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	struct nvme_id_ctrl *id;
- 	u64 cap;
- 	int ret, page_shift;
-+	u32 max_hw_sectors;
+@@ -176,10 +176,9 @@ EXPORT_SYMBOL_GPL(nvme_requeue_req);
+ struct request *nvme_alloc_request(struct request_queue *q,
+ 		struct nvme_command *cmd, unsigned int flags)
+ {
+-	bool write = cmd->common.opcode & 1;
+ 	struct request *req;
  
- 	ret = ctrl->ops->reg_read32(ctrl, NVME_REG_VS, &ctrl->vs);
- 	if (ret) {
-@@ -1120,9 +1121,11 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	memcpy(ctrl->model, id->mn, sizeof(id->mn));
- 	memcpy(ctrl->firmware_rev, id->fr, sizeof(id->fr));
- 	if (id->mdts)
--		ctrl->max_hw_sectors = 1 << (id->mdts + page_shift - 9);
-+		max_hw_sectors = 1 << (id->mdts + page_shift - 9);
- 	else
--		ctrl->max_hw_sectors = UINT_MAX;
-+		max_hw_sectors = UINT_MAX;
-+	ctrl->max_hw_sectors =
-+		min_not_zero(ctrl->max_hw_sectors, max_hw_sectors);
+-	req = blk_mq_alloc_request(q, write, flags);
++	req = blk_mq_alloc_request(q, nvme_is_write(cmd), flags);
+ 	if (IS_ERR(req))
+ 		return req;
  
- 	if ((ctrl->quirks & NVME_QUIRK_STRIPE_SIZE) && id->vs[3]) {
- 		unsigned int max_hw_sectors;
+@@ -344,7 +343,7 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
+ 		void __user *meta_buffer, unsigned meta_len, u32 meta_seed,
+ 		u32 *result, unsigned timeout)
+ {
+-	bool write = cmd->common.opcode & 1;
++	bool write = nvme_is_write(cmd);
+ 	struct nvme_completion cqe;
+ 	struct nvme_ns *ns = q->queuedata;
+ 	struct gendisk *disk = ns ? ns->disk : NULL;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 2b82f05..dc815cc 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -590,6 +590,11 @@ struct nvme_command {
+ 	};
+ };
+ 
++static inline bool nvme_is_write(struct nvme_command *cmd)
++{
++	return cmd->common.opcode & 1;
++}
++
+ enum {
+ 	NVME_SC_SUCCESS			= 0x0,
+ 	NVME_SC_INVALID_OPCODE		= 0x1,
 -- 
 2.1.4
