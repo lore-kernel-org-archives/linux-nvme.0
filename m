@@ -1,557 +1,1209 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon,  6 Jun 2016 23:21:56 +0200
-Subject: [PATCH 5/8] nvme.h: add NVMe over Fabrics definitions
+Date: Mon,  6 Jun 2016 23:21:57 +0200
+Subject: [PATCH 6/8] nvme-fabrics: add a generic NVMe over Fabrics library
 In-Reply-To: <1465248119-17875-1-git-send-email-hch@lst.de>
 References: <1465248119-17875-1-git-send-email-hch@lst.de>
-Message-ID: <1465248119-17875-6-git-send-email-hch@lst.de>
+Message-ID: <1465248119-17875-7-git-send-email-hch@lst.de>
 
-The NVMe over Fabrics specification defines a protocol interface and
-related extensions to NVMe that enable operation over network protocols.
-The NVMe over Fabrics specification has an NVMe Transport binding for
-each NVMe Transport.
+The NVMe over Fabrics library provides an interface for both transports
+and the nvme core to handle fabrics specific commands and attributes
+independent of the underlying transport.
 
-This patch adds the fabrics related definitions:
-- fabric specific command set and error codes
-- transport addressing and binding definitions
-- fabrics sgl extensions
-- controller identification fabrics enhancements
-- discovery log page definition
+In addition, the fabrics library adds a misc device interface that allow
+actually creating a fabrics controller, as we can't just autodiscover
+it like in the PCI case.  The nvme-cli utility has been enhanced to use
+this interface to support fabric connect and discovery.
 
-Signed-off-by: Armen Baloyan <armenx.baloyan at intel.com>
-Signed-off-by: James Smart <james.smart at broadcom.com>
-Signed-off-by: Jay Freyensee <james.p.freyensee at intel.com>
+Signed-off-by: Armen Baloyan <armenx.baloyan at intel.com>,
+Signed-off-by: Jay Freyensee <james.p.freyensee at intel.com>,
 Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c |   4 +-
- drivers/nvme/host/pci.c  |   4 +-
- include/linux/nvme.h     | 337 ++++++++++++++++++++++++++++++++++++++++++++---
- 3 files changed, 322 insertions(+), 23 deletions(-)
+ drivers/nvme/host/Kconfig   |   3 +
+ drivers/nvme/host/Makefile  |   3 +
+ drivers/nvme/host/core.c    |  19 +-
+ drivers/nvme/host/fabrics.c | 932 ++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/fabrics.h | 132 +++++++
+ drivers/nvme/host/nvme.h    |  11 +
+ 6 files changed, 1099 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/nvme/host/fabrics.c
+ create mode 100644 drivers/nvme/host/fabrics.h
 
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index d296fc3..3397651 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -24,3 +24,6 @@ config BLK_DEV_NVME_SCSI
+ 	  to say N here, unless you run a distro that abuses the SCSI
+ 	  emulation to provide stable device names for mount by id, like
+ 	  some OpenSuSE and SLES versions.
++
++config NVME_FABRICS
++	tristate
+diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+index 9a3ca89..5f8648f 100644
+--- a/drivers/nvme/host/Makefile
++++ b/drivers/nvme/host/Makefile
+@@ -1,8 +1,11 @@
+ obj-$(CONFIG_NVME_CORE)			+= nvme-core.o
+ obj-$(CONFIG_BLK_DEV_NVME)		+= nvme.o
++obj-$(CONFIG_NVME_FABRICS)		+= nvme-fabrics.o
+ 
+ nvme-core-y				:= core.o
+ nvme-core-$(CONFIG_BLK_DEV_NVME_SCSI)	+= scsi.o
+ nvme-core-$(CONFIG_NVM)			+= lightnvm.o
+ 
+ nvme-y					+= pci.o
++
++nvme-fabrics-y				+= fabrics.o
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c272eb9..0c1a9b5 100644
+index 0c1a9b5..1f70393 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -524,7 +524,7 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
- 	memset(&c, 0, sizeof(c));
- 	c.features.opcode = nvme_admin_get_features;
- 	c.features.nsid = cpu_to_le32(nsid);
--	c.features.prp1 = cpu_to_le64(dma_addr);
-+	c.features.dptr.prp1 = cpu_to_le64(dma_addr);
- 	c.features.fid = cpu_to_le32(fid);
- 
- 	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, NULL, 0, 0,
-@@ -543,7 +543,7 @@ int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
- 
- 	memset(&c, 0, sizeof(c));
- 	c.features.opcode = nvme_admin_set_features;
--	c.features.prp1 = cpu_to_le64(dma_addr);
-+	c.features.dptr.prp1 = cpu_to_le64(dma_addr);
- 	c.features.fid = cpu_to_le32(fid);
- 	c.features.dword11 = cpu_to_le32(dword11);
- 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 518147b..90d9796 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -520,8 +520,8 @@ static int nvme_map_data(struct nvme_dev *dev, struct request *req,
- 			goto out_unmap;
+@@ -1178,9 +1178,26 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
  	}
  
--	cmnd->rw.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
--	cmnd->rw.prp2 = cpu_to_le64(iod->first_dma);
-+	cmnd->rw.dptr.prp1 = cpu_to_le64(sg_dma_address(iod->sg));
-+	cmnd->rw.dptr.prp2 = cpu_to_le64(iod->first_dma);
- 	if (blk_integrity_rq(req))
- 		cmnd->rw.metadata = cpu_to_le64(sg_dma_address(&iod->meta_sg));
- 	return BLK_MQ_RQ_QUEUE_OK;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index dc815cc..7525030 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -16,6 +16,78 @@
- #define _LINUX_NVME_H
+ 	nvme_set_queue_limits(ctrl, ctrl->admin_q);
++	ctrl->sgls = le32_to_cpu(id->sgls);
++
++	if (ctrl->ops->is_fabrics) {
++		ctrl->icdoff = le16_to_cpu(id->icdoff);
++		ctrl->ioccsz = le32_to_cpu(id->ioccsz);
++		ctrl->iorcsz = le32_to_cpu(id->iorcsz);
++		ctrl->maxcmd = le16_to_cpu(id->maxcmd);
++
++		/*
++		 * In fabrics we need to verify the cntlid matches the
++		 * admin connect
++		 */
++		if (ctrl->cntlid != le16_to_cpu(id->cntlid))
++			ret = -EINVAL;
++	} else {
++		ctrl->cntlid = le16_to_cpu(id->cntlid);
++	}
  
- #include <linux/types.h>
-+#include <linux/uuid.h>
-+
-+/* NQN names in commands fields specified one size */
-+#define NVMF_NQN_FIELD_LEN	256
-+
-+/* However the max length of a qualified name is another size */
-+#define NVMF_NQN_SIZE		223
-+
-+#define NVMF_TRSVCID_SIZE	32
-+#define NVMF_TRADDR_SIZE	256
-+#define NVMF_TSAS_SIZE		256
-+
-+#define NVME_DISC_SUBSYS_NAME	"nqn.2014-08.org.nvmexpress.discovery"
-+
-+#define NVME_RDMA_IP_PORT	4420
-+
-+enum nvme_subsys_type {
-+	NVME_NQN_DISC	= 1,		/* Discovery type target subsystem */
-+	NVME_NQN_NVME	= 2,		/* NVME type target subsystem */
-+};
-+
-+/* Address Family codes for Discovery Log Page entry ADRFAM field */
-+enum {
-+	NVMF_ADDR_FAMILY_PCI	= 0,	/* PCIe */
-+	NVMF_ADDR_FAMILY_IP4	= 1,	/* IP4 */
-+	NVMF_ADDR_FAMILY_IP6	= 2,	/* IP6 */
-+	NVMF_ADDR_FAMILY_IB	= 3,	/* InfiniBand */
-+	NVMF_ADDR_FAMILY_FC	= 4,	/* Fibre Channel */
-+};
-+
-+/* Transport Type codes for Discovery Log Page entry TRTYPE field */
-+enum {
-+	NVMF_TRTYPE_RDMA	= 1,	/* RDMA */
-+	NVMF_TRTYPE_FC		= 2,	/* Fibre Channel */
-+	NVMF_TRTYPE_LOOP	= 254,	/* Reserved for host usage */
-+	NVMF_TRTYPE_MAX,
-+};
-+
-+/* Transport Requirements codes for Discovery Log Page entry TREQ field */
-+enum {
-+	NVMF_TREQ_NOT_SPECIFIED	= 0,	/* Not specified */
-+	NVMF_TREQ_REQUIRED	= 1,	/* Required */
-+	NVMF_TREQ_NOT_REQUIRED	= 2,	/* Not Required */
-+};
-+
-+/* RDMA QP Service Type codes for Discovery Log Page entry TSAS
-+ * RDMA_QPTYPE field
-+ */
-+enum {
-+	NVMF_RDMA_QPTYPE_CONNECTED	= 0, /* Reliable Connected */
-+	NVMF_RDMA_QPTYPE_DATAGRAM	= 1, /* Reliable Datagram */
-+};
-+
-+/* RDMA QP Service Type codes for Discovery Log Page entry TSAS
-+ * RDMA_QPTYPE field
-+ */
-+enum {
-+	NVMF_RDMA_PRTYPE_NOT_SPECIFIED	= 0, /* No Provider Specified */
-+	NVMF_RDMA_PRTYPE_IB		= 1, /* InfiniBand */
-+	NVMF_RDMA_PRTYPE_ROCE		= 2, /* InfiniBand RoCE */
-+	NVMF_RDMA_PRTYPE_ROCEV2		= 3, /* InfiniBand RoCEV2 */
-+	NVMF_RDMA_PRTYPE_IWARP		= 4, /* IWARP */
-+};
-+
-+/* RDMA Connection Management Service Type codes for Discovery Log Page
-+ * entry TSAS RDMA_CMS field
-+ */
-+enum {
-+	NVMF_RDMA_CMS_RDMA_CM	= 0, /* Sockets based enpoint addressing */
-+};
-+
-+#define NVMF_AQ_DEPTH		32
+ 	kfree(id);
+-	return 0;
++	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_init_identify);
  
- enum {
- 	NVME_REG_CAP	= 0x0000,	/* Controller Capabilities */
-@@ -117,7 +189,8 @@ struct nvme_id_ctrl {
- 	__le32			rtd3r;
- 	__le32			rtd3e;
- 	__le32			oaes;
--	__u8			rsvd96[160];
-+	__le32			ctratt;
-+	__u8			rsvd100[156];
- 	__le16			oacs;
- 	__u8			acl;
- 	__u8			aerl;
-@@ -132,7 +205,7 @@ struct nvme_id_ctrl {
- 	__u8			rsvd270[242];
- 	__u8			sqes;
- 	__u8			cqes;
--	__u8			rsvd514[2];
-+	__le16			maxcmd;
- 	__le32			nn;
- 	__le16			oncs;
- 	__le16			fuses;
-@@ -145,7 +218,15 @@ struct nvme_id_ctrl {
- 	__le16			acwu;
- 	__u8			rsvd534[2];
- 	__le32			sgls;
--	__u8			rsvd540[1508];
-+	__u8			rsvd540[228];
-+	char			subnqn[256];
-+	__u8			rsvd1024[768];
-+	__le32			ioccsz;
-+	__le32			iorcsz;
-+	__le16			icdoff;
-+	__u8			ctrattr;
-+	__u8			msdbd;
-+	__u8			rsvd1804[244];
- 	struct nvme_id_power_state	psd[32];
- 	__u8			vs[1024];
- };
-@@ -307,6 +388,61 @@ enum nvme_opcode {
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+new file mode 100644
+index 0000000..8372eb6
+--- /dev/null
++++ b/drivers/nvme/host/fabrics.c
+@@ -0,0 +1,932 @@
++/*
++ * NVMe over Fabrics common host code.
++ * Copyright (c) 2015-2016 HGST, a Western Digital Company.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ */
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++#include <linux/init.h>
++#include <linux/miscdevice.h>
++#include <linux/module.h>
++#include <linux/mutex.h>
++#include <linux/parser.h>
++#include <linux/seq_file.h>
++#include "nvme.h"
++#include "fabrics.h"
++
++static LIST_HEAD(nvmf_transports);
++static DEFINE_MUTEX(nvmf_transports_mutex);
++
++static LIST_HEAD(nvmf_hosts);
++static DEFINE_MUTEX(nvmf_hosts_mutex);
++
++static struct nvmf_host *nvmf_default_host;
++
++static struct nvmf_host *__nvmf_host_find(const char *hostnqn)
++{
++	struct nvmf_host *host;
++
++	list_for_each_entry(host, &nvmf_hosts, list) {
++		if (!strcmp(host->nqn, hostnqn))
++			return host;
++	}
++
++	return NULL;
++}
++
++static struct nvmf_host *nvmf_host_add(const char *hostnqn)
++{
++	struct nvmf_host *host;
++
++	mutex_lock(&nvmf_hosts_mutex);
++	host = __nvmf_host_find(hostnqn);
++	if (host)
++		goto out_unlock;
++
++	host = kmalloc(sizeof(*host), GFP_KERNEL);
++	if (!host)
++		goto out_unlock;
++
++	kref_init(&host->ref);
++	memcpy(host->nqn, hostnqn, NVMF_NQN_SIZE);
++	uuid_le_gen(&host->id);
++
++	list_add_tail(&host->list, &nvmf_hosts);
++out_unlock:
++	mutex_unlock(&nvmf_hosts_mutex);
++	return host;
++}
++
++static struct nvmf_host *nvmf_host_default(void)
++{
++	struct nvmf_host *host;
++
++	host = kmalloc(sizeof(*host), GFP_KERNEL);
++	if (!host)
++		return NULL;
++
++	kref_init(&host->ref);
++	uuid_le_gen(&host->id);
++	snprintf(host->nqn, NVMF_NQN_SIZE,
++		"nqn.2014-08.org.nvmexpress:NVMf:uuid:%pUl", &host->id);
++
++	mutex_lock(&nvmf_hosts_mutex);
++	list_add_tail(&host->list, &nvmf_hosts);
++	mutex_unlock(&nvmf_hosts_mutex);
++
++	return host;
++}
++
++static void nvmf_host_destroy(struct kref *ref)
++{
++	struct nvmf_host *host = container_of(ref, struct nvmf_host, ref);
++
++	kfree(host);
++}
++
++static void nvmf_host_put(struct nvmf_host *host)
++{
++	if (host)
++		kref_put(&host->ref, nvmf_host_destroy);
++}
++
++/**
++ * nvmf_get_address() -  Get address/port
++ * @ctrl:	Host NVMe controller instance which we got the address
++ * @buf:	OUTPUT parameter that will contain the address/port
++ * @size:	buffer size
++ */
++int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
++{
++	return snprintf(buf, size, "traddr=%s,trsvcid=%s\n",
++			ctrl->opts->traddr, ctrl->opts->trsvcid);
++}
++EXPORT_SYMBOL_GPL(nvmf_get_address);
++
++/**
++ * nvmf_get_subsysnqn() - Get subsystem NQN
++ * @ctrl:	Host NVMe controller instance which we got the NQN
++ */
++const char *nvmf_get_subsysnqn(struct nvme_ctrl *ctrl)
++{
++	return ctrl->opts->subsysnqn;
++}
++EXPORT_SYMBOL_GPL(nvmf_get_subsysnqn);
++
++/**
++ * nvmf_reg_read32() -  NVMe Fabrics "Property Get" API function.
++ * @ctrl:	Host NVMe controller instance maintaining the admin
++ *		queue used to submit the property read command to
++ *		the allocated NVMe controller resource on the target system.
++ * @off:	Starting offset value of the targeted property
++ *		register (see the fabrics section of the NVMe standard).
++ * @val:	OUTPUT parameter that will contain the value of
++ *		the property after a successful read.
++ *
++ * Used by the host system to retrieve a 32-bit capsule property value
++ * from an NVMe controller on the target system.
++ *
++ * ("Capsule property" is an "PCIe register concept" applied to the
++ * NVMe fabrics space.)
++ *
++ * Return:
++ *	0: successful read
++ *	> 0: NVMe error status code
++ *	< 0: Linux errno error code
++ */
++int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val)
++{
++	struct nvme_command cmd;
++	struct nvme_completion cqe;
++	int ret;
++
++	memset(&cmd, 0, sizeof(cmd));
++	cmd.prop_get.opcode = nvme_fabrics_command;
++	cmd.prop_get.fctype = nvme_fabrics_type_property_get;
++	cmd.prop_get.offset = cpu_to_le32(off);
++
++	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, &cqe, NULL, 0, 0,
++			NVME_QID_ANY, 0, 0);
++
++	if (ret >= 0)
++		*val = le64_to_cpu(cqe.result64);
++	if (unlikely(ret != 0))
++		dev_err(ctrl->device,
++			"Property Get error: %d, offset %#x\n",
++			ret > 0 ? ret & ~NVME_SC_DNR : ret, off);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(nvmf_reg_read32);
++
++/**
++ * nvmf_reg_read64() -  NVMe Fabrics "Property Get" API function.
++ * @ctrl:	Host NVMe controller instance maintaining the admin
++ *		queue used to submit the property read command to
++ *		the allocated controller resource on the target system.
++ * @off:	Starting offset value of the targeted property
++ *		register (see the fabrics section of the NVMe standard).
++ * @val:	OUTPUT parameter that will contain the value of
++ *		the property after a successful read.
++ *
++ * Used by the host system to retrieve a 64-bit capsule property value
++ * from an NVMe controller on the target system.
++ *
++ * ("Capsule property" is an "PCIe register concept" applied to the
++ * NVMe fabrics space.)
++ *
++ * Return:
++ *	0: successful read
++ *	> 0: NVMe error status code
++ *	< 0: Linux errno error code
++ */
++int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val)
++{
++	struct nvme_command cmd;
++	struct nvme_completion cqe;
++	int ret;
++
++	memset(&cmd, 0, sizeof(cmd));
++	cmd.prop_get.opcode = nvme_fabrics_command;
++	cmd.prop_get.fctype = nvme_fabrics_type_property_get;
++	cmd.prop_get.attrib = 1;
++	cmd.prop_get.offset = cpu_to_le32(off);
++
++	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, &cqe, NULL, 0, 0,
++			NVME_QID_ANY, 0, 0);
++
++	if (ret >= 0)
++		*val = le64_to_cpu(cqe.result64);
++	if (unlikely(ret != 0))
++		dev_err(ctrl->device,
++			"Property Get error: %d, offset %#x\n",
++			ret > 0 ? ret & ~NVME_SC_DNR : ret, off);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(nvmf_reg_read64);
++
++/**
++ * nvmf_reg_write32() -  NVMe Fabrics "Property Write" API function.
++ * @ctrl:	Host NVMe controller instance maintaining the admin
++ *		queue used to submit the property read command to
++ *		the allocated NVMe controller resource on the target system.
++ * @off:	Starting offset value of the targeted property
++ *		register (see the fabrics section of the NVMe standard).
++ * @val:	Input parameter that contains the value to be
++ *		written to the property.
++ *
++ * Used by the NVMe host system to write a 32-bit capsule property value
++ * to an NVMe controller on the target system.
++ *
++ * ("Capsule property" is an "PCIe register concept" applied to the
++ * NVMe fabrics space.)
++ *
++ * Return:
++ *	0: successful write
++ *	> 0: NVMe error status code
++ *	< 0: Linux errno error code
++ */
++int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val)
++{
++	struct nvme_command cmd;
++	int ret;
++
++	memset(&cmd, 0, sizeof(cmd));
++	cmd.prop_set.opcode = nvme_fabrics_command;
++	cmd.prop_set.fctype = nvme_fabrics_type_property_set;
++	cmd.prop_set.attrib = 0;
++	cmd.prop_set.offset = cpu_to_le32(off);
++	cmd.prop_set.value = cpu_to_le64(val);
++
++	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, NULL, 0, 0,
++			NVME_QID_ANY, 0, 0);
++	if (unlikely(ret))
++		dev_err(ctrl->device,
++			"Property Set error: %d, offset %#x\n",
++			ret > 0 ? ret & ~NVME_SC_DNR : ret, off);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(nvmf_reg_write32);
++
++/**
++ * nvmf_log_connect_error() - Error-parsing-diagnostic print
++ * out function for connect() errors.
++ *
++ * @ctrl: the specific /dev/nvmeX device that had the error.
++ *
++ * @errval: Error code to be decoded in a more human-friendly
++ *	    printout.
++ *
++ * @offset: For use with the NVMe error code NVME_SC_CONNECT_INVALID_PARAM.
++ *
++ * @cmd: This is the SQE portion of a submission capsule.
++ *
++ * @data: This is the "Data" portion of a submission capsule.
++ */
++static void nvmf_log_connect_error(struct nvme_ctrl *ctrl,
++		int errval, int offset, struct nvme_command *cmd,
++		struct nvmf_connect_data *data)
++{
++	int err_sctype = errval & (~NVME_SC_DNR);
++
++	switch (err_sctype) {
++
++	case (NVME_SC_CONNECT_INVALID_PARAM):
++		if (offset >> 16) {
++			char *inv_data = "Connect Invalid Data Parameter";
++
++			switch (offset & 0xffff) {
++			case (offsetof(struct nvmf_connect_data, cntlid)):
++				dev_err(ctrl->device,
++					"%s, cntlid: %d\n",
++					inv_data, data->cntlid);
++				break;
++			case (offsetof(struct nvmf_connect_data, hostnqn)):
++				dev_err(ctrl->device,
++					"%s, hostnqn \"%s\"\n",
++					inv_data, data->hostnqn);
++				break;
++			case (offsetof(struct nvmf_connect_data, subsysnqn)):
++				dev_err(ctrl->device,
++					"%s, subsysnqn \"%s\"\n",
++					inv_data, data->subsysnqn);
++				break;
++			default:
++				dev_err(ctrl->device,
++					"%s, starting byte offset: %d\n",
++				       inv_data, offset & 0xffff);
++				break;
++			}
++		} else {
++			char *inv_sqe = "Connect Invalid SQE Parameter";
++
++			switch (offset) {
++			case (offsetof(struct nvmf_connect_command, qid)):
++				dev_err(ctrl->device,
++				       "%s, qid %d\n",
++					inv_sqe, cmd->connect.qid);
++				break;
++			default:
++				dev_err(ctrl->device,
++					"%s, starting byte offset: %d\n",
++					inv_sqe, offset);
++			}
++		}
++		break;
++	default:
++		dev_err(ctrl->device,
++			"Connect command failed, error wo/DNR bit: %d\n",
++			err_sctype);
++		break;
++	} /* switch (err_sctype) */
++}
++
++/**
++ * nvmf_connect_admin_queue() - NVMe Fabrics Admin Queue "Connect"
++ *				API function.
++ * @ctrl:	Host nvme controller instance used to request
++ *              a new NVMe controller allocation on the target
++ *              system and  establish an NVMe Admin connection to
++ *              that controller.
++ *
++ * This function enables an NVMe host device to request a new allocation of
++ * an NVMe controller resource on a target system as well establish a
++ * fabrics-protocol connection of the NVMe Admin queue between the
++ * host system device and the allocated NVMe controller on the
++ * target system via a NVMe Fabrics "Connect" command.
++ *
++ * Return:
++ *	0: success
++ *	> 0: NVMe error status code
++ *	< 0: Linux errno error code
++ *
++ */
++int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
++{
++	struct nvme_command cmd;
++	struct nvme_completion cqe;
++	struct nvmf_connect_data *data;
++	int ret;
++
++	memset(&cmd, 0, sizeof(cmd));
++	cmd.connect.opcode = nvme_fabrics_command;
++	cmd.connect.fctype = nvme_fabrics_type_connect;
++	cmd.connect.qid = 0;
++	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
++
++	data = kzalloc(sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	memcpy(&data->hostid, &ctrl->opts->host->id, sizeof(uuid_le));
++	data->cntlid = cpu_to_le16(0xffff);
++	strncpy(data->subsysnqn, ctrl->opts->subsysnqn, NVMF_NQN_SIZE);
++	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
++
++	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, &cqe,
++			data, sizeof(*data), 0, NVME_QID_ANY, 1,
++			BLK_MQ_REQ_RESERVED);
++	if (ret) {
++		nvmf_log_connect_error(ctrl,
++					 ret, le32_to_cpu(cqe.result),
++					 &cmd, data);
++		goto out_free_data;
++	}
++
++	ctrl->cntlid = le16_to_cpu(cqe.result16);
++
++out_free_data:
++	kfree(data);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(nvmf_connect_admin_queue);
++
++/**
++ * nvmf_connect_io_queue() - NVMe Fabrics I/O Queue "Connect"
++ *			     API function.
++ * @ctrl:	Host nvme controller instance used to establish an
++ *		NVMe I/O queue connection to the already allocated NVMe
++ *		controller on the target system.
++ * @qid:	NVMe I/O queue number for the new I/O connection between
++ *		host and target (note qid == 0 is illegal as this is
++ *		the Admin queue, per NVMe standard).
++ *
++ * This function issues a fabrics-protocol connection
++ * of a NVMe I/O queue (via NVMe Fabrics "Connect" command)
++ * between the host system device and the allocated NVMe controller
++ * on the target system.
++ *
++ * Return:
++ *	0: success
++ *	> 0: NVMe error status code
++ *	< 0: Linux errno error code
++ */
++int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
++{
++	struct nvme_command cmd;
++	struct nvmf_connect_data *data;
++	struct nvme_completion cqe;
++	int ret;
++
++	memset(&cmd, 0, sizeof(cmd));
++	cmd.connect.opcode = nvme_fabrics_command;
++	cmd.connect.fctype = nvme_fabrics_type_connect;
++	cmd.connect.qid = cpu_to_le16(qid);
++	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
++
++	data = kzalloc(sizeof(*data), GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
++
++	memcpy(&data->hostid, &ctrl->opts->host->id, sizeof(uuid_le));
++	data->cntlid = cpu_to_le16(ctrl->cntlid);
++	strncpy(data->subsysnqn, ctrl->opts->subsysnqn, NVMF_NQN_SIZE);
++	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
++
++	ret = __nvme_submit_sync_cmd(ctrl->connect_q, &cmd, &cqe,
++			data, sizeof(*data), 0, qid, 1, BLK_MQ_REQ_RESERVED);
++	if (ret)
++		nvmf_log_connect_error(ctrl,
++					 ret, le32_to_cpu(cqe.result),
++					 &cmd, data);
++
++	kfree(data);
++	return ret;
++}
++EXPORT_SYMBOL_GPL(nvmf_connect_io_queue);
++
++/**
++ * nvmf_register_transport() - NVMe Fabrics Library registration function.
++ * @ops:	Transport ops instance to be registered to the
++ *		common fabrics library.
++ *
++ * API function that registers the type of specific transport fabric
++ * being implemented to the common NVMe fabrics library. Part of
++ * the overall init sequence of starting up a fabrics driver.
++ */
++void nvmf_register_transport(struct nvmf_transport_ops *ops)
++{
++	mutex_lock(&nvmf_transports_mutex);
++	list_add_tail(&ops->entry, &nvmf_transports);
++	mutex_unlock(&nvmf_transports_mutex);
++}
++EXPORT_SYMBOL_GPL(nvmf_register_transport);
++
++/**
++ * nvmf_unregister_transport() - NVMe Fabrics Library unregistration function.
++ * @ops:	Transport ops instance to be unregistered from the
++ *		common fabrics library.
++ *
++ * Fabrics API function that unregisters the type of specific transport
++ * fabric being implemented from the common NVMe fabrics library.
++ * Part of the overall exit sequence of unloading the implemented driver.
++ */
++void nvmf_unregister_transport(struct nvmf_transport_ops *ops)
++{
++	mutex_lock(&nvmf_transports_mutex);
++	list_del(&ops->entry);
++	mutex_unlock(&nvmf_transports_mutex);
++}
++EXPORT_SYMBOL_GPL(nvmf_unregister_transport);
++
++static struct nvmf_transport_ops *nvmf_lookup_transport(
++		struct nvmf_ctrl_options *opts)
++{
++	struct nvmf_transport_ops *ops;
++
++	lockdep_assert_held(&nvmf_transports_mutex);
++
++	list_for_each_entry(ops, &nvmf_transports, entry) {
++		if (strcmp(ops->name, opts->transport) == 0)
++			return ops;
++	}
++
++	return NULL;
++}
++
++static const match_table_t opt_tokens = {
++	{ NVMF_OPT_TRANSPORT,		"transport=%s"		},
++	{ NVMF_OPT_TRADDR,		"traddr=%s"		},
++	{ NVMF_OPT_TRSVCID,		"trsvcid=%s"		},
++	{ NVMF_OPT_NQN,			"nqn=%s"		},
++	{ NVMF_OPT_QUEUE_SIZE,		"queue_size=%d"		},
++	{ NVMF_OPT_NR_IO_QUEUES,	"nr_io_queues=%d"	},
++	{ NVMF_OPT_TL_RETRY_COUNT,	"tl_retry_count=%d"	},
++	{ NVMF_OPT_RECONNECT_DELAY,	"reconnect_delay=%d"	},
++	{ NVMF_OPT_HOSTNQN,		"hostnqn=%s"		},
++	{ NVMF_OPT_ERR,			NULL			}
++};
++
++static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
++		const char *buf)
++{
++	substring_t args[MAX_OPT_ARGS];
++	char *options, *o, *p;
++	int token, ret = 0;
++	size_t nqnlen  = 0;
++
++	/* Set defaults */
++	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
++	opts->nr_io_queues = num_online_cpus();
++	opts->tl_retry_count = 2;
++	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
++
++	options = o = kstrdup(buf, GFP_KERNEL);
++	if (!options)
++		return -ENOMEM;
++
++	while ((p = strsep(&o, ",\n")) != NULL) {
++		if (!*p)
++			continue;
++
++		token = match_token(p, opt_tokens, args);
++		opts->mask |= token;
++		switch (token) {
++		case NVMF_OPT_TRANSPORT:
++			p = match_strdup(args);
++			if (!p) {
++				ret = -ENOMEM;
++				goto out;
++			}
++			opts->transport = p;
++			break;
++		case NVMF_OPT_NQN:
++			p = match_strdup(args);
++			if (!p) {
++				ret = -ENOMEM;
++				goto out;
++			}
++			opts->subsysnqn = p;
++			nqnlen = strlen(opts->subsysnqn);
++			if (nqnlen >= NVMF_NQN_SIZE) {
++				pr_err("%s needs to be < %d bytes\n",
++				opts->subsysnqn, NVMF_NQN_SIZE);
++				ret = -EINVAL;
++				goto out;
++			}
++			opts->discovery_nqn =
++				!(strcmp(opts->subsysnqn,
++					 NVME_DISC_SUBSYS_NAME));
++			if (opts->discovery_nqn)
++				opts->nr_io_queues = 0;
++			break;
++		case NVMF_OPT_TRADDR:
++			p = match_strdup(args);
++			if (!p) {
++				ret = -ENOMEM;
++				goto out;
++			}
++			opts->traddr = p;
++			break;
++		case NVMF_OPT_TRSVCID:
++			p = match_strdup(args);
++			if (!p) {
++				ret = -ENOMEM;
++				goto out;
++			}
++			opts->trsvcid = p;
++			break;
++		case NVMF_OPT_QUEUE_SIZE:
++			if (match_int(args, &token)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			if (token < NVMF_MIN_QUEUE_SIZE ||
++			    token > NVMF_MAX_QUEUE_SIZE) {
++				pr_err("Invalid queue_size %d\n", token);
++				ret = -EINVAL;
++				goto out;
++			}
++			opts->queue_size = token;
++			break;
++		case NVMF_OPT_NR_IO_QUEUES:
++			if (match_int(args, &token)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			if (token <= 0) {
++				pr_err("Invalid number of IOQs %d\n", token);
++				ret = -EINVAL;
++				goto out;
++			}
++			opts->nr_io_queues = min_t(unsigned int,
++					num_online_cpus(), token);
++			break;
++		case NVMF_OPT_TL_RETRY_COUNT:
++			if (match_int(args, &token)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			if (token < 0) {
++				pr_err("Invalid tl_retry_count %d\n", token);
++				ret = -EINVAL;
++				goto out;
++			}
++			opts->tl_retry_count = token;
++			break;
++		case NVMF_OPT_HOSTNQN:
++			if (opts->host) {
++				pr_err("hostnqn already user-assigned: %s\n",
++				       opts->host->nqn);
++				ret = -EADDRINUSE;
++				goto out;
++			}
++			p = match_strdup(args);
++			if (!p) {
++				ret = -ENOMEM;
++				goto out;
++			}
++			nqnlen = strlen(p);
++			if (nqnlen >= NVMF_NQN_SIZE) {
++				pr_err("%s needs to be < %d bytes\n",
++					p, NVMF_NQN_SIZE);
++				ret = -EINVAL;
++				goto out;
++			}
++			opts->host = nvmf_host_add(p);
++			if (!opts->host) {
++				ret = -ENOMEM;
++				goto out;
++			}
++			break;
++		case NVMF_OPT_RECONNECT_DELAY:
++			if (match_int(args, &token)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			if (token <= 0) {
++				pr_err("Invalid reconnect_delay %d\n", token);
++				ret = -EINVAL;
++				goto out;
++			}
++			opts->reconnect_delay = token;
++			break;
++		default:
++			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
++				p);
++			ret = -EINVAL;
++			goto out;
++		}
++	}
++
++	if (!opts->host) {
++		kref_get(&nvmf_default_host->ref);
++		opts->host = nvmf_default_host;
++	}
++
++out:
++	kfree(options);
++	return ret;
++}
++
++static int nvmf_check_required_opts(struct nvmf_ctrl_options *opts,
++		unsigned int required_opts)
++{
++	if ((opts->mask & required_opts) != required_opts) {
++		int i;
++
++		for (i = 0; i < ARRAY_SIZE(opt_tokens); i++) {
++			if ((opt_tokens[i].token & required_opts) &&
++			    !(opt_tokens[i].token & opts->mask)) {
++				pr_warn("missing parameter '%s'\n",
++					opt_tokens[i].pattern);
++			}
++		}
++
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++static int nvmf_check_allowed_opts(struct nvmf_ctrl_options *opts,
++		unsigned int allowed_opts)
++{
++	if (opts->mask & ~allowed_opts) {
++		int i;
++
++		for (i = 0; i < ARRAY_SIZE(opt_tokens); i++) {
++			if (opt_tokens[i].token & ~allowed_opts) {
++				pr_warn("invalid parameter '%s'\n",
++					opt_tokens[i].pattern);
++			}
++		}
++
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++void nvmf_free_options(struct nvmf_ctrl_options *opts)
++{
++	nvmf_host_put(opts->host);
++	kfree(opts->transport);
++	kfree(opts->traddr);
++	kfree(opts->trsvcid);
++	kfree(opts->subsysnqn);
++	kfree(opts);
++}
++EXPORT_SYMBOL_GPL(nvmf_free_options);
++
++#define NVMF_REQUIRED_OPTS	(NVMF_OPT_TRANSPORT | NVMF_OPT_NQN)
++#define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
++				 NVMF_OPT_HOSTNQN)
++
++static struct nvme_ctrl *
++nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
++{
++	struct nvmf_ctrl_options *opts;
++	struct nvmf_transport_ops *ops;
++	struct nvme_ctrl *ctrl;
++	int ret;
++
++	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
++	if (!opts)
++		return ERR_PTR(-ENOMEM);
++
++	ret = nvmf_parse_options(opts, buf);
++	if (ret)
++		goto out_free_opts;
++
++	/*
++	 * Check the generic options first as we need a valid transport for
++	 * the lookup below.  Then clear the generic flags so that transport
++	 * drivers don't have to care about them.
++	 */
++	ret = nvmf_check_required_opts(opts, NVMF_REQUIRED_OPTS);
++	if (ret)
++		goto out_free_opts;
++	opts->mask &= ~NVMF_REQUIRED_OPTS;
++
++	mutex_lock(&nvmf_transports_mutex);
++	ops = nvmf_lookup_transport(opts);
++	if (!ops) {
++		pr_info("no handler found for transport %s.\n",
++			opts->transport);
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	ret = nvmf_check_required_opts(opts, ops->required_opts);
++	if (ret)
++		goto out_unlock;
++	ret = nvmf_check_allowed_opts(opts, NVMF_ALLOWED_OPTS |
++				ops->allowed_opts | ops->required_opts);
++	if (ret)
++		goto out_unlock;
++
++	ctrl = ops->create_ctrl(dev, opts);
++	if (IS_ERR(ctrl)) {
++		ret = PTR_ERR(ctrl);
++		goto out_unlock;
++	}
++
++	mutex_unlock(&nvmf_transports_mutex);
++	return ctrl;
++
++out_unlock:
++	mutex_unlock(&nvmf_transports_mutex);
++out_free_opts:
++	kfree(opts->host);
++	kfree(opts);
++	return ERR_PTR(ret);
++}
++
++static struct class *nvmf_class;
++static struct device *nvmf_device;
++static DEFINE_MUTEX(nvmf_dev_mutex);
++
++static ssize_t nvmf_dev_write(struct file *file, const char __user *ubuf,
++		size_t count, loff_t *pos)
++{
++	struct seq_file *seq_file = file->private_data;
++	struct nvme_ctrl *ctrl;
++	const char *buf;
++	int ret = 0;
++
++	if (count > PAGE_SIZE)
++		return -ENOMEM;
++
++	buf = memdup_user_nul(ubuf, count);
++	if (IS_ERR(buf))
++		return PTR_ERR(buf);
++
++	mutex_lock(&nvmf_dev_mutex);
++	if (seq_file->private) {
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	ctrl = nvmf_create_ctrl(nvmf_device, buf, count);
++	if (IS_ERR(ctrl)) {
++		ret = PTR_ERR(ctrl);
++		goto out_unlock;
++	}
++
++	seq_file->private = ctrl;
++
++out_unlock:
++	mutex_unlock(&nvmf_dev_mutex);
++	kfree(buf);
++	return ret ? ret : count;
++}
++
++static int nvmf_dev_show(struct seq_file *seq_file, void *private)
++{
++	struct nvme_ctrl *ctrl;
++	int ret = 0;
++
++	mutex_lock(&nvmf_dev_mutex);
++	ctrl = seq_file->private;
++	if (!ctrl) {
++		ret = -EINVAL;
++		goto out_unlock;
++	}
++
++	seq_printf(seq_file, "instance=%d,cntlid=%d\n",
++			ctrl->instance, ctrl->cntlid);
++
++out_unlock:
++	mutex_unlock(&nvmf_dev_mutex);
++	return ret;
++}
++
++static int nvmf_dev_open(struct inode *inode, struct file *file)
++{
++	/*
++	 * The miscdevice code initializes file->private_data, but doesn't
++	 * make use of it later.
++	 */
++	file->private_data = NULL;
++	return single_open(file, nvmf_dev_show, NULL);
++}
++
++static int nvmf_dev_release(struct inode *inode, struct file *file)
++{
++	struct seq_file *seq_file = file->private_data;
++	struct nvme_ctrl *ctrl = seq_file->private;
++
++	if (ctrl)
++		nvme_put_ctrl(ctrl);
++	return single_release(inode, file);
++}
++
++static const struct file_operations nvmf_dev_fops = {
++	.owner		= THIS_MODULE,
++	.write		= nvmf_dev_write,
++	.read		= seq_read,
++	.open		= nvmf_dev_open,
++	.release	= nvmf_dev_release,
++};
++
++static struct miscdevice nvmf_misc = {
++	.minor		= MISC_DYNAMIC_MINOR,
++	.name           = "nvme-fabrics",
++	.fops		= &nvmf_dev_fops,
++};
++
++static int __init nvmf_init(void)
++{
++	int ret;
++
++	nvmf_default_host = nvmf_host_default();
++	if (!nvmf_default_host)
++		return -ENOMEM;
++
++	nvmf_class = class_create(THIS_MODULE, "nvme-fabrics");
++	if (IS_ERR(nvmf_class)) {
++		pr_err("couldn't register class nvme-fabrics\n");
++		ret = PTR_ERR(nvmf_class);
++		goto out_free_host;
++	}
++
++	nvmf_device =
++		device_create(nvmf_class, NULL, MKDEV(0, 0), NULL, "ctl");
++	if (IS_ERR(nvmf_device)) {
++		pr_err("couldn't create nvme-fabris device!\n");
++		ret = PTR_ERR(nvmf_device);
++		goto out_destroy_class;
++	}
++
++	ret = misc_register(&nvmf_misc);
++	if (ret) {
++		pr_err("couldn't register misc device: %d\n", ret);
++		goto out_destroy_device;
++	}
++
++	return 0;
++
++out_destroy_device:
++	device_destroy(nvmf_class, MKDEV(0, 0));
++out_destroy_class:
++	class_destroy(nvmf_class);
++out_free_host:
++	nvmf_host_put(nvmf_default_host);
++	return ret;
++}
++
++static void __exit nvmf_exit(void)
++{
++	misc_deregister(&nvmf_misc);
++	device_destroy(nvmf_class, MKDEV(0, 0));
++	class_destroy(nvmf_class);
++	nvmf_host_put(nvmf_default_host);
++
++	BUILD_BUG_ON(sizeof(struct nvmf_connect_command) != 64);
++	BUILD_BUG_ON(sizeof(struct nvmf_property_get_command) != 64);
++	BUILD_BUG_ON(sizeof(struct nvmf_property_set_command) != 64);
++	BUILD_BUG_ON(sizeof(struct nvmf_connect_data) != 1024);
++}
++
++MODULE_LICENSE("GPL v2");
++
++module_init(nvmf_init);
++module_exit(nvmf_exit);
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+new file mode 100644
+index 0000000..12038308
+--- /dev/null
++++ b/drivers/nvme/host/fabrics.h
+@@ -0,0 +1,132 @@
++/*
++ * NVMe over Fabrics common host code.
++ * Copyright (c) 2015-2016 HGST, a Western Digital Company.
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ */
++#ifndef _NVME_FABRICS_H
++#define _NVME_FABRICS_H 1
++
++#include <linux/in.h>
++#include <linux/inet.h>
++
++#define NVMF_MIN_QUEUE_SIZE	16
++#define NVMF_MAX_QUEUE_SIZE	1024
++#define NVMF_DEF_QUEUE_SIZE	128
++#define NVMF_DEF_RECONNECT_DELAY	10
++
++/*
++ * Define a host as seen by the target.  We allocate one at boot, but also
++ * allow the override it when creating controllers.  This is both to provide
++ * persistence of the Host NQN over multiple boots, and to allow using
++ * multiple ones, for example in a container scenario.  Because we must not
++ * use different Host NQNs with the same Host ID we generate a Host ID and
++ * use this structure to keep track of the relation between the two.
++ */
++struct nvmf_host {
++	struct kref		ref;
++	struct list_head	list;
++	char			nqn[NVMF_NQN_SIZE];
++	uuid_le			id;
++};
++
++/**
++ * enum nvmf_parsing_opts - used to define the sysfs parsing options used.
++ */
++enum {
++	NVMF_OPT_ERR		= 0,
++	NVMF_OPT_TRANSPORT	= 1 << 0,
++	NVMF_OPT_NQN		= 1 << 1,
++	NVMF_OPT_TRADDR		= 1 << 2,
++	NVMF_OPT_TRSVCID	= 1 << 3,
++	NVMF_OPT_QUEUE_SIZE	= 1 << 4,
++	NVMF_OPT_NR_IO_QUEUES	= 1 << 5,
++	NVMF_OPT_TL_RETRY_COUNT	= 1 << 6,
++	NVMF_OPT_HOSTNQN	= 1 << 8,
++	NVMF_OPT_RECONNECT_DELAY = 1 << 9,
++};
++
++/**
++ * struct nvmf_ctrl_options - Used to hold the options specified
++ *			      with the parsing opts enum.
++ * @mask:	Used by the fabrics library to parse through sysfs options
++ *		on adding a NVMe controller.
++ * @transport:	Holds the fabric transport "technology name" (for a lack of
++ *		better description) that will be used by an NVMe controller
++ *		being added.
++ * @subsysnqn:	Hold the fully qualified NQN subystem name (format defined
++ *		in the NVMe specification, "NVMe Qualified Names").
++ * @traddr:	network address that will be used by the host to communicate
++ *		to the added NVMe controller.
++ * @trsvcid:	network port used for host-controller communication.
++ * @queue_size: Number of IO queue elements.
++ * @nr_io_queues: Number of controller IO queues that will be established.
++ * @tl_retry_count: Number of transport layer retries for a fabric queue before
++ *		     kicking upper layer(s) error recovery.
++ * @reconnect_delay: Time between two consecutive reconnect attempts.
++ * @discovery_nqn: indicates if the subsysnqn is the well-known discovery NQN.
++ * @host:	Virtual NVMe host, contains the NQN and Host ID.
++ */
++struct nvmf_ctrl_options {
++	unsigned		mask;
++	char			*transport;
++	char			*subsysnqn;
++	char			*traddr;
++	char			*trsvcid;
++	size_t			queue_size;
++	unsigned int		nr_io_queues;
++	unsigned short		tl_retry_count;
++	unsigned int		reconnect_delay;
++	bool			discovery_nqn;
++	struct nvmf_host	*host;
++};
++
++/*
++ * struct nvmf_transport_ops - used to register a specific
++ *			       fabric implementation of NVMe fabrics.
++ * @entry:		Used by the fabrics library to add the new
++ *			registration entry to its linked-list internal tree.
++ * @name:		Name of the NVMe fabric driver implementation.
++ * @required_opts:	sysfs command-line options that must be specified
++ *			when adding a new NVMe controller.
++ * @allowed_opts:	sysfs command-line options that can be specified
++ *			when adding a new NVMe controller.
++ * @create_ctrl():	function pointer that points to a non-NVMe
++ *			implementation-specific fabric technology
++ *			that would go into starting up that fabric
++ *			for the purpose of conneciton to an NVMe controller
++ *			using that fabric technology.
++ *
++ * Notes:
++ *	1. At minimum, 'required_opts' and 'allowed_opts' should
++ *	   be set to the same enum parsing options defined earlier.
++ *	2. create_ctrl() must be defined (even if it does nothing)
++ */
++struct nvmf_transport_ops {
++	struct list_head	entry;
++	const char		*name;
++	int			required_opts;
++	int			allowed_opts;
++	struct nvme_ctrl	*(*create_ctrl)(struct device *dev,
++					struct nvmf_ctrl_options *opts);
++};
++
++int nvmf_reg_read32(struct nvme_ctrl *ctrl, u32 off, u32 *val);
++int nvmf_reg_read64(struct nvme_ctrl *ctrl, u32 off, u64 *val);
++int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
++int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl);
++int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid);
++void nvmf_register_transport(struct nvmf_transport_ops *ops);
++void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
++void nvmf_free_options(struct nvmf_ctrl_options *opts);
++const char *nvmf_get_subsysnqn(struct nvme_ctrl *ctrl);
++int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
++
++#endif /* _NVME_FABRICS_H */
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index b90e95a..a61c9d1 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -80,6 +80,7 @@ struct nvme_ctrl {
+ 	spinlock_t lock;
+ 	const struct nvme_ctrl_ops *ops;
+ 	struct request_queue *admin_q;
++	struct request_queue *connect_q;
+ 	struct device *dev;
+ 	struct kref kref;
+ 	int instance;
+@@ -107,10 +108,19 @@ struct nvme_ctrl {
+ 	u8 event_limit;
+ 	u8 vwc;
+ 	u32 vs;
++	u32 sgls;
+ 	bool subsystem;
+ 	unsigned long quirks;
+ 	struct work_struct scan_work;
+ 	struct work_struct async_event_work;
++
++	/* Fabrics only */
++	u16 sqsize;
++	u32 ioccsz;
++	u32 iorcsz;
++	u16 icdoff;
++	u16 maxcmd;
++	struct nvmf_ctrl_options *opts;
  };
  
  /*
-+ * Descriptor subtype - lower 4 bits of nvme_(keyed_)sgl_desc identifier
-+ *
-+ * @NVME_SGL_FMT_ADDRESS:     absolute address of the data block
-+ * @NVME_SGL_FMT_OFFSET:      relative offset of the in-capsule data block
-+ * @NVME_SGL_FMT_INVALIDATE:  RDMA transport specific remote invalidation
-+ *                            request subtype
-+ */
-+enum {
-+	NVME_SGL_FMT_ADDRESS		= 0x00,
-+	NVME_SGL_FMT_OFFSET		= 0x01,
-+	NVME_SGL_FMT_INVALIDATE		= 0x0f,
-+};
-+
-+/*
-+ * Descriptor type - upper 4 bits of nvme_(keyed_)sgl_desc identifier
-+ *
-+ * For struct nvme_sgl_desc:
-+ *   @NVME_SGL_FMT_DATA_DESC:		data block descriptor
-+ *   @NVME_SGL_FMT_SEG_DESC:		sgl segment descriptor
-+ *   @NVME_SGL_FMT_LAST_SEG_DESC:	last sgl segment descriptor
-+ *
-+ * For struct nvme_keyed_sgl_desc:
-+ *   @NVME_KEY_SGL_FMT_DATA_DESC:	keyed data block descriptor
-+ */
-+enum {
-+	NVME_SGL_FMT_DATA_DESC		= 0x00,
-+	NVME_SGL_FMT_SEG_DESC		= 0x02,
-+	NVME_SGL_FMT_LAST_SEG_DESC	= 0x03,
-+	NVME_KEY_SGL_FMT_DATA_DESC	= 0x04,
-+};
-+
-+struct nvme_sgl_desc {
-+	__le64	addr;
-+	__le32	length;
-+	__u8	rsvd[3];
-+	__u8	type;
-+};
-+
-+struct nvme_keyed_sgl_desc {
-+	__le64	addr;
-+	__u8	length[3];
-+	__u8	key[4];
-+	__u8	type;
-+};
-+
-+union nvme_data_ptr {
-+	struct {
-+		__le64	prp1;
-+		__le64	prp2;
-+	};
-+	struct nvme_sgl_desc	sgl;
-+	struct nvme_keyed_sgl_desc ksgl;
-+};
-+
-+/*
-  * Lowest two bits of our flags field (FUSE field in the spec):
-  *
-  * @NVME_CMD_FUSE_FIRST:   Fused Operation, first command
-@@ -336,8 +472,7 @@ struct nvme_common_command {
- 	__le32			nsid;
- 	__le32			cdw2[2];
- 	__le64			metadata;
--	__le64			prp1;
--	__le64			prp2;
-+	union nvme_data_ptr	dptr;
- 	__le32			cdw10[6];
- };
- 
-@@ -348,8 +483,7 @@ struct nvme_rw_command {
- 	__le32			nsid;
- 	__u64			rsvd2;
- 	__le64			metadata;
--	__le64			prp1;
--	__le64			prp2;
-+	union nvme_data_ptr	dptr;
- 	__le64			slba;
- 	__le16			length;
- 	__le16			control;
-@@ -389,8 +523,7 @@ struct nvme_dsm_cmd {
- 	__u16			command_id;
- 	__le32			nsid;
- 	__u64			rsvd2[2];
--	__le64			prp1;
--	__le64			prp2;
-+	union nvme_data_ptr	dptr;
- 	__le32			nr;
- 	__le32			attributes;
- 	__u32			rsvd12[4];
-@@ -454,6 +587,7 @@ enum {
- 	NVME_LOG_ERROR		= 0x01,
- 	NVME_LOG_SMART		= 0x02,
- 	NVME_LOG_FW_SLOT	= 0x03,
-+	NVME_LOG_DISC		= 0x70,
- 	NVME_LOG_RESERVATION	= 0x80,
- 	NVME_FWACT_REPL		= (0 << 3),
- 	NVME_FWACT_REPL_ACTV	= (1 << 3),
-@@ -466,8 +600,7 @@ struct nvme_identify {
- 	__u16			command_id;
- 	__le32			nsid;
- 	__u64			rsvd2[2];
--	__le64			prp1;
--	__le64			prp2;
-+	union nvme_data_ptr	dptr;
- 	__le32			cns;
- 	__u32			rsvd11[5];
- };
-@@ -478,8 +611,7 @@ struct nvme_features {
- 	__u16			command_id;
- 	__le32			nsid;
- 	__u64			rsvd2[2];
--	__le64			prp1;
--	__le64			prp2;
-+	union nvme_data_ptr	dptr;
- 	__le32			fid;
- 	__le32			dword11;
- 	__u32			rsvd12[4];
-@@ -538,8 +670,7 @@ struct nvme_download_firmware {
- 	__u8			flags;
- 	__u16			command_id;
- 	__u32			rsvd1[5];
--	__le64			prp1;
--	__le64			prp2;
-+	union nvme_data_ptr	dptr;
- 	__le32			numd;
- 	__le32			offset;
- 	__u32			rsvd12[4];
-@@ -561,8 +692,7 @@ struct nvme_get_log_page_command {
- 	__u16			command_id;
- 	__le32			nsid;
- 	__u64			rsvd2[2];
--	__le64			prp1;
--	__le64			prp2;
-+	union nvme_data_ptr	dptr;
- 	__u8			lid;
- 	__u8			rsvd10;
- 	__le16			numdl;
-@@ -573,6 +703,126 @@ struct nvme_get_log_page_command {
- 	__u32			rsvd14[2];
- };
- 
-+/*
-+ * Fabrics subcommands.
-+ */
-+enum nvmf_fabrics_opcode {
-+	nvme_fabrics_command		= 0x7f,
-+};
-+
-+enum nvmf_capsule_command {
-+	nvme_fabrics_type_property_set	= 0x00,
-+	nvme_fabrics_type_connect	= 0x01,
-+	nvme_fabrics_type_property_get	= 0x04,
-+};
-+
-+struct nvmf_common_command {
-+	__u8	opcode;
-+	__u8	resv1;
-+	__u16	command_id;
-+	__u8	fctype;
-+	__u8	resv2[35];
-+	__u8	ts[24];
-+};
-+
-+/*
-+ * The legal cntlid range a NVMe Target will provide.
-+ * Note that cntlid of value 0 is considered illegal in the fabrics world.
-+ * Devices based on earlier specs did not have the subsystem concept;
-+ * therefore, those devices had their cntlid value set to 0 as a result.
-+ */
-+#define NVME_CNTLID_MIN		1
-+#define NVME_CNTLID_MAX		0xffef
-+#define NVME_CNTLID_DYNAMIC	0xffff
-+
-+#define MAX_DISC_LOGS	255
-+
-+/* Discovery log page entry */
-+struct nvmf_disc_rsp_page_entry {
-+	__u8		trtype;
-+	__u8		adrfam;
-+	__u8		nqntype;
-+	__u8		treq;
-+	__le16		portid;
-+	__le16		cntlid;
-+	__le16		asqsz;
-+	__u8		resv8[22];
-+	char		trsvcid[NVMF_TRSVCID_SIZE];
-+	__u8		resv64[192];
-+	char		subnqn[NVMF_NQN_FIELD_LEN];
-+	char		traddr[NVMF_TRADDR_SIZE];
-+	union tsas {
-+		char		common[NVMF_TSAS_SIZE];
-+		struct rdma {
-+			__u8	qptype;
-+			__u8	prtype;
-+			__u8	cms;
-+			__u8	resv3[5];
-+			__u16	pkey;
-+			__u8	resv10[246];
-+		} rdma;
-+	} tsas;
-+};
-+
-+/* Discovery log page header */
-+struct nvmf_disc_rsp_page_hdr {
-+	__le64		genctr;
-+	__le64		numrec;
-+	__le16		recfmt;
-+	__u8		resv14[1006];
-+	struct nvmf_disc_rsp_page_entry entries[0];
-+};
-+
-+struct nvmf_connect_command {
-+	__u8		opcode;
-+	__u8		resv1;
-+	__u16		command_id;
-+	__u8		fctype;
-+	__u8		resv2[19];
-+	union nvme_data_ptr dptr;
-+	__le16		recfmt;
-+	__le16		qid;
-+	__le16		sqsize;
-+	__u8		cattr;
-+	__u8		resv3;
-+	__le32		kato;
-+	__u8		resv4[12];
-+};
-+
-+struct nvmf_connect_data {
-+	uuid_le		hostid;
-+	__le16		cntlid;
-+	char		resv4[238];
-+	char		subsysnqn[NVMF_NQN_FIELD_LEN];
-+	char		hostnqn[NVMF_NQN_FIELD_LEN];
-+	char		resv5[256];
-+};
-+
-+struct nvmf_property_set_command {
-+	__u8		opcode;
-+	__u8		resv1;
-+	__u16		command_id;
-+	__u8		fctype;
-+	__u8		resv2[35];
-+	__u8		attrib;
-+	__u8		resv3[3];
-+	__le32		offset;
-+	__le64		value;
-+	__u8		resv4[8];
-+};
-+
-+struct nvmf_property_get_command {
-+	__u8		opcode;
-+	__u8		resv1;
-+	__u16		command_id;
-+	__u8		fctype;
-+	__u8		resv2[35];
-+	__u8		attrib;
-+	__u8		resv3[3];
-+	__le32		offset;
-+	__u8		resv4[16];
-+};
-+
- struct nvme_command {
- 	union {
- 		struct nvme_common_command common;
-@@ -587,15 +837,29 @@ struct nvme_command {
- 		struct nvme_dsm_cmd dsm;
- 		struct nvme_abort_cmd abort;
- 		struct nvme_get_log_page_command get_log_page;
-+		struct nvmf_common_command fabrics;
-+		struct nvmf_connect_command connect;
-+		struct nvmf_property_set_command prop_set;
-+		struct nvmf_property_get_command prop_get;
- 	};
- };
- 
- static inline bool nvme_is_write(struct nvme_command *cmd)
- {
-+	/*
-+	 * What a mess...
-+	 *
-+	 * Why can't we simply have a Fabrics In and Fabrics out command?
-+	 */
-+	if (unlikely(cmd->common.opcode == nvme_fabrics_command))
-+		return cmd->fabrics.opcode & 1;
- 	return cmd->common.opcode & 1;
- }
- 
- enum {
-+	/*
-+	 * Generic Command Status:
-+	 */
- 	NVME_SC_SUCCESS			= 0x0,
- 	NVME_SC_INVALID_OPCODE		= 0x1,
- 	NVME_SC_INVALID_FIELD		= 0x2,
-@@ -614,10 +878,18 @@ enum {
- 	NVME_SC_SGL_INVALID_DATA	= 0xf,
- 	NVME_SC_SGL_INVALID_METADATA	= 0x10,
- 	NVME_SC_SGL_INVALID_TYPE	= 0x11,
-+
-+	NVME_SC_SGL_INVALID_OFFSET	= 0x16,
-+	NVME_SC_SGL_INVALID_SUBTYPE	= 0x17,
-+
- 	NVME_SC_LBA_RANGE		= 0x80,
- 	NVME_SC_CAP_EXCEEDED		= 0x81,
- 	NVME_SC_NS_NOT_READY		= 0x82,
- 	NVME_SC_RESERVATION_CONFLICT	= 0x83,
-+
-+	/*
-+	 * Command Specific Status:
-+	 */
- 	NVME_SC_CQ_INVALID		= 0x100,
- 	NVME_SC_QID_INVALID		= 0x101,
- 	NVME_SC_QUEUE_SIZE		= 0x102,
-@@ -635,9 +907,29 @@ enum {
- 	NVME_SC_FEATURE_NOT_CHANGEABLE	= 0x10e,
- 	NVME_SC_FEATURE_NOT_PER_NS	= 0x10f,
- 	NVME_SC_FW_NEEDS_RESET_SUBSYS	= 0x110,
-+
-+	/*
-+	 * I/O Command Set Specific - NVM commands:
-+	 */
- 	NVME_SC_BAD_ATTRIBUTES		= 0x180,
- 	NVME_SC_INVALID_PI		= 0x181,
- 	NVME_SC_READ_ONLY		= 0x182,
-+
-+	/*
-+	 * I/O Command Set Specific - Fabrics commands:
-+	 */
-+	NVME_SC_CONNECT_FORMAT		= 0x180,
-+	NVME_SC_CONNECT_CTRL_BUSY	= 0x181,
-+	NVME_SC_CONNECT_INVALID_PARAM	= 0x182,
-+	NVME_SC_CONNECT_RESTART_DISC	= 0x183,
-+	NVME_SC_CONNECT_INVALID_HOST	= 0x184,
-+
-+	NVME_SC_DISCOVERY_RESTART	= 0x190,
-+	NVME_SC_AUTH_REQUIRED		= 0x191,
-+
-+	/*
-+	 * Media and Data Integrity Errors:
-+	 */
- 	NVME_SC_WRITE_FAULT		= 0x280,
- 	NVME_SC_READ_ERROR		= 0x281,
- 	NVME_SC_GUARD_CHECK		= 0x282,
-@@ -645,12 +937,19 @@ enum {
- 	NVME_SC_REFTAG_CHECK		= 0x284,
- 	NVME_SC_COMPARE_FAILED		= 0x285,
- 	NVME_SC_ACCESS_DENIED		= 0x286,
-+
- 	NVME_SC_DNR			= 0x4000,
- };
- 
- struct nvme_completion {
--	__le32	result;		/* Used by admin commands to return data */
--	__u32	rsvd;
-+	/*
-+	 * Used by Admin and Fabrics commands to return data:
-+	 */
-+	union {
-+		__le16	result16;
-+		__le32	result;
-+		__le64	result64;
-+	};
- 	__le16	sq_head;	/* how much of this queue may be reclaimed */
- 	__le16	sq_id;		/* submission queue that generated this entry */
- 	__u16	command_id;	/* of the command which completed */
+@@ -146,6 +156,7 @@ struct nvme_ns {
+ struct nvme_ctrl_ops {
+ 	const char *name;
+ 	struct module *module;
++	bool is_fabrics;
+ 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+ 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+ 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
 -- 
 2.1.4
