@@ -1,21 +1,28 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 7 Jun 2016 10:47:54 -0400
-Subject: [PATCH 5/5] nvme-rdma: add a NVMe over Fabrics RDMA host driver
-In-Reply-To: <1465248215-18186-6-git-send-email-hch@lst.de>
-References: <1465248215-18186-1-git-send-email-hch@lst.de>
- <1465248215-18186-6-git-send-email-hch@lst.de>
-Message-ID: <20160607144753.GA28414@localhost.localdomain>
+Date: Tue, 7 Jun 2016 10:57:36 -0400
+Subject: [PATCH 1/8] blk-mq: add blk_mq_alloc_request_hctx
+In-Reply-To: <1465248119-17875-2-git-send-email-hch@lst.de>
+References: <1465248119-17875-1-git-send-email-hch@lst.de>
+ <1465248119-17875-2-git-send-email-hch@lst.de>
+Message-ID: <20160607145736.GB28414@localhost.localdomain>
 
-On Mon, Jun 06, 2016@11:23:35PM +0200, Christoph Hellwig wrote:
-> To connect to all NVMe over Fabrics controller reachable on a given taget
-> port using RDMA/CM use the following command:
-> 
-> 	nvme connect-all -t rdma -a $IPADDR
-> 
-> This requires the latest version of nvme-cli with Fabrics support.
+On Mon, Jun 06, 2016@11:21:52PM +0200, Christoph Hellwig wrote:
+> +struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int rw,
+> +		unsigned int flags, unsigned int hctx_idx)
+> +{
+> +	struct blk_mq_hw_ctx *hctx;
+> +	struct blk_mq_ctx *ctx;
+> +	struct request *rq;
+> +	struct blk_mq_alloc_data alloc_data;
+> +	int ret;
+> +
+> +	ret = blk_queue_enter(q, flags & BLK_MQ_REQ_NOWAIT);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	hctx = q->queue_hw_ctx[hctx_idx];
 
-Is there a public fork or patch set available for the user tools? I'd
-be happy to merge that in.
-
-Overall, this whole series is looking really good. I'll try this out on
-some machines today.
+We probably want to check 'if (hctx_idx < q->nr_hw_queues)' before
+getting the hctx. Even if hctx_idx was origially valid, it's possible
+(though unlikely) blk_queue_enter waits on reallocating h/w contexts,
+which can make hctx_idx invalid.
