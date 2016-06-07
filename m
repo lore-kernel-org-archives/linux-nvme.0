@@ -1,35 +1,73 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Tue, 7 Jun 2016 14:10:33 -0700
-Subject: NVMe over Fabrics target implementation
-In-Reply-To: <9352d5f2-b75f-9cc6-9a93-2e49c0883e84@redhat.com>
-References: <1465248177-17970-1-git-send-email-hch@lst.de>
- <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
- <9352d5f2-b75f-9cc6-9a93-2e49c0883e84@redhat.com>
-Message-ID: <CAF1ivSYZjEuhX1YbguPH230MxVqCRBeRrCn=cO9J54L8DrhTYA@mail.gmail.com>
+Date: Tue, 07 Jun 2016 14:33:20 -0700
+Subject: [PATCH nvme-cli] print friendly name for trtype and adrfam
+Message-ID: <1465335200-32354-1-git-send-email-mlin@kernel.org>
 
-On Tue, Jun 7, 2016@2:02 PM, Andy Grover <agrover@redhat.com> wrote:
-> On 06/06/2016 11:23 PM, Nicholas A. Bellinger wrote:
->>
->> Hi HCH & Co,
->>
->> On Mon, 2016-06-06@23:22 +0200, Christoph Hellwig wrote:
->>>
->>> This patch set adds a generic NVMe over Fabrics target. The
->>> implementation conforms to the NVMe 1.2b specification (which
->>> includes Fabrics) and provides the NVMe over Fabrics access
->>> to Linux block devices.
->>>
->>
->> Thanks for all of the development work by the fabric_linux_driver team
->> (HCH, Sagi, Ming, James F., James S., and Dave M.) over the last year.
->>
->> Very excited to see this code get a public release now that NVMf
->> specification is out.  Now that it's in the wild, it's a good
->> opportunity to discuss some of the more interesting implementation
->> details, beyond the new NVMf wire-protocol itself.
->
->
-> I'm sorry but I missed it, can you repeat the link to the NVMe spec(s)?
+From: Ming Lin <ming.l@samsung.com>
 
-http://www.nvmexpress.org/wp-content/uploads/NVM_Express_1_2_1_Gold_20160603.pdf
-http://www.nvmexpress.org/wp-content/uploads/NVMe_over_Fabrics_1_0_Gold_20160605.pdf
+Without this patch:
+=====Discovery Log Entry 0======
+trtype:  1
+adrfam:  1
+
+With this patch:
+=====Discovery Log Entry 0======
+trtype:  ipv4
+adrfam:  rdma
+
+Signed-off-by: Ming Lin <ming.l at samsung.com>
+---
+ fabrics.c | 38 ++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 36 insertions(+), 2 deletions(-)
+
+diff --git a/fabrics.c b/fabrics.c
+index c643598..d30bef2 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -271,8 +271,42 @@ static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 		struct nvmf_disc_rsp_page_entry *e = &log->entries[i];
+ 
+ 		printf("=====Discovery Log Entry %d======\n", i);
+-		printf("trtype:  %d\n", e->trtype);
+-		printf("adrfam:  %d\n", e->adrfam);
++
++		printf("trtype:  ");
++		switch(e->trtype) {
++		case NVMF_ADDR_FAMILY_IP4:
++			printf("ipv4\n");
++			break;
++		case NVMF_ADDR_FAMILY_IP6:
++			printf("ipv6\n");
++			break;
++		case NVMF_ADDR_FAMILY_IB:
++			printf("ib\n");
++			break;
++		case NVMF_ADDR_FAMILY_FC:
++			printf("fc\n");
++			break;
++		default:
++			printf("unknown\n");
++			break;
++		}
++
++		printf("adrfam:  ");
++		switch(e->adrfam) {
++		case NVMF_TRTYPE_RDMA:
++			printf("rdma\n");
++			break;
++		case NVMF_TRTYPE_FC:
++			printf("fc\n");
++			break;
++		case NVMF_TRTYPE_LOOP:
++			printf("loop\n");
++			break;
++		default:
++			printf("unknown\n");
++			break;
++		}
++
+ 		printf("nqntype: %d\n", e->nqntype);
+ 		printf("treq:    %d\n", e->treq);
+ 		printf("portid:  %d\n", e->portid);
+-- 
+1.9.1
