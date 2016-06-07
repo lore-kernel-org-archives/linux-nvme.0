@@ -1,60 +1,54 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue,  7 Jun 2016 09:44:02 +0200
-Subject: [PATCH v3 2/6] NVMe: Use pci_(request|release)_mem_regions
-In-Reply-To: <cover.1465200424.git.jthumshirn@suse.de>
-References: <cover.1465200424.git.jthumshirn@suse.de>
-Message-ID: <5c9932602e6d43ef8ad77856c686765f9e63aa9c.1465200424.git.jthumshirn@suse.de>
+Date: Tue, 7 Jun 2016 10:10:09 +0200
+Subject: [PATCH 01/10] nvme.h: add RTD3R, RTD3E and OAES fields
+In-Reply-To: <1465248052-17811-2-git-send-email-hch@lst.de>
+References: <1465248052-17811-1-git-send-email-hch@lst.de>
+ <1465248052-17811-2-git-send-email-hch@lst.de>
+Message-ID: <20160607081009.xd7wsyfuv4swuf4p@c203.arch.suse.de>
 
-Now that we do have pci_request_mem_regions() and pci_release_mem_regions() at
-hand, use it in the NVMe driver.
+On Mon, Jun 06, 2016@11:20:43PM +0200, Christoph Hellwig wrote:
+> These have been added in NVMe 1.2 and we'll need at least oaes for the
+> NVMe target driver.
+> 
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> Reviewed-by: Jay Freyensee <james.p.freyensee at intel.com>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  include/linux/nvme.h | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> index 7d51b29..ff5ebc3 100644
+> --- a/include/linux/nvme.h
+> +++ b/include/linux/nvme.h
+> @@ -107,7 +107,10 @@ struct nvme_id_ctrl {
+>  	__u8			mdts;
+>  	__le16			cntlid;
+>  	__le32			ver;
+> -	__u8			rsvd84[172];
+> +	__le32			rtd3r;
+> +	__le32			rtd3e;
+> +	__le32			oaes;
 
-Suggested-by: Christoph Hellwig <hch at infradead.org>
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Cc: Christoph Hellwig <hch at infradead.org>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Jens Axboe <axboe at fb.com>
-Cc: linux-nvme at lists.infradead.org
----
- drivers/nvme/host/pci.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+Just out of curiosity, why not CTRATT as well?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4fd733f..e7d17ae 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1756,7 +1756,7 @@ static void nvme_dev_unmap(struct nvme_dev *dev)
- {
- 	if (dev->bar)
- 		iounmap(dev->bar);
--	pci_release_regions(to_pci_dev(dev->dev));
-+	pci_release_mem_regions(to_pci_dev(dev->dev));
- }
- 
- static void nvme_pci_disable(struct nvme_dev *dev)
-@@ -1979,13 +1979,9 @@ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
- 
- static int nvme_dev_map(struct nvme_dev *dev)
- {
--	int bars;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	bars = pci_select_bars(pdev, IORESOURCE_MEM);
--	if (!bars)
--		return -ENODEV;
--	if (pci_request_selected_regions(pdev, bars, "nvme"))
-+	if (pci_request_mem_regions(pdev, "nvme"))
- 		return -ENODEV;
- 
- 	dev->bar = ioremap(pci_resource_start(pdev, 0), 8192);
-@@ -1994,7 +1990,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 
-        return 0;
-   release:
--       pci_release_regions(pdev);
-+       pci_release_mem_regions(pdev);
-        return -ENODEV;
- }
- 
+> +	__u8			rsvd96[160];
+>  	__le16			oacs;
+>  	__u8			acl;
+>  	__u8			aerl;
+> -- 
+> 2.1.4
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+
 -- 
-1.8.5.6
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
