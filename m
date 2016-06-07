@@ -1,19 +1,21 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Tue, 7 Jun 2016 11:11:28 -0700
-Subject: NVMe over Fabrics target implementation
-In-Reply-To: <20160607173105.GA13935@lst.de>
-References: <1465248177-17970-1-git-send-email-hch@lst.de>
- <6abd6fd0-3a75-8569-95a4-174d856d0043@sandisk.com>
- <20160607173105.GA13935@lst.de>
-Message-ID: <abd1bf65-dc98-7119-b6ff-97bb939e0780@sandisk.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 7 Jun 2016 14:42:48 -0400
+Subject: NVMe over Fabrics support for nvme-cli
+In-Reply-To: <1465312767-10070-1-git-send-email-hch@lst.de>
+References: <1465312767-10070-1-git-send-email-hch@lst.de>
+Message-ID: <20160607184248.GE28414@localhost.localdomain>
 
-On 06/07/2016 10:31 AM, Christoph Hellwig wrote:
-> Of course you can, and every user of configfs relies on being able
-> to create directories from the kernel using either the default_groups
-> list, or through the use of configfs_register_group().
+On Tue, Jun 07, 2016@05:19:16PM +0200, Christoph Hellwig wrote:
+> Hi Keith,
+> 
+> the series below adds support for the discovery, connect, connect-all and
+> disconnect commands to nvme-cli, which are useful to support the NVMe over
+> Fabrics host code.  Most of the work is from Ming with various bits and
+> pieces from me.  I also did the final rebase to the latest master tree.
 
-Apparently configfs_register_group() has been added last year (Nov 2015; 
-commit 5cf6a51e6062)? This is interesting and I think this functionality 
-would also useful for LIO target drivers, e.g. ib_srpt and tcm_qla2xxx.
+Thanks, applied.
 
-Bart.
+Happy to get fabrics in now as I have new features I'd like to add very
+soon, and didn't want you to have to rebase again. The new features are
+vendor extentions and json output. I'll post them to the linux-nvme list
+first in case anyone is interested in reviewing.
