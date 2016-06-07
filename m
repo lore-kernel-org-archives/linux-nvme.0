@@ -1,22 +1,10 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 7 Jun 2016 12:55:50 +0200
-Subject: NVMe over Fabrics target implementation
-In-Reply-To: <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
-References: <1465248177-17970-1-git-send-email-hch@lst.de>
- <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
-Message-ID: <20160607105550.GB17113@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 7 Jun 2016 04:57:40 -0700
+Subject: [PATCH v3 0/6] Introduce pci_(request|release)_(mem|io)_regions
+In-Reply-To: <cover.1465200424.git.jthumshirn@suse.de>
+References: <cover.1465200424.git.jthumshirn@suse.de>
+Message-ID: <20160607115740.GA25608@infradead.org>
 
-There is absolutely no point in dragging in an overcomplicated configfs 
-structure for a very simple protocol which also is very different from
-SCSI in it's nitty gritty details.  Keeping the nvme target self contains
-allows it to be both much simpler and much easier to understand, as well
-as much better testable - see the amount of test coverage we could easily
-add for example.
+The whole series looks fine to me:
 
-Or to put it the other way around - if there was any major synergy in
-reusing the SCSI target code that just shows we're missing functionality
-in the block layer or configfs.
-
-The only thing where this is the case mid-term is persistent reservations,
-but Mike Christie already has a plan for a pluggable PR API, which I'm
-very interested in.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
