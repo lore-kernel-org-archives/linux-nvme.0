@@ -1,25 +1,73 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 7 Jun 2016 18:08:57 -0400
-Subject: [PATCH nvme-cli] print friendly name for trtype and adrfam
-In-Reply-To: <CAF1ivSYPfHHGcBPaHYNj4Q3g5u+sXH9BXeJqM3-BS6B4KAXQiw@mail.gmail.com>
-References: <1465335200-32354-1-git-send-email-mlin@kernel.org>
- <20160607215050.GA30120@localhost.localdomain>
- <9A947B1F6D0FF74CB5D6ACFF43B473F3A39DD4FA@ORSMSX112.amr.corp.intel.com>
- <CAF1ivSYPfHHGcBPaHYNj4Q3g5u+sXH9BXeJqM3-BS6B4KAXQiw@mail.gmail.com>
-Message-ID: <20160607220856.GB30120@localhost.localdomain>
+From: mlin@kernel.org (Ming Lin)
+Date: Tue, 07 Jun 2016 15:07:27 -0700
+Subject: [PATCH nvme-cli] switch trtype and adrfam print
+Message-ID: <1465337247-564-1-git-send-email-mlin@kernel.org>
 
-On Tue, Jun 07, 2016@02:58:50PM -0700, Ming Lin wrote:
-> On Tue, Jun 7, 2016 at 2:52 PM, Minturn, Dave B
-> <dave.b.minturn@intel.com> wrote:
-> > It looks like you have the trtype (transport type) and adrfam (address family) swapped in the switch statements.
-> > ..Dave
-> 
-> Ooops. Too bad.
-> 
-> Keith, is it OK to rebase your tree with a new patch?
-> Or should I send a incremental *fix* patch?
-> 
-> Sorry for this.
+From: Ming Lin <ming.l@samsung.com>
 
-No worries, I jumped the gun on this. Just send me an incremental fix
-since I already pushed.
+Signed-off-by: Ming Lin <ming.l at samsung.com>
+---
+
+Dave,
+
+Could you help to take a look?
+Just to make sure I don't make stupid mistake again.
+
+ fabrics.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/fabrics.c b/fabrics.c
+index d30bef2..0071147 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -274,18 +274,15 @@ static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 
+ 		printf("trtype:  ");
+ 		switch(e->trtype) {
+-		case NVMF_ADDR_FAMILY_IP4:
+-			printf("ipv4\n");
+-			break;
+-		case NVMF_ADDR_FAMILY_IP6:
+-			printf("ipv6\n");
+-			break;
+-		case NVMF_ADDR_FAMILY_IB:
+-			printf("ib\n");
++		case NVMF_TRTYPE_RDMA:
++			printf("rdma\n");
+ 			break;
+-		case NVMF_ADDR_FAMILY_FC:
++		case NVMF_TRTYPE_FC:
+ 			printf("fc\n");
+ 			break;
++		case NVMF_TRTYPE_LOOP:
++			printf("loop\n");
++			break;
+ 		default:
+ 			printf("unknown\n");
+ 			break;
+@@ -293,14 +290,17 @@ static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 
+ 		printf("adrfam:  ");
+ 		switch(e->adrfam) {
+-		case NVMF_TRTYPE_RDMA:
+-			printf("rdma\n");
++		case NVMF_ADDR_FAMILY_IP4:
++			printf("ipv4\n");
+ 			break;
+-		case NVMF_TRTYPE_FC:
+-			printf("fc\n");
++		case NVMF_ADDR_FAMILY_IP6:
++			printf("ipv6\n");
+ 			break;
+-		case NVMF_TRTYPE_LOOP:
+-			printf("loop\n");
++		case NVMF_ADDR_FAMILY_IB:
++			printf("ib\n");
++			break;
++		case NVMF_ADDR_FAMILY_FC:
++			printf("fc\n");
+ 			break;
+ 		default:
+ 			printf("unknown\n");
+-- 
+1.9.1
