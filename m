@@ -1,32 +1,28 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Tue, 7 Jun 2016 08:27:29 -0700
-Subject: [PATCH 1/8] blk-mq: add blk_mq_alloc_request_hctx
-In-Reply-To: <20160607145736.GB28414@localhost.localdomain>
-References: <1465248119-17875-1-git-send-email-hch@lst.de>
- <1465248119-17875-2-git-send-email-hch@lst.de>
- <20160607145736.GB28414@localhost.localdomain>
-Message-ID: <CAF1ivSYpbzPF+5_e+hEKZ_-t7=UhijULbkvF=SodSF7FD5YS-A@mail.gmail.com>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Tue, 7 Jun 2016 10:01:01 -0700
+Subject: NVMe over Fabrics target implementation
+In-Reply-To: <1465248177-17970-1-git-send-email-hch@lst.de>
+References: <1465248177-17970-1-git-send-email-hch@lst.de>
+Message-ID: <6abd6fd0-3a75-8569-95a4-174d856d0043@sandisk.com>
 
-On Tue, Jun 7, 2016@7:57 AM, Keith Busch <keith.busch@intel.com> wrote:
-> On Mon, Jun 06, 2016@11:21:52PM +0200, Christoph Hellwig wrote:
->> +struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int rw,
->> +             unsigned int flags, unsigned int hctx_idx)
->> +{
->> +     struct blk_mq_hw_ctx *hctx;
->> +     struct blk_mq_ctx *ctx;
->> +     struct request *rq;
->> +     struct blk_mq_alloc_data alloc_data;
->> +     int ret;
->> +
->> +     ret = blk_queue_enter(q, flags & BLK_MQ_REQ_NOWAIT);
->> +     if (ret)
->> +             return ERR_PTR(ret);
->> +
->> +     hctx = q->queue_hw_ctx[hctx_idx];
->
-> We probably want to check 'if (hctx_idx < q->nr_hw_queues)' before
-> getting the hctx. Even if hctx_idx was origially valid, it's possible
-> (though unlikely) blk_queue_enter waits on reallocating h/w contexts,
-> which can make hctx_idx invalid.
+On 06/06/2016 02:22 PM, Christoph Hellwig wrote:
+> The target is configured using configfs, and configurable entities are:
+>  - NVMe subsystems and namespaces
+>  - NVMe over Fabrics ports and referrals
+>  - Host ACLs for primitive access control - NVMe over Fabrics access
+>    control is still work in progress at the specification level and
+>    will be implemented once that work has finished.
 
-Yes, I'll update it.
+Hello Christoph,
+
+As you know with configfs it is not allowed to create directories in the 
+configfs hierarchy from inside the kernel. This means that users will 
+have to create one directory per fabric port before configuring a target 
+port. Other virtual filesystems, e.g. sysfs, allow directory creation by 
+kernel drivers. This means that with sysfs the fabric port directory 
+could be created by the nvmet driver. Is this how you want the nvmet 
+driver to work?
+
+Thanks,
+
+Bart.
