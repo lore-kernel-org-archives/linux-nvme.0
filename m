@@ -1,15 +1,30 @@
-From: robert.j.woodruff@intel.com (Woodruff, Robert J)
-Date: Tue, 7 Jun 2016 14:55:00 +0000
-Subject: NVMe over Fabrics RDMA transport drivers
-In-Reply-To: <5756B695.5020305@grimberg.me>
+From: james.p.freyensee@intel.com (Freyensee, James P)
+Date: Tue, 7 Jun 2016 15:15:31 +0000
+Subject: [PATCH 5/5] nvme-rdma: add a NVMe over Fabrics RDMA host driver
+In-Reply-To: <20160607144753.GA28414@localhost.localdomain>
 References: <1465248215-18186-1-git-send-email-hch@lst.de>
- <5756B695.5020305@grimberg.me>
-Message-ID: <9C6B67F36DCAFC479B1CF6A967258A8C7DDCB23D@ORSMSX115.amr.corp.intel.com>
+ <1465248215-18186-6-git-send-email-hch@lst.de>
+ <20160607144753.GA28414@localhost.localdomain>
+Message-ID: <1465312530.3505.2.camel@intel.com>
 
-Sagi Grimberg wrote,
+On Tue, 2016-06-07@10:47 -0400, Keith Busch wrote:
+> On Mon, Jun 06, 2016@11:23:35PM +0200, Christoph Hellwig wrote:
+> > To connect to all NVMe over Fabrics controller reachable on a given
+> > taget
+> > port using RDMA/CM use the following command:
+> > 
+> > 	nvme connect-all -t rdma -a $IPADDR
+> > 
+> > This requires the latest version of nvme-cli with Fabrics support.
+> 
+> Is there a public fork or patch set available for the user tools? I'd
+> be happy to merge that in.
+> 
+> Overall, this whole series is looking really good. 
 
->We forgot to CC Linux-rdma, CC'ing...
-
-Are you planning on sending the patch set to the linux-rdma list for comments as well ?
-It might be good to do so if you want review from the rdma subsystem experts, as many of them do not subscribe to the other
+Special thanks to Sagi and Christoph for organizing all the patches of
+this code project into a dynamite submission series for these mailing
 lists.
+
+> I'll try this out on
+> some machines today.
