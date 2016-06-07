@@ -1,29 +1,36 @@
-From: agrover@redhat.com (Andy Grover)
-Date: Tue, 7 Jun 2016 14:02:09 -0700
-Subject: NVMe over Fabrics target implementation
-In-Reply-To: <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
-References: <1465248177-17970-1-git-send-email-hch@lst.de>
- <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
-Message-ID: <9352d5f2-b75f-9cc6-9a93-2e49c0883e84@redhat.com>
+From: mlin@kernel.org (Ming Lin)
+Date: Tue, 07 Jun 2016 14:07:49 -0700
+Subject: [PATCH] nvmet-rdma: check for a valid adrfam
+Message-ID: <1465333669-31807-1-git-send-email-mlin@kernel.org>
 
-On 06/06/2016 11:23 PM, Nicholas A. Bellinger wrote:
-> Hi HCH & Co,
->
-> On Mon, 2016-06-06@23:22 +0200, Christoph Hellwig wrote:
->> This patch set adds a generic NVMe over Fabrics target. The
->> implementation conforms to the NVMe 1.2b specification (which
->> includes Fabrics) and provides the NVMe over Fabrics access
->> to Linux block devices.
->>
->
-> Thanks for all of the development work by the fabric_linux_driver team
-> (HCH, Sagi, Ming, James F., James S., and Dave M.) over the last year.
->
-> Very excited to see this code get a public release now that NVMf
-> specification is out.  Now that it's in the wild, it's a good
-> opportunity to discuss some of the more interesting implementation
-> details, beyond the new NVMf wire-protocol itself.
+From: Ming Lin <ming.l@samsung.com>
 
-I'm sorry but I missed it, can you repeat the link to the NVMe spec(s)?
+Now only ipv4 is supported.
 
-Thanks -- Andy
+Signed-off-by: Ming Lin <ming.l at samsung.com>
+---
+ drivers/nvme/target/rdma.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index fccb01d..c184ee5 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1313,6 +1313,15 @@ static int nvmet_rdma_add_port(struct nvmet_port *port)
+ 	u16 port_in;
+ 	int ret;
+ 
++	switch (port->disc_addr.adrfam) {
++	case NVMF_ADDR_FAMILY_IP4:
++		break;
++	default:
++		pr_err("address family %d not supported\n",
++				port->disc_addr.adrfam);
++		return -EINVAL;
++	}
++
+ 	ret = kstrtou16(port->disc_addr.trsvcid, 0, &port_in);
+ 	if (ret)
+ 		return ret;
+-- 
+1.9.1
