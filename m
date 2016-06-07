@@ -1,33 +1,41 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue,  7 Jun 2016 17:19:17 +0200
-Subject: [PATCH 01/11] Makefile: introduce OBJS variable
+Date: Tue,  7 Jun 2016 17:19:18 +0200
+Subject: [PATCH 02/11] Support Get Log Page extended Number of Dwords
 In-Reply-To: <1465312767-10070-1-git-send-email-hch@lst.de>
 References: <1465312767-10070-1-git-send-email-hch@lst.de>
-Message-ID: <1465312767-10070-2-git-send-email-hch@lst.de>
+Message-ID: <1465312767-10070-3-git-send-email-hch@lst.de>
 
-Instead of listing all the objects twice.
+From: Ming Lin <ming.l@ssi.samsung.com>
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
+This supports 32 bits(rather than 12 bits) extended Number of Dwords
+in nvme_get_log().
+
+Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-and-tested-by: Sagi Grimberg <sagi at grimberg.me>
+Tested-by: Armen Baloyan <armenx.baloyan at intel.com>
 ---
- Makefile | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ nvme-ioctl.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/Makefile b/Makefile
-index 9260ae4..72f5732 100644
---- a/Makefile
-+++ b/Makefile
-@@ -31,8 +31,10 @@ override CFLAGS += -DNVME_VERSION='"$(NVME_VERSION)"'
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index 849d3b6..0510837 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -362,8 +362,13 @@ int nvme_get_log(int fd, __u32 nsid, __u8 log_id, __u32 data_len, void *data)
+ 		.addr		= (__u64)(uintptr_t) data,
+ 		.data_len	= data_len,
+ 	};
++	__u32 numd = (data_len >> 2) - 1;
++	__le16 numdu, numdl;
  
- NVME_DPKG_VERSION=1~`lsb_release -sc`
+-	cmd.cdw10 = log_id | ((data_len >> 2) - 1) << 16;
++	numdu = htole16((numd & 0xFFFF0000) >> 16);
++	numdl = htole16(numd & 0x0000FFFF);
++	cmd.cdw10 = log_id | (numdl << 16);
++	cmd.cdw11 = numdu;
  
--nvme: nvme.c ./linux/nvme.h argconfig.o suffix.o nvme-print.o nvme-ioctl.o nvme-lightnvm.o NVME-VERSION-FILE
--	$(CC) $(CPPFLAGS) $(CFLAGS) nvme.c $(LDFLAGS) -o $(NVME) argconfig.o suffix.o nvme-print.o nvme-ioctl.o nvme-lightnvm.o
-+OBJS := argconfig.o suffix.o nvme-print.o nvme-ioctl.o nvme-lightnvm.o
-+
-+nvme: nvme.c ./linux/nvme.h $(OBJS) NVME-VERSION-FILE
-+	$(CC) $(CPPFLAGS) $(CFLAGS) nvme.c $(LDFLAGS) -o $(NVME) $(OBJS)
- 
- nvme-ioctl.o: nvme-ioctl.c nvme-ioctl.h
- 	$(CC) $(CPPFLAGS) $(CFLAGS) -c nvme-ioctl.c
+ 	return nvme_submit_admin_passthru(fd, &cmd);
+ }
 -- 
 2.1.4
