@@ -1,33 +1,21 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 7 Jun 2016 14:57:09 +0300
-Subject: NVMe over Fabrics RDMA transport drivers
-In-Reply-To: <1465248215-18186-1-git-send-email-hch@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 7 Jun 2016 10:47:54 -0400
+Subject: [PATCH 5/5] nvme-rdma: add a NVMe over Fabrics RDMA host driver
+In-Reply-To: <1465248215-18186-6-git-send-email-hch@lst.de>
 References: <1465248215-18186-1-git-send-email-hch@lst.de>
-Message-ID: <5756B695.5020305@grimberg.me>
+ <1465248215-18186-6-git-send-email-hch@lst.de>
+Message-ID: <20160607144753.GA28414@localhost.localdomain>
 
-We forgot to CC Linux-rdma, CC'ing...
+On Mon, Jun 06, 2016@11:23:35PM +0200, Christoph Hellwig wrote:
+> To connect to all NVMe over Fabrics controller reachable on a given taget
+> port using RDMA/CM use the following command:
+> 
+> 	nvme connect-all -t rdma -a $IPADDR
+> 
+> This requires the latest version of nvme-cli with Fabrics support.
 
-On 07/06/16 00:23, Christoph Hellwig wrote:
-> This patch set implements the NVMe over Fabrics RDMA host and the target
-> drivers.
->
-> The host driver is tied into the NVMe host stack and implements the RDMA
-> transport under the NVMe core and Fabrics modules. The NVMe over Fabrics
-> RDMA host module is responsible for establishing a connection against a
-> given target/controller, RDMA event handling and data-plane command
-> processing.
->
-> The target driver hooks into the NVMe target core stack and implements
-> the RDMA transport. The module is responsible for RDMA connection
-> establishment, RDMA event handling and data-plane RDMA commands
-> processing.
->
-> RDMA connection establishment is done using RDMA/CM and IP resolution.
-> The data-plane command sequence follows the classic storage model where
-> the target pushes/pulls the data.
->
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-block" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
->
+Is there a public fork or patch set available for the user tools? I'd
+be happy to merge that in.
+
+Overall, this whole series is looking really good. I'll try this out on
+some machines today.
