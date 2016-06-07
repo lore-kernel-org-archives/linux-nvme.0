@@ -1,28 +1,16 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Tue, 7 Jun 2016 10:01:01 -0700
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 7 Jun 2016 19:31:05 +0200
 Subject: NVMe over Fabrics target implementation
-In-Reply-To: <1465248177-17970-1-git-send-email-hch@lst.de>
+In-Reply-To: <6abd6fd0-3a75-8569-95a4-174d856d0043@sandisk.com>
 References: <1465248177-17970-1-git-send-email-hch@lst.de>
-Message-ID: <6abd6fd0-3a75-8569-95a4-174d856d0043@sandisk.com>
+ <6abd6fd0-3a75-8569-95a4-174d856d0043@sandisk.com>
+Message-ID: <20160607173105.GA13935@lst.de>
 
-On 06/06/2016 02:22 PM, Christoph Hellwig wrote:
-> The target is configured using configfs, and configurable entities are:
->  - NVMe subsystems and namespaces
->  - NVMe over Fabrics ports and referrals
->  - Host ACLs for primitive access control - NVMe over Fabrics access
->    control is still work in progress at the specification level and
->    will be implemented once that work has finished.
+Hi Bart,
 
-Hello Christoph,
+> As you know with configfs it is not allowed to create directories in the 
+> configfs hierarchy from inside the kernel.
 
-As you know with configfs it is not allowed to create directories in the 
-configfs hierarchy from inside the kernel. This means that users will 
-have to create one directory per fabric port before configuring a target 
-port. Other virtual filesystems, e.g. sysfs, allow directory creation by 
-kernel drivers. This means that with sysfs the fabric port directory 
-could be created by the nvmet driver. Is this how you want the nvmet 
-driver to work?
-
-Thanks,
-
-Bart.
+Of course you can, and every user of configfs relies on being able
+to create directories from the kernel using either the default_groups
+list, or through the use of configfs_register_group().
