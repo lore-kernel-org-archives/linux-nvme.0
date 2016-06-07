@@ -1,27 +1,53 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 7 Jun 2016 18:39:09 -0400
-Subject: NVMe over Fabrics support for nvme-cli
-In-Reply-To: <20160607184248.GE28414@localhost.localdomain>
-References: <1465312767-10070-1-git-send-email-hch@lst.de>
- <20160607184248.GE28414@localhost.localdomain>
-Message-ID: <20160607223908.GC30120@localhost.localdomain>
+From: mlin@kernel.org (Ming Lin)
+Date: Tue, 7 Jun 2016 16:21:53 -0700
+Subject: [PATCH 1/8] blk-mq: add blk_mq_alloc_request_hctx
+In-Reply-To: <CAF1ivSYpbzPF+5_e+hEKZ_-t7=UhijULbkvF=SodSF7FD5YS-A@mail.gmail.com>
+References: <1465248119-17875-1-git-send-email-hch@lst.de>
+ <1465248119-17875-2-git-send-email-hch@lst.de>
+ <20160607145736.GB28414@localhost.localdomain>
+ <CAF1ivSYpbzPF+5_e+hEKZ_-t7=UhijULbkvF=SodSF7FD5YS-A@mail.gmail.com>
+Message-ID: <CAF1ivSYD88gsiAWQkcH-af07-HCVYzQrFcxpGhejLxcmr0WHrw@mail.gmail.com>
 
-On Tue, Jun 07, 2016@02:42:48PM -0400, Keith Busch wrote:
-> Happy to get fabrics in now as I have new features I'd like to add very
-> soon, and didn't want you to have to rebase again. The new features are
-> vendor extentions and json output. I'll post them to the linux-nvme list
-> first in case anyone is interested in reviewing.
+On Tue, Jun 7, 2016@8:27 AM, Ming Lin <mlin@kernel.org> wrote:
+> On Tue, Jun 7, 2016@7:57 AM, Keith Busch <keith.busch@intel.com> wrote:
+>> On Mon, Jun 06, 2016@11:21:52PM +0200, Christoph Hellwig wrote:
+>>> +struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int rw,
+>>> +             unsigned int flags, unsigned int hctx_idx)
+>>> +{
+>>> +     struct blk_mq_hw_ctx *hctx;
+>>> +     struct blk_mq_ctx *ctx;
+>>> +     struct request *rq;
+>>> +     struct blk_mq_alloc_data alloc_data;
+>>> +     int ret;
+>>> +
+>>> +     ret = blk_queue_enter(q, flags & BLK_MQ_REQ_NOWAIT);
+>>> +     if (ret)
+>>> +             return ERR_PTR(ret);
+>>> +
+>>> +     hctx = q->queue_hw_ctx[hctx_idx];
+>>
+>> We probably want to check 'if (hctx_idx < q->nr_hw_queues)' before
+>> getting the hctx. Even if hctx_idx was origially valid, it's possible
+>> (though unlikely) blk_queue_enter waits on reallocating h/w contexts,
+>> which can make hctx_idx invalid.
+>
+> Yes, I'll update it.
 
-Not quite ready to my latest, but I pushed it to a different branch here:
+How about this?
 
-  https://github.com/linux-nvme/nvme-cli/tree/experimental
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 7bb45ed..b59d2ef 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -279,6 +279,11 @@ struct request *blk_mq_alloc_request_hctx(struct
+request_queue *q, int rw,
+        if (ret)
+                return ERR_PTR(ret);
 
-It adds a "--output-format" option that takes normal, json, or binary types.
-
-The main thing though, is support for plugin extensions, and I made LightNVM
-and Intel built-in extensions with specifics to their devices.
-
-It also adds support for dynamically loaded plug-ins. This is so a
-3rd party or vendor can extend the program without having their stuff
-in-tree. It accomplishes this using the dynamic linking loader (dlopen,
-dlsym, and friends) to open and register symbols.
++       if (hctx_idx >= q->nr_hw_queues) {
++               blk_queue_exit(q);
++               return ERR_PTR(-EINVAL);
++       }
++
+        hctx = q->queue_hw_ctx[hctx_idx];
+        ctx = __blk_mq_get_ctx(q, cpumask_first(hctx->cpumask));
