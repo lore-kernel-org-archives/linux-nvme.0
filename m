@@ -1,66 +1,148 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Tue, 7 Jun 2016 06:00:41 +0800
-Subject: [PATCH 3/3] nvme-loop: add a NVMe loopback host driver
-In-Reply-To: <1465248177-17970-4-git-send-email-hch@lst.de>
-Message-ID: <201606070531.Qm5mRk3M%fengguang.wu@intel.com>
+From: nab@linux-iscsi.org (Nicholas A. Bellinger)
+Date: Mon, 06 Jun 2016 23:23:52 -0700
+Subject: NVMe over Fabrics target implementation
+In-Reply-To: <1465248177-17970-1-git-send-email-hch@lst.de>
+References: <1465248177-17970-1-git-send-email-hch@lst.de>
+Message-ID: <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
 
-Hi,
+Hi HCH & Co,
 
-[auto build test ERROR on block/for-next]
-[also build test ERROR on v4.7-rc2 next-20160606]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+On Mon, 2016-06-06@23:22 +0200, Christoph Hellwig wrote:
+> This patch set adds a generic NVMe over Fabrics target. The
+> implementation conforms to the NVMe 1.2b specification (which
+> includes Fabrics) and provides the NVMe over Fabrics access
+> to Linux block devices.
+> 
 
-url:    https://github.com/0day-ci/linux/commits/Christoph-Hellwig/block-Export-blk_poll/20160607-052554
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-config: i386-allmodconfig (attached as .config)
-compiler: gcc-6 (Debian 6.1.1-1) 6.1.1 20160430
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=i386 
+Thanks for all of the development work by the fabric_linux_driver team
+(HCH, Sagi, Ming, James F., James S., and Dave M.) over the last year. 
 
-All errors (new ones prefixed by >>):
+Very excited to see this code get a public release now that NVMf
+specification is out.  Now that it's in the wild, it's a good
+opportunity to discuss some of the more interesting implementation
+details, beyond the new NVMf wire-protocol itself.
 
-   In file included from drivers/nvme/target/loop.c:22:0:
-   drivers/nvme/target/nvmet.h:93:34: error: field 'disc_addr' has incomplete type
-     struct nvmf_disc_rsp_page_entry disc_addr;
-                                     ^~~~~~~~~
-   drivers/nvme/target/nvmet.h:134:19: error: 'NVMF_NQN_FIELD_LEN' undeclared here (not in a function)
-     char   subsysnqn[NVMF_NQN_FIELD_LEN];
-                      ^~~~~~~~~~~~~~~~~~
-   drivers/nvme/target/nvmet.h:139:24: error: field 'type' has incomplete type
-     enum nvme_subsys_type type;
-                           ^~~~
-   drivers/nvme/target/nvmet.h: In function 'nvmet_data_dir':
-   drivers/nvme/target/nvmet.h:249:9: error: implicit declaration of function 'nvme_is_write' [-Werror=implicit-function-declaration]
-     return nvme_is_write(req->cmd) ? DMA_FROM_DEVICE : DMA_TO_DEVICE;
-            ^~~~~~~~~~~~~
-   drivers/nvme/target/loop.c: At top level:
->> drivers/nvme/target/loop.c:24:29: fatal error: ../host/fabrics.h: No such file or directory
-    #include "../host/fabrics.h"
-                                ^
-   cc1: some warnings being treated as errors
-   compilation terminated.
+(Adding target-devel + linux-scsi CC')
 
-vim +24 drivers/nvme/target/loop.c
+> The target implementation consists of several elements:
+> 
+> - NVMe target core: defines and manages the NVMe entities (subsystems,
+>   controllers, namespaces, ...) and their allocation, responsible
+>   for initial commands processing and correct orchestration of
+>   the stack setup and tear down.
+> 
+> - NVMe admin command implementation: responsible for parsing and
+>   servicing admin commands such as controller identify, set features,
+>   keep-alive, log page, ...).
+> 
+> - NVMe I/O command implementation: responsible for performing the actual
+>   I/O (Read, Write, Flush, Deallocate (aka Discard).  It is a very thin
+>   layer on top of the block layer and implements no logic of it's own.
+>   To support exporting file systems please use the loopback block driver
+>   in direct I/O mode, which gives very good performance.
+> 
+> - NVMe over Fabrics support: responsible for servicing Fabrics commands
+>   (connect, property get/set).
+> 
+> - NVMe over Fabrics discovery service: responsible to serve the Discovery
+>   log page through a special cut down Discovery controller.
+> 
+> The target is configured using configfs, and configurable entities are:
+> 
+>  - NVMe subsystems and namespaces
+>  - NVMe over Fabrics ports and referrals
+>  - Host ACLs for primitive access control - NVMe over Fabrics access
+>    control is still work in progress at the specification level and
+>    will be implemented once that work has finished.
+> 
+> To configure the target use the nvmetcli tool from
+> http://git.infradead.org/users/hch/nvmetcli.git, which includes detailed
+> setup documentation.
+> 
+> In addition to the Fabrics target implementation we provide a loopback
+> driver which also conforms the NVMe over Fabrics specification and allows
+> evaluation of the target stack with local access without requiring a real
+> fabric.
+> 
 
-    18	#include <linux/nvme.h>
-    19	#include <linux/module.h>
-    20	#include <linux/parser.h>
-    21	#include <linux/t10-pi.h>
-    22	#include "nvmet.h"
-    23	#include "../host/nvme.h"
-  > 24	#include "../host/fabrics.h"
-    25	
-    26	#define NVME_LOOP_AQ_DEPTH		256
-    27	
+So as-is, I have two main objections that been discussed off-list for
+some time, that won't be a big surprise to anyone following
+fabrics_linux_driver list.  ;P
 
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 54457 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160607/194a9498/attachment-0001.obj>
+First topic, I think nvme-target name-spaces should be utilizing
+existing configfs logic, and sharing /sys/kernel/config/target/core/
+backend driver symlinks as individual nvme-target subsystem namespaces.
+
+That is, we've already got a configfs ABI in place for target mode
+back-ends that today is able to operate independently from SCSI
+architecture model dependencies.
+
+To that end, the prerequisite series to allow target-core backends to
+operate independent of se_cmd, and allow se_device backends to be
+configfs symlinked directly into /sys/kernel/config/nvmet/, outside
+of /sys/kernel/config/target/$FABRIC/ has been posted earlier here:
+
+http://marc.info/?l=linux-scsi&m=146527281416606&w=2
+
+Note the -v2 series has absorbed the nvmet/io-cmd execute_rw()
+improvements from Sagi + Ming (inline bio/bvec and blk_poll) into
+target_core_iblock.c driver code.
+
+Second topic, and more important from a kernel ABI perspective are the
+current scale limitations around the first pass of nvmet configfs.c
+layout code in /sys/kernel/config/nvmet/.
+
+Namely, the design of having three top level configfs groups in
+/sys/kernel/config/nvmet/[subsystems,ports,hosts] that are configfs
+symlinked between each other, with a single rw_mutex (nvmet_config_sem)
+used for global list lookup and enforcing a globally synchronized
+nvmet_fabrics_ops->add_port() creation across all subsystem NQN ports.
+
+>From the shared experience in target_core_fabric_configfs.c over the
+last 8 years, perhaps the greatest strength of configfs has been it's
+ability to allow config_item_type parent/child relationships to exist
+and operate independently of one another.
+
+Specifically in the context of storage tenants, this means creation +
+deletion of one backend + target fabric endpoint tenant, should not
+block creation + deletion of another backend + target fabric endpoint
+tenant.
+
+As-is, a nvmet configfs layout holding a global mutex across
+subsystem/port/host creation + deletion, and doing internal list lookup
+within configfs ->allow_link + ->drop_link callbacks ends up being
+severely limiting when scaling up the total number of nvmet subsystem
+NQNs and ports.
+
+Specifically, modern deployments of /sys/kernel/config/target/iscsi/
+expect backends + fabric endpoints to be configured in parallel at
+< 100ms from user-space, in order to actively migrate and fail-over
+100s of storage instances (eg: iscsi IQNs -> NVMf NQN) across physical
+cluster nodes and L3 networks.
+
+So in order to reach this level of scale with nvmet/configfs, the layout
+I think is necessary to match iscsi-target in a multi-tenant environment
+will, in it's most basic form look like:
+
+/sys/kernel/config/nvmet/subsystems/
+??? nqn.2003-01.org.linux-iscsi.NVMf.skylake-ep
+    ??? hosts
+    ??? namespaces
+    ?   ??? ns_1
+    ?       ??? 1 -> ../../../../../../target/core/rd_mcp_1/ramdisk0
+    ??? ports
+        ??? pcie:$SUPER_TURBO_FABRIC_EAST
+        ??? pcie:$SUPER_TURBO_FABRIC_WEST
+        ??? rdma:[$IPV6_ADDR]:$PORT
+        ??? rdma:10.10.1.75:$PORT
+        ??? loop
+
+That is, both NQN ports groups and host ACL groups exist below the
+nvmet_subsys->group, and NQN namespaces are configfs symlinked directly
+from /sys/kernel/config/target/core/ backends as mentioned in point #1.
+
+To that end, I'll be posting a nvmet series shortly that implements a
+multi-tenant configfs layout WIP using nvme/loop, using existing
+target-core backends as configfs symlinked nvme namespaces.
+
+Comments..?
