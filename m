@@ -1,36 +1,35 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Tue, 07 Jun 2016 14:07:49 -0700
-Subject: [PATCH] nvmet-rdma: check for a valid adrfam
-Message-ID: <1465333669-31807-1-git-send-email-mlin@kernel.org>
+Date: Tue, 7 Jun 2016 14:10:33 -0700
+Subject: NVMe over Fabrics target implementation
+In-Reply-To: <9352d5f2-b75f-9cc6-9a93-2e49c0883e84@redhat.com>
+References: <1465248177-17970-1-git-send-email-hch@lst.de>
+ <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
+ <9352d5f2-b75f-9cc6-9a93-2e49c0883e84@redhat.com>
+Message-ID: <CAF1ivSYZjEuhX1YbguPH230MxVqCRBeRrCn=cO9J54L8DrhTYA@mail.gmail.com>
 
-From: Ming Lin <ming.l@samsung.com>
+On Tue, Jun 7, 2016@2:02 PM, Andy Grover <agrover@redhat.com> wrote:
+> On 06/06/2016 11:23 PM, Nicholas A. Bellinger wrote:
+>>
+>> Hi HCH & Co,
+>>
+>> On Mon, 2016-06-06@23:22 +0200, Christoph Hellwig wrote:
+>>>
+>>> This patch set adds a generic NVMe over Fabrics target. The
+>>> implementation conforms to the NVMe 1.2b specification (which
+>>> includes Fabrics) and provides the NVMe over Fabrics access
+>>> to Linux block devices.
+>>>
+>>
+>> Thanks for all of the development work by the fabric_linux_driver team
+>> (HCH, Sagi, Ming, James F., James S., and Dave M.) over the last year.
+>>
+>> Very excited to see this code get a public release now that NVMf
+>> specification is out.  Now that it's in the wild, it's a good
+>> opportunity to discuss some of the more interesting implementation
+>> details, beyond the new NVMf wire-protocol itself.
+>
+>
+> I'm sorry but I missed it, can you repeat the link to the NVMe spec(s)?
 
-Now only ipv4 is supported.
-
-Signed-off-by: Ming Lin <ming.l at samsung.com>
----
- drivers/nvme/target/rdma.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index fccb01d..c184ee5 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1313,6 +1313,15 @@ static int nvmet_rdma_add_port(struct nvmet_port *port)
- 	u16 port_in;
- 	int ret;
- 
-+	switch (port->disc_addr.adrfam) {
-+	case NVMF_ADDR_FAMILY_IP4:
-+		break;
-+	default:
-+		pr_err("address family %d not supported\n",
-+				port->disc_addr.adrfam);
-+		return -EINVAL;
-+	}
-+
- 	ret = kstrtou16(port->disc_addr.trsvcid, 0, &port_in);
- 	if (ret)
- 		return ret;
--- 
-1.9.1
+http://www.nvmexpress.org/wp-content/uploads/NVM_Express_1_2_1_Gold_20160603.pdf
+http://www.nvmexpress.org/wp-content/uploads/NVMe_over_Fabrics_1_0_Gold_20160605.pdf
