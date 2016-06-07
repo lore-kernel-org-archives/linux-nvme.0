@@ -1,14 +1,22 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 7 Jun 2016 12:51:01 +0200
-Subject: [PATCH 4/8] nvme: add fabrics sysfs attributes
-In-Reply-To: <20160607085217.mp7ppvdmvzwwi36b@c203.arch.suse.de>
-References: <1465248119-17875-1-git-send-email-hch@lst.de>
- <1465248119-17875-5-git-send-email-hch@lst.de>
- <20160607085217.mp7ppvdmvzwwi36b@c203.arch.suse.de>
-Message-ID: <20160607105101.GA17113@lst.de>
+Date: Tue, 7 Jun 2016 12:55:50 +0200
+Subject: NVMe over Fabrics target implementation
+In-Reply-To: <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
+References: <1465248177-17970-1-git-send-email-hch@lst.de>
+ <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
+Message-ID: <20160607105550.GB17113@lst.de>
 
-On Tue, Jun 07, 2016@10:52:17AM +0200, Johannes Thumshirn wrote:
-> Can you please add this to Documentation/ABI/ as well?
+There is absolutely no point in dragging in an overcomplicated configfs 
+structure for a very simple protocol which also is very different from
+SCSI in it's nitty gritty details.  Keeping the nvme target self contains
+allows it to be both much simpler and much easier to understand, as well
+as much better testable - see the amount of test coverage we could easily
+add for example.
 
-None of the NVMe files are documented there..  But maybe it's worth
-a separate little project to document all of them.
+Or to put it the other way around - if there was any major synergy in
+reusing the SCSI target code that just shows we're missing functionality
+in the block layer or configfs.
+
+The only thing where this is the case mid-term is persistent reservations,
+but Mike Christie already has a plan for a pluggable PR API, which I'm
+very interested in.
