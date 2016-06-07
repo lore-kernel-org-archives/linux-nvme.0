@@ -1,50 +1,43 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 7 Jun 2016 10:10:09 +0200
+Date: Tue, 7 Jun 2016 10:38:21 +0200
 Subject: [PATCH 01/10] nvme.h: add RTD3R, RTD3E and OAES fields
-In-Reply-To: <1465248052-17811-2-git-send-email-hch@lst.de>
+In-Reply-To: <20160607081009.xd7wsyfuv4swuf4p@c203.arch.suse.de>
 References: <1465248052-17811-1-git-send-email-hch@lst.de>
  <1465248052-17811-2-git-send-email-hch@lst.de>
-Message-ID: <20160607081009.xd7wsyfuv4swuf4p@c203.arch.suse.de>
+ <20160607081009.xd7wsyfuv4swuf4p@c203.arch.suse.de>
+Message-ID: <20160607083820.stlhphzuy27rx5ze@c203.arch.suse.de>
 
-On Mon, Jun 06, 2016@11:20:43PM +0200, Christoph Hellwig wrote:
-> These have been added in NVMe 1.2 and we'll need at least oaes for the
-> NVMe target driver.
+On Tue, Jun 07, 2016@10:10:09AM +0200, Johannes Thumshirn wrote:
+> On Mon, Jun 06, 2016@11:20:43PM +0200, Christoph Hellwig wrote:
+> > These have been added in NVMe 1.2 and we'll need at least oaes for the
+> > NVMe target driver.
+> > 
+> > Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> > Reviewed-by: Jay Freyensee <james.p.freyensee at intel.com>
+> > Signed-off-by: Christoph Hellwig <hch at lst.de>
+> > ---
+> >  include/linux/nvme.h | 5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> > index 7d51b29..ff5ebc3 100644
+> > --- a/include/linux/nvme.h
+> > +++ b/include/linux/nvme.h
+> > @@ -107,7 +107,10 @@ struct nvme_id_ctrl {
+> >  	__u8			mdts;
+> >  	__le16			cntlid;
+> >  	__le32			ver;
+> > -	__u8			rsvd84[172];
+> > +	__le32			rtd3r;
+> > +	__le32			rtd3e;
+> > +	__le32			oaes;
 > 
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-> Reviewed-by: Jay Freyensee <james.p.freyensee at intel.com>
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  include/linux/nvme.h | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index 7d51b29..ff5ebc3 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -107,7 +107,10 @@ struct nvme_id_ctrl {
->  	__u8			mdts;
->  	__le16			cntlid;
->  	__le32			ver;
-> -	__u8			rsvd84[172];
-> +	__le32			rtd3r;
-> +	__le32			rtd3e;
-> +	__le32			oaes;
+> Just out of curiosity, why not CTRATT as well?
 
-Just out of curiosity, why not CTRATT as well?
+OK found the patch adding it myself.
 
-> +	__u8			rsvd96[160];
->  	__le16			oacs;
->  	__u8			acl;
->  	__u8			aerl;
-> -- 
-> 2.1.4
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
-
+Sorry,
+	Johannes
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
