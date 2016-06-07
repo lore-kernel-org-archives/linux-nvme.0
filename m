@@ -1,120 +1,29 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 7 Jun 2016 15:08:15 -0500
-Subject: NVMe over Fabrics support for nvme-cli
-In-Reply-To: <1465312767-10070-1-git-send-email-hch@lst.de>
-References: <1465312767-10070-1-git-send-email-hch@lst.de>
-Message-ID: <022b01d1c0f8$53c13b50$fb43b1f0$@opengridcomputing.com>
+Date: Tue, 7 Jun 2016 15:14:22 -0500
+Subject: NVMe over Fabrics RDMA transport drivers
+In-Reply-To: <9C6B67F36DCAFC479B1CF6A967258A8C7DDCB23D@ORSMSX115.amr.corp.intel.com>
+References: <1465248215-18186-1-git-send-email-hch@lst.de>
+ <5756B695.5020305@grimberg.me>
+ <9C6B67F36DCAFC479B1CF6A967258A8C7DDCB23D@ORSMSX115.amr.corp.intel.com>
+Message-ID: <6ed161c3-d7d2-909f-6f17-7d75c36ed5b2@opengridcomputing.com>
 
-> 
-> Hi Keith,
-> 
-> the series below adds support for the discovery, connect, connect-all and
-> disconnect commands to nvme-cli, which are useful to support the NVMe over
-> Fabrics host code.  Most of the work is from Ming with various bits and
-> pieces from me.  I also did the final rebase to the latest master tree.
+On 6/7/2016 9:55 AM, Woodruff, Robert J wrote:
+> Sagi Grimberg wrote,
+>
+>> We forgot to CC Linux-rdma, CC'ing...
+> Are you planning on sending the patch set to the linux-rdma list for comments as well ?
+> It might be good to do so if you want review from the rdma subsystem experts, as many of them do not subscribe to the other
+> lists.
 
-Hey Christoph, looks like the man page needs to be updated.
+It would be great to make sure and CC linux-rdma on v2 of all 4 series, 
+so interested folks can review and/or test out the whole enchilada.
 
-Also, connect-all doesn't seem to work for me.  Am I doing something wrong?
+Anyway, today I used the github tree at 
+git://git.infradead.org/nvme-fabrics.git, branch nvmf-all for testing 
+NVME/Fabrics over RDMA.  I used nvme-cli from 
+https://github.com/linux-nvme/nvme-cli.git, and nvmetcli from 
+git://git.infradead.org/users/hch/nvmetcli.git for configuring.  I ran 
+some xfs, fio and iozone tests over both iw_cxgb4 and mlx4, using ram 
+disks and an NVME ssd.  Checks out good so far!
 
-[root at stevo1 nvme-cli]# nvme discover -t rdma -a 10.0.1.14 -s 4420
-Discovery Log Number of Records 7, Generation counter 51
-=====Discovery Log Entry 0======
-trtype:  1
-adrfam:  0
-nqntype: 2
-treq:    0
-portid:  1
-trsvcid: 4420
-subnqn:  test-ram0
-traddr:  10.0.1.14
-rdma_prtype: 0
-rdma_qptype: 0
-rdma_cms:    0
-rdma_pkey: 0x0000
-=====Discovery Log Entry 1======
-trtype:  1
-adrfam:  0
-nqntype: 2
-treq:    0
-portid:  1
-trsvcid: 4420
-subnqn:  test-ram1
-traddr:  10.0.1.14
-rdma_prtype: 0
-rdma_qptype: 0
-rdma_cms:    0
-rdma_pkey: 0x0000
-=====Discovery Log Entry 2======
-trtype:  1
-adrfam:  0
-nqntype: 2
-treq:    0
-portid:  1
-trsvcid: 4420
-subnqn:  test-ram2
-traddr:  10.0.1.14
-rdma_prtype: 0
-rdma_qptype: 0
-rdma_cms:    0
-rdma_pkey: 0x0000
-=====Discovery Log Entry 3======
-trtype:  1
-adrfam:  0
-nqntype: 2
-treq:    0
-portid:  1
-trsvcid: 4420
-subnqn:  test-ram3
-traddr:  10.0.1.14
-rdma_prtype: 0
-rdma_qptype: 0
-rdma_cms:    0
-rdma_pkey: 0x0000
-=====Discovery Log Entry 4======
-trtype:  1
-adrfam:  0
-nqntype: 2
-treq:    0
-portid:  1
-trsvcid: 4420
-subnqn:  test-hynix0
-traddr:  10.0.1.14
-rdma_prtype: 0
-rdma_qptype: 0
-rdma_cms:    0
-rdma_pkey: 0x0000
-=====Discovery Log Entry 5======
-trtype:  1
-adrfam:  0
-nqntype: 2
-treq:    0
-portid:  1
-trsvcid: 4420
-subnqn:  test-nullb0
-traddr:  10.0.1.14
-rdma_prtype: 0
-rdma_qptype: 0
-rdma_cms:    0
-rdma_pkey: 0x0000
-=====Discovery Log Entry 6======
-trtype:  1
-adrfam:  0
-nqntype: 2
-treq:    0
-portid:  1
-trsvcid: 4420
-subnqn:  test-nullb1
-traddr:  10.0.1.14
-rdma_prtype: 0
-rdma_qptype: 0
-rdma_cms:    0
-rdma_pkey: 0x0000
-[root at stevo1 nvme-cli]# nvme connect-all -t rdma -a 10.0.1.14
-skipping unsupported adrfam
-skipping unsupported adrfam
-skipping unsupported adrfam
-skipping unsupported adrfam
-skipping unsupported adrfam
-skipping unsupported adrfam
-skipping unsupported adrfam
+Tested-by: Steve Wise <swise at opengridcomputing.com>
