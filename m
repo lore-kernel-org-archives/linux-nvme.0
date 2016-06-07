@@ -1,33 +1,29 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 7 Jun 2016 15:32:04 -0500
-Subject: NVMe over Fabrics support for nvme-cli
-In-Reply-To: <20160607202552.GA16320@lst.de>
-References: <1465312767-10070-1-git-send-email-hch@lst.de>
- <022b01d1c0f8$53c13b50$fb43b1f0$@opengridcomputing.com>
- <20160607202552.GA16320@lst.de>
-Message-ID: <022d01d1c0fb$a715e7d0$f541b770$@opengridcomputing.com>
+From: agrover@redhat.com (Andy Grover)
+Date: Tue, 7 Jun 2016 14:02:09 -0700
+Subject: NVMe over Fabrics target implementation
+In-Reply-To: <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
+References: <1465248177-17970-1-git-send-email-hch@lst.de>
+ <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
+Message-ID: <9352d5f2-b75f-9cc6-9a93-2e49c0883e84@redhat.com>
 
-> > Hey Christoph, looks like the man page needs to be updated.
-> 
-> Or rather added..
-> 
-> > Also, connect-all doesn't seem to work for me.  Am I doing something wrong?
-> 
-> Yes!
-> 
-> >
-> > [root at stevo1 nvme-cli]# nvme discover -t rdma -a 10.0.1.14 -s 4420
-> > Discovery Log Number of Records 7, Generation counter 51
-> > =====Discovery Log Entry 0======
-> > trtype:  1
-> > adrfam:  0
-> 
-> adrfam = 0 means you didn't set the address family on the target.
-> I'll also add checking for a valid adrfam on the target to the TODO list.
+On 06/06/2016 11:23 PM, Nicholas A. Bellinger wrote:
+> Hi HCH & Co,
+>
+> On Mon, 2016-06-06@23:22 +0200, Christoph Hellwig wrote:
+>> This patch set adds a generic NVMe over Fabrics target. The
+>> implementation conforms to the NVMe 1.2b specification (which
+>> includes Fabrics) and provides the NVMe over Fabrics access
+>> to Linux block devices.
+>>
+>
+> Thanks for all of the development work by the fabric_linux_driver team
+> (HCH, Sagi, Ming, James F., James S., and Dave M.) over the last year.
+>
+> Very excited to see this code get a public release now that NVMf
+> specification is out.  Now that it's in the wild, it's a good
+> opportunity to discuss some of the more interesting implementation
+> details, beyond the new NVMf wire-protocol itself.
 
-I updated my json input file to add "ipv4" to the "adrfam" entries, and
-connect-all works like a champ.
+I'm sorry but I missed it, can you repeat the link to the NVMe spec(s)?
 
-Thanks,
-
-Steve.
+Thanks -- Andy
