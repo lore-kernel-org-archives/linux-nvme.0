@@ -1,15 +1,72 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 7 Jun 2016 22:22:06 -0600
-Subject: [PATCH V2] Use MACRO UINT_MAX instead of actual value
-In-Reply-To: <1463471921-20261-1-git-send-email-mnghuan@gmail.com>
-References: <1463471921-20261-1-git-send-email-mnghuan@gmail.com>
-Message-ID: <57579D6E.10702@kernel.dk>
+Date: Tue, 7 Jun 2016 22:49:22 -0600
+Subject: [PATCH 1/8] blk-mq: add blk_mq_alloc_request_hctx
+In-Reply-To: <1465248119-17875-2-git-send-email-hch@lst.de>
+References: <1465248119-17875-1-git-send-email-hch@lst.de>
+ <1465248119-17875-2-git-send-email-hch@lst.de>
+Message-ID: <5757A3D2.1030003@kernel.dk>
 
-On 05/17/2016 01:58 AM, Minfei Huang wrote:
-> It's more elegant to use MACRO UINT_MAX to represent the max value of
-> type unsigned int. So replace the actual value by using this MACRO.
+On 06/06/2016 03:21 PM, Christoph Hellwig wrote:
+> From: Ming Lin <ming.l at ssi.samsung.com>
+>
+> For some protocols like NVMe over Fabrics we need to be able to send
+> initialization commands to a specific queue.
+>
+> Based on an earlier patch from Christoph Hellwig <hch at lst.de>.
+>
+> Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>   block/blk-mq.c         | 33 +++++++++++++++++++++++++++++++++
+>   include/linux/blk-mq.h |  2 ++
+>   2 files changed, 35 insertions(+)
+>
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 29cbc1b..7bb45ed 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -266,6 +266,39 @@ struct request *blk_mq_alloc_request(struct request_queue *q, int rw,
+>   }
+>   EXPORT_SYMBOL(blk_mq_alloc_request);
+>
+> +struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int rw,
+> +		unsigned int flags, unsigned int hctx_idx)
+> +{
+> +	struct blk_mq_hw_ctx *hctx;
+> +	struct blk_mq_ctx *ctx;
+> +	struct request *rq;
+> +	struct blk_mq_alloc_data alloc_data;
+> +	int ret;
+> +
+> +	ret = blk_queue_enter(q, flags & BLK_MQ_REQ_NOWAIT);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	hctx = q->queue_hw_ctx[hctx_idx];
+> +	ctx = __blk_mq_get_ctx(q, cpumask_first(hctx->cpumask));
+> +
+> +	blk_mq_set_alloc_data(&alloc_data, q, flags, ctx, hctx);
+> +
+> +	rq = __blk_mq_alloc_request(&alloc_data, rw);
+> +	if (!rq && !(flags & BLK_MQ_REQ_NOWAIT)) {
+> +		__blk_mq_run_hw_queue(hctx);
+> +
+> +		rq =  __blk_mq_alloc_request(&alloc_data, rw);
+> +	}
 
-Added for 4.8, thanks.
+Why are we duplicating this code here? If NOWAIT isn't set, then we'll
+always return a request. bt_get() will run the queue for us, if it needs
+to. blk_mq_alloc_request() does this too, and I'm guessing that code was
+just copied. I'll fix that up. Looks like this should just be:
+
+	rq = __blk_mq_alloc_request(&alloc_data, rw);
+	if (rq)
+		return rq;
+
+	blk_queue_exit(q);
+	return ERR_PTR(-EWOULDBLOCK);
+
+for this case.
 
 -- 
 Jens Axboe
