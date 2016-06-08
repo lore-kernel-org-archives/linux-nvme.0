@@ -1,53 +1,47 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Tue, 7 Jun 2016 16:21:53 -0700
-Subject: [PATCH 1/8] blk-mq: add blk_mq_alloc_request_hctx
-In-Reply-To: <CAF1ivSYpbzPF+5_e+hEKZ_-t7=UhijULbkvF=SodSF7FD5YS-A@mail.gmail.com>
-References: <1465248119-17875-1-git-send-email-hch@lst.de>
- <1465248119-17875-2-git-send-email-hch@lst.de>
- <20160607145736.GB28414@localhost.localdomain>
- <CAF1ivSYpbzPF+5_e+hEKZ_-t7=UhijULbkvF=SodSF7FD5YS-A@mail.gmail.com>
-Message-ID: <CAF1ivSYD88gsiAWQkcH-af07-HCVYzQrFcxpGhejLxcmr0WHrw@mail.gmail.com>
+From: akinobu.mita@gmail.com (Akinobu Mita)
+Date: Wed,  8 Jun 2016 09:19:24 +0900
+Subject: [PATCH] nvme: add missing error returns in format unit scsi
+ translation
+Message-ID: <1465345164-4481-1-git-send-email-akinobu.mita@gmail.com>
 
-On Tue, Jun 7, 2016@8:27 AM, Ming Lin <mlin@kernel.org> wrote:
-> On Tue, Jun 7, 2016@7:57 AM, Keith Busch <keith.busch@intel.com> wrote:
->> On Mon, Jun 06, 2016@11:21:52PM +0200, Christoph Hellwig wrote:
->>> +struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int rw,
->>> +             unsigned int flags, unsigned int hctx_idx)
->>> +{
->>> +     struct blk_mq_hw_ctx *hctx;
->>> +     struct blk_mq_ctx *ctx;
->>> +     struct request *rq;
->>> +     struct blk_mq_alloc_data alloc_data;
->>> +     int ret;
->>> +
->>> +     ret = blk_queue_enter(q, flags & BLK_MQ_REQ_NOWAIT);
->>> +     if (ret)
->>> +             return ERR_PTR(ret);
->>> +
->>> +     hctx = q->queue_hw_ctx[hctx_idx];
->>
->> We probably want to check 'if (hctx_idx < q->nr_hw_queues)' before
->> getting the hctx. Even if hctx_idx was origially valid, it's possible
->> (though unlikely) blk_queue_enter waits on reallocating h/w contexts,
->> which can make hctx_idx invalid.
->
-> Yes, I'll update it.
+The Format Unit SCSI command emulation attempts to do sanity checks for
+the block size and number before issuing the Format NVM NVMe command.
+But the sanity checks lack the actual error return statements and the
+conditions have been ignored.
 
-How about this?
+Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Jens Axboe <axboe at fb.com>
+---
+ drivers/nvme/host/scsi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 7bb45ed..b59d2ef 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -279,6 +279,11 @@ struct request *blk_mq_alloc_request_hctx(struct
-request_queue *q, int rw,
-        if (ret)
-                return ERR_PTR(ret);
-
-+       if (hctx_idx >= q->nr_hw_queues) {
-+               blk_queue_exit(q);
-+               return ERR_PTR(-EINVAL);
-+       }
-+
-        hctx = q->queue_hw_ctx[hctx_idx];
-        ctx = __blk_mq_get_ctx(q, cpumask_first(hctx->cpumask));
+diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
+index e947e29..e95ab2b9 100644
+--- a/drivers/nvme/host/scsi.c
++++ b/drivers/nvme/host/scsi.c
+@@ -1619,11 +1619,13 @@ static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+ 				ILLEGAL_REQUEST, SCSI_ASC_INVALID_PARAMETER,
+ 				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
++		goto out;
+ 	}
+ 	if (ns->mode_select_num_blocks != le64_to_cpu(id_ns->ncap)) {
+ 		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+ 				ILLEGAL_REQUEST, SCSI_ASC_INVALID_PARAMETER,
+ 				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
++		goto out;
+ 	}
+ 
+ 	cdw10 |= prot_info << 5;
+@@ -1635,7 +1637,7 @@ static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 
+ 	nvme_sc = nvme_submit_sync_cmd(ns->ctrl->admin_q, &c, NULL, 0);
+ 	res = nvme_trans_status_code(hdr, nvme_sc);
+-
++out:
+ 	kfree(id_ns);
+ 	return res;
+ }
+-- 
+2.7.4
