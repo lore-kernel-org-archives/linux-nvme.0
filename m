@@ -1,56 +1,38 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 8 Jun 2016 09:16:29 +0200
-Subject: [PATCH] NVMe: Only release requested regions
-In-Reply-To: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
-References: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
-Message-ID: <20160608071629.y2ysgc5lsvv2c6nu@c203.arch.suse.de>
+Date: Wed, 8 Jun 2016 09:28:54 +0200
+Subject: [PATCH v3 0/6] Introduce pci_(request|release)_(mem|io)_regions
+In-Reply-To: <cover.1465200424.git.jthumshirn@suse.de>
+References: <cover.1465200424.git.jthumshirn@suse.de>
+Message-ID: <20160608072854.ivcfvtlgxab2xkmp@c203.arch.suse.de>
 
-On Tue, May 10, 2016@03:14:28PM +0200, Johannes Thumshirn wrote:
-> The NVMe driver only requests the PCIe device's memory regions but releases
-> all possible regions (including eventual I/O regions). This leads to a stale
-> warning entry in dmesg about freeing non existent resources.
+On Tue, Jun 07, 2016@09:44:00AM +0200, Johannes Thumshirn wrote:
+> The first patch in this series introduces the following 4 helper functions to
+> the PCI core:
 > 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-> ---
->  drivers/nvme/host/pci.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+> * pci_request_mem_regions()
+> * pci_request_io_regions()
+> * pci_release_mem_regions()
+> * pci_release_io_regions()
 > 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index eec73fe..6f5ad07 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1759,9 +1759,14 @@ static int nvme_pci_enable(struct nvme_dev *dev)
->  
->  static void nvme_dev_unmap(struct nvme_dev *dev)
->  {
-> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> +	int bars;
-> +
->  	if (dev->bar)
->  		iounmap(dev->bar);
-> -	pci_release_regions(to_pci_dev(dev->dev));
-> +
-> +	bars = pci_select_bars(pdev, IORESOURCE_MEM);
-> +	pci_release_selected_regions(pdev, bars);
->  }
->  
->  static void nvme_pci_disable(struct nvme_dev *dev)
-> @@ -1998,7 +2003,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
->  
->         return 0;
->    release:
-> -       pci_release_regions(pdev);
-> +       pci_release_selected_regions(pdev, bars);
->         return -ENODEV;
->  }
->  
-> -- 
-> 1.8.5.6
+> which encapsulate the request and release of a PCI device's memory or I/O
+> bars.
+> 
+> The subsequent patches convert the drivers, which use the
+> pci_request_selected_regions(pdev, 
+> 	pci_select_bars(pdev, IORESOURCE_MEM), name); 
+> and similar pattern to use the new interface.
+> 
+> This was suggested by Christoph Hellwig in
+> http://lists.infradead.org/pipermail/linux-nvme/2016-May/004570.html and
+> tested on kernel v4.6 with NVMe.
 > 
 
+Btw, as I've seen already Jeff applying the Intel Ethernet patch to his
+tree, I think this should go via the PCI tree as the build dependency is
+the PCI patch.
 
-Jens, ping?
-
+Thanks,
+	Johannes
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
