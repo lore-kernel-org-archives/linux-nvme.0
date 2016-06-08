@@ -1,53 +1,18 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  8 Jun 2016 14:31:06 +0200
-Subject: [PATCH 11/11] nvme-fabrics: pass non-blocking flag to connect request
- allocation
-In-Reply-To: <1465389066-19119-1-git-send-email-hch@lst.de>
-References: <1465389066-19119-1-git-send-email-hch@lst.de>
-Message-ID: <1465389066-19119-12-git-send-email-hch@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 8 Jun 2016 06:04:32 -0700
+Subject: [PATCH v2] NVMe: Add controller state for scheduling resets
+In-Reply-To: <57580B88.4000904@lightbits.io>
+References: <1464729484-14424-1-git-send-email-keith.busch@intel.com>
+ <575808AC.2030004@lightbits.io>
+ <20160608120329.GA20526@infradead.org>
+ <57580B88.4000904@lightbits.io>
+Message-ID: <20160608130432.GA22594@infradead.org>
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/fabrics.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+On Wed, Jun 08, 2016@03:11:52PM +0300, Sagi Grimberg wrote:
+> >Don't worry, I have an almost ready patch series to pull this change
+> >it in, it actually helps for fabrics as well.
+> 
+> OK, I'll be waiting to see it then :)
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index ee4b7f1..225a732 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -378,11 +378,10 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 
- 	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, &cqe,
- 			data, sizeof(*data), 0, NVME_QID_ANY, 1,
--			BLK_MQ_REQ_RESERVED);
-+			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
- 	if (ret) {
--		nvmf_log_connect_error(ctrl,
--					 ret, le32_to_cpu(cqe.result),
--					 &cmd, data);
-+		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(cqe.result),
-+				       &cmd, data);
- 		goto out_free_data;
- 	}
- 
-@@ -437,12 +436,12 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
- 	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
- 
- 	ret = __nvme_submit_sync_cmd(ctrl->connect_q, &cmd, &cqe,
--			data, sizeof(*data), 0, qid, 1, BLK_MQ_REQ_RESERVED);
--	if (ret)
--		nvmf_log_connect_error(ctrl,
--					 ret, le32_to_cpu(cqe.result),
--					 &cmd, data);
--
-+			data, sizeof(*data), 0, qid, 1,
-+			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
-+	if (ret) {
-+		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(cqe.result),
-+				       &cmd, data);
-+	}
- 	kfree(data);
- 	return ret;
- }
--- 
-2.1.4
+The changes are fairly big and in hairy code, so my life would be a lot
+simpler if the whole series could go in after the initial fabrics merge.
