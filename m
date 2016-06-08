@@ -1,103 +1,60 @@
-From: nab@linux-iscsi.org (Nicholas A. Bellinger)
-Date: Tue, 07 Jun 2016 22:21:41 -0700
-Subject: NVMe over Fabrics target implementation
-In-Reply-To: <20160607105550.GB17113@lst.de>
-References: <1465248177-17970-1-git-send-email-hch@lst.de>
- <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
- <20160607105550.GB17113@lst.de>
-Message-ID: <1465363301.5365.81.camel@haakon3.risingtidesystems.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 8 Jun 2016 09:16:29 +0200
+Subject: [PATCH] NVMe: Only release requested regions
+In-Reply-To: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
+References: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
+Message-ID: <20160608071629.y2ysgc5lsvv2c6nu@c203.arch.suse.de>
 
-On Tue, 2016-06-07@12:55 +0200, Christoph Hellwig wrote:
-> There is absolutely no point in dragging in an overcomplicated configfs 
-> structure for a very simple protocol which also is very different from
-> SCSI in it's nitty gritty details.
-
-Please be more specific wrt the two individual points that have been
-raised.
-
->  Keeping the nvme target self contains
-> allows it to be both much simpler and much easier to understand, as well
-> as much better testable - see the amount of test coverage we could easily
-> add for example.
-
-I disagree.
-
+On Tue, May 10, 2016@03:14:28PM +0200, Johannes Thumshirn wrote:
+> The NVMe driver only requests the PCIe device's memory regions but releases
+> all possible regions (including eventual I/O regions). This leads to a stale
+> warning entry in dmesg about freeing non existent resources.
 > 
-> Or to put it the other way around - if there was any major synergy in
-> reusing the SCSI target code that just shows we're missing functionality
-> in the block layer or configfs.
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> ---
+>  drivers/nvme/host/pci.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index eec73fe..6f5ad07 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1759,9 +1759,14 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+>  
+>  static void nvme_dev_unmap(struct nvme_dev *dev)
+>  {
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +	int bars;
+> +
+>  	if (dev->bar)
+>  		iounmap(dev->bar);
+> -	pci_release_regions(to_pci_dev(dev->dev));
+> +
+> +	bars = pci_select_bars(pdev, IORESOURCE_MEM);
+> +	pci_release_selected_regions(pdev, bars);
+>  }
+>  
+>  static void nvme_pci_disable(struct nvme_dev *dev)
+> @@ -1998,7 +2003,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
+>  
+>         return 0;
+>    release:
+> -       pci_release_regions(pdev);
+> +       pci_release_selected_regions(pdev, bars);
+>         return -ENODEV;
+>  }
+>  
+> -- 
+> 1.8.5.6
 > 
 
-To reiterate the points again.
 
-*) Extensible to multiple types of backend drivers.
+Jens, ping?
 
-nvme-target needs a way to absorb new backend drivers, that
-does not effect existing configfs group layout or attributes.
-
-Looking at the nvmet/configfs layout as-is, there are no multiple
-backend types defined, nor a way to control backend feature bits
-exposed to nvme namespaces at runtime.
-
-What is being proposed is a way to share target-core backends via
-existing configfs symlinks across SCSI and NVMe targets.
-
-Which means:
-
-   - All I/O state + memory submission is done at RCU protected
-     se_device level via sbc_ops
-   - percpu reference counting is done outside of target-core
-   - Absorb all nvmet/io-cmd optimizations into target_core_iblock.c
-   - Base starting point for features in SCSI + NVMe that span
-     across multiple endpoints and instances (reservations + APTPL, 
-     multipath, copy-offload across fabric types)
-
-Using target-core backends means we get features like T10-PI and
-sbc_ops->write_same for free that don't exist in nvmet, and can
-utilize a common set of backend drivers for SCSI and NVMe via an
-existing configfs ABI and python userspace community.
-
-And to the second, and more important point for defining a configfs ABI
-that works for both today's requirements, as well into the 2020s
-without breaking user-space compatibility.
-
-As-is, the initial design using top level nvmet configfs symlinks of
-subsystem groups into individual port + host groups does not scale.
-
-That is, it currently does:
-
-  - Sequential list lookup under global rw_mutex of top-level nvmet_port
-    and nvmet_host symlink ->allow_link() and ->drop_link() configfs
-    callbacks.
-  - nvmet_fabrics_ops->add_port() callback invoked under same global
-    rw mutex.
-
-This is very bad for several reasons.
-
-As-is, this blocks all other configfs port + host operations from
-occurring even during normal operation, which makes it quite useless for
-any type of multi-tenant target environment where the individual target
-endpoints *must* be able to operate independently.
-
-Seriously, there is never a good reason why configfs group or item
-callbacks should be performing list lookup under a global lock at
-this level.
-
-Why does it ever make sense for $SUBSYSTEM_NQN_0 with $PORT_DRIVER_FOO
-to block operation of $SUBSYSTEM_NQN_1 with $PORT_DRIVER_BAR..?
-
-A simple example where this design breaks down quickly is a NVMf
-ops->add_port() call that requires a HW reset, or say reloading of
-firmware that can take multiple seconds. (qla2xxx comes to mind).
-
-There is a simple test to highlight this limitation.  Take any
-nvme-target driver that is capable of multiple ports, and introduce
-a sleep(5) into each ops->add_port() call.
-
-Now create 256 different subsystem NQNs with 256 different ports
-across four different user-space processes.
-
-What happens to other subsystems, ports and host groups configfs
-symlinks when this occurs..?
-
-What happens to the other user-space processes..?
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
