@@ -1,30 +1,53 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  8 Jun 2016 14:31:05 +0200
-Subject: [PATCH 10/11] nvme: keep alive should use any queue
+Date: Wed,  8 Jun 2016 14:31:06 +0200
+Subject: [PATCH 11/11] nvme-fabrics: pass non-blocking flag to connect request
+ allocation
 In-Reply-To: <1465389066-19119-1-git-send-email-hch@lst.de>
 References: <1465389066-19119-1-git-send-email-hch@lst.de>
-Message-ID: <1465389066-19119-11-git-send-email-hch@lst.de>
-
-No need to specify a queue ID for admin commands.
+Message-ID: <1465389066-19119-12-git-send-email-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/host/fabrics.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index dfd2fd7..86886c3 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -499,7 +499,8 @@ static int nvme_keep_alive(struct nvme_ctrl *ctrl)
- 	memset(&c, 0, sizeof(c));
- 	c.common.opcode = nvme_admin_keep_alive;
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index ee4b7f1..225a732 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -378,11 +378,10 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
  
--	rq = nvme_alloc_request(ctrl->admin_q, &c, BLK_MQ_REQ_RESERVED, 0);
-+	rq = nvme_alloc_request(ctrl->admin_q, &c, BLK_MQ_REQ_RESERVED,
-+			NVME_QID_ANY);
- 	if (IS_ERR(rq))
- 		return PTR_ERR(rq);
+ 	ret = __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, &cqe,
+ 			data, sizeof(*data), 0, NVME_QID_ANY, 1,
+-			BLK_MQ_REQ_RESERVED);
++			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
+ 	if (ret) {
+-		nvmf_log_connect_error(ctrl,
+-					 ret, le32_to_cpu(cqe.result),
+-					 &cmd, data);
++		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(cqe.result),
++				       &cmd, data);
+ 		goto out_free_data;
+ 	}
  
+@@ -437,12 +436,12 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+ 	strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
+ 
+ 	ret = __nvme_submit_sync_cmd(ctrl->connect_q, &cmd, &cqe,
+-			data, sizeof(*data), 0, qid, 1, BLK_MQ_REQ_RESERVED);
+-	if (ret)
+-		nvmf_log_connect_error(ctrl,
+-					 ret, le32_to_cpu(cqe.result),
+-					 &cmd, data);
+-
++			data, sizeof(*data), 0, qid, 1,
++			BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
++	if (ret) {
++		nvmf_log_connect_error(ctrl, ret, le32_to_cpu(cqe.result),
++				       &cmd, data);
++	}
+ 	kfree(data);
+ 	return ret;
+ }
 -- 
 2.1.4
