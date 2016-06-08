@@ -1,47 +1,40 @@
-From: akinobu.mita@gmail.com (Akinobu Mita)
-Date: Wed,  8 Jun 2016 09:19:24 +0900
-Subject: [PATCH] nvme: add missing error returns in format unit scsi
- translation
-Message-ID: <1465345164-4481-1-git-send-email-akinobu.mita@gmail.com>
+From: mnghuan@gmail.com (Minfei Huang)
+Date: Wed, 8 Jun 2016 10:05:25 +0800
+Subject: [PATCH V2] Use MACRO UINT_MAX instead of actual value
+In-Reply-To: <1463471921-20261-1-git-send-email-mnghuan@gmail.com>
+References: <1463471921-20261-1-git-send-email-mnghuan@gmail.com>
+Message-ID: <20160608020525.GA16012@MinfeideMacBook-Pro.local>
 
-The Format Unit SCSI command emulation attempts to do sanity checks for
-the block size and number before issuing the Format NVM NVMe command.
-But the sanity checks lack the actual error return statements and the
-conditions have been ignored.
+Ping. Any comment is appreciate.
 
-Signed-off-by: Akinobu Mita <akinobu.mita at gmail.com>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Jens Axboe <axboe at fb.com>
----
- drivers/nvme/host/scsi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Thanks
+Minfei
 
-diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
-index e947e29..e95ab2b9 100644
---- a/drivers/nvme/host/scsi.c
-+++ b/drivers/nvme/host/scsi.c
-@@ -1619,11 +1619,13 @@ static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
- 				ILLEGAL_REQUEST, SCSI_ASC_INVALID_PARAMETER,
- 				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
-+		goto out;
- 	}
- 	if (ns->mode_select_num_blocks != le64_to_cpu(id_ns->ncap)) {
- 		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
- 				ILLEGAL_REQUEST, SCSI_ASC_INVALID_PARAMETER,
- 				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
-+		goto out;
- 	}
- 
- 	cdw10 |= prot_info << 5;
-@@ -1635,7 +1637,7 @@ static int nvme_trans_fmt_send_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 
- 	nvme_sc = nvme_submit_sync_cmd(ns->ctrl->admin_q, &c, NULL, 0);
- 	res = nvme_trans_status_code(hdr, nvme_sc);
--
-+out:
- 	kfree(id_ns);
- 	return res;
- }
--- 
-2.7.4
+On 05/17/16@03:58P, Minfei Huang wrote:
+> It's more elegant to use MACRO UINT_MAX to represent the max value of
+> type unsigned int. So replace the actual value by using this MACRO.
+> 
+> Signed-off-by: Minfei Huang <mnghuan at gmail.com>
+> ---
+> v1:
+> - fix typo
+> ---
+>  drivers/nvme/host/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 643f457..2c0bb13 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -597,7 +597,7 @@ static void nvme_config_discard(struct nvme_ns *ns)
+>  
+>  	ns->queue->limits.discard_alignment = logical_block_size;
+>  	ns->queue->limits.discard_granularity = logical_block_size;
+> -	blk_queue_max_discard_sectors(ns->queue, 0xffffffff);
+> +	blk_queue_max_discard_sectors(ns->queue, UINT_MAX);
+>  	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
+>  }
+>  
+> -- 
+> 2.6.3
+> 
