@@ -1,42 +1,83 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 8 Jun 2016 09:28:54 +0200
-Subject: [PATCH v3 0/6] Introduce pci_(request|release)_(mem|io)_regions
-In-Reply-To: <cover.1465200424.git.jthumshirn@suse.de>
-References: <cover.1465200424.git.jthumshirn@suse.de>
-Message-ID: <20160608072854.ivcfvtlgxab2xkmp@c203.arch.suse.de>
+From: sagi@lightbits.io (Sagi Grimberg)
+Date: Wed, 8 Jun 2016 14:17:03 +0300
+Subject: [PATCH] NVMe: Fix possible scheduling while atomic error
+In-Reply-To: <20160527074020.GB950@infradead.org>
+References: <1463521062-16488-1-git-send-email-keith.busch@intel.com>
+ <20160523105807.GC26331@infradead.org>
+ <20160523134116.GA17208@localhost.localdomain>
+ <20160523143631.GA28107@infradead.org>
+ <20160523145556.GB17208@localhost.localdomain>
+ <CAF1ivSbWrkNUu0HgDdvev6yOV9bSbOjkDQ8mtS0VSq=k9SEqng@mail.gmail.com>
+ <20160524195921.GB24347@localhost.localdomain>
+ <20160525081842.GA22766@infradead.org>
+ <20160525175736.GB28668@localhost.localdomain>
+ <20160527074020.GB950@infradead.org>
+Message-ID: <5757FEAF.5000404@lightbits.io>
 
-On Tue, Jun 07, 2016@09:44:00AM +0200, Johannes Thumshirn wrote:
-> The first patch in this series introduces the following 4 helper functions to
-> the PCI core:
-> 
-> * pci_request_mem_regions()
-> * pci_request_io_regions()
-> * pci_release_mem_regions()
-> * pci_release_io_regions()
-> 
-> which encapsulate the request and release of a PCI device's memory or I/O
-> bars.
-> 
-> The subsequent patches convert the drivers, which use the
-> pci_request_selected_regions(pdev, 
-> 	pci_select_bars(pdev, IORESOURCE_MEM), name); 
-> and similar pattern to use the new interface.
-> 
-> This was suggested by Christoph Hellwig in
-> http://lists.infradead.org/pipermail/linux-nvme/2016-May/004570.html and
-> tested on kernel v4.6 with NVMe.
-> 
 
-Btw, as I've seen already Jeff applying the Intel Ethernet patch to his
-tree, I think this should go via the PCI tree as the build dependency is
-the PCI patch.
+>>>> AFAICT, the patch is fine as-is if Christoph is okay with it.
+>>>
+>>> I still don't why we need to delay the call to blk_mq_stop_hw_queues
+>>> to ->queue_rq.
+>>
+>> Eh? It's still stopped in the same place as always, so it's not
+>> delayed. We just call it again from queue_rq because requeue_work can
+>> start h/w queues on its own. This is very similar to scsi's queue_rq
+>> in scsi_lib.c.
+>
+> The rationale in SCSI is that we stop the queue when we are above
+> the hosts or targets queuing limit, and only I/O ocmpletions will
+> wake it up again.  Kicking of the sotpped queues in blk_mq_requeue_work
+> is SCSI specific behavior that leaked into the core, and it's my fault..
+>
+> Well' let's get the fix in as-is for now, but I really need to sort
+> this out properly, so maybe add some comments.
 
-Thanks,
-	Johannes
+I really don't like this patch (sorry), having queue_rq being aware
+of what requeue_work *might* do looks backwards to me...
+now I'm thinking what I need to do in fabrics rdma and loop. This is
+why I didn't like the NVME_NS_DEAD check in queue_rq as well.
+
+I'd really prefer to not propagate this backwards logic into
+other transports...
+
+But, if this is mandatory for now, does this patch makes sense for
+rdma?
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 938e7d55c4a8..60aaa1b4d021 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1450,6 +1450,12 @@ static int nvme_rdma_queue_rq(struct 
+blk_mq_hw_ctx *hctx,
+                 goto err;
+         }
+
++       /* XXX: This is really not the correct layer to check this */
++       if (ns && !test_bit(NVME_NS_DEAD, &ns->flags)) {
++               ret = -EAGAIN;
++               goto err;
++       }
++
+         ib_dma_sync_single_for_device(dev, sqe->dma,
+                         sizeof(struct nvme_command), DMA_TO_DEVICE);
+
+@@ -1464,8 +1470,14 @@ static int nvme_rdma_queue_rq(struct 
+blk_mq_hw_ctx *hctx,
+
+         return BLK_MQ_RQ_QUEUE_OK;
+  err:
+-       return (ret == -ENOMEM || ret == -EAGAIN) ?
+-               BLK_MQ_RQ_QUEUE_BUSY : BLK_MQ_RQ_QUEUE_ERROR;
++       if (ret == -ENOMEM || ret == -EAGAIN) {
++               spin_lock_irq(ns->queue->queue_lock);
++               if (blk_queue_stopped(rq->q))
++                       blk_mq_stop_hw_queues(ns->queue);
++               spin_unlock_irq(ns->queue->queue_lock);
++               return BLK_MQ_RQ_QUEUE_BUSY;
++       }
++       return BLK_MQ_RQ_QUEUE_ERROR;
+  }
+
+  static int nvme_rdma_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+-- 
