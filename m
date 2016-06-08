@@ -1,100 +1,104 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 8 Jun 2016 13:56:33 +0200
-Subject: [PATCH 1/8] blk-mq: add blk_mq_alloc_request_hctx
-In-Reply-To: <1465363236.10841.13.camel@kernel.org>
-References: <1465248119-17875-1-git-send-email-hch@lst.de>
- <1465248119-17875-2-git-send-email-hch@lst.de> <5757A3D2.1030003@kernel.dk>
- <1465363236.10841.13.camel@kernel.org>
-Message-ID: <20160608115633.GB30912@lst.de>
+From: sagi@lightbits.io (Sagi Grimberg)
+Date: Wed, 8 Jun 2016 14:59:40 +0300
+Subject: [PATCH v2] NVMe: Add controller state for scheduling resets
+In-Reply-To: <1464729484-14424-1-git-send-email-keith.busch@intel.com>
+References: <1464729484-14424-1-git-send-email-keith.busch@intel.com>
+Message-ID: <575808AC.2030004@lightbits.io>
 
-What we really nee to do is to always set the NOWAIT flag (we have a
-reserved tag for connect anyway), and thus never trigger the code
-deep down in bt_get that might switch to a different hctx.
 
-Below is the version that I've tested together with the NVMe change
-to use the NOWAIT flag:
 
----
->From 2346a4fdcc57c70a671e1329f7550d91d4e9d8a8 Mon Sep 17 00:00:00 2001
-From: Ming Lin <ming.l@ssi.samsung.com>
-Date: Mon, 30 Nov 2015 19:45:48 +0100
-Subject: blk-mq: add blk_mq_alloc_request_hctx
+On 01/06/16 00:18, Keith Busch wrote:
+> All resets now must be submitted through the new state. This makes it
+> easier to coordinate controller tasks and simplifies the reset logic.
+>
+> Since all resets go through the same state machine, and most of these
+> don't want to block for the reset to complete, this patch makes user
+> initiated resets asynchronous as well. Making user resets block until
+> complete wasn't necessary in the first place.
+>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> ---
+> v1 -> v2:
+>    Fix export symbol to use GPL.
+>
+>   drivers/nvme/host/core.c | 26 ++++++++++++++++++++++----
+>   drivers/nvme/host/nvme.h |  2 ++
+>   drivers/nvme/host/pci.c  | 40 ++++++++++++++++------------------------
+>   3 files changed, 40 insertions(+), 28 deletions(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 6290477..c822977 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -66,6 +66,15 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>
+>   	spin_lock_irq(&ctrl->lock);
+>   	switch (new_state) {
+> +	case NVME_CTRL_SCHED_RESET:
+> +		switch (old_state) {
+> +		case NVME_CTRL_NEW:
+> +		case NVME_CTRL_LIVE:
+> +			changed = true;
+> +			/* FALLTHRU */
+> +		default:
+> +			break;
+> +		}
+>   	case NVME_CTRL_LIVE:
+>   		switch (old_state) {
+>   		case NVME_CTRL_RESETTING:
+> @@ -77,8 +86,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>   		break;
+>   	case NVME_CTRL_RESETTING:
+>   		switch (old_state) {
+> -		case NVME_CTRL_NEW:
+> -		case NVME_CTRL_LIVE:
+> +		case NVME_CTRL_SCHED_RESET:
+>   			changed = true;
+>   			/* FALLTHRU */
+>   		default:
+> @@ -89,6 +97,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>   		switch (old_state) {
+>   		case NVME_CTRL_LIVE:
+>   		case NVME_CTRL_RESETTING:
+> +		case NVME_CTRL_SCHED_RESET:
+>   			changed = true;
+>   			/* FALLTHRU */
+>   		default:
+> @@ -1209,6 +1218,15 @@ out_unlock:
+>   	return ret;
+>   }
+>
+> +int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
+> +{
+> +	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_SCHED_RESET))
+> +		return -EBUSY;
+> +
+> +	return ctrl->ops->reset_ctrl(ctrl);
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_reset_ctrl);
+> +
+>   static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+>   		unsigned long arg)
+>   {
+> @@ -1222,7 +1240,7 @@ static long nvme_dev_ioctl(struct file *file, unsigned int cmd,
+>   		return nvme_dev_user_cmd(ctrl, argp);
+>   	case NVME_IOCTL_RESET:
+>   		dev_warn(ctrl->device, "resetting controller\n");
+> -		return ctrl->ops->reset_ctrl(ctrl);
+> +		return nvme_reset_ctrl(ctrl);
 
-For some protocols like NVMe over Fabrics we need to be able to send
-initialization commands to a specific queue.
+Hey Keith,
 
-Based on an earlier patch from Christoph Hellwig <hch at lst.de>.
+So now that pci doesn't live alone in the subsystem (or won't in the
+near future) this sort of change will affect the loop and rdma logic.
 
-Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
-[hch: disallow sleeping allocation, req_op fixes]
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- block/blk-mq.c         | 39 +++++++++++++++++++++++++++++++++++++++
- include/linux/blk-mq.h |  2 ++
- 2 files changed, 41 insertions(+)
+My understanding of this patch is that ctrl->ops->reset_ctrl is still
+allowed to be synchronous, it just makes an extra state transition
+(SCHED_RESET -> RESETTING instead of RESETTING immediately).
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 13f4603..7aa60c4 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -267,6 +267,45 @@ struct request *blk_mq_alloc_request(struct request_queue *q, int rw,
- }
- EXPORT_SYMBOL(blk_mq_alloc_request);
- 
-+struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int rw,
-+		unsigned int flags, unsigned int hctx_idx)
-+{
-+	struct blk_mq_hw_ctx *hctx;
-+	struct blk_mq_ctx *ctx;
-+	struct request *rq;
-+	struct blk_mq_alloc_data alloc_data;
-+	int ret;
-+
-+	/*
-+	 * If the tag allocator sleeps we could get an allocation for a
-+	 * different hardware context.  No need to complicate the low level
-+	 * allocator for this for the rare use case of a command tied to
-+	 * a specific queue.
-+	 */
-+	if (WARN_ON_ONCE(!(flags & BLK_MQ_REQ_NOWAIT)))
-+		return ERR_PTR(-EINVAL);
-+
-+	if (hctx_idx >= q->nr_hw_queues)
-+		return ERR_PTR(-EIO);
-+
-+	ret = blk_queue_enter(q, true);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	hctx = q->queue_hw_ctx[hctx_idx];
-+	ctx = __blk_mq_get_ctx(q, cpumask_first(hctx->cpumask));
-+
-+	blk_mq_set_alloc_data(&alloc_data, q, flags, ctx, hctx);
-+	rq = __blk_mq_alloc_request(&alloc_data, rw, 0);
-+	if (!rq) {
-+		blk_queue_exit(q);
-+		return ERR_PTR(-EWOULDBLOCK);
-+	}
-+
-+	return rq;
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_alloc_request_hctx);
-+
- static void __blk_mq_free_request(struct blk_mq_hw_ctx *hctx,
- 				  struct blk_mq_ctx *ctx, struct request *rq)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index faa7d5c2..e43bbff 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -198,6 +198,8 @@ enum {
- 
- struct request *blk_mq_alloc_request(struct request_queue *q, int rw,
- 		unsigned int flags);
-+struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int op,
-+		unsigned int flags, unsigned int hctx_idx);
- struct request *blk_mq_tag_to_rq(struct blk_mq_tags *tags, unsigned int tag);
- struct cpumask *blk_mq_tags_cpumask(struct blk_mq_tags *tags);
- 
--- 
-2.1.4
+Is my understanding correct? Do you think that we should modify the
+loop and rdma drivers to do async reset as well?
+
+This also makes the different transport behave differently at the moment
+which is something we should strive to avoid...
