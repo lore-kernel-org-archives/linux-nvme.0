@@ -1,29 +1,47 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 8 Jun 2016 19:05:29 -0400
-Subject: [PATCH 0/2] check the number of hw queues mapped to sw queues
-In-Reply-To: <CAF1ivSbEf-069LBRLRJKDd-e7JuF3jKrZr6yu-fANFajMGR_=w@mail.gmail.com>
-References: <1465415292-9416-1-git-send-email-mlin@kernel.org>
- <20160608222557.GC1696@localhost.localdomain>
- <CAF1ivSbEf-069LBRLRJKDd-e7JuF3jKrZr6yu-fANFajMGR_=w@mail.gmail.com>
-Message-ID: <20160608230529.GD1696@localhost.localdomain>
+From: jeffrey.t.kirsher@intel.com (Jeff Kirsher)
+Date: Wed, 08 Jun 2016 16:04:46 -0700
+Subject: [PATCH v3 0/6] Introduce pci_(request|release)_(mem|io)_regions
+In-Reply-To: <20160608072854.ivcfvtlgxab2xkmp@c203.arch.suse.de>
+References: <cover.1465200424.git.jthumshirn@suse.de>
+ <20160608072854.ivcfvtlgxab2xkmp@c203.arch.suse.de>
+Message-ID: <1465427086.2736.93.camel@intel.com>
 
-On Wed, Jun 08, 2016@03:47:10PM -0700, Ming Lin wrote:
-> On Wed, Jun 8, 2016@3:25 PM, Keith Busch <keith.busch@intel.com> wrote:
-> > I've been trying to change blk_mq_update_queue_map to do this, but it's
-> > not as easy as it sounds. The following is the simplest patch I came
-> > up with that gets a better mapping *most* of the time.
+On Wed, 2016-06-08@09:28 +0200, Johannes Thumshirn wrote:
+> On Tue, Jun 07, 2016@09:44:00AM +0200, Johannes Thumshirn wrote:
+> > The first patch in this series introduces the following 4 helper
+> functions to
+> > the PCI core:
+> >?
+> > * pci_request_mem_regions()
+> > * pci_request_io_regions()
+> > * pci_release_mem_regions()
+> > * pci_release_io_regions()
+> >?
+> > which encapsulate the request and release of a PCI device's memory or
+> I/O
+> > bars.
+> >?
+> > The subsequent patches convert the drivers, which use the
+> > pci_request_selected_regions(pdev,?
+> >???????pci_select_bars(pdev, IORESOURCE_MEM), name);?
+> > and similar pattern to use the new interface.
+> >?
+> > This was suggested by Christoph Hellwig in
+> > http://lists.infradead.org/pipermail/linux-nvme/2016-May/004570.html?an
+> d
+> > tested on kernel v4.6 with NVMe.
+> >?
 > 
-> Not working for my case with 6 hw queues(8 cpus):
-> 
-> [  108.318247] nvme nvme0: 6 hw queues created, but only 5 were mapped
-> to sw queues
-> 
-> hctx_idx 0: 0 1 4 5
-> hctx_idx 1: None
-> hctx_idx 2: 2
-> hctx_idx 3: 3
-> hctx_idx 4: 6
-> hctx_idx 5: 7
+> Btw, as I've seen already Jeff applying the Intel Ethernet patch to his
+> tree, I think this should go via the PCI tree as the build dependency is
+> the PCI patch.
 
-Heh, not one of the good cases I see. I don't think there's a simple
-change to use all contexts. Might need a larger rewrite.
+Bjorn should pick up the entire series, I just applied the Intel patch (and
+dependent patches) so we could touch test it.
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 819 bytes
+Desc: This is a digitally signed message part
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160608/37d3a717/attachment-0001.sig>
