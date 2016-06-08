@@ -1,28 +1,72 @@
-From: jmoyer@redhat.com (Jeff Moyer)
-Date: Wed, 08 Jun 2016 10:13:43 -0400
-Subject: [PATCH 01/11] Revert "blk-mq: add blk_mq_alloc_request_hctx"
-In-Reply-To: <20160608141019.GB1020@lst.de> (Christoph Hellwig's message of
- "Wed, 8 Jun 2016 16:10:19 +0200")
-References: <1465389066-19119-1-git-send-email-hch@lst.de>
- <1465389066-19119-2-git-send-email-hch@lst.de>
- <x49mvmv235d.fsf@segfault.boston.devel.redhat.com>
- <20160608141019.GB1020@lst.de>
-Message-ID: <x49inxj22g8.fsf@segfault.boston.devel.redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 8 Jun 2016 10:43:54 -0400
+Subject: [PATCH] NVMe: Fix possible scheduling while atomic error
+In-Reply-To: <5757FEAF.5000404@lightbits.io>
+References: <20160523105807.GC26331@infradead.org>
+ <20160523134116.GA17208@localhost.localdomain>
+ <20160523143631.GA28107@infradead.org>
+ <20160523145556.GB17208@localhost.localdomain>
+ <CAF1ivSbWrkNUu0HgDdvev6yOV9bSbOjkDQ8mtS0VSq=k9SEqng@mail.gmail.com>
+ <20160524195921.GB24347@localhost.localdomain>
+ <20160525081842.GA22766@infradead.org>
+ <20160525175736.GB28668@localhost.localdomain>
+ <20160527074020.GB950@infradead.org>
+ <5757FEAF.5000404@lightbits.io>
+Message-ID: <20160608144354.GB1430@localhost.localdomain>
 
-Christoph Hellwig <hch at lst.de> writes:
+On Wed, Jun 08, 2016@02:17:03PM +0300, Sagi Grimberg wrote:
+> I really don't like this patch (sorry), having queue_rq being aware
+> of what requeue_work *might* do looks backwards to me...
+> now I'm thinking what I need to do in fabrics rdma and loop. This is
+> why I didn't like the NVME_NS_DEAD check in queue_rq as well.
 
-> On Wed, Jun 08, 2016@09:58:38AM -0400, Jeff Moyer wrote:
->> Christoph Hellwig <hch at lst.de> writes:
->> 
->> > Just for book keeping. The next patch brings it back with some changes.
->> 
->> That's a strange thing to do, and breaks bisectability.  Why not just
->> update the function?
->
-> Because it's just an updated to a not yet applied series.  The idea is
-> that Jens could just take patch 2 if we get a positive review or two for
-> it.
+I agree, but I didn't find another card we can play to get the right
+sequence.
+ 
+> I'd really prefer to not propagate this backwards logic into
+> other transports...
+> 
+> But, if this is mandatory for now, does this patch makes sense for
+> rdma?
 
-Ah, gotcha.  Thanks for the clarification.
+Looks right to me.
 
--Jeff
+
+> -- 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 938e7d55c4a8..60aaa1b4d021 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1450,6 +1450,12 @@ static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx
+> *hctx,
+>                 goto err;
+>         }
+> 
+> +       /* XXX: This is really not the correct layer to check this */
+> +       if (ns && !test_bit(NVME_NS_DEAD, &ns->flags)) {
+> +               ret = -EAGAIN;
+> +               goto err;
+> +       }
+> +
+>         ib_dma_sync_single_for_device(dev, sqe->dma,
+>                         sizeof(struct nvme_command), DMA_TO_DEVICE);
+> 
+> @@ -1464,8 +1470,14 @@ static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx
+> *hctx,
+> 
+>         return BLK_MQ_RQ_QUEUE_OK;
+>  err:
+> -       return (ret == -ENOMEM || ret == -EAGAIN) ?
+> -               BLK_MQ_RQ_QUEUE_BUSY : BLK_MQ_RQ_QUEUE_ERROR;
+> +       if (ret == -ENOMEM || ret == -EAGAIN) {
+> +               spin_lock_irq(ns->queue->queue_lock);
+> +               if (blk_queue_stopped(rq->q))
+> +                       blk_mq_stop_hw_queues(ns->queue);
+> +               spin_unlock_irq(ns->queue->queue_lock);
+> +               return BLK_MQ_RQ_QUEUE_BUSY;
+> +       }
+> +       return BLK_MQ_RQ_QUEUE_ERROR;
+>  }
+> 
+>  static int nvme_rdma_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+> -- 
