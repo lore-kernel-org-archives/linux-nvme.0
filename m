@@ -1,65 +1,40 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 9 Jun 2016 17:40:08 -0500
-Subject: nvme-fabrics: crash at nvme connect-all
-In-Reply-To: <CAF1ivSYBtsuvm-UO6osPAVT-krpF7iXqWy_8LheyWDDoAdWL1A@mail.gmail.com>
-References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
- <20160609132459.GA5105@infradead.org>
- <1290178000.33062227.1465486654766.JavaMail.zimbra@kalray.eu>
- <04d301d1c28d$183af7b0$48b0e710$@opengridcomputing.com>
- <CAF1ivSb2fvjEzCxWXnrxv_i74SRm2qxWZ-RiKpEaGOx-Dk3f1A@mail.gmail.com>
- <04e301d1c292$d6c34430$8449cc90$@opengridcomputing.com>
- <CAF1ivSYBtsuvm-UO6osPAVT-krpF7iXqWy_8LheyWDDoAdWL1A@mail.gmail.com>
-Message-ID: <055701d1c29f$e0919180$a1b4b480$@opengridcomputing.com>
+Date: Thu, 9 Jun 2016 18:03:51 -0500
+Subject: [PATCH 4/5] nvmet-rdma: add a NVMe over Fabrics RDMA target driver
+In-Reply-To: <5756B75C.9000409@lightbits.io>
+References: <1465248215-18186-1-git-send-email-hch@lst.de>
+ <1465248215-18186-5-git-send-email-hch@lst.de>
+ <5756B75C.9000409@lightbits.io>
+Message-ID: <057a01d1c2a3$3082eec0$9188cc40$@opengridcomputing.com>
 
+<snip>
 
+> > +
+> > +static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
+> > +		struct rdma_cm_event *event)
+> > +{
+> > +	struct nvmet_rdma_queue *queue = NULL;
+> > +	int ret = 0;
+> > +
+> > +	if (cm_id->qp)
+> > +		queue = cm_id->qp->qp_context;
+> > +
+> > +	pr_debug("%s (%d): status %d id %p\n",
+> > +		rdma_event_msg(event->event), event->event,
+> > +		event->status, cm_id);
+> > +
+> > +	switch (event->event) {
+> > +	case RDMA_CM_EVENT_CONNECT_REQUEST:
+> > +		ret = nvmet_rdma_queue_connect(cm_id, event);
 
-> -----Original Message-----
-> From: Ming Lin [mailto:mlin at kernel.org]
-> Sent: Thursday, June 9, 2016 5:26 PM
-> To: Steve Wise <swise at opengridcomputing.com>
-> Cc: keith busch <keith.busch at intel.com>; ming l <ming.l at ssi.samsung.com>;
-> Sagi Grimberg <sagi at grimberg.me>; Marta Rybczynska
-> <mrybczyn at kalray.eu>; Jens Axboe <axboe at fb.com>; linux-
-> nvme at lists.infradead.org; Christoph Hellwig <hch at infradead.org>; james p
-> freyensee <james.p.freyensee at intel.com>; armenx baloyan
-> <armenx.baloyan at intel.com>
-> Subject: Re: nvme-fabrics: crash at nvme connect-all
-> 
-> On Thu, Jun 9, 2016 at 2:06 PM, Steve Wise
-> <swise@opengridcomputing.com> wrote:
-> 
-> > Yes, I get the same crash after reproducing it twice.  At least the RIP is
-> exactly the same:
-> >
-> > get_next_timer_interrupt+0x183/0x210
-> >
-> > The rest of the stack looked a little different but still had tick_nohz stuff in
-> it.
-> >
-> > Does this look correct ("freeing queue 17" twice)?
-> >
-> > nvmet: creating controller 1 for NQN nqn.2014-
-> 08.org.nvmexpress:NVMf:uuid:6e01fbc9-49fb-4998-9522-df85a95f9ff7.
-> > nvme nvme1: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery",
-> addr 10.0.1.14:4420
-> > nvmet_rdma: freeing queue 17
-> > nvmet: creating controller 1 for NQN nqn.2014-
-> 08.org.nvmexpress:NVMf:uuid:6e01fbc9-49fb-4998-9522-df85a95f9ff7.
-> > nvme nvme1: creating 16 I/O queues.
-> > rdma_rw_init_mrs: failed to allocated 128 MRs
-> > failed to init MR pool ret= -12
-> > nvmet_rdma: failed to create_qp ret= -12
-> > nvmet_rdma: nvmet_rdma_alloc_queue: creating RDMA queue failed (-12).
-> > nvme nvme1: Connect rejected, no private data.
-> > nvme nvme1: rdma_resolve_addr wait failed (-104).
-> > nvme nvme1: failed to initialize i/o queue: -104
-> > nvmet_rdma: freeing queue 17
-> > general protection fault: 0000 [#1] SMP
-> 
-> I'll get a Chelsio card to try.
-> 
-> What's the step to reproduce?
+The above nvmet cm event handler, nvmet_rdma_cm_handler(), calls
+nvmet_rdma_queue_connect() for CONNECT_REQUEST events, which calls
+nvmet_rdma_alloc_queue (), which, if it encounters a failure (like creating
+the qp), calls nvmet_rdma_cm_reject () which calls rdma_reject().  The
+non-zero error, however, gets returned back here and this function returns
+the error to the RDMA_CM which will also reject the connection as well as
+destroy the cm_id.  So there are two rejects happening, I think.  Either
+nvmet should reject and destroy the cm_id, or it should do neither and
+return non-zero to the RDMA_CM to reject/destroy.
 
-Add the hack into iw_cxgb4 to force alloc_mr failures after 200 allocations (or whatever value you need to make it happen).  Then on the same machine, export a target device, load nvme-rdma and discover/connect to that target device with nvme.  It will crash.
-
-Unfortunately, with the 4.7-rc2 base I'm using, I get no vmcore dump.  I'm not sure why...
+Steve.
