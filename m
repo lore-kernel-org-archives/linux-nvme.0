@@ -1,105 +1,106 @@
 From: nab@linux-iscsi.org (Nicholas A. Bellinger)
-Date: Wed, 08 Jun 2016 20:32:46 -0700
+Date: Wed, 08 Jun 2016 21:36:15 -0700
 Subject: NVMe over Fabrics target implementation
-In-Reply-To: <20160608121932.GA31316@lst.de>
+In-Reply-To: <575819BB.7010209@lightbits.io>
 References: <1465248177-17970-1-git-send-email-hch@lst.de>
  <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
  <20160607105550.GB17113@lst.de>
  <1465363301.5365.81.camel@haakon3.risingtidesystems.com>
- <20160608121932.GA31316@lst.de>
-Message-ID: <1465443166.5365.110.camel@haakon3.risingtidesystems.com>
+ <20160608121932.GA31316@lst.de> <575819BB.7010209@lightbits.io>
+Message-ID: <1465446975.5365.123.camel@haakon3.risingtidesystems.com>
 
-On Wed, 2016-06-08@14:19 +0200, Christoph Hellwig wrote:
-> On Tue, Jun 07, 2016@10:21:41PM -0700, Nicholas A. Bellinger wrote:
-> > *) Extensible to multiple types of backend drivers.
-> > 
-> > nvme-target needs a way to absorb new backend drivers, that
-> > does not effect existing configfs group layout or attributes.
-> > 
-> > Looking at the nvmet/configfs layout as-is, there are no multiple
-> > backend types defined, nor a way to control backend feature bits
-> > exposed to nvme namespaces at runtime.
+On Wed, 2016-06-08@16:12 +0300, Sagi Grimberg wrote:
+> >> *) Extensible to multiple types of backend drivers.
+> >>
+> >> nvme-target needs a way to absorb new backend drivers, that
+> >> does not effect existing configfs group layout or attributes.
+> >>
+> >> Looking at the nvmet/configfs layout as-is, there are no multiple
+> >> backend types defined, nor a way to control backend feature bits
+> >> exposed to nvme namespaces at runtime.
 > 
-> And that's very much intentional.  We have a very well working block
-> layer which we're going to use, no need to reivent it.  The block
-> layer supports NVMe pass through just fine in case we'll need it,
-> as I spent the last year preparing it for that.
+> Hey Nic,
 > 
-> > Why does it ever make sense for $SUBSYSTEM_NQN_0 with $PORT_DRIVER_FOO
-> > to block operation of $SUBSYSTEM_NQN_1 with $PORT_DRIVER_BAR..?
+> As for different type of backends, I still don't see a big justification
+> for adding the LIO backends pscsi (as it doesn't make sense),
+> ramdisk (we have brd), or file (losetup).
 > 
-> Because it keeps the code simple.  If you had actually participated
-> on our development list you might have seen that until not too long
-> ago we have very fine grainded locks here.  In the end Armen convinced
-> me that it's easier to maintain if we don't bother with fine grained
-> locking outside the fast path, especially as it significantly simplifies
-> the discovery implementation.   If if it ever turns out to be an
-> issue we can change it easily as the implementation is well encapsulated.
 
-Well, it's rather obvious from the design limitations highlighted
-earlier that using a configfs model for nvmet was an after-thought.
+The configfs ABI should not dictate a single backend use-case.
 
-You'll recall a prototype of nvmet using target_core_fabric_configfs.c,
-which allowed nvmet to work out-of-the-box with LIO userspace, that fit
-directly into target_core_pr.c, and other existing target-core features
-that scsi and nvme share.
+In the target-core ecosystem today, there are just as many
+people using FILEIO atop local file-systems as there are
+using IBLOCK and submit_bio().
 
-Since our discussions at LSF, I've taken the point that it makes sense
-for nvmet to have it's own configfs layout using common configfs
-backends, which is reflected in nvmet/configfs-ng RFC from monday.
+As mentioned, target_core_iblock.c has absorbed the io-cmd.c
+improvements so existing scsi target drivers can benefit
+too.  Plus, having interested folks focusing on a single set of
+backends for FILEIO + IBLOCK means both scsi and nvme
+target drivers benefit from further improvements.
 
-However, I completely disagree with you that scsi (specifically iscsi)
-and nvme models are somehow incompatible from a target subsystem
-configfs perspective.
+As we've already got both, a target backend configfs ABI
+and user ecosystem using /sys/kernel/config/target/core/, it's
+a straight forward way to share common code, while still allowing
+scsi and nvme to function using their own independent fabric
+configfs ABI layouts.
 
-They are not.
+Along with having common code and existing configfs
+ABI, we also get a proper starting point for target-core
+features that span across endpoints, and are defined for
+both scsi and nvme.  PR APTPL immediately comes to mind.
 
-Point being, if you took the exact same three top level configfs groups
-in the nvmet implementation  using subsystem configfs symlinks into
-ports and hosts, and did the same for iscsi by renaming them to:
+Namely, for the ability of one backend device to interact
+between both scsi target luns and nvme target namespaces,
+as well as different backends across scsi and nvme exports.
 
-    /sys/kernel/config/iscsit/
+> What kind of feature bits would you want to expose at runtime?
 
-    subsystems -> iqns
-    ports -> network portals
-    hosts -> acls
+As for feature bits, basically everything currently or
+in the future to be reported by ID_NS.  There is T10-PI, and another
+example is copy-offload support, once the NVMe spec gets that far..
 
-You would have the exact same type of scale limitations with iscsi that
-have already highlighted.  There is nothing iscsi or nvme specific about
-these limitations.
+The main point is that we should be able to add new feature bits to
+common code in target-core backend configfs ABI, without having to
+change the individual scsi or nvme configfs ABIs.
 
-The point is that it's not a question of if this configfs model is
-required for a nvme target design, it's a bad model for any configfs
-consumer design to follow.
+> 
+> > And that's very much intentional.  We have a very well working block
+> > layer which we're going to use, no need to reivent it.  The block
+> > layer supports NVMe pass through just fine in case we'll need it,
+> > as I spent the last year preparing it for that.
+> >
+> >> Why does it ever make sense for $SUBSYSTEM_NQN_0 with $PORT_DRIVER_FOO
+> >> to block operation of $SUBSYSTEM_NQN_1 with $PORT_DRIVER_BAR..?
+> >
+> > Because it keeps the code simple.  If you had actually participated
+> > on our development list you might have seen that until not too long
+> > ago we have very fine grainded locks here.  In the end Armen convinced
+> > me that it's easier to maintain if we don't bother with fine grained
+> > locking outside the fast path, especially as it significantly simplifies
+> > the discovery implementation.   If if it ever turns out to be an
+> > issue we can change it easily as the implementation is well encapsulated.
+> 
+> We did change that, and Nic is raising a valid point in terms of having
+> a global mutex around all the ports. If the requirement of nvme
+> subsystems and ports configuration is that it should happen fast enough
+> and scale to the numbers that Nic is referring to, we'll need to change
+> that back.
+> 
+> Having said that, I'm not sure this is a real hard requirement for RDMA
+> and FC in the mid-term, because from what I've seen, the workloads Nic
+> is referring to are more typical for iscsi/tcp where connections are
+> cheaper and you need more to saturate a high-speed interconnects, so
+> we'll probably see this when we have nvme over tcp working.
 
-To repeat, any time there are global locks and sequential lookups
-across multiple top level configfs groups, you're doing configfs
-wrong.
+Yes.
 
-The whole point of configfs is to allow vfs to reference count data
-structures using parent/child relationships, and let configfs give you
-the reference counting for free.
+Further, my objections to the proposed nvmet configfs ABI are:
 
-And getting that reference counting for free in configfs is what allows
-existing target-core backends + endpoints to scale creation, operation
-and deletion independent from each other.
-
-Any type of medium or larger service provider and hosting environment
-requires the ability of it's target mode storage control plane to
-function independent of individual tenants.
-
-The limitations as-is of the nvmet/configfs design makes it rather
-useless for these environments, and any type of upstream commitment to a
-target mode configfs based ABI needs to be able to, at least, scale to
-what we've already got in target_core_fabric_configfs.
-
-Otherwise, it will eventually be thrown out for something that both fits
-the needs of today's requirements, and can grow into the future while
-never breaking user-space ABI compatibility.
-
-We got the /sys/kernel/config/target/$FABRIC/ layout right the first
-time back in 2008, have *never* had to break ABI compat, and we are
-still able scale to the requirements of today.
-
-I'd like to hope we'd be able to achieve the same goals for nvmet in
-2024.
+  - Doesn't support multiple backend types.
+  - Doesn't provide a way to control backend feature bits separate from 
+    fabric layout.
+  - Doesn't provide a starting point between target features that span
+    both scsi and nvme.
+  - Doesn't allow for concurrent parallel configfs create + delete 
+    operations of subsystem NQNs across ports and host acls.
+  - Global synchronization of nvmet_fabric_ops->add_port()
