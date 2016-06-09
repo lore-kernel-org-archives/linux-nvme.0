@@ -1,31 +1,50 @@
-From: sagi@lightbits.io (Sagi Grimberg)
-Date: Thu, 9 Jun 2016 15:30:05 +0300
-Subject: nvme-fabrics: crash at nvme connect-all
-In-Reply-To: <1218382158.32228335.1465474321289.JavaMail.zimbra@kalray.eu>
-References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
- <575936F0.9000600@lightbits.io>
- <574056153.32082017.1465466832847.JavaMail.zimbra@kalray.eu>
- <57594E81.9060302@lightbits.io>
- <1218382158.32228335.1465474321289.JavaMail.zimbra@kalray.eu>
-Message-ID: <5759614D.5080703@lightbits.io>
+From: Jeff.Lien@hgst.com (Jeff Lien)
+Date: Thu, 9 Jun 2016 12:59:05 +0000
+Subject: NVMe/blk_mq Performance issue
+In-Reply-To: <20160608211335.GB1696@localhost.localdomain>
+References: <BL2PR04MB163EBA2796659DD039F7193925E0@BL2PR04MB163.namprd04.prod.outlook.com>,
+ <20160608211335.GB1696@localhost.localdomain>
+Message-ID: <BL2PR04MB1632401DA662CC7A9FFDE8C925F0@BL2PR04MB163.namprd04.prod.outlook.com>
+
+Keith,
+We reran this scenario with the Redhat 7.3 test kernel (3.10.0-405.el7.bz1331884.1.x86_64 from Dave Milburn) that contained the affinity fixes.  Here are the results:  
+
+IOPS
+3.10.0-405.el7.bz1331884.1.x86_64 ( RHEL7.3 ) = 411385 ( -14% slower than CentOS7.1 )
+3.10.0-229.el7.x86_64 = 479862
 
 
->> Which device are you using? Are you running on a low memory machine?
->> Perhaps the rdma rw code needs to check max_mr capability?
->>
+----------------------------------------------------------
+Jeff Lien
+Linux Device Driver Development
+Device Host Apps and Drivers
+Western Digital Corporation
+e.  jeff.lien at hgst.com
+o.  +1-507-322-2416
+m. +1-507-273-9124
+
+
+
+
+
+________________________________________
+From: Keith Busch <keith.busch@intel.com>
+Sent: Wednesday, June 08, 2016 4:13 PM
+To: Jeff Lien
+Cc: linux-nvme; Christoph Hellwig; David Darrington; axboe at fb.com
+Subject: Re: NVMe/blk_mq Performance issue
+
+On Wed, Jun 08, 2016@08:22:44PM +0000, Jeff Lien wrote:
+> We have a performance test scenario designed to verify the OS, driver's and device's ability to handle requests as fast as the system can send them.  It uses fio to send sequential write requests with block size of 512 bytes and queue depth of 32.  This scenario will run the system cpu up to 100%; trying to flood the driver/device with write requests.   When going from Redhat 7.1 to 7.2 we noticed a degradation of about 14% in IOPs; 479862 IOPs with 7.1 and 411385 with 7.2.   With the system and device constant, only the kernel code changed with the blk_mq layer/nvme driver combo being the most likely cause degradation.
 >
-> It's a rather big machine with 8 cores/16GB of memory, never had memory
-> limitation problems on this one. The card is a Chelsio T5. One of the
-> targets of this configuration is to check if it works with this card.
+> Has anyone else noticed any performance issues with the nvme driver using the blk_mq layer?   If so, are there any patches, recommendations or tuning options available to help optimize this particular scenario?
 
-So it must come from the Chelsio device then...
+Hi Jeff,
 
-Can you provide the max_mr output of the device (you can use
-ibv_devinfo -v from libibverbs/ibverbs-utils).
+This probably isn't a blk-mq issue. We mentioned the affinity hint in
+7.2 is incorrect on rhel bz1331884 (you opened that that one, though
+not for that issue). Would you be able to confirm if the update fixes
+the performance issue that you're seeing?
 
-What happens if you use smaller queues, say 64/32 (can be added as a
-queue_size parameter working directly from sysfs, nvme-cli does not
-support this yet).
-
-Steve, did you see this before? I'm wandering if we need some sort
-of logic handling with resource limitation in iWARP (global mrs pool...)
+Thanks,
+Keith
