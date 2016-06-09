@@ -1,58 +1,33 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 9 Jun 2016 15:39:37 +0200
-Subject: [RFC 0/2] nvme/loop: Add support for controllers-per-port model
-In-Reply-To: <1465449233.5365.139.camel@haakon3.risingtidesystems.com>
-References: <1465356861-4321-1-git-send-email-nab@linux-iscsi.org>
- <20160608121448.GA31119@lst.de>
- <1465449233.5365.139.camel@haakon3.risingtidesystems.com>
-Message-ID: <20160609133937.GA29580@lst.de>
+Date: Thu, 9 Jun 2016 15:46:03 +0200
+Subject: NVMe over Fabrics target implementation
+In-Reply-To: <1465446975.5365.123.camel@haakon3.risingtidesystems.com>
+References: <1465248177-17970-1-git-send-email-hch@lst.de>
+ <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
+ <20160607105550.GB17113@lst.de>
+ <1465363301.5365.81.camel@haakon3.risingtidesystems.com>
+ <20160608121932.GA31316@lst.de> <575819BB.7010209@lightbits.io>
+ <1465446975.5365.123.camel@haakon3.risingtidesystems.com>
+Message-ID: <20160609134603.GA29820@lst.de>
 
-On Wed, Jun 08, 2016@10:13:53PM -0700, Nicholas A. Bellinger wrote:
-> I still don't see why a loopback controller on a port of an individual
-> subsystem NQN can't be created + deleted directly from configfs, and
-> operate independently of other loopback controllers on a port of a
-> different subsystem NQNs.
+On Wed, Jun 08, 2016@09:36:15PM -0700, Nicholas A. Bellinger wrote:
+> The configfs ABI should not dictate a single backend use-case.
 
-I think you are misunderstanding the NVMe entities - there is no port
-of a subsystem.  There are port, and there are subsystems and there
-is an N to M relation between them, not an N to one relation.
+And it doesn't.  I actually had a file backend implemented to
+benchmark it against the loopback driver.  It needed absolutely
+zero new configfs interface.  And if we at some point want
+different backends using different attributes we can trivially
+add them using configfs_register_group.
 
-Multiple controllers may and usually will use the same port to access
-one or more subsystems, but multiple controllers may also use different
-ports to use the same subsystem.
+> Along with having common code and existing configfs
+> ABI, we also get a proper starting point for target-core
+> features that span across endpoints, and are defined for
+> both scsi and nvme.  PR APTPL immediately comes to mind.
 
-For full NVMe functionality we thus need to be able to create all
-these objects indepdently.   While loopback ports are extremtly cheap
-I see no reason to introduce a shortcut to break this model for our
-debug local implementation - the whole point of the loopback driver
-is to give you the full NVMe over Fabrics experience without needing
-an (possibly expensive) transport.
-
-> > Something like the patch below is the right way, it just needs a bit more
-> > fine tuning and proper test cases:
-> 
-> I don't see how adding a internal mutex for loopback ports, and doing
-> internal sequential list lookup holding the global nvmet_config_sem
-> whilst doing nvmet_fabric_ops->add_port() helps to scale at all..
-
-Scalability of the controller creation is not the prime goal for the
-nvme-loop driver.  It's supposed to be the simples possible implementation
-of a NVMe over Fabrics transport.
-
-> AFAICT for loopback, neither of these is necessary.  Why can't a
-> loopback controller on a port for a individual subsystem NQN be created
-> + deleted directly from configfs,
-
-We could trivially do this, but I think it's counter productive.  NVMe
-over Fabrics does not automatically create one or multiple controllers,
-and nvme-loop is just another transport that follows the higher level
-spec.
-
-> independent of other subsystem NQN's
-> loopback controller ports..?
-
-The only limitation at the moment is that there is only one port.  I've
-shown you a fairly trivial patch to lift that limitation.  Subsystem
-can be created and deleted independently from each other, as can
-controllers, and as can ports for transport where more than one can
-exists.
+PRs are a useful feature on the road map.  However we need a separate
+pluggable backend anyway for distributed backends like RBD or Bart's
+DLM implementation.  Also the current LIO PR implementation will need
+a lot of work to be usable for NVMe while actually following the
+spec in all it's details and to be power ?afe.   The right way to
+go here is a PR API that allows different backends, and the existing
+LIO one might be one of them after it's got the needed attention.
