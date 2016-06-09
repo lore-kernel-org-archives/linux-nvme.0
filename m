@@ -1,25 +1,87 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Thu, 9 Jun 2016 12:47:54 -0700
-Subject: [PATCH 2/2] nvme-rdma: check the number of hw queues mapped
-In-Reply-To: <20160609141012.GB30293@lst.de>
-References: <1465415292-9416-1-git-send-email-mlin@kernel.org>
- <1465415292-9416-3-git-send-email-mlin@kernel.org>
- <575950DB.6080701@lightbits.io> <20160609141012.GB30293@lst.de>
-Message-ID: <CAF1ivSbkU2q4bUReMHo0W=wCYs2rO8ZWEFQYyH1qtzjftJrkug@mail.gmail.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Thu, 9 Jun 2016 15:25:41 -0500
+Subject: nvme-fabrics: crash at nvme connect-all
+In-Reply-To: <1290178000.33062227.1465486654766.JavaMail.zimbra@kalray.eu>
+References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
+ <20160609132459.GA5105@infradead.org>
+ <1290178000.33062227.1465486654766.JavaMail.zimbra@kalray.eu>
+Message-ID: <04d301d1c28d$183af7b0$48b0e710$@opengridcomputing.com>
 
-On Thu, Jun 9, 2016@7:10 AM, Christoph Hellwig <hch@lst.de> wrote:
-> On Thu, Jun 09, 2016@02:19:55PM +0300, Sagi Grimberg wrote:
->> This needs documentation in the form of:
->>
->> /*
->>  * XXX: blk-mq might not map all our hw contexts but this is a must for
->>  * us for fabric connects. So until we can fix blk-mq we check that.
->>  */
->
-> I think the right thing to do is to have a member of actually mapped
-> queues in the block layer, and I also don't think we need the XXX comment
-> as there are valid reasons for not mapping all queues.
+> >
+> > To get things working you should try a smaller queue size.  We actually
+> > have an option for this in the kernel, but nvme-cli doesn't expose
+> > it yet, so feel free to hardcode it.
+> >
+> > Of course we've still got a real bug in the error handling..
+> 
+> I've set
+> +       queue->recv_queue_size = 32; //le16_to_cpu(req->hsqsize);
+> +       queue->send_queue_size = 32; //le16_to_cpu(req->hrqsize);
+> And it doesn't crash anymore. I get errors without crashes if I try to
+> connect again (what seems correct to me).
 
-I think it is a rare case that we need all hw contexts mapped.
-Seems unnecessary to add a new field to "struct request_queue" for the
-rare case.
+I can force a crash with this patch:
+
+diff --git a/drivers/infiniband/hw/cxgb4/mem.c b/drivers/infiniband/hw/cxgb4/mem.c
+index 55d0651..bbc1422 100644
+--- a/drivers/infiniband/hw/cxgb4/mem.c
++++ b/drivers/infiniband/hw/cxgb4/mem.c
+@@ -619,6 +619,10 @@ struct ib_mr *c4iw_alloc_mr(struct ib_pd *pd,
+        u32 stag = 0;
+        int ret = 0;
+        int length = roundup(max_num_sg * sizeof(u64), 32);
++       static int foo;
++
++       if (foo++ > 200)
++               return ERR_PTR(-ENOMEM);
+
+        php = to_c4iw_pd(pd);
+        rhp = php->rhp;
+
+
+Crash:
+
+rdma_rw_init_mrs: failed to allocated 128 MRs
+failed to init MR pool ret= -12
+nvmet_rdma: failed to create_qp ret= -12
+nvmet_rdma: nvmet_rdma_alloc_queue: creating RDMA queue failed (-12).
+nvme nvme1: Connect rejected, no private data.
+nvme nvme1: rdma_resolve_addr wait failed (-104).
+nvme nvme1: failed to initialize i/o queue: -104
+nvmet_rdma: freeing queue 17
+general protection fault: 0000 [#1] SMP
+Modules linked in: nvme_rdma nvme_fabrics iw_cxgb4(E) rdma_ucm cxgb4 nvmet_rdma rdma_cm iw_cm nvmet null_blk configfs ip6table_filter ip6_tables ebtable_nat ebtables nf_conntrack_ipv4 nf_defrag_ipv4 xt_state nf_conntrack ipt_REJECT nf_reject_ipv4 xt_CHECKSUM iptable_mangle iptable_filter ip_tables bridge autofs4 8021q garp stp llc ipmi_devintf cachefiles fscache ib_ipoib ib_cm ib_uverbs ib_umad iw_nes libcrc32c iw_cxgb3 cxgb3 mdio ib_qib rdmavt mlx4_en ib_mthca dm_mirror dm_region_hash dm_log vhost_net macvtap macvlan vhost tun kvm_intel kvm irqbypass uinput mlx4_ib ib_core ipv6 iTCO_wdt iTCO_vendor_support mxm_wmi pcspkr mlx4_core dm_mod sg i2c_i801 lpc_ich mfd_core nvme nvme_core acpi_cpufreq ioatdma igb dca i2c_algo_bit i2c_core ptp pps_core wmi ext4(E) mbcache(E) jbd2(E) sd_mod(E) ahci(E) libahci(E) [last unloaded: iw_cxgb4]
+CPU: 1 PID: 0 Comm: swapper/1 Tainted: G            E   4.7.0-rc2-nvme-fabrics+rxe+ #71
+Hardware name: Supermicro X9DR3-F/X9DR3-F, BIOS 3.2a 07/09/2015
+task: ffff88107844c2c0 ti: ffff881078450000 task.ti: ffff881078450000
+RIP: 0010:[<ffffffff810d04c3>]  [<ffffffff810d04c3>] get_next_timer_interrupt+0x183/0x210
+RSP: 0018:ffff88107f243e68  EFLAGS: 00010002
+RAX: 00000000fffe39b8 RBX: 0000000000000001 RCX: 00000000fffe39b8
+RDX: 6b6b6b6b6b6b6b6b RSI: 0000000000000039 RDI: 0000000000000036
+RBP: ffff88107f243eb8 R08: ffff88107f24f488 R09: 0000000000fffe36
+R10: ffff88107f243e70 R11: ffff88107f243e88 R12: 0000002a89f289c0
+R13: 00000000fffe35d0 R14: ffff88107f24ec40 R15: 0000000000000040
+FS:  0000000000000000(0000) GS:ffff88107f240000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: ffffffffff600400 CR3: 000000103af92000 CR4: 00000000000406e0
+Stack:
+ ffff88107f24f488 ffff88107f24f688 ffff88107f24f888 ffff88107f24fa88
+ ffff88107ec39698 ffff88107f250180 00000000fffe35d0 ffff88107f24c700
+ 0000002a89f30293 0000002a89f289c0 ffff88107f243f38 ffffffff810e2ac4
+Call Trace:
+ <IRQ>
+ [<ffffffff810e2ac4>] tick_nohz_stop_sched_tick+0x1b4/0x2c0
+ [<ffffffff810986a5>] ? sched_clock_cpu+0xc5/0xd0
+ [<ffffffff810e2c73>] __tick_nohz_idle_enter+0xa3/0x140
+ [<ffffffff810e2d38>] tick_nohz_irq_exit+0x28/0x40
+ [<ffffffff8106c0a5>] irq_exit+0x95/0xb0
+ [<ffffffff81642c76>] smp_apic_timer_interrupt+0x46/0x60
+ [<ffffffff8164134f>] apic_timer_interrupt+0x7f/0x90
+ <EOI>
+ [<ffffffff810a7d2a>] ? cpu_idle_loop+0xda/0x250
+ [<ffffffff810a7e13>] ? cpu_idle_loop+0x1c3/0x250
+ [<ffffffff810a7ec1>] cpu_startup_entry+0x21/0x30
+ [<ffffffff81044ce8>] start_secondary+0x78/0x80
+Code: 89 45 b0 48 89 45 c0 49 8d 86 48 0e 00 00 48 89 45 c8 44 89 cf 83 e7 3f 89 fe 48 63 c6 49 8b 14 c0 48 85 d2 75 05 eb 27 48 89 c1 <f6> 42 2a 10 48 89 c8 75 10 48 8b 42 10 bb 01 00 00 00 48 39 c8
+RIP  [<ffffffff810d04c3>] get_next_timer_interrupt+0x183/0x210
+ RSP <ffff88107f243e68>
