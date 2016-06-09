@@ -1,106 +1,51 @@
 From: nab@linux-iscsi.org (Nicholas A. Bellinger)
-Date: Wed, 08 Jun 2016 21:36:15 -0700
-Subject: NVMe over Fabrics target implementation
-In-Reply-To: <575819BB.7010209@lightbits.io>
-References: <1465248177-17970-1-git-send-email-hch@lst.de>
- <1465280632.5365.58.camel@haakon3.risingtidesystems.com>
- <20160607105550.GB17113@lst.de>
- <1465363301.5365.81.camel@haakon3.risingtidesystems.com>
- <20160608121932.GA31316@lst.de> <575819BB.7010209@lightbits.io>
-Message-ID: <1465446975.5365.123.camel@haakon3.risingtidesystems.com>
+Date: Wed, 08 Jun 2016 22:13:53 -0700
+Subject: [RFC 0/2] nvme/loop: Add support for controllers-per-port model
+In-Reply-To: <20160608121448.GA31119@lst.de>
+References: <1465356861-4321-1-git-send-email-nab@linux-iscsi.org>
+ <20160608121448.GA31119@lst.de>
+Message-ID: <1465449233.5365.139.camel@haakon3.risingtidesystems.com>
 
-On Wed, 2016-06-08@16:12 +0300, Sagi Grimberg wrote:
-> >> *) Extensible to multiple types of backend drivers.
-> >>
-> >> nvme-target needs a way to absorb new backend drivers, that
-> >> does not effect existing configfs group layout or attributes.
-> >>
-> >> Looking at the nvmet/configfs layout as-is, there are no multiple
-> >> backend types defined, nor a way to control backend feature bits
-> >> exposed to nvme namespaces at runtime.
+On Wed, 2016-06-08@14:14 +0200, Christoph Hellwig wrote:
+> Hi Nic,
 > 
-> Hey Nic,
+> multiple ports have been on the todo list ever since we put that short
+> cut in place, but your patches aren't really how this should work.
 > 
-> As for different type of backends, I still don't see a big justification
-> for adding the LIO backends pscsi (as it doesn't make sense),
-> ramdisk (we have brd), or file (losetup).
+> The host NQN is not available for the actual drivers - we need to be able
+> to virtualize it for containers for example, that's why we need to pass
+> it by pointer depending on the arguments.  Also there is no need to
+> add another sysfs interface - just like for real drivers we can simply
+> create the ports in configfs and assign an address to it, we just need
+> to stop ignoring it.
 > 
 
-The configfs ABI should not dictate a single backend use-case.
+Not sure what you mean, but my patch does not propose 'to add another
+sysfs interface'.
 
-In the target-core ecosystem today, there are just as many
-people using FILEIO atop local file-systems as there are
-using IBLOCK and submit_bio().
+It simply follows what drivers/target/loopback/ already does for scsi,
+and allocates a controller from nvmet/configfs-ng at subsystem NQN
+port enable time.
 
-As mentioned, target_core_iblock.c has absorbed the io-cmd.c
-improvements so existing scsi target drivers can benefit
-too.  Plus, having interested folks focusing on a single set of
-backends for FILEIO + IBLOCK means both scsi and nvme
-target drivers benefit from further improvements.
+I still don't see why a loopback controller on a port of an individual
+subsystem NQN can't be created + deleted directly from configfs, and
+operate independently of other loopback controllers on a port of a
+different subsystem NQNs.
 
-As we've already got both, a target backend configfs ABI
-and user ecosystem using /sys/kernel/config/target/core/, it's
-a straight forward way to share common code, while still allowing
-scsi and nvme to function using their own independent fabric
-configfs ABI layouts.
+> Something like the patch below is the right way, it just needs a bit more
+> fine tuning and proper test cases:
 
-Along with having common code and existing configfs
-ABI, we also get a proper starting point for target-core
-features that span across endpoints, and are defined for
-both scsi and nvme.  PR APTPL immediately comes to mind.
+I don't see how adding a internal mutex for loopback ports, and doing
+internal sequential list lookup holding the global nvmet_config_sem
+whilst doing nvmet_fabric_ops->add_port() helps to scale at all..
 
-Namely, for the ability of one backend device to interact
-between both scsi target luns and nvme target namespaces,
-as well as different backends across scsi and nvme exports.
+AFAICT for loopback, neither of these is necessary.  Why can't a
+loopback controller on a port for a individual subsystem NQN be created
++ deleted directly from configfs, independent of other subsystem NQN's
+loopback controller ports..?
 
-> What kind of feature bits would you want to expose at runtime?
+Now for rdma, just like with iscsi-target + iser with network portals,
+we do need to keep an internal list of ports, given that ports can be
+shared across different target endpoints.
 
-As for feature bits, basically everything currently or
-in the future to be reported by ID_NS.  There is T10-PI, and another
-example is copy-offload support, once the NVMe spec gets that far..
-
-The main point is that we should be able to add new feature bits to
-common code in target-core backend configfs ABI, without having to
-change the individual scsi or nvme configfs ABIs.
-
-> 
-> > And that's very much intentional.  We have a very well working block
-> > layer which we're going to use, no need to reivent it.  The block
-> > layer supports NVMe pass through just fine in case we'll need it,
-> > as I spent the last year preparing it for that.
-> >
-> >> Why does it ever make sense for $SUBSYSTEM_NQN_0 with $PORT_DRIVER_FOO
-> >> to block operation of $SUBSYSTEM_NQN_1 with $PORT_DRIVER_BAR..?
-> >
-> > Because it keeps the code simple.  If you had actually participated
-> > on our development list you might have seen that until not too long
-> > ago we have very fine grainded locks here.  In the end Armen convinced
-> > me that it's easier to maintain if we don't bother with fine grained
-> > locking outside the fast path, especially as it significantly simplifies
-> > the discovery implementation.   If if it ever turns out to be an
-> > issue we can change it easily as the implementation is well encapsulated.
-> 
-> We did change that, and Nic is raising a valid point in terms of having
-> a global mutex around all the ports. If the requirement of nvme
-> subsystems and ports configuration is that it should happen fast enough
-> and scale to the numbers that Nic is referring to, we'll need to change
-> that back.
-> 
-> Having said that, I'm not sure this is a real hard requirement for RDMA
-> and FC in the mid-term, because from what I've seen, the workloads Nic
-> is referring to are more typical for iscsi/tcp where connections are
-> cheaper and you need more to saturate a high-speed interconnects, so
-> we'll probably see this when we have nvme over tcp working.
-
-Yes.
-
-Further, my objections to the proposed nvmet configfs ABI are:
-
-  - Doesn't support multiple backend types.
-  - Doesn't provide a way to control backend feature bits separate from 
-    fabric layout.
-  - Doesn't provide a starting point between target features that span
-    both scsi and nvme.
-  - Doesn't allow for concurrent parallel configfs create + delete 
-    operations of subsystem NQNs across ports and host acls.
-  - Global synchronization of nvmet_fabric_ops->add_port()
+That's the part that I'm working on next for nvmet/configfs-ng.
