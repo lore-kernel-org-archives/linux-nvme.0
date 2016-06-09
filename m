@@ -1,32 +1,27 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Thu, 9 Jun 2016 12:07:12 +0200 (CEST)
+From: sagi@lightbits.io (Sagi Grimberg)
+Date: Thu, 9 Jun 2016 14:09:53 +0300
 Subject: nvme-fabrics: crash at nvme connect-all
-In-Reply-To: <575936F0.9000600@lightbits.io>
+In-Reply-To: <574056153.32082017.1465466832847.JavaMail.zimbra@kalray.eu>
 References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
  <575936F0.9000600@lightbits.io>
-Message-ID: <574056153.32082017.1465466832847.JavaMail.zimbra@kalray.eu>
-
------ Le 9 Juin 16, ? 11:29, Sagi Grimberg sagi at lightbits.io a ?crit :
-> 
-> Hi Marta,
-> 
-> I got the same bug report, it looks like we're might
-> be facing a double-free condition.
-> 
-> Does this patch help?
-> --
-> commit fd36b6ef3d0881b1bccc1eac8737baaf8c863a21
+ <574056153.32082017.1465466832847.JavaMail.zimbra@kalray.eu>
+Message-ID: <57594E81.9060302@lightbits.io>
 
 
-Hello Sagi,
-Unfortunately it crashes still (this time at the first connect already).
-I'm investigating this.
+> Hello Sagi,
+> Unfortunately it crashes still (this time at the first connect already).
+> I'm investigating this.
 
-Regards,
+OK, looking further into your bug report its actually different from
+the one I got. I do think that this patch makes sense regardless.
 
--- 
+ From your log I can only guess that you are using iWARP devices?
+because I see that nvmet tries to init an MR pool and seem to
+run out of memory...
 
-Marta Rybczynska 
+Which device are you using? Are you running on a low memory machine?
+Perhaps the rdma rw code needs to check max_mr capability?
 
-Phone : +33 6 71 09 68 03 
-mrybczyn at kalray.eu
+Also, are you running the host and target on a single server? it might
+be possible that it requires more resources than the host (or device)
+has?
