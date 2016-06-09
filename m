@@ -1,59 +1,88 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Thu, 9 Jun 2016 14:28:54 -0600
-Subject: [PATCH] NVMe: Only release requested regions
-In-Reply-To: <20160608071629.y2ysgc5lsvv2c6nu@c203.arch.suse.de>
-References: <1462886068-14605-1-git-send-email-jthumshirn@suse.de>
- <20160608071629.y2ysgc5lsvv2c6nu@c203.arch.suse.de>
-Message-ID: <5759D186.2090000@fb.com>
+From: mlin@kernel.org (Ming Lin)
+Date: Thu, 9 Jun 2016 13:35:41 -0700
+Subject: nvme-fabrics: crash at nvme connect-all
+In-Reply-To: <04d301d1c28d$183af7b0$48b0e710$@opengridcomputing.com>
+References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
+ <20160609132459.GA5105@infradead.org>
+ <1290178000.33062227.1465486654766.JavaMail.zimbra@kalray.eu>
+ <04d301d1c28d$183af7b0$48b0e710$@opengridcomputing.com>
+Message-ID: <CAF1ivSb2fvjEzCxWXnrxv_i74SRm2qxWZ-RiKpEaGOx-Dk3f1A@mail.gmail.com>
 
-On 06/08/2016 01:16 AM, Johannes Thumshirn wrote:
-> On Tue, May 10, 2016@03:14:28PM +0200, Johannes Thumshirn wrote:
->> The NVMe driver only requests the PCIe device's memory regions but releases
->> all possible regions (including eventual I/O regions). This leads to a stale
->> warning entry in dmesg about freeing non existent resources.
+On Thu, Jun 9, 2016@1:25 PM, Steve Wise <swise@opengridcomputing.com> wrote:
+>> >
+>> > To get things working you should try a smaller queue size.  We actually
+>> > have an option for this in the kernel, but nvme-cli doesn't expose
+>> > it yet, so feel free to hardcode it.
+>> >
+>> > Of course we've still got a real bug in the error handling..
 >>
->> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
->> ---
->>   drivers/nvme/host/pci.c | 9 +++++++--
->>   1 file changed, 7 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index eec73fe..6f5ad07 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -1759,9 +1759,14 @@ static int nvme_pci_enable(struct nvme_dev *dev)
->>
->>   static void nvme_dev_unmap(struct nvme_dev *dev)
->>   {
->> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
->> +	int bars;
->> +
->>   	if (dev->bar)
->>   		iounmap(dev->bar);
->> -	pci_release_regions(to_pci_dev(dev->dev));
->> +
->> +	bars = pci_select_bars(pdev, IORESOURCE_MEM);
->> +	pci_release_selected_regions(pdev, bars);
->>   }
->>
->>   static void nvme_pci_disable(struct nvme_dev *dev)
->> @@ -1998,7 +2003,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
->>
->>          return 0;
->>     release:
->> -       pci_release_regions(pdev);
->> +       pci_release_selected_regions(pdev, bars);
->>          return -ENODEV;
->>   }
->>
->> --
->> 1.8.5.6
->>
+>> I've set
+>> +       queue->recv_queue_size = 32; //le16_to_cpu(req->hsqsize);
+>> +       queue->send_queue_size = 32; //le16_to_cpu(req->hrqsize);
+>> And it doesn't crash anymore. I get errors without crashes if I try to
+>> connect again (what seems correct to me).
+>
+> I can force a crash with this patch:
+>
+> diff --git a/drivers/infiniband/hw/cxgb4/mem.c b/drivers/infiniband/hw/cxgb4/mem.c
+> index 55d0651..bbc1422 100644
+> --- a/drivers/infiniband/hw/cxgb4/mem.c
+> +++ b/drivers/infiniband/hw/cxgb4/mem.c
+> @@ -619,6 +619,10 @@ struct ib_mr *c4iw_alloc_mr(struct ib_pd *pd,
+>         u32 stag = 0;
+>         int ret = 0;
+>         int length = roundup(max_num_sg * sizeof(u64), 32);
+> +       static int foo;
+> +
+> +       if (foo++ > 200)
+> +               return ERR_PTR(-ENOMEM);
+>
+>         php = to_c4iw_pd(pd);
+>         rhp = php->rhp;
 >
 >
-> Jens, ping?
+> Crash:
+>
+> rdma_rw_init_mrs: failed to allocated 128 MRs
+> failed to init MR pool ret= -12
+> nvmet_rdma: failed to create_qp ret= -12
+> nvmet_rdma: nvmet_rdma_alloc_queue: creating RDMA queue failed (-12).
+> nvme nvme1: Connect rejected, no private data.
+> nvme nvme1: rdma_resolve_addr wait failed (-104).
+> nvme nvme1: failed to initialize i/o queue: -104
+> nvmet_rdma: freeing queue 17
+> general protection fault: 0000 [#1] SMP
 
-Added for 4.7, thanks.
+> RIP: 0010:[<ffffffff810d04c3>]  [<ffffffff810d04c3>] get_next_timer_interrupt+0x183/0x210
+> RSP: 0018:ffff88107f243e68  EFLAGS: 00010002
+> RAX: 00000000fffe39b8 RBX: 0000000000000001 RCX: 00000000fffe39b8
+> RDX: 6b6b6b6b6b6b6b6b RSI: 0000000000000039 RDI: 0000000000000036
+> RBP: ffff88107f243eb8 R08: ffff88107f24f488 R09: 0000000000fffe36
+> R10: ffff88107f243e70 R11: ffff88107f243e88 R12: 0000002a89f289c0
+> R13: 00000000fffe35d0 R14: ffff88107f24ec40 R15: 0000000000000040
+> FS:  0000000000000000(0000) GS:ffff88107f240000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: ffffffffff600400 CR3: 000000103af92000 CR4: 00000000000406e0
+> Stack:
+>  ffff88107f24f488 ffff88107f24f688 ffff88107f24f888 ffff88107f24fa88
+>  ffff88107ec39698 ffff88107f250180 00000000fffe35d0 ffff88107f24c700
+>  0000002a89f30293 0000002a89f289c0 ffff88107f243f38 ffffffff810e2ac4
+> Call Trace:
+>  <IRQ>
+>  [<ffffffff810e2ac4>] tick_nohz_stop_sched_tick+0x1b4/0x2c0
+>  [<ffffffff810986a5>] ? sched_clock_cpu+0xc5/0xd0
+>  [<ffffffff810e2c73>] __tick_nohz_idle_enter+0xa3/0x140
+>  [<ffffffff810e2d38>] tick_nohz_irq_exit+0x28/0x40
+>  [<ffffffff8106c0a5>] irq_exit+0x95/0xb0
+>  [<ffffffff81642c76>] smp_apic_timer_interrupt+0x46/0x60
+>  [<ffffffff8164134f>] apic_timer_interrupt+0x7f/0x90
+>  <EOI>
+>  [<ffffffff810a7d2a>] ? cpu_idle_loop+0xda/0x250
+>  [<ffffffff810a7e13>] ? cpu_idle_loop+0x1c3/0x250
+>  [<ffffffff810a7ec1>] cpu_startup_entry+0x21/0x30
+>  [<ffffffff81044ce8>] start_secondary+0x78/0x80
 
--- 
-Jens Axboe
+The stack looks weird. Nothing nvme code related.
+I guess it is a random crash.
+
+Could you do it again and will you see a different call stack?
