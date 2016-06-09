@@ -1,39 +1,58 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 9 Jun 2016 08:36:49 -0500
-Subject: nvme-fabrics: crash at nvme connect-all
-In-Reply-To: <004901d1c252$b5978d10$20c6a730$@opengridcomputing.com>
-References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
- <575936F0.9000600@lightbits.io>
- <574056153.32082017.1465466832847.JavaMail.zimbra@kalray.eu>
- <57594E81.9060302@lightbits.io>
- <1218382158.32228335.1465474321289.JavaMail.zimbra@kalray.eu>
- <5759614D.5080703@lightbits.io>
- <004901d1c252$b5978d10$20c6a730$@opengridcomputing.com>
-Message-ID: <005701d1c253$f9590550$ec0b0ff0$@opengridcomputing.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 9 Jun 2016 15:39:37 +0200
+Subject: [RFC 0/2] nvme/loop: Add support for controllers-per-port model
+In-Reply-To: <1465449233.5365.139.camel@haakon3.risingtidesystems.com>
+References: <1465356861-4321-1-git-send-email-nab@linux-iscsi.org>
+ <20160608121448.GA31119@lst.de>
+ <1465449233.5365.139.camel@haakon3.risingtidesystems.com>
+Message-ID: <20160609133937.GA29580@lst.de>
 
-> > Steve, did you see this before? I'm wandering if we need some sort
-> > of logic handling with resource limitation in iWARP (global mrs pool...)
+On Wed, Jun 08, 2016@10:13:53PM -0700, Nicholas A. Bellinger wrote:
+> I still don't see why a loopback controller on a port of an individual
+> subsystem NQN can't be created + deleted directly from configfs, and
+> operate independently of other loopback controllers on a port of a
+> different subsystem NQNs.
+
+I think you are misunderstanding the NVMe entities - there is no port
+of a subsystem.  There are port, and there are subsystems and there
+is an N to M relation between them, not an N to one relation.
+
+Multiple controllers may and usually will use the same port to access
+one or more subsystems, but multiple controllers may also use different
+ports to use the same subsystem.
+
+For full NVMe functionality we thus need to be able to create all
+these objects indepdently.   While loopback ports are extremtly cheap
+I see no reason to introduce a shortcut to break this model for our
+debug local implementation - the whole point of the loopback driver
+is to give you the full NVMe over Fabrics experience without needing
+an (possibly expensive) transport.
+
+> > Something like the patch below is the right way, it just needs a bit more
+> > fine tuning and proper test cases:
 > 
-> Haven't seen this.  Does 'cat /sys/kernel/debug/iw_cxgb4/blah/stats' show
-> anything interesting?  Where/why is it crashing?
-> 
+> I don't see how adding a internal mutex for loopback ports, and doing
+> internal sequential list lookup holding the global nvmet_config_sem
+> whilst doing nvmet_fabric_ops->add_port() helps to scale at all..
 
-So this is the failure:
+Scalability of the controller creation is not the prime goal for the
+nvme-loop driver.  It's supposed to be the simples possible implementation
+of a NVMe over Fabrics transport.
 
-[  703.239462] rdma_rw_init_mrs: failed to allocated 128 MRs
-[  703.239498] failed to init MR pool ret= -12
-[  703.239541] nvmet_rdma: failed to create_qp ret= -12
-[  703.239582] nvmet_rdma: nvmet_rdma_alloc_queue: creating RDMA queue failed
-(-12).
+> AFAICT for loopback, neither of these is necessary.  Why can't a
+> loopback controller on a port for a individual subsystem NQN be created
+> + deleted directly from configfs,
 
-Not sure why it would fail.  I would think my setup would be allocating more
-given I have 16 cores on the host and target.  The debugfs "stats" file I
-mentioned above should show us something if we're running out of adapter
-resources for MR or PBL records.  
+We could trivially do this, but I think it's counter productive.  NVMe
+over Fabrics does not automatically create one or multiple controllers,
+and nvme-loop is just another transport that follows the higher level
+spec.
 
-Can you please turn on c4iw_debug and send me the debug output?  echo 1 >
-/sys/module/iw_cxgb4/parameters/c4iw_debug.
+> independent of other subsystem NQN's
+> loopback controller ports..?
 
-Thanks,
-
-Steve.
+The only limitation at the moment is that there is only one port.  I've
+shown you a fairly trivial patch to lift that limitation.  Subsystem
+can be created and deleted independently from each other, as can
+controllers, and as can ports for transport where more than one can
+exists.
