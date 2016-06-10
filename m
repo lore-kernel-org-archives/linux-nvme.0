@@ -1,68 +1,176 @@
 From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Fri, 10 Jun 2016 14:20:56 +0200
-Subject: [PATCH 0/6] sysfs support for LightNVM
-Message-ID: <1465561262-13789-1-git-send-email-m@bjorling.me>
+Date: Fri, 10 Jun 2016 14:20:58 +0200
+Subject: [PATCH 2/6] null_blk: refactor to support non-gendisk devices
+In-Reply-To: <1465561262-13789-1-git-send-email-m@bjorling.me>
+References: <1465561262-13789-1-git-send-email-m@bjorling.me>
+Message-ID: <1465561262-13789-3-git-send-email-m@bjorling.me>
 
-Hi Jens and Keith,
+With LightNVM enabled devices, the gendisk structure is not exposed
+to the user. This hides the device driver specific sysfs entries, and
+prevents binding of LightNVM geometry information to the device.
 
-If the patches look good to you, would you pick them up through your
-tree?
+Refactor the device registration process, so that gendisk and
+non-gendisk devices are easily managed.
 
-The common way to expose a storage device is to export it through the
-gendisk structure, which takes care of handling the visibility lifetime
-of the device to user-space and carries device driver and block layer
-specific sysfs entries.
+Signed-off-by: Matias Bj?rling <m at bjorling.me>
+---
+ drivers/block/null_blk.c | 110 ++++++++++++++++++++++++++---------------------
+ 1 file changed, 61 insertions(+), 49 deletions(-)
 
-For LightNVM, no gendisk is exposed, which hides these entries.
-
-This patchset enables LightNVM to expose a subset of the gendisk entries
-by implementing a new non-gendisk device that only exposes the sysfs
-entries that are relevant to the device driver and LightNVM. For example
-/mq and the NVMe sysfs entries.
-
-The new non-gendisk exposes itself in place of the original gendisk.
-Thus, a gendisk device exposed through /sys/class/nvme/nvme0n1, will
-still be exposed through the same directory, although only with the /mq,
-lightnvm, and nvme specific entries.
-
-The LightNVM storage device can be found through sysfs by searching
-for devices that has the "lightnvm" dev type.
-
-v2:
- - Updated "expose gennvm target type" to expose its own kobject, which
-   pblk and others can hook into.
- - Fixed missing disk_name in null_blk patch on lightnvm device
-
-Thanks,
-Matias
-
-Matias Bj?rling (4):
-  nvme: refactor namespaces to support non-gendisk devices
-  null_blk: refactor to support non-gendisk devices
-  blk-mq: register device instead of disk
-  lightnvm: let drivers control the lifetime of nvm_dev
-
-Simon A. F. Lund (2):
-  lightnvm: expose device geometry through sysfs
-  lightnvm: expose gennvm target type through sysfs
-
- block/blk-mq-sysfs.c         |  13 ++-
- block/blk-sysfs.c            |   4 +-
- drivers/block/null_blk.c     | 128 +++++++++++++++++-----------
- drivers/lightnvm/Makefile    |   2 +-
- drivers/lightnvm/core.c      |  52 +++++-------
- drivers/lightnvm/gennvm.c    | 112 +++++++++++++++++++++----
- drivers/lightnvm/lightnvm.h  |  35 ++++++++
- drivers/lightnvm/sysfs.c     | 195 +++++++++++++++++++++++++++++++++++++++++++
- drivers/md/dm.c              |   2 +-
- drivers/nvme/host/core.c     | 165 ++++++++++++++++++++----------------
- drivers/nvme/host/lightnvm.c |  29 ++++++-
- drivers/nvme/host/nvme.h     |  26 ++++--
- include/linux/blk-mq.h       |   4 +-
- include/linux/lightnvm.h     |  28 +++++--
- 14 files changed, 597 insertions(+), 198 deletions(-)
- create mode 100644 drivers/lightnvm/lightnvm.h
- create mode 100644 drivers/lightnvm/sysfs.c
-
+diff --git a/drivers/block/null_blk.c b/drivers/block/null_blk.c
+index cab9759..3117df1 100644
+--- a/drivers/block/null_blk.c
++++ b/drivers/block/null_blk.c
+@@ -414,23 +414,6 @@ static void cleanup_queues(struct nullb *nullb)
+ 	kfree(nullb->queues);
+ }
+ 
+-static void null_del_dev(struct nullb *nullb)
+-{
+-	list_del_init(&nullb->list);
+-
+-	if (use_lightnvm)
+-		nvm_unregister(nullb->disk_name);
+-	else
+-		del_gendisk(nullb->disk);
+-	blk_cleanup_queue(nullb->q);
+-	if (queue_mode == NULL_Q_MQ)
+-		blk_mq_free_tag_set(&nullb->tag_set);
+-	if (!use_lightnvm)
+-		put_disk(nullb->disk);
+-	cleanup_queues(nullb);
+-	kfree(nullb);
+-}
+-
+ #ifdef CONFIG_NVM
+ 
+ static void null_lnvm_end_io(struct request *rq, int error)
+@@ -564,10 +547,41 @@ static struct nvm_dev_ops null_lnvm_dev_ops = {
+ 	/* Simulate nvme protocol restriction */
+ 	.max_phys_sect		= 64,
+ };
++
++static int null_nvm_register(struct nullb *nullb)
++{
++	return nvm_register(nullb->q, nullb->disk_name, &null_lnvm_dev_ops);
++}
++
++static void null_nvm_unregister(struct nullb *nullb)
++{
++	nvm_unregister(nullb->disk_name);
++}
+ #else
+-static struct nvm_dev_ops null_lnvm_dev_ops;
++static int null_nvm_register(struct nullb *nullb)
++{
++	return -EINVAL;
++}
++static void null_nvm_unregister(struct nullb *nullb) {}
+ #endif /* CONFIG_NVM */
+ 
++static void null_del_dev(struct nullb *nullb)
++{
++	list_del_init(&nullb->list);
++
++	if (use_lightnvm)
++		null_nvm_unregister(nullb);
++	else
++		del_gendisk(nullb->disk);
++	blk_cleanup_queue(nullb->q);
++	if (queue_mode == NULL_Q_MQ)
++		blk_mq_free_tag_set(&nullb->tag_set);
++	if (!use_lightnvm)
++		put_disk(nullb->disk);
++	cleanup_queues(nullb);
++	kfree(nullb);
++}
++
+ static int null_open(struct block_device *bdev, fmode_t mode)
+ {
+ 	return 0;
+@@ -640,11 +654,32 @@ static int init_driver_queues(struct nullb *nullb)
+ 	return 0;
+ }
+ 
+-static int null_add_dev(void)
++static int null_gendisk_register(struct nullb *nullb)
+ {
+ 	struct gendisk *disk;
+-	struct nullb *nullb;
+ 	sector_t size;
++
++	disk = nullb->disk = alloc_disk_node(1, home_node);
++	if (!disk)
++		return -ENOMEM;
++	size = gb * 1024 * 1024 * 1024ULL;
++	set_capacity(disk, size >> 9);
++
++	disk->flags |= GENHD_FL_EXT_DEVT | GENHD_FL_SUPPRESS_PARTITION_INFO;
++	disk->major		= null_major;
++	disk->first_minor	= nullb->index;
++	disk->fops		= &null_fops;
++	disk->private_data	= nullb;
++	disk->queue		= nullb->q;
++	strncpy(disk->disk_name, nullb->disk_name, DISK_NAME_LEN);
++
++	add_disk(disk);
++	return 0;
++}
++
++static int null_add_dev(void)
++{
++	struct nullb *nullb;
+ 	int rv;
+ 
+ 	nullb = kzalloc_node(sizeof(*nullb), GFP_KERNEL, home_node);
+@@ -716,42 +751,19 @@ static int null_add_dev(void)
+ 
+ 	sprintf(nullb->disk_name, "nullb%d", nullb->index);
+ 
+-	if (use_lightnvm) {
+-		rv = nvm_register(nullb->q, nullb->disk_name,
+-							&null_lnvm_dev_ops);
+-		if (rv)
+-			goto out_cleanup_blk_queue;
+-		goto done;
+-	}
++	if (use_lightnvm)
++		rv = null_nvm_register(nullb);
++	else
++		rv = null_gendisk_register(nullb);
+ 
+-	disk = nullb->disk = alloc_disk_node(1, home_node);
+-	if (!disk) {
+-		rv = -ENOMEM;
+-		goto out_cleanup_lightnvm;
+-	}
+-	size = gb * 1024 * 1024 * 1024ULL;
+-	set_capacity(disk, size >> 9);
++	if (rv)
++		goto out_cleanup_blk_queue;
+ 
+-	disk->flags |= GENHD_FL_EXT_DEVT | GENHD_FL_SUPPRESS_PARTITION_INFO;
+-	disk->major		= null_major;
+-	disk->first_minor	= nullb->index;
+-	disk->fops		= &null_fops;
+-	disk->private_data	= nullb;
+-	disk->queue		= nullb->q;
+-	strncpy(disk->disk_name, nullb->disk_name, DISK_NAME_LEN);
+-
+-	add_disk(disk);
+-
+-done:
+ 	mutex_lock(&lock);
+ 	list_add_tail(&nullb->list, &nullb_list);
+ 	mutex_unlock(&lock);
+ 
+ 	return 0;
+-
+-out_cleanup_lightnvm:
+-	if (use_lightnvm)
+-		nvm_unregister(nullb->disk_name);
+ out_cleanup_blk_queue:
+ 	blk_cleanup_queue(nullb->q);
+ out_cleanup_tags:
 -- 
 2.1.4
