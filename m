@@ -1,212 +1,124 @@
 From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Fri, 10 Jun 2016 14:20:57 +0200
-Subject: [PATCH 1/6] nvme: refactor namespaces to support non-gendisk devices
+Date: Fri, 10 Jun 2016 14:20:59 +0200
+Subject: [PATCH 3/6] blk-mq: register device instead of disk
 In-Reply-To: <1465561262-13789-1-git-send-email-m@bjorling.me>
 References: <1465561262-13789-1-git-send-email-m@bjorling.me>
-Message-ID: <1465561262-13789-2-git-send-email-m@bjorling.me>
+Message-ID: <1465561262-13789-4-git-send-email-m@bjorling.me>
 
-With LightNVM enabled namespaces, the gendisk structure is not exposed
-to the user. This prevents LightNVM users from accessing the NVMe device
-driver specific sysfs entries, and LightNVM namespace geometry.
-
-Refactor the revalidation process, so that a namespace, instead of a
-gendisk, is revalidated. This later allows patches to wire up the
-sysfs entries up to a non-gendisk namespace.
+Enable devices without a gendisk instance to register itself with blk-mq
+and expose the associated multi-queue sysfs entries.
 
 Signed-off-by: Matias Bj?rling <m at bjorling.me>
 ---
- drivers/nvme/host/core.c | 134 +++++++++++++++++++++++++++++------------------
- 1 file changed, 82 insertions(+), 52 deletions(-)
+ block/blk-mq-sysfs.c   | 13 +++++--------
+ block/blk-sysfs.c      |  4 ++--
+ drivers/md/dm.c        |  2 +-
+ include/linux/blk-mq.h |  4 ++--
+ 4 files changed, 10 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 684062a..f615b6b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -785,42 +785,33 @@ static void nvme_config_discard(struct nvme_ns *ns)
- 	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
+diff --git a/block/blk-mq-sysfs.c b/block/blk-mq-sysfs.c
+index 4ea4dd8..f67b5c1 100644
+--- a/block/blk-mq-sysfs.c
++++ b/block/blk-mq-sysfs.c
+@@ -380,9 +380,8 @@ static int blk_mq_register_hctx(struct blk_mq_hw_ctx *hctx)
+ 	return ret;
  }
  
--static int nvme_revalidate_disk(struct gendisk *disk)
-+static int nvme_revalidate_ns(struct nvme_ns *ns, struct nvme_id_ns **id)
+-void blk_mq_unregister_disk(struct gendisk *disk)
++void blk_mq_unregister_dev(struct device *dev, struct request_queue *q)
  {
--	struct nvme_ns *ns = disk->private_data;
--	struct nvme_id_ns *id;
--	u8 lbaf, pi_type;
--	u16 old_ms;
--	unsigned short bs;
--
--	if (test_bit(NVME_NS_DEAD, &ns->flags)) {
--		set_capacity(disk, 0);
--		return -ENODEV;
--	}
--	if (nvme_identify_ns(ns->ctrl, ns->ns_id, &id)) {
-+	if (nvme_identify_ns(ns->ctrl, ns->ns_id, id)) {
- 		dev_warn(disk_to_dev(ns->disk), "%s: Identify failure\n",
- 				__func__);
- 		return -ENODEV;
- 	}
--	if (id->ncap == 0) {
--		kfree(id);
--		return -ENODEV;
--	}
+-	struct request_queue *q = disk->queue;
+ 	struct blk_mq_hw_ctx *hctx;
+ 	struct blk_mq_ctx *ctx;
+ 	int i, j;
+@@ -402,7 +401,7 @@ void blk_mq_unregister_disk(struct gendisk *disk)
+ 	kobject_del(&q->mq_kobj);
+ 	kobject_put(&q->mq_kobj);
  
--	if (nvme_nvm_ns_supported(ns, id) && ns->type != NVME_NS_LIGHTNVM) {
--		if (nvme_nvm_register(ns->queue, disk->disk_name)) {
--			dev_warn(disk_to_dev(ns->disk),
--				"%s: LightNVM init failure\n", __func__);
--			kfree(id);
--			return -ENODEV;
--		}
--		ns->type = NVME_NS_LIGHTNVM;
-+	if ((*id)->ncap == 0) {
-+		kfree(*id);
-+		return -ENODEV;
+-	kobject_put(&disk_to_dev(disk)->kobj);
++	kobject_put(&dev->kobj);
+ 
+ 	q->mq_sysfs_init_done = false;
+ 	blk_mq_enable_hotplug();
+@@ -426,10 +425,8 @@ static void blk_mq_sysfs_init(struct request_queue *q)
+ 	}
+ }
+ 
+-int blk_mq_register_disk(struct gendisk *disk)
++int blk_mq_register_dev(struct device *dev, struct request_queue *q)
+ {
+-	struct device *dev = disk_to_dev(disk);
+-	struct request_queue *q = disk->queue;
+ 	struct blk_mq_hw_ctx *hctx;
+ 	int ret, i;
+ 
+@@ -450,7 +447,7 @@ int blk_mq_register_disk(struct gendisk *disk)
  	}
  
- 	if (ns->ctrl->vs >= NVME_VS(1, 1))
--		memcpy(ns->eui, id->eui64, sizeof(ns->eui));
-+		memcpy(ns->eui, (*id)->eui64, sizeof(ns->eui));
- 	if (ns->ctrl->vs >= NVME_VS(1, 2))
--		memcpy(ns->uuid, id->nguid, sizeof(ns->uuid));
-+		memcpy(ns->uuid, (*id)->nguid, sizeof(ns->uuid));
-+
-+	return 0;
-+}
-+
-+static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
-+{
-+	struct nvme_ns *ns = disk->private_data;
-+	u8 lbaf, pi_type;
-+	u16 old_ms;
-+	unsigned short bs;
+ 	if (ret)
+-		blk_mq_unregister_disk(disk);
++		blk_mq_unregister_dev(dev, q);
+ 	else
+ 		q->mq_sysfs_init_done = true;
+ out:
+@@ -458,7 +455,7 @@ out:
  
- 	old_ms = ns->ms;
- 	lbaf = id->flbas & NVME_NS_FLBAS_LBA_MASK;
-@@ -859,8 +850,26 @@ static int nvme_revalidate_disk(struct gendisk *disk)
- 	if (ns->ctrl->oncs & NVME_CTRL_ONCS_DSM)
- 		nvme_config_discard(ns);
- 	blk_mq_unfreeze_queue(disk->queue);
-+}
+ 	return ret;
+ }
+-EXPORT_SYMBOL_GPL(blk_mq_register_disk);
++EXPORT_SYMBOL_GPL(blk_mq_register_dev);
  
-+static int nvme_revalidate_disk(struct gendisk *disk)
-+{
-+	struct nvme_ns *ns = disk->private_data;
-+	struct nvme_id_ns *id = NULL;
-+	int ret;
-+
-+	if (test_bit(NVME_NS_DEAD, &ns->flags)) {
-+		set_capacity(disk, 0);
-+		return -ENODEV;
-+	}
-+
-+	ret = nvme_revalidate_ns(ns, &id);
-+	if (ret)
-+		return ret;
-+
-+	__nvme_revalidate_disk(disk, id);
- 	kfree(id);
-+
+ void blk_mq_sysfs_unregister(struct request_queue *q)
+ {
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 9920596..5223c5f 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -693,7 +693,7 @@ int blk_register_queue(struct gendisk *disk)
+ 	kobject_uevent(&q->kobj, KOBJ_ADD);
+ 
+ 	if (q->mq_ops)
+-		blk_mq_register_disk(disk);
++		blk_mq_register_dev(disk_to_dev(disk), q);
+ 
+ 	if (!q->request_fn)
+ 		return 0;
+@@ -718,7 +718,7 @@ void blk_unregister_queue(struct gendisk *disk)
+ 		return;
+ 
+ 	if (q->mq_ops)
+-		blk_mq_unregister_disk(disk);
++		blk_mq_unregister_dev(disk_to_dev(disk), q);
+ 
+ 	if (q->request_fn)
+ 		elv_unregister_queue(q);
+diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+index aba7ed9..9de3a9c 100644
+--- a/drivers/md/dm.c
++++ b/drivers/md/dm.c
+@@ -2798,7 +2798,7 @@ static int dm_mq_init_request_queue(struct mapped_device *md,
+ 	dm_init_md_queue(md);
+ 
+ 	/* backfill 'mq' sysfs registration normally done in blk_register_queue */
+-	blk_mq_register_disk(md->disk);
++	blk_mq_register_dev(disk_to_dev(md->disk), q);
+ 
  	return 0;
- }
  
-@@ -1430,6 +1439,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- {
- 	struct nvme_ns *ns;
- 	struct gendisk *disk;
-+	struct nvme_id_ns *id;
-+	char disk_name[DISK_NAME_LEN];
- 	int node = dev_to_node(ctrl->dev);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 2498fdf..ab6fb32 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -176,8 +176,8 @@ enum {
+ struct request_queue *blk_mq_init_queue(struct blk_mq_tag_set *);
+ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+ 						  struct request_queue *q);
+-int blk_mq_register_disk(struct gendisk *);
+-void blk_mq_unregister_disk(struct gendisk *);
++int blk_mq_register_dev(struct device *, struct request_queue *);
++void blk_mq_unregister_dev(struct device *, struct request_queue *);
  
- 	lockdep_assert_held(&ctrl->namespaces_mutex);
-@@ -1449,44 +1460,63 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	ns->queue->queuedata = ns;
- 	ns->ctrl = ctrl;
- 
--	disk = alloc_disk_node(0, node);
--	if (!disk)
--		goto out_free_queue;
--
- 	kref_init(&ns->kref);
- 	ns->ns_id = nsid;
--	ns->disk = disk;
- 	ns->lba_shift = 9; /* set to a default value for 512 until disk is validated */
- 
--
- 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
- 	nvme_set_queue_limits(ctrl, ns->queue);
- 
--	disk->major = nvme_major;
--	disk->first_minor = 0;
--	disk->fops = &nvme_fops;
--	disk->private_data = ns;
--	disk->queue = ns->queue;
--	disk->driverfs_dev = ctrl->device;
--	disk->flags = GENHD_FL_EXT_DEVT;
--	sprintf(disk->disk_name, "nvme%dn%d", ctrl->instance, ns->instance);
--
--	if (nvme_revalidate_disk(ns->disk))
--		goto out_free_disk;
-+	if (nvme_revalidate_ns(ns, &id))
-+		goto out_free_queue;
-+
-+	sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->instance);
-+
-+	if (nvme_nvm_ns_supported(ns, id)) {
-+		if (nvme_nvm_register(ns->queue, disk_name)) {
-+			dev_warn(ctrl->dev,
-+				"%s: LightNVM init failure\n", __func__);
-+			goto out_free_id;
-+		}
-+
-+		disk = alloc_disk_node(0, node);
-+		if (!disk)
-+			goto out_free_id;
-+		memcpy(disk->disk_name, disk_name, DISK_NAME_LEN);
-+		ns->disk = disk;
-+		ns->type = NVME_NS_LIGHTNVM;
-+	} else {
-+		disk = alloc_disk_node(0, node);
-+		if (!disk)
-+			goto out_free_id;
-+
-+		disk->major = nvme_major;
-+		disk->first_minor = 0;
-+		disk->fops = &nvme_fops;
-+		disk->private_data = ns;
-+		disk->queue = ns->queue;
-+		disk->driverfs_dev = ctrl->device;
-+		disk->flags = GENHD_FL_EXT_DEVT;
-+		memcpy(disk->disk_name, disk_name, DISK_NAME_LEN);
-+		ns->disk = disk;
-+
-+		__nvme_revalidate_disk(disk, id);
-+
-+		add_disk(ns->disk);
-+
-+		if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
-+							&nvme_ns_attr_group))
-+			pr_warn("%s: failed to create sysfs group for identification\n",
-+				ns->disk->disk_name);
-+	}
- 
- 	list_add_tail_rcu(&ns->list, &ctrl->namespaces);
- 	kref_get(&ctrl->kref);
--	if (ns->type == NVME_NS_LIGHTNVM)
--		return;
- 
--	add_disk(ns->disk);
--	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
--					&nvme_ns_attr_group))
--		pr_warn("%s: failed to create sysfs group for identification\n",
--			ns->disk->disk_name);
-+	kfree(id);
- 	return;
-- out_free_disk:
--	kfree(disk);
-+ out_free_id:
-+	kfree(id);
-  out_free_queue:
- 	blk_cleanup_queue(ns->queue);
-  out_release_instance:
+ int blk_mq_alloc_tag_set(struct blk_mq_tag_set *set);
+ void blk_mq_free_tag_set(struct blk_mq_tag_set *set);
 -- 
 2.1.4
