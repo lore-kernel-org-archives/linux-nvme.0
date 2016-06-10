@@ -1,69 +1,68 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Fri, 10 Jun 2016 11:03:43 +0200 (CEST)
-Subject: nvme-fabrics: crash at nvme connect-all
-In-Reply-To: <009601d1c266$5820eaa0$0862bfe0$@opengridcomputing.com>
-References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
- <575973A4.9080001@lightbits.io>
- <006501d1c258$835dacc0$8a190640$@opengridcomputing.com>
- <006a01d1c25a$5b23c0d0$116b4270$@opengridcomputing.com>
- <007501d1c25b$574f43c0$05edcb40$@opengridcomputing.com>
- <1118189510.33005805.1465484651257.JavaMail.zimbra@kalray.eu>
- <009201d1c265$41fead30$c5fc0790$@opengridcomputing.com>
- <009601d1c266$5820eaa0$0862bfe0$@opengridcomputing.com>
-Message-ID: <135617120.33923984.1465549423989.JavaMail.zimbra@kalray.eu>
+From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
+Date: Fri, 10 Jun 2016 14:20:56 +0200
+Subject: [PATCH 0/6] sysfs support for LightNVM
+Message-ID: <1465561262-13789-1-git-send-email-m@bjorling.me>
 
------ Le 9 Juin 16, ? 17:48, Steve Wise swise at opengridcomputing.com a ?crit :
+Hi Jens and Keith,
 
->> 
->> 
->> Thanks Marta.  That card has less memory than the T580-CR.  I'm checking with
->> Chelsio on the details.  The "-SO" might mean a mem-free card.
->> 
->> Also, can you email me the output of 'cat
-> /sys/kernel/debug/cxgb4/blah/meminfo'?
+If the patches look good to you, would you pick them up through your
+tree?
 
-Here it is:
-# cat /sys/kernel/debug/cxgb4/0000\:09\:00.4/meminfo 
-EDC0:           0x0-0x2fffff [3.00 MiB]
-EDC1:           0x300000-0x5fffff [3.00 MiB]
+The common way to expose a storage device is to export it through the
+gendisk structure, which takes care of handling the visibility lifetime
+of the device to user-space and carries device driver and block layer
+specific sysfs entries.
 
-RQUDP region:   0xffffffff-0xfffffffe [0 B]
-DBQ contexts:   0x27fa80-0x28ba7f [48.0 KiB]
-IMSG contexts:  0x28ba80-0x297a7f [48.0 KiB]
-FLM cache:      0x297a80-0x2d9a7f [264 KiB]
-ULPTX state:    0x2d9a80-0x2d9e3f [960 B]
-ULPRX state:    0x2d9e40-0x2d9e7f [64.0 B]
-Timers:         0x2d9e80-0x2e7e7f [56.0 KiB]
-TCBs:           0x2e7e80-0x327fff [256 KiB]
-Tx payload:     0x328000-0x3e7fff [768 KiB]
-Rx payload:     0x3e8000-0x507fff [1.13 MiB]
-Pstructs:       0x508000-0x50afff [12.0 KiB]
-Rx FL:          0x50b000-0x50b0bf [192 B]
-Tx FL:          0x50b0c0-0x50b13f [128 B]
-Pstruct FL:     0x50b140-0x50b33f [512 B]
-TDDP region:    0x50b340-0x537b3f [178 KiB]
-iSCSI region:   0x537b40-0x557b3f [128 KiB]
-TPT region:     0x557b40-0x56df3f [89.0 KiB]
-STAG region:    0x557b40-0x56df3f [89.0 KiB]
-TXPBL region:   0x56df40-0x5a593f [223 KiB]
-PBL region:     0x56df40-0x5a593f [223 KiB]
-RQ region:      0x5a5940-0x5f373f [312 KiB]
+For LightNVM, no gendisk is exposed, which hides these entries.
 
-uP RAM:         0x0-0xffffffff [4.00 GiB]
-uP Extmem2:     0x0-0xffffffff [4.00 GiB]
+This patchset enables LightNVM to expose a subset of the gendisk entries
+by implementing a new non-gendisk device that only exposes the sysfs
+entries that are relevant to the device driver and LightNVM. For example
+/mq and the NVMe sysfs entries.
 
-72 Rx pages of size 16KiB for 1 channels
-48 Tx pages of size 16KiB for 2 channels
-192 p-structs
+The new non-gendisk exposes itself in place of the original gendisk.
+Thus, a gendisk device exposed through /sys/class/nvme/nvme0n1, will
+still be exposed through the same directory, although only with the /mq,
+lightnvm, and nvme specific entries.
 
-Port 0 using 2 pages out of 432 allocated
-Port 1 using 2 pages out of 432 allocated
-Port 2 using 2 pages out of 432 allocated
-Port 3 using 2 pages out of 432 allocated
-Loopback 0 using 0 pages out of 144 allocated
-Loopback 1 using 0 pages out of 144 allocated
-Loopback 2 using 0 pages out of 144 allocated
-Loopback 3 using 0 pages out of 144 allocated
+The LightNVM storage device can be found through sysfs by searching
+for devices that has the "lightnvm" dev type.
 
+v2:
+ - Updated "expose gennvm target type" to expose its own kobject, which
+   pblk and others can hook into.
+ - Fixed missing disk_name in null_blk patch on lightnvm device
 
-Marta
+Thanks,
+Matias
+
+Matias Bj?rling (4):
+  nvme: refactor namespaces to support non-gendisk devices
+  null_blk: refactor to support non-gendisk devices
+  blk-mq: register device instead of disk
+  lightnvm: let drivers control the lifetime of nvm_dev
+
+Simon A. F. Lund (2):
+  lightnvm: expose device geometry through sysfs
+  lightnvm: expose gennvm target type through sysfs
+
+ block/blk-mq-sysfs.c         |  13 ++-
+ block/blk-sysfs.c            |   4 +-
+ drivers/block/null_blk.c     | 128 +++++++++++++++++-----------
+ drivers/lightnvm/Makefile    |   2 +-
+ drivers/lightnvm/core.c      |  52 +++++-------
+ drivers/lightnvm/gennvm.c    | 112 +++++++++++++++++++++----
+ drivers/lightnvm/lightnvm.h  |  35 ++++++++
+ drivers/lightnvm/sysfs.c     | 195 +++++++++++++++++++++++++++++++++++++++++++
+ drivers/md/dm.c              |   2 +-
+ drivers/nvme/host/core.c     | 165 ++++++++++++++++++++----------------
+ drivers/nvme/host/lightnvm.c |  29 ++++++-
+ drivers/nvme/host/nvme.h     |  26 ++++--
+ include/linux/blk-mq.h       |   4 +-
+ include/linux/lightnvm.h     |  28 +++++--
+ 14 files changed, 597 insertions(+), 198 deletions(-)
+ create mode 100644 drivers/lightnvm/lightnvm.h
+ create mode 100644 drivers/lightnvm/sysfs.c
+
+-- 
+2.1.4
