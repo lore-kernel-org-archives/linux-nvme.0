@@ -1,23 +1,69 @@
-From: nab@linux-iscsi.org (Nicholas A. Bellinger)
-Date: Thu, 09 Jun 2016 23:55:07 -0700
-Subject: [RFC 7/8] nvmet/admin-cmd: Hookup T10-PI to ID_NS.ms +
- ID_NS.dps feature bits
-In-Reply-To: <20160609135242.GA29981@lst.de>
-References: <1465281416-28355-1-git-send-email-nab@linux-iscsi.org>
- <1465281416-28355-8-git-send-email-nab@linux-iscsi.org>
- <20160609135242.GA29981@lst.de>
-Message-ID: <1465541707.5365.200.camel@haakon3.risingtidesystems.com>
+From: mrybczyn@kalray.eu (Marta Rybczynska)
+Date: Fri, 10 Jun 2016 11:03:43 +0200 (CEST)
+Subject: nvme-fabrics: crash at nvme connect-all
+In-Reply-To: <009601d1c266$5820eaa0$0862bfe0$@opengridcomputing.com>
+References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
+ <575973A4.9080001@lightbits.io>
+ <006501d1c258$835dacc0$8a190640$@opengridcomputing.com>
+ <006a01d1c25a$5b23c0d0$116b4270$@opengridcomputing.com>
+ <007501d1c25b$574f43c0$05edcb40$@opengridcomputing.com>
+ <1118189510.33005805.1465484651257.JavaMail.zimbra@kalray.eu>
+ <009201d1c265$41fead30$c5fc0790$@opengridcomputing.com>
+ <009601d1c266$5820eaa0$0862bfe0$@opengridcomputing.com>
+Message-ID: <135617120.33923984.1465549423989.JavaMail.zimbra@kalray.eu>
 
-On Thu, 2016-06-09@15:52 +0200, Christoph Hellwig wrote:
-> FYI: NVMf requires metadata to be interleaved in the data, and you
-> need to indicate that in the Identify data.  Note that this is only
-> a requirement for the on the wire format and for the way the Namespaces are
-> exposed at the protocol level as RDMA HCA and FB HBAs should still
-> be able to handle our separate SGL.
+----- Le 9 Juin 16, ? 17:48, Steve Wise swise at opengridcomputing.com a ?crit :
 
-Btw, nvmet needs something similar for controller creation, like how
-target_port_op works with target_alloc_session(), so hw capabilities can
-signal to host controllers when PI should be enabled for a namespace,
-but actual namespace backends don't support it.
+>> 
+>> 
+>> Thanks Marta.  That card has less memory than the T580-CR.  I'm checking with
+>> Chelsio on the details.  The "-SO" might mean a mem-free card.
+>> 
+>> Also, can you email me the output of 'cat
+> /sys/kernel/debug/cxgb4/blah/meminfo'?
 
-Eg: TARGET_PROT_DOUT_STRIP and TARGET_PROT_DIN_INSERT ops
+Here it is:
+# cat /sys/kernel/debug/cxgb4/0000\:09\:00.4/meminfo 
+EDC0:           0x0-0x2fffff [3.00 MiB]
+EDC1:           0x300000-0x5fffff [3.00 MiB]
+
+RQUDP region:   0xffffffff-0xfffffffe [0 B]
+DBQ contexts:   0x27fa80-0x28ba7f [48.0 KiB]
+IMSG contexts:  0x28ba80-0x297a7f [48.0 KiB]
+FLM cache:      0x297a80-0x2d9a7f [264 KiB]
+ULPTX state:    0x2d9a80-0x2d9e3f [960 B]
+ULPRX state:    0x2d9e40-0x2d9e7f [64.0 B]
+Timers:         0x2d9e80-0x2e7e7f [56.0 KiB]
+TCBs:           0x2e7e80-0x327fff [256 KiB]
+Tx payload:     0x328000-0x3e7fff [768 KiB]
+Rx payload:     0x3e8000-0x507fff [1.13 MiB]
+Pstructs:       0x508000-0x50afff [12.0 KiB]
+Rx FL:          0x50b000-0x50b0bf [192 B]
+Tx FL:          0x50b0c0-0x50b13f [128 B]
+Pstruct FL:     0x50b140-0x50b33f [512 B]
+TDDP region:    0x50b340-0x537b3f [178 KiB]
+iSCSI region:   0x537b40-0x557b3f [128 KiB]
+TPT region:     0x557b40-0x56df3f [89.0 KiB]
+STAG region:    0x557b40-0x56df3f [89.0 KiB]
+TXPBL region:   0x56df40-0x5a593f [223 KiB]
+PBL region:     0x56df40-0x5a593f [223 KiB]
+RQ region:      0x5a5940-0x5f373f [312 KiB]
+
+uP RAM:         0x0-0xffffffff [4.00 GiB]
+uP Extmem2:     0x0-0xffffffff [4.00 GiB]
+
+72 Rx pages of size 16KiB for 1 channels
+48 Tx pages of size 16KiB for 2 channels
+192 p-structs
+
+Port 0 using 2 pages out of 432 allocated
+Port 1 using 2 pages out of 432 allocated
+Port 2 using 2 pages out of 432 allocated
+Port 3 using 2 pages out of 432 allocated
+Loopback 0 using 0 pages out of 144 allocated
+Loopback 1 using 0 pages out of 144 allocated
+Loopback 2 using 0 pages out of 144 allocated
+Loopback 3 using 0 pages out of 144 allocated
+
+
+Marta
