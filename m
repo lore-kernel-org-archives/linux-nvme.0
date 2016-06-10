@@ -1,36 +1,43 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 10 Jun 2016 08:40:42 -0500
+From: mrybczyn@kalray.eu (Marta Rybczynska)
+Date: Fri, 10 Jun 2016 15:42:39 +0200 (CEST)
 Subject: nvme-fabrics: crash at nvme connect-all
-In-Reply-To: <135617120.33923984.1465549423989.JavaMail.zimbra@kalray.eu>
+In-Reply-To: <013001d1c31d$ae9b3450$0bd19cf0$@opengridcomputing.com>
 References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
- <575973A4.9080001@lightbits.io>
- <006501d1c258$835dacc0$8a190640$@opengridcomputing.com>
  <006a01d1c25a$5b23c0d0$116b4270$@opengridcomputing.com>
  <007501d1c25b$574f43c0$05edcb40$@opengridcomputing.com>
  <1118189510.33005805.1465484651257.JavaMail.zimbra@kalray.eu>
  <009201d1c265$41fead30$c5fc0790$@opengridcomputing.com>
  <009601d1c266$5820eaa0$0862bfe0$@opengridcomputing.com>
  <135617120.33923984.1465549423989.JavaMail.zimbra@kalray.eu>
-Message-ID: <013001d1c31d$ae9b3450$0bd19cf0$@opengridcomputing.com>
+ <013001d1c31d$ae9b3450$0bd19cf0$@opengridcomputing.com>
+Message-ID: <2067929658.34819006.1465566159158.JavaMail.zimbra@kalray.eu>
 
-> >> Thanks Marta.  That card has less memory than the T580-CR.  I'm checking with
-> >> Chelsio on the details.  The "-SO" might mean a mem-free card.
-> >>
-> >> Also, can you email me the output of 'cat
-> > /sys/kernel/debug/cxgb4/blah/meminfo'?
+
+
+----- Le 10 Juin 16, ? 15:40, Steve Wise swise at opengridcomputing.com a ?crit :
+
+>> >> Thanks Marta.  That card has less memory than the T580-CR.  I'm checking with
+>> >> Chelsio on the details.  The "-SO" might mean a mem-free card.
+>> >>
+>> >> Also, can you email me the output of 'cat
+>> > /sys/kernel/debug/cxgb4/blah/meminfo'?
+>> 
+>> Here it is:
+>> # cat /sys/kernel/debug/cxgb4/0000\:09\:00.4/meminfo
+>> EDC0:           0x0-0x2fffff [3.00 MiB]
+>> EDC1:           0x300000-0x5fffff [3.00 MiB]
 > 
-> Here it is:
-> # cat /sys/kernel/debug/cxgb4/0000\:09\:00.4/meminfo
-> EDC0:           0x0-0x2fffff [3.00 MiB]
-> EDC1:           0x300000-0x5fffff [3.00 MiB]
+> 
+> The "-SO" cards have no external off-chip memory, as seen above.  If it did have
+> off-chip memory there would be a "MC0" and possibly "MC1" lines above with a
+> large amount of memory.    Like this (T580-CR):
+> 
+> MC0:            0x600000-0x405fffff [1.00 GiB]
+> MC1:            0x40600000-0x805fffff [1.00 GiB]
+> 
+> So your -SO cards will only handle a very small amount of RDMA load.
+> 
 
+Thanks Steve for looking up into this. It's a good testcase then :)
 
-The "-SO" cards have no external off-chip memory, as seen above.  If it did have off-chip memory there would be a "MC0" and possibly "MC1" lines above with a large amount of memory.    Like this (T580-CR):
-
-MC0:            0x600000-0x405fffff [1.00 GiB]
-MC1:            0x40600000-0x805fffff [1.00 GiB]
-
-So your -SO cards will only handle a very small amount of RDMA load.
-
-
-Steve.
+Marta
