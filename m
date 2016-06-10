@@ -1,33 +1,30 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 10 Jun 2016 10:58:43 -0400
-Subject: can't access repo - need assistance
-In-Reply-To: <CAEqzOjv6QRf8daxQLrqF3z_tZAE=UN=KY=B1ZDM3eOo-72pFRg@mail.gmail.com>
-References: <1465566005827.7981@micron.com>
- <CAEqzOjv6QRf8daxQLrqF3z_tZAE=UN=KY=B1ZDM3eOo-72pFRg@mail.gmail.com>
-Message-ID: <20160610145842.GL1696@localhost.localdomain>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Fri, 10 Jun 2016 10:11:22 -0500
+Subject: nvme-fabrics: crash at nvme connect-all
+In-Reply-To: <055801d1c29f$e164c000$a42e4000$@opengridcomputing.com>
+References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
+ <20160609132459.GA5105@infradead.org>
+ <1290178000.33062227.1465486654766.JavaMail.zimbra@kalray.eu>
+ <04d301d1c28d$183af7b0$48b0e710$@opengridcomputing.com>
+ <CAF1ivSb2fvjEzCxWXnrxv_i74SRm2qxWZ-RiKpEaGOx-Dk3f1A@mail.gmail.com>
+ <04e301d1c292$d6c34430$8449cc90$@opengridcomputing.com>
+ <CAF1ivSYBtsuvm-UO6osPAVT-krpF7iXqWy_8LheyWDDoAdWL1A@mail.gmail.com>
+ <055801d1c29f$e164c000$a42e4000$@opengridcomputing.com>
+Message-ID: <01c601d1c32a$59576ec0$0c064c40$@opengridcomputing.com>
 
-It sounds like you need to set GIT_PROXY_COMMAND to something to get
-through your firewall. Might need to confirm with your network admin
-what proxy to use.
+> > What's the step to reproduce?
+> 
+> Add the hack into iw_cxgb4 to force alloc_mr failures after 200 allocations
+> (or whatever value you need to make it happen).  Then on the same machine,
+> export a target device, load nvme-rdma and discover/connect to that target
+> device with nvme.  It will crash.
+> 
+> Unfortunately, with the 4.7-rc2 base I'm using, I get no vmcore dump.  I'm
+> not sure why...
+> 
 
-On Fri, Jun 10, 2016@09:08:28AM -0500, Robert Randall wrote:
-> What is the most stable branch to use at the moment for a stable RoCE target?
-> 
-> Thanks,
-> Robert
-> 
-> On Fri, Jun 10, 2016 at 8:38 AM, Robert Randall (rrandall)
-> <rrandall@micron.com> wrote:
-> >
-> > Sorry for being a newbie and not keeping up with the repo changes.
-> >
-> > Do I need an account at git.infradead.org to pull the source tree?
-> >
-> > I can't pull using git: (blocked by firewall) and I can't pull using https:.
-> >
-> > I can pull using ssh: but that appears to require an account.
-> >
-> > At the moment we're blocked by a bug in the for-next branch of the old repository and need to move to the correct bits in order to continue our development.  Please help!
-> >
-> > Best regards,
-> > Robert
+Previously I was using Doug's rdma rxe branch + sagi's rxe fixes + rebased on nvmf-all.2.   To simplify, I have now gone to just straight nvmf-all.2.  Also, I separated the host and target to different nodes and reproduced the problem.  It?s the host side that is crashing.  Same GPF with RIP:
+
+RIP: 0010:[<ffffffff810d04c3>]  [<ffffffff810d04c3>] get_next_timer_interrupt+0x183/0x210
+
+Steve.
