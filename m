@@ -1,7 +1,7 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 10 Jun 2016 16:14:08 -0500
+From: mlin@kernel.org (Ming Lin)
+Date: Fri, 10 Jun 2016 14:20:40 -0700
 Subject: nvme-fabrics: crash at nvme connect-all
-In-Reply-To: <CAF1ivSbeoZtOwHfw6Arrv5oJn=uvcc=TgbB1Ny4joHDKzK_73w@mail.gmail.com>
+In-Reply-To: <027901d1c35d$07150d10$153f2730$@opengridcomputing.com>
 References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
  <20160609132459.GA5105@infradead.org>
  <1290178000.33062227.1465486654766.JavaMail.zimbra@kalray.eu>
@@ -17,24 +17,36 @@ References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
  <CAF1ivSb5GoBmX+5oi5d62GgJNmjzFACSx_oWdteSnmYKA2NKBQ@mail.gmail.com>
  <024201d1c354$db2e0330$918a0990$@opengridcomputing.com>
  <CAF1ivSbeoZtOwHfw6Arrv5oJn=uvcc=TgbB1Ny4joHDKzK_73w@mail.gmail.com>
-Message-ID: <027901d1c35d$07150d10$153f2730$@opengridcomputing.com>
+ <027901d1c35d$07150d10$153f2730$@opengridcomputing.com>
+Message-ID: <CAF1ivSa6k4tf5rtkBXdUPGqRxcYg1R_xP0HOOuKpV0kHXx0vkA@mail.gmail.com>
 
-> 
-> Does Sagi's patch help?
-> 
-> Author: Sagi Grimberg <sagi at grimberg.me>
-> Date:   Thu Jun 9 13:20:09 2016 -0700
-> 
->     fabrics: Don't directly free opts->host
-> 
->     It might be the default host, so we need to call
->     nvmet_put_host (which is safe against NULL lucky for
->     us).
-> 
->     Reported-by: Alexander Nezhinsky <alexander.nezhinsky at excelero.com>
->     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> 
+On Fri, Jun 10, 2016@2:14 PM, Steve Wise <swise@opengridcomputing.com> wrote:
+>>
+>> Does Sagi's patch help?
+>>
+>> Author: Sagi Grimberg <sagi at grimberg.me>
+>> Date:   Thu Jun 9 13:20:09 2016 -0700
+>>
+>>     fabrics: Don't directly free opts->host
+>>
+>>     It might be the default host, so we need to call
+>>     nvmet_put_host (which is safe against NULL lucky for
+>>     us).
+>>
+>>     Reported-by: Alexander Nezhinsky <alexander.nezhinsky at excelero.com>
+>>     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+>>
+>
+> Yes!  Failures recover and subsequent connects work!
+>
+> Thanks for the help Ming!  Sorry I'm finding already fixed problems. :(
 
-Yes!  Failures recover and subsequent connects work! 
+No problem :-)
+Can I have your Test-by tag?
 
-Thanks for the help Ming!  Sorry I'm finding already fixed problems. :(  
+Christoph,
+
+Could you apply these 2 patches?
+
+fabrics: Don't directly free opts->host
+nvme-rdma: correctly stop keep alive on error path
