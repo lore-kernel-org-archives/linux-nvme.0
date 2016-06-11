@@ -1,72 +1,32 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 10 Jun 2016 16:25:40 -0500
-Subject: nvme-fabrics: crash at nvme connect-all
-In-Reply-To: <CAF1ivSa6k4tf5rtkBXdUPGqRxcYg1R_xP0HOOuKpV0kHXx0vkA@mail.gmail.com>
-References: <53708289.31891804.1465463883806.JavaMail.zimbra@kalray.eu>
- <20160609132459.GA5105@infradead.org>
- <1290178000.33062227.1465486654766.JavaMail.zimbra@kalray.eu>
- <04d301d1c28d$183af7b0$48b0e710$@opengridcomputing.com>
- <CAF1ivSb2fvjEzCxWXnrxv_i74SRm2qxWZ-RiKpEaGOx-Dk3f1A@mail.gmail.com>
- <04e301d1c292$d6c34430$8449cc90$@opengridcomputing.com>
- <CAF1ivSYBtsuvm-UO6osPAVT-krpF7iXqWy_8LheyWDDoAdWL1A@mail.gmail.com>
- <055801d1c29f$e164c000$a42e4000$@opengridcomputing.com>
- <01c601d1c32a$59576ec0$0c064c40$@opengridcomputing.com>
- <020b01d1c334$45077f50$cf167df0$@opengridcomputing.com>
- <CAF1ivSb82yM94jande+kfomG3hx6PwbUAzTb3VPNygd05uVbXg@mail.gmail.com>
- <023d01d1c34c$b9249bd0$2b6dd370$@opengridcomputing.com>
- <CAF1ivSb5GoBmX+5oi5d62GgJNmjzFACSx_oWdteSnmYKA2NKBQ@mail.gmail.com>
- <024201d1c354$db2e0330$918a0990$@opengridcomputing.com>
- <CAF1ivSbeoZtOwHfw6Arrv5oJn=uvcc=TgbB1Ny4joHDKzK_73w@mail.gmail.com>
- <027901d1c35d$07150d10$153f2730$@opengridcomputing.com>
- <CAF1ivSa6k4tf5rtkBXdUPGq RxcYg1R_xP0HOOuKpV0kHX
- x0vkA@mail.gmail.com>
-Message-ID: <027d01d1c35e$a38b1bc0$eaa15340$@opengridcomputing.com>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Fri, 10 Jun 2016 20:14:50 -0500
+Subject: [PATCH 1/2] PCI: Provide sensible irq vector alloc/free routines
+In-Reply-To: <20160513082947.GB14671@agordeev.lab.eng.brq.redhat.com>
+References: <20160511074527.GA31347@agordeev.lab.eng.brq.redhat.com>
+ <20160511085049.GA20279@lst.de>
+ <20160511094432.GB31347@agordeev.lab.eng.brq.redhat.com>
+ <20160512073552.GA4027@lst.de>
+ <20160512094432.GA14671@agordeev.lab.eng.brq.redhat.com>
+ <20160512110318.GA9192@lst.de>
+ <20160512121155.GB8681@agordeev.lab.eng.brq.redhat.com>
+ <20160512121933.GA11084@lst.de> <20160512142902.GA14166@lst.de>
+ <20160513082947.GB14671@agordeev.lab.eng.brq.redhat.com>
+Message-ID: <20160611011449.GJ16462@localhost>
 
-
-
-> -----Original Message-----
-> From: Ming Lin [mailto:mlin at kernel.org]
-> Sent: Friday, June 10, 2016 4:21 PM
-> To: Steve Wise
-> Cc: Jens Axboe; ming l; Sagi Grimberg; Marta Rybczynska; linux-
-> nvme at lists.infradead.org; Christoph Hellwig; james p freyensee; keith busch;
-> armenx baloyan
-> Subject: Re: nvme-fabrics: crash at nvme connect-all
+On Fri, May 13, 2016@10:29:48AM +0200, Alexander Gordeev wrote:
+> On Thu, May 12, 2016@04:29:02PM +0200, Christoph Hellwig wrote:
+> > Alexander, what do you think about the version below?  Survived
+> > quick testing with nvme so far.
 > 
-> On Fri, Jun 10, 2016 at 2:14 PM, Steve Wise <swise at opengridcomputing.com>
-> wrote:
-> >>
-> >> Does Sagi's patch help?
-> >>
-> >> Author: Sagi Grimberg <sagi at grimberg.me>
-> >> Date:   Thu Jun 9 13:20:09 2016 -0700
-> >>
-> >>     fabrics: Don't directly free opts->host
-> >>
-> >>     It might be the default host, so we need to call
-> >>     nvmet_put_host (which is safe against NULL lucky for
-> >>     us).
-> >>
-> >>     Reported-by: Alexander Nezhinsky <alexander.nezhinsky at excelero.com>
-> >>     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> >>
-> >
-> > Yes!  Failures recover and subsequent connects work!
-> >
-> > Thanks for the help Ming!  Sorry I'm finding already fixed problems. :(
+> Hi Christoph,
 > 
-> No problem :-)
-> Can I have your Test-by tag?
-> 
+> Please find my comments below. Sorry in advance if missed something -
+> an incremental patch is bit difficult to review.
 
-I can't reply directly to Sagi's because it wasn't posted to linux-rdma apparently, and it must have been posted to linux-nvme before I joined.  But for both:
+...
 
-Tested-by: Steve Wise <swise at opengridcomputing.com>
+Hi Christoph,
 
+Where are we at with this?  Did I miss a newer version?
 
-> Christoph,
-> 
-> Could you apply these 2 patches?
-> 
-> fabrics: Don't directly free opts->host
-> nvme-rdma: correctly stop keep alive on error path
+Bjorn
