@@ -1,32 +1,41 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Fri, 10 Jun 2016 20:14:50 -0500
-Subject: [PATCH 1/2] PCI: Provide sensible irq vector alloc/free routines
-In-Reply-To: <20160513082947.GB14671@agordeev.lab.eng.brq.redhat.com>
-References: <20160511074527.GA31347@agordeev.lab.eng.brq.redhat.com>
- <20160511085049.GA20279@lst.de>
- <20160511094432.GB31347@agordeev.lab.eng.brq.redhat.com>
- <20160512073552.GA4027@lst.de>
- <20160512094432.GA14671@agordeev.lab.eng.brq.redhat.com>
- <20160512110318.GA9192@lst.de>
- <20160512121155.GB8681@agordeev.lab.eng.brq.redhat.com>
- <20160512121933.GA11084@lst.de> <20160512142902.GA14166@lst.de>
- <20160513082947.GB14671@agordeev.lab.eng.brq.redhat.com>
-Message-ID: <20160611011449.GJ16462@localhost>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Sun, 12 Jun 2016 07:33:18 -0600
+Subject: general preparation for NVMe over Fabrics support
+In-Reply-To: <20160609163854.GF1696@localhost.localdomain>
+References: <1465248052-17811-1-git-send-email-hch@lst.de>
+ <20160609163854.GF1696@localhost.localdomain>
+Message-ID: <20160612133318.GA16543@kernel.dk>
 
-On Fri, May 13, 2016@10:29:48AM +0200, Alexander Gordeev wrote:
-> On Thu, May 12, 2016@04:29:02PM +0200, Christoph Hellwig wrote:
-> > Alexander, what do you think about the version below?  Survived
-> > quick testing with nvme so far.
+On Thu, Jun 09 2016, Keith Busch wrote:
+> On Mon, Jun 06, 2016@11:20:42PM +0200, Christoph Hellwig wrote:
+> > This patch set adds some needed preparations for the upcoming NVMe over
+> > Fabrics support.
+> > 
+> > Contains:
+> > - Allow transfer size limitations for NVMe transports
+> > - Add the get_log_page command definition required by the NVMe target
+> > - more helpers in core code that can be used by various transports
+> > - add some missing constants and identify attributes
 > 
-> Hi Christoph,
+> This series looks good.
 > 
-> Please find my comments below. Sorry in advance if missed something -
-> an incremental patch is bit difficult to review.
+> Reviewed-by: Keith Busch <keith.busch at inte.com>
 
-...
+Added 1-8, 9/10 throws a lot of rejects and it's pre-coffee here. What
+is this against?
 
-Hi Christoph,
+I corrected your email, unless you joined a hot new startup called Inte.
 
-Where are we at with this?  Did I miss a newer version?
+> For patch ordering, I had thought there were no issues with these
+> I submitted:
+> 
+>   http://lists.infradead.org/pipermail/linux-nvme/2016-May/004704.html
 
-Bjorn
+This looks fine for 4.7.
+
+>   http://lists.infradead.org/pipermail/linux-nvme/2016-May/004709.html
+
+This one is a bit involved...
+
+-- 
+Jens Axboe
