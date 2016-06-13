@@ -1,23 +1,13 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 13 Jun 2016 17:57:37 -0400
-Subject: [PATCH 1/2] pci: Error disabling SR-IOV if in VFs assigned
-In-Reply-To: <20160613212810.GG12766@localhost.localdomain>
-References: <1463521199-16604-1-git-send-email-keith.busch@intel.com>
- <20160613211411.GC18747@localhost>
- <20160613212810.GG12766@localhost.localdomain>
-Message-ID: <20160613215736.GH12766@localhost.localdomain>
+Date: Mon, 13 Jun 2016 18:08:09 -0400
+Subject: [PATCH] NVMe:Support for Host Memory Buffer(HMB)
+In-Reply-To: <1465565964-7167-1-git-send-email-a.dawn@samsung.com>
+References: <1465565964-7167-1-git-send-email-a.dawn@samsung.com>
+Message-ID: <20160613220808.GI12766@localhost.localdomain>
 
-On Mon, Jun 13, 2016@05:28:10PM -0400, Keith Busch wrote:
-> On Mon, Jun 13, 2016@04:14:11PM -0500, Bjorn Helgaas wrote:
-> > Can we do that at the same time?  If we add good new stuff and only
-> > use it one place, there's not as much overall goodness as there would
-> > be if we updated everybody to do it similarly.
-> 
-> Sounds good, I'll send a series taking advantage of this for all the
-> other PF drivers duplicating this check in their sriov_configure.
+On Fri, Jun 10, 2016@07:09:24PM +0530, Arnav Dawn wrote:
+> +		if (hmb_allocated < (dev->hmb.host_mem_min << 10))
+> +			goto release_hmb;
 
-Heh, I thought "no big deal", thinking all use was similar to
-NVMe's. However, most network drivers have multiple paths to sriov
-configuration, or have other requirements to changing the live
-count! There's only two drivers I find that can immediately use the
-simplification safely. I'll send those updates to just those ones.
+The spec allows HMMIN be 0, meaning no minimum requirement, so need to
+account for that.
