@@ -1,178 +1,202 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 13 Jun 2016 16:45:23 +0200
-Subject: [PATCH 3/8] nvme: Modify and export sync command submission for
- fabrics
+Date: Mon, 13 Jun 2016 16:45:24 +0200
+Subject: [PATCH 4/8] nvme: add fabrics sysfs attributes
 In-Reply-To: <1465829128-22993-1-git-send-email-hch@lst.de>
 References: <1465829128-22993-1-git-send-email-hch@lst.de>
-Message-ID: <1465829128-22993-4-git-send-email-hch@lst.de>
+Message-ID: <1465829128-22993-5-git-send-email-hch@lst.de>
 
-NVMe over fabrics will use __nvme_submit_sync_cmd in the the
-transport and require a few tweaks to it.  For that we export it
-and add a few more paramters:
+From: Ming Lin <ming.l@ssi.samsung.com>
 
-1. allow passing a queue ID to the block layer
+- delete_controller: This attribute allows to delete a controller.
+  A driver is not obligated to support it (pci doesn't) so it is
+  created only if the driver supports it. The new fabrics drivers
+  will support it (essentialy a disconnect operation).
 
-   For the NVMe over Fabrics connect command we need to able to specify a
-   queue ID that we want to send the command on.  Add a qid parameter to
-   the relevant functions to enable this behavior.
+  Usage:
+  echo > /sys/class/nvme/nvme0/delete_controller
 
-2. allow submitting at_head commands
+- subsysnqn: This attribute shows the subsystem nqn of the configured
+  device. If a driver does not implement the get_subsysnqn method, the
+  file will not appear in sysfs.
 
-   In cases where we want to (re)connect to a controller
-   where we have inflight queued commands we want to first
-   connect and only then allow the other queued commands to
-   be kicked. This will prevents failures in controller resets
-   and reconnects.
+- transport: This attribute shows the transport name. Added a "name"
+  field to struct nvme_ctrl_ops.
 
-3. allow passing flags to blk_mq_allocate_request
+  For loop,
+  cat /sys/class/nvme/nvme0/transport
+  loop
 
-   Both for Fabrics connect the the keep-alive feature in NVMe 1.2.1 we
-   want to be able to use reserved requests.
+  For RDMA,
+  cat /sys/class/nvme/nvme0/transport
+  rdma
 
+  For PCIe,
+  cat /sys/class/nvme/nvme0/transport
+  pcie
+
+- address: This attributes shows the controller address. The fabrics
+  drivers that will implement get_address can show the address of the
+  connected controller.
+
+  example:
+  cat /sys/class/nvme/nvme0/address
+  traddr=192.168.2.2,trsvcid=1023
+
+Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
 Reviewed-by: Jay Freyensee <james.p.freyensee at intel.com>
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Tested-by: Ming Lin <ming.l at ssi.samsung.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 27 ++++++++++++++++++---------
- drivers/nvme/host/nvme.h |  5 +++--
- drivers/nvme/host/pci.c  |  4 ++--
- 3 files changed, 23 insertions(+), 13 deletions(-)
+ drivers/nvme/host/core.c | 76 ++++++++++++++++++++++++++++++++++++++++++++++--
+ drivers/nvme/host/nvme.h |  4 +++
+ drivers/nvme/host/pci.c  |  1 +
+ 3 files changed, 78 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index f874c0e..bd04ec6 100644
+index bd04ec6..f5676c6 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -192,11 +192,16 @@ void nvme_requeue_req(struct request *req)
- EXPORT_SYMBOL_GPL(nvme_requeue_req);
+@@ -1362,7 +1362,7 @@ static struct attribute *nvme_ns_attrs[] = {
+ 	NULL,
+ };
  
- struct request *nvme_alloc_request(struct request_queue *q,
--		struct nvme_command *cmd, unsigned int flags)
-+		struct nvme_command *cmd, unsigned int flags, int qid)
+-static umode_t nvme_attrs_are_visible(struct kobject *kobj,
++static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
+ 		struct attribute *a, int n)
  {
- 	struct request *req;
+ 	struct device *dev = container_of(kobj, struct device, kobj);
+@@ -1381,7 +1381,7 @@ static umode_t nvme_attrs_are_visible(struct kobject *kobj,
  
--	req = blk_mq_alloc_request(q, nvme_is_write(cmd), flags);
-+	if (qid == NVME_QID_ANY) {
-+		req = blk_mq_alloc_request(q, nvme_is_write(cmd), flags);
-+	} else {
-+		req = blk_mq_alloc_request_hctx(q, nvme_is_write(cmd), flags,
-+				qid ? qid - 1 : 0);
+ static const struct attribute_group nvme_ns_attr_group = {
+ 	.attrs		= nvme_ns_attrs,
+-	.is_visible	= nvme_attrs_are_visible,
++	.is_visible	= nvme_ns_attrs_are_visible,
+ };
+ 
+ #define nvme_show_str_function(field)						\
+@@ -1407,6 +1407,49 @@ nvme_show_str_function(serial);
+ nvme_show_str_function(firmware_rev);
+ nvme_show_int_function(cntlid);
+ 
++static ssize_t nvme_sysfs_delete(struct device *dev,
++				struct device_attribute *attr, const char *buf,
++				size_t count)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	if (device_remove_file_self(dev, attr))
++		ctrl->ops->delete_ctrl(ctrl);
++	return count;
++}
++static DEVICE_ATTR(delete_controller, S_IWUSR, NULL, nvme_sysfs_delete);
++
++static ssize_t nvme_sysfs_show_transport(struct device *dev,
++					 struct device_attribute *attr,
++					 char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return snprintf(buf, PAGE_SIZE, "%s\n", ctrl->ops->name);
++}
++static DEVICE_ATTR(transport, S_IRUGO, nvme_sysfs_show_transport, NULL);
++
++static ssize_t nvme_sysfs_show_subsysnqn(struct device *dev,
++					 struct device_attribute *attr,
++					 char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return snprintf(buf, PAGE_SIZE, "%s\n",
++			ctrl->ops->get_subsysnqn(ctrl));
++}
++static DEVICE_ATTR(subsysnqn, S_IRUGO, nvme_sysfs_show_subsysnqn, NULL);
++
++static ssize_t nvme_sysfs_show_address(struct device *dev,
++					 struct device_attribute *attr,
++					 char *buf)
++{
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	return ctrl->ops->get_address(ctrl, buf, PAGE_SIZE);
++}
++static DEVICE_ATTR(address, S_IRUGO, nvme_sysfs_show_address, NULL);
++
+ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_reset_controller.attr,
+ 	&dev_attr_rescan_controller.attr,
+@@ -1414,11 +1457,38 @@ static struct attribute *nvme_dev_attrs[] = {
+ 	&dev_attr_serial.attr,
+ 	&dev_attr_firmware_rev.attr,
+ 	&dev_attr_cntlid.attr,
++	&dev_attr_delete_controller.attr,
++	&dev_attr_transport.attr,
++	&dev_attr_subsysnqn.attr,
++	&dev_attr_address.attr,
+ 	NULL
+ };
+ 
++#define CHECK_ATTR(ctrl, a, name)		\
++	if ((a) == &dev_attr_##name.attr &&	\
++	    !(ctrl)->ops->get_##name)		\
++		return 0
++
++static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
++		struct attribute *a, int n)
++{
++	struct device *dev = container_of(kobj, struct device, kobj);
++	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++
++	if (a == &dev_attr_delete_controller.attr) {
++		if (!ctrl->ops->delete_ctrl)
++			return 0;
 +	}
- 	if (IS_ERR(req))
- 		return req;
++
++	CHECK_ATTR(ctrl, a, subsysnqn);
++	CHECK_ATTR(ctrl, a, address);
++
++	return a->mode;
++}
++
+ static struct attribute_group nvme_dev_attrs_group = {
+-	.attrs = nvme_dev_attrs,
++	.attrs		= nvme_dev_attrs,
++	.is_visible	= nvme_dev_attrs_are_visible,
+ };
  
-@@ -324,12 +329,12 @@ EXPORT_SYMBOL_GPL(nvme_setup_cmd);
-  */
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		struct nvme_completion *cqe, void *buffer, unsigned bufflen,
--		unsigned timeout)
-+		unsigned timeout, int qid, int at_head, int flags)
- {
- 	struct request *req;
- 	int ret;
- 
--	req = nvme_alloc_request(q, cmd, 0);
-+	req = nvme_alloc_request(q, cmd, flags, qid);
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 
-@@ -342,17 +347,19 @@ int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 			goto out;
- 	}
- 
--	blk_execute_rq(req->q, NULL, req, 0);
-+	blk_execute_rq(req->q, NULL, req, at_head);
- 	ret = req->errors;
-  out:
- 	blk_mq_free_request(req);
- 	return ret;
- }
-+EXPORT_SYMBOL_GPL(__nvme_submit_sync_cmd);
- 
- int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buffer, unsigned bufflen)
- {
--	return __nvme_submit_sync_cmd(q, cmd, NULL, buffer, bufflen, 0);
-+	return __nvme_submit_sync_cmd(q, cmd, NULL, buffer, bufflen, 0,
-+			NVME_QID_ANY, 0, 0);
- }
- EXPORT_SYMBOL_GPL(nvme_submit_sync_cmd);
- 
-@@ -370,7 +377,7 @@ int __nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
- 	void *meta = NULL;
- 	int ret;
- 
--	req = nvme_alloc_request(q, cmd, 0);
-+	req = nvme_alloc_request(q, cmd, 0, NVME_QID_ANY);
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 
-@@ -520,7 +527,8 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
- 	c.features.prp1 = cpu_to_le64(dma_addr);
- 	c.features.fid = cpu_to_le32(fid);
- 
--	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, NULL, 0, 0);
-+	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, NULL, 0, 0,
-+			NVME_QID_ANY, 0, 0);
- 	if (ret >= 0)
- 		*result = le32_to_cpu(cqe.result);
- 	return ret;
-@@ -539,7 +547,8 @@ int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
- 	c.features.fid = cpu_to_le32(fid);
- 	c.features.dword11 = cpu_to_le32(dword11);
- 
--	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, NULL, 0, 0);
-+	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, NULL, 0, 0,
-+			NVME_QID_ANY, 0, 0);
- 	if (ret >= 0)
- 		*result = le32_to_cpu(cqe.result);
- 	return ret;
+ static const struct attribute_group *nvme_dev_attr_groups[] = {
 diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 282421f..68a67ac 100644
+index 68a67ac..c99acb0 100644
 --- a/drivers/nvme/host/nvme.h
 +++ b/drivers/nvme/host/nvme.h
-@@ -231,8 +231,9 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl);
- void nvme_start_queues(struct nvme_ctrl *ctrl);
- void nvme_kill_queues(struct nvme_ctrl *ctrl);
+@@ -144,6 +144,7 @@ struct nvme_ns {
+ };
  
-+#define NVME_QID_ANY -1
- struct request *nvme_alloc_request(struct request_queue *q,
--		struct nvme_command *cmd, unsigned int flags);
-+		struct nvme_command *cmd, unsigned int flags, int qid);
- void nvme_requeue_req(struct request *req);
- int nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
- 		struct nvme_command *cmd);
-@@ -240,7 +241,7 @@ int nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void *buf, unsigned bufflen);
- int __nvme_submit_sync_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		struct nvme_completion *cqe, void *buffer, unsigned bufflen,
--		unsigned timeout);
-+		unsigned timeout, int qid, int at_head, int flags);
- int nvme_submit_user_cmd(struct request_queue *q, struct nvme_command *cmd,
- 		void __user *ubuffer, unsigned bufflen, u32 *result,
- 		unsigned timeout);
+ struct nvme_ctrl_ops {
++	const char *name;
+ 	struct module *module;
+ 	int (*reg_read32)(struct nvme_ctrl *ctrl, u32 off, u32 *val);
+ 	int (*reg_write32)(struct nvme_ctrl *ctrl, u32 off, u32 val);
+@@ -152,6 +153,9 @@ struct nvme_ctrl_ops {
+ 	void (*free_ctrl)(struct nvme_ctrl *ctrl);
+ 	void (*post_scan)(struct nvme_ctrl *ctrl);
+ 	void (*submit_async_event)(struct nvme_ctrl *ctrl, int aer_idx);
++	int (*delete_ctrl)(struct nvme_ctrl *ctrl);
++	const char *(*get_subsysnqn)(struct nvme_ctrl *ctrl);
++	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
+ };
+ 
+ static inline bool nvme_ctrl_ready(struct nvme_ctrl *ctrl)
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index dc39924..db6fdee 100644
+index db6fdee..de222ed 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -901,7 +901,7 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 		 req->tag, nvmeq->qid);
+@@ -1873,6 +1873,7 @@ static int nvme_pci_reset_ctrl(struct nvme_ctrl *ctrl)
+ }
  
- 	abort_req = nvme_alloc_request(dev->ctrl.admin_q, &cmd,
--			BLK_MQ_REQ_NOWAIT);
-+			BLK_MQ_REQ_NOWAIT, NVME_QID_ANY);
- 	if (IS_ERR(abort_req)) {
- 		atomic_inc(&dev->ctrl.abort_limit);
- 		return BLK_EH_RESET_TIMER;
-@@ -1512,7 +1512,7 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
- 	cmd.delete_queue.opcode = opcode;
- 	cmd.delete_queue.qid = cpu_to_le16(nvmeq->qid);
- 
--	req = nvme_alloc_request(q, &cmd, BLK_MQ_REQ_NOWAIT);
-+	req = nvme_alloc_request(q, &cmd, BLK_MQ_REQ_NOWAIT, NVME_QID_ANY);
- 	if (IS_ERR(req))
- 		return PTR_ERR(req);
- 
+ static const struct nvme_ctrl_ops nvme_pci_ctrl_ops = {
++	.name			= "pcie",
+ 	.module			= THIS_MODULE,
+ 	.reg_read32		= nvme_pci_reg_read32,
+ 	.reg_write32		= nvme_pci_reg_write32,
 -- 
 2.1.4
