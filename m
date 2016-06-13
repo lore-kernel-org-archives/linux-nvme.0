@@ -1,50 +1,53 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 13 Jun 2016 16:46:12 -0400
-Subject: [PATCH] NVMe:Support for Host Memory Buffer(HMB)
-In-Reply-To: <1465565964-7167-1-git-send-email-a.dawn@samsung.com>
-References: <1465565964-7167-1-git-send-email-a.dawn@samsung.com>
-Message-ID: <20160613204611.GF12766@localhost.localdomain>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Mon, 13 Jun 2016 16:14:11 -0500
+Subject: [PATCH 1/2] pci: Error disabling SR-IOV if in VFs assigned
+In-Reply-To: <1463521199-16604-1-git-send-email-keith.busch@intel.com>
+References: <1463521199-16604-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20160613211411.GC18747@localhost>
 
-On Fri, Jun 10, 2016@07:09:24PM +0530, Arnav Dawn wrote:
-> +
-> +struct hmb_descriptor {
-> +	__u64   badd;
-> +	__u32   bsize;
+On Tue, May 17, 2016@03:39:58PM -0600, Keith Busch wrote:
+> Every sriov capable driver has to check if any guest is using a virtual
+> function prior to disabling, so let's make it common code.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-Based on your usage, these types should be "le64" and "le32"?
+If I understand the discussion correctly, this is still racy but
+nobody objects to adding this until we have a better, non-racy
+solution.
 
-> +struct hmb_info {
-> +	/* Array of unalligned HMB Discriptor info */
-> +	struct hmb_descriptor_info *hmb_desc_info;
-> +	/* count of entries in the list */
-> +	u32 hmb_desc_info_list_count;
-> +
-> +	/* HMB descriptor Info list */
-> +	struct hmb_descriptor_info hmb_desc_info_list;
-> +
-> +	/* preferred HMB size set by device */
-> +	u64 host_mem_pre;
-> +
-> +	/* min HMB size set by device */
-> +	u64 host_mem_min;
-> +
-> +	/* HMB flags MR,ENABLE */
-> +	u8 flags;
-> +};
+However, you added this in common code and took advantage of it in
+nvme.  Good so far.  But we have about a dozen other drivers that call
+pci_vfs_assigned().  I assume some of those places could be changed so
+they take advantage of this check in the core instead?
 
-Please use kernel-doc style if you're going to comment your structure.
+Can we do that at the same time?  If we add good new stuff and only
+use it one place, there's not as much overall goodness as there would
+be if we updated everybody to do it similarly.
 
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index 7d51b29..c29f514 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -119,7 +119,10 @@ struct nvme_id_ctrl {
->  	__u8			apsta;
->  	__le16			wctemp;
->  	__le16			cctemp;
-> -	__u8			rsvd270[242];
-> +	__u8			rsvd270[2];
-> +	__u32			hmpre;
-> +	__u32			hmmin;
-
-These should also be le32 types.
+> ---
+>  drivers/pci/pci-sysfs.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/pci/pci-sysfs.c b/drivers/pci/pci-sysfs.c
+> index 342b691..5011fa9 100644
+> --- a/drivers/pci/pci-sysfs.c
+> +++ b/drivers/pci/pci-sysfs.c
+> @@ -487,6 +487,11 @@ static ssize_t sriov_numvfs_store(struct device *dev,
+>  
+>  	if (num_vfs == 0) {
+>  		/* disable VFs */
+> +		if (pci_vfs_assigned(pdev)) {
+> +			dev_warn(&pdev->dev,
+> +				"Cannot disable SR-IOV VFs while assigned\n");
+> +			return -EPERM;
+> +		}
+>  		ret = pdev->driver->sriov_configure(pdev, 0);
+>  		if (ret < 0)
+>  			return ret;
+> -- 
+> 2.7.2
+> 
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-pci" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
