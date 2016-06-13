@@ -1,87 +1,31 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 13 Jun 2016 16:45:21 +0200
-Subject: [PATCH 1/8] blk-mq: add blk_mq_alloc_request_hctx
+Date: Mon, 13 Jun 2016 16:45:22 +0200
+Subject: [PATCH 2/8] nvme: allow transitioning from NEW to LIVE state
 In-Reply-To: <1465829128-22993-1-git-send-email-hch@lst.de>
 References: <1465829128-22993-1-git-send-email-hch@lst.de>
-Message-ID: <1465829128-22993-2-git-send-email-hch@lst.de>
+Message-ID: <1465829128-22993-3-git-send-email-hch@lst.de>
 
-From: Ming Lin <ming.l@ssi.samsung.com>
+For Fabrics we're not going through an intermediate reset state
+(at least for now).
 
-For some protocols like NVMe over Fabrics we need to be able to send
-initialization commands to a specific queue.
-
-Based on an earlier patch from Christoph Hellwig <hch at lst.de>.
-
-Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
-[hch: disallow sleeping allocation, req_op fixes]
+Reviewed-by: Jay Freyensee <james.p.freyensee at intel.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- block/blk-mq.c         | 39 +++++++++++++++++++++++++++++++++++++++
- include/linux/blk-mq.h |  2 ++
- 2 files changed, 41 insertions(+)
+ drivers/nvme/host/core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index bc7166d..5e0fe60 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -267,6 +267,45 @@ struct request *blk_mq_alloc_request(struct request_queue *q, int rw,
- }
- EXPORT_SYMBOL(blk_mq_alloc_request);
- 
-+struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int rw,
-+		unsigned int flags, unsigned int hctx_idx)
-+{
-+	struct blk_mq_hw_ctx *hctx;
-+	struct blk_mq_ctx *ctx;
-+	struct request *rq;
-+	struct blk_mq_alloc_data alloc_data;
-+	int ret;
-+
-+	/*
-+	 * If the tag allocator sleeps we could get an allocation for a
-+	 * different hardware context.  No need to complicate the low level
-+	 * allocator for this for the rare use case of a command tied to
-+	 * a specific queue.
-+	 */
-+	if (WARN_ON_ONCE(!(flags & BLK_MQ_REQ_NOWAIT)))
-+		return ERR_PTR(-EINVAL);
-+
-+	if (hctx_idx >= q->nr_hw_queues)
-+		return ERR_PTR(-EIO);
-+
-+	ret = blk_queue_enter(q, true);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	hctx = q->queue_hw_ctx[hctx_idx];
-+	ctx = __blk_mq_get_ctx(q, cpumask_first(hctx->cpumask));
-+
-+	blk_mq_set_alloc_data(&alloc_data, q, flags, ctx, hctx);
-+	rq = __blk_mq_alloc_request(&alloc_data, rw, 0);
-+	if (!rq) {
-+		blk_queue_exit(q);
-+		return ERR_PTR(-EWOULDBLOCK);
-+	}
-+
-+	return rq;
-+}
-+EXPORT_SYMBOL_GPL(blk_mq_alloc_request_hctx);
-+
- static void __blk_mq_free_request(struct blk_mq_hw_ctx *hctx,
- 				  struct blk_mq_ctx *ctx, struct request *rq)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 2498fdf..cbfd8ca 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -196,6 +196,8 @@ enum {
- 
- struct request *blk_mq_alloc_request(struct request_queue *q, int rw,
- 		unsigned int flags);
-+struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int op,
-+		unsigned int flags, unsigned int hctx_idx);
- struct request *blk_mq_tag_to_rq(struct blk_mq_tags *tags, unsigned int tag);
- struct cpumask *blk_mq_tags_cpumask(struct blk_mq_tags *tags);
- 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9d7cee4..f874c0e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -85,6 +85,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 	switch (new_state) {
+ 	case NVME_CTRL_LIVE:
+ 		switch (old_state) {
++		case NVME_CTRL_NEW:
+ 		case NVME_CTRL_RESETTING:
+ 			changed = true;
+ 			/* FALLTHRU */
 -- 
 2.1.4
