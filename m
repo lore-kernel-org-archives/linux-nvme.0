@@ -1,26 +1,28 @@
-From: sean.hefty@intel.com (Hefty, Sean)
-Date: Tue, 14 Jun 2016 16:47:00 +0000
-Subject: [PATCH 4/5] nvmet-rdma: add a NVMe over Fabrics RDMA target driver
-In-Reply-To: <00f501d1c657$483a74e0$d8af5ea0$@opengridcomputing.com>
-References: <1465248215-18186-1-git-send-email-hch@lst.de>
- <1465248215-18186-5-git-send-email-hch@lst.de>
- <5756B75C.9000409@lightbits.io>
- <057a01d1c2a3$3082eec0$9188cc40$@opengridcomputing.com>
- <00f501d1c657$483a74e0$d8af5ea0$@opengridcomputing.com>
-Message-ID: <1828884A29C6694DAF28B7E6B8A82373AB061E1B@ORSMSX109.amr.corp.intel.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Sun, 12 Jun 2016 23:53:17 -0700
+Subject: [PATCH] nvme-rdma: don't use IB-CM status code in reject path
+Message-ID: <20160614175333.853CCE0753@smtp.ogc.us>
 
-> Am I correct here?  IE: Is it ok for the rdma application to
-> rdma_reject()
+Instead, check the private data length to determine if there
+is private data in the reject.
 
-yes
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+---
+ drivers/nvme/host/rdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> rmda_destroy_id() the CONNECT_REQUEST cm_id _inside_ its event handler
-
-no
-
-> as long
-> as it returns 0?
-
-The user can return a non-zero value from the cm handler to destroy the id.
-
-- Sean
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 7506431..e1205c0 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1208,7 +1208,7 @@ out_destroy_queue_ib:
+ static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
+ 		struct rdma_cm_event *ev)
+ {
+-	if (ev->status == IB_CM_REJ_CONSUMER_DEFINED) {
++	if (ev->param.conn.private_data_len) {
+ 		struct nvme_rdma_cm_rej *rej =
+ 			(struct nvme_rdma_cm_rej *)ev->param.conn.private_data;
+ 
+-- 
+2.7.0
