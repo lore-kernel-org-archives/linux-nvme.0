@@ -1,28 +1,29 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Sun, 12 Jun 2016 23:53:17 -0700
-Subject: [PATCH] nvme-rdma: don't use IB-CM status code in reject path
-Message-ID: <20160614175333.853CCE0753@smtp.ogc.us>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 14 Jun 2016 21:58:53 +0200
+Subject: automatic interrupt affinity for MSI/MSI-X capable devices V2
+Message-ID: <1465934346-20648-1-git-send-email-hch@lst.de>
 
-Instead, check the private data length to determine if there
-is private data in the reject.
+This series enhances the irq and PCI code to allow spreading around MSI and
+MSI-X vectors so that they have per-cpu affinity if possible, or at least
+per-node.  For that it takes the algorithm from blk-mq, moves it to
+a common place, and makes it available through a vastly simplified PCI
+interrupt allocation API.  It then switches blk-mq to be able to pick up
+the queue mapping from the device if available, and demonstrates all this
+using the NVMe driver.
 
-Signed-off-by: Steve Wise <swise at opengridcomputing.com>
----
- drivers/nvme/host/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+There also is a git tree available at:
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 7506431..e1205c0 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1208,7 +1208,7 @@ out_destroy_queue_ib:
- static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
- 		struct rdma_cm_event *ev)
- {
--	if (ev->status == IB_CM_REJ_CONSUMER_DEFINED) {
-+	if (ev->param.conn.private_data_len) {
- 		struct nvme_rdma_cm_rej *rej =
- 			(struct nvme_rdma_cm_rej *)ev->param.conn.private_data;
- 
--- 
-2.7.0
+   git://git.infradead.org/users/hch/block.git
+
+Gitweb:
+
+   http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/msix-spreading.4
+
+Changes since V1:
+ - irq core improvements to properly assign the affinity before
+   request_irq (tglx)
+ - better handling of the MSI vs MSI-X differences in the low level
+   MSI allocator (hch and tglx)
+ - various improvements to pci_alloc_irq_vectors (hch)
+ - remove blk-mq hardware queue reassigned on hotplug cpu events (hch)
+ - forward ported to Jens' current for-next tree (hch)
