@@ -1,62 +1,44 @@
-From: nab@linux-iscsi.org (Nicholas A. Bellinger)
-Date: Tue, 14 Jun 2016 04:35:46 +0000
-Subject: [RFC-v2 11/11] nvmet/loop: Add support for bio integrity handling
-In-Reply-To: <1465878946-26556-1-git-send-email-nab@linux-iscsi.org>
-References: <1465878946-26556-1-git-send-email-nab@linux-iscsi.org>
-Message-ID: <1465878946-26556-12-git-send-email-nab@linux-iscsi.org>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 14 Jun 2016 07:27:21 -0700
+Subject: [PATCH 04/11] nvmet: update for req_op changes
+In-Reply-To: <1465389066-19119-5-git-send-email-hch@lst.de>
+References: <1465389066-19119-1-git-send-email-hch@lst.de>
+ <1465389066-19119-5-git-send-email-hch@lst.de>
+Message-ID: <20160614142721.GA17219@infradead.org>
 
-From: Nicholas Bellinger <nab@linux-iscsi.org>
+FYI, this missed half of the fixups, here is the other half:
 
-This patch adds support for nvme/loop block integrity,
-based upon the reported ID_NS.ms + ID_NS.dps feature
-bits in nvmet_execute_identify_ns().
-
-Cc: Jens Axboe <axboe at fb.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Martin Petersen <martin.petersen at oracle.com>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Hannes Reinecke <hare at suse.de>
-Cc: Mike Christie <michaelc at cs.wisc.edu>
-Signed-off-by: Nicholas Bellinger <nab at linux-iscsi.org>
 ---
- drivers/nvme/target/loop.c | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+>From c5caa4c7c3ad5f9648e18f42687c0b63885f428d Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Tue, 14 Jun 2016 09:27:53 +0200
+Subject: nvmet: more fixups for the op vs flags split
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index e9f31d4..480a7ef 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -42,6 +42,7 @@ struct nvme_loop_iod {
- 	struct nvme_loop_queue	*queue;
- 	struct work_struct	work;
- 	struct sg_table		sg_table;
-+	struct scatterlist	meta_sg;
- 	struct scatterlist	first_sgl[];
- };
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/target/io-cmd.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
+index 4cfd481..2cd069b6 100644
+--- a/drivers/nvme/target/io-cmd.c
++++ b/drivers/nvme/target/io-cmd.c
+@@ -73,6 +73,7 @@ static void nvmet_execute_rw(struct nvmet_req *req)
+ 	bio->bi_iter.bi_sector = sector;
+ 	bio->bi_private = req;
+ 	bio->bi_end_io = nvmet_bio_done;
++	bio_set_op_attrs(bio, op, op_flags);
  
-@@ -201,6 +202,23 @@ static int nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		BUG_ON(iod->req.sg_cnt > req->nr_phys_segments);
- 	}
+ 	for_each_sg(req->sg, sg, req->sg_cnt, i) {
+ 		while (bio_add_page(bio, sg_page(sg), sg->length, sg->offset)
+@@ -107,7 +108,7 @@ static void nvmet_execute_flush(struct nvmet_req *req)
+ 	bio->bi_bdev = req->ns->bdev;
+ 	bio->bi_private = req;
+ 	bio->bi_end_io = nvmet_bio_done;
+-	bio->bi_rw = WRITE_FLUSH;
++	bio_set_op_attrs(bio, REQ_OP_WRITE, WRITE_FLUSH);
  
-+	if (blk_integrity_rq(req)) {
-+		int count;
-+
-+		if (blk_rq_count_integrity_sg(hctx->queue, req->bio) != 1)
-+			BUG_ON(1);
-+
-+		sg_init_table(&iod->meta_sg, 1);
-+		count = blk_rq_map_integrity_sg(hctx->queue, req->bio,
-+						&iod->meta_sg);
-+
-+		iod->req.prot_sg = &iod->meta_sg;
-+		iod->req.prot_sg_cnt = 1;
-+
-+		pr_debug("nvme/loop: Set prot_sg %p and prot_sg_cnt: %d\n",
-+			iod->req.prot_sg, iod->req.prot_sg_cnt);
-+	}
-+
- 	iod->cmd.common.command_id = req->tag;
- 	blk_mq_start_request(req);
- 
+ 	submit_bio(bio);
+ }
 -- 
-1.9.1
+2.1.4
