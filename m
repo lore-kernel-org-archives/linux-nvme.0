@@ -1,104 +1,89 @@
 From: nab@linux-iscsi.org (Nicholas A. Bellinger)
-Date: Tue, 14 Jun 2016 04:35:35 +0000
-Subject: [RFC-v2 00/11] nvmet: Add support for multi-tenant configfs
-Message-ID: <1465878946-26556-1-git-send-email-nab@linux-iscsi.org>
+Date: Tue, 14 Jun 2016 04:35:37 +0000
+Subject: [RFC-v2 02/11] nvmet: Add nvmet_fabric_ops get/put transport helpers
+In-Reply-To: <1465878946-26556-1-git-send-email-nab@linux-iscsi.org>
+References: <1465878946-26556-1-git-send-email-nab@linux-iscsi.org>
+Message-ID: <1465878946-26556-3-git-send-email-nab@linux-iscsi.org>
 
 From: Nicholas Bellinger <nab@linux-iscsi.org>
 
-Hi folks,
+This patch introduces two helpers for obtaining + releasing
+nvmet_fabric_ops for nvmet_port usage, and the associated
+struct module ops->owner reference.
 
-Here's the second pass of a nvmet multi-tenant configfs layout,
-following what we've learned in target_core_fabric_configfs.c
-wrt to independent operation of storage endpoints.
+This is required in order to support nvmet/configfs-ng
+and multiple nvmet_port configfs groups living under
+/sys/kernel/config/nvmet/subsystems/$SUBSYS_NQN/ports/
 
-Namely, it allows existing /sys/kernel/config/target/core/ backends
-to be configfs symlinked into ../nvmet/subsystems/$SUBSYS_NQN/
-as nvme namespaces.
+Cc: Jens Axboe <axboe at fb.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Martin Petersen <martin.petersen at oracle.com>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Hannes Reinecke <hare at suse.de>
+Cc: Mike Christie <michaelc at cs.wisc.edu>
+Signed-off-by: Nicholas Bellinger <nab at linux-iscsi.org>
+---
+ drivers/nvme/target/core.c  | 32 ++++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h |  4 ++++
+ 2 files changed, 36 insertions(+)
 
-Here is how the running RFC-v2 code currently looks:
-
-/sys/kernel/config/nvmet/subsystems/
-??? nqn.2003-01.org.linux-iscsi.NVMf.skylake-ep
-    ??? hosts
-    ??? namespaces
-    ?   ??? 1
-    ?       ??? ramdisk0 -> ../../../../../target/core/rd_mcp_1/ramdisk0
-    ??? ports
-        ??? loop
-            ??? addr_adrfam
-            ??? addr_portid
-            ??? addr_traddr
-            ??? addr_treq
-            ??? addr_trsvcid
-            ??? addr_trtype
-            ??? enable
-
-The series exposes T10-PI from /sys/kernel/config/target/core/ as
-ID_NS.ms + ID_NS.dps feature bits, and enables block integrity
-support with nvmet/loop driver.
-
-Note this series depends upon the following prerequisites of
-target-core:
-
-  http://marc.info/?l=linux-scsi&m=146527281416606&w=2
-
-and of course, last week's earlier release of nvmet + friends:
-
-  http://lists.infradead.org/pipermail/linux-nvme/2016-June/004754.html
-
-Note the full set of patches is available from:
-
-  https://git.kernel.org/cgit/linux/kernel/git/nab/target-pending.git/log/?h=nvmet-configfs-ng
-
-v2 changes:
-
-  - Introduce struct nvmet_port_binding in configfs-ng.c, in order
-    to support 1:N mappings.
-  - Convert nvmet_find_get_subsys() + discovery.c logic to use
-    nvmet_port->port_binding_list.
-  - Convert nvmet/loop to use nvmet_port_binding. (1:1 mapping)
-  - Convert nvmet/rdma to use nvmet_port_binding + nvmet_rdma_ports.
-    (1:N mapping)
-  - Export nvmf_host_add + generate hostnqn if necessary. (HCH)
-  - Make nvmet/loop multi-controller allocate it's own nvmf_host
-    per controller. (HCH)
-  - Change nvmet_fabric_ops get/put to use nvmf_disc_rsp_page_entry.
-  - Convert nvmet_genctr to atomic_long_t.
-  - Enable ../nvmet/subsystems/$NQN/hosts/$HOSTNQN group usage
-    in configfs-ng.c.
-
-Comments..?
-
---nab
-
-Nicholas Bellinger (11):
-  nvme-fabrics: Export nvmf_host_add + generate hostnqn if necessary
-  nvmet: Add nvmet_fabric_ops get/put transport helpers
-  nvmet: Add support for configfs-ng multi-tenant logic
-  nvmet: Hookup nvmet_ns->dev to nvmet_ns_enable
-  nvmet/loop: Add support for controller-per-port model +
-    nvmet_port_binding
-  nvmet/rdma: Convert to struct nvmet_port_binding
-  nvmet/io-cmd: Hookup sbc_ops->execute_rw backend ops
-  nvmet/io-cmd: Hookup sbc_ops->execute_sync_cache backend ops
-  nvmet/io-cmd: Hookup sbc_ops->execute_unmap backend ops
-  nvmet/admin-cmd: Hookup T10-PI to ID_NS.ms + ID_NS.dps feature bits
-  nvmet/loop: Add support for bio integrity handling
-
- drivers/nvme/host/fabrics.c       |  18 +-
- drivers/nvme/host/fabrics.h       |   1 +
- drivers/nvme/target/Makefile      |   2 +-
- drivers/nvme/target/admin-cmd.c   |  17 +
- drivers/nvme/target/configfs-ng.c | 661 ++++++++++++++++++++++++++++++++++++++
- drivers/nvme/target/configfs.c    |  12 +-
- drivers/nvme/target/core.c        | 153 ++++++---
- drivers/nvme/target/discovery.c   |  31 +-
- drivers/nvme/target/io-cmd.c      | 169 ++++++----
- drivers/nvme/target/loop.c        | 223 +++++++++++--
- drivers/nvme/target/nvmet.h       |  67 +++-
- drivers/nvme/target/rdma.c        | 127 +++++++-
- 12 files changed, 1317 insertions(+), 164 deletions(-)
- create mode 100644 drivers/nvme/target/configfs-ng.c
-
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index e0b3f01..689ad4c 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -191,6 +191,38 @@ void nvmet_disable_port(struct nvmet_port *port)
+ 	module_put(ops->owner);
+ }
+ 
++struct nvmet_fabrics_ops *
++nvmet_get_transport(struct nvmf_disc_rsp_page_entry *disc_addr)
++{
++	struct nvmet_fabrics_ops *ops;
++
++	down_write(&nvmet_config_sem);
++	ops = nvmet_transports[disc_addr->trtype];
++	if (!ops) {
++		pr_err("transport type %d not supported\n",
++			disc_addr->trtype);
++		return ERR_PTR(-EINVAL);
++	}
++
++	if (!try_module_get(ops->owner)) {
++		up_write(&nvmet_config_sem);
++		return ERR_PTR(-EINVAL);
++	}
++	up_write(&nvmet_config_sem);
++
++	return ops;
++}
++
++void nvmet_put_transport(struct nvmf_disc_rsp_page_entry *disc_addr)
++{
++	struct nvmet_fabrics_ops *ops;
++
++	down_write(&nvmet_config_sem);
++	ops = nvmet_transports[disc_addr->trtype];
++	module_put(ops->owner);
++	up_write(&nvmet_config_sem);
++}
++
+ static void nvmet_keep_alive_timer(struct work_struct *work)
+ {
+ 	struct nvmet_ctrl *ctrl = container_of(to_delayed_work(work),
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 57dd6d8..17fd217 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -299,6 +299,10 @@ void nvmet_unregister_transport(struct nvmet_fabrics_ops *ops);
+ int nvmet_enable_port(struct nvmet_port *port);
+ void nvmet_disable_port(struct nvmet_port *port);
+ 
++struct nvmet_fabrics_ops *nvmet_get_transport(
++		struct nvmf_disc_rsp_page_entry *disc_addr);
++void nvmet_put_transport(struct nvmf_disc_rsp_page_entry *disc_addr);;
++
+ void nvmet_referral_enable(struct nvmet_port *parent, struct nvmet_port *port);
+ void nvmet_referral_disable(struct nvmet_port *port);
+ 
 -- 
 1.9.1
