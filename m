@@ -1,202 +1,102 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 14 Jun 2016 21:59:00 +0200
-Subject: [PATCH 07/13] pci: Provide sensible irq vector alloc/free routines
+Date: Tue, 14 Jun 2016 21:59:01 +0200
+Subject: [PATCH 08/13] pci: spread interrupt vectors in pci_alloc_irq_vectors
 In-Reply-To: <1465934346-20648-1-git-send-email-hch@lst.de>
 References: <1465934346-20648-1-git-send-email-hch@lst.de>
-Message-ID: <1465934346-20648-8-git-send-email-hch@lst.de>
+Message-ID: <1465934346-20648-9-git-send-email-hch@lst.de>
 
-Add a helper to allocate a range of interrupt vectors, which will
-transparently use MSI-X and MSI if available or fallback to legacy
-vectors.  The interrupts are available in a core managed array
-in the pci_dev structure, and can also be released using a similar
-helper.
-
-The next patch will also add automatic spreading of MSI / MSI-X
-vectors to this function.
+Set the affinity_mask before allocating vectors.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/pci/msi.c   | 110 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- include/linux/pci.h |  18 +++++++++
- 2 files changed, 128 insertions(+)
+ drivers/pci/msi.c   | 26 ++++++++++++++++++++++++--
+ include/linux/pci.h |  1 +
+ 2 files changed, 25 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
-index a080f44..a33adec 100644
+index a33adec..50d694c 100644
 --- a/drivers/pci/msi.c
 +++ b/drivers/pci/msi.c
-@@ -4,6 +4,7 @@
-  *
-  * Copyright (C) 2003-2004 Intel
-  * Copyright (C) Tom Long Nguyen (tom.l.nguyen at intel.com)
-+ * Copyright (c) 2016 Christoph Hellwig.
-  */
+@@ -568,6 +568,7 @@ static struct msi_desc *msi_setup_entry(struct pci_dev *dev, int nvec)
+ 	entry->msi_attrib.multi_cap	= (control & PCI_MSI_FLAGS_QMASK) >> 1;
+ 	entry->msi_attrib.multiple	= ilog2(__roundup_pow_of_two(nvec));
+ 	entry->nvec_used		= nvec;
++	entry->affinity			= dev->irq_affinity;
  
- #include <linux/err.h>
-@@ -1120,6 +1121,115 @@ int pci_enable_msix_range(struct pci_dev *dev, struct msix_entry *entries,
- }
- EXPORT_SYMBOL(pci_enable_msix_range);
+ 	if (control & PCI_MSI_FLAGS_64BIT)
+ 		entry->mask_pos = dev->msi_cap + PCI_MSI_MASK_64;
+@@ -679,10 +680,18 @@ static void __iomem *msix_map_region(struct pci_dev *dev, unsigned nr_entries)
+ static int msix_setup_entries(struct pci_dev *dev, void __iomem *base,
+ 			      struct msix_entry *entries, int nvec)
+ {
++	const struct cpumask *mask = NULL;
+ 	struct msi_desc *entry;
+-	int i;
++	int cpu = -1, i;
  
-+static unsigned int pci_nr_irq_vectors(struct pci_dev *pdev)
-+{
-+	int nr_entries;
+ 	for (i = 0; i < nvec; i++) {
++		if (dev->irq_affinity) {
++			cpu = cpumask_next(cpu, dev->irq_affinity);
++			if (cpu >= nr_cpu_ids)
++				cpu = cpumask_first(dev->irq_affinity);
++			mask = cpumask_of(cpu);
++		}
 +
-+	nr_entries = pci_msix_vec_count(pdev);
-+	if (nr_entries <= 0 && pci_msi_supported(pdev, 1))
-+		nr_entries = pci_msi_vec_count(pdev);
-+	if (nr_entries <= 0)
-+		nr_entries = 1;
-+	return nr_entries;
-+}
-+
-+static int pci_enable_msix_range_wrapper(struct pci_dev *pdev, u32 *irqs,
-+		unsigned int min_vecs, unsigned int max_vecs)
-+{
-+	struct msix_entry *msix_entries;
-+	int vecs, i;
-+
-+	msix_entries = kcalloc(max_vecs, sizeof(struct msix_entry), GFP_KERNEL);
-+	if (!msix_entries)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < max_vecs; i++)
-+		msix_entries[i].entry = i;
-+
-+	vecs = pci_enable_msix_range(pdev, msix_entries, min_vecs, max_vecs);
-+	if (vecs > 0) {
-+		for (i = 0; i < vecs; i++)
-+			irqs[i] = msix_entries[i].vector;
-+	}
-+
-+	kfree(msix_entries);
-+	return vecs;
-+}
-+
-+/**
-+ * pci_alloc_irq_vectors - allocate multiple IRQs for a device
-+ * @dev:		PCI device to operate on
-+ * @min_vecs:		minimum number of vectors required (must be >= 1)
-+ * @max_vecs:		maximum (desired) number of vectors
-+ * @flags:		flags or quirks for the allocation
-+ *
-+ * Allocate up to @max_vecs interrupt vectors for @dev, using MSI-X or MSI
-+ * vectors if available, and fall back to a single legacy vector
-+ * if neither is available.  Return the number of vectors allocated,
-+ * (which might be smaller than @max_vecs) if successful, or a negative
-+ * error code on error.  The Linux irq numbers for the allocated
-+ * vectors are stored in pdev->irqs.  If less than @min_vecs interrupt
-+ * vectors are available for @dev the function will fail with -ENOSPC.
-+ */
-+int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
-+		unsigned int max_vecs, unsigned int flags)
-+{
-+	unsigned int vecs, i;
-+	u32 *irqs;
-+
-+	max_vecs = min(max_vecs, pci_nr_irq_vectors(dev));
-+
-+	irqs = kcalloc(max_vecs, sizeof(u32), GFP_KERNEL);
-+	if (!irqs)
-+		return -ENOMEM;
-+
-+	if (!(flags & PCI_IRQ_NOMSIX)) {
-+		vecs = pci_enable_msix_range_wrapper(dev, irqs, min_vecs,
-+				max_vecs);
-+		if (vecs > 0)
-+			goto done;
-+	}
-+
-+	vecs = pci_enable_msi_range(dev, min_vecs, max_vecs);
-+	if (vecs > 0) {
-+		for (i = 0; i < vecs; i++)
-+			irqs[i] = dev->irq + i;
-+		goto done;
-+	}
-+
-+	if (min_vecs > 1)
+ 		entry = alloc_msi_entry(&dev->dev);
+ 		if (!entry) {
+ 			if (!i)
+@@ -699,6 +708,7 @@ static int msix_setup_entries(struct pci_dev *dev, void __iomem *base,
+ 		entry->msi_attrib.default_irq	= dev->irq;
+ 		entry->mask_base		= base;
+ 		entry->nvec_used		= 1;
++		entry->affinity			= mask;
+ 
+ 		list_add_tail(&entry->list, dev_to_msi_list(&dev->dev));
+ 	}
+@@ -1176,12 +1186,20 @@ int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+ {
+ 	unsigned int vecs, i;
+ 	u32 *irqs;
++	int ret;
+ 
+ 	max_vecs = min(max_vecs, pci_nr_irq_vectors(dev));
+ 
++	ret = irq_create_affinity_mask(&dev->irq_affinity, &max_vecs);
++	if (ret)
++		return ret;
++	if (max_vecs < min_vecs)
 +		return -ENOSPC;
 +
-+	/* use legacy irq */
-+	kfree(irqs);
-+	dev->irqs = &dev->irq;
-+	return 1;
-+
-+done:
-+	dev->irqs = irqs;
-+	return vecs;
-+}
-+EXPORT_SYMBOL(pci_alloc_irq_vectors);
-+
-+/**
-+ * pci_free_irq_vectors - free previously allocated IRQs for a device
-+ * @dev:		PCI device to operate on
-+ *
-+ * Undoes the allocations and enabling in pci_alloc_irq_vectors().
-+ */
-+void pci_free_irq_vectors(struct pci_dev *dev)
-+{
-+	if (dev->msix_enabled)
-+		pci_disable_msix(dev);
-+	else if (dev->msi_enabled)
-+		pci_disable_msi(dev);
-+
-+	if (dev->irqs != &dev->irq)
-+		kfree(dev->irqs);
-+}
-+EXPORT_SYMBOL(pci_free_irq_vectors);
-+
-+
- struct pci_dev *msi_desc_to_pci_dev(struct msi_desc *desc)
- {
- 	return to_pci_dev(desc->dev);
++	ret = -ENOMEM;
+ 	irqs = kcalloc(max_vecs, sizeof(u32), GFP_KERNEL);
+ 	if (!irqs)
+-		return -ENOMEM;
++		goto out_free_affinity;
+ 
+ 	if (!(flags & PCI_IRQ_NOMSIX)) {
+ 		vecs = pci_enable_msix_range_wrapper(dev, irqs, min_vecs,
+@@ -1208,6 +1226,10 @@ int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+ done:
+ 	dev->irqs = irqs;
+ 	return vecs;
++out_free_affinity:
++	kfree(dev->irq_affinity);
++	dev->irq_affinity = NULL;
++	return ret;
+ }
+ EXPORT_SYMBOL(pci_alloc_irq_vectors);
+ 
 diff --git a/include/linux/pci.h b/include/linux/pci.h
-index b67e4df..84a20fc 100644
+index 84a20fc..f474611 100644
 --- a/include/linux/pci.h
 +++ b/include/linux/pci.h
-@@ -320,6 +320,7 @@ struct pci_dev {
- 	 * directly, use the values stored here. They might be different!
+@@ -321,6 +321,7 @@ struct pci_dev {
  	 */
  	unsigned int	irq;
-+	unsigned int	*irqs;
+ 	unsigned int	*irqs;
++	struct cpumask	*irq_affinity;
  	struct resource resource[DEVICE_COUNT_RESOURCE]; /* I/O and memory regions + expansion ROMs */
  
  	bool match_driver;		/* Skip attaching driver */
-@@ -1237,6 +1238,8 @@ resource_size_t pcibios_iov_resource_alignment(struct pci_dev *dev, int resno);
- int pci_set_vga_state(struct pci_dev *pdev, bool decode,
- 		      unsigned int command_bits, u32 flags);
- 
-+#define PCI_IRQ_NOMSIX		(1 << 0) /* don't try to use MSI-X interrupts */
-+
- /* kmem_cache style wrapper around pci_alloc_consistent() */
- 
- #include <linux/pci-dma.h>
-@@ -1284,6 +1287,9 @@ static inline int pci_enable_msix_exact(struct pci_dev *dev,
- 		return rc;
- 	return 0;
- }
-+int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
-+		unsigned int max_vecs, unsigned int flags);
-+void pci_free_irq_vectors(struct pci_dev *dev);
- #else
- static inline int pci_msi_vec_count(struct pci_dev *dev) { return -ENOSYS; }
- static inline void pci_msi_shutdown(struct pci_dev *dev) { }
-@@ -1307,6 +1313,18 @@ static inline int pci_enable_msix_range(struct pci_dev *dev,
- static inline int pci_enable_msix_exact(struct pci_dev *dev,
- 		      struct msix_entry *entries, int nvec)
- { return -ENOSYS; }
-+static inline int pci_alloc_irq_vectors(struct pci_dev *dev,
-+		unsigned int min_vecs, unsigned int max_vecs,
-+		unsigned int flags)
-+{
-+	if (min_vecs > 1)
-+		return -ENOSPC;
-+	dev->irqs = &dev->irq;
-+	return 1;
-+}
-+static inline void pci_free_irq_vectors(struct pci_dev *dev)
-+{
-+}
- #endif
- 
- #ifdef CONFIG_PCIEPORTBUS
 -- 
 2.1.4
