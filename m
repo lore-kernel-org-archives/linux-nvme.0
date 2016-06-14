@@ -1,32 +1,24 @@
 From: nab@linux-iscsi.org (Nicholas A. Bellinger)
-Date: Tue, 14 Jun 2016 04:35:40 +0000
-Subject: [RFC-v2 05/11] nvmet/loop: Add support for controller-per-port model
- + nvmet_port_binding
+Date: Tue, 14 Jun 2016 04:35:41 +0000
+Subject: [RFC-v2 06/11] nvmet/rdma: Convert to struct nvmet_port_binding
 In-Reply-To: <1465878946-26556-1-git-send-email-nab@linux-iscsi.org>
 References: <1465878946-26556-1-git-send-email-nab@linux-iscsi.org>
-Message-ID: <1465878946-26556-6-git-send-email-nab@linux-iscsi.org>
+Message-ID: <1465878946-26556-7-git-send-email-nab@linux-iscsi.org>
 
 From: Nicholas Bellinger <nab@linux-iscsi.org>
 
-This patch introduces loopback support for a nvme host
-controller per nvmet_port instance model, following what
-we've done in drivers/target/loopback/ for allowing
-multiple host LLDs to co-exist.
+This patch converts nvmet/rdma to nvmet_port_binding in
+configfs-ng, and introduces a nvmet_rdma_port that allows
+for multiple nvmet_subsys nvmet_port_bindings to be mapped
+to a single nvmet_rdma_port rdma_cm_id listener.
 
-It changes nvme_loop_add_port() to use struct nvme_loop_port
-and take the nvmf_host_add() reference, and invokes
-device_register() to nvme_loop_driver_probe() to kick off
-controller creation within nvme_loop_create_ctrl().
+It moves rdma_cm_id setup into nvmet_rdma_listen_cmid(),
+and rdma_cm_id destroy into nvmet_rmda_destroy_cmid()
+using nvmet_rdma_port->ref.
 
-This allows nvme_loop_queue_rq to setup iod->req.port to
-the per nvmet_port pointer, instead of a single hardcoded
-global nvmet_loop_port.
-
-Subsequently, it also adds nvme_loop_remove_port() to call
-device_unregister() and call nvme_loop_del_ctrl() and
-nvmf_free_options() to drop nvmet_port's struct nvmf_host
-rereference, when the nvmet_port_binding is being removed
-from the associated nvmet_subsys.
+It also updates nvmet_rdma_add_port() to do internal
+port lookup matching traddr and trsvcid, and grabs
+nvmet_rdma_port->ref if a matching port already exists.
 
 Cc: Jens Axboe <axboe at fb.com>
 Cc: Christoph Hellwig <hch at lst.de>
@@ -38,293 +30,204 @@ Cc: Hannes Reinecke <hare at suse.de>
 Cc: Mike Christie <michaelc at cs.wisc.edu>
 Signed-off-by: Nicholas Bellinger <nab at linux-iscsi.org>
 ---
- drivers/nvme/target/loop.c | 205 ++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 185 insertions(+), 20 deletions(-)
+ drivers/nvme/target/rdma.c | 127 ++++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 114 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 08b4fbb..e9f31d4 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -45,6 +45,13 @@ struct nvme_loop_iod {
- 	struct scatterlist	first_sgl[];
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index fccb01d..62638f7af 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -118,6 +118,17 @@ struct nvmet_rdma_device {
+ 	struct list_head	entry;
  };
  
-+struct nvme_loop_port {
-+	struct device		dev;
-+	struct nvmf_ctrl_options *opts;
-+	struct nvme_ctrl	*ctrl;
++struct nvmet_rdma_port {
++	atomic_t		enabled;
++
++	struct rdma_cm_id	*cm_id;
++	struct nvmf_disc_rsp_page_entry port_addr;
++
++	struct list_head	node;
++	struct kref		ref;
 +	struct nvmet_port	port;
 +};
 +
- struct nvme_loop_ctrl {
- 	spinlock_t		lock;
- 	struct nvme_loop_queue	*queues;
-@@ -61,6 +68,8 @@ struct nvme_loop_ctrl {
- 	struct nvmet_ctrl	*target_ctrl;
- 	struct work_struct	delete_work;
- 	struct work_struct	reset_work;
+ static bool nvmet_rdma_use_srq;
+ module_param_named(use_srq, nvmet_rdma_use_srq, bool, 0444);
+ MODULE_PARM_DESC(use_srq, "Use shared receive queue.");
+@@ -129,6 +140,9 @@ static DEFINE_MUTEX(nvmet_rdma_queue_mutex);
+ static LIST_HEAD(device_list);
+ static DEFINE_MUTEX(device_list_mutex);
+ 
++static LIST_HEAD(nvmet_rdma_ports);
++static DEFINE_MUTEX(nvmet_rdma_ports_mutex);
 +
-+	struct nvme_loop_port	*port;
- };
- 
- static inline struct nvme_loop_ctrl *to_loop_ctrl(struct nvme_ctrl *ctrl)
-@@ -74,8 +83,6 @@ struct nvme_loop_queue {
- 	struct nvme_loop_ctrl	*ctrl;
- };
- 
--static struct nvmet_port *nvmet_loop_port;
--
- static LIST_HEAD(nvme_loop_ctrl_list);
- static DEFINE_MUTEX(nvme_loop_ctrl_mutex);
- 
-@@ -172,7 +179,8 @@ static int nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		return ret;
- 
- 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
--	iod->req.port = nvmet_loop_port;
-+	iod->req.port = &queue->ctrl->port->port;
-+
- 	if (!nvmet_req_init(&iod->req, &queue->nvme_cq,
- 			&queue->nvme_sq, &nvme_loop_ops)) {
- 		nvme_cleanup_cmd(req);
-@@ -599,6 +607,8 @@ out_destroy_queues:
- static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
- 		struct nvmf_ctrl_options *opts)
+ static bool nvmet_rdma_execute_command(struct nvmet_rdma_rsp *rsp);
+ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc);
+ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
+@@ -1127,6 +1141,7 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
  {
-+	struct nvme_loop_port *loop_port = container_of(dev,
-+				struct nvme_loop_port, dev);
- 	struct nvme_loop_ctrl *ctrl;
- 	bool changed;
+ 	struct nvmet_rdma_device *ndev;
+ 	struct nvmet_rdma_queue *queue;
++	struct nvmet_rdma_port *rdma_port;
+ 	int ret = -EINVAL;
+ 
+ 	ndev = nvmet_rdma_find_get_device(cm_id);
+@@ -1141,7 +1156,8 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
+ 		ret = -ENOMEM;
+ 		goto put_device;
+ 	}
+-	queue->port = cm_id->context;
++	rdma_port = cm_id->context;
++	queue->port = &rdma_port->port;
+ 
+ 	ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
+ 	if (ret)
+@@ -1306,26 +1322,50 @@ static void nvmet_rdma_delete_ctrl(struct nvmet_ctrl *ctrl)
+ 		nvmet_rdma_queue_disconnect(queue);
+ }
+ 
+-static int nvmet_rdma_add_port(struct nvmet_port *port)
++static struct nvmet_rdma_port *nvmet_rdma_listen_cmid(struct nvmet_port_binding *pb)
+ {
++	struct nvmet_rdma_port *rdma_port;
+ 	struct rdma_cm_id *cm_id;
+ 	struct sockaddr_in addr_in;
+ 	u16 port_in;
  	int ret;
-@@ -607,6 +617,7 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
- 	if (!ctrl)
- 		return ERR_PTR(-ENOMEM);
- 	ctrl->ctrl.opts = opts;
-+	ctrl->port = loop_port;
- 	INIT_LIST_HEAD(&ctrl->list);
  
- 	INIT_WORK(&ctrl->delete_work, nvme_loop_del_ctrl_work);
-@@ -681,29 +692,135 @@ out_put_ctrl:
- 	return ERR_PTR(ret);
+-	ret = kstrtou16(port->disc_addr.trsvcid, 0, &port_in);
++	rdma_port = kzalloc(sizeof(*rdma_port), GFP_KERNEL);
++	if (!rdma_port)
++		return ERR_PTR(-ENOMEM);
++
++	INIT_LIST_HEAD(&rdma_port->node);
++	kref_init(&rdma_port->ref);
++	mutex_init(&rdma_port->port.port_binding_mutex);
++	INIT_LIST_HEAD(&rdma_port->port.port_binding_list);
++	rdma_port->port.priv = rdma_port;
++	rdma_port->port.nf_subsys = pb->nf_subsys;
++	rdma_port->port.nf_ops = pb->nf_ops;
++	pb->port = &rdma_port->port;
++
++	memcpy(&rdma_port->port_addr, &pb->disc_addr,
++		sizeof(struct nvmf_disc_rsp_page_entry));
++
++	nvmet_port_binding_enable(pb, &rdma_port->port);
++
++	mutex_lock(&nvmet_rdma_ports_mutex);
++	list_add_tail(&rdma_port->node, &nvmet_rdma_ports);
++	mutex_unlock(&nvmet_rdma_ports_mutex);
++
++	ret = kstrtou16(pb->disc_addr.trsvcid, 0, &port_in);
+ 	if (ret)
+-		return ret;
++		goto out_port_disable;
+ 
+ 	addr_in.sin_family = AF_INET;
+-	addr_in.sin_addr.s_addr = in_aton(port->disc_addr.traddr);
++	addr_in.sin_addr.s_addr = in_aton(pb->disc_addr.traddr);
+ 	addr_in.sin_port = htons(port_in);
+ 
+-	cm_id = rdma_create_id(&init_net, nvmet_rdma_cm_handler, port,
++	cm_id = rdma_create_id(&init_net, nvmet_rdma_cm_handler, rdma_port,
+ 			RDMA_PS_TCP, IB_QPT_RC);
+ 	if (IS_ERR(cm_id)) {
+ 		pr_err("CM ID creation failed\n");
+-		return PTR_ERR(cm_id);
++		ret = PTR_ERR(cm_id);
++		goto out_port_disable;
+ 	}
+ 
+ 	ret = rdma_bind_addr(cm_id, (struct sockaddr *)&addr_in);
+@@ -1340,21 +1380,82 @@ static int nvmet_rdma_add_port(struct nvmet_port *port)
+ 		goto out_destroy_id;
+ 	}
+ 
++	atomic_set(&rdma_port->enabled, 1);
+ 	pr_info("enabling port %d (%pISpc)\n",
+-		le16_to_cpu(port->disc_addr.portid), &addr_in);
+-	port->priv = cm_id;
+-	return 0;
++		le16_to_cpu(pb->disc_addr.portid), &addr_in);
++
++	return rdma_port;
+ 
+ out_destroy_id:
+ 	rdma_destroy_id(cm_id);
+-	return ret;
++out_port_disable:
++	mutex_lock(&nvmet_rdma_ports_mutex);
++	list_del_init(&rdma_port->node);
++	mutex_unlock(&nvmet_rdma_ports_mutex);
++
++	nvmet_port_binding_disable(pb, &rdma_port->port);
++	kfree(rdma_port);
++	return ERR_PTR(ret);
  }
  
--static int nvme_loop_add_port(struct nvmet_port *port)
-+static int nvme_loop_driver_probe(struct device *dev)
+-static void nvmet_rdma_remove_port(struct nvmet_port *port)
++static void nvmet_rmda_destroy_cmid(struct kref *ref)
  {
--	/*
--	 * XXX: disalow adding more than one port so
--	 * there is no connection rejections when a
--	 * a subsystem is assigned to a port for which
--	 * loop doesn't have a pointer.
--	 * This scenario would be possible if we allowed
--	 * more than one port to be added and a subsystem
--	 * was assigned to a port other than nvmet_loop_port.
--	 */
-+	struct nvme_loop_port *loop_port = container_of(dev,
-+				struct nvme_loop_port, dev);
-+	struct nvme_ctrl *ctrl;
- 
--	if (nvmet_loop_port)
--		return -EPERM;
-+	ctrl = nvme_loop_create_ctrl(dev, loop_port->opts);
-+	if (IS_ERR(ctrl))
-+		return PTR_ERR(ctrl);
- 
--	nvmet_loop_port = port;
-+	loop_port->ctrl = ctrl;
- 	return 0;
- }
- 
--static void nvme_loop_remove_port(struct nvmet_port *port)
-+static int nvme_loop_driver_remove(struct device *dev)
-+{
-+	struct nvme_loop_port *loop_port = container_of(dev,
-+				struct nvme_loop_port, dev);
-+	struct nvme_ctrl *ctrl = loop_port->ctrl;
-+	struct nvmf_ctrl_options *opts = loop_port->opts;
+-	struct rdma_cm_id *cm_id = port->priv;
++	struct nvmet_rdma_port *rdma_port = container_of(ref,
++				struct nvmet_rdma_port, ref);
++	struct rdma_cm_id *cm_id = rdma_port->cm_id;
 +
-+	nvme_loop_del_ctrl(ctrl);
-+	nvmf_free_options(opts);
-+	return 0;
++	mutex_lock(&nvmet_rdma_ports_mutex);
++	atomic_set(&rdma_port->enabled, 0);
++	list_del_init(&rdma_port->node);
++	mutex_unlock(&nvmet_rdma_ports_mutex);
+ 
+ 	rdma_destroy_id(cm_id);
++	kfree(rdma_port);
 +}
 +
-+static int pseudo_bus_match(struct device *dev,
-+			    struct device_driver *dev_driver)
++static int nvmet_rdma_add_port(struct nvmet_port_binding *pb)
 +{
-+	return 1;
-+}
++	struct nvmet_rdma_port *rdma_port;
++	struct nvmf_disc_rsp_page_entry *pb_addr = &pb->disc_addr;
 +
-+static struct bus_type nvme_loop_bus = {
-+	.name			= "nvme_loop_bus",
-+	.match			= pseudo_bus_match,
-+	.probe			= nvme_loop_driver_probe,
-+	.remove			= nvme_loop_driver_remove,
-+};
++	mutex_lock(&nvmet_rdma_ports_mutex);
++	list_for_each_entry(rdma_port, &nvmet_rdma_ports, node) {
++		struct nvmf_disc_rsp_page_entry *port_addr = &rdma_port->port_addr;
 +
-+static struct device_driver nvme_loop_driverfs = {
-+	.name			= "nvme_loop",
-+	.bus			= &nvme_loop_bus,
-+};
++		if (!strcmp(port_addr->traddr, pb_addr->traddr) &&
++		    !strcmp(port_addr->trsvcid, pb_addr->trsvcid)) {
++			if (!atomic_read(&rdma_port->enabled)) {
++				mutex_unlock(&nvmet_rdma_ports_mutex);
++				return -ENODEV;
++			}
++			kref_get(&rdma_port->ref);
++			mutex_unlock(&nvmet_rdma_ports_mutex);
 +
-+static void nvme_loop_release_adapter(struct device *dev)
- {
--	if (port == nvmet_loop_port)
--		nvmet_loop_port = NULL;
-+	struct nvme_loop_port *loop_port = container_of(dev,
-+				struct nvme_loop_port, dev);
-+
-+	kfree(loop_port);
-+}
-+
-+static struct device *nvme_loop_primary;
-+
-+static int nvme_loop_add_port(struct nvmet_port_binding *pb)
-+{
-+	struct nvmet_subsys *subsys = pb->nf_subsys;
-+	struct nvme_loop_port *loop_port;
-+	struct nvmf_ctrl_options *opts;
-+	struct device *dev;
-+	int ret;
-+
-+	loop_port = kzalloc(sizeof(*loop_port), GFP_KERNEL);
-+	if (!loop_port)
-+		return -ENOMEM;
-+
-+	mutex_init(&loop_port->port.port_binding_mutex);
-+	INIT_LIST_HEAD(&loop_port->port.port_binding_list);
-+	loop_port->port.priv = loop_port;
-+	loop_port->port.nf_subsys = pb->nf_subsys;
-+	loop_port->port.nf_ops = pb->nf_ops;
-+	pb->port = &loop_port->port;
-+
-+	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
-+	if (!opts) {
-+		kfree(loop_port);
-+		return -ENOMEM;
++			nvmet_port_binding_enable(pb, &rdma_port->port);
++			return 0;
++		}
 +	}
-+	loop_port->opts = opts;
++	mutex_unlock(&nvmet_rdma_ports_mutex);
 +
-+	/* Set defaults */
-+	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
-+	opts->nr_io_queues = num_online_cpus();
-+	opts->tl_retry_count = 2;
-+	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
-+	opts->kato = NVME_DEFAULT_KATO;
-+
-+	opts->host = nvmf_host_add(NULL);
-+	if (!opts->host) {
-+		kfree(opts);
-+		kfree(loop_port);
-+		return -ENOMEM;
-+	}
-+
-+	opts->transport = kstrdup("loop", GFP_KERNEL);
-+	opts->subsysnqn = kstrdup(subsys->subsysnqn, GFP_KERNEL);
-+
-+	dev = &loop_port->dev;
-+	dev->bus = &nvme_loop_bus;
-+	dev->parent = nvme_loop_primary;
-+	dev->release = &nvme_loop_release_adapter;
-+	dev_set_name(dev, "nvme_loop_ctrl:%s", subsys->subsysnqn);
-+
-+	nvmet_port_binding_enable(pb, &loop_port->port);
-+
-+	ret = device_register(dev);
-+	if (ret) {
-+		pr_err("device_register() failed: %d\n", ret);
-+		nvmet_port_binding_disable(pb, &loop_port->port);
-+		nvmf_free_options(opts);
-+		kfree(loop_port);
-+		return ret;
-+	}
++	rdma_port = nvmet_rdma_listen_cmid(pb);
++	if (IS_ERR(rdma_port))
++		return PTR_ERR(rdma_port);
 +
 +	return 0;
 +}
 +
-+static void nvme_loop_remove_port(struct nvmet_port_binding *pb)
++static void nvmet_rdma_remove_port(struct nvmet_port_binding *pb)
 +{
 +	struct nvmet_port *port = pb->port;
-+	struct nvme_loop_port *loop_port;
++	struct nvmet_rdma_port *rdma_port;
 +
 +	if (!port)
 +		return;
 +
-+	loop_port = container_of(port, struct nvme_loop_port, port);
-+	nvmet_port_binding_disable(pb, &loop_port->port);
++	rdma_port = container_of(port, struct nvmet_rdma_port, port);
++	nvmet_port_binding_disable(pb, &rdma_port->port);
 +
-+	device_unregister(&loop_port->dev);
++	kref_put(&rdma_port->ref, nvmet_rmda_destroy_cmid);
  }
  
- static struct nvmet_fabrics_ops nvme_loop_ops = {
-@@ -720,13 +837,59 @@ static struct nvmf_transport_ops nvme_loop_transport = {
- 	.create_ctrl	= nvme_loop_create_ctrl,
- };
- 
-+static int nvme_loop_alloc_core_bus(void)
-+{
-+	int ret;
-+
-+	nvme_loop_primary = root_device_register("nvme_loop_0");
-+	if (IS_ERR(nvme_loop_primary)) {
-+		pr_err("Unable to allocate nvme_loop_primary\n");
-+		return PTR_ERR(nvme_loop_primary);
-+	}
-+
-+	ret = bus_register(&nvme_loop_bus);
-+	if (ret) {
-+		pr_err("bus_register() failed for nvme_loop_bus\n");
-+		goto dev_unreg;
-+	}
-+
-+	ret = driver_register(&nvme_loop_driverfs);
-+	if (ret) {
-+		pr_err("driver_register() failed for"
-+				" nvme_loop_driverfs\n");
-+		goto bus_unreg;
-+	}
-+
-+	return ret;
-+
-+bus_unreg:
-+	bus_unregister(&nvme_loop_bus);
-+dev_unreg:
-+	root_device_unregister(nvme_loop_primary);
-+	return ret;
-+}
-+
-+static void nvme_loop_release_core_bus(void)
-+{
-+	driver_unregister(&nvme_loop_driverfs);
-+	bus_unregister(&nvme_loop_bus);
-+	root_device_unregister(nvme_loop_primary);
-+}
-+
- static int __init nvme_loop_init_module(void)
- {
- 	int ret;
- 
--	ret = nvmet_register_transport(&nvme_loop_ops);
-+	ret = nvme_loop_alloc_core_bus();
- 	if (ret)
- 		return ret;
-+
-+	ret = nvmet_register_transport(&nvme_loop_ops);
-+	if (ret) {
-+		nvme_loop_release_core_bus();
-+		return ret;
-+	}
-+
- 	nvmf_register_transport(&nvme_loop_transport);
- 	return 0;
- }
-@@ -744,6 +907,8 @@ static void __exit nvme_loop_cleanup_module(void)
- 	mutex_unlock(&nvme_loop_ctrl_mutex);
- 
- 	flush_scheduled_work();
-+
-+	nvme_loop_release_core_bus();
- }
- 
- module_init(nvme_loop_init_module);
+ static struct nvmet_fabrics_ops nvmet_rdma_ops = {
 -- 
 1.9.1
