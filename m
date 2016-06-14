@@ -1,125 +1,202 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 14 Jun 2016 21:58:59 +0200
-Subject: [PATCH 06/13] irq: add a helper spread an affinity mask for MSI/MSI-X
- vectors
+Date: Tue, 14 Jun 2016 21:59:00 +0200
+Subject: [PATCH 07/13] pci: Provide sensible irq vector alloc/free routines
 In-Reply-To: <1465934346-20648-1-git-send-email-hch@lst.de>
 References: <1465934346-20648-1-git-send-email-hch@lst.de>
-Message-ID: <1465934346-20648-7-git-send-email-hch@lst.de>
+Message-ID: <1465934346-20648-8-git-send-email-hch@lst.de>
 
-This is lifted from the blk-mq code and adopted to use the affinity mask
-concept just intruced in the irq handling code.
+Add a helper to allocate a range of interrupt vectors, which will
+transparently use MSI-X and MSI if available or fallback to legacy
+vectors.  The interrupts are available in a core managed array
+in the pci_dev structure, and can also be released using a similar
+helper.
+
+The next patch will also add automatic spreading of MSI / MSI-X
+vectors to this function.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- include/linux/interrupt.h | 11 +++++++++
- kernel/irq/Makefile       |  1 +
- kernel/irq/affinity.c     | 60 +++++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 72 insertions(+)
- create mode 100644 kernel/irq/affinity.c
+ drivers/pci/msi.c   | 110 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/pci.h |  18 +++++++++
+ 2 files changed, 128 insertions(+)
 
-diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index 9fcabeb..12003c0 100644
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -278,6 +278,9 @@ extern int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m);
- extern int
- irq_set_affinity_notifier(unsigned int irq, struct irq_affinity_notify *notify);
+diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
+index a080f44..a33adec 100644
+--- a/drivers/pci/msi.c
++++ b/drivers/pci/msi.c
+@@ -4,6 +4,7 @@
+  *
+  * Copyright (C) 2003-2004 Intel
+  * Copyright (C) Tom Long Nguyen (tom.l.nguyen at intel.com)
++ * Copyright (c) 2016 Christoph Hellwig.
+  */
  
-+int irq_create_affinity_mask(struct cpumask **affinity_mask,
-+		unsigned int *nr_vecs);
-+
- #else /* CONFIG_SMP */
- 
- static inline int irq_set_affinity(unsigned int irq, const struct cpumask *m)
-@@ -308,6 +311,14 @@ irq_set_affinity_notifier(unsigned int irq, struct irq_affinity_notify *notify)
- {
- 	return 0;
+ #include <linux/err.h>
+@@ -1120,6 +1121,115 @@ int pci_enable_msix_range(struct pci_dev *dev, struct msix_entry *entries,
  }
-+
-+static inline int irq_create_affinity_mask(struct cpumask **affinity_mask,
-+		unsigned int *nr_vecs)
-+{
-+	*affinity_mask = NULL;
-+	*nr_vecs = 1;
-+	return 0;
-+}
- #endif /* CONFIG_SMP */
+ EXPORT_SYMBOL(pci_enable_msix_range);
  
- /*
-diff --git a/kernel/irq/Makefile b/kernel/irq/Makefile
-index 2ee42e9..1d3ee31 100644
---- a/kernel/irq/Makefile
-+++ b/kernel/irq/Makefile
-@@ -9,3 +9,4 @@ obj-$(CONFIG_GENERIC_IRQ_MIGRATION) += cpuhotplug.o
- obj-$(CONFIG_PM_SLEEP) += pm.o
- obj-$(CONFIG_GENERIC_MSI_IRQ) += msi.o
- obj-$(CONFIG_GENERIC_IRQ_IPI) += ipi.o
-+obj-$(CONFIG_SMP) += affinity.o
-diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-new file mode 100644
-index 0000000..1daf8fb
---- /dev/null
-+++ b/kernel/irq/affinity.c
-@@ -0,0 +1,60 @@
-+
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/slab.h>
-+#include <linux/cpu.h>
-+
-+static int get_first_sibling(unsigned int cpu)
++static unsigned int pci_nr_irq_vectors(struct pci_dev *pdev)
 +{
-+	unsigned int ret;
++	int nr_entries;
 +
-+	ret = cpumask_first(topology_sibling_cpumask(cpu));
-+	if (ret < nr_cpu_ids)
-+		return ret;
-+	return cpu;
++	nr_entries = pci_msix_vec_count(pdev);
++	if (nr_entries <= 0 && pci_msi_supported(pdev, 1))
++		nr_entries = pci_msi_vec_count(pdev);
++	if (nr_entries <= 0)
++		nr_entries = 1;
++	return nr_entries;
 +}
 +
-+/*
-+ * Take a map of online CPUs and the number of available interrupt vectors
-+ * and generate an output cpumask suitable for spreading MSI/MSI-X vectors
-+ * so that they are distributed as good as possible around the CPUs.  If
-+ * more vectors than CPUs are available we'll map one to each CPU,
-+ * otherwise we map one to the first sibling of each socket.
-+ *
-+ * If there are more vectors than CPUs we will still only have one bit
-+ * set per CPU, but interrupt code will keep on assining the vectors from
-+ * the start of the bitmap until we run out of vectors.
-+ */
-+int irq_create_affinity_mask(struct cpumask **affinity_mask,
-+		unsigned int *nr_vecs)
++static int pci_enable_msix_range_wrapper(struct pci_dev *pdev, u32 *irqs,
++		unsigned int min_vecs, unsigned int max_vecs)
 +{
-+	unsigned int vecs = 0;
++	struct msix_entry *msix_entries;
++	int vecs, i;
 +
-+	if (*nr_vecs == 1) {
-+		*affinity_mask = NULL;
-+		return 0;
-+	}
-+
-+	*affinity_mask = kzalloc(cpumask_size(), GFP_KERNEL);
-+	if (!*affinity_mask)
++	msix_entries = kcalloc(max_vecs, sizeof(struct msix_entry), GFP_KERNEL);
++	if (!msix_entries)
 +		return -ENOMEM;
 +
-+	if (*nr_vecs >= num_online_cpus()) {
-+		cpumask_copy(*affinity_mask, cpu_online_mask);
-+	} else {
-+		unsigned int cpu;
++	for (i = 0; i < max_vecs; i++)
++		msix_entries[i].entry = i;
 +
-+		for_each_online_cpu(cpu) {
-+			if (cpu == get_first_sibling(cpu)) {
-+				cpumask_set_cpu(cpu, *affinity_mask);
-+				vecs++;
-+			}
-+
-+			if (--(*nr_vecs) == 0)
-+				break;
-+		}
++	vecs = pci_enable_msix_range(pdev, msix_entries, min_vecs, max_vecs);
++	if (vecs > 0) {
++		for (i = 0; i < vecs; i++)
++			irqs[i] = msix_entries[i].vector;
 +	}
 +
-+	*nr_vecs = vecs;
-+	return 0;
++	kfree(msix_entries);
++	return vecs;
 +}
++
++/**
++ * pci_alloc_irq_vectors - allocate multiple IRQs for a device
++ * @dev:		PCI device to operate on
++ * @min_vecs:		minimum number of vectors required (must be >= 1)
++ * @max_vecs:		maximum (desired) number of vectors
++ * @flags:		flags or quirks for the allocation
++ *
++ * Allocate up to @max_vecs interrupt vectors for @dev, using MSI-X or MSI
++ * vectors if available, and fall back to a single legacy vector
++ * if neither is available.  Return the number of vectors allocated,
++ * (which might be smaller than @max_vecs) if successful, or a negative
++ * error code on error.  The Linux irq numbers for the allocated
++ * vectors are stored in pdev->irqs.  If less than @min_vecs interrupt
++ * vectors are available for @dev the function will fail with -ENOSPC.
++ */
++int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
++		unsigned int max_vecs, unsigned int flags)
++{
++	unsigned int vecs, i;
++	u32 *irqs;
++
++	max_vecs = min(max_vecs, pci_nr_irq_vectors(dev));
++
++	irqs = kcalloc(max_vecs, sizeof(u32), GFP_KERNEL);
++	if (!irqs)
++		return -ENOMEM;
++
++	if (!(flags & PCI_IRQ_NOMSIX)) {
++		vecs = pci_enable_msix_range_wrapper(dev, irqs, min_vecs,
++				max_vecs);
++		if (vecs > 0)
++			goto done;
++	}
++
++	vecs = pci_enable_msi_range(dev, min_vecs, max_vecs);
++	if (vecs > 0) {
++		for (i = 0; i < vecs; i++)
++			irqs[i] = dev->irq + i;
++		goto done;
++	}
++
++	if (min_vecs > 1)
++		return -ENOSPC;
++
++	/* use legacy irq */
++	kfree(irqs);
++	dev->irqs = &dev->irq;
++	return 1;
++
++done:
++	dev->irqs = irqs;
++	return vecs;
++}
++EXPORT_SYMBOL(pci_alloc_irq_vectors);
++
++/**
++ * pci_free_irq_vectors - free previously allocated IRQs for a device
++ * @dev:		PCI device to operate on
++ *
++ * Undoes the allocations and enabling in pci_alloc_irq_vectors().
++ */
++void pci_free_irq_vectors(struct pci_dev *dev)
++{
++	if (dev->msix_enabled)
++		pci_disable_msix(dev);
++	else if (dev->msi_enabled)
++		pci_disable_msi(dev);
++
++	if (dev->irqs != &dev->irq)
++		kfree(dev->irqs);
++}
++EXPORT_SYMBOL(pci_free_irq_vectors);
++
++
+ struct pci_dev *msi_desc_to_pci_dev(struct msi_desc *desc)
+ {
+ 	return to_pci_dev(desc->dev);
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index b67e4df..84a20fc 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -320,6 +320,7 @@ struct pci_dev {
+ 	 * directly, use the values stored here. They might be different!
+ 	 */
+ 	unsigned int	irq;
++	unsigned int	*irqs;
+ 	struct resource resource[DEVICE_COUNT_RESOURCE]; /* I/O and memory regions + expansion ROMs */
+ 
+ 	bool match_driver;		/* Skip attaching driver */
+@@ -1237,6 +1238,8 @@ resource_size_t pcibios_iov_resource_alignment(struct pci_dev *dev, int resno);
+ int pci_set_vga_state(struct pci_dev *pdev, bool decode,
+ 		      unsigned int command_bits, u32 flags);
+ 
++#define PCI_IRQ_NOMSIX		(1 << 0) /* don't try to use MSI-X interrupts */
++
+ /* kmem_cache style wrapper around pci_alloc_consistent() */
+ 
+ #include <linux/pci-dma.h>
+@@ -1284,6 +1287,9 @@ static inline int pci_enable_msix_exact(struct pci_dev *dev,
+ 		return rc;
+ 	return 0;
+ }
++int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
++		unsigned int max_vecs, unsigned int flags);
++void pci_free_irq_vectors(struct pci_dev *dev);
+ #else
+ static inline int pci_msi_vec_count(struct pci_dev *dev) { return -ENOSYS; }
+ static inline void pci_msi_shutdown(struct pci_dev *dev) { }
+@@ -1307,6 +1313,18 @@ static inline int pci_enable_msix_range(struct pci_dev *dev,
+ static inline int pci_enable_msix_exact(struct pci_dev *dev,
+ 		      struct msix_entry *entries, int nvec)
+ { return -ENOSYS; }
++static inline int pci_alloc_irq_vectors(struct pci_dev *dev,
++		unsigned int min_vecs, unsigned int max_vecs,
++		unsigned int flags)
++{
++	if (min_vecs > 1)
++		return -ENOSPC;
++	dev->irqs = &dev->irq;
++	return 1;
++}
++static inline void pci_free_irq_vectors(struct pci_dev *dev)
++{
++}
+ #endif
+ 
+ #ifdef CONFIG_PCIEPORTBUS
 -- 
 2.1.4
