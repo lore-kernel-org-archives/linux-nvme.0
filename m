@@ -1,47 +1,100 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 14 Jun 2016 21:59:02 +0200
-Subject: [PATCH 09/13] blk-mq: don't redistribute hardware queues on a CPU
- hotplug event
+Date: Tue, 14 Jun 2016 21:59:03 +0200
+Subject: [PATCH 10/13] blk-mq: only allocate a single mq_map per tag_set
 In-Reply-To: <1465934346-20648-1-git-send-email-hch@lst.de>
 References: <1465934346-20648-1-git-send-email-hch@lst.de>
-Message-ID: <1465934346-20648-10-git-send-email-hch@lst.de>
+Message-ID: <1465934346-20648-11-git-send-email-hch@lst.de>
 
-Currently blk-mq will totally remap hardware context when a CPU hotplug
-even happened, which causes major havoc for drivers, as they are never
-told about this remapping.  E.g. any carefully sorted out CPU affinity
-will just be completely messed up.
-
-The rebuild also doesn't really help for the common case of cpu
-hotplug, which is soft onlining / offlining of cpus - in this case we
-should just leave the queue and irq mapping as is.  If it actually
-worked it would have helped in the case of physical cpu hotplug,
-although for that we'd need a way to actually notify the driver.
-Note that drivers may already be able to accommodate such a topology
-change on their own, e.g. using the reset_controller sysfs file in NVMe
-will cause the driver to get things right for this case.
-
-With the rebuild removed we will simplify retain the queue mapping for
-a soft offlined CPU that will work when it comes back online, and will
-map any newly onlined CPU to queue NULL until the driver initiates
-a rebuild of the queue map.
+The mapping is identical for all queues in a tag_set, so stop wasting
+memory for building multiple.  Note that for now I've kept the mq_map
+pointer in the request_queue, but we'll need to investigate if we can
+remove it without suffering from the additional indirection.  The same
+would apply to the mq_ops pointer as well.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- block/blk-mq.c | 2 --
- 1 file changed, 2 deletions(-)
+ block/blk-mq.c         | 22 ++++++++++++++--------
+ include/linux/blk-mq.h |  1 +
+ 2 files changed, 15 insertions(+), 8 deletions(-)
 
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index bc7166d..f972d32 100644
+index f972d32..622cb22 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -2114,8 +2114,6 @@ static void blk_mq_queue_reinit(struct request_queue *q,
+@@ -1930,7 +1930,6 @@ void blk_mq_release(struct request_queue *q)
+ 		kfree(hctx);
+ 	}
  
- 	blk_mq_sysfs_unregister(q);
+-	kfree(q->mq_map);
+ 	q->mq_map = NULL;
  
--	blk_mq_update_queue_map(q->mq_map, q->nr_hw_queues, online_mask);
--
- 	/*
- 	 * redo blk_mq_init_cpu_queues and blk_mq_init_hw_queues. FIXME: maybe
- 	 * we should change hctx numa_node according to new topology (this
+ 	kfree(q->queue_hw_ctx);
+@@ -2029,9 +2028,7 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+ 	if (!q->queue_hw_ctx)
+ 		goto err_percpu;
+ 
+-	q->mq_map = blk_mq_make_queue_map(set);
+-	if (!q->mq_map)
+-		goto err_map;
++	q->mq_map = set->mq_map;
+ 
+ 	blk_mq_realloc_hw_ctxs(set, q);
+ 	if (!q->nr_hw_queues)
+@@ -2081,8 +2078,6 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+ 	return q;
+ 
+ err_hctxs:
+-	kfree(q->mq_map);
+-err_map:
+ 	kfree(q->queue_hw_ctx);
+ err_percpu:
+ 	free_percpu(q->queue_ctx);
+@@ -2304,14 +2299,22 @@ int blk_mq_alloc_tag_set(struct blk_mq_tag_set *set)
+ 	if (!set->tags)
+ 		return -ENOMEM;
+ 
++	set->mq_map = blk_mq_make_queue_map(set);
++	if (!set->mq_map)
++		goto out_free_tags;
++
+ 	if (blk_mq_alloc_rq_maps(set))
+-		goto enomem;
++		goto out_free_mq_map;
+ 
+ 	mutex_init(&set->tag_list_lock);
+ 	INIT_LIST_HEAD(&set->tag_list);
+ 
+ 	return 0;
+-enomem:
++
++out_free_mq_map:
++	kfree(set->mq_map);
++	set->mq_map = NULL;
++out_free_tags:
+ 	kfree(set->tags);
+ 	set->tags = NULL;
+ 	return -ENOMEM;
+@@ -2327,6 +2330,9 @@ void blk_mq_free_tag_set(struct blk_mq_tag_set *set)
+ 			blk_mq_free_rq_map(set, set->tags[i], i);
+ 	}
+ 
++	kfree(set->mq_map);
++	set->mq_map = NULL;
++
+ 	kfree(set->tags);
+ 	set->tags = NULL;
+ }
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 2498fdf..0a3b138 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -65,6 +65,7 @@ struct blk_mq_hw_ctx {
+ };
+ 
+ struct blk_mq_tag_set {
++	unsigned int		*mq_map;
+ 	struct blk_mq_ops	*ops;
+ 	unsigned int		nr_hw_queues;
+ 	unsigned int		queue_depth;	/* max hw supported */
 -- 
 2.1.4
