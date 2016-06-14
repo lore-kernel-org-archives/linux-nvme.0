@@ -1,125 +1,294 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 14 Jun 2016 21:58:55 +0200
-Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
+Date: Tue, 14 Jun 2016 21:58:56 +0200
+Subject: [PATCH 03/13] irq: Add affinity hint to irq allocation
 In-Reply-To: <1465934346-20648-1-git-send-email-hch@lst.de>
 References: <1465934346-20648-1-git-send-email-hch@lst.de>
-Message-ID: <1465934346-20648-3-git-send-email-hch@lst.de>
+Message-ID: <1465934346-20648-4-git-send-email-hch@lst.de>
 
 From: Thomas Gleixner <tglx@linutronix.de>
 
-Interupts marked with this flag are excluded from user space interrupt
-affinity changes. Contrary to the IRQ_NO_BALANCING flag, the kernel internal
-affinity mechanism is not blocked.
-
-This flag will be used for multi-queue device interrupts.
+Add an extra argument to the irq(domain) allocation functions, so we can hand
+down affinity hints to the allocator. Thats necessary to implement proper
+support for multiqueue devices.
 
 Signed-off-by: Thomas Gleixner <tglx at linutronix.de>
 ---
- include/linux/irq.h    |  7 +++++++
- kernel/irq/internals.h |  2 ++
- kernel/irq/manage.c    | 21 ++++++++++++++++++---
- kernel/irq/proc.c      |  2 +-
- 4 files changed, 28 insertions(+), 4 deletions(-)
+ arch/sparc/kernel/irq_64.c     |  2 +-
+ arch/x86/kernel/apic/io_apic.c |  5 +++--
+ include/linux/irq.h            |  4 ++--
+ include/linux/irqdomain.h      |  9 ++++++---
+ kernel/irq/ipi.c               |  2 +-
+ kernel/irq/irqdesc.c           | 12 ++++++++----
+ kernel/irq/irqdomain.c         | 22 ++++++++++++++--------
+ kernel/irq/manage.c            |  7 ++++---
+ kernel/irq/msi.c               |  3 ++-
+ 9 files changed, 41 insertions(+), 25 deletions(-)
 
+diff --git a/arch/sparc/kernel/irq_64.c b/arch/sparc/kernel/irq_64.c
+index e22416c..34a7930 100644
+--- a/arch/sparc/kernel/irq_64.c
++++ b/arch/sparc/kernel/irq_64.c
+@@ -242,7 +242,7 @@ unsigned int irq_alloc(unsigned int dev_handle, unsigned int dev_ino)
+ {
+ 	int irq;
+ 
+-	irq = __irq_alloc_descs(-1, 1, 1, numa_node_id(), NULL);
++	irq = __irq_alloc_descs(-1, 1, 1, numa_node_id(), NULL, NULL);
+ 	if (irq <= 0)
+ 		goto out;
+ 
+diff --git a/arch/x86/kernel/apic/io_apic.c b/arch/x86/kernel/apic/io_apic.c
+index 84e33ff..bca0c81 100644
+--- a/arch/x86/kernel/apic/io_apic.c
++++ b/arch/x86/kernel/apic/io_apic.c
+@@ -981,7 +981,7 @@ static int alloc_irq_from_domain(struct irq_domain *domain, int ioapic, u32 gsi,
+ 
+ 	return __irq_domain_alloc_irqs(domain, irq, 1,
+ 				       ioapic_alloc_attr_node(info),
+-				       info, legacy);
++				       info, legacy, NULL);
+ }
+ 
+ /*
+@@ -1014,7 +1014,8 @@ static int alloc_isa_irq_from_domain(struct irq_domain *domain,
+ 					  info->ioapic_pin))
+ 			return -ENOMEM;
+ 	} else {
+-		irq = __irq_domain_alloc_irqs(domain, irq, 1, node, info, true);
++		irq = __irq_domain_alloc_irqs(domain, irq, 1, node, info, true,
++					      NULL);
+ 		if (irq >= 0) {
+ 			irq_data = irq_domain_get_irq_data(domain, irq);
+ 			data = irq_data->chip_data;
 diff --git a/include/linux/irq.h b/include/linux/irq.h
-index 4d758a7..49d66d1 100644
+index 49d66d1..63803a4 100644
 --- a/include/linux/irq.h
 +++ b/include/linux/irq.h
-@@ -197,6 +197,7 @@ struct irq_data {
-  * IRQD_IRQ_INPROGRESS		- In progress state of the interrupt
-  * IRQD_WAKEUP_ARMED		- Wakeup mode armed
-  * IRQD_FORWARDED_TO_VCPU	- The interrupt is forwarded to a VCPU
-+ * IRQD_AFFINITY_MANAGED	- Affinity is managed automatically
-  */
- enum {
- 	IRQD_TRIGGER_MASK		= 0xf,
-@@ -212,6 +213,7 @@ enum {
- 	IRQD_IRQ_INPROGRESS		= (1 << 18),
- 	IRQD_WAKEUP_ARMED		= (1 << 19),
- 	IRQD_FORWARDED_TO_VCPU		= (1 << 20),
-+	IRQD_AFFINITY_MANAGED		= (1 << 21),
- };
+@@ -708,11 +708,11 @@ static inline struct cpumask *irq_data_get_affinity_mask(struct irq_data *d)
+ unsigned int arch_dynirq_lower_bound(unsigned int from);
  
- #define __irqd_to_state(d) ACCESS_PRIVATE((d)->common, state_use_accessors)
-@@ -305,6 +307,11 @@ static inline void irqd_clr_forwarded_to_vcpu(struct irq_data *d)
- 	__irqd_to_state(d) &= ~IRQD_FORWARDED_TO_VCPU;
+ int __irq_alloc_descs(int irq, unsigned int from, unsigned int cnt, int node,
+-		struct module *owner);
++		      struct module *owner, const struct cpumask *affinity);
+ 
+ /* use macros to avoid needing export.h for THIS_MODULE */
+ #define irq_alloc_descs(irq, from, cnt, node)	\
+-	__irq_alloc_descs(irq, from, cnt, node, THIS_MODULE)
++	__irq_alloc_descs(irq, from, cnt, node, THIS_MODULE, NULL)
+ 
+ #define irq_alloc_desc(node)			\
+ 	irq_alloc_descs(-1, 0, 1, node)
+diff --git a/include/linux/irqdomain.h b/include/linux/irqdomain.h
+index f1f36e0..1aee0fb 100644
+--- a/include/linux/irqdomain.h
++++ b/include/linux/irqdomain.h
+@@ -39,6 +39,7 @@ struct irq_domain;
+ struct of_device_id;
+ struct irq_chip;
+ struct irq_data;
++struct cpumask;
+ 
+ /* Number of irqs reserved for a legacy isa controller */
+ #define NUM_ISA_INTERRUPTS	16
+@@ -217,7 +218,8 @@ extern struct irq_domain *irq_find_matching_fwspec(struct irq_fwspec *fwspec,
+ 						   enum irq_domain_bus_token bus_token);
+ extern void irq_set_default_host(struct irq_domain *host);
+ extern int irq_domain_alloc_descs(int virq, unsigned int nr_irqs,
+-				  irq_hw_number_t hwirq, int node);
++				  irq_hw_number_t hwirq, int node,
++				  const struct cpumask *affinity);
+ 
+ static inline struct fwnode_handle *of_node_to_fwnode(struct device_node *node)
+ {
+@@ -389,7 +391,7 @@ static inline struct irq_domain *irq_domain_add_hierarchy(struct irq_domain *par
+ 
+ extern int __irq_domain_alloc_irqs(struct irq_domain *domain, int irq_base,
+ 				   unsigned int nr_irqs, int node, void *arg,
+-				   bool realloc);
++				   bool realloc, const struct cpumask *affinity);
+ extern void irq_domain_free_irqs(unsigned int virq, unsigned int nr_irqs);
+ extern void irq_domain_activate_irq(struct irq_data *irq_data);
+ extern void irq_domain_deactivate_irq(struct irq_data *irq_data);
+@@ -397,7 +399,8 @@ extern void irq_domain_deactivate_irq(struct irq_data *irq_data);
+ static inline int irq_domain_alloc_irqs(struct irq_domain *domain,
+ 			unsigned int nr_irqs, int node, void *arg)
+ {
+-	return __irq_domain_alloc_irqs(domain, -1, nr_irqs, node, arg, false);
++	return __irq_domain_alloc_irqs(domain, -1, nr_irqs, node, arg, false,
++				       NULL);
  }
  
-+static inline bool irqd_affinity_is_managed(struct irq_data *d)
-+{
-+	return __irqd_to_state(d) & IRQD_AFFINITY_MANAGED;
-+}
-+
- #undef __irqd_to_state
+ extern int irq_domain_alloc_irqs_recursive(struct irq_domain *domain,
+diff --git a/kernel/irq/ipi.c b/kernel/irq/ipi.c
+index 89b49f6..4fd2351 100644
+--- a/kernel/irq/ipi.c
++++ b/kernel/irq/ipi.c
+@@ -76,7 +76,7 @@ int irq_reserve_ipi(struct irq_domain *domain,
+ 		}
+ 	}
  
- static inline irq_hw_number_t irqd_to_hwirq(struct irq_data *d)
-diff --git a/kernel/irq/internals.h b/kernel/irq/internals.h
-index 09be2c9..b15aa3b 100644
---- a/kernel/irq/internals.h
-+++ b/kernel/irq/internals.h
-@@ -105,6 +105,8 @@ static inline void unregister_handler_proc(unsigned int irq,
- 					   struct irqaction *action) { }
- #endif
+-	virq = irq_domain_alloc_descs(-1, nr_irqs, 0, NUMA_NO_NODE);
++	virq = irq_domain_alloc_descs(-1, nr_irqs, 0, NUMA_NO_NODE, NULL);
+ 	if (virq <= 0) {
+ 		pr_warn("Can't reserve IPI, failed to alloc descs\n");
+ 		return -ENOMEM;
+diff --git a/kernel/irq/irqdesc.c b/kernel/irq/irqdesc.c
+index 8731e1c..b8df4fc 100644
+--- a/kernel/irq/irqdesc.c
++++ b/kernel/irq/irqdesc.c
+@@ -223,7 +223,7 @@ static void free_desc(unsigned int irq)
+ }
  
-+extern bool irq_can_set_affinity_usr(unsigned int irq);
-+
- extern int irq_select_affinity_usr(unsigned int irq, struct cpumask *mask);
+ static int alloc_descs(unsigned int start, unsigned int cnt, int node,
+-		       struct module *owner)
++		       const struct cpumask *affinity, struct module *owner)
+ {
+ 	struct irq_desc *desc;
+ 	int i;
+@@ -333,6 +333,7 @@ static void free_desc(unsigned int irq)
+ }
  
- extern void irq_set_thread_affinity(struct irq_desc *desc);
+ static inline int alloc_descs(unsigned int start, unsigned int cnt, int node,
++			      const struct cpumask *affinity,
+ 			      struct module *owner)
+ {
+ 	u32 i;
+@@ -453,12 +454,15 @@ EXPORT_SYMBOL_GPL(irq_free_descs);
+  * @cnt:	Number of consecutive irqs to allocate.
+  * @node:	Preferred node on which the irq descriptor should be allocated
+  * @owner:	Owning module (can be NULL)
++ * @affinity:	Optional pointer to an affinity mask which hints where the
++ *		irq descriptors should be allocated and which default
++ *		affinities to use
+  *
+  * Returns the first irq number or error code
+  */
+ int __ref
+ __irq_alloc_descs(int irq, unsigned int from, unsigned int cnt, int node,
+-		  struct module *owner)
++		  struct module *owner, const struct cpumask *affinity)
+ {
+ 	int start, ret;
+ 
+@@ -494,7 +498,7 @@ __irq_alloc_descs(int irq, unsigned int from, unsigned int cnt, int node,
+ 
+ 	bitmap_set(allocated_irqs, start, cnt);
+ 	mutex_unlock(&sparse_irq_lock);
+-	return alloc_descs(start, cnt, node, owner);
++	return alloc_descs(start, cnt, node, affinity, owner);
+ 
+ err:
+ 	mutex_unlock(&sparse_irq_lock);
+@@ -512,7 +516,7 @@ EXPORT_SYMBOL_GPL(__irq_alloc_descs);
+  */
+ unsigned int irq_alloc_hwirqs(int cnt, int node)
+ {
+-	int i, irq = __irq_alloc_descs(-1, 0, cnt, node, NULL);
++	int i, irq = __irq_alloc_descs(-1, 0, cnt, node, NULL, NULL);
+ 
+ 	if (irq < 0)
+ 		return 0;
+diff --git a/kernel/irq/irqdomain.c b/kernel/irq/irqdomain.c
+index 8798b6c..79459b7 100644
+--- a/kernel/irq/irqdomain.c
++++ b/kernel/irq/irqdomain.c
+@@ -481,7 +481,7 @@ unsigned int irq_create_mapping(struct irq_domain *domain,
+ 	}
+ 
+ 	/* Allocate a virtual interrupt number */
+-	virq = irq_domain_alloc_descs(-1, 1, hwirq, of_node_to_nid(of_node));
++	virq = irq_domain_alloc_descs(-1, 1, hwirq, of_node_to_nid(of_node), NULL);
+ 	if (virq <= 0) {
+ 		pr_debug("-> virq allocation failed\n");
+ 		return 0;
+@@ -835,19 +835,23 @@ const struct irq_domain_ops irq_domain_simple_ops = {
+ EXPORT_SYMBOL_GPL(irq_domain_simple_ops);
+ 
+ int irq_domain_alloc_descs(int virq, unsigned int cnt, irq_hw_number_t hwirq,
+-			   int node)
++			   int node, const struct cpumask *affinity)
+ {
+ 	unsigned int hint;
+ 
+ 	if (virq >= 0) {
+-		virq = irq_alloc_descs(virq, virq, cnt, node);
++		virq = __irq_alloc_descs(virq, virq, cnt, node, THIS_MODULE,
++					 affinity);
+ 	} else {
+ 		hint = hwirq % nr_irqs;
+ 		if (hint == 0)
+ 			hint++;
+-		virq = irq_alloc_descs_from(hint, cnt, node);
+-		if (virq <= 0 && hint > 1)
+-			virq = irq_alloc_descs_from(1, cnt, node);
++		virq = __irq_alloc_descs(-1, hint, cnt, node, THIS_MODULE,
++					 affinity);
++		if (virq <= 0 && hint > 1) {
++			virq = __irq_alloc_descs(-1, 1, cnt, node, THIS_MODULE,
++						 affinity);
++		}
+ 	}
+ 
+ 	return virq;
+@@ -1160,6 +1164,7 @@ int irq_domain_alloc_irqs_recursive(struct irq_domain *domain,
+  * @node:	NUMA node id for memory allocation
+  * @arg:	domain specific argument
+  * @realloc:	IRQ descriptors have already been allocated if true
++ * @affinity:	Optional irq affinity mask for multiqueue devices
+  *
+  * Allocate IRQ numbers and initialized all data structures to support
+  * hierarchy IRQ domains.
+@@ -1175,7 +1180,7 @@ int irq_domain_alloc_irqs_recursive(struct irq_domain *domain,
+  */
+ int __irq_domain_alloc_irqs(struct irq_domain *domain, int irq_base,
+ 			    unsigned int nr_irqs, int node, void *arg,
+-			    bool realloc)
++			    bool realloc, const struct cpumask *affinity)
+ {
+ 	int i, ret, virq;
+ 
+@@ -1193,7 +1198,8 @@ int __irq_domain_alloc_irqs(struct irq_domain *domain, int irq_base,
+ 	if (realloc && irq_base >= 0) {
+ 		virq = irq_base;
+ 	} else {
+-		virq = irq_domain_alloc_descs(irq_base, nr_irqs, 0, node);
++		virq = irq_domain_alloc_descs(irq_base, nr_irqs, 0, node,
++					      affinity);
+ 		if (virq < 0) {
+ 			pr_debug("cannot allocate IRQ(base %d, count %d)\n",
+ 				 irq_base, nr_irqs);
 diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index ef0bc02..30658e9 100644
+index 30658e9..ad0aac6 100644
 --- a/kernel/irq/manage.c
 +++ b/kernel/irq/manage.c
-@@ -115,12 +115,12 @@ EXPORT_SYMBOL(synchronize_irq);
- #ifdef CONFIG_SMP
- cpumask_var_t irq_default_affinity;
+@@ -353,10 +353,11 @@ static int setup_affinity(struct irq_desc *desc, struct cpumask *mask)
+ 		return 0;
  
--static int __irq_can_set_affinity(struct irq_desc *desc)
-+static bool __irq_can_set_affinity(struct irq_desc *desc)
- {
- 	if (!desc || !irqd_can_balance(&desc->irq_data) ||
- 	    !desc->irq_data.chip || !desc->irq_data.chip->irq_set_affinity)
--		return 0;
--	return 1;
-+		return false;
-+	return true;
- }
+ 	/*
+-	 * Preserve an userspace affinity setup, but make sure that
+-	 * one of the targets is online.
++	 * Preserve the managed affinity setting and an userspace affinity
++	 * setup, but make sure that one of the targets is online.
+ 	 */
+-	if (irqd_has_set(&desc->irq_data, IRQD_AFFINITY_SET)) {
++	if (irqd_affinity_is_managed(&desc->irq_data) ||
++	    irqd_has_set(&desc->irq_data, IRQD_AFFINITY_SET)) {
+ 		if (cpumask_intersects(desc->irq_common_data.affinity,
+ 				       cpu_online_mask))
+ 			set = desc->irq_common_data.affinity;
+diff --git a/kernel/irq/msi.c b/kernel/irq/msi.c
+index eb5bf2b..58dbbac 100644
+--- a/kernel/irq/msi.c
++++ b/kernel/irq/msi.c
+@@ -334,7 +334,8 @@ int msi_domain_alloc_irqs(struct irq_domain *domain, struct device *dev,
+ 		ops->set_desc(&arg, desc);
  
- /**
-@@ -134,6 +134,21 @@ int irq_can_set_affinity(unsigned int irq)
- }
- 
- /**
-+ * irq_can_set_affinity_usr - Check if affinity of a irq can be set from user space
-+ * @irq:	Interrupt to check
-+ *
-+ * Like irq_can_set_affinity() above, but additionally checks for the
-+ * AFFINITY_MANAGED flag.
-+ */
-+bool irq_can_set_affinity_usr(unsigned int irq)
-+{
-+	struct irq_desc *desc = irq_to_desc(irq);
-+
-+	return __irq_can_set_affinity(desc) &&
-+		!irqd_affinity_is_managed(&desc->irq_data);
-+}
-+
-+/**
-  *	irq_set_thread_affinity - Notify irq threads to adjust affinity
-  *	@desc:		irq descriptor which has affitnity changed
-  *
-diff --git a/kernel/irq/proc.c b/kernel/irq/proc.c
-index 4e1b947..40bdcdc 100644
---- a/kernel/irq/proc.c
-+++ b/kernel/irq/proc.c
-@@ -96,7 +96,7 @@ static ssize_t write_irq_affinity(int type, struct file *file,
- 	cpumask_var_t new_value;
- 	int err;
- 
--	if (!irq_can_set_affinity(irq) || no_irq_affinity)
-+	if (!irq_can_set_affinity_usr(irq) || no_irq_affinity)
- 		return -EIO;
- 
- 	if (!alloc_cpumask_var(&new_value, GFP_KERNEL))
+ 		virq = __irq_domain_alloc_irqs(domain, -1, desc->nvec_used,
+-					       dev_to_node(dev), &arg, false);
++					       dev_to_node(dev), &arg, false,
++					       NULL);
+ 		if (virq < 0) {
+ 			ret = -ENOSPC;
+ 			if (ops->handle_error)
 -- 
 2.1.4
