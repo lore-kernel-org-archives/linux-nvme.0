@@ -1,32 +1,49 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Wed, 15 Jun 2016 10:44:37 +0200
-Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
-In-Reply-To: <1465934346-20648-3-git-send-email-hch@lst.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 15 Jun 2016 12:10:45 +0200
+Subject: [PATCH 06/13] irq: add a helper spread an affinity mask for
+ MSI/MSI-X vectors
+In-Reply-To: <57607D0E.1060907@linux.vnet.ibm.com>
 References: <1465934346-20648-1-git-send-email-hch@lst.de>
- <1465934346-20648-3-git-send-email-hch@lst.de>
-Message-ID: <0412b942-ea0d-d4eb-c724-8243d12ff6f3@sandisk.com>
+ <1465934346-20648-7-git-send-email-hch@lst.de>
+ <57607D0E.1060907@linux.vnet.ibm.com>
+Message-ID: <20160615101045.GB16425@lst.de>
 
-On 06/14/2016 09:58 PM, Christoph Hellwig wrote:
-> From: Thomas Gleixner <tglx at linutronix.de>
+On Tue, Jun 14, 2016@06:54:22PM -0300, Guilherme G. Piccoli wrote:
+> On 06/14/2016 04:58 PM, Christoph Hellwig wrote:
+>> This is lifted from the blk-mq code and adopted to use the affinity mask
+>> concept just intruced in the irq handling code.
 >
-> Interupts marked with this flag are excluded from user space interrupt
-> affinity changes. Contrary to the IRQ_NO_BALANCING flag, the kernel internal
-> affinity mechanism is not blocked.
+> Very nice patch Christoph, thanks. There's a little typo above, on 
+> "intruced".
+
+fixed.
+
+> Another little typo above in "assining".
+
+fixed a swell.
+
+> I take this opportunity to ask you something, since I'm working in a 
+> related code in a specific driver
+
+Which driver?  One of the points here is to get this sort of code out
+of drivers and into common code..
+
+> - sorry in advance if my question is 
+> silly or if I misunderstood your code.
 >
-> This flag will be used for multi-queue device interrupts.
+> The function irq_create_affinity_mask() below deals with the case in which 
+> we have nr_vecs < num_online_cpus(); in this case, wouldn't be a good idea 
+> to trying distribute the vecs among cores?
+>
+> Example: if we have 128 online cpus, 8 per core (meaning 16 cores) and 64 
+> vecs, I guess would be ideal to distribute 4 vecs _per core_, leaving 4 
+> CPUs in each core without vecs.
 
-It's great to see that the goal of this patch series is to configure 
-interrupt affinity automatically for adapters that support multiple 
-MSI-X vectors. However, is excluding these interrupts from irqbalanced 
-really the way to go? Suppose e.g. that a system is equipped with two 
-RDMA adapters, that these adapters are used by a blk-mq enabled block 
-initiator driver and that each adapter supports eight MSI-X vectors. 
-Should the interrupts of the two RDMA adapters be assigned to different 
-CPU cores? If so, which software layer should realize this? The kernel 
-or user space?
+There have been some reports about the blk-mq IRQ distribution being
+suboptimal, but no one sent patches so far.  This patch just moves the
+existing algorithm into the core code to be better bisectable.
 
-Sorry that I missed the first version of this patch series.
-
-Thanks,
-
-Bart.
+I think an algorithm that takes cores into account instead of just SMT
+sibling would be very useful.  So if you have a case where this helps
+for you an incremental patch (or even one against the current blk-mq
+code for now) would be appreciated.
