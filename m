@@ -1,28 +1,31 @@
-From: bhelgaas@google.com (Bjorn Helgaas)
-Date: Wed, 15 Jun 2016 10:38:49 -0500
-Subject: [PATCH 1/2] pci: Error disabling SR-IOV if in VFs assigned
-In-Reply-To: <20160615102659.GB32253@infradead.org>
-References: <1463521199-16604-1-git-send-email-keith.busch@intel.com>
- <20160613211411.GC18747@localhost>
- <20160613212810.GG12766@localhost.localdomain>
- <20160613215736.GH12766@localhost.localdomain>
- <20160613222630.GD18747@localhost>
- <20160613223551.GJ12766@localhost.localdomain>
- <20160615102659.GB32253@infradead.org>
-Message-ID: <CAErSpo79D9uP-0OA4YSGBJ8rbfaeMNy13AWO-s1jZKncGC0GLw@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 15 Jun 2016 12:03:17 -0400
+Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
+In-Reply-To: <7f0b16bd-b39f-99e6-c1c1-6a508bf9bbbf@sandisk.com>
+References: <1465934346-20648-1-git-send-email-hch@lst.de>
+ <1465934346-20648-3-git-send-email-hch@lst.de>
+ <0412b942-ea0d-d4eb-c724-8243d12ff6f3@sandisk.com>
+ <20160615102311.GA16619@lst.de>
+ <67ef7a1c-56e1-db2c-b038-f9784fc1f52f@sandisk.com>
+ <20160615151415.GA1919@localhost.localdomain>
+ <7f0b16bd-b39f-99e6-c1c1-6a508bf9bbbf@sandisk.com>
+Message-ID: <20160615160316.GB1919@localhost.localdomain>
 
-On Wed, Jun 15, 2016@5:26 AM, Christoph Hellwig <hch@infradead.org> wrote:
-> On Mon, Jun 13, 2016@06:35:52PM -0400, Keith Busch wrote:
->> On Mon, Jun 13, 2016@05:26:30PM -0500, Bjorn Helgaas wrote:
->> > My take on that is, "it's a pretty trival check; just put it directly
->> > in nvme and don't bother doing anything in the PCI core."  Maybe
->> > someday we'll come up with a way to make things more common.  It
->> > doesn't really seem worth it to add something that only helps three
->> > drivers.
->>
->> Fair enough. Will withdraw the check in pci and resend nvme.
->
-> Sorry for leading you down this path..
+On Wed, Jun 15, 2016@05:28:54PM +0200, Bart Van Assche wrote:
+> On 06/15/2016 05:14 PM, Keith Busch wrote:
+> >I think the idea is have the irq_affinity mask match the CPU mapping on
+> >the submission side context associated with that particular vector. If
+> >two identical adapters generate the same submission CPU mapping, I don't
+> >think we can do better than matching irq_affinity masks.
+> 
+> Has this been verified by measurements? Sorry but I'm not convinced that
+> using the same mapping for multiple identical adapters instead of spreading
+> interrupts will result in better performance.
 
-No problem, I think it would be awesome if we could unify these
-drivers somehow, and unification always involves lots of dead-ends :)
+The interrupts automatically spread based on which CPU submitted the
+work. If you want to spread interrupts across more CPUs, then you can
+spread submissions to the CPUs you want to service the interrupts.
+
+Completing work on the same CPU that submitted it is quickest with
+its cache hot access. I have equipment available to demo this. What
+affinty_mask policy would you like to see compared with the proposal?
