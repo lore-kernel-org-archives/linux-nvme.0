@@ -1,62 +1,124 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Wed, 15 Jun 2016 12:42:53 +0200
-Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
-In-Reply-To: <20160615102311.GA16619@lst.de>
-References: <1465934346-20648-1-git-send-email-hch@lst.de>
- <1465934346-20648-3-git-send-email-hch@lst.de>
- <0412b942-ea0d-d4eb-c724-8243d12ff6f3@sandisk.com>
- <20160615102311.GA16619@lst.de>
-Message-ID: <67ef7a1c-56e1-db2c-b038-f9784fc1f52f@sandisk.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 15 Jun 2016 03:48:00 -0700
+Subject: [PATCH] NVMe:Support for Host Memory Buffer(HMB)
+In-Reply-To: <1465565964-7167-1-git-send-email-a.dawn@samsung.com>
+References: <1465565964-7167-1-git-send-email-a.dawn@samsung.com>
+Message-ID: <20160615104800.GC32253@infradead.org>
 
-On 06/15/2016 12:23 PM, Christoph Hellwig wrote:
-> Hi Bart,
->
-> On Wed, Jun 15, 2016@10:44:37AM +0200, Bart Van Assche wrote:
->> However, is excluding these interrupts from irqbalanced really the
->> way to go?
->
-> What positive effect will irqbalanced have on explcititly spread
-> interrupts?
->
->> Suppose e.g. that a system is equipped with two RDMA adapters,
->> that these adapters are used by a blk-mq enabled block initiator driver and
->> that each adapter supports eight MSI-X vectors. Should the interrupts of
->> the two RDMA adapters be assigned to different CPU cores? If so, which
->> software layer should realize this? The kernel or user space?
->
-> RDMA should eventually use the interrupt spreading implemented in this
-> series, as should networking (RDMA actually is on my near term todo list).
->
-> RDMA block protocols will then pick up the queue information from the
-> HCA driver.  I've not actually implemented this yet, but my current idea
-> is:
->
->  - the HCA drivers are switch to use pci_alloc_irq_vectors to spread
->    their interrupt vectors around the system
->  - the HCA drivers will expose the irq_affinity affinity array
->    in struct ib_device (we'll need to consider what do about the
->    odd completion vectors instead of irq terminology in the RDMA stack,
->    but that's not a show stopper)
->  - multiqueue aware block drivers will then feed the irq_affinity
->    cpumask from the hca driver to blk-mq.  We'll also need to ensure
->    the number of protocol queues aligns nicely to the number of hardware
->    queues.  My current thinking is that they should be the same or
->    a fraction of the hardware completion queues, but this might need
->    some careful benchmarking.
+> +static unsigned int  set_max_hmb = 1<<9;
+> +module_param(set_max_hmb, uint, 0444);
+> +MODULE_PARM_DESC(set_max_hmb, "set max size of Host Memory Buffer supported by host in units of MB");
 
-Hello Christoph,
+no need for the set prefix, also there is a double white space above.
 
-Today irqbalanced is responsible for deciding how to assign interrupts 
-from different adapters to CPU cores. Does the above mean that for 
-adapters that support multiple MSI-X interrupts the kernel will have 
-full responsibility for assigning interrupt vectors to CPU cores?
+Moreso I think the limit needs to be relative to the available memory
+in the system.
 
-If two identical adapters are present in a system, will these generate 
-the same irq_affinity mask? Do you agree that interrupt vectors from 
-different adapters should be assigned to different CPU cores if enough 
-CPU cores are available? If so, which software layer will assign 
-interrupt vectors from different adapters to different CPU cores?
+> +static unsigned int  set_hmb_chunk = 1<<10;
+> +module_param(set_hmb_chunk, uint, 0444);
+> +MODULE_PARM_DESC(set_hmb_chunk, "set chunk size of Host Memory Buffer in discriptor list in KB");
 
-Thanks,
+Why would the user care about a chunk size?
 
-Bart.
+Also all the CMB code should be in pci.c, nothing of it applies for
+Fabrics.
+
+> +static int nvme_set_hmb_feature(struct nvme_ctrl *dev, u32 hmb_enable, u64 hmb_size)
+
+Plese keep your line length below 80 characters.
+
+
+> +int nvme_get_hmbcap(struct nvme_ctrl *dev)
+> +{
+> +	u64 max_hmb = set_max_hmb << 10;
+> +
+> +	if (!set_max_hmb || !set_hmb_chunk)
+> +		return -EINVAL;
+> +
+> +	if (!dev->hmb.host_mem_pre)
+> +		return -EINVAL;
+> +
+> +	/* Is Min Host buffer size too high */
+> +	if (dev->hmb.host_mem_min > max_hmb) {
+> +		dev->hmb.host_mem_pre = 0;
+> +		dev->hmb.host_mem_min = 0;
+> +		return -EINVAL;
+> +	}
+> +	/* Is Preffered  Host buffer size too high? set it to set_max_hmb */
+> +	if (dev->hmb.host_mem_pre > max_hmb)
+> +		dev->hmb.host_mem_pre = max_hmb;
+
+FYI, we really should print a message to the kernel log that we're
+using X MB size for the host buffer so that people know where all
+their memory goes.  Probably a sysfs file as well.
+
+We'll also need to think about the kdump kernel which has very little
+memory available.
+
+> +
+> +int nvme_setup_hmb(struct nvme_ctrl *dev)
+> +{
+> +	struct nvme_features feat;
+> +	struct hmb_descriptor *desc_list;
+> +	struct hmb_descriptor_info *desc_info;
+> +	u64 hmb_chunk_size, hmb_allocated, hmb_pre, max_desc_nent;
+> +	u32 page_size, page_shift = 0, nents = 0, offset;
+> +	int status;
+> +
+> +	page_size = dev->page_size;
+> +	while (page_size >>= 1)
+> +		page_shift++;
+
+This should probably use ilog2 if it's needed at all.
+
+> +	status = nvme_get_hmbcap(dev);
+> +	if (status) {
+> +		if (dev->hmb.flags & NVME_HMB_SET_MR) {
+> +			dev->hmb.flags &= ~(NVME_HMB_SET_MR);
+
+no need for the braces.
+
+> +			(sizeof(struct hmb_descriptor)*max_desc_nent) + 0x10;
+
+Whitespace damage (and magic values..)
+
+> +		/* check 16 byte allignment */
+> +		offset = dev->hmb.hmb_desc_info_list.dma_addr & 0xf;
+> +		if (offset)
+> +			offset = (0x10 - offset);
+
+dma_alloc_coherent gurantees cache line alinments.
+
+> +		desc_list = dev->hmb.hmb_desc_info_list.vaddr + offset;
+> +
+> +		desc_info = (struct hmb_descriptor_info *)kmalloc(
+> +				sizeof(struct hmb_descriptor_info)*max_desc_nent,
+> +				GFP_ATOMIC);
+
+Should use kmalloc_aray. No need for the cast of the return value.
+And why the GFP_ATOMIC allocation
+
+> +		hmb_allocated = 0;
+> +		while (hmb_allocated < hmb_pre) {
+> +			/* adjust chunk size if it crosses boundary */
+> +			if (hmb_chunk_size > (hmb_pre - hmb_allocated))
+> +				hmb_chunk_size = (hmb_pre - hmb_allocated);
+> +			/* allocate 1 page extra for page alligned */
+
+dma coherent allocations are always page aligned, see
+Documentation/DMA-API-HOWTO.txt.
+
+> +			desc_info[nents].size = hmb_chunk_size + dev->page_size;
+> +			desc_info[nents].vaddr = dma_alloc_coherent(dev->dev,
+> +						desc_info[nents].size,
+> +						&desc_info[nents].dma_addr,
+> +						GFP_KERNEL);
+
+Given that the hose will never access this memory it sounds like this
+should use dma_alloc_attrs with the DMA_ATTR_NON_CONSISTENT and
+DMA_ATTR_NO_KERNEL_MAPPING flags.  ARM SOC users will thank you..
+
+> +		if (hmb_allocated < (dev->hmb.host_mem_min << 10)
+> +			|| hmb_allocated > (dev->hmb.host_mem_pre << 10)) {
+
+Please run the code throgh checkpatch.pl..
