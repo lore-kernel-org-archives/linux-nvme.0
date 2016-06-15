@@ -1,42 +1,34 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Tue, 14 Jun 2016 16:34:57 -0700
-Subject: [PATCH] nvme: initialize variable before logical OR'ing it
-In-Reply-To: <1464882685-4531-1-git-send-email-james.p.freyensee@intel.com>
-References: <1464882685-4531-1-git-send-email-james.p.freyensee@intel.com>
-Message-ID: <1465947297.1623.3.camel@linux.intel.com>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Wed, 15 Jun 2016 10:35:21 +0200
+Subject: [PATCH 06/13] irq: add a helper spread an affinity mask for
+ MSI/MSI-X vectors
+In-Reply-To: <57607D0E.1060907@linux.vnet.ibm.com>
+References: <1465934346-20648-1-git-send-email-hch@lst.de>
+ <1465934346-20648-7-git-send-email-hch@lst.de>
+ <57607D0E.1060907@linux.vnet.ibm.com>
+Message-ID: <a13c3808-97db-2fff-55b0-848fd0db13ae@sandisk.com>
 
-On Thu, 2016-06-02@08:51 -0700, Jay Freyensee wrote:
+On 06/14/2016 11:54 PM, Guilherme G. Piccoli wrote:
+> On 06/14/2016 04:58 PM, Christoph Hellwig wrote:
+> I take this opportunity to ask you something, since I'm working in a
+> related code in a specific driver - sorry in advance if my question is
+> silly or if I misunderstood your code.
+>
+> The function irq_create_affinity_mask() below deals with the case in
+> which we have nr_vecs < num_online_cpus(); in this case, wouldn't be a
+> good idea to trying distribute the vecs among cores?
+>
+> Example: if we have 128 online cpus, 8 per core (meaning 16 cores) and
+> 64 vecs, I guess would be ideal to distribute 4 vecs _per core_, leaving
+> 4 CPUs in each core without vecs.
 
-Ping?
+Hello Christoph and Guilherme,
 
-> It is typically not good coding or secure coding practice
-> to logical OR a variable without an initialization value first.
-> Here on this line:
-> 
-> integrity.flags |= BLK_INTEGRITY_DEVICE_CAPABLE;
-> 
-> BLK_INTEGRITY_DEVICE_CAPABLE is being OR'ed to a member variable
-> never set to an initial value. This patch fixes that.
-> 
-> Signed-off-by: Jay Freyensee <james.p.freyensee at intel.com>
-> Reviewed-by: Ming Lin <ming.l at samsung.com>
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-> 
-> ---
->  drivers/nvme/host/core.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index f6f6fdf..33fe610 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -843,6 +843,7 @@ static void nvme_init_integrity(struct nvme_ns
-> *ns)
->  {
->  	struct blk_integrity integrity;
->  
-> +	memset(&integrity, 0, sizeof(integrity));
->  	switch (ns->pi_type) {
->  	case NVME_NS_DPS_PI_TYPE3:
->  		integrity.profile = &t10_pi_type3_crc;
+I would also like to see irq_create_affinity_mask() modified such that 
+it implements Guilherme's algorithm. I think blk-mq requests should be 
+processed by a CPU core from the NUMA node from which the request has 
+been submitted. With the proposed algorithm, if the number of MSI-X 
+vectors is less than or equal to the number of CPU cores of a single 
+node, all interrupt vectors will be assigned to the first NUMA node.
+
+Bart.
