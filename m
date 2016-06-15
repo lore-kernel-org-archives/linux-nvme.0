@@ -1,34 +1,32 @@
 From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Wed, 15 Jun 2016 10:35:21 +0200
-Subject: [PATCH 06/13] irq: add a helper spread an affinity mask for
- MSI/MSI-X vectors
-In-Reply-To: <57607D0E.1060907@linux.vnet.ibm.com>
+Date: Wed, 15 Jun 2016 10:44:37 +0200
+Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
+In-Reply-To: <1465934346-20648-3-git-send-email-hch@lst.de>
 References: <1465934346-20648-1-git-send-email-hch@lst.de>
- <1465934346-20648-7-git-send-email-hch@lst.de>
- <57607D0E.1060907@linux.vnet.ibm.com>
-Message-ID: <a13c3808-97db-2fff-55b0-848fd0db13ae@sandisk.com>
+ <1465934346-20648-3-git-send-email-hch@lst.de>
+Message-ID: <0412b942-ea0d-d4eb-c724-8243d12ff6f3@sandisk.com>
 
-On 06/14/2016 11:54 PM, Guilherme G. Piccoli wrote:
-> On 06/14/2016 04:58 PM, Christoph Hellwig wrote:
-> I take this opportunity to ask you something, since I'm working in a
-> related code in a specific driver - sorry in advance if my question is
-> silly or if I misunderstood your code.
+On 06/14/2016 09:58 PM, Christoph Hellwig wrote:
+> From: Thomas Gleixner <tglx at linutronix.de>
 >
-> The function irq_create_affinity_mask() below deals with the case in
-> which we have nr_vecs < num_online_cpus(); in this case, wouldn't be a
-> good idea to trying distribute the vecs among cores?
+> Interupts marked with this flag are excluded from user space interrupt
+> affinity changes. Contrary to the IRQ_NO_BALANCING flag, the kernel internal
+> affinity mechanism is not blocked.
 >
-> Example: if we have 128 online cpus, 8 per core (meaning 16 cores) and
-> 64 vecs, I guess would be ideal to distribute 4 vecs _per core_, leaving
-> 4 CPUs in each core without vecs.
+> This flag will be used for multi-queue device interrupts.
 
-Hello Christoph and Guilherme,
+It's great to see that the goal of this patch series is to configure 
+interrupt affinity automatically for adapters that support multiple 
+MSI-X vectors. However, is excluding these interrupts from irqbalanced 
+really the way to go? Suppose e.g. that a system is equipped with two 
+RDMA adapters, that these adapters are used by a blk-mq enabled block 
+initiator driver and that each adapter supports eight MSI-X vectors. 
+Should the interrupts of the two RDMA adapters be assigned to different 
+CPU cores? If so, which software layer should realize this? The kernel 
+or user space?
 
-I would also like to see irq_create_affinity_mask() modified such that 
-it implements Guilherme's algorithm. I think blk-mq requests should be 
-processed by a CPU core from the NUMA node from which the request has 
-been submitted. With the proposed algorithm, if the number of MSI-X 
-vectors is less than or equal to the number of CPU cores of a single 
-node, all interrupt vectors will be assigned to the first NUMA node.
+Sorry that I missed the first version of this patch series.
+
+Thanks,
 
 Bart.
