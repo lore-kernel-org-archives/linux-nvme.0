@@ -1,49 +1,43 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 15 Jun 2016 12:10:45 +0200
-Subject: [PATCH 06/13] irq: add a helper spread an affinity mask for
- MSI/MSI-X vectors
-In-Reply-To: <57607D0E.1060907@linux.vnet.ibm.com>
+Date: Wed, 15 Jun 2016 12:23:11 +0200
+Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
+In-Reply-To: <0412b942-ea0d-d4eb-c724-8243d12ff6f3@sandisk.com>
 References: <1465934346-20648-1-git-send-email-hch@lst.de>
- <1465934346-20648-7-git-send-email-hch@lst.de>
- <57607D0E.1060907@linux.vnet.ibm.com>
-Message-ID: <20160615101045.GB16425@lst.de>
+ <1465934346-20648-3-git-send-email-hch@lst.de>
+ <0412b942-ea0d-d4eb-c724-8243d12ff6f3@sandisk.com>
+Message-ID: <20160615102311.GA16619@lst.de>
 
-On Tue, Jun 14, 2016@06:54:22PM -0300, Guilherme G. Piccoli wrote:
-> On 06/14/2016 04:58 PM, Christoph Hellwig wrote:
->> This is lifted from the blk-mq code and adopted to use the affinity mask
->> concept just intruced in the irq handling code.
->
-> Very nice patch Christoph, thanks. There's a little typo above, on 
-> "intruced".
+Hi Bart,
 
-fixed.
+On Wed, Jun 15, 2016@10:44:37AM +0200, Bart Van Assche wrote:
+> However, is excluding these interrupts from irqbalanced really the 
+> way to go?
 
-> Another little typo above in "assining".
+What positive effect will irqbalanced have on explcititly spread
+interrupts?
 
-fixed a swell.
+> Suppose e.g. that a system is equipped with two RDMA adapters, 
+> that these adapters are used by a blk-mq enabled block initiator driver and 
+> that each adapter supports eight MSI-X vectors. Should the interrupts of 
+> the two RDMA adapters be assigned to different CPU cores? If so, which 
+> software layer should realize this? The kernel or user space?
 
-> I take this opportunity to ask you something, since I'm working in a 
-> related code in a specific driver
+RDMA should eventually use the interrupt spreading implemented in this
+series, as should networking (RDMA actually is on my near term todo list).
 
-Which driver?  One of the points here is to get this sort of code out
-of drivers and into common code..
+RDMA block protocols will then pick up the queue information from the
+HCA driver.  I've not actually implemented this yet, but my current idea
+is:
 
-> - sorry in advance if my question is 
-> silly or if I misunderstood your code.
->
-> The function irq_create_affinity_mask() below deals with the case in which 
-> we have nr_vecs < num_online_cpus(); in this case, wouldn't be a good idea 
-> to trying distribute the vecs among cores?
->
-> Example: if we have 128 online cpus, 8 per core (meaning 16 cores) and 64 
-> vecs, I guess would be ideal to distribute 4 vecs _per core_, leaving 4 
-> CPUs in each core without vecs.
-
-There have been some reports about the blk-mq IRQ distribution being
-suboptimal, but no one sent patches so far.  This patch just moves the
-existing algorithm into the core code to be better bisectable.
-
-I think an algorithm that takes cores into account instead of just SMT
-sibling would be very useful.  So if you have a case where this helps
-for you an incremental patch (or even one against the current blk-mq
-code for now) would be appreciated.
+ - the HCA drivers are switch to use pci_alloc_irq_vectors to spread
+   their interrupt vectors around the system
+ - the HCA drivers will expose the irq_affinity affinity array
+   in struct ib_device (we'll need to consider what do about the
+   odd completion vectors instead of irq terminology in the RDMA stack,
+   but that's not a show stopper)
+ - multiqueue aware block drivers will then feed the irq_affinity
+   cpumask from the hca driver to blk-mq.  We'll also need to ensure
+   the number of protocol queues aligns nicely to the number of hardware
+   queues.  My current thinking is that they should be the same or
+   a fraction of the hardware completion queues, but this might need
+   some careful benchmarking.
