@@ -1,40 +1,43 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 15 Jun 2016 15:54:01 -0400
-Subject: generic NVMe over Fabrics library support V2
-In-Reply-To: <1465829128-22993-1-git-send-email-hch@lst.de>
-References: <1465829128-22993-1-git-send-email-hch@lst.de>
-Message-ID: <20160615195401.GA7637@localhost.localdomain>
+Date: Wed, 15 Jun 2016 16:06:55 -0400
+Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
+In-Reply-To: <86aa652b-48d0-a7bb-683e-bf43939aa811@sandisk.com>
+References: <1465934346-20648-1-git-send-email-hch@lst.de>
+ <1465934346-20648-3-git-send-email-hch@lst.de>
+ <0412b942-ea0d-d4eb-c724-8243d12ff6f3@sandisk.com>
+ <20160615102311.GA16619@lst.de>
+ <67ef7a1c-56e1-db2c-b038-f9784fc1f52f@sandisk.com>
+ <20160615151415.GA1919@localhost.localdomain>
+ <7f0b16bd-b39f-99e6-c1c1-6a508bf9bbbf@sandisk.com>
+ <20160615160316.GB1919@localhost.localdomain>
+ <86aa652b-48d0-a7bb-683e-bf43939aa811@sandisk.com>
+Message-ID: <20160615200655.GB7637@localhost.localdomain>
 
-On Mon, Jun 13, 2016@04:45:20PM +0200, Christoph Hellwig wrote:
-> This patch set adds the necessary infrastructure for the NVMe over
-> Fabrics functionality and the NVMe over Fabrics library itself.
+On Wed, Jun 15, 2016@09:36:54PM +0200, Bart Van Assche wrote:
+> Sorry that I had not yet this made this clear but my concern is about a
+> system equipped with two or more adapters and with more CPU cores than the
+> number of MSI-X interrupts per adapter. Consider e.g. a system with two
+> adapters (A and B), 8 interrupts per adapter (A0..A7 and B0..B7), 32 CPU
+> cores and two NUMA nodes. Assuming that hyperthreading is disabled, will the
+> patches from this patch series generate the following interrupt assignment?
 > 
-> First we add some needed parameters to NVMe request allocation such as flags
-> (for reserved commands - connect and keep-alive), also support tag
-> allocation of a given queue ID (for connect to be executed per-queue)
-> and allow request to be queued at the head of the request queue (so
-> reconnects can pass in flight I/O).
-> 
-> Second, we add support for additional sysfs attributes that are needed
-> or useful for the Fabrics driver.
-> 
-> Third we add the NVMe over Fabrics related header definitions and the
-> Fabrics library itself which is transport independent and handles
-> Fabrics specific commands and variables.
-> 
-> Last, we add support for periodic keep-alive mechanism which is mandatory
-> for Fabrics.
-> 
-> Changes from V1:
->  - don't directly free host->opts on connect failure (Sagi)
->  - blk_mq_alloc_request_hctx improvements (Ming and me)
->  - keep alive should not use blk_mq_alloc_request_hctx (me)
+> 0: A0 B0
+> 1: A1 B1
+> 2: A2 B2
+> 3: A3 B3
+> 4: A4 B4
+> 5: A5 B5
+> 6: A6 B6
+> 7: A7 B7
+> 8: (none)
+> ...
+> 31: (none)
 
-I only had the one comment, and Sagi says you guys already considered
-it but was more complicated than it was worth. Looking at the patches
-that follow, I tend to agree.
+I'll need to look at the follow on patches do to confirm, but that's
+not what this should do. All CPU's should have a vector assigned because
+every CPU needs to be assigned a submission context using a vector. In
+your example, every vector's affinity mask should be assigned to 4 CPUs:
+vector '8' starts over with A0 B0, '9' gets A1 B1, and so on.
 
-The rest looks great, and passes all the sanity tests I can run. This
-time with correct email spelling:
-
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+If it's done such that all CPUs are assigned and no sharing occurs across
+NUMA nodes, does that change your concern?
