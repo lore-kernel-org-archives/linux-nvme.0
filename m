@@ -1,58 +1,22 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 16 Jun 2016 10:17:03 -0500
-Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
-In-Reply-To: <20160616151048.GA13218@lst.de>
-References: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
- <20160616145724.GA32635@infradead.org> <20160616151048.GA13218@lst.de>
-Message-ID: <00dc01d1c7e2$22f01230$68d03690$@opengridcomputing.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 16 Jun 2016 17:20:06 +0200
+Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
+In-Reply-To: <86aa652b-48d0-a7bb-683e-bf43939aa811@sandisk.com>
+References: <1465934346-20648-1-git-send-email-hch@lst.de>
+ <1465934346-20648-3-git-send-email-hch@lst.de>
+ <0412b942-ea0d-d4eb-c724-8243d12ff6f3@sandisk.com>
+ <20160615102311.GA16619@lst.de>
+ <67ef7a1c-56e1-db2c-b038-f9784fc1f52f@sandisk.com>
+ <20160615151415.GA1919@localhost.localdomain>
+ <7f0b16bd-b39f-99e6-c1c1-6a508bf9bbbf@sandisk.com>
+ <20160615160316.GB1919@localhost.localdomain>
+ <86aa652b-48d0-a7bb-683e-bf43939aa811@sandisk.com>
+Message-ID: <20160616152006.GA13615@lst.de>
 
-Hey Yoichi, can you please try this out on your setup?  I'm still trying to
-reproduce this on mine.
+On Wed, Jun 15, 2016@09:36:54PM +0200, Bart Van Assche wrote:
+> Do you agree that - ignoring other interrupt assignments - that the latter 
+> interrupt assignment scheme would result in higher throughput and lower 
+> interrupt processing latency?
 
-Thanks!
-
-Steve.
-
-> I think nvmet_rdma_delete_ctrl is getting the exlusion vs other calls
-> or __nvmet_rdma_queue_disconnect wrong as we rely on a queue that
-> is undergoing deletion to not be on any list.  Additionally it also
-> check the cntlid instead of the pointer, which would be harmful if
-> multiple subsystems have the same cntlid.
-> 
-> Does the following patch help?
-> 
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index b1c6e5b..9ae65a7 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -1293,19 +1293,21 @@ static int nvmet_rdma_cm_handler(struct
-> rdma_cm_id *cm_id,
-> 
->  static void nvmet_rdma_delete_ctrl(struct nvmet_ctrl *ctrl)
->  {
-> -	struct nvmet_rdma_queue *queue, *next;
-> -	static LIST_HEAD(del_list);
-> +	struct nvmet_rdma_queue *queue, *found = NULL;
-> 
->  	mutex_lock(&nvmet_rdma_queue_mutex);
-> -	list_for_each_entry_safe(queue, next,
-> -			&nvmet_rdma_queue_list, queue_list) {
-> -		if (queue->nvme_sq.ctrl->cntlid == ctrl->cntlid)
-> -			list_move_tail(&queue->queue_list, &del_list);
-> +	list_for_each_entry(queue, &nvmet_rdma_queue_list, queue_list) {
-> +		if (queue->nvme_sq.ctrl == ctrl) {
-> +			list_del_init(&queue->queue_list);
-> +			found = queue;
-> +			break;
-> +		}
->  	}
-> +
->  	mutex_unlock(&nvmet_rdma_queue_mutex);
-> 
-> -	list_for_each_entry_safe(queue, next, &del_list, queue_list)
-> -		nvmet_rdma_queue_disconnect(queue);
-> +	if (found)
-> +		__nvmet_rdma_queue_disconnect(queue);
->  }
-> 
->  static int nvmet_rdma_add_port(struct nvmet_port *port)
+Probably.  Once we've got it in the core IRQ code we can tweak the
+algorithm to be optimal.
