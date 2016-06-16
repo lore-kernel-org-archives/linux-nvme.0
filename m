@@ -1,26 +1,24 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 16 Jun 2016 11:19:51 -0400
-Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
-In-Reply-To: <7a61fe73-2808-70b4-e3b2-b6a924559d9d@sandisk.com>
-References: <0412b942-ea0d-d4eb-c724-8243d12ff6f3@sandisk.com>
- <20160615102311.GA16619@lst.de>
- <67ef7a1c-56e1-db2c-b038-f9784fc1f52f@sandisk.com>
- <20160615151415.GA1919@localhost.localdomain>
- <7f0b16bd-b39f-99e6-c1c1-6a508bf9bbbf@sandisk.com>
- <20160615160316.GB1919@localhost.localdomain>
- <86aa652b-48d0-a7bb-683e-bf43939aa811@sandisk.com>
- <20160615200655.GB7637@localhost.localdomain>
- <20160615201213.GC7637@localhost.localdomain>
- <7a61fe73-2808-70b4-e3b2-b6a924559d9d@sandisk.com>
-Message-ID: <20160616151950.GA11840@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 16 Jun 2016 17:16:13 +0200
+Subject: [PATCH 06/13] irq: add a helper spread an affinity mask for
+ MSI/MSI-X vectors
+In-Reply-To: <5761538D.6060303@linux.vnet.ibm.com>
+References: <1465934346-20648-1-git-send-email-hch@lst.de>
+ <1465934346-20648-7-git-send-email-hch@lst.de>
+ <57607D0E.1060907@linux.vnet.ibm.com> <20160615101045.GB16425@lst.de>
+ <5761538D.6060303@linux.vnet.ibm.com>
+Message-ID: <20160616151613.GA13433@lst.de>
 
-On Wed, Jun 15, 2016@10:50:53PM +0200, Bart Van Assche wrote:
-> Does it matter on x86 systems whether or not these interrupt vectors are
-> also associated with a CPU with a higher CPU number? Although multiple bits
-> can be set in /proc/irq/<n>/smp_affinity only the first bit counts on x86
-> platforms. In default_cpu_mask_to_apicid_and() it is easy to see that only
-> the first bit that has been set in that mask counts on x86 systems.
+>
+> ...but now I'll focus on the common/general case! Thanks for the suggestion 
+> Christoph. I guess would be even better to have a generic function that 
+> retrieves an optimal mask, something like topology_get_optimal_mask(n, 
+> *cpumask), in which we get the best distribution of n CPUs among all cores 
+> and return such a mask - interesting case is when n < num_online_cpus. So, 
+> this function could be used inside your irq_create_affinity_mask() and 
+> maybe in other places it is needed.
 
-Wow, thanks for the information. I didn't know the apic wasn't using
-the full cpu mask, so this changes how I need to look at this, and will
-experiment with such a configuration.
+Yes, we should probably just plug this in where we're using the current
+routines.  Block very much optimizes for the cases of either 1 queue
+or enough queues for all cpus at the moments.  It would be good to check
+what the network drivers currently do.
