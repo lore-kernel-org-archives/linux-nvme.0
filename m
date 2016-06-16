@@ -1,17 +1,50 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 16 Jun 2016 07:57:24 -0700
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 16 Jun 2016 17:10:48 +0200
 Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
-In-Reply-To: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
+In-Reply-To: <20160616145724.GA32635@infradead.org>
 References: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
-Message-ID: <20160616145724.GA32635@infradead.org>
+ <20160616145724.GA32635@infradead.org>
+Message-ID: <20160616151048.GA13218@lst.de>
 
-On Thu, Jun 16, 2016@09:53:45AM -0500, Steve Wise wrote:
-> [11436.603807] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
-> [11436.609866] BUG: unable to handle kernel NULL pointer dereference at
-> 0000000000000050
-> [11436.617764] IP: [<ffffffffa09c6dff>] nvmet_rdma_delete_ctrl+0x6f/0x100
+I think nvmet_rdma_delete_ctrl is getting the exlusion vs other calls
+or __nvmet_rdma_queue_disconnect wrong as we rely on a queue that
+is undergoing deletion to not be on any list.  Additionally it also
+check the cntlid instead of the pointer, which would be harmful if
+multiple subsystems have the same cntlid.
 
-Can you check using gdb where in the code this is?
+Does the following patch help?
 
-This is the obvious crash we'll need to fix first.  Then we'll need to
-figure out why the keep alive timer times out under this workload.
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index b1c6e5b..9ae65a7 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1293,19 +1293,21 @@ static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
+ 
+ static void nvmet_rdma_delete_ctrl(struct nvmet_ctrl *ctrl)
+ {
+-	struct nvmet_rdma_queue *queue, *next;
+-	static LIST_HEAD(del_list);
++	struct nvmet_rdma_queue *queue, *found = NULL;
+ 
+ 	mutex_lock(&nvmet_rdma_queue_mutex);
+-	list_for_each_entry_safe(queue, next,
+-			&nvmet_rdma_queue_list, queue_list) {
+-		if (queue->nvme_sq.ctrl->cntlid == ctrl->cntlid)
+-			list_move_tail(&queue->queue_list, &del_list);
++	list_for_each_entry(queue, &nvmet_rdma_queue_list, queue_list) {
++		if (queue->nvme_sq.ctrl == ctrl) {
++			list_del_init(&queue->queue_list);
++			found = queue;
++			break;
++		}
+ 	}
++
+ 	mutex_unlock(&nvmet_rdma_queue_mutex);
+ 
+-	list_for_each_entry_safe(queue, next, &del_list, queue_list)
+-		nvmet_rdma_queue_disconnect(queue);
++	if (found)
++		__nvmet_rdma_queue_disconnect(queue);
+ }
+ 
+ static int nvmet_rdma_add_port(struct nvmet_port *port)
