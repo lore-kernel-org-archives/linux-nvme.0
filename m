@@ -1,22 +1,23 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 16 Jun 2016 17:20:06 +0200
-Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
-In-Reply-To: <86aa652b-48d0-a7bb-683e-bf43939aa811@sandisk.com>
+Date: Thu, 16 Jun 2016 17:22:37 +0200
+Subject: automatic interrupt affinity for MSI/MSI-X capable devices V2
+In-Reply-To: <b8cdfc80-fa77-b7cc-69b8-fb6037114087@sandisk.com>
 References: <1465934346-20648-1-git-send-email-hch@lst.de>
- <1465934346-20648-3-git-send-email-hch@lst.de>
- <0412b942-ea0d-d4eb-c724-8243d12ff6f3@sandisk.com>
- <20160615102311.GA16619@lst.de>
- <67ef7a1c-56e1-db2c-b038-f9784fc1f52f@sandisk.com>
- <20160615151415.GA1919@localhost.localdomain>
- <7f0b16bd-b39f-99e6-c1c1-6a508bf9bbbf@sandisk.com>
- <20160615160316.GB1919@localhost.localdomain>
- <86aa652b-48d0-a7bb-683e-bf43939aa811@sandisk.com>
-Message-ID: <20160616152006.GA13615@lst.de>
+ <b8cdfc80-fa77-b7cc-69b8-fb6037114087@sandisk.com>
+Message-ID: <20160616152237.GB13615@lst.de>
 
-On Wed, Jun 15, 2016@09:36:54PM +0200, Bart Van Assche wrote:
-> Do you agree that - ignoring other interrupt assignments - that the latter 
-> interrupt assignment scheme would result in higher throughput and lower 
-> interrupt processing latency?
+On Thu, Jun 16, 2016@11:45:55AM +0200, Bart Van Assche wrote:
+> Is my interpretation correct that for an adapter that supports two 
+> interrupts and on a system with eight CPU cores and no hyperthreading this 
+> patch series will assign interrupt vector 0 to CPU 0 and interrupt vector 1 
+> to CPU 1?
 
-Probably.  Once we've got it in the core IRQ code we can tweak the
-algorithm to be optimal.
+Yes - same as the existing blk-mq queue distribution.
+
+> Are you aware that drivers like ib_srp assume that interrupts 
+> have been spread evenly, that means assigning vector 0 to CPU 0 and vector 
+> 1 to CPU 4?
+
+which will make them run into a conflict with the current blk-mq
+assignment.  That's exactly the point why we're trying to move things
+to a core location so that everyone can use the same mapping.
