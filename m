@@ -1,16 +1,38 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 16 Jun 2016 15:35:30 -0500
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 16 Jun 2016 22:38:24 +0200
 Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
-In-Reply-To: <576306EE.4020306@grimberg.me>
+In-Reply-To: <5762F9E2.7030101@grimberg.me>
 References: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
- <20160616145724.GA32635@infradead.org>
- <017001d1c7e7$95057270$bf105750$@opengridcomputing.com>
- <5763044A.9090206@grimberg.me>
- <01b501d1c809$92cb1a60$b8614f20$@opengridcomputing.com>
- <576306EE.4020306@grimberg.me>
-Message-ID: <01c301d1c80e$9faa4ad0$defee070$@opengridcomputing.com>
+ <20160616145724.GA32635@infradead.org> <20160616151048.GA13218@lst.de>
+ <5762F9E2.7030101@grimberg.me>
+Message-ID: <20160616203824.GA19113@lst.de>
 
-> So this is related to I/O load then? Does it happen when
-> you just do it without any I/O? (or small load)?
+On Thu, Jun 16, 2016@10:11:30PM +0300, Sagi Grimberg wrote:
+>> I think nvmet_rdma_delete_ctrl is getting the exlusion vs other calls
+>> or __nvmet_rdma_queue_disconnect wrong as we rely on a queue that
+>> is undergoing deletion to not be on any list.
+>
+> How do we rely on that? __nvmet_rdma_queue_disconnect callers are
+> responsible for queue_list deletion and queue the release. I don't
+> see where are we getting it wrong.
 
-I just tried, and it happens also w/o any traffic over the device on my setup.
+Thread 1:
+
+Moves the queues off nvmet_rdma_queue_list and and onto the
+local list in nvmet_rdma_delete_ctrl
+
+Thread 2:
+
+Gets into nvmet_rdma_cm_handler -> nvmet_rdma_queue_disconnect for one
+of the queues now on the local list.  list_empty(&queue->queue_list) evaluates
+to false because the queue is on the local list, and now we have thread 1
+and 2 racing for disconnecting the queue.
+
+>>   static int nvmet_rdma_add_port(struct nvmet_port *port)
+>>
+>
+> Umm, this looks wrong to me. delete_controller should delete _all_
+> the ctrl queues (which will usually involve more than 1), what about
+> all the other queues? what am I missing?
+
+Yes, it should - see the patch I just posted.
