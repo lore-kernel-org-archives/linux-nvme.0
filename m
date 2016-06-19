@@ -1,39 +1,38 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 19 Jun 2016 14:57:10 +0300
-Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
-In-Reply-To: <CAF1ivSZNJhOtORceAfk9Ym9SPpYOGQ4q0KOD8eEuy0ovU2Eefw@mail.gmail.com>
-References: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
- <20160616145724.GA32635@infradead.org>
- <017001d1c7e7$95057270$bf105750$@opengridcomputing.com>
- <5763044A.9090206@grimberg.me>
- <005f01d1c8a1$5a229240$0e67b6c0$@opengridcomputing.com>
- <007801d1c8a2$d6056530$82102f90$@opengridcomputing.com>
- <CAF1ivSZNJhOtORceAfk9Ym9SPpYOGQ4q0KOD8eEuy0ovU2Eefw@mail.gmail.com>
-Message-ID: <57668896.7090308@grimberg.me>
+From: kernel@jbeekman.nl (Jethro Beekman)
+Date: Sun, 19 Jun 2016 16:06:31 -0700
+Subject: [PATCH 0/3] nvme: Don't add namespaces for locked drives
+Message-ID: <20160619230634.17229-1-kernel@jbeekman.nl>
 
+Hi all,
 
+If an NVMe drive is locked with ATA Security, most commands sent to the drive 
+will fail. This includes commands sent by the kernel upon discovery to probe 
+for partitions. The failing happens in such a way that trying to do anything 
+with the drive (e.g. sending an unlock command; unloading the nvme module) is 
+basically impossible with the high default command timeout.
 
-On 17/06/16 20:20, Ming Lin wrote:
-> On Fri, Jun 17, 2016@7:16 AM, Steve Wise <swise@opengridcomputing.com> wrote:
->>>
->>>>
->>>> Steve, is this something that started happening recently? does the
->>>> 4.6-rc3 tag suffer from the same phenomenon?
->>>
->>> Where is this tag?
->>
->> Never mind.  I found it (needed 'git pull -t' for pull the tags from the gitlab
->> nvmef repo).
->
-> I run this overnight,
->
-> #!/bin/bash
->
-> while [ 1 ] ; do
->      ifconfig eth5 down ; sleep 15; ifconfig eth5 up; sleep 15
-> done
->
-> Although the crash is not reproduced, but it triggers another OOM bug.
+This patch adds a check to see if the drive is locked, and if it is, its 
+namespaces are not initialized. It is expected that userspace will send the 
+proper "security send/unlock" command and then reset the controller. Userspace 
+tools are available at [1].
 
-Which code-base is this? it looks like this code is just leaking queues.
-Obviously something changed...
+This is my first kernel patch so please let me know if you have any feedback.
+
+I intend to also submit a future patch that tracks ATA Security commands sent 
+from userspace and remembers the password so it can be submitted to a locked 
+drive upon pm_resume. (still WIP)
+
+Jethro Beekman
+
+[1] https://github.com/jethrogb/nvme-ata-security
+
+Jethro Beekman (3):
+  nvme: When scanning namespaces, make sure the drive is not locked
+  nvme: Add function for NVMe security receive command
+  nvme: Check if drive is locked using ATA Security
+
+ drivers/nvme/host/core.c | 70 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 70 insertions(+)
+
+-- 
+2.9.0
