@@ -1,24 +1,55 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 20 Jun 2016 09:08:34 +0200
-Subject: [PATCH] nvme: avoid crashes when node 0 is memoryless node.
-In-Reply-To: <576739CD.2010002@jp.fujitsu.com>
-References: <576739CD.2010002@jp.fujitsu.com>
-Message-ID: <20160620070834.bt4y6d52iazsexyd@c203.arch.suse.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 20 Jun 2016 14:22:19 +0200
+Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
+In-Reply-To: <f22e87c1-6875-9a59-94db-42a6f71663b8@sandisk.com>
+References: <1465934346-20648-3-git-send-email-hch@lst.de>
+ <0412b942-ea0d-d4eb-c724-8243d12ff6f3@sandisk.com>
+ <20160615102311.GA16619@lst.de>
+ <67ef7a1c-56e1-db2c-b038-f9784fc1f52f@sandisk.com>
+ <20160615151415.GA1919@localhost.localdomain>
+ <7f0b16bd-b39f-99e6-c1c1-6a508bf9bbbf@sandisk.com>
+ <20160615160316.GB1919@localhost.localdomain>
+ <86aa652b-48d0-a7bb-683e-bf43939aa811@sandisk.com>
+ <20160616152006.GA13615@lst.de>
+ <f22e87c1-6875-9a59-94db-42a6f71663b8@sandisk.com>
+Message-ID: <20160620122219.GA29059@lst.de>
 
-On Mon, Jun 20, 2016@09:33:17AM +0900, Masayoshi Mizuma wrote:
-> When CONFIG_NUMA is enabled and node 0 is memoryless, the system
-> crashes because nvme_probe() sets the device->numa_node to 0 by
-> set_dev_node(&pdev->dev, 0), so it tries to allocate memory from node 0.
-> To avoid the crash, we should change the 0 to first_memory_node.
-> 
-> Signed-off-by: Masayoshi Mizuma <m.mizuma at jp.fujitsu.com>
+On Thu, Jun 16, 2016@05:39:07PM +0200, Bart Van Assche wrote:
+> On 06/16/2016 05:20 PM, Christoph Hellwig wrote:
+>> On Wed, Jun 15, 2016@09:36:54PM +0200, Bart Van Assche wrote:
+>>> Do you agree that - ignoring other interrupt assignments - that the latter
+>>> interrupt assignment scheme would result in higher throughput and lower
+>>> interrupt processing latency?
+>>
+>> Probably.  Once we've got it in the core IRQ code we can tweak the
+>> algorithm to be optimal.
+>
+> Sorry but I'm afraid that we are embedding policy in the kernel, something 
+> we should not do. I know that there are workloads for which dedicating some 
+> CPU cores to interrupt processing and other CPU cores to running kernel 
+> threads improves throughput, probably because this results in less cache 
+> eviction on the CPU cores that run kernel threads and some degree of 
+> interrupt coalescing on the CPU cores that process interrupts.
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+And you can still easily set this use case up by chosing less queues
+(aka interrupts) than CPUs and assining your workload to the other
+cores.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+> My concern 
+> is that I doubt that there is an interrupt assignment scheme that works 
+> optimally for all workloads. Hence my request to preserve the ability to 
+> modify interrupt affinity from user space.
+
+I'd say let's do such an interface incrementall based on the use
+case - especially after we get networking over to use common code
+to distribute the interrupts.  If you were doing something like this
+with the current blk-mq code it wouldn't work very well due to the
+fact that you'd have a mismatch between the assigned interrupt and
+the blk-mq queue mapping anyway.
+
+It might be a good idea to start brainstorming how we'd want to handle
+this change - we'd basically need a per-device notification that the
+interrupt mapping changes so that we can rebuild the queue mapping,
+which is somewhat similar to the lib/cpu_rmap.c code used by a few
+networking drivers.  This would also help with dealing with cpu
+hotplug events that change the cpu mapping.
