@@ -1,66 +1,89 @@
-From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
-Date: Mon, 20 Jun 2016 14:03:37 -0300
-Subject: [PATCH 2/2] [RFC] nvme: enable asynchronous events notification
- by default
-In-Reply-To: <57679355.6000303@gmail.com>
-References: <1466184075-10471-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
- <1466184075-10471-3-git-send-email-gpiccoli@linux.vnet.ibm.com>
- <57679355.6000303@gmail.com>
-Message-ID: <576821E9.2060009@linux.vnet.ibm.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 20 Jun 2016 11:44:51 -0600
+Subject: [PATCH] nvme: Limit command retries
+Message-ID: <1466444691-29448-1-git-send-email-keith.busch@intel.com>
 
-On 06/20/2016 03:55 AM, Sagi Grimberg wrote:
->
->> Asynchronous events notification currently is disabled by default;
->> to enable it, one should issue a set-feature command through
->> nvme-cli userspace application. The tool also allows disabling
->> these events once they're enable, as per user desire.
->>
->> This patch makes the asynchronous events notification enabled by
->> default; to do so, we submit the set-feature command from the
->> driver, in the end of nvme_reset_work() routine. This way, the
->> feature is enabled on the driver initialization and after resets,
->> in case they happen.
->
-> AEN was already enabled by default in:
->
-> commit f866fc4282a81673ef973ad54c68235a3263b42e
-> Author: Christoph Hellwig <hch at lst.de>
-> Date:   Tue Apr 26 13:52:00 2016 +0200
->
->      nvme: move AER handling to common code
->
->      The transport driver still needs to do the actual submission, but
-> all the
->      higher level code can be shared.
->
->      Signed-off-by: Christoph Hellwig <hch at lst.de>
->      Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
->      Signed-off-by: Jens Axboe <axboe at fb.com>
->
-> (Assuming you have at least a single queue).
+Many controller implementations will return errors to commands that will
+not succeed, but without the DNR bit set. The driver previously retried
+these commands an unlimited number of times until the command timeout
+has exceeded, which takes an unnecessarilly long period of time.
 
-Sagi, I might be wrong in my understanding (sorry in advance if this is 
-the case hehe) but I guess the above commit only re-factored the async 
-events handling on driver - the functions reworked by the patch aim to 
-handle the events once they are 'captured', which is feasible only if 
-they are enabled by setting the feature (with nvme-cli, for example).
+This patch limits the number of retries a command can have, defaulting
+to 5, but is user tunable at load or runtime.
 
-The goal of my patch is to do the 'job' of nvme-cli automatically from 
-within the driver.
+The struct request's 'retries' field is used to track the number of
+retries attempted. This is in contrast with scsi's use of this field,
+which indicates how many retries are allowed.
 
-One thing I was thinking is to add a sysfs parameter to be able to avoid 
-the automatic enablement of async events in case we have a bogus adapter 
-showing too many events, for example...not sure if this is necessary 
-though, so I didn't add the parameter on this submission.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 5 +++++
+ drivers/nvme/host/nvme.h | 5 ++++-
+ drivers/nvme/host/pci.c  | 6 ++++++
+ 3 files changed, 15 insertions(+), 1 deletion(-)
 
-Thanks,
-
-
-Guilherme
-
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
->
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9d7cee4..2b2eca9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -47,6 +47,11 @@ unsigned char shutdown_timeout = 5;
+ module_param(shutdown_timeout, byte, 0644);
+ MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
+ 
++unsigned int nvme_max_retries = 5;
++module_param_named(max_retries, nvme_max_retries, uint, 0644);
++MODULE_PARM_DESC(max_retries, "max number of retries a command may have");
++EXPORT_SYMBOL_GPL(nvme_max_retries);
++
+ static int nvme_major;
+ module_param(nvme_major, int, 0);
+ 
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 282421f..8ab141d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -38,6 +38,8 @@ extern unsigned char admin_timeout;
+ extern unsigned char shutdown_timeout;
+ #define SHUTDOWN_TIMEOUT	(shutdown_timeout * HZ)
+ 
++extern unsigned int nvme_max_retries;
++
+ enum {
+ 	NVME_NS_LBA		= 0,
+ 	NVME_NS_LIGHTNVM	= 1,
+@@ -204,7 +206,8 @@ static inline int nvme_error_status(u16 status)
+ static inline bool nvme_req_needs_retry(struct request *req, u16 status)
+ {
+ 	return !(status & NVME_SC_DNR || blk_noretry_request(req)) &&
+-		(jiffies - req->start_time) < req->timeout;
++		(jiffies - req->start_time) < req->timeout &&
++		req->retries < nvme_max_retries;
+ }
+ 
+ void nvme_cancel_request(struct request *req, void *data, bool reserved);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6d33f77..a2b51ea 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -310,6 +310,11 @@ static int nvme_init_iod(struct request *rq, unsigned size,
+ 	iod->npages = -1;
+ 	iod->nents = 0;
+ 	iod->length = size;
++
++	if (!(rq->cmd_flags & REQ_DONTPREP)) {
++		rq->retries = 0;
++		rq->cmd_flags |= REQ_DONTPREP;
++	}
+ 	return 0;
+ }
+ 
+@@ -623,6 +628,7 @@ static void nvme_complete_rq(struct request *req)
+ 
+ 	if (unlikely(req->errors)) {
+ 		if (nvme_req_needs_retry(req, req->errors)) {
++			req->retries++;
+ 			nvme_requeue_req(req);
+ 			return;
+ 		}
+-- 
+2.7.2
