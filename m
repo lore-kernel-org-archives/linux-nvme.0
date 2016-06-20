@@ -1,24 +1,25 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 20 Jun 2016 16:21:35 -0400
-Subject: [PATCH 2/2] [RFC] nvme: enable asynchronous events notification
- by default
-In-Reply-To: <576821E9.2060009@linux.vnet.ibm.com>
-References: <1466184075-10471-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
- <1466184075-10471-3-git-send-email-gpiccoli@linux.vnet.ibm.com>
- <57679355.6000303@gmail.com> <576821E9.2060009@linux.vnet.ibm.com>
-Message-ID: <20160620202135.GG12936@localhost.localdomain>
+Date: Mon, 20 Jun 2016 18:54:45 -0400
+Subject: [PATCH 0/3] nvme: Don't add namespaces for locked drives
+In-Reply-To: <57683415.1060202@jbeekman.nl>
+References: <20160619230634.17229-1-kernel@jbeekman.nl>
+ <20160620152639.GD12936@localhost.localdomain>
+ <57683415.1060202@jbeekman.nl>
+Message-ID: <20160620225444.GB1448@localhost.localdomain>
 
-On Mon, Jun 20, 2016@02:03:37PM -0300, Guilherme G. Piccoli wrote:
-> The goal of my patch is to do the 'job' of nvme-cli automatically from
-> within the driver.
+On Mon, Jun 20, 2016@11:21:09AM -0700, Jethro Beekman wrote:
+> On 20-06-16 08:26, Keith Busch wrote:
 > 
-> One thing I was thinking is to add a sysfs parameter to be able to avoid the
-> automatic enablement of async events in case we have a bogus adapter showing
-> too many events, for example...not sure if this is necessary though, so I
-> didn't add the parameter on this submission.
+> Would this just be a matter of setting req->retries and checking for it in
+> nvme_req_needs_retry? How does one keep track of the number of tries so far?
 
-Instead of simply logging a message, is there something better we can do
-to notify a user of an async event result? The event should be masked
-by the controller until the appropriate log page is read, and I don't
-think scanning the kernel logs is how such a program wants to find out
-which page to read.
+I just sent a patch out earlier today to use req->retries to track the
+retry count, and nvme module parameter to set the max retries. I think
+that would fix the long delays you're seeing, assuming the patch is okay.
+ 
+> You're right, I assumed that admin commands can't have namespace ids, but
+> looking at the spec, that's not the case. Turns out there's a problem with the
+> driver then: nvme_ioctl never includes the ns for NVME_IOCTL_ADMIN_CMD.
+
+The NVME_IOCTL_ADMIN_CMD already takes any namespace identifier the user
+put in that field.
