@@ -1,18 +1,55 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 20 Jun 2016 11:44:39 -0400
-Subject: [PATCH] nvme: avoid crashes when node 0 is memoryless node.
-In-Reply-To: <576739CD.2010002@jp.fujitsu.com>
-References: <576739CD.2010002@jp.fujitsu.com>
-Message-ID: <20160620154439.GE12936@localhost.localdomain>
+Date: Mon, 20 Jun 2016 09:41:06 -0600
+Subject: [PATCHv3] nvme/pci: Provide SR-IOV support
+Message-ID: <1466437266-25749-1-git-send-email-keith.busch@intel.com>
 
-On Mon, Jun 20, 2016@09:33:17AM +0900, Masayoshi Mizuma wrote:
-> When CONFIG_NUMA is enabled and node 0 is memoryless, the system
-> crashes because nvme_probe() sets the device->numa_node to 0 by
-> set_dev_node(&pdev->dev, 0), so it tries to allocate memory from node 0.
-> To avoid the crash, we should change the 0 to first_memory_node.
-> 
-> Signed-off-by: Masayoshi Mizuma <m.mizuma at jp.fujitsu.com>
+This registers an sr-iov callback for nvme.
 
-Thanks for the fix.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+v2 -> v3:
+  Removed the pci dependency part, instead checking pci_vfs_assigned
+  in nvme.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+ drivers/nvme/host/pci.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index dc39924..6d33f77 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2008,6 +2008,24 @@ static void nvme_remove(struct pci_dev *pdev)
+ 	nvme_put_ctrl(&dev->ctrl);
+ }
+ 
++static int nvme_pci_sriov_configure(struct pci_dev *pdev, int numvfs)
++{
++	int ret = 0;
++
++	if (numvfs == 0) {
++		if (pci_vfs_assigned(pdev)) {
++			dev_warn(&pdev->dev,
++				"Cannot disable SR-IOV VFs while assigned\n");
++			return -EPERM;
++		}
++		pci_disable_sriov(pdev);
++		return 0;
++	}
++
++	ret = pci_enable_sriov(pdev, numvfs);
++	return ret ? ret : numvfs;
++}
++
+ #ifdef CONFIG_PM_SLEEP
+ static int nvme_suspend(struct device *dev)
+ {
+@@ -2108,6 +2126,7 @@ static struct pci_driver nvme_driver = {
+ 	.driver		= {
+ 		.pm	= &nvme_dev_pm_ops,
+ 	},
++	.sriov_configure = nvme_pci_sriov_configure,
+ 	.err_handler	= &nvme_err_handler,
+ };
+ 
+-- 
+2.7.2
