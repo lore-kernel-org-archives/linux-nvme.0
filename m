@@ -1,38 +1,24 @@
-From: sagigrim@gmail.com (Sagi Grimberg)
-Date: Mon, 20 Jun 2016 09:55:17 +0300
-Subject: [PATCH 2/2] [RFC] nvme: enable asynchronous events notification
- by default
-In-Reply-To: <1466184075-10471-3-git-send-email-gpiccoli@linux.vnet.ibm.com>
-References: <1466184075-10471-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
- <1466184075-10471-3-git-send-email-gpiccoli@linux.vnet.ibm.com>
-Message-ID: <57679355.6000303@gmail.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 20 Jun 2016 09:08:34 +0200
+Subject: [PATCH] nvme: avoid crashes when node 0 is memoryless node.
+In-Reply-To: <576739CD.2010002@jp.fujitsu.com>
+References: <576739CD.2010002@jp.fujitsu.com>
+Message-ID: <20160620070834.bt4y6d52iazsexyd@c203.arch.suse.de>
 
+On Mon, Jun 20, 2016@09:33:17AM +0900, Masayoshi Mizuma wrote:
+> When CONFIG_NUMA is enabled and node 0 is memoryless, the system
+> crashes because nvme_probe() sets the device->numa_node to 0 by
+> set_dev_node(&pdev->dev, 0), so it tries to allocate memory from node 0.
+> To avoid the crash, we should change the 0 to first_memory_node.
+> 
+> Signed-off-by: Masayoshi Mizuma <m.mizuma at jp.fujitsu.com>
 
-> Asynchronous events notification currently is disabled by default;
-> to enable it, one should issue a set-feature command through
-> nvme-cli userspace application. The tool also allows disabling
-> these events once they're enable, as per user desire.
->
-> This patch makes the asynchronous events notification enabled by
-> default; to do so, we submit the set-feature command from the
-> driver, in the end of nvme_reset_work() routine. This way, the
-> feature is enabled on the driver initialization and after resets,
-> in case they happen.
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-AEN was already enabled by default in:
-
-commit f866fc4282a81673ef973ad54c68235a3263b42e
-Author: Christoph Hellwig <hch at lst.de>
-Date:   Tue Apr 26 13:52:00 2016 +0200
-
-     nvme: move AER handling to common code
-
-     The transport driver still needs to do the actual submission, but 
-all the
-     higher level code can be shared.
-
-     Signed-off-by: Christoph Hellwig <hch at lst.de>
-     Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-     Signed-off-by: Jens Axboe <axboe at fb.com>
-
-(Assuming you have at least a single queue).
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
