@@ -1,36 +1,33 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 21 Jun 2016 09:22:52 -0500
-Subject: Windows NVMeoF client - debug assistance requested
-In-Reply-To: <ad34b8cf5ca544588b2d3fc9cc63fba0@bowex36e.micron.com>
-References: <3286b6ca966947ff8aca316b5ab56435@bowex36e.micron.com>
- <005401d1cbc4$b263ab80$172b0280$@opengridcomputing.com>
- <ad34b8cf5ca544588b2d3fc9cc63fba0@bowex36e.micron.com>
-Message-ID: <007201d1cbc8$65846c10$308d4430$@opengridcomputing.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 21 Jun 2016 16:31:20 +0200
+Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
+In-Reply-To: <066e6b9d-34a8-5917-4ad8-cb466d3389c3@sandisk.com>
+References: <20160615102311.GA16619@lst.de>
+ <67ef7a1c-56e1-db2c-b038-f9784fc1f52f@sandisk.com>
+ <20160615151415.GA1919@localhost.localdomain>
+ <7f0b16bd-b39f-99e6-c1c1-6a508bf9bbbf@sandisk.com>
+ <20160615160316.GB1919@localhost.localdomain>
+ <86aa652b-48d0-a7bb-683e-bf43939aa811@sandisk.com>
+ <20160616152006.GA13615@lst.de>
+ <f22e87c1-6875-9a59-94db-42a6f71663b8@sandisk.com>
+ <20160620122219.GA29059@lst.de>
+ <066e6b9d-34a8-5917-4ad8-cb466d3389c3@sandisk.com>
+Message-ID: <20160621143120.GA4104@lst.de>
 
+On Mon, Jun 20, 2016@03:21:47PM +0200, Bart Van Assche wrote:
+> A notification mechanism that reports interrupt mapping changes will 
+> definitely help. What would also help is an API that allows drivers to 
+> query the MSI-X IRQ of an adapter that is nearest given a cpumask, e.g. 
+> hctx->cpumask.
 
-> 
-> Similar problems?  What kind of problems.
->
+This is still the wrong way around - we need to build the blk-mq queue
+mappings based on the interrupts, not the other way around.
 
-The same, I think.  From me in an earlier private email:
+> Another function can then map that IRQ into an index in the 
+> range 0..n-1 where n is the number of MSI-X interrupts for that adapter. 
+> Every blk-mq/scsi-mq driver will need this functionality to decide which 
+> IRQ to associate with a block layer hctx.
 
-> > When using nvmf-all.2 branch from infradead, I can discover/connect ok to
-> > a target, but when I do an mkfs.ext4 on the nvmf device, it succeeds, but
-> > the data isn't written to the device.  So a subsequent mount will fail.  I
-> > backed up to nvmf-all branch, and it works fine.
-
-Christoph provided me a patch to include, and I think it is here in nvmf-all.3:
-
-commit bb18f6e76300970383d66dbc17936b854f6d79e6
-Author: Christoph Hellwig <hch at lst.de>
-Date:   Tue Jun 14 09:27:53 2016 +0200
-
-    nvmet: more fixups for the op vs flags split
-
-    Signed-off-by: Christoph Hellwig <hch at lst.de>
-
-I didn't try .2 + just this fix, because .3 popped out and went to that version.
-
-
-
-Steve.
+This is something that should be done in commmon code and is done in
+common code in this series - the driver passes a cpumask to blk-mq,
+and blk-mq creates a queue for every cpu that is set in the cpumask.
