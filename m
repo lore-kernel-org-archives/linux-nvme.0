@@ -1,22 +1,54 @@
-From: rrandall@micron.com (Robert Randall (rrandall))
-Date: Tue, 21 Jun 2016 14:16:07 +0000
-Subject: Windows NVMeoF client - debug assistance requested
-In-Reply-To: <005401d1cbc4$b263ab80$172b0280$@opengridcomputing.com>
-References: <3286b6ca966947ff8aca316b5ab56435@bowex36e.micron.com>
- <005401d1cbc4$b263ab80$172b0280$@opengridcomputing.com>
-Message-ID: <ad34b8cf5ca544588b2d3fc9cc63fba0@bowex36e.micron.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Tue, 21 Jun 2016 09:18:43 -0500
+Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
+In-Reply-To: <57668896.7090308@grimberg.me>
+References: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
+ <20160616145724.GA32635@infradead.org>
+ <017001d1c7e7$95057270$bf105750$@opengridcomputing.com>
+ <5763044A.9090206@grimberg.me>
+ <005f01d1c8a1$5a229240$0e67b6c0$@opengridcomputing.com>
+ <007801d1c8a2$d6056530$82102f90$@opengridcomputing.com>
+ <CAF1ivSZNJhOtORceAfk9Ym9SPpYOGQ4q0KOD8eEuy0ovU2Eefw@mail.gmail.com>
+ <57668896.7090308@grimberg.me>
+Message-ID: <006d01d1cbc7$d0d3b1c0$727b1540$@opengridcomputing.com>
 
-Similar problems?  What kind of problems.
+> On 17/06/16 20:20, Ming Lin wrote:
+> > On Fri, Jun 17, 2016 at 7:16 AM, Steve Wise <swise at opengridcomputing.com>
+> wrote:
+> >>>
+> >>>>
+> >>>> Steve, is this something that started happening recently? does the
+> >>>> 4.6-rc3 tag suffer from the same phenomenon?
+> >>>
+> >>> Where is this tag?
+> >>
+> >> Never mind.  I found it (needed 'git pull -t' for pull the tags from the
+gitlab
+> >> nvmef repo).
+> >
+> > I run this overnight,
+> >
+> > #!/bin/bash
+> >
+> > while [ 1 ] ; do
+> >      ifconfig eth5 down ; sleep 15; ifconfig eth5 up; sleep 15
+> > done
+> >
+> > Although the crash is not reproduced, but it triggers another OOM bug.
+> 
+> Which code-base is this? it looks like this code is just leaking queues.
+> Obviously something changed...
+> 
 
------Original Message-----
-From: Steve Wise [mailto:swise@opengridcomputing.com] 
-Sent: Tuesday, June 21, 2016 8:56 AM
-To: Robert Randall (rrandall); linux-nvme at lists.infradead.org
-Subject: RE: Windows NVMeoF client - debug assistance requested
+Yoichi has hit what is apparently the same OOM bug:
 
-> I haven't updated my code since 6/8 and I'm using the nvmf-all.2 branch.
->
+Kernel panic - not syncing: Out of memory and no killable processes...
 
-I had problems with nvmf-all.2 on linux.  Perhaps you should try nvmf-all.3?
- 
-steve.
+He hit it with NVMF on the host, _and_ with NVME/PCI with a local SSD.  This is
+all with using nvmf-all.3 + Christoph's fix for the target queue deletion crash
+(http://lists.infradead.org/pipermail/linux-nvme/2016-June/005075.html).
+
+Ming, any luck on isolating this?  I'm going to enable kernel memory leak
+detection and see if I can figure this out.  
+
+Steve.
