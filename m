@@ -1,74 +1,48 @@
 From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Tue, 21 Jun 2016 17:27:18 -0500
-Subject: [PATCH v3 2/6] NVMe: Use pci_(request|release)_mem_regions
-In-Reply-To: <20160617112716.74e4hgy5bhkkgmi6@c203.arch.suse.de>
+Date: Tue, 21 Jun 2016 17:28:30 -0500
+Subject: [PATCH v3 0/6] Introduce pci_(request|release)_(mem|io)_regions
+In-Reply-To: <cover.1465200424.git.jthumshirn@suse.de>
 References: <cover.1465200424.git.jthumshirn@suse.de>
- <5c9932602e6d43ef8ad77856c686765f9e63aa9c.1465200424.git.jthumshirn@suse.de>
- <20160617112716.74e4hgy5bhkkgmi6@c203.arch.suse.de>
-Message-ID: <20160621222718.GE7603@localhost>
+Message-ID: <20160621222830.GF7603@localhost>
 
-On Fri, Jun 17, 2016@01:27:16PM +0200, Johannes Thumshirn wrote:
-> On Tue, Jun 07, 2016@09:44:02AM +0200, Johannes Thumshirn wrote:
-> > Now that we do have pci_request_mem_regions() and pci_release_mem_regions() at
-> > hand, use it in the NVMe driver.
-> > 
-> > Suggested-by: Christoph Hellwig <hch at infradead.org>
-> > Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-> > Reviewed-by: Christoph Hellwig <hch at lst.de>
-> > Cc: Christoph Hellwig <hch at infradead.org>
-> > Cc: Keith Busch <keith.busch at intel.com>
-> > Cc: Jens Axboe <axboe at fb.com>
-> > Cc: linux-nvme at lists.infradead.org
+On Tue, Jun 07, 2016@09:44:00AM +0200, Johannes Thumshirn wrote:
+> The first patch in this series introduces the following 4 helper functions to
+> the PCI core:
 > 
-> Bjorn, 
+> * pci_request_mem_regions()
+> * pci_request_io_regions()
+> * pci_release_mem_regions()
+> * pci_release_io_regions()
 > 
-> Jens merged a band aid here which conflicts with the patch. Shall I send you
-> this patch re-based or the entire series?
+> which encapsulate the request and release of a PCI device's memory or I/O
+> bars.
+> 
+> The subsequent patches convert the drivers, which use the
+> pci_request_selected_regions(pdev, 
+> 	pci_select_bars(pdev, IORESOURCE_MEM), name); 
+> and similar pattern to use the new interface.
+> 
+> This was suggested by Christoph Hellwig in
+> http://lists.infradead.org/pipermail/linux-nvme/2016-May/004570.html and
+> tested on kernel v4.6 with NVMe.
 
-I see the conflict with the patch below.  I don't know how Jens
-manages his tree, but the conflict should be pretty trivial to
-resolve, so I won't worry about it too much.
+I applied all six of these to pci/resources for v4.8, thanks, Johannes.
 
-
-commit edb50a5403d2
-Author: Johannes Thumshirn <jthumshirn at suse.de>
-Date:   Tue May 10 15:14:28 2016 +0200
-
-    NVMe: Only release requested regions
-    
-    The NVMe driver only requests the PCIe device's memory regions but releases
-    all possible regions (including eventual I/O regions). This leads to a stale
-    warning entry in dmesg about freeing non existent resources.
-    
-    Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-    Signed-off-by: Jens Axboe <axboe at fb.com>
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 78dca31..befac5b 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1679,9 +1679,14 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 
- static void nvme_dev_unmap(struct nvme_dev *dev)
- {
-+       struct pci_dev *pdev = to_pci_dev(dev->dev);
-+       int bars;
-+
-        if (dev->bar)
-                iounmap(dev->bar);
--       pci_release_regions(to_pci_dev(dev->dev));
-+
-+       bars = pci_select_bars(pdev, IORESOURCE_MEM);
-+       pci_release_selected_regions(pdev, bars);
- }
- 
- static void nvme_pci_disable(struct nvme_dev *dev)
-@@ -1924,7 +1929,7 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 
-        return 0;
-   release:
--       pci_release_regions(pdev);
-+       pci_release_selected_regions(pdev, bars);
-        return -ENODEV;
- }
- 
+> Johannes Thumshirn (6):
+>   PCI: Add helpers to request/release memory and I/O regions
+>   NVMe: Use pci_(request|release)_mem_regions
+>   lpfc: Use pci_(request|release)_mem_regions
+>   GenWQE: Use pci_(request|release)_mem_regions
+>   ethernet/intel: Use pci_(request|release)_mem_regions
+>   alx: Use pci_(request|release)_mem_regions
+> 
+>  drivers/misc/genwqe/card_base.c               | 13 +++++--------
+>  drivers/net/ethernet/atheros/alx/main.c       | 12 +++++-------
+>  drivers/net/ethernet/intel/e1000e/netdev.c    |  6 ++----
+>  drivers/net/ethernet/intel/fm10k/fm10k_pci.c  | 11 +++--------
+>  drivers/net/ethernet/intel/i40e/i40e_main.c   |  9 +++------
+>  drivers/net/ethernet/intel/igb/igb_main.c     | 10 +++-------
+>  drivers/net/ethernet/intel/ixgbe/ixgbe_main.c |  9 +++------
+>  drivers/nvme/host/pci.c                       | 10 +++-------
+>  drivers/scsi/lpfc/lpfc_init.c                 | 15 ++++----------
+>  include/linux/pci.h                           | 28 +++++++++++++++++++++++++++
