@@ -1,248 +1,27 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 21 Jun 2016 16:32:45 -0600
+Date: Tue, 21 Jun 2016 18:43:53 -0400
 Subject: [PATCH for-4.7] nvme: Remove RCU namespace protection
-Message-ID: <1466548365-992-1-git-send-email-keith.busch@intel.com>
+In-Reply-To: <1466548365-992-1-git-send-email-keith.busch@intel.com>
+References: <1466548365-992-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20160621224352.GE1448@localhost.localdomain>
 
-We can't sleep with RCU read lock held, but we need to do potentially
-blocking stuff to namespaces while traversing the list.
+BTW, this obsoletes this patch:
 
-This patch removes the rcu read locking to make this work, and leverages
-how namespace list manipulation currently occurs in order to be safe. Only
-scan work, reset work, or device removal can manipulate the namespace
-list, and none of those can execute at the same time. So, this patch
-locks the namespace list mutex only when the list is being changed,
-or when iterating the list by a non-IO task, like controller reset. We
-can't hold the lock for IO because we won't be able to clean up IO
-if it fails, so all those paths rely on the state machine to prevent
-two tasks from corrupting the list.
+  [PATCH] NVMe: Fix possible scheduling while atomic error
+  http://lists.infradead.org/pipermail/linux-nvme/2016-May/004634.html
 
-This fixes these two BUGs:
+No one liked that patch anyway ...
 
- BUG: sleeping function called from invalid context at include/linux/writeback.h:185
- in_atomic(): 1, irqs_disabled(): 0, pid: 757, name: kworker/97:1
- CPU: 97 PID: 757 Comm: kworker/97:1 Tainted: G            E   4.6.0-2016-06-14+ #1
- Hardware name: Intel Corporation PURLEY/PURLEY, BIOS PLYDCRB1.86B.0087.D08.1605241555 05/24/2016
- Workqueue: pciehp-2 pciehp_power_thread
-  0000000000000000 ffff880462377b38 ffffffff81310c61 ffff8804623704c0
-  00000000000000b9 ffff880462377b50 ffffffff8108fe14 ffffffff81809e2a
-  ffff880462377b78 ffffffff8108fea9 ffff880469eb4800 ffffc900011824a0
- Call Trace:
-  [<ffffffff81310c61>] dump_stack+0x63/0x82
-  [<ffffffff8108fe14>] ___might_sleep+0xd4/0x120
-  [<ffffffff8108fea9>] __might_sleep+0x49/0x80
-  [<ffffffff8120d060>] iget5_locked+0xa0/0x210
-  [<ffffffff8122ac80>] ? bdev_test+0x20/0x20
-  [<ffffffff8122b5ce>] bdget+0x3e/0x130
-  [<ffffffff812f2b24>] bdget_disk+0x24/0x40
-  [<ffffffff8122bd3d>] revalidate_disk+0x3d/0x90
-  [<ffffffffa0483208>] nvme_kill_queues+0x38/0xc0 [nvme_core]
-  [<ffffffffa04833da>] nvme_remove_namespaces+0x5a/0x60 [nvme_core]
-  [<ffffffffa048340d>] nvme_uninit_ctrl+0x2d/0xa0 [nvme_core]
-  [<ffffffffa085c9eb>] nvme_remove+0x5b/0x100 [nvme]
-  [<ffffffff8135bfc9>] pci_device_remove+0x39/0xc0
-
-And:
-
- BUG: sleeping function called from invalid context at kernel/workqueue.c:2783
- in_atomic(): 0, irqs_disabled(): 0, pid: 1696, name: kworker/u16:0
- CPU: 3 PID: 1696 Comm: kworker/u16:0 Tainted: G           OE   4.6.0-rc3+ #197
- Hardware name: Dell Inc. OptiPlex 7010/0773VG, BIOS A12 01/10/2013
- Workqueue: nvme nvme_reset_work [nvme]
-  0000000000000000 ffff8800d94d3a48 ffffffff81379e4c ffff88011a639640
-  ffffffff81a12688 ffff8800d94d3a70 ffffffff81094814 ffffffff81a12688
-  0000000000000adf 0000000000000000 ffff8800d94d3a98 ffffffff81094904
- Call Trace:
-  [<ffffffff81379e4c>] dump_stack+0x85/0xc9
-  [<ffffffff81094814>] ___might_sleep+0x144/0x1f0
-  [<ffffffff81094904>] __might_sleep+0x44/0x80
-  [<ffffffff81087b5e>] flush_work+0x6e/0x290
-  [<ffffffff81087af0>] ? __queue_delayed_work+0x150/0x150
-  [<ffffffff81126cf5>] ? irq_work_queue+0x75/0x90
-  [<ffffffff810ca136>] ? wake_up_klogd+0x36/0x50
-  [<ffffffff810b7fa6>] ? mark_held_locks+0x66/0x90
-  [<ffffffff81088898>] ? __cancel_work_timer+0xf8/0x1c0
-  [<ffffffff8108883b>] __cancel_work_timer+0x9b/0x1c0
-  [<ffffffff810cadaa>] ? vprintk_default+0x1a/0x20
-  [<ffffffff81142558>] ? printk+0x48/0x4a
-  [<ffffffff8108896b>] cancel_work_sync+0xb/0x10
-  [<ffffffff81350fb0>] blk_mq_cancel_requeue_work+0x10/0x20
-  [<ffffffffc0813ae7>] nvme_stop_queues+0x167/0x1a0 [nvme_core]
-  [<ffffffffc0813980>] ? nvme_kill_queues+0x190/0x190 [nvme_core]
-  [<ffffffffc08cef51>] nvme_dev_disable+0x71/0x350 [nvme]
-  [<ffffffff810b8f40>] ? __lock_acquire+0xa80/0x1ad0
-  [<ffffffff810944b6>] ? finish_task_switch+0xa6/0x2c0
-  [<ffffffffc08cffd4>] nvme_reset_work+0x214/0xd40 [nvme]
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 52 ++++++++++++++++++++++++------------------------
- 1 file changed, 26 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 1a51584..decb190 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1396,17 +1396,19 @@ static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
- 
- static struct nvme_ns *nvme_find_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- {
--	struct nvme_ns *ns;
--
--	lockdep_assert_held(&ctrl->namespaces_mutex);
-+	struct nvme_ns *ns, *ret = NULL;
- 
-+	mutex_lock(&ctrl->namespaces_mutex);
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
--		if (ns->ns_id == nsid)
--			return ns;
-+		if (ns->ns_id == nsid) {
-+			ret = ns;
-+			break;
-+		}
- 		if (ns->ns_id > nsid)
- 			break;
- 	}
--	return NULL;
-+	mutex_unlock(&ctrl->namespaces_mutex);
-+	return ret;
- }
- 
- static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
-@@ -1415,8 +1417,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	struct gendisk *disk;
- 	int node = dev_to_node(ctrl->dev);
- 
--	lockdep_assert_held(&ctrl->namespaces_mutex);
--
- 	ns = kzalloc_node(sizeof(*ns), GFP_KERNEL, node);
- 	if (!ns)
- 		return;
-@@ -1457,7 +1457,10 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 	if (nvme_revalidate_disk(ns->disk))
- 		goto out_free_disk;
- 
--	list_add_tail_rcu(&ns->list, &ctrl->namespaces);
-+	mutex_lock(&ctrl->namespaces_mutex);
-+	list_add_tail(&ns->list, &ctrl->namespaces);
-+	mutex_unlock(&ctrl->namespaces_mutex);
-+
- 	kref_get(&ctrl->kref);
- 	if (ns->type == NVME_NS_LIGHTNVM)
- 		return;
-@@ -1480,8 +1483,6 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- 
- static void nvme_ns_remove(struct nvme_ns *ns)
- {
--	lockdep_assert_held(&ns->ctrl->namespaces_mutex);
--
- 	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
- 		return;
- 
-@@ -1494,8 +1495,11 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 		blk_mq_abort_requeue_list(ns->queue);
- 		blk_cleanup_queue(ns->queue);
- 	}
-+
-+	mutex_lock(&ns->ctrl->namespaces_mutex);
- 	list_del_init(&ns->list);
--	synchronize_rcu();
-+	mutex_unlock(&ns->ctrl->namespaces_mutex);
-+
- 	nvme_put_ns(ns);
- }
- 
-@@ -1552,8 +1556,6 @@ static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl, unsigned nn)
- 	struct nvme_ns *ns, *next;
- 	unsigned i;
- 
--	lockdep_assert_held(&ctrl->namespaces_mutex);
--
- 	for (i = 1; i <= nn; i++)
- 		nvme_validate_ns(ctrl, i);
- 
-@@ -1576,7 +1578,6 @@ static void nvme_scan_work(struct work_struct *work)
- 	if (nvme_identify_ctrl(ctrl, &id))
- 		return;
- 
--	mutex_lock(&ctrl->namespaces_mutex);
- 	nn = le32_to_cpu(id->nn);
- 	if (ctrl->vs >= NVME_VS(1, 1) &&
- 	    !(ctrl->quirks & NVME_QUIRK_IDENTIFY_CNS)) {
-@@ -1585,6 +1586,7 @@ static void nvme_scan_work(struct work_struct *work)
- 	}
- 	nvme_scan_ns_sequential(ctrl, nn);
-  done:
-+	mutex_lock(&ctrl->namespaces_mutex);
- 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
- 	mutex_unlock(&ctrl->namespaces_mutex);
- 	kfree(id);
-@@ -1617,10 +1619,8 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
- 	if (ctrl->state == NVME_CTRL_DEAD)
- 		nvme_kill_queues(ctrl);
- 
--	mutex_lock(&ctrl->namespaces_mutex);
- 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list)
- 		nvme_ns_remove(ns);
--	mutex_unlock(&ctrl->namespaces_mutex);
- }
- EXPORT_SYMBOL_GPL(nvme_remove_namespaces);
- 
-@@ -1791,8 +1791,8 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
- 
--	rcu_read_lock();
--	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
-+	mutex_lock(&ctrl->namespaces_mutex);
-+	list_for_each_entry(ns, &ctrl->namespaces, list) {
- 		if (!kref_get_unless_zero(&ns->kref))
- 			continue;
- 
-@@ -1809,7 +1809,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 
- 		nvme_put_ns(ns);
- 	}
--	rcu_read_unlock();
-+	mutex_unlock(&ctrl->namespaces_mutex);
- }
- EXPORT_SYMBOL_GPL(nvme_kill_queues);
- 
-@@ -1817,8 +1817,8 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
- 
--	rcu_read_lock();
--	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
-+	mutex_lock(&ctrl->namespaces_mutex);
-+	list_for_each_entry(ns, &ctrl->namespaces, list) {
- 		spin_lock_irq(ns->queue->queue_lock);
- 		queue_flag_set(QUEUE_FLAG_STOPPED, ns->queue);
- 		spin_unlock_irq(ns->queue->queue_lock);
-@@ -1826,7 +1826,7 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl)
- 		blk_mq_cancel_requeue_work(ns->queue);
- 		blk_mq_stop_hw_queues(ns->queue);
- 	}
--	rcu_read_unlock();
-+	mutex_unlock(&ctrl->namespaces_mutex);
- }
- EXPORT_SYMBOL_GPL(nvme_stop_queues);
- 
-@@ -1834,13 +1834,13 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
- 
--	rcu_read_lock();
--	list_for_each_entry_rcu(ns, &ctrl->namespaces, list) {
-+	mutex_lock(&ctrl->namespaces_mutex);
-+	list_for_each_entry(ns, &ctrl->namespaces, list) {
- 		queue_flag_clear_unlocked(QUEUE_FLAG_STOPPED, ns->queue);
- 		blk_mq_start_stopped_hw_queues(ns->queue, true);
- 		blk_mq_kick_requeue_list(ns->queue);
- 	}
--	rcu_read_unlock();
-+	mutex_unlock(&ctrl->namespaces_mutex);
- }
- EXPORT_SYMBOL_GPL(nvme_start_queues);
- 
--- 
-2.7.2
+On Tue, Jun 21, 2016@04:32:45PM -0600, Keith Busch wrote:
+> We can't sleep with RCU read lock held, but we need to do potentially
+> blocking stuff to namespaces while traversing the list.
+> 
+> This patch removes the rcu read locking to make this work, and leverages
+> how namespace list manipulation currently occurs in order to be safe. Only
+> scan work, reset work, or device removal can manipulate the namespace
+> list, and none of those can execute at the same time. So, this patch
+> locks the namespace list mutex only when the list is being changed,
+> or when iterating the list by a non-IO task, like controller reset. We
+> can't hold the lock for IO because we won't be able to clean up IO
+> if it fails, so all those paths rely on the state machine to prevent
+> two tasks from corrupting the list.
