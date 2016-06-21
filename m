@@ -1,33 +1,19 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 21 Jun 2016 16:31:20 +0200
-Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
-In-Reply-To: <066e6b9d-34a8-5917-4ad8-cb466d3389c3@sandisk.com>
-References: <20160615102311.GA16619@lst.de>
- <67ef7a1c-56e1-db2c-b038-f9784fc1f52f@sandisk.com>
- <20160615151415.GA1919@localhost.localdomain>
- <7f0b16bd-b39f-99e6-c1c1-6a508bf9bbbf@sandisk.com>
- <20160615160316.GB1919@localhost.localdomain>
- <86aa652b-48d0-a7bb-683e-bf43939aa811@sandisk.com>
- <20160616152006.GA13615@lst.de>
- <f22e87c1-6875-9a59-94db-42a6f71663b8@sandisk.com>
- <20160620122219.GA29059@lst.de>
- <066e6b9d-34a8-5917-4ad8-cb466d3389c3@sandisk.com>
-Message-ID: <20160621143120.GA4104@lst.de>
+Date: Tue, 21 Jun 2016 16:33:56 +0200
+Subject: [PATCH 1/2] PCI: Provide sensible irq vector alloc/free routines
+In-Reply-To: <20160611011449.GJ16462@localhost>
+References: <20160511085049.GA20279@lst.de>
+ <20160511094432.GB31347@agordeev.lab.eng.brq.redhat.com>
+ <20160512073552.GA4027@lst.de>
+ <20160512094432.GA14671@agordeev.lab.eng.brq.redhat.com>
+ <20160512110318.GA9192@lst.de>
+ <20160512121155.GB8681@agordeev.lab.eng.brq.redhat.com>
+ <20160512121933.GA11084@lst.de> <20160512142902.GA14166@lst.de>
+ <20160513082947.GB14671@agordeev.lab.eng.brq.redhat.com>
+ <20160611011449.GJ16462@localhost>
+Message-ID: <20160621143356.GA4242@lst.de>
 
-On Mon, Jun 20, 2016@03:21:47PM +0200, Bart Van Assche wrote:
-> A notification mechanism that reports interrupt mapping changes will 
-> definitely help. What would also help is an API that allows drivers to 
-> query the MSI-X IRQ of an adapter that is nearest given a cpumask, e.g. 
-> hctx->cpumask.
+On Fri, Jun 10, 2016@08:14:50PM -0500, Bjorn Helgaas wrote:
+> Where are we at with this?  Did I miss a newer version?
 
-This is still the wrong way around - we need to build the blk-mq queue
-mappings based on the interrupts, not the other way around.
-
-> Another function can then map that IRQ into an index in the 
-> range 0..n-1 where n is the number of MSI-X interrupts for that adapter. 
-> Every blk-mq/scsi-mq driver will need this functionality to decide which 
-> IRQ to associate with a block layer hctx.
-
-This is something that should be done in commmon code and is done in
-common code in this series - the driver passes a cpumask to blk-mq,
-and blk-mq creates a queue for every cpu that is set in the cpumask.
+Any comments on the repost from last week?
