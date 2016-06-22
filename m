@@ -1,34 +1,32 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 22 Jun 2016 08:42:16 -0500
-Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
-In-Reply-To: <006e01d1cbc7$d0d9cc40$728d64c0$@opengridcomputing.com>
-References: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
- <20160616145724.GA32635@infradead.org>
- <017001d1c7e7$95057270$bf105750$@opengridcomputing.com>
- <5763044A.9090206@grimberg.me>
- <005f01d1c8a1$5a229240$0e67b6c0$@opengridcomputing.com>
- <007801d1c8a2$d6056530$82102f90$@opengridcomputing.com>
- <CAF1ivSZNJhOtORceAfk9Ym9SPpYOGQ4q0KOD8eEuy0ovU2Eefw@mail.gmail.com>
- <57668896.7090308@grimberg.me>
- <006e01d1cbc7$d0d9cc40$728d64c0$@opengridcomputing.com>
-Message-ID: <002201d1cc8b$e3f66030$abe32090$@opengridcomputing.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 22 Jun 2016 10:40:02 -0400
+Subject: [PATCH] nvme: Limit command retries
+In-Reply-To: <576A68C8.2060408@grimberg.me>
+References: <1466444691-29448-1-git-send-email-keith.busch@intel.com>
+ <576A68C8.2060408@grimberg.me>
+Message-ID: <20160622144002.GF1448@localhost.localdomain>
 
-> > Which code-base is this? it looks like this code is just leaking queues.
-> > Obviously something changed...
-> >
+On Wed, Jun 22, 2016@01:30:32PM +0300, Sagi Grimberg wrote:
+> >The struct request's 'retries' field is used to track the number of
+> >retries attempted. This is in contrast with scsi's use of this field,
+> >which indicates how many retries are allowed.
 > 
-> Yoichi has hit what is apparently the same OOM bug:
-> 
-> Kernel panic - not syncing: Out of memory and no killable processes...
-> 
-> He hit it with NVMF on the host, _and_ with NVME/PCI with a local SSD.
-> This is all with using nvmf-all.3 + Christoph's fix for the target queue
-> deletion crash
-> (http://lists.infradead.org/pipermail/linux-nvme/2016-June/005075.html).
-> 
+> Why not follow the same scheme?
 
-Yoichi can reproduce this with linux-4.7-rc4, so the issue isn't related to the
-nvme/nvmf changes in nvmf-all.3.  Also, I have been unable to reproduce it so
-far on my setup.  But Yoichi can reproduce it readily.
+It's not documented to mean what scsi thinks it means, and it saves some
+space from yet another field to track how many retries have occured. For
+the pci driver, that field could be added to struct nvme_iod, but
+that's not used for fabrics. Using req->retries can be consistent with
+all nvme transports.
 
-Steve.
+> >+unsigned int nvme_max_retries = 5;
+> >+module_param_named(max_retries, nvme_max_retries, uint, 0644);
+> >+MODULE_PARM_DESC(max_retries, "max number of retries a command may have");
+> >+EXPORT_SYMBOL_GPL(nvme_max_retries);
+> 
+> This looks like its a per-controller attribute, it might be better to
+> make nvme-cli pass this via the vendor extensions? This way we can have
+> it on a per-controller basis.
+
+If we need per-controller, I'd like a sysfs attribute. nvme-cli mostly
+does ioctl's, but it also does some sysfs stuff too.
