@@ -1,80 +1,34 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 22 Jun 2016 15:06:01 +0300
-Subject: [PATCH 2/2] nvme-fabrics: Remove tl_retry_count
-In-Reply-To: <1466597161-5242-1-git-send-email-sagi@grimberg.me>
-References: <1466597161-5242-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1466597161-5242-3-git-send-email-sagi@grimberg.me>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 22 Jun 2016 08:42:16 -0500
+Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
+In-Reply-To: <006e01d1cbc7$d0d9cc40$728d64c0$@opengridcomputing.com>
+References: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
+ <20160616145724.GA32635@infradead.org>
+ <017001d1c7e7$95057270$bf105750$@opengridcomputing.com>
+ <5763044A.9090206@grimberg.me>
+ <005f01d1c8a1$5a229240$0e67b6c0$@opengridcomputing.com>
+ <007801d1c8a2$d6056530$82102f90$@opengridcomputing.com>
+ <CAF1ivSZNJhOtORceAfk9Ym9SPpYOGQ4q0KOD8eEuy0ovU2Eefw@mail.gmail.com>
+ <57668896.7090308@grimberg.me>
+ <006e01d1cbc7$d0d9cc40$728d64c0$@opengridcomputing.com>
+Message-ID: <002201d1cc8b$e3f66030$abe32090$@opengridcomputing.com>
 
-The timeout before error recovery logic kicks in is
-dictated by the nvme keep-alive, so we don't really need
-a transport layer retry count. transports can retry for
-as much as they like.
+> > Which code-base is this? it looks like this code is just leaking queues.
+> > Obviously something changed...
+> >
+> 
+> Yoichi has hit what is apparently the same OOM bug:
+> 
+> Kernel panic - not syncing: Out of memory and no killable processes...
+> 
+> He hit it with NVMF on the host, _and_ with NVME/PCI with a local SSD.
+> This is all with using nvmf-all.3 + Christoph's fix for the target queue
+> deletion crash
+> (http://lists.infradead.org/pipermail/linux-nvme/2016-June/005075.html).
+> 
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/fabrics.c | 14 --------------
- drivers/nvme/host/fabrics.h |  3 ---
- 2 files changed, 17 deletions(-)
+Yoichi can reproduce this with linux-4.7-rc4, so the issue isn't related to the
+nvme/nvmf changes in nvmf-all.3.  Also, I have been unable to reproduce it so
+far on my setup.  But Yoichi can reproduce it readily.
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index b86b6379ef0c..0a5a4c4684bc 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -503,7 +503,6 @@ static const match_table_t opt_tokens = {
- 	{ NVMF_OPT_NQN,			"nqn=%s"		},
- 	{ NVMF_OPT_QUEUE_SIZE,		"queue_size=%d"		},
- 	{ NVMF_OPT_NR_IO_QUEUES,	"nr_io_queues=%d"	},
--	{ NVMF_OPT_TL_RETRY_COUNT,	"tl_retry_count=%d"	},
- 	{ NVMF_OPT_RECONNECT_DELAY,	"reconnect_delay=%d"	},
- 	{ NVMF_OPT_KATO,		"keep_alive_tmo=%d"	},
- 	{ NVMF_OPT_HOSTNQN,		"hostnqn=%s"		},
-@@ -521,7 +520,6 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 	/* Set defaults */
- 	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
- 	opts->nr_io_queues = num_online_cpus();
--	opts->tl_retry_count = 2;
- 	opts->reconnect_delay = NVMF_DEF_RECONNECT_DELAY;
- 
- 	options = o = kstrdup(buf, GFP_KERNEL);
-@@ -605,18 +603,6 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			opts->nr_io_queues = min_t(unsigned int,
- 					num_online_cpus(), token);
- 			break;
--		case NVMF_OPT_TL_RETRY_COUNT:
--			if (match_int(args, &token)) {
--				ret = -EINVAL;
--				goto out;
--			}
--			if (token < 0) {
--				pr_err("Invalid tl_retry_count %d\n", token);
--				ret = -EINVAL;
--				goto out;
--			}
--			opts->tl_retry_count = token;
--			break;
- 		case NVMF_OPT_KATO:
- 			if (match_int(args, &token)) {
- 				ret = -EINVAL;
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index b54067404963..89df52c8be97 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -69,8 +69,6 @@ enum {
-  * @trsvcid:	network port used for host-controller communication.
-  * @queue_size: Number of IO queue elements.
-  * @nr_io_queues: Number of controller IO queues that will be established.
-- * @tl_retry_count: Number of transport layer retries for a fabric queue before
-- *		     kicking upper layer(s) error recovery.
-  * @reconnect_delay: Time between two consecutive reconnect attempts.
-  * @discovery_nqn: indicates if the subsysnqn is the well-known discovery NQN.
-  * @kato:	Keep-alive timeout.
-@@ -84,7 +82,6 @@ struct nvmf_ctrl_options {
- 	char			*trsvcid;
- 	size_t			queue_size;
- 	unsigned int		nr_io_queues;
--	unsigned short		tl_retry_count;
- 	unsigned int		reconnect_delay;
- 	bool			discovery_nqn;
- 	unsigned int		kato;
--- 
-1.9.1
+Steve.
