@@ -1,46 +1,30 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 22 Jun 2016 13:30:32 +0300
-Subject: [PATCH] nvme: Limit command retries
-In-Reply-To: <1466444691-29448-1-git-send-email-keith.busch@intel.com>
-References: <1466444691-29448-1-git-send-email-keith.busch@intel.com>
-Message-ID: <576A68C8.2060408@grimberg.me>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Wed, 22 Jun 2016 13:56:36 +0200
+Subject: [PATCH 02/13] irq: Introduce IRQD_AFFINITY_MANAGED flag
+In-Reply-To: <20160616151950.GA11840@localhost.localdomain>
+References: <20160615102311.GA16619@lst.de>
+ <67ef7a1c-56e1-db2c-b038-f9784fc1f52f@sandisk.com>
+ <20160615151415.GA1919@localhost.localdomain>
+ <7f0b16bd-b39f-99e6-c1c1-6a508bf9bbbf@sandisk.com>
+ <20160615160316.GB1919@localhost.localdomain>
+ <86aa652b-48d0-a7bb-683e-bf43939aa811@sandisk.com>
+ <20160615200655.GB7637@localhost.localdomain>
+ <20160615201213.GC7637@localhost.localdomain>
+ <7a61fe73-2808-70b4-e3b2-b6a924559d9d@sandisk.com>
+ <20160616151950.GA11840@localhost.localdomain>
+Message-ID: <20160622115636.GA30337@dhcp-27-118.brq.redhat.com>
 
+On Thu, Jun 16, 2016@11:19:51AM -0400, Keith Busch wrote:
+> On Wed, Jun 15, 2016@10:50:53PM +0200, Bart Van Assche wrote:
+> > Does it matter on x86 systems whether or not these interrupt vectors are
+> > also associated with a CPU with a higher CPU number? Although multiple bits
+> > can be set in /proc/irq/<n>/smp_affinity only the first bit counts on x86
+> > platforms. In default_cpu_mask_to_apicid_and() it is easy to see that only
+> > the first bit that has been set in that mask counts on x86 systems.
+> 
+> Wow, thanks for the information. I didn't know the apic wasn't using
+> the full cpu mask, so this changes how I need to look at this, and will
+> experiment with such a configuration.
 
-> Many controller implementations will return errors to commands that will
-> not succeed, but without the DNR bit set. The driver previously retried
-> these commands an unlimited number of times until the command timeout
-> has exceeded, which takes an unnecessarilly long period of time.
->
-> This patch limits the number of retries a command can have, defaulting
-> to 5, but is user tunable at load or runtime.
->
-> The struct request's 'retries' field is used to track the number of
-> retries attempted. This is in contrast with scsi's use of this field,
-> which indicates how many retries are allowed.
-
-Why not follow the same scheme?
-
->
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->   drivers/nvme/host/core.c | 5 +++++
->   drivers/nvme/host/nvme.h | 5 ++++-
->   drivers/nvme/host/pci.c  | 6 ++++++
->   3 files changed, 15 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 9d7cee4..2b2eca9 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -47,6 +47,11 @@ unsigned char shutdown_timeout = 5;
->   module_param(shutdown_timeout, byte, 0644);
->   MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
->
-> +unsigned int nvme_max_retries = 5;
-> +module_param_named(max_retries, nvme_max_retries, uint, 0644);
-> +MODULE_PARM_DESC(max_retries, "max number of retries a command may have");
-> +EXPORT_SYMBOL_GPL(nvme_max_retries);
-
-This looks like its a per-controller attribute, it might be better to
-make nvme-cli pass this via the vendor extensions? This way we can have
-it on a per-controller basis.
+I have vague memories of this, but you probably need to check PPC as well.
+Its interrupt distribution is not straightforward as well, AFAIR.
