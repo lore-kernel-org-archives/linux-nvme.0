@@ -1,14 +1,18 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 22 Jun 2016 09:14:42 -0700
-Subject: [PATCH] nvme: Limit command retries
-In-Reply-To: <1466444691-29448-1-git-send-email-keith.busch@intel.com>
-References: <1466444691-29448-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20160622161442.GB10592@infradead.org>
+Date: Wed, 22 Jun 2016 09:15:59 -0700
+Subject: [PATCH 0/2] Get rid of transport layer retry count config
+ parameter
+In-Reply-To: <1466597161-5242-1-git-send-email-sagi@grimberg.me>
+References: <1466597161-5242-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20160622161559.GA18361@infradead.org>
 
-I've got some work in progress that gets rid of the SCSI-specific
-fields in struct request and moves them into a scsi specific private
-data structure, and that also does the same for NVMe.
+On Wed, Jun 22, 2016@03:05:59PM +0300, Sagi Grimberg wrote:
+> This parameter was added in order to support a proper timeout for
+> error recovery before the spec defined a periodic keep-alive.
+> 
+> Now that we have periodic keep-alive, we don't need a user configurable
+> transport layer retry count, the keep-alive timeout is sufficient,
+> transports can retry for as long as they see fit.
 
-How urgent is this patch?  If it fixes an actual major issue seen
-in the field we should probably but the ->retries use in as-is,
-otherwise I'd prefer to avoid introducing more users of it for now.
+Isn't there some IB protocol level rationale for a low retry count
+in various fabric setups?
