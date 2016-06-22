@@ -1,49 +1,46 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 22 Jun 2016 13:22:49 +0300
-Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
-In-Reply-To: <20160621160134.GA8428@lst.de>
-References: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
- <20160616145724.GA32635@infradead.org> <20160616151048.GA13218@lst.de>
- <5762F9E2.7030101@grimberg.me> <20160616203824.GA19113@lst.de>
- <57631C0E.80200@grimberg.me> <20160621160134.GA8428@lst.de>
-Message-ID: <576A66F9.6030100@grimberg.me>
+Date: Wed, 22 Jun 2016 13:30:32 +0300
+Subject: [PATCH] nvme: Limit command retries
+In-Reply-To: <1466444691-29448-1-git-send-email-keith.busch@intel.com>
+References: <1466444691-29448-1-git-send-email-keith.busch@intel.com>
+Message-ID: <576A68C8.2060408@grimberg.me>
 
 
->>> to false because the queue is on the local list, and now we have thread 1
->>> and 2 racing for disconnecting the queue.
->>
->> But the list removal and list_empty evaluation is still under a mutex,
->> isn't that sufficient to avoid the race?
+> Many controller implementations will return errors to commands that will
+> not succeed, but without the DNR bit set. The driver previously retried
+> these commands an unlimited number of times until the command timeout
+> has exceeded, which takes an unnecessarilly long period of time.
 >
-> If only once side takes the lock it's not very helpful.  We can
-> execute nvmet_rdma_queue_disconnect from the CM handler at the
-> same time that the queue is on the to be removed list, which creates
-> two issues: a) we manipulate local del_list without any knowledge
-> of the thread calling nvmet_rdma_delete_ctrl, leading to potential
-> list corruption
+> This patch limits the number of retries a command can have, defaulting
+> to 5, but is user tunable at load or runtime.
+>
+> The struct request's 'retries' field is used to track the number of
+> retries attempted. This is in contrast with scsi's use of this field,
+> which indicates how many retries are allowed.
 
-It's not racy because the two call sites are mutually exclusive
-(calling nvmet_rdma_queue_disconnect which is protected by a mutex)
-and the iteration on del_list is safe, but I'm not sure how safe it
-is because it's a local list and another context may manipulate it.
+Why not follow the same scheme?
 
-However, note that this is not the case here. The report did not
-include a CM thread in the mix.
+>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>   drivers/nvme/host/core.c | 5 +++++
+>   drivers/nvme/host/nvme.h | 5 ++++-
+>   drivers/nvme/host/pci.c  | 6 ++++++
+>   3 files changed, 15 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 9d7cee4..2b2eca9 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -47,6 +47,11 @@ unsigned char shutdown_timeout = 5;
+>   module_param(shutdown_timeout, byte, 0644);
+>   MODULE_PARM_DESC(shutdown_timeout, "timeout in seconds for controller shutdown");
+>
+> +unsigned int nvme_max_retries = 5;
+> +module_param_named(max_retries, nvme_max_retries, uint, 0644);
+> +MODULE_PARM_DESC(max_retries, "max number of retries a command may have");
+> +EXPORT_SYMBOL_GPL(nvme_max_retries);
 
-, and b) we can call into __nvmet_rdma_queue_disconnect
-> concurrently.  As you pointed out we still have the per-queue
-> state_lock inside __nvmet_rdma_queue_disconnect so b) probably
-> is harmless at the moment as long as the queue hasn't been freed
-> yet by one of the racing threads, which is fairly unlikely.
-
-I don't think we can end up with a use-after-free condition, we
-terminate both the CM events and the list removal so I don't see
-how that can happen.
-
-> Either way - using list_empty to check if something is still alive due
-> to being linked in a list and using a local dispose list simply don't
-> mix.  Both are useful patterns on their own, but should not be mixed.
-
-I guess you are correct. I just don't like lock manipulations inside
-the list iterations, it can be an opening for future bugs as it requires
-a very strict understanding of what is going on...
+This looks like its a per-controller attribute, it might be better to
+make nvme-cli pass this via the vendor extensions? This way we can have
+it on a per-controller basis.
