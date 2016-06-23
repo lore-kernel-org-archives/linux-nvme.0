@@ -1,39 +1,104 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 23 Jun 2016 19:08:24 +0300
-Subject: [PATCH] nvme-rdma: Always signal fabrics private commands
-Message-ID: <1466698104-32521-1-git-send-email-sagi@grimberg.me>
+Date: Thu, 23 Jun 2016 20:01:30 +0300
+Subject: [PATCH] nvmet-rdma: Invoke fatal error on error completion
+Message-ID: <1466701290-10356-1-git-send-email-sagi@grimberg.me>
 
-Some RDMA adapters were observed to have some issues
-with selective completion signaling which might cause
-a use-after-free condition when the device accidentally
-reports a completion when the caller context (wr_cqe)
-was already freed.
+In case we got an error completion the rdma queue pair
+is in error state, teardown the entire controller. Note
+that in recv or read error completion we might not have
+a controller yet, so check for the controller exsistence.
 
-The first time this was detected was for flush requests
-that were not allocated from the tagset, now we see that
-in the error path of fabrics connect (admin). The normal
-I/O selective signaling is safe because we free the tagset
-only when all the queue-pairs were drained.
-
-Reported-by: Steve Wise <swise at opengridcomputing.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/nvme/target/rdma.c | 45 +++++++++++++++++++++++++++++++++++++--------
+ 1 file changed, 37 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index b939f89ad936..bf141cb4e671 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1453,7 +1453,8 @@ static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	ib_dma_sync_single_for_device(dev, sqe->dma,
- 			sizeof(struct nvme_command), DMA_TO_DEVICE);
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index b1c6e5bb0b70..f5986a7b776e 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -134,6 +134,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc);
+ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
+ static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc);
+ static void nvmet_rdma_qp_event(struct ib_event *event, void *priv);
++static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue);
  
--	if (rq->cmd_type == REQ_TYPE_FS && req_op(rq) == REQ_OP_FLUSH)
-+	if ((rq->cmd_type == REQ_TYPE_FS && req_op(rq) == REQ_OP_FLUSH) ||
-+	    rq->cmd_type == REQ_TYPE_DRV_PRIV)
- 		flush = true;
- 	ret = nvme_rdma_post_send(queue, sqe, req->sge, req->num_sge,
- 			req->need_inval ? &req->reg_wr.wr : NULL, flush);
+ static struct nvmet_fabrics_ops nvmet_rdma_ops;
+ 
+@@ -486,12 +487,32 @@ static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
+ 	nvmet_rdma_put_rsp(rsp);
+ }
+ 
++static void nvmet_rdma_error_comp(struct nvmet_rdma_queue *queue)
++{
++	if (queue->nvme_sq.ctrl)
++		nvmet_ctrl_fatal_error(queue->nvme_sq.ctrl);
++	else
++		/*
++		 * we didn't setup the controller yet in case
++		 * of admin connect error, just disconnect and
++		 * cleanup the queue
++		 */
++		nvmet_rdma_queue_disconnect(queue);
++}
++
+ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
+ {
+ 	struct nvmet_rdma_rsp *rsp =
+ 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
+ 
+ 	nvmet_rdma_release_rsp(rsp);
++
++	if (unlikely(wc->status != IB_WC_SUCCESS &&
++		wc->status != IB_WC_WR_FLUSH_ERR)) {
++		pr_err("SEND for CQE 0x%p failed with status %s (%d).\n",
++			wc->wr_cqe, ib_wc_status_msg(wc->status), wc->status);
++		nvmet_rdma_error_comp(rsp->queue);
++	}
+ }
+ 
+ static void nvmet_rdma_queue_response(struct nvmet_req *req)
+@@ -534,11 +555,13 @@ static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc)
+ 			rsp->req.sg_cnt, nvmet_data_dir(&rsp->req));
+ 	rsp->n_rdma = 0;
+ 
+-	if (unlikely(wc->status != IB_WC_SUCCESS &&
+-		wc->status != IB_WC_WR_FLUSH_ERR)) {
+-		pr_info("RDMA READ for CQE 0x%p failed with status %s (%d).\n",
+-			wc->wr_cqe, ib_wc_status_msg(wc->status), wc->status);
+-		nvmet_req_complete(&rsp->req, NVME_SC_DATA_XFER_ERROR);
++	if (unlikely(wc->status != IB_WC_SUCCESS)) {
++		nvmet_rdma_release_rsp(rsp);
++		if (wc->status != IB_WC_WR_FLUSH_ERR) {
++			pr_info("RDMA READ for CQE 0x%p failed with status %s (%d).\n",
++				wc->wr_cqe, ib_wc_status_msg(wc->status), wc->status);
++			nvmet_rdma_error_comp(queue);
++		}
+ 		return;
+ 	}
+ 
+@@ -705,13 +728,19 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+ 	struct nvmet_rdma_queue *queue = cq->cq_context;
+ 	struct nvmet_rdma_rsp *rsp;
+ 
+-	if (unlikely(wc->status != IB_WC_SUCCESS))
++	if (unlikely(wc->status != IB_WC_SUCCESS)) {
++		if (wc->status != IB_WC_WR_FLUSH_ERR) {
++			pr_err("RECV for CQE 0x%p failed with status %s (%d)\n",
++				wc->wr_cqe, ib_wc_status_msg(wc->status),
++				wc->status);
++			nvmet_rdma_error_comp(queue);
++		}
+ 		return;
++	}
+ 
+ 	if (unlikely(wc->byte_len < sizeof(struct nvme_command))) {
+ 		pr_err("Ctrl Fatal Error: capsule size less than 64 bytes\n");
+-		if (queue->nvme_sq.ctrl)
+-			nvmet_ctrl_fatal_error(queue->nvme_sq.ctrl);
++		nvmet_rdma_error_comp(queue);
+ 		return;
+ 	}
+ 
 -- 
 1.9.1
