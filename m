@@ -1,40 +1,39 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 23 Jun 2016 10:59:47 -0500
-Subject: [PATCH 0/1] Fix for nvme-rdma host crash in nvmf-all.3
-In-Reply-To: <576C0547.4060403@grimberg.me>
-References: <cover.1466626499.git.swise@opengridcomputing.com>
- <576B8FB7.5000305@grimberg.me>
- <004f01d1cd57$85fc0530$91f40f90$@opengridcomputing.com>
- <576C0547.4060403@grimberg.me>
-Message-ID: <00ee01d1cd68$4451a7f0$ccf4f7d0$@opengridcomputing.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 23 Jun 2016 19:08:24 +0300
+Subject: [PATCH] nvme-rdma: Always signal fabrics private commands
+Message-ID: <1466698104-32521-1-git-send-email-sagi@grimberg.me>
 
-> >> Hey Steve, I don't see how this bug fixes the root-cause. Not exactly
-> >> sure we understand the root-cause. Is it possible that this is a chelsio
-> >> specific issue with send completion signaling (like we saw before)? Did
-> >> this happen with a non-chelsio device?
-> >
-> > Due to the stack trace, I believe this is a similar issue we saw before.  It
-is
-> > probably chelsio-specific.  I don't see it on mlx4.
-> >
-> > The fix for the previous occurrence of this crash was to signal all FLUSH
-> > commands.  Do you recall why that fixed it?  Perhaps this failure path needs
-> > some other signaled command to force the pending unsignaled WRs to be marked
-> > "complete" by the driver?
-> 
-> OK, so as discussed off-list signaling connect sends resolves the issue.
-> My recollection was that when the Chelsio queue-pair transitions to
-> error/drain state, the cxgb4 driver does not know which sends were
-> completed without the completion signal causing it to complete it again
-> and the wr_cqe might have been already freed. I assume the same is going
-> on here as we free the tag set before draining the qp...
+Some RDMA adapters were observed to have some issues
+with selective completion signaling which might cause
+a use-after-free condition when the device accidentally
+reports a completion when the caller context (wr_cqe)
+was already freed.
 
-Yes.  Thanks for the summary :)
+The first time this was detected was for flush requests
+that were not allocated from the tagset, now we see that
+in the error path of fabrics connect (admin). The normal
+I/O selective signaling is safe because we free the tagset
+only when all the queue-pairs were drained.
 
+Reported-by: Steve Wise <swise at opengridcomputing.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/rdma.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index b939f89ad936..bf141cb4e671 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1453,7 +1453,8 @@ static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	ib_dma_sync_single_for_device(dev, sqe->dma,
+ 			sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 
+-	if (rq->cmd_type == REQ_TYPE_FS && req_op(rq) == REQ_OP_FLUSH)
++	if ((rq->cmd_type == REQ_TYPE_FS && req_op(rq) == REQ_OP_FLUSH) ||
++	    rq->cmd_type == REQ_TYPE_DRV_PRIV)
+ 		flush = true;
+ 	ret = nvme_rdma_post_send(queue, sqe, req->sge, req->num_sge,
+ 			req->need_inval ? &req->reg_wr.wr : NULL, flush);
+-- 
+1.9.1
