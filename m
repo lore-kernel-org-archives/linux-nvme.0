@@ -1,29 +1,28 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Thu, 23 Jun 2016 15:38:29 +0200 (CEST)
-Subject: [nvme-fabrics]Fabrics over ROCEv2
-Message-ID: <1755342088.51635051.1466689109109.JavaMail.zimbra@kalray.eu>
-
-Hello,
-I'm doing some interoperability tests with NVMEoF in different configurations.
-I have problems setting up Mellanox ConnectX-3 Pro to perform NVMEoF in RoCE v2 mode.
-
-I have limited the set up to 2 Mellanox cards:
-* if they are connected by a cable directly it works fine, I can set up a NVMEoF
-and access the disk just right. It uses ROCEv1
-
-* if they are connected by a router (in fact a 3rd machine with different 40Gbit
-cards) the discover/connect operations do not work. In the packet trace I can see
-that 1st card has sent an UDP packet that looks right, but the second system
-answers with ICMP port unreachable.
-
-Has anyone tried a setup in ROCEv2 mode?
-
-Thanks in advance,
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Thu, 23 Jun 2016 08:59:56 -0500
+Subject: [PATCH 0/1] Fix for nvme-rdma host crash in nvmf-all.3
+In-Reply-To: <576B8FB7.5000305@grimberg.me>
+References: <cover.1466626499.git.swise@opengridcomputing.com>
+ <576B8FB7.5000305@grimberg.me>
+Message-ID: <004f01d1cd57$85fc0530$91f40f90$@opengridcomputing.com>
 
 
--- 
+> 
+> > This patch fixes a touch-after-free bug I discovered.  It is against
+> > nvmf-all.3 branch of git://git.infradead.org/nvme-fabrics.git.  The patch
+> > is kind of ugly, so any ideas on a cleaner solution are welcome.
+> 
+> Hey Steve, I don't see how this bug fixes the root-cause. Not exactly
+> sure we understand the root-cause. Is it possible that this is a chelsio
+> specific issue with send completion signaling (like we saw before)? Did
+> this happen with a non-chelsio device?
 
-Marta Rybczynska 
+Due to the stack trace, I believe this is a similar issue we saw before.  It is
+probably chelsio-specific.  I don't see it on mlx4.
 
-Phone : +33 6 71 09 68 03 
-mrybczyn at kalray.eu
+The fix for the previous occurrence of this crash was to signal all FLUSH
+commands.  Do you recall why that fixed it?  Perhaps this failure path needs
+some other signaled command to force the pending unsignaled WRs to be marked
+"complete" by the driver?
+
+Steve.
