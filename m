@@ -1,94 +1,37 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 23 Jun 2016 11:29:05 -0600
-Subject: [PATCH 2/3] nvme: Kill detached namespaces prior to removal
+Date: Thu, 23 Jun 2016 13:44:57 -0400
+Subject: [PATCH 0/3] Namespace iteration fixes
 In-Reply-To: <1466702946-13065-1-git-send-email-keith.busch@intel.com>
 References: <1466702946-13065-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1466702946-13065-3-git-send-email-keith.busch@intel.com>
+Message-ID: <20160623174457.GK1448@localhost.localdomain>
 
-If a previously namespace allocated is detatched or deleted from the
-controller, the driver needs to make sure nothing can send new IO to
-the namespace prior to removing. This prevents buffered writers from
-potentially stalling device removal indefinitely.
+Just correcting Sagi's email in the CC. I copy/pasted from a review in
+an different message(*), but was missing some letters there too. :)
 
-The patch pulls the request queue stoppage into a function and provides
-a function to kill and remove the namespace. Any invalid namespace being
-removed should go through here.
+  * https://lkml.org/lkml/2016/6/23/529
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 38 ++++++++++++++++++++++++--------------
- 1 file changed, 24 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 67aba46..43d6947 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1534,6 +1534,26 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 	nvme_put_ns(ns);
- }
- 
-+static void nvme_ns_kill(struct nvme_ns *ns)
-+{
-+	/*
-+	 * Revalidating a dead namespace sets capacity to 0. This will
-+	 * end buffered writers dirtying pages that can't be synced.
-+	 */
-+	if (!test_and_set_bit(NVME_NS_DEAD, &ns->flags))
-+		revalidate_disk(ns->disk);
-+
-+	blk_set_queue_dying(ns->queue);
-+	blk_mq_abort_requeue_list(ns->queue);
-+	blk_mq_start_stopped_hw_queues(ns->queue, true);
-+}
-+
-+static void nvme_remove_dead_ns(struct nvme_ns *ns)
-+{
-+	nvme_ns_kill(ns);
-+	nvme_ns_remove(ns);
-+}
-+
- static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
- {
- 	struct nvme_ns *ns;
-@@ -1554,7 +1574,7 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
- 
- 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
- 		if (ns->ns_id > nsid)
--			nvme_ns_remove(ns);
-+			nvme_remove_dead_ns(ns);
- 	}
- }
- 
-@@ -1584,7 +1604,7 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
- 			while (++prev < nsid) {
- 				ns = nvme_get_ns(ctrl, prev);
- 				if (ns) {
--					nvme_ns_remove(ns);
-+					nvme_remove_dead_ns(ns);
- 					nvme_put_ns(ns);
- 				}
- 			}
-@@ -1837,19 +1857,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 	mutex_lock(&ctrl->namespaces_mutex);
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
- 		if (!kref_get_unless_zero(&ns->kref))
--			continue;
--
--		/*
--		 * Revalidating a dead namespace sets capacity to 0. This will
--		 * end buffered writers dirtying pages that can't be synced.
--		 */
--		if (!test_and_set_bit(NVME_NS_DEAD, &ns->flags))
--			revalidate_disk(ns->disk);
--
--		blk_set_queue_dying(ns->queue);
--		blk_mq_abort_requeue_list(ns->queue);
--		blk_mq_start_stopped_hw_queues(ns->queue, true);
-+			return;
- 
-+		nvme_ns_kill(ns);
- 		nvme_put_ns(ns);
- 	}
- 	mutex_unlock(&ctrl->namespaces_mutex);
--- 
-2.7.2
+On Thu, Jun 23, 2016@11:29:03AM -0600, Keith Busch wrote:
+> Patch 1/3 cleanly applies to linux-block/for-linus and for-next. The
+> other two only apply to for-next.
+> 
+> The first fixes a bug introduced in 4.7 and hoping this can be applied
+> to 4.7. It's version 2 of this patch. The reset of the series is targeted
+> to 4.8. 
+> 
+> The second patch fixes issues where buffered writers block removal
+> from proceeding.
+> 
+> The third locks the namespace mutex when searching for invalid
+> namespaces. While it doesn't appear necessary in the existing paths that
+> use it, it makes this function safe for potential future use.
+> 
+> Keith Busch (3):
+>   nvme: Remove RCU namespace protection
+>   nvme: Kill detached namespaces prior to removal
+>   nvme: Put invalid namespaces on removal list
+> 
+>  drivers/nvme/host/core.c | 112 ++++++++++++++++++++++++++++-------------------
+>  1 file changed, 67 insertions(+), 45 deletions(-)
+> 
+> -- 
+> 2.7.2
