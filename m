@@ -1,29 +1,49 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 23 Jun 2016 11:29:03 -0600
-Subject: [PATCH 0/3] Namespace iteration fixes
-Message-ID: <1466702946-13065-1-git-send-email-keith.busch@intel.com>
+Date: Thu, 23 Jun 2016 11:29:06 -0600
+Subject: [PATCH 3/3] nvme: Put invalid namespaces on removal list
+In-Reply-To: <1466702946-13065-1-git-send-email-keith.busch@intel.com>
+References: <1466702946-13065-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1466702946-13065-4-git-send-email-keith.busch@intel.com>
 
-Patch 1/3 cleanly applies to linux-block/for-linus and for-next. The
-other two only apply to for-next.
+This patch puts invalid namespaces on a temporary removal list so they
+are not part of the controller's namespace list during their remova tol
+allow locked list traversal when scanning for invalid namespaces. This
+addresses one of the last unlocked namespace list iterations.
 
-The first fixes a bug introduced in 4.7 and hoping this can be applied
-to 4.7. It's version 2 of this patch. The reset of the series is targeted
-to 4.8. 
+The actual namespace removal runs unlocked on the local removal list. The
+invalid namespaces do not need to be on the controller list since removing
+them disables the queues from doing IO.
 
-The second patch fixes issues where buffered writers block removal
-from proceeding.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-The third locks the namespace mutex when searching for invalid
-namespaces. While it doesn't appear necessary in the existing paths that
-use it, it makes this function safe for potential future use.
-
-Keith Busch (3):
-  nvme: Remove RCU namespace protection
-  nvme: Kill detached namespaces prior to removal
-  nvme: Put invalid namespaces on removal list
-
- drivers/nvme/host/core.c | 112 ++++++++++++++++++++++++++++-------------------
- 1 file changed, 67 insertions(+), 45 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 43d6947..a56b394 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1571,11 +1571,19 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 					unsigned nsid)
+ {
+ 	struct nvme_ns *ns, *next;
++	LIST_HEAD(rm_list);
+ 
++	mutex_lock(&ctrl->namespaces_mutex);
+ 	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list) {
+-		if (ns->ns_id > nsid)
+-			nvme_remove_dead_ns(ns);
++		if (ns->ns_id > nsid) {
++			list_del_init(&ns->list);
++			list_add_tail(&ns->list, &rm_list);
++		}
+ 	}
++	mutex_unlock(&ctrl->namespaces_mutex);
++
++	list_for_each_entry_safe(ns, next, &rm_list, list)
++		nvme_remove_dead_ns(ns);
+ }
+ 
+ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
 -- 
 2.7.2
