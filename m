@@ -1,26 +1,16 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 23 Jun 2016 10:09:36 +0300
-Subject: [PATCH 0/2] Get rid of transport layer retry count config
- parameter
-In-Reply-To: <20160622203110.GA20838@obsidianresearch.com>
-References: <1466597161-5242-1-git-send-email-sagi@grimberg.me>
- <20160622161559.GA18361@infradead.org>
- <20160622203110.GA20838@obsidianresearch.com>
-Message-ID: <576B8B30.8080402@grimberg.me>
+Date: Thu, 23 Jun 2016 10:28:55 +0300
+Subject: [PATCH 0/1] Fix for nvme-rdma host crash in nvmf-all.3
+In-Reply-To: <cover.1466626499.git.swise@opengridcomputing.com>
+References: <cover.1466626499.git.swise@opengridcomputing.com>
+Message-ID: <576B8FB7.5000305@grimberg.me>
 
 
->>> This parameter was added in order to support a proper timeout for
->>> error recovery before the spec defined a periodic keep-alive.
->>>
->>> Now that we have periodic keep-alive, we don't need a user configurable
->>> transport layer retry count, the keep-alive timeout is sufficient,
->>> transports can retry for as long as they see fit.
->>
->> Isn't there some IB protocol level rationale for a low retry count
->> in various fabric setups?
->
-> IIRC the retry count is part of what drives the APM switch over, so
-> APM configuration should use a lower value.
+> This patch fixes a touch-after-free bug I discovered.  It is against
+> nvmf-all.3 branch of git://git.infradead.org/nvme-fabrics.git.  The patch
+> is kind of ugly, so any ideas on a cleaner solution are welcome.
 
-Completely agree Jason. Lowering the retry_count is very useful
-for APM (Automatic Path Migration).
+Hey Steve, I don't see how this bug fixes the root-cause. Not exactly
+sure we understand the root-cause. Is it possible that this is a chelsio
+specific issue with send completion signaling (like we saw before)? Did
+this happen with a non-chelsio device?
