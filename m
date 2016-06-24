@@ -1,47 +1,54 @@
-From: majd@mellanox.com (Majd Dibbiny)
-Date: Fri, 24 Jun 2016 13:40:26 +0000
-Subject: [nvme-fabrics]Fabrics over ROCEv2
-In-Reply-To: <394543770.53385548.1466766141681.JavaMail.zimbra@kalray.eu>
-References: <1755342088.51635051.1466689109109.JavaMail.zimbra@kalray.eu>
- <20160624071312.GD4252@infradead.org>,
- <394543770.53385548.1466766141681.JavaMail.zimbra@kalray.eu>
-Message-ID: <8AB89CFA-063B-4C85-9B68-3BAE2E9F0B1D@mellanox.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Fri, 24 Jun 2016 09:05:05 -0500
+Subject: [PATCH] nvme-rdma: Always signal fabrics private commands
+In-Reply-To: <20160624070740.GB4252@infradead.org>
+References: <1466698104-32521-1-git-send-email-sagi@grimberg.me>
+ <20160624070740.GB4252@infradead.org>
+Message-ID: <003401d1ce21$6880f720$3982e560$@opengridcomputing.com>
 
+> On Thu, Jun 23, 2016@07:08:24PM +0300, Sagi Grimberg wrote:
+> > Some RDMA adapters were observed to have some issues
+> > with selective completion signaling which might cause
+> > a use-after-free condition when the device accidentally
+> > reports a completion when the caller context (wr_cqe)
+> > was already freed.
+> 
+> I'd really love to fully root cause this issue and find a way
+> to fix it in the driver or core.  This isn't really something
+> a ULP should have to care about, and I'm trying to understand how
+> the existing ULPs get away without this.
+>
 
-> On Jun 24, 2016,@2:02 PM, Marta Rybczynska <mrybczyn@kalray.eu> wrote:
-> 
-> Hello Christoph,
-> Thanks for the answer. I do indeed have more general problems with
-> ROCEv2: ib_send_bw works fine for ROCEv1 but not with ROCEv2. I'm
-> going to follow with the Mellanox persons as it seems to be mlx4 or
-> configuration-related.
-> 
-Hi Marta,
+Haven't we root caused it?  iw_cxgb4 cannot free up SQ slots containing
+unsignaled WRs until a subsequent signaled WR is completed and polled by the
+ULP.  If the QP is moved out of RTS before that happens thyen the unsignaled WRs
+are completed as FLUSHED.  And NVMF is not ensuring that for all unsignaled WRs,
+the wr_cqe remains around until the qp is flushed. 
 
-Do you run with RDMA-CM?
-Can you please provide the command lines you use and the GIDs table?
+>From a quick browse of the ULPS that support iw_cxgb4, it looks like NFSRDMA
+server always signals, and NFSRDMA client always posts chains that end in a
+signaled WR (not 100% sure on this).  iser does control its signaling, and it
+perhaps suffers from the same problem.  But the target side has only now become
+enabled for iwarp/cxgb4, so we'll see if we hit the same problems.  It appears
+isert always signals.  
 
-Thanks
-> Marta
+> I think we should apply this anyway for now unless we can come up
+> woth something better, but I'm not exactly happy about it.
 > 
-> ----- Le 24 Juin 16, ? 9:13, Christoph Hellwig hch at infradead.org a ?crit :
+> > The first time this was detected was for flush requests
+> > that were not allocated from the tagset, now we see that
+> > in the error path of fabrics connect (admin). The normal
+> > I/O selective signaling is safe because we free the tagset
+> > only when all the queue-pairs were drained.
 > 
->> Hi Marta,
->> 
->> we've tested the NVMe over Fabrics code with both Mellanox and Emulex
->> RoCE cards, although I don't remember if we were using RoCEv2.
->> 
->> But your problem doesn't sound NVMe specific.  Can your first check if a
->> simple test using ib_send_bw works?
-> 
-> -- 
-> -- 
-> 
-> Marta Rybczynska 
-> 
-> Phone : +33 6 71 09 68 03 
-> mrybczyn at kalray.eu
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> So for flush we needed this because the flush request is allocated
+> as part of the hctx, but pass through requests aren't really
+> special in terms of allocation.  What's the reason we need to
+> treat these special?
+
+Perhaps it is just avoiding the problem by nature of being a signaled WR causing
+iw_cxgb4 to now know the unsignaled WRs are complete...
+
+I'm happy to help with guidance.  I'm not very familiar with the NVMF code above
+its use of RDMA though.  And my solutions to try and fix this have all been
+considered incorrect. :)
