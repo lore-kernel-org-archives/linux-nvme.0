@@ -1,23 +1,17 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 24 Jun 2016 01:11:28 -0700
-Subject: [PATCH 0/3] nvme: Don't add namespaces for locked drives
-In-Reply-To: <20160620152639.GD12936@localhost.localdomain>
+Date: Fri, 24 Jun 2016 01:12:35 -0700
+Subject: [PATCH 1/3] nvme: When scanning namespaces, make sure the drive
+ is not locked
+In-Reply-To: <20160619230634.17229-2-kernel@jbeekman.nl>
 References: <20160619230634.17229-1-kernel@jbeekman.nl>
- <20160620152639.GD12936@localhost.localdomain>
-Message-ID: <20160624081128.GD17446@infradead.org>
+ <20160619230634.17229-2-kernel@jbeekman.nl>
+Message-ID: <20160624081235.GA12715@infradead.org>
 
-On Mon, Jun 20, 2016@11:26:39AM -0400, Keith Busch wrote:
-> This is ATA security, though, so wouldn't ATA also benefit from this? The
-> payload setup/decoding should then go in a generic library for everyone.
+On Sun, Jun 19, 2016@04:06:32PM -0700, Jethro Beekman wrote:
+> +	if (nvme_security_is_locked(ctrl, id)) {
+> +		nvme_remove_namespaces(ctrl);
+> +		return;
+> +	}
 
-In principiple sharing this code would be fine, but right now the
-actual ATA specific code is totally trivial.  Maybe we can have the
-line of checking the actual data that we get from the ATA-specific
-security send into a inline helper, but otherwise the to be shared bits
-are mostly constants.
-
-> Similar was said about the patch adding OPAL security to the NVMe driver:
-> 
->   http://lists.infradead.org/pipermail/linux-nvme/2016-April/004428.html
-
-OPAL is a lot more complex than checking this locked bit..
+Should we print some information for the user that we are ignoring
+a namespace because it is locked?
