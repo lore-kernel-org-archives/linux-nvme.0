@@ -1,165 +1,123 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Sat, 25 Jun 2016 22:05:19 +0200
-Subject: [PATCH 06/13] irq: add a helper spread an affinity mask for
- MSI/MSI-X vectors
-In-Reply-To: <1465934346-20648-7-git-send-email-hch@lst.de>
+Date: Sat, 25 Jun 2016 22:22:49 +0200
+Subject: [PATCH 08/13] pci: spread interrupt vectors in
+ pci_alloc_irq_vectors
+In-Reply-To: <1465934346-20648-9-git-send-email-hch@lst.de>
 References: <1465934346-20648-1-git-send-email-hch@lst.de>
- <1465934346-20648-7-git-send-email-hch@lst.de>
-Message-ID: <20160625200518.GA29251@dhcp-27-118.brq.redhat.com>
+ <1465934346-20648-9-git-send-email-hch@lst.de>
+Message-ID: <20160625202249.GB29251@dhcp-27-118.brq.redhat.com>
 
-On Tue, Jun 14, 2016@09:58:59PM +0200, Christoph Hellwig wrote:
-> This is lifted from the blk-mq code and adopted to use the affinity mask
-> concept just intruced in the irq handling code.
+On Tue, Jun 14, 2016@09:59:01PM +0200, Christoph Hellwig wrote:
+> Set the affinity_mask before allocating vectors.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
->  include/linux/interrupt.h | 11 +++++++++
->  kernel/irq/Makefile       |  1 +
->  kernel/irq/affinity.c     | 60 +++++++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 72 insertions(+)
->  create mode 100644 kernel/irq/affinity.c
+>  drivers/pci/msi.c   | 26 ++++++++++++++++++++++++--
+>  include/linux/pci.h |  1 +
+>  2 files changed, 25 insertions(+), 2 deletions(-)
 > 
-> diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-> index 9fcabeb..12003c0 100644
-> --- a/include/linux/interrupt.h
-> +++ b/include/linux/interrupt.h
-> @@ -278,6 +278,9 @@ extern int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m);
->  extern int
->  irq_set_affinity_notifier(unsigned int irq, struct irq_affinity_notify *notify);
+> diff --git a/drivers/pci/msi.c b/drivers/pci/msi.c
+> index a33adec..50d694c 100644
+> --- a/drivers/pci/msi.c
+> +++ b/drivers/pci/msi.c
+> @@ -568,6 +568,7 @@ static struct msi_desc *msi_setup_entry(struct pci_dev *dev, int nvec)
+>  	entry->msi_attrib.multi_cap	= (control & PCI_MSI_FLAGS_QMASK) >> 1;
+>  	entry->msi_attrib.multiple	= ilog2(__roundup_pow_of_two(nvec));
+>  	entry->nvec_used		= nvec;
+> +	entry->affinity			= dev->irq_affinity;
 >  
-> +int irq_create_affinity_mask(struct cpumask **affinity_mask,
-> +		unsigned int *nr_vecs);
-> +
->  #else /* CONFIG_SMP */
->  
->  static inline int irq_set_affinity(unsigned int irq, const struct cpumask *m)
-> @@ -308,6 +311,14 @@ irq_set_affinity_notifier(unsigned int irq, struct irq_affinity_notify *notify)
+>  	if (control & PCI_MSI_FLAGS_64BIT)
+>  		entry->mask_pos = dev->msi_cap + PCI_MSI_MASK_64;
+> @@ -679,10 +680,18 @@ static void __iomem *msix_map_region(struct pci_dev *dev, unsigned nr_entries)
+>  static int msix_setup_entries(struct pci_dev *dev, void __iomem *base,
+>  			      struct msix_entry *entries, int nvec)
 >  {
->  	return 0;
->  }
-> +
-> +static inline int irq_create_affinity_mask(struct cpumask **affinity_mask,
-> +		unsigned int *nr_vecs)
-> +{
-> +	*affinity_mask = NULL;
-> +	*nr_vecs = 1;
-> +	return 0;
-> +}
->  #endif /* CONFIG_SMP */
+> +	const struct cpumask *mask = NULL;
+>  	struct msi_desc *entry;
+> -	int i;
+> +	int cpu = -1, i;
 >  
->  /*
-> diff --git a/kernel/irq/Makefile b/kernel/irq/Makefile
-> index 2ee42e9..1d3ee31 100644
-> --- a/kernel/irq/Makefile
-> +++ b/kernel/irq/Makefile
-> @@ -9,3 +9,4 @@ obj-$(CONFIG_GENERIC_IRQ_MIGRATION) += cpuhotplug.o
->  obj-$(CONFIG_PM_SLEEP) += pm.o
->  obj-$(CONFIG_GENERIC_MSI_IRQ) += msi.o
->  obj-$(CONFIG_GENERIC_IRQ_IPI) += ipi.o
-> +obj-$(CONFIG_SMP) += affinity.o
-> diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-> new file mode 100644
-> index 0000000..1daf8fb
-> --- /dev/null
-> +++ b/kernel/irq/affinity.c
-> @@ -0,0 +1,60 @@
-> +
-> +#include <linux/interrupt.h>
-> +#include <linux/kernel.h>
-> +#include <linux/slab.h>
-> +#include <linux/cpu.h>
-> +
-> +static int get_first_sibling(unsigned int cpu)
-> +{
-> +	unsigned int ret;
-> +
-> +	ret = cpumask_first(topology_sibling_cpumask(cpu));
-> +	if (ret < nr_cpu_ids)
-> +		return ret;
-> +	return cpu;
-> +}
-> +
-> +/*
-> + * Take a map of online CPUs and the number of available interrupt vectors
-> + * and generate an output cpumask suitable for spreading MSI/MSI-X vectors
-> + * so that they are distributed as good as possible around the CPUs.  If
-> + * more vectors than CPUs are available we'll map one to each CPU,
-
-Unless I do not misinterpret a loop from msix_setup_entries() (patch 08/13),
-the above is incorrect:
-
-	for (i = 0; i < nvec; i++) {
-		if (dev->irq_affinity) {
-			cpu = cpumask_next(cpu, dev->irq_affinity);
-			if (cpu >= nr_cpu_ids)
-				cpu = cpumask_first(dev->irq_affinity);
-			mask = cpumask_of(cpu);
-		}
-
-		...
-
-		entry->affinity			= mask;
-	}
-
-> + * otherwise we map one to the first sibling of each socket.
-
-(*) I guess, in some topology configurations a total number of all
-first siblings may be less than the number of vectors.
-
-> + * If there are more vectors than CPUs we will still only have one bit
-> + * set per CPU, but interrupt code will keep on assining the vectors from
-> + * the start of the bitmap until we run out of vectors.
-> + */
-> +int irq_create_affinity_mask(struct cpumask **affinity_mask,
-> +		unsigned int *nr_vecs)
-
-Both the callers of this function and the function itself IMHO would
-read better if it simply returned the affinity mask. Or passed the 
-affinity mask pointer.
-
-> +{
-> +	unsigned int vecs = 0;
-
-In case (*nr_vecs >= num_online_cpus()) the contents of *nr_vecs
-will be overwritten with 0.
-
-> +	if (*nr_vecs == 1) {
-> +		*affinity_mask = NULL;
-> +		return 0;
-> +	}
-> +
-> +	*affinity_mask = kzalloc(cpumask_size(), GFP_KERNEL);
-> +	if (!*affinity_mask)
-> +		return -ENOMEM;
-> +
-> +	if (*nr_vecs >= num_online_cpus()) {
-> +		cpumask_copy(*affinity_mask, cpu_online_mask);
-> +	} else {
-> +		unsigned int cpu;
-> +
-> +		for_each_online_cpu(cpu) {
-> +			if (cpu == get_first_sibling(cpu)) {
-> +				cpumask_set_cpu(cpu, *affinity_mask);
-> +				vecs++;
-> +			}
-> +
-> +			if (--(*nr_vecs) == 0)
-> +				break;
+>  	for (i = 0; i < nvec; i++) {
+> +		if (dev->irq_affinity) {
+> +			cpu = cpumask_next(cpu, dev->irq_affinity);
+> +			if (cpu >= nr_cpu_ids)
+> +				cpu = cpumask_first(dev->irq_affinity);
+> +			mask = cpumask_of(cpu);
 > +		}
-> +	}
 > +
-> +	*nr_vecs = vecs;
+>  		entry = alloc_msi_entry(&dev->dev);
+>  		if (!entry) {
+>  			if (!i)
+> @@ -699,6 +708,7 @@ static int msix_setup_entries(struct pci_dev *dev, void __iomem *base,
+>  		entry->msi_attrib.default_irq	= dev->irq;
+>  		entry->mask_base		= base;
+>  		entry->nvec_used		= 1;
+> +		entry->affinity			= mask;
+>  
+>  		list_add_tail(&entry->list, dev_to_msi_list(&dev->dev));
+>  	}
+> @@ -1176,12 +1186,20 @@ int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+>  {
+>  	unsigned int vecs, i;
+>  	u32 *irqs;
+> +	int ret;
+>  
+>  	max_vecs = min(max_vecs, pci_nr_irq_vectors(dev));
+>  
+> +	ret = irq_create_affinity_mask(&dev->irq_affinity, &max_vecs);
 
-So considering (*) comment above the number of available vectors
-might be unnecessarily shrunken here.
+	dev->irq_affinity = irq_create_affinity_mask(&max_vecs); ?
 
-I think nr_vecs need not be an out-parameter since we always can
-assign multiple vectors to a CPU. It is better than limiting number
-of available vectors AFAIKT. Or you could pass one-per-cpu flag
-explicitly.
 
-> +	return 0;
-> +}
+> +	if (ret)
+> +		return ret;
+> +	if (max_vecs < min_vecs)
+> +		return -ENOSPC;
+
+irq_create_affinity_mask() should be called after MSI-X/MSI is enabled,
+because we do not know number of vectors before the range functions
+returned that number.
+
+Since affinity masks is a function of number of vectors and CPU topology
+the resulting masks might turn out suboptimal in general case (and
+this code supposed to be general, right?).
+
+I.e irq_create_affinity_mask() could decide "per-first-sibling" spreading
+given number of available vectors, but only a subset of MSI vectors
+were actually allocated. For that subset "per-core" affinity mask could
+have been initialized, but we will still go with "per-first-sibling".
+
+> +	ret = -ENOMEM;
+>  	irqs = kcalloc(max_vecs, sizeof(u32), GFP_KERNEL);
+>  	if (!irqs)
+> -		return -ENOMEM;
+> +		goto out_free_affinity;
+>  
+>  	if (!(flags & PCI_IRQ_NOMSIX)) {
+>  		vecs = pci_enable_msix_range_wrapper(dev, irqs, min_vecs,
+> @@ -1208,6 +1226,10 @@ int pci_alloc_irq_vectors(struct pci_dev *dev, unsigned int min_vecs,
+>  done:
+>  	dev->irqs = irqs;
+>  	return vecs;
+> +out_free_affinity:
+> +	kfree(dev->irq_affinity);
+> +	dev->irq_affinity = NULL;
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL(pci_alloc_irq_vectors);
+>  
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index 84a20fc..f474611 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -321,6 +321,7 @@ struct pci_dev {
+>  	 */
+>  	unsigned int	irq;
+>  	unsigned int	*irqs;
+> +	struct cpumask	*irq_affinity;
+>  	struct resource resource[DEVICE_COUNT_RESOURCE]; /* I/O and memory regions + expansion ROMs */
+>  
+>  	bool match_driver;		/* Skip attaching driver */
 > -- 
 > 2.1.4
 > 
