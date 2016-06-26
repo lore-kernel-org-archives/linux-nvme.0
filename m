@@ -1,24 +1,45 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 26 Jun 2016 18:48:26 +0300
-Subject: [PATCH 0/2] Get rid of transport layer retry count config
- parameter
-In-Reply-To: <20160624071336.GE4252@infradead.org>
-References: <1466597161-5242-1-git-send-email-sagi@grimberg.me>
- <20160622161559.GA18361@infradead.org>
- <20160622203110.GA20838@obsidianresearch.com> <576B8B30.8080402@grimberg.me>
- <20160624071336.GE4252@infradead.org>
-Message-ID: <576FF94A.3040705@grimberg.me>
+Date: Sun, 26 Jun 2016 18:57:14 +0300
+Subject: [PATCH] nvmet-rdma: Invoke fatal error on error completion
+In-Reply-To: <20160624071101.GC4252@infradead.org>
+References: <1466701290-10356-1-git-send-email-sagi@grimberg.me>
+ <20160624071101.GC4252@infradead.org>
+Message-ID: <576FFB5A.7070709@grimberg.me>
 
 
->> Completely agree Jason. Lowering the retry_count is very useful
->> for APM (Automatic Path Migration).
+>> +static void nvmet_rdma_error_comp(struct nvmet_rdma_queue *queue)
+>> +{
+>> +	if (queue->nvme_sq.ctrl)
+>> +		nvmet_ctrl_fatal_error(queue->nvme_sq.ctrl);
+>> +	else
+>> +		/*
+>> +		 * we didn't setup the controller yet in case
+>> +		 * of admin connect error, just disconnect and
+>> +		 * cleanup the queue
+>> +		 */
+>> +		nvmet_rdma_queue_disconnect(queue);
+>> +}
 >
-> Does this mean you're retracting the patches?
+> With such a long comment I'd prefer to have curly braces just to make
+> the else visually more obvious
 
-I'm not, were not using APM anywhere in nvme-rdma. multipathing
-is done at a higher level than the transport.
+Sure.
 
-Do you see a reason to keep this? I'm not too enthusiast with leaving
-configs that aren't absolutely needed. As mentioned this config was
-added to add a fast-fail functionality before we defined the periodic 
-keep-alive...
+>> +
+>> +	if (unlikely(wc->status != IB_WC_SUCCESS &&
+>> +		wc->status != IB_WC_WR_FLUSH_ERR)) {
+>
+> Indenting the second line of a condition by a single tab is always wrong,
+> either indent it with two tabs, or so that it aligns with first line.
+> The second is probably nicer here:
+>
+> 	if (unlikely(wc->status != IB_WC_SUCCESS &&
+> 		     wc->status != IB_WC_WR_FLUSH_ERR)) {
+
+OK, I'll do that.
+
+> Given how many !success not !flush_err conditionals we have in various
+> drivers I wonder if we should have a helper in the RDMA core, though.
+
+They don't always come together. But I can take a look at it. Given that
+it might bring some slight logic shifts, let's do it incrementally.
