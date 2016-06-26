@@ -1,109 +1,57 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 26 Jun 2016 19:01:57 +0300
-Subject: [PATCH v1] nvmet-rdma: Invoke fatal error on error completion
-Message-ID: <1466956917-6469-1-git-send-email-sagi@grimberg.me>
+Date: Sun, 26 Jun 2016 19:41:39 +0300
+Subject: [PATCH] nvme-rdma: Always signal fabrics private commands
+In-Reply-To: <20160624070740.GB4252@infradead.org>
+References: <1466698104-32521-1-git-send-email-sagi@grimberg.me>
+ <20160624070740.GB4252@infradead.org>
+Message-ID: <577005C3.4000802@grimberg.me>
 
-In case we got an error completion the rdma queue pair
-is in error state, teardown the entire controller. Note
-that in recv or read error completion we might not have
-a controller yet, so check for the controller existence.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-Changes from v0:
-- Added curly braces to nvmet_rdma_error_comp conditionals
-- aligned multi-line if condition indentation
+>> Some RDMA adapters were observed to have some issues
+>> with selective completion signaling which might cause
+>> a use-after-free condition when the device accidentally
+>> reports a completion when the caller context (wr_cqe)
+>> was already freed.
+>
+> I'd really love to fully root cause this issue and find a way
+> to fix it in the driver or core.
+> This isn't really something a ULP should have to care about, and I'm trying to understand how
+> the existing ULPs get away without this.
 
- drivers/nvme/target/rdma.c | 46 ++++++++++++++++++++++++++++++++++++++--------
- 1 file changed, 38 insertions(+), 8 deletions(-)
+It's a cxgb4 specific work-around (the only device this was observed
+by). Not sure how this can be addressed in the core. We could comment
+that in the code.
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index b1c6e5bb0b70..5005cda9fdcc 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -134,6 +134,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc);
- static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
- static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc);
- static void nvmet_rdma_qp_event(struct ib_event *event, void *priv);
-+static void nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue);
- 
- static struct nvmet_fabrics_ops nvmet_rdma_ops;
- 
-@@ -486,12 +487,33 @@ static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
- 	nvmet_rdma_put_rsp(rsp);
- }
- 
-+static void nvmet_rdma_error_comp(struct nvmet_rdma_queue *queue)
-+{
-+	if (queue->nvme_sq.ctrl) {
-+		nvmet_ctrl_fatal_error(queue->nvme_sq.ctrl);
-+	} else {
-+		/*
-+		 * we didn't setup the controller yet in case
-+		 * of admin connect error, just disconnect and
-+		 * cleanup the queue
-+		 */
-+		nvmet_rdma_queue_disconnect(queue);
-+	}
-+}
-+
- static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
- {
- 	struct nvmet_rdma_rsp *rsp =
- 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
- 
- 	nvmet_rdma_release_rsp(rsp);
-+
-+	if (unlikely(wc->status != IB_WC_SUCCESS &&
-+		     wc->status != IB_WC_WR_FLUSH_ERR)) {
-+		pr_err("SEND for CQE 0x%p failed with status %s (%d).\n",
-+			wc->wr_cqe, ib_wc_status_msg(wc->status), wc->status);
-+		nvmet_rdma_error_comp(rsp->queue);
-+	}
- }
- 
- static void nvmet_rdma_queue_response(struct nvmet_req *req)
-@@ -534,11 +556,13 @@ static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc)
- 			rsp->req.sg_cnt, nvmet_data_dir(&rsp->req));
- 	rsp->n_rdma = 0;
- 
--	if (unlikely(wc->status != IB_WC_SUCCESS &&
--		wc->status != IB_WC_WR_FLUSH_ERR)) {
--		pr_info("RDMA READ for CQE 0x%p failed with status %s (%d).\n",
--			wc->wr_cqe, ib_wc_status_msg(wc->status), wc->status);
--		nvmet_req_complete(&rsp->req, NVME_SC_DATA_XFER_ERROR);
-+	if (unlikely(wc->status != IB_WC_SUCCESS)) {
-+		nvmet_rdma_release_rsp(rsp);
-+		if (wc->status != IB_WC_WR_FLUSH_ERR) {
-+			pr_info("RDMA READ for CQE 0x%p failed with status %s (%d).\n",
-+				wc->wr_cqe, ib_wc_status_msg(wc->status), wc->status);
-+			nvmet_rdma_error_comp(queue);
-+		}
- 		return;
- 	}
- 
-@@ -705,13 +729,19 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
- 	struct nvmet_rdma_queue *queue = cq->cq_context;
- 	struct nvmet_rdma_rsp *rsp;
- 
--	if (unlikely(wc->status != IB_WC_SUCCESS))
-+	if (unlikely(wc->status != IB_WC_SUCCESS)) {
-+		if (wc->status != IB_WC_WR_FLUSH_ERR) {
-+			pr_err("RECV for CQE 0x%p failed with status %s (%d)\n",
-+				wc->wr_cqe, ib_wc_status_msg(wc->status),
-+				wc->status);
-+			nvmet_rdma_error_comp(queue);
-+		}
- 		return;
-+	}
- 
- 	if (unlikely(wc->byte_len < sizeof(struct nvme_command))) {
- 		pr_err("Ctrl Fatal Error: capsule size less than 64 bytes\n");
--		if (queue->nvme_sq.ctrl)
--			nvmet_ctrl_fatal_error(queue->nvme_sq.ctrl);
-+		nvmet_rdma_error_comp(queue);
- 		return;
- 	}
- 
--- 
-1.9.1
+> I think we should apply this anyway for now unless we can come up
+> woth something better, but I'm not exactly happy about it.
+>
+>> The first time this was detected was for flush requests
+>> that were not allocated from the tagset, now we see that
+>> in the error path of fabrics connect (admin). The normal
+>> I/O selective signaling is safe because we free the tagset
+>> only when all the queue-pairs were drained.
+>
+> So for flush we needed this because the flush request is allocated
+> as part of the hctx, but pass through requests aren't really
+> special in terms of allocation.  What's the reason we need to
+> treat these special?
+
+OK heres what I think is going on. we allocate the rdma queue and
+issue admin connect (unsignaled). connect fails, and we orderly
+teardown the admin queue (free the tagset, put the device and free the
+queue).
+
+Due to the fact that the cxgb4 driver is responsible for flushing
+pending work requests and has no way of telling what the HW processed
+other than the head/tail indexes (which are probably updated at
+completion time) it sees the admin connect in the send-queue, it
+doesn't know if the HW did anything with it, so it flushes it anyway.
+
+Our error path is freeing the tagset before we free the queue (draining
+the qp) so we get to a use-after-free condition (->done() is a freed
+tag memory).
+
+Note that we must allocate the qp before we allocate the tagset because
+we need the device when init_request callouts come. So we allocated
+before, we free after. An alternative fix was to free the queue before
+the tagset even though we allocated it before (as Steve suggested).
