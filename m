@@ -1,29 +1,40 @@
-From: agordeev@redhat.com (Alexander Gordeev)
-Date: Sun, 26 Jun 2016 21:40:23 +0200
-Subject: automatic interrupt affinity for MSI/MSI-X capable devices V2
-In-Reply-To: <1465934346-20648-1-git-send-email-hch@lst.de>
-References: <1465934346-20648-1-git-send-email-hch@lst.de>
-Message-ID: <20160626194023.GB20915@agordeev.lab.eng.brq.redhat.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 27 Jun 2016 09:19:26 -0500
+Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
+In-Reply-To: <002201d1cc8b$e3f66030$abe32090$@opengridcomputing.com>
+References: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
+ <20160616145724.GA32635@infradead.org>
+ <017001d1c7e7$95057270$bf105750$@opengridcomputing.com>
+ <5763044A.9090206@grimberg.me>
+ <005f01d1c8a1$5a229240$0e67b6c0$@opengridcomputing.com>
+ <007801d1c8a2$d6056530$82102f90$@opengridcomputing.com>
+ <CAF1ivSZNJhOtORceAfk9Ym9SPpYOGQ4q0KOD8eEuy0ovU2Eefw@mail.gmail.com>
+ <57668896.7090308@grimberg.me>
+ <006e01d1cbc7$d0d9cc40$728d64c0$@opengridcomputing.com>
+ <002201d1cc8b$e3f66030$abe32090$@opengridcomputing.com>
+Message-ID: <014601d1d07e$e9196f70$bb4c4e50$@opengridcomputing.com>
 
-On Tue, Jun 14, 2016@09:58:53PM +0200, Christoph Hellwig wrote:
-> This series enhances the irq and PCI code to allow spreading around MSI and
-> MSI-X vectors so that they have per-cpu affinity if possible, or at least
-> per-node.  For that it takes the algorithm from blk-mq, moves it to
-> a common place, and makes it available through a vastly simplified PCI
-> interrupt allocation API.  It then switches blk-mq to be able to pick up
-> the queue mapping from the device if available, and demonstrates all this
-> using the NVMe driver.
+> > Yoichi has hit what is apparently the same OOM bug:
+> >
+> > Kernel panic - not syncing: Out of memory and no killable processes...
+> >
+> > He hit it with NVMF on the host, _and_ with NVME/PCI with a local SSD.
+> > This is all with using nvmf-all.3 + Christoph's fix for the target queue
+> > deletion crash
+> > (http://lists.infradead.org/pipermail/linux-nvme/2016-June/005075.html).
+> >
+> 
+> Yoichi can reproduce this with linux-4.7-rc4, so the issue isn't related to
+the
+> nvme/nvmf changes in nvmf-all.3.  Also, I have been unable to reproduce it so
+> far on my setup.  But Yoichi can reproduce it readily.
+> 
 
-Hi Christoph,
+Hey Christoph,  
 
-One general comment. As result of this series there will be
-three locations to store/point to affinities: IRQ descriptor,
-MSI descriptor and PCI device descriptor.
+It appears this OOM issue is resolved in linux-4.7-rc5.  Does it make sense to
+publish a rebased nvmf-all?  
 
-IRQ and MSI descriptors merely refer to duplicate masks while
-the PCI device mask is the sum of all its MSI interrupts' masks.
+Thanks,
 
-Besides, MSI descriptors and PCI device affinity masks are only
-used just once - at MSI initialization.
-
-Overall, it looks like some cleanup is possible here.
+Steve.
