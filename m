@@ -1,7 +1,7 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Mon, 27 Jun 2016 10:26:36 -0700
+Date: Mon, 27 Jun 2016 15:29:42 -0700
 Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
-In-Reply-To: <20160616203437.GA19079@lst.de>
+In-Reply-To: <020201d1c812$ec94b430$c5be1c90$@opengridcomputing.com>
 References: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
  <20160616145724.GA32635@infradead.org>
  <017001d1c7e7$95057270$bf105750$@opengridcomputing.com>
@@ -12,117 +12,160 @@ References: <00d801d1c7de$e17fc7d0$a47f5770$@opengridcomputing.com>
  <CAF1ivSYUG4c7Ej-gNqA=aPFR2zkNq8KhBoodhp64wdY=eQLx6g@mail.gmail.com>
  <01c101d1c80d$96d13c80$c473b580$@opengridcomputing.com>
  <20160616203437.GA19079@lst.de>
-Message-ID: <1467048396.7205.3.camel@ssi>
+ <01e701d1c810$91d851c0$b588f540$@opengridcomputing.com>
+ <020201d1c812$ec94b430$c5be1c90$@opengridcomputing.com>
+Message-ID: <1467066582.7205.7.camel@ssi>
 
-On Thu, 2016-06-16@22:34 +0200, 'Christoph Hellwig' wrote:
-> On Thu, Jun 16, 2016@03:28:06PM -0500, Steve Wise wrote:
-> > > Just to follow, does Christoph's patch fix the crash?
+On Thu, 2016-06-16@16:06 -0500, Steve Wise wrote:
+> > > Unfortunately I think it's still wrong because it will only delete
+> > > a single queue per controller.  We'll probably need something
+> > > like this instead, which does the same think but also has a retry
+> > > loop for additional queues:
+> > >
+> > >
+> > > diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+> > > index b1c6e5b..425b55c 100644
+> > > --- a/drivers/nvme/target/rdma.c
+> > > +++ b/drivers/nvme/target/rdma.c
+> > > @@ -1293,19 +1293,20 @@ static int nvmet_rdma_cm_handler(struct
+> > > rdma_cm_id *cm_id,
+> > >
+> > >  static void nvmet_rdma_delete_ctrl(struct nvmet_ctrl *ctrl)
+> > >  {
+> > > -	struct nvmet_rdma_queue *queue, *next;
+> > > -	static LIST_HEAD(del_list);
+> > > +	struct nvmet_rdma_queue *queue;
+> > >
+> > > +restart:
+> > >  	mutex_lock(&nvmet_rdma_queue_mutex);
+> > > -	list_for_each_entry_safe(queue, next,
+> > > -			&nvmet_rdma_queue_list, queue_list) {
+> > > -		if (queue->nvme_sq.ctrl->cntlid == ctrl->cntlid)
+> > > -			list_move_tail(&queue->queue_list, &del_list);
+> > > +	list_for_each_entry(queue, &nvmet_rdma_queue_list, queue_list) {
+> > > +		if (queue->nvme_sq.ctrl == ctrl) {
+> > > +			list_del_init(&queue->queue_list);
+> > > +			mutex_unlock(&nvmet_rdma_queue_mutex);
+> > > +
+> > > +			__nvmet_rdma_queue_disconnect(queue);
+> > > +			goto restart;
+> > > +		}
+> > >  	}
+> > >  	mutex_unlock(&nvmet_rdma_queue_mutex);
+> > > -
+> > > -	list_for_each_entry_safe(queue, next, &del_list, queue_list)
+> > > -		nvmet_rdma_queue_disconnect(queue);
+> > >  }
+> > >
+> > >  static int nvmet_rdma_add_port(struct nvmet_port *port)
+> > >
 > > 
-> > It does. 
+> > This patch works.
+> > 
+> > Tested-by: Steve Wise <swise at opengridcomputing.com>
+> > 
+> > 
 > 
-> Unfortunately I think it's still wrong because it will only delete
-> a single queue per controller.  We'll probably need something
-> like this instead, which does the same think but also has a retry
-> loop for additional queues:
+> hrm...
 > 
+> Forcing more reconnects, I just hit this.  It looks different from the other
+> issue:
 > 
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index b1c6e5b..425b55c 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -1293,19 +1293,20 @@ static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
->  
->  static void nvmet_rdma_delete_ctrl(struct nvmet_ctrl *ctrl)
->  {
-> -	struct nvmet_rdma_queue *queue, *next;
-> -	static LIST_HEAD(del_list);
-> +	struct nvmet_rdma_queue *queue;
->  
-> +restart:
->  	mutex_lock(&nvmet_rdma_queue_mutex);
-> -	list_for_each_entry_safe(queue, next,
-> -			&nvmet_rdma_queue_list, queue_list) {
-> -		if (queue->nvme_sq.ctrl->cntlid == ctrl->cntlid)
-> -			list_move_tail(&queue->queue_list, &del_list);
-> +	list_for_each_entry(queue, &nvmet_rdma_queue_list, queue_list) {
-> +		if (queue->nvme_sq.ctrl == ctrl) {
-> +			list_del_init(&queue->queue_list);
-> +			mutex_unlock(&nvmet_rdma_queue_mutex);
-> +
-> +			__nvmet_rdma_queue_disconnect(queue);
-> +			goto restart;
-> +		}
->  	}
->  	mutex_unlock(&nvmet_rdma_queue_mutex);
-> -
-> -	list_for_each_entry_safe(queue, next, &del_list, queue_list)
-> -		nvmet_rdma_queue_disconnect(queue);
->  }
->  
->  static int nvmet_rdma_add_port(struct nvmet_port *port)
+> general protection fault: 0000 [#1] SMP
+> Modules linked in: rdma_ucm iw_cxgb4 cxgb4 nvmet_rdma rdma_cm iw_cm nvmet
+> null_blk configfs ip6table_filter ip6_tables ebtable_nat ebtables
+> nf_conntrack_ipv4 nf_defrag_ipv4 xt_state nf_conntrack ipt_REJECT nf_reject_
+> ipv4 xt_CHECKSUM iptable_mangle iptable_filter ip_tables bridge autofs4 8021q
+> garp stp llc ipmi_devintf cachefiles fscache ib_ipoib ib_cm ib_uverbs ib_umad
+> iw_nes libcrc32c iw_cxgb3 cxgb3 mdio ib_qib rdmavt mlx4_en i   b_mthca dm_mirror
+> dm_region_hash dm_log vhost_net macvtap macvlan vhost tun kvm_intel kvm
+> irqbypass uinput iTCO_wdt iTCO_vendor_support mxm_wmi pcspkr mlx4_ib ib_core
+> ipv6 mlx4_core dm_mod i2c_i801 sg lpc_ich mfd_cor   e nvme nvme_core
+> acpi_cpufreq ioatdma igb dca i2c_algo_bit i2c_core ptp pps_core wmi ext4(E)
+> mbcache(E) jbd2(E) sd_mod(E) ahci(E) libahci(E) [last unloaded: cxgb4]
+> CPU: 3 PID: 19213 Comm: kworker/3:10 Tainted: G            E
+> 4.7.0-rc2-nvmf-all.3+rxe+ #84
+> Hardware name: Supermicro X9DR3-F/X9DR3-F, BIOS 3.2a 07/09/2015
+> Workqueue: events nvmet_rdma_release_queue_work [nvmet_rdma]
+> task: ffff88103d68cf00 ti: ffff880fdf7a4000 task.ti: ffff880fdf7a4000
+> RIP: 0010:[<ffffffffa01ef5b7>]  [<ffffffffa01ef5b7>]
+> nvmet_rdma_free_rsps+0x67/0xb0 [nvmet_rdma]
+> RSP: 0018:ffff880fdf7a7bb8  EFLAGS: 00010202
+> RAX: dead000000000100 RBX: 000000000000001f RCX: 0000000000000001
+> RDX: dead000000000200 RSI: ffff880fdd884290 RDI: dead000000000200
+> RBP: ffff880fdf7a7bf8 R08: dead000000000100 R09: ffff88103c768140
+> R10: ffff88103c7682c0 R11: ffff88103c768340 R12: 00000000000044c8
+> R13: ffff88103db39c00 R14: 0000000000000100 R15: ffff88103e29cec0
+> FS:  0000000000000000(0000) GS:ffff88107f2c0000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000001016b00 CR3: 000000103bcb7000 CR4: 00000000000406e0
+> Stack:
+>  ffff880fdd8a23f8 00000000ffac1a05 ffff880fdf7a7bf8 ffff88103db39c00
+>  ffff88103c64cc00 ffffe8ffffac1a00 0000000000000000 ffffe8ffffac1a05
+>  ffff880fdf7a7c18 ffffffffa01ef652 0000000000000246 ffff88103e29cec0
+> Call Trace:
+>  [<ffffffffa01ef652>] nvmet_rdma_free_queue+0x52/0xa0 [nvmet_rdma]
+>  [<ffffffffa01ef6d3>] nvmet_rdma_release_queue_work+0x33/0x70 [nvmet_rdma]
+>  [<ffffffff8107cb5b>] process_one_work+0x17b/0x510
+>  [<ffffffff8161495c>] ? __schedule+0x23c/0x630
+>  [<ffffffff810c6c4c>] ? del_timer_sync+0x4c/0x60
+>  [<ffffffff8107da0b>] ? maybe_create_worker+0x8b/0x110
+>  [<ffffffff81614eb0>] ? schedule+0x40/0xb0
+>  [<ffffffff8107dbf6>] worker_thread+0x166/0x580
+>  [<ffffffff8161495c>] ? __schedule+0x23c/0x630
+>  [<ffffffff8108e162>] ? default_wake_function+0x12/0x20
+>  [<ffffffff8109fc26>] ? __wake_up_common+0x56/0x90
+>  [<ffffffff8107da90>] ? maybe_create_worker+0x110/0x110
+>  [<ffffffff81614eb0>] ? schedule+0x40/0xb0
+>  [<ffffffff8107da90>] ? maybe_create_worker+0x110/0x110
+>  [<ffffffff8108255c>] kthread+0xcc/0xf0
+>  [<ffffffff8108cade>] ? schedule_tail+0x1e/0xc0
+>  [<ffffffff816186cf>] ret_from_fork+0x1f/0x40
+>  [<ffffffff81082490>] ? kthread_freezable_should_stop+0x70/0x70
+> Code: b8 00 01 00 00 00 00 ad de 48 bf 00 02 00 00 00 00 ad de 83 c3 01 49 81 c4
+> 38 02 00 00 48 8b 86 28 02 00 00 48 8b 96 30 02 00 00 <48> 89 50 08 48 89 45 c0
+> 48 89 02 48 89 be 30 02 00 00 4c 89 ff
+> RIP  [<ffffffffa01ef5b7>] nvmet_rdma_free_rsps+0x67/0xb0 [nvmet_rdma]
+>  RSP <ffff880fdf7a7bb8>
+> ---[ end trace a30265f72371b5ce ]---
 
-Run below test over weekend on host side(nvmf-all.3),
+Hi Steve,
 
+Now I can reproduce this with Chelsio card and below script:
+
+root at host:~# cat loop.sh 
 #!/bin/bash
 
+ETH=eth3
+
 while [ 1 ] ; do
-	ifconfig eth5 down ; sleep $(( 10 + ($RANDOM & 0x7) )); ifconfig eth5 up ;sleep $(( 10 + ($RANDOM & 0x7) ))
+	ifconfig $ETH down ; sleep $(( 10 + ($RANDOM & 0x7) )); ifconfig $ETH up ;sleep $(( 10 + ($RANDOM & 0x7) ))
 done
 
-Then target side hit below crash:
+And below patch fixed it.
+Could you also help to test it?
 
-[122730.252874] nvmet: creating controller 1 for NQN nqn.2014-08.org.nvmexpress:NVMf:uuid:53ea06bc-e1d0-4d59-a6e9-138684f3662b.
-[122730.281665] nvmet: adding queue 1 to ctrl 1.
-[122730.287133] nvmet: adding queue 2 to ctrl 1.
-[122730.292672] nvmet: adding queue 3 to ctrl 1.
-[122730.298197] nvmet: adding queue 4 to ctrl 1.
-[122730.303742] nvmet: adding queue 5 to ctrl 1.
-[122730.309375] nvmet: adding queue 6 to ctrl 1.
-[122730.315015] nvmet: adding queue 7 to ctrl 1.
-[122730.320688] nvmet: adding queue 8 to ctrl 1.
-[122732.014747] mlx4_en: eth4: Link Down
-[122745.298422] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
-[122745.305601] BUG: unable to handle kernel paging request at 0000010173180018
-[122745.313755] IP: [<ffffffffc08bb7fa>] nvmet_rdma_delete_ctrl+0x4a/0xa0 [nvmet_rdma]
-[122745.322513] PGD 0
-[122745.325667] Oops: 0000 [#1] PREEMPT SMP
-[122745.462435] CPU: 0 PID: 4849 Comm: kworker/0:3 Tainted: G           OE   4.7.0-rc2+ #256
-[122745.472376] Hardware name: Dell Inc. OptiPlex 7010/0773VG, BIOS A12 01/10/2013
-[122745.481433] Workqueue: events nvmet_keep_alive_timer [nvmet]
-[122745.488909] task: ffff880035346a00 ti: ffff8800d1078000 task.ti: ffff8800d1078000
-[122745.498246] RIP: 0010:[<ffffffffc08bb7fa>]  [<ffffffffc08bb7fa>] nvmet_rdma_delete_ctrl+0x4a/0xa0 [nvmet_rdma]
-[122745.510170] RSP: 0018:ffff8800d107bdf0  EFLAGS: 00010207
-[122745.517384] RAX: 0000010173180100 RBX: 000001017317ffe0 RCX: 0000000000000000
-[122745.526464] RDX: 0000010173180100 RSI: ffff88012020dc28 RDI: ffffffffc08bf080
-[122745.535566] RBP: ffff8800d107be00 R08: 0000000000000000 R09: ffff8800c7bd7bc0
-[122745.544715] R10: 000000000000f000 R11: 0000000000015c68 R12: ffff8800b85c3400
-[122745.553873] R13: ffff88012021ac00 R14: 0000000000000000 R15: ffff880120216300
-[122745.563025] FS:  0000000000000000(0000) GS:ffff880120200000(0000) knlGS:0000000000000000
-[122745.573152] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[122745.580923] CR2: 0000010173180018 CR3: 0000000001c06000 CR4: 00000000001406f0
-[122745.590125] Stack:
-[122745.594187]  ffff8800b85c34c8 ffff8800b85c34c8 ffff8800d107be18 ffffffffc090d0be
-[122745.603771]  ffff8800d7cfaf00 ffff8800d107be60 ffffffff81083019 ffff8800d7cfaf30
-[122745.613374]  0000000035346a00 ffff880120216320 ffff8800d7cfaf30 ffff880035346a00
-[122745.622992] Call Trace:
-[122745.627593]  [<ffffffffc090d0be>] nvmet_keep_alive_timer+0x2e/0x40 [nvmet]
-[122745.636685]  [<ffffffff81083019>] process_one_work+0x159/0x370
-[122745.644745]  [<ffffffff81083356>] worker_thread+0x126/0x490
-[122745.652545]  [<ffffffff816f17fe>] ? __schedule+0x1de/0x590
-[122745.660217]  [<ffffffff81083230>] ? process_one_work+0x370/0x370
-[122745.668387]  [<ffffffff81088864>] kthread+0xc4/0xe0
-[122745.675437]  [<ffffffff816f571f>] ret_from_fork+0x1f/0x40
-[122745.683025]  [<ffffffff810887a0>] ? kthread_create_on_node+0x170/0x170
+The root cause is the "rsp" was already removed from the free_list by
+nvmet_rdma_get_rsp().
 
-(gdb) list *nvmet_rdma_delete_ctrl+0x4a
-0x82a is in nvmet_rdma_delete_ctrl (/home/mlin/linux-nvmeof/drivers/nvme/target/rdma.c:1301).
-1296		struct nvmet_rdma_queue *queue;
-1297	
-1298	restart:
-1299		mutex_lock(&nvmet_rdma_queue_mutex);
-1300		list_for_each_entry(queue, &nvmet_rdma_queue_list, queue_list) {
-1301			if (queue->nvme_sq.ctrl == ctrl) {
-1302				list_del_init(&queue->queue_list);
-1303				mutex_unlock(&nvmet_rdma_queue_mutex);
-1304	
-1305				__nvmet_rdma_queue_disconnect(queue);
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 425b55c..627942c 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -425,7 +425,15 @@ static void nvmet_rdma_free_rsps(struct nvmet_rdma_queue *queue)
+ 	for (i = 0; i < nr_rsps; i++) {
+ 		struct nvmet_rdma_rsp *rsp = &queue->rsps[i];
+ 
+-		list_del(&rsp->free_list);
++		/*
++		 * Don't call "list_del(&rsp->free_list)", because:
++		 * It could be already removed from the free list by
++		 * nvmet_rdma_get_rsp(), or it's on the queue::rsp_wait_list
++		 *
++		 * It's safe we just free it because at this point the queue
++		 * was already disconnected so nvmet_rdma_get_rsp() won't be
++		 * called any more.
++		 */
+ 		nvmet_rdma_free_rsp(ndev, rsp);
+ 	}
+ 	kfree(queue->rsps);
