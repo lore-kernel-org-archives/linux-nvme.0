@@ -1,20 +1,28 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 28 Jun 2016 10:41:05 +0200
-Subject: [PATCH] nvme-rdma: Always signal fabrics private commands
-In-Reply-To: <577005C3.4000802@grimberg.me>
-References: <1466698104-32521-1-git-send-email-sagi@grimberg.me>
- <20160624070740.GB4252@infradead.org> <577005C3.4000802@grimberg.me>
-Message-ID: <20160628084105.GA13533@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 28 Jun 2016 01:45:47 -0700
+Subject: NVMe over Fabrics: NQN UUID byte order
+In-Reply-To: <1466792528.3234.9.camel@intel.com>
+References: <1466792528.3234.9.camel@intel.com>
+Message-ID: <20160628084547.GA31465@infradead.org>
 
-On Sun, Jun 26, 2016@07:41:39PM +0300, Sagi Grimberg wrote:
-> Our error path is freeing the tagset before we free the queue (draining
-> the qp) so we get to a use-after-free condition (->done() is a freed
-> tag memory).
->
-> Note that we must allocate the qp before we allocate the tagset because
-> we need the device when init_request callouts come. So we allocated
-> before, we free after. An alternative fix was to free the queue before
-> the tagset even though we allocated it before (as Steve suggested).
+On Fri, Jun 24, 2016@06:22:11PM +0000, Verkamp, Daniel wrote:
+> The NVMe 1.2.1 specification, section 7.9 (NVMe Qualified Names), says
+> that the UUID format of NQN is based on RFC 4122, which explicitly
+> requires all fields to be in big-endian/network byte order (section
+> 4.1.2, Layout and Byte Order).
+> 
+> However, the current NVMe over Fabrics host code generates and formats
+> the Host Identifier UUID in little-endian byte order:
+> 
+> >static struct nvmf_host *nvmf_host_default(void)
+> >{
+> [...]
+> >	uuid_le_gen(&host->id);
+> >	snprintf(host->nqn, NVMF_NQN_SIZE,
+> >		"nqn.2014-08.org.nvmexpress:NVMf:uuid:%pUl", &host-
+> >id);
+> 
+> Is this intentional or an oversight?
 
-Would draining, but not freeing the qp before freeing the tagset work?
-That seems like the most sensible option here.
+This isn't intentional.  Can you send a patch to use uuid_be and
+uuid_be_gen instead?
