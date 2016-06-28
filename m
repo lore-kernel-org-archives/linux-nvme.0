@@ -1,43 +1,31 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 28 Jun 2016 12:35:13 -0400
-Subject: [PATCHv2 1/3] nvme: Remove RCU namespace protection
-In-Reply-To: <20160628083137.GA32618@infradead.org>
-References: <1466702946-13065-1-git-send-email-keith.busch@intel.com>
- <1466702946-13065-2-git-send-email-keith.busch@intel.com>
- <20160628083137.GA32618@infradead.org>
-Message-ID: <20160628163512.GB8607@localhost.localdomain>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Tue, 28 Jun 2016 11:31:27 -0500
+Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
+In-Reply-To: <20160628155159.GA3084@lst.de>
+References: <576306EE.4020306@grimberg.me>
+ <01b901d1c80b$72f83680$58e8a380$@opengridcomputing.com>
+ <CAF1ivSYUG4c7Ej-gNqA=aPFR2zkNq8KhBoodhp64wdY=eQLx6g@mail.gmail.com>
+ <01c101d1c80d$96d13c80$c473b580$@opengridcomputing.com>
+ <20160616203437.GA19079@lst.de>
+ <01e701d1c810$91d851c0$b588f540$@opengridcomputing.com>
+ <020201d1c812$ec94b430$c5be1c90$@opengridcomputing.com>
+ <1467066582.7205.7.camel@ssi> <20160628091433.GA14149@lst.de>
+ <005001d1d147$81cd8cb0$8568a610$@opengridcomputing.com>
+ <20160628155159.GA3084@lst.de>
+Message-ID: <01dc01d1d15a$84f42670$8edc7350$@opengridcomputing.com>
 
-On Tue, Jun 28, 2016@01:31:37AM -0700, Christoph Hellwig wrote:
-> > @@ -1656,10 +1662,8 @@ void nvme_remove_namespaces(struct nvme_ctrl *ctrl)
-> >  	if (ctrl->state == NVME_CTRL_DEAD)
-> >  		nvme_kill_queues(ctrl);
-> >  
-> > -	mutex_lock(&ctrl->namespaces_mutex);
-> >  	list_for_each_entry_safe(ns, next, &ctrl->namespaces, list)
-> >  		nvme_ns_remove(ns);
-> > -	mutex_unlock(&ctrl->namespaces_mutex);
+> On Tue, Jun 28, 2016@09:15:22AM -0500, Steve Wise wrote:
+> > I'm not so sure.  I don't see where nvmet leaves unsignaled wrs on the SQ.
+> > It either posts chains via RDMA-RW and the last in the chain is always
+> > signaled (I think), or it posts signaled IO responses.
 > 
-> And this is the scary one - it does an unprotected
-> list_for_each_entry_safe, and nvme_remove_namespaces isn't even called
-> from the scan workqueue.
+> Indeed.  So we need to figure out where we don't release a rsp.
 > 
-> I think this needs to be something like:
-> 
-> 	mutex_lock(&ctrl->namespaces_mutex);
-> 	list_splice_init(&ctrl->namespaces, &tmp);
-> 	mutex_unlock(&ctrl->namespaces_mutex);
-> 
-> 	list_for_each_entry_safe(ns, next, &tmp, list) {
-> 		..
-> 
-> 		nvme_ns_remove(ns);
 
-We actually can't do that. The namespace needs to be on ctrl->namespaces
-during nvme_ns_remove because it does IO, and the controller can fail
-during that IO. Every namespace needs to be on the ctrl's namespace
-list until after del_gendisk completes so we can recover from potential
-failures.
+Hey Ming, 
 
-It does look concerning, but it's safe if the caller ensures no scan
-work is or ever will be active. If that sounds okay or no alternative
-exists, I can document this usage requirement in the code.
+For what its worth, the change you proposed in this thread isn't working for me.
+I see maybe one or two recoveries successful, then the target gets stuck.  I see
+several workq threads stuck destroying various qps, one thread stuck draining a
+qp.  If this change is not the proper fix, then I'm not going to debug this
+further.
