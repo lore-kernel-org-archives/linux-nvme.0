@@ -1,23 +1,20 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 28 Jun 2016 09:20:18 -0500
-Subject: [PATCH] nvme-rdma: Always signal fabrics private commands
-In-Reply-To: <20160628084105.GA13533@lst.de>
-References: <1466698104-32521-1-git-send-email-sagi@grimberg.me>
- <20160624070740.GB4252@infradead.org> <577005C3.4000802@grimberg.me>
- <20160628084105.GA13533@lst.de>
-Message-ID: <005201d1d148$32c33740$9849a5c0$@opengridcomputing.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 28 Jun 2016 11:11:39 -0400
+Subject: [PATCH 2/2] [RFC] nvme: enable asynchronous events notification
+ by default
+In-Reply-To: <20160624081726.GA13596@infradead.org>
+References: <1466184075-10471-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
+ <1466184075-10471-3-git-send-email-gpiccoli@linux.vnet.ibm.com>
+ <57679355.6000303@gmail.com> <576821E9.2060009@linux.vnet.ibm.com>
+ <20160620202135.GG12936@localhost.localdomain>
+ <20160624081726.GA13596@infradead.org>
+Message-ID: <20160628151137.GA8607@localhost.localdomain>
 
-> On Sun, Jun 26, 2016@07:41:39PM +0300, Sagi Grimberg wrote:
-> > Our error path is freeing the tagset before we free the queue (draining
-> > the qp) so we get to a use-after-free condition (->done() is a freed
-> > tag memory).
-> >
-> > Note that we must allocate the qp before we allocate the tagset because
-> > we need the device when init_request callouts come. So we allocated
-> > before, we free after. An alternative fix was to free the queue before
-> > the tagset even though we allocated it before (as Steve suggested).
-> 
-> Would draining, but not freeing the qp before freeing the tagset work?
-> That seems like the most sensible option here.
+On Fri, Jun 24, 2016@01:17:26AM -0700, Christoph Hellwig wrote:
+> Yes, I'm not too excited about handling the AERs in kernel space,
+> having a userspace daemon to listen for them would generally be more
+> useful.
 
-disconnecting and draining, I think.
+How do daemons typically want to be notified of an event like this? I'm
+thinking sysfs_notify or maybe a KOBJ_CHANGE uevent. I don't know, this
+is unfamiliar territory to me.
