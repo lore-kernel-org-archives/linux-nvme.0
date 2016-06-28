@@ -1,46 +1,176 @@
 From: mlin@kernel.org (Ming Lin)
-Date: Tue, 28 Jun 2016 09:49:56 -0700
-Subject: target crash / host hang with nvme-all.3 branch of nvme-fabrics
-In-Reply-To: <01dc01d1d15a$84f42670$8edc7350$@opengridcomputing.com>
-References: <576306EE.4020306@grimberg.me>
- <01b901d1c80b$72f83680$58e8a380$@opengridcomputing.com>
- <CAF1ivSYUG4c7Ej-gNqA=aPFR2zkNq8KhBoodhp64wdY=eQLx6g@mail.gmail.com>
- <01c101d1c80d$96d13c80$c473b580$@opengridcomputing.com>
- <20160616203437.GA19079@lst.de>
- <01e701d1c810$91d851c0$b588f540$@opengridcomputing.com>
- <020201d1c812$ec94b430$c5be1c90$@opengridcomputing.com>
- <1467066582.7205.7.camel@ssi> <20160628091433.GA14149@lst.de>
- <005001d1d147$81cd8cb0$8568a610$@opengridcomputing.com>
- <20160628155159.GA3084@lst.de>
- <01dc01d1d15a$84f42670$8edc7350$@opengridcomputing.com>
-Message-ID: <1467132596.7205.11.camel@ssi>
+Date: Tue, 28 Jun 2016 11:17:57 -0700
+Subject: [PATCH -nvmeof] selftest: Add test for keep-alive expired with live io
+Message-ID: <1467137877-20899-1-git-send-email-mlin@kernel.org>
 
-On Tue, 2016-06-28@11:31 -0500, Steve Wise wrote:
-> > On Tue, Jun 28, 2016@09:15:22AM -0500, Steve Wise wrote:
-> > > I'm not so sure.  I don't see where nvmet leaves unsignaled wrs on the SQ.
-> > > It either posts chains via RDMA-RW and the last in the chain is always
-> > > signaled (I think), or it posts signaled IO responses.
-> > 
-> > Indeed.  So we need to figure out where we don't release a rsp.
-> > 
-> 
-> Hey Ming, 
-> 
-> For what its worth, the change you proposed in this thread isn't working for me.
-> I see maybe one or two recoveries successful, then the target gets stuck.  I see
-> several workq threads stuck destroying various qps, one thread stuck draining a
-> qp.  If this change is not the proper fix, then I'm not going to debug this
-> further.
+From: Ming Lin <ming.l@samsung.com>
 
-I didn't see this during overnight test. Possibly another bug.
-Could you post the stuck call stack?
+Reproduces RDMA target driver crash resulting by keep-alive expired
+event and removing nvmet_rdma_rsp from free_list.
 
-I assume you are still doing below tests on host:
+Example:
+./009.sh -T 192.168.2.2 -d iw_cxgb4 -i eth3 -N 5
 
-run fio test
+Signed-off-by: Ming Lin <ming.l at samsung.com>
+---
+ tools/testing/selftests/nvmef/009.sh | 149 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 149 insertions(+)
+ create mode 100755 tools/testing/selftests/nvmef/009.sh
 
-Then, 
-
-while [ 1 ] ; do
-        ifconfig $ETH down ; sleep $(( 10 + ($RANDOM & 0x7) )); ifconfig $ETH up ;sleep $(( 10 + ($RANDOM & 0x7) ))
-done
+diff --git a/tools/testing/selftests/nvmef/009.sh b/tools/testing/selftests/nvmef/009.sh
+new file mode 100755
+index 0000000..9fad51c
+--- /dev/null
++++ b/tools/testing/selftests/nvmef/009.sh
+@@ -0,0 +1,149 @@
++#!/bin/bash
++# Test ifconfig up/down NIC when running fio
++
++set -e
++. ./nvmf_lib.sh
++
++NAME=selftest-nic-up-down
++TARGET_DEVICE=/dev/nullb0
++TARGET_HOST=
++
++#CLEANUP_ONLY=FALSE
++#CLEANUP_SKIP=TRUE
++
++TARGET_DRIVER=
++HOST_NIC=
++NUM_TEST=10
++
++nvmf_help()
++{
++    echo $0 ": Help and Usage"
++    echo
++    echo "ifconfig up/down NIC when running fio (RDMA)"
++    echo
++    echo "usage: $0 [options]"
++    echo
++    echo "Options"
++    echo "-------"
++    echo
++    echo "  -h             : Show this help message"
++    echo "  -n NAME        : Controller name on target side"
++    echo "  -b TARGET_BLK  : Block device to use on target side"
++    echo "  -T TARGET_HOST : Hostname or IP of target side"
++    echo "  -d TARGET_DRIVER : rdma device driver"
++    echo "  -i HOST_NIC    : Host network interface"
++    echo "  -N NUM_TEST    : Number of ifconfig down/up test"
++    echo
++}
++
++while getopts "hn:b:T:d:i:N:" opt; do
++    case "$opt" in
++	h)  nvmf_help
++	    exit 0
++	    ;;
++	n)  NAME=${OPTARG}
++            ;;
++	t)  TARGET_DEVICE=${OPTARG}
++            ;;
++	T)  TARGET_HOST=${OPTARG}
++            ;;
++	d)  TARGET_DRIVER=${OPTARG}
++            ;;
++	i)  HOST_NIC=${OPTARG}
++            ;;
++	N)  NUM_TEST=${OPTARG}
++            ;;
++	\?)
++	    echo "Invalid option: -$OPTARG" >&2
++	    exit 1
++	    ;;
++	:)
++	    echo "Option -$OPTARG requires an argument." >&2
++	    exit 1
++	    ;;
++    esac
++done
++
++NQN=${NAME}
++
++if [ "${TARGET_HOST}" == "" ]; then
++    echo "nmvf: No target host specified. Use the -T option."
++    exit 1
++fi
++
++if [ "${TARGET_DRIVER}" == "" ]; then
++    echo "nmvf: No target driver specified. Use the -d option."
++    exit 1
++fi
++
++if [ "${HOST_NIC}" == "" ]; then
++    echo "nmvf: No host NIC specified. Use the -i option."
++    exit 1
++fi
++
++  # XXXXX. For now we assume the DUT in a fresh state with none of the
++  # relevant modules loaded. We will add checks for this to the script
++  # over time.
++
++CONNECTION=$(ssh ${TARGET_HOST} echo \$SSH_CONNECTION)
++REMOTE_NODE=$(ssh ${TARGET_HOST} uname -n)
++REMOTE_KERNEL=$(ssh ${TARGET_HOST} uname -r)
++CARGS=( $CONNECTION )
++REMOTE_IP=${CARGS[2]}
++LOCAL_IP=${CARGS[0]}
++echo "Remote Address: ${REMOTE_IP} ($REMOTE_NODE)"
++echo "Remote Device:  ${TARGET_DEVICE}"
++echo "Remote Kernel:  ${REMOTE_KERNEL}"
++echo
++echo "Local Address:  ${LOCAL_IP} ($(uname -n))"
++echo "Local Kernel:   $(uname -r)"
++echo
++
++nvmf_trap_exit
++
++  # Setup the NVMf target and host.
++
++nvmf_remote_cmd ${TARGET_HOST} nvmf_check_configfs_mount
++nvmf_remote_cmd ${TARGET_HOST} nvmf_check_target_device ${TARGET_DEVICE}
++nvmf_remote_cmd ${TARGET_HOST} nvmf_rdma_target ${NAME} ${REMOTE_IP}
++nvmf_remote_cmd ${TARGET_HOST} nvmf_namespace ${NAME} 1 ${TARGET_DEVICE}
++
++HOST_CTRL=$(nvmf_rdma_host ${NQN} ${REMOTE_IP} 1023)
++HOST_CHAR=/dev/${HOST_CTRL}
++HOST_DEVICE=/dev/${HOST_CTRL}n1
++
++# run fio in the bg
++echo "Running fio in the background"
++BS=4k
++PATTERN=randread
++THREADS=4
++IODEPTH=32
++DURATION=999999
++nvmf_run_fio_bg ${BS} ${PATTERN} ${THREADS} ${IODEPTH} ${DURATION} ${HOST_DEVICE}
++FIO_PID=$$
++echo $FIO_PID
++
++# Let IO resume
++sleep 5
++
++echo "Running ifconfig $HOST_NIC up/down for $NUM_TEST times"
++for i in `seq $NUM_TEST` ; do
++	ifconfig $HOST_NIC down
++	sleep $(( 10 + ($RANDOM & 0x7) ))
++	ifconfig $HOST_NIC up
++	sleep $(( 10 + ($RANDOM & 0x7) ))
++done
++
++sleep 5
++killall -9 fio
++
++# delete the host ctrl
++echo "Deleting ${HOST_CTRL}"
++nvmf_cleanup_host ${NAME}
++echo "Done deleting ${HOST_CTRL}"
++
++# cleanup the target ctrl
++echo "Cleaning ${NAME}"
++nvmf_remote_cmd ${TARGET_HOST} nvmf_cleanup_target ${NAME}
++echo "Done cleaning ${NAME}"
++
+-- 
+1.9.1
