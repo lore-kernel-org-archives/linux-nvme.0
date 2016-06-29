@@ -1,176 +1,358 @@
 From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Wed, 29 Jun 2016 16:51:37 +0200
-Subject: [PATCH 2/6] null_blk: refactor to support non-gendisk devices
+Date: Wed, 29 Jun 2016 16:51:39 +0200
+Subject: [PATCH 4/6] lightnvm: let drivers control the lifetime of nvm_dev
 In-Reply-To: <1467211901-26707-1-git-send-email-m@bjorling.me>
 References: <1467211901-26707-1-git-send-email-m@bjorling.me>
-Message-ID: <1467211901-26707-3-git-send-email-m@bjorling.me>
+Message-ID: <1467211901-26707-5-git-send-email-m@bjorling.me>
 
-With LightNVM enabled devices, the gendisk structure is not exposed
-to the user. This hides the device driver specific sysfs entries, and
-prevents binding of LightNVM geometry information to the device.
+LightNVM does not currently expose the device driver sysfs specific
+entries to user-space, as the device driver skips the initialization of
+gendisk.
 
-Refactor the device registration process, so that gendisk and
-non-gendisk devices are easily managed.
+To enable a device driver sysfs entries to be exposed, we need a struct
+device to attach it to. To allow both the device driver and LightNVM to
+access the same struct device, we need the device driver to track the
+lifetime of the nvm_dev structure.
+
+This patch refactors the two users of LightNVM (NVMe and null_blk),
+enables them to allocate and free nvm_dev, and at last removes gendisk
+usage when a LightNVM device is used.
 
 Signed-off-by: Matias Bj?rling <m at bjorling.me>
 ---
- drivers/block/null_blk.c | 110 ++++++++++++++++++++++++++---------------------
- 1 file changed, 61 insertions(+), 49 deletions(-)
+ drivers/block/null_blk.c     | 22 ++++++++++++++++++++--
+ drivers/lightnvm/core.c      | 34 +++++++---------------------------
+ drivers/nvme/host/core.c     | 34 ++++++++++++++--------------------
+ drivers/nvme/host/lightnvm.c | 33 ++++++++++++++++++++++++++-------
+ drivers/nvme/host/nvme.h     |  8 +++++---
+ include/linux/lightnvm.h     | 15 +++++++++------
+ 6 files changed, 81 insertions(+), 65 deletions(-)
 
 diff --git a/drivers/block/null_blk.c b/drivers/block/null_blk.c
-index cab9759..3117df1 100644
+index 3117df1..5a0da8b 100644
 --- a/drivers/block/null_blk.c
 +++ b/drivers/block/null_blk.c
-@@ -414,23 +414,6 @@ static void cleanup_queues(struct nullb *nullb)
- 	kfree(nullb->queues);
+@@ -34,6 +34,7 @@ struct nullb {
+ 	unsigned int index;
+ 	struct request_queue *q;
+ 	struct gendisk *disk;
++	struct nvm_dev *ndev;
+ 	struct blk_mq_tag_set tag_set;
+ 	struct hrtimer timer;
+ 	unsigned int queue_depth;
+@@ -550,12 +551,29 @@ static struct nvm_dev_ops null_lnvm_dev_ops = {
+ 
+ static int null_nvm_register(struct nullb *nullb)
+ {
+-	return nvm_register(nullb->q, nullb->disk_name, &null_lnvm_dev_ops);
++	struct nvm_dev *dev;
++	int rv;
++
++	dev = nvm_alloc_dev(0);
++	if (!dev)
++		return -ENOMEM;
++
++	dev->q = nullb->q;
++	memcpy(dev->name, nullb->disk_name, DISK_NAME_LEN);
++	dev->ops = &null_lnvm_dev_ops;
++
++	rv = nvm_register(dev);
++	if (rv) {
++		kfree(dev);
++		return rv;
++	}
++	nullb->ndev = dev;
++	return 0;
  }
  
--static void null_del_dev(struct nullb *nullb)
--{
--	list_del_init(&nullb->list);
--
--	if (use_lightnvm)
--		nvm_unregister(nullb->disk_name);
--	else
--		del_gendisk(nullb->disk);
--	blk_cleanup_queue(nullb->q);
--	if (queue_mode == NULL_Q_MQ)
--		blk_mq_free_tag_set(&nullb->tag_set);
--	if (!use_lightnvm)
--		put_disk(nullb->disk);
--	cleanup_queues(nullb);
--	kfree(nullb);
--}
--
- #ifdef CONFIG_NVM
+ static void null_nvm_unregister(struct nullb *nullb)
+ {
+-	nvm_unregister(nullb->disk_name);
++	nvm_unregister(nullb->ndev);
+ }
+ #else
+ static int null_nvm_register(struct nullb *nullb)
+diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
+index 25c5df9..0654c06 100644
+--- a/drivers/lightnvm/core.c
++++ b/drivers/lightnvm/core.c
+@@ -660,23 +660,15 @@ static void nvm_exit(struct nvm_dev *dev)
+ 	pr_info("nvm: successfully unloaded\n");
+ }
  
- static void null_lnvm_end_io(struct request *rq, int error)
-@@ -564,10 +547,41 @@ static struct nvm_dev_ops null_lnvm_dev_ops = {
- 	/* Simulate nvme protocol restriction */
+-int nvm_register(struct request_queue *q, char *disk_name,
+-							struct nvm_dev_ops *ops)
++struct nvm_dev *nvm_alloc_dev(int node)
++{
++	return kzalloc_node(sizeof(struct nvm_dev), GFP_KERNEL, node);
++}
++
++int nvm_register(struct nvm_dev *dev)
+ {
+-	struct nvm_dev *dev;
+ 	int ret;
+ 
+-	if (!ops->identity)
+-		return -EINVAL;
+-
+-	dev = kzalloc(sizeof(struct nvm_dev), GFP_KERNEL);
+-	if (!dev)
+-		return -ENOMEM;
+-
+-	dev->q = q;
+-	dev->ops = ops;
+-	strncpy(dev->name, disk_name, DISK_NAME_LEN);
+-
+ 	ret = nvm_init(dev);
+ 	if (ret)
+ 		goto err_init;
+@@ -714,29 +706,17 @@ int nvm_register(struct request_queue *q, char *disk_name,
+ 	return 0;
+ err_init:
+ 	kfree(dev->lun_map);
+-	kfree(dev);
+ 	return ret;
+ }
+ EXPORT_SYMBOL(nvm_register);
+ 
+-void nvm_unregister(char *disk_name)
++void nvm_unregister(struct nvm_dev *dev)
+ {
+-	struct nvm_dev *dev;
+-
+ 	down_write(&nvm_lock);
+-	dev = nvm_find_nvm_dev(disk_name);
+-	if (!dev) {
+-		pr_err("nvm: could not find device %s to unregister\n",
+-								disk_name);
+-		up_write(&nvm_lock);
+-		return;
+-	}
+-
+ 	list_del(&dev->devices);
+ 	up_write(&nvm_lock);
+ 
+ 	nvm_exit(dev);
+-	kfree(dev);
+ }
+ EXPORT_SYMBOL(nvm_unregister);
+ 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f615b6b..fe135d9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -137,12 +137,14 @@ static void nvme_free_ns(struct kref *kref)
+ {
+ 	struct nvme_ns *ns = container_of(kref, struct nvme_ns, kref);
+ 
+-	if (ns->type == NVME_NS_LIGHTNVM)
+-		nvme_nvm_unregister(ns->queue, ns->disk->disk_name);
++	if (ns->ndev)
++		nvme_nvm_unregister(ns);
+ 
+-	spin_lock(&dev_list_lock);
+-	ns->disk->private_data = NULL;
+-	spin_unlock(&dev_list_lock);
++	if (ns->disk) {
++		spin_lock(&dev_list_lock);
++		ns->disk->private_data = NULL;
++		spin_unlock(&dev_list_lock);
++	}
+ 
+ 	put_disk(ns->disk);
+ 	ida_simple_remove(&ns->ctrl->ns_ida, ns->instance);
+@@ -788,8 +790,7 @@ static void nvme_config_discard(struct nvme_ns *ns)
+ static int nvme_revalidate_ns(struct nvme_ns *ns, struct nvme_id_ns **id)
+ {
+ 	if (nvme_identify_ns(ns->ctrl, ns->ns_id, id)) {
+-		dev_warn(disk_to_dev(ns->disk), "%s: Identify failure\n",
+-				__func__);
++		dev_warn(ns->ctrl->dev, "%s: Identify failure\n", __func__);
+ 		return -ENODEV;
+ 	}
+ 
+@@ -1473,18 +1474,11 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->instance);
+ 
+ 	if (nvme_nvm_ns_supported(ns, id)) {
+-		if (nvme_nvm_register(ns->queue, disk_name)) {
+-			dev_warn(ctrl->dev,
+-				"%s: LightNVM init failure\n", __func__);
++		if (nvme_nvm_register(ns, disk_name, node)) {
++			dev_warn(ctrl->dev, "%s: LightNVM init failure\n",
++								__func__);
+ 			goto out_free_id;
+ 		}
+-
+-		disk = alloc_disk_node(0, node);
+-		if (!disk)
+-			goto out_free_id;
+-		memcpy(disk->disk_name, disk_name, DISK_NAME_LEN);
+-		ns->disk = disk;
+-		ns->type = NVME_NS_LIGHTNVM;
+ 	} else {
+ 		disk = alloc_disk_node(0, node);
+ 		if (!disk)
+@@ -1532,7 +1526,7 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+ 	if (test_and_set_bit(NVME_NS_REMOVING, &ns->flags))
+ 		return;
+ 
+-	if (ns->disk->flags & GENHD_FL_UP) {
++	if (ns->disk && ns->disk->flags & GENHD_FL_UP) {
+ 		if (blk_get_integrity(ns->disk))
+ 			blk_integrity_unregister(ns->disk);
+ 		sysfs_remove_group(&disk_to_dev(ns->disk)->kobj,
+@@ -1552,7 +1546,7 @@ static void nvme_validate_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 
+ 	ns = nvme_find_ns(ctrl, nsid);
+ 	if (ns) {
+-		if (revalidate_disk(ns->disk))
++		if (ns->disk && revalidate_disk(ns->disk))
+ 			nvme_ns_remove(ns);
+ 	} else
+ 		nvme_alloc_ns(ctrl, nsid);
+@@ -1856,7 +1850,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 		 * Revalidating a dead namespace sets capacity to 0. This will
+ 		 * end buffered writers dirtying pages that can't be synced.
+ 		 */
+-		if (!test_and_set_bit(NVME_NS_DEAD, &ns->flags))
++		if (ns->disk && !test_and_set_bit(NVME_NS_DEAD, &ns->flags))
+ 			revalidate_disk(ns->disk);
+ 
+ 		blk_set_queue_dying(ns->queue);
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index ba51602..eb780ef 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -474,9 +474,8 @@ static inline void nvme_nvm_rqtocmd(struct request *rq, struct nvm_rq *rqd,
+ 	c->ph_rw.length = cpu_to_le16(rqd->nr_ppas - 1);
+ 
+ 	if (rqd->opcode == NVM_OP_HBWRITE || rqd->opcode == NVM_OP_HBREAD)
+-		/* momentarily hardcode the shift configuration. lba_shift from
+-		 * nvm_dev will be available in a follow-up patch */
+-		c->hb_rw.slba = cpu_to_le64(rqd->bio->bi_iter.bi_sector >> 3);
++		c->hb_rw.slba = cpu_to_le64(nvme_block_nr(ns,
++					rqd->bio->bi_iter.bi_sector));
+ }
+ 
+ static void nvme_nvm_end_io(struct request *rq, int error)
+@@ -593,14 +592,34 @@ static struct nvm_dev_ops nvme_nvm_dev_ops = {
  	.max_phys_sect		= 64,
  };
-+
-+static int null_nvm_register(struct nullb *nullb)
-+{
-+	return nvm_register(nullb->q, nullb->disk_name, &null_lnvm_dev_ops);
-+}
-+
-+static void null_nvm_unregister(struct nullb *nullb)
-+{
-+	nvm_unregister(nullb->disk_name);
-+}
- #else
--static struct nvm_dev_ops null_lnvm_dev_ops;
-+static int null_nvm_register(struct nullb *nullb)
-+{
-+	return -EINVAL;
-+}
-+static void null_nvm_unregister(struct nullb *nullb) {}
- #endif /* CONFIG_NVM */
  
-+static void null_del_dev(struct nullb *nullb)
-+{
-+	list_del_init(&nullb->list);
-+
-+	if (use_lightnvm)
-+		null_nvm_unregister(nullb);
-+	else
-+		del_gendisk(nullb->disk);
-+	blk_cleanup_queue(nullb->q);
-+	if (queue_mode == NULL_Q_MQ)
-+		blk_mq_free_tag_set(&nullb->tag_set);
-+	if (!use_lightnvm)
-+		put_disk(nullb->disk);
-+	cleanup_queues(nullb);
-+	kfree(nullb);
-+}
-+
- static int null_open(struct block_device *bdev, fmode_t mode)
+-int nvme_nvm_register(struct request_queue *q, char *disk_name)
++int nvme_nvm_register(struct nvme_ns *ns, char *disk_name, int node)
  {
- 	return 0;
-@@ -640,11 +654,32 @@ static int init_driver_queues(struct nullb *nullb)
+-	return nvm_register(q, disk_name, &nvme_nvm_dev_ops);
++	struct request_queue *q = ns->queue;
++	struct nvm_dev *dev;
++
++	dev = nvm_alloc_dev(node);
++	if (!dev)
++		return -ENOMEM;
++
++	dev->q = q;
++	memcpy(dev->name, disk_name, DISK_NAME_LEN);
++	dev->ops = &nvme_nvm_dev_ops;
++	ns->ndev = dev;
++
++	ret = nvm_register(dev);
++
++	ns->lba_shift = ilog2(dev->sec_size) - 9;
++
++	if (sysfs_create_group(&dev->dev.kobj, attrs))
++		pr_warn("%s: failed to create sysfs group for identification\n",
++			ns->disk->disk_name);
++	return ret;
+ }
+ 
+-void nvme_nvm_unregister(struct request_queue *q, char *disk_name)
++void nvme_nvm_unregister(struct nvme_ns *ns)
+ {
+-	nvm_unregister(disk_name);
++	nvm_unregister(ns->ndev);
++	kfree(ns->ndev);
+ }
+ 
+ /* move to shared place when used in multiple places. */
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 282421f..7b49b45 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -18,6 +18,7 @@
+ #include <linux/pci.h>
+ #include <linux/kref.h>
+ #include <linux/blk-mq.h>
++#include <linux/lightnvm.h>
+ 
+ enum {
+ 	/*
+@@ -122,6 +123,7 @@ struct nvme_ns {
+ 	struct nvme_ctrl *ctrl;
+ 	struct request_queue *queue;
+ 	struct gendisk *disk;
++	struct nvm_dev *ndev;
+ 	struct kref kref;
+ 	int instance;
+ 
+@@ -133,7 +135,6 @@ struct nvme_ns {
+ 	u16 ms;
+ 	bool ext;
+ 	u8 pi_type;
+-	int type;
+ 	unsigned long flags;
+ 
+ #define NVME_NS_REMOVING 0
+@@ -269,12 +270,13 @@ int nvme_nvm_ns_supported(struct nvme_ns *ns, struct nvme_id_ns *id);
+ int nvme_nvm_register(struct request_queue *q, char *disk_name);
+ void nvme_nvm_unregister(struct request_queue *q, char *disk_name);
+ #else
+-static inline int nvme_nvm_register(struct request_queue *q, char *disk_name)
++static inline int nvme_nvm_register(struct nvme_ns *ns, char *disk_name,
++								int node)
+ {
  	return 0;
  }
  
--static int null_add_dev(void)
-+static int null_gendisk_register(struct nullb *nullb)
+-static inline void nvme_nvm_unregister(struct request_queue *q, char *disk_name) {};
++static inline void nvme_nvm_unregister(struct nvme_ns *ns) {};
+ 
+ static inline int nvme_nvm_ns_supported(struct nvme_ns *ns, struct nvme_id_ns *id)
  {
- 	struct gendisk *disk;
--	struct nullb *nullb;
- 	sector_t size;
-+
-+	disk = nullb->disk = alloc_disk_node(1, home_node);
-+	if (!disk)
-+		return -ENOMEM;
-+	size = gb * 1024 * 1024 * 1024ULL;
-+	set_capacity(disk, size >> 9);
-+
-+	disk->flags |= GENHD_FL_EXT_DEVT | GENHD_FL_SUPPRESS_PARTITION_INFO;
-+	disk->major		= null_major;
-+	disk->first_minor	= nullb->index;
-+	disk->fops		= &null_fops;
-+	disk->private_data	= nullb;
-+	disk->queue		= nullb->q;
-+	strncpy(disk->disk_name, nullb->disk_name, DISK_NAME_LEN);
-+
-+	add_disk(disk);
-+	return 0;
-+}
-+
-+static int null_add_dev(void)
+diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
+index ba78b83..5afc263 100644
+--- a/include/linux/lightnvm.h
++++ b/include/linux/lightnvm.h
+@@ -524,9 +524,9 @@ extern struct nvm_block *nvm_get_blk(struct nvm_dev *, struct nvm_lun *,
+ 								unsigned long);
+ extern void nvm_put_blk(struct nvm_dev *, struct nvm_block *);
+ 
+-extern int nvm_register(struct request_queue *, char *,
+-						struct nvm_dev_ops *);
+-extern void nvm_unregister(char *);
++extern struct nvm_dev *nvm_alloc_dev(int);
++extern int nvm_register(struct nvm_dev *);
++extern void nvm_unregister(struct nvm_dev *);
+ 
+ void nvm_mark_blk(struct nvm_dev *dev, struct ppa_addr ppa, int type);
+ 
+@@ -575,11 +575,14 @@ extern int nvm_dev_factory(struct nvm_dev *, int flags);
+ #else /* CONFIG_NVM */
+ struct nvm_dev_ops;
+ 
+-static inline int nvm_register(struct request_queue *q, char *disk_name,
+-							struct nvm_dev_ops *ops)
++static inline struct nvm_dev *nvm_alloc_dev(int node)
 +{
-+	struct nullb *nullb;
- 	int rv;
- 
- 	nullb = kzalloc_node(sizeof(*nullb), GFP_KERNEL, home_node);
-@@ -716,42 +751,19 @@ static int null_add_dev(void)
- 
- 	sprintf(nullb->disk_name, "nullb%d", nullb->index);
- 
--	if (use_lightnvm) {
--		rv = nvm_register(nullb->q, nullb->disk_name,
--							&null_lnvm_dev_ops);
--		if (rv)
--			goto out_cleanup_blk_queue;
--		goto done;
--	}
-+	if (use_lightnvm)
-+		rv = null_nvm_register(nullb);
-+	else
-+		rv = null_gendisk_register(nullb);
- 
--	disk = nullb->disk = alloc_disk_node(1, home_node);
--	if (!disk) {
--		rv = -ENOMEM;
--		goto out_cleanup_lightnvm;
--	}
--	size = gb * 1024 * 1024 * 1024ULL;
--	set_capacity(disk, size >> 9);
-+	if (rv)
-+		goto out_cleanup_blk_queue;
- 
--	disk->flags |= GENHD_FL_EXT_DEVT | GENHD_FL_SUPPRESS_PARTITION_INFO;
--	disk->major		= null_major;
--	disk->first_minor	= nullb->index;
--	disk->fops		= &null_fops;
--	disk->private_data	= nullb;
--	disk->queue		= nullb->q;
--	strncpy(disk->disk_name, nullb->disk_name, DISK_NAME_LEN);
--
--	add_disk(disk);
--
--done:
- 	mutex_lock(&lock);
- 	list_add_tail(&nullb->list, &nullb_list);
- 	mutex_unlock(&lock);
- 
- 	return 0;
--
--out_cleanup_lightnvm:
--	if (use_lightnvm)
--		nvm_unregister(nullb->disk_name);
- out_cleanup_blk_queue:
- 	blk_cleanup_queue(nullb->q);
- out_cleanup_tags:
++	return ERR_PTR(-EINVAL);
++}
++static inline int nvm_register(struct nvm_dev *dev)
+ {
+ 	return -EINVAL;
+ }
+-static inline void nvm_unregister(char *disk_name) {}
++static inline void nvm_unregister(struct nvm_dev *dev) {}
+ #endif /* CONFIG_NVM */
+ #endif /* LIGHTNVM.H */
 -- 
 2.1.4
