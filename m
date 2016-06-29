@@ -1,108 +1,63 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 29 Jun 2016 09:57:16 -0500
-Subject: [PATCH] nvme-rdma: Always signal fabrics private commands
-In-Reply-To: <005201d1d148$32c33740$9849a5c0$@opengridcomputing.com>
-References: <1466698104-32521-1-git-send-email-sagi@grimberg.me>
- <20160624070740.GB4252@infradead.org> <577005C3.4000802@grimberg.me>
- <20160628084105.GA13533@lst.de>
- <005201d1d148$32c33740$9849a5c0$@opengridcomputing.com>
-Message-ID: <010501d1d216$86c0f0c0$9442d240$@opengridcomputing.com>
+From: mlin@kernel.org (Ming Lin)
+Date: Wed, 29 Jun 2016 10:36:37 -0700
+Subject: [PATCH] nvmet-rdma: fix nvmet_rdma_rsp leak
+Message-ID: <1467221797-2576-1-git-send-email-mlin@kernel.org>
 
-> > On Sun, Jun 26, 2016@07:41:39PM +0300, Sagi Grimberg wrote:
-> > > Our error path is freeing the tagset before we free the queue (draining
-> > > the qp) so we get to a use-after-free condition (->done() is a freed
-> > > tag memory).
-> > >
-> > > Note that we must allocate the qp before we allocate the tagset because
-> > > we need the device when init_request callouts come. So we allocated
-> > > before, we free after. An alternative fix was to free the queue before
-> > > the tagset even though we allocated it before (as Steve suggested).
-> >
-> > Would draining, but not freeing the qp before freeing the tagset work?
-> > That seems like the most sensible option here.
-> 
-> disconnecting and draining, I think.
+From: Ming Lin <ming.l@samsung.com>
 
-How about this?
+A "nvmet_rdma_rsp" is removed from free_list when a request is received.
+But if the queue state is already changed to NVMET_RDMA_Q_DISCONNECTING,
+then the nvmet_rdma_rsp is leaked. This causes below crash when freeing
+all rsps.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index e1205c0..d3a0396 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -604,23 +604,32 @@ out_destroy_cm_id:
-        return ret;
- }
+[  431.011636] general protection fault: 0000 [#1] PREEMPT SMP
+[  431.167942] Workqueue: events nvmet_rdma_release_queue_work [nvmet_rdma]
+[  431.175677] task: ffff880034d60000 ti: ffff880034cac000 task.ti: ffff880034cac000
+[  431.184197] RIP: 0010:[<ffffffffc08f3e29>]  [<ffffffffc08f3e29>] nvmet_rdma_free_rsps+0x79/0x110 [nvmet_rdma]
+[  431.195251] RSP: 0018:ffff880034cafdb8  EFLAGS: 00010282
+[  431.201641] RAX: dead000000000200 RBX: ffff8800b31d55b0 RCX: 0000000181000066
+[  431.209905] RDX: dead000000000100 RSI: ffffea0003475600 RDI: 0000000040000000
+[  431.218181] RBP: ffff880034cafde0 R08: ffff8800d1d58d90 R09: 0000000181000066
+[  431.226467] R10: 00000000d1d58d01 R11: ffff8800d1d58d90 R12: 00000000000155b0
+[  431.234755] R13: ffff8800d0b21000 R14: ffff8800b3c6dc00 R15: 0000000000023800
+[  431.242999] FS:  0000000000000000(0000) GS:ffff880120280000(0000) knlGS:0000000000000000
+[  431.252204] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  431.259036] CR2: 00007f4bf99a0285 CR3: 0000000001c06000 CR4: 00000000001406e0
+[  431.267262] Stack:
+[  431.270300]  ffff8800d0b21000 ffff8800d1c65000 ffff88012029ac00 0000000000000000
+[  431.278880]  ffff880120296300 ffff880034cafdf8 ffffffffc08f40e9 ffff8800b3c6dc00
+[  431.287483]  ffff880034cafe18 ffffffffc08f414a ffff880035632780 ffff8800d0b210c8
+[  431.296081] Call Trace:
+[  431.299625]  [<ffffffffc08f40e9>] nvmet_rdma_free_queue+0x49/0x90 [nvmet_rdma]
+[  431.308012]  [<ffffffffc08f414a>] nvmet_rdma_release_queue_work+0x1a/0x40 [nvmet_rdma]
+[  431.317112]  [<ffffffff81083019>] process_one_work+0x159/0x370
+[  431.324097]  [<ffffffff81083356>] worker_thread+0x126/0x490
+[  431.330839]  [<ffffffff816f17fe>] ? __schedule+0x1de/0x590
+[  431.337475]  [<ffffffff81083230>] ? process_one_work+0x370/0x370
+[  431.344668]  [<ffffffff81088864>] kthread+0xc4/0xe0
+[  431.350718]  [<ffffffff816f571f>] ret_from_fork+0x1f/0x40
+[  431.357306]  [<ffffffff810887a0>] ? kthread_create_on_node+0x170/0x170
 
--static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
-+static void nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
- {
--       if (!test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags))
--               return;
--
-        rdma_disconnect(queue->cm_id);
-        ib_drain_qp(queue->qp);
-+}
-+
-+static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
-+{
-        nvme_rdma_destroy_queue_ib(queue);
-        rdma_destroy_id(queue->cm_id);
- }
+Fixed it by putting the rsp back to the free_list.
 
-+static void nvme_rdma_stop_and_free_queue(struct nvme_rdma_queue *queue)
-+{
-+       if (!test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags))
-+               return;
-+       nvme_rdma_stop_queue(queue);
-+       nvme_rdma_free_queue(queue);
-+}
-+
- static void nvme_rdma_free_io_queues(struct nvme_rdma_ctrl *ctrl)
- {
-        int i;
+Reported-and-tested-by: Steve Wise <swise at opengridcomputing.com>
+Signed-off-by: Ming Lin <ming.l at samsung.com>
+---
+ drivers/nvme/target/rdma.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-        for (i = 1; i < ctrl->queue_count; i++)
--               nvme_rdma_free_queue(&ctrl->queues[i]);
-+               nvme_rdma_stop_and_free_queue(&ctrl->queues[i]);
- }
-
- static int nvme_rdma_connect_io_queues(struct nvme_rdma_ctrl *ctrl)
-@@ -653,7 +662,7 @@ static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl
-*ctrl)
-
- out_free_queues:
-        for (; i >= 1; i--)
--               nvme_rdma_free_queue(&ctrl->queues[i]);
-+               nvme_rdma_stop_and_free_queue(&ctrl->queues[i]);
-
-        return ret;
- }
-@@ -662,7 +671,7 @@ static void nvme_rdma_destroy_admin_queue(struct
-nvme_rdma_ctrl *ctrl)
- {
-        nvme_rdma_free_qe(ctrl->queues[0].device->dev, &ctrl->async_event_sqe,
-                        sizeof(struct nvme_command), DMA_TO_DEVICE);
--       nvme_rdma_free_queue(&ctrl->queues[0]);
-+       nvme_rdma_stop_and_free_queue(&ctrl->queues[0]);
-        blk_cleanup_queue(ctrl->ctrl.admin_q);
-        blk_mq_free_tag_set(&ctrl->admin_tag_set);
-        nvme_rdma_dev_put(ctrl->device);
-@@ -705,7 +714,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct
-*work)
-                        goto requeue;
-        }
-
--       nvme_rdma_free_queue(&ctrl->queues[0]);
-+       nvme_rdma_stop_and_free_queue(&ctrl->queues[0]);
-
-        ret = blk_mq_reinit_tagset(&ctrl->admin_tag_set);
-        if (ret)
-@@ -1617,6 +1626,7 @@ static int nvme_rdma_configure_admin_queue(struct
-nvme_rdma_ctrl *ctrl)
- out_cleanup_queue:
-        blk_cleanup_queue(ctrl->ctrl.admin_q);
- out_free_tagset:
-+       nvme_rdma_stop_queue(&ctrl->queues[0]);
-        blk_mq_free_tag_set(&ctrl->admin_tag_set);
- out_put_dev:
-        nvme_rdma_dev_put(ctrl->device);
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 7faf34c..e06d504 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -757,6 +757,8 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+ 		spin_lock_irqsave(&queue->state_lock, flags);
+ 		if (queue->state == NVMET_RDMA_Q_CONNECTING)
+ 			list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
++		else
++			nvmet_rdma_put_rsp(rsp);
+ 		spin_unlock_irqrestore(&queue->state_lock, flags);
+ 		return;
+ 	}
+-- 
+1.9.1
