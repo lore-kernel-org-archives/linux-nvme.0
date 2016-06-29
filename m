@@ -1,67 +1,243 @@
 From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Wed, 29 Jun 2016 16:51:35 +0200
-Subject: [PATCH 0/6] enable sysfs for lightnvm
-Message-ID: <1467211901-26707-1-git-send-email-m@bjorling.me>
+Date: Wed, 29 Jun 2016 16:51:36 +0200
+Subject: [PATCH 1/6] nvme: refactor namespaces to support non-gendisk devices
+In-Reply-To: <1467211901-26707-1-git-send-email-m@bjorling.me>
+References: <1467211901-26707-1-git-send-email-m@bjorling.me>
+Message-ID: <1467211901-26707-2-git-send-email-m@bjorling.me>
 
-The common way to expose a storage device is to export it through the
-gendisk structure, which takes care of handling the visibility lifetime
-of the device to user-space and carries device driver and block layer
-specific sysfs entries.
+With LightNVM enabled namespaces, the gendisk structure is not exposed
+to the user. This prevents LightNVM users from accessing the NVMe device
+driver specific sysfs entries, and LightNVM namespace geometry.
 
-For LightNVM, no gendisk is exposed, which hides these entries.
+Refactor the revalidation process, so that a namespace, instead of a
+gendisk, is revalidated. This later allows patches to wire up the
+sysfs entries up to a non-gendisk namespace.
 
-This patchset enables LightNVM to expose a subset of the gendisk entries
-by implementing a new non-gendisk device that only exposes the sysfs
-entries that are relevant to the device driver and LightNVM. For example
-/mq and the NVMe sysfs entries.
+Signed-off-by: Matias Bj?rling <m at bjorling.me>
+---
+ drivers/lightnvm/core.c      |   2 +
+ drivers/nvme/host/core.c     | 134 ++++++++++++++++++++++++++-----------------
+ drivers/nvme/host/lightnvm.c |   5 +-
+ 3 files changed, 87 insertions(+), 54 deletions(-)
 
-The new non-gendisk exposes itself in place of the original gendisk.
-Thus, a gendisk device exposed through /sys/class/nvme/nvme0n1, will
-still be exposed through the same directory, although only with the /mq,
-lightnvm, and nvme specific entries.
-
-The LightNVM storage device can be found through sysfs by searching
-for devices that has the "lightnvm" dev type.
-
-The patches require the just posted patches before they can be applied.
-They can also be found in the for-4.8/sysfs branch at:
-
-  https://github.com/OpenChannelSSD/linux.git
-
-v3:
- - Fixed missing divising by nvme block nr.
-v2:
- - Updated "expose gennvm target type" to expose its own kobject, which
-   pblk and others can hook into.
- - Fixed missing disk_name in null_blk patch on lightnvm device
-
-Matias Bj?rling (4):
-  nvme: refactor namespaces to support non-gendisk devices
-  null_blk: refactor to support non-gendisk devices
-  blk-mq: register device instead of disk
-  lightnvm: let drivers control the lifetime of nvm_dev
-
-Simon A. F. Lund (2):
-  lightnvm: expose device geometry through sysfs
-  lightnvm: expose gennvm target type through sysfs
-
- block/blk-mq-sysfs.c         |  13 ++-
- block/blk-sysfs.c            |   4 +-
- drivers/block/null_blk.c     | 128 +++++++++++++++++-----------
- drivers/lightnvm/Makefile    |   2 +-
- drivers/lightnvm/core.c      |  54 +++++-------
- drivers/lightnvm/gennvm.c    | 112 +++++++++++++++++++++----
- drivers/lightnvm/lightnvm.h  |  35 ++++++++
- drivers/lightnvm/sysfs.c     | 195 +++++++++++++++++++++++++++++++++++++++++++
- drivers/md/dm.c              |   2 +-
- drivers/nvme/host/core.c     | 165 ++++++++++++++++++++----------------
- drivers/nvme/host/lightnvm.c |  34 ++++++--
- drivers/nvme/host/nvme.h     |  26 ++++--
- include/linux/blk-mq.h       |   4 +-
- include/linux/lightnvm.h     |  28 +++++--
- 14 files changed, 603 insertions(+), 199 deletions(-)
- create mode 100644 drivers/lightnvm/lightnvm.h
- create mode 100644 drivers/lightnvm/sysfs.c
-
+diff --git a/drivers/lightnvm/core.c b/drivers/lightnvm/core.c
+index 9ebd2cf..25c5df9 100644
+--- a/drivers/lightnvm/core.c
++++ b/drivers/lightnvm/core.c
+@@ -581,6 +581,8 @@ static int nvm_core_init(struct nvm_dev *dev)
+ 	mutex_init(&dev->mlock);
+ 	spin_lock_init(&dev->lock);
+ 
++	blk_queue_logical_block_size(dev->q, dev->sec_size);
++
+ 	return 0;
+ err_fmtype:
+ 	kfree(dev->lun_map);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 684062a..f615b6b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -785,42 +785,33 @@ static void nvme_config_discard(struct nvme_ns *ns)
+ 	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
+ }
+ 
+-static int nvme_revalidate_disk(struct gendisk *disk)
++static int nvme_revalidate_ns(struct nvme_ns *ns, struct nvme_id_ns **id)
+ {
+-	struct nvme_ns *ns = disk->private_data;
+-	struct nvme_id_ns *id;
+-	u8 lbaf, pi_type;
+-	u16 old_ms;
+-	unsigned short bs;
+-
+-	if (test_bit(NVME_NS_DEAD, &ns->flags)) {
+-		set_capacity(disk, 0);
+-		return -ENODEV;
+-	}
+-	if (nvme_identify_ns(ns->ctrl, ns->ns_id, &id)) {
++	if (nvme_identify_ns(ns->ctrl, ns->ns_id, id)) {
+ 		dev_warn(disk_to_dev(ns->disk), "%s: Identify failure\n",
+ 				__func__);
+ 		return -ENODEV;
+ 	}
+-	if (id->ncap == 0) {
+-		kfree(id);
+-		return -ENODEV;
+-	}
+ 
+-	if (nvme_nvm_ns_supported(ns, id) && ns->type != NVME_NS_LIGHTNVM) {
+-		if (nvme_nvm_register(ns->queue, disk->disk_name)) {
+-			dev_warn(disk_to_dev(ns->disk),
+-				"%s: LightNVM init failure\n", __func__);
+-			kfree(id);
+-			return -ENODEV;
+-		}
+-		ns->type = NVME_NS_LIGHTNVM;
++	if ((*id)->ncap == 0) {
++		kfree(*id);
++		return -ENODEV;
+ 	}
+ 
+ 	if (ns->ctrl->vs >= NVME_VS(1, 1))
+-		memcpy(ns->eui, id->eui64, sizeof(ns->eui));
++		memcpy(ns->eui, (*id)->eui64, sizeof(ns->eui));
+ 	if (ns->ctrl->vs >= NVME_VS(1, 2))
+-		memcpy(ns->uuid, id->nguid, sizeof(ns->uuid));
++		memcpy(ns->uuid, (*id)->nguid, sizeof(ns->uuid));
++
++	return 0;
++}
++
++static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
++{
++	struct nvme_ns *ns = disk->private_data;
++	u8 lbaf, pi_type;
++	u16 old_ms;
++	unsigned short bs;
+ 
+ 	old_ms = ns->ms;
+ 	lbaf = id->flbas & NVME_NS_FLBAS_LBA_MASK;
+@@ -859,8 +850,26 @@ static int nvme_revalidate_disk(struct gendisk *disk)
+ 	if (ns->ctrl->oncs & NVME_CTRL_ONCS_DSM)
+ 		nvme_config_discard(ns);
+ 	blk_mq_unfreeze_queue(disk->queue);
++}
+ 
++static int nvme_revalidate_disk(struct gendisk *disk)
++{
++	struct nvme_ns *ns = disk->private_data;
++	struct nvme_id_ns *id = NULL;
++	int ret;
++
++	if (test_bit(NVME_NS_DEAD, &ns->flags)) {
++		set_capacity(disk, 0);
++		return -ENODEV;
++	}
++
++	ret = nvme_revalidate_ns(ns, &id);
++	if (ret)
++		return ret;
++
++	__nvme_revalidate_disk(disk, id);
+ 	kfree(id);
++
+ 	return 0;
+ }
+ 
+@@ -1430,6 +1439,8 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ {
+ 	struct nvme_ns *ns;
+ 	struct gendisk *disk;
++	struct nvme_id_ns *id;
++	char disk_name[DISK_NAME_LEN];
+ 	int node = dev_to_node(ctrl->dev);
+ 
+ 	lockdep_assert_held(&ctrl->namespaces_mutex);
+@@ -1449,44 +1460,63 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	ns->queue->queuedata = ns;
+ 	ns->ctrl = ctrl;
+ 
+-	disk = alloc_disk_node(0, node);
+-	if (!disk)
+-		goto out_free_queue;
+-
+ 	kref_init(&ns->kref);
+ 	ns->ns_id = nsid;
+-	ns->disk = disk;
+ 	ns->lba_shift = 9; /* set to a default value for 512 until disk is validated */
+ 
+-
+ 	blk_queue_logical_block_size(ns->queue, 1 << ns->lba_shift);
+ 	nvme_set_queue_limits(ctrl, ns->queue);
+ 
+-	disk->major = nvme_major;
+-	disk->first_minor = 0;
+-	disk->fops = &nvme_fops;
+-	disk->private_data = ns;
+-	disk->queue = ns->queue;
+-	disk->driverfs_dev = ctrl->device;
+-	disk->flags = GENHD_FL_EXT_DEVT;
+-	sprintf(disk->disk_name, "nvme%dn%d", ctrl->instance, ns->instance);
+-
+-	if (nvme_revalidate_disk(ns->disk))
+-		goto out_free_disk;
++	if (nvme_revalidate_ns(ns, &id))
++		goto out_free_queue;
++
++	sprintf(disk_name, "nvme%dn%d", ctrl->instance, ns->instance);
++
++	if (nvme_nvm_ns_supported(ns, id)) {
++		if (nvme_nvm_register(ns->queue, disk_name)) {
++			dev_warn(ctrl->dev,
++				"%s: LightNVM init failure\n", __func__);
++			goto out_free_id;
++		}
++
++		disk = alloc_disk_node(0, node);
++		if (!disk)
++			goto out_free_id;
++		memcpy(disk->disk_name, disk_name, DISK_NAME_LEN);
++		ns->disk = disk;
++		ns->type = NVME_NS_LIGHTNVM;
++	} else {
++		disk = alloc_disk_node(0, node);
++		if (!disk)
++			goto out_free_id;
++
++		disk->major = nvme_major;
++		disk->first_minor = 0;
++		disk->fops = &nvme_fops;
++		disk->private_data = ns;
++		disk->queue = ns->queue;
++		disk->driverfs_dev = ctrl->device;
++		disk->flags = GENHD_FL_EXT_DEVT;
++		memcpy(disk->disk_name, disk_name, DISK_NAME_LEN);
++		ns->disk = disk;
++
++		__nvme_revalidate_disk(disk, id);
++
++		add_disk(ns->disk);
++
++		if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
++							&nvme_ns_attr_group))
++			pr_warn("%s: failed to create sysfs group for identification\n",
++				ns->disk->disk_name);
++	}
+ 
+ 	list_add_tail_rcu(&ns->list, &ctrl->namespaces);
+ 	kref_get(&ctrl->kref);
+-	if (ns->type == NVME_NS_LIGHTNVM)
+-		return;
+ 
+-	add_disk(ns->disk);
+-	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
+-					&nvme_ns_attr_group))
+-		pr_warn("%s: failed to create sysfs group for identification\n",
+-			ns->disk->disk_name);
++	kfree(id);
+ 	return;
+- out_free_disk:
+-	kfree(disk);
++ out_free_id:
++	kfree(id);
+  out_free_queue:
+ 	blk_cleanup_queue(ns->queue);
+  out_release_instance:
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index 97fe610..ba51602 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -474,8 +474,9 @@ static inline void nvme_nvm_rqtocmd(struct request *rq, struct nvm_rq *rqd,
+ 	c->ph_rw.length = cpu_to_le16(rqd->nr_ppas - 1);
+ 
+ 	if (rqd->opcode == NVM_OP_HBWRITE || rqd->opcode == NVM_OP_HBREAD)
+-		c->hb_rw.slba = cpu_to_le64(nvme_block_nr(ns,
+-						rqd->bio->bi_iter.bi_sector));
++		/* momentarily hardcode the shift configuration. lba_shift from
++		 * nvm_dev will be available in a follow-up patch */
++		c->hb_rw.slba = cpu_to_le64(rqd->bio->bi_iter.bi_sector >> 3);
+ }
+ 
+ static void nvme_nvm_end_io(struct request *rq, int error)
 -- 
 2.1.4
