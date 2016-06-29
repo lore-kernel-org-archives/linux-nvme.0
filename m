@@ -1,124 +1,216 @@
 From: m@bjorling.me (=?UTF-8?q?Matias=20Bj=C3=B8rling?=)
-Date: Wed, 29 Jun 2016 16:51:38 +0200
-Subject: [PATCH 3/6] blk-mq: register device instead of disk
+Date: Wed, 29 Jun 2016 16:51:41 +0200
+Subject: [PATCH 6/6] lightnvm: expose gennvm target type through sysfs
 In-Reply-To: <1467211901-26707-1-git-send-email-m@bjorling.me>
 References: <1467211901-26707-1-git-send-email-m@bjorling.me>
-Message-ID: <1467211901-26707-4-git-send-email-m@bjorling.me>
+Message-ID: <1467211901-26707-7-git-send-email-m@bjorling.me>
 
-Enable devices without a gendisk instance to register itself with blk-mq
-and expose the associated multi-queue sysfs entries.
+From: "Simon A. F. Lund" <slund@cnexlabs.com>
 
+Create a sysfs directory for targets to expose their internal statistics
+and knobs. The entries is exposed through the
+/sys/block/<disk>/lightnvm/* directory.
+
+It currently holds a single sysfs entry "type", which exports the target
+type name.
+
+Signed-off-by: Simon A. F. Lund <slund at cnexlabs.com>
 Signed-off-by: Matias Bj?rling <m at bjorling.me>
 ---
- block/blk-mq-sysfs.c   | 13 +++++--------
- block/blk-sysfs.c      |  4 ++--
- drivers/md/dm.c        |  2 +-
- include/linux/blk-mq.h |  4 ++--
- 4 files changed, 10 insertions(+), 13 deletions(-)
+ drivers/lightnvm/gennvm.c | 112 ++++++++++++++++++++++++++++++++++++++--------
+ include/linux/lightnvm.h  |  10 +++++
+ 2 files changed, 104 insertions(+), 18 deletions(-)
 
-diff --git a/block/blk-mq-sysfs.c b/block/blk-mq-sysfs.c
-index 4ea4dd8..f67b5c1 100644
---- a/block/blk-mq-sysfs.c
-+++ b/block/blk-mq-sysfs.c
-@@ -380,9 +380,8 @@ static int blk_mq_register_hctx(struct blk_mq_hw_ctx *hctx)
- 	return ret;
- }
+diff --git a/drivers/lightnvm/gennvm.c b/drivers/lightnvm/gennvm.c
+index b74174c..bfdad3c 100644
+--- a/drivers/lightnvm/gennvm.c
++++ b/drivers/lightnvm/gennvm.c
+@@ -20,6 +20,87 @@
  
--void blk_mq_unregister_disk(struct gendisk *disk)
-+void blk_mq_unregister_dev(struct device *dev, struct request_queue *q)
+ #include "gennvm.h"
+ 
++static struct attribute gen_type_attr = {
++	.name = "type",
++	.mode = S_IRUGO
++};
++
++static struct attribute *gen_target_attrs[] = {
++	&gen_type_attr,
++	NULL,
++};
++
++static ssize_t gen_target_attr_show(struct kobject *kobj,
++				struct attribute *attr,
++				char *page)
++{
++	struct nvm_target *t = container_of(kobj, struct nvm_target, kobj);
++
++	if (strcmp(attr->name, "type") == 0)
++		return scnprintf(page, PAGE_SIZE, "%s\n", t->type->name);
++
++	if (t->type->sysfs_show)
++		return t->type->sysfs_show(t, attr, page);
++
++	return scnprintf(page, PAGE_SIZE,
++			"Unhandled attr(%s) in `nvm_target_attr_show`\n",
++			attr->name);
++}
++
++static const struct sysfs_ops target_sysfs_ops = {
++	.show = gen_target_attr_show,
++};
++
++static void gen_target_release(struct kobject *kobj)
++{
++	struct nvm_target *t = container_of(kobj, struct nvm_target, kobj);
++	struct nvm_tgt_type *tt = t->type;
++	struct gendisk *tdisk = t->disk;
++	struct request_queue *q = tdisk->queue;
++
++	pr_debug("gen: `gen_target_release`\n");
++
++	del_gendisk(tdisk);
++	blk_cleanup_queue(q);
++	put_disk(tdisk);
++
++	if (tt->exit)
++		tt->exit(tdisk->private_data);
++
++	kfree(t);
++}
++
++static struct kobj_type nvm_target_type = {
++	.sysfs_ops	= &target_sysfs_ops,
++	.default_attrs	= gen_target_attrs,
++	.release	= gen_target_release
++};
++
++void gen_unregister_target(struct nvm_target *t)
++{
++	kobject_uevent(&t->kobj, KOBJ_REMOVE);
++	kobject_del(&t->kobj);
++	kobject_put(&t->kobj);
++}
++
++int gen_register_target(struct nvm_target *t)
++{
++	struct gendisk *disk = t->disk;
++	struct device *dev = disk_to_dev(disk);
++	int ret;
++
++	ret = kobject_init_and_add(&t->kobj, &nvm_target_type,
++				   kobject_get(&dev->kobj), "%s", "lightnvm");
++	if (ret < 0) {
++		pr_err("gen: `_register_target` failed.\n");
++		kobject_put(&t->kobj);
++		return ret;
++	}
++
++	kobject_uevent(&t->kobj, KOBJ_ADD);
++	return 0;
++}
++
+ static struct nvm_target *gen_find_target(struct gen_dev *gn, const char *name)
  {
--	struct request_queue *q = disk->queue;
- 	struct blk_mq_hw_ctx *hctx;
- 	struct blk_mq_ctx *ctx;
- 	int i, j;
-@@ -402,7 +401,7 @@ void blk_mq_unregister_disk(struct gendisk *disk)
- 	kobject_del(&q->mq_kobj);
- 	kobject_put(&q->mq_kobj);
- 
--	kobject_put(&disk_to_dev(disk)->kobj);
-+	kobject_put(&dev->kobj);
- 
- 	q->mq_sysfs_init_done = false;
- 	blk_mq_enable_hotplug();
-@@ -426,10 +425,8 @@ static void blk_mq_sysfs_init(struct request_queue *q)
+ 	struct nvm_target *tgt;
+@@ -60,7 +141,7 @@ static int gen_create_tgt(struct nvm_dev *dev, struct nvm_ioctl_create *create)
  	}
+ 	mutex_unlock(&gn->lock);
+ 
+-	t = kmalloc(sizeof(struct nvm_target), GFP_KERNEL);
++	t = kzalloc(sizeof(struct nvm_target), GFP_KERNEL);
+ 	if (!t)
+ 		return -ENOMEM;
+ 
+@@ -89,13 +170,19 @@ static int gen_create_tgt(struct nvm_dev *dev, struct nvm_ioctl_create *create)
+ 
+ 	blk_queue_max_hw_sectors(tqueue, 8 * dev->ops->max_phys_sect);
+ 
+-	set_capacity(tdisk, tt->capacity(targetdata));
+-	add_disk(tdisk);
+-
+ 	t->type = tt;
+ 	t->disk = tdisk;
+ 	t->dev = dev;
+ 
++	set_capacity(tdisk, tt->capacity(targetdata));
++	add_disk(tdisk);
++
++	if (gen_register_target(t))
++		goto err_init;
++
++	if (tt->sysfs_init)
++		tt->sysfs_init(t);
++
+ 	mutex_lock(&gn->lock);
+ 	list_add_tail(&t->list, &gn->targets);
+ 	mutex_unlock(&gn->lock);
+@@ -112,20 +199,10 @@ err_t:
+ 
+ static void __gen_remove_target(struct nvm_target *t)
+ {
+-	struct nvm_tgt_type *tt = t->type;
+-	struct gendisk *tdisk = t->disk;
+-	struct request_queue *q = tdisk->queue;
+-
+-	del_gendisk(tdisk);
+-	blk_cleanup_queue(q);
+-
+-	if (tt->exit)
+-		tt->exit(tdisk->private_data);
+-
+-	put_disk(tdisk);
+-
+ 	list_del(&t->list);
+-	kfree(t);
++	if (t->type->sysfs_exit)
++		t->type->sysfs_exit(t);
++	gen_unregister_target(t);
  }
  
--int blk_mq_register_disk(struct gendisk *disk)
-+int blk_mq_register_dev(struct device *dev, struct request_queue *q)
- {
--	struct device *dev = disk_to_dev(disk);
--	struct request_queue *q = disk->queue;
- 	struct blk_mq_hw_ctx *hctx;
- 	int ret, i;
+ /**
+@@ -627,7 +704,6 @@ static void gen_lun_info_print(struct nvm_dev *dev)
+ 	struct gen_lun *lun;
+ 	unsigned int i;
  
-@@ -450,7 +447,7 @@ int blk_mq_register_disk(struct gendisk *disk)
- 	}
+-
+ 	gen_for_each_lun(gn, lun, i) {
+ 		spin_lock(&lun->vlun.lock);
  
- 	if (ret)
--		blk_mq_unregister_disk(disk);
-+		blk_mq_unregister_dev(dev, q);
- 	else
- 		q->mq_sysfs_init_done = true;
- out:
-@@ -458,7 +455,7 @@ out:
+diff --git a/include/linux/lightnvm.h b/include/linux/lightnvm.h
+index d190786..3823891 100644
+--- a/include/linux/lightnvm.h
++++ b/include/linux/lightnvm.h
+@@ -211,6 +211,8 @@ struct nvm_target {
+ 	struct nvm_dev *dev;
+ 	struct nvm_tgt_type *type;
+ 	struct gendisk *disk;
++
++	struct kobject kobj;
+ };
  
- 	return ret;
- }
--EXPORT_SYMBOL_GPL(blk_mq_register_disk);
-+EXPORT_SYMBOL_GPL(blk_mq_register_dev);
+ struct nvm_tgt_instance {
+@@ -434,6 +436,10 @@ typedef blk_qc_t (nvm_tgt_make_rq_fn)(struct request_queue *, struct bio *);
+ typedef sector_t (nvm_tgt_capacity_fn)(void *);
+ typedef void *(nvm_tgt_init_fn)(struct nvm_dev *, struct gendisk *, int, int);
+ typedef void (nvm_tgt_exit_fn)(void *);
++typedef void (nvm_tgt_sysfs_init_fn)(struct nvm_target *);
++typedef void (nvm_tgt_sysfs_exit_fn)(struct nvm_target *);
++typedef ssize_t(nvm_tgt_sysfs_show_fn)(struct nvm_target *,
++				     struct attribute *, char *);
  
- void blk_mq_sysfs_unregister(struct request_queue *q)
- {
-diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-index 9920596..5223c5f 100644
---- a/block/blk-sysfs.c
-+++ b/block/blk-sysfs.c
-@@ -693,7 +693,7 @@ int blk_register_queue(struct gendisk *disk)
- 	kobject_uevent(&q->kobj, KOBJ_ADD);
+ struct nvm_tgt_type {
+ 	const char *name;
+@@ -448,6 +454,10 @@ struct nvm_tgt_type {
+ 	nvm_tgt_init_fn *init;
+ 	nvm_tgt_exit_fn *exit;
  
- 	if (q->mq_ops)
--		blk_mq_register_disk(disk);
-+		blk_mq_register_dev(disk_to_dev(disk), q);
- 
- 	if (!q->request_fn)
- 		return 0;
-@@ -718,7 +718,7 @@ void blk_unregister_queue(struct gendisk *disk)
- 		return;
- 
- 	if (q->mq_ops)
--		blk_mq_unregister_disk(disk);
-+		blk_mq_unregister_dev(disk_to_dev(disk), q);
- 
- 	if (q->request_fn)
- 		elv_unregister_queue(q);
-diff --git a/drivers/md/dm.c b/drivers/md/dm.c
-index aba7ed9..9de3a9c 100644
---- a/drivers/md/dm.c
-+++ b/drivers/md/dm.c
-@@ -2798,7 +2798,7 @@ static int dm_mq_init_request_queue(struct mapped_device *md,
- 	dm_init_md_queue(md);
- 
- 	/* backfill 'mq' sysfs registration normally done in blk_register_queue */
--	blk_mq_register_disk(md->disk);
-+	blk_mq_register_dev(disk_to_dev(md->disk), q);
- 
- 	return 0;
- 
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 2498fdf..ab6fb32 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -176,8 +176,8 @@ enum {
- struct request_queue *blk_mq_init_queue(struct blk_mq_tag_set *);
- struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
- 						  struct request_queue *q);
--int blk_mq_register_disk(struct gendisk *);
--void blk_mq_unregister_disk(struct gendisk *);
-+int blk_mq_register_dev(struct device *, struct request_queue *);
-+void blk_mq_unregister_dev(struct device *, struct request_queue *);
- 
- int blk_mq_alloc_tag_set(struct blk_mq_tag_set *set);
- void blk_mq_free_tag_set(struct blk_mq_tag_set *set);
++	nvm_tgt_sysfs_init_fn *sysfs_init;
++	nvm_tgt_sysfs_exit_fn *sysfs_exit;
++	nvm_tgt_sysfs_show_fn *sysfs_show;
++
+ 	/* For internal use */
+ 	struct list_head list;
+ };
 -- 
 2.1.4
