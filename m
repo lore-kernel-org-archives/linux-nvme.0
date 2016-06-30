@@ -1,71 +1,55 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Thu, 30 Jun 2016 13:01:15 -0700
-Subject: [PATCH 5/6] lightnvm: expose device geometry through sysfs
-In-Reply-To: <1467211901-26707-6-git-send-email-m@bjorling.me>
-References: <1467211901-26707-1-git-send-email-m@bjorling.me>
- <1467211901-26707-6-git-send-email-m@bjorling.me>
-Message-ID: <1467316875.21253.24.camel@linux.intel.com>
+From: mlin@kernel.org (Ming Lin)
+Date: Thu, 30 Jun 2016 14:08:57 -0700
+Subject: NVMeoF multi-path setup
+Message-ID: <CAF1ivSbe+NboO+nbiWfEijHFJPd-AgNa=4AvWT24-HjH8A_izw@mail.gmail.com>
 
-On Wed, 2016-06-29@16:51 +0200, Matias Bj?rling wrote:
-> From: "Simon A. F. Lund" <slund at cnexlabs.com>
-> 
-> For a host to access an Open-Channel SSD, it has to know its
-> geometry,
-> so that it writes and reads at the appropriate device bounds.
-> 
-> Currently, the geometry information is kept within the kernel, and
-> not
-> exported to user-space for consumption. This patch exposes the
-> configuration through sysfs and enables user-space libraries, such as
-> liblightnvm, to use the sysfs implementation to get the geometry of
-> an
-> Open-Channel SSD.
-> 
-> The sysfs entries are stored within the device hierarchy, and can be
-> found using the "lightnvm" device type.
-> 
-> An example configuration looks like this:
-> 
-> /sys/class/nvme/
-> ??? nvme0n1
->    ??? capabilities: 3
->    ??? device_mode: 1
->    ??? channel_parallelism: 0
->    ??? erase_max: 1000000
->    ??? erase_typ: 1000000
->    ??? flash_media_type: 0
->    ??? media_capabilities: 0x00000001
->    ??? media_type: 0
->    ??? multiplane: 0x00010101
->    ??? num_blocks: 1022
->    ??? num_channels: 1
->    ??? num_luns: 4
->    ??? num_pages: 64
->    ??? num_planes: 1
->    ??? page_size: 4096
->    ??? prog_max: 100000
->    ??? prog_typ: 100000
->    ??? read_max: 10000
->    ??? read_typ: 10000
->    ??? sector_oob_size: 0
->    ??? sector_size: 4096
->    ??? media_manager: gennvm
->    ??? ppa_format: 0x380830082808001010102008
->    ??? vendor_opcode: 0
->    ??? version: 1
-> 
+Hi Mike,
 
-That is an awful lot of new things to add under nvme0n1-type sysfs
-entries when there is already a decent amount of stuff under it.
+I'm trying to test NVMeoF multi-path.
 
-Any chance these new things could be stuck under a separate sysfs
-directory under each nvmeXnY device?  If these things are mainly
-beneficial to LightNVM, it will be easier for a LightNVM newbie to
-find, recognize, and consider all the important things in an Open
-Channel SSD solution if it's under a separate directory.  And for
-current SSD solutions that don't seem to need these things exposed in
-sysfs for operation, it will make what is directly under nvmeXnY
-directories less cluttered.
+root at host:~# lsmod |grep dm_multipath
+dm_multipath           24576  0
+root at host:~# ps aux |grep multipath
+root     13183  0.0  0.1 238452  4972 ?        SLl  13:41   0:00
+/sbin/multipathd
+
+I have nvme0 and nvme1 that are 2 paths to the same NVMe subsystem.
+
+root at host:/sys/class/nvme# grep . nvme*/address
+nvme0/address:traddr=192.168.3.2,trsvcid=1023
+nvme1/address:traddr=192.168.2.2,trsvcid=1023
+
+root at host:/sys/class/nvme# grep . nvme*/subsysnqn
+nvme0/subsysnqn:nqn.testiqn
+nvme1/subsysnqn:nqn.testiqn
+
+root at host:~# /lib/udev/scsi_id --export --whitelisted -d /dev/nvme1n1
+ID_SCSI=1
+ID_VENDOR=NVMe
+ID_VENDOR_ENC=NVMe\x20\x20\x20\x20
+ID_MODEL=Linux
+ID_MODEL_ENC=Linux
+ID_REVISION=0-rc
+ID_TYPE=disk
+ID_SERIAL=SNVMe_Linux
+ID_SERIAL_SHORT=
+ID_SCSI_SERIAL=1122334455667788
+
+root at host:~# /lib/udev/scsi_id --export --whitelisted -d /dev/nvme0n1
+ID_SCSI=1
+ID_VENDOR=NVMe
+ID_VENDOR_ENC=NVMe\x20\x20\x20\x20
+ID_MODEL=Linux
+ID_MODEL_ENC=Linux
+ID_REVISION=0-rc
+ID_TYPE=disk
+ID_SERIAL=SNVMe_Linux
+ID_SERIAL_SHORT=
+ID_SCSI_SERIAL=1122334455667788
+
+But seems multipathd didn't recognize these 2 devices.
+
+What else I'm missing?
 
 Thanks,
-Jay
+Ming
