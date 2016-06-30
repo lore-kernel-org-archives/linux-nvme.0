@@ -1,9 +1,9 @@
 From: famz@redhat.com (Fam Zheng)
-Date: Thu, 30 Jun 2016 09:59:49 +0800
-Subject: [PATCH v2 08/12] zram: Generate uevent after attribute available
+Date: Thu, 30 Jun 2016 09:59:50 +0800
+Subject: [PATCH v2 09/12] md: Generate uevent after attribute available
 In-Reply-To: <20160630015953.6888-1-famz@redhat.com>
 References: <20160630015953.6888-1-famz@redhat.com>
-Message-ID: <20160630015953.6888-9-famz@redhat.com>
+Message-ID: <20160630015953.6888-10-famz@redhat.com>
 
 It is documented that KOBJ_ADD should be generated after the object's
 attributes and children are ready.  We can achieve this with the new
@@ -11,29 +11,29 @@ disk_gen_uevents interface.
 
 Signed-off-by: Fam Zheng <famz at redhat.com>
 ---
- drivers/block/zram/zram_drv.c | 3 ++-
+ drivers/md/md.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/block/zram/zram_drv.c b/drivers/block/zram/zram_drv.c
-index d735513..83f10a0 100644
---- a/drivers/block/zram/zram_drv.c
-+++ b/drivers/block/zram/zram_drv.c
-@@ -1287,7 +1287,7 @@ static int zram_add(void)
- 		zram->disk->queue->limits.discard_zeroes_data = 0;
- 	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, zram->disk->queue);
+diff --git a/drivers/md/md.c b/drivers/md/md.c
+index 1391c72..dcd09ea 100644
+--- a/drivers/md/md.c
++++ b/drivers/md/md.c
+@@ -5055,7 +5055,7 @@ static int md_alloc(dev_t dev, char *name)
+ 	 * through to md_open, so make sure it doesn't get too far
+ 	 */
+ 	mutex_lock(&mddev->open_mutex);
+-	add_disk(disk, true);
++	add_disk(disk, false);
  
--	add_disk(zram->disk, true);
-+	add_disk(zram->disk, false);
- 
- 	ret = sysfs_create_group(&disk_to_dev(zram->disk)->kobj,
- 				&zram_disk_attr_group);
-@@ -1296,6 +1296,7 @@ static int zram_add(void)
- 				device_id);
- 		goto out_free_disk;
- 	}
-+	disk_gen_uevents(zram->disk);
- 	strlcpy(zram->compressor, default_compressor, sizeof(zram->compressor));
- 	zram->meta = NULL;
- 
+ 	error = kobject_init_and_add(&mddev->kobj, &md_ktype,
+ 				     &disk_to_dev(disk)->kobj, "%s", "md");
+@@ -5070,6 +5070,7 @@ static int md_alloc(dev_t dev, char *name)
+ 	if (mddev->kobj.sd &&
+ 	    sysfs_create_group(&mddev->kobj, &md_bitmap_group))
+ 		printk(KERN_DEBUG "pointless warning\n");
++	disk_gen_uevents(disk);
+ 	mutex_unlock(&mddev->open_mutex);
+  abort:
+ 	mutex_unlock(&disks_mutex);
 -- 
 2.9.0
