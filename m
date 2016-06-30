@@ -1,108 +1,49 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Thu, 30 Jun 2016 14:57:38 -0700
-Subject: NVMeoF multi-path setup
-In-Reply-To: <CAF1ivSbe+NboO+nbiWfEijHFJPd-AgNa=4AvWT24-HjH8A_izw@mail.gmail.com>
-References: <CAF1ivSbe+NboO+nbiWfEijHFJPd-AgNa=4AvWT24-HjH8A_izw@mail.gmail.com>
-Message-ID: <1467323858.15863.3.camel@ssi>
+From: dan.j.williams@gmail.com (Dan Williams)
+Date: Thu, 30 Jun 2016 15:10:06 -0700
+Subject: [PATCH v2 04/12] axonrom: Generate uevent after attribute
+ available
+In-Reply-To: <20160630015953.6888-5-famz@redhat.com>
+References: <20160630015953.6888-1-famz@redhat.com>
+ <20160630015953.6888-5-famz@redhat.com>
+Message-ID: <CAA9_cmf0cKZXdQ2N3iSbwVqgLDGJ7TMvVYuZTqjVE-7EqHHcdg@mail.gmail.com>
 
-On Thu, 2016-06-30@14:08 -0700, Ming Lin wrote:
-> Hi Mike,
-> 
-> I'm trying to test NVMeoF multi-path.
-> 
-> root at host:~# lsmod |grep dm_multipath
-> dm_multipath           24576  0
-> root at host:~# ps aux |grep multipath
-> root     13183  0.0  0.1 238452  4972 ?        SLl  13:41   0:00
-> /sbin/multipathd
-> 
-> I have nvme0 and nvme1 that are 2 paths to the same NVMe subsystem.
-> 
-> root at host:/sys/class/nvme# grep . nvme*/address
-> nvme0/address:traddr=192.168.3.2,trsvcid=1023
-> nvme1/address:traddr=192.168.2.2,trsvcid=1023
-> 
-> root at host:/sys/class/nvme# grep . nvme*/subsysnqn
-> nvme0/subsysnqn:nqn.testiqn
-> nvme1/subsysnqn:nqn.testiqn
-> 
-> root at host:~# /lib/udev/scsi_id --export --whitelisted -d /dev/nvme1n1
-> ID_SCSI=1
-> ID_VENDOR=NVMe
-> ID_VENDOR_ENC=NVMe\x20\x20\x20\x20
-> ID_MODEL=Linux
-> ID_MODEL_ENC=Linux
-> ID_REVISION=0-rc
-> ID_TYPE=disk
-> ID_SERIAL=SNVMe_Linux
-> ID_SERIAL_SHORT=
-> ID_SCSI_SERIAL=1122334455667788
-> 
-> root at host:~# /lib/udev/scsi_id --export --whitelisted -d /dev/nvme0n1
-> ID_SCSI=1
-> ID_VENDOR=NVMe
-> ID_VENDOR_ENC=NVMe\x20\x20\x20\x20
-> ID_MODEL=Linux
-> ID_MODEL_ENC=Linux
-> ID_REVISION=0-rc
-> ID_TYPE=disk
-> ID_SERIAL=SNVMe_Linux
-> ID_SERIAL_SHORT=
-> ID_SCSI_SERIAL=1122334455667788
-> 
-> But seems multipathd didn't recognize these 2 devices.
-> 
-> What else I'm missing?
+On Wed, Jun 29, 2016@6:59 PM, Fam Zheng <famz@redhat.com> wrote:
+> It is documented that KOBJ_ADD should be generated after the object's
+> attributes and children are ready.  We can achieve this with the new
+> disk_gen_uevents interface.
+>
+> Signed-off-by: Fam Zheng <famz at redhat.com>
+> ---
+>  arch/powerpc/sysdev/axonram.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/arch/powerpc/sysdev/axonram.c b/arch/powerpc/sysdev/axonram.c
+> index 4efd69b..27e7175 100644
+> --- a/arch/powerpc/sysdev/axonram.c
+> +++ b/arch/powerpc/sysdev/axonram.c
+> @@ -238,7 +238,7 @@ static int axon_ram_probe(struct platform_device *device)
+>         set_capacity(bank->disk, bank->size >> AXON_RAM_SECTOR_SHIFT);
+>         blk_queue_make_request(bank->disk->queue, axon_ram_make_request);
+>         blk_queue_logical_block_size(bank->disk->queue, AXON_RAM_SECTOR_SIZE);
+> -       add_disk(bank->disk, true);
+> +       add_disk(bank->disk, false);
+>
+>         bank->irq_id = irq_of_parse_and_map(device->dev.of_node, 0);
+>         if (bank->irq_id == NO_IRQ) {
+> @@ -262,6 +262,7 @@ static int axon_ram_probe(struct platform_device *device)
+>                 rc = -EFAULT;
+>                 goto failed;
+>         }
+> +       disk_gen_uevents(bank->disk);
 
-There are two problems:
+I assume you are doing this after:
 
-1. there is no "/block/" in the path
+   rc = device_create_file(&device->dev, &dev_attr_ecc);
 
-/sys/devices/virtual/nvme-fabrics/block/nvme0/nvme0n1
-
-2. nvme was blacklisted.
-
-I added below quick hack to just make it work.
-
-root at host:~# cat /proc/partitions
-
- 259        0  937692504 nvme0n1
- 252        0  937692504 dm-0
- 259        1  937692504 nvme1n1
-
-diff --git a/libmultipath/blacklist.c b/libmultipath/blacklist.c
-index 2400eda..a143383 100644
---- a/libmultipath/blacklist.c
-+++ b/libmultipath/blacklist.c
-@@ -190,9 +190,11 @@ setup_default_blist (struct config * conf)
- 	if (store_ble(conf->blist_devnode, str, ORIGIN_DEFAULT))
- 		return 1;
- 
-+#if 0
- 	str = STRDUP("^nvme.*");
- 	if (!str)
- 		return 1;
-+#endif
- 	if (store_ble(conf->blist_devnode, str, ORIGIN_DEFAULT))
- 		return 1;
- 
-diff --git a/multipathd/main.c b/multipathd/main.c
-index c0ca571..1364070 100644
---- a/multipathd/main.c
-+++ b/multipathd/main.c
-@@ -1012,6 +1012,7 @@ uxsock_trigger (char * str, char ** reply, int * len, void * trigger_data)
- static int
- uev_discard(char * devpath)
- {
-+#if 0
- 	char *tmp;
- 	char a[11], b[11];
- 
-@@ -1028,6 +1029,7 @@ uev_discard(char * devpath)
- 		condlog(4, "discard event on %s", devpath);
- 		return 1;
- 	}
-+#endif
- 	return 0;
- }
- 
+...so that userspace gets notified of the new attribute, but this
+attribute is on the parent device, not the disk itself.  Instead I
+think this attribute should simply be registered before the call to
+add_disk().  Then the KOBJ_ADD event for the disk comes after the
+attribute is available.  It's still not a clean fit, because userspace
+should not be expecting a child device uevent to signal new attributes
+available on the parent.
