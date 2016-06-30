@@ -1,9 +1,9 @@
 From: famz@redhat.com (Fam Zheng)
-Date: Thu, 30 Jun 2016 09:59:50 +0800
-Subject: [PATCH v2 09/12] md: Generate uevent after attribute available
+Date: Thu, 30 Jun 2016 09:59:53 +0800
+Subject: [PATCH v2 12/12] nvme: Generate uevent after attribute available
 In-Reply-To: <20160630015953.6888-1-famz@redhat.com>
 References: <20160630015953.6888-1-famz@redhat.com>
-Message-ID: <20160630015953.6888-10-famz@redhat.com>
+Message-ID: <20160630015953.6888-13-famz@redhat.com>
 
 It is documented that KOBJ_ADD should be generated after the object's
 attributes and children are ready.  We can achieve this with the new
@@ -11,29 +11,26 @@ disk_gen_uevents interface.
 
 Signed-off-by: Fam Zheng <famz at redhat.com>
 ---
- drivers/md/md.c | 3 ++-
+ drivers/nvme/host/core.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index 1391c72..dcd09ea 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -5055,7 +5055,7 @@ static int md_alloc(dev_t dev, char *name)
- 	 * through to md_open, so make sure it doesn't get too far
- 	 */
- 	mutex_lock(&mddev->open_mutex);
--	add_disk(disk, true);
-+	add_disk(disk, false);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index fd70894..2655521 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1462,11 +1462,12 @@ static void nvme_alloc_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+ 	if (ns->type == NVME_NS_LIGHTNVM)
+ 		return;
  
- 	error = kobject_init_and_add(&mddev->kobj, &md_ktype,
- 				     &disk_to_dev(disk)->kobj, "%s", "md");
-@@ -5070,6 +5070,7 @@ static int md_alloc(dev_t dev, char *name)
- 	if (mddev->kobj.sd &&
- 	    sysfs_create_group(&mddev->kobj, &md_bitmap_group))
- 		printk(KERN_DEBUG "pointless warning\n");
-+	disk_gen_uevents(disk);
- 	mutex_unlock(&mddev->open_mutex);
-  abort:
- 	mutex_unlock(&disks_mutex);
+-	add_disk(ns->disk, true);
++	add_disk(ns->disk, false);
+ 	if (sysfs_create_group(&disk_to_dev(ns->disk)->kobj,
+ 					&nvme_ns_attr_group))
+ 		pr_warn("%s: failed to create sysfs group for identification\n",
+ 			ns->disk->disk_name);
++	disk_gen_uevents(ns->disk);
+ 	return;
+  out_free_disk:
+ 	kfree(disk);
 -- 
 2.9.0
