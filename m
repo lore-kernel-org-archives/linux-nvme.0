@@ -1,63 +1,113 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Wed, 29 Jun 2016 10:36:37 -0700
-Subject: [PATCH] nvmet-rdma: fix nvmet_rdma_rsp leak
-Message-ID: <1467221797-2576-1-git-send-email-mlin@kernel.org>
+From: famz@redhat.com (Fam Zheng)
+Date: Thu, 30 Jun 2016 09:59:41 +0800
+Subject: [PATCH v2 00/12] gendisk: Generate uevent after attribute available
+Message-ID: <20160630015953.6888-1-famz@redhat.com>
 
-From: Ming Lin <ming.l@samsung.com>
+The race condition is noticed between disk_add() and disk attributes, on
+virtio-blk hotplug.
 
-A "nvmet_rdma_rsp" is removed from free_list when a request is received.
-But if the queue state is already changed to NVMET_RDMA_Q_DISCONNECTING,
-then the nvmet_rdma_rsp is leaked. This causes below crash when freeing
-all rsps.
+Userspace listens to the KOBJ_ADD uevent generated in add_disk(). At that
+point we haven't created the serial attribute file, therefore depending
+on how fast udev reacts, the /dev/disk/by-id/ entry doesn't always get
+created.
 
-[  431.011636] general protection fault: 0000 [#1] PREEMPT SMP
-[  431.167942] Workqueue: events nvmet_rdma_release_queue_work [nvmet_rdma]
-[  431.175677] task: ffff880034d60000 ti: ffff880034cac000 task.ti: ffff880034cac000
-[  431.184197] RIP: 0010:[<ffffffffc08f3e29>]  [<ffffffffc08f3e29>] nvmet_rdma_free_rsps+0x79/0x110 [nvmet_rdma]
-[  431.195251] RSP: 0018:ffff880034cafdb8  EFLAGS: 00010282
-[  431.201641] RAX: dead000000000200 RBX: ffff8800b31d55b0 RCX: 0000000181000066
-[  431.209905] RDX: dead000000000100 RSI: ffffea0003475600 RDI: 0000000040000000
-[  431.218181] RBP: ffff880034cafde0 R08: ffff8800d1d58d90 R09: 0000000181000066
-[  431.226467] R10: 00000000d1d58d01 R11: ffff8800d1d58d90 R12: 00000000000155b0
-[  431.234755] R13: ffff8800d0b21000 R14: ffff8800b3c6dc00 R15: 0000000000023800
-[  431.242999] FS:  0000000000000000(0000) GS:ffff880120280000(0000) knlGS:0000000000000000
-[  431.252204] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  431.259036] CR2: 00007f4bf99a0285 CR3: 0000000001c06000 CR4: 00000000001406e0
-[  431.267262] Stack:
-[  431.270300]  ffff8800d0b21000 ffff8800d1c65000 ffff88012029ac00 0000000000000000
-[  431.278880]  ffff880120296300 ffff880034cafdf8 ffffffffc08f40e9 ffff8800b3c6dc00
-[  431.287483]  ffff880034cafe18 ffffffffc08f414a ffff880035632780 ffff8800d0b210c8
-[  431.296081] Call Trace:
-[  431.299625]  [<ffffffffc08f40e9>] nvmet_rdma_free_queue+0x49/0x90 [nvmet_rdma]
-[  431.308012]  [<ffffffffc08f414a>] nvmet_rdma_release_queue_work+0x1a/0x40 [nvmet_rdma]
-[  431.317112]  [<ffffffff81083019>] process_one_work+0x159/0x370
-[  431.324097]  [<ffffffff81083356>] worker_thread+0x126/0x490
-[  431.330839]  [<ffffffff816f17fe>] ? __schedule+0x1de/0x590
-[  431.337475]  [<ffffffff81083230>] ? process_one_work+0x370/0x370
-[  431.344668]  [<ffffffff81088864>] kthread+0xc4/0xe0
-[  431.350718]  [<ffffffff816f571f>] ret_from_fork+0x1f/0x40
-[  431.357306]  [<ffffffff810887a0>] ? kthread_create_on_node+0x170/0x170
+As pointed out by Christoph Hellwig in the specific fix [1], virtio-blk is not
+the only driver that suffers from this, so we cannot count on every driver to
+send events manually. Moreover as suggested in uevent documentation, it is
+advised to defer the KOBJ_ADD event until all attributes are ready:
 
-Fixed it by putting the rsp back to the free_list.
+Documentation/kobject.txt:
+> Use the KOBJ_ADD action for when the kobject is first added to the kernel.
+> This should be done only after any attributes or children of the kobject
+> have been initialized properly, as userspace will instantly start to look
+> for them when this call happens.
 
-Reported-and-tested-by: Steve Wise <swise at opengridcomputing.com>
-Signed-off-by: Ming Lin <ming.l at samsung.com>
----
- drivers/nvme/target/rdma.c | 2 ++
- 1 file changed, 2 insertions(+)
+Unfortunately it seems impossible to fix this generally without touching the
+offending callers.  The approach I'm proposing here is adding a flag to
+suppress uevent in add_disk(), which is patch 1, then in later patches, convert
+any caller to only trigger the uevent when attributes are added.
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 7faf34c..e06d504 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -757,6 +757,8 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
- 		spin_lock_irqsave(&queue->state_lock, flags);
- 		if (queue->state == NVMET_RDMA_Q_CONNECTING)
- 			list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
-+		else
-+			nvmet_rdma_put_rsp(rsp);
- 		spin_unlock_irqrestore(&queue->state_lock, flags);
- 		return;
- 	}
+[1] https://lkml.org/lkml/2016/6/28/550
+
+Fam Zheng (12):
+  genhd: Add "gen_uevent" parameter to add_disk
+  genhd: Honor gen_uevent and add disk_gen_uevents
+  virtio-blk: Generate uevent after attribute available
+  axonrom: Generate uevent after attribute available
+  aoeblk: Generate uevent after attribute available
+  mtip32xx: Generate uevent after attribute available
+  pktcdvd: Generate uevent after attribute available
+  zram: Generate uevent after attribute available
+  md: Generate uevent after attribute available
+  mmc: Generate uevent after attribute available
+  mtd: Generate uevent after attribute available
+  nvme: Generate uevent after attribute available
+
+ arch/m68k/emu/nfblock.c                     |  2 +-
+ arch/powerpc/sysdev/axonram.c               |  3 ++-
+ arch/um/drivers/ubd_kern.c                  |  2 +-
+ arch/xtensa/platforms/iss/simdisk.c         |  2 +-
+ block/genhd.c                               | 26 +++++++++++++++++++++-----
+ drivers/block/DAC960.c                      |  2 +-
+ drivers/block/amiflop.c                     |  2 +-
+ drivers/block/aoe/aoeblk.c                  |  3 ++-
+ drivers/block/ataflop.c                     |  2 +-
+ drivers/block/brd.c                         |  4 ++--
+ drivers/block/cciss.c                       |  2 +-
+ drivers/block/drbd/drbd_main.c              |  2 +-
+ drivers/block/floppy.c                      |  2 +-
+ drivers/block/hd.c                          |  2 +-
+ drivers/block/loop.c                        |  2 +-
+ drivers/block/mg_disk.c                     |  2 +-
+ drivers/block/mtip32xx/mtip32xx.c           |  3 ++-
+ drivers/block/nbd.c                         |  2 +-
+ drivers/block/null_blk.c                    |  2 +-
+ drivers/block/osdblk.c                      |  2 +-
+ drivers/block/paride/pcd.c                  |  2 +-
+ drivers/block/paride/pd.c                   |  2 +-
+ drivers/block/paride/pf.c                   |  2 +-
+ drivers/block/pktcdvd.c                     |  4 +++-
+ drivers/block/ps3disk.c                     |  2 +-
+ drivers/block/ps3vram.c                     |  2 +-
+ drivers/block/rbd.c                         |  2 +-
+ drivers/block/rsxx/dev.c                    |  2 +-
+ drivers/block/skd_main.c                    |  2 +-
+ drivers/block/sunvdc.c                      |  2 +-
+ drivers/block/swim.c                        |  2 +-
+ drivers/block/swim3.c                       |  2 +-
+ drivers/block/sx8.c                         |  2 +-
+ drivers/block/umem.c                        |  2 +-
+ drivers/block/virtio_blk.c                  |  3 ++-
+ drivers/block/xen-blkfront.c                |  2 +-
+ drivers/block/xsysace.c                     |  2 +-
+ drivers/block/z2ram.c                       |  2 +-
+ drivers/block/zram/zram_drv.c               |  3 ++-
+ drivers/cdrom/gdrom.c                       |  2 +-
+ drivers/ide/ide-cd.c                        |  2 +-
+ drivers/ide/ide-gd.c                        |  2 +-
+ drivers/lightnvm/core.c                     |  2 +-
+ drivers/md/bcache/super.c                   |  4 ++--
+ drivers/md/dm.c                             |  2 +-
+ drivers/md/md.c                             |  3 ++-
+ drivers/memstick/core/ms_block.c            |  2 +-
+ drivers/memstick/core/mspro_block.c         |  2 +-
+ drivers/mmc/card/block.c                    |  3 ++-
+ drivers/mtd/mtd_blkdevs.c                   |  3 ++-
+ drivers/mtd/ubi/block.c                     |  2 +-
+ drivers/nvdimm/blk.c                        |  2 +-
+ drivers/nvdimm/btt.c                        |  2 +-
+ drivers/nvdimm/pmem.c                       |  2 +-
+ drivers/nvme/host/core.c                    |  3 ++-
+ drivers/s390/block/dasd_genhd.c             |  2 +-
+ drivers/s390/block/dcssblk.c                |  2 +-
+ drivers/s390/block/scm_blk.c                |  2 +-
+ drivers/s390/block/xpram.c                  |  2 +-
+ drivers/sbus/char/jsflash.c                 |  2 +-
+ drivers/scsi/sd.c                           |  2 +-
+ drivers/scsi/sr.c                           |  2 +-
+ drivers/staging/lustre/lustre/llite/lloop.c |  2 +-
+ include/linux/genhd.h                       |  3 ++-
+ 64 files changed, 98 insertions(+), 70 deletions(-)
+
 -- 
-1.9.1
+2.9.0
