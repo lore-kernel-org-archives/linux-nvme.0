@@ -1,69 +1,71 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 30 Jun 2016 19:48:54 +0200
-Subject: [PATCH 06/13] irq: add a helper spread an affinity mask for
- MSI/MSI-X vectors
-In-Reply-To: <20160625200518.GA29251@dhcp-27-118.brq.redhat.com>
-References: <1465934346-20648-1-git-send-email-hch@lst.de>
- <1465934346-20648-7-git-send-email-hch@lst.de>
- <20160625200518.GA29251@dhcp-27-118.brq.redhat.com>
-Message-ID: <20160630174854.GA23578@lst.de>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Thu, 30 Jun 2016 13:01:15 -0700
+Subject: [PATCH 5/6] lightnvm: expose device geometry through sysfs
+In-Reply-To: <1467211901-26707-6-git-send-email-m@bjorling.me>
+References: <1467211901-26707-1-git-send-email-m@bjorling.me>
+ <1467211901-26707-6-git-send-email-m@bjorling.me>
+Message-ID: <1467316875.21253.24.camel@linux.intel.com>
 
-On Sat, Jun 25, 2016@10:05:19PM +0200, Alexander Gordeev wrote:
-> > + * and generate an output cpumask suitable for spreading MSI/MSI-X vectors
-> > + * so that they are distributed as good as possible around the CPUs.  If
-> > + * more vectors than CPUs are available we'll map one to each CPU,
+On Wed, 2016-06-29@16:51 +0200, Matias Bj?rling wrote:
+> From: "Simon A. F. Lund" <slund at cnexlabs.com>
 > 
-> Unless I do not misinterpret a loop from msix_setup_entries() (patch 08/13),
-> the above is incorrect:
-
-What part do you think is incorrect?
-
-> > + * otherwise we map one to the first sibling of each socket.
+> For a host to access an Open-Channel SSD, it has to know its
+> geometry,
+> so that it writes and reads at the appropriate device bounds.
 > 
-> (*) I guess, in some topology configurations a total number of all
-> first siblings may be less than the number of vectors.
-
-Yes, in that case we'll assign imcompetely.  I've already heard people
-complaining about that at LSF/MM, but no one volunteered patches.
-I only have devices with 1 or enough vectores to test, so I don't
-really dare to touch the algorithm.  Either way the algorithm
-change should probably be a different patch than refactoring it and
-moving it around.
-
-> > + * If there are more vectors than CPUs we will still only have one bit
-> > + * set per CPU, but interrupt code will keep on assining the vectors from
-> > + * the start of the bitmap until we run out of vectors.
-> > + */
-> > +int irq_create_affinity_mask(struct cpumask **affinity_mask,
-> > +		unsigned int *nr_vecs)
+> Currently, the geometry information is kept within the kernel, and
+> not
+> exported to user-space for consumption. This patch exposes the
+> configuration through sysfs and enables user-space libraries, such as
+> liblightnvm, to use the sysfs implementation to get the geometry of
+> an
+> Open-Channel SSD.
 > 
-> Both the callers of this function and the function itself IMHO would
-> read better if it simply returned the affinity mask. Or passed the 
-> affinity mask pointer.
-
-We can't just return the pointer as NULL is a valid and common return
-value.  If we pass the pointer we'd then also need to allocate one for
-the (common) nvec = 1 case.
-
+> The sysfs entries are stored within the device hierarchy, and can be
+> found using the "lightnvm" device type.
 > 
-> > +{
-> > +	unsigned int vecs = 0;
+> An example configuration looks like this:
 > 
-> In case (*nr_vecs >= num_online_cpus()) the contents of *nr_vecs
-> will be overwritten with 0.
-
-Thanks, fixed.
-
-> So considering (*) comment above the number of available vectors
-> might be unnecessarily shrunken here.
+> /sys/class/nvme/
+> ??? nvme0n1
+>    ??? capabilities: 3
+>    ??? device_mode: 1
+>    ??? channel_parallelism: 0
+>    ??? erase_max: 1000000
+>    ??? erase_typ: 1000000
+>    ??? flash_media_type: 0
+>    ??? media_capabilities: 0x00000001
+>    ??? media_type: 0
+>    ??? multiplane: 0x00010101
+>    ??? num_blocks: 1022
+>    ??? num_channels: 1
+>    ??? num_luns: 4
+>    ??? num_pages: 64
+>    ??? num_planes: 1
+>    ??? page_size: 4096
+>    ??? prog_max: 100000
+>    ??? prog_typ: 100000
+>    ??? read_max: 10000
+>    ??? read_typ: 10000
+>    ??? sector_oob_size: 0
+>    ??? sector_size: 4096
+>    ??? media_manager: gennvm
+>    ??? ppa_format: 0x380830082808001010102008
+>    ??? vendor_opcode: 0
+>    ??? version: 1
 > 
-> I think nr_vecs need not be an out-parameter since we always can
-> assign multiple vectors to a CPU. It is better than limiting number
-> of available vectors AFAIKT. Or you could pass one-per-cpu flag
-> explicitly.
 
-The function is intended to replicate the blk-mq algorithm.  I don't
-think it's optimal, but I really want to avoid dragging the discussion
-about the optimal algorithm into this patchset.  We should at least
-move to a vector per node/socket model instead of just the siblings,
-and be able to use all vectors (at least optionally).
+That is an awful lot of new things to add under nvme0n1-type sysfs
+entries when there is already a decent amount of stuff under it.
+
+Any chance these new things could be stuck under a separate sysfs
+directory under each nvmeXnY device?  If these things are mainly
+beneficial to LightNVM, it will be easier for a LightNVM newbie to
+find, recognize, and consider all the important things in an Open
+Channel SSD solution if it's under a separate directory.  And for
+current SSD solutions that don't seem to need these things exposed in
+sysfs for operation, it will make what is directly under nvmeXnY
+directories less cluttered.
+
+Thanks,
+Jay
