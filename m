@@ -1,18 +1,15 @@
-From: hch@lst.de ('Christoph Hellwig')
-Date: Thu, 30 Jun 2016 08:36:37 +0200
-Subject: [PATCH] nvme-rdma: Always signal fabrics private commands
-In-Reply-To: <010501d1d216$86c0f0c0$9442d240$@opengridcomputing.com>
-References: <1466698104-32521-1-git-send-email-sagi@grimberg.me>
- <20160624070740.GB4252@infradead.org> <577005C3.4000802@grimberg.me>
- <20160628084105.GA13533@lst.de>
- <005201d1d148$32c33740$9849a5c0$@opengridcomputing.com>
- <010501d1d216$86c0f0c0$9442d240$@opengridcomputing.com>
-Message-ID: <20160630063637.GB5191@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 29 Jun 2016 23:38:39 -0700
+Subject: [PATCH v2 00/12] gendisk: Generate uevent after attribute
+ available
+In-Reply-To: <20160630063554.GE23296@ad.usersys.redhat.com>
+References: <20160630015953.6888-1-famz@redhat.com>
+ <20160630062442.GA19761@infradead.org>
+ <20160630063554.GE23296@ad.usersys.redhat.com>
+Message-ID: <20160630063839.GA17205@infradead.org>
 
-On Wed, Jun 29, 2016@09:57:16AM -0500, Steve Wise wrote:
-> > disconnecting and draining, I think.
-> 
-> How about this?
+On Thu, Jun 30, 2016@02:35:54PM +0800, Fam Zheng wrote:
+> also more code and less flexible IMO.  For example, we need at least two
+> variants, for attribute_group and device_attribute separately, right?
 
-This looks reasonable, although it came throught totally whitespace
-damaged..
+Yes, or maybe just a calling convention that just passes both.
