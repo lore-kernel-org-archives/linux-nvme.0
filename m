@@ -1,78 +1,36 @@
-From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Fri, 1 Jul 2016 09:20:57 +0200
-Subject: [PATCH 5/6] lightnvm: expose device geometry through sysfs
-In-Reply-To: <1467316875.21253.24.camel@linux.intel.com>
-References: <1467211901-26707-1-git-send-email-m@bjorling.me>
- <1467211901-26707-6-git-send-email-m@bjorling.me>
- <1467316875.21253.24.camel@linux.intel.com>
-Message-ID: <577619D9.1080209@bjorling.me>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Fri, 1 Jul 2016 09:25:27 +0200
+Subject: [PATCH 06/13] irq: add a helper spread an affinity mask for
+ MSI/MSI-X vectors
+In-Reply-To: <20160630174854.GA23578@lst.de>
+References: <1465934346-20648-1-git-send-email-hch@lst.de>
+ <1465934346-20648-7-git-send-email-hch@lst.de>
+ <20160625200518.GA29251@dhcp-27-118.brq.redhat.com>
+ <20160630174854.GA23578@lst.de>
+Message-ID: <20160701072527.GA20160@agordeev.lab.eng.brq.redhat.com>
 
-On 06/30/2016 10:01 PM, J Freyensee wrote:
-> On Wed, 2016-06-29@16:51 +0200, Matias Bj?rling wrote:
->> From: "Simon A. F. Lund" <slund at cnexlabs.com>
->>
->> For a host to access an Open-Channel SSD, it has to know its
->> geometry,
->> so that it writes and reads at the appropriate device bounds.
->>
->> Currently, the geometry information is kept within the kernel, and
->> not
->> exported to user-space for consumption. This patch exposes the
->> configuration through sysfs and enables user-space libraries, such as
->> liblightnvm, to use the sysfs implementation to get the geometry of
->> an
->> Open-Channel SSD.
->>
->> The sysfs entries are stored within the device hierarchy, and can be
->> found using the "lightnvm" device type.
->>
->> An example configuration looks like this:
->>
->> /sys/class/nvme/
->> ??? nvme0n1
->>     ??? capabilities: 3
->>     ??? device_mode: 1
->>     ??? channel_parallelism: 0
->>     ??? erase_max: 1000000
->>     ??? erase_typ: 1000000
->>     ??? flash_media_type: 0
->>     ??? media_capabilities: 0x00000001
->>     ??? media_type: 0
->>     ??? multiplane: 0x00010101
->>     ??? num_blocks: 1022
->>     ??? num_channels: 1
->>     ??? num_luns: 4
->>     ??? num_pages: 64
->>     ??? num_planes: 1
->>     ??? page_size: 4096
->>     ??? prog_max: 100000
->>     ??? prog_typ: 100000
->>     ??? read_max: 10000
->>     ??? read_typ: 10000
->>     ??? sector_oob_size: 0
->>     ??? sector_size: 4096
->>     ??? media_manager: gennvm
->>     ??? ppa_format: 0x380830082808001010102008
->>     ??? vendor_opcode: 0
->>     ??? version: 1
->>
->
-> That is an awful lot of new things to add under nvme0n1-type sysfs
-> entries when there is already a decent amount of stuff under it.
->
+On Thu, Jun 30, 2016@07:48:54PM +0200, Christoph Hellwig wrote:
+> On Sat, Jun 25, 2016@10:05:19PM +0200, Alexander Gordeev wrote:
+> > > + * and generate an output cpumask suitable for spreading MSI/MSI-X vectors
+> > > + * so that they are distributed as good as possible around the CPUs.  If
+> > > + * more vectors than CPUs are available we'll map one to each CPU,
+> > 
+> > Unless I do not misinterpret a loop from msix_setup_entries() (patch 08/13),
+> > the above is incorrect:
+> 
+> What part do you think is incorrect?
 
-You are right. These are rightfully placed under /lightnvm in the sysfs 
-path. The description is wrong, will update it. Thanks Jay.
+With your explanations below and no immediate intention to fix the
+algorithm it is correct.
 
-> Any chance these new things could be stuck under a separate sysfs
-> directory under each nvmeXnY device?  If these things are mainly
-> beneficial to LightNVM, it will be easier for a LightNVM newbie to
-> find, recognize, and consider all the important things in an Open
-> Channel SSD solution if it's under a separate directory.  And for
-> current SSD solutions that don't seem to need these things exposed in
-> sysfs for operation, it will make what is directly under nvmeXnY
-> directories less cluttered.
->
-> Thanks,
-> Jay
->
+> > (*) I guess, in some topology configurations a total number of all
+> > first siblings may be less than the number of vectors.
+> 
+> Yes, in that case we'll assign imcompetely.  I've already heard people
+> complaining about that at LSF/MM, but no one volunteered patches.
+> I only have devices with 1 or enough vectores to test, so I don't
+> really dare to touch the algorithm.  Either way the algorithm
+> change should probably be a different patch than refactoring it and
+> moving it around.
+
+I see your approach now. Thanks!
