@@ -1,17 +1,23 @@
-From: ed.cashin@acm.org (Ed Cashin)
-Date: Thu, 30 Jun 2016 20:57:45 -0400
-Subject: [PATCH v2 05/12] aoeblk: Generate uevent after attribute available
-In-Reply-To: <20160630015953.6888-6-famz@redhat.com>
+From: famz@redhat.com (Fam Zheng)
+Date: Fri, 1 Jul 2016 09:01:13 +0800
+Subject: [PATCH v2 00/12] gendisk: Generate uevent after attribute
+ available
+In-Reply-To: <20160630063839.GA17205@infradead.org>
 References: <20160630015953.6888-1-famz@redhat.com>
- <20160630015953.6888-6-famz@redhat.com>
-Message-ID: <5775C009.3010000@acm.org>
+ <20160630062442.GA19761@infradead.org>
+ <20160630063554.GE23296@ad.usersys.redhat.com>
+ <20160630063839.GA17205@infradead.org>
+Message-ID: <20160701010113.GB10122@ad.usersys.redhat.com>
 
-On 06/29/2016 09:59 PM, Fam Zheng wrote:
-> It is documented that KOBJ_ADD should be generated after the object's
-> attributes and children are ready.  We can achieve this with the new
-> disk_gen_uevents interface.
+On Wed, 06/29 23:38, Christoph Hellwig wrote:
+> On Thu, Jun 30, 2016@02:35:54PM +0800, Fam Zheng wrote:
+> > also more code and less flexible IMO.  For example, we need at least two
+> > variants, for attribute_group and device_attribute separately, right?
+> 
+> Yes, or maybe just a calling convention that just passes both.
 
-Looks like an improvement, thanks!
+OK, I can look into that, but I'm not sure about the error handling. Currently
+add_disk returns void, do you have any plan on that too? should I change it in
+v3 (to at least return the attribute creation failure)?
 
--- 
-   Ed
+Fam
