@@ -1,23 +1,17 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 30 Jun 2016 19:14:55 -0400
-Subject: NVMeoF multi-path setup
-In-Reply-To: <20160630225207.GB22293@redhat.com>
-References: <CAF1ivSbe+NboO+nbiWfEijHFJPd-AgNa=4AvWT24-HjH8A_izw@mail.gmail.com>
- <1467323858.15863.3.camel@ssi> <20160630225207.GB22293@redhat.com>
-Message-ID: <20160630231454.GC18890@localhost.localdomain>
+From: ed.cashin@acm.org (Ed Cashin)
+Date: Thu, 30 Jun 2016 20:57:45 -0400
+Subject: [PATCH v2 05/12] aoeblk: Generate uevent after attribute available
+In-Reply-To: <20160630015953.6888-6-famz@redhat.com>
+References: <20160630015953.6888-1-famz@redhat.com>
+ <20160630015953.6888-6-famz@redhat.com>
+Message-ID: <5775C009.3010000@acm.org>
 
-On Thu, Jun 30, 2016@06:52:07PM -0400, Mike Snitzer wrote:
-> AFAIK, hch had Intel disable that by default in the hopes of avoiding
-> people having dm-multipath "just work" with NVMeoF.  (Makes me wonder
-> what other unpleasant unilateral decisions were made because some
-> non-existant NVMe specific multipath capabilities would be forthcoming
-> but I digress).
+On 06/29/2016 09:59 PM, Fam Zheng wrote:
+> It is documented that KOBJ_ADD should be generated after the object's
+> attributes and children are ready.  We can achieve this with the new
+> disk_gen_uevents interface.
 
-For the record, Intel was okay with making SCSI a separate config option,
-but I was pretty clear about our wish to let it default to 'Y', which
-didn't happen. :)
+Looks like an improvement, thanks!
 
-To be fair, NVMe's SCSI translation is a bit of a kludge, and we have
-better ways to get device identification now. Specifically, the block
-device provides 'ATTR{wwid}' available to all NVMe namespaces in existing
-kernel releases.
+-- 
+   Ed
