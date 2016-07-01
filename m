@@ -1,36 +1,110 @@
-From: agordeev@redhat.com (Alexander Gordeev)
-Date: Fri, 1 Jul 2016 09:25:27 +0200
-Subject: [PATCH 06/13] irq: add a helper spread an affinity mask for
- MSI/MSI-X vectors
-In-Reply-To: <20160630174854.GA23578@lst.de>
-References: <1465934346-20648-1-git-send-email-hch@lst.de>
- <1465934346-20648-7-git-send-email-hch@lst.de>
- <20160625200518.GA29251@dhcp-27-118.brq.redhat.com>
- <20160630174854.GA23578@lst.de>
-Message-ID: <20160701072527.GA20160@agordeev.lab.eng.brq.redhat.com>
+From: james_p_freyensee@linux.intel.com (Jay Freyensee)
+Date: Fri,  1 Jul 2016 12:13:32 -0700
+Subject: [PATCH] nvme-fabrics: add-remove ctrl repeat fix
+Message-ID: <1467400412-13052-1-git-send-email-james_p_freyensee@linux.intel.com>
 
-On Thu, Jun 30, 2016@07:48:54PM +0200, Christoph Hellwig wrote:
-> On Sat, Jun 25, 2016@10:05:19PM +0200, Alexander Gordeev wrote:
-> > > + * and generate an output cpumask suitable for spreading MSI/MSI-X vectors
-> > > + * so that they are distributed as good as possible around the CPUs.  If
-> > > + * more vectors than CPUs are available we'll map one to each CPU,
-> > 
-> > Unless I do not misinterpret a loop from msix_setup_entries() (patch 08/13),
-> > the above is incorrect:
-> 
-> What part do you think is incorrect?
+Fix by: "Ming Lin" <mlin at kernel.org>
 
-With your explanations below and no immediate intention to fix the
-algorithm it is correct.
+Repeatedly adding then removing the same NVMe-over-Fabrics controller
+over and over again (shown below) can cause a kernel crash (also shown
+below).  This patch fixes that.
 
-> > (*) I guess, in some topology configurations a total number of all
-> > first siblings may be less than the number of vectors.
-> 
-> Yes, in that case we'll assign imcompetely.  I've already heard people
-> complaining about that at LSF/MM, but no one volunteered patches.
-> I only have devices with 1 or enough vectores to test, so I don't
-> really dare to touch the algorithm.  Either way the algorithm
-> change should probably be a different patch than refactoring it and
-> moving it around.
+[nvmf]# ./setup_nvme_connections.sh
+traddr=192.168.1.100,transport=rdma,trsvcid=4420,nqn=darkside
+-nqn,hostnqn=evil-wins-nqn,nr_io_queues=16 > /dev/nvme-fabrics
+traddr=192.168.1.100,transport=rdma,trsvcid=4420,nqn=lightside
+-nqn,hostnqn=good-wins-nqn > /dev/nvme-fabrics
+[nvmf]# ./remove_nvme_connections.sh 2
+echo 1 > /sys/class/nvme/nvme0/delete_controller
+echo 1 > /sys/class/nvme/nvme1/delete_controller
+[nvmf]# ./setup_nvme_connections.sh
+traddr=192.168.1.100,transport=rdma,trsvcid=4420,nqn=darkside
+-nqn,hostnqn=evil-wins-nqn,nr_io_queues=16 > /dev/nvme-fabrics
+Killed
 
-I see your approach now. Thanks!
+[nvmf]# dmesg
+[  313.416908] nvme nvme0: creating 16 I/O queues.
+[  313.523908] nvme nvme0: new ctrl: NQN "darkside-nqn", addr
+192.168.1.100:4420
+[  313.524857] BUG: unable to handle kernel NULL pointer dereference at
+0000000000000010
+[  313.525262] IP: [<ffffffff8136c60e>] strcmp+0xe/0x30
+[  313.525490] PGD 0
+[  313.525726] Oops: 0000 [#1] SMP
+[  313.525900] Modules linked in: nvme_rdma nvme_fabrics nvme_core
+ib_ipoib rdma_ucm ib_ucm ib_uverbs ib_umad rdma_cm ib_cm iw_cm mlx4_en
+mlx4_ib ib_core mlx4_core
+[  313.527085] CPU: 15 PID: 5856 Comm: setup_nvme_conn Not tainted
+4.7.0-rc2+ #2
+[  313.527259] Hardware name: Supermicro X9DRT-F/IBQF/IBFF/X9DRT
+-F/IBQF/IBFF, BIOS 1.0a 10/09/2012
+[  313.527551] task: ffff88027646cd40 ti: ffff88025b980000 task.ti:
+ffff88025b980000
+[  313.527879] RIP: 0010:[<ffffffff8136c60e>]  [<ffffffff8136c60e>]
+strcmp+0xe/0x30
+[  313.528232] RSP: 0018:ffff88025b983db0  EFLAGS: 00010206
+[  313.528403] RAX: 0000000000000000 RBX: ffff880471879880 RCX:
+fffffffffffffff1
+[  313.528594] RDX: 0000000000000000 RSI: ffff880474afa860 RDI:
+0000000000000011
+[  313.528778] RBP: ffff88025b983db0 R08: ffff880474afa860 R09:
+ffff880471879058
+[  313.528956] R10: 000000000000002c R11: ffff88047f415000 R12:
+ffff880471879800
+[  313.529129] R13: ffff880471879000 R14: ffff880474afa860 R15:
+fffffffffffffff8
+[  313.529303] FS:  00007f778f510700(0000) GS:ffff88047fbc0000(0000)
+knlGS:0000000000000000
+[  313.529629] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  313.529817] CR2: 0000000000000010 CR3: 0000000274174000 CR4:
+00000000000406e0
+[  313.529989] Stack:
+[  313.530154]  ffff88025b983e48 ffffffffa0171c74 0000000000000001
+0000000000000059
+[  313.530621]  ffff880476f32400 ffff88047e8add80 0000010074b33aa0
+ffff880471879059
+[  313.531162]  ffff88047187904b ffff880471879058 0000000000000000
+ffff88047736e000
+[  313.531629] Call Trace:
+[  313.531797]  [<ffffffffa0171c74>] nvmf_dev_write+0x674/0x840
+[nvme_fabrics]
+[  313.531974]  [<ffffffff81180b53>] __vfs_write+0x23/0x120
+[  313.532146]  [<ffffffff8119daff>] ? __fd_install+0x1f/0xc0
+[  313.532316]  [<ffffffff8119d97a>] ? __alloc_fd+0x3a/0x170
+[  313.532487]  [<ffffffff811811f3>] vfs_write+0xb3/0x1b0
+[  313.532658]  [<ffffffff8117e321>] ? filp_close+0x51/0x70
+[  313.532845]  [<ffffffff811824e1>] SyS_write+0x41/0xa0
+[  313.533016]  [<ffffffff8183055b>]
+entry_SYSCALL_64_fastpath+0x13/0x8f
+[  313.533188] Code: 80 3a 00 75 f7 48 83 c6 01 0f b6 4e ff 48 83 c2 01
+84 c9 88 4a ff 75 ed 5d c3 0f 1f 00 55 48 89 e5 eb 04 84 c0 74 18 48 83
+c7 01 <0f> b6 47 ff 48 83 c6 01 3a 46 ff 74 eb 19 c0 83 c8 01 5d c3 31
+[  313.536563] RIP  [<ffffffff8136c60e>] strcmp+0xe/0x30
+[  313.536815]  RSP <ffff88025b983db0>
+[  313.536981] CR2: 0000000000000010
+[  313.537151] ---[ end trace 3d952e590e7bc2d5 ]---
+
+Reported-and-tested-by: Jay Freyensee <james.p.freyensee at intel.com>
+Signed-off-by: Ming Lin <mlin at kernel.org>
+Signed-off-by: Jay Freyensee <james.p.freyensee at intel.com>
+---
+ drivers/nvme/host/fabrics.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 918310c..f8045e7 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -88,6 +88,10 @@ static void nvmf_host_destroy(struct kref *ref)
+ {
+ 	struct nvmf_host *host = container_of(ref, struct nvmf_host, ref);
+ 
++	mutex_lock(&nvmf_hosts_mutex);
++	list_del(&host->list);
++	mutex_unlock(&nvmf_hosts_mutex);
++
+ 	kfree(host);
+ }
+ 
+-- 
+2.5.5
