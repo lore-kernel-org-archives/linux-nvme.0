@@ -1,43 +1,20 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon,  4 Jul 2016 17:39:34 +0900
-Subject: [PATCH 13/13] nvme: remove the post_scan callout
-In-Reply-To: <1467621574-8277-1-git-send-email-hch@lst.de>
-References: <1467621574-8277-1-git-send-email-hch@lst.de>
-Message-ID: <1467621574-8277-14-git-send-email-hch@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 4 Jul 2016 01:48:17 -0700
+Subject: [PATCH] nvme-fabrics: add-remove ctrl repeat fix
+In-Reply-To: <1467400412-13052-1-git-send-email-james_p_freyensee@linux.intel.com>
+References: <1467400412-13052-1-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <20160704084817.GA1217@infradead.org>
 
-No need now that we don't have to reverse engineer the irq affinity.
+On Fri, Jul 01, 2016@12:13:32PM -0700, Jay Freyensee wrote:
+> Fix by: "Ming Lin" <mlin at kernel.org>
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/core.c | 3 ---
- drivers/nvme/host/nvme.h | 1 -
- 2 files changed, 4 deletions(-)
+So is this authored by you or by Ming?  In the latter case this
+should be a
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9d7cee4..b100cce 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1627,9 +1627,6 @@ static void nvme_scan_work(struct work_struct *work)
- 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
- 	mutex_unlock(&ctrl->namespaces_mutex);
- 	kfree(id);
--
--	if (ctrl->ops->post_scan)
--		ctrl->ops->post_scan(ctrl);
- }
- 
- void nvme_queue_scan(struct nvme_ctrl *ctrl)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 282421f..bb343b3 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -150,7 +150,6 @@ struct nvme_ctrl_ops {
- 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
- 	int (*reset_ctrl)(struct nvme_ctrl *ctrl);
- 	void (*free_ctrl)(struct nvme_ctrl *ctrl);
--	void (*post_scan)(struct nvme_ctrl *ctrl);
- 	void (*submit_async_event)(struct nvme_ctrl *ctrl, int aer_idx);
- };
- 
--- 
-2.1.4
+From: "Ming Lin" <mlin@kernel.org>
+
+The patch itself looks fine, I'll queue it up after we've sorted
+out the above question, thanks to both of you.
+
+But I think we'll also need a kref_get_unless_zero in __nvmf_host_find
+to make this code fully correct, I'll prepare a patch for that.
