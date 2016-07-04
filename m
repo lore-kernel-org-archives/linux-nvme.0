@@ -1,43 +1,46 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 4 Jul 2016 10:38:49 +0200
-Subject: [PATCH 11/13] blk-mq: allow the driver to pass in an affinity mask
-In-Reply-To: <20160704081540.GA2783@agordeev.lab.eng.brq.redhat.com>
-References: <1465934346-20648-1-git-send-email-hch@lst.de>
- <1465934346-20648-12-git-send-email-hch@lst.de>
- <20160704081540.GA2783@agordeev.lab.eng.brq.redhat.com>
-Message-ID: <20160704083849.GA3585@lst.de>
+Date: Mon,  4 Jul 2016 17:39:21 +0900
+Subject: automatic interrupt affinity for MSI/MSI-X capable devices V3
+Message-ID: <1467621574-8277-1-git-send-email-hch@lst.de>
 
-On Mon, Jul 04, 2016@10:15:41AM +0200, Alexander Gordeev wrote:
-> On Tue, Jun 14, 2016@09:59:04PM +0200, Christoph Hellwig wrote:
-> > +static int blk_mq_create_mq_map(struct blk_mq_tag_set *set,
-> > +		const struct cpumask *affinity_mask)
-> > +{
-> > +	int queue = -1, cpu = 0;
-> > +
-> > +	set->mq_map = kzalloc_node(sizeof(*set->mq_map) * nr_cpu_ids,
-> > +			GFP_KERNEL, set->numa_node);
-> > +	if (!set->mq_map)
-> > +		return -ENOMEM;
-> > +
-> > +	if (!affinity_mask)
-> > +		return 0;	/* map all cpus to queue 0 */
-> > +
-> > +	/* If cpus are offline, map them to first hctx */
-> > +	for_each_online_cpu(cpu) {
-> > +		if (cpumask_test_cpu(cpu, affinity_mask))
-> > +			queue++;
-> 
-> CPUs missing in an affinity mask are mapped to hctxs. Is that intended?
+This series enhances the irq and PCI code to allow spreading around MSI and
+MSI-X vectors so that they have per-cpu affinity if possible, or at least
+per-node.  For that it takes the algorithm from blk-mq, moves it to
+a common place, and makes it available through a vastly simplified PCI
+interrupt allocation API.  It then switches blk-mq to be able to pick up
+the queue mapping from the device if available, and demonstrates all this
+using the NVMe driver.
 
-Yes - each CPU needs to be mapped to some hctx, otherwise we can't
-submit I/O from that CPU.
+Compared to the last posting the core IRQ changes are stable and it would
+be great to get them merged int the tip tree.  The two PCI patches have
+been completely rewritten after feedback from Alexander, while the block
+changes have also been stable.
 
-> > +		if (queue > 0)
-> 
-> Why this check?
-> 
-> > +			set->mq_map[cpu] = queue;
+There also is a git tree available at:
 
-mq_map is initialized to zero already, so we don't really need the
-assignment for queue 0.  The reason why this check exists is because
-we start with queue = -1 and we never want to assignment -1 to mq_map.
+   git://git.infradead.org/users/hch/block.git msix-spreading.6
+
+Gitweb:
+
+   http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/msix-spreading.6
+
+Changes since V2:
+ - improve the description of IRQD_AFFINITY_MANAGED
+ - update MSI-HOWTO.txt
+ - add a PCI_IRQ_NOMSI flag to avoid using MSI vectors
+ - add a PCI_IRQ_NOAFFINITY flag to skip auto affinity
+ - change the irq_create_affinity_mask calling convention
+ - rewrite pci_alloc_irq_vectors to create the affinity mask only after
+   we know the final vector count
+ - cleanup pci_free_irq_vectors
+ - replace pdev->irqs with pdev->msix_vectors and introduce
+   a pci_irq_vector helper to get the Linux IRQ numbers
+
+Changes since V1:
+ - irq core improvements to properly assign the affinity before
+   request_irq (tglx)
+ - better handling of the MSI vs MSI-X differences in the low level
+   MSI allocator (hch and tglx)
+ - various improvements to pci_alloc_irq_vectors (hch)
+ - remove blk-mq hardware queue reassigned on hotplug cpu events (hch)
+ - forward ported to Jens' current for-next tree (hch)
