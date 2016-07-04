@@ -1,28 +1,58 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 4 Jul 2016 01:49:40 -0700
-Subject: [PATCH] nvme: add a module parameter to change queue depth
-In-Reply-To: <577A1F50.4070502@jp.fujitsu.com>
-References: <577A1F50.4070502@jp.fujitsu.com>
-Message-ID: <20160704084940.GA7777@infradead.org>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Mon, 4 Jul 2016 11:35:28 +0200
+Subject: [PATCH 11/13] blk-mq: allow the driver to pass in an affinity mask
+In-Reply-To: <20160704083849.GA3585@lst.de>
+References: <1465934346-20648-1-git-send-email-hch@lst.de>
+ <1465934346-20648-12-git-send-email-hch@lst.de>
+ <20160704081540.GA2783@agordeev.lab.eng.brq.redhat.com>
+ <20160704083849.GA3585@lst.de>
+Message-ID: <20160704093527.GB2783@agordeev.lab.eng.brq.redhat.com>
 
-On Mon, Jul 04, 2016@05:33:20PM +0900, Masayoshi Mizuma wrote:
-> This patch adds "q_depth_limit" as a module parameter. nvme_queue->q_depth
-> is set below q_depth_limit.
+On Mon, Jul 04, 2016@10:38:49AM +0200, Christoph Hellwig wrote:
+> On Mon, Jul 04, 2016@10:15:41AM +0200, Alexander Gordeev wrote:
+> > On Tue, Jun 14, 2016@09:59:04PM +0200, Christoph Hellwig wrote:
+> > > +static int blk_mq_create_mq_map(struct blk_mq_tag_set *set,
+> > > +		const struct cpumask *affinity_mask)
+> > > +{
+> > > +	int queue = -1, cpu = 0;
+> > > +
+> > > +	set->mq_map = kzalloc_node(sizeof(*set->mq_map) * nr_cpu_ids,
+> > > +			GFP_KERNEL, set->numa_node);
+> > > +	if (!set->mq_map)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	if (!affinity_mask)
+> > > +		return 0;	/* map all cpus to queue 0 */
+> > > +
+> > > +	/* If cpus are offline, map them to first hctx */
+> > > +	for_each_online_cpu(cpu) {
+> > > +		if (cpumask_test_cpu(cpu, affinity_mask))
+> > > +			queue++;
+> > 
+> > CPUs missing in an affinity mask are mapped to hctxs. Is that intended?
 > 
-> while loop at __nvme_process_cq() sometimes takes long time and
-> the loop is under IRQ context, so system slow down and hardlockup
-> may occur because of the loop.
+> Yes - each CPU needs to be mapped to some hctx, otherwise we can't
+> submit I/O from that CPU.
 > 
-> The while loop runs nvme_queue->q_depth times and the q_depth is set
-> by the following (NVME_Q_DEPTH is 1024).
+> > > +		if (queue > 0)
+> > 
+> > Why this check?
+> > 
+> > > +			set->mq_map[cpu] = queue;
 > 
->  dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, NVME_Q_DEPTH);
-> 
-> To reduce the times of the loop, the q_depth_limit is useful.
-> 
-> In addition, this patch moves the temporary fix for the Apple controller
-> into the new function, get_q_depth().
+> mq_map is initialized to zero already, so we don't really need the
+> assignment for queue 0.  The reason why this check exists is because
+> we start with queue = -1 and we never want to assignment -1 to mq_map.
 
-While limiting the queue depth might still be useful I think we need
-to look into a potential lock break in __nvme_process_cq so that it
-doesn't cause hard lockups even with large queue depth first.
+Would this read better then?
+
+	int queue = 0;
+
+	...
+
+	/* If cpus are offline, map them to first hctx */
+	for_each_online_cpu(cpu) {
+		set->mq_map[cpu] = queue;
+		if (cpumask_test_cpu(cpu, affinity_mask))
+			queue++;
+	}
