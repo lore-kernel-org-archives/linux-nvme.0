@@ -1,52 +1,126 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon,  4 Jul 2016 17:39:26 +0900
-Subject: [PATCH 05/13] irq/msi: Make use of affinity aware allocations
+Date: Mon,  4 Jul 2016 17:39:27 +0900
+Subject: [PATCH 06/13] irq: add a helper spread an affinity mask for MSI/MSI-X
+ vectors
 In-Reply-To: <1467621574-8277-1-git-send-email-hch@lst.de>
 References: <1467621574-8277-1-git-send-email-hch@lst.de>
-Message-ID: <1467621574-8277-6-git-send-email-hch@lst.de>
+Message-ID: <1467621574-8277-7-git-send-email-hch@lst.de>
 
-From: Thomas Gleixner <tglx@linutronix.de>
+This is lifted from the blk-mq code and adopted to use the affinity mask
+concept just introduced in the irq handling code.  It tries to keep the
+algorithm the same as the one current used by blk-mq, but improvements
+like assining vectors on a per-node basis instead of just per sibling
+are possible on of this simple move and refactoring.
 
-Allow the MSI code to provide affinity hints per MSI descriptor.
-
-Signed-off-by: Thomas Gleixner <tglx at linutronix.de>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- include/linux/msi.h | 2 ++
- kernel/irq/msi.c    | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ include/linux/interrupt.h |  8 +++++++
+ kernel/irq/Makefile       |  1 +
+ kernel/irq/affinity.c     | 61 +++++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 70 insertions(+)
+ create mode 100644 kernel/irq/affinity.c
 
-diff --git a/include/linux/msi.h b/include/linux/msi.h
-index c33abfa..4f0bfe5 100644
---- a/include/linux/msi.h
-+++ b/include/linux/msi.h
-@@ -47,6 +47,7 @@ struct fsl_mc_msi_desc {
-  * @nvec_used:	The number of vectors used
-  * @dev:	Pointer to the device which uses this descriptor
-  * @msg:	The last set MSI message cached for reuse
-+ * @affinity:	Optional pointer to a cpu affinity mask for this descriptor
-  *
-  * @masked:	[PCI MSI/X] Mask bits
-  * @is_msix:	[PCI MSI/X] True if MSI-X
-@@ -67,6 +68,7 @@ struct msi_desc {
- 	unsigned int			nvec_used;
- 	struct device			*dev;
- 	struct msi_msg			msg;
-+	const struct cpumask		*affinity;
+diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
+index 9fcabeb..b6683f0 100644
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -278,6 +278,8 @@ extern int irq_set_affinity_hint(unsigned int irq, const struct cpumask *m);
+ extern int
+ irq_set_affinity_notifier(unsigned int irq, struct irq_affinity_notify *notify);
  
- 	union {
- 		/* PCI MSI/X specific data */
-diff --git a/kernel/irq/msi.c b/kernel/irq/msi.c
-index 58dbbac..0e2a736 100644
---- a/kernel/irq/msi.c
-+++ b/kernel/irq/msi.c
-@@ -335,7 +335,7 @@ int msi_domain_alloc_irqs(struct irq_domain *domain, struct device *dev,
++struct cpumask *irq_create_affinity_mask(unsigned int *nr_vecs);
++
+ #else /* CONFIG_SMP */
  
- 		virq = __irq_domain_alloc_irqs(domain, -1, desc->nvec_used,
- 					       dev_to_node(dev), &arg, false,
--					       NULL);
-+					       desc->affinity);
- 		if (virq < 0) {
- 			ret = -ENOSPC;
- 			if (ops->handle_error)
+ static inline int irq_set_affinity(unsigned int irq, const struct cpumask *m)
+@@ -308,6 +310,12 @@ irq_set_affinity_notifier(unsigned int irq, struct irq_affinity_notify *notify)
+ {
+ 	return 0;
+ }
++
++static inline struct cpumask *irq_create_affinity_mask(unsigned int *nr_vecs)
++{
++	*nr_vecs = 1;
++	return NULL;
++}
+ #endif /* CONFIG_SMP */
+ 
+ /*
+diff --git a/kernel/irq/Makefile b/kernel/irq/Makefile
+index 2ee42e9..1d3ee31 100644
+--- a/kernel/irq/Makefile
++++ b/kernel/irq/Makefile
+@@ -9,3 +9,4 @@ obj-$(CONFIG_GENERIC_IRQ_MIGRATION) += cpuhotplug.o
+ obj-$(CONFIG_PM_SLEEP) += pm.o
+ obj-$(CONFIG_GENERIC_MSI_IRQ) += msi.o
+ obj-$(CONFIG_GENERIC_IRQ_IPI) += ipi.o
++obj-$(CONFIG_SMP) += affinity.o
+diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+new file mode 100644
+index 0000000..f689593
+--- /dev/null
++++ b/kernel/irq/affinity.c
+@@ -0,0 +1,61 @@
++
++#include <linux/interrupt.h>
++#include <linux/kernel.h>
++#include <linux/slab.h>
++#include <linux/cpu.h>
++
++static int get_first_sibling(unsigned int cpu)
++{
++	unsigned int ret;
++
++	ret = cpumask_first(topology_sibling_cpumask(cpu));
++	if (ret < nr_cpu_ids)
++		return ret;
++	return cpu;
++}
++
++/*
++ * Take a map of online CPUs and the number of available interrupt vectors
++ * and generate an output cpumask suitable for spreading MSI/MSI-X vectors
++ * so that they are distributed as good as possible around the CPUs.  If
++ * more vectors than CPUs are available we'll map one to each CPU,
++ * otherwise we map one to the first sibling of each socket.
++ *
++ * If there are more vectors than CPUs we will still only have one bit
++ * set per CPU, but interrupt code will keep on assigning the vectors from
++ * the start of the bitmap until we run out of vectors.
++ */
++struct cpumask *irq_create_affinity_mask(unsigned int *nr_vecs)
++{
++	struct cpumask *affinity_mask;
++	unsigned int max_vecs = *nr_vecs;
++
++	if (max_vecs == 1)
++		return NULL;
++
++	affinity_mask = kzalloc(cpumask_size(), GFP_KERNEL);
++	if (!affinity_mask) {
++		*nr_vecs = 1;
++		return NULL;
++	}
++
++	if (max_vecs >= num_online_cpus()) {
++		cpumask_copy(affinity_mask, cpu_online_mask);
++		*nr_vecs = num_online_cpus();
++	} else {
++		unsigned int vecs = 0, cpu;
++
++		for_each_online_cpu(cpu) {
++			if (cpu == get_first_sibling(cpu)) {
++				cpumask_set_cpu(cpu, affinity_mask);
++				vecs++;
++			}
++
++			if (--max_vecs == 0)
++				break;
++		}
++		*nr_vecs = vecs;
++	}
++
++	return affinity_mask;
++}
 -- 
 2.1.4
