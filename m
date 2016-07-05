@@ -1,32 +1,49 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Mon, 4 Jul 2016 12:30:05 +0200 (CEST)
-Subject: automatic interrupt affinity for MSI/MSI-X capable devices V3
-In-Reply-To: <1467621574-8277-1-git-send-email-hch@lst.de>
-References: <1467621574-8277-1-git-send-email-hch@lst.de>
-Message-ID: <alpine.DEB.2.11.1607041227340.4083@nanos>
+From: m.mizuma@jp.fujitsu.com (Masayoshi Mizuma)
+Date: Tue, 5 Jul 2016 17:09:36 +0900
+Subject: [PATCH] nvme: add a module parameter to change queue depth
+In-Reply-To: <20160704084940.GA7777@infradead.org>
+References: <577A1F50.4070502@jp.fujitsu.com>
+ <20160704084940.GA7777@infradead.org>
+Message-ID: <577B6B40.2010600@jp.fujitsu.com>
 
-On Mon, 4 Jul 2016, Christoph Hellwig wrote:
+  
+On Mon, 4 Jul 2016 01:49:40 -0700 Christoph Hellwig wrote:
+> On Mon, Jul 04, 2016@05:33:20PM +0900, Masayoshi Mizuma wrote:
+>> This patch adds "q_depth_limit" as a module parameter. nvme_queue->q_depth
+>> is set below q_depth_limit.
+>>
+>> while loop at __nvme_process_cq() sometimes takes long time and
+>> the loop is under IRQ context, so system slow down and hardlockup
+>> may occur because of the loop.
+>>
+>> The while loop runs nvme_queue->q_depth times and the q_depth is set
+>> by the following (NVME_Q_DEPTH is 1024).
+>>
+>>   dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, NVME_Q_DEPTH);
+>>
+>> To reduce the times of the loop, the q_depth_limit is useful.
+>>
+>> In addition, this patch moves the temporary fix for the Apple controller
+>> into the new function, get_q_depth().
+>
+> While limiting the queue depth might still be useful I think we need
+> to look into a potential lock break in __nvme_process_cq so that it
+> doesn't cause hard lockups even with large queue depth first.
 
-> This series enhances the irq and PCI code to allow spreading around MSI and
-> MSI-X vectors so that they have per-cpu affinity if possible, or at least
-> per-node.  For that it takes the algorithm from blk-mq, moves it to
-> a common place, and makes it available through a vastly simplified PCI
-> interrupt allocation API.  It then switches blk-mq to be able to pick up
-> the queue mapping from the device if available, and demonstrates all this
-> using the NVMe driver.
-> 
-> Compared to the last posting the core IRQ changes are stable and it would
-> be great to get them merged int the tip tree.  The two PCI patches have
-> been completely rewritten after feedback from Alexander, while the block
-> changes have also been stable.
+Yes, the module parameter is useful as a workaround to avoid hard lockup.
 
-I applied the first 6 patches. They are available in a seperate branch:
+I agree that we should look into nvme_queue->q_lock lock break
+in __nvme_process_cq().
 
-   git://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git irq/for-block
+However, if __nvme_process_cq() is called by nvme_irq() in IRQ context,
+the hard lockup may happen even if nvme_queue->q_lock is unlocked.
+This is because timer interrupt is disabled while the IRQ context.
 
-and integrated into the irq/core branch. irq/for-block can be pulled from the
-block folks if required.
+- Masayoshi Mizuma
 
-Thanks,
-
-	tglx
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
