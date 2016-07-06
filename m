@@ -1,65 +1,38 @@
 From: mauricfo@linux.vnet.ibm.com (Mauricio Faria de Oliveira)
-Date: Wed,  6 Jul 2016 18:03:32 -0300
-Subject: [PATCH 2/3] nvme: implement DMA_ATTR_NO_WARN
+Date: Wed,  6 Jul 2016 18:03:33 -0300
+Subject: [PATCH 3/3] powerpc: implement DMA_ATTR_NO_WARN
 In-Reply-To: <1467839013-22481-1-git-send-email-mauricfo@linux.vnet.ibm.com>
 References: <1467839013-22481-1-git-send-email-mauricfo@linux.vnet.ibm.com>
-Message-ID: <1467839013-22481-3-git-send-email-mauricfo@linux.vnet.ibm.com>
+Message-ID: <1467839013-22481-4-git-send-email-mauricfo@linux.vnet.ibm.com>
 
-Use the DMA_ATTR_NO_WARN attribute on dma_map_sg() calls of nvme driver.
+Add support for the DMA_ATTR_NO_WARN attribute on powerpc iommu code.
 
 Signed-off-by: Mauricio Faria de Oliveira <mauricfo at linux.vnet.ibm.com>
 ---
- drivers/nvme/host/pci.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ arch/powerpc/kernel/iommu.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d1a8259..c3c3348 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -18,6 +18,7 @@
- #include <linux/blk-mq.h>
- #include <linux/cpu.h>
- #include <linux/delay.h>
-+#include <linux/dma-attrs.h>
- #include <linux/errno.h>
- #include <linux/fs.h>
- #include <linux/genhd.h>
-@@ -65,6 +66,8 @@ MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
+diff --git a/arch/powerpc/kernel/iommu.c b/arch/powerpc/kernel/iommu.c
+index a8e3490..69bb17f 100644
+--- a/arch/powerpc/kernel/iommu.c
++++ b/arch/powerpc/kernel/iommu.c
+@@ -479,7 +479,7 @@ int ppc_iommu_map_sg(struct device *dev, struct iommu_table *tbl,
  
- static struct workqueue_struct *nvme_workq;
- 
-+static DEFINE_DMA_ATTRS(nvme_dma_attrs);
-+
- struct nvme_dev;
- struct nvme_queue;
- 
-@@ -498,7 +501,7 @@ static int nvme_map_data(struct nvme_dev *dev, struct request *req,
- 		goto out;
- 
- 	ret = BLK_MQ_RQ_QUEUE_BUSY;
--	if (!dma_map_sg(dev->dev, iod->sg, iod->nents, dma_dir))
-+	if (!dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir, &nvme_dma_attrs))
- 		goto out;
- 
- 	if (!nvme_setup_prps(dev, req, size))
-@@ -516,7 +519,7 @@ static int nvme_map_data(struct nvme_dev *dev, struct request *req,
- 		if (rq_data_dir(req))
- 			nvme_dif_remap(req, nvme_dif_prep);
- 
--		if (!dma_map_sg(dev->dev, &iod->meta_sg, 1, dma_dir))
-+		if (!dma_map_sg_attrs(dev->dev, &iod->meta_sg, 1, dma_dir, &nvme_dma_attrs))
- 			goto out_unmap;
- 	}
- 
-@@ -2118,6 +2121,9 @@ static int __init nvme_init(void)
- 	result = pci_register_driver(&nvme_driver);
- 	if (result)
- 		destroy_workqueue(nvme_workq);
-+
-+	dma_set_attr(DMA_ATTR_NO_WARN, &nvme_dma_attrs);
-+
- 	return result;
- }
- 
+ 		/* Handle failure */
+ 		if (unlikely(entry == DMA_ERROR_CODE)) {
+-			if (printk_ratelimit())
++			if (unlikely(!dma_get_attr(DMA_ATTR_NO_WARN, attrs)) && printk_ratelimit())
+ 				dev_info(dev, "iommu_alloc failed, tbl %p "
+ 					 "vaddr %lx npages %lu\n", tbl, vaddr,
+ 					 npages);
+@@ -776,7 +776,7 @@ dma_addr_t iommu_map_page(struct device *dev, struct iommu_table *tbl,
+ 					 mask >> tbl->it_page_shift, align,
+ 					 attrs);
+ 		if (dma_handle == DMA_ERROR_CODE) {
+-			if (printk_ratelimit())  {
++			if (unlikely(!dma_get_attr(DMA_ATTR_NO_WARN, attrs)) && printk_ratelimit())  {
+ 				dev_info(dev, "iommu_alloc failed, tbl %p "
+ 					 "vaddr %p npages %d\n", tbl, vaddr,
+ 					 npages);
 -- 
 1.8.3.1
