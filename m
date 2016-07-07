@@ -1,78 +1,38 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Thu, 07 Jul 2016 12:55:42 -0700
-Subject: NVMe over RDMA latency
-Message-ID: <1467921342.24395.12.camel@ssi>
+From: m.mizuma@jp.fujitsu.com (Masayoshi Mizuma)
+Date: Fri, 8 Jul 2016 08:51:46 +0900
+Subject: WARN_ON hit on __blk_mq_run_hw_queue followed by an Oops
+In-Reply-To: <87r3b85535.fsf@linux.vnet.ibm.com>
+References: <87wplqij40.fsf@linux.vnet.ibm.com>	<577B6F0C.4010506@jp.fujitsu.com>
+ <87r3b85535.fsf@linux.vnet.ibm.com>
+Message-ID: <577EEB12.7010202@jp.fujitsu.com>
 
-Hi list,
+ 
+On Tue, 5 Jul 2016 15:10:06 -0300 Gabriel Krisman Bertazi wrote:
+> Masayoshi Mizuma <m.mizuma at jp.fujitsu.com> writes:
+> 
+>> Is this WARN_ON still appear in 4.7-rc6 ?
+>> If so, the following patch may fix this problem.
+>>
+>> http://lists.infradead.org/pipermail/linux-nvme/2016-July/005303.html
+> 
+> Hi,
+> 
+> I experimented with this patch before and I still could see the issue.
+> 
+> The warning is not the only symptom anymore, as we also may reach a
+> deadlock while waiting for queues to freeze in the
+> blk_mq_queue_reinit_notify path. This may or may not be related.
 
-I'm trying to understand the NVMe over RDMA latency.
+I understand. Thanks.
 
-Test hardware:
-A real NVMe PCI drive on target
-Host and target back-to-back connected by Mellanox ConnectX-3
+> 
+> Things are a little confusing yet, but I'm debugging it and made a good
+> progress on avoiding the warning.  I'll submit a patch soon.
 
-[global]
-ioengine=libaio
-direct=1
-runtime=10
-time_based
-norandommap
-group_reporting
+That's good news :-)
 
-[job1]
-filename=/dev/nvme0n1
-rw=randread
-bs=4k
+- Masayoshi Mizuma
 
-
-fio latency data on host side(test nvmeof device)
-    slat (usec): min=2, max=213, avg= 6.34, stdev= 3.47
-    clat (usec): min=1, max=2470, avg=39.56, stdev=13.04
-     lat (usec): min=30, max=2476, avg=46.14, stdev=15.50
-
-fio latency data on target side(test NVMe pci device locally)
-    slat (usec): min=1, max=36, avg= 1.92, stdev= 0.42
-    clat (usec): min=1, max=68, avg=20.35, stdev= 1.11
-     lat (usec): min=19, max=101, avg=22.35, stdev= 1.21
-
-So I picked up this sample from blktrace which seems matches the fio avg latency data.
-
-Host(/dev/nvme0n1)
-259,0    0       86     0.015768739  3241  Q   R 1272199648 + 8 [fio]
-259,0    0       87     0.015769674  3241  G   R 1272199648 + 8 [fio]
-259,0    0       88     0.015771628  3241  U   N [fio] 1
-259,0    0       89     0.015771901  3241  I  RS 1272199648 + 8 (    2227) [fio]
-259,0    0       90     0.015772863  3241  D  RS 1272199648 + 8 (     962) [fio]
-259,0    1       85     0.015819257     0  C  RS 1272199648 + 8 (   46394) [0]
-
-Target(/dev/nvme0n1)
-259,0    0      141     0.015675637  2197  Q   R 1272199648 + 8 [kworker/u17:0]
-259,0    0      142     0.015676033  2197  G   R 1272199648 + 8 [kworker/u17:0]
-259,0    0      143     0.015676915  2197  D  RS 1272199648 + 8 (15676915) [kworker/u17:0]
-259,0    0      144     0.015694992     0  C  RS 1272199648 + 8 (   18077) [0]
-
-So host completed IO in about 50usec and target completed IO in about 20usec.
-Does that mean the 30usec delta comes from RDMA write(host read means target RDMA write)?
-
-Thanks,
-Ming
-
-Below is just for myself to understand what the blktrace flag means
-===================================================================
-Q - queued:
-generic_make_request_checks: trace_block_bio_queue(q, bio)
-
-G - get request:
-blk_mq_map_request: trace_block_getrq(q, bio, op)
-
-U:
-blk_mq_insert_requests: trace_block_unplug(q, depth, !from_schedule)
-
-I - inserted:
-__blk_mq_insert_req_list: trace_block_rq_insert(hctx->queue, rq)
-
-D - issued:
-blk_mq_start_request: trace_block_rq_issue(q, rq)
-
-C - complete:
-blk_update_request: trace_block_rq_complete(req->q, req, nr_bytes)
+> 
+> Thanks,
+> 
