@@ -1,76 +1,32 @@
-From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
-Date: Wed, 06 Jul 2016 21:41:45 -0300
-Subject: [PATCH 2/3] nvme: implement DMA_ATTR_NO_WARN
-In-Reply-To: <1467839013-22481-3-git-send-email-mauricfo@linux.vnet.ibm.com>
- (Mauricio Faria de Oliveira's message of "Wed, 6 Jul 2016 18:03:32
- -0300")
-References: <1467839013-22481-1-git-send-email-mauricfo@linux.vnet.ibm.com>
- <1467839013-22481-3-git-send-email-mauricfo@linux.vnet.ibm.com>
-Message-ID: <878txep9di.fsf@linux.vnet.ibm.com>
+From: dan.carpenter@oracle.com (Dan Carpenter)
+Date: Thu, 7 Jul 2016 11:15:26 +0300
+Subject: [patch] nvmet: fix an error code
+Message-ID: <20160707081526.GA16742@mwanda>
 
-Mauricio Faria de Oliveira <mauricfo at linux.vnet.ibm.com> writes:
+We accidentally return zero here when ERR_PTR(-ENOMEM) is intended.
 
-> Use the DMA_ATTR_NO_WARN attribute on dma_map_sg() calls of nvme driver.
->
-> Signed-off-by: Mauricio Faria de Oliveira <mauricfo at linux.vnet.ibm.com>
+Fixes: a07b4970f464 ('nvmet: add a generic NVMe target')
+Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
 
-checkpatch.pl complains about line wrapping.  Other than that, this
-looks good to me.
-
-Reviewed-by: Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com>
-
-> ---
->  drivers/nvme/host/pci.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index d1a8259..c3c3348 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -18,6 +18,7 @@
->  #include <linux/blk-mq.h>
->  #include <linux/cpu.h>
->  #include <linux/delay.h>
-> +#include <linux/dma-attrs.h>
->  #include <linux/errno.h>
->  #include <linux/fs.h>
->  #include <linux/genhd.h>
-> @@ -65,6 +66,8 @@ MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
->
->  static struct workqueue_struct *nvme_workq;
->
-> +static DEFINE_DMA_ATTRS(nvme_dma_attrs);
-> +
->  struct nvme_dev;
->  struct nvme_queue;
->
-> @@ -498,7 +501,7 @@ static int nvme_map_data(struct nvme_dev *dev, struct request *req,
->  		goto out;
->
->  	ret = BLK_MQ_RQ_QUEUE_BUSY;
-> -	if (!dma_map_sg(dev->dev, iod->sg, iod->nents, dma_dir))
-> +	if (!dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir, &nvme_dma_attrs))
->  		goto out;
->
->  	if (!nvme_setup_prps(dev, req, size))
-> @@ -516,7 +519,7 @@ static int nvme_map_data(struct nvme_dev *dev, struct request *req,
->  		if (rq_data_dir(req))
->  			nvme_dif_remap(req, nvme_dif_prep);
->
-> -		if (!dma_map_sg(dev->dev, &iod->meta_sg, 1, dma_dir))
-> +		if (!dma_map_sg_attrs(dev->dev, &iod->meta_sg, 1, dma_dir, &nvme_dma_attrs))
->  			goto out_unmap;
->  	}
->
-> @@ -2118,6 +2121,9 @@ static int __init nvme_init(void)
->  	result = pci_register_driver(&nvme_driver);
->  	if (result)
->  		destroy_workqueue(nvme_workq);
-> +
-> +	dma_set_attr(DMA_ATTR_NO_WARN, &nvme_dma_attrs);
-> +
->  	return result;
->  }
-
--- 
-Gabriel Krisman Bertazi
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 9bed302..af5e2dc 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -737,7 +737,7 @@ static struct config_group *nvmet_referral_make(
+ 
+ 	port = kzalloc(sizeof(*port), GFP_KERNEL);
+ 	if (!port)
+-		return ERR_CAST(port);
++		return ERR_PTR(-ENOMEM);
+ 
+ 	INIT_LIST_HEAD(&port->entry);
+ 	config_group_init_type_name(&port->group, name, &nvmet_referral_type);
+@@ -794,7 +794,7 @@ static struct config_group *nvmet_ports_make(struct config_group *group,
+ 
+ 	port = kzalloc(sizeof(*port), GFP_KERNEL);
+ 	if (!port)
+-		return ERR_CAST(port);
++		return ERR_PTR(-ENOMEM);
+ 
+ 	INIT_LIST_HEAD(&port->entry);
+ 	INIT_LIST_HEAD(&port->subsystems);
