@@ -1,38 +1,18 @@
-From: m.mizuma@jp.fujitsu.com (Masayoshi Mizuma)
-Date: Fri, 8 Jul 2016 08:51:46 +0900
-Subject: WARN_ON hit on __blk_mq_run_hw_queue followed by an Oops
-In-Reply-To: <87r3b85535.fsf@linux.vnet.ibm.com>
-References: <87wplqij40.fsf@linux.vnet.ibm.com>	<577B6F0C.4010506@jp.fujitsu.com>
- <87r3b85535.fsf@linux.vnet.ibm.com>
-Message-ID: <577EEB12.7010202@jp.fujitsu.com>
+From: haleigh@edt.com (Haleigh Novak)
+Date: Thu, 7 Jul 2016 23:55:17 +0000
+Subject: NVME Power State Modification
+Message-ID: <1467935716944.14813@edt.com>
 
- 
-On Tue, 5 Jul 2016 15:10:06 -0300 Gabriel Krisman Bertazi wrote:
-> Masayoshi Mizuma <m.mizuma at jp.fujitsu.com> writes:
-> 
->> Is this WARN_ON still appear in 4.7-rc6 ?
->> If so, the following patch may fix this problem.
->>
->> http://lists.infradead.org/pipermail/linux-nvme/2016-July/005303.html
-> 
-> Hi,
-> 
-> I experimented with this patch before and I still could see the issue.
-> 
-> The warning is not the only symptom anymore, as we also may reach a
-> deadlock while waiting for queues to freeze in the
-> blk_mq_queue_reinit_notify path. This may or may not be related.
 
-I understand. Thanks.
+?Hello All,?
 
-> 
-> Things are a little confusing yet, but I'm debugging it and made a good
-> progress on avoiding the warning.  I'll submit a patch soon.
+I am currently working with the nvme power states - I need to keep everything in the nvme module,?and I have a couple of questions:?
 
-That's good news :-)
+(1) Is it actually?possible to modify the power states of the nvme?
+(2) If it is I would have to do that through the nvme_id_ctrl object because it has a list of the nvme_id_power_state objects which are all of the available (used and unused) power states for the nvme, correct?
 
-- Masayoshi Mizuma
+Thank you.
+HN?
 
-> 
-> Thanks,
-> 
+
+   
