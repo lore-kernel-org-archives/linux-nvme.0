@@ -1,36 +1,17 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Fri, 08 Jul 2016 08:56:56 -0700
-Subject: [PATCH] nvme-fabrics: add-remove ctrl repeat fix
-In-Reply-To: <20160704084817.GA1217@infradead.org>
-References: <1467400412-13052-1-git-send-email-james_p_freyensee@linux.intel.com>
- <20160704084817.GA1217@infradead.org>
-Message-ID: <1467993416.3883.2.camel@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 8 Jul 2016 12:06:36 -0400
+Subject: NVME Power State Modification
+In-Reply-To: <1467935716944.14813@edt.com>
+References: <1467935716944.14813@edt.com>
+Message-ID: <20160708160635.GA26619@localhost.localdomain>
 
-On Mon, 2016-07-04@01:48 -0700, Christoph Hellwig wrote:
-> On Fri, Jul 01, 2016@12:13:32PM -0700, Jay Freyensee wrote:
-> > Fix by: "Ming Lin" <mlin at kernel.org>
-> 
-> So is this authored by you or by Ming?  In the latter case this
-> should be a
-> 
-> From: "Ming Lin" <mlin at kernel.org>
-> 
-> The patch itself looks fine, I'll queue it up after we've sorted
-> out the above question, thanks to both of you.
+On Thu, Jul 07, 2016@11:55:17PM +0000, Haleigh Novak wrote:
+> I am currently working with the nvme power states - I need to keep everything in the nvme module,?and I have a couple of questions:?
 
-Sorry for the late reply, back from an extended 4th of July vacation.
+What do you want the module to do with power states, and when do you
+want it to change the states?
+ 
+> (1) Is it actually?possible to modify the power states of the nvme?
 
-Ming authored the fix after I found the kernel crash and sent it to me
-for testing.  So yes, to answer your question, the title would be
-"From: Ming Lin".  Sorry about that.
-
-Jay
-
-> But I think we'll also need a kref_get_unless_zero in
-> __nvmf_host_find
-> to make this code fully correct, I'll prepare a patch for that.
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+If you are just trying to test how the device responds, you can issue
+the set feature command from user space.
