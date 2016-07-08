@@ -1,41 +1,47 @@
-From: haleigh@edt.com (Haleigh Novak)
-Date: Fri, 8 Jul 2016 16:43:16 +0000
-Subject: NVME Power State Modification
-In-Reply-To: <20160708160635.GA26619@localhost.localdomain>
-References: <1467935716944.14813@edt.com>,
- <20160708160635.GA26619@localhost.localdomain>
-Message-ID: <1467996196237.27514@edt.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Fri, 08 Jul 2016 15:27:28 -0700
+Subject: [PATCH -next] nvmet: fix return value check in
+ nvmet_subsys_alloc()
+In-Reply-To: <1467806529-23712-1-git-send-email-weiyj_lk@163.com>
+References: <1467806529-23712-1-git-send-email-weiyj_lk@163.com>
+Message-ID: <1468016848.9164.16.camel@linux.intel.com>
 
->> I am currently working with the nvme power states - I need to keep everything in the nvme module, and I have a couple of questions:
+On Wed, 2016-07-06@12:02 +0000, weiyj_lk@163.com wrote:
+> From: Wei Yongjun <yongjun_wei at trendmicro.com.cn>
+> 
+> In case of error, the function kstrndup() returns NULL pointer
+> not ERR_PTR(). The IS_ERR() test in the return value check
+> should be replaced with NULL test.
+> 
+> Signed-off-by: Wei Yongjun <yongjun_wei at trendmicro.com.cn>
 
->What do you want the module to do with power states, and when do you
->want it to change the states?
+Looks good and inline with how other drivers use kstrndup(), thanks for
+the fix.
 
-I am trying (for work) to put an nvme into an extreme low power state when idling and then be able to wake it up without issue. Currently it will not wake up fully/correctly [the /dev/nvme* files disappear when it goes into a low power state and I cant get them back unless I restart the machine], my attempt to explore this issue (as I am in the beginning stages of attempting to solve) was to first figure out how to change the power state from an extreme high power state to an extreme low power one - so it would be easier to see differences, that way I could find out if there was a floor power level that supported maintaining the /dev/nvme* files. Though because my nvme device only supports power states 0-4 (with max power of: 9W, 4.6W, 3.8W, 0.07W, and 0.005W) supported I felt I might need to modify one of the lower power states max/active/idle power values to retrieve a more exact value for the floor.
+Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
 
-(I need to keep it within the module because this is an ongoing multi-layer project I was assigned and this power state issue is my next task.)
-
->> (1) Is it actually possible to modify the power states of the nvme?
-
->If you are just trying to test how the device responds, you can issue
->the set feature command from user space.
-
-I have tried the set feature command through the nvme-cli interface as well as trying to modify the nvme_id_power_state object directly; in my print out of the power states the values change for the latter, however for both according to the nvme-cli "nvme id-ctrl /dev/nvme0" the change is not made permanently. I think the issue might be that I am not actually modifying the original nvme_id_ctrl->psd[i] object, that instead I am just modifying a copy thus the difference, but as I am new to this I figured it wouldst hurt to ask because thus far I haven't found in the spec sheet for the nvme where it specifically says I can/cant permanently modify the power state power values.
-
-________________________________________
-From: Keith Busch <keith.busch@intel.com>
-Sent: Friday, July 8, 2016 9:06 AM
-To: Haleigh Novak
-Cc: linux-nvme at lists.infradead.org
-Subject: Re: NVME Power State Modification
-
-On Thu, Jul 07, 2016@11:55:17PM +0000, Haleigh Novak wrote:
-> I am currently working with the nvme power states - I need to keep everything in the nvme module, and I have a couple of questions:
-
-What do you want the module to do with power states, and when do you
-want it to change the states?
-
-> (1) Is it actually possible to modify the power states of the nvme?
-
-If you are just trying to test how the device responds, you can issue
-the set feature command from user space.
+> ---
+>  drivers/nvme/target/core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+> index e0b3f01..8a891ca 100644
+> --- a/drivers/nvme/target/core.c
+> +++ b/drivers/nvme/target/core.c
+> @@ -895,7 +895,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const
+> char *subsysnqn,
+>  	subsys->type = type;
+>  	subsys->subsysnqn = kstrndup(subsysnqn, NVMF_NQN_SIZE,
+>  			GFP_KERNEL);
+> -	if (IS_ERR(subsys->subsysnqn)) {
+> +	if (!subsys->subsysnqn) {
+>  		kfree(subsys);
+>  		return NULL;
+>  	}
+> 
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
