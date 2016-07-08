@@ -1,18 +1,85 @@
-From: haleigh@edt.com (Haleigh Novak)
-Date: Thu, 7 Jul 2016 23:55:17 +0000
-Subject: NVME Power State Modification
-Message-ID: <1467935716944.14813@edt.com>
+From: m.mizuma@jp.fujitsu.com (Masayoshi Mizuma)
+Date: Fri, 8 Jul 2016 16:54:50 +0900
+Subject: [PATCH v2 2/3] nvme: implement DMA_ATTR_NO_WARN
+In-Reply-To: <1467895509-12194-3-git-send-email-mauricfo@linux.vnet.ibm.com>
+References: <1467895509-12194-1-git-send-email-mauricfo@linux.vnet.ibm.com>
+ <1467895509-12194-3-git-send-email-mauricfo@linux.vnet.ibm.com>
+Message-ID: <577F5C4A.8070004@jp.fujitsu.com>
 
 
-?Hello All,?
+On Thu, 7 Jul 2016 09:45:08 -0300 Mauricio Faria De Oliveira wrote:
+> Use the DMA_ATTR_NO_WARN attribute on dma_map_sg() calls of nvme driver.
+>
+> Signed-off-by: Mauricio Faria de Oliveira <mauricfo at linux.vnet.ibm.com>
+> Reviewed-by: Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com>
+> ---
+> Changelog:
+>   v2:
+>    - address warnings from checkpatch.pl (line wrapping and typos)
+>
+>   drivers/nvme/host/pci.c | 12 ++++++++++--
+>   1 file changed, 10 insertions(+), 2 deletions(-)
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index d1a8259..a7ccad8 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -18,6 +18,7 @@
+>   #include <linux/blk-mq.h>
+>   #include <linux/cpu.h>
+>   #include <linux/delay.h>
+> +#include <linux/dma-attrs.h>
+>   #include <linux/errno.h>
+>   #include <linux/fs.h>
+>   #include <linux/genhd.h>
+> @@ -65,6 +66,8 @@ MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
+>
+>   static struct workqueue_struct *nvme_workq;
+>
+> +static DEFINE_DMA_ATTRS(nvme_dma_attrs);
+> +
+>   struct nvme_dev;
+>   struct nvme_queue;
+>
+> @@ -498,7 +501,8 @@ static int nvme_map_data(struct nvme_dev *dev, struct request *req,
+>   		goto out;
+>
+>   	ret = BLK_MQ_RQ_QUEUE_BUSY;
+> -	if (!dma_map_sg(dev->dev, iod->sg, iod->nents, dma_dir))
+> +	if (!dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir,
+> +				&nvme_dma_attrs))
 
-I am currently working with the nvme power states - I need to keep everything in the nvme module,?and I have a couple of questions:?
+This change is OK because the return value of nvme_map_data() is
+BLK_MQ_RQ_QUEUE_BUSY, so the IO will be requeued.
 
-(1) Is it actually?possible to modify the power states of the nvme?
-(2) If it is I would have to do that through the nvme_id_ctrl object because it has a list of the nvme_id_power_state objects which are all of the available (used and unused) power states for the nvme, correct?
+>   		goto out;
+>
+>   	if (!nvme_setup_prps(dev, req, size))
+> @@ -516,7 +520,8 @@ static int nvme_map_data(struct nvme_dev *dev, struct request *req,
+>   		if (rq_data_dir(req))
+>   			nvme_dif_remap(req, nvme_dif_prep);
+>
+> -		if (!dma_map_sg(dev->dev, &iod->meta_sg, 1, dma_dir))
+> +		if (!dma_map_sg_attrs(dev->dev, &iod->meta_sg, 1, dma_dir,
+> +					&nvme_dma_attrs))
 
-Thank you.
-HN?
+Here, I think the error messages should not be suppressed because
+the return value of nvme_map_data() is BLK_MQ_RQ_QUEUE_ERROR, so
+the IO returns as -EIO.
 
+- Masayoshi Mizuma
 
-   
+>   			goto out_unmap;
+>   	}
+>
+> @@ -2118,6 +2123,9 @@ static int __init nvme_init(void)
+>   	result = pci_register_driver(&nvme_driver);
+>   	if (result)
+>   		destroy_workqueue(nvme_workq);
+> +
+> +	dma_set_attr(DMA_ATTR_NO_WARN, &nvme_dma_attrs);
+> +
+>   	return result;
+>   }
+>
+>
