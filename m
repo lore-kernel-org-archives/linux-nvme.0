@@ -1,47 +1,22 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Fri, 08 Jul 2016 15:27:28 -0700
-Subject: [PATCH -next] nvmet: fix return value check in
- nvmet_subsys_alloc()
-In-Reply-To: <1467806529-23712-1-git-send-email-weiyj_lk@163.com>
-References: <1467806529-23712-1-git-send-email-weiyj_lk@163.com>
-Message-ID: <1468016848.9164.16.camel@linux.intel.com>
+From: lhcwhu@gmail.com (Huaicheng Li)
+Date: Fri, 8 Jul 2016 18:03:33 -0500
+Subject: gain NVMe SQ in-flight entries #
+Message-ID: <CANr0WEfCecCG4FKYtpdHxavj5AJGu+D2e2QsLwKe_77fKd-_yg@mail.gmail.com>
 
-On Wed, 2016-07-06@12:02 +0000, weiyj_lk@163.com wrote:
-> From: Wei Yongjun <yongjun_wei at trendmicro.com.cn>
-> 
-> In case of error, the function kstrndup() returns NULL pointer
-> not ERR_PTR(). The IS_ERR() test in the return value check
-> should be replaced with NULL test.
-> 
-> Signed-off-by: Wei Yongjun <yongjun_wei at trendmicro.com.cn>
+Hi all,
 
-Looks good and inline with how other drivers use kstrndup(), thanks for
-the fix.
+(1). When nvme_queue_rq() queues a new I/O to the SQ, why doesn't it
+check whether the SQ is full or not?
+Similarly, when nvme_process_rq() handles a CQE, it seems not checking
+whether CQ is empty? Why is that?
+(2). Why does nvme_queue_rq() need to call __nvme_process_cq()?? That
+should be the job of interrupt handler or poll().
+Anything missing here?
+(3). Is there an easy way to figure out how many entries are in the
+SQ? We can know where SQ_tail is in nvme_queue structure, how can the
+host know where the queue's head is **immediately**?
 
-Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+Thanks.
 
-> ---
->  drivers/nvme/target/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index e0b3f01..8a891ca 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -895,7 +895,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const
-> char *subsysnqn,
->  	subsys->type = type;
->  	subsys->subsysnqn = kstrndup(subsysnqn, NVMF_NQN_SIZE,
->  			GFP_KERNEL);
-> -	if (IS_ERR(subsys->subsysnqn)) {
-> +	if (!subsys->subsysnqn) {
->  		kfree(subsys);
->  		return NULL;
->  	}
-> 
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Best,
+Huaicheng
