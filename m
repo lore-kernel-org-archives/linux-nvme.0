@@ -1,21 +1,60 @@
 From: mauricfo@linux.vnet.ibm.com (Mauricio Faria de Oliveira)
-Date: Fri, 8 Jul 2016 09:26:25 -0300
-Subject: [PATCH v2 2/3] nvme: implement DMA_ATTR_NO_WARN
-In-Reply-To: <577F5C4A.8070004@jp.fujitsu.com>
-References: <1467895509-12194-1-git-send-email-mauricfo@linux.vnet.ibm.com>
- <1467895509-12194-3-git-send-email-mauricfo@linux.vnet.ibm.com>
- <577F5C4A.8070004@jp.fujitsu.com>
-Message-ID: <577F9BF1.8010807@linux.vnet.ibm.com>
+Date: Fri,  8 Jul 2016 09:27:06 -0300
+Subject: [PATCH v3 1/3] dma: introduce DMA_ATTR_NO_WARN
+In-Reply-To: <1467980828-5282-1-git-send-email-mauricfo@linux.vnet.ibm.com>
+References: <1467980828-5282-1-git-send-email-mauricfo@linux.vnet.ibm.com>
+Message-ID: <1467980828-5282-2-git-send-email-mauricfo@linux.vnet.ibm.com>
 
-On 07/08/2016 04:54 AM, Masayoshi Mizuma wrote:
-> Here, I think the error messages should not be suppressed because
-> the return value of nvme_map_data() is BLK_MQ_RQ_QUEUE_ERROR, so
-> the IO returns as -EIO.
+Introduce the DMA_ATTR_NO_WARN attribute, and document it.
 
-Agree; good point.  fixed in v3.
+Signed-off-by: Mauricio Faria de Oliveira <mauricfo at linux.vnet.ibm.com>
+---
+Changelog:
+ v3:
+  - dma: none.
+ v2:
+  - all: address warnings from checkpatch.pl (line wrapping and typos)
 
-Thanks for reviewing.
+ Documentation/DMA-attributes.txt | 17 +++++++++++++++++
+ include/linux/dma-attrs.h        |  1 +
+ 2 files changed, 18 insertions(+)
 
+diff --git a/Documentation/DMA-attributes.txt b/Documentation/DMA-attributes.txt
+index e8cf9cf..48150c6 100644
+--- a/Documentation/DMA-attributes.txt
++++ b/Documentation/DMA-attributes.txt
+@@ -126,3 +126,20 @@ means that we won't try quite as hard to get them.
+ 
+ NOTE: At the moment DMA_ATTR_ALLOC_SINGLE_PAGES is only implemented on ARM,
+ though ARM64 patches will likely be posted soon.
++
++DMA_ATTR_NO_WARN
++----------------
++
++This tells the DMA-mapping subsystem to suppress allocation failure reports
++(similarly to __GFP_NOWARN).
++
++On some architectures allocation failures are reported with error messages
++to the system logs.  Although this can help to identify and debug problems,
++drivers which handle failures (eg, retry later) have no problems with them,
++and can actually flood the system logs with error messages that aren't any
++problem at all, depending on the implementation of the retry mechanism.
++
++So, this provides a way for drivers to avoid those error messages on calls
++where allocation failures are not a problem, and shouldn't bother the logs.
++
++NOTE: At the moment DMA_ATTR_NO_WARN is only implemented on PowerPC.
+diff --git a/include/linux/dma-attrs.h b/include/linux/dma-attrs.h
+index f3c5aea..0577389 100644
+--- a/include/linux/dma-attrs.h
++++ b/include/linux/dma-attrs.h
+@@ -19,6 +19,7 @@ enum dma_attr {
+ 	DMA_ATTR_SKIP_CPU_SYNC,
+ 	DMA_ATTR_FORCE_CONTIGUOUS,
+ 	DMA_ATTR_ALLOC_SINGLE_PAGES,
++	DMA_ATTR_NO_WARN,
+ 	DMA_ATTR_MAX,
+ };
+ 
 -- 
-Mauricio Faria de Oliveira
-IBM Linux Technology Center
+1.8.3.1
