@@ -1,24 +1,28 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 8 Jul 2016 08:51:48 -0500
-Subject: [PATCH 4/5] nvmet-rdma: add a NVMe over Fabrics RDMA target driver
-In-Reply-To: <1467809752-31320-5-git-send-email-hch@lst.de>
+Date: Fri, 8 Jul 2016 08:53:59 -0500
+Subject: [PATCH 5/5] nvme-rdma: add a NVMe over Fabrics RDMA host driver
+In-Reply-To: <1467809752-31320-6-git-send-email-hch@lst.de>
 References: <1467809752-31320-1-git-send-email-hch@lst.de>
- <1467809752-31320-5-git-send-email-hch@lst.de>
-Message-ID: <003a01d1d91f$df60ed60$9e22c820$@opengridcomputing.com>
+ <1467809752-31320-6-git-send-email-hch@lst.de>
+Message-ID: <003c01d1d920$2d5c0040$881400c0$@opengridcomputing.com>
 
-> This patch implements the RDMA transport for the NVMe over Fabrics target,
-> which allows exporting NVMe over Fabrics functionality over RDMA fabrics
-> (Infiniband, RoCE, iWARP).
+> This patch implements the RDMA host (initiator in SCSI speak) driver.  It
+> can be used to connect to remote NVMe over Fabrics controllers over
+> Infiniband, RoCE or iWarp, and uses the existing NVMe core driver as well
+> a the new fabrics library.
 > 
-> All NVMe logic is in the generic target and this module just provides a
-> small glue between it and the generic code in the RDMA subsystem.
+> To connect to all NVMe over Fabrics controller reachable on a given taget
+> port using RDMA/CM use the following command:
 > 
-> Signed-off-by: Armen Baloyan <armenx.baloyan at intel.com>,
+> 	nvme connect-all -t rdma -a $IPADDR
+> 
+> This requires the latest version of nvme-cli with Fabrics support.
+> 
 > Signed-off-by: Jay Freyensee <james.p.freyensee at intel.com>
 > Signed-off-by: Ming Lin <ming.l at ssi.samsung.com>
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Looks good.
+Looks fine.
 
-Reviewed-by: Steve Wise <swise at opengridcomputing.com>
+Reviewed by: Steve Wise <swise at opengridcomputing.com>
