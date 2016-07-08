@@ -1,31 +1,15 @@
 From: mauricfo@linux.vnet.ibm.com (Mauricio Faria de Oliveira)
-Date: Fri,  8 Jul 2016 09:27:05 -0300
-Subject: [PATCH v3 0/3] dma, nvme,
- powerpc: introduce and implement DMA_ATTR_NO_WARN
-Message-ID: <1467980828-5282-1-git-send-email-mauricfo@linux.vnet.ibm.com>
+Date: Fri,  8 Jul 2016 09:27:07 -0300
+Subject: [PATCH v3 2/3] nvme: implement DMA_ATTR_NO_WARN
+In-Reply-To: <1467980828-5282-1-git-send-email-mauricfo@linux.vnet.ibm.com>
+References: <1467980828-5282-1-git-send-email-mauricfo@linux.vnet.ibm.com>
+Message-ID: <1467980828-5282-3-git-send-email-mauricfo@linux.vnet.ibm.com>
 
-This patchset introduces dma_attr DMA_ATTR_NO_WARN (just like __GFP_NOWARN),
-which tells the DMA-mapping subsystem to suppress allocation failure reports.
+Use the DMA_ATTR_NO_WARN attribute on dma_map_sg() calls of nvme driver.
 
-On some architectures allocation failures are reported with error messages
-to the system logs.  Although this can help to identify and debug problems,
-drivers which handle failures (eg, retry later) have no problems with them,
-and can actually flood the system logs with error messages that aren't any
-problem at all, depending on the implementation of the retry mechanism.
-
-So, this provides a way for drivers to avoid those error messages on calls
-where allocation failures are not a problem, and shouldn't bother the logs.
-
- - Patch 1/3 introduces and documents the new dma_attr.
-
- - Patch 2/3 implements it on the nvme driver (which might repeatedly trip
-             on allocation failures due to high load, flooding system logs
-             with error messages at least on powerpc: "iommu_alloc failed")
-
- - Patch 3/3 implements support for it on powerpc arch (where this problem
-             was observed.  It's possible to extend support for more archs
-             if the patchset is welcome).
-
+Signed-off-by: Mauricio Faria de Oliveira <mauricfo at linux.vnet.ibm.com>
+Reviewed-by: Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com>
+---
 Changelog:
  v3:
   - nvme: use DMA_ATTR_NO_WARN when ret = BLK_MQ_RQ_QUEUE_BUSY (io will be
@@ -34,16 +18,49 @@ Changelog:
  v2:
   - all: address warnings from checkpatch.pl (line wrapping and typos)
 
-Mauricio Faria de Oliveira (3):
-  dma: introduce DMA_ATTR_NO_WARN
-  nvme: implement DMA_ATTR_NO_WARN
-  powerpc: implement DMA_ATTR_NO_WARN
+ drivers/nvme/host/pci.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- Documentation/DMA-attributes.txt | 17 +++++++++++++++++
- arch/powerpc/kernel/iommu.c      |  6 ++++--
- drivers/nvme/host/pci.c          |  9 ++++++++-
- include/linux/dma-attrs.h        |  1 +
- 4 files changed, 30 insertions(+), 3 deletions(-)
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d1a8259..187aa6b 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -18,6 +18,7 @@
+ #include <linux/blk-mq.h>
+ #include <linux/cpu.h>
+ #include <linux/delay.h>
++#include <linux/dma-attrs.h>
+ #include <linux/errno.h>
+ #include <linux/fs.h>
+ #include <linux/genhd.h>
+@@ -65,6 +66,8 @@ MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
+ 
+ static struct workqueue_struct *nvme_workq;
+ 
++static DEFINE_DMA_ATTRS(nvme_dma_attrs);
++
+ struct nvme_dev;
+ struct nvme_queue;
+ 
+@@ -498,7 +501,8 @@ static int nvme_map_data(struct nvme_dev *dev, struct request *req,
+ 		goto out;
+ 
+ 	ret = BLK_MQ_RQ_QUEUE_BUSY;
+-	if (!dma_map_sg(dev->dev, iod->sg, iod->nents, dma_dir))
++	if (!dma_map_sg_attrs(dev->dev, iod->sg, iod->nents, dma_dir,
++				&nvme_dma_attrs))
+ 		goto out;
+ 
+ 	if (!nvme_setup_prps(dev, req, size))
+@@ -2118,6 +2122,9 @@ static int __init nvme_init(void)
+ 	result = pci_register_driver(&nvme_driver);
+ 	if (result)
+ 		destroy_workqueue(nvme_workq);
++
++	dma_set_attr(DMA_ATTR_NO_WARN, &nvme_dma_attrs);
++
+ 	return result;
+ }
+ 
 -- 
 1.8.3.1
