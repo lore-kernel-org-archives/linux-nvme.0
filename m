@@ -1,82 +1,75 @@
-From: lhcwhu@gmail.com (Huaicheng Li (coperd))
-Date: Fri, 8 Jul 2016 19:16:02 -0500
-Subject: gain NVMe SQ in-flight entries #
-In-Reply-To: <20160708232219.GA28530@localhost.localdomain>
-References: <CANr0WEfCecCG4FKYtpdHxavj5AJGu+D2e2QsLwKe_77fKd-_yg@mail.gmail.com>
- <20160708232219.GA28530@localhost.localdomain>
-Message-ID: <B22C2954-6070-4768-99D1-98FA5CBE6AB3@gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 8 Jul 2016 21:07:55 -0400
+Subject: [PATCHv3 for-4.7] nvme: Remove RCU namespace protection
+In-Reply-To: <1467825770-27355-1-git-send-email-keith.busch@intel.com>
+References: <1467825770-27355-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20160709010754.GA28997@localhost.localdomain>
 
-Hi Keith,
-
-
-> Assuming you mean the SQ tail, you can't view that without writing some
-> additional code to expose this to a user. But why do you even want to
-> know this?
-
-I?m doing some simple experiments to test the effect of queue size on performance.
-In the meanwhile, I?m curious to know the utilization of NVMe queues under different 
-workloads.
-
-
-> You can see how many are active on any given queue by reading the "tags"
-> file under /sys/block/nvmeXnY/mq/<queue>/tags
-
-
-Running with QEMU NVMe emulation, cat /sys/block/nvmeXn1/mq/0/tags always gives me 
-(VM has one core, thus one IO queue, /sys only expose IO queues, no admin queue?)
-
-"nr_tags=1023, reserved_tags=0, bits_per_word=6
-nr_free=1023, nr_reserved=0
-active_queues=0?
-
-Is this a problem of QEMU NVMe? I don?t see /sys/xx/tags changes when running fio. 
-
-Thanks!
-
-Best,
-Huaicheng
-
-
-
-> On Jul 8, 2016,@6:22 PM, Keith Busch <keith.busch@intel.com> wrote:
+On Wed, Jul 06, 2016@11:22:50AM -0600, Keith Busch wrote:
+> We can't block with RCU read lock held, but we need to do potentially
+> blocking stuff to namespace queues when iterating the list. This patch
+> removes the rcu read locking.
 > 
-> On Fri, Jul 08, 2016@06:03:33PM -0500, Huaicheng Li wrote:
->> Hi all,
->> 
->> (1). When nvme_queue_rq() queues a new I/O to the SQ, why doesn't it
->> check whether the SQ is full or not?
+> Any list iteration that does IO has to be done unlocked to allow recovery.
+> The caller must ensure the list can not be manipulated under such
+> conditions. List iterations that do not issue IO can safely use the lock
+> since it wouldn't block recovery from missing IO completions.
+
+Ping? Would hate to release a kernel with obvious bugs.
+
+\ 
+> This fixes these two BUGs:
 > 
-> It can never be full. We don't preallocate enough tags to fill it.
+>  BUG: sleeping function called from invalid context at include/linux/writeback.h:185
+>  in_atomic(): 1, irqs_disabled(): 0, pid: 757, name: kworker/97:1
+>  CPU: 97 PID: 757 Comm: kworker/97:1 Tainted: G            E   4.6.0-2016-06-14+ #1
+>  Workqueue: pciehp-2 pciehp_power_thread
+>   0000000000000000 ffff880462377b38 ffffffff81310c61 ffff8804623704c0
+>   00000000000000b9 ffff880462377b50 ffffffff8108fe14 ffffffff81809e2a
+>   ffff880462377b78 ffffffff8108fea9 ffff880469eb4800 ffffc900011824a0
+>  Call Trace:
+>   [<ffffffff81310c61>] dump_stack+0x63/0x82
+>   [<ffffffff8108fe14>] ___might_sleep+0xd4/0x120
+>   [<ffffffff8108fea9>] __might_sleep+0x49/0x80
+>   [<ffffffff8120d060>] iget5_locked+0xa0/0x210
+>   [<ffffffff8122ac80>] ? bdev_test+0x20/0x20
+>   [<ffffffff8122b5ce>] bdget+0x3e/0x130
+>   [<ffffffff812f2b24>] bdget_disk+0x24/0x40
+>   [<ffffffff8122bd3d>] revalidate_disk+0x3d/0x90
+>   [<ffffffffa0483208>] nvme_kill_queues+0x38/0xc0 [nvme_core]
+>   [<ffffffffa04833da>] nvme_remove_namespaces+0x5a/0x60 [nvme_core]
+>   [<ffffffffa048340d>] nvme_uninit_ctrl+0x2d/0xa0 [nvme_core]
+>   [<ffffffffa085c9eb>] nvme_remove+0x5b/0x100 [nvme]
+>   [<ffffffff8135bfc9>] pci_device_remove+0x39/0xc0
 > 
->> Similarly, when nvme_process_rq() handles a CQE, it seems not checking
->> whether CQ is empty? Why is that?
+> And:
 > 
-> Huh? We check the phase bits to know if there's a new entry.
-> 
->> (2). Why does nvme_queue_rq() need to call __nvme_process_cq()?? That
->> should be the job of interrupt handler or poll().
->> Anything missing here?
-> 
-> It's a micro optimization. We already hold the queue lock, might as well
-> opprotunistically see if there's any work completed. Worst case scenario
-> is nothing happens.
-> 
->> (3). Is there an easy way to figure out how many entries are in the
->> SQ? 
-> 
-> You can see how many are active on any given queue by reading the "tags"
-> file under /sys/block/nvmeXnY/mq/<queue>/tags
-> 
-> The tags are shared among multiple namespaces, so you only need to
-> query one's mq tags file see how many are active.
-> 
->> We can know where SQ_tail is in nvme_queue structure, how can the
->> host know where the queue's head is **immediately**?
-> 
-> The host doesn't really know where the SQ head is. Only the controller
-> knows that, though it does provide a hint on each completion queue entry
-> where it was at the time the CQE was posted.
-> 
-> Assuming you mean the SQ tail, you can't view that without writing some
-> additional code to expose this to a user. But why do you even want to
-> know this?
+>  BUG: sleeping function called from invalid context at kernel/workqueue.c:2783
+>  in_atomic(): 0, irqs_disabled(): 0, pid: 1696, name: kworker/u16:0
+>  CPU: 3 PID: 1696 Comm: kworker/u16:0 Tainted: G           OE   4.6.0-rc3+ #197
+>  Hardware name: Dell Inc. OptiPlex 7010/0773VG, BIOS A12 01/10/2013
+>  Workqueue: nvme nvme_reset_work [nvme]
+>   0000000000000000 ffff8800d94d3a48 ffffffff81379e4c ffff88011a639640
+>   ffffffff81a12688 ffff8800d94d3a70 ffffffff81094814 ffffffff81a12688
+>   0000000000000adf 0000000000000000 ffff8800d94d3a98 ffffffff81094904
+>  Call Trace:
+>   [<ffffffff81379e4c>] dump_stack+0x85/0xc9
+>   [<ffffffff81094814>] ___might_sleep+0x144/0x1f0
+>   [<ffffffff81094904>] __might_sleep+0x44/0x80
+>   [<ffffffff81087b5e>] flush_work+0x6e/0x290
+>   [<ffffffff81087af0>] ? __queue_delayed_work+0x150/0x150
+>   [<ffffffff81126cf5>] ? irq_work_queue+0x75/0x90
+>   [<ffffffff810ca136>] ? wake_up_klogd+0x36/0x50
+>   [<ffffffff810b7fa6>] ? mark_held_locks+0x66/0x90
+>   [<ffffffff81088898>] ? __cancel_work_timer+0xf8/0x1c0
+>   [<ffffffff8108883b>] __cancel_work_timer+0x9b/0x1c0
+>   [<ffffffff810cadaa>] ? vprintk_default+0x1a/0x20
+>   [<ffffffff81142558>] ? printk+0x48/0x4a
+>   [<ffffffff8108896b>] cancel_work_sync+0xb/0x10
+>   [<ffffffff81350fb0>] blk_mq_cancel_requeue_work+0x10/0x20
+>   [<ffffffffc0813ae7>] nvme_stop_queues+0x167/0x1a0 [nvme_core]
+>   [<ffffffffc0813980>] ? nvme_kill_queues+0x190/0x190 [nvme_core]
+>   [<ffffffffc08cef51>] nvme_dev_disable+0x71/0x350 [nvme]
+>   [<ffffffff810b8f40>] ? __lock_acquire+0xa80/0x1ad0
+>   [<ffffffff810944b6>] ? finish_task_switch+0xa6/0x2c0
+>   [<ffffffffc08cffd4>] nvme_reset_work+0x214/0xd40 [nvme]
