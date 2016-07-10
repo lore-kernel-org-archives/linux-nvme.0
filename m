@@ -1,27 +1,22 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 10 Jul 2016 05:59:26 +0200
-Subject: [PATCH 12/13] nvme: switch to use pci_alloc_irq_vectors
-In-Reply-To: <20160707193019.GA8802@dhcp-27-118.brq.redhat.com>
-References: <1467621574-8277-1-git-send-email-hch@lst.de>
- <1467621574-8277-13-git-send-email-hch@lst.de>
- <20160707193019.GA8802@dhcp-27-118.brq.redhat.com>
-Message-ID: <20160710035926.GD15720@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sun, 10 Jul 2016 02:47:00 -0700
+Subject: [PATCHv3 for-4.7] nvme: Remove RCU namespace protection
+In-Reply-To: <20160709010754.GA28997@localhost.localdomain>
+References: <1467825770-27355-1-git-send-email-keith.busch@intel.com>
+ <20160709010754.GA28997@localhost.localdomain>
+Message-ID: <20160710094700.GA5897@infradead.org>
 
-On Thu, Jul 07, 2016@09:30:19PM +0200, Alexander Gordeev wrote:
-> On Mon, Jul 04, 2016@05:39:33PM +0900, Christoph Hellwig wrote:
-> > @@ -1575,6 +1546,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
-> >  		dev->tagset.cmd_size = nvme_cmd_size(dev);
-> >  		dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
-> >  		dev->tagset.driver_data = dev;
-> > +		dev->tagset.affinity_mask = to_pci_dev(dev->dev)->irq_affinity;
-> >  
-> >  		if (blk_mq_alloc_tag_set(&dev->tagset))
-> >  			return 0;
+On Fri, Jul 08, 2016@09:07:55PM -0400, Keith Busch wrote:
+> On Wed, Jul 06, 2016@11:22:50AM -0600, Keith Busch wrote:
+> > We can't block with RCU read lock held, but we need to do potentially
+> > blocking stuff to namespace queues when iterating the list. This patch
+> > removes the rcu read locking.
+> > 
+> > Any list iteration that does IO has to be done unlocked to allow recovery.
+> > The caller must ensure the list can not be manipulated under such
+> > conditions. List iterations that do not issue IO can safely use the lock
+> > since it wouldn't block recovery from missing IO completions.
 > 
-> Are there any post-init uses of blk_mq_tag_set::affinity_mask other than
-> calling to blk_mq_alloc_tag_set()? If no, blk_mq_tag_set::affinity_mask
-> is redundant, since the mask could be passed as a parameter.
+> Ping? Would hate to release a kernel with obvious bugs.
 
-We'll have to look at it in the block code when reinitializing rebuilding
-the queue topology.  This isn't currently done, but we'll need it rather
-soon.
+Where are the other two patches from this series?
