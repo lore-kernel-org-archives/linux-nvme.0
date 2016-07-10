@@ -1,61 +1,27 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 10 Jul 2016 05:57:51 +0200
-Subject: [PATCH 08/13] pci: spread interrupt vectors in
- pci_alloc_irq_vectors
-In-Reply-To: <20160707110501.GA4917@dhcp-27-118.brq.redhat.com>
+Date: Sun, 10 Jul 2016 05:59:26 +0200
+Subject: [PATCH 12/13] nvme: switch to use pci_alloc_irq_vectors
+In-Reply-To: <20160707193019.GA8802@dhcp-27-118.brq.redhat.com>
 References: <1467621574-8277-1-git-send-email-hch@lst.de>
- <1467621574-8277-9-git-send-email-hch@lst.de>
- <20160707110501.GA4917@dhcp-27-118.brq.redhat.com>
-Message-ID: <20160710035751.GC15720@lst.de>
+ <1467621574-8277-13-git-send-email-hch@lst.de>
+ <20160707193019.GA8802@dhcp-27-118.brq.redhat.com>
+Message-ID: <20160710035926.GD15720@lst.de>
 
-On Thu, Jul 07, 2016@01:05:01PM +0200, Alexander Gordeev wrote:
-> irq_create_affinity_mask() bails out with no affinity in case of single
-> vector, but alloc_descs() (see below (*)) assigns the whole affinity
-> mask. It should be consistent instead.
-
-I don't understand the comment.  If we only have one vector (of any
-kinds) there is no need to create an affinity mask, we'll leave the
-interrupt to the existing irq balancing code.
-
-> Actually, I just realized pci_alloc_irq_vectors() should probably call
-> irq_create_affinity_mask() and handle it in a consistent way for all four
-> cases: MSI-X, mulit-MSI, MSI and legacy.
-
-That's what the earlier versions did, but you correctly pointed out
-that we should call irq_create_affinity_mask only after we have reduced
-the number of vectors to the number that the bridges can route, i.e.
-that we have to move it into the pci_enable_msi(x)_range main loop.
-
-> Optionally, the three latter could be dropped for now so you could proceed
-> with NVMe.
-
-NVMe cares for all these cases at least in theory.
-
-> (*) In the future IRQ vs CPU mapping 1:N is possible/desirable so I suppose
-> this piece of code worth a comment or better - a separate function. In fact,
-> this algorithm already exists in alloc_descs(), which makes even more sense
-> to factor it out:
+On Thu, Jul 07, 2016@09:30:19PM +0200, Alexander Gordeev wrote:
+> On Mon, Jul 04, 2016@05:39:33PM +0900, Christoph Hellwig wrote:
+> > @@ -1575,6 +1546,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
+> >  		dev->tagset.cmd_size = nvme_cmd_size(dev);
+> >  		dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
+> >  		dev->tagset.driver_data = dev;
+> > +		dev->tagset.affinity_mask = to_pci_dev(dev->dev)->irq_affinity;
+> >  
+> >  		if (blk_mq_alloc_tag_set(&dev->tagset))
+> >  			return 0;
 > 
-> 	for (i = 0; i < cnt; i++) {
-> 		if (affinity) {
-> 			cpu = cpumask_next(cpu, affinity);
-> 			if (cpu >= nr_cpu_ids)
-> 				cpu = cpumask_first(affinity);
-> 			node = cpu_to_node(cpu);
-> 
-> 			/*
-> 			 * For single allocations we use the caller provided
-> 			 * mask otherwise we use the mask of the target cpu
-> 			 */
-> 			mask = cnt == 1 ? affinity : cpumask_of(cpu);
-> 		}
-> 
-> 		[...]
+> Are there any post-init uses of blk_mq_tag_set::affinity_mask other than
+> calling to blk_mq_alloc_tag_set()? If no, blk_mq_tag_set::affinity_mask
+> is redundant, since the mask could be passed as a parameter.
 
-While these two pieces of code look very similar there is an important
-difference in why and how the mask is calculated.  In alloc_descs()
-the difference here is that cnt = 1 is the MSI-X case where the
-passed in affinity is that for the MSI-X descriptor which is for
-a single vector.  in the MSI case where we have multiple vectors per
-descriptor a different affinity is asigned for each vector based
-of a single passed in mask.
+We'll have to look at it in the block code when reinitializing rebuilding
+the queue topology.  This isn't currently done, but we'll need it rather
+soon.
