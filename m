@@ -1,31 +1,67 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 10 Jul 2016 05:41:44 +0200
-Subject: [PATCH 11/13] blk-mq: allow the driver to pass in an affinity mask
-In-Reply-To: <20160704093527.GB2783@agordeev.lab.eng.brq.redhat.com>
-References: <1465934346-20648-1-git-send-email-hch@lst.de>
- <1465934346-20648-12-git-send-email-hch@lst.de>
- <20160704081540.GA2783@agordeev.lab.eng.brq.redhat.com>
- <20160704083849.GA3585@lst.de>
- <20160704093527.GB2783@agordeev.lab.eng.brq.redhat.com>
-Message-ID: <20160710034144.GA15720@lst.de>
+Date: Sun, 10 Jul 2016 05:47:37 +0200
+Subject: [PATCH 07/13] pci: Provide sensible irq vector alloc/free routines
+In-Reply-To: <20160706080545.GA14583@dhcp-27-118.brq.redhat.com>
+References: <1467621574-8277-1-git-send-email-hch@lst.de>
+ <1467621574-8277-8-git-send-email-hch@lst.de>
+ <20160706080545.GA14583@dhcp-27-118.brq.redhat.com>
+Message-ID: <20160710034737.GB15720@lst.de>
 
-On Mon, Jul 04, 2016@11:35:28AM +0200, Alexander Gordeev wrote:
-> > mq_map is initialized to zero already, so we don't really need the
-> > assignment for queue 0.  The reason why this check exists is because
-> > we start with queue = -1 and we never want to assignment -1 to mq_map.
+On Wed, Jul 06, 2016@10:05:45AM +0200, Alexander Gordeev wrote:
+> > + pci_enable_msi, pci_enable_msi_range, pci_enable_msi_exact, pci_disable_msi,
+> > + pci_msi_vec_count, pci_enable_msix_range, pci_enable_msix_exact,
+> > + pci_disable_msix, pci_msix_vec_count
 > 
-> Would this read better then?
-> 
-> 	int queue = 0;
-> 
-> 	...
-> 
-> 	/* If cpus are offline, map them to first hctx */
-> 	for_each_online_cpu(cpu) {
-> 		set->mq_map[cpu] = queue;
-> 		if (cpumask_test_cpu(cpu, affinity_mask))
-> 			queue++;
+> Description of these functions can be removed when all drivers migrated
+> to the new API. Also implementation descriptions + examples would still
+> be needed AFAICT.
 
-It would read better, but I don't think it's actually correct.
-We'd still assign the 'old' queue to the cpu that is set in the affinity
-mask.
+I diagreed - if we deprecated functions the only thing that should
+be mentioned is a "don't use these". 
+
+> This function's code almost matches the existing pci_enable_msix_range()
+> so pci_enable_msix_range() should be reworked instead IMHO.
+
+That's what earlier versions of the code did.  However due to the
+fact that we want to avoid over-allocating the msix_vectors array
+(minor) and get the vectors count of the affinity mask right (major,
+as pointed out by you last time) I had to move the allocations inside
+the helpers that loop around the atctual enablement.  I didn't want
+to change the function to a different version of the algorithm just
+before removing them relatively soon.  But given that strong preference
+for changing these simple functions instead of duplicating them I've
+changed that patch to do that now.
+
+> We do not need to keep msix_entry array, since it only needed for
+> pci_irq_vector() function. But the same info could be retrieved from
+> msi_desc::irq.
+
+Indeed.  Avoiding this allocation makes these interfaces quite a bit
+simpler.  It requires a few prep patches, but I think it's definitively
+worth, so the next version will avoid the need for the msix_entry array.
+
+> > +	/* use legacy irq if allowed */
+> > +	if (min_vecs == 1)
+> > +		return 1;
+> > +	return -ENOSPC;
+> 
+> The original error code (in vecs) would be overridden with -ENOSPC here.
+
+Ok, fixed.
+
+> > +	WARN_ON_ONCE(!dev->msi_enabled && nr > 0);
+> > +	return dev->irq + nr;
+> 
+> I think this function should check irq number existence and return the
+> vector number or -EINVAL;
+
+Ok, fixed.
+
+> > +		unsigned int flags)
+> > +{
+> > +	if (min_vecs > 1)
+> > +		return -ENOSPC;
+> 
+> In case CONFIG_PCI_MSI is unset min_vecs > 1 is -EINVAL;
+
+Ok, fixed.
