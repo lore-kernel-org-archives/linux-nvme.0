@@ -1,67 +1,61 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 10 Jul 2016 05:47:37 +0200
-Subject: [PATCH 07/13] pci: Provide sensible irq vector alloc/free routines
-In-Reply-To: <20160706080545.GA14583@dhcp-27-118.brq.redhat.com>
+Date: Sun, 10 Jul 2016 05:57:51 +0200
+Subject: [PATCH 08/13] pci: spread interrupt vectors in
+ pci_alloc_irq_vectors
+In-Reply-To: <20160707110501.GA4917@dhcp-27-118.brq.redhat.com>
 References: <1467621574-8277-1-git-send-email-hch@lst.de>
- <1467621574-8277-8-git-send-email-hch@lst.de>
- <20160706080545.GA14583@dhcp-27-118.brq.redhat.com>
-Message-ID: <20160710034737.GB15720@lst.de>
+ <1467621574-8277-9-git-send-email-hch@lst.de>
+ <20160707110501.GA4917@dhcp-27-118.brq.redhat.com>
+Message-ID: <20160710035751.GC15720@lst.de>
 
-On Wed, Jul 06, 2016@10:05:45AM +0200, Alexander Gordeev wrote:
-> > + pci_enable_msi, pci_enable_msi_range, pci_enable_msi_exact, pci_disable_msi,
-> > + pci_msi_vec_count, pci_enable_msix_range, pci_enable_msix_exact,
-> > + pci_disable_msix, pci_msix_vec_count
+On Thu, Jul 07, 2016@01:05:01PM +0200, Alexander Gordeev wrote:
+> irq_create_affinity_mask() bails out with no affinity in case of single
+> vector, but alloc_descs() (see below (*)) assigns the whole affinity
+> mask. It should be consistent instead.
+
+I don't understand the comment.  If we only have one vector (of any
+kinds) there is no need to create an affinity mask, we'll leave the
+interrupt to the existing irq balancing code.
+
+> Actually, I just realized pci_alloc_irq_vectors() should probably call
+> irq_create_affinity_mask() and handle it in a consistent way for all four
+> cases: MSI-X, mulit-MSI, MSI and legacy.
+
+That's what the earlier versions did, but you correctly pointed out
+that we should call irq_create_affinity_mask only after we have reduced
+the number of vectors to the number that the bridges can route, i.e.
+that we have to move it into the pci_enable_msi(x)_range main loop.
+
+> Optionally, the three latter could be dropped for now so you could proceed
+> with NVMe.
+
+NVMe cares for all these cases at least in theory.
+
+> (*) In the future IRQ vs CPU mapping 1:N is possible/desirable so I suppose
+> this piece of code worth a comment or better - a separate function. In fact,
+> this algorithm already exists in alloc_descs(), which makes even more sense
+> to factor it out:
 > 
-> Description of these functions can be removed when all drivers migrated
-> to the new API. Also implementation descriptions + examples would still
-> be needed AFAICT.
-
-I diagreed - if we deprecated functions the only thing that should
-be mentioned is a "don't use these". 
-
-> This function's code almost matches the existing pci_enable_msix_range()
-> so pci_enable_msix_range() should be reworked instead IMHO.
-
-That's what earlier versions of the code did.  However due to the
-fact that we want to avoid over-allocating the msix_vectors array
-(minor) and get the vectors count of the affinity mask right (major,
-as pointed out by you last time) I had to move the allocations inside
-the helpers that loop around the atctual enablement.  I didn't want
-to change the function to a different version of the algorithm just
-before removing them relatively soon.  But given that strong preference
-for changing these simple functions instead of duplicating them I've
-changed that patch to do that now.
-
-> We do not need to keep msix_entry array, since it only needed for
-> pci_irq_vector() function. But the same info could be retrieved from
-> msi_desc::irq.
-
-Indeed.  Avoiding this allocation makes these interfaces quite a bit
-simpler.  It requires a few prep patches, but I think it's definitively
-worth, so the next version will avoid the need for the msix_entry array.
-
-> > +	/* use legacy irq if allowed */
-> > +	if (min_vecs == 1)
-> > +		return 1;
-> > +	return -ENOSPC;
+> 	for (i = 0; i < cnt; i++) {
+> 		if (affinity) {
+> 			cpu = cpumask_next(cpu, affinity);
+> 			if (cpu >= nr_cpu_ids)
+> 				cpu = cpumask_first(affinity);
+> 			node = cpu_to_node(cpu);
 > 
-> The original error code (in vecs) would be overridden with -ENOSPC here.
-
-Ok, fixed.
-
-> > +	WARN_ON_ONCE(!dev->msi_enabled && nr > 0);
-> > +	return dev->irq + nr;
+> 			/*
+> 			 * For single allocations we use the caller provided
+> 			 * mask otherwise we use the mask of the target cpu
+> 			 */
+> 			mask = cnt == 1 ? affinity : cpumask_of(cpu);
+> 		}
 > 
-> I think this function should check irq number existence and return the
-> vector number or -EINVAL;
+> 		[...]
 
-Ok, fixed.
-
-> > +		unsigned int flags)
-> > +{
-> > +	if (min_vecs > 1)
-> > +		return -ENOSPC;
-> 
-> In case CONFIG_PCI_MSI is unset min_vecs > 1 is -EINVAL;
-
-Ok, fixed.
+While these two pieces of code look very similar there is an important
+difference in why and how the mask is calculated.  In alloc_descs()
+the difference here is that cnt = 1 is the MSI-X case where the
+passed in affinity is that for the MSI-X descriptor which is for
+a single vector.  in the MSI case where we have multiple vectors per
+descriptor a different affinity is asigned for each vector based
+of a single passed in mask.
