@@ -1,31 +1,14 @@
-From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
-Date: Mon, 11 Jul 2016 10:55:03 -0300
-Subject: [PATCH v3] nvme/quirk: Add a delay before checking for adapter
- readiness
-In-Reply-To: <20160615102637.GA32253@infradead.org>
-References: <1465939361-16910-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
- <20160615102637.GA32253@infradead.org>
-Message-ID: <5783A537.60105@linux.vnet.ibm.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 11 Jul 2016 10:25:33 -0400
+Subject: [PATCHv3 for-4.7] nvme: Remove RCU namespace protection
+In-Reply-To: <20160710094700.GA5897@infradead.org>
+References: <1467825770-27355-1-git-send-email-keith.busch@intel.com>
+ <20160709010754.GA28997@localhost.localdomain>
+ <20160710094700.GA5897@infradead.org>
+Message-ID: <20160711142531.GA9569@localhost.localdomain>
 
-On 06/15/2016 07:26 AM, Christoph Hellwig wrote:
-> Looks fine,
->
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
+On Sun, Jul 10, 2016@02:47:00AM -0700, Christoph Hellwig wrote:
+> Where are the other two patches from this series?
 
-Thanks Christoph.
-
-Jens/Keith, sorry to bother.
-Wanna ask if there's a plan to merge this patch? If could be merged on 
-4.7 fixes would be amazing, but 4.8 merge window would be nice too.
-
-If there's something you want me to improve, please let me know!
-Thanks,
-
-
-Guilherme
-
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Those only applied to 4.8, so I'll resend those separately. Right now
+I only care about 4.7 to stop the same bug reports hitting my inbox.
