@@ -1,25 +1,27 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 10 Jul 2016 14:14:17 +0200
-Subject: [PATCH] nvme-loop: add configfs dependency
-In-Reply-To: <577E68A5.8080709@kernel.dk>
-References: <20160707090144.3061799-1-arnd@arndb.de>
- <577E68A5.8080709@kernel.dk>
-Message-ID: <20160710121417.GA21551@lst.de>
+From: agordeev@redhat.com (Alexander Gordeev)
+Date: Mon, 11 Jul 2016 12:43:41 +0200
+Subject: [PATCH 07/13] pci: Provide sensible irq vector alloc/free routines
+In-Reply-To: <20160710034737.GB15720@lst.de>
+References: <1467621574-8277-1-git-send-email-hch@lst.de>
+ <1467621574-8277-8-git-send-email-hch@lst.de>
+ <20160706080545.GA14583@dhcp-27-118.brq.redhat.com>
+ <20160710034737.GB15720@lst.de>
+Message-ID: <20160711104340.GB21169@agordeev.lab.eng.brq.redhat.com>
 
-On Thu, Jul 07, 2016@08:35:17AM -0600, Jens Axboe wrote:
-> Thanks Arnd, applied.
+On Sun, Jul 10, 2016@05:47:37AM +0200, Christoph Hellwig wrote:
+> On Wed, Jul 06, 2016@10:05:45AM +0200, Alexander Gordeev wrote:
+> > > + pci_enable_msi, pci_enable_msi_range, pci_enable_msi_exact, pci_disable_msi,
+> > > + pci_msi_vec_count, pci_enable_msix_range, pci_enable_msix_exact,
+> > > + pci_disable_msix, pci_msix_vec_count
+> > 
+> > Description of these functions can be removed when all drivers migrated
+> > to the new API. Also implementation descriptions + examples would still
+> > be needed AFAICT.
+> 
+> I diagreed - if we deprecated functions the only thing that should
+> be mentioned is a "don't use these". 
 
-Actually I think we should replace the select with the depends.  In
-fact I though I had done that a while ago, but I must have messed it up.
-
-Btw - do you plan to grab patches directly from the list now or
-do you want me to queue them up?  There are a few more pending on
-the list that should go in:
-
-http://lists.infradead.org/pipermail/linux-nvme/2016-June/005150.html
-(whole series)
-
-http://lists.infradead.org/pipermail/linux-nvme/2016-July/005290.html
-(needs the attribution fixed to be from Ming)
-
-http://lists.infradead.org/pipermail/linux-nvme/2016-July/005318.html
+I will try to paraphrase myself. The new API deprecates pci_enable_msi*_range
+functions, but I am not that sure about others. Certainly, pci_msi*_vec_count
+and pci_enable_msi*_exact could have (and AFAIR do have) uses that can not be
+covered by automatic initialization of pci_alloc_irq_vectors().
