@@ -1,27 +1,31 @@
-From: agordeev@redhat.com (Alexander Gordeev)
-Date: Mon, 11 Jul 2016 12:43:41 +0200
-Subject: [PATCH 07/13] pci: Provide sensible irq vector alloc/free routines
-In-Reply-To: <20160710034737.GB15720@lst.de>
-References: <1467621574-8277-1-git-send-email-hch@lst.de>
- <1467621574-8277-8-git-send-email-hch@lst.de>
- <20160706080545.GA14583@dhcp-27-118.brq.redhat.com>
- <20160710034737.GB15720@lst.de>
-Message-ID: <20160711104340.GB21169@agordeev.lab.eng.brq.redhat.com>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Mon, 11 Jul 2016 10:55:03 -0300
+Subject: [PATCH v3] nvme/quirk: Add a delay before checking for adapter
+ readiness
+In-Reply-To: <20160615102637.GA32253@infradead.org>
+References: <1465939361-16910-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
+ <20160615102637.GA32253@infradead.org>
+Message-ID: <5783A537.60105@linux.vnet.ibm.com>
 
-On Sun, Jul 10, 2016@05:47:37AM +0200, Christoph Hellwig wrote:
-> On Wed, Jul 06, 2016@10:05:45AM +0200, Alexander Gordeev wrote:
-> > > + pci_enable_msi, pci_enable_msi_range, pci_enable_msi_exact, pci_disable_msi,
-> > > + pci_msi_vec_count, pci_enable_msix_range, pci_enable_msix_exact,
-> > > + pci_disable_msix, pci_msix_vec_count
-> > 
-> > Description of these functions can be removed when all drivers migrated
-> > to the new API. Also implementation descriptions + examples would still
-> > be needed AFAICT.
-> 
-> I diagreed - if we deprecated functions the only thing that should
-> be mentioned is a "don't use these". 
+On 06/15/2016 07:26 AM, Christoph Hellwig wrote:
+> Looks fine,
+>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
 
-I will try to paraphrase myself. The new API deprecates pci_enable_msi*_range
-functions, but I am not that sure about others. Certainly, pci_msi*_vec_count
-and pci_enable_msi*_exact could have (and AFAIR do have) uses that can not be
-covered by automatic initialization of pci_alloc_irq_vectors().
+Thanks Christoph.
+
+Jens/Keith, sorry to bother.
+Wanna ask if there's a plan to merge this patch? If could be merged on 
+4.7 fixes would be amazing, but 4.8 merge window would be nice too.
+
+If there's something you want me to improve, please let me know!
+Thanks,
+
+
+Guilherme
+
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
