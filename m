@@ -1,27 +1,25 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Tue, 12 Jul 2016 07:18:43 -0700
-Subject: [PATCH -next] nvme-rdma: fix the return value of
- nvme_rdma_reinit_request()
-In-Reply-To: <1468321577-16278-1-git-send-email-weiyj_lk@163.com>
-References: <1468321577-16278-1-git-send-email-weiyj_lk@163.com>
-Message-ID: <1468333123.6604.2.camel@linux.intel.com>
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 12 Jul 2016 08:23:21 -0700
+Subject: [PATCH v3] nvme/quirk: Add a delay before checking for adapter
+ readiness
+In-Reply-To: <5783A537.60105@linux.vnet.ibm.com>
+References: <1465939361-16910-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
+ <20160615102637.GA32253@infradead.org> <5783A537.60105@linux.vnet.ibm.com>
+Message-ID: <57850B69.70108@fb.com>
 
-On Tue, 2016-07-12@11:06 +0000, weiyj_lk@163.com wrote:
-> From: Wei Yongjun <yongjun_wei at trendmicro.com.cn>
-> 
-> PTR_ERR should be applied before its argument is reassigned,
-> otherwise the
-> return value will be set to 0, not error code.
+On 07/11/2016 06:55 AM, Guilherme G. Piccoli wrote:
+> On 06/15/2016 07:26 AM, Christoph Hellwig wrote:
+>> Looks fine,
+>>
+>> Reviewed-by: Christoph Hellwig <hch at lst.de>
+>
+> Thanks Christoph.
+>
+> Jens/Keith, sorry to bother.
+> Wanna ask if there's a plan to merge this patch? If could be merged on
+> 4.7 fixes would be amazing, but 4.8 merge window would be nice too.
 
-Another good catch.
+I have added it for 4.8, thanks.
 
-Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-
-> 
-> Signed-off-by: Wei Yongjun <yongjun_wei at trendmicro.com.cn>
-
->  	if (IS_ERR(req->mr)) {
-> -		req->mr = NULL;
->  		ret = PTR_ERR(req->mr);
-> +		req->mr = NULL;
->  	}
+-- 
+Jens Axboe
