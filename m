@@ -1,24 +1,23 @@
 From: axboe@fb.com (Jens Axboe)
-Date: Tue, 12 Jul 2016 16:21:24 -0700
-Subject: [PATCH] nvme: Limit command retries
-In-Reply-To: <1466444691-29448-1-git-send-email-keith.busch@intel.com>
-References: <1466444691-29448-1-git-send-email-keith.busch@intel.com>
-Message-ID: <57857B74.2040003@fb.com>
+Date: Tue, 12 Jul 2016 16:38:18 -0700
+Subject: [PATCH] nvme-fabrics: add-remove ctrl repeat fix
+In-Reply-To: <1468365306.14674.4.camel@linux.intel.com>
+References: <1467400412-13052-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <1468365306.14674.4.camel@linux.intel.com>
+Message-ID: <57857F6A.6000406@fb.com>
 
-On 06/20/2016 10:44 AM, Keith Busch wrote:
-> Many controller implementations will return errors to commands that will
-> not succeed, but without the DNR bit set. The driver previously retried
-> these commands an unlimited number of times until the command timeout
-> has exceeded, which takes an unnecessarilly long period of time.
+On 07/12/2016 04:15 PM, J Freyensee wrote:
+> On Fri, 2016-07-01@12:13 -0700, Jay Freyensee wrote:
 >
-> This patch limits the number of retries a command can have, defaulting
-> to 5, but is user tunable at load or runtime.
+> I haven't seen this patch get folded in on the list yet, though
+> Christoph OK'ed the fix, minus the 'Fix by:' I used instead of 'From:'.
 >
-> The struct request's 'retries' field is used to track the number of
-> retries attempted. This is in contrast with scsi's use of this field,
-> which indicates how many retries are allowed.
+> Has this been folded into 4.8?  Should I go ahead and re-spin the patch
+> and make the tweak change?  Be nice to eliminate this kernel crash with
+> fabrics being merged into 4.8 kernel.
 
-Added for 4.8, thanks.
+It was added into for-4.8/drivers earlier today, with the author 
+attribution fixed.
 
 -- 
 Jens Axboe
