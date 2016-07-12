@@ -1,103 +1,63 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 12 Jul 2016 17:17:03 -0500
-Subject: crash on device removal
-In-Reply-To: <1468360076.10045.0.camel@ssi>
-References: <00cb01d1dc5b$51c05970$f5410c50$@opengridcomputing.com>	
- <1468356054.5426.1.camel@ssi>	
- <010201d1dc81$9f59cf10$de0d6d30$@opengridcomputing.com>
- <1468360076.10045.0.camel@ssi>
-Message-ID: <013f01d1dc8b$1df9cc90$59ed65b0$@opengridcomputing.com>
+From: mlin@kernel.org (Ming Lin)
+Date: Tue, 12 Jul 2016 15:38:42 -0700
+Subject: [PATCH] nvme-fabrics: get ctrl reference in nvmf_dev_write
+Message-ID: <1468363122-11073-1-git-send-email-mlin@kernel.org>
 
-> On Tue, 2016-07-12@16:09 -0500, Steve Wise wrote:
-> > > On Tue, 2016-07-12@11:34 -0500, Steve Wise wrote:
-> > > > Hey Christoph,
-> > > >
-> > > > I see a crash when shutting down a nvme host node via 'reboot' that has 1
-> target
-> > > > device attached.  The shutdown causes iw_cxgb4 to be removed which
-> triggers
-> > > the
-> > > > device removal logic in the nvmf rdma transport.  The crash is here:
-> > > >
-> > > > (gdb) list *nvme_rdma_free_qe+0x18
-> > > > 0x1e8 is in nvme_rdma_free_qe (drivers/nvme/host/rdma.c:196).
-> > > > 191     }
-> > > > 192
-> > > > 193     static void nvme_rdma_free_qe(struct ib_device *ibdev, struct
-> > > > nvme_rdma_qe *qe,
-> > > > 194                     size_t capsule_size, enum dma_data_direction dir)
-> > > > 195     {
-> > > > 196             ib_dma_unmap_single(ibdev, qe->dma, capsule_size, dir);
-> > > > 197             kfree(qe->data);
-> > > > 198     }
-> > > > 199
-> > > > 200     static int nvme_rdma_alloc_qe(struct ib_device *ibdev, struct
-> > > > nvme_rdma_qe *qe,
-> > > >
-> > > > Apparently qe is NULL.
-> > > >
-> > > > Looking at the device removal path, the logic appears correct (see
-> > > > nvme_rdma_device_unplug() and the nice function comment :) ).  I'm
-> wondering
-> > > if
-> > > > concurrently to the host device removal path cleaning up queues, the target is
-> > > > disconnecting all of its queues due to the first disconnect event from the host
-> > > > causing some cleanup race on the host side?  Although since the removal path
-> > > > executing in the cma event handler upcall, I don't think another thread would
-> be
-> > > > handling a disconnect event.  Maybe the qp async event handler flow?
-> > > >
-> > > > Thoughts?
-> > >
-> > > We actually missed a kref_get in nvme_get_ns_from_disk().
-> > >
-> > > This should fix it. Could you help to verify?
-> > >
-> > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > > index 4babdf0..b146f52 100644
-> > > --- a/drivers/nvme/host/core.c
-> > > +++ b/drivers/nvme/host/core.c
-> > > @@ -183,6 +183,8 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct
-> > > gendisk *disk)
-> > >  	}
-> > >  	spin_unlock(&dev_list_lock);
-> > >
-> > > +	kref_get(&ns->ctrl->kref);
-> > > +
-> > >  	return ns;
-> > >
-> > >  fail_put_ns:
-> >
-> > Hey Ming.  This avoids the crash in nvme_rdma_free_qe(), but now I see another
-> crash:
-> >
-> > [  975.633436] nvme nvme0: new ctrl: NQN "nqn.2014-
-> 08.org.nvmexpress.discovery", addr 10.0.1.14:4420
-> > [  978.463636] nvme nvme0: creating 32 I/O queues.
-> > [  979.187826] nvme nvme0: new ctrl: NQN "testnqn", addr 10.0.1.14:4420
-> > [  987.778287] nvme nvme0: Got rdma device removal event, deleting ctrl
-> > [  987.882202] BUG: unable to handle kernel paging request at ffff880e770e01f8
-> > [  987.890024] IP: [<ffffffffa03a1a46>] __ib_process_cq+0x46/0xc0 [ib_core]
-> >
-> > This looks like another problem with freeing the tag sets before stopping the QP.
-> I thought we fixed that once and for all, but perhaps there is some other path we
-> missed. :(
-> 
-> Sorry, the previous patch was wrong.
-> Here is the right one.
-> 
-> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-> index 1ad47c5..f13e3a6 100644
-> --- a/drivers/nvme/host/fabrics.c
-> +++ b/drivers/nvme/host/fabrics.c
-> @@ -845,6 +845,7 @@ static ssize_t nvmf_dev_write(struct file *file, const char
-> __user *ubuf,
->  		goto out_unlock;
->  	}
-> 
-> +	kref_get(&ctrl->kref);
->  	seq_file->private = ctrl;
-> 
->  out_unlock:
+From: Ming Lin <ming.l@samsung.com>
 
-I still see the ib_poll_cq crash with this patch.  I'm adding new debug to figure out the flush issue...
+Below crash was triggered when shutting down a nvme host node
+via 'reboot' that has 1 target device attached.
+
+That's because nvmf_dev_release() put the ctrl reference, but
+we didn't get the reference in nvmf_dev_write().
+
+So the ctrl was freed in nvme_rdma_free_ctrl() before nvme_rdma_free_ring()
+was called.
+
+[   88.897220] BUG: unable to handle kernel paging request at ffffebe00400f820
+[   88.905226] IP: [<ffffffff811e8d76>] kfree+0x56/0x170
+[   89.182264] Call Trace:
+[   89.185899]  [<ffffffffc09f7052>] nvme_rdma_free_ring.constprop.42+0x42/0xb0 [nvme_rdma]
+[   89.195193]  [<ffffffffc09f77ba>] nvme_rdma_destroy_queue_ib+0x3a/0x60 [nvme_rdma]
+[   89.203969]  [<ffffffffc09f92bc>] nvme_rdma_cm_handler+0x69c/0x8b6 [nvme_rdma]
+[   89.212406]  [<ffffffff811e859b>] ? __slab_free+0x9b/0x2b0
+[   89.219101]  [<ffffffffc0a2c694>] cma_remove_one+0x1f4/0x220 [rdma_cm]
+[   89.226838]  [<ffffffffc09415b3>] ib_unregister_device+0xc3/0x160 [ib_core]
+[   89.235008]  [<ffffffffc0a0798a>] mlx4_ib_remove+0x6a/0x220 [mlx4_ib]
+[   89.242656]  [<ffffffffc097ede7>] mlx4_remove_device+0x97/0xb0 [mlx4_core]
+[   89.250732]  [<ffffffffc097f48e>] mlx4_unregister_device+0x3e/0xa0 [mlx4_core]
+[   89.259151]  [<ffffffffc0983a46>] mlx4_unload_one+0x86/0x2f0 [mlx4_core]
+[   89.267049]  [<ffffffffc0983d97>] mlx4_shutdown+0x57/0x70 [mlx4_core]
+[   89.274680]  [<ffffffff8141c4b6>] pci_device_shutdown+0x36/0x70
+[   89.281792]  [<ffffffff81526c13>] device_shutdown+0xd3/0x180
+[   89.288638]  [<ffffffff8109e556>] kernel_restart_prepare+0x36/0x40
+[   89.296003]  [<ffffffff8109e602>] kernel_restart+0x12/0x60
+[   89.302688]  [<ffffffff8109e983>] SYSC_reboot+0x1f3/0x220
+[   89.309266]  [<ffffffff81186048>] ? __filemap_fdatawait_range+0xa8/0x150
+[   89.317151]  [<ffffffff8123ec20>] ? fdatawait_one_bdev+0x20/0x20
+[   89.324335]  [<ffffffff81188585>] ? __filemap_fdatawrite_range+0xb5/0xf0
+[   89.332227]  [<ffffffff8122880a>] ? iput+0x8a/0x200
+[   89.338294]  [<ffffffff8123ec00>] ? sync_inodes_one_sb+0x20/0x20
+[   89.345465]  [<ffffffff812480d7>] ? iterate_bdevs+0x117/0x130
+[   89.352367]  [<ffffffff8109ea0e>] SyS_reboot+0xe/0x10
+
+Reported-by: Steve Wise <swise at opengridcomputing.com>
+Signed-off-by: Ming Lin <ming.l at samsung.com>
+---
+ drivers/nvme/host/fabrics.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 1ad47c5..f13e3a6 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -845,6 +845,7 @@ static ssize_t nvmf_dev_write(struct file *file, const char __user *ubuf,
+ 		goto out_unlock;
+ 	}
+ 
++	kref_get(&ctrl->kref);
+ 	seq_file->private = ctrl;
+ 
+ out_unlock:
+-- 
+1.9.1
