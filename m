@@ -1,28 +1,18 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Wed, 13 Jul 2016 09:16:01 -0700
-Subject: [PATCH] nvme-fabrics: add-remove ctrl repeat fix
-In-Reply-To: <57857F6A.6000406@fb.com>
-References: <1467400412-13052-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1468365306.14674.4.camel@linux.intel.com> <57857F6A.6000406@fb.com>
-Message-ID: <1468426561.3223.0.camel@linux.intel.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 13 Jul 2016 11:17:36 -0500
+Subject: crash on device removal
+In-Reply-To: <005a01d1dd17$f008a620$d019f260$@opengridcomputing.com>
+References: <00cb01d1dc5b$51c05970$f5410c50$@opengridcomputing.com>
+ <578611AA.4000103@grimberg.me>
+ <005a01d1dd17$f008a620$d019f260$@opengridcomputing.com>
+Message-ID: <008d01d1dd22$11e19cc0$35a4d640$@opengridcomputing.com>
 
-On Tue, 2016-07-12@16:38 -0700, Jens Axboe wrote:
-> On 07/12/2016 04:15 PM, J Freyensee wrote:
-> > On Fri, 2016-07-01@12:13 -0700, Jay Freyensee wrote:
-> > 
-> > I haven't seen this patch get folded in on the list yet, though
-> > Christoph OK'ed the fix, minus the 'Fix by:' I used instead of
-> > 'From:'.
-> > 
-> > Has this been folded into 4.8?  Should I go ahead and re-spin the
-> > patch
-> > and make the tweak change?  Be nice to eliminate this kernel crash
-> > with
-> > fabrics being merged into 4.8 kernel.
+> > Hey Steve,
+> >
+> > I never got this error (but didn't test with cxgb4, did this happen
+> > with mlx4/5?).
 > 
-> It was added into for-4.8/drivers earlier today, with the author 
-> attribution fixed.
-
-Thanks Jens!!
-
+> Hey Sagi, I don't see this with mlx4.
 > 
+
+Correction, I ran the mlx4_ib rmmod test again and hit it.
