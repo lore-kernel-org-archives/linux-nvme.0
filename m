@@ -1,18 +1,23 @@
 From: axboe@fb.com (Jens Axboe)
-Date: Wed, 13 Jul 2016 09:18:18 -0700
-Subject: [PATCH] nvme: avoid crashes when node 0 is memoryless node.
-In-Reply-To: <5785DBF7.600@jp.fujitsu.com>
-References: <576739CD.2010002@jp.fujitsu.com>
- <20160620154439.GE12936@localhost.localdomain> <5785DBF7.600@jp.fujitsu.com>
-Message-ID: <578669CA.4010904@fb.com>
+Date: Wed, 13 Jul 2016 09:23:00 -0700
+Subject: [patch] nvme-rdma: fix an error code
+In-Reply-To: <20160713100320.GC29468@mwanda>
+References: <20160713100320.GC29468@mwanda>
+Message-ID: <57866AE4.9040407@fb.com>
 
-On 07/12/2016 11:13 PM, Masayoshi Mizuma wrote:
+On 07/13/2016 03:03 AM, Dan Carpenter wrote:
+> We accidentally return success when an error code was intended.
 >
-> Keith and Johannes, thank you for reviewing!
->
-> Jens, please add this patch for 4.8.
+> Fixes: 711023071960 ('nvme-rdma: add a NVMe over Fabrics RDMA host driver')
+> Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
 
-Added, thanks.
+This is already fixed, what branch are you looking at?
+
+commit 458a9632ad7428e16e1feafb61aca33a11ac2f46
+Author: Wei Yongjun <yongjun_wei at trendmicro.com.cn>
+Date:   Tue Jul 12 11:06:17 2016 +0000
+
+     nvme-rdma: fix the return value of nvme_rdma_reinit_request()
 
 -- 
 Jens Axboe
