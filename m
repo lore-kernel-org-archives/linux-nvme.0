@@ -1,10 +1,11 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 13 Jul 2016 13:12:01 +0300
-Subject: [PATCH] nvmet-rdma: fix nvmet_rdma_rsp leak
-In-Reply-To: <1467221797-2576-1-git-send-email-mlin@kernel.org>
-References: <1467221797-2576-1-git-send-email-mlin@kernel.org>
-Message-ID: <578613F1.1020502@grimberg.me>
+Date: Wed, 13 Jul 2016 13:12:50 +0300
+Subject: [PATCH] nvme-fabrics: change NQN UUID to big-endian format
+In-Reply-To: <1467138023-41671-1-git-send-email-daniel.verkamp@intel.com>
+References: <20160628084547.GA31465@infradead.org>
+ <1467138023-41671-1-git-send-email-daniel.verkamp@intel.com>
+Message-ID: <57861422.1060806@grimberg.me>
 
-Looks good, thanks Ming!
+Thanks Daniel,
 
-Reviewed-by: Sagi Grimberg <sagi at gimberg.me>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
