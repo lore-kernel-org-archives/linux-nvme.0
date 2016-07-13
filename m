@@ -1,18 +1,18 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 13 Jul 2016 11:17:36 -0500
-Subject: crash on device removal
-In-Reply-To: <005a01d1dd17$f008a620$d019f260$@opengridcomputing.com>
-References: <00cb01d1dc5b$51c05970$f5410c50$@opengridcomputing.com>
- <578611AA.4000103@grimberg.me>
- <005a01d1dd17$f008a620$d019f260$@opengridcomputing.com>
-Message-ID: <008d01d1dd22$11e19cc0$35a4d640$@opengridcomputing.com>
+From: axboe@fb.com (Jens Axboe)
+Date: Wed, 13 Jul 2016 09:18:18 -0700
+Subject: [PATCH] nvme: avoid crashes when node 0 is memoryless node.
+In-Reply-To: <5785DBF7.600@jp.fujitsu.com>
+References: <576739CD.2010002@jp.fujitsu.com>
+ <20160620154439.GE12936@localhost.localdomain> <5785DBF7.600@jp.fujitsu.com>
+Message-ID: <578669CA.4010904@fb.com>
 
-> > Hey Steve,
-> >
-> > I never got this error (but didn't test with cxgb4, did this happen
-> > with mlx4/5?).
-> 
-> Hey Sagi, I don't see this with mlx4.
-> 
+On 07/12/2016 11:13 PM, Masayoshi Mizuma wrote:
+>
+> Keith and Johannes, thank you for reviewing!
+>
+> Jens, please add this patch for 4.8.
 
-Correction, I ran the mlx4_ib rmmod test again and hit it.
+Added, thanks.
+
+-- 
+Jens Axboe
