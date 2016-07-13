@@ -1,12 +1,22 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 13 Jul 2016 16:33:38 -0500
-Subject: [PATCH 2/2] nvme-rdma: move admin queue cleanup to
- nvme_rdma_free_ctrl
-In-Reply-To: <1468445196-6915-3-git-send-email-mlin@kernel.org>
+Date: Wed, 13 Jul 2016 16:58:29 -0500
+Subject: [PATCH 0/2] nvme-rdma: device removal crash fixes
+In-Reply-To: <1468445196-6915-1-git-send-email-mlin@kernel.org>
 References: <1468445196-6915-1-git-send-email-mlin@kernel.org>
- <1468445196-6915-3-git-send-email-mlin@kernel.org>
-Message-ID: <012501d1dd4e$3823c170$a86b4450$@opengridcomputing.com>
+Message-ID: <013a01d1dd51$b08cec10$11a6c430$@opengridcomputing.com>
 
-Looks good.
+> From: Ming Lin <ming.l at samsung.com>
+> 
+> Here are 2 fixes for the device removal crash.
+> 
+> Steve,
+> 
+> Could you review and add tag if you feel OK?
+> Thanks again for your great debug.
 
-Reviewed-by: Steve Wise <swise at opengridcomputing.com>
+Thanks for the quick fixes.
+
+The series tests good.  I verified no crashing on module unload/shutdown using
+both cxgb4 and mlx4.
+
+Tested-by: Steve Wise <swise at opengridcomputing.com>
