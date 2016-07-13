@@ -1,22 +1,30 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 13 Jul 2016 16:58:29 -0500
-Subject: [PATCH 0/2] nvme-rdma: device removal crash fixes
-In-Reply-To: <1468445196-6915-1-git-send-email-mlin@kernel.org>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Wed, 13 Jul 2016 16:19:46 -0700
+Subject: [PATCH 2/2] nvme-rdma: move admin queue cleanup to
+ nvme_rdma_free_ctrl
+In-Reply-To: <1468445196-6915-3-git-send-email-mlin@kernel.org>
 References: <1468445196-6915-1-git-send-email-mlin@kernel.org>
-Message-ID: <013a01d1dd51$b08cec10$11a6c430$@opengridcomputing.com>
+ <1468445196-6915-3-git-send-email-mlin@kernel.org>
+Message-ID: <1468451986.4105.3.camel@linux.intel.com>
 
-> From: Ming Lin <ming.l at samsung.com>
-> 
-> Here are 2 fixes for the device removal crash.
-> 
-> Steve,
-> 
-> Could you review and add tag if you feel OK?
-> Thanks again for your great debug.
 
-Thanks for the quick fixes.
+>  static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
+> @@ -687,6 +684,10 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl
+> *nctrl)
+>  	list_del(&ctrl->list);
+>  	mutex_unlock(&nvme_rdma_ctrl_mutex);
+>  
+> +	blk_cleanup_queue(ctrl->ctrl.admin_q);
+> +	blk_mq_free_tag_set(&ctrl->admin_tag_set);
+> +	nvme_rdma_dev_put(ctrl->device);
+> +
+>  	if (ctrl->ctrl.tagset) {
+>  		blk_cleanup_queue(ctrl->ctrl.connect_q);
+>  		blk_mq_free_tag_set(&ctrl->tag_set);
 
-The series tests good.  I verified no crashing on module unload/shutdown using
-both cxgb4 and mlx4.
+This patch does not remove the second
 
-Tested-by: Steve Wise <swise at opengridcomputing.com>
+nvme_rdma_dev_put(ctrl->device);
+
+call that happens within the if() statement above if it evaluates to
+TRUE.  Should that have been removed or moved elsewhere?
