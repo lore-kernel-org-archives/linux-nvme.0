@@ -1,25 +1,23 @@
-From: dan.carpenter@oracle.com (Dan Carpenter)
-Date: Wed, 13 Jul 2016 22:33:30 +0300
-Subject: [patch] nvme-rdma: fix an error code
-In-Reply-To: <57866AE4.9040407@fb.com>
-References: <20160713100320.GC29468@mwanda>
- <57866AE4.9040407@fb.com>
-Message-ID: <20160713193330.GW32247@mwanda>
+From: mlin@kernel.org (Ming Lin)
+Date: Wed, 13 Jul 2016 14:26:34 -0700
+Subject: [PATCH 0/2] nvme-rdma: device removal crash fixes
+Message-ID: <1468445196-6915-1-git-send-email-mlin@kernel.org>
 
-On Wed, Jul 13, 2016@09:23:00AM -0700, Jens Axboe wrote:
-> On 07/13/2016 03:03 AM, Dan Carpenter wrote:
-> >We accidentally return success when an error code was intended.
-> >
-> >Fixes: 711023071960 ('nvme-rdma: add a NVMe over Fabrics RDMA host driver')
-> >Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
-> 
-> This is already fixed, what branch are you looking at?
-> 
+From: Ming Lin <ming.l@samsung.com>
 
-Thanks.
+Here are 2 fixes for the device removal crash.
 
-Linux-next, but I wait a day before sending them out so I can review
-them the next day.  So yesterday's linux-next, I guess.
+Steve,
 
-regards,
-dan carpenter
+Could you review and add tag if you feel OK?
+Thanks again for your great debug.
+
+Ming Lin (2):
+  nvme-rdma: grab reference for device removal event
+  nvme-rdma: move admin queue cleanup to nvme_rdma_free_ctrl
+
+ drivers/nvme/host/rdma.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+-- 
+1.9.1
