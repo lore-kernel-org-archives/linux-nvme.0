@@ -1,23 +1,23 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Tue, 12 Jul 2016 16:38:18 -0700
-Subject: [PATCH] nvme-fabrics: add-remove ctrl repeat fix
-In-Reply-To: <1468365306.14674.4.camel@linux.intel.com>
-References: <1467400412-13052-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1468365306.14674.4.camel@linux.intel.com>
-Message-ID: <57857F6A.6000406@fb.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 13 Jul 2016 04:18:31 +0200
+Subject: [PATCH] nvme-fabrics: get ctrl reference in nvmf_dev_write
+In-Reply-To: <1468363122-11073-1-git-send-email-mlin@kernel.org>
+References: <1468363122-11073-1-git-send-email-mlin@kernel.org>
+Message-ID: <20160713021831.GA7782@lst.de>
 
-On 07/12/2016 04:15 PM, J Freyensee wrote:
-> On Fri, 2016-07-01@12:13 -0700, Jay Freyensee wrote:
->
-> I haven't seen this patch get folded in on the list yet, though
-> Christoph OK'ed the fix, minus the 'Fix by:' I used instead of 'From:'.
->
-> Has this been folded into 4.8?  Should I go ahead and re-spin the patch
-> and make the tweak change?  Be nice to eliminate this kernel crash with
-> fabrics being merged into 4.8 kernel.
+On Tue, Jul 12, 2016@03:38:42PM -0700, Ming Lin wrote:
+> From: Ming Lin <ming.l at samsung.com>
+> 
+> Below crash was triggered when shutting down a nvme host node
+> via 'reboot' that has 1 target device attached.
+> 
+> That's because nvmf_dev_release() put the ctrl reference, but
+> we didn't get the reference in nvmf_dev_write().
+> 
+> So the ctrl was freed in nvme_rdma_free_ctrl() before nvme_rdma_free_ring()
+> was called.
 
-It was added into for-4.8/drivers earlier today, with the author 
-attribution fixed.
-
--- 
-Jens Axboe
+The ->create_ctrl methods do a kref_init for the main refererence,
+and a kref_get for the reference that nvmf_dev_release drops,
+so I'm a bit confused how this case could happen.  I think we'll need to
+dig a bit deeper on what's actually happening here.
