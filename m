@@ -1,58 +1,109 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 13 Jul 2016 18:02:26 +0300
-Subject: [PATCH] nvme-rdma: Always signal fabrics private commands
-In-Reply-To: <005501d1dd16$1a32f060$4e98d120$@opengridcomputing.com>
-References: <1466698104-32521-1-git-send-email-sagi@grimberg.me>
- <20160624070740.GB4252@infradead.org> <577005C3.4000802@grimberg.me>
- <20160628084105.GA13533@lst.de>
- <005201d1d148$32c33740$9849a5c0$@opengridcomputing.com>
- <010501d1d216$86c0f0c0$9442d240$@opengridcomputing.com>
- <20160630063637.GB5191@lst.de>
- <002c01d1d2d5$777d9180$6678b480$@opengridcomputing.com>
- <57861339.7090705@grimberg.me> <578613C8.7030005@grimberg.me>
- <001f01d1dd12$c5fb8500$51f28f00$@opengridcomputing.com>
- <57865479.1080707@grimberg.me>
- <005501d1dd16$1a32f060$4e98d120$@opengridcomputing.com>
-Message-ID: <57865802.1030408@grimberg.me>
+From: sagi@lightbits.io (Sagi Grimberg)
+Date: Wed, 13 Jul 2016 18:03:53 +0300
+Subject: [PATCH] nvme-fabrics: get ctrl reference in nvmf_dev_write
+In-Reply-To: <57862150.6070304@grimberg.me>
+References: <1468363122-11073-1-git-send-email-mlin@kernel.org>
+ <20160713021831.GA7782@lst.de> <1468392841.23662.5.camel@kernel.org>
+ <57862150.6070304@grimberg.me>
+Message-ID: <57865859.8010207@lightbits.io>
 
+Didn't make it to the list, resending...
 
->> Think of a case where we posted unsignaled send, got a successful reply
->> from the peer, now we drain the qp, and the send which belongs to a
->> transaction that we already completed is flush with error. Does that
->> sound like a correct behavior?
->
-> Well, from the specification, yes.    From
-> https://tools.ietf.org/html/draft-hilland-rddp-verbs-00#section-8.1.3.1 :
->
-> ----
-> An Unsignaled WR is defined as completed successfully when all of
->     the following rules are met:
->
->
->     *   A Work Completion is retrieved from the CQ associated with the
->         SQ where the unsignaled Work Request was posted,
->
->     *   that Work Completion corresponds to a subsequent Work Request on
->         the same Send Queue as the unsignaled Work Request, and
->
->     *   the subsequent Work Request is ordered after the unsignaled Work
->         Request as per the ordering rules. Depending on the Work Request
->         used, this may require using the Local Fence indicator in order
->         to guarantee ordering.
-> ---
+>>>> Below crash was triggered when shutting down a nvme host node
+>>>> via 'reboot' that has 1 target device attached.
+>>>>
+>>>> That's because nvmf_dev_release() put the ctrl reference, but
+>>>> we didn't get the reference in nvmf_dev_write().
+>>>>
+>>>> So the ctrl was freed in nvme_rdma_free_ctrl() before
+>>>> nvme_rdma_free_ring()
+>>>> was called.
+>>>
+>>> The ->create_ctrl methods do a kref_init for the main refererence,
+>>> and a kref_get for the reference that nvmf_dev_release drops,
+>>> so I'm a bit confused how this case could happen.  I think we'll need
+>>> to
+>>> dig a bit deeper on what's actually happening here.
+>>
+>> You are right.
+>>
+>> I added some debug info.
+>>
+>> [31948.771952] MYDEBUG: init kref: nvme_init_ctrl
+>> [31948.798589] MYDEBUG: get: nvme_rdma_create_ctrl
+>> [31948.803765] MYDEBUG: put: nvmf_dev_release
+>> [31948.808734] MYDEBUG: get: nvme_alloc_ns
+>> [31948.884775] MYDEBUG: put: nvme_free_ns
+>> [31948.890155] MYDEBUG in nvme_rdma_destroy_queue_ib: queue
+>> ffff8800cdc81470: io queue
+>> [31948.900539] MYDEBUG: put: nvme_rdma_del_ctrl_work
+>> [31948.909469] MYDEBUG: nvme_rdma_free_ctrl called
+>> [31948.915379] MYDEBUG in nvme_rdma_destroy_queue_ib: queue
+>> ffff8800cdc81400: admin queue
+>>
+>> So nvme_rdma_destroy_queue_ib() was called for admin queue after ctrl
+>> was already freed.
+>>
+>> With below patch, the debug info shows:
+>>
+>> [32139.379831] MYDEBUG: get/init: nvme_init_ctrl
+>> [32139.407166] MYDEBUG: get: nvme_rdma_create_ctrl
+>> [32139.412463] MYDEBUG: put: nvmf_dev_release
+>> [32139.417697] MYDEBUG: get: nvme_alloc_ns
+>> [32139.418422] MYDEBUG: get: nvme_rdma_device_unplug
+>> [32139.474154] MYDEBUG: put: nvme_free_ns
+>> [32139.479406] MYDEBUG in nvme_rdma_destroy_queue_ib: queue
+>> ffff8800347c6470: io queue
+>> [32139.489532] MYDEBUG: put: nvme_rdma_del_ctrl_work
+>> [32139.496048] MYDEBUG in nvme_rdma_destroy_queue_ib: queue
+>> ffff8800347c6400: admin queue
+>> [32139.739089] MYDEBUG: put: nvme_rdma_device_unplug
+>> [32139.748175] MYDEBUG: nvme_rdma_free_ctrl called
+>>
+>> and the crash was fixed.
+>>
+>> What do you think?
+>>
+>> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+>> index e1205c0..284d980 100644
+>> --- a/drivers/nvme/host/rdma.c
+>> +++ b/drivers/nvme/host/rdma.c
+>> @@ -1323,6 +1323,12 @@ static int nvme_rdma_device_unplug(struct
+>> nvme_rdma_queue *queue)
+>>       if (!test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags))
+>>           goto out;
+>>
+>> +    /*
+>> +     * Grab a reference so the ctrl won't be freed before we free
+>> +     * the last queue
+>> +     */
+>> +    kref_get(&ctrl->ctrl.kref);
+>> +
+>>       /* delete the controller */
+>>       ret = __nvme_rdma_del_ctrl(ctrl);
+>>       if (!ret) {
+>> @@ -1339,6 +1345,8 @@ static int nvme_rdma_device_unplug(struct
+>> nvme_rdma_queue *queue)
+>>           nvme_rdma_destroy_queue_ib(queue);
+>>       }
+>>
+>> +    nvme_put_ctrl(&ctrl->ctrl);
+>> +
+>>   out:
+>>       return ctrl_deleted;
+>>   }
+>>
 
-OK, thanks for educating me :)
+Hey Ming,
 
-> So in your example, even though the application knows the SEND made it because
-> the peer replied and genereated an RQ completion, the iwarp provider does not
-> know the SEND made it...
+Device removal event on a queue triggers controller deletion, waits for
+it to complete, and then free up it's own queue (in order not to
+deadlock with controller deletion).
 
-So we have two options here:
+Even though the ctrl was deleted, I don't see where can the rsp_ring is
+freed (or can become NULL). Because as far as I see,
+nvme_rdma_destroy_queue_ib() can only be called once.
 
-1. always make sure not to free anything related to SQEs until we
-destroy the QP (hopefully won't bite us again, which is not a good
-bet given that the sequence is not trivial).
-
-2. always signal sends for iWARP (yukk...)
-
-I pick poison 1 (for now...)
+Your patch simply delays nvme_rdma_free_ctrl, but I still don't see the
+root-cause, what is in nvme_rdma_free_ctrl that prevents
+nvme_rdma_destroy_queue_ib to complete successfully?
