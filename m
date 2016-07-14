@@ -1,98 +1,28 @@
-From: mlin@kernel.org (Ming Lin)
-Date: Wed, 13 Jul 2016 23:39:06 -0700
-Subject: [PATCH 2/2] nvme-rdma: move admin queue cleanup to
- nvme_rdma_free_ctrl
-In-Reply-To: <1468454377.4105.18.camel@linux.intel.com>
-References: <1468445196-6915-1-git-send-email-mlin@kernel.org>
- <1468445196-6915-3-git-send-email-mlin@kernel.org>
- <1468451986.4105.3.camel@linux.intel.com>
- <CAF1ivSZfcnS7Hte6dKiNBerxzt9QHPHddDNyJiEe_MSfUpfLZg@mail.gmail.com>
- <1468454377.4105.18.camel@linux.intel.com>
-Message-ID: <1468478346.28573.1.camel@kernel.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 14 Jul 2016 09:52:18 +0300
+Subject: NVMe over RDMA latency
+In-Reply-To: <1468434332.1869.8.camel@ssi>
+References: <1467921342.24395.12.camel@ssi> <57860EBA.5010103@grimberg.me>
+ <1468434332.1869.8.camel@ssi>
+Message-ID: <578736A2.40402@grimberg.me>
 
-On Wed, 2016-07-13@16:59 -0700, J Freyensee wrote:
-> On Wed, 2016-07-13@16:36 -0700, Ming Lin wrote:
-> > On Wed, Jul 13, 2016 at 4:19 PM, J Freyensee
-> > <james_p_freyensee@linux.intel.com> wrote:
-> > > 
-> > > > ?static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
-> > > > @@ -687,6 +684,10 @@ static void nvme_rdma_free_ctrl(struct
-> > > > nvme_ctrl
-> > > > *nctrl)
-> > > > ??????list_del(&ctrl->list);
-> > > > ??????mutex_unlock(&nvme_rdma_ctrl_mutex);
-> > > > 
-> > > > +?????blk_cleanup_queue(ctrl->ctrl.admin_q);
-> > > > +?????blk_mq_free_tag_set(&ctrl->admin_tag_set);
-> > > > +?????nvme_rdma_dev_put(ctrl->device);
-> > > > +
-> > > > ??????if (ctrl->ctrl.tagset) {
-> > > > ??????????????blk_cleanup_queue(ctrl->ctrl.connect_q);
-> > > > ??????????????blk_mq_free_tag_set(&ctrl->tag_set);
-> > > 
-> > > This patch does not remove the second
-> > > 
-> > > nvme_rdma_dev_put(ctrl->device);
-> > > 
-> > > call that happens within the if() statement above if it evaluates
-> > > to
-> > > TRUE.??Should that have been removed or moved elsewhere?
-> > 
-> > Not sure I understand your question.
-> > Did you mean line 694?
-> 
-> Yes I mean line 694.
-> 
-> > 
-> > For discovery controller, there is no IO queues. So ctrl-
-> > >ctrl.tagset
-> > is NULL.
-> > 
-> > The first bulk of
-> > "blk_cleanup_queue/blk_mq_free_tag_set/nvme_rdma_dev_put" is for
-> > admin
-> > queue.
-> > And the second is for IO queues.
-> 
-> I'm just confused when nvme_free_ctrl() in core.c calls:
-> 
-> ctrl->ops->free_ctrl(ctrl);
-> 
-> which looks like would be the only call that would free both the
-> admin
-> and I/O rdma queues, why there would be the potential to do a _put()
-> twice in nvme_rdma_free_ctrl() via:
-> 
-> nvme_rdma_dev_put(ctrl->device);
-> 
-> one for the admin section:
-> 
-> 687?????????blk_cleanup_queue(ctrl>ctrl.admin_q);
-> 688?????????blk_mq_free_tag_set(&ctrl->admin_tag_set);
-> 689?????????nvme_rdma_dev_put(ctrl->device);
 
-This put paired with the get in?nvme_rdma_configure_admin_queue()
+> With real NVMe device on target, host see latency about 33us.
+>
+> root at host:~# fio t.job
+> job1: (g=0): rw=randread, bs=4K-4K/4K-4K/4K-4K, ioengine=libaio, iodepth=1
+> fio-2.9-3-g2078c
+> Starting 1 process
+> Jobs: 1 (f=1): [r(1)] [100.0% done] [113.1MB/0KB/0KB /s] [28.1K/0/0 iops] [eta 00m:00s]
+> job1: (groupid=0, jobs=1): err= 0: pid=3139: Wed Jul 13 11:22:15 2016
+>    read : io=2259.5MB, bw=115680KB/s, iops=28920, runt= 20001msec
+>      slat (usec): min=1, max=195, avg= 2.62, stdev= 1.24
+>      clat (usec): min=0, max=7962, avg=30.97, stdev=14.50
+>       lat (usec): min=27, max=7968, avg=33.70, stdev=14.69
+>
+> And tested NVMe device locally on target, about 23us.
+> So nvmeof added only about ~10us.
+>
+> That's nice!
 
-> 
-> and one for the I/O section (assuming "if (ctrl->ctrl.tagset)"
-> evaluate
-> s to TRUE in that call):
-> 
-> 691?????????if (ctrl->ctrl.tagset) {
-> 692?????????????????blk_cleanup_queue(ctrl->ctrl.connect_q);
-> 693?????????????????blk_mq_free_tag_set(&ctrl->tag_set);
-> 694?????????????????nvme_rdma_dev_put(ctrl->device);
-
-This put paired with the get in?nvme_rdma_create_io_queues()
-
-> 695?????????}
-> 
-> 
-> My assumption would be that the correct path for this case would be
-> such that?
-> 
-> nvme_rdma_dev_put(ctrl->device);?
-> 
-> would only be called one time, for a single device.
-
-As above, need put for each get.
+I didn't understand what was changed?
