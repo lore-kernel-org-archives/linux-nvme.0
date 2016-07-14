@@ -1,30 +1,59 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Thu, 14 Jul 2016 08:51:45 -0700
-Subject: [PATCH v4] nvme: Remove RCU namespace protection
-In-Reply-To: <1468431902-9699-1-git-send-email-keith.busch@intel.com>
-References: <1468431902-9699-1-git-send-email-keith.busch@intel.com>
-Message-ID: <5787B511.2010107@fb.com>
+From: s.wendy.cheng@gmail.com (Wendy Cheng)
+Date: Thu, 14 Jul 2016 09:43:03 -0700
+Subject: NVMe over RDMA latency
+In-Reply-To: <1468434332.1869.8.camel@ssi>
+References: <1467921342.24395.12.camel@ssi> <57860EBA.5010103@grimberg.me>
+ <1468434332.1869.8.camel@ssi>
+Message-ID: <CABgxfbFST4Y=d9KyDetptwNv6Hf0iJfzWm3y2aavLD3PExDCQw@mail.gmail.com>
 
-On 07/13/2016 10:45 AM, Keith Busch wrote:
-> We can't sleep with RCU read lock held, but we need to do potentially
-> blocking stuff to namespace queues when iterating the list. This patch
-> removes the RCU locking and holds a mutex instead.
->
-> To prevent deadlocks, this patch removes holding the mutex during
-> namespace scanning and removal. The unlocked namespace scanning is made
-> safe by holding a reference to the namespace being scanned.
->
-> List iteration that does IO has to be unlocked to allow error recovery.
-> The caller must ensure the list can not be manipulated during such an
-> event, so this patch adds a comment explaining this requirement to the
-> only function that iterates an unlocked list. All callers currently
-> meet this requirement, so no further changes required.
->
-> List iterations that do not do IO can safely use the lock since it couldn't
-> block recovery from missing forced IO completions.
+On Wed, Jul 13, 2016@11:25 AM, Ming Lin <mlin@kernel.org> wrote:
 
-Added for 4.7. And thankfully, looks like we're dodging most of the 
-merging bullet here.
+>> 1. I imagine you are not polling in the host but rather interrupt
+>>     driven correct? thats a latency source.
+>
+> It's polling.
+>
+> root at host:~# cat /sys/block/nvme0n1/queue/io_poll
+> 1
+>
+>>
+>> 2. the target code is polling if the block device supports it. can you
+>>     confirm that is indeed the case?
+>
+> Yes.
+>
+>>
+>> 3. mlx4 has a strong fencing policy for memory registration, which we
+>>     always do. thats a latency source. can you try with
+>>     register_always=0?
+>
+> root at host:~# cat /sys/module/nvme_rdma/parameters/register_always
+> N
+>
+>
+>>
+>> 4. IRQ affinity assignments. if the sqe is submitted on cpu core X and
+>>     the completion comes to cpu core Y, we will consume some latency
+>>     with the context-switch of waiking up fio on cpu core X. Is this
+>>     a possible case?
+>
+> Only 1 CPU online on both host and target machine.
+>
 
--- 
-Jens Axboe
+Since the above tunables can be easily toggled on/off, could you break
+down their contributions to the overall latency with each individual
+tunable ? e.g. only do io_poll on / off to see how much it improves
+the latency.
+
+>From your data, it seems to indicate the local performance on the
+target got worse. Is this perception correct ?
+
+Before the tunable: the target avg=22.35 usec
+After the tunable: the target avg=23.59 usec
+
+I'm particularly interested in the local target device latency with
+io_poll on vs. off. Did you keep your p99.99 latency and p90.00
+latency numbers from this experiment that can be share ?
+
+Thanks,
+Wendy
