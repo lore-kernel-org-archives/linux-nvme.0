@@ -1,67 +1,125 @@
-From: s.wendy.cheng@gmail.com (Wendy Cheng)
-Date: Thu, 14 Jul 2016 10:45:55 -0700
-Subject: NVMe over RDMA latency
-In-Reply-To: <CABgxfbFST4Y=d9KyDetptwNv6Hf0iJfzWm3y2aavLD3PExDCQw@mail.gmail.com>
-References: <1467921342.24395.12.camel@ssi> <57860EBA.5010103@grimberg.me>
- <1468434332.1869.8.camel@ssi>
- <CABgxfbFST4Y=d9KyDetptwNv6Hf0iJfzWm3y2aavLD3PExDCQw@mail.gmail.com>
-Message-ID: <CABgxfbH-bMynfmMdnX0CQsSD7Yi1dPhiJMshuHhESJdu+_JzUQ@mail.gmail.com>
+From: mlin@kernel.org (Ming Lin)
+Date: Thu, 14 Jul 2016 11:04:05 -0700
+Subject: [PATCH 2/2] nvme-rdma: move admin queue cleanup to
+ nvme_rdma_free_ctrl
+In-Reply-To: <1468516146.4105.41.camel@linux.intel.com>
+References: <1468445196-6915-1-git-send-email-mlin@kernel.org>
+ <1468445196-6915-3-git-send-email-mlin@kernel.org>
+ <1468451986.4105.3.camel@linux.intel.com>
+ <CAF1ivSZfcnS7Hte6dKiNBerxzt9QHPHddDNyJiEe_MSfUpfLZg@mail.gmail.com>
+ <1468454377.4105.18.camel@linux.intel.com>
+ <1468478346.28573.1.camel@kernel.org>
+ <1468516146.4105.41.camel@linux.intel.com>
+Message-ID: <CAF1ivSb1_S6fpoa2LZ9_yjVLf++c3bOhB6hU9hsvrpG-RqTrzQ@mail.gmail.com>
 
-On Thu, Jul 14, 2016@9:43 AM, Wendy Cheng <s.wendy.cheng@gmail.com> wrote:
-> On Wed, Jul 13, 2016@11:25 AM, Ming Lin <mlin@kernel.org> wrote:
+On Thu, Jul 14, 2016 at 10:09 AM, J Freyensee
+<james_p_freyensee@linux.intel.com> wrote:
+> On Wed, 2016-07-13@23:39 -0700, Ming Lin wrote:
+>> On Wed, 2016-07-13@16:59 -0700, J Freyensee wrote:
+>> > On Wed, 2016-07-13@16:36 -0700, Ming Lin wrote:
+>> > > On Wed, Jul 13, 2016 at 4:19 PM, J Freyensee
+>> > > <james_p_freyensee@linux.intel.com> wrote:
+>> > > >
+>> > > > >  static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
+>> > > > > @@ -687,6 +684,10 @@ static void nvme_rdma_free_ctrl(struct
+>> > > > > nvme_ctrl
+>> > > > > *nctrl)
+>> > > > >       list_del(&ctrl->list);
+>> > > > >       mutex_unlock(&nvme_rdma_ctrl_mutex);
+>> > > > >
+>> > > > > +     blk_cleanup_queue(ctrl->ctrl.admin_q);
+>> > > > > +     blk_mq_free_tag_set(&ctrl->admin_tag_set);
+>> > > > > +     nvme_rdma_dev_put(ctrl->device);
+>> > > > > +
+>> > > > >       if (ctrl->ctrl.tagset) {
+>> > > > >               blk_cleanup_queue(ctrl->ctrl.connect_q);
+>> > > > >               blk_mq_free_tag_set(&ctrl->tag_set);
+>> > > >
+>> > > > This patch does not remove the second
+>> > > >
+>> > > > nvme_rdma_dev_put(ctrl->device);
+>> > > >
+>> > > > call that happens within the if() statement above if it
+>> > > > evaluates
+>> > > > to
+>> > > > TRUE.  Should that have been removed or moved elsewhere?
+>> > >
+>> > > Not sure I understand your question.
+>> > > Did you mean line 694?
+>> >
+>> > Yes I mean line 694.
+>> >
+>> > >
+>> > > For discovery controller, there is no IO queues. So ctrl-
+>> > > > ctrl.tagset
+>> > > is NULL.
+>> > >
+>> > > The first bulk of
+>> > > "blk_cleanup_queue/blk_mq_free_tag_set/nvme_rdma_dev_put" is for
+>> > > admin
+>> > > queue.
+>> > > And the second is for IO queues.
+>> >
+>> > I'm just confused when nvme_free_ctrl() in core.c calls:
+>> >
+>> > ctrl->ops->free_ctrl(ctrl);
+>> >
+>> > which looks like would be the only call that would free both the
+>> > admin
+>> > and I/O rdma queues, why there would be the potential to do a
+>> > _put()
+>> > twice in nvme_rdma_free_ctrl() via:
+>> >
+>> > nvme_rdma_dev_put(ctrl->device);
+>> >
+>> > one for the admin section:
+>> >
+>> > 687         blk_cleanup_queue(ctrl>ctrl.admin_q);
+>> > 688         blk_mq_free_tag_set(&ctrl->admin_tag_set);
+>> > 689         nvme_rdma_dev_put(ctrl->device);
+>>
+>> This put paired with the get in nvme_rdma_configure_admin_queue()
+>>
+>> >
+>> > and one for the I/O section (assuming "if (ctrl->ctrl.tagset)"
+>> > evaluate
+>> > s to TRUE in that call):
+>> >
+>> > 691         if (ctrl->ctrl.tagset) {
+>> > 692                 blk_cleanup_queue(ctrl->ctrl.connect_q);
+>> > 693                 blk_mq_free_tag_set(&ctrl->tag_set);
+>> > 694                 nvme_rdma_dev_put(ctrl->device);
+>>
+>> This put paired with the get in nvme_rdma_create_io_queues()
+>>
+>> > 695         }
+>> >
+>> >
+>> > My assumption would be that the correct path for this case would be
+>> > such that
+>> >
+>> > nvme_rdma_dev_put(ctrl->device);
+>> >
+>> > would only be called one time, for a single device.
+>>
+>> As above, need put for each get.
 >
->>> 1. I imagine you are not polling in the host but rather interrupt
->>>     driven correct? thats a latency source.
->>
->> It's polling.
->>
->> root at host:~# cat /sys/block/nvme0n1/queue/io_poll
->> 1
->>
->>>
->>> 2. the target code is polling if the block device supports it. can you
->>>     confirm that is indeed the case?
->>
->> Yes.
->>
->>>
->>> 3. mlx4 has a strong fencing policy for memory registration, which we
->>>     always do. thats a latency source. can you try with
->>>     register_always=0?
->>
->> root at host:~# cat /sys/module/nvme_rdma/parameters/register_always
->> N
->>
->>
->>>
->>> 4. IRQ affinity assignments. if the sqe is submitted on cpu core X and
->>>     the completion comes to cpu core Y, we will consume some latency
->>>     with the context-switch of waiking up fio on cpu core X. Is this
->>>     a possible case?
->>
->> Only 1 CPU online on both host and target machine.
->>
+> OK, thanks for the clarification on this.
 >
-> Since the above tunables can be easily toggled on/off, could you break
-> down their contributions to the overall latency with each individual
-> tunable ? e.g. only do io_poll on / off to see how much it improves
-> the latency.
->
-> From your data, it seems to indicate the local performance on the
-> target got worse. Is this perception correct ?
->
-> Before the tunable: the target avg=22.35 usec
-> After the tunable: the target avg=23.59 usec
->
-> I'm particularly interested in the local target device latency with
-> io_poll on vs. off. Did you keep your p99.99 latency and p90.00
-> latency numbers from this experiment that can be share ?
->
+> Would it then be worth to have an if() check around the new admin
+> logic, as the assumption with the added code is it will always need to
+> free the admin_queue when called, something like:
 
-BTW using one single CPU on the target (storage server) does not make
-sense. My guess is that the source of slow down on the target was
-because of this - as it is particularly relevant on polling mode
+No, because admin_tag_set is always not NULL.
 
+>
+> if (ctrl->admin_tag_set) {
+>         blk_cleanup_queue(ctrl->ctrl.admin_q);
+>         blk_mq_free_tag_set(&ctrl->admin_tag_set);
+>         nvme_rdma_dev_put(ctrl->device);
+> }
+>
+> blk_mq_free_tag_set() does assume its parameter is not NULL.
 
-Thanks,
-Wendy
+Sagi's patch is better than these two.
+We'll go for it.
