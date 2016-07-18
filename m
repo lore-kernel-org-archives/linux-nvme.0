@@ -1,96 +1,119 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Mon, 18 Jul 2016 13:44:48 -0700
-Subject: [PATCH 2/3] iw_cxgb4: don't block in destroy_qp awaiting the last
- deref
+Date: Mon, 18 Jul 2016 13:44:37 -0700
+Subject: [PATCH 1/3] iw_cm: free cm_id resources on the last deref
 In-Reply-To: <cover.1468879135.git.swise@opengridcomputing.com>
 References: <cover.1468879135.git.swise@opengridcomputing.com>
-Message-ID: <90b07add78b64320f5a4f99b8f71633214c1823c.1468879135.git.swise@opengridcomputing.com>
+Message-ID: <93c3c47c16406ef00184011948424a9597e4c6b8.1468879135.git.swise@opengridcomputing.com>
 
-Blocking in c4iw_destroy_qp() causes a deadlock when apps destroy a qp
-or disconnect a cm_id from their cm event handler function.  There is
-no nead to block here anyway, so just replace the refcnt atomic with a
-kref object and free the memory on the last put.
+Remove the complicated logic to free the cm_id resources in iw_cm event
+handlers vs when an application thread destroys the device.  I'm not sure
+why this code was written, but simply allowing the last deref to free
+the memory is cleaner.  It also prevents a deadlock when applications
+try to destroy cm_id's in their cm event handler function.
 
 Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
- drivers/infiniband/hw/cxgb4/iw_cxgb4.h |  2 +-
- drivers/infiniband/hw/cxgb4/qp.c       | 21 ++++++++++++++-------
- 2 files changed, 15 insertions(+), 8 deletions(-)
+ drivers/infiniband/core/iwcm.c | 41 ++++++-----------------------------------
+ 1 file changed, 6 insertions(+), 35 deletions(-)
 
-diff --git a/drivers/infiniband/hw/cxgb4/iw_cxgb4.h b/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
-index f6f34a7..0420c21 100644
---- a/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
-+++ b/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
-@@ -472,7 +472,7 @@ struct c4iw_qp {
- 	struct t4_wq wq;
- 	spinlock_t lock;
- 	struct mutex mutex;
--	atomic_t refcnt;
-+	struct kref kref;
- 	wait_queue_head_t wait;
- 	struct timer_list timer;
- 	int sq_sig_all;
-diff --git a/drivers/infiniband/hw/cxgb4/qp.c b/drivers/infiniband/hw/cxgb4/qp.c
-index 0d461f3..770531a3 100644
---- a/drivers/infiniband/hw/cxgb4/qp.c
-+++ b/drivers/infiniband/hw/cxgb4/qp.c
-@@ -683,17 +683,25 @@ static int build_inv_stag(union t4_wr *wqe, struct ib_send_wr *wr,
- 	return 0;
- }
+diff --git a/drivers/infiniband/core/iwcm.c b/drivers/infiniband/core/iwcm.c
+index f057204..20a94ed 100644
+--- a/drivers/infiniband/core/iwcm.c
++++ b/drivers/infiniband/core/iwcm.c
+@@ -183,15 +183,14 @@ static void free_cm_id(struct iwcm_id_private *cm_id_priv)
  
-+void _free_qp(struct kref *kref)
-+{
-+	struct c4iw_qp *qhp;
-+
-+	qhp = container_of(kref, struct c4iw_qp, kref);
-+	PDBG("%s qhp %p\n", __func__, qhp);
-+	kfree(qhp);
-+}
-+
- void c4iw_qp_add_ref(struct ib_qp *qp)
+ /*
+  * Release a reference on cm_id. If the last reference is being
+- * released, enable the waiting thread (in iw_destroy_cm_id) to
+- * get woken up, and return 1 if a thread is already waiting.
++ * released, free the cm_id and return 1.
+  */
+ static int iwcm_deref_id(struct iwcm_id_private *cm_id_priv)
  {
- 	PDBG("%s ib_qp %p\n", __func__, qp);
--	atomic_inc(&(to_c4iw_qp(qp)->refcnt));
-+	kref_get(&to_c4iw_qp(qp)->kref);
- }
+ 	BUG_ON(atomic_read(&cm_id_priv->refcount)==0);
+ 	if (atomic_dec_and_test(&cm_id_priv->refcount)) {
+ 		BUG_ON(!list_empty(&cm_id_priv->work_list));
+-		complete(&cm_id_priv->destroy_comp);
++		free_cm_id(cm_id_priv);
+ 		return 1;
+ 	}
  
- void c4iw_qp_rem_ref(struct ib_qp *qp)
+@@ -208,19 +207,10 @@ static void add_ref(struct iw_cm_id *cm_id)
+ static void rem_ref(struct iw_cm_id *cm_id)
  {
- 	PDBG("%s ib_qp %p\n", __func__, qp);
--	if (atomic_dec_and_test(&(to_c4iw_qp(qp)->refcnt)))
--		wake_up(&(to_c4iw_qp(qp)->wait));
-+	kref_put(&to_c4iw_qp(qp)->kref, _free_qp);
+ 	struct iwcm_id_private *cm_id_priv;
+-	int cb_destroy;
+ 
+ 	cm_id_priv = container_of(cm_id, struct iwcm_id_private, id);
+ 
+-	/*
+-	 * Test bit before deref in case the cm_id gets freed on another
+-	 * thread.
+-	 */
+-	cb_destroy = test_bit(IWCM_F_CALLBACK_DESTROY, &cm_id_priv->flags);
+-	if (iwcm_deref_id(cm_id_priv) && cb_destroy) {
+-		BUG_ON(!list_empty(&cm_id_priv->work_list));
+-		free_cm_id(cm_id_priv);
+-	}
++	(void)iwcm_deref_id(cm_id_priv);
  }
  
- static void add_to_fc_list(struct list_head *head, struct list_head *entry)
-@@ -1592,8 +1600,6 @@ int c4iw_destroy_qp(struct ib_qp *ib_qp)
- 	wait_event(qhp->wait, !qhp->ep);
+ static int cm_event_handler(struct iw_cm_id *cm_id, struct iw_cm_event *event);
+@@ -433,13 +423,7 @@ void iw_destroy_cm_id(struct iw_cm_id *cm_id)
+ 	struct iwcm_id_private *cm_id_priv;
  
- 	remove_handle(rhp, &rhp->qpidr, qhp->wq.sq.qid);
--	atomic_dec(&qhp->refcnt);
--	wait_event(qhp->wait, !atomic_read(&qhp->refcnt));
- 
- 	spin_lock_irq(&rhp->lock);
- 	if (!list_empty(&qhp->db_fc_entry))
-@@ -1606,8 +1612,9 @@ int c4iw_destroy_qp(struct ib_qp *ib_qp)
- 	destroy_qp(&rhp->rdev, &qhp->wq,
- 		   ucontext ? &ucontext->uctx : &rhp->rdev.uctx);
- 
-+	c4iw_qp_rem_ref(ib_qp);
-+
- 	PDBG("%s ib_qp %p qpid 0x%0x\n", __func__, ib_qp, qhp->wq.sq.qid);
--	kfree(qhp);
- 	return 0;
+ 	cm_id_priv = container_of(cm_id, struct iwcm_id_private, id);
+-	BUG_ON(test_bit(IWCM_F_CALLBACK_DESTROY, &cm_id_priv->flags));
+-
+ 	destroy_cm_id(cm_id);
+-
+-	wait_for_completion(&cm_id_priv->destroy_comp);
+-
+-	free_cm_id(cm_id_priv);
  }
+ EXPORT_SYMBOL(iw_destroy_cm_id);
  
-@@ -1704,7 +1711,7 @@ struct ib_qp *c4iw_create_qp(struct ib_pd *pd, struct ib_qp_init_attr *attrs,
- 	init_completion(&qhp->rq_drained);
- 	mutex_init(&qhp->mutex);
- 	init_waitqueue_head(&qhp->wait);
--	atomic_set(&qhp->refcnt, 1);
-+	kref_init(&qhp->kref);
+@@ -809,10 +793,7 @@ static void cm_conn_req_handler(struct iwcm_id_private *listen_id_priv,
+ 	ret = cm_id->cm_handler(cm_id, iw_event);
+ 	if (ret) {
+ 		iw_cm_reject(cm_id, NULL, 0);
+-		set_bit(IWCM_F_CALLBACK_DESTROY, &cm_id_priv->flags);
+-		destroy_cm_id(cm_id);
+-		if (atomic_read(&cm_id_priv->refcount)==0)
+-			free_cm_id(cm_id_priv);
++		iw_destroy_cm_id(cm_id);
+ 	}
  
- 	ret = insert_handle(rhp, &rhp->qpidr, qhp, qhp->wq.sq.qid);
- 	if (ret)
+ out:
+@@ -1000,7 +981,6 @@ static void cm_work_handler(struct work_struct *_work)
+ 	unsigned long flags;
+ 	int empty;
+ 	int ret = 0;
+-	int destroy_id;
+ 
+ 	spin_lock_irqsave(&cm_id_priv->lock, flags);
+ 	empty = list_empty(&cm_id_priv->work_list);
+@@ -1014,19 +994,10 @@ static void cm_work_handler(struct work_struct *_work)
+ 		spin_unlock_irqrestore(&cm_id_priv->lock, flags);
+ 
+ 		ret = process_event(cm_id_priv, &levent);
+-		if (ret) {
+-			set_bit(IWCM_F_CALLBACK_DESTROY, &cm_id_priv->flags);
++		if (ret)
+ 			destroy_cm_id(&cm_id_priv->id);
+-		}
+-		BUG_ON(atomic_read(&cm_id_priv->refcount)==0);
+-		destroy_id = test_bit(IWCM_F_CALLBACK_DESTROY, &cm_id_priv->flags);
+-		if (iwcm_deref_id(cm_id_priv)) {
+-			if (destroy_id) {
+-				BUG_ON(!list_empty(&cm_id_priv->work_list));
+-				free_cm_id(cm_id_priv);
+-			}
++		if (iwcm_deref_id(cm_id_priv))
+ 			return;
+-		}
+ 		if (empty)
+ 			return;
+ 		spin_lock_irqsave(&cm_id_priv->lock, flags);
 -- 
 2.7.0
