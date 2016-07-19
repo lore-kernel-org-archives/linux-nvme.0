@@ -1,67 +1,48 @@
-From: pandit.parav@gmail.com (Parav Pandit)
-Date: Tue, 19 Jul 2016 08:36:17 +0530
-Subject: [PATCH] NVMe: Fix max hardware sectors calculation for non zero
- MDTS
-In-Reply-To: <20160718233436.GA15409@localhost.localdomain>
-References: <1468864076-6809-1-git-send-email-pandit.parav@gmail.com>
- <OFD7F1545F.4D6ABB60-ON86257FF4.0066B34F-86257FF4.007C4012@notes.na.collabserv.com>
- <20160718233436.GA15409@localhost.localdomain>
-Message-ID: <CAG53R5U=pwJ8nPWZ6mohOTw78EpD3e0L6GHGiqevaoHk5Ayr+g@mail.gmail.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Tue, 19 Jul 2016 12:31:23 -0700
+Subject: [PATCH] nvme: initialize variable before logical OR'ing it
+In-Reply-To: <1464882685-4531-1-git-send-email-james.p.freyensee@intel.com>
+References: <1464882685-4531-1-git-send-email-james.p.freyensee@intel.com>
+Message-ID: <1468956683.21104.2.camel@linux.intel.com>
 
-Hi Murli, Keith,
+On Thu, 2016-06-02@08:51 -0700, Jay Freyensee wrote:
 
-I read the spec again. MDTS is already is 2^n value.
-During the test, controller reported value was not 2^n created this confusion.
-I will ask controller vendor to fix reporting right value in MDTS.
+Jens,
+
+I believe this patch fix got missed?  Or is there a problem with this
+patch?
 
 Thanks,
-Parav
+Jay
 
-On Tue, Jul 19, 2016@5:04 AM, Keith Busch <keith.busch@intel.com> wrote:
-> On Mon, Jul 18, 2016@05:37:08PM -0500, Murali N Iyer wrote:
->> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> > index 1a51584..9a162b1 100644
->> > --- a/drivers/nvme/host/core.c
->> > +++ b/drivers/nvme/host/core.c
->> > @@ -1120,7 +1120,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->> >     memcpy(ctrl->model, id->mn, sizeof(id->mn));
->> >     memcpy(ctrl->firmware_rev, id->fr, sizeof(id->fr));
->> >     if (id->mdts)
->> > -      ctrl->max_hw_sectors = 1 << (id->mdts + page_shift - 9);
->> > +      ctrl->max_hw_sectors = id->mdts * (1 << (page_shift - 9));
->> >     else
->> >        ctrl->max_hw_sectors = UINT_MAX;
->
->> Looks like specs could be interpreted differently.
->
-> It's not the easiest wording, but I don't think it's ambiguous.
->
->> I have seen some controllers assuming 2^(mdts + MPSMIN) and setting the
->> value like the code is written today.
->> Example, to limit op size to 512KB, mtds been set to 7, which is 2 ^(7 +
->> 12) = 512KB (-9 is to convert number of 512 bytes sectors).
->> With the proposed change it will become 7 * 8 = 28 sectors or 14K max op
->> size which seems wrong.
->> With the proposed code maximum op size would be 255 * 8 = 2040 sectors
->> (1020 KB) and not sure that is the intention of the specs.
->
-> Yeah, the change is not equivalent or spec compliant, so Nak.
->
->> Also, when "mdts" is zero NVMe specs says no restriction on op size which
->> might be true from controller perspective.
->> When looking at NVMe I/O commands (Read, Write, Compare) number of Logical
->> Blocks (nlb) field is defined as 16 bits.
->> Should it be ctrl->max_hw_sectors = USHRT_MAX; to limit max of 0xFFFF?  Am
->> I reading the specs correctly?
->
-> The NLB field is in units of logical blocks, and at the point we're
-> setting max h/w sectors in 512b units, we don't know how large a namespace
-> logical block is. The spec allows a lot of flexibility here. If we set
-> max h/w sectors to 0xffff as suggested, that's only 32MB transfer. If
-> a logical block size is 4k, that means NLB maxes at only 0x2000 when it
-> could have handled 0xffff. Even worse for larger namespace block sizes.
->
-> But yes, the code doesn't set max sectors on this over flow condition
-> correctly for devices that have such a high MDTS. I think transfer size
-> probably needs to be re-checked when the namespace is discovered and
-> change the queue's setting accordingly.
+> It is typically not good coding or secure coding practice
+> to logical OR a variable without an initialization value first.
+> Here on this line:
+> 
+> integrity.flags |= BLK_INTEGRITY_DEVICE_CAPABLE;
+> 
+> BLK_INTEGRITY_DEVICE_CAPABLE is being OR'ed to a member variable
+> never set to an initial value. This patch fixes that.
+> 
+> Signed-off-by: Jay Freyensee <james.p.freyensee at intel.com>
+> Reviewed-by: Ming Lin <ming.l at samsung.com>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> 
+> ---
+>  drivers/nvme/host/core.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index f6f6fdf..33fe610 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -843,6 +843,7 @@ static void nvme_init_integrity(struct nvme_ns
+> *ns)
+>  {
+>  	struct blk_integrity integrity;
+>  
+> +	memset(&integrity, 0, sizeof(integrity));
+>  	switch (ns->pi_type) {
+>  	case NVME_NS_DPS_PI_TYPE3:
+>  		integrity.profile = &t10_pi_type3_crc;
