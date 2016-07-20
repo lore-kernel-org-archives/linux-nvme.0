@@ -1,48 +1,18 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Tue, 19 Jul 2016 12:31:23 -0700
-Subject: [PATCH] nvme: initialize variable before logical OR'ing it
-In-Reply-To: <1464882685-4531-1-git-send-email-james.p.freyensee@intel.com>
-References: <1464882685-4531-1-git-send-email-james.p.freyensee@intel.com>
-Message-ID: <1468956683.21104.2.camel@linux.intel.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 20 Jul 2016 11:42:04 +0300
+Subject: [PATCH 0/2] Get rid of transport layer retry count config
+ parameter
+In-Reply-To: <12b64608-1d42-ffe6-c11a-58139cbabd3a@sandisk.com>
+References: <1466597161-5242-1-git-send-email-sagi@grimberg.me>
+ <20160622161559.GA18361@infradead.org>
+ <12b64608-1d42-ffe6-c11a-58139cbabd3a@sandisk.com>
+Message-ID: <578F395C.3000006@grimberg.me>
 
-On Thu, 2016-06-02@08:51 -0700, Jay Freyensee wrote:
 
-Jens,
+> The IB spec defines an end-to-end credit mechanism for RC connections.
+> So if the transport layer is reliable (InfiniBand, RoCE with DCB
+> enabled) setting the retry count high enough is only needed to avoid
+> connection shutdown due to brief cable disconnect/reconnect events.
 
-I believe this patch fix got missed?  Or is there a problem with this
-patch?
-
-Thanks,
-Jay
-
-> It is typically not good coding or secure coding practice
-> to logical OR a variable without an initialization value first.
-> Here on this line:
-> 
-> integrity.flags |= BLK_INTEGRITY_DEVICE_CAPABLE;
-> 
-> BLK_INTEGRITY_DEVICE_CAPABLE is being OR'ed to a member variable
-> never set to an initial value. This patch fixes that.
-> 
-> Signed-off-by: Jay Freyensee <james.p.freyensee at intel.com>
-> Reviewed-by: Ming Lin <ming.l at samsung.com>
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-> 
-> ---
->  drivers/nvme/host/core.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index f6f6fdf..33fe610 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -843,6 +843,7 @@ static void nvme_init_integrity(struct nvme_ns
-> *ns)
->  {
->  	struct blk_integrity integrity;
->  
-> +	memset(&integrity, 0, sizeof(integrity));
->  	switch (ns->pi_type) {
->  	case NVME_NS_DPS_PI_TYPE3:
->  		integrity.profile = &t10_pi_type3_crc;
+Right, this is why I think the driver can use whatever it sees fit (we
+have a keep-alive mechanism for fast-fail functionality).
