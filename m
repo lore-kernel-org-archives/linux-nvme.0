@@ -1,34 +1,58 @@
-From: robert.r.randall@gmail.com (Robert Randall)
-Date: Wed, 20 Jul 2016 08:03:19 -0500
-Subject: Windows NVMeOF host / initiator demo at FMS
-Message-ID: <CAEqzOjvrsB2NpxQwehTqu8AYUq4nBGJrX+8ZV8EerNLixQeinA@mail.gmail.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 20 Jul 2016 08:49:06 -0500
+Subject: [PATCH RFC 0/3] iwarp device removal deadlock fix
+In-Reply-To: <578F3A90.1000208@grimberg.me>
+References: <cover.1468879135.git.swise@opengridcomputing.com>
+ <578F3A90.1000208@grimberg.me>
+Message-ID: <027201d1e28d$7be227a0$73a676e0$@opengridcomputing.com>
 
-I have great news to share!!
+> > This RFC series attempts to address the deadlock issue discovered
+> > while testing nvmf/rdma handling rdma device removal events from
+> > the rdma_cm.
+> 
+> Thanks for doing this Steve!
+> 
+> > For a discussion of the deadlock that can happen, see
+> >
+> > http://lists.infradead.org/pipermail/linux-nvme/2016-July/005440.html.
+> >
+> > For my description of the deadlock itself, see this post in the above
+thread:
+> >
+> > http://lists.infradead.org/pipermail/linux-nvme/2016-July/005465.html
+> >
+> > In a nutshell, iw_cxgb4 and the iw_cm block during qp/cm_id destruction
+> > until all references are removed.  This combined with the iwarp CM passing
+> > disconnect events up to the rdma_cm during disconnect and/or qp/cm_id
+> destruction
+> > leads to a deadlock.
+> >
+> > My proposed solution is to remove the need for iw_cxgb4 and iw_cm to
+> > block during object destruction for the recnts to reach 0, but rather to
+> > let the freeing of the object memory be deferred when the last deref is
+> > done. This allows all the qps/cm_ids to be destroyed without blocking, and
+> > all the object memory freeing ends up happinging when the application's
+> > device_remove event handler function returns to the rdma_cm.
+> 
+> This sounds like a very good approach moving forward.
+> 
+> > Sean, I was hoping you could have a look at the iwcm.c patch particularly,
+> > to tell my why its broken. :)  I spent some time trying to figure out
+> > why we really need the CALLBACK_DESTROY flag, but I concluded it really
+> > isn't needed.  The one side effect I see with my change, is that the
+> > application could possibly get a cm_id event after it has destroyed the
+> > cm_id.  There probably is a way to discard events that have a reference
+> > on the cm_id but get processed after the app has destoyed the cm_id by
+> > having a new flag indicating "destroyed by app".
+> 
 
-We have our Windows NVMeOF host driver working and I'll be
-demonstrating it at FMS in the NVMe Solutions Pavilion at the Mellanox
-table.  The NVMe Solutions Pavilion is open Tuesday 8/9 from 4pm -
-7pm, Wednesday 8/10 from 12noon -7pm , and Thursday 8/11 from 10am -
-2pm.
+By the way, I think Sean is on sabbatical until 9/12. 
 
-I'll be showing both a Windows and Linux host using storage from one
-Linux server to demonstrate interoperability of the protocol.  I'm
-using Micron 9100 MAX NVMe SSDs as storage and Mellanox Connect-X 4
-100GbE adapters configured for RoCE v2, and a Mellanox Spectrum
-switch.  Many thanks to folks at Mellanox for all of the gear and a
-seat at their table.
+> That sounds easy enough. Does this mean that iwcm relies on the driver
+> to do this or is it inter-operable with the existing logic? If not this
+> will need to take care of all the iWARP drivers.
 
-If there is a specific release of the Linux source you want us to
-highlight at the show please let me know and we'll make sure we're
-using it.  Same goes for management features on the server / target
-side.
+This can be handled all in the iw_cm module.  In fact, I'm testing a new version
+of the iw_cm patch now.
 
-If your attending and interested in the solution please drop by the
-demo to discuss.
-
-Hope to see you there!
-
-Best regards,
-Robert
--- 
-Robert Randall | robert.r.randall at gmail.com | rrandall at micron.com
+Steve.
