@@ -1,25 +1,109 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 20 Jul 2016 21:30:21 -0600
-Subject: [PATCHv3] nvme/pci: Provide SR-IOV support
-In-Reply-To: <20160719013055.GA15897@localhost.localdomain>
-References: <1466437266-25749-1-git-send-email-keith.busch@intel.com>
- <20160622160233.GA25821@infradead.org>
- <20160719013055.GA15897@localhost.localdomain>
-Message-ID: <80b5fdd3-1155-cd16-3480-663d2b0d9f29@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 21 Jul 2016 10:15:33 +0200
+Subject: [PATCH 3/3] nvme-rdma: Fix device removal handling
+In-Reply-To: <0cb1ccaa920b3ec48dd94ea49fa0f0b7c5520d38.1468879135.git.swise@opengridcomputing.com>
+References: <cover.1468879135.git.swise@opengridcomputing.com>
+ <0cb1ccaa920b3ec48dd94ea49fa0f0b7c5520d38.1468879135.git.swise@opengridcomputing.com>
+Message-ID: <20160721081533.GB20363@lst.de>
+
+On Mon, Jul 18, 2016@01:44:50PM -0700, Sagi Grimberg wrote:
+> Device removal sequence may have crashed because the
+> controller (and admin queue space) was freed before
+> we destroyed the admin queue resources. Thus we
+> want to destroy the admin queue and only then queue
+> controller deletion and wait for it to complete.
+> 
+> More specifically we:
+> 1. own the controller deletion (make sure we are not
+>    competing with another deletion).
+> 2. get rid of inflight reconnects if exists (which
+>    also destroy and create queues).
+> 3. destroy the queue.
+> 4. safely queue controller deletion (and wait for it
+>    to complete).
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/host/rdma.c | 49 ++++++++++++++++++++++++++----------------------
+>  1 file changed, 27 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 3e3ce2b..0e58450 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -169,7 +169,6 @@ MODULE_PARM_DESC(register_always,
+>  static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
+>  		struct rdma_cm_event *event);
+>  static void nvme_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
+> -static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl);
+>  
+>  /* XXX: really should move to a generic header sooner or later.. */
+>  static inline void put_unaligned_le24(u32 val, u8 *p)
+> @@ -1318,37 +1317,43 @@ out_destroy_queue_ib:
+>   * that caught the event. Since we hold the callout until the controller
+>   * deletion is completed, we'll deadlock if the controller deletion will
+>   * call rdma_destroy_id on this queue's cm_id. Thus, we claim ownership
+> - * of destroying this queue before-hand, destroy the queue resources
+> - * after the controller deletion completed with the exception of destroying
+> - * the cm_id implicitely by returning a non-zero rc to the callout.
+> + * of destroying this queue before-hand, destroy the queue resources,
+> + * then queue the controller deletion which won't destroy this queue and
+> + * we destroy the cm_id implicitely by returning a non-zero rc to the callout.
+>   */
+>  static int nvme_rdma_device_unplug(struct nvme_rdma_queue *queue)
+>  {
+>  	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
+> +	int ret;
+>  
+> +	/* Own the controller deletion */
+> +	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
+> +		return 0;
+>  
+> +	dev_warn(ctrl->ctrl.device,
+> +		"Got rdma device removal event, deleting ctrl\n");
+>  
+> +	/* Get rid of reconnect work if its running */
+> +	cancel_delayed_work_sync(&ctrl->reconnect_work);
+>  
+> +	/* Disable the queue so ctrl delete won't free it */
+> +	if (!test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags)) {
+> +		ret = 0;
+> +		goto queue_delete;
+>  	}
+>  
+> +	/* Free this queue ourselves */
+> +	nvme_rdma_stop_queue(queue);
+> +	nvme_rdma_destroy_queue_ib(queue);
+> +
+> +	/* Return non-zero so the cm_id will destroy implicitly */
+> +	ret = 1;
+> +
+> +queue_delete:
+> +	/* queue controller deletion */
+> +	queue_work(nvme_rdma_wq, &ctrl->delete_work);
+> +	flush_work(&ctrl->delete_work);
+> +	return ret;
+
+Seems like we should be able to just skip the goto here:
+
+	/* Disable the queue so ctrl delete won't free it */
+	if (test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags)) {
+		/* Free this queue ourselves */
+		nvme_rdma_stop_queue(queue);
+		nvme_rdma_destroy_queue_ib(queue);
+
+		/* Return non-zero so the cm_id will destroy implicitly */
+		ret = 1;
+	}
+
+	/* queue controller deletion */
+	queue_work(nvme_rdma_wq, &ctrl->delete_work);
+	flush_work(&ctrl->delete_work);
+	return ret;
+}
 
 
+And that opportunity could used to improve the comment for that if
+connected stop queue case a bit as well.
 
-On 07/18/2016 07:31 PM, Keith Busch wrote:
-> On Wed, Jun 22, 2016@09:02:33AM -0700, Christoph Hellwig wrote:
->> Looks fine (well, at least as fine as the current SR-IOV infrastructure
->> allows..):
->>
->> Reviewed-by: Christoph Hellwig <hch at lst.de>
->
-> Hi Jens,
-> Could we get this SRIOV patch applied for 4.8?
-
-Added, thanks.
-
--- 
-Jens Axboe
+Otherwise this looks reasonable to me.
