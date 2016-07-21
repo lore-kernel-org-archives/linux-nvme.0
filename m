@@ -1,28 +1,25 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 21 Jul 2016 10:45:13 -0500
-Subject: [PATCH 1/3] iw_cm: free cm_id resources on the last deref
-In-Reply-To: <045f01d1e35a$93618a60$ba249f20$@opengridcomputing.com>
-References: <cover.1468879135.git.swise@opengridcomputing.com>
- <93c3c47c16406ef00184011948424a9597e4c6b8.1468879135.git.swise@opengridcomputing.com>
- <578F3B92.2050803@grimberg.me>
- <027401d1e28d$c15bcca0$441365e0$@opengridcomputing.com>
- <045f01d1e35a$93618a60$ba249f20$@opengridcomputing.com>
-Message-ID: <04a101d1e366$df0c9c50$9d25d4f0$@opengridcomputing.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Thu, 21 Jul 2016 09:36:49 -0700
+Subject: [PATCH] nvme: initialize variable before logical OR'ing it
+In-Reply-To: <df46db7b-557c-5662-8d0a-22a691f54a0c@kernel.dk>
+References: <1464882685-4531-1-git-send-email-james.p.freyensee@intel.com>
+ <1468956683.21104.2.camel@linux.intel.com>
+ <df46db7b-557c-5662-8d0a-22a691f54a0c@kernel.dk>
+Message-ID: <1469119009.18464.6.camel@linux.intel.com>
 
-> While I'm rambling, there is still a condition that probably needs to be
-> addressed:  if the application event handler function disconnects the
-> cm_id that is handling the event, the iw_cm workq thread gets stuck
-> posting a IW_CM_EVENT_CLOSE to rdma_cm.  So the iw_cm workq thread is
-> stuck in cm_close_handler() calling cm_id_priv->id.cm_handler() which is
-> cma_iw_handler() which is blocked in cma_disable_callback() because the
-> application is currently running its event handler for this cm_id.  This
-> block is released when the application returns from its event handler
-> function.
+On Wed, 2016-07-20@21:27 -0600, Jens Axboe wrote:
 > 
-> But maybe cma_iw_handler() should queue the event if it cannot deliver it,
-> vs blocking the iw_cm workq thread?
+> On 07/19/2016 01:31 PM, J Freyensee wrote:
+> > On Thu, 2016-06-02@08:51 -0700, Jay Freyensee wrote:
+> > 
+> > Jens,
+> > 
+> > I believe this patch fix got missed?  Or is there a problem with
+> > this
+> > patch?
 > 
+> No problem, just got missed. Added, thanks.
 
-Answering myself:  queueing the event seems to be a no-go because the rdma_cm
-can return non-zero to the iw_cm to indicate it should destroy the iw_cm_id.
-This cannot be done correctly if the event is queued/deferred.
+Thanks Jens!
+
+> 
