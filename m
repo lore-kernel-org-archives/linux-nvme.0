@@ -1,108 +1,119 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 22 Jul 2016 13:37:43 -0500
-Subject: [PATCH 3/3] nvme-rdma: Fix device removal handling
-In-Reply-To: <0cb1ccaa920b3ec48dd94ea49fa0f0b7c5520d38.1468879135.git.swise@opengridcomputing.com>
-References: <cover.1468879135.git.swise@opengridcomputing.com>
- <0cb1ccaa920b3ec48dd94ea49fa0f0b7c5520d38.1468879135.git.swise@opengridcomputing.com>
-Message-ID: <00ef01d1e448$225132a0$66f397e0$@opengridcomputing.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 22 Jul 2016 17:23:50 -0700
+Subject: [PATCH] nvme-fabrics: Patch host code in prep for FC transport support
+Message-ID: <5792b916.P2ksarpXpcxZ+l9s%james.smart@broadcom.com>
 
-> Device removal sequence may have crashed because the
-> controller (and admin queue space) was freed before
-> we destroyed the admin queue resources. Thus we
-> want to destroy the admin queue and only then queue
-> controller deletion and wait for it to complete.
-> 
-> More specifically we:
-> 1. own the controller deletion (make sure we are not
->    competing with another deletion).
-> 2. get rid of inflight reconnects if exists (which
->    also destroy and create queues).
-> 3. destroy the queue.
-> 4. safely queue controller deletion (and wait for it
->    to complete).
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  drivers/nvme/host/rdma.c | 49
-++++++++++++++++++++++++++----------------------
->  1 file changed, 27 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 3e3ce2b..0e58450 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -169,7 +169,6 @@ MODULE_PARM_DESC(register_always,
->  static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
->  		struct rdma_cm_event *event);
->  static void nvme_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
-> -static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl);
-> 
->  /* XXX: really should move to a generic header sooner or later.. */
->  static inline void put_unaligned_le24(u32 val, u8 *p)
-> @@ -1318,37 +1317,43 @@ out_destroy_queue_ib:
->   * that caught the event. Since we hold the callout until the controller
->   * deletion is completed, we'll deadlock if the controller deletion will
->   * call rdma_destroy_id on this queue's cm_id. Thus, we claim ownership
-> - * of destroying this queue before-hand, destroy the queue resources
-> - * after the controller deletion completed with the exception of destroying
-> - * the cm_id implicitely by returning a non-zero rc to the callout.
-> + * of destroying this queue before-hand, destroy the queue resources,
-> + * then queue the controller deletion which won't destroy this queue and
-> + * we destroy the cm_id implicitely by returning a non-zero rc to the
-callout.
->   */
->  static int nvme_rdma_device_unplug(struct nvme_rdma_queue *queue)
->  {
->  	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
-> -	int ret, ctrl_deleted = 0;
-> +	int ret;
-> 
-> -	/* First disable the queue so ctrl delete won't free it */
-> -	if (!test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags))
-> -		goto out;
-> +	/* Own the controller deletion */
-> +	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
-> +		return 0;
-> 
-> -	/* delete the controller */
-> -	ret = __nvme_rdma_del_ctrl(ctrl);
-> -	if (!ret) {
-> -		dev_warn(ctrl->ctrl.device,
-> -			"Got rdma device removal event, deleting ctrl\n");
-> -		flush_work(&ctrl->delete_work);
-> +	dev_warn(ctrl->ctrl.device,
-> +		"Got rdma device removal event, deleting ctrl\n");
-> 
-> -		/* Return non-zero so the cm_id will destroy implicitly */
-> -		ctrl_deleted = 1;
-> +	/* Get rid of reconnect work if its running */
-> +	cancel_delayed_work_sync(&ctrl->reconnect_work);
-> 
-> -		/* Free this queue ourselves */
-> -		rdma_disconnect(queue->cm_id);
-> -		ib_drain_qp(queue->qp);
-> -		nvme_rdma_destroy_queue_ib(queue);
-> +	/* Disable the queue so ctrl delete won't free it */
-> +	if (!test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags)) {
-> +		ret = 0;
-> +		goto queue_delete;
->  	}
-> 
-> -out:
-> -	return ctrl_deleted;
-> +	/* Free this queue ourselves */
-> +	nvme_rdma_stop_queue(queue);
-> +	nvme_rdma_destroy_queue_ib(queue);
-> +
-> +	/* Return non-zero so the cm_id will destroy implicitly */
-> +	ret = 1;
-> +
-> +queue_delete:
-> +	/* queue controller deletion */
-> +	queue_work(nvme_rdma_wq, &ctrl->delete_work);
-> +	flush_work(&ctrl->delete_work);
 
-Actually, since the queue_work() fires off the workq thread to delete the
-controller and its resources (on another cpu potentially), and think the
-flush_work() could end up being a touch-after-free because it accesses *ctrl,
-no?
+Patch nvme-fabrics host code in prep for FC transport support:
+- Add the host_traddr field to allow specification of the host-port
+  connection info for the transport. Will be used by FC transport.
+- Revise nvmf_get_address() string to account for not all options being
+  present.
+- Revise some of the comments so not so ethernet-network centric
+
+Patch is cut against the linux-nvme for-4.8/drivers branch
+
+Note: this patch had been posted to the prior nvme fabrics repository but
+not merged before being brought over to linux-nvme.
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fabrics.c | 25 +++++++++++++++++++++++--
+ drivers/nvme/host/fabrics.h | 11 ++++++++---
+ 2 files changed, 31 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index dc99676..1c07b76 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -109,8 +109,19 @@ static void nvmf_host_put(struct nvmf_host *host)
+  */
+ int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
+ {
+-	return snprintf(buf, size, "traddr=%s,trsvcid=%s\n",
+-			ctrl->opts->traddr, ctrl->opts->trsvcid);
++	int len = 0;
++
++	if (ctrl->opts->mask & NVMF_OPT_TRADDR)
++		len += snprintf(buf, size, "traddr=%s", ctrl->opts->traddr);
++	if (ctrl->opts->mask & NVMF_OPT_TRSVCID)
++		len += snprintf(buf + len, size - len, "%strsvcid=%s",
++				(len) ? "," : "", ctrl->opts->trsvcid);
++	if (ctrl->opts->mask & NVMF_OPT_HOST_TRADDR)
++		len += snprintf(buf + len, size - len, "%shost_traddr=%s",
++				(len) ? "," : "", ctrl->opts->host_traddr);
++	len += snprintf(buf + len, size - len, "\n");
++
++	return len;
+ }
+ EXPORT_SYMBOL_GPL(nvmf_get_address);
+ 
+@@ -510,6 +521,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_RECONNECT_DELAY,	"reconnect_delay=%d"	},
+ 	{ NVMF_OPT_KATO,		"keep_alive_tmo=%d"	},
+ 	{ NVMF_OPT_HOSTNQN,		"hostnqn=%s"		},
++	{ NVMF_OPT_HOST_TRADDR,		"host_traddr=%s"	},
+ 	{ NVMF_OPT_ERR,			NULL			}
+ };
+ 
+@@ -666,6 +678,14 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			}
+ 			opts->reconnect_delay = token;
+ 			break;
++		case NVMF_OPT_HOST_TRADDR:
++			p = match_strdup(args);
++			if (!p) {
++				ret = -ENOMEM;
++				goto out;
++			}
++			opts->host_traddr = p;
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+@@ -732,6 +752,7 @@ void nvmf_free_options(struct nvmf_ctrl_options *opts)
+ 	kfree(opts->traddr);
+ 	kfree(opts->trsvcid);
+ 	kfree(opts->subsysnqn);
++	kfree(opts->host_traddr);
+ 	kfree(opts);
+ }
+ EXPORT_SYMBOL_GPL(nvmf_free_options);
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 89df52c..8f08c3a 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -52,6 +52,7 @@ enum {
+ 	NVMF_OPT_KATO		= 1 << 7,
+ 	NVMF_OPT_HOSTNQN	= 1 << 8,
+ 	NVMF_OPT_RECONNECT_DELAY = 1 << 9,
++	NVMF_OPT_HOST_TRADDR	= 1 << 10,
+ };
+ 
+ /**
+@@ -64,9 +65,12 @@ enum {
+  *		being added.
+  * @subsysnqn:	Hold the fully qualified NQN subystem name (format defined
+  *		in the NVMe specification, "NVMe Qualified Names").
+- * @traddr:	network address that will be used by the host to communicate
+- *		to the added NVMe controller.
+- * @trsvcid:	network port used for host-controller communication.
++ * @traddr:	The transport-specific TRADDR field for a port on the
++ *              subsystem which is adding a controller.
++ * @trsvcid:	The transport-specific TRSVCID field for a port on the
++ *              subsystem which is adding a controller.
++ * @host_traddr: A transport-specific field identifying the NVME host port
++ *              to use for the connection to the controller.
+  * @queue_size: Number of IO queue elements.
+  * @nr_io_queues: Number of controller IO queues that will be established.
+  * @reconnect_delay: Time between two consecutive reconnect attempts.
+@@ -80,6 +84,7 @@ struct nvmf_ctrl_options {
+ 	char			*subsysnqn;
+ 	char			*traddr;
+ 	char			*trsvcid;
++	char			*host_traddr;
+ 	size_t			queue_size;
+ 	unsigned int		nr_io_queues;
+ 	unsigned int		reconnect_delay;
+-- 
+2.5.0
