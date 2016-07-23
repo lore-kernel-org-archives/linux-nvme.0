@@ -1,81 +1,322 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Fri, 22 Jul 2016 17:24:00 -0700
-Subject: [PATCH 0/3] nvme-fabrics: Add NVME FC Transport support to lpfc
-Message-ID: <5792b920.7v71BUERlAKN8sK4%james.smart@broadcom.com>
+Date: Fri, 22 Jul 2016 17:23:55 -0700
+Subject: [PATCH 1/5] nvme-fabrics: Add FC transport FC-NVME definitions
+Message-ID: <5792b91b.a6nfpeRWWVF/YKnV%james.smart@broadcom.com>
 
 
-This patchset adds NVME support to the lpfc FC driver.  It reworks
-the core driver for both NVME and SCSI protocol support, then adds the
-nvme-over-fabrics host and target interfaces which connect to the 
-NVME FC transport lower-level api.
-
-Patches are cut against the linux-nvme for-4.8/drivers branch
-
-Dependent on:
--the u64 parser patch just posted
--the lpfc 11.2.0.0 patch set posted to linux-scsi a couple weeks back.
- http://www.spinics.net/lists/linux-scsi/msg97964.html
- http://www.spinics.net/lists/linux-scsi/msg98219.html
+nvme-fabrics: Add FC transport FC-NVME definitions:
+- Formats for Cmd, Data, Rsp IUs
+- Formats FC-4 LS definitions
 
 
-Caveats:
+Signed-off-by: James Smart <james.smart at broadcom.com>
 
--Depends on the lpfc 11.2.0.0 patch set posted to linux-scsi being present
- in the tree:
- http://www.spinics.net/lists/linux-scsi/msg97964.html
- http://www.spinics.net/lists/linux-scsi/msg98219.html
+---
+ include/linux/nvme-fc.h | 296 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 296 insertions(+)
+ create mode 100644 include/linux/nvme-fc.h
 
--Depends on the NVME FC Transport patches
-
--cut against the linux-nvme for-4.8/drivers branch
-
--Individual patches not tested much individually. All testing has been
- with all 3 patches together - base, host, and target.
-
--Driver depends on NVME-supporting firmware which is not yet generally
- available. Contact me if there is a need to obtain the firmware.
-
--- james
-
-
-James Smart (3):
-  nvme_fabrics: Rework lpfc base driver to support the NVME protocol
-  nvme-fabrics: Add nvme host FC transport support to lpfc driver
-  nvme-fabrics: Add nvme target FC transport support to lpfc driver
-
- drivers/scsi/lpfc/Makefile         |    7 +-
- drivers/scsi/lpfc/lpfc.h           |   43 +-
- drivers/scsi/lpfc/lpfc_attr.c      |   69 +-
- drivers/scsi/lpfc/lpfc_crtn.h      |   32 +-
- drivers/scsi/lpfc/lpfc_ct.c        |  379 +++++++---
- drivers/scsi/lpfc/lpfc_debugfs.c   |  636 ++++++++++++++--
- drivers/scsi/lpfc/lpfc_debugfs.h   |  119 ++-
- drivers/scsi/lpfc/lpfc_disc.h      |   17 +-
- drivers/scsi/lpfc/lpfc_els.c       |  212 ++++--
- drivers/scsi/lpfc/lpfc_hbadisc.c   |  352 ++++++++-
- drivers/scsi/lpfc/lpfc_hw.h        |   49 +-
- drivers/scsi/lpfc/lpfc_hw4.h       |  128 +++-
- drivers/scsi/lpfc/lpfc_init.c      |  744 ++++++++++++++----
- drivers/scsi/lpfc/lpfc_logmsg.h    |    1 +
- drivers/scsi/lpfc/lpfc_mbox.c      |   19 +-
- drivers/scsi/lpfc/lpfc_mem.c       |  122 ++-
- drivers/scsi/lpfc/lpfc_nportdisc.c |  150 +++-
- drivers/scsi/lpfc/lpfc_nvme.c      | 1447 ++++++++++++++++++++++++++++++++++++
- drivers/scsi/lpfc/lpfc_nvme.h      |   62 ++
- drivers/scsi/lpfc/lpfc_nvmet.c     | 1269 +++++++++++++++++++++++++++++++
- drivers/scsi/lpfc/lpfc_nvmet.h     |   72 ++
- drivers/scsi/lpfc/lpfc_scsi.c      |   12 +-
- drivers/scsi/lpfc/lpfc_scsi.h      |   19 +-
- drivers/scsi/lpfc/lpfc_sli.c       |  785 +++++++++++++++----
- drivers/scsi/lpfc/lpfc_sli.h       |   30 +-
- drivers/scsi/lpfc/lpfc_sli4.h      |   28 +-
- drivers/scsi/lpfc/lpfc_version.h   |    2 +-
- drivers/scsi/lpfc/lpfc_vport.c     |    1 +
- 28 files changed, 6121 insertions(+), 685 deletions(-)
- create mode 100644 drivers/scsi/lpfc/lpfc_nvme.c
- create mode 100644 drivers/scsi/lpfc/lpfc_nvme.h
- create mode 100644 drivers/scsi/lpfc/lpfc_nvmet.c
- create mode 100644 drivers/scsi/lpfc/lpfc_nvmet.h
-
+diff --git a/include/linux/nvme-fc.h b/include/linux/nvme-fc.h
+new file mode 100644
+index 0000000..99e9200
+--- /dev/null
++++ b/include/linux/nvme-fc.h
+@@ -0,0 +1,296 @@
++/*
++ * Copyright (c) 2016 Avago Technologies.  All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of version 2 of the GNU General Public License as
++ * published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful.
++ * ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES,
++ * INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A
++ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT, ARE DISCLAIMED, EXCEPT TO
++ * THE EXTENT THAT SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID.
++ * See the GNU General Public License for more details, a copy of which
++ * can be found in the file COPYING included with this package
++ *
++ */
++
++/*
++ * This file contains definitions relative to FC-NVME r1.05
++ */
++
++#ifndef _NVME_FC_H
++#define _NVME_FC_H 1
++
++#define NVME_FC4_TYPE			0x28
++
++#define NVME_CMD_SCSI_ID		0xFD
++#define NVME_CMD_FC_ID			NVME_FC4_TYPE
++
++/* FC-NVME Cmd IU Flags */
++#define FCNVME_CMD_FLAGS_DIRMASK	0x03
++#define FCNVME_CMD_FLAGS_WRITE		0x01
++#define FCNVME_CMD_FLAGS_READ		0x02
++
++struct nvme_fc_cmd_iu {
++	__u8			scsi_id;
++	__u8			fc_id;
++	__be16			iu_len;
++	__u8			rsvd4[3];
++	__u8			flags;
++	__be32			rsvd8[2];
++	__be64			connection_id;
++	__be32			csn;
++	__be32			data_len;
++	struct nvme_command	sqe;
++};
++
++#define NVME_FC_SIZEOF_ZEROS_RSP	12
++
++struct nvme_fc_ersp_iu {
++	__u8			rsvd0[2];
++	__be16			iu_len;
++	__be32			rsn;
++	__be32			rsvd8[2];
++	struct nvme_completion	cqe;
++	/* for now - no additional payload */
++};
++
++
++/* FC-NVME r1.03/16-119v0 NVME Link Services */
++enum {
++	FCNVME_LS_RSVD			= 0,
++	FCNVME_LS_RJT			= 1,
++	FCNVME_LS_ACC			= 2,
++	FCNVME_LS_CREATE_ASSOCIATION	= 3,
++	FCNVME_LS_CREATE_CONNECTION	= 4,
++	FCNVME_LS_DISCONNECT		= 5,
++};
++
++/* FC-NVME r1.03/16-119v0 NVME Link Service Descriptors */
++enum {
++	FCNVME_LSDESC_RSVD		= 0x0,
++	FCNVME_LSDESC_RQST		= 0x1,
++	FCNVME_LSDESC_RJT		= 0x2,
++	FCNVME_LSDESC_CREATE_ASSOC_CMD	= 0x3,
++	FCNVME_LSDESC_CREATE_CONN_CMD	= 0x4,
++	FCNVME_LSDESC_DISCONN_CMD	= 0x5,
++	FCNVME_LSDESC_CONN_ID		= 0x6,
++	FCNVME_LSDESC_ASSOC_ID		= 0x7,
++};
++
++
++/* ********** start of Link Service Descriptors ********** */
++
++
++/* fills in length of a descriptor. Struture minus descriptor header */
++#define FCNVME_LSDESC_LEN(lsdesc) \
++		cpu_to_be32(sizeof(lsdesc) - (2*(sizeof(u32))))
++
++struct fcnvme_ls_rqst_w0 {
++	u8	ls_cmd;			/* FCNVME_LS_xxx */
++	u8	zeros[3];
++};
++
++/* FCNVME_LSDESC_RQST */
++struct fcnvme_lsdesc_rqst {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	struct fcnvme_ls_rqst_w0	w0;
++	__be32	rsvd12;
++};
++
++/* From LS-3 */
++enum {
++	LSRJT_REASON_INVALID_ELS_CODE		= 0x1,
++	LSRJT_REASON_LOGICAL_ERROR		= 0x3,
++	LSRJT_REASON_LOGICAL_BUSY		= 0x5,
++	LSRJT_REASON_PROTOCOL_ERROR		= 0x7,
++	LSRJT_REASON_UNABLE_TO_PERFORM_CMD	= 0x9,
++	LSRJT_REASON_CMD_NOT_SUPPORTED		= 0xB,
++	LSRJT_REASON_CMD_ALREADY_IN_PROGRESS	= 0xE,
++	LSRJT_REASON_FIP_ERROR			= 0x20,
++	/* Add others later */
++};
++
++enum {
++	LSRJT_EXPL_NO_EXPLANATION		= 0x0,
++	/* Add others later */
++};
++
++
++/* FCNVME_LSDESC_RJT */
++struct fcnvme_lsdesc_rjt {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	u8	rsvd8;
++	u8	reason_code;
++	u8	reason_explanation;
++	u8	vendor;
++	__be32	rsvd12;
++};
++
++
++#define FCNVME_ASSOC_HOSTID_LEN		64
++#define FCNVME_ASSOC_HOSTNQN_LEN	256
++#define FCNVME_ASSOC_SUBNQN_LEN		256
++
++/* FCNVME_LSDESC_CREATE_ASSOC_CMD */
++struct fcnvme_lsdesc_cr_assoc_cmd {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	__be16	ersp_ratio;
++	__be16	rsvd10;
++	__be32	rsvd12[9];
++	__be16	cntlid;
++	__be16	sqsize;
++	__be32	rsvd52;
++	u8	hostid[FCNVME_ASSOC_HOSTID_LEN];
++	u8	hostnqn[FCNVME_ASSOC_HOSTNQN_LEN];
++	u8	subnqn[FCNVME_ASSOC_SUBNQN_LEN];
++	u8	rsvd632[384];
++};
++
++/* FCNVME_LSDESC_CREATE_CONN_CMD */
++struct fcnvme_lsdesc_cr_conn_cmd {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	__be16	ersp_ratio;
++	__be16	rsvd10;
++	__be32	rsvd12[9];
++	__be16	qid;
++	__be16	sqsize;
++	__be32  rsvd52;
++};
++
++/* Disconnect Scope Values */
++enum {
++	FCNVME_DISCONN_ASSOCIATION	= 0,
++	FCNVME_DISCONN_CONNECTION	= 1,
++};
++
++/* FCNVME_LSDESC_DISCONN_CMD */
++struct fcnvme_lsdesc_disconn_cmd {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	u8	rsvd8[3];
++	/* note: scope is really a 1 bit field */
++	u8	scope;			/* FCNVME_DISCONN_xxx */
++	__be32	rsvd12;
++	__be64	id;
++};
++
++/* FCNVME_LSDESC_CONN_ID */
++struct fcnvme_lsdesc_conn_id {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	__be64	connection_id;
++};
++
++/* FCNVME_LSDESC_ASSOC_ID */
++struct fcnvme_lsdesc_assoc_id {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	__be64	association_id;
++};
++
++
++/* ********** start of Link Services ********** */
++
++
++/* FCNVME_LS_RJT */
++struct fcnvme_ls_rjt {
++	struct fcnvme_ls_rqst_w0		w0;
++	__be32					desc_list_len;
++	struct fcnvme_lsdesc_rqst		rqst;
++	struct fcnvme_lsdesc_rjt		rjt;
++};
++
++/* FCNVME_LS_ACC */
++struct fcnvme_ls_acc_hdr {
++	struct fcnvme_ls_rqst_w0		w0;
++	__be32					desc_list_len;
++	struct fcnvme_lsdesc_rqst		rqst;
++	/* Followed by cmd-specific ACC descriptors, see next definitions */
++};
++
++/* FCNVME_LS_CREATE_ASSOCIATION */
++struct fcnvme_ls_cr_assoc_rqst {
++	struct fcnvme_ls_rqst_w0		w0;
++	__be32					desc_list_len;
++	struct fcnvme_lsdesc_cr_assoc_cmd	assoc_cmd;
++};
++
++struct fcnvme_ls_cr_assoc_acc {
++	struct fcnvme_ls_acc_hdr		hdr;
++	struct fcnvme_lsdesc_assoc_id		associd;
++	struct fcnvme_lsdesc_conn_id		connectid;
++};
++
++
++/* FCNVME_LS_CREATE_CONNECTION */
++struct fcnvme_ls_cr_conn_rqst {
++	struct fcnvme_ls_rqst_w0		w0;
++	__be32					desc_list_len;
++	struct fcnvme_lsdesc_assoc_id		associd;
++	struct fcnvme_lsdesc_cr_conn_cmd	connect_cmd;
++};
++
++struct fcnvme_ls_cr_conn_acc {
++	struct fcnvme_ls_acc_hdr		hdr;
++	struct fcnvme_lsdesc_conn_id		connectid;
++};
++
++/* FCNVME_LS_DISCONNECT */
++struct fcnvme_ls_disconnect_rqst {
++	struct fcnvme_ls_rqst_w0		w0;
++	__be32					desc_list_len;
++	struct fcnvme_lsdesc_assoc_id		associd;
++	struct fcnvme_lsdesc_disconn_cmd	discon_cmd;
++};
++
++struct fcnvme_ls_disconnect_acc {
++	struct fcnvme_ls_acc_hdr		hdr;
++};
++
++
++/*
++ * Yet to be defined in FC-NVME:
++ */
++#define NVME_FC_CONNECT_TIMEOUT_SEC	2		/* 2 seconds */
++#define NVME_FC_LS_TIMEOUT_SEC		2		/* 2 seconds */
++#define NVME_FC_TGTOP_TIMEOUT_SEC	2		/* 2 seconds */
++
++
++/*
++ * FC Transport-specific error status values for NVME commands
++ *
++ * Need to incorporate into NVME Over Fabrics standard
++ *
++ * A request has been made to include transport-specific status values
++ * into the standard but it is not yet complete/defined.
++ *
++ * For now, we will use a range within the Fabric values.  The range
++ * will be 0xA0-0xBF, which is a reserved area in the fabric spec.
++ * Currently, Only the values below have been defined within that range.
++ */
++enum {
++	/* Generic FC failure - catchall */
++	NVME_SC_FC_TRANSPORT_ERROR	= 0x00A0,
++
++	/* I/O failure due to FC ABTS'd */
++	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00A1,
++
++	/* FC Transport Connection in error */
++	NVME_SC_FC_NO_CONNECTION	= 0x40A2,	/* not retryable */
++
++	/* NVME Completion did not contain original CMDID */
++	NVME_SC_FC_CMDID_MISMATCH	= 0x00A3,
++
++	/* IU format error */
++	NVME_SC_FC_FORMAT		= 0x00A4,
++};
++
++
++#endif /* _NVME_FC_H */
++
 -- 
 2.5.0
