@@ -1,873 +1,860 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Fri, 22 Jul 2016 17:23:59 -0700
-Subject: [PATCH 5/5] nvme-fabrics: Add FC LLDD loopback driver to test FC
- host and target transport
-Message-ID: <5792b91f.Lb5BdNQrSWnmgOYG%james.smart@broadcom.com>
+Date: Fri, 22 Jul 2016 17:23:56 -0700
+Subject: [PATCH 2/5] nvme-fabrics: Add FC transport LLDD api definitions
+Message-ID: <5792b91c.7HwdoM0qFRAjvQId%james.smart@broadcom.com>
 
 
-Add FC LLDD loopback driver to test FC host and target transport within
-nvme-fabrics
+nvme-fabrics: Add FC transport LLDD api definitions:
 
-To aid in the development and testing of the lower-level api of the FC
-transport, this loopback driver has been created to act as if it were a
-FC hba driver supporting both the host interfaces as well as the target
-interfaces with the nvme FC transport.
+Host:
+-LLDD registration with the host transport
+-registering host ports (local ports) and target ports seen on
+   fabric (remote ports)
+-Data structures and call points for FC-4 LS's and FCP IO requests
+
+Target:
+-LLDD registration with the target transport
+-registering nvme subsystem ports (target ports)
+-Data structures and call points for reception of FC-4 LS's and
+   FCP IO requests, and callbacks to perform data and rsp transfers
+   for the io.
 
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 
 ---
- drivers/nvme/target/Kconfig  |  13 +
- drivers/nvme/target/Makefile |   2 +
- drivers/nvme/target/fcloop.c | 803 +++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 818 insertions(+)
- create mode 100644 drivers/nvme/target/fcloop.c
+ include/linux/nvme-fc-driver.h | 823 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 823 insertions(+)
+ create mode 100644 include/linux/nvme-fc-driver.h
 
-diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-index 62819b2..a20d41c 100644
---- a/drivers/nvme/target/Kconfig
-+++ b/drivers/nvme/target/Kconfig
-@@ -44,3 +44,16 @@ config NVME_TARGET_FC
- 
- 	  If unsure, say N.
- 
-+config NVME_TARGET_FCLOOP
-+	tristate "NVMe over Fabrics FC Transport Loopback Test driver"
-+	depends on BLK_DEV_NVME
-+	select NVME_TARGET
-+	select NVME_FABRICS
-+	select SG_POOL
-+	select NVME_FC
-+	select NVME_TARGET_FC
-+	help
-+	  This enables the NVMe FC loopback test support, which can be useful
-+	  to test NVMe-FC transport interfaces.
-+
-+	  If unsure, say N.
-diff --git a/drivers/nvme/target/Makefile b/drivers/nvme/target/Makefile
-index 80b128b..fecc14f 100644
---- a/drivers/nvme/target/Makefile
-+++ b/drivers/nvme/target/Makefile
-@@ -3,9 +3,11 @@ obj-$(CONFIG_NVME_TARGET)		+= nvmet.o
- obj-$(CONFIG_NVME_TARGET_LOOP)		+= nvme-loop.o
- obj-$(CONFIG_NVME_TARGET_RDMA)		+= nvmet-rdma.o
- obj-$(CONFIG_NVME_TARGET_FC)		+= nvmet-fc.o
-+obj-$(CONFIG_NVME_TARGET_FCLOOP)	+= nvme-fcloop.o
- 
- nvmet-y		+= core.o configfs.o admin-cmd.o io-cmd.o fabrics-cmd.o \
- 			discovery.o
- nvme-loop-y	+= loop.o
- nvmet-rdma-y	+= rdma.o
- nvmet-fc-y	+= fc.o
-+nvme-fcloop-y	+= fcloop.o
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
 new file mode 100644
-index 0000000..277ea61
+index 0000000..78918a7
 --- /dev/null
-+++ b/drivers/nvme/target/fcloop.c
-@@ -0,0 +1,803 @@
++++ b/include/linux/nvme-fc-driver.h
+@@ -0,0 +1,823 @@
 +/*
-+ * Copyright (c) 2016 Avago Technologies.  All rights reserved.
++ * Copyright (c) 2016, Avago Technologies
 + *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of version 2 of the GNU General Public License as
-+ * published by the Free Software Foundation.
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
 + *
-+ * This program is distributed in the hope that it will be useful.
-+ * ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES,
-+ * INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A
-+ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT, ARE DISCLAIMED, EXCEPT TO
-+ * THE EXTENT THAT SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID.
-+ * See the GNU General Public License for more details, a copy of which
-+ * can be found in the file COPYING included with this package
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
 + */
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+#include <linux/module.h>
-+#include <linux/parser.h>
 +
-+#include "../host/nvme.h"
-+#include "../target/nvmet.h"
-+#include <linux/nvme-fc-driver.h>
-+#include <linux/nvme-fc.h>
++#ifndef _NVME_FC_DRIVER_H
++#define _NVME_FC_DRIVER_H 1
 +
-+#define is_end_of_list(pos, head, member) ((&pos->member) == (head))
 +
++/*
++ * **********************  LLDD FC-NVME Host API ********************
++ *
++ *  For FC LLDD's that are the NVME Host role.
++ *
++ * ******************************************************************
++ */
++
++
++
++/* FC Port role bitmask - can merge with FC Port Roles in fc transport */
++#define FC_PORT_ROLE_NVME_INITIATOR	0x10
++#define FC_PORT_ROLE_NVME_TARGET	0x11
++#define FC_PORT_ROLE_NVME_DISCOVERY	0x12
++
++
++/**
++ * struct nvme_fc_port_info - port-specific ids and FC connection-specific
++ *                            data element used during NVME Host role
++ *                            registrations
++ *
++ * Static fields describing the port being registered:
++ * @node_name: FC WWNN for the port
++ * @port_name: FC WWPN for the port
++ * @port_role: What NVME roles are supported (see FC_PORT_ROLE_xxx)
++ *
++ * Initialization values for dynamic port fields:
++ * @fabric_name:  FC Fabric name the port is connected to. If connection is
++ *                point-to-point (no switch) use srcport WWPN. If no current
++ *                Link Up, set to 0.
++ * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
++ *                be set to 0.
++ */
++struct nvme_fc_port_info {
++	u64			node_name;
++	u64			port_name;
++	u32			port_role;
++	u64			fabric_name;
++	u32			port_id;
++};
++
++
++/**
++ * struct nvmefc_ls_req - Request structure passed from NVME-FC transport
++ *                        to LLDD in order to perform a NVME FC-4 LS
++ *                        request and obtain a response.
++ *
++ * Values set by the NVME-FC layer prior to calling the LLDD ls_req
++ * entrypoint.
++ * @rqstaddr: pointer to request buffer
++ * @rqstdma:  PCI DMA address of request buffer
++ * @rqstlen:  Length, in bytes, of request buffer
++ * @rspaddr:  pointer to response buffer
++ * @rspdma:   PCI DMA address of response buffer
++ * @rsplen:   Length, in bytes, of response buffer
++ * @timeout:  Maximum amount of time, in seconds, to wait for the LS response.
++ *            If timeout exceeded, LLDD to abort LS exchange and complete
++ *            LS request with error status.
++ * @private:  pointer to memory allocated alongside the ls request structure
++ *            that is specifically for the LLDD to use while processing the
++ *            request. The length of the buffer corresponds to the
++ *            lsrqst_priv_sz value specified in the nvme_fc_port_template
++ *            supplied by the LLDD.
++ * @done:     The callback routine the LLDD is to invoke upon completion of
++ *            the LS request. req argument is the pointer to the original LS
++ *            request structure. Status argument must be 0 upon success, a
++ *            negative errno on failure (example: -ENXIO).
++ */
++struct nvmefc_ls_req {
++	void			*rqstaddr;
++	dma_addr_t		rqstdma;
++	u32			rqstlen;
++	void			*rspaddr;
++	dma_addr_t		rspdma;
++	u32			rsplen;
++	u32			timeout;
++
++	void			*private;
++
++	void (*done)(struct nvmefc_ls_req *req, int status);
++
++} __aligned(sizeof(u64));	/* alignment for other things alloc'd with */
++
++
++enum nvmefc_fcp_datadir {
++	NVMEFC_FCP_NODATA,	/* payload_length and sg_cnt will be zero */
++	NVMEFC_FCP_WRITE,
++	NVMEFC_FCP_READ,
++};
++
++
++#define NVME_FC_MAX_SEGMENTS		256
++
++/**
++ * struct nvmefc_fcp_req - Request structure passed from NVME-FC transport
++ *                         to LLDD in order to perform a NVME FCP IO operation.
++ *
++ * Values set by the NVME-FC layer prior to calling the LLDD fcp_io
++ * entrypoint.
++ * @cmdaddr:   pointer to the FCP CMD IU buffer
++ * @rspaddr:   pointer to the FCP RSP IU buffer
++ * @cmddma:    PCI DMA address of the FCP CMD IU buffer
++ * @rspdma:    PCI DMA address of the FCP RSP IU buffer
++ * @cmdlen:    Length, in bytes, of the FCP CMD IU buffer
++ * @rsplen:    Length, in bytes, of the FCP RSP IU buffer
++ * @payload_length: Length of DATA_IN or DATA_OUT payload data to transfer
++ * @sg_table:  scatter/gather structure for payload data
++ * @first_sgl: memory for 1st scatter/gather list segment for payload data
++ * @sg_cnt:    number of elements in the scatter/gather list
++ * @io_dir:    direction of the FCP request (see NVMEFC_FCP_xxx)
++ * @done:      The callback routine the LLDD is to invoke upon completion of
++ *             the FCP operation. req argument is the pointer to the original
++ *             FCP IO operation.
++ * @private:   pointer to memory allocated alongside the FCP operation
++ *             request structure that is specifically for the LLDD to use
++ *             while processing the operation. The length of the buffer
++ *             corresponds to the fcprqst_priv_sz value specified in the
++ *             nvme_fc_port_template supplied by the LLDD.
++ *
++ * Values set by the LLDD indicating completion status of the FCP operation.
++ * Must be set prior to calling the done() callback.
++ * @transferred_length: amount of payload data, in bytes, that were
++ *             transferred. Should equal payload_length on success.
++ * @rcv_rsplen: length, in bytes, of the FCP RSP IU received.
++ * @status:    Completion status of the FCP operation. must be 0 upon success,
++ *             NVME_SC_FC_xxx value upon failure. Note: this is NOT a
++ *             reflection of the NVME CQE completion status. Only the status
++ *             of the FCP operation at the NVME-FC level.
++ */
++struct nvmefc_fcp_req {
++	void			*cmdaddr;
++	void			*rspaddr;
++	dma_addr_t		cmddma;
++	dma_addr_t		rspdma;
++	u16			cmdlen;
++	u16			rsplen;
++
++	u32			payload_length;
++	struct sg_table		sg_table;
++	struct scatterlist	*first_sgl;
++	int			sg_cnt;
++	enum nvmefc_fcp_datadir	io_dir;
++
++	void (*done)(struct nvmefc_fcp_req *req);
++
++	void			*private;
++
++	u32			transferred_length;
++	u16			rcv_rsplen;
++	u32			status;
++} __aligned(sizeof(u64));	/* alignment for other things alloc'd with */
++
++
++/*
++ * Direct copy of fc_port_state enum. For later merging
++ */
++enum nvme_fc_obj_state {
++	FC_OBJSTATE_UNKNOWN,
++	FC_OBJSTATE_NOTPRESENT,
++	FC_OBJSTATE_ONLINE,
++	FC_OBJSTATE_OFFLINE,		/* User has taken Port Offline */
++	FC_OBJSTATE_BLOCKED,
++	FC_OBJSTATE_BYPASSED,
++	FC_OBJSTATE_DIAGNOSTICS,
++	FC_OBJSTATE_LINKDOWN,
++	FC_OBJSTATE_ERROR,
++	FC_OBJSTATE_LOOPBACK,
++	FC_OBJSTATE_DELETED,
++};
++
++
++/**
++ * struct nvme_fc_local_port - structure used between NVME-FC transport and
++ *                 a LLDD to reference a local NVME host port.
++ *                 Allocated/created by the nvme_fc_register_localport()
++ *                 transport interface.
++ *
++ * Fields with static values for the port. Initialized by the
++ * port_info struct supplied to the registration call.
++ * @port_num:  NVME-FC transport host port number
++ * @port_role: NVME roles are supported on the port (see FC_PORT_ROLE_xxx)
++ * @node_name: FC WWNN for the port
++ * @port_name: FC WWPN for the port
++ * @private:   pointer to memory allocated alongside the local port
++ *             structure that is specifically for the LLDD to use.
++ *             The length of the buffer corresponds to the local_priv_sz
++ *             value specified in the nvme_fc_port_template supplied by
++ *             the LLDD.
++ *
++ * Fields with dynamic values. Values may change base on link state. LLDD
++ * may reference fields directly to change them. Initialized by the
++ * port_info struct supplied to the registration call.
++ * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
++ *                be set to 0.
++ * @fabric_name:  FC Fabric name the port is connected to. If connection is
++ *                point-to-point (no switch) use srcport WWPN. If no current
++ *                Link Up, set to 0.
++ * @port_state:   Operational state of the port.
++ */
++struct nvme_fc_local_port {
++	/* static/read-only fields */
++	u32 port_num;
++	u32 port_role;
++	u64 node_name;
++	u64 port_name;
++
++	void *private;
++
++	/* dynamic fields */
++	u32 port_id;
++	u64 fabric_name;
++	enum nvme_fc_obj_state port_state;
++} __aligned(sizeof(u64));	/* alignment for other things alloc'd with */
++
++
++/**
++ * struct nvme_fc_remote_port - structure used between NVME-FC transport and
++ *                 a LLDD to reference a remote NVME subsystem port.
++ *                 Allocated/created by the nvme_fc_register_remoteport()
++ *                 transport interface.
++ *
++ * Fields with static values for the port. Initialized by the
++ * port_info struct supplied to the registration call.
++ * @port_num:  NVME-FC transport remote subsystem port number
++ * @port_role: NVME roles are supported on the port (see FC_PORT_ROLE_xxx)
++ * @node_name: FC WWNN for the port
++ * @port_name: FC WWPN for the port
++ * @localport: pointer to the NVME-FC local host port the subsystem is
++ *             connected to.
++ * @private:   pointer to memory allocated alongside the remote port
++ *             structure that is specifically for the LLDD to use.
++ *             The length of the buffer corresponds to the remote_priv_sz
++ *             value specified in the nvme_fc_port_template supplied by
++ *             the LLDD.
++ *
++ * Fields with dynamic values. Values may change base on link or login
++ * state. LLDD may reference fields directly to change them. Initialized by
++ * the port_info struct supplied to the registration call.
++ * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
++ *                be set to 0.
++ * @port_state:   Operational state of the remote port. Valid values are
++ *                ONLINE or UNKNOWN.
++ */
++struct nvme_fc_remote_port {
++	/* static fields */
++	u32 port_num;
++	u32 port_role;
++	u64 node_name;
++	u64 port_name;
++
++	struct nvme_fc_local_port *localport;
++
++	void *private;
++
++	/* dynamic fields */
++	u32 port_id;
++	enum nvme_fc_obj_state port_state;
++} __aligned(sizeof(u64));	/* alignment for other things alloc'd with */
++
++
++/**
++ * struct nvme_fc_port_template - structure containing static entrypoints and
++ *                 operational parameters for an LLDD that supports NVME host
++ *                 behavior. Passed by reference in port registrations.
++ *                 NVME-FC transport remembers template reference and may
++ *                 access it during runtime operation.
++ *
++ * Host/Initiator Transport Entrypoints/Parameters:
++ *
++ * @create_queue:  Upon creating a host<->controller association, queues are
++ *       created such that they can be affinitized to cpus/cores. This
++ *       callback into the LLDD to notify that a controller queue is being
++ *       created.  The LLDD may choose to allocate an associated hw queue
++ *       or map it onto a shared hw queue. Upon return from the call, the
++ *       LLDD specifies a handle that will be given back to it for any
++ *       command that is posted to the controller queue.  The handle can
++ *       be used by the LLDD to map quickly to the proper hw queue for
++ *       command execution.  The mask of cpu's that will map to this queue
++ *       at the block-level is also passed in. The LLDD should use the
++ *       queue id and/or cpu masks to ensure proper affinitization of the
++ *       controller queue to the hw queue.
++ *       Entrypoint is Optional.
++ *
++ * @delete_queue:  This is the inverse of the crete_queue. During
++ *       host<->controller association teardown, this routine is called
++ *       when a controller queue is being terminated. Any association with
++ *       a hw queue should be termined. If there is a unique hw queue, the
++ *       hw queue should be torn down.
++ *       Entrypoint is Optional.
++ *
++ * @ls_req:  Called to issue a FC-NVME FC-4 LS service request.
++ *       The nvme_fc_ls_req structure will fully describe the buffers for
++ *       the request payload and where to place the response payload. The
++ *       LLDD is to allocate an exchange, issue the LS request, obtain the
++ *       LS response, and call the "done" routine specified in the request
++ *       structure (argument to done is the ls request structure itself).
++ *       Entrypoint is Mandatory.
++ *
++ * @fcp_io:  called to issue a FC-NVME I/O request.  The I/O may be for
++ *       an admin queue or an i/o queue.  The nvmefc_fcp_req structure will
++ *       fully describe the io: the buffer containing the FC-NVME CMD IU
++ *       (which contains the SQE), the sg list for the payload if applicable,
++ *       and the buffer to place the FC-NVME RSP IU into.  The LLDD will
++ *       complete the i/o, indicating the amount of data transferred or
++ *       any transport error, and call the "done" routine specified in the
++ *       request structure (argument to done is the fcp request structure
++ *       itself).
++ *       Entrypoint is Mandatory.
++ *
++ * @ls_abort: called to request the LLDD to abort the indicated ls request.
++ *       The call may return before the abort has completed. After aborting
++ *       the request, the LLDD must still call the ls request done routine
++ *       indicating an FC transport Aborted status.
++ *       Entrypoint is Mandatory.
++ *
++ * @fcp_abort: called to request the LLDD to abort the indicated fcp request.
++ *       The call may return before the abort has completed. After aborting
++ *       the request, the LLDD must still call the fcp request done routine
++ *       indicating an FC transport Aborted status.
++ *       Entrypoint is Mandatory.
++ *
++ * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
++ *       supports for cpu affinitization.
++ *       Value is Mandatory. Must be at least 1.
++ *
++ * @max_sgl_segments:  indicates the maximum number of sgl segments supported
++ *       by the LLDD
++ *       Value is Mandatory. Must be at least 1. Recommend at least 256.
++ *
++ * @max_dif_sgl_segments:  indicates the maximum number of sgl segments
++ *       supported by the LLDD for DIF operations.
++ *       Value is Mandatory. Must be at least 1. Recommend at least 256.
++ *
++ * @dma_boundary:  indicates the dma address boundary where dma mappings
++ *       will be split across.
++ *       Value is Mandatory. Typical value is 0xFFFFFFFF to split across
++ *       4Gig address boundarys
++ *
++ * @local_priv_sz: The LLDD sets this field to the amount of additional
++ *       memory that it would like fc nvme layer to allocate on the LLDD's
++ *       behalf whenever a localport is allocated.  The additional memory
++ *       area solely for the of the LLDD and its location is specified by
++ *       the localport->private pointer.
++ *       Value is Mandatory. Allowed to be zero.
++ *
++ * @remote_priv_sz: The LLDD sets this field to the amount of additional
++ *       memory that it would like fc nvme layer to allocate on the LLDD's
++ *       behalf whenever a remoteport is allocated.  The additional memory
++ *       area solely for the of the LLDD and its location is specified by
++ *       the remoteport->private pointer.
++ *       Value is Mandatory. Allowed to be zero.
++ *
++ * @lsrqst_priv_sz: The LLDD sets this field to the amount of additional
++ *       memory that it would like fc nvme layer to allocate on the LLDD's
++ *       behalf whenever a ls request structure is allocated. The additional
++ *       memory area solely for the of the LLDD and its location is
++ *       specified by the ls_request->private pointer.
++ *       Value is Mandatory. Allowed to be zero.
++ *
++ * @fcprqst_priv_sz: The LLDD sets this field to the amount of additional
++ *       memory that it would like fc nvme layer to allocate on the LLDD's
++ *       behalf whenever a fcp request structure is allocated. The additional
++ *       memory area solely for the of the LLDD and its location is
++ *       specified by the fcp_request->private pointer.
++ *       Value is Mandatory. Allowed to be zero.
++ */
++struct nvme_fc_port_template {
++	/* initiator-based functions */
++	int	(*create_queue)(struct nvme_fc_local_port *,
++				unsigned int qidx, u16 qsize,
++				void **handle);
++	void	(*delete_queue)(struct nvme_fc_local_port *,
++				unsigned int qidx, void *handle);
++	int	(*ls_req)(struct nvme_fc_local_port *,
++				struct nvme_fc_remote_port *,
++				struct nvmefc_ls_req *);
++	int	(*fcp_io)(struct nvme_fc_local_port *,
++				struct nvme_fc_remote_port *,
++				void *hw_queue_handle,
++				struct nvmefc_fcp_req *);
++	void	(*ls_abort)(struct nvme_fc_local_port *,
++				struct nvme_fc_remote_port *,
++				struct nvmefc_ls_req *);
++	void	(*fcp_abort)(struct nvme_fc_local_port *,
++				struct nvme_fc_remote_port *,
++				void *hw_queue_handle,
++				struct nvmefc_fcp_req *);
++
++	u32	max_hw_queues;
++	u16	max_sgl_segments;
++	u16	max_dif_sgl_segments;
++	u64	dma_boundary;
++
++	/* sizes of additional private data for data structures */
++	u32	local_priv_sz;
++	u32	remote_priv_sz;
++	u32	lsrqst_priv_sz;
++	u32	fcprqst_priv_sz;
++};
++
++
++/*
++ * Initiator/Host functions
++ */
++
++int nvme_fc_register_localport(struct nvme_fc_port_info *pinfo,
++			struct nvme_fc_port_template *template,
++			struct device *dev,
++			struct nvme_fc_local_port **lport_p);
++
++int nvme_fc_unregister_localport(struct nvme_fc_local_port *localport);
++
++int nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
++			struct nvme_fc_port_info *pinfo,
++			struct nvme_fc_remote_port **rport_p);
++
++int nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *remoteport);
++
++
++
++/*
++ * ***************  LLDD FC-NVME Target/Subsystem API ***************
++ *
++ *  For FC LLDD's that are the NVME Subsystem role
++ *
++ * ******************************************************************
++ */
++
++/**
++ * struct nvmet_fc_port_info - port-specific ids and FC connection-specific
++ *                             data element used during NVME Subsystem role
++ *                             registrations
++ *
++ * Static fields describing the port being registered:
++ * @node_name: FC WWNN for the port
++ * @port_name: FC WWPN for the port
++ *
++ * Initialization values for dynamic port fields:
++ * @fabric_name:  FC Fabric name the port is connected to. If connection is
++ *                point-to-point (no switch) use srcport WWPN. If no current
++ *                Link Up, set to 0.
++ * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
++ *                be set to 0.
++ */
++struct nvmet_fc_port_info {
++	u64			node_name;
++	u64			port_name;
++
++	u64			fabric_name;
++	u32			port_id;
++};
++
++
++/**
++ * struct nvmefc_tgt_ls_req - Structure used between LLDD and NVMET-FC
++ *                            layer to represent the exchange context for
++ *                            a FC-NVME Link Service (LS).
++ *
++ * The structure is allocated by the LLDD whenever a LS Request is received
++ * from the FC link. The address of the structure is passed to the nvmet-fc
++ * layer via the nvmet_fc_rcv_ls_req() call. The address of the structure
++ * will be passed back to the LLDD when the response is to be transmit.
++ * The LLDD is to use the address to map back to the LLDD exchange structure
++ * which maintains information such as the targetport the LS was received
++ * on, the remote FC NVME initiator that sent the LS, and any FC exchange
++ * context.  Upon completion of the LS response transmit, the address of the
++ * structure will be passed back to the LS rsp done() routine, allowing the
++ * nvmet-fc layer to release dma resources. Upon completion of the done()
++ * routine, no further access will be made by the nvmet-fc layer and the
++ * LLDD can de-allocate the structure.
++ *
++ * Field initialization:
++ *   At the time of the nvmet_fc_rcv_ls_req() call, there is no content that
++ *     is valid in the structure.
++ *
++ *   When the structure is used for the LLDD->xmt_ls_rsp() call, the nvmet-fc
++ *     layer will fully set the fields in order to specify the response
++ *     payload buffer and its length as well as the done routine to be called
++ *     upon compeletion of the transmit.  The nvmet-fc layer will also set a
++ *     private pointer for its own use in the done routine.
++ *
++ * Values set by the NVMET-FC layer prior to calling the LLDD xmt_ls_rsp
++ * entrypoint.
++ * @rspbuf:   pointer to the LS response buffer
++ * @rspdma:   PCI DMA address of the LS response buffer
++ * @rsplen:   Length, in bytes, of the LS response buffer
++ * @done:     The callback routine the LLDD is to invoke upon completion of
++ *            transmitting the LS response. req argument is the pointer to
++ *            the original ls request.
++ * @nvmet_fc_private:  pointer to an internal NVMET-FC layer structure used
++ *            as part of the NVMET-FC processing. The LLDD is not to access
++ *            this pointer.
++ */
++struct nvmefc_tgt_ls_req {
++	void		*rspbuf;
++	dma_addr_t	rspdma;
++	u16		rsplen;
++
++	void (*done)(struct nvmefc_tgt_ls_req *req);
++	void *nvmet_fc_private;		/* LLDD is not to access !! */
++};
++
++/* Operations that NVME-FC layer may request the LLDD to perform for FCP */
 +enum {
-+	NVMF_OPT_ERR		= 0,
-+	NVMF_OPT_WWNN		= 1 << 0,
-+	NVMF_OPT_WWPN		= 1 << 1,
-+	NVMF_OPT_ROLES		= 1 << 2,
-+	NVMF_OPT_FCADDR		= 1 << 3,
-+	NVMF_OPT_FABRIC		= 1 << 5,
++	NVMET_FCOP_READDATA	= 1,	/* xmt data to initiator */
++	NVMET_FCOP_WRITEDATA	= 2,	/* xmt data from initiator */
++	NVMET_FCOP_READDATA_RSP	= 3,	/* xmt data to initiator and send
++					 * rsp as well
++					 */
++	NVMET_FCOP_RSP		= 4,	/* send rsp frame */
++	NVMET_FCOP_ABORT	= 5,	/* abort exchange via ABTS */
 +};
 +
-+struct fcloop_ctrl_options {
-+	int			mask;
-+	u64			wwnn;
-+	u64			wwpn;
-+	u32			roles;
-+	u32			fcaddr;
-+	u64			fabric;
-+};
-+
-+static const match_table_t opt_tokens = {
-+	{ NVMF_OPT_WWNN,	"wwnn=%s"	},
-+	{ NVMF_OPT_WWPN,	"wwpn=%s"	},
-+	{ NVMF_OPT_ROLES,	"roles=%d"	},
-+	{ NVMF_OPT_FCADDR,	"fcaddr=%x"	},
-+	{ NVMF_OPT_FABRIC,	"fabric=%s"	},
-+	{ NVMF_OPT_ERR,		NULL		}
-+};
-+
-+static int
-+fcloop_parse_options(struct fcloop_ctrl_options *opts,
-+		const char *buf)
-+{
-+	substring_t args[MAX_OPT_ARGS];
-+	char *options, *o, *p;
-+	int token, ret = 0;
-+	u64 token64;
-+
-+	options = o = kstrdup(buf, GFP_KERNEL);
-+	if (!options)
-+		return -ENOMEM;
-+
-+	while ((p = strsep(&o, ",\n")) != NULL) {
-+		if (!*p)
-+			continue;
-+
-+		token = match_token(p, opt_tokens, args);
-+		opts->mask |= token;
-+		switch (token) {
-+		case NVMF_OPT_WWNN:
-+			if (match_u64(args, &token64)) {
-+				ret = -EINVAL;
-+				goto out_free_options;
-+			}
-+			opts->wwnn = token64;
-+			break;
-+		case NVMF_OPT_WWPN:
-+			if (match_u64(args, &token64)) {
-+				ret = -EINVAL;
-+				goto out_free_options;
-+			}
-+			opts->wwpn = token64;
-+			break;
-+		case NVMF_OPT_ROLES:
-+			if (match_int(args, &token)) {
-+				ret = -EINVAL;
-+				goto out_free_options;
-+			}
-+			opts->roles = token;
-+			break;
-+		case NVMF_OPT_FCADDR:
-+			if (match_hex(args, &token)) {
-+				ret = -EINVAL;
-+				goto out_free_options;
-+			}
-+			opts->fcaddr = token;
-+			break;
-+		case NVMF_OPT_FABRIC:
-+			if (match_u64(args, &token64)) {
-+				ret = -EINVAL;
-+				goto out_free_options;
-+			}
-+			opts->fabric = token64;
-+			break;
-+		default:
-+			pr_warn("unknown parameter or missing value '%s'\n", p);
-+			ret = -EINVAL;
-+			goto out_free_options;
-+		}
-+	}
-+
-+out_free_options:
-+	kfree(options);
-+	return ret;
-+}
-+
-+
-+static int
-+fcloop_parse_nm_options(struct device *dev, u64 *fname, u64 *pname,
-+		const char *buf)
-+{
-+	substring_t args[MAX_OPT_ARGS];
-+	char *options, *o, *p;
-+	int token, ret = 0;
-+	u64 token64;
-+
-+	*fname = -1;
-+	*pname = -1;
-+
-+	options = o = kstrdup(buf, GFP_KERNEL);
-+	if (!options)
-+		return -ENOMEM;
-+
-+	while ((p = strsep(&o, ",\n")) != NULL) {
-+		if (!*p)
-+			continue;
-+
-+		token = match_token(p, opt_tokens, args);
-+		switch (token) {
-+		case NVMF_OPT_FABRIC:
-+			if (match_u64(args, &token64)) {
-+				ret = -EINVAL;
-+				goto out_free_options;
-+			}
-+			*fname = token64;
-+			break;
-+		case NVMF_OPT_WWPN:
-+			if (match_u64(args, &token64)) {
-+				ret = -EINVAL;
-+				goto out_free_options;
-+			}
-+			*pname = token64;
-+			break;
-+		default:
-+			pr_warn("unknown parameter or missing value '%s'\n", p);
-+			ret = -EINVAL;
-+			goto out_free_options;
-+		}
-+	}
-+
-+out_free_options:
-+	kfree(options);
-+
-+	if (!ret) {
-+		if (*fname == -1)
-+			return -EINVAL;
-+		if (*pname == -1)
-+			return -EINVAL;
-+	}
-+
-+	return ret;
-+}
-+
-+
-+#define LPORT_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN | NVMF_OPT_ROLES | \
-+			 NVMF_OPT_FCADDR | NVMF_OPT_FABRIC)
-+
-+#define RPORT_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN | NVMF_OPT_ROLES | \
-+			 NVMF_OPT_FCADDR | NVMF_OPT_FABRIC)
-+
-+#define TGTPORT_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN | \
-+			 NVMF_OPT_FCADDR | NVMF_OPT_FABRIC)
-+
-+#define ALL_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN | NVMF_OPT_ROLES | \
-+			 NVMF_OPT_FCADDR | NVMF_OPT_FABRIC)
-+
-+
-+static LIST_HEAD(fcloop_lports);
-+
-+struct fcloop_lport {
-+	struct nvme_fc_local_port *localport;
-+	struct list_head list;
-+	struct list_head rport_list;
-+};
-+
-+struct fcloop_rport {
-+	struct nvme_fc_remote_port *remoteport;
-+	struct list_head list;
-+	struct nvmet_fc_target_port *targetport;
-+};
-+
-+struct fcloop_tgtport {
-+	struct nvmet_fc_target_port *tgtport;
-+	struct fcloop_rport *rport;
-+	struct fcloop_lport *lport;
-+};
-+
-+
-+struct fcloop_lsreq {
-+	struct fcloop_tgtport		*tport;
-+	struct nvmefc_ls_req		*lsreq;
-+	struct work_struct		work;
-+	struct nvmefc_tgt_ls_req	tgt_ls_req;
-+};
-+
-+struct fcloop_fcpreq {
-+	struct fcloop_tgtport		*tport;
-+	struct nvmefc_fcp_req		*fcpreq;
-+	u16				status;
-+	struct work_struct		work;
-+	struct nvmefc_tgt_fcp_req	tgt_fcp_req;
-+};
-+
-+int
-+fcloop_create_queue(struct nvme_fc_local_port *localport,
-+			unsigned int qidx, u16 qsize,
-+			void **handle)
-+{
-+	*handle = localport;
-+	return 0;
-+}
-+
-+void
-+fcloop_delete_queue(struct nvme_fc_local_port *localport,
-+			unsigned int idx, void *handle)
-+{
-+}
-+
-+
-+/*
-+ * Transmit of LS RSP done (e.g. buffers all set). call back up
-+ * initiator "done" flows.
++/**
++ * struct nvmefc_tgt_fcp_req - Structure used between LLDD and NVMET-FC
++ *                            layer to represent the exchange context and
++ *                            the specific FC-NVME IU operation(s) to perform
++ *                            for a FC-NVME FCP IO.
++ *
++ * Structure used between LLDD and nvmet-fc layer to represent the exchange
++ * context for a FC-NVME FCP I/O operation (e.g. a nvme sqe, the sqe-related
++ * memory transfers, and its assocated cqe transfer).
++ *
++ * The structure is allocated by the LLDD whenever a FCP CMD IU is received
++ * from the FC link. The address of the structure is passed to the nvmet-fc
++ * layer via the nvmet_fc_rcv_fcp_req() call. The address of the structure
++ * will be passed back to the LLDD for the data operations and transmit of
++ * the response. The LLDD is to use the address to map back to the LLDD
++ * exchange structure which maintains information such as the targetport
++ * the FCP I/O was received on, the remote FC NVME initiator that sent the
++ * FCP I/O, and any FC exchange context.  Upon completion of the FCP target
++ * operation, the address of the structure will be passed back to the FCP
++ * op done() routine, allowing the nvmet-fc layer to release dma resources.
++ * Upon completion of the done() routine for either RSP or ABORT ops, no
++ * further access will be made by the nvmet-fc layer and the LLDD can
++ * de-allocate the structure.
++ *
++ * Field initialization:
++ *   At the time of the nvmet_fc_rcv_fcp_req() call, there is no content that
++ *     is valid in the structure.
++ *
++ *   When the structure is used for an FCP target operation, the nvmet-fc
++ *     layer will fully set the fields in order to specify the scattergather
++ *     list, the transfer length, as well as the done routine to be called
++ *     upon compeletion of the operation.  The nvmet-fc layer will also set a
++ *     private pointer for its own use in the done routine.
++ *
++ * Note: the LLDD must never fail a NVMET_FCOP_ABORT request !!
++ *
++ * Values set by the NVMET-FC layer prior to calling the LLDD fcp_op
++ * entrypoint.
++ * @op:       Indicates the FCP IU operation to perform (see NVMET_FCOP_xxx)
++ * @offset:   Indicates the DATA_OUT/DATA_IN payload offset to be tranferred.
++ *            Field is only valid on WRITEDATA, READDATA, or READDATA_RSP ops.
++ * @timeout:  amount of time, in seconds, to wait for a response from the NVME
++ *            host. A value of 0 is an infinite wait.
++ *            Valid only for the following ops:
++ *              WRITEDATA: caps the wait for data reception
++ *              READDATA_RSP & RSP: caps wait for FCP_CONF reception (if used)
++ * @transfer_length: the length, in bytes, of the DATA_OUT or DATA_IN payload
++ *            that is to be transferred.
++ *            Valid only for the WRITEDATA, READDATA, or READDATA_RSP ops.
++ * @sg:       Scatter/gather list for the DATA_OUT/DATA_IN payload data.
++ *            Valid only for the WRITEDATA, READDATA, or READDATA_RSP ops.
++ * @sg_cnt:   Number of valid entries in the scatter/gather list.
++ *            Valid only for the WRITEDATA, READDATA, or READDATA_RSP ops.
++ * @rspaddr:  pointer to the FCP RSP IU buffer to be transmit
++ *            Used by RSP and READDATA_RSP ops
++ * @rspdma:   PCI DMA address of the FCP RSP IU buffer
++ *            Used by RSP and READDATA_RSP ops
++ * @rsplen:   Length, in bytes, of the FCP RSP IU buffer
++ *            Used by RSP and READDATA_RSP ops
++ * @done:     The callback routine the LLDD is to invoke upon completion of
++ *            the operation. req argument is the pointer to the original
++ *            FCP subsystem op request.
++ * @nvmet_fc_private:  pointer to an internal NVMET-FC layer structure used
++ *            as part of the NVMET-FC processing. The LLDD is not to
++ *            reference this field.
++ *
++ * Values set by the LLDD indicating completion status of the FCP operation.
++ * Must be set prior to calling the done() callback.
++ * @transferred_length: amount of DATA_OUT payload data received by a
++ *            a WRITEDATA operation. If not a WRITEDATA operation, value must
++ *            be set to 0. Should equal transfer_length on success.
++ * @fcp_error: status of the FCP operation. Must be 0 on success; on failure
++ *            must be a NVME_SC_FC_xxxx value.
 + */
-+void
-+fcloop_tgt_lsrqst_done_work(struct work_struct *work)
-+{
-+	struct fcloop_lsreq *tls_req =
-+		container_of(work, struct fcloop_lsreq, work);
-+	struct nvmefc_ls_req *lsreq = tls_req->lsreq;
++struct nvmefc_tgt_fcp_req {
++	u8			op;
++	u32			offset;
++	u32			timeout;
++	u32			transfer_length;
++	struct scatterlist	sg[NVME_FC_MAX_SEGMENTS];
++	int			sg_cnt;
++	void			*rspaddr;
++	dma_addr_t		rspdma;
++	u16			rsplen;
 +
-+	lsreq->done(lsreq, 0);
-+}
++	void (*done)(struct nvmefc_tgt_fcp_req *);
 +
-+int
-+fcloop_ls_req(struct nvme_fc_local_port *localport,
-+			struct nvme_fc_remote_port *remoteport,
-+			struct nvmefc_ls_req *lsreq)
-+{
-+	struct fcloop_lsreq *tls_req = lsreq->private;
-+	struct fcloop_rport *rport = remoteport->private;
-+	int ret = 0;
++	void *nvmet_fc_private;		/* LLDD is not to access !! */
 +
-+	tls_req->lsreq = lsreq;
-+	tls_req->tport = rport->targetport->private;
-+	INIT_WORK(&tls_req->work, fcloop_tgt_lsrqst_done_work);
++	u32			transferred_length;
++	int			fcp_error;
++};
 +
-+	ret = nvmet_fc_rcv_ls_req(rport->targetport, &tls_req->tgt_ls_req,
-+				 lsreq->rqstaddr, lsreq->rqstlen);
 +
-+	return ret;
-+}
++/* Target Features (Bit fields) LLDD supports */
++enum {
++	NVMET_FCTGTFEAT_READDATA_RSP = (1 << 0),
++		/* Bit 0: supports the NVMET_FCPOP_READDATA_RSP op, which
++		 * sends (the last) Read Data sequence followed by the RSP
++		 * sequence in one LLDD operation. Errors during Data
++		 * sequence transmit must not allow RSP sequence to be sent.
++		 */
++};
 +
-+int
-+fcloop_xmt_ls_rsp(struct nvmet_fc_target_port *tgtport,
-+			struct nvmefc_tgt_ls_req *tgt_lsreq)
-+{
-+	struct fcloop_lsreq *tls_req =
-+		container_of(tgt_lsreq, struct fcloop_lsreq, tgt_ls_req);
-+	struct nvmefc_ls_req *lsreq = tls_req->lsreq;
 +
-+	memcpy(lsreq->rspaddr, tgt_lsreq->rspbuf,
-+		((lsreq->rsplen < tgt_lsreq->rsplen) ?
-+				lsreq->rsplen : tgt_lsreq->rsplen));
-+	(tgt_lsreq->done)(tgt_lsreq);
-+
-+	schedule_work(&tls_req->work);
-+
-+	return 0;
-+}
-+
-+/*
-+ * FCP IO operation done. call back up initiator "done" flows.
++/**
++ * struct nvmet_fc_target_port - structure used between NVME-FC transport and
++ *                 a LLDD to reference a local NVME subsystem port.
++ *                 Allocated/created by the nvme_fc_register_targetport()
++ *                 transport interface.
++ *
++ * Fields with static values for the port. Initialized by the
++ * port_info struct supplied to the registration call.
++ * @port_num:  NVME-FC transport subsytem port number
++ * @node_name: FC WWNN for the port
++ * @port_name: FC WWPN for the port
++ * @private:   pointer to memory allocated alongside the local port
++ *             structure that is specifically for the LLDD to use.
++ *             The length of the buffer corresponds to the target_priv_sz
++ *             value specified in the nvme_fc_target_template supplied by
++ *             the LLDD.
++ *
++ * Fields with dynamic values. Values may change base on link state. LLDD
++ * may reference fields directly to change them. Initialized by the
++ * port_info struct supplied to the registration call.
++ * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
++ *                be set to 0.
++ * @fabric_name:  FC Fabric name the port is connected to. If connection is
++ *                point-to-point (no switch) use srcport WWPN. If no current
++ *                Link Up, set to 0.
++ * @port_state:   Operational state of the port.
 + */
-+void
-+fcloop_tgt_fcprqst_done_work(struct work_struct *work)
-+{
-+	struct fcloop_fcpreq *tfcp_req =
-+		container_of(work, struct fcloop_fcpreq, work);
-+	struct nvmefc_fcp_req *fcpreq = tfcp_req->fcpreq;
++struct nvmet_fc_target_port {
++	/* static/read-only fields */
++	u32 port_num;
++	u64 node_name;
++	u64 port_name;
 +
-+	fcpreq->status = tfcp_req->status;
-+	fcpreq->done(fcpreq);
-+}
++	void *private;
 +
-+
-+int
-+fcloop_fcp_req(struct nvme_fc_local_port *localport,
-+			struct nvme_fc_remote_port *remoteport,
-+			void *hw_queue_handle,
-+			struct nvmefc_fcp_req *fcpreq)
-+{
-+	struct fcloop_fcpreq *tfcp_req = fcpreq->private;
-+	struct fcloop_rport *rport = remoteport->private;
-+	int ret = 0;
-+
-+	tfcp_req->fcpreq = fcpreq;
-+	tfcp_req->tport = rport->targetport->private;
-+	INIT_WORK(&tfcp_req->work, fcloop_tgt_fcprqst_done_work);
-+
-+	ret = nvmet_fc_rcv_fcp_req(rport->targetport, &tfcp_req->tgt_fcp_req,
-+				 fcpreq->cmdaddr, fcpreq->cmdlen);
-+
-+	return ret;
-+}
-+
-+void
-+fcloop_fcp_copy_data(u8 op, struct scatterlist *data_sg,
-+			struct scatterlist *io_sg, u32 offset, u32 length)
-+{
-+	void *data_p, *io_p;
-+	u32 data_len, io_len, tlen;
-+
-+	io_p = sg_virt(io_sg);
-+	io_len = io_sg->length;
-+
-+	for ( ; offset; ) {
-+		tlen = min_t(u32, offset, io_len);
-+		offset -= tlen;
-+		io_len -= tlen;
-+		if (!io_len) {
-+			io_sg = sg_next(io_sg);
-+			io_p = sg_virt(io_sg);
-+			io_len = io_sg->length;
-+		} else
-+			io_p += tlen;
-+	}
-+
-+	data_p = sg_virt(data_sg);
-+	data_len = data_sg->length;
-+
-+	for ( ; length; ) {
-+		tlen = min_t(u32, io_len, data_len);
-+		tlen = min_t(u32, tlen, length);
-+
-+		if (op == NVMET_FCOP_WRITEDATA)
-+			memcpy(data_p, io_p, tlen);
-+		else
-+			memcpy(io_p, data_p, tlen);
-+
-+		length -= tlen;
-+
-+		io_len -= tlen;
-+		if ((!io_len) && (length)) {
-+			io_sg = sg_next(io_sg);
-+			io_p = sg_virt(io_sg);
-+			io_len = io_sg->length;
-+		} else
-+			io_p += tlen;
-+
-+		data_len -= tlen;
-+		if ((!data_len) && (length)) {
-+			data_sg = sg_next(data_sg);
-+			data_p = sg_virt(data_sg);
-+			data_len = data_sg->length;
-+		} else
-+			data_p += tlen;
-+	}
-+}
-+
-+int
-+fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
-+			struct nvmefc_tgt_fcp_req *tgt_fcpreq)
-+{
-+	struct fcloop_fcpreq *tfcp_req =
-+		container_of(tgt_fcpreq, struct fcloop_fcpreq, tgt_fcp_req);
-+	struct nvmefc_fcp_req *fcpreq = tfcp_req->fcpreq;
-+	u32 rsplen = 0, xfrlen = 0;
-+	int fcp_err = 0;
-+	u8 op = tgt_fcpreq->op;
-+
-+	switch (op) {
-+	case NVMET_FCOP_WRITEDATA:
-+		xfrlen = tgt_fcpreq->transfer_length;
-+		fcloop_fcp_copy_data(op, tgt_fcpreq->sg, fcpreq->first_sgl,
-+					tgt_fcpreq->offset, xfrlen);
-+		fcpreq->transferred_length += xfrlen;
-+		break;
-+
-+	case NVMET_FCOP_READDATA:
-+	case NVMET_FCOP_READDATA_RSP:
-+		xfrlen = tgt_fcpreq->transfer_length;
-+		fcloop_fcp_copy_data(op, tgt_fcpreq->sg, fcpreq->first_sgl,
-+					tgt_fcpreq->offset, xfrlen);
-+		fcpreq->transferred_length += xfrlen;
-+		if (op == NVMET_FCOP_READDATA)
-+			break;
-+
-+		/* Fall-Thru to RSP handling */
-+
-+	case NVMET_FCOP_RSP:
-+		rsplen = ((fcpreq->rsplen < tgt_fcpreq->rsplen) ?
-+				fcpreq->rsplen : tgt_fcpreq->rsplen);
-+		memcpy(fcpreq->rspaddr, tgt_fcpreq->rspaddr, rsplen);
-+		if (rsplen < tgt_fcpreq->rsplen)
-+			fcp_err = -E2BIG;
-+		fcpreq->rcv_rsplen = rsplen;
-+		fcpreq->status = 0;
-+		tfcp_req->status = 0;
-+		break;
-+
-+	case NVMET_FCOP_ABORT:
-+		tfcp_req->status = NVME_SC_FC_TRANSPORT_ABORTED;
-+		break;
-+
-+	default:
-+		fcp_err = -EINVAL;
-+		break;
-+	}
-+
-+	tgt_fcpreq->transferred_length = xfrlen;
-+	tgt_fcpreq->fcp_error = fcp_err;
-+	tgt_fcpreq->done(tgt_fcpreq);
-+
-+	if ((!fcp_err) && (op == NVMET_FCOP_RSP ||
-+			op == NVMET_FCOP_READDATA_RSP ||
-+			op == NVMET_FCOP_ABORT))
-+		schedule_work(&tfcp_req->work);
-+
-+	return 0;
-+}
-+
-+void
-+fcloop_ls_abort(struct nvme_fc_local_port *localport,
-+			struct nvme_fc_remote_port *remoteport,
-+				struct nvmefc_ls_req *lsreq)
-+{
-+}
-+
-+void
-+fcloop_fcp_abort(struct nvme_fc_local_port *localport,
-+			struct nvme_fc_remote_port *remoteport,
-+			void *hw_queue_handle,
-+			struct nvmefc_fcp_req *fcpreq)
-+{
-+}
++	/* dynamic fields */
++	u32 port_id;
++	u64 fabric_name;
++	enum nvme_fc_obj_state port_state;
++} __aligned(sizeof(u64));	/* alignment for other things alloc'd with */
 +
 +
-+struct nvme_fc_port_template fctemplate = {
-+	.create_queue	= fcloop_create_queue,
-+	.delete_queue	= fcloop_delete_queue,
-+	.ls_req		= fcloop_ls_req,
-+	.fcp_io		= fcloop_fcp_req,
-+	.ls_abort	= fcloop_ls_abort,
-+	.fcp_abort	= fcloop_fcp_abort,
++/**
++ * struct nvmet_fc_target_template - structure containing static entrypoints
++ *                 and operational parameters for an LLDD that supports NVME
++ *                 subsystem behavior. Passed by reference in port
++ *                 registrations. NVME-FC transport remembers template
++ *                 reference and may access it during runtime operation.
++ *
++ * Subsystem/Target Transport Entrypoints/Parameters:
++ *
++ * @xmt_ls_rsp:  Called to transmit the response to a FC-NVME FC-4 LS service.
++ *       The nvmefc_tgt_ls_req structure is the same LLDD-supplied exchange
++ *       structure specified in the nvmet_fc_rcv_ls_req() call made when
++ *       the LS request was received.  The structure will fully describe
++ *       the buffers for the response payload and the dma address of the
++ *       payload. The LLDD is to transmit the response (or return a non-zero
++ *       errno status), and upon completion of the transmit, call the
++ *       "done" routine specified in the nvmefc_tgt_ls_req structure
++ *       (argument to done is the ls reqwuest structure itself).
++ *       After calling the done routine, the LLDD shall consider the
++ *       LS handling complete and the nvmefc_tgt_ls_req structure may
++ *       be freed/released.
++ *       Entrypoint is Mandatory.
++ *
++ * @fcp_op:  Called to perform a data transfer, transmit a response, or
++ *       abort an FCP opertion. The nvmefc_tgt_fcp_req structure is the same
++ *       LLDD-supplied exchange structure specified in the
++ *       nvmet_fc_rcv_fcp_req() call made when the FCP CMD IU was received.
++ *       The op field in the structure shall indicate the operation for
++ *       the LLDD to perform relative to the io.
++ *         NVMET_FCOP_READDATA operation: the LLDD is to send the
++ *           payload data (described by sglist) to the host in 1 or
++ *           more FC sequences (preferrably 1).  Note: the fc-nvme layer
++ *           may call the READDATA operation multiple times for longer
++ *           payloads.
++ *         NVMET_FCOP_WRITEDATA operation: the LLDD is to receive the
++ *           payload data (described by sglist) from the host via 1 or
++ *           more FC sequences (preferrably 1). The LLDD is to generate
++ *           the XFER_RDY IU(s) corresponding to the data being requested.
++ *           Note: the FC-NVME layer may call the WRITEDATA operation
++ *           multiple times for longer payloads.
++ *         NVMET_FCOP_READDATA_RSP operation: the LLDD is to send the
++ *           payload data (described by sglist) to the host in 1 or
++ *           more FC sequences (preferrably 1). If an error occurs during
++ *           payload data transmission, the LLDD is to set the
++ *           nvmefc_tgt_fcp_req fcp_error and transferred_length field, then
++ *           consider the operation complete. On error, the LLDD is to not
++ *           transmit the FCP_RSP iu. If all payload data is transferred
++ *           successfully, the LLDD is to update the nvmefc_tgt_fcp_req
++ *           transferred_length field and may subsequently transmit the
++ *           FCP_RSP iu payload (described by rspbuf, rspdma, rsplen).
++ *           The LLDD is to await FCP_CONF reception to confirm the RSP
++ *           reception by the host. The LLDD may retramsit the FCP_RSP iu
++ *           if necessary per FC-NVME. Upon reception of FCP_CONF, or upon
++ *           FCP_CONF failure, the LLDD is to set the nvmefc_tgt_fcp_req
++ *           fcp_error field and consider the operation complete..
++ *         NVMET_FCOP_RSP: the LLDD is to transmit the FCP_RSP iu payload
++ *           (described by rspbuf, rspdma, rsplen).  The LLDD is to await
++ *           FCP_CONF reception to confirm the RSP reception by the host.
++ *           The LLDD may retramsit the FCP_RSP iu if necessary per FC-NVME.
++ *           Upon reception of FCP_CONF, or upon FCP_CONF failure, the
++ *           LLDD is to set the nvmefc_tgt_fcp_req fcp_error field and
++ *           consider the operation complete..
++ *         NVMET_FCOP_ABORT: the LLDD is to terminate the exchange
++ *           corresponding to the fcp operation. The LLDD shall send
++ *           ABTS and follow FC exchange abort-multi rules, including
++ *           ABTS retries and possible logout.
++ *       Upon completing the indicated operation, the LLDD is to set the
++ *       status fields for the operation (tranferred_length and fcp_error
++ *       status) in the request, then all the "done" routine
++ *       indicated in the fcp request.  Upon return from the "done"
++ *       routine for either a NVMET_FCOP_RSP or NVMET_FCOP_ABORT operation
++ *       the fc-nvme layer will not longer reference the fcp request,
++ *       allowing the LLDD to free/release the fcp request.
++ *       Note: when calling the done routine for READDATA or WRITEDATA
++ *       operations, the fc-nvme layer may immediate convert, in the same
++ *       thread and before returning to the LLDD, the fcp operation to
++ *       the next operation for the fcp io and call the LLDDs fcp_op
++ *       call again. If fields in the fcp request are to be accessed post
++ *       the done call, the LLDD should save their values prior to calling
++ *       the done routine, and inspect the save values after the done
++ *       routine.
++ *       Entrypoint is Mandatory.
++ *
++ * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
++ *       supports for cpu affinitization.
++ *       Value is Mandatory. Must be at least 1.
++ *
++ * @max_sgl_segments:  indicates the maximum number of sgl segments supported
++ *       by the LLDD
++ *       Value is Mandatory. Must be at least 1. Recommend at least 256.
++ *
++ * @max_dif_sgl_segments:  indicates the maximum number of sgl segments
++ *       supported by the LLDD for DIF operations.
++ *       Value is Mandatory. Must be at least 1. Recommend at least 256.
++ *
++ * @dma_boundary:  indicates the dma address boundary where dma mappings
++ *       will be split across.
++ *       Value is Mandatory. Typical value is 0xFFFFFFFF to split across
++ *       4Gig address boundarys
++ *
++ * @target_features: The LLDD sets bits in this field to correspond to
++ *       optional features that are supported by the LLDD.
++ *       Refer to the NVMET_FCTGTFEAT_xxx values.
++ *       Value is Mandatory. Allowed to be zero.
++ *
++ * @target_priv_sz: The LLDD sets this field to the amount of additional
++ *       memory that it would like fc nvme layer to allocate on the LLDD's
++ *       behalf whenever a targetport is allocated.  The additional memory
++ *       area solely for the of the LLDD and its location is specified by
++ *       the targetport->private pointer.
++ *       Value is Mandatory. Allowed to be zero.
++ */
++struct nvmet_fc_target_template {
++	int (*xmt_ls_rsp)(struct nvmet_fc_target_port *tgtport,
++				struct nvmefc_tgt_ls_req *tls_req);
++	int (*fcp_op)(struct nvmet_fc_target_port *tgtport,
++				struct nvmefc_tgt_fcp_req *);
 +
-+	.max_hw_queues	= 1,
-+	.max_sgl_segments = 256,
-+	.max_dif_sgl_segments = 256,
-+	.dma_boundary = 0xFFFFFFFF,
-+	/* sizes of additional private data for data structures */
-+	.local_priv_sz	= sizeof(struct fcloop_lport),
-+	.remote_priv_sz	= sizeof(struct fcloop_rport),
-+	.lsrqst_priv_sz = sizeof(struct fcloop_lsreq),
-+	.fcprqst_priv_sz = sizeof(struct fcloop_fcpreq),
++	u32	max_hw_queues;
++	u16	max_sgl_segments;
++	u16	max_dif_sgl_segments;
++	u64	dma_boundary;
++
++	u32	target_features;
++
++	u32	target_priv_sz;
 +};
 +
-+struct nvmet_fc_target_template tgttemplate = {
-+	.xmt_ls_rsp	= fcloop_xmt_ls_rsp,
-+	.fcp_op		= fcloop_fcp_op,
 +
-+	.max_hw_queues	= 1,
-+	.max_sgl_segments = 256,
-+	.max_dif_sgl_segments = 256,
-+	.dma_boundary = 0xFFFFFFFF,
++int nvmet_fc_register_targetport(struct nvmet_fc_port_info *portinfo,
++			struct nvmet_fc_target_template *template,
++			struct device *dev,
++			struct nvmet_fc_target_port **tgtport_p);
 +
-+	/* optional features */
-+	.target_features = NVMET_FCTGTFEAT_READDATA_RSP,
++int nvmet_fc_unregister_targetport(struct nvmet_fc_target_port *tgtport);
 +
-+	/* sizes of additional private data for data structures */
-+	.target_priv_sz = sizeof(struct fcloop_tgtport),
-+};
++int nvmet_fc_rcv_ls_req(struct nvmet_fc_target_port *tgtport,
++			struct nvmefc_tgt_ls_req *lsreq,
++			void *lsreqbuf, u32 lsreqbuf_len);
 +
-+static ssize_t
-+fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
-+		const char *buf, size_t count)
-+{
-+	struct nvme_fc_port_info pinfo;
-+	struct fcloop_ctrl_options *opts;
-+	struct nvme_fc_local_port *localport;
-+	struct fcloop_lport *lport;
-+	int ret;
++int nvmet_fc_rcv_fcp_req(struct nvmet_fc_target_port *tgtport,
++			 struct nvmefc_tgt_fcp_req *fcpreq,
++			 void *cmdiubuf, u32 cmdiubuf_len);
 +
-+	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
-+	if (!opts)
-+		return -ENOMEM;
-+
-+	ret = fcloop_parse_options(opts, buf);
-+	if (ret)
-+		goto out_free_opts;
-+
-+	/* everything there ? */
-+	if ((opts->mask & LPORT_OPTS) != LPORT_OPTS) {
-+		ret = -EINVAL;
-+		goto out_free_opts;
-+	}
-+
-+	pinfo.fabric_name = opts->fabric;
-+	pinfo.node_name = opts->wwnn;
-+	pinfo.port_name = opts->wwpn;
-+	pinfo.port_role = opts->roles;
-+	pinfo.port_id = opts->fcaddr;
-+
-+	ret = nvme_fc_register_localport(&pinfo, &fctemplate, NULL, &localport);
-+	if (!ret) {
-+		/* success */
-+		lport = localport->private;
-+		lport->localport = localport;
-+		INIT_LIST_HEAD(&lport->list);
-+		INIT_LIST_HEAD(&lport->rport_list);
-+		list_add_tail(&lport->list, &fcloop_lports);
-+
-+		/* mark all of the input buffer consumed */
-+		ret = count;
-+	}
-+
-+out_free_opts:
-+	kfree(opts);
-+	return ret;
-+}
-+
-+static int __delete_local_port(struct fcloop_lport *lport)
-+{
-+	int ret;
-+
-+	if (!list_empty(&lport->rport_list))
-+		return -EBUSY;
-+
-+	list_del(&lport->list);
-+
-+	ret = nvme_fc_unregister_localport(lport->localport);
-+
-+	return ret;
-+}
-+
-+static ssize_t
-+fcloop_delete_local_port(struct device *dev, struct device_attribute *attr,
-+		const char *buf, size_t count)
-+{
-+	struct fcloop_lport *lport, *lnext;
-+	u64 fabric, portname;
-+	int ret;
-+
-+	ret = fcloop_parse_nm_options(dev, &fabric, &portname, buf);
-+	if (ret)
-+		return ret;
-+
-+	list_for_each_entry_safe(lport, lnext, &fcloop_lports, list) {
-+		if ((lport->localport->fabric_name == fabric) &&
-+		    (lport->localport->port_name == portname)) {
-+			break;
-+		}
-+	}
-+	if (is_end_of_list(lport, &fcloop_lports, list))
-+		return -ENOENT;
-+
-+	ret = __delete_local_port(lport);
-+
-+	if (!ret)
-+		return count;
-+
-+	return ret;
-+}
-+
-+static ssize_t
-+fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
-+		const char *buf, size_t count)
-+{
-+	struct fcloop_ctrl_options *opts;
-+	struct fcloop_lport *lport, *lnext;
-+	struct nvme_fc_remote_port *remoteport;
-+	struct fcloop_rport *rport;
-+	struct nvme_fc_port_info pinfo;
-+	struct nvmet_fc_port_info tinfo;
-+	int ret;
-+
-+	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
-+	if (!opts)
-+		return -ENOMEM;
-+
-+	ret = fcloop_parse_options(opts, buf);
-+	if (ret)
-+		goto out_free_opts;
-+
-+	/* everything there ? */
-+	if ((opts->mask & RPORT_OPTS) != RPORT_OPTS) {
-+		ret = -EINVAL;
-+		goto out_free_opts;
-+	}
-+
-+	pinfo.fabric_name = tinfo.fabric_name = opts->fabric;
-+	pinfo.node_name = tinfo.node_name = opts->wwnn;
-+	pinfo.port_name = tinfo.port_name = opts->wwpn;
-+	pinfo.port_role = opts->roles;
-+	pinfo.port_id = tinfo.port_id = opts->fcaddr;
-+
-+	list_for_each_entry_safe(lport, lnext, &fcloop_lports, list) {
-+		if (lport->localport->fabric_name == opts->fabric)
-+			break;
-+	}
-+	if (is_end_of_list(lport, &fcloop_lports, list)) {
-+		ret = -ENOENT;
-+		goto out_free_opts;
-+	}
-+
-+	ret = nvme_fc_register_remoteport(lport->localport, &pinfo,
-+					&remoteport);
-+	if (ret)
-+		goto out_free_opts;
-+
-+	/* success */
-+	rport = remoteport->private;
-+	rport->remoteport = remoteport;
-+	INIT_LIST_HEAD(&rport->list);
-+	list_add_tail(&rport->list, &lport->rport_list);
-+
-+	/* tie into nvme target side */
-+	ret = nvmet_fc_register_targetport(&tinfo, &tgttemplate, NULL,
-+					&rport->targetport);
-+	if (ret) {
-+		list_del(&rport->list);
-+		(void)nvme_fc_unregister_remoteport(remoteport);
-+	} else {
-+		struct fcloop_tgtport *tport;
-+
-+		tport = rport->targetport->private;
-+		tport->rport = rport;
-+		tport->lport = lport;
-+		tport->tgtport = rport->targetport;
-+
-+		/* mark all of the input buffer consumed */
-+		ret = count;
-+	}
-+
-+out_free_opts:
-+	kfree(opts);
-+	return ret;
-+}
-+
-+static int __delete_remote_port(struct fcloop_rport *rport)
-+{
-+	int ret;
-+
-+	ret = nvmet_fc_unregister_targetport(rport->targetport);
-+	if (ret)
-+		return ret;
-+
-+	list_del(&rport->list);
-+
-+	ret = nvme_fc_unregister_remoteport(rport->remoteport);
-+
-+	return ret;
-+}
-+
-+static ssize_t
-+fcloop_delete_remote_port(struct device *dev, struct device_attribute *attr,
-+		const char *buf, size_t count)
-+{
-+	struct fcloop_lport *lport, *lnext;
-+	struct fcloop_rport *rport, *rnext;
-+	u64 fabric, portname;
-+	int ret;
-+
-+	ret = fcloop_parse_nm_options(dev, &fabric, &portname, buf);
-+	if (ret)
-+		return ret;
-+
-+	list_for_each_entry_safe(lport, lnext, &fcloop_lports, list)
-+		if (lport->localport->fabric_name == fabric)
-+			break;
-+	if (is_end_of_list(lport, &fcloop_lports, list))
-+		return -ENOENT;
-+
-+	list_for_each_entry_safe(rport, rnext, &lport->rport_list, list)
-+		if (rport->remoteport->port_name == portname)
-+			break;
-+	if (is_end_of_list(rport, &lport->rport_list, list))
-+		return -ENOENT;
-+
-+	ret = __delete_remote_port(rport);
-+	if (!ret)
-+		return count;
-+
-+	return ret;
-+}
-+
-+
-+static DEVICE_ATTR(add_local_port, S_IWUSR, NULL, fcloop_create_local_port);
-+static DEVICE_ATTR(del_local_port, S_IWUSR, NULL, fcloop_delete_local_port);
-+static DEVICE_ATTR(add_remote_port, S_IWUSR, NULL, fcloop_create_remote_port);
-+static DEVICE_ATTR(del_remote_port, S_IWUSR, NULL, fcloop_delete_remote_port);
-+
-+
-+static struct class *fcloop_class;
-+static struct device *fcloop_device;
-+
-+
-+static int __init fcloop_init(void)
-+{
-+	int ret;
-+
-+	fcloop_class = class_create(THIS_MODULE, "fcloop");
-+	if (IS_ERR(fcloop_class)) {
-+		pr_err("couldn't register class fcloop\n");
-+		ret = PTR_ERR(fcloop_class);
-+		return ret;
-+	}
-+
-+	fcloop_device =
-+		device_create(fcloop_class, NULL, MKDEV(0, 0), NULL, "ctl");
-+	if (IS_ERR(fcloop_device)) {
-+		pr_err("couldn't create ctl device!\n");
-+		ret = PTR_ERR(fcloop_device);
-+		goto out_destroy_class;
-+	}
-+
-+	ret = device_create_file(fcloop_device, &dev_attr_add_local_port);
-+	if (ret) {
-+		pr_err("couldn't add device add_local_port attr.\n");
-+		goto out_destroy_device;
-+	}
-+
-+	ret = device_create_file(fcloop_device, &dev_attr_del_local_port);
-+	if (ret) {
-+		pr_err("couldn't add device del_local_port attr.\n");
-+		goto out_destroy_device;
-+	}
-+
-+	ret = device_create_file(fcloop_device, &dev_attr_add_remote_port);
-+	if (ret) {
-+		pr_err("couldn't add device add_remote_port attr.\n");
-+		goto out_destroy_device;
-+	}
-+
-+	ret = device_create_file(fcloop_device, &dev_attr_del_remote_port);
-+	if (ret) {
-+		pr_err("couldn't add device del_remote_port attr.\n");
-+		goto out_destroy_device;
-+	}
-+
-+	return 0;
-+
-+out_destroy_device:
-+	device_destroy(fcloop_class, MKDEV(0, 0));
-+out_destroy_class:
-+	class_destroy(fcloop_class);
-+	return ret;
-+}
-+
-+static void __exit fcloop_exit(void)
-+{
-+	struct fcloop_lport *lport, *lnext;
-+	struct fcloop_rport *rport, *rnext;
-+	int ret;
-+
-+	list_for_each_entry_safe(lport, lnext, &fcloop_lports, list) {
-+		list_for_each_entry_safe(rport, rnext,
-+						&lport->rport_list, list) {
-+			ret = __delete_remote_port(rport);
-+			if (ret)
-+				pr_warn("%s: Failed deleting remote port\n",
-+						__func__);
-+
-+		}
-+		ret = __delete_local_port(lport);
-+		if (ret)
-+			pr_warn("%s: Failed deleting local port\n", __func__);
-+	}
-+
-+	device_destroy(fcloop_class, MKDEV(0, 0));
-+	class_destroy(fcloop_class);
-+}
-+
-+module_init(fcloop_init);
-+module_exit(fcloop_exit);
-+
-+MODULE_LICENSE("GPL v2");
-+
-+
++#endif /* _NVME_FC_DRIVER_H */
 +
 -- 
 2.5.0
