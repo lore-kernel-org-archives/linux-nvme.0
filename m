@@ -1,27 +1,71 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Fri, 22 Jul 2016 17:23:55 -0700
-Subject: [PATCH 1/5] nvme-fabrics: Add FC transport FC-NVME definitions
-Message-ID: <5792b91b.a6nfpeRWWVF/YKnV%james.smart@broadcom.com>
+Date: Fri, 22 Jul 2016 17:23:59 -0700
+Subject: [PATCH 5/5] nvme-fabrics: Add FC LLDD loopback driver to test FC
+ host and target transport
+Message-ID: <5792b91f.Lb5BdNQrSWnmgOYG%james.smart@broadcom.com>
 
 
-nvme-fabrics: Add FC transport FC-NVME definitions:
-- Formats for Cmd, Data, Rsp IUs
-- Formats FC-4 LS definitions
+Add FC LLDD loopback driver to test FC host and target transport within
+nvme-fabrics
+
+To aid in the development and testing of the lower-level api of the FC
+transport, this loopback driver has been created to act as if it were a
+FC hba driver supporting both the host interfaces as well as the target
+interfaces with the nvme FC transport.
 
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 
 ---
- include/linux/nvme-fc.h | 296 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 296 insertions(+)
- create mode 100644 include/linux/nvme-fc.h
+ drivers/nvme/target/Kconfig  |  13 +
+ drivers/nvme/target/Makefile |   2 +
+ drivers/nvme/target/fcloop.c | 803 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 818 insertions(+)
+ create mode 100644 drivers/nvme/target/fcloop.c
 
-diff --git a/include/linux/nvme-fc.h b/include/linux/nvme-fc.h
+diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
+index 62819b2..a20d41c 100644
+--- a/drivers/nvme/target/Kconfig
++++ b/drivers/nvme/target/Kconfig
+@@ -44,3 +44,16 @@ config NVME_TARGET_FC
+ 
+ 	  If unsure, say N.
+ 
++config NVME_TARGET_FCLOOP
++	tristate "NVMe over Fabrics FC Transport Loopback Test driver"
++	depends on BLK_DEV_NVME
++	select NVME_TARGET
++	select NVME_FABRICS
++	select SG_POOL
++	select NVME_FC
++	select NVME_TARGET_FC
++	help
++	  This enables the NVMe FC loopback test support, which can be useful
++	  to test NVMe-FC transport interfaces.
++
++	  If unsure, say N.
+diff --git a/drivers/nvme/target/Makefile b/drivers/nvme/target/Makefile
+index 80b128b..fecc14f 100644
+--- a/drivers/nvme/target/Makefile
++++ b/drivers/nvme/target/Makefile
+@@ -3,9 +3,11 @@ obj-$(CONFIG_NVME_TARGET)		+= nvmet.o
+ obj-$(CONFIG_NVME_TARGET_LOOP)		+= nvme-loop.o
+ obj-$(CONFIG_NVME_TARGET_RDMA)		+= nvmet-rdma.o
+ obj-$(CONFIG_NVME_TARGET_FC)		+= nvmet-fc.o
++obj-$(CONFIG_NVME_TARGET_FCLOOP)	+= nvme-fcloop.o
+ 
+ nvmet-y		+= core.o configfs.o admin-cmd.o io-cmd.o fabrics-cmd.o \
+ 			discovery.o
+ nvme-loop-y	+= loop.o
+ nvmet-rdma-y	+= rdma.o
+ nvmet-fc-y	+= fc.o
++nvme-fcloop-y	+= fcloop.o
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
 new file mode 100644
-index 0000000..99e9200
+index 0000000..277ea61
 --- /dev/null
-+++ b/include/linux/nvme-fc.h
-@@ -0,0 +1,296 @@
++++ b/drivers/nvme/target/fcloop.c
+@@ -0,0 +1,803 @@
 +/*
 + * Copyright (c) 2016 Avago Technologies.  All rights reserved.
 + *
@@ -36,287 +80,794 @@ index 0000000..99e9200
 + * THE EXTENT THAT SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID.
 + * See the GNU General Public License for more details, a copy of which
 + * can be found in the file COPYING included with this package
-+ *
 + */
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++#include <linux/module.h>
++#include <linux/parser.h>
 +
-+/*
-+ * This file contains definitions relative to FC-NVME r1.05
-+ */
++#include "../host/nvme.h"
++#include "../target/nvmet.h"
++#include <linux/nvme-fc-driver.h>
++#include <linux/nvme-fc.h>
 +
-+#ifndef _NVME_FC_H
-+#define _NVME_FC_H 1
-+
-+#define NVME_FC4_TYPE			0x28
-+
-+#define NVME_CMD_SCSI_ID		0xFD
-+#define NVME_CMD_FC_ID			NVME_FC4_TYPE
-+
-+/* FC-NVME Cmd IU Flags */
-+#define FCNVME_CMD_FLAGS_DIRMASK	0x03
-+#define FCNVME_CMD_FLAGS_WRITE		0x01
-+#define FCNVME_CMD_FLAGS_READ		0x02
-+
-+struct nvme_fc_cmd_iu {
-+	__u8			scsi_id;
-+	__u8			fc_id;
-+	__be16			iu_len;
-+	__u8			rsvd4[3];
-+	__u8			flags;
-+	__be32			rsvd8[2];
-+	__be64			connection_id;
-+	__be32			csn;
-+	__be32			data_len;
-+	struct nvme_command	sqe;
-+};
-+
-+#define NVME_FC_SIZEOF_ZEROS_RSP	12
-+
-+struct nvme_fc_ersp_iu {
-+	__u8			rsvd0[2];
-+	__be16			iu_len;
-+	__be32			rsn;
-+	__be32			rsvd8[2];
-+	struct nvme_completion	cqe;
-+	/* for now - no additional payload */
-+};
-+
-+
-+/* FC-NVME r1.03/16-119v0 NVME Link Services */
-+enum {
-+	FCNVME_LS_RSVD			= 0,
-+	FCNVME_LS_RJT			= 1,
-+	FCNVME_LS_ACC			= 2,
-+	FCNVME_LS_CREATE_ASSOCIATION	= 3,
-+	FCNVME_LS_CREATE_CONNECTION	= 4,
-+	FCNVME_LS_DISCONNECT		= 5,
-+};
-+
-+/* FC-NVME r1.03/16-119v0 NVME Link Service Descriptors */
-+enum {
-+	FCNVME_LSDESC_RSVD		= 0x0,
-+	FCNVME_LSDESC_RQST		= 0x1,
-+	FCNVME_LSDESC_RJT		= 0x2,
-+	FCNVME_LSDESC_CREATE_ASSOC_CMD	= 0x3,
-+	FCNVME_LSDESC_CREATE_CONN_CMD	= 0x4,
-+	FCNVME_LSDESC_DISCONN_CMD	= 0x5,
-+	FCNVME_LSDESC_CONN_ID		= 0x6,
-+	FCNVME_LSDESC_ASSOC_ID		= 0x7,
-+};
-+
-+
-+/* ********** start of Link Service Descriptors ********** */
-+
-+
-+/* fills in length of a descriptor. Struture minus descriptor header */
-+#define FCNVME_LSDESC_LEN(lsdesc) \
-+		cpu_to_be32(sizeof(lsdesc) - (2*(sizeof(u32))))
-+
-+struct fcnvme_ls_rqst_w0 {
-+	u8	ls_cmd;			/* FCNVME_LS_xxx */
-+	u8	zeros[3];
-+};
-+
-+/* FCNVME_LSDESC_RQST */
-+struct fcnvme_lsdesc_rqst {
-+	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
-+	__be32	desc_len;
-+	struct fcnvme_ls_rqst_w0	w0;
-+	__be32	rsvd12;
-+};
-+
-+/* From LS-3 */
-+enum {
-+	LSRJT_REASON_INVALID_ELS_CODE		= 0x1,
-+	LSRJT_REASON_LOGICAL_ERROR		= 0x3,
-+	LSRJT_REASON_LOGICAL_BUSY		= 0x5,
-+	LSRJT_REASON_PROTOCOL_ERROR		= 0x7,
-+	LSRJT_REASON_UNABLE_TO_PERFORM_CMD	= 0x9,
-+	LSRJT_REASON_CMD_NOT_SUPPORTED		= 0xB,
-+	LSRJT_REASON_CMD_ALREADY_IN_PROGRESS	= 0xE,
-+	LSRJT_REASON_FIP_ERROR			= 0x20,
-+	/* Add others later */
-+};
++#define is_end_of_list(pos, head, member) ((&pos->member) == (head))
 +
 +enum {
-+	LSRJT_EXPL_NO_EXPLANATION		= 0x0,
-+	/* Add others later */
++	NVMF_OPT_ERR		= 0,
++	NVMF_OPT_WWNN		= 1 << 0,
++	NVMF_OPT_WWPN		= 1 << 1,
++	NVMF_OPT_ROLES		= 1 << 2,
++	NVMF_OPT_FCADDR		= 1 << 3,
++	NVMF_OPT_FABRIC		= 1 << 5,
++};
++
++struct fcloop_ctrl_options {
++	int			mask;
++	u64			wwnn;
++	u64			wwpn;
++	u32			roles;
++	u32			fcaddr;
++	u64			fabric;
++};
++
++static const match_table_t opt_tokens = {
++	{ NVMF_OPT_WWNN,	"wwnn=%s"	},
++	{ NVMF_OPT_WWPN,	"wwpn=%s"	},
++	{ NVMF_OPT_ROLES,	"roles=%d"	},
++	{ NVMF_OPT_FCADDR,	"fcaddr=%x"	},
++	{ NVMF_OPT_FABRIC,	"fabric=%s"	},
++	{ NVMF_OPT_ERR,		NULL		}
++};
++
++static int
++fcloop_parse_options(struct fcloop_ctrl_options *opts,
++		const char *buf)
++{
++	substring_t args[MAX_OPT_ARGS];
++	char *options, *o, *p;
++	int token, ret = 0;
++	u64 token64;
++
++	options = o = kstrdup(buf, GFP_KERNEL);
++	if (!options)
++		return -ENOMEM;
++
++	while ((p = strsep(&o, ",\n")) != NULL) {
++		if (!*p)
++			continue;
++
++		token = match_token(p, opt_tokens, args);
++		opts->mask |= token;
++		switch (token) {
++		case NVMF_OPT_WWNN:
++			if (match_u64(args, &token64)) {
++				ret = -EINVAL;
++				goto out_free_options;
++			}
++			opts->wwnn = token64;
++			break;
++		case NVMF_OPT_WWPN:
++			if (match_u64(args, &token64)) {
++				ret = -EINVAL;
++				goto out_free_options;
++			}
++			opts->wwpn = token64;
++			break;
++		case NVMF_OPT_ROLES:
++			if (match_int(args, &token)) {
++				ret = -EINVAL;
++				goto out_free_options;
++			}
++			opts->roles = token;
++			break;
++		case NVMF_OPT_FCADDR:
++			if (match_hex(args, &token)) {
++				ret = -EINVAL;
++				goto out_free_options;
++			}
++			opts->fcaddr = token;
++			break;
++		case NVMF_OPT_FABRIC:
++			if (match_u64(args, &token64)) {
++				ret = -EINVAL;
++				goto out_free_options;
++			}
++			opts->fabric = token64;
++			break;
++		default:
++			pr_warn("unknown parameter or missing value '%s'\n", p);
++			ret = -EINVAL;
++			goto out_free_options;
++		}
++	}
++
++out_free_options:
++	kfree(options);
++	return ret;
++}
++
++
++static int
++fcloop_parse_nm_options(struct device *dev, u64 *fname, u64 *pname,
++		const char *buf)
++{
++	substring_t args[MAX_OPT_ARGS];
++	char *options, *o, *p;
++	int token, ret = 0;
++	u64 token64;
++
++	*fname = -1;
++	*pname = -1;
++
++	options = o = kstrdup(buf, GFP_KERNEL);
++	if (!options)
++		return -ENOMEM;
++
++	while ((p = strsep(&o, ",\n")) != NULL) {
++		if (!*p)
++			continue;
++
++		token = match_token(p, opt_tokens, args);
++		switch (token) {
++		case NVMF_OPT_FABRIC:
++			if (match_u64(args, &token64)) {
++				ret = -EINVAL;
++				goto out_free_options;
++			}
++			*fname = token64;
++			break;
++		case NVMF_OPT_WWPN:
++			if (match_u64(args, &token64)) {
++				ret = -EINVAL;
++				goto out_free_options;
++			}
++			*pname = token64;
++			break;
++		default:
++			pr_warn("unknown parameter or missing value '%s'\n", p);
++			ret = -EINVAL;
++			goto out_free_options;
++		}
++	}
++
++out_free_options:
++	kfree(options);
++
++	if (!ret) {
++		if (*fname == -1)
++			return -EINVAL;
++		if (*pname == -1)
++			return -EINVAL;
++	}
++
++	return ret;
++}
++
++
++#define LPORT_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN | NVMF_OPT_ROLES | \
++			 NVMF_OPT_FCADDR | NVMF_OPT_FABRIC)
++
++#define RPORT_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN | NVMF_OPT_ROLES | \
++			 NVMF_OPT_FCADDR | NVMF_OPT_FABRIC)
++
++#define TGTPORT_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN | \
++			 NVMF_OPT_FCADDR | NVMF_OPT_FABRIC)
++
++#define ALL_OPTS	(NVMF_OPT_WWNN | NVMF_OPT_WWPN | NVMF_OPT_ROLES | \
++			 NVMF_OPT_FCADDR | NVMF_OPT_FABRIC)
++
++
++static LIST_HEAD(fcloop_lports);
++
++struct fcloop_lport {
++	struct nvme_fc_local_port *localport;
++	struct list_head list;
++	struct list_head rport_list;
++};
++
++struct fcloop_rport {
++	struct nvme_fc_remote_port *remoteport;
++	struct list_head list;
++	struct nvmet_fc_target_port *targetport;
++};
++
++struct fcloop_tgtport {
++	struct nvmet_fc_target_port *tgtport;
++	struct fcloop_rport *rport;
++	struct fcloop_lport *lport;
 +};
 +
 +
-+/* FCNVME_LSDESC_RJT */
-+struct fcnvme_lsdesc_rjt {
-+	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
-+	__be32	desc_len;
-+	u8	rsvd8;
-+	u8	reason_code;
-+	u8	reason_explanation;
-+	u8	vendor;
-+	__be32	rsvd12;
++struct fcloop_lsreq {
++	struct fcloop_tgtport		*tport;
++	struct nvmefc_ls_req		*lsreq;
++	struct work_struct		work;
++	struct nvmefc_tgt_ls_req	tgt_ls_req;
 +};
 +
-+
-+#define FCNVME_ASSOC_HOSTID_LEN		64
-+#define FCNVME_ASSOC_HOSTNQN_LEN	256
-+#define FCNVME_ASSOC_SUBNQN_LEN		256
-+
-+/* FCNVME_LSDESC_CREATE_ASSOC_CMD */
-+struct fcnvme_lsdesc_cr_assoc_cmd {
-+	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
-+	__be32	desc_len;
-+	__be16	ersp_ratio;
-+	__be16	rsvd10;
-+	__be32	rsvd12[9];
-+	__be16	cntlid;
-+	__be16	sqsize;
-+	__be32	rsvd52;
-+	u8	hostid[FCNVME_ASSOC_HOSTID_LEN];
-+	u8	hostnqn[FCNVME_ASSOC_HOSTNQN_LEN];
-+	u8	subnqn[FCNVME_ASSOC_SUBNQN_LEN];
-+	u8	rsvd632[384];
++struct fcloop_fcpreq {
++	struct fcloop_tgtport		*tport;
++	struct nvmefc_fcp_req		*fcpreq;
++	u16				status;
++	struct work_struct		work;
++	struct nvmefc_tgt_fcp_req	tgt_fcp_req;
 +};
 +
-+/* FCNVME_LSDESC_CREATE_CONN_CMD */
-+struct fcnvme_lsdesc_cr_conn_cmd {
-+	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
-+	__be32	desc_len;
-+	__be16	ersp_ratio;
-+	__be16	rsvd10;
-+	__be32	rsvd12[9];
-+	__be16	qid;
-+	__be16	sqsize;
-+	__be32  rsvd52;
-+};
++int
++fcloop_create_queue(struct nvme_fc_local_port *localport,
++			unsigned int qidx, u16 qsize,
++			void **handle)
++{
++	*handle = localport;
++	return 0;
++}
 +
-+/* Disconnect Scope Values */
-+enum {
-+	FCNVME_DISCONN_ASSOCIATION	= 0,
-+	FCNVME_DISCONN_CONNECTION	= 1,
-+};
-+
-+/* FCNVME_LSDESC_DISCONN_CMD */
-+struct fcnvme_lsdesc_disconn_cmd {
-+	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
-+	__be32	desc_len;
-+	u8	rsvd8[3];
-+	/* note: scope is really a 1 bit field */
-+	u8	scope;			/* FCNVME_DISCONN_xxx */
-+	__be32	rsvd12;
-+	__be64	id;
-+};
-+
-+/* FCNVME_LSDESC_CONN_ID */
-+struct fcnvme_lsdesc_conn_id {
-+	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
-+	__be32	desc_len;
-+	__be64	connection_id;
-+};
-+
-+/* FCNVME_LSDESC_ASSOC_ID */
-+struct fcnvme_lsdesc_assoc_id {
-+	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
-+	__be32	desc_len;
-+	__be64	association_id;
-+};
-+
-+
-+/* ********** start of Link Services ********** */
-+
-+
-+/* FCNVME_LS_RJT */
-+struct fcnvme_ls_rjt {
-+	struct fcnvme_ls_rqst_w0		w0;
-+	__be32					desc_list_len;
-+	struct fcnvme_lsdesc_rqst		rqst;
-+	struct fcnvme_lsdesc_rjt		rjt;
-+};
-+
-+/* FCNVME_LS_ACC */
-+struct fcnvme_ls_acc_hdr {
-+	struct fcnvme_ls_rqst_w0		w0;
-+	__be32					desc_list_len;
-+	struct fcnvme_lsdesc_rqst		rqst;
-+	/* Followed by cmd-specific ACC descriptors, see next definitions */
-+};
-+
-+/* FCNVME_LS_CREATE_ASSOCIATION */
-+struct fcnvme_ls_cr_assoc_rqst {
-+	struct fcnvme_ls_rqst_w0		w0;
-+	__be32					desc_list_len;
-+	struct fcnvme_lsdesc_cr_assoc_cmd	assoc_cmd;
-+};
-+
-+struct fcnvme_ls_cr_assoc_acc {
-+	struct fcnvme_ls_acc_hdr		hdr;
-+	struct fcnvme_lsdesc_assoc_id		associd;
-+	struct fcnvme_lsdesc_conn_id		connectid;
-+};
-+
-+
-+/* FCNVME_LS_CREATE_CONNECTION */
-+struct fcnvme_ls_cr_conn_rqst {
-+	struct fcnvme_ls_rqst_w0		w0;
-+	__be32					desc_list_len;
-+	struct fcnvme_lsdesc_assoc_id		associd;
-+	struct fcnvme_lsdesc_cr_conn_cmd	connect_cmd;
-+};
-+
-+struct fcnvme_ls_cr_conn_acc {
-+	struct fcnvme_ls_acc_hdr		hdr;
-+	struct fcnvme_lsdesc_conn_id		connectid;
-+};
-+
-+/* FCNVME_LS_DISCONNECT */
-+struct fcnvme_ls_disconnect_rqst {
-+	struct fcnvme_ls_rqst_w0		w0;
-+	__be32					desc_list_len;
-+	struct fcnvme_lsdesc_assoc_id		associd;
-+	struct fcnvme_lsdesc_disconn_cmd	discon_cmd;
-+};
-+
-+struct fcnvme_ls_disconnect_acc {
-+	struct fcnvme_ls_acc_hdr		hdr;
-+};
++void
++fcloop_delete_queue(struct nvme_fc_local_port *localport,
++			unsigned int idx, void *handle)
++{
++}
 +
 +
 +/*
-+ * Yet to be defined in FC-NVME:
++ * Transmit of LS RSP done (e.g. buffers all set). call back up
++ * initiator "done" flows.
 + */
-+#define NVME_FC_CONNECT_TIMEOUT_SEC	2		/* 2 seconds */
-+#define NVME_FC_LS_TIMEOUT_SEC		2		/* 2 seconds */
-+#define NVME_FC_TGTOP_TIMEOUT_SEC	2		/* 2 seconds */
++void
++fcloop_tgt_lsrqst_done_work(struct work_struct *work)
++{
++	struct fcloop_lsreq *tls_req =
++		container_of(work, struct fcloop_lsreq, work);
++	struct nvmefc_ls_req *lsreq = tls_req->lsreq;
 +
++	lsreq->done(lsreq, 0);
++}
++
++int
++fcloop_ls_req(struct nvme_fc_local_port *localport,
++			struct nvme_fc_remote_port *remoteport,
++			struct nvmefc_ls_req *lsreq)
++{
++	struct fcloop_lsreq *tls_req = lsreq->private;
++	struct fcloop_rport *rport = remoteport->private;
++	int ret = 0;
++
++	tls_req->lsreq = lsreq;
++	tls_req->tport = rport->targetport->private;
++	INIT_WORK(&tls_req->work, fcloop_tgt_lsrqst_done_work);
++
++	ret = nvmet_fc_rcv_ls_req(rport->targetport, &tls_req->tgt_ls_req,
++				 lsreq->rqstaddr, lsreq->rqstlen);
++
++	return ret;
++}
++
++int
++fcloop_xmt_ls_rsp(struct nvmet_fc_target_port *tgtport,
++			struct nvmefc_tgt_ls_req *tgt_lsreq)
++{
++	struct fcloop_lsreq *tls_req =
++		container_of(tgt_lsreq, struct fcloop_lsreq, tgt_ls_req);
++	struct nvmefc_ls_req *lsreq = tls_req->lsreq;
++
++	memcpy(lsreq->rspaddr, tgt_lsreq->rspbuf,
++		((lsreq->rsplen < tgt_lsreq->rsplen) ?
++				lsreq->rsplen : tgt_lsreq->rsplen));
++	(tgt_lsreq->done)(tgt_lsreq);
++
++	schedule_work(&tls_req->work);
++
++	return 0;
++}
 +
 +/*
-+ * FC Transport-specific error status values for NVME commands
-+ *
-+ * Need to incorporate into NVME Over Fabrics standard
-+ *
-+ * A request has been made to include transport-specific status values
-+ * into the standard but it is not yet complete/defined.
-+ *
-+ * For now, we will use a range within the Fabric values.  The range
-+ * will be 0xA0-0xBF, which is a reserved area in the fabric spec.
-+ * Currently, Only the values below have been defined within that range.
++ * FCP IO operation done. call back up initiator "done" flows.
 + */
-+enum {
-+	/* Generic FC failure - catchall */
-+	NVME_SC_FC_TRANSPORT_ERROR	= 0x00A0,
++void
++fcloop_tgt_fcprqst_done_work(struct work_struct *work)
++{
++	struct fcloop_fcpreq *tfcp_req =
++		container_of(work, struct fcloop_fcpreq, work);
++	struct nvmefc_fcp_req *fcpreq = tfcp_req->fcpreq;
 +
-+	/* I/O failure due to FC ABTS'd */
-+	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00A1,
++	fcpreq->status = tfcp_req->status;
++	fcpreq->done(fcpreq);
++}
 +
-+	/* FC Transport Connection in error */
-+	NVME_SC_FC_NO_CONNECTION	= 0x40A2,	/* not retryable */
 +
-+	/* NVME Completion did not contain original CMDID */
-+	NVME_SC_FC_CMDID_MISMATCH	= 0x00A3,
++int
++fcloop_fcp_req(struct nvme_fc_local_port *localport,
++			struct nvme_fc_remote_port *remoteport,
++			void *hw_queue_handle,
++			struct nvmefc_fcp_req *fcpreq)
++{
++	struct fcloop_fcpreq *tfcp_req = fcpreq->private;
++	struct fcloop_rport *rport = remoteport->private;
++	int ret = 0;
 +
-+	/* IU format error */
-+	NVME_SC_FC_FORMAT		= 0x00A4,
++	tfcp_req->fcpreq = fcpreq;
++	tfcp_req->tport = rport->targetport->private;
++	INIT_WORK(&tfcp_req->work, fcloop_tgt_fcprqst_done_work);
++
++	ret = nvmet_fc_rcv_fcp_req(rport->targetport, &tfcp_req->tgt_fcp_req,
++				 fcpreq->cmdaddr, fcpreq->cmdlen);
++
++	return ret;
++}
++
++void
++fcloop_fcp_copy_data(u8 op, struct scatterlist *data_sg,
++			struct scatterlist *io_sg, u32 offset, u32 length)
++{
++	void *data_p, *io_p;
++	u32 data_len, io_len, tlen;
++
++	io_p = sg_virt(io_sg);
++	io_len = io_sg->length;
++
++	for ( ; offset; ) {
++		tlen = min_t(u32, offset, io_len);
++		offset -= tlen;
++		io_len -= tlen;
++		if (!io_len) {
++			io_sg = sg_next(io_sg);
++			io_p = sg_virt(io_sg);
++			io_len = io_sg->length;
++		} else
++			io_p += tlen;
++	}
++
++	data_p = sg_virt(data_sg);
++	data_len = data_sg->length;
++
++	for ( ; length; ) {
++		tlen = min_t(u32, io_len, data_len);
++		tlen = min_t(u32, tlen, length);
++
++		if (op == NVMET_FCOP_WRITEDATA)
++			memcpy(data_p, io_p, tlen);
++		else
++			memcpy(io_p, data_p, tlen);
++
++		length -= tlen;
++
++		io_len -= tlen;
++		if ((!io_len) && (length)) {
++			io_sg = sg_next(io_sg);
++			io_p = sg_virt(io_sg);
++			io_len = io_sg->length;
++		} else
++			io_p += tlen;
++
++		data_len -= tlen;
++		if ((!data_len) && (length)) {
++			data_sg = sg_next(data_sg);
++			data_p = sg_virt(data_sg);
++			data_len = data_sg->length;
++		} else
++			data_p += tlen;
++	}
++}
++
++int
++fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
++			struct nvmefc_tgt_fcp_req *tgt_fcpreq)
++{
++	struct fcloop_fcpreq *tfcp_req =
++		container_of(tgt_fcpreq, struct fcloop_fcpreq, tgt_fcp_req);
++	struct nvmefc_fcp_req *fcpreq = tfcp_req->fcpreq;
++	u32 rsplen = 0, xfrlen = 0;
++	int fcp_err = 0;
++	u8 op = tgt_fcpreq->op;
++
++	switch (op) {
++	case NVMET_FCOP_WRITEDATA:
++		xfrlen = tgt_fcpreq->transfer_length;
++		fcloop_fcp_copy_data(op, tgt_fcpreq->sg, fcpreq->first_sgl,
++					tgt_fcpreq->offset, xfrlen);
++		fcpreq->transferred_length += xfrlen;
++		break;
++
++	case NVMET_FCOP_READDATA:
++	case NVMET_FCOP_READDATA_RSP:
++		xfrlen = tgt_fcpreq->transfer_length;
++		fcloop_fcp_copy_data(op, tgt_fcpreq->sg, fcpreq->first_sgl,
++					tgt_fcpreq->offset, xfrlen);
++		fcpreq->transferred_length += xfrlen;
++		if (op == NVMET_FCOP_READDATA)
++			break;
++
++		/* Fall-Thru to RSP handling */
++
++	case NVMET_FCOP_RSP:
++		rsplen = ((fcpreq->rsplen < tgt_fcpreq->rsplen) ?
++				fcpreq->rsplen : tgt_fcpreq->rsplen);
++		memcpy(fcpreq->rspaddr, tgt_fcpreq->rspaddr, rsplen);
++		if (rsplen < tgt_fcpreq->rsplen)
++			fcp_err = -E2BIG;
++		fcpreq->rcv_rsplen = rsplen;
++		fcpreq->status = 0;
++		tfcp_req->status = 0;
++		break;
++
++	case NVMET_FCOP_ABORT:
++		tfcp_req->status = NVME_SC_FC_TRANSPORT_ABORTED;
++		break;
++
++	default:
++		fcp_err = -EINVAL;
++		break;
++	}
++
++	tgt_fcpreq->transferred_length = xfrlen;
++	tgt_fcpreq->fcp_error = fcp_err;
++	tgt_fcpreq->done(tgt_fcpreq);
++
++	if ((!fcp_err) && (op == NVMET_FCOP_RSP ||
++			op == NVMET_FCOP_READDATA_RSP ||
++			op == NVMET_FCOP_ABORT))
++		schedule_work(&tfcp_req->work);
++
++	return 0;
++}
++
++void
++fcloop_ls_abort(struct nvme_fc_local_port *localport,
++			struct nvme_fc_remote_port *remoteport,
++				struct nvmefc_ls_req *lsreq)
++{
++}
++
++void
++fcloop_fcp_abort(struct nvme_fc_local_port *localport,
++			struct nvme_fc_remote_port *remoteport,
++			void *hw_queue_handle,
++			struct nvmefc_fcp_req *fcpreq)
++{
++}
++
++
++struct nvme_fc_port_template fctemplate = {
++	.create_queue	= fcloop_create_queue,
++	.delete_queue	= fcloop_delete_queue,
++	.ls_req		= fcloop_ls_req,
++	.fcp_io		= fcloop_fcp_req,
++	.ls_abort	= fcloop_ls_abort,
++	.fcp_abort	= fcloop_fcp_abort,
++
++	.max_hw_queues	= 1,
++	.max_sgl_segments = 256,
++	.max_dif_sgl_segments = 256,
++	.dma_boundary = 0xFFFFFFFF,
++	/* sizes of additional private data for data structures */
++	.local_priv_sz	= sizeof(struct fcloop_lport),
++	.remote_priv_sz	= sizeof(struct fcloop_rport),
++	.lsrqst_priv_sz = sizeof(struct fcloop_lsreq),
++	.fcprqst_priv_sz = sizeof(struct fcloop_fcpreq),
 +};
 +
++struct nvmet_fc_target_template tgttemplate = {
++	.xmt_ls_rsp	= fcloop_xmt_ls_rsp,
++	.fcp_op		= fcloop_fcp_op,
 +
-+#endif /* _NVME_FC_H */
++	.max_hw_queues	= 1,
++	.max_sgl_segments = 256,
++	.max_dif_sgl_segments = 256,
++	.dma_boundary = 0xFFFFFFFF,
++
++	/* optional features */
++	.target_features = NVMET_FCTGTFEAT_READDATA_RSP,
++
++	/* sizes of additional private data for data structures */
++	.target_priv_sz = sizeof(struct fcloop_tgtport),
++};
++
++static ssize_t
++fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
++		const char *buf, size_t count)
++{
++	struct nvme_fc_port_info pinfo;
++	struct fcloop_ctrl_options *opts;
++	struct nvme_fc_local_port *localport;
++	struct fcloop_lport *lport;
++	int ret;
++
++	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
++	if (!opts)
++		return -ENOMEM;
++
++	ret = fcloop_parse_options(opts, buf);
++	if (ret)
++		goto out_free_opts;
++
++	/* everything there ? */
++	if ((opts->mask & LPORT_OPTS) != LPORT_OPTS) {
++		ret = -EINVAL;
++		goto out_free_opts;
++	}
++
++	pinfo.fabric_name = opts->fabric;
++	pinfo.node_name = opts->wwnn;
++	pinfo.port_name = opts->wwpn;
++	pinfo.port_role = opts->roles;
++	pinfo.port_id = opts->fcaddr;
++
++	ret = nvme_fc_register_localport(&pinfo, &fctemplate, NULL, &localport);
++	if (!ret) {
++		/* success */
++		lport = localport->private;
++		lport->localport = localport;
++		INIT_LIST_HEAD(&lport->list);
++		INIT_LIST_HEAD(&lport->rport_list);
++		list_add_tail(&lport->list, &fcloop_lports);
++
++		/* mark all of the input buffer consumed */
++		ret = count;
++	}
++
++out_free_opts:
++	kfree(opts);
++	return ret;
++}
++
++static int __delete_local_port(struct fcloop_lport *lport)
++{
++	int ret;
++
++	if (!list_empty(&lport->rport_list))
++		return -EBUSY;
++
++	list_del(&lport->list);
++
++	ret = nvme_fc_unregister_localport(lport->localport);
++
++	return ret;
++}
++
++static ssize_t
++fcloop_delete_local_port(struct device *dev, struct device_attribute *attr,
++		const char *buf, size_t count)
++{
++	struct fcloop_lport *lport, *lnext;
++	u64 fabric, portname;
++	int ret;
++
++	ret = fcloop_parse_nm_options(dev, &fabric, &portname, buf);
++	if (ret)
++		return ret;
++
++	list_for_each_entry_safe(lport, lnext, &fcloop_lports, list) {
++		if ((lport->localport->fabric_name == fabric) &&
++		    (lport->localport->port_name == portname)) {
++			break;
++		}
++	}
++	if (is_end_of_list(lport, &fcloop_lports, list))
++		return -ENOENT;
++
++	ret = __delete_local_port(lport);
++
++	if (!ret)
++		return count;
++
++	return ret;
++}
++
++static ssize_t
++fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
++		const char *buf, size_t count)
++{
++	struct fcloop_ctrl_options *opts;
++	struct fcloop_lport *lport, *lnext;
++	struct nvme_fc_remote_port *remoteport;
++	struct fcloop_rport *rport;
++	struct nvme_fc_port_info pinfo;
++	struct nvmet_fc_port_info tinfo;
++	int ret;
++
++	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
++	if (!opts)
++		return -ENOMEM;
++
++	ret = fcloop_parse_options(opts, buf);
++	if (ret)
++		goto out_free_opts;
++
++	/* everything there ? */
++	if ((opts->mask & RPORT_OPTS) != RPORT_OPTS) {
++		ret = -EINVAL;
++		goto out_free_opts;
++	}
++
++	pinfo.fabric_name = tinfo.fabric_name = opts->fabric;
++	pinfo.node_name = tinfo.node_name = opts->wwnn;
++	pinfo.port_name = tinfo.port_name = opts->wwpn;
++	pinfo.port_role = opts->roles;
++	pinfo.port_id = tinfo.port_id = opts->fcaddr;
++
++	list_for_each_entry_safe(lport, lnext, &fcloop_lports, list) {
++		if (lport->localport->fabric_name == opts->fabric)
++			break;
++	}
++	if (is_end_of_list(lport, &fcloop_lports, list)) {
++		ret = -ENOENT;
++		goto out_free_opts;
++	}
++
++	ret = nvme_fc_register_remoteport(lport->localport, &pinfo,
++					&remoteport);
++	if (ret)
++		goto out_free_opts;
++
++	/* success */
++	rport = remoteport->private;
++	rport->remoteport = remoteport;
++	INIT_LIST_HEAD(&rport->list);
++	list_add_tail(&rport->list, &lport->rport_list);
++
++	/* tie into nvme target side */
++	ret = nvmet_fc_register_targetport(&tinfo, &tgttemplate, NULL,
++					&rport->targetport);
++	if (ret) {
++		list_del(&rport->list);
++		(void)nvme_fc_unregister_remoteport(remoteport);
++	} else {
++		struct fcloop_tgtport *tport;
++
++		tport = rport->targetport->private;
++		tport->rport = rport;
++		tport->lport = lport;
++		tport->tgtport = rport->targetport;
++
++		/* mark all of the input buffer consumed */
++		ret = count;
++	}
++
++out_free_opts:
++	kfree(opts);
++	return ret;
++}
++
++static int __delete_remote_port(struct fcloop_rport *rport)
++{
++	int ret;
++
++	ret = nvmet_fc_unregister_targetport(rport->targetport);
++	if (ret)
++		return ret;
++
++	list_del(&rport->list);
++
++	ret = nvme_fc_unregister_remoteport(rport->remoteport);
++
++	return ret;
++}
++
++static ssize_t
++fcloop_delete_remote_port(struct device *dev, struct device_attribute *attr,
++		const char *buf, size_t count)
++{
++	struct fcloop_lport *lport, *lnext;
++	struct fcloop_rport *rport, *rnext;
++	u64 fabric, portname;
++	int ret;
++
++	ret = fcloop_parse_nm_options(dev, &fabric, &portname, buf);
++	if (ret)
++		return ret;
++
++	list_for_each_entry_safe(lport, lnext, &fcloop_lports, list)
++		if (lport->localport->fabric_name == fabric)
++			break;
++	if (is_end_of_list(lport, &fcloop_lports, list))
++		return -ENOENT;
++
++	list_for_each_entry_safe(rport, rnext, &lport->rport_list, list)
++		if (rport->remoteport->port_name == portname)
++			break;
++	if (is_end_of_list(rport, &lport->rport_list, list))
++		return -ENOENT;
++
++	ret = __delete_remote_port(rport);
++	if (!ret)
++		return count;
++
++	return ret;
++}
++
++
++static DEVICE_ATTR(add_local_port, S_IWUSR, NULL, fcloop_create_local_port);
++static DEVICE_ATTR(del_local_port, S_IWUSR, NULL, fcloop_delete_local_port);
++static DEVICE_ATTR(add_remote_port, S_IWUSR, NULL, fcloop_create_remote_port);
++static DEVICE_ATTR(del_remote_port, S_IWUSR, NULL, fcloop_delete_remote_port);
++
++
++static struct class *fcloop_class;
++static struct device *fcloop_device;
++
++
++static int __init fcloop_init(void)
++{
++	int ret;
++
++	fcloop_class = class_create(THIS_MODULE, "fcloop");
++	if (IS_ERR(fcloop_class)) {
++		pr_err("couldn't register class fcloop\n");
++		ret = PTR_ERR(fcloop_class);
++		return ret;
++	}
++
++	fcloop_device =
++		device_create(fcloop_class, NULL, MKDEV(0, 0), NULL, "ctl");
++	if (IS_ERR(fcloop_device)) {
++		pr_err("couldn't create ctl device!\n");
++		ret = PTR_ERR(fcloop_device);
++		goto out_destroy_class;
++	}
++
++	ret = device_create_file(fcloop_device, &dev_attr_add_local_port);
++	if (ret) {
++		pr_err("couldn't add device add_local_port attr.\n");
++		goto out_destroy_device;
++	}
++
++	ret = device_create_file(fcloop_device, &dev_attr_del_local_port);
++	if (ret) {
++		pr_err("couldn't add device del_local_port attr.\n");
++		goto out_destroy_device;
++	}
++
++	ret = device_create_file(fcloop_device, &dev_attr_add_remote_port);
++	if (ret) {
++		pr_err("couldn't add device add_remote_port attr.\n");
++		goto out_destroy_device;
++	}
++
++	ret = device_create_file(fcloop_device, &dev_attr_del_remote_port);
++	if (ret) {
++		pr_err("couldn't add device del_remote_port attr.\n");
++		goto out_destroy_device;
++	}
++
++	return 0;
++
++out_destroy_device:
++	device_destroy(fcloop_class, MKDEV(0, 0));
++out_destroy_class:
++	class_destroy(fcloop_class);
++	return ret;
++}
++
++static void __exit fcloop_exit(void)
++{
++	struct fcloop_lport *lport, *lnext;
++	struct fcloop_rport *rport, *rnext;
++	int ret;
++
++	list_for_each_entry_safe(lport, lnext, &fcloop_lports, list) {
++		list_for_each_entry_safe(rport, rnext,
++						&lport->rport_list, list) {
++			ret = __delete_remote_port(rport);
++			if (ret)
++				pr_warn("%s: Failed deleting remote port\n",
++						__func__);
++
++		}
++		ret = __delete_local_port(lport);
++		if (ret)
++			pr_warn("%s: Failed deleting local port\n", __func__);
++	}
++
++	device_destroy(fcloop_class, MKDEV(0, 0));
++	class_destroy(fcloop_class);
++}
++
++module_init(fcloop_init);
++module_exit(fcloop_exit);
++
++MODULE_LICENSE("GPL v2");
++
++
 +
 -- 
 2.5.0
