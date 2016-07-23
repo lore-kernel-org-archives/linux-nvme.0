@@ -1,1950 +1,1594 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Fri, 22 Jul 2016 17:23:58 -0700
-Subject: [PATCH 4/5] nvme-fabrics: Add target FC transport support
-Message-ID: <5792b91e.51+4Ind0/2MxGqHU%james.smart@broadcom.com>
+Date: Fri, 22 Jul 2016 17:24:02 -0700
+Subject: [PATCH 2/3] nvme-fabrics: Add nvme host FC transport support to
+ lpfc driver
+Message-ID: <5792b922.GfJtdiyEMQ1JG3fp%james.smart@broadcom.com>
 
 
-Add nvme-fabrics target FC transport support
+This patch updates the lpfc driver such that it ties into the NVME FC
+transport to add host (initiator) support.
+It currently is an unoptimized NVME implementation.
 
-Implements the FC-NVME T11 definition of how nvme fabric capsules are
-performed on an FC fabric. Utilizes a lower-layer API to FC host adapters
-to send/receive FC-4 LS operations and perform the FCP transactions necessary
-to perform and FCP IO request for NVME.
-
-The T11 definitions for FC-4 Link Services are implemented which create
-NVMeOF connections.  Implements the hooks with nvmet layer to pass NVME
-commands to it for processing and posting of data/response base to the
-host via the differernt connections.
+The patch:
+-Replaces stubs so that the local FC port is registered with the
+ NVME FC transport as a "nvme local port"
+-Replaces stubs in the discovery code so that nvme targets are
+ registered with the NVME FC transport as a "nvme remote ports"
+-Adds the lpfc_nvme.c file which contains all the entrypoints to support
+ the NVME FC transport host interfaces. Supports sending of FC-4 LS and
+ FCP IO requests to the base driver
 
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
-
 ---
- drivers/nvme/target/Kconfig  |   10 +
- drivers/nvme/target/Makefile |    2 +
- drivers/nvme/target/fc.c     | 1881 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 1893 insertions(+)
- create mode 100644 drivers/nvme/target/fc.c
+ drivers/scsi/lpfc/Makefile       |    3 +-
+ drivers/scsi/lpfc/lpfc_crtn.h    |    3 +
+ drivers/scsi/lpfc/lpfc_hbadisc.c |   26 +-
+ drivers/scsi/lpfc/lpfc_init.c    |   15 +-
+ drivers/scsi/lpfc/lpfc_nvme.c    | 1447 ++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 1489 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/scsi/lpfc/lpfc_nvme.c
 
-diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-index a5c31cb..62819b2 100644
---- a/drivers/nvme/target/Kconfig
-+++ b/drivers/nvme/target/Kconfig
-@@ -34,3 +34,13 @@ config NVME_TARGET_RDMA
- 	  devices over RDMA.
+diff --git a/drivers/scsi/lpfc/Makefile b/drivers/scsi/lpfc/Makefile
+index 9606a13..cd7e1fc 100644
+--- a/drivers/scsi/lpfc/Makefile
++++ b/drivers/scsi/lpfc/Makefile
+@@ -30,4 +30,5 @@ obj-$(CONFIG_SCSI_LPFC) := lpfc.o
  
- 	  If unsure, say N.
-+
-+config NVME_TARGET_FC
-+	tristate "NVMe over Fabrics FC target driver"
-+	select NVME_TARGET
-+	help
-+	  This enables the NVMe FC target support, which allows exporting NVMe
-+	  devices over FC.
-+
-+	  If unsure, say N.
-+
-diff --git a/drivers/nvme/target/Makefile b/drivers/nvme/target/Makefile
-index b7a0623..80b128b 100644
---- a/drivers/nvme/target/Makefile
-+++ b/drivers/nvme/target/Makefile
-@@ -2,8 +2,10 @@
- obj-$(CONFIG_NVME_TARGET)		+= nvmet.o
- obj-$(CONFIG_NVME_TARGET_LOOP)		+= nvme-loop.o
- obj-$(CONFIG_NVME_TARGET_RDMA)		+= nvmet-rdma.o
-+obj-$(CONFIG_NVME_TARGET_FC)		+= nvmet-fc.o
+ lpfc-objs := lpfc_mem.o lpfc_sli.o lpfc_ct.o lpfc_els.o \
+ 	lpfc_hbadisc.o	lpfc_init.o lpfc_mbox.o lpfc_nportdisc.o   \
+-	lpfc_scsi.o lpfc_attr.o lpfc_vport.o lpfc_debugfs.o lpfc_bsg.o
++	lpfc_scsi.o lpfc_attr.o lpfc_vport.o lpfc_debugfs.o lpfc_bsg.o \
++	lpfc_nvme.o
+diff --git a/drivers/scsi/lpfc/lpfc_crtn.h b/drivers/scsi/lpfc/lpfc_crtn.h
+index bfac2c6..ab2b4eb 100644
+--- a/drivers/scsi/lpfc/lpfc_crtn.h
++++ b/drivers/scsi/lpfc/lpfc_crtn.h
+@@ -514,3 +514,6 @@ void lpfc_release_scsi_buf(struct lpfc_hba *, struct lpfc_scsi_buf *);
+ struct lpfc_scsi_buf *lpfc_get_scsi_buf(struct lpfc_hba *,
+ 					struct lpfc_nodelist *);
  
- nvmet-y		+= core.o configfs.o admin-cmd.o io-cmd.o fabrics-cmd.o \
- 			discovery.o
- nvme-loop-y	+= loop.o
- nvmet-rdma-y	+= rdma.o
-+nvmet-fc-y	+= fc.o
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
++/* NVME interfaces. */
++int lpfc_create_nvme_lport(struct lpfc_vport *);
++void lpfc_destroy_nvme_lport(struct lpfc_nvme *);
+diff --git a/drivers/scsi/lpfc/lpfc_hbadisc.c b/drivers/scsi/lpfc/lpfc_hbadisc.c
+index 2061636..e213cf0f7 100644
+--- a/drivers/scsi/lpfc/lpfc_hbadisc.c
++++ b/drivers/scsi/lpfc/lpfc_hbadisc.c
+@@ -4060,6 +4060,7 @@ lpfc_register_nvme_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
+ 	struct lpfc_nvme *pnvme = vport->pnvme;
+ 	struct lpfc_nvme_lport *lport;
+ 	struct lpfc_nvme_rport *rport;
++	struct nvme_fc_remote_port *remote_port;
+ 	struct nvme_fc_port_info rpinfo;
+ 	struct lpfc_nodelist *fndlp;
+ 
+@@ -4152,7 +4153,30 @@ regit:
+ 		else
+ 			rpinfo.fabric_name = lport->localport->fabric_name;
+ 
+-		/* TODO: bind with nvme layer - register remote nvme port */
++		ret = nvme_fc_register_remoteport(lport->localport, &rpinfo,
++						  &remote_port);
++		if (!ret) {
++			rport = remote_port->private;
++			rport->remoteport = remote_port;
++			rport->lport = lport;
++			rport->ndlp = ndlp;
++			ndlp->nrport = rport;
++			INIT_LIST_HEAD(&rport->list);
++			list_add_tail(&rport->list, &lport->rport_list);
++			lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME | LOG_NODE,
++					 "6031 Binding new rport to "
++					 "lport %p using fabricName 0x%llx "
++					 "Rport WWNN 0x%llx, Rport WWPN 0x%llx "
++					 "DID x%06x Role x%x\n",
++					 lport,
++					 lport->localport->fabric_name,
++					 rpinfo.node_name, rpinfo.port_name,
++					 rpinfo.port_id, rpinfo.port_role);
++		} else
++			lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME | LOG_NODE,
++					 "6031 RemotePort Registration failed "
++					 "err: %d, DID x%06x\n",
++					 ret, ndlp->nlp_DID);
+ 	} else {
+ 		ret = -EINVAL;
+ 		lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index 53d3e75..1b786e7 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -5377,8 +5377,10 @@ lpfc_sli4_driver_resource_setup(struct lpfc_hba *phba)
+ 	if (bf_get(lpfc_sli_intf_if_type, &phba->sli4_hba.sli_intf) ==
+ 	    LPFC_SLI_INTF_IF_TYPE_2) {
+ 		rc = lpfc_pci_function_reset(phba);
+-		if (unlikely(rc))
++		if (unlikely(rc)) {
++			rc = -ENODEV;
+ 			goto out_free_mem;
++		}
+ 		phba->temp_sensor_support = 1;
+ 	}
+ 
+@@ -10787,7 +10789,14 @@ lpfc_pci_probe_one_s4(struct pci_dev *pdev, const struct pci_device_id *pid)
+ 		/* Create NVME binding with nvme_fc_transport. This
+ 		 * ensures the vport is initialized.
+ 		 */
+-		/* TODO: bind with nvme layer */
++		error = lpfc_create_nvme_lport(vport);
++		if (error) {
++			lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
++					"6004 NVME registration failed, "
++					"error x%x\n",
++					error);
++			goto out_disable_intr;
++		}
+ 	}
+ 
+ 	/* check for firmware upgrade or downgrade */
+@@ -10858,8 +10867,8 @@ lpfc_pci_remove_one_s4(struct pci_dev *pdev)
+ 	lpfc_destroy_vport_work_array(phba, vports);
+ 
+ 	if (phba->cfg_nvme_io_channel) {
+-		/* TODO: unbind with nvme layer */
+ 		/* The nvme pointer is invalid post call. */
++		lpfc_destroy_nvme_lport(vport->pnvme);
+ 		vport->pnvme = NULL;
+ 	}
+ 
+diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
 new file mode 100644
-index 0000000..3a5a522
+index 0000000..1b3ab8e
 --- /dev/null
-+++ b/drivers/nvme/target/fc.c
-@@ -0,0 +1,1881 @@
-+/*
-+ * Copyright (c) 2016 Avago Technologies.  All rights reserved.
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of version 2 of the GNU General Public License as
-+ * published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope that it will be useful.
-+ * ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES,
-+ * INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A
-+ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT, ARE DISCLAIMED, EXCEPT TO
-+ * THE EXTENT THAT SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID.
-+ * See the GNU General Public License for more details, a copy of which
-+ * can be found in the file COPYING included with this package
-+ *
-+ */
-+#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-+#include <linux/module.h>
++++ b/drivers/scsi/lpfc/lpfc_nvme.c
+@@ -0,0 +1,1447 @@
++/*******************************************************************
++ * This file is part of the Emulex Linux Device Driver for         *
++ * Fibre Channel Host Bus Adapters.                                *
++ * Copyright (C) 2004-2016 Emulex.  All rights reserved.           *
++ * EMULEX and SLI are trademarks of Emulex.                        *
++ * www.emulex.com                                                  *
++ * Portions Copyright (C) 2004-2005 Christoph Hellwig              *
++ *                                                                 *
++ * This program is free software; you can redistribute it and/or   *
++ * modify it under the terms of version 2 of the GNU General       *
++ * Public License as published by the Free Software Foundation.    *
++ * This program is distributed in the hope that it will be useful. *
++ * ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND          *
++ * WARRANTIES, INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY,  *
++ * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT, ARE      *
++ * DISCLAIMED, EXCEPT TO THE EXTENT THAT SUCH DISCLAIMERS ARE HELD *
++ * TO BE LEGALLY INVALID.  See the GNU General Public License for  *
++ * more details, a copy of which can be found in the file COPYING  *
++ * included with this package.                                     *
++ ********************************************************************/
++#include <linux/pci.h>
 +#include <linux/slab.h>
-+#include <linux/blk-mq.h>
-+#include <linux/parser.h>
++#include <linux/interrupt.h>
++#include <linux/delay.h>
++#include <asm/unaligned.h>
++#include <linux/crc-t10dif.h>
++#include <net/checksum.h>
 +
-+#include "nvmet.h"
++#include <scsi/scsi.h>
++#include <scsi/scsi_device.h>
++#include <scsi/scsi_eh.h>
++#include <scsi/scsi_host.h>
++#include <scsi/scsi_tcq.h>
++#include <scsi/scsi_transport_fc.h>
++#include <scsi/fc/fc_fs.h>
++
 +#include <linux/nvme-fc-driver.h>
-+#include <linux/nvme-fc.h>
 +
++#include "lpfc_version.h"
++#include "lpfc_hw4.h"
++#include "lpfc_hw.h"
++#include "lpfc_sli.h"
++#include "lpfc_sli4.h"
++#include "lpfc_nl.h"
++#include "lpfc_disc.h"
++#include "lpfc_nvme.h"
++#include "lpfc.h"
++#include "lpfc_scsi.h"
++#include "lpfc_logmsg.h"
++#include "lpfc_crtn.h"
++#include "lpfc_vport.h"
 +
-+/* *************************** Data Structures/Defines ****************** */
++/* NVME initiator-based functions */
 +
-+
-+#define NVMET_LS_CTX_COUNT		4
-+
-+/* for this implementation, assume small single frame rqst/rsp */
-+#define NVME_FC_MAX_LS_BUFFER_SIZE		2048
-+
-+struct nvmet_fc_tgtport;
-+struct nvmet_fc_tgt_assoc;
-+
-+struct nvmet_fc_ls_iod {
-+	struct nvmefc_tgt_ls_req	*lsreq;
-+
-+	struct list_head		ls_list;	/* tgtport->ls_list */
-+
-+	struct nvmet_fc_tgtport		*tgtport;
-+	struct nvmet_fc_tgt_assoc	*assoc;
-+
-+	u8				*rqstbuf;
-+	u8				*rspbuf;
-+	u16				rqstdatalen;
-+	dma_addr_t			rspdma;
-+
-+	struct scatterlist		sg[2];
-+
-+	struct work_struct		work;
-+} __aligned(sizeof(unsigned long long));
-+
-+#define NVMET_FC_MAX_KB_PER_XFR		256
-+
-+enum nvmet_fcp_datadir {
-+	NVMET_FCP_NODATA,
-+	NVMET_FCP_WRITE,
-+	NVMET_FCP_READ,
-+	NVMET_FCP_ABORTED,
-+};
-+
-+struct nvmet_fc_fcp_iod {
-+	struct nvmefc_tgt_fcp_req	*fcpreq;
-+
-+	struct nvme_fc_cmd_iu		cmdiubuf;
-+	struct nvme_fc_ersp_iu		rspiubuf;
-+	dma_addr_t			rspdma;
-+	struct scatterlist		*data_sg;
-+	struct scatterlist		*next_sg;
-+	int				data_sg_cnt;
-+	u32				next_sg_offset;
-+	u32				total_length;
-+	u32				offset;
-+	enum nvmet_fcp_datadir		io_dir;
-+	bool				aborted;
-+
-+	struct nvmet_req		req;
-+	struct work_struct		work;
-+
-+	struct nvmet_fc_tgtport		*tgtport;
-+	struct nvmet_fc_tgt_queue	*queue;
-+
-+	struct list_head		fcp_list;	/* tgtport->fcp_list */
-+};
-+
-+struct nvmet_fc_tgtport {
-+
-+	struct nvmet_fc_target_port	fc_target_port;
-+
-+	struct list_head		tgt_list; /* nvme_fc_target_list */
-+	struct device			*dev;	/* dev for dma mapping */
-+	struct nvmet_fc_target_template	*ops;
-+
-+	struct nvmet_fc_ls_iod		*iod;
-+	spinlock_t			lock;
-+	struct list_head		ls_list;
-+	struct list_head		ls_busylist;
-+	struct list_head		assoc_list;
-+	u32				assoc_cnt;
-+	struct nvmet_port		*port;
-+
-+	struct kref			ref;
-+};
-+
-+struct nvmet_fc_tgt_queue {
-+	bool				connected;
-+	bool				ninetypercent;
-+	u16				qid;
-+	u16				sqsize;
-+	u16				ersp_ratio;
-+	u16				sqhd;
-+	atomic_t			sqtail;
-+	atomic_t			zrspcnt;
-+	atomic_t			rsn;
-+	struct nvmet_port		*port;
-+	struct nvmet_cq			nvme_cq;
-+	struct nvmet_sq			nvme_sq;
-+	struct nvmet_fc_tgt_assoc	*assoc;
-+	struct nvmet_fc_fcp_iod		*fod;		/* array of fcp_iods */
-+	struct list_head		fod_list;
-+	struct workqueue_struct		*work_q;
-+} __aligned(sizeof(unsigned long long));
-+
-+struct nvmet_fc_tgt_assoc {
-+	u64				association_id;
-+	u32				a_id;
-+	struct nvmet_fc_tgtport		*tgtport;
-+	struct list_head		a_list;
-+	struct nvmet_fc_tgt_queue	*queues[NVMET_NR_QUEUES];
-+};
-+
-+
-+static inline int
-+nvmet_fc_iodnum(struct nvmet_fc_ls_iod *iodptr)
++/**
++ * lpfc_nvme_create_hw_queue -
++ * @lpfc_pnvme: Pointer to the driver's nvme instance data
++ * @qidx: An cpu index used to affinitize IO queues and MSIX vectors.
++ * @handle: An opaque driver handle used in follow-up calls.
++ *
++ * Driver registers this routine to preallocate and initialize
++ * any internal data structures to bind the @qidx to its internal
++ * IO queues.
++ *
++ * Return value :
++ *   0 - Success
++ *   TODO:  What are the failure codes.
++ **/
++static int
++lpfc_nvme_create_hw_queue(struct nvme_fc_local_port *pnvme_lport,
++		       unsigned int qnum, u16 qsize,
++		       void **handle)
 +{
-+	return (iodptr - iodptr->tgtport->iod);
++	uint32_t cpu = 0;
++	uint32_t qidx;
++	struct lpfc_nvme_lport *lport;
++	struct lpfc_vport *vport;
++	struct lpfc_nvme_qhandle *qhandle;
++
++	lport = (struct lpfc_nvme_lport *) pnvme_lport->private;
++	vport = lport->pnvme->vport;
++	qidx = 0;  /* Hardcode for now */
++
++	lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++			 "6000 ENTER.  lpfc_pnvme %p, qidx x%x running "
++			 "cpu %d\n",
++			 lport, qidx, smp_processor_id());
++
++	/* Display all online CPUs. */
++	for_each_present_cpu(cpu) {
++		if (cpu_online(cpu)) {
++			lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++					 "9999 CPU %d online\n",
++					 cpu);
++			if (cpu == qidx) {
++				qhandle = kzalloc(
++					  sizeof(struct lpfc_nvme_qhandle),
++					  GFP_KERNEL);
++				if (qhandle == NULL)
++					return -ENOMEM;
++
++				qhandle->cpu_id = qidx;
++				qhandle->wq_id = vport->last_fcp_wqidx;
++				vport->last_fcp_wqidx =
++					(vport->last_fcp_wqidx + 1) %
++					vport->phba->cfg_nvme_io_channel;
++				lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++						 "6073 Binding qidx %d to "
++						 "fcp_wqidx %d in qhandle %p\n",
++						 qidx, vport->last_fcp_wqidx,
++						 qhandle);
++				handle = (void **)&qhandle;
++				return 0;
++			}
++		} else
++			lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++					 "9999 CPU %d offline\n",
++					 cpu);
++	}
++
++	/* Stub in routine and return 0 for now. */
++	return -EINVAL;
 +}
 +
-+static inline int
-+nvmet_fc_fodnum(struct nvmet_fc_fcp_iod *fodptr)
++/**
++ * lpfc_nvme_delete_hw_queue -
++ * @lpfc_pnvme: Pointer to the driver's nvme instance data
++ * @qidx: An cpu index used to affinitize IO queues and MSIX vectors.
++ * @handle: An opaque driver handle from lpfc_nvme_create_hw_queue
++ *
++ * Driver registers this routine to free
++ * any internal data structures to bind the @qidx to its internal
++ * IO queues.
++ *
++ * Return value :
++ *   0 - Success
++ *   TODO:  What are the failure codes.
++ **/
++static void
++lpfc_nvme_delete_hw_queue(struct nvme_fc_local_port *pnvme_lport,
++		       unsigned int qidx,
++		       void *handle)
 +{
-+	return (fodptr - fodptr->queue->fod);
++	struct lpfc_nvme_lport *lport;
++	struct lpfc_vport *vport;
++
++	lport = (struct lpfc_nvme_lport *) pnvme_lport->private;
++	vport = lport->pnvme->vport;
++
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
++			"6001 ENTER.  lpfc_pnvme %p, qidx x%xi qhandle %p\n",
++			lport, qidx, handle);
++	kfree(handle);
 +}
 +
-+
-+#define NVMET_FC_QUEUEID_MASK		((u64)(NVMET_NR_QUEUES-1))
-+						/* stuff qid into lower bits */
-+
-+static inline u64
-+nvmet_fc_makeconnid(struct nvmet_fc_tgt_assoc *assoc, u16 qid)
++static void
++lpfc_nvme_cmpl_gen_req(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
++		       struct lpfc_wcqe_complete *wcqe)
 +{
-+	return (u64)(((u64)(assoc) & ~NVMET_FC_QUEUEID_MASK) | qid);
++	struct lpfc_vport *vport = cmdwqe->vport;
++	uint32_t status;
++	struct nvmefc_ls_req *pnvme_lsreq;
++	struct lpfc_dmabuf *buf_ptr;
++	struct lpfc_nodelist *ndlp;
++
++	pnvme_lsreq = (struct nvmefc_ls_req *)cmdwqe->context2;
++	status = bf_get(lpfc_wcqe_c_status, wcqe) & LPFC_IOCB_STATUS_MASK;
++	ndlp = (struct lpfc_nodelist *)cmdwqe->context1;
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
++			 "6047 nvme cmpl Enter "
++			 "Data %p DID %x Xri: %x status %x cmd:%p lsreg:%p "
++			 "bmp:%p ndlp:%p\n",
++			 pnvme_lsreq, ndlp ? ndlp->nlp_DID : 0,
++			 cmdwqe->sli4_xritag, status,
++			 cmdwqe, pnvme_lsreq, cmdwqe->context3, ndlp);
++
++	if (cmdwqe->context3) {
++		buf_ptr = (struct lpfc_dmabuf *)cmdwqe->context3;
++		lpfc_mbuf_free(phba, buf_ptr->virt, buf_ptr->phys);
++		kfree(buf_ptr);
++		cmdwqe->context3 = NULL;
++	}
++	if (pnvme_lsreq->done)
++		pnvme_lsreq->done(pnvme_lsreq, status);
++	else
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++				 "6046 nvme cmpl without done call back? "
++				 "Data %p DID %x Xri: %x status %x\n",
++				pnvme_lsreq, ndlp ? ndlp->nlp_DID : 0,
++				cmdwqe->sli4_xritag, status);
++	if (ndlp) {
++		lpfc_nlp_put(ndlp);
++		cmdwqe->context1 = NULL;
++	}
++	lpfc_sli_release_iocbq(phba, cmdwqe);
 +}
-+
-+static inline u64
-+nvmet_fc_getassociationid(u64 connectionid)
-+{
-+	return (u64)((connectionid) & ~NVMET_FC_QUEUEID_MASK);
-+}
-+
-+static inline u16
-+nvmet_fc_getqueueid(u64 connectionid)
-+{
-+	return (u16)((connectionid) & NVMET_FC_QUEUEID_MASK);
-+}
-+
-+
-+/* *************************** Globals **************************** */
-+
-+
-+static DEFINE_SPINLOCK(nvme_fc_tgtlock);
-+
-+static LIST_HEAD(nvmet_fc_target_list);
-+static u32 nvmet_fc_tgtport_cnt;
-+
-+
-+static void nvmet_fc_handle_ls_rqst_work(struct work_struct *work);
-+static void nvmet_fc_handle_fcp_rqst_work(struct work_struct *work);
-+
-+
-+/* *********************** FC-NVME Port Management ************************ */
-+
 +
 +static int
-+nvmet_fc_alloc_ls_iodlist(struct nvmet_fc_tgtport *tgtport)
++lpfc_nvme_gen_req(struct lpfc_vport *vport, struct lpfc_dmabuf *bmp,
++		  struct lpfc_dmabuf *inp,
++		 struct nvmefc_ls_req *pnvme_lsreq,
++	     void (*cmpl)(struct lpfc_hba *, struct lpfc_iocbq *,
++			   struct lpfc_wcqe_complete *),
++	     struct lpfc_nodelist *ndlp, uint32_t num_entry,
++	     uint32_t tmo, uint8_t retry)
 +{
-+	struct nvmet_fc_ls_iod *iod;
-+	int i;
++	struct lpfc_hba  *phba = vport->phba;
++	union lpfc_wqe *wqe;
++	struct lpfc_iocbq *genwqe;
++	struct ulp_bde64 *bpl;
++	struct ulp_bde64 bde;
++	int i, rc, xmit_len, first_len;
 +
-+	iod = kcalloc(NVMET_LS_CTX_COUNT, sizeof(struct nvmet_fc_ls_iod),
-+			GFP_KERNEL);
-+	if (!iod)
-+		return -ENOMEM;
++	/* Allocate buffer for  command WQE */
++	genwqe = lpfc_sli_get_iocbq(phba);
++	if (genwqe == NULL)
++		return 1;
 +
-+	tgtport->iod = iod;
++	wqe = &genwqe->wqe;
++	memset(wqe, 0, sizeof(union lpfc_wqe));
 +
-+	for (i = 0; i < NVMET_LS_CTX_COUNT; iod++, i++) {
-+		INIT_WORK(&iod->work, nvmet_fc_handle_ls_rqst_work);
-+		iod->tgtport = tgtport;
-+		list_add_tail(&iod->ls_list, &tgtport->ls_list);
++	genwqe->context3 = (uint8_t *)bmp;
++	genwqe->iocb_flag |= LPFC_IO_NVME_LS;
 +
-+		iod->rqstbuf = kcalloc(2, NVME_FC_MAX_LS_BUFFER_SIZE,
-+			GFP_KERNEL);
-+		if (!iod->rqstbuf)
-+			goto out_fail;
++	/* Save for completion so we can release these resources */
++	genwqe->context1 = lpfc_nlp_get(ndlp);
++	genwqe->context2 = (uint8_t *)pnvme_lsreq;
++	/* Fill in payload, bp points to frame payload */
 +
-+		iod->rspbuf = iod->rqstbuf + NVME_FC_MAX_LS_BUFFER_SIZE;
++	if (!tmo)
++		/* FC spec states we need 3 * ratov for CT requests */
++		tmo = (3 * phba->fc_ratov);
 +
-+		/* TODO: better to use dma_map_page() ?*/
-+		iod->rspdma = dma_map_single(tgtport->dev, iod->rspbuf,
-+						NVME_FC_MAX_LS_BUFFER_SIZE,
-+						DMA_TO_DEVICE);
-+		if (dma_mapping_error(tgtport->dev, iod->rspdma))
-+			goto out_fail;
-+	}
-+
-+	return 0;
-+
-+out_fail:
-+	kfree(iod->rqstbuf);
-+	list_del(&iod->ls_list);
-+	for (iod--, i--; i >= 0; iod--, i--) {
-+		dma_unmap_single(tgtport->dev,
-+			iod->rspdma, NVME_FC_MAX_LS_BUFFER_SIZE, DMA_TO_DEVICE);
-+		kfree(iod->rqstbuf);
-+		list_del(&iod->ls_list);
-+	}
-+
-+	kfree(iod);
-+
-+	return -EFAULT;
-+}
-+
-+static void
-+nvmet_fc_free_ls_iodlist(struct nvmet_fc_tgtport *tgtport)
-+{
-+	struct nvmet_fc_ls_iod *iod = tgtport->iod;
-+	int i;
-+
-+	for (i = 0; i < NVMET_LS_CTX_COUNT; iod++, i++) {
-+		dma_unmap_single(tgtport->dev,
-+				iod->rspdma, NVME_FC_MAX_LS_BUFFER_SIZE,
-+				DMA_TO_DEVICE);
-+		kfree(iod->rqstbuf);
-+		list_del(&iod->ls_list);
-+	}
-+	kfree(tgtport->iod);
-+}
-+
-+static struct nvmet_fc_ls_iod *
-+nvmet_fc_alloc_ls_iod(struct nvmet_fc_tgtport *tgtport)
-+{
-+	static struct nvmet_fc_ls_iod *iod;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&tgtport->lock, flags);
-+	iod = list_first_entry_or_null(&tgtport->ls_list,
-+					struct nvmet_fc_ls_iod, ls_list);
-+	if (iod)
-+		list_move_tail(&iod->ls_list, &tgtport->ls_busylist);
-+	spin_unlock_irqrestore(&tgtport->lock, flags);
-+	return iod;
-+}
-+
-+
-+static void
-+nvmet_fc_free_ls_iod(struct nvmet_fc_tgtport *tgtport,
-+			struct nvmet_fc_ls_iod *iod)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&tgtport->lock, flags);
-+	list_move(&iod->ls_list, &tgtport->ls_list);
-+	spin_unlock_irqrestore(&tgtport->lock, flags);
-+}
-+
-+static void
-+nvmet_fc_prep_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
-+				struct nvmet_fc_tgt_queue *queue)
-+{
-+	struct nvmet_fc_fcp_iod *fod = queue->fod;
-+	int i;
-+
-+	for (i = 0; i < queue->sqsize; fod++, i++) {
-+		INIT_WORK(&fod->work, nvmet_fc_handle_fcp_rqst_work);
-+		fod->tgtport = tgtport;
-+		fod->queue = queue;
-+		list_add_tail(&fod->fcp_list, &queue->fod_list);
-+
-+		/* TODO: better to use dma_map_page() ?*/
-+		fod->rspdma = dma_map_single(
-+					tgtport->dev, &fod->rspiubuf,
-+					sizeof(fod->rspiubuf), DMA_TO_DEVICE);
-+		if (dma_mapping_error(tgtport->dev, fod->rspdma)) {
-+			list_del(&fod->fcp_list);
-+			for (fod--, i--; i >= 0; fod--, i--) {
-+				dma_unmap_single(tgtport->dev,
-+					fod->rspdma, sizeof(fod->rspiubuf),
-+					DMA_TO_DEVICE);
-+				fod->rspdma = 0L;
-+				list_del(&fod->fcp_list);
-+			}
-+
-+			return;
-+		}
-+	}
-+}
-+
-+static void
-+nvmet_fc_destroy_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
-+				struct nvmet_fc_tgt_queue *queue)
-+{
-+	struct nvmet_fc_fcp_iod *fod = queue->fod;
-+	int i;
-+
-+	for (i = 0; i < queue->sqsize; fod++, i++) {
-+		if (fod->rspdma)
-+			dma_unmap_single(tgtport->dev, fod->rspdma,
-+				sizeof(fod->rspiubuf), DMA_TO_DEVICE);
-+	}
-+}
-+
-+static struct nvmet_fc_fcp_iod *
-+nvmet_fc_alloc_fcp_iod(struct nvmet_fc_tgtport *tgtport,
-+			struct nvmet_fc_tgt_queue *queue)
-+{
-+	static struct nvmet_fc_fcp_iod *fod;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&tgtport->lock, flags);
-+	fod = list_first_entry_or_null(&queue->fod_list,
-+					struct nvmet_fc_fcp_iod, fcp_list);
-+	if (fod)
-+		list_del(&fod->fcp_list);
-+	spin_unlock_irqrestore(&tgtport->lock, flags);
-+	return fod;
-+}
-+
-+
-+static void
-+nvmet_fc_free_fcp_iod(struct nvmet_fc_tgtport *tgtport,
-+			struct nvmet_fc_fcp_iod *fod)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&tgtport->lock, flags);
-+	list_add_tail(&fod->fcp_list, &fod->queue->fod_list);
-+	spin_unlock_irqrestore(&tgtport->lock, flags);
-+}
-+
-+static struct nvmet_fc_tgt_queue *
-+nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
-+			u16 qid, u16 sqsize)
-+{
-+	struct nvmet_fc_tgt_queue *queue;
-+	unsigned long flags;
-+	int ret;
-+
-+	if (qid >= NVMET_NR_QUEUES)
-+		return NULL;
-+
-+	queue = kzalloc((sizeof(*queue) +
-+				(sizeof(struct nvmet_fc_fcp_iod) * sqsize)),
-+				GFP_KERNEL);
-+	if (!queue)
-+		return NULL;
-+
-+	queue->work_q = alloc_workqueue("ntfc%d.%d.%d", 0, 0,
-+				assoc->tgtport->fc_target_port.port_num,
-+				assoc->a_id, qid);
-+	if (!queue->work_q) {
-+		kfree(queue);
-+		return NULL;
-+	}
-+
-+	queue->fod = (struct nvmet_fc_fcp_iod *)&queue[1];
-+	queue->qid = qid;
-+	queue->sqsize = sqsize;
-+	queue->assoc = assoc;
-+	queue->connected = false;
-+	queue->port = assoc->tgtport->port;
-+	INIT_LIST_HEAD(&queue->fod_list);
-+	atomic_set(&queue->sqtail, 0);
-+	atomic_set(&queue->rsn, 1);
-+	atomic_set(&queue->zrspcnt, 0);
-+
-+	nvmet_fc_prep_fcp_iodlist(assoc->tgtport, queue);
-+
-+	ret = nvmet_sq_init(&queue->nvme_sq);
-+	if (ret) {
-+		nvmet_fc_destroy_fcp_iodlist(assoc->tgtport, queue);
-+		destroy_workqueue(queue->work_q);
-+		kfree(queue);
-+		return NULL;
-+	}
-+
-+	BUG_ON(assoc->queues[qid]);
-+	spin_lock_irqsave(&assoc->tgtport->lock, flags);
-+	assoc->queues[qid] = queue;
-+	spin_unlock_irqrestore(&assoc->tgtport->lock, flags);
-+
-+	return queue;
-+}
-+
-+static void
-+nvmet_fc_free_target_queue(struct nvmet_fc_tgt_queue *queue)
-+{
-+	struct nvmet_fc_tgtport *tgtport = queue->assoc->tgtport;
-+	unsigned long flags;
-+
-+	/*
-+	 * beware: nvmet layer hangs waiting for a completion if
-+	 * connect command failed
-+	 */
-+	flush_workqueue(queue->work_q);
-+	if (queue->connected)
-+		nvmet_sq_destroy(&queue->nvme_sq);
-+	spin_lock_irqsave(&tgtport->lock, flags);
-+	queue->assoc->queues[queue->qid] = NULL;
-+	spin_unlock_irqrestore(&tgtport->lock, flags);
-+	nvmet_fc_destroy_fcp_iodlist(tgtport, queue);
-+	destroy_workqueue(queue->work_q);
-+	kfree(queue);
-+}
-+
-+static struct nvmet_fc_tgt_queue *
-+nvmet_fc_find_target_queue(struct nvmet_fc_tgtport *tgtport,
-+				u64 connection_id)
-+{
-+	struct nvmet_fc_tgt_assoc *assoc;
-+	u64 association_id = nvmet_fc_getassociationid(connection_id);
-+	u16 qid = nvmet_fc_getqueueid(connection_id);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&tgtport->lock, flags);
-+	list_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
-+		if (association_id == assoc->association_id) {
-+			spin_unlock_irqrestore(&tgtport->lock, flags);
-+			return assoc->queues[qid];
-+		}
-+	}
-+	spin_unlock_irqrestore(&tgtport->lock, flags);
-+	return NULL;
-+}
-+
-+static struct nvmet_fc_tgt_assoc *
-+nvmet_fc_alloc_target_assoc(struct nvmet_fc_tgtport *tgtport)
-+{
-+	struct nvmet_fc_tgt_assoc *assoc;
-+	unsigned long flags;
-+
-+	assoc = kzalloc(sizeof(*assoc), GFP_KERNEL);
-+	if (!assoc)
-+		return NULL;
-+
-+	assoc->tgtport = tgtport;
-+	assoc->association_id = cpu_to_le64(nvmet_fc_makeconnid(assoc, 0));
-+	INIT_LIST_HEAD(&assoc->a_list);
-+
-+	spin_lock_irqsave(&tgtport->lock, flags);
-+	assoc->a_id = tgtport->assoc_cnt++;
-+	list_add_tail(&assoc->a_list, &tgtport->assoc_list);
-+	spin_unlock_irqrestore(&tgtport->lock, flags);
-+
-+	return assoc;
-+}
-+
-+static void
-+nvmet_fc_free_target_assoc(struct nvmet_fc_tgt_assoc *assoc)
-+{
-+	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&tgtport->lock, flags);
-+	list_del(&assoc->a_list);
-+	spin_unlock_irqrestore(&tgtport->lock, flags);
-+	kfree(assoc);
-+}
-+
-+static struct nvmet_fc_tgt_assoc *
-+nvmet_fc_find_target_assoc(struct nvmet_fc_tgtport *tgtport,
-+				u64 association_id)
-+{
-+	struct nvmet_fc_tgt_assoc *assoc;
-+	struct nvmet_fc_tgt_assoc *ret = NULL;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&tgtport->lock, flags);
-+	list_for_each_entry(assoc, &tgtport->assoc_list, a_list) {
-+		if (association_id == assoc->association_id) {
-+			ret = assoc;
++	/* For this command calculate the xmit length of the request bde. */
++	xmit_len = 0;
++	first_len = 0;
++	bpl = (struct ulp_bde64 *)bmp->virt;
++	for (i = 0; i < num_entry; i++) {
++		bde.tus.w = bpl[i].tus.w;
++		if (bde.tus.f.bdeFlags != BUFF_TYPE_BDE_64)
 +			break;
-+		}
-+	}
-+	spin_unlock_irqrestore(&tgtport->lock, flags);
-+
-+	return ret;
-+}
-+
-+
-+/**
-+ * nvme_fc_register_targetport - transport entry point called by an
-+ *                              LLDD to register the existence of a local
-+ *                              NVME subystem FC port.
-+ * @pinfo:     pointer to information about the port to be registered
-+ * @template:  LLDD entrypoints and operational parameters for the port
-+ * @dev:       physical hardware device node port corresponds to. Will be
-+ *             used for DMA mappings
-+ * @tgtport_p:   pointer to a local port pointer. Upon success, the routine
-+ *             will allocate a nvme_fc_local_port structure and place its
-+ *             address in the local port pointer. Upon failure, local port
-+ *             pointer will be set to 0.
-+ *
-+ * Returns:
-+ * a completion status. Must be 0 upon success; a negative errno
-+ * (ex: -ENXIO) upon failure.
-+ */
-+int
-+nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
-+			struct nvmet_fc_target_template *template,
-+			struct device *dev,
-+			struct nvmet_fc_target_port **portptr)
-+{
-+	struct nvmet_fc_tgtport *newrec;
-+	unsigned long flags;
-+	int ret;
-+
-+	if (!template->xmt_ls_rsp || !template->fcp_op ||
-+	    !template->max_hw_queues || !template->max_sgl_segments ||
-+	    !template->max_dif_sgl_segments || !template->dma_boundary) {
-+		ret = -EINVAL;
-+		goto out_regtgt_failed;
++		xmit_len += bde.tus.f.bdeSize;
++		if (i == 0)
++			first_len = xmit_len;
 +	}
 +
-+	newrec = kzalloc((sizeof(*newrec) + template->target_priv_sz),
-+			 GFP_KERNEL);
-+	if (!newrec) {
-+		ret = -ENOMEM;
-+		goto out_regtgt_failed;
++	genwqe->rsvd2 = num_entry;
++	genwqe->hba_wqidx = 0;
++
++	/* Words 0 - 2 */
++	wqe->generic.bde.tus.f.bdeFlags = BUFF_TYPE_BDE_64;
++	wqe->generic.bde.tus.f.bdeSize = first_len;
++	wqe->generic.bde.addrLow = bpl[0].addrLow;
++	wqe->generic.bde.addrHigh = bpl[0].addrHigh;
++
++	/* Word 3 */
++	wqe->gen_req.request_payload_len = first_len;
++
++	/* Word 4 */
++
++	/* Word 5 */
++	bf_set(wqe_dfctl, &wqe->gen_req.wge_ctl, 0);
++	bf_set(wqe_si, &wqe->gen_req.wge_ctl, 1);
++	bf_set(wqe_la, &wqe->gen_req.wge_ctl, 1);
++	bf_set(wqe_rctl, &wqe->gen_req.wge_ctl, FC_RCTL_DD_UNSOL_CTL);
++	bf_set(wqe_type, &wqe->gen_req.wge_ctl, LPFC_FC4_TYPE_NVME);
++
++	/* Word 6 */
++	bf_set(wqe_ctxt_tag, &wqe->gen_req.wqe_com,
++	       phba->sli4_hba.rpi_ids[ndlp->nlp_rpi]);
++	bf_set(wqe_xri_tag, &wqe->gen_req.wqe_com, genwqe->sli4_xritag);
++
++	/* Word 7 */
++	bf_set(wqe_tmo, &wqe->gen_req.wqe_com, (vport->phba->fc_ratov-1));
++	bf_set(wqe_class, &wqe->gen_req.wqe_com, CLASS3);
++	bf_set(wqe_cmnd, &wqe->gen_req.wqe_com, CMD_GEN_REQUEST64_WQE);
++	bf_set(wqe_ct, &wqe->gen_req.wqe_com, SLI4_CT_RPI);
++
++	/* Word 8 */
++	wqe->gen_req.wqe_com.abort_tag = genwqe->iotag;
++
++	/* Word 9 */
++	bf_set(wqe_reqtag, &wqe->gen_req.wqe_com, genwqe->iotag);
++
++	/* Word 10 */
++	bf_set(wqe_dbde, &wqe->gen_req.wqe_com, 1);
++	bf_set(wqe_iod, &wqe->gen_req.wqe_com, LPFC_WQE_IOD_READ);
++	bf_set(wqe_qosd, &wqe->gen_req.wqe_com, 1);
++	bf_set(wqe_lenloc, &wqe->gen_req.wqe_com, LPFC_WQE_LENLOC_NONE);
++	bf_set(wqe_ebde_cnt, &wqe->gen_req.wqe_com, 0);
++
++	/* Word 11 */
++	bf_set(wqe_cqid, &wqe->gen_req.wqe_com, LPFC_WQE_CQ_ID_DEFAULT);
++	bf_set(wqe_cmd_type, &wqe->gen_req.wqe_com, OTHER_COMMAND);
++
++
++	/* Issue GEN REQ WQE for NPORT <did> */
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_ELS,
++			 "6050 Issue GEN REQ WQE to NPORT x%x "
++			 "Data: x%x x%x wq:%p lsreq:%p bmp:%p xmit:%d 1st:%d\n",
++			 ndlp->nlp_DID, genwqe->iotag,
++			 vport->port_state,
++			genwqe, pnvme_lsreq, bmp, xmit_len, first_len);
++	genwqe->wqe_cmpl = cmpl;
++	genwqe->iocb_cmpl = NULL;
++	genwqe->drvrTimeout = tmo + LPFC_DRVR_TIMEOUT;
++	genwqe->vport = vport;
++	genwqe->retry = retry;
++
++	rc = lpfc_sli_issue_wqe(phba, LPFC_ELS_RING, genwqe);
++	if (rc == WQE_ERROR) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_ELS,
++				 "6045 Issue GEN REQ WQE to NPORT x%x "
++				 "Data: x%x x%x\n",
++				 ndlp->nlp_DID, genwqe->iotag,
++				 vport->port_state);
++		lpfc_sli_release_iocbq(phba, genwqe);
++		return 1;
 +	}
-+
-+	newrec->fc_target_port.node_name = pinfo->node_name;
-+	newrec->fc_target_port.port_name = pinfo->port_name;
-+	newrec->fc_target_port.private = &newrec[1];
-+	newrec->fc_target_port.port_id = pinfo->port_id;
-+	newrec->fc_target_port.fabric_name = pinfo->fabric_name;
-+	INIT_LIST_HEAD(&newrec->tgt_list);
-+	newrec->dev = dev;
-+	newrec->ops = template;
-+	spin_lock_init(&newrec->lock);
-+	INIT_LIST_HEAD(&newrec->ls_list);
-+	INIT_LIST_HEAD(&newrec->ls_busylist);
-+	INIT_LIST_HEAD(&newrec->assoc_list);
-+
-+	ret = nvmet_fc_alloc_ls_iodlist(newrec);
-+	if (ret) {
-+		ret = -ENOMEM;
-+		goto out_free_newrec;
-+	}
-+
-+	spin_lock_irqsave(&nvme_fc_tgtlock, flags);
-+	newrec->fc_target_port.port_num = nvmet_fc_tgtport_cnt++;
-+	list_add_tail(&newrec->tgt_list, &nvmet_fc_target_list);
-+	spin_unlock_irqrestore(&nvme_fc_tgtlock, flags);
-+
-+	*portptr = &newrec->fc_target_port;
-+	return 0;
-+
-+out_free_newrec:
-+	kfree(newrec);
-+out_regtgt_failed:
-+	*portptr = NULL;
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(nvmet_fc_register_targetport);
-+
-+
-+/**
-+ * nvme_fc_unregister_targetport - transport entry point called by an
-+ *                              LLDD to deregister/remove a previously
-+ *                              registered a local NVME subsystem FC port.
-+ * @tgtport: pointer to the (registered) target port that is to be
-+ *           deregistered.
-+ *
-+ * Returns:
-+ * a completion status. Must be 0 upon success; a negative errno
-+ * (ex: -ENXIO) upon failure.
-+ */
-+int
-+nvmet_fc_unregister_targetport(struct nvmet_fc_target_port *target_port)
-+{
-+	struct nvmet_fc_tgtport *tgtport =
-+		container_of(target_port, struct nvmet_fc_tgtport,
-+				 fc_target_port);
-+	unsigned long flags;
-+	u32 pnum;
-+
-+	pnum = tgtport->fc_target_port.port_num;
-+
-+	spin_lock_irqsave(&nvme_fc_tgtlock, flags);
-+	list_del(&tgtport->tgt_list);
-+	spin_unlock_irqrestore(&nvme_fc_tgtlock, flags);
-+
-+	nvmet_fc_free_ls_iodlist(tgtport);
-+	kfree(tgtport);
 +	return 0;
 +}
-+EXPORT_SYMBOL_GPL(nvmet_fc_unregister_targetport);
 +
-+
-+static void
-+__nvmet_fc_free_queues(struct nvmet_fc_tgt_assoc *assoc)
-+{
-+	struct nvmet_fc_tgt_queue *queue;
-+	int i;
-+
-+	for (i = 0; i < NVMET_NR_QUEUES; i++) {
-+		queue = assoc->queues[i];
-+		if (queue) {
-+			assoc->queues[i] = NULL;
-+			kfree(queue);
-+		}
-+	}
-+}
-+
-+static void
-+__nvmet_fc_free_assocs(struct nvmet_fc_tgtport *tgtport)
-+{
-+	struct nvmet_fc_tgt_assoc *assoc, *next;
-+
-+	list_for_each_entry_safe(assoc, next,
-+				&tgtport->assoc_list, a_list) {
-+		list_del(&assoc->a_list);
-+		__nvmet_fc_free_queues(assoc);
-+		kfree(assoc);
-+	}
-+}
-+
-+static void
-+__nvmet_fc_free_tgtports(void)
-+{
-+	struct nvmet_fc_tgtport *tgtport, *next;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&nvme_fc_tgtlock, flags);
-+	list_for_each_entry_safe(tgtport, next, &nvmet_fc_target_list,
-+			tgt_list) {
-+		list_del(&tgtport->tgt_list);
-+		__nvmet_fc_free_assocs(tgtport);
-+		kfree(tgtport);
-+	}
-+	spin_unlock_irqrestore(&nvme_fc_tgtlock, flags);
-+}
-+
-+
-+
-+/* *********************** FC-NVME LS Handling **************************** */
-+
-+
-+static void
-+nvmet_fc_format_rsp_hdr(void *buf, u8 ls_cmd, u32 desc_len, u8 rqst_ls_cmd)
-+{
-+	struct fcnvme_ls_acc_hdr *acc = buf;
-+
-+	acc->w0.ls_cmd = ls_cmd;
-+	acc->desc_list_len = desc_len;
-+	acc->rqst.desc_tag = cpu_to_be32(FCNVME_LSDESC_RQST);
-+	acc->rqst.desc_len =
-+			FCNVME_LSDESC_LEN(struct fcnvme_lsdesc_rqst);
-+	acc->rqst.w0.ls_cmd = rqst_ls_cmd;
-+}
-+
++/**
++ * lpfc_nvme_ls_req - Issue an Link Service request
++ * @lpfc_pnvme: Pointer to the driver's nvme instance data
++ * @lpfc_nvme_lport: Pointer to the driver's local port data
++ * @lpfc_nvme_rport: Pointer to the rport getting the @lpfc_nvme_ereq
++ *
++ * Driver registers this routine to handle any link service request
++ * from the nvme_fc transport to a remote nvme-aware port.
++ *
++ * Return value :
++ *   0 - Success
++ *   TODO: What are the failure codes.
++ **/
 +static int
-+nvmet_fc_format_rjt(void *buf, u16 buflen, u8 ls_cmd,
-+			u8 reason, u8 explanation, u8 vendor)
++lpfc_nvme_ls_req(struct nvme_fc_local_port *pnvme_lport,
++		 struct nvme_fc_remote_port *pnvme_rport,
++		 struct nvmefc_ls_req *pnvme_lsreq)
 +{
-+	struct fcnvme_ls_rjt *rjt = buf;
-+
-+	BUG_ON(buflen < sizeof(struct fcnvme_ls_rjt));
-+	nvmet_fc_format_rsp_hdr(buf, FCNVME_LSDESC_RQST,
-+			FCNVME_LSDESC_LEN(struct fcnvme_ls_rjt),
-+			ls_cmd);
-+	rjt->rjt.desc_tag = cpu_to_be32(FCNVME_LSDESC_RJT);
-+	rjt->rjt.desc_len = FCNVME_LSDESC_LEN(struct fcnvme_lsdesc_rjt);
-+	rjt->rjt.reason_code = reason;
-+	rjt->rjt.reason_explanation = explanation;
-+	rjt->rjt.vendor = vendor;
-+
-+	return sizeof(struct fcnvme_ls_rjt);
-+}
-+
-+/* Validation Error indexes into the string table below */
-+enum {
-+	VERR_NO_ERROR		= 0,
-+	VERR_CR_ASSOC_LEN	= 1,
-+	VERR_CR_ASSOC_RQST_LEN	= 2,
-+	VERR_CR_ASSOC_CMD	= 3,
-+	VERR_CR_ASSOC_CMD_LEN	= 4,
-+	VERR_ERSP_RATIO		= 5,
-+	VERR_ASSOC_ALLOC_FAIL	= 6,
-+	VERR_NO_ASSOC		= 7,
-+	VERR_QUEUE_ALLOC_FAIL	= 8,
-+	VERR_CR_CONN_LEN	= 9,
-+	VERR_CR_CONN_RQST_LEN	= 10,
-+	VERR_ASSOC_ID		= 11,
-+	VERR_ASSOC_ID_LEN	= 12,
-+	VERR_CR_CONN_CMD	= 13,
-+	VERR_CR_CONN_CMD_LEN	= 14,
-+	VERR_DISCONN_LEN	= 15,
-+	VERR_DISCONN_RQST_LEN	= 16,
-+	VERR_DISCONN_CMD	= 17,
-+	VERR_DISCONN_CMD_LEN	= 18,
-+	VERR_DISCONN_SCOPE	= 19,
-+};
-+
-+static char *validation_errors[] = {
-+	"OK",
-+	"Bad CR_ASSOC Length",
-+	"Bad CR_ASSOC Rqst Length",
-+	"Not CR_ASSOC Cmd",
-+	"Bad CR_ASSOC Cmd Length",
-+	"Bad Ersp Ratio",
-+	"Association Allocation Failed",
-+	"No Association",
-+	"Queue Allocation Failed",
-+	"Bad CR_CONN Length",
-+	"Bad CR_CONN Rqst Length",
-+	"Not Association ID",
-+	"Bad Association ID Length",
-+	"Not CR_CONN Cmd",
-+	"Bad CR_CONN Cmd Length",
-+	"Bad DISCONN Length",
-+	"Bad DISCONN Rqst Length",
-+	"Not DISCONN Cmd",
-+	"Bad DISCONN Cmd Length",
-+	"Bad Disconnect Scope",
-+};
-+
-+static void
-+nvmet_fc_ls_create_association(struct nvmet_fc_tgtport *tgtport,
-+			struct nvmet_fc_ls_iod *iod)
-+{
-+	struct fcnvme_ls_cr_assoc_rqst *rqst =
-+				(struct fcnvme_ls_cr_assoc_rqst *)iod->rqstbuf;
-+	struct fcnvme_ls_cr_assoc_acc *acc =
-+				(struct fcnvme_ls_cr_assoc_acc *)iod->rspbuf;
-+	struct nvmet_fc_tgt_queue *queue;
 +	int ret = 0;
++	struct lpfc_nvme_lport *lport;
++	struct lpfc_vport *vport;
++	struct lpfc_nodelist *ndlp;
++	struct ulp_bde64 *bpl;
++	struct lpfc_dmabuf *bmp;
 +
-+	memset(acc, 0, sizeof(*acc));
++	/* there are two dma buf in the request, actually there is one and
++	** the second one is just the start address + cmd size.
++	** Before calling lpfc_nvme_gen_req these buffers need to be wrapped
++	** in a lpfc_dmabuf struct. When freeing we just free the wrapper
++	** because the nvem layer owns the data bufs.
++	** We do not have to break these packets open, we don't care what is in
++	** them. And we do not have to look at the resonse data, we only care
++	** that we got a response. All of the caring is going to happen in the
++	** nvme-fc layer.
++	*/
 +
-+	if (iod->rqstdatalen < sizeof(struct fcnvme_ls_cr_assoc_rqst))
-+		ret = VERR_CR_ASSOC_LEN;
-+	else if (rqst->desc_list_len !=
-+			FCNVME_LSDESC_LEN(struct fcnvme_ls_cr_assoc_rqst))
-+		ret = VERR_CR_ASSOC_RQST_LEN;
-+	else if (rqst->assoc_cmd.desc_tag !=
-+			cpu_to_be32(FCNVME_LSDESC_CREATE_ASSOC_CMD))
-+		ret = VERR_CR_ASSOC_CMD;
-+	else if (rqst->assoc_cmd.desc_len !=
-+			FCNVME_LSDESC_LEN(struct fcnvme_lsdesc_cr_assoc_cmd))
-+		ret = VERR_CR_ASSOC_CMD_LEN;
-+	else if (!rqst->assoc_cmd.ersp_ratio ||
-+		 (be16_to_cpu(rqst->assoc_cmd.ersp_ratio) >=
-+				be16_to_cpu(rqst->assoc_cmd.sqsize)))
-+		ret = VERR_ERSP_RATIO;
++	lport = (struct lpfc_nvme_lport *) pnvme_lport->private;
++	vport = lport->pnvme->vport;
 +
-+	else {
-+		/* new association w/ admin queue */
-+		iod->assoc = nvmet_fc_alloc_target_assoc(tgtport);
-+		if (!iod->assoc)
-+			ret = VERR_ASSOC_ALLOC_FAIL;
-+		else {
-+			queue = nvmet_fc_alloc_target_queue(iod->assoc, 0,
-+					be16_to_cpu(rqst->assoc_cmd.sqsize));
-+			if (!queue) {
-+				ret = VERR_QUEUE_ALLOC_FAIL;
-+				nvmet_fc_free_target_assoc(iod->assoc);
-+			}
-+		}
++	ndlp = lpfc_findnode_did(vport, pnvme_rport->port_id);
++	if (!ndlp) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++				 "6043 Could not find node for DID %x\n",
++				 pnvme_rport->port_id);
++		return 1;
 +	}
++	bmp = kmalloc(sizeof(struct lpfc_dmabuf), GFP_KERNEL);
++	if (!bmp) {
 +
-+	if (ret) {
-+		dev_err(tgtport->dev,
-+			"Create Association LS failed: %s\n",
-+			validation_errors[ret]);
-+		iod->lsreq->rsplen = nvmet_fc_format_rjt(acc,
-+				NVME_FC_MAX_LS_BUFFER_SIZE, rqst->w0.ls_cmd,
-+				LSRJT_REASON_LOGICAL_ERROR,
-+				LSRJT_EXPL_NO_EXPLANATION, 0);
-+		return;
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++				 "6044 Could not find node for DID %x\n",
++				 pnvme_rport->port_id);
++		return 2;
 +	}
-+
-+	queue->ersp_ratio = be16_to_cpu(rqst->assoc_cmd.ersp_ratio);
-+	queue->connected = true;
-+	queue->sqhd = 0;	/* TODO: best place to init value */
-+
-+	/* format a response */
-+
-+	iod->lsreq->rsplen = sizeof(*acc);
-+
-+	nvmet_fc_format_rsp_hdr(acc, FCNVME_LS_ACC,
-+			FCNVME_LSDESC_LEN(struct fcnvme_ls_cr_assoc_acc),
-+			FCNVME_LS_CREATE_ASSOCIATION);
-+	acc->associd.desc_tag = cpu_to_be32(FCNVME_LSDESC_ASSOC_ID);
-+	acc->associd.desc_len = FCNVME_LSDESC_LEN(
-+					struct fcnvme_lsdesc_assoc_id);
-+	acc->associd.association_id =
-+			cpu_to_be64(nvmet_fc_makeconnid(iod->assoc, 0));
-+	acc->connectid.desc_tag = cpu_to_be32(FCNVME_LSDESC_CONN_ID);
-+	acc->connectid.desc_len = FCNVME_LSDESC_LEN(
-+					struct fcnvme_lsdesc_conn_id);
-+	acc->connectid.connection_id = acc->associd.association_id;
-+}
-+
-+static void
-+nvmet_fc_ls_create_connection(struct nvmet_fc_tgtport *tgtport,
-+			struct nvmet_fc_ls_iod *iod)
-+{
-+	struct fcnvme_ls_cr_conn_rqst *rqst =
-+				(struct fcnvme_ls_cr_conn_rqst *)iod->rqstbuf;
-+	struct fcnvme_ls_cr_conn_acc *acc =
-+				(struct fcnvme_ls_cr_conn_acc *)iod->rspbuf;
-+	struct nvmet_fc_tgt_queue *queue;
-+	int ret = 0;
-+
-+	memset(acc, 0, sizeof(*acc));
-+
-+	if (iod->rqstdatalen < sizeof(struct fcnvme_ls_cr_conn_rqst))
-+		ret = VERR_CR_CONN_LEN;
-+	else if (rqst->desc_list_len !=
-+			FCNVME_LSDESC_LEN(struct fcnvme_ls_cr_conn_rqst))
-+		ret = VERR_CR_CONN_RQST_LEN;
-+	else if (rqst->associd.desc_tag != cpu_to_be32(FCNVME_LSDESC_ASSOC_ID))
-+		ret = VERR_ASSOC_ID;
-+	else if (rqst->associd.desc_len !=
-+			FCNVME_LSDESC_LEN(struct fcnvme_lsdesc_assoc_id))
-+		ret = VERR_ASSOC_ID_LEN;
-+	else if (rqst->connect_cmd.desc_tag !=
-+			cpu_to_be32(FCNVME_LSDESC_CREATE_CONN_CMD))
-+		ret = VERR_CR_CONN_CMD;
-+	else if (rqst->connect_cmd.desc_len !=
-+			FCNVME_LSDESC_LEN(struct fcnvme_lsdesc_cr_conn_cmd))
-+		ret = VERR_CR_CONN_CMD_LEN;
-+	else if (!rqst->connect_cmd.ersp_ratio ||
-+		 (be16_to_cpu(rqst->connect_cmd.ersp_ratio) >=
-+				be16_to_cpu(rqst->connect_cmd.sqsize)))
-+		ret = VERR_ERSP_RATIO;
-+
-+	else {
-+		/* new io queue */
-+		iod->assoc = nvmet_fc_find_target_assoc(tgtport,
-+				be64_to_cpu(rqst->associd.association_id));
-+		if (!iod->assoc)
-+			ret = VERR_NO_ASSOC;
-+		else {
-+			queue = nvmet_fc_alloc_target_queue(iod->assoc,
-+					be16_to_cpu(rqst->connect_cmd.qid),
-+					be16_to_cpu(rqst->connect_cmd.sqsize));
-+			if (!queue)
-+				ret = VERR_QUEUE_ALLOC_FAIL;
-+		}
++	INIT_LIST_HEAD(&bmp->list);
++	bmp->virt = lpfc_mbuf_alloc(vport->phba, MEM_PRI, &(bmp->phys));
++	if (!bmp->virt) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++				 "6042 Could not find node for DID %x\n",
++				 pnvme_rport->port_id);
++		kfree(bmp);
++		return 3;
 +	}
++	bpl = (struct ulp_bde64 *)bmp->virt;
++	bpl->addrHigh = le32_to_cpu(putPaddrHigh(pnvme_lsreq->rqstdma));
++	bpl->addrLow = le32_to_cpu(putPaddrLow(pnvme_lsreq->rqstdma));
++	bpl->tus.f.bdeFlags = 0;
++	bpl->tus.f.bdeSize = pnvme_lsreq->rqstlen;
++	bpl->tus.w = le32_to_cpu(bpl->tus.w);
++	bpl++;
 +
-+	if (ret) {
-+		dev_err(tgtport->dev,
-+			"Create Connection LS failed: %s\n",
-+			validation_errors[ret]);
-+		iod->lsreq->rsplen = nvmet_fc_format_rjt(acc,
-+				NVME_FC_MAX_LS_BUFFER_SIZE, rqst->w0.ls_cmd,
-+				(ret == 10) ? LSRJT_REASON_PROTOCOL_ERROR :
-+						LSRJT_REASON_LOGICAL_ERROR,
-+				LSRJT_EXPL_NO_EXPLANATION, 0);
-+		return;
-+	}
++	bpl->addrHigh = le32_to_cpu(putPaddrHigh(pnvme_lsreq->rspdma));
++	bpl->addrLow = le32_to_cpu(putPaddrLow(pnvme_lsreq->rspdma));
++	bpl->tus.f.bdeFlags = BUFF_TYPE_BDE_64I;
++	bpl->tus.f.bdeSize = pnvme_lsreq->rsplen;
++	bpl->tus.w = le32_to_cpu(bpl->tus.w);
 +
-+	queue->ersp_ratio = be16_to_cpu(rqst->connect_cmd.ersp_ratio);
-+	queue->connected = true;
-+	queue->sqhd = 0;	/* TODO: best place to init value */
++	/* Expand print to include key fields. */
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
++			 "6051 ENTER.  lport %p, rport %p lsreq%p rqstlen:%d "
++			 "rsplen:%d %llux %llux\n",
++			 pnvme_lport, pnvme_rport,
++			 pnvme_lsreq, pnvme_lsreq->rqstlen,
++			 pnvme_lsreq->rsplen, pnvme_lsreq->rqstdma,
++			 pnvme_lsreq->rspdma);
 +
-+	/* format a response */
-+
-+	iod->lsreq->rsplen = sizeof(*acc);
-+
-+	nvmet_fc_format_rsp_hdr(acc, FCNVME_LS_ACC,
-+			FCNVME_LSDESC_LEN(struct fcnvme_ls_cr_conn_acc),
-+			FCNVME_LS_CREATE_CONNECTION);
-+	acc->connectid.desc_tag = cpu_to_be32(FCNVME_LSDESC_CONN_ID);
-+	acc->connectid.desc_len = FCNVME_LSDESC_LEN(
-+					struct fcnvme_lsdesc_conn_id);
-+	acc->connectid.connection_id =
-+			cpu_to_be64(nvmet_fc_makeconnid(iod->assoc,
-+				be16_to_cpu(rqst->connect_cmd.qid)));
-+}
-+
-+static void
-+nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
-+			struct nvmet_fc_ls_iod *iod)
-+{
-+	struct fcnvme_ls_disconnect_rqst *rqst =
-+			(struct fcnvme_ls_disconnect_rqst *)iod->rqstbuf;
-+	struct fcnvme_ls_disconnect_acc *acc =
-+			(struct fcnvme_ls_disconnect_acc *)iod->rspbuf;
-+	struct nvmet_fc_tgt_queue *queue;
-+	struct nvmet_fc_tgt_assoc *assoc;
-+	int ret = 0, i;
-+	bool del_assoc = true;
-+
-+	memset(acc, 0, sizeof(*acc));
-+
-+	if (iod->rqstdatalen < sizeof(struct fcnvme_ls_disconnect_rqst))
-+		ret = VERR_DISCONN_LEN;
-+	else if (rqst->desc_list_len !=
-+			FCNVME_LSDESC_LEN(struct fcnvme_ls_disconnect_rqst))
-+		ret = VERR_DISCONN_RQST_LEN;
-+	else if (rqst->associd.desc_tag != cpu_to_be32(FCNVME_LSDESC_ASSOC_ID))
-+		ret = VERR_ASSOC_ID;
-+	else if (rqst->associd.desc_len !=
-+			FCNVME_LSDESC_LEN(struct fcnvme_lsdesc_assoc_id))
-+		ret = VERR_ASSOC_ID_LEN;
-+	else if (rqst->discon_cmd.desc_tag !=
-+			cpu_to_be32(FCNVME_LSDESC_DISCONN_CMD))
-+		ret = VERR_DISCONN_CMD;
-+	else if (rqst->discon_cmd.desc_len !=
-+			FCNVME_LSDESC_LEN(struct fcnvme_lsdesc_disconn_cmd))
-+		ret = VERR_DISCONN_CMD_LEN;
-+	else if ((rqst->discon_cmd.scope != FCNVME_DISCONN_ASSOCIATION) &&
-+			(rqst->discon_cmd.scope != FCNVME_DISCONN_CONNECTION))
-+		ret = VERR_DISCONN_SCOPE;
-+	else {
-+		/* match an active association */
-+		assoc = nvmet_fc_find_target_assoc(tgtport,
-+				be64_to_cpu(rqst->associd.association_id));
-+		iod->assoc = assoc;
-+		if (!assoc)
-+			ret = VERR_NO_ASSOC;
-+	}
-+
-+	if (ret) {
-+		dev_err(tgtport->dev,
-+			"Disconnect LS failed: %s\n",
-+			validation_errors[ret]);
-+		iod->lsreq->rsplen = nvmet_fc_format_rjt(acc,
-+				NVME_FC_MAX_LS_BUFFER_SIZE, rqst->w0.ls_cmd,
-+				(ret == 8) ? LSRJT_REASON_PROTOCOL_ERROR :
-+						LSRJT_REASON_LOGICAL_ERROR,
-+				LSRJT_EXPL_NO_EXPLANATION, 0);
-+		return;
-+	}
-+
-+	/* format a response */
-+
-+	iod->lsreq->rsplen = sizeof(*acc);
-+
-+	nvmet_fc_format_rsp_hdr(acc, FCNVME_LS_ACC,
-+			FCNVME_LSDESC_LEN(struct fcnvme_ls_disconnect_acc),
-+			FCNVME_LS_DISCONNECT);
-+
-+
-+	if (rqst->discon_cmd.scope == FCNVME_DISCONN_CONNECTION) {
-+		queue = nvmet_fc_find_target_queue(tgtport,
-+					be64_to_cpu(rqst->discon_cmd.id));
-+		if (queue) {
-+			nvmet_fc_free_target_queue(queue);
-+
-+			/* see if there are any more queues */
-+			for (i = 0; i < NVMET_NR_QUEUES; i++)
-+				if (assoc->queues[i])
-+					break;
-+
-+			/*
-+			 * if tearing down admin queue or no more queues,
-+			 * fall thru to tear down the association.
-+			 */
-+			if ((queue->qid) && (i != NVMET_NR_QUEUES))
-+				del_assoc = false;
-+		}
-+	}
-+
-+	if (del_assoc) {
-+		for (i = NVMET_NR_QUEUES - 1; i >= 0; i--)
-+			if (assoc->queues[i])
-+				nvmet_fc_free_target_queue(
-+						assoc->queues[i]);
-+		/*
-+		 * Don't send ABTS's - let host side do that
-+		 */
-+		nvmet_fc_free_target_assoc(assoc);
-+	}
-+}
-+
-+
-+
-+/* *********************** NVME Ctrl Routines **************************** */
-+
-+
-+static void nvmet_fc_fcp_nvme_cmd_done(struct nvmet_req *nvme_req);
-+
-+static struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops;
-+
-+static void
-+nvmet_fc_xmt_ls_rsp_done(struct nvmefc_tgt_ls_req *lsreq)
-+{
-+	struct nvmet_fc_ls_iod *iod = lsreq->nvmet_fc_private;
-+	struct nvmet_fc_tgtport *tgtport = iod->tgtport;
-+
-+	dma_sync_single_for_cpu(tgtport->dev, iod->rspdma,
-+				NVME_FC_MAX_LS_BUFFER_SIZE, DMA_TO_DEVICE);
-+	nvmet_fc_free_ls_iod(tgtport, iod);
-+}
-+
-+static void
-+nvmet_fc_xmt_ls_rsp(struct nvmet_fc_tgtport *tgtport,
-+				struct nvmet_fc_ls_iod *iod)
-+{
-+	int ret;
-+
-+	dma_sync_single_for_device(tgtport->dev, iod->rspdma,
-+				  NVME_FC_MAX_LS_BUFFER_SIZE, DMA_TO_DEVICE);
-+
-+	ret = tgtport->ops->xmt_ls_rsp(&tgtport->fc_target_port, iod->lsreq);
-+	if (ret)
-+		nvmet_fc_xmt_ls_rsp_done(iod->lsreq);
-+}
-+
-+/*
-+ * Actual processing routine for received FC-NVME LS Requests from the LLD
-+ */
-+void
-+nvmet_fc_handle_ls_rqst(struct nvmet_fc_tgtport *tgtport,
-+			struct nvmet_fc_ls_iod *iod)
-+{
-+	struct fcnvme_ls_rqst_w0 *w0 =
-+			(struct fcnvme_ls_rqst_w0 *)iod->rqstbuf;
-+
-+	iod->lsreq->nvmet_fc_private = iod;
-+	iod->lsreq->rspbuf = iod->rspbuf;
-+	iod->lsreq->rspdma = iod->rspdma;
-+	iod->lsreq->done = nvmet_fc_xmt_ls_rsp_done;
-+	/* Be preventative. handlers will later set to valid length */
-+	iod->lsreq->rsplen = 0;
-+
-+	iod->assoc = NULL;
-+
-+	/*
-+	 * handlers:
-+	 *   parse request input, set up nvmet req (cmd, rsp,  execute)
-+	 *   and format the LS response
-+	 * if non-zero returned, then no futher action taken on the LS
-+	 * if zero:
-+	 *   valid to call nvmet layer if execute routine set
-+	 *   iod->rspbuf contains ls response
++	/* Hardcode the wait to 30 seconds.  Connections are failing otherwise.
++	 * This code allows it all to work.
 +	 */
-+	switch (w0->ls_cmd) {
-+	case FCNVME_LS_CREATE_ASSOCIATION:
-+		/* Creates Association and initial Admin Queue/Connection */
-+		nvmet_fc_ls_create_association(tgtport, iod);
-+		break;
-+	case FCNVME_LS_CREATE_CONNECTION:
-+		/* Creates an IO Queue/Connection */
-+		nvmet_fc_ls_create_connection(tgtport, iod);
-+		break;
-+	case FCNVME_LS_DISCONNECT:
-+		/* Terminate a Queue/Connection or the Association */
-+		nvmet_fc_ls_disconnect(tgtport, iod);
-+		break;
-+	default:
-+		iod->lsreq->rsplen = nvmet_fc_format_rjt(iod->rspbuf,
-+				NVME_FC_MAX_LS_BUFFER_SIZE, w0->ls_cmd,
-+				LSRJT_REASON_INVALID_ELS_CODE,
-+				LSRJT_EXPL_NO_EXPLANATION, 0);
++	ret = lpfc_nvme_gen_req(vport, bmp, pnvme_lsreq->rqstaddr,
++				pnvme_lsreq, lpfc_nvme_cmpl_gen_req,
++				ndlp, 2, 30, 0);
++	if (ret != WQE_SUCCESS) {
++		lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
++				 "6052 EXIT. issue ls wqe failed lport %p, "
++				 "rport %p lsreq%p Status %x DID %x\n",
++				 pnvme_lport, pnvme_rport, pnvme_lsreq,
++				 ret, ndlp->nlp_DID);
++		lpfc_mbuf_free(vport->phba, bmp->virt, bmp->phys);
++		kfree(bmp);
++		return ret;
 +	}
 +
-+	nvmet_fc_xmt_ls_rsp(tgtport, iod);
++	/* Stub in routine and return 0 for now. */
++	return ret;
 +}
-+
-+/*
-+ * Actual processing routine for received FC-NVME LS Requests from the LLD
-+ */
-+void
-+nvmet_fc_handle_ls_rqst_work(struct work_struct *work)
-+{
-+	struct nvmet_fc_ls_iod *iod =
-+		container_of(work, struct nvmet_fc_ls_iod, work);
-+	struct nvmet_fc_tgtport *tgtport = iod->tgtport;
-+
-+	nvmet_fc_handle_ls_rqst(tgtport, iod);
-+}
-+
 +
 +/**
-+ * nvmet_fc_rcv_ls_req - transport entry point called by an LLDD
-+ *                       upon the reception of a NVME LS request.
++ * lpfc_nvme_ls_abort - Issue an Link Service request
++ * @lpfc_pnvme: Pointer to the driver's nvme instance data
++ * @lpfc_nvme_lport: Pointer to the driver's local port data
++ * @lpfc_nvme_rport: Pointer to the rport getting the @lpfc_nvme_ereq
 + *
-+ * The nvmet-fc layer will copy payload to an internal structure for
-+ * processing.  As such, upon completion of the routine, the LLDD may
-+ * immediately free/reuse the LS request buffer passed in the call.
++ * Driver registers this routine to handle any link service request
++ * from the nvme_fc transport to a remote nvme-aware port.
 + *
-+ * If this routine returns error, the lldd should abort the exchange.
-+ *
-+ * @tgtport:    pointer to the (registered) target port the LS was receive on.
-+ * @lsreq:      pointer to a lsreq request structure to be used to reference
-+ *              the exchange corresponding to the LS.
-+ * @lsreqbuf:   pointer to the buffer containing the LS Request
-+ * @lsreqbuf_len: length, in bytes, of the received LS request
-+ */
-+int
-+nvmet_fc_rcv_ls_req(struct nvmet_fc_target_port *target_port,
-+			struct nvmefc_tgt_ls_req *lsreq,
-+			void *lsreqbuf, u32 lsreqbuf_len)
-+{
-+	struct nvmet_fc_tgtport *tgtport = container_of(target_port,
-+			struct nvmet_fc_tgtport, fc_target_port);
-+	struct nvmet_fc_ls_iod *iod;
-+
-+	if (lsreqbuf_len > NVME_FC_MAX_LS_BUFFER_SIZE)
-+		return -E2BIG;
-+
-+	iod = nvmet_fc_alloc_ls_iod(tgtport);
-+	if (!iod)
-+		return -ENOENT;
-+
-+	iod->lsreq = lsreq;
-+	memcpy(iod->rqstbuf, lsreqbuf, lsreqbuf_len);
-+	iod->rqstdatalen = lsreqbuf_len;
-+
-+	schedule_work(&iod->work);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvmet_fc_rcv_ls_req);
-+
-+
-+/*
-+ * **********************
-+ * Start of FCP handling
-+ * **********************
-+ */
-+
-+static int
-+nvmet_fc_alloc_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
-+{
-+	struct scatterlist *sg;
-+	struct page *page;
-+	unsigned int nent;
-+	u32 page_len, length;
-+	int i = 0;
-+
-+	length = fod->total_length;
-+	nent = DIV_ROUND_UP(length, PAGE_SIZE);
-+	sg = kmalloc_array(nent, sizeof(struct scatterlist), GFP_KERNEL);
-+	if (!sg)
-+		return NVME_SC_INTERNAL;
-+
-+	/* TODO: convert to using sg pagelist */
-+	sg_init_table(sg, nent);
-+
-+	while (length) {
-+		page_len = min_t(u32, length, PAGE_SIZE);
-+
-+		page = alloc_page(GFP_KERNEL);
-+		if (!page)
-+			goto out_free_pages;
-+
-+		sg_set_page(&sg[i], page, page_len, 0);
-+		length -= page_len;
-+		i++;
-+	}
-+
-+	fod->data_sg = sg;
-+	fod->data_sg_cnt = nent;
-+	fod->data_sg_cnt = dma_map_sg(fod->tgtport->dev, sg, nent,
-+				((fod->io_dir == NVMET_FCP_WRITE) ?
-+					DMA_FROM_DEVICE : DMA_TO_DEVICE));
-+				/* note: write from initiator perspective */
-+
-+	if ((fod->data_sg_cnt) &&
-+	    (fod->data_sg_cnt < fod->tgtport->ops->max_sgl_segments))
-+		return 0;
-+
-+	if (fod->data_sg_cnt)
-+		dma_unmap_sg(fod->tgtport->dev, fod->data_sg, fod->data_sg_cnt,
-+				((fod->io_dir == NVMET_FCP_WRITE) ?
-+					DMA_FROM_DEVICE : DMA_TO_DEVICE));
-+
-+out_free_pages:
-+	while (i > 0) {
-+		i--;
-+		__free_page(sg_page(&sg[i]));
-+	}
-+	kfree(sg);
-+	fod->data_sg = NULL;
-+	fod->data_sg_cnt = 0;
-+	return NVME_SC_INTERNAL;
-+}
-+
++ * Return value :
++ *   0 - Success
++ *   TODO: What are the failure codes.
++ **/
 +static void
-+nvmet_fc_free_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
++lpfc_nvme_ls_abort(struct nvme_fc_local_port *pnvme_lport,
++		   struct nvme_fc_remote_port *pnvme_rport,
++		   struct nvmefc_ls_req *pnvme_lsreq)
 +{
-+	struct scatterlist *sg;
-+	int count;
++	struct lpfc_nvme_lport *lport;
++	struct lpfc_vport *vport;
++	struct lpfc_nodelist *ndlp;
 +
-+	if (!fod->data_sg || !fod->data_sg_cnt)
++	lport = (struct lpfc_nvme_lport *) pnvme_lport->private;
++	vport = lport->pnvme->vport;
++
++	ndlp = lpfc_findnode_did(vport, pnvme_rport->port_id);
++	if (!ndlp) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++				 "6043 Could not find node for DID %x\n",
++				 pnvme_rport->port_id);
 +		return;
-+
-+	dma_unmap_sg(fod->tgtport->dev, fod->data_sg, fod->data_sg_cnt,
-+				((fod->io_dir == NVMET_FCP_WRITE) ?
-+					DMA_FROM_DEVICE : DMA_TO_DEVICE));
-+	for_each_sg(fod->data_sg, sg, fod->data_sg_cnt, count)
-+		__free_page(sg_page(sg));
-+	kfree(fod->data_sg);
-+}
-+
-+static void
-+nvmet_fc_abort_op(struct nvmet_fc_tgtport *tgtport,
-+				struct nvmefc_tgt_fcp_req *fcpreq)
-+{
-+	int ret;
-+
-+	fcpreq->op = NVMET_FCOP_ABORT;
-+	fcpreq->offset = 0;
-+	fcpreq->timeout = 0;
-+	fcpreq->transfer_length = 0;
-+	fcpreq->transferred_length = 0;
-+	fcpreq->fcp_error = 0;
-+	fcpreq->sg_cnt = 0;
-+
-+	ret = tgtport->ops->fcp_op(&tgtport->fc_target_port, fcpreq);
-+	if (ret) {
-+		BUG_ON(1);
-+		/* should never reach here !! */
 +	}
++
++	/* Expand print to include key fields. */
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
++			 "6006 ENTER.  lport %p, rport %p lsreq %p rqstlen:%d "
++			 "rsplen:%d %llux %llux\n",
++			 pnvme_lport, pnvme_rport,
++			 pnvme_lsreq, pnvme_lsreq->rqstlen,
++			 pnvme_lsreq->rsplen, pnvme_lsreq->rqstdma,
++			 pnvme_lsreq->rspdma);
 +}
 +
-+
-+static bool
-+queue_90percent_full(struct nvmet_fc_tgt_queue *q, u32 sqhd)
-+{
-+	u32 sqtail, used;
-+
-+	/* egad, this is ugly. And sqtail is just a best guess */
-+	sqtail = atomic_read(&q->sqtail) % q->sqsize;
-+
-+	used = (sqtail < sqhd) ? (sqtail + q->sqsize - sqhd) : (sqtail - sqhd);
-+	return ((used * 10) >= (((u32)(q->sqsize - 1) * 9)));
-+}
-+
-+/*
-+ * Prep RSP payload.
-+ * May be a NVMET_FCOP_RSP or NVMET_FCOP_READDATA_RSP op
-+ */
++/* Fix up the existing sgls for NVME IO. */
 +static void
-+nvmet_fc_prep_fcp_rsp(struct nvmet_fc_tgtport *tgtport,
-+				struct nvmet_fc_fcp_iod *fod)
++lpfc_nvme_adj_fcp_sgls(struct lpfc_vport *vport,
++		       struct lpfc_scsi_buf *psb,
++		       struct nvmefc_fcp_req *nCmd)
 +{
-+	struct nvme_fc_ersp_iu *ersp = &fod->rspiubuf;
-+	struct nvme_common_command *sqe = &fod->cmdiubuf.sqe.common;
-+	struct nvme_completion *cqe = &ersp->cqe;
-+	u32 *cqewd = (u32 *)cqe;
-+	bool send_ersp = false;
-+	u32 rsn, rspcnt;
++	struct sli4_sge *sgl;
++	union lpfc_wqe128 *wqe128;
++	uint32_t *wptr, *dptr;
 +
 +	/*
-+	 * check to see if we can send a 0's rsp.
-+	 *   Note: to send a 0's response, the NVME-FC host transport will
-+	 *   recreate the CQE. The host transport knows: sq id, SQHD (last
-+	 *   seen in an ersp), and command_id. Thus it will create a
-+	 *   zero-filled CQE with those known fields filled in. Transport
-+	 *   must send an ersp for any condition where the cqe won't match
-+	 *   this.
++	 * Adjust the FCP_CMD and FCP_RSP DMA data and sge_len to
++	 * match NVME.  NVME sends 96 bytes. Also, use the
++	 * nvme commands command and response dma addresses
++	 * rather than the virtual memory to ease the restore
++	 * operation.
++	 */
++	sgl = (struct sli4_sge *)psb->fcp_bpl;
++	sgl->addr_hi = cpu_to_le32(putPaddrHigh(nCmd->cmddma));
++	sgl->addr_lo = cpu_to_le32(putPaddrLow(nCmd->cmddma));
++	sgl->word2 = le32_to_cpu(sgl->word2);
++	bf_set(lpfc_sli4_sge_last, sgl, 0);
++	sgl->word2 = cpu_to_le32(sgl->word2);
++	sgl->sge_len = cpu_to_le32(nCmd->cmdlen);
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME | LOG_FCP,
++			 "6063 Reconfig fcp_cmd to len %d bytes "
++			 "from cmddma 0x%llx\n",
++			 sgl->sge_len, nCmd->cmddma);
++	sgl++;
++
++	/* Setup the physical region for the FCP RSP */
++	sgl->addr_hi = cpu_to_le32(putPaddrHigh(nCmd->rspdma));
++	sgl->addr_lo = cpu_to_le32(putPaddrLow(nCmd->rspdma));
++	sgl->word2 = le32_to_cpu(sgl->word2);
++	bf_set(lpfc_sli4_sge_last, sgl, 1);
++	sgl->word2 = cpu_to_le32(sgl->word2);
++	sgl->sge_len = cpu_to_le32(nCmd->rsplen);
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME | LOG_FCP,
++			 "6066 Reconfig fcp_rsp to len %d bytes "
++			 "from rspdma 0x%llx\n",
++			 sgl->sge_len, nCmd->rspdma);
++
++	/*
++	 * Get a local pointer to the built-in wqe and correct
++	 * the fcp_cmd size to match NVME's 96 bytes and fix
++	 * the dma address.
++	 */
++
++	/* 128 byte wqe support here */
++	wqe128 = (union lpfc_wqe128 *)&psb->cur_iocbq.wqe;
++
++	/* Word 0-2 - NVME CMND IU (embedded payload) */
++	wqe128->generic.bde.tus.f.bdeFlags = BUFF_TYPE_BDE_IMMED;
++	wqe128->generic.bde.tus.f.bdeSize = 60;
++	wqe128->generic.bde.addrHigh = 0;
++	wqe128->generic.bde.addrLow =  64;  /* Word 16 */
++
++	/* Word 10 */
++	bf_set(wqe_nvme, &wqe128->fcp_icmd.wqe_com, 1);
++	bf_set(wqe_wqes, &wqe128->fcp_icmd.wqe_com, 1);
++
++	/*
++	 * Embed the payload in the last half of the WQE
++	 * WQE words 16-30 get the NVME CMD IU payload
 +	 *
-+	 * Here are the FC-NVME mandated cases where we must send an ersp:
-+	 *  every N responses, where N=ersp_ratio
-+	 *  force fabric commands to send ersp's (not in FC-NVME but good
-+	 *    practice)
-+	 *  normal cmds: any time status is non-zero, or status is zero
-+	 *     but words 0 or 1 are non-zero.
-+	 *  the SQ is 90% or more full
-+	 *  the cmd is a fused command
++	 * WQE words 16-18 get payload Words 4-6
++	 * WQE words 19-20 get payload Words 8-9
++	 * WQE words 21-30 get payload Words 14-23
 +	 */
-+	rspcnt = atomic_inc_return(&fod->queue->zrspcnt);
-+	if (!(rspcnt % fod->queue->ersp_ratio) ||
-+	    (sqe->opcode == nvme_fabrics_command) ||
-+	    (le16_to_cpu(cqe->status) & 0xFFFE) || cqewd[0] || cqewd[1] ||
-+	    (sqe->flags & (NVME_CMD_FUSE_FIRST | NVME_CMD_FUSE_SECOND)) ||
-+	    queue_90percent_full(fod->queue, cqe->sq_head))
-+		send_ersp = true;
-+
-+	/* re-set the fields */
-+	fod->fcpreq->rspaddr = ersp;
-+	fod->fcpreq->rspdma = fod->rspdma;
-+
-+	if (!send_ersp) {
-+		memset(ersp, 0, NVME_FC_SIZEOF_ZEROS_RSP);
-+		fod->fcpreq->rsplen = NVME_FC_SIZEOF_ZEROS_RSP;
-+	} else {
-+		ersp->iu_len = cpu_to_be16(sizeof(*ersp)/sizeof(u32));
-+		rsn = atomic_inc_return(&fod->queue->rsn);
-+		ersp->rsn = cpu_to_be32(rsn);
-+		fod->fcpreq->rsplen = sizeof(*ersp);
-+	}
-+
-+	dma_sync_single_for_device(tgtport->dev, fod->rspdma,
-+				  sizeof(fod->rspiubuf), DMA_TO_DEVICE);
++	wptr = &wqe128->words[16];  /* WQE ptr */
++	dptr = (uint32_t *)nCmd->cmdaddr;  /* payload ptr */
++	dptr += 4;		/* Skip Words 0-3 in payload */
++	*wptr++ = *dptr++;	/* Word 4 */
++	*wptr++ = *dptr++;	/* Word 5 */
++	*wptr++ = *dptr++;	/* Word 6 */
++	dptr++;			/* Skip Word 7 in payload */
++	*wptr++ = *dptr++;	/* Word 8 */
++	*wptr++ = *dptr++;	/* Word 9 */
++	dptr += 4;		/* Skip Words 10-13 in payload */
++	*wptr++ = *dptr++;	/* Word 14 */
++	*wptr++ = *dptr++;	/* Word 15 */
++	*wptr++ = *dptr++;	/* Word 16 */
++	*wptr++ = *dptr++;	/* Word 17 */
++	*wptr++ = *dptr++;	/* Word 18 */
++	*wptr++ = *dptr++;	/* Word 19 */
++	*wptr++ = *dptr++;	/* Word 20 */
++	*wptr++ = *dptr++;	/* Word 21 */
++	*wptr++ = *dptr++;	/* Word 22 */
++	*wptr = *dptr;		/* Word 23 */
 +}
 +
-+static void nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq);
-+
++/* Restore the psb fcp_cmd and fcp_rsp regions for fcp io. */
 +static void
-+nvmet_fc_xmt_fcp_rsp(struct nvmet_fc_tgtport *tgtport,
-+				struct nvmet_fc_fcp_iod *fod)
++lpfc_nvme_restore_fcp_sgls(struct lpfc_vport *vport,
++			   struct lpfc_scsi_buf *psb)
 +{
-+	int ret;
++	struct sli4_sge *sgl;
++	dma_addr_t pdma_phys_fcp_cmd;
++	dma_addr_t pdma_phys_fcp_rsp;
++	dma_addr_t pdma_phys_bpl;
++	union lpfc_wqe *wqe;
++	int sgl_size;
 +
-+	fod->fcpreq->op = NVMET_FCOP_RSP;
-+	fod->fcpreq->offset = 0;
-+	fod->fcpreq->timeout = 0;
++	sgl_size = vport->phba->cfg_sg_dma_buf_size -
++		(sizeof(struct fcp_cmnd) + sizeof(struct fcp_rsp));
 +
-+	nvmet_fc_prep_fcp_rsp(tgtport, fod);
++	/* Just restore what lpfc_new_scsi_buf setup. */
++	psb->fcp_bpl = psb->data;
++	psb->fcp_cmnd = (psb->data + sgl_size);
++	psb->fcp_rsp = (struct fcp_rsp *)((uint8_t *)psb->fcp_cmnd +
++					  sizeof(struct fcp_cmnd));
 +
-+	ret = tgtport->ops->fcp_op(&tgtport->fc_target_port, fod->fcpreq);
-+	if (ret) {
-+		fod->aborted = true;
-+		nvmet_fc_abort_op(tgtport, fod->fcpreq);
-+	}
-+}
-+
-+static void
-+nvmet_fc_transfer_fcp_data(struct nvmet_fc_tgtport *tgtport,
-+				struct nvmet_fc_fcp_iod *fod, u8 op)
-+{
-+	struct nvmefc_tgt_fcp_req *fcpreq = fod->fcpreq;
-+	struct scatterlist *sg, *datasg;
-+	u32 tlen, sg_off;
-+	int ret;
-+
-+	fcpreq->op = op;
-+	fcpreq->offset = fod->offset;
-+	fcpreq->timeout = NVME_FC_TGTOP_TIMEOUT_SEC;
-+	tlen = min_t(u32, (NVMET_FC_MAX_KB_PER_XFR * 1024),
-+			(fod->total_length - fod->offset));
-+	tlen = min_t(u32, tlen, (NVME_FC_MAX_SEGMENTS * PAGE_SIZE));
-+	fcpreq->transfer_length = tlen;
-+	fcpreq->transferred_length = 0;
-+	fcpreq->fcp_error = 0;
-+	fcpreq->rsplen = 0;
-+
-+	fcpreq->sg_cnt = 0;
-+
-+	datasg = fod->next_sg;
-+	sg_off = fod->next_sg_offset;
-+
-+	for (sg = fcpreq->sg ; tlen; sg++) {
-+		*sg = *datasg;
-+		if (sg_off) {
-+			sg->offset += sg_off;
-+			sg->length -= sg_off;
-+			sg->dma_address += sg_off;
-+			sg_off = 0;
-+		}
-+		if (tlen < sg->length) {
-+			sg->length = tlen;
-+			fod->next_sg = datasg;
-+			fod->next_sg_offset += tlen;
-+		} else if (tlen == sg->length) {
-+			fod->next_sg_offset = 0;
-+			fod->next_sg = sg_next(datasg);
-+		} else {
-+			fod->next_sg_offset = 0;
-+			datasg = sg_next(datasg);
-+		}
-+		tlen -= sg->length;
-+		fcpreq->sg_cnt++;
-+	}
++	/* Initialize local short-hand pointers. */
++	sgl = (struct sli4_sge *)psb->fcp_bpl;
++	pdma_phys_bpl = psb->dma_handle;
++	pdma_phys_fcp_cmd = (psb->dma_handle + sgl_size);
++	pdma_phys_fcp_rsp = pdma_phys_fcp_cmd + sizeof(struct fcp_cmnd);
 +
 +	/*
-+	 * If the last READDATA request: check if LLDD supports
-+	 * combined xfr with response.
++	 * The first two bdes are the FCP_CMD and FCP_RSP.
++	 * The balance are sg list bdes. Initialize the
++	 * first two and leave the rest for queuecommand.
 +	 */
-+	if ((op == NVMET_FCOP_READDATA) &&
-+	    ((fod->offset + fcpreq->transfer_length) == fod->total_length) &&
-+	    (tgtport->ops->target_features & NVMET_FCTGTFEAT_READDATA_RSP)) {
-+		fcpreq->op = NVMET_FCOP_READDATA_RSP;
-+		nvmet_fc_prep_fcp_rsp(tgtport, fod);
-+	}
++	sgl->addr_hi = cpu_to_le32(putPaddrHigh(pdma_phys_fcp_cmd));
++	sgl->addr_lo = cpu_to_le32(putPaddrLow(pdma_phys_fcp_cmd));
++	sgl->word2 = le32_to_cpu(sgl->word2);
++	bf_set(lpfc_sli4_sge_last, sgl, 0);
++	sgl->word2 = cpu_to_le32(sgl->word2);
++	sgl->sge_len = cpu_to_le32(sizeof(struct fcp_cmnd));
++	sgl++;
 +
-+	ret = tgtport->ops->fcp_op(&tgtport->fc_target_port, fod->fcpreq);
-+	if (ret) {
-+		if (op == NVMET_FCOP_WRITEDATA)
-+			nvmet_req_complete(&fod->req, ret);
-+		else /* NVMET_FCOP_READDATA or NVMET_FCOP_READDATA_RSP */ {
-+			fcpreq->fcp_error = ret;
-+			fcpreq->transferred_length = 0;
-+			fod->aborted = true;
-+			nvmet_fc_xmt_fcp_op_done(fod->fcpreq);
-+		}
-+	}
++	/* Setup the physical region for the FCP RSP */
++	sgl->addr_hi = cpu_to_le32(putPaddrHigh(pdma_phys_fcp_rsp));
++	sgl->addr_lo = cpu_to_le32(putPaddrLow(pdma_phys_fcp_rsp));
++	sgl->word2 = le32_to_cpu(sgl->word2);
++	bf_set(lpfc_sli4_sge_last, sgl, 1);
++	sgl->word2 = cpu_to_le32(sgl->word2);
++	sgl->sge_len = cpu_to_le32(sizeof(struct fcp_rsp));
++
++	/*
++	 * Get a local pointer to the built-in wqe and correct
++	 * the fcp_cmd size to match NVME's 96 bytes and fix
++	 * the dma address.
++	 */
++	wqe = &psb->cur_iocbq.wqe;
++	wqe->generic.bde.tus.f.bdeSize = sizeof(struct fcp_cmnd);
++	wqe->generic.bde.addrLow = putPaddrLow(pdma_phys_fcp_cmd);
++	wqe->generic.bde.addrHigh = putPaddrHigh(pdma_phys_fcp_cmd);
 +}
 +
++/**
++ * lpfc_nvme_io_cmd_wqe_cmpl - Complete an NVME-over-FCP IO
++ * @lpfc_pnvme: Pointer to the driver's nvme instance data
++ * @lpfc_nvme_lport: Pointer to the driver's local port data
++ * @lpfc_nvme_rport: Pointer to the rport getting the @lpfc_nvme_ereq
++ *
++ * Driver registers this routine as it io request handler.  This
++ * routine issues an fcp WQE with data from the @lpfc_nvme_fcpreq
++ * data structure to the rport indicated in @lpfc_nvme_rport.
++ *
++ * Return value :
++ *   0 - Success
++ *   TODO: What are the failure codes.
++ **/
 +static void
-+nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
++lpfc_nvme_io_cmd_wqe_cmpl(struct lpfc_hba *phba, struct lpfc_iocbq *pwqeIn,
++			  struct lpfc_wcqe_complete *wcqe)
 +{
-+	struct nvmet_fc_fcp_iod *fod = fcpreq->nvmet_fc_private;
-+	struct nvmet_fc_tgtport *tgtport = fod->tgtport;
-+	struct nvme_fc_ersp_iu *ersp = &fod->rspiubuf;
-+	struct nvme_completion *cqe = &ersp->cqe;
++	struct lpfc_scsi_buf *lpfc_cmd =
++		(struct lpfc_scsi_buf *)pwqeIn->context1;
++	struct lpfc_vport *vport = pwqeIn->vport;
++	struct nvmefc_fcp_req *nCmd;
++	struct lpfc_nvme_rport *rport;
++	struct lpfc_nodelist *ndlp;
++	unsigned long flags;
++	uint32_t code, len = 0;
++	uint16_t cid, sqhd;
++	uint32_t *ptr;
 +
-+	switch (fcpreq->op) {
-+
-+	case NVMET_FCOP_WRITEDATA:
-+		if (fcpreq->fcp_error) {
-+			nvmet_req_complete(&fod->req, fcpreq->fcp_error);
-+			return;
-+		}
-+		if (fcpreq->transferred_length != fcpreq->transfer_length) {
-+			nvmet_req_complete(&fod->req,
-+					NVME_SC_FC_TRANSPORT_ERROR);
-+			return;
-+		}
-+
-+		fod->offset += fcpreq->transferred_length;
-+		if (fod->offset != fod->total_length) {
-+			/* transfer the next chunk */
-+			nvmet_fc_transfer_fcp_data(tgtport, fod,
-+						NVMET_FCOP_WRITEDATA);
-+			return;
-+		}
-+
-+		/* data transfer complete, resume with nvmet layer */
-+
-+		fod->req.execute(&fod->req);
-+
-+		break;
-+
-+	case NVMET_FCOP_READDATA:
-+		if (fcpreq->fcp_error)
-+			/* overwrite the nvmet status */
-+			cqe->status = cpu_to_le16(fcpreq->fcp_error);
-+
-+		else if (fcpreq->transferred_length !=
-+					fcpreq->transfer_length)
-+			/* overwrite the nvmet status */
-+			cqe->status = cpu_to_le16(NVME_SC_FC_TRANSPORT_ERROR);
-+
-+		else {
-+			fod->offset += fcpreq->transferred_length;
-+			if (fod->offset != fod->total_length) {
-+				/* transfer the next chunk */
-+				nvmet_fc_transfer_fcp_data(tgtport, fod,
-+							NVMET_FCOP_READDATA);
-+				return;
-+			}
-+		}
-+
-+		/* data transfer complete, send response */
-+
-+		/* data no longer needed */
-+		nvmet_fc_free_tgt_pgs(fod);
-+
-+		if (unlikely(fod->aborted))
-+			nvmet_fc_abort_op(tgtport, fod->fcpreq);
-+		else
-+			nvmet_fc_xmt_fcp_rsp(tgtport, fod);
-+
-+		break;
-+
-+	case NVMET_FCOP_READDATA_RSP:
-+		if (fcpreq->fcp_error)
-+			/* overwrite the nvmet status */
-+			cqe->status = cpu_to_le16(fcpreq->fcp_error);
-+
-+		else if (fcpreq->transferred_length !=
-+					fcpreq->transfer_length)
-+			/* overwrite the nvmet status */
-+			cqe->status = cpu_to_le16(NVME_SC_FC_TRANSPORT_ERROR);
-+
-+		else
-+			fod->offset += fcpreq->transferred_length;
-+
-+		/* data transfer complete, response complete as well */
-+
-+		/* data no longer needed */
-+		nvmet_fc_free_tgt_pgs(fod);
-+
-+		dma_sync_single_for_cpu(tgtport->dev, fod->rspdma,
-+				sizeof(fod->rspiubuf), DMA_TO_DEVICE);
-+		nvmet_fc_free_fcp_iod(tgtport, fod);
-+		break;
-+
-+	case NVMET_FCOP_RSP:
-+	case NVMET_FCOP_ABORT:
-+		dma_sync_single_for_cpu(tgtport->dev, fod->rspdma,
-+				sizeof(fod->rspiubuf), DMA_TO_DEVICE);
-+		nvmet_fc_free_fcp_iod(tgtport, fod);
-+		break;
-+
-+	default:
-+		fod->aborted = true;
-+		nvmet_fc_abort_op(tgtport, fod->fcpreq);
-+		break;
++	/* Sanity check on return of outstanding command */
++	if (!lpfc_cmd || !lpfc_cmd->nvmeCmd || !lpfc_cmd->nrport) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NODE | LOG_NVME,
++				 "6071 Completion pointers bad on wqe %p.\n",
++				 wcqe);
++		return;
 +	}
-+}
 +
-+static void
-+__nvmet_fc_fcp_nvme_cmd_done(struct nvmet_fc_tgtport *tgtport,
-+			struct nvmet_fc_fcp_iod *fod, int status)
-+{
-+	struct nvme_common_command *sqe = &fod->cmdiubuf.sqe.common;
-+	struct nvme_completion *cqe = &fod->rspiubuf.cqe;
++	nCmd = lpfc_cmd->nvmeCmd;
++	rport = lpfc_cmd->nrport;
 +
-+	/* if an error handling the cmd post initial parsing */
-+	if (status) {
-+		/* fudge up a failed CQE status for our transport error */
-+		memset(cqe, 0, sizeof(*cqe));
-+		cqe->sq_head = fod->queue->sqhd;	/* echo last cqe sqhd */
-+		cqe->sq_id = cpu_to_le16(fod->queue->qid);
-+		cqe->command_id = sqe->command_id;
-+		cqe->status = cpu_to_le16(status);
-+	} else {
-+		/* snoop the last sq_head value from the last response */
-+		fod->queue->sqhd = cqe->sq_head;
++	/*
++	 * Catch race where our node has transitioned, but the
++	 * transport is still transitioning.
++	 */
++	ndlp = rport->ndlp;
++	if (!ndlp || !NLP_CHK_NODE_ACT(ndlp)) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NODE | LOG_NVME,
++				 "6061 rport %p, ndlp %p, DID x%06x ndlp not ready.\n",
++				 rport, ndlp, rport->remoteport->port_id);
++
++		ndlp = lpfc_findnode_did(vport, rport->remoteport->port_id);
++		if (!ndlp) {
++			lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++					 "6062 Ignoring NVME cmpl.  No ndlp\n");
++			goto out_err;
++		}
++	}
++
++	code = bf_get(lpfc_wcqe_c_code, wcqe);
++	if (code == CQE_CODE_NVME_ERSP) {
++		/* For this type of CQE, we need to rebuild the rsp */
 +
 +		/*
-+		 * try to push the data even if the SQE status is non-zero.
-+		 * There may be a status where data still was intended to
-+		 * be moved
++		 * Get Command Id from cmd to plug into response. This
++		 * code is not needed in the next NVME Transport drop.
 +		 */
-+		if ((fod->io_dir == NVMET_FCP_READ) && (fod->data_sg_cnt)) {
-+			/* push the data over before sending rsp */
-+			nvmet_fc_transfer_fcp_data(tgtport, fod,
-+						NVMET_FCOP_READDATA);
-+			return;
-+		}
++		ptr = (uint32_t *)nCmd->cmdaddr;/* to be removed */
++		ptr += 8;			/* to be removed */
++		code = *ptr;			/* to be removed */
++		code = le32_to_cpu(code);	/* to be removed */
++		cid = (code >> 16) & 0xffff;	/* to be removed */
 +
-+		/* writes & no data - fall thru */
-+	}
++		/*
++		 * RSN is in CQE word 2
++		 * SQHD is in CQE Word 3 bits 15:0
++		 * NOTE: information in CQE is Little Endian
++		 */
++		ptr = (uint32_t *)wcqe;
++		sqhd = (uint16_t)(*(ptr+3) & 0xffff);
 +
-+	/* data no longer needed */
-+	nvmet_fc_free_tgt_pgs(fod);
++		/* Build response */
++		ptr = (uint32_t *)nCmd->rspaddr;
++		*ptr++ = cpu_to_be32(8);  /* ERSP IU Length */
++		*ptr++ = cpu_to_be32(wcqe->parameter); /* RSN */
++		*ptr++ = 0;		 /* Word 2 - reserved */
++		*ptr++ = 0;		 /* Word 3 - reserved */
++		*ptr++ = 0;		 /* Word 4 */
++		*ptr++ = 0;		 /* Word 5 */
++		/* SQ ID is 0, SQHD from CQE */
++		*ptr++ = cpu_to_be32(sqhd);
 +
-+	nvmet_fc_xmt_fcp_rsp(tgtport, fod);
-+}
++		/* Cmd ID from cmd payload */
++		*ptr = cid;	/* to be removed */
 +
-+
-+static void
-+nvmet_fc_fcp_nvme_cmd_done(struct nvmet_req *nvme_req)
-+{
-+	struct nvmet_fc_fcp_iod *fod =
-+		container_of(nvme_req, struct nvmet_fc_fcp_iod, req);
-+	struct nvmet_fc_tgtport *tgtport = fod->tgtport;
-+
-+	__nvmet_fc_fcp_nvme_cmd_done(tgtport, fod, 0);
-+}
-+
-+
-+/*
-+ * Actual processing routine for received FC-NVME LS Requests from the LLD
-+ */
-+void
-+nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
-+			struct nvmet_fc_fcp_iod *fod)
-+{
-+	struct nvme_fc_cmd_iu *cmdiu = &fod->cmdiubuf;
-+	int ret;
-+
-+	/*
-+	 * TODO: handle fused cmds back-to-back
-+	 */
-+
-+	fod->fcpreq->done = nvmet_fc_xmt_fcp_op_done;
-+
-+	fod->total_length = be32_to_cpu(cmdiu->data_len);
-+	if (cmdiu->flags & FCNVME_CMD_FLAGS_WRITE) {
-+		fod->io_dir = NVMET_FCP_WRITE;
-+		if (!nvme_is_write(&cmdiu->sqe))
-+			goto transport_error;
-+	} else if (cmdiu->flags & FCNVME_CMD_FLAGS_READ) {
-+		fod->io_dir = NVMET_FCP_READ;
-+		if (nvme_is_write(&cmdiu->sqe))
-+			goto transport_error;
++		lpfc_cmd->status = IOSTAT_SUCCESS;
++		lpfc_cmd->result = 0;
 +	} else {
-+		fod->io_dir = NVMET_FCP_NODATA;
-+		if (fod->total_length)
-+			goto transport_error;
-+	}
-+	fod->aborted = false;
-+
-+	fod->req.cmd = &fod->cmdiubuf.sqe;
-+	fod->req.rsp = &fod->rspiubuf.cqe;
-+	fod->req.port = fod->queue->port;
-+
-+	/* ensure nvmet handlers will set cmd handler callback */
-+	fod->req.execute = NULL;
-+
-+	/* clear any response payload */
-+	memset(&fod->rspiubuf, 0, sizeof(fod->rspiubuf));
-+
-+	ret = nvmet_req_init(&fod->req,
-+				&fod->queue->nvme_cq,
-+				&fod->queue->nvme_sq,
-+				&nvmet_fc_tgt_fcp_ops);
-+	if (!ret) {	/* bad SQE content */
-+		__nvmet_fc_fcp_nvme_cmd_done(tgtport, fod,
-+				NVME_SC_FC_TRANSPORT_ERROR);
-+		return;
++		lpfc_cmd->status = (bf_get(lpfc_wcqe_c_status, wcqe) &
++			    LPFC_IOCB_STATUS_MASK);
++		lpfc_cmd->result = wcqe->parameter;
 +	}
 +
-+	/* keep a running counter of tail position */
-+	atomic_inc(&fod->queue->sqtail);
-+
-+	fod->data_sg = NULL;
-+	fod->data_sg_cnt = 0;
-+	if (fod->total_length) {
-+		ret = nvmet_fc_alloc_tgt_pgs(fod);
-+		if (ret) {
-+			nvmet_req_complete(&fod->req, ret);
-+			return;
-+		}
-+	}
-+	fod->req.sg = fod->data_sg;
-+	fod->req.sg_cnt = fod->data_sg_cnt;
-+	fod->offset = 0;
-+	fod->next_sg = fod->data_sg;
-+	fod->next_sg_offset = 0;
-+
-+	if (fod->io_dir == NVMET_FCP_WRITE) {
-+		/* pull the data over before invoking nvmet layer */
-+		nvmet_fc_transfer_fcp_data(tgtport, fod, NVMET_FCOP_WRITEDATA);
-+		return;
-+	}
-+
-+	/*
-+	 * Reads or no data:
-+	 *
-+	 * can invoke the nvmet_layer now. If read data, cmd completion will
-+	 * push the data
++	/* For NVME, the only failure path that results in an
++	 * IO error is when the adapter rejects it.  All other
++	 * conditions are a success case and resolved by the
++	 * transport.
 +	 */
++	if ((lpfc_cmd->status == IOSTAT_SUCCESS) ||
++	    (lpfc_cmd->status == IOSTAT_FCP_RSP_ERROR)) {
++		nCmd->transferred_length = wcqe->total_data_placed;
++		nCmd->rcv_rsplen = 0;
++		if (lpfc_cmd->status == IOSTAT_FCP_RSP_ERROR)
++			nCmd->rcv_rsplen = wcqe->parameter;
++		nCmd->status = 0;
++	} else
++		goto out_err;
 +
-+	fod->req.execute(&fod->req);
++	lpfc_printf_vlog(vport, KERN_WARNING, LOG_NVME | LOG_FCP,
++			 "6059 NVME cmd %p completion "
++			 "io status: x%x rcv_rsplen: x%x "
++			 "sid: x%06x did: x%06x oxid: x%x "
++			 "total data placed x%x\n",
++			 nCmd, lpfc_cmd->status, nCmd->rcv_rsplen,
++			 vport->fc_myDID,
++			 (ndlp) ? ndlp->nlp_DID : 0,
++			 lpfc_cmd->cur_iocbq.sli4_xritag,
++			 nCmd->transferred_length);
 +
-+	return;
++	/* pick up SLI4 exhange busy condition */
++	if (bf_get(lpfc_wcqe_c_xb, wcqe))
++		lpfc_cmd->flags |= LPFC_SBUF_XBUSY;
++	else
++		lpfc_cmd->flags &= ~LPFC_SBUF_XBUSY;
 +
-+transport_error:
-+	__nvmet_fc_fcp_nvme_cmd_done(tgtport, fod, NVME_SC_FC_TRANSPORT_ERROR);
-+}
++	if (ndlp && NLP_CHK_NODE_ACT(ndlp))
++		atomic_dec(&ndlp->cmd_pending);
 +
-+/*
-+ * Actual processing routine for received FC-NVME LS Requests from the LLD
-+ */
-+static void
-+nvmet_fc_handle_fcp_rqst_work(struct work_struct *work)
-+{
-+	struct nvmet_fc_fcp_iod *fod =
-+		container_of(work, struct nvmet_fc_fcp_iod, work);
-+	struct nvmet_fc_tgtport *tgtport = fod->tgtport;
++	/* Update stats and complete the IO.  There is
++	 * no need for dma unprep because the nvme_transport
++	 * owns the dma address.
++	 */
++	nCmd->done(nCmd);
 +
-+	nvmet_fc_handle_fcp_rqst(tgtport, fod);
++	spin_lock_irqsave(&phba->hbalock, flags);
++	lpfc_cmd->nvmeCmd = NULL;
++	lpfc_cmd->nrport = NULL;
++	spin_unlock_irqrestore(&phba->hbalock, flags);
++
++	goto out_cleanup;
++
++ out_err:
++	/* The lpfc_cmd is valid, but the ndlp may not be - don't
++	 * touch it.
++	 */
++	lpfc_cmd->result = wcqe->parameter;
++	nCmd->transferred_length = 0;
++	nCmd->rcv_rsplen = nCmd->rsplen;
++	nCmd->status = -EINVAL;
++	len = wcqe->parameter;
++	if (wcqe->parameter == 0)
++		len = nCmd->rsplen;
++
++	lpfc_printf_vlog(vport, KERN_WARNING, LOG_NVME | LOG_FCP,
++			 "6072 NVME Completion Error: status x%x, result x%x "
++			 "returning %d, rsplen %d.\n", lpfc_cmd->status,
++			 lpfc_cmd->result, nCmd->status,
++			 nCmd->rsplen);
++
++ out_cleanup:
++	lpfc_nvme_restore_fcp_sgls(vport, lpfc_cmd);
++	lpfc_release_scsi_buf(phba, lpfc_cmd);
 +}
 +
 +
 +/**
-+ * nvmet_fc_rcv_fcp_req - transport entry point called by an LLDD
-+ *                       upon the reception of a NVME FCP CMD IU.
++ * lpfc_nvme_prep_io_cmd - Issue an NVME-over-FCP IO
++ * @lpfc_pnvme: Pointer to the driver's nvme instance data
++ * @lpfc_nvme_lport: Pointer to the driver's local port data
++ * @lpfc_nvme_rport: Pointer to the rport getting the @lpfc_nvme_ereq
++ * @lpfc_nvme_fcreq: IO request from nvme fc to driver.
++ * @hw_queue_handle: Driver-returned handle in lpfc_nvme_create_hw_queue
 + *
-+ * Pass a FC-NVME FCP CMD IU received from the FC link to the nvmet-fc
-+ * layer for processing.
++ * Driver registers this routine as it io request handler.  This
++ * routine issues an fcp WQE with data from the @lpfc_nvme_fcpreq
++ * data structure to the rport indicated in @lpfc_nvme_rport.
 + *
-+ * The nvmet-fc layer will copy cmd payload to an internal structure for
-+ * processing.  As such, upon completion of the routine, the LLDD may
-+ * immediately free/reuse the CMD IU buffer passed in the call.
-+ *
-+ * If this routine returns error, the lldd should abort the exchange.
-+ *
-+ * @tgtport:    pointer to the (registered) target port the FCP CMD IU
-+ *              was receive on.
-+ * @fcpreq:     pointer to a fcpreq request structure to be used to reference
-+ *              the exchange corresponding to the FCP Exchange.
-+ * @cmdiubuf:   pointer to the buffer containing the FCP CMD IU
-+ * @cmdiubuf_len: length, in bytes, of the received FCP CMD IU
-+ */
-+int
-+nvmet_fc_rcv_fcp_req(struct nvmet_fc_target_port *target_port,
-+			struct nvmefc_tgt_fcp_req *fcpreq,
-+			void *cmdiubuf, u32 cmdiubuf_len)
-+{
-+	struct nvmet_fc_tgtport *tgtport = container_of(target_port,
-+			struct nvmet_fc_tgtport, fc_target_port);
-+	struct nvme_fc_cmd_iu *cmdiu = cmdiubuf;
-+	struct nvmet_fc_tgt_queue *queue;
-+	struct nvmet_fc_fcp_iod *fod;
-+
-+
-+	/* validate iu, so the connection id can be used to find the queue */
-+	if ((cmdiubuf_len != sizeof(*cmdiu)) ||
-+			(cmdiu->scsi_id != NVME_CMD_SCSI_ID) ||
-+			(cmdiu->fc_id != NVME_CMD_FC_ID) ||
-+			(be16_to_cpu(cmdiu->iu_len) != (sizeof(*cmdiu)/4)))
-+		return -EIO;
-+
-+	queue = nvmet_fc_find_target_queue(tgtport,
-+				be64_to_cpu(cmdiu->connection_id));
-+	if (!queue)
-+		return -ENOTCONN;
-+
-+	fod = nvmet_fc_alloc_fcp_iod(tgtport, queue);
-+	if (!fod)
-+		return -ENOENT;
-+
-+	fcpreq->nvmet_fc_private = fod;
-+	fod->fcpreq = fcpreq;
-+	memcpy(&fod->cmdiubuf, cmdiubuf, cmdiubuf_len);
-+
-+	queue_work(fod->queue->work_q, &fod->work);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(nvmet_fc_rcv_fcp_req);
-+
-+enum {
-+	FCT_TRADDR_ERR		= 0,
-+	FCT_TRADDR_FABRIC	= 1 << 0,
-+	FCT_TRADDR_WWNN		= 1 << 1,
-+	FCT_TRADDR_WWPN		= 1 << 2,
-+};
-+
-+struct nvmet_fc_traddr {
-+	u64	fab;
-+	u64	nn;
-+	u64	pn;
-+};
-+
-+static const match_table_t traddr_opt_tokens = {
-+	{ FCT_TRADDR_FABRIC,	"fab-%s"	},
-+	{ FCT_TRADDR_WWNN,	"nn-%s"		},
-+	{ FCT_TRADDR_WWPN,	"pn-%s"		},
-+	{ FCT_TRADDR_ERR,	NULL		}
-+};
-+
++ * Return value :
++ *   0 - Success
++ *   TODO: What are the failure codes.
++ **/
 +static int
-+nvmet_fc_parse_traddr(struct nvmet_fc_traddr *traddr, char *buf)
++lpfc_nvme_prep_io_cmd(struct lpfc_vport *vport,
++		      struct lpfc_scsi_buf *lpfc_cmd,
++		      struct lpfc_nodelist *pnode)
 +{
-+	substring_t args[MAX_OPT_ARGS];
-+	char *options, *o, *p;
-+	int token, ret = 0;
-+	u64 token64;
++	struct lpfc_hba *phba = vport->phba;
++	struct nvmefc_fcp_req *nCmd = lpfc_cmd->nvmeCmd;
++	struct fcp_cmnd *fcp_cmnd = lpfc_cmd->fcp_cmnd;
++	union lpfc_wqe *wqe = &lpfc_cmd->cur_iocbq.wqe;
++	struct lpfc_iocbq *pwqeq = &(lpfc_cmd->cur_iocbq);
 +
-+	options = o = kstrdup(buf, GFP_KERNEL);
-+	if (!options)
-+		return -ENOMEM;
-+
-+	while ((p = strsep(&o, ",\n")) != NULL) {
-+		if (!*p)
-+			continue;
-+
-+		token = match_token(p, traddr_opt_tokens, args);
-+		switch (token) {
-+		case FCT_TRADDR_FABRIC:
-+			if (match_u64(args, &token64)) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			traddr->fab = token64;
-+			break;
-+		case FCT_TRADDR_WWNN:
-+			if (match_u64(args, &token64)) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			traddr->nn = token64;
-+			break;
-+		case FCT_TRADDR_WWPN:
-+			if (match_u64(args, &token64)) {
-+				ret = -EINVAL;
-+				goto out;
-+			}
-+			traddr->pn = token64;
-+			break;
-+		default:
-+			pr_warn("unknown traddr token or missing value '%s'\n",
-+					p);
-+			ret = -EINVAL;
-+			goto out;
-+		}
-+	}
-+
-+out:
-+	kfree(options);
-+	return ret;
-+}
-+
-+static int
-+nvmet_fc_add_port(struct nvmet_port *port)
-+{
-+	struct nvmet_fc_tgtport *tgtport;
-+	struct nvmet_fc_traddr traddr = { 0L, 0L, 0L };
-+	unsigned long flags;
-+	int ret;
-+
-+	/* validate the address info */
-+	if ((port->disc_addr.trtype != NVMF_TRTYPE_FC) ||
-+	    (port->disc_addr.adrfam != NVMF_ADDR_FAMILY_FC))
++	if (!pnode || !NLP_CHK_NODE_ACT(pnode))
 +		return -EINVAL;
 +
-+	/* map the traddr address info to a target port */
++	/*
++	 * There are three possibilities here - use scatter-gather segment, use
++	 * the single mapping, or neither.  Start the lpfc command prep by
++	 * bumping the bpl beyond the fcp_cmnd and fcp_rsp regions to the first
++	 * data bde entry.
++	 */
++	wqe->generic.wqe_com.word7 = 0;
++	wqe->generic.wqe_com.word10 = 0;
 +
-+	ret = nvmet_fc_parse_traddr(&traddr, port->disc_addr.traddr);
-+	if (ret)
-+		return ret;
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME | LOG_MISC,
++			 "6055 Prep NVME IO: sg_cnt %d, flags x%x\n",
++			 nCmd->sg_cnt, nCmd->io_dir);
++	if (nCmd->sg_cnt) {
++		if (nCmd->io_dir == NVMEFC_FCP_WRITE) {
++			/* Word 3 */
++			/* Add the FCP_CMD and FCP_RSP sizes for the offset */
++			bf_set(payload_offset_len, &wqe->fcp_iwrite,
++			       sizeof(struct fcp_cmnd) +
++			       sizeof(struct fcp_rsp));
 +
-+	ret = -ENXIO;
-+	spin_lock_irqsave(&nvme_fc_tgtlock, flags);
-+	list_for_each_entry(tgtport, &nvmet_fc_target_list, tgt_list) {
-+		if ((tgtport->fc_target_port.node_name == traddr.nn) &&
-+		    (tgtport->fc_target_port.port_name == traddr.pn) &&
-+		    (tgtport->fc_target_port.fabric_name == traddr.fab)) {
-+			/* a FC port can only be 1 nvmet port id */
-+			if (tgtport->port)
-+				ret = -EALREADY;
-+			else {
-+				tgtport->port = port;
-+				port->priv = tgtport;
-+				ret = 0;
++			/* Word 7 */
++			bf_set(wqe_cmnd, &wqe->generic.wqe_com,
++			       CMD_FCP_IWRITE64_WQE);
++			bf_set(wqe_pu, &wqe->generic.wqe_com,
++			       PARM_READ_CHECK);
++
++			/* Word 10 */
++			bf_set(wqe_iod, &wqe->fcp_iwrite.wqe_com,
++			       LPFC_WQE_IOD_WRITE);
++			bf_set(wqe_lenloc, &wqe->fcp_iwrite.wqe_com,
++			       LPFC_WQE_LENLOC_WORD4);
++			bf_set(wqe_ebde_cnt, &wqe->fcp_iwrite.wqe_com, 0);
++			bf_set(wqe_dbde, &wqe->fcp_iwrite.wqe_com, 1);
++
++			/* Word 11 */
++			bf_set(wqe_cmd_type, &wqe->generic.wqe_com,
++			       NVME_WRITE_CMD);
++
++			fcp_cmnd->fcpCntl3 = WRITE_DATA;
++			phba->fc4OutputRequests++;
++		} else {
++			/* Read IO.  Set up Word 3. */
++			/* Add the FCP_CMD and FCP_RSP sizes for the offset */
++			bf_set(payload_offset_len, &wqe->fcp_iread,
++			       sizeof(struct fcp_cmnd) +
++			       sizeof(struct fcp_rsp));
++
++			/* Word 7 */
++			bf_set(wqe_cmnd, &wqe->generic.wqe_com,
++			       CMD_FCP_IREAD64_WQE);
++			bf_set(wqe_pu, &wqe->generic.wqe_com,
++			       PARM_READ_CHECK);
++
++			/* Word 10 */
++			bf_set(wqe_iod, &wqe->fcp_iread.wqe_com,
++			       LPFC_WQE_IOD_READ);
++			bf_set(wqe_lenloc, &wqe->fcp_iread.wqe_com,
++			       LPFC_WQE_LENLOC_WORD4);
++			bf_set(wqe_ebde_cnt, &wqe->fcp_iread.wqe_com, 0);
++			bf_set(wqe_dbde, &wqe->fcp_iread.wqe_com, 1);
++
++			/* Word 11 */
++			bf_set(wqe_cmd_type, &wqe->generic.wqe_com,
++			       NVME_READ_CMD);
++
++			fcp_cmnd->fcpCntl3 = READ_DATA;
++			phba->fc4InputRequests++;
++		}
++	} else {
++		/* Word 4 */
++		wqe->fcp_icmd.rsrvd4 = 0;
++
++		/* Word 7 */
++		bf_set(wqe_cmnd, &wqe->generic.wqe_com, CMD_FCP_ICMND64_WQE);
++		bf_set(wqe_pu, &wqe->generic.wqe_com, 0);
++
++		/* Word 10 */
++		bf_set(wqe_dbde, &wqe->fcp_icmd.wqe_com, 1);
++		bf_set(wqe_iod, &wqe->fcp_icmd.wqe_com, LPFC_WQE_IOD_WRITE);
++		bf_set(wqe_qosd, &wqe->fcp_icmd.wqe_com, 1);
++		bf_set(wqe_lenloc, &wqe->fcp_icmd.wqe_com,
++		       LPFC_WQE_LENLOC_NONE);
++		bf_set(wqe_ebde_cnt, &wqe->fcp_icmd.wqe_com, 0);
++
++		/* Word 11 */
++		bf_set(wqe_cmd_type, &wqe->generic.wqe_com, NVME_READ_CMD);
++
++		fcp_cmnd->fcpCntl3 = 0;
++		phba->fc4ControlRequests++;
++	}
++
++	/*
++	 * Finish initializing those WQE fields that are independent
++	 * of the scsi_cmnd request_buffer
++	 */
++
++	/* Word 6 */
++	bf_set(wqe_ctxt_tag, &wqe->generic.wqe_com,
++	       phba->sli4_hba.rpi_ids[pnode->nlp_rpi]);
++	bf_set(wqe_xri_tag, &wqe->generic.wqe_com, pwqeq->sli4_xritag);
++
++	/* Word 7:  Set erp to 0 for NVME.  */
++	bf_set(wqe_erp, &wqe->generic.wqe_com, 0);
++
++	/* Preserve Class data in the ndlp. */
++	bf_set(wqe_class, &wqe->generic.wqe_com,
++	       (pnode->nlp_fcp_info & 0x0f));
++
++	/* NVME upper layers will time things out, if needed */
++	bf_set(wqe_tmo, &wqe->generic.wqe_com, 0);
++
++	/* Word 8 */
++	wqe->generic.wqe_com.abort_tag = pwqeq->iotag;
++
++	/* Word 9 */
++	bf_set(wqe_reqtag, &wqe->generic.wqe_com, pwqeq->iotag);
++
++	/* Word 11 */
++	bf_set(wqe_cqid, &wqe->generic.wqe_com, LPFC_WQE_CQ_ID_DEFAULT);
++
++	pwqeq->context1 = lpfc_cmd;
++	if (pwqeq->wqe_cmpl == NULL)
++		pwqeq->wqe_cmpl = lpfc_nvme_io_cmd_wqe_cmpl;
++	pwqeq->iocb_cmpl = NULL;
++	pwqeq->vport = vport;
++	pwqeq->iocb_flag |= LPFC_IO_NVME;
++	return 0;
++}
++
++
++/**
++ * lpfc_nvme_prep_io_dma - Issue an NVME-over-FCP IO
++ * @lpfc_pnvme: Pointer to the driver's nvme instance data
++ * @lpfc_nvme_lport: Pointer to the driver's local port data
++ * @lpfc_nvme_rport: Pointer to the rport getting the @lpfc_nvme_ereq
++ * @lpfc_nvme_fcreq: IO request from nvme fc to driver.
++ * @hw_queue_handle: Driver-returned handle in lpfc_nvme_create_hw_queue
++ *
++ * Driver registers this routine as it io request handler.  This
++ * routine issues an fcp WQE with data from the @lpfc_nvme_fcpreq
++ * data structure to the rport indicated in @lpfc_nvme_rport.
++ *
++ * Return value :
++ *   0 - Success
++ *   TODO: What are the failure codes.
++ **/
++static int
++lpfc_nvme_prep_io_dma(struct lpfc_vport *vport,
++		      struct lpfc_scsi_buf *lpfc_cmd)
++{
++	struct lpfc_hba *phba = vport->phba;
++	struct nvmefc_fcp_req *nCmd = lpfc_cmd->nvmeCmd;
++	struct fcp_cmnd *fcp_cmnd = lpfc_cmd->fcp_cmnd;
++	union lpfc_wqe *wqe_cmd = &lpfc_cmd->cur_iocbq.wqe;
++	struct sli4_sge *sgl = (struct sli4_sge *)lpfc_cmd->fcp_bpl;
++	struct scatterlist *data_sg;
++	struct sli4_sge *first_data_sgl;
++	dma_addr_t physaddr;
++	uint32_t num_bde = 0;
++	uint32_t dma_len;
++	uint32_t dma_offset = 0;
++	int nseg, i;
++
++	/* Fix up the command and response DMA stuff. */
++	lpfc_nvme_adj_fcp_sgls(vport, lpfc_cmd, nCmd);
++
++	/*
++	 * There are three possibilities here - use scatter-gather segment, use
++	 * the single mapping, or neither.  Start the lpfc command prep by
++	 * bumping the bpl beyond the fcp_cmnd and fcp_rsp regions to the first
++	 * data bde entry.
++	 */
++	if (nCmd->sg_cnt) {
++		/*
++		 * Jump over the fcp_cmd and fcp_rsp.  The fix routine
++		 * has already adjusted for this.
++		 */
++		sgl += 2;
++
++		first_data_sgl = sgl;
++		lpfc_cmd->seg_cnt = nCmd->sg_cnt;
++		if (lpfc_cmd->seg_cnt > phba->cfg_sg_seg_cnt) {
++			lpfc_printf_log(phba, KERN_ERR, LOG_NVME,
++					"6058 Too many sg segments from "
++					"NVME Transport.  Max %d, "
++					"nvmeIO sg_cnt %d\n",
++					phba->cfg_sg_seg_cnt,
++					lpfc_cmd->seg_cnt);
++			lpfc_cmd->seg_cnt = 0;
++			return 1;
++		}
++
++		/*
++		 * The driver established a maximum scatter-gather segment count
++		 * during probe that limits the number of sg elements in any
++		 * single scsi command.  Just run through the seg_cnt and format
++		 * the sge's.
++		 */
++		nseg = nCmd->sg_cnt;
++		data_sg = nCmd->first_sgl;
++		for (i = 0; i < nseg; i++) {
++			if (data_sg == NULL) {
++				lpfc_printf_log(phba, KERN_ERR, LOG_NVME,
++					"9999 Segment count mismatch: %d "
++					"nvmeIO sg_cnt: %d\n", i, nseg);
++				lpfc_cmd->seg_cnt = 0;
++				return 1;
 +			}
-+			break;
++			physaddr = data_sg->dma_address;
++			dma_len = data_sg->length;
++			sgl->addr_lo = cpu_to_le32(putPaddrLow(physaddr));
++			sgl->addr_hi = cpu_to_le32(putPaddrHigh(physaddr));
++			sgl->word2 = le32_to_cpu(sgl->word2);
++			if ((num_bde + 1) == nseg)
++				bf_set(lpfc_sli4_sge_last, sgl, 1);
++			else
++				bf_set(lpfc_sli4_sge_last, sgl, 0);
++			bf_set(lpfc_sli4_sge_offset, sgl, dma_offset);
++			bf_set(lpfc_sli4_sge_type, sgl, LPFC_SGE_TYPE_DATA);
++			sgl->word2 = cpu_to_le32(sgl->word2);
++			sgl->sge_len = cpu_to_le32(dma_len);
++
++			lpfc_printf_log(phba, KERN_INFO, LOG_NVME | LOG_FCP,
++					"9999 Set DMA seg: addr x%llx, "
++					"len x%x, seg %d of %d\n",
++					physaddr, dma_len, i, nseg);
++			dma_offset += dma_len;
++			data_sg = sg_next(data_sg);
++			sgl++;
++		}
++	} else {
++		/* For this clause to be valid, the payload_length
++		 * and sg_cnt must zero.
++		 */
++		if (nCmd->payload_length != 0) {
++			lpfc_printf_log(phba, KERN_ERR, LOG_NVME | LOG_FCP,
++					"9999 NVME DMA Prep Err: sg_cnt %d "
++					"payload_length x%x\n",
++					nCmd->sg_cnt, nCmd->payload_length);
++			return 1;
 +		}
 +	}
-+	spin_unlock_irqrestore(&nvme_fc_tgtlock, flags);
++
++	/*
++	 * Finish initializing those WQE fields that are dependent on the
++	 * scsi_cmnd request_buffer.
++	 */
++	fcp_cmnd->fcpDl = cpu_to_be32(nCmd->payload_length);
++
++	/*
++	 * Due to difference in data length between DIF/non-DIF paths,
++	 * we need to set word 4 of WQE here
++	 */
++	wqe_cmd->fcp_iread.total_xfer_len = nCmd->payload_length;
++	return 0;
++}
++
++/**
++ * lpfc_nvme_fcp_io_submit - Issue an NVME-over-FCP IO
++ * @lpfc_pnvme: Pointer to the driver's nvme instance data
++ * @lpfc_nvme_lport: Pointer to the driver's local port data
++ * @lpfc_nvme_rport: Pointer to the rport getting the @lpfc_nvme_ereq
++ * @lpfc_nvme_fcreq: IO request from nvme fc to driver.
++ * @hw_queue_handle: Driver-returned handle in lpfc_nvme_create_hw_queue
++ *
++ * Driver registers this routine as it io request handler.  This
++ * routine issues an fcp WQE with data from the @lpfc_nvme_fcpreq
++ * data structure to the rport
++ indicated in @lpfc_nvme_rport.
++ *
++ * Return value :
++ *   0 - Success
++ *   TODO: What are the failure codes.
++ **/
++static int
++lpfc_nvme_fcp_io_submit(struct nvme_fc_local_port *pnvme_lport,
++			struct nvme_fc_remote_port *pnvme_rport,
++			void *hw_queue_handle,
++			struct nvmefc_fcp_req *pnvme_fcreq)
++{
++	int ret = 0;
++	struct lpfc_nvme_lport *lport;
++	struct lpfc_vport *vport;
++	struct lpfc_hba *phba;
++	struct lpfc_nodelist *ndlp;
++	struct lpfc_scsi_buf *lpfc_cmd;
++	struct lpfc_nvme_rport *rport;
++
++	lport = (struct lpfc_nvme_lport *)pnvme_lport->private;
++	rport = (struct lpfc_nvme_rport *)pnvme_rport->private;
++	vport = lport->pnvme->vport;
++	phba = vport->phba;
++
++	/* Announce entry to new IO submit field. */
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
++			 "6002 ENTER.  Issue IO to rport %p, DID x%06x "
++			 "on lport %p Data: %p %p\n",
++			 pnvme_rport, pnvme_rport->port_id, pnvme_lport,
++			 pnvme_fcreq, hw_queue_handle);
++
++	/*
++	 * Catch race where our node has transitioned, but the
++	 * transport is still transitioning.
++	 */
++	ndlp = rport->ndlp;
++	if (!ndlp || !NLP_CHK_NODE_ACT(ndlp)) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NODE | LOG_NVME,
++				 "6053 rport %p, ndlp %p, DID x%06x ndlp not ready.\n",
++				 rport, ndlp, pnvme_rport->port_id);
++
++		ndlp = lpfc_findnode_did(vport, pnvme_rport->port_id);
++		if (!ndlp) {
++			lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++					 "9999 Could not find node for DID %x\n",
++					 pnvme_rport->port_id);
++			ret = -ENODEV;
++			goto out_fail;
++		}
++	}
++
++	/* The remote node has to be ready for IO or it's an error. */
++	if ((ndlp->nlp_state != NLP_STE_MAPPED_NODE) &&
++	    !(ndlp->nlp_type & NLP_NVME_TARGET)) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NODE | LOG_NVME,
++				 "6036 rport %p, DID x%06x not ready for "
++				 "IO. State x%x, Type x%x\n",
++				 rport, pnvme_rport->port_id,
++				 ndlp->nlp_state, ndlp->nlp_type);
++		ret = -ENODEV;
++		goto out_fail;
++
++	}
++
++	/* The node is shared with FCP IO, make sure the IO pending count does
++	 * not exceed the programmed depth.
++	 */
++	if (atomic_read(&ndlp->cmd_pending) >= ndlp->cmd_qdepth) {
++		ret = -EAGAIN;
++		goto out_fail;
++	}
++
++	/* For the prototype, the driver is reusing the lpfc_scsi_buf. */
++	lpfc_cmd = lpfc_get_scsi_buf(phba, ndlp);
++	if (lpfc_cmd == NULL) {
++		lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME | LOG_MISC,
++				 "6065 driver's buffer pool is empty, "
++				 "IO failed\n");
++		ret = -ENOMEM;
++		goto out_fail;
++	}
++
++	/*
++	 * Store the data needed by the driver to issue and complete the IO.
++	 * Do not let the IO hang out forever.  There is no midlayer issuing
++	 * an abort so inform the FW of the maximum IO pending time.
++	 */
++	lpfc_cmd->nvmeCmd = pnvme_fcreq;
++	lpfc_cmd->nrport = rport;
++
++	lpfc_cmd->start_time = jiffies;
++	lpfc_cmd->cur_iocbq.wqe_cmpl = NULL;
++
++	lpfc_nvme_prep_io_cmd(vport, lpfc_cmd, ndlp);
++	ret = lpfc_nvme_prep_io_dma(vport, lpfc_cmd);
++	if (ret) {
++		ret = -ENOMEM;
++		goto out_free_scsi_buf;
++	}
++
++	atomic_inc(&ndlp->cmd_pending);
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_FCP | LOG_NVME,
++			 "9999 Issuing NVME IO to rport %p, "
++			 "DID x%06x on lport %p Data: %p x%llx\n",
++			 pnvme_rport, pnvme_rport->port_id, pnvme_lport,
++			 pnvme_fcreq, (uint64_t) hw_queue_handle);
++
++	ret = lpfc_sli_issue_wqe(phba, LPFC_FCP_RING, &lpfc_cmd->cur_iocbq);
++	if (ret) {
++		atomic_dec(&ndlp->cmd_pending);
++		lpfc_printf_vlog(vport, KERN_INFO, LOG_FCP | LOG_NVME,
++				 "6056 FCP could not issue WQE err %x "
++				 "sid: x%x did: x%x oxid: x%x\n",
++				 ret, vport->fc_myDID, ndlp->nlp_DID,
++				 lpfc_cmd->cur_iocbq.sli4_xritag);
++		ret = -EINVAL;
++		goto out_free_scsi_buf;
++	}
++	return 0;
++
++ out_free_scsi_buf:
++	lpfc_nvme_restore_fcp_sgls(vport, lpfc_cmd);
++	lpfc_release_scsi_buf(phba, lpfc_cmd);
++ out_fail:
 +	return ret;
 +}
 +
++/**
++ * lpfc_nvme_fcp_abort - Issue an NVME-over-FCP ABTS
++ * @lpfc_pnvme: Pointer to the driver's nvme instance data
++ * @lpfc_nvme_lport: Pointer to the driver's local port data
++ * @lpfc_nvme_rport: Pointer to the rport getting the @lpfc_nvme_ereq
++ * @lpfc_nvme_fcreq: IO request from nvme fc to driver.
++ * @hw_queue_handle: Driver-returned handle in lpfc_nvme_create_hw_queue
++ *
++ * Driver registers this routine as it io abort handler.  This
++ * routine issues an fcp WQE with data from the @lpfc_nvme_fcpreq
++ * data structure to the rport
++ indicated in @lpfc_nvme_rport.
++ *
++ * Return value :
++ *   0 - Success
++ *   TODO: What are the failure codes.
++ **/
 +static void
-+nvmet_fc_remove_port(struct nvmet_port *port)
++lpfc_nvme_fcp_abort(struct nvme_fc_local_port *pnvme_lport,
++			struct nvme_fc_remote_port *pnvme_rport,
++			void *hw_queue_handle,
++			struct nvmefc_fcp_req *pnvme_fcreq)
 +{
-+	struct nvmet_fc_tgtport *tgtport = port->priv;
-+	unsigned long flags;
++	struct lpfc_nvme_lport *lport;
++	struct lpfc_vport *vport;
++	struct lpfc_hba *phba;
++	struct lpfc_nodelist *ndlp;
++	struct lpfc_nvme_rport *rport;
 +
-+	spin_lock_irqsave(&nvme_fc_tgtlock, flags);
-+	if (tgtport->port == port)
-+		tgtport->port = NULL;
-+	spin_unlock_irqrestore(&nvme_fc_tgtlock, flags);
-+}
++	lport = (struct lpfc_nvme_lport *)pnvme_lport->private;
++	rport = (struct lpfc_nvme_rport *)pnvme_rport->private;
++	vport = lport->pnvme->vport;
++	phba = vport->phba;
 +
-+static struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops = {
-+	.owner			= THIS_MODULE,
-+	.type			= NVMF_TRTYPE_FC,
-+	.msdbd			= 1,
-+	.add_port		= nvmet_fc_add_port,
-+	.remove_port		= nvmet_fc_remove_port,
-+	.queue_response		= nvmet_fc_fcp_nvme_cmd_done,
-+};
++	/* Announce entry to new IO submit field. */
++	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
++			 "6002 ENTER.  Issue IO to rport %p, DID x%06x "
++			 "on lport %p Data: %p x%llx\n",
++			 pnvme_rport, pnvme_rport->port_id, pnvme_lport,
++			 pnvme_fcreq, (uint64_t) hw_queue_handle);
 +
-+static int __init nvmet_fc_init_module(void)
-+{
-+	/* ensure NVMET_NR_QUEUES is a power of 2 - required for our masks */
-+	if (!is_power_of_2((unsigned long)NVMET_NR_QUEUES)) {
-+		pr_err("%s: NVMET_NR_QUEUES required to be power of 2\n",
-+				__func__);
-+		return(-EINVAL);
++	/*
++	 * Catch race where our node has transitioned, but the
++	 * transport is still transitioning.
++	 */
++	ndlp = rport->ndlp;
++	if (!ndlp || !NLP_CHK_NODE_ACT(ndlp)) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NODE | LOG_NVME,
++				 "6053 rport %p, ndlp %p, DID x%06x ndlp not ready.\n",
++				 rport, ndlp, pnvme_rport->port_id);
++
++		ndlp = lpfc_findnode_did(vport, pnvme_rport->port_id);
++		if (!ndlp) {
++			lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++					 "9999 Could not find node for DID %x\n",
++					 pnvme_rport->port_id);
++			goto out_fail;
++		}
 +	}
 +
-+	return nvmet_register_transport(&nvmet_fc_tgt_fcp_ops);
++	/* The remote node has to be ready for IO or it's an error. */
++	if ((ndlp->nlp_state != NLP_STE_MAPPED_NODE) &&
++	    !(ndlp->nlp_type & NLP_NVME_TARGET)) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NODE | LOG_NVME,
++				 "6036 rport %p, DID x%06x not ready for "
++				 "IO. State x%x, Type x%x\n",
++				 rport, pnvme_rport->port_id,
++				 ndlp->nlp_state, ndlp->nlp_type);
++		goto out_fail;
++
++	}
++
++ out_fail:
++	return;
 +}
 +
-+static void __exit nvmet_fc_exit_module(void)
++/* Declare and initialization an instance of the FC NVME template. */
++static struct nvme_fc_port_template lpfc_nvme_template = {
++	/* initiator-based functions */
++	.create_queue = lpfc_nvme_create_hw_queue,
++	.delete_queue = lpfc_nvme_delete_hw_queue,
++	.ls_req       = lpfc_nvme_ls_req,
++	.fcp_io       = lpfc_nvme_fcp_io_submit,
++	.ls_abort     = lpfc_nvme_ls_abort,
++	.fcp_abort    = lpfc_nvme_fcp_abort,
++
++	/* TBD.  Set max_hw_queues for now.  */
++	.max_hw_queues = 1,	/* LPFC_HBA_IO_CHAN_MAX, */
++	.max_sgl_segments = 16,
++	.max_dif_sgl_segments = 16,
++	.dma_boundary = 0xFFFFFFFF,
++
++	/* Sizes of additional private data for data structures.
++	 * No use for the last two sizes at this time.
++	 */
++	.local_priv_sz = sizeof(struct lpfc_nvme_lport),
++	.remote_priv_sz = sizeof(struct lpfc_nvme_rport),
++	.lsrqst_priv_sz = 0,
++	.fcprqst_priv_sz = 0,
++};
++
++/**
++ * lpfc_create_nvme_lport - Create/Bind an nvme localport instance.
++ * @pvport - the lpfc_vport instance requesting a localport.
++ *
++ * This routine is invoked to create an nvme localport instance to bind
++ * to the nvme_fc_transport.  It is called once during driver load
++ * like lpfc_create_shost after all other services are initialized.
++ * It requires a vport, vpi, and wwns at call time.  Other localport
++ * parameters are modified as the driver's FCID and the Fabric WWN
++ * are established.
++ *
++ * Return codes
++ *      0 - successful
++ *      -ENOMEM - no heap memory available
++ *      other values - from nvme registration upcall
++ **/
++int
++lpfc_create_nvme_lport(struct lpfc_vport *vport)
 +{
-+	nvmet_unregister_transport(&nvmet_fc_tgt_fcp_ops);
++	struct nvme_fc_port_info nfcp_info;
++	struct nvme_fc_local_port *localport;
++	struct lpfc_nvme_lport *lport;
++	struct lpfc_nvme *pnvme = vport->pnvme;
++	int len, ret = 0;
 +
-+	__nvmet_fc_free_tgtports();
++	/* Allocate memory for the NVME instance. */
++	pnvme = kzalloc(sizeof(struct lpfc_nvme), GFP_KERNEL);
++	if (!pnvme) {
++		lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME,
++				 "6003 Failed to allocate nvme struct\n");
++		return -ENOMEM;
++	}
++
++	/* Complete initializing the nvme instance including back pointers. */
++	vport->pnvme = pnvme;
++	pnvme->vport = vport;
++	pnvme->lpfc_nvme_state = LPFC_NVME_INIT;
++	pnvme->lpfc_nvme_conn_state = LPFC_NVME_CONN_NONE;
++	INIT_LIST_HEAD(&pnvme->lport_list);
++
++	/* Initialize this localport instance.  The vport wwn usage ensures
++	 * that NPIV is accounted for.
++	 */
++	memset(&nfcp_info, 0, sizeof(struct nvme_fc_port_info));
++	nfcp_info.port_role = FC_PORT_ROLE_NVME_INITIATOR;
++	nfcp_info.node_name = wwn_to_u64(vport->fc_nodename.u.wwn);
++	nfcp_info.port_name = wwn_to_u64(vport->fc_portname.u.wwn);
++
++	/* localport is allocated from the stack, but the registration
++	 * call allocates heap memory as well as the private area.
++	 */
++	ret = nvme_fc_register_localport(&nfcp_info, &lpfc_nvme_template,
++					 &vport->phba->pcidev->dev, &localport);
++	if (!ret) {
++		lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
++				 "6005 Successfully registered local "
++				 "NVME port num %d, localP %p, lport priv %p\n",
++				 localport->port_num, localport,
++				 localport->private);
++
++		/* Private is our lport size declared in the template. */
++		lport = (struct lpfc_nvme_lport *) localport->private;
++		lport->localport = localport;
++		lport->pnvme = pnvme;
++		INIT_LIST_HEAD(&lport->list);
++		INIT_LIST_HEAD(&lport->rport_list);
++		list_add_tail(&lport->list, &pnvme->lport_list);
++	}
++	len  = lpfc_new_scsi_buf(vport, 32);
++	vport->phba->total_scsi_bufs += len;
++	return ret;
 +}
 +
-+module_init(nvmet_fc_init_module);
-+module_exit(nvmet_fc_exit_module);
++/**
++ * lpfc_destroy_nvme_lport - Destroy lpfc_nvme bound to nvme transport.
++ * @pnvme: pointer to lpfc nvme data structure.
++ *
++ * This routine is invoked to destroy all lports bound to the phba.
++ * The lport memory was allocated by the nvme fc transport and is
++ * released there.  This routine ensures all rports bound to the
++ * lport have been disconnected.
++ *
++ **/
++void
++lpfc_destroy_nvme_lport(struct lpfc_nvme *pnvme)
++{
++	struct lpfc_nvme_lport *lport, *lport_next;
++	int ret;
 +
-+MODULE_LICENSE("GPL v2");
++	lpfc_printf_vlog(pnvme->vport, KERN_INFO, LOG_NVME,
++			 "6007 Destroying NVME lport %p\n",
++			 pnvme);
 +
++	list_for_each_entry_safe(lport, lport_next, &pnvme->lport_list, list) {
++		if (!list_empty(&lport->rport_list)) {
++			lpfc_printf_vlog(pnvme->vport, KERN_ERR, LOG_NVME,
++					 "6008 lport %p rport list not empty.  "
++					 "Fail destroy.\n",
++					 lport);
++			return;
++		}
++		/*
++		 * lport's rport list is clear.  Unregister lport and
++		 * release resources.
++		 */
++		list_del(&lport->list);
++		ret = nvme_fc_unregister_localport(lport->localport);
++		if (ret == 0)
++			lpfc_printf_vlog(pnvme->vport,
++					 KERN_INFO, LOG_NVME,
++					 "6009 Unregistered lport "
++					 "Success\n");
++		else
++			lpfc_printf_vlog(pnvme->vport,
++					 KERN_INFO, LOG_NVME,
++					 "6010 Unregistered lport "
++					 "Failed, status x%x\n",
++					 ret);
++	}
 +
++	/* All lports are unregistered.  Safe to free nvme memory. */
++	kfree(pnvme);
++}
 +
 -- 
 2.5.0
