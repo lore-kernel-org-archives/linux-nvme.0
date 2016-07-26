@@ -1,36 +1,18 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 25 Jul 2016 11:12:53 +0200
-Subject: [PATCH 2/5] nvme-fabrics: Add FC transport LLDD api definitions
-In-Reply-To: <5792b91c.7HwdoM0qFRAjvQId%james.smart@broadcom.com>
-References: <5792b91c.7HwdoM0qFRAjvQId%james.smart@broadcom.com>
-Message-ID: <20160725091253.cq6lpgultbzleyq5@c203.arch.suse.de>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 26 Jul 2016 15:42:39 -0600
+Subject: Bandwidth issues and blktrace debug
+In-Reply-To: <CAD+HZHUXtCU0pYJnhPfUsoG3Lx=yGCDmdV5+rxb+LDC4vqSRQQ@mail.gmail.com>
+References: <CA+-kpaTvU+5vbqk536ajVSxwKSfa+c_4Ks5wv4iaee7UfcOnqA@mail.gmail.com>
+ <CAD+HZHWTf-78rMR9bRZdF_36gMah-RD87NBT-01NqcFLHKNnWQ@mail.gmail.com>
+ <CA+-kpaQ1L0H_dcvqkyrd8d-zOjExE5tXXf88mPA+WpeorsSrDg@mail.gmail.com>
+ <CAD+HZHUXtCU0pYJnhPfUsoG3Lx=yGCDmdV5+rxb+LDC4vqSRQQ@mail.gmail.com>
+Message-ID: <ba521194-84d4-89c7-b16f-25e783446ccf@kernel.dk>
 
-On Fri, Jul 22, 2016@05:23:56PM -0700, James Smart wrote:
-> 
-> nvme-fabrics: Add FC transport LLDD api definitions:
-> 
-> Host:
-> -LLDD registration with the host transport
-> -registering host ports (local ports) and target ports seen on
->    fabric (remote ports)
-> -Data structures and call points for FC-4 LS's and FCP IO requests
-> 
-> Target:
-> -LLDD registration with the target transport
-> -registering nvme subsystem ports (target ports)
-> -Data structures and call points for reception of FC-4 LS's and
->    FCP IO requests, and callbacks to perform data and rsp transfers
->    for the io.
-> 
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
+>>>> 259,1    0    94210     1.353042800  1597  Q   R 410329344 + 1792 [fio]
+>
+> request from 410329344 got requeued.
 
-Acked-by: Johannes Thumshirn <jth at kernel.org>
+No it didn't, that's a Queue event for a Read. It's not a requeue event.
 
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Jens Axboe
