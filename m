@@ -1,62 +1,86 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Thu, 28 Jul 2016 14:36:47 -0700
-Subject: [PATCH] [RESEND] nvme-cli: user-defined hostnqn option for
- discover
-In-Reply-To: <45CF57A8-206F-4353-9386-A0BB8158AB5A@mellanox.com>
-References: <1469736200-6618-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1469736200-6618-2-git-send-email-james_p_freyensee@linux.intel.com>
- <c6c9f9d8-7e02-70da-5972-28f8f9c6550c@mellanox.com>
- <20160728203534.GB2420@localhost.localdomain>
- ,<1469740914.9209.3.camel@linux.intel.com>
- <45CF57A8-206F-4353-9386-A0BB8158AB5A@mellanox.com>
-Message-ID: <1469741807.9209.10.camel@linux.intel.com>
+From: james_p_freyensee@linux.intel.com (Jay Freyensee)
+Date: Thu, 28 Jul 2016 14:47:26 -0700
+Subject: [PATCH v1] nvme-cli: user-defined hostnqn option for discover
+In-Reply-To: <1469742446-13416-1-git-send-email-james_p_freyensee@linux.intel.com>
+References: <1469742446-13416-1-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <1469742446-13416-2-git-send-email-james_p_freyensee@linux.intel.com>
 
-On Thu, 2016-07-28@21:27 +0000, Roy Shterman wrote:
-> Sounds good to me, but what about the short option character?
-> 
-> I think using 'h' as a short option will not work because it is
-> already dedicated for --help parameter.
-> 
+The nvme-cli will always use the default hostnqn
+in /dev/nvme-fabrics  for the discovery query, even though
+both the NVMe Target and NVMe Host rdma implementations allow
+user-defined hostnqn naming.
 
-That is a good point :-/.
+For example, this is the current, somewhat broken behavior if you
+used your own hostnqn provision naming on the NVMe kernel target:
 
-OK, I'll respin my discover patch to use 'q' short option you chose.
-I'll send the patch out shortly.
+nvme discover /dev/nvme-fabrics  -t rdma --traddr=192.168.1.3 --trsvcid=4420
+
+in dmesg:
+[591910.025779] nvme nvme0: Connect Invalid Data Parameter, hostnqn "nqn.2014-08.org.nvmexpress:NVMf:uuid:a2d7752c-a31b-477a-a003-31a5e1c424a9"
+
+New, fixed behavior introduced by this patch:
+
+[root at fedora23-fabrics-host1 nvme-cli]# nvme discover  -t rdma --traddr=192.168.1.3 --trsvcid=4420 --hostnqn=host1-rogue-nqn
+
+Discovery Log Number of Records 1, Generation counter 10
+=====Discovery Log Entry 0======
+trtype:  ipv4
+adrfam:  rdma
+nqntype: 2
+treq:    0
+portid:  1
+trsvcid: 4420
+subnqn:  nullside-nqn
+traddr:  192.168.1.3
+rdma_prtype: 0
+rdma_qptype: 0
+rdma_cms:    0
+rdma_pkey: 0x0000
+[root at fedora23-fabrics-host1 nvme-cli]#
+
+changes since v0:
+  changed short 'h' option to 'q'
+
+Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+---
+ fabrics.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/fabrics.c b/fabrics.c
+index 3666a01..41a80df 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -49,6 +49,7 @@ struct config {
+ 	char *transport;
+ 	char *traddr;
+ 	char *trsvcid;
++	char *hostnqn;
+ 	char *raw;
+ 	char *device;
+ } cfg = { 0 };
+@@ -395,6 +396,14 @@ static int build_options(char *argstr, int max_len)
+ 		max_len -= len;
+ 	}
  
-> I will send my patch later only for connect after Keith will merge
-> discover patch.
-> 
-> Thanks,
-> Roy
-> 
-> ?-29 ????? 2016, ???? 00:22, ??J Freyensee ?<
-> james_p_freyensee at linux.intel.com> ???/?:?
-> 
-> > On Thu, 2016-07-28@16:35 -0400, Keith Busch wrote:
-> > > On Thu, Jul 28, 2016@11:20:15PM +0300, Roy Shterman wrote:
-> > > > Hi Jay,
-> > > > Actually I planned to send the same patch tomorrow,
-> > > > I think we should add user-defined hostnqn parameter into
-> > > > 'connect'
-> > > > command.
-> > > Is it okay to apply this as-is, or should I wait for the patch
-> > > for
-> > > connect?
-> > I think we should break up the patches as one for discover, and one
-> > for
-> > connect.  Each patch can show a usage for each of the commands (one
-> > for
-> > 'discover', one for 'connect'.
-> > 
-> > How about apply my discover patch as-is, then Roy re-submit his
-> > patch
-> > for connect?  And in the connect patch, supply an example usage
-> > (which
-> > I think this will be useful as there is currently no man pages for
-> > these new fabrics commands).
-> > 
-> > 
-> > > _______________________________________________
-> > > Linux-nvme mailing list
-> > > Linux-nvme at lists.infradead.org
-> > > http://lists.infradead.org/mailman/listinfo/linux-nvme
++	if (cfg.hostnqn) {
++		len = snprintf(argstr, max_len, ",hostnqn=%s", cfg.hostnqn);
++		if (len < 0)
++			return -EINVAL;
++		argstr += len;
++		max_len -= len;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -525,6 +534,8 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 			"transport address" },
+ 		{"trsvcid", 's', "LIST", CFG_STRING, &cfg.trsvcid, required_argument,
+ 			"transport service id (e.g. IP port)" },
++		{"hostnqn", 'q', "LIST", CFG_STRING, &cfg.hostnqn, required_argument,
++			"user-defined hostnqn (if default not used)" },
+ 		{"raw", 'r', "LIST", CFG_STRING, &cfg.raw, required_argument,
+ 			"raw output file" },
+ 		{0},
+-- 
+2.4.3
