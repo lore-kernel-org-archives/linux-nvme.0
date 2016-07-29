@@ -1,96 +1,55 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 29 Jul 2016 11:00:54 -0700
-Subject: [PATCH v2 1/2] iw_cxgb4: don't block in destroy_qp awaiting the last
- deref
-In-Reply-To: <cover.1469824577.git.swise@opengridcomputing.com>
-References: <cover.1469824577.git.swise@opengridcomputing.com>
-Message-ID: <874cd79b3e840f9fbabd18d19c64ddbff34c4503.1469824577.git.swise@opengridcomputing.com>
+Date: Fri, 29 Jul 2016 13:36:17 -0700
+Subject: [PATCH v2 0/2] iwarp device removal deadlock fixes
+Message-ID: <cover.1469824577.git.swise@opengridcomputing.com>
 
-Blocking in c4iw_destroy_qp() causes a deadlock when apps destroy a qp
-or disconnect a cm_id from their cm event handler function.  There is
-no need to block here anyway, so just replace the refcnt atomic with a
-kref object and free the memory on the last put.
+This series fixes the deadlock issue discovered while testing nvmf/rdma
+handling rdma device removal events from the rdma_cm.  For a discussion
+of the deadlock that can happen, see
 
-Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+http://lists.infradead.org/pipermail/linux-nvme/2016-July/005440.html.
+
+For my description of the deadlock itself, see this post in the above thread:
+
+http://lists.infradead.org/pipermail/linux-nvme/2016-July/005465.html
+
+In a nutshell, iw_cxgb4 and the iw_cm block during qp/cm_id destruction
+until all references are removed.  This combined with the iwarp CM passing
+disconnect events up to the rdma_cm during disconnect and/or qp/cm_id destruction
+leads to a deadlock.
+
+My proposed solution is to remove the need for iw_cxgb4 and iw_cm to
+block during object destruction for the refnts to reach 0, but rather to
+let the freeing of the object memory be deferred when the last deref is
+done, which is SOP in the much of the linux kernel. This allows all the
+qps/cm_ids to be destroyed without blocking, and all the object memory
+freeing ends up happinging when the application's device_remove event
+handler function returns to the rdma_cm.
+
+This series is needed along with Sagi's fixes from:
+https://www.spinics.net/lists/linux-rdma/msg38715.html
+
+Hey Faisal, it would be great to get some review/test tags from Intel
+on the iw_cm change.  Thanks!
+
+Changes since v1:
+
+- reworded commit text for the iw_cm patch
+
+- added a iw_cm_id flag to drop pending events when the cm_id has
+been marked for destruction.
+
 ---
- drivers/infiniband/hw/cxgb4/iw_cxgb4.h |  2 +-
- drivers/infiniband/hw/cxgb4/qp.c       | 21 ++++++++++++++-------
- 2 files changed, 15 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/infiniband/hw/cxgb4/iw_cxgb4.h b/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
-index f6f34a7..0420c21 100644
---- a/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
-+++ b/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
-@@ -472,7 +472,7 @@ struct c4iw_qp {
- 	struct t4_wq wq;
- 	spinlock_t lock;
- 	struct mutex mutex;
--	atomic_t refcnt;
-+	struct kref kref;
- 	wait_queue_head_t wait;
- 	struct timer_list timer;
- 	int sq_sig_all;
-diff --git a/drivers/infiniband/hw/cxgb4/qp.c b/drivers/infiniband/hw/cxgb4/qp.c
-index 0d461f3..770531a3 100644
---- a/drivers/infiniband/hw/cxgb4/qp.c
-+++ b/drivers/infiniband/hw/cxgb4/qp.c
-@@ -683,17 +683,25 @@ static int build_inv_stag(union t4_wr *wqe, struct ib_send_wr *wr,
- 	return 0;
- }
- 
-+void _free_qp(struct kref *kref)
-+{
-+	struct c4iw_qp *qhp;
-+
-+	qhp = container_of(kref, struct c4iw_qp, kref);
-+	PDBG("%s qhp %p\n", __func__, qhp);
-+	kfree(qhp);
-+}
-+
- void c4iw_qp_add_ref(struct ib_qp *qp)
- {
- 	PDBG("%s ib_qp %p\n", __func__, qp);
--	atomic_inc(&(to_c4iw_qp(qp)->refcnt));
-+	kref_get(&to_c4iw_qp(qp)->kref);
- }
- 
- void c4iw_qp_rem_ref(struct ib_qp *qp)
- {
- 	PDBG("%s ib_qp %p\n", __func__, qp);
--	if (atomic_dec_and_test(&(to_c4iw_qp(qp)->refcnt)))
--		wake_up(&(to_c4iw_qp(qp)->wait));
-+	kref_put(&to_c4iw_qp(qp)->kref, _free_qp);
- }
- 
- static void add_to_fc_list(struct list_head *head, struct list_head *entry)
-@@ -1592,8 +1600,6 @@ int c4iw_destroy_qp(struct ib_qp *ib_qp)
- 	wait_event(qhp->wait, !qhp->ep);
- 
- 	remove_handle(rhp, &rhp->qpidr, qhp->wq.sq.qid);
--	atomic_dec(&qhp->refcnt);
--	wait_event(qhp->wait, !atomic_read(&qhp->refcnt));
- 
- 	spin_lock_irq(&rhp->lock);
- 	if (!list_empty(&qhp->db_fc_entry))
-@@ -1606,8 +1612,9 @@ int c4iw_destroy_qp(struct ib_qp *ib_qp)
- 	destroy_qp(&rhp->rdev, &qhp->wq,
- 		   ucontext ? &ucontext->uctx : &rhp->rdev.uctx);
- 
-+	c4iw_qp_rem_ref(ib_qp);
-+
- 	PDBG("%s ib_qp %p qpid 0x%0x\n", __func__, ib_qp, qhp->wq.sq.qid);
--	kfree(qhp);
- 	return 0;
- }
- 
-@@ -1704,7 +1711,7 @@ struct ib_qp *c4iw_create_qp(struct ib_pd *pd, struct ib_qp_init_attr *attrs,
- 	init_completion(&qhp->rq_drained);
- 	mutex_init(&qhp->mutex);
- 	init_waitqueue_head(&qhp->wait);
--	atomic_set(&qhp->refcnt, 1);
-+	kref_init(&qhp->kref);
- 
- 	ret = insert_handle(rhp, &rhp->qpidr, qhp, qhp->wq.sq.qid);
- 	if (ret)
+Steve Wise (2):
+  iw_cxgb4: don't block in destroy_qp awaiting the last deref
+  iw_cm: free cm_id resources on the last deref
+
+ drivers/infiniband/core/iwcm.c         | 54 +++++++++++-----------------------
+ drivers/infiniband/core/iwcm.h         |  2 +-
+ drivers/infiniband/hw/cxgb4/iw_cxgb4.h |  2 +-
+ drivers/infiniband/hw/cxgb4/qp.c       | 21 ++++++++-----
+ 4 files changed, 33 insertions(+), 46 deletions(-)
+
 -- 
 2.7.0
