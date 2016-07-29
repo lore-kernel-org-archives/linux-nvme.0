@@ -1,22 +1,40 @@
-From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Thu, 28 Jul 2016 14:47:25 -0700
-Subject: [PATCH v1] *** Discovery feature fix in nvme-cli ***
-Message-ID: <1469742446-13416-1-git-send-email-james_p_freyensee@linux.intel.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 28 Jul 2016 17:00:25 -0700
+Subject: [PATCH 1/3] nvme-fabrics: rework nvmf_get_address() for variable
+ options
+Message-ID: <579a9c99.RE/wCYn5/6zl6dPY%james.smart@broadcom.com>
 
-Since the only way to do the discovery feature of NVMe-over-Fabrics
-is through nvme-cli, I thought it will be appropriate to send
-a patch to this email list (if nothing more than to inform and educate).
 
-I'll push this to Keith Busch (the nvme-cli owner).
+Revise nvmf_get_address() string to account for not all options being
+present.
 
-Changes since v0:
-  changed short 'h' option to 'q'.
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fabrics.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-Jay Freyensee (1):
-  nvme-cli: user-defined hostnqn option for discover
-
- fabrics.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index dc99676..2867b92 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -109,8 +109,16 @@ static void nvmf_host_put(struct nvmf_host *host)
+  */
+ int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
+ {
+-	return snprintf(buf, size, "traddr=%s,trsvcid=%s\n",
+-			ctrl->opts->traddr, ctrl->opts->trsvcid);
++	int len = 0;
++
++	if (ctrl->opts->mask & NVMF_OPT_TRADDR)
++		len += snprintf(buf, size, "traddr=%s", ctrl->opts->traddr);
++	if (ctrl->opts->mask & NVMF_OPT_TRSVCID)
++		len += snprintf(buf + len, size - len, "%strsvcid=%s",
++				(len) ? "," : "", ctrl->opts->trsvcid);
++	len += snprintf(buf + len, size - len, "\n");
++
++	return len;
+ }
+ EXPORT_SYMBOL_GPL(nvmf_get_address);
+ 
 -- 
-2.4.3
+2.5.0
