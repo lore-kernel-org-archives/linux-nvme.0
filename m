@@ -1,14 +1,15 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 29 Jul 2016 10:54:18 +0200
-Subject: [PATCH 2/3] nvme-fabrics: revise host transport option
- descriptions
-In-Reply-To: <579a9c9a.hlvHI7SZaXIxRR5X%james.smart@broadcom.com>
-References: <579a9c9a.hlvHI7SZaXIxRR5X%james.smart@broadcom.com>
-Message-ID: <20160729085418.s7p77m63sqcfisz7@c203.arch.suse.de>
+Date: Fri, 29 Jul 2016 10:55:10 +0200
+Subject: [PATCH 3/3] nvme-fabrics: Add host_traddr options field to host
+ infrastructure
+In-Reply-To: <579a9c9b.pfetMBhIGNhCI9uD%james.smart@broadcom.com>
+References: <579a9c9b.pfetMBhIGNhCI9uD%james.smart@broadcom.com>
+Message-ID: <20160729085510.2jlunyo42jvhysju@c203.arch.suse.de>
 
-On Thu, Jul 28, 2016@05:00:26PM -0700, James Smart wrote:
+On Thu, Jul 28, 2016@05:00:27PM -0700, James Smart wrote:
 > 
-> Revise some of the comments so not so ethernet-network centric
+> Add the host_traddr field to allow specification of the host-port
+> connection info for the transport. Will be used by FC transport.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 
