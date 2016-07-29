@@ -1,93 +1,96 @@
-From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Fri, 29 Jul 2016 13:38:39 -0700
-Subject: [PATCH v2] nvme-cli: user-defined hostnqn option for discover
-In-Reply-To: <1469824719-7378-1-git-send-email-james_p_freyensee@linux.intel.com>
-References: <1469824719-7378-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <1469824719-7378-2-git-send-email-james_p_freyensee@linux.intel.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Fri, 29 Jul 2016 11:00:54 -0700
+Subject: [PATCH v2 1/2] iw_cxgb4: don't block in destroy_qp awaiting the last
+ deref
+In-Reply-To: <cover.1469824577.git.swise@opengridcomputing.com>
+References: <cover.1469824577.git.swise@opengridcomputing.com>
+Message-ID: <874cd79b3e840f9fbabd18d19c64ddbff34c4503.1469824577.git.swise@opengridcomputing.com>
 
-The nvme-cli will always use the default hostnqn
-in /dev/nvme-fabrics  for the discovery query, even though
-both the NVMe Target and NVMe Host rdma implementations allow
-user-defined hostnqn naming.
+Blocking in c4iw_destroy_qp() causes a deadlock when apps destroy a qp
+or disconnect a cm_id from their cm event handler function.  There is
+no need to block here anyway, so just replace the refcnt atomic with a
+kref object and free the memory on the last put.
 
-For example, this is the current, somewhat broken behavior if you
-used your own hostnqn provision naming on the NVMe kernel target:
-
-nvme discover /dev/nvme-fabrics  -t rdma --traddr=192.168.1.3 --trsvcid=4420
-
-in dmesg:
-[591910.025779] nvme nvme0: Connect Invalid Data Parameter, hostnqn "nqn.2014-08.org.nvmexpress:NVMf:uuid:a2d7752c-a31b-477a-a003-31a5e1c424a9"
-
-New, fixed behavior introduced by this patch:
-
-[root at fedora23-fabrics-host1 nvme-cli]# nvme discover  -t rdma --traddr=192.168.1.3 --trsvcid=4420 --hostnqn=host1-rogue-nqn
-
-Discovery Log Number of Records 1, Generation counter 10
-=====Discovery Log Entry 0======
-trtype:  ipv4
-adrfam:  rdma
-nqntype: 2
-treq:    0
-portid:  1
-trsvcid: 4420
-subnqn:  nullside-nqn
-traddr:  192.168.1.3
-rdma_prtype: 0
-rdma_qptype: 0
-rdma_cms:    0
-rdma_pkey: 0x0000
-[root at fedora23-fabrics-host1 nvme-cli]#
-
-
-Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-Signed-off-by: Roy Shterman <roysh at mellanox.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
+ drivers/infiniband/hw/cxgb4/iw_cxgb4.h |  2 +-
+ drivers/infiniband/hw/cxgb4/qp.c       | 21 ++++++++++++++-------
+ 2 files changed, 15 insertions(+), 8 deletions(-)
 
-changes since v1:
-  tags, patch formatting, no functionality change
-
-changes since v0:
-  changed short 'h' option to 'q'
-
- fabrics.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/fabrics.c b/fabrics.c
-index 3666a01..41a80df 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -49,6 +49,7 @@ struct config {
- 	char *transport;
- 	char *traddr;
- 	char *trsvcid;
-+	char *hostnqn;
- 	char *raw;
- 	char *device;
- } cfg = { 0 };
-@@ -395,6 +396,14 @@ static int build_options(char *argstr, int max_len)
- 		max_len -= len;
- 	}
- 
-+	if (cfg.hostnqn) {
-+		len = snprintf(argstr, max_len, ",hostnqn=%s", cfg.hostnqn);
-+		if (len < 0)
-+			return -EINVAL;
-+		argstr += len;
-+		max_len -= len;
-+	}
-+
+diff --git a/drivers/infiniband/hw/cxgb4/iw_cxgb4.h b/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
+index f6f34a7..0420c21 100644
+--- a/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
++++ b/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
+@@ -472,7 +472,7 @@ struct c4iw_qp {
+ 	struct t4_wq wq;
+ 	spinlock_t lock;
+ 	struct mutex mutex;
+-	atomic_t refcnt;
++	struct kref kref;
+ 	wait_queue_head_t wait;
+ 	struct timer_list timer;
+ 	int sq_sig_all;
+diff --git a/drivers/infiniband/hw/cxgb4/qp.c b/drivers/infiniband/hw/cxgb4/qp.c
+index 0d461f3..770531a3 100644
+--- a/drivers/infiniband/hw/cxgb4/qp.c
++++ b/drivers/infiniband/hw/cxgb4/qp.c
+@@ -683,17 +683,25 @@ static int build_inv_stag(union t4_wr *wqe, struct ib_send_wr *wr,
  	return 0;
  }
  
-@@ -525,6 +534,8 @@ int discover(const char *desc, int argc, char **argv, bool connect)
- 			"transport address" },
- 		{"trsvcid", 's', "LIST", CFG_STRING, &cfg.trsvcid, required_argument,
- 			"transport service id (e.g. IP port)" },
-+		{"hostnqn", 'q', "LIST", CFG_STRING, &cfg.hostnqn, required_argument,
-+			"user-defined hostnqn (if default not used)" },
- 		{"raw", 'r', "LIST", CFG_STRING, &cfg.raw, required_argument,
- 			"raw output file" },
- 		{0},
++void _free_qp(struct kref *kref)
++{
++	struct c4iw_qp *qhp;
++
++	qhp = container_of(kref, struct c4iw_qp, kref);
++	PDBG("%s qhp %p\n", __func__, qhp);
++	kfree(qhp);
++}
++
+ void c4iw_qp_add_ref(struct ib_qp *qp)
+ {
+ 	PDBG("%s ib_qp %p\n", __func__, qp);
+-	atomic_inc(&(to_c4iw_qp(qp)->refcnt));
++	kref_get(&to_c4iw_qp(qp)->kref);
+ }
+ 
+ void c4iw_qp_rem_ref(struct ib_qp *qp)
+ {
+ 	PDBG("%s ib_qp %p\n", __func__, qp);
+-	if (atomic_dec_and_test(&(to_c4iw_qp(qp)->refcnt)))
+-		wake_up(&(to_c4iw_qp(qp)->wait));
++	kref_put(&to_c4iw_qp(qp)->kref, _free_qp);
+ }
+ 
+ static void add_to_fc_list(struct list_head *head, struct list_head *entry)
+@@ -1592,8 +1600,6 @@ int c4iw_destroy_qp(struct ib_qp *ib_qp)
+ 	wait_event(qhp->wait, !qhp->ep);
+ 
+ 	remove_handle(rhp, &rhp->qpidr, qhp->wq.sq.qid);
+-	atomic_dec(&qhp->refcnt);
+-	wait_event(qhp->wait, !atomic_read(&qhp->refcnt));
+ 
+ 	spin_lock_irq(&rhp->lock);
+ 	if (!list_empty(&qhp->db_fc_entry))
+@@ -1606,8 +1612,9 @@ int c4iw_destroy_qp(struct ib_qp *ib_qp)
+ 	destroy_qp(&rhp->rdev, &qhp->wq,
+ 		   ucontext ? &ucontext->uctx : &rhp->rdev.uctx);
+ 
++	c4iw_qp_rem_ref(ib_qp);
++
+ 	PDBG("%s ib_qp %p qpid 0x%0x\n", __func__, ib_qp, qhp->wq.sq.qid);
+-	kfree(qhp);
+ 	return 0;
+ }
+ 
+@@ -1704,7 +1711,7 @@ struct ib_qp *c4iw_create_qp(struct ib_pd *pd, struct ib_qp_init_attr *attrs,
+ 	init_completion(&qhp->rq_drained);
+ 	mutex_init(&qhp->mutex);
+ 	init_waitqueue_head(&qhp->wait);
+-	atomic_set(&qhp->refcnt, 1);
++	kref_init(&qhp->kref);
+ 
+ 	ret = insert_handle(rhp, &rhp->qpidr, qhp, qhp->wq.sq.qid);
+ 	if (ret)
 -- 
-2.4.3
+2.7.0
