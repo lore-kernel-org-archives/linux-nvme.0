@@ -1,83 +1,113 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 29 Jul 2016 08:43:50 -0600
-Subject: [PATCH] blk-mq: Allow timeouts to run while queue is freezing
-In-Reply-To: <1469767356-25193-1-git-send-email-krisman@linux.vnet.ibm.com>
-References: <1469767356-25193-1-git-send-email-krisman@linux.vnet.ibm.com>
-Message-ID: <81fa2a75-1da8-aeb6-dcce-3ae245810234@kernel.dk>
+From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
+Date: Fri, 29 Jul 2016 14:15:57 -0300
+Subject: [PATCH] nvme: Suspend all queues before deletion
+Message-ID: <1469812557-9809-1-git-send-email-krisman@linux.vnet.ibm.com>
 
-On 07/28/2016 10:42 PM, Gabriel Krisman Bertazi wrote:
-> In case a submited request gets stuck for some reason, the block layer
-> can prevent the request starvation by starting the scheduled timeout work.
-> If this stuck request occurs at the same time another thread has started
-> a queue freeze, the blk_mq_timeout_work will not be able to acquire the
-> queue reference and will return silently, thus not issuing the timeout.
-> But since the request is already holding a q_usage_counter reference and
-> is unable to complete, it will never release its reference, preventing
-> the queue from completing the freeze started by first thread.  This puts
-> the request_queue in a hung state, forever waiting for the freeze
-> completion.
->
-> This was observed while running IO to a NVMe device at the same time we
-> toggled the CPU hotplug code. Eventually, once a request got stuck
-> requiring a timeout during a queue freeze, we saw the CPU Hotplug
-> notification code get stuck inside blk_mq_freeze_queue_wait, as shown in
-> the trace below.
->
-> [c000000deaf13690] [c000000deaf13738] 0xc000000deaf13738 (unreliable)
-> [c000000deaf13860] [c000000000015ce8] __switch_to+0x1f8/0x350
-> [c000000deaf138b0] [c000000000ade0e4] __schedule+0x314/0x990
-> [c000000deaf13940] [c000000000ade7a8] schedule+0x48/0xc0
-> [c000000deaf13970] [c0000000005492a4] blk_mq_freeze_queue_wait+0x74/0x110
-> [c000000deaf139e0] [c00000000054b6a8] blk_mq_queue_reinit_notify+0x1a8/0x2e0
-> [c000000deaf13a40] [c0000000000e7878] notifier_call_chain+0x98/0x100
-> [c000000deaf13a90] [c0000000000b8e08] cpu_notify_nofail+0x48/0xa0
-> [c000000deaf13ac0] [c0000000000b92f0] _cpu_down+0x2a0/0x400
-> [c000000deaf13b90] [c0000000000b94a8] cpu_down+0x58/0xa0
-> [c000000deaf13bc0] [c0000000006d5dcc] cpu_subsys_offline+0x2c/0x50
-> [c000000deaf13bf0] [c0000000006cd244] device_offline+0x104/0x140
-> [c000000deaf13c30] [c0000000006cd40c] online_store+0x6c/0xc0
-> [c000000deaf13c80] [c0000000006c8c78] dev_attr_store+0x68/0xa0
-> [c000000deaf13cc0] [c0000000003974d0] sysfs_kf_write+0x80/0xb0
-> [c000000deaf13d00] [c0000000003963e8] kernfs_fop_write+0x188/0x200
-> [c000000deaf13d50] [c0000000002e0f6c] __vfs_write+0x6c/0xe0
-> [c000000deaf13d90] [c0000000002e1ca0] vfs_write+0xc0/0x230
-> [c000000deaf13de0] [c0000000002e2cdc] SyS_write+0x6c/0x110
-> [c000000deaf13e30] [c000000000009204] system_call+0x38/0xb4
->
-> The fix is to allow the timeout work to execute in the window between
-> dropping the initial refcount reference and the release of the last
-> reference, which actually marks the freeze completion.  This can be
-> achieved with percpu_refcount_tryget, which does not require the counter
-> to be alive.  This way the timeout work can do it's job and terminate a
-> stuck request even during a freeze, returning its reference and avoiding
-> the deadlock.
->
-> Allowing the timeout to run is just a part of the fix, since for some
-> devices, we might get stuck again inside the device driver's timeout
-> handler, should it attempt to allocate a new request in that path -
-> which is a quite common action for Abort commands, which need to be sent
-> after a timeout.  In NVMe, for instance, we call blk_mq_alloc_request
-> from inside the timeout handler, which will fail during a freeze, since
-> it also tries to acquire a queue reference.
->
-> I considered a similar change to blk_mq_alloc_request as a generic
-> solution for further device driver hangs, but we can't do that, since it
-> would allow new requests to disturb the freeze process.  I thought about
-> creating a new function in the block layer to support unfreezable
-> requests for these occasions, but after working on it for a while, I
-> feel like this should be handled in a per-driver basis.  I'm now
-> experimenting with changes to the NVMe timeout path, but I'm open to
-> suggestions of ways to make this generic.
+When nvme_delete_queue fails in the first pass of the
+nvme_disable_io_queues() loop, we return early, failing to suspend all
+of the IO queues.  Later, on the nvme_pci_disable path, this causes us
+to disable MSI without actually having freed all the IRQs, which
+triggers the BUG_ON in free_msi_irqs(), as show below.
 
-I can see that is an issue. Did you consider the case where 
-blk_mq_timeout_work() is entered, but we don't have any requests 
-allocated that currently hold a reference? This could happen if 
-completion races with a timeout.
+This patch refactors nvme_disable_io_queues to suspend all queues before
+start submitting delete queue commands.  This way, we ensure that we
+have at least returned every IRQ before continuing with the removal
+path.
 
-In any case, this warrants a big comment explaining why it's open coded. 
-Or, better yet, have an internal __blk_queue_enter() or something that 
-at least shows it's related, and with a comment on why it's different 
-and where it's allowed to be used.
+[  487.529200] kernel BUG at ../drivers/pci/msi.c:368!
+cpu 0x46: Vector: 700 (Program Check) at [c0000078c5b83650]
+    pc: c000000000627a50: free_msi_irqs+0x90/0x200
+    lr: c000000000627a40: free_msi_irqs+0x80/0x200
+    sp: c0000078c5b838d0
+   msr: 9000000100029033
+  current = 0xc0000078c5b40000
+  paca    = 0xc000000002bd7600   softe: 0        irq_happened: 0x01
+    pid   = 1376, comm = kworker/70:1H
+kernel BUG at ../drivers/pci/msi.c:368!
+Linux version 4.7.0.mainline+ (root at iod76) (gcc version 5.3.1 20160413
+(Ubuntu/IBM 5.3.1-14ubuntu2.1) ) #104 SMP Fri Jul 29 09:20:17 CDT 2016
+enter ? for help
+[c0000078c5b83920] d0000000363b0cd8 nvme_dev_disable+0x208/0x4f0 [nvme]
+[c0000078c5b83a10] d0000000363b12a4 nvme_timeout+0xe4/0x250 [nvme]
+[c0000078c5b83ad0] c0000000005690e4 blk_mq_rq_timed_out+0x64/0x110
+[c0000078c5b83b40] c00000000056c930 bt_for_each+0x160/0x170
+[c0000078c5b83bb0] c00000000056d928 blk_mq_queue_tag_busy_iter+0x78/0x110
+[c0000078c5b83c00] c0000000005675d8 blk_mq_timeout_work+0xd8/0x1b0
+[c0000078c5b83c50] c0000000000e8cf0 process_one_work+0x1e0/0x590
+[c0000078c5b83ce0] c0000000000e9148 worker_thread+0xa8/0x660
+[c0000078c5b83d80] c0000000000f2090 kthread+0x110/0x130
+[c0000078c5b83e30] c0000000000095f0 ret_from_kernel_thread+0x5c/0x6c
 
+Signed-off-by: Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com>
+Cc: Brian King <brking at linux.vnet.ibm.com>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: linux-nvme at lists.infradead.org
+---
+ drivers/nvme/host/pci.c | 48 +++++++++++++++++++++++++-----------------------
+ 1 file changed, 25 insertions(+), 23 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4cb9b15..c4e8cc1 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1533,33 +1533,35 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+ 
+ static void nvme_disable_io_queues(struct nvme_dev *dev)
+ {
+-	int pass, queues = dev->online_queues - 1;
++	int i, queues = dev->online_queues - 1;
+ 	unsigned long timeout;
+-	u8 opcode = nvme_admin_delete_sq;
++	int sent = 0;
+ 
+-	for (pass = 0; pass < 2; pass++) {
+-		int sent = 0, i = queues;
++	reinit_completion(&dev->ioq_wait);
++	for (i = queues; i > 0; i--)
++		nvme_suspend_queue(dev->queues[i]);
+ 
+-		reinit_completion(&dev->ioq_wait);
+- retry:
+-		timeout = ADMIN_TIMEOUT;
+-		for (; i > 0; i--) {
+-			struct nvme_queue *nvmeq = dev->queues[i];
++	for (i = queues; i > 0; i--) {
++retry_sq:
++		if (nvme_delete_queue(dev->queues[i], nvme_admin_delete_sq))
++			break;
++		sent++;
++retry_cq:
++		if (nvme_delete_queue(dev->queues[i], nvme_admin_delete_cq))
++			break;
++		sent++;
++	}
+ 
+-			if (!pass)
+-				nvme_suspend_queue(nvmeq);
+-			if (nvme_delete_queue(nvmeq, opcode))
+-				break;
+-			++sent;
+-		}
+-		while (sent--) {
+-			timeout = wait_for_completion_io_timeout(&dev->ioq_wait, timeout);
+-			if (timeout == 0)
+-				return;
+-			if (i)
+-				goto retry;
+-		}
+-		opcode = nvme_admin_delete_cq;
++	timeout = ADMIN_TIMEOUT;
++	while (sent--) {
++		timeout = wait_for_completion_io_timeout(&dev->ioq_wait,
++							 timeout);
++		if (timeout == 0)
++			break;
++		if (i && i % 2 == 0)
++			goto retry_sq;
++		else if (i)
++			goto retry_cq;
+ 	}
+ }
+ 
 -- 
-Jens Axboe
+2.7.4
