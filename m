@@ -1,15 +1,14 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 29 Jul 2016 10:53:44 +0200
-Subject: [PATCH 1/3] nvme-fabrics: rework nvmf_get_address() for variable
- options
-In-Reply-To: <579a9c99.RE/wCYn5/6zl6dPY%james.smart@broadcom.com>
-References: <579a9c99.RE/wCYn5/6zl6dPY%james.smart@broadcom.com>
-Message-ID: <20160729085344.gn5znmczwyxqauum@c203.arch.suse.de>
+Date: Fri, 29 Jul 2016 10:54:18 +0200
+Subject: [PATCH 2/3] nvme-fabrics: revise host transport option
+ descriptions
+In-Reply-To: <579a9c9a.hlvHI7SZaXIxRR5X%james.smart@broadcom.com>
+References: <579a9c9a.hlvHI7SZaXIxRR5X%james.smart@broadcom.com>
+Message-ID: <20160729085418.s7p77m63sqcfisz7@c203.arch.suse.de>
 
-On Thu, Jul 28, 2016@05:00:25PM -0700, James Smart wrote:
+On Thu, Jul 28, 2016@05:00:26PM -0700, James Smart wrote:
 > 
-> Revise nvmf_get_address() string to account for not all options being
-> present.
+> Revise some of the comments so not so ethernet-network centric
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 
