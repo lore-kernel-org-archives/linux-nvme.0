@@ -1,24 +1,51 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 29 Jul 2016 10:55:10 +0200
-Subject: [PATCH 3/3] nvme-fabrics: Add host_traddr options field to host
- infrastructure
-In-Reply-To: <579a9c9b.pfetMBhIGNhCI9uD%james.smart@broadcom.com>
-References: <579a9c9b.pfetMBhIGNhCI9uD%james.smart@broadcom.com>
-Message-ID: <20160729085510.2jlunyo42jvhysju@c203.arch.suse.de>
+From: robert.r.randall@gmail.com (Robert Randall)
+Date: Fri, 29 Jul 2016 07:33:46 -0500
+Subject: any udev rules for nvme devices - hosts don't always get the correct
+ namespace(s)
+Message-ID: <CAEqzOjuBERv8Vahh0k-_CAkmWvOpwKqySHZxjL+3z6Ma5hKGfQ@mail.gmail.com>
 
-On Thu, Jul 28, 2016@05:00:27PM -0700, James Smart wrote:
-> 
-> Add the host_traddr field to allow specification of the host-port
-> connection info for the transport. Will be used by FC transport.
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
+I'm working with a server with 4 NVMe SSDs which tend to be swapped
+out from time to time.  I noticed that I can't find any udev rules for
+uniquely identifying nvme devices.  Are they out there somewhere
+already?  If so, in which repository or package?
 
-Acked-by: Johannes Thumshirn <jth at kernel.org>
+This is the typical problem of providing a guaranteed mapping of
+device to device node so that NVMeOF hosts are guaranteed to always
+connect to the correct device.
+
+For example, from a json file used with nvmetcli:
+
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/nvme0n1"
+          },
+          "enable": 1,
+          "nsid": 1
+        },
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/nvme1n1"
+          },
+          "enable": 1,
+          "nsid": 2
+        }
+      ],
+      "nqn": "zuul_win"
+
+The "path" above is not a guarantee that the correct device will
+always be mapped to the expected namespace.  The device nodes will
+change when cards are add / removed / moved in the system from one bus
+slot to another.
+
+Happy to dig in and write some if you can point me to the official
+rules to follow for creating a udev rules package.  I've not created
+one for many years.
+
+Best regards,
+Robert
 
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Robert Randall | robert.r.randall at gmail.com
