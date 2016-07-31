@@ -1,7 +1,7 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 31 Jul 2016 14:44:23 +0300
-Subject: [PATCH] nvmet-rdma: Correctly handle RDMA device hot removal
-Message-ID: <1469965463-30592-1-git-send-email-sagi@grimberg.me>
+Date: Sun, 31 Jul 2016 14:49:36 +0300
+Subject: [PATCH v2] nvmet-rdma: Correctly handle RDMA device hot removal
+Message-ID: <1469965776-31210-1-git-send-email-sagi@grimberg.me>
 
 When configuring a device attached listener, we may
 see device removal events. In this case we return a
@@ -21,14 +21,14 @@ Introduce nvmet_rdma_device_removal which addresses
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
-Steve, would love if you can test iwarp devices with
-this patch. Some selftests patches will follow.
+Changes from v1:
+- Fixed some typos resulting of uncommited code conflicts of an old patch.
 
  drivers/nvme/target/rdma.c | 87 +++++++++++++++++++++++++++++++++++++---------
  1 file changed, 71 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 347cc6d37dad..18af0cb4ebfe 100644
+index 347cc6d37dad..6a309f6b0bd9 100644
 --- a/drivers/nvme/target/rdma.c
 +++ b/drivers/nvme/target/rdma.c
 @@ -77,6 +77,7 @@ enum nvmet_rdma_queue_state {
@@ -91,7 +91,7 @@ index 347cc6d37dad..18af0cb4ebfe 100644
 + * we nullify the priv to prevent double cm_id destruction and destroying
 + * the cm_id implicitely by returning a non-zero rc to the callout.
 + */
-+static int nvmet_rdma_device_removal(struct nvmet_addr *addr,
++static int nvmet_rdma_device_removal(struct nvmet_port *port,
 +			struct nvmet_rdma_queue *queue)
 +{
 +	unsigned long flags;
@@ -102,7 +102,7 @@ index 347cc6d37dad..18af0cb4ebfe 100644
 +		 * future remove_port won't invoke a double
 +		 * cm_id destroy.
 +		 */
-+		addr->priv = NULL;
++		port->priv = NULL;
 +	} else {
 +		/*
 +		 * This is a queue cm_id. Make sure that
@@ -128,7 +128,7 @@ index 347cc6d37dad..18af0cb4ebfe 100644
  static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
  		struct rdma_cm_event *event)
  {
-+	struct nvmet_addr *addr = cm_id->context;
++	struct nvmet_port *port = cm_id->context;
  	struct nvmet_rdma_queue *queue = NULL;
  	int ret = 0;
  
@@ -153,7 +153,7 @@ index 347cc6d37dad..18af0cb4ebfe 100644
 +		nvmet_rdma_queue_disconnect(queue);
 +		break;
 +	case RDMA_CM_EVENT_DEVICE_REMOVAL:
-+		ret = nvmet_rdma_device_removal(addr, queue);
++		ret = nvmet_rdma_device_removal(port, queue);
  		break;
  	case RDMA_CM_EVENT_REJECTED:
  	case RDMA_CM_EVENT_UNREACHABLE:
