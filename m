@@ -1,7 +1,7 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 31 Jul 2016 14:49:36 +0300
-Subject: [PATCH v2] nvmet-rdma: Correctly handle RDMA device hot removal
-Message-ID: <1469965776-31210-1-git-send-email-sagi@grimberg.me>
+Date: Sun, 31 Jul 2016 15:15:47 +0300
+Subject: [PATCH v3] nvmet-rdma: Correctly handle RDMA device hot removal
+Message-ID: <1469967347-20466-1-git-send-email-sagi@grimberg.me>
 
 When configuring a device attached listener, we may
 see device removal events. In this case we return a
@@ -21,14 +21,20 @@ Introduce nvmet_rdma_device_removal which addresses
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
+Sorry for the write amp :)
+
+Changes from v2:
+- Fixed (an old) review comment from hch,
+  remove redundant locking around the queue state.
+
 Changes from v1:
 - Fixed some typos resulting of uncommited code conflicts of an old patch.
 
- drivers/nvme/target/rdma.c | 87 +++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 71 insertions(+), 16 deletions(-)
+ drivers/nvme/target/rdma.c | 82 +++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 66 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 347cc6d37dad..6a309f6b0bd9 100644
+index 347cc6d37dad..220f3152328d 100644
 --- a/drivers/nvme/target/rdma.c
 +++ b/drivers/nvme/target/rdma.c
 @@ -77,6 +77,7 @@ enum nvmet_rdma_queue_state {
@@ -39,26 +45,19 @@ index 347cc6d37dad..6a309f6b0bd9 100644
  };
  
  struct nvmet_rdma_queue {
-@@ -977,9 +978,17 @@ static void nvmet_rdma_release_queue_work(struct work_struct *w)
- 		container_of(w, struct nvmet_rdma_queue, release_work);
- 	struct rdma_cm_id *cm_id = queue->cm_id;
+@@ -979,7 +980,10 @@ static void nvmet_rdma_release_queue_work(struct work_struct *w)
  	struct nvmet_rdma_device *dev = queue->dev;
-+	bool device_removal;
-+	unsigned long flags;
  
  	nvmet_rdma_free_queue(queue);
 -	rdma_destroy_id(cm_id);
 +
-+	spin_lock_irqsave(&queue->state_lock, flags);
-+	device_removal = queue->state == NVMET_RDMA_IN_DEVICE_REMOVAL;
-+	spin_unlock_irqrestore(&queue->state_lock, flags);
-+	if (!device_removal)
++	if (queue->state != NVMET_RDMA_IN_DEVICE_REMOVAL)
 +		rdma_destroy_id(cm_id);
 +
  	kref_put(&dev->ref, nvmet_rdma_free_dev);
  }
  
-@@ -1228,8 +1237,9 @@ static void __nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
+@@ -1228,8 +1232,9 @@ static void __nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
  	switch (queue->state) {
  	case NVMET_RDMA_Q_CONNECTING:
  	case NVMET_RDMA_Q_LIVE:
@@ -69,7 +68,7 @@ index 347cc6d37dad..6a309f6b0bd9 100644
  		break;
  	case NVMET_RDMA_Q_DISCONNECTING:
  		break;
-@@ -1267,9 +1277,62 @@ static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
+@@ -1267,9 +1272,62 @@ static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
  	schedule_work(&queue->release_work);
  }
  
@@ -132,7 +131,7 @@ index 347cc6d37dad..6a309f6b0bd9 100644
  	struct nvmet_rdma_queue *queue = NULL;
  	int ret = 0;
  
-@@ -1289,20 +1352,11 @@ static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
+@@ -1289,20 +1347,11 @@ static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
  		break;
  	case RDMA_CM_EVENT_ADDR_CHANGE:
  	case RDMA_CM_EVENT_DISCONNECTED:
@@ -157,7 +156,7 @@ index 347cc6d37dad..6a309f6b0bd9 100644
  		break;
  	case RDMA_CM_EVENT_REJECTED:
  	case RDMA_CM_EVENT_UNREACHABLE:
-@@ -1442,7 +1496,8 @@ static void nvmet_rdma_remove_port(struct nvmet_port *port)
+@@ -1442,7 +1491,8 @@ static void nvmet_rdma_remove_port(struct nvmet_port *port)
  {
  	struct rdma_cm_id *cm_id = port->priv;
  
