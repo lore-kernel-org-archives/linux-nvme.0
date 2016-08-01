@@ -1,19 +1,20 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 1 Aug 2016 13:06:58 +0200
-Subject: nvmf/rdma host crash during heavy load and keep alive recovery
-In-Reply-To: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
-References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
-Message-ID: <20160801110658.GF16141@lst.de>
+Date: Mon, 1 Aug 2016 13:07:44 +0200
+Subject: [PATCH 1/2] nvme-rdma: Don't leak uninitialized memory in
+ connect request private data
+In-Reply-To: <1469950060-18098-1-git-send-email-roland@kernel.org>
+References: <1469950060-18098-1-git-send-email-roland@kernel.org>
+Message-ID: <20160801110744.GG16141@lst.de>
 
-On Fri, Jul 29, 2016@04:40:40PM -0500, Steve Wise wrote:
-> Running many fio jobs on 10 NVMF/RDMA ram disks, and bringing down and back up
-> the interfaces in a loop uncovers this crash.  I'm not sure if this has been
-> reported/fixed?  I'm using the for-linus branch of linux-block + sagi's 5
-> patches on the host.  
+On Sun, Jul 31, 2016@12:27:39AM -0700, Roland Dreier wrote:
+> From: Roland Dreier <roland at purestorage.com>
 > 
-> What this test tickles is keep-alive recovery in the presence of heavy
-> raw/direct IO.  Before the crash there are logs of these logged, which is
-> probably expected:
+> Zero out the full nvme_rdma_cm_req structure before sending it.
+> Otherwise we end up leaking kernel memory in the reserved field, which
+> might break forward compatibility in the future.
+> 
+> Signed-off-by: Roland Dreier <roland at purestorage.com>
 
-With what fixes does this happen?  This looks pretty similar to an
-issue you reported before.
+Looks fine,
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
