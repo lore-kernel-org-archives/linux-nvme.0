@@ -1,42 +1,41 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 01 Aug 2016 14:32:59 -0700
-Subject: [PATCH v2] nvme-cli: user-defined hostnqn option for discover
-In-Reply-To: <20160801111859.GA28246@infradead.org>
-References: <1469824719-7378-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1469824719-7378-2-git-send-email-james_p_freyensee@linux.intel.com>
- <20160801111859.GA28246@infradead.org>
-Message-ID: <1470087179.6134.51.camel@linux.intel.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 1 Aug 2016 16:38:31 -0500
+Subject: nvmf/rdma host crash during heavy load and keep alive recovery
+In-Reply-To: <008801d1ec00$a0bcfbf0$e236f3d0$@opengridcomputing.com>
+References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
+ <20160801110658.GF16141@lst.de>
+ <008801d1ec00$a0bcfbf0$e236f3d0$@opengridcomputing.com>
+Message-ID: <015701d1ec3d$0c9a6420$25cf2c60$@opengridcomputing.com>
 
-On Mon, 2016-08-01@04:18 -0700, Christoph Hellwig wrote:
-> On Fri, Jul 29, 2016@01:38:39PM -0700, Jay Freyensee wrote:
-> > The nvme-cli will always use the default hostnqn
-> > in /dev/nvme-fabrics  for the discovery query, even though
-> > both the NVMe Target and NVMe Host rdma implementations allow
-> > user-defined hostnqn naming.
-> > 
-> > For example, this is the current, somewhat broken behavior if you
-> > used your own hostnqn provision naming on the NVMe kernel target:
+> > On Fri, Jul 29, 2016@04:40:40PM -0500, Steve Wise wrote:
+> > > Running many fio jobs on 10 NVMF/RDMA ram disks, and bringing down and
+> back
+> > up
+> > > the interfaces in a loop uncovers this crash.  I'm not sure if this has
+been
+> > > reported/fixed?  I'm using the for-linus branch of linux-block + sagi's 5
+> > > patches on the host.
+> > >
+> > > What this test tickles is keep-alive recovery in the presence of heavy
+> > > raw/direct IO.  Before the crash there are logs of these logged, which is
+> > > probably expected:
+> >
+> > With what fixes does this happen?  This looks pretty similar to an
+> > issue you reported before.
 > 
-> Maybe -n or -N would be a good choice for the short option flag?
-
-I thought Roy's suggestion for -q was fine.
-
+> As I said, I'm using the for-linus branch of the linux-block repo
+> (git://git.kernel.dk/linux-block) + sagi's 5 recent patches.   So I should be
+> using the latest and greatest, I think.  This problem was originally seen on
+> nvmf-all.3 as well.  Perhaps I have reported this previously.  But now I'm
+> trying to fix it :)
 > 
-> Otherwise this looks fine to me:
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
 
-Cool, thanks.
-> 
-> Any chance you could also send a patch that reads /etc/nvme/hostnqn
-> for a default hostnqn so that we can have a persistent one?
+I do have two different problem reports internally at Chelsio that both show the
+same signature.  I found the other one :)  For the 2nd problem report, there was
+no ifup/down to induce keep alive recovery.  It just loads up 10 ram disks on a
+64 core host/target pair in a similar manner, and after a while lots of
+nvme_rdma_post_send() errors are logged (probably due to a connection death) and
+then the crash.   I'm still gathering info on that one, but it appears the qp
+again was freed somehow and then attempts to post to it cause the crash...
 
-I'm a tad unclear what is the request? The default hostnqn is buried
-inside /dev/nvme-fabrics.  You want nvme-cli to read out the default
-hostnqn from /dev/nvme-fabrics and place it in  /etc/nvme/hostnqn?
-
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Steve
