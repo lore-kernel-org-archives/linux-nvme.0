@@ -1,18 +1,39 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 1 Aug 2016 08:53:49 -0700
-Subject: [RFC 6/7] NVMe: Use genalloc to allocate CMB regions
-In-Reply-To: <1470034653-9097-7-git-send-email-haggaie@mellanox.com>
-References: <1470034653-9097-1-git-send-email-haggaie@mellanox.com>
- <1470034653-9097-7-git-send-email-haggaie@mellanox.com>
-Message-ID: <20160801155348.GB23224@infradead.org>
+From: roland@kernel.org (Roland Dreier)
+Date: Mon, 1 Aug 2016 09:06:07 -0700
+Subject: [PATCH 2/2] nvme-rdma: Add handling for connecting to IPv6 targets
+In-Reply-To: <20160801155036.GC22771@lst.de>
+References: <1469950060-18098-1-git-send-email-roland@kernel.org>
+ <1469950060-18098-2-git-send-email-roland@kernel.org>
+ <4acdd466-b8f6-8208-7287-e97dfd45bbf1@grimberg.me>
+ <33dfc646-1804-363e-4d83-1ba618303dbb@grimberg.me>
+ <20160801110956.GI16141@lst.de>
+ <e6e54d3f-c6ee-2057-d4e5-13981cd95140@grimberg.me>
+ <20160801155036.GC22771@lst.de>
+Message-ID: <CAG4TOxPNnUKWeh7FUY8YB127sx8yMu41FuP4hxUMCan_HWQmVQ@mail.gmail.com>
 
-On Mon, Aug 01, 2016@09:57:32AM +0300, Haggai Eran wrote:
-> Register the CMB in a gen_pool dedicated to manage CMB regions. Use the
-> pool to allocate the SQs to make sure they are registered.
+On Mon, Aug 1, 2016@8:50 AM, Christoph Hellwig <hch@lst.de> wrote:
+> It'd still need all the scope ID handling similar to what Roland did,
+> and that's a fair chunk of code.  We have a few options to handle the
+> different allowed addresses:
+>
+>  (1) v4/v6 only flags
+>  (2) having low-level v4/v6 handlers and one that tries these both
+>  (3) using the try both handler and rejecting the wrong one after
+>      parsing.
+>
+> (3) seems easiest, but (2) sounds fine to me.  But I'd really like to
+> hear from folks on the netdev list what they think of that idea first.
 
-And why would the NVMe driver care if "they are registered"?
+I think adding a new helper that parses both v4 and v6 addresses +
+scope ID seems like the best thing for now.  I did a grep for in6_pton
+and it looks like at least fs/cifs/netmisc.c and net/sunrpc/addr.c
+could use the helper.
 
-Once we start allowing diverse CMB uses (what happened to Jon's patches
-btw?) genalloc might be a good backend allocator, but without that
-it's entirely pointless.  Also please don't introduce useless header
-files.
+What do you think of adding inet_pton_with_scope() to
+net/core/utils.c?  I'm open to better ideas on the name.  But I can
+code that up and use it in nvme, as well as convert over the two
+places I mentioned above.  The first parameter of the function can be
+an af, and the caller can pass in AF_UNSPEC, AF_INET, or AF_INET6 to
+restrict the parsing to one type of address (or not).
+
+ - R.
