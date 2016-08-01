@@ -1,68 +1,45 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun,  1 May 2016 06:25:44 +0300
-Subject: [PATCH] nvme/lightnvm: Log using the ctrl named device
-Message-ID: <1462073144-30533-1-git-send-email-sagi@grimberg.me>
+Date: Mon,  1 Aug 2016 11:36:39 +0300
+Subject: [PATCH] nvmet-rdma: Don't use the inline buffer in order to avoid
+ allocation for small reads
+Message-ID: <1470040599-7294-1-git-send-email-sagi@grimberg.me>
 
-Align with the rest of the nvme subsystem.
+Under extreme conditions this might cause data corruptions. By doing that
+we we repost the buffer and then post this buffer for the device to send.
+If we happen to use shared receive queues the device might write to the
+buffer before it sends it (there is no ordering between send and recv
+queues). Without SRQs we probably won't get that if the host doesn't
+mis-behave and send more than we allowed it, but relying on that is not
+really a good idea.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/lightnvm.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ drivers/nvme/target/rdma.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index 9461dd639acd..a03a3e8febdf 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -367,7 +367,7 @@ static int nvme_nvm_get_l2p_tbl(struct nvm_dev *nvmdev, u64 slba, u32 nlb,
- 		ret = nvme_submit_sync_cmd(ns->ctrl->admin_q,
- 				(struct nvme_command *)&c, entries, len);
- 		if (ret) {
--			dev_err(ns->ctrl->dev, "L2P table transfer failed (%d)\n",
-+			dev_err(ns->ctrl->device, "L2P table transfer failed (%d)\n",
- 									ret);
- 			ret = -EIO;
- 			goto out;
-@@ -441,27 +441,27 @@ static int nvme_nvm_get_bb_tbl(struct nvm_dev *nvmdev, struct ppa_addr ppa,
- 	ret = nvme_submit_sync_cmd(ctrl->admin_q, (struct nvme_command *)&c,
- 								bb_tbl, tblsz);
- 	if (ret) {
--		dev_err(ctrl->dev, "get bad block table failed (%d)\n", ret);
-+		dev_err(ctrl->device, "get bad block table failed (%d)\n", ret);
- 		ret = -EIO;
- 		goto out;
- 	}
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index e06d504bdf0c..4e83d92d6bdd 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -615,15 +615,10 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
+ 	if (!len)
+ 		return 0;
  
- 	if (bb_tbl->tblid[0] != 'B' || bb_tbl->tblid[1] != 'B' ||
- 		bb_tbl->tblid[2] != 'L' || bb_tbl->tblid[3] != 'T') {
--		dev_err(ctrl->dev, "bbt format mismatch\n");
-+		dev_err(ctrl->device, "bbt format mismatch\n");
- 		ret = -EINVAL;
- 		goto out;
- 	}
+-	/* use the already allocated data buffer if possible */
+-	if (len <= NVMET_RDMA_INLINE_DATA_SIZE && rsp->queue->host_qid) {
+-		nvmet_rdma_use_inline_sg(rsp, len, 0);
+-	} else {
+-		status = nvmet_rdma_alloc_sgl(&rsp->req.sg, &rsp->req.sg_cnt,
+-				len);
+-		if (status)
+-			return status;
+-	}
++	status = nvmet_rdma_alloc_sgl(&rsp->req.sg, &rsp->req.sg_cnt,
++			len);
++	if (status)
++		return status;
  
- 	if (le16_to_cpu(bb_tbl->verid) != 1) {
- 		ret = -EINVAL;
--		dev_err(ctrl->dev, "bbt version not supported\n");
-+		dev_err(ctrl->device, "bbt version not supported\n");
- 		goto out;
- 	}
- 
- 	if (le32_to_cpu(bb_tbl->tblks) != nr_src_blks) {
- 		ret = -EINVAL;
--		dev_err(ctrl->dev, "bbt unsuspected blocks returned (%u!=%u)",
-+		dev_err(ctrl->device, "bbt unsuspected blocks returned (%u!=%u)",
- 				le32_to_cpu(bb_tbl->tblks), nr_src_blks);
- 		goto out;
- 	}
-@@ -494,7 +494,7 @@ static int nvme_nvm_set_bb_tbl(struct nvm_dev *nvmdev, struct nvm_rq *rqd,
- 	ret = nvme_submit_sync_cmd(ns->ctrl->admin_q, (struct nvme_command *)&c,
- 								NULL, 0);
- 	if (ret)
--		dev_err(ns->ctrl->dev, "set bad block table failed (%d)\n", ret);
-+		dev_err(ns->ctrl->device, "set bad block table failed (%d)\n", ret);
- 	return ret;
- }
- 
+ 	ret = rdma_rw_ctx_init(&rsp->rw, cm_id->qp, cm_id->port_num,
+ 			rsp->req.sg, rsp->req.sg_cnt, 0, addr, key,
 -- 
 1.9.1
