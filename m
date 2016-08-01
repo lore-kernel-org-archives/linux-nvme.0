@@ -1,27 +1,26 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Mon, 1 Aug 2016 09:26:01 -0500
-Subject: nvmf/rdma host crash during heavy load and keep alive recovery
-In-Reply-To: <20160801110658.GF16141@lst.de>
-References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
- <20160801110658.GF16141@lst.de>
-Message-ID: <008801d1ec00$a0bcfbf0$e236f3d0$@opengridcomputing.com>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Mon, 1 Aug 2016 07:44:37 -0700
+Subject: [PATCH v3] nvmet-rdma: Correctly handle RDMA device hot removal
+In-Reply-To: <20160801111530.GB16474@lst.de>
+References: <1469967347-20466-1-git-send-email-sagi@grimberg.me>
+ <20160801111530.GB16474@lst.de>
+Message-ID: <7b8cc595-a33c-99e6-8490-161f83c2c489@sandisk.com>
 
-> On Fri, Jul 29, 2016@04:40:40PM -0500, Steve Wise wrote:
-> > Running many fio jobs on 10 NVMF/RDMA ram disks, and bringing down and back
-> up
-> > the interfaces in a loop uncovers this crash.  I'm not sure if this has been
-> > reported/fixed?  I'm using the for-linus branch of linux-block + sagi's 5
-> > patches on the host.
-> >
-> > What this test tickles is keep-alive recovery in the presence of heavy
-> > raw/direct IO.  Before the crash there are logs of these logged, which is
-> > probably expected:
-> 
-> With what fixes does this happen?  This looks pretty similar to an
-> issue you reported before.
+On 08/01/16 04:15, Christoph Hellwig wrote:
+> This looks reasonable to me, but a little question below:
+>
+>> @@ -1442,7 +1491,8 @@ static void nvmet_rdma_remove_port(struct nvmet_port *port)
+>>  {
+>>  	struct rdma_cm_id *cm_id = port->priv;
+>>
+>> -	rdma_destroy_id(cm_id);
+>> +	if (cm_id)
+>> +		rdma_destroy_id(cm_id);
+>>  }
+>
+> How is ->remove_port synchronized vs the RDMA/CM event handler?
 
-As I said, I'm using the for-linus branch of the linux-block repo
-(git://git.kernel.dk/linux-block) + sagi's 5 recent patches.   So I should be
-using the latest and greatest, I think.  This problem was originally seen on
-nvmf-all.3 as well.  Perhaps I have reported this previously.  But now I'm
-trying to fix it :)
+rdma_destroy_id() waits until active RDMA/CM callbacks have finished. Is 
+that sufficient or is further synchronization needed?
+
+Bart.
