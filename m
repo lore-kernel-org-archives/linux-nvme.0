@@ -1,167 +1,234 @@
 From: haggaie@mellanox.com (Haggai Eran)
-Date: Mon,  1 Aug 2016 09:57:32 +0300
-Subject: [RFC 6/7] NVMe: Use genalloc to allocate CMB regions
+Date: Mon,  1 Aug 2016 09:57:30 +0300
+Subject: [RFC 4/7] IB/uverbs: Add command to register a DMA-BUF fd
 In-Reply-To: <1470034653-9097-1-git-send-email-haggaie@mellanox.com>
 References: <1470034653-9097-1-git-send-email-haggaie@mellanox.com>
-Message-ID: <1470034653-9097-7-git-send-email-haggaie@mellanox.com>
+Message-ID: <1470034653-9097-5-git-send-email-haggaie@mellanox.com>
 
-Register the CMB in a gen_pool dedicated to manage CMB regions. Use the
-pool to allocate the SQs to make sure they are registered.
+The new command accept the file descriptor of a DMA-BUF object as input,
+as well as the PD and access flags, and produces a memory region
+accessing the device memory exposed by the DMA-BUF object.
 
 Signed-off-by: Haggai Eran <haggaie at mellanox.com>
 ---
- drivers/nvme/host/nvme-pci.h | 24 ++++++++++++++++++++
- drivers/nvme/host/pci.c      | 54 ++++++++++++++++++++++++++++++++++++++++----
- 2 files changed, 74 insertions(+), 4 deletions(-)
- create mode 100644 drivers/nvme/host/nvme-pci.h
+ drivers/infiniband/core/uverbs.h      |   1 +
+ drivers/infiniband/core/uverbs_cmd.c  | 111 ++++++++++++++++++++++++++++++++++
+ drivers/infiniband/core/uverbs_main.c |   1 +
+ include/rdma/ib_verbs.h               |   6 ++
+ include/uapi/rdma/ib_user_verbs.h     |  18 ++++++
+ 5 files changed, 137 insertions(+)
 
-diff --git a/drivers/nvme/host/nvme-pci.h b/drivers/nvme/host/nvme-pci.h
-new file mode 100644
-index 000000000000..5b29508dc182
---- /dev/null
-+++ b/drivers/nvme/host/nvme-pci.h
-@@ -0,0 +1,24 @@
-+/*
-+ * Copyright ? 2016 Mellanox Technlogies. All rights reserved.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ */
-+
-+#ifndef _NVME_PCI_H
-+#define _NVME_PCI_H
-+
-+#include "nvme.h"
-+
-+struct nvme_dev;
-+
-+void *nvme_alloc_cmb(struct nvme_dev *dev, size_t size, dma_addr_t *dma_addr);
-+void nvme_free_cmb(struct nvme_dev *dev, void *addr, size_t size);
-+
-+#endif
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index befac5b19490..d3da5d9552dd 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -42,8 +42,10 @@
- #include <linux/types.h>
- #include <linux/io-64-nonatomic-lo-hi.h>
- #include <asm/unaligned.h>
-+#include <linux/genalloc.h>
+diff --git a/drivers/infiniband/core/uverbs.h b/drivers/infiniband/core/uverbs.h
+index 612ccfd39bf9..491292740b67 100644
+--- a/drivers/infiniband/core/uverbs.h
++++ b/drivers/infiniband/core/uverbs.h
+@@ -275,5 +275,6 @@ IB_UVERBS_DECLARE_EX_CMD(destroy_flow);
+ IB_UVERBS_DECLARE_EX_CMD(query_device);
+ IB_UVERBS_DECLARE_EX_CMD(create_cq);
+ IB_UVERBS_DECLARE_EX_CMD(create_qp);
++IB_UVERBS_DECLARE_EX_CMD(reg_dma_buf_mr);
  
- #include "nvme.h"
-+#include "nvme-pci.h"
+ #endif /* UVERBS_H */
+diff --git a/drivers/infiniband/core/uverbs_cmd.c b/drivers/infiniband/core/uverbs_cmd.c
+index 825021d1008b..ca1f40769019 100644
+--- a/drivers/infiniband/core/uverbs_cmd.c
++++ b/drivers/infiniband/core/uverbs_cmd.c
+@@ -37,6 +37,7 @@
+ #include <linux/fs.h>
+ #include <linux/slab.h>
+ #include <linux/sched.h>
++#include <linux/dma-buf.h>
  
- #define NVME_Q_DEPTH		1024
- #define NVME_AQ_DEPTH		256
-@@ -99,6 +101,7 @@ struct nvme_dev {
- 	dma_addr_t cmb_dma_addr;
- 	u64 cmb_size;
- 	u32 cmbsz;
-+	struct gen_pool *cmb_pool;
- 	struct nvme_ctrl ctrl;
- 	struct completion ioq_wait;
- };
-@@ -937,11 +940,17 @@ static void nvme_cancel_io(struct request *req, void *data, bool reserved)
+ #include <asm/uaccess.h>
  
- static void nvme_free_queue(struct nvme_queue *nvmeq)
- {
-+	struct nvme_dev *dev = nvmeq->dev;
-+
- 	dma_free_coherent(nvmeq->q_dmadev, CQ_SIZE(nvmeq->q_depth),
- 				(void *)nvmeq->cqes, nvmeq->cq_dma_addr);
- 	if (nvmeq->sq_cmds)
- 		dma_free_coherent(nvmeq->q_dmadev, SQ_SIZE(nvmeq->q_depth),
- 					nvmeq->sq_cmds, nvmeq->sq_dma_addr);
-+	if (nvmeq->sq_cmds_io)
-+		nvme_free_cmb(dev, nvmeq->sq_cmds_io,
-+			      roundup(SQ_SIZE(nvmeq->q_depth),
-+				      dev->ctrl.page_size));
- 	kfree(nvmeq);
+@@ -1125,6 +1126,116 @@ put_uobjs:
+ 	return ret;
  }
  
-@@ -1032,10 +1041,12 @@ static int nvme_alloc_sq_cmds(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- 				int qid, int depth)
- {
- 	if (qid && dev->cmb && use_cmb_sqes && NVME_CMB_SQS(dev->cmbsz)) {
--		unsigned offset = (qid - 1) * roundup(SQ_SIZE(depth),
--						      dev->ctrl.page_size);
--		nvmeq->sq_dma_addr = dev->cmb_dma_addr + offset;
--		nvmeq->sq_cmds_io = dev->cmb + offset;
-+		nvmeq->sq_cmds_io =
-+			nvme_alloc_cmb(dev, roundup(SQ_SIZE(depth),
-+						    dev->ctrl.page_size),
-+				       &nvmeq->sq_dma_addr);
-+		if (!nvmeq->sq_cmds_io)
-+			return -ENOMEM;
- 	} else {
- 		nvmeq->sq_cmds = dma_alloc_coherent(dev->dev, SQ_SIZE(depth),
- 					&nvmeq->sq_dma_addr, GFP_KERNEL);
-@@ -1339,6 +1350,7 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	void __iomem *cmb;
- 	dma_addr_t dma_addr;
-+	int ret;
- 
- 	if (!use_cmb_sqes)
- 		return NULL;
-@@ -1372,17 +1384,51 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
- 
- 	dev->cmb_dma_addr = dma_addr;
- 	dev->cmb_size = size;
++int ib_uverbs_ex_reg_dma_buf_mr(struct ib_uverbs_file *file,
++				struct ib_device *ib_dev,
++				struct ib_udata *ucore, struct ib_udata *uhw)
++{
++	struct ib_uverbs_ex_reg_dma_buf_mr      cmd;
++	struct ib_uverbs_ex_reg_dma_buf_mr_resp resp;
++	struct ib_uobject           *uobj;
++	struct ib_pd                *pd;
++	struct ib_mr                *mr;
++	struct dma_buf		    *dmabuf;
++	int                          ret;
 +
-+	dev->cmb_pool = gen_pool_create(PAGE_SHIFT, -1);
-+	if (!dev->cmb_pool)
-+		goto unmap;
++	if (ucore->inlen < sizeof(cmd))
++		return -EINVAL;
 +
-+	ret = gen_pool_add_virt(dev->cmb_pool, (unsigned long)(uintptr_t)cmb,
-+				dma_addr, size, -1);
++	ret = ib_copy_from_udata(&cmd, ucore, sizeof(cmd));
 +	if (ret)
-+		goto destroy_pool;
++		return ret;
 +
- 	return cmb;
++	if (cmd.comp_mask)
++		return -EINVAL;
 +
-+destroy_pool:
-+	gen_pool_destroy(dev->cmb_pool);
-+	dev->cmb_pool = NULL;
-+unmap:
-+	iounmap(cmb);
-+	return NULL;
- }
- 
- static inline void nvme_release_cmb(struct nvme_dev *dev)
- {
- 	if (dev->cmb) {
-+		gen_pool_destroy(dev->cmb_pool);
- 		iounmap(dev->cmb);
- 		dev->cmb = NULL;
- 	}
- }
- 
-+void *nvme_alloc_cmb(struct nvme_dev *dev, size_t size, dma_addr_t *dma_addr)
-+{
-+	if (!dev->cmb_pool)
-+		return NULL;
++	if (ucore->outlen < (offsetof(typeof(resp), response_length) +
++			     sizeof(resp.response_length)))
++		return -ENOSPC;
 +
-+	return gen_pool_dma_alloc(dev->cmb_pool, size, dma_addr);
++	ret = ib_check_mr_access(cmd.access_flags);
++	if (ret)
++		return ret;
++
++	dmabuf = dma_buf_get(cmd.fd);
++	if (IS_ERR(dmabuf))
++		return PTR_ERR(dmabuf);
++
++	uobj = kmalloc(sizeof(*uobj), GFP_KERNEL);
++	if (!uobj) {
++		ret = -ENOMEM;
++		goto err_dma_buf;
++	}
++
++	init_uobj(uobj, 0, file->ucontext, &mr_lock_class);
++	down_write(&uobj->mutex);
++
++	pd = idr_read_pd(cmd.pd_handle, file->ucontext);
++	if (!pd) {
++		ret = -EINVAL;
++		goto err_free;
++	}
++
++	if (!pd->device->reg_user_dma_buf_mr) {
++		ret = -EINVAL;
++		goto err_put;
++	}
++
++	mr = pd->device->reg_user_dma_buf_mr(pd, dmabuf, cmd.access_flags, uhw);
++	if (IS_ERR(mr)) {
++		ret = PTR_ERR(mr);
++		goto err_put;
++	}
++
++	mr->device  = pd->device;
++	mr->pd      = pd;
++	mr->uobject = uobj;
++
++	uobj->object = mr;
++	ret = idr_add_uobj(&ib_uverbs_mr_idr, uobj);
++	if (ret)
++		goto err_unreg;
++
++	memset(&resp, 0, sizeof(resp));
++	resp.lkey      = mr->lkey;
++	resp.rkey      = mr->rkey;
++	resp.mr_handle = uobj->id;
++	resp.response_length = sizeof(resp);
++
++	if (ib_copy_to_udata(ucore, &resp, resp.response_length)) {
++		ret = -EFAULT;
++		goto err_copy;
++	}
++
++	dma_buf_put(dmabuf);
++	put_pd_read(pd);
++
++	mutex_lock(&file->mutex);
++	list_add_tail(&uobj->list, &file->ucontext->mr_list);
++	mutex_unlock(&file->mutex);
++
++	uobj->live = 1;
++
++	up_write(&uobj->mutex);
++
++	return 0;
++
++err_copy:
++	idr_remove_uobj(&ib_uverbs_mr_idr, uobj);
++
++err_unreg:
++	ib_dereg_mr(mr);
++
++err_put:
++	put_pd_read(pd);
++
++err_free:
++	put_uobj_write(uobj);
++
++err_dma_buf:
++	dma_buf_put(dmabuf);
++	return ret;
 +}
 +
-+void nvme_free_cmb(struct nvme_dev *dev, void *addr, size_t size)
-+{
-+	if (WARN_ON(!dev->cmb_pool))
-+		return;
+ ssize_t ib_uverbs_dereg_mr(struct ib_uverbs_file *file,
+ 			   struct ib_device *ib_dev,
+ 			   const char __user *buf, int in_len,
+diff --git a/drivers/infiniband/core/uverbs_main.c b/drivers/infiniband/core/uverbs_main.c
+index 31f422a70623..c5368f2b1cf0 100644
+--- a/drivers/infiniband/core/uverbs_main.c
++++ b/drivers/infiniband/core/uverbs_main.c
+@@ -130,6 +130,7 @@ static int (*uverbs_ex_cmd_table[])(struct ib_uverbs_file *file,
+ 	[IB_USER_VERBS_EX_CMD_QUERY_DEVICE]	= ib_uverbs_ex_query_device,
+ 	[IB_USER_VERBS_EX_CMD_CREATE_CQ]	= ib_uverbs_ex_create_cq,
+ 	[IB_USER_VERBS_EX_CMD_CREATE_QP]        = ib_uverbs_ex_create_qp,
++	[IB_USER_VERBS_EX_CMD_REG_DMA_BUF_MR]   = ib_uverbs_ex_reg_dma_buf_mr,
+ };
+ 
+ static void ib_uverbs_add_one(struct ib_device *device);
+diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+index da23ec0a06d7..9c4241aeec79 100644
+--- a/include/rdma/ib_verbs.h
++++ b/include/rdma/ib_verbs.h
+@@ -1677,6 +1677,7 @@ struct ib_dma_mapping_ops {
+ };
+ 
+ struct iw_cm_verbs;
++struct dma_buf;
+ 
+ struct ib_port_immutable {
+ 	int                           pkey_tbl_len;
+@@ -1866,6 +1867,11 @@ struct ib_device {
+ 						    int mr_access_flags,
+ 						    struct ib_pd *pd,
+ 						    struct ib_udata *udata);
++	struct ib_mr *             (*reg_user_dma_buf_mr)(
++					struct ib_pd *pd,
++					struct dma_buf *dmabuf,
++					int mr_access_flags,
++					struct ib_udata *udata);
+ 	int                        (*dereg_mr)(struct ib_mr *mr);
+ 	struct ib_mr *		   (*alloc_mr)(struct ib_pd *pd,
+ 					       enum ib_mr_type mr_type,
+diff --git a/include/uapi/rdma/ib_user_verbs.h b/include/uapi/rdma/ib_user_verbs.h
+index b6543d73d20a..aad37e4572b5 100644
+--- a/include/uapi/rdma/ib_user_verbs.h
++++ b/include/uapi/rdma/ib_user_verbs.h
+@@ -95,6 +95,7 @@ enum {
+ 	IB_USER_VERBS_EX_CMD_CREATE_QP = IB_USER_VERBS_CMD_CREATE_QP,
+ 	IB_USER_VERBS_EX_CMD_CREATE_FLOW = IB_USER_VERBS_CMD_THRESHOLD,
+ 	IB_USER_VERBS_EX_CMD_DESTROY_FLOW,
++	IB_USER_VERBS_EX_CMD_REG_DMA_BUF_MR,
+ };
+ 
+ /*
+@@ -320,6 +321,23 @@ struct ib_uverbs_rereg_mr_resp {
+ 	__u32 rkey;
+ };
+ 
++struct ib_uverbs_ex_reg_dma_buf_mr {
++	__u64 response;
++	__u32 fd;
++	__u32 access_flags;
++	__u32 pd_handle;
++	__u32 comp_mask;
++};
 +
-+	gen_pool_free(dev->cmb_pool, (unsigned long)(uintptr_t)addr, size);
-+}
++struct ib_uverbs_ex_reg_dma_buf_mr_resp {
++	__u32 mr_handle;
++	__u32 lkey;
++	__u32 rkey;
++	__u32 comp_mask;
++	__u32 response_length;
++	__u32 reserved;
++};
 +
- static size_t db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
- {
- 	return 4096 + ((nr_io_queues + 1) * 8 * dev->db_stride);
+ struct ib_uverbs_dereg_mr {
+ 	__u32 mr_handle;
+ };
 -- 
 1.7.11.2
