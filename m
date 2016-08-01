@@ -1,33 +1,27 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 1 Aug 2016 08:24:27 -0600
-Subject: [PATCH v2] blk-mq: Allow timeouts to run while queue is freezing
-In-Reply-To: <8760rogwmp.fsf_-_@linux.vnet.ibm.com>
-References: <1469767356-25193-1-git-send-email-krisman@linux.vnet.ibm.com>
- <81fa2a75-1da8-aeb6-dcce-3ae245810234@kernel.dk>
- <8760rogwmp.fsf_-_@linux.vnet.ibm.com>
-Message-ID: <41acd9e9-cbcc-66db-144f-0aab0e150cc0@kernel.dk>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 1 Aug 2016 09:26:01 -0500
+Subject: nvmf/rdma host crash during heavy load and keep alive recovery
+In-Reply-To: <20160801110658.GF16141@lst.de>
+References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
+ <20160801110658.GF16141@lst.de>
+Message-ID: <008801d1ec00$a0bcfbf0$e236f3d0$@opengridcomputing.com>
 
-On 07/29/2016 11:52 AM, Gabriel Krisman Bertazi wrote:
-> Jens Axboe <axboe at kernel.dk> writes:
->
->> I can see that is an issue. Did you consider the case where
->> blk_mq_timeout_work() is entered, but we don't have any requests
->> allocated that currently hold a reference? This could happen if
->> completion races with a timeout.
->
-> Hi Jens,
->
-> That shouldn't be an issue, I think.  The only functional difference
-> should be during queue freezes, and in this case, if the request was
-> already completed by the time we touch it, we`ll only hold the queue
-> freeze for a little longer, until we release the reference by the end of
-> the timeout path.  should the final request be released before
-> blk_mq_timeout_work acquire it's reference, q_usage_counter will reach
-> zero, and the call to percpu_ref_tryget will fail the same way
-> percpu_ref_tryget_live would.
+> On Fri, Jul 29, 2016@04:40:40PM -0500, Steve Wise wrote:
+> > Running many fio jobs on 10 NVMF/RDMA ram disks, and bringing down and back
+> up
+> > the interfaces in a loop uncovers this crash.  I'm not sure if this has been
+> > reported/fixed?  I'm using the for-linus branch of linux-block + sagi's 5
+> > patches on the host.
+> >
+> > What this test tickles is keep-alive recovery in the presence of heavy
+> > raw/direct IO.  Before the crash there are logs of these logged, which is
+> > probably expected:
+> 
+> With what fixes does this happen?  This looks pretty similar to an
+> issue you reported before.
 
-Thanks, I'm happy with it, and the detailed comment is a good
-improvement. I have added it for this series.
-
--- 
-Jens Axboe
+As I said, I'm using the for-linus branch of the linux-block repo
+(git://git.kernel.dk/linux-block) + sagi's 5 recent patches.   So I should be
+using the latest and greatest, I think.  This problem was originally seen on
+nvmf-all.3 as well.  Perhaps I have reported this previously.  But now I'm
+trying to fix it :)
