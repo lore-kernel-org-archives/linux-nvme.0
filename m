@@ -1,69 +1,39 @@
 From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 01 Aug 2016 11:26:46 -0700
-Subject: [PATCH] nvmetcli: More refined cleanup of README
-In-Reply-To: <20160801112354.GE28246@infradead.org>
-References: <1469727426-1178-1-git-send-email-james_p_freyensee@linux.intel.com>
- <20160801112354.GE28246@infradead.org>
-Message-ID: <1470076006.5653.2.camel@linux.intel.com>
+Date: Mon, 01 Aug 2016 14:32:59 -0700
+Subject: [PATCH v2] nvme-cli: user-defined hostnqn option for discover
+In-Reply-To: <20160801111859.GA28246@infradead.org>
+References: <1469824719-7378-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <1469824719-7378-2-git-send-email-james_p_freyensee@linux.intel.com>
+ <20160801111859.GA28246@infradead.org>
+Message-ID: <1470087179.6134.51.camel@linux.intel.com>
 
-On Mon, 2016-08-01@04:23 -0700, Christoph Hellwig wrote:
-> On Thu, Jul 28, 2016@10:37:06AM -0700, Jay Freyensee wrote:
-> > --- a/README
-> > +++ b/README
-> > @@ -12,6 +12,11 @@ https://github.com/agrover/configshell-fb first.
-> >  nvmetcli can be run directly from the source directory or
-> > installed
-> >  using setup.py.
-> >  
-> > +If you choose to use the provided exe 'nvmetcli', you can move
-> > +'nvmetcli' to /usr/sbin and the file 'nvmet.service' to
-> > +/lib/systemd/system for global management of NVMe target setups
-> > +for the machine.
+On Mon, 2016-08-01@04:18 -0700, Christoph Hellwig wrote:
+> On Fri, Jul 29, 2016@01:38:39PM -0700, Jay Freyensee wrote:
+> > The nvme-cli will always use the default hostnqn
+> > in /dev/nvme-fabrics  for the discovery query, even though
+> > both the NVMe Target and NVMe Host rdma implementations allow
+> > user-defined hostnqn naming.
+> > 
+> > For example, this is the current, somewhat broken behavior if you
+> > used your own hostnqn provision naming on the NVMe kernel target:
 > 
-> Hmm.  Maybe we'll need to add a install rule to setup.py instead?
-> Either way the preferred way to install nvmetcli is to use the deb
-> or rpm packaging created by make deb or make rpm.  The documentation
-> should point to those as the first choice.
+> Maybe -n or -N would be a good choice for the short option flag?
 
-That would probably work too.
-
-I can say .deb/.rpm is preferrred, but from my previous experience,
-.rpm doesn't always work, hence the background info.
+I thought Roy's suggestion for -q was fine.
 
 > 
-> >  Common Package Dependencies and Problems
-> >  -----------------------------------------
-> >  nvmetcli uses the 'python-six' and 'pyparsing' packages
-> > @@ -53,6 +58,13 @@ The following walks through an example using
-> > interactive mode.
-> >  ...> create hostnqn
-> >  
-> >  #
-> > +# remove access of a subsystem by deleting the Host NQN
-> > +#
-> > +
-> > +...> cd /subsystems/testnqn/allowed_hosts/
-> > +...> delete hostnqn
-> > +
-> > +#
-> >  # Alternatively this allows any host to connect to the subsystsem.
-> >   Only
-> >  # use this in tightly controller environments:
-> >  #
-> > @@ -65,7 +77,7 @@ The following walks through an example using
-> > interactive mode.
-> >  # unused one will be used.
-> >  #
-> >  
-> > -...> cd namespaces
-> > +...> cd /subsystems/testnqn/namespaces
-> >  ...> create 1
-> >  ...> cd 1
-> >  ...> set device path=/dev/nvme0n1
+> Otherwise this looks fine to me:
 > 
-> But I've applied this part already and pushed it out.
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
 
-OK.  I'll add another blurb on discovery and referrals, hopefully soon.
+Cool, thanks.
+> 
+> Any chance you could also send a patch that reads /etc/nvme/hostnqn
+> for a default hostnqn so that we can have a persistent one?
+
+I'm a tad unclear what is the request? The default hostnqn is buried
+inside /dev/nvme-fabrics.  You want nvme-cli to read out the default
+hostnqn from /dev/nvme-fabrics and place it in  /etc/nvme/hostnqn?
 
 > 
 > _______________________________________________
