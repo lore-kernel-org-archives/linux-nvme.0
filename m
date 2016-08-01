@@ -1,25 +1,15 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 1 Aug 2016 17:50:54 +0200
-Subject: [PATCH v3] nvmet-rdma: Correctly handle RDMA device hot removal
-In-Reply-To: <307087d1-88af-5244-38e8-5b9786285488@grimberg.me>
-References: <1469967347-20466-1-git-send-email-sagi@grimberg.me>
- <20160801111530.GB16474@lst.de>
- <307087d1-88af-5244-38e8-5b9786285488@grimberg.me>
-Message-ID: <20160801155054.GD22771@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 1 Aug 2016 08:52:06 -0700
+Subject: [RFC 7/7] NVMe: CMB on DMA-BUF
+In-Reply-To: <1470034653-9097-8-git-send-email-haggaie@mellanox.com>
+References: <1470034653-9097-1-git-send-email-haggaie@mellanox.com>
+ <1470034653-9097-8-git-send-email-haggaie@mellanox.com>
+Message-ID: <20160801155206.GA23224@infradead.org>
 
-On Mon, Aug 01, 2016@02:30:37PM +0300, Sagi Grimberg wrote:
->> How is ->remove_port synchronized vs the RDMA/CM even handler?
->
-> Easy, it isn't :)
->
-> So we have three choices here:
-> 1. Add a lock in nvmet_port that only rdma will use for now (don't like
-> it)
-> or
-> 2. Add nvmet_rdma_port as nvmet_port->priv with a lock (don't like it)
-> or
-> 3. take the global nvmet_config_sem (hate it)
->
-> Any preferences?
+On Mon, Aug 01, 2016@09:57:33AM +0300, Haggai Eran wrote:
+> Allocate a CMB region to user-space as a DMA-BUF object.
 
-(4) use cmpxchg?
+NACK.  Absolutely no way we're going to export a low-level device
+specific feature to userspace like that.  If you want to DMA to
+the CMB do it from the kernel, and for that we'll need a proper
+block device level API.
