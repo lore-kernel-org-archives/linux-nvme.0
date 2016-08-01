@@ -1,52 +1,23 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 1 Aug 2016 04:23:54 -0700
-Subject: [PATCH] nvmetcli: More refined cleanup of README
-In-Reply-To: <1469727426-1178-1-git-send-email-james_p_freyensee@linux.intel.com>
-References: <1469727426-1178-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <20160801112354.GE28246@infradead.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 1 Aug 2016 14:24:10 +0300
+Subject: [PATCH 2/2] nvme-rdma: Add handling for connecting to IPv6 targets
+In-Reply-To: <20160801110956.GI16141@lst.de>
+References: <1469950060-18098-1-git-send-email-roland@kernel.org>
+ <1469950060-18098-2-git-send-email-roland@kernel.org>
+ <4acdd466-b8f6-8208-7287-e97dfd45bbf1@grimberg.me>
+ <33dfc646-1804-363e-4d83-1ba618303dbb@grimberg.me>
+ <20160801110956.GI16141@lst.de>
+Message-ID: <e6e54d3f-c6ee-2057-d4e5-13981cd95140@grimberg.me>
 
-On Thu, Jul 28, 2016@10:37:06AM -0700, Jay Freyensee wrote:
-> --- a/README
-> +++ b/README
-> @@ -12,6 +12,11 @@ https://github.com/agrover/configshell-fb first.
->  nvmetcli can be run directly from the source directory or installed
->  using setup.py.
->  
-> +If you choose to use the provided exe 'nvmetcli', you can move
-> +'nvmetcli' to /usr/sbin and the file 'nvmet.service' to
-> +/lib/systemd/system for global management of NVMe target setups
-> +for the machine.
 
-Hmm.  Maybe we'll need to add a install rule to setup.py instead?
-Either way the preferred way to install nvmetcli is to use the deb
-or rpm packaging created by make deb or make rpm.  The documentation
-should point to those as the first choice.
+>> Currently the target driver doesn't support ipv6 addresses.
+>>
+>> These complementary patches [1,2] makes the it work e2e! So,
+>
+> I think we should use the same ipv6 addr parsing that Roland used
+> in the host, and preferably have another module export that as a helper.
 
->  Common Package Dependencies and Problems
->  -----------------------------------------
->  nvmetcli uses the 'python-six' and 'pyparsing' packages
-> @@ -53,6 +58,13 @@ The following walks through an example using interactive mode.
->  ...> create hostnqn
->  
->  #
-> +# remove access of a subsystem by deleting the Host NQN
-> +#
-> +
-> +...> cd /subsystems/testnqn/allowed_hosts/
-> +...> delete hostnqn
-> +
-> +#
->  # Alternatively this allows any host to connect to the subsystsem.  Only
->  # use this in tightly controller environments:
->  #
-> @@ -65,7 +77,7 @@ The following walks through an example using interactive mode.
->  # unused one will be used.
->  #
->  
-> -...> cd namespaces
-> +...> cd /subsystems/testnqn/namespaces
->  ...> create 1
->  ...> cd 1
->  ...> set device path=/dev/nvme0n1
-
-But I've applied this part already and pushed it out.
+I can try to unify them, but unlike the host that first tries ipv4 and
+then fall to ipv6, the target needs to enforce the address family so
+it's somewhat different. I kinda think that these are different enough
+to stay separate don't you think?
