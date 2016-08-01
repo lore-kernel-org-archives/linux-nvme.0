@@ -1,23 +1,33 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 1 Aug 2016 14:24:10 +0300
-Subject: [PATCH 2/2] nvme-rdma: Add handling for connecting to IPv6 targets
-In-Reply-To: <20160801110956.GI16141@lst.de>
-References: <1469950060-18098-1-git-send-email-roland@kernel.org>
- <1469950060-18098-2-git-send-email-roland@kernel.org>
- <4acdd466-b8f6-8208-7287-e97dfd45bbf1@grimberg.me>
- <33dfc646-1804-363e-4d83-1ba618303dbb@grimberg.me>
- <20160801110956.GI16141@lst.de>
-Message-ID: <e6e54d3f-c6ee-2057-d4e5-13981cd95140@grimberg.me>
+Date: Mon, 1 Aug 2016 14:30:37 +0300
+Subject: [PATCH v3] nvmet-rdma: Correctly handle RDMA device hot removal
+In-Reply-To: <20160801111530.GB16474@lst.de>
+References: <1469967347-20466-1-git-send-email-sagi@grimberg.me>
+ <20160801111530.GB16474@lst.de>
+Message-ID: <307087d1-88af-5244-38e8-5b9786285488@grimberg.me>
 
 
->> Currently the target driver doesn't support ipv6 addresses.
->>
->> These complementary patches [1,2] makes the it work e2e! So,
+> This looks reasonable to me, but a little question below:
 >
-> I think we should use the same ipv6 addr parsing that Roland used
-> in the host, and preferably have another module export that as a helper.
+>> @@ -1442,7 +1491,8 @@ static void nvmet_rdma_remove_port(struct nvmet_port *port)
+>>  {
+>>  	struct rdma_cm_id *cm_id = port->priv;
+>>
+>> -	rdma_destroy_id(cm_id);
+>> +	if (cm_id)
+>> +		rdma_destroy_id(cm_id);
+>>  }
+>
+> How is ->remove_port synchronized vs the RDMA/CM even handler?
 
-I can try to unify them, but unlike the host that first tries ipv4 and
-then fall to ipv6, the target needs to enforce the address family so
-it's somewhat different. I kinda think that these are different enough
-to stay separate don't you think?
+Easy, it isn't :)
+
+So we have three choices here:
+1. Add a lock in nvmet_port that only rdma will use for now (don't like
+it)
+or
+2. Add nvmet_rdma_port as nvmet_port->priv with a lock (don't like it)
+or
+3. take the global nvmet_config_sem (hate it)
+
+Any preferences?
