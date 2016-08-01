@@ -1,10 +1,11 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 1 Aug 2016 14:13:04 +0300
-Subject: [PATCH] nvme: Prevent controller state invalid transition
-In-Reply-To: <1469819718-25511-1-git-send-email-krisman@linux.vnet.ibm.com>
-References: <1469819718-25511-1-git-send-email-krisman@linux.vnet.ibm.com>
-Message-ID: <c76a6b35-6a0a-a441-3acf-a5fe4bc5b025@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 1 Aug 2016 13:14:39 +0200
+Subject: [PATCH RFC] nvme-rdma: Queue ns scanning after a sucessful
+ reconnection
+In-Reply-To: <1469980540-16103-1-git-send-email-sagi@grimberg.me>
+References: <1469980540-16103-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20160801111439.GA16474@lst.de>
 
-Looks fine to me,
+Looks fine,
 
-Reviewed-by: Sagi Grimberg <sag at grimberg.me>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
