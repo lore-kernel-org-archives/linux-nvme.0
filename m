@@ -1,35 +1,27 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Mon, 1 Aug 2016 08:09:59 -0700
-Subject: [PATCH v3] nvmet-rdma: Correctly handle RDMA device hot removal
-In-Reply-To: <7b8cc595-a33c-99e6-8490-161f83c2c489@sandisk.com>
-References: <1469967347-20466-1-git-send-email-sagi@grimberg.me>
- <20160801111530.GB16474@lst.de>
- <7b8cc595-a33c-99e6-8490-161f83c2c489@sandisk.com>
-Message-ID: <c4aafeaf-0988-239d-e072-96b231f4d23f@sandisk.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 1 Aug 2016 17:47:17 +0200
+Subject: [PATCH 2/5] nvme-rdma: Free the I/O tags when we delete the
+ controller
+In-Reply-To: <c2c194b0-d0a1-11af-cae9-a4ce8ea8fdde@grimberg.me>
+References: <1469822242-3477-1-git-send-email-sagi@grimberg.me>
+ <1469822242-3477-3-git-send-email-sagi@grimberg.me>
+ <20160801110308.GC16141@lst.de>
+ <c2c194b0-d0a1-11af-cae9-a4ce8ea8fdde@grimberg.me>
+Message-ID: <20160801154717.GA22771@lst.de>
 
-On 08/01/16 07:44, Bart Van Assche wrote:
-> On 08/01/16 04:15, Christoph Hellwig wrote:
->> This looks reasonable to me, but a little question below:
->>
->>> @@ -1442,7 +1491,8 @@ static void nvmet_rdma_remove_port(struct
->>> nvmet_port *port)
->>>  {
->>>      struct rdma_cm_id *cm_id = port->priv;
->>>
->>> -    rdma_destroy_id(cm_id);
->>> +    if (cm_id)
->>> +        rdma_destroy_id(cm_id);
->>>  }
->>
->> How is ->remove_port synchronized vs the RDMA/CM event handler?
+On Mon, Aug 01, 2016@02:15:59PM +0300, Sagi Grimberg wrote:
+>> or in a second step we should probably always call shutdown_ctrl
+>> but skip the actual shutdown if the ctrl state doesn't require it.
 >
-> rdma_destroy_id() waits until active RDMA/CM callbacks have finished. Is
-> that sufficient or is further synchronization needed?
+> What do you mean "if the ctrl state doesn't require it"?
+> Up until today we managed to avoid checking the ctrl state
+> in queue_rq and I'd like to keep it that way. I'd be much
+> happier if we don't depend on queue_rq to fail early under
+> some assumptions, it might be a slippery slope...
 
-(replying to my own e-mail)
-
-Please ignore my e-mail. I just realized that Christoph's question was 
-about synchronization of nvmet_rdma_remove_port() versus the RDMA/CM 
-event handler instead of just rdma_destroy_id().
-
-Bart.
+In this case I actually thought about checking the state in
+the new __nvme_rdma_remove_ctrl.  If called from
+nvme_rdma_del_ctrl_work the state will be NVME_CTRL_DELETING,
+so we can check that to see if we want to do a controlled
+shutdown using nvme_rdma_shutdown_ctrl instead of having
+to overwrite ->remove_work.
