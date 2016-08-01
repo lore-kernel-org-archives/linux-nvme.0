@@ -1,46 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 31 Jul 2016 18:55:40 +0300
-Subject: [PATCH RFC] nvme-rdma: Queue ns scanning after a sucessful
- reconnection
-Message-ID: <1469980540-16103-1-git-send-email-sagi@grimberg.me>
+Date: Mon, 1 Aug 2016 08:58:49 +0300
+Subject: [PATCH 2/2] nvme-rdma: Add handling for connecting to IPv6 targets
+In-Reply-To: <CAL1RGDUHrvQWXxHgxsK78WWT+Mr1uB2LFAVGi8-bHf1n5vCJDA@mail.gmail.com>
+References: <1469950060-18098-1-git-send-email-roland@kernel.org>
+ <1469950060-18098-2-git-send-email-roland@kernel.org>
+ <4acdd466-b8f6-8208-7287-e97dfd45bbf1@grimberg.me>
+ <33dfc646-1804-363e-4d83-1ba618303dbb@grimberg.me>
+ <CAL1RGDUHrvQWXxHgxsK78WWT+Mr1uB2LFAVGi8-bHf1n5vCJDA@mail.gmail.com>
+Message-ID: <333b4d7a-d93b-daa9-7abd-108db5c534e4@grimberg.me>
 
-On an ordered target shutdown, the target can send a AEN on a namespace
-removal, this will trigger the host to queue ns-list query. The shutdown
-will trigger error recovery which will attepmt periodic reconnect.
 
-We can hit a race where the ns rescanning fails (error recovery kicked
-in and we're not connected) causing removing all the namespaces and when
-we reconnect we won't see any namespaces for this controller.
+>> How did you test it btw?
+>
+> I have a userspace target :).
 
-So, queue a namespace rescan after we successfully reconnected to the target.
+Interesting. Is the target public?
 
-Note, that unlike user initiated controller reset, we don't need to trigger
-namespace scanning (until the point I noticed the above at least) because we
-reconnect to an existing controller. However due to the interaction with
-the aen mechanism we queue ns scan here as well.
+> Which is also how I caught the uninitialized private data.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-I'm open to other suggestions if anyone has any...
-
- drivers/nvme/host/rdma.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index f8539dd75504..5cb069ab27ed 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -743,8 +743,10 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
- 	WARN_ON_ONCE(!changed);
- 
--	if (ctrl->queue_count > 1)
-+	if (ctrl->queue_count > 1) {
- 		nvme_start_queues(&ctrl->ctrl);
-+		nvme_queue_scan(&ctrl->ctrl);
-+	}
- 
- 	dev_info(ctrl->ctrl.device, "Successfully reconnected\n");
- 
--- 
-1.9.1
+Nice catch!
