@@ -1,18 +1,24 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 1 Aug 2016 04:20:35 -0700
-Subject: [PATCH 3/3] nvme-fabrics: Add host_traddr options field to host
- infrastructure
-In-Reply-To: <579a9c9b.pfetMBhIGNhCI9uD%james.smart@broadcom.com>
-References: <579a9c9b.pfetMBhIGNhCI9uD%james.smart@broadcom.com>
-Message-ID: <20160801112035.GD28246@infradead.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 1 Aug 2016 14:21:17 +0300
+Subject: [PATCH 4/5] nvme-rdma: Remove duplicate call to
+ nvme_remove_namespaces
+In-Reply-To: <20160801110604.GE16141@lst.de>
+References: <1469822242-3477-1-git-send-email-sagi@grimberg.me>
+ <1469822242-3477-5-git-send-email-sagi@grimberg.me>
+ <20160801110604.GE16141@lst.de>
+Message-ID: <f196255e-b179-e3e3-8439-baebd1c62211@grimberg.me>
 
-On Thu, Jul 28, 2016@05:00:27PM -0700, James Smart wrote:
-> 
-> Add the host_traddr field to allow specification of the host-port
-> connection info for the transport. Will be used by FC transport.
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
 
-Looks fine:
+>> -	nvme_remove_namespaces(&ctrl->ctrl);
+>> -	nvme_rdma_shutdown_ctrl(ctrl);
+>>  	nvme_uninit_ctrl(&ctrl->ctrl);
+>> +	nvme_rdma_shutdown_ctrl(ctrl);
+>
+> How safe is the reordering here?  The description should explain why
+> it's fine.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+The reordering is safe because we do want everything in uninit_ctrl
+(flush aen,scan and ns-remove) to happen before we shutdown the rdma
+stuff. I'll add to the change log.
+
+Thanks!
