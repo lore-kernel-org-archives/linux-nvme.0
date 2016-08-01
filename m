@@ -1,33 +1,33 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 1 Aug 2016 14:30:37 +0300
-Subject: [PATCH v3] nvmet-rdma: Correctly handle RDMA device hot removal
-In-Reply-To: <20160801111530.GB16474@lst.de>
-References: <1469967347-20466-1-git-send-email-sagi@grimberg.me>
- <20160801111530.GB16474@lst.de>
-Message-ID: <307087d1-88af-5244-38e8-5b9786285488@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 1 Aug 2016 08:24:27 -0600
+Subject: [PATCH v2] blk-mq: Allow timeouts to run while queue is freezing
+In-Reply-To: <8760rogwmp.fsf_-_@linux.vnet.ibm.com>
+References: <1469767356-25193-1-git-send-email-krisman@linux.vnet.ibm.com>
+ <81fa2a75-1da8-aeb6-dcce-3ae245810234@kernel.dk>
+ <8760rogwmp.fsf_-_@linux.vnet.ibm.com>
+Message-ID: <41acd9e9-cbcc-66db-144f-0aab0e150cc0@kernel.dk>
 
-
-> This looks reasonable to me, but a little question below:
+On 07/29/2016 11:52 AM, Gabriel Krisman Bertazi wrote:
+> Jens Axboe <axboe at kernel.dk> writes:
 >
->> @@ -1442,7 +1491,8 @@ static void nvmet_rdma_remove_port(struct nvmet_port *port)
->>  {
->>  	struct rdma_cm_id *cm_id = port->priv;
->>
->> -	rdma_destroy_id(cm_id);
->> +	if (cm_id)
->> +		rdma_destroy_id(cm_id);
->>  }
+>> I can see that is an issue. Did you consider the case where
+>> blk_mq_timeout_work() is entered, but we don't have any requests
+>> allocated that currently hold a reference? This could happen if
+>> completion races with a timeout.
 >
-> How is ->remove_port synchronized vs the RDMA/CM even handler?
+> Hi Jens,
+>
+> That shouldn't be an issue, I think.  The only functional difference
+> should be during queue freezes, and in this case, if the request was
+> already completed by the time we touch it, we`ll only hold the queue
+> freeze for a little longer, until we release the reference by the end of
+> the timeout path.  should the final request be released before
+> blk_mq_timeout_work acquire it's reference, q_usage_counter will reach
+> zero, and the call to percpu_ref_tryget will fail the same way
+> percpu_ref_tryget_live would.
 
-Easy, it isn't :)
+Thanks, I'm happy with it, and the detailed comment is a good
+improvement. I have added it for this series.
 
-So we have three choices here:
-1. Add a lock in nvmet_port that only rdma will use for now (don't like
-it)
-or
-2. Add nvmet_rdma_port as nvmet_port->priv with a lock (don't like it)
-or
-3. take the global nvmet_config_sem (hate it)
-
-Any preferences?
+-- 
+Jens Axboe
