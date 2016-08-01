@@ -1,41 +1,40 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Mon, 1 Aug 2016 16:38:31 -0500
-Subject: nvmf/rdma host crash during heavy load and keep alive recovery
-In-Reply-To: <008801d1ec00$a0bcfbf0$e236f3d0$@opengridcomputing.com>
-References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
- <20160801110658.GF16141@lst.de>
- <008801d1ec00$a0bcfbf0$e236f3d0$@opengridcomputing.com>
-Message-ID: <015701d1ec3d$0c9a6420$25cf2c60$@opengridcomputing.com>
+From: mauricfo@linux.vnet.ibm.com (Mauricio Faria de Oliveira)
+Date: Mon,  1 Aug 2016 19:59:49 -0300
+Subject: [PATCH 2/3] powerpc: implement the DMA_ATTR_NO_WARN attribute
+In-Reply-To: <1470092390-25451-1-git-send-email-mauricfo@linux.vnet.ibm.com>
+References: <1470092390-25451-1-git-send-email-mauricfo@linux.vnet.ibm.com>
+Message-ID: <1470092390-25451-3-git-send-email-mauricfo@linux.vnet.ibm.com>
 
-> > On Fri, Jul 29, 2016@04:40:40PM -0500, Steve Wise wrote:
-> > > Running many fio jobs on 10 NVMF/RDMA ram disks, and bringing down and
-> back
-> > up
-> > > the interfaces in a loop uncovers this crash.  I'm not sure if this has
-been
-> > > reported/fixed?  I'm using the for-linus branch of linux-block + sagi's 5
-> > > patches on the host.
-> > >
-> > > What this test tickles is keep-alive recovery in the presence of heavy
-> > > raw/direct IO.  Before the crash there are logs of these logged, which is
-> > > probably expected:
-> >
-> > With what fixes does this happen?  This looks pretty similar to an
-> > issue you reported before.
-> 
-> As I said, I'm using the for-linus branch of the linux-block repo
-> (git://git.kernel.dk/linux-block) + sagi's 5 recent patches.   So I should be
-> using the latest and greatest, I think.  This problem was originally seen on
-> nvmf-all.3 as well.  Perhaps I have reported this previously.  But now I'm
-> trying to fix it :)
-> 
+Add support for the DMA_ATTR_NO_WARN attribute on powerpc iommu code.
 
-I do have two different problem reports internally at Chelsio that both show the
-same signature.  I found the other one :)  For the 2nd problem report, there was
-no ifup/down to induce keep alive recovery.  It just loads up 10 ram disks on a
-64 core host/target pair in a similar manner, and after a while lots of
-nvme_rdma_post_send() errors are logged (probably due to a connection death) and
-then the crash.   I'm still gathering info on that one, but it appears the qp
-again was freed somehow and then attempts to post to it cause the crash...
+Signed-off-by: Mauricio Faria de Oliveira <mauricfo at linux.vnet.ibm.com>
+---
+ arch/powerpc/kernel/iommu.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Steve
+diff --git a/arch/powerpc/kernel/iommu.c b/arch/powerpc/kernel/iommu.c
+index 37d6e74..5f202a5 100644
+--- a/arch/powerpc/kernel/iommu.c
++++ b/arch/powerpc/kernel/iommu.c
+@@ -479,7 +479,8 @@ int ppc_iommu_map_sg(struct device *dev, struct iommu_table *tbl,
+ 
+ 		/* Handle failure */
+ 		if (unlikely(entry == DMA_ERROR_CODE)) {
+-			if (printk_ratelimit())
++			if (!(attrs & DMA_ATTR_NO_WARN) &&
++			    printk_ratelimit())
+ 				dev_info(dev, "iommu_alloc failed, tbl %p "
+ 					 "vaddr %lx npages %lu\n", tbl, vaddr,
+ 					 npages);
+@@ -776,7 +777,8 @@ dma_addr_t iommu_map_page(struct device *dev, struct iommu_table *tbl,
+ 					 mask >> tbl->it_page_shift, align,
+ 					 attrs);
+ 		if (dma_handle == DMA_ERROR_CODE) {
+-			if (printk_ratelimit())  {
++			if (!(attrs & DMA_ATTR_NO_WARN) &&
++			    printk_ratelimit())  {
+ 				dev_info(dev, "iommu_alloc failed, tbl %p "
+ 					 "vaddr %p npages %d\n", tbl, vaddr,
+ 					 npages);
+-- 
+1.8.3.1
