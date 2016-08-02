@@ -1,34 +1,27 @@
-From: robert.r.randall@gmail.com (Robert Randall)
-Date: Tue, 2 Aug 2016 07:56:39 -0500
-Subject: Where are all the patches landing?
-In-Reply-To: <CAEqzOjuwPci12idmihNknojg7CuS9P0OPttBOqkEzPfTdcL4aw@mail.gmail.com>
-References: <CAEqzOjuwPci12idmihNknojg7CuS9P0OPttBOqkEzPfTdcL4aw@mail.gmail.com>
-Message-ID: <CAEqzOjvcKZWWvpsJQhc6AzmSLtauA0y7esK_cZdMi=0Ct0m1sg@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 2 Aug 2016 16:26:27 +0300
+Subject: [PATCH 3/5] nvme-rdma: Make sure to shutdown the controller if we
+ can
+In-Reply-To: <20160802125257.GD13235@lst.de>
+References: <1469822242-3477-1-git-send-email-sagi@grimberg.me>
+ <1469822242-3477-4-git-send-email-sagi@grimberg.me>
+ <20160801110446.GD16141@lst.de>
+ <63b33585-3fd2-a497-94a1-34dc9484da99@grimberg.me>
+ <20160801154840.GB22771@lst.de>
+ <cf6b0293-aba9-1a6f-28f2-3754b2eec4af@grimberg.me>
+ <20160802125257.GD13235@lst.de>
+Message-ID: <4a125827-7bd4-2e91-bb60-8a8f80665f8e@grimberg.me>
 
-May have answered this already.  The patches appear to be landing on
-the nvmf-4.9 branch.
 
-Please let me know if I should be using a different branch.
-
-THANKS!!
-Robert
-
-On Tue, Aug 2, 2016 at 7:41 AM, Robert Randall
-<robert.r.randall@gmail.com> wrote:
-> Prepping for FMS demo.  Just want to make sure we're using the latest
-> code at the show.  I've seen much patching activity but I don't see
-> them landing in the nvme-fabrics repository.
+>>> I don't want ->queue_rq to peek at controller state.  What I had
+>>> in mind was copying the PCIe behavior of failing early in the
+>>> timeout handler if we are in the reset handler, which will
+>>> mean blk_execute_rq will return ASAP with an error.
+>>
+>> Do we want the unnecessary ADMIN_TIMEOUT for sending a shutdown
+>> on a queue we know is not connected? I'm worried it will have scale
+>> issues...
 >
-> Would one of the brilliant (honestly) contributors please educated me
-> on how to assemble the latest NVMeOF code?
->
-> Best regards,
-> Robert
->
-> --
-> Robert Randall | robert.r.randall at gmail.com
+> Allright, let's go with your version.
 
-
-
--- 
-Robert Randall | robert.r.randall at gmail.com
+Is this an implicit reviewed-by?
