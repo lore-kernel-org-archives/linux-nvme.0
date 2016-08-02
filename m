@@ -1,23 +1,33 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 2 Aug 2016 09:48:28 +0300
-Subject: [PATCH v2] nvme-cli: user-defined hostnqn option for discover
-In-Reply-To: <1470087179.6134.51.camel@linux.intel.com>
-References: <1469824719-7378-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1469824719-7378-2-git-send-email-james_p_freyensee@linux.intel.com>
- <20160801111859.GA28246@infradead.org>
- <1470087179.6134.51.camel@linux.intel.com>
-Message-ID: <7561e238-9063-ceec-2b47-47ffd3607a42@grimberg.me>
+From: haggaie@mellanox.com (Haggai Eran)
+Date: Tue, 2 Aug 2016 06:48:36 +0000
+Subject: [RFC 6/7] NVMe: Use genalloc to allocate CMB regions
+In-Reply-To: <20160801155348.GB23224@infradead.org>
+References: <1470034653-9097-1-git-send-email-haggaie@mellanox.com>
+ <1470034653-9097-7-git-send-email-haggaie@mellanox.com>
+ <20160801155348.GB23224@infradead.org>
+Message-ID: <1470120518.20129.2.camel@mellanox.com>
 
+On ?', 2016-08-01@08:53 -0700, Christoph Hellwig wrote:
+> On Mon, Aug 01, 2016@09:57:32AM +0300, Haggai Eran wrote:
+> > 
+> > Register the CMB in a gen_pool dedicated to manage CMB regions. Use
+> > the
+> > pool to allocate the SQs to make sure they are registered.
+> And why would the NVMe driver care if "they are registered"?
+I just meant that they are allocated through genalloc so that it
+doesn't allocate the same buffer again.
 
->> Any chance you could also send a patch that reads /etc/nvme/hostnqn
->> for a default hostnqn so that we can have a persistent one?
->
-> I'm a tad unclear what is the request? The default hostnqn is buried
-> inside /dev/nvme-fabrics.  You want nvme-cli to read out the default
-> hostnqn from /dev/nvme-fabrics and place it in  /etc/nvme/hostnqn?
+> 
+> Once we start allowing diverse CMB uses (what happened to Jon's
+> patches
+> btw?) genalloc might be a good backend allocator, but without that
+> it's entirely pointless.??
+I missed Jon's patches. I'll have a look. The point in this patch was
+to allow this diverse use in the next patch.
 
-I think Christoph is requesting that when the user doesn't pass a
-hostnqn, nvme-cli will try to read it from a file located in
-/etc/nvme/hostnqn (and if this doesn't exist then go ahead without
-it). This way, the host can have a persistent hostnqn across reboots
-(the driver generates one on module init time).
+> Also please don't introduce useless header
+> files.
+Fair enough.
+
+Thanks,
+Haggai
