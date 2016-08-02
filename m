@@ -1,27 +1,10 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 2 Aug 2016 16:26:27 +0300
-Subject: [PATCH 3/5] nvme-rdma: Make sure to shutdown the controller if we
- can
-In-Reply-To: <20160802125257.GD13235@lst.de>
-References: <1469822242-3477-1-git-send-email-sagi@grimberg.me>
- <1469822242-3477-4-git-send-email-sagi@grimberg.me>
- <20160801110446.GD16141@lst.de>
- <63b33585-3fd2-a497-94a1-34dc9484da99@grimberg.me>
- <20160801154840.GB22771@lst.de>
- <cf6b0293-aba9-1a6f-28f2-3754b2eec4af@grimberg.me>
- <20160802125257.GD13235@lst.de>
-Message-ID: <4a125827-7bd4-2e91-bb60-8a8f80665f8e@grimberg.me>
+Date: Tue, 2 Aug 2016 16:29:53 +0300
+Subject: [PATCH 0812/1285] Replace numeric parameter like 0444 with macro
+In-Reply-To: <20160802114854.4100-1-baolex.ni@intel.com>
+References: <20160802114854.4100-1-baolex.ni@intel.com>
+Message-ID: <3d93cf14-6171-b4b7-f204-6b1148e5849f@grimberg.me>
 
+I assume that you didn't try to send a 1285 patches set :)
 
->>> I don't want ->queue_rq to peek at controller state.  What I had
->>> in mind was copying the PCIe behavior of failing early in the
->>> timeout handler if we are in the reset handler, which will
->>> mean blk_execute_rq will return ASAP with an error.
->>
->> Do we want the unnecessary ADMIN_TIMEOUT for sending a shutdown
->> on a queue we know is not connected? I'm worried it will have scale
->> issues...
->
-> Allright, let's go with your version.
-
-Is this an implicit reviewed-by?
+I think you can safely squash the two patches together.
