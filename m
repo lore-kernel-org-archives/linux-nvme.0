@@ -1,20 +1,42 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 2 Aug 2016 14:50:42 +0200
-Subject: [PATCH] nvmet-rdma: Don't use the inline buffer in order to
- avoid allocation for small reads
-In-Reply-To: <1470040599-7294-1-git-send-email-sagi@grimberg.me>
-References: <1470040599-7294-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20160802125042.GB13235@lst.de>
+Date: Tue, 2 Aug 2016 14:51:53 +0200
+Subject: [PATCH 2/2] nvme-rdma: Add handling for connecting to IPv6 targets
+In-Reply-To: <CAG4TOxPNnUKWeh7FUY8YB127sx8yMu41FuP4hxUMCan_HWQmVQ@mail.gmail.com>
+References: <1469950060-18098-1-git-send-email-roland@kernel.org>
+ <1469950060-18098-2-git-send-email-roland@kernel.org>
+ <4acdd466-b8f6-8208-7287-e97dfd45bbf1@grimberg.me>
+ <33dfc646-1804-363e-4d83-1ba618303dbb@grimberg.me>
+ <20160801110956.GI16141@lst.de>
+ <e6e54d3f-c6ee-2057-d4e5-13981cd95140@grimberg.me>
+ <20160801155036.GC22771@lst.de>
+ <CAG4TOxPNnUKWeh7FUY8YB127sx8yMu41FuP4hxUMCan_HWQmVQ@mail.gmail.com>
+Message-ID: <20160802125153.GC13235@lst.de>
 
-On Mon, Aug 01, 2016@11:36:39AM +0300, Sagi Grimberg wrote:
-> Under extreme conditions this might cause data corruptions. By doing that
-> we we repost the buffer and then post this buffer for the device to send.
-> If we happen to use shared receive queues the device might write to the
-> buffer before it sends it (there is no ordering between send and recv
-> queues). Without SRQs we probably won't get that if the host doesn't
-> mis-behave and send more than we allowed it, but relying on that is not
-> really a good idea.
+On Mon, Aug 01, 2016@09:06:07AM -0700, Roland Dreier wrote:
+> On Mon, Aug 1, 2016@8:50 AM, Christoph Hellwig <hch@lst.de> wrote:
+> > It'd still need all the scope ID handling similar to what Roland did,
+> > and that's a fair chunk of code.  We have a few options to handle the
+> > different allowed addresses:
+> >
+> >  (1) v4/v6 only flags
+> >  (2) having low-level v4/v6 handlers and one that tries these both
+> >  (3) using the try both handler and rejecting the wrong one after
+> >      parsing.
+> >
+> > (3) seems easiest, but (2) sounds fine to me.  But I'd really like to
+> > hear from folks on the netdev list what they think of that idea first.
+> 
+> I think adding a new helper that parses both v4 and v6 addresses +
+> scope ID seems like the best thing for now.  I did a grep for in6_pton
+> and it looks like at least fs/cifs/netmisc.c and net/sunrpc/addr.c
+> could use the helper.
+> 
+> What do you think of adding inet_pton_with_scope() to
+> net/core/utils.c?  I'm open to better ideas on the name.  But I can
+> code that up and use it in nvme, as well as convert over the two
+> places I mentioned above.  The first parameter of the function can be
+> an af, and the caller can pass in AF_UNSPEC, AF_INET, or AF_INET6 to
+> restrict the parsing to one type of address (or not).
 
-Pitty - it seems so wasteful not being able to use these buffers for
-anything that isn't an inline write.  I fully agree on the SRQ case,
-but I think we should offer it for the non-SRP case.
+Sounds fine to me, and I hope the netdev folks (Cc'ed) are fine with
+that as well.
