@@ -1,42 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 2 Aug 2016 14:51:53 +0200
-Subject: [PATCH 2/2] nvme-rdma: Add handling for connecting to IPv6 targets
-In-Reply-To: <CAG4TOxPNnUKWeh7FUY8YB127sx8yMu41FuP4hxUMCan_HWQmVQ@mail.gmail.com>
-References: <1469950060-18098-1-git-send-email-roland@kernel.org>
- <1469950060-18098-2-git-send-email-roland@kernel.org>
- <4acdd466-b8f6-8208-7287-e97dfd45bbf1@grimberg.me>
- <33dfc646-1804-363e-4d83-1ba618303dbb@grimberg.me>
- <20160801110956.GI16141@lst.de>
- <e6e54d3f-c6ee-2057-d4e5-13981cd95140@grimberg.me>
- <20160801155036.GC22771@lst.de>
- <CAG4TOxPNnUKWeh7FUY8YB127sx8yMu41FuP4hxUMCan_HWQmVQ@mail.gmail.com>
-Message-ID: <20160802125153.GC13235@lst.de>
+Date: Tue, 2 Aug 2016 14:52:57 +0200
+Subject: [PATCH 3/5] nvme-rdma: Make sure to shutdown the controller if
+ we can
+In-Reply-To: <cf6b0293-aba9-1a6f-28f2-3754b2eec4af@grimberg.me>
+References: <1469822242-3477-1-git-send-email-sagi@grimberg.me>
+ <1469822242-3477-4-git-send-email-sagi@grimberg.me>
+ <20160801110446.GD16141@lst.de>
+ <63b33585-3fd2-a497-94a1-34dc9484da99@grimberg.me>
+ <20160801154840.GB22771@lst.de>
+ <cf6b0293-aba9-1a6f-28f2-3754b2eec4af@grimberg.me>
+Message-ID: <20160802125257.GD13235@lst.de>
 
-On Mon, Aug 01, 2016@09:06:07AM -0700, Roland Dreier wrote:
-> On Mon, Aug 1, 2016@8:50 AM, Christoph Hellwig <hch@lst.de> wrote:
-> > It'd still need all the scope ID handling similar to what Roland did,
-> > and that's a fair chunk of code.  We have a few options to handle the
-> > different allowed addresses:
-> >
-> >  (1) v4/v6 only flags
-> >  (2) having low-level v4/v6 handlers and one that tries these both
-> >  (3) using the try both handler and rejecting the wrong one after
-> >      parsing.
-> >
-> > (3) seems easiest, but (2) sounds fine to me.  But I'd really like to
-> > hear from folks on the netdev list what they think of that idea first.
-> 
-> I think adding a new helper that parses both v4 and v6 addresses +
-> scope ID seems like the best thing for now.  I did a grep for in6_pton
-> and it looks like at least fs/cifs/netmisc.c and net/sunrpc/addr.c
-> could use the helper.
-> 
-> What do you think of adding inet_pton_with_scope() to
-> net/core/utils.c?  I'm open to better ideas on the name.  But I can
-> code that up and use it in nvme, as well as convert over the two
-> places I mentioned above.  The first parameter of the function can be
-> an af, and the caller can pass in AF_UNSPEC, AF_INET, or AF_INET6 to
-> restrict the parsing to one type of address (or not).
+On Tue, Aug 02, 2016@09:19:56AM +0300, Sagi Grimberg wrote:
+>> I don't want ->queue_rq to peek at controller state.  What I had
+>> in mind was copying the PCIe behavior of failing early in the
+>> timeout handler if we are in the reset handler, which will
+>> mean blk_execute_rq will return ASAP with an error.
+>
+> Do we want the unnecessary ADMIN_TIMEOUT for sending a shutdown
+> on a queue we know is not connected? I'm worried it will have scale
+> issues...
 
-Sounds fine to me, and I hope the netdev folks (Cc'ed) are fine with
-that as well.
+Allright, let's go with your version.
