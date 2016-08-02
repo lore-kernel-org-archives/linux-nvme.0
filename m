@@ -1,22 +1,34 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 2 Aug 2016 14:53:48 +0200
-Subject: [PATCH v3] nvmet-rdma: Correctly handle RDMA device hot removal
-In-Reply-To: <dc6286c3-a5c0-48a8-284d-f53b6830da22@grimberg.me>
-References: <1469967347-20466-1-git-send-email-sagi@grimberg.me>
- <20160801111530.GB16474@lst.de>
- <307087d1-88af-5244-38e8-5b9786285488@grimberg.me>
- <20160801155054.GD22771@lst.de>
- <dc6286c3-a5c0-48a8-284d-f53b6830da22@grimberg.me>
-Message-ID: <20160802125348.GE13235@lst.de>
+From: robert.r.randall@gmail.com (Robert Randall)
+Date: Tue, 2 Aug 2016 07:56:39 -0500
+Subject: Where are all the patches landing?
+In-Reply-To: <CAEqzOjuwPci12idmihNknojg7CuS9P0OPttBOqkEzPfTdcL4aw@mail.gmail.com>
+References: <CAEqzOjuwPci12idmihNknojg7CuS9P0OPttBOqkEzPfTdcL4aw@mail.gmail.com>
+Message-ID: <CAEqzOjvcKZWWvpsJQhc6AzmSLtauA0y7esK_cZdMi=0Ct0m1sg@mail.gmail.com>
 
-On Tue, Aug 02, 2016@09:39:48AM +0300, Sagi Grimberg wrote:
-> I'm not exactly sure what you mean. Do you mean placing
-> cmpxchg in nvmet_rdma_device_removal()? To what we cmp
-> when we want to xchg?
+May have answered this already.  The patches appear to be landing on
+the nvmf-4.9 branch.
+
+Please let me know if I should be using a different branch.
+
+THANKS!!
+Robert
+
+On Tue, Aug 2, 2016 at 7:41 AM, Robert Randall
+<robert.r.randall@gmail.com> wrote:
+> Prepping for FMS demo.  Just want to make sure we're using the latest
+> code at the show.  I've seen much patching activity but I don't see
+> them landing in the nvme-fabrics repository.
 >
-> Care to explain in a bit more detail?
+> Would one of the brilliant (honestly) contributors please educated me
+> on how to assemble the latest NVMeOF code?
+>
+> Best regards,
+> Robert
+>
+> --
+> Robert Randall | robert.r.randall at gmail.com
 
-Right, plain xchg() should be enough.  E.g. do an xchg both
-in the device removal handler and ->remove_port and only delete
-the CM_ID if the caller was the one taking it out the private
-data.
+
+
+-- 
+Robert Randall | robert.r.randall at gmail.com
