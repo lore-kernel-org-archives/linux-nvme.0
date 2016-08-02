@@ -1,81 +1,76 @@
-From: dledford@redhat.com (Doug Ledford)
-Date: Tue, 02 Aug 2016 13:24:16 -0400
-Subject: [PATCH v2 0/2] iwarp device removal deadlock fixes
-In-Reply-To: <cover.1469824577.git.swise@opengridcomputing.com>
-References: <cover.1469824577.git.swise@opengridcomputing.com>
-Message-ID: <1470158656.18081.17.camel@redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 2 Aug 2016 18:23:40 -0400
+Subject: [PATCH] nvme: Suspend all queues before deletion
+In-Reply-To: <1469812557-9809-1-git-send-email-krisman@linux.vnet.ibm.com>
+References: <1469812557-9809-1-git-send-email-krisman@linux.vnet.ibm.com>
+Message-ID: <20160802222340.GA28486@localhost.localdomain>
 
-On Fri, 2016-07-29@13:36 -0700, Steve Wise wrote:
-> This series fixes the deadlock issue discovered while testing
-> nvmf/rdma
-> handling rdma device removal events from the rdma_cm.??For a
-> discussion
-> of the deadlock that can happen, see
-> 
-> http://lists.infradead.org/pipermail/linux-nvme/2016-July/005440.html
-> .
-> 
-> For my description of the deadlock itself, see this post in the above
-> thread:
-> 
-> http://lists.infradead.org/pipermail/linux-nvme/2016-July/005465.html
-> 
-> In a nutshell, iw_cxgb4 and the iw_cm block during qp/cm_id
-> destruction
-> until all references are removed.??This combined with the iwarp CM
-> passing
-> disconnect events up to the rdma_cm during disconnect and/or qp/cm_id
-> destruction
-> leads to a deadlock.
-> 
-> My proposed solution is to remove the need for iw_cxgb4 and iw_cm to
-> block during object destruction for the refnts to reach 0, but rather
-> to
-> let the freeing of the object memory be deferred when the last deref
-> is
-> done, which is SOP in the much of the linux kernel. This allows all
-> the
-> qps/cm_ids to be destroyed without blocking, and all the object
-> memory
-> freeing ends up happinging when the application's device_remove event
-> handler function returns to the rdma_cm.
-> 
-> This series is needed along with Sagi's fixes from:
-> https://www.spinics.net/lists/linux-rdma/msg38715.html
-> 
-> Hey Faisal, it would be great to get some review/test tags from Intel
-> on the iw_cm change.??Thanks!
-> 
-> Changes since v1:
-> 
-> - reworded commit text for the iw_cm patch
-> 
-> - added a iw_cm_id flag to drop pending events when the cm_id has
-> been marked for destruction.
-> 
-> ---
-> 
-> Steve Wise (2):
-> ? iw_cxgb4: don't block in destroy_qp awaiting the last deref
-> ? iw_cm: free cm_id resources on the last deref
-> 
-> ?drivers/infiniband/core/iwcm.c?????????| 54 +++++++++++-------------
-> ----------
-> ?drivers/infiniband/core/iwcm.h?????????|??2 +-
-> ?drivers/infiniband/hw/cxgb4/iw_cxgb4.h |??2 +-
-> ?drivers/infiniband/hw/cxgb4/qp.c???????| 21 ++++++++-----
-> ?4 files changed, 33 insertions(+), 46 deletions(-)
-> 
+On Fri, Jul 29, 2016@02:15:57PM -0300, Gabriel Krisman Bertazi wrote:
+> -	for (pass = 0; pass < 2; pass++) {
+> -		int sent = 0, i = queues;
+> +	reinit_completion(&dev->ioq_wait);
+> +	for (i = queues; i > 0; i--)
+> +		nvme_suspend_queue(dev->queues[i]);
+>  
+> -		reinit_completion(&dev->ioq_wait);
+> - retry:
+> -		timeout = ADMIN_TIMEOUT;
+> -		for (; i > 0; i--) {
+> -			struct nvme_queue *nvmeq = dev->queues[i];
+> +	for (i = queues; i > 0; i--) {
+> +retry_sq:
+> +		if (nvme_delete_queue(dev->queues[i], nvme_admin_delete_sq))
+> +			break;
+> +		sent++;
+> +retry_cq:
+> +		if (nvme_delete_queue(dev->queues[i], nvme_admin_delete_cq))
+> +			break;
+> +		sent++;
 
-Series applied, thanks.
+I see what this is fixing, and maybe this works for most controllers,
+but this isn't a spec compliant way to delete queues: "Host software
+shall ensure that any associated I/O Submission Queue is deleted prior
+to deleting a Completion Queue". The host can't know if the submission
+queue is deleted until it sees status the delete command.
 
--- 
-Doug Ledford <dledford at redhat.com>
-              GPG KeyID: 0E572FDD
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 819 bytes
-Desc: This is a digitally signed message part
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160802/ec1255d9/attachment.sig>
+Maybe we should suspend queues unconditionally during disable?
+
+---
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index befac5b..e7b7e8e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1564,8 +1564,6 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
+ 		for (; i > 0; i--) {
+ 			struct nvme_queue *nvmeq = dev->queues[i];
+ 
+-			if (!pass)
+-				nvme_suspend_queue(nvmeq);
+ 			if (nvme_delete_queue(nvmeq, opcode))
+ 				break;
+ 			++sent;
+@@ -1716,15 +1714,16 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 		nvme_stop_queues(&dev->ctrl);
+ 		csts = readl(dev->bar + NVME_REG_CSTS);
+ 	}
+-	if (csts & NVME_CSTS_CFS || !(csts & NVME_CSTS_RDY)) {
+-		for (i = dev->queue_count - 1; i >= 0; i--) {
+-			struct nvme_queue *nvmeq = dev->queues[i];
+-			nvme_suspend_queue(nvmeq);
+-		}
+-	} else {
++
++	for (i = dev->queue_count - 1; i > 0; i--)
++		nvme_suspend_queue(dev->queues[i]);
++
++	if (!(csts & NVME_CSTS_CFS || !(csts & NVME_CSTS_RDY))) {
+ 		nvme_disable_io_queues(dev);
+ 		nvme_disable_admin_queue(dev, shutdown);
+-	}
++	} else
++		nvme_suspend_queue(dev->queues[0]);
++
+ 	nvme_pci_disable(dev);
+ 
+ 	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_io, dev);
+--
