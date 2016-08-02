@@ -1,32 +1,39 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 2 Aug 2016 09:39:48 +0300
-Subject: [PATCH v3] nvmet-rdma: Correctly handle RDMA device hot removal
-In-Reply-To: <20160801155054.GD22771@lst.de>
-References: <1469967347-20466-1-git-send-email-sagi@grimberg.me>
- <20160801111530.GB16474@lst.de>
- <307087d1-88af-5244-38e8-5b9786285488@grimberg.me>
- <20160801155054.GD22771@lst.de>
-Message-ID: <dc6286c3-a5c0-48a8-284d-f53b6830da22@grimberg.me>
+Date: Tue, 2 Aug 2016 09:41:41 +0300
+Subject: [PATCH 2/2] nvme-rdma: Add handling for connecting to IPv6 targets
+In-Reply-To: <20160801155036.GC22771@lst.de>
+References: <1469950060-18098-1-git-send-email-roland@kernel.org>
+ <1469950060-18098-2-git-send-email-roland@kernel.org>
+ <4acdd466-b8f6-8208-7287-e97dfd45bbf1@grimberg.me>
+ <33dfc646-1804-363e-4d83-1ba618303dbb@grimberg.me>
+ <20160801110956.GI16141@lst.de>
+ <e6e54d3f-c6ee-2057-d4e5-13981cd95140@grimberg.me>
+ <20160801155036.GC22771@lst.de>
+Message-ID: <00f4776b-eb5b-7061-6314-d9a822b282f0@grimberg.me>
 
 
->>> How is ->remove_port synchronized vs the RDMA/CM even handler?
+>>>> Currently the target driver doesn't support ipv6 addresses.
+>>>>
+>>>> These complementary patches [1,2] makes the it work e2e! So,
+>>>
+>>> I think we should use the same ipv6 addr parsing that Roland used
+>>> in the host, and preferably have another module export that as a helper.
 >>
->> Easy, it isn't :)
->>
->> So we have three choices here:
->> 1. Add a lock in nvmet_port that only rdma will use for now (don't like
->> it)
->> or
->> 2. Add nvmet_rdma_port as nvmet_port->priv with a lock (don't like it)
->> or
->> 3. take the global nvmet_config_sem (hate it)
->>
->> Any preferences?
+>> I can try to unify them, but unlike the host that first tries ipv4 and
+>> then fall to ipv6, the target needs to enforce the address family so
+>> it's somewhat different. I kinda think that these are different enough
+>> to stay separate don't you think?
 >
-> (4) use cmpxchg?
+> It'd still need all the scope ID handling similar to what Roland did,
+> and that's a fair chunk of code.  We have a few options to handle the
+> different allowed addresses:
+>
+>  (1) v4/v6 only flags
+>  (2) having low-level v4/v6 handlers and one that tries these both
+>  (3) using the try both handler and rejecting the wrong one after
+>      parsing.
+>
+> (3) seems easiest, but (2) sounds fine to me.  But I'd really like to
+> hear from folks on the netdev list what they think of that idea first.
 
-I'm not exactly sure what you mean. Do you mean placing
-cmpxchg in nvmet_rdma_device_removal()? To what we cmp
-when we want to xchg?
-
-Care to explain in a bit more detail?
+(2) sounds fine to me too.
