@@ -1,102 +1,65 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  2 Aug 2016 10:53:35 +0300
-Subject: [PATCH v2 1/5] nvme-rdma: Fix device removal handling
+Date: Tue,  2 Aug 2016 10:53:36 +0300
+Subject: [PATCH v2 2/5] nvme-rdma: Remove duplicate call to
+ nvme_remove_namespaces
 In-Reply-To: <1470124419-30405-1-git-send-email-sagi@grimberg.me>
 References: <1470124419-30405-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1470124419-30405-2-git-send-email-sagi@grimberg.me>
+Message-ID: <1470124419-30405-3-git-send-email-sagi@grimberg.me>
 
-Device removal sequence may have crashed because the
-controller (and admin queue space) was freed before
-we destroyed the admin queue resources. Thus we
-want to destroy the admin queue and only then queue
-controller deletion and wait for it to complete.
+nvme_uninit_ctrl already does that for us. Note that we reordered
+nvme_rdma_shutdown_ctrl and nvme_uninit_ctrl, this is perfectly
+fine because we actually want ctrl uninit (aen, scan cancellation
+and namespaces removal) to happen before we shutdown the rdma
+resources.
 
-More specifically we:
-1. own the controller deletion (make sure we are not
-   competing with another deletion).
-2. get rid of inflight reconnects if exists (which
-   also destroy and create queues).
-3. destroy the queue.
-4. safely queue controller deletion (and wait for it
-   to complete).
+Also, centralize the deletion work and the dead controller removal
+work code duplication into __nvme_rdma_shutdown_ctrl that accepts
+a shutdown boolean.
 
-Reported-by: Steve Wise <swise at opengridcomputing.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/rdma.c | 41 +++++++++++++++++++++--------------------
- 1 file changed, 21 insertions(+), 20 deletions(-)
+ drivers/nvme/host/rdma.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 21ecbf3f3603..f391d67e4ee0 100644
+index f391d67e4ee0..39330bd295d4 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -169,7 +169,6 @@ MODULE_PARM_DESC(register_always,
- static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
- 		struct rdma_cm_event *event);
- static void nvme_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc);
--static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl);
- 
- /* XXX: really should move to a generic header sooner or later.. */
- static inline void put_unaligned_le24(u32 val, u8 *p)
-@@ -1318,37 +1317,39 @@ out_destroy_queue_ib:
-  * that caught the event. Since we hold the callout until the controller
-  * deletion is completed, we'll deadlock if the controller deletion will
-  * call rdma_destroy_id on this queue's cm_id. Thus, we claim ownership
-- * of destroying this queue before-hand, destroy the queue resources
-- * after the controller deletion completed with the exception of destroying
-- * the cm_id implicitely by returning a non-zero rc to the callout.
-+ * of destroying this queue before-hand, destroy the queue resources,
-+ * then queue the controller deletion which won't destroy this queue and
-+ * we destroy the cm_id implicitely by returning a non-zero rc to the callout.
-  */
- static int nvme_rdma_device_unplug(struct nvme_rdma_queue *queue)
- {
- 	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
--	int ret, ctrl_deleted = 0;
-+	int ret;
- 
--	/* First disable the queue so ctrl delete won't free it */
--	if (!test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags))
--		goto out;
-+	/* Own the controller deletion */
-+	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
-+		return 0;
- 
--	/* delete the controller */
--	ret = __nvme_rdma_del_ctrl(ctrl);
--	if (!ret) {
--		dev_warn(ctrl->ctrl.device,
--			"Got rdma device removal event, deleting ctrl\n");
--		flush_work(&ctrl->delete_work);
-+	dev_warn(ctrl->ctrl.device,
-+		"Got rdma device removal event, deleting ctrl\n");
- 
--		/* Return non-zero so the cm_id will destroy implicitly */
--		ctrl_deleted = 1;
-+	/* Get rid of reconnect work if its running */
-+	cancel_delayed_work_sync(&ctrl->reconnect_work);
- 
-+	/* Disable the queue so ctrl delete won't free it */
-+	if (test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags)) {
- 		/* Free this queue ourselves */
--		rdma_disconnect(queue->cm_id);
--		ib_drain_qp(queue->qp);
-+		nvme_rdma_stop_queue(queue);
- 		nvme_rdma_destroy_queue_ib(queue);
-+
-+		/* Return non-zero so the cm_id will destroy implicitly */
-+		ret = 1;
- 	}
- 
--out:
--	return ctrl_deleted;
-+	/* Queue controller deletion */
-+	queue_work(nvme_rdma_wq, &ctrl->delete_work);
-+	flush_work(&ctrl->delete_work);
-+	return ret;
+@@ -1658,15 +1658,20 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl)
+ 	nvme_rdma_destroy_admin_queue(ctrl);
  }
  
- static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
++static void __nvme_rdma_remove_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
++{
++	nvme_uninit_ctrl(&ctrl->ctrl);
++	if (shutdown)
++		nvme_rdma_shutdown_ctrl(ctrl);
++	nvme_put_ctrl(&ctrl->ctrl);
++}
++
+ static void nvme_rdma_del_ctrl_work(struct work_struct *work)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = container_of(work,
+ 				struct nvme_rdma_ctrl, delete_work);
+ 
+-	nvme_remove_namespaces(&ctrl->ctrl);
+-	nvme_rdma_shutdown_ctrl(ctrl);
+-	nvme_uninit_ctrl(&ctrl->ctrl);
+-	nvme_put_ctrl(&ctrl->ctrl);
++	__nvme_rdma_remove_ctrl(ctrl, true);
+ }
+ 
+ static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl)
+@@ -1699,9 +1704,7 @@ static void nvme_rdma_remove_ctrl_work(struct work_struct *work)
+ 	struct nvme_rdma_ctrl *ctrl = container_of(work,
+ 				struct nvme_rdma_ctrl, delete_work);
+ 
+-	nvme_remove_namespaces(&ctrl->ctrl);
+-	nvme_uninit_ctrl(&ctrl->ctrl);
+-	nvme_put_ctrl(&ctrl->ctrl);
++	__nvme_rdma_remove_ctrl(ctrl, false);
+ }
+ 
+ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
 -- 
 1.9.1
