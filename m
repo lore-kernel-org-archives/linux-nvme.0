@@ -1,47 +1,37 @@
-From: haggaie@mellanox.com (Haggai Eran)
-Date: Tue, 2 Aug 2016 07:15:26 +0000
-Subject: [RFC 6/7] NVMe: Use genalloc to allocate CMB regions
-In-Reply-To: <20160801162057.GA11476@localhost.localdomain>
-References: <1470034653-9097-1-git-send-email-haggaie@mellanox.com>
- <1470034653-9097-7-git-send-email-haggaie@mellanox.com>
- <20160801155348.GB23224@infradead.org>
- <20160801162057.GA11476@localhost.localdomain>
-Message-ID: <1470122126.20129.11.camel@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue,  2 Aug 2016 10:53:34 +0300
+Subject: [PATCH v2 0/5] Some fabrics fixes
+Message-ID: <1470124419-30405-1-git-send-email-sagi@grimberg.me>
 
-On ?', 2016-08-01@10:20 -0600, Jon Derrick wrote:
-> On Mon, Aug 01, 2016@08:53:49AM -0700, Christoph Hellwig wrote:
-> > 
-> > On Mon, Aug 01, 2016@09:57:32AM +0300, Haggai Eran wrote:
-> > > 
-> > > Register the CMB in a gen_pool dedicated to manage CMB regions.
-> > > Use the
-> > > pool to allocate the SQs to make sure they are registered.
-> > And why would the NVMe driver care if "they are registered"?
-> > 
-> > Once we start allowing diverse CMB uses (what happened to Jon's
-> > patches
-> > btw?) genalloc might be a good backend allocator, but without that
-> > it's entirely pointless.??Also please don't introduce useless
-> > header
-> > files.
-> My concern is using CMB as a generic memory space could lead to
-> invalid uses and untested paths in broken firmware (leading to
-> bricked drives...). The spec defines what it's allowed to be used
-> for, but doesn't really leave it open for general purpose usage
-> outside of that. Because of that I think it needs more hand-holding
-> by the kernel to prevent invalid usage.
-I understand. Did you happen to think of how the kernel would expose
-it?
+A set of fixes to the nvme-rdma host driver. First two patches relate
+to bug reports from Steve Wise on dervice removal handling (and go
+together with Steve's iwcm patch set).
 
-> What I would like to see is a set of knobs controlling the 'chunks'
-> of memory's usages (controlled through sysfs/configfs?) and the
-> kernel takes care of allocation. My set was going to expose a
-> resource file for WDS/RDS but everything else was unhandled except
-> for its current sqes usage. I think the genalloc could fit into this
-> scheme quite well.
-What do you mean by a resource file? Are you referring to the
-sysfs/configfs knob or to a file that exposes the resource to user-
-space?
+Next two patches remove redundant calls to nvme_remove_namespaces
+which is called from nvme_uninit_ctrl.
 
-Thanks,
-Haggai
+The last patch fixes the host behavior that it never shutdown the
+controller (wrong check on the controller state). Christoph,
+we can either go with this and change the behavior incrementally
+(currently we never shutdown the controller) or I can just remove
+the patch altogether.
+
+Changes from v1:
+- rearranged nvme ctrl remove to avoid code duplication
+- added some change log info to rdma and loop uninit and
+  shutdown reordering.
+- collected some review tags
+
+Sagi Grimberg (5):
+  nvme-rdma: Fix device removal handling
+  nvme-rdma: Remove duplicate call to nvme_remove_namespaces
+  nvme-rdma: Free the I/O tags when we delete the controller
+  nvme-loop: Remove duplicate call to nvme_remove_namespaces
+  nvme-rdma: Make sure to shutdown the controller if we can
+
+ drivers/nvme/host/rdma.c   | 72 +++++++++++++++++++++++++---------------------
+ drivers/nvme/target/loop.c |  4 +--
+ 2 files changed, 40 insertions(+), 36 deletions(-)
+
+-- 
+1.9.1
