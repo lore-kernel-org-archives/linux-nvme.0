@@ -1,344 +1,119 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Tue, 02 Aug 2016 17:15:44 -0700
-Subject: [PATCH 5/5] nvme-fabrics: Add FC LLDD loopback driver to test
- FC host and target transport
-In-Reply-To: <5792b91f.Lb5BdNQrSWnmgOYG%james.smart@broadcom.com>
-References: <5792b91f.Lb5BdNQrSWnmgOYG%james.smart@broadcom.com>
-Message-ID: <1470183344.3928.54.camel@linux.intel.com>
+From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
+Date: Tue, 02 Aug 2016 23:10:38 -0300
+Subject: [PATCH v2] nvme: Suspend all queues before deletion
+In-Reply-To: <20160802222340.GA28486@localhost.localdomain> (Keith Busch's
+ message of "Tue, 2 Aug 2016 18:23:40 -0400")
+References: <1469812557-9809-1-git-send-email-krisman@linux.vnet.ibm.com>
+ <20160802222340.GA28486@localhost.localdomain>
+Message-ID: <87h9b2k3fl.fsf_-_@linux.vnet.ibm.com>
 
-On Fri, 2016-07-22@17:23 -0700, James Smart wrote:
+Keith Busch <keith.busch at intel.com> writes:
 
-A couple comments.
+> I see what this is fixing, and maybe this works for most controllers,
+> but this isn't a spec compliant way to delete queues: "Host software
+> shall ensure that any associated I/O Submission Queue is deleted prior
+> to deleting a Completion Queue". The host can't know if the submission
+> queue is deleted until it sees status the delete command.
 
-> Add FC LLDD loopback driver to test FC host and target transport
-> within
-> nvme-fabrics
-> 
-> To aid in the development and testing of the lower-level api of the
-> FC
-> transport, this loopback driver has been created to act as if it were
-> a
-> FC hba driver supporting both the host interfaces as well as the
-> target
-> interfaces with the nvme FC transport.
-> 
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> 
-> ---
+Hi Keith,
 
-snip...
+Thanks for your review.  I see the problem you pointed out, I actually
+had thought of that, but I assumed it wouldn't be a problem, as long as
+we removed the corresponding SQ before the CQ.  My mistake.
 
->  +int
-> +fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
-> +			struct nvmefc_tgt_fcp_req *tgt_fcpreq)
-> +{
-> +	struct fcloop_fcpreq *tfcp_req =
-> +		container_of(tgt_fcpreq, struct fcloop_fcpreq,
-> tgt_fcp_req);
-> +	struct nvmefc_fcp_req *fcpreq = tfcp_req->fcpreq;
-> +	u32 rsplen = 0, xfrlen = 0;
-> +	int fcp_err = 0;
-> +	u8 op = tgt_fcpreq->op;
-> +
-> +	switch (op) {
-> +	case NVMET_FCOP_WRITEDATA:
-> +		xfrlen = tgt_fcpreq->transfer_length;
-> +		fcloop_fcp_copy_data(op, tgt_fcpreq->sg, fcpreq
-> ->first_sgl,
-> +					tgt_fcpreq->offset, xfrlen);
-> +		fcpreq->transferred_length += xfrlen;
-> +		break;
-> +
-> +	case NVMET_FCOP_READDATA:
-> +	case NVMET_FCOP_READDATA_RSP:
-> +		xfrlen = tgt_fcpreq->transfer_length;
-> +		fcloop_fcp_copy_data(op, tgt_fcpreq->sg, fcpreq
-> ->first_sgl,
-> +					tgt_fcpreq->offset, xfrlen);
-> +		fcpreq->transferred_length += xfrlen;
-> +		if (op == NVMET_FCOP_READDATA)
-> +			break;
-> +
-> +		/* Fall-Thru to RSP handling */
-> +
-> +	case NVMET_FCOP_RSP:
-> +		rsplen = ((fcpreq->rsplen < tgt_fcpreq->rsplen) ?
-> +				fcpreq->rsplen : tgt_fcpreq
-> ->rsplen);
-> +		memcpy(fcpreq->rspaddr, tgt_fcpreq->rspaddr,
-> rsplen);
-> +		if (rsplen < tgt_fcpreq->rsplen)
-> +			fcp_err = -E2BIG;
-> +		fcpreq->rcv_rsplen = rsplen;
-> +		fcpreq->status = 0;
-> +		tfcp_req->status = 0;
-> +		break;
-> +
-> +	case NVMET_FCOP_ABORT:
-> +		tfcp_req->status = NVME_SC_FC_TRANSPORT_ABORTED;
-> +		break;
-> +
-> +	default:
-> +		fcp_err = -EINVAL;
-> +		break;
-> +	}
-> +
-> +	tgt_fcpreq->transferred_length = xfrlen;
-> +	tgt_fcpreq->fcp_error = fcp_err;
-> +	tgt_fcpreq->done(tgt_fcpreq);
-> +
-> +	if ((!fcp_err) && (op == NVMET_FCOP_RSP ||
-> +			op == NVMET_FCOP_READDATA_RSP ||
-> +			op == NVMET_FCOP_ABORT))
-> +		schedule_work(&tfcp_req->work);
-> +
-> +	return 0;
+> Maybe we should suspend queues unconditionally during disable?
 
-if this function returns an 'int', why would it always return 0 and not
-the fcp_err values (if there is an error)?
-
-> +}
-> +
-> +void
-> +fcloop_ls_abort(struct nvme_fc_local_port *localport,
-> +			struct nvme_fc_remote_port *remoteport,
-> +				struct nvmefc_ls_req *lsreq)
-> +{
-> +}
-> +
-> +void
-> +fcloop_fcp_abort(struct nvme_fc_local_port *localport,
-> +			struct nvme_fc_remote_port *remoteport,
-> +			void *hw_queue_handle,
-> +			struct nvmefc_fcp_req *fcpreq)
-> +{
-> +}
-> +
-> +
-> +struct nvme_fc_port_template fctemplate = {
-> +	.create_queue	= fcloop_create_queue,
-> +	.delete_queue	= fcloop_delete_queue,
-> +	.ls_req		= fcloop_ls_req,
-> +	.fcp_io		= fcloop_fcp_req,
-> +	.ls_abort	= fcloop_ls_abort,
-> +	.fcp_abort	= fcloop_fcp_abort,
-> +
-> +	.max_hw_queues	= 1,
-> +	.max_sgl_segments = 256,
-> +	.max_dif_sgl_segments = 256,
-> +	.dma_boundary = 0xFFFFFFFF,
-
-Between here and "struct nvmet_fc_target_template tgttemplate" they are
-assigning the same magic values to the same variable names, so why not
-have these values as #defines for a tad easier maintainability?
-
-> +	/* sizes of additional private data for data structures */
-> +	.local_priv_sz	= sizeof(struct fcloop_lport),
-> +	.remote_priv_sz	= sizeof(struct fcloop_rport),
-> +	.lsrqst_priv_sz = sizeof(struct fcloop_lsreq),
-> +	.fcprqst_priv_sz = sizeof(struct fcloop_fcpreq),
-> +};
-> +
-> +struct nvmet_fc_target_template tgttemplate = {
-> +	.xmt_ls_rsp	= fcloop_xmt_ls_rsp,
-> +	.fcp_op		= fcloop_fcp_op,
-> +
-> +	.max_hw_queues	= 1,
-> +	.max_sgl_segments = 256,
-> +	.max_dif_sgl_segments = 256,
-> +	.dma_boundary = 0xFFFFFFFF,
-> +
-
-see above comment.
-
-> +	/* optional features */
-> +	.target_features = NVMET_FCTGTFEAT_READDATA_RSP,
-> +
-> +	/* sizes of additional private data for data structures */
-> +	.target_priv_sz = sizeof(struct fcloop_tgtport),
-> +};
-> +
-> +static ssize_t
-> +fcloop_create_local_port(struct device *dev, struct device_attribute
-> *attr,
-> +		const char *buf, size_t count)
-> +{
-> +	struct nvme_fc_port_info pinfo;
-> +	struct fcloop_ctrl_options *opts;
-> +	struct nvme_fc_local_port *localport;
-> +	struct fcloop_lport *lport;
-> +	int ret;
-> +
-> +	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
-> +	if (!opts)
-> +		return -ENOMEM;
-> +
-> +	ret = fcloop_parse_options(opts, buf);
-> +	if (ret)
-> +		goto out_free_opts;
-> +
-> +	/* everything there ? */
-> +	if ((opts->mask & LPORT_OPTS) != LPORT_OPTS) {
-> +		ret = -EINVAL;
-> +		goto out_free_opts;
-> +	}
-> +
-> +	pinfo.fabric_name = opts->fabric;
-> +	pinfo.node_name = opts->wwnn;
-> +	pinfo.port_name = opts->wwpn;
-> +	pinfo.port_role = opts->roles;
-> +	pinfo.port_id = opts->fcaddr;
-> +
-> +	ret = nvme_fc_register_localport(&pinfo, &fctemplate, NULL,
-> &localport);
-> +	if (!ret) {
-> +		/* success */
-> +		lport = localport->private;
-> +		lport->localport = localport;
-> +		INIT_LIST_HEAD(&lport->list);
-> +		INIT_LIST_HEAD(&lport->rport_list);
-> +		list_add_tail(&lport->list, &fcloop_lports);
-> +
-> +		/* mark all of the input buffer consumed */
-> +		ret = count;
-> +	}
-> +
-> +out_free_opts:
-> +	kfree(opts);
-> +	return ret;
-> +}
-> +
-> +static int __delete_local_port(struct fcloop_lport *lport)
-> +{
-> +	int ret;
-> +
-> +	if (!list_empty(&lport->rport_list))
-> +		return -EBUSY;
-> +
-> +	list_del(&lport->list);
-> +
-
-Is a mutex or locking mechanism not needed here for this list?
-
-> +	ret = nvme_fc_unregister_localport(lport->localport);
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t
-> +fcloop_delete_local_port(struct device *dev, struct device_attribute
-> *attr,
-> +		const char *buf, size_t count)
-> +{
-> +	struct fcloop_lport *lport, *lnext;
-> +	u64 fabric, portname;
-> +	int ret;
-> +
-> +	ret = fcloop_parse_nm_options(dev, &fabric, &portname, buf);
-> +	if (ret)
-> +		return ret;
-> +
-> +	list_for_each_entry_safe(lport, lnext, &fcloop_lports, list)
-> {
-> +		if ((lport->localport->fabric_name == fabric) &&
-> +		    (lport->localport->port_name == portname)) {
-> +			break;
-> +		}
-> +	}
-> +	if (is_end_of_list(lport, &fcloop_lports, list))
-> +		return -ENOENT;
-> +
-> +	ret = __delete_local_port(lport);
-> +
-> +	if (!ret)
-> +		return count;
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t
-> +fcloop_create_remote_port(struct device *dev, struct
-> device_attribute *attr,
-> +		const char *buf, size_t count)
-> +{
-> +	struct fcloop_ctrl_options *opts;
-> +	struct fcloop_lport *lport, *lnext;
-> +	struct nvme_fc_remote_port *remoteport;
-> +	struct fcloop_rport *rport;
-> +	struct nvme_fc_port_info pinfo;
-> +	struct nvmet_fc_port_info tinfo;
-> +	int ret;
-> +
-> +	opts = kzalloc(sizeof(*opts), GFP_KERNEL);
-> +	if (!opts)
-> +		return -ENOMEM;
-> +
-> +	ret = fcloop_parse_options(opts, buf);
-> +	if (ret)
-> +		goto out_free_opts;
-> +
-> +	/* everything there ? */
-> +	if ((opts->mask & RPORT_OPTS) != RPORT_OPTS) {
-> +		ret = -EINVAL;
-> +		goto out_free_opts;
-> +	}
-> +
-> +	pinfo.fabric_name = tinfo.fabric_name = opts->fabric;
-> +	pinfo.node_name = tinfo.node_name = opts->wwnn;
-> +	pinfo.port_name = tinfo.port_name = opts->wwpn;
-> +	pinfo.port_role = opts->roles;
-> +	pinfo.port_id = tinfo.port_id = opts->fcaddr;
-> +
-> +	list_for_each_entry_safe(lport, lnext, &fcloop_lports, list)
-> {
-> +		if (lport->localport->fabric_name == opts->fabric)
-> +			break;
-> +	}
-> +	if (is_end_of_list(lport, &fcloop_lports, list)) {
-> +		ret = -ENOENT;
-> +		goto out_free_opts;
-> +	}
-> +
-> +	ret = nvme_fc_register_remoteport(lport->localport, &pinfo,
-> +					&remoteport);
-> +	if (ret)
-> +		goto out_free_opts;
-> +
-> +	/* success */
-> +	rport = remoteport->private;
-> +	rport->remoteport = remoteport;
-> +	INIT_LIST_HEAD(&rport->list);
-> +	list_add_tail(&rport->list, &lport->rport_list);
-
-is there not a mutex or locking mechanism needed when manipulating this
-list?
-
-> +
-> +	/* tie into nvme target side */
-> +	ret = nvmet_fc_register_targetport(&tinfo, &tgttemplate,
-> NULL,
-> +					&rport->targetport);
-> +	if (ret) {
-> +		list_del(&rport->list);
-> +		(void)nvme_fc_unregister_remoteport(remoteport);
-> +	} else {
-> +		struct fcloop_tgtport *tport;
-> +
-> +		tport = rport->targetport->private;
-> +		tport->rport = rport;
-> +		tport->lport = lport;
-> +		tport->tgtport = rport->targetport;
-> +
-> +		/* mark all of the input buffer consumed */
-> +		ret = count;
-> +	}
-> +
-> +out_free_opts:
-> +	kfree(opts);
-> +	return ret;
-> +}
-> +
+Yes, that approach seems to be ok. Please take the tested v2 below, in
+which I apply your suggestion, as well as clean up a bit the code in
+nvme_disable_io_queues and simplify the logic a bit.
 
 Thanks,
-J
+
+-- >8 --
+Subject: [PATCH v2] nvme: Suspend all queues before deletion
+
+When nvme_delete_queue fails in the first pass of the
+nvme_disable_io_queues() loop, we return early, failing to suspend all
+of the IO queues.  Later, on the nvme_pci_disable path, this causes us
+to disable MSI without actually having freed all the IRQs, which
+triggers the BUG_ON in free_msi_irqs(), as show below.
+
+This patch refactors nvme_disable_io_queues to suspend all queues before
+start submitting delete queue commands.  This way, we ensure that we
+have at least returned every IRQ before continuing with the removal
+path.
+
+[  487.529200] kernel BUG at ../drivers/pci/msi.c:368!
+cpu 0x46: Vector: 700 (Program Check) at [c0000078c5b83650]
+    pc: c000000000627a50: free_msi_irqs+0x90/0x200
+    lr: c000000000627a40: free_msi_irqs+0x80/0x200
+    sp: c0000078c5b838d0
+   msr: 9000000100029033
+  current = 0xc0000078c5b40000
+  paca    = 0xc000000002bd7600   softe: 0        irq_happened: 0x01
+    pid   = 1376, comm = kworker/70:1H
+kernel BUG at ../drivers/pci/msi.c:368!
+Linux version 4.7.0.mainline+ (root at iod76) (gcc version 5.3.1 20160413
+(Ubuntu/IBM 5.3.1-14ubuntu2.1) ) #104 SMP Fri Jul 29 09:20:17 CDT 2016
+enter ? for help
+[c0000078c5b83920] d0000000363b0cd8 nvme_dev_disable+0x208/0x4f0 [nvme]
+[c0000078c5b83a10] d0000000363b12a4 nvme_timeout+0xe4/0x250 [nvme]
+[c0000078c5b83ad0] c0000000005690e4 blk_mq_rq_timed_out+0x64/0x110
+[c0000078c5b83b40] c00000000056c930 bt_for_each+0x160/0x170
+[c0000078c5b83bb0] c00000000056d928 blk_mq_queue_tag_busy_iter+0x78/0x110
+[c0000078c5b83c00] c0000000005675d8 blk_mq_timeout_work+0xd8/0x1b0
+[c0000078c5b83c50] c0000000000e8cf0 process_one_work+0x1e0/0x590
+[c0000078c5b83ce0] c0000000000e9148 worker_thread+0xa8/0x660
+[c0000078c5b83d80] c0000000000f2090 kthread+0x110/0x130
+[c0000078c5b83e30] c0000000000095f0 ret_from_kernel_thread+0x5c/0x6c
+
+Signed-off-by: Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com>
+Cc: Brian King <brking at linux.vnet.ibm.com>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: linux-nvme at lists.infradead.org
+---
+ drivers/nvme/host/pci.c | 20 ++++++++------------
+ 1 file changed, 8 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index befac5b..cf38fe4 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1561,15 +1561,10 @@ static void nvme_disable_io_queues(struct nvme_dev *dev)
+ 		reinit_completion(&dev->ioq_wait);
+  retry:
+ 		timeout = ADMIN_TIMEOUT;
+-		for (; i > 0; i--) {
+-			struct nvme_queue *nvmeq = dev->queues[i];
+-
+-			if (!pass)
+-				nvme_suspend_queue(nvmeq);
+-			if (nvme_delete_queue(nvmeq, opcode))
++		for (; i > 0; i--, sent++)
++			if (nvme_delete_queue(dev->queues[i], opcode))
+ 				break;
+-			++sent;
+-		}
++
+ 		while (sent--) {
+ 			timeout = wait_for_completion_io_timeout(&dev->ioq_wait, timeout);
+ 			if (timeout == 0)
+@@ -1716,11 +1711,12 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 		nvme_stop_queues(&dev->ctrl);
+ 		csts = readl(dev->bar + NVME_REG_CSTS);
+ 	}
++
++	for (i = dev->queue_count - 1; i > 0; i--)
++		nvme_suspend_queue(dev->queues[i]);
++
+ 	if (csts & NVME_CSTS_CFS || !(csts & NVME_CSTS_RDY)) {
+-		for (i = dev->queue_count - 1; i >= 0; i--) {
+-			struct nvme_queue *nvmeq = dev->queues[i];
+-			nvme_suspend_queue(nvmeq);
+-		}
++		nvme_suspend_queue(dev->queues[0]);
+ 	} else {
+ 		nvme_disable_io_queues(dev);
+ 		nvme_disable_admin_queue(dev, shutdown);
+-- 
+2.7.4
