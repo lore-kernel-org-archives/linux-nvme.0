@@ -1,175 +1,84 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  3 Aug 2016 16:19:53 +0300
-Subject: [PATCH v4] nvmet-rdma: Correctly handle RDMA device hot removal
-Message-ID: <1470230393-23671-1-git-send-email-sagi@grimberg.me>
+Date: Thu,  4 Aug 2016 13:34:39 +0300
+Subject: [PATCH] nvmet: Fix controller serial number inconsistency
+Message-ID: <1470306879-5196-1-git-send-email-sagi@grimberg.me>
 
-When configuring a device attached listener, we may
-see device removal events. In this case we return a
-non-zero return code from the cm event handler which
-implicitly destroys the cm_id. It is possible that in
-the future the user will remove this listener and by
-that trigger a second call to rdma_destroy_id on an
-already destroyed cm_id -> BUG.
-
-In addition, when a queue bound (active session) cm_id
-generates a DEVICE_REMOVAL event we must guarantee all
-resources are cleaned up by the time we return from the
-event handler.
-
-Introduce nvmet_rdma_device_removal which addresses
-(or at least attempts to) both scenarios.
+The host is allowed to issue identify as many times
+as it wants, we need to stay consistent when reporting
+the serial number for a given controller.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
-Changes from v3:
-- Fixed synchronization of device removal on the listener cm_id and
-  user-initiated port removal.
+ drivers/nvme/target/admin-cmd.c | 6 +-----
+ drivers/nvme/target/core.c      | 4 ++++
+ drivers/nvme/target/nvmet.h     | 1 +
+ 3 files changed, 6 insertions(+), 5 deletions(-)
 
-Changes from v2:
-- Fixed (an old) review comment from hch,
-  remove redundant locking around the queue state.
-
-Changes from v1:
-- Fixed some typos resulting of uncommited code conflicts of an old patch.
-
- drivers/nvme/target/rdma.c | 87 +++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 70 insertions(+), 17 deletions(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index e06d504bdf0c..48c811850c29 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -77,6 +77,7 @@ enum nvmet_rdma_queue_state {
- 	NVMET_RDMA_Q_CONNECTING,
- 	NVMET_RDMA_Q_LIVE,
- 	NVMET_RDMA_Q_DISCONNECTING,
-+	NVMET_RDMA_IN_DEVICE_REMOVAL,
- };
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 2fac17a5ad53..47c564b5a289 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -13,7 +13,6 @@
+  */
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ #include <linux/module.h>
+-#include <linux/random.h>
+ #include <generated/utsrelease.h>
+ #include "nvmet.h"
  
- struct nvmet_rdma_queue {
-@@ -984,7 +985,10 @@ static void nvmet_rdma_release_queue_work(struct work_struct *w)
- 	struct nvmet_rdma_device *dev = queue->dev;
- 
- 	nvmet_rdma_free_queue(queue);
--	rdma_destroy_id(cm_id);
-+
-+	if (queue->state != NVMET_RDMA_IN_DEVICE_REMOVAL)
-+		rdma_destroy_id(cm_id);
-+
- 	kref_put(&dev->ref, nvmet_rdma_free_dev);
- }
- 
-@@ -1233,8 +1237,9 @@ static void __nvmet_rdma_queue_disconnect(struct nvmet_rdma_queue *queue)
- 	switch (queue->state) {
- 	case NVMET_RDMA_Q_CONNECTING:
- 	case NVMET_RDMA_Q_LIVE:
--		disconnect = true;
- 		queue->state = NVMET_RDMA_Q_DISCONNECTING;
-+	case NVMET_RDMA_IN_DEVICE_REMOVAL:
-+		disconnect = true;
- 		break;
- 	case NVMET_RDMA_Q_DISCONNECTING:
- 		break;
-@@ -1272,6 +1277,62 @@ static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
- 	schedule_work(&queue->release_work);
- }
- 
-+/**
-+ * nvme_rdma_device_removal() - Handle RDMA device removal
-+ * @queue:      nvmet rdma queue (cm id qp_context)
-+ * @addr:	nvmet address (cm_id context)
-+ *
-+ * DEVICE_REMOVAL event notifies us that the RDMA device is about
-+ * to unplug so we should take care of destroying our RDMA resources.
-+ * This event will be generated for each allocated cm_id.
-+ *
-+ * Note that this event can be generated on a normal queue cm_id
-+ * and/or a device bound listener cm_id (where in this case
-+ * queue will be null).
-+ *
-+ * we claim ownership on destroying the cm_id. For queues we move
-+ * the queue state to NVMET_RDMA_IN_DEVICE_REMOVAL and for port
-+ * we nullify the priv to prevent double cm_id destruction and destroying
-+ * the cm_id implicitely by returning a non-zero rc to the callout.
-+ */
-+static int nvmet_rdma_device_removal(struct rdma_cm_id *cm_id,
-+		struct nvmet_rdma_queue *queue)
-+{
-+	unsigned long flags;
-+
-+	if (!queue) {
-+		struct nvmet_port *port = cm_id->context;
-+
-+		/*
-+		 * This is a listener cm_id. Make sure that
-+		 * future remove_port won't invoke a double
-+		 * cm_id destroy. use atomic xchg to make sure
-+		 * we don't compete with remove_port.
-+		 */
-+		if (xchg(&port->priv, NULL) != cm_id)
-+			return 0;
-+	} else {
-+		/*
-+		 * This is a queue cm_id. Make sure that
-+		 * release queue will not destroy the cm_id
-+		 * and schedule all ctrl queues removal (only
-+		 * if the queue is not disconnecting already).
-+		 */
-+		spin_lock_irqsave(&queue->state_lock, flags);
-+		if (queue->state != NVMET_RDMA_Q_DISCONNECTING)
-+			queue->state = NVMET_RDMA_IN_DEVICE_REMOVAL;
-+		spin_unlock_irqrestore(&queue->state_lock, flags);
-+		nvmet_rdma_queue_disconnect(queue);
-+		flush_scheduled_work();
-+	}
-+
-+	/*
-+	 * We need to return 1 so that the core will destroy
-+	 * it's own ID.  What a great API design..
-+	 */
-+	return 1;
-+}
-+
- static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
- 		struct rdma_cm_event *event)
+@@ -83,7 +82,6 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
  {
-@@ -1294,20 +1355,11 @@ static int nvmet_rdma_cm_handler(struct rdma_cm_id *cm_id,
- 		break;
- 	case RDMA_CM_EVENT_ADDR_CHANGE:
- 	case RDMA_CM_EVENT_DISCONNECTED:
--	case RDMA_CM_EVENT_DEVICE_REMOVAL:
- 	case RDMA_CM_EVENT_TIMEWAIT_EXIT:
--		/*
--		 * We can get the device removal callback even for a
--		 * CM ID that we aren't actually using.  In that case
--		 * the context pointer is NULL, so we shouldn't try
--		 * to disconnect a non-existing queue.  But we also
--		 * need to return 1 so that the core will destroy
--		 * it's own ID.  What a great API design..
--		 */
--		if (queue)
--			nvmet_rdma_queue_disconnect(queue);
--		else
--			ret = 1;
-+		nvmet_rdma_queue_disconnect(queue);
-+		break;
-+	case RDMA_CM_EVENT_DEVICE_REMOVAL:
-+		ret = nvmet_rdma_device_removal(cm_id, queue);
- 		break;
- 	case RDMA_CM_EVENT_REJECTED:
- 	case RDMA_CM_EVENT_UNREACHABLE:
-@@ -1396,9 +1448,10 @@ out_destroy_id:
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	struct nvme_id_ctrl *id;
+-	u64 serial;
+ 	u16 status = 0;
  
- static void nvmet_rdma_remove_port(struct nvmet_port *port)
- {
--	struct rdma_cm_id *cm_id = port->priv;
-+	struct rdma_cm_id *cm_id = xchg(&port->priv, NULL);
+ 	id = kzalloc(sizeof(*id), GFP_KERNEL);
+@@ -96,10 +94,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	id->vid = 0;
+ 	id->ssvid = 0;
  
--	rdma_destroy_id(cm_id);
-+	if (cm_id)
-+		rdma_destroy_id(cm_id);
- }
+-	/* generate a random serial number as our controllers are ephemeral: */
+-	get_random_bytes(&serial, sizeof(serial));
+ 	memset(id->sn, ' ', sizeof(id->sn));
+-	snprintf(id->sn, sizeof(id->sn), "%llx", serial);
++	snprintf(id->sn, sizeof(id->sn), "%llx", ctrl->serial);
  
- static struct nvmet_fabrics_ops nvmet_rdma_ops = {
+ 	memset(id->mn, ' ', sizeof(id->mn));
+ 	strncpy((char *)id->mn, "Linux", sizeof(id->mn));
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 8a891ca53367..6559d5afa7bf 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -13,6 +13,7 @@
+  */
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+ #include <linux/module.h>
++#include <linux/random.h>
+ #include "nvmet.h"
+ 
+ static struct nvmet_fabrics_ops *nvmet_transports[NVMF_TRTYPE_MAX];
+@@ -728,6 +729,9 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 	memcpy(ctrl->subsysnqn, subsysnqn, NVMF_NQN_SIZE);
+ 	memcpy(ctrl->hostnqn, hostnqn, NVMF_NQN_SIZE);
+ 
++	/* generate a random serial number as our controllers are ephemeral: */
++	get_random_bytes(&ctrl->serial, sizeof(ctrl->serial));
++
+ 	kref_init(&ctrl->ref);
+ 	ctrl->subsys = subsys;
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index 57dd6d834c28..76b6eedccaf9 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -113,6 +113,7 @@ struct nvmet_ctrl {
+ 
+ 	struct mutex		lock;
+ 	u64			cap;
++	u64			serial;
+ 	u32			cc;
+ 	u32			csts;
+ 
 -- 
 1.9.1
