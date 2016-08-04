@@ -1,18 +1,20 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 4 Aug 2016 13:50:55 +0200
-Subject: [PATCH] nvmet: Fix controller serial number inconsistency
-In-Reply-To: <1470307404-17193-1-git-send-email-sagi@grimberg.me>
-References: <1470307404-17193-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20160804115055.GC32487@lst.de>
+Date: Thu, 4 Aug 2016 13:51:31 +0200
+Subject: [PATCH] nvme-rdma: start async event handler after
+ reconnecting to a controller
+In-Reply-To: <1470307876-18451-1-git-send-email-sagi@grimberg.me>
+References: <1470307876-18451-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20160804115131.GD32487@lst.de>
 
-On Thu, Aug 04, 2016@01:43:24PM +0300, Sagi Grimberg wrote:
-> The host is allowed to issue identify as many times
-> as it wants, we need to stay consistent when reporting
-> the serial number for a given controller.
+On Thu, Aug 04, 2016@01:51:16PM +0300, Sagi Grimberg wrote:
+> When we reset or reconnect to a controller, we are cancelling the
+> async event handler so we can safely re-establish resources, but we
+> need to remember to start it again when we successfully reconnect.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
 Looks fine:
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 
-And we really should have a regression test for this using
-the passthrough ioctl..
+We'll also need an equivalent for the loop driver I think.
