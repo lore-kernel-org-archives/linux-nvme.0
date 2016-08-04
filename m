@@ -1,7 +1,7 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  4 Aug 2016 13:34:39 +0300
+Date: Thu,  4 Aug 2016 13:43:24 +0300
 Subject: [PATCH] nvmet: Fix controller serial number inconsistency
-Message-ID: <1470306879-5196-1-git-send-email-sagi@grimberg.me>
+Message-ID: <1470307404-17193-1-git-send-email-sagi@grimberg.me>
 
 The host is allowed to issue identify as many times
 as it wants, we need to stay consistent when reporting
