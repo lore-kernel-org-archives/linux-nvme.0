@@ -1,27 +1,33 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 5 Aug 2016 16:50:53 -0400
-Subject: NVME regression in all kernels after 4.4.x for NVME in M2 slot
- for laptop?
-In-Reply-To: <20160805190323.GA12853@merlins.org>
-References: <20160805190323.GA12853@merlins.org>
-Message-ID: <20160805205052.GA12688@localhost.localdomain>
+From: andrzej.jakowski@intel.com (Andrzej Jakowski)
+Date: Fri,  5 Aug 2016 15:03:30 -0700
+Subject: [PATCH] nvme: discard_alignment should be set to 0
+Message-ID: <1470434610-4712-1-git-send-email-andrzej.jakowski@intel.com>
 
-On Fri, Aug 05, 2016@12:03:23PM -0700, Marc MERLIN wrote:
-> Would this patch make sense as being the reason why I can't S3 sleep
-> anymore and would you have a test patch against 4.5, 4.6, or 4.7 I can
-> try to see if it fixes the problem?
+According to the documentation discard_alignment is acctually an offset
+indicating how many bytes the beginning of the device is offset from
+internal discard allocation unit. It should be either discovered from
+underlying hardware or set to 0. Setting it to logical block size may
+affect the mechanism of splitting discard request especially for
+partitioned device and ultimately negatively impact performance.
 
-Hi Marc,
+Signed-off-by: Andrzej Jakowski <andrzej.jakowski at intel.com>
+Signed-off-by: Michal Wysoczanski <michal.wysoczanski at intel.com>
+---
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It might be blk-mq's hot cpu notifier is invoked during suspend and
-waiting for nvme's queues to freeze, which may not happen if a request
-is waiting on a stopped queue. The patch you biseceted doesn't
-necessarilly fix that, but the window for when a request could get queued
-like that was much shorter.
-
-Assuming that is the problem, S3 suspends PCI hardware before IO
-tasks. I'll see if I can reproduce on one of my machines and look into
-a fix.
-
-Thanks,
-Keith
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 74b1d38..8a3d371 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -879,7 +879,7 @@ static void nvme_config_discard(struct nvme_ns *ns)
+ 	else
+ 		ns->queue->limits.discard_zeroes_data = 0;
+ 
+-	ns->queue->limits.discard_alignment = logical_block_size;
++	ns->queue->limits.discard_alignment = 0;
+ 	ns->queue->limits.discard_granularity = logical_block_size;
+ 	blk_queue_max_discard_sectors(ns->queue, UINT_MAX);
+ 	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
+-- 
+2.5.5
