@@ -1,33 +1,24 @@
-From: andrzej.jakowski@intel.com (Andrzej Jakowski)
-Date: Fri,  5 Aug 2016 15:03:30 -0700
-Subject: [PATCH] nvme: discard_alignment should be set to 0
-Message-ID: <1470434610-4712-1-git-send-email-andrzej.jakowski@intel.com>
+From: james_p_freyensee@linux.intel.com (Jay Freyensee)
+Date: Fri,  5 Aug 2016 17:54:09 -0700
+Subject: [PATCH 0/2] nvme-fabrics: sqsize bug fixes
+Message-ID: <1470444851-7459-1-git-send-email-james_p_freyensee@linux.intel.com>
 
-According to the documentation discard_alignment is acctually an offset
-indicating how many bytes the beginning of the device is offset from
-internal discard allocation unit. It should be either discovered from
-underlying hardware or set to 0. Setting it to logical block size may
-affect the mechanism of splitting discard request especially for
-partitioned device and ultimately negatively impact performance.
+A few sqsize bugs have been discovered during the connect()
+operation, basically the NVMe-fabrics layer being not-in-sync
+with the implementation layer (RDMA).
 
-Signed-off-by: Andrzej Jakowski <andrzej.jakowski at intel.com>
-Signed-off-by: Michal Wysoczanski <michal.wysoczanski at intel.com>
----
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+As these bugs actually do break the NVMe-Fabrics spec, I'd like
+to make the request to apply these fixes to the 4.8 kernel
+(when approved).
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 74b1d38..8a3d371 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -879,7 +879,7 @@ static void nvme_config_discard(struct nvme_ns *ns)
- 	else
- 		ns->queue->limits.discard_zeroes_data = 0;
- 
--	ns->queue->limits.discard_alignment = logical_block_size;
-+	ns->queue->limits.discard_alignment = 0;
- 	ns->queue->limits.discard_granularity = logical_block_size;
- 	blk_queue_max_discard_sectors(ns->queue, UINT_MAX);
- 	queue_flag_set_unlocked(QUEUE_FLAG_DISCARD, ns->queue);
+Jay Freyensee (2):
+  nvme-rdma: tell fabrics layer admin queue depth
+  nvme-rdma: sqsize/hsqsize/hrqsize is 0-based val
+
+ drivers/nvme/host/fabrics.c |  2 +-
+ drivers/nvme/host/nvme.h    |  1 +
+ drivers/nvme/host/rdma.c    | 20 +++++++++++++++++---
+ 3 files changed, 19 insertions(+), 4 deletions(-)
+
 -- 
-2.5.5
+2.7.4
