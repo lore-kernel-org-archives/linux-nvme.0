@@ -1,36 +1,37 @@
-From: haggaie@mellanox.com (Haggai Eran)
-Date: Sun, 7 Aug 2016 08:24:16 +0300
-Subject: [RFC 7/7] NVMe: CMB on DMA-BUF
-In-Reply-To: <20160804115624.GA12004@infradead.org>
-References: <1470034653-9097-1-git-send-email-haggaie@mellanox.com>
- <1470034653-9097-8-git-send-email-haggaie@mellanox.com>
- <20160801155206.GA23224@infradead.org>
- <1470121814.20129.8.camel@mellanox.com>
- <20160804115624.GA12004@infradead.org>
-Message-ID: <666d2c1e-77cb-c2b3-963f-cd0502ee5335@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 7 Aug 2016 10:20:38 +0300
+Subject: [PATCH 1/2] nvme-rdma: tell fabrics layer admin queue depth
+In-Reply-To: <1470444851-7459-2-git-send-email-james_p_freyensee@linux.intel.com>
+References: <1470444851-7459-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <1470444851-7459-2-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <970b69cc-b439-63ac-b26e-90f3581b49de@grimberg.me>
 
-On 8/4/2016 2:56 PM, hch@infradead.org wrote:
->> Anyway, I understand exposing the CMB directly might be a little too
->> low level. What do you think would work better? Something like
->> direct_access that returns bus addresses instead of pfns?
-> 
-> This would be my primary choicse.  We'll really need to built an
-> in-kernel framework for a) PCI P2P access involving drivers for the PCI
-> switches etc, 
-I was thinking perhaps the dma_map_resource patches by Will Davis [1]
-could be used (adding him to the thread).
 
-> and then on top of that build something speicifly for
-> block drivers.  Which will be a bit complicated because both have the
-> case of directly memory mapped device as well as indirect devices like
-> the CMB.  I'm pretty sure we won't get it right at the first attempt,
-> so exposing it to userspace is an absolute no-go as that will lock us
-> into the first ABI forever.
-I understand. I'll try to think of something for kernel usage only for
-the next attempt.
+> diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+> index dc99676..f81d937 100644
+> --- a/drivers/nvme/host/fabrics.c
+> +++ b/drivers/nvme/host/fabrics.c
+> @@ -363,7 +363,7 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+>  	cmd.connect.opcode = nvme_fabrics_command;
+>  	cmd.connect.fctype = nvme_fabrics_type_connect;
+>  	cmd.connect.qid = 0;
+> -	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
+> +	cmd.connect.sqsize = cpu_to_le16(ctrl->admin_sqsize);
+>  	/*
+>  	 * Set keep-alive timeout in seconds granularity (ms * 1000)
+>  	 * and add a grace period for controller kato enforcement
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index ab18b78..32577a7 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -137,6 +137,7 @@ struct nvme_ctrl {
+>  	struct delayed_work ka_work;
+>
+>  	/* Fabrics only */
+> +	u16 admin_sqsize;
+>  	u16 sqsize;
+>  	u32 ioccsz;
+>  	u32 iorcsz;
 
-Thanks,
-Haggai
-
-[1]
-https://lists.linuxfoundation.org/pipermail/iommu/2015-August/014106.html
+No need for admin_sqsize member, its always set to NVMF_AQ_DEPTH-1,
+just use that...
