@@ -1,23 +1,27 @@
 From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 08 Aug 2016 13:53:06 -0700
-Subject: [PATCH nvme-cli 1/4] fabrics: Allow ipv6 address resolution
-In-Reply-To: <20160808065510.GA12598@lst.de>
+Date: Mon, 08 Aug 2016 14:13:33 -0700
+Subject: [PATCH RFC nvme-cli 4/4] fabrics: Allow discover params to come
+ from a conf file
+In-Reply-To: <1470572365-20674-5-git-send-email-sagi@grimberg.me>
 References: <1470572365-20674-1-git-send-email-sagi@grimberg.me>
- <1470572365-20674-2-git-send-email-sagi@grimberg.me>
- <20160808065510.GA12598@lst.de>
-Message-ID: <1470689586.4368.10.camel@linux.intel.com>
+ <1470572365-20674-5-git-send-email-sagi@grimberg.me>
+Message-ID: <1470690813.4368.15.camel@linux.intel.com>
 
-On Mon, 2016-08-08@08:55 +0200, Christoph Hellwig wrote:
-> On Sun, Aug 07, 2016@03:19:22PM +0300, Sagi Grimberg wrote:
-> > 
-> > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+On Sun, 2016-08-07@15:19 +0300, Sagi Grimberg wrote:
+
+I think it's a good idea! ?A few minor things.
+
+> Allow the user to just run "nvme discover" or "nvme connect-all"
+> in case it finds a default /etc/nvme/nvmf_disc conf file.
 > 
-> Looks fine, although if we only get one more I'll insist on a switch
-> statement :)
 
-dido :-)
+1. I think the "official trademark" of NVMe-over-Fabrics is NVMeo-F.
+?So maybe tweak the conf file to /etc/nvme/nvmeof_disc (the dash
+between the o and F is weird and would look dumb here).
 
-Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+2. Be nice to see a quick documentation example of contents of the conf
+file in this patch as we don't have any documentation yet (this way
+someone, not necessarily the author of this patch, can more easily
+write the documentation).
 
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
+Jay
