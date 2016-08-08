@@ -1,187 +1,126 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  8 Aug 2016 14:57:58 +0300
-Subject: [PATCH v2 nvme-cli 2/4] fabrics: stringify discover output.
+Date: Mon,  8 Aug 2016 14:57:59 +0300
+Subject: [PATCH v2 nvme-cli 3/4] fabrics: Allow discover params to come from a
+ conf file
 In-Reply-To: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
 References: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1470657480-5868-3-git-send-email-sagi@grimberg.me>
+Message-ID: <1470657480-5868-4-git-send-email-sagi@grimberg.me>
 
-Just so we have a nice readable output.
+Allow the user to just run "nvme discover" or "nvme connect-all"
+in case it finds a default /etc/nvme/nvmf_disc conf file.
+
+We allow multiple discovery addresses by iterating over the
+lines of the file and executing a discover (with or without
+connect) for each line. We allow newlines and '#' prefixed comments.
+
+The return value is or'ed on all discover attempts.
+
+In order to minimize some parsing code, I just convert the
+file line into an (argc, argv) pair and feed it to argconfig_parse()
+which dictates that the file lines are identical to what one would
+pass nvme discover <params>. I'm open to better ideas.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
- common.h  |   2 +
- fabrics.c | 133 +++++++++++++++++++++++++++++++++++++++++++-------------------
- 2 files changed, 94 insertions(+), 41 deletions(-)
+ fabrics.c | 71 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 67 insertions(+), 4 deletions(-)
 
-diff --git a/common.h b/common.h
-index 639186d520b1..f0a94de57061 100644
---- a/common.h
-+++ b/common.h
-@@ -6,4 +6,6 @@
- #define __round_mask(x, y) ((__typeof__(x))((y)-1))
- #define round_up(x, y) ((((x)-1) | __round_mask(x, y))+1)
- 
-+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
-+
- #endif
 diff --git a/fabrics.c b/fabrics.c
-index 961335d45bd2..aa18de9aac6d 100644
+index aa18de9aac6d..54ed8e17b527 100644
 --- a/fabrics.c
 +++ b/fabrics.c
-@@ -69,6 +69,91 @@ static const match_table_t opt_tokens = {
- 	{ OPT_ERR,		NULL		},
- };
+@@ -56,6 +56,8 @@ struct config {
  
-+static const char *arg_str(const char * const *strings,
-+		size_t array_size, size_t idx)
-+{
-+		if (idx < array_size && strings[idx])
-+			return strings[idx];
-+		return "unrecognized";
-+}
-+
-+static const char * const trtypes[] = {
-+	[NVMF_TRTYPE_RDMA]	= "rdma",
-+	[NVMF_TRTYPE_FC]	= "fibre-channel",
-+	[NVMF_TRTYPE_LOOP]	= "loop",
-+};
-+
-+static const char *trtype_str(__u8 trtype)
-+{
-+	return arg_str(trtypes, ARRAY_SIZE(trtypes), trtype);
-+}
-+
-+static const char * const adrfams[] = {
-+	[NVMF_ADDR_FAMILY_PCI]	= "pci",
-+	[NVMF_ADDR_FAMILY_IP4]	= "ipv4",
-+	[NVMF_ADDR_FAMILY_IP6]	= "ipv6",
-+	[NVMF_ADDR_FAMILY_IB]	= "infiniband",
-+	[NVMF_ADDR_FAMILY_FC]	= "fibre-channel",
-+};
-+
-+static inline const char *adrfam_str(__u8 adrfam)
-+{
-+	return arg_str(adrfams, ARRAY_SIZE(adrfams), adrfam);
-+}
-+
-+static const char * const nqntypes[] = {
-+	[NVME_NQN_DISC]		= "discovery subsystem",
-+	[NVME_NQN_NVME]		= "nvme subsystem",
-+};
-+
-+static inline const char *nqntype_str(__u8 nqntype)
-+{
-+	return arg_str(nqntypes, ARRAY_SIZE(nqntypes), nqntype);
-+}
-+
-+static const char * const treqs[] = {
-+	[NVMF_TREQ_NOT_SPECIFIED]	= "unspecified transport requirements",
-+	[NVMF_TREQ_REQUIRED]		= "required",
-+	[NVMF_TREQ_NOT_REQUIRED]	= "not required",
-+};
-+
-+static inline const char *treq_str(__u8 treq)
-+{
-+	return arg_str(treqs, ARRAY_SIZE(treqs), treq);
-+}
-+
-+static const char * const prtypes[] = {
-+	[NVMF_RDMA_PRTYPE_NOT_SPECIFIED]	= "not specified",
-+	[NVMF_RDMA_PRTYPE_IB]			= "infiniband",
-+	[NVMF_RDMA_PRTYPE_ROCE]			= "roce",
-+	[NVMF_RDMA_PRTYPE_ROCEV2]		= "roce-v2",
-+	[NVMF_RDMA_PRTYPE_IWARP]		= "iwarp",
-+};
-+
-+static inline const char *prtype_str(__u8 prtype)
-+{
-+	return arg_str(prtypes, ARRAY_SIZE(prtypes), prtype);
-+}
-+
-+static const char * const qptypes[] = {
-+	[NVMF_RDMA_QPTYPE_CONNECTED]	= "connected",
-+	[NVMF_RDMA_QPTYPE_DATAGRAM]	= "datagram",
-+};
-+
-+static inline const char *qptype_str(__u8 qptype)
-+{
-+	return arg_str(qptypes, ARRAY_SIZE(qptypes), qptype);
-+}
-+
-+static const char * const cms[] = {
-+	[NVMF_RDMA_CMS_RDMA_CM]	= "rdma-cm",
-+};
-+
-+static const char *cms_str(__u8 cm)
-+{
-+	return arg_str(cms, ARRAY_SIZE(cms), cm);
-+}
-+
- static int do_discover(char *argstr, bool connect);
+ #define BUF_SIZE		4096
+ #define PATH_NVME_FABRICS	"/dev/nvme-fabrics"
++#define PATH_NVMF_DISC		"/etc/nvme/nvmf_disc"
++#define MAX_DISC_ARGS		10
  
- static int add_ctrl(const char *argstr)
-@@ -276,44 +361,10 @@ static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
- 		struct nvmf_disc_rsp_page_entry *e = &log->entries[i];
+ enum {
+ 	OPT_INSTANCE,
+@@ -575,6 +577,62 @@ static int do_discover(char *argstr, bool connect)
+ 	return ret;
+ }
  
- 		printf("=====Discovery Log Entry %d======\n", i);
--
--		printf("trtype:  ");
--		switch(e->trtype) {
--		case NVMF_ADDR_FAMILY_IP4:
--			printf("ipv4\n");
--			break;
--		case NVMF_ADDR_FAMILY_IP6:
--			printf("ipv6\n");
--			break;
--		case NVMF_ADDR_FAMILY_IB:
--			printf("ib\n");
--			break;
--		case NVMF_ADDR_FAMILY_FC:
--			printf("fc\n");
--			break;
--		default:
--			printf("unknown\n");
--			break;
--		}
--
--		printf("adrfam:  ");
--		switch(e->adrfam) {
--		case NVMF_TRTYPE_RDMA:
--			printf("rdma\n");
--			break;
--		case NVMF_TRTYPE_FC:
--			printf("fc\n");
--			break;
--		case NVMF_TRTYPE_LOOP:
--			printf("loop\n");
--			break;
--		default:
--			printf("unknown\n");
--			break;
--		}
--
--		printf("nqntype: %d\n", e->nqntype);
--		printf("treq:    %d\n", e->treq);
-+		printf("trtype:  %s\n", trtype_str(e->trtype));
-+		printf("adrfam:  %s\n", adrfam_str(e->adrfam));
-+		printf("nqntype: %s\n", nqntype_str(e->nqntype));
-+		printf("treq:    %s\n", treq_str(e->treq));
- 		printf("portid:  %d\n", e->portid);
- 		printf("trsvcid: %s\n", e->trsvcid);
- 		printf("subnqn:  %s\n", e->subnqn);
-@@ -321,9 +372,9 @@ static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
++static int discover_from_conf_file(const char *desc, char *argstr,
++	const struct argconfig_commandline_options *opts, bool connect)
++{
++	FILE *f;
++	char line[255], *ptr, *args, **argv;
++	int argc, err, ret = 0;
++
++	f = fopen(PATH_NVMF_DISC, "r");
++	if (f == NULL) {
++		fprintf(stderr, "No discover params given and no %s conf\n", PATH_NVMF_DISC);
++		return -EINVAL;
++	}
++
++	while (fgets(line, sizeof(line), f) != NULL) {
++		if (line[0] == '#' || line[0] == '\n')
++			continue;
++
++		args = strdup(line);
++		if (!args) {
++			fprintf(stderr, "failed to strdup args\n");
++			return -ENOMEM;
++		}
++
++		argv = calloc(MAX_DISC_ARGS, BUF_SIZE);
++		if (!argv) {
++			fprintf(stderr, "failed to allocate args vector\n");
++			return -ENOMEM;
++		}
++
++		argc = 0;
++		argv[argc++] = "discover";
++		while ((ptr = strsep(&args, " =\n")) != NULL)
++			argv[argc++] = ptr;
++
++		argconfig_parse(argc, argv, desc, opts, &cfg, sizeof(cfg));
++
++		err = build_options(argstr, BUF_SIZE);
++		if (err) {
++			ret = err;
++			continue;
++		}
++
++		err = do_discover(argstr, connect);
++		if (err) {
++			ret = err;
++			continue;
++		}
++
++		free(args);
++		free(argv);
++	}
++
++	fclose(f);
++	return ret;
++}
++
+ int discover(const char *desc, int argc, char **argv, bool connect)
+ {
+ 	char argstr[BUF_SIZE];
+@@ -597,11 +655,16 @@ int discover(const char *desc, int argc, char **argv, bool connect)
  
- 		switch (e->trtype) {
- 		case NVMF_TRTYPE_RDMA:
--			printf("rdma_prtype: %d\n", e->tsas.rdma.prtype);
--			printf("rdma_qptype: %d\n", e->tsas.rdma.qptype);
--			printf("rdma_cms:    %d\n", e->tsas.rdma.cms);
-+			printf("rdma_prtype: %s\n", prtype_str(e->tsas.rdma.prtype));
-+			printf("rdma_qptype: %s\n", qptype_str(e->tsas.rdma.qptype));
-+			printf("rdma_cms:    %s\n", cms_str(e->tsas.rdma.cms));
- 			printf("rdma_pkey: 0x%04x\n", e->tsas.rdma.pkey);
- 			break;
- 		}
+ 	cfg.nqn = NVME_DISC_SUBSYS_NAME;
+ 
+-	ret = build_options(argstr, BUF_SIZE);
+-	if (ret)
+-		return ret;
++	if (!cfg.transport && !cfg.traddr) {
++		return discover_from_conf_file(desc, argstr,
++				command_line_options, connect);
++	} else {
++		ret = build_options(argstr, BUF_SIZE);
++		if (ret)
++			return ret;
+ 
+-	return do_discover(argstr, connect);
++		return do_discover(argstr, connect);
++	}
+ }
+ 
+ int connect(const char *desc, int argc, char **argv)
 -- 
 1.9.1
