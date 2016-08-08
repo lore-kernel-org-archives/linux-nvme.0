@@ -1,109 +1,55 @@
 From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 08 Aug 2016 11:39:25 -0700
-Subject: [PATCH 2/2] nvme-rdma: sqsize/hsqsize/hrqsize is 0-based val
-In-Reply-To: <9A947B1F6D0FF74CB5D6ACFF43B473F3A3A45C75@ORSMSX112.amr.corp.intel.com>
-References: <1470444851-7459-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1470444851-7459-3-git-send-email-james_p_freyensee@linux.intel.com>
- <8bca04d5-8793-5bc3-9a18-4a7f66af40cc@grimberg.me>
- <20160808070620.GB12902@lst.de> <1470673797.40000.27.camel@intel.com>
- <9A947B1F6D0FF74CB5D6ACFF43B473F3A3A45C75@ORSMSX112.amr.corp.intel.com>
-Message-ID: <1470681565.4368.7.camel@linux.intel.com>
+Date: Mon, 08 Aug 2016 12:43:50 -0700
+Subject: [PATCH RFC] nvme-rdma: Queue ns scanning after a sucessful
+ reconnection
+In-Reply-To: <ce424fe1-d6e8-706f-18f8-aa9c880bcdec@grimberg.me>
+References: <1469980540-16103-1-git-send-email-sagi@grimberg.me>
+ <1470330508.19927.18.camel@linux.intel.com>
+ <ce424fe1-d6e8-706f-18f8-aa9c880bcdec@grimberg.me>
+Message-ID: <1470685430.4368.9.camel@linux.intel.com>
 
-On Mon, 2016-08-08@18:14 +0000, Minturn, Dave B wrote:
+On Sun, 2016-08-07@12:12 +0300, Sagi Grimberg wrote:
 > > 
 > > > 
-> > > -----Original Message-----
-> > > From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org]
-> > > On
-> > > Behalf Of Verkamp, Daniel
-> > > Sent: Monday, August 08, 2016 9:30 AM
-> > > To: hch at lst.de; sagi at grimberg.me
-> > > Cc: james_p_freyensee at linux.intel.com; linux-nvme at lists.infradead
-> > > .org
-> > > Subject: Re: [PATCH 2/2] nvme-rdma: sqsize/hsqsize/hrqsize is 0-
-> > > based val
+> > > On an ordered target shutdown, the target can send a AEN on a
+> > > namespace
+> > > removal, this will trigger the host to queue ns-list query. The
+> > > shutdown
+> > > will trigger error recovery which will attepmt periodic
+> > > reconnect.
 > > > 
-> > > On Mon, 2016-08-08@09:06 +0200, Christoph Hellwig wrote:
-> > > > 
-> > > > On Sun, Aug 07, 2016@10:29:08AM +0300, Sagi Grimberg wrote:
-> > > > > 
-> > > > > 
-> > > > > Did we really decide that? The spec actually explicitly says
-> > > > > that a 0 sqsize will be failed:
-> > > > > 
-> > > > > "If the size is 0h or larger than the controller supports,
-> > > > > then a
-> > > > > status value of Connect Invalid Parameters shall be
-> > > > > returned."
-> > > > > 
-> > > > > And then it says: "This is a 0?s based value"
-> > > > > 
-> > > > > Confusing....
-> > > > 
-> > > > Yeah, I think we'll need an errate in the TWG.??And I think the
-> > > > current Linux behavior is the sensible one.??Jay, do you want
-> > > > to drive this in the WG or I should I bring it up?
+> > > We can hit a race where the ns rescanning fails (error recovery
+> > > kicked
+> > > in and we're not connected) causing removing all the namespaces
+> > > and
+> > > when
+> > > we reconnect we won't see any namespaces for this controller.
 > > > 
-> > > I would be happy if all of the 0's based values in the spec were
-> > > removed, but I think it's a little too late for that...
-> > > 
-> > > In this particular case, I'm pretty sure this is not a mistake;
+> > > So, queue a namespace rescan after we successfully reconnected to
 > > > the
-> > > relevant text is copied directly from the NVMe base spec Create
-> > > I/O
-> > > Submission Queue command's QSIZE parameter.
+> > > target.
 > > > 
-> 
-> Daniel is correct, this is not a mistake in the specification.
-> 
+> > > Note, that unlike user initiated controller reset, we don't need
+> > > to
+> > > trigger
+> > > namespace scanning (until the point I noticed the above at least)
+> > > because we
+> > > reconnect to an existing controller. However due to the
+> > > interaction
+> > > with
+> > > the aen mechanism we queue ns scan here as well.
+> > > 
+> > > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> > > ---
+> > > I'm open to other suggestions if anyone has any...
 > > 
-> > > 
-> > > What does need to be clarified is the RDMA transport definition.
-> > > ?The
-> > > Connect private data contains two queue size-related fields:
-> > > 
-> > > - HSQSIZE, which is supposed to be the RDMA QP send depth, but
-> > > also says
-> > > "shall be set to the Submission Queue Size (SQSIZE)", while not
-> > > saying
-> > > whether it is 0's based.
+> > this sounds like a fix that should really go in the core target
+> > code
+> > instead of RDMA code as this could affect any implementation layer.
 > 
-> The spec. states that SQSIZE is 0-based and given HSQSIZE must be
-> equal to SQSIZE, the value is going to be 0's based.
-> We can suggest adding some additional clarification the spec. such as
-> a reminder that SQSIZE is 0-based.???
-> 
-> 
-> > 
-> > > 
-> > > - HRQSIZE, which is the QP receive depth, which has no equivalent
-> > > like
-> > > SQSIZE in the Connect command, and also does not mention being
-> > > 0's
-> > > based.
+> But it fixes the host behavior (nvme-rdma).
 
-(replying back to the list)
+Actually I think I meant host but didn't have enough coffee for my
+brain when I looked at this :-/...
 
-So with the comment Dave made, this code in the rdma.c host:
-
-
--???????????????priv.hrqsize = cpu_to_le16(queue->queue_size);
--???????????????priv.hsqsize = cpu_to_le16(queue->queue_size);
-+???????????????priv.hrqsize = cpu_to_le16(queue->ctrl->ctrl.sqsize);
-
-priv.hrqsize is wrong according to the NVMe fabrics spec. ?At minimum
-it should be implemented as:
-
-priv.hrqsize = cpu_to_le16(queue->ctrl->ctrl.sqsize + 1);
-
-
-+???????????????priv.hsqsize = cpu_to_le16(queue->ctrl->ctrl.sqsize);
-
-
-and this line remains the same because sqsize is 0 based and the spec
-clearly says hsqsize shall be set to sqsize.
-
-
-I see the confusion for hrqsize and I think we should try and get it
-cleared up in errata, but I think sqsize and hsqsize the way it's
-stated in the spec is pretty clear.
+OK, makes sense.
