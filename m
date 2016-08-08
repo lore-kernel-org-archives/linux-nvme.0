@@ -1,65 +1,48 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  8 Aug 2016 14:58:00 +0300
-Subject: [PATCH v2 nvme-cli 4/4] fabrics: Take the hostnqn parameter from a
- conf file if not given
-In-Reply-To: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
-References: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1470657480-5868-5-git-send-email-sagi@grimberg.me>
+Date: Mon,  8 Aug 2016 15:14:39 +0300
+Subject: [GIT PULL] fabrics fixes for the next 4.8-rc
+Message-ID: <1470658479-7861-1-git-send-email-sagi@grimberg.me>
 
-In order to allow persistent hostnqns, take the hostnqn parameter
-for /etc/nvme/hostnqn if exists.
+Hey Jens,
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- fabrics.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
+Mostly stability fixes for nvmet, rdma:
+- fix uninitialized rdma_cm private data from Roland.
+- rdma device removal handling (host and target).
+- fix controller disconnect during active mounts.
+- fix namespaces lost after fabric reconnects.
+- remove redundant calls to namespace removal (rdma, loop).
+- actually send controller shutdown when disconnecting.
+- reconnect fixes (ns rescan and aen requeue)
+- nvmet controller serial number inconsistency fix.
 
-diff --git a/fabrics.c b/fabrics.c
-index 54ed8e17b527..90308f07d0fb 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -57,6 +57,7 @@ struct config {
- #define BUF_SIZE		4096
- #define PATH_NVME_FABRICS	"/dev/nvme-fabrics"
- #define PATH_NVMF_DISC		"/etc/nvme/nvmf_disc"
-+#define PATH_NVMF_HOSTNQN	"/etc/nvme/hostnqn"
- #define MAX_DISC_ARGS		10
- 
- enum {
-@@ -405,6 +406,25 @@ static void save_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
- 	close(fd);
- }
- 
-+static int nvmf_hostnqn_file(void)
-+{
-+	FILE *f;
-+	char hostnqn[255];
-+
-+	f = fopen(PATH_NVMF_HOSTNQN, "r");
-+	if (f == NULL)
-+		return false;
-+
-+	if (fgets(hostnqn, sizeof(hostnqn), f) == NULL)
-+		return false;
-+
-+	cfg.hostnqn = strdup(hostnqn);
-+	if (!cfg.hostnqn)
-+		return false;
-+
-+	return true;
-+}
-+
- static int build_options(char *argstr, int max_len)
- {
- 	int len;
-@@ -449,7 +469,7 @@ static int build_options(char *argstr, int max_len)
- 		max_len -= len;
- 	}
- 
--	if (cfg.hostnqn) {
-+	if (cfg.hostnqn || nvmf_hostnqn_file()) {
- 		len = snprintf(argstr, max_len, ",hostnqn=%s", cfg.hostnqn);
- 		if (len < 0)
- 			return -EINVAL;
--- 
-1.9.1
+
+please pull from:
+
+  git://git.infradead.org/nvme-fabrics.git nvmf-4.8-rc
+
+
+----------------------------------------------------------------
+
+Roland Dreier (1):
+      nvme-rdma: Don't leak uninitialized memory in connect request private data
+
+Sagi Grimberg (11):
+      nvme-rdma: Queue ns scanning after a sucessful reconnection
+      nvme-rdma: Fix device removal handling
+      nvme-rdma: Remove duplicate call to nvme_remove_namespaces
+      nvme-rdma: Free the I/O tags when we delete the controller
+      nvme-loop: Remove duplicate call to nvme_remove_namespaces
+      nvme-rdma: Make sure to shutdown the controller if we can
+      nvmet-rdma: Correctly handle RDMA device hot removal
+      nvmet-rdma: Don't use the inline buffer in order to avoid allocation for small reads
+      nvmet: Fix controller serial number inconsistency
+      nvme-rdma: start async event handler after reconnecting to a controller
+      nvme-rdma: Remove unused includes
+
+ drivers/nvme/host/rdma.c        |  83 +++++++++++++++++++++++++++++++++++++++++++++--------------------------------------
+ drivers/nvme/target/admin-cmd.c |   6 +-----
+ drivers/nvme/target/core.c      |   4 ++++
+ drivers/nvme/target/loop.c      |   4 +---
+ drivers/nvme/target/nvmet.h     |   1 +
+ drivers/nvme/target/rdma.c      | 100 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------------
+ 6 files changed, 126 insertions(+), 72 deletions(-)
