@@ -1,126 +1,65 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  8 Aug 2016 14:57:59 +0300
-Subject: [PATCH v2 nvme-cli 3/4] fabrics: Allow discover params to come from a
- conf file
+Date: Mon,  8 Aug 2016 14:58:00 +0300
+Subject: [PATCH v2 nvme-cli 4/4] fabrics: Take the hostnqn parameter from a
+ conf file if not given
 In-Reply-To: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
 References: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1470657480-5868-4-git-send-email-sagi@grimberg.me>
+Message-ID: <1470657480-5868-5-git-send-email-sagi@grimberg.me>
 
-Allow the user to just run "nvme discover" or "nvme connect-all"
-in case it finds a default /etc/nvme/nvmf_disc conf file.
-
-We allow multiple discovery addresses by iterating over the
-lines of the file and executing a discover (with or without
-connect) for each line. We allow newlines and '#' prefixed comments.
-
-The return value is or'ed on all discover attempts.
-
-In order to minimize some parsing code, I just convert the
-file line into an (argc, argv) pair and feed it to argconfig_parse()
-which dictates that the file lines are identical to what one would
-pass nvme discover <params>. I'm open to better ideas.
+In order to allow persistent hostnqns, take the hostnqn parameter
+for /etc/nvme/hostnqn if exists.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- fabrics.c | 71 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 67 insertions(+), 4 deletions(-)
+ fabrics.c | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
 diff --git a/fabrics.c b/fabrics.c
-index aa18de9aac6d..54ed8e17b527 100644
+index 54ed8e17b527..90308f07d0fb 100644
 --- a/fabrics.c
 +++ b/fabrics.c
-@@ -56,6 +56,8 @@ struct config {
- 
+@@ -57,6 +57,7 @@ struct config {
  #define BUF_SIZE		4096
  #define PATH_NVME_FABRICS	"/dev/nvme-fabrics"
-+#define PATH_NVMF_DISC		"/etc/nvme/nvmf_disc"
-+#define MAX_DISC_ARGS		10
+ #define PATH_NVMF_DISC		"/etc/nvme/nvmf_disc"
++#define PATH_NVMF_HOSTNQN	"/etc/nvme/hostnqn"
+ #define MAX_DISC_ARGS		10
  
  enum {
- 	OPT_INSTANCE,
-@@ -575,6 +577,62 @@ static int do_discover(char *argstr, bool connect)
- 	return ret;
+@@ -405,6 +406,25 @@ static void save_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 	close(fd);
  }
  
-+static int discover_from_conf_file(const char *desc, char *argstr,
-+	const struct argconfig_commandline_options *opts, bool connect)
++static int nvmf_hostnqn_file(void)
 +{
 +	FILE *f;
-+	char line[255], *ptr, *args, **argv;
-+	int argc, err, ret = 0;
++	char hostnqn[255];
 +
-+	f = fopen(PATH_NVMF_DISC, "r");
-+	if (f == NULL) {
-+		fprintf(stderr, "No discover params given and no %s conf\n", PATH_NVMF_DISC);
-+		return -EINVAL;
-+	}
++	f = fopen(PATH_NVMF_HOSTNQN, "r");
++	if (f == NULL)
++		return false;
 +
-+	while (fgets(line, sizeof(line), f) != NULL) {
-+		if (line[0] == '#' || line[0] == '\n')
-+			continue;
++	if (fgets(hostnqn, sizeof(hostnqn), f) == NULL)
++		return false;
 +
-+		args = strdup(line);
-+		if (!args) {
-+			fprintf(stderr, "failed to strdup args\n");
-+			return -ENOMEM;
-+		}
++	cfg.hostnqn = strdup(hostnqn);
++	if (!cfg.hostnqn)
++		return false;
 +
-+		argv = calloc(MAX_DISC_ARGS, BUF_SIZE);
-+		if (!argv) {
-+			fprintf(stderr, "failed to allocate args vector\n");
-+			return -ENOMEM;
-+		}
-+
-+		argc = 0;
-+		argv[argc++] = "discover";
-+		while ((ptr = strsep(&args, " =\n")) != NULL)
-+			argv[argc++] = ptr;
-+
-+		argconfig_parse(argc, argv, desc, opts, &cfg, sizeof(cfg));
-+
-+		err = build_options(argstr, BUF_SIZE);
-+		if (err) {
-+			ret = err;
-+			continue;
-+		}
-+
-+		err = do_discover(argstr, connect);
-+		if (err) {
-+			ret = err;
-+			continue;
-+		}
-+
-+		free(args);
-+		free(argv);
-+	}
-+
-+	fclose(f);
-+	return ret;
++	return true;
 +}
 +
- int discover(const char *desc, int argc, char **argv, bool connect)
+ static int build_options(char *argstr, int max_len)
  {
- 	char argstr[BUF_SIZE];
-@@ -597,11 +655,16 @@ int discover(const char *desc, int argc, char **argv, bool connect)
+ 	int len;
+@@ -449,7 +469,7 @@ static int build_options(char *argstr, int max_len)
+ 		max_len -= len;
+ 	}
  
- 	cfg.nqn = NVME_DISC_SUBSYS_NAME;
- 
--	ret = build_options(argstr, BUF_SIZE);
--	if (ret)
--		return ret;
-+	if (!cfg.transport && !cfg.traddr) {
-+		return discover_from_conf_file(desc, argstr,
-+				command_line_options, connect);
-+	} else {
-+		ret = build_options(argstr, BUF_SIZE);
-+		if (ret)
-+			return ret;
- 
--	return do_discover(argstr, connect);
-+		return do_discover(argstr, connect);
-+	}
- }
- 
- int connect(const char *desc, int argc, char **argv)
+-	if (cfg.hostnqn) {
++	if (cfg.hostnqn || nvmf_hostnqn_file()) {
+ 		len = snprintf(argstr, max_len, ",hostnqn=%s", cfg.hostnqn);
+ 		if (len < 0)
+ 			return -EINVAL;
 -- 
 1.9.1
