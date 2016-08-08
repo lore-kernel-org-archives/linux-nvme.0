@@ -1,27 +1,37 @@
 From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 08 Aug 2016 14:13:33 -0700
-Subject: [PATCH RFC nvme-cli 4/4] fabrics: Allow discover params to come
- from a conf file
-In-Reply-To: <1470572365-20674-5-git-send-email-sagi@grimberg.me>
-References: <1470572365-20674-1-git-send-email-sagi@grimberg.me>
- <1470572365-20674-5-git-send-email-sagi@grimberg.me>
-Message-ID: <1470690813.4368.15.camel@linux.intel.com>
+Date: Mon, 08 Aug 2016 14:17:20 -0700
+Subject: [PATCH v2 nvme-cli 1/4] fabrics: Allow ipv6 address resolution
+In-Reply-To: <1470657480-5868-2-git-send-email-sagi@grimberg.me>
+References: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
+ <1470657480-5868-2-git-send-email-sagi@grimberg.me>
+Message-ID: <1470691040.4368.16.camel@linux.intel.com>
 
-On Sun, 2016-08-07@15:19 +0300, Sagi Grimberg wrote:
-
-I think it's a good idea! ?A few minor things.
-
-> Allow the user to just run "nvme discover" or "nvme connect-all"
-> in case it finds a default /etc/nvme/nvmf_disc conf file.
+On Mon, 2016-08-08@14:57 +0300, Sagi Grimberg wrote:
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> ---
+> ?fabrics.c | 3 ++-
+> ?1 file changed, 2 insertions(+), 1 deletion(-)
 > 
+> diff --git a/fabrics.c b/fabrics.c
+> index 8a174d41b82b..961335d45bd2 100644
+> --- a/fabrics.c
+> +++ b/fabrics.c
+> @@ -438,7 +438,8 @@ static int connect_ctrl(struct
+> nvmf_disc_rsp_page_entry *e)
+> ?		/* we can safely ignore the rest of the entries */
+> ?		break;
+> ?	case NVMF_TRTYPE_RDMA:
+> -		if (e->adrfam != NVMF_ADDR_FAMILY_IP4) {
+> +		if (e->adrfam != NVMF_ADDR_FAMILY_IP4 &&
+> +		????e->adrfam != NVMF_ADDR_FAMILY_IP6) {
 
-1. I think the "official trademark" of NVMe-over-Fabrics is NVMeo-F.
-?So maybe tweak the conf file to /etc/nvme/nvmeof_disc (the dash
-between the o and F is weird and would look dumb here).
+If we are going to roll this patch series again, maybe better to just
+go ahead and do the case()?
 
-2. Be nice to see a quick documentation example of contents of the conf
-file in this patch as we don't have any documentation yet (this way
-someone, not necessarily the author of this patch, can more easily
-write the documentation).
+I'm indifferent either way.
 
-Jay
+> ?			fprintf(stderr, "skipping unsupported
+> adrfam\n");
+> ?			return -EINVAL;
+> ?		}
