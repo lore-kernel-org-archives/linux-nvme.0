@@ -1,23 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 8 Aug 2016 09:06:20 +0200
-Subject: [PATCH 2/2] nvme-rdma: sqsize/hsqsize/hrqsize is 0-based val
-In-Reply-To: <8bca04d5-8793-5bc3-9a18-4a7f66af40cc@grimberg.me>
-References: <1470444851-7459-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1470444851-7459-3-git-send-email-james_p_freyensee@linux.intel.com>
- <8bca04d5-8793-5bc3-9a18-4a7f66af40cc@grimberg.me>
-Message-ID: <20160808070620.GB12902@lst.de>
+From: gili.buzaglo@taec.toshiba.com (Gili Buzaglo)
+Date: Mon, 8 Aug 2016 01:34:58 -0700
+Subject: Configured nqn
+Message-ID: <14E6FCBE6C7E3A47A6CD7D77E639D51C2F73FABD@oczmail.ocz.ocztechnology.com>
 
-On Sun, Aug 07, 2016@10:29:08AM +0300, Sagi Grimberg wrote:
-> Did we really decide that? The spec actually explicitly says
-> that a 0 sqsize will be failed:
->
-> "If the size is 0h or larger than the controller supports, then a
-> status value of Connect Invalid Parameters shall be returned."
->
-> And then it says: "This is a 0?s based value"
->
-> Confusing....
+Hi
+I was wondering if there's a special reason why not to support preconfigured initiator nqn from a file.
+(similar to iscsi in /etc/iscsi/initiatorname.iscsi).
 
-Yeah, I think we'll need an errate in the TWG.  And I think the
-current Linux behavior is the sensible one.  Jay, do you want
-to drive this in the WG or I should I bring it up?
+For example libvirt iscsi volume driver in nova in openstack, uses the iscsi file to retrieve the initiator name and send it
+To cinder to allow access.
+We thought it would be required to support nvmf in the same manner.
+
+Thanks
+-gili
+
+CONFIDENTIAL COMMUNICATION:  This communication including any attached file(s) is CONFIDENTIAL, intended only for the named recipient (s) above and contains trade secrets or other information that is exempt from disclosure under applicable law.  Any use, dissemination, distribution or copying of this communication and any file attachments by anyone other than the named recipient (s) is strictly prohibited. If you have received this communication in error, please immediately notify us by reply electronic mail and permanently delete the original transmission and any attachments from your computer system and any copies of this message and file attachments. Thank you.
