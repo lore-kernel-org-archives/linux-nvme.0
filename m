@@ -1,57 +1,59 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 8 Aug 2016 15:36:58 +0200
-Subject: [PATCH v2 nvme-cli 4/4] fabrics: Take the hostnqn parameter
- from a conf file if not given
-In-Reply-To: <1470657480-5868-5-git-send-email-sagi@grimberg.me>
-References: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
- <1470657480-5868-5-git-send-email-sagi@grimberg.me>
-Message-ID: <20160808133658.GC19826@lst.de>
+From: mauricfo@linux.vnet.ibm.com (Mauricio Faria de Oliveira)
+Date: Mon, 8 Aug 2016 10:38:17 -0300
+Subject: [PATCH v4 0/3] dma-mapping, powerpc, nvme: introduce the
+ DMA_ATTR_NO_WARN attribute
+In-Reply-To: <20160805100108.8f09fb7c1e63cd4ca06b16bd@linux-foundation.org>
+References: <1470092390-25451-1-git-send-email-mauricfo@linux.vnet.ibm.com>
+ <20160804150145.fb5690e9a873121db1dfa0b1@linux-foundation.org>
+ <57A3DB17.3060603@linux.vnet.ibm.com>
+ <20160804180501.f80c9b919341c486e2a95894@linux-foundation.org>
+ <57A487CC.3040205@linux.vnet.ibm.com>
+ <20160805100108.8f09fb7c1e63cd4ca06b16bd@linux-foundation.org>
+Message-ID: <57A88B49.7080406@linux.vnet.ibm.com>
 
-On Mon, Aug 08, 2016@02:58:00PM +0300, Sagi Grimberg wrote:
-> In order to allow persistent hostnqns, take the hostnqn parameter
-> for /etc/nvme/hostnqn if exists.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  fabrics.c | 22 +++++++++++++++++++++-
->  1 file changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/fabrics.c b/fabrics.c
-> index 54ed8e17b527..90308f07d0fb 100644
-> --- a/fabrics.c
-> +++ b/fabrics.c
-> @@ -57,6 +57,7 @@ struct config {
->  #define BUF_SIZE		4096
->  #define PATH_NVME_FABRICS	"/dev/nvme-fabrics"
->  #define PATH_NVMF_DISC		"/etc/nvme/nvmf_disc"
-> +#define PATH_NVMF_HOSTNQN	"/etc/nvme/hostnqn"
->  #define MAX_DISC_ARGS		10
->  
->  enum {
-> @@ -405,6 +406,25 @@ static void save_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
->  	close(fd);
->  }
->  
-> +static int nvmf_hostnqn_file(void)
-> +{
-> +	FILE *f;
-> +	char hostnqn[255];
-> +
-> +	f = fopen(PATH_NVMF_HOSTNQN, "r");
-> +	if (f == NULL)
-> +		return false;
-> +
-> +	if (fgets(hostnqn, sizeof(hostnqn), f) == NULL)
-> +		return false;
-> +
-> +	cfg.hostnqn = strdup(hostnqn);
-> +	if (!cfg.hostnqn)
-> +		return false;
-> +
-> +	return true;
+On 08/05/2016 02:01 PM, Andrew Morton wrote:
+> Bah.  What about WARN__ON_ONCE()?  Or much heavier ratelimiting?
 
-No fclose?  The leak probably isn't bad for a short running program,
-but sooner or later someone is going to turn it into a library.
+The problem w/ the WARN_ON_ONCE macro for this case is that it applies
+once per _function_ (because of its static variable), not per _device_.
 
-Also shouldn't we just read the 223 bytes of the actual NQN value instead
-of the on the wire field length? (which should be 256 anyway IIRC).
+So, after the message happens for a particular device, it won't happen
+for any other devices.  This would still conflict with the reasons the
+other patch (use dynamic debug) was rejected [1].
+
+The other problem w/ WARN_ON_ONCE (even if it could be used per device)
+is that it masks/hides some events:  if you reach it with requests that
+are OK to fail (i.e., retry), it will be silent for requests that are
+not OK to fail (e.g., the blk_integrity-related call on nvme) -- and it
+could be helpful for debugging.
+
+I believe that ratelimiting would fall into the same category as above
+(masks events since it hits the threshold with the OK-to-fail requests,
+and then misses the not-OK-to-fail requests).
+
+The other problem with ratelimiting would be, in case of continuously
+working on high loads with the devices (e.g., nvme drive) - which is
+acceptable - the messages would still eventually be printed, and since
+it will happen every time the threshold is OK to print it again, it's
+only a repetition with a greater period.
+
+
+
+... the difficult point with the problem this patch addresses is not
+to be heavy handed;  it's interesting to find some balance to still
+reach the message when it might be useful, and provide some form of
+control to the device driver (for when it knows it is OK for requests
+to fail).  Given that the driver can have multiple callsites (with
+different or no failure handling), unfortunately I found it hard to
+make this arch-specific (but that is what I really aimed for first).
+
+If you see other approaches that could help with it, I'd be happy to
+write something simpler/more discreet.
+
+Thanks for the suggestions and discussions.
+
+[1] https://lists.ozlabs.org/pipermail/linuxppc-dev/2016-June/144196.html
+
+-- 
+Mauricio Faria de Oliveira
+IBM Linux Technology Center
