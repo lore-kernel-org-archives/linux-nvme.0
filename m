@@ -1,48 +1,20 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  8 Aug 2016 15:14:39 +0300
-Subject: [GIT PULL] fabrics fixes for the next 4.8-rc
-Message-ID: <1470658479-7861-1-git-send-email-sagi@grimberg.me>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 8 Aug 2016 06:24:12 -0700
+Subject: [RFC 2/2] nvmet-rdma: Matching rdma WC to rdma queue according
+ to WC QP
+In-Reply-To: <fc554a3e-1177-31ae-38ba-ba8de9fb5c88@grimberg.me>
+References: <1470654019-717-1-git-send-email-roysh@mellanox.com>
+ <1470654019-717-2-git-send-email-roysh@mellanox.com>
+ <fc554a3e-1177-31ae-38ba-ba8de9fb5c88@grimberg.me>
+Message-ID: <20160808132412.GA20901@infradead.org>
 
-Hey Jens,
+On Mon, Aug 08, 2016@02:35:19PM +0300, Sagi Grimberg wrote:
+> Christoph and I had some discussions over that in the past. We came to
+> the conclusion that a RDMA core API for per-cpu CQ pools might be
+> beneficial for other target mode drivers (isert, srpt).
+> 
+> I even had an RFC in the works, but it kinda got left behind... It'd be
+> great if you can take it from there...
 
-Mostly stability fixes for nvmet, rdma:
-- fix uninitialized rdma_cm private data from Roland.
-- rdma device removal handling (host and target).
-- fix controller disconnect during active mounts.
-- fix namespaces lost after fabric reconnects.
-- remove redundant calls to namespace removal (rdma, loop).
-- actually send controller shutdown when disconnecting.
-- reconnect fixes (ns rescan and aen requeue)
-- nvmet controller serial number inconsistency fix.
-
-
-please pull from:
-
-  git://git.infradead.org/nvme-fabrics.git nvmf-4.8-rc
-
-
-----------------------------------------------------------------
-
-Roland Dreier (1):
-      nvme-rdma: Don't leak uninitialized memory in connect request private data
-
-Sagi Grimberg (11):
-      nvme-rdma: Queue ns scanning after a sucessful reconnection
-      nvme-rdma: Fix device removal handling
-      nvme-rdma: Remove duplicate call to nvme_remove_namespaces
-      nvme-rdma: Free the I/O tags when we delete the controller
-      nvme-loop: Remove duplicate call to nvme_remove_namespaces
-      nvme-rdma: Make sure to shutdown the controller if we can
-      nvmet-rdma: Correctly handle RDMA device hot removal
-      nvmet-rdma: Don't use the inline buffer in order to avoid allocation for small reads
-      nvmet: Fix controller serial number inconsistency
-      nvme-rdma: start async event handler after reconnecting to a controller
-      nvme-rdma: Remove unused includes
-
- drivers/nvme/host/rdma.c        |  83 +++++++++++++++++++++++++++++++++++++++++++++--------------------------------------
- drivers/nvme/target/admin-cmd.c |   6 +-----
- drivers/nvme/target/core.c      |   4 ++++
- drivers/nvme/target/loop.c      |   4 +---
- drivers/nvme/target/nvmet.h     |   1 +
- drivers/nvme/target/rdma.c      | 100 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------------
- 6 files changed, 126 insertions(+), 72 deletions(-)
+I've picked it up again and how to be able to post something in a week
+or two.
