@@ -1,20 +1,18 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 8 Aug 2016 06:24:12 -0700
-Subject: [RFC 2/2] nvmet-rdma: Matching rdma WC to rdma queue according
- to WC QP
-In-Reply-To: <fc554a3e-1177-31ae-38ba-ba8de9fb5c88@grimberg.me>
-References: <1470654019-717-1-git-send-email-roysh@mellanox.com>
- <1470654019-717-2-git-send-email-roysh@mellanox.com>
- <fc554a3e-1177-31ae-38ba-ba8de9fb5c88@grimberg.me>
-Message-ID: <20160808132412.GA20901@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 8 Aug 2016 15:31:50 +0200
+Subject: [PATCH v2 nvme-cli 2/4] fabrics: stringify discover output.
+In-Reply-To: <1470657480-5868-3-git-send-email-sagi@grimberg.me>
+References: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
+ <1470657480-5868-3-git-send-email-sagi@grimberg.me>
+Message-ID: <20160808133149.GA19826@lst.de>
 
-On Mon, Aug 08, 2016@02:35:19PM +0300, Sagi Grimberg wrote:
-> Christoph and I had some discussions over that in the past. We came to
-> the conclusion that a RDMA core API for per-cpu CQ pools might be
-> beneficial for other target mode drivers (isert, srpt).
-> 
-> I even had an RFC in the works, but it kinda got left behind... It'd be
-> great if you can take it from there...
+>  
+> +static const char *arg_str(const char * const *strings,
+> +		size_t array_size, size_t idx)
+> +{
+> +		if (idx < array_size && strings[idx])
+> +			return strings[idx];
+> +		return "unrecognized";
+> +}
 
-I've picked it up again and how to be able to post something in a week
-or two.
+The indentation of the function body looks b0rked.
