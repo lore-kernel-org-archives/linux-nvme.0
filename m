@@ -1,23 +1,42 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 8 Aug 2016 11:47:58 +0300
-Subject: Configured nqn
-In-Reply-To: <14E6FCBE6C7E3A47A6CD7D77E639D51C2F73FABD@oczmail.ocz.ocztechnology.com>
-References: <14E6FCBE6C7E3A47A6CD7D77E639D51C2F73FABD@oczmail.ocz.ocztechnology.com>
-Message-ID: <f94a27cf-8dcf-c881-4fe9-a45d0ce7c9c6@grimberg.me>
+From: roysh@mellanox.com (Roy Shterman)
+Date: Mon,  8 Aug 2016 14:00:19 +0300
+Subject: [RFC 2/2] nvmet-rdma: Matching rdma WC to rdma queue according to WC
+ QP
+In-Reply-To: <1470654019-717-1-git-send-email-roysh@mellanox.com>
+References: <1470654019-717-1-git-send-email-roysh@mellanox.com>
+Message-ID: <1470654019-717-2-git-send-email-roysh@mellanox.com>
 
-> Hi
+Today when assiging rdma_nvme_queue to rdma work complition we use
+cq_context which is passed as queue pointer when creating the CQ.
+In case we will want to aggregate few QP to one CQ this method will
+not work, hence it will be better if we will use QP context instead.
 
-Hey Gili,
+Signed-off-by: Roy Shterman <roysh at mellanox.com>
+---
+ drivers/nvme/target/rdma.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> I was wondering if there's a special reason why not to support preconfigured initiator nqn from a file.
-> (similar to iscsi in /etc/iscsi/initiatorname.iscsi).
-
-It was raised on the list just last week. I think Jay
-has (of was :)) volunteered.
-
-> For example libvirt iscsi volume driver in nova in openstack, uses the iscsi file to retrieve the initiator name and send it
-> To cinder to allow access.
-> We thought it would be required to support nvmf in the same manner.
-
-Its definitely useful and easy enough to do. You are welcome to send
-a patch to nvme-cli ;)
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index e06d504..164b1a2 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -547,7 +547,7 @@ static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc)
+ {
+ 	struct nvmet_rdma_rsp *rsp =
+ 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, read_cqe);
+-	struct nvmet_rdma_queue *queue = cq->cq_context;
++	struct nvmet_rdma_queue *queue = wc->qp->qp_context;
+ 
+ 	WARN_ON(rsp->n_rdma <= 0);
+ 	atomic_add(rsp->n_rdma, &queue->sq_wr_avail);
+@@ -726,7 +726,7 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+ {
+ 	struct nvmet_rdma_cmd *cmd =
+ 		container_of(wc->wr_cqe, struct nvmet_rdma_cmd, cqe);
+-	struct nvmet_rdma_queue *queue = cq->cq_context;
++	struct nvmet_rdma_queue *queue = wc->qp->qp_context;
+ 	struct nvmet_rdma_rsp *rsp;
+ 
+ 	if (unlikely(wc->status != IB_WC_SUCCESS)) {
+-- 
+1.8.3.1
