@@ -1,29 +1,61 @@
-From: wenbo.wang@memblaze.com (Wenbo Wang)
-Date: Tue, 9 Aug 2016 03:18:16 +0000
-Subject: [PATCH] nvme/quirk: Add a delay before checking device ready for
- memblaze device
-Message-ID: <BJXPR01MB1988042B22A1478144DBEFFE01C0@BJXPR01MB198.CHNPR01.prod.partner.outlook.cn>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 9 Aug 2016 09:52:05 +0300
+Subject: [PATCH v2 nvme-cli 3/4] fabrics: Allow discover params to come
+ from a conf file
+In-Reply-To: <20160808133502.GB19826@lst.de>
+References: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
+ <1470657480-5868-4-git-send-email-sagi@grimberg.me>
+ <20160808133502.GB19826@lst.de>
+Message-ID: <6f741e63-3967-ab4f-29e6-9ee6dfd6c6f6@grimberg.me>
 
-Add a delay before checking device ready for memblaze device
 
 
-Signed-off-by: Wenbo Wang <wenbo.wang at memblaze.com>
----
- drivers/nvme/host/pci.c | 2 ++
- 1 file changed, 2 insertions(+)
+On 08/08/16 16:35, Christoph Hellwig wrote:
+> On Mon, Aug 08, 2016@02:57:59PM +0300, Sagi Grimberg wrote:
+>> Allow the user to just run "nvme discover" or "nvme connect-all"
+>> in case it finds a default /etc/nvme/nvmf_disc conf file.
+>
+> Hmm, can just call this /etc/nvme/discovery.conf or something else
+> that rolls easier off the hand?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c82282f..ab90e5f 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -2154,6 +2154,8 @@ static const struct pci_device_id nvme_id_table[] = {
-        .driver_data = NVME_QUIRK_IDENTIFY_CNS, },
-    { PCI_DEVICE(0x1c58, 0x0003),   /* HGST adapter */
-        .driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
-+   { PCI_DEVICE(0x1c5f, 0x0540),   /* Memblaze Pblaze4 adapter */
-+       .driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
-    { PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
-    { PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
-    { 0, }
---
-1.8.3.1
+ok
+
+>
+>> +static int discover_from_conf_file(const char *desc, char *argstr,
+>> +	const struct argconfig_commandline_options *opts, bool connect)
+>
+> Second tab for the argument indent please.
+
+done
+
+>
+>> +		err = build_options(argstr, BUF_SIZE);
+>> +		if (err) {
+>> +			ret = err;
+>> +			continue;
+>> +		}
+>> +
+>> +		err = do_discover(argstr, connect);
+>> +		if (err) {
+>> +			ret = err;
+>> +			continue;
+>> +		}
+>
+> How will diagnostics look like here if the file has incorrect
+> syntax?
+
+the same way that discovery from user args, it'll just happen for
+each incorrect line. Would you prefer that we print the args line
+we're using?
+
+>> +	if (!cfg.transport && !cfg.traddr) {
+>> +		return discover_from_conf_file(desc, argstr,
+>> +				command_line_options, connect);
+>
+> Maybe we want a separate options that says the option needs to be
+> read from a config file, e.g. --file with an optional argument
+> for the file name?
+
+I kinda like the fact that you can just run discover/connect-all without
+providing any arguments. We could add the conf file argument if it's
+located in a non-default path maybe? what do others think?
