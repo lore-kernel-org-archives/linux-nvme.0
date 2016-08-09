@@ -1,61 +1,101 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 9 Aug 2016 09:52:05 +0300
+Date: Tue, 9 Aug 2016 09:58:11 +0300
 Subject: [PATCH v2 nvme-cli 3/4] fabrics: Allow discover params to come
  from a conf file
-In-Reply-To: <20160808133502.GB19826@lst.de>
+In-Reply-To: <1470693074.4368.44.camel@linux.intel.com>
 References: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
  <1470657480-5868-4-git-send-email-sagi@grimberg.me>
- <20160808133502.GB19826@lst.de>
-Message-ID: <6f741e63-3967-ab4f-29e6-9ee6dfd6c6f6@grimberg.me>
+ <1470693074.4368.44.camel@linux.intel.com>
+Message-ID: <a6846d8f-1100-3519-40a2-94968bc4e132@grimberg.me>
 
 
 
-On 08/08/16 16:35, Christoph Hellwig wrote:
-> On Mon, Aug 08, 2016@02:57:59PM +0300, Sagi Grimberg wrote:
->> Allow the user to just run "nvme discover" or "nvme connect-all"
->> in case it finds a default /etc/nvme/nvmf_disc conf file.
+On 09/08/16 00:51, J Freyensee wrote:
+> I missed some things on this patch.
 >
-> Hmm, can just call this /etc/nvme/discovery.conf or something else
-> that rolls easier off the hand?
-
-ok
-
->
+>>
+>>  #define BUF_SIZE		4096
+>>  #define PATH_NVME_FABRICS	"/dev/nvme-fabrics"
+>> +#define PATH_NVMF_DISC		"/etc/nvme/nvmf_disc"
+>> +#define MAX_DISC_ARGS		10
+>>
+>>  enum {
+>>  	OPT_INSTANCE,
+>> @@ -575,6 +577,62 @@ static int do_discover(char *argstr, bool
+>> connect)
+>>  	return ret;
+>>  }
+>>
 >> +static int discover_from_conf_file(const char *desc, char *argstr,
->> +	const struct argconfig_commandline_options *opts, bool connect)
+>> +	const struct argconfig_commandline_options *opts, bool
+>> connect)
+>> +{
+>> +	FILE *f;
+>> +	char line[255], *ptr, *args, **argv;
 >
-> Second tab for the argument indent please.
+> Why is line 255 and not 256?  Maybe want it a #define?
 
-done
+I can change to 256. Not sure if we need a define...
 
 >
+>> +	int argc, err, ret = 0;
+>> +
+>> +	f = fopen(PATH_NVMF_DISC, "r");
+>> +	if (f == NULL) {
+>> +		fprintf(stderr, "No discover params given and no %s
+>> conf\n", PATH_NVMF_DISC);
+>> +		return -EINVAL;
+>> +	}
+>> +
+>> +	while (fgets(line, sizeof(line), f) != NULL) {
+>> +		if (line[0] == '#' || line[0] == '\n')
+>> +			continue;
+>> +
+>> +		args = strdup(line);
+>> +		if (!args) {
+>> +			fprintf(stderr, "failed to strdup args\n");
+>
+> Be useful to print out the line so you know where you failed.
+
+Its pretty explicit to know where this failed.
+
+>
+>> +			return -ENOMEM;
+>> +		}
+>> +
+>> +		argv = calloc(MAX_DISC_ARGS, BUF_SIZE);
+>> +		if (!argv) {
+>> +			fprintf(stderr, "failed to allocate args
+>> vector\n");
+>
+> memory leak from not free'ing args in this case?
+
+Right, fixed.
+
+>
+> Also fprintf() says 'args' not 'argv'.  And again may be useful to
+> print out the line of where you failed.
+
+changed to argv.
+
+>
+>
+>> +			return -ENOMEM;
+>> +		}
+>> +
+>> +		argc = 0;
+>> +		argv[argc++] = "discover";
+>> +		while ((ptr = strsep(&args, " =\n")) != NULL)
+>> +			argv[argc++] = ptr;
+>> +
+>> +		argconfig_parse(argc, argv, desc, opts, &cfg,
+>> sizeof(cfg));
+>> +
 >> +		err = build_options(argstr, BUF_SIZE);
 >> +		if (err) {
 >> +			ret = err;
->> +			continue;
->> +		}
->> +
->> +		err = do_discover(argstr, connect);
->> +		if (err) {
->> +			ret = err;
->> +			continue;
->> +		}
 >
-> How will diagnostics look like here if the file has incorrect
-> syntax?
+> Again mentioned by Christoph, probably need some diagnostics on why err
+> didn't get set to 0.
 
-the same way that discovery from user args, it'll just happen for
-each incorrect line. Would you prefer that we print the args line
-we're using?
-
->> +	if (!cfg.transport && !cfg.traddr) {
->> +		return discover_from_conf_file(desc, argstr,
->> +				command_line_options, connect);
->
-> Maybe we want a separate options that says the option needs to be
-> read from a config file, e.g. --file with an optional argument
-> for the file name?
-
-I kinda like the fact that you can just run discover/connect-all without
-providing any arguments. We could add the conf file argument if it's
-located in a non-default path maybe? what do others think?
+build_options will print out the failure reason.
