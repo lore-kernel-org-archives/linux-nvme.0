@@ -1,101 +1,95 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 9 Aug 2016 09:58:11 +0300
-Subject: [PATCH v2 nvme-cli 3/4] fabrics: Allow discover params to come
- from a conf file
-In-Reply-To: <1470693074.4368.44.camel@linux.intel.com>
-References: <1470657480-5868-1-git-send-email-sagi@grimberg.me>
- <1470657480-5868-4-git-send-email-sagi@grimberg.me>
- <1470693074.4368.44.camel@linux.intel.com>
-Message-ID: <a6846d8f-1100-3519-40a2-94968bc4e132@grimberg.me>
+From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
+Date: Wed, 10 Aug 2016 01:04:35 -0300
+Subject: Oops when completing request on the wrong queue
+Message-ID: <87a8gltgks.fsf@linux.vnet.ibm.com>
 
+Hi,
 
+We, IBM, have been experiencing eventual Oops when stressing IO at the
+same time we add/remove processors.  The Oops happens in the IRQ path,
+when we try to complete a request that was apparently meant for another
+queue.
 
-On 09/08/16 00:51, J Freyensee wrote:
-> I missed some things on this patch.
->
->>
->>  #define BUF_SIZE		4096
->>  #define PATH_NVME_FABRICS	"/dev/nvme-fabrics"
->> +#define PATH_NVMF_DISC		"/etc/nvme/nvmf_disc"
->> +#define MAX_DISC_ARGS		10
->>
->>  enum {
->>  	OPT_INSTANCE,
->> @@ -575,6 +577,62 @@ static int do_discover(char *argstr, bool
->> connect)
->>  	return ret;
->>  }
->>
->> +static int discover_from_conf_file(const char *desc, char *argstr,
->> +	const struct argconfig_commandline_options *opts, bool
->> connect)
->> +{
->> +	FILE *f;
->> +	char line[255], *ptr, *args, **argv;
->
-> Why is line 255 and not 256?  Maybe want it a #define?
+In __nvme_process_cq, the driver will use the cqe.command_id and the
+nvmeq->tags to find out, via blk_mq_tag_to_rq, the request that
+initiated the IO.  Eventually, it happens that the request returned by
+that function is not initialized, and we crash inside
+__blk_mq_complete_request, as shown below.
 
-I can change to 256. Not sure if we need a define...
+[ 2679.050701] Faulting instruction address: 0xc000000000549500
+[ 2679.050711] Oops: Kernel access of bad area, sig: 11 [#1]
+[ 2679.050716] SMP NR_CPUS=2048 NUMA pSeries
+[ 2679.050727] Modules linked in: minix nls_iso8859_1 xfs libcrc32c
+rpcsec_gss_krb5 auth_rpcgss
+nfsv4 nfs lockd grace fscache binfmt_misc pseries_rng rtc_generic sunrpc
+autofs4 btrfs xor
+raid6_pq ibmvscsi ibmveth nvme
+[ 2679.050771] CPU: 21 PID: 45045 Comm: ppc64_cpu Not tainted 4.4.0-22-generic #40-Ubuntu
+[ 2679.050780] task: c000000497b07e60 ti: c0000004fff2c000 task.ti: c000000451bc0000
+[ 2679.050786] NIP: c000000000549500 LR: d0000000046b5e84 CTR: c000000000549680
+[ 2679.050803] REGS: c0000004fff2fa80 TRAP: 0300   Not tainted  (4.4.0-22-generic)
+[ 2679.050807] MSR: 8000000100009033 <SF,EE,ME,IR,DR,RI,LE>  CR: 28022428  XER: 00000000
+[ 2679.050824] CFAR: c000000000008468 DAR: 00000000000000b0 DSISR: 40000000 SOFTE: 0 
+GPR00: d0000000046b5e84 c0000004fff2fd00 c0000000015b4300 c0000002799a0a00 
+GPR04: 0000000000000000 0000000000000105 0000000000000004 0000000000000001 
+GPR08: c0000002799a0a50 0000000000000000 0000000000000000 d0000000046bdc68 
+GPR12: c000000000549680 c000000007b1c780 0000000000000008 0000000000000001 
+GPR16: 0000000000000000 0000000000000000 0000000000000000 0000000010005b50 
+GPR20: 0000000010005dc8 c0000000015eaa60 0000000000000001 0000000000000002 
+GPR24: 00000000000001e3 0000000000000000 0000000000000000 ffffffffffffffff 
+GPR28: 0000000000000000 0000000000000000 c0000004f8cd5180 c0000002799a0a00 
+[ 2679.050908] NIP [c000000000549500] __blk_mq_complete_request+0x30/0x1b0
+[ 2679.050924] LR [d0000000046b5e84] __nvme_process_cq+0xf4/0x2c0 [nvme]
+[ 2679.050930] Call Trace:
+[ 2679.050941] [c0000004fff2fd00] [c0000004fff2fd40] 0xc0000004fff2fd40 (unreliable)
+[ 2679.050952] [c0000004fff2fd40] [d0000000046b5e84] __nvme_process_cq+0xf4/0x2c0 [nvme]
+[ 2679.050961] [c0000004fff2fde0] [d0000000046b613c] nvme_irq+0x3c/0xb0 [nvme]
+[ 2679.050972] [c0000004fff2fe10] [c000000000130660] handle_irq_event_percpu+0xa0/0x320
+[ 2679.050981] [c0000004fff2fed0] [c000000000130948] handle_irq_event+0x68/0xc0
+[ 2679.050989] [c0000004fff2ff00] [c000000000135c2c] handle_fasteoi_irq+0xec/0x2b0
+[ 2679.050997] [c0000004fff2ff30] [c00000000012f844] generic_handle_irq+0x54/0x80
+[ 2679.051007] [c0000004fff2ff60] [c000000000011320] __do_irq+0x80/0x1d0
+[ 2679.051020] [c0000004fff2ff90] [c000000000024800] call_do_irq+0x14/0x24
+[ 2679.051037] [c000000451bc3350] [c000000000011508] do_IRQ+0x98/0x140
+[ 2679.051054] [c000000451bc33a0] [c000000000002594]
+hardware_interrupt_common+0x114/0x180
 
->
->> +	int argc, err, ret = 0;
->> +
->> +	f = fopen(PATH_NVMF_DISC, "r");
->> +	if (f == NULL) {
->> +		fprintf(stderr, "No discover params given and no %s
->> conf\n", PATH_NVMF_DISC);
->> +		return -EINVAL;
->> +	}
->> +
->> +	while (fgets(line, sizeof(line), f) != NULL) {
->> +		if (line[0] == '#' || line[0] == '\n')
->> +			continue;
->> +
->> +		args = strdup(line);
->> +		if (!args) {
->> +			fprintf(stderr, "failed to strdup args\n");
->
-> Be useful to print out the line so you know where you failed.
+I added some debugging which skipped the Oops and made me think that we
+are fetching the wrong request because we are actually looking at the
+wrong set of tags.
 
-Its pretty explicit to know where this failed.
+The log below exemplifies what I am saying.  Instead of crashing in the
+Oops, I made the execution skip the request completion and simply
+consider that odd CQE as handled.  The first line of the log does that.
 
->
->> +			return -ENOMEM;
->> +		}
->> +
->> +		argv = calloc(MAX_DISC_ARGS, BUF_SIZE);
->> +		if (!argv) {
->> +			fprintf(stderr, "failed to allocate args
->> vector\n");
->
-> memory leak from not free'ing args in this case?
+>  nvme nvme0: Skip completion of I/O 309 on queue 35 due to missing q
+>  nvme nvme0: I/O 309 QID 63 timeout, aborting
+>  nvme nvme0: Abort status: 0x0
+>  nvme nvme0: I/O 309 QID 63 timeout, reset controller
+>  nvme nvme0: completing aborted command with status: fffffffc
+>  nvme 0003:03:00.0: Using 64-bit DMA iommu bypass
+>  blk_update_request: I/O error, dev nvme0n1, sector 2105537536
 
-Right, fixed.
+In the first line, we found the request 309 for queue 35, which would
+have crashed the execution.  My debug patch just ignores it.
 
->
-> Also fprintf() says 'args' not 'argv'.  And again may be useful to
-> print out the line of where you failed.
+Then, we can see that eventually, the same IO, 309, will timeout in
+another QID, which was actually expecting for it.  The Abort request
+gets sent and completed, but we never receive the completion of the
+aborted request, thus we timeout again and restart the device.
 
-changed to argv.
+This only happens when we are changing the SMT settings very
+frequently, which points back to the way we correlate the hctx->tags to
+the nvmeq structure, but I failed to find the exact code spot were
+things get messed up.
 
->
->
->> +			return -ENOMEM;
->> +		}
->> +
->> +		argc = 0;
->> +		argv[argc++] = "discover";
->> +		while ((ptr = strsep(&args, " =\n")) != NULL)
->> +			argv[argc++] = ptr;
->> +
->> +		argconfig_parse(argc, argv, desc, opts, &cfg,
->> sizeof(cfg));
->> +
->> +		err = build_options(argstr, BUF_SIZE);
->> +		if (err) {
->> +			ret = err;
->
-> Again mentioned by Christoph, probably need some diagnostics on why err
-> didn't get set to 0.
+I've put a some effort on this code lately, but I definitely need some
+assistance on this one.  Since, as far as I understand, this issue is
+much more likely to reproduce on boxes with a lot of hotpluggable
+processors, I'm willing to test any patches you may find suitable in our
+systems.
 
-build_options will print out the failure reason.
+Thanks,
+
+-- 
+Gabriel Krisman Bertazi
