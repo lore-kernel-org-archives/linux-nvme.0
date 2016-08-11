@@ -1,24 +1,34 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 11 Aug 2016 17:08:46 +0200
-Subject: [PATCH RFC 1/4] fabrics: define admin sqsize min default, per spec
-In-Reply-To: <be1a6027-04f5-815d-ba2a-89529087dab4@grimberg.me>
+Date: Thu, 11 Aug 2016 17:21:54 +0200
+Subject: [PATCH RFC 2/4] nvme-rdma: fix sqsize/hsqsize/hrqsize per spec
+In-Reply-To: <1470888438-823-3-git-send-email-james_p_freyensee@linux.intel.com>
 References: <1470888438-823-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1470888438-823-2-git-send-email-james_p_freyensee@linux.intel.com>
- <be1a6027-04f5-815d-ba2a-89529087dab4@grimberg.me>
-Message-ID: <20160811150846.GA19738@lst.de>
+ <1470888438-823-3-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <20160811152154.GB19738@lst.de>
 
-On Thu, Aug 11, 2016@12:01:59PM +0300, Sagi Grimberg wrote:
-> it with the non-default value. I honestly don't see the reason
-> to keep it in a variable when no one is making real use
-> of it.
->
-> If you would have exposed it to user-space then it would make
-> better sense (although I'm not a fan of adding not very useful
-> configs to user-space).
+I think having different notations for hsqsize vs hrqsize is highly
+confusing, and I've asked for a clarification of the hrqsize definition
+which is ambious at it's best at the moment.  But independent of
+that a few more comments:
 
-I agree - until we have a good use case for large admin queues
-we should keep things simple.  And I'm still pissed about the idiotic
-addition of the admin queue size to the discovery records in the last
-moment.  It's entirely contrary to the disccovery service abstraction
-we build, and pointless as well.  So the more we can ignore it, the
-better.
+> @@ -1907,7 +1920,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+>  	spin_lock_init(&ctrl->lock);
+>  
+>  	ctrl->queue_count = opts->nr_io_queues + 1; /* +1 for admin queue */
+> -	ctrl->ctrl.sqsize = opts->queue_size;
+> +	ctrl->ctrl.sqsize = opts->queue_size-1;
+
+We should keep our own sqsize in normal notation in core, and just
+convert to strange notations on the wire.  Especially as we use it
+to driver all the resource allocation as Sagi said.
+
+
+> +	if (priv.qid == 0) {
+> +		priv.hsqsize = cpu_to_le16(queue->ctrl->ctrl.admin_sqsize);
+> +		priv.hrqsize = cpu_to_le16(queue->ctrl->ctrl.admin_sqsize+1);
+
+Based on that priv.hsqsize should have a - 1 here  and hrqsize should
+be kept as-is.  Also always use spaces around the operators.
+
+And while we're at it - the fix to use the separate AQ values should
+go into the first patch.
