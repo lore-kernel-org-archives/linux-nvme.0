@@ -1,20 +1,18 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 11 Aug 2016 14:23:36 -0700
-Subject: [PATCH 5/5] nvme-fabrics: Add FC LLDD loopback driver to test FC
- host and target transport
-In-Reply-To: <5792b91f.Lb5BdNQrSWnmgOYG%james.smart@broadcom.com>
-References: <5792b91f.Lb5BdNQrSWnmgOYG%james.smart@broadcom.com>
-Message-ID: <20160811212336.GH18013@infradead.org>
+Date: Thu, 11 Aug 2016 14:24:06 -0700
+Subject: [PATCH 0/3] nvme-fabrics: Add NVME FC Transport support to lpfc
+In-Reply-To: <5792b920.7v71BUERlAKN8sK4%james.smart@broadcom.com>
+References: <5792b920.7v71BUERlAKN8sK4%james.smart@broadcom.com>
+Message-ID: <20160811212406.GI18013@infradead.org>
 
-On Fri, Jul 22, 2016@05:23:59PM -0700, James Smart wrote:
+On Fri, Jul 22, 2016@05:24:00PM -0700, James Smart wrote:
 > 
-> Add FC LLDD loopback driver to test FC host and target transport within
-> nvme-fabrics
+> This patchset adds NVME support to the lpfc FC driver.  It reworks
+> the core driver for both NVME and SCSI protocol support, then adds the
+> nvme-over-fabrics host and target interfaces which connect to the 
+> NVME FC transport lower-level api.
 > 
-> To aid in the development and testing of the lower-level api of the FC
-> transport, this loopback driver has been created to act as if it were a
-> FC hba driver supporting both the host interfaces as well as the target
-> interfaces with the nvme FC transport.
+> Patches are cut against the linux-nvme for-4.8/drivers branch
 
-A proper FC loop device should support SCSI and NVMe.  Any chance to
-morph it into one that does both?
+Before reviewing the details:  what's the plan for merging this as we'll
+have dependencies on both the SCSI and the block tree?
