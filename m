@@ -1,81 +1,72 @@
-From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Wed, 10 Aug 2016 21:07:15 -0700
-Subject: [PATCH RFC 1/4] fabrics: define admin sqsize min default, per spec
-In-Reply-To: <1470888438-823-1-git-send-email-james_p_freyensee@linux.intel.com>
-References: <1470888438-823-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <1470888438-823-2-git-send-email-james_p_freyensee@linux.intel.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 11 Aug 2016 09:27:52 +0300
+Subject: nvmf/rdma host crash during heavy load and keep alive recovery
+In-Reply-To: <01a301d1f339$55ba8e70$012fab50$@opengridcomputing.com>
+References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
+ <20160801110658.GF16141@lst.de>
+ <008801d1ec00$a0bcfbf0$e236f3d0$@opengridcomputing.com>
+ <015801d1ec3d$0ca07ea0$25e17be0$@opengridcomputing.com>
+ <010f01d1f31e$50c8cb40$f25a61c0$@opengridcomputing.com>
+ <013701d1f320$57b185d0$07149170$@opengridcomputing.com>
+ <018401d1f32b$792cfdb0$6b86f910$@opengridcomputing.com>
+ <01a301d1f339$55ba8e70$012fab50$@opengridcomputing.com>
+Message-ID: <2fb1129c-424d-8b2d-7101-b9471e897dc8@grimberg.me>
 
-Upon admin queue connect(), the rdma qp was being
-set based on NVMF_AQ_DEPTH.  However, the fabrics layer was
-using the sqsize field value set for I/O queues for the admin
-queue, which through the nvme layer and rdma layer off-whack:
 
-root at fedora23-fabrics-host1 nvmf]# dmesg
-[ 3507.798642] nvme_fabrics: nvmf_connect_admin_queue():admin sqsize
-being sent is: 128
-[ 3507.798858] nvme nvme0: creating 16 I/O queues.
-[ 3507.896407] nvme nvme0: new ctrl: NQN "nullside-nqn", addr
-192.168.1.3:4420
 
-Thus, to have a different admin queue value (which the fabrics
-spec states the minimum depth for a fabrics admin queue is 32 via
-the ASQSZ definition), we need also a new variable to hold
-the sqsize for admin fabrics queue.  This also allows fabric
-implementation layers to set an admin sqsize greater than the
-specification-defined minimum, which the fabrics spec allows.
+On 10/08/16 21:59, Steve Wise wrote:
+>
+>> The nvme_rdma_ctrl queue associated with the request is in RECONNECTING state:
+>>
+>>   ctrl = {
+>>     state = NVME_CTRL_RECONNECTING,
+>>     lock = {
+>>
+>> So it should not be posting SQ WRs...
+>
+> kato kicks error recovery, nvme_rdma_error_recovery_work(), which calls
+> nvme_cancel_request() on each request.  nvme_cancel_request() sets req->errors
+> to NVME_SC_ABORT_REQ.  It then completes the request which ends up at
+> nvme_rdma_complete_rq() which queues it for retry:
+> ...
+>         if (unlikely(rq->errors)) {
+>                 if (nvme_req_needs_retry(rq, rq->errors)) {
+>                         nvme_requeue_req(rq);
+>                         return;
+>                 }
+>
+>                 if (rq->cmd_type == REQ_TYPE_DRV_PRIV)
+>                         error = rq->errors;
+>                 else
+>                         error = nvme_error_status(rq->errors);
+>         }
+> ...
+>
+> The retry will end up at nvme_rdma_queue_rq() which will try and post a send wr
+> to a freed qp...
+>
+> Should the canceled requests actually OR in bit NVME_SC_DNR?  That is only done
+> in nvme_cancel_request() if the blk queue is dying:
 
-Reported-by: Daniel Verkamp <daniel.verkamp at intel.com>
-Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
----
- drivers/nvme/host/fabrics.c | 16 +++++++++++++++-
- drivers/nvme/host/nvme.h    |  1 +
- 2 files changed, 16 insertions(+), 1 deletion(-)
+the DNR bit should not be set normally, only when we either don't want
+to requeue or we can't.
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index dc99676..cfc3607 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -363,7 +363,14 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 	cmd.connect.opcode = nvme_fabrics_command;
- 	cmd.connect.fctype = nvme_fabrics_type_connect;
- 	cmd.connect.qid = 0;
--	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
-+
-+	/*
-+	 * fabrics spec sets a minimum of depth 32 for admin queue, but
-+	 * fabric implementation layer may choose to define something deeper.
-+	 */
-+	cmd.connect.sqsize = (ctrl->admin_sqsize < NVMF_AQ_DEPTH-1) ?
-+			     cpu_to_le16(NVMF_AQ_DEPTH-1) :
-+			     cpu_to_le16(ctrl->admin_sqsize);
- 	/*
- 	 * Set keep-alive timeout in seconds granularity (ms * 1000)
- 	 * and add a grace period for controller kato enforcement
-@@ -833,6 +840,13 @@ static ssize_t nvmf_dev_write(struct file *file, const char __user *ubuf,
- 
- 	seq_file->private = ctrl;
- 
-+	/*
-+	 * set admin_sqsize a minimum default value
-+	 * but allow fabric implementation modules
-+	 * to define a larger sqsize, if desired
-+	 */
-+	ctrl->admin_sqsize = NVMF_AQ_DEPTH-1;
-+
- out_unlock:
- 	mutex_unlock(&nvmf_dev_mutex);
- 	kfree(buf);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ab18b78..32577a7 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -137,6 +137,7 @@ struct nvme_ctrl {
- 	struct delayed_work ka_work;
- 
- 	/* Fabrics only */
-+	u16 admin_sqsize;
- 	u16 sqsize;
- 	u32 ioccsz;
- 	u32 iorcsz;
--- 
-2.7.4
+>
+> ...
+>         status = NVME_SC_ABORT_REQ;
+>         if (blk_queue_dying(req->q))
+>                 status |= NVME_SC_DNR;
+> ...
+>
+
+couple of questions:
+
+1. bringing down the interface means generating DEVICE_REMOVAL
+event?
+
+2. keep-alive timeout expires means that nvme_rdma_timeout() invokes
+kicks error_recovery and set:
+rq->errors = NVME_SC_ABORT_REQ | NVME_SC_DNR
+
+So I'm not at all convinced that the keep-alive is the request that
+being re-issued. Did you verify that?
