@@ -1,83 +1,54 @@
 From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Thu, 11 Aug 2016 09:35:29 -0700
+Date: Thu, 11 Aug 2016 09:40:55 -0700
 Subject: [PATCH RFC 2/4] nvme-rdma: fix sqsize/hsqsize/hrqsize per spec
-In-Reply-To: <d3c8c94e-1ad1-afd1-5efc-fc7889f61bf2@grimberg.me>
+In-Reply-To: <20160811152154.GB19738@lst.de>
 References: <1470888438-823-1-git-send-email-james_p_freyensee@linux.intel.com>
  <1470888438-823-3-git-send-email-james_p_freyensee@linux.intel.com>
- <d3c8c94e-1ad1-afd1-5efc-fc7889f61bf2@grimberg.me>
-Message-ID: <1470933329.2796.3.camel@linux.intel.com>
+ <20160811152154.GB19738@lst.de>
+Message-ID: <1470933655.2796.7.camel@linux.intel.com>
 
-On Thu, 2016-08-11@10:03 +0300, Sagi Grimberg wrote:
+On Thu, 2016-08-11@17:21 +0200, Christoph Hellwig wrote:
+> I think having different notations for hsqsize vs hrqsize is highly
+> confusing, and I've asked for a clarification of the hrqsize
+> definition
+> which is ambious at it's best at the moment.??But independent of
+> that a few more comments:
 > 
-> On 11/08/16 07:07, Jay Freyensee wrote:
 > > 
-> > Per NVMe-over-Fabrics 1.0 spec, sqsize is represented as
-> > a 0-based value.
+> > @@ -1907,7 +1920,7 @@ static struct nvme_ctrl
+> > *nvme_rdma_create_ctrl(struct device *dev,
+> > ?	spin_lock_init(&ctrl->lock);
+> > ?
+> > ?	ctrl->queue_count = opts->nr_io_queues + 1; /* +1 for
+> > admin queue */
+> > -	ctrl->ctrl.sqsize = opts->queue_size;
+> > +	ctrl->ctrl.sqsize = opts->queue_size-1;
+> 
+> We should keep our own sqsize in normal notation in core, and just
+> convert to strange notations on the wire.??Especially as we use it
+> to driver all the resource allocation as Sagi said.
+> 
+> 
 > > 
-> > Also per spec, the RDMA binding values shall be set
-> > to sqsize, which makes hsqsize 0-based values.
-> > 
-> > Also per spec, but not very clear, is hrqsize is +1
-> > of hsqsize.
-> > 
-> > Thus, the sqsize during NVMf connect() is now:
-> > 
-> > [root at fedora23-fabrics-host1 for-48]# dmesg
-> > [??318.720645] nvme_fabrics: nvmf_connect_admin_queue(): sqsize for
-> > admin queue: 31
-> > [??318.720884] nvme nvme0: creating 16 I/O queues.
-> > [??318.810114] nvme_fabrics: nvmf_connect_io_queue(): sqsize for
-> > i/o
-> > queue: 127
-> > 
-> > Reported-by: Daniel Verkamp <daniel.verkamp at intel.com>
-> > Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-> > ---
-> > ?drivers/nvme/host/rdma.c | 19 ++++++++++++++++---
-> > ?1 file changed, 16 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> > index 3e3ce2b..8be64f1 100644
-> > --- a/drivers/nvme/host/rdma.c
-> > +++ b/drivers/nvme/host/rdma.c
-> > @@ -1284,8 +1284,21 @@ static int nvme_rdma_route_resolved(struct
-> > nvme_rdma_queue *queue)
-> > 
-> > ?	priv.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0);
-> > ?	priv.qid = cpu_to_le16(nvme_rdma_queue_idx(queue));
-> > -	priv.hrqsize = cpu_to_le16(queue->queue_size);
-> > -	priv.hsqsize = cpu_to_le16(queue->queue_size);
-> > +
-> > +	/*
-> > +	?* On one end, the fabrics spec is pretty clear that
-> > +	?* hsqsize variables shall be set to the value of sqsize,
-> > +	?* which is a 0-based number. What is confusing is the
-> > value for
-> > +	?* hrqsize.??After clarification from NVMe spec committee
-> > member,
-> > +	?* the minimum value of hrqsize is hsqsize+1.
-> > +	?*/
 > > +	if (priv.qid == 0) {
 > > +		priv.hsqsize = cpu_to_le16(queue->ctrl-
 > > >ctrl.admin_sqsize);
 > > +		priv.hrqsize = cpu_to_le16(queue->ctrl-
 > > >ctrl.admin_sqsize+1);
-> > +	} else {
-> > +		priv.hsqsize = cpu_to_le16(queue->ctrl-
-> > >ctrl.sqsize);
-> > +		priv.hrqsize = cpu_to_le16(queue->ctrl-
-> > >ctrl.sqsize+1);
-> > +	}
 > 
-> Huh? (scratch...) using priv.hrqsize = priv.hsqsize+1 is pointless.
+> Based on that priv.hsqsize should have a - 1 here??and hrqsize should
+> be kept as-is.??Also always use spaces around the operators.
 
-It may be pointless, but Dave said that is the current interpretation
-of the NVMe-over-Fabrics spec (which I don't really understand either).
+Hmmm, not sure I understand. ?In this current patch series
+implementation, admin_sqsize will be NVMF_AQ_DEPTH-1 (31), so it
+doesn't need a -1.
+
+Then you are saying do NOT add hrqsize? ?Thus, hsqsize == hrqsize??
 
 > 
-> We expose to the block layer X and we send to the target X-1 and
-> the target does X+1 (looks goofy, but ok). We also size our RDMA
-> send/recv according to X so why on earth would we want to tell the
-> target we have a recv queue of size X+1
+> And while we're at it - the fix to use the separate AQ values should
+> go into the first patch.
 
-Could be the reason I see kato timeouts then kernel crashing...
+It will get re-worked anyways based on the interest to not have a
+variable at the moment at someone's disposal to create variable-sized
+admin queue depths.
