@@ -1,72 +1,67 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 11 Aug 2016 09:27:52 +0300
-Subject: nvmf/rdma host crash during heavy load and keep alive recovery
-In-Reply-To: <01a301d1f339$55ba8e70$012fab50$@opengridcomputing.com>
-References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
- <20160801110658.GF16141@lst.de>
- <008801d1ec00$a0bcfbf0$e236f3d0$@opengridcomputing.com>
- <015801d1ec3d$0ca07ea0$25e17be0$@opengridcomputing.com>
- <010f01d1f31e$50c8cb40$f25a61c0$@opengridcomputing.com>
- <013701d1f320$57b185d0$07149170$@opengridcomputing.com>
- <018401d1f32b$792cfdb0$6b86f910$@opengridcomputing.com>
- <01a301d1f339$55ba8e70$012fab50$@opengridcomputing.com>
-Message-ID: <2fb1129c-424d-8b2d-7101-b9471e897dc8@grimberg.me>
+Date: Thu, 11 Aug 2016 10:03:36 +0300
+Subject: [PATCH RFC 2/4] nvme-rdma: fix sqsize/hsqsize/hrqsize per spec
+In-Reply-To: <1470888438-823-3-git-send-email-james_p_freyensee@linux.intel.com>
+References: <1470888438-823-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <1470888438-823-3-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <d3c8c94e-1ad1-afd1-5efc-fc7889f61bf2@grimberg.me>
 
 
 
-On 10/08/16 21:59, Steve Wise wrote:
+On 11/08/16 07:07, Jay Freyensee wrote:
+> Per NVMe-over-Fabrics 1.0 spec, sqsize is represented as
+> a 0-based value.
 >
->> The nvme_rdma_ctrl queue associated with the request is in RECONNECTING state:
->>
->>   ctrl = {
->>     state = NVME_CTRL_RECONNECTING,
->>     lock = {
->>
->> So it should not be posting SQ WRs...
+> Also per spec, the RDMA binding values shall be set
+> to sqsize, which makes hsqsize 0-based values.
 >
-> kato kicks error recovery, nvme_rdma_error_recovery_work(), which calls
-> nvme_cancel_request() on each request.  nvme_cancel_request() sets req->errors
-> to NVME_SC_ABORT_REQ.  It then completes the request which ends up at
-> nvme_rdma_complete_rq() which queues it for retry:
-> ...
->         if (unlikely(rq->errors)) {
->                 if (nvme_req_needs_retry(rq, rq->errors)) {
->                         nvme_requeue_req(rq);
->                         return;
->                 }
+> Also per spec, but not very clear, is hrqsize is +1
+> of hsqsize.
 >
->                 if (rq->cmd_type == REQ_TYPE_DRV_PRIV)
->                         error = rq->errors;
->                 else
->                         error = nvme_error_status(rq->errors);
->         }
-> ...
+> Thus, the sqsize during NVMf connect() is now:
 >
-> The retry will end up at nvme_rdma_queue_rq() which will try and post a send wr
-> to a freed qp...
+> [root at fedora23-fabrics-host1 for-48]# dmesg
+> [  318.720645] nvme_fabrics: nvmf_connect_admin_queue(): sqsize for
+> admin queue: 31
+> [  318.720884] nvme nvme0: creating 16 I/O queues.
+> [  318.810114] nvme_fabrics: nvmf_connect_io_queue(): sqsize for i/o
+> queue: 127
 >
-> Should the canceled requests actually OR in bit NVME_SC_DNR?  That is only done
-> in nvme_cancel_request() if the blk queue is dying:
-
-the DNR bit should not be set normally, only when we either don't want
-to requeue or we can't.
-
+> Reported-by: Daniel Verkamp <daniel.verkamp at intel.com>
+> Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+> ---
+>  drivers/nvme/host/rdma.c | 19 ++++++++++++++++---
+>  1 file changed, 16 insertions(+), 3 deletions(-)
 >
-> ...
->         status = NVME_SC_ABORT_REQ;
->         if (blk_queue_dying(req->q))
->                 status |= NVME_SC_DNR;
-> ...
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 3e3ce2b..8be64f1 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1284,8 +1284,21 @@ static int nvme_rdma_route_resolved(struct nvme_rdma_queue *queue)
 >
+>  	priv.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0);
+>  	priv.qid = cpu_to_le16(nvme_rdma_queue_idx(queue));
+> -	priv.hrqsize = cpu_to_le16(queue->queue_size);
+> -	priv.hsqsize = cpu_to_le16(queue->queue_size);
+> +
+> +	/*
+> +	 * On one end, the fabrics spec is pretty clear that
+> +	 * hsqsize variables shall be set to the value of sqsize,
+> +	 * which is a 0-based number. What is confusing is the value for
+> +	 * hrqsize.  After clarification from NVMe spec committee member,
+> +	 * the minimum value of hrqsize is hsqsize+1.
+> +	 */
+> +	if (priv.qid == 0) {
+> +		priv.hsqsize = cpu_to_le16(queue->ctrl->ctrl.admin_sqsize);
+> +		priv.hrqsize = cpu_to_le16(queue->ctrl->ctrl.admin_sqsize+1);
+> +	} else {
+> +		priv.hsqsize = cpu_to_le16(queue->ctrl->ctrl.sqsize);
+> +		priv.hrqsize = cpu_to_le16(queue->ctrl->ctrl.sqsize+1);
+> +	}
 
-couple of questions:
+Huh? (scratch...) using priv.hrqsize = priv.hsqsize+1 is pointless.
 
-1. bringing down the interface means generating DEVICE_REMOVAL
-event?
-
-2. keep-alive timeout expires means that nvme_rdma_timeout() invokes
-kicks error_recovery and set:
-rq->errors = NVME_SC_ABORT_REQ | NVME_SC_DNR
-
-So I'm not at all convinced that the keep-alive is the request that
-being re-issued. Did you verify that?
+We expose to the block layer X and we send to the target X-1 and
+the target does X+1 (looks goofy, but ok). We also size our RDMA
+send/recv according to X so why on earth would we want to tell the
+target we have a recv queue of size X+1
