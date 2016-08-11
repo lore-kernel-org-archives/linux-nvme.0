@@ -1,18 +1,44 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 11 Aug 2016 14:24:06 -0700
-Subject: [PATCH 0/3] nvme-fabrics: Add NVME FC Transport support to lpfc
-In-Reply-To: <5792b920.7v71BUERlAKN8sK4%james.smart@broadcom.com>
-References: <5792b920.7v71BUERlAKN8sK4%james.smart@broadcom.com>
-Message-ID: <20160811212406.GI18013@infradead.org>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Thu, 11 Aug 2016 16:24:45 -0700
+Subject: [PATCH RFC 2/4] nvme-rdma: fix sqsize/hsqsize/hrqsize per spec
+In-Reply-To: <20160811152154.GB19738@lst.de>
+References: <1470888438-823-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <1470888438-823-3-git-send-email-james_p_freyensee@linux.intel.com>
+ <20160811152154.GB19738@lst.de>
+Message-ID: <1470957885.4474.30.camel@linux.intel.com>
 
-On Fri, Jul 22, 2016@05:24:00PM -0700, James Smart wrote:
+On Thu, 2016-08-11@17:21 +0200, Christoph Hellwig wrote:
+> I think having different notations for hsqsize vs hrqsize is highly
+> confusing, and I've asked for a clarification of the hrqsize
+> definition
+> which is ambious at it's best at the moment.??But independent of
+> that a few more comments:
 > 
-> This patchset adds NVME support to the lpfc FC driver.  It reworks
-> the core driver for both NVME and SCSI protocol support, then adds the
-> nvme-over-fabrics host and target interfaces which connect to the 
-> NVME FC transport lower-level api.
+> > 
+> > @@ -1907,7 +1920,7 @@ static struct nvme_ctrl
+> > *nvme_rdma_create_ctrl(struct device *dev,
+> > ?	spin_lock_init(&ctrl->lock);
+> > ?
+> > ?	ctrl->queue_count = opts->nr_io_queues + 1; /* +1 for
+> > admin queue */
+> > -	ctrl->ctrl.sqsize = opts->queue_size;
+> > +	ctrl->ctrl.sqsize = opts->queue_size-1;
 > 
-> Patches are cut against the linux-nvme for-4.8/drivers branch
+> We should keep our own sqsize in normal notation in core, and just
+> convert to strange notations on the wire.??Especially as we use it
+> to driver all the resource allocation as Sagi said.
 
-Before reviewing the details:  what's the plan for merging this as we'll
-have dependencies on both the SCSI and the block tree?
+So what I'm understanding is to keep ctrl->ctrl.sqsize as ones-based in
+the code but when we actually do something like a connect() send
+sqsize-1 in the connect() command.
+
+That almost works, but is still a tad ugly because there are code lines
+such as:
+
+ctrl->ctrl.sqsize =
+????????????????min_t(int, NVME_CAP_MQES(ctrl->cap) + 1, ctrl-
+>ctrl.sqsize);
+
+in which also need to be adjusted because what is currently going on
+here is NVME_CAP_MQES() is a zero-based value but ctrl->ctrl.sqsize is
+currently implemented as a one's-based value.
