@@ -1,54 +1,55 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Thu, 11 Aug 2016 09:40:55 -0700
-Subject: [PATCH RFC 2/4] nvme-rdma: fix sqsize/hsqsize/hrqsize per spec
-In-Reply-To: <20160811152154.GB19738@lst.de>
-References: <1470888438-823-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1470888438-823-3-git-send-email-james_p_freyensee@linux.intel.com>
- <20160811152154.GB19738@lst.de>
-Message-ID: <1470933655.2796.7.camel@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 11 Aug 2016 13:16:55 -0400
+Subject: Oops when completing request on the wrong queue
+In-Reply-To: <87a8gltgks.fsf@linux.vnet.ibm.com>
+References: <87a8gltgks.fsf@linux.vnet.ibm.com>
+Message-ID: <20160811171655.GA5334@localhost.localdomain>
 
-On Thu, 2016-08-11@17:21 +0200, Christoph Hellwig wrote:
-> I think having different notations for hsqsize vs hrqsize is highly
-> confusing, and I've asked for a clarification of the hrqsize
-> definition
-> which is ambious at it's best at the moment.??But independent of
-> that a few more comments:
+On Wed, Aug 10, 2016@01:04:35AM -0300, Gabriel Krisman Bertazi wrote:
+> Hi,
 > 
-> > 
-> > @@ -1907,7 +1920,7 @@ static struct nvme_ctrl
-> > *nvme_rdma_create_ctrl(struct device *dev,
-> > ?	spin_lock_init(&ctrl->lock);
-> > ?
-> > ?	ctrl->queue_count = opts->nr_io_queues + 1; /* +1 for
-> > admin queue */
-> > -	ctrl->ctrl.sqsize = opts->queue_size;
-> > +	ctrl->ctrl.sqsize = opts->queue_size-1;
+> We, IBM, have been experiencing eventual Oops when stressing IO at the
+> same time we add/remove processors.  The Oops happens in the IRQ path,
+> when we try to complete a request that was apparently meant for another
+> queue.
 > 
-> We should keep our own sqsize in normal notation in core, and just
-> convert to strange notations on the wire.??Especially as we use it
-> to driver all the resource allocation as Sagi said.
-> 
-> 
-> > 
-> > +	if (priv.qid == 0) {
-> > +		priv.hsqsize = cpu_to_le16(queue->ctrl-
-> > >ctrl.admin_sqsize);
-> > +		priv.hrqsize = cpu_to_le16(queue->ctrl-
-> > >ctrl.admin_sqsize+1);
-> 
-> Based on that priv.hsqsize should have a - 1 here??and hrqsize should
-> be kept as-is.??Also always use spaces around the operators.
+> In __nvme_process_cq, the driver will use the cqe.command_id and the
+> nvmeq->tags to find out, via blk_mq_tag_to_rq, the request that
+> initiated the IO.  Eventually, it happens that the request returned by
+> that function is not initialized, and we crash inside
+> __blk_mq_complete_request, as shown below.
 
-Hmmm, not sure I understand. ?In this current patch series
-implementation, admin_sqsize will be NVMF_AQ_DEPTH-1 (31), so it
-doesn't need a -1.
+Could you try the following patch and see if it resolves the issue?
 
-Then you are saying do NOT add hrqsize? ?Thus, hsqsize == hrqsize??
-
-> 
-> And while we're at it - the fix to use the separate AQ values should
-> go into the first patch.
-
-It will get re-worked anyways based on the interest to not have a
-variable at the moment at someone's disposal to create variable-sized
-admin queue depths.
+---
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d7c33f9..d49ddfb 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -216,7 +216,7 @@ static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 	return 0;
+ }
+ 
+-static void nvme_admin_exit_hctx(struct blk_mq_hw_ctx *hctx, unsigned int hctx_idx)
++static void nvme_exit_hctx(struct blk_mq_hw_ctx *hctx, unsigned int hctx_idx)
+ {
+ 	struct nvme_queue *nvmeq = hctx->driver_data;
+ 
+@@ -1133,7 +1133,7 @@ static struct blk_mq_ops nvme_mq_admin_ops = {
+ 	.complete	= nvme_complete_rq,
+ 	.map_queue	= blk_mq_map_queue,
+ 	.init_hctx	= nvme_admin_init_hctx,
+-	.exit_hctx      = nvme_admin_exit_hctx,
++	.exit_hctx      = nvme_exit_hctx,
+ 	.init_request	= nvme_admin_init_request,
+ 	.timeout	= nvme_timeout,
+ };
+@@ -1143,6 +1143,7 @@ static struct blk_mq_ops nvme_mq_ops = {
+ 	.complete	= nvme_complete_rq,
+ 	.map_queue	= blk_mq_map_queue,
+ 	.init_hctx	= nvme_init_hctx,
++	.exit_hctx      = nvme_exit_hctx,
+ 	.init_request	= nvme_init_request,
+ 	.timeout	= nvme_timeout,
+ 	.poll		= nvme_poll,
+--
