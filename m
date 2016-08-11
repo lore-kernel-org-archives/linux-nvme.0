@@ -1,35 +1,38 @@
 From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Wed, 10 Aug 2016 21:07:14 -0700
-Subject: [PATCH RFC 0/4] sqsize zero-based fixes
-Message-ID: <1470888438-823-1-git-send-email-james_p_freyensee@linux.intel.com>
+Date: Wed, 10 Aug 2016 21:07:17 -0700
+Subject: [PATCH RFC 3/4] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
+In-Reply-To: <1470888438-823-1-git-send-email-james_p_freyensee@linux.intel.com>
+References: <1470888438-823-1-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <1470888438-823-4-git-send-email-james_p_freyensee@linux.intel.com>
 
-These patches are based on NVMe-over-Fabrics spec clarifcations
-by Dave Minturn, one of the spec authors. 
-In summary, sqsize and hsqsize are 0-based
-values, and hrqsize cannot be smaller than hsqsize+1.
+Now that the host will be sending hsqsize 0-based
+values with hrqsize equaling hsqsize+1,
+the target needs to be adjusted as well.
 
-There is an issue with these patches I haven't worked out yet,
-thus the reason for RFC.  The keep-alive timer is going
-off then causes a kernel crash and I haven't worked out
-exactly why yet, but I'm thinking
-it has something to do with sqsize now being 0-based but
-the RDMA implemenation layer's queue_size being 1's based.
+Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+---
+ drivers/nvme/target/rdma.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Anyways, feedback appreciated as I continue
-to work on how to fix this appropriately.
-
-Jay Freyensee (4):
-  fabrics: define admin sqsize min default, per spec
-  nvme-rdma: fix sqsize/hsqsize/hrqsize per spec
-  nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
-  nvme-loop: set sqsize to 0-based value, per spec
-
- drivers/nvme/host/fabrics.c | 16 +++++++++++++++-
- drivers/nvme/host/nvme.h    |  1 +
- drivers/nvme/host/rdma.c    | 19 ++++++++++++++++---
- drivers/nvme/target/loop.c  |  2 +-
- drivers/nvme/target/rdma.c  |  8 ++++----
- 5 files changed, 37 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index e06d504..4a08946 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1004,11 +1004,11 @@ nvmet_rdma_parse_cm_connect_req(struct rdma_conn_param *conn,
+ 	queue->host_qid = le16_to_cpu(req->qid);
+ 
+ 	/*
+-	 * req->hsqsize corresponds to our recv queue size
+-	 * req->hrqsize corresponds to our send queue size
++	 * req->hsqsize corresponds to our recv queue size, plus 1
++	 * req->hrqsize corresponds to our send queue size, plus 1
+ 	 */
+-	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
+-	queue->send_queue_size = le16_to_cpu(req->hrqsize);
++	queue->recv_queue_size = le16_to_cpu(req->hsqsize+1);
++	queue->send_queue_size = le16_to_cpu(req->hrqsize+1);
+ 
+ 	if (!queue->host_qid && queue->recv_queue_size > NVMF_AQ_DEPTH)
+ 		return NVME_RDMA_CM_INVALID_HSQSIZE;
 -- 
 2.7.4
