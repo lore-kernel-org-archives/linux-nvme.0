@@ -1,15 +1,18 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 12 Aug 2016 12:28:20 -0500
+From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
+Date: Fri, 12 Aug 2016 14:40:32 -0300
 Subject: nvme_change_ctrl_state() bug?
-Message-ID: <258e01d1f4be$ec094890$c41bd9b0$@opengridcomputing.com>
+In-Reply-To: <258e01d1f4be$ec094890$c41bd9b0$@opengridcomputing.com> (Steve
+ Wise's message of "Fri, 12 Aug 2016 12:28:20 -0500")
+References: <258e01d1f4be$ec094890$c41bd9b0$@opengridcomputing.com>
+Message-ID: <878tw1sx67.fsf@linux.vnet.ibm.com>
 
+"Steve Wise" <swise at opengridcomputing.com> writes:
 
-Shouldn't the assigning of the state be inside the lock?  
+> Shouldn't the assigning of the state be inside the lock?  
 
-.
-        spin_unlock_irq(&ctrl->lock);
+Yes, I sent a patch for it, but it hasn't been accepted yet.
 
-        if (changed)
-                ctrl->state = new_state;
+http://lists.infradead.org/pipermail/linux-nvme/2016-July/005551.html
 
-        return changed;
+-- 
+Gabriel Krisman Bertazi
