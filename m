@@ -1,35 +1,53 @@
 From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Fri, 12 Aug 2016 17:04:50 -0700
-Subject: [PATCH v1 3/5] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
+Date: Fri, 12 Aug 2016 17:04:52 -0700
+Subject: [PATCH v1 5/5] nvme-rdma: adjust hrqsize to plus 1
 In-Reply-To: <1471046692-15978-1-git-send-email-james_p_freyensee@linux.intel.com>
 References: <1471046692-15978-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <1471046692-15978-4-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <1471046692-15978-6-git-send-email-james_p_freyensee@linux.intel.com>
 
-Now that the host will be sending sqsize 0-based values,
-the target need to be adjusted as well.
+Currently under debate due to spec confusion, increase hrqsize
+to one more than hsqsize.
 
 Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
 ---
- drivers/nvme/target/rdma.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/nvme/host/rdma.c   | 4 ++--
+ drivers/nvme/target/rdma.c | 7 ++++---
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 6aa913e..524c2b3 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1289,10 +1289,10 @@ static int nvme_rdma_route_resolved(struct nvme_rdma_queue *queue)
+ 	 * specified by the Fabrics standard.
+ 	 */
+ 	if (priv.qid == 0) {
+-		priv.hrqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
++		priv.hrqsize = cpu_to_le16(NVMF_AQ_DEPTH);
+ 		priv.hsqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
+ 	} else {
+-		priv.hrqsize = cpu_to_le16(queue->ctrl->ctrl.sqsize);
++		priv.hrqsize = cpu_to_le16(queue->ctrl->ctrl.sqsize + 1);
+ 		priv.hsqsize = cpu_to_le16(queue->ctrl->ctrl.sqsize);
+ 	}
+ 
 diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index e06d504..d7cb98d 100644
+index d7cb98d..60023d5 100644
 --- a/drivers/nvme/target/rdma.c
 +++ b/drivers/nvme/target/rdma.c
-@@ -1004,11 +1004,11 @@ nvmet_rdma_parse_cm_connect_req(struct rdma_conn_param *conn,
+@@ -1004,11 +1004,12 @@ nvmet_rdma_parse_cm_connect_req(struct rdma_conn_param *conn,
  	queue->host_qid = le16_to_cpu(req->qid);
  
  	/*
--	 * req->hsqsize corresponds to our recv queue size
--	 * req->hrqsize corresponds to our send queue size
-+	 * req->hsqsize corresponds to our recv queue size plus 1
-+	 * req->hrqsize corresponds to our send queue size plus 1
+-	 * req->hsqsize corresponds to our recv queue size plus 1
+-	 * req->hrqsize corresponds to our send queue size plus 1
++	 * req->hsqsize corresponds to our recv queue size plus 1 as
++	 * this value is based on sqsize, a 0-based value.
++	 * req->hrqsize corresponds to our send queue size plus 2
  	 */
--	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
--	queue->send_queue_size = le16_to_cpu(req->hrqsize);
-+	queue->recv_queue_size = le16_to_cpu(req->hsqsize + 1);
-+	queue->send_queue_size = le16_to_cpu(req->hrqsize + 1);
+ 	queue->recv_queue_size = le16_to_cpu(req->hsqsize + 1);
+-	queue->send_queue_size = le16_to_cpu(req->hrqsize + 1);
++	queue->send_queue_size = le16_to_cpu(req->hrqsize + 2);
  
  	if (!queue->host_qid && queue->recv_queue_size > NVMF_AQ_DEPTH)
  		return NVME_RDMA_CM_INVALID_HSQSIZE;
