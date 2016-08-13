@@ -1,36 +1,37 @@
 From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Fri, 12 Aug 2016 17:04:51 -0700
-Subject: [PATCH v1 4/5] nvme-loop: set sqsize to 0-based value, per spec
+Date: Fri, 12 Aug 2016 17:04:50 -0700
+Subject: [PATCH v1 3/5] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
 In-Reply-To: <1471046692-15978-1-git-send-email-james_p_freyensee@linux.intel.com>
 References: <1471046692-15978-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <1471046692-15978-5-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <1471046692-15978-4-git-send-email-james_p_freyensee@linux.intel.com>
+
+Now that the host will be sending sqsize 0-based values,
+the target need to be adjusted as well.
 
 Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
 ---
- drivers/nvme/target/loop.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/target/rdma.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 94e7829..ce22d4b0 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -558,7 +558,7 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index e06d504..d7cb98d 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1004,11 +1004,11 @@ nvmet_rdma_parse_cm_connect_req(struct rdma_conn_param *conn,
+ 	queue->host_qid = le16_to_cpu(req->qid);
  
- 	memset(&ctrl->tag_set, 0, sizeof(ctrl->tag_set));
- 	ctrl->tag_set.ops = &nvme_loop_mq_ops;
--	ctrl->tag_set.queue_depth = ctrl->ctrl.sqsize;
-+	ctrl->tag_set.queue_depth = ctrl->ctrl.sqsize + 1;
- 	ctrl->tag_set.reserved_tags = 1; /* fabric connect */
- 	ctrl->tag_set.numa_node = NUMA_NO_NODE;
- 	ctrl->tag_set.flags = BLK_MQ_F_SHOULD_MERGE;
-@@ -622,7 +622,7 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
+ 	/*
+-	 * req->hsqsize corresponds to our recv queue size
+-	 * req->hrqsize corresponds to our send queue size
++	 * req->hsqsize corresponds to our recv queue size plus 1
++	 * req->hrqsize corresponds to our send queue size plus 1
+ 	 */
+-	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
+-	queue->send_queue_size = le16_to_cpu(req->hrqsize);
++	queue->recv_queue_size = le16_to_cpu(req->hsqsize + 1);
++	queue->send_queue_size = le16_to_cpu(req->hrqsize + 1);
  
- 	ret = -ENOMEM;
- 
--	ctrl->ctrl.sqsize = opts->queue_size;
-+	ctrl->ctrl.sqsize = opts->queue_size - 1;
- 	ctrl->ctrl.kato = opts->kato;
- 
- 	ctrl->queues = kcalloc(opts->nr_io_queues + 1, sizeof(*ctrl->queues),
+ 	if (!queue->host_qid && queue->recv_queue_size > NVMF_AQ_DEPTH)
+ 		return NVME_RDMA_CM_INVALID_HSQSIZE;
 -- 
 2.7.4
