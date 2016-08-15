@@ -1,48 +1,77 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 15 Aug 2016 09:15:06 -0700
-Subject: [PATCH v1 3/5] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
-In-Reply-To: <1471276442.3070.1.camel@intel.com>
-References: <1471046692-15978-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1471046692-15978-4-git-send-email-james_p_freyensee@linux.intel.com>
- <1471276442.3070.1.camel@intel.com>
-Message-ID: <1471277706.4474.86.camel@linux.intel.com>
+From: james_p_freyensee@linux.intel.com (Jay Freyensee)
+Date: Mon, 15 Aug 2016 09:47:35 -0700
+Subject: [PATCH v2 1/5] fabrics: define admin sqsize min default, per spec
+In-Reply-To: <1471279659-25951-1-git-send-email-james_p_freyensee@linux.intel.com>
+References: <1471279659-25951-1-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <1471279659-25951-2-git-send-email-james_p_freyensee@linux.intel.com>
 
-On Mon, 2016-08-15@15:54 +0000, Verkamp, Daniel wrote:
-> On Fri, 2016-08-12@17:04 -0700, Jay Freyensee wrote:
-> > 
-> > Now that the host will be sending sqsize 0-based values,
-> > the target need to be adjusted as well.
-> > 
-> > Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-> > ---
-> > ?drivers/nvme/target/rdma.c | 8 ++++----
-> > ?1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/target/rdma.c
-> > b/drivers/nvme/target/rdma.c
-> > index e06d504..d7cb98d 100644
-> > --- a/drivers/nvme/target/rdma.c
-> > +++ b/drivers/nvme/target/rdma.c
-> > @@ -1004,11 +1004,11 @@ nvmet_rdma_parse_cm_connect_req(struct
-> > rdma_conn_param *conn,
-> > ?	queue->host_qid = le16_to_cpu(req->qid);
-> > ?
-> > ?	/*
-> > -	?* req->hsqsize corresponds to our recv queue size
-> > -	?* req->hrqsize corresponds to our send queue size
-> > +	?* req->hsqsize corresponds to our recv queue size plus 1
-> > +	?* req->hrqsize corresponds to our send queue size plus 1
-> > ?	?*/
-> > -	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
-> > -	queue->send_queue_size = le16_to_cpu(req->hrqsize);
-> > +	queue->recv_queue_size = le16_to_cpu(req->hsqsize + 1);
-> > +	queue->send_queue_size = le16_to_cpu(req->hrqsize + 1);
-> 
-> I think the + 1 needs to be outside le16_to_cpu() here so the math is
-> done in the native CPU byte order.
+Upon admin queue connect(), the rdma qp was being
+set based on NVMF_AQ_DEPTH.  However, the fabrics layer was
+using the sqsize field value set for I/O queues for the admin
+queue, which threw the nvme layer and rdma layer off-whack:
 
-Yah, I agree, hrqsize/hsqsize is coming off the wire then we are
-setting it to an internal variable. ?Fix coming shortly.
+root at fedora23-fabrics-host1 nvmf]# dmesg
+[ 3507.798642] nvme_fabrics: nvmf_connect_admin_queue():admin sqsize
+being sent is: 128
+[ 3507.798858] nvme nvme0: creating 16 I/O queues.
+[ 3507.896407] nvme nvme0: new ctrl: NQN "nullside-nqn", addr
+192.168.1.3:4420
 
-> 
-> -- Daniel
+Thus, to have a different admin queue value, we use
+NVMF_AQ_DEPTH for connect() and RDMA private data
+as the minimum depth specified in the NVMe-over-Fabrics 1.0 spec.
+
+Reported-by: Daniel Verkamp <daniel.verkamp at intel.com>
+Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+Reviewed-by: Daniel Verkamp <daniel.verkamp at intel.com>
+---
+ drivers/nvme/host/fabrics.c |  9 ++++++++-
+ drivers/nvme/host/rdma.c    | 13 +++++++++++--
+ 2 files changed, 19 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index dc99676..020302c 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -363,7 +363,14 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
+ 	cmd.connect.opcode = nvme_fabrics_command;
+ 	cmd.connect.fctype = nvme_fabrics_type_connect;
+ 	cmd.connect.qid = 0;
+-	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
++
++	/*
++	 * fabrics spec sets a minimum of depth 32 for admin queue,
++	 * so set the queue with this depth always until
++	 * justification otherwise.
++	 */
++	cmd.connect.sqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
++
+ 	/*
+ 	 * Set keep-alive timeout in seconds granularity (ms * 1000)
+ 	 * and add a grace period for controller kato enforcement
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 3e3ce2b..168cd23 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1284,8 +1284,17 @@ static int nvme_rdma_route_resolved(struct nvme_rdma_queue *queue)
+ 
+ 	priv.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0);
+ 	priv.qid = cpu_to_le16(nvme_rdma_queue_idx(queue));
+-	priv.hrqsize = cpu_to_le16(queue->queue_size);
+-	priv.hsqsize = cpu_to_le16(queue->queue_size);
++	/*
++	 * set the admin queue depth to the minimum size
++	 * specified by the Fabrics standard.
++	 */
++	if (priv.qid == 0) {
++		priv.hrqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
++		priv.hsqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
++	} else {
++		priv.hrqsize = cpu_to_le16(queue->queue_size);
++		priv.hsqsize = cpu_to_le16(queue->queue_size);
++	}
+ 
+ 	ret = rdma_connect(queue->cm_id, &param);
+ 	if (ret) {
+-- 
+2.7.4
