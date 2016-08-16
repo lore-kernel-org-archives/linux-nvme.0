@@ -1,77 +1,57 @@
-From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Tue, 16 Aug 2016 12:56:53 -0700
-Subject: [PATCH v3 2/4] fabrics: define admin sqsize min default, per spec
-In-Reply-To: <1471377415-29337-1-git-send-email-james_p_freyensee@linux.intel.com>
-References: <1471377415-29337-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <1471377415-29337-3-git-send-email-james_p_freyensee@linux.intel.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Tue, 16 Aug 2016 13:45:03 -0700
+Subject: [PATCH v3 RFC 2/2] nvme: improve performance for virtual NVMe
+ devices
+In-Reply-To: <c738f3d3c14907a9074a40b1658461e008fbed9e.1471308889.git.helen.koike@collabora.co.uk>
+References: <1460657059-21214-1-git-send-email-helen.koike@collabora.co.uk>
+ <cover.1471308889.git.helen.koike@collabora.co.uk>
+ <c738f3d3c14907a9074a40b1658461e008fbed9e.1471308889.git.helen.koike@collabora.co.uk>
+Message-ID: <1471380303.21107.38.camel@linux.intel.com>
 
-Upon admin queue connect(), the rdma qp was being
-set based on NVMF_AQ_DEPTH.  However, the fabrics layer was
-using the sqsize field value set for I/O queues for the admin
-queue, which threw the nvme layer and rdma layer off-whack:
+On Mon, 2016-08-15@22:41 -0300, Helen Koike wrote:
 
-root at fedora23-fabrics-host1 nvmf]# dmesg
-[ 3507.798642] nvme_fabrics: nvmf_connect_admin_queue():admin sqsize
-being sent is: 128
-[ 3507.798858] nvme nvme0: creating 16 I/O queues.
-[ 3507.896407] nvme nvme0: new ctrl: NQN "nullside-nqn", addr
-192.168.1.3:4420
 
-Thus, to have a different admin queue value, we use
-NVMF_AQ_DEPTH for connect() and RDMA private data
-as the minimum depth specified in the NVMe-over-Fabrics 1.0 spec.
+> ?
+> +struct nvme_doorbell_memory {
+> +	__u8			opcode;
+> +	__u8			flags;
+> +	__u16			command_id;
+> +	__u32			rsvd1[5];
+> +	__le64			prp1;
+> +	__le64			prp2;
+> +	__u32			rsvd12[6];
+> +};
+> +
+> ?struct nvme_command {
+> ?	union {
+> ?		struct nvme_common_command common;
+> @@ -845,6 +858,7 @@ struct nvme_command {
+> ?		struct nvmf_connect_command connect;
+> ?		struct nvmf_property_set_command prop_set;
+> ?		struct nvmf_property_get_command prop_get;
+> +		struct nvme_doorbell_memory doorbell_memory;
+> ?	};
+> ?};
 
-Reported-by: Daniel Verkamp <daniel.verkamp at intel.com>
-Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-Reviewed-by: Daniel Verkamp <daniel.verkamp at intel.com>
----
- drivers/nvme/host/fabrics.c |  9 ++++++++-
- drivers/nvme/host/rdma.c    | 13 +++++++++++--
- 2 files changed, 19 insertions(+), 3 deletions(-)
+This looks like a new NVMe command being introduced, not found in the
+latest NVMe specs (NVMe 1.2.1 spec or NVMe-over-Fabrics 1.0 spec)?
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index dc99676..020302c 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -363,7 +363,14 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 	cmd.connect.opcode = nvme_fabrics_command;
- 	cmd.connect.fctype = nvme_fabrics_type_connect;
- 	cmd.connect.qid = 0;
--	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
-+
-+	/*
-+	 * fabrics spec sets a minimum of depth 32 for admin queue,
-+	 * so set the queue with this depth always until
-+	 * justification otherwise.
-+	 */
-+	cmd.connect.sqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
-+
- 	/*
- 	 * Set keep-alive timeout in seconds granularity (ms * 1000)
- 	 * and add a grace period for controller kato enforcement
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 3e3ce2b..168cd23 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1284,8 +1284,17 @@ static int nvme_rdma_route_resolved(struct nvme_rdma_queue *queue)
- 
- 	priv.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0);
- 	priv.qid = cpu_to_le16(nvme_rdma_queue_idx(queue));
--	priv.hrqsize = cpu_to_le16(queue->queue_size);
--	priv.hsqsize = cpu_to_le16(queue->queue_size);
-+	/*
-+	 * set the admin queue depth to the minimum size
-+	 * specified by the Fabrics standard.
-+	 */
-+	if (priv.qid == 0) {
-+		priv.hrqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
-+		priv.hsqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
-+	} else {
-+		priv.hrqsize = cpu_to_le16(queue->queue_size);
-+		priv.hsqsize = cpu_to_le16(queue->queue_size);
-+	}
- 
- 	ret = rdma_connect(queue->cm_id, &param);
- 	if (ret) {
--- 
-2.7.4
+This is a big NACK, the command needs to be part of the NVMe standard
+before adding it to the NVMe code base (this is exactly how NVMe-over-
+Fabrics standard got implemented). ?I would bring your proposal to
+nvmexpress.org.
+
+Jay
+
+
+> ?
+> @@ -934,6 +948,9 @@ enum {
+> ?	/*
+> ?	?* Media and Data Integrity Errors:
+> ?	?*/
+> +#ifdef CONFIG_NVME_VDB
+> +	NVME_SC_DOORBELL_MEMORY_INVALID	= 0x1C0,
+> +#endif
+> ?	NVME_SC_WRITE_FAULT		= 0x280,
+> ?	NVME_SC_READ_ERROR		= 0x281,
+> ?	NVME_SC_GUARD_CHECK		= 0x282,
