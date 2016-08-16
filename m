@@ -1,88 +1,187 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 16 Aug 2016 12:26:30 +0300
-Subject: nvmf/rdma host crash during heavy load and keep alive recovery
-In-Reply-To: <01c301d1f702$d28c7270$77a55750$@opengridcomputing.com>
-References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
- <20160801110658.GF16141@lst.de>
- <008801d1ec00$a0bcfbf0$e236f3d0$@opengridcomputing.com>
- <015801d1ec3d$0ca07ea0$25e17be0$@opengridcomputing.com>
- <010f01d1f31e$50c8cb40$f25a61c0$@opengridcomputing.com>
- <013701d1f320$57b185d0$07149170$@opengridcomputing.com>
- <018401d1f32b$792cfdb0$6b86f910$@opengridcomputing.com>
- <01a301d1f339$55ba8e70$012fab50$@opengridcomputing.com>
- <2fb1129c-424d-8b2d-7101-b9471e897dc8@grimberg.me>
- <004701d1f3d8$760660b0$62132210$@opengridcomputing.com>
- <008101d1f3de$557d2850$007778f0$@opengridcomputing.com>
- <00fe01d1f3e8$8992b330$9cb81990$@opengridcomputing.com>
- <01c301d1f702$d28c7270$77a55750$@opengridcomputing.com>
-Message-ID: <6ef9b0d1-ce84-4598-74db-7adeed313bb6@grimberg.me>
+Date: Tue, 16 Aug 2016 12:46:25 +0300
+Subject: [PATCH v3 nvme-cli 2/4] fabrics: stringify discover output.
+In-Reply-To: <1471340787-26922-1-git-send-email-sagi@grimberg.me>
+References: <1471340787-26922-1-git-send-email-sagi@grimberg.me>
+Message-ID: <1471340787-26922-3-git-send-email-sagi@grimberg.me>
 
+Just so we have a nice readable output.
 
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+---
+ common.h  |   2 +
+ fabrics.c | 133 +++++++++++++++++++++++++++++++++++++++++++-------------------
+ 2 files changed, 94 insertions(+), 41 deletions(-)
 
-On 15/08/16 17:39, Steve Wise wrote:
->
->> Ah, I see the nvme_rdma worker thread running
->> nvme_rdma_reconnect_ctrl_work() on the same nvme_rdma_queue that is
->> handling the request and crashing:
->>
->> crash> bt 371
->> PID: 371    TASK: ffff8803975a4300  CPU: 5   COMMAND: "kworker/5:2"
->>     [exception RIP: set_track+16]
->>     RIP: ffffffff81202070  RSP: ffff880397f2ba18  RFLAGS: 00000086
->>     RAX: 0000000000000001  RBX: ffff88039f407a00  RCX: ffffffffa0853234
->>     RDX: 0000000000000001  RSI: ffff8801d663e008  RDI: ffff88039f407a00
->>     RBP: ffff880397f2ba48   R8: ffff8801d663e158   R9: 000000000000005a
->>     R10: 00000000000000cc  R11: 0000000000000000  R12: ffff8801d663e008
->>     R13: ffffea0007598f80  R14: 0000000000000001  R15: ffff8801d663e008
->>     CS: 0010  SS: 0018
->>  #0 [ffff880397f2ba50] free_debug_processing at ffffffff81204820
->>  #1 [ffff880397f2bad0] __slab_free at ffffffff81204bfb
->>  #2 [ffff880397f2bb90] kfree at ffffffff81204dcd
->>  #3 [ffff880397f2bc00] nvme_rdma_free_qe at ffffffffa0853234 [nvme_rdma]
->>  #4 [ffff880397f2bc20] nvme_rdma_destroy_queue_ib at ffffffffa0853dbf
->> [nvme_rdma]
->>  #5 [ffff880397f2bc60] nvme_rdma_stop_and_free_queue at ffffffffa085402d
->> [nvme_rdma]
->>  #6 [ffff880397f2bc80] nvme_rdma_reconnect_ctrl_work at ffffffffa0854957
->> [nvme_rdma]
->>  #7 [ffff880397f2bcb0] process_one_work at ffffffff810a1593
->>  #8 [ffff880397f2bd90] worker_thread at ffffffff810a222d
->>  #9 [ffff880397f2bec0] kthread at ffffffff810a6d6c
->> #10 [ffff880397f2bf50] ret_from_fork at ffffffff816e2cbf
->>
->> So  why is this request being processed during a reconnect?
->
-> Hey Sagi,
->
-> Do you have any ideas on this crash? I could really use some help.
-
-Not yet :(
-
-> Is it
-> possible that recovery/reconnect/restart of a different controller is somehow
-> restarting the requests for a controller still in recovery?
-
-I don't think this is the case.
-Can you try and find out if the request is from the admin tagset or from
-the io tagset?
-
-We rely on the fact that no I/O will be issued after we call
-nvme_stop_queues(). can you trace that we indeed call nvme_stop_queues
-when we start error recovery and do nvme_start_queues only when we
-successfully reconnect and not anywhere in between?
-
-If that is the case, I think we need to have a closer look at
-nvme_stop_queues...
-
-> Here is one issue
-> perhaps:  nvme_rdma_reconnect_ctrl_work() calls blk_mq_start_stopped_hw_queues()
-> before calling nvme_rdma_init_io_queues().  Is that a problem?
-
-Its for the admin queue, without that you won't be able to issue the
-admin connect.
-
-> I tried moving
-> blk_mq_start_stopped_hw_queues() to after the io queues are setup, but this
-> causes a stall in nvme_rdma_reconnect_ctrl_work().
-
-Make sense...
+diff --git a/common.h b/common.h
+index 639186d520b1..f0a94de57061 100644
+--- a/common.h
++++ b/common.h
+@@ -6,4 +6,6 @@
+ #define __round_mask(x, y) ((__typeof__(x))((y)-1))
+ #define round_up(x, y) ((((x)-1) | __round_mask(x, y))+1)
+ 
++#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
++
+ #endif
+diff --git a/fabrics.c b/fabrics.c
+index 461e126cc56f..1bcd6fc8cf17 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -69,6 +69,91 @@ static const match_table_t opt_tokens = {
+ 	{ OPT_ERR,		NULL		},
+ };
+ 
++static const char *arg_str(const char * const *strings,
++		size_t array_size, size_t idx)
++{
++	if (idx < array_size && strings[idx])
++		return strings[idx];
++	return "unrecognized";
++}
++
++static const char * const trtypes[] = {
++	[NVMF_TRTYPE_RDMA]	= "rdma",
++	[NVMF_TRTYPE_FC]	= "fibre-channel",
++	[NVMF_TRTYPE_LOOP]	= "loop",
++};
++
++static const char *trtype_str(__u8 trtype)
++{
++	return arg_str(trtypes, ARRAY_SIZE(trtypes), trtype);
++}
++
++static const char * const adrfams[] = {
++	[NVMF_ADDR_FAMILY_PCI]	= "pci",
++	[NVMF_ADDR_FAMILY_IP4]	= "ipv4",
++	[NVMF_ADDR_FAMILY_IP6]	= "ipv6",
++	[NVMF_ADDR_FAMILY_IB]	= "infiniband",
++	[NVMF_ADDR_FAMILY_FC]	= "fibre-channel",
++};
++
++static inline const char *adrfam_str(__u8 adrfam)
++{
++	return arg_str(adrfams, ARRAY_SIZE(adrfams), adrfam);
++}
++
++static const char * const nqntypes[] = {
++	[NVME_NQN_DISC]		= "discovery subsystem",
++	[NVME_NQN_NVME]		= "nvme subsystem",
++};
++
++static inline const char *nqntype_str(__u8 nqntype)
++{
++	return arg_str(nqntypes, ARRAY_SIZE(nqntypes), nqntype);
++}
++
++static const char * const treqs[] = {
++	[NVMF_TREQ_NOT_SPECIFIED]	= "unspecified transport requirements",
++	[NVMF_TREQ_REQUIRED]		= "required",
++	[NVMF_TREQ_NOT_REQUIRED]	= "not required",
++};
++
++static inline const char *treq_str(__u8 treq)
++{
++	return arg_str(treqs, ARRAY_SIZE(treqs), treq);
++}
++
++static const char * const prtypes[] = {
++	[NVMF_RDMA_PRTYPE_NOT_SPECIFIED]	= "not specified",
++	[NVMF_RDMA_PRTYPE_IB]			= "infiniband",
++	[NVMF_RDMA_PRTYPE_ROCE]			= "roce",
++	[NVMF_RDMA_PRTYPE_ROCEV2]		= "roce-v2",
++	[NVMF_RDMA_PRTYPE_IWARP]		= "iwarp",
++};
++
++static inline const char *prtype_str(__u8 prtype)
++{
++	return arg_str(prtypes, ARRAY_SIZE(prtypes), prtype);
++}
++
++static const char * const qptypes[] = {
++	[NVMF_RDMA_QPTYPE_CONNECTED]	= "connected",
++	[NVMF_RDMA_QPTYPE_DATAGRAM]	= "datagram",
++};
++
++static inline const char *qptype_str(__u8 qptype)
++{
++	return arg_str(qptypes, ARRAY_SIZE(qptypes), qptype);
++}
++
++static const char * const cms[] = {
++	[NVMF_RDMA_CMS_RDMA_CM]	= "rdma-cm",
++};
++
++static const char *cms_str(__u8 cm)
++{
++	return arg_str(cms, ARRAY_SIZE(cms), cm);
++}
++
+ static int do_discover(char *argstr, bool connect);
+ 
+ static int add_ctrl(const char *argstr)
+@@ -276,44 +361,10 @@ static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 		struct nvmf_disc_rsp_page_entry *e = &log->entries[i];
+ 
+ 		printf("=====Discovery Log Entry %d======\n", i);
+-
+-		printf("trtype:  ");
+-		switch(e->trtype) {
+-		case NVMF_ADDR_FAMILY_IP4:
+-			printf("ipv4\n");
+-			break;
+-		case NVMF_ADDR_FAMILY_IP6:
+-			printf("ipv6\n");
+-			break;
+-		case NVMF_ADDR_FAMILY_IB:
+-			printf("ib\n");
+-			break;
+-		case NVMF_ADDR_FAMILY_FC:
+-			printf("fc\n");
+-			break;
+-		default:
+-			printf("unknown\n");
+-			break;
+-		}
+-
+-		printf("adrfam:  ");
+-		switch(e->adrfam) {
+-		case NVMF_TRTYPE_RDMA:
+-			printf("rdma\n");
+-			break;
+-		case NVMF_TRTYPE_FC:
+-			printf("fc\n");
+-			break;
+-		case NVMF_TRTYPE_LOOP:
+-			printf("loop\n");
+-			break;
+-		default:
+-			printf("unknown\n");
+-			break;
+-		}
+-
+-		printf("nqntype: %d\n", e->nqntype);
+-		printf("treq:    %d\n", e->treq);
++		printf("trtype:  %s\n", trtype_str(e->trtype));
++		printf("adrfam:  %s\n", adrfam_str(e->adrfam));
++		printf("nqntype: %s\n", nqntype_str(e->nqntype));
++		printf("treq:    %s\n", treq_str(e->treq));
+ 		printf("portid:  %d\n", e->portid);
+ 		printf("trsvcid: %s\n", e->trsvcid);
+ 		printf("subnqn:  %s\n", e->subnqn);
+@@ -321,9 +372,9 @@ static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+ 
+ 		switch (e->trtype) {
+ 		case NVMF_TRTYPE_RDMA:
+-			printf("rdma_prtype: %d\n", e->tsas.rdma.prtype);
+-			printf("rdma_qptype: %d\n", e->tsas.rdma.qptype);
+-			printf("rdma_cms:    %d\n", e->tsas.rdma.cms);
++			printf("rdma_prtype: %s\n", prtype_str(e->tsas.rdma.prtype));
++			printf("rdma_qptype: %s\n", qptype_str(e->tsas.rdma.qptype));
++			printf("rdma_cms:    %s\n", cms_str(e->tsas.rdma.cms));
+ 			printf("rdma_pkey: 0x%04x\n", e->tsas.rdma.pkey);
+ 			break;
+ 		}
+-- 
+1.9.1
