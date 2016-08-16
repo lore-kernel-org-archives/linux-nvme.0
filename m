@@ -1,20 +1,37 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 16 Aug 2016 13:01:56 +0300
-Subject: [PATCH 1/5] nvme-fabrics: Add FC transport FC-NVME definitions
-In-Reply-To: <20160811210349.GD18013@infradead.org>
-References: <5792b91b.a6nfpeRWWVF/YKnV%james.smart@broadcom.com>
- <20160811210349.GD18013@infradead.org>
-Message-ID: <4bdd75e3-806a-4fae-3ef8-4d52b145b83f@grimberg.me>
+From: vincent.stehle@intel.com (=?UTF-8?q?Vincent=20Stehl=C3=A9?=)
+Date: Tue, 16 Aug 2016 15:11:25 +0200
+Subject: [PATCH] nvmet-rdma: Fix use after free
+In-Reply-To: <1470230393-23671-1-git-send-email-sagi@grimberg.me>
+References: <1470230393-23671-1-git-send-email-sagi@grimberg.me>
+Message-ID: <1471353085-6743-1-git-send-email-vincent.stehle@intel.com>
 
+Avoid dereferencing the queue pointer in nvmet_rdma_release_queue_work()
+after it has been freed by nvmet_rdma_free_queue().
 
-> Looks fine,
->
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
+Fixes: d8f7750a08968b10 ("nvmet-rdma: Correctly handle RDMA device hot removal")
+Signed-off-by: Vincent Stehl? <vincent.stehle at intel.com>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/target/rdma.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Hey James,
-
-Can you collect review tags, address CR comments and resend the series?
-I'd like to stage these for 0-day testing and try to get it into 4.9.
-
-Thanks,
-Sagi.
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index b4d6485..5de8d0a 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -978,10 +978,11 @@ static void nvmet_rdma_release_queue_work(struct work_struct *w)
+ 		container_of(w, struct nvmet_rdma_queue, release_work);
+ 	struct rdma_cm_id *cm_id = queue->cm_id;
+ 	struct nvmet_rdma_device *dev = queue->dev;
++	enum nvmet_rdma_queue_state state = queue->state;
+ 
+ 	nvmet_rdma_free_queue(queue);
+ 
+-	if (queue->state != NVMET_RDMA_IN_DEVICE_REMOVAL)
++	if (state != NVMET_RDMA_IN_DEVICE_REMOVAL)
+ 		rdma_destroy_id(cm_id);
+ 
+ 	kref_put(&dev->ref, nvmet_rdma_free_dev);
+-- 
+2.8.1
