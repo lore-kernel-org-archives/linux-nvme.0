@@ -1,27 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 16 Aug 2016 12:35:02 -0400
-Subject: [PATCH v3 nvme-cli 0/4] Useful fabrics patches
-In-Reply-To: <1471340787-26922-1-git-send-email-sagi@grimberg.me>
-References: <1471340787-26922-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20160816163502.GB21721@localhost.localdomain>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 16 Aug 2016 09:31:01 -0700
+Subject: [PATCH 1/5] nvme-fabrics: Add FC transport FC-NVME definitions
+In-Reply-To: <4bdd75e3-806a-4fae-3ef8-4d52b145b83f@grimberg.me>
+References: <5792b91b.a6nfpeRWWVF/YKnV%james.smart@broadcom.com>
+ <20160811210349.GD18013@infradead.org>
+ <4bdd75e3-806a-4fae-3ef8-4d52b145b83f@grimberg.me>
+Message-ID: <ef8ad7fd-561c-74d6-5679-adcadf418472@broadcom.com>
 
-On Tue, Aug 16, 2016@12:46:23PM +0300, Sagi Grimberg wrote:
-> hey keith,
-> 
-> changes from v2:
-> - read 223 bytes from hostnqn file
-> - some styling review fixes on the stringify patch
-> - modified the adrfam statement to a proper switch-case
-> 
-> changes from v1:
-> - fixed review comments from christoph
-> - added a patch to take hostnqn from a default conf file if it
->   exists (and a hostnqn param wasn't given, patches by jay and roy)
-> 
-> Sagi Grimberg (4):
->   fabrics: Allow ipv6 address resolution
->   fabrics: stringify discover output.
->   fabrics: Allow discover params to come from a conf file
->   fabrics: Take the hostnqn parameter from a conf file if not given
+yes - planned to start that today
 
-Thanks, Sagi. All applied and pushed to github.
+-- james
+
+
+On 8/16/2016 3:01 AM, Sagi Grimberg wrote:
+>
+>> Looks fine,
+>>
+>> Reviewed-by: Christoph Hellwig <hch at lst.de>
+>
+> Hey James,
+>
+> Can you collect review tags, address CR comments and resend the series?
+> I'd like to stage these for 0-day testing and try to get it into 4.9.
+>
+> Thanks,
+> Sagi.
