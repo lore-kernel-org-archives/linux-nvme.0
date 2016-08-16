@@ -1,30 +1,36 @@
-From: colin.king@canonical.com (Colin King)
-Date: Tue, 16 Aug 2016 09:24:39 +0100
-Subject: [PATCH] nvme-rdma: initialize ret to zero to avoid returning garbage
-Message-ID: <1471335879-6088-1-git-send-email-colin.king@canonical.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 16 Aug 2016 11:56:08 +0300
+Subject: [PATCH v2 3/5] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
+In-Reply-To: <1471279659-25951-4-git-send-email-james_p_freyensee@linux.intel.com>
+References: <1471279659-25951-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <1471279659-25951-4-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <06a25d8a-1215-b117-bfee-aa28c071956d@grimberg.me>
 
-From: Colin Ian King <colin.king@canonical.com>
 
-ret is not initialized so it contains garbage.  Ensure garbage
-is not returned by initializing rc to 0.
+> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+> index e06d504..68b7b04 100644
+> --- a/drivers/nvme/target/rdma.c
+> +++ b/drivers/nvme/target/rdma.c
+> @@ -1004,11 +1004,11 @@ nvmet_rdma_parse_cm_connect_req(struct rdma_conn_param *conn,
+>  	queue->host_qid = le16_to_cpu(req->qid);
+>
+>  	/*
+> -	 * req->hsqsize corresponds to our recv queue size
+> -	 * req->hrqsize corresponds to our send queue size
+> +	 * req->hsqsize corresponds to our recv queue size plus 1
+> +	 * req->hrqsize corresponds to our send queue size plus 1
+>  	 */
+> -	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
+> -	queue->send_queue_size = le16_to_cpu(req->hrqsize);
+> +	queue->recv_queue_size = le16_to_cpu(req->hsqsize) + 1;
+> +	queue->send_queue_size = le16_to_cpu(req->hrqsize) + 1;
+>
+>  	if (!queue->host_qid && queue->recv_queue_size > NVMF_AQ_DEPTH)
+>  		return NVME_RDMA_CM_INVALID_HSQSIZE;
+>
 
-Signed-off-by: Colin Ian King <colin.king at canonical.com>
----
- drivers/nvme/host/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+In order to keep bisectability this patch should come first. Otherwise
+in prior patches the host sends smaller queue then it actually uses.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 8d2875b..9c69393 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1319,7 +1319,7 @@ out_destroy_queue_ib:
- static int nvme_rdma_device_unplug(struct nvme_rdma_queue *queue)
- {
- 	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
--	int ret;
-+	int ret = 0;
- 
- 	/* Own the controller deletion */
- 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
--- 
-2.8.1
+So this patch should come first, and only then we make the host
+send sqsize-1.
