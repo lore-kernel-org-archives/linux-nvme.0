@@ -1,102 +1,35 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Tue, 16 Aug 2016 09:34:53 -0700
-Subject: [PATCH v2 5/5] nvme-rdma: adjust hrqsize to plus 1
-In-Reply-To: <20c29321-be38-c407-b24a-3cd14db43b73@grimberg.me>
-References: <1471279659-25951-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1471279659-25951-6-git-send-email-james_p_freyensee@linux.intel.com>
- <20c29321-be38-c407-b24a-3cd14db43b73@grimberg.me>
-Message-ID: <1471365293.21107.19.camel@linux.intel.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Tue, 16 Aug 2016 14:40:02 -0500
+Subject: nvme/rdma initiator stuck on reboot
+Message-ID: <043901d1f7f5$fb5f73c0$f21e5b40$@opengridcomputing.com>
 
-On Tue, 2016-08-16@12:05 +0300, Sagi Grimberg wrote:
-> 
-> On 15/08/16 19:47, Jay Freyensee wrote:
-> > 
-> > Currently under debate due to spec confusion, increase hrqsize
-> > to one more than hsqsize.
-> > 
-> > Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-> > ---
-> > ?drivers/nvme/host/rdma.c???| 4 ++--
-> > ?drivers/nvme/target/rdma.c | 7 ++++---
-> > ?2 files changed, 6 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> > index 6aa913e..524c2b3 100644
-> > --- a/drivers/nvme/host/rdma.c
-> > +++ b/drivers/nvme/host/rdma.c
-> > @@ -1289,10 +1289,10 @@ static int nvme_rdma_route_resolved(struct
-> > nvme_rdma_queue *queue)
-> > ?	?* specified by the Fabrics standard.
-> > ?	?*/
-> > ?	if (priv.qid == 0) {
-> > -		priv.hrqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
-> > +		priv.hrqsize = cpu_to_le16(NVMF_AQ_DEPTH);
-> > ?		priv.hsqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
-> > ?	} else {
-> > -		priv.hrqsize = cpu_to_le16(queue->ctrl-
-> > >ctrl.sqsize);
-> > +		priv.hrqsize = cpu_to_le16(queue->ctrl-
-> > >ctrl.sqsize + 1);
-> > ?		priv.hsqsize = cpu_to_le16(queue->ctrl-
-> > >ctrl.sqsize);
-> > ?	}
-> > 
-> > diff --git a/drivers/nvme/target/rdma.c
-> > b/drivers/nvme/target/rdma.c
-> > index 68b7b04..3557980 100644
-> > --- a/drivers/nvme/target/rdma.c
-> > +++ b/drivers/nvme/target/rdma.c
-> > @@ -1004,11 +1004,12 @@ nvmet_rdma_parse_cm_connect_req(struct
-> > rdma_conn_param *conn,
-> > ?	queue->host_qid = le16_to_cpu(req->qid);
-> > 
-> > ?	/*
-> > -	?* req->hsqsize corresponds to our recv queue size plus 1
-> > -	?* req->hrqsize corresponds to our send queue size plus 1
-> > +	?* req->hsqsize corresponds to our recv queue size plus 1
-> > as
-> > +	?* this value is based on sqsize, a 0-based value.
-> > +	?* req->hrqsize corresponds to our send queue size plus 2
-> > ?	?*/
-> > ?	queue->recv_queue_size = le16_to_cpu(req->hsqsize) + 1;
-> > -	queue->send_queue_size = le16_to_cpu(req->hrqsize) + 1;
-> > +	queue->send_queue_size = le16_to_cpu(req->hrqsize) + 2;
-> > 
-> > ?	if (!queue->host_qid && queue->recv_queue_size >
-> > NVMF_AQ_DEPTH)
-> > ?		return NVME_RDMA_CM_INVALID_HSQSIZE;
-> > 
-> 
-> Something doesn't look right here.
-> 
-> ?From my understanding of the WG discussion. hsqsize is 0's based and
-> hrqsize isn't.
+Hey Sagi,
 
-Not really, hrqsize being 0's based or 1's based is a bit of moot point
-to the fundamental problem, the spec really doesn't explain how to use
-hrqsize. ?More following.
+Here is another issue I'm seeing doing reboot testing.  The test does this:
 
-> 
-> So this host seems to do the right thing. but why does the target
-> inc hrqsize+2? you just allocated 2 more recv queue entries when the
-> host will never send you more than hrqsize.
-> 
-> Am I missing something?
+1) connect 10 ram devices over iw_cxgb4
+2) reboot the target node
+3) the initiator goes into recovery/reconnect mode
+4) reboot the inititator at this point.
 
-Yah, the spec is missing the explanation of how to actually use
-hrqsize. Dave Minturn agreed the NVMe committee/consortium needs to
-explain how to use this field better in the fabrics spec.
+The initiator gets stuck doing this continually and the system never reboots:
 
-Here is his summary he sent to the NVMe organization:
+[  596.411842] nvme nvme1: Failed reconnect attempt, requeueing...
+[  596.907865] nvme nvme9: rdma_resolve_addr wait failed (-104).
+[  596.914461] nvme nvme9: Failed reconnect attempt, requeueing...
+[  597.939935] nvme nvme10: rdma_resolve_addr wait failed (-104).
+[  597.946625] nvme nvme10: Failed reconnect attempt, requeueing...
+[  598.963995] nvme nvme2: rdma_resolve_addr wait failed (-110).
+[  598.971968] nvme nvme2: Failed reconnect attempt, requeueing...
+[  602.036135] nvme nvme3: rdma_resolve_addr wait failed (-104).
+[  602.043797] nvme nvme3: Failed reconnect attempt, requeueing...
+[  603.060171] nvme nvme4: rdma_resolve_addr wait failed (-104).
+[  603.068153] nvme nvme4: Failed reconnect attempt, requeueing...
+[  604.084223] nvme nvme5: rdma_resolve_addr wait failed (-104).
+[  604.092191] nvme nvme5: Failed reconnect attempt, requeueing...
+[  605.108294] nvme nvme6: rdma_resolve_addr wait failed (-104).
+[  605.116251] nvme nvme6: Failed reconnect attempt, requeueing...
 
-"The HRQSIZE description needs to explain that the host uses HRQSIZE to
-resource the RDMA QP resources for the NVMe CQ, both on the host and on
-the controller.??The value of HRQSIZE is based on the sizing of the
-NVMe CQ which may be sized to match the size of the NVMe SQ or up to
-MAXCMD, if MAXCMD is enabled and the host is using SQHD flow control."
+Debugging now...
 
-This came out after I submitted this patch series. ?So from his
-explanation, I think we can drop this patch all together and just make
-NVMe SQ == hsqsize == hrqsize.
-
-J
+Steve.
