@@ -1,37 +1,32 @@
-From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Mon, 15 Aug 2016 09:47:37 -0700
-Subject: [PATCH v2 3/5] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
-In-Reply-To: <1471279659-25951-1-git-send-email-james_p_freyensee@linux.intel.com>
-References: <1471279659-25951-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <1471279659-25951-4-git-send-email-james_p_freyensee@linux.intel.com>
+From: helen.koike@collabora.co.uk (Helen Koike)
+Date: Mon, 15 Aug 2016 22:41:18 -0300
+Subject: [PATCH v3 RFC 0/2] Virtual NVMe device optimization
+In-Reply-To: <1460657059-21214-1-git-send-email-helen.koike@collabora.co.uk>
+References: <1460657059-21214-1-git-send-email-helen.koike@collabora.co.uk>
+Message-ID: <cover.1471308889.git.helen.koike@collabora.co.uk>
 
-Now that the host will be sending sqsize 0-based values,
-the target need to be adjusted as well.
+Please, check commit "nvme: improve performance for virtual NVMe devices" for more details
+Commit "PCI: Add Google device ID" only adds a new id in pci_ids.h
 
-Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
----
- drivers/nvme/target/rdma.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Patches are based in the linux-block/for-next branch and available here:
+https://github.com/helen-fornazier/opw-staging/commits/nvme/dev
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index e06d504..68b7b04 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1004,11 +1004,11 @@ nvmet_rdma_parse_cm_connect_req(struct rdma_conn_param *conn,
- 	queue->host_qid = le16_to_cpu(req->qid);
- 
- 	/*
--	 * req->hsqsize corresponds to our recv queue size
--	 * req->hrqsize corresponds to our send queue size
-+	 * req->hsqsize corresponds to our recv queue size plus 1
-+	 * req->hrqsize corresponds to our send queue size plus 1
- 	 */
--	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
--	queue->send_queue_size = le16_to_cpu(req->hrqsize);
-+	queue->recv_queue_size = le16_to_cpu(req->hsqsize) + 1;
-+	queue->send_queue_size = le16_to_cpu(req->hrqsize) + 1;
- 
- 	if (!queue->host_qid && queue->recv_queue_size > NVMF_AQ_DEPTH)
- 		return NVME_RDMA_CM_INVALID_HSQSIZE;
+Helen Koike (1):
+  PCI: Add Google device ID
+
+Rob Nelson (1):
+  nvme: improve performance for virtual NVMe devices
+
+ drivers/nvme/host/Kconfig  |  11 ++++
+ drivers/nvme/host/Makefile |   1 +
+ drivers/nvme/host/pci.c    |  29 ++++++++++-
+ drivers/nvme/host/vdb.c    | 125 +++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/vdb.h    | 118 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/nvme.h       |  17 ++++++
+ include/linux/pci_ids.h    |   2 +
+ 7 files changed, 301 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/nvme/host/vdb.c
+ create mode 100644 drivers/nvme/host/vdb.h
+
 -- 
-2.7.4
+1.9.1
