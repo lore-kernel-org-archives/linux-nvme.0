@@ -1,79 +1,82 @@
-From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Wed, 17 Aug 2016 15:00:26 -0700
-Subject: [PATCH v4 2/4] fabrics: define admin sqsize min default, per spec
-In-Reply-To: <1471471228-15818-1-git-send-email-james_p_freyensee@linux.intel.com>
-References: <1471471228-15818-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <1471471228-15818-3-git-send-email-james_p_freyensee@linux.intel.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Wed, 17 Aug 2016 15:04:06 -0700
+Subject: Configured nqn
+In-Reply-To: <FECD6836D08A8545A696BA54811397B92E7E5ED9@EXMAIL1.taec.toshiba.com>
+References: <14E6FCBE6C7E3A47A6CD7D77E639D51C2F73FABD@oczmail.ocz.ocztechnology.com>
+ <f94a27cf-8dcf-c881-4fe9-a45d0ce7c9c6@grimberg.me>
+ <1470678878.2626.6.camel@linux.intel.com>
+ <FECD6836D08A8545A696BA54811397B92E7E5ED9@EXMAIL1.taec.toshiba.com>
+Message-ID: <1471471446.6059.11.camel@linux.intel.com>
 
-Upon admin queue connect(), the rdma qp was being
-set based on NVMF_AQ_DEPTH.  However, the fabrics layer was
-using the sqsize field value set for I/O queues for the admin
-queue, which threw the nvme layer and rdma layer off-whack:
+On Tue, 2016-08-16@14:08 +0000, Gili Buzaglo wrote:
+> Hi
+> Sorry for responding late.
+> My original thought was that the nvme-fabrics driver will initiate
+> the nqn from the file,
+> But your suggestion is also suitable and less complex.
+> Who is responsible for creating the file??/etc/nvme/hostnqn ?
+> Maybe nvme-cli first installation ?
 
-root at fedora23-fabrics-host1 nvmf]# dmesg
-[ 3507.798642] nvme_fabrics: nvmf_connect_admin_queue():admin sqsize
-being sent is: 128
-[ 3507.798858] nvme nvme0: creating 16 I/O queues.
-[ 3507.896407] nvme nvme0: new ctrl: NQN "nullside-nqn", addr
-192.168.1.3:4420
+Yes, I would say that if nvme-cli is told to use /etc/nvme/hostnqn and
+the filename is not there for nvme-cli to create the file containing a
+generated hostnqn per NQN naming standard in the NVMe spec.
 
-Thus, to have a different admin queue value, we use
-NVMF_AQ_DEPTH for connect() and RDMA private data
-as the minimum depth specified in the NVMe-over-Fabrics 1.0 spec
-(and in that RDMA private data we treat hrqsize as 1's-based
-value, per current understanding of the fabrics spec).
+Jay
 
-Reported-by: Daniel Verkamp <daniel.verkamp at intel.com>
-Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-Reviewed-by: Daniel Verkamp <daniel.verkamp at intel.com>
----
- drivers/nvme/host/fabrics.c |  9 ++++++++-
- drivers/nvme/host/rdma.c    | 13 +++++++++++--
- 2 files changed, 19 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index dc99676..020302c 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -363,7 +363,14 @@ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl)
- 	cmd.connect.opcode = nvme_fabrics_command;
- 	cmd.connect.fctype = nvme_fabrics_type_connect;
- 	cmd.connect.qid = 0;
--	cmd.connect.sqsize = cpu_to_le16(ctrl->sqsize);
-+
-+	/*
-+	 * fabrics spec sets a minimum of depth 32 for admin queue,
-+	 * so set the queue with this depth always until
-+	 * justification otherwise.
-+	 */
-+	cmd.connect.sqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
-+
- 	/*
- 	 * Set keep-alive timeout in seconds granularity (ms * 1000)
- 	 * and add a grace period for controller kato enforcement
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 3e3ce2b..31eb12b 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1284,8 +1284,17 @@ static int nvme_rdma_route_resolved(struct nvme_rdma_queue *queue)
- 
- 	priv.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0);
- 	priv.qid = cpu_to_le16(nvme_rdma_queue_idx(queue));
--	priv.hrqsize = cpu_to_le16(queue->queue_size);
--	priv.hsqsize = cpu_to_le16(queue->queue_size);
-+	/*
-+	 * set the admin queue depth to the minimum size
-+	 * specified by the Fabrics standard.
-+	 */
-+	if (priv.qid == 0) {
-+		priv.hrqsize = cpu_to_le16(NVMF_AQ_DEPTH);
-+		priv.hsqsize = cpu_to_le16(NVMF_AQ_DEPTH - 1);
-+	} else {
-+		priv.hrqsize = cpu_to_le16(queue->queue_size);
-+		priv.hsqsize = cpu_to_le16(queue->queue_size);
-+	}
- 
- 	ret = rdma_connect(queue->cm_id, &param);
- 	if (ret) {
--- 
-2.7.4
+> 
+> Thanks
+> -gili
+> 
+> -----Original Message-----
+> From: J Freyensee [mailto:james_p_freyensee at linux.intel.com]?
+> Sent: Monday, August 08, 2016 8:55 PM
+> To: Sagi Grimberg; Gili Buzaglo; linux-nvme at lists.infradead.org
+> Subject: Re: Configured nqn
+> 
+> On Mon, 2016-08-08@11:47 +0300, Sagi Grimberg wrote:
+> > 
+> > > 
+> > > 
+> > > Hi
+> > 
+> > Hey Gili,
+> > 
+> > > 
+> > > 
+> > > I was wondering if there's a special reason why not to support?
+> > > preconfigured initiator nqn from a file.
+> > > (similar to iscsi in /etc/iscsi/initiatorname.iscsi).
+> > 
+> > It was raised on the list just last week. I think Jay has (of was
+> > :))?
+> > volunteered.
+> 
+> I was going to do it, but I was waiting for a reply on confirming
+> what behavior people wanted to see:
+> 
+> 
+> "So is the request to have nvme-cli use whatever is in
+> /etc/nvme/hostnqn (if it exists) over the default in the nvme-fabrics 
+> driver???So preference of hostnqn input would be:
+> 
+> 1. --hostnqn flag
+> 2. /etc/nvme/hostnqn
+> 3. default hostnqn generated by nvme-fabrics driver (ex: nqn.2014
+> -08.org.nvmexpress:NVMf:uuid:a2d7752c-a31b-477a-a003-31a5e1c424a9)
+> 
+> (note 2. may contain a hostnqn different from the default)"
+> 
+> 
+> Gili if you are itchin' to do it, go ahead and give it a shot, just
+> let me know (or I can still do it w/confirmation to above). ?The
+> discovery fix I added to nvme-cli:
+> 
+> http://lists.infradead.org/pipermail/linux-nvme/2016-July/005562.html
+> 
+> has been merged into the nvme-cli tool by Keith.
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
