@@ -1,120 +1,44 @@
-From: famz@redhat.com (Fam Zheng)
-Date: Wed, 17 Aug 2016 17:14:22 +0800
-Subject: [PATCH 06/15] genhd: Add return code to device_add_disk
-In-Reply-To: <20160817110645.45370f57.cornelia.huck@de.ibm.com>
-References: <1471418115-3654-1-git-send-email-famz@redhat.com>
- <1471418115-3654-7-git-send-email-famz@redhat.com>
- <20160817104914.37087cb3.cornelia.huck@de.ibm.com>
- <20160817084823.GB19326@al.usersys.redhat.com>
- <20160817110645.45370f57.cornelia.huck@de.ibm.com>
-Message-ID: <20160817091422.GE19326@al.usersys.redhat.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 17 Aug 2016 13:23:05 +0300
+Subject: nvme/rdma initiator stuck on reboot
+In-Reply-To: <043901d1f7f5$fb5f73c0$f21e5b40$@opengridcomputing.com>
+References: <043901d1f7f5$fb5f73c0$f21e5b40$@opengridcomputing.com>
+Message-ID: <2202d08c-2b4c-3bd9-6340-d630b8e2f8b5@grimberg.me>
 
-On Wed, 08/17 11:06, Cornelia Huck wrote:
-> On Wed, 17 Aug 2016 16:48:23 +0800
-> Fam Zheng <famz@redhat.com> wrote:
-> 
-> > On Wed, 08/17 10:49, Cornelia Huck wrote:
-> > > On Wed, 17 Aug 2016 15:15:06 +0800
-> > > Fam Zheng <famz@redhat.com> wrote:
-> > > 
-> > > > @@ -613,10 +614,8 @@ void device_add_disk(struct device *parent, struct gendisk *disk)
-> > > >  	disk->flags |= GENHD_FL_UP;
-> > > > 
-> > > >  	retval = blk_alloc_devt(&disk->part0, &devt);
-> > > > -	if (retval) {
-> > > > -		WARN_ON(1);
-> > > > -		return;
-> > > > -	}
-> > > > +	if (retval)
-> > > > +		goto fail;
-> > > >  	disk_to_dev(disk)->devt = devt;
-> > > > 
-> > > >  	/* ->major and ->first_minor aren't supposed to be
-> > > > @@ -625,16 +624,26 @@ void device_add_disk(struct device *parent, struct gendisk *disk)
-> > > >  	disk->major = MAJOR(devt);
-> > > >  	disk->first_minor = MINOR(devt);
-> > > > 
-> > > > -	disk_alloc_events(disk);
-> > > > +	retval = disk_alloc_events(disk);
-> > > > +	if (retval)
-> > > > +		goto fail;
-> > > > 
-> > > >  	/* Register BDI before referencing it from bdev */
-> > > >  	bdi = &disk->queue->backing_dev_info;
-> > > > -	bdi_register_owner(bdi, disk_to_dev(disk));
-> > > > +	retval = bdi_register_owner(bdi, disk_to_dev(disk));
-> > > > +	if (retval)
-> > > > +		goto fail;
-> > > > 
-> > > > -	blk_register_region(disk_devt(disk), disk->minors, NULL,
-> > > > -			    exact_match, exact_lock, disk);
-> > > > -	register_disk(parent, disk);
-> > > > -	blk_register_queue(disk);
-> > > > +	retval = blk_register_region(disk_devt(disk), disk->minors, NULL,
-> > > > +				     exact_match, exact_lock, disk);
-> > > > +	if (retval)
-> > > > +		goto fail;
-> > > > +	retval = register_disk(parent, disk);
-> > > > +	if (retval)
-> > > > +		goto fail;
-> > > > +	retval = blk_register_queue(disk);
-> > > > +	if (retval)
-> > > > +		goto fail;
-> > > > 
-> > > >  	/*
-> > > >  	 * Take an extra ref on queue which will be put on disk_release()
-> > > > @@ -644,10 +653,20 @@ void device_add_disk(struct device *parent, struct gendisk *disk)
-> > > > 
-> > > >  	retval = sysfs_create_link(&disk_to_dev(disk)->kobj, &bdi->dev->kobj,
-> > > >  				   "bdi");
-> > > > +	if (retval)
-> > > > +		goto fail;
-> > > > +
-> > > > +	retval = disk_add_events(disk);
-> > > > +	if (retval)
-> > > > +		goto fail;
-> > > > +
-> > > > +	retval = blk_integrity_add(disk);
-> > > > +	if (retval)
-> > > > +		goto fail;
-> > > > +	return 0;
-> > > > +fail:
-> > > >  	WARN_ON(retval);
-> > > > -
-> > > > -	disk_add_events(disk);
-> > > > -	blk_integrity_add(disk);
-> > > > +	return retval;
-> > > >  }
-> > > 
-> > > Noticed this when trying to figure out whether the error handling in
-> > > virtio_blk was correct:
-> > > 
-> > > Shouldn't you try to cleanup/rewind so that any structures are in a
-> > > sane state after failure? The caller doesn't know where device_add_disk
-> > > failed, and calling del_gendisk unconditionally like virtio_blk does is
-> > > probably not the right thing to do (at the very least, I don't think
-> > > unregistering a device that has not been registered is likely to work).
-> > > 
-> > 
-> > Yes, I think all callers need to be reviewed before device_add_disk do the
-> > clean up on error. For this patchset I wanted to keep the change small.
-> 
-> But do the callers even have a chance to do this correctly right now?
-> They will either clean up too much, or too little. ('Too little' is
-> probably the more common case, given that you just added error
-> propagation...)
 
-Right, which is pre-exising.
+> Hey Sagi,
+>
+> Here is another issue I'm seeing doing reboot testing.  The test does this:
+>
+> 1) connect 10 ram devices over iw_cxgb4
+> 2) reboot the target node
+> 3) the initiator goes into recovery/reconnect mode
+> 4) reboot the inititator at this point.
+>
+> The initiator gets stuck doing this continually and the system never reboots:
+>
+> [  596.411842] nvme nvme1: Failed reconnect attempt, requeueing...
+> [  596.907865] nvme nvme9: rdma_resolve_addr wait failed (-104).
+> [  596.914461] nvme nvme9: Failed reconnect attempt, requeueing...
+> [  597.939935] nvme nvme10: rdma_resolve_addr wait failed (-104).
+> [  597.946625] nvme nvme10: Failed reconnect attempt, requeueing...
+> [  598.963995] nvme nvme2: rdma_resolve_addr wait failed (-110).
+> [  598.971968] nvme nvme2: Failed reconnect attempt, requeueing...
+> [  602.036135] nvme nvme3: rdma_resolve_addr wait failed (-104).
+> [  602.043797] nvme nvme3: Failed reconnect attempt, requeueing...
+> [  603.060171] nvme nvme4: rdma_resolve_addr wait failed (-104).
+> [  603.068153] nvme nvme4: Failed reconnect attempt, requeueing...
+> [  604.084223] nvme nvme5: rdma_resolve_addr wait failed (-104).
+> [  604.092191] nvme nvme5: Failed reconnect attempt, requeueing...
+> [  605.108294] nvme nvme6: rdma_resolve_addr wait failed (-104).
+> [  605.116251] nvme nvme6: Failed reconnect attempt, requeueing...
+>
+> Debugging now...
 
-> 
-> Can you make del_gendisk handle devices partially setup via
-> device_add_disk in all cases? Then you could mandate pairing
-> device_add_disk with del_gendisk in all cases, error or not, and you
-> should have a better chance on avoiding introducing new errors.
-> 
+Hmm...
 
-Of course, the plan is to write patches on top. I'm not cleaning up anything
-here because I'm concerned callers may double free (and I didn't look hard into
-that).
+Does this reproduce also when you simply delete all the
+controllers (via sysfs)?
 
-Fam
+Do you see the hung task watchdog? can you share the
+threads state? (echo t > /proc/sysrq-trigger)
