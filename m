@@ -1,39 +1,38 @@
 From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Wed, 17 Aug 2016 15:00:24 -0700
-Subject: [PATCH v4 0/4] sqsize fixes
-Message-ID: <1471471228-15818-1-git-send-email-james_p_freyensee@linux.intel.com>
+Date: Wed, 17 Aug 2016 15:00:25 -0700
+Subject: [PATCH v4 1/4] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
+In-Reply-To: <1471471228-15818-1-git-send-email-james_p_freyensee@linux.intel.com>
+References: <1471471228-15818-1-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <1471471228-15818-2-git-send-email-james_p_freyensee@linux.intel.com>
 
-This patch series is based on making sure sqsize is defined as a
-zero-based value throughout the code, per NVMe-over-Fabrics spec.
+The host will be sending sqsize 0-based values,
+the target need to be adjusted as well.
 
-Changes from v3:
- - assigning hrqsize to internal one's based field, queue->queue_size.
+Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/rdma.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Changes from v2:
- - patch 5, adding 1 to hrsqsize in target dropped
- - using ...opts->queue_depth to set various queue sizes over sqsize.
-
-Changes from v1:
- - moved +1/+2 to outside le16_to_cpu() in patch 3 and 5
-
-Changes from v0:
- - found all the sqsize dependencies and adjusted them accordingly
- - nvmf_connect_admin_queue() always uses NVMF_AQ_DEPTH for sqsize
- - final patch to adjust hrqsize only, so the series can be easily
-   tested w/hrqsize == hrsqsize (patches 1-4) and hrqsize == hrsqsize+1
-   (patch 5)
-
-Jay Freyensee (4):
-  nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
-  fabrics: define admin sqsize min default, per spec
-  nvme-rdma: fix sqsize/hsqsize per spec
-  nvme-loop: set sqsize to 0-based value, per spec
-
- drivers/nvme/host/fabrics.c |  9 ++++++++-
- drivers/nvme/host/rdma.c    | 25 ++++++++++++++++++++-----
- drivers/nvme/target/loop.c  |  4 ++--
- drivers/nvme/target/rdma.c  |  8 ++++----
- 4 files changed, 34 insertions(+), 12 deletions(-)
-
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index e06d504..68b7b04 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1004,11 +1004,11 @@ nvmet_rdma_parse_cm_connect_req(struct rdma_conn_param *conn,
+ 	queue->host_qid = le16_to_cpu(req->qid);
+ 
+ 	/*
+-	 * req->hsqsize corresponds to our recv queue size
+-	 * req->hrqsize corresponds to our send queue size
++	 * req->hsqsize corresponds to our recv queue size plus 1
++	 * req->hrqsize corresponds to our send queue size plus 1
+ 	 */
+-	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
+-	queue->send_queue_size = le16_to_cpu(req->hrqsize);
++	queue->recv_queue_size = le16_to_cpu(req->hsqsize) + 1;
++	queue->send_queue_size = le16_to_cpu(req->hrqsize) + 1;
+ 
+ 	if (!queue->host_qid && queue->recv_queue_size > NVMF_AQ_DEPTH)
+ 		return NVME_RDMA_CM_INVALID_HSQSIZE;
 -- 
 2.7.4
