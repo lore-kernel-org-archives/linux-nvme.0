@@ -1,29 +1,35 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 17 Aug 2016 17:49:28 +0300
-Subject: [PATCH v3 1/4] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
-In-Reply-To: <20160817004713.GA21992@lst.de>
-References: <1471377415-29337-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1471377415-29337-2-git-send-email-james_p_freyensee@linux.intel.com>
- <20160817004713.GA21992@lst.de>
-Message-ID: <4c249b43-5ddd-ab42-6830-0b8d7db0cac8@grimberg.me>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 17 Aug 2016 10:13:23 -0500
+Subject: nvme/rdma initiator stuck on reboot
+In-Reply-To: <7c4827ff-21c9-21e9-5577-1bd374305a0b@grimberg.me>
+References: <043901d1f7f5$fb5f73c0$f21e5b40$@opengridcomputing.com>
+ <2202d08c-2b4c-3bd9-6340-d630b8e2f8b5@grimberg.me>
+ <073301d1f894$5ddb81d0$19928570$@opengridcomputing.com>
+ <7c4827ff-21c9-21e9-5577-1bd374305a0b@grimberg.me>
+Message-ID: <075901d1f899$e5cc6f00$b1654d00$@opengridcomputing.com>
 
-> On Tue, Aug 16, 2016@12:56:52PM -0700, Jay Freyensee wrote:
->>  	/*
->> -	 * req->hsqsize corresponds to our recv queue size
->> -	 * req->hrqsize corresponds to our send queue size
->> +	 * req->hsqsize corresponds to our recv queue size plus 1
->> +	 * req->hrqsize corresponds to our send queue size plus 1
->>  	 */
->> -	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
->> -	queue->send_queue_size = le16_to_cpu(req->hrqsize);
->> +	queue->recv_queue_size = le16_to_cpu(req->hsqsize) + 1;
->> +	queue->send_queue_size = le16_to_cpu(req->hrqsize) + 1;
->
-> I brought this up on the nvme-technical list and the consensus is
-> that hrqsize doesn't use the one off notation.  hsqsize refers to
-> the sqsize which is marked as "0's based", while hrqsize only
-> has a short and not very meaningful explanation, which implies that
-> it's '1's based' in NVMe terms (which, btw I think are utterly misleading).
+> 
+> Can this be related due to the fact that we use a signle-threaded
+> workqueue for delete/reset/reconnect? (delete cancel_sync the active
+> reconnect work...)
+> 
+> Does this untested patch help?
 
-Yea... the host needs to set hrqsize to opts->queue_size and the target
-should take it as is...
+That seems to do it!
+
+
+> --
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 8d2875b4c56d..78a47c17fb01 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1997,7 +1997,7 @@ static struct nvmf_transport_ops
+> nvme_rdma_transport = {
+> 
+>   static int __init nvme_rdma_init_module(void)
+>   {
+> -       nvme_rdma_wq = create_workqueue("nvme_rdma_wq");
+> +       nvme_rdma_wq = alloc_workqueue("nvme_rdma_wq", 0, 0);
+>          if (!nvme_rdma_wq)
+>                  return -ENOMEM;
+> --
