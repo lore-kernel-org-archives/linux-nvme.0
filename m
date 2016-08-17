@@ -1,50 +1,49 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Wed, 17 Aug 2016 11:51:27 -0700
-Subject: [PATCH v3 1/4] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
-In-Reply-To: <2f2b6a4e-f1b2-8ff3-0c02-06ba87cd346c@grimberg.me>
-References: <1471377415-29337-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1471377415-29337-2-git-send-email-james_p_freyensee@linux.intel.com>
- <20160817004713.GA21992@lst.de> <1471448860.3142.4.camel@linux.intel.com>
- <2f2b6a4e-f1b2-8ff3-0c02-06ba87cd346c@grimberg.me>
-Message-ID: <1471459887.6059.7.camel@linux.intel.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 17 Aug 2016 21:57:34 +0300
+Subject: nvmf/rdma host crash during heavy load and keep alive recovery
+In-Reply-To: <045601d1f803$a9d73a20$fd85ae60$@opengridcomputing.com>
+References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
+ <20160801110658.GF16141@lst.de>
+ <008801d1ec00$a0bcfbf0$e236f3d0$@opengridcomputing.com>
+ <015801d1ec3d$0ca07ea0$25e17be0$@opengridcomputing.com>
+ <010f01d1f31e$50c8cb40$f25a61c0$@opengridcomputing.com>
+ <013701d1f320$57b185d0$07149170$@opengridcomputing.com>
+ <018401d1f32b$792cfdb0$6b86f910$@opengridcomputing.com>
+ <01a301d1f339$55ba8e70$012fab50$@opengridcomputing.com>
+ <2fb1129c-424d-8b2d-7101-b9471e897dc8@grimberg.me>
+ <004701d1f3d8$760660b0$62132210$@opengridcomputing.com>
+ <008101d1f3de$557d2850$007778f0$@opengridcomputing.com>
+ <00fe01d1f3e8$8992b330$9cb81990$@opengridcomputing.com>
+ <01c301d1f702$d28c7270$77a55750$@opengridcomputing.com>
+ <6ef9b0d1-ce84-4598-74db-7adeed313bb6@grimberg.me>
+ <045601d1f803$a9d73a20$fd85ae60$@opengridcomputing.com>
+Message-ID: <69c0e819-76d9-286b-c4fb-22f087f36ff1@grimberg.me>
 
-On Wed, 2016-08-17@21:36 +0300, Sagi Grimberg wrote:
-> > 
-> > > 
-> > > > 
-> > > > ?	/*
-> > > > -	?* req->hsqsize corresponds to our recv queue size
-> > > > -	?* req->hrqsize corresponds to our send queue size
-> > > > +	?* req->hsqsize corresponds to our recv queue size
-> > > > plus 1
-> > > > +	?* req->hrqsize corresponds to our send queue size
-> > > > plus 1
-> > > > ?	?*/
-> > > > -	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
-> > > > -	queue->send_queue_size = le16_to_cpu(req->hrqsize);
-> > > > +	queue->recv_queue_size = le16_to_cpu(req->hsqsize) +
-> > > > 1;
-> > > > +	queue->send_queue_size = le16_to_cpu(req->hrqsize) +
-> > > > 1;
-> > > 
-> > > I brought this up on the nvme-technical list and the consensus is
-> > > that hrqsize doesn't use the one off notation.??hsqsize refers to
-> > > the sqsize which is marked as "0's based", while hrqsize only
-> > > has a short and not very meaningful explanation, which implies
-> > > that
-> > > it's '1's based' in NVMe terms (which, btw I think are utterly
-> > > misleading).
-> > 
-> > OK, so what is the final verdict then???Resurrect patch five again
-> > and
-> > resubmit the series???It makes hrqsize 1-based on both the host and
-> > target.
-> > http://lists.infradead.org/pipermail/linux-nvme/2016-August/005804.
-> > html
-> 
-> I think you can just make the target take hrqsize as is in patch 1
-> and have the host send hrqsize = queue->queue_size.
-> 
-> One more respin should do it (sorry for the exhaustion ;))
 
-No worries, doesn't help when the spec isn't clear on something :-).
+>> If that is the case, I think we need to have a closer look at
+>> nvme_stop_queues...
+>>
+>
+> request_queue->queue_flags does have QUEUE_FLAG_STOPPED set:
+>
+> #define QUEUE_FLAG_STOPPED      2       /* queue is stopped */
+>
+> crash> request_queue.queue_flags -x 0xffff880397a13d28
+>   queue_flags = 0x1f07a04
+> crash> request_queue.mq_ops 0xffff880397a13d28
+>   mq_ops = 0xffffffffa084b140 <nvme_rdma_mq_ops>
+>
+> So it appears the queue is stopped, yet a request is being processed for that
+> queue.  Perhaps there is a race where QUEUE_FLAG_STOPPED is set after a request
+> is scheduled?
+
+Umm. When the keep-alive timeout triggers we stop the queues. only 10
+seconds (or reconnect_delay) later we free the queues and reestablish
+them, so I find it hard to believe that a request was queued, and spent
+so long in queue_rq until we freed the queue-pair.
+
+ From you description of the sequence it seems that after 10 seconds we
+attempt a reconnect and during that time an IO request crashes the
+party.
+
+I assume this means you ran traffic during the sequence yes?
