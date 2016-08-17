@@ -1,72 +1,88 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Wed, 17 Aug 2016 16:13:19 +0800
-Subject: [PATCH 08/15] nvme: Pass attribute group to device_add_disk
-In-Reply-To: <1471418115-3654-9-git-send-email-famz@redhat.com>
-Message-ID: <201608171629.gksireZM%fengguang.wu@intel.com>
+From: cornelia.huck@de.ibm.com (Cornelia Huck)
+Date: Wed, 17 Aug 2016 10:49:14 +0200
+Subject: [PATCH 06/15] genhd: Add return code to device_add_disk
+In-Reply-To: <1471418115-3654-7-git-send-email-famz@redhat.com>
+References: <1471418115-3654-1-git-send-email-famz@redhat.com>
+ <1471418115-3654-7-git-send-email-famz@redhat.com>
+Message-ID: <20160817104914.37087cb3.cornelia.huck@de.ibm.com>
 
-Hi Fam,
+On Wed, 17 Aug 2016 15:15:06 +0800
+Fam Zheng <famz@redhat.com> wrote:
 
-[auto build test WARNING on linus/master]
-[also build test WARNING on v4.8-rc2 next-20160817]
-[cannot apply to linux/master]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+> @@ -613,10 +614,8 @@ void device_add_disk(struct device *parent, struct gendisk *disk)
+>  	disk->flags |= GENHD_FL_UP;
+> 
+>  	retval = blk_alloc_devt(&disk->part0, &devt);
+> -	if (retval) {
+> -		WARN_ON(1);
+> -		return;
+> -	}
+> +	if (retval)
+> +		goto fail;
+>  	disk_to_dev(disk)->devt = devt;
+> 
+>  	/* ->major and ->first_minor aren't supposed to be
+> @@ -625,16 +624,26 @@ void device_add_disk(struct device *parent, struct gendisk *disk)
+>  	disk->major = MAJOR(devt);
+>  	disk->first_minor = MINOR(devt);
+> 
+> -	disk_alloc_events(disk);
+> +	retval = disk_alloc_events(disk);
+> +	if (retval)
+> +		goto fail;
+> 
+>  	/* Register BDI before referencing it from bdev */
+>  	bdi = &disk->queue->backing_dev_info;
+> -	bdi_register_owner(bdi, disk_to_dev(disk));
+> +	retval = bdi_register_owner(bdi, disk_to_dev(disk));
+> +	if (retval)
+> +		goto fail;
+> 
+> -	blk_register_region(disk_devt(disk), disk->minors, NULL,
+> -			    exact_match, exact_lock, disk);
+> -	register_disk(parent, disk);
+> -	blk_register_queue(disk);
+> +	retval = blk_register_region(disk_devt(disk), disk->minors, NULL,
+> +				     exact_match, exact_lock, disk);
+> +	if (retval)
+> +		goto fail;
+> +	retval = register_disk(parent, disk);
+> +	if (retval)
+> +		goto fail;
+> +	retval = blk_register_queue(disk);
+> +	if (retval)
+> +		goto fail;
+> 
+>  	/*
+>  	 * Take an extra ref on queue which will be put on disk_release()
+> @@ -644,10 +653,20 @@ void device_add_disk(struct device *parent, struct gendisk *disk)
+> 
+>  	retval = sysfs_create_link(&disk_to_dev(disk)->kobj, &bdi->dev->kobj,
+>  				   "bdi");
+> +	if (retval)
+> +		goto fail;
+> +
+> +	retval = disk_add_events(disk);
+> +	if (retval)
+> +		goto fail;
+> +
+> +	retval = blk_integrity_add(disk);
+> +	if (retval)
+> +		goto fail;
+> +	return 0;
+> +fail:
+>  	WARN_ON(retval);
+> -
+> -	disk_add_events(disk);
+> -	blk_integrity_add(disk);
+> +	return retval;
+>  }
 
-url:    https://github.com/0day-ci/linux/commits/Fam-Zheng/Fix-issue-with-KOBJ_ADD-uevent-versus-disk-attributes/20160817-152900
-config: powerpc-allmodconfig (attached as .config)
-compiler: powerpc64-linux-gnu-gcc (Debian 5.4.0-6) 5.4.0 20160609
-reproduce:
-        wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        make.cross ARCH=powerpc 
+Noticed this when trying to figure out whether the error handling in
+virtio_blk was correct:
 
-All warnings (new ones prefixed by >>):
-
-   drivers/nvme/host/core.c: In function 'nvme_alloc_ns':
->> drivers/nvme/host/core.c:1689:42: warning: passing argument 3 of 'device_add_disk' discards 'const' qualifier from pointer target type [-Wdiscarded-qualifiers]
-     device_add_disk(ctrl->device, ns->disk, &nvme_ns_attr_group);
-                                             ^
-   In file included from include/linux/blkdev.h:9:0,
-                    from drivers/nvme/host/core.c:15:
-   include/linux/genhd.h:416:12: note: expected 'struct attribute_group *' but argument is of type 'const struct attribute_group *'
-    extern int device_add_disk(struct device *parent, struct gendisk *disk,
-               ^
-
-vim +1689 drivers/nvme/host/core.c
-
-  1673		disk->private_data = ns;
-  1674		disk->queue = ns->queue;
-  1675		disk->flags = GENHD_FL_EXT_DEVT;
-  1676		sprintf(disk->disk_name, "nvme%dn%d", ctrl->instance, ns->instance);
-  1677	
-  1678		if (nvme_revalidate_disk(ns->disk))
-  1679			goto out_free_disk;
-  1680	
-  1681		mutex_lock(&ctrl->namespaces_mutex);
-  1682		list_add_tail(&ns->list, &ctrl->namespaces);
-  1683		mutex_unlock(&ctrl->namespaces_mutex);
-  1684	
-  1685		kref_get(&ctrl->kref);
-  1686		if (ns->type == NVME_NS_LIGHTNVM)
-  1687			return;
-  1688	
-> 1689		device_add_disk(ctrl->device, ns->disk, &nvme_ns_attr_group);
-  1690		return;
-  1691	 out_free_disk:
-  1692		kfree(disk);
-  1693	 out_free_queue:
-  1694		blk_cleanup_queue(ns->queue);
-  1695	 out_release_instance:
-  1696		ida_simple_remove(&ctrl->ns_ida, ns->instance);
-  1697	 out_free_ns:
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/octet-stream
-Size: 49909 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160817/75a7e7e4/attachment-0001.obj>
+Shouldn't you try to cleanup/rewind so that any structures are in a
+sane state after failure? The caller doesn't know where device_add_disk
+failed, and calling del_gendisk unconditionally like virtio_blk does is
+probably not the right thing to do (at the very least, I don't think
+unregistering a device that has not been registered is likely to work).
