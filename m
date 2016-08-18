@@ -1,32 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 18 Aug 2016 10:44:49 +0300
-Subject: [PATCH 2/2] nvme-rdma: Add handling for connecting to IPv6 targets
-In-Reply-To: <CAG4TOxPNnUKWeh7FUY8YB127sx8yMu41FuP4hxUMCan_HWQmVQ@mail.gmail.com>
-References: <1469950060-18098-1-git-send-email-roland@kernel.org>
- <1469950060-18098-2-git-send-email-roland@kernel.org>
- <4acdd466-b8f6-8208-7287-e97dfd45bbf1@grimberg.me>
- <33dfc646-1804-363e-4d83-1ba618303dbb@grimberg.me>
- <20160801110956.GI16141@lst.de>
- <e6e54d3f-c6ee-2057-d4e5-13981cd95140@grimberg.me>
- <20160801155036.GC22771@lst.de>
- <CAG4TOxPNnUKWeh7FUY8YB127sx8yMu41FuP4hxUMCan_HWQmVQ@mail.gmail.com>
-Message-ID: <2b4f4727-58b5-c62e-e5fd-cc5e5b4ae6be@grimberg.me>
+Date: Thu, 18 Aug 2016 12:56:17 +0300
+Subject: Configured nqn
+In-Reply-To: <FECD6836D08A8545A696BA54811397B92E7E6253@EXMAIL1.taec.toshiba.com>
+References: <14E6FCBE6C7E3A47A6CD7D77E639D51C2F73FABD@oczmail.ocz.ocztechnology.com>
+ <f94a27cf-8dcf-c881-4fe9-a45d0ce7c9c6@grimberg.me>
+ <1470678878.2626.6.camel@linux.intel.com>
+ <FECD6836D08A8545A696BA54811397B92E7E5ED9@EXMAIL1.taec.toshiba.com>
+ <1471471446.6059.11.camel@linux.intel.com>
+ <FECD6836D08A8545A696BA54811397B92E7E6253@EXMAIL1.taec.toshiba.com>
+Message-ID: <cf880042-60bf-4639-7a8b-d62bc4be7a76@grimberg.me>
 
 
-> I think adding a new helper that parses both v4 and v6 addresses +
-> scope ID seems like the best thing for now.  I did a grep for in6_pton
-> and it looks like at least fs/cifs/netmisc.c and net/sunrpc/addr.c
-> could use the helper.
->
-> What do you think of adding inet_pton_with_scope() to
-> net/core/utils.c?  I'm open to better ideas on the name.  But I can
-> code that up and use it in nvme, as well as convert over the two
-> places I mentioned above.  The first parameter of the function can be
-> an af, and the caller can pass in AF_UNSPEC, AF_INET, or AF_INET6 to
-> restrict the parsing to one type of address (or not).
+> Hi
+> I think the host nqn file should exist even before the first connection attempt, so
+> That a management software will be able to first configure the storage to allow connection from this nqn(with ACL).
+> The rpm spec can run a script during first install to take care of that.
 
-Hey Roland,
+Sounds reasonable...
 
-Are you looking into this?
-
-I'd love to get it into 4.9...
+Care to send a patch? ;)
