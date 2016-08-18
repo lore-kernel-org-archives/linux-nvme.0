@@ -1,93 +1,35 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 18 Aug 2016 14:11:00 -0500
-Subject: nvme/rdma initiator stuck on reboot
-In-Reply-To: <027d01d1f981$6c19e9b0$444dbd10$@opengridcomputing.com>
-References: <043901d1f7f5$fb5f73c0$f21e5b40$@opengridcomputing.com>
- <2202d08c-2b4c-3bd9-6340-d630b8e2f8b5@grimberg.me>
- <073301d1f894$5ddb81d0$19928570$@opengridcomputing.com>
- <7c4827ff-21c9-21e9-5577-1bd374305a0b@grimberg.me>
- <075901d1f899$e5cc6f00$b1654d00$@opengridcomputing.com>
- <e2e04664-c374-3745-ecf3-f49ca7a3addf@grimberg.me>
- <012701d1f958$b4953290$1dbf97b0$@opengridcomputing.com>
- <20160818152107.GA17807@infradead.org>
- <01ee01d1f97a$4406d5c0$cc148140$@opengridcomputing.com>
- <027d01d1f981$6c19e9b0$444dbd10$@opengridcomputing.com>
-Message-ID: <028501d1f984$419c0bc0$c4d42340$@opengridcomputing.com>
+From: daniel.verkamp@intel.com (Verkamp, Daniel)
+Date: Thu, 18 Aug 2016 19:48:07 +0000
+Subject: [PATCH] nvme-fabrics: change NQN UUID to big-endian format
+In-Reply-To: <20160630064153.GA27456@infradead.org>
+References: <20160628084547.GA31465@infradead.org>
+ <1467138023-41671-1-git-send-email-daniel.verkamp@intel.com>
+ <20160630064153.GA27456@infradead.org>
+Message-ID: <1471549684.3070.13.camel@intel.com>
 
-> > > Btw, in that case the patch is not actually correct, as even workqueue
-> > > with a higher concurrency level MAY deadlock under enough memory
-> > > pressure.  We'll need separate workqueues to handle this case I think.
-> > >
-> > > > Yes?  And the
-> > > > reconnect worker was never completing?  Why is that?  Here are a few
-> tidbits
-> > > > about iWARP connections:  address resolution == neighbor discovery.  So
-if
+On Wed, 2016-06-29@23:41 -0700, Christoph Hellwig wrote:
+> On Tue, Jun 28, 2016@11:20:23AM -0700, Daniel Verkamp wrote:
+> > 
+> > NVM Express 1.2.1 section 7.9, NVMe Qualified Names, specifies that
 > > the
-> > > > neighbor is unreachable, it will take a few seconds for the OS to give
-up
-> > and
-> > > > fail the resolution.  If the neigh entry is valid and the peer becomes
-> > > > unreachable during connection setup, it might take 60 seconds or so for
-a
-> > > > connect operation to give up and fail.  So this is probably slowing the
-> > > > reconnect thread down.   But shouldn't the reconnect thread notice that
-a
-> > delete
-> > > > is trying to happen and bail out?
-> > >
-> > > I think we should aim for a state machine that can detect this, but
-> > > we'll have to see if that will end up in synchronization overkill.
-> >
-> > Looking at the state machine I don't see why the reconnect thread would get
-> > stuck continually rescheduling once the controller was deleted.  Changing
-from
-> > RECONNECTING to DELETING will be done by nvme_change_ctrl_state().  So once
-> > that
-> > happens, in __nvme_rdma_del_ctrl() , the thread running reconnect logic
-should
-> > stop rescheduling due to this in the failure logic of
-> > nvme_rdma_reconnect_ctrl_work():
-> >
-> > ...
-> > requeue:
-> >         /* Make sure we are not resetting/deleting */
-> >         if (ctrl->ctrl.state == NVME_CTRL_RECONNECTING) {
-> >                 dev_info(ctrl->ctrl.device,
-> >                         "Failed reconnect attempt, requeueing...\n");
-> >                 queue_delayed_work(nvme_rdma_wq, &ctrl->reconnect_work,
-> >                                         ctrl->reconnect_delay * HZ);
-> >         }
-> > ...
-> >
-> > So something isn't happening like I think it is, I guess.
+> > UUID format of NQN uses a UUID based on RFC 4122.
+> > 
+> > RFC 4122 specifies that the UUID is encoded in big-endian byte
+> > order.
+> > 
+> > Switch the NVMe over Fabrics host ID field from little-endian UUID
+> > to
+> > big-endian UUID to match the specification.
+> > 
+> > Signed-off-by: Daniel Verkamp <daniel.verkamp at intel.com>
 > 
-> 
-> I see what happens.  Assume the 10 controllers are reconnecting and failing,
-> thus they reschedule each time.  I then run a script to delete all 10 devices
-> sequentially.  Like this:
-> 
-> for i in $(seq 1 10); do nvme disconnect -d nvme${i}n1; done
-> 
-> The first device, nvme1n1 gets a disconnect/delete command and changes the
-> controller state from RECONNECTING to DELETING, and then schedules
-> nvme_rdma_del_ctrl_work(), but that is stuck behind the 9 others continually
-> reconnecting, failing, and rescheduling.  I'm not sure why the delete never
-gets
-> run though?  I would think if it is scheduled, then it would get executed
-before
-> the reconnect threads rescheduling?  Maybe we need some round-robin mode for
-> our
-> workq?  And because the first delete is stuck, none of the subsequent delete
-> commands get executed.  Note: If I run each disconnect command in the
-> background, then they all get cleaned up ok.   Like this:
-> 
-> for i in $(seq 1 10); do nvme disconnect -d nvme${i}n1 & done
-> 
-> 
+> Thanks a lot Daniel, I'll send this on to Jens.
 
-Experimenting more, running the 'nvme disconnect's in the back ground doesn't
-really avoid things getting stuck.  
+Hi,
 
-BTW: I'm running these with the single threaded workq, to understand the
-deadlock. (well, trying to understand...)
+Just wanted to check on this and make sure it didn't get dropped.
+It doesn't appear to be in Linus's tree or in any branches of nvme-
+fabrics.git yet.
+
+Thanks,
+-- Daniel
