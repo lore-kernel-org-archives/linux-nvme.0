@@ -1,51 +1,57 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Thu, 18 Aug 2016 08:56:50 -0700
-Subject: [PATCH v4 1/4] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
-In-Reply-To: <7b7f2836-ad77-b508-ad53-2f49aec03612@grimberg.me>
-References: <1471471228-15818-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1471471228-15818-2-git-send-email-james_p_freyensee@linux.intel.com>
- <7b7f2836-ad77-b508-ad53-2f49aec03612@grimberg.me>
-Message-ID: <1471535810.31578.8.camel@linux.intel.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Thu, 18 Aug 2016 12:59:29 -0500
+Subject: nvme/rdma initiator stuck on reboot
+In-Reply-To: <20160818152107.GA17807@infradead.org>
+References: <043901d1f7f5$fb5f73c0$f21e5b40$@opengridcomputing.com>
+ <2202d08c-2b4c-3bd9-6340-d630b8e2f8b5@grimberg.me>
+ <073301d1f894$5ddb81d0$19928570$@opengridcomputing.com>
+ <7c4827ff-21c9-21e9-5577-1bd374305a0b@grimberg.me>
+ <075901d1f899$e5cc6f00$b1654d00$@opengridcomputing.com>
+ <e2e04664-c374-3745-ecf3-f49ca7a3addf@grimberg.me>
+ <012701d1f958$b4953290$1dbf97b0$@opengridcomputing.com>
+ <20160818152107.GA17807@infradead.org>
+Message-ID: <01ee01d1f97a$4406d5c0$cc148140$@opengridcomputing.com>
 
-On Thu, 2016-08-18@10:00 +0300, Sagi Grimberg wrote:
+> Btw, in that case the patch is not actually correct, as even workqueue
+> with a higher concurrency level MAY deadlock under enough memory
+> pressure.  We'll need separate workqueues to handle this case I think.
 > 
-> On 18/08/16 01:00, Jay Freyensee wrote:
-> > 
-> > The host will be sending sqsize 0-based values,
-> > the target need to be adjusted as well.
-> > 
-> > Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-> > Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-> > ---
-> > ?drivers/nvme/target/rdma.c | 8 ++++----
-> > ?1 file changed, 4 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/target/rdma.c
-> > b/drivers/nvme/target/rdma.c
-> > index e06d504..68b7b04 100644
-> > --- a/drivers/nvme/target/rdma.c
-> > +++ b/drivers/nvme/target/rdma.c
-> > @@ -1004,11 +1004,11 @@ nvmet_rdma_parse_cm_connect_req(struct
-> > rdma_conn_param *conn,
-> > ?	queue->host_qid = le16_to_cpu(req->qid);
-> > 
-> > ?	/*
-> > -	?* req->hsqsize corresponds to our recv queue size
-> > -	?* req->hrqsize corresponds to our send queue size
-> > +	?* req->hsqsize corresponds to our recv queue size plus 1
-> > +	?* req->hrqsize corresponds to our send queue size plus 1
-> > ?	?*/
-> > -	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
-> > -	queue->send_queue_size = le16_to_cpu(req->hrqsize);
-> > +	queue->recv_queue_size = le16_to_cpu(req->hsqsize) + 1;
-> > +	queue->send_queue_size = le16_to_cpu(req->hrqsize) + 1;
+> > Yes?  And the
+> > reconnect worker was never completing?  Why is that?  Here are a few tidbits
+> > about iWARP connections:  address resolution == neighbor discovery.  So if
+the
+> > neighbor is unreachable, it will take a few seconds for the OS to give up
+and
+> > fail the resolution.  If the neigh entry is valid and the peer becomes
+> > unreachable during connection setup, it might take 60 seconds or so for a
+> > connect operation to give up and fail.  So this is probably slowing the
+> > reconnect thread down.   But shouldn't the reconnect thread notice that a
+delete
+> > is trying to happen and bail out?
 > 
-> hrqsize is sent as is (1's based) so no need to increment.
-> I'll fix it...
+> I think we should aim for a state machine that can detect this, but
+> we'll have to see if that will end up in synchronization overkill.
 
-The target's send and receive queue size will be still the same length
-and I thought we wanted to make the queue associated with hrqsize 1
-entry larger more than the queue associated with hsqsize.
+Looking at the state machine I don't see why the reconnect thread would get
+stuck continually rescheduling once the controller was deleted.  Changing from
+RECONNECTING to DELETING will be done by nvme_change_ctrl_state().  So once that
+happens, in __nvme_rdma_del_ctrl() , the thread running reconnect logic should
+stop rescheduling due to this in the failure logic of
+nvme_rdma_reconnect_ctrl_work():
 
-Either case, I'm fine with the solution, when the specification
-actually explains how to use this better, we can re-visit.
+...
+requeue:
+        /* Make sure we are not resetting/deleting */
+        if (ctrl->ctrl.state == NVME_CTRL_RECONNECTING) {
+                dev_info(ctrl->ctrl.device,
+                        "Failed reconnect attempt, requeueing...\n");
+                queue_delayed_work(nvme_rdma_wq, &ctrl->reconnect_work,
+                                        ctrl->reconnect_delay * HZ);
+        }
+...
+
+So something isn't happening like I think it is, I guess.
+
+Also, even with the workqueue_alloc() change, a reboot during reconnect gets
+stuck.  I never see the controllers getting deleted nor the unplug event handler
+happening, so the reconnect thread seems to hang the shutdown/reboot...
