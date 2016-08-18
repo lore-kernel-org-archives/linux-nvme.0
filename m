@@ -1,33 +1,31 @@
-From: hch@infradead.org ('Christoph Hellwig')
-Date: Thu, 18 Aug 2016 08:21:07 -0700
-Subject: nvme/rdma initiator stuck on reboot
-In-Reply-To: <012701d1f958$b4953290$1dbf97b0$@opengridcomputing.com>
-References: <043901d1f7f5$fb5f73c0$f21e5b40$@opengridcomputing.com>
- <2202d08c-2b4c-3bd9-6340-d630b8e2f8b5@grimberg.me>
- <073301d1f894$5ddb81d0$19928570$@opengridcomputing.com>
- <7c4827ff-21c9-21e9-5577-1bd374305a0b@grimberg.me>
- <075901d1f899$e5cc6f00$b1654d00$@opengridcomputing.com>
- <e2e04664-c374-3745-ecf3-f49ca7a3addf@grimberg.me>
- <012701d1f958$b4953290$1dbf97b0$@opengridcomputing.com>
-Message-ID: <20160818152107.GA17807@infradead.org>
+From: Gili.Buzaglo@taec.toshiba.com (Gili Buzaglo)
+Date: Thu, 18 Aug 2016 15:27:25 +0000
+Subject: Configured nqn
+In-Reply-To: <cf880042-60bf-4639-7a8b-d62bc4be7a76@grimberg.me>
+References: <14E6FCBE6C7E3A47A6CD7D77E639D51C2F73FABD@oczmail.ocz.ocztechnology.com>
+ <f94a27cf-8dcf-c881-4fe9-a45d0ce7c9c6@grimberg.me>
+ <1470678878.2626.6.camel@linux.intel.com>
+ <FECD6836D08A8545A696BA54811397B92E7E5ED9@EXMAIL1.taec.toshiba.com>
+ <1471471446.6059.11.camel@linux.intel.com>
+ <FECD6836D08A8545A696BA54811397B92E7E6253@EXMAIL1.taec.toshiba.com>
+ <cf880042-60bf-4639-7a8b-d62bc4be7a76@grimberg.me>
+Message-ID: <FECD6836D08A8545A696BA54811397B92E7E6460@EXMAIL1.taec.toshiba.com>
 
-On Thu, Aug 18, 2016@08:59:15AM -0500, Steve Wise wrote:
-> Sure, but let me ask a question:  So the bug was that the delete controller
-> worker was blocked waiting for the reconnect worker to complete.
+Probalbly yes, we'll see who's available ..
+Thanks
 
-Btw, in that case the patch is not actually correct, as even workqueue
-with a higher concurrency level MAY deadlock under enough memory
-pressure.  We'll need separate workqueues to handle this case I think.
+-----Original Message-----
+From: Sagi Grimberg [mailto:sagi@grimberg.me] 
+Sent: Thursday, August 18, 2016 12:56 PM
+To: Gili Buzaglo; J Freyensee; linux-nvme at lists.infradead.org
+Subject: Re: Configured nqn
 
-> Yes?  And the
-> reconnect worker was never completing?  Why is that?  Here are a few tidbits
-> about iWARP connections:  address resolution == neighbor discovery.  So if the
-> neighbor is unreachable, it will take a few seconds for the OS to give up and
-> fail the resolution.  If the neigh entry is valid and the peer becomes
-> unreachable during connection setup, it might take 60 seconds or so for a
-> connect operation to give up and fail.  So this is probably slowing the
-> reconnect thread down.   But shouldn't the reconnect thread notice that a delete
-> is trying to happen and bail out? 
 
-I think we should aim for a state machine that can detect this, but
-we'll have to see if that will end up in synchronization overkill.
+> Hi
+> I think the host nqn file should exist even before the first 
+> connection attempt, so That a management software will be able to first configure the storage to allow connection from this nqn(with ACL).
+> The rpm spec can run a script during first install to take care of that.
+
+Sounds reasonable...
+
+Care to send a patch? ;)
