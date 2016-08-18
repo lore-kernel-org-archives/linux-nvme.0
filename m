@@ -1,31 +1,51 @@
-From: Gili.Buzaglo@taec.toshiba.com (Gili Buzaglo)
-Date: Thu, 18 Aug 2016 15:27:25 +0000
-Subject: Configured nqn
-In-Reply-To: <cf880042-60bf-4639-7a8b-d62bc4be7a76@grimberg.me>
-References: <14E6FCBE6C7E3A47A6CD7D77E639D51C2F73FABD@oczmail.ocz.ocztechnology.com>
- <f94a27cf-8dcf-c881-4fe9-a45d0ce7c9c6@grimberg.me>
- <1470678878.2626.6.camel@linux.intel.com>
- <FECD6836D08A8545A696BA54811397B92E7E5ED9@EXMAIL1.taec.toshiba.com>
- <1471471446.6059.11.camel@linux.intel.com>
- <FECD6836D08A8545A696BA54811397B92E7E6253@EXMAIL1.taec.toshiba.com>
- <cf880042-60bf-4639-7a8b-d62bc4be7a76@grimberg.me>
-Message-ID: <FECD6836D08A8545A696BA54811397B92E7E6460@EXMAIL1.taec.toshiba.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Thu, 18 Aug 2016 08:56:50 -0700
+Subject: [PATCH v4 1/4] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
+In-Reply-To: <7b7f2836-ad77-b508-ad53-2f49aec03612@grimberg.me>
+References: <1471471228-15818-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <1471471228-15818-2-git-send-email-james_p_freyensee@linux.intel.com>
+ <7b7f2836-ad77-b508-ad53-2f49aec03612@grimberg.me>
+Message-ID: <1471535810.31578.8.camel@linux.intel.com>
 
-Probalbly yes, we'll see who's available ..
-Thanks
+On Thu, 2016-08-18@10:00 +0300, Sagi Grimberg wrote:
+> 
+> On 18/08/16 01:00, Jay Freyensee wrote:
+> > 
+> > The host will be sending sqsize 0-based values,
+> > the target need to be adjusted as well.
+> > 
+> > Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+> > Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> > ---
+> > ?drivers/nvme/target/rdma.c | 8 ++++----
+> > ?1 file changed, 4 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/nvme/target/rdma.c
+> > b/drivers/nvme/target/rdma.c
+> > index e06d504..68b7b04 100644
+> > --- a/drivers/nvme/target/rdma.c
+> > +++ b/drivers/nvme/target/rdma.c
+> > @@ -1004,11 +1004,11 @@ nvmet_rdma_parse_cm_connect_req(struct
+> > rdma_conn_param *conn,
+> > ?	queue->host_qid = le16_to_cpu(req->qid);
+> > 
+> > ?	/*
+> > -	?* req->hsqsize corresponds to our recv queue size
+> > -	?* req->hrqsize corresponds to our send queue size
+> > +	?* req->hsqsize corresponds to our recv queue size plus 1
+> > +	?* req->hrqsize corresponds to our send queue size plus 1
+> > ?	?*/
+> > -	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
+> > -	queue->send_queue_size = le16_to_cpu(req->hrqsize);
+> > +	queue->recv_queue_size = le16_to_cpu(req->hsqsize) + 1;
+> > +	queue->send_queue_size = le16_to_cpu(req->hrqsize) + 1;
+> 
+> hrqsize is sent as is (1's based) so no need to increment.
+> I'll fix it...
 
------Original Message-----
-From: Sagi Grimberg [mailto:sagi@grimberg.me] 
-Sent: Thursday, August 18, 2016 12:56 PM
-To: Gili Buzaglo; J Freyensee; linux-nvme at lists.infradead.org
-Subject: Re: Configured nqn
+The target's send and receive queue size will be still the same length
+and I thought we wanted to make the queue associated with hrqsize 1
+entry larger more than the queue associated with hsqsize.
 
-
-> Hi
-> I think the host nqn file should exist even before the first 
-> connection attempt, so That a management software will be able to first configure the storage to allow connection from this nqn(with ACL).
-> The rpm spec can run a script during first install to take care of that.
-
-Sounds reasonable...
-
-Care to send a patch? ;)
+Either case, I'm fine with the solution, when the specification
+actually explains how to use this better, we can re-visit.
