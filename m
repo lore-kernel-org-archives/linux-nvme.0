@@ -1,40 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 18 Aug 2016 10:00:22 +0300
-Subject: [PATCH v4 1/4] nvmet-rdma: +1 to *queue_size from hsqsize/hrqsize
-In-Reply-To: <1471471228-15818-2-git-send-email-james_p_freyensee@linux.intel.com>
-References: <1471471228-15818-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1471471228-15818-2-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <7b7f2836-ad77-b508-ad53-2f49aec03612@grimberg.me>
+Date: Thu, 18 Aug 2016 10:01:57 +0300
+Subject: nvme/rdma initiator stuck on reboot
+In-Reply-To: <075901d1f899$e5cc6f00$b1654d00$@opengridcomputing.com>
+References: <043901d1f7f5$fb5f73c0$f21e5b40$@opengridcomputing.com>
+ <2202d08c-2b4c-3bd9-6340-d630b8e2f8b5@grimberg.me>
+ <073301d1f894$5ddb81d0$19928570$@opengridcomputing.com>
+ <7c4827ff-21c9-21e9-5577-1bd374305a0b@grimberg.me>
+ <075901d1f899$e5cc6f00$b1654d00$@opengridcomputing.com>
+Message-ID: <e2e04664-c374-3745-ecf3-f49ca7a3addf@grimberg.me>
 
 
-
-On 18/08/16 01:00, Jay Freyensee wrote:
-> The host will be sending sqsize 0-based values,
-> the target need to be adjusted as well.
+>> Can this be related due to the fact that we use a signle-threaded
+>> workqueue for delete/reset/reconnect? (delete cancel_sync the active
+>> reconnect work...)
+>>
+>> Does this untested patch help?
 >
-> Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  drivers/nvme/target/rdma.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-> index e06d504..68b7b04 100644
-> --- a/drivers/nvme/target/rdma.c
-> +++ b/drivers/nvme/target/rdma.c
-> @@ -1004,11 +1004,11 @@ nvmet_rdma_parse_cm_connect_req(struct rdma_conn_param *conn,
->  	queue->host_qid = le16_to_cpu(req->qid);
->
->  	/*
-> -	 * req->hsqsize corresponds to our recv queue size
-> -	 * req->hrqsize corresponds to our send queue size
-> +	 * req->hsqsize corresponds to our recv queue size plus 1
-> +	 * req->hrqsize corresponds to our send queue size plus 1
->  	 */
-> -	queue->recv_queue_size = le16_to_cpu(req->hsqsize);
-> -	queue->send_queue_size = le16_to_cpu(req->hrqsize);
-> +	queue->recv_queue_size = le16_to_cpu(req->hsqsize) + 1;
-> +	queue->send_queue_size = le16_to_cpu(req->hrqsize) + 1;
+> That seems to do it!
 
-hrqsize is sent as is (1's based) so no need to increment.
-I'll fix it...
+Is this a formal tested-by?
