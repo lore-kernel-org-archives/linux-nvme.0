@@ -1,19 +1,14 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 19 Aug 2016 12:02:19 +0300
-Subject: [PATCH] nvme-fabrics: change NQN UUID to big-endian format
-In-Reply-To: <1471549684.3070.13.camel@intel.com>
-References: <20160628084547.GA31465@infradead.org>
- <1467138023-41671-1-git-send-email-daniel.verkamp@intel.com>
- <20160630064153.GA27456@infradead.org> <1471549684.3070.13.camel@intel.com>
-Message-ID: <bb6e69d4-4a00-82d1-9d90-c30122296f79@grimberg.me>
+Date: Fri, 19 Aug 2016 14:24:14 +0300
+Subject: two small nvmf fixes for 4.8
+In-Reply-To: <1471544196-30525-1-git-send-email-hch@lst.de>
+References: <1471544196-30525-1-git-send-email-hch@lst.de>
+Message-ID: <bcb7bf6e-24bc-61e8-009a-b8a2c1fff552@grimberg.me>
 
 
-> Hi,
->
-> Just wanted to check on this and make sure it didn't get dropped.
-> It doesn't appear to be in Linus's tree or in any branches of nvme-
-> fabrics.git yet.
+> One is a potential use after free that will actually be easy to trigger
+> with the new default hostnqn support in nvme-cli, and the other fixes
+> up the dependencies in the Kconfig file so that we don't always drag in
+> the traditional NVMe PCIe driver.
 
-Thanks for the reminder,
-
-Queued to nvmf-4.8-rc.
+Queued to nvmf-4.8-rc, thanks Christoph...
