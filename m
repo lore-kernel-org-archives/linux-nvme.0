@@ -1,7 +1,7 @@
-From: roland@kernel.org (Roland Dreier)
-Date: Sun, 21 Aug 2016 21:44:06 -0700
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 22 Aug 2016 09:47:11 +0300
 Subject: [PATCH 2/2] nvme-rdma: Add handling for connecting to IPv6 targets
-In-Reply-To: <2b4f4727-58b5-c62e-e5fd-cc5e5b4ae6be@grimberg.me>
+In-Reply-To: <CAG4TOxO9RY+h_Pwa1qtdrm3BRKvr7eDrD-tz-D1=uxY2LcpqWw@mail.gmail.com>
 References: <1469950060-18098-1-git-send-email-roland@kernel.org>
  <1469950060-18098-2-git-send-email-roland@kernel.org>
  <4acdd466-b8f6-8208-7287-e97dfd45bbf1@grimberg.me>
@@ -11,14 +11,14 @@ References: <1469950060-18098-1-git-send-email-roland@kernel.org>
  <20160801155036.GC22771@lst.de>
  <CAG4TOxPNnUKWeh7FUY8YB127sx8yMu41FuP4hxUMCan_HWQmVQ@mail.gmail.com>
  <2b4f4727-58b5-c62e-e5fd-cc5e5b4ae6be@grimberg.me>
-Message-ID: <CAG4TOxO9RY+h_Pwa1qtdrm3BRKvr7eDrD-tz-D1=uxY2LcpqWw@mail.gmail.com>
+ <CAG4TOxO9RY+h_Pwa1qtdrm3BRKvr7eDrD-tz-D1=uxY2LcpqWw@mail.gmail.com>
+Message-ID: <f0be4f33-bed0-8b5b-9dc3-4087d431e560@grimberg.me>
 
-On Thu, Aug 18, 2016@12:44 AM, Sagi Grimberg <sagi@grimberg.me> wrote:
-> Are you looking into this?
+>> Are you looking into this?
+>>
+>> I'd love to get it into 4.9...
 >
-> I'd love to get it into 4.9...
+> Yeah, me too.  I got distracted about halfway through writing the
+> patch but I will finish it this week.
 
-Yeah, me too.  I got distracted about halfway through writing the
-patch but I will finish it this week.
-
- - R.
+Awesome! thanks.
