@@ -1,37 +1,54 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 22 Aug 2016 10:41:51 -0700
-Subject: [PATCH 0/3] nvme-fabrics: Add NVME FC Transport support to lpfc
-In-Reply-To: <20160811212406.GI18013@infradead.org>
-References: <5792b920.7v71BUERlAKN8sK4%james.smart@broadcom.com>
- <20160811212406.GI18013@infradead.org>
-Message-ID: <a6ea99aa-a405-6438-627f-e7c904d0ac0a@broadcom.com>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Mon, 22 Aug 2016 15:10:33 -0300
+Subject: Linux AER reporting
+In-Reply-To: <CAG3=cOncMTcyALa=-i1jeA-z4pe22D9CrJ=Rxr2E8HWBsEMOPg@mail.gmail.com>
+References: <CAG3=cOncMTcyALa=-i1jeA-z4pe22D9CrJ=Rxr2E8HWBsEMOPg@mail.gmail.com>
+Message-ID: <57BB4019.7050008@linux.vnet.ibm.com>
+
+On 08/22/2016 12:52 PM, Nisha Miller wrote:
+> Hi all,
+>
+> We have a PCIE SSD controller using NVME. This controller works on
+> Windows and Linux. However, we are seeing a problem under Linux.
+>
+> In the nvme Linux driver in function nvme_kthread() the CSTS register
+> is read once a second to check for controller status failure. In our
+> case we see that occasionally this register is read as 0xFFFFFFFF.
+> Whenever this happens, the kernel just hangs. This seems to be PCIe
+> read error and we are trying to gather further information. How does
+> one use Linux AER with the nvme driver?
+
+Nisha, we once saw 0xFFFF on CSTS register after issuing a 
+reset_controller, for example. The reason it was that device shutdown 
+was replaced by device disable when resetting the controller, following 
+the NVMe spec, but the device we were testing that time didn't cope well 
+with this change.
+
+For that, we implemented a quirk to wait a little on reading this 
+register in some occasions. The commit info is:
 
 
+54adc01055 ("nvme/quirk: Add a delay before checking for adapter readiness")
 
-On 8/11/2016 2:24 PM, Christoph Hellwig wrote:
-> On Fri, Jul 22, 2016@05:24:00PM -0700, James Smart wrote:
->> This patchset adds NVME support to the lpfc FC driver.  It reworks
->> the core driver for both NVME and SCSI protocol support, then adds the
->> nvme-over-fabrics host and target interfaces which connect to the
->> NVME FC transport lower-level api.
->>
->> Patches are cut against the linux-nvme for-4.8/drivers branch
-> Before reviewing the details:  what's the plan for merging this as we'll
-> have dependencies on both the SCSI and the block tree?
-
-Good question.   With the first round of lpfc patches, I tried to ensure 
-we had all the cross-protocol infrastructure in place such that the 
-driver can have 2 halves that effectively run independently.  I'm hoping 
-it means that I can submit scsi stuff independent from nvme stuff, but 
-we'll have to see how it goes over time.
-
-I'm open to suggestions on how best to manage the 2 trees - e.g. scsi 
-stuff goes in scsi tree, and if a dependency then has to be pulled into 
-block ?  nvme stuff only to block.     The initial lpfc patch set should 
-have all the scsi infrastructure pulled into the 4.8 merge, so hopefully 
-that dependency has been resolved already.
-
--- james
+https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=54adc01055b75ec8769c5a36574c7a0895c0c0b2
 
 
-Any recommendations ?
+I'm really not sure if it's related, but I guess worth a try.
+Cheers,
+
+
+Guilherme
+
+
+>
+> We are using Centos 7.2 with Kernel 3.19.8. PCIe AER has been enabled
+> in the kernel and aerdriver.forceload=y is set in the command line.
+>
+> TIA
+> Nisha Miller
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
