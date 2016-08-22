@@ -1,34 +1,27 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Mon, 22 Aug 2016 10:28:39 -0700
-Subject: [PATCH 4/5] nvme-fabrics: Add target FC transport support
-In-Reply-To: <20160811212238.GG18013@infradead.org>
-References: <5792b91e.51+4Ind0/2MxGqHU%james.smart@broadcom.com>
- <20160811212238.GG18013@infradead.org>
-Message-ID: <9641de6d-1bfb-394c-d4e0-712c8ef6d740@broadcom.com>
+Date: Mon, 22 Aug 2016 10:29:38 -0700
+Subject: [PATCH 5/5] nvme-fabrics: Add FC LLDD loopback driver to test FC
+ host and target transport
+In-Reply-To: <20160811212336.GH18013@infradead.org>
+References: <5792b91f.Lb5BdNQrSWnmgOYG%james.smart@broadcom.com>
+ <20160811212336.GH18013@infradead.org>
+Message-ID: <de5d47f0-3d47-8004-19ed-0cb2f39c9aa3@broadcom.com>
 
 
 
-On 8/11/2016 2:22 PM, Christoph Hellwig wrote:
->
->> +	queue->work_q = alloc_workqueue("ntfc%d.%d.%d", 0, 0,
->> +				assoc->tgtport->fc_target_port.port_num,
->> +				assoc->a_id, qid);
-> Do we really need a workqueue per queue?
+On 8/11/2016 2:23 PM, Christoph Hellwig wrote:
+> On Fri, Jul 22, 2016@05:23:59PM -0700, James Smart wrote:
+>> Add FC LLDD loopback driver to test FC host and target transport within
+>> nvme-fabrics
+>>
+>> To aid in the development and testing of the lower-level api of the FC
+>> transport, this loopback driver has been created to act as if it were a
+>> FC hba driver supporting both the host interfaces as well as the target
+>> interfaces with the nvme FC transport.
+> A proper FC loop device should support SCSI and NVMe.  Any chance to
+> morph it into one that does both?
 
-I thought we did - so there was always an execution context for the 
-nvmet layer when a command is received. My understanding was the nvmet 
-layer processes the cmd synchronously. I avoided per cpu - as I assumed 
-the synchronous flows would end up blocking other connections to other 
-subsystems/controllers.
-
-If that's not the case - can you describe the nvmet layer better so I 
-understand what we need ?
-
-
->
-> No reference counting?
->
-
-yes - will make a pass at it.
+Nope. Not really appropriate for this module, whose goals were to test 
+the fc-nvme interfaces. SCSI is a whole different beast.
 
 -- james
