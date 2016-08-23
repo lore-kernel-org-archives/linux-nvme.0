@@ -1,27 +1,29 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 23 Aug 2016 10:41:57 -0400
-Subject: NVME PCI driver question
-In-Reply-To: <0aa9297eed8d4090a5e24c611e47d7c7@CWMAIL-AP-F14.dji.com>
-References: <0aa9297eed8d4090a5e24c611e47d7c7@CWMAIL-AP-F14.dji.com>
-Message-ID: <20160823144157.GF28276@localhost.localdomain>
+Date: Tue, 23 Aug 2016 10:46:53 -0400
+Subject: NVMe pci driver unable to create queues
+In-Reply-To: <20160823092641.hczs3ya7niztlwxl@c203.arch.suse.de>
+References: <20160823092641.hczs3ya7niztlwxl@c203.arch.suse.de>
+Message-ID: <20160823144652.GG28276@localhost.localdomain>
 
-On Tue, Aug 23, 2016@09:03:07AM +0000, First Light wrote:
-> Dear maintainers of NVME driver
-> I have a question about NVME driver.
-> In drivers/nvme/host/pci.c, function: nvme_dev_map calls pci_enable_msix, what if  a device just supports MSI but doesn't support MSIX? in such logic, if   pci_enable_msix failed,
+On Tue, Aug 23, 2016@11:26:41AM +0200, Johannes Thumshirn wrote:
+> Hi,
+> 
+> I have the follwing errors on a ARM 64 device:
+> 
+> $ dmesg  | grep nvme
+> [   14.490744] nvme nvme0: pci function 0005:90:00.0
+> [   15.913973] nvme 0005:90:00.0: Could not set queue count (6)
+> [   15.913986] nvme nvme0: IO queues not created
+> 
+> but cannot really debug why the driver isn't able to create it's IO
+> queues.
+> 
+> Has anybody seen a similar error? All I've found was
+> https://lkml.org/lkml/2016/4/26/1557 and that wasn't really helpfull.
 
-It sounds like you're not using the most recent version of the driver.
+The return code "6" means "internal device error" and indicates the
+device is in a bad state incapable of IO.
 
-The function you're referring sets up early initialisation and would
-use MSI-x if INTx was not available. This version of the driver would
-also poll for completions if INTx wasn't working.
-
-The nvme_setup_io_queues function would redo all the interrupt setup
-once the driver knew how many vectors it needed to allocate. This
-routine would fallback to MSI if MSI-x was not supported, so you should
-be fine.
-
-> I'm using synopsys pcie driver which doesn't support MSIX, but I also want to use it to connect a SSD, what should I do to make it work?
-
-I assume you mean synopsys pcie "drive" rather than driver. It should
-work just fine.
+The driver should have provided a character device handle at /dev/nvme0
+that you can issue admin commands to query and potentially fix the
+device. You may need to check with the device vendor for those steps.
