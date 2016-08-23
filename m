@@ -1,32 +1,27 @@
-From: roysh@mellanox.com (Roy Shterman)
-Date: Tue, 23 Aug 2016 13:05:06 +0300
-Subject: [PATCH] nvme-cli/fabrics: Added hostnqn parameter to connect command
-Message-ID: <1471946706-18036-1-git-send-email-roysh@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 23 Aug 2016 10:41:57 -0400
+Subject: NVME PCI driver question
+In-Reply-To: <0aa9297eed8d4090a5e24c611e47d7c7@CWMAIL-AP-F14.dji.com>
+References: <0aa9297eed8d4090a5e24c611e47d7c7@CWMAIL-AP-F14.dji.com>
+Message-ID: <20160823144157.GF28276@localhost.localdomain>
 
-Added user-defined 'hostnqn' to 'connect' command
-so users could use the allowed_hosts attribute on the target and still
-connect to target with nvme-cli tool.
+On Tue, Aug 23, 2016@09:03:07AM +0000, First Light wrote:
+> Dear maintainers of NVME driver
+> I have a question about NVME driver.
+> In drivers/nvme/host/pci.c, function: nvme_dev_map calls pci_enable_msix, what if  a device just supports MSI but doesn't support MSIX? in such logic, if   pci_enable_msix failed,
 
-usage examples:
-	nvme discover -t <TRANSPORT> -a <ADDRESS> -s <SERVICE_ID> -q <USER-DEFINED_HOSTNQN>
+It sounds like you're not using the most recent version of the driver.
 
-Signed-off-by: Roy Shterman <roysh at mellanox.com>
----
- fabrics.c |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+The function you're referring sets up early initialisation and would
+use MSI-x if INTx was not available. This version of the driver would
+also poll for completions if INTx wasn't working.
 
-diff --git a/fabrics.c b/fabrics.c
-index 26c4e22..942e987 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -711,6 +711,8 @@ int connect(const char *desc, int argc, char **argv)
- 			"transport address" },
- 		{"trsvcid", 's', "LIST", CFG_STRING, &cfg.trsvcid, required_argument,
- 			"transport service id (e.g. IP port)" },
-+		{"hostnqn", 'q', "LIST", CFG_STRING, &cfg.hostnqn, required_argument,
-+			"user-defined hostnqn" },
- 		{0},
- 	};
- 
--- 
-1.7.8.2
+The nvme_setup_io_queues function would redo all the interrupt setup
+once the driver knew how many vectors it needed to allocate. This
+routine would fallback to MSI if MSI-x was not supported, so you should
+be fine.
+
+> I'm using synopsys pcie driver which doesn't support MSIX, but I also want to use it to connect a SSD, what should I do to make it work?
+
+I assume you mean synopsys pcie "drive" rather than driver. It should
+work just fine.
