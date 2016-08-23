@@ -1,42 +1,45 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 23 Aug 2016 18:49:45 -0400
-Subject: Oops when completing request on the wrong queue
-In-Reply-To: <164a4c63-065b-b766-36f3-bcef4aa46a38@kernel.dk>
-References: <87a8gltgks.fsf@linux.vnet.ibm.com>
- <871t1kq455.fsf@linux.vnet.ibm.com>
- <bb6f8757-4c3d-8f49-8aff-aa0fdb8bae89@kernel.dk>
- <8fc9ae38-9488-ef52-f620-08499edebffa@kernel.dk>
- <87shu0hfye.fsf@linux.vnet.ibm.com>
- <87a8g39pg4.fsf@linux.vnet.ibm.com>
- <43693064-dd37-92ce-7753-2a8edb43eab5@kernel.dk>
- <164a4c63-065b-b766-36f3-bcef4aa46a38@kernel.dk>
-Message-ID: <20160823224945.GB11049@localhost.localdomain>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Tue, 23 Aug 2016 16:42:04 -0700
+Subject: [PATCH] nvme-cli/fabrics: Added hostnqn parameter to connect
+ command
+In-Reply-To: <1471946706-18036-1-git-send-email-roysh@mellanox.com>
+References: <1471946706-18036-1-git-send-email-roysh@mellanox.com>
+Message-ID: <1471995724.23443.32.camel@linux.intel.com>
 
-On Tue, Aug 23, 2016@03:14:23PM -0600, Jens Axboe wrote:
-> On 08/23/2016 03:11 PM, Jens Axboe wrote:
-> >My workload looks similar to yours, in that it's high depth and with a
-> >lot of jobs to keep most CPUs loaded. My bash script is different than
-> >yours, I'll try that and see if it helps here.
+On Tue, 2016-08-23@13:05 +0300, Roy Shterman wrote:
+> Added user-defined 'hostnqn' to 'connect' command
+> so users could use the allowed_hosts attribute on the target and
+> still
+> connect to target with nvme-cli tool.
 > 
-> Actually, I take that back. You're not using O_DIRECT, hence all your
-> jobs are running at QD=1, not the 256 specified. That looks odd, but
-> I'll try, maybe it'll hit something different.
+> usage examples:
+> 	nvme discover -t <TRANSPORT> -a <ADDRESS> -s <SERVICE_ID> -q
+> <USER-DEFINED_HOSTNQN>
 
-I haven't recreated this either, but I think I can logically see why
-this failure is happening.
+I believe the example needs to be changed from 'discover' to 'connect'
+;-)
 
-I sent an nvme driver patch earlier on this thread to exit the hardware
-context, which I thought would do the trick if the hctx's tags were
-being moved. That turns out to be wrong for a couple reasons.
+Jay
 
-First, we can't release the nvmeq->tags when a hctx exits because
-that nvmeq may be used by other namespaces that need to point to
-the device's tag set.
-
-The other reason is that blk-mq doesn't exit or init hardware contexts
-when remapping for a CPU event, leaving the nvme driver unaware a hardware
-context points to a different tag set.
-
-So I think I see why this test would fail; don't know about a fix yet.
-Maybe the nvme driver needs some indirection instead of pointing
-directly to the tagset after init_hctx.
+> 
+> Signed-off-by: Roy Shterman <roysh at mellanox.com>
+> ---
+> ?fabrics.c |????2 ++
+> ?1 files changed, 2 insertions(+), 0 deletions(-)
+> 
+> diff --git a/fabrics.c b/fabrics.c
+> index 26c4e22..942e987 100644
+> --- a/fabrics.c
+> +++ b/fabrics.c
+> @@ -711,6 +711,8 @@ int connect(const char *desc, int argc, char
+> **argv)
+> ?			"transport address" },
+> ?		{"trsvcid", 's', "LIST", CFG_STRING, &cfg.trsvcid,
+> required_argument,
+> ?			"transport service id (e.g. IP port)" },
+> +		{"hostnqn", 'q', "LIST", CFG_STRING, &cfg.hostnqn,
+> required_argument,
+> +			"user-defined hostnqn" },
+> ?		{0},
+> ?	};
+> ?
