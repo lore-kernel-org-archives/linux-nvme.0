@@ -1,25 +1,36 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Wed, 24 Aug 2016 08:11:27 -0600
-Subject: [PATCH] nvme: Fix nvme_get/set_features() with a NULL result
- pointer
-In-Reply-To: <f0eca21161c9ec5f81e9591741463ec3883cb931.1472035881.git.luto@kernel.org>
-References: <f0eca21161c9ec5f81e9591741463ec3883cb931.1472035881.git.luto@kernel.org>
-Message-ID: <9f297b01-8f01-3d09-1de9-8be0d5ff007c@fb.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 24 Aug 2016 10:40:30 -0400
+Subject: Linux AER reporting
+In-Reply-To: <57BDA906.4050207@linux.vnet.ibm.com>
+References: <CAG3=cOncMTcyALa=-i1jeA-z4pe22D9CrJ=Rxr2E8HWBsEMOPg@mail.gmail.com>
+ <57BB4019.7050008@linux.vnet.ibm.com>
+ <CAG3=cOn_pMZ5DMtB3K2tDGUL1x3vkn=Vjw9c8X8+ONh8xef+mw@mail.gmail.com>
+ <57BDA906.4050207@linux.vnet.ibm.com>
+Message-ID: <20160824144029.GA13258@localhost.localdomain>
 
-On 08/24/2016 04:52 AM, Andy Lutomirski wrote:
-> nvme_set_features() callers seem to expect that passing NULL as the
-> result pointer is acceptable.  Teach nvme_set_features() not to try to
-> write to the NULL address.
->
-> For symmetry, make the same change to nvme_get_features(), despite the
-> fact that all current callers pass a valid result pointer.
->
-> I assume that this bug hasn't been reported in practice because
-> the callers that pass NULL are all in the SCSI translation layer
-> and no one uses the relevant operations.
+On Wed, Aug 24, 2016@11:02:46AM -0300, Guilherme G. Piccoli wrote:
+> On 08/23/2016 08:56 PM, Nisha Miller wrote:
+> >Hi Keith and Guilherme,
+> >
+> >thank you for your replies.
+> >
+> >Kernel 4.4.19 does not seem to have nvme driver with support for AER.
+> >It is present in Kernel 4.7 but getting it to work on Centos 7.2 is
+> >turning out to be quite a task. Arch Linux has kernel 4.7 so I will
+> >give that a shot.
+> >
+> >I should have mentioned that we get the CSTS = 0xFFFFFFFF only after
+> >millions of writes. When using fio, it runs for over 30 minutes before
+> >the problem crops up.
+> 
+> Hi Nisha, unfortunately the idea of the quirk I mentioned seems useless
+> here, since you're getting the error after multiple writes. Hope Keith can
+> provide more ideas for you!
 
-Thanks, applied for 4.8.
+An all 1's completion indicates the link is down. There should never be
+a case where a functioning drive actually returns that from a read to
+the CSTS register.
 
-
--- 
-Jens Axboe
+I'm not sure if PCIe AER has anything do with this, though. Are you
+injecting these sorts of errors? If you're just doing normal IO testing,
+AER may not apply here.
