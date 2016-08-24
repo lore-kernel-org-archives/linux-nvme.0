@@ -1,102 +1,100 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 24 Aug 2016 14:20:41 +0300
-Subject: nvmf host shutdown hangs when nvmf controllers are in
- recovery/reconnect
-In-Reply-To: <b93e8bc6-1fd1-3191-d811-1503cc2e4499@grimberg.me>
-References: <00de01d1fd4d$10e44700$32acd500$@opengridcomputing.com>
- <b93e8bc6-1fd1-3191-d811-1503cc2e4499@grimberg.me>
-Message-ID: <a004bd27-6efd-98aa-6430-da7aeafd46b0@grimberg.me>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Wed, 24 Aug 2016 11:02:46 -0300
+Subject: Linux AER reporting
+In-Reply-To: <CAG3=cOn_pMZ5DMtB3K2tDGUL1x3vkn=Vjw9c8X8+ONh8xef+mw@mail.gmail.com>
+References: <CAG3=cOncMTcyALa=-i1jeA-z4pe22D9CrJ=Rxr2E8HWBsEMOPg@mail.gmail.com>
+ <57BB4019.7050008@linux.vnet.ibm.com>
+ <CAG3=cOn_pMZ5DMtB3K2tDGUL1x3vkn=Vjw9c8X8+ONh8xef+mw@mail.gmail.com>
+Message-ID: <57BDA906.4050207@linux.vnet.ibm.com>
 
-
-> Hey Steve,
+On 08/23/2016 08:56 PM, Nisha Miller wrote:
+> Hi Keith and Guilherme,
 >
-> For some reason I can't reproduce this on my setup...
+> thank you for your replies.
 >
-> So I'm wandering where is nvme_rdma_del_ctrl() thread stuck?
-> Probably a dump of all the kworkers would be helpful here:
+> Kernel 4.4.19 does not seem to have nvme driver with support for AER.
+> It is present in Kernel 4.7 but getting it to work on Centos 7.2 is
+> turning out to be quite a task. Arch Linux has kernel 4.7 so I will
+> give that a shot.
 >
-> $ pids=`ps -ef | grep kworker | grep -v grep | awk {'print $2'}`
-> $ for p in $pids; do echo "$p:" ;cat /proc/$p/stack; done
+> I should have mentioned that we get the CSTS = 0xFFFFFFFF only after
+> millions of writes. When using fio, it runs for over 30 minutes before
+> the problem crops up.
+
+Hi Nisha, unfortunately the idea of the quirk I mentioned seems useless 
+here, since you're getting the error after multiple writes. Hope Keith 
+can provide more ideas for you!
+
+By the way, do you have some logs to share? It'd help to figure out the 
+situation I guess.
+
+Thanks,
+
+
+Guilherme
+
+
 >
-> The fact that nvme1 keeps reconnecting forever, means that
-> del_ctrl() never changes the controller state. Is there an
-> nvme0 on the system that is also being removed and you don't
-> see the reconnecting thread keeps on going?
+> BTW, I subscribed to linux-nvme list but never got a confirmation
+> email. I don't get email from the list, but I'm able to post to it.
 >
-> My expectation would be that del_ctrl() would move the ctrl state
-> to DELETING and reconnect thread would bail-out, then the delete_work
-> should fire and delete the controller. Obviously something is not
-> happening like it should.
-
-I think I suspect what is going on...
-
-When we get a surprise disconnect from the target we queue
-a periodic reconnect (which is the sane thing to do...).
-
-We only move the queues out of CONNECTED when we retry
-to reconnect (after 10 seconds in the default case) but we stop
-the blk queues immediately so we are not bothered with traffic from
-now on. If delete() is kicking off in this period the queues are still
-in CONNECTED state.
-
-Part of the delete sequence is trying to issue ctrl shutdown if the
-admin queue is CONNECTED (which it is!). This request is issued but
-stuck in blk-mq waiting for the queues to start again. This might
-be the one preventing us from forward progress...
-
-Steve, care to check if the below patch makes things better?
-
-The patch tries to separate the queue flags to CONNECTED and
-DELETING. Now we will move out of CONNECTED as soon as error recovery
-kicks in (before stopping the queues) and DELETING is on when
-we start the queue deletion.
-
---
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 23297c5f85ed..75b49c29b890 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -86,6 +86,7 @@ struct nvme_rdma_request {
-
-  enum nvme_rdma_queue_flags {
-         NVME_RDMA_Q_CONNECTED = (1 << 0),
-+       NVME_RDMA_Q_DELETING  = (1 << 1),
-  };
-
-  struct nvme_rdma_queue {
-@@ -612,7 +613,7 @@ static void nvme_rdma_free_queue(struct 
-nvme_rdma_queue *queue)
-
-  static void nvme_rdma_stop_and_free_queue(struct nvme_rdma_queue *queue)
-  {
--       if (!test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags))
-+       if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
-                 return;
-         nvme_rdma_stop_queue(queue);
-         nvme_rdma_free_queue(queue);
-@@ -764,8 +765,13 @@ static void nvme_rdma_error_recovery_work(struct 
-work_struct *work)
-  {
-         struct nvme_rdma_ctrl *ctrl = container_of(work,
-                         struct nvme_rdma_ctrl, err_work);
-+       int i;
-
-         nvme_stop_keep_alive(&ctrl->ctrl);
-+
-+       for (i = 0; i < ctrl->queue_count; i++)
-+               clear_bit(NVME_RDMA_Q_CONNECTED, &ctrl->queues[i].flags);
-+
-         if (ctrl->queue_count > 1)
-                 nvme_stop_queues(&ctrl->ctrl);
-         blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
-@@ -1331,7 +1337,7 @@ static int nvme_rdma_device_unplug(struct 
-nvme_rdma_queue *queue)
-         cancel_delayed_work_sync(&ctrl->reconnect_work);
-
-         /* Disable the queue so ctrl delete won't free it */
--       if (test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags)) {
-+       if (!test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags)) {
-                 /* Free this queue ourselves */
-                 nvme_rdma_stop_queue(queue);
-                 nvme_rdma_destroy_queue_ib(queue);
---
+> cheers
+> Nisha
+>
+> On Mon, Aug 22, 2016 at 11:10 AM, Guilherme G. Piccoli
+> <gpiccoli@linux.vnet.ibm.com> wrote:
+>> On 08/22/2016 12:52 PM, Nisha Miller wrote:
+>>>
+>>> Hi all,
+>>>
+>>> We have a PCIE SSD controller using NVME. This controller works on
+>>> Windows and Linux. However, we are seeing a problem under Linux.
+>>>
+>>> In the nvme Linux driver in function nvme_kthread() the CSTS register
+>>> is read once a second to check for controller status failure. In our
+>>> case we see that occasionally this register is read as 0xFFFFFFFF.
+>>> Whenever this happens, the kernel just hangs. This seems to be PCIe
+>>> read error and we are trying to gather further information. How does
+>>> one use Linux AER with the nvme driver?
+>>
+>>
+>> Nisha, we once saw 0xFFFF on CSTS register after issuing a reset_controller,
+>> for example. The reason it was that device shutdown was replaced by device
+>> disable when resetting the controller, following the NVMe spec, but the
+>> device we were testing that time didn't cope well with this change.
+>>
+>> For that, we implemented a quirk to wait a little on reading this register
+>> in some occasions. The commit info is:
+>>
+>>
+>> 54adc01055 ("nvme/quirk: Add a delay before checking for adapter readiness")
+>>
+>> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/?id=54adc01055b75ec8769c5a36574c7a0895c0c0b2
+>>
+>>
+>> I'm really not sure if it's related, but I guess worth a try.
+>> Cheers,
+>>
+>>
+>> Guilherme
+>>
+>>
+>>>
+>>> We are using Centos 7.2 with Kernel 3.19.8. PCIe AER has been enabled
+>>> in the kernel and aerdriver.forceload=y is set in the command line.
+>>>
+>>> TIA
+>>> Nisha Miller
+>>>
+>>> _______________________________________________
+>>> Linux-nvme mailing list
+>>> Linux-nvme at lists.infradead.org
+>>> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>>>
+>>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
