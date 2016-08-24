@@ -1,65 +1,167 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 24 Aug 2016 15:34:26 -0500
-Subject: nvmf host shutdown hangs when nvmf controllers are in
- recovery/reconnect
-In-Reply-To: <021d01d1fe45$af92ff60$0eb8fe20$@opengridcomputing.com>
-References: <00de01d1fd4d$10e44700$32acd500$@opengridcomputing.com>
- <b93e8bc6-1fd1-3191-d811-1503cc2e4499@grimberg.me>
- <a004bd27-6efd-98aa-6430-da7aeafd46b0@grimberg.me>
- <021d01d1fe45$af92ff60$0eb8fe20$@opengridcomputing.com>
-Message-ID: <022101d1fe46$e84a14f0$b8de3ed0$@opengridcomputing.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 24 Aug 2016 14:36:38 -0600
+Subject: Oops when completing request on the wrong queue
+In-Reply-To: <49a954e6-2f96-8a63-ce15-2c82c1a1d36d@kernel.dk>
+References: <87a8gltgks.fsf@linux.vnet.ibm.com>
+ <871t1kq455.fsf@linux.vnet.ibm.com>
+ <bb6f8757-4c3d-8f49-8aff-aa0fdb8bae89@kernel.dk>
+ <8fc9ae38-9488-ef52-f620-08499edebffa@kernel.dk>
+ <87shu0hfye.fsf@linux.vnet.ibm.com> <87a8g39pg4.fsf@linux.vnet.ibm.com>
+ <43693064-dd37-92ce-7753-2a8edb43eab5@kernel.dk>
+ <164a4c63-065b-b766-36f3-bcef4aa46a38@kernel.dk>
+ <49a954e6-2f96-8a63-ce15-2c82c1a1d36d@kernel.dk>
+Message-ID: <dbe42007-8109-2e21-d0f3-0778007cd152@kernel.dk>
 
-> > > Hey Steve,
-> > >
-> > > For some reason I can't reproduce this on my setup...
-> > >
-> > > So I'm wandering where is nvme_rdma_del_ctrl() thread stuck?
-> > > Probably a dump of all the kworkers would be helpful here:
-> > >
-> > > $ pids=`ps -ef | grep kworker | grep -v grep | awk {'print $2'}`
-> > > $ for p in $pids; do echo "$p:" ;cat /proc/$p/stack; done
-> > >
-> 
-> I can't do this because the system is crippled due to shutting down.  I
-> get the feeling though that the del_ctrl thread isn't getting scheduled.
-> Note that the difference between 'reboot' and 'reboot -f' is that without
-> the -f, iw_cxgb4 isn't unloaded before we get stuck.  So there has to be
-> some part of 'reboot' that deletes the controllers for it to work.  But I
-> still don't know what is stalling the reboot anyway.  Some I/O pending I
-> guess?
+On 08/24/2016 12:34 PM, Jens Axboe wrote:
+> On 08/23/2016 03:14 PM, Jens Axboe wrote:
+>> On 08/23/2016 03:11 PM, Jens Axboe wrote:
+>>> On 08/23/2016 02:54 PM, Gabriel Krisman Bertazi wrote:
+>>>> Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com> writes:
+>>>>
+>>>>>> Can you share what you ran to online/offline CPUs? I can't reproduce
+>>>>>> this here.
+>>>>>
+>>>>> I was using the ppc64_cpu tool, which shouldn't do nothing more than
+>>>>> write to sysfs.  but I just reproduced it with the script below.
+>>>>>
+>>>>> Note that this is ppc64le.  I don't have a x86 in hand to attempt to
+>>>>> reproduce right now, but I'll look for one and see how it goes.
+>>>>
+>>>> Hi,
+>>>>
+>>>> Any luck on reproducing it?  We were initially reproducing with a
+>>>> proprietary stress test, but I gave a try to a generated fio jobfile
+>>>> associated with the SMT script I shared earlier and I could reproduce
+>>>> the crash consistently in less than 10 minutes of execution.  this was
+>>>> still ppc64le, though.  I couldn't get my hands on nvme on x86 yet.
+>>>
+>>> Nope, I have not been able to reproduce it. How long does the CPU
+>>> offline/online actions take on ppc64? It's pretty slow on x86, which may
+>>> hide the issue. I took out the various printk's associated with bringing
+>>> a CPU off/online, as well as IRQ breaking parts, but didn't help in
+>>> reproducing it.
+>>>
+>>>> The job file I used, as well as the smt.sh script, in case you want to
+>>>> give it a try:
+>>>>
+>>>> jobfile: http://krisman.be/k/nvmejob.fio
+>>>> smt.sh:  http://krisman.be/k/smt.sh
+>>>>
+>>>> Still, the trigger seems to be consistently a heavy load of IO
+>>>> associated with CPU addition/removal.
+>>>
+>>> My workload looks similar to yours, in that it's high depth and with a
+>>> lot of jobs to keep most CPUs loaded. My bash script is different than
+>>> yours, I'll try that and see if it helps here.
+>>
+>> Actually, I take that back. You're not using O_DIRECT, hence all your
+>> jobs are running at QD=1, not the 256 specified. That looks odd, but
+>> I'll try, maybe it'll hit something different.
+>
+> Can you try this patch? It's not perfect, but I'll be interested if it
+> makes a difference for you.
 
-According to the hung task detector, this is the only thread stuck:
+This one should handle the WARN_ON() for running the hw queue on the
+wrong CPU as well.
 
-[  861.638248] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this
-message.
-[  861.647826] vgs             D ffff880ff6e5b8e8     0  4849   4848 0x10000080
-[  861.656702]  ffff880ff6e5b8e8 ffff8810381a15c0 ffff88103343ab80
-ffff8810283a6f10
-[  861.665829]  00000001e0941240 ffff880ff6e5b8b8 ffff880ff6e58008
-ffff88103f059300
-[  861.674882]  7fffffffffffffff 0000000000000000 0000000000000000
-ffff880ff6e5b938
-[  861.683819] Call Trace:
-[  861.687677]  [<ffffffff816ddde0>] schedule+0x40/0xb0
-[  861.694078]  [<ffffffff816e0a8d>] schedule_timeout+0x2ad/0x410
-[  861.701279]  [<ffffffff8132d6d2>] ? blk_flush_plug_list+0x132/0x2e0
-[  861.708924]  [<ffffffff810fe67c>] ? ktime_get+0x4c/0xc0
-[  861.715452]  [<ffffffff8132c92c>] ? generic_make_request+0xfc/0x1d0
-[  861.723060]  [<ffffffff816dd6c4>] io_schedule_timeout+0xa4/0x110
-[  861.730319]  [<ffffffff81269cb9>] dio_await_one+0x99/0xe0
-[  861.736951]  [<ffffffff8126d359>] do_blockdev_direct_IO+0x919/0xc00
-[  861.744402]  [<ffffffff81267350>] ? I_BDEV+0x20/0x20
-[  861.750569]  [<ffffffff81267350>] ? I_BDEV+0x20/0x20
-[  861.756677]  [<ffffffff8115527b>] ? rb_reserve_next_event+0xdb/0x230
-[  861.764155]  [<ffffffff811547ba>] ? rb_commit+0x10a/0x1a0
-[  861.770642]  [<ffffffff8126d67a>] __blockdev_direct_IO+0x3a/0x40
-[  861.777729]  [<ffffffff81267b83>] blkdev_direct_IO+0x43/0x50
-[  861.784439]  [<ffffffff81199ef7>] generic_file_read_iter+0xf7/0x110
-[  861.791727]  [<ffffffff81267657>] blkdev_read_iter+0x37/0x40
-[  861.798404]  [<ffffffff8122b15c>] __vfs_read+0xfc/0x120
-[  861.804624]  [<ffffffff8122b22e>] vfs_read+0xae/0xf0
-[  861.810544]  [<ffffffff81249633>] ? __fdget+0x13/0x20
-[  861.816539]  [<ffffffff8122bd36>] SyS_read+0x56/0xc0
-[  861.822437]  [<ffffffff81003e7d>] do_syscall_64+0x7d/0x230
-[  861.828863]  [<ffffffff8106f057>] ? do_page_fault+0x37/0x90
-[  861.835313]  [<ffffffff816e1921>] entry_SYSCALL64_slow_path+0x25/0x25
+
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 758a9b5..b21a9b9 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -810,11 +810,12 @@ static void __blk_mq_run_hw_queue(struct 
+blk_mq_hw_ctx *hctx)
+  	struct list_head *dptr;
+  	int queued;
+
+-	WARN_ON(!cpumask_test_cpu(raw_smp_processor_id(), hctx->cpumask));
+-
+  	if (unlikely(test_bit(BLK_MQ_S_STOPPED, &hctx->state)))
+  		return;
+
++	WARN_ON(!cpumask_test_cpu(raw_smp_processor_id(), hctx->cpumask) &&
++		cpu_online(hctx->next_cpu));
++
+  	hctx->run++;
+
+  	/*
+@@ -1075,15 +1082,11 @@ static void __blk_mq_insert_request(struct 
+blk_mq_hw_ctx *hctx,
+  }
+
+  void blk_mq_insert_request(struct request *rq, bool at_head, bool 
+run_queue,
+-		bool async)
++			   bool async)
+  {
++	struct blk_mq_ctx *ctx = rq->mq_ctx;
+  	struct request_queue *q = rq->q;
+  	struct blk_mq_hw_ctx *hctx;
+-	struct blk_mq_ctx *ctx = rq->mq_ctx, *current_ctx;
+-
+-	current_ctx = blk_mq_get_ctx(q);
+-	if (!cpu_online(ctx->cpu))
+-		rq->mq_ctx = ctx = current_ctx;
+
+  	hctx = q->mq_ops->map_queue(q, ctx->cpu);
+
+@@ -1093,8 +1096,6 @@ void blk_mq_insert_request(struct request *rq, 
+bool at_head, bool run_queue,
+
+  	if (run_queue)
+  		blk_mq_run_hw_queue(hctx, async);
+-
+-	blk_mq_put_ctx(current_ctx);
+  }
+
+  static void blk_mq_insert_requests(struct request_queue *q,
+@@ -1105,14 +1106,9 @@ static void blk_mq_insert_requests(struct 
+request_queue *q,
+
+  {
+  	struct blk_mq_hw_ctx *hctx;
+-	struct blk_mq_ctx *current_ctx;
+
+  	trace_block_unplug(q, depth, !from_schedule);
+
+-	current_ctx = blk_mq_get_ctx(q);
+-
+-	if (!cpu_online(ctx->cpu))
+-		ctx = current_ctx;
+  	hctx = q->mq_ops->map_queue(q, ctx->cpu);
+
+  	/*
+@@ -1125,14 +1121,12 @@ static void blk_mq_insert_requests(struct 
+request_queue *q,
+
+  		rq = list_first_entry(list, struct request, queuelist);
+  		list_del_init(&rq->queuelist);
+-		rq->mq_ctx = ctx;
+  		__blk_mq_insert_req_list(hctx, ctx, rq, false);
+  	}
+  	blk_mq_hctx_mark_pending(hctx, ctx);
+  	spin_unlock(&ctx->lock);
+
+  	blk_mq_run_hw_queue(hctx, from_schedule);
+-	blk_mq_put_ctx(current_ctx);
+  }
+
+  static int plug_ctx_cmp(void *priv, struct list_head *a, struct 
+list_head *b)
+@@ -1692,6 +1686,11 @@ static int blk_mq_hctx_cpu_offline(struct 
+blk_mq_hw_ctx *hctx, int cpu)
+  	while (!list_empty(&tmp)) {
+  		struct request *rq;
+
++		/*
++		 * FIXME: we can't just move the req here. We'd have to
++		 * pull off the bio chain and add it to a new request
++		 * on the target hw queue
++		 */
+  		rq = list_first_entry(&tmp, struct request, queuelist);
+  		rq->mq_ctx = ctx;
+  		list_move_tail(&rq->queuelist, &ctx->rq_list);
+
+
+-- 
+Jens Axboe
