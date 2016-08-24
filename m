@@ -1,159 +1,126 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 24 Aug 2016 12:34:42 -0600
-Subject: Oops when completing request on the wrong queue
-In-Reply-To: <164a4c63-065b-b766-36f3-bcef4aa46a38@kernel.dk>
-References: <87a8gltgks.fsf@linux.vnet.ibm.com>
- <871t1kq455.fsf@linux.vnet.ibm.com>
- <bb6f8757-4c3d-8f49-8aff-aa0fdb8bae89@kernel.dk>
- <8fc9ae38-9488-ef52-f620-08499edebffa@kernel.dk>
- <87shu0hfye.fsf@linux.vnet.ibm.com> <87a8g39pg4.fsf@linux.vnet.ibm.com>
- <43693064-dd37-92ce-7753-2a8edb43eab5@kernel.dk>
- <164a4c63-065b-b766-36f3-bcef4aa46a38@kernel.dk>
-Message-ID: <49a954e6-2f96-8a63-ce15-2c82c1a1d36d@kernel.dk>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 24 Aug 2016 15:25:42 -0500
+Subject: nvmf host shutdown hangs when nvmf controllers are in
+ recovery/reconnect
+In-Reply-To: <a004bd27-6efd-98aa-6430-da7aeafd46b0@grimberg.me>
+References: <00de01d1fd4d$10e44700$32acd500$@opengridcomputing.com>
+ <b93e8bc6-1fd1-3191-d811-1503cc2e4499@grimberg.me>
+ <a004bd27-6efd-98aa-6430-da7aeafd46b0@grimberg.me>
+Message-ID: <021c01d1fe45$af8b5e40$0ea21ac0$@opengridcomputing.com>
 
-On 08/23/2016 03:14 PM, Jens Axboe wrote:
-> On 08/23/2016 03:11 PM, Jens Axboe wrote:
->> On 08/23/2016 02:54 PM, Gabriel Krisman Bertazi wrote:
->>> Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com> writes:
->>>
->>>>> Can you share what you ran to online/offline CPUs? I can't reproduce
->>>>> this here.
->>>>
->>>> I was using the ppc64_cpu tool, which shouldn't do nothing more than
->>>> write to sysfs.  but I just reproduced it with the script below.
->>>>
->>>> Note that this is ppc64le.  I don't have a x86 in hand to attempt to
->>>> reproduce right now, but I'll look for one and see how it goes.
->>>
->>> Hi,
->>>
->>> Any luck on reproducing it?  We were initially reproducing with a
->>> proprietary stress test, but I gave a try to a generated fio jobfile
->>> associated with the SMT script I shared earlier and I could reproduce
->>> the crash consistently in less than 10 minutes of execution.  this was
->>> still ppc64le, though.  I couldn't get my hands on nvme on x86 yet.
->>
->> Nope, I have not been able to reproduce it. How long does the CPU
->> offline/online actions take on ppc64? It's pretty slow on x86, which may
->> hide the issue. I took out the various printk's associated with bringing
->> a CPU off/online, as well as IRQ breaking parts, but didn't help in
->> reproducing it.
->>
->>> The job file I used, as well as the smt.sh script, in case you want to
->>> give it a try:
->>>
->>> jobfile: http://krisman.be/k/nvmejob.fio
->>> smt.sh:  http://krisman.be/k/smt.sh
->>>
->>> Still, the trigger seems to be consistently a heavy load of IO
->>> associated with CPU addition/removal.
->>
->> My workload looks similar to yours, in that it's high depth and with a
->> lot of jobs to keep most CPUs loaded. My bash script is different than
->> yours, I'll try that and see if it helps here.
+> > Hey Steve,
+> >
+> > For some reason I can't reproduce this on my setup...
+> >
+> > So I'm wandering where is nvme_rdma_del_ctrl() thread stuck?
+> > Probably a dump of all the kworkers would be helpful here:
+> >
+> > $ pids=`ps -ef | grep kworker | grep -v grep | awk {'print $2'}`
+> > $ for p in $pids; do echo "$p:" ;cat /proc/$p/stack; done
+> >
+
+I can't do this because the system is crippled due to shutting down.  I get the
+feeling though that the del_ctrl thread isn't getting scheduled. Note that the
+difference between 'reboot' and 'reboot -f' is that without the -f, iw_cxgb4
+isn't unloaded before we get stuck.  So there has to be some part of 'reboot'
+that deletes the controllers for it to work.  But I still don't know what is
+stalling the reboot anyway.  Some I/O pending I guess?
+
+> > The fact that nvme1 keeps reconnecting forever, means that
+> > del_ctrl() never changes the controller state. Is there an
+> > nvme0 on the system that is also being removed and you don't
+> > see the reconnecting thread keeps on going?
+> >
+
+nvme0 is a local nvme device on my setup.
+
+> > My expectation would be that del_ctrl() would move the ctrl state
+> > to DELETING and reconnect thread would bail-out, then the delete_work
+> > should fire and delete the controller. Obviously something is not
+> > happening like it should.
+> 
+> I think I suspect what is going on...
+> 
+> When we get a surprise disconnect from the target we queue
+> a periodic reconnect (which is the sane thing to do...).
+> 
+
+Or a kato timeout.
+
+> We only move the queues out of CONNECTED when we retry
+> to reconnect (after 10 seconds in the default case) but we stop
+> the blk queues immediately so we are not bothered with traffic from
+> now on. If delete() is kicking off in this period the queues are still
+> in CONNECTED state.
+> 
+> Part of the delete sequence is trying to issue ctrl shutdown if the
+> admin queue is CONNECTED (which it is!). This request is issued but
+> stuck in blk-mq waiting for the queues to start again. This might
+> be the one preventing us from forward progress...
+> 
+> Steve, care to check if the below patch makes things better?
 >
-> Actually, I take that back. You're not using O_DIRECT, hence all your
-> jobs are running at QD=1, not the 256 specified. That looks odd, but
-> I'll try, maybe it'll hit something different.
 
-Can you try this patch? It's not perfect, but I'll be interested if it
-makes a difference for you.
-
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 758a9b5..41def54 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -810,11 +810,11 @@ static void __blk_mq_run_hw_queue(struct 
-blk_mq_hw_ctx *hctx)
-  	struct list_head *dptr;
-  	int queued;
-
--	WARN_ON(!cpumask_test_cpu(raw_smp_processor_id(), hctx->cpumask));
--
-  	if (unlikely(test_bit(BLK_MQ_S_STOPPED, &hctx->state)))
-  		return;
-
-+	WARN_ON(!cpumask_test_cpu(raw_smp_processor_id(), hctx->cpumask));
-+
-  	hctx->run++;
-
-  	/*
-@@ -1075,15 +1075,11 @@ static void __blk_mq_insert_request(struct 
-blk_mq_hw_ctx *hctx,
-  }
-
-  void blk_mq_insert_request(struct request *rq, bool at_head, bool 
-run_queue,
--		bool async)
-+			   bool async)
-  {
-+	struct blk_mq_ctx *ctx = rq->mq_ctx;
-  	struct request_queue *q = rq->q;
-  	struct blk_mq_hw_ctx *hctx;
--	struct blk_mq_ctx *ctx = rq->mq_ctx, *current_ctx;
--
--	current_ctx = blk_mq_get_ctx(q);
--	if (!cpu_online(ctx->cpu))
--		rq->mq_ctx = ctx = current_ctx;
-
-  	hctx = q->mq_ops->map_queue(q, ctx->cpu);
-
-@@ -1093,8 +1089,6 @@ void blk_mq_insert_request(struct request *rq, 
-bool at_head, bool run_queue,
-
-  	if (run_queue)
-  		blk_mq_run_hw_queue(hctx, async);
--
--	blk_mq_put_ctx(current_ctx);
-  }
-
-  static void blk_mq_insert_requests(struct request_queue *q,
-@@ -1105,14 +1099,9 @@ static void blk_mq_insert_requests(struct 
-request_queue *q,
-
-  {
-  	struct blk_mq_hw_ctx *hctx;
--	struct blk_mq_ctx *current_ctx;
-
-  	trace_block_unplug(q, depth, !from_schedule);
-
--	current_ctx = blk_mq_get_ctx(q);
--
--	if (!cpu_online(ctx->cpu))
--		ctx = current_ctx;
-  	hctx = q->mq_ops->map_queue(q, ctx->cpu);
-
-  	/*
-@@ -1125,14 +1114,12 @@ static void blk_mq_insert_requests(struct 
-request_queue *q,
-
-  		rq = list_first_entry(list, struct request, queuelist);
-  		list_del_init(&rq->queuelist);
--		rq->mq_ctx = ctx;
-  		__blk_mq_insert_req_list(hctx, ctx, rq, false);
-  	}
-  	blk_mq_hctx_mark_pending(hctx, ctx);
-  	spin_unlock(&ctx->lock);
-
-  	blk_mq_run_hw_queue(hctx, from_schedule);
--	blk_mq_put_ctx(current_ctx);
-  }
-
-  static int plug_ctx_cmp(void *priv, struct list_head *a, struct 
-list_head *b)
-@@ -1692,6 +1679,11 @@ static int blk_mq_hctx_cpu_offline(struct 
-blk_mq_hw_ctx *hctx, int cpu)
-  	while (!list_empty(&tmp)) {
-  		struct request *rq;
-
-+		/*
-+		 * FIXME: we can't just move the req here. We'd have to
-+		 * pull off the bio chain and add it to a new request
-+		 * on the target hw queue
-+		 */
-  		rq = list_first_entry(&tmp, struct request, queuelist);
-  		rq->mq_ctx = ctx;
-  		list_move_tail(&rq->queuelist, &ctx->rq_list);
-
--- 
-Jens Axboe
+This doesn't help.  I'm debugging to get more details.  But can you answer this:
+What code initiates the ctrl deletes for the active devices as part of a
+'reboot'?  
+ 
+> The patch tries to separate the queue flags to CONNECTED and
+> DELETING. Now we will move out of CONNECTED as soon as error recovery
+> kicks in (before stopping the queues) and DELETING is on when
+> we start the queue deletion.
+> 
+> --
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 23297c5f85ed..75b49c29b890 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -86,6 +86,7 @@ struct nvme_rdma_request {
+> 
+>   enum nvme_rdma_queue_flags {
+>          NVME_RDMA_Q_CONNECTED = (1 << 0),
+> +       NVME_RDMA_Q_DELETING  = (1 << 1),
+>   };
+> 
+>   struct nvme_rdma_queue {
+> @@ -612,7 +613,7 @@ static void nvme_rdma_free_queue(struct
+> nvme_rdma_queue *queue)
+> 
+>   static void nvme_rdma_stop_and_free_queue(struct nvme_rdma_queue *queue)
+>   {
+> -       if (!test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags))
+> +       if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
+>                  return;
+>          nvme_rdma_stop_queue(queue);
+>          nvme_rdma_free_queue(queue);
+> @@ -764,8 +765,13 @@ static void nvme_rdma_error_recovery_work(struct
+> work_struct *work)
+>   {
+>          struct nvme_rdma_ctrl *ctrl = container_of(work,
+>                          struct nvme_rdma_ctrl, err_work);
+> +       int i;
+> 
+>          nvme_stop_keep_alive(&ctrl->ctrl);
+> +
+> +       for (i = 0; i < ctrl->queue_count; i++)
+> +               clear_bit(NVME_RDMA_Q_CONNECTED, &ctrl->queues[i].flags);
+> +
+>          if (ctrl->queue_count > 1)
+>                  nvme_stop_queues(&ctrl->ctrl);
+>          blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
+> @@ -1331,7 +1337,7 @@ static int nvme_rdma_device_unplug(struct
+> nvme_rdma_queue *queue)
+>          cancel_delayed_work_sync(&ctrl->reconnect_work);
+> 
+>          /* Disable the queue so ctrl delete won't free it */
+> -       if (test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags)) {
+> +       if (!test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags)) {
+>                  /* Free this queue ourselves */
+>                  nvme_rdma_stop_queue(queue);
+>                  nvme_rdma_destroy_queue_ib(queue);
+> --
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
