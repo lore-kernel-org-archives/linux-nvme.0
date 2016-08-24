@@ -1,32 +1,28 @@
-From: roysh@mellanox.com (Roy Shterman)
-Date: Wed, 24 Aug 2016 09:53:06 +0300
-Subject: [PATCH] nvme-cli/fabrics: Added hostnqn parameter to connect command
-Message-ID: <1472021586-15203-1-git-send-email-roysh@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 24 Aug 2016 12:31:38 +0300
+Subject: nvme_rdma - leaves provider resources allocated
+In-Reply-To: <014301d1fd5f$a2da7000$e88f5000$@opengridcomputing.com>
+References: <014301d1fd5f$a2da7000$e88f5000$@opengridcomputing.com>
+Message-ID: <98396d58-4a16-0e1f-e42b-912edb8a7cf6@grimberg.me>
 
-Added user-defined 'hostnqn' to 'connect' command
-so users could use the allowed_hosts attribute on the target and still
-connect to target with nvme-cli tool.
 
-usage examples:
-	nvme connect -t <TRANSPORT> -a <ADDRESS> -s <SERVICE_ID> -n <NQN> -q <USER-DEFINED_HOSTNQN>
+> Assume an nvme_rdma host has one attached controller in RECONNECTING state, and
+> that controller has failed to reconnect at least once and thus is in the
+> delay_schedule time before retrying the connection.  At that moment, there are
+> no cm_ids allocated for that controller because the admin queue and the io
+> queues have been freed.  So nvme_rdma cannot get a DEVICE_REMOVAL from the
+> rdma_cm.  This means if the underlying provider module is removed, it will be
+> removed with resources still allocated by nvme_rdma.  For iw_cxgb4, this causes
+> a BUG_ON() in gen_pool_destroy() because MRs are still allocated for the
+> controller.
+>
+> Thoughts on how to fix this?
 
-Signed-off-by: Roy Shterman <roysh at mellanox.com>
----
- fabrics.c |    2 ++
- 1 files changed, 2 insertions(+), 0 deletions(-)
+Hey Steve,
 
-diff --git a/fabrics.c b/fabrics.c
-index 26c4e22..942e987 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -711,6 +711,8 @@ int connect(const char *desc, int argc, char **argv)
- 			"transport address" },
- 		{"trsvcid", 's', "LIST", CFG_STRING, &cfg.trsvcid, required_argument,
- 			"transport service id (e.g. IP port)" },
-+		{"hostnqn", 'q', "LIST", CFG_STRING, &cfg.hostnqn, required_argument,
-+			"user-defined hostnqn" },
- 		{0},
- 	};
- 
--- 
-1.7.8.2
+I think it's time to go back to your client register proposal.
+
+I can't think of any way to get it right at the moment...
+
+Maybe if we can make it only do something meaningful in remove_one()
+to handle device removal we can get away with it...
