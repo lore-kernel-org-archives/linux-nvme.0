@@ -1,72 +1,63 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 26 Aug 2016 06:50:55 -0700
-Subject: [PATCH WIP/RFC 2/6] iw_cxgb4: block module unload until all ep
- resources are released
+Date: Fri, 26 Aug 2016 06:50:57 -0700
+Subject: [PATCH WIP/RFC 3/6] nvme_rdma: keep a ref on the ctrl during
+ delete/flush
 In-Reply-To: <cover.1472219585.git.swise@opengridcomputing.com>
 References: <cover.1472219585.git.swise@opengridcomputing.com>
-Message-ID: <70d529b8a4dc81cc85ba86610152d3e1e20556bf.1472219586.git.swise@opengridcomputing.com>
+Message-ID: <a0c9e6cccbccc1e5893af51a7824c9bad2a62a5a.1472219586.git.swise@opengridcomputing.com>
 
-Otherwise an endpoint can be still closing down causing a touch
-after free crash.
-
-Fixes: ad61a4c7a9b7 ("iw_cxgb4: don't block in destroy_qp awaiting the last deref")
 Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
- drivers/infiniband/hw/cxgb4/cm.c       | 2 ++
- drivers/infiniband/hw/cxgb4/device.c   | 5 +++++
- drivers/infiniband/hw/cxgb4/iw_cxgb4.h | 1 +
- 3 files changed, 8 insertions(+)
+ drivers/nvme/host/rdma.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/infiniband/hw/cxgb4/cm.c b/drivers/infiniband/hw/cxgb4/cm.c
-index a4f3f1d..8c582bf 100644
---- a/drivers/infiniband/hw/cxgb4/cm.c
-+++ b/drivers/infiniband/hw/cxgb4/cm.c
-@@ -333,6 +333,8 @@ static void remove_ep_tid(struct c4iw_ep *ep)
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c133256..00943cd 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1356,9 +1356,15 @@ static int nvme_rdma_device_unplug(struct nvme_rdma_queue *queue)
+ 		ret = 1;
+ 	}
  
- 	spin_lock_irqsave(&ep->com.dev->lock, flags);
- 	_remove_handle(ep->com.dev, &ep->com.dev->hwtid_idr, ep->hwtid, 0);
-+	if (idr_is_empty(&ep->com.dev->hwtid_idr))
-+		wake_up(&ep->com.dev->wait);
- 	spin_unlock_irqrestore(&ep->com.dev->lock, flags);
+-	/* Queue controller deletion */
++	/*
++	 * Queue controller deletion. Keep a reference until all
++	 * work is flushed since delete_work will free the ctrl mem
++	 */
++	kref_get(&ctrl->ctrl.kref);
+ 	queue_work(nvme_rdma_wq, &ctrl->delete_work);
+ 	flush_work(&ctrl->delete_work);
++	nvme_put_ctrl(&ctrl->ctrl);
++
+ 	return ret;
  }
  
-diff --git a/drivers/infiniband/hw/cxgb4/device.c b/drivers/infiniband/hw/cxgb4/device.c
-index 071d733..3c4b212 100644
---- a/drivers/infiniband/hw/cxgb4/device.c
-+++ b/drivers/infiniband/hw/cxgb4/device.c
-@@ -872,9 +872,13 @@ static void c4iw_rdev_close(struct c4iw_rdev *rdev)
- static void c4iw_dealloc(struct uld_ctx *ctx)
+@@ -1705,15 +1711,22 @@ static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl)
+ static int nvme_rdma_del_ctrl(struct nvme_ctrl *nctrl)
  {
- 	c4iw_rdev_close(&ctx->dev->rdev);
-+	WARN_ON_ONCE(!idr_is_empty(&ctx->dev->cqidr));
- 	idr_destroy(&ctx->dev->cqidr);
-+	WARN_ON_ONCE(!idr_is_empty(&ctx->dev->qpidr));
- 	idr_destroy(&ctx->dev->qpidr);
-+	WARN_ON_ONCE(!idr_is_empty(&ctx->dev->mmidr));
- 	idr_destroy(&ctx->dev->mmidr);
-+	wait_event(ctx->dev->wait, idr_is_empty(&ctx->dev->hwtid_idr));
- 	idr_destroy(&ctx->dev->hwtid_idr);
- 	idr_destroy(&ctx->dev->stid_idr);
- 	idr_destroy(&ctx->dev->atid_idr);
-@@ -992,6 +996,7 @@ static struct c4iw_dev *c4iw_alloc(const struct cxgb4_lld_info *infop)
- 	mutex_init(&devp->rdev.stats.lock);
- 	mutex_init(&devp->db_mutex);
- 	INIT_LIST_HEAD(&devp->db_fc_list);
-+	init_waitqueue_head(&devp->wait);
- 	devp->avail_ird = devp->rdev.lldi.max_ird_adapter;
+ 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
+-	int ret;
++	int ret = 0;
++
++	/*
++	 * Keep a reference until all work is flushed since
++	 * __nvme_rdma_del_ctrl can free the ctrl mem
++	 */
++	kref_get(&ctrl->ctrl.kref);
  
- 	if (c4iw_debugfs_root) {
-diff --git a/drivers/infiniband/hw/cxgb4/iw_cxgb4.h b/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
-index aa47e0a..4b83b84 100644
---- a/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
-+++ b/drivers/infiniband/hw/cxgb4/iw_cxgb4.h
-@@ -263,6 +263,7 @@ struct c4iw_dev {
- 	struct idr stid_idr;
- 	struct list_head db_fc_list;
- 	u32 avail_ird;
-+	wait_queue_head_t wait;
- };
+ 	ret = __nvme_rdma_del_ctrl(ctrl);
+ 	if (ret)
+-		return ret;
++		goto out;
  
- static inline struct c4iw_dev *to_c4iw_dev(struct ib_device *ibdev)
+ 	flush_work(&ctrl->delete_work);
+-
+-	return 0;
++out:
++	nvme_put_ctrl(&ctrl->ctrl);
++	return ret;
+ }
+ 
+ static void nvme_rdma_remove_ctrl_work(struct work_struct *work)
 -- 
 2.7.0
