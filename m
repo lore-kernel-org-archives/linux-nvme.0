@@ -1,22 +1,38 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 26 Aug 2016 16:41:30 +0200
-Subject: [PATCH WIP/RFC 6/6] nvme-rdma: keep a cm_id around during
- reconnect to get events
-In-Reply-To: <b1ee02376df44ec240dc0bff956fe055687580f8.1472219586.git.swise@opengridcomputing.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Fri, 26 Aug 2016 09:42:02 -0500
+Subject: [PATCH WIP/RFC 4/6] nvme-rdma: destroy nvme queue rdma	resources
+ on connect failure
+In-Reply-To: <20160826143952.GB21869@lst.de>
 References: <cover.1472219585.git.swise@opengridcomputing.com>
- <b1ee02376df44ec240dc0bff956fe055687580f8.1472219586.git.swise@opengridcomputing.com>
-Message-ID: <20160826144130.GA21923@lst.de>
+ <9f6479110ae58e72e78e37855aff3f8edb8a61e9.1472219586.git.swise@opengridcomputing.com>
+ <20160826143952.GB21869@lst.de>
+Message-ID: <02cf01d1ffa8$0222d1c0$06687540$@opengridcomputing.com>
 
-On Fri, Aug 26, 2016@06:52:59AM -0700, Steve Wise wrote:
-> This patch adds the concept of an "unplug" cm_id for each nvme_rdma_ctrl
-> controller.  When the controller is first created and the admin qp
-> is connected to the target, the unplug_cm_id is created and address
-> resolution is done on it to bind it to the same device that the admin QP
-> is bound to.   This unplug_cm_id remains across any/all kato recovery and
-> thus will always be available for DEVICE_REMOVAL events.  This simplifies
-> the unplug handler because the cm_id isn't associated with any of the IO
-> queues nor the admin queue.  Plus it ensures a cm_id is always available
-> per controller to get the DEVICE_REMOVAL event.
+> 
+> On Fri, Aug 26, 2016@06:50:58AM -0700, Steve Wise wrote:
+> > After address resolution, the nvme_rdma_queue rdma resources are
+> > allocated.  If rdma route resolution or the connect fails, or the
+> > controller reconnect times out and gives up, then the rdma resources
+> > need to be freed.  Otherwise, rdma resources are leaked.
+> 
+> I'm pretty sure Sagi tried to convince me we'd need something like this
+> begfore and I tried to resists.  Sorry guys..
+> 
+> >  struct nvme_rdma_queue {
+> > @@ -488,6 +489,7 @@ static void nvme_rdma_destroy_queue_ib(struct
+> nvme_rdma_queue *queue)
+> >  	struct nvme_rdma_device *dev = queue->device;
+> >  	struct ib_device *ibdev = dev->dev;
+> >
+> > +	clear_bit(NVME_RDMA_IB_QUEUE_ALLOCATED, &queue->flags);
+> 
+> How about doing a
+> 
+> 	if (!test_and_clear(NVME_RDMA_IB_QUEUE_ALLOCATED, &queue->flags))
+> 		return;
+> 
+> here so the the callers don't have to worry?
+> 
+> Otherwise this looks fine to me.
 
-I'll need some time to digest all the crazy RDMA/CM interactions here.
-Do you have any clue how other drivers handle this situation?
+Sure. 
