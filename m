@@ -1,11 +1,22 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 25 Aug 2016 13:58:57 -0700
-Subject: [PATCH WIP/RFC 6/6] nvme-rdma: keep the cm_id around during reconnect
+Date: Fri, 26 Aug 2016 06:52:59 -0700
+Subject: [PATCH WIP/RFC 6/6] nvme-rdma: keep a cm_id around during reconnect
  to get events
-In-Reply-To: <cover.1472218808.git.swise@opengridcomputing.com>
-References: <cover.1472218808.git.swise@opengridcomputing.com>
-Message-ID: <71045789b8b07058b6b6a59379bbdc2def71ea6a.1472218808.git.swise@opengridcomputing.com>
+In-Reply-To: <cover.1472219585.git.swise@opengridcomputing.com>
+References: <cover.1472219585.git.swise@opengridcomputing.com>
+Message-ID: <b1ee02376df44ec240dc0bff956fe055687580f8.1472219586.git.swise@opengridcomputing.com>
 
+This patch adds the concept of an "unplug" cm_id for each nvme_rdma_ctrl
+controller.  When the controller is first created and the admin qp
+is connected to the target, the unplug_cm_id is created and address
+resolution is done on it to bind it to the same device that the admin QP
+is bound to.   This unplug_cm_id remains across any/all kato recovery and
+thus will always be available for DEVICE_REMOVAL events.  This simplifies
+the unplug handler because the cm_id isn't associated with any of the IO
+queues nor the admin queue.  Plus it ensures a cm_id is always available
+per controller to get the DEVICE_REMOVAL event.
+
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
  drivers/nvme/host/rdma.c | 134 +++++++++++++++++++++++++++++++++++++----------
  1 file changed, 107 insertions(+), 27 deletions(-)
