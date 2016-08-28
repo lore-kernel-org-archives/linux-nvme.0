@@ -1,12 +1,10 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 28 Aug 2016 15:43:25 +0300
-Subject: [PATCH WIP/RFC 2/6] iw_cxgb4: block module unload until all ep
- resources are released
-In-Reply-To: <70d529b8a4dc81cc85ba86610152d3e1e20556bf.1472219586.git.swise@opengridcomputing.com>
+Date: Sun, 28 Aug 2016 15:44:58 +0300
+Subject: [PATCH WIP/RFC 4/6] nvme-rdma: destroy nvme queue rdma resources
+ on connect failure
+In-Reply-To: <9f6479110ae58e72e78e37855aff3f8edb8a61e9.1472219586.git.swise@opengridcomputing.com>
 References: <cover.1472219585.git.swise@opengridcomputing.com>
- <70d529b8a4dc81cc85ba86610152d3e1e20556bf.1472219586.git.swise@opengridcomputing.com>
-Message-ID: <37321d94-3a2a-1223-a0e7-fb784d6a7cc5@grimberg.me>
+ <9f6479110ae58e72e78e37855aff3f8edb8a61e9.1472219586.git.swise@opengridcomputing.com>
+Message-ID: <f26a8961-def1-a7be-895c-86b0ed980c1c@grimberg.me>
 
-Looks reasonable,
-
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+No 3/6?
