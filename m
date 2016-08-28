@@ -1,15 +1,12 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 26 Aug 2016 17:45:50 -0400
-Subject: [PATCH] nvme-cli/fabrics: Add nr_io_queues parameter to connect
- command
-In-Reply-To: <20160826160112.495DFE08C5@smtp.ogc.us>
-References: <20160826160112.495DFE08C5@smtp.ogc.us>
-Message-ID: <20160826214549.GC19986@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 28 Aug 2016 15:42:21 +0300
+Subject: [PATCH WIP/RFC 1/6] iw_cxgb4: call dev_put() on l2t allocation
+ failure
+In-Reply-To: <f49ba58ba5bd80c901e263dd6ffa0f99a199ecfb.1472219585.git.swise@opengridcomputing.com>
+References: <cover.1472219585.git.swise@opengridcomputing.com>
+ <f49ba58ba5bd80c901e263dd6ffa0f99a199ecfb.1472219585.git.swise@opengridcomputing.com>
+Message-ID: <377f1760-fd52-9f67-adc7-73f9455cf53d@grimberg.me>
 
-On Fri, Aug 26, 2016@08:56:52AM -0700, Steve Wise wrote:
-> Added 'nr_io_queues' to 'connect' command so users can specify the number
-> of io queues to allocate.
+Looks fine,
 
-Purely as a matter of consistency here, every other long-format option
-in this program uses dash '-' instead of underscore '_' as a multi-word
-separator. Let's stick with that. It works for 'git'. :)
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
