@@ -1,12 +1,12 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 28 Aug 2016 15:42:21 +0300
-Subject: [PATCH WIP/RFC 1/6] iw_cxgb4: call dev_put() on l2t allocation
- failure
-In-Reply-To: <f49ba58ba5bd80c901e263dd6ffa0f99a199ecfb.1472219585.git.swise@opengridcomputing.com>
+Date: Sun, 28 Aug 2016 15:43:25 +0300
+Subject: [PATCH WIP/RFC 2/6] iw_cxgb4: block module unload until all ep
+ resources are released
+In-Reply-To: <70d529b8a4dc81cc85ba86610152d3e1e20556bf.1472219586.git.swise@opengridcomputing.com>
 References: <cover.1472219585.git.swise@opengridcomputing.com>
- <f49ba58ba5bd80c901e263dd6ffa0f99a199ecfb.1472219585.git.swise@opengridcomputing.com>
-Message-ID: <377f1760-fd52-9f67-adc7-73f9455cf53d@grimberg.me>
+ <70d529b8a4dc81cc85ba86610152d3e1e20556bf.1472219586.git.swise@opengridcomputing.com>
+Message-ID: <37321d94-3a2a-1223-a0e7-fb784d6a7cc5@grimberg.me>
 
-Looks fine,
+Looks reasonable,
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
