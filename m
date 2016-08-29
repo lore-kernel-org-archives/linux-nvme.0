@@ -1,55 +1,32 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Mon, 29 Aug 2016 14:35:05 -0700
-Subject: [PATCH WIP/RFC v2 0/6] nvme-rdma device removal fixes
-Message-ID: <cover.1472506505.git.swise@opengridcomputing.com>
+Date: Mon, 29 Aug 2016 14:26:37 -0700
+Subject: [PATCH WIP/RFC v2 1/6] iw_cxgb4: call dev_put() on l2t allocation
+ failure
+In-Reply-To: <cover.1472506505.git.swise@opengridcomputing.com>
+References: <cover.1472506505.git.swise@opengridcomputing.com>
+Message-ID: <c867c9f2d1dbffab5718e369897792e97dd7f74b.1472506505.git.swise@opengridcomputing.com>
 
-This series is a Work In Progress (WIP) attempting to address several
-problems when shutting down a nvme-rdma host when its controllers are
-attempting to reconnect to a target that is no longer reachable.
-
-I'm still testing but I welcome review.  Specifically the last patch
-which solves the problem of always being able to detect a device removal.
-
-To tickle these bugs:
-
-1) attach over iw_cxgb4 to 10 devices on a target.
-2) 'ifconfig down' the target's interface
-3) wait for keep-alive to fire and begin reconnecting (~15-20 seconds)
-4) do one of these on the host:
-   - rmmod iw_cxgb4
-   - reboot
-   - reboot -f
-
-Changes since v1:
-
-- the big change was patch 6 rewrite - use client_ib API to handle
-device removal instead of rdma_cm device removal events.
-
-- tweaked patch 5 to avoid bisect issues
-
-- small code rework on patch 3 based on Christoph's suggestion
-
-- clear_bit() -> !test_and_clear_bit() in patch 4 (Christoph's comment)
-
-- add reviewed-by tags.
-
+Reviewed-by: Sagi Grimberg <sagi at grimbrg.me>
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
+ drivers/infiniband/hw/cxgb4/cm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Sagi Grimberg (1):
-  nvme-rdma: add DELETING queue flag
-
-Steve Wise (5):
-  iw_cxgb4: call dev_put() on l2t allocation failure
-  iw_cxgb4: block module unload until all ep resources are released
-  nvme_rdma: keep a ref on the ctrl during delete/flush
-  nvme-rdma: destroy nvme queue rdma resources on connect failure
-  nvme-rdma: use ib_client API to detect device removal
-
- drivers/infiniband/hw/cxgb4/cm.c       |   6 +-
- drivers/infiniband/hw/cxgb4/device.c   |   5 ++
- drivers/infiniband/hw/cxgb4/iw_cxgb4.h |   1 +
- drivers/nvme/host/rdma.c               | 154 ++++++++++++++++++++-------------
- 4 files changed, 103 insertions(+), 63 deletions(-)
-
+diff --git a/drivers/infiniband/hw/cxgb4/cm.c b/drivers/infiniband/hw/cxgb4/cm.c
+index b6a953a..434a7fb 100644
+--- a/drivers/infiniband/hw/cxgb4/cm.c
++++ b/drivers/infiniband/hw/cxgb4/cm.c
+@@ -2117,8 +2117,10 @@ static int import_ep(struct c4iw_ep *ep, int iptype, __u8 *peer_ip,
+ 		}
+ 		ep->l2t = cxgb4_l2t_get(cdev->rdev.lldi.l2t,
+ 					n, pdev, rt_tos2priority(tos));
+-		if (!ep->l2t)
++		if (!ep->l2t) {
++			dev_put(pdev);
+ 			goto out;
++		}
+ 		ep->mtu = pdev->mtu;
+ 		ep->tx_chan = cxgb4_port_chan(pdev);
+ 		ep->smac_idx = cxgb4_tp_smt_idx(adapter_type,
 -- 
 2.7.0
