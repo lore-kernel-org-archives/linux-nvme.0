@@ -1,51 +1,64 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 29 Aug 2016 08:14:31 -0700
-Subject: [PATCH] nvme-cli/fabrics: Add nr_io_queues parameter to connect
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 29 Aug 2016 08:53:02 -0700
+Subject: [PATCH v2] nvme-cli/fabrics: Add nr_io_queues parameter to connect
  command
-In-Reply-To: <00c301d20206$beb09ab0$3c11d010$@opengridcomputing.com>
-References: <20160826160112.495DFE08C5@smtp.ogc.us>
- <1472443902.2832.8.camel@linux.intel.com>
- <20160829080219.GA11787@infradead.org>
- <008601d20203$bfe885d0$3fb99170$@opengridcomputing.com>
- <00c301d20206$beb09ab0$3c11d010$@opengridcomputing.com>
-Message-ID: <1472483671.2816.19.camel@linux.intel.com>
+Message-ID: <20160829155725.A031AE08C5@smtp.ogc.us>
 
-On Mon, 2016-08-29@10:05 -0500, Steve Wise wrote:
-> > 
-> > > 
-> > > On Sun, Aug 28, 2016@09:11:42PM -0700, J Freyensee wrote:
-> > > > 
-> > > > On Fri, 2016-08-26@08:56 -0700, Steve Wise wrote:
-> > > > > 
-> > > > > Added 'nr_io_queues' to 'connect' command so users can
-> > > > > specify the
-> > > > > number
-> > > > > of io queues to allocate.
-> > > > > 
-> > > > > usage example:
-> > > > > 
-> > > > > nvme connect -t rdma -Q 8 -s 4420 -a 10.0.1.14 -n test-nvme
-> > > > 
-> > > > I was just wondering if there could be another lower-case
-> > > > letter flag
-> > > > option we could use other than capital Q. ??Just looking at the
-> > > > example
-> > > > above, it looks a tad out-of-place.
-> > > 
-> > > -q would be nice. For that'd we need to rename the hostnqn one,
-> > > but as
-> > > stated before I think -q is really misnamed for that anyway..
-> > 
-> > -h for hostnqn?
-> 
-> Oops... -h is 'help' :)
+Added 'nr-io-queues' to 'connect' command so users can specify the number
+of io queues to allocate.
 
-Yep, all the good single letter flags are being taken ;-P.
+usage examples:
 
--i seems fine to me. ?I kind of like -q for hostnqn since hostnqn does
-have a 'q' in it so there is somewhat of a mind-remembrance game there
-:-).
+nvme connect --transport=rdma --nr-io-queues=8 --trsvcid=4420 --traddr=10.0.1.14 --nqn=test-nvme
+nvme connect -t rdma -i 8 -s 4420 -a 10.0.1.14 -n test-nvme
 
-> 
-> 
-> 
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+---
+
+Changes since v1:
+
+-Q -> -i
+nr_io_queues -> nr-io-queues
+
+---
+ fabrics.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/fabrics.c b/fabrics.c
+index 942e987..18e961c 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -50,6 +50,7 @@ struct config {
+ 	char *traddr;
+ 	char *trsvcid;
+ 	char *hostnqn;
++	char *nr_io_queues;
+ 	char *raw;
+ 	char *device;
+ } cfg = { 0 };
+@@ -481,6 +482,14 @@ static int build_options(char *argstr, int max_len)
+ 		max_len -= len;
+ 	}
+ 
++	if (cfg.nr_io_queues) {
++		len = snprintf(argstr, max_len, ",nr_io_queues=%s", cfg.nr_io_queues);
++		if (len < 0)
++			return -EINVAL;
++		argstr += len;
++		max_len -= len;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -713,6 +722,8 @@ int connect(const char *desc, int argc, char **argv)
+ 			"transport service id (e.g. IP port)" },
+ 		{"hostnqn", 'q', "LIST", CFG_STRING, &cfg.hostnqn, required_argument,
+ 			"user-defined hostnqn" },
++		{"nr-io-queues", 'i', "LIST", CFG_STRING, &cfg.nr_io_queues, required_argument,
++			"number of io queues to use (default is core count)" },
+ 		{0},
+ 	};
+ 
+-- 
+2.7.0
