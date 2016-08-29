@@ -1,43 +1,92 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 29 Aug 2016 12:53:32 +0200
-Subject: [PATCH 6/7] nvme: remove the post_scan callout
+Date: Mon, 29 Aug 2016 12:53:33 +0200
+Subject: [PATCH 7/7] blk-mq: get rid of the cpumask in struct blk_mq_tags
 In-Reply-To: <1472468013-29936-1-git-send-email-hch@lst.de>
 References: <1472468013-29936-1-git-send-email-hch@lst.de>
-Message-ID: <1472468013-29936-7-git-send-email-hch@lst.de>
+Message-ID: <1472468013-29936-8-git-send-email-hch@lst.de>
 
-No need now that we don't have to reverse engineer the irq affinity.
+Unused now that NVMe sets up irq affinity before calling into blk-mq.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 3 ---
- drivers/nvme/host/nvme.h | 1 -
- 2 files changed, 4 deletions(-)
+ block/blk-mq-tag.c     | 6 ------
+ block/blk-mq-tag.h     | 1 -
+ block/blk-mq.c         | 7 -------
+ include/linux/blk-mq.h | 1 -
+ 4 files changed, 15 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 2feacc7..b245616 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1826,9 +1826,6 @@ static void nvme_scan_work(struct work_struct *work)
- 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
- 	mutex_unlock(&ctrl->namespaces_mutex);
- 	kfree(id);
+diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+index 1602813..2eae3d5 100644
+--- a/block/blk-mq-tag.c
++++ b/block/blk-mq-tag.c
+@@ -665,11 +665,6 @@ struct blk_mq_tags *blk_mq_init_tags(unsigned int total_tags,
+ 	if (!tags)
+ 		return NULL;
+ 
+-	if (!zalloc_cpumask_var(&tags->cpumask, GFP_KERNEL)) {
+-		kfree(tags);
+-		return NULL;
+-	}
 -
--	if (ctrl->ops->post_scan)
--		ctrl->ops->post_scan(ctrl);
+ 	tags->nr_tags = total_tags;
+ 	tags->nr_reserved_tags = reserved_tags;
+ 
+@@ -680,7 +675,6 @@ void blk_mq_free_tags(struct blk_mq_tags *tags)
+ {
+ 	bt_free(&tags->bitmap_tags);
+ 	bt_free(&tags->breserved_tags);
+-	free_cpumask_var(tags->cpumask);
+ 	kfree(tags);
  }
  
- void nvme_queue_scan(struct nvme_ctrl *ctrl)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ab18b78..99e4c16 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -184,7 +184,6 @@ struct nvme_ctrl_ops {
- 	int (*reg_read64)(struct nvme_ctrl *ctrl, u32 off, u64 *val);
- 	int (*reset_ctrl)(struct nvme_ctrl *ctrl);
- 	void (*free_ctrl)(struct nvme_ctrl *ctrl);
--	void (*post_scan)(struct nvme_ctrl *ctrl);
- 	void (*submit_async_event)(struct nvme_ctrl *ctrl, int aer_idx);
- 	int (*delete_ctrl)(struct nvme_ctrl *ctrl);
- 	const char *(*get_subsysnqn)(struct nvme_ctrl *ctrl);
+diff --git a/block/blk-mq-tag.h b/block/blk-mq-tag.h
+index d468a79..5569641 100644
+--- a/block/blk-mq-tag.h
++++ b/block/blk-mq-tag.h
+@@ -44,7 +44,6 @@ struct blk_mq_tags {
+ 	struct list_head page_list;
+ 
+ 	int alloc_policy;
+-	cpumask_var_t cpumask;
+ };
+ 
+ 
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index a679562..1fc42a0 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -1852,7 +1852,6 @@ static void blk_mq_map_swqueue(struct request_queue *q,
+ 		hctx->tags = set->tags[i];
+ 		WARN_ON(!hctx->tags);
+ 
+-		cpumask_copy(hctx->tags->cpumask, hctx->cpumask);
+ 		/*
+ 		 * Set the map size to the number of mapped software queues.
+ 		 * This is more accurate and more efficient than looping
+@@ -2279,12 +2278,6 @@ static int blk_mq_alloc_rq_maps(struct blk_mq_tag_set *set)
+ 	return 0;
+ }
+ 
+-struct cpumask *blk_mq_tags_cpumask(struct blk_mq_tags *tags)
+-{
+-	return tags->cpumask;
+-}
+-EXPORT_SYMBOL_GPL(blk_mq_tags_cpumask);
+-
+ static int blk_mq_create_mq_map(struct blk_mq_tag_set *set,
+ 		const struct cpumask *affinity_mask)
+ {
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 29e227b..79a421e 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -197,7 +197,6 @@ struct request *blk_mq_alloc_request(struct request_queue *q, int rw,
+ struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int op,
+ 		unsigned int flags, unsigned int hctx_idx);
+ struct request *blk_mq_tag_to_rq(struct blk_mq_tags *tags, unsigned int tag);
+-struct cpumask *blk_mq_tags_cpumask(struct blk_mq_tags *tags);
+ 
+ enum {
+ 	BLK_MQ_UNIQUE_TAG_BITS = 16,
 -- 
 2.1.4
