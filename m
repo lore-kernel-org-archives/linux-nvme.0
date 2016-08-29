@@ -1,28 +1,47 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 29 Aug 2016 12:53:26 +0200
-Subject: blk-mq: allow passing in an external queue mapping V2
-Message-ID: <1472468013-29936-1-git-send-email-hch@lst.de>
+Date: Mon, 29 Aug 2016 12:53:27 +0200
+Subject: [PATCH 1/7] blk-mq: don't redistribute hardware queues on a CPU
+ hotplug event
+In-Reply-To: <1472468013-29936-1-git-send-email-hch@lst.de>
+References: <1472468013-29936-1-git-send-email-hch@lst.de>
+Message-ID: <1472468013-29936-2-git-send-email-hch@lst.de>
 
-This series is one third of the earlier "automatic interrupt affinity for
-MSI/MSI-X capable devices" series, and make uses of the new irq-level
-interrupt / queue mapping code in blk-mq, as well as allowing the driver
-to pass in such a mask obtained from the (PCI) interrupt code.  To fully
-support this feature in drivers the final third in the PCI layer will
-be needed as well.
+Currently blk-mq will totally remap hardware context when a CPU hotplug
+even happened, which causes major havoc for drivers, as they are never
+told about this remapping.  E.g. any carefully sorted out CPU affinity
+will just be completely messed up.
 
-Note that these patches are on top of Linux 4.8-rc4 and will need several
-patches not yet in the block for-4.9 branch.
+The rebuild also doesn't really help for the common case of cpu
+hotplug, which is soft onlining / offlining of cpus - in this case we
+should just leave the queue and irq mapping as is.  If it actually
+worked it would have helped in the case of physical cpu hotplug,
+although for that we'd need a way to actually notify the driver.
+Note that drivers may already be able to accommodate such a topology
+change on their own, e.g. using the reset_controller sysfs file in NVMe
+will cause the driver to get things right for this case.
 
-A git tree is available at:
+With the rebuild removed we will simplify retain the queue mapping for
+a soft offlined CPU that will work when it comes back online, and will
+map any newly onlined CPU to queue 0 until the driver initiates
+a rebuild of the queue map.
 
-   git://git.infradead.org/users/hch/block.git block-queue-mapping
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ block/blk-mq.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-Gitweb:
-
-   http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/block-queue-mapping
-
-Changes since V1:
- - rebased on top of Linux 4.8-rc4
-
-Changes since automatic interrupt affinity for MSI/MSI-X capable devices V3:
- - a trivial cleanup in blk_mq_create_mq_map pointed out by Alexander
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 13f5a6c..b29e7b2 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -2147,8 +2147,6 @@ static void blk_mq_queue_reinit(struct request_queue *q,
+ 
+ 	blk_mq_sysfs_unregister(q);
+ 
+-	blk_mq_update_queue_map(q->mq_map, q->nr_hw_queues, online_mask);
+-
+ 	/*
+ 	 * redo blk_mq_init_cpu_queues and blk_mq_init_hw_queues. FIXME: maybe
+ 	 * we should change hctx numa_node according to new topology (this
+-- 
+2.1.4
