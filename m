@@ -1,64 +1,21 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Mon, 29 Aug 2016 08:53:02 -0700
-Subject: [PATCH v2] nvme-cli/fabrics: Add nr_io_queues parameter to connect
- command
-Message-ID: <20160829155725.A031AE08C5@smtp.ogc.us>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 29 Aug 2016 12:27:35 -0400
+Subject: [PATCH 2/3] nvme: Pass pointers, not dma addresses, to
+ nvme_get/set_features()
+In-Reply-To: <2756c572e066ed91a41e35568a4d9346e47d6b42.1472462539.git.luto@kernel.org>
+References: <cover.1472462539.git.luto@kernel.org>
+ <2756c572e066ed91a41e35568a4d9346e47d6b42.1472462539.git.luto@kernel.org>
+Message-ID: <20160829162735.GD19986@localhost.localdomain>
 
-Added 'nr-io-queues' to 'connect' command so users can specify the number
-of io queues to allocate.
+On Mon, Aug 29, 2016@02:25:45AM -0700, Andy Lutomirski wrote:
+> +	/*
+> +	 * A controller "page" may be bigger than a Linux page, but we can
+> +	 * be conservative here.
+> +	 */
 
-usage examples:
+It is the actually other way around: the Linux page may be larger than the
+controller's. We currently use the smallest possible controller page (4k)
+regardless of the host's size due to limitations discovering the CPU's
+DMA alignment. PPC was the first to encounter this problem with NVMe.
 
-nvme connect --transport=rdma --nr-io-queues=8 --trsvcid=4420 --traddr=10.0.1.14 --nqn=test-nvme
-nvme connect -t rdma -i 8 -s 4420 -a 10.0.1.14 -n test-nvme
-
-Signed-off-by: Steve Wise <swise at opengridcomputing.com>
----
-
-Changes since v1:
-
--Q -> -i
-nr_io_queues -> nr-io-queues
-
----
- fabrics.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
-
-diff --git a/fabrics.c b/fabrics.c
-index 942e987..18e961c 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -50,6 +50,7 @@ struct config {
- 	char *traddr;
- 	char *trsvcid;
- 	char *hostnqn;
-+	char *nr_io_queues;
- 	char *raw;
- 	char *device;
- } cfg = { 0 };
-@@ -481,6 +482,14 @@ static int build_options(char *argstr, int max_len)
- 		max_len -= len;
- 	}
- 
-+	if (cfg.nr_io_queues) {
-+		len = snprintf(argstr, max_len, ",nr_io_queues=%s", cfg.nr_io_queues);
-+		if (len < 0)
-+			return -EINVAL;
-+		argstr += len;
-+		max_len -= len;
-+	}
-+
- 	return 0;
- }
- 
-@@ -713,6 +722,8 @@ int connect(const char *desc, int argc, char **argv)
- 			"transport service id (e.g. IP port)" },
- 		{"hostnqn", 'q', "LIST", CFG_STRING, &cfg.hostnqn, required_argument,
- 			"user-defined hostnqn" },
-+		{"nr-io-queues", 'i', "LIST", CFG_STRING, &cfg.nr_io_queues, required_argument,
-+			"number of io queues to use (default is core count)" },
- 		{0},
- 	};
- 
--- 
-2.7.0
+Otherwise, looks good.
