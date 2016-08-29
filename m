@@ -1,92 +1,71 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 29 Aug 2016 12:53:33 +0200
-Subject: [PATCH 7/7] blk-mq: get rid of the cpumask in struct blk_mq_tags
-In-Reply-To: <1472468013-29936-1-git-send-email-hch@lst.de>
-References: <1472468013-29936-1-git-send-email-hch@lst.de>
-Message-ID: <1472468013-29936-8-git-send-email-hch@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 29 Aug 2016 17:32:47 +0300
+Subject: [PATCH WIP/RFC 6/6] nvme-rdma: keep a cm_id around during
+ reconnect to get events
+In-Reply-To: <20160829073037.GB9727@lst.de>
+References: <cover.1472219585.git.swise@opengridcomputing.com>
+ <b1ee02376df44ec240dc0bff956fe055687580f8.1472219586.git.swise@opengridcomputing.com>
+ <8d13e79d-a111-8ec1-f8a6-42ece0ba46c9@grimberg.me>
+ <20160829073037.GB9727@lst.de>
+Message-ID: <13f597d1-0dd3-9c9e-9658-209f6817600a@grimberg.me>
 
-Unused now that NVMe sets up irq affinity before calling into blk-mq.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- block/blk-mq-tag.c     | 6 ------
- block/blk-mq-tag.h     | 1 -
- block/blk-mq.c         | 7 -------
- include/linux/blk-mq.h | 1 -
- 4 files changed, 15 deletions(-)
+>> Care to respin your client registration patch so we can judge which
+>> is better?
+>
+> FYI, I also really hate the idea of having to potentially allocate
+> resources on each device at driver load time which the client registration
+> forces us into.
 
-diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
-index 1602813..2eae3d5 100644
---- a/block/blk-mq-tag.c
-+++ b/block/blk-mq-tag.c
-@@ -665,11 +665,6 @@ struct blk_mq_tags *blk_mq_init_tags(unsigned int total_tags,
- 	if (!tags)
- 		return NULL;
- 
--	if (!zalloc_cpumask_var(&tags->cpumask, GFP_KERNEL)) {
--		kfree(tags);
--		return NULL;
--	}
--
- 	tags->nr_tags = total_tags;
- 	tags->nr_reserved_tags = reserved_tags;
- 
-@@ -680,7 +675,6 @@ void blk_mq_free_tags(struct blk_mq_tags *tags)
- {
- 	bt_free(&tags->bitmap_tags);
- 	bt_free(&tags->breserved_tags);
--	free_cpumask_var(tags->cpumask);
- 	kfree(tags);
- }
- 
-diff --git a/block/blk-mq-tag.h b/block/blk-mq-tag.h
-index d468a79..5569641 100644
---- a/block/blk-mq-tag.h
-+++ b/block/blk-mq-tag.h
-@@ -44,7 +44,6 @@ struct blk_mq_tags {
- 	struct list_head page_list;
- 
- 	int alloc_policy;
--	cpumask_var_t cpumask;
- };
- 
- 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index a679562..1fc42a0 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -1852,7 +1852,6 @@ static void blk_mq_map_swqueue(struct request_queue *q,
- 		hctx->tags = set->tags[i];
- 		WARN_ON(!hctx->tags);
- 
--		cpumask_copy(hctx->tags->cpumask, hctx->cpumask);
- 		/*
- 		 * Set the map size to the number of mapped software queues.
- 		 * This is more accurate and more efficient than looping
-@@ -2279,12 +2278,6 @@ static int blk_mq_alloc_rq_maps(struct blk_mq_tag_set *set)
- 	return 0;
- }
- 
--struct cpumask *blk_mq_tags_cpumask(struct blk_mq_tags *tags)
--{
--	return tags->cpumask;
--}
--EXPORT_SYMBOL_GPL(blk_mq_tags_cpumask);
--
- static int blk_mq_create_mq_map(struct blk_mq_tag_set *set,
- 		const struct cpumask *affinity_mask)
- {
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 29e227b..79a421e 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -197,7 +197,6 @@ struct request *blk_mq_alloc_request(struct request_queue *q, int rw,
- struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int op,
- 		unsigned int flags, unsigned int hctx_idx);
- struct request *blk_mq_tag_to_rq(struct blk_mq_tags *tags, unsigned int tag);
--struct cpumask *blk_mq_tags_cpumask(struct blk_mq_tags *tags);
- 
- enum {
- 	BLK_MQ_UNIQUE_TAG_BITS = 16,
--- 
-2.1.4
+The client registration doesn't force us to allocate anything.
+It's simply for us trigger cleanups when the device is unplugged...
+
+static void nvme_rdma_add_one(struct ib_device *device)
+{
+	/* Do nothing */
+}
+
+static void nvme_rdma_remove_one(struct ib_device *device,
+		void *cdata)
+{
+	/*
+	 * for each ctrl where (ctrl->dev->device == device)
+	 * 	queue delete controller
+	 *
+	 * flush the workqueue
+	 */
+}
+
+static struct ib_client nvme_rdma_client = {
+         .name   = "nvme_rdma",
+         .add    = nvme_rdma_add_one,
+         .remove = nvme_rdma_remove_one
+};
+
+
+> I really think we need to take a step back and offer interfaces that don't
+> suck in the core instead of trying to work around RDMA/CM in the core.
+> Unfortunately I don't really know what it takes for that yet.  I'm pretty
+> busy this work, but I'd be happy to reserve a lot of time next week to
+> dig into it unless someone beats me.
+
+I agree we have *plenty* of room to improve in the RDMA_CM interface.
+But this particular problem is the fact that we might get a device
+removal right in the moment where we have no cm_id's open because we
+are in the middle of periodic reconnects. This is why we can't even see
+the event.
+
+What sort of interface that would help here did you have in mind?
+
+> I suspect a big part of that is having a queue state machine in the core,
+
+We have a queue-pair state machine in the core, but currently it's not
+very useful for the consumers, and the silly thing is that it's not
+represented in the ib_qp struct and needs a ib_query_qp to figure it
+out (one of the reasons is that the QP states and their transitions
+are detailed in the different specs and not all of them are
+synchronous).
+
+> and getting rid of that horrible RDMA/CM event multiplexer.
+
+That would be very nice improvement...
