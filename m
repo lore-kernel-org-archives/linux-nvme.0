@@ -1,24 +1,17 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Mon, 29 Aug 2016 09:40:07 -0500
+Date: Mon, 29 Aug 2016 09:41:08 -0500
 Subject: [PATCH] nvme-cli/fabrics: Add nr_io_queues parameter to connect
  command
-In-Reply-To: <1472443902.2832.8.camel@linux.intel.com>
+In-Reply-To: <20160826214549.GC19986@localhost.localdomain>
 References: <20160826160112.495DFE08C5@smtp.ogc.us>
- <1472443902.2832.8.camel@linux.intel.com>
-Message-ID: <005f01d20203$3cc5a930$b650fb90$@opengridcomputing.com>
+ <20160826214549.GC19986@localhost.localdomain>
+Message-ID: <006101d20203$61185df0$234919d0$@opengridcomputing.com>
 
-> 
-> On Fri, 2016-08-26@08:56 -0700, Steve Wise wrote:
-> > Added 'nr_io_queues' to 'connect' command so users can specify the
-> > number
+> > Added 'nr_io_queues' to 'connect' command so users can specify the number
 > > of io queues to allocate.
-> >
-> > usage example:
-> >
-> > nvme connect -t rdma -Q 8 -s 4420 -a 10.0.1.14 -n test-nvme
 > 
-> I was just wondering if there could be another lower-case letter flag
-> option we could use other than capital Q.  Just looking at the example
-> above, it looks a tad out-of-place.
+> Purely as a matter of consistency here, every other long-format option
+> in this program uses dash '-' instead of underscore '_' as a multi-word
+> separator. Let's stick with that. It works for 'git'. :)
 
-'-i' ?  Any other suggestions?
+Will do.
