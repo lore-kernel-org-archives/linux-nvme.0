@@ -1,24 +1,24 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 29 Aug 2016 08:39:51 -0600
-Subject: [GIT PULL] another round of fabrics fixes for the next 4.8-rc
-In-Reply-To: <1472389796-1868-1-git-send-email-sagi@grimberg.me>
-References: <1472389796-1868-1-git-send-email-sagi@grimberg.me>
-Message-ID: <161e3ff2-745e-78ec-d479-4f73763be128@kernel.dk>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 29 Aug 2016 09:40:07 -0500
+Subject: [PATCH] nvme-cli/fabrics: Add nr_io_queues parameter to connect
+ command
+In-Reply-To: <1472443902.2832.8.camel@linux.intel.com>
+References: <20160826160112.495DFE08C5@smtp.ogc.us>
+ <1472443902.2832.8.camel@linux.intel.com>
+Message-ID: <005f01d20203$3cc5a930$b650fb90$@opengridcomputing.com>
 
-On 08/28/2016 07:09 AM, Sagi Grimberg wrote:
-> Hey Jens,
->
-> Mostly stability fixes and cleanups:
-> - NQN endianess fix from Daniel
-> - possible use-after-free fix from Vincent
-> - nvme-rdma connect semantics fixes from Jay
-> - Remove redundant variables in rdma driver
-> - Kbuild fix from Christoph
-> - nvmf_host referencing fix from Christoph
-> - uninit variable fix from Colin
+> 
+> On Fri, 2016-08-26@08:56 -0700, Steve Wise wrote:
+> > Added 'nr_io_queues' to 'connect' command so users can specify the
+> > number
+> > of io queues to allocate.
+> >
+> > usage example:
+> >
+> > nvme connect -t rdma -Q 8 -s 4420 -a 10.0.1.14 -n test-nvme
+> 
+> I was just wondering if there could be another lower-case letter flag
+> option we could use other than capital Q.  Just looking at the example
+> above, it looks a tad out-of-place.
 
-Thanks, pulled.
-
-
--- 
-Jens Axboe
+'-i' ?  Any other suggestions?
