@@ -1,19 +1,42 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 29 Aug 2016 12:45:40 -0400
-Subject: [PATCH 3/3] nvme: Enable autonomous power state transitions
-In-Reply-To: <88cc7972617eec58a81877d933604e0f0e342e43.1472462539.git.luto@kernel.org>
-References: <cover.1472462539.git.luto@kernel.org>
- <88cc7972617eec58a81877d933604e0f0e342e43.1472462539.git.luto@kernel.org>
-Message-ID: <20160829164540.GE19986@localhost.localdomain>
+From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
+Date: Mon, 29 Aug 2016 15:06:21 -0300
+Subject: Oops when completing request on the wrong queue
+In-Reply-To: <dbe42007-8109-2e21-d0f3-0778007cd152@kernel.dk> (Jens Axboe's
+ message of "Wed, 24 Aug 2016 14:36:38 -0600")
+References: <87a8gltgks.fsf@linux.vnet.ibm.com>
+ <871t1kq455.fsf@linux.vnet.ibm.com>
+ <bb6f8757-4c3d-8f49-8aff-aa0fdb8bae89@kernel.dk>
+ <8fc9ae38-9488-ef52-f620-08499edebffa@kernel.dk>
+ <87shu0hfye.fsf@linux.vnet.ibm.com>
+ <87a8g39pg4.fsf@linux.vnet.ibm.com>
+ <43693064-dd37-92ce-7753-2a8edb43eab5@kernel.dk>
+ <164a4c63-065b-b766-36f3-bcef4aa46a38@kernel.dk>
+ <49a954e6-2f96-8a63-ce15-2c82c1a1d36d@kernel.dk>
+ <dbe42007-8109-2e21-d0f3-0778007cd152@kernel.dk>
+Message-ID: <87d1krzbz6.fsf@linux.vnet.ibm.com>
 
-On Mon, Aug 29, 2016@02:25:46AM -0700, Andy Lutomirski wrote:
-> +	/*
-> +	 * By default, allow up to 25ms of APST-induced latency.  This will
-> +	 * have no effect on non-APST supporting controllers (i.e. any
-> +	 * controller with APSTA == 0).
-> +	 */
-> +	ctrl->apst_max_latency_ns = 25000000;
+Jens Axboe <axboe at kernel.dk> writes:
+>> Can you try this patch? It's not perfect, but I'll be interested if it
+>> makes a difference for you.
+>
 
-Any objection to making this a module parameter? 25ms default sounds
-reasonable, but I would still like the option to not ever initialize
-APST on a capable device.
+Hi Jens,
+
+Sorry for the delay.  I just got back to this and have been running your
+patch on top of 4.8 without a crash for over 1 hour.  I wanna give it
+more time to make sure it's running properly, though.
+
+Let me get back to you after a few more rounds of test.
+
+> This one should handle the WARN_ON() for running the hw queue on the
+> wrong CPU as well.
+
+On the workaround you added to prevent WARN_ON, we surely need to
+prevent blk_mq_hctx_next_cpu from scheduling dead cpus in the first
+place, right..  How do you feel about the following RFC?  I know it's
+not a complete fix, but it feels like a good improvement to me.
+
+http://www.spinics.net/lists/linux-scsi/msg98608.html
+
+-- 
+Gabriel Krisman Bertazi
