@@ -1,53 +1,86 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 29 Aug 2016 12:40:32 -0600
-Subject: Oops when completing request on the wrong queue
-In-Reply-To: <87d1krzbz6.fsf@linux.vnet.ibm.com>
-References: <87a8gltgks.fsf@linux.vnet.ibm.com>
- <871t1kq455.fsf@linux.vnet.ibm.com>
- <bb6f8757-4c3d-8f49-8aff-aa0fdb8bae89@kernel.dk>
- <8fc9ae38-9488-ef52-f620-08499edebffa@kernel.dk>
- <87shu0hfye.fsf@linux.vnet.ibm.com> <87a8g39pg4.fsf@linux.vnet.ibm.com>
- <43693064-dd37-92ce-7753-2a8edb43eab5@kernel.dk>
- <164a4c63-065b-b766-36f3-bcef4aa46a38@kernel.dk>
- <49a954e6-2f96-8a63-ce15-2c82c1a1d36d@kernel.dk>
- <dbe42007-8109-2e21-d0f3-0778007cd152@kernel.dk>
- <87d1krzbz6.fsf@linux.vnet.ibm.com>
-Message-ID: <5902c166-7aec-b2ae-72d7-07e8efeb5aa9@kernel.dk>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Mon, 29 Aug 2016 11:52:07 -0700
+Subject: [PATCH v2] nvme-cli/fabrics: Add nr_io_queues parameter to
+ connect command
+In-Reply-To: <20160829155725.A031AE08C5@smtp.ogc.us>
+References: <20160829155725.A031AE08C5@smtp.ogc.us>
+Message-ID: <1472496727.2816.27.camel@linux.intel.com>
 
-On 08/29/2016 12:06 PM, Gabriel Krisman Bertazi wrote:
-> Jens Axboe <axboe at kernel.dk> writes:
->>> Can you try this patch? It's not perfect, but I'll be interested if it
->>> makes a difference for you.
->>
->
-> Hi Jens,
->
-> Sorry for the delay.  I just got back to this and have been running your
-> patch on top of 4.8 without a crash for over 1 hour.  I wanna give it
-> more time to make sure it's running properly, though.
->
-> Let me get back to you after a few more rounds of test.
+On Mon, 2016-08-29@08:53 -0700, Steve Wise wrote:
+> Added 'nr-io-queues' to 'connect' command so users can specify the
+> number
+> of io queues to allocate.
+> 
+> usage examples:
+> 
+> nvme connect --transport=rdma --nr-io-queues=8 --trsvcid=4420 --
+> traddr=10.0.1.14 --nqn=test-nvme
+> nvme connect -t rdma -i 8 -s 4420 -a 10.0.1.14 -n test-nvme
+> 
+> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+> ---
+> 
+> Changes since v1:
+> 
+> -Q -> -i
+> nr_io_queues -> nr-io-queues
+> 
+> ---
+> ?fabrics.c | 11 +++++++++++
+> ?1 file changed, 11 insertions(+)
+> 
+> diff --git a/fabrics.c b/fabrics.c
+> index 942e987..18e961c 100644
+> --- a/fabrics.c
+> +++ b/fabrics.c
+> @@ -50,6 +50,7 @@ struct config {
+> ?	char *traddr;
+> ?	char *trsvcid;
+> ?	char *hostnqn;
+> +	char *nr_io_queues;
 
-Thanks, sounds good. The patches have landed in mainline too.
+I just noticed that the 'nr_io_queues' parameter type used in the host
+driver code fabrics.c is unsigned int. ?Would there be a truncation
+problem here, like say someone wants to do:
 
->> This one should handle the WARN_ON() for running the hw queue on the
->> wrong CPU as well.
->
-> On the workaround you added to prevent WARN_ON, we surely need to
-> prevent blk_mq_hctx_next_cpu from scheduling dead cpus in the first
-> place, right..  How do you feel about the following RFC?  I know it's
-> not a complete fix, but it feels like a good improvement to me.
->
-> http://www.spinics.net/lists/linux-scsi/msg98608.html
+nvme connect?--nr-io-queues=256
 
-But we can't completely prevent it, and I don't think we have to. I just
-don't want to trigger a warning for something that's a valid condition.
-I want the warning to trigger if this happens without the CPU going
-offline, since then it's indicative of a real bug in the mapping. Your
-patch isn't going to prevent it either - it'll shrink the window, at the
-expense of making blk_mq_hctx_next_cpu() more expensive. So I don't
-think it's worthwhile.
+??
 
+maybe nr_io_queues here also needs to be of type unsigned int.
 
--- 
-Jens Axboe
+Other than that, I'm fine with the changes.
+
+> ?	char *raw;
+> ?	char *device;
+> ?} cfg = { 0 };
+> @@ -481,6 +482,14 @@ static int build_options(char *argstr, int
+> max_len)
+> ?		max_len -= len;
+> ?	}
+> ?
+> +	if (cfg.nr_io_queues) {
+> +		len = snprintf(argstr, max_len, ",nr_io_queues=%s",
+> cfg.nr_io_queues);
+> +		if (len < 0)
+> +			return -EINVAL;
+> +		argstr += len;
+> +		max_len -= len;
+> +	}
+> +
+> ?	return 0;
+> ?}
+> ?
+> @@ -713,6 +722,8 @@ int connect(const char *desc, int argc, char
+> **argv)
+> ?			"transport service id (e.g. IP port)" },
+> ?		{"hostnqn", 'q', "LIST", CFG_STRING, &cfg.hostnqn,
+> required_argument,
+> ?			"user-defined hostnqn" },
+> +		{"nr-io-queues", 'i', "LIST", CFG_STRING,
+> &cfg.nr_io_queues, required_argument,
+> +			"number of io queues to use (default is core
+> count)" },
+> ?		{0},
+> ?	};
+> ?
