@@ -1,21 +1,19 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 29 Aug 2016 12:27:35 -0400
-Subject: [PATCH 2/3] nvme: Pass pointers, not dma addresses, to
- nvme_get/set_features()
-In-Reply-To: <2756c572e066ed91a41e35568a4d9346e47d6b42.1472462539.git.luto@kernel.org>
+Date: Mon, 29 Aug 2016 12:45:40 -0400
+Subject: [PATCH 3/3] nvme: Enable autonomous power state transitions
+In-Reply-To: <88cc7972617eec58a81877d933604e0f0e342e43.1472462539.git.luto@kernel.org>
 References: <cover.1472462539.git.luto@kernel.org>
- <2756c572e066ed91a41e35568a4d9346e47d6b42.1472462539.git.luto@kernel.org>
-Message-ID: <20160829162735.GD19986@localhost.localdomain>
+ <88cc7972617eec58a81877d933604e0f0e342e43.1472462539.git.luto@kernel.org>
+Message-ID: <20160829164540.GE19986@localhost.localdomain>
 
-On Mon, Aug 29, 2016@02:25:45AM -0700, Andy Lutomirski wrote:
+On Mon, Aug 29, 2016@02:25:46AM -0700, Andy Lutomirski wrote:
 > +	/*
-> +	 * A controller "page" may be bigger than a Linux page, but we can
-> +	 * be conservative here.
+> +	 * By default, allow up to 25ms of APST-induced latency.  This will
+> +	 * have no effect on non-APST supporting controllers (i.e. any
+> +	 * controller with APSTA == 0).
 > +	 */
+> +	ctrl->apst_max_latency_ns = 25000000;
 
-It is the actually other way around: the Linux page may be larger than the
-controller's. We currently use the smallest possible controller page (4k)
-regardless of the host's size due to limitations discovering the CPU's
-DMA alignment. PPC was the first to encounter this problem with NVMe.
-
-Otherwise, looks good.
+Any objection to making this a module parameter? 25ms default sounds
+reasonable, but I would still like the option to not ever initialize
+APST on a capable device.
