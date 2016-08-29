@@ -1,56 +1,32 @@
-From: luto@amacapital.net (Andy Lutomirski)
-Date: Tue, 30 Aug 2016 09:00:33 -0700
-Subject: [PATCH 2/3] nvme: Pass pointers, not dma addresses,
- to nvme_get/set_features()
-In-Reply-To: <20160830063651.GA32323@lst.de>
-References: <cover.1472462539.git.luto@kernel.org>
- <2756c572e066ed91a41e35568a4d9346e47d6b42.1472462539.git.luto@kernel.org>
- <20160829162735.GD19986@localhost.localdomain>
- <CALCETrWzfovS+kh=UsJZxNvN-_eypav+Df+NppPHt8FPPOSipw@mail.gmail.com>
- <20160830063651.GA32323@lst.de>
-Message-ID: <CALCETrX_A9t1zb_WjpKG23uGM_872qKoLgc1pkG5KWxQO_Kw2w@mail.gmail.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 29 Aug 2016 14:26:37 -0700
+Subject: [PATCH WIP/RFC v3 1/6] iw_cxgb4: call dev_put() on l2t allocation
+ failure
+In-Reply-To: <cover.1472574410.git.swise@opengridcomputing.com>
+References: <cover.1472574410.git.swise@opengridcomputing.com>
+Message-ID: <c867c9f2d1dbffab5718e369897792e97dd7f74b.1472574410.git.swise@opengridcomputing.com>
 
-On Mon, Aug 29, 2016@11:36 PM, Christoph Hellwig <hch@lst.de> wrote:
-> On Mon, Aug 29, 2016@04:20:43PM -0700, Andy Lutomirski wrote:
->> The "Set Features" command (section 5.15) Figure 103 says:
->>
->> If using PRPs, this field shall not be a pointer to a PRP List as the
->> data buffer may not cross more than one page boundary. If no data
->> structure is used as part of the specified feature, then this field is
->> not used.
->>
->> Does the Linux driver use PRPs?
->
-> The Linux PCIe driver always uses PRPs - and for admin command only
-> Fabrics can use SGLs anyway.
->
->> Do we need to worry about kmalloc
->> returning a buffer that spans a 4k boundary but does not span a Linux
->> page boundary?
->
-> Isn't kmalloc supposed to return naturally aligned buffers?
+Reviewed-by: Sagi Grimberg <sagi at grimbrg.me>
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+---
+ drivers/infiniband/hw/cxgb4/cm.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->From brief inspection of the code, it looks like kmalloc always
-returns a pointer aligned to a biggest power of two that can hold the
-allocation except when it uses 96-byte or 192-byte alignment.  96 and
-192 don't divide 4k.
-
-However, I think this is all moot because I misunderstood the spec.  It says:
-
-Data Pointer (DPTR): This field specifies the start of the data
-buffer. Refer to Figure 11 for the
-definition of this field. If using PRPs, this field shall not be a
-pointer to a PRP List as the data buffer
-may not cross more than one page boundary. If no data structure is
-used as part of the specified
-feature, then this field is not used.
-
-It doesn't say "may not cross a page boundary" -- it says it may not
-cross *more than one* page boundary.  I think that all it's trying to
-say is that there aren't any features that have buffers larger than a
-page, so no matter how they're aligned there are at most two PRP
-entries, and two PRP entries can be expressed without a PRP List.
-
-So I'm just going to remove the warning.
-
---Andy
+diff --git a/drivers/infiniband/hw/cxgb4/cm.c b/drivers/infiniband/hw/cxgb4/cm.c
+index b6a953a..434a7fb 100644
+--- a/drivers/infiniband/hw/cxgb4/cm.c
++++ b/drivers/infiniband/hw/cxgb4/cm.c
+@@ -2117,8 +2117,10 @@ static int import_ep(struct c4iw_ep *ep, int iptype, __u8 *peer_ip,
+ 		}
+ 		ep->l2t = cxgb4_l2t_get(cdev->rdev.lldi.l2t,
+ 					n, pdev, rt_tos2priority(tos));
+-		if (!ep->l2t)
++		if (!ep->l2t) {
++			dev_put(pdev);
+ 			goto out;
++		}
+ 		ep->mtu = pdev->mtu;
+ 		ep->tx_chan = cxgb4_port_chan(pdev);
+ 		ep->smac_idx = cxgb4_tp_smt_idx(adapter_type,
+-- 
+2.7.0
