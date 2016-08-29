@@ -1,25 +1,33 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 29 Aug 2016 01:02:19 -0700
-Subject: [PATCH] nvme-cli/fabrics: Add nr_io_queues parameter to connect
- command
-In-Reply-To: <1472443902.2832.8.camel@linux.intel.com>
-References: <20160826160112.495DFE08C5@smtp.ogc.us>
- <1472443902.2832.8.camel@linux.intel.com>
-Message-ID: <20160829080219.GA11787@infradead.org>
+From: luto@kernel.org (Andy Lutomirski)
+Date: Mon, 29 Aug 2016 02:25:43 -0700
+Subject: [PATCH 0/3] nvme power saving
+Message-ID: <cover.1472462539.git.luto@kernel.org>
 
-On Sun, Aug 28, 2016@09:11:42PM -0700, J Freyensee wrote:
-> On Fri, 2016-08-26@08:56 -0700, Steve Wise wrote:
-> > Added 'nr_io_queues' to 'connect' command so users can specify the
-> > number
-> > of io queues to allocate.
-> > 
-> > usage example:
-> > 
-> > nvme connect -t rdma -Q 8 -s 4420 -a 10.0.1.14 -n test-nvme
-> 
-> I was just wondering if there could be another lower-case letter flag
-> option we could use other than capital Q. ??Just looking at the example
-> above, it looks a tad out-of-place.
+Hi all-
 
--q would be nice. For that'd we need to rename the hostnqn one, but as
-stated before I think -q is really misnamed for that anyway..
+Here's v1 of the APST patch set.  The biggest bikesheddable thing (I
+think) is the scaling factor.  I currently have it hardcoded so that
+we wait 50x the total latency before entering a power saving state.
+On my Samsung 950, this means we enter state 3 (70mW, 0.5ms entry
+latency, 5ms exit latency) after 275ms and state 4 (5mW, 2ms entry
+latency, 22ms exit latency) after 1200ms.  I have the default max
+latency set to 25ms.
+
+FWIW, in practice, the latency this introduces seems to be well
+under 22ms, but my benchmark is a bit silly and I might have
+measured it wrong.  I certainly haven't observed a slowdown just
+using my laptop.
+
+Andy Lutomirski (3):
+  nvme/scsi: Remove power management support
+  nvme: Pass pointers, not dma addresses, to nvme_get/set_features()
+  nvme: Enable autonomous power state transitions
+
+ drivers/nvme/host/core.c | 199 +++++++++++++++++++++++++++++++++++++++++++++--
+ drivers/nvme/host/nvme.h |  10 ++-
+ drivers/nvme/host/scsi.c |  80 ++-----------------
+ include/linux/nvme.h     |   6 ++
+ 4 files changed, 211 insertions(+), 84 deletions(-)
+
+-- 
+2.7.4
