@@ -1,44 +1,41 @@
-From: luto@amacapital.net (Andy Lutomirski)
-Date: Tue, 30 Aug 2016 13:21:20 -0700
-Subject: [PATCH 3/3] nvme: Enable autonomous power state transitions
-In-Reply-To: <CALCETrXu8oOnc9R=_Bt8f6c=eGAJ0ZwbUL5xCUsu5zWR_ZzSKA@mail.gmail.com>
-References: <cover.1472462539.git.luto@kernel.org>
- <88cc7972617eec58a81877d933604e0f0e342e43.1472462539.git.luto@kernel.org>
- <1472483266.2816.14.camel@linux.intel.com>
- <CALCETrXu8oOnc9R=_Bt8f6c=eGAJ0ZwbUL5xCUsu5zWR_ZzSKA@mail.gmail.com>
-Message-ID: <CALCETrUFRhNTamd-u_K+KTowN9S8WJKgreUQ4mfxmfx5v8zSPQ@mail.gmail.com>
+From: luto@kernel.org (Andy Lutomirski)
+Date: Tue, 30 Aug 2016 14:59:36 -0700
+Subject: [PATCH v2 0/3] nvme power saving
+Message-ID: <cover.1472594203.git.luto@kernel.org>
 
-On Mon, Aug 29, 2016@4:16 PM, Andy Lutomirski <luto@amacapital.net> wrote:
-> On Aug 29, 2016 8:07 AM, "J Freyensee"
-> <james_p_freyensee@linux.intel.com> wrote:
->>
->> On Mon, 2016-08-29@02:25 -0700, Andy Lutomirski wrote:
->> > NVME devices can advertise multiple power states.  These states can
->> > be either "operational" (the device is fully functional but possibly
->> > slow) or "non-operational" (the device is asleep until woken up).
->> > Some devices can automatically enter a non-operational state when
->> > idle for a specified amount of time and then automatically wake back
->> > up when needed.
->> >
+Hi all-
 
->>
->> > +     /*
->> > +      * By default, allow up to 25ms of APST-induced
->> > latency.  This will
->> > +      * have no effect on non-APST supporting controllers (i.e.
->> > any
->> > +      * controller with APSTA == 0).
->> > +      */
->> > +     ctrl->apst_max_latency_ns = 25000000;
->>
->> Is it possible to make that a #define please?
->
-> I'll make it a module parameter as Keith suggested.
+Here's v1 of the APST patch set.  The biggest bikesheddable thing (I
+think) is the scaling factor.  I currently have it hardcoded so that
+we wait 50x the total latency before entering a power saving state.
+On my Samsung 950, this means we enter state 3 (70mW, 0.5ms entry
+latency, 5ms exit latency) after 275ms and state 4 (5mW, 2ms entry
+latency, 22ms exit latency) after 1200ms.  I have the default max
+latency set to 25ms.
 
-One question, though: should we call this and the sysfs parameter
-apst_max_latency or should it be more generically
-power_save_max_latency?  The idea is that we might want to support
-non-automonous transitions some day or even runtime D3.  Or maybe
-those should be separately configured if used.
+FWIW, in practice, the latency this introduces seems to be well
+under 22ms, but my benchmark is a bit silly and I might have
+measured it wrong.  I certainly haven't observed a slowdown just
+using my laptop.
 
---Andy
+Changes from v1:
+ - Get rid of feature buffer alignment warnings.
+ - Change the error message if NPSS is bogus.
+ - Rename apst_max_latency_ns to apst_max_latency_us because module params
+   don't like u64 or unsigned long long and I wanted to make it fit more
+   comfortably in a ulong module param.  (And the nanoseconds were useless.)
+ - Add a module parameter for the default max latency.
+
+Andy Lutomirski (3):
+  nvme/scsi: Remove power management support
+  nvme: Pass pointers, not dma addresses, to nvme_get/set_features()
+  nvme: Enable autonomous power state transitions
+
+ drivers/nvme/host/core.c | 185 +++++++++++++++++++++++++++++++++++++++++++++--
+ drivers/nvme/host/nvme.h |  10 ++-
+ drivers/nvme/host/scsi.c |  80 ++------------------
+ include/linux/nvme.h     |   6 ++
+ 4 files changed, 197 insertions(+), 84 deletions(-)
+
+-- 
+2.7.4
