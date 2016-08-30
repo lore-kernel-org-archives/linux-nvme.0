@@ -1,316 +1,60 @@
-From: luto@kernel.org (Andy Lutomirski)
-Date: Tue, 30 Aug 2016 14:59:39 -0700
-Subject: [PATCH v2 3/3] nvme: Enable autonomous power state transitions
-In-Reply-To: <cover.1472594203.git.luto@kernel.org>
-References: <cover.1472594203.git.luto@kernel.org>
-Message-ID: <6e6c3cd47858160bf8e34f2edb481c0ef5092d5b.1472594203.git.luto@kernel.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 30 Aug 2016 19:28:24 -0400
+Subject: blk-mq: allow passing in an external queue mapping V2
+In-Reply-To: <1472468013-29936-1-git-send-email-hch@lst.de>
+References: <1472468013-29936-1-git-send-email-hch@lst.de>
+Message-ID: <20160830232824.GA2807@localhost.localdomain>
 
-NVME devices can advertise multiple power states.  These states can
-be either "operational" (the device is fully functional but possibly
-slow) or "non-operational" (the device is asleep until woken up).
-Some devices can automatically enter a non-operational state when
-idle for a specified amount of time and then automatically wake back
-up when needed.
+On Mon, Aug 29, 2016@12:53:26PM +0200, Christoph Hellwig wrote:
+> This series is one third of the earlier "automatic interrupt affinity for
+> MSI/MSI-X capable devices" series, and make uses of the new irq-level
+> interrupt / queue mapping code in blk-mq, as well as allowing the driver
+> to pass in such a mask obtained from the (PCI) interrupt code.  To fully
+> support this feature in drivers the final third in the PCI layer will
+> be needed as well.
+> 
+> Note that these patches are on top of Linux 4.8-rc4 and will need several
+> patches not yet in the block for-4.9 branch.
+> 
+> A git tree is available at:
+> 
+>    git://git.infradead.org/users/hch/block.git block-queue-mapping
+> 
+> Gitweb:
+> 
+>    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/block-queue-mapping
+> 
+> Changes since V1:
+>  - rebased on top of Linux 4.8-rc4
+> 
+> Changes since automatic interrupt affinity for MSI/MSI-X capable devices V3:
+>  - a trivial cleanup in blk_mq_create_mq_map pointed out by Alexander
+> 
 
-The hardware configuration is a table.  For each state, an entry in
-the table indicates the next deeper non-operational state, if any,
-to autonomously transition to and the idle time required before
-transitioning.
+I really like how this is looking, but the pairing isn't coming out
+right when I applied this on one of my test machines. I have 32 CPUs
+and 31 MSI-x vectors, and this is the resulting blk-mq cpu list:
 
-This patch teaches the driver to program APST so that each
-successive non-operational state will be entered after an idle time
-equal to 100% of the total latency (entry plus exit) associated with
-that state.  A sysfs attribute 'apst_max_latency_us' gives the
-maximum acceptable latency in ns; non-operational states with total
-latency greater than this value will not be used.  As a special
-case, apst_max_latency_us=0 will disable APST entirely.
+  # cat /sys/block/nvme0n1/mq/*/cpu_list
+  0
+  10
+  11
+  12
+  13
+  14
+  15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
 
-On hardware without APST support, apst_max_latency_us will not be
-exposed in sysfs.
+Before, each mq hardware queue would have 2 CPUs, now it's terribly
+unbalanced.
 
-In theory, the device can expose "default" APST table, but this
-doesn't seem to function correctly on my device (Samsung 950), nor
-does it seem particularly useful.  There is also an optional
-mechanism by which a configuration can be "saved" so it will be
-automatically loaded on reset.  This can be configured from
-userspace, but it doesn't seem useful to support in the driver.
-
-On my laptop, enabling APST seems to save nearly 1W.
-
-The hardware tables can be decoded in userspace with nvme-cli.
-'nvme id-ctrl /dev/nvmeN' will show the power state table and
-'nvme get-feature -f 0x0c -H /dev/nvme0' will show the current APST
-configuration.
-
-Signed-off-by: Andy Lutomirski <luto at kernel.org>
----
- drivers/nvme/host/core.c | 167 +++++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |   6 ++
- include/linux/nvme.h     |   6 ++
- 3 files changed, 179 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9260d2971176..8aea8dfacda6 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -56,6 +56,12 @@ EXPORT_SYMBOL_GPL(nvme_max_retries);
- static int nvme_char_major;
- module_param(nvme_char_major, int, 0);
- 
-+static unsigned long default_apst_max_latency_us = 25000;
-+module_param_named(apst_max_latency_us, default_apst_max_latency_us,
-+		   ulong, 0644);
-+MODULE_PARM_DESC(apst_max_latency_us,
-+		 "default max APST latency; overridden per device in sysfs");
-+
- static LIST_HEAD(nvme_ctrl_list);
- static DEFINE_SPINLOCK(dev_list_lock);
- 
-@@ -1209,6 +1215,98 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
- 	blk_queue_write_cache(q, vwc, vwc);
- }
- 
-+static void nvme_configure_apst(struct nvme_ctrl *ctrl)
-+{
-+	/*
-+	 * APST (Autonomous Power State Transition) lets us program a
-+	 * table of power state transitions that the controller will
-+	 * perform automatically.  We configure it with a simple
-+	 * heuristic: we are willing to spend at most 2% of the time
-+	 * transitioning between power states.  Therefore, when running
-+	 * in any given state, we will enter the next lower-power
-+	 * non-operational state after waiting 100 * (enlat + exlat)
-+	 * microseconds, as long as that state's total latency is under
-+	 * the requested maximum latency.
-+	 *
-+	 * We will not autonomously enter any non-operational state for
-+	 * which the total latency exceeds apst_max_latency_us.  Users
-+	 * can set apst_max_latency_us to zero to turn off APST.
-+	 */
-+
-+	unsigned apste;
-+	struct nvme_feat_auto_pst *table;
-+	int ret;
-+
-+	if (!ctrl->apsta)
-+		return;	/* APST isn't supported. */
-+
-+	if (ctrl->npss > 31) {
-+		dev_warn(ctrl->device, "NPSS is invalid; not using APST\n");
-+		return;
-+	}
-+
-+	table = kzalloc(sizeof(*table), GFP_KERNEL);
-+	if (!table)
-+		return;
-+
-+	if (ctrl->apst_max_latency_us == 0) {
-+		/* Turn off APST. */
-+		apste = 0;
-+	} else {
-+		__le64 target = cpu_to_le64(0);
-+		int state;
-+
-+		/*
-+		 * Walk through all states from lowest- to highest-power.
-+		 * According to the spec, lower-numbered states use more
-+		 * power.  NPSS, despite the name, is the index of the
-+		 * lowest-power state, not the number of states.
-+		 */
-+		for (state = (int)ctrl->npss; state >= 0; state--) {
-+			u64 total_latency_us, transition_ms;
-+
-+			if (target)
-+				table->entries[state] = target;
-+
-+			/*
-+			 * Is this state a useful non-operational state for
-+			 * higher-power states to autonomously transition to?
-+			 */
-+			if (!(ctrl->psd[state].flags & 2))
-+				continue;  /* It's an operational state. */
-+
-+			total_latency_us =
-+				(u64)cpu_to_le32(ctrl->psd[state].entry_lat) +
-+				+ cpu_to_le32(ctrl->psd[state].exit_lat);
-+			if (total_latency_us > ctrl->apst_max_latency_us)
-+				continue;
-+
-+			/*
-+			 * This state is good.  Use it as the APST idle
-+			 * target for higher power states.
-+			 */
-+			transition_ms = total_latency_us + 19;
-+			do_div(transition_ms, 20);
-+			if (transition_ms >= (1 << 24))
-+				transition_ms = (1 << 24);
-+
-+			target = cpu_to_le64((state << 3) |
-+					     (transition_ms << 8));
-+		}
-+
-+		apste = 1;
-+	}
-+
-+	ret = nvme_set_features(ctrl, NVME_FEAT_AUTO_PST, apste,
-+				table, sizeof(*table), NULL);
-+	if (ret)
-+		dev_err(ctrl->device, "failed to set APST feature (%d)\n", ret);
-+
-+	kfree(table);
-+}
-+
-+static struct attribute_group nvme_dev_dynamic_attrs_group;
-+
- /*
-  * Initialize the cached copies of the Identify data and various controller
-  * register in our nvme_ctrl structure.  This should be called as soon as
-@@ -1275,6 +1373,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ctrl->sgls = le32_to_cpu(id->sgls);
- 	ctrl->kas = le16_to_cpu(id->kas);
- 
-+	ctrl->npss = id->npss;
-+	ctrl->apsta = id->apsta;
-+	memcpy(ctrl->psd, id->psd, sizeof(ctrl->psd));
-+
- 	if (ctrl->ops->is_fabrics) {
- 		ctrl->icdoff = le16_to_cpu(id->icdoff);
- 		ctrl->ioccsz = le32_to_cpu(id->ioccsz);
-@@ -1298,6 +1400,10 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	}
- 
- 	kfree(id);
-+
-+	nvme_configure_apst(ctrl);
-+
-+	sysfs_update_group(&ctrl->device->kobj, &nvme_dev_dynamic_attrs_group);
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(nvme_init_identify);
-@@ -1568,6 +1674,41 @@ static ssize_t nvme_sysfs_show_address(struct device *dev,
- }
- static DEVICE_ATTR(address, S_IRUGO, nvme_sysfs_show_address, NULL);
- 
-+static ssize_t nvme_sysfs_show_apst_max_latency_us(
-+	struct device *dev,
-+	struct device_attribute *attr,
-+	char *buf)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+
-+	return snprintf(buf, PAGE_SIZE, "%llu\n", ctrl->apst_max_latency_us);
-+}
-+
-+static ssize_t nvme_sysfs_store_apst_max_latency_us(
-+	struct device *dev,
-+	struct device_attribute *attr,
-+	const char *buf, size_t size)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+	int ret;
-+	u64 val;
-+
-+	ret = kstrtoull(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (ctrl->apst_max_latency_us != val) {
-+		ctrl->apst_max_latency_us = val;
-+		nvme_configure_apst(ctrl);
-+	}
-+
-+	return size;
-+}
-+
-+static DEVICE_ATTR(apst_max_latency_us, 0644,
-+		   nvme_sysfs_show_apst_max_latency_us,
-+		   nvme_sysfs_store_apst_max_latency_us);
-+
- static struct attribute *nvme_dev_attrs[] = {
- 	&dev_attr_reset_controller.attr,
- 	&dev_attr_rescan_controller.attr,
-@@ -1609,8 +1750,33 @@ static struct attribute_group nvme_dev_attrs_group = {
- 	.is_visible	= nvme_dev_attrs_are_visible,
- };
- 
-+static struct attribute *nvme_dev_dynamic_attrs[] = {
-+	&dev_attr_apst_max_latency_us.attr,
-+	NULL
-+};
-+
-+static umode_t nvme_dev_dynamic_attrs_are_visible(struct kobject *kobj,
-+		struct attribute *a, int n)
-+{
-+	struct device *dev = container_of(kobj, struct device, kobj);
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+
-+	if (a == &dev_attr_apst_max_latency_us.attr) {
-+		if (!ctrl->apsta)
-+			return 0;
-+	}
-+
-+	return a->mode;
-+}
-+
-+static struct attribute_group nvme_dev_dynamic_attrs_group = {
-+	.attrs		= nvme_dev_dynamic_attrs,
-+	.is_visible	= nvme_dev_dynamic_attrs_are_visible,
-+};
-+
- static const struct attribute_group *nvme_dev_attr_groups[] = {
- 	&nvme_dev_attrs_group,
-+	&nvme_dev_dynamic_attrs_group,
- 	NULL,
- };
- 
-@@ -1995,6 +2161,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	ctrl->quirks = quirks;
- 	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
- 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
-+	ctrl->apst_max_latency_us = default_apst_max_latency_us;
- 
- 	ret = nvme_set_instance(ctrl);
- 	if (ret)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 383ae22e169e..f445ad48dd0e 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -129,13 +129,19 @@ struct nvme_ctrl {
- 	u32 vs;
- 	u32 sgls;
- 	u16 kas;
-+	u8 npss;
-+	u8 apsta;
- 	unsigned int kato;
- 	bool subsystem;
- 	unsigned long quirks;
-+	struct nvme_id_power_state psd[32];
- 	struct work_struct scan_work;
- 	struct work_struct async_event_work;
- 	struct delayed_work ka_work;
- 
-+	/* APSTA configuration */
-+	u64 apst_max_latency_us;
-+
- 	/* Fabrics only */
- 	u16 sqsize;
- 	u32 ioccsz;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index d8b37bab2887..a76237dac4b0 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -543,6 +543,12 @@ struct nvme_dsm_range {
- 	__le64			slba;
- };
- 
-+/* Features */
-+
-+struct nvme_feat_auto_pst {
-+	__le64 entries[32];
-+};
-+
- /* Admin commands */
- 
- enum nvme_admin_opcode {
--- 
-2.7.4
+I'll look again tomorrow to make sure I didn't mess something up when
+merging your tree, but just wanted to let you know now.
