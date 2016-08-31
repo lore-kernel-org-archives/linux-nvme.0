@@ -1,38 +1,23 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 31 Aug 2016 09:29:29 -0500
-Subject: [PATCH WIP/RFC v3 3/6] nvme_rdma: keep a ref on the ctrl during
- delete/flush
-In-Reply-To: <1bb868c7-2417-0853-ff35-77770a6557af@grimberg.me>
-References: <cover.1472574410.git.swise@opengridcomputing.com>
- <f3b74c6ef7caba2fdff194be0c90ec7423103893.1472574410.git.swise@opengridcomputing.com>
- <c749145e-618e-ef0c-4249-8f441c55e4b1@grimberg.me>
- <012001d202e6$aa27bbb0$fe773310$@opengridcomputing.com>
- <1bb868c7-2417-0853-ff35-77770a6557af@grimberg.me>
-Message-ID: <00b201d20394$15a0ab60$40e20220$@opengridcomputing.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 31 Aug 2016 10:54:41 -0400
+Subject: [PATCH v2] nvme-cli/fabrics: Add nr_io_queues parameter to
+ connect command
+In-Reply-To: <1472499553.2816.31.camel@linux.intel.com>
+References: <20160829155725.A031AE08C5@smtp.ogc.us>
+ <1472496727.2816.27.camel@linux.intel.com>
+ <019601d2022a$2017d340$604779c0$@opengridcomputing.com>
+ <1472499553.2816.31.camel@linux.intel.com>
+Message-ID: <20160831145441.GA5598@localhost.localdomain>
 
-> >
-> > At the top of nvme_rdma_device_unplug(), we change the ctrl state to
-DELETING.
-> > If that succeeded, and thus we own the delete process, and are about to kref
-the
-> > controller, how could the controller ref be 0?  If it is, it is probably
-freed
-> > which means we're in a bad way...
+On Mon, Aug 29, 2016@12:39:13PM -0700, J Freyensee wrote:
+> On Mon, 2016-08-29@14:18 -0500, Steve Wise wrote:
+> > This patch follows the other existing parameters.??For instance:
+> > trsvcid.??It is basically an unstructured string that is passed to
+> > the driver and the driver does the enforcement/validation.
 > 
-> I meant in the del_ctrl part...
+> Oh yah, you are right, everything can be a string of variable length
+> and gets converted accordingly...more coffee...
 > 
+> Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
 
-Oh. :)
-
-Does this fully avoid the race?
-
-@@ -1671,7 +1671,8 @@ static int nvme_rdma_del_ctrl(struct nvme_ctrl *nctrl)
-         * Keep a reference until all work is flushed since
-         * __nvme_rdma_del_ctrl can free the ctrl mem
-         */
--       kref_get(&ctrl->ctrl.kref);
-+       if (!kref_get_unless_zero(&ctrl->ctrl.kref))
-+               return -ENOMEM;
-        ret = __nvme_rdma_del_ctrl(ctrl);
-        if (!ret)
-                flush_work(&ctrl->delete_work);
+Thanks, applied.
