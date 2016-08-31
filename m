@@ -1,60 +1,28 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 30 Aug 2016 19:28:24 -0400
-Subject: blk-mq: allow passing in an external queue mapping V2
-In-Reply-To: <1472468013-29936-1-git-send-email-hch@lst.de>
-References: <1472468013-29936-1-git-send-email-hch@lst.de>
-Message-ID: <20160830232824.GA2807@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 31 Aug 2016 08:06:57 +0300
+Subject: [PATCH WIP/RFC v3 3/6] nvme_rdma: keep a ref on the ctrl during
+ delete/flush
+In-Reply-To: <012001d202e6$aa27bbb0$fe773310$@opengridcomputing.com>
+References: <cover.1472574410.git.swise@opengridcomputing.com>
+ <f3b74c6ef7caba2fdff194be0c90ec7423103893.1472574410.git.swise@opengridcomputing.com>
+ <c749145e-618e-ef0c-4249-8f441c55e4b1@grimberg.me>
+ <012001d202e6$aa27bbb0$fe773310$@opengridcomputing.com>
+Message-ID: <1bb868c7-2417-0853-ff35-77770a6557af@grimberg.me>
 
-On Mon, Aug 29, 2016@12:53:26PM +0200, Christoph Hellwig wrote:
-> This series is one third of the earlier "automatic interrupt affinity for
-> MSI/MSI-X capable devices" series, and make uses of the new irq-level
-> interrupt / queue mapping code in blk-mq, as well as allowing the driver
-> to pass in such a mask obtained from the (PCI) interrupt code.  To fully
-> support this feature in drivers the final third in the PCI layer will
-> be needed as well.
-> 
-> Note that these patches are on top of Linux 4.8-rc4 and will need several
-> patches not yet in the block for-4.9 branch.
-> 
-> A git tree is available at:
-> 
->    git://git.infradead.org/users/hch/block.git block-queue-mapping
-> 
-> Gitweb:
-> 
->    http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/block-queue-mapping
-> 
-> Changes since V1:
->  - rebased on top of Linux 4.8-rc4
-> 
-> Changes since automatic interrupt affinity for MSI/MSI-X capable devices V3:
->  - a trivial cleanup in blk_mq_create_mq_map pointed out by Alexander
-> 
 
-I really like how this is looking, but the pairing isn't coming out
-right when I applied this on one of my test machines. I have 32 CPUs
-and 31 MSI-x vectors, and this is the resulting blk-mq cpu list:
+>>> -	/* Queue controller deletion */
+>>> +	/*
+>>> +	 * Queue controller deletion. Keep a reference until all
+>>> +	 * work is flushed since delete_work will free the ctrl mem
+>>> +	 */
+>>> +	kref_get(&ctrl->ctrl.kref);
+>>
+>> kref_get_unless_zero?
+>>
+>
+> At the top of nvme_rdma_device_unplug(), we change the ctrl state to DELETING.
+> If that succeeded, and thus we own the delete process, and are about to kref the
+> controller, how could the controller ref be 0?  If it is, it is probably freed
+> which means we're in a bad way...
 
-  # cat /sys/block/nvme0n1/mq/*/cpu_list
-  0
-  10
-  11
-  12
-  13
-  14
-  15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
-  1
-  2
-  3
-  4
-  5
-  6
-  7
-  8
-  9
-
-Before, each mq hardware queue would have 2 CPUs, now it's terribly
-unbalanced.
-
-I'll look again tomorrow to make sure I didn't mess something up when
-merging your tree, but just wanted to let you know now.
+I meant in the del_ctrl part...
