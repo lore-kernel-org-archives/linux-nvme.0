@@ -1,23 +1,34 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 31 Aug 2016 10:54:41 -0400
-Subject: [PATCH v2] nvme-cli/fabrics: Add nr_io_queues parameter to
- connect command
-In-Reply-To: <1472499553.2816.31.camel@linux.intel.com>
-References: <20160829155725.A031AE08C5@smtp.ogc.us>
- <1472496727.2816.27.camel@linux.intel.com>
- <019601d2022a$2017d340$604779c0$@opengridcomputing.com>
- <1472499553.2816.31.camel@linux.intel.com>
-Message-ID: <20160831145441.GA5598@localhost.localdomain>
+Date: Wed, 31 Aug 2016 12:38:53 -0400
+Subject: [PATCH 4/7] blk-mq: allow the driver to pass in an affinity mask
+In-Reply-To: <1472468013-29936-5-git-send-email-hch@lst.de>
+References: <1472468013-29936-1-git-send-email-hch@lst.de>
+ <1472468013-29936-5-git-send-email-hch@lst.de>
+Message-ID: <20160831163852.GB5598@localhost.localdomain>
 
-On Mon, Aug 29, 2016@12:39:13PM -0700, J Freyensee wrote:
-> On Mon, 2016-08-29@14:18 -0500, Steve Wise wrote:
-> > This patch follows the other existing parameters.??For instance:
-> > trsvcid.??It is basically an unstructured string that is passed to
-> > the driver and the driver does the enforcement/validation.
-> 
-> Oh yah, you are right, everything can be a string of variable length
-> and gets converted accordingly...more coffee...
-> 
-> Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+On Mon, Aug 29, 2016@12:53:30PM +0200, Christoph Hellwig wrote:
+> +static int blk_mq_create_mq_map(struct blk_mq_tag_set *set,
+> +		const struct cpumask *affinity_mask)
+> +{
+> +	int queue = -1, cpu = 0;
+> +
+> +	set->mq_map = kzalloc_node(sizeof(*set->mq_map) * nr_cpu_ids,
+> +			GFP_KERNEL, set->numa_node);
+> +	if (!set->mq_map)
+> +		return -ENOMEM;
+> +
+> +	if (!affinity_mask)
+> +		return 0;	/* map all cpus to queue 0 */
+> +
+> +	/* If cpus are offline, map them to first hctx */
+> +	for_each_online_cpu(cpu) {
+> +		if (cpumask_test_cpu(cpu, affinity_mask))
+> +			queue++;
+> +		if (queue >= 0)
+> +			set->mq_map[cpu] = queue;
+> +	}
 
-Thanks, applied.
+This can't be right. We have a single affinity mask for the entire
+set, but what I think we want is an one affinity mask for each
+nr_io_queues. The irq_create_affinity_mask should then create an array
+of cpumasks based on nr_vecs..
