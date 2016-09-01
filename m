@@ -1,12 +1,19 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 1 Sep 2016 10:34:51 +0200
-Subject: [PATCH WIP/RFC v3 1/6] iw_cxgb4: call dev_put() on l2t
- allocation failure
-In-Reply-To: <c867c9f2d1dbffab5718e369897792e97dd7f74b.1472574410.git.swise@opengridcomputing.com>
+Date: Thu, 1 Sep 2016 10:35:27 +0200
+Subject: [PATCH WIP/RFC v3 2/6] iw_cxgb4: block module unload until all
+ ep resources are released
+In-Reply-To: <bf7a550bc5e1367e4c1ec3b8e703e6d17c75e033.1472574410.git.swise@opengridcomputing.com>
 References: <cover.1472574410.git.swise@opengridcomputing.com>
- <c867c9f2d1dbffab5718e369897792e97dd7f74b.1472574410.git.swise@opengridcomputing.com>
-Message-ID: <20160901083451.GA3703@lst.de>
+ <bf7a550bc5e1367e4c1ec3b8e703e6d17c75e033.1472574410.git.swise@opengridcomputing.com>
+Message-ID: <20160901083527.GB3703@lst.de>
 
-Looks fine,
+On Mon, Aug 29, 2016@02:26:48PM -0700, Steve Wise wrote:
+> Otherwise an endpoint can be still closing down causing a touch
+> after free crash.
+
+This also adds a few WARN_ON calls that might be worth mentioning in the
+changelog.
+
+Otherwise looks fine:
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
