@@ -1,69 +1,77 @@
 From: swise@opengridcomputing.com (Steve Wise)
 Date: Thu, 1 Sep 2016 09:12:57 -0700
-Subject: [PATCH v4 4/6] nvme-rdma: destroy nvme queue rdma resources on
- connect failure
+Subject: [PATCH v4 5/6] nvme-rdma: add DELETING queue flag
 In-Reply-To: <cover.1472746379.git.swise@opengridcomputing.com>
 References: <cover.1472746379.git.swise@opengridcomputing.com>
-Message-ID: <c04f7c0232402294ce6fc0dd85878c0a21ed46bc.1472746379.git.swise@opengridcomputing.com>
+Message-ID: <cb63534fde54bd557ab491b85af67b694d5f3303.1472746379.git.swise@opengridcomputing.com>
 
-After address resolution, the nvme_rdma_queue rdma resources are
-allocated.  If rdma route resolution or the connect fails, or the
-controller reconnect times out and gives up, then the rdma resources
-need to be freed.  Otherwise, rdma resources are leaked.
+From: Sagi Grimberg <sagi@grimberg.me>
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Sagi Grimberg <sagi at grimbrg.me>
-Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+When we get a surprise disconnect from the target we queue a periodic
+reconnect (which is the sane thing to do...).
+
+We only move the queues out of CONNECTED when we retry to reconnect (after
+10 seconds in the default case) but we stop the blk queues immediately
+so we are not bothered with traffic from now on. If delete() is kicking
+off in this period the queues are still in CONNECTED state.
+
+Part of the delete sequence is trying to issue ctrl shutdown if the
+admin queue is CONNECTED (which it is!). This request is issued but
+stuck in blk-mq waiting for the queues to start again. This might be
+the one preventing us from forward progress...
+
+The patch separates the queue flags to CONNECTED and DELETING. Now we
+will move out of CONNECTED as soon as error recovery kicks in (before
+stopping the queues) and DELETING is on when we start the queue deletion.
+
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/nvme/host/rdma.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 15b0c1d..d97a16f 100644
+index d97a16f..a5c2280 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -82,6 +82,7 @@ struct nvme_rdma_request {
- 
+@@ -83,6 +83,7 @@ struct nvme_rdma_request {
  enum nvme_rdma_queue_flags {
  	NVME_RDMA_Q_CONNECTED = (1 << 0),
-+	NVME_RDMA_IB_QUEUE_ALLOCATED = (1 << 1),
+ 	NVME_RDMA_IB_QUEUE_ALLOCATED = (1 << 1),
++	NVME_RDMA_Q_DELETING = (1 << 2),
  };
  
  struct nvme_rdma_queue {
-@@ -483,6 +484,8 @@ static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
- 	struct nvme_rdma_device *dev = queue->device;
- 	struct ib_device *ibdev = dev->dev;
+@@ -614,7 +615,7 @@ static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
  
-+	if (!test_and_clear_bit(NVME_RDMA_IB_QUEUE_ALLOCATED, &queue->flags))
-+		return;
- 	rdma_destroy_qp(queue->cm_id);
- 	ib_free_cq(queue->ib_cq);
+ static void nvme_rdma_stop_and_free_queue(struct nvme_rdma_queue *queue)
+ {
+-	if (!test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags))
++	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
+ 		return;
+ 	nvme_rdma_stop_queue(queue);
+ 	nvme_rdma_free_queue(queue);
+@@ -767,8 +768,13 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = container_of(work,
+ 			struct nvme_rdma_ctrl, err_work);
++	int i;
  
-@@ -533,6 +536,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue,
- 		ret = -ENOMEM;
- 		goto out_destroy_qp;
- 	}
-+	set_bit(NVME_RDMA_IB_QUEUE_ALLOCATED, &queue->flags);
+ 	nvme_stop_keep_alive(&ctrl->ctrl);
++
++	for (i = 0; i < ctrl->queue_count; i++)
++		clear_bit(NVME_RDMA_Q_CONNECTED, &ctrl->queues[i].flags);
++
+ 	if (ctrl->queue_count > 1)
+ 		nvme_stop_queues(&ctrl->ctrl);
+ 	blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
+@@ -1348,7 +1354,7 @@ static int nvme_rdma_device_unplug(struct nvme_rdma_queue *queue)
+ 	cancel_delayed_work_sync(&ctrl->reconnect_work);
  
- 	return 0;
- 
-@@ -590,6 +594,8 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
- 	return 0;
- 
- out_destroy_cm_id:
-+	if (test_and_clear_bit(NVME_RDMA_IB_QUEUE_ALLOCATED, &ctrl->queues[0].flags))
-+		nvme_rdma_destroy_queue_ib(queue);
- 	rdma_destroy_id(queue->cm_id);
- 	return ret;
- }
-@@ -652,7 +658,7 @@ static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl *ctrl)
- 	return 0;
- 
- out_free_queues:
--	for (; i >= 1; i--)
-+	for (i--; i >= 1; i--)
- 		nvme_rdma_stop_and_free_queue(&ctrl->queues[i]);
- 
- 	return ret;
+ 	/* Disable the queue so ctrl delete won't free it */
+-	if (test_and_clear_bit(NVME_RDMA_Q_CONNECTED, &queue->flags)) {
++	if (!test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags)) {
+ 		/* Free this queue ourselves */
+ 		nvme_rdma_stop_queue(queue);
+ 		nvme_rdma_destroy_queue_ib(queue);
 -- 
 2.7.0
