@@ -1,15 +1,17 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 1 Sep 2016 10:45:09 +0200
-Subject: blk-mq: allow passing in an external queue mapping V2
-In-Reply-To: <20160830232824.GA2807@localhost.localdomain>
+Date: Thu, 1 Sep 2016 10:46:24 +0200
+Subject: [PATCH 4/7] blk-mq: allow the driver to pass in an affinity mask
+In-Reply-To: <20160831163852.GB5598@localhost.localdomain>
 References: <1472468013-29936-1-git-send-email-hch@lst.de>
- <20160830232824.GA2807@localhost.localdomain>
-Message-ID: <20160901084509.GB4115@lst.de>
+ <1472468013-29936-5-git-send-email-hch@lst.de>
+ <20160831163852.GB5598@localhost.localdomain>
+Message-ID: <20160901084624.GC4115@lst.de>
 
-On Tue, Aug 30, 2016@07:28:24PM -0400, Keith Busch wrote:
-> Before, each mq hardware queue would have 2 CPUs, now it's terribly
-> unbalanced.
+On Wed, Aug 31, 2016@12:38:53PM -0400, Keith Busch wrote:
+> This can't be right. We have a single affinity mask for the entire
+> set, but what I think we want is an one affinity mask for each
+> nr_io_queues. The irq_create_affinity_mask should then create an array
+> of cpumasks based on nr_vecs..
 
-Hmm.  This wasn't supposed to change the cpu mapping, an indeed I saw
-results like that horrible one before as well.  Let me dig into this
-with my fake lower queue count device.
+Nah, this is Thomas' creating abuse of the cpumask type.  Every bit set
+in the affinity_mask means this is a cpu we allocate a vector / queue to.
