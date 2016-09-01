@@ -1,173 +1,38 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 1 Sep 2016 09:12:58 -0700
-Subject: [PATCH v4 6/6] nvme-rdma: use ib_client API to detect device removal
-In-Reply-To: <cover.1472746379.git.swise@opengridcomputing.com>
-References: <cover.1472746379.git.swise@opengridcomputing.com>
-Message-ID: <425b684aebccebc9fa90880ae7edd5869387c28c.1472746379.git.swise@opengridcomputing.com>
+Date: Thu, 1 Sep 2016 14:01:00 -0500
+Subject: crash when connecting to targets using nr_io_queues < num cpus
+In-Reply-To: <00ae01d2045a$a8516500$f8f42f00$@opengridcomputing.com>
+References: <011401d203c4$0cdd78c0$26986a40$@opengridcomputing.com>
+ <6082d700-a45c-b00a-3f09-ba6196cc3e5e@grimberg.me>
+ <00ae01d2045a$a8516500$f8f42f00$@opengridcomputing.com>
+Message-ID: <01b401d20483$2da4fd20$88eef760$@opengridcomputing.com>
 
-Change nvme-rdma to use the IB Client API to detect device removal.
-This has the wonderful benefit of being able to blow away all the
-ib/rdma_cm resources for the device being removed.  No craziness about
-not destroying the cm_id handling the event.  No deadlocks due to broken
-iw_cm/rdma_cm/iwarp dependencies.  And no need to have a bound cm_id
-around during controller recovery/reconnect to catch device removal
-events.
+> > > Hey all,
+> > >
+> > > I'm testing smaller ioq sets with nvmf/rdma, and I see some issue.  If I
+> connect
+> > > with 2, 4, 6, 8, 10, 16, or 32  for nr_io_queues, everything is happy.  It
+> > > seems, though, if I connect with a value of 12, or 28, or some other non
+> power
+> > > of two, I get intermittent crashes in __blk_mq_get_reserved_tag() at line
+> 337
+> > > when setting up a controller's IO queues.   I'm not sure exactly if this
+is
+> > > always non power of two, or something else, but it seems to never crash
+with
+> > > power of two values (could be a coincidence I guess).
+> >
+> > I think Ming sent a patch for this some time ago... Not sure what
+> > happened with it though...
+> 
+> This?
+> 
+> http://lists.infradead.org/pipermail/linux-nvme/2016-June/004884.html
 
-We don't use the device_add aspect of the ib_client service since we only
-want to create resources for an IB device if we have a target utilizing
-that device.
+This is indeed the same problem.  I don't have the knoggin to propose a fix.
+Sagi/Christoph, do you have any ideas on this?  I'm willing to take and idea
+forward and test it out of you all have any clever ideas.  We should at least
+prevent setting nr_io_queues to a value that will crash immediately when nvmf is
+used...
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Steve Wise <swise at opengridcomputing.com>
----
- drivers/nvme/host/rdma.c | 108 ++++++++++++++++++-----------------------------
- 1 file changed, 40 insertions(+), 68 deletions(-)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index a5c2280..52e1e82 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1317,64 +1317,6 @@ out_destroy_queue_ib:
- 	return ret;
- }
- 
--/**
-- * nvme_rdma_device_unplug() - Handle RDMA device unplug
-- * @queue:      Queue that owns the cm_id that caught the event
-- *
-- * DEVICE_REMOVAL event notifies us that the RDMA device is about
-- * to unplug so we should take care of destroying our RDMA resources.
-- * This event will be generated for each allocated cm_id.
-- *
-- * In our case, the RDMA resources are managed per controller and not
-- * only per queue. So the way we handle this is we trigger an implicit
-- * controller deletion upon the first DEVICE_REMOVAL event we see, and
-- * hold the event inflight until the controller deletion is completed.
-- *
-- * One exception that we need to handle is the destruction of the cm_id
-- * that caught the event. Since we hold the callout until the controller
-- * deletion is completed, we'll deadlock if the controller deletion will
-- * call rdma_destroy_id on this queue's cm_id. Thus, we claim ownership
-- * of destroying this queue before-hand, destroy the queue resources,
-- * then queue the controller deletion which won't destroy this queue and
-- * we destroy the cm_id implicitely by returning a non-zero rc to the callout.
-- */
--static int nvme_rdma_device_unplug(struct nvme_rdma_queue *queue)
--{
--	struct nvme_rdma_ctrl *ctrl = queue->ctrl;
--	int ret = 0;
--
--	/* Own the controller deletion */
--	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
--		return 0;
--
--	dev_warn(ctrl->ctrl.device,
--		"Got rdma device removal event, deleting ctrl\n");
--
--	/* Get rid of reconnect work if its running */
--	cancel_delayed_work_sync(&ctrl->reconnect_work);
--
--	/* Disable the queue so ctrl delete won't free it */
--	if (!test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags)) {
--		/* Free this queue ourselves */
--		nvme_rdma_stop_queue(queue);
--		nvme_rdma_destroy_queue_ib(queue);
--
--		/* Return non-zero so the cm_id will destroy implicitly */
--		ret = 1;
--	}
--
--	/*
--	 * Queue controller deletion. Keep a reference until all
--	 * work is flushed since delete_work will free the ctrl mem
--	 */
--	kref_get(&ctrl->ctrl.kref);
--	queue_work(nvme_rdma_wq, &ctrl->delete_work);
--	flush_work(&ctrl->delete_work);
--	nvme_put_ctrl(&ctrl->ctrl);
--
--	return ret;
--}
--
- static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
- 		struct rdma_cm_event *ev)
- {
-@@ -1416,8 +1358,8 @@ static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
- 		nvme_rdma_error_recovery(queue->ctrl);
- 		break;
- 	case RDMA_CM_EVENT_DEVICE_REMOVAL:
--		/* return 1 means impliciy CM ID destroy */
--		return nvme_rdma_device_unplug(queue);
-+		/* device removal is handled via the ib_client API */
-+		break;
- 	default:
- 		dev_err(queue->ctrl->ctrl.device,
- 			"Unexpected RDMA CM event (%d)\n", ev->event);
-@@ -2027,27 +1969,57 @@ static struct nvmf_transport_ops nvme_rdma_transport = {
- 	.create_ctrl	= nvme_rdma_create_ctrl,
- };
- 
-+static void nvme_rdma_add_one(struct ib_device *ib_device)
-+{
-+}
-+
-+static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
-+{
-+	struct nvme_rdma_ctrl *ctrl;
-+
-+	/* Delete all controllers using this device */
-+	mutex_lock(&nvme_rdma_ctrl_mutex);
-+	list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list) {
-+		if (ctrl->device->dev != ib_device)
-+			continue;
-+		dev_info(ctrl->ctrl.device,
-+			"Removing ctrl: NQN \"%s\", addr %pISp\n",
-+			ctrl->ctrl.opts->subsysnqn, &ctrl->addr);
-+		__nvme_rdma_del_ctrl(ctrl);
-+	}
-+	mutex_unlock(&nvme_rdma_ctrl_mutex);
-+
-+	flush_workqueue(nvme_rdma_wq);
-+}
-+
-+static struct ib_client nvme_rdma_ib_client = {
-+	.name   = "nvme_rdma",
-+	.add = nvme_rdma_add_one,
-+	.remove = nvme_rdma_remove_one
-+};
-+
- static int __init nvme_rdma_init_module(void)
- {
-+	int ret;
-+
- 	nvme_rdma_wq = create_workqueue("nvme_rdma_wq");
- 	if (!nvme_rdma_wq)
- 		return -ENOMEM;
- 
-+	ret = ib_register_client(&nvme_rdma_ib_client);
-+	if (ret) {
-+		destroy_workqueue(nvme_rdma_wq);
-+		return ret;
-+	}
-+
- 	nvmf_register_transport(&nvme_rdma_transport);
- 	return 0;
- }
- 
- static void __exit nvme_rdma_cleanup_module(void)
- {
--	struct nvme_rdma_ctrl *ctrl;
--
- 	nvmf_unregister_transport(&nvme_rdma_transport);
--
--	mutex_lock(&nvme_rdma_ctrl_mutex);
--	list_for_each_entry(ctrl, &nvme_rdma_ctrl_list, list)
--		__nvme_rdma_del_ctrl(ctrl);
--	mutex_unlock(&nvme_rdma_ctrl_mutex);
--
-+	ib_unregister_client(&nvme_rdma_ib_client);
- 	destroy_workqueue(nvme_rdma_wq);
- }
- 
--- 
-2.7.0
+Steve.
