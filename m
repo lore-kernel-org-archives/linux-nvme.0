@@ -1,17 +1,29 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 1 Sep 2016 10:46:24 +0200
-Subject: [PATCH 4/7] blk-mq: allow the driver to pass in an affinity mask
-In-Reply-To: <20160831163852.GB5598@localhost.localdomain>
-References: <1472468013-29936-1-git-send-email-hch@lst.de>
- <1472468013-29936-5-git-send-email-hch@lst.de>
- <20160831163852.GB5598@localhost.localdomain>
-Message-ID: <20160901084624.GC4115@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 1 Sep 2016 12:31:51 +0300
+Subject: [PATCH WIP/RFC v3 3/6] nvme_rdma: keep a ref on the ctrl during
+ delete/flush
+In-Reply-To: <20160901083609.GC3703@lst.de>
+References: <cover.1472574410.git.swise@opengridcomputing.com>
+ <f3b74c6ef7caba2fdff194be0c90ec7423103893.1472574410.git.swise@opengridcomputing.com>
+ <c749145e-618e-ef0c-4249-8f441c55e4b1@grimberg.me>
+ <20160901083609.GC3703@lst.de>
+Message-ID: <ec9cd571-a15b-8866-cde1-34d4e20c71dc@grimberg.me>
 
-On Wed, Aug 31, 2016@12:38:53PM -0400, Keith Busch wrote:
-> This can't be right. We have a single affinity mask for the entire
-> set, but what I think we want is an one affinity mask for each
-> nr_io_queues. The irq_create_affinity_mask should then create an array
-> of cpumasks based on nr_vecs..
 
-Nah, this is Thomas' creating abuse of the cpumask type.  Every bit set
-in the affinity_mask means this is a cpu we allocate a vector / queue to.
+
+On 01/09/16 11:36, Christoph Hellwig wrote:
+> On Tue, Aug 30, 2016@08:24:50PM +0300, Sagi Grimberg wrote:
+>>
+>>> -	/* Queue controller deletion */
+>>> +	/*
+>>> +	 * Queue controller deletion. Keep a reference until all
+>>> +	 * work is flushed since delete_work will free the ctrl mem
+>>> +	 */
+>>> +	kref_get(&ctrl->ctrl.kref);
+>>
+>> kref_get_unless_zero?
+>
+> How could the refcount be zero here?
+
+If another del_ctrl is invoked while the first puts the
+final ref?
