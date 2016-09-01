@@ -1,64 +1,89 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 1 Sep 2016 09:12:25 -0700
-Subject: [PATCH v4 3/6] nvme_rdma: keep a ref on the ctrl during delete/flush
-In-Reply-To: <cover.1472746379.git.swise@opengridcomputing.com>
-References: <cover.1472746379.git.swise@opengridcomputing.com>
-Message-ID: <70928a8d66b3a78e6f463b27dd0a6945c1a84f6f.1472746379.git.swise@opengridcomputing.com>
+Date: Thu, 1 Sep 2016 09:12:59 -0700
+Subject: [PATCH v4 0/6] nvme-rdma device removal fixes
+Message-ID: <cover.1472746379.git.swise@opengridcomputing.com>
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Sagi Grimberg <sagi at grimbrg.me>
-Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+This series addresses several problems when shutting down a nvme-rdma
+host when its controllers are attempting to reconnect to a target that
+is no longer reachable.
+
+To tickle these bugs:
+
+1) attach over iw_cxgb4 to 10 devices on a target.
+2) 'ifconfig down' the target's interface
+3) wait for keep-alive to fire and begin reconnecting (~15-20 seconds)
+4) do one of these on the host:
+   - rmmod iw_cxgb4
+   - reboot
+   - reboot -f
+
+Doug/Sagi, the first 2 iw_cxgb4 patches are included here because they're
+needed for the testing.  While I've also submitted them to linux-rdma,
+perhaps Sagi can merge them in nvmf-4.8-rc?  If that is acceptable
+with everyone.
+
+Patch series:
+
+1/6 iw_cxgb4: call dev_put() on l2t allocation failure
+2/6 iw_cxgb4: block module unload until all ep resources are released
+3/6 nvme_rdma: keep a ref on the ctrl during delete/flush
+4/6 nvme-rdma: destroy nvme queue rdma resources on connect failure
+5/6 nvme-rdma: add DELETING queue flag
+6/6 nvme-rdma: use ib_client API to detect device removal
+
+Changes since v3:
+
+- removed WIP/RFC tag
+
+- fixed a bug in patch 4 where a rdma reject from the target causes a
+double free of the ib queue and cm_id.
+
+- remove noisy pr_info()s in patch 6
+
+- kref_get -> kref_get_unless_zero in nvme_rdma_del_ctrl() of patch 3
+
+- add reviewed-by tags
+
+Changes since v2:
+
+- refactor/simplify the remove_one function.
+
+- nvme-rdma module remove function doesn't need to explicitly
+remove the controllers; they will be removed as part of
+ib_client unregister.
+
+- removed forward declarations.
+
+Changes since v1:
+
+- the big change was patch 6 rewrite - use client_ib API to handle
+device removal instead of rdma_cm device removal events.
+
+- tweaked patch 5 to avoid bisect issues
+
+- small code rework on patch 3 based on Christoph's suggestion
+
+- clear_bit() -> !test_and_clear_bit() in patch 4 (Christoph's comment)
+
+- add reviewed-by tags.
+
 ---
- drivers/nvme/host/rdma.c | 26 ++++++++++++++++++--------
- 1 file changed, 18 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index ab545fb..15b0c1d 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1351,9 +1351,15 @@ static int nvme_rdma_device_unplug(struct nvme_rdma_queue *queue)
- 		ret = 1;
- 	}
- 
--	/* Queue controller deletion */
-+	/*
-+	 * Queue controller deletion. Keep a reference until all
-+	 * work is flushed since delete_work will free the ctrl mem
-+	 */
-+	kref_get(&ctrl->ctrl.kref);
- 	queue_work(nvme_rdma_wq, &ctrl->delete_work);
- 	flush_work(&ctrl->delete_work);
-+	nvme_put_ctrl(&ctrl->ctrl);
-+
- 	return ret;
- }
- 
-@@ -1700,15 +1706,19 @@ static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl)
- static int nvme_rdma_del_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
--	int ret;
-+	int ret = 0;
- 
-+	/*
-+	 * Keep a reference until all work is flushed since
-+	 * __nvme_rdma_del_ctrl can free the ctrl mem
-+	 */
-+	if (!kref_get_unless_zero(&ctrl->ctrl.kref))
-+		return -EBUSY;
- 	ret = __nvme_rdma_del_ctrl(ctrl);
--	if (ret)
--		return ret;
--
--	flush_work(&ctrl->delete_work);
--
--	return 0;
-+	if (!ret)
-+		flush_work(&ctrl->delete_work);
-+	nvme_put_ctrl(&ctrl->ctrl);
-+	return ret;
- }
- 
- static void nvme_rdma_remove_ctrl_work(struct work_struct *work)
+Sagi Grimberg (1):
+  nvme-rdma: add DELETING queue flag
+
+Steve Wise (5):
+  iw_cxgb4: call dev_put() on l2t allocation failure
+  iw_cxgb4: block module unload until all ep resources are released
+  nvme_rdma: keep a ref on the ctrl during delete/flush
+  nvme-rdma: destroy nvme queue rdma resources on connect failure
+  nvme-rdma: use ib_client API to detect device removal
+
+ drivers/infiniband/hw/cxgb4/cm.c       |   6 +-
+ drivers/infiniband/hw/cxgb4/device.c   |   5 ++
+ drivers/infiniband/hw/cxgb4/iw_cxgb4.h |   1 +
+ drivers/nvme/host/rdma.c               | 136 ++++++++++++++++-----------------
+ 4 files changed, 76 insertions(+), 72 deletions(-)
+
 -- 
 2.7.0
