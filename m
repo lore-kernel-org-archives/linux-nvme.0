@@ -1,20 +1,54 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 1 Sep 2016 12:32:46 +0300
-Subject: crash when connecting to targets using nr_io_queues < num cpus
-In-Reply-To: <011401d203c4$0cdd78c0$26986a40$@opengridcomputing.com>
-References: <011401d203c4$0cdd78c0$26986a40$@opengridcomputing.com>
-Message-ID: <6082d700-a45c-b00a-3f09-ba6196cc3e5e@grimberg.me>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Thu, 1 Sep 2016 08:34:23 -0500
+Subject: [PATCH WIP/RFC v3 5/6] nvme-rdma: add DELETING queue flag
+In-Reply-To: <20160901084101.GE3703@lst.de>
+References: <cover.1472574410.git.swise@opengridcomputing.com>
+ <0893620168fb1fd904fa1ff8b4893ffdb44214e8.1472574410.git.swise@opengridcomputing.com>
+ <20160901084101.GE3703@lst.de>
+Message-ID: <004501d20455$8d3a38a0$a7aea9e0$@opengridcomputing.com>
 
 
-> Hey all,
->
-> I'm testing smaller ioq sets with nvmf/rdma, and I see some issue.  If I connect
-> with 2, 4, 6, 8, 10, 16, or 32  for nr_io_queues, everything is happy.  It
-> seems, though, if I connect with a value of 12, or 28, or some other non power
-> of two, I get intermittent crashes in __blk_mq_get_reserved_tag() at line 337
-> when setting up a controller's IO queues.   I'm not sure exactly if this is
-> always non power of two, or something else, but it seems to never crash with
-> power of two values (could be a coincidence I guess).
 
-I think Ming sent a patch for this some time ago... Not sure what
-happened with it though...
+> -----Original Message-----
+> From: Christoph Hellwig [mailto:hch at lst.de]
+> Sent: Thursday, September 01, 2016 3:41 AM
+> To: swise at opengridcomputing.com; Sagi Grimberg
+> Cc: hch at lst.de; linux-nvme at lists.infradead.org
+> Subject: Re: [PATCH WIP/RFC v3 5/6] nvme-rdma: add DELETING queue flag
+> 
+> Steve,
+> 
+> this mail pretends to be from Sagi, which given the threading looks
+> unlikely.  Can you fix up your patch mail scripts so that it appears
+> from you and has another
+> 
+> From: Sagi Grimberg <sagi at grimberg.me>
+> 
+> line in the mail body?
+
+
+Yes, I screwed up here.  I'll fix it in v4.
+
+
+
+> 
+> > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> > index c2f6cc6..8036c23 100644
+> > --- a/drivers/nvme/host/rdma.c
+> > +++ b/drivers/nvme/host/rdma.c
+> > @@ -88,6 +88,7 @@ struct nvme_rdma_request {
+> >  enum nvme_rdma_queue_flags {
+> >  	NVME_RDMA_Q_CONNECTED = (1 << 0),
+> >  	NVME_RDMA_IB_QUEUE_ALLOCATED = (1 << 1),
+> > +	NVME_RDMA_Q_DELETING = (1 << 2),
+> 
+> Can we please aligned these now that we have a few?
+> 
+> 	NVME_RDMA_Q_CONNECTED		= (1 << 0),
+> 	NVME_RDMA_IB_QUEUE_ALLOCATED	= (1 << 1),
+> 	NVME_RDMA_Q_DELETING		= (1 << 2),
+> 
+> 
+> Otherwise this looks fine:
+> 
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
