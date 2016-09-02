@@ -1,73 +1,98 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 2 Sep 2016 10:08:38 -0500
-Subject: [PATCH v4 4/6] nvme-rdma: destroy nvme queue rdma resources on
- connect failure
-In-Reply-To: <c04f7c0232402294ce6fc0dd85878c0a21ed46bc.1472746379.git.swise@opengridcomputing.com>
-References: <cover.1472746379.git.swise@opengridcomputing.com>
- <c04f7c0232402294ce6fc0dd85878c0a21ed46bc.1472746379.git.swise@opengridcomputing.com>
-Message-ID: <000801d2052b$e3cfe170$ab6fa450$@opengridcomputing.com>
+Date: Fri, 2 Sep 2016 09:23:40 -0700
+Subject: [PATCH v5 0/6] nvme-rdma device removal fixes
+Message-ID: <cover.1472833420.git.swise@opengridcomputing.com>
 
-> 
-> After address resolution, the nvme_rdma_queue rdma resources are
-> allocated.  If rdma route resolution or the connect fails, or the
-> controller reconnect times out and gives up, then the rdma resources
-> need to be freed.  Otherwise, rdma resources are leaked.
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-> Reviewed-by: Sagi Grimberg <sagi at grimbrg.me>
-> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
-> ---
->  drivers/nvme/host/rdma.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 15b0c1d..d97a16f 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -82,6 +82,7 @@ struct nvme_rdma_request {
-> 
->  enum nvme_rdma_queue_flags {
->  	NVME_RDMA_Q_CONNECTED = (1 << 0),
-> +	NVME_RDMA_IB_QUEUE_ALLOCATED = (1 << 1),
->  };
-> 
->  struct nvme_rdma_queue {
-> @@ -483,6 +484,8 @@ static void nvme_rdma_destroy_queue_ib(struct
-> nvme_rdma_queue *queue)
->  	struct nvme_rdma_device *dev = queue->device;
->  	struct ib_device *ibdev = dev->dev;
-> 
-> +	if (!test_and_clear_bit(NVME_RDMA_IB_QUEUE_ALLOCATED,
-> &queue->flags))
-> +		return;
->  	rdma_destroy_qp(queue->cm_id);
->  	ib_free_cq(queue->ib_cq);
-> 
-> @@ -533,6 +536,7 @@ static int nvme_rdma_create_queue_ib(struct
-> nvme_rdma_queue *queue,
->  		ret = -ENOMEM;
->  		goto out_destroy_qp;
->  	}
-> +	set_bit(NVME_RDMA_IB_QUEUE_ALLOCATED, &queue->flags);
-> 
->  	return 0;
-> 
-> @@ -590,6 +594,8 @@ static int nvme_rdma_init_queue(struct
-> nvme_rdma_ctrl *ctrl,
->  	return 0;
-> 
->  out_destroy_cm_id:
-> +	if (test_and_clear_bit(NVME_RDMA_IB_QUEUE_ALLOCATED, &ctrl-
-> >queues[0].flags))
-> +		nvme_rdma_destroy_queue_ib(queue);
->  	rdma_destroy_id(queue->cm_id);
->  	return ret;
->  }
+This series addresses several problems when shutting down a nvme-rdma
+host when its controllers are attempting to reconnect to a target that
+is no longer reachable.
 
-The above chunk is incorrect.  It is testing the ALLOCATED bit of the admin
-queue (ctrl->queues[0]), which is just wrong.  This chunk should just call
-nvme_rdma_destroy_queue_ib() and let that function test/clear the ALLOCATED
-bit of the queue being cleaned up.  This bug was apparently benign and it
-slipped through my testing.
+To tickle these bugs:
 
-I'll be posting v5 after I fix this and retest...
+1) attach over iw_cxgb4 to 10 devices on a target.
+2) 'ifconfig down' the target's interface
+3) wait for keep-alive to fire and begin reconnecting (~15-20 seconds)
+4) do one of these on the host:
+   - rmmod iw_cxgb4
+   - reboot
+   - reboot -f
+
+Doug/Sagi, the first 2 iw_cxgb4 patches are included here because they're
+needed for the testing.  While I've also submitted them to linux-rdma,
+perhaps Sagi can merge them in nvmf-4.8-rc?  If that is acceptable
+with everyone.
+
+Patch series:
+
+1/6 iw_cxgb4: call dev_put() on l2t allocation failure
+2/6 iw_cxgb4: block module unload until all ep resources are released
+3/6 nvme_rdma: keep a ref on the ctrl during delete/flush
+4/6 nvme-rdma: destroy nvme queue rdma resources on connect failure
+5/6 nvme-rdma: add DELETING queue flag
+6/6 nvme-rdma: use ib_client API to detect device removal
+
+Changes since v4:
+
+- nvme_rdma_init_queue() remove (incorrect) code to check the
+ALLOCATED flag.  Instead just call nvme_rdma_destroy_queue_ib() and
+let it check the ALLOCATED flag.
+
+- nvme_rdma_destroy_queue_ib() - only access queue->device if the
+queue was allocated.
+
+Changes since v3:
+
+- removed WIP/RFC tag
+
+- fixed a bug in patch 4 where a rdma reject from the target causes a
+double free of the ib queue and cm_id.
+
+- remove noisy pr_info()s in patch 6
+
+- kref_get -> kref_get_unless_zero in nvme_rdma_del_ctrl() of patch 3
+
+- add reviewed-by tags
+
+Changes since v2:
+
+- refactor/simplify the remove_one function.
+
+- nvme-rdma module remove function doesn't need to explicitly
+remove the controllers; they will be removed as part of
+ib_client unregister.
+
+- removed forward declarations.
+
+Changes since v1:
+
+- the big change was patch 6 rewrite - use client_ib API to handle
+device removal instead of rdma_cm device removal events.
+
+- tweaked patch 5 to avoid bisect issues
+
+- small code rework on patch 3 based on Christoph's suggestion
+
+- clear_bit() -> !test_and_clear_bit() in patch 4 (Christoph's comment)
+
+- add reviewed-by tags.
+
+---
+
+Sagi Grimberg (1):
+  nvme-rdma: add DELETING queue flag
+
+Steve Wise (5):
+  iw_cxgb4: call dev_put() on l2t allocation failure
+  iw_cxgb4: block module unload until all ep resources are released
+  nvme_rdma: keep a ref on the ctrl during delete/flush
+  nvme-rdma: destroy nvme queue rdma resources on connect failure
+  nvme-rdma: use ib_client API to detect device removal
+
+ drivers/infiniband/hw/cxgb4/cm.c       |   6 +-
+ drivers/infiniband/hw/cxgb4/device.c   |   5 ++
+ drivers/infiniband/hw/cxgb4/iw_cxgb4.h |   1 +
+ drivers/nvme/host/rdma.c               | 142 ++++++++++++++++-----------------
+ 4 files changed, 80 insertions(+), 74 deletions(-)
+
+-- 
+2.7.0
