@@ -1,64 +1,76 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 1 Sep 2016 09:12:25 -0700
-Subject: [PATCH v5 3/6] nvme_rdma: keep a ref on the ctrl during delete/flush
+Date: Fri, 2 Sep 2016 09:01:27 -0700
+Subject: [PATCH v5 4/6] nvme-rdma: destroy nvme queue rdma resources on
+ connect failure
 In-Reply-To: <cover.1472833420.git.swise@opengridcomputing.com>
 References: <cover.1472833420.git.swise@opengridcomputing.com>
-Message-ID: <70928a8d66b3a78e6f463b27dd0a6945c1a84f6f.1472833420.git.swise@opengridcomputing.com>
+Message-ID: <7f9c2b9ac54d158d825dae89b48abdc5ed85043a.1472833420.git.swise@opengridcomputing.com>
+
+After address resolution, the nvme_rdma_queue rdma resources are
+allocated.  If rdma route resolution or the connect fails, or the
+controller reconnect times out and gives up, then the rdma resources
+need to be freed.  Otherwise, rdma resources are leaked.
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 Reviewed-by: Sagi Grimberg <sagi at grimbrg.me>
 Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
- drivers/nvme/host/rdma.c | 26 ++++++++++++++++++--------
- 1 file changed, 18 insertions(+), 8 deletions(-)
+ drivers/nvme/host/rdma.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index ab545fb..15b0c1d 100644
+index 15b0c1d..a9d43f0 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -1351,9 +1351,15 @@ static int nvme_rdma_device_unplug(struct nvme_rdma_queue *queue)
- 		ret = 1;
- 	}
+@@ -82,6 +82,7 @@ struct nvme_rdma_request {
  
--	/* Queue controller deletion */
-+	/*
-+	 * Queue controller deletion. Keep a reference until all
-+	 * work is flushed since delete_work will free the ctrl mem
-+	 */
-+	kref_get(&ctrl->ctrl.kref);
- 	queue_work(nvme_rdma_wq, &ctrl->delete_work);
- 	flush_work(&ctrl->delete_work);
-+	nvme_put_ctrl(&ctrl->ctrl);
+ enum nvme_rdma_queue_flags {
+ 	NVME_RDMA_Q_CONNECTED = (1 << 0),
++	NVME_RDMA_IB_QUEUE_ALLOCATED = (1 << 1),
+ };
+ 
+ struct nvme_rdma_queue {
+@@ -480,9 +481,14 @@ out_err:
+ 
+ static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
+ {
+-	struct nvme_rdma_device *dev = queue->device;
+-	struct ib_device *ibdev = dev->dev;
++	struct nvme_rdma_device *dev;
++	struct ib_device *ibdev;
+ 
++	if (!test_and_clear_bit(NVME_RDMA_IB_QUEUE_ALLOCATED, &queue->flags))
++		return;
 +
++	dev = queue->device;
++	ibdev = dev->dev;
+ 	rdma_destroy_qp(queue->cm_id);
+ 	ib_free_cq(queue->ib_cq);
+ 
+@@ -533,6 +539,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue,
+ 		ret = -ENOMEM;
+ 		goto out_destroy_qp;
+ 	}
++	set_bit(NVME_RDMA_IB_QUEUE_ALLOCATED, &queue->flags);
+ 
+ 	return 0;
+ 
+@@ -590,6 +597,7 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
+ 	return 0;
+ 
+ out_destroy_cm_id:
++	nvme_rdma_destroy_queue_ib(queue);
+ 	rdma_destroy_id(queue->cm_id);
  	return ret;
  }
+@@ -652,7 +660,7 @@ static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl *ctrl)
+ 	return 0;
  
-@@ -1700,15 +1706,19 @@ static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl)
- static int nvme_rdma_del_ctrl(struct nvme_ctrl *nctrl)
- {
- 	struct nvme_rdma_ctrl *ctrl = to_rdma_ctrl(nctrl);
--	int ret;
-+	int ret = 0;
+ out_free_queues:
+-	for (; i >= 1; i--)
++	for (i--; i >= 1; i--)
+ 		nvme_rdma_stop_and_free_queue(&ctrl->queues[i]);
  
-+	/*
-+	 * Keep a reference until all work is flushed since
-+	 * __nvme_rdma_del_ctrl can free the ctrl mem
-+	 */
-+	if (!kref_get_unless_zero(&ctrl->ctrl.kref))
-+		return -EBUSY;
- 	ret = __nvme_rdma_del_ctrl(ctrl);
--	if (ret)
--		return ret;
--
--	flush_work(&ctrl->delete_work);
--
--	return 0;
-+	if (!ret)
-+		flush_work(&ctrl->delete_work);
-+	nvme_put_ctrl(&ctrl->ctrl);
-+	return ret;
- }
- 
- static void nvme_rdma_remove_ctrl_work(struct work_struct *work)
+ 	return ret;
 -- 
 2.7.0
