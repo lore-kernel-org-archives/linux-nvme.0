@@ -1,61 +1,27 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 4 Sep 2016 11:41:09 +0300
-Subject: [PATCH] admin-cmd: Added smart-log command support.
-In-Reply-To: <1472759103-16538-1-git-send-email-ckulkarnilinux@gmail.com>
-References: <1472759103-16538-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <ac203b28-39ed-4f2a-b0fc-f586e43c9346@grimberg.me>
+Date: Sun, 4 Sep 2016 11:46:46 +0300
+Subject: crash when connecting to targets using nr_io_queues < num cpus
+In-Reply-To: <01b401d20483$2da4fd20$88eef760$@opengridcomputing.com>
+References: <011401d203c4$0cdd78c0$26986a40$@opengridcomputing.com>
+ <6082d700-a45c-b00a-3f09-ba6196cc3e5e@grimberg.me>
+ <00ae01d2045a$a8516500$f8f42f00$@opengridcomputing.com>
+ <01b401d20483$2da4fd20$88eef760$@opengridcomputing.com>
+Message-ID: <e31f7c2f-7b15-95f9-f882-4406c94eaedc@grimberg.me>
 
 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index 47c564b..7ab9c93 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -14,6 +14,7 @@
->  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
->  #include <linux/module.h>
->  #include <generated/utsrelease.h>
-> +#include <asm/unaligned.h>
->  #include "nvmet.h"
+>>> I think Ming sent a patch for this some time ago... Not sure what
+>>> happened with it though...
+>>
+>> This?
+>>
+>> http://lists.infradead.org/pipermail/linux-nvme/2016-June/004884.html
 >
->  u32 nvmet_get_log_page_len(struct nvme_command *cmd)
-> @@ -29,8 +30,84 @@ u32 nvmet_get_log_page_len(struct nvme_command *cmd)
->  	return len;
->  }
->
-> +static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
-> +		struct nvme_smart_log *slog)
-> +{
-> +	u16 status;
-> +	struct nvmet_ns *ns;
-> +	u64 host_reads, host_writes, data_units_read, data_units_written;
-> +
-> +	status = NVME_SC_SUCCESS;
-> +	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->get_log_page.nsid);
-> +	if (!ns) {
-> +		status = NVME_SC_INVALID_NS;
-> +		pr_err("nvmet : Counld not find namespace id : %d\n",
-> +				le32_to_cpu(req->cmd->get_log_page.nsid));
-> +		goto out;
-> +	}
-> +
-> +	host_reads = part_stat_read(ns->bdev->bd_part, ios[READ]);
-> +	data_units_read = part_stat_read(ns->bdev->bd_part, sectors[READ]);
-> +	host_writes = part_stat_read(ns->bdev->bd_part, ios[WRITE]);
-> +	data_units_written = part_stat_read(ns->bdev->bd_part, sectors[WRITE]);
-> +
-> +	put_unaligned_le64(host_reads, &slog->host_reads[0]);
-> +	put_unaligned_le64(data_units_read, &slog->data_units_read[0]);
-> +	put_unaligned_le64(host_writes, &slog->host_writes[0]);
-> +	put_unaligned_le64(data_units_written, &slog->data_units_written[0]);
-> +	nvmet_put_namespace(ns);
-> +out:
-> +	return status;
-> +}
+> This is indeed the same problem.  I don't have the knoggin to propose a fix.
+> Sagi/Christoph, do you have any ideas on this?  I'm willing to take and idea
+> forward and test it out of you all have any clever ideas.  We should at least
+> prevent setting nr_io_queues to a value that will crash immediately when nvmf is
+> used...
 
-Given that we don't own the namespaces, I'm wandering if this is the
-correct way to do this... I'm not at all convinced that having something
-else reading/writing to the blkdevs other than nvmf is a valid/useful
-use-case but in this situation we won't get correct log information
-(or at least the semantics is wrong).
+I think that Ming and Keith had a few suggestions.
 
-Should we maintain these statistics in the target stack instead?
+++ Keith.
