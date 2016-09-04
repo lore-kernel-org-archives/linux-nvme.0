@@ -1,70 +1,108 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Fri, 02 Sep 2016 15:23:05 -0700
-Subject: [PATCH v2 3/3] nvme: Enable autonomous power state transitions
-In-Reply-To: <CALCETrVoMEzmjfj--e09F8Ss8Dp9CFAmuuBhFoHOSNDoxHu6aQ@mail.gmail.com>
-References: <cover.1472594203.git.luto@kernel.org>
- <6e6c3cd47858160bf8e34f2edb481c0ef5092d5b.1472594203.git.luto@kernel.org>
- <1472850905.2946.20.camel@linux.intel.com>
- <CALCETrVoMEzmjfj--e09F8Ss8Dp9CFAmuuBhFoHOSNDoxHu6aQ@mail.gmail.com>
-Message-ID: <1472854985.2946.45.camel@linux.intel.com>
+From: mst@redhat.com (Michael S. Tsirkin)
+Date: Sun, 4 Sep 2016 07:18:22 +0300
+Subject: [PATCH 09/15] virtio-blk: Pass attribute group to device_add_disk
+In-Reply-To: <1471418115-3654-10-git-send-email-famz@redhat.com>
+References: <1471418115-3654-1-git-send-email-famz@redhat.com>
+ <1471418115-3654-10-git-send-email-famz@redhat.com>
+Message-ID: <20160904041822.wxab7bsq4pnj4spr@redhat.com>
 
-On Fri, 2016-09-02@14:43 -0700, Andy Lutomirski wrote:
-> On Fri, Sep 2, 2016 at 2:15 PM, J Freyensee
-> <james_p_freyensee@linux.intel.com> wrote:
-> > 
-> > On Tue, 2016-08-30@14:59 -0700, Andy Lutomirski wrote:
-> > > 
-> > > NVME devices can advertise multiple power states.??These states
-> > > can
-> > > be either "operational" (the device is fully functional but
-> > > possibly
-> > > slow) or "non-operational" (the device is asleep until woken up).
-> > > Some devices can automatically enter a non-operational state when
-> > > idle for a specified amount of time and then automatically wake
-> > > back
-> > > up when needed.
-> > > 
-> > > The hardware configuration is a table.??For each state, an entry
-> > > in
-> > > the table indicates the next deeper non-operational state, if
-> > > any,
-> > > to autonomously transition to and the idle time required before
-> > > transitioning.
-> > > 
-> > > This patch teaches the driver to program APST so that each
-> > > successive non-operational state will be entered after an idle
-> > > time
-> > > equal to 100% of the total latency (entry plus exit) associated
-> > > with
-> > > that state.??A sysfs attribute 'apst_max_latency_us' gives the
-> > > maximum acceptable latency in ns; non-operational states with
-> > > total
-> > > latency greater than this value will not be used.??As a special
-> > > case, apst_max_latency_us=0 will disable APST entirely.
-> > 
-> > May I ask a dumb question?
-> > 
-> > How does this work with multiple NVMe devices plugged into a
-> > system???I
-> > would have thought we'd want one apst_max_latency_us entry per NVMe
-> > controller for individual control of each device???I have two
-> > Fultondale-class devices plugged into a system I tried these
-> > patches on
-> > (the 4.8-rc4 kernel) and I'm not sure how the single
-> > /sys/module/nvme_core/parameters/apst_max_latency_us would work per
-> > my
-> > 2 devices (and the value is using the default 25000).
-> > 
+On Wed, Aug 17, 2016@03:15:09PM +0800, Fam Zheng wrote:
+> Previously after device_add_disk returns, the KOBJ_ADD uevent is already
+> emitted. Adding attributes after that is a poor usage of kobject, and
+> in practice may result in race conditions with userspace, for
+> example udev checks availability of certain attributes and initializes
+> /dev entries conditionally.
 > 
-> Ah, I faked you out :(
+> device_add_disk can handle adding attribute group better, so use it.
 > 
-> The module parameter (nvme_core/parameters/apst_max_latency_us) just
-> sets the default for newly probed devices.??The actual setting is in
-> /sys/devices/whatever (symlinked from /sys/block/nvme0n1/devices, for
-> example).??Perhaps I should name the former
-> default_apst_max_latency_us.
+> Meanwhile, handle error of device_add_disk.
+> 
+> Signed-off-by: Fam Zheng <famz at redhat.com>
 
-It would certainly be more describable to understand what the entry is
-for, but then the name is also getting longer.
+Feel free to merge this with the rest of patchset
+Acked-by: Michael S. Tsirkin <mst at redhat.com>
 
-Just "default_apst_latency_us"? Or maybe it's probably fine as-is.
+
+
+> ---
+>  drivers/block/virtio_blk.c | 38 +++++++++++++++++++++++++++-----------
+>  1 file changed, 27 insertions(+), 11 deletions(-)
+> 
+> diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+> index 4564df5..ff60d82 100644
+> --- a/drivers/block/virtio_blk.c
+> +++ b/drivers/block/virtio_blk.c
+> @@ -522,10 +522,10 @@ virtblk_cache_type_show(struct device *dev, struct device_attribute *attr,
+>  	return snprintf(buf, 40, "%s\n", virtblk_cache_types[writeback]);
+>  }
+>  
+> -static const struct device_attribute dev_attr_cache_type_ro =
+> +static struct device_attribute dev_attr_cache_type_ro =
+>  	__ATTR(cache_type, S_IRUGO,
+>  	       virtblk_cache_type_show, NULL);
+> -static const struct device_attribute dev_attr_cache_type_rw =
+> +static struct device_attribute dev_attr_cache_type_rw =
+>  	__ATTR(cache_type, S_IRUGO|S_IWUSR,
+>  	       virtblk_cache_type_show, virtblk_cache_type_store);
+>  
+> @@ -550,6 +550,26 @@ static struct blk_mq_ops virtio_mq_ops = {
+>  static unsigned int virtblk_queue_depth;
+>  module_param_named(queue_depth, virtblk_queue_depth, uint, 0444);
+>  
+> +static struct attribute *virtblk_attrs_ro[] = {
+> +	&dev_attr_serial.attr,
+> +	&dev_attr_cache_type_ro.attr,
+> +	NULL
+> +};
+> +
+> +static struct attribute *virtblk_attrs_rw[] = {
+> +	&dev_attr_serial.attr,
+> +	&dev_attr_cache_type_rw.attr,
+> +	NULL
+> +};
+> +
+> +static struct attribute_group virtblk_attr_group_ro = {
+> +	.attrs		= virtblk_attrs_ro,
+> +};
+> +
+> +static struct attribute_group virtblk_attr_group_rw = {
+> +	.attrs		= virtblk_attrs_rw,
+> +};
+> +
+>  static int virtblk_probe(struct virtio_device *vdev)
+>  {
+>  	struct virtio_blk *vblk;
+> @@ -560,6 +580,7 @@ static int virtblk_probe(struct virtio_device *vdev)
+>  	u32 v, blk_size, sg_elems, opt_io_size;
+>  	u16 min_io_size;
+>  	u8 physical_block_exp, alignment_offset;
+> +	struct attribute_group *attr_group;
+>  
+>  	if (!vdev->config->get) {
+>  		dev_err(&vdev->dev, "%s failure: config access disabled\n",
+> @@ -719,19 +740,14 @@ static int virtblk_probe(struct virtio_device *vdev)
+>  
+>  	virtio_device_ready(vdev);
+>  
+> -	device_add_disk(&vdev->dev, vblk->disk, NULL);
+> -	err = device_create_file(disk_to_dev(vblk->disk), &dev_attr_serial);
+> -	if (err)
+> -		goto out_del_disk;
+> -
+>  	if (virtio_has_feature(vdev, VIRTIO_BLK_F_CONFIG_WCE))
+> -		err = device_create_file(disk_to_dev(vblk->disk),
+> -					 &dev_attr_cache_type_rw);
+> +		attr_group = &virtblk_attr_group_rw;
+>  	else
+> -		err = device_create_file(disk_to_dev(vblk->disk),
+> -					 &dev_attr_cache_type_ro);
+> +		attr_group = &virtblk_attr_group_ro;
+> +	err = device_add_disk(&vdev->dev, vblk->disk, attr_group);
+>  	if (err)
+>  		goto out_del_disk;
+> +
+>  	return 0;
+>  
+>  out_del_disk:
+> -- 
+> 2.7.4
