@@ -1,33 +1,76 @@
-From: colin.king@canonical.com (Colin King)
-Date: Mon,  5 Sep 2016 16:24:38 +0100
-Subject: [PATCH] nvme-rdma: fix null pointer dereference on req->mr
-Message-ID: <20160905152438.14299-1-colin.king@canonical.com>
+From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
+Date: Mon,  5 Sep 2016 18:43:18 +0200
+Subject: [PATCH 4.7 022/143] genirq/msi: Remove unused MSI_FLAG_IDENTITY_MAP
+In-Reply-To: <20160905164430.593075551@linuxfoundation.org>
+References: <20160905164430.593075551@linuxfoundation.org>
+Message-ID: <20160905164431.560979069@linuxfoundation.org>
 
-From: Colin Ian King <colin.king@canonical.com>
+4.7-stable review patch.  If anyone has any objections, please let me know.
 
-If there is an error on req->mr, req->mr is set to null, however
-the following statement sets req->mr->need_inval causing a null
-pointer dereference.  Fix this by bailing out to label 'out' to
-immediately return and hence skip over the offending null pointer
-dereference.
+------------------
 
-Fixes: f5b7b559e1488 ("nvme-rdma: Get rid of duplicate variable")
-Signed-off-by: Colin Ian King <colin.king at canonical.com>
+From: Thomas Gleixner <tglx@linutronix.de>
+
+commit b6140914fd079e43ea75a53429b47128584f033a upstream.
+
+No user and we definitely don't want to grow one.
+
+Signed-off-by: Thomas Gleixner <tglx at linutronix.de>
+Reviewed-by: Bart Van Assche <bart.vanassche at sandisk.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: linux-block at vger.kernel.org
+Cc: linux-pci at vger.kernel.org
+Cc: linux-nvme at lists.infradead.org
+Cc: axboe at fb.com
+Cc: agordeev at redhat.com
+Link: http://lkml.kernel.org/r/1467621574-8277-2-git-send-email-hch at lst.de
+Signed-off-by: Thomas Gleixner <tglx at linutronix.de>
+Signed-off-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
+
 ---
- drivers/nvme/host/rdma.c | 1 +
- 1 file changed, 1 insertion(+)
+ include/linux/msi.h |    6 ++----
+ kernel/irq/msi.c    |    8 ++------
+ 2 files changed, 4 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index ab545fb..162b8c0 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -291,6 +291,7 @@ static int nvme_rdma_reinit_request(void *data, struct request *rq)
- 	if (IS_ERR(req->mr)) {
- 		ret = PTR_ERR(req->mr);
- 		req->mr = NULL;
-+		goto out;
- 	}
+--- a/include/linux/msi.h
++++ b/include/linux/msi.h
+@@ -264,12 +264,10 @@ enum {
+ 	 * callbacks.
+ 	 */
+ 	MSI_FLAG_USE_DEF_CHIP_OPS	= (1 << 1),
+-	/* Build identity map between hwirq and irq */
+-	MSI_FLAG_IDENTITY_MAP		= (1 << 2),
+ 	/* Support multiple PCI MSI interrupts */
+-	MSI_FLAG_MULTI_PCI_MSI		= (1 << 3),
++	MSI_FLAG_MULTI_PCI_MSI		= (1 << 2),
+ 	/* Support PCI MSIX interrupts */
+-	MSI_FLAG_PCI_MSIX		= (1 << 4),
++	MSI_FLAG_PCI_MSIX		= (1 << 3),
+ };
  
- 	req->mr->need_inval = false;
--- 
-2.9.3
+ int msi_domain_set_affinity(struct irq_data *data, const struct cpumask *mask,
+--- a/kernel/irq/msi.c
++++ b/kernel/irq/msi.c
+@@ -324,7 +324,7 @@ int msi_domain_alloc_irqs(struct irq_dom
+ 	struct msi_domain_ops *ops = info->ops;
+ 	msi_alloc_info_t arg;
+ 	struct msi_desc *desc;
+-	int i, ret, virq = -1;
++	int i, ret, virq;
+ 
+ 	ret = msi_domain_prepare_irqs(domain, dev, nvec, &arg);
+ 	if (ret)
+@@ -332,12 +332,8 @@ int msi_domain_alloc_irqs(struct irq_dom
+ 
+ 	for_each_msi_entry(desc, dev) {
+ 		ops->set_desc(&arg, desc);
+-		if (info->flags & MSI_FLAG_IDENTITY_MAP)
+-			virq = (int)ops->get_hwirq(info, &arg);
+-		else
+-			virq = -1;
+ 
+-		virq = __irq_domain_alloc_irqs(domain, virq, desc->nvec_used,
++		virq = __irq_domain_alloc_irqs(domain, -1, desc->nvec_used,
+ 					       dev_to_node(dev), &arg, false);
+ 		if (virq < 0) {
+ 			ret = -ENOSPC;
