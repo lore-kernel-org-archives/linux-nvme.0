@@ -1,16 +1,15 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 6 Sep 2016 16:09:26 +0300
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 6 Sep 2016 06:36:18 -0700
 Subject: [PATCH] nvme: add back dependency on CONFIG_BLOCK
-In-Reply-To: <20160906125827.1595094-1-arnd@arndb.de>
+In-Reply-To: <d7099c1b-730f-1617-f683-2447bedd3e6d@grimberg.me>
 References: <20160906125827.1595094-1-arnd@arndb.de>
-Message-ID: <d7099c1b-730f-1617-f683-2447bedd3e6d@grimberg.me>
+ <d7099c1b-730f-1617-f683-2447bedd3e6d@grimberg.me>
+Message-ID: <20160906133618.GA30548@infradead.org>
 
+On Tue, Sep 06, 2016@04:09:26PM +0300, Sagi Grimberg wrote:
+> Thanks Arnd, queued for the next round of rc fixes.
+> 
+> With a slight modification to the component in the subject line
+> (nvme-rdma).
 
-> A recent change removed the dependency on BLK_DEV_NVME, which implies
-> the dependency on PCI and BLOCK. We don't need CONFIG_PCI, but without
-> CONFIG_BLOCK we get tons of build errors, e.g.
-
-Thanks Arnd, queued for the next round of rc fixes.
-
-With a slight modification to the component in the subject line
-(nvme-rdma).
+Shouldn't we just have a if BLOCK around all the entries in the Kconfig?
