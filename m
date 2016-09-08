@@ -1,7 +1,7 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 8 Sep 2016 15:44:00 -0500
+Date: Thu, 8 Sep 2016 15:47:02 -0500
 Subject: nvmf/rdma host crash during heavy load and keep alive recovery
-In-Reply-To: <01f401d20a06$d4cc8360$7e658a20$@opengridcomputing.com>
+In-Reply-To: <7f09e373-6316-26a3-ae81-dab1205d88ab@grimberg.me>
 References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
  <010f01d1f31e$50c8cb40$f25a61c0$@opengridcomputing.com>
  <013701d1f320$57b185d0$07149170$@opengridcomputing.com>
@@ -18,46 +18,68 @@ References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
  <08b701d1f8ba$a709ae10$f51d0a30$@opengridcomputing.com>
  <01c301d20485$0dfcd2c0$29f67840$@opengridcomputing.com> <0c159abb
  -24ee-21bf-09d2-9fe7d2 69a2eb@grimberg.me>
- <039601d2094f$80481640$80d842c0$@opengridcomputing.com>
- <9fd1f090-3b86-b496-d8c0-225ac0815fbe@grimbe rg.me> <01bc01d209f5$1
- b7d7510$52785f30$@opengridcomputing.com>
- <01f201d20a05$6abde5f0$4039b1d0$@opengridcomputing.com>
- <01f401d20a06$d4cc8360$7e658a20$@opengridcomputing.com>
-Message-ID: <020d01d20a11$ba20cfc0$2e626f40$@opengridcomputing.com>
+ <039401d2094c$084d64e0$18e82ea0$@opengridcomputing.com>
+ <7f09e373-6316-26a3-ae81-dab1205d88ab@grimbe rg.me>
+Message-ID: <020f01d20a12$26f846a0$74e8d3e0$@opengridcomputing.com>
 
-> > While working this with debug code to verify that we never create a qp,
-> > cq, or cm_id where one already exists for an nvme_rdma_queue, I
-> discovered
-> > a bug where the Q_DELETING flag is never cleared, and thus a reconnect
-> can
-> > leak qps and cm_ids.  The fix, I think, is this:
+> >> Does this happen if you change the reconnect delay to be something
+> >> different than 10 seconds? (say 30?)
+> >>
 > >
-> > @@ -563,6 +572,7 @@ static int nvme_rdma_init_queue(struct
-> nvme_rdma_ctrl
-> > *ctrl,
-> >         int ret;
-> >
-> >         queue = &ctrl->queues[idx];
-> > +       queue->flags = 0;
-> >         queue->ctrl = ctrl;
-> >         init_completion(&queue->cm_done);
-> >
-> > I think maybe the clearing of the Q_DELETING flag was lost when we moved
-> > to using the ib_client for device removal.   I'll polish this up and
-> > submit a patch. It should go with the next 4.8-rc push I think.
+> > Yes.  But I noticed something when performing this experiment that is an
+> > important point, I think:  if I just bring the network interface down and
+leave
+> > it down, we don't crash.  During this state, I see the host continually
+> > reconnecting after the reconnect delay time, timing out trying to reconnect,
+and
+> > retrying after another reconnect_delay period.  I see this for all 10
+targets of
+> > course.  The crash only happens when I bring the interface back up, and the
+> > targets begin to reconnect.   So the process of successfully reconnecting
+the
+> > RDMA QPs, and restarting the nvme queues is somehow triggering running an
+> nvme
+> > request too soon (or perhaps on the wrong queue).
 > 
-> Actually, I think the Q_DELETING flag is no longer needed.  Sagi, can you
-> have look at NVME_RDMA_Q_DELETING in the latest code?  I think the
-> ib_client patch made the original Q_DELETING patch obsolete.  And the
-> original Q_DELETING patch probably needed the above chunk for
-> correctness...
+> Interesting. Given this is easy to reproduce, can you record the:
+> (request_tag, *queue, *qp) for each request submitted?
 > 
-> Let me know if you want me to submit something for this issue.  We could
-> fix the original patches as they are still only in your nvmf-4.8-rc
-> repo...
+> I'd like to see that the *queue stays the same for each tag
+> but the *qp indeed changes.
+> 
 
-I see your debug patch v2 you sent me in an earlier email has a clear_bit() to
-address the DELETING issue.  I haven't tried that patch yet. :)  Its next on my
-list...
+I tried this, and didn't hit the BUG_ON(), yet still hit the crash.  I believe
+this verifies that  *queue never changed...
 
-steve
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c075ea5..a77729e 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -76,6 +76,7 @@ struct nvme_rdma_request {
+        struct ib_reg_wr        reg_wr;
+        struct ib_cqe           reg_cqe;
+        struct nvme_rdma_queue  *queue;
++       struct nvme_rdma_queue  *save_queue;
+        struct sg_table         sg_table;
+        struct scatterlist      first_sgl[];
+ };
+@@ -354,6 +355,8 @@ static int __nvme_rdma_init_request(struct nvme_rdma_ctrl
+*ctrl,
+        }
+
+        req->queue = queue;
++       if (!req->save_queue)
++               req->save_queue = queue;
+
+        return 0;
+
+@@ -1434,6 +1436,9 @@ static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+
+        WARN_ON_ONCE(rq->tag < 0);
+
++       BUG_ON(queue != req->queue);
++       BUG_ON(queue != req->save_queue);
++
+        dev = queue->device->dev;
+        ib_dma_sync_single_for_cpu(dev, sqe->dma,
+                        sizeof(struct nvme_command), DMA_TO_DEVICE);
