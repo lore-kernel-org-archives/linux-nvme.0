@@ -1,5 +1,5 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 8 Sep 2016 15:47:02 -0500
+Date: Thu, 8 Sep 2016 16:00:41 -0500
 Subject: nvmf/rdma host crash during heavy load and keep alive recovery
 In-Reply-To: <7f09e373-6316-26a3-ae81-dab1205d88ab@grimberg.me>
 References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
@@ -20,66 +20,23 @@ References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
  -24ee-21bf-09d2-9fe7d2 69a2eb@grimberg.me>
  <039401d2094c$084d64e0$18e82ea0$@opengridcomputing.com>
  <7f09e373-6316-26a3-ae81-dab1205d88ab@grimbe rg.me>
-Message-ID: <020f01d20a12$26f846a0$74e8d3e0$@opengridcomputing.com>
+Message-ID: <021101d20a14$0f19f9f0$2d4dedd0$@opengridcomputing.com>
 
-> >> Does this happen if you change the reconnect delay to be something
-> >> different than 10 seconds? (say 30?)
+> 
+> >> Can you also give patch [1] a try? It's not a solution, but I want
+> >> to see if it hides the problem...
 > >>
 > >
-> > Yes.  But I noticed something when performing this experiment that is an
-> > important point, I think:  if I just bring the network interface down and
-leave
-> > it down, we don't crash.  During this state, I see the host continually
-> > reconnecting after the reconnect delay time, timing out trying to reconnect,
-and
-> > retrying after another reconnect_delay period.  I see this for all 10
-targets of
-> > course.  The crash only happens when I bring the interface back up, and the
-> > targets begin to reconnect.   So the process of successfully reconnecting
-the
-> > RDMA QPs, and restarting the nvme queues is somehow triggering running an
-> nvme
-> > request too soon (or perhaps on the wrong queue).
+> > hmm.  I ran the experiment once with [1] and it didn't crash.  I ran it a
+2nd
+> > time and hit a new crash.  Maybe a problem with [1]?
 > 
-> Interesting. Given this is easy to reproduce, can you record the:
-> (request_tag, *queue, *qp) for each request submitted?
+> Strange, I don't see how we can visit rdma_destroy_qp twice given
+> that we have NVME_RDMA_IB_QUEUE_ALLOCATED bit protecting it.
 > 
-> I'd like to see that the *queue stays the same for each tag
-> but the *qp indeed changes.
-> 
+> Not sure if it fixes anything, but we probably need it regardless, can
+> you give another go with this on top:
 
-I tried this, and didn't hit the BUG_ON(), yet still hit the crash.  I believe
-this verifies that  *queue never changed...
+Still hit it with this on top (had to tweak the patch a little).
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index c075ea5..a77729e 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -76,6 +76,7 @@ struct nvme_rdma_request {
-        struct ib_reg_wr        reg_wr;
-        struct ib_cqe           reg_cqe;
-        struct nvme_rdma_queue  *queue;
-+       struct nvme_rdma_queue  *save_queue;
-        struct sg_table         sg_table;
-        struct scatterlist      first_sgl[];
- };
-@@ -354,6 +355,8 @@ static int __nvme_rdma_init_request(struct nvme_rdma_ctrl
-*ctrl,
-        }
-
-        req->queue = queue;
-+       if (!req->save_queue)
-+               req->save_queue = queue;
-
-        return 0;
-
-@@ -1434,6 +1436,9 @@ static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
-
-        WARN_ON_ONCE(rq->tag < 0);
-
-+       BUG_ON(queue != req->queue);
-+       BUG_ON(queue != req->save_queue);
-+
-        dev = queue->device->dev;
-        ib_dma_sync_single_for_cpu(dev, sqe->dma,
-                        sizeof(struct nvme_command), DMA_TO_DEVICE);
+Steve.
