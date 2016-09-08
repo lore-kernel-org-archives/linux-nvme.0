@@ -1,47 +1,90 @@
-From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Thu,  8 Sep 2016 12:14:24 -0700
-Subject: [PATCH] nvmetcli: README description of discovery
-Message-ID: <1473362064-30173-1-git-send-email-james_p_freyensee@linux.intel.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Thu, 8 Sep 2016 14:15:52 -0500
+Subject: nvmf/rdma host crash during heavy load and keep alive recovery
+In-Reply-To: <01bc01d209f5$1b7d7510$52785f30$@opengridcomputing.com>
+References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
+ <010f01d1f31e$50c8cb40$f25a61c0$@opengridcomputing.com>
+ <013701d1f320$57b185d0$07149170$@opengridcomputing.com>
+ <018401d1f32b$792cfdb0$6b86f910$@opengridcomputing.com>
+ <01a301d1f339$55ba8e70$012fab50$@opengridcomputing.com>
+ <2fb1129c-424d-8b2d-7101-b9471e897dc8@grimberg.me>
+ <004701d1f3d8$760660b0$62132210$@opengridcomputing.com>
+ <008101d1f3de$557d2850$007778f0$@opengridcomputing.com>
+ <00fe01d1f3e8$8992b330$9cb81990$@opengridcomputing.com>
+ <01c301d1f702$d28c7270$77a55750$@opengridcomputing.com>
+ <6ef9b0d1-ce84-4598-74db-7adeed313bb6@grimberg.me>
+ <045601d1f803$a9d73a20$fd85ae60$@opengridcomputing.com>
+ <69c0e819-76d9-286b-c4fb-22f087f36ff1@grimberg.me>
+ <08b701d1f8ba$a709ae10$f51d0a30$@opengridcomputing.com>
+ <01c301d20485$0dfcd2c0$29f67840$@opengridcomputing.com> <0c159abb
+ -24ee-21bf-09d2-9fe7d2 69a2eb@grimberg.me>
+ <039601d2094f$80481640$80d842c0$@opengridcomputing.com>
+ <9fd1f090-3b86-b496-d8c0-225ac0815fbe@grimbe rg.me> <01bc01d209f5$1
+ b7d7510$52785f30$@opengridcomputing.com>
+Message-ID: <01f101d20a05$6ab92b00$402b8100$@opengridcomputing.com>
 
-Some blurbs on discovery and the connection
-between using nvmetcli to set up an NVMe target and
-what gets seen by an NVMe Host when accessing
-the discovery controller.
-
-Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
----
- README | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
-
-diff --git a/README b/README
-index 1fd76a6..4c44b39 100644
---- a/README
-+++ b/README
-@@ -111,8 +111,23 @@ The following walks through an example using interactive mode.
- ...> cd subsystems/
- ...> create testnqn
  
--Referrals/Discovery
----------------------
-+Discovery
-+----------
-+Each NVMe Target has a discovery controller mechanism that an NVMe
-+Host can use to determine the NVM subsystems it has access too.
-+nvmetcli can be used to add a new record to the discovery controller
-+upon each new subsystem entry and port entry that the newly
-+created subsystem entry binds too (see the '/port/' and
-+'/subystem/' nvmetcli walk-through earlier in this README).  Each NVMe
-+Host only gets to see the discovery entries defined in
-+/subsystems/[NQN NAME]/allowed_hosts and the IP port it is connected
-+to the NVMe Target.
-+
-+A Host can retrieve these discovery logs via the nvme-cli tool
-+(https://github.com/linux-nvme/nvme-cli).
-+
-+Referrals
-+---------
- TBD
- 
- Saving and restoring the configuration
--- 
-2.7.4
+> > >> Now, given that you already verified that the queues are stopped with
+> > >> BLK_MQ_S_STOPPED, I'm looking at blk-mq now.
+> > >>
+> > >> I see that blk_mq_run_hw_queue() and __blk_mq_run_hw_queue() indeed
+> take
+> > >> BLK_MQ_S_STOPPED into account. Theoretically  if we free the queue
+> > >> pairs after we passed these checks while the rq_list is being
+> processed
+> > >> then we can end-up with this condition, but given that it takes
+> > >> essentially forever (10 seconds) I tend to doubt this is the case.
+> > >>
+> > >> HCH, Jens, Keith, any useful pointers for us?
+> > >>
+> > >> To summarize we see a stray request being queued long after we set
+> > >> BLK_MQ_S_STOPPED (and by long I mean 10 seconds).
+> > >
+> > > Does nvme-rdma need to call blk_mq_queue_reinit() after it reinits the
+> tag set
+> > > for that queue as part of reconnecting?
+> >
+> > I don't see how that'd help...
+> >
+> 
+> I can't explain this, but the nvme_rdma_queue.flags field has a bit set
+> that shouldn't be set:
+> 
+> crash> nvme_rdma_queue.flags -x ffff880e52b8e7e8
+>   flags = 0x14
+> 
+> Bit 2 is set, NVME_RDMA_Q_DELETING, but bit 4 is also set and should never
+> be...
+> 
+> enum nvme_rdma_queue_flags {
+>         NVME_RDMA_Q_CONNECTED = (1 << 0),
+>         NVME_RDMA_IB_QUEUE_ALLOCATED = (1 << 1),
+>         NVME_RDMA_Q_DELETING = (1 << 2),
+> };
+> 
+> The rest of the structure looks fine.  I've also seen crash dumps where
+> bit 3 is set which is also not used.
+> 
+> /me confused...
+> 
+
+While working this with debug code to verify that we never create a qp, cq, or
+cm_id where one already exists for an nvme_rdma_queue, I discovered a bug where
+the Q_DELETING flag is never cleared, and thus a reconnect can leak qps and
+cm_ids.  The fix, I think, is this:
+
+@@ -563,6 +572,7 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
+        int ret;
+
+        queue = &ctrl->queues[idx];
++       queue->flags = 0;
+        queue->ctrl = ctrl;
+        init_completion(&queue->cm_done);
+
+I think maybe the clearing of the Q_DELETING flag was lost when we moved to
+using the ib_client for device removal.   I'll polish this up and submit a
+patch. It should go with the next 4.8-rc push I think.
+
+This doesn't resolve the original failure I'm chasing in this thread though :(
+
+Steve.
