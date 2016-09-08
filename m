@@ -1,7 +1,7 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 8 Sep 2016 14:15:52 -0500
+Date: Thu, 8 Sep 2016 14:26:00 -0500
 Subject: nvmf/rdma host crash during heavy load and keep alive recovery
-In-Reply-To: <01bc01d209f5$1b7d7510$52785f30$@opengridcomputing.com>
+In-Reply-To: <01f201d20a05$6abde5f0$4039b1d0$@opengridcomputing.com>
 References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
  <010f01d1f31e$50c8cb40$f25a61c0$@opengridcomputing.com>
  <013701d1f320$57b185d0$07149170$@opengridcomputing.com>
@@ -21,70 +21,33 @@ References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
  <039601d2094f$80481640$80d842c0$@opengridcomputing.com>
  <9fd1f090-3b86-b496-d8c0-225ac0815fbe@grimbe rg.me> <01bc01d209f5$1
  b7d7510$52785f30$@opengridcomputing.com>
-Message-ID: <01f101d20a05$6ab92b00$402b8100$@opengridcomputing.com>
+ <01f201d20a05$6abde5f0$4039b1d0$@opengridcomputing.com>
+Message-ID: <01f301d20a06$d4c53060$7e4f9120$@opengridcomputing.com>
 
- 
-> > >> Now, given that you already verified that the queues are stopped with
-> > >> BLK_MQ_S_STOPPED, I'm looking at blk-mq now.
-> > >>
-> > >> I see that blk_mq_run_hw_queue() and __blk_mq_run_hw_queue() indeed
-> take
-> > >> BLK_MQ_S_STOPPED into account. Theoretically  if we free the queue
-> > >> pairs after we passed these checks while the rq_list is being
-> processed
-> > >> then we can end-up with this condition, but given that it takes
-> > >> essentially forever (10 seconds) I tend to doubt this is the case.
-> > >>
-> > >> HCH, Jens, Keith, any useful pointers for us?
-> > >>
-> > >> To summarize we see a stray request being queued long after we set
-> > >> BLK_MQ_S_STOPPED (and by long I mean 10 seconds).
-> > >
-> > > Does nvme-rdma need to call blk_mq_queue_reinit() after it reinits the
-> tag set
-> > > for that queue as part of reconnecting?
-> >
-> > I don't see how that'd help...
-> >
+> While working this with debug code to verify that we never create a qp,
+> cq, or cm_id where one already exists for an nvme_rdma_queue, I discovered
+> a bug where the Q_DELETING flag is never cleared, and thus a reconnect can
+> leak qps and cm_ids.  The fix, I think, is this:
 > 
-> I can't explain this, but the nvme_rdma_queue.flags field has a bit set
-> that shouldn't be set:
+> @@ -563,6 +572,7 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl
+> *ctrl,
+>         int ret;
 > 
-> crash> nvme_rdma_queue.flags -x ffff880e52b8e7e8
->   flags = 0x14
+>         queue = &ctrl->queues[idx];
+> +       queue->flags = 0;
+>         queue->ctrl = ctrl;
+>         init_completion(&queue->cm_done);
 > 
-> Bit 2 is set, NVME_RDMA_Q_DELETING, but bit 4 is also set and should never
-> be...
-> 
-> enum nvme_rdma_queue_flags {
->         NVME_RDMA_Q_CONNECTED = (1 << 0),
->         NVME_RDMA_IB_QUEUE_ALLOCATED = (1 << 1),
->         NVME_RDMA_Q_DELETING = (1 << 2),
-> };
-> 
-> The rest of the structure looks fine.  I've also seen crash dumps where
-> bit 3 is set which is also not used.
-> 
-> /me confused...
-> 
+> I think maybe the clearing of the Q_DELETING flag was lost when we moved
+> to using the ib_client for device removal.   I'll polish this up and
+> submit a patch. It should go with the next 4.8-rc push I think.
 
-While working this with debug code to verify that we never create a qp, cq, or
-cm_id where one already exists for an nvme_rdma_queue, I discovered a bug where
-the Q_DELETING flag is never cleared, and thus a reconnect can leak qps and
-cm_ids.  The fix, I think, is this:
+Actually, I think the Q_DELETING flag is no longer needed.  Sagi, can you have
+look at NVME_RDMA_Q_DELETING in the latest code?  I think the ib_client patch
+made the original Q_DELETING patch obsolete.  And the original Q_DELETING patch
+probably needed the above chunk for correctness...
 
-@@ -563,6 +572,7 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
-        int ret;
-
-        queue = &ctrl->queues[idx];
-+       queue->flags = 0;
-        queue->ctrl = ctrl;
-        init_completion(&queue->cm_done);
-
-I think maybe the clearing of the Q_DELETING flag was lost when we moved to
-using the ib_client for device removal.   I'll polish this up and submit a
-patch. It should go with the next 4.8-rc push I think.
-
-This doesn't resolve the original failure I'm chasing in this thread though :(
+Let me know if you want me to submit something for this issue.  We could fix the
+original patches as they are still only in your nvmf-4.8-rc repo...
 
 Steve.
