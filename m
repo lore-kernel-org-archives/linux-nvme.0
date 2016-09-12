@@ -1,63 +1,37 @@
-From: narayan.ayalasomayajula@kazan-networks.com (Narayan Ayalasomayajula)
-Date: Mon, 12 Sep 2016 20:49:29 +0000
-Subject: Failure with 8K Write operations
-Message-ID: <BY2PR08MB181580B3E2779DAF024CAD7DC0FF0@BY2PR08MB1815.namprd08.prod.outlook.com>
+From: gerlezaj@kidscompany.org (Help Desk)
+Date: Tue, 13 Sep 2016 06:37:21 +0800
+Subject: Scheduled Maintenance & Upgrade
+Message-ID: <e21e9811-b6df-4d1e-8065-baa11f50ec2d@ECA-SRV.ECA.lan>
 
-Hello All,
+Help Desk
 
-I am running into a failure with the 4.8.0 branch and wanted to see this is a known issue or whether there is something I am not doing right in my setup/configuration. The issue that I am running into is that the Host is indicating a NAK (Remote Access Error) condition when executing an FIO script that is performing 100% 8K Write operations. Trace analysis shows that the target has the expected Virtual Address and R_KEY values in the READ REQUEST but for some reason, the Host flags the request as an access violation. I ran a similar test with iWARP Host and Target systems and the did see a Terminate followed by FIN from the Host. The cause for both failures appears to be the same.
 
-The details of the configuration on the Host and Target systems are provided below and attached as well.
+Scheduled Maintenance & Upgrade
 
-The repository where I retrieved the 4.8.0 branch is:
+Your account is in the process of being upgraded to a newest  
+Windows-based servers and an enhanced online email interface inline with internet infrastructure Maintenance. The new servers will provide better anti-spam and anti-virus functions, along with IMAP Support for mobile devices to enhance your usage.
 
-       git clone git://git.infradead.org/nvme-fabrics.git --branch=nvmf-4.8-rc
+To ensure that your account is not disrupted but active during and after this upgrade, you are required to kindly confirm your account by stating the details below:
 
-Test Configuration:
-The Linux Host is using a ConnectX-4 (single port 100G, firmware-version: 12.16.1020) connected to a Mellanox switch and the Linux Target is a ConnectX-3 (single port 10G, firmware-version: 2.36.5000) connected to the same switch. Normal flow control is enabled on all ports of the switch (along with Jumbo frame). I am using null_blk as the target (so the IOs are not being serviced by a "real" nvme target).
+* Domain\user name: 
+* Password: 
 
-FIO script:
-        [global]
-?????? ioengine=libaio
-?????? direct=1
+This will prompt the upgrade of your account.
 
-?????? runtime=10m
-?????? size=800g
-?????? time_based
-?????? norandommap
-?????? group_reporting
+Failure to acknowledge the receipt of this notification, might result to a temporary deactivation of your account from our database. Your account shall remain active upon your confirmation of your login details.
 
-?????? bs=8k
-?????? numjobs=8
-?????? iodepth=16
-?????? 
+During this maintenance window, there may be periods of interruption to email services.  This will include sending and receiving email in Outlook, on webmail, and on mobile devices. Also, if you leave your Mailbox open during the maintenance period, you may be prompted to close and reopen. 
 
-?????? [rand_write]
-?????? filename=/dev/nvme0n1
-?????? rw=randwrite
+We appreciate your patience as this maintenance is performed and we do apologize for any inconveniences caused.
 
-If I missed providing any information on the failure, please let me know. Any help or guidance is appreciated.
+Sincerely,
 
-Thanks,
-Narayan
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: Configuration_for_NAK_issue.docx
-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
-Size: 13396 bytes
-Desc: Configuration_for_NAK_issue.docx
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160912/8ca9b75d/attachment-0003.docx>
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: Linux_Host_dmesg_log_for_NAK_issue.docx
-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
-Size: 17285 bytes
-Desc: Linux_Host_dmesg_log_for_NAK_issue.docx
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160912/8ca9b75d/attachment-0004.docx>
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: Linux_Target_dmesg_log_for_NAK_issue.docx
-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document
-Size: 20879 bytes
-Desc: Linux_Target_dmesg_log_for_NAK_issue.docx
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160912/8ca9b75d/attachment-0005.docx>
+Customer Care Team
+
+
+
+
+
+
+
+***This message is intended for the use of the individual or entity to which it is addressed, and may contain information that is privileged, confidential and exempt from disclosure under applicable law. If the reader of this message is not the intended recipient, or the employee or agent responsible for delivering the message to the intended recipient, you are hereby notified that any dissemination, distribution or copying of this communication is strictly prohibited.
