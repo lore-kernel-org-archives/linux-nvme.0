@@ -1,19 +1,37 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 13 Sep 2016 07:59:05 -0600
-Subject: [GIT PULL] yet another round of fabrics fixes for the next 4.8-rc
-In-Reply-To: <1473773694-17296-1-git-send-email-sagi@grimberg.me>
-References: <1473773694-17296-1-git-send-email-sagi@grimberg.me>
-Message-ID: <49cb3fb5-9772-9f1b-76d8-5ab1833294a1@kernel.dk>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Tue, 13 Sep 2016 09:21:36 -0500
+Subject: crash when connecting to targets using nr_io_queues < num cpus
+In-Reply-To: <e31f7c2f-7b15-95f9-f882-4406c94eaedc@grimberg.me>
+References: <011401d203c4$0cdd78c0$26986a40$@opengridcomputing.com>
+ <6082d700-a45c-b00a-3f09-ba6196cc3e5e@grimberg.me>
+ <00ae01d2045a$a8516500$f8f42f00$@opengridcomputing.com>
+ <01b401d20483$2da4fd20$88eef760$@opengridcomputing.com>
+ <e31f7c2f-7b15-95f9-f882-4406c94eaedc@grimberg.me>
+Message-ID: <018701d20dca$22a02080$67e06180$@opengridcomputing.com>
 
-On 09/13/2016 07:34 AM, Sagi Grimberg wrote:
-> Hey Jens,
+> 
+> >>> I think Ming sent a patch for this some time ago... Not sure what
+> >>> happened with it though...
+> >>
+> >> This?
+> >>
+> >> http://lists.infradead.org/pipermail/linux-nvme/2016-June/004884.html
+> >
+> > This is indeed the same problem.  I don't have the knoggin to propose a fix.
+> > Sagi/Christoph, do you have any ideas on this?  I'm willing to take and idea
+> > forward and test it out of you all have any clever ideas.  We should at
+least
+> > prevent setting nr_io_queues to a value that will crash immediately when
+nvmf is
+> > used...
+> 
+> I think that Ming and Keith had a few suggestions.
+> 
+> ++ Keith.
 >
-> Here we have:
-> - Kconfig dependencies fix from Arnd
-> - nvme-rdma device removal fixes from Steve
-> - possible bad deref fix from Colin
 
-Pulled Sagi, thanks.
+Ming has been silent. :(  Keith, any thoughts on this?  
 
--- 
-Jens Axboe
+Thanks,
+
+Steve.
