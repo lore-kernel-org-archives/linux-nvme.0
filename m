@@ -1,37 +1,39 @@
-From: gerlezaj@kidscompany.org (Help Desk)
-Date: Tue, 13 Sep 2016 06:37:21 +0800
-Subject: Scheduled Maintenance & Upgrade
-Message-ID: <e21e9811-b6df-4d1e-8065-baa11f50ec2d@ECA-SRV.ECA.lan>
-
-Help Desk
-
-
-Scheduled Maintenance & Upgrade
-
-Your account is in the process of being upgraded to a newest  
-Windows-based servers and an enhanced online email interface inline with internet infrastructure Maintenance. The new servers will provide better anti-spam and anti-virus functions, along with IMAP Support for mobile devices to enhance your usage.
-
-To ensure that your account is not disrupted but active during and after this upgrade, you are required to kindly confirm your account by stating the details below:
-
-* Domain\user name: 
-* Password: 
-
-This will prompt the upgrade of your account.
-
-Failure to acknowledge the receipt of this notification, might result to a temporary deactivation of your account from our database. Your account shall remain active upon your confirmation of your login details.
-
-During this maintenance window, there may be periods of interruption to email services.  This will include sending and receiving email in Outlook, on webmail, and on mobile devices. Also, if you leave your Mailbox open during the maintenance period, you may be prompted to close and reopen. 
-
-We appreciate your patience as this maintenance is performed and we do apologize for any inconveniences caused.
-
-Sincerely,
-
-Customer Care Team
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 13 Sep 2016 12:16:24 +0300
+Subject: Failure with 8K Write operations
+In-Reply-To: <BY2PR08MB181580B3E2779DAF024CAD7DC0FF0@BY2PR08MB1815.namprd08.prod.outlook.com>
+References: <BY2PR08MB181580B3E2779DAF024CAD7DC0FF0@BY2PR08MB1815.namprd08.prod.outlook.com>
+Message-ID: <a8e92a9f-f3e6-6bc3-b49b-368f3302517d@grimberg.me>
 
 
+> Hello All,
 
+Hi Narayan,
 
+> I am running into a failure with the 4.8.0 branch and wanted to see this is a known issue or whether there is something I am not doing right in my setup/configuration. The issue that I am running into is that the Host is indicating a NAK (Remote Access Error) condition when executing an FIO script that is performing 100% 8K Write operations. Trace analysis shows that the target has the expected Virtual Address and R_KEY values in the READ REQUEST but for some reason, the Host flags the request as an access violation. I ran a similar test with iWARP Host and Target systems and the did see a Terminate followed by FIN from the Host. The cause for both failures appears to be the same.
+>
 
+I cannot reproduce what you are seeing on my setup (Steve, can you?)
+I'm running 2 VMs connected over SRIOV on the same PC though...
 
+Can you share the log on the host side?
 
-***This message is intended for the use of the individual or entity to which it is addressed, and may contain information that is privileged, confidential and exempt from disclosure under applicable law. If the reader of this message is not the intended recipient, or the employee or agent responsible for delivering the message to the intended recipient, you are hereby notified that any dissemination, distribution or copying of this communication is strictly prohibited.
+Can you also add this print to verify that the
+host driver programmed the same sgl as it sent
+the target:
+--
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c2c2c28e6eb5..248fa2e5cabf 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -955,6 +955,9 @@ static int nvme_rdma_map_sg_fr(struct 
+nvme_rdma_queue *queue,
+         sg->type = (NVME_KEY_SGL_FMT_DATA_DESC << 4) |
+                         NVME_SGL_FMT_INVALIDATE;
+
++       pr_err("%s: rkey=%#x iova=%#llx length=%#x\n",
++               __func__, req->mr->rkey, req->mr->iova, req->mr->length);
++
+         return 0;
+  }
+--
