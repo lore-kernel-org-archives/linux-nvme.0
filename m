@@ -1,26 +1,41 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Tue, 13 Sep 2016 16:51:23 -0700
+From: narayan.ayalasomayajula@kazan-networks.com (Narayan Ayalasomayajula)
+Date: Wed, 14 Sep 2016 00:03:55 +0000
 Subject: Failure with 8K Write operations
-In-Reply-To: <BY2PR08MB1815C4CAC2FC683A05DFD443C0FE0@BY2PR08MB1815.namprd08.prod.outlook.com>
+In-Reply-To: <1473810683.2781.72.camel@linux.intel.com>
 References: <BY2PR08MB181580B3E2779DAF024CAD7DC0FF0@BY2PR08MB1815.namprd08.prod.outlook.com>
  <a8e92a9f-f3e6-6bc3-b49b-368f3302517d@grimberg.me>
  <BY2PR08MB1815C4CAC2FC683A05DFD443C0FE0@BY2PR08MB1815.namprd08.prod.outlook.com>
-Message-ID: <1473810683.2781.72.camel@linux.intel.com>
+ <1473810683.2781.72.camel@linux.intel.com>
+Message-ID: <SN1PR08MB1822F0F69AE0A389A74CD6F1C0F10@SN1PR08MB1822.namprd08.prod.outlook.com>
+
+Hi Jay,
+
+Thanks for taking the effort to emulate the behavior.
+
+I did not mention this in my last email but had indicated it in the earlier posting. I am using null_blk as the target (so the IOs are not being serviced by a real nvme target). I am not sure if that could somehow be the catalyst for the failure. Is it possible for you to re-run your test with null_blk as the target? 
+
+Thanks,
+Narayan
+
+-----Original Message-----
+From: J Freyensee [mailto:james_p_freyensee@linux.intel.com] 
+Sent: Tuesday, September 13, 2016 4:51 PM
+To: Narayan Ayalasomayajula <narayan.ayalasomayajula at kazan-networks.com>; Sagi Grimberg <sagi at grimberg.me>; linux-nvme at lists.infradead.org
+Subject: Re: Failure with 8K Write operations
 
 On Tue, 2016-09-13@20:04 +0000, Narayan Ayalasomayajula wrote:
 > Hi Sagi,
 > 
-> Thanks for the print statement to verify that the sgls in the command
-> capsule match what the Host programmed. I added this print statement
-> and compared the Virtual Address and R_Key information in the
-> /var/log to the NVMe Commands in the trace file and found the two to
-> match. I have the trace and Host log files from this failure (trace
-> is ~6M) - will it be useful for someone who may be looking into this
-> issue??
+> Thanks for the print statement to verify that the sgls in the command 
+> capsule match what the Host programmed. I added this print statement 
+> and compared the Virtual Address and R_Key information in the /var/log 
+> to the NVMe Commands in the trace file and found the two to match. I 
+> have the trace and Host log files from this failure (trace is ~6M) - 
+> will it be useful for someone who may be looking into this issue?
 > 
-> Regarding the host side log information you mentioned, I had attached
-> that in my prior email (attached again). Is this what you are
-> requesting? That was collected prior to adding the print statement
+> Regarding the host side log information you mentioned, I had attached 
+> that in my prior email (attached again). Is this what you are 
+> requesting? That was collected prior to adding the print statement 
 > that you suggested.
 > 
 > Just to summarize, the failure is seen in the following
@@ -28,11 +43,11 @@ On Tue, 2016-09-13@20:04 +0000, Narayan Ayalasomayajula wrote:
 > 
 > 1. Host is an 8-core Ubuntu server running the 4.8.0 kernel. It has a
 > ConnectX-4 RNIC (1x100G) and is connected to a Mellanox Switch.
-> 2. Target is an 8-core Ubuntu server running the 4.8.0 kernel. It has
+> 2. Target is an 8-core Ubuntu server running the 4.8.0 kernel. It has 
 > a ConnectX-3 RNIC (1x10G) and is connected to a Mellanox Switch.
-> 3. Switch has normal Pause and Jumbo frame support enabled on all
+> 3. Switch has normal Pause and Jumbo frame support enabled on all 
 > ports.
-> 4. Test fails with Host sending a NAK (Remote Access Error) for the
+> 4. Test fails with Host sending a NAK (Remote Access Error) for the 
 > following FIO workload:
 > 
 > 	[global]
@@ -49,7 +64,7 @@ On Tue, 2016-09-13@20:04 +0000, Narayan Ayalasomayajula wrote:
 > 
 > 	[rand_write]
 > 	filename=/dev/nvme0n1
-> 	rw=randwrite?
+> 	rw=randwrite
 > 
 
 Hi Narayan:
