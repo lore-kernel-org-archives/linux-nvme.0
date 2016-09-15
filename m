@@ -1,7 +1,7 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 15 Sep 2016 09:44:55 -0500
+Date: Thu, 15 Sep 2016 10:10:57 -0500
 Subject: nvmf/rdma host crash during heavy load and keep alive recovery
-In-Reply-To: <da2e918b-0f18-e032-272d-368c6ec49c62@grimberg.me>
+In-Reply-To: <011501d20f5f$b94e6c80$2beb4580$@opengridcomputing.com>
 References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
  <008101d1f3de$557d2850$007778f0$@opengridcomputing.com>
  <00fe01d1f3e8$8992b330$9cb81990$@opengridcomputing.com>
@@ -19,69 +19,56 @@ References: <018301d1e9e1$da3b2e40$8eb18ac0$@opengridcomputing.com>
  <021501d20a19$327ba5b0$9772f110$@opengridcomputing.com>
  <00ab01d20ab1$ed212ff0$c7638fd0$@opengridcomputing.com>
  <022701d20d31$a9645850$fc2d08f0$@opengridcomputing.com>
- <da2e918b-0f18-e032-272d-368c6ec49c62@gri mberg.me>
-Message-ID: <011501d20f5f$b94e6c80$2beb4580$@opengridcomputing.com>
+ <da2e918b-0f18-e032-272d-368c6ec49c62@gri mberg.me> <011501d20f
+ 5f$b94e6c80$2beb4580$@opengridcomputing.com>
+Message-ID: <012001d20f63$5c8f7490$15ae5db0$@opengridcomputing.com>
 
-> > @@ -1408,6 +1412,8 @@ static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx
-> *hctx,
-> >
-> >         WARN_ON_ONCE(rq->tag < 0);
-> >
-> > +       BUG_ON(hctx != queue->hctx);
-> > +       BUG_ON(test_bit(BLK_MQ_S_STOPPED, &hctx->state));
-> >         dev = queue->device->dev;
-> >         ib_dma_sync_single_for_cpu(dev, sqe->dma,
-> >                         sizeof(struct nvme_command), DMA_TO_DEVICE);
-> > ---
-> >
-> > When I reran the test forcing reconnects, I hit the BUG_ON(hctx !=
-queue->hctx)
-> > in nvme_rdma_queue_rq() when doing the first reconnect (not when initially
-> > connecting the targets).   Here is the back trace.  Is my debug logic
-flawed?
-> > Or does this mean something is screwed up once we start reconnecting.
+> The state of the controller is NVME_CTRL_RECONNECTING.  In fact, this BUG_ON()
+> happened on the reconnect worker thread.   Ah, this is probably the connect
+> command on the admin queue maybe?
 > 
-> This is weird indeed.
 > 
-> The fact that you trigger this means that you successfully reconnect
-> correct?
->
+> 
 
-The state of the controller is NVME_CTRL_RECONNECTING.  In fact, this BUG_ON()
-happened on the reconnect worker thread.   Ah, this is probably the connect
-command on the admin queue maybe?
+The queue being used at the crash is nvme_rdma_ctrl->queues[1].  IE not the
+admin queue.  The reconnect work thread is connecting the io queues here:
+
+crash> gdb list *nvme_rdma_reconnect_ctrl_work+0x14b
+0xffffffffa065cafb is in nvme_rdma_reconnect_ctrl_work
+(drivers/nvme/host/rdma.c:647).
+642     {
+643             int i, ret = 0;
+644
+645             for (i = 1; i < ctrl->queue_count; i++) {
+646                     ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
+647                     if (ret)
+648                             break;
+649             }
+650
+651             return ret;
 
 
-PID: 1819   TASK: ffff88101d0217c0  CPU: 0   COMMAND: "kworker/0:2"
- #0 [ffff8810090d34b0] machine_kexec at ffffffff8105fbd0
- #1 [ffff8810090d3520] __crash_kexec at ffffffff81116998
- #2 [ffff8810090d35f0] crash_kexec at ffffffff81116a6d
- #3 [ffff8810090d3620] oops_end at ffffffff81032bd6
- #4 [ffff8810090d3650] die at ffffffff810330cb
- #5 [ffff8810090d3680] do_trap at ffffffff8102fff1
- #6 [ffff8810090d36e0] do_error_trap at ffffffff8103032d
- #7 [ffff8810090d37a0] do_invalid_op at ffffffff81030480
- #8 [ffff8810090d37b0] invalid_op at ffffffff816e47be
-    [exception RIP: nvme_rdma_queue_rq+621]
-    RIP: ffffffffa065ce3d  RSP: ffff8810090d3868  RFLAGS: 00010206
-    RAX: 0000000000000000  RBX: ffff880e33640000  RCX: dead000000000200
-    RDX: ffff8810090d3928  RSI: ffff8810090d38f8  RDI: ffff880e315cb528
-    RBP: ffff8810090d38a8   R8: ffff880e33640000   R9: 0000000000000000
-    R10: 0000000000000674  R11: ffff8810090d3a18  R12: ffff880e36ab91d0
-    R13: ffff880e33640170  R14: ffff880e315cb528  R15: ffff880e36bc1138
-    ORIG_RAX: ffffffffffffffff  CS: 0010  SS: 0018
- #9 [ffff8810090d38b0] __blk_mq_run_hw_queue at ffffffff81338b1b
-#10 [ffff8810090d3a00] blk_mq_run_hw_queue at ffffffff81338ffe
-#11 [ffff8810090d3a20] blk_mq_insert_request at ffffffff8133a130
-#12 [ffff8810090d3a90] blk_execute_rq_nowait at ffffffff813342dd
-#13 [ffff8810090d3ad0] blk_execute_rq at ffffffff8133442e
-#14 [ffff8810090d3b80] __nvme_submit_sync_cmd at ffffffffa02715d5 [nvme_core]
-#15 [ffff8810090d3bd0] nvmf_connect_io_queue at ffffffffa064d134 [nvme_fabrics]
-#16 [ffff8810090d3c80] nvme_rdma_reconnect_ctrl_work at ffffffffa065cafb
-[nvme_rdma]
-#17 [ffff8810090d3cb0] process_one_work at ffffffff810a1613
-#18 [ffff8810090d3d90] worker_thread at ffffffff810a22ad
-#19 [ffff8810090d3ec0] kthread at ffffffff810a6dec
-#20 [ffff8810090d3f50] ret_from_fork at ffffffff816e3bbf
+nvmf_connect_io_queue() is here:
 
- 
+crash> gdb list *nvmf_connect_io_queue+0x114
+0xffffffffa064d134 is in nvmf_connect_io_queue
+(drivers/nvme/host/fabrics.c:454).
+449             strncpy(data->hostnqn, ctrl->opts->host->nqn, NVMF_NQN_SIZE);
+450
+451             ret = __nvme_submit_sync_cmd(ctrl->connect_q, &cmd, &cqe,
+452                             data, sizeof(*data), 0, qid, 1,
+453                             BLK_MQ_REQ_RESERVED | BLK_MQ_REQ_NOWAIT);
+454             if (ret) {
+455                     nvmf_log_connect_error(ctrl, ret,
+le32_to_cpu(cqe.result),
+456                                            &cmd, data);
+457             }
+458             kfree(data);
+
+
+The hctx passed into nvme_rdma_queue_rq() is in state BLK_MQ_S_TAG_ACTIVE.  And
+hctx->driver_data is the nvme_rdma_queue to be used.  That nvme_rdma_queue has a
+different hctx pointer (from my debug code) and that's why we hit the BUG_ON().
+Anyway, nvme_rdma_queue->hctx->state is BLK_MQ_S_STOPPED.  So this is more
+evidence that somehow an hctx is using an nvme_rdma_queue that wasn't originally
+assigned to that hctx...
