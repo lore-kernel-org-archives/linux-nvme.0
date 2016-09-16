@@ -1,48 +1,45 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Fri, 16 Sep 2016 10:51:20 +0200
-Subject: [PATCH 09/21] blk-mq: Cleanup a loop exit condition
+Date: Fri, 16 Sep 2016 10:51:19 +0200
+Subject: [PATCH 08/21] blk-mq: Cleanup hardware context data node selection
 In-Reply-To: <cover.1474014910.git.agordeev@redhat.com>
 References: <cover.1474014910.git.agordeev@redhat.com>
-Message-ID: <aef4bf736941c5105318f1a517a8d5b613d1b1dd.1474014910.git.agordeev@redhat.com>
+Message-ID: <72421ea88f3bbebe37673a57b50da5638d88fe67.1474014910.git.agordeev@redhat.com>
 
 CC: Jens Axboe <axboe at kernel.dk>
 CC: linux-nvme at lists.infradead.org
 Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- block/blk-mq.c | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ block/blk-mq.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index d40013c..de700c8 100644
+index 657e748..d40013c 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -1679,16 +1679,13 @@ static void blk_mq_exit_hctx(struct request_queue *q,
- }
- 
- static void blk_mq_exit_hw_queues(struct request_queue *q,
--		struct blk_mq_tag_set *set, int nr_queue)
-+		struct blk_mq_tag_set *set)
+@@ -1710,13 +1710,9 @@ static int blk_mq_init_hctx(struct request_queue *q,
+ 		struct blk_mq_tag_set *set,
+ 		struct blk_mq_hw_ctx *hctx, unsigned hctx_idx)
  {
- 	struct blk_mq_hw_ctx *hctx;
- 	unsigned int i;
+-	int node;
++	int node = hctx->numa_node;
+ 	unsigned flush_start_tag = set->queue_depth;
  
--	queue_for_each_hw_ctx(q, hctx, i) {
--		if (i == nr_queue)
--			break;
-+	queue_for_each_hw_ctx(q, hctx, i)
- 		blk_mq_exit_hctx(q, set, hctx, i);
--	}
- }
+-	node = hctx->numa_node;
+-	if (node == NUMA_NO_NODE)
+-		node = hctx->numa_node = set->numa_node;
+-
+ 	INIT_DELAYED_WORK(&hctx->run_work, blk_mq_run_work_fn);
+ 	INIT_DELAYED_WORK(&hctx->delay_work, blk_mq_delay_work_fn);
+ 	spin_lock_init(&hctx->lock);
+@@ -1999,6 +1995,9 @@ static void blk_mq_realloc_hw_ctxs(struct blk_mq_tag_set *set,
+ 			break;
  
- static void blk_mq_free_hw_queues(struct request_queue *q,
-@@ -2134,7 +2131,7 @@ void blk_mq_free_queue(struct request_queue *q)
- 
- 	blk_mq_del_queue_tag_set(q);
- 
--	blk_mq_exit_hw_queues(q, set, set->nr_hw_queues);
-+	blk_mq_exit_hw_queues(q, set);
- 	blk_mq_free_hw_queues(q, set);
- }
- 
+ 		node = blk_mq_hw_queue_to_node(q->mq_map, i);
++		if (node == NUMA_NO_NODE)
++			node = set->numa_node;
++
+ 		hctxs[i] = kzalloc_node(sizeof(struct blk_mq_hw_ctx),
+ 					GFP_KERNEL, node);
+ 		if (!hctxs[i])
 -- 
 1.8.3.1
