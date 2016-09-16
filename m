@@ -1,19 +1,21 @@
-From: luto@amacapital.net (Andy Lutomirski)
-Date: Fri, 16 Sep 2016 08:14:12 -0700
-Subject: [PATCH v3 3/3] nvme: Enable autonomous power state transitions
-In-Reply-To: <20160916084231.GD2415@lst.de>
-References: <cover.1474002926.git.luto@kernel.org>
- <6d237c11f22f03365789682484755b84eb6b4493.1474002926.git.luto@kernel.org>
- <20160916084231.GD2415@lst.de>
-Message-ID: <CALCETrVLCaBYx_De01+Ve1YitLhEmdKFWooga13xnyN1T=cEFg@mail.gmail.com>
+From: luto@kernel.org (Andy Lutomirski)
+Date: Fri, 16 Sep 2016 08:26:03 -0700
+Subject: Should drivers like nvme let userspace control their latency via
+ dev_pm_qos?
+Message-ID: <CALCETrUsgA2H=TuwZMuwW2XpXZ7KPrEYu6xckmTbhU8oZwr6Nw@mail.gmail.com>
 
-On Fri, Sep 16, 2016@1:42 AM, Christoph Hellwig <hch@lst.de> wrote:
-> Looks good to me:
->
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
->
-> Did you sort out with the PM people if this should have any framework
-> integration or not?
->
+I'm adding power management to the nvme driver, and I'm exposing
+exactly one knob via sysfs: the maximum permissible latency.  This
+isn't a power domain issue, and it has no dependencies -- it's
+literally just the maximum latency that the driver may impose on I/O
+for power saving purposes.
 
-No.  I'll email now.  I'm not holding my breath for a good answer very quickly.
+ISTM userspace should be able to specify its own latency tolerance in
+a uniform way, and dev_pm_qos seems like the natural interface for
+this, except that I cannot find a single instance in the tree of *any*
+driver using it via the notifier mechanism.  I can find two drivers
+that do it using dev_pm_qos_expose_latency_tolerance(), and both are
+LPSS drivers?
+
+So: should I be exposing .set_latency_tolerance() or should I just use
+a custom sysfs attribute?  Or both?
