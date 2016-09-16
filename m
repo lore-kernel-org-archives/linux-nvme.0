@@ -1,48 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 16 Sep 2016 17:04:48 -0400
-Subject: [PATCH RFC 00/21] blk-mq: Introduce combined hardware queues
-In-Reply-To: <cover.1474014910.git.agordeev@redhat.com>
-References: <cover.1474014910.git.agordeev@redhat.com>
-Message-ID: <20160916210448.GA1178@localhost.localdomain>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Fri, 16 Sep 2016 16:33:11 -0700
+Subject: [PATCH v3 1/3] nvme/scsi: Remove power management support
+In-Reply-To: <20160916083333.GB2415@lst.de>
+References: <cover.1474002926.git.luto@kernel.org>
+ <714df91022b06c6799afb315962769f22b8ab9f4.1474002926.git.luto@kernel.org>
+ <20160916083333.GB2415@lst.de>
+Message-ID: <1474068791.10494.2.camel@linux.intel.com>
 
-On Fri, Sep 16, 2016@10:51:11AM +0200, Alexander Gordeev wrote:
-> Linux block device layer limits number of hardware contexts queues
-> to number of CPUs in the system. That looks like suboptimal hardware
-> utilization in systems where number of CPUs is (significantly) less
-> than number of hardware queues.
+On Fri, 2016-09-16@10:33 +0200, Christoph Hellwig wrote:
+> On Thu, Sep 15, 2016@10:24:19PM -0700, Andy Lutomirski wrote:
+> > 
+> > As far as I can tell, there is basically nothing correct about this
+> > code.??It misinterprets npss (off-by-one).??It hardcodes a bunch of
+> > power states, which is nonsense, because they're all just indices
+> > into a table that software needs to parse.??It completely ignores
+> > the distinction between operational and non-operational states.
+> > And, until 4.8, if all of the above magically succeeded, it would
+> > dereference a NULL pointer and OOPS.
+> > 
+> > Since this code appears to be useless, just delete it.
 > 
-> In addition, there is a need to deal with tag starvation (see commit
-> 0d2602ca "blk-mq: improve support for shared tags maps"). While unused
-> hardware queues stay idle, extra efforts are taken to maintain a notion
-> of fairness between queue users. Deeper queue depth could probably
-> mitigate the whole issue sometimes.
+> Yes, please!
 > 
-> That all brings a straightforward idea that hardware queues provided by
-> a device should be utilized as much as possible.
+> Acked-by: Christoph Hellwig <hch at lst.de>
 
-Hi Alex,
-
-I'm not sure I see how this helps. That probably means I'm not considering
-the right scenario. Could you elaborate on when having multiple hardware
-queues to choose from a given CPU will provide a benefit?
-
-If we're out of avaliable h/w tags, having more queues shouldn't
-improve performance. The tag depth on each nvme hw context is already
-deep enough that it should mean even one full queue has saturated the
-device capabilities.
-
-Having a 1:1 already seemed like the ideal solution since you can't
-simultaneously utilize more than that from the host, so there's no more
-h/w parallelisms from we can exploit. On the controller side, fetching
-commands is serialized memory reads, so I don't think spreading IO
-among more h/w queues helps the target over posting more commands to a
-single queue.
-
-If a CPU has more than one to choose from, a command sent to a less
-used queue would be serviced ahead of previously issued commands on a
-more heavily used one from the same CPU thread due to how NVMe command
-arbitraration works, so it sounds like this would create odd latency
-outliers.
-
-Thanks,
-Keith
+Acked-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
