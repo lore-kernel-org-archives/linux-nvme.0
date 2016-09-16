@@ -1,133 +1,131 @@
 From: luto@kernel.org (Andy Lutomirski)
-Date: Thu, 15 Sep 2016 22:24:19 -0700
-Subject: [PATCH v3 1/3] nvme/scsi: Remove power management support
+Date: Thu, 15 Sep 2016 22:24:20 -0700
+Subject: [PATCH v3 2/3] nvme: Pass pointers, not dma addresses,
+ to nvme_get/set_features()
 In-Reply-To: <cover.1474002926.git.luto@kernel.org>
 References: <cover.1474002926.git.luto@kernel.org>
-Message-ID: <714df91022b06c6799afb315962769f22b8ab9f4.1474002926.git.luto@kernel.org>
+Message-ID: <accff9a7a1b04cdb8fc364851f20b93e3de0d7f0.1474002926.git.luto@kernel.org>
 
-As far as I can tell, there is basically nothing correct about this
-code.  It misinterprets npss (off-by-one).  It hardcodes a bunch of
-power states, which is nonsense, because they're all just indices
-into a table that software needs to parse.  It completely ignores
-the distinction between operational and non-operational states.
-And, until 4.8, if all of the above magically succeeded, it would
-dereference a NULL pointer and OOPS.
-
-Since this code appears to be useless, just delete it.
+Any user I can imagine that needs a buffer at all will want to pass
+a pointer directly.  There are no currently callers that use
+buffers, so this change is painless, and it will make it much easier
+to start using features that use buffers (e.g. APST).
 
 Signed-off-by: Andy Lutomirski <luto at kernel.org>
 ---
- drivers/nvme/host/scsi.c | 74 ++----------------------------------------------
- 1 file changed, 3 insertions(+), 71 deletions(-)
+ drivers/nvme/host/core.c | 18 ++++++++++--------
+ drivers/nvme/host/nvme.h |  4 ++--
+ drivers/nvme/host/scsi.c |  6 +++---
+ 3 files changed, 15 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
-index e947e298a737..44009105f8c8 100644
---- a/drivers/nvme/host/scsi.c
-+++ b/drivers/nvme/host/scsi.c
-@@ -72,15 +72,6 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
- #define ALL_LUNS_RETURNED				0x02
- #define ALL_WELL_KNOWN_LUNS_RETURNED			0x01
- #define RESTRICTED_LUNS_RETURNED			0x00
--#define NVME_POWER_STATE_START_VALID			0x00
--#define NVME_POWER_STATE_ACTIVE				0x01
--#define NVME_POWER_STATE_IDLE				0x02
--#define NVME_POWER_STATE_STANDBY			0x03
--#define NVME_POWER_STATE_LU_CONTROL			0x07
--#define POWER_STATE_0					0
--#define POWER_STATE_1					1
--#define POWER_STATE_2					2
--#define POWER_STATE_3					3
- #define DOWNLOAD_SAVE_ACTIVATE				0x05
- #define DOWNLOAD_SAVE_DEFER_ACTIVATE			0x0E
- #define ACTIVATE_DEFERRED_MICROCODE			0x0F
-@@ -1229,64 +1220,6 @@ static void nvme_trans_fill_read_cap(u8 *response, struct nvme_id_ns *id_ns,
- 
- /* Start Stop Unit Helper Functions */
- 
--static int nvme_trans_power_state(struct nvme_ns *ns, struct sg_io_hdr *hdr,
--						u8 pc, u8 pcmod, u8 start)
--{
--	int res;
--	int nvme_sc;
--	struct nvme_id_ctrl *id_ctrl;
--	int lowest_pow_st;	/* max npss = lowest power consumption */
--	unsigned ps_desired = 0;
--
--	nvme_sc = nvme_identify_ctrl(ns->ctrl, &id_ctrl);
--	res = nvme_trans_status_code(hdr, nvme_sc);
--	if (res)
--		return res;
--
--	lowest_pow_st = max(POWER_STATE_0, (int)(id_ctrl->npss - 1));
--	kfree(id_ctrl);
--
--	switch (pc) {
--	case NVME_POWER_STATE_START_VALID:
--		/* Action unspecified if POWER CONDITION MODIFIER != 0 */
--		if (pcmod == 0 && start == 0x1)
--			ps_desired = POWER_STATE_0;
--		if (pcmod == 0 && start == 0x0)
--			ps_desired = lowest_pow_st;
--		break;
--	case NVME_POWER_STATE_ACTIVE:
--		/* Action unspecified if POWER CONDITION MODIFIER != 0 */
--		if (pcmod == 0)
--			ps_desired = POWER_STATE_0;
--		break;
--	case NVME_POWER_STATE_IDLE:
--		/* Action unspecified if POWER CONDITION MODIFIER != [0,1,2] */
--		if (pcmod == 0x0)
--			ps_desired = POWER_STATE_1;
--		else if (pcmod == 0x1)
--			ps_desired = POWER_STATE_2;
--		else if (pcmod == 0x2)
--			ps_desired = POWER_STATE_3;
--		break;
--	case NVME_POWER_STATE_STANDBY:
--		/* Action unspecified if POWER CONDITION MODIFIER != [0,1] */
--		if (pcmod == 0x0)
--			ps_desired = max(POWER_STATE_0, (lowest_pow_st - 2));
--		else if (pcmod == 0x1)
--			ps_desired = max(POWER_STATE_0, (lowest_pow_st - 1));
--		break;
--	case NVME_POWER_STATE_LU_CONTROL:
--	default:
--		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
--				ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
--				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
--		break;
--	}
--	nvme_sc = nvme_set_features(ns->ctrl, NVME_FEAT_POWER_MGMT, ps_desired, 0,
--				    NULL);
--	return nvme_trans_status_code(hdr, nvme_sc);
--}
--
- static int nvme_trans_send_activate_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 					u8 buffer_id)
- {
-@@ -2235,11 +2168,10 @@ static int nvme_trans_synchronize_cache(struct nvme_ns *ns,
- static int nvme_trans_start_stop(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 							u8 *cmd)
- {
--	u8 immed, pcmod, pc, no_flush, start;
-+	u8 immed, pcmod, no_flush, start;
- 
- 	immed = cmd[1] & 0x01;
- 	pcmod = cmd[3] & 0x0f;
--	pc = (cmd[4] & 0xf0) >> 4;
- 	no_flush = cmd[4] & 0x04;
- 	start = cmd[4] & 0x01;
- 
-@@ -2254,8 +2186,8 @@ static int nvme_trans_start_stop(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 			if (res)
- 				return res;
- 		}
--		/* Setup the expected power state transition */
--		return nvme_trans_power_state(ns, hdr, pc, pcmod, start);
-+
-+		return 0;
- 	}
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 2feacc70bf61..9260d2971176 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -597,7 +597,7 @@ int nvme_identify_ns(struct nvme_ctrl *dev, unsigned nsid,
  }
  
+ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
+-					dma_addr_t dma_addr, u32 *result)
++		      void *buffer, size_t buflen, u32 *result)
+ {
+ 	struct nvme_command c;
+ 	struct nvme_completion cqe;
+@@ -606,10 +606,9 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
+ 	memset(&c, 0, sizeof(c));
+ 	c.features.opcode = nvme_admin_get_features;
+ 	c.features.nsid = cpu_to_le32(nsid);
+-	c.features.dptr.prp1 = cpu_to_le64(dma_addr);
+ 	c.features.fid = cpu_to_le32(fid);
+ 
+-	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, NULL, 0, 0,
++	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, buffer, buflen, 0,
+ 			NVME_QID_ANY, 0, 0);
+ 	if (ret >= 0 && result)
+ 		*result = le32_to_cpu(cqe.result);
+@@ -617,7 +616,7 @@ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
+ }
+ 
+ int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+-					dma_addr_t dma_addr, u32 *result)
++		      const void *buffer, size_t buflen, u32 *result)
+ {
+ 	struct nvme_command c;
+ 	struct nvme_completion cqe;
+@@ -625,12 +624,15 @@ int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+ 
+ 	memset(&c, 0, sizeof(c));
+ 	c.features.opcode = nvme_admin_set_features;
+-	c.features.dptr.prp1 = cpu_to_le64(dma_addr);
+ 	c.features.fid = cpu_to_le32(fid);
+ 	c.features.dword11 = cpu_to_le32(dword11);
+ 
+-	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe, NULL, 0, 0,
+-			NVME_QID_ANY, 0, 0);
++	/*
++	 * Casting buffer to void* is safe here: __nvme_submit_sync_cmd knows
++	 * that we're writing because it decodes the opcode.
++	 */
++	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe,
++			(void *)buffer, buflen, 0, NVME_QID_ANY, 0, 0);
+ 	if (ret >= 0 && result)
+ 		*result = le32_to_cpu(cqe.result);
+ 	return ret;
+@@ -664,7 +666,7 @@ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count)
+ 	u32 result;
+ 	int status, nr_io_queues;
+ 
+-	status = nvme_set_features(ctrl, NVME_FEAT_NUM_QUEUES, q_count, 0,
++	status = nvme_set_features(ctrl, NVME_FEAT_NUM_QUEUES, q_count, NULL, 0,
+ 			&result);
+ 	if (status < 0)
+ 		return status;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ab18b78102bf..383ae22e169e 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -292,9 +292,9 @@ int nvme_identify_ns(struct nvme_ctrl *dev, unsigned nsid,
+ 		struct nvme_id_ns **id);
+ int nvme_get_log_page(struct nvme_ctrl *dev, struct nvme_smart_log **log);
+ int nvme_get_features(struct nvme_ctrl *dev, unsigned fid, unsigned nsid,
+-			dma_addr_t dma_addr, u32 *result);
++		      void *buffer, size_t buflen, u32 *result);
+ int nvme_set_features(struct nvme_ctrl *dev, unsigned fid, unsigned dword11,
+-			dma_addr_t dma_addr, u32 *result);
++		      const void *buffer, size_t buflen, u32 *result);
+ int nvme_set_queue_count(struct nvme_ctrl *ctrl, int *count);
+ void nvme_start_keep_alive(struct nvme_ctrl *ctrl);
+ void nvme_stop_keep_alive(struct nvme_ctrl *ctrl);
+diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
+index 44009105f8c8..c2a0a1c7d05d 100644
+--- a/drivers/nvme/host/scsi.c
++++ b/drivers/nvme/host/scsi.c
+@@ -906,7 +906,7 @@ static int nvme_trans_log_temperature(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	kfree(smart_log);
+ 
+ 	/* Get Features for Temp Threshold */
+-	res = nvme_get_features(ns->ctrl, NVME_FEAT_TEMP_THRESH, 0, 0,
++	res = nvme_get_features(ns->ctrl, NVME_FEAT_TEMP_THRESH, 0, NULL, 0,
+ 								&feature_resp);
+ 	if (res != NVME_SC_SUCCESS)
+ 		temp_c_thresh = LOG_TEMP_UNKNOWN;
+@@ -1039,7 +1039,7 @@ static int nvme_trans_fill_caching_page(struct nvme_ns *ns,
+ 	if (len < MODE_PAGE_CACHING_LEN)
+ 		return -EINVAL;
+ 
+-	nvme_sc = nvme_get_features(ns->ctrl, NVME_FEAT_VOLATILE_WC, 0, 0,
++	nvme_sc = nvme_get_features(ns->ctrl, NVME_FEAT_VOLATILE_WC, 0, NULL, 0,
+ 								&feature_resp);
+ 	res = nvme_trans_status_code(hdr, nvme_sc);
+ 	if (res)
+@@ -1328,7 +1328,7 @@ static int nvme_trans_modesel_get_mp(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	case MODE_PAGE_CACHING:
+ 		dword11 = ((mode_page[2] & CACHING_MODE_PAGE_WCE_MASK) ? 1 : 0);
+ 		nvme_sc = nvme_set_features(ns->ctrl, NVME_FEAT_VOLATILE_WC,
+-					    dword11, 0, NULL);
++					    dword11, NULL, 0, NULL);
+ 		res = nvme_trans_status_code(hdr, nvme_sc);
+ 		break;
+ 	case MODE_PAGE_CONTROL:
 -- 
 2.7.4
