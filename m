@@ -1,36 +1,19 @@
 From: luto@amacapital.net (Andy Lutomirski)
-Date: Fri, 16 Sep 2016 08:13:31 -0700
-Subject: [PATCH v3 2/3] nvme: Pass pointers, not dma addresses,
- to nvme_get/set_features()
-In-Reply-To: <20160916084121.GC2415@lst.de>
+Date: Fri, 16 Sep 2016 08:14:12 -0700
+Subject: [PATCH v3 3/3] nvme: Enable autonomous power state transitions
+In-Reply-To: <20160916084231.GD2415@lst.de>
 References: <cover.1474002926.git.luto@kernel.org>
- <accff9a7a1b04cdb8fc364851f20b93e3de0d7f0.1474002926.git.luto@kernel.org>
- <20160916084121.GC2415@lst.de>
-Message-ID: <CALCETrVr2hTd=-gX8oVSL_AR3WX1rpp9B+9EXswE7c1J6rF8FA@mail.gmail.com>
+ <6d237c11f22f03365789682484755b84eb6b4493.1474002926.git.luto@kernel.org>
+ <20160916084231.GD2415@lst.de>
+Message-ID: <CALCETrVLCaBYx_De01+Ve1YitLhEmdKFWooga13xnyN1T=cEFg@mail.gmail.com>
 
-On Sep 16, 2016 1:41 AM, "Christoph Hellwig" <hch@lst.de> wrote:
+On Fri, Sep 16, 2016@1:42 AM, Christoph Hellwig <hch@lst.de> wrote:
+> Looks good to me:
 >
-> On Thu, Sep 15, 2016@10:24:20PM -0700, Andy Lutomirski wrote:
-> > Any user I can imagine that needs a buffer at all will want to pass
-> > a pointer directly.  There are no currently callers that use
-> > buffers, so this change is painless, and it will make it much easier
-> > to start using features that use buffers (e.g. APST).
-> >
-> > Signed-off-by: Andy Lutomirski <luto at kernel.org>
-> > ---
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
 >
-> Looks good mostly good, but a nitpick below:
->
-> > +     /*
-> > +      * Casting buffer to void* is safe here: __nvme_submit_sync_cmd knows
-> > +      * that we're writing because it decodes the opcode.
-> > +      */
-> > +     ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe,
-> > +                     (void *)buffer, buflen, 0, NVME_QID_ANY, 0, 0);
->
-> Cant we just drop the const annotation to avoid these casts?
+> Did you sort out with the PM people if this should have any framework
+> integration or not?
 >
 
-Then we'd have nvme_set_feature() taking a non-const pointer, which
-would seem a little bit silly to me and might require the same cast
-somewhere else down the road.
+No.  I'll email now.  I'm not holding my breath for a good answer very quickly.
