@@ -1,22 +1,28 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 16 Sep 2016 10:33:33 +0200
-Subject: [PATCH v3 1/3] nvme/scsi: Remove power management support
-In-Reply-To: <714df91022b06c6799afb315962769f22b8ab9f4.1474002926.git.luto@kernel.org>
+Date: Fri, 16 Sep 2016 10:41:21 +0200
+Subject: [PATCH v3 2/3] nvme: Pass pointers, not dma addresses, to
+ nvme_get/set_features()
+In-Reply-To: <accff9a7a1b04cdb8fc364851f20b93e3de0d7f0.1474002926.git.luto@kernel.org>
 References: <cover.1474002926.git.luto@kernel.org>
- <714df91022b06c6799afb315962769f22b8ab9f4.1474002926.git.luto@kernel.org>
-Message-ID: <20160916083333.GB2415@lst.de>
+ <accff9a7a1b04cdb8fc364851f20b93e3de0d7f0.1474002926.git.luto@kernel.org>
+Message-ID: <20160916084121.GC2415@lst.de>
 
-On Thu, Sep 15, 2016@10:24:19PM -0700, Andy Lutomirski wrote:
-> As far as I can tell, there is basically nothing correct about this
-> code.  It misinterprets npss (off-by-one).  It hardcodes a bunch of
-> power states, which is nonsense, because they're all just indices
-> into a table that software needs to parse.  It completely ignores
-> the distinction between operational and non-operational states.
-> And, until 4.8, if all of the above magically succeeded, it would
-> dereference a NULL pointer and OOPS.
+On Thu, Sep 15, 2016@10:24:20PM -0700, Andy Lutomirski wrote:
+> Any user I can imagine that needs a buffer at all will want to pass
+> a pointer directly.  There are no currently callers that use
+> buffers, so this change is painless, and it will make it much easier
+> to start using features that use buffers (e.g. APST).
 > 
-> Since this code appears to be useless, just delete it.
+> Signed-off-by: Andy Lutomirski <luto at kernel.org>
+> ---
 
-Yes, please!
+Looks good mostly good, but a nitpick below:
 
-Acked-by: Christoph Hellwig <hch at lst.de>
+> +	/*
+> +	 * Casting buffer to void* is safe here: __nvme_submit_sync_cmd knows
+> +	 * that we're writing because it decodes the opcode.
+> +	 */
+> +	ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe,
+> +			(void *)buffer, buflen, 0, NVME_QID_ANY, 0, 0);
+
+Cant we just drop the const annotation to avoid these casts?
