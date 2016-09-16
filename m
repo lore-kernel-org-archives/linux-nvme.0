@@ -1,52 +1,133 @@
 From: luto@kernel.org (Andy Lutomirski)
-Date: Thu, 15 Sep 2016 22:24:18 -0700
-Subject: [PATCH v3 0/3] nvme power saving
-Message-ID: <cover.1474002926.git.luto@kernel.org>
+Date: Thu, 15 Sep 2016 22:24:19 -0700
+Subject: [PATCH v3 1/3] nvme/scsi: Remove power management support
+In-Reply-To: <cover.1474002926.git.luto@kernel.org>
+References: <cover.1474002926.git.luto@kernel.org>
+Message-ID: <714df91022b06c6799afb315962769f22b8ab9f4.1474002926.git.luto@kernel.org>
 
-Hi all-
+As far as I can tell, there is basically nothing correct about this
+code.  It misinterprets npss (off-by-one).  It hardcodes a bunch of
+power states, which is nonsense, because they're all just indices
+into a table that software needs to parse.  It completely ignores
+the distinction between operational and non-operational states.
+And, until 4.8, if all of the above magically succeeded, it would
+dereference a NULL pointer and OOPS.
 
-Here's v3 of the APST patch set.  The biggest bikesheddable thing (I
-think) is the scaling factor.  I currently have it hardcoded so that
-we wait 50x the total latency before entering a power saving state.
-On my Samsung 950, this means we enter state 3 (70mW, 0.5ms entry
-latency, 5ms exit latency) after 275ms and state 4 (5mW, 2ms entry
-latency, 22ms exit latency) after 1200ms.  I have the default max
-latency set to 25ms.
+Since this code appears to be useless, just delete it.
 
-FWIW, in practice, the latency this introduces seems to be well
-under 22ms, but my benchmark is a bit silly and I might have
-measured it wrong.  I certainly haven't observed a slowdown just
-using my laptop.
+Signed-off-by: Andy Lutomirski <luto at kernel.org>
+---
+ drivers/nvme/host/scsi.c | 74 ++----------------------------------------------
+ 1 file changed, 3 insertions(+), 71 deletions(-)
 
-This time around, I changed the names of parameters after Jay
-Frayensee got confused by the first try.  Now they are:
-
- - ps_max_latency_us in sysfs: actually controls it.
- - nvme_core.default_ps_max_latency_us: sets the default.
-
-Yeah, they're mouthfuls, but they should be clearer now.
-
-Changes from v2:
- - Rename the parameters.
-
-Changes from v1:
- - Get rid of feature buffer alignment warnings.
- - Change the error message if NPSS is bogus.
- - Rename apst_max_latency_ns to apst_max_latency_us because module params
-   don't like u64 or unsigned long long and I wanted to make it fit more
-   comfortably in a ulong module param.  (And the nanoseconds were useless.)
- - Add a module parameter for the default max latency.
-
-Andy Lutomirski (3):
-  nvme/scsi: Remove power management support
-  nvme: Pass pointers, not dma addresses, to nvme_get/set_features()
-  nvme: Enable autonomous power state transitions
-
- drivers/nvme/host/core.c | 184 ++++++++++++++++++++++++++++++++++++++++++++---
- drivers/nvme/host/nvme.h |  10 ++-
- drivers/nvme/host/scsi.c |  80 ++-------------------
- include/linux/nvme.h     |   6 ++
- 4 files changed, 196 insertions(+), 84 deletions(-)
-
+diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
+index e947e298a737..44009105f8c8 100644
+--- a/drivers/nvme/host/scsi.c
++++ b/drivers/nvme/host/scsi.c
+@@ -72,15 +72,6 @@ static int sg_version_num = 30534;	/* 2 digits for each component */
+ #define ALL_LUNS_RETURNED				0x02
+ #define ALL_WELL_KNOWN_LUNS_RETURNED			0x01
+ #define RESTRICTED_LUNS_RETURNED			0x00
+-#define NVME_POWER_STATE_START_VALID			0x00
+-#define NVME_POWER_STATE_ACTIVE				0x01
+-#define NVME_POWER_STATE_IDLE				0x02
+-#define NVME_POWER_STATE_STANDBY			0x03
+-#define NVME_POWER_STATE_LU_CONTROL			0x07
+-#define POWER_STATE_0					0
+-#define POWER_STATE_1					1
+-#define POWER_STATE_2					2
+-#define POWER_STATE_3					3
+ #define DOWNLOAD_SAVE_ACTIVATE				0x05
+ #define DOWNLOAD_SAVE_DEFER_ACTIVATE			0x0E
+ #define ACTIVATE_DEFERRED_MICROCODE			0x0F
+@@ -1229,64 +1220,6 @@ static void nvme_trans_fill_read_cap(u8 *response, struct nvme_id_ns *id_ns,
+ 
+ /* Start Stop Unit Helper Functions */
+ 
+-static int nvme_trans_power_state(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+-						u8 pc, u8 pcmod, u8 start)
+-{
+-	int res;
+-	int nvme_sc;
+-	struct nvme_id_ctrl *id_ctrl;
+-	int lowest_pow_st;	/* max npss = lowest power consumption */
+-	unsigned ps_desired = 0;
+-
+-	nvme_sc = nvme_identify_ctrl(ns->ctrl, &id_ctrl);
+-	res = nvme_trans_status_code(hdr, nvme_sc);
+-	if (res)
+-		return res;
+-
+-	lowest_pow_st = max(POWER_STATE_0, (int)(id_ctrl->npss - 1));
+-	kfree(id_ctrl);
+-
+-	switch (pc) {
+-	case NVME_POWER_STATE_START_VALID:
+-		/* Action unspecified if POWER CONDITION MODIFIER != 0 */
+-		if (pcmod == 0 && start == 0x1)
+-			ps_desired = POWER_STATE_0;
+-		if (pcmod == 0 && start == 0x0)
+-			ps_desired = lowest_pow_st;
+-		break;
+-	case NVME_POWER_STATE_ACTIVE:
+-		/* Action unspecified if POWER CONDITION MODIFIER != 0 */
+-		if (pcmod == 0)
+-			ps_desired = POWER_STATE_0;
+-		break;
+-	case NVME_POWER_STATE_IDLE:
+-		/* Action unspecified if POWER CONDITION MODIFIER != [0,1,2] */
+-		if (pcmod == 0x0)
+-			ps_desired = POWER_STATE_1;
+-		else if (pcmod == 0x1)
+-			ps_desired = POWER_STATE_2;
+-		else if (pcmod == 0x2)
+-			ps_desired = POWER_STATE_3;
+-		break;
+-	case NVME_POWER_STATE_STANDBY:
+-		/* Action unspecified if POWER CONDITION MODIFIER != [0,1] */
+-		if (pcmod == 0x0)
+-			ps_desired = max(POWER_STATE_0, (lowest_pow_st - 2));
+-		else if (pcmod == 0x1)
+-			ps_desired = max(POWER_STATE_0, (lowest_pow_st - 1));
+-		break;
+-	case NVME_POWER_STATE_LU_CONTROL:
+-	default:
+-		res = nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+-				ILLEGAL_REQUEST, SCSI_ASC_INVALID_CDB,
+-				SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
+-		break;
+-	}
+-	nvme_sc = nvme_set_features(ns->ctrl, NVME_FEAT_POWER_MGMT, ps_desired, 0,
+-				    NULL);
+-	return nvme_trans_status_code(hdr, nvme_sc);
+-}
+-
+ static int nvme_trans_send_activate_fw_cmd(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 					u8 buffer_id)
+ {
+@@ -2235,11 +2168,10 @@ static int nvme_trans_synchronize_cache(struct nvme_ns *ns,
+ static int nvme_trans_start_stop(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 							u8 *cmd)
+ {
+-	u8 immed, pcmod, pc, no_flush, start;
++	u8 immed, pcmod, no_flush, start;
+ 
+ 	immed = cmd[1] & 0x01;
+ 	pcmod = cmd[3] & 0x0f;
+-	pc = (cmd[4] & 0xf0) >> 4;
+ 	no_flush = cmd[4] & 0x04;
+ 	start = cmd[4] & 0x01;
+ 
+@@ -2254,8 +2186,8 @@ static int nvme_trans_start_stop(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 			if (res)
+ 				return res;
+ 		}
+-		/* Setup the expected power state transition */
+-		return nvme_trans_power_state(ns, hdr, pc, pcmod, start);
++
++		return 0;
+ 	}
+ }
+ 
 -- 
 2.7.4
