@@ -1,111 +1,57 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Fri, 16 Sep 2016 10:51:25 +0200
-Subject: [PATCH 14/21] blk-mq: Rework blk_mq_init_hctx() function
+Date: Fri, 16 Sep 2016 10:51:27 +0200
+Subject: [PATCH 16/21] blk-mq: Set flush_start_tag to BLK_MQ_MAX_DEPTH
 In-Reply-To: <cover.1474014910.git.agordeev@redhat.com>
 References: <cover.1474014910.git.agordeev@redhat.com>
-Message-ID: <dcc69362846491d2e7102158929998b10787d2b2.1474014910.git.agordeev@redhat.com>
+Message-ID: <fbb562dc442b4dbf9203750468b54ec1922341cb.1474014910.git.agordeev@redhat.com>
 
-Rework blk_mq_init_hctx() function so all reaquired memory
-allocations are done before data initialization and callbacks
-invocation.
+We need flush tags unique across hardware contexts and do
+not overlap with normal tags. BLK_MQ_MAX_DEPTH as a base
+number seems better choise than a queue's depth.
 
 CC: Jens Axboe <axboe at kernel.dk>
 CC: linux-nvme at lists.infradead.org
 Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- block/blk-mq.c | 50 ++++++++++++++++++++++++--------------------------
- 1 file changed, 24 insertions(+), 26 deletions(-)
+ block/blk-mq.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index b77e73b..9e5cd1f 100644
+index e14f7e8..c27e64e 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -1712,6 +1712,22 @@ static struct blk_mq_hw_ctx *blk_mq_init_hctx(struct request_queue *q,
- 	if (!zalloc_cpumask_var_node(&hctx->cpumask, GFP_KERNEL, node))
- 		goto free_hctx;
+@@ -1661,14 +1661,12 @@ static void blk_mq_exit_hctx(struct request_queue *q,
+ 		struct blk_mq_tag_set *set,
+ 		struct blk_mq_hw_ctx *hctx, unsigned int hctx_idx)
+ {
+-	unsigned flush_start_tag = set->queue_depth;
+-
+ 	blk_mq_tag_idle(hctx);
  
-+	/*
-+	 * Allocate space for all possible cpus to avoid allocation at
-+	 * runtime
-+	 */
-+	hctx->ctxs = kmalloc_node(nr_cpu_ids * sizeof(void *),
-+					GFP_KERNEL, node);
-+	if (!hctx->ctxs)
-+		goto free_cpumask;
-+
-+	if (blk_mq_alloc_bitmap(&hctx->ctx_map, node))
-+		goto free_ctxs;
-+
-+	hctx->fq = blk_alloc_flush_queue(q, hctx->numa_node, set->cmd_size);
-+	if (!hctx->fq)
-+		goto free_bitmap;
-+
- 	INIT_DELAYED_WORK(&hctx->run_work, blk_mq_run_work_fn);
- 	INIT_DELAYED_WORK(&hctx->delay_work, blk_mq_delay_work_fn);
- 	spin_lock_init(&hctx->lock);
-@@ -1720,55 +1736,37 @@ static struct blk_mq_hw_ctx *blk_mq_init_hctx(struct request_queue *q,
- 	hctx->numa_node = node;
- 	hctx->queue = q;
- 	hctx->queue_num = hctx_idx;
-+	hctx->nr_ctx = 0;
- 	hctx->flags = set->flags & ~BLK_MQ_F_TAG_SHARED;
-+	hctx->tags = set->tags[hctx_idx];
+ 	if (set->ops->exit_request)
+ 		set->ops->exit_request(set->driver_data,
+ 				       hctx->fq->flush_rq, hctx_idx,
+-				       flush_start_tag + hctx_idx);
++				       BLK_MQ_MAX_DEPTH + hctx_idx);
  
- 	blk_mq_init_cpu_notifier(&hctx->cpu_notifier,
- 					blk_mq_hctx_notify, hctx);
- 	blk_mq_register_cpu_notifier(&hctx->cpu_notifier);
+ 	if (set->ops->exit_hctx)
+ 		set->ops->exit_hctx(hctx, hctx_idx);
+@@ -1697,7 +1695,6 @@ static void blk_mq_exit_hw_queues(struct request_queue *q,
+ static struct blk_mq_hw_ctx *blk_mq_init_hctx(struct request_queue *q,
+ 		struct blk_mq_tag_set *set, unsigned hctx_idx)
+ {
+-	unsigned flush_start_tag = set->queue_depth;
+ 	struct blk_mq_hw_ctx *hctx;
+ 	int node;
  
--	hctx->tags = set->tags[hctx_idx];
--
--	/*
--	 * Allocate space for all possible cpus to avoid allocation at
--	 * runtime
--	 */
--	hctx->ctxs = kmalloc_node(nr_cpu_ids * sizeof(void *),
--					GFP_KERNEL, node);
--	if (!hctx->ctxs)
--		goto unregister_cpu_notifier;
--
--	if (blk_mq_alloc_bitmap(&hctx->ctx_map, node))
--		goto free_ctxs;
--
--	hctx->nr_ctx = 0;
--
- 	if (set->ops->init_hctx &&
- 	    set->ops->init_hctx(hctx, set->driver_data, hctx_idx))
--		goto free_bitmap;
--
--	hctx->fq = blk_alloc_flush_queue(q, hctx->numa_node, set->cmd_size);
--	if (!hctx->fq)
--		goto exit_hctx;
-+		goto unregister_cpu_notifier;
- 
+@@ -1751,7 +1748,7 @@ static struct blk_mq_hw_ctx *blk_mq_init_hctx(struct request_queue *q,
  	if (set->ops->init_request &&
  	    set->ops->init_request(set->driver_data,
  				   hctx->fq->flush_rq, hctx_idx,
- 				   flush_start_tag + hctx_idx, node))
--		goto free_fq;
-+		goto exit_hctx;
+-				   flush_start_tag + hctx_idx, node))
++				   BLK_MQ_MAX_DEPTH + hctx_idx, node))
+ 		goto exit_hctx;
  
  	return hctx;
- 
-- free_fq:
--	kfree(hctx->fq);
-  exit_hctx:
- 	if (set->ops->exit_hctx)
- 		set->ops->exit_hctx(hctx, hctx_idx);
-+ unregister_cpu_notifier:
-+	blk_mq_unregister_cpu_notifier(&hctx->cpu_notifier);
-+	kfree(hctx->fq);
-  free_bitmap:
- 	blk_mq_free_bitmap(&hctx->ctx_map);
-  free_ctxs:
- 	kfree(hctx->ctxs);
-- unregister_cpu_notifier:
--	blk_mq_unregister_cpu_notifier(&hctx->cpu_notifier);
-+ free_cpumask:
- 	free_cpumask_var(hctx->cpumask);
-  free_hctx:
- 	kfree(hctx);
 -- 
 1.8.3.1
