@@ -1,57 +1,60 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Fri, 16 Sep 2016 10:51:27 +0200
-Subject: [PATCH 16/21] blk-mq: Set flush_start_tag to BLK_MQ_MAX_DEPTH
+Date: Fri, 16 Sep 2016 10:51:26 +0200
+Subject: [PATCH 15/21] blk-mq: Pair blk_mq_hctx_kobj_init() with
+ blk_mq_hctx_kobj_put()
 In-Reply-To: <cover.1474014910.git.agordeev@redhat.com>
 References: <cover.1474014910.git.agordeev@redhat.com>
-Message-ID: <fbb562dc442b4dbf9203750468b54ec1922341cb.1474014910.git.agordeev@redhat.com>
-
-We need flush tags unique across hardware contexts and do
-not overlap with normal tags. BLK_MQ_MAX_DEPTH as a base
-number seems better choise than a queue's depth.
+Message-ID: <a0823d4674b19548c0053f9594ad73f1a3e4f303.1474014910.git.agordeev@redhat.com>
 
 CC: Jens Axboe <axboe at kernel.dk>
 CC: linux-nvme at lists.infradead.org
 Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- block/blk-mq.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ block/blk-mq-sysfs.c | 5 +++++
+ block/blk-mq.c       | 2 +-
+ block/blk-mq.h       | 1 +
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
+diff --git a/block/blk-mq-sysfs.c b/block/blk-mq-sysfs.c
+index fe822aa..404ccd5 100644
+--- a/block/blk-mq-sysfs.c
++++ b/block/blk-mq-sysfs.c
+@@ -417,6 +417,11 @@ void blk_mq_hctx_kobj_init(struct blk_mq_hw_ctx *hctx)
+ 	kobject_init(&hctx->kobj, &blk_mq_hw_ktype);
+ }
+ 
++void blk_mq_hctx_kobj_put(struct blk_mq_hw_ctx *hctx)
++{
++	kobject_put(&hctx->kobj);
++}
++
+ static void blk_mq_sysfs_init(struct request_queue *q)
+ {
+ 	struct blk_mq_ctx *ctx;
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index e14f7e8..c27e64e 100644
+index 9e5cd1f..e14f7e8 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -1661,14 +1661,12 @@ static void blk_mq_exit_hctx(struct request_queue *q,
- 		struct blk_mq_tag_set *set,
- 		struct blk_mq_hw_ctx *hctx, unsigned int hctx_idx)
- {
--	unsigned flush_start_tag = set->queue_depth;
--
- 	blk_mq_tag_idle(hctx);
+@@ -2009,7 +2009,7 @@ static void blk_mq_realloc_hw_ctxs(struct blk_mq_tag_set *set,
+ 		if (!hctx)
+ 			continue;
  
- 	if (set->ops->exit_request)
- 		set->ops->exit_request(set->driver_data,
- 				       hctx->fq->flush_rq, hctx_idx,
--				       flush_start_tag + hctx_idx);
-+				       BLK_MQ_MAX_DEPTH + hctx_idx);
+-		kobject_put(&hctx->kobj);
++		blk_mq_hctx_kobj_put(hctx);
  
- 	if (set->ops->exit_hctx)
- 		set->ops->exit_hctx(hctx, hctx_idx);
-@@ -1697,7 +1695,6 @@ static void blk_mq_exit_hw_queues(struct request_queue *q,
- static struct blk_mq_hw_ctx *blk_mq_init_hctx(struct request_queue *q,
- 		struct blk_mq_tag_set *set, unsigned hctx_idx)
- {
--	unsigned flush_start_tag = set->queue_depth;
- 	struct blk_mq_hw_ctx *hctx;
- 	int node;
+ 		if (hctx->tags) {
+ 			blk_mq_free_rq_map(set, hctx->tags, j);
+diff --git a/block/blk-mq.h b/block/blk-mq.h
+index 97b0051..592e308 100644
+--- a/block/blk-mq.h
++++ b/block/blk-mq.h
+@@ -57,6 +57,7 @@ extern int blk_mq_hw_queue_to_node(unsigned int *map, unsigned int);
+ extern int blk_mq_sysfs_register(struct request_queue *q);
+ extern void blk_mq_sysfs_unregister(struct request_queue *q);
+ extern void blk_mq_hctx_kobj_init(struct blk_mq_hw_ctx *hctx);
++extern void blk_mq_hctx_kobj_put(struct blk_mq_hw_ctx *hctx);
  
-@@ -1751,7 +1748,7 @@ static struct blk_mq_hw_ctx *blk_mq_init_hctx(struct request_queue *q,
- 	if (set->ops->init_request &&
- 	    set->ops->init_request(set->driver_data,
- 				   hctx->fq->flush_rq, hctx_idx,
--				   flush_start_tag + hctx_idx, node))
-+				   BLK_MQ_MAX_DEPTH + hctx_idx, node))
- 		goto exit_hctx;
+ extern void blk_mq_rq_timed_out(struct request *req, bool reserved);
  
- 	return hctx;
 -- 
 1.8.3.1
