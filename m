@@ -1,24 +1,36 @@
-From: hch@infradead.org ('Christoph Hellwig')
-Date: Fri, 16 Sep 2016 07:26:49 -0700
-Subject: crash when connecting to targets using nr_io_queues < num cpus
-In-Reply-To: <005101d21024$1f8913f0$5e9b3bd0$@opengridcomputing.com>
-References: <011401d203c4$0cdd78c0$26986a40$@opengridcomputing.com>
- <6082d700-a45c-b00a-3f09-ba6196cc3e5e@grimberg.me>
- <00ae01d2045a$a8516500$f8f42f00$@opengridcomputing.com>
- <01b401d20483$2da4fd20$88eef760$@opengridcomputing.com>
- <e31f7c2f-7b15-95f9-f882-4406c94eaedc@grimberg.me>
- <018701d20dca$22a02080$67e06180$@opengridcomputing.com>
- <20160913175223.GB13741@localhost.localdomain>
- <005101d21024$1f8913f0$5e9b3bd0$@opengridcomputing.com>
-Message-ID: <20160916142649.GA18798@infradead.org>
+From: luto@amacapital.net (Andy Lutomirski)
+Date: Fri, 16 Sep 2016 08:13:31 -0700
+Subject: [PATCH v3 2/3] nvme: Pass pointers, not dma addresses,
+ to nvme_get/set_features()
+In-Reply-To: <20160916084121.GC2415@lst.de>
+References: <cover.1474002926.git.luto@kernel.org>
+ <accff9a7a1b04cdb8fc364851f20b93e3de0d7f0.1474002926.git.luto@kernel.org>
+ <20160916084121.GC2415@lst.de>
+Message-ID: <CALCETrVr2hTd=-gX8oVSL_AR3WX1rpp9B+9EXswE7c1J6rF8FA@mail.gmail.com>
 
-On Fri, Sep 16, 2016@09:10:48AM -0500, Steve Wise wrote:
-> Is this the series?
-> 
-> https://lwn.net/Articles/700625/
+On Sep 16, 2016 1:41 AM, "Christoph Hellwig" <hch@lst.de> wrote:
+>
+> On Thu, Sep 15, 2016@10:24:20PM -0700, Andy Lutomirski wrote:
+> > Any user I can imagine that needs a buffer at all will want to pass
+> > a pointer directly.  There are no currently callers that use
+> > buffers, so this change is painless, and it will make it much easier
+> > to start using features that use buffers (e.g. APST).
+> >
+> > Signed-off-by: Andy Lutomirski <luto at kernel.org>
+> > ---
+>
+> Looks good mostly good, but a nitpick below:
+>
+> > +     /*
+> > +      * Casting buffer to void* is safe here: __nvme_submit_sync_cmd knows
+> > +      * that we're writing because it decodes the opcode.
+> > +      */
+> > +     ret = __nvme_submit_sync_cmd(dev->admin_q, &c, &cqe,
+> > +                     (void *)buffer, buflen, 0, NVME_QID_ANY, 0, 0);
+>
+> Cant we just drop the const annotation to avoid these casts?
+>
 
-I don't see how that would change any kinds of mapping for fabrics.
-
-> If not, is there something I can try out?
-
-Let me dig through the thread and see what I can do.
+Then we'd have nvme_set_feature() taking a non-const pointer, which
+would seem a little bit silly to me and might require the same cast
+somewhere else down the road.
