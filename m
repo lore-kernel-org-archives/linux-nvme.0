@@ -1,17 +1,56 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 16 Sep 2016 18:51:48 +0200
-Subject: [PATCH v3 3/3] nvme: Enable autonomous power state transitions
-In-Reply-To: <CALCETrVLCaBYx_De01+Ve1YitLhEmdKFWooga13xnyN1T=cEFg@mail.gmail.com>
-References: <cover.1474002926.git.luto@kernel.org>
- <6d237c11f22f03365789682484755b84eb6b4493.1474002926.git.luto@kernel.org>
- <20160916084231.GD2415@lst.de>
- <CALCETrVLCaBYx_De01+Ve1YitLhEmdKFWooga13xnyN1T=cEFg@mail.gmail.com>
-Message-ID: <20160916165147.GA12658@lst.de>
+From: luto@kernel.org (Andy Lutomirski)
+Date: Fri, 16 Sep 2016 11:16:08 -0700
+Subject: [PATCH v4 0/3] nvme power saving
+Message-ID: <cover.1474049701.git.luto@kernel.org>
 
-On Fri, Sep 16, 2016@08:14:12AM -0700, Andy Lutomirski wrote:
-> No.  I'll email now.  I'm not holding my breath for a good answer very quickly.
+Hi all-
 
-Just to make it clear:  I'm perfectly fine with merging your patch
-as-is for now as it is really useful.  But at the same time I'd really
-love to kick off that discussion, as an integration will be useful
-in the long run.
+Here's v4 of the APST patch set.  The biggest bikesheddable thing (I
+think) is the scaling factor.  I currently have it hardcoded so that
+we wait 50x the total latency before entering a power saving state.
+On my Samsung 950, this means we enter state 3 (70mW, 0.5ms entry
+latency, 5ms exit latency) after 275ms and state 4 (5mW, 2ms entry
+latency, 22ms exit latency) after 1200ms.  I have the default max
+latency set to 25ms.
+
+FWIW, in practice, the latency this introduces seems to be well
+under 22ms, but my benchmark is a bit silly and I might have
+measured it wrong.  I certainly haven't observed a slowdown just
+using my laptop.
+
+This time around, I changed the names of parameters after Jay
+Frayensee got confused by the first try.  Now they are:
+
+ - ps_max_latency_us in sysfs: actually controls it.
+ - nvme_core.default_ps_max_latency_us: sets the default.
+
+Yeah, they're mouthfuls, but they should be clearer now.
+
+Changes from v3:
+ - Remove const from nvme_set_feature()'s parameter.  My inner C++
+   programmer cringes a little...
+
+Changes from v2:
+ - Rename the parameters.
+
+Changes from v1:
+ - Get rid of feature buffer alignment warnings.
+ - Change the error message if NPSS is bogus.
+ - Rename apst_max_latency_ns to apst_max_latency_us because module params
+   don't like u64 or unsigned long long and I wanted to make it fit more
+   comfortably in a ulong module param.  (And the nanoseconds were useless.)
+ - Add a module parameter for the default max latency.
+
+Andy Lutomirski (3):
+  nvme/scsi: Remove power management support
+  nvme: Pass pointers, not dma addresses, to nvme_get/set_features()
+  nvme: Enable autonomous power state transitions
+
+ drivers/nvme/host/core.c | 180 ++++++++++++++++++++++++++++++++++++++++++++---
+ drivers/nvme/host/nvme.h |  10 ++-
+ drivers/nvme/host/scsi.c |  80 ++-------------------
+ include/linux/nvme.h     |   6 ++
+ 4 files changed, 192 insertions(+), 84 deletions(-)
+
+-- 
+2.7.4
