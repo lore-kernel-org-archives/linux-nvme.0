@@ -1,139 +1,116 @@
 From: agordeev@redhat.com (Alexander Gordeev)
-Date: Fri, 16 Sep 2016 10:51:31 +0200
-Subject: [PATCH RFC 20/21] blk-mq: Allow combined hardware queues
+Date: Fri, 16 Sep 2016 10:51:29 +0200
+Subject: [PATCH RFC 18/21] blk-mq: Enable tag numbers exceed hardware queue
+ depth
 In-Reply-To: <cover.1474014910.git.agordeev@redhat.com>
 References: <cover.1474014910.git.agordeev@redhat.com>
-Message-ID: <922794bc1f024572f19c1c00d204e2d18faf21f7.1474014910.git.agordeev@redhat.com>
+Message-ID: <f57dc919bd32f3d385fff1074e877ca8e6345961.1474014910.git.agordeev@redhat.com>
 
-This is 4th and last step change in a bid to enable mapping
-of multiple device hardware queues to a single CPU.
+This is 2nd step change in a bid to enable mapping of multiple
+device hardware queues to a single CPU.
 
-Available hardware queues are evenly distributed to CPUs.
-Still, there might some number of queues left spared, but no
-more than (number of queues) % (number of CPUs) in the worst
-case.
+It enables number of tags assigned to a hardware context to exceed
+the device hardware queue depth. As result single hardware context
+could be mapped to multiple low-level hardware contexts. This is a
+prerequisite to introduce combined hardware contexts.
 
 CC: Jens Axboe <axboe at kernel.dk>
 CC: linux-nvme at lists.infradead.org
 Signed-off-by: Alexander Gordeev <agordeev at redhat.com>
 ---
- block/blk-mq-cpumap.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
- block/blk-mq.c        | 14 +-------------
- block/blk-mq.h        |  2 ++
- 3 files changed, 47 insertions(+), 13 deletions(-)
+ block/blk-core.c       | 4 +++-
+ block/blk-mq.c         | 9 +++++++--
+ include/linux/blk-mq.h | 7 +++++++
+ 3 files changed, 17 insertions(+), 3 deletions(-)
 
-diff --git a/block/blk-mq-cpumap.c b/block/blk-mq-cpumap.c
-index ee553a4..0b49f30 100644
---- a/block/blk-mq-cpumap.c
-+++ b/block/blk-mq-cpumap.c
-@@ -9,6 +9,7 @@
- #include <linux/mm.h>
- #include <linux/smp.h>
- #include <linux/cpu.h>
-+#include <linux/crash_dump.h>
+diff --git a/block/blk-core.c b/block/blk-core.c
+index bf4f196..36ae127 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -3312,9 +3312,11 @@ bool blk_poll(struct request_queue *q, blk_qc_t cookie)
  
- #include <linux/blk-mq.h>
- #include "blk.h"
-@@ -86,6 +87,49 @@ int blk_mq_update_queue_map(unsigned int *map, unsigned int nr_queues,
- 	return 0;
- }
+ 	state = current->state;
+ 	while (!need_resched()) {
++		unsigned int tag = blk_qc_t_to_tag(cookie);
+ 		unsigned int queue_num = blk_qc_t_to_queue_num(cookie);
+ 		struct blk_mq_hw_ctx *hctx = q->queue_hw_ctx[queue_num];
+-		struct blk_mq_llhw_ctx *llhw_ctx = &hctx->llhw_ctxs[0];
++		int idx = blk_mq_tag_to_llhw_ctx_idx(hctx, tag);
++		struct blk_mq_llhw_ctx *llhw_ctx = &hctx->llhw_ctxs[idx];
+ 		int ret;
  
-+void blk_mq_adjust_tag_set(struct blk_mq_tag_set *set,
-+			   const struct cpumask *online_mask)
-+{
-+	unsigned int nr_cpus, nr_uniq_cpus, first_sibling;
-+	cpumask_var_t cpus;
-+	int i;
-+
-+	/*
-+	 * If a crashdump is active, then we are potentially in a very
-+	 * memory constrained environment. Limit us to 1 queue.
-+	 */
-+	if (is_kdump_kernel())
-+		goto default_map;
-+
-+	if (!alloc_cpumask_var(&cpus, GFP_ATOMIC))
-+		goto default_map;
-+
-+	cpumask_clear(cpus);
-+	nr_cpus = nr_uniq_cpus = 0;
-+
-+	for_each_cpu(i, online_mask) {
-+		nr_cpus++;
-+		first_sibling = get_first_sibling(i);
-+		if (!cpumask_test_cpu(first_sibling, cpus))
-+			nr_uniq_cpus++;
-+		cpumask_set_cpu(i, cpus);
-+	}
-+
-+	free_cpumask_var(cpus);
-+
-+	if (set->nr_hw_queues < nr_uniq_cpus) {
-+default_map:
-+		set->nr_co_queues = set->nr_hw_queues;
-+		set->co_queue_size = 1;
-+	} else if (set->nr_hw_queues < nr_cpus) {
-+		set->nr_co_queues = nr_uniq_cpus;
-+		set->co_queue_size = set->nr_hw_queues / nr_uniq_cpus;
-+	} else {
-+		set->nr_co_queues = nr_cpus;
-+		set->co_queue_size = set->nr_hw_queues / nr_cpus;
-+	}
-+}
-+
- /*
-  * We have no quick way of doing reverse lookups. This is only used at
-  * queue init time, so runtime isn't important.
+ 		hctx->poll_invoked++;
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 450a3ed..ee05ea9 100644
+index 274eab8..6d055ec 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -21,7 +21,6 @@
- #include <linux/cache.h>
- #include <linux/sched/sysctl.h>
- #include <linux/delay.h>
--#include <linux/crash_dump.h>
+@@ -829,6 +829,7 @@ static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
+ 	queued = 0;
+ 	while (!list_empty(&rq_list)) {
+ 		struct blk_mq_queue_data bd;
++		int llhw_ctx_idx;
+ 		int ret;
  
- #include <trace/events/block.h>
+ 		rq = list_first_entry(&rq_list, struct request, queuelist);
+@@ -838,7 +839,9 @@ static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
+ 		bd.list = dptr;
+ 		bd.last = list_empty(&rq_list);
  
-@@ -2286,24 +2285,13 @@ int blk_mq_alloc_tag_set(struct blk_mq_tag_set *set)
- 	 * TODO	Restore original queue depth and count limits
+-		ret = q->mq_ops->queue_rq(&hctx->llhw_ctxs[0], &bd);
++		llhw_ctx_idx = blk_mq_tag_to_llhw_ctx_idx(hctx, rq->tag);
++
++		ret = q->mq_ops->queue_rq(&hctx->llhw_ctxs[llhw_ctx_idx], &bd);
+ 		switch (ret) {
+ 		case BLK_MQ_RQ_QUEUE_OK:
+ 			queued++;
+@@ -1260,13 +1263,14 @@ static int blk_mq_direct_issue_request(struct request *rq, blk_qc_t *cookie)
+ 		.last = 1
+ 	};
+ 	blk_qc_t new_cookie = blk_tag_to_qc_t(rq->tag, hctx->queue_num);
++	int llhw_ctx_idx = blk_mq_tag_to_llhw_ctx_idx(hctx, rq->tag);
+ 
+ 	/*
+ 	 * For OK queue, we are done. For error, kill it. Any other
+ 	 * error (busy), just add it to our list as we previously
+ 	 * would have done
  	 */
+-	ret = q->mq_ops->queue_rq(&hctx->llhw_ctxs[0], &bd);
++	ret = q->mq_ops->queue_rq(&hctx->llhw_ctxs[llhw_ctx_idx], &bd);
+ 	if (ret == BLK_MQ_RQ_QUEUE_OK) {
+ 		*cookie = new_cookie;
+ 		return 0;
+@@ -1741,6 +1745,7 @@ static struct blk_mq_hw_ctx *blk_mq_init_hctx(struct request_queue *q,
+ 	hctx->queue_num = hctx_idx;
+ 	hctx->nr_ctx = 0;
+ 	hctx->nr_llhw_ctx = nr_llhw_ctx;
++	hctx->llhw_queue_depth = set->queue_depth;
+ 	hctx->flags = set->flags & ~BLK_MQ_F_TAG_SHARED;
+ 	hctx->tags = set->tags[hctx_idx];
  
--	/*
--	 * If a crashdump is active, then we are potentially in a very
--	 * memory constrained environment. Limit us to 1 queue.
--	 */
--	set->nr_co_queues = is_kdump_kernel() ? 1 : set->nr_hw_queues;
--	set->co_queue_size = 1;
-+	blk_mq_adjust_tag_set(set, cpu_online_mask);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 2c3392b..52a9e7c 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -67,6 +67,7 @@ struct blk_mq_hw_ctx {
+ 	unsigned long		poll_invoked;
+ 	unsigned long		poll_success;
  
- 	if (queue_depth(set) < set->reserved_tags + BLK_MQ_TAG_MIN)
- 		return -EINVAL;
- 	if (queue_depth(set) > BLK_MQ_MAX_DEPTH)
- 		return -EINVAL;
++	unsigned int		llhw_queue_depth;
+ 	unsigned int		nr_llhw_ctx;
+ 	struct blk_mq_llhw_ctx	llhw_ctxs[0];
+ };
+@@ -79,6 +80,12 @@ struct blk_mq_hw_ctx *blk_mq_to_hctx(struct blk_mq_llhw_ctx *llhw_ctx)
+ 	return (void *)llhw_ctx_0 - offsetof(struct blk_mq_hw_ctx, llhw_ctxs);
+ }
  
--	/*
--	 * There is no use for more h/w queues than cpus.
--	 */
--	if (set->nr_co_queues > nr_cpu_ids)
--		set->nr_co_queues = nr_cpu_ids;
--
- 	set->tags = kzalloc_node(set->nr_co_queues * sizeof(*set->tags),
- 				 GFP_KERNEL, set->numa_node);
- 	if (!set->tags)
-diff --git a/block/blk-mq.h b/block/blk-mq.h
-index 592e308..70704f7 100644
---- a/block/blk-mq.h
-+++ b/block/blk-mq.h
-@@ -49,6 +49,8 @@ void blk_mq_disable_hotplug(void);
-  */
- extern int blk_mq_update_queue_map(unsigned int *map, unsigned int nr_queues,
- 				   const struct cpumask *online_mask);
-+extern void blk_mq_adjust_tag_set(struct blk_mq_tag_set *set,
-+				  const struct cpumask *online_mask);
- extern int blk_mq_hw_queue_to_node(unsigned int *map, unsigned int);
- 
- /*
++static inline
++int blk_mq_tag_to_llhw_ctx_idx(struct blk_mq_hw_ctx *hctx, unsigned int tag)
++{
++	return tag / hctx->llhw_queue_depth;
++}
++
+ struct blk_mq_tag_set {
+ 	struct blk_mq_ops	*ops;
+ 	unsigned int		nr_hw_queues;
 -- 
 1.8.3.1
