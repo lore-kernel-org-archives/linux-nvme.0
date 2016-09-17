@@ -1,25 +1,40 @@
 From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Fri, 16 Sep 2016 16:37:44 -0700
-Subject: [PATCH v4 1/3] nvme/scsi: Remove power management support
-In-Reply-To: <714df91022b06c6799afb315962769f22b8ab9f4.1474049701.git.luto@kernel.org>
+Date: Fri, 16 Sep 2016 17:49:55 -0700
+Subject: [PATCH v4 0/3] nvme power saving
+In-Reply-To: <cover.1474049701.git.luto@kernel.org>
 References: <cover.1474049701.git.luto@kernel.org>
- <714df91022b06c6799afb315962769f22b8ab9f4.1474049701.git.luto@kernel.org>
-Message-ID: <1474069064.10494.4.camel@linux.intel.com>
+Message-ID: <1474073395.10494.13.camel@linux.intel.com>
 
 On Fri, 2016-09-16@11:16 -0700, Andy Lutomirski wrote:
-> As far as I can tell, there is basically nothing correct about this
-> code.??It misinterprets npss (off-by-one).??It hardcodes a bunch of
-> power states, which is nonsense, because they're all just indices
-> into a table that software needs to parse.??It completely ignores
-> the distinction between operational and non-operational states.
-> And, until 4.8, if all of the above magically succeeded, it would
-> dereference a NULL pointer and OOPS.
+> Hi all-
 > 
-> Since this code appears to be useless, just delete it.
-
-Acked-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-
+> Here's v4 of the APST patch set.??The biggest bikesheddable thing (I
+> think) is the scaling factor.??I currently have it hardcoded so that
+> we wait 50x the total latency before entering a power saving state.
+> On my Samsung 950, this means we enter state 3 (70mW, 0.5ms entry
+> latency, 5ms exit latency) after 275ms and state 4 (5mW, 2ms entry
+> latency, 22ms exit latency) after 1200ms.??I have the default max
+> latency set to 25ms.
 > 
-> Signed-off-by: Andy Lutomirski <luto at kernel.org>
-> ---
+> FWIW, in practice, the latency this introduces seems to be well
+> under 22ms, but my benchmark is a bit silly and I might have
+> measured it wrong.??I certainly haven't observed a slowdown just
+> using my laptop.
+> 
+> This time around, I changed the names of parameters after Jay
+> Frayensee got confused by the first try.??Now they are:
+> 
+> ?- ps_max_latency_us in sysfs: actually controls it.
+> ?- nvme_core.default_ps_max_latency_us: sets the default.
+> 
+> Yeah, they're mouthfuls, but they should be clearer now.
 >?
+
+I took the patches and applied them to one of my NVMe fabric hosts on
+my NVMe-over-Fabrics setup. ?Basically, it doesn't test much other than
+Andy's explanation that?"ps_max_latency_us" does not appear in any of
+/sys/block/nvmeXnY sysfs nodes (I have 7) so seems good to me on this
+front.
+
+Tested-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+[jpf: defaults benign to NVMe-over-Fabrics]
