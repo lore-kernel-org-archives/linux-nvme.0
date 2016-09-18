@@ -1,40 +1,36 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Fri, 16 Sep 2016 17:49:55 -0700
-Subject: [PATCH v4 0/3] nvme power saving
-In-Reply-To: <cover.1474049701.git.luto@kernel.org>
-References: <cover.1474049701.git.luto@kernel.org>
-Message-ID: <1474073395.10494.13.camel@linux.intel.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 18 Sep 2016 20:02:16 +0300
+Subject: nvmf/rdma host crash during heavy load and keep alive recovery
+In-Reply-To: <20160916110412.GC5476@lst.de>
+References: <021401d20a16$ed60d470$c8227d50$@opengridcomputing.com>
+ <021501d20a19$327ba5b0$9772f110$@opengridcomputing.com>
+ <00ab01d20ab1$ed212ff0$c7638fd0$@opengridcomputing.com>
+ <022701d20d31$a9645850$fc2d08f0$@opengridcomputing.com>
+ <da2e918b-0f18-e032-272d-368c6ec49c62@grimberg.me>
+ <011501d20f5f$b94e6c80$2beb4580$@opengridcomputing.com>
+ <012001d20f63$5c8f7490$15ae5db0$@opengridcomputing.com>
+ <01d201d20f69$449abce0$cdd036a0$@opengridcomputing.com>
+ <020001d20f70$9998fde0$cccaf9a0$@opengridcomputing.com>
+ <02c001d20f93$e6a88a60$b3f99f20$@opengridcomputing.com>
+ <20160916110412.GC5476@lst.de>
+Message-ID: <8fc2cefe-76b6-b0a3-12af-701833c286f7@grimberg.me>
 
-On Fri, 2016-09-16@11:16 -0700, Andy Lutomirski wrote:
-> Hi all-
-> 
-> Here's v4 of the APST patch set.??The biggest bikesheddable thing (I
-> think) is the scaling factor.??I currently have it hardcoded so that
-> we wait 50x the total latency before entering a power saving state.
-> On my Samsung 950, this means we enter state 3 (70mW, 0.5ms entry
-> latency, 5ms exit latency) after 275ms and state 4 (5mW, 2ms entry
-> latency, 22ms exit latency) after 1200ms.??I have the default max
-> latency set to 25ms.
-> 
-> FWIW, in practice, the latency this introduces seems to be well
-> under 22ms, but my benchmark is a bit silly and I might have
-> measured it wrong.??I certainly haven't observed a slowdown just
-> using my laptop.
-> 
-> This time around, I changed the names of parameters after Jay
-> Frayensee got confused by the first try.??Now they are:
-> 
-> ?- ps_max_latency_us in sysfs: actually controls it.
-> ?- nvme_core.default_ps_max_latency_us: sets the default.
-> 
-> Yeah, they're mouthfuls, but they should be clearer now.
->?
 
-I took the patches and applied them to one of my NVMe fabric hosts on
-my NVMe-over-Fabrics setup. ?Basically, it doesn't test much other than
-Andy's explanation that?"ps_max_latency_us" does not appear in any of
-/sys/block/nvmeXnY sysfs nodes (I have 7) so seems good to me on this
-front.
+>> This stack is creating hctx queues for the namespace created for this target
+>> device.
+>>
+>> Sagi,
+>>
+>> Should nvme_rdma_error_recovery_work() be stopping the hctx queues for
+>> ctrl->ctrl.connect_q too?
+>
+> Oh.  Actually we'll probably need to take care of the connect_q just
+> about anywhere we do anything to the other queues..
 
-Tested-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-[jpf: defaults benign to NVMe-over-Fabrics]
+Why should we?
+
+We control the IOs on the connect_q (we only submit connect to it) and
+we only submit to it if our queue is established.
+
+I still don't see how this explains why Steves is seeing bogus
+queue/hctx mappings...
