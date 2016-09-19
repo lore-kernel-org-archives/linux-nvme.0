@@ -1,41 +1,45 @@
-From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Mon, 19 Sep 2016 13:33:15 +0000
-Subject: [PATCH RFC 00/21] blk-mq: Introduce combined hardware queues
-References: <cover.1474014910.git.agordeev@redhat.com>
- <20160916210448.GA1178@localhost.localdomain>
- <20160919103805.GA22169@agordeev.lab.eng.brq.redhat.com>
-Message-ID: <BLUPR02MB1683C205076B5CFAFAA87B1681F40@BLUPR02MB1683.namprd02.prod.outlook.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 19 Sep 2016 10:38:46 -0500
+Subject: nvmf/rdma host crash during heavy load and keep alive recovery
+In-Reply-To: <8fc2cefe-76b6-b0a3-12af-701833c286f7@grimberg.me>
+References: <021401d20a16$ed60d470$c8227d50$@opengridcomputing.com>
+ <021501d20a19$327ba5b0$9772f110$@opengridcomputing.com>
+ <00ab01d20ab1$ed212ff0$c7638fd0$@opengridcomputing.com>
+ <022701d20d31$a9645850$fc2d08f0$@opengridcomputing.com>
+ <da2e918b-0f18-e032-272d-368c6ec49c62@grimberg.me>
+ <011501d20f5f$b94e6c80$2beb4580$@opengridcomputing.com>
+ <012001d20f63$5c8f7490$15ae5db0$@opengridcomputing.com>
+ <01d201d20f69$449abce0$cdd036a0$@opengridcomputing.com>
+ <020001d20f70$9998fde0$cccaf9a0$@opengridcomputing.com>
+ <02c001d20f93$e6a88a60$b3f99f20$@opengridcomputing.com>
+ <20160916110412.GC5476@lst.de>
+ <8fc2cefe-76b6-b0a3-12af-701833c286f7@grimberg.me>
+Message-ID: <02db01d2128b$e9244c70$bb6ce550$@opengridcomputing.com>
 
-On 09/19/16 03:38, Alexander Gordeev wrote:
-> On Fri, Sep 16, 2016@05:04:48PM -0400, Keith Busch wrote:
->
-> CC-ing linux-block at vger.kernel.org
->
->> I'm not sure I see how this helps. That probably means I'm not considering
->> the right scenario. Could you elaborate on when having multiple hardware
->> queues to choose from a given CPU will provide a benefit?
->
-> No, I do not keep in mind any particular scenario besides common
-> sense. Just an assumption deeper queues are better (in this RFC
-> a virtual combined queue consisting of multipe h/w queues).
->
-> Apparently, there could be positive effects only in systems where
-> # of queues / # of CPUs > 1 or # of queues / # of cores > 1. But
-> I do not happen to have ones. If I had numbers this would not be
-> the RFC and I probably would not have posted in the first place ;)
->
-> Would it be possible to give it a try on your hardware?
+> >> This stack is creating hctx queues for the namespace created for this
+target
+> >> device.
+> >>
+> >> Sagi,
+> >>
+> >> Should nvme_rdma_error_recovery_work() be stopping the hctx queues for
+> >> ctrl->ctrl.connect_q too?
+> >
+> > Oh.  Actually we'll probably need to take care of the connect_q just
+> > about anywhere we do anything to the other queues..
+> 
+> Why should we?
+> 
+> We control the IOs on the connect_q (we only submit connect to it) and
+> we only submit to it if our queue is established.
+> 
+> I still don't see how this explains why Steves is seeing bogus
+> queue/hctx mappings...
 
-Hello Alexander,
-
-It is your task to measure the performance impact of these patches and 
-not Keith's task. BTW, I'm not convinced that multiple hardware queues 
-per CPU will result in a performance improvement. I have not yet seen 
-any SSD for which a queue depth above 512 results in better performance 
-than queue depth equal to 512. Which applications do you think will 
-generate and sustain a queue depth above 512? Additionally, my 
-experience from another high performance context (RDMA) is that reducing 
-the number of queues can result in higher IOPS due to fewer interrupts 
-per I/O.
-
-Bart.
+I don't think I'm seeing bogus mappings necessarily.  I think my debug code
+uncovered (to me at least) that connect_q hctx's use the same nvme_rdma_queues
+as the ioq hctxs.   And I thought that was not a valid configuration, but
+apparently its normal.  So I still don't know how/why a pending request gets run
+on an nvme_rdma_queue that has blown away its rdma qp and cm_id.  It _could_ be
+due to queue/hctx bogus mappings, but I haven't proven it.  I'm not sure how to
+prove it (or how to further debug this issue)...
