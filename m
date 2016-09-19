@@ -1,40 +1,35 @@
-From: kirubak@zadarastorage.com (Kirubakaran Kaliannan)
-Date: Mon, 19 Sep 2016 11:03:18 +0530
-Subject: NVMf (NVME over fabrics) Performance
-Message-ID: <c53316925d9da9f13925a29674533f2e@mail.gmail.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 19 Sep 2016 09:59:39 +0200
+Subject: [PATCH v3 1/3] nvme/scsi: Remove power management support
+In-Reply-To: <20160916142500.GA9578@lst.de>
+References: <cover.1474002926.git.luto@kernel.org>
+ <714df91022b06c6799afb315962769f22b8ab9f4.1474002926.git.luto@kernel.org>
+ <20160916083333.GB2415@lst.de>
+ <20160916143301.GB1852@localhost.localdomain>
+ <20160916142500.GA9578@lst.de>
+Message-ID: <20160919075939.eoycfbur4zchf3m3@linux-x5ow.site>
 
-Hi All,
+On Fri, Sep 16, 2016@04:25:00PM +0200, Christoph Hellwig wrote:
+> On Fri, Sep 16, 2016@10:33:02AM -0400, Keith Busch wrote:
+> > On Fri, Sep 16, 2016@10:33:33AM +0200, Christoph Hellwig wrote:
+> > > On Thu, Sep 15, 2016@10:24:19PM -0700, Andy Lutomirski wrote:
+> > > > Since this code appears to be useless, just delete it.
+> > > 
+> > > Yes, please!
+> > 
+> > For a future patch, any objection to deleting the whole file? :)
+> 
+> Not from me for sure, but I fear some users might be using it after all.
 
-I am working on measuring the NVMf (with Mellanox ConnectX-3 pro(40Gps)
-and Intel P3600) performance numbers on my 2 servers with 32 CPU each
-(64GB RAM).
+IIRC there was some issues with openSUSE and pre NVMe 1.2 Adapters
+without the scsi translation.
 
-These are the numbers I am getting from IOPS perspective for Read, and for
-4K size I/O?s
-
-1 NULL block-devices using NVMf = 600K
-2 NULL block-device using NVMf = 600k (not growing linearly per device)
-
-1 Intel NVME device through NVMf= 450K
-2 Intel NVME device through NVMf = 470K (There is no increase in IOPs
-beyond 500K by adding more devices)
-
-I installed 4.7 + rc2 Linux kernel
-(git://git.infradead.org/nvme-fabrics.git)
-CPU/RAM is not the bottleneck.
-Mellanox card is 40GBps ? 600 IOPs use only 2400 MB (it still have ~2000
-MB bandwidth)
-
-With NVME (same server) I can see the linear increase in performance by
-adding more devices.
-
-Questions:
-
-Can you please share the NVMf numbers available ?
-Is there any configuration required to improve the performance linearly by
-adding more devices ?
-Looking for your direction/suggestion in achieving the max NVMf
-performance numbers.
-
-Thanks,
--kiru
+Byte,
+	Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
