@@ -1,25 +1,23 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 20 Sep 2016 15:14:15 -0500
-Subject: [PATCH] nvme-rdma: Fix early queue flags settings
-In-Reply-To: <20160920200803.GA839@lst.de>
-References: <1474397848-19013-1-git-send-email-sagi@grimberg.me>
- <20160920200803.GA839@lst.de>
-Message-ID: <013901d2137b$8f329e10$ad97da30$@opengridcomputing.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Tue, 20 Sep 2016 14:55:53 -0700
+Subject: [PATCH 1/2] nvme-cli/fabrics: Add keep-alive-tmo param to
+ connect cmd
+In-Reply-To: <20160920150437.CA26EE0BC1@smtp.ogc.us>
+References: <20160920150437.CA26EE0BC1@smtp.ogc.us>
+Message-ID: <1474408553.8869.23.camel@linux.intel.com>
 
+On Tue, 2016-09-20@08:01 -0700, Steve Wise wrote:
+> Added 'keep-alive-tmo' to 'connect' command so users can specify the
+> keep alive timeout period.
 > 
-> On Tue, Sep 20, 2016@11:57:28AM -0700, Sagi Grimberg wrote:
-> > When we reconnect we can't really clear the
-> > queue flags (DELETING flag in specific) because
-> > we might end up trigerring a use-after-free condition
-> > if we fail to establish the rdma connection.
+> usage examples:
 > 
-> Can you add a comment explaining this to the assignment?  Looking
-> at the patch it looks like black magic to be, and that's even
-> after reading the above changelog..
+> nvme connect --keep-alive-tmo=30 --transport=rdma --traddr=10.0.1.14
+> --nqn=test-nvme
+> nvme connect -k 30 -t rdma -a 10.0.1.14 -n test-nvme
+> 
+> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+>?
 
-Maybe this changelog?
-
-    nvme-rdma: only clear queue flags after successful connect
-
-    Otherwise, nvme_rdma_stop_and_clear_queue() will incorrectly
-    try to stop/free rdma qps/cm_ids that are already freed.
+Looks good to me,
+Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
