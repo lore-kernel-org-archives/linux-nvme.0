@@ -1,57 +1,38 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 20 Sep 2016 08:02:12 -0700
-Subject: [PATCH 2/2] nvme-cli/fabrics: Add reconnect-delay param to connect cmd
-Message-ID: <20160920150439.D8168E0BC1@smtp.ogc.us>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 20 Sep 2016 11:57:28 -0700
+Subject: [PATCH] nvme-rdma: Fix early queue flags settings
+Message-ID: <1474397848-19013-1-git-send-email-sagi@grimberg.me>
 
-Added 'reconnect-delay' to 'connect' command so users can specify the
-delay time, in seconds, before reconnecting due to a keep alive timeout.
+When we reconnect we can't really clear the
+queue flags (DELETING flag in specific) because
+we might end up trigerring a use-after-free condition
+if we fail to establish the rdma connection.
 
-usage examples:
-
-nvme connect --reconnect-delay=30 --transport=rdma --traddr=10.0.1.14 --nqn=test-nvme
-nvme connect -r 30 -t rdma -a 10.0.1.14 -n test-nvme
-
-
-Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+Fixes: e89ca58f9c90 ("nvme-rdma: add DELETING queue flag")
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- fabrics.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/nvme/host/rdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/fabrics.c b/fabrics.c
-index bb144bf..f80ae80 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -52,6 +52,7 @@ struct config {
- 	char *hostnqn;
- 	char *nr_io_queues;
- 	char *keep_alive_tmo;
-+	char *reconnect_delay;
- 	char *raw;
- 	char *device;
- } cfg = { 0 };
-@@ -499,6 +500,14 @@ static int build_options(char *argstr, int max_len)
- 		max_len -= len;
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index c2c2c28e6eb5..3437f0e8866f 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -561,7 +561,6 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
+ 
+ 	queue = &ctrl->queues[idx];
+ 	queue->ctrl = ctrl;
+-	queue->flags = 0;
+ 	init_completion(&queue->cm_done);
+ 
+ 	if (idx > 0)
+@@ -595,6 +594,7 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
+ 		goto out_destroy_cm_id;
  	}
  
-+	if (cfg.reconnect_delay) {
-+		len = snprintf(argstr, max_len, ",reconnect_delay=%s", cfg.reconnect_delay);
-+		if (len < 0)
-+			return -EINVAL;
-+		argstr += len;
-+		max_len -= len;
-+	}
-+
++	queue->flags = 0;
+ 	set_bit(NVME_RDMA_Q_CONNECTED, &queue->flags);
+ 
  	return 0;
- }
- 
-@@ -735,6 +744,8 @@ int connect(const char *desc, int argc, char **argv)
- 			"number of io queues to use (default is core count)" },
- 		{"keep-alive-tmo", 'k', "LIST", CFG_STRING, &cfg.keep_alive_tmo, required_argument,
- 			"keep alive timeout period in seconds" },
-+		{"reconnect-delay", 'r', "LIST", CFG_STRING, &cfg.reconnect_delay, required_argument,
-+			"reconnect timeout period in seconds" },
- 		{0},
- 	};
- 
 -- 
-2.7.0
+1.9.1
