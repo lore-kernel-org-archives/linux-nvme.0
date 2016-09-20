@@ -1,44 +1,56 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 20 Sep 2016 11:00:37 -0400
-Subject: [PATCH RFC 00/21] blk-mq: Introduce combined hardware queues
-In-Reply-To: <20160919103805.GA22169@agordeev.lab.eng.brq.redhat.com>
-References: <cover.1474014910.git.agordeev@redhat.com>
- <20160916210448.GA1178@localhost.localdomain>
- <20160919103805.GA22169@agordeev.lab.eng.brq.redhat.com>
-Message-ID: <20160920150037.GA11190@keith>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Tue, 20 Sep 2016 08:01:54 -0700
+Subject: [PATCH 1/2] nvme-cli/fabrics: Add keep-alive-tmo param to connect cmd
+Message-ID: <20160920150437.CA26EE0BC1@smtp.ogc.us>
 
-On Mon, Sep 19, 2016@12:38:05PM +0200, Alexander Gordeev wrote:
-> On Fri, Sep 16, 2016@05:04:48PM -0400, Keith Busch wrote:
-> 
-> > Having a 1:1 already seemed like the ideal solution since you can't
-> > simultaneously utilize more than that from the host, so there's no more
-> > h/w parallelisms from we can exploit. On the controller side, fetching
-> > commands is serialized memory reads, so I don't think spreading IO
-> > among more h/w queues helps the target over posting more commands to a
-> > single queue.
-> 
-> I take a notion of un-ordered commands completion you described below.
-> But I fail to realize why a CPU would not simultaneously utilize more
-> than one queue by posting to multiple. Is it due to nvme specifics or
-> you assume the host would not issue that many commands?
+Added 'keep-alive-tmo' to 'connect' command so users can specify the
+keep alive timeout period.
 
-What I mean is that if you have N CPUs, you can't possibly simultaneously
-write more than N submission queue entries. The benefit of having 1:1
-for the queue <-> CPU mapping is that each CPU can post a command to
-its queue without lock contention at the same time as another thread.
-Having more to choose from doesn't let the host post commands any faster
-than we can today.
+usage examples:
 
-When we're out of tags, the request currently just waits for one to
-become available, increasing submission latency. You can fix that by
-increasing the available tags with deeper or more h/w queues, but that
-just increases completion latency since the device can't process them
-any faster. It's six of one, half dozen of the other.
+nvme connect --keep-alive-tmo=30 --transport=rdma --traddr=10.0.1.14 --nqn=test-nvme
+nvme connect -k 30 -t rdma -a 10.0.1.14 -n test-nvme
 
-The depth per queue defaults to 1k. If your process really is able to use
-all those resources, the hardware is completely saturated and you're not
-going to benefit from introducing more tags [1]. It could conceivably
-be worse by reducing cache-hits, or hit inappropriate timeout handling
-with the increased completion latency.
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+---
+ fabrics.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
- [1] http://lists.infradead.org/pipermail/linux-nvme/2014-July/001064.html
+diff --git a/fabrics.c b/fabrics.c
+index 18e961c..bb144bf 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -51,6 +51,7 @@ struct config {
+ 	char *trsvcid;
+ 	char *hostnqn;
+ 	char *nr_io_queues;
++	char *keep_alive_tmo;
+ 	char *raw;
+ 	char *device;
+ } cfg = { 0 };
+@@ -490,6 +491,14 @@ static int build_options(char *argstr, int max_len)
+ 		max_len -= len;
+ 	}
+ 
++	if (cfg.keep_alive_tmo) {
++		len = snprintf(argstr, max_len, ",keep_alive_tmo=%s", cfg.keep_alive_tmo);
++		if (len < 0)
++			return -EINVAL;
++		argstr += len;
++		max_len -= len;
++	}
++
+ 	return 0;
+ }
+ 
+@@ -724,6 +733,8 @@ int connect(const char *desc, int argc, char **argv)
+ 			"user-defined hostnqn" },
+ 		{"nr-io-queues", 'i', "LIST", CFG_STRING, &cfg.nr_io_queues, required_argument,
+ 			"number of io queues to use (default is core count)" },
++		{"keep-alive-tmo", 'k', "LIST", CFG_STRING, &cfg.keep_alive_tmo, required_argument,
++			"keep alive timeout period in seconds" },
+ 		{0},
+ 	};
+ 
+-- 
+2.7.0
