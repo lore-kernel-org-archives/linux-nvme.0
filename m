@@ -1,31 +1,16 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 20 Sep 2016 12:05:02 -0700
-Subject: [PATCH] nvme-rdma: Fix early queue flags settings
-In-Reply-To: <011101d21371$722909d0$567b1d70$@opengridcomputing.com>
-References: <1474397848-19013-1-git-send-email-sagi@grimberg.me>
- <011101d21371$722909d0$567b1d70$@opengridcomputing.com>
-Message-ID: <b4e82aee-b899-e8d1-d579-73480873b75f@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 20 Sep 2016 22:03:22 +0200
+Subject: [PATCH] admin-cmd: Added smart-log command support.
+In-Reply-To: <09a80788-033e-1c1b-c907-93beb8728eb4@grimberg.me>
+References: <1472759103-16538-1-git-send-email-ckulkarnilinux@gmail.com>
+ <09a80788-033e-1c1b-c907-93beb8728eb4@grimberg.me>
+Message-ID: <20160920200322.GB768@lst.de>
 
-
->> When we reconnect we can't really clear the
->> queue flags (DELETING flag in specific) because
->> we might end up trigerring a use-after-free condition
->> if we fail to establish the rdma connection.
->>
->> Fixes: e89ca58f9c90 ("nvme-rdma: add DELETING queue flag")
->> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+On Tue, Sep 20, 2016@12:00:24PM -0700, Sagi Grimberg wrote:
+> Queued this up for 4.9,
 >
-> Tests good.
->
-> Thanks Sagi!
->
-> Tested-by: Steve Wise <swise at opengridcomputing.com>
+> Christoph, can I get your reviewed-by?
 
-Thanks Steve,
+sure:
 
-Jens, can you grab this last minute fix for rc8?
-
-You can pull it from
-git://git.infradead.org/nvme-fabrics.git nvmf-4.8-rc
-
-Thanks
+Reviewed-by: Christoph Hellwig <hch at lst.de>
