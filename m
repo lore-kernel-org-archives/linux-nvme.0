@@ -1,10 +1,21 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 21 Sep 2016 13:12:18 -0700
-Subject: [PATCH] nvme: Add tertiary number to NVME_VS
-In-Reply-To: <1474488352-20601-1-git-send-email-krisman@linux.vnet.ibm.com>
-References: <1474488352-20601-1-git-send-email-krisman@linux.vnet.ibm.com>
-Message-ID: <59d60b73-a8c6-db6f-e74a-d78fcc65e5b6@grimberg.me>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 21 Sep 2016 16:13:54 -0500
+Subject: newbie question: Chelsio NIC drivers want kernel 4.1
+In-Reply-To: <1474487393.4142.10.camel@linux.intel.com>
+References: <3D44B3DCE57399449CC1391C2AD6EC4C999A1AA7@ORSMSX101.amr.corp.intel.com>
+ <1474487393.4142.10.camel@linux.intel.com>
+Message-ID: <02c301d2144d$0f4e6940$2deb3bc0$@opengridcomputing.com>
 
-Looks good,
+> 
+> On Wed, 2016-09-21@18:15 +0000, Riches Jr, Robert M wrote:
+> 
+> Before diving into this, I want to confirm you are using kernel 4.7.0-
+> rc2, correct?
+> 
+> If so, please see kernel.org and get the latest mainline 4.8rc build
+> and start from there.
+>
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Yes, you can use linux-4.8-rc7 and use the chelsio drivers from that kernel. 
+
+Steve.
