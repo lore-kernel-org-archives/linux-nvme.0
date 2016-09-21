@@ -1,58 +1,64 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 21 Sep 2016 11:17:58 -0700
-Subject: NVMf (NVME over fabrics) Performance
-In-Reply-To: <c53316925d9da9f13925a29674533f2e@mail.gmail.com>
-References: <c53316925d9da9f13925a29674533f2e@mail.gmail.com>
-Message-ID: <044931a9-2c5a-c33f-3d44-6009fc96297e@grimberg.me>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Wed, 21 Sep 2016 12:49:53 -0700
+Subject: newbie question: Chelsio NIC drivers want kernel 4.1
+In-Reply-To: <3D44B3DCE57399449CC1391C2AD6EC4C999A1AA7@ORSMSX101.amr.corp.intel.com>
+References: <3D44B3DCE57399449CC1391C2AD6EC4C999A1AA7@ORSMSX101.amr.corp.intel.com>
+Message-ID: <1474487393.4142.10.camel@linux.intel.com>
 
-> Hi All,
+On Wed, 2016-09-21@18:15 +0000, Riches Jr, Robert M wrote:
 
-Hey Kiru,
+Before diving into this, I want to confirm you are using kernel 4.7.0-
+rc2, correct?
 
-> I am working on measuring the NVMf (with Mellanox ConnectX-3 pro(40Gps)
-> and Intel P3600) performance numbers on my 2 servers with 32 CPU each
-> (64GB RAM).
->
-> These are the numbers I am getting from IOPS perspective for Read, and for
-> 4K size I/O?s
->
-> 1 NULL block-devices using NVMf = 600K
-> 2 NULL block-device using NVMf = 600k (not growing linearly per device)
+If so, please see kernel.org and get the latest mainline 4.8rc build
+and start from there.
 
-Can you recognize if any side is blocked by CPU (it shouldn't).
+Regards,
+Jay
 
-Are all cores active in the target system?
-
-is irqbalancer running?
-
-Do you have register_always modparam turned on in nvme-rdma? Can you
-try without it?
-
-> 1 Intel NVME device through NVMf= 450K
-> 2 Intel NVME device through NVMf = 470K (There is no increase in IOPs
-> beyond 500K by adding more devices)
-
-Can you try the latest code in 4.8-rc7?
-
-As a second experiment can you try this patch applied (submitted to
-linux-rdma lately)?
----
-  drivers/infiniband/core/device.c | 3 +--
-  1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/infiniband/core/device.c 
-b/drivers/infiniband/core/device.c
-index 760ef603a468..15f4bdf89fe1 100644
---- a/drivers/infiniband/core/device.c
-+++ b/drivers/infiniband/core/device.c
-@@ -999,8 +999,7 @@ static int __init ib_core_init(void)
-  		return -ENOMEM;
-
-  	ib_comp_wq = alloc_workqueue("ib-comp-wq",
--			WQ_UNBOUND | WQ_HIGHPRI | WQ_MEM_RECLAIM,
--			WQ_UNBOUND_MAX_ACTIVE);
-+			WQ_HIGHPRI | WQ_MEM_RECLAIM | WQ_SYSFS, 0);
-  	if (!ib_comp_wq) {
-  		ret = -ENOMEM;
-  		goto err;
--- 
+> (New subscriber to the list.??Could not find a relevant-looking
+> FAQ.??Searched 25MB of archives before sending.??Apologies if I
+> have the wrong list or am guilty of some other infraction.)
+> 
+> Attempting to set up a pair of machines to do NVMf experiments
+> with Chelsio T580-LP-CR NICs.??Was instructed to use CentOS 7.2,
+> the Chelsio hardware-specific driver modules, and the
+> git-snapshot-nvmf-all.3 "NVMe over Fabrics RDMA target support"
+> module(s).??Preliminary testing with Chelsio's binary RPMs (their
+> rbdi and rbdt modules) worked well.
+> 
+> The git-snapshot-nvmf-all.3 tar archive is kernel 4.7.0-rc2, but
+> Chelsio's source modules require kernel 4.1 or before.??The
+> NVMf-RDMA-enabled 4.7.0-rc2 kernel built, booted, and is running
+> well.??However, attempts to build the Chelsio NIC modules have
+> failed--even after modifying the Python configuration script to
+> not choke when trying to build for kernel 4.1.
+> 
+> To attempt to reconcile the kernel versions, I downloaded this
+> v4.1 tag snapshot:
+> 
+> ????http://git.infradead.org/nvme-fabrics.git/snapshot/b953c0d234bc72
+> e8489d3bf51a276c5c4ec85345.tar.gz
+> 
+> However, "make menuconfig" does not show any options resembling
+> "NVMe over Fabrics RDMA target support" that I could discern.
+> 
+> If necessary, I'm willing to modify the Chelsio driver source to
+> make it work with kernel 4.7.0-rc2, but I'm suspicious that would
+> be a rathole.
+> 
+> Any suggestions???What do I not understand about how to get a
+> kernel that talks to the cards and does "NVMe over Fabrics RDMA
+> ..."???Is there any chance the git-snapshot-nvmf-all.3 kernel
+> 4.7.0-rc2 can talk directly to the cards without the Chelsio
+> modules?
+> 
+> Thanks,
+> 
+> Robert Riches
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
