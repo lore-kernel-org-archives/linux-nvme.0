@@ -1,64 +1,47 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Wed, 21 Sep 2016 12:49:53 -0700
-Subject: newbie question: Chelsio NIC drivers want kernel 4.1
-In-Reply-To: <3D44B3DCE57399449CC1391C2AD6EC4C999A1AA7@ORSMSX101.amr.corp.intel.com>
-References: <3D44B3DCE57399449CC1391C2AD6EC4C999A1AA7@ORSMSX101.amr.corp.intel.com>
-Message-ID: <1474487393.4142.10.camel@linux.intel.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 21 Sep 2016 12:57:47 -0700
+Subject: [PATCH] nvme-rdma: Fix early queue flags settings
+In-Reply-To: <00aa01d2141f$e1cd1020$a5673060$@opengridcomputing.com>
+References: <1474397848-19013-1-git-send-email-sagi@grimberg.me>
+ <20160920200803.GA839@lst.de>
+ <013901d2137b$8f329e10$ad97da30$@opengridcomputing.com>
+ <a46d0da7-0695-3745-1bc9-8faf4383fa19@grimberg.me>
+ <20160921140132.GA19942@lst.de>
+ <5895eaad-a0e3-20be-f3e2-d4a02d4b8bfa@grimberg.me>
+ <00aa01d2141f$e1cd1020$a5673060$@opengridcomputing.com>
+Message-ID: <d7f41024-c76d-27a9-d08c-c3eca4295038@grimberg.me>
 
-On Wed, 2016-09-21@18:15 +0000, Riches Jr, Robert M wrote:
 
-Before diving into this, I want to confirm you are using kernel 4.7.0-
-rc2, correct?
+>>> Honestly there more I look into this the less I'm happy with the patch.
+>>
+>> I agree that we should really do a proper queue state machine.
+>>
+>>> queue->flags is an atomic, and as the patch shows we can get
+>>> nvme_rdma_init_queue caled on a queue that still has visibility in
+>>> other threads  So I think we really should not even do that simple
+>>> queue->flags = 0 assignment at all.  We'll need to use clear_bit to
+>>> atomically clear anything that might be set, and we need to be careful
+>>> where we do that.  I think this whole situation that we can get an
+>>> *_init_* function called on something that already is live and visible
+>>> to other threads need to be well documented at least because it's just
+>>> waiting for sucker like me that don't expect that.
+>>
+>> I don't think its a multithreading issue. We aren't expected to get
+>> here concurrently from different contexts (I think we're screwed if we
+>> do). The issue was that we are not clearing the DELETING flag on
+>> reconnects causing possible leaks, then I "fixed" it by resetting the
+>> queue flags at init_queue start, the problem was that if we failed to
+>> init the queue we lost the DELETING flag and got to a use-after-free
+>> condition (nothing prevented stop_and_free_queue to make forward
+>> progress...
+>>
+>> I can move it to clear_bit if you want...
+>>
+>
+> I'd like this in 4.8 to avoid the crash during reconnect.  (the clear_bit()
+> is fine and tests ok).
+>
+> I'll sign up to work with Sagi on a proper state machine fix for 4.9.  How's
+> that sound?
 
-If so, please see kernel.org and get the latest mainline 4.8rc build
-and start from there.
-
-Regards,
-Jay
-
-> (New subscriber to the list.??Could not find a relevant-looking
-> FAQ.??Searched 25MB of archives before sending.??Apologies if I
-> have the wrong list or am guilty of some other infraction.)
-> 
-> Attempting to set up a pair of machines to do NVMf experiments
-> with Chelsio T580-LP-CR NICs.??Was instructed to use CentOS 7.2,
-> the Chelsio hardware-specific driver modules, and the
-> git-snapshot-nvmf-all.3 "NVMe over Fabrics RDMA target support"
-> module(s).??Preliminary testing with Chelsio's binary RPMs (their
-> rbdi and rbdt modules) worked well.
-> 
-> The git-snapshot-nvmf-all.3 tar archive is kernel 4.7.0-rc2, but
-> Chelsio's source modules require kernel 4.1 or before.??The
-> NVMf-RDMA-enabled 4.7.0-rc2 kernel built, booted, and is running
-> well.??However, attempts to build the Chelsio NIC modules have
-> failed--even after modifying the Python configuration script to
-> not choke when trying to build for kernel 4.1.
-> 
-> To attempt to reconcile the kernel versions, I downloaded this
-> v4.1 tag snapshot:
-> 
-> ????http://git.infradead.org/nvme-fabrics.git/snapshot/b953c0d234bc72
-> e8489d3bf51a276c5c4ec85345.tar.gz
-> 
-> However, "make menuconfig" does not show any options resembling
-> "NVMe over Fabrics RDMA target support" that I could discern.
-> 
-> If necessary, I'm willing to modify the Chelsio driver source to
-> make it work with kernel 4.7.0-rc2, but I'm suspicious that would
-> be a rathole.
-> 
-> Any suggestions???What do I not understand about how to get a
-> kernel that talks to the cards and does "NVMe over Fabrics RDMA
-> ..."???Is there any chance the git-snapshot-nvmf-all.3 kernel
-> 4.7.0-rc2 can talk directly to the cards without the Chelsio
-> modules?
-> 
-> Thanks,
-> 
-> Robert Riches
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Sounds good to me, I'll send out the clear_bit() version.
