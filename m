@@ -1,21 +1,31 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 21 Sep 2016 16:13:54 -0500
-Subject: newbie question: Chelsio NIC drivers want kernel 4.1
-In-Reply-To: <1474487393.4142.10.camel@linux.intel.com>
-References: <3D44B3DCE57399449CC1391C2AD6EC4C999A1AA7@ORSMSX101.amr.corp.intel.com>
- <1474487393.4142.10.camel@linux.intel.com>
-Message-ID: <02c301d2144d$0f4e6940$2deb3bc0$@opengridcomputing.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 21 Sep 2016 14:19:27 -0700
+Subject: [PATCH] nvmet: Make dsm number of ranges zero based
+Message-ID: <1474492767-8364-1-git-send-email-sagi@grimberg.me>
 
-> 
-> On Wed, 2016-09-21@18:15 +0000, Riches Jr, Robert M wrote:
-> 
-> Before diving into this, I want to confirm you are using kernel 4.7.0-
-> rc2, correct?
-> 
-> If so, please see kernel.org and get the latest mainline 4.8rc build
-> and start from there.
->
+From: Alexander Solganik <sashas@lightbitslabs.com>
 
-Yes, you can use linux-4.8-rc7 and use the chelsio drivers from that kernel. 
+This caused the nvmet request data length to be
+incorrect.
 
-Steve.
+Signed-off-by: Alexander Solganik <sashas at lightbitslabs.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/io-cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
+index 4132b6b98182..4a96c2049b7b 100644
+--- a/drivers/nvme/target/io-cmd.c
++++ b/drivers/nvme/target/io-cmd.c
+@@ -206,7 +206,7 @@ int nvmet_parse_io_cmd(struct nvmet_req *req)
+ 		return 0;
+ 	case nvme_cmd_dsm:
+ 		req->execute = nvmet_execute_dsm;
+-		req->data_len = le32_to_cpu(cmd->dsm.nr) *
++		req->data_len = le32_to_cpu(cmd->dsm.nr + 1) *
+ 			sizeof(struct nvme_dsm_range);
+ 		return 0;
+ 	default:
+-- 
+1.9.1
