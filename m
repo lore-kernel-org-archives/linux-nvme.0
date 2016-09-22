@@ -1,57 +1,21 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 21 Sep 2016 16:20:37 -0500
-Subject: nvmf/rdma host crash during heavy load and keep alive recovery
-In-Reply-To: <02db01d2128b$e9244c70$bb6ce550$@opengridcomputing.com>
-References: <021401d20a16$ed60d470$c8227d50$@opengridcomputing.com>
- <021501d20a19$327ba5b0$9772f110$@opengridcomputing.com>
- <00ab01d20ab1$ed212ff0$c7638fd0$@opengridcomputing.com>
- <022701d20d31$a9645850$fc2d08f0$@opengridcomputing.com>
- <da2e918b-0f18-e032-272d-368c6ec49c62@grimberg.me>
- <011501d20f5f$b94e6c80$2beb4580$@opengridcomputing.com>
- <012001d20f63$5c8f7490$15ae5db0$@opengridcomputing.com>
- <01d201d20f69$449abce0$cdd036a0$@opengridcomputing.com>
- <020001d20f70$9998fde0$cccaf9a0$@opengridcomputing.com>
- <02c001d20f93$e6a88a60$b3f99f20$@opengridcomputing.com>
- <20160916110412.GC5476@lst.de>
- <8fc2cefe-76b6-b0a3-12af-701833c286f7@grimberg.me>
- <02db01d2128b$e9244c70$bb6ce550$@opengridcomputing.com>
-Message-ID: <02c601d2144d$ff453a50$fdcfaef0$@opengridcomputing.com>
+From: luto@amacapital.net (Andy Lutomirski)
+Date: Wed, 21 Sep 2016 17:11:03 -0700
+Subject: [PATCH v4 0/3] nvme power saving
+In-Reply-To: <cover.1474049701.git.luto@kernel.org>
+References: <cover.1474049701.git.luto@kernel.org>
+Message-ID: <CALCETrVeJPzxhue5=Jj1uhF3=skVwkbVOQvjEPMYH=DvJBfNjw@mail.gmail.com>
 
-> > >
-> > > Oh.  Actually we'll probably need to take care of the connect_q just
-> > > about anywhere we do anything to the other queues..
-> >
-> > Why should we?
-> >
-> > We control the IOs on the connect_q (we only submit connect to it) and
-> > we only submit to it if our queue is established.
-> >
-> > I still don't see how this explains why Steves is seeing bogus
-> > queue/hctx mappings...
-> 
-> I don't think I'm seeing bogus mappings necessarily.  I think my debug
-code
-> uncovered (to me at least) that connect_q hctx's use the same
-> nvme_rdma_queues
-> as the ioq hctxs.   And I thought that was not a valid configuration, but
-> apparently its normal.  So I still don't know how/why a pending request
-gets
-> run
-> on an nvme_rdma_queue that has blown away its rdma qp and cm_id.  It
-> _could_ be
-> due to queue/hctx bogus mappings, but I haven't proven it.  I'm not sure
-> how to
-> prove it (or how to further debug this issue)...
+On Fri, Sep 16, 2016@11:16 AM, Andy Lutomirski <luto@kernel.org> wrote:
+> Hi all-
+>
+> Here's v4 of the APST patch set.  The biggest bikesheddable thing (I
+> think) is the scaling factor.  I currently have it hardcoded so that
+> we wait 50x the total latency before entering a power saving state.
+> On my Samsung 950, this means we enter state 3 (70mW, 0.5ms entry
+> latency, 5ms exit latency) after 275ms and state 4 (5mW, 2ms entry
+> latency, 22ms exit latency) after 1200ms.  I have the default max
+> latency set to 25ms.
 
-I added debug code to save off the 2 blk_mq_hw_ctx pointers that get
-associated with each nvme_rdma_queue.  This allows me to assert that the
-hctx passed into nvme_rdma_queue_rq() is not bogus.  And indeed the hctx
-passed in during the crash is the correct hctx.  So we know there isn't a
-problem with a bogus hctx being used.
+Anything I can/should do to help this make it for 4.9? :)
 
-The hctx.state has BLK_MQ_S_TAG_ACTIVE set and _not_ BLK_MQ_S_STOPPED.  The
-ns->queue->queue_flags has QUEUE_FLAG_STOPPED bit set.  So the blk_mq queue
-is active and the nvme queue is STOPPED.  I don't know how it gets in this
-state...
-
-Steve.
+--Andy
