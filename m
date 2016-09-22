@@ -1,32 +1,24 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 22 Sep 2016 12:46:20 -0400
-Subject: [PATCH 1/2] nvme-cli/fabrics: Add keep-alive-tmo param to
- connect cmd
-In-Reply-To: <1474408553.8869.23.camel@linux.intel.com>
-References: <20160920150437.CA26EE0BC1@smtp.ogc.us>
- <1474408553.8869.23.camel@linux.intel.com>
-Message-ID: <20160922164620.GB14301@keith>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Thu, 22 Sep 2016 11:27:48 -0700
+Subject: nvme-cli: Plea for help to document fabrics commands
+Message-ID: <1474568868.15303.22.camel@linux.intel.com>
 
-On Tue, Sep 20, 2016@02:55:53PM -0700, J Freyensee wrote:
-> On Tue, 2016-09-20@08:01 -0700, Steve Wise wrote:
-> > Added 'keep-alive-tmo' to 'connect' command so users can specify the
-> > keep alive timeout period.
-> > 
-> > usage examples:
-> > 
-> > nvme connect --keep-alive-tmo=30 --transport=rdma --traddr=10.0.1.14
-> > --nqn=test-nvme
-> > nvme connect -k 30 -t rdma -a 10.0.1.14 -n test-nvme
-> > 
-> > Signed-off-by: Steve Wise <swise at opengridcomputing.com>
-> >?
-> 
-> Looks good to me,
-> Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+With NVMe-over-Fabrics being merged into the existing NVMe code base,
+contributions were also made to nvme-cli to enable fabrics features in
+the tool. However, documentation (specifically man pages) are lacking
+for fabrics features in nvme-cli, which doesn't bode well as the tool
+has maintained very good documentation for all the other
+commands/features that already exist for NVMe.
 
-Thanks, I've applied both patches in this series. I had to slightly
-modify the patches to apply on the master branch due to some code
-formatting changes.
+I would like to propose a divide-and-conquer strategy to get new man
+pages added for the fabrics features to get it up to par with the rest
+of the tool.
 
-Now that I look at it, I actually think the code format was nicer before
-the cleanups, but that's okay. :)
+I'll volunteer to take on "discover".
+
+I believe that leaves "connect-all", "connect", and "disconnect" still
+to be documented (unless I missed something...Christoph or Ming) for
+other people to conquer?
+
+Thanks,
+Jay
