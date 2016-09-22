@@ -1,40 +1,32 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Thu, 22 Sep 2016 08:23:35 -0600
-Subject: [PATCH v4 0/3] nvme power saving
-In-Reply-To: <cover.1474049701.git.luto@kernel.org>
-References: <cover.1474049701.git.luto@kernel.org>
-Message-ID: <13b0fe95-01b8-89d7-df76-efc1aa14b27a@fb.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 22 Sep 2016 12:46:20 -0400
+Subject: [PATCH 1/2] nvme-cli/fabrics: Add keep-alive-tmo param to
+ connect cmd
+In-Reply-To: <1474408553.8869.23.camel@linux.intel.com>
+References: <20160920150437.CA26EE0BC1@smtp.ogc.us>
+ <1474408553.8869.23.camel@linux.intel.com>
+Message-ID: <20160922164620.GB14301@keith>
 
-On 09/16/2016 12:16 PM, Andy Lutomirski wrote:
-> Hi all-
->
-> Here's v4 of the APST patch set.  The biggest bikesheddable thing (I
-> think) is the scaling factor.  I currently have it hardcoded so that
-> we wait 50x the total latency before entering a power saving state.
-> On my Samsung 950, this means we enter state 3 (70mW, 0.5ms entry
-> latency, 5ms exit latency) after 275ms and state 4 (5mW, 2ms entry
-> latency, 22ms exit latency) after 1200ms.  I have the default max
-> latency set to 25ms.
->
-> FWIW, in practice, the latency this introduces seems to be well
-> under 22ms, but my benchmark is a bit silly and I might have
-> measured it wrong.  I certainly haven't observed a slowdown just
-> using my laptop.
->
-> This time around, I changed the names of parameters after Jay
-> Frayensee got confused by the first try.  Now they are:
->
->  - ps_max_latency_us in sysfs: actually controls it.
->  - nvme_core.default_ps_max_latency_us: sets the default.
->
-> Yeah, they're mouthfuls, but they should be clearer now.
+On Tue, Sep 20, 2016@02:55:53PM -0700, J Freyensee wrote:
+> On Tue, 2016-09-20@08:01 -0700, Steve Wise wrote:
+> > Added 'keep-alive-tmo' to 'connect' command so users can specify the
+> > keep alive timeout period.
+> > 
+> > usage examples:
+> > 
+> > nvme connect --keep-alive-tmo=30 --transport=rdma --traddr=10.0.1.14
+> > --nqn=test-nvme
+> > nvme connect -k 30 -t rdma -a 10.0.1.14 -n test-nvme
+> > 
+> > Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+> >?
+> 
+> Looks good to me,
+> Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
 
-The only thing I don't like about this is the fact that's it's a driver 
-private thing. Similar to ALPM on SATA, it's yet another knob that needs 
-to be set. It we put it somewhere generic, then at least we could 
-potentially use it in a generic fashion.
+Thanks, I've applied both patches in this series. I had to slightly
+modify the patches to apply on the master branch due to some code
+formatting changes.
 
-Additionally, it should not be on by default.
-
--- 
-Jens Axboe
+Now that I look at it, I actually think the code format was nicer before
+the cleanups, but that's okay. :)
