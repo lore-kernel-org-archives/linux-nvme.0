@@ -1,77 +1,91 @@
-From: hch@infradead.org ('Christoph Hellwig')
-Date: Thu, 22 Sep 2016 14:02:55 -0700
-Subject: crash when connecting to targets using nr_io_queues < num cpus
-In-Reply-To: <20160916142649.GA18798@infradead.org>
-References: <011401d203c4$0cdd78c0$26986a40$@opengridcomputing.com>
- <6082d700-a45c-b00a-3f09-ba6196cc3e5e@grimberg.me>
- <00ae01d2045a$a8516500$f8f42f00$@opengridcomputing.com>
- <01b401d20483$2da4fd20$88eef760$@opengridcomputing.com>
- <e31f7c2f-7b15-95f9-f882-4406c94eaedc@grimberg.me>
- <018701d20dca$22a02080$67e06180$@opengridcomputing.com>
- <20160913175223.GB13741@localhost.localdomain>
- <005101d21024$1f8913f0$5e9b3bd0$@opengridcomputing.com>
- <20160916142649.GA18798@infradead.org>
-Message-ID: <20160922210255.GA11015@infradead.org>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Thu, 22 Sep 2016 14:33:36 -0700
+Subject: [PATCH v4 0/3] nvme power saving
+In-Reply-To: <0a2ffd51-6e0f-7db3-8135-84317d8f77bc@fb.com>
+References: <cover.1474049701.git.luto@kernel.org>
+ <13b0fe95-01b8-89d7-df76-efc1aa14b27a@fb.com>
+ <CALCETrV6GAZFG+cjdQrJpP7wVphfeRd=+UeTQcs5-iQYxNk6XA@mail.gmail.com>
+ <0a2ffd51-6e0f-7db3-8135-84317d8f77bc@fb.com>
+Message-ID: <1474580016.15303.31.camel@linux.intel.com>
 
-Steve,
+On Thu, 2016-09-22@14:43 -0600, Jens Axboe wrote:
+> On 09/22/2016 02:11 PM, Andy Lutomirski wrote:
+> > 
+> > On Thu, Sep 22, 2016@7:23 AM, Jens Axboe <axboe@fb.com> wrote:
+> > > 
+> > > 
+> > > On 09/16/2016 12:16 PM, Andy Lutomirski wrote:
+> > > > 
+> > > > 
+> > > > Hi all-
+> > > > 
+> > > > Here's v4 of the APST patch set.??The biggest bikesheddable
+> > > > thing (I
+> > > > think) is the scaling factor.??I currently have it hardcoded so
+> > > > that
+> > > > we wait 50x the total latency before entering a power saving
+> > > > state.
+> > > > On my Samsung 950, this means we enter state 3 (70mW, 0.5ms
+> > > > entry
+> > > > latency, 5ms exit latency) after 275ms and state 4 (5mW, 2ms
+> > > > entry
+> > > > latency, 22ms exit latency) after 1200ms.??I have the default
+> > > > max
+> > > > latency set to 25ms.
+> > > > 
+> > > > FWIW, in practice, the latency this introduces seems to be well
+> > > > under 22ms, but my benchmark is a bit silly and I might have
+> > > > measured it wrong.??I certainly haven't observed a slowdown
+> > > > just
+> > > > using my laptop.
+> > > > 
+> > > > This time around, I changed the names of parameters after Jay
+> > > > Frayensee got confused by the first try.??Now they are:
+> > > > 
+> > > > ?- ps_max_latency_us in sysfs: actually controls it.
+> > > > ?- nvme_core.default_ps_max_latency_us: sets the default.
+> > > > 
+> > > > Yeah, they're mouthfuls, but they should be clearer now.
+> > > 
+> > > 
+> > > The only thing I don't like about this is the fact that's it's a
+> > > driver private thing. Similar to ALPM on SATA, it's yet another
+> > > knob that needs to be set. It we put it somewhere generic, then
+> > > at least we could potentially use it in a generic fashion.
+> > 
+> > Agreed.??I'm hoping to hear back from Rafael soon about the
+> > dev_pm_qos
+> > thing.
+> > 
+> > > 
+> > > 
+> > > Additionally, it should not be on by default.
+> > 
+> > I think I disagree with this.??Since we don't have anything like
+> > laptop-mode AFAIK, I think we do want it on by default.??For the
+> > server workloads that want to consume more idle power for faster
+> > response when idle, I think the servers should be willing to make
+> > this
+> > change, just like they need to disable overly deep C states, etc.
+> > (Admittedly, unifying the configuration would be nice.)
+> 
+> I can see two reasons why we don't want it the default:
+> 
+> 1) Changes like this has a tendency to cause issues on various types
+> of
+> hardware. How many NVMe devices have you tested this on? ALPM on SATA
+> had a lot of initial problems, where slowed down some SSDs unberably.
 
-can you test if the patch below properly fails the connect and avoids
-the crash?
+...and some SSDs don't even support this feature yet, so the number of
+different NVMe devices available to test initially will most likely be
+small (like the Fultondales I have, all I could check is to see if the
+code broke anything if the device did not have this power-save
+feature).
 
-We could potentially also do something better than just returning the
-error in that case.  From a quick look at the code even just ignoring
-a EXDEV return from nvmf_connect_io_queue might do the right thing,
-so feel free to try that if you have some spare cycles.
+I agree with Jens, makes a lot of sense to start with this feature
+'off'.
 
----
->From d76be818600d92341125b7c78dcab780a9833427 Mon Sep 17 00:00:00 2001
-From: Christoph Hellwig <hch@lst.de>
-Date: Thu, 22 Sep 2016 13:56:54 -0700
-Subject: blk-mq: skip unmapped queues in blk_mq_alloc_request_hctx
-
-This provides the caller a feedback that a given hctx is not mapped and thus
-no command can be sent on it.
-
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- block/blk-mq.c | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
-
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index e9b8007..7b430ab 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -266,17 +266,29 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int rw,
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-+	/*
-+	 * Check if the hardware context is actually mapped to anything.
-+	 * If not tell the caller that it should skip this queue.
-+	 */
- 	hctx = q->queue_hw_ctx[hctx_idx];
-+	if (!blk_mq_hw_queue_mapped(hctx)) {
-+		ret = -EXDEV;
-+		goto out_queue_exit;
-+	}
- 	ctx = __blk_mq_get_ctx(q, cpumask_first(hctx->cpumask));
- 
- 	blk_mq_set_alloc_data(&alloc_data, q, flags, ctx, hctx);
- 	rq = __blk_mq_alloc_request(&alloc_data, rw, 0);
- 	if (!rq) {
--		blk_queue_exit(q);
--		return ERR_PTR(-EWOULDBLOCK);
-+		ret = -EWOULDBLOCK;
-+		goto out_queue_exit;
- 	}
- 
- 	return rq;
-+
-+out_queue_exit:
-+	blk_queue_exit(q);
-+	return ERR_PTR(ret);
- }
- EXPORT_SYMBOL_GPL(blk_mq_alloc_request_hctx);
- 
--- 
-2.1.4
+To 'advertise' the feature, maybe make the feature a new selection in
+Kconfig? ?Example, initially make it "EXPERIMENTAL", and later when
+more devices implement this feature it can be integrated more tightly
+into the NVMe solution and default to on.
