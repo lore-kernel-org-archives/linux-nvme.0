@@ -1,17 +1,10 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 22 Sep 2016 15:21:30 +0200
-Subject: [PATCH v4 0/3] nvme power saving
-In-Reply-To: <CALCETrVeJPzxhue5=Jj1uhF3=skVwkbVOQvjEPMYH=DvJBfNjw@mail.gmail.com>
-References: <cover.1474049701.git.luto@kernel.org>
- <CALCETrVeJPzxhue5=Jj1uhF3=skVwkbVOQvjEPMYH=DvJBfNjw@mail.gmail.com>
-Message-ID: <20160922132130.GA13626@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 22 Sep 2016 06:51:38 -0700
+Subject: [PATCH] nvmet: Make dsm number of ranges zero based
+In-Reply-To: <1474492767-8364-1-git-send-email-sagi@grimberg.me>
+References: <1474492767-8364-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20160922135138.GA9207@infradead.org>
 
-On Wed, Sep 21, 2016@05:11:03PM -0700, Andy Lutomirski wrote:
-> Anything I can/should do to help this make it for 4.9? :)
-
-Maybe you should have added the Reviewed-by: tags you already got to
-this repost? :)
-
-Here we go again:
+Looks fine, thanks Alex and Sagi.
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
