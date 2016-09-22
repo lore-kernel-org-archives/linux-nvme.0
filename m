@@ -1,91 +1,29 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Thu, 22 Sep 2016 14:33:36 -0700
-Subject: [PATCH v4 0/3] nvme power saving
-In-Reply-To: <0a2ffd51-6e0f-7db3-8135-84317d8f77bc@fb.com>
-References: <cover.1474049701.git.luto@kernel.org>
- <13b0fe95-01b8-89d7-df76-efc1aa14b27a@fb.com>
- <CALCETrV6GAZFG+cjdQrJpP7wVphfeRd=+UeTQcs5-iQYxNk6XA@mail.gmail.com>
- <0a2ffd51-6e0f-7db3-8135-84317d8f77bc@fb.com>
-Message-ID: <1474580016.15303.31.camel@linux.intel.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Thu, 22 Sep 2016 16:38:48 -0500
+Subject: crash when connecting to targets using nr_io_queues < num cpus
+In-Reply-To: <20160922210255.GA11015@infradead.org>
+References: <011401d203c4$0cdd78c0$26986a40$@opengridcomputing.com>
+ <6082d700-a45c-b00a-3f09-ba6196cc3e5e@grimberg.me>
+ <00ae01d2045a$a8516500$f8f42f00$@opengridcomputing.com>
+ <01b401d20483$2da4fd20$88eef760$@opengridcomputing.com>
+ <e31f7c2f-7b15-95f9-f882-4406c94eaedc@grimberg.me>
+ <018701d20dca$22a02080$67e06180$@opengridcomputing.com>
+ <20160913175223.GB13741@localhost.localdomain>
+ <005101d21024$1f8913f0$5e9b3bd0$@opengridcomputing.com>
+ <20160916142649.GA18798@infradead.org> <20160922210255.GA11015@infradead.org>
+Message-ID: <023c01d21519$b3cda450$1b68ecf0$@opengridcomputing.com>
 
-On Thu, 2016-09-22@14:43 -0600, Jens Axboe wrote:
-> On 09/22/2016 02:11 PM, Andy Lutomirski wrote:
-> > 
-> > On Thu, Sep 22, 2016@7:23 AM, Jens Axboe <axboe@fb.com> wrote:
-> > > 
-> > > 
-> > > On 09/16/2016 12:16 PM, Andy Lutomirski wrote:
-> > > > 
-> > > > 
-> > > > Hi all-
-> > > > 
-> > > > Here's v4 of the APST patch set.??The biggest bikesheddable
-> > > > thing (I
-> > > > think) is the scaling factor.??I currently have it hardcoded so
-> > > > that
-> > > > we wait 50x the total latency before entering a power saving
-> > > > state.
-> > > > On my Samsung 950, this means we enter state 3 (70mW, 0.5ms
-> > > > entry
-> > > > latency, 5ms exit latency) after 275ms and state 4 (5mW, 2ms
-> > > > entry
-> > > > latency, 22ms exit latency) after 1200ms.??I have the default
-> > > > max
-> > > > latency set to 25ms.
-> > > > 
-> > > > FWIW, in practice, the latency this introduces seems to be well
-> > > > under 22ms, but my benchmark is a bit silly and I might have
-> > > > measured it wrong.??I certainly haven't observed a slowdown
-> > > > just
-> > > > using my laptop.
-> > > > 
-> > > > This time around, I changed the names of parameters after Jay
-> > > > Frayensee got confused by the first try.??Now they are:
-> > > > 
-> > > > ?- ps_max_latency_us in sysfs: actually controls it.
-> > > > ?- nvme_core.default_ps_max_latency_us: sets the default.
-> > > > 
-> > > > Yeah, they're mouthfuls, but they should be clearer now.
-> > > 
-> > > 
-> > > The only thing I don't like about this is the fact that's it's a
-> > > driver private thing. Similar to ALPM on SATA, it's yet another
-> > > knob that needs to be set. It we put it somewhere generic, then
-> > > at least we could potentially use it in a generic fashion.
-> > 
-> > Agreed.??I'm hoping to hear back from Rafael soon about the
-> > dev_pm_qos
-> > thing.
-> > 
-> > > 
-> > > 
-> > > Additionally, it should not be on by default.
-> > 
-> > I think I disagree with this.??Since we don't have anything like
-> > laptop-mode AFAIK, I think we do want it on by default.??For the
-> > server workloads that want to consume more idle power for faster
-> > response when idle, I think the servers should be willing to make
-> > this
-> > change, just like they need to disable overly deep C states, etc.
-> > (Admittedly, unifying the configuration would be nice.)
+> Steve,
 > 
-> I can see two reasons why we don't want it the default:
-> 
-> 1) Changes like this has a tendency to cause issues on various types
-> of
-> hardware. How many NVMe devices have you tested this on? ALPM on SATA
-> had a lot of initial problems, where slowed down some SSDs unberably.
+> can you test if the patch below properly fails the connect and avoids
+> the crash?
+>
 
-...and some SSDs don't even support this feature yet, so the number of
-different NVMe devices available to test initially will most likely be
-small (like the Fultondales I have, all I could check is to see if the
-code broke anything if the device did not have this power-save
-feature).
+Is this the expected error?
 
-I agree with Jens, makes a lot of sense to start with this feature
-'off'.
+[root at stevo1 ~]# nvme connect --nr-io-queues=26 --transport=rdma --trsvcid=4420
+--traddr=10.0.1.14 --nqn=test-ram0
+Failed to write to /dev/nvme-fabrics: Invalid cross-device link
+[root at stevo1 ~]#
 
-To 'advertise' the feature, maybe make the feature a new selection in
-Kconfig? ?Example, initially make it "EXPERIMENTAL", and later when
-more devices implement this feature it can be integrated more tightly
-into the NVMe solution and default to on.
+ Steve.
