@@ -1,34 +1,28 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 22 Sep 2016 17:03:31 -0500
-Subject: crash when connecting to targets using nr_io_queues < num cpus
-In-Reply-To: <20160922214800.GA16008@infradead.org>
-References: <6082d700-a45c-b00a-3f09-ba6196cc3e5e@grimberg.me>
- <00ae01d2045a$a8516500$f8f42f00$@opengridcomputing.com>
- <01b401d20483$2da4fd20$88eef760$@opengridcomputing.com>
- <e31f7c2f-7b15-95f9-f882-4406c94eaedc@grimberg.me>
- <018701d20dca$22a02080$67e06180$@opengridcomputing.com>
- <20160913175223.GB13741@localhost.localdomain>
- <005101d21024$1f8913f0$5e9b3bd0$@opengridcomputing.com>
- <20160916142649.GA18798@infradead.org> <20160922210255.GA11015@infradead.org>
- <023c01d21519$b3cda450$1b68ecf0$@opengridcomputing.com>
- <20160922214800.GA16008@infradead.org>
-Message-ID: <024101d2151d$27f813d0$77e83b70$@opengridcomputing.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 22 Sep 2016 18:16:14 -0400
+Subject: [PATCH v4 0/3] nvme power saving
+In-Reply-To: <1474580016.15303.31.camel@linux.intel.com>
+References: <cover.1474049701.git.luto@kernel.org>
+ <13b0fe95-01b8-89d7-df76-efc1aa14b27a@fb.com>
+ <CALCETrV6GAZFG+cjdQrJpP7wVphfeRd=+UeTQcs5-iQYxNk6XA@mail.gmail.com>
+ <0a2ffd51-6e0f-7db3-8135-84317d8f77bc@fb.com>
+ <1474580016.15303.31.camel@linux.intel.com>
+Message-ID: <20160922221613.GC14301@keith>
 
+On Thu, Sep 22, 2016@02:33:36PM -0700, J Freyensee wrote:
+> ...and some SSDs don't even support this feature yet, so the number of
+> different NVMe devices available to test initially will most likely be
+> small (like the Fultondales I have, all I could check is to see if the
+> code broke anything if the device did not have this power-save
+> feature).
 > 
-> On Thu, Sep 22, 2016@04:38:48PM -0500, Steve Wise wrote:
-> > > Steve,
-> > >
-> > > can you test if the patch below properly fails the connect and avoids
-> > > the crash?
-> > >
-> >
-> > Is this the expected error?
+> I agree with Jens, makes a lot of sense to start with this feature
+> 'off'.
 > 
-> Yes.
-> 
+> To 'advertise' the feature, maybe make the feature a new selection in
+> Kconfig? ?Example, initially make it "EXPERIMENTAL", and later when
+> more devices implement this feature it can be integrated more tightly
+> into the NVMe solution and default to on.
 
-Ok then.  Tested-by: Steve Wise <swise at opengridcomputing.com>
-
-I haven't tried ignoring this error when connecting yet...
-
-Stevo
+Should we just leave the kernel out of this then? I bet we could script
+this feature in user space.
