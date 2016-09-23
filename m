@@ -1,46 +1,17 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 23 Sep 2016 14:10:17 -0700
-Subject: NVMf (NVME over fabrics) Performance
-In-Reply-To: <96b893e9c10252baddbbf761294e4794@mail.gmail.com>
-References: <c53316925d9da9f13925a29674533f2e@mail.gmail.com>
- <044931a9-2c5a-c33f-3d44-6009fc96297e@grimberg.me>
- <96b893e9c10252baddbbf761294e4794@mail.gmail.com>
-Message-ID: <8946d566-ae6a-2255-5001-a45248b96786@grimberg.me>
+Date: Fri, 23 Sep 2016 14:12:38 -0700
+Subject: [PATCH] nvmet: Use direct IO for writes
+In-Reply-To: <63105f3f-3042-5b98-86e4-d8a1cc51494d@kernel.dk>
+References: <1474481450-5036-1-git-send-email-sagi@grimberg.me>
+ <20160922135707.GA14645@lst.de>
+ <369f64ac-7059-ca5a-24aa-6775985e049e@kernel.dk>
+ <90968fae-476a-2f7a-cb93-f83e99a9d878@grimberg.me>
+ <63105f3f-3042-5b98-86e4-d8a1cc51494d@kernel.dk>
+Message-ID: <766d06e4-748f-e380-c522-5977794c66ac@grimberg.me>
 
 
-> Hi Saig,
-
-Hey Kiru,
-
-> Thanks for the suggestion, here is what I have (re)tried
+>> So are we OK with bypassing that in nvmet?
 >
-> 1. Both target and initiator is not blocked by CPU (CPU is atleast 70% idle,
-> and load is distributed across 16 CPU's)
+> I'm OK with the patch as posted.
 
-The distribution makes sense as we're multi-queue.
-
-> 2. Yes, irqbalancer is running.
-
-I'd advise to turn it off when testing performance. I've never
-really seen irqbalancer actually help something...
-
-> 3. register_always is true already, I have upgraded to 4.8.rc7.
-
-OK, this is a bit tricky, but having it on will usually hurt your
-4k read performance. Its the correct thing to do but you should
-be able to get better performance.
-
-Some background:
-nvme-rdma (like iser, srp and others) can optimize 4k reads (or reads
-that fit in a single page) by skipping memory registration and send
-a global rkey, which is good for performance but exposes host memory
-to the target (which can abuse it if buggy/malicious).
-
-Since you mentioned you are using ConnectX3 devices, it makes sense
-that it really slow things down because ConnectX3 devices has severe
-fencing strategy for memory registrations. There are some devices
-that has better performance with small registrations on...
-
-So, I suggest using register_always=N when testing small 4k reads.
-
-Do you see the same with 4k writes btw?
+Thanks, I'll queue it up for 4.9
