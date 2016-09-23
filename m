@@ -1,32 +1,33 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 23 Sep 2016 08:58:10 -0500
-Subject: crash when connecting to targets using nr_io_queues < num cpus
-In-Reply-To: <20160923033157.GA12637@infradead.org>
-References: <e31f7c2f-7b15-95f9-f882-4406c94eaedc@grimberg.me>
- <018701d20dca$22a02080$67e06180$@opengridcomputing.com>
- <20160913175223.GB13741@localhost.localdomain>
- <005101d21024$1f8913f0$5e9b3bd0$@opengridcomputing.com>
- <20160916142649.GA18798@infradead.org> <20160922210255.GA11015@infradead.org>
- <023c01d21519$b3cda450$1b68ecf0$@opengridcomputing.com>
- <20160922214800.GA16008@infradead.org>
- <024201d2151d$28013b90$7803b2b0$@opengridcomputing.com>
- <022301d2152d$94c202e0$be4608a0$@opengridcomputing.com>
- <20160923033157.GA12637@infradead.org>
-Message-ID: <003f01d215a2$84d78dd0$8e86a970$@opengridcomputing.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 23 Sep 2016 10:45:12 -0400
+Subject: nvme-cli: add endianess annotations
+In-Reply-To: <1474600989-16657-1-git-send-email-hch@lst.de>
+References: <1474600989-16657-1-git-send-email-hch@lst.de>
+Message-ID: <20160923144511.GA19352@keith>
 
+On Thu, Sep 22, 2016@08:22:51PM -0700, Christoph Hellwig wrote:
+> The intent of this series is to provide static type checking for the
+> little endian NVMe data structures using the sparse tool, similar to
+> the kernel.
+> 
+> To make my life easier I first converted nvme-cli to use a copy of
+> the kernel nvme.h header that defines the NVMe data structures.  The
+> next set of patches fixes various issues found by sparse as-is, followed
+> by adding support for checking the __le{16,32,64} annotations and using
+> the kernel cpu_to_le*/le*_to_cpu helpers, as well as fixing up various
+> missing endianess conversion uncovered by sparse.
+> 
+> To use sparse make sure both sparse and the cgcc wrapper are installed
+> and build nvme-cli using:
+> 
+>     make CC=cgcc
+> 
+> At least with my version of sparse there are a few warnings left that
+> aren't really nvme-clis faults during the build, and sparse will finally
+> crash after compiling nvme.c because it misparses the command line and
+> tries to interpret argconfig.o as a source file.  I'll plan to look into
+> that on the sparse side and hope to be able to provide a fix for that
+> issue to the sparse maintainers.
 
-> 
-> On Thu, Sep 22, 2016@07:01:05PM -0500, Steve Wise wrote:
-> > The fabrics module displays these errors.  But the 28 rdma connections still
-> > get setup.  I'm not sure this is what we want, but it does avoid failing the
-> > connect altogether...
-> 
-> Bo, it's not really what we want.  I think we simply need to move
-> forward with the queue state machine, and use that to check if we have
-> a blk-mq queue allocated for the queue.  If not we can simply skip it
-> later on.
-> 
-> So I'd say I'll send the crash fix in blk-mq to Jens ASAP, and you'll
-> look into the queue state machine for 4.9?
-
-Sure.
+Thanks for all the fixes. I ran some sanity tests successfully, and have
+applied all the patches to master.
