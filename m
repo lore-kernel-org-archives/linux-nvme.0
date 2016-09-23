@@ -1,11 +1,14 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 23 Sep 2016 13:53:08 -0700
-Subject: [PATCH 01/18] import linux/nvme.h
-In-Reply-To: <1474600989-16657-2-git-send-email-hch@lst.de>
-References: <1474600989-16657-1-git-send-email-hch@lst.de>
- <1474600989-16657-2-git-send-email-hch@lst.de>
-Message-ID: <716aae78-d74d-f13c-eac3-19e0f79d8f26@grimberg.me>
+Date: Fri, 23 Sep 2016 13:59:23 -0700
+Subject: [PATCH RFC] nvme-cli: propose 'c' vs 'r' for connect flag
+In-Reply-To: <1474649004.15303.44.camel@linux.intel.com>
+References: <1474583840-23739-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <20160923033301.GB12637@infradead.org> <20160923150026.GB19352@keith>
+ <1474649004.15303.44.camel@linux.intel.com>
+Message-ID: <d1499303-c41f-439e-6bfc-1d33dc1a2cb3@grimberg.me>
 
-Series looks good,
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> OK, I'll respin this, add the review tags, and remove the RFC and send
+> it back out.
+
+I'm fine with '-c' too.
