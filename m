@@ -1,41 +1,29 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 22 Sep 2016 20:23:01 -0700
-Subject: [PATCH 10/18] intel: use correct endianess helpers in show_temp_stats
+Date: Thu, 22 Sep 2016 20:23:02 -0700
+Subject: [PATCH 11/18] fix num_ctrls endianess in nvme_ns_attachment
 In-Reply-To: <1474600989-16657-1-git-send-email-hch@lst.de>
 References: <1474600989-16657-1-git-send-email-hch@lst.de>
-Message-ID: <1474600989-16657-11-git-send-email-hch@lst.de>
+Message-ID: <1474600989-16657-12-git-send-email-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- intel-nvme.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ nvme-ioctl.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/intel-nvme.c b/intel-nvme.c
-index e824a2e..a8a5041 100644
---- a/intel-nvme.c
-+++ b/intel-nvme.c
-@@ -129,14 +129,14 @@ static void show_temp_stats(struct intel_temp_stats *stats)
- {
- 	printf("  Intel Temperature Statistics\n");
- 	printf("--------------------------------\n");
--	printf("Current temperature         : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->curr));
--	printf("Last critical overtemp flag : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->last_overtemp));
--	printf("Life critical overtemp flag : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->life_overtemp));
--	printf("Highest temperature         : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->highest_temp));
--	printf("Lowest temperature          : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->lowest_temp));
--	printf("Max operating temperature   : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->max_operating_temp));
--	printf("Min operating temperature   : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->min_operating_temp));
--	printf("Estimated offset            : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->est_offset));
-+	printf("Current temperature         : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->curr));
-+	printf("Last critical overtemp flag : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->last_overtemp));
-+	printf("Life critical overtemp flag : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->life_overtemp));
-+	printf("Highest temperature         : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->highest_temp));
-+	printf("Lowest temperature          : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->lowest_temp));
-+	printf("Max operating temperature   : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->max_operating_temp));
-+	printf("Min operating temperature   : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->min_operating_temp));
-+	printf("Estimated offset            : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->est_offset));
- }
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index db9c332..9df04ae 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -502,8 +502,8 @@ int nvme_ns_attachment(int fd, __u32 nsid, __u16 num_ctrls, __u16 *ctrlist,
+ 	};
  
- static int get_temp_stats_log(int argc, char **argv, struct command *cmd, struct plugin *plugin)
+ 	memset(buf, 0, sizeof(buf));
+-	cntlist->num = num_ctrls;
+-	for (i = 0; i < cntlist->num; i++)
++	cntlist->num = cpu_to_le16(num_ctrls);
++	for (i = 0; i < num_ctrls; i++)
+ 		cntlist->identifier[i] = cpu_to_le16(ctrlist[i]);
+ 
+ 	return nvme_submit_admin_passthru(fd, &cmd);
 -- 
 2.1.4
