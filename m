@@ -1,26 +1,27 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 22 Sep 2016 19:59:12 -0600
-Subject: [PATCH] nvme-rdma: only clear queue flags after successful connect
-In-Reply-To: <000801d2152f$1f0fa190$5d2ee4b0$@opengridcomputing.com>
-References: <1474488144-7158-1-git-send-email-sagi@grimberg.me>
- <000801d2152f$1f0fa190$5d2ee4b0$@opengridcomputing.com>
-Message-ID: <587e5a54-06e3-d673-0108-e663183a492c@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 22 Sep 2016 20:22:51 -0700
+Subject: nvme-cli: add endianess annotations
+Message-ID: <1474600989-16657-1-git-send-email-hch@lst.de>
 
-On 09/22/2016 06:12 PM, Steve Wise wrote:
->> Otherwise, nvme_rdma_stop_and_clear_queue() will incorrectly
->> try to stop/free rdma qps/cm_ids that are already freed.
->>
->> Fixes: e89ca58f9c90 ("nvme-rdma: add DELETING queue flag")
->> Reported-by: Steve Wise <swise at opengridcomputing.com>
->> Tested-by: Steve Wise <swise at opengridcomputing.com>
->> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
->> ---
->> Jens, care to pick this last minute fix for rc8?
->
-> It would be great to get this rc8 to avoid the crash on reconnect
-> timeouts...
+The intent of this series is to provide static type checking for the
+little endian NVMe data structures using the sparse tool, similar to
+the kernel.
 
-Added, I'll push out the last fixes tomorrow for 4.8, thanks.
+To make my life easier I first converted nvme-cli to use a copy of
+the kernel nvme.h header that defines the NVMe data structures.  The
+next set of patches fixes various issues found by sparse as-is, followed
+by adding support for checking the __le{16,32,64} annotations and using
+the kernel cpu_to_le*/le*_to_cpu helpers, as well as fixing up various
+missing endianess conversion uncovered by sparse.
 
--- 
-Jens Axboe
+To use sparse make sure both sparse and the cgcc wrapper are installed
+and build nvme-cli using:
+
+    make CC=cgcc
+
+At least with my version of sparse there are a few warnings left that
+aren't really nvme-clis faults during the build, and sparse will finally
+crash after compiling nvme.c because it misparses the command line and
+tries to interpret argconfig.o as a source file.  I'll plan to look into
+that on the sparse side and hope to be able to provide a fix for that
+issue to the sparse maintainers.
