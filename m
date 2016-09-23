@@ -1,28 +1,41 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 22 Sep 2016 20:23:00 -0700
-Subject: [PATCH 09/18] fabrics: use correct endianess helper in
- print_discovery_log
+Date: Thu, 22 Sep 2016 20:23:01 -0700
+Subject: [PATCH 10/18] intel: use correct endianess helpers in show_temp_stats
 In-Reply-To: <1474600989-16657-1-git-send-email-hch@lst.de>
 References: <1474600989-16657-1-git-send-email-hch@lst.de>
-Message-ID: <1474600989-16657-10-git-send-email-hch@lst.de>
+Message-ID: <1474600989-16657-11-git-send-email-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- fabrics.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ intel-nvme.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/fabrics.c b/fabrics.c
-index 935f2d0..b8068ba 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -362,7 +362,7 @@ static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
+diff --git a/intel-nvme.c b/intel-nvme.c
+index e824a2e..a8a5041 100644
+--- a/intel-nvme.c
++++ b/intel-nvme.c
+@@ -129,14 +129,14 @@ static void show_temp_stats(struct intel_temp_stats *stats)
+ {
+ 	printf("  Intel Temperature Statistics\n");
+ 	printf("--------------------------------\n");
+-	printf("Current temperature         : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->curr));
+-	printf("Last critical overtemp flag : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->last_overtemp));
+-	printf("Life critical overtemp flag : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->life_overtemp));
+-	printf("Highest temperature         : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->highest_temp));
+-	printf("Lowest temperature          : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->lowest_temp));
+-	printf("Max operating temperature   : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->max_operating_temp));
+-	printf("Min operating temperature   : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->min_operating_temp));
+-	printf("Estimated offset            : %"PRIu64"\n", (uint64_t)__le64_to_cpu(stats->est_offset));
++	printf("Current temperature         : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->curr));
++	printf("Last critical overtemp flag : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->last_overtemp));
++	printf("Life critical overtemp flag : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->life_overtemp));
++	printf("Highest temperature         : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->highest_temp));
++	printf("Lowest temperature          : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->lowest_temp));
++	printf("Max operating temperature   : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->max_operating_temp));
++	printf("Min operating temperature   : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->min_operating_temp));
++	printf("Estimated offset            : %"PRIu64"\n", (uint64_t)le64_to_cpu(stats->est_offset));
+ }
  
- 	printf("\nDiscovery Log Number of Records %d, "
- 	       "Generation counter %"PRIu64"\n",
--		numrec, (uint64_t)__le64_to_cpu(log->genctr));
-+		numrec, (uint64_t)le64_to_cpu(log->genctr));
- 
- 	for (i = 0; i < numrec; i++) {
- 		struct nvmf_disc_rsp_page_entry *e = &log->entries[i];
+ static int get_temp_stats_log(int argc, char **argv, struct command *cmd, struct plugin *plugin)
 -- 
 2.1.4
