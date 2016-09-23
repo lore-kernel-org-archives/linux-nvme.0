@@ -1,14 +1,18 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 23 Sep 2016 13:59:23 -0700
-Subject: [PATCH RFC] nvme-cli: propose 'c' vs 'r' for connect flag
-In-Reply-To: <1474649004.15303.44.camel@linux.intel.com>
-References: <1474583840-23739-1-git-send-email-james_p_freyensee@linux.intel.com>
- <20160923033301.GB12637@infradead.org> <20160923150026.GB19352@keith>
- <1474649004.15303.44.camel@linux.intel.com>
-Message-ID: <d1499303-c41f-439e-6bfc-1d33dc1a2cb3@grimberg.me>
+Date: Fri, 23 Sep 2016 14:00:30 -0700
+Subject: [PATCH] nvmet: Use direct IO for writes
+In-Reply-To: <369f64ac-7059-ca5a-24aa-6775985e049e@kernel.dk>
+References: <1474481450-5036-1-git-send-email-sagi@grimberg.me>
+ <20160922135707.GA14645@lst.de>
+ <369f64ac-7059-ca5a-24aa-6775985e049e@kernel.dk>
+Message-ID: <90968fae-476a-2f7a-cb93-f83e99a9d878@grimberg.me>
 
 
-> OK, I'll respin this, add the review tags, and remove the RFC and send
-> it back out.
+>> This looks reasonable.  But I still wonder why we bother to inject delay
+>> for any fast blk-mq device (background: Sagi told me he is observing
+>> issues without this on a NVMe PCIe card backend)
+>
+> Batching/merging. It's not like we're doing a calculated explicit delay,
+> it's just async running the queue.
 
-I'm fine with '-c' too.
+So are we OK with bypassing that in nvmet?
