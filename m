@@ -1,35 +1,30 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Fri, 23 Sep 2016 09:43:24 -0700
-Subject: [PATCH RFC] nvme-cli: propose 'c' vs 'r' for connect flag
-In-Reply-To: <20160923150026.GB19352@keith>
-References: <1474583840-23739-1-git-send-email-james_p_freyensee@linux.intel.com>
- <20160923033301.GB12637@infradead.org> <20160923150026.GB19352@keith>
-Message-ID: <1474649004.15303.44.camel@linux.intel.com>
+From: james_p_freyensee@linux.intel.com (Jay Freyensee)
+Date: Fri, 23 Sep 2016 09:57:51 -0700
+Subject: [PATCH] nvme-cli: change 'r' to 'c' for connect flag
+Message-ID: <1474649871-12495-1-git-send-email-james_p_freyensee@linux.intel.com>
 
-On Fri, 2016-09-23@11:00 -0400, Keith Busch wrote:
-> On Thu, Sep 22, 2016@08:33:01PM -0700, Christoph Hellwig wrote:
-> > 
-> > On Thu, Sep 22, 2016@03:37:20PM -0700, Jay Freyensee wrote:
-> > > 
-> > > I am not sure if it matters too much except in possibly
-> > > human usage understanding, but '-r' is used in the 'discover'
-> > > command for --raw.??Change the --reconnect-delay flag
-> > > single letter to something not being used in any fabrics
-> > > command.
-> > 
-> > Sounds ok to me.??But I have to say dealing with these short
-> > options
-> > start to be a little annoying.??For a lot of these commands I'd
-> > prefer
-> > to simply support long options only if we could (I'll need to look
-> > at argconfig.c in a bit more detail how easily that could be done).
-> 
-> Aw, I like having short opts. Yeah, some were arbitrarily picked to
-> avoid
-> clashes (though I clearly missed some clashes), and difficult to
-> remember,
-> but every sub-command shows consistent helpful usage info with a "
-> --help".
+To make things a tad easier for human usage understanding,
+refine the single letter short option of 'r' to 'c' for the
+'connect' command as 'r' is already used by 'discover'.
 
-OK, I'll respin this, add the review tags, and remove the RFC and send
-it back out.
+Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ fabrics.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/fabrics.c b/fabrics.c
+index b8068ba..0718446 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -759,7 +759,7 @@ int connect(const char *desc, int argc, char **argv)
+ 		 "number of io queues to use (default is core count)" },
+ 		{"keep-alive-tmo", 'k', "LIST", CFG_STRING, &cfg.keep_alive_tmo, required_argument,
+ 			"keep alive timeout period in seconds" },
+-		{"reconnect-delay", 'r', "LIST", CFG_STRING, &cfg.reconnect_delay, required_argument,
++		{"reconnect-delay", 'c', "LIST", CFG_STRING, &cfg.reconnect_delay, required_argument,
+ 			"reconnect timeout period in seconds" },
+ 		{NULL},
+ 	};
+-- 
+2.7.4
