@@ -1,35 +1,52 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 23 Sep 2016 10:26:24 -0600
-Subject: crash when connecting to targets using nr_io_queues < num cpus
-In-Reply-To: <1b3470a4-aedc-a33a-8863-4954cfa2f52d@kernel.dk>
-References: <20160913175223.GB13741@localhost.localdomain>
- <005101d21024$1f8913f0$5e9b3bd0$@opengridcomputing.com>
- <20160916142649.GA18798@infradead.org> <20160922210255.GA11015@infradead.org>
- <023c01d21519$b3cda450$1b68ecf0$@opengridcomputing.com>
- <20160922214800.GA16008@infradead.org>
- <024201d2151d$28013b90$7803b2b0$@opengridcomputing.com>
- <022301d2152d$94c202e0$be4608a0$@opengridcomputing.com>
- <20160923033157.GA12637@infradead.org>
- <b118929e-a841-6262-3bd1-5a5c840199f2@kernel.dk>
- <20160923162309.GA4330@infradead.org>
- <1b3470a4-aedc-a33a-8863-4954cfa2f52d@kernel.dk>
-Message-ID: <87bdb4f5-69b6-915a-3349-fac26157d00b@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 23 Sep 2016 09:26:58 -0700
+Subject: [PATCH] blk-mq: skip unmapped queues in blk_mq_alloc_request_hctx
+Message-ID: <1474648018-3920-1-git-send-email-hch@lst.de>
 
-On 09/23/2016 10:24 AM, Jens Axboe wrote:
-> On 09/23/2016 10:23 AM, 'Christoph Hellwig' wrote:
->> On Fri, Sep 23, 2016@10:21:50AM -0600, Jens Axboe wrote:
->>> I'm going to flush the remaining patches for 4.8 later today. Did you
->>> send it out yet? If so, I haven't seen it. I'll be traveling the next 2
->>> weeks. With internet, so I'll get some work done, but it'll be a bit
->>> more intermittent.
->>
->> It's about two patches earlier in this thread, but I can just resend it.
->
-> OK, I was just looking for an email after that reply, thinking you were
-> sending a new one.
+This provides the caller a feedback that a given hctx is not mapped and thus
+no command can be sent on it.
 
-http://git.kernel.dk/cgit/linux-block/commit/?h=for-linus&id=c8712c6a674e3382fe4d26d108251ccfa55d08e0
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Tested-by: Steve Wise <swise at opengridcomputing.com>
+---
+ block/blk-mq.c | 16 ++++++++++++++--
+ 1 file changed, 14 insertions(+), 2 deletions(-)
 
-
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index e9b8007..7b430ab 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -266,17 +266,29 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int rw,
+ 	if (ret)
+ 		return ERR_PTR(ret);
+ 
++	/*
++	 * Check if the hardware context is actually mapped to anything.
++	 * If not tell the caller that it should skip this queue.
++	 */
+ 	hctx = q->queue_hw_ctx[hctx_idx];
++	if (!blk_mq_hw_queue_mapped(hctx)) {
++		ret = -EXDEV;
++		goto out_queue_exit;
++	}
+ 	ctx = __blk_mq_get_ctx(q, cpumask_first(hctx->cpumask));
+ 
+ 	blk_mq_set_alloc_data(&alloc_data, q, flags, ctx, hctx);
+ 	rq = __blk_mq_alloc_request(&alloc_data, rw, 0);
+ 	if (!rq) {
+-		blk_queue_exit(q);
+-		return ERR_PTR(-EWOULDBLOCK);
++		ret = -EWOULDBLOCK;
++		goto out_queue_exit;
+ 	}
+ 
+ 	return rq;
++
++out_queue_exit:
++	blk_queue_exit(q);
++	return ERR_PTR(ret);
+ }
+ EXPORT_SYMBOL_GPL(blk_mq_alloc_request_hctx);
+ 
 -- 
-Jens Axboe
+2.1.4
