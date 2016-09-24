@@ -1,26 +1,20 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Sat, 24 Sep 2016 10:50:54 -0600
-Subject: [GIT PULL] nvme fabrics patches for 4.9
-In-Reply-To: <1474674451-23213-1-git-send-email-sagi@grimberg.me>
-References: <1474674451-23213-1-git-send-email-sagi@grimberg.me>
-Message-ID: <e46f950d-c3c1-90bc-5a5f-9d4394001999@kernel.dk>
+From: axboe@fb.com (Jens Axboe)
+Date: Sat, 24 Sep 2016 10:55:03 -0600
+Subject: [PATCH v4 0/3] nvme power saving
+In-Reply-To: <20160923234236.GA19222@lst.de>
+References: <cover.1474049701.git.luto@kernel.org>
+ <20160923234236.GA19222@lst.de>
+Message-ID: <3f54698d-503c-0d2e-7702-1f4f8557582e@fb.com>
 
-On 09/23/2016 05:47 PM, Sagi Grimberg wrote:
-> Hey Jens,
+On 09/23/2016 05:42 PM, Christoph Hellwig wrote:
+> Jens,
 >
-> On the nvme target end we have:
-> - direct IO writes in nvmet to avoid an extra context switch
-> - dsm fix from Sasha
-> - smart log stats support from Chaitanya
+> can we at least get patches 1 and 2 in while pondering the fate
+> of the right interface for patch 3?
 >
-> On the fabrics end we have a few cleanups and preps for
-> fc transport from James
->
-> please pull from:
->
->   git://git.infradead.org/nvme-fabrics.git nvmf-4.9
 
-Pulled into for-4.9/block, thanks.
+Yes definitely, I have no beef with the first two patches. I'll add them
+for 4.9.
 
 -- 
 Jens Axboe
