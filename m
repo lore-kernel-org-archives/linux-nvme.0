@@ -1,96 +1,29 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Sun, 25 Sep 2016 09:14:07 -0700
-Subject: [PATCH v4] add u64 number parser
-Message-ID: <57e7f7cf.3jEpECHRn0rNlj8v%james.smart@broadcom.com>
+From: colin.king@canonical.com (Colin King)
+Date: Sun, 25 Sep 2016 14:56:08 -0700
+Subject: [PATCH] lightnvm: add missing \n to end of dev_err message
+Message-ID: <20160925215608.12976-1-colin.king@canonical.com>
 
-add u64 number parser
+From: Colin Ian King <colin.king@canonical.com>
 
-Reverted back to version 2 of the patch.  This adds the interface
-using existing logic. Comments from the prior reviewers to move to
-kasprintf were rejected by Linus.
+Trival fix, dev_err message is missing a \n, so add it.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
+Signed-off-by: Colin Ian King <colin.king at canonical.com>
 ---
- include/linux/parser.h |  1 +
- lib/parser.c           | 47 +++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 48 insertions(+)
+ drivers/nvme/host/lightnvm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/linux/parser.h b/include/linux/parser.h
-index 39d5b79..884c1e6 100644
---- a/include/linux/parser.h
-+++ b/include/linux/parser.h
-@@ -27,6 +27,7 @@ typedef struct {
- 
- int match_token(char *, const match_table_t table, substring_t args[]);
- int match_int(substring_t *, int *result);
-+int match_u64(substring_t *, u64 *result);
- int match_octal(substring_t *, int *result);
- int match_hex(substring_t *, int *result);
- bool match_wildcard(const char *pattern, const char *str);
-diff --git a/lib/parser.c b/lib/parser.c
-index b6d1163..3278958 100644
---- a/lib/parser.c
-+++ b/lib/parser.c
-@@ -152,6 +152,36 @@ static int match_number(substring_t *s, int *result, int base)
- }
- 
- /**
-+ * match_u64int: scan a number in the given base from a substring_t
-+ * @s: substring to be scanned
-+ * @result: resulting u64 on success
-+ * @base: base to use when converting string
-+ *
-+ * Description: Given a &substring_t and a base, attempts to parse the substring
-+ * as a number in that base. On success, sets @result to the integer represented
-+ * by the string and returns 0. Returns -ENOMEM, -EINVAL, or -ERANGE on failure.
-+ */
-+static int match_u64int(substring_t *s, u64 *result, int base)
-+{
-+	char *buf;
-+	int ret;
-+	u64 val;
-+	size_t len = s->to - s->from;
-+
-+	buf = kmalloc(len + 1, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+	memcpy(buf, s->from, len);
-+	buf[len] = '\0';
-+
-+	ret = kstrtoull(buf, base, &val);
-+	if (!ret)
-+		*result = val;
-+	kfree(buf);
-+	return ret;
-+}
-+
-+/**
-  * match_int: - scan a decimal representation of an integer from a substring_t
-  * @s: substring_t to be scanned
-  * @result: resulting integer on success
-@@ -167,6 +197,23 @@ int match_int(substring_t *s, int *result)
- EXPORT_SYMBOL(match_int);
- 
- /**
-+ * match_u64: - scan a decimal representation of a u64 from
-+ *                  a substring_t
-+ * @s: substring_t to be scanned
-+ * @result: resulting unsigned long long on success
-+ *
-+ * Description: Attempts to parse the &substring_t @s as a long decimal
-+ * integer. On success, sets @result to the integer represented by the
-+ * string and returns 0.
-+ * Returns -ENOMEM, -EINVAL, or -ERANGE on failure.
-+ */
-+int match_u64(substring_t *s, u64 *result)
-+{
-+	return match_u64int(s, result, 0);
-+}
-+EXPORT_SYMBOL(match_u64);
-+
-+/**
-  * match_octal: - scan an octal representation of an integer from a substring_t
-  * @s: substring_t to be scanned
-  * @result: resulting integer on success
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index f5e3011..3dd312d 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -431,7 +431,7 @@ static int nvme_nvm_get_bb_tbl(struct nvm_dev *nvmdev, struct ppa_addr ppa,
+ 	if (le32_to_cpu(bb_tbl->tblks) != nr_blks) {
+ 		ret = -EINVAL;
+ 		dev_err(ctrl->device,
+-				"bbt unsuspected blocks returned (%u!=%u)",
++				"bbt unsuspected blocks returned (%u!=%u)\n",
+ 				le32_to_cpu(bb_tbl->tblks), nr_blks);
+ 		goto out;
+ 	}
 -- 
-2.5.0
+2.9.3
