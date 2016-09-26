@@ -1,29 +1,65 @@
 From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Mon, 26 Sep 2016 11:25:54 -0700
-Subject: [PATCH 0/9] Introduce blk_quiesce_queue() and blk_resume_queue()
-Message-ID: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
+Date: Mon, 26 Sep 2016 11:26:26 -0700
+Subject: [PATCH 1/9] blk-mq: Introduce blk_mq_queue_stopped()
+In-Reply-To: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
+References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
+Message-ID: <b2210943-62b2-959a-569a-a404da03bcae@sandisk.com>
 
-Hello Jens,
+The function blk_queue_stopped() allows to test whether or not a
+traditional request queue has been stopped. Introduce a helper
+function that allows block drivers to query easily whether or not
+one or more hardware contexts of a blk-mq queue have been stopped.
 
-Multiple block drivers need the functionality to stop a request queue 
-and to wait until all ongoing request_fn() / queue_rq() calls have 
-finished without waiting until all outstanding requests have finished. 
-Hence this patch series that introduces the blk_quiesce_queue() and 
-blk_resume_queue() functions. The dm-mq, SRP and nvme patches in this 
-patch series are three examples of where these functions are useful. 
-These patches apply on top of the September 21 version of your 
-for-4.9/block branch. The individual patches in this series are:
+Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
+Cc: Jens Axboe <axboe at fb.com>
+Cc: Christoph Hellwig <hch at lst.de>
+---
+ block/blk-mq.c         | 20 ++++++++++++++++++++
+ include/linux/blk-mq.h |  1 +
+ 2 files changed, 21 insertions(+)
 
-0001-blk-mq-Introduce-blk_mq_queue_stopped.patch
-0002-dm-Fix-a-race-condition-related-to-stopping-and-star.patch
-0003-RFC-nvme-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_.patch
-0004-block-Move-blk_freeze_queue-and-blk_unfreeze_queue-c.patch
-0005-block-Extend-blk_freeze_queue_start-to-the-non-blk-m.patch
-0006-block-Rename-mq_freeze_wq-and-mq_freeze_depth.patch
-0007-blk-mq-Introduce-blk_quiesce_queue-and-blk_resume_qu.patch
-0008-SRP-transport-Port-srp_wait_for_queuecommand-to-scsi.patch
-0009-RFC-nvme-Fix-a-race-condition.patch
-
-Thanks,
-
-Bart.
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index e9ebe98..98d4812 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -938,6 +938,26 @@ void blk_mq_run_hw_queues(struct request_queue *q, bool async)
+ }
+ EXPORT_SYMBOL(blk_mq_run_hw_queues);
+ 
++/**
++ * blk_mq_queue_stopped() - check whether one or more hctxs have been stopped
++ * @q: request queue.
++ *
++ * The caller is responsible for serializing this function against
++ * blk_mq_{start,stop}_hw_queue().
++ */
++bool blk_mq_queue_stopped(struct request_queue *q)
++{
++	struct blk_mq_hw_ctx *hctx;
++	int i;
++
++	queue_for_each_hw_ctx(q, hctx, i)
++		if (test_bit(BLK_MQ_S_STOPPED, &hctx->state))
++			return true;
++
++	return false;
++}
++EXPORT_SYMBOL(blk_mq_queue_stopped);
++
+ void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx)
+ {
+ 	cancel_work(&hctx->run_work);
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 5daa0ef..368c460d 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -233,6 +233,7 @@ void blk_mq_delay_kick_requeue_list(struct request_queue *q, unsigned long msecs
+ void blk_mq_abort_requeue_list(struct request_queue *q);
+ void blk_mq_complete_request(struct request *rq, int error);
+ 
++bool blk_mq_queue_stopped(struct request_queue *q);
+ void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx);
+ void blk_mq_start_hw_queue(struct blk_mq_hw_ctx *hctx);
+ void blk_mq_stop_hw_queues(struct request_queue *q);
+-- 
+2.10.0
