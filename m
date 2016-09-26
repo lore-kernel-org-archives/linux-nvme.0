@@ -1,58 +1,41 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Mon, 26 Sep 2016 11:28:59 -0700
-Subject: [PATCH 9/9] [RFC] nvme: Fix a race condition
+From: snitzer@redhat.com (Mike Snitzer)
+Date: Mon, 26 Sep 2016 14:33:08 -0400
+Subject: [PATCH 0/9] Introduce blk_quiesce_queue() and blk_resume_queue()
 In-Reply-To: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
 References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
-Message-ID: <9c372b04-a194-58c4-a64f-b155b52a5244@sandisk.com>
+Message-ID: <20160926183308.GA13309@redhat.com>
 
-Avoid that nvme_queue_rq() is still running when nvme_stop_queues()
-returns. Untested.
+On Mon, Sep 26 2016 at  2:25pm -0400,
+Bart Van Assche <bart.vanassche@sandisk.com> wrote:
 
-Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+> Hello Jens,
+> 
+> Multiple block drivers need the functionality to stop a request
+> queue and to wait until all ongoing request_fn() / queue_rq() calls
+> have finished without waiting until all outstanding requests have
+> finished. Hence this patch series that introduces the
+> blk_quiesce_queue() and blk_resume_queue() functions. The dm-mq, SRP
+> and nvme patches in this patch series are three examples of where
+> these functions are useful. These patches apply on top of the
+> September 21 version of your for-4.9/block branch. The individual
+> patches in this series are:
+> 
+> 0001-blk-mq-Introduce-blk_mq_queue_stopped.patch
+> 0002-dm-Fix-a-race-condition-related-to-stopping-and-star.patch
+> 0003-RFC-nvme-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_.patch
+> 0004-block-Move-blk_freeze_queue-and-blk_unfreeze_queue-c.patch
+> 0005-block-Extend-blk_freeze_queue_start-to-the-non-blk-m.patch
+> 0006-block-Rename-mq_freeze_wq-and-mq_freeze_depth.patch
+> 0007-blk-mq-Introduce-blk_quiesce_queue-and-blk_resume_qu.patch
+> 0008-SRP-transport-Port-srp_wait_for_queuecommand-to-scsi.patch
+> 0009-RFC-nvme-Fix-a-race-condition.patch
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 057f1fa..6e2bf6a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -201,13 +201,9 @@ fail:
- 
- void nvme_requeue_req(struct request *req)
- {
--	unsigned long flags;
--
- 	blk_mq_requeue_request(req);
--	spin_lock_irqsave(req->q->queue_lock, flags);
--	if (!blk_mq_queue_stopped(req->q))
--		blk_mq_kick_requeue_list(req->q);
--	spin_unlock_irqrestore(req->q->queue_lock, flags);
-+	WARN_ON_ONCE(blk_mq_queue_stopped(req->q));
-+	blk_mq_kick_requeue_list(req->q);
- }
- EXPORT_SYMBOL_GPL(nvme_requeue_req);
- 
-@@ -2079,11 +2075,15 @@ EXPORT_SYMBOL_GPL(nvme_kill_queues);
- void nvme_stop_queues(struct nvme_ctrl *ctrl)
- {
- 	struct nvme_ns *ns;
-+	struct request_queue *q;
- 
- 	mutex_lock(&ctrl->namespaces_mutex);
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
--		blk_mq_cancel_requeue_work(ns->queue);
--		blk_mq_stop_hw_queues(ns->queue);
-+		q = ns->queue;
-+		blk_quiesce_queue(q);
-+		blk_mq_cancel_requeue_work(q);
-+		blk_mq_stop_hw_queues(q);
-+		blk_resume_queue(q);
- 	}
- 	mutex_unlock(&ctrl->namespaces_mutex);
- }
--- 
-2.10.0
+Hi Bart,
+
+How much testing has this series seen?  Did you run it against the
+mptest testsuite? https://github.com/snitm/mptest
+
+I did notice patch 2 should come after patch 7 (not sure if other
+patches are out of order).
+
+Mike
