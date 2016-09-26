@@ -1,65 +1,59 @@
 From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Mon, 26 Sep 2016 11:26:26 -0700
-Subject: [PATCH 1/9] blk-mq: Introduce blk_mq_queue_stopped()
+Date: Mon, 26 Sep 2016 11:26:50 -0700
+Subject: [PATCH 2/9] dm: Fix a race condition related to stopping and starting
+ queues
 In-Reply-To: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
 References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
-Message-ID: <b2210943-62b2-959a-569a-a404da03bcae@sandisk.com>
+Message-ID: <ba8ddc16-b709-e7fb-1120-b6e1bd393540@sandisk.com>
 
-The function blk_queue_stopped() allows to test whether or not a
-traditional request queue has been stopped. Introduce a helper
-function that allows block drivers to query easily whether or not
-one or more hardware contexts of a blk-mq queue have been stopped.
+Ensure that all ongoing dm_mq_queue_rq() and dm_mq_requeue_request()
+calls have stopped before setting the "queue stopped" flag. This
+allows to remove the "queue stopped" test from dm_mq_queue_rq() and
+dm_mq_requeue_request(). This patch fixes a race condition because
+dm_mq_queue_rq() is called without holding the queue lock and hence
+BLK_MQ_S_STOPPED can be set at any time while dm_mq_queue_rq() is
+in progress.
 
 Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-Cc: Jens Axboe <axboe at fb.com>
-Cc: Christoph Hellwig <hch at lst.de>
+Cc: Mike Snitzer <snitzer at redhat.com>
 ---
- block/blk-mq.c         | 20 ++++++++++++++++++++
- include/linux/blk-mq.h |  1 +
- 2 files changed, 21 insertions(+)
+ drivers/md/dm-rq.c | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index e9ebe98..98d4812 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -938,6 +938,26 @@ void blk_mq_run_hw_queues(struct request_queue *q, bool async)
+diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
+index 182b679..1b7a65e 100644
+--- a/drivers/md/dm-rq.c
++++ b/drivers/md/dm-rq.c
+@@ -116,9 +116,12 @@ static void dm_mq_stop_queue(struct request_queue *q)
+ 	queue_flag_set(QUEUE_FLAG_STOPPED, q);
+ 	spin_unlock_irqrestore(q->queue_lock, flags);
+ 
++	/* Wait until dm_mq_queue_rq() has finished. */
++	blk_quiesce_queue(q);
+ 	/* Avoid that requeuing could restart the queue. */
+ 	blk_mq_cancel_requeue_work(q);
+ 	blk_mq_stop_hw_queues(q);
++	blk_resume_queue(q);
  }
- EXPORT_SYMBOL(blk_mq_run_hw_queues);
  
-+/**
-+ * blk_mq_queue_stopped() - check whether one or more hctxs have been stopped
-+ * @q: request queue.
-+ *
-+ * The caller is responsible for serializing this function against
-+ * blk_mq_{start,stop}_hw_queue().
-+ */
-+bool blk_mq_queue_stopped(struct request_queue *q)
-+{
-+	struct blk_mq_hw_ctx *hctx;
-+	int i;
-+
-+	queue_for_each_hw_ctx(q, hctx, i)
-+		if (test_bit(BLK_MQ_S_STOPPED, &hctx->state))
-+			return true;
-+
-+	return false;
-+}
-+EXPORT_SYMBOL(blk_mq_queue_stopped);
-+
- void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx)
- {
- 	cancel_work(&hctx->run_work);
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 5daa0ef..368c460d 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -233,6 +233,7 @@ void blk_mq_delay_kick_requeue_list(struct request_queue *q, unsigned long msecs
- void blk_mq_abort_requeue_list(struct request_queue *q);
- void blk_mq_complete_request(struct request *rq, int error);
+ void dm_stop_queue(struct request_queue *q)
+@@ -901,17 +904,6 @@ static int dm_mq_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		dm_put_live_table(md, srcu_idx);
+ 	}
  
-+bool blk_mq_queue_stopped(struct request_queue *q);
- void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx);
- void blk_mq_start_hw_queue(struct blk_mq_hw_ctx *hctx);
- void blk_mq_stop_hw_queues(struct request_queue *q);
+-	/*
+-	 * On suspend dm_stop_queue() handles stopping the blk-mq
+-	 * request_queue BUT: even though the hw_queues are marked
+-	 * BLK_MQ_S_STOPPED at that point there is still a race that
+-	 * is allowing block/blk-mq.c to call ->queue_rq against a
+-	 * hctx that it really shouldn't.  The following check guards
+-	 * against this rarity (albeit _not_ race-free).
+-	 */
+-	if (unlikely(test_bit(BLK_MQ_S_STOPPED, &hctx->state)))
+-		return BLK_MQ_RQ_QUEUE_BUSY;
+-
+ 	if (ti->type->busy && ti->type->busy(ti))
+ 		return BLK_MQ_RQ_QUEUE_BUSY;
+ 
 -- 
 2.10.0
