@@ -1,54 +1,38 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Mon, 26 Sep 2016 11:46:44 -0700
-Subject: [PATCH 0/9] Introduce blk_quiesce_queue() and blk_resume_queue()
-In-Reply-To: <20160926183308.GA13309@redhat.com>
-References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
- <20160926183308.GA13309@redhat.com>
-Message-ID: <9cffd6ee-2940-b2b7-cbfc-47dd6307593a@sandisk.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Mon, 26 Sep 2016 14:53:11 -0700
+Subject: [PATCH] nvme-rdma: add missing \n to end of dev_err message
+In-Reply-To: <20160925220148.13300-1-colin.king@canonical.com>
+References: <20160925220148.13300-1-colin.king@canonical.com>
+Message-ID: <1474926791.3078.9.camel@linux.intel.com>
 
-On 09/26/2016 11:33 AM, Mike Snitzer wrote:
-> On Mon, Sep 26 2016 at  2:25pm -0400,
-> Bart Van Assche <bart.vanassche@sandisk.com> wrote:
->
->> Hello Jens,
->>
->> Multiple block drivers need the functionality to stop a request
->> queue and to wait until all ongoing request_fn() / queue_rq() calls
->> have finished without waiting until all outstanding requests have
->> finished. Hence this patch series that introduces the
->> blk_quiesce_queue() and blk_resume_queue() functions. The dm-mq, SRP
->> and nvme patches in this patch series are three examples of where
->> these functions are useful. These patches apply on top of the
->> September 21 version of your for-4.9/block branch. The individual
->> patches in this series are:
->>
->> 0001-blk-mq-Introduce-blk_mq_queue_stopped.patch
->> 0002-dm-Fix-a-race-condition-related-to-stopping-and-star.patch
->> 0003-RFC-nvme-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_.patch
->> 0004-block-Move-blk_freeze_queue-and-blk_unfreeze_queue-c.patch
->> 0005-block-Extend-blk_freeze_queue_start-to-the-non-blk-m.patch
->> 0006-block-Rename-mq_freeze_wq-and-mq_freeze_depth.patch
->> 0007-blk-mq-Introduce-blk_quiesce_queue-and-blk_resume_qu.patch
->> 0008-SRP-transport-Port-srp_wait_for_queuecommand-to-scsi.patch
->> 0009-RFC-nvme-Fix-a-race-condition.patch
->
-> Hi Bart,
->
-> How much testing has this series seen?  Did you run it against the
-> mptest testsuite? https://github.com/snitm/mptest
->
-> I did notice patch 2 should come after patch 7 (not sure if other
-> patches are out of order).
+On Sun, 2016-09-25@15:01 -0700, Colin King wrote:
+> From: Colin Ian King <colin.king at canonical.com>
+> 
+> Trival fix, dev_err message is missing a \n, so add it. Also
+> break line as it was over 80 chars wide.
+> 
+> Signed-off-by: Colin Ian King <colin.king at canonical.com>
 
-Hello Mike,
+Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
 
-Regarding testing: I have primarily used my srp-test regression test 
-suite to test this patch series because that test suite uncovered a 
-dm-mq race that was not discovered by mptest. I'm currently running 
-xfstests (to verify an ib_srp change that is not in this patch series) 
-and will run mptest next.
-
-You are right that patch 2 should come after patch 7. The order of the 
-other patches in this series should be fine.
-
-Bart.
+> ---
+> ?drivers/nvme/host/rdma.c | 3 ++-
+> ?1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 69e1fb7..3f32995 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1227,7 +1227,8 @@ static int nvme_rdma_conn_rejected(struct
+> nvme_rdma_queue *queue,
+> ?			(struct nvme_rdma_cm_rej *)ev-
+> >param.conn.private_data;
+> ?
+> ?		dev_err(queue->ctrl->ctrl.device,
+> -			"Connect rejected, status %d.",
+> le16_to_cpu(rej->sts));
+> +			"Connect rejected, status %d.\n",
+> +			le16_to_cpu(rej->sts));
+> ?		/* XXX: Think of something clever to do here... */
+> ?	} else {
+> ?		dev_err(queue->ctrl->ctrl.device,
