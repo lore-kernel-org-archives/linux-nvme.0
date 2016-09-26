@@ -1,24 +1,36 @@
-From: hch@lst.de ('Christoph Hellwig')
-Date: Mon, 26 Sep 2016 17:12:42 +0200
-Subject: nvmf/rdma host crash during heavy load and keep alive recovery
-In-Reply-To: <cea94562-b0d6-fbc0-998d-9597b8969998@grimberg.me>
-References: <011501d20f5f$b94e6c80$2beb4580$@opengridcomputing.com>
- <012001d20f63$5c8f7490$15ae5db0$@opengridcomputing.com>
- <01d201d20f69$449abce0$cdd036a0$@opengridcomputing.com>
- <020001d20f70$9998fde0$cccaf9a0$@opengridcomputing.com>
- <02c001d20f93$e6a88a60$b3f99f20$@opengridcomputing.com>
- <20160916110412.GC5476@lst.de>
- <8fc2cefe-76b6-b0a3-12af-701833c286f7@grimberg.me>
- <02db01d2128b$e9244c70$bb6ce550$@opengridcomputing.com>
- <02c601d2144d$ff453a50$fdcfaef0$@opengridcomputing.com>
- <cea94562-b0d6-fbc0-998d-9597b8969998@grimberg.me>
-Message-ID: <20160926151242.GA16873@lst.de>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 26 Sep 2016 08:14:56 -0700
+Subject: [PATCH 0/2 v2] nvme-fabrics: infrastructure changes for fc
+ protocol support
+Message-ID: <57e93b70.oopX7Rt0+86+HCU9%james.smart@broadcom.com>
 
-On Fri, Sep 23, 2016@04:57:21PM -0700, Sagi Grimberg wrote:
-> I'm still trying to understand how it is possible to
-> get to a point where the request queue is stopped while
-> the hardware context is not...
 
-Not sure either, I need to deep dive into the code.  But just a week
-or two ago Bart posted some fixes in this area for SRP, so that's where
-I will start my deep dive.
+This patch set completes the patches to the fabrics layer for
+FC protocol support.
+
+Thanks Sagi, for pulling 3 of the prior patches in.
+
+The first patch, patching target code, is unchanged from its prior
+posting, which was reviewed and accepted.
+
+The second patch, fixing sqe.command_id, is a repost of a prior patch
+revised per review to fix pci.c and loop.c as well.
+
+
+-- james
+
+
+
+James Smart (2):
+  nvme-fabrics: patch target code in prep for FC transport support
+  nvme-fabrics: set sqe.command_id in core, not transports
+
+ drivers/nvme/host/core.c       |  3 ++-
+ drivers/nvme/host/pci.c        |  1 -
+ drivers/nvme/host/rdma.c       |  1 -
+ drivers/nvme/target/configfs.c | 14 ++++++++++++++
+ drivers/nvme/target/loop.c     |  1 -
+ 5 files changed, 16 insertions(+), 4 deletions(-)
+
+-- 
+2.5.0
