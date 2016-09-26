@@ -1,26 +1,20 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Mon, 26 Sep 2016 15:26:37 -0700
-Subject: [PATCH 0/9] Introduce blk_quiesce_queue() and blk_resume_queue()
-In-Reply-To: <20160926183308.GA13309@redhat.com>
-References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
- <20160926183308.GA13309@redhat.com>
-Message-ID: <8c5fb60c-0bb5-e405-eaba-576b5f8bd244@sandisk.com>
+From: hch@lst.de ('Christoph Hellwig')
+Date: Tue, 27 Sep 2016 00:29:06 +0200
+Subject: nvmf/rdma host crash during heavy load and keep alive recovery
+In-Reply-To: <20160926151242.GA16873@lst.de>
+References: <012001d20f63$5c8f7490$15ae5db0$@opengridcomputing.com>
+ <01d201d20f69$449abce0$cdd036a0$@opengridcomputing.com>
+ <020001d20f70$9998fde0$cccaf9a0$@opengridcomputing.com>
+ <02c001d20f93$e6a88a60$b3f99f20$@opengridcomputing.com>
+ <20160916110412.GC5476@lst.de>
+ <8fc2cefe-76b6-b0a3-12af-701833c286f7@grimberg.me>
+ <02db01d2128b$e9244c70$bb6ce550$@opengridcomputing.com>
+ <02c601d2144d$ff453a50$fdcfaef0$@opengridcomputing.com>
+ <cea94562-b0d6-fbc0-998d-9597b8969998@grimberg.me>
+ <20160926151242.GA16873@lst.de>
+Message-ID: <20160926222906.GA28881@lst.de>
 
-On 09/26/2016 11:33 AM, Mike Snitzer wrote:
-> How much testing has this series seen?  Did you run it against the
-> mptest testsuite? https://github.com/snitm/mptest
+Steve,
 
-Hello Mike,
-
-The output of mptest with MULTIPATH_BACKEND_MODULE="scsidebug":
-# ./runtest
-[ ... ]
-SUCCESS
-** summary **
-PASSED:  test_00_no_failure test_01_sdev_offline test_02_sdev_delete 
-test_03_dm_failpath test_04_dm_switchpg
-FAILED:
-
-I think this is the output we were hoping to see :-)
-
-Bart.
+can you retest with the "Introduce blk_quiesce_queue() and blk_resume_queue()"
+series from Bart applied?
