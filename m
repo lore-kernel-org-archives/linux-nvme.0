@@ -1,12 +1,18 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 27 Sep 2016 09:54:13 -0500
-Subject: nvme-cli won't build
-In-Reply-To: <20160927145013.GA5310@infradead.org>
-References: <026701d21843$3f68bd70$be3a3850$@opengridcomputing.com>
- <20160926221544.GA6978@infradead.org> <20160927145013.GA5310@infradead.org>
-Message-ID: <00f801d218cf$0311a2b0$0934e810$@opengridcomputing.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 27 Sep 2016 11:14:31 -0400
+Subject: [PATCH] nvme.h: resync with nvme-cli
+In-Reply-To: <1474584589-32655-1-git-send-email-hch@lst.de>
+References: <1474584589-32655-1-git-send-email-hch@lst.de>
+Message-ID: <20160927151431.GC24200@localhost.localdomain>
 
-> The patch below will fix it for you:
+On Thu, Sep 22, 2016@03:49:49PM -0700, Christoph Hellwig wrote:
+> Import a few updates to nvme.h from nvme-cli.  This mostly includes a few
+> new fields and error codes, but also a few renames that so far are only
+> used in user space.  Also one field is moved from an array of two le64
+> values to one of 8 chars so that we can more easily access it.
 > 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Thanks, that works!
+Looks good to me.
+
+Reviewed-by: Keith Busch <keith.busch at intel.com>
