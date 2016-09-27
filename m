@@ -1,13 +1,16 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 27 Sep 2016 09:50:56 +0200
-Subject: [PATCH 5/9] block: Extend blk_freeze_queue_start() to the
- non-blk-mq path
-In-Reply-To: <7c8af8d2-2ac9-2767-5e5f-8de72eba3814@sandisk.com>
+Date: Tue, 27 Sep 2016 09:51:48 +0200
+Subject: [PATCH 6/9] block: Rename mq_freeze_wq and mq_freeze_depth
+In-Reply-To: <129b2a52-1ff7-7048-dfa3-89416ea42dd2@sandisk.com>
 References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
- <7c8af8d2-2ac9-2767-5e5f-8de72eba3814@sandisk.com>
-Message-ID: <20160927075056.dchqs4kgwem6rkrf@linux-x5ow.site>
+ <129b2a52-1ff7-7048-dfa3-89416ea42dd2@sandisk.com>
+Message-ID: <20160927075148.6vrdr44eb34g2ccf@linux-x5ow.site>
 
-On Mon, Sep 26, 2016@11:27:49AM -0700, Bart Van Assche wrote:
+On Mon, Sep 26, 2016@11:28:08AM -0700, Bart Van Assche wrote:
+> Since these two structure members are now used in blk-mq and !blk-mq
+> paths, remove the mq_prefix. This patch does not change any
+> functionality.
+> 
 > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
 > ---
 
