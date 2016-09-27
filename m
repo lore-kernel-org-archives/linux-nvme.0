@@ -1,24 +1,26 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 27 Sep 2016 08:20:57 +0200
-Subject: [PATCH 1/9] blk-mq: Introduce blk_mq_queue_stopped()
-In-Reply-To: <b2210943-62b2-959a-569a-a404da03bcae@sandisk.com>
+Date: Tue, 27 Sep 2016 08:21:40 +0200
+Subject: [PATCH 2/9] dm: Fix a race condition related to stopping and
+ starting queues
+In-Reply-To: <ba8ddc16-b709-e7fb-1120-b6e1bd393540@sandisk.com>
 References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
- <b2210943-62b2-959a-569a-a404da03bcae@sandisk.com>
-Message-ID: <5a954988-1b81-5bc2-c2e9-5e0eae927a46@suse.de>
+ <ba8ddc16-b709-e7fb-1120-b6e1bd393540@sandisk.com>
+Message-ID: <34f2c5c0-1bae-7ce7-9f60-446412ec641e@suse.de>
 
 On 09/26/2016 08:26 PM, Bart Van Assche wrote:
-> The function blk_queue_stopped() allows to test whether or not a
-> traditional request queue has been stopped. Introduce a helper
-> function that allows block drivers to query easily whether or not
-> one or more hardware contexts of a blk-mq queue have been stopped.
+> Ensure that all ongoing dm_mq_queue_rq() and dm_mq_requeue_request()
+> calls have stopped before setting the "queue stopped" flag. This
+> allows to remove the "queue stopped" test from dm_mq_queue_rq() and
+> dm_mq_requeue_request(). This patch fixes a race condition because
+> dm_mq_queue_rq() is called without holding the queue lock and hence
+> BLK_MQ_S_STOPPED can be set at any time while dm_mq_queue_rq() is
+> in progress.
 > 
 > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> Cc: Jens Axboe <axboe at fb.com>
-> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Mike Snitzer <snitzer at redhat.com>
 > ---
->  block/blk-mq.c         | 20 ++++++++++++++++++++
->  include/linux/blk-mq.h |  1 +
->  2 files changed, 21 insertions(+)
+>  drivers/md/dm-rq.c | 14 +++-----------
+>  1 file changed, 3 insertions(+), 11 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
