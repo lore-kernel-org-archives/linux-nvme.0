@@ -1,19 +1,31 @@
-From: nisha.miller420@gmail.com (Nisha Miller)
-Date: Tue, 27 Sep 2016 11:39:53 -0700
-Subject: Create IO queue variation between kernels
-Message-ID: <CAG3=cOmN5jGK6kqv_kCiyZL8ypy_uTaA3poooP6cdBLE8AQbJg@mail.gmail.com>
+From: sbates@raithlin.com (Stephen Bates)
+Date: Tue, 27 Sep 2016 16:15:12 -0600
+Subject: [PATCH 0/1] nvme : Add sysfs entry for NVMe CMBs when appropriate
+Message-ID: <1475014513-18083-1-git-send-email-sbates@raithlin.com>
 
-Hi,
+We have had a few attempts at adding CMB properties and control to
+sysfs [1][2]. This patch is based on Jon Derrick's [1] to some exent but
+takes a much more conservative approach by only displaying CMB
+properties and not attmpting to control them. Assuming this gets
+accepted I do have a follow-on that adds more information to the cmb
+attribute file.
 
-We plugged our NVMe controller into a server running Kernel 3.19.8 and
-we were able to create multiple IO queues.
+Rather nicely we contain these changes solely to pci.c.
 
-On the same server, if we boot Kernel 2.6.32 we can create only 1 IO
-queue. On 2.6.32, pci_enable_msi_block() always returns number of MSIs
-supported as 1. Since there is no change in the hardware, I'm
-wondering where the problem lies and how we can fix this.
+Applies to commit 1a6fe74dfd1b ("nvme: Pass pointers, not dma
+addresses, to nvme_get/set_features()") in Jens' for-4.9/block branch.
 
-Any clues, ideas, tips greatly appreciated!
+Tested on both QEMU and on some real hardware I have access too that can
+advertise and expose a CMB.
 
-TIA
-Nisha Miller
+[1] http://www.spinics.net/lists/linux-block/msg01560.html
+[2] http://www.spinics.net/lists/linux-rdma/msg38752.html
+
+Stephen Bates (1):
+  nvme : Add sysfs entry for NVMe CMBs when appropriate
+
+ drivers/nvme/host/pci.c | 46 ++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 36 insertions(+), 10 deletions(-)
+
+--
+2.1.4
