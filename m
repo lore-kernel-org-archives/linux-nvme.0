@@ -1,54 +1,68 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 27 Sep 2016 09:52:13 +0200
-Subject: [PATCH 4/9] block: Move blk_freeze_queue() and
- blk_unfreeze_queue() code
-In-Reply-To: <ffad7b3c-e7f5-56d7-0a75-574e65ac5b31@suse.de>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Tue, 27 Sep 2016 21:22:05 +0800
+Subject: [PATCH 5/9] block: Extend blk_freeze_queue_start() to the
+ non-blk-mq path
+In-Reply-To: <7c8af8d2-2ac9-2767-5e5f-8de72eba3814@sandisk.com>
 References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
- <f990694e-76ea-f6b1-10a4-c23b9a738b39@sandisk.com>
- <ffad7b3c-e7f5-56d7-0a75-574e65ac5b31@suse.de>
-Message-ID: <20160927075213.rkpulkbrbndm2wwr@linux-x5ow.site>
+ <7c8af8d2-2ac9-2767-5e5f-8de72eba3814@sandisk.com>
+Message-ID: <CACVXFVO=GFp=ArC_FT+xPSmL84m01fX6bzReBQ8DeLQ4fUD5cQ@mail.gmail.com>
 
-On Tue, Sep 27, 2016@08:26:19AM +0200, Hannes Reinecke wrote:
-> On 09/26/2016 08:27 PM, Bart Van Assche wrote:
-> > Move the blk_freeze_queue() and blk_unfreeze_queue() implementations
-> > from block/blk-mq.c to block/blk-core.c. Drop "_mq" from the name of
-> > the functions that have been moved.
-> > 
-> > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> > ---
-> >  block/blk-core.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
-> >  block/blk-mq.c   | 41 +++--------------------------------------
-> >  block/blk.h      |  3 +++
-> >  3 files changed, 51 insertions(+), 38 deletions(-)
-> > 
-> > diff --git a/block/blk-core.c b/block/blk-core.c
-> > index b75d688..8cc8006 100644
-> > --- a/block/blk-core.c
-> > +++ b/block/blk-core.c
-> > @@ -682,6 +682,51 @@ static void blk_queue_usage_counter_release(struct percpu_ref *ref)
-> >  	wake_up_all(&q->mq_freeze_wq);
-> >  }
-> >  
-> > +void blk_freeze_queue_start(struct request_queue *q)
-> > +{
-> > +	int freeze_depth;
-> > +
-> > +	freeze_depth = atomic_inc_return(&q->mq_freeze_depth);
-> > +	if (freeze_depth == 1) {
-> > +		percpu_ref_kill(&q->q_usage_counter);
-> > +		blk_mq_run_hw_queues(q, false);
-> > +	}
-> > +}
-> > +
-> As you dropped the 'mq_' prefix, maybe you should rename the counter to
-> 'freeze_depth', to?
+On Tue, Sep 27, 2016 at 2:27 AM, Bart Van Assche
+<bart.vanassche@sandisk.com> wrote:
+> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
+> ---
+>  block/blk-core.c | 15 ++++++---------
+>  1 file changed, 6 insertions(+), 9 deletions(-)
+>
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index 8cc8006..5ecc7ab 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -689,7 +689,10 @@ void blk_freeze_queue_start(struct request_queue *q)
+>         freeze_depth = atomic_inc_return(&q->mq_freeze_depth);
+>         if (freeze_depth == 1) {
+>                 percpu_ref_kill(&q->q_usage_counter);
+> -               blk_mq_run_hw_queues(q, false);
+> +               if (q->mq_ops)
+> +                       blk_mq_run_hw_queues(q, false);
+> +               else if (q->request_fn)
+> +                       blk_run_queue(q);
 
-See PATCH 6/9
+Just wondering if you have a non-blk-mq drivers which need this change,
+cause we only hold .q_usage_counter for sync bio.
+
+>         }
+>  }
+>
+> @@ -700,17 +703,11 @@ void blk_freeze_queue_wait(struct request_queue *q)
+>
+>  /*
+>   * Guarantee no request is in use, so we can change any data structure of
+> - * the queue afterward.
+> + * the queue afterward. Increases q->mq_freeze_depth and waits until
+> + * q->q_usage_counter drops to zero.
+>   */
+>  void blk_freeze_queue(struct request_queue *q)
+>  {
+> -       /*
+> -        * In the !blk_mq case we are only calling this to kill the
+> -        * q_usage_counter, otherwise this increases the freeze depth
+> -        * and waits for it to return to zero.  For this reason there is
+> -        * no blk_unfreeze_queue(), and blk_freeze_queue() is not
+> -        * exported to drivers as the only user for unfreeze is blk_mq.
+> -        */
+>         blk_freeze_queue_start(q);
+>         blk_freeze_queue_wait(q);
+>  }
+> --
+> 2.10.0
+>
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-scsi" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+
 
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Ming Lei
