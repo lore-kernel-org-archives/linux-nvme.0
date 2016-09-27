@@ -1,21 +1,49 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 27 Sep 2016 09:51:48 +0200
-Subject: [PATCH 6/9] block: Rename mq_freeze_wq and mq_freeze_depth
-In-Reply-To: <129b2a52-1ff7-7048-dfa3-89416ea42dd2@sandisk.com>
+Date: Tue, 27 Sep 2016 09:52:13 +0200
+Subject: [PATCH 4/9] block: Move blk_freeze_queue() and
+ blk_unfreeze_queue() code
+In-Reply-To: <ffad7b3c-e7f5-56d7-0a75-574e65ac5b31@suse.de>
 References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
- <129b2a52-1ff7-7048-dfa3-89416ea42dd2@sandisk.com>
-Message-ID: <20160927075148.6vrdr44eb34g2ccf@linux-x5ow.site>
+ <f990694e-76ea-f6b1-10a4-c23b9a738b39@sandisk.com>
+ <ffad7b3c-e7f5-56d7-0a75-574e65ac5b31@suse.de>
+Message-ID: <20160927075213.rkpulkbrbndm2wwr@linux-x5ow.site>
 
-On Mon, Sep 26, 2016@11:28:08AM -0700, Bart Van Assche wrote:
-> Since these two structure members are now used in blk-mq and !blk-mq
-> paths, remove the mq_prefix. This patch does not change any
-> functionality.
-> 
-> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> ---
+On Tue, Sep 27, 2016@08:26:19AM +0200, Hannes Reinecke wrote:
+> On 09/26/2016 08:27 PM, Bart Van Assche wrote:
+> > Move the blk_freeze_queue() and blk_unfreeze_queue() implementations
+> > from block/blk-mq.c to block/blk-core.c. Drop "_mq" from the name of
+> > the functions that have been moved.
+> > 
+> > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
+> > ---
+> >  block/blk-core.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+> >  block/blk-mq.c   | 41 +++--------------------------------------
+> >  block/blk.h      |  3 +++
+> >  3 files changed, 51 insertions(+), 38 deletions(-)
+> > 
+> > diff --git a/block/blk-core.c b/block/blk-core.c
+> > index b75d688..8cc8006 100644
+> > --- a/block/blk-core.c
+> > +++ b/block/blk-core.c
+> > @@ -682,6 +682,51 @@ static void blk_queue_usage_counter_release(struct percpu_ref *ref)
+> >  	wake_up_all(&q->mq_freeze_wq);
+> >  }
+> >  
+> > +void blk_freeze_queue_start(struct request_queue *q)
+> > +{
+> > +	int freeze_depth;
+> > +
+> > +	freeze_depth = atomic_inc_return(&q->mq_freeze_depth);
+> > +	if (freeze_depth == 1) {
+> > +		percpu_ref_kill(&q->q_usage_counter);
+> > +		blk_mq_run_hw_queues(q, false);
+> > +	}
+> > +}
+> > +
+> As you dropped the 'mq_' prefix, maybe you should rename the counter to
+> 'freeze_depth', to?
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+See PATCH 6/9
 
 -- 
 Johannes Thumshirn                                          Storage
