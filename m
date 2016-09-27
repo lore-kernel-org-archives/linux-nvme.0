@@ -1,28 +1,53 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 27 Sep 2016 08:21:40 +0200
-Subject: [PATCH 2/9] dm: Fix a race condition related to stopping and
- starting queues
-In-Reply-To: <ba8ddc16-b709-e7fb-1120-b6e1bd393540@sandisk.com>
+Date: Tue, 27 Sep 2016 08:26:19 +0200
+Subject: [PATCH 4/9] block: Move blk_freeze_queue() and
+ blk_unfreeze_queue() code
+In-Reply-To: <f990694e-76ea-f6b1-10a4-c23b9a738b39@sandisk.com>
 References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
- <ba8ddc16-b709-e7fb-1120-b6e1bd393540@sandisk.com>
-Message-ID: <34f2c5c0-1bae-7ce7-9f60-446412ec641e@suse.de>
+ <f990694e-76ea-f6b1-10a4-c23b9a738b39@sandisk.com>
+Message-ID: <ffad7b3c-e7f5-56d7-0a75-574e65ac5b31@suse.de>
 
-On 09/26/2016 08:26 PM, Bart Van Assche wrote:
-> Ensure that all ongoing dm_mq_queue_rq() and dm_mq_requeue_request()
-> calls have stopped before setting the "queue stopped" flag. This
-> allows to remove the "queue stopped" test from dm_mq_queue_rq() and
-> dm_mq_requeue_request(). This patch fixes a race condition because
-> dm_mq_queue_rq() is called without holding the queue lock and hence
-> BLK_MQ_S_STOPPED can be set at any time while dm_mq_queue_rq() is
-> in progress.
+On 09/26/2016 08:27 PM, Bart Van Assche wrote:
+> Move the blk_freeze_queue() and blk_unfreeze_queue() implementations
+> from block/blk-mq.c to block/blk-core.c. Drop "_mq" from the name of
+> the functions that have been moved.
 > 
 > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> Cc: Mike Snitzer <snitzer at redhat.com>
 > ---
->  drivers/md/dm-rq.c | 14 +++-----------
->  1 file changed, 3 insertions(+), 11 deletions(-)
+>  block/blk-core.c | 45 +++++++++++++++++++++++++++++++++++++++++++++
+>  block/blk-mq.c   | 41 +++--------------------------------------
+>  block/blk.h      |  3 +++
+>  3 files changed, 51 insertions(+), 38 deletions(-)
 > 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index b75d688..8cc8006 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -682,6 +682,51 @@ static void blk_queue_usage_counter_release(struct percpu_ref *ref)
+>  	wake_up_all(&q->mq_freeze_wq);
+>  }
+>  
+> +void blk_freeze_queue_start(struct request_queue *q)
+> +{
+> +	int freeze_depth;
+> +
+> +	freeze_depth = atomic_inc_return(&q->mq_freeze_depth);
+> +	if (freeze_depth == 1) {
+> +		percpu_ref_kill(&q->q_usage_counter);
+> +		blk_mq_run_hw_queues(q, false);
+> +	}
+> +}
+> +
+As you dropped the 'mq_' prefix, maybe you should rename the counter to
+'freeze_depth', to?
+And are you sure this works in the !mq case, too?
+
+> +void blk_freeze_queue_wait(struct request_queue *q)
+> +{
+> +	wait_event(q->mq_freeze_wq, percpu_ref_is_zero(&q->q_usage_counter));
+> +}
+> +
+Same here, rename ->mq_freeze_wq to ->freeze_wq.
 
 Cheers,
 
