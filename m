@@ -1,28 +1,36 @@
-From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Wed, 28 Sep 2016 16:49:44 -0700
-Subject: [PATCH 4/4] nvme-cli: Add discover connect cmds to main list
-In-Reply-To: <1475106584-14961-1-git-send-email-james_p_freyensee@linux.intel.com>
-References: <1475106584-14961-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <1475106584-14961-5-git-send-email-james_p_freyensee@linux.intel.com>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Wed, 28 Sep 2016 16:57:07 -0700
+Subject: [PATCH v2 0/7] Introduce blk_quiesce_queue() and blk_resume_queue()
+Message-ID: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
 
-Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
----
- Documentation/cmds-main.txt | 6 ++++++
- 1 file changed, 6 insertions(+)
+Hello Jens,
 
-diff --git a/Documentation/cmds-main.txt b/Documentation/cmds-main.txt
-index 7916216..5d5b8f6 100644
---- a/Documentation/cmds-main.txt
-+++ b/Documentation/cmds-main.txt
-@@ -106,3 +106,9 @@ linknvme:nvme-set-feature[1]::
- linknvme:nvme-show-regs[1]::
- 	Show NVMe Controller Registers
- 
-+linknvme:nvme-discover[1]::
-+	Send Get Log Page request to Discovery Controller
-+
-+linknvme:nvme-connect[1]::
-+	Connect to an NVMe-over-Fabrics subsystem
-+
--- 
-2.7.4
+Multiple block drivers need the functionality to stop a request queue 
+and to wait until all ongoing request_fn() / queue_rq() calls have 
+finished without waiting until all outstanding requests have finished. 
+Hence this patch series that introduces the blk_mq_quiesce_queue() and 
+blk_mq_resume_queue() functions. The dm-mq, SRP and nvme patches in this 
+patch series are three examples of where these functions are useful. 
+These patches apply on top of the September 21 version of your 
+for-4.9/block branch.
+
+The changes compared to the previous version of this patch series are:
+- Dropped the non-blk-mq changes from this patch series.
+- Added support for harware queues with BLK_MQ_F_BLOCKING set.
+- Added a call stack to the description of the dm race fix patch.
+- Dropped the non-scsi-mq changes from the SRP patch.
+- Added a patch that introduces blk_mq_queue_stopped() in the dm driver.
+
+The individual patches in this series are:
+
+0001-blk-mq-Introduce-blk_mq_queue_stopped.patch
+0002-dm-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_STOPPE.patch
+0003-RFC-nvme-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_.patch
+0004-blk-mq-Introduce-blk_quiesce_queue-and-blk_resume_qu.patch
+0005-dm-Fix-a-race-condition-related-to-stopping-and-star.patch
+0006-SRP-transport-Port-srp_wait_for_queuecommand-to-scsi.patch
+0007-RFC-nvme-Fix-a-race-condition.patch
+
+Thanks,
+
+Bart.
