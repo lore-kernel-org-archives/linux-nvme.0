@@ -1,142 +1,110 @@
 From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Wed, 28 Sep 2016 16:49:41 -0700
-Subject: [PATCH 1/4] nvme-cli: Documentation for nvme-discover
+Date: Wed, 28 Sep 2016 16:49:43 -0700
+Subject: [PATCH 3/4] nvme-cli: Add nvme-connect.txt shell for fill in
 In-Reply-To: <1475106584-14961-1-git-send-email-james_p_freyensee@linux.intel.com>
 References: <1475106584-14961-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <1475106584-14961-2-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <1475106584-14961-4-git-send-email-james_p_freyensee@linux.intel.com>
+
+nvme-discover documentation refers to nvme-connect,
+so add a starter file for nvme-connect for fill
+in by a generous soul :-).
 
 Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
 ---
- Documentation/nvme-discover.txt | 125 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 125 insertions(+)
- create mode 100644 Documentation/nvme-discover.txt
+ Documentation/nvme-connect.txt | 89 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 89 insertions(+)
+ create mode 100644 Documentation/nvme-connect.txt
 
-diff --git a/Documentation/nvme-discover.txt b/Documentation/nvme-discover.txt
+diff --git a/Documentation/nvme-connect.txt b/Documentation/nvme-connect.txt
 new file mode 100644
-index 0000000..2d374b1
+index 0000000..18338cb
 --- /dev/null
-+++ b/Documentation/nvme-discover.txt
-@@ -0,0 +1,125 @@
-+nvme-discover(1)
++++ b/Documentation/nvme-connect.txt
+@@ -0,0 +1,89 @@
++nvme-connect(1)
 +==============
 +
 +NAME
 +----
-+nvme-discover - Send Get Log Page request to Discovery Controller.
++nvme-connect - Connect to an NVMe-over-Fabrics subsystem.
 +
 +SYNOPSIS
 +--------
 +[verse]
-+'nvme discover'	[device]
-+		[--transport=<trtype> | -t <trtype>]
-+		[--traddr=<traddr>    | -a <traddr>]
-+		[--trsvcid=<trsvcid>  | -s <trsvcid>]
-+		[--hostnqn=<hostnqn>  | -q <hostnqn>]
-+		[--raw=<filename>     | -r <filename>]
++'nvme connect'	[device]
++		[--transport=<trtype>  | -t <trtype>]
++		[--traddr=<traddr>     | -a <traddr>]
++		[--trsvcid=<trsvcid>   | -s <trsvcid>]
++		[--hostnqn=<hostnqn>   | -q <hostnqn>]
++		[--nqn=<subnqn>        | -n <subnqn>]
++		[--nr-io-queues=<#>    | -i <#>]
++		[--keep-alive-tmo=<#>  | -k <#>]
++		[--reconnect-delay=<#> | -c <#>]
 +
 +DESCRIPTION
 +-----------
-+For a given NVMe Host, send a Discovery Get Log Page request
-+to a Discovery Controller on the network.
-+
-+The [device] parameter is OPTIONAL and will default to
-+/dev/nvme-fabrics if none is given.
-+
-+If no parameters are given, then 'nvme discover' will attempt to 
-+find a /etc/nvme/discovery.conf file to use to supply the
-+the discover command options.  If no /etc/nvme/discovery.conf file
-+exists, the command will quit with an error.
++TBD (note 'device' is optional)
 +
 +BACKGROUND
 +----------
-+The NVMe-over-Fabrics specification defines the concept of a 
-+Discovery Controller that an NVMe Host can query on a fabric
-+network to discover NVMe subsystems contained in NVMe Targets
-+which it can connect to on the network.  The Discovery Controller
-+will return Discovery Log Pages that provide the NVMe Host
-+with specific information (such as network address and unique
-+subsystem NQN) the NVMe Host can use to issue an
-+NVMe connect command to connect itself to a storage resource
-+contained in that NVMe subsystem on the NVMe Target.
-+
-+Note that the base NVMe specfication defines the NQN (NVMe Qualified
-+Name) format which an NVMe endpoint (device, subsystem, etc) must
-+follow to guarantee a unique name under the NVMe standard.
-+
-+A Discovery Controller has it's own NQN defined in the NVMe-over-Fabrics
-+specification, *nqn.2014-08.org.nvmexpress.discovery*.  All Discovery
-+Controllers must use this NQN name. This NQN is used by default by
-+nvme-cli for the 'discover' command. 
++TBD
 +
 +OPTIONS
 +-------
 +-t <trtype>::
 +--transport=<trtype>::
-+	This field specifies the network fabric being used for
-+	a NVMe-over-Fabrics network.  Current string values include:
-++
-+[]
-+|=================
-+|Value|Definition
-+|rdma|The network fabric is an rdma network (RoCE, iWARP, Infiniband, basic rdma, etc)
-+|fc  |*WIP* The network fabric is a Fibre Channel network.
-+|=================
++	TBD
 +
 +-a <traddr>::
 +--traddr=<traddr>::
-+	This field specifies the network address of the Discovery Controller.
++	TBD
 +
 +-s <trsvcid>::
 +--trsvcid=<trsvcid>::
-+	This field specifies the transport service id.  For IP addresses,
-+	this field is the port number. By default, the IP port number
-+	is 4420.
++	TBD
 + 
 +-q <hostnqn>::
 +--hostnqn=<hostnqn>::
-+	This field is the unique NQN of a NVMe Host. This field
-+	will be used by the Discovery Controller to check what NVMe
-+	Target resources are allocated to the NVMe Host for a connection.
++	TBD
 +
-+-r <filename>::
-+--raw=<filename>::
-+	This field will take the output of the 'nvme discover' command
-+	and dump it to a raw binary file. By default 'nvme discover' will
-+	dump the output to stdout.
++-n <subnqn>::
++--nqn=<subnqn>::
++	TBD
++
++-i <#>::
++--nr-io-queues<#>::
++	TBD
++
++-k <#>::
++--keep-alive-tmo=<#>::
++	TBD
++
++-c <#>::
++--reconnect-delay=<#>::
++	TBD
 +
 +EXAMPLES
 +--------
-+* Query the Discover Controller with IP4 address 192.168.1.3 for all
-+resources allocated for NVMe Host name host1-rogue-nqn on the RDMA network.
-+Port 4420 is used by default:
++* TBD
 ++
 +------------
-+# nvme discover --transport=rdma --traddr=192.168.1.3 \
-+--hostnqn=host1-rogue-nqn
-+------------
-++
-+* Issue a 'nvme discover' command using a /etc/nvme/discovery.conf file:
-+-----------
-+# Machine default. Note currently only works for single command:
-+-t rdma -a 192.168.1.4 -s 4420 -q nqn.2014-08.com.example:nvme:nvm-subsystem-sn-d78432 
-+
-+At the prompt type "nvme discover".
-+
++# nvme connect... 
 +------------
 +
 +SEE ALSO
 +--------
-+nvme-connect(1)
++nvme-discover(1)
 +
 +AUTHORS
 +-------
-+This was written by mailto:james.p.freyensee at intel.com[Jay Freyensee]
++This was co-written by mailto:james.p.freyensee at intel.com[Jay Freyensee]
++and mailto:hch at lst.de[Christoph Hellwig]
 +for mailto:keith.busch at intel.com[Keith Busch].
 +
 +REPORTING BUGS
 +--------------
-+Patches and issues for 'discover' should be submitted to the Linux
-+kernel email list mailto:linux-nvme at lists.infradead.org[linux-nvme]
++Patches and issues for 'connect' should be submitted to the
++Linux kernel email list mailto:linux-nvme at lists.infradead.org[linux-nvme]
 +before merging to https://github.com/linux-nvme/nvme-cli.
 +
 +NVME
