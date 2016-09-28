@@ -1,46 +1,33 @@
-From: sbates@raithlin.com (Stephen Bates)
-Date: Tue, 27 Sep 2016 18:10:16 -0600
-Subject: [PATCH 1/1] nvme : Add sysfs entry for NVMe CMBs when appropriate
-In-Reply-To: <20160927231703.GA6694@localhost.localdomain>
-References: <1475014513-18083-1-git-send-email-sbates@raithlin.com>
- <1475014513-18083-2-git-send-email-sbates@raithlin.com>
- <20160927231703.GA6694@localhost.localdomain>
-Message-ID: <20160928001016.GA6528@cgy1-donard.priv.deltatee.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 28 Sep 2016 09:23:03 -0500
+Subject: [PATCH 9/9] [RFC] nvme: Fix a race condition
+In-Reply-To: <3fb86a78-de3a-b764-a493-cb5bc5b6d8b6@sandisk.com>
+References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
+ <9c372b04-a194-58c4-a64f-b155b52a5244@sandisk.com>
+ <013c01d218dc$8a5406c0$9efc1440$@opengridcomputing.com>
+ <9d8e0f32-6703-cf23-d424-bcecb65c2a26@sandisk.com>
+ <1474995360.2716.19.camel@linux.vnet.ibm.com>
+ <3fb86a78-de3a-b764-a493-cb5bc5b6d8b6@sandisk.com>
+Message-ID: <009601d21993$d2d33670$7879a350$@opengridcomputing.com>
 
-On Tue, Sep 27, 2016@05:17:04PM -0600, Jon Derrick wrote:
-> Hi Stephen,
->
-> Thanks for reviving the CMB discussions. Everything seems reasonable to
-> me, but I must question if we want a 'show' without a 'control'.
-> Consider if the 'control' ends up requiring an API that supercedes the
-> 'show' in a more natural way.
->
-> Otherwise I'm for this.
+> 
+> Hello James and Steve,
+> 
+> I will add a comment.
+> 
+> Please note that the above patch does not change the behavior of
+> nvme_stop_queues() except that it causes nvme_stop_queues() to wait
+> until any ongoing nvme_queue_rq() calls have finished.
+> blk_resume_queue() does not affect the value of the BLK_MQ_S_STOPPED bit
+> that has been set by blk_mq_stop_hw_queues(). All it does is to resume
+> pending blk_queue_enter() calls and to ensure that future
+> blk_queue_enter() calls do not block. Even after blk_resume_queue() has
+> been called if a new request is queued queue_rq() won't be invoked
+> because the BLK_MQ_S_STOPPED bit is still set. Patch "dm: Fix a race
+> condition related to stopping and starting queues" realizes a similar
+> change in the dm driver and that change has been tested extensively.
+> 
 
-Great.
+Thanks for the detailed explanation!  I think your code, then, is correct as-is.   And this series doesn't fix the issue I'm hitting, so I'll keep digging. :)
 
->
-> >  	}
-> >
-> > -	if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 2))
-> > +	/*
-> > +	 * CMBs can currently only exist on >=1.2 PCIe devices. We only
-> > +	 * populate sysfs if a CMB is implemented. Note that we add the
-> > +	 * CMB attribute to the nvme_ctrl kobj which removes the need to remove
-> > +	 * it on exit. Since nvme_dev_attrs_group has no name we can pass
-> > +	 * NULL as final argument to sysfs_add_file_to_group.
-> > +	 */
-> > +
-> > +	if (readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 2)) {
-> >  		dev->cmb = nvme_map_cmb(dev);
-> >
-> > +		if (readl(dev->bar + NVME_REG_CMBSZ)) {
-> Small nit: we have this value cached in dev->cmbsz. So unless something
-> has changed in the configuration, we could use that instead.
-
-Good point. I will await other feedback and then issue a v1 with this
-change. Can I add a Reviewed-by tag from you?
-
-Cheers
-
-Stephen
+Steve.  
