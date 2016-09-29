@@ -1,165 +1,327 @@
-From: sbates@raithlin.com (Stephen Bates)
-Date: Thu, 29 Sep 2016 14:10:24 -0600
-Subject: PROBLEM: nvmet rxe : Kernel oops when running nvmf IO over rdma_rxe
-Message-ID: <1475179824-10377-1-git-send-email-sbates@raithlin.com>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Fri, 30 Sep 2016 05:51:56 +0800
+Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
+ blk_resume_queue()
+In-Reply-To: <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
+References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
+ <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
+Message-ID: <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
 
-Hi All
+On Thu, Sep 29, 2016 at 7:59 AM, Bart Van Assche
+<bart.vanassche@sandisk.com> wrote:
+> blk_quiesce_queue() prevents that new queue_rq() invocations
 
-So I thought I would try and run NVMe over Fabrics over
-Soft-RoCE. Both were adding to 4.8 so what could possibly go wrong
-;-). I am getting a pretty consistent kernel oops so I though I would
-post this so people could take a look.
+blk_mq_quiesce_queue()
 
-Cheers
+> occur and waits until ongoing invocations have finished. This
+> function does *not* wait until all outstanding requests have
 
-Stephen
+I guess it still may wait finally since this way may exhaust tag space
+easily, :-)
 
-Problem
--------
+> finished (this means invocation of request.end_io()).
+> blk_resume_queue() resumes normal I/O processing.
+>
+> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
+> Cc: Hannes Reinecke <hare at suse.com>
+> Cc: Johannes Thumshirn <jthumshirn at suse.de>
+> ---
+>  block/blk-mq.c         | 137 ++++++++++++++++++++++++++++++++++++++++++++-----
+>  include/linux/blk-mq.h |   2 +
+>  include/linux/blkdev.h |   5 ++
+>  3 files changed, 131 insertions(+), 13 deletions(-)
+>
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index d8c45de..f5c71ad 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -58,15 +58,23 @@ static void blk_mq_hctx_clear_pending(struct blk_mq_hw_ctx *hctx,
+>         sbitmap_clear_bit(&hctx->ctx_map, ctx->index_hw);
+>  }
+>
+> -void blk_mq_freeze_queue_start(struct request_queue *q)
+> +static bool __blk_mq_freeze_queue_start(struct request_queue *q,
+> +                                       bool kill_percpu_ref)
+>  {
+>         int freeze_depth;
+>
+>         freeze_depth = atomic_inc_return(&q->mq_freeze_depth);
+>         if (freeze_depth == 1) {
+> -               percpu_ref_kill(&q->q_usage_counter);
+> +               if (kill_percpu_ref)
+> +                       percpu_ref_kill(&q->q_usage_counter);
+>                 blk_mq_run_hw_queues(q, false);
+>         }
+> +       return freeze_depth == 1;
+> +}
+> +
+> +void blk_mq_freeze_queue_start(struct request_queue *q)
+> +{
+> +       __blk_mq_freeze_queue_start(q, true);
+>  }
+>  EXPORT_SYMBOL_GPL(blk_mq_freeze_queue_start);
+>
+> @@ -102,19 +110,90 @@ void blk_mq_freeze_queue(struct request_queue *q)
+>  }
+>  EXPORT_SYMBOL_GPL(blk_mq_freeze_queue);
+>
+> -void blk_mq_unfreeze_queue(struct request_queue *q)
+> +static bool __blk_mq_unfreeze_queue(struct request_queue *q,
+> +                                   bool reinit_percpu_ref)
+>  {
+>         int freeze_depth;
+>
+>         freeze_depth = atomic_dec_return(&q->mq_freeze_depth);
+>         WARN_ON_ONCE(freeze_depth < 0);
+>         if (!freeze_depth) {
+> -               percpu_ref_reinit(&q->q_usage_counter);
+> +               if (reinit_percpu_ref)
+> +                       percpu_ref_reinit(&q->q_usage_counter);
+>                 wake_up_all(&q->mq_freeze_wq);
+>         }
+> +       return freeze_depth == 0;
+> +}
+> +
+> +void blk_mq_unfreeze_queue(struct request_queue *q)
+> +{
+> +       __blk_mq_unfreeze_queue(q, true);
+>  }
+>  EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue);
+>
+> +/**
+> + * blk_mq_quiesce_queue() - wait until all pending queue_rq calls have finished
+> + *
+> + * Prevent that new I/O requests are queued and wait until all pending
+> + * queue_rq() calls have finished. Must not be called if the queue has already
+> + * been frozen. Additionally, freezing the queue after having quiesced the
+> + * queue and before resuming the queue is not allowed.
+> + *
+> + * Note: this function does not prevent that the struct request end_io()
+> + * callback function is invoked.
+> + */
+> +void blk_mq_quiesce_queue(struct request_queue *q)
+> +{
+> +       struct blk_mq_hw_ctx *hctx;
+> +       unsigned int i;
+> +       bool res, rcu = false;
+> +
+> +       spin_lock_irq(q->queue_lock);
+> +       WARN_ON_ONCE(blk_queue_quiescing(q));
+> +       queue_flag_set(QUEUE_FLAG_QUIESCING, q);
+> +       spin_unlock_irq(q->queue_lock);
+> +
+> +       res = __blk_mq_freeze_queue_start(q, false);
 
-Kernel panics when attempting to run NVMe over Fabrics I/O over
-soft-RoCE.
+Looks the implementation is a bit tricky and complicated, if the percpu
+usage counter isn't killed, it isn't necessary to touch .mq_freeze_depth
+since you use QUEUE_FLAG_QUIESCING to set/get this status of
+the queue.
 
-Interestingly nvme discover and connect seem to go well. In some cases
-I even seem to be able to issue some IO against the /dev/nvme0n1
-device on the host. However pretty quick I get a kernel oops on the
-target as shown below.
+Then using synchronize_rcu() and rcu_read_lock()/rcu_read_unlock()
+with the flag of QUIESCING may be enough to wait for completing
+of ongoing invocations of .queue_rq() and avoid to run new .queue_rq,
+right?
 
-My testing of soft-roce itself using userspace tools like ib_write_bw
-seem to be passing. So I am thinking the interaction between the
-kernel space interface for RXE and NVMf are not playing well
-together.
+> +       WARN_ON_ONCE(!res);
+> +       queue_for_each_hw_ctx(q, hctx, i) {
+> +               if (hctx->flags & BLK_MQ_F_BLOCKING) {
+> +                       mutex_lock(&hctx->queue_rq_mutex);
+> +                       mutex_unlock(&hctx->queue_rq_mutex);
 
-Suspect Modules
----------------
+Could you explain a bit why all BLOCKING is treated so special? And
+that flag just means the hw queue always need to schedule asynchronously,
+and of couse even though the flag isn't set, it still may be run
+asynchronously too. So looks it should be enough to just use RCU.
 
-nvmet, rdma_rxe
+> +               } else {
+> +                       rcu = true;
+> +               }
+> +       }
+> +       if (rcu)
+> +               synchronize_rcu();
+> +
+> +       spin_lock_irq(q->queue_lock);
+> +       WARN_ON_ONCE(!blk_queue_quiescing(q));
+> +       queue_flag_clear(QUEUE_FLAG_QUIESCING, q);
+> +       spin_unlock_irq(q->queue_lock);
+> +}
+> +EXPORT_SYMBOL_GPL(blk_mq_quiesce_queue);
+> +
+> +/**
+> + * blk_mq_resume_queue() - resume request processing
+> + *
+> + * Resume blk_queue_enter() calls that have been suspended by
+> + * blk_mq_quiesce_queue().
+> + *
+> + * The caller is responsible for serializing blk_mq_quiesce_queue() and
+> + * blk_mq_resume_queue().
+> + */
+> +void blk_mq_resume_queue(struct request_queue *q)
+> +{
+> +       bool res;
+> +
+> +       res = __blk_mq_unfreeze_queue(q, false);
+> +       WARN_ON_ONCE(!res);
+> +       WARN_ON_ONCE(blk_queue_quiescing(q));
+> +
+> +       blk_mq_run_hw_queues(q, false);
+> +}
+> +EXPORT_SYMBOL_GPL(blk_mq_resume_queue);
+> +
+>  void blk_mq_wake_waiters(struct request_queue *q)
+>  {
+>         struct blk_mq_hw_ctx *hctx;
+> @@ -488,6 +567,9 @@ static void blk_mq_requeue_work(struct work_struct *work)
+>         struct request *rq, *next;
+>         unsigned long flags;
+>
+> +       if (blk_queue_quiescing(q))
+> +               return;
+> +
+>         spin_lock_irqsave(&q->requeue_lock, flags);
+>         list_splice_init(&q->requeue_list, &rq_list);
+>         spin_unlock_irqrestore(&q->requeue_lock, flags);
+> @@ -782,7 +864,7 @@ static inline unsigned int queued_to_index(unsigned int queued)
+>   * of IO. In particular, we'd like FIFO behaviour on handling existing
+>   * items on the hctx->dispatch list. Ignore that for now.
+>   */
+> -static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
+> +static void blk_mq_process_rq_list(struct blk_mq_hw_ctx *hctx)
+>  {
+>         struct request_queue *q = hctx->queue;
+>         struct request *rq;
+> @@ -791,9 +873,6 @@ static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
+>         struct list_head *dptr;
+>         int queued;
+>
+> -       if (unlikely(test_bit(BLK_MQ_S_STOPPED, &hctx->state)))
+> -               return;
+> -
+>         WARN_ON(!cpumask_test_cpu(raw_smp_processor_id(), hctx->cpumask) &&
+>                 cpu_online(hctx->next_cpu));
+>
+> @@ -883,7 +962,24 @@ static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
+>                  *
+>                  * blk_mq_run_hw_queue() already checks the STOPPED bit
+>                  **/
+> -               blk_mq_run_hw_queue(hctx, true);
+> +               if (!blk_queue_quiescing(q))
+> +                       blk_mq_run_hw_queue(hctx, true);
+> +       }
+> +}
+> +
+> +static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
+> +{
+> +       if (unlikely(test_bit(BLK_MQ_S_STOPPED, &hctx->state)))
+> +               return;
+> +
+> +       if (hctx->flags & BLK_MQ_F_BLOCKING) {
+> +               mutex_lock(&hctx->queue_rq_mutex);
+> +               blk_mq_process_rq_list(hctx);
+> +               mutex_unlock(&hctx->queue_rq_mutex);
+> +       } else {
+> +               rcu_read_lock();
+> +               blk_mq_process_rq_list(hctx);
+> +               rcu_read_unlock();
+>         }
+>  }
+>
+> @@ -1341,7 +1437,7 @@ static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
+>                 blk_mq_bio_to_request(rq, bio);
+>
+>                 /*
+> -                * We do limited pluging. If the bio can be merged, do that.
+> +                * We do limited plugging. If the bio can be merged, do that.
+>                  * Otherwise the existing request in the plug list will be
+>                  * issued. So the plug list will have one request at most
+>                  */
+> @@ -1361,9 +1457,23 @@ static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
+>                 blk_mq_put_ctx(data.ctx);
+>                 if (!old_rq)
+>                         goto done;
+> -               if (!blk_mq_direct_issue_request(old_rq, &cookie))
+> -                       goto done;
+> -               blk_mq_insert_request(old_rq, false, true, true);
+> +
+> +               if (data.hctx->flags & BLK_MQ_F_BLOCKING) {
+> +                       mutex_lock(&data.hctx->queue_rq_mutex);
+> +                       if (blk_queue_quiescing(q) ||
+> +                           blk_mq_direct_issue_request(old_rq, &cookie) != 0)
+> +                               blk_mq_insert_request(old_rq, false, true,
+> +                                                     true);
+> +                       mutex_unlock(&data.hctx->queue_rq_mutex);
+> +               } else {
+> +                       rcu_read_lock();
+> +                       if (blk_queue_quiescing(q) ||
+> +                           blk_mq_direct_issue_request(old_rq, &cookie) != 0)
+> +                               blk_mq_insert_request(old_rq, false, true,
+> +                                                     true);
+> +                       rcu_read_unlock();
+> +               }
+> +
+>                 goto done;
+>         }
+>
+> @@ -1702,6 +1812,7 @@ static int blk_mq_init_hctx(struct request_queue *q,
+>         INIT_DELAYED_WORK(&hctx->delay_work, blk_mq_delay_work_fn);
+>         spin_lock_init(&hctx->lock);
+>         INIT_LIST_HEAD(&hctx->dispatch);
+> +       mutex_init(&hctx->queue_rq_mutex);
+>         hctx->queue = q;
+>         hctx->queue_num = hctx_idx;
+>         hctx->flags = set->flags & ~BLK_MQ_F_TAG_SHARED;
+> diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+> index 368c460d..4b970f1 100644
+> --- a/include/linux/blk-mq.h
+> +++ b/include/linux/blk-mq.h
+> @@ -41,6 +41,8 @@ struct blk_mq_hw_ctx {
+>
+>         struct blk_mq_tags      *tags;
+>
+> +       struct mutex            queue_rq_mutex;
+> +
+>         unsigned long           queued;
+>         unsigned long           run;
+>  #define BLK_MQ_MAX_DISPATCH_ORDER      7
+> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+> index c47c358..d365cdf 100644
+> --- a/include/linux/blkdev.h
+> +++ b/include/linux/blkdev.h
+> @@ -505,6 +505,7 @@ struct request_queue {
+>  #define QUEUE_FLAG_FUA        24       /* device supports FUA writes */
+>  #define QUEUE_FLAG_FLUSH_NQ    25      /* flush not queueuable */
+>  #define QUEUE_FLAG_DAX         26      /* device supports DAX */
+> +#define QUEUE_FLAG_QUIESCING   27
+>
+>  #define QUEUE_FLAG_DEFAULT     ((1 << QUEUE_FLAG_IO_STAT) |            \
+>                                  (1 << QUEUE_FLAG_STACKABLE)    |       \
+> @@ -595,6 +596,8 @@ static inline void queue_flag_clear(unsigned int flag, struct request_queue *q)
+>  #define blk_queue_secure_erase(q) \
+>         (test_bit(QUEUE_FLAG_SECERASE, &(q)->queue_flags))
+>  #define blk_queue_dax(q)       test_bit(QUEUE_FLAG_DAX, &(q)->queue_flags)
+> +#define blk_queue_quiescing(q) test_bit(QUEUE_FLAG_QUIESCING,  \
+> +                                        &(q)->queue_flags)
+>
+>  #define blk_noretry_request(rq) \
+>         ((rq)->cmd_flags & (REQ_FAILFAST_DEV|REQ_FAILFAST_TRANSPORT| \
+> @@ -824,6 +827,8 @@ extern void __blk_run_queue(struct request_queue *q);
+>  extern void __blk_run_queue_uncond(struct request_queue *q);
+>  extern void blk_run_queue(struct request_queue *);
+>  extern void blk_run_queue_async(struct request_queue *q);
+> +extern void blk_mq_quiesce_queue(struct request_queue *q);
+> +extern void blk_mq_resume_queue(struct request_queue *q);
+>  extern int blk_rq_map_user(struct request_queue *, struct request *,
+>                            struct rq_map_data *, void __user *, unsigned long,
+>                            gfp_t);
+> --
+> 2.10.0
+>
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-block" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 
-Steps to Reproduce
-------------------
-
-1. Monolithic 4.8-rc8 kernel. I can provide a .config if people want
-it.
-2. Boot up two QEMU instances connected together via a e1000 vNIC and
-a QEMU socket connection.
-3. Bind rdma_rxe to the relevant ethernet ports on each VM using the
-rxe_cfg user-space tool.
-4. Setup NVMf target namespace on the target. I did this was a short
-shell script.
-5. Do nvme discover and connect on host (I used nvme-cli for this).
-6. Try and issue IO on the NVMe block device created on the host.
-
-Some of this is recorded in my qemu-minimal Github repo which you can
-find here:
-
-https://github.com/sbates130272/qemu-minimal
-
-Oops Trace
------------
-
-I am including a couple of lines before the oops because I suspect
-they might be relevant. addr2line decodes the last addrss in the call
-trace as
-
-ida_simple_remove(&nvmet_rdma_queue_ida, queue->idx);
-
-[  272.511262] nvmet: creating controller 1 for NQN
-nqn.2014-08.org.nvmexpress:NVMf:uuid:1fa5a811-6324-42bb-aab0-3e1fa4d14b90.
-[  272.758552] nvmet: adding queue 1 to ctrl 1.
-[  313.308896] nvmet_rdma: freeing queue 1
-[  313.310315] nvmet_rdma: freeing queue 0
-[  313.313056] general protection fault: 0000 [#1] SMP
-[  313.313672] Modules linked in:
-[  313.314015] CPU: 0 PID: 420 Comm: kworker/0:1 Not tainted 4.8.0-rc8
-#50
-[  313.314015] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996),
-BIOS rel-1.7.5-0-ge51488c-20140602_164612-nilsson.home.kraxel.org
-04/01/2014
-[  313.314015] Workqueue: events nvmet_rdma_release_queue_work
-[  313.314015] task: ffff88007c728000 task.stack: ffff88007c750000
-[  313.314015] RIP: 0010:[<ffffffff81453500>]  [<ffffffff81453500>]
-nvmet_rdma_free_rsps+0x80/0x110
-[  313.314015] RSP: 0018:ffff88007c753db8  EFLAGS: 00010282
-[  313.314015] RAX: dead000000000200 RBX: ffff8800795c1320 RCX:
-00000001810000e9
-[  313.314015] RDX: dead000000000100 RSI: ffffea0001f07f80 RDI:
-0000000040000000
-[  313.314015] RBP: ffff88007c753de0 R08: 000000007c1feb01 R09:
-00000001810000e9
-[  313.314015] R10: ffffea0001f07f00 R11: ffffea0001f25800 R12:
-0000000000001320
-[  313.314015] R13: 0000000000008800 R14: ffff88007c2c6a00 R15:
-ffff88007b93e400
-[  313.314015] FS:  0000000000000000(0000) GS:ffff88007fc00000(0000)
-knlGS:0000000000000000
-[  313.314015] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  313.314015] CR2: 00007f13ddc13005 CR3: 000000007c1d4000 CR4:
-00000000000006f0
-[  313.314015] Stack:
-[  313.314015]  ffff88007c2c6a00 0000000000000002 ffff88007c1adc00
-ffff88007fc1b500
-[  313.314015]  ffff88007c2c6ac8 ffff88007c753df8 ffffffff814537b9
-ffff88007b93e400
-[  313.314015]  ffff88007c753e20 ffffffff81453820 ffff88007d3bfd80
-ffff88007fc17040
-[  313.314015] Call Trace:
-[  313.314015]  [<ffffffff814537b9>] nvmet_rdma_free_queue+0x49/0x90
-[  313.314015]  [<ffffffff81453820>]
-nvmet_rdma_release_queue_work+0x20/0x50
-[  313.314015]  [<ffffffff8106d856>] process_one_work+0x146/0x410
-[  313.314015]  [<ffffffff8106deb1>] worker_thread+0x61/0x490
-[  313.314015]  [<ffffffff8106de50>] ? rescuer_thread+0x330/0x330
-[  313.314015]  [<ffffffff8106de50>] ? rescuer_thread+0x330/0x330
-[  313.314015]  [<ffffffff81072c06>] kthread+0xd6/0xf0
-[  313.314015]  [<ffffffff8173ae8f>] ret_from_fork+0x1f/0x40
-[  313.314015]  [<ffffffff81072b30>] ? kthread_park+0x50/0x50
-[  313.314015] Code: c4 20 02 00 00 e8 b1 b2 d1 ff 4d 39 ec 0f 84 82
-00 00 00 4c 89 e3 49 03 9e a0 00 00 00 48 8b 83 18 02 00 00 48 8b 93
-10 02 00 00 <48> 89 42 08 48 89 10 48 b8 00 01 00 00 00 00 ad de 48 89
-83 10
-[  313.314015] RIP  [<ffffffff81453500>]
-nvmet_rdma_free_rsps+0x80/0x110
-[  313.314015]  RSP <ffff88007c753db8>
-
-ver_linux
----------
-
-Linux cgy1-donard 4.6.0+3-00004-ga573b70 #118 SMP Fri Jun 3 15:21:30
-MDT 2016 x86_64 GNU/Linux
-
-GNU C                   4.9.2
-GNU Make                4.0
-Binutils                2.25
-Util-linux              2.25.2
-Mount                   2.25.2
-Linux C Library         2.19
-Dynamic linker (ldd)    2.19
-Procps                  3.3.9
-Kbd                     1.15.5
-Console-tools           1.15.5
-Sh-utils                8.23
-Udev                    215
-Modules Loaded          ablk_helper acpi_cpufreq aesni_intel
-aes_x86_64 ahci ansi_cprng auth_rpcgss autofs4 binfmt_misc bridge
-br_netfilter btrfs button configfs coretemp crc32c_intel cryptd cxgb4
-dca dm_mod drbg edac_core ehci_hcd ehci_pci evdev ext4 fscache fuse
-gf128mul ghash_clmulni_intel glue_helper grace hid hid_generic hmac
-i2c_algo_bit i2c_core i2c_i801 ib_addr ib_cm ib_core ib_ipoib ib_mad
-ib_sa ib_umad ib_uverbs igb ioatdma ipmi_devintf ipmi_msghandler
-ipmi_poweroff ipmi_si ipmi_watchdog iptable_filter iptable_nat
-ip_tables ipt_MASQUERADE irqbypass isci iTCO_vendor_support iTCO_wdt
-iw_cm iw_cxgb4 jbd2 joydev kvm kvm_intel libahci libata libnvdimm
-libsas llc lockd loop lpc_ich lrw mbcache md_mod mfd_core mlx4_core
-mlx4_ib mlx5_core mlx5_ib msr nd_btt nd_e820 nd_pmem nf_conntrack
-nf_conntrack_ipv4 nf_defrag_ipv4 nf_nat nf_nat_ipv4
-nf_nat_masquerade_ipv4 nfs nfs_acl nfsd nvme nvme_core ohci_hcd
-oid_registry overlay pcspkr pps_core processor psmouse ptp raid6_pq
-rdma_cm rdma_ucm sb_edac scsi_mod scsi_transport_sas sd_mod serio_raw
-sg sha256_generic shpchp stp sunrpc tpm tpm_tis tun uhci_hcd
-usb_common usbcore usbhid wmi x86_pkg_temp_thermal xhci_hcd xor
-x_tables xt_addrtype xt_conntrack
 
 
-Cheers
-
-Stephen
+-- 
+Ming Lei
