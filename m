@@ -1,27 +1,23 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 29 Sep 2016 07:52:01 +0200
-Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
- blk_resume_queue()
-In-Reply-To: <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
+Date: Thu, 29 Sep 2016 07:54:29 +0200
+Subject: [PATCH v2 6/7] SRP transport: Port srp_wait_for_queuecommand() to
+ scsi-mq
+In-Reply-To: <bedf4b45-00b0-6844-047d-f1e05bb1092f@sandisk.com>
 References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
- <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
-Message-ID: <6bc9d7e6-3db0-6bc5-b7cf-668278367303@suse.de>
+ <bedf4b45-00b0-6844-047d-f1e05bb1092f@sandisk.com>
+Message-ID: <c0cae8d1-c82e-5089-3f93-cd03511b45cc@suse.de>
 
-On 09/29/2016 01:59 AM, Bart Van Assche wrote:
-> blk_quiesce_queue() prevents that new queue_rq() invocations
-> occur and waits until ongoing invocations have finished. This
-> function does *not* wait until all outstanding requests have
-> finished (this means invocation of request.end_io()).
-> blk_resume_queue() resumes normal I/O processing.
+On 09/29/2016 02:01 AM, Bart Van Assche wrote:
+> Ensure that if scsi-mq is enabled that srp_wait_for_queuecommand()
+> waits until ongoing shost->hostt->queuecommand() calls have finished.
 > 
 > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> Cc: Hannes Reinecke <hare at suse.com>
-> Cc: Johannes Thumshirn <jthumshirn at suse.de>
+> Cc: James Bottomley <jejb at linux.vnet.ibm.com>
+> Cc: Martin K. Petersen <martin.petersen at oracle.com>
+> Cc: Doug Ledford <dledford at redhat.com>
 > ---
->  block/blk-mq.c         | 137 ++++++++++++++++++++++++++++++++++++++++++++-----
->  include/linux/blk-mq.h |   2 +
->  include/linux/blkdev.h |   5 ++
->  3 files changed, 131 insertions(+), 13 deletions(-)
+>  drivers/scsi/scsi_transport_srp.c | 24 ++++++++++++++++++++----
+>  1 file changed, 20 insertions(+), 4 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
