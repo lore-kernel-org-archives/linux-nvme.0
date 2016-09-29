@@ -1,62 +1,60 @@
 From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Wed, 28 Sep 2016 17:01:45 -0700
-Subject: [PATCH v2 7/7] [RFC] nvme: Fix a race condition
+Date: Wed, 28 Sep 2016 17:02:23 -0700
+Subject: [PATCH v2 2/7] dm: Use BLK_MQ_S_STOPPED instead of QUEUE_FLAG_STOPPED
+ in blk-mq code
 In-Reply-To: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
 References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
-Message-ID: <ff412bfb-548c-c4fc-5180-78ede8a19ef2@sandisk.com>
-
-Avoid that nvme_queue_rq() is still running when nvme_stop_queues()
-returns. Untested.
+Message-ID: <43265806-b77f-b357-cbf1-1d05cf253f97@sandisk.com>
 
 Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
+Cc: Mike Snitzer <snitzer at redhat.com>
 ---
- drivers/nvme/host/core.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ drivers/md/dm-rq.c | 18 ++----------------
+ 1 file changed, 2 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d791fba..98f1f29 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -201,13 +201,9 @@ fail:
+diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
+index 182b679..f2c271a 100644
+--- a/drivers/md/dm-rq.c
++++ b/drivers/md/dm-rq.c
+@@ -75,12 +75,6 @@ static void dm_old_start_queue(struct request_queue *q)
  
- void nvme_requeue_req(struct request *req)
+ static void dm_mq_start_queue(struct request_queue *q)
  {
 -	unsigned long flags;
 -
- 	blk_mq_requeue_request(req);
--	spin_lock_irqsave(req->q->queue_lock, flags);
--	if (!blk_mq_queue_stopped(req->q))
--		blk_mq_kick_requeue_list(req->q);
--	spin_unlock_irqrestore(req->q->queue_lock, flags);
-+	WARN_ON_ONCE(blk_mq_queue_stopped(req->q));
-+	blk_mq_kick_requeue_list(req->q);
+-	spin_lock_irqsave(q->queue_lock, flags);
+-	queue_flag_clear(QUEUE_FLAG_STOPPED, q);
+-	spin_unlock_irqrestore(q->queue_lock, flags);
+-
+ 	blk_mq_start_stopped_hw_queues(q, true);
+ 	blk_mq_kick_requeue_list(q);
  }
- EXPORT_SYMBOL_GPL(nvme_requeue_req);
+@@ -105,16 +99,8 @@ static void dm_old_stop_queue(struct request_queue *q)
  
-@@ -2077,11 +2073,19 @@ EXPORT_SYMBOL_GPL(nvme_kill_queues);
- void nvme_stop_queues(struct nvme_ctrl *ctrl)
+ static void dm_mq_stop_queue(struct request_queue *q)
  {
- 	struct nvme_ns *ns;
-+	struct request_queue *q;
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(q->queue_lock, flags);
+-	if (blk_queue_stopped(q)) {
+-		spin_unlock_irqrestore(q->queue_lock, flags);
++	if (blk_mq_queue_stopped(q))
+ 		return;
+-	}
+-
+-	queue_flag_set(QUEUE_FLAG_STOPPED, q);
+-	spin_unlock_irqrestore(q->queue_lock, flags);
  
- 	mutex_lock(&ctrl->namespaces_mutex);
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
--		blk_mq_cancel_requeue_work(ns->queue);
--		blk_mq_stop_hw_queues(ns->queue);
-+		q = ns->queue;
-+		blk_mq_quiesce_queue(q);
-+		blk_mq_cancel_requeue_work(q);
-+		blk_mq_stop_hw_queues(q);
-+		/*
-+		 * Note: blk_mq_resume_queue() does not affect the value
-+		 * of the BLK_MQ_S_STOPPED bit.
-+		 */
-+		blk_mq_resume_queue(q);
- 	}
- 	mutex_unlock(&ctrl->namespaces_mutex);
+ 	/* Avoid that requeuing could restart the queue. */
+ 	blk_mq_cancel_requeue_work(q);
+@@ -341,7 +327,7 @@ static void __dm_mq_kick_requeue_list(struct request_queue *q, unsigned long mse
+ 	unsigned long flags;
+ 
+ 	spin_lock_irqsave(q->queue_lock, flags);
+-	if (!blk_queue_stopped(q))
++	if (!blk_mq_queue_stopped(q))
+ 		blk_mq_delay_kick_requeue_list(q, msecs);
+ 	spin_unlock_irqrestore(q->queue_lock, flags);
  }
 -- 
 2.10.0
