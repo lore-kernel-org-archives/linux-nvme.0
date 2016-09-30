@@ -1,43 +1,71 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 30 Sep 2016 11:20:53 -0400
-Subject: [PATCH 4/5] nvme: use symbolic constants for CNS values
-In-Reply-To: <1475236270-18329-5-git-send-email-hch@lst.de>
-References: <1475236270-18329-1-git-send-email-hch@lst.de>
- <1475236270-18329-5-git-send-email-hch@lst.de>
-Message-ID: <20160930152053.GC22601@localhost.localdomain>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Fri, 30 Sep 2016 08:55:59 -0700
+Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
+ blk_resume_queue()
+In-Reply-To: <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
+References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
+ <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
+ <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
+Message-ID: <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
 
-On Fri, Sep 30, 2016@01:51:09PM +0200, Christoph Hellwig wrote:
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+On 09/29/16 14:51, Ming Lei wrote:
+> On Thu, Sep 29, 2016 at 7:59 AM, Bart Van Assche
+> <bart.vanassche@sandisk.com> wrote:
+>> blk_quiesce_queue() prevents that new queue_rq() invocations
+>
+> blk_mq_quiesce_queue()
 
-Looks good.
+Thanks, I will update the patch title and patch description.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+>> +void blk_mq_quiesce_queue(struct request_queue *q)
+>> +{
+>> +       struct blk_mq_hw_ctx *hctx;
+>> +       unsigned int i;
+>> +       bool res, rcu = false;
+>> +
+>> +       spin_lock_irq(q->queue_lock);
+>> +       WARN_ON_ONCE(blk_queue_quiescing(q));
+>> +       queue_flag_set(QUEUE_FLAG_QUIESCING, q);
+>> +       spin_unlock_irq(q->queue_lock);
+>> +
+>> +       res = __blk_mq_freeze_queue_start(q, false);
+>
+> Looks the implementation is a bit tricky and complicated, if the percpu
+> usage counter isn't killed, it isn't necessary to touch .mq_freeze_depth
+> since you use QUEUE_FLAG_QUIESCING to set/get this status of
+> the queue.
+ >
+ > Then using synchronize_rcu() and rcu_read_lock()/rcu_read_unlock()
+ > with the flag of QUIESCING may be enough to wait for completing
+ > of ongoing invocations of .queue_rq() and avoid to run new .queue_rq,
+ > right?
 
-> ---
->  drivers/nvme/host/core.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 329381a..4bade0d 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -554,7 +554,7 @@ int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
->  
->  	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
->  	c.identify.opcode = nvme_admin_identify;
-> -	c.identify.cns = cpu_to_le32(1);
-> +	c.identify.cns = cpu_to_le32(NVME_ID_CNS_CTRL);
->  
->  	*id = kmalloc(sizeof(struct nvme_id_ctrl), GFP_KERNEL);
->  	if (!*id)
-> @@ -572,7 +572,7 @@ static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *n
->  	struct nvme_command c = { };
->  
->  	c.identify.opcode = nvme_admin_identify;
-> -	c.identify.cns = cpu_to_le32(2);
-> +	c.identify.cns = cpu_to_le32(NVME_ID_CNS_NS_ACTIVE_LIST);
->  	c.identify.nsid = cpu_to_le32(nsid);
->  	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list, 0x1000);
->  }
-> -- 
-> 2.1.4
+That's an interesting thought. Can you have a look at the attached patch 
+in which blk_mq_quiesce_queue() no longer manipulates the 
+mq_freeze_depth counter?
+
+>> +       WARN_ON_ONCE(!res);
+>> +       queue_for_each_hw_ctx(q, hctx, i) {
+>> +               if (hctx->flags & BLK_MQ_F_BLOCKING) {
+>> +                       mutex_lock(&hctx->queue_rq_mutex);
+>> +                       mutex_unlock(&hctx->queue_rq_mutex);
+>
+> Could you explain a bit why all BLOCKING is treated so special? And
+> that flag just means the hw queue always need to schedule asynchronously,
+> and of course even though the flag isn't set, it still may be run
+> asynchronously too. So looks it should be enough to just use RCU.
+
+The mutex manipulations introduce atomic stores in the hot path. Hence 
+the use of synchronize_rcu() and rcu_read_lock()/rcu_read_unlock() when 
+possible. Since BLK_MQ_F_BLOCKING indicates that .queue_rq() may sleep 
+and since sleeping is not allowed while holding the RCU read lock, 
+queue_rq_mutex has been introduced for the BLK_MQ_F_BLOCKING case.
+
+Bart.
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 0001-blk-mq-Introduce-blk_mq_quiesce_queue.patch
+Type: text/x-patch
+Size: 6466 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160930/0dd0b79e/attachment-0001.bin>
