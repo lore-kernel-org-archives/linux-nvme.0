@@ -1,49 +1,21 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 30 Sep 2016 13:51:10 +0200
-Subject: [PATCH 5/5] nvmet: use symbolic constants for CNS values
-In-Reply-To: <1475236270-18329-1-git-send-email-hch@lst.de>
+From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
+Date: Fri, 30 Sep 2016 10:07:35 -0300
+Subject: nvme header updates
+In-Reply-To: <1475236270-18329-1-git-send-email-hch@lst.de> (Christoph
+ Hellwig's message of "Fri, 30 Sep 2016 13:51:05 +0200")
 References: <1475236270-18329-1-git-send-email-hch@lst.de>
-Message-ID: <1475236270-18329-6-git-send-email-hch@lst.de>
+Message-ID: <878tu9k02w.fsf@linux.vnet.ibm.com>
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/target/admin-cmd.c | 6 +++---
- drivers/nvme/target/discovery.c | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
+Christoph Hellwig <hch at lst.de> writes:
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 6944f24..6fe4c48 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -511,13 +511,13 @@ int nvmet_parse_admin_cmd(struct nvmet_req *req)
- 	case nvme_admin_identify:
- 		req->data_len = 4096;
- 		switch (le32_to_cpu(cmd->identify.cns)) {
--		case 0x00:
-+		case NVME_ID_CNS_NS:
- 			req->execute = nvmet_execute_identify_ns;
- 			return 0;
--		case 0x01:
-+		case NVME_ID_CNS_CTRL:
- 			req->execute = nvmet_execute_identify_ctrl;
- 			return 0;
--		case 0x02:
-+		case NVME_ID_CNS_NS_ACTIVE_LIST:
- 			req->execute = nvmet_execute_identify_nslist;
- 			return 0;
- 		}
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index a6c25fb..12f39ee 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -187,7 +187,7 @@ int nvmet_parse_discovery_cmd(struct nvmet_req *req)
- 	case nvme_admin_identify:
- 		req->data_len = 4096;
- 		switch (le32_to_cpu(cmd->identify.cns)) {
--		case 0x01:
-+		case NVME_ID_CNS_CTRL:
- 			req->execute =
- 				nvmet_execute_identify_disc_ctrl;
- 			return 0;
+> This series resyncs nvme.h to that it can be reused by nvme-cli, and
+> while at that brings over another enums so far only used in nvme-cli.
+
+This set looks good to me.  Please add
+
+Reviewed-by: Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com>
+
+Thanks.
+
 -- 
-2.1.4
+Gabriel Krisman Bertazi
