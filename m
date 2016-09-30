@@ -1,147 +1,38 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 30 Sep 2016 13:51:06 +0200
-Subject: [PATCH 1/5] nvme.h: resync with nvme-cli
+Date: Fri, 30 Sep 2016 13:51:07 +0200
+Subject: [PATCH 2/5] nvme.h: don't use uuid_be
 In-Reply-To: <1475236270-18329-1-git-send-email-hch@lst.de>
 References: <1475236270-18329-1-git-send-email-hch@lst.de>
-Message-ID: <1475236270-18329-2-git-send-email-hch@lst.de>
+Message-ID: <1475236270-18329-3-git-send-email-hch@lst.de>
 
-Import a few updates to nvme.h from nvme-cli.  This mostly includes a few
-new fields and error codes, but also a few renames that so far are only
-used in user space.  Also one field is moved from an array of two le64
-values to one of 16 u8 values so that we can more easily access it.
+This makes life easier for nvme-cli and we don't really need the uuid
+type anyway to start with.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/target/admin-cmd.c |  2 +-
- drivers/nvme/target/discovery.c |  2 +-
- include/linux/nvme.h            | 33 +++++++++++++++++++++++++++------
- 3 files changed, 29 insertions(+), 8 deletions(-)
+ include/linux/nvme.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 7ab9c93..6944f24 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -199,7 +199,7 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
- 	 */
- 
- 	/* we support multiple ports and multiples hosts: */
--	id->mic = (1 << 0) | (1 << 1);
-+	id->cmic = (1 << 0) | (1 << 1);
- 
- 	/* no limit on data transfer sizes for now */
- 	id->mdts = 0;
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 6f65646..a6c25fb 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -54,7 +54,7 @@ static void nvmet_format_discovery_entry(struct nvmf_disc_rsp_page_hdr *hdr,
- 	/* we support only dynamic controllers */
- 	e->cntlid = cpu_to_le16(NVME_CNTLID_DYNAMIC);
- 	e->asqsz = cpu_to_le16(NVMF_AQ_DEPTH);
--	e->nqntype = type;
-+	e->subtype = type;
- 	memcpy(e->trsvcid, port->disc_addr.trsvcid, NVMF_TRSVCID_SIZE);
- 	memcpy(e->traddr, port->disc_addr.traddr, NVMF_TRADDR_SIZE);
- 	memcpy(e->tsas.common, port->disc_addr.tsas.common, NVMF_TSAS_SIZE);
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 7676557..c3ed1df 100644
+index c3ed1df..30a4c00 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -182,7 +182,7 @@ struct nvme_id_ctrl {
- 	char			fr[8];
- 	__u8			rab;
- 	__u8			ieee[3];
--	__u8			mic;
-+	__u8			cmic;
- 	__u8			mdts;
- 	__le16			cntlid;
- 	__le32			ver;
-@@ -202,7 +202,13 @@ struct nvme_id_ctrl {
- 	__u8			apsta;
- 	__le16			wctemp;
- 	__le16			cctemp;
--	__u8			rsvd270[50];
-+	__le16			mtfa;
-+	__le32			hmpre;
-+	__le32			hmmin;
-+	__u8			tnvmcap[16];
-+	__u8			unvmcap[16];
-+	__le32			rpmbs;
-+	__u8			rsvd316[4];
- 	__le16			kas;
- 	__u8			rsvd322[190];
- 	__u8			sqes;
-@@ -267,7 +273,7 @@ struct nvme_id_ns {
- 	__le16			nabo;
- 	__le16			nabspf;
- 	__u16			rsvd46;
--	__le64			nvmcap[2];
-+	__u8			nvmcap[16];
- 	__u8			rsvd64[40];
- 	__u8			nguid[16];
- 	__u8			eui64[8];
-@@ -556,8 +562,10 @@ enum nvme_admin_opcode {
- 	nvme_admin_set_features		= 0x09,
- 	nvme_admin_get_features		= 0x0a,
- 	nvme_admin_async_event		= 0x0c,
-+	nvme_admin_ns_mgmt		= 0x0d,
- 	nvme_admin_activate_fw		= 0x10,
- 	nvme_admin_download_fw		= 0x11,
-+	nvme_admin_ns_attach		= 0x15,
- 	nvme_admin_keep_alive		= 0x18,
- 	nvme_admin_format_nvm		= 0x80,
- 	nvme_admin_security_send	= 0x81,
-@@ -583,6 +591,7 @@ enum {
- 	NVME_FEAT_WRITE_ATOMIC	= 0x0a,
- 	NVME_FEAT_ASYNC_EVENT	= 0x0b,
- 	NVME_FEAT_AUTO_PST	= 0x0c,
-+	NVME_FEAT_HOST_MEM_BUF	= 0x0d,
- 	NVME_FEAT_KATO		= 0x0f,
- 	NVME_FEAT_SW_PROGRESS	= 0x80,
- 	NVME_FEAT_HOST_ID	= 0x81,
-@@ -745,7 +754,7 @@ struct nvmf_common_command {
- struct nvmf_disc_rsp_page_entry {
- 	__u8		trtype;
- 	__u8		adrfam;
--	__u8		nqntype;
-+	__u8		subtype;
- 	__u8		treq;
- 	__le16		portid;
- 	__le16		cntlid;
-@@ -905,12 +914,23 @@ enum {
- 	NVME_SC_INVALID_VECTOR		= 0x108,
- 	NVME_SC_INVALID_LOG_PAGE	= 0x109,
- 	NVME_SC_INVALID_FORMAT		= 0x10a,
--	NVME_SC_FIRMWARE_NEEDS_RESET	= 0x10b,
-+	NVME_SC_FW_NEEDS_CONV_RESET	= 0x10b,
- 	NVME_SC_INVALID_QUEUE		= 0x10c,
- 	NVME_SC_FEATURE_NOT_SAVEABLE	= 0x10d,
- 	NVME_SC_FEATURE_NOT_CHANGEABLE	= 0x10e,
- 	NVME_SC_FEATURE_NOT_PER_NS	= 0x10f,
--	NVME_SC_FW_NEEDS_RESET_SUBSYS	= 0x110,
-+	NVME_SC_FW_NEEDS_SUBSYS_RESET	= 0x110,
-+	NVME_SC_FW_NEEDS_RESET		= 0x111,
-+	NVME_SC_FW_NEEDS_MAX_TIME	= 0x112,
-+	NVME_SC_FW_ACIVATE_PROHIBITED	= 0x113,
-+	NVME_SC_OVERLAPPING_RANGE	= 0x114,
-+	NVME_SC_NS_INSUFFICENT_CAP	= 0x115,
-+	NVME_SC_NS_ID_UNAVAILABLE	= 0x116,
-+	NVME_SC_NS_ALREADY_ATTACHED	= 0x118,
-+	NVME_SC_NS_IS_PRIVATE		= 0x119,
-+	NVME_SC_NS_NOT_ATTACHED		= 0x11a,
-+	NVME_SC_THIN_PROV_NOT_SUPP	= 0x11b,
-+	NVME_SC_CTRL_LIST_INVALID	= 0x11c,
+@@ -16,7 +16,6 @@
+ #define _LINUX_NVME_H
  
- 	/*
- 	 * I/O Command Set Specific - NVM commands:
-@@ -941,6 +961,7 @@ enum {
- 	NVME_SC_REFTAG_CHECK		= 0x284,
- 	NVME_SC_COMPARE_FAILED		= 0x285,
- 	NVME_SC_ACCESS_DENIED		= 0x286,
-+	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
+ #include <linux/types.h>
+-#include <linux/uuid.h>
  
- 	NVME_SC_DNR			= 0x4000,
+ /* NQN names in commands fields specified one size */
+ #define NVMF_NQN_FIELD_LEN	256
+@@ -803,7 +802,7 @@ struct nvmf_connect_command {
  };
+ 
+ struct nvmf_connect_data {
+-	uuid_be		hostid;
++	__u8		hostid[16];
+ 	__le16		cntlid;
+ 	char		resv4[238];
+ 	char		subsysnqn[NVMF_NQN_FIELD_LEN];
 -- 
 2.1.4
