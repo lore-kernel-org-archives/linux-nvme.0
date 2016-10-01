@@ -1,51 +1,130 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 30 Nov 2016 19:50:41 -0500
-Subject: [PATCH v2 3/4] nvme: Implement resume_from_suspend and sed block
- ioctl
-In-Reply-To: <1480456322-27339-4-git-send-email-scott.bauer@intel.com>
-References: <1480456322-27339-1-git-send-email-scott.bauer@intel.com>
- <1480456322-27339-4-git-send-email-scott.bauer@intel.com>
-Message-ID: <20161201005040.GF21081@localhost.localdomain>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Sun, 2 Oct 2016 06:56:19 +0800
+Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
+ blk_resume_queue()
+In-Reply-To: <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
+References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
+ <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
+ <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
+ <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
+Message-ID: <CACVXFVMY19vuDjsECg2uX0_y_K7DUaaGqXPX9PYiBy5sfXmAEw@mail.gmail.com>
 
-On Tue, Nov 29, 2016@02:52:01PM -0700, Scott Bauer wrote:
-> +static int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer,
-> +			   size_t len, bool send)
+On Fri, Sep 30, 2016 at 11:55 PM, Bart Van Assche
+<bart.vanassche@sandisk.com> wrote:
+> On 09/29/16 14:51, Ming Lei wrote:
+>>
+>> On Thu, Sep 29, 2016 at 7:59 AM, Bart Van Assche
+>> <bart.vanassche@sandisk.com> wrote:
+>>>
+>>> blk_quiesce_queue() prevents that new queue_rq() invocations
+>>
+>>
+>> blk_mq_quiesce_queue()
+>
+>
+> Thanks, I will update the patch title and patch description.
+>
+>>> +void blk_mq_quiesce_queue(struct request_queue *q)
+>>> +{
+>>> +       struct blk_mq_hw_ctx *hctx;
+>>> +       unsigned int i;
+>>> +       bool res, rcu = false;
+>>> +
+>>> +       spin_lock_irq(q->queue_lock);
+>>> +       WARN_ON_ONCE(blk_queue_quiescing(q));
+>>> +       queue_flag_set(QUEUE_FLAG_QUIESCING, q);
+>>> +       spin_unlock_irq(q->queue_lock);
+>>> +
+>>> +       res = __blk_mq_freeze_queue_start(q, false);
+>>
+>>
+>> Looks the implementation is a bit tricky and complicated, if the percpu
+>> usage counter isn't killed, it isn't necessary to touch .mq_freeze_depth
+>> since you use QUEUE_FLAG_QUIESCING to set/get this status of
+>> the queue.
+>
+>>
+>> Then using synchronize_rcu() and rcu_read_lock()/rcu_read_unlock()
+>> with the flag of QUIESCING may be enough to wait for completing
+>> of ongoing invocations of .queue_rq() and avoid to run new .queue_rq,
+>> right?
+>
+> That's an interesting thought. Can you have a look at the attached patch in
+> which blk_mq_quiesce_queue() no longer manipulates the mq_freeze_depth
+> counter?
+
+About this part of manipulating 'mq_freeze_depth', your new patch looks
+better and cleaner.
+
+>
+>>> +       WARN_ON_ONCE(!res);
+>>> +       queue_for_each_hw_ctx(q, hctx, i) {
+>>> +               if (hctx->flags & BLK_MQ_F_BLOCKING) {
+>>> +                       mutex_lock(&hctx->queue_rq_mutex);
+>>> +                       mutex_unlock(&hctx->queue_rq_mutex);
+>>
+>>
+>> Could you explain a bit why all BLOCKING is treated so special? And
+>> that flag just means the hw queue always need to schedule asynchronously,
+>> and of course even though the flag isn't set, it still may be run
+>> asynchronously too. So looks it should be enough to just use RCU.
+>
+>
+> The mutex manipulations introduce atomic stores in the hot path. Hence the
+> use of synchronize_rcu() and rcu_read_lock()/rcu_read_unlock() when
+> possible. Since BLK_MQ_F_BLOCKING indicates that .queue_rq() may sleep and
+> since sleeping is not allowed while holding the RCU read lock,
+> queue_rq_mutex has been introduced for the BLK_MQ_F_BLOCKING case.
+
+OK, got it.
+
+But this part looks still not good enough:
+
+> +static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
 > +{
-> +	struct request_queue *q;
-> +	struct request *req;
-> +	struct nvme_ns *ns;
-> +	struct nvme_command cmd = { 0 };
-> +	int ret;
+> +       if (unlikely(test_bit(BLK_MQ_S_STOPPED, &hctx->state)))
+> +               return;
 > +
-> +	ns = data;
-> +
-> +	if (send)
-> +		cmd.common.opcode = (u8)nvme_admin_security_send;
-> +	else
-> +		cmd.common.opcode = (u8)nvme_admin_security_recv;
-> +
-> +	cmd.common.nsid = ns->ns_id;
-> +	cmd.common.cdw10[0] = cpu_to_le32(((u32)secp) << 24 | ((u32)spsp) << 8);
-> +	cmd.common.cdw10[1] = cpu_to_le32(len);
-> +
-> +	q = ns->ctrl->admin_q;
-> +
-> +	req = nvme_alloc_request(q, &cmd, 0, NVME_QID_ANY);
-> +	if (IS_ERR(req)) {
-> +		ret = PTR_ERR(req);
-> +		return ret;
-> +	}
-> +
-> +	req->timeout = ADMIN_TIMEOUT;
-> +	req->special = NULL;
-> +
-> +	if (buffer && len) {
-> +		ret = blk_rq_map_kern(q, req, buffer, len, GFP_KERNEL);
-> +		if (ret)
-> +			goto out;
-> +	}
-> +
-> +	ret = blk_execute_rq(req->q, ns->disk, req, 1);
+> +       if (hctx->flags & BLK_MQ_F_BLOCKING) {
+> +               mutex_lock(&hctx->queue_rq_mutex);
+> +               blk_mq_process_rq_list(hctx);
+> +               mutex_unlock(&hctx->queue_rq_mutex);
 
-I think you want to use the __nvme_submit_sync_command API instead of
-duplicating some of the things it does for you.
+With the new mutex, .queue_rq can't be run concurrently any more, even
+though the hw queue can be mapped to more than one CPUs. So maybe
+srcu for BLK_MQ_F_BLOCKING?
+
+> +       } else {
+> +               rcu_read_lock();
+> +               blk_mq_process_rq_list(hctx);
+> +               rcu_read_unlock();
+>         }
+
+...
+
+> -               if (!blk_mq_direct_issue_request(old_rq, &cookie))
+> -                       goto done;
+> -               blk_mq_insert_request(old_rq, false, true, true);
+> +
+> +               if (data.hctx->flags & BLK_MQ_F_BLOCKING) {
+> +                       mutex_lock(&data.hctx->queue_rq_mutex);
+> +                       if (blk_queue_quiescing(q) ||
+> +                           blk_mq_direct_issue_request(old_rq, &cookie) != 0)
+> +                               blk_mq_insert_request(old_rq, false, true,
+> +                                                     true);
+> +                       mutex_unlock(&data.hctx->queue_rq_mutex);
+> +               } else {
+> +                       rcu_read_lock();
+> +                       if (blk_queue_quiescing(q) ||
+> +                           blk_mq_direct_issue_request(old_rq, &cookie) != 0)
+> +                               blk_mq_insert_request(old_rq, false, true,
+> +                                                     true);
+> +                       rcu_read_unlock();
+> +               }
+> +
+
+If we just call the rcu/srcu read lock(or the mutex) around .queue_rq(), the
+above code needn't to be duplicated any more.
+
+Thanks,
+Ming Lei
