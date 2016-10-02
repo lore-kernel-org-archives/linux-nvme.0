@@ -1,130 +1,91 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Sun, 2 Oct 2016 06:56:19 +0800
-Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
- blk_resume_queue()
-In-Reply-To: <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
-References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
- <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
- <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
- <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
-Message-ID: <CACVXFVMY19vuDjsECg2uX0_y_K7DUaaGqXPX9PYiBy5sfXmAEw@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 2 Oct 2016 15:16:42 +0300
+Subject: PROBLEM: nvmet rxe : Kernel oops when running nvmf IO over
+ rdma_rxe
+In-Reply-To: <1475179824-10377-1-git-send-email-sbates@raithlin.com>
+References: <1475179824-10377-1-git-send-email-sbates@raithlin.com>
+Message-ID: <e50c485a-00b0-e896-34de-856714fcb454@grimberg.me>
 
-On Fri, Sep 30, 2016 at 11:55 PM, Bart Van Assche
-<bart.vanassche@sandisk.com> wrote:
-> On 09/29/16 14:51, Ming Lei wrote:
->>
->> On Thu, Sep 29, 2016 at 7:59 AM, Bart Van Assche
->> <bart.vanassche@sandisk.com> wrote:
->>>
->>> blk_quiesce_queue() prevents that new queue_rq() invocations
->>
->>
->> blk_mq_quiesce_queue()
+> Hi All
+
+Hey Stephen,
+
+> So I thought I would try and run NVMe over Fabrics over
+> Soft-RoCE. Both were adding to 4.8 so what could possibly go wrong
+> ;-).
+
+Obviously... :)
+
+> Problem
+> -------
 >
+> Kernel panics when attempting to run NVMe over Fabrics I/O over
+> soft-RoCE.
 >
-> Thanks, I will update the patch title and patch description.
+> Interestingly nvme discover and connect seem to go well. In some cases
+> I even seem to be able to issue some IO against the /dev/nvme0n1
+> device on the host. However pretty quick I get a kernel oops on the
+> target as shown below.
+
+Hmm, does this crash happens even if there is no IO? probably
+if not discover works well.
+
+> My testing of soft-roce itself using userspace tools like ib_write_bw
+> seem to be passing. So I am thinking the interaction between the
+> kernel space interface for RXE and NVMf are not playing well
+> together.
+
+Thats a fair assumption...
+
+> Oops Trace
+> -----------
 >
->>> +void blk_mq_quiesce_queue(struct request_queue *q)
->>> +{
->>> +       struct blk_mq_hw_ctx *hctx;
->>> +       unsigned int i;
->>> +       bool res, rcu = false;
->>> +
->>> +       spin_lock_irq(q->queue_lock);
->>> +       WARN_ON_ONCE(blk_queue_quiescing(q));
->>> +       queue_flag_set(QUEUE_FLAG_QUIESCING, q);
->>> +       spin_unlock_irq(q->queue_lock);
->>> +
->>> +       res = __blk_mq_freeze_queue_start(q, false);
->>
->>
->> Looks the implementation is a bit tricky and complicated, if the percpu
->> usage counter isn't killed, it isn't necessary to touch .mq_freeze_depth
->> since you use QUEUE_FLAG_QUIESCING to set/get this status of
->> the queue.
+> I am including a couple of lines before the oops because I suspect
+> they might be relevant. addr2line decodes the last addrss in the call
+> trace as
 >
->>
->> Then using synchronize_rcu() and rcu_read_lock()/rcu_read_unlock()
->> with the flag of QUIESCING may be enough to wait for completing
->> of ongoing invocations of .queue_rq() and avoid to run new .queue_rq,
->> right?
->
-> That's an interesting thought. Can you have a look at the attached patch in
-> which blk_mq_quiesce_queue() no longer manipulates the mq_freeze_depth
-> counter?
+> ida_simple_remove(&nvmet_rdma_queue_ida, queue->idx);
 
-About this part of manipulating 'mq_freeze_depth', your new patch looks
-better and cleaner.
+Hmm, How did you get to this line?
+I got:
+--
+$ gdb drivers/nvme/target/nvmet-rdma.ko
+GNU gdb (Ubuntu 7.11.1-0ubuntu1~16.04) 7.11.1
+Copyright (C) 2016 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later 
+<http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-linux-gnu".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>.
+Find the GDB manual and other documentation resources online at:
+<http://www.gnu.org/software/gdb/documentation/>.
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from drivers/nvme/target/nvmet-rdma.ko...done.
+(gdb) l *(nvmet_rdma_free_rsps+0x80)
+0xa20 is in nvmet_rdma_free_rsps (drivers/nvme/target/rdma.c:430).
+425		int i, nr_rsps = queue->recv_queue_size * 2;
+426	
+427		for (i = 0; i < nr_rsps; i++) {
+428			struct nvmet_rdma_rsp *rsp = &queue->rsps[i];
+429	
+430			list_del(&rsp->free_list);
+431			nvmet_rdma_free_rsp(ndev, rsp);
+432		}
+433		kfree(queue->rsps);
+434	}
+(gdb)
+--
 
->
->>> +       WARN_ON_ONCE(!res);
->>> +       queue_for_each_hw_ctx(q, hctx, i) {
->>> +               if (hctx->flags & BLK_MQ_F_BLOCKING) {
->>> +                       mutex_lock(&hctx->queue_rq_mutex);
->>> +                       mutex_unlock(&hctx->queue_rq_mutex);
->>
->>
->> Could you explain a bit why all BLOCKING is treated so special? And
->> that flag just means the hw queue always need to schedule asynchronously,
->> and of course even though the flag isn't set, it still may be run
->> asynchronously too. So looks it should be enough to just use RCU.
->
->
-> The mutex manipulations introduce atomic stores in the hot path. Hence the
-> use of synchronize_rcu() and rcu_read_lock()/rcu_read_unlock() when
-> possible. Since BLK_MQ_F_BLOCKING indicates that .queue_rq() may sleep and
-> since sleeping is not allowed while holding the RCU read lock,
-> queue_rq_mutex has been introduced for the BLK_MQ_F_BLOCKING case.
+Anyway, this looks like a use-after-free condition. The strange thing
+is that we don't see any queues being freed twice (we have a print
+there)...
 
-OK, got it.
-
-But this part looks still not good enough:
-
-> +static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
-> +{
-> +       if (unlikely(test_bit(BLK_MQ_S_STOPPED, &hctx->state)))
-> +               return;
-> +
-> +       if (hctx->flags & BLK_MQ_F_BLOCKING) {
-> +               mutex_lock(&hctx->queue_rq_mutex);
-> +               blk_mq_process_rq_list(hctx);
-> +               mutex_unlock(&hctx->queue_rq_mutex);
-
-With the new mutex, .queue_rq can't be run concurrently any more, even
-though the hw queue can be mapped to more than one CPUs. So maybe
-srcu for BLK_MQ_F_BLOCKING?
-
-> +       } else {
-> +               rcu_read_lock();
-> +               blk_mq_process_rq_list(hctx);
-> +               rcu_read_unlock();
->         }
-
-...
-
-> -               if (!blk_mq_direct_issue_request(old_rq, &cookie))
-> -                       goto done;
-> -               blk_mq_insert_request(old_rq, false, true, true);
-> +
-> +               if (data.hctx->flags & BLK_MQ_F_BLOCKING) {
-> +                       mutex_lock(&data.hctx->queue_rq_mutex);
-> +                       if (blk_queue_quiescing(q) ||
-> +                           blk_mq_direct_issue_request(old_rq, &cookie) != 0)
-> +                               blk_mq_insert_request(old_rq, false, true,
-> +                                                     true);
-> +                       mutex_unlock(&data.hctx->queue_rq_mutex);
-> +               } else {
-> +                       rcu_read_lock();
-> +                       if (blk_queue_quiescing(q) ||
-> +                           blk_mq_direct_issue_request(old_rq, &cookie) != 0)
-> +                               blk_mq_insert_request(old_rq, false, true,
-> +                                                     true);
-> +                       rcu_read_unlock();
-> +               }
-> +
-
-If we just call the rcu/srcu read lock(or the mutex) around .queue_rq(), the
-above code needn't to be duplicated any more.
-
-Thanks,
-Ming Lei
+I suspect that either we have some problems with the draining logic in
+rxe or, we uncovered a bug in nvmet-rdma that is triggered with rxe on
+a VM (back when I tested this I didn't get this, so things must have
+changed...)
