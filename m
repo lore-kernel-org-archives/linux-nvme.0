@@ -1,181 +1,325 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Mon, 03 Oct 2016 23:27:00 -0700
-Subject: [PATCH 4/7] nvme-fabrics: Updates to FC LLDD api
-Message-ID: <57f34bb4.88wY2eZRXxyCcIzu%james.smart@broadcom.com>
+Date: Mon, 03 Oct 2016 23:26:57 -0700
+Subject: [PATCH 1/7] nvme-fabrics: Add FC transport FC-NVME definitions
+Message-ID: <57f34bb1.R7Xz9kkZOAJuQODz%james.smart@broadcom.com>
 
 
-Updated the FC-NVME LLDD api for the following:
-- removal of fabric name for nport qualifier. No longer necessary in T11
-- Added sqid to the initiator FCP request structure.
-  Useful to the LLDD when re-generating successful CQE payloads
-  which were not transferred due to protocol reasons.
-- Add poll_queue() callback to initiator template. Supports the blk-mq
-  polling interfaces to look for command completion.
-- Add callbacks for localport, remoteport, and targetport unregister
-  completions. Required after change for ref-counting.
+nvme-fabrics: Add FC transport FC-NVME definitions:
+- Formats for Cmd, Data, Rsp IUs
+- Formats FC-4 LS definitions
+
+(Patch unchanged from prior posting)
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
+Acked-by: Johannes Thumshirn <jth at kernel.org>
+Acked-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
- include/linux/nvme-fc-driver.h | 45 ++++++++++++++++++++++++++----------------
- 1 file changed, 28 insertions(+), 17 deletions(-)
+ include/linux/nvme-fc.h | 296 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 296 insertions(+)
+ create mode 100644 include/linux/nvme-fc.h
 
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 78918a7..22c1b07 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -42,9 +42,6 @@
-  * @port_role: What NVME roles are supported (see FC_PORT_ROLE_xxx)
-  *
-  * Initialization values for dynamic port fields:
-- * @fabric_name:  FC Fabric name the port is connected to. If connection is
-- *                point-to-point (no switch) use srcport WWPN. If no current
-- *                Link Up, set to 0.
-  * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
-  *                be set to 0.
-  */
-@@ -52,7 +49,6 @@ struct nvme_fc_port_info {
- 	u64			node_name;
- 	u64			port_name;
- 	u32			port_role;
--	u64			fabric_name;
- 	u32			port_id;
- };
- 
-@@ -125,6 +121,7 @@ enum nvmefc_fcp_datadir {
-  * @first_sgl: memory for 1st scatter/gather list segment for payload data
-  * @sg_cnt:    number of elements in the scatter/gather list
-  * @io_dir:    direction of the FCP request (see NVMEFC_FCP_xxx)
-+ * @sqid:      The nvme SQID the command is being issued on
-  * @done:      The callback routine the LLDD is to invoke upon completion of
-  *             the FCP operation. req argument is the pointer to the original
-  *             FCP IO operation.
-@@ -158,6 +155,8 @@ struct nvmefc_fcp_req {
- 	int			sg_cnt;
- 	enum nvmefc_fcp_datadir	io_dir;
- 
-+	__le16			sqid;
+diff --git a/include/linux/nvme-fc.h b/include/linux/nvme-fc.h
+new file mode 100644
+index 0000000..99e9200
+--- /dev/null
++++ b/include/linux/nvme-fc.h
+@@ -0,0 +1,296 @@
++/*
++ * Copyright (c) 2016 Avago Technologies.  All rights reserved.
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of version 2 of the GNU General Public License as
++ * published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope that it will be useful.
++ * ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND WARRANTIES,
++ * INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY, FITNESS FOR A
++ * PARTICULAR PURPOSE, OR NON-INFRINGEMENT, ARE DISCLAIMED, EXCEPT TO
++ * THE EXTENT THAT SUCH DISCLAIMERS ARE HELD TO BE LEGALLY INVALID.
++ * See the GNU General Public License for more details, a copy of which
++ * can be found in the file COPYING included with this package
++ *
++ */
 +
- 	void (*done)(struct nvmefc_fcp_req *req);
- 
- 	void			*private;
-@@ -209,9 +208,6 @@ enum nvme_fc_obj_state {
-  * port_info struct supplied to the registration call.
-  * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
-  *                be set to 0.
-- * @fabric_name:  FC Fabric name the port is connected to. If connection is
-- *                point-to-point (no switch) use srcport WWPN. If no current
-- *                Link Up, set to 0.
-  * @port_state:   Operational state of the port.
-  */
- struct nvme_fc_local_port {
-@@ -225,7 +221,6 @@ struct nvme_fc_local_port {
- 
- 	/* dynamic fields */
- 	u32 port_id;
--	u64 fabric_name;
- 	enum nvme_fc_obj_state port_state;
- } __aligned(sizeof(u64));	/* alignment for other things alloc'd with */
- 
-@@ -284,6 +279,18 @@ struct nvme_fc_remote_port {
-  *
-  * Host/Initiator Transport Entrypoints/Parameters:
-  *
-+ * @localport_delete:  The LLDD initiates deletion of a localport via
-+ *       nvme_fc_deregister_localport(). However, the teardown is
-+ *       asynchronous. This routine is called upon the completion of the
-+ *       teardown to inform the LLDD that the localport has been deleted.
-+ *       Entrypoint is Mandatory.
++/*
++ * This file contains definitions relative to FC-NVME r1.05
++ */
++
++#ifndef _NVME_FC_H
++#define _NVME_FC_H 1
++
++#define NVME_FC4_TYPE			0x28
++
++#define NVME_CMD_SCSI_ID		0xFD
++#define NVME_CMD_FC_ID			NVME_FC4_TYPE
++
++/* FC-NVME Cmd IU Flags */
++#define FCNVME_CMD_FLAGS_DIRMASK	0x03
++#define FCNVME_CMD_FLAGS_WRITE		0x01
++#define FCNVME_CMD_FLAGS_READ		0x02
++
++struct nvme_fc_cmd_iu {
++	__u8			scsi_id;
++	__u8			fc_id;
++	__be16			iu_len;
++	__u8			rsvd4[3];
++	__u8			flags;
++	__be32			rsvd8[2];
++	__be64			connection_id;
++	__be32			csn;
++	__be32			data_len;
++	struct nvme_command	sqe;
++};
++
++#define NVME_FC_SIZEOF_ZEROS_RSP	12
++
++struct nvme_fc_ersp_iu {
++	__u8			rsvd0[2];
++	__be16			iu_len;
++	__be32			rsn;
++	__be32			rsvd8[2];
++	struct nvme_completion	cqe;
++	/* for now - no additional payload */
++};
++
++
++/* FC-NVME r1.03/16-119v0 NVME Link Services */
++enum {
++	FCNVME_LS_RSVD			= 0,
++	FCNVME_LS_RJT			= 1,
++	FCNVME_LS_ACC			= 2,
++	FCNVME_LS_CREATE_ASSOCIATION	= 3,
++	FCNVME_LS_CREATE_CONNECTION	= 4,
++	FCNVME_LS_DISCONNECT		= 5,
++};
++
++/* FC-NVME r1.03/16-119v0 NVME Link Service Descriptors */
++enum {
++	FCNVME_LSDESC_RSVD		= 0x0,
++	FCNVME_LSDESC_RQST		= 0x1,
++	FCNVME_LSDESC_RJT		= 0x2,
++	FCNVME_LSDESC_CREATE_ASSOC_CMD	= 0x3,
++	FCNVME_LSDESC_CREATE_CONN_CMD	= 0x4,
++	FCNVME_LSDESC_DISCONN_CMD	= 0x5,
++	FCNVME_LSDESC_CONN_ID		= 0x6,
++	FCNVME_LSDESC_ASSOC_ID		= 0x7,
++};
++
++
++/* ********** start of Link Service Descriptors ********** */
++
++
++/* fills in length of a descriptor. Struture minus descriptor header */
++#define FCNVME_LSDESC_LEN(lsdesc) \
++		cpu_to_be32(sizeof(lsdesc) - (2*(sizeof(u32))))
++
++struct fcnvme_ls_rqst_w0 {
++	u8	ls_cmd;			/* FCNVME_LS_xxx */
++	u8	zeros[3];
++};
++
++/* FCNVME_LSDESC_RQST */
++struct fcnvme_lsdesc_rqst {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	struct fcnvme_ls_rqst_w0	w0;
++	__be32	rsvd12;
++};
++
++/* From LS-3 */
++enum {
++	LSRJT_REASON_INVALID_ELS_CODE		= 0x1,
++	LSRJT_REASON_LOGICAL_ERROR		= 0x3,
++	LSRJT_REASON_LOGICAL_BUSY		= 0x5,
++	LSRJT_REASON_PROTOCOL_ERROR		= 0x7,
++	LSRJT_REASON_UNABLE_TO_PERFORM_CMD	= 0x9,
++	LSRJT_REASON_CMD_NOT_SUPPORTED		= 0xB,
++	LSRJT_REASON_CMD_ALREADY_IN_PROGRESS	= 0xE,
++	LSRJT_REASON_FIP_ERROR			= 0x20,
++	/* Add others later */
++};
++
++enum {
++	LSRJT_EXPL_NO_EXPLANATION		= 0x0,
++	/* Add others later */
++};
++
++
++/* FCNVME_LSDESC_RJT */
++struct fcnvme_lsdesc_rjt {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	u8	rsvd8;
++	u8	reason_code;
++	u8	reason_explanation;
++	u8	vendor;
++	__be32	rsvd12;
++};
++
++
++#define FCNVME_ASSOC_HOSTID_LEN		64
++#define FCNVME_ASSOC_HOSTNQN_LEN	256
++#define FCNVME_ASSOC_SUBNQN_LEN		256
++
++/* FCNVME_LSDESC_CREATE_ASSOC_CMD */
++struct fcnvme_lsdesc_cr_assoc_cmd {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	__be16	ersp_ratio;
++	__be16	rsvd10;
++	__be32	rsvd12[9];
++	__be16	cntlid;
++	__be16	sqsize;
++	__be32	rsvd52;
++	u8	hostid[FCNVME_ASSOC_HOSTID_LEN];
++	u8	hostnqn[FCNVME_ASSOC_HOSTNQN_LEN];
++	u8	subnqn[FCNVME_ASSOC_SUBNQN_LEN];
++	u8	rsvd632[384];
++};
++
++/* FCNVME_LSDESC_CREATE_CONN_CMD */
++struct fcnvme_lsdesc_cr_conn_cmd {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	__be16	ersp_ratio;
++	__be16	rsvd10;
++	__be32	rsvd12[9];
++	__be16	qid;
++	__be16	sqsize;
++	__be32  rsvd52;
++};
++
++/* Disconnect Scope Values */
++enum {
++	FCNVME_DISCONN_ASSOCIATION	= 0,
++	FCNVME_DISCONN_CONNECTION	= 1,
++};
++
++/* FCNVME_LSDESC_DISCONN_CMD */
++struct fcnvme_lsdesc_disconn_cmd {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	u8	rsvd8[3];
++	/* note: scope is really a 1 bit field */
++	u8	scope;			/* FCNVME_DISCONN_xxx */
++	__be32	rsvd12;
++	__be64	id;
++};
++
++/* FCNVME_LSDESC_CONN_ID */
++struct fcnvme_lsdesc_conn_id {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	__be64	connection_id;
++};
++
++/* FCNVME_LSDESC_ASSOC_ID */
++struct fcnvme_lsdesc_assoc_id {
++	__be32	desc_tag;		/* FCNVME_LSDESC_xxx */
++	__be32	desc_len;
++	__be64	association_id;
++};
++
++
++/* ********** start of Link Services ********** */
++
++
++/* FCNVME_LS_RJT */
++struct fcnvme_ls_rjt {
++	struct fcnvme_ls_rqst_w0		w0;
++	__be32					desc_list_len;
++	struct fcnvme_lsdesc_rqst		rqst;
++	struct fcnvme_lsdesc_rjt		rjt;
++};
++
++/* FCNVME_LS_ACC */
++struct fcnvme_ls_acc_hdr {
++	struct fcnvme_ls_rqst_w0		w0;
++	__be32					desc_list_len;
++	struct fcnvme_lsdesc_rqst		rqst;
++	/* Followed by cmd-specific ACC descriptors, see next definitions */
++};
++
++/* FCNVME_LS_CREATE_ASSOCIATION */
++struct fcnvme_ls_cr_assoc_rqst {
++	struct fcnvme_ls_rqst_w0		w0;
++	__be32					desc_list_len;
++	struct fcnvme_lsdesc_cr_assoc_cmd	assoc_cmd;
++};
++
++struct fcnvme_ls_cr_assoc_acc {
++	struct fcnvme_ls_acc_hdr		hdr;
++	struct fcnvme_lsdesc_assoc_id		associd;
++	struct fcnvme_lsdesc_conn_id		connectid;
++};
++
++
++/* FCNVME_LS_CREATE_CONNECTION */
++struct fcnvme_ls_cr_conn_rqst {
++	struct fcnvme_ls_rqst_w0		w0;
++	__be32					desc_list_len;
++	struct fcnvme_lsdesc_assoc_id		associd;
++	struct fcnvme_lsdesc_cr_conn_cmd	connect_cmd;
++};
++
++struct fcnvme_ls_cr_conn_acc {
++	struct fcnvme_ls_acc_hdr		hdr;
++	struct fcnvme_lsdesc_conn_id		connectid;
++};
++
++/* FCNVME_LS_DISCONNECT */
++struct fcnvme_ls_disconnect_rqst {
++	struct fcnvme_ls_rqst_w0		w0;
++	__be32					desc_list_len;
++	struct fcnvme_lsdesc_assoc_id		associd;
++	struct fcnvme_lsdesc_disconn_cmd	discon_cmd;
++};
++
++struct fcnvme_ls_disconnect_acc {
++	struct fcnvme_ls_acc_hdr		hdr;
++};
++
++
++/*
++ * Yet to be defined in FC-NVME:
++ */
++#define NVME_FC_CONNECT_TIMEOUT_SEC	2		/* 2 seconds */
++#define NVME_FC_LS_TIMEOUT_SEC		2		/* 2 seconds */
++#define NVME_FC_TGTOP_TIMEOUT_SEC	2		/* 2 seconds */
++
++
++/*
++ * FC Transport-specific error status values for NVME commands
 + *
-+ * @remoteport_delete:  The LLDD initiates deletion of a remoteport via
-+ *       nvme_fc_deregister_remoteport(). However, the teardown is
-+ *       asynchronous. This routine is called upon the completion of the
-+ *       teardown to inform the LLDD that the remoteport has been deleted.
-+ *       Entrypoint is Mandatory.
++ * Need to incorporate into NVME Over Fabrics standard
 + *
-  * @create_queue:  Upon creating a host<->controller association, queues are
-  *       created such that they can be affinitized to cpus/cores. This
-  *       callback into the LLDD to notify that a controller queue is being
-@@ -305,6 +312,9 @@ struct nvme_fc_remote_port {
-  *       hw queue should be torn down.
-  *       Entrypoint is Optional.
-  *
-+ * @poll_queue:  Called to poll for the completion of an io on a blk queue.
-+ *       Entrypoint is Optional.
++ * A request has been made to include transport-specific status values
++ * into the standard but it is not yet complete/defined.
 + *
-  * @ls_req:  Called to issue a FC-NVME FC-4 LS service request.
-  *       The nvme_fc_ls_req structure will fully describe the buffers for
-  *       the request payload and where to place the response payload. The
-@@ -383,11 +393,14 @@ struct nvme_fc_remote_port {
-  */
- struct nvme_fc_port_template {
- 	/* initiator-based functions */
-+	void	(*localport_delete)(struct nvme_fc_local_port *);
-+	void	(*remoteport_delete)(struct nvme_fc_remote_port *);
- 	int	(*create_queue)(struct nvme_fc_local_port *,
- 				unsigned int qidx, u16 qsize,
- 				void **handle);
- 	void	(*delete_queue)(struct nvme_fc_local_port *,
- 				unsigned int qidx, void *handle);
-+	void	(*poll_queue)(struct nvme_fc_local_port *, void *handle);
- 	int	(*ls_req)(struct nvme_fc_local_port *,
- 				struct nvme_fc_remote_port *,
- 				struct nvmefc_ls_req *);
-@@ -453,17 +466,12 @@ int nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *remoteport);
-  * @port_name: FC WWPN for the port
-  *
-  * Initialization values for dynamic port fields:
-- * @fabric_name:  FC Fabric name the port is connected to. If connection is
-- *                point-to-point (no switch) use srcport WWPN. If no current
-- *                Link Up, set to 0.
-  * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
-  *                be set to 0.
-  */
- struct nvmet_fc_port_info {
- 	u64			node_name;
- 	u64			port_name;
--
--	u64			fabric_name;
- 	u32			port_id;
- };
- 
-@@ -655,9 +663,6 @@ enum {
-  * port_info struct supplied to the registration call.
-  * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
-  *                be set to 0.
-- * @fabric_name:  FC Fabric name the port is connected to. If connection is
-- *                point-to-point (no switch) use srcport WWPN. If no current
-- *                Link Up, set to 0.
-  * @port_state:   Operational state of the port.
-  */
- struct nvmet_fc_target_port {
-@@ -670,7 +675,6 @@ struct nvmet_fc_target_port {
- 
- 	/* dynamic fields */
- 	u32 port_id;
--	u64 fabric_name;
- 	enum nvme_fc_obj_state port_state;
- } __aligned(sizeof(u64));	/* alignment for other things alloc'd with */
- 
-@@ -684,6 +688,12 @@ struct nvmet_fc_target_port {
-  *
-  * Subsystem/Target Transport Entrypoints/Parameters:
-  *
-+ * @targetport_delete:  The LLDD initiates deletion of a targetport via
-+ *       nvmet_fc_unregister_targetport(). However, the teardown is
-+ *       asynchronous. This routine is called upon the completion of the
-+ *       teardown to inform the LLDD that the targetport has been deleted.
-+ *       Entrypoint is Mandatory.
-+ *
-  * @xmt_ls_rsp:  Called to transmit the response to a FC-NVME FC-4 LS service.
-  *       The nvmefc_tgt_ls_req structure is the same LLDD-supplied exchange
-  *       structure specified in the nvmet_fc_rcv_ls_req() call made when
-@@ -788,6 +798,7 @@ struct nvmet_fc_target_port {
-  *       Value is Mandatory. Allowed to be zero.
-  */
- struct nvmet_fc_target_template {
-+	void (*targetport_delete)(struct nvmet_fc_target_port *tgtport);
- 	int (*xmt_ls_rsp)(struct nvmet_fc_target_port *tgtport,
- 				struct nvmefc_tgt_ls_req *tls_req);
- 	int (*fcp_op)(struct nvmet_fc_target_port *tgtport,
++ * For now, we will use a range within the Fabric values.  The range
++ * will be 0xA0-0xBF, which is a reserved area in the fabric spec.
++ * Currently, Only the values below have been defined within that range.
++ */
++enum {
++	/* Generic FC failure - catchall */
++	NVME_SC_FC_TRANSPORT_ERROR	= 0x00A0,
++
++	/* I/O failure due to FC ABTS'd */
++	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00A1,
++
++	/* FC Transport Connection in error */
++	NVME_SC_FC_NO_CONNECTION	= 0x40A2,	/* not retryable */
++
++	/* NVME Completion did not contain original CMDID */
++	NVME_SC_FC_CMDID_MISMATCH	= 0x00A3,
++
++	/* IU format error */
++	NVME_SC_FC_FORMAT		= 0x00A4,
++};
++
++
++#endif /* _NVME_FC_H */
++
 -- 
 2.5.0
