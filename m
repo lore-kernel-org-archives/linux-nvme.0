@@ -1,43 +1,28 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 4 Oct 2016 09:36:44 +0200
-Subject: [PATCH 3/7] nvme-fabrics: Add FC transport LLDD api definitions
-In-Reply-To: <57f34bb3.U9l0eB8GDwRhZlnY%james.smart@broadcom.com>
-References: <57f34bb3.U9l0eB8GDwRhZlnY%james.smart@broadcom.com>
-Message-ID: <e05c6248-f01e-34c1-0879-6a706b2bd910@suse.de>
+Date: Tue, 4 Oct 2016 09:37:26 +0200
+Subject: [PATCH 4/7] nvme-fabrics: Updates to FC LLDD api
+In-Reply-To: <57f34bb4.88wY2eZRXxyCcIzu%james.smart@broadcom.com>
+References: <57f34bb4.88wY2eZRXxyCcIzu%james.smart@broadcom.com>
+Message-ID: <80f3182f-7ae9-b252-dd4f-acc9dbe22b03@suse.de>
 
-On 10/04/2016 08:26 AM, James Smart wrote:
+On 10/04/2016 08:27 AM, James Smart wrote:
 > 
-> nvme-fabrics: Add FC transport LLDD api definitions:
-> 
-> Host:
-> -LLDD registration with the host transport
-> -registering host ports (local ports) and target ports seen on
->    fabric (remote ports)
-> -Data structures and call points for FC-4 LS's and FCP IO requests
-> 
-> Target:
-> -LLDD registration with the target transport
-> -registering nvme subsystem ports (target ports)
-> -Data structures and call points for reception of FC-4 LS's and
->    FCP IO requests, and callbacks to perform data and rsp transfers
->    for the io.
-> 
-> (Patch unchanged from prior posting)
+> Updated the FC-NVME LLDD api for the following:
+> - removal of fabric name for nport qualifier. No longer necessary in T11
+> - Added sqid to the initiator FCP request structure.
+>   Useful to the LLDD when re-generating successful CQE payloads
+>   which were not transferred due to protocol reasons.
+> - Add poll_queue() callback to initiator template. Supports the blk-mq
+>   polling interfaces to look for command completion.
+> - Add callbacks for localport, remoteport, and targetport unregister
+>   completions. Required after change for ref-counting.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
-> Acked-by: Johannes Thumshirn <jth at kernel.org>
-> Acked-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
 > ---
->  include/linux/nvme-fc-driver.h | 823 +++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 823 insertions(+)
->  create mode 100644 include/linux/nvme-fc-driver.h
+>  include/linux/nvme-fc-driver.h | 45 ++++++++++++++++++++++++++----------------
+>  1 file changed, 28 insertions(+), 17 deletions(-)
 > 
-We really need to work on integration with the SCSI FC code.
-But I'd rather see to get this in first.
-So:
-
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+Same as with patch 2/7: please merge with the previous patch.
 
 Cheers,
 
