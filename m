@@ -1,45 +1,76 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Mon, 03 Oct 2016 23:26:56 -0700
-Subject: [PATCH 0/7] nvme-fabrics: Add FC-NVME Transport support
-Message-ID: <57f34bb0.NABAPMPHMx/CQT2r%james.smart@broadcom.com>
+Date: Mon, 03 Oct 2016 23:26:58 -0700
+Subject: [PATCH 2/7] nvme-fabrics: sync FC-NVME header with standard
+ updates
+Message-ID: <57f34bb2.yNdu+Ipyn59s5QRk%james.smart@broadcom.com>
 
 
-The patches in this set add support for the FC transport to the nvme
-fabrics subsystem.  The set include header files with T11 transport
-definitions and an api for the FC-NVME transport to talk with FC LLDDs.
-It also includes host and target transport files. A FC loopback driver
-is supplied to act as a FC LLDD to exercise the api.
+Sync FC-NVME header with standard updates
 
-The patchset addresses the prior review comments. The largest impact
-was the teardown paths and proper ref counting support.
+This patch contains the following 2 mods:
+- Since the prior patch posting, transports were assigned a status
+  code range to use (0xB0-0xBF). Updated codes to be in the range
+- cmd_iu changed in T11. The 2 reserved words, previous at words
+  2 and 3, were moved to after the sqe.
 
--- james
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ include/linux/nvme-fc.h | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
-
-James Smart (7):
-  nvme-fabrics: Add FC transport FC-NVME definitions
-  nvme-fabrics: sync FC-NVME header with standard updates
-  nvme-fabrics: Add FC transport LLDD api definitions
-  nvme-fabrics: Updates to FC LLDD api
-  nvme-fabrics: Add host FC transport support
-  nvme-fabrics: Add target FC transport support
-  nvme-fabrics: Add FC LLDD loopback driver to test FC-NVME
-
- drivers/nvme/host/Kconfig      |   15 +
- drivers/nvme/host/Makefile     |    3 +
- drivers/nvme/host/fc.c         | 2286 ++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/target/Kconfig    |   23 +
- drivers/nvme/target/Makefile   |    4 +
- drivers/nvme/target/fc.c       | 1969 ++++++++++++++++++++++++++++++++++
- drivers/nvme/target/fcloop.c   | 1131 ++++++++++++++++++++
- include/linux/nvme-fc-driver.h |  834 +++++++++++++++
- include/linux/nvme-fc.h        |  289 +++++
- 9 files changed, 6554 insertions(+)
- create mode 100644 drivers/nvme/host/fc.c
- create mode 100644 drivers/nvme/target/fc.c
- create mode 100644 drivers/nvme/target/fcloop.c
- create mode 100644 include/linux/nvme-fc-driver.h
- create mode 100644 include/linux/nvme-fc.h
-
+diff --git a/include/linux/nvme-fc.h b/include/linux/nvme-fc.h
+index 99e9200..da877c2 100644
+--- a/include/linux/nvme-fc.h
++++ b/include/linux/nvme-fc.h
+@@ -38,11 +38,11 @@ struct nvme_fc_cmd_iu {
+ 	__be16			iu_len;
+ 	__u8			rsvd4[3];
+ 	__u8			flags;
+-	__be32			rsvd8[2];
+ 	__be64			connection_id;
+ 	__be32			csn;
+ 	__be32			data_len;
+ 	struct nvme_command	sqe;
++	__be32			rsvd88[2];
+ };
+ 
+ #define NVME_FC_SIZEOF_ZEROS_RSP	12
+@@ -265,30 +265,23 @@ struct fcnvme_ls_disconnect_acc {
+ /*
+  * FC Transport-specific error status values for NVME commands
+  *
+- * Need to incorporate into NVME Over Fabrics standard
+- *
+- * A request has been made to include transport-specific status values
+- * into the standard but it is not yet complete/defined.
+- *
+- * For now, we will use a range within the Fabric values.  The range
+- * will be 0xA0-0xBF, which is a reserved area in the fabric spec.
+- * Currently, Only the values below have been defined within that range.
++ * Transport-specific status code values must be in the range 0xB0..0xBF
+  */
+ enum {
+ 	/* Generic FC failure - catchall */
+-	NVME_SC_FC_TRANSPORT_ERROR	= 0x00A0,
++	NVME_SC_FC_TRANSPORT_ERROR	= 0x00B0,
+ 
+ 	/* I/O failure due to FC ABTS'd */
+-	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00A1,
++	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00B1,
+ 
+ 	/* FC Transport Connection in error */
+-	NVME_SC_FC_NO_CONNECTION	= 0x40A2,	/* not retryable */
++	NVME_SC_FC_NO_CONNECTION	= 0x40B2,	/* not retryable */
+ 
+ 	/* NVME Completion did not contain original CMDID */
+-	NVME_SC_FC_CMDID_MISMATCH	= 0x00A3,
++	NVME_SC_FC_CMDID_MISMATCH	= 0x00B3,
+ 
+ 	/* IU format error */
+-	NVME_SC_FC_FORMAT		= 0x00A4,
++	NVME_SC_FC_FORMAT		= 0x00B4,
+ };
+ 
+ 
 -- 
 2.5.0
