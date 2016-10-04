@@ -1,41 +1,36 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 4 Oct 2016 09:45:39 +0200
-Subject: [PATCH 6/7] nvme-fabrics: Add target FC transport support
-In-Reply-To: <57f34bb6.WaC46AHxpfzWXPWp%james.smart@broadcom.com>
-References: <57f34bb6.WaC46AHxpfzWXPWp%james.smart@broadcom.com>
-Message-ID: <18c5066f-cca9-f968-2c07-5dac44c1ca54@suse.de>
+Date: Tue, 4 Oct 2016 09:46:32 +0200
+Subject: [PATCH 7/7] nvme-fabrics: Add FC LLDD loopback driver to test
+ FC-NVME
+In-Reply-To: <57f34bb7.DaNIUHq69nou/DuF%james.smart@broadcom.com>
+References: <57f34bb7.DaNIUHq69nou/DuF%james.smart@broadcom.com>
+Message-ID: <2fe7ca7c-a647-df2f-0e2e-ff57d411ebba@suse.de>
 
 On 10/04/2016 08:27 AM, James Smart wrote:
 > 
-> Add nvme-fabrics target FC transport support
+> Add FC LLDD loopback driver to test FC host and target transport within
+> nvme-fabrics
 > 
-> Implements the FC-NVME T11 definition of how nvme fabric capsules are
-> performed on an FC fabric. Utilizes a lower-layer API to FC host adapters
-> to send/receive FC-4 LS operations and perform the FCP transactions
-> necessary to perform and FCP IO request for NVME.
-> 
-> The T11 definitions for FC-4 Link Services are implemented which create
-> NVMeOF connections.  Implements the hooks with nvmet layer to pass NVME
-> commands to it for processing and posting of data/response base to the
-> host via the different connections.
+> To aid in the development and testing of the lower-level api of the FC
+> transport, this loopback driver has been created to act as if it were a
+> FC hba driver supporting both the host interfaces as well as the target
+> interfaces with the nvme FC transport.
 > 
 > The changes made since the prior patch:
-> - Remove the todo's around dma_map_page(). No need to use dma_map_page()
-> - Fix nvme_fc_register_targetport() comments per review
-> - in LS handlers, standardized failure codes and meanings
-> - Print NVMET_NR_QUEUES when we dislike its value
-> - Fix return code handling in nvmet_fc_handle_ls_rqst() per review
-> - Reworked teardown paths with ref counting
-> - Teardown now invokes callbacks on completion of unregister functions
+> - Created defines for template constants per review
 > - Removal of fabric name for nport qualifier. Not necessary in T11
+> - Reworked teardown paths with ref counting and proper locking
+> - Teardown now invokes callbackes on completion of unregister functions
+> - Added callbacks for unregister complete interfaces
+> - Split sysfs add of remoteport and targetport for better testing.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/nvme/target/Kconfig  |   10 +
+>  drivers/nvme/target/Kconfig  |   13 +
 >  drivers/nvme/target/Makefile |    2 +
->  drivers/nvme/target/fc.c     | 1969 ++++++++++++++++++++++++++++++++++++++++++
->  3 files changed, 1981 insertions(+)
->  create mode 100644 drivers/nvme/target/fc.c
+>  drivers/nvme/target/fcloop.c | 1131 ++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 1146 insertions(+)
+>  create mode 100644 drivers/nvme/target/fcloop.c
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
