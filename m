@@ -1,69 +1,25 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Thu, 6 Oct 2016 00:11:31 +0800
-Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
- blk_resume_queue()
-In-Reply-To: <b42d5056-c2cb-8f0f-1a65-70740605ff22@sandisk.com>
-References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
- <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
- <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
- <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
- <CACVXFVMY19vuDjsECg2uX0_y_K7DUaaGqXPX9PYiBy5sfXmAEw@mail.gmail.com>
- <a11bb09a-6207-f4a8-cfd4-4fe5627c1700@sandisk.com>
- <CACVXFVO21wDRrZtB0A5qn5KEn-rjnewQxYyN_aAWoQrKSMvmig@mail.gmail.com>
- <b42d5056-c2cb-8f0f-1a65-70740605ff22@sandisk.com>
-Message-ID: <CACVXFVPG4_mK=VuVsWqvuXPxw0Y0pTCd1ZTXZV=DxqzfXC-O5g@mail.gmail.com>
-
-On Wed, Oct 5, 2016 at 10:46 PM, Bart Van Assche
-<bart.vanassche@sandisk.com> wrote:
-> On 10/04/16 21:32, Ming Lei wrote:
->>
->> On Wed, Oct 5, 2016 at 12:16 PM, Bart Van Assche
->> <bart.vanassche@sandisk.com> wrote:
->>>
->>> On 10/01/16 15:56, Ming Lei wrote:
->>>>
->>>>
->>>> If we just call the rcu/srcu read lock(or the mutex) around .queue_rq(),
->>>> the above code needn't to be duplicated any more.
->>>
->>>
->>> Can you have a look at the attached patch? That patch uses an srcu read
->>> lock
->>> for all queue types, whether or not the BLK_MQ_F_BLOCKING flag has been
->>> set.
->>
->>
->> That is much cleaner now.
->>
->>> Additionally, I have dropped the QUEUE_FLAG_QUIESCING flag. Just like
->>> previous versions, this patch has been tested.
->>
->>
->> I think the flag of QUEUE_FLAG_QUIESCING is still needed because we
->> have to set this flag to prevent new coming .queue_rq() from being run,
->> and synchronize_srcu() won't wait for completion of that at all (see
->> section of 'Update-Side Primitives' in [1]).
->>
->> [1] https://lwn.net/Articles/202847/
->
->
-> Hello Ming,
->
-> How about using the existing flag BLK_MQ_S_STOPPED instead of introducing a
-> new QUEUE_FLAG_QUIESCING flag? From the comment above blk_mq_quiesce_queue()
-
-That looks fine, and we need to stop direct issue first after hw queue
-becomes BLK_MQ_S_STOPPED.
-
-> in the patch that was attached to my previous e-mail: "Additionally, it is
-> not prevented that new queue_rq() calls occur unless the queue has been
-> stopped first."
->
-> Thanks,
->
-> Bart.
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 5 Oct 2016 19:50:57 +0300
+Subject: [PATCH 1/1] nvme : Add sysfs entry for NVMe CMBs when appropriate
+In-Reply-To: <20161005143843.GA23281@cgy1-donard.priv.deltatee.com>
+References: <1475014513-18083-1-git-send-email-sbates@raithlin.com>
+ <1475014513-18083-2-git-send-email-sbates@raithlin.com>
+ <9d062df7-d895-4c21-ca0d-b4fc3cb878c1@grimberg.me>
+ <20161005143843.GA23281@cgy1-donard.priv.deltatee.com>
+Message-ID: <b8f19ee3-e641-1e30-3294-192b1f519181@grimberg.me>
 
 
+> The fabrics specification currently denotes the CMBLOC and CMBSZ
+> properties as reserved [1].
 
--- 
-Ming Lei
+Managed to forget that... So I guess I'm fine with the patch as
+it is,
+
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+
+> Also I am wondering where the physical memory backing a fabrics CMB
+> would reside. Would this be memory in the fabric NIC on the host, in
+> the NIC on the target or somewhere else?
+
+This was discussed in the WG a few times before, not sure if we
+can discuss this before its in the spec though...
