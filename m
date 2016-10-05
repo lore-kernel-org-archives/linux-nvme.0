@@ -1,57 +1,71 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  5 Oct 2016 12:42:14 +0300
-Subject: [PATCH rfc 6/6] nvme-pci: Get rid of threaded interrupts
-In-Reply-To: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 5 Oct 2016 15:21:15 +0200
+Subject: [PATCH rfc 1/6] nvme-pci: Split __nvme_process_cq to poll and
+ handle
+In-Reply-To: <1475660534-16681-2-git-send-email-sagi@grimberg.me>
 References: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1475660534-16681-7-git-send-email-sagi@grimberg.me>
+ <1475660534-16681-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20161005132115.myxhgu25ibro3rss@linux-x5ow.site>
 
-Now that we use irq-poll and will never call bio_endio
-from hard irq context we don't need it.
+On Wed, Oct 05, 2016@12:42:09PM +0300, Sagi Grimberg wrote:
+> Just some rework to split the logic and make it slightly
+> more readable. This will help us to easily add the irq-poll
+> logic.
+> 
+> We remove the cqe_seen indication as a preparation for
+> irq-poll where we will schedule soft-irq context for polling
+> so we should consider the interrupt as handled always.
+> 
+> Also, introduce nvme_ring_cq_doorbell helper to mask out the
+> cq_vector validity check.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/pci.c | 15 ---------------
- 1 file changed, 15 deletions(-)
+[...]
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a1de66f13e80..07248b5c14ce 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -58,9 +58,6 @@
-  */
- #define NVME_AQ_BLKMQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AERS)
- 
--static int use_threaded_interrupts;
--module_param(use_threaded_interrupts, int, 0);
--
- static bool use_cmb_sqes = true;
- module_param(use_cmb_sqes, bool, 0644);
- MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
-@@ -757,14 +754,6 @@ static irqreturn_t nvme_irq(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
--static irqreturn_t nvme_irq_check(int irq, void *data)
--{
--	struct nvme_queue *nvmeq = data;
--	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase))
--		return IRQ_WAKE_THREAD;
--	return IRQ_NONE;
--}
--
- static int nvme_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
- {
- 	struct nvme_queue *nvmeq = hctx->driver_data;
-@@ -1114,10 +1103,6 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- static int queue_request_irq(struct nvme_dev *dev, struct nvme_queue *nvmeq,
- 							const char *name)
- {
--	if (use_threaded_interrupts)
--		return request_threaded_irq(dev->entry[nvmeq->cq_vector].vector,
--					nvme_irq_check, nvme_irq, IRQF_SHARED,
--					name, nvmeq);
- 	return request_irq(dev->entry[nvmeq->cq_vector].vector, nvme_irq,
- 				IRQF_SHARED, name, nvmeq);
- }
+> +static int __nvme_process_cq(struct nvme_queue *nvmeq, int *tag)
+> +{
+> +	struct nvme_completion cqe;
+> +	int consumed = 0;
+>  
+> -	}
+> +	while (nvme_read_cqe(nvmeq, &cqe)) {
+> +		nvme_handle_cqe(nvmeq, &cqe);
+>  
+> -	/* If the controller ignores the cq head doorbell and continuously
+> -	 * writes to the queue, it is theoretically possible to wrap around
+> -	 * the queue twice and mistakenly return IRQ_NONE.  Linux only
+> -	 * requires that 0.1% of your interrupts are handled, so this isn't
+> -	 * a big problem.
+> -	 */
+> -	if (head == nvmeq->cq_head && phase == nvmeq->cq_phase)
+> -		return;
+> +		if (tag && *tag == cqe.command_id) {
+> +			*tag = -1;
+> +			break;
+> +		}
+> +	}
+>  
+> -	if (likely(nvmeq->cq_vector >= 0))
+> -		writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
+> -	nvmeq->cq_head = head;
+> -	nvmeq->cq_phase = phase;
+> +	if (consumed)
+> +		nvme_ring_cq_doorbell(nvmeq);
+>  
+> -	nvmeq->cqe_seen = 1;
+> +	return consumed;
+>  }
+
+Won't 'consumed' always be 0 here and we thus never call
+nvme_ring_cq_doorbell()? Am I overlooking something here, or is this
+just for preparation of later patches?
+
 -- 
-2.7.4
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
