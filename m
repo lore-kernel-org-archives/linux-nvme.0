@@ -1,63 +1,58 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 6 Oct 2016 01:48:15 +0300
-Subject: [PATCH rfc 0/6] convert nvme pci to use irq-poll service
-In-Reply-To: <20161005224957.GB1053@localhost.localdomain>
-References: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
- <20161005214730.GA1053@localhost.localdomain>
- <a66d99fb-15d3-2620-5eb6-e6bb4a0a80bc@grimberg.me>
- <20161005224957.GB1053@localhost.localdomain>
-Message-ID: <d3f9dfff-47a8-dae5-e895-3164e090d1c7@grimberg.me>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Thu, 6 Oct 2016 06:49:17 +0800
+Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
+ blk_resume_queue()
+In-Reply-To: <07628c2f-3a4e-b12e-663a-b0711ce20cc9@sandisk.com>
+References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
+ <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
+ <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
+ <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
+ <CACVXFVMY19vuDjsECg2uX0_y_K7DUaaGqXPX9PYiBy5sfXmAEw@mail.gmail.com>
+ <a11bb09a-6207-f4a8-cfd4-4fe5627c1700@sandisk.com>
+ <09238e87-7d60-89c9-98b0-e51caa0c0839@grimberg.me>
+ <6d612be9-7ba7-888e-f9c6-f8aa4ef1606a@sandisk.com>
+ <732bf5d6-d7a8-6ff0-6501-8a3d46f12fab@grimberg.me>
+ <07628c2f-3a4e-b12e-663a-b0711ce20cc9@sandisk.com>
+Message-ID: <CACVXFVMwQnOuUukEMO8CyG3sPOg6DxuKAZx+5FT+LS+hGAcWVQ@mail.gmail.com>
 
-
->> Actually I didn't notice latency increase with QD=1 but I'm using
->> low-end devices so I might have missed it.
->> Did you use libaio or psync (for polling mode)?
->
-> I used 'sync' ioengine for random read. For sequential, I used 'dd',
-> and it showed the same difference.
->
-> If I use pvsync2 with --hipri in fio, then I see little to no difference.
->
->> I'm a bit surprised that scheduling soft-irq (on the same core) is
->> so expensive (the networking folks are using it all over...)
->> Perhaps we need to look into napi and see if we're doing something
->> wrong there...
->
-> The latency increase I observed was ~.5 microseconds. That may get lost
-> in the noise for most controllers. Maybe that's within the expected
-> increase using this soft-irq method?
-
-Oh, I didn't realize the difference was that small. Perhaps that makes
-better sense (although starting to look at irq-poll more closely I think
-there is room for micro optimizations).
-
-Did you happen to test long depth IO? I'm more concerned on that end...
-
->> I wander if we kept the cq processing in queue_rq but budget it to
->> something normally balanced? maybe poll budget to 4 completions?
+On Thu, Oct 6, 2016 at 5:08 AM, Bart Van Assche
+<bart.vanassche@sandisk.com> wrote:
+> On 10/05/2016 12:11 PM, Sagi Grimberg wrote:
 >>
->> Does this have any effect with your Xpoint?
+>> I was referring to weather we can take srcu in the submission path
+>> conditional of the hctx being STOPPED?
 >
-> No difference with that.
+>
+> Hello Sagi,
+>
+> Regarding run-time overhead:
+> * rcu_read_lock() is a no-op on CONFIG_PREEMPT_NONE kernels and is
+>   translated into preempt_disable() with preemption enabled. The latter
+>   function modifies a per-cpu variable.
+> * Checking BLK_MQ_S_STOPPED before taking an rcu or srcu lock is only
+>   safe if the BLK_MQ_S_STOPPED flag is tested in such a way that the
+>   compiler is told to reread the hctx flags (READ_ONCE()) and if the
+>   compiler and CPU are told not to reorder test_bit() with the
+>   memory accesses in (s)rcu_read_lock(). To avoid races
+>   BLK_MQ_S_STOPPED will have to be tested a second time after the lock
+>   has been obtained, similar to the double-checked-locking pattern.
+> * srcu_read_lock() reads a word from the srcu structure, disables
+>   preemption, calls __srcu_read_lock() and re-enables preemption. The
+>   latter function increments two CPU-local variables and triggers a
+>   memory barrier (smp_mp()).
 
-Yea, it was a long shot...
+We can use srcu read lock for BLOCKING and rcu read lock for non-BLOCKING,
+by putting *_read_lock() and *_read_unlock() into two wrappers, which
+should minimize the cost of srcu read lock & unlock and the code is still easy
+to read & verify.
 
-> I was actually never sure about having this opprotunistic polling in the
-> IO submission path. For one, it can create higher latency outliers if
-> a different controller's interrupt affinitized to the same CPU posted
-> a completion first.
+>
+> Swapping srcu_read_lock() and the BLK_MQ_S_STOPPED flag test will make the
+> code more complicated. Going back to the implementation that calls
+> rcu_read_lock() if .queue_rq() won't sleep will result in an implementation
+> that is easier to read and to verify.
 
-In the current scheme this opportunistic polling is mandatory as a
-self-flow-control as without it nothing is preventing nvme_irq to keep
-consuming completions forever (if multiple cpu cores keeps pounding the
-queue with IO).
+Yeah, I agree.
 
-This patch set aims to tackle that too.
-
-> Another thing we can do if we don't poll for completions in the submission
-> path is split the single q_lock into submission and completion locks. Then
-> we don't have to disable irq's in the submission path. I saw that demo'ed
-> a while ago, and it was a small micro-improvement, but never saw the
-> patch proposed on the public lists..
-
-That'd definitely help!
+Thanks,
+Ming Lei
