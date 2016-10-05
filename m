@@ -1,49 +1,48 @@
-From: sbates@raithlin.com (Stephen Bates)
-Date: Wed, 5 Oct 2016 08:38:43 -0600
-Subject: [PATCH 1/1] nvme : Add sysfs entry for NVMe CMBs when appropriate
-In-Reply-To: <9d062df7-d895-4c21-ca0d-b4fc3cb878c1@grimberg.me>
-References: <1475014513-18083-1-git-send-email-sbates@raithlin.com>
- <1475014513-18083-2-git-send-email-sbates@raithlin.com>
- <9d062df7-d895-4c21-ca0d-b4fc3cb878c1@grimberg.me>
-Message-ID: <20161005143843.GA23281@cgy1-donard.priv.deltatee.com>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Wed, 5 Oct 2016 07:46:58 -0700
+Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
+ blk_resume_queue()
+In-Reply-To: <CACVXFVO21wDRrZtB0A5qn5KEn-rjnewQxYyN_aAWoQrKSMvmig@mail.gmail.com>
+References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
+ <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
+ <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
+ <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
+ <CACVXFVMY19vuDjsECg2uX0_y_K7DUaaGqXPX9PYiBy5sfXmAEw@mail.gmail.com>
+ <a11bb09a-6207-f4a8-cfd4-4fe5627c1700@sandisk.com>
+ <CACVXFVO21wDRrZtB0A5qn5KEn-rjnewQxYyN_aAWoQrKSMvmig@mail.gmail.com>
+Message-ID: <b42d5056-c2cb-8f0f-1a65-70740605ff22@sandisk.com>
 
-On Wed, Oct 05, 2016@11:22:51AM +0300, Sagi Grimberg wrote:
+On 10/04/16 21:32, Ming Lei wrote:
+> On Wed, Oct 5, 2016 at 12:16 PM, Bart Van Assche
+> <bart.vanassche@sandisk.com> wrote:
+>> On 10/01/16 15:56, Ming Lei wrote:
+>>>
+>>> If we just call the rcu/srcu read lock(or the mutex) around .queue_rq(),
+>>> the above code needn't to be duplicated any more.
+>>
+>> Can you have a look at the attached patch? That patch uses an srcu read lock
+>> for all queue types, whether or not the BLK_MQ_F_BLOCKING flag has been set.
 >
-> >Add a sysfs attribute that contains salient information about the NVMe
-> >Controller Memory Buffer when one is present. For now, just display the
-> >information about the CMB available from the control registers. We attach
-> >the CMB attribute file to the existing nvme_ctrl sysfs group so it can
-> >handle the sysfs teardown.
+> That is much cleaner now.
 >
-> Hey Stephen,
+>> Additionally, I have dropped the QUEUE_FLAG_QUIESCING flag. Just like
+>> previous versions, this patch has been tested.
 >
-> I'm wandering if placing this only for pci is correct. In theory, we
-> could have fabrics expose a cmb (while its usage is still somewhat
-> unknown at the moment).
+> I think the flag of QUEUE_FLAG_QUIESCING is still needed because we
+> have to set this flag to prevent new coming .queue_rq() from being run,
+> and synchronize_srcu() won't wait for completion of that at all (see
+> section of 'Update-Side Primitives' in [1]).
 >
-> Perhaps cmbloc/cmbsize should exist in ctrl and be queried by
-> ->reg_read32() callout. In addition, we would need a new map_cmb()
-> callout in ctrl->ops.
->
-> Thoughts?
+> [1] https://lwn.net/Articles/202847/
 
-Sagi
+Hello Ming,
 
-The fabrics specification currently denotes the CMBLOC and CMBSZ
-properties as reserved [1]. So it is not currently possible to
-advertise a CMB in a fabrics controller. While that might change down
-the road we can't assume that is going to happen.
+How about using the existing flag BLK_MQ_S_STOPPED instead of 
+introducing a new QUEUE_FLAG_QUIESCING flag? From the comment above 
+blk_mq_quiesce_queue() in the patch that was attached to my previous 
+e-mail: "Additionally, it is not prevented that new queue_rq() calls 
+occur unless the queue has been stopped first."
 
-I am inclined to keep thingsin pci.c for now and then address this
-again when (if) the fabrics specification gets updated.
+Thanks,
 
-Also I am wondering where the physical memory backing a fabrics CMB
-would reside. Would this be memory in the fabric NIC on the host, in
-the NIC on the target or somewhere else?
-
-1. See Figure 27 of http://www.nvmexpress.org/wp-content/uploads/\
-   NVMe_over_Fabrics_1_0_Gold_20160605.pdf
-
-Cheers
-
-Stephen
+Bart.
