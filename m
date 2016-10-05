@@ -1,96 +1,57 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  5 Oct 2016 12:42:13 +0300
-Subject: [PATCH rfc 5/6] nvme-pci: open-code polling logic in nvme_poll
+Date: Wed,  5 Oct 2016 12:42:14 +0300
+Subject: [PATCH rfc 6/6] nvme-pci: Get rid of threaded interrupts
 In-Reply-To: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
 References: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1475660534-16681-6-git-send-email-sagi@grimberg.me>
+Message-ID: <1475660534-16681-7-git-send-email-sagi@grimberg.me>
 
-Given that the code is simple enough it seems better
-then passing a tag by reference for each call site.
+Now that we use irq-poll and will never call bio_endio
+from hard irq context we don't need it.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/pci.c | 36 +++++++++++++++++++++---------------
- 1 file changed, 21 insertions(+), 15 deletions(-)
+ drivers/nvme/host/pci.c | 15 ---------------
+ 1 file changed, 15 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index ba448fb755be..a1de66f13e80 100644
+index a1de66f13e80..07248b5c14ce 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -706,7 +706,7 @@ static inline int nvme_read_cqe(struct nvme_queue *nvmeq,
- 	return 0;
- }
+@@ -58,9 +58,6 @@
+  */
+ #define NVME_AQ_BLKMQ_DEPTH	(NVME_AQ_DEPTH - NVME_NR_AERS)
  
--static int __nvme_process_cq(struct nvme_queue *nvmeq, int budget, int *tag)
-+static int __nvme_process_cq(struct nvme_queue *nvmeq, int budget)
- {
- 	struct nvme_completion cqe;
- 	int consumed = 0;
-@@ -716,11 +716,6 @@ static int __nvme_process_cq(struct nvme_queue *nvmeq, int budget, int *tag)
- 
- 		if (++consumed == budget)
- 			break;
+-static int use_threaded_interrupts;
+-module_param(use_threaded_interrupts, int, 0);
 -
--		if (tag && *tag == cqe.command_id) {
--			*tag = -1;
--			break;
--		}
- 	}
- 
- 	if (consumed)
-@@ -731,7 +726,7 @@ static int __nvme_process_cq(struct nvme_queue *nvmeq, int budget, int *tag)
- 
- static int nvme_process_cq(struct nvme_queue *nvmeq)
- {
--	return __nvme_process_cq(nvmeq, INT_MAX, NULL);
-+	return __nvme_process_cq(nvmeq, INT_MAX);
+ static bool use_cmb_sqes = true;
+ module_param(use_cmb_sqes, bool, 0644);
+ MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
+@@ -757,14 +754,6 @@ static irqreturn_t nvme_irq(int irq, void *data)
+ 	return IRQ_HANDLED;
  }
  
- static int nvme_irqpoll_handler(struct irq_poll *iop, int budget)
-@@ -740,7 +735,7 @@ static int nvme_irqpoll_handler(struct irq_poll *iop, int budget)
- 	int completed;
- 
- 	spin_lock_irq(&nvmeq->q_lock);
--	completed = __nvme_process_cq(nvmeq, budget, NULL);
-+	completed = __nvme_process_cq(nvmeq, budget);
- 	if (completed < budget) {
- 		irq_poll_complete(&nvmeq->iop);
- 		enable_irq(nvmeq->dev->entry[nvmeq->cq_vector].vector);
-@@ -773,17 +768,28 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
+-static irqreturn_t nvme_irq_check(int irq, void *data)
+-{
+-	struct nvme_queue *nvmeq = data;
+-	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase))
+-		return IRQ_WAKE_THREAD;
+-	return IRQ_NONE;
+-}
+-
  static int nvme_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
  {
  	struct nvme_queue *nvmeq = hctx->driver_data;
-+	struct nvme_completion cqe;
-+	int found = 0, consumed = 0;
- 
--	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase)) {
--		spin_lock_irq(&nvmeq->q_lock);
--		__nvme_process_cq(nvmeq, INT_MAX, &tag);
--		spin_unlock_irq(&nvmeq->q_lock);
-+	if (!nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase))
-+		return 0;
-+
-+	spin_lock_irq(&nvmeq->q_lock);
-+	while (nvme_read_cqe(nvmeq, &cqe)) {
-+		nvme_handle_cqe(nvmeq, &cqe);
-+		consumed++;
- 
--		if (tag == -1)
--			return 1;
-+		if (tag == cqe.command_id) {
-+			found = 1;
-+			break;
-+		}
- 	}
- 
--	return 0;
-+	if (consumed)
-+		nvme_ring_cq_doorbell(nvmeq);
-+	spin_unlock_irq(&nvmeq->q_lock);
-+
-+	return found;
+@@ -1114,10 +1103,6 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+ static int queue_request_irq(struct nvme_dev *dev, struct nvme_queue *nvmeq,
+ 							const char *name)
+ {
+-	if (use_threaded_interrupts)
+-		return request_threaded_irq(dev->entry[nvmeq->cq_vector].vector,
+-					nvme_irq_check, nvme_irq, IRQF_SHARED,
+-					name, nvmeq);
+ 	return request_irq(dev->entry[nvmeq->cq_vector].vector, nvme_irq,
+ 				IRQF_SHARED, name, nvmeq);
  }
- 
- static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl, int aer_idx)
 -- 
 2.7.4
