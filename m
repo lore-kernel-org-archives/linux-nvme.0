@@ -1,21 +1,26 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 5 Oct 2016 09:29:32 +0300
-Subject: [PATCH 1/7] nvme-fabrics: Add FC transport FC-NVME definitions
-In-Reply-To: <20161004135825.GB23761@infradead.org>
-References: <57f34bb1.R7Xz9kkZOAJuQODz%james.smart@broadcom.com>
- <60438ee8-66d4-4730-fed3-470a12bfa9a1@suse.de>
- <20161004135825.GB23761@infradead.org>
-Message-ID: <73381327-38b4-ba27-d071-439212b4018a@grimberg.me>
+Date: Wed, 5 Oct 2016 11:22:51 +0300
+Subject: [PATCH 1/1] nvme : Add sysfs entry for NVMe CMBs when appropriate
+In-Reply-To: <1475014513-18083-2-git-send-email-sbates@raithlin.com>
+References: <1475014513-18083-1-git-send-email-sbates@raithlin.com>
+ <1475014513-18083-2-git-send-email-sbates@raithlin.com>
+Message-ID: <9d062df7-d895-4c21-ca0d-b4fc3cb878c1@grimberg.me>
 
-Hay James,
 
-I'm not sure why, but the original patchset from you
-doesn't appear in my mailbox. Can you please either:
-- provide a pull location and/or
-- resend with cc'ing sagi at grimberg.me so I can also
-provide feedback? (or simply git send me the series
-and I'll include linux-nvme on relevant feedback which
-will avoid spamming linux-nvme).
+> Add a sysfs attribute that contains salient information about the NVMe
+> Controller Memory Buffer when one is present. For now, just display the
+> information about the CMB available from the control registers. We attach
+> the CMB attribute file to the existing nvme_ctrl sysfs group so it can
+> handle the sysfs teardown.
 
-Sorry and thanks,
-Sagi.
+Hey Stephen,
+
+I'm wandering if placing this only for pci is correct. In theory, we
+could have fabrics expose a cmb (while its usage is still somewhat
+unknown at the moment).
+
+Perhaps cmbloc/cmbsize should exist in ctrl and be queried by
+->reg_read32() callout. In addition, we would need a new map_cmb()
+callout in ctrl->ops.
+
+Thoughts?
