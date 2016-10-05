@@ -1,61 +1,39 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Wed, 05 Oct 2016 11:20:13 -0700
-Subject: [PATCH 1/1] nvme : Add sysfs entry for NVMe CMBs when appropriate
-In-Reply-To: <20161005174841.GA23679@cgy1-donard.priv.deltatee.com>
-References: <1475014513-18083-1-git-send-email-sbates@raithlin.com>
- <1475014513-18083-2-git-send-email-sbates@raithlin.com>
- <9d062df7-d895-4c21-ca0d-b4fc3cb878c1@grimberg.me>
- <20161005143843.GA23281@cgy1-donard.priv.deltatee.com>
- <b8f19ee3-e641-1e30-3294-192b1f519181@grimberg.me>
- <20161005174841.GA23679@cgy1-donard.priv.deltatee.com>
-Message-ID: <1475691613.26632.36.camel@linux.intel.com>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Wed, 5 Oct 2016 12:05:48 -0700
+Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
+ blk_resume_queue()
+In-Reply-To: <09238e87-7d60-89c9-98b0-e51caa0c0839@grimberg.me>
+References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
+ <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
+ <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
+ <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
+ <CACVXFVMY19vuDjsECg2uX0_y_K7DUaaGqXPX9PYiBy5sfXmAEw@mail.gmail.com>
+ <a11bb09a-6207-f4a8-cfd4-4fe5627c1700@sandisk.com>
+ <09238e87-7d60-89c9-98b0-e51caa0c0839@grimberg.me>
+Message-ID: <6d612be9-7ba7-888e-f9c6-f8aa4ef1606a@sandisk.com>
 
-On Wed, 2016-10-05@11:48 -0600, Stephen Bates wrote:
-> On Wed, Oct 05, 2016@07:50:57PM +0300, Sagi Grimberg wrote:
-> > 
-> > 
-> > > 
-> > > The fabrics specification currently denotes the CMBLOC and CMBSZ
-> > > properties as reserved [1].
-> > 
-> > Managed to forget that... So I guess I'm fine with the patch as
-> > it is,
-> > 
-> > Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-> > 
-> 
-> Sagi
-> 
-> Thanks! I will work on a v1 to address Jonathan's issue and add your
-> tag to that. Coming soon...
+On 10/05/2016 11:14 AM, Sagi Grimberg wrote:
+>> Hello Ming,
+>>
+>> Can you have a look at the attached patch? That patch uses an srcu read
+>> lock for all queue types, whether or not the BLK_MQ_F_BLOCKING flag has
+>> been set. Additionally, I have dropped the QUEUE_FLAG_QUIESCING flag.
+>> Just like previous versions, this patch has been tested.
+>
+> Hey Bart,
+>
+> Do we care about the synchronization of queue_rq and/or
+> blk_mq_run_hw_queue of the hctx is not stopped?
+>
+> I'm wandering if we can avoid introducing new barriers in the
+> submission path of its not absolutely needed.
 
-You can add my tag too if you like as well, as I've chatted my thoughts
-to you via phone/email:
+Hello Sagi,
 
-Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+I'm not sure whether the new blk_quiesce_queue() function is useful 
+without stopping all hardware contexts first. In other words, in my view 
+setting BLK_MQ_F_BLOCKING flag before calling blk_quiesce_queue() is 
+sufficient and I don't think that a new QUEUE_FLAG_QUIESCING flag is 
+necessary.
 
-
-> 
-> > 
-> > > 
-> > > Also I am wondering where the physical memory backing a fabrics
-> > > CMB
-> > > would reside. Would this be memory in the fabric NIC on the host,
-> > > in
-> > > the NIC on the target or somewhere else?
-> > 
-> > This was discussed in the WG a few times before, not sure if we
-> > can discuss this before its in the spec though...
-> 
-> Ooops, you are correct. Us lowely kernel developers should not be
-> discussing things related to changes to the NVMe specification ;-). I
-> will take this discussion inside the NVMe technical working group.
-> 
-> Cheers
-> 
-> Stephen
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Bart.
