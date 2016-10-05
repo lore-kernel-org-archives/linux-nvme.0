@@ -1,34 +1,42 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Wed, 5 Oct 2016 16:00:38 -0700
-Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
- blk_resume_queue()
-In-Reply-To: <CACVXFVMwQnOuUukEMO8CyG3sPOg6DxuKAZx+5FT+LS+hGAcWVQ@mail.gmail.com>
-References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
- <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
- <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
- <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
- <CACVXFVMY19vuDjsECg2uX0_y_K7DUaaGqXPX9PYiBy5sfXmAEw@mail.gmail.com>
- <a11bb09a-6207-f4a8-cfd4-4fe5627c1700@sandisk.com>
- <09238e87-7d60-89c9-98b0-e51caa0c0839@grimberg.me>
- <6d612be9-7ba7-888e-f9c6-f8aa4ef1606a@sandisk.com>
- <732bf5d6-d7a8-6ff0-6501-8a3d46f12fab@grimberg.me>
- <07628c2f-3a4e-b12e-663a-b0711ce20cc9@sandisk.com>
- <CACVXFVMwQnOuUukEMO8CyG3sPOg6DxuKAZx+5FT+LS+hGAcWVQ@mail.gmail.com>
-Message-ID: <686e3937-0068-0f52-1208-1a832ff591c2@sandisk.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Wed, 5 Oct 2016 16:21:12 -0700
+Subject: [PATCH 1/7] nvme-fabrics: Add FC transport FC-NVME definitions
+In-Reply-To: <20161004135825.GB23761@infradead.org>
+References: <57f34bb1.R7Xz9kkZOAJuQODz%james.smart@broadcom.com>
+ <60438ee8-66d4-4730-fed3-470a12bfa9a1@suse.de>
+ <20161004135825.GB23761@infradead.org>
+Message-ID: <8eec5d73-98f4-7663-8b4f-85a33b21a71f@broadcom.com>
 
-On 10/05/2016 03:49 PM, Ming Lei wrote:
-> We can use srcu read lock for BLOCKING and rcu read lock for non-BLOCKING,
-> by putting *_read_lock() and *_read_unlock() into two wrappers, which
-> should minimize the cost of srcu read lock & unlock and the code is still easy
-> to read & verify.
 
-Hello Ming,
 
-The lock checking algorithms in the sparse and smatch static checkers 
-are unable to deal with code of the type "if (condition) (un)lock()". So 
-unless someone has a better proposal my preference is to use the 
-approach from the patch at the start of this e-mail thread.
+On 10/4/2016 6:58 AM, Christoph Hellwig wrote:
+> On Tue, Oct 04, 2016@09:32:39AM +0200, Hannes Reinecke wrote:
+>> I would have loved to use the SCSI FC headers here; eg the definitions
+>> for FC-LS are most definitely duplicated.
+>> But until we've sorted that one out:
+> I remember we discussed this before, but I've forgot the outcome on
+> why this needed to be separate.  IIRC it was just a timing issue,
+> but now that we've just missed the previous merge window we should
+> have plenty of time to sort that out properly.  Correct me if I'm wrong.
 
-Thanks,
+I looked at the include/uapi/scsi/fc headers.
 
-Bart.
+The only field that should be there is the addition of the NVME type code.
+
+The LS's things - although they look very similar to ELS things, they 
+aren't the same thing.  The LS items are specific to type code 0x28 - a 
+value in the FC frame header, while ELS's are type code 0x01 in the 
+frame header.  The content is specific to the type code.  True, some of 
+the formats, like xx_ACC, and a little of xx_RJT are similar (on purpose 
+by the fc-nvme group) - there's no real reason that they had to be, so 
+actually forcing things into using the other's structures isn't a good 
+idea in case things change.
+
+After looking at it - the only thing that I was wondering is whether the 
+fc-nvme definitions should be in "include/linux/nvme-fc.h" as it's 
+specific to nvme fabrics or whether they should be in 
+"include/uapi/scsi/fc/fc-nvme.h" - so it's in a location where all other 
+fc'isms are at. Even though NVME and the scsi directory name doesn't 
+seem to make sense.
+
+-- james
