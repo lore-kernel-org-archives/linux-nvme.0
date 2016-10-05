@@ -1,33 +1,42 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Tue, 4 Oct 2016 21:16:30 -0700
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Wed, 5 Oct 2016 12:32:18 +0800
 Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
  blk_resume_queue()
-In-Reply-To: <CACVXFVMY19vuDjsECg2uX0_y_K7DUaaGqXPX9PYiBy5sfXmAEw@mail.gmail.com>
+In-Reply-To: <a11bb09a-6207-f4a8-cfd4-4fe5627c1700@sandisk.com>
 References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
  <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
  <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
  <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
  <CACVXFVMY19vuDjsECg2uX0_y_K7DUaaGqXPX9PYiBy5sfXmAEw@mail.gmail.com>
-Message-ID: <a11bb09a-6207-f4a8-cfd4-4fe5627c1700@sandisk.com>
+ <a11bb09a-6207-f4a8-cfd4-4fe5627c1700@sandisk.com>
+Message-ID: <CACVXFVO21wDRrZtB0A5qn5KEn-rjnewQxYyN_aAWoQrKSMvmig@mail.gmail.com>
 
-On 10/01/16 15:56, Ming Lei wrote:
-> If we just call the rcu/srcu read lock(or the mutex) around .queue_rq(), the
-> above code needn't to be duplicated any more.
+On Wed, Oct 5, 2016 at 12:16 PM, Bart Van Assche
+<bart.vanassche@sandisk.com> wrote:
+> On 10/01/16 15:56, Ming Lei wrote:
+>>
+>> If we just call the rcu/srcu read lock(or the mutex) around .queue_rq(),
+>> the
+>> above code needn't to be duplicated any more.
+>
+>
+> Hello Ming,
+>
+> Can you have a look at the attached patch? That patch uses an srcu read lock
+> for all queue types, whether or not the BLK_MQ_F_BLOCKING flag has been set.
 
-Hello Ming,
+That is much cleaner now.
 
-Can you have a look at the attached patch? That patch uses an srcu read 
-lock for all queue types, whether or not the BLK_MQ_F_BLOCKING flag has 
-been set. Additionally, I have dropped the QUEUE_FLAG_QUIESCING flag. 
-Just like previous versions, this patch has been tested.
+> Additionally, I have dropped the QUEUE_FLAG_QUIESCING flag. Just like
+> previous versions, this patch has been tested.
 
-Thanks,
+I think the flag of QUEUE_FLAG_QUIESCING is still needed because we
+have to set this flag to prevent new coming .queue_rq() from being run,
+and synchronize_srcu() won't wait for completion of that at all (see
+section of 'Update-Side Primitives' in [1]).
 
-Bart.
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: 0001-blk-mq-Introduce-blk_mq_quiesce_queue.patch
-Type: text/x-patch
-Size: 5211 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20161004/c8855299/attachment.bin>
+
+[1] https://lwn.net/Articles/202847/
+
+-- 
+Ming Lei
