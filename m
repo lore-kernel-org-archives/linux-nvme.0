@@ -1,28 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 5 Oct 2016 20:38:05 +0300
-Subject: [PATCH v2 6/7] SRP transport: Port srp_wait_for_queuecommand() to
- scsi-mq
-In-Reply-To: <bedf4b45-00b0-6844-047d-f1e05bb1092f@sandisk.com>
+Date: Wed, 5 Oct 2016 20:40:24 +0300
+Subject: [PATCH v2 7/7] [RFC] nvme: Fix a race condition
+In-Reply-To: <ff412bfb-548c-c4fc-5180-78ede8a19ef2@sandisk.com>
 References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
- <bedf4b45-00b0-6844-047d-f1e05bb1092f@sandisk.com>
-Message-ID: <8ce2910d-fde0-724f-a61f-8fbd7fbf499d@grimberg.me>
+ <ff412bfb-548c-c4fc-5180-78ede8a19ef2@sandisk.com>
+Message-ID: <08fab9f6-f928-4cec-b616-317a52361557@grimberg.me>
 
 
-> +static void srp_mq_wait_for_queuecommand(struct Scsi_Host *shost)
-> +{
-> +	struct scsi_device *sdev;
-> +	struct request_queue *q;
-> +
-> +	shost_for_each_device(sdev, shost) {
-> +		q = sdev->request_queue;
-> +
-> +		blk_mq_quiesce_queue(q);
-> +		blk_mq_resume_queue(q);
-> +	}
-> +}
-> +
+> Avoid that nvme_queue_rq() is still running when nvme_stop_queues()
+> returns. Untested.
+>
+> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
+> Cc: Keith Busch <keith.busch at intel.com>
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
 
-This *should* live in scsi_lib.c. I suspect that
-various drivers would really want this functionality.
+Bart this looks really good! and possibly fixes an issue
+I've been chasing with fabrics a while ago. I'll take it
+for testing but you can add my:
 
-Thoughts?
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
