@@ -1,32 +1,49 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 5 Oct 2016 15:52:37 +0200
-Subject: [PATCH rfc 5/6] nvme-pci: open-code polling logic in nvme_poll
-In-Reply-To: <1475660534-16681-6-git-send-email-sagi@grimberg.me>
-References: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
- <1475660534-16681-6-git-send-email-sagi@grimberg.me>
-Message-ID: <20161005135237.ia5yqv3k73jgszed@linux-x5ow.site>
+From: sbates@raithlin.com (Stephen Bates)
+Date: Wed, 5 Oct 2016 08:38:43 -0600
+Subject: [PATCH 1/1] nvme : Add sysfs entry for NVMe CMBs when appropriate
+In-Reply-To: <9d062df7-d895-4c21-ca0d-b4fc3cb878c1@grimberg.me>
+References: <1475014513-18083-1-git-send-email-sbates@raithlin.com>
+ <1475014513-18083-2-git-send-email-sbates@raithlin.com>
+ <9d062df7-d895-4c21-ca0d-b4fc3cb878c1@grimberg.me>
+Message-ID: <20161005143843.GA23281@cgy1-donard.priv.deltatee.com>
 
-On Wed, Oct 05, 2016@12:42:13PM +0300, Sagi Grimberg wrote:
-> Given that the code is simple enough it seems better
-> then passing a tag by reference for each call site.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  drivers/nvme/host/pci.c | 36 +++++++++++++++++++++---------------
->  1 file changed, 21 insertions(+), 15 deletions(-)
-> 
+On Wed, Oct 05, 2016@11:22:51AM +0300, Sagi Grimberg wrote:
+>
+> >Add a sysfs attribute that contains salient information about the NVMe
+> >Controller Memory Buffer when one is present. For now, just display the
+> >information about the CMB available from the control registers. We attach
+> >the CMB attribute file to the existing nvme_ctrl sysfs group so it can
+> >handle the sysfs teardown.
+>
+> Hey Stephen,
+>
+> I'm wandering if placing this only for pci is correct. In theory, we
+> could have fabrics expose a cmb (while its usage is still somewhat
+> unknown at the moment).
+>
+> Perhaps cmbloc/cmbsize should exist in ctrl and be queried by
+> ->reg_read32() callout. In addition, we would need a new map_cmb()
+> callout in ctrl->ops.
+>
+> Thoughts?
 
-I don't really see how the call by value vs. call by reference change is a
-better trade-off than open coding __nvme_process_cq(), as we'd have to
-duplicate any possible fix for this function then (yes I see it's quite
-simple but I have some doubt it's 100% bugfree).
+Sagi
 
-Thanks,
-	Johannes
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+The fabrics specification currently denotes the CMBLOC and CMBSZ
+properties as reserved [1]. So it is not currently possible to
+advertise a CMB in a fabrics controller. While that might change down
+the road we can't assume that is going to happen.
+
+I am inclined to keep thingsin pci.c for now and then address this
+again when (if) the fabrics specification gets updated.
+
+Also I am wondering where the physical memory backing a fabrics CMB
+would reside. Would this be memory in the fabric NIC on the host, in
+the NIC on the target or somewhere else?
+
+1. See Figure 27 of http://www.nvmexpress.org/wp-content/uploads/\
+   NVMe_over_Fabrics_1_0_Gold_20160605.pdf
+
+Cheers
+
+Stephen
