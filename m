@@ -1,42 +1,21 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Wed, 5 Oct 2016 12:32:18 +0800
-Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
- blk_resume_queue()
-In-Reply-To: <a11bb09a-6207-f4a8-cfd4-4fe5627c1700@sandisk.com>
-References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
- <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
- <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
- <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
- <CACVXFVMY19vuDjsECg2uX0_y_K7DUaaGqXPX9PYiBy5sfXmAEw@mail.gmail.com>
- <a11bb09a-6207-f4a8-cfd4-4fe5627c1700@sandisk.com>
-Message-ID: <CACVXFVO21wDRrZtB0A5qn5KEn-rjnewQxYyN_aAWoQrKSMvmig@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 5 Oct 2016 09:29:32 +0300
+Subject: [PATCH 1/7] nvme-fabrics: Add FC transport FC-NVME definitions
+In-Reply-To: <20161004135825.GB23761@infradead.org>
+References: <57f34bb1.R7Xz9kkZOAJuQODz%james.smart@broadcom.com>
+ <60438ee8-66d4-4730-fed3-470a12bfa9a1@suse.de>
+ <20161004135825.GB23761@infradead.org>
+Message-ID: <73381327-38b4-ba27-d071-439212b4018a@grimberg.me>
 
-On Wed, Oct 5, 2016 at 12:16 PM, Bart Van Assche
-<bart.vanassche@sandisk.com> wrote:
-> On 10/01/16 15:56, Ming Lei wrote:
->>
->> If we just call the rcu/srcu read lock(or the mutex) around .queue_rq(),
->> the
->> above code needn't to be duplicated any more.
->
->
-> Hello Ming,
->
-> Can you have a look at the attached patch? That patch uses an srcu read lock
-> for all queue types, whether or not the BLK_MQ_F_BLOCKING flag has been set.
+Hay James,
 
-That is much cleaner now.
+I'm not sure why, but the original patchset from you
+doesn't appear in my mailbox. Can you please either:
+- provide a pull location and/or
+- resend with cc'ing sagi at grimberg.me so I can also
+provide feedback? (or simply git send me the series
+and I'll include linux-nvme on relevant feedback which
+will avoid spamming linux-nvme).
 
-> Additionally, I have dropped the QUEUE_FLAG_QUIESCING flag. Just like
-> previous versions, this patch has been tested.
-
-I think the flag of QUEUE_FLAG_QUIESCING is still needed because we
-have to set this flag to prevent new coming .queue_rq() from being run,
-and synchronize_srcu() won't wait for completion of that at all (see
-section of 'Update-Side Primitives' in [1]).
-
-
-[1] https://lwn.net/Articles/202847/
-
--- 
-Ming Lei
+Sorry and thanks,
+Sagi.
