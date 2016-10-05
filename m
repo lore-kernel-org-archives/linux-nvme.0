@@ -1,19 +1,41 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 5 Oct 2016 20:43:39 +0300
-Subject: [PATCH v2 3/7] [RFC] nvme: Use BLK_MQ_S_STOPPED instead of
- QUEUE_FLAG_STOPPED in blk-mq code
-In-Reply-To: <9faa7607-eb3e-ce41-b09e-1e10492a5f45@sandisk.com>
-References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
- <9faa7607-eb3e-ce41-b09e-1e10492a5f45@sandisk.com>
-Message-ID: <94f3c8ab-9f62-889b-78a0-93f32a20c4e0@grimberg.me>
+From: sbates@raithlin.com (Stephen Bates)
+Date: Wed, 5 Oct 2016 11:48:41 -0600
+Subject: [PATCH 1/1] nvme : Add sysfs entry for NVMe CMBs when appropriate
+In-Reply-To: <b8f19ee3-e641-1e30-3294-192b1f519181@grimberg.me>
+References: <1475014513-18083-1-git-send-email-sbates@raithlin.com>
+ <1475014513-18083-2-git-send-email-sbates@raithlin.com>
+ <9d062df7-d895-4c21-ca0d-b4fc3cb878c1@grimberg.me>
+ <20161005143843.GA23281@cgy1-donard.priv.deltatee.com>
+ <b8f19ee3-e641-1e30-3294-192b1f519181@grimberg.me>
+Message-ID: <20161005174841.GA23679@cgy1-donard.priv.deltatee.com>
 
-> Make nvme_requeue_req() check BLK_MQ_S_STOPPED instead of
-> QUEUE_FLAG_STOPPED. Remove the QUEUE_FLAG_STOPPED manipulations
-> that became superfluous because of this change. This patch fixes
-> a race condition: using queue_flag_clear_unlocked() is not safe
-> if any other function that manipulates the queue flags can be
-> called concurrently, e.g. blk_cleanup_queue(). Untested.
+On Wed, Oct 05, 2016@07:50:57PM +0300, Sagi Grimberg wrote:
+>
+> >The fabrics specification currently denotes the CMBLOC and CMBSZ
+> >properties as reserved [1].
+>
+> Managed to forget that... So I guess I'm fine with the patch as
+> it is,
+>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+>
 
-This looks good to me, but I know keith had all sort of
-creative ways to challenge this are so I'd wait for his
-input...
+Sagi
+
+Thanks! I will work on a v1 to address Jonathan's issue and add your
+tag to that. Coming soon...
+
+> >Also I am wondering where the physical memory backing a fabrics CMB
+> >would reside. Would this be memory in the fabric NIC on the host, in
+> >the NIC on the target or somewhere else?
+>
+> This was discussed in the WG a few times before, not sure if we
+> can discuss this before its in the spec though...
+
+Ooops, you are correct. Us lowely kernel developers should not be
+discussing things related to changes to the NVMe specification ;-). I
+will take this discussion inside the NVMe technical working group.
+
+Cheers
+
+Stephen
