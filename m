@@ -1,19 +1,14 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 5 Oct 2016 15:42:05 +0200
-Subject: [PATCH rfc 4/6] nvme: don't consume cq in queue_rq
-In-Reply-To: <1475660534-16681-5-git-send-email-sagi@grimberg.me>
+Date: Wed, 5 Oct 2016 15:47:25 +0200
+Subject: [PATCH rfc 6/6] nvme-pci: Get rid of threaded interrupts
+In-Reply-To: <1475660534-16681-7-git-send-email-sagi@grimberg.me>
 References: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
- <1475660534-16681-5-git-send-email-sagi@grimberg.me>
-Message-ID: <20161005134205.zxlpp5o4wfnqqzuy@linux-x5ow.site>
+ <1475660534-16681-7-git-send-email-sagi@grimberg.me>
+Message-ID: <20161005134725.2llhwa3fkmj6ghld@linux-x5ow.site>
 
-On Wed, Oct 05, 2016@12:42:12PM +0300, Sagi Grimberg wrote:
-> Now that we have irq-poll we don't need to flow
-> control our queues from the submission path. It
-> doesn't make sense to completely drain the completion
-> queue for each submit (or budgeting it either).
-> 
-> Also, now we can remove the forward declaration of
-> nvme_process_cq.
+On Wed, Oct 05, 2016@12:42:14PM +0300, Sagi Grimberg wrote:
+> Now that we use irq-poll and will never call bio_endio
+> from hard irq context we don't need it.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
