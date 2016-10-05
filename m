@@ -1,25 +1,50 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 5 Oct 2016 19:50:57 +0300
-Subject: [PATCH 1/1] nvme : Add sysfs entry for NVMe CMBs when appropriate
-In-Reply-To: <20161005143843.GA23281@cgy1-donard.priv.deltatee.com>
-References: <1475014513-18083-1-git-send-email-sbates@raithlin.com>
- <1475014513-18083-2-git-send-email-sbates@raithlin.com>
- <9d062df7-d895-4c21-ca0d-b4fc3cb878c1@grimberg.me>
- <20161005143843.GA23281@cgy1-donard.priv.deltatee.com>
-Message-ID: <b8f19ee3-e641-1e30-3294-192b1f519181@grimberg.me>
+Date: Wed, 5 Oct 2016 19:52:02 +0300
+Subject: [PATCH rfc 1/6] nvme-pci: Split __nvme_process_cq to poll and
+ handle
+In-Reply-To: <20161005132115.myxhgu25ibro3rss@linux-x5ow.site>
+References: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
+ <1475660534-16681-2-git-send-email-sagi@grimberg.me>
+ <20161005132115.myxhgu25ibro3rss@linux-x5ow.site>
+Message-ID: <d92a6b4c-70bb-1ede-9f4a-4d80941f2cda@grimberg.me>
 
 
-> The fabrics specification currently denotes the CMBLOC and CMBSZ
-> properties as reserved [1].
+>> +static int __nvme_process_cq(struct nvme_queue *nvmeq, int *tag)
+>> +{
+>> +	struct nvme_completion cqe;
+>> +	int consumed = 0;
+>>
+>> -	}
+>> +	while (nvme_read_cqe(nvmeq, &cqe)) {
+>> +		nvme_handle_cqe(nvmeq, &cqe);
+>>
+>> -	/* If the controller ignores the cq head doorbell and continuously
+>> -	 * writes to the queue, it is theoretically possible to wrap around
+>> -	 * the queue twice and mistakenly return IRQ_NONE.  Linux only
+>> -	 * requires that 0.1% of your interrupts are handled, so this isn't
+>> -	 * a big problem.
+>> -	 */
+>> -	if (head == nvmeq->cq_head && phase == nvmeq->cq_phase)
+>> -		return;
+>> +		if (tag && *tag == cqe.command_id) {
+>> +			*tag = -1;
+>> +			break;
+>> +		}
+>> +	}
+>>
+>> -	if (likely(nvmeq->cq_vector >= 0))
+>> -		writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
+>> -	nvmeq->cq_head = head;
+>> -	nvmeq->cq_phase = phase;
+>> +	if (consumed)
+>> +		nvme_ring_cq_doorbell(nvmeq);
+>>
+>> -	nvmeq->cqe_seen = 1;
+>> +	return consumed;
+>>  }
+>
+> Won't 'consumed' always be 0 here and we thus never call
+> nvme_ring_cq_doorbell()? Am I overlooking something here, or is this
+> just for preparation of later patches?
 
-Managed to forget that... So I guess I'm fine with the patch as
-it is,
-
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-
-> Also I am wondering where the physical memory backing a fabrics CMB
-> would reside. Would this be memory in the fabric NIC on the host, in
-> the NIC on the target or somewhere else?
-
-This was discussed in the WG a few times before, not sure if we
-can discuss this before its in the spec though...
+that incrementation was lost in a squash. I'll restore it in v2.
