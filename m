@@ -1,25 +1,35 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 5 Oct 2016 17:47:31 -0400
-Subject: [PATCH rfc 0/6] convert nvme pci to use irq-poll service
-In-Reply-To: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
-References: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20161005214730.GA1053@localhost.localdomain>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Wed, 5 Oct 2016 14:51:50 -0700
+Subject: [PATCH v2 6/7] SRP transport: Port srp_wait_for_queuecommand() to
+ scsi-mq
+In-Reply-To: <8ce2910d-fde0-724f-a61f-8fbd7fbf499d@grimberg.me>
+References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
+ <bedf4b45-00b0-6844-047d-f1e05bb1092f@sandisk.com>
+ <8ce2910d-fde0-724f-a61f-8fbd7fbf499d@grimberg.me>
+Message-ID: <619e3ffc-2123-4cb0-361a-4025ba47b991@sandisk.com>
 
-On Wed, Oct 05, 2016@12:42:08PM +0300, Sagi Grimberg wrote:
-> I ran some tests with this and it seemed to work pretty well with
-> my low-end nvme devices. One phenomenon I've encountered was that
-> for single core long queue-depth'ed randread workload I saw around
-> ~8-10% iops decrease. However when running multi-core IO I didn't
-> see any noticeable performance degradation. non-polling Canonical
-> randread latency doesn't seem to be affected as well. And also
-> polling mode IO is not affected as expected.
-> 
-> So in addition for review and feedback, this is a call for testing
-> and benchmarking as this touches the critical data path.
+On 10/05/2016 10:38 AM, Sagi Grimberg wrote:
+>> +static void srp_mq_wait_for_queuecommand(struct Scsi_Host *shost)
+>> +{
+>> +    struct scsi_device *sdev;
+>> +    struct request_queue *q;
+>> +
+>> +    shost_for_each_device(sdev, shost) {
+>> +        q = sdev->request_queue;
+>> +
+>> +        blk_mq_quiesce_queue(q);
+>> +        blk_mq_resume_queue(q);
+>> +    }
+>> +}
+>> +
+>
+> This *should* live in scsi_lib.c. I suspect that
+> various drivers would really want this functionality.
 
-Hi Sagi,
+Hello Sagi,
 
-Just reconfirming your findings with another data point, I ran this on
-controllers with 3D Xpoint media, and single depth 4k random read latency
-increased almost 7%. I'll try see if there's anything else we can do to
-bring that in.
+There are multiple direct blk_*() calls in other SCSI transport drivers. 
+So my proposal is to wait with moving this code into scsi_lib.c until 
+there is a second user of this code.
+
+Bart.
