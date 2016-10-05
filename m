@@ -1,45 +1,25 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Wed, 5 Oct 2016 14:08:57 -0700
-Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
- blk_resume_queue()
-In-Reply-To: <732bf5d6-d7a8-6ff0-6501-8a3d46f12fab@grimberg.me>
-References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
- <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
- <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
- <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
- <CACVXFVMY19vuDjsECg2uX0_y_K7DUaaGqXPX9PYiBy5sfXmAEw@mail.gmail.com>
- <a11bb09a-6207-f4a8-cfd4-4fe5627c1700@sandisk.com>
- <09238e87-7d60-89c9-98b0-e51caa0c0839@grimberg.me>
- <6d612be9-7ba7-888e-f9c6-f8aa4ef1606a@sandisk.com>
- <732bf5d6-d7a8-6ff0-6501-8a3d46f12fab@grimberg.me>
-Message-ID: <07628c2f-3a4e-b12e-663a-b0711ce20cc9@sandisk.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 5 Oct 2016 17:47:31 -0400
+Subject: [PATCH rfc 0/6] convert nvme pci to use irq-poll service
+In-Reply-To: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
+References: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20161005214730.GA1053@localhost.localdomain>
 
-On 10/05/2016 12:11 PM, Sagi Grimberg wrote:
-> I was referring to weather we can take srcu in the submission path
-> conditional of the hctx being STOPPED?
+On Wed, Oct 05, 2016@12:42:08PM +0300, Sagi Grimberg wrote:
+> I ran some tests with this and it seemed to work pretty well with
+> my low-end nvme devices. One phenomenon I've encountered was that
+> for single core long queue-depth'ed randread workload I saw around
+> ~8-10% iops decrease. However when running multi-core IO I didn't
+> see any noticeable performance degradation. non-polling Canonical
+> randread latency doesn't seem to be affected as well. And also
+> polling mode IO is not affected as expected.
+> 
+> So in addition for review and feedback, this is a call for testing
+> and benchmarking as this touches the critical data path.
 
-Hello Sagi,
+Hi Sagi,
 
-Regarding run-time overhead:
-* rcu_read_lock() is a no-op on CONFIG_PREEMPT_NONE kernels and is
-   translated into preempt_disable() with preemption enabled. The latter
-   function modifies a per-cpu variable.
-* Checking BLK_MQ_S_STOPPED before taking an rcu or srcu lock is only
-   safe if the BLK_MQ_S_STOPPED flag is tested in such a way that the
-   compiler is told to reread the hctx flags (READ_ONCE()) and if the
-   compiler and CPU are told not to reorder test_bit() with the
-   memory accesses in (s)rcu_read_lock(). To avoid races
-   BLK_MQ_S_STOPPED will have to be tested a second time after the lock
-   has been obtained, similar to the double-checked-locking pattern.
-* srcu_read_lock() reads a word from the srcu structure, disables
-   preemption, calls __srcu_read_lock() and re-enables preemption. The
-   latter function increments two CPU-local variables and triggers a
-   memory barrier (smp_mp()).
-
-Swapping srcu_read_lock() and the BLK_MQ_S_STOPPED flag test will make 
-the code more complicated. Going back to the implementation that calls 
-rcu_read_lock() if .queue_rq() won't sleep will result in an 
-implementation that is easier to read and to verify. If I overlooked 
-something, please let me know.
-
-Bart.
+Just reconfirming your findings with another data point, I ran this on
+controllers with 3D Xpoint media, and single depth 4k random read latency
+increased almost 7%. I'll try see if there's anything else we can do to
+bring that in.
