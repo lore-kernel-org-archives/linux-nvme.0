@@ -1,21 +1,28 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 5 Oct 2016 15:47:25 +0200
-Subject: [PATCH rfc 6/6] nvme-pci: Get rid of threaded interrupts
-In-Reply-To: <1475660534-16681-7-git-send-email-sagi@grimberg.me>
+Date: Wed, 5 Oct 2016 15:52:37 +0200
+Subject: [PATCH rfc 5/6] nvme-pci: open-code polling logic in nvme_poll
+In-Reply-To: <1475660534-16681-6-git-send-email-sagi@grimberg.me>
 References: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
- <1475660534-16681-7-git-send-email-sagi@grimberg.me>
-Message-ID: <20161005134725.2llhwa3fkmj6ghld@linux-x5ow.site>
+ <1475660534-16681-6-git-send-email-sagi@grimberg.me>
+Message-ID: <20161005135237.ia5yqv3k73jgszed@linux-x5ow.site>
 
-On Wed, Oct 05, 2016@12:42:14PM +0300, Sagi Grimberg wrote:
-> Now that we use irq-poll and will never call bio_endio
-> from hard irq context we don't need it.
+On Wed, Oct 05, 2016@12:42:13PM +0300, Sagi Grimberg wrote:
+> Given that the code is simple enough it seems better
+> then passing a tag by reference for each call site.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
+>  drivers/nvme/host/pci.c | 36 +++++++++++++++++++++---------------
+>  1 file changed, 21 insertions(+), 15 deletions(-)
+> 
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+I don't really see how the call by value vs. call by reference change is a
+better trade-off than open coding __nvme_process_cq(), as we'd have to
+duplicate any possible fix for this function then (yes I see it's quite
+simple but I have some doubt it's 100% bugfree).
 
+Thanks,
+	Johannes
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
