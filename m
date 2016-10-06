@@ -1,29 +1,41 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 5 Oct 2016 16:25:02 -0700
-Subject: [PATCH 3/7] nvme-fabrics: Add FC transport LLDD api definitions
-In-Reply-To: <e05c6248-f01e-34c1-0879-6a706b2bd910@suse.de>
-References: <57f34bb3.U9l0eB8GDwRhZlnY%james.smart@broadcom.com>
- <e05c6248-f01e-34c1-0879-6a706b2bd910@suse.de>
-Message-ID: <591d3189-39ed-3c24-72a5-664bc0ce2c44@broadcom.com>
+From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
+Date: Wed, 05 Oct 2016 22:47:33 -0300
+Subject: [PATCH 2/2] nvme: Delete created IO queues on reset
+In-Reply-To: <1475699566-5284-2-git-send-email-keith.busch@intel.com> (Keith
+ Busch's message of "Wed, 5 Oct 2016 16:32:46 -0400")
+References: <1475699566-5284-1-git-send-email-keith.busch@intel.com>
+ <1475699566-5284-2-git-send-email-keith.busch@intel.com>
+Message-ID: <87eg3ui6yy.fsf@linux.vnet.ibm.com>
 
+Keith Busch <keith.busch at intel.com> writes:
 
+> Commit c21377f8 (Suspend all queues before deletion) decrements the
+> online queue count prior to our attempt to delete those IO queues, so
+> the driver ended up not having the controller delete any. This patch
+> uses the queue_count instead of online_queues.
 
-On 10/4/2016 12:36 AM, Hannes Reinecke wrote:
-> We really need to work on integration with the SCSI FC code.
-> But I'd rather see to get this in first.
-> So:
+hmm, this is obviously correct.  Nice catch.  Shame I missed it :(
+
+Reviewed-by: Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com>
+
 >
-> Reviewed-by: Hannes Reinecke <hare at suse.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> ---
+>  drivers/nvme/host/pci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Cheers,
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 108d301..670f0cb 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1512,7 +1512,7 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
 >
-> Hannes
+>  static void nvme_disable_io_queues(struct nvme_dev *dev)
+>  {
+> -	int pass, queues = dev->online_queues - 1;
+> +	int pass, queues = dev->queue_count - 1;
+>  	unsigned long timeout;
+>  	u8 opcode = nvme_admin_delete_sq;
 
-I would not hold this up based on merging the scsi fc transport with the 
-nvme fc transport - for topology items.  We can do this eventually, and 
-it'll really change how things are layered with scsi (flips the fc 
-transport devices/objects closer to the root device than the scsi host), 
-making it very different from other scsi transports as well. lots of 
-code change, especially to LLDD's.  Not something done lightly.
-
--- james
+-- 
+Gabriel Krisman Bertazi
