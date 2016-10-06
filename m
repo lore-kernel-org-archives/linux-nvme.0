@@ -1,38 +1,65 @@
-From: j.naumann@fu-berlin.de (Jan Luca Naumann)
-Date: Thu, 6 Oct 2016 17:15:04 +0200
-Subject: Problem with new uapi header in Linux kernel 4.4+
-Message-ID: <37b9f516-a945-d41f-b21a-48728d7f9680@fu-berlin.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu,  6 Oct 2016 13:15:12 -0400
+Subject: [PATCHv2] nvme: Delete created IO queues on reset
+Message-ID: <1475774112-3220-1-git-send-email-keith.busch@intel.com>
 
-Hey,
+The driver was decrementing the online_queues prior to to its attempt
+to delete those IO queues, so the driver ended up not requesting the
+controller delete any. This patch uses the saves the online_queues prior
+to suspending them, and adds that parameter for deleting io queues.
 
-at the moment I try to install a tool called "sedutil"[1]. The tool
-manages self encrypting drives that conform to the TCG OPAL 2.0
-specification.
+Fixes: c21377f8 ("nvme: Suspend all queues before deletion")
 
-The program uses in the current version i.a. ioctl() to communicate with
-NVMe disks (see header [2] and source file [3]). The problem is that the
-tool uses the no longer to the user space exported header file
-"linux/nvme.h". In the new uapi header "linux/nvme_ioctl.h" are the
-enumeration "nvme_admin_opcode" and the structure "nvme_id_ctrl" no
-longer available that are used in the source code...
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+v1 -> v2:
 
-Since I do not have much experience with ioctl/NVMe and the upstream
-author has no time at the moment, I want to ask you what would be the
-best attempt to fix this.
+  Instead of using queue_count, this takes a snapshot of the online
+  queues and makes that a parameter.
 
-Thank you in advance and best regards,
-Jan
+ drivers/nvme/host/pci.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-[1] https://github.com/Drive-Trust-Alliance/sedutil
-[2]
-https://github.com/Drive-Trust-Alliance/sedutil/blob/master/linux/DtaDevLinuxNvme.h
-[3]
-https://github.com/Drive-Trust-Alliance/sedutil/blob/master/linux/DtaDevLinuxNvme.cpp
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 819 bytes
-Desc: OpenPGP digital signature
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20161006/d77ab0b5/attachment-0001.sig>
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 108d301..cba40eb 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1510,9 +1510,9 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
+ 	return 0;
+ }
+ 
+-static void nvme_disable_io_queues(struct nvme_dev *dev)
++static void nvme_disable_io_queues(struct nvme_dev *dev, int queues)
+ {
+-	int pass, queues = dev->online_queues - 1;
++	int pass;
+ 	unsigned long timeout;
+ 	u8 opcode = nvme_admin_delete_sq;
+ 
+@@ -1648,7 +1648,7 @@ static void nvme_pci_disable(struct nvme_dev *dev)
+ 
+ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ {
+-	int i;
++	int i, queues;
+ 	u32 csts = -1;
+ 
+ 	del_timer_sync(&dev->watchdog_timer);
+@@ -1659,13 +1659,14 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 		csts = readl(dev->bar + NVME_REG_CSTS);
+ 	}
+ 
++	queues = dev->online_queues - 1;
+ 	for (i = dev->queue_count - 1; i > 0; i--)
+ 		nvme_suspend_queue(dev->queues[i]);
+ 
+ 	if (csts & NVME_CSTS_CFS || !(csts & NVME_CSTS_RDY)) {
+ 		nvme_suspend_queue(dev->queues[0]);
+ 	} else {
+-		nvme_disable_io_queues(dev);
++		nvme_disable_io_queues(dev, queues);
+ 		nvme_disable_admin_queue(dev, shutdown);
+ 	}
+ 	nvme_pci_disable(dev);
+-- 
+2.7.2
