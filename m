@@ -1,24 +1,38 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 6 Oct 2016 11:23:37 -0400
-Subject: [PATCH 2/2] nvme: Delete created IO queues on reset
-In-Reply-To: <20161006093252.GA4999@lst.de>
-References: <1475699566-5284-1-git-send-email-keith.busch@intel.com>
- <1475699566-5284-2-git-send-email-keith.busch@intel.com>
- <20161006093252.GA4999@lst.de>
-Message-ID: <20161006152337.GA1778@localhost.localdomain>
+From: j.naumann@fu-berlin.de (Jan Luca Naumann)
+Date: Thu, 6 Oct 2016 17:15:04 +0200
+Subject: Problem with new uapi header in Linux kernel 4.4+
+Message-ID: <37b9f516-a945-d41f-b21a-48728d7f9680@fu-berlin.de>
 
-On Thu, Oct 06, 2016@11:32:52AM +0200, Christoph Hellwig wrote:
-> On Wed, Oct 05, 2016@04:32:46PM -0400, Keith Busch wrote:
-> > Commit c21377f8 (Suspend all queues before deletion) decrements the
-> > online queue count prior to our attempt to delete those IO queues, so
-> > the driver ended up not having the controller delete any. This patch
-> > uses the queue_count instead of online_queues.
-> 
-> What if not all queues were online before?  Should we take a
-> a snapshot of ->online_queues before suspending the queues and
-> then use that later?
+Hey,
 
-That sounds good. In the worst case, using queue_count may attempt to
-delete a queue the adapter didn't create, which just returns an invalid
-QID error, and everything continues as normal. But it's easily
-avoidable, so I'll send a v2 of this one.
+at the moment I try to install a tool called "sedutil"[1]. The tool
+manages self encrypting drives that conform to the TCG OPAL 2.0
+specification.
+
+The program uses in the current version i.a. ioctl() to communicate with
+NVMe disks (see header [2] and source file [3]). The problem is that the
+tool uses the no longer to the user space exported header file
+"linux/nvme.h". In the new uapi header "linux/nvme_ioctl.h" are the
+enumeration "nvme_admin_opcode" and the structure "nvme_id_ctrl" no
+longer available that are used in the source code...
+
+Since I do not have much experience with ioctl/NVMe and the upstream
+author has no time at the moment, I want to ask you what would be the
+best attempt to fix this.
+
+Thank you in advance and best regards,
+Jan
+
+[1] https://github.com/Drive-Trust-Alliance/sedutil
+[2]
+https://github.com/Drive-Trust-Alliance/sedutil/blob/master/linux/DtaDevLinuxNvme.h
+[3]
+https://github.com/Drive-Trust-Alliance/sedutil/blob/master/linux/DtaDevLinuxNvme.cpp
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 819 bytes
+Desc: OpenPGP digital signature
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20161006/d77ab0b5/attachment-0001.sig>
