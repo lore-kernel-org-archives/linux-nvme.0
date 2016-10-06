@@ -1,41 +1,36 @@
-From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
-Date: Wed, 05 Oct 2016 22:47:33 -0300
-Subject: [PATCH 2/2] nvme: Delete created IO queues on reset
-In-Reply-To: <1475699566-5284-2-git-send-email-keith.busch@intel.com> (Keith
- Busch's message of "Wed, 5 Oct 2016 16:32:46 -0400")
-References: <1475699566-5284-1-git-send-email-keith.busch@intel.com>
- <1475699566-5284-2-git-send-email-keith.busch@intel.com>
-Message-ID: <87eg3ui6yy.fsf@linux.vnet.ibm.com>
+From: sbates@raithlin.com (Stephen Bates)
+Date: Wed,  5 Oct 2016 20:01:11 -0600
+Subject: [PATCH v1 0/1] nvme : Add sysfs entry for NVMe CMBs when appropriate
+Message-ID: <1475719272-8370-1-git-send-email-sbates@raithlin.com>
 
-Keith Busch <keith.busch at intel.com> writes:
+We have had a few attempts at adding CMB properties and control to
+sysfs [1][2]. This patch is based on Jon Derrick's [1] to some exent but
+takes a much more conservative approach by only displaying CMB
+properties and not attmpting to control them. Assuming this gets
+accepted I do have a follow-on that adds more information to the cmb
+attribute file.
 
-> Commit c21377f8 (Suspend all queues before deletion) decrements the
-> online queue count prior to our attempt to delete those IO queues, so
-> the driver ended up not having the controller delete any. This patch
-> uses the queue_count instead of online_queues.
+Rather nicely we contain these changes solely to pci.c.
 
-hmm, this is obviously correct.  Nice catch.  Shame I missed it :(
+Applies cleanly to commit 997198ba1ed691c ("fs/block_dev.c: return the
+right error in thaw_bdev()") in Jens' for-4.9/block branch.
 
-Reviewed-by: Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com>
+Tested on both QEMU and on some real hardware I have access too that can
+advertise and expose a CMB.
 
->
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
-> ---
->  drivers/nvme/host/pci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 108d301..670f0cb 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1512,7 +1512,7 @@ static int nvme_delete_queue(struct nvme_queue *nvmeq, u8 opcode)
->
->  static void nvme_disable_io_queues(struct nvme_dev *dev)
->  {
-> -	int pass, queues = dev->online_queues - 1;
-> +	int pass, queues = dev->queue_count - 1;
->  	unsigned long timeout;
->  	u8 opcode = nvme_admin_delete_sq;
+[1] http://www.spinics.net/lists/linux-block/msg01560.html
+[2] http://www.spinics.net/lists/linux-rdma/msg38752.html
 
--- 
-Gabriel Krisman Bertazi
+Changes since v0:
+  Use direct refernece to nvme_dev cmbsz.
+  Use snprintf.
+  Added Reviewed-By tags.
+
+Stephen Bates (1):
+  nvme : Add sysfs entry for NVMe CMBs when appropriate
+
+ drivers/nvme/host/pci.c | 46 ++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 36 insertions(+), 10 deletions(-)
+
+--
+2.1.4
