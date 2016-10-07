@@ -1,21 +1,18 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 7 Oct 2016 00:29:23 -0700
+Date: Fri, 7 Oct 2016 00:31:11 -0700
 Subject: Problem with new uapi header in Linux kernel 4.4+
-In-Reply-To: <20161006230947.GA3696@localhost.localdomain>
+In-Reply-To: <C17953214F1EE04D9E8A11E8F3E869F051C4F9@ORSMSX110.amr.corp.intel.com>
 References: <37b9f516-a945-d41f-b21a-48728d7f9680@fu-berlin.de>
- <20161006230947.GA3696@localhost.localdomain>
-Message-ID: <20161007072923.GA1936@infradead.org>
+ <C17953214F1EE04D9E8A11E8F3E869F051C4F9@ORSMSX110.amr.corp.intel.com>
+Message-ID: <20161007073111.GB1936@infradead.org>
 
-On Thu, Oct 06, 2016@07:09:48PM -0400, Keith Busch wrote:
-> Yeah, we changed the uapi to only contain the what's necessary for the
-> user-kernel interface. We don't want user space to depend on the kernel
-> header for structure definitions when the kernel has no use for some them.
-> 
-> For the nvme-cli project, we define everything. I'm up for turning parts
-> of this into a shared library that sedutil and others can use.
+Hi Scott,
 
-FYI, one issue is the the Linux nvme.h is GPLv2 only like much of the
-kernel, making it hard to use for things like sedutils that use GPLv3+.
-I'd be fine with relicing my contributions to it under GPLv2+, but I
-don't sign up for contacting everyone that ever touched it and get
-their permission..
+> For what it is worth the kernel will soon have OPAL support built in 
+> so you won't have to do this weird hack, and use a tool that is no
+> longer maintained. 
+
+What's the ETA for OPAL support?  We had a patch from Intel for it
+half a year ago, but the submitter didn't follow up on the review
+feedback.  (Same for the simple ATA security unlock scheme submitted
+by someone else).
