@@ -1,42 +1,47 @@
-From: patrick.sheridan@seagate.com (Patrick Sheridan)
-Date: Fri, 7 Oct 2016 15:15:26 -0600
-Subject: nvme_admin_passthru DMA failure
-Message-ID: <CAEhN9jtotCMNBt9Oy7M_HDe_oqDHoMegf+trki+2255gyfoO0g@mail.gmail.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 07 Oct 2016 16:09:03 -0700
+Subject: [PATCH 2/7 v2] nvme-fabrics: Add FC transport error codes to
+ nvme.h
+Message-ID: <57f82b0f.UGETsRWTItPeXD9F%james.smart@broadcom.com>
 
-There is a problem when using an NVME_IOCTL_ADMIN_CMD to submit an
-nvme_admin_passthru struct such that user data
-(nvme_passthru_cmd.addr) does not get DMA'd to the drive correctly.
 
-The problem first appeared in kernel tags/v4.5.1 and was absent in
-tags/v4.5.  The only relevant difference between those was in
-block/blk-core.c, so this is likely a block layer problem:
+Add FC transport error codes to nvme.h
 
-diff --git a/block/blk-core.c b/block/blk-core.c
-index b83d297..45f4d7e 100644
---- a/block/blk-core.c
-+++ b/block/blk-core.c
-@@ -2198,7 +2198,7 @@ int blk_insert_cloned_request(struct
-request_queue *q, struct request *rq)
-        if (q->mq_ops) {
-                if (blk_queue_io_stat(q))
-                        blk_account_io_start(rq, true);
--               blk_mq_insert_request(rq, false, true, true);
-+               blk_mq_insert_request(rq, false, true, false);
-                return 0;
-        }
-
-Reverting the blk_mq_insert_request to use async = true resolves the
-issue in 4.5.1, but the latest (sha:  c8d2bc9) no longer uses this
-pathway.
-
-There's been a lot of changes since 4.5.1, so I haven't been able to
-pin down where the problem is, and would appreciate any help.
-
-Regards,
-Patrick
-
+Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
-Patrick Sheridan, PhD
-Senior Engineer
-Seagate Technology
-389 Disc Dr. Longmont, CO 80503
+ include/linux/nvme.h | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 7676557..4bfaaae 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -943,6 +943,26 @@ enum {
+ 	NVME_SC_ACCESS_DENIED		= 0x286,
+ 
+ 	NVME_SC_DNR			= 0x4000,
++
++
++	/*
++	 * FC Transport-specific error status values for NVME commands
++	 *
++	 * Transport-specific status code values must be in the range 0xB0..0xBF
++	 */
++
++	/* Generic FC failure - catchall */
++	NVME_SC_FC_TRANSPORT_ERROR	= 0x00B0,
++
++	/* I/O failure due to FC ABTS'd */
++	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00B1,
++
++	/* IU format error */
++	NVME_SC_FC_FORMAT		= 0x00B2,
++
++	/* NVME Completion did not contain original CMDID */
++	NVME_SC_FC_CMDID_MISMATCH	= 0x00B3,
++
+ };
+ 
+ struct nvme_completion {
+-- 
+2.5.0
