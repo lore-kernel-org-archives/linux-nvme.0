@@ -1,42 +1,37 @@
-From: j.naumann@fu-berlin.de (Jan Luca Naumann)
-Date: Sat, 8 Oct 2016 12:23:16 +0200
-Subject: Problem with new uapi header in Linux kernel 4.4+
-In-Reply-To: <20161007143101.GA5899@sbauer-Z170X-UD5>
-References: <37b9f516-a945-d41f-b21a-48728d7f9680@fu-berlin.de>
- <C17953214F1EE04D9E8A11E8F3E869F051C4F9@ORSMSX110.amr.corp.intel.com>
- <20161007073111.GB1936@infradead.org>
- <20161007143101.GA5899@sbauer-Z170X-UD5>
-Message-ID: <a05d526b-f392-4639-68dc-5c4267ccb26f@fu-berlin.de>
+From: keith.busch@intel.com (Busch, Keith)
+Date: Sat, 8 Oct 2016 19:00:04 +0000
+Subject: nvme_admin_passthru DMA failure
+In-Reply-To: <CAEhN9jtotCMNBt9Oy7M_HDe_oqDHoMegf+trki+2255gyfoO0g@mail.gmail.com>
+References: <CAEhN9jtotCMNBt9Oy7M_HDe_oqDHoMegf+trki+2255gyfoO0g@mail.gmail.com>
+Message-ID: <B58D82457FDA0744A320A2FC5AC253B93D75FBDE@fmsmsx104.amr.corp.intel.com>
 
-Hey,
+Is this a vendor specific opcode? If so, what is the opcode value and what direction are you expecting the data transfer to go?
 
-this sound very nice :-) OPAL supported directly by the kernel would be
-very good.
 
-Thank you and best regards,
-Jan
-
-Am 07.10.2016 um 16:31 schrieb Scott Bauer:
-> On Fri, Oct 07, 2016@12:31:11AM -0700, Christoph Hellwig wrote:
->> Hi Scott,
->>
->>> For what it is worth the kernel will soon have OPAL support built in 
->>> so you won't have to do this weird hack, and use a tool that is no
->>> longer maintained. 
->>
->> What's the ETA for OPAL support?  We had a patch from Intel for it
->> half a year ago, but the submitter didn't follow up on the review
->> feedback.  (Same for the simple ATA security unlock scheme submitted
->> by someone else).
-> 
-> I or Rafael will send a series sometime next week or early the week after...
-> assuming some final testing all goes to plan.
-> 
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 819 bytes
-Desc: OpenPGP digital signature
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20161008/5c79dae2/attachment.sig>
+> -----Original Message-----
+> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf Of Patrick Sheridan
+> Sent: Friday, October 7, 2016 3:15 PM
+> To: linux-nvme at lists.infradead.org
+> Subject: nvme_admin_passthru DMA failure
+>
+> There is a problem when using an NVME_IOCTL_ADMIN_CMD to submit an
+> nvme_admin_passthru struct such that user data
+> (nvme_passthru_cmd.addr) does not get DMA'd to the drive correctly.
+>
+> The problem first appeared in kernel tags/v4.5.1 and was absent in
+> tags/v4.5.  The only relevant difference between those was in
+> block/blk-core.c, so this is likely a block layer problem:
+>
+> diff --git a/block/blk-core.c b/block/blk-core.c
+> index b83d297..45f4d7e 100644
+> --- a/block/blk-core.c
+> +++ b/block/blk-core.c
+> @@ -2198,7 +2198,7 @@ int blk_insert_cloned_request(struct
+> request_queue *q, struct request *rq)
+>         if (q->mq_ops) {
+>                 if (blk_queue_io_stat(q))
+>                         blk_account_io_start(rq, true);
+> -               blk_mq_insert_request(rq, false, true, true);
+> +               blk_mq_insert_request(rq, false, true, false);
+>                 return 0;
+>         }
