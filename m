@@ -1,37 +1,21 @@
-From: keith.busch@intel.com (Busch, Keith)
-Date: Sat, 8 Oct 2016 19:00:04 +0000
-Subject: nvme_admin_passthru DMA failure
-In-Reply-To: <CAEhN9jtotCMNBt9Oy7M_HDe_oqDHoMegf+trki+2255gyfoO0g@mail.gmail.com>
-References: <CAEhN9jtotCMNBt9Oy7M_HDe_oqDHoMegf+trki+2255gyfoO0g@mail.gmail.com>
-Message-ID: <B58D82457FDA0744A320A2FC5AC253B93D75FBDE@fmsmsx104.amr.corp.intel.com>
+From: hector.lake@identityincpromo.com (FedEx Ground)
+Date: Mon, 10 Oct 2016 05:35:30 +0000
+Subject: Delivery Notification, ID 00615926
+Message-ID: <41a6091a9fa8b16e390b414ae78f903a@identityincpromo.com>
 
-Is this a vendor specific opcode? If so, what is the opcode value and what direction are you expecting the data transfer to go?
+Dear Customer,
 
+Your parcel has arrived at October 07. Courier was unable to deliver the parcel to you.
+Shipment Label is attached to this email.
 
-> -----Original Message-----
-> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf Of Patrick Sheridan
-> Sent: Friday, October 7, 2016 3:15 PM
-> To: linux-nvme at lists.infradead.org
-> Subject: nvme_admin_passthru DMA failure
->
-> There is a problem when using an NVME_IOCTL_ADMIN_CMD to submit an
-> nvme_admin_passthru struct such that user data
-> (nvme_passthru_cmd.addr) does not get DMA'd to the drive correctly.
->
-> The problem first appeared in kernel tags/v4.5.1 and was absent in
-> tags/v4.5.  The only relevant difference between those was in
-> block/blk-core.c, so this is likely a block layer problem:
->
-> diff --git a/block/blk-core.c b/block/blk-core.c
-> index b83d297..45f4d7e 100644
-> --- a/block/blk-core.c
-> +++ b/block/blk-core.c
-> @@ -2198,7 +2198,7 @@ int blk_insert_cloned_request(struct
-> request_queue *q, struct request *rq)
->         if (q->mq_ops) {
->                 if (blk_queue_io_stat(q))
->                         blk_account_io_start(rq, true);
-> -               blk_mq_insert_request(rq, false, true, true);
-> +               blk_mq_insert_request(rq, false, true, false);
->                 return 0;
->         }
+Warm regards,
+Hector Lake,
+Sr. Delivery Manager.
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: 00615926.zip
+Type: application/zip
+Size: 5392 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20161010/64bbadf0/attachment.zip>
