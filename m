@@ -1,49 +1,38 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 10 Oct 2016 09:47:52 +0200
-Subject: [PATCH rfc 3/6] nvme-pci: Use irq-poll for completion processing
-In-Reply-To: <6ec3fc69-7f1f-250c-2f9e-f1639694b9dc@grimberg.me>
+Date: Mon, 10 Oct 2016 09:49:55 +0200
+Subject: [PATCH rfc 5/6] nvme-pci: open-code polling logic in nvme_poll
+In-Reply-To: <27b72354-439c-392c-226f-76c522f15877@grimberg.me>
 References: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
- <1475660534-16681-4-git-send-email-sagi@grimberg.me>
- <20161005134013.jkgc6jfbya7x7ou3@linux-x5ow.site>
- <6ec3fc69-7f1f-250c-2f9e-f1639694b9dc@grimberg.me>
-Message-ID: <20161010074751.evzcnvmj4eqol74o@linux-x5ow.site>
+ <1475660534-16681-6-git-send-email-sagi@grimberg.me>
+ <20161005135237.ia5yqv3k73jgszed@linux-x5ow.site>
+ <27b72354-439c-392c-226f-76c522f15877@grimberg.me>
+Message-ID: <20161010074955.cx3itacl7upoi5ef@linux-x5ow.site>
 
-On Wed, Oct 05, 2016@07:57:11PM +0300, Sagi Grimberg wrote:
+On Wed, Oct 05, 2016@08:02:15PM +0300, Sagi Grimberg wrote:
 > 
-> > > @@ -49,6 +50,7 @@
-> > >  #define NVME_AQ_DEPTH		256
-> > >  #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
-> > >  #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
-> > > +#define NVME_POLL_BUDGET_IRQ	256
+> > > Given that the code is simple enough it seems better
+> > > then passing a tag by reference for each call site.
+> > > 
+> > > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> > > ---
+> > >  drivers/nvme/host/pci.c | 36 +++++++++++++++++++++---------------
+> > >  1 file changed, 21 insertions(+), 15 deletions(-)
+> > > 
 > > 
-> > Is there a reason for the 256 or is it just a nicely suited value?
+> > I don't really see how the call by value vs. call by reference change is a
+> > better trade-off than open coding __nvme_process_cq(), as we'd have to
+> > duplicate any possible fix for this function then (yes I see it's quite
+> > simple but I have some doubt it's 100% bugfree).
 > 
-> Umm, No good reason behind it, I used this value before for irq-poll
-> and it seemed to fit best. We can try other budgets or have it
-> configurable. The point is to not abuse the soft-irq context for too
-> long and maintain fairness between completion queues so we just need
-> a reasonable value.
-
-Ah OK. I'm not sure whether we should impose a limit (be it a wild guess or a
-measurement) or make it adjustable via sysfs. IIRC there is a sysctl to tune
-the NAPI budget in the networking stack, which then again raises the question
-of doing it global or on a per controller basis.
-
+> I just figured it'd be nicer to remove the tag that we carry in all
+> the call sites because we want to reuse the code in nvme_poll(). It
+> made better sense before, but now that its simpler (for me at least)
+> we can lose it.
 > 
-> 
-> > Especially
-> > as you've been using INT_MAX as a budget for CQ processing before (which I
-> > think is kinda high).
-> 
-> That was just for keeping the existing logic before we change to
-> irq-poll.
+> Having said that, we can easily remove this patch if we're not all
+> on board...
 
-Sounds reasonable.
-
-Anyways, I'm looking forward to getting this merged. We can sort out the
-tune-ability later on I think.
-
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Would be nice to have a 3rd opinion here. Jens, Keith, Christoph?
 
 -- 
 Johannes Thumshirn                                          Storage
