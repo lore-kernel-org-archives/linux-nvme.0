@@ -1,43 +1,49 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 10 Oct 2016 09:49:55 +0200
-Subject: [PATCH rfc 5/6] nvme-pci: open-code polling logic in nvme_poll
-In-Reply-To: <27b72354-439c-392c-226f-76c522f15877@grimberg.me>
-References: <1475660534-16681-1-git-send-email-sagi@grimberg.me>
- <1475660534-16681-6-git-send-email-sagi@grimberg.me>
- <20161005135237.ia5yqv3k73jgszed@linux-x5ow.site>
- <27b72354-439c-392c-226f-76c522f15877@grimberg.me>
-Message-ID: <20161010074955.cx3itacl7upoi5ef@linux-x5ow.site>
+From: patrick.sheridan@seagate.com (Patrick Sheridan)
+Date: Mon, 10 Oct 2016 08:58:36 -0600
+Subject: nvme_admin_passthru DMA failure
+In-Reply-To: <B58D82457FDA0744A320A2FC5AC253B93D75FBDE@fmsmsx104.amr.corp.intel.com>
+References: <CAEhN9jtotCMNBt9Oy7M_HDe_oqDHoMegf+trki+2255gyfoO0g@mail.gmail.com>
+ <B58D82457FDA0744A320A2FC5AC253B93D75FBDE@fmsmsx104.amr.corp.intel.com>
+Message-ID: <CAEhN9jtpkEGOOo88hDADkhuL09OgGTUgSDsqsqxGOG7+XDfMCA@mail.gmail.com>
 
-On Wed, Oct 05, 2016@08:02:15PM +0300, Sagi Grimberg wrote:
-> 
-> > > Given that the code is simple enough it seems better
-> > > then passing a tag by reference for each call site.
-> > > 
-> > > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> > > ---
-> > >  drivers/nvme/host/pci.c | 36 +++++++++++++++++++++---------------
-> > >  1 file changed, 21 insertions(+), 15 deletions(-)
-> > > 
-> > 
-> > I don't really see how the call by value vs. call by reference change is a
-> > better trade-off than open coding __nvme_process_cq(), as we'd have to
-> > duplicate any possible fix for this function then (yes I see it's quite
-> > simple but I have some doubt it's 100% bugfree).
-> 
-> I just figured it'd be nicer to remove the tag that we carry in all
-> the call sites because we want to reuse the code in nvme_poll(). It
-> made better sense before, but now that its simpler (for me at least)
-> we can lose it.
-> 
-> Having said that, we can easily remove this patch if we're not all
-> on board...
+Hi Keith,
 
-Would be nice to have a 3rd opinion here. Jens, Keith, Christoph?
+It is a vendor specific command with opcode 0xC0 and is expected to
+copy data from the host to the drive.
+I think you hit the nail on the head:  nvme_is_write would indicate
+that it's a read.
+Out of curiosity, do you know why this worked in previous nvme drivers?
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+- Patrick
+
+On Sat, Oct 8, 2016@1:00 PM, Busch, Keith <keith.busch@intel.com> wrote:
+> Is this a vendor specific opcode? If so, what is the opcode value and what direction are you expecting the data transfer to go?
+>
+>
+>> -----Original Message-----
+>> From: Linux-nvme [mailto:linux-nvme-bounces at lists.infradead.org] On Behalf Of Patrick Sheridan
+>> Sent: Friday, October 7, 2016 3:15 PM
+>> To: linux-nvme at lists.infradead.org
+>> Subject: nvme_admin_passthru DMA failure
+>>
+>> There is a problem when using an NVME_IOCTL_ADMIN_CMD to submit an
+>> nvme_admin_passthru struct such that user data
+>> (nvme_passthru_cmd.addr) does not get DMA'd to the drive correctly.
+>>
+>> The problem first appeared in kernel tags/v4.5.1 and was absent in
+>> tags/v4.5.  The only relevant difference between those was in
+>> block/blk-core.c, so this is likely a block layer problem:
+>>
+>> diff --git a/block/blk-core.c b/block/blk-core.c
+>> index b83d297..45f4d7e 100644
+>> --- a/block/blk-core.c
+>> +++ b/block/blk-core.c
+>> @@ -2198,7 +2198,7 @@ int blk_insert_cloned_request(struct
+>> request_queue *q, struct request *rq)
+>>         if (q->mq_ops) {
+>>                 if (blk_queue_io_stat(q))
+>>                         blk_account_io_start(rq, true);
+>> -               blk_mq_insert_request(rq, false, true, true);
+>> +               blk_mq_insert_request(rq, false, true, false);
+>>                 return 0;
+>>         }
