@@ -1,18 +1,56 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 11 Oct 2016 07:59:58 -0700
-Subject: [ANNOUNCE] nvmetcli 0.2 release
-Message-ID: <20161011145958.GA20066@infradead.org>
+From: loberman@redhat.com (Laurence Oberman)
+Date: Tue, 11 Oct 2016 12:27:09 -0400 (EDT)
+Subject: [PATCH 0/9] Introduce blk_quiesce_queue() and blk_resume_queue()
+In-Reply-To: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
+References: <7948dbb8-6333-dc62-2673-4da35b4dfdbc@sandisk.com>
+Message-ID: <2065305791.1268439.1476203229110.JavaMail.zimbra@redhat.com>
 
-Hi all,
 
-I've tagged a 0.2 release of nvmetcli at:
 
-	git://git.infradead.org/users/hch/nvmetcli.git
+----- Original Message -----
+> From: "Bart Van Assche" <bart.vanassche at sandisk.com>
+> To: "Jens Axboe" <axboe at fb.com>
+> Cc: "Christoph Hellwig" <hch at lst.de>, "James Bottomley" <jejb at linux.vnet.ibm.com>, "Martin K. Petersen"
+> <martin.petersen at oracle.com>, "Mike Snitzer" <snitzer at redhat.com>, "Doug Ledford" <dledford at redhat.com>, "Keith
+> Busch" <keith.busch at intel.com>, linux-block at vger.kernel.org, linux-scsi at vger.kernel.org, linux-rdma at vger.kernel.org,
+> linux-nvme at lists.infradead.org
+> Sent: Monday, September 26, 2016 2:25:54 PM
+> Subject: [PATCH 0/9] Introduce blk_quiesce_queue() and blk_resume_queue()
+> 
+> Hello Jens,
+> 
+> Multiple block drivers need the functionality to stop a request queue
+> and to wait until all ongoing request_fn() / queue_rq() calls have
+> finished without waiting until all outstanding requests have finished.
+> Hence this patch series that introduces the blk_quiesce_queue() and
+> blk_resume_queue() functions. The dm-mq, SRP and nvme patches in this
+> patch series are three examples of where these functions are useful.
+> These patches apply on top of the September 21 version of your
+> for-4.9/block branch. The individual patches in this series are:
+> 
+> 0001-blk-mq-Introduce-blk_mq_queue_stopped.patch
+> 0002-dm-Fix-a-race-condition-related-to-stopping-and-star.patch
+> 0003-RFC-nvme-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_.patch
+> 0004-block-Move-blk_freeze_queue-and-blk_unfreeze_queue-c.patch
+> 0005-block-Extend-blk_freeze_queue_start-to-the-non-blk-m.patch
+> 0006-block-Rename-mq_freeze_wq-and-mq_freeze_depth.patch
+> 0007-blk-mq-Introduce-blk_quiesce_queue-and-blk_resume_qu.patch
+> 0008-SRP-transport-Port-srp_wait_for_queuecommand-to-scsi.patch
+> 0009-RFC-nvme-Fix-a-race-condition.patch
+> 
+> Thanks,
+> 
+> Bart.
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+> 
+Hello
 
-and uploaded the release tarball at:
+I took Bart's latest patches from his tree and tested all the SRP/RDMA and as many of the nvme tests.
 
-	ftp://ftp.infradead.org/pub/nvmetcli/
+Everything is passing my tests, including SRP port resets etc.
+The nvme tests were all on a small intel nvme card.
 
-There are no recent changes, but this should make inclusion in
-distributions easier.  I plan to cut new tarball releases whenever we
-get significant new features or bugfixes.
+Tested-by: Laurence Oberman <loberman at redhat.com>
