@@ -1,67 +1,104 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 12 Oct 2016 10:45:51 +0200
-Subject: [PATCH 1/3] consolidate reporting bugs information
+Date: Wed, 12 Oct 2016 10:45:52 +0200
+Subject: [PATCH 2/3] fine tune the nvme-discover manpage
 In-Reply-To: <1476261953-23119-1-git-send-email-hch@lst.de>
 References: <1476261953-23119-1-git-send-email-hch@lst.de>
-Message-ID: <1476261953-23119-2-git-send-email-hch@lst.de>
+Message-ID: <1476261953-23119-3-git-send-email-hch@lst.de>
 
-Add the Linux-nvme list to the main reporting bugs section and remove
-the separate ones in the connect and discovery pages.
+ - remove the device argument, which as far as I can tell does not
+   exist.
+ - mention the /etc/nvme/hostnqn file, the default host nqn and explain
+   host nqns a bit more
+ - mention the loopback transport
+ - be a bit more specific about IP addressing as a concept separate from
+   the RDMA transport
+ - improve the introduction a bit.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- Documentation/nvme-connect.txt  | 6 ------
- Documentation/nvme-discover.txt | 6 ------
- Documentation/nvme.txt          | 3 ++-
- 3 files changed, 2 insertions(+), 13 deletions(-)
+ Documentation/nvme-discover.txt | 37 ++++++++++++++++++++++---------------
+ 1 file changed, 22 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/nvme-connect.txt b/Documentation/nvme-connect.txt
-index 18338cb..9ba969e 100644
---- a/Documentation/nvme-connect.txt
-+++ b/Documentation/nvme-connect.txt
-@@ -78,12 +78,6 @@ This was co-written by mailto:james.p.freyensee at intel.com[Jay Freyensee]
- and mailto:hch at lst.de[Christoph Hellwig]
- for mailto:keith.busch at intel.com[Keith Busch].
- 
--REPORTING BUGS
----------------
--Patches and issues for 'connect' should be submitted to the
--Linux kernel email list mailto:linux-nvme at lists.infradead.org[linux-nvme]
--before merging to https://github.com/linux-nvme/nvme-cli.
--
- NVME
- ----
- Part of the nvme-user suite
 diff --git a/Documentation/nvme-discover.txt b/Documentation/nvme-discover.txt
-index bff4767..9140f84 100644
+index 9140f84..96c21f6 100644
 --- a/Documentation/nvme-discover.txt
 +++ b/Documentation/nvme-discover.txt
-@@ -119,12 +119,6 @@ AUTHORS
- This was written by mailto:james.p.freyensee at intel.com[Jay Freyensee]
- for mailto:keith.busch at intel.com[Keith Busch].
+@@ -3,12 +3,12 @@ nvme-discover(1)
  
--REPORTING BUGS
----------------
--Patches and issues for 'discover' should be submitted to the Linux
--kernel email list mailto:linux-nvme at lists.infradead.org[linux-nvme]
--before merging to https://github.com/linux-nvme/nvme-cli.
+ NAME
+ ----
+-nvme-discover - Send Get Log Page request to Discovery Controller.
++nvme-discover - Send Discovery requests to Fabrics Discovery Controllers.
+ 
+ SYNOPSIS
+ --------
+ [verse]
+-'nvme discover'	[device]
++'nvme discover'
+ 		[--transport=<trtype> | -t <trtype>]
+ 		[--traddr=<traddr>    | -a <traddr>]
+ 		[--trsvcid=<trsvcid>  | -s <trsvcid>]
+@@ -17,17 +17,18 @@ SYNOPSIS
+ 
+ DESCRIPTION
+ -----------
+-For a given NVMe Host, send a Discovery Get Log Page request
+-to a Discovery Controller on the network.
 -
- NVME
- ----
- Part of the nvme-user suite
-diff --git a/Documentation/nvme.txt b/Documentation/nvme.txt
-index dcbc660..cb64082 100644
---- a/Documentation/nvme.txt
-+++ b/Documentation/nvme.txt
-@@ -46,7 +46,8 @@ This is written and maintained by mailto:keith.busch at intel.com[Keith Busch].
- Reporting Bugs
- --------------
- Patches and issues may be submitted to the official repository at
--https://github.com/linux-nvme/nvme-cli.
-+https://github.com/linux-nvme/nvme-cli or the Linux NVMe mailing list
-+mailto:linux-nvme at lists.infradead.org[linux-nvme]
+-The [device] parameter is OPTIONAL and will default to
+-/dev/nvme-fabrics if none is given.
++Send one or more Discovery requests to a NVMe over Fabrics Discovery
++Controller.
  
- NVME
- ----
+ If no parameters are given, then 'nvme discover' will attempt to 
+-find a /etc/nvme/discovery.conf file to use to supply the
+-the discover command options.  If no /etc/nvme/discovery.conf file
++find a /etc/nvme/discovery.conf file to use to supply a list of
++Discovery commands to run.  If no /etc/nvme/discovery.conf file
+ exists, the command will quit with an error.
+ 
++Otherwise a specific Discovery Controller should be specified using the
++--transport, --traddr and if nessecary the --trsvcid and a Di??covery
++request will be sent to the specified Discovery Controller.
++
+ BACKGROUND
+ ----------
+ The NVMe-over-Fabrics specification defines the concept of a 
+@@ -61,23 +62,29 @@ OPTIONS
+ |Value|Definition
+ |rdma|The network fabric is an rdma network (RoCE, iWARP, Infiniband, basic rdma, etc)
+ |fc  |*WIP* The network fabric is a Fibre Channel network.
++|loop|Connect to a NVMe over Fabrics target on the local host
+ |=================
+ 
+ -a <traddr>::
+ --traddr=<traddr>::
+ 	This field specifies the network address of the Discovery Controller.
++	For transports using IP addressing (e.g. rdma) this should be an IPv4
++	address.
+ 
+ -s <trsvcid>::
+ --trsvcid=<trsvcid>::
+-	This field specifies the transport service id.  For IP addresses,
+-	this field is the port number. By default, the IP port number
+-	is 4420.
++	This field specifies the transport service id.  For transports using IP
++	addressing (e.g. rdma) this field is the port number. By default, the IP
++	port number for the RDMA transport is 4420.
+  
+ -q <hostnqn>::
+ --hostnqn=<hostnqn>::
+-	This field is the unique NQN of a NVMe Host. This field
+-	will be used by the Discovery Controller to check what NVMe
+-	Target resources are allocated to the NVMe Host for a connection.
++	Overrides the default host NQN that identifies the NVMe Host.  If this
++	option is not specified the default is read from /etc/nvme/hostnqn or
++	autogenerated by the kernel (in that order).
++	The Host NQN uniquely identifies the NVMe Host, and may be used by the
++	the Discovery Controller to control what NVMe Target resources are
++	allocated to the NVMe Host for a connection.
+ 
+ -r <filename>::
+ --raw=<filename>::
 -- 
 2.10.1.382.ga23ca1b
