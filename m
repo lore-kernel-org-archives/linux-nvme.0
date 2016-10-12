@@ -1,29 +1,38 @@
-From: sbates@raithlin.com (Stephen Bates)
-Date: Wed, 12 Oct 2016 11:10:52 -0600
+From: axboe@fb.com (Jens Axboe)
+Date: Wed, 12 Oct 2016 11:10:45 -0600
 Subject: [PATCH v1 1/1] nvme : Add sysfs entry for NVMe CMBs when
  appropriate
-In-Reply-To: <20161007152605.GA2815@localhost.localdomain>
+In-Reply-To: <20161012170327.GA23473@cgy1-donard.priv.deltatee.com>
 References: <1475719272-8370-1-git-send-email-sbates@raithlin.com>
  <1475719272-8370-2-git-send-email-sbates@raithlin.com>
  <20161007152605.GA2815@localhost.localdomain>
-Message-ID: <20161012171052.GA23523@cgy1-donard.priv.deltatee.com>
+ <20161012170327.GA23473@cgy1-donard.priv.deltatee.com>
+Message-ID: <a64a9e5d-8a09-8d2d-a570-34f656447911@fb.com>
 
-On Fri, Oct 07, 2016@09:26:05AM -0600, Jon Derrick wrote:
-> Looks good. Thanks for working on this. I'm looking forward to seeing more CMB
-> code.
+On 10/12/2016 11:03 AM, Stephen Bates wrote:
+> On Fri, Oct 07, 2016@09:26:05AM -0600, Jon Derrick wrote:
+>> Looks good. Thanks for working on this. I'm looking forward to seeing more CMB
+>> code.
+>>
+>> Acked-by Jon Derrick: <jonathan.derrick at intel.com>
+>>
 >
+> Thanks Jon
+>
+> From [1]
+>
+>> Due to being away for a bit, I'm currently a bit behind on patches. I'll
+>> be going over those today. But if you, or anyone else, have things
+>> pending that I haven't picked up yet, do send me a ping.
+>>
+>> --
+>> Jens Axboe
+>
+> ping ;-)
+>
+> Jens, can you pick this one up?
 
-Jens
+Thanks for the ping, added!
 
-My last email might have been confusing. The link to the patch is
-actually here [1]. It also has a subsequent
-
-Acked-by Jon Derrick: <jonathan.derrick at intel.com>
-
-tag from Jon. Sorry for any confusion.
-
-Cheers
-
-Stephen
-
-[1] http://lists.infradead.org/pipermail/linux-nvme/2016-October/006540.html
+-- 
+Jens Axboe
