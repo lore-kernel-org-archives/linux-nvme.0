@@ -1,39 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 12 Oct 2016 09:53:39 -0400
-Subject: Need help for dead lock of nvme shutdown_lock
-In-Reply-To: <CAEj2FWN7B5svizExg7CNq+maZaP4TrabWee2B30CwAxFDp1U2g@mail.gmail.com>
-References: <CAEj2FWN7ZgdBA4kHhKNSoHJnP9x+KCu8YNK_i9VSs2tSLHj3+g@mail.gmail.com>
- <57fdff29.c6efca0a.f2af0.9897SMTPIN_ADDED_BROKEN@mx.google.com>
- <CAEj2FWN7B5svizExg7CNq+maZaP4TrabWee2B30CwAxFDp1U2g@mail.gmail.com>
-Message-ID: <20161012135339.GA11730@localhost.localdomain>
+From: axboe@fb.com (Jens Axboe)
+Date: Wed, 12 Oct 2016 08:40:57 -0600
+Subject: [PATCH] nvme: Stop probing a removed device
+In-Reply-To: <1476207118-10113-1-git-send-email-keith.busch@intel.com>
+References: <1476207118-10113-1-git-send-email-keith.busch@intel.com>
+Message-ID: <01aeea30-b515-6d9d-0676-2fa00743bc32@fb.com>
 
-On Wed, Oct 12, 2016@05:33:01PM +0800, ??? wrote:
-> 2016-10-12 17:15 GMT+08:00 Shan Hai <shan.hai at oracle.com>:
-> >
-> > On Wed, Oct 12, 2016@03:44:34PM +0800, ??? wrote:
-> > > Dear maintainers of NVME
-> > > I met a dead lock issue when I was using NVME.
-> > > the shutdown_lock may cause dead lock when nvme_reset_work is working
-> > > and nvme_timeout happens.
-> > > I checked the latest mainline code, it seems still have such issue,
-> > > please help, thank you!
-> > > below is the log:
-> > >
-> >
-> > Hi Xiaoguang,
-> >
-> > Would you please try the below patch?
-> >
-> >
-> Thank you very much for the quick fix, Shan
-> This can absolutely fix the dead lock issue I met.
-> Will this be submitted to mainline?
+On 10/11/2016 11:31 AM, Keith Busch wrote:
+> There is no reason the nvme controller can ever return all 1's from
+> reading the CSTS register. This patch returns an error if we observe
+> that status. Without this, we may incorrectly proceed with controller
+> initialization and unnecessarilly rely on error handling to clean this.
 
-NAK!
+Applied for this series.
 
-First of all, you can't complete a request while the controller still
-owns it. You're risking data and/or memory corruption from doing that.
+Due to being away for a bit, I'm currently a bit behind on patches. I'll
+be going over those today. But if you, or anyone else, have things
+pending that I haven't picked up yet, do send me a ping.
 
-Secondly, there is no such mainline kernel that tries to disable the
-controller in a softirq context. Whoever built your kernel needs to
-cherry pick 287922eb, "block: defer timeouts to a workqueue".
+-- 
+Jens Axboe
