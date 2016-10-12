@@ -1,34 +1,44 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Wed, 12 Oct 2016 11:50:48 -0700
-Subject: [PATCH 0/7 v2] nvme-fabrics: Add FC-NVME Transport support
-In-Reply-To: <20161012085358.GA12972@infradead.org>
-References: <57f82b0d.sLiRmQ0NSI2pLk2l%james.smart@broadcom.com>
- <20161012085358.GA12972@infradead.org>
-Message-ID: <a12ea17d-bf55-1cb5-ae90-0dc90735a61d@broadcom.com>
+Date: Wed, 12 Oct 2016 11:53:29 -0700
+Subject: [PATCH 3/7 v2] nvme-fabrics: Add FC transport FC-NVME definitions
+In-Reply-To: <20161012085834.GD12972@infradead.org>
+References: <57f82b10.h/qKXTOsgeHQsdmh%james.smart@broadcom.com>
+ <20161012085834.GD12972@infradead.org>
+Message-ID: <e98579b7-2b6a-8987-0ced-a0146ea5919b@broadcom.com>
 
 
 
-On 10/12/2016 1:53 AM, Christoph Hellwig wrote:
-> On Fri, Oct 07, 2016@04:09:01PM -0700, James Smart wrote:
->> The patches in this set add support for the FC transport to the nvme
->> fabrics subsystem.  The set include header files with T11 transport
->> definitions and an api for the FC-NVME transport to talk with FC LLDDs.
->> It also includes host and target transport files. A FC loopback driver
->> is supplied to act as a FC LLDD to exercise the api.
-> What's the timeline for submitting the lpfc support?  Even if you're
-> not submitting it quite yet having it available somewhere as a reference
-> would be really useful when reviewing the code.
+On 10/12/2016 1:58 AM, Christoph Hellwig wrote:
+> On Fri, Oct 07, 2016@04:09:04PM -0700, James Smart wrote:
+>> nvme-fabrics: Add FC transport FC-NVME definitions:
+> FYI, all the patches seem to have this duplicate of the subject in
+> the mail body.
 
-I've already submitted lpfc nvme support once with the prior transport 
-posting. Look on linux-nvme as well as linux-scsi and look for the 
-11.2.0.1 patch set.  I'm wrapping up the repost of it with this new 
-transport posting now. It'll be based on a lpfc update that I'm posting 
-momentarilly. So, within a day or two.
-
+I'm surprised. I'll look at it.
 
 >
-> Also the code makes git-am complain:
-not sure what's generating this.  Everything is pre-checked vs 
-Checkpatch. I'll look closer.
+>> - cmd_iu changed in T11. The 2 reserved words, previous at words
+>>    2 and 3, were moved to after the sqe.
+>> - Modifications from prior reviews:
+>> -  FC-transport-specific error codes moved to include/linux/nvme.h
+>> -  Removed 0x28 type declaration to include/uapi/scsi/fc/fc_fs.h
+>> -  Removed Reject reasons and explanations. ELS values are to be used.
+> This should go either into the cover letter, or below the "---" line
+> so that it doesn't show up in the commit message.
+
+Ok - help my style. I assumed deltas to original patch made sense to 
+itemize. As they are specific to this one file I thought it made sense 
+to be in the commit message for this patch. I have no problem moving it 
+to the cover letter. Just not sure what the criteria is for one place vs 
+another.
+
+>
+>> +/* fills in length of a descriptor. Struture minus descriptor header */
+>> +#define FCNVME_LSDESC_LEN(lsdesc) \
+>> +		cpu_to_be32(sizeof(lsdesc) - (2*(sizeof(u32))))
+> Make this an inline function and use spaces between the operators,
+> please.
+
+Np.
 
 -- james
