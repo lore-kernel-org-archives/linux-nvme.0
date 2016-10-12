@@ -1,30 +1,52 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 11 Oct 2016 13:31:58 -0400
-Subject: [PATCH] nvme: Stop probing a removed device
-Message-ID: <1476207118-10113-1-git-send-email-keith.busch@intel.com>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Tue, 11 Oct 2016 17:41:03 -0700
+Subject: [PATCH v2 7/7] [RFC] nvme: Fix a race condition
+In-Reply-To: <20161011164601.GC18822@lst.de>
+References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
+ <ff412bfb-548c-c4fc-5180-78ede8a19ef2@sandisk.com>
+ <20161011164601.GC18822@lst.de>
+Message-ID: <28847fd5-630d-4ac9-c96f-9b27a05323cd@sandisk.com>
 
-There is no reason the nvme controller can ever return all 1's from
-reading the CSTS register. This patch returns an error if we observe
-that status. Without this, we may incorrectly proceed with controller
-initialization and unnecessarilly rely on error handling to clean this.
+On 10/11/16 09:46, Christoph Hellwig wrote:
+> On Wed, Sep 28, 2016@05:01:45PM -0700, Bart Van Assche wrote:
+>> Avoid that nvme_queue_rq() is still running when nvme_stop_queues()
+>> returns. Untested.
+>>
+>> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
+>> Cc: Keith Busch <keith.busch at intel.com>
+>> Cc: Christoph Hellwig <hch at lst.de>
+>> Cc: Sagi Grimberg <sagi at grimberg.me>
+>> ---
+>>  drivers/nvme/host/core.c | 20 ++++++++++++--------
+>>  1 file changed, 12 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index d791fba..98f1f29 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -201,13 +201,9 @@ fail:
+>>
+>>  void nvme_requeue_req(struct request *req)
+>>  {
+>> -	unsigned long flags;
+>> -
+>>  	blk_mq_requeue_request(req);
+>> -	spin_lock_irqsave(req->q->queue_lock, flags);
+>> -	if (!blk_mq_queue_stopped(req->q))
+>> -		blk_mq_kick_requeue_list(req->q);
+>> -	spin_unlock_irqrestore(req->q->queue_lock, flags);
+>> +	WARN_ON_ONCE(blk_mq_queue_stopped(req->q));
+>> +	blk_mq_kick_requeue_list(req->q);
+>>  }
+>>  EXPORT_SYMBOL_GPL(nvme_requeue_req);
+>
+> Can we just add a 'bool kick' argument to blk_mq_requeue_request and
+> move all this handling to the core?
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/core.c | 2 ++
- 1 file changed, 2 insertions(+)
+Hello Christoph,
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 62bdbe6..f80ed33 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1086,6 +1086,8 @@ static int nvme_wait_ready(struct nvme_ctrl *ctrl, u64 cap, bool enabled)
- 	int ret;
- 
- 	while ((ret = ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts)) == 0) {
-+		if (csts == ~0)
-+			return -ENODEV;
- 		if ((csts & NVME_CSTS_RDY) == bit)
- 			break;
- 
--- 
-2.7.2
+That sounds like a good idea to me. Thanks also for the other review 
+comments you posted on this patch series. I will rework patch 6/7 such 
+that the code for waiting is moved into the SCSI core.
+
+Bart.
