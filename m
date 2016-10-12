@@ -1,104 +1,137 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 12 Oct 2016 10:45:52 +0200
-Subject: [PATCH 2/3] fine tune the nvme-discover manpage
+Date: Wed, 12 Oct 2016 10:45:53 +0200
+Subject: [PATCH 3/3] add documentation for the connect-all command
 In-Reply-To: <1476261953-23119-1-git-send-email-hch@lst.de>
 References: <1476261953-23119-1-git-send-email-hch@lst.de>
-Message-ID: <1476261953-23119-3-git-send-email-hch@lst.de>
-
- - remove the device argument, which as far as I can tell does not
-   exist.
- - mention the /etc/nvme/hostnqn file, the default host nqn and explain
-   host nqns a bit more
- - mention the loopback transport
- - be a bit more specific about IP addressing as a concept separate from
-   the RDMA transport
- - improve the introduction a bit.
+Message-ID: <1476261953-23119-4-git-send-email-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- Documentation/nvme-discover.txt | 37 ++++++++++++++++++++++---------------
- 1 file changed, 22 insertions(+), 15 deletions(-)
+ Documentation/nvme-connect-all.txt | 103 +++++++++++++++++++++++++++++++++++++
+ Documentation/nvme-discover.txt    |   1 +
+ 2 files changed, 104 insertions(+)
+ create mode 100644 Documentation/nvme-connect-all.txt
 
-diff --git a/Documentation/nvme-discover.txt b/Documentation/nvme-discover.txt
-index 9140f84..96c21f6 100644
---- a/Documentation/nvme-discover.txt
-+++ b/Documentation/nvme-discover.txt
-@@ -3,12 +3,12 @@ nvme-discover(1)
- 
- NAME
- ----
--nvme-discover - Send Get Log Page request to Discovery Controller.
-+nvme-discover - Send Discovery requests to Fabrics Discovery Controllers.
- 
- SYNOPSIS
- --------
- [verse]
--'nvme discover'	[device]
-+'nvme discover'
- 		[--transport=<trtype> | -t <trtype>]
- 		[--traddr=<traddr>    | -a <traddr>]
- 		[--trsvcid=<trsvcid>  | -s <trsvcid>]
-@@ -17,17 +17,18 @@ SYNOPSIS
- 
- DESCRIPTION
- -----------
--For a given NVMe Host, send a Discovery Get Log Page request
--to a Discovery Controller on the network.
--
--The [device] parameter is OPTIONAL and will default to
--/dev/nvme-fabrics if none is given.
+diff --git a/Documentation/nvme-connect-all.txt b/Documentation/nvme-connect-all.txt
+new file mode 100644
+index 0000000..fa40b41
+--- /dev/null
++++ b/Documentation/nvme-connect-all.txt
+@@ -0,0 +1,103 @@
++nvme-connect-all(1)
++==============
++
++NAME
++----
++nvme-connect-all - Discover and Connect to Fabrics controllers.
++
++SYNOPSIS
++--------
++[verse]
++'nvme connect-all'
++		[--transport=<trtype> | -t <trtype>]
++		[--traddr=<traddr>    | -a <traddr>]
++		[--trsvcid=<trsvcid>  | -s <trsvcid>]
++		[--hostnqn=<hostnqn>  | -q <hostnqn>]
++		[--raw=<filename>     | -r <filename>]
++
++DESCRIPTION
++-----------
 +Send one or more Discovery requests to a NVMe over Fabrics Discovery
-+Controller.
- 
- If no parameters are given, then 'nvme discover' will attempt to 
--find a /etc/nvme/discovery.conf file to use to supply the
--the discover command options.  If no /etc/nvme/discovery.conf file
++Controller, and create controllers for the returned discovery records.
++
++If no parameters are given, then 'nvme connect-all' will attempt to
 +find a /etc/nvme/discovery.conf file to use to supply a list of
-+Discovery commands to run.  If no /etc/nvme/discovery.conf file
- exists, the command will quit with an error.
- 
++Connect-all commands to run. If no /etc/nvme/discovery.conf file exists,
++the command will quit with an error.
++
 +Otherwise a specific Discovery Controller should be specified using the
 +--transport, --traddr and if nessecary the --trsvcid and a Di??covery
 +request will be sent to the specified Discovery Controller.
 +
- BACKGROUND
- ----------
- The NVMe-over-Fabrics specification defines the concept of a 
-@@ -61,23 +62,29 @@ OPTIONS
- |Value|Definition
- |rdma|The network fabric is an rdma network (RoCE, iWARP, Infiniband, basic rdma, etc)
- |fc  |*WIP* The network fabric is a Fibre Channel network.
++See the documentation for the nvme-discover(1) command for further
++background.
++
++OPTIONS
++-------
++-t <trtype>::
++--transport=<trtype>::
++	This field specifies the network fabric being used for
++	a NVMe-over-Fabrics network.  Current string values include:
+++
++[]
++|=================
++|Value|Definition
++|rdma|The network fabric is an rdma network (RoCE, iWARP, Infiniband, basic rdma, etc)
++|fc  |*WIP* The network fabric is a Fibre Channel network.
 +|loop|Connect to a NVMe over Fabrics target on the local host
- |=================
- 
- -a <traddr>::
- --traddr=<traddr>::
- 	This field specifies the network address of the Discovery Controller.
++|=================
++
++-a <traddr>::
++--traddr=<traddr>::
++	This field specifies the network address of the Discovery Controller.
 +	For transports using IP addressing (e.g. rdma) this should be an IPv4
 +	address.
- 
- -s <trsvcid>::
- --trsvcid=<trsvcid>::
--	This field specifies the transport service id.  For IP addresses,
--	this field is the port number. By default, the IP port number
--	is 4420.
++
++-s <trsvcid>::
++--trsvcid=<trsvcid>::
 +	This field specifies the transport service id.  For transports using IP
 +	addressing (e.g. rdma) this field is the port number. By default, the IP
 +	port number for the RDMA transport is 4420.
-  
- -q <hostnqn>::
- --hostnqn=<hostnqn>::
--	This field is the unique NQN of a NVMe Host. This field
--	will be used by the Discovery Controller to check what NVMe
--	Target resources are allocated to the NVMe Host for a connection.
++ 
++-q <hostnqn>::
++--hostnqn=<hostnqn>::
 +	Overrides the default host NQN that identifies the NVMe Host.  If this
 +	option is not specified the default is read from /etc/nvme/hostnqn or
 +	autogenerated by the kernel (in that order).
 +	The Host NQN uniquely identifies the NVMe Host, and may be used by the
 +	the Discovery Controller to control what NVMe Target resources are
 +	allocated to the NVMe Host for a connection.
++
++EXAMPLES
++--------
++* Connect to all records returned by the Discover Controller with IP4 address
++192.168.1.3 for all resources allocated for NVMe Host name host1-rogue-nqn on
++the RDMA network. Port 4420 is used by default:
+++
++------------
++# nvme connect-all --transport=rdma --traddr=192.168.1.3 \
++--hostnqn=host1-rogue-nqn
++------------
+++
++* Issue a 'nvme connect-all' command using a /etc/nvme/discovery.conf file:
++-----------
++# Machine default 'nvme discover' commands.  Query the
++# Discovery Controller's two ports (some resources may only
++# be accessible on a single port).  Note an official
++# nqn (Host) name defined in the NVMe specification is being used
++# in this example.
++-t rdma -a 192.168.69.33 -s 4420 -q nqn.2014-08.com.example:nvme:nvm-subsystem-sn-d78432
++-t rdma -a 192.168.1.4   -s 4420 -q nqn.2014-08.com.example:nvme:nvm-subsystem-sn-d78432
++
++At the prompt type "nvme connect-all".
++
++------------
++
++SEE ALSO
++--------
++nvme-discover(1)
++nvme-connect(1)
++
++NVME
++----
++Part of the nvme-user suite
+diff --git a/Documentation/nvme-discover.txt b/Documentation/nvme-discover.txt
+index 96c21f6..d43f088 100644
+--- a/Documentation/nvme-discover.txt
++++ b/Documentation/nvme-discover.txt
+@@ -120,6 +120,7 @@ At the prompt type "nvme discover".
+ SEE ALSO
+ --------
+ nvme-connect(1)
++nvme-connect-all(1)
  
- -r <filename>::
- --raw=<filename>::
+ AUTHORS
+ -------
 -- 
 2.10.1.382.ga23ca1b
