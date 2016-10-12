@@ -1,135 +1,27 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Wed, 12 Oct 2016 10:21:38 -0700
-Subject: [PATCH 3/3] add documentation for the connect-all command
-In-Reply-To: <1476261953-23119-4-git-send-email-hch@lst.de>
-References: <1476261953-23119-1-git-send-email-hch@lst.de>
- <1476261953-23119-4-git-send-email-hch@lst.de>
-Message-ID: <1476292898.5410.70.camel@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 12 Oct 2016 13:34:11 -0400
+Subject: NVME Subsystem Reset Question
+In-Reply-To: <CY4PR04MB02171C20ACEE87C3409A47ABEADD0@CY4PR04MB0217.namprd04.prod.outlook.com>
+References: <CY4PR04MB02171C20ACEE87C3409A47ABEADD0@CY4PR04MB0217.namprd04.prod.outlook.com>
+Message-ID: <20161012173411.GA12681@localhost.localdomain>
 
-On Wed, 2016-10-12@10:45 +0200, Christoph Hellwig wrote:
+On Wed, Oct 12, 2016@05:04:40PM +0000, Jeffrey Lien wrote:
+> Keith, Jens,
+> I have a question on what the state of the nvme device should be after a subsystem reset (ie. Writing "NVMe" to NSSR).   The spec says it should be in LTSSM detect state which seems to mean it no longer showing up on the PCI bus which requires a pci bus rescan to get it back.   Does that match your interpretation?
+>
+> If so, who's responsible for initiating the bus rescan to get the device back?  I didn't see anything in the driver code that would do this so I'm assuming it would be the App's (that issued the subsystem reset ioctl) responsibility.  Agree?  Or is there something else that should initiate the rescan?
 
-(email bounce, resend)
+A bus rescan shouldn't be necessary. The device is supposed to go
+from detect to polling automatically if a receiver is detected,
+then configuration, recovery and finally L0 without the kernel doing
+anything. At least that's my understanding.
 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
-> ?Documentation/nvme-connect-all.txt | 103
-> +++++++++++++++++++++++++++++++++++++
-> ?Documentation/nvme-discover.txt????|???1 +
-> ?2 files changed, 104 insertions(+)
-> ?create mode 100644 Documentation/nvme-connect-all.txt
-> 
-> diff --git a/Documentation/nvme-connect-all.txt b/Documentation/nvme-
-> connect-all.txt
-> new file mode 100644
-> index 0000000..fa40b41
-> --- /dev/null
-> +++ b/Documentation/nvme-connect-all.txt
-> @@ -0,0 +1,103 @@
-> +nvme-connect-all(1)
-> +==============
-> +
-> +NAME
-> +----
-> +nvme-connect-all - Discover and Connect to Fabrics controllers.
-> +
-> +SYNOPSIS
-> +--------
-> +[verse]
-> +'nvme connect-all'
-> +		[--transport=<trtype> | -t <trtype>]
-> +		[--traddr=<traddr>????| -a <traddr>]
-> +		[--trsvcid=<trsvcid>??| -s <trsvcid>]
-> +		[--hostnqn=<hostnqn>??| -q <hostnqn>]
-> +		[--raw=<filename>?????| -r <filename>]
-> +
-> +DESCRIPTION
-> +-----------
-> +Send one or more Discovery requests to a NVMe over Fabrics Discovery
-> +Controller, and create controllers for the returned discovery
-> records.
-> +
-> +If no parameters are given, then 'nvme connect-all' will attempt to
-> +find a /etc/nvme/discovery.conf file to use to supply a list of
-> +Connect-all commands to run. If no /etc/nvme/discovery.conf file 
+Since power is never lost, the controllers in the subsystem should have
+CSTS.NSSRO set to 1 so the driver can observe this after the controller
+completes link training.
 
-"connect-all"
-
-> exists,
-> +the command will quit with an error.
-> +
-> +Otherwise a specific Discovery Controller should be specified using
-> the
-> +--transport, --traddr and if nessecary the --trsvcid and a Di?covery
-> +request will be sent to the specified Discovery Controller.
-
-Again I don't think this adds additional use/learning having the flags
-again here when they are mentioned in "Synopsis", described further
-below, and then with examples, just makes maintenance of the man pages
-a bit more tedious.
-
-(and "necessary" is misspelled)
-
-> +
-> +See the documentation for the nvme-discover(1) command for further
-> +background.
-> +
-> +OPTIONS
-> +-------
-> +-t <trtype>::
-> +--transport=<trtype>::
-> +	This field specifies the network fabric being used for
-> +	a NVMe-over-Fabrics network.??Current string values include:
-> ++
-> +[]
-> +|=================
-> +|Value|Definition
-> +|rdma|The network fabric is an rdma network (RoCE, iWARP,
-> Infiniband, basic rdma, etc)
-> +|fc??|*WIP* The network fabric is a Fibre Channel network.
-> +|loop|Connect to a NVMe over Fabrics target on the local host
-> +|=================
-> +
-> +-a <traddr>::
-> +--traddr=<traddr>::
-> +	This field specifies the network address of the Discovery
-> Controller.
-> +	For transports using IP addressing (e.g. rdma) this should
-> be an IPv4
-> +	address.
-
-Again I think we can remove the mention of "IPv4"; the examples show
-this and IPv6 will be used soon enough.
-
-> +
-> +-s <trsvcid>::
-> +--trsvcid=<trsvcid>::
-> +	This field specifies the transport service id.??For
-> transports using IP
-> +	addressing (e.g. rdma) this field is the port number. By
-> default, the IP
-> +	port number for the RDMA transport is 4420.
-> +?
-> +-q <hostnqn>::
-> +--hostnqn=<hostnqn>::
-> +	Overrides the default host NQN that identifies the NVMe
-> Host.??If this
-> +	option is not specified the default is read from
-> /etc/nvme/hostnqn or
-> +	autogenerated by the kernel (in that order).
-
-Same comment as what was said in 2/3 for Discovery man page tweaks.
-
-> +	The Host NQN uniquely identifies the NVMe Host, and may be
-> used by the
-> +	the Discovery Controller to control what NVMe Target
-> resources are
-> +	allocated to the NVMe Host for a connection.
-> +
-> +EXAMPLES
-> +--------
-> +* Connect to all records returned by the Discover Controller with
-> IP4 address
-> +192.168.1.3 for all resources allocated for NVMe Host name host1-
-> rogue-nqn?
-
-I'm getting ready for "Rogue One- a Star Wars story" :-).
+It wouldn't make much sense to require the host do anything to initiate
+a rescan to detect the pci device after a subsystem reset. Different
+controllers in the subsystem could be connected to different hosts,
+and you can't ensure that's coordinated from the host that initiated the
+subsystem reset.
