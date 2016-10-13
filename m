@@ -1,23 +1,42 @@
-From: agrover@redhat.com (Andy Grover)
-Date: Wed, 12 Oct 2016 17:00:41 -0700
-Subject: [PATCH 2/3] Use relative import in nvmet/__init__.py
-In-Reply-To: <1476316842-23718-1-git-send-email-agrover@redhat.com>
-References: <1476316842-23718-1-git-send-email-agrover@redhat.com>
-Message-ID: <1476316842-23718-3-git-send-email-agrover@redhat.com>
+From: xgchenshy@gmail.com (=?UTF-8?B?6ZmI5pmT5YWJ?=)
+Date: Thu, 13 Oct 2016 09:19:36 +0800
+Subject: Need help for dead lock of nvme shutdown_lock
+In-Reply-To: <20161012135339.GA11730@localhost.localdomain>
+References: <CAEj2FWN7ZgdBA4kHhKNSoHJnP9x+KCu8YNK_i9VSs2tSLHj3+g@mail.gmail.com>
+ <57fdff29.c6efca0a.f2af0.9897SMTPIN_ADDED_BROKEN@mx.google.com>
+ <CAEj2FWN7B5svizExg7CNq+maZaP4TrabWee2B30CwAxFDp1U2g@mail.gmail.com>
+ <20161012135339.GA11730@localhost.localdomain>
+Message-ID: <CAEj2FWNp-7DXan_hqKDtpcK8GgG6k2x4WQKybkDZyfVXP082FQ@mail.gmail.com>
 
-This is supported by Python 2.7 and later.
-
-Signed-off-by: Andy Grover <agrover at redhat.com>
----
- nvmet/__init__.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/nvmet/__init__.py b/nvmet/__init__.py
-index eba0ebb..a084151 100644
---- a/nvmet/__init__.py
-+++ b/nvmet/__init__.py
-@@ -1 +1 @@
--from nvme import Root, Subsystem, Namespace
-+from .nvme import Root, Subsystem, Namespace
--- 
-2.7.4
+2016-10-12 21:53 GMT+08:00 Keith Busch <keith.busch at intel.com>:
+> On Wed, Oct 12, 2016@05:33:01PM +0800, ??? wrote:
+>> 2016-10-12 17:15 GMT+08:00 Shan Hai <shan.hai at oracle.com>:
+>> >
+>> > On Wed, Oct 12, 2016@03:44:34PM +0800, ??? wrote:
+>> > > Dear maintainers of NVME
+>> > > I met a dead lock issue when I was using NVME.
+>> > > the shutdown_lock may cause dead lock when nvme_reset_work is working
+>> > > and nvme_timeout happens.
+>> > > I checked the latest mainline code, it seems still have such issue,
+>> > > please help, thank you!
+>> > > below is the log:
+>> > >
+>> >
+>> > Hi Xiaoguang,
+>> >
+>> > Would you please try the below patch?
+>> >
+>> >
+>> Thank you very much for the quick fix, Shan
+>> This can absolutely fix the dead lock issue I met.
+>> Will this be submitted to mainline?
+>
+> NAK!
+>
+> First of all, you can't complete a request while the controller still
+> owns it. You're risking data and/or memory corruption from doing that.
+>
+> Secondly, there is no such mainline kernel that tries to disable the
+> controller in a softirq context. Whoever built your kernel needs to
+> cherry pick 287922eb, "block: defer timeouts to a workqueue".
+Thank you Keith, this patch works for me :)
