@@ -1,15 +1,24 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 13 Oct 2016 12:15:19 -0400
-Subject: Weirdness with discard cmd and get log pages
-In-Reply-To: <CAG3=cOkxyNq3heevOOpOMcezTsEktPfsoWAEVjWdTA28KgVwAg@mail.gmail.com>
-References: <CAG3=cOkxyNq3heevOOpOMcezTsEktPfsoWAEVjWdTA28KgVwAg@mail.gmail.com>
-Message-ID: <20161013161519.GE17823@localhost.localdomain>
+From: agrover@redhat.com (Andy Grover)
+Date: Thu, 13 Oct 2016 09:23:54 -0700
+Subject: [PATCH 1/3] Add nvmetcli to setup.py scripts
+In-Reply-To: <20161013100552.GA25325@infradead.org>
+References: <1476316842-23718-1-git-send-email-agrover@redhat.com>
+ <1476316842-23718-2-git-send-email-agrover@redhat.com>
+ <20161013100552.GA25325@infradead.org>
+Message-ID: <eba038a5-a099-ff61-cbe5-250e56637ccd@redhat.com>
 
-On Thu, Oct 13, 2016@08:46:30AM -0700, Nisha Miller wrote:
-> In the case of discard command, we are able to fetch the first two
-> ranges (i.e 16 bytes/range x 2) correctly using DMA. But any ranges
-> after that contain just junk data. For example, if we try to fetch 4
-> ranges, ranges 1-2 are valid but ranges 3-4 contain junk.
+On 10/13/2016 03:05 AM, Christoph Hellwig wrote:
+> On Wed, Oct 12, 2016@05:00:40PM -0700, Andy Grover wrote:
+>> This results in nvmetcli being placed in the right place on install, and
+>> the interpreter name will be changed to the current interpreter name,
+>> which may be different, e.g. /usr/bin/python3.
+>>
+>> Signed-off-by: Andy Grover <agrover at redhat.com>
+>
+> It installs it into the wrong place unfortunately, /usr/bin instead
+> of /usr/sbin.
 
-How did you set up a discard command with more than one range? The
-standard discard path to the driver allows only one.
+There's a command-line argument to 'python setup.py install', 
+--install-scripts, that can be used to put it in /usr/sbin if you want...
+
+-- Andy
