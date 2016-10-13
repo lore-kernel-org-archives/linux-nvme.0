@@ -1,17 +1,15 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 13 Oct 2016 03:05:52 -0700
-Subject: [PATCH 1/3] Add nvmetcli to setup.py scripts
-In-Reply-To: <1476316842-23718-2-git-send-email-agrover@redhat.com>
+Date: Thu, 13 Oct 2016 03:06:22 -0700
+Subject: [PATCH 0/3] nvmetcli fixes
+In-Reply-To: <1476316842-23718-1-git-send-email-agrover@redhat.com>
 References: <1476316842-23718-1-git-send-email-agrover@redhat.com>
- <1476316842-23718-2-git-send-email-agrover@redhat.com>
-Message-ID: <20161013100552.GA25325@infradead.org>
+Message-ID: <20161013100622.GB25325@infradead.org>
 
-On Wed, Oct 12, 2016@05:00:40PM -0700, Andy Grover wrote:
-> This results in nvmetcli being placed in the right place on install, and
-> the interpreter name will be changed to the current interpreter name,
-> which may be different, e.g. /usr/bin/python3.
-> 
-> Signed-off-by: Andy Grover <agrover at redhat.com>
+On Wed, Oct 12, 2016@05:00:39PM -0700, Andy Grover wrote:
+> Here are some small fixes that help packaging nvmetcli,
+> and help it minimally work with Python 3 -- there are likely more
+> Py2/3 issues that will come out in testing but this gets us past
+> initial import errors.
 
-It installs it into the wrong place unfortunately, /usr/bin instead
-of /usr/sbin.
+Thanks Andy, I've applied patches 2 and 3.  Any idea how to get
+nvmetcli installed to /usr/sbin using setuptools?
