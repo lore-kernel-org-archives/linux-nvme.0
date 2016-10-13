@@ -1,20 +1,18 @@
-From: roysh@mellanox.com (Roy Shterman)
-Date: Thu, 13 Oct 2016 08:44:37 +0300
-Subject: Scalability issue with multiple NVMe Devices with one core
-Message-ID: <50e02652-9e54-c314-6551-cd3075ccb005@mellanox.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 13 Oct 2016 02:15:00 -0700
+Subject: [PATCH 3/7 v2] nvme-fabrics: Add FC transport FC-NVME definitions
+In-Reply-To: <e98579b7-2b6a-8987-0ced-a0146ea5919b@broadcom.com>
+References: <57f82b10.h/qKXTOsgeHQsdmh%james.smart@broadcom.com>
+ <20161012085834.GD12972@infradead.org>
+ <e98579b7-2b6a-8987-0ced-a0146ea5919b@broadcom.com>
+Message-ID: <20161013091500.GA16162@infradead.org>
 
+On Wed, Oct 12, 2016@11:53:29AM -0700, James Smart wrote:
+> Ok - help my style. I assumed deltas to original patch made sense to
+> itemize. As they are specific to this one file I thought it made sense to be
+> in the commit message for this patch. I have no problem moving it to the
+> cover letter. Just not sure what the criteria is for one place vs another.
 
-Hi,
-
-scenario is when running traffic over 1 NVMe Device with 1 core I'm 
-getting X IOPS and Y% core utilization.
-
-In my perception, when adding more NVMe Devices I should see some 
-linearity of the above results, but I'm getting only a small improvement 
-in IOPS and still not getting 100% (or closer ) in CPU utilization.
-
-Any suggestions?
-
-Thanks,
-
-Roy
+If you want to keep them in this patch that's not as usual but okay as
+well.  But in that case move it under the '---' marker, so that git-am
+won't pick it up.
