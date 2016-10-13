@@ -1,42 +1,28 @@
 From: xgchenshy@gmail.com (=?UTF-8?B?6ZmI5pmT5YWJ?=)
-Date: Thu, 13 Oct 2016 09:19:36 +0800
-Subject: Need help for dead lock of nvme shutdown_lock
-In-Reply-To: <20161012135339.GA11730@localhost.localdomain>
-References: <CAEj2FWN7ZgdBA4kHhKNSoHJnP9x+KCu8YNK_i9VSs2tSLHj3+g@mail.gmail.com>
- <57fdff29.c6efca0a.f2af0.9897SMTPIN_ADDED_BROKEN@mx.google.com>
- <CAEj2FWN7B5svizExg7CNq+maZaP4TrabWee2B30CwAxFDp1U2g@mail.gmail.com>
- <20161012135339.GA11730@localhost.localdomain>
-Message-ID: <CAEj2FWNp-7DXan_hqKDtpcK8GgG6k2x4WQKybkDZyfVXP082FQ@mail.gmail.com>
+Date: Thu, 13 Oct 2016 10:26:39 +0800
+Subject: SM951 SSD always see "failed status 3, reset controller" on nvme
+Message-ID: <CAEj2FWNzJ1KHe-25afDmbMOBzMwRHaQhrWX2j=BRdQbvMS8ipA@mail.gmail.com>
 
-2016-10-12 21:53 GMT+08:00 Keith Busch <keith.busch at intel.com>:
-> On Wed, Oct 12, 2016@05:33:01PM +0800, ??? wrote:
->> 2016-10-12 17:15 GMT+08:00 Shan Hai <shan.hai at oracle.com>:
->> >
->> > On Wed, Oct 12, 2016@03:44:34PM +0800, ??? wrote:
->> > > Dear maintainers of NVME
->> > > I met a dead lock issue when I was using NVME.
->> > > the shutdown_lock may cause dead lock when nvme_reset_work is working
->> > > and nvme_timeout happens.
->> > > I checked the latest mainline code, it seems still have such issue,
->> > > please help, thank you!
->> > > below is the log:
->> > >
->> >
->> > Hi Xiaoguang,
->> >
->> > Would you please try the below patch?
->> >
->> >
->> Thank you very much for the quick fix, Shan
->> This can absolutely fix the dead lock issue I met.
->> Will this be submitted to mainline?
->
-> NAK!
->
-> First of all, you can't complete a request while the controller still
-> owns it. You're risking data and/or memory corruption from doing that.
->
-> Secondly, there is no such mainline kernel that tries to disable the
-> controller in a softirq context. Whoever built your kernel needs to
-> cherry pick 287922eb, "block: defer timeouts to a workqueue".
-Thank you Keith, this patch works for me :)
+Guys
+I'm using nvme with SM951 SSD and I see "failed status, reset
+controller" again and again, I'm wondering if I missed any config for
+this device, does any body see such errors before?
+
+[  961.284092] nvme 0000:01:00.0: Failed status: 0x3, reset controller.
+[  961.640310] nvme 0000:01:00.0: async event result 00010000
+[  992.274323] nvme 0000:01:00.0: I/O 6 QID 1 timeout, disable controller
+[  992.296774] blk_update_request: I/O error, dev nvme0n1, sector 38458
+[  992.298834] blk_update_request: I/O error, dev nvme0n1, sector 37690
+[  992.300373] EXT4-fs warning (device nvme0n1p1): ext4_end_bio:329:
+I/O error -5 writing to inode 14 (offset 274432 size 262144 starting
+block 18973)
+[  992.304710] Buffer I/O error on device nvme0n1p1, logical block 18701
+[  992.306057] Buffer I/O error on device nvme0n1p1, logical block 18702
+[  992.307361] Buffer I/O error on device nvme0n1p1, logical block 18703
+[  992.308668] Buffer I/O error on device nvme0n1p1, logical block 18704
+[  992.320937] Buffer I/O error on device nvme0n1p1, logical block 18705
+[  992.322307] Buffer I/O error on device nvme0n1p1, logical block 18706
+[  992.323625] Buffer I/O error on device nvme0n1p1, logical block 18707
+[  992.324935] Buffer I/O error on device nvme0n1p1, logical block 18708
+[  992.326897] Buffer I/O error on device nvme0n1p1, logical block 18709
+[  992.328238] Buffer I/O error on device nvme0n1p1, logical block 18710
