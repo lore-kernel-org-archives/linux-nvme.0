@@ -1,22 +1,30 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 12 Oct 2016 16:25:24 -0400
-Subject: Firmware Activate without Reset
-In-Reply-To: <B4627D7B-0736-4436-9901-EA9575105919@hgst.com>
-References: <B4627D7B-0736-4436-9901-EA9575105919@hgst.com>
-Message-ID: <20161012202523.GB12827@localhost.localdomain>
+From: agrover@redhat.com (Andy Grover)
+Date: Wed, 12 Oct 2016 17:00:42 -0700
+Subject: [PATCH 3/3] nvmetcli: Fix nvmet import
+In-Reply-To: <1476316842-23718-1-git-send-email-agrover@redhat.com>
+References: <1476316842-23718-1-git-send-email-agrover@redhat.com>
+Message-ID: <1476316842-23718-4-git-send-email-agrover@redhat.com>
 
-On Wed, Oct 12, 2016@07:37:13PM +0000, David Darrington wrote:
-> I?m trying to understand how firmware activate without reset would work. Is there a requirement for the driver to do something to support this? Should the driver be listening for Firmware Activation Notifications, and respond in some way? 
-> 
+We should just need to import nvmet, which will run __init__.py and import
+just the public things from nvmet/nvme.py.
 
-I don't think there's anything the driver necessarily has to do. If
-anything, we could have it observe the notify AER on firmware activation
-started, quiesce IO, then poll CSTS.PP. Once cleared, it can restart IO.
+Signed-off-by: Andy Grover <agrover at redhat.com>
+---
+ nvmetcli | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-But that shouldn't really be necessary since we expect all outstanding
-commands to complete when the activation completes. If activation takes
-longer than an IO timeout, it might be best to quiesce, but the driver
-doesn't do that right now.
-
-If new firmware brings new capabilities that you want the driver to use,
-the driver won't discover these until after a controller reset.
+diff --git a/nvmetcli b/nvmetcli
+index a318aa6..8140fc6 100755
+--- a/nvmetcli
++++ b/nvmetcli
+@@ -23,7 +23,7 @@ from __future__ import print_function
+ import os
+ import sys
+ import configshell_fb as configshell
+-import nvmet.nvme as nvme
++import nvmet as nvme
+ 
+ 
+ class UINode(configshell.node.ConfigNode):
+-- 
+2.7.4
