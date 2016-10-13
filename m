@@ -1,28 +1,24 @@
 From: agrover@redhat.com (Andy Grover)
-Date: Wed, 12 Oct 2016 17:00:40 -0700
-Subject: [PATCH 1/3] Add nvmetcli to setup.py scripts
-In-Reply-To: <1476316842-23718-1-git-send-email-agrover@redhat.com>
-References: <1476316842-23718-1-git-send-email-agrover@redhat.com>
-Message-ID: <1476316842-23718-2-git-send-email-agrover@redhat.com>
+Date: Wed, 12 Oct 2016 17:00:39 -0700
+Subject: [PATCH 0/3] nvmetcli fixes
+Message-ID: <1476316842-23718-1-git-send-email-agrover@redhat.com>
 
-This results in nvmetcli being placed in the right place on install, and
-the interpreter name will be changed to the current interpreter name,
-which may be different, e.g. /usr/bin/python3.
+Here are some small fixes that help packaging nvmetcli,
+and help it minimally work with Python 3 -- there are likely more
+Py2/3 issues that will come out in testing but this gets us past
+initial import errors.
 
-Signed-off-by: Andy Grover <agrover at redhat.com>
----
- setup.py | 1 +
- 1 file changed, 1 insertion(+)
+Thanks -- Andy
 
-diff --git a/setup.py b/setup.py
-index 078020f..f62ce5b 100755
---- a/setup.py
-+++ b/setup.py
-@@ -27,4 +27,5 @@ setup(
-     maintainer_email = 'hch at lst.de',
-     test_suite='nose2.collector.collector',
-     packages = ['nvmet'],
-+    scripts = ['nvmetcli'],
-     )
+Andy Grover (3):
+  Add nvmetcli to setup.py scripts
+  Use relative import in nvmet/__init__.py
+  nvmetcli: Fix nvmet import
+
+ nvmet/__init__.py | 2 +-
+ nvmetcli          | 2 +-
+ setup.py          | 1 +
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+
 -- 
 2.7.4
