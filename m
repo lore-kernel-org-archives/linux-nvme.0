@@ -1,10 +1,10 @@
 From: roysh@mellanox.com (Roy Shterman)
-Date: Thu, 13 Oct 2016 17:11:58 +0300
+Date: Thu, 13 Oct 2016 17:13:07 +0300
 Subject: Scalability issue with multiple NVMe Devices with one core
 In-Reply-To: <20161013141820.GA17823@localhost.localdomain>
 References: <50e02652-9e54-c314-6551-cd3075ccb005@mellanox.com>
  <20161013141820.GA17823@localhost.localdomain>
-Message-ID: <5db865d2-3698-b621-8511-a996499d66bf@mellanox.com>
+Message-ID: <6d4d9ff4-c0f5-3bbb-ec11-f156039b8518@mellanox.com>
 
 
 
@@ -19,8 +19,5 @@ On 10/13/2016 5:18 PM, Keith Busch wrote:
 >>
 >> Any suggestions?
 > How are you generating IO?
-
-fio --group_reporting --rw=randread --bs=4k --numjobs=1 --ramp_time=30 
---iodepth=1 --runtime=300 --direct=1 --time_based --loops=1 
---ioengine=libaio --invalidate=1 --randrepeat=1 --norandommap --exitall 
---name task_nvme0n1 --filename=/dev/nvme0n1
+Sorry, last response I sent was with IODEPTH=1, I'm changing the IODEPTH 
+to 8-32.
