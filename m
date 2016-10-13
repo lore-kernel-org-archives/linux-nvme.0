@@ -1,35 +1,26 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Thu, 13 Oct 2016 09:43:17 -0700
-Subject: [PATCH 2/3] fine tune the nvme-discover manpage
-In-Reply-To: <20161013102632.GA14543@lst.de>
-References: <1476261953-23119-1-git-send-email-hch@lst.de>
- <1476261953-23119-3-git-send-email-hch@lst.de>
- <1476292685.5410.67.camel@linux.intel.com> <20161013102632.GA14543@lst.de>
-Message-ID: <1476376997.6246.3.camel@linux.intel.com>
+From: nisha.miller420@gmail.com (Nisha Miller)
+Date: Thu, 13 Oct 2016 11:18:43 -0700
+Subject: Weirdness with discard cmd and get log pages
+In-Reply-To: <20161013161519.GE17823@localhost.localdomain>
+References: <CAG3=cOkxyNq3heevOOpOMcezTsEktPfsoWAEVjWdTA28KgVwAg@mail.gmail.com>
+ <20161013161519.GE17823@localhost.localdomain>
+Message-ID: <CAG3=cOmGVdQXDvNuzeW2hgfYi7nASGvfgirU__hE5VJnSWue4w@mail.gmail.com>
 
-On Thu, 2016-10-13@12:26 +0200, Christoph Hellwig wrote:
-> On Wed, Oct 12, 2016@10:18:05AM -0700, J Freyensee wrote:
-> > 
-> > > 
-> > > -nvme-discover - Send Get Log Page request to Discovery
-> > > Controller.
-> > > +nvme-discover - Send Discovery requests to Fabrics Discovery
-> > > Controllers.
-> > 
-> > I preferred mentioning "Get Log Page" because that is really what
-> > is
-> > happening and reflects the NVMe specification, which I was aiming
-> > to
-> > push the envelope a bit and help educate and accelerate the
-> > learning
-> > curve for people new to these features (map more accurately what is
-> > being described here to the NVMe specification(s).
-> 
-> While Get Log Page is technicaly correct I don't really think it
-> serves the user much - it's the way the discovery is implemented,
-> the important part is that we perform discovery.
+On Thu, Oct 13, 2016@9:15 AM, Keith Busch <keith.busch@intel.com> wrote:
+> On Thu, Oct 13, 2016@08:46:30AM -0700, Nisha Miller wrote:
+>> In the case of discard command, we are able to fetch the first two
+>> ranges (i.e 16 bytes/range x 2) correctly using DMA. But any ranges
+>> after that contain just junk data. For example, if we try to fetch 4
+>> ranges, ranges 1-2 are valid but ranges 3-4 contain junk.
+>
+> How did you set up a discard command with more than one range? The
+> standard discard path to the driver allows only one.
 
-I think it does serve the user, it educates the user a bit faster on
-the NVMe Specification and what is really happening without spending
-the time sorting through the spec, important for things like debugging
-and diagnosis if something wonky happens.
+Yes, that is what I noticed too. I used the nvme-cli command like this:
+
+nvme dsm /dev/nvme0n1 -a 0,0,0,0 --blocks=4,5,6,7 --slbs=100,200,300,400 --ad
+
+This turns up as nvme_user_cmd in the driver, which calls
+nvme_map_user_pages to setup the SG list.
+
+Nisha
