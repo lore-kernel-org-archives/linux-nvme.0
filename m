@@ -1,27 +1,27 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 13 Oct 2016 22:50:42 -0700
-Subject: [PATCH 1/3] Add nvmetcli to setup.py scripts
-In-Reply-To: <eba038a5-a099-ff61-cbe5-250e56637ccd@redhat.com>
-References: <1476316842-23718-1-git-send-email-agrover@redhat.com>
- <1476316842-23718-2-git-send-email-agrover@redhat.com>
- <20161013100552.GA25325@infradead.org>
- <eba038a5-a099-ff61-cbe5-250e56637ccd@redhat.com>
-Message-ID: <20161014055042.GA5853@infradead.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 14 Oct 2016 11:57:22 -0400
+Subject: NVMe U.2 Concurrent Maintenance - Identify LED
+In-Reply-To: <OF6508F29F.5646743D-ON8625804C.0051E01E-8625804C.00552F15@notes.na.collabserv.com>
+References: <OF6508F29F.5646743D-ON8625804C.0051E01E-8625804C.00552F15@notes.na.collabserv.com>
+Message-ID: <20161014155722.GA19383@localhost.localdomain>
 
-On Thu, Oct 13, 2016@09:23:54AM -0700, Andy Grover wrote:
-> On 10/13/2016 03:05 AM, Christoph Hellwig wrote:
-> > On Wed, Oct 12, 2016@05:00:40PM -0700, Andy Grover wrote:
-> > > This results in nvmetcli being placed in the right place on install, and
-> > > the interpreter name will be changed to the current interpreter name,
-> > > which may be different, e.g. /usr/bin/python3.
-> > > 
-> > > Signed-off-by: Andy Grover <agrover at redhat.com>
-> > 
-> > It installs it into the wrong place unfortunately, /usr/bin instead
-> > of /usr/sbin.
+On Fri, Oct 14, 2016@10:30:26AM -0500, Murali N Iyer wrote:
+> We were wondering how NVMe SSDs planned to be serviced in the field
+> compared to the SATA/SAS. As far as I know typically there are two LEDs
+> standard 2.5" (U.2) devices provide. One is a activity LED and the other is
+> Identification/Fault LED. Activity LED is controlled by the device itself
+> and no issues there. As far as Identify LED is concern it is typically
+> controller by the device enclosure or the system enclosure services. As we
+> know in case of SCSI/SAS there is a SCSI Enclosure Service (SES) that
+> provides interface to control the ID/Fault LED.
 > 
-> There's a command-line argument to 'python setup.py install',
-> --install-scripts, that can be used to put it in /usr/sbin if you want...
+> I see some systems providing access to the NVMe SSD ID/Fault LED via out of
+> band service provided by the service processor like BMC. Is there any
+> inband mechanism defined by NVMe? I glanced through NVMe and NVMe
+> Management Interface but couldn't find. Any insight is appreciated..
 
-Can you fix up the specfile to use it?  I'll take care of the Debian
-packaging then.
+Currently it's platform/vendor specific.
+
+There are multiple TPars under consideration in NVMe-MI that bring this
+capabilitity in various way, but I'm not directly involved with any
+of these.
