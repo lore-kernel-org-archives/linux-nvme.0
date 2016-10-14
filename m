@@ -1,35 +1,53 @@
-From: Jeff.Lien@wdc.com (Jeffrey Lien)
-Date: Fri, 14 Oct 2016 17:05:00 +0000
-Subject: NVME Subsystem Reset Question
-In-Reply-To: <20161012173411.GA12681@localhost.localdomain>
-References: <CY4PR04MB02171C20ACEE87C3409A47ABEADD0@CY4PR04MB0217.namprd04.prod.outlook.com>
- <20161012173411.GA12681@localhost.localdomain>
-Message-ID: <CY4PR04MB0217C9B51D7B51A28132D606EADF0@CY4PR04MB0217.namprd04.prod.outlook.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 14 Oct 2016 13:44:21 -0400
+Subject: Weirdness with discard cmd and get log pages
+In-Reply-To: <20161013231808.GG17823@localhost.localdomain>
+References: <CAG3=cOkxyNq3heevOOpOMcezTsEktPfsoWAEVjWdTA28KgVwAg@mail.gmail.com>
+ <20161013161519.GE17823@localhost.localdomain>
+ <CAG3=cOmGVdQXDvNuzeW2hgfYi7nASGvfgirU__hE5VJnSWue4w@mail.gmail.com>
+ <20161013231808.GG17823@localhost.localdomain>
+Message-ID: <20161014174421.GB19383@localhost.localdomain>
 
-Keith,
-We agree with your thoughts on the fact that nvme device should recover automatically without requiring a pci bus rescan, but are seeing behavior to the contrary  with our NVME device as well as an Intel 3600 drive we also have.   Both devices disappear of the pci and require a pci bus rescan to show back up after the subsystem reset is done.  
+On Thu, Oct 13, 2016@07:18:09PM -0400, Keith Busch wrote:
+> On Thu, Oct 13, 2016@11:18:43AM -0700, Nisha Miller wrote:
+> > Yes, that is what I noticed too. I used the nvme-cli command like this:
+> > 
+> > nvme dsm /dev/nvme0n1 -a 0,0,0,0 --blocks=4,5,6,7 --slbs=100,200,300,400 --ad
+> > 
+> > This turns up as nvme_user_cmd in the driver, which calls
+> > nvme_map_user_pages to setup the SG list.
+> 
+> Okay, that's what I use too. I'm not observing any issues on a 4.8 kernel
+> or back to 4.4 either. I've not tested 3.19 though, and the mechanism
+> it uses to map user buffers is completely different. Could you verify if
+> your observation exists in a more current stable release?
 
-After reading thru the PCI Express spec, it seems like the LTSSM detect state is a transitional state that the device should eventually and automatically leave on its way back to L0 state.   Could you confirm that from your side?  We're just looking for evidence and confirmation from you and the nvme community that this is not correct or expected behavior so  we can convince our firmware team that they need to make a change.  
+Just for reference, this is how I've verified 64 ranges. My device
+deterministically returns 0 on any deallocated block, and is formatted
+with 512b LBAs. 
 
-Thanks in advance for your input.
+  # create a random 1MB file
+  dd if=/dev/urandom of=~/rand.1M.in bs=1M count=1
 
-Jeff Lien
+  # write it to the device
+  dd if=~/rand.1M.in of=/dev/nvme0n1 oflag=direct
 
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com] 
-Sent: Wednesday, October 12, 2016 12:34 PM
-To: Jeffrey Lien
-Cc: axboe at fb.com; linux-nvme at lists.infradead.org; David Darrington; Nathan Rabe
-Subject: Re: NVME Subsystem Reset Question
+  # read it back out
+  dd if=/dev/nvme0n1 of=~/rand.1M.out bs=1M count=1 iflag=direct
 
-On Wed, Oct 12, 2016@05:04:40PM +0000, Jeffrey Lien wrote:
-> Keith, Jens,
-> I have a question on what the state of the nvme device should be after a subsystem reset (ie. Writing "NVMe" to NSSR).   The spec says it should be in LTSSM detect state which seems to mean it no longer showing up on the PCI bus which requires a pci bus rescan to get it back.   Does that match your interpretation?
->
-> If so, who's responsible for initiating the bus rescan to get the device back?  I didn't see anything in the driver code that would do this so I'm assuming it would be the App's (that issued the subsystem reset ioctl) responsibility.  Agree?  Or is there something else that should initiate the rescan?
+  # compare the two to verify they're the same
+  diff ~/rand.1M.in ~/rand.1M.out
 
-A bus rescan shouldn't be necessary. The device is supposed to go from detect to polling automatically if a receiver is detected, then configuration, recovery and finally L0 without the kernel doing anything. At least that's my understanding.
+  # write a bunch of 0-filled 8k holes in the original file
+  for i in $(seq 0 2 127); do dd if=/dev/zero of=~/rand.1M.in bs=8k seek=$i conv=notrunc count=1 2> /dev/null; done
 
-Since power is never lost, the controllers in the subsystem should have CSTS.NSSRO set to 1 so the driver can observe this after the controller completes link training.
+  # deallocate the exact same ranges as the file's new 0-filled holes 
+  nvme dsm /dev/nvme0n1 -d --slbs=`seq 0 32 2016 | tr "\n" "," | sed "s/,$//g"` --blocks=`printf "16,%0.s" {0..63} | sed "s/,$//g"`
 
-It wouldn't make much sense to require the host do anything to initiate a rescan to detect the pci device after a subsystem reset. Different controllers in the subsystem could be connected to different hosts, and you can't ensure that's coordinated from the host that initiated the subsystem reset.
+  # read the file from the device
+  dd if=/dev/nvme0n1 of=~/rand.1M.out bs=1M count=1 iflag=direct
+
+  # verify the contents are still the same
+  diff ~/rand.1M.in ~/rand.1M.out
+
+Works for me.
