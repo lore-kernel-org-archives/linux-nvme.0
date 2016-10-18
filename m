@@ -1,38 +1,77 @@
 From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Tue, 18 Oct 2016 13:11:28 -0700
-Subject: [PATCH 5/6] nvme-fabrics: Print network address if address resolution
- fails
+Date: Tue, 18 Oct 2016 13:12:03 -0700
+Subject: [PATCH 6/6] nvme/rdma: Make nvme_rdma_conn_rejected() more informative
 In-Reply-To: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
 References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
-Message-ID: <020cf76d-b63e-af62-07d0-c41ff51277ec@sandisk.com>
+Message-ID: <66e66d19-5a2a-e867-401a-1ede0c845b3e@sandisk.com>
+
+While I was figuring out how to make the nvme-rdma driver log in to
+the nvmet-rdma driver, the following message appeared in the system
+log:
+
+    nvme nvme0: Connect rejected, status 0.
+
+That message is not very helpful. Hence this patch that makes the
+messages reported by nvme_rdma_conn_rejected() more informative.
 
 Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
 ---
- drivers/nvme/host/rdma.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/nvme/host/rdma.c | 39 +++++++++++++++++++++++++++++----------
+ 1 file changed, 29 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 5a83881..9612ea0 100644
+index 9612ea0..df7f599 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -568,14 +568,16 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
- 			NVME_RDMA_CONNECT_TIMEOUT_MS);
- 	if (ret) {
- 		dev_info(ctrl->ctrl.device,
--			"rdma_resolve_addr failed (%d).\n", ret);
-+			 "rdma_resolve_addr(%pISpc) failed (%d).\n",
-+			 &ctrl->addr, ret);
- 		goto out_destroy_cm_id;
+@@ -1207,20 +1207,39 @@ static int nvme_rdma_conn_established(struct nvme_rdma_queue *queue)
+ }
+ 
+ static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
+-		struct rdma_cm_event *ev)
++				   const struct rdma_cm_event *ev)
+ {
+-	if (ev->param.conn.private_data_len) {
+-		struct nvme_rdma_cm_rej *rej =
+-			(struct nvme_rdma_cm_rej *)ev->param.conn.private_data;
++	char reason[32];
+ 
+-		dev_err(queue->ctrl->ctrl.device,
+-			"Connect rejected, status %d.", le16_to_cpu(rej->sts));
+-		/* XXX: Think of something clever to do here... */
+-	} else {
+-		dev_err(queue->ctrl->ctrl.device,
+-			"Connect rejected, no private data.\n");
++	switch (ev->status) {
++	case IB_CM_REJ_DUPLICATE_LOCAL_COMM_ID:
++		strlcpy(reason, "duplicate local comm id", sizeof(reason));
++		break;
++	case IB_CM_REJ_CONSUMER_DEFINED:
++		if (ev->param.conn.private_data_len) {
++			const struct nvme_rdma_cm_rej *rej =
++				(const void *)ev->param.conn.private_data;
++
++			snprintf(reason, sizeof(reason), "status %d",
++				 le16_to_cpu(rej->sts));
++			/* XXX: Think of something clever to do here... */
++		} else {
++			strlcpy(reason, "no private data", sizeof(reason));
++		}
++		break;
++	case IB_CM_REJ_INVALID_SERVICE_ID:
++		strlcpy(reason, "invalid service ID", sizeof(reason));
++		break;
++	case IB_CM_REJ_STALE_CONN:
++		strlcpy(reason, "stale connection", sizeof(reason));
++		break;
++	default:
++		snprintf(reason, sizeof(reason), "REJ reason %#x", ev->status);
++		break;
  	}
  
- 	ret = nvme_rdma_wait_for_cm(queue);
- 	if (ret) {
- 		dev_info(ctrl->ctrl.device,
--			"rdma_resolve_addr wait failed (%d).\n", ret);
-+			 "rdma_resolve_addr(%pISpc) wait failed (%d).\n",
-+			 &ctrl->addr, ret);
- 		goto out_destroy_cm_id;
- 	}
++	dev_err(queue->ctrl->ctrl.device, "Connect rejected, %s.\n", reason);
++
+ 	return -ECONNRESET;
+ }
  
 -- 
 2.10.1
