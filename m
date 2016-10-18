@@ -1,20 +1,29 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 18 Oct 2016 13:08:21 -0400
-Subject: Weirdness with discard cmd and get log pages
-In-Reply-To: <CAG3=cO=_O6_Xgv-cAWzUi_w3E1bCf0yVFw4JCsN1ATU72d6Hpg@mail.gmail.com>
-References: <CAG3=cOkxyNq3heevOOpOMcezTsEktPfsoWAEVjWdTA28KgVwAg@mail.gmail.com>
- <20161013161519.GE17823@localhost.localdomain>
- <CAG3=cOmGVdQXDvNuzeW2hgfYi7nASGvfgirU__hE5VJnSWue4w@mail.gmail.com>
- <20161013231808.GG17823@localhost.localdomain>
- <20161014174421.GB19383@localhost.localdomain>
- <CAG3=cOmZpmE=OXJr9cqu75-c7XQ8upeCBFUhsakn_3ts=zPkXg@mail.gmail.com>
- <20161014231932.GA19846@localhost.localdomain>
- <CAG3=cO=_O6_Xgv-cAWzUi_w3E1bCf0yVFw4JCsN1ATU72d6Hpg@mail.gmail.com>
-Message-ID: <20161018170820.GB25479@localhost.localdomain>
+From: james.smart@broadcom.com (James Smart)
+Date: Tue, 18 Oct 2016 10:59:43 -0700
+Subject: [PATCH 3/7 v2] nvme-fabrics: Add FC transport FC-NVME definitions
+In-Reply-To: <20161012085834.GD12972@infradead.org>
+References: <57f82b10.h/qKXTOsgeHQsdmh%james.smart@broadcom.com>
+ <20161012085834.GD12972@infradead.org>
+Message-ID: <1f0b3b42-241a-65db-f842-08a1c378b559@broadcom.com>
 
-On Tue, Oct 18, 2016@09:55:20AM -0700, Nisha Miller wrote:
-> since the data transfer size is less than 4K from get log pages and
-> DSM, won't PRP2 be invalid?
 
-No, that would only be true if PRP1's offset was 0, and you're not
-guaranteed that.
+
+On 10/12/2016 1:58 AM, Christoph Hellwig wrote:
+>
+>> +/* fills in length of a descriptor. Struture minus descriptor header */
+>> +#define FCNVME_LSDESC_LEN(lsdesc) \
+>> +		cpu_to_be32(sizeof(lsdesc) - (2*(sizeof(u32))))
+> Make this an inline function and use spaces between the operators,
+> please.
+>
+
+Christoph,
+
+This can't be an inline - the "lsdesc" field is a type declaration 
+("struct x") and varies. That's the purpose of the define: so it can be 
+applied to different structures- e.g. FCNVME_LSDESC_LEN(struct foo) and 
+FCNVME_LSDESC_LEN(struct bar)
+
+I'll adjust for the spacing, but will leave as a define.
+
+-- james
