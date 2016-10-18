@@ -1,31 +1,29 @@
 From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Tue, 18 Oct 2016 13:10:46 -0700
-Subject: [PATCH 3/6] nvme-fabrics: Fix memory leaks in nvmf_parse_options()
+Date: Tue, 18 Oct 2016 13:11:03 -0700
+Subject: [PATCH 4/6] nvme-fabrics: Fix a memory leak in an nvmf_create_ctrl()
+ error path
 In-Reply-To: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
 References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
-Message-ID: <52b8f1ef-2f20-c7cb-957d-dd4444f82d37@sandisk.com>
+Message-ID: <2c9d4e7b-1c48-619c-4f48-9c968747663a@sandisk.com>
 
 Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
 ---
- drivers/nvme/host/fabrics.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/host/fabrics.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 716d9e2..3e37efa 100644
+index 3e37efa..8985de6 100644
 --- a/drivers/nvme/host/fabrics.c
 +++ b/drivers/nvme/host/fabrics.c
-@@ -666,10 +666,12 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
- 			if (nqnlen >= NVMF_NQN_SIZE) {
- 				pr_err("%s needs to be < %d bytes\n",
- 				       p, NVMF_NQN_SIZE);
-+				kfree(p);
- 				ret = -EINVAL;
- 				goto out;
- 			}
- 			opts->host = nvmf_host_add(p);
-+			kfree(p);
- 			if (!opts->host) {
- 				ret = -ENOMEM;
- 				goto out;
+@@ -827,8 +827,7 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+ out_unlock:
+ 	mutex_unlock(&nvmf_transports_mutex);
+ out_free_opts:
+-	nvmf_host_put(opts->host);
+-	kfree(opts);
++	nvmf_free_options(opts);
+ 	return ERR_PTR(ret);
+ }
+ 
 -- 
 2.10.1
