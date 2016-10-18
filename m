@@ -1,77 +1,60 @@
 From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Tue, 18 Oct 2016 13:12:03 -0700
-Subject: [PATCH 6/6] nvme/rdma: Make nvme_rdma_conn_rejected() more informative
-In-Reply-To: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
-References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
-Message-ID: <66e66d19-5a2a-e867-401a-1ede0c845b3e@sandisk.com>
+Date: Tue, 18 Oct 2016 14:48:11 -0700
+Subject: [PATCH v3 0/11] Fix race conditions related to stopping block layer
+ queues
+Message-ID: <b39eb0e7-1007-eb63-8e7f-9a7f08508379@sandisk.com>
 
-While I was figuring out how to make the nvme-rdma driver log in to
-the nvmet-rdma driver, the following message appeared in the system
-log:
+Hello Jens,
 
-    nvme nvme0: Connect rejected, status 0.
+Multiple block drivers need the functionality to stop a request queue 
+and to wait until all ongoing request_fn() / queue_rq() calls have 
+finished without waiting until all outstanding requests have finished. 
+Hence this patch series that introduces the blk_mq_quiesce_queue() and 
+blk_mq_resume_queue() functions. The dm-mq, SRP and NVMe patches in this 
+patch series are three examples of where these functions are useful. 
+These patches have been tested on top of kernel v4.9-rc1. The following 
+tests have been run to verify this patch series:
+- My own srp-test suite that stress-tests SRP on top of dm-multipath.
+- Mike's mptest suite that stress-tests dm-multipath.
+- fio on top of the NVMeOF host driver that was connected to the NVMeOF
+   target driver on the same host.
+- Laurence verified the previous version (v2) of this patch series by
+   running it through the Red Hat SRP test suite. Laurence also ran some
+   NVMe tests (thanks Laurence!).
 
-That message is not very helpful. Hence this patch that makes the
-messages reported by nvme_rdma_conn_rejected() more informative.
+The changes compared to the second version of this patch series are:
+- Changed the order of the patches in this patch series.
+- Added several new patches: a patch that avoids that .queue_rq() gets
+   invoked from the direct submission path if a queue has been stopped
+   and also a patch that introduces the helper function
+   blk_mq_hctx_stopped().
+- blk_mq_quiesce_queue() has been reworked (thanks to Ming Lin and Sagi
+   for their feedback).
+- A bool 'kick' argument has been added to blk_mq_requeue_request().
+- As proposed by Christoph, the code that waits for queuecommand() has
+   been moved from the SRP transport driver to the SCSI core.
 
-Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
----
- drivers/nvme/host/rdma.c | 39 +++++++++++++++++++++++++++++----------
- 1 file changed, 29 insertions(+), 10 deletions(-)
+Changes between v2 and v1:
+- Dropped the non-blk-mq changes from this patch series.
+- Added support for harware queues with BLK_MQ_F_BLOCKING set.
+- Added a call stack to the description of the dm race fix patch.
+- Dropped the non-scsi-mq changes from the SRP patch.
+- Added a patch that introduces blk_mq_queue_stopped() in the dm driver.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 9612ea0..df7f599 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1207,20 +1207,39 @@ static int nvme_rdma_conn_established(struct nvme_rdma_queue *queue)
- }
- 
- static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
--		struct rdma_cm_event *ev)
-+				   const struct rdma_cm_event *ev)
- {
--	if (ev->param.conn.private_data_len) {
--		struct nvme_rdma_cm_rej *rej =
--			(struct nvme_rdma_cm_rej *)ev->param.conn.private_data;
-+	char reason[32];
- 
--		dev_err(queue->ctrl->ctrl.device,
--			"Connect rejected, status %d.", le16_to_cpu(rej->sts));
--		/* XXX: Think of something clever to do here... */
--	} else {
--		dev_err(queue->ctrl->ctrl.device,
--			"Connect rejected, no private data.\n");
-+	switch (ev->status) {
-+	case IB_CM_REJ_DUPLICATE_LOCAL_COMM_ID:
-+		strlcpy(reason, "duplicate local comm id", sizeof(reason));
-+		break;
-+	case IB_CM_REJ_CONSUMER_DEFINED:
-+		if (ev->param.conn.private_data_len) {
-+			const struct nvme_rdma_cm_rej *rej =
-+				(const void *)ev->param.conn.private_data;
-+
-+			snprintf(reason, sizeof(reason), "status %d",
-+				 le16_to_cpu(rej->sts));
-+			/* XXX: Think of something clever to do here... */
-+		} else {
-+			strlcpy(reason, "no private data", sizeof(reason));
-+		}
-+		break;
-+	case IB_CM_REJ_INVALID_SERVICE_ID:
-+		strlcpy(reason, "invalid service ID", sizeof(reason));
-+		break;
-+	case IB_CM_REJ_STALE_CONN:
-+		strlcpy(reason, "stale connection", sizeof(reason));
-+		break;
-+	default:
-+		snprintf(reason, sizeof(reason), "REJ reason %#x", ev->status);
-+		break;
- 	}
- 
-+	dev_err(queue->ctrl->ctrl.device, "Connect rejected, %s.\n", reason);
-+
- 	return -ECONNRESET;
- }
- 
--- 
-2.10.1
+The individual patches in this series are:
+
+0001-blk-mq-Do-not-invoke-.queue_rq-for-a-stopped-queue.patch
+0002-blk-mq-Introduce-blk_mq_hctx_stopped.patch
+0003-blk-mq-Introduce-blk_mq_queue_stopped.patch
+0004-blk-mq-Introduce-blk_mq_quiesce_queue.patch
+0005-blk-mq-Add-a-kick_requeue_list-argument-to-blk_mq_re.patch
+0006-dm-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_STOPPE.patch
+0007-dm-Fix-a-race-condition-related-to-stopping-and-star.patch
+0008-SRP-transport-Move-queuecommand-wait-code-to-SCSI-co.patch
+0009-SRP-transport-scsi-mq-Wait-for-.queue_rq-if-necessar.patch
+0010-nvme-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_STOP.patch
+0011-nvme-Fix-a-race-condition.patch
+
+Thanks,
+
+Bart.
