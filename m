@@ -1,13 +1,22 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 19 Oct 2016 09:27:49 +0200
-Subject: [PATCH 5/6] nvme-fabrics: Print network address if address
- resolution fails
-In-Reply-To: <020cf76d-b63e-af62-07d0-c41ff51277ec@sandisk.com>
+Date: Wed, 19 Oct 2016 09:29:07 +0200
+Subject: [PATCH 6/6] nvme/rdma: Make nvme_rdma_conn_rejected() more
+ informative
+In-Reply-To: <66e66d19-5a2a-e867-401a-1ede0c845b3e@sandisk.com>
 References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
- <020cf76d-b63e-af62-07d0-c41ff51277ec@sandisk.com>
-Message-ID: <20161019072749.s3h5l3p635x4bzxn@linux-x5ow.site>
+ <66e66d19-5a2a-e867-401a-1ede0c845b3e@sandisk.com>
+Message-ID: <20161019072907.slv54jpzh4aef2gc@linux-x5ow.site>
 
-On Tue, Oct 18, 2016@01:11:28PM -0700, Bart Van Assche wrote:
+On Tue, Oct 18, 2016@01:12:03PM -0700, Bart Van Assche wrote:
+> While I was figuring out how to make the nvme-rdma driver log in to
+> the nvmet-rdma driver, the following message appeared in the system
+> log:
+> 
+>     nvme nvme0: Connect rejected, status 0.
+> 
+> That message is not very helpful. Hence this patch that makes the
+> messages reported by nvme_rdma_conn_rejected() more informative.
+> 
 > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
 > ---
 
