@@ -1,55 +1,31 @@
-From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Wed, 19 Oct 2016 17:02:51 +0000
-Subject: [PATCH 5/6] nvme-fabrics: Print network address if address
- resolution fails
-In-Reply-To: <20161019103939.GC1191@lst.de>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Wed, 19 Oct 2016 10:08:54 -0700
+Subject: [PATCH 6/6] nvme/rdma: Make nvme_rdma_conn_rejected() more
+ informative
+In-Reply-To: <20161019104102.GD1191@lst.de>
 References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
- <020cf76d-b63e-af62-07d0-c41ff51277ec@sandisk.com>
- <20161019103939.GC1191@lst.de>
-Message-ID: <1476896568.14262.0.camel@sandisk.com>
+ <66e66d19-5a2a-e867-401a-1ede0c845b3e@sandisk.com>
+ <20161019104102.GD1191@lst.de>
+Message-ID: <5e0ef37c-6411-95fd-606c-aae76c18a1e5@sandisk.com>
 
-On Wed, 2016-10-19@12:39 +0200, Christoph Hellwig wrote:
-> On Tue, Oct 18, 2016@01:11:28PM -0700, Bart Van Assche wrote:
-> > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> > ---
-> > ?drivers/nvme/host/rdma.c | 6 ++++--
-> > ?1 file changed, 4 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> > index 5a83881..9612ea0 100644
-> > --- a/drivers/nvme/host/rdma.c
-> > +++ b/drivers/nvme/host/rdma.c
-> > @@ -568,14 +568,16 @@ static int nvme_rdma_init_queue(struct
-> > nvme_rdma_ctrl *ctrl,
-> > ?			NVME_RDMA_CONNECT_TIMEOUT_MS);
-> > ?	if (ret) {
-> > ?		dev_info(ctrl->ctrl.device,
-> > -			"rdma_resolve_addr failed (%d).\n", ret);
-> > +			?"rdma_resolve_addr(%pISpc) failed
-> > (%d).\n",
-> > +			?&ctrl->addr, ret);
-> > ?		goto out_destroy_cm_id;
-> > ?	}
-> > ?
-> > ?	ret = nvme_rdma_wait_for_cm(queue);
-> > ?	if (ret) {
-> > ?		dev_info(ctrl->ctrl.device,
-> > -			"rdma_resolve_addr wait failed (%d).\n",
-> > ret);
-> > +			?"rdma_resolve_addr(%pISpc) wait failed
-> > (%d).\n",
-> > +			?&ctrl->addr, ret);
-> 
-> 
-> Can you skip the indentation change???Also once have the address how
-> about:
-> 
-> 		"Failed to resolve %pISpc (instant), error %d).\n"
-> 
-> 		"Failed to resolve %pISpc (wait), error %d.\n"
+On 10/19/2016 03:41 AM, Christoph Hellwig wrote:
+>>  {
+>> +	char reason[32];
+>>
+>> +	switch (ev->status) {
+>> +	case IB_CM_REJ_DUPLICATE_LOCAL_COMM_ID:
+>> +		strlcpy(reason, "duplicate local comm id", sizeof(reason));
+>> +		break;
+>> +	case IB_CM_REJ_CONSUMER_DEFINED:
+>> +		if (ev->param.conn.private_data_len) {
+>> +			const struct nvme_rdma_cm_rej *rej =
+>> +				(const void *)ev->param.conn.private_data;
+>
+> What's the point of this void pointer cast?
 
 Hello Christoph,
 
-Thanks for the review. I will update this patch as you proposed.
+That cast is not necessary according to the C language standard. I will 
+remove it.
 
 Bart.
