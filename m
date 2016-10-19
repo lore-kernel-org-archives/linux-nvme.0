@@ -1,42 +1,55 @@
 From: tom.leiming@gmail.com (Ming Lei)
-Date: Thu, 20 Oct 2016 07:47:46 +0800
-Subject: [PATCH v3 04/11] blk-mq: Introduce blk_mq_quiesce_queue()
-In-Reply-To: <0718ec72-d525-2e75-a123-3bf9ea129319@sandisk.com>
+Date: Thu, 20 Oct 2016 07:48:44 +0800
+Subject: [PATCH v3 01/11] blk-mq: Do not invoke .queue_rq() for a stopped
+ queue
+In-Reply-To: <595d4b59-3892-ef24-ef91-b7cab6611af7@sandisk.com>
 References: <b39eb0e7-1007-eb63-8e7f-9a7f08508379@sandisk.com>
- <e42a952c-f245-eb39-d0a1-0336035573f9@sandisk.com>
- <0718ec72-d525-2e75-a123-3bf9ea129319@sandisk.com>
-Message-ID: <CACVXFVM1tRXPDkJZbrtxkgZ=Uy9iCAh3OvmHf5BC23RbJkbMKg@mail.gmail.com>
+ <595d4b59-3892-ef24-ef91-b7cab6611af7@sandisk.com>
+Message-ID: <CACVXFVP+q94tZHSf8L2Qo1QdAtH8g2ZoAORzPQEPwZvZmRDpOA@mail.gmail.com>
 
-On Thu, Oct 20, 2016 at 5:04 AM, Bart Van Assche
+On Wed, Oct 19, 2016 at 5:48 AM, Bart Van Assche
 <bart.vanassche@sandisk.com> wrote:
-> On 10/18/2016 02:50 PM, Bart Van Assche wrote:
->>
->> blk_mq_quiesce_queue() waits until ongoing .queue_rq() invocations
->> have finished. This function does *not* wait until all outstanding
->> requests have finished (this means invocation of request.end_io()).
+> The meaning of the BLK_MQ_S_STOPPED flag is "do not call
+> .queue_rq()". Hence modify blk_mq_make_request() such that requests
+> are queued instead of issued if a queue has been stopped.
 >
->
-> (replying to my own e-mail)
->
-> The zero-day kernel test infrastructure reported to me that this patch
-> causes a build failure with CONFIG_SRCU=n. Should I add "select SRCU" to
-> block/Kconfig (excludes TINY_RCU) or should I rather modify this patch such
+> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
+> Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Hannes Reinecke <hare at suse.com>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: Johannes Thumshirn <jthumshirn at suse.de>
+> Cc: <stable at vger.kernel.org>
 
-Select SRCU is fine, and you can see it is done in lots of
-places(btrfs, net, quota, kvm, power,...)
+Reviewed-by: Ming Lei <tom.leiming at gmail.com>
 
-> that a mutex or rwsem is used instead of SRCU?
-
-Both should be much worse than SRCU, even not as good as atomic_t.
-
-Thanks,
-Ming
-
+> ---
+>  block/blk-mq.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> Thanks,
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index ddc2eed..b5dcafb 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -1332,9 +1332,9 @@ static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
+>                 blk_mq_put_ctx(data.ctx);
+>                 if (!old_rq)
+>                         goto done;
+> -               if (!blk_mq_direct_issue_request(old_rq, &cookie))
+> -                       goto done;
+> -               blk_mq_insert_request(old_rq, false, true, true);
+> +               if (test_bit(BLK_MQ_S_STOPPED, &data.hctx->state) ||
+> +                   blk_mq_direct_issue_request(old_rq, &cookie) != 0)
+> +                       blk_mq_insert_request(old_rq, false, true, true);
+>                 goto done;
+>         }
 >
-> Bart.
+> --
+> 2.10.1
 >
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-block" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
 
 
 
