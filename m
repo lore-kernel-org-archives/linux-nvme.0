@@ -1,27 +1,17 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 19 Oct 2016 15:28:04 +0200
-Subject: [PATCH v3 06/11] dm: Use BLK_MQ_S_STOPPED instead of
- QUEUE_FLAG_STOPPED in blk-mq code
-In-Reply-To: <e5facfd0-82d5-10cb-712b-13d7950b78b8@sandisk.com>
+Date: Wed, 19 Oct 2016 15:30:50 +0200
+Subject: [PATCH v3 07/11] dm: Fix a race condition related to stopping
+ and starting queues
+In-Reply-To: <1e89a7d7-5cae-40b1-ce31-09d630e6f33d@sandisk.com>
 References: <b39eb0e7-1007-eb63-8e7f-9a7f08508379@sandisk.com>
- <e5facfd0-82d5-10cb-712b-13d7950b78b8@sandisk.com>
-Message-ID: <20161019132804.GF6323@lst.de>
+ <1e89a7d7-5cae-40b1-ce31-09d630e6f33d@sandisk.com>
+Message-ID: <20161019133050.GG6323@lst.de>
 
-This looks good:
+Looks good:
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 
-On Tue, Oct 18, 2016@02:51:33PM -0700, Bart Van Assche wrote:
->  static void dm_mq_start_queue(struct request_queue *q)
->  {
-> -	unsigned long flags;
-> -
-> -	spin_lock_irqsave(q->queue_lock, flags);
-> -	queue_flag_clear(QUEUE_FLAG_STOPPED, q);
-> -	spin_unlock_irqrestore(q->queue_lock, flags);
-> -
->  	blk_mq_start_stopped_hw_queues(q, true);
->  	blk_mq_kick_requeue_list(q);
-
-FYI, I'm tempted to say we should always call blk_mq_kick_requeue_list
-from blk_mq_start_stopped_hw_queues, but that's a separate issue.
+FYI, I wonder how many of the blk_mq_stop_hw_queues do not need
+the quiesce call.  In the long run it might be better to have
+blk_mq_stop_hw_queues to stop an quiesce, and have a
+__blk_mq_stop_hw_queues variant to just stop.
