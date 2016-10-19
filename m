@@ -1,59 +1,13 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Wed, 19 Oct 2016 09:13:39 -0700
-Subject: [PATCH v3 04/11] blk-mq: Introduce blk_mq_quiesce_queue()
-In-Reply-To: <20161019132321.GD6323@lst.de>
-References: <b39eb0e7-1007-eb63-8e7f-9a7f08508379@sandisk.com>
- <e42a952c-f245-eb39-d0a1-0336035573f9@sandisk.com>
- <20161019132321.GD6323@lst.de>
-Message-ID: <921009c0-5c2e-75f1-a903-986ce21ee9e8@sandisk.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 19 Oct 2016 09:53:18 -0700
+Subject: nvme header updates
+In-Reply-To: <1475236270-18329-1-git-send-email-hch@lst.de>
+References: <1475236270-18329-1-git-send-email-hch@lst.de>
+Message-ID: <20161019165318.GA28931@infradead.org>
 
-On 10/19/2016 06:23 AM, Christoph Hellwig wrote:
->> +/**
->> + * blk_mq_quiesce_queue() - wait until all ongoing queue_rq calls have finished
->> + *
->> + * Note: this function does not prevent that the struct request end_io()
->> + * callback function is invoked. Additionally, it is not prevented that
->> + * new queue_rq() calls occur unless the queue has been stopped first.
->> + */
->> +void blk_mq_quiesce_queue(struct request_queue *q)
->
-> If this is intended to be a kerneldoc comment you need to document the 'q'
-> parameter.  If not you should drop the magic "/**" marker.
+On Fri, Sep 30, 2016@01:51:05PM +0200, Christoph Hellwig wrote:
+> This series resyncs nvme.h to that it can be reused by nvme-cli, and
+> while at that brings over another enums so far only used in nvme-cli.
 
-Good catch. I will document the 'q' parameter.
-
->> +static void __blk_mq_run_hw_queue(struct blk_mq_hw_ctx *hctx)
->> +{
->> +	int srcu_idx;
->> +
->> +	WARN_ON(!cpumask_test_cpu(raw_smp_processor_id(), hctx->cpumask) &&
->> +		cpu_online(hctx->next_cpu));
->> +
->> +	if (!(hctx->flags & BLK_MQ_F_BLOCKING)) {
->> +		rcu_read_lock();
->> +		blk_mq_process_rq_list(hctx);
->> +		rcu_read_unlock();
->> +	} else {
->> +		srcu_idx = srcu_read_lock(&hctx->queue_rq_srcu);
->> +		blk_mq_process_rq_list(hctx);
->> +		srcu_read_unlock(&hctx->queue_rq_srcu, srcu_idx);
->> +	}
->> +}
->
-> Can you document these synchronization changes in detail in the changelog?
-
-Sure, I will do that.
-
->> +static void blk_mq_try_issue_directly(struct blk_mq_hw_ctx *hctx,
->> +				      struct request *rq, blk_qc_t *cookie)
->> +{
->> +	if (blk_mq_hctx_stopped(hctx) ||
->> +	    blk_mq_direct_issue_request(rq, cookie) != 0)
->> +		blk_mq_insert_request(rq, false, true, true);
->> +}
->
-> Any reason not to merge this function with blk_mq_direct_issue_request?
-
-That sounds like a good idea to me. I will make the proposed change.
-
-Bart.
+Jens, is this something still doable for 4.9?  It would help us to keep
+nvme.h in sync with nvme-cli.
