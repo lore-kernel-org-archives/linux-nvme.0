@@ -1,13 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 19 Oct 2016 09:27:22 +0200
-Subject: [PATCH 4/6] nvme-fabrics: Fix a memory leak in an
- nvmf_create_ctrl() error path
-In-Reply-To: <2c9d4e7b-1c48-619c-4f48-9c968747663a@sandisk.com>
+Date: Wed, 19 Oct 2016 09:27:49 +0200
+Subject: [PATCH 5/6] nvme-fabrics: Print network address if address
+ resolution fails
+In-Reply-To: <020cf76d-b63e-af62-07d0-c41ff51277ec@sandisk.com>
 References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
- <2c9d4e7b-1c48-619c-4f48-9c968747663a@sandisk.com>
-Message-ID: <20161019072722.enlspah2xafzurmp@linux-x5ow.site>
+ <020cf76d-b63e-af62-07d0-c41ff51277ec@sandisk.com>
+Message-ID: <20161019072749.s3h5l3p635x4bzxn@linux-x5ow.site>
 
-On Tue, Oct 18, 2016@01:11:03PM -0700, Bart Van Assche wrote:
+On Tue, Oct 18, 2016@01:11:28PM -0700, Bart Van Assche wrote:
 > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
 > ---
 
