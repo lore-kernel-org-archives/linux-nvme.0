@@ -1,28 +1,28 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 19 Oct 2016 05:52:57 -0700
-Subject: [PATCH 3/7 v2] nvme-fabrics: Add FC transport FC-NVME definitions
-In-Reply-To: <20161018233223.GA2202@localhost.localdomain>
-References: <57f82b10.h/qKXTOsgeHQsdmh%james.smart@broadcom.com>
- <20161012085834.GD12972@infradead.org>
- <1f0b3b42-241a-65db-f842-08a1c378b559@broadcom.com>
- <20161018194939.GA2048@localhost.localdomain>
- <adbdd838-6bf9-ef8d-0008-507d507adb8a@broadcom.com>
- <20161018233223.GA2202@localhost.localdomain>
-Message-ID: <20161019125257.GA25922@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 19 Oct 2016 15:00:09 +0200
+Subject: Disconnecting nvmet-rdma
+In-Reply-To: <26c343fe-23a8-e482-0b28-0b4a8c2ac70e@sandisk.com>
+References: <26c343fe-23a8-e482-0b28-0b4a8c2ac70e@sandisk.com>
+Message-ID: <20161019130009.GA5876@lst.de>
 
-On Tue, Oct 18, 2016@05:32:24PM -0600, Jon Derrick wrote:
-> > What is the rule for when it should be a macro vs an inline ?   It makes
-> > sense to me to be an inline if you want to strongly check the type of an
-> > argument, but something simple like this, it's not so clear.  If I didn't
-> > have the "cpu_to_be32" part, I'd abandon the inline and the macro and code
-> > it directly.
-> In this case they will both provide the same error checking, due to
-> cpu_to_be32 returning type __be32. The only difference is that one adds
-> a macro and the other adds a function, and if we ever need to add some
-> caveats to the logic it will be simpler with the function. That and the
-> coding style dictates that all things being equal, we should still
-> prefer inline. Those are my only rationales in this case.
+On Tue, Oct 18, 2016@03:02:03PM -0700, Bart Van Assche wrote:
+> Hello Christoph,
+> 
+> Without the patch below I can easily trigger a NULL pointer dereference in
+> nvmet_rdma_queue_disconnect(). However, I don't think that that patch is
+> correct. Can you have a look at this?
 
-I generally prefer to avoid macros that make grepping hard.  But
-I don't want to bikeshed too much over this this - I'd prefer Jon's
-variant, but I'm not going to NAK the series over this helper.
+Hi Bart,
+
+how do you reproduce the timedwait condition?  My RDMA test setup is
+still being moved, so I can't reproduce it myself, but I'd like to know
+for the future.
+
+The only reason why I could see a NULL queue here is if RDMA/CM
+also calls the timedwait exit handler for the listener CM ids,
+in which case your patch would be correct.  Can you check for that
+theory by printing the cm_id address in nvmet_rdma_add_port and in
+nvmet_rdma_cm_handler?
+
+Also is there any chance you could try your reproducer with the iSER target
+as well?  It also seems to blindly derference the queue.
