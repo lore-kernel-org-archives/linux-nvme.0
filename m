@@ -1,20 +1,27 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 19 Oct 2016 15:23:54 +0200
-Subject: [PATCH v3 05/11] blk-mq: Add a kick_requeue_list argument to
- blk_mq_requeue_request()
-In-Reply-To: <7b52319b-03f7-e432-909a-2f46232770c6@sandisk.com>
+Date: Wed, 19 Oct 2016 15:28:04 +0200
+Subject: [PATCH v3 06/11] dm: Use BLK_MQ_S_STOPPED instead of
+ QUEUE_FLAG_STOPPED in blk-mq code
+In-Reply-To: <e5facfd0-82d5-10cb-712b-13d7950b78b8@sandisk.com>
 References: <b39eb0e7-1007-eb63-8e7f-9a7f08508379@sandisk.com>
- <7b52319b-03f7-e432-909a-2f46232770c6@sandisk.com>
-Message-ID: <20161019132354.GE6323@lst.de>
+ <e5facfd0-82d5-10cb-712b-13d7950b78b8@sandisk.com>
+Message-ID: <20161019132804.GF6323@lst.de>
 
-On Tue, Oct 18, 2016@02:51:02PM -0700, Bart Van Assche wrote:
-> Most blk_mq_requeue_request() and blk_mq_add_to_requeue_list() calls
-> are followed by kicking the requeue list. Hence add an argument to
-> these two functions that allows to kick the requeue list. This was
-> proposed by Christoph Hellwig.
-> 
-> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-
-Thanks Bart, this looks fine to me:
+This looks good:
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+On Tue, Oct 18, 2016@02:51:33PM -0700, Bart Van Assche wrote:
+>  static void dm_mq_start_queue(struct request_queue *q)
+>  {
+> -	unsigned long flags;
+> -
+> -	spin_lock_irqsave(q->queue_lock, flags);
+> -	queue_flag_clear(QUEUE_FLAG_STOPPED, q);
+> -	spin_unlock_irqrestore(q->queue_lock, flags);
+> -
+>  	blk_mq_start_stopped_hw_queues(q, true);
+>  	blk_mq_kick_requeue_list(q);
+
+FYI, I'm tempted to say we should always call blk_mq_kick_requeue_list
+from blk_mq_start_stopped_hw_queues, but that's a separate issue.
