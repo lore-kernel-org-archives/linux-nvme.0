@@ -1,16 +1,24 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Wed, 19 Oct 2016 09:51:45 -0600
-Subject: [PATCH RESEND] nvme: Add tertiary number to NVME_VS
-In-Reply-To: <1476848934-25256-1-git-send-email-krisman@linux.vnet.ibm.com>
-References: <1476848934-25256-1-git-send-email-krisman@linux.vnet.ibm.com>
-Message-ID: <3682edaa-0632-ed38-54e1-71459d5b0503@fb.com>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Wed, 19 Oct 2016 08:58:55 -0700
+Subject: [PATCH v3 02/11] blk-mq: Introduce blk_mq_hctx_stopped()
+In-Reply-To: <20161019131900.GB6323@lst.de>
+References: <b39eb0e7-1007-eb63-8e7f-9a7f08508379@sandisk.com>
+ <b5b0ffcc-767d-1b90-9c5a-52c57690dea8@sandisk.com>
+ <20161019131900.GB6323@lst.de>
+Message-ID: <4c09e48d-4b23-915a-bf60-c58d0aae6007@sandisk.com>
 
-On 10/18/2016 09:48 PM, Gabriel Krisman Bertazi wrote:
-> NVMe 1.2.1 specification adds a tertiary element to the version number.
-> This updates the macro and its callers to include the final number and
-> fixup a single place in nvmet where the version was generated manually.
+On 10/19/2016 06:19 AM, Christoph Hellwig wrote:
+> On Tue, Oct 18, 2016@02:49:09PM -0700, Bart Van Assche wrote:
+>> Multiple functions test the BLK_MQ_S_STOPPED bit so introduce
+>> a helper function that performs this test.
+>
+> Looks sensible.  Any reason to have it in the public blk-mq.h instead
+> of the private one, though?  I see that dm is using it with this patch,
+> but that usage should go away once your full series is merged, right?
 
-Added, thanks.
+Hello Christoph,
 
--- 
-Jens Axboe
+Moving the blk_mq_hctx_stopped() declaration from the public to the 
+private blk-mq.h header file should be possible. I will look into this.
+
+Bart.
