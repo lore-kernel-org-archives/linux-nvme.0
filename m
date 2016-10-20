@@ -1,51 +1,52 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Wed, 19 Oct 2016 16:51:18 -0700
-Subject: [PATCH v3 0/11] Fix race conditions related to stopping block
- layer queues
-In-Reply-To: <20161019222454.GA1215@localhost.localdomain>
-References: <b39eb0e7-1007-eb63-8e7f-9a7f08508379@sandisk.com>
- <20161019222454.GA1215@localhost.localdomain>
-Message-ID: <25418d7a-7e66-3b99-7532-669f7ebd58a6@sandisk.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 20 Oct 2016 10:49:43 +0300
+Subject: Disconnecting nvmet-rdma
+In-Reply-To: <20161019130009.GA5876@lst.de>
+References: <26c343fe-23a8-e482-0b28-0b4a8c2ac70e@sandisk.com>
+ <20161019130009.GA5876@lst.de>
+Message-ID: <fe8993ab-38c9-96a1-0c75-e018de246107@grimberg.me>
 
-On 10/19/2016 03:14 PM, Keith Busch wrote:
-> I'm running linux 4.9-rc1 + linux-block/for-linus, and alternating tests
-> with and without this series.
->
-> Without this, I'm not seeing any problems in a link-down test while
-> running fio after ~30 runs.
->
-> With this series, I only see the test pass infrequently. Most of the
-> time I observe one of several failures. In all cases, it looks like the
-> rq->queuelist is in an unexpected state.
->
-> I think I've almost got this tracked down, but I have to leave for the
-> day soon. Rather than having a more useful suggestion, I've put the two
-> failures below.
->
- > First failure:
- >
-> [  214.782098] kernel BUG at block/blk-mq.c:498!
 
-Hello Keith,
+> how do you reproduce the timedwait condition?  My RDMA test setup is
+> still being moved, so I can't reproduce it myself, but I'd like to know
+> for the future.
 
-Thank you for having taken the time to test this patch series. Since I 
-think that the second and third failures are consequences of the first, 
-I will focus on the first failure triggered by your tests.
++1 on that, never was able to step on this.
 
-I assume that line 498 in blk-mq.c corresponds to 
-BUG_ON(blk_queued_rq(rq))? Anyway, it seems to me like this is a bug in 
-the NVMe code and also that this bug is completely unrelated to my patch 
-series. In nvme_complete_rq() I see that blk_mq_requeue_request() is 
-called. I don't think this is allowed from the context of 
-nvme_cancel_request() because blk_mq_requeue_request() assumes that a 
-request has already been removed from the request list. However, neither 
-blk_mq_tagset_busy_iter() nor nvme_cancel_request() remove a request 
-from the request list before nvme_complete_rq() is called. I think this 
-is what triggers the BUG_ON() statement in blk_mq_requeue_request(). 
-Have you noticed that e.g. the scsi-mq code only calls 
-blk_mq_requeue_request() after __blk_mq_end_request() has finished? Have 
-you considered to follow the same approach in nvme_cancel_request()?
+> The only reason why I could see a NULL queue here is if RDMA/CM
+> also calls the timedwait exit handler for the listener CM ids,
+> in which case your patch would be correct.  Can you check for that
+> theory by printing the cm_id address in nvmet_rdma_add_port and in
+> nvmet_rdma_cm_handler?
 
-Thanks,
+Where do you see indication for that in the code? TIMEWAIT doesn't make
+sense for listener cm_ids. The CM enters timewait (starts a timer) when:
+- sends a disconnect request
+- sends a disconnect reply
+- sends a connect reject
+- received a connect reject
 
-Bart.
+Non of those happen with the listener cm_id. Maybe I'm missing
+something?
+
+Note that the cm_id->qp is NULL which means that it was
+never created (destroy doesn't nullify it).
+
+ From looking at the code there are two flows that can trigger this:
+- we failed nvmet_rdma_queue_connect() but didn't destroy
+   the cm_id -> which triggered this event later (but I can't find
+   indication of that in the code)
+
+- Something in the CM spaghetti triggered this after we accepted
+   but the client rejected us for some reason (although I think we should
+   have seen UNREACHABLE event...
+
+Or something else...
+
+Bart, more information on what happened exactly (and how) would help
+here.
+
+> Also is there any chance you could try your reproducer with the iSER target
+> as well?  It also seems to blindly derference the queue.
+
+It probably will happen too...
