@@ -1,54 +1,33 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 20 Oct 2016 10:54:38 +0300
-Subject: [PATCH 5/6] nvme-fabrics: Print network address if address
- resolution fails
-In-Reply-To: <20161019103939.GC1191@lst.de>
+Date: Thu, 20 Oct 2016 10:57:17 +0300
+Subject: [PATCH 6/6] nvme/rdma: Make nvme_rdma_conn_rejected() more
+ informative
+In-Reply-To: <66e66d19-5a2a-e867-401a-1ede0c845b3e@sandisk.com>
 References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
- <020cf76d-b63e-af62-07d0-c41ff51277ec@sandisk.com>
- <20161019103939.GC1191@lst.de>
-Message-ID: <34e1004d-df86-432f-bf47-3744c25ad77e@grimberg.me>
+ <66e66d19-5a2a-e867-401a-1ede0c845b3e@sandisk.com>
+Message-ID: <cf452494-f485-56fd-6ca9-0b84627ab5da@grimberg.me>
 
->> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
->> ---
->>  drivers/nvme/host/rdma.c | 6 ++++--
->>  1 file changed, 4 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
->> index 5a83881..9612ea0 100644
->> --- a/drivers/nvme/host/rdma.c
->> +++ b/drivers/nvme/host/rdma.c
->> @@ -568,14 +568,16 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
->>  			NVME_RDMA_CONNECT_TIMEOUT_MS);
->>  	if (ret) {
->>  		dev_info(ctrl->ctrl.device,
->> -			"rdma_resolve_addr failed (%d).\n", ret);
->> +			 "rdma_resolve_addr(%pISpc) failed (%d).\n",
->> +			 &ctrl->addr, ret);
->>  		goto out_destroy_cm_id;
->>  	}
->>
->>  	ret = nvme_rdma_wait_for_cm(queue);
->>  	if (ret) {
->>  		dev_info(ctrl->ctrl.device,
->> -			"rdma_resolve_addr wait failed (%d).\n", ret);
->> +			 "rdma_resolve_addr(%pISpc) wait failed (%d).\n",
->> +			 &ctrl->addr, ret);
->
-> Can you skip the indentation change?  Also once have the address how
-> about:
->
-> 		"Failed to resolve %pISpc (instant), error %d).\n"
->
-> 		"Failed to resolve %pISpc (wait), error %d.\n"
 
-failure is nvme_rdma_wait_for_cm() does not necessarily means that
-a resolution failed, but the connection establishment failed.
+> +	switch (ev->status) {
+> +	case IB_CM_REJ_DUPLICATE_LOCAL_COMM_ID:
+> +		strlcpy(reason, "duplicate local comm id", sizeof(reason));
+> +		break;
+> +	case IB_CM_REJ_CONSUMER_DEFINED:
+> +		if (ev->param.conn.private_data_len) {
+> +			const struct nvme_rdma_cm_rej *rej =
+> +				(const void *)ev->param.conn.private_data;
+> +
+> +			snprintf(reason, sizeof(reason), "status %d",
+> +				 le16_to_cpu(rej->sts));
+> +			/* XXX: Think of something clever to do here... */
+> +		} else {
+> +			strlcpy(reason, "no private data", sizeof(reason));
+> +		}
 
-Maybe:
-		"Failed to connect %pISpc, error %d.\n"
+Can you add "consumer defined" to the string so we know its an
+application error reason?
 
-?
 
-Other than that, looks fine,
+Otherwise looks fine,
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
