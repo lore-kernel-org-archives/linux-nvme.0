@@ -1,33 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 20 Oct 2016 10:57:17 +0300
-Subject: [PATCH 6/6] nvme/rdma: Make nvme_rdma_conn_rejected() more
- informative
-In-Reply-To: <66e66d19-5a2a-e867-401a-1ede0c845b3e@sandisk.com>
+Date: Thu, 20 Oct 2016 11:02:06 +0300
+Subject: [PATCH 0/6] Six NVMeOF-related patches
+In-Reply-To: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
 References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
- <66e66d19-5a2a-e867-401a-1ede0c845b3e@sandisk.com>
-Message-ID: <cf452494-f485-56fd-6ca9-0b84627ab5da@grimberg.me>
+Message-ID: <1ae62d3e-8e23-6458-e822-7a11d3f9897f@grimberg.me>
 
+Hey Bart,
 
-> +	switch (ev->status) {
-> +	case IB_CM_REJ_DUPLICATE_LOCAL_COMM_ID:
-> +		strlcpy(reason, "duplicate local comm id", sizeof(reason));
-> +		break;
-> +	case IB_CM_REJ_CONSUMER_DEFINED:
-> +		if (ev->param.conn.private_data_len) {
-> +			const struct nvme_rdma_cm_rej *rej =
-> +				(const void *)ev->param.conn.private_data;
-> +
-> +			snprintf(reason, sizeof(reason), "status %d",
-> +				 le16_to_cpu(rej->sts));
-> +			/* XXX: Think of something clever to do here... */
-> +		} else {
-> +			strlcpy(reason, "no private data", sizeof(reason));
-> +		}
+> Hello Keith,
+>
+> This patch series is what I came up with while I was using the NVMeOF
+> host and target drivers to test my pending block layer and dm-mq
+> patches. It would be appreciated if you would consider these patches for
+> inclusion in the upstream kernel. The individual patches in this series
+> are:
+>
+> 0001-nvme-scsi-Remove-set-but-not-used-variables.patch
+> 0002-nvme-fabrics-Adjust-source-code-indentation.patch
+> 0003-nvme-fabrics-Fix-memory-leaks-in-nvmf_parse_options.patch
+> 0004-nvme-fabrics-Fix-a-memory-leak-in-an-nvmf_create_ctr.patch
+> 0005-nvme-fabrics-Print-network-address-if-address-resolu.patch
+> 0006-nvme-rdma-Make-nvme_rdma_conn_rejected-more-informat.patch
 
-Can you add "consumer defined" to the string so we know its an
-application error reason?
+up until now, nvme over fabrics related changes went through
+our tree (and to jens in turn) at:
+http://git.infradead.org/nvme-fabrics.git
 
+Overall, these changes looks good.
 
-Otherwise looks fine,
+I plan to collect patches for the next round of 4.9-rc over the weekend
+so I'll wait for your respin on this.
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Thanks,
+Sagi.
