@@ -1,82 +1,73 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 20 Oct 2016 09:35:54 -0500
-Subject: [PATCH 6/6] nvme/rdma: Make nvme_rdma_conn_rejected() more
- informative
-In-Reply-To: <66e66d19-5a2a-e867-401a-1ede0c845b3e@sandisk.com>
-References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
- <66e66d19-5a2a-e867-401a-1ede0c845b3e@sandisk.com>
-Message-ID: <00bf01d22adf$43370ac0$c9a52040$@opengridcomputing.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 20 Oct 2016 10:52:24 -0400
+Subject: [PATCH v3 0/11] Fix race conditions related to stopping block
+ layer queues
+In-Reply-To: <25418d7a-7e66-3b99-7532-669f7ebd58a6@sandisk.com>
+References: <b39eb0e7-1007-eb63-8e7f-9a7f08508379@sandisk.com>
+ <20161019222454.GA1215@localhost.localdomain>
+ <25418d7a-7e66-3b99-7532-669f7ebd58a6@sandisk.com>
+Message-ID: <20161020145224.GA2771@localhost.localdomain>
 
+On Wed, Oct 19, 2016@04:51:18PM -0700, Bart Van Assche wrote:
 > 
-> While I was figuring out how to make the nvme-rdma driver log in to
-> the nvmet-rdma driver, the following message appeared in the system
-> log:
-> 
->     nvme nvme0: Connect rejected, status 0.
-> 
-> That message is not very helpful. Hence this patch that makes the
-> messages reported by nvme_rdma_conn_rejected() more informative.
-> 
-> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> ---
->  drivers/nvme/host/rdma.c | 39 +++++++++++++++++++++++++++++----------
->  1 file changed, 29 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 9612ea0..df7f599 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -1207,20 +1207,39 @@ static int nvme_rdma_conn_established(struct
-> nvme_rdma_queue *queue)
->  }
-> 
->  static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
-> -		struct rdma_cm_event *ev)
-> +				   const struct rdma_cm_event *ev)
->  {
-> -	if (ev->param.conn.private_data_len) {
-> -		struct nvme_rdma_cm_rej *rej =
-> -			(struct nvme_rdma_cm_rej *)ev-
-> >param.conn.private_data;
-> +	char reason[32];
-> 
-> -		dev_err(queue->ctrl->ctrl.device,
-> -			"Connect rejected, status %d.", le16_to_cpu(rej->sts));
-> -		/* XXX: Think of something clever to do here... */
-> -	} else {
-> -		dev_err(queue->ctrl->ctrl.device,
-> -			"Connect rejected, no private data.\n");
-> +	switch (ev->status) {
-> +	case IB_CM_REJ_DUPLICATE_LOCAL_COMM_ID:
-> +		strlcpy(reason, "duplicate local comm id", sizeof(reason));
-> +		break;
-> +	case IB_CM_REJ_CONSUMER_DEFINED:
-> +		if (ev->param.conn.private_data_len) {
-> +			const struct nvme_rdma_cm_rej *rej =
-> +				(const void *)ev->param.conn.private_data;
-> +
-> +			snprintf(reason, sizeof(reason), "status %d",
-> +				 le16_to_cpu(rej->sts));
-> +			/* XXX: Think of something clever to do here... */
-> +		} else {
-> +			strlcpy(reason, "no private data", sizeof(reason));
-> +		}
-> +		break;
-> +	case IB_CM_REJ_INVALID_SERVICE_ID:
-> +		strlcpy(reason, "invalid service ID", sizeof(reason));
-> +		break;
-> +	case IB_CM_REJ_STALE_CONN:
-> +		strlcpy(reason, "stale connection", sizeof(reason));
-> +		break;
-> +	default:
-> +		snprintf(reason, sizeof(reason), "REJ reason %#x", ev->status);
-> +		break;
+> I assume that line 498 in blk-mq.c corresponds to BUG_ON(blk_queued_rq(rq))?
+> Anyway, it seems to me like this is a bug in the NVMe code and also that
+> this bug is completely unrelated to my patch series. In nvme_complete_rq() I
+> see that blk_mq_requeue_request() is called. I don't think this is allowed
+> from the context of nvme_cancel_request() because blk_mq_requeue_request()
+> assumes that a request has already been removed from the request list.
+> However, neither blk_mq_tagset_busy_iter() nor nvme_cancel_request() remove
+> a request from the request list before nvme_complete_rq() is called. I think
+> this is what triggers the BUG_ON() statement in blk_mq_requeue_request().
+> Have you noticed that e.g. the scsi-mq code only calls
+> blk_mq_requeue_request() after __blk_mq_end_request() has finished? Have you
+> considered to follow the same approach in nvme_cancel_request()?
 
-Hey Bart,
+Both nvme and scsi requeue through their mp_ops 'complete' callback, so
+nvme is similarly waiting for __blk_mq_end_request before requesting to
+requeue. The problem, I think, is nvme's IO cancelling path is observing
+active requests that it's requeuing from the queue_rq path.
 
-iWARP RDMA_CM_EVENT_REJECTED events have a -errno as the event status.  Perhaps
-you could at the very least dump the error as an integer here?  But an  errno
-string would be ideal. :)
+Patch [11/11] kicks the requeue list unconditionally. This restarts queues
+the driver had just quiesced a moment before, restarting those requests,
+but the driver isn't ready to handle them. When the driver ultimately
+unbinds from the device, it requeues those requests a second time.
 
+Either the requeuing can't kick the requeue work when queisced, or the
+shutdown needs to quiesce even when it hasn't restarted the queues.
+Either patch below appears to fix the issue.
 
-Steve.
+---
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index ccd9cc5..078530c 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -201,7 +201,7 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct gendisk *disk)
+ 
+ void nvme_requeue_req(struct request *req)
+ {
+-	blk_mq_requeue_request(req, true);
++	blk_mq_requeue_request(req, !blk_mq_queue_stopped(req->q));
+ }
+ EXPORT_SYMBOL_GPL(nvme_requeue_req);
+--
+
+--- 
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 4b30fa2..a05da98 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1681,10 +1681,9 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
+ 	del_timer_sync(&dev->watchdog_timer);
+ 
+ 	mutex_lock(&dev->shutdown_lock);
+-	if (pci_is_enabled(to_pci_dev(dev->dev))) {
+-		nvme_stop_queues(&dev->ctrl);
++	nvme_stop_queues(&dev->ctrl);
++	if (pci_is_enabled(to_pci_dev(dev->dev)))
+ 		csts = readl(dev->bar + NVME_REG_CSTS);
+-	}
+ 
+ 	queues = dev->online_queues - 1;
+ 	for (i = dev->queue_count - 1; i > 0; i--)
+--
