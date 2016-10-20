@@ -1,52 +1,54 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 20 Oct 2016 10:49:43 +0300
-Subject: Disconnecting nvmet-rdma
-In-Reply-To: <20161019130009.GA5876@lst.de>
-References: <26c343fe-23a8-e482-0b28-0b4a8c2ac70e@sandisk.com>
- <20161019130009.GA5876@lst.de>
-Message-ID: <fe8993ab-38c9-96a1-0c75-e018de246107@grimberg.me>
+Date: Thu, 20 Oct 2016 10:54:38 +0300
+Subject: [PATCH 5/6] nvme-fabrics: Print network address if address
+ resolution fails
+In-Reply-To: <20161019103939.GC1191@lst.de>
+References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
+ <020cf76d-b63e-af62-07d0-c41ff51277ec@sandisk.com>
+ <20161019103939.GC1191@lst.de>
+Message-ID: <34e1004d-df86-432f-bf47-3744c25ad77e@grimberg.me>
 
+>> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
+>> ---
+>>  drivers/nvme/host/rdma.c | 6 ++++--
+>>  1 file changed, 4 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+>> index 5a83881..9612ea0 100644
+>> --- a/drivers/nvme/host/rdma.c
+>> +++ b/drivers/nvme/host/rdma.c
+>> @@ -568,14 +568,16 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
+>>  			NVME_RDMA_CONNECT_TIMEOUT_MS);
+>>  	if (ret) {
+>>  		dev_info(ctrl->ctrl.device,
+>> -			"rdma_resolve_addr failed (%d).\n", ret);
+>> +			 "rdma_resolve_addr(%pISpc) failed (%d).\n",
+>> +			 &ctrl->addr, ret);
+>>  		goto out_destroy_cm_id;
+>>  	}
+>>
+>>  	ret = nvme_rdma_wait_for_cm(queue);
+>>  	if (ret) {
+>>  		dev_info(ctrl->ctrl.device,
+>> -			"rdma_resolve_addr wait failed (%d).\n", ret);
+>> +			 "rdma_resolve_addr(%pISpc) wait failed (%d).\n",
+>> +			 &ctrl->addr, ret);
+>
+> Can you skip the indentation change?  Also once have the address how
+> about:
+>
+> 		"Failed to resolve %pISpc (instant), error %d).\n"
+>
+> 		"Failed to resolve %pISpc (wait), error %d.\n"
 
-> how do you reproduce the timedwait condition?  My RDMA test setup is
-> still being moved, so I can't reproduce it myself, but I'd like to know
-> for the future.
+failure is nvme_rdma_wait_for_cm() does not necessarily means that
+a resolution failed, but the connection establishment failed.
 
-+1 on that, never was able to step on this.
+Maybe:
+		"Failed to connect %pISpc, error %d.\n"
 
-> The only reason why I could see a NULL queue here is if RDMA/CM
-> also calls the timedwait exit handler for the listener CM ids,
-> in which case your patch would be correct.  Can you check for that
-> theory by printing the cm_id address in nvmet_rdma_add_port and in
-> nvmet_rdma_cm_handler?
+?
 
-Where do you see indication for that in the code? TIMEWAIT doesn't make
-sense for listener cm_ids. The CM enters timewait (starts a timer) when:
-- sends a disconnect request
-- sends a disconnect reply
-- sends a connect reject
-- received a connect reject
+Other than that, looks fine,
 
-Non of those happen with the listener cm_id. Maybe I'm missing
-something?
-
-Note that the cm_id->qp is NULL which means that it was
-never created (destroy doesn't nullify it).
-
- From looking at the code there are two flows that can trigger this:
-- we failed nvmet_rdma_queue_connect() but didn't destroy
-   the cm_id -> which triggered this event later (but I can't find
-   indication of that in the code)
-
-- Something in the CM spaghetti triggered this after we accepted
-   but the client rejected us for some reason (although I think we should
-   have seen UNREACHABLE event...
-
-Or something else...
-
-Bart, more information on what happened exactly (and how) would help
-here.
-
-> Also is there any chance you could try your reproducer with the iSER target
-> as well?  It also seems to blindly derference the queue.
-
-It probably will happen too...
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
