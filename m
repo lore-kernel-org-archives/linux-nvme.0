@@ -1,51 +1,58 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 21 Oct 2016 09:09:05 -0500
-Subject: [PATCH RFC v2 2/3] rdma_cm: add rdma_consumer_reject()
- helper	function
-In-Reply-To: <20161021121428.GB17028@lst.de>
-References: <cover.1477003235.git.swise@opengridcomputing.com>
- <cb135696be86c21c144ef35a4d6f7f71394a3627.1477003235.git.swise@opengridcomputing.com>
- <20161021121428.GB17028@lst.de>
-Message-ID: <005f01d22ba4$aeadeab0$0c09c010$@opengridcomputing.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Fri, 21 Oct 2016 07:54:11 -0700
+Subject: [PATCH 3/3] nvme-cli: fix nvme-connect-all using hostnqn
+In-Reply-To: <20161021132242.GB9492@infradead.org>
+References: <1476906187-29183-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <1476906187-29183-4-git-send-email-james_p_freyensee@linux.intel.com>
+ <20161021132242.GB9492@infradead.org>
+Message-ID: <1477061651.3303.2.camel@linux.intel.com>
 
-> 
-> On Thu, Oct 20, 2016@03:40:26PM -0700, Steve Wise wrote:
-> > Return true if the peer consumer application rejected the
-> > connection attempt.
-> >
-> > Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+On Fri, 2016-10-21@06:22 -0700, Christoph Hellwig wrote:
+> On Wed, Oct 19, 2016@12:43:07PM -0700, Jay Freyensee wrote:
+> > 
+> > The example in the man pages:
+> > 
+> > nvme connect-all --transport=rdma --traddr=192.168.1.3 \
+> > --hostnqn=host1-rogue-nqn
+> > 
+> > fails because nvme-cli fails to actually use hostnqn upon
+> > connect.??This patch fixes that.
+> > 
+> > Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
 > > ---
-> >  drivers/infiniband/core/cma.c | 13 +++++++++++++
-> >  include/rdma/ib_cm.h          |  9 +++++++++
-> >  include/rdma/iw_cm.h          |  9 +++++++++
-> >  include/rdma/rdma_cm.h        |  6 ++++++
-> >  4 files changed, 37 insertions(+)
-> >
-> > diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
-> > index 7cc7346..4ec16a3 100644
-> > --- a/drivers/infiniband/core/cma.c
-> > +++ b/drivers/infiniband/core/cma.c
-> > @@ -114,6 +114,19 @@ const char *__attribute_const__
-> rdma_reject_msg(struct rdma_cm_id *id,
-> >  }
-> >  EXPORT_SYMBOL(rdma_reject_msg);
-> >
-> > +bool rdma_consumer_reject(struct rdma_cm_id *id, int reason)
-> > +{
-> > +	if (rdma_ib_or_roce(id->device, id->port_num))
-> > +		return ib_consumer_reject(reason);
-> > +
-> > +	if (rdma_protocol_iwarp(id->device, id->port_num))
-> > +		return iw_consumer_reject(reason);
-> > +
-> > +	/* FIXME should we WARN_ONCE() here? */
-> > +	return false;
+> > ?fabrics.c | 6 ++++++
+> > ?1 file changed, 6 insertions(+)
+> > 
+> > diff --git a/fabrics.c b/fabrics.c
+> > index 51e424e..801fe4f 100644
+> > --- a/fabrics.c
+> > +++ b/fabrics.c
+> > @@ -540,6 +540,12 @@ static int connect_ctrl(struct
+> > nvmf_disc_rsp_page_entry *e)
+> > ?		return -EINVAL;
+> > ?	p += len;
+> > ?
+> > +	if (cfg.hostnqn)
+> > +	len = sprintf(p, ",hostnqn=%s", cfg.hostnqn);
+> > +	if (len < 0)
+> > +		return -EINVAL;
+> > +	p += len;
 > 
-> Yes.  Also I'd just inline the ib_consumer_reject and iw_consumer_reject
-> helpers here.
-> 
-> Aso wouldn't it be better named rdma_consumer_is_reject or similar
-> given that we don't reject anything here, but check if the request
-> has been rejected?
+> The indentation here looks odd, I'd expect the line conditional
+> on the if to be indented.??
 
-How about rdma_rejected_by_consumer()?
+Yes, I didn't do that indentation right, I'll adjust the code block per
+comments.
+
+Jay
+
+> Also while the code should work fine as-is
+> I'd move the len check and increment into the conditional, as they
+> are
+> pointless without doing the sprintf.
+
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
