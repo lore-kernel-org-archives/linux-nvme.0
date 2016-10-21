@@ -1,12 +1,19 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 21 Oct 2016 06:31:38 -0700
-Subject: bug in nvme_rdma module when CAP.MQES is < 128 ?
-In-Reply-To: <1957614832.14672869.1477055311936.JavaMail.zimbra@kalray.eu>
-References: <1957614832.14672869.1477055311936.JavaMail.zimbra@kalray.eu>
-Message-ID: <20161021133138.GA16449@infradead.org>
+Date: Fri, 21 Oct 2016 06:32:52 -0700
+Subject: [PATCH 0/6] Six NVMeOF-related patches
+In-Reply-To: <dc3f4a94-72bd-469d-16ba-b1a6619f8609@sandisk.com>
+References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
+ <1ae62d3e-8e23-6458-e822-7a11d3f9897f@grimberg.me>
+ <dc3f4a94-72bd-469d-16ba-b1a6619f8609@sandisk.com>
+Message-ID: <20161021133252.GB16449@infradead.org>
 
-Hi Samuel,
+On Thu, Oct 20, 2016@10:38:39AM -0700, Bart Van Assche wrote:
+> Sorry but that's something I wasn't aware of. In the MAINTAINERS file I
+> found Keith and Jens as maintainers for the code under drivers/nvme/host/.
+> Does this mean that a new entry should be added for
+> drivers/nvme/host/fabrics.[ch]?
 
-the analysis seems sensible.  We'll defintively want to keep the MAXCMDS
-check, so SQSIZE would be in addition.  Can you send a patch to
-implement it?
+Maybe.  Or we should just add Sagi and me to the general NVMe antry
+and replace the Fabrics git tree with a general NVMe one.
+
+Keith, Jens - any preferences?
