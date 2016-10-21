@@ -1,49 +1,54 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 20 Oct 2016 15:40:29 -0700
-Subject: [PATCH RFC v2 3/3] nvme-rdma: use rdma_reject_msg() to log connection
- rejects
-In-Reply-To: <cover.1477003235.git.swise@opengridcomputing.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 21 Oct 2016 14:12:34 +0200
+Subject: [PATCH RFC v2 1/3] rdma_cm: add rdma_reject_msg() helper function
+In-Reply-To: <1360f08b7c25f3befcd6836b47af81e2ecb51b75.1477003235.git.swise@opengridcomputing.com>
 References: <cover.1477003235.git.swise@opengridcomputing.com>
-Message-ID: <60243a2ce17e08cdc93600b9998698dbd7f83306.1477003235.git.swise@opengridcomputing.com>
+ <1360f08b7c25f3befcd6836b47af81e2ecb51b75.1477003235.git.swise@opengridcomputing.com>
+Message-ID: <20161021121234.GA17028@lst.de>
 
-Signed-off-by: Steve Wise <swise at opengridcomputing.com>
----
- drivers/nvme/host/rdma.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+> +const char *__attribute_const__ ib_reject_msg(int reason)
+> +{
+> +	size_t index = reason;
+> +
+> +	return (index < ARRAY_SIZE(ib_rej_reason_strs) &&
+> +		ib_rej_reason_strs[index]) ?
+> +		ib_rej_reason_strs[index] : "unrecognized reason";
+> +}
+> +EXPORT_SYMBOL(ib_reject_msg);
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 601aecf..6319c26 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1237,18 +1237,22 @@ out_destroy_queue_ib:
- static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
- 		struct rdma_cm_event *ev)
- {
--	if (ev->param.conn.private_data_len) {
-+	struct rdma_cm_id *cm_id = queue->cm_id;
-+	int rdma_status = ev->status;
-+	short nvme_status = -1;
-+
-+	if (rdma_consumer_reject(cm_id, rdma_status) &&
-+	    ev->param.conn.private_data_len) {
- 		struct nvme_rdma_cm_rej *rej =
- 			(struct nvme_rdma_cm_rej *)ev->param.conn.private_data;
- 
--		dev_err(queue->ctrl->ctrl.device,
--			"Connect rejected, status %d.", le16_to_cpu(rej->sts));
--		/* XXX: Think of something clever to do here... */
--	} else {
--		dev_err(queue->ctrl->ctrl.device,
--			"Connect rejected, no private data.\n");
-+		nvme_status = le16_to_cpu(rej->sts);
- 	}
- 
-+	dev_err(queue->ctrl->ctrl.device, "Connect rejected: status %d (%s) "
-+		"nvme status %d.\n", rdma_status,
-+		rdma_reject_msg(cm_id, rdma_status), nvme_status);
-+
- 	return -ECONNRESET;
- }
- 
--- 
-2.7.0
+This looks a bit odd, why not something like:
+
+const char *__attribute_const__ ib_reject_msg(int reason)
+{
+	if (reason >= ARRAY_SIZE(ib_rej_reason_strs) ||
+	    !ib_rej_reason_strs[reason])
+		return "unrecognized reason";
+	return ib_rej_reason_strs[reason];
+}
+
+> +const char *__attribute_const__ iw_reject_msg(int reason)
+> +{
+> +	size_t index = -reason;
+> +
+> +	/* iWARP uses negative errnos */
+> +	index = -index;
+> +	return (index < ARRAY_SIZE(iw_rej_reason_strs) &&
+> +		iw_rej_reason_strs[index]) ?
+> +		iw_rej_reason_strs[index] : "unrecognized reason";
+> +}
+> +EXPORT_SYMBOL(iw_reject_msg);
+
+Same here:
+
+const char *__attribute_const__ iw_reject_msg(int reason)
+{
+	/* iWARP uses negative errnos */
+	reason = -reason;
+
+	if (reason >= ARRAY_SIZE(iw_rej_reason_strs) ||
+	    !iw_rej_reason_strs[reason])
+		return "unrecognized reason";
+	return iw_rej_reason_strs[reason];
+}
+
+Otherwise this looks good and very useful to me.
