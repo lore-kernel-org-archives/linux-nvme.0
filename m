@@ -1,21 +1,29 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 21 Oct 2016 11:08:32 -0400
-Subject: [PATCH 0/6] Six NVMeOF-related patches
-In-Reply-To: <20161021133252.GB16449@infradead.org>
-References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
- <1ae62d3e-8e23-6458-e822-7a11d3f9897f@grimberg.me>
- <dc3f4a94-72bd-469d-16ba-b1a6619f8609@sandisk.com>
- <20161021133252.GB16449@infradead.org>
-Message-ID: <20161021150831.GA5294@localhost.localdomain>
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Fri, 21 Oct 2016 15:21:38 +0000
+Subject: Disconnecting nvmet-rdma
+In-Reply-To: <20161019130009.GA5876@lst.de>
+References: <26c343fe-23a8-e482-0b28-0b4a8c2ac70e@sandisk.com>
+ <20161019130009.GA5876@lst.de>
+Message-ID: <1477063296.2384.1.camel@sandisk.com>
 
-On Fri, Oct 21, 2016@06:32:52AM -0700, Christoph Hellwig wrote:
-> Maybe.  Or we should just add Sagi and me to the general NVMe antry
-> and replace the Fabrics git tree with a general NVMe one.
+On Wed, 2016-10-19@15:00 +0200, Christoph Hellwig wrote:
+> On Tue, Oct 18, 2016@03:02:03PM -0700, Bart Van Assche wrote:
+> > Without the patch below I can easily trigger a NULL pointer
+> > dereference in
+> > nvmet_rdma_queue_disconnect(). However, I don't think that that
+> > patch is
+> > correct. Can you have a look at this?
 > 
-> Keith, Jens - any preferences?
+> how do you reproduce the timedwait condition???My RDMA test setup is
+> still being moved, so I can't reproduce it myself, but I'd like to
+> know for the future.
 
-I've no preference. I assumed, though, fabrics developers/users found
-the public staging tree useful since it seems to be changing faster
-than the rest of the driver. We don't have an nvme specific tree, so
-if everyone's okay going through the general block, then let's add the
-maintainer entries.
+Hello Christoph and Sagi,
+
+This issue is something I could reproduce easily about ten days ago.
+However, when I removed the "if (queue)" change from my tree I could
+not reproduce this issue with the current version of my NVMeOF test
+script. I will try to figure out whether I can trigger this by going
+back to a previous version of my test script.
+
+Bart.
