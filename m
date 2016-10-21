@@ -1,65 +1,51 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Fri, 21 Oct 2016 09:07:05 -0500
-Subject: [PATCH RFC v2 1/3] rdma_cm: add rdma_reject_msg() helper	function
-In-Reply-To: <20161021121234.GA17028@lst.de>
+Date: Fri, 21 Oct 2016 09:09:05 -0500
+Subject: [PATCH RFC v2 2/3] rdma_cm: add rdma_consumer_reject()
+ helper	function
+In-Reply-To: <20161021121428.GB17028@lst.de>
 References: <cover.1477003235.git.swise@opengridcomputing.com>
- <1360f08b7c25f3befcd6836b47af81e2ecb51b75.1477003235.git.swise@opengridcomputing.com>
- <20161021121234.GA17028@lst.de>
-Message-ID: <005d01d22ba4$672effd0$358cff70$@opengridcomputing.com>
+ <cb135696be86c21c144ef35a4d6f7f71394a3627.1477003235.git.swise@opengridcomputing.com>
+ <20161021121428.GB17028@lst.de>
+Message-ID: <005f01d22ba4$aeadeab0$0c09c010$@opengridcomputing.com>
 
 > 
-> > +const char *__attribute_const__ ib_reject_msg(int reason)
+> On Thu, Oct 20, 2016@03:40:26PM -0700, Steve Wise wrote:
+> > Return true if the peer consumer application rejected the
+> > connection attempt.
+> >
+> > Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+> > ---
+> >  drivers/infiniband/core/cma.c | 13 +++++++++++++
+> >  include/rdma/ib_cm.h          |  9 +++++++++
+> >  include/rdma/iw_cm.h          |  9 +++++++++
+> >  include/rdma/rdma_cm.h        |  6 ++++++
+> >  4 files changed, 37 insertions(+)
+> >
+> > diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
+> > index 7cc7346..4ec16a3 100644
+> > --- a/drivers/infiniband/core/cma.c
+> > +++ b/drivers/infiniband/core/cma.c
+> > @@ -114,6 +114,19 @@ const char *__attribute_const__
+> rdma_reject_msg(struct rdma_cm_id *id,
+> >  }
+> >  EXPORT_SYMBOL(rdma_reject_msg);
+> >
+> > +bool rdma_consumer_reject(struct rdma_cm_id *id, int reason)
 > > +{
-> > +	size_t index = reason;
+> > +	if (rdma_ib_or_roce(id->device, id->port_num))
+> > +		return ib_consumer_reject(reason);
 > > +
-> > +	return (index < ARRAY_SIZE(ib_rej_reason_strs) &&
-> > +		ib_rej_reason_strs[index]) ?
-> > +		ib_rej_reason_strs[index] : "unrecognized reason";
-> > +}
-> > +EXPORT_SYMBOL(ib_reject_msg);
-> 
-> This looks a bit odd, why not something like:
-> 
-> const char *__attribute_const__ ib_reject_msg(int reason)
-> {
-> 	if (reason >= ARRAY_SIZE(ib_rej_reason_strs) ||
-> 	    !ib_rej_reason_strs[reason])
-> 		return "unrecognized reason";
-> 	return ib_rej_reason_strs[reason];
-> }
->
-
-I copy/pasted from rdma_event_msg().
-
- 
-> > +const char *__attribute_const__ iw_reject_msg(int reason)
-> > +{
-> > +	size_t index = -reason;
+> > +	if (rdma_protocol_iwarp(id->device, id->port_num))
+> > +		return iw_consumer_reject(reason);
 > > +
-> > +	/* iWARP uses negative errnos */
-> > +	index = -index;
-> > +	return (index < ARRAY_SIZE(iw_rej_reason_strs) &&
-> > +		iw_rej_reason_strs[index]) ?
-> > +		iw_rej_reason_strs[index] : "unrecognized reason";
-> > +}
-> > +EXPORT_SYMBOL(iw_reject_msg);
+> > +	/* FIXME should we WARN_ONCE() here? */
+> > +	return false;
 > 
-> Same here:
+> Yes.  Also I'd just inline the ib_consumer_reject and iw_consumer_reject
+> helpers here.
 > 
-> const char *__attribute_const__ iw_reject_msg(int reason)
-> {
-> 	/* iWARP uses negative errnos */
-> 	reason = -reason;
-> 
-> 	if (reason >= ARRAY_SIZE(iw_rej_reason_strs) ||
-> 	    !iw_rej_reason_strs[reason])
-> 		return "unrecognized reason";
-> 	return iw_rej_reason_strs[reason];
-> }
-> 
-> Otherwise this looks good and very useful to me.
+> Aso wouldn't it be better named rdma_consumer_is_reject or similar
+> given that we don't reject anything here, but check if the request
+> has been rejected?
 
-I will refactor as you suggest.  You proposed logic is slightly more readable to
-me...
-
-Thanks.
+How about rdma_rejected_by_consumer()?
