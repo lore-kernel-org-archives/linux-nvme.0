@@ -1,29 +1,24 @@
-From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Fri, 21 Oct 2016 15:21:38 +0000
-Subject: Disconnecting nvmet-rdma
-In-Reply-To: <20161019130009.GA5876@lst.de>
-References: <26c343fe-23a8-e482-0b28-0b4a8c2ac70e@sandisk.com>
- <20161019130009.GA5876@lst.de>
-Message-ID: <1477063296.2384.1.camel@sandisk.com>
+From: james_p_freyensee@linux.intel.com (Jay Freyensee)
+Date: Fri, 21 Oct 2016 08:50:02 -0700
+Subject: [PATCH v1 0/3] nvme-cli: fabric doc and tool fixes.
+Message-ID: <1477065005-10635-1-git-send-email-james_p_freyensee@linux.intel.com>
 
-On Wed, 2016-10-19@15:00 +0200, Christoph Hellwig wrote:
-> On Tue, Oct 18, 2016@03:02:03PM -0700, Bart Van Assche wrote:
-> > Without the patch below I can easily trigger a NULL pointer
-> > dereference in
-> > nvmet_rdma_queue_disconnect(). However, I don't think that that
-> > patch is
-> > correct. Can you have a look at this?
-> 
-> how do you reproduce the timedwait condition???My RDMA test setup is
-> still being moved, so I can't reproduce it myself, but I'd like to
-> know for the future.
+This patchset tweaks discover/connect-all man pages according
+to a previous thread, then last patch fixes the tool according
+to the correct examples shown in the man pages.
 
-Hello Christoph and Sagi,
+Changes since v0:
+-re-jiggered the added 'hostnqn' block in fabrics.c according to feedback.
 
-This issue is something I could reproduce easily about ten days ago.
-However, when I removed the "if (queue)" change from my tree I could
-not reproduce this issue with the current version of my NVMeOF test
-script. I will try to figure out whether I can trigger this by going
-back to a previous version of my test script.
+Jay Freyensee (3):
+  nvme-cli: follow-on discovery tweaks from thread
+  nvme-cli: follow-on doc tweaks to nvme-connect-all
+  nvme-cli: fix nvme-connect-all using hostnqn
 
-Bart.
+ Documentation/nvme-connect-all.txt | 15 ++++++++-------
+ Documentation/nvme-discover.txt    | 27 ++++++++++++++-------------
+ fabrics.c                          |  7 +++++++
+ 3 files changed, 29 insertions(+), 20 deletions(-)
+
+-- 
+2.5.5
