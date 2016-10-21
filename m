@@ -1,19 +1,15 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 21 Oct 2016 06:32:52 -0700
-Subject: [PATCH 0/6] Six NVMeOF-related patches
-In-Reply-To: <dc3f4a94-72bd-469d-16ba-b1a6619f8609@sandisk.com>
-References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
- <1ae62d3e-8e23-6458-e822-7a11d3f9897f@grimberg.me>
- <dc3f4a94-72bd-469d-16ba-b1a6619f8609@sandisk.com>
-Message-ID: <20161021133252.GB16449@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 21 Oct 2016 15:39:38 +0200
+Subject: Disconnecting nvmet-rdma
+In-Reply-To: <fe8993ab-38c9-96a1-0c75-e018de246107@grimberg.me>
+References: <26c343fe-23a8-e482-0b28-0b4a8c2ac70e@sandisk.com>
+ <20161019130009.GA5876@lst.de>
+ <fe8993ab-38c9-96a1-0c75-e018de246107@grimberg.me>
+Message-ID: <20161021133938.GB19067@lst.de>
 
-On Thu, Oct 20, 2016@10:38:39AM -0700, Bart Van Assche wrote:
-> Sorry but that's something I wasn't aware of. In the MAINTAINERS file I
-> found Keith and Jens as maintainers for the code under drivers/nvme/host/.
-> Does this mean that a new entry should be added for
-> drivers/nvme/host/fabrics.[ch]?
+On Thu, Oct 20, 2016@10:49:43AM +0300, Sagi Grimberg wrote:
+> Where do you see indication for that in the code? TIMEWAIT doesn't make
+> sense for listener cm_ids.
 
-Maybe.  Or we should just add Sagi and me to the general NVMe antry
-and replace the Fabrics git tree with a general NVMe one.
-
-Keith, Jens - any preferences?
+Nowhere, this was just a wild guess given the pain we had with these
+listener IDs before.
