@@ -1,26 +1,41 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sat, 22 Oct 2016 00:45:33 +0300
-Subject: [PATCH RFC v2 2/3] rdma_cm: add rdma_consumer_reject() helper
- function
-In-Reply-To: <CAG53R5Xyp+n7KYj6zZF6PFuXke3XtqaMgaGTRmgd_uGXTFNDtw@mail.gmail.com>
+Date: Sat, 22 Oct 2016 00:48:06 +0300
+Subject: [PATCH RFC v2 3/3] nvme-rdma: use rdma_reject_msg() to log
+ connection rejects
+In-Reply-To: <20161021122318.GB17325@lst.de>
 References: <cover.1477003235.git.swise@opengridcomputing.com>
- <cb135696be86c21c144ef35a4d6f7f71394a3627.1477003235.git.swise@opengridcomputing.com>
- <20161021121428.GB17028@lst.de>
- <005f01d22ba4$aeadeab0$0c09c010$@opengridcomputing.com>
- <CAG53R5Xyp+n7KYj6zZF6PFuXke3XtqaMgaGTRmgd_uGXTFNDtw@mail.gmail.com>
-Message-ID: <a649dc62-3005-f6fd-7d00-d4ddd77c8816@grimberg.me>
+ <60243a2ce17e08cdc93600b9998698dbd7f83306.1477003235.git.swise@opengridcomputing.com>
+ <20161021122318.GB17325@lst.de>
+Message-ID: <c2080444-9258-1bb4-83e2-7f6cef161ec3@grimberg.me>
 
 
->>> Yes.  Also I'd just inline the ib_consumer_reject and iw_consumer_reject
->>> helpers here.
->>>
->>> Aso wouldn't it be better named rdma_consumer_is_reject or similar
->>> given that we don't reject anything here, but check if the request
->>> has been rejected?
+> Given the nasty casting issues in the current RDMA/CM API maybe we should
+> actually expand the scope of the rdma_consumer_reject helper to include
+> the above check, e.g. check that there is a private data len and then
+> return a pointer to the private data?
+>
+> Something like
+>
+> static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
+> 		struct rdma_cm_event *ev)
+> {
+> 	struct rdma_cm_id *cm_id = queue->cm_id;
+> 	struct nvme_rdma_cm_rej *rej
+> 	short nvme_status = -1;
+>
+> 	rej = rdma_cm_reject_message(ev);
+> 	if (rej)
+> 		nvme_status = le16_to_cpu(rej->sts);
+>
+
+Looks nicer...
+
 >>
->> How about rdma_rejected_by_consumer()?
->>
-> How about rdma_reject_by_ulp()?
-> We have ulp directory holding iser, srp etc.
+>> +	dev_err(queue->ctrl->ctrl.device, "Connect rejected: status %d (%s) "
+>> +		"nvme status %d.\n", rdma_status,
+>> +		rdma_reject_msg(cm_id, rdma_status), nvme_status);
+>
+> And while we're pretty printing the rest it would be nice to pretty
+> print the NVMe status here as well.
 
-I like consumer better.
+Would be nice...
