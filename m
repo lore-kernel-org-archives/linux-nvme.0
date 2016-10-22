@@ -1,39 +1,24 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Sat, 22 Oct 2016 11:12:11 -0500
-Subject: [PATCH RFC v2 3/3] nvme-rdma: use rdma_reject_msg() to
- log	connection rejects
-In-Reply-To: <20161021122318.GB17325@lst.de>
-References: <cover.1477003235.git.swise@opengridcomputing.com>
- <60243a2ce17e08cdc93600b9998698dbd7f83306.1477003235.git.swise@opengridcomputing.com>
- <20161021122318.GB17325@lst.de>
-Message-ID: <005601d22c7f$0bd36dc0$237a4940$@opengridcomputing.com>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Sat, 22 Oct 2016 12:26:54 -0700
+Subject: [PATCH 0/5] ahci: nvme remap support
+In-Reply-To: <20161022065038.GA8547@lst.de>
+References: <147709592108.3733.7194541797066785254.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <20161022065038.GA8547@lst.de>
+Message-ID: <CAPcyv4grb=53fvF9akx6r7M_EgHu90w2o3xZySqTev+gOnm14Q@mail.gmail.com>
 
-> 
-> On Thu, Oct 20, 2016@03:40:29PM -0700, Steve Wise wrote:
-> > @@ -1237,18 +1237,22 @@ out_destroy_queue_ib:
-> >  static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
-> >  		struct rdma_cm_event *ev)
-> >  {
-> > +	struct rdma_cm_id *cm_id = queue->cm_id;
-> > +	int rdma_status = ev->status;
-> > +	short nvme_status = -1;
-> > +
-> > +	if (rdma_consumer_reject(cm_id, rdma_status) &&
-> > +	    ev->param.conn.private_data_len) {
-> >  		struct nvme_rdma_cm_rej *rej =
-> >  			(struct nvme_rdma_cm_rej *)ev-
-> >param.conn.private_data;
-> 
-> Given the nasty casting issues in the current RDMA/CM API maybe we should
-> actually expand the scope of the rdma_consumer_reject helper to include
-> the above check, e.g. check that there is a private data len and then
-> return a pointer to the private data?
+On Fri, Oct 21, 2016@11:50 PM, Christoph Hellwig <hch@lst.de> wrote:
+> On Fri, Oct 21, 2016@05:25:21PM -0700, Dan Williams wrote:
+>> Some Intel ahci implementations have the capability to expose another
+>> pci-express device's memory resources through an ahci memory bar.  Add
+>> the enabling to detect these configurations and register the resources
+>> for the nvme driver to consume. Otherwise, the nvme device is
+>> effectively hidden from the kernel for this configuration.
+>
+> Honestly I think this is just too ugly to live. I think people getting
+> tricked by Intel into buying this piece of junk will just have to live
+> with AHCI mode.
 
-An application could reject and not provide private data, so I think we need
-3 helpers (so far):
-
-rdma_reject_msg() - protocol reject reason string
-rdma_is_consumer_reject() - true if the peer consumer/ulp rejected
-rdma_consumer_reject_data() - ptr to any private data
-
-Sound good?
+Objection noted and, frankly, expected. But no, this is Linux, we as a
+community do our best to not strand users with hardware they have in
+hand. So, please help me review these patches with an eye towards
+minimizing the ongoing maintenance burden to ahci and nvme.
