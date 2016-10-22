@@ -1,17 +1,33 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 22 Oct 2016 08:50:38 +0200
-Subject: [PATCH 0/5] ahci: nvme remap support
-In-Reply-To: <147709592108.3733.7194541797066785254.stgit@dwillia2-desk3.amr.corp.intel.com>
-References: <147709592108.3733.7194541797066785254.stgit@dwillia2-desk3.amr.corp.intel.com>
-Message-ID: <20161022065038.GA8547@lst.de>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Sat, 22 Oct 2016 10:57:28 -0500
+Subject: [PATCH RFC v2 2/3] rdma_cm: add rdma_consumer_reject()
+ helper	function
+In-Reply-To: <20161021121428.GB17028@lst.de>
+References: <cover.1477003235.git.swise@opengridcomputing.com>
+ <cb135696be86c21c144ef35a4d6f7f71394a3627.1477003235.git.swise@opengridcomputing.com>
+ <20161021121428.GB17028@lst.de>
+Message-ID: <004501d22c7c$fd3e6fa0$f7bb4ee0$@opengridcomputing.com>
 
-On Fri, Oct 21, 2016@05:25:21PM -0700, Dan Williams wrote:
-> Some Intel ahci implementations have the capability to expose another
-> pci-express device's memory resources through an ahci memory bar.  Add
-> the enabling to detect these configurations and register the resources
-> for the nvme driver to consume. Otherwise, the nvme device is
-> effectively hidden from the kernel for this configuration.
+> > --- a/drivers/infiniband/core/cma.c
+> > +++ b/drivers/infiniband/core/cma.c
+> > @@ -114,6 +114,19 @@ const char *__attribute_const__
+> rdma_reject_msg(struct rdma_cm_id *id,
+> >  }
+> >  EXPORT_SYMBOL(rdma_reject_msg);
+> >
+> > +bool rdma_consumer_reject(struct rdma_cm_id *id, int reason)
+> > +{
+> > +	if (rdma_ib_or_roce(id->device, id->port_num))
+> > +		return ib_consumer_reject(reason);
+> > +
+> > +	if (rdma_protocol_iwarp(id->device, id->port_num))
+> > +		return iw_consumer_reject(reason);
+> > +
+> > +	/* FIXME should we WARN_ONCE() here? */
+> > +	return false;
+> 
+> Yes.  Also I'd just inline the ib_consumer_reject and iw_consumer_reject
+> helpers here.
+>
 
-Honestly I think this is just too ugly to live. I think people getting
-tricked by Intel into buying this piece of junk will just have to live
-with AHCI mode.
+Why is that preferred vs the static inline functions in ib_cm.h and iw_cm.h?
