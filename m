@@ -1,35 +1,34 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 24 Oct 2016 10:46:29 -0400
-Subject: [PATCH 0/5] ahci: nvme remap support
-In-Reply-To: <20161024124938.GB2389@lst.de>
-References: <147709592108.3733.7194541797066785254.stgit@dwillia2-desk3.amr.corp.intel.com>
- <20161022065038.GA8547@lst.de>
- <CAPcyv4grb=53fvF9akx6r7M_EgHu90w2o3xZySqTev+gOnm14Q@mail.gmail.com>
- <20161023083424.GA31994@lst.de>
- <CAPcyv4iNNu5bxzEOx0XMy2Edd4d5xvrEK+6A4mYsNH5iXtbUTA@mail.gmail.com>
- <20161024124938.GB2389@lst.de>
-Message-ID: <20161024144628.GC8633@localhost.localdomain>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 24 Oct 2016 09:57:50 -0500
+Subject: [PATCH RFC v2 3/3] nvme-rdma: use rdma_reject_msg() to
+ log	connection rejects
+In-Reply-To: <005701d22c7f$0c883ed0$2598bc70$@opengridcomputing.com>
+References: <cover.1477003235.git.swise@opengridcomputing.com>
+ <60243a2ce17e08cdc93600b9998698dbd7f83306.1477003235.git.swise@opengridcomputing.com>
+ <20161021122318.GB17325@lst.de>
+ <005701d22c7f$0c883ed0$2598bc70$@opengridcomputing.com>
+Message-ID: <011d01d22e06$fd606480$f8212d80$@opengridcomputing.com>
 
-On Mon, Oct 24, 2016@02:49:38PM +0200, Christoph Hellwig wrote:
-> But this has a profound effect on the NVMe operation, because fo
-> example the NVMe reset cycle is tied into PCIe function states.
+> > Given the nasty casting issues in the current RDMA/CM API maybe we
+> should
+> > actually expand the scope of the rdma_consumer_reject helper to include
+> > the above check, e.g. check that there is a private data len and then
+> > return a pointer to the private data?
 > 
-> Please bring this issue up with the relevant standards comittee first,
-> otherwise we're getting us into a nightmare of undefined behavior here.
+> An application could reject and not provide private data, so I think we
+> need 3 helpers (so far):
 > 
-> And it's not like Intel isn't active in this group.  I'd suggest you
-> talk to Amber who is the editor for both the AHCI and NVMe spec,
-> that should get you started.
+> rdma_reject_msg() - protocol reject reason string
+> rdma_is_consumer_reject() - true if the peer consumer/ulp rejected
+> rdma_consumer_reject_data() - ptr to any private data
+> 
+> Sound good?
 
-Amber is aware of this and was supportive in having Intel open the
-specs to enable this hardware.
+Or these 3 could be rolled into one uber function that returns true if the
+consumer rejected, and sets 2 pointers passed in: one to the protocol reject
+string, and one to the private data, if any.   If the something like like this:
 
-The nvme driver has weird hooks to support the non-standard open channel
-effort, and we let Apple dictate this driver can't have q-word access.
-This remapping isn't exactly the first time we're helping non-standard
-devices, and Dan's series looks isolated such that it won't harm
-compliant ones.
+bool rdma_reject_info(struct rdma_cm_id *id, int reason, char **protocol_msg,
+char **consumer_data)
 
-Dan,
-I take it you have access to this platform. Would you be able verify if
-it can successfully resume from S3 and S4?
+Kinda ugly, but only one call is needed vs 3 calls to get this info...
