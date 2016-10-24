@@ -1,28 +1,33 @@
-From: hch@lst.de ('Christoph Hellwig')
-Date: Mon, 24 Oct 2016 17:09:12 +0200
-Subject: [PATCH RFC v2 3/3] nvme-rdma: use rdma_reject_msg() to log
- connection rejects
-In-Reply-To: <011d01d22e06$fd606480$f8212d80$@opengridcomputing.com>
-References: <cover.1477003235.git.swise@opengridcomputing.com>
- <60243a2ce17e08cdc93600b9998698dbd7f83306.1477003235.git.swise@opengridcomputing.com>
- <20161021122318.GB17325@lst.de>
- <005701d22c7f$0c883ed0$2598bc70$@opengridcomputing.com>
- <011d01d22e06$fd606480$f8212d80$@opengridcomputing.com>
-Message-ID: <20161024150912.GA6866@lst.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 24 Oct 2016 17:16:57 +0200
+Subject: [PATCH 0/5] ahci: nvme remap support
+In-Reply-To: <20161024144628.GC8633@localhost.localdomain>
+References: <147709592108.3733.7194541797066785254.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <20161022065038.GA8547@lst.de>
+ <CAPcyv4grb=53fvF9akx6r7M_EgHu90w2o3xZySqTev+gOnm14Q@mail.gmail.com>
+ <20161023083424.GA31994@lst.de>
+ <CAPcyv4iNNu5bxzEOx0XMy2Edd4d5xvrEK+6A4mYsNH5iXtbUTA@mail.gmail.com>
+ <20161024124938.GB2389@lst.de> <20161024144628.GC8633@localhost.localdomain>
+Message-ID: <20161024151657.GA7080@lst.de>
 
-On Mon, Oct 24, 2016@09:57:50AM -0500, Steve Wise wrote:
-> > rdma_reject_msg() - protocol reject reason string
+On Mon, Oct 24, 2016@10:46:29AM -0400, Keith Busch wrote:
+> Amber is aware of this and was supportive in having Intel open the
+> specs to enable this hardware.
 
-This one sounds useful on it's own.
+Ok, let's get the spec out first.  Do we expect to be able to use the
+AHCI interface and the NVMe interface at the same time?  If the first
+is the case I think we are royally screwed and I see no good way to
+support this beast.  If it's the latter let's keep AHCI entirely out
+of the game - add the affected PCI IDs to the NVMe driver itself, add
+a quirk for them and implement the enable sequence inside the NVMe
+driver.
 
-> > rdma_is_consumer_reject() - true if the peer consumer/ulp rejected
-> > rdma_consumer_reject_data() - ptr to any private data
+> The nvme driver has weird hooks to support the non-standard open channel
+> effort, and we let Apple dictate this driver can't have q-word access.
+> This remapping isn't exactly the first time we're helping non-standard
+> devices, and Dan's series looks isolated such that it won't harm
+> compliant ones.
 
-I see why these are conceptually different, but why do we care
-if something is a consumer reject except for printing what reject
-we got (solved by rdma_reject_msg) or for getting consumer reject
-data if there is any (solved by rdma_consumer_reject_data).
-
-So all three helpers are fine with me, but rdma_is_consumer_reject
-would be more of a low-level helper that drivers wouldn't use
-directly, only through rdma_consumer_reject_data.
+But it's the worst kind.  Open Channel is a bit of an oddball, but it
+sits on top of the transport, the rest is minor workaround conditionalal
+on PCI IDs.
