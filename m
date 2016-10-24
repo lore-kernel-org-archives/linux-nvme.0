@@ -1,64 +1,34 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Mon, 24 Oct 2016 11:59:03 -0700
-Subject: [PATCH v3 3/6] rdma_cm: add rdma_consumer_reject_data helper function
+Date: Mon, 24 Oct 2016 12:07:16 -0700
+Subject: [PATCH v3 6/6] rds_rdma: log the connection reject message
 In-Reply-To: <cover.1477336045.git.swise@opengridcomputing.com>
 References: <cover.1477336045.git.swise@opengridcomputing.com>
-Message-ID: <7690d653aefbf9ff51dfa6c1ebef57b47616be23.1477336045.git.swise@opengridcomputing.com>
-
-rdma_consumer_reject_data() will return the private data pointer
-and length if any is available.
+Message-ID: <21c48d771ab8a9d37ec19ea5f7a48ed5b84c8984.1477336045.git.swise@opengridcomputing.com>
 
 Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
- drivers/infiniband/core/cma.c | 16 ++++++++++++++++
- include/rdma/rdma_cm.h        | 10 ++++++++++
- 2 files changed, 26 insertions(+)
+ net/rds/rdma_transport.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/infiniband/core/cma.c b/drivers/infiniband/core/cma.c
-index 0d88c9d..2536d42 100644
---- a/drivers/infiniband/core/cma.c
-+++ b/drivers/infiniband/core/cma.c
-@@ -128,6 +128,22 @@ bool rdma_is_consumer_reject(struct rdma_cm_id *id, int reason)
- }
- EXPORT_SYMBOL(rdma_is_consumer_reject);
+diff --git a/net/rds/rdma_transport.c b/net/rds/rdma_transport.c
+index 345f090..6bd2814 100644
+--- a/net/rds/rdma_transport.c
++++ b/net/rds/rdma_transport.c
+@@ -100,11 +100,14 @@ int rds_rdma_cm_event_handler(struct rdma_cm_id *cm_id,
+ 		trans->cm_connect_complete(conn, event);
+ 		break;
  
-+const void *rdma_consumer_reject_data(struct rdma_cm_id *id,
-+				      struct rdma_cm_event *ev, u8 *data_len)
-+{
-+	void *p;
-+
-+	if (rdma_is_consumer_reject(id, ev->status)) {
-+		*data_len = ev->param.conn.private_data_len;
-+		p = ev->param.conn.private_data;
-+	} else {
-+		*data_len = 0;
-+		p = NULL;
-+	}
-+	return p;
-+}
-+EXPORT_SYMBOL(rdma_consumer_reject_data);
-+
- static void cma_add_one(struct ib_device *device);
- static void cma_remove_one(struct ib_device *device, void *client_data);
- 
-diff --git a/include/rdma/rdma_cm.h b/include/rdma/rdma_cm.h
-index 62039c2..d3968b5 100644
---- a/include/rdma/rdma_cm.h
-+++ b/include/rdma/rdma_cm.h
-@@ -403,4 +403,14 @@ const char *__attribute_const__ rdma_reject_msg(struct rdma_cm_id *id,
-  */
- bool rdma_is_consumer_reject(struct rdma_cm_id *id, int reason);
- 
-+/**
-+ * rdma_consumer_reject_data - return the consumer reject private data and
-+ *			       length, if any.
-+ * @id: Communication identifier that received the REJECT event.
-+ * @ev: RDMA CM reject event.
-+ * @data_len: Pointer to the resulting length of the consumer data.
-+ */
-+const void *rdma_consumer_reject_data(struct rdma_cm_id *id,
-+				      struct rdma_cm_event *ev, u8 *data_len);
-+
- #endif /* RDMA_CM_H */
++	case RDMA_CM_EVENT_REJECTED:
++		rdsdebug("Connection rejected: %s\n",
++			 rdma_reject_msg(cm_id, event->status));
++		/*FALLTHROUGH*/
+ 	case RDMA_CM_EVENT_ADDR_ERROR:
+ 	case RDMA_CM_EVENT_ROUTE_ERROR:
+ 	case RDMA_CM_EVENT_CONNECT_ERROR:
+ 	case RDMA_CM_EVENT_UNREACHABLE:
+-	case RDMA_CM_EVENT_REJECTED:
+ 	case RDMA_CM_EVENT_DEVICE_REMOVAL:
+ 	case RDMA_CM_EVENT_ADDR_CHANGE:
+ 		if (conn)
 -- 
 2.7.0
