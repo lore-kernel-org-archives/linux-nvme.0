@@ -1,47 +1,64 @@
-From: chuck.lever@oracle.com (Chuck Lever)
-Date: Mon, 24 Oct 2016 13:52:51 -0400
-Subject: [PATCH RFC v2 0/3] connect reject event helpers
-In-Reply-To: <01aa01d22e1e$46b0bc90$d41235b0$@opengridcomputing.com>
-References: <cover.1477003235.git.swise@opengridcomputing.com>
- <a46f48f3-01b3-fd9b-b642-c20555759107@grimberg.me>
- <001701d22be6$4854b8b0$d8fe2a10$@opengridcomputing.com>
- <01aa01d22e1e$46b0bc90$d41235b0$@opengridcomputing.com>
-Message-ID: <2F5E122E-0B50-4264-8E44-3D484B0282F0@oracle.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 24 Oct 2016 19:55:27 +0200
+Subject: [PATCH 0/5] ahci: nvme remap support
+In-Reply-To: <CAPcyv4jSx5c3DzEsbfUph5Akk-XyxQ2sXAgmLZfhvGEOUtBqdQ@mail.gmail.com>
+References: <147709592108.3733.7194541797066785254.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <20161022065038.GA8547@lst.de>
+ <CAPcyv4grb=53fvF9akx6r7M_EgHu90w2o3xZySqTev+gOnm14Q@mail.gmail.com>
+ <20161023083424.GA31994@lst.de>
+ <CAPcyv4iNNu5bxzEOx0XMy2Edd4d5xvrEK+6A4mYsNH5iXtbUTA@mail.gmail.com>
+ <20161024124938.GB2389@lst.de> <20161024144628.GC8633@localhost.localdomain>
+ <20161024151657.GA7080@lst.de>
+ <CAPcyv4jSx5c3DzEsbfUph5Akk-XyxQ2sXAgmLZfhvGEOUtBqdQ@mail.gmail.com>
+Message-ID: <20161024175527.GA11088@lst.de>
 
-
-> On Oct 24, 2016,@1:44 PM, Steve Wise <swise@opengridcomputing.com> wrote:
+On Mon, Oct 24, 2016@10:46:29AM -0700, Dan Williams wrote:
+> On Mon, Oct 24, 2016@8:16 AM, Christoph Hellwig <hch@lst.de> wrote:
+> > On Mon, Oct 24, 2016@10:46:29AM -0400, Keith Busch wrote:
+> >> Amber is aware of this and was supportive in having Intel open the
+> >> specs to enable this hardware.
+> >
+> > Ok, let's get the spec out first.
 > 
->>> 
->>>> While reviewing:
->>>> 
->>>> 
->> http://lists.infradead.org/pipermail/linux-nvme/2016-October/006681.html
->>>> 
->>>> I decided to propose transport-agnostic helper functions to better
->>>> handle connection reject event information.  I've included a nvme_rdma
->>>> patch to utilize the new helpers.
->>>> 
->>>> Thoughts?
->>> 
->>> Hey Steve,
->>> 
->>> This looks nice and useful. Would be great if you can
->>> also help other ULPs that use this (e.g. srp/srpt)
->> 
->> can-do!
+> The patch contents are it.
+
+Well. that's simply not acceptable.  We will need a theory of
+operation for this device to support it, because the patch as-is
+simply doesn't make sense.
+
+We'll also need to know where such device might show up, and why
+Linux support for it matters.
+
+> > Do we expect to be able to use the
+> > AHCI interface and the NVMe interface at the same time?
 > 
-> Actually, srp uses the ib_cm directly.  Further it already has logic to do
-> various actions based on the IB_CM Reject status.  It really doesn't need these
-> helpers.  The only one would be ibcm_reject_msg().  Looking at the iser
-> initiator, it logs nothing on a reject event. And nfsrdma doesn't log any
-> details about the reject reason also.  
+> Yes, simultaneous access.
+
+Yikes.  I'm really tempted to say this is not acceptable - Intel
+really must know better.
+
+> That said, the driver seems to already comprehend instances where the
+> device does not support nvme_reset_subsystem() requests. I don't know
+> how often those resets need to be issued in practice.
+
+It's not about how often reset are needed (and there are controller
+resets in addition to function level resets), but how they are
+defined to work.  What state is a controller in after a host initiated
+reset, after a PCIe hotplug or even warm plug.  What state is the
+PCI device in when the controller is in a failed state?
+
+> > If it's the latter let's keep AHCI entirely out
+> > of the game - add the affected PCI IDs to the NVMe driver itself, add
+> > a quirk for them and implement the enable sequence inside the NVMe
+> > driver.
 > 
-> I could add a dev_warn() or something for iser and nfsrdma.
+> The PCI ID of the AHCI device is not uniquely identifiable when in this mode.
+> 
+> We could flip the arrangement and have the ahci device as the platform
+> device, but I'm not sure this makes the nvme reset problem much
+> better.  If we allow subsystem resets at all they would still need to
+> be coordinated across 2 devices/drivers to reinitialize pci registers.
 
-I'm fixing an issue in this area. I'd like to take care of
-the xprtrdma connection upcall myself once you've got these
-new APIs introduced.
-
-
---
-Chuck Lever
+I think the simple answer is to not support this device.  It's not like
+Intel doesn't know the AHCI and NVMe specs and had any reaoson to come
+up with a piece of junk like this.
