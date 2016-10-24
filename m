@@ -1,42 +1,37 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 24 Oct 2016 08:50:52 -0700
-Subject: [PATCH] nvme-fabrics: Add HAS_DMA to FC Transport Kconfigs
-Message-ID: <580e2ddc.sdo3rtJa9FKNq/z9%james.smart@broadcom.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 24 Oct 2016 12:44:31 -0500
+Subject: [PATCH RFC v2 0/3] connect reject event helpers
+In-Reply-To: <001701d22be6$4854b8b0$d8fe2a10$@opengridcomputing.com>
+References: <cover.1477003235.git.swise@opengridcomputing.com>
+ <a46f48f3-01b3-fd9b-b642-c20555759107@grimberg.me>
+ <001701d22be6$4854b8b0$d8fe2a10$@opengridcomputing.com>
+Message-ID: <01aa01d22e1e$46b0bc90$d41235b0$@opengridcomputing.com>
 
+> >
+> > > While reviewing:
+> > >
+> > >
+> http://lists.infradead.org/pipermail/linux-nvme/2016-October/006681.html
+> > >
+> > > I decided to propose transport-agnostic helper functions to better
+> > > handle connection reject event information.  I've included a nvme_rdma
+> > > patch to utilize the new helpers.
+> > >
+> > > Thoughts?
+> >
+> > Hey Steve,
+> >
+> > This looks nice and useful. Would be great if you can
+> > also help other ULPs that use this (e.g. srp/srpt)
+> 
+> can-do!
 
-Add HAS_DMA to FC Transport host and target Kconfig
+Actually, srp uses the ib_cm directly.  Further it already has logic to do
+various actions based on the IB_CM Reject status.  It really doesn't need these
+helpers.  The only one would be ibcm_reject_msg().  Looking at the iser
+initiator, it logs nothing on a reject event. And nfsrdma doesn't log any
+details about the reject reason also.  
 
-Obviously dependent on prior patches to add FC transport
+I could add a dev_warn() or something for iser and nfsrdma.  
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/Kconfig   | 1 +
- drivers/nvme/target/Kconfig | 1 +
- 2 files changed, 2 insertions(+)
-
-diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
-index aacac94..90745a6 100644
---- a/drivers/nvme/host/Kconfig
-+++ b/drivers/nvme/host/Kconfig
-@@ -47,6 +47,7 @@ config NVME_RDMA
- config NVME_FC
- 	tristate "NVM Express over Fabrics FC host driver"
- 	depends on BLOCK
-+	depends on HAS_DMA
- 	select NVME_CORE
- 	select NVME_FABRICS
- 	select SG_POOL
-diff --git a/drivers/nvme/target/Kconfig b/drivers/nvme/target/Kconfig
-index 0d88c23..d55576f 100644
---- a/drivers/nvme/target/Kconfig
-+++ b/drivers/nvme/target/Kconfig
-@@ -38,6 +38,7 @@ config NVME_TARGET_RDMA
- config NVME_TARGET_FC
- 	tristate "NVMe over Fabrics FC target driver"
- 	depends on NVME_TARGET
-+	depends on HAS_DMA
- 	help
- 	  This enables the NVMe FC target support, which allows exporting NVMe
- 	  devices over FC.
--- 
-2.5.0
+Steve.
