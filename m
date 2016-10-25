@@ -1,85 +1,47 @@
 From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Tue, 25 Oct 2016 10:58:01 -0700
-Subject: [PATCH v3 1/6] rdma_cm: add rdma_reject_msg() helper function
-In-Reply-To: <ca2185d1f1e9008922d1b344f3887d400a1d6053.1477336045.git.swise@opengridcomputing.com>
+Date: Tue, 25 Oct 2016 11:05:58 -0700
+Subject: [PATCH v3 4/6] nvme-rdma: use rdma connection reject helper
+ functions
+In-Reply-To: <55638a1d2a9f79af8b9a19eb444c5d0a41691352.1477336045.git.swise@opengridcomputing.com>
 References: <cover.1477336045.git.swise@opengridcomputing.com>
- <ca2185d1f1e9008922d1b344f3887d400a1d6053.1477336045.git.swise@opengridcomputing.com>
-Message-ID: <93f8b8f8-51f5-a595-c9ad-0b3e22789636@sandisk.com>
+ <55638a1d2a9f79af8b9a19eb444c5d0a41691352.1477336045.git.swise@opengridcomputing.com>
+Message-ID: <b5d32deb-af6a-3f98-98da-c5f61d400876@sandisk.com>
 
 On 10/24/2016 12:09 PM, Steve Wise wrote:
-> +	[IB_CM_REJ_RDC_NOT_EXIST]		= "rdc not exist",
+> +static const char *const nvme_rdma_cm_status_strs[] = {
+> +	[NVME_RDMA_CM_INVALID_LEN]	= "invalid length",
+> +	[NVME_RDMA_CM_INVALID_RECFMT]	= "invalid record format",
+> +	[NVME_RDMA_CM_INVALID_QID]	= "invalid queue id",
+> +	[NVME_RDMA_CM_INVALID_HSQSIZE]	= "invalid host sq size",
+> +	[NVME_RDMA_CM_INVALID_HRQSIZE]	= "invalid host rq size",
+> +	[NVME_RDMA_CM_NO_RSC]		= "resource not found",
+> +	[NVME_RDMA_CM_INVALID_IRD]	= "invalid ird",
+> +	[NVME_RDMA_CM_INVALID_ORD]	= "Invalid ord",
+> +};
 
-Please change this into "RDC does not exist".
+Please capitalize abbreviations (SQ, RQ, ID, IRD and ORD).
 
-> +	[IB_CM_REJ_INVALID_GID]			= "invalid gid",
-> +	[IB_CM_REJ_INVALID_LID]			= "invalid lid",
-> +	[IB_CM_REJ_INVALID_SL]			= "invalid sl",
-> +	[IB_CM_REJ_INVALID_TRAFFIC_CLASS]	= "invalid traffic class",
-> +	[IB_CM_REJ_INVALID_HOP_LIMIT]		= "invalid hop limit",
-> +	[IB_CM_REJ_INVALID_PACKET_RATE]		= "invalid packet rate",
-> +	[IB_CM_REJ_INVALID_ALT_GID]		= "invalid alt gid",
-> +	[IB_CM_REJ_INVALID_ALT_LID]		= "invalid alt lid",
-> +	[IB_CM_REJ_INVALID_ALT_SL]		= "invalid alt sl",
-> +	[IB_CM_REJ_INVALID_ALT_TRAFFIC_CLASS]	= "invalid alt traffic class",
-> +	[IB_CM_REJ_INVALID_ALT_HOP_LIMIT]	= "invalid alt hop limit",
-> +	[IB_CM_REJ_INVALID_ALT_PACKET_RATE]	= "invalid alt packet rate",
-> +	[IB_CM_REJ_PORT_CM_REDIRECT]		= "port cm redirect",
-> +	[IB_CM_REJ_PORT_REDIRECT]		= "port redirect",
-> +	[IB_CM_REJ_INVALID_MTU]			= "invalid mtu",
-> +	[IB_CM_REJ_INSUFFICIENT_RESP_RESOURCES]	= "insufficient resp resources",
-> +	[IB_CM_REJ_CONSUMER_DEFINED]		= "consumer defined",
-> +	[IB_CM_REJ_INVALID_RNR_RETRY]		= "invalid rnr retry",
-> +	[IB_CM_REJ_DUPLICATE_LOCAL_COMM_ID]	= "duplicate local comm id",
-> +	[IB_CM_REJ_INVALID_CLASS_VERSION]	= "invalid class version",
-> +	[IB_CM_REJ_INVALID_FLOW_LABEL]		= "invalid flow label",
-> +	[IB_CM_REJ_INVALID_ALT_FLOW_LABEL]	= "invalid alt flow label",
-
-Other error messages capitalize GID, LID, CM, ID, RNR and SL so please 
-do this here too.
-
-> +const char *__attribute_const__ ibcm_reject_msg(int reason)
+> +static const char *nvme_rdma_cm_msg(enum nvme_rdma_cm_status status)
 > +{
-> +	size_t index = reason;
+> +	size_t index = status;
 > +
-> +	if (index >= ARRAY_SIZE(ibcm_rej_reason_strs) ||
-> +	    !ibcm_rej_reason_strs[index])
+> +	if (index >= ARRAY_SIZE(nvme_rdma_cm_status_strs) ||
+> +	    !nvme_rdma_cm_status_strs[index])
 > +		return "unrecognized reason";
 > +	else
-> +		return ibcm_rej_reason_strs[index];
-> +}
+> +		return nvme_rdma_cm_status_strs[index];
+> +};
 
-Please consider using positive logic - this means negating the 
-if-condition and swapping the if- and else-parts.
+Please consider rewriting this if-statement such that the recognized 
+reason scenario occurs first.
 
-> +const char *__attribute_const__ rdma_reject_msg(struct rdma_cm_id *id,
-> +						int reason)
-> +{
-> +	if (rdma_ib_or_roce(id->device, id->port_num))
-> +		return ibcm_reject_msg(reason);
-> +
-> +	if (rdma_protocol_iwarp(id->device, id->port_num))
-> +		return iwcm_reject_msg(reason);
-> +
-> +	WARN_ON_ONCE(1);
-> +	return "unrecognized reason";
+> +	rej_msg = rdma_reject_msg(cm_id, status);
+> +	rej_data = (struct nvme_rdma_cm_rej *)
+> +		   rdma_consumer_reject_data(cm_id, ev, &rej_data_len);
 
-Have you considered to return "unrecognized transport" here instead?
-
-> +const char *__attribute_const__ iwcm_reject_msg(int reason)
-> +{
-> +	size_t index;
-> +
-> +	/* iWARP uses negative errnos */
-> +	index = -reason;
-> +
-> +	if (index >= ARRAY_SIZE(iwcm_rej_reason_strs) ||
-> +	    !iwcm_rej_reason_strs[index])
-> +		return "unrecognized reason";
-> +	else
-> +		return iwcm_rej_reason_strs[index];
-> +}
-
-Also for this function, please consider using positive logic.
+Please reorder the patches in this patch series such that it doesn't 
+break a bisect. rdma_consumer_reject_data() should be introduced before 
+it is used.
 
 Thanks,
 
