@@ -1,10 +1,12 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 25 Oct 2016 09:37:09 -0700
-Subject: [PATCH v3 4/7] nvme-fabrics: Add FC transport LLDD api definitions
-In-Reply-To: <580d0ffc.h/qFxqF1jDlJR38o%james.smart@broadcom.com>
-References: <580d0ffc.h/qFxqF1jDlJR38o%james.smart@broadcom.com>
-Message-ID: <20161025163709.GD2446@infradead.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 25 Oct 2016 19:36:54 +0300
+Subject: [PATCH v3 3/6] rdma_cm: add rdma_consumer_reject_data helper
+ function
+In-Reply-To: <7690d653aefbf9ff51dfa6c1ebef57b47616be23.1477336045.git.swise@opengridcomputing.com>
+References: <cover.1477336045.git.swise@opengridcomputing.com>
+ <7690d653aefbf9ff51dfa6c1ebef57b47616be23.1477336045.git.swise@opengridcomputing.com>
+Message-ID: <3b98873e-1862-7d15-bc0b-52e9aacce0b5@grimberg.me>
 
-Looks fine,
+Looks good,
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Sagi Grimberg <sagi at grimbeg.me>
