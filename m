@@ -1,25 +1,86 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 25 Oct 2016 20:04:50 +0300
-Subject: [PATCH v3 4/6] nvme-rdma: use rdma connection reject helper
- functions
-In-Reply-To: <20161025170238.GE9732@lst.de>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Tue, 25 Oct 2016 10:58:01 -0700
+Subject: [PATCH v3 1/6] rdma_cm: add rdma_reject_msg() helper function
+In-Reply-To: <ca2185d1f1e9008922d1b344f3887d400a1d6053.1477336045.git.swise@opengridcomputing.com>
 References: <cover.1477336045.git.swise@opengridcomputing.com>
- <55638a1d2a9f79af8b9a19eb444c5d0a41691352.1477336045.git.swise@opengridcomputing.com>
- <7191d136-aef4-9fed-223e-f2a9c1d958e5@grimberg.me>
- <20161025170238.GE9732@lst.de>
-Message-ID: <97a0459f-6a4f-67d5-d9bc-f704f6ccf281@grimberg.me>
+ <ca2185d1f1e9008922d1b344f3887d400a1d6053.1477336045.git.swise@opengridcomputing.com>
+Message-ID: <93f8b8f8-51f5-a595-c9ad-0b3e22789636@sandisk.com>
 
+On 10/24/2016 12:09 PM, Steve Wise wrote:
+> +	[IB_CM_REJ_RDC_NOT_EXIST]		= "rdc not exist",
 
-> On Tue, Oct 25, 2016@07:36:25PM +0300, Sagi Grimberg wrote:
->> I think it'd be better to move them to include/linux/nvme-rdma.h
->> and use them for logging on the target side too.
->
-> Hmm, that would mean they get compiled into every source file.
+Please change this into "RDC does not exist".
 
-"every source file" is exactly two...
+> +	[IB_CM_REJ_INVALID_GID]			= "invalid gid",
+> +	[IB_CM_REJ_INVALID_LID]			= "invalid lid",
+> +	[IB_CM_REJ_INVALID_SL]			= "invalid sl",
+> +	[IB_CM_REJ_INVALID_TRAFFIC_CLASS]	= "invalid traffic class",
+> +	[IB_CM_REJ_INVALID_HOP_LIMIT]		= "invalid hop limit",
+> +	[IB_CM_REJ_INVALID_PACKET_RATE]		= "invalid packet rate",
+> +	[IB_CM_REJ_INVALID_ALT_GID]		= "invalid alt gid",
+> +	[IB_CM_REJ_INVALID_ALT_LID]		= "invalid alt lid",
+> +	[IB_CM_REJ_INVALID_ALT_SL]		= "invalid alt sl",
+> +	[IB_CM_REJ_INVALID_ALT_TRAFFIC_CLASS]	= "invalid alt traffic class",
+> +	[IB_CM_REJ_INVALID_ALT_HOP_LIMIT]	= "invalid alt hop limit",
+> +	[IB_CM_REJ_INVALID_ALT_PACKET_RATE]	= "invalid alt packet rate",
+> +	[IB_CM_REJ_PORT_CM_REDIRECT]		= "port cm redirect",
+> +	[IB_CM_REJ_PORT_REDIRECT]		= "port redirect",
+> +	[IB_CM_REJ_INVALID_MTU]			= "invalid mtu",
+> +	[IB_CM_REJ_INSUFFICIENT_RESP_RESOURCES]	= "insufficient resp resources",
+> +	[IB_CM_REJ_CONSUMER_DEFINED]		= "consumer defined",
+> +	[IB_CM_REJ_INVALID_RNR_RETRY]		= "invalid rnr retry",
+> +	[IB_CM_REJ_DUPLICATE_LOCAL_COMM_ID]	= "duplicate local comm id",
+> +	[IB_CM_REJ_INVALID_CLASS_VERSION]	= "invalid class version",
+> +	[IB_CM_REJ_INVALID_FLOW_LABEL]		= "invalid flow label",
+> +	[IB_CM_REJ_INVALID_ALT_FLOW_LABEL]	= "invalid alt flow label",
 
-> Also on the target side we can have free-form messages for whatever
-> the exact rejection reason was, no need to limit us to the enum.
+Other error messages capitalize GID, LID, CM, ID, RNR and SL so please 
+do this here too.
 
-Thought it'd be nice to use the same verbosity on both ends, just a
-suggestion though...
+> +const char *__attribute_const__ ibcm_reject_msg(int reason)
+> +{
+> +	size_t index = reason;
+> +
+> +	if (index >= ARRAY_SIZE(ibcm_rej_reason_strs) ||
+> +	    !ibcm_rej_reason_strs[index])
+> +		return "unrecognized reason";
+> +	else
+> +		return ibcm_rej_reason_strs[index];
+> +}
+
+Please consider using positive logic - this means negating the 
+if-condition and swapping the if- and else-parts.
+
+> +const char *__attribute_const__ rdma_reject_msg(struct rdma_cm_id *id,
+> +						int reason)
+> +{
+> +	if (rdma_ib_or_roce(id->device, id->port_num))
+> +		return ibcm_reject_msg(reason);
+> +
+> +	if (rdma_protocol_iwarp(id->device, id->port_num))
+> +		return iwcm_reject_msg(reason);
+> +
+> +	WARN_ON_ONCE(1);
+> +	return "unrecognized reason";
+
+Have you considered to return "unrecognized transport" here instead?
+
+> +const char *__attribute_const__ iwcm_reject_msg(int reason)
+> +{
+> +	size_t index;
+> +
+> +	/* iWARP uses negative errnos */
+> +	index = -reason;
+> +
+> +	if (index >= ARRAY_SIZE(iwcm_rej_reason_strs) ||
+> +	    !iwcm_rej_reason_strs[index])
+> +		return "unrecognized reason";
+> +	else
+> +		return iwcm_rej_reason_strs[index];
+> +}
+
+Also for this function, please consider using positive logic.
+
+Thanks,
+
+Bart.
