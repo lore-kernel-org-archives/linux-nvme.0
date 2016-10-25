@@ -1,115 +1,51 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 25 Oct 2016 18:09:39 +0200
-Subject: [PATCH 2/2] nvme: don't pass the full CQE to nvme_complete_async_event
-In-Reply-To: <1477411779-2993-1-git-send-email-hch@lst.de>
-References: <1477411779-2993-1-git-send-email-hch@lst.de>
-Message-ID: <1477411779-2993-3-git-send-email-hch@lst.de>
+From: santosh.shilimkar@oracle.com (Santosh Shilimkar)
+Date: Tue, 25 Oct 2016 09:11:31 -0700
+Subject: [PATCH v3 6/6] rds_rdma: log the connection reject message
+In-Reply-To: <00f201d22ed9$86ebb1a0$94c314e0$@opengridcomputing.com>
+References: <cover.1477336045.git.swise@opengridcomputing.com>
+ <21c48d771ab8a9d37ec19ea5f7a48ed5b84c8984.1477336045.git.swise@opengridcomputing.com>
+ <928b6e33-992b-8b88-e224-224f19566623@oracle.com>
+ <00f201d22ed9$86ebb1a0$94c314e0$@opengridcomputing.com>
+Message-ID: <5a17deff-ba75-09c8-e280-88d851fcacfb@oracle.com>
 
-We only need the status and result fields, and passing them explicitly
-makes life a lot easier for the Fibre Channel transport which doesn't
-have a full CQE for the fast path case.
+On 10/25/2016 9:04 AM, Steve Wise wrote:
+>
+>
+>> -----Original Message-----
+>> From: Santosh Shilimkar [mailto:santosh.shilimkar at oracle.com]
+>> Sent: Tuesday, October 25, 2016 10:52 AM
+>> To: Steve Wise; dledford at redhat.com; sean.hefty at intel.com
+>> Cc: linux-rdma at vger.kernel.org; bart.vanassche at sandisk.com; linux-
+>> nvme at lists.infradead.org; sagi at grimberg.me; hch at lst.de; axboe at fb.com
+>> Subject: Re: [PATCH v3 6/6] rds_rdma: log the connection reject message
+>>
+>> On 10/24/2016 12:07 PM, Steve Wise wrote:
+>>> Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+>>> ---
+>>>  net/rds/rdma_transport.c | 5 ++++-
+>>>  1 file changed, 4 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/net/rds/rdma_transport.c b/net/rds/rdma_transport.c
+>>> index 345f090..6bd2814 100644
+>>> --- a/net/rds/rdma_transport.c
+>>> +++ b/net/rds/rdma_transport.c
+>>> @@ -100,11 +100,14 @@ int rds_rdma_cm_event_handler(struct rdma_cm_id
+>> *cm_id,
+>>>  		trans->cm_connect_complete(conn, event);
+>>>  		break;
+>>>
+>>> +	case RDMA_CM_EVENT_REJECTED:
+>>> +		rdsdebug("Connection rejected: %s\n",
+>>> +			 rdma_reject_msg(cm_id, event->status));
+>> For current code above is fine but I will need the other helper
+>> while adding few connection cases where ARI field carries information
+>> for the reason for the reject.
+>>
+>> I assume, rdma_consumer_reject_data() is meant to be used for that ?
+>
+> Yep.  You can see the nvme_rdma patch in this series for an example.
+>
+Cool. Thanks for info Steve.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/core.c   | 19 +++++++++++++------
- drivers/nvme/host/nvme.h   |  4 ++--
- drivers/nvme/host/pci.c    |  3 ++-
- drivers/nvme/host/rdma.c   |  3 ++-
- drivers/nvme/target/loop.c |  3 ++-
- 5 files changed, 21 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ae38a03..6bd6140 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1901,18 +1901,25 @@ static void nvme_async_event_work(struct work_struct *work)
- 	spin_unlock_irq(&ctrl->lock);
- }
- 
--void nvme_complete_async_event(struct nvme_ctrl *ctrl,
--		struct nvme_completion *cqe)
-+void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
-+		union nvme_result *res)
- {
--	u16 status = le16_to_cpu(cqe->status) >> 1;
--	u32 result = le32_to_cpu(cqe->result.u32);
-+	u32 result = le32_to_cpu(res->u32);
-+	bool done = false;
- 
--	if (status == NVME_SC_SUCCESS || status == NVME_SC_ABORT_REQ) {
-+	switch (le16_to_cpu(status) >> 1) {
-+	case NVME_SC_SUCCESS:
-+		done = false;
-+		/*FALLTHRU*/
-+	case NVME_SC_ABORT_REQ:
- 		++ctrl->event_limit;
- 		schedule_work(&ctrl->async_event_work);
-+		break;
-+	default:
-+		break;
- 	}
- 
--	if (status != NVME_SC_SUCCESS)
-+	if (done)
- 		return;
- 
- 	switch (result & 0xff07) {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 5e64957a..468fc44 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -275,8 +275,8 @@ void nvme_queue_scan(struct nvme_ctrl *ctrl);
- void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
- 
- #define NVME_NR_AERS	1
--void nvme_complete_async_event(struct nvme_ctrl *ctrl,
--		struct nvme_completion *cqe);
-+void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
-+		union nvme_result *res);
- void nvme_queue_async_events(struct nvme_ctrl *ctrl);
- 
- void nvme_stop_queues(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index de8e050..51d13d5 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -703,7 +703,8 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
- 		 */
- 		if (unlikely(nvmeq->qid == 0 &&
- 				cqe.command_id >= NVME_AQ_BLKMQ_DEPTH)) {
--			nvme_complete_async_event(&nvmeq->dev->ctrl, &cqe);
-+			nvme_complete_async_event(&nvmeq->dev->ctrl,
-+					cqe.status, &cqe.result);
- 			continue;
- 		}
- 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 0b8a161..c4700ef 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1168,7 +1168,8 @@ static int __nvme_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc, int tag)
- 	 */
- 	if (unlikely(nvme_rdma_queue_idx(queue) == 0 &&
- 			cqe->command_id >= NVME_RDMA_AQ_BLKMQ_DEPTH))
--		nvme_complete_async_event(&queue->ctrl->ctrl, cqe);
-+		nvme_complete_async_event(&queue->ctrl->ctrl, cqe->status,
-+				&cqe->result);
- 	else
- 		ret = nvme_rdma_process_nvme_rsp(queue, cqe, wc, tag);
- 	ib_dma_sync_single_for_device(ibdev, qe->dma, len, DMA_FROM_DEVICE);
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 757e21a..26aa3a5 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -127,7 +127,8 @@ static void nvme_loop_queue_response(struct nvmet_req *req)
- 	 */
- 	if (unlikely(nvme_loop_queue_idx(iod->queue) == 0 &&
- 			cqe->command_id >= NVME_LOOP_AQ_BLKMQ_DEPTH)) {
--		nvme_complete_async_event(&iod->queue->ctrl->ctrl, cqe);
-+		nvme_complete_async_event(&iod->queue->ctrl->ctrl, cqe->status,
-+				&cqe->result);
- 	} else {
- 		struct request *rq = blk_mq_rq_from_pdu(iod);
- 
--- 
-2.1.4
+regards,
+Santosh
