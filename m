@@ -1,10 +1,12 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 25 Oct 2016 18:36:23 +0300
-Subject: [PATCH] rdma: force queue size to respect controller capability
-In-Reply-To: <444159155.19898733.1477380154029.JavaMail.zimbra@kalray.eu>
-References: <444159155.19898733.1477380154029.JavaMail.zimbra@kalray.eu>
-Message-ID: <1d6d7166-040b-cf94-1222-b00686922ccd@grimberg.me>
+Date: Tue, 25 Oct 2016 18:47:33 +0300
+Subject: [PATCH v3 0/7] nvme-fabrics: Add FC-NVME Transport support
+In-Reply-To: <580d0ff8.K6A8RkcLgUvO6/1z%james.smart@broadcom.com>
+References: <580d0ff8.K6A8RkcLgUvO6/1z%james.smart@broadcom.com>
+Message-ID: <df4b85dd-9e7b-12dd-5f54-2f8f13c28ba6@grimberg.me>
 
-Thanks Samuel,
+Thanks James,
 
-queued to nvmf-4.9-rc
+Got it into zero-day testing in:
+
+git://git.infradead.org/nvme-fabrics.git   nvmf-fc
