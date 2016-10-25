@@ -1,26 +1,27 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 25 Oct 2016 11:55:48 -0500
-Subject: [PATCH 0/6] Six NVMeOF-related patches
-In-Reply-To: <29dcbb7a-087b-b18b-3f7c-9841242328b2@grimberg.me>
-References: <e96f7b21-9686-c24f-9c64-e6fb4b44fea0@sandisk.com>
- <29dcbb7a-087b-b18b-3f7c-9841242328b2@grimberg.me>
-Message-ID: <010701d22ee0$a2dd4d90$e897e8b0$@opengridcomputing.com>
+Date: Tue, 25 Oct 2016 11:58:34 -0500
+Subject: [PATCH v3 4/6] nvme-rdma: use rdma connection reject helper
+ functions
+In-Reply-To: <7191d136-aef4-9fed-223e-f2a9c1d958e5@grimberg.me>
+References: <cover.1477336045.git.swise@opengridcomputing.com>
+ <55638a1d2a9f79af8b9a19eb444c5d0a41691352.1477336045.git.swise@opengridcomputing.com>
+ <7191d136-aef4-9fed-223e-f2a9c1d958e5@grimberg.me>
+Message-ID: <010901d22ee1$058d6ec0$10a84c40$@opengridcomputing.com>
 
-> Hey Bart,
+> > +static const char *const nvme_rdma_cm_status_strs[] = {
+> > +	[NVME_RDMA_CM_INVALID_LEN]	= "invalid length",
+> > +	[NVME_RDMA_CM_INVALID_RECFMT]	= "invalid record format",
+> > +	[NVME_RDMA_CM_INVALID_QID]	= "invalid queue id",
+> > +	[NVME_RDMA_CM_INVALID_HSQSIZE]	= "invalid host sq size",
+> > +	[NVME_RDMA_CM_INVALID_HRQSIZE]	= "invalid host rq size",
+> > +	[NVME_RDMA_CM_NO_RSC]		= "resource not found",
+> > +	[NVME_RDMA_CM_INVALID_IRD]	= "invalid ird",
+> > +	[NVME_RDMA_CM_INVALID_ORD]	= "Invalid ord",
+> > +};
 > 
-> Queued patches 1-4 to nvmf-4.9-rc branch
+> I think it'd be better to move them to include/linux/nvme-rdma.h
+> and use them for logging on the target side too.
 > 
-> I'll wait for 5/6 and Steve has generalized
-> 6/6 to RDMA core so I guess it will go out
-> of Doug's tree.
-> 
-> Steve, your set is probably a 4.10 material,
-> can you please verify it applies cleanly on
-> nvmf-4.9-rc (or give Doug a heads-up if not)
-> 
-> Thanks!
 
-I will.  I will submit another, potentially final, version including review tags
-and also a few changes based on this round's comments.
-
-Steve.
+You want to put this in nvme-rdma.h as-is so the memory for this is allocated in
+each .c file that includes it? 
