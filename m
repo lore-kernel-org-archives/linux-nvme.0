@@ -1,18 +1,12 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 25 Oct 2016 05:39:23 -0700
-Subject: [PATCH] rdma: force queue size to respect controller capability
-In-Reply-To: <444159155.19898733.1477380154029.JavaMail.zimbra@kalray.eu>
-References: <444159155.19898733.1477380154029.JavaMail.zimbra@kalray.eu>
-Message-ID: <20161025123923.GA27453@infradead.org>
+Date: Tue, 25 Oct 2016 05:41:21 -0700
+Subject: [NVME-CLI] NVMe Format Issues - HGST Drives
+In-Reply-To: <BY2PR0201MB19119DF43362BC07D9F7D9E38FA90@BY2PR0201MB1911.namprd02.prod.outlook.com>
+References: <BY2PR0201MB19119DF43362BC07D9F7D9E38FA90@BY2PR0201MB1911.namprd02.prod.outlook.com>
+Message-ID: <20161025124121.GB27453@infradead.org>
 
-On Tue, Oct 25, 2016@09:22:34AM +0200, Samuel Jones wrote:
-> Queue size needs to respect the Maximum Queue Entries Supported advertised by
-> the controller in its Capability register.
-> 
-> Signed-off-by: Samuel Jones <sjones at kalray.eu>
+Hi Zeta,
 
-Thanks Samuel,
-
-this looks good:
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+a format will probably require a longer timeout than the default 60
+seconds, try specfing ? --timeout argument with a longer timeout on the
+nvme-cli command line.
