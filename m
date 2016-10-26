@@ -1,14 +1,13 @@
 From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Wed, 26 Oct 2016 20:03:36 +0000
-Subject: [PATCH v5 3/8] rdma_cm: add rdma_consumer_reject_data helper
- function
-In-Reply-To: <31b1e8fba4b934b5df421191b4788a5c25788961.1477510827.git.swise@opengridcomputing.com>
+Date: Wed, 26 Oct 2016 20:04:57 +0000
+Subject: [PATCH v5 4/8] nvme-rdma: use rdma connection reject helper
+ functions
+In-Reply-To: <b61e9a20572b3afb4ebf62a0a1613097311e7c92.1477510827.git.swise@opengridcomputing.com>
 References: <cover.1477510827.git.swise@opengridcomputing.com>
- <31b1e8fba4b934b5df421191b4788a5c25788961.1477510827.git.swise@opengridcomputing.com>
-Message-ID: <1477512212.2550.7.camel@sandisk.com>
+ <b61e9a20572b3afb4ebf62a0a1613097311e7c92.1477510827.git.swise@opengridcomputing.com>
+Message-ID: <1477512294.2550.8.camel@sandisk.com>
 
 On Wed, 2016-10-26@12:36 -0700, Steve Wise wrote:
-> rdma_consumer_reject_data() will return the private data pointer
-> and length if any is available.
+> Also add nvme cm status strings and use them.
 
 Reviewed-by: Bart Van Assche <bart.vanassche at sandisk.com>
