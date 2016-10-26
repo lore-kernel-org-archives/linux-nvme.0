@@ -1,15 +1,13 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Wed, 26 Oct 2016 13:01:44 -0700
-Subject: [PATCH] nvme-fabrics: Add HAS_DMA to FC Transport Kconfigs
-In-Reply-To: <580e2ddc.sdo3rtJa9FKNq/z9%james.smart@broadcom.com>
-References: <580e2ddc.sdo3rtJa9FKNq/z9%james.smart@broadcom.com>
-Message-ID: <1477512104.3009.115.camel@linux.intel.com>
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Wed, 26 Oct 2016 20:02:26 +0000
+Subject: [PATCH v5 1/8] rdma_cm: add rdma_reject_msg() helper function
+In-Reply-To: <1a760877f98e537b236f443fc2a6f4e9ec06c356.1477510827.git.swise@opengridcomputing.com>
+References: <cover.1477510827.git.swise@opengridcomputing.com>
+ <1a760877f98e537b236f443fc2a6f4e9ec06c356.1477510827.git.swise@opengridcomputing.com>
+Message-ID: <1477512143.2550.5.camel@sandisk.com>
 
-On Mon, 2016-10-24@08:50 -0700, James Smart wrote:
-> Add HAS_DMA to FC Transport host and target Kconfig
-> 
-> Obviously dependent on prior patches to add FC transport
+On Wed, 2016-10-26@12:36 -0700, Steve Wise wrote:
+> rdma_reject_msg() returns a pointer to a string message associated
+> with the transport reject reason codes.
 
-Looks good,
-
-Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+Reviewed-by: Bart Van Assche <bart.vanassche at sandisk.com>
