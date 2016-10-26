@@ -1,9 +1,14 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 26 Oct 2016 11:30:38 +0300
-Subject: [PATCH v4 8/8] nvmet_rdma: log the connection reject message
-In-Reply-To: <e6b79fbb52407dd4b3b9193f4cda3016069eb571.1477426743.git.swise@opengridcomputing.com>
+Date: Wed, 26 Oct 2016 11:32:59 +0300
+Subject: [PATCH v4 0/8] connect reject event helpers
+In-Reply-To: <cover.1477426743.git.swise@opengridcomputing.com>
 References: <cover.1477426743.git.swise@opengridcomputing.com>
- <e6b79fbb52407dd4b3b9193f4cda3016069eb571.1477426743.git.swise@opengridcomputing.com>
-Message-ID: <3f986afb-a6ce-6397-a709-66c3cfe5761d@grimberg.me>
+Message-ID: <9b6484f3-7f8a-dc6f-0959-0d38044dd983@grimberg.me>
 
-Acked-by: Sagi Grimberg <sagi at grimberg.me>
+So where should this be sent from?
+
+We have rdma_cm/iser/isert that usually go from
+the rdma tree and nvme-rdma/nvmet-rdma that usually
+go from nvmf tree to Jens.
+
+Doug are you picking this up or should I?
