@@ -1,13 +1,27 @@
-From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Wed, 26 Oct 2016 20:04:57 +0000
-Subject: [PATCH v5 4/8] nvme-rdma: use rdma connection reject helper
- functions
-In-Reply-To: <b61e9a20572b3afb4ebf62a0a1613097311e7c92.1477510827.git.swise@opengridcomputing.com>
-References: <cover.1477510827.git.swise@opengridcomputing.com>
- <b61e9a20572b3afb4ebf62a0a1613097311e7c92.1477510827.git.swise@opengridcomputing.com>
-Message-ID: <1477512294.2550.8.camel@sandisk.com>
+From: james_p_freyensee@linux.intel.com (Jay Freyensee)
+Date: Wed, 26 Oct 2016 13:20:57 -0700
+Subject: [PATCH] nvme-loop: kfree(ctrl) on _create() error exit
+Message-ID: <1477513257-30474-1-git-send-email-james_p_freyensee@linux.intel.com>
 
-On Wed, 2016-10-26@12:36 -0700, Steve Wise wrote:
-> Also add nvme cm status strings and use them.
+ctrl is kzalloc'ed but looks like it's never kfree'ed
+on the goto exit cases on nvme_loop_create_ctrl().
 
-Reviewed-by: Bart Van Assche <bart.vanassche at sandisk.com>
+Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+---
+ drivers/nvme/target/loop.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index d5df77d..b0f9931 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -673,6 +673,7 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
+ 	nvme_uninit_ctrl(&ctrl->ctrl);
+ out_put_ctrl:
+ 	nvme_put_ctrl(&ctrl->ctrl);
++	kfree(ctrl);
+ 	if (ret > 0)
+ 		ret = -EIO;
+ 	return ERR_PTR(ret);
+-- 
+2.7.4
