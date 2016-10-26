@@ -1,68 +1,128 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 26 Oct 2016 11:05:19 -0700
-Subject: [PATCH 1/2] nvme: introduce struct nvme_request
-In-Reply-To: <1477411779-2993-2-git-send-email-hch@lst.de>
-References: <1477411779-2993-1-git-send-email-hch@lst.de>
- <1477411779-2993-2-git-send-email-hch@lst.de>
-Message-ID: <9ca268e3-355c-578f-30ee-5c148a7d8c47@broadcom.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Wed, 26 Oct 2016 12:09:13 -0700
+Subject: [PATCH v3 6/7] nvme-fabrics: Add target support for FC transport
+In-Reply-To: <580d0ffe.SFprDuHa1JbmKoHU%james.smart@broadcom.com>
+References: <580d0ffe.SFprDuHa1JbmKoHU%james.smart@broadcom.com>
+Message-ID: <1477508953.3009.97.camel@linux.intel.com>
 
 
+> +static void
+> +nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
+> +{
+> +	struct nvmet_fc_fcp_iod *fod = fcpreq->nvmet_fc_private;
+> +	struct nvmet_fc_tgtport *tgtport = fod->tgtport;
+> +	struct nvme_fc_ersp_iu *ersp = &fod->rspiubuf;
+> +	struct nvme_completion *cqe = &ersp->cqe;
+> +
+> +	switch (fcpreq->op) {
+> +
+> +	case NVMET_FCOP_WRITEDATA:
+> +		if (fcpreq->fcp_error) {
+> +			nvmet_req_complete(&fod->req, fcpreq-
+> >fcp_error);
+> +			return;
+> +		}
+> +		if (fcpreq->transferred_length != fcpreq-
+> >transfer_length) {
+> +			nvmet_req_complete(&fod->req,
+> +					NVME_SC_FC_TRANSPORT_ERROR);
+> +			return;
+> +		}
+> +
+> +		fod->offset += fcpreq->transferred_length;
+> +		if (fod->offset != fod->total_length) {
+> +			/* transfer the next chunk */
+> +			nvmet_fc_transfer_fcp_data(tgtport, fod,
+> +						NVMET_FCOP_WRITEDATA
+> );
+> +			return;
+> +		}
+> +
+> +		/* data transfer complete, resume with nvmet layer
+> */
+> +
+> +		fod->req.execute(&fod->req);
+> +
+> +		break;
+> +
+> +	case NVMET_FCOP_READDATA:
+> +		if (fcpreq->fcp_error) {
+> +			/* overwrite the nvmet status */
+> +			cqe->status = cpu_to_le16(fcpreq-
+> >fcp_error);
+> +		} else if (fcpreq->transferred_length !=
+> +					fcpreq->transfer_length) {
+> +			/* overwrite the nvmet status */
+> +			cqe->status =
+> cpu_to_le16(NVME_SC_FC_TRANSPORT_ERROR);
+> +		} else {
+> +			fod->offset += fcpreq->transferred_length;
+> +			if (fod->offset != fod->total_length) {
+> +				/* transfer the next chunk */
+> +				nvmet_fc_transfer_fcp_data(tgtport,
+> fod,
+> +							NVMET_FCOP_R
+> EADDATA);
+> +				return;
+> +			}
+> +		}
+> +
+> +		/* data transfer complete, send response */
+> +
+> +		/* data no longer needed */
+> +		nvmet_fc_free_tgt_pgs(fod);
+> +
+> +		if (unlikely(atomic_read(&fod->aborted)))
+> +			nvmet_fc_abort_op(tgtport, fod->fcpreq);
+> +		else
+> +			nvmet_fc_xmt_fcp_rsp(tgtport, fod);
+> +
+> +		break;
+> +
+> +	case NVMET_FCOP_READDATA_RSP:
+> +		if (fcpreq->fcp_error) {
+> +			/* overwrite the nvmet status */
+> +			cqe->status = cpu_to_le16(fcpreq-
+> >fcp_error);
+> +		} else if (fcpreq->transferred_length !=
+> +					fcpreq->transfer_length) {
+> +			/* overwrite the nvmet status */
+> +			cqe->status =
+> cpu_to_le16(NVME_SC_FC_TRANSPORT_ERROR);
+> +		} else
+> +			fod->offset += fcpreq->transferred_length;
+> +
+> +		/* data transfer complete, response complete as well
+> */
+> +
+> +		/* data no longer needed */
+> +		nvmet_fc_free_tgt_pgs(fod);
+> +
+> +		dma_sync_single_for_cpu(tgtport->dev, fod->rspdma,
+> +				sizeof(fod->rspiubuf),
+> DMA_TO_DEVICE);
+> +		nvmet_fc_free_fcp_iod(tgtport, fod);
+> +		nvmet_fc_tgt_q_put(fod->queue);
+> +		break;
+> +
+> +	case NVMET_FCOP_RSP:
+> +	case NVMET_FCOP_ABORT:
+> +		dma_sync_single_for_cpu(tgtport->dev, fod->rspdma,
+> +				sizeof(fod->rspiubuf),
+> DMA_TO_DEVICE);
+> +		nvmet_fc_free_fcp_iod(tgtport, fod);
+> +		nvmet_fc_tgt_q_put(fod->queue);
+> +		break;
+> +
+> +	default:
+> +		atomic_set(&fod->aborted, 1);
+> +		nvmet_fc_abort_op(tgtport, fod->fcpreq);
 
-On 10/25/2016 9:09 AM, Christoph Hellwig wrote:
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 5a83881..0b8a161 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -66,6 +66,7 @@ struct nvme_rdma_qe {
->   
->   struct nvme_rdma_queue;
->   struct nvme_rdma_request {
-> +	struct nvme_request	req;
->   	struct ib_mr		*mr;
->   	struct nvme_rdma_qe	sqe;
->   	struct ib_sge		sge[1 + NVME_RDMA_MAX_INLINE_SEGMENTS];
-> @@ -1117,13 +1118,10 @@ static void nvme_rdma_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
->   static int nvme_rdma_process_nvme_rsp(struct nvme_rdma_queue *queue,
->   		struct nvme_completion *cqe, struct ib_wc *wc, int tag)
->   {
-> -	u16 status = le16_to_cpu(cqe->status);
->   	struct request *rq;
->   	struct nvme_rdma_request *req;
->   	int ret = 0;
->   
-> -	status >>= 1;
-> -
->   	rq = blk_mq_tag_to_rq(nvme_rdma_tagset(queue), cqe->command_id);
->   	if (!rq) {
->   		dev_err(queue->ctrl->ctrl.device,
-> @@ -1134,9 +1132,6 @@ static int nvme_rdma_process_nvme_rsp(struct nvme_rdma_queue *queue,
->   	}
->   	req = blk_mq_rq_to_pdu(rq);
->   
-> -	if (rq->cmd_type == REQ_TYPE_DRV_PRIV && rq->special)
-> -		memcpy(rq->special, cqe, sizeof(*cqe));
-> -
->   	if (rq->tag == tag)
->   		ret = 1;
->   
-> @@ -1144,8 +1139,8 @@ static int nvme_rdma_process_nvme_rsp(struct nvme_rdma_queue *queue,
->   	    wc->ex.invalidate_rkey == req->mr->rkey)
->   		req->mr->need_inval = false;
->   
-> -	blk_mq_complete_request(rq, status);
-> -
-> +	req->req.result = cqe->result;
-> +	blk_mq_complete_request(rq, le16_to_cpu(cqe->status) >> 1);
->   	return ret;
->   }
->   
+My brain zeroed in on the *abort() functionality, which I don't quite
+understand. ?Apologies for the basic question here but is this correct
+that nvmet_fc_abort_op() is *NOT* called for the NVMET_FCOP_ABORT case
+but nvmet_fc_abort_op() *IS* called for the default case?
 
+Other than that it looks ok,
 
-why do you add a "struct nvme_request" to the nvme_rdma_request 
-structure?  Wouldn't a "union nvme_result" been sufficient given that's 
-all the set ?
-
-And as there's no other reference to it, and nothing in the second 
-patch, why did you add it at all ?
-
--- james
+Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
