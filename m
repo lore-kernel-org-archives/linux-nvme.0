@@ -1,72 +1,60 @@
 From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Wed, 26 Oct 2016 15:55:34 -0700
-Subject: [PATCH 10/12] SRP transport, scsi-mq: Wait for .queue_rq() if
- necessary
+Date: Wed, 26 Oct 2016 15:56:04 -0700
+Subject: [PATCH 11/12] nvme: Use BLK_MQ_S_STOPPED instead of
+ QUEUE_FLAG_STOPPED in blk-mq code
 In-Reply-To: <b22edafc-725f-0419-d074-34d35d57d126@sandisk.com>
 References: <b22edafc-725f-0419-d074-34d35d57d126@sandisk.com>
-Message-ID: <0cd77719-1f11-d5c3-3186-1c7c3cfd6886@sandisk.com>
+Message-ID: <805e1911-cd10-0563-c76b-256d76054b08@sandisk.com>
 
-Ensure that if scsi-mq is enabled that scsi_wait_for_queuecommand()
-waits until ongoing shost->hostt->queuecommand() calls have finished.
+Make nvme_requeue_req() check BLK_MQ_S_STOPPED instead of
+QUEUE_FLAG_STOPPED. Remove the QUEUE_FLAG_STOPPED manipulations
+that became superfluous because of this change. Change
+blk_queue_stopped() tests into blk_mq_queue_stopped().
+
+This patch fixes a race condition: using queue_flag_clear_unlocked()
+is not safe if any other function that manipulates the queue flags
+can be called concurrently, e.g. blk_cleanup_queue().
 
 Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
-Cc: James Bottomley <jejb at linux.vnet.ibm.com>
-Cc: Martin K. Petersen <martin.petersen at oracle.com>
-Cc: Doug Ledford <dledford at redhat.com>
+Cc: Keith Busch <keith.busch at intel.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/scsi/scsi_lib.c | 20 +++++++++++++++-----
- 1 file changed, 15 insertions(+), 5 deletions(-)
+ drivers/nvme/host/core.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index c1561e7..9b8b19e 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -2724,8 +2724,6 @@ EXPORT_SYMBOL_GPL(sdev_evt_send_simple);
- /**
-  * scsi_request_fn_active() - number of kernel threads inside scsi_request_fn()
-  * @shost: SCSI host for which to count the number of scsi_request_fn() callers.
-- *
-- * To do: add support for scsi-mq in this function.
-  */
- static int scsi_request_fn_active(struct Scsi_Host *shost)
- {
-@@ -2744,12 +2742,20 @@ static int scsi_request_fn_active(struct Scsi_Host *shost)
- 	return request_fn_active;
- }
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7bb73ba..b662416 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -205,7 +205,7 @@ void nvme_requeue_req(struct request *req)
  
-+static void scsi_mq_wait_for_queuecommand(struct Scsi_Host *shost)
-+{
-+	struct scsi_device *sdev;
-+
-+	shost_for_each_device(sdev, shost)
-+		blk_mq_quiesce_queue(sdev->request_queue);
-+}
-+
- /**
-  * scsi_wait_for_queuecommand() - wait for ongoing queuecommand() calls
-  * @shost: SCSI host pointer.
-  *
-  * Wait until the ongoing shost->hostt->queuecommand() calls that are
-- * invoked from scsi_request_fn() have finished.
-+ * invoked from either scsi_request_fn() or scsi_queue_rq() have finished.
-  *
-  * To do: avoid that scsi_send_eh_cmnd() calls queuecommand() after
-  * scsi_internal_device_block() has blocked a SCSI device and remove and also
-@@ -2757,8 +2763,12 @@ static int scsi_request_fn_active(struct Scsi_Host *shost)
-  */
- void scsi_wait_for_queuecommand(struct Scsi_Host *shost)
- {
--	while (scsi_request_fn_active(shost))
--		msleep(20);
-+	if (shost->use_blk_mq) {
-+		scsi_mq_wait_for_queuecommand(shost);
-+	} else {
-+		while (scsi_request_fn_active(shost))
-+			msleep(20);
-+	}
+ 	blk_mq_requeue_request(req, false);
+ 	spin_lock_irqsave(req->q->queue_lock, flags);
+-	if (!blk_queue_stopped(req->q))
++	if (!blk_mq_queue_stopped(req->q))
+ 		blk_mq_kick_requeue_list(req->q);
+ 	spin_unlock_irqrestore(req->q->queue_lock, flags);
  }
- EXPORT_SYMBOL(scsi_wait_for_queuecommand);
+@@ -2079,10 +2079,6 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl)
  
+ 	mutex_lock(&ctrl->namespaces_mutex);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list) {
+-		spin_lock_irq(ns->queue->queue_lock);
+-		queue_flag_set(QUEUE_FLAG_STOPPED, ns->queue);
+-		spin_unlock_irq(ns->queue->queue_lock);
+-
+ 		blk_mq_cancel_requeue_work(ns->queue);
+ 		blk_mq_stop_hw_queues(ns->queue);
+ 	}
+@@ -2096,7 +2092,6 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+ 
+ 	mutex_lock(&ctrl->namespaces_mutex);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list) {
+-		queue_flag_clear_unlocked(QUEUE_FLAG_STOPPED, ns->queue);
+ 		blk_mq_start_stopped_hw_queues(ns->queue, true);
+ 		blk_mq_kick_requeue_list(ns->queue);
+ 	}
 -- 
 2.10.1
