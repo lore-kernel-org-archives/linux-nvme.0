@@ -1,27 +1,78 @@
-From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Wed, 26 Oct 2016 13:20:57 -0700
-Subject: [PATCH] nvme-loop: kfree(ctrl) on _create() error exit
-Message-ID: <1477513257-30474-1-git-send-email-james_p_freyensee@linux.intel.com>
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Wed, 26 Oct 2016 15:49:12 -0700
+Subject: [PATCH v4 0/12] Fix race conditions related to stopping block layer
+ queues
+Message-ID: <b22edafc-725f-0419-d074-34d35d57d126@sandisk.com>
 
-ctrl is kzalloc'ed but looks like it's never kfree'ed
-on the goto exit cases on nvme_loop_create_ctrl().
+Hello Jens,
 
-Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
----
- drivers/nvme/target/loop.c | 1 +
- 1 file changed, 1 insertion(+)
+Multiple block drivers need the functionality to stop a request queue 
+and to wait until all ongoing request_fn() / queue_rq() calls have 
+finished without waiting until all outstanding requests have finished. 
+Hence this patch series that introduces the blk_mq_quiesce_queue() 
+function. The dm-mq, SRP and NVMe patches in this patch series are three 
+examples of where these functions are useful. These patches have been 
+tested on top of kernel v4.9-rc1. The following tests have been run to 
+verify this patch series:
+- Mike's mptest suite that stress-tests dm-multipath.
+- My own srp-test suite that stress-tests SRP on top of dm-multipath.
+- fio on top of the NVMeOF host driver that was connected to the NVMeOF
+   target driver on the same host.
+- Laurence verified the previous version (v3) of this patch series by
+   running it through the Red Hat SRP and NVMe test suites.
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index d5df77d..b0f9931 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -673,6 +673,7 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
- 	nvme_uninit_ctrl(&ctrl->ctrl);
- out_put_ctrl:
- 	nvme_put_ctrl(&ctrl->ctrl);
-+	kfree(ctrl);
- 	if (ret > 0)
- 		ret = -EIO;
- 	return ERR_PTR(ret);
--- 
-2.7.4
+The changes compared to the third version of this patch series are:
+- Left out the dm changes from the patch that introduces
+   blk_mq_hctx_stopped() because a later patch deletes the changed code
+   from the dm core.
+- Moved the blk_mq_hctx_stopped() declaration from a public to a
+   private block layer header file.
+- Added a new patch that moves more code into
+   blk_mq_direct_issue_request(). This patch avoids that a new function
+   has to be introduced to avoid code duplication.
+- Explained the implemented algorithm in the patch that introduces
+   blk_mq_quiesce_queue() in the description of the patch that
+   introduces this function.
+- Added "select SRCU" to the patch that introduces
+   blk_mq_quiesce_queue() to avoid build failures.
+- Documented the shost argument in the scsi_wait_for_queuecommand()
+   kerneldoc header.
+- Fixed an unintended behavior change in the last patch of this series.
+
+Changes between v3 and v2:
+- Changed the order of the patches in this patch series.
+- Added several new patches: a patch that avoids that .queue_rq() gets
+   invoked from the direct submission path if a queue has been stopped
+   and also a patch that introduces the helper function
+   blk_mq_hctx_stopped().
+- blk_mq_quiesce_queue() has been reworked (thanks to Ming Lin and Sagi
+   for their feedback).
+- A bool 'kick' argument has been added to blk_mq_requeue_request().
+- As proposed by Christoph, the code that waits for queuecommand() has
+   been moved from the SRP transport driver to the SCSI core.
+
+Changes between v2 and v1:
+- Dropped the non-blk-mq changes from this patch series.
+- Added support for harware queues with BLK_MQ_F_BLOCKING set.
+- Added a call stack to the description of the dm race fix patch.
+- Dropped the non-scsi-mq changes from the SRP patch.
+- Added a patch that introduces blk_mq_queue_stopped() in the dm driver.
+
+The individual patches in this series are:
+
+0001-blk-mq-Do-not-invoke-.queue_rq-for-a-stopped-queue.patch
+0002-blk-mq-Introduce-blk_mq_hctx_stopped.patch
+0003-blk-mq-Introduce-blk_mq_queue_stopped.patch
+0004-blk-mq-Move-more-code-into-blk_mq_direct_issue_reque.patch
+0005-blk-mq-Introduce-blk_mq_quiesce_queue.patch
+0006-blk-mq-Add-a-kick_requeue_list-argument-to-blk_mq_re.patch
+0007-dm-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_STOPPE.patch
+0008-dm-Fix-a-race-condition-related-to-stopping-and-star.patch
+0009-SRP-transport-Move-queuecommand-wait-code-to-SCSI-co.patch
+0010-SRP-transport-scsi-mq-Wait-for-.queue_rq-if-necessar.patch
+0011-nvme-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_STOP.patch
+0012-nvme-Fix-a-race-condition-related-to-stopping-queues.patch
+
+Thanks,
+
+Bart.
