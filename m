@@ -1,17 +1,35 @@
 From: swise@opengridcomputing.com (Steve Wise)
-Date: Wed, 26 Oct 2016 14:51:02 -0500
-Subject: [PATCH v4 4/8] nvme-rdma: use rdma connection reject helper
- functions
-In-Reply-To: <07d201d22fc0$9c189a10$d449ce30$@opengridcomputing.com>
-References: <cover.1477426743.git.swise@opengridcomputing.com>
- <35db2feb4dcac92924992d5655630aa70972ad00.1477426743.git.swise@opengridcomputing.com>
- <62db5521-9c15-146b-9057-2a22658fa210@sandisk.com>
- <07d201d22fc0$9c189a10$d449ce30$@opengridcomputing.com>
-Message-ID: <07fd01d22fc2$48178eb0$d846ac10$@opengridcomputing.com>
+Date: Wed, 26 Oct 2016 12:36:47 -0700
+Subject: [PATCH v5 5/8] ib_iser: log the connection reject message
+In-Reply-To: <cover.1477510827.git.swise@opengridcomputing.com>
+References: <cover.1477510827.git.swise@opengridcomputing.com>
+Message-ID: <b9179fee26d943a12549b64ac5a5db64754e05dd.1477510827.git.swise@opengridcomputing.com>
 
-> Hey Bart, shall I add a reviewed-by tag from you for this patch?
-> 
+Acked-by: Sagi Grimberg <sagi at grimberg.me>
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
+---
+ drivers/infiniband/ulp/iser/iser_verbs.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-I went ahead and sent out v5...
-
-Steve
+diff --git a/drivers/infiniband/ulp/iser/iser_verbs.c b/drivers/infiniband/ulp/iser/iser_verbs.c
+index 1b49453..6eeffb2 100644
+--- a/drivers/infiniband/ulp/iser/iser_verbs.c
++++ b/drivers/infiniband/ulp/iser/iser_verbs.c
+@@ -906,11 +906,14 @@ static int iser_cma_handler(struct rdma_cm_id *cma_id, struct rdma_cm_event *eve
+ 	case RDMA_CM_EVENT_ESTABLISHED:
+ 		iser_connected_handler(cma_id, event->param.conn.private_data);
+ 		break;
++	case RDMA_CM_EVENT_REJECTED:
++		iser_info("Connection rejected: %s\n",
++			 rdma_reject_msg(cma_id, event->status));
++		/* FALLTHROUGH */
+ 	case RDMA_CM_EVENT_ADDR_ERROR:
+ 	case RDMA_CM_EVENT_ROUTE_ERROR:
+ 	case RDMA_CM_EVENT_CONNECT_ERROR:
+ 	case RDMA_CM_EVENT_UNREACHABLE:
+-	case RDMA_CM_EVENT_REJECTED:
+ 		iser_connect_error(cma_id);
+ 		break;
+ 	case RDMA_CM_EVENT_DISCONNECTED:
+-- 
+2.7.0
