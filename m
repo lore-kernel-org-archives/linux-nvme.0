@@ -1,35 +1,28 @@
 From: swise@opengridcomputing.com (Steve Wise)
 Date: Wed, 26 Oct 2016 12:36:48 -0700
-Subject: [PATCH v5 6/8] rds_rdma: log the connection reject message
+Subject: [PATCH v5 7/8] ib_isert: log the connection reject message
 In-Reply-To: <cover.1477510827.git.swise@opengridcomputing.com>
 References: <cover.1477510827.git.swise@opengridcomputing.com>
-Message-ID: <6274cbc5728846822f8762f8d16ecdd10571b4ec.1477510827.git.swise@opengridcomputing.com>
+Message-ID: <d2f84976faa9dabf8341dea25c50b48b1cf8cb4c.1477510827.git.swise@opengridcomputing.com>
 
-Acked-by: Santosh Shilimkar <santosh.shilimkar at oracle.com>
+Acked-by: Sagi Grimberg <sagi at grimberg.me>
 Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
- net/rds/rdma_transport.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/infiniband/ulp/isert/ib_isert.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/net/rds/rdma_transport.c b/net/rds/rdma_transport.c
-index 345f090..d5f3117 100644
---- a/net/rds/rdma_transport.c
-+++ b/net/rds/rdma_transport.c
-@@ -100,11 +100,14 @@ int rds_rdma_cm_event_handler(struct rdma_cm_id *cm_id,
- 		trans->cm_connect_complete(conn, event);
- 		break;
- 
-+	case RDMA_CM_EVENT_REJECTED:
-+		rdsdebug("Connection rejected: %s\n",
-+			 rdma_reject_msg(cm_id, event->status));
-+		/* FALLTHROUGH */
- 	case RDMA_CM_EVENT_ADDR_ERROR:
- 	case RDMA_CM_EVENT_ROUTE_ERROR:
+diff --git a/drivers/infiniband/ulp/isert/ib_isert.c b/drivers/infiniband/ulp/isert/ib_isert.c
+index cae9bbc..5331272 100644
+--- a/drivers/infiniband/ulp/isert/ib_isert.c
++++ b/drivers/infiniband/ulp/isert/ib_isert.c
+@@ -795,6 +795,8 @@ isert_cma_handler(struct rdma_cm_id *cma_id, struct rdma_cm_event *event)
+ 		 */
+ 		return 1;
+ 	case RDMA_CM_EVENT_REJECTED:       /* FALLTHRU */
++		isert_info("Connection rejected: %s\n",
++			   rdma_reject_msg(cma_id, event->status));
+ 	case RDMA_CM_EVENT_UNREACHABLE:    /* FALLTHRU */
  	case RDMA_CM_EVENT_CONNECT_ERROR:
- 	case RDMA_CM_EVENT_UNREACHABLE:
--	case RDMA_CM_EVENT_REJECTED:
- 	case RDMA_CM_EVENT_DEVICE_REMOVAL:
- 	case RDMA_CM_EVENT_ADDR_CHANGE:
- 		if (conn)
+ 		ret = isert_connect_error(cma_id);
 -- 
 2.7.0
