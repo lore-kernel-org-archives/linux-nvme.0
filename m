@@ -1,12 +1,12 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 27 Oct 2016 15:16:31 +0300
-Subject: [PATCH 04/12] blk-mq: Move more code into
- blk_mq_direct_issue_request()
-In-Reply-To: <32b0bd88-cb8e-754a-89fc-b1825778b05a@sandisk.com>
+Date: Thu, 27 Oct 2016 15:19:15 +0300
+Subject: [PATCH 10/12] SRP transport, scsi-mq: Wait for .queue_rq() if
+ necessary
+In-Reply-To: <0cd77719-1f11-d5c3-3186-1c7c3cfd6886@sandisk.com>
 References: <b22edafc-725f-0419-d074-34d35d57d126@sandisk.com>
- <32b0bd88-cb8e-754a-89fc-b1825778b05a@sandisk.com>
-Message-ID: <71aceb54-7961-e5ab-c40b-cc93ab49e511@grimberg.me>
+ <0cd77719-1f11-d5c3-3186-1c7c3cfd6886@sandisk.com>
+Message-ID: <ee78f333-3200-0f59-40a9-1ae1c4e04b62@grimberg.me>
 
-Looks good,
+Thanks for moving it,
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
