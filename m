@@ -1,53 +1,73 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Thu, 27 Oct 2016 10:01:56 -0400
-Subject: [PATCH 08/12] dm: Fix a race condition related to stopping and
- starting queues
-In-Reply-To: <28b3e91c-018a-0dbd-8ca9-0a7994a97a5d@sandisk.com>
-References: <b22edafc-725f-0419-d074-34d35d57d126@sandisk.com>
- <28b3e91c-018a-0dbd-8ca9-0a7994a97a5d@sandisk.com>
-Message-ID: <20161027140155.GB16816@redhat.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Thu, 27 Oct 2016 09:50:45 -0500
+Subject: A question regarding "multiple SGL"
+In-Reply-To: <178765fb-0fcf-0fdc-dc5e-0cc226375827@grimberg.me>
+References: <20161027005230.9904DC00097@webmail.sinamail.sina.com.cn>
+ <20161027064115.GA5864@lst.de>
+ <B78D1A958924E54594997EFF975251625BD49445@szxeml592-mbx.china.huawei.com>
+ <20161027071009.GA6434@lst.de>
+ <178765fb-0fcf-0fdc-dc5e-0cc226375827@grimberg.me>
+Message-ID: <017601d23061$7f8f3ba0$7eadb2e0$@opengridcomputing.com>
 
-On Wed, Oct 26 2016 at  6:54pm -0400,
-Bart Van Assche <bart.vanassche@sandisk.com> wrote:
-
-> Ensure that all ongoing dm_mq_queue_rq() and dm_mq_requeue_request()
-> calls have stopped before setting the "queue stopped" flag. This
-> allows to remove the "queue stopped" test from dm_mq_queue_rq() and
-> dm_mq_requeue_request(). This patch fixes a race condition because
-> dm_mq_queue_rq() is called without holding the queue lock and hence
-> BLK_MQ_S_STOPPED can be set at any time while dm_mq_queue_rq() is
-> in progress. This patch prevents that the following hang occurs
-> sporadically when using dm-mq:
+> > Hi Robert,
 > 
-> INFO: task systemd-udevd:10111 blocked for more than 480 seconds.
-> Call Trace:
->  [<ffffffff8161f397>] schedule+0x37/0x90
->  [<ffffffff816239ef>] schedule_timeout+0x27f/0x470
->  [<ffffffff8161e76f>] io_schedule_timeout+0x9f/0x110
->  [<ffffffff8161fb36>] bit_wait_io+0x16/0x60
->  [<ffffffff8161f929>] __wait_on_bit_lock+0x49/0xa0
->  [<ffffffff8114fe69>] __lock_page+0xb9/0xc0
->  [<ffffffff81165d90>] truncate_inode_pages_range+0x3e0/0x760
->  [<ffffffff81166120>] truncate_inode_pages+0x10/0x20
->  [<ffffffff81212a20>] kill_bdev+0x30/0x40
->  [<ffffffff81213d41>] __blkdev_put+0x71/0x360
->  [<ffffffff81214079>] blkdev_put+0x49/0x170
->  [<ffffffff812141c0>] blkdev_close+0x20/0x30
->  [<ffffffff811d48e8>] __fput+0xe8/0x1f0
->  [<ffffffff811d4a29>] ____fput+0x9/0x10
->  [<ffffffff810842d3>] task_work_run+0x83/0xb0
->  [<ffffffff8106606e>] do_exit+0x3ee/0xc40
->  [<ffffffff8106694b>] do_group_exit+0x4b/0xc0
->  [<ffffffff81073d9a>] get_signal+0x2ca/0x940
->  [<ffffffff8101bf43>] do_signal+0x23/0x660
->  [<ffffffff810022b3>] exit_to_usermode_loop+0x73/0xb0
->  [<ffffffff81002cb0>] syscall_return_slowpath+0xb0/0xc0
->  [<ffffffff81624e33>] entry_SYSCALL_64_fastpath+0xa6/0xa8
+> Hey Robert, Christoph,
 > 
-> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> Reviewed-by: Hannes Reinecke <hare at suse.com>
-> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-> Cc: Mike Snitzer <snitzer at redhat.com>
+> > please explain your use cases that isn't handled.  The one and only
+> > reason to set MSDBD to 1 is to make the code a lot simpler given that
+> > there is no real use case for supporting more.
+> >
+> > RDMA uses memory registrations to register large and possibly
+> > discontiguous data regions for a single rkey, aka single SGL descriptor
+> > in NVMe terms.  There would be two reasons to support multiple SGL
+> > descriptors:  a) to support a larger I/O size than supported by a single
+> > MR, or b) to support a data region format not mappable by a single
+> > MR.
+> >
+> > iSER only supports a single rkey (or stag in IETF terminology) and has
+> > been doing fine on a) and mostly fine on b).   There are a few possible
+> > data layouts not supported by the traditional IB/iWarp FR WRs, but the
+> > limit is in fact exactly the same as imposed by the NVMe PRPs used for
+> > PCIe NVMe devices, so the Linux block layer has support to not generate
+> > them.  Also with modern Mellanox IB/RoCE hardware we can actually
+> > register completely arbitrary SGLs.  iSER supports using this registration
+> > mode already with a trivial code addition, but for NVMe we didn't have a
+> > pressing need yet.
+> 
+> Good explanation :)
+> 
+> The IO transfer size is a bit more pressing on some devices (e.g.
+> cxgb3/4) where the number of pages per-MR can be indeed lower than
+> a reasonable transfer size (Steve can correct me if I'm wrong).
+>
 
-Acked-by: Mike Snitzer <snitzer at redhat.com>
+Currently, cxgb4 support 128KB REG_MR operations on a host with 4K page size,
+via a max mr page list depth of 32.  Soon it will be bumped up from 32 to 128
+and life will be better...
+
+ 
+> However, if there is a real demand for this we'll happily accept
+> patches :)
+> 
+> Just a note, having this feature in-place can bring unexpected behavior
+> depending on how we implement it:
+> - If we can use multiple MRs per IO (for multiple SGLs) we can either
+> prepare for the worst-case and allocate enough MRs to satisfy the
+> various IO patterns. This will be much heavier in terms of resource
+> allocation and can limit the scalability of the host driver.
+> - Or we can implement a shared MR pool with a reasonable number of MRs.
+> In this case each IO can consume one or more MRs on the expense of
+> other IOs. In this case we may need to requeue the IO later when we
+> have enough available MRs to satisfy the IO. This can yield some
+> unexpected performance gaps for some workloads.
+> 
+
+I would like to see the storage protocols deal with lack of resources for the
+worst case.  This allows much smaller resource usage for both MRs, and SQ
+resources, at the expense of adding flow control logic to deal with lack of
+available MR and/or SQ slots to process the next IO.  I think it can be
+implemented efficiently such that when in flow-control mode, the code is driving
+new IO submissions off of SQ completions which will free up SQ slots and most
+likely MRs from the QP's MR pool.
+
+Steve.
