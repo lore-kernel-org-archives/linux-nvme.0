@@ -1,19 +1,22 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 27 Oct 2016 10:16:07 +0200
-Subject: [PATCH 03/12] blk-mq: Introduce blk_mq_queue_stopped()
-In-Reply-To: <f68b2997-8b0d-7aea-2859-5fbda4f6bf71@sandisk.com>
+Date: Thu, 27 Oct 2016 10:17:03 +0200
+Subject: [PATCH 04/12] blk-mq: Move more code into
+ blk_mq_direct_issue_request()
+In-Reply-To: <32b0bd88-cb8e-754a-89fc-b1825778b05a@sandisk.com>
 References: <b22edafc-725f-0419-d074-34d35d57d126@sandisk.com>
- <f68b2997-8b0d-7aea-2859-5fbda4f6bf71@sandisk.com>
-Message-ID: <20161027081607.4qwdtaxs4k5s5m4p@linux-x5ow.site>
+ <32b0bd88-cb8e-754a-89fc-b1825778b05a@sandisk.com>
+Message-ID: <20161027081703.23jdpy4w3baxywqi@linux-x5ow.site>
 
-On Wed, Oct 26, 2016@03:52:05PM -0700, Bart Van Assche wrote:
-> The function blk_queue_stopped() allows to test whether or not a
-> traditional request queue has been stopped. Introduce a helper
-> function that allows block drivers to query easily whether or not
-> one or more hardware contexts of a blk-mq queue have been stopped.
+On Wed, Oct 26, 2016@03:52:35PM -0700, Bart Van Assche wrote:
+> Move the "hctx stopped" test and the insert request calls into
+> blk_mq_direct_issue_request(). Rename that function into
+> blk_mq_try_issue_directly() to reflect its new semantics. Pass
+> the hctx pointer to that function instead of looking it up a
+> second time. These changes avoid that code has to be duplicated
+> in the next patch.
 > 
 > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> Reviewed-by: Hannes Reinecke <hare at suse.com>
+> Cc: Christoph Hellwig <hch at lst.de>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
