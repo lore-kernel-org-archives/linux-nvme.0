@@ -1,16 +1,16 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 27 Oct 2016 10:27:59 +0200
-Subject: [PATCH 09/12] SRP transport: Move queuecommand() wait code to
- SCSI core
-In-Reply-To: <e86cdaf9-6305-d2cb-6068-0a050c023d73@sandisk.com>
+Date: Thu, 27 Oct 2016 10:28:21 +0200
+Subject: [PATCH 07/12] dm: Use BLK_MQ_S_STOPPED instead of
+ QUEUE_FLAG_STOPPED in blk-mq code
+In-Reply-To: <a0733adf-065e-2099-3850-cb1c55df1e35@sandisk.com>
 References: <b22edafc-725f-0419-d074-34d35d57d126@sandisk.com>
- <e86cdaf9-6305-d2cb-6068-0a050c023d73@sandisk.com>
-Message-ID: <20161027082759.4j56p3yjqu27lhhq@linux-x5ow.site>
+ <a0733adf-065e-2099-3850-cb1c55df1e35@sandisk.com>
+Message-ID: <20161027082821.bf6fcvuaeb6ke6oc@linux-x5ow.site>
 
-On Wed, Oct 26, 2016@03:55:00PM -0700, Bart Van Assche wrote:
-> Additionally, rename srp_wait_for_queuecommand() into
-> scsi_wait_for_queuecommand() and add a comment about the
-> queuecommand() call from scsi_send_eh_cmnd().
+On Wed, Oct 26, 2016@03:54:07PM -0700, Bart Van Assche wrote:
+> Instead of manipulating both QUEUE_FLAG_STOPPED and BLK_MQ_S_STOPPED
+> in the dm start and stop queue functions, only manipulate the latter
+> flag. Change blk_queue_stopped() tests into blk_mq_queue_stopped().
 > 
 > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
 > Reviewed-by: Christoph Hellwig <hch at lst.de>
