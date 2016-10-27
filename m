@@ -1,31 +1,55 @@
-From: bvanassche@acm.org (Bart Van Assche)
-Date: Wed, 26 Oct 2016 20:05:14 -0700
-Subject: [PATCH 05/12] blk-mq: Introduce blk_mq_quiesce_queue()
-In-Reply-To: <CACVXFVNyRnJFnsSO9TNksE5GNy7TJKL=iZnqrv38=u0XCrW7jA@mail.gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Thu, 27 Oct 2016 07:47:38 +0200
+Subject: [PATCH 01/12] blk-mq: Do not invoke .queue_rq() for a stopped
+ queue
+In-Reply-To: <1debcf7f-c950-308b-d297-3e48a77e08d7@sandisk.com>
 References: <b22edafc-725f-0419-d074-34d35d57d126@sandisk.com>
- <5143c240-39af-9fe2-d3e6-ed69f9c20531@sandisk.com>
- <CACVXFVPWL=izFmUPtpi-+RLrhNX0LFfw2m6eurgMC5GvfDWsxQ@mail.gmail.com>
- <7690b469-f5b7-ab04-4b6f-fa0d679e0f18@acm.org>
- <CACVXFVNvdNXm4JXsXo2p1_pZLqDpCos0MTTR+svR98p_vw5PCA@mail.gmail.com>
- <16074653-5e31-27b0-90db-33d36a9df0bc@acm.org>
- <CACVXFVNyRnJFnsSO9TNksE5GNy7TJKL=iZnqrv38=u0XCrW7jA@mail.gmail.com>
-Message-ID: <8404f2d1-5bc3-6c84-7ca0-24e7672ff67d@acm.org>
+ <1debcf7f-c950-308b-d297-3e48a77e08d7@sandisk.com>
+Message-ID: <abd81fc9-fcab-4abd-0f28-0d31eee78dbc@suse.de>
 
-On 10/26/16 19:48, Ming Lei wrote:
-> On Thu, Oct 27, 2016@10:40 AM, Bart Van Assche <bvanassche@acm.org> wrote:
->> If you have a look at the later patches in this series then you will see
->> that the dm core and the NVMe driver have been modified such that
->> blk_mq_stop_hw_queues(q) is called immediately before
->> blk_mq_quiesce_queue(q) is called.
->
-> Cause any current and future users of blk_mq_quiesce_queue(q)
-> have to set the flag via blk_mq_stop_hw_queues(q), why not set
-> the flag explicitly in blk_mq_quiesce_queue(q)?
+On 10/27/2016 12:50 AM, Bart Van Assche wrote:
+> The meaning of the BLK_MQ_S_STOPPED flag is "do not call
+> .queue_rq()". Hence modify blk_mq_make_request() such that requests
+> are queued instead of issued if a queue has been stopped.
+> 
+> Reported-by: Ming Lei <tom.leiming at gmail.com>
+> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Ming Lei <tom.leiming at gmail.com>
+> Cc: Hannes Reinecke <hare at suse.com>
+> Cc: Sagi Grimberg <sagi at grimberg.me>
+> Cc: Johannes Thumshirn <jthumshirn at suse.de>
+> Cc: <stable at vger.kernel.org>
+> ---
+>  block/blk-mq.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index ddc2eed..b5dcafb 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -1332,9 +1332,9 @@ static blk_qc_t blk_mq_make_request(struct request_queue *q, struct bio *bio)
+>  		blk_mq_put_ctx(data.ctx);
+>  		if (!old_rq)
+>  			goto done;
+> -		if (!blk_mq_direct_issue_request(old_rq, &cookie))
+> -			goto done;
+> -		blk_mq_insert_request(old_rq, false, true, true);
+> +		if (test_bit(BLK_MQ_S_STOPPED, &data.hctx->state) ||
+> +		    blk_mq_direct_issue_request(old_rq, &cookie) != 0)
+> +			blk_mq_insert_request(old_rq, false, true, true);
+>  		goto done;
+>  	}
+>  
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Hello Ming,
+Cheers,
 
-I'll leave it to Jens to decide whether I should repost the patch series 
-with this change integrated or whether to realize this change with a 
-follow-up patch.
-
-Bart.
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
