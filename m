@@ -1,10 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 27 Oct 2016 14:50:06 +0200
-Subject: [PATCH v5 7/8] ib_isert: log the connection reject message
-In-Reply-To: <d2f84976faa9dabf8341dea25c50b48b1cf8cb4c.1477510827.git.swise@opengridcomputing.com>
+Date: Thu, 27 Oct 2016 14:50:21 +0200
+Subject: [PATCH v5 8/8] nvmet_rdma: log the connection reject message
+In-Reply-To: <2e41003ee6e18be607c7db7536da3e0c4ebd45da.1477510827.git.swise@opengridcomputing.com>
 References: <cover.1477510827.git.swise@opengridcomputing.com>
- <d2f84976faa9dabf8341dea25c50b48b1cf8cb4c.1477510827.git.swise@opengridcomputing.com>
-Message-ID: <20161027125006.GB13479@lst.de>
+ <2e41003ee6e18be607c7db7536da3e0c4ebd45da.1477510827.git.swise@opengridcomputing.com>
+Message-ID: <20161027125021.GC13479@lst.de>
 
 Looks fine,
 
