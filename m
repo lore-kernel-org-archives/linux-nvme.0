@@ -1,31 +1,22 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 27 Oct 2016 09:10:09 +0200
-Subject: A question regarding "multiple SGL"
-In-Reply-To: <B78D1A958924E54594997EFF975251625BD49445@szxeml592-mbx.china.huawei.com>
-References: <20161027005230.9904DC00097@webmail.sinamail.sina.com.cn>
- <20161027064115.GA5864@lst.de>
- <B78D1A958924E54594997EFF975251625BD49445@szxeml592-mbx.china.huawei.com>
-Message-ID: <20161027071009.GA6434@lst.de>
+Date: Thu, 27 Oct 2016 09:16:00 +0200
+Subject: [PATCH 1/2] nvme: introduce struct nvme_request
+In-Reply-To: <98e72062-abb2-e596-cbdd-d6f915f8ba4d@broadcom.com>
+References: <1477411779-2993-1-git-send-email-hch@lst.de>
+ <1477411779-2993-2-git-send-email-hch@lst.de>
+ <9ca268e3-355c-578f-30ee-5c148a7d8c47@broadcom.com>
+ <2aa1235b-8dae-3399-7d7b-2ebed8ad53c5@broadcom.com>
+ <98e72062-abb2-e596-cbdd-d6f915f8ba4d@broadcom.com>
+Message-ID: <20161027071600.GA6573@lst.de>
 
-Hi Robert,
+On Wed, Oct 26, 2016@12:11:54PM -0700, James Smart wrote:
+> Ok - I understand. nevermind. Patch description covered it.
+>
+> Can't say I agree with these kind of subtle coding requirements between 
+> layers. As soon as the patch description is gone, the understanding of the 
+> requirement gets lost without deep understanding of the code.
 
-please explain your use cases that isn't handled.  The one and only
-reason to set MSDBD to 1 is to make the code a lot simpler given that
-there is no real use case for supporting more.
-
-RDMA uses memory registrations to register large and possibly
-discontiguous data regions for a single rkey, aka single SGL descriptor
-in NVMe terms.  There would be two reasons to support multiple SGL
-descriptors:  a) to support a larger I/O size than supported by a single
-MR, or b) to support a data region format not mappable by a single
-MR.
-
-iSER only supports a single rkey (or stag in IETF terminology) and has
-been doing fine on a) and mostly fine on b).   There are a few possible
-data layouts not supported by the traditional IB/iWarp FR WRs, but the
-limit is in fact exactly the same as imposed by the NVMe PRPs used for
-PCIe NVMe devices, so the Linux block layer has support to not generate
-them.  Also with modern Mellanox IB/RoCE hardware we can actually
-register completely arbitrary SGLs.  iSER supports using this registration
-mode already with a trivial code addition, but for NVMe we didn't have a
-pressing need yet.
+It's not really any different from the current passthrough code,
+which casts two unrelated field in struct request to NVMe data structures.
+I'll have to see if I could come up with some BUILD_BUG_ON magic, but
+in the this is how we do poor man's inheritance.
