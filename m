@@ -1,29 +1,43 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 27 Oct 2016 07:50:12 +0200
-Subject: [PATCH 04/12] blk-mq: Move more code into
- blk_mq_direct_issue_request()
-In-Reply-To: <32b0bd88-cb8e-754a-89fc-b1825778b05a@sandisk.com>
+Date: Thu, 27 Oct 2016 07:52:41 +0200
+Subject: [PATCH 05/12] blk-mq: Introduce blk_mq_quiesce_queue()
+In-Reply-To: <5143c240-39af-9fe2-d3e6-ed69f9c20531@sandisk.com>
 References: <b22edafc-725f-0419-d074-34d35d57d126@sandisk.com>
- <32b0bd88-cb8e-754a-89fc-b1825778b05a@sandisk.com>
-Message-ID: <65a0c5f7-4650-14ea-3d28-b1a8e338b97b@suse.de>
+ <5143c240-39af-9fe2-d3e6-ed69f9c20531@sandisk.com>
+Message-ID: <f1661bd2-12ca-20d1-ece2-5c7fe5987035@suse.de>
 
-On 10/27/2016 12:52 AM, Bart Van Assche wrote:
-> Move the "hctx stopped" test and the insert request calls into
-> blk_mq_direct_issue_request(). Rename that function into
-> blk_mq_try_issue_directly() to reflect its new semantics. Pass
-> the hctx pointer to that function instead of looking it up a
-> second time. These changes avoid that code has to be duplicated
-> in the next patch.
+On 10/27/2016 12:53 AM, Bart Van Assche wrote:
+> blk_mq_quiesce_queue() waits until ongoing .queue_rq() invocations
+> have finished. This function does *not* wait until all outstanding
+> requests have finished (this means invocation of request.end_io()).
+> The algorithm used by blk_mq_quiesce_queue() is as follows:
+> * Hold either an RCU read lock or an SRCU read lock around
+>   .queue_rq() calls. The former is used if .queue_rq() does not
+>   block and the latter if .queue_rq() may block.
+> * blk_mq_quiesce_queue() calls synchronize_srcu() or
+>   synchronize_rcu() to wait for .queue_rq() invocations that
+>   started before blk_mq_quiesce_queue() was called.
+> * The blk_mq_hctx_stopped() calls that control whether or not
+>   .queue_rq() will be called are called with the (S)RCU read lock
+>   held. This is necessary to avoid race conditions against
+>   the "blk_mq_stop_hw_queues(q); blk_mq_quiesce_queue(q);"
+>   sequence from another thread.
 > 
 > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
 > Cc: Christoph Hellwig <hch at lst.de>
+> Cc: Ming Lei <tom.leiming at gmail.com>
 > Cc: Hannes Reinecke <hare at suse.com>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
 > Cc: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
->  block/blk-mq.c | 18 ++++++++++--------
->  1 file changed, 10 insertions(+), 8 deletions(-)
+>  block/Kconfig          |  1 +
+>  block/blk-mq.c         | 69 +++++++++++++++++++++++++++++++++++++++++++++-----
+>  include/linux/blk-mq.h |  3 +++
+>  include/linux/blkdev.h |  1 +
+>  4 files changed, 67 insertions(+), 7 deletions(-)
 > 
+Hmm. Can't say I like having to have two RCU structure for the same
+purpose, but I guess that can't be helped.
+
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
