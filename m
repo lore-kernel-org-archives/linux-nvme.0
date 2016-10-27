@@ -1,11 +1,12 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 27 Oct 2016 15:15:04 +0300
-Subject: [PATCH 02/12] blk-mq: Introduce blk_mq_hctx_stopped()
-In-Reply-To: <0de50789-e3b7-0a07-73c1-4fb87b1f957e@sandisk.com>
+Date: Thu, 27 Oct 2016 15:16:31 +0300
+Subject: [PATCH 04/12] blk-mq: Move more code into
+ blk_mq_direct_issue_request()
+In-Reply-To: <32b0bd88-cb8e-754a-89fc-b1825778b05a@sandisk.com>
 References: <b22edafc-725f-0419-d074-34d35d57d126@sandisk.com>
- <0de50789-e3b7-0a07-73c1-4fb87b1f957e@sandisk.com>
-Message-ID: <baa3c457-0e3a-c911-cd72-ff8307de55f5@grimberg.me>
+ <32b0bd88-cb8e-754a-89fc-b1825778b05a@sandisk.com>
+Message-ID: <71aceb54-7961-e5ab-c40b-cc93ab49e511@grimberg.me>
 
-Looks fine,
+Looks good,
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
