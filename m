@@ -1,28 +1,49 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 27 Oct 2016 08:41:15 +0200
-Subject: A question regarding "multiple SGL"
-In-Reply-To: <20161027005230.9904DC00097@webmail.sinamail.sina.com.cn>
-References: <20161027005230.9904DC00097@webmail.sinamail.sina.com.cn>
-Message-ID: <20161027064115.GA5864@lst.de>
+From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
+Date: Wed, 26 Oct 2016 23:48:36 -0700
+Subject: Introducing Unit test framework based on nvme-cli
+Message-ID: <1477550917-6472-1-git-send-email-chaitanya.kulkarni@hgst.com>
 
-Hi Robert,
+Hi,
 
-There is no feature called "Multiple SGL in one NVMe capsule".  The
-NVMe over Fabrics specification allows a controller to advertise how
-many SGL descriptors it supports using the MSDBD Identify field:
+Introducing nvme-cli based unit test framework. All the test cases use commands implemented in nvme-cli.
 
-"Maximum SGL Data Block Descriptors (MSDBD): This field indicates the
-maximum number of (Keyed) SGL Data Block descriptors that a host is allowed to
-place in a capsule. A value of 0h indicates no limit."
+The goal is to have simple, lightweight, and easily usable framework which we can used to
+develop various categories of unit tests based on nvme-cli and improve overall development.
 
-Setting this value to 1 is perfectly valid.  Similarly a host is free
-to chose any number of SGL descriptors between 0 (only for command that
-don't transfer data) to the limit imposed by the controller using the
-MSDBD field.
+Over the period of time since release of the nvme-cli various test cases are developed which are now integral part of our device deriver testing.
 
-There are no plans to support a MSDBD value larger than 1 in the Linux
-NVMe target, and there are no plans to ever submit commands with multiple
-SGLs from the host driver either.
+These test cases are evolved with nvme-cli and can be used for nvme-cli testing. 
 
-Cheers,
-	Christoph
+I would like to take this opportunity and share first set of test cases which has most frequently used generic NVMe features from cli :-
+
+1. nvme_attach_detach_ns_test.py
+2. nvme_compare_test.py
+3. nvme_create_max_ns_test.py
+4. nvme_error_log_test.py
+5. nvme_flush_test.py
+6. nvme_format_test.py
+7. nvme_get_features_test.py
+8. nvme_read_write_test.py
+9. nvme_smart_log_test.py
+10. nvme_writeuncor_test.py
+11. nvme_writezeros_test.py
+
+Please have a look at README for an overview and process of adding new test case. 
+Framework also has a sample template which can be used readily to write new test case.
+
+Assumptions for current implementation :-
+1. nvme-cli is already installed on the system.
+2. Only one test case can be executed at any given time.
+3. Each test case has logical PRE, RUN and POST sections.
+4. It assumes that driver is loaded and default namespace "/dev/nvme0n1" is present. 
+(It is easy to add driver load/unload in pre and post sections of test cases as per requirement.)
+
+I?d like to know what features, test cases most people would want as a part of this framework.
+Any suggestions are welcome, I'd like to implement them.
+
+On approval I would like to submit more test cases to enhance the framework.
+
+Patch Ref :- [PATCH] Unittest framework based on nvme-cli.
+
+Regards,
+Chaitanya
