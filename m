@@ -1,73 +1,63 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Thu, 27 Oct 2016 09:50:45 -0500
-Subject: A question regarding "multiple SGL"
-In-Reply-To: <178765fb-0fcf-0fdc-dc5e-0cc226375827@grimberg.me>
-References: <20161027005230.9904DC00097@webmail.sinamail.sina.com.cn>
- <20161027064115.GA5864@lst.de>
- <B78D1A958924E54594997EFF975251625BD49445@szxeml592-mbx.china.huawei.com>
- <20161027071009.GA6434@lst.de>
- <178765fb-0fcf-0fdc-dc5e-0cc226375827@grimberg.me>
-Message-ID: <017601d23061$7f8f3ba0$7eadb2e0$@opengridcomputing.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Thu, 27 Oct 2016 08:40:13 -0700
+Subject: [PATCH] nvme-loop: kfree(ctrl) on _create() error exit
+In-Reply-To: <20161027124906.GA28200@infradead.org>
+References: <1477513257-30474-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <20161027124906.GA28200@infradead.org>
+Message-ID: <1477582813.2838.11.camel@linux.intel.com>
 
-> > Hi Robert,
+On Thu, 2016-10-27@05:49 -0700, Christoph Hellwig wrote:
+> On Wed, Oct 26, 2016@01:20:57PM -0700, Jay Freyensee wrote:
+> > 
+> > diff --git a/drivers/nvme/target/loop.c
+> > b/drivers/nvme/target/loop.c
+> > index d5df77d..b0f9931 100644
+> > --- a/drivers/nvme/target/loop.c
+> > +++ b/drivers/nvme/target/loop.c
+> > @@ -673,6 +673,7 @@ static struct nvme_ctrl
+> > *nvme_loop_create_ctrl(struct device *dev,
+> > ?	nvme_uninit_ctrl(&ctrl->ctrl);
+> > ?out_put_ctrl:
+> > ?	nvme_put_ctrl(&ctrl->ctrl);
+> > +	kfree(ctrl);
+> > ?	if (ret > 0)
+> > ?		ret = -EIO;
+> > ?	return ERR_PTR(ret);
 > 
-> Hey Robert, Christoph,
-> 
-> > please explain your use cases that isn't handled.  The one and only
-> > reason to set MSDBD to 1 is to make the code a lot simpler given that
-> > there is no real use case for supporting more.
-> >
-> > RDMA uses memory registrations to register large and possibly
-> > discontiguous data regions for a single rkey, aka single SGL descriptor
-> > in NVMe terms.  There would be two reasons to support multiple SGL
-> > descriptors:  a) to support a larger I/O size than supported by a single
-> > MR, or b) to support a data region format not mappable by a single
-> > MR.
-> >
-> > iSER only supports a single rkey (or stag in IETF terminology) and has
-> > been doing fine on a) and mostly fine on b).   There are a few possible
-> > data layouts not supported by the traditional IB/iWarp FR WRs, but the
-> > limit is in fact exactly the same as imposed by the NVMe PRPs used for
-> > PCIe NVMe devices, so the Linux block layer has support to not generate
-> > them.  Also with modern Mellanox IB/RoCE hardware we can actually
-> > register completely arbitrary SGLs.  iSER supports using this registration
-> > mode already with a trivial code addition, but for NVMe we didn't have a
-> > pressing need yet.
-> 
-> Good explanation :)
-> 
-> The IO transfer size is a bit more pressing on some devices (e.g.
-> cxgb3/4) where the number of pages per-MR can be indeed lower than
-> a reasonable transfer size (Steve can correct me if I'm wrong).
->
+> This will give us a double free.??The final put in nvme_put_ctrl
+> calls
+> ->free_ctrl which will free the controller.
 
-Currently, cxgb4 support 128KB REG_MR operations on a host with 4K page size,
-via a max mr page list depth of 32.  Soon it will be bumped up from 32 to 128
-and life will be better...
+But doesn't nvme_put_ctrl() just take care of the nvme_ctrl? ?The
+kfree(ctrl) is for nvme_loop_ctrl instance being kzalloc'ed at the
+beginning of the function. ?I don't think this is any different than
+what is done for the create_ctrl() implementation in host/rdma.c?:
 
- 
-> However, if there is a real demand for this we'll happily accept
-> patches :)
+host/rdma.c
+===========
+out_uninit_ctrl:
+	nvme_uninit_ctrl(&ctrl->ctrl);
+	nvme_put_ctrl(&ctrl->ctrl);
+	if (ret > 0)
+		ret = -EIO;
+	return ERR_PTR(ret);
+out_free_ctrl:
+	kfree(ctrl); ? <-- this is for nvme_rdma_ctrl alloc
+	return ERR_PTR(ret);
+
+target/loop.c
+========
+out_uninit_ctrl:
+	nvme_uninit_ctrl(&ctrl->ctrl);
+out_put_ctrl:
+	nvme_put_ctrl(&ctrl->ctrl);
+	kfree(ctrl); ? <-- the proposed fix for nvme_loop_ctrl alloc
+	if (ret > 0)
+		ret = -EIO;
+	return ERR_PTR(ret);
+}
 > 
-> Just a note, having this feature in-place can bring unexpected behavior
-> depending on how we implement it:
-> - If we can use multiple MRs per IO (for multiple SGLs) we can either
-> prepare for the worst-case and allocate enough MRs to satisfy the
-> various IO patterns. This will be much heavier in terms of resource
-> allocation and can limit the scalability of the host driver.
-> - Or we can implement a shared MR pool with a reasonable number of MRs.
-> In this case each IO can consume one or more MRs on the expense of
-> other IOs. In this case we may need to requeue the IO later when we
-> have enough available MRs to satisfy the IO. This can yield some
-> unexpected performance gaps for some workloads.
-> 
-
-I would like to see the storage protocols deal with lack of resources for the
-worst case.  This allows much smaller resource usage for both MRs, and SQ
-resources, at the expense of adding flow control logic to deal with lack of
-available MR and/or SQ slots to process the next IO.  I think it can be
-implemented efficiently such that when in flow-control mode, the code is driving
-new IO submissions off of SQ completions which will free up SQ slots and most
-likely MRs from the QP's MR pool.
-
-Steve.
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
