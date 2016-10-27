@@ -1,19 +1,20 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 27 Oct 2016 10:28:21 +0200
-Subject: [PATCH 07/12] dm: Use BLK_MQ_S_STOPPED instead of
- QUEUE_FLAG_STOPPED in blk-mq code
-In-Reply-To: <a0733adf-065e-2099-3850-cb1c55df1e35@sandisk.com>
+Date: Thu, 27 Oct 2016 10:28:36 +0200
+Subject: [PATCH 06/12] blk-mq: Add a kick_requeue_list argument to
+ blk_mq_requeue_request()
+In-Reply-To: <3944826d-bfde-f1e6-40ec-2c9a3c259e3a@sandisk.com>
 References: <b22edafc-725f-0419-d074-34d35d57d126@sandisk.com>
- <a0733adf-065e-2099-3850-cb1c55df1e35@sandisk.com>
-Message-ID: <20161027082821.bf6fcvuaeb6ke6oc@linux-x5ow.site>
+ <3944826d-bfde-f1e6-40ec-2c9a3c259e3a@sandisk.com>
+Message-ID: <20161027082836.pafo4gosudwc4mix@linux-x5ow.site>
 
-On Wed, Oct 26, 2016@03:54:07PM -0700, Bart Van Assche wrote:
-> Instead of manipulating both QUEUE_FLAG_STOPPED and BLK_MQ_S_STOPPED
-> in the dm start and stop queue functions, only manipulate the latter
-> flag. Change blk_queue_stopped() tests into blk_mq_queue_stopped().
+On Wed, Oct 26, 2016@03:53:39PM -0700, Bart Van Assche wrote:
+> Most blk_mq_requeue_request() and blk_mq_add_to_requeue_list() calls
+> are followed by kicking the requeue list. Hence add an argument to
+> these two functions that allows to kick the requeue list. This was
+> proposed by Christoph Hellwig.
 > 
 > Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> Cc: Christoph Hellwig <hch at lst.de>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
