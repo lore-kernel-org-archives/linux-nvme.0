@@ -1,67 +1,90 @@
 From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Fri, 28 Oct 2016 17:19:37 -0700
-Subject: [PATCH v5 03/14] blk-mq: Introduce blk_mq_queue_stopped()
-In-Reply-To: <7460e8b2-2cfd-c0d5-7ae7-7f662d89dad3@sandisk.com>
-References: <7460e8b2-2cfd-c0d5-7ae7-7f662d89dad3@sandisk.com>
-Message-ID: <53234c01-f3f1-27cc-a21a-85486cff24c7@sandisk.com>
+Date: Fri, 28 Oct 2016 17:18:17 -0700
+Subject: [PATCH v5 0/14] Fix race conditions related to stopping block layer
+ queues
+Message-ID: <7460e8b2-2cfd-c0d5-7ae7-7f662d89dad3@sandisk.com>
 
-The function blk_queue_stopped() allows to test whether or not a
-traditional request queue has been stopped. Introduce a helper
-function that allows block drivers to query easily whether or not
-one or more hardware contexts of a blk-mq queue have been stopped.
+Hello Jens,
 
-Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
----
- block/blk-mq.c         | 20 ++++++++++++++++++++
- include/linux/blk-mq.h |  1 +
- 2 files changed, 21 insertions(+)
+Multiple block drivers need the functionality to stop a request queue 
+and to wait until all ongoing request_fn() / queue_rq() calls have 
+finished without waiting until all outstanding requests have finished. 
+Hence this patch series that introduces the blk_mq_quiesce_queue() 
+function. The dm-mq, SRP and NVMe patches in this patch series are three 
+examples of where these functions are useful. These patches have been 
+tested on top of kernel v4.9-rc2. The following tests have been run to 
+verify this patch series:
+- Mike's mptest suite that stress-tests dm-multipath.
+- My own srp-test suite that stress-tests SRP on top of dm-multipath.
+- fio on top of the NVMeOF host driver that was connected to the NVMeOF
+   target driver on the same host.
+- Laurence verified the previous version (v3) of this patch series by
+   running it through the Red Hat SRP and NVMe test suites.
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index bc1f462..283e0eb 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -946,6 +946,26 @@ void blk_mq_run_hw_queues(struct request_queue *q, bool async)
- }
- EXPORT_SYMBOL(blk_mq_run_hw_queues);
- 
-+/**
-+ * blk_mq_queue_stopped() - check whether one or more hctxs have been stopped
-+ * @q: request queue.
-+ *
-+ * The caller is responsible for serializing this function against
-+ * blk_mq_{start,stop}_hw_queue().
-+ */
-+bool blk_mq_queue_stopped(struct request_queue *q)
-+{
-+	struct blk_mq_hw_ctx *hctx;
-+	int i;
-+
-+	queue_for_each_hw_ctx(q, hctx, i)
-+		if (blk_mq_hctx_stopped(hctx))
-+			return true;
-+
-+	return false;
-+}
-+EXPORT_SYMBOL(blk_mq_queue_stopped);
-+
- void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx)
- {
- 	cancel_work(&hctx->run_work);
-diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
-index 535ab2e..aa93000 100644
---- a/include/linux/blk-mq.h
-+++ b/include/linux/blk-mq.h
-@@ -223,6 +223,7 @@ void blk_mq_delay_kick_requeue_list(struct request_queue *q, unsigned long msecs
- void blk_mq_abort_requeue_list(struct request_queue *q);
- void blk_mq_complete_request(struct request *rq, int error);
- 
-+bool blk_mq_queue_stopped(struct request_queue *q);
- void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx);
- void blk_mq_start_hw_queue(struct blk_mq_hw_ctx *hctx);
- void blk_mq_stop_hw_queues(struct request_queue *q);
--- 
-2.10.1
+The changes compared to the third version of this patch series are:
+- Added a blk_mq_stop_hw_queues() call in blk_mq_quiesce_queue() as
+   requested by Ming Lei.
+- Modified scsi_unblock_target() such that it waits until
+   .queuecommand() finished. Unexported scsi_wait_for_queuecommand().
+- Reordered the two NVMe patches.
+- Added a patch that avoids that blk_mq_requeue_work() restarts stopped
+   queues.
+- Added a patch that removes blk_mq_cancel_requeue_work().
+
+Changes between v4 and v3:
+- Left out the dm changes from the patch that introduces
+   blk_mq_hctx_stopped() because a later patch deletes the changed code
+   from the dm core.
+- Moved the blk_mq_hctx_stopped() declaration from a public to a
+   private block layer header file.
+- Added a new patch that moves more code into
+   blk_mq_direct_issue_request(). This patch avoids that a new function
+   has to be introduced to avoid code duplication.
+- Explained the implemented algorithm in the patch that introduces
+   blk_mq_quiesce_queue() in the description of the patch that
+   introduces this function.
+- Added "select SRCU" to the patch that introduces
+   blk_mq_quiesce_queue() to avoid build failures.
+- Documented the shost argument in the scsi_wait_for_queuecommand()
+   kerneldoc header.
+- Fixed an unintended behavior change in the last patch of this series.
+
+Changes between v3 and v2:
+- Changed the order of the patches in this patch series.
+- Added several new patches: a patch that avoids that .queue_rq() gets
+   invoked from the direct submission path if a queue has been stopped
+   and also a patch that introduces the helper function
+   blk_mq_hctx_stopped().
+- blk_mq_quiesce_queue() has been reworked (thanks to Ming Lin and Sagi
+   for their feedback).
+- A bool 'kick' argument has been added to blk_mq_requeue_request().
+- As proposed by Christoph, the code that waits for queuecommand() has
+   been moved from the SRP transport driver to the SCSI core.
+
+Changes between v2 and v1:
+- Dropped the non-blk-mq changes from this patch series.
+- Added support for harware queues with BLK_MQ_F_BLOCKING set.
+- Added a call stack to the description of the dm race fix patch.
+- Dropped the non-scsi-mq changes from the SRP patch.
+- Added a patch that introduces blk_mq_queue_stopped() in the dm driver.
+
+The individual patches in this series are:
+
+0001-blk-mq-Do-not-invoke-.queue_rq-for-a-stopped-queue.patch
+0002-blk-mq-Introduce-blk_mq_hctx_stopped.patch
+0003-blk-mq-Introduce-blk_mq_queue_stopped.patch
+0004-blk-mq-Move-more-code-into-blk_mq_direct_issue_reque.patch
+0005-blk-mq-Avoid-that-requeueing-starts-stopped-queues.patch
+0006-blk-mq-Remove-blk_mq_cancel_requeue_work.patch
+0007-blk-mq-Introduce-blk_mq_quiesce_queue.patch
+0008-blk-mq-Add-a-kick_requeue_list-argument-to-blk_mq_re.patch
+0009-dm-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_STOPPE.patch
+0010-dm-Fix-a-race-condition-related-to-stopping-and-star.patch
+0011-SRP-transport-Move-queuecommand-wait-code-to-SCSI-co.patch
+0012-SRP-transport-scsi-mq-Wait-for-.queue_rq-if-necessar.patch
+0013-nvme-Fix-a-race-condition-related-to-stopping-queues.patch
+0014-nvme-Use-BLK_MQ_S_STOPPED-instead-of-QUEUE_FLAG_STOP.patch
+
+Thanks,
+
+Bart.
