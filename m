@@ -1,55 +1,27 @@
 From: scott.bauer@intel.com (Scott Bauer)
-Date: Mon, 31 Oct 2016 15:58:16 -0600
-Subject: [RFC PATCH 3/6] lib: Add Sed to Kconfig and Makefile
+Date: Mon, 31 Oct 2016 15:58:17 -0600
+Subject: [RFC PATCH 4/6] include: Add sec_ops to block device operations
 In-Reply-To: <1477951099-3127-1-git-send-email-scott.bauer@intel.com>
 References: <1477951099-3127-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <1477951099-3127-4-git-send-email-scott.bauer@intel.com>
+Message-ID: <1477951099-3127-5-git-send-email-scott.bauer@intel.com>
 
 Signed-off-by: Scott Bauer <scott.bauer at intel.com>
 Signed-off-by: Rafael Antognolli <Rafael.Antognolli at intel.com>
 ---
- lib/Kconfig  | 12 ++++++++++++
- lib/Makefile |  7 +++++++
- 2 files changed, 19 insertions(+)
+ include/linux/blkdev.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/lib/Kconfig b/lib/Kconfig
-index 260a80e..47c39ac 100644
---- a/lib/Kconfig
-+++ b/lib/Kconfig
-@@ -547,6 +547,18 @@ config STACKDEPOT
- 	bool
- 	select STACKTRACE
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index c47c358..6fceff1 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -1690,6 +1690,7 @@ struct block_device_operations {
+ 	void (*swap_slot_free_notify) (struct block_device *, unsigned long);
+ 	struct module *owner;
+ 	const struct pr_ops *pr_ops;
++	struct sec_ops *sec_ops;
+ };
  
-+config SED
-+	bool "Self-Encrypting Drive library"
-+	help
-+	  Provides self-encrypting drive helpers
-+
-+config SED_OPAL
-+	bool "Self-Encrypting Drive library - Opal implementation"
-+	depends on SED
-+	help
-+	  Provides self-encrypting drive helpers for drives that implement the
-+	  Opal spec.
-+
- config SBITMAP
- 	bool
- 
-diff --git a/lib/Makefile b/lib/Makefile
-index 50144a3..976da7a 100644
---- a/lib/Makefile
-+++ b/lib/Makefile
-@@ -229,4 +229,11 @@ obj-$(CONFIG_UBSAN) += ubsan.o
- 
- UBSAN_SANITIZE_ubsan.o := n
- 
-+
-+obj-$(CONFIG_SED) += sed.o
-+
-+obj-$(CONFIG_SED_OPAL) += sed-opal.o
-+obj-$(CONFIG_SED_OPAL) += sed-opal_key.o
-+
- obj-$(CONFIG_SBITMAP) += sbitmap.o
-+
+ extern int __blkdev_driver_ioctl(struct block_device *, fmode_t, unsigned int,
 -- 
 2.7.4
