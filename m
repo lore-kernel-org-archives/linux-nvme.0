@@ -1,119 +1,26 @@
-From: loberman@redhat.com (Laurence Oberman)
-Date: Mon, 31 Oct 2016 09:53:18 -0400 (EDT)
+From: bart.vanassche@sandisk.com (Bart Van Assche)
+Date: Mon, 31 Oct 2016 06:59:35 -0700
 Subject: [PATCH v5 14/14] nvme: Use BLK_MQ_S_STOPPED instead of
  QUEUE_FLAG_STOPPED in blk-mq code
-In-Reply-To: <fe057bf0-6ede-fc9e-9a53-9d790c9782c2@sandisk.com>
+In-Reply-To: <540193784.5466628.1477921998345.JavaMail.zimbra@redhat.com>
 References: <7460e8b2-2cfd-c0d5-7ae7-7f662d89dad3@sandisk.com>
  <fe057bf0-6ede-fc9e-9a53-9d790c9782c2@sandisk.com>
-Message-ID: <540193784.5466628.1477921998345.JavaMail.zimbra@redhat.com>
+ <540193784.5466628.1477921998345.JavaMail.zimbra@redhat.com>
+Message-ID: <c8c503bf-4fcb-5e1d-487a-53277bc1c300@sandisk.com>
 
+On 10/31/2016 06:53 AM, Laurence Oberman wrote:
+> Ran multiple read/write buffered and directio tests via RDMA/SRP and mlx5 (100Gbit) with max_sectors_kb set to 1024, 2048, 4096 and 8196
+> Ran multiple read/write buffered and directio tests via RDMA/SRP and mlx4 (56Gbit)  with max_sectors_kb set to 1024, 2048, 4096 and 8196
+> Reset the SRP hosts multiple times with multipath set to no_path_retry queue
+> Ran basic NVME read/write testing with no hot plug disconnects on multiple block sizes
+>
+> All tests passed.
+>
+> For the series:
+> Tested-by: Laurence Oberman <loberman at redhat.com>
 
+Hello Laurence,
 
------ Original Message -----
-> From: "Bart Van Assche" <bart.vanassche at sandisk.com>
-> To: "Jens Axboe" <axboe at fb.com>
-> Cc: "Christoph Hellwig" <hch at lst.de>, "James Bottomley" <jejb at linux.vnet.ibm.com>, "Martin K. Petersen"
-> <martin.petersen at oracle.com>, "Mike Snitzer" <snitzer at redhat.com>, "Doug Ledford" <dledford at redhat.com>, "Keith
-> Busch" <keith.busch at intel.com>, "Ming Lei" <tom.leiming at gmail.com>, "Konrad Rzeszutek Wilk"
-> <konrad.wilk at oracle.com>, "Roger Pau Monn?" <roger.pau at citrix.com>, "Laurence Oberman" <loberman at redhat.com>,
-> linux-block at vger.kernel.org, linux-scsi at vger.kernel.org, linux-rdma at vger.kernel.org, linux-nvme at lists.infradead.org
-> Sent: Friday, October 28, 2016 8:23:40 PM
-> Subject: [PATCH v5 14/14] nvme: Use BLK_MQ_S_STOPPED instead of QUEUE_FLAG_STOPPED in blk-mq code
-> 
-> Make nvme_requeue_req() check BLK_MQ_S_STOPPED instead of
-> QUEUE_FLAG_STOPPED. Remove the QUEUE_FLAG_STOPPED manipulations
-> that became superfluous because of this change. Change
-> blk_queue_stopped() tests into blk_mq_queue_stopped().
-> 
-> This patch fixes a race condition: using queue_flag_clear_unlocked()
-> is not safe if any other function that manipulates the queue flags
-> can be called concurrently, e.g. blk_cleanup_queue().
-> 
-> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> Cc: Keith Busch <keith.busch at intel.com>
-> Cc: Christoph Hellwig <hch at lst.de>
-> Cc: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  drivers/nvme/host/core.c | 16 ++--------------
->  1 file changed, 2 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index fe15d94..45dd237 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -201,13 +201,7 @@ static struct nvme_ns *nvme_get_ns_from_disk(struct
-> gendisk *disk)
->  
->  void nvme_requeue_req(struct request *req)
->  {
-> -	unsigned long flags;
-> -
-> -	blk_mq_requeue_request(req, false);
-> -	spin_lock_irqsave(req->q->queue_lock, flags);
-> -	if (!blk_queue_stopped(req->q))
-> -		blk_mq_kick_requeue_list(req->q);
-> -	spin_unlock_irqrestore(req->q->queue_lock, flags);
-> +	blk_mq_requeue_request(req, !blk_mq_queue_stopped(req->q));
->  }
->  EXPORT_SYMBOL_GPL(nvme_requeue_req);
->  
-> @@ -2078,13 +2072,8 @@ void nvme_stop_queues(struct nvme_ctrl *ctrl)
->  	struct nvme_ns *ns;
->  
->  	mutex_lock(&ctrl->namespaces_mutex);
-> -	list_for_each_entry(ns, &ctrl->namespaces, list) {
-> -		spin_lock_irq(ns->queue->queue_lock);
-> -		queue_flag_set(QUEUE_FLAG_STOPPED, ns->queue);
-> -		spin_unlock_irq(ns->queue->queue_lock);
-> -
-> +	list_for_each_entry(ns, &ctrl->namespaces, list)
->  		blk_mq_quiesce_queue(ns->queue);
-> -	}
->  	mutex_unlock(&ctrl->namespaces_mutex);
->  }
->  EXPORT_SYMBOL_GPL(nvme_stop_queues);
-> @@ -2095,7 +2084,6 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
->  
->  	mutex_lock(&ctrl->namespaces_mutex);
->  	list_for_each_entry(ns, &ctrl->namespaces, list) {
-> -		queue_flag_clear_unlocked(QUEUE_FLAG_STOPPED, ns->queue);
->  		blk_mq_start_stopped_hw_queues(ns->queue, true);
->  		blk_mq_kick_requeue_list(ns->queue);
->  	}
-> --
-> 2.10.1
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
-> 
+Thanks for having tested this version of this patch series again so quickly!
 
-Hello Bart
-
-Thanks for all this work.
-
-Applied all 14 patches, also corrected the part of the xen-blkfront.c blkif_recover patch in patchv5-5/14.
-
-diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
-index 9908597..60fff99 100644
---- a/drivers/block/xen-blkfront.c
-+++ b/drivers/block/xen-blkfront.c
-@@ -2045,6 +2045,7 @@ static int blkif_recover(struct blkfront_info *info)
-                 BUG_ON(req->nr_phys_segments > segs);
-                 blk_mq_requeue_request(req);
-         }
-+        blk_mq_start_stopped_hw_queues(infrq, true);                    *** Corrected
-         blk_mq_kick_requeue_list(infrq);
- 
-         while ((bio = bio_list_pop(&infbio_list)) != NULL) {
-
-Ran multiple read/write buffered and directio tests via RDMA/SRP and mlx5 (100Gbit) with max_sectors_kb set to 1024, 2048, 4096 and 8196
-Ran multiple read/write buffered and directio tests via RDMA/SRP and mlx4 (56Gbit)  with max_sectors_kb set to 1024, 2048, 4096 and 8196
-Reset the SRP hosts multiple times with multipath set to no_path_retry queue
-Ran basic NVME read/write testing with no hot plug disconnects on multiple block sizes
-
-All tests passed.
-
-For the series:
-Tested-by: Laurence Oberman <loberman at redhat.com>
+Bart.
