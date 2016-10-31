@@ -1,296 +1,280 @@
 From: scott.bauer@intel.com (Scott Bauer)
-Date: Mon, 31 Oct 2016 15:58:18 -0600
-Subject: [RFC PATCH 5/6] nvme: Add unlock_from_suspend
+Date: Mon, 31 Oct 2016 15:58:19 -0600
+Subject: [RFC PATCH 6/6] block: ioctl: Wire up Sed to block ioctls
 In-Reply-To: <1477951099-3127-1-git-send-email-scott.bauer@intel.com>
 References: <1477951099-3127-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <1477951099-3127-6-git-send-email-scott.bauer@intel.com>
-
-This patch adds a new function unlock_from_suspend which is used
-to call into the Opal code to attempt to unlock Locking Ranges,
-after a suspend-to-RAM.
-
-The patch also modifies nvme_req_needs_retry to *not* retry
-a request that failed due to a NVME_SC_ACCESS_DENIED, which
-gets returned if a request is attempting to much with a locked
-range. The range won't magically unlock itself without user
-interaction so we shouldn't retry the request -- it will fail
-again.
+Message-ID: <1477951099-3127-7-git-send-email-scott.bauer@intel.com>
 
 Signed-off-by: Scott Bauer <scott.bauer at intel.com>
 Signed-off-by: Rafael Antognolli <Rafael.Antognolli at intel.com>
 ---
- drivers/nvme/host/core.c | 134 +++++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |   4 +-
- drivers/nvme/host/pci.c  |  19 ++++---
- 3 files changed, 149 insertions(+), 8 deletions(-)
+ block/compat_ioctl.c |  14 ++++
+ block/ioctl.c        | 200 ++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 213 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 79e679d..1321331 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -28,6 +28,8 @@
- #include <linux/t10-pi.h>
- #include <scsi/sg.h>
- #include <asm/unaligned.h>
-+#include <linux/sed.h>
-+#include <linux/sed-opal.h>
- 
- #include "nvme.h"
- #include "fabrics.h"
-@@ -1067,6 +1069,137 @@ static const struct pr_ops nvme_pr_ops = {
- 	.pr_clear	= nvme_pr_clear,
- };
- 
-+struct sed_cb_data {
-+	sec_cb	*cb;
-+	void	*cb_data;
-+	struct nvme_command cmd;
-+};
-+
-+static void sec_submit_endio(struct request *req, int error)
-+{
-+	struct sed_cb_data *sed_data = req->end_io_data;
-+
-+	if (sed_data->cb)
-+		sed_data->cb(error, sed_data->cb_data);
-+
-+	kfree(sed_data);
-+	blk_mq_free_request(req);
-+}
-+
-+static int nvme_insert_rq(struct request_queue *q, struct request *rq,
-+			  int at_head, rq_end_io_fn *done)
-+{
-+	WARN_ON(rq->cmd_type == REQ_TYPE_FS);
-+
-+	rq->end_io = done;
-+
-+	if (!q->mq_ops)
-+		return -EINVAL;
-+
-+	blk_mq_insert_request(rq, at_head, true, true);
-+
-+	return 0;
-+}
-+
-+static int nvme_sec_submit(void *data, u8 opcode, u16 SPSP,
-+			   u8 SECP, void *buffer, size_t len,
-+			   sec_cb *cb, void *cb_data)
-+{
-+	struct request_queue *q;
-+	struct request *req;
-+	struct sed_cb_data *sed_data;
-+	struct nvme_ns *ns;
-+	struct nvme_command *cmd;
-+	int ret;
-+
-+	ns = data;//bdev->bd_disk->private_data;
-+
-+	sed_data = kzalloc(sizeof(*sed_data), GFP_NOWAIT);
-+	if (!sed_data)
-+		return -ENOMEM;
-+	sed_data->cb = cb;
-+	sed_data->cb_data = cb_data;
-+	cmd = &sed_data->cmd;
-+
-+	cmd->common.opcode = opcode;
-+	cmd->common.nsid = ns->ns_id;
-+	cmd->common.cdw10[0] = SECP << 24 | SPSP << 8;
-+	cmd->common.cdw10[1] = len;
-+
-+	q = ns->ctrl->admin_q;
-+
-+	req = nvme_alloc_request(q, cmd, 0, NVME_QID_ANY);
-+	if (IS_ERR(req)) {
-+		ret = PTR_ERR(req);
-+		goto err_free;
-+	}
-+
-+	req->timeout = ADMIN_TIMEOUT;
-+	req->special = NULL;
-+
-+	if (buffer && len) {
-+		ret = blk_rq_map_kern(q, req, buffer, len, GFP_NOWAIT);
-+		if (ret) {
-+			blk_mq_free_request(req);
-+			goto err_free;
-+		}
-+	}
-+
-+	req->end_io_data = sed_data;
-+	//req->rq_disk = bdev->bd_disk;
-+
-+	return nvme_insert_rq(q, req, 1, sec_submit_endio);
-+
-+err_free:
-+	kfree(sed_data);
-+	return ret;
-+}
-+
-+static int nvme_sec_recv(void *data, u16 SPSP, u8 SECP,
-+			 void *buffer, size_t len,
-+			 sec_cb *cb, void *cb_data)
-+{
-+	return nvme_sec_submit(data, nvme_admin_security_recv, SPSP, SECP,
-+			       buffer, len, cb, cb_data);
-+}
-+
-+static int nvme_sec_send(void *data, u16 SPSP, u8 SECP,
-+			 void *buffer, size_t len,
-+			 sec_cb *cb, void *cb_data)
-+{
-+	return nvme_sec_submit(data, nvme_admin_security_send, SPSP, SECP,
-+			       buffer, len, cb, cb_data);
-+}
-+
-+void nvme_unlock_from_suspend(struct nvme_ctrl *ctrl)
-+{
-+	struct opal_suspend_unlk ulk = { 0 };
-+	struct nvme_ns *ns;
-+	char diskname[DISK_NAME_LEN];
-+       	mutex_lock(&ctrl->namespaces_mutex);
-+	if (list_empty(&ctrl->namespaces))
-+		goto out_no_namespace;
-+	ulk.data = ns =list_first_entry(&ctrl->namespaces, struct nvme_ns, list);
-+	mutex_unlock(&ctrl->namespaces_mutex);
-+	snprintf(diskname, sizeof(diskname), "%sn%d",
-+		 dev_name(ctrl->device), ns->instance);
-+	ulk.name = diskname;
-+
-+	ulk.ops.send = nvme_sec_send;
-+	ulk.ops.recv = nvme_sec_recv;
-+	opal_unlock_from_suspend(&ulk);
-+
-+	return;
-+ out_no_namespace:
-+	mutex_unlock(&ctrl->namespaces_mutex);
-+}
-+EXPORT_SYMBOL_GPL(nvme_unlock_from_suspend);
-+
-+static struct sec_ops nvme_sec_ops = {
-+	.send	= nvme_sec_send,
-+	.recv	= nvme_sec_recv,
-+};
-+
- static const struct block_device_operations nvme_fops = {
- 	.owner		= THIS_MODULE,
- 	.ioctl		= nvme_ioctl,
-@@ -1076,6 +1209,7 @@ static const struct block_device_operations nvme_fops = {
- 	.getgeo		= nvme_getgeo,
- 	.revalidate_disk= nvme_revalidate_disk,
- 	.pr_ops		= &nvme_pr_ops,
-+	.sec_ops	= &nvme_sec_ops,
- };
- 
- static int nvme_wait_ready(struct nvme_ctrl *ctrl, u64 cap, bool enabled)
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index d47f5a5..ac7e5b1 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -240,7 +240,8 @@ static inline int nvme_error_status(u16 status)
- 
- static inline bool nvme_req_needs_retry(struct request *req, u16 status)
- {
--	return !(status & NVME_SC_DNR || blk_noretry_request(req)) &&
-+	return !(status & NVME_SC_DNR || status & NVME_SC_ACCESS_DENIED ||
-+		 blk_noretry_request(req)) &&
- 		(jiffies - req->start_time) < req->timeout &&
- 		req->retries < nvme_max_retries;
- }
-@@ -259,6 +260,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl);
- 
- void nvme_queue_scan(struct nvme_ctrl *ctrl);
- void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
-+void nvme_unlock_from_suspend(struct nvme_ctrl *ctrl);
- 
- #define NVME_NR_AERS	1
- void nvme_complete_async_event(struct nvme_ctrl *ctrl,
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0248d0e..18fd878 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -43,6 +43,7 @@
+diff --git a/block/compat_ioctl.c b/block/compat_ioctl.c
+index 556826a..2b83019 100644
+--- a/block/compat_ioctl.c
++++ b/block/compat_ioctl.c
+@@ -10,6 +10,7 @@
+ #include <linux/syscalls.h>
  #include <linux/types.h>
- #include <linux/io-64-nonatomic-lo-hi.h>
- #include <asm/unaligned.h>
-+#include <linux/sed-opal.h>
+ #include <linux/uaccess.h>
++#include <linux/sed.h>
  
- #include "nvme.h"
- 
-@@ -582,6 +583,7 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	struct nvme_command cmnd;
- 	unsigned map_len;
- 	int ret = BLK_MQ_RQ_QUEUE_OK;
-+	unsigned long flags;
- 
- 	/*
- 	 * If formated with metadata, require the block layer provide a buffer
-@@ -614,18 +616,18 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	cmnd.common.command_id = req->tag;
- 	blk_mq_start_request(req);
- 
--	spin_lock_irq(&nvmeq->q_lock);
-+	spin_lock_irqsave(&nvmeq->q_lock, flags);
- 	if (unlikely(nvmeq->cq_vector < 0)) {
- 		if (ns && !test_bit(NVME_NS_DEAD, &ns->flags))
- 			ret = BLK_MQ_RQ_QUEUE_BUSY;
- 		else
- 			ret = BLK_MQ_RQ_QUEUE_ERROR;
--		spin_unlock_irq(&nvmeq->q_lock);
-+		spin_unlock_irqrestore(&nvmeq->q_lock, flags);
- 		goto out;
- 	}
- 	__nvme_submit_cmd(nvmeq, &cmnd);
- 	nvme_process_cq(nvmeq);
--	spin_unlock_irq(&nvmeq->q_lock);
-+	spin_unlock_irqrestore(&nvmeq->q_lock, flags);
- 	return BLK_MQ_RQ_QUEUE_OK;
- out:
- 	nvme_free_iod(dev, req);
-@@ -635,11 +637,11 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
- static void nvme_complete_rq(struct request *req)
+ static int compat_put_ushort(unsigned long arg, unsigned short val)
  {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--	struct nvme_dev *dev = iod->nvmeq->dev;
-+	struct nvme_queue *nvmeq = iod->nvmeq;
-+	struct nvme_dev *dev = nvmeq->dev;
- 	int error = 0;
+@@ -746,6 +747,19 @@ long compat_blkdev_ioctl(struct file *file, unsigned cmd, unsigned long arg)
+ 	case BLKTRACETEARDOWN: /* compatible */
+ 		ret = blk_trace_ioctl(bdev, cmd, compat_ptr(arg));
+ 		return ret;
++	case IOC_SED_SAVE:
++	case IOC_SED_LOCK_UNLOCK:
++	case IOC_SED_TAKE_OWNERSHIP:
++	case IOC_SED_ACTIVATE_LSP:
++	case IOC_SED_SET_PW:
++	case IOC_SED_ACTIVATE_USR:
++	case IOC_SED_REVERT_TPR:
++	case IOC_SED_LR_SETUP:
++	case IOC_SED_ADD_USR_TO_LR:
++	case IOC_SED_ENABLE_DISABLE_MBR:
++	case IOC_SED_ERASE_LR:
++		return blkdev_ioctl(bdev, mode, cmd,
++				(unsigned long)compat_ptr(arg));
+ 	default:
+ 		if (disk->fops->compat_ioctl)
+ 			ret = disk->fops->compat_ioctl(bdev, mode, cmd, arg);
+diff --git a/block/ioctl.c b/block/ioctl.c
+index 755119c..f5c971b 100644
+--- a/block/ioctl.c
++++ b/block/ioctl.c
+@@ -8,6 +8,7 @@
+ #include <linux/fs.h>
+ #include <linux/blktrace_api.h>
+ #include <linux/pr.h>
++#include <linux/sed.h>
+ #include <asm/uaccess.h>
  
- 	nvme_unmap_data(dev, req);
--
- 	if (unlikely(req->errors)) {
- 		if (nvme_req_needs_retry(req, req->errors)) {
- 			req->retries++;
-@@ -658,7 +660,6 @@ static void nvme_complete_rq(struct request *req)
- 			"completing aborted command with status: %04x\n",
- 			req->errors);
- 	}
--
- 	blk_mq_end_request(req, error);
+ static int blkpg_ioctl(struct block_device *bdev, struct blkpg_ioctl_arg __user *arg)
+@@ -392,6 +393,181 @@ static int blkdev_pr_clear(struct block_device *bdev,
+ 	return ops->pr_clear(bdev, c.key);
  }
  
-@@ -1758,10 +1759,11 @@ static void nvme_reset_work(struct work_struct *work)
- {
- 	struct nvme_dev *dev = container_of(work, struct nvme_dev, reset_work);
- 	int result = -ENODEV;
--
-+	bool was_suspend = false;
- 	if (WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING))
- 		goto out;
- 
-+	was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
- 	/*
- 	 * If we're called to reset a live controller first shut it down before
- 	 * moving on.
-@@ -1789,6 +1791,9 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (result)
- 		goto out;
- 
-+	if (was_suspend)
-+		nvme_unlock_from_suspend(&dev->ctrl);
++static int blkdev_sed_save(struct block_device *bdev,
++		struct sed_key __user *arg)
++{
++	const struct sec_ops *ops = bdev->bd_disk->fops->sec_ops;
++	struct sed_key k;
 +
- 	result = nvme_setup_io_queues(dev);
- 	if (result)
- 		goto out;
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (!ops || !ops->send || !ops->recv)
++		return -EOPNOTSUPP;
++	if (copy_from_user(&k, arg, sizeof(k)))
++		return -EFAULT;
++
++	return sed_save(bdev, &k);
++}
++
++static int blkdev_sed_lock_unlock(struct block_device *bdev,
++		struct sed_key __user *arg)
++{
++	const struct sec_ops *ops = bdev->bd_disk->fops->sec_ops;
++	struct sed_key k;
++
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (!ops || !ops->send || !ops->recv)
++		return -EOPNOTSUPP;
++	if (copy_from_user(&k, arg, sizeof(k)))
++		return -EFAULT;
++
++	return sed_lock_unlock(bdev, &k);
++}
++
++static int blkdev_sed_take_ownership(struct block_device *bdev,
++		struct sed_key __user *arg)
++{
++	const struct sec_ops *ops = bdev->bd_disk->fops->sec_ops;
++	struct sed_key k;
++
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (!ops || !ops->send || !ops->recv)
++		return -EOPNOTSUPP;
++	if (copy_from_user(&k, arg, sizeof(k)))
++		return -EFAULT;
++
++	return sed_take_ownership(bdev, &k);
++}
++
++static int blkdev_sed_activate_lsp(struct block_device *bdev,
++		struct sed_key __user *arg)
++{
++	const struct sec_ops *ops = bdev->bd_disk->fops->sec_ops;
++	struct sed_key k;
++
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (!ops || !ops->send || !ops->recv)
++		return -EOPNOTSUPP;
++	if (copy_from_user(&k, arg, sizeof(k)))
++		return -EFAULT;
++
++	return sed_activate_lsp(bdev, &k);
++}
++
++static int blkdev_sed_set_pw(struct block_device *bdev,
++			     struct sed_key __user *arg)
++{
++	const struct sec_ops *ops = bdev->bd_disk->fops->sec_ops;
++	struct sed_key k;
++
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (!ops || !ops->send || !ops->recv)
++		return -EOPNOTSUPP;
++	if (copy_from_user(&k, arg, sizeof(k)))
++		return -EFAULT;
++
++	return sed_set_pw(bdev, &k);
++}
++
++static int blkdev_sed_activate_user(struct block_device *bdev,
++				    struct sed_key __user *arg)
++{
++	const struct sec_ops *ops = bdev->bd_disk->fops->sec_ops;
++	struct sed_key k;
++
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (!ops || !ops->send || !ops->recv)
++		return -EOPNOTSUPP;
++	if (copy_from_user(&k, arg, sizeof(k)))
++		return -EFAULT;
++	return sed_activate_user(bdev, &k);
++}
++
++static int blkdev_sed_reverttper(struct block_device *bdev,
++				 struct sed_key __user *arg)
++{
++	const struct sec_ops *ops = bdev->bd_disk->fops->sec_ops;
++	struct sed_key k;
++
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (!ops || !ops->send || !ops->recv)
++		return -EOPNOTSUPP;
++	if (copy_from_user(&k, arg, sizeof(k)))
++		return -EFAULT;
++
++	return sed_reverttper(bdev, &k);
++}
++
++static int blkdev_sed_setuplr(struct block_device *bdev,
++			      struct sed_key __user *arg)
++{
++	const struct sec_ops *ops = bdev->bd_disk->fops->sec_ops;
++	struct sed_key k;
++
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (!ops || !ops->send || !ops->recv)
++		return -EOPNOTSUPP;
++	if (copy_from_user(&k, arg, sizeof(k)))
++		return -EFAULT;
++
++	return sed_setup_locking_range(bdev, &k);
++}
++
++static int blkdev_sed_add_usr_to_lr(struct block_device *bdev,
++				    struct sed_key __user *arg)
++{
++	const struct sec_ops *ops = bdev->bd_disk->fops->sec_ops;
++	struct sed_key k;
++
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (!ops || !ops->send || !ops->recv)
++		return -EOPNOTSUPP;
++	if (copy_from_user(&k, arg, sizeof(k)))
++		return -EFAULT;
++
++	return sed_adduser_to_lr(bdev, &k);
++}
++
++static int blkdev_sed_do_mbr(struct block_device *bdev,
++			     struct sed_key __user *arg)
++{
++	const struct sec_ops *ops = bdev->bd_disk->fops->sec_ops;
++	struct sed_key k;
++
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (!ops || !ops->send || !ops->recv)
++		return -EOPNOTSUPP;
++	if (copy_from_user(&k, arg, sizeof(k)))
++		return -EFAULT;
++
++	return sed_do_mbr(bdev, &k);
++}
++
++static int blkdev_sed_erase_lr(struct block_device *bdev,
++			     struct sed_key __user *arg)
++{
++	const struct sec_ops *ops = bdev->bd_disk->fops->sec_ops;
++	struct sed_key k;
++
++	if (!capable(CAP_SYS_ADMIN))
++		return -EPERM;
++	if (!ops || !ops->send || !ops->recv)
++		return -EOPNOTSUPP;
++	if (copy_from_user(&k, arg, sizeof(k)))
++		return -EFAULT;
++
++	return sed_erase_lr(bdev, &k);
++}
++
+ /*
+  * Is it an unrecognized ioctl? The correct returns are either
+  * ENOTTY (final) or ENOIOCTLCMD ("I don't know this one, try a
+@@ -551,7 +727,7 @@ int blkdev_ioctl(struct block_device *bdev, fmode_t mode, unsigned cmd,
+ 		return put_ushort(arg, !blk_queue_nonrot(bdev_get_queue(bdev)));
+ 	case BLKRASET:
+ 	case BLKFRASET:
+-		if(!capable(CAP_SYS_ADMIN))
++		if (!capable(CAP_SYS_ADMIN))
+ 			return -EACCES;
+ 		bdi = blk_get_backing_dev_info(bdev);
+ 		bdi->ra_pages = (arg * 512) / PAGE_SIZE;
+@@ -586,6 +762,28 @@ int blkdev_ioctl(struct block_device *bdev, fmode_t mode, unsigned cmd,
+ 		return blkdev_pr_preempt(bdev, argp, true);
+ 	case IOC_PR_CLEAR:
+ 		return blkdev_pr_clear(bdev, argp);
++	case IOC_SED_SAVE:
++		return blkdev_sed_save(bdev, argp);
++	case IOC_SED_LOCK_UNLOCK:
++		return blkdev_sed_lock_unlock(bdev, argp);
++	case IOC_SED_TAKE_OWNERSHIP:
++		return blkdev_sed_take_ownership(bdev, argp);
++	case IOC_SED_ACTIVATE_LSP:
++		return blkdev_sed_activate_lsp(bdev, argp);
++	case IOC_SED_SET_PW:
++		return blkdev_sed_set_pw(bdev, argp);
++	case IOC_SED_ACTIVATE_USR:
++		return blkdev_sed_activate_user(bdev, argp);
++	case IOC_SED_REVERT_TPR:
++		return blkdev_sed_reverttper(bdev, argp);
++	case IOC_SED_LR_SETUP:
++		return blkdev_sed_setuplr(bdev, argp);
++	case IOC_SED_ADD_USR_TO_LR:
++		return blkdev_sed_add_usr_to_lr(bdev, argp);
++	case IOC_SED_ENABLE_DISABLE_MBR:
++		return blkdev_sed_do_mbr(bdev, argp);
++	case IOC_SED_ERASE_LR:
++		return blkdev_sed_erase_lr(bdev, argp);
+ 	default:
+ 		return __blkdev_driver_ioctl(bdev, mode, cmd, arg);
+ 	}
 -- 
 2.7.4
