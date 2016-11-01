@@ -1,10 +1,20 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 1 Nov 2016 18:03:23 +0200
-Subject: [PATCH v5 13/14] nvme: Fix a race condition related to stopping
- queues
-In-Reply-To: <3a8cc957-ea9e-fe1d-f325-ad9ca1aae8a8@sandisk.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Tue, 01 Nov 2016 12:11:42 -0400
+Subject: [PATCH v5 11/14] SRP transport: Move queuecommand() wait code to
+ SCSI core
+In-Reply-To: <b447e9bc-7e29-d058-76ad-89ba2a7bf729@sandisk.com> (Bart Van
+ Assche's message of "Fri, 28 Oct 2016 17:22:37 -0700")
 References: <7460e8b2-2cfd-c0d5-7ae7-7f662d89dad3@sandisk.com>
- <3a8cc957-ea9e-fe1d-f325-ad9ca1aae8a8@sandisk.com>
-Message-ID: <8666f308-a772-daf3-0213-d6543ff23e44@grimberg.me>
+ <b447e9bc-7e29-d058-76ad-89ba2a7bf729@sandisk.com>
+Message-ID: <yq1h97r18ox.fsf@sermon.lab.mkp.net>
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+>>>>> "Bart" == Bart Van Assche <bart.vanassche at sandisk.com> writes:
+
+Bart> Additionally, rename srp_wait_for_queuecommand() into
+Bart> scsi_wait_for_queuecommand() and add a comment about the
+Bart> queuecommand() call from scsi_send_eh_cmnd().
+
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
