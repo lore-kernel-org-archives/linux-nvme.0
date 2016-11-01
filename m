@@ -1,137 +1,193 @@
-From: hiroysato@gmail.com (Hiroyuki Sato)
-Date: Wed, 1 Jun 2016 11:08:32 +0900
-Subject: RAID0 mdadm Question
-In-Reply-To: <574D9790.1080106@intel.com>
-References: <CA+Tq-RoTOSwAbJJFBgkDEC8LV-CiFOHKvbC3i3tkUUoxu03ziQ@mail.gmail.com>
- <574D9790.1080106@intel.com>
-Message-ID: <CA+Tq-Rr9yU1VNr-XQ=S5_hnP0saZz7poc8SCESaidZ43Wmak+w@mail.gmail.com>
-
-Hello Artur
-
-Thank you for your replying.
-
-I found /dev/md126. But It does not contain partition information.
-I'm not sure why partition information lost.
-
-Could you tell me if you know any other commands?
-
-Best regards.
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 1 Nov 2016 10:18:13 +0200
+Subject: [RFC PATCH 5/6] nvme: Add unlock_from_suspend
+In-Reply-To: <1477951099-3127-6-git-send-email-scott.bauer@intel.com>
+References: <1477951099-3127-1-git-send-email-scott.bauer@intel.com>
+ <1477951099-3127-6-git-send-email-scott.bauer@intel.com>
+Message-ID: <6a6a131a-09fe-4c7c-85a7-01149555e427@grimberg.me>
 
 
-Step1 scan drives
+> +struct sed_cb_data {
+> +	sec_cb	*cb;
+> +	void	*cb_data;
+> +	struct nvme_command cmd;
+> +};
+> +
+> +static void sec_submit_endio(struct request *req, int error)
+> +{
+> +	struct sed_cb_data *sed_data = req->end_io_data;
+> +
+> +	if (sed_data->cb)
+> +		sed_data->cb(error, sed_data->cb_data);
+> +
+> +	kfree(sed_data);
+> +	blk_mq_free_request(req);
+> +}
+> +
+> +static int nvme_insert_rq(struct request_queue *q, struct request *rq,
+> +			  int at_head, rq_end_io_fn *done)
+> +{
+> +	WARN_ON(rq->cmd_type == REQ_TYPE_FS);
+> +
+> +	rq->end_io = done;
+> +
+> +	if (!q->mq_ops)
+> +		return -EINVAL;
+> +
+> +	blk_mq_insert_request(rq, at_head, true, true);
+> +
+> +	return 0;
+> +}
 
-  mdadm --assemble --scan
-  mdadm: Container /dev/md/imsm0 has been assembled with 2 drives
-  mdadm: Started /dev/md/0_0 with 2 devices
+No need for this function... you control the call site...
 
+> +
+> +static int nvme_sec_submit(void *data, u8 opcode, u16 SPSP,
+> +			   u8 SECP, void *buffer, size_t len,
+> +			   sec_cb *cb, void *cb_data)
+> +{
+> +	struct request_queue *q;
+> +	struct request *req;
+> +	struct sed_cb_data *sed_data;
+> +	struct nvme_ns *ns;
+> +	struct nvme_command *cmd;
+> +	int ret;
+> +
+> +	ns = data;//bdev->bd_disk->private_data;
 
-  # cat /proc/mdstat
-  Personalities : [raid0]
-  md127 : inactive nvme0n1[1](S) nvme1n1[0](S)
-        6306 blocks super external:imsm
+??
 
-  md126 : active raid0 nvme1n1[1] nvme0n1[0]
-        781416448 blocks super external:/md127/0 128k chunks
+you don't even have data anywhere in here...
 
-  unused devices: <none>
+> +
+> +	sed_data = kzalloc(sizeof(*sed_data), GFP_NOWAIT);
+> +	if (!sed_data)
+> +		return -ENOMEM;
+> +	sed_data->cb = cb;
+> +	sed_data->cb_data = cb_data;
+> +	cmd = &sed_data->cmd;
+> +
+> +	cmd->common.opcode = opcode;
+> +	cmd->common.nsid = ns->ns_id;
+> +	cmd->common.cdw10[0] = SECP << 24 | SPSP << 8;
+> +	cmd->common.cdw10[1] = len;
+> +
+> +	q = ns->ctrl->admin_q;
+> +
+> +	req = nvme_alloc_request(q, cmd, 0, NVME_QID_ANY);
+> +	if (IS_ERR(req)) {
+> +		ret = PTR_ERR(req);
+> +		goto err_free;
+> +	}
+> +
+> +	req->timeout = ADMIN_TIMEOUT;
+> +	req->special = NULL;
+> +
+> +	if (buffer && len) {
+> +		ret = blk_rq_map_kern(q, req, buffer, len, GFP_NOWAIT);
+> +		if (ret) {
+> +			blk_mq_free_request(req);
+> +			goto err_free;
+> +		}
+> +	}
+> +
+> +	req->end_io_data = sed_data;
+> +	//req->rq_disk = bdev->bd_disk;
 
-Step2 check partition information
+??
 
-  parted /dev/md126
-  GNU Parted 3.1
-  Using /dev/md126
-  Welcome to GNU Parted! Type 'help' to view a list of commands.
-  (parted) p
-  Error: /dev/md126: unrecognised disk label
-  Model: Linux Software RAID Array (md)
-  Disk /dev/md126: 800GB
-  Sector size (logical/physical): 512B/512B
-  Partition Table: unknown
-  Disk Flags:
+> +
+> +	return nvme_insert_rq(q, req, 1, sec_submit_endio);
 
-2016-05-31 22:54 GMT+09:00 Artur Paszkiewicz <artur.paszkiewicz at intel.com>:
-> On 05/31/2016 11:41 AM, Hiroyuki Sato wrote:
->> Hello
->>
->> NVMe Newbie question.
->>
->> I have two P3600 PCIe NVMe Cards.
->> And I created RAID0 volume with mdadm command.
->> It works fine. But after reboot, I can't mount file system it.
->> It seems lost partition table.
->> (No partition information)
->>
->> Environment
->>   - NVMe: Intel P3600 cards * 2
->>   - Linux: 4.4.0
->>   - OS: CentOS7
->>
->> Question
->>
->>   1, Do I need re-create file system on each Boot time?
->>
->>   2, If not What step is missing?
->>
->>     generate mdadm.conf?
->>
->> Best regards.
->>
->> NVMe RAID step
->>
->>   Basically I followed this doc
->>     https://communities.intel.com/community/itpeernetwork/blog/2015/10/01/how-to-use-and-benchmark-nvme-ssd-create-a-software-raid-and-analyze-performance-the-answers-are-here
->>
->>   Step1: create container
->>
->>     mdadm -C /dev/md/imsm0 /dev/nvme0n1 /dev/nvme1n1 -n 2 -e imsm -f
->>     mdadm: /dev/nvme0n1 appears to be part of a raid array:
->>            level=raid0 devices=0 ctime=Thu Jan  1 09:00:00 1970
->>     Continue creating array? y
->>     mdadm: container /dev/md/imsm0 prepared.
->>
->>   Step2, create md device
->>     mdadm -C /dev/md0 /dev/md/imsm0 -n 2 -l 0 -c 128 -f
->>     mdadm: array /dev/md0 started.
->>
->>   Step3: Create Partition
->>     parted /dev/md0
->>
->>     (parted) mkpart
->>     Partition name?  []?
->>     File system type?  [ext2]? xfs
->>     Start? 0%
->>     End? -1
->>
->>     (parted) p
->>     Model: Linux Software RAID Array (md)
->>     Disk /dev/md0: 800GB
->>     Sector size (logical/physical): 512B/512B
->>     Partition Table: gpt
->>     Disk Flags:
->>
->>     Number  Start   End    Size   File system  Name  Flags
->>      1      1049kB  800GB  800GB
->>
->>     (parted) quit
->>     Information: You may need to update /etc/fstab.
->>
->>   Step4: Newfs
->>
->>     /sbin/mkfs.xfs -K /dev/md0p1 -f
->>
->>   Step5: mount
->>
->>     mount -o noatime,nodiratime,nobarrier /dev/md0p1 /mnt/nvme1
->>
+No need to introduce nvme_insert_rq at all, just call
+blk_mq_insert_request (other examples call blk_execute_rq_nowait
+but its pretty much the same...)
+
+> @@ -582,6 +583,7 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+>  	struct nvme_command cmnd;
+>  	unsigned map_len;
+>  	int ret = BLK_MQ_RQ_QUEUE_OK;
+> +	unsigned long flags;
 >
-> Maybe the array has not assembled automatically after reboot. Check
-> /proc/mdstat.  Also, the device you created in step 2 could have
-> assembled under a different name, like /dev/md126.
+>  	/*
+>  	 * If formated with metadata, require the block layer provide a buffer
+> @@ -614,18 +616,18 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+>  	cmnd.common.command_id = req->tag;
+>  	blk_mq_start_request(req);
 >
-> Artur
+> -	spin_lock_irq(&nvmeq->q_lock);
+> +	spin_lock_irqsave(&nvmeq->q_lock, flags);
+>  	if (unlikely(nvmeq->cq_vector < 0)) {
+>  		if (ns && !test_bit(NVME_NS_DEAD, &ns->flags))
+>  			ret = BLK_MQ_RQ_QUEUE_BUSY;
+>  		else
+>  			ret = BLK_MQ_RQ_QUEUE_ERROR;
+> -		spin_unlock_irq(&nvmeq->q_lock);
+> +		spin_unlock_irqrestore(&nvmeq->q_lock, flags);
+>  		goto out;
+>  	}
+>  	__nvme_submit_cmd(nvmeq, &cmnd);
+>  	nvme_process_cq(nvmeq);
+> -	spin_unlock_irq(&nvmeq->q_lock);
+> +	spin_unlock_irqrestore(&nvmeq->q_lock, flags);
+
+No documentation why this is needed...
+
+>  	return BLK_MQ_RQ_QUEUE_OK;
+>  out:
+>  	nvme_free_iod(dev, req);
+> @@ -635,11 +637,11 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+>  static void nvme_complete_rq(struct request *req)
+>  {
+>  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+> -	struct nvme_dev *dev = iod->nvmeq->dev;
+> +	struct nvme_queue *nvmeq = iod->nvmeq;
+> +	struct nvme_dev *dev = nvmeq->dev;
+
+This is a cleanup that should go in a different patch...
+
+>  	int error = 0;
 >
+>  	nvme_unmap_data(dev, req);
+> -
 
+Same here...
 
+>  	if (unlikely(req->errors)) {
+>  		if (nvme_req_needs_retry(req, req->errors)) {
+>  			req->retries++;
+> @@ -658,7 +660,6 @@ static void nvme_complete_rq(struct request *req)
+>  			"completing aborted command with status: %04x\n",
+>  			req->errors);
+>  	}
+> -
 
--- 
-Hiroyuki Sato
+Here...
+
+>  	blk_mq_end_request(req, error);
+>  }
+>
+> @@ -1758,10 +1759,11 @@ static void nvme_reset_work(struct work_struct *work)
+>  {
+>  	struct nvme_dev *dev = container_of(work, struct nvme_dev, reset_work);
+>  	int result = -ENODEV;
+> -
+> +	bool was_suspend = false;
+>  	if (WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING))
+>  		goto out;
+>
+> +	was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+>  	/*
+>  	 * If we're called to reset a live controller first shut it down before
+>  	 * moving on.
+> @@ -1789,6 +1791,9 @@ static void nvme_reset_work(struct work_struct *work)
+>  	if (result)
+>  		goto out;
+>
+> +	if (was_suspend)
+> +		nvme_unlock_from_suspend(&dev->ctrl);
+> +
+>  	result = nvme_setup_io_queues(dev);
+>  	if (result)
+>  		goto out;
+>
