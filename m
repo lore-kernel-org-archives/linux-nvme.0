@@ -1,9 +1,12 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 1 Nov 2016 18:02:02 +0200
-Subject: [PATCH v5 07/14] blk-mq: Introduce blk_mq_quiesce_queue()
-In-Reply-To: <81a7e98c-51b0-99f0-c143-303425508bff@sandisk.com>
+Date: Tue, 1 Nov 2016 18:02:36 +0200
+Subject: [PATCH v5 08/14] blk-mq: Add a kick_requeue_list argument to
+ blk_mq_requeue_request()
+In-Reply-To: <01d525ec-5b5b-b22d-4b17-36d7406920ed@sandisk.com>
 References: <7460e8b2-2cfd-c0d5-7ae7-7f662d89dad3@sandisk.com>
- <81a7e98c-51b0-99f0-c143-303425508bff@sandisk.com>
-Message-ID: <c06b66d6-2806-b38e-ade1-89ff5c6804fc@grimberg.me>
+ <01d525ec-5b5b-b22d-4b17-36d7406920ed@sandisk.com>
+Message-ID: <41909d98-a3ac-a008-3869-207ff98b7fdc@grimberg.me>
+
+Looks useful,
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
