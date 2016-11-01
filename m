@@ -1,33 +1,25 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  1 Nov 2016 10:41:41 +0200
-Subject: [PATCH] nvme-rdma: remove redundant define and include
-Message-ID: <1477989701-30810-1-git-send-email-sagi@grimberg.me>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 1 Nov 2016 06:43:52 -0700
+Subject: [PATCH] nvmet: Fix possible infinite loop triggered on hot
+ namespace removal
+In-Reply-To: <1477819337-31190-1-git-send-email-sagi@grimberg.me>
+References: <1477819337-31190-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20161101134352.GA5096@infradead.org>
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/rdma.c | 3 ---
- 1 file changed, 3 deletions(-)
+>  void nvmet_ns_disable(struct nvmet_ns *ns)
+> @@ -324,13 +324,10 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+>  	struct nvmet_subsys *subsys = ns->subsys;
+>  	struct nvmet_ctrl *ctrl;
+>  
+> -	mutex_lock(&subsys->lock);
+> -	if (list_empty(&ns->dev_link)) {
+> -		mutex_unlock(&subsys->lock);
+> +	if (!test_and_clear_bit(NVMET_NS_ENABLED, &ns->flags))
+>  		return;
+> -	}
+> -	list_del_init(&ns->dev_link);
+> -	mutex_unlock(&subsys->lock);
+> +
+> +	list_del_rcu(&ns->dev_link);
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index f90b32dddd7f..19d9242fcc78 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -28,7 +28,6 @@
- 
- #include <rdma/ib_verbs.h>
- #include <rdma/rdma_cm.h>
--#include <rdma/ib_cm.h>
- #include <linux/nvme-rdma.h>
- 
- #include "nvme.h"
-@@ -43,8 +42,6 @@
- 
- #define NVME_RDMA_MAX_INLINE_SEGMENTS	1
- 
--#define NVME_RDMA_MAX_PAGES_PER_MR	512
--
- #define NVME_RDMA_DEF_RECONNECT_DELAY	20
- 
- /*
--- 
-2.7.4
+We'll still need the lock here, don't we?
