@@ -1,43 +1,32 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 2 Nov 2016 00:34:57 +0200
-Subject: nvmet_rdma crash - DISCONNECT event with NULL queue
-In-Reply-To: <024e01d23476$6668b890$333a29b0$@opengridcomputing.com>
-References: <01b401d23458$af277210$0d765630$@opengridcomputing.com>
- <6f42d056-284d-00fc-2b98-189f54957980@grimberg.me>
- <01cc01d2345b$d445acd0$7cd10670$@opengridcomputing.com>
- <4cc25277-429a-4ab9-470c-b3af1428ce93@grimberg.me>
- <01d101d2345e$2f054390$8d0fcab0$@opengridcomputing.com>
- <dbe5f18d-7928-f065-920f-753b30fb99a2@grimberg.me>
- <01d901d2345f$da0d2e00$8e278a00$@opengridcomputing.com>
- <1d09c064-1cbe-7e6e-43d2-cfa6cf0c19ea@grimberg.me>
- <024e01d23476$6668b890$333a29b0$@opengridcomputing.com>
-Message-ID: <3512b8bb-4d29-b90a-49e1-ebf1085c47d7@grimberg.me>
+From: mlin@kernel.org (Ming Lin)
+Date: Tue, 1 Nov 2016 16:07:11 -0700
+Subject: Failure with 8K Write operations
+In-Reply-To: <BY2PR08MB1815B488DAC435C9EA684457C0F00@BY2PR08MB1815.namprd08.prod.outlook.com>
+References: <BY2PR08MB181580B3E2779DAF024CAD7DC0FF0@BY2PR08MB1815.namprd08.prod.outlook.com>
+ <a8e92a9f-f3e6-6bc3-b49b-368f3302517d@grimberg.me>
+ <BY2PR08MB1815C4CAC2FC683A05DFD443C0FE0@BY2PR08MB1815.namprd08.prod.outlook.com>
+ <1473810683.2781.72.camel@linux.intel.com>
+ <SN1PR08MB1822F0F69AE0A389A74CD6F1C0F10@SN1PR08MB1822.namprd08.prod.outlook.com>
+ <1473871944.2781.90.camel@linux.intel.com>
+ <BY2PR08MB1815B488DAC435C9EA684457C0F00@BY2PR08MB1815.namprd08.prod.outlook.com>
+Message-ID: <CAF1ivSZVgK_xwWtN+co0xE_rjfg2U9sM-ucaTq8QcsG2iBy5+A@mail.gmail.com>
 
-
->>> But:  I'll try this patch and run for a few hours and see what happens.  I
->>> believe regardless of a keep alive issue, the above patch is still needed.
->>
->> In your tests, can you enable dynamic debug on:
->> nvmet_start_keep_alive_timer
->> nvmet_stop_keep_alive_timer
->> nvmet_execute_keep_alive
+On Thu, Sep 15, 2016 at 6:36 AM, Narayan Ayalasomayajula
+<narayan.ayalasomayajula@kazan-networks.com> wrote:
+> Hi Jay,
 >
-> Hey Sagi.  I hit another crash on the target.  This was with 4.8.0 + the patch
-> to skip disconnect events if the cm_id->qp is NULL. This time the crash is in
-> _raw_spin_lock_irqsave() called by nvmet_rdma_recv_done().  The log is too big
-> to include everything inline, but I'm attaching the full log as an attachment.
-> Looks like at around 4988.169 seconds in the log, we see 5 controllers created,
-> all named "controller 1"!  And 32 queues assigned to controller 1 5 times!  And
-> shortly after that we hit the BUG.
+> Thanks for pointing out that I was not running the latest version of the kernel. I updated to 4.8rc6 and my FIO test that had previously failed with the Linux NVMeF target (using null_blk device as the target) is now completing successfully. I am still seeing the same NAK (Remote Access Error) failure when I use our target instead. I will debug this further but updating to 4.8rc6 did improve things.
 
-So I think you're creating multiple subsystems and provision each
-subsystem differently correct? the controller ids are unique within
-a subsystem so two different subsystems can have ctrl id 1. Perhaps
-our logging should mention the subsysnqn too?
+Hi Narayan,
 
-Anyway, is there traffic going on?
+I also saw similar error with 8k write when I use my own target implementation.
+Did you fix it already?
 
-The only way we can get recv_done with corrupted data is if we posted
-something after the qp drain completed, can you check if that can happen?
+Thanks,
+Ming
 
-Can you share your test case?
+>
+> (Sagi, thanks for the print statements to display what the driver is passing down to the RNIC. I will use that change in 4.8rc6 to debug further).
+>
+> Thanks,
+> Narayan
