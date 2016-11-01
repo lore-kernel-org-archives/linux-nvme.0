@@ -1,22 +1,31 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 1 Nov 2016 16:32:57 +0200
-Subject: [PATCH, resend2] nvme-rdma: reject non-connect commands before
- the queue is live
-In-Reply-To: <1478007890-18934-1-git-send-email-hch@lst.de>
-References: <1478007890-18934-1-git-send-email-hch@lst.de>
-Message-ID: <deb127eb-c468-79bf-e602-ba56932066b9@grimberg.me>
+Date: Tue, 1 Nov 2016 16:37:01 +0200
+Subject: [PATCH] nvmet: Fix possible infinite loop triggered on hot
+ namespace removal
+In-Reply-To: <20161101134352.GA5096@infradead.org>
+References: <1477819337-31190-1-git-send-email-sagi@grimberg.me>
+ <20161101134352.GA5096@infradead.org>
+Message-ID: <c94dab5e-cf77-b376-e1e0-3950be525e96@grimberg.me>
 
 
-> @@ -1394,10 +1398,18 @@ static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+>>  void nvmet_ns_disable(struct nvmet_ns *ns)
+>> @@ -324,13 +324,10 @@ void nvmet_ns_disable(struct nvmet_ns *ns)
+>>  	struct nvmet_subsys *subsys = ns->subsys;
+>>  	struct nvmet_ctrl *ctrl;
+>>
+>> -	mutex_lock(&subsys->lock);
+>> -	if (list_empty(&ns->dev_link)) {
+>> -		mutex_unlock(&subsys->lock);
+>> +	if (!test_and_clear_bit(NVMET_NS_ENABLED, &ns->flags))
+>>  		return;
+>> -	}
+>> -	list_del_init(&ns->dev_link);
+>> -	mutex_unlock(&subsys->lock);
+>> +
+>> +	list_del_rcu(&ns->dev_link);
 >
->  	WARN_ON_ONCE(rq->tag < 0);
->
-> +	c = (struct nvme_command *)rq->cmd;
-> +	if (!test_bit(NVME_RDMA_Q_LIVE, &queue->flags) &&
-> +	    rq->cmd_type != REQ_TYPE_DRV_PRIV &&
-> +	    (c->common.opcode != nvme_fabrics_command ||
-> +	     c->fabrics.fctype != nvme_fabrics_type_connect))
-> +		return BLK_MQ_RQ_QUEUE_BUSY;
-> +
+> We'll still need the lock here, don't we?
 
-Can we hide this mess in a static inline nvme_rdma_chk_ready()?
+we do... And we also need to protect with the subsys lock on
+nvmet_ns_disable as a whole against concurrent enable/disable (unless
+we want to add a new lock to nvmet_ns)
