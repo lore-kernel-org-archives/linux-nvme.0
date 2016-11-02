@@ -1,93 +1,378 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  2 Nov 2016 08:49:18 -0600
-Subject: [PATCH v2] nvme-rdma: reject non-connect commands before the queue is
- live
-Message-ID: <1478098158-18264-1-git-send-email-hch@lst.de>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 2 Nov 2016 10:07:38 -0500
+Subject: nvmet_rdma crash - DISCONNECT event with NULL queue
+In-Reply-To: <3512b8bb-4d29-b90a-49e1-ebf1085c47d7@grimberg.me>
+References: <01b401d23458$af277210$0d765630$@opengridcomputing.com>
+ <6f42d056-284d-00fc-2b98-189f54957980@grimberg.me>
+ <01cc01d2345b$d445acd0$7cd10670$@opengridcomputing.com>
+ <4cc25277-429a-4ab9-470c-b3af1428ce93@grimberg.me>
+ <01d101d2345e$2f054390$8d0fcab0$@opengridcomputing.com>
+ <dbe5f18d-7928-f065-920f-753b30fb99a2@grimberg.me>
+ <01d901d2345f$da0d2e00$8e278a00$@opengridcomputing.com>
+ <1d09c064-1cbe-7e6e-43d2-cfa6cf0c19ea@grimberg.me>
+ <024e01d23476$6668b890$333a29b0$@opengridcomputing.com>
+ <3512b8bb-4d29-b90a-49e1-ebf1085c47d7@grimberg.me>
+Message-ID: <004601d2351a$d9db85b0$8d929110$@opengridcomputing.com>
 
-If we reconncect we might have command queue up that get resent as soon
-as the queue is restarted.  But until the connect command succeeded we
-can't send other command.  Add a new flag that marks a queue as live when
-connect finishes, and delay any non-connect command until the queue is
-live based on it.
+> > Hey Sagi.  I hit another crash on the target.  This was with 4.8.0 + the
+patch
+> > to skip disconnect events if the cm_id->qp is NULL. This time the crash is
+in
+> > _raw_spin_lock_irqsave() called by nvmet_rdma_recv_done().  The log is too
+big
+> > to include everything inline, but I'm attaching the full log as an
+attachment.
+> > Looks like at around 4988.169 seconds in the log, we see 5 controllers
+created,
+> > all named "controller 1"!  And 32 queues assigned to controller 1 5 times!
+And
+> > shortly after that we hit the BUG.
+> 
+> So I think you're creating multiple subsystems and provision each
+> subsystem differently correct? the controller ids are unique within
+> a subsystem so two different subsystems can have ctrl id 1. Perhaps
+> our logging should mention the subsysnqn too?
+> 
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reported-by: Steve Wise <swise at opengridcomputing.com>
-Tested-by: Steve Wise <swise at opengridcomputing.com>
----
- drivers/nvme/host/rdma.c | 28 +++++++++++++++++++++++++++-
- 1 file changed, 27 insertions(+), 1 deletion(-)
+I'm not sure I understand the "subsystem" concept.  I never noticed before that
+any target device had the same controller ID.  The target json config file is
+inserted below.  There are 10 ramdisks exported over 2 ports of a cxgb4 40GE
+device and 1 port of an mlx4 RoCE device.   For this test, the NVMF host
+connects to all 10 targets over 1 port of the cxgb4 device.  Like this:
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 5a83881..5bd7a16 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -83,6 +83,7 @@ enum nvme_rdma_queue_flags {
- 	NVME_RDMA_Q_CONNECTED = (1 << 0),
- 	NVME_RDMA_IB_QUEUE_ALLOCATED = (1 << 1),
- 	NVME_RDMA_Q_DELETING = (1 << 2),
-+	NVME_RDMA_Q_LIVE = (1 << 3),
- };
+for i in $(seq 0 9) ; do nvme connect --transport=rdma --trsvcid=4420
+--traddr=10.0.1.14 --nqn=test-ram${i}; done
+
+> Anyway, is there traffic going on?
+>
+
+Yes, heavy fio on all 10 attached ramdisks.
  
- struct nvme_rdma_queue {
-@@ -626,6 +627,7 @@ static int nvme_rdma_connect_io_queues(struct nvme_rdma_ctrl *ctrl)
- 		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
- 		if (ret)
- 			break;
-+		set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[i].flags);
- 	}
+> The only way we can get recv_done with corrupted data is if we posted
+> something after the qp drain completed, can you check if that can happen?
+>
+
+Hmm, posting after the drain would result in a synchronous error returned by
+ib_post_send() for cxgb4.  There is that issue with cxgb4's drain logic in that
+it really only guarantees that the CQEs are polled, not that the completion
+handler was called.  I have a fix in progress for this (actually decided to
+support drain like IB does with a small delta from the iWARP spec).  I'll also
+try and reproduce this on mlx4 to rule out iwarp and cxgb4 anomolies.  And I can
+try my new drain fix which will be posted for review soon for inclusion into
+4.10.
  
- 	return ret;
-@@ -761,8 +763,10 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 
- 	nvme_stop_keep_alive(&ctrl->ctrl);
- 
--	for (i = 0; i < ctrl->queue_count; i++)
-+	for (i = 0; i < ctrl->queue_count; i++) {
- 		clear_bit(NVME_RDMA_Q_CONNECTED, &ctrl->queues[i].flags);
-+		clear_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[i].flags);
-+	}
- 
- 	if (ctrl->queue_count > 1)
- 		nvme_stop_queues(&ctrl->ctrl);
-@@ -1378,6 +1382,24 @@ nvme_rdma_timeout(struct request *rq, bool reserved)
- 	return BLK_EH_HANDLED;
- }
- 
-+/*
-+ * We cannot accept any other command until the Connect command has completed.
-+ */
-+static inline bool nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
-+		struct request *rq)
-+{
-+	if (unlikely(!test_bit(NVME_RDMA_Q_LIVE, &queue->flags))) {
-+		struct nvme_command *cmd = (struct nvme_command *)rq->cmd;
-+
-+		if (rq->cmd_type != REQ_TYPE_DRV_PRIV ||
-+		    cmd->common.opcode != nvme_fabrics_command ||
-+		    cmd->fabrics.fctype != nvme_fabrics_type_connect)
-+			return false;
-+	}
-+
-+	return true;
-+}
-+
- static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 		const struct blk_mq_queue_data *bd)
- {
-@@ -1394,10 +1416,14 @@ static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
- 
- 	WARN_ON_ONCE(rq->tag < 0);
- 
-+	if (!nvme_rdma_queue_is_ready(queue, rq))
-+		return BLK_MQ_RQ_QUEUE_BUSY;
-+
- 	dev = queue->device->dev;
- 	ib_dma_sync_single_for_cpu(dev, sqe->dma,
- 			sizeof(struct nvme_command), DMA_TO_DEVICE);
- 
-+	c = sqe->data;
- 	ret = nvme_setup_cmd(ns, rq, c);
- 	if (ret)
- 		return ret;
--- 
-2.1.4
+> Can you share your test case?
+
+Of course!  This is the same test that was killing the host side very quickly,
+until Christoph fixed it with:
+
+http://lists.infradead.org/pipermail/linux-nvme/2016-November/007043.html
+
+Now it runs for ~60-90 minutes before the target dies.  
+
+After connecting all 10 ramdisks over 1 cxgb4 port, with 32 core NVMF
+host/target nodes, you run this script (note nvme0n1 is a local nvme device, so
+the NVMF devices are nvme[1-10]n1):
+
+[root at stevo1 sw]# cat /root/bug30782/fio.sh
+for i in $(seq 1 200) ; do
+
+         fio --startdelay=1-10 --ioengine=libaio --rw=randwrite --name=randwrite
+--size=200m --direct=1 \
+        --invalidate=1 --fsync_on_close=1 --group_reporting --exitall
+--runtime=60 \
+        --time_based --filename=/dev/nvme10n1 --filename=/dev/nvme1n1 \
+        --filename=/dev/nvme2n1 --filename=/dev/nvme3n1 --filename=/dev/nvme4n1
+\
+        --filename=/dev/nvme5n1 --filename=/dev/nvme6n1 --filename=/dev/nvme7n1
+\
+        --filename=/dev/nvme8n1 --filename=/dev/nvme9n1 --iodepth=4 --numjobs=32
+\
+        --bs=2K |grep -i "aggrb\|iops"
+        sleep 3
+        echo "### Iteration $i Done ###"
+done
+
+And then run this script (eth2 is the port handling the NVMF traffic) to force
+keep alive timeouts and reconnects:
+
+while : ; do
+    ifconfig eth2 down
+    sleep $(( ($RANDOM & 0xf) + 8 ))
+    ifconfig eth2 up
+    sleep 30
+done
+
+
+Here is the target json file:
+
+[root at stevo2 ~]# cat /etc/nvmet-10ram.json
+{
+  "hosts": [],
+  "ports": [
+    {
+      "addr": {
+        "adrfam": "ipv4",
+        "traddr": "10.0.1.14",
+        "treq": "not specified",
+        "trsvcid": "4420",
+        "trtype": "rdma"
+      },
+      "portid": 1,
+      "referrals": [],
+      "subsystems": [
+        "test-ram9",
+        "test-ram8",
+        "test-ram7",
+        "test-ram6",
+        "test-ram5",
+        "test-ram4",
+        "test-ram3",
+        "test-ram2",
+        "test-ram1",
+        "test-ram0"
+      ]
+    },
+    {
+      "addr": {
+        "adrfam": "ipv4",
+        "traddr": "10.0.2.14",
+        "treq": "not specified",
+        "trsvcid": "4420",
+        "trtype": "rdma"
+      },
+      "portid": 2,
+      "referrals": [],
+      "subsystems": [
+        "test-ram9",
+        "test-ram8",
+        "test-ram7",
+        "test-ram6",
+        "test-ram5",
+        "test-ram4",
+        "test-ram3",
+        "test-ram2",
+        "test-ram1",
+        "test-ram0"
+      ]
+    },
+    {
+      "addr": {
+        "adrfam": "ipv4",
+        "traddr": "10.0.5.14",
+        "treq": "not specified",
+        "trsvcid": "4420",
+        "trtype": "rdma"
+      },
+      "portid": 5,
+      "referrals": [],
+      "subsystems": [
+        "test-ram9",
+        "test-ram8",
+        "test-ram7",
+        "test-ram6",
+        "test-ram5",
+        "test-ram4",
+        "test-ram3",
+        "test-ram2",
+        "test-ram1",
+        "test-ram0"
+      ]
+    },
+    {
+      "addr": {
+        "adrfam": "ipv4",
+        "traddr": "10.0.7.14",
+        "treq": "not specified",
+        "trsvcid": "4420",
+        "trtype": "rdma"
+      },
+      "portid": 7,
+      "referrals": [],
+      "subsystems": [
+        "test-ram9",
+        "test-ram8",
+        "test-ram7",
+        "test-ram6",
+        "test-ram5",
+        "test-ram4",
+        "test-ram3",
+        "test-ram2",
+        "test-ram1",
+        "test-ram0"
+      ]
+    }
+  ],
+  "subsystems": [
+    {
+      "allowed_hosts": [],
+      "attr": {
+        "allow_any_host": "1"
+      },
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/ram9"
+          },
+          "enable": 1,
+          "nsid": 1
+        }
+      ],
+      "nqn": "test-ram9"
+    },
+    {
+      "allowed_hosts": [],
+      "attr": {
+        "allow_any_host": "1"
+      },
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/ram8"
+          },
+          "enable": 1,
+          "nsid": 1
+        }
+      ],
+      "nqn": "test-ram8"
+    },
+    {
+      "allowed_hosts": [],
+      "attr": {
+        "allow_any_host": "1"
+      },
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/ram7"
+          },
+          "enable": 1,
+          "nsid": 1
+        }
+      ],
+      "nqn": "test-ram7"
+    },
+    {
+      "allowed_hosts": [],
+      "attr": {
+        "allow_any_host": "1"
+      },
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/ram6"
+          },
+          "enable": 1,
+          "nsid": 1
+        }
+      ],
+      "nqn": "test-ram6"
+    },
+    {
+      "allowed_hosts": [],
+      "attr": {
+        "allow_any_host": "1"
+      },
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/ram5"
+          },
+          "enable": 1,
+          "nsid": 1
+        }
+      ],
+      "nqn": "test-ram5"
+    },
+    {
+      "allowed_hosts": [],
+      "attr": {
+        "allow_any_host": "1"
+      },
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/ram4"
+          },
+          "enable": 1,
+          "nsid": 1
+        }
+      ],
+      "nqn": "test-ram4"
+    },
+    {
+      "allowed_hosts": [],
+      "attr": {
+        "allow_any_host": "1"
+      },
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/ram3"
+          },
+          "enable": 1,
+          "nsid": 1
+        }
+      ],
+      "nqn": "test-ram3"
+    },
+    {
+      "allowed_hosts": [],
+      "attr": {
+        "allow_any_host": "1"
+      },
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/ram2"
+          },
+          "enable": 1,
+          "nsid": 1
+        }
+      ],
+      "nqn": "test-ram2"
+    },
+    {
+      "allowed_hosts": [],
+      "attr": {
+        "allow_any_host": "1"
+      },
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/ram1"
+          },
+          "enable": 1,
+          "nsid": 1
+        }
+      ],
+      "nqn": "test-ram1"
+    },
+    {
+      "allowed_hosts": [],
+      "attr": {
+        "allow_any_host": "1"
+      },
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "00000000-0000-0000-0000-000000000000",
+            "path": "/dev/ram0"
+          },
+          "enable": 1,
+          "nsid": 1
+        }
+      ],
+      "nqn": "test-ram0"
+    }
+  ]
+}
