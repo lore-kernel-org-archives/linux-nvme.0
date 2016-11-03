@@ -1,33 +1,32 @@
-From: Darren.Trapp@cavium.com (Trapp, Darren)
-Date: Thu, 3 Nov 2016 00:04:52 +0000
-Subject: [PATCH v3 5/7] nvme-fabrics: Add host support for FC transport
-In-Reply-To: <0EBCD721-6DFC-4095-A4FC-B32F3577A985@cavium.com>
-References: <0EBCD721-6DFC-4095-A4FC-B32F3577A985@cavium.com>
-Message-ID: <4640A02E-8C3E-4F98-A68C-C807D9B50ACE@cavium.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu,  3 Nov 2016 23:17:22 +0200
+Subject: [PATCH] nvmet: Don't queue fatal error work if csts.cfs is set
+Message-ID: <1478207842-27774-1-git-send-email-sagi@grimberg.me>
 
-James,
-?
-There is a problem when the LDD is being removed and is completing an AEN IO with a B1 status.?? The fc transport takes this goto
-??????? /*
-???????? * For the linux implementation, if we have an unsuccesful
-???????? * status, they blk-mq layer can typically be called with the
-???????? * non-zero status and the content of the cqe isn't important.
-???????? */
-??????? if (status)
-??????????????? goto done;
-?
-Here there is no cqe to check the command_id
-done:???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
-????????if (!queue->qnum && cqe->command_id >= AEN_CMDID_BASE) {?
-??
-Since this block doesn?t execute, it calls into ????????????? blk_mq_complete_request(rq, status)? with a NULL rq.
-?
-Seems that we could either check against op->rqno (instead of cqe->command_id) or for op->rq (like start_fcp_op does).
-?
-Darren Trapp
-Senior Director - Engineering
-darren.trapp at cavium.com
-T 949-389-6273
-M 949-212-8565
-26650 Aliso Viejo Pkwy, Aliso Viejo, CA 92656
-www.qlogic.com
+In the transport, in case of an interal queue error like
+error completion in rdma we trigger a fatal error. However,
+multiple queues in the same controller can serr error completions
+and we don't want to trigger fatal error work more than once.
+
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/core.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 4d5be2de25f5..ffc8445a1ac3 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -840,7 +840,9 @@ static void nvmet_fatal_error_handler(struct work_struct *work)
+ 
+ void nvmet_ctrl_fatal_error(struct nvmet_ctrl *ctrl)
+ {
+-	ctrl->csts |= NVME_CSTS_CFS;
++	if (test_and_set_bit(NVME_CSTS_CFS, (unsigned long *)&ctrl->csts))
++		return;
++
+ 	INIT_WORK(&ctrl->fatal_err_work, nvmet_fatal_error_handler);
+ 	schedule_work(&ctrl->fatal_err_work);
+ }
+-- 
+2.7.4
