@@ -1,32 +1,43 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  3 Nov 2016 23:17:22 +0200
-Subject: [PATCH] nvmet: Don't queue fatal error work if csts.cfs is set
-Message-ID: <1478207842-27774-1-git-send-email-sagi@grimberg.me>
+Date: Thu, 3 Nov 2016 23:20:43 +0200
+Subject: [PATCH v2] nvmet: Fix possible infinite loop triggered on hot
+ namespace removal
+In-Reply-To: <20161102144045.GB13577@lst.de>
+References: <1478015644-26108-1-git-send-email-sagi@grimberg.me>
+ <20161102144045.GB13577@lst.de>
+Message-ID: <b80d19a9-267d-d5cf-dcbb-b678e9624e15@grimberg.me>
 
-In the transport, in case of an interal queue error like
-error completion in rdma we trigger a fatal error. However,
-multiple queues in the same controller can serr error completions
-and we don't want to trigger fatal error work more than once.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/target/core.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+>> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+>> index 6559d5afa7bf..bf36d2486245 100644
+>> --- a/drivers/nvme/target/core.c
+>> +++ b/drivers/nvme/target/core.c
+>> @@ -264,9 +264,11 @@ int nvmet_ns_enable(struct nvmet_ns *ns)
+>>  	int ret = 0;
+>>
+>>  	mutex_lock(&subsys->lock);
+>> -	if (!list_empty(&ns->dev_link))
+>> +	if (ns->enabled)
+>>  		goto out_unlock;
+>>
+>> +	ns->enabled = true;
+>> +
+>>  	ns->bdev = blkdev_get_by_path(ns->device_path, FMODE_READ | FMODE_WRITE,
+>>  			NULL);
+>>  	if (IS_ERR(ns->bdev)) {
+>
+> This will leave the enable flag set when an error happen? later,
+> won't it?  I'd set it just before dropping the lock.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 4d5be2de25f5..ffc8445a1ac3 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -840,7 +840,9 @@ static void nvmet_fatal_error_handler(struct work_struct *work)
- 
- void nvmet_ctrl_fatal_error(struct nvmet_ctrl *ctrl)
- {
--	ctrl->csts |= NVME_CSTS_CFS;
-+	if (test_and_set_bit(NVME_CSTS_CFS, (unsigned long *)&ctrl->csts))
-+		return;
-+
- 	INIT_WORK(&ctrl->fatal_err_work, nvmet_fatal_error_handler);
- 	schedule_work(&ctrl->fatal_err_work);
- }
--- 
-2.7.4
+Yep, will do.
+
+>
+>>  static inline bool nvmet_ns_enabled(struct nvmet_ns *ns)
+>>  {
+>> -	return !list_empty_careful(&ns->dev_link);
+>> +	return ns->enabled;
+>
+> and we can probably kill this helper, it's pretty pointless
+> now.
+
+I will.
