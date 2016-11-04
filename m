@@ -1,46 +1,29 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Fri, 4 Nov 2016 08:06:13 -0700
-Subject: [PATCH v3 5/7] nvme-fabrics: Add host support for FC transport
-In-Reply-To: <4640A02E-8C3E-4F98-A68C-C807D9B50ACE@cavium.com>
-References: <0EBCD721-6DFC-4095-A4FC-B32F3577A985@cavium.com>
- <4640A02E-8C3E-4F98-A68C-C807D9B50ACE@cavium.com>
-Message-ID: <596e6bf3-190b-a0e0-8098-1ba470dd05d9@broadcom.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Fri, 04 Nov 2016 08:54:27 -0700
+Subject: [PATCH] nvmet: Don't queue fatal error work if csts.cfs is set
+In-Reply-To: <20161104000111.GA14022@lst.de>
+References: <1478207842-27774-1-git-send-email-sagi@grimberg.me>
+ <20161104000111.GA14022@lst.de>
+Message-ID: <1478274867.2886.3.camel@linux.intel.com>
 
-yes - fix on its way
+On Fri, 2016-11-04@01:01 +0100, Christoph Hellwig wrote:
+> > 
+> > ?{
+> > -	ctrl->csts |= NVME_CSTS_CFS;
+> > +	if (test_and_set_bit(NVME_CSTS_CFS, (unsigned long
+> > *)&ctrl->csts))
+> > +		return;
+> > +
+> 
+> This can't work - test_and_set_bit takes a bit index and
+> NVME_CSTS_CFS
+> is the actual value.??I think we'll need a lock to protect ->csts
+> instead.
 
--- james
+Yeah, I agree, it feels more like a lock solution.
 
-
-On 11/2/2016 5:04 PM, Trapp, Darren wrote:
-> James,
->   
-> There is a problem when the LDD is being removed and is completing an AEN IO with a B1 status.   The fc transport takes this goto
->          /*
->           * For the linux implementation, if we have an unsuccesful
->           * status, they blk-mq layer can typically be called with the
->           * non-zero status and the content of the cqe isn't important.
->           */
->          if (status)
->                  goto done;
->   
-> Here there is no cqe to check the command_id
-> done:
->          if (!queue->qnum && cqe->command_id >= AEN_CMDID_BASE) {
->    
-> Since this block doesn?t execute, it calls into               blk_mq_complete_request(rq, status)  with a NULL rq.
->   
-> Seems that we could either check against op->rqno (instead of cqe->command_id) or for op->rq (like start_fcp_op does).
->   
-> Darren Trapp
-> Senior Director - Engineering
-> darren.trapp at cavium.com
-> T 949-389-6273
-> M 949-212-8565
-> 26650 Aliso Viejo Pkwy, Aliso Viejo, CA 92656
-> www.qlogic.com
->
->
->
+> 
+> 
 > _______________________________________________
 > Linux-nvme mailing list
 > Linux-nvme at lists.infradead.org
