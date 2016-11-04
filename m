@@ -1,30 +1,37 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Fri, 04 Nov 2016 08:54:27 -0700
-Subject: [PATCH] nvmet: Don't queue fatal error work if csts.cfs is set
-In-Reply-To: <20161104000111.GA14022@lst.de>
-References: <1478207842-27774-1-git-send-email-sagi@grimberg.me>
- <20161104000111.GA14022@lst.de>
-Message-ID: <1478274867.2886.3.camel@linux.intel.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Fri, 04 Nov 2016 13:46:57 -0700
+Subject: [PATCH v4 1/7] Add type 0x28 NVME type code to scsi fc headers
+Message-ID: <581cf3c1.HBL4Q5PEA0Wci2ag%james.smart@broadcom.com>
 
-On Fri, 2016-11-04@01:01 +0100, Christoph Hellwig wrote:
-> > 
-> > ?{
-> > -	ctrl->csts |= NVME_CSTS_CFS;
-> > +	if (test_and_set_bit(NVME_CSTS_CFS, (unsigned long
-> > *)&ctrl->csts))
-> > +		return;
-> > +
-> 
-> This can't work - test_and_set_bit takes a bit index and
-> NVME_CSTS_CFS
-> is the actual value.??I think we'll need a lock to protect ->csts
-> instead.
 
-Yeah, I agree, it feels more like a lock solution.
+Add type 0x28 NVME type code to scsi fc headers
 
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Signed-off-by: James Smart <james.smart at broadcom.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+---
+ include/uapi/scsi/fc/fc_fs.h | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/include/uapi/scsi/fc/fc_fs.h b/include/uapi/scsi/fc/fc_fs.h
+index 50f28b1..dcf314d 100644
+--- a/include/uapi/scsi/fc/fc_fs.h
++++ b/include/uapi/scsi/fc/fc_fs.h
+@@ -190,6 +190,7 @@ enum fc_fh_type {
+ 	FC_TYPE_FCP =	0x08,	/* SCSI FCP */
+ 	FC_TYPE_CT =	0x20,	/* Fibre Channel Services (FC-CT) */
+ 	FC_TYPE_ILS =	0x22,	/* internal link service */
++	FC_TYPE_NVME =	0x28,	/* FC-NVME */
+ };
+ 
+ /*
+@@ -203,6 +204,7 @@ enum fc_fh_type {
+ 	[FC_TYPE_FCP] =		"FCP",			\
+ 	[FC_TYPE_CT] =		"CT",			\
+ 	[FC_TYPE_ILS] =		"ILS",			\
++	[FC_TYPE_NVME] =	"NVME",			\
+ }
+ 
+ /*
+-- 
+2.5.0
