@@ -1,18 +1,28 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Sat, 5 Nov 2016 10:15:08 +0100
-Subject: [PATCH v4 3/7] nvme-fabrics: Add FC transport FC-NVME definitions
-In-Reply-To: <581cf3c3.4us0uUeKGsPaE1P5%james.smart@broadcom.com>
-References: <581cf3c3.4us0uUeKGsPaE1P5%james.smart@broadcom.com>
-Message-ID: <20161105091508.mwllnohg24n6326k@linux-x5ow.site>
+Date: Sat, 5 Nov 2016 10:16:23 +0100
+Subject: [PATCH v4 4/7] nvme-fabrics: Add FC transport LLDD api definitions
+In-Reply-To: <581cf3c4.5cFRlrvVLES+ceQL%james.smart@broadcom.com>
+References: <581cf3c4.5cFRlrvVLES+ceQL%james.smart@broadcom.com>
+Message-ID: <20161105091623.ausaedja6md7vws3@linux-x5ow.site>
 
-On Fri, Nov 04, 2016@01:46:59PM -0700, James Smart wrote:
+On Fri, Nov 04, 2016@01:47:00PM -0700, James Smart wrote:
 > 
-> nvme-fabrics: Add FC transport FC-NVME definitions:
-> - Formats for Cmd, Data, Rsp IUs
-> - Formats FC-4 LS definitions
-> - cmd_iu changed in T11. The 2 reserved words, previous at words
->   2 and 3, were moved to after the sqe.
-> - Add to MAINTAINERS file
+> nvme-fabrics: Add FC transport LLDD api definitions:
+> 
+> Host:
+> -LLDD registration with the host transport
+> -registering host ports (local ports) and target ports seen on
+>    fabric (remote ports)
+> -Data structures and call points for FC-4 LS's and FCP IO requests
+> 
+> Target:
+> -LLDD registration with the target transport
+> -registering nvme subsystem ports (target ports)
+> -Data structures and call points for reception of FC-4 LS's and
+>    FCP IO requests, and callbacks to perform data and rsp transfers
+>    for the io.
+> 
+> Add to MAINTAINERS file
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > Reviewed-by: Christoph Hellwig <hch at lst.de>
