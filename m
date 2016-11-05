@@ -1,14 +1,24 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Fri, 4 Nov 2016 13:56:42 -0700
-Subject: [PATCH v4 0/7] nvme-fabrics: Add FC-NVME Transport support
-In-Reply-To: <581cf3c0.7A8zG8fbFwIxD9Nf%james.smart@broadcom.com>
-References: <581cf3c0.7A8zG8fbFwIxD9Nf%james.smart@broadcom.com>
-Message-ID: <27e424dc-f2a4-7710-0386-f21437d8db92@broadcom.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Sat, 5 Nov 2016 10:14:20 +0100
+Subject: [PATCH v4 1/7] Add type 0x28 NVME type code to scsi fc headers
+In-Reply-To: <581cf3c1.HBL4Q5PEA0Wci2ag%james.smart@broadcom.com>
+References: <581cf3c1.HBL4Q5PEA0Wci2ag%james.smart@broadcom.com>
+Message-ID: <20161105091420.7koazzzqvb5rcpso@linux-x5ow.site>
 
-On 11/4/2016 1:46 PM, James Smart wrote:
-> add u64 number parser
-> https://patchwork.kernel.org/patch/9244453/
-I realize this is a better link for the patch reference: 
-https://groups.google.com/forum/#!msg/fa.linux.kernel/IKtbiXlp3-8/o_1VsNjvDwAJ
+On Fri, Nov 04, 2016@01:46:57PM -0700, James Smart wrote:
+> 
+> Add type 0x28 NVME type code to scsi fc headers
+> 
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
 
--- james
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
