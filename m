@@ -1,24 +1,15 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 6 Nov 2016 20:25:30 +0100
-Subject: [PATCH RFC nvme-cli 1/2] debain: generate hostnqn file on
- install and remove on uninstall
-In-Reply-To: <1478459581-22654-2-git-send-email-sagi@grimberg.me>
-References: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
- <1478459581-22654-2-git-send-email-sagi@grimberg.me>
-Message-ID: <20161106192530.GB18342@lst.de>
+Date: Sun, 6 Nov 2016 20:29:44 +0100
+Subject: [PATCH v1] nvmet-rdma: don't forget to delete a queue from the
+ list of connection failed
+In-Reply-To: <1478453448-17520-1-git-send-email-sagi@grimberg.me>
+References: <1478453448-17520-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20161106192944.GA18397@lst.de>
 
-I think the subject should read "debian" :)
+On Sun, Nov 06, 2016@07:30:48PM +0200, Sagi Grimberg wrote:
+> In case we accepted a queue connection and it failed, we might not
+> remove the queue from the list until we unload and clean it up.
+> We should delete it from the queue list on the relevant handler.
 
-> diff --git a/debian/prerm b/debian/prerm
-> new file mode 100644
-> index 000000000000..40c6fea42284
-> --- /dev/null
-> +++ b/debian/prerm
-> @@ -0,0 +1,5 @@
-> +#!/bin/sh
-> +
-> +if [ "$1" = "remove" ]; then
-> +    rm -rf /etc/nvme
-> +fi
-
-Shouldn't we only do that for a purge?
+I think for this to work we'll also need to initialize
+->queue_list when allocating the queue.
