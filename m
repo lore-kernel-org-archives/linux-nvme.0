@@ -1,21 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 6 Nov 2016 23:33:44 +0200
-Subject: [PATCH v1] nvmet-rdma: don't forget to delete a queue from the
- list of connection failed
-In-Reply-To: <20161106192944.GA18397@lst.de>
-References: <1478453448-17520-1-git-send-email-sagi@grimberg.me>
- <20161106192944.GA18397@lst.de>
-Message-ID: <d3557d0b-c696-a380-d9a2-3a21b9744c77@grimberg.me>
+Date: Sun, 6 Nov 2016 23:36:55 +0200
+Subject: [PATCH RFC nvme-cli 0/2] auto generate hostnqn file on
+ installation
+In-Reply-To: <20161106192451.GA18342@lst.de>
+References: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
+ <20161106192451.GA18342@lst.de>
+Message-ID: <5a2ee2fb-8104-39cc-1af3-f0fca1caa48e@grimberg.me>
 
 
->> In case we accepted a queue connection and it failed, we might not
->> remove the queue from the list until we unload and clean it up.
->> We should delete it from the queue list on the relevant handler.
+>> Not sure if it's the best way to do this as my packeging understanding is
+>> very limited, hence the RFC. the debian part is tested (don't have
+>> access to rpm distros at the moment).
 >
-> I think for this to work we'll also need to initialize
-> ->queue_list when allocating the queue.
+> My idea was to add a command to generate an automatic hostnqn to
+> the nvme tool instead, what would you think about that?
 
-Not really because we'll only manipulate the queue_list if we accept
-which means that it's in the list, nvmet_rdma_queue_connect() failures
-won't ever see nvmet_rdma_queue_connect_fail(). But I can add it for
-good measures...
+I'm fine with that too.
+
+> The install scripts could then call that.
+
+Sounds fine.
