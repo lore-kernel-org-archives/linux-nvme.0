@@ -1,41 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun,  6 Nov 2016 19:30:48 +0200
-Subject: [PATCH v1] nvmet-rdma: don't forget to delete a queue from the list
- of connection failed
-Message-ID: <1478453448-17520-1-git-send-email-sagi@grimberg.me>
+Date: Sun,  6 Nov 2016 21:12:59 +0200
+Subject: [PATCH RFC nvme-cli 0/2] auto generate hostnqn file on installation
+Message-ID: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
 
-In case we accepted a queue connection and it failed, we might not
-remove the queue from the list until we unload and clean it up.
-We should delete it from the queue list on the relevant handler.
+Not sure if it's the best way to do this as my packeging understanding is
+very limited, hence the RFC. the debian part is tested (don't have
+access to rpm distros at the moment).
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-Changes from v1:
-- changed strategy according to hch's comments. remove the queue
-  on connection failure handlers.
-- chaged the commit description (was "nvmet-rdma: add queue to queue list only
-  if connection established")
+Sagi Grimberg (2):
+  debain: generate hostnqn file on install and remove on uninstall
+  nvme.spec: generate hostnqn file on install and remove on uninstall
 
- drivers/nvme/target/rdma.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ debian/postinst | 22 ++++++++++++++++++++++
+ debian/prerm    |  5 +++++
+ nvme.spec.in    | 14 ++++++++++++++
+ 3 files changed, 41 insertions(+)
+ create mode 100644 debian/postinst
+ create mode 100644 debian/prerm
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index bafd9898b5f6..a9eb677d562a 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1272,7 +1272,12 @@ static void nvmet_rdma_queue_connect_fail(struct rdma_cm_id *cm_id,
- {
- 	WARN_ON_ONCE(queue->state != NVMET_RDMA_Q_CONNECTING);
- 
--	pr_err("failed to connect queue\n");
-+	mutex_lock(&nvmet_rdma_queue_mutex);
-+	if (!list_empty(&queue->queue_list))
-+		list_del_init(&queue->queue_list);
-+	mutex_unlock(&nvmet_rdma_queue_mutex);
-+
-+	pr_err("failed to connect queue %d\n", queue->idx);
- 	schedule_work(&queue->release_work);
- }
- 
 -- 
 2.7.4
