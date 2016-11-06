@@ -1,16 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 6 Nov 2016 20:24:51 +0100
-Subject: [PATCH RFC nvme-cli 0/2] auto generate hostnqn file on
- installation
-In-Reply-To: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
+Date: Sun, 6 Nov 2016 20:25:30 +0100
+Subject: [PATCH RFC nvme-cli 1/2] debain: generate hostnqn file on
+ install and remove on uninstall
+In-Reply-To: <1478459581-22654-2-git-send-email-sagi@grimberg.me>
 References: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20161106192451.GA18342@lst.de>
+ <1478459581-22654-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20161106192530.GB18342@lst.de>
 
-On Sun, Nov 06, 2016@09:12:59PM +0200, Sagi Grimberg wrote:
-> Not sure if it's the best way to do this as my packeging understanding is
-> very limited, hence the RFC. the debian part is tested (don't have
-> access to rpm distros at the moment).
+I think the subject should read "debian" :)
 
-My idea was to add a command to generate an automatic hostnqn to
-the nvme tool instead, what would you think about that?  The install
-scripts could then call that.
+> diff --git a/debian/prerm b/debian/prerm
+> new file mode 100644
+> index 000000000000..40c6fea42284
+> --- /dev/null
+> +++ b/debian/prerm
+> @@ -0,0 +1,5 @@
+> +#!/bin/sh
+> +
+> +if [ "$1" = "remove" ]; then
+> +    rm -rf /etc/nvme
+> +fi
+
+Shouldn't we only do that for a purge?
