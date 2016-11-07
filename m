@@ -1,26 +1,38 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 7 Nov 2016 07:59:43 +0100
-Subject: [PATCH v5 6/7] nvme-fabrics: Add target support for FC transport
-In-Reply-To: <58201df5.VwHW5e3+1qgK/Why%jsmart2021@gmail.com>
-References: <58201df5.VwHW5e3+1qgK/Why%jsmart2021@gmail.com>
-Message-ID: <cf10de9e-bbed-8658-0dc6-99d5b8d1fdd8@suse.de>
+Date: Mon, 7 Nov 2016 08:00:54 +0100
+Subject: [PATCH v5 7/7] nvme-fabrics: Add FC LLDD loopback driver to test
+ FC-NVME
+In-Reply-To: <58201df6.7F/3WOWKvafCLB1k%jsmart2021@gmail.com>
+References: <58201df6.7F/3WOWKvafCLB1k%jsmart2021@gmail.com>
+Message-ID: <bf66ddaa-16ba-b2e4-b0a1-e86ad3494816@suse.de>
 
 On 11/07/2016 07:23 AM, James Smart wrote:
 > 
-> Add nvme-fabrics target support for FC transport
+> Add FC LLDD loopback driver to test FC host and target transport within
+> nvme-fabrics
 > 
-> Implements the FC-NVME T11 definition of how nvme fabric capsules are
-> performed on an FC fabric. Utilizes a lower-layer API to FC host adapters
-> to send/receive FC-4 LS operations and perform the FCP transactions
-> necessary to perform and FCP IO request for NVME.
-> 
-> The T11 definitions for FC-4 Link Services are implemented which create
-> NVMeOF connections.  Implements the hooks with nvmet layer to pass NVME
-> commands to it for processing and posting of data/response base to the
-> host via the different connections.
+> To aid in the development and testing of the lower-level api of the FC
+> transport, this loopback driver has been created to act as if it were a
+> FC hba driver supporting both the host interfaces as well as the target
+> interfaces with the nvme FC transport.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+> 
+> ---
+> v4 mods:
+> - corrected newnport memory leak
+> - Checkpatch updates - S_IWUSR to 0200
+> 
+> v5 mods:
+> - remove spurious parens on some name checks
+> 
+>  MAINTAINERS                  |    1 +
+>  drivers/nvme/target/Kconfig  |   13 +
+>  drivers/nvme/target/Makefile |    2 +
+>  drivers/nvme/target/fcloop.c | 1147 ++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 1163 insertions(+)
+>  create mode 100644 drivers/nvme/target/fcloop.c
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
