@@ -1,32 +1,33 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 7 Nov 2016 07:51:47 +0100
-Subject: [PATCH v5 3/7] nvme-fabrics: Add FC transport FC-NVME definitions
-In-Reply-To: <58201df2.IB/HS7zhIVqlgQnX%jsmart2021@gmail.com>
-References: <58201df2.IB/HS7zhIVqlgQnX%jsmart2021@gmail.com>
-Message-ID: <8bb83325-21f2-c295-fc13-65e0bba446af@suse.de>
+Date: Mon, 7 Nov 2016 07:53:29 +0100
+Subject: [PATCH v5 4/7] nvme-fabrics: Add FC transport LLDD api definitions
+In-Reply-To: <58201df3./R4rmMdIaKAuYBto%jsmart2021@gmail.com>
+References: <58201df3./R4rmMdIaKAuYBto%jsmart2021@gmail.com>
+Message-ID: <cee41571-3200-3941-d852-5e357eb65440@suse.de>
 
 On 11/07/2016 07:23 AM, James Smart wrote:
 > 
-> nvme-fabrics: Add FC transport FC-NVME definitions:
-> - Formats for Cmd, Data, Rsp IUs
-> - Formats FC-4 LS definitions
-> - cmd_iu changed in T11. The 2 reserved words, previous at words
->   2 and 3, were moved to after the sqe.
-> - Add to MAINTAINERS file
+> nvme-fabrics: Add FC transport LLDD api definitions:
+> 
+> Host:
+> -LLDD registration with the host transport
+> -registering host ports (local ports) and target ports seen on
+>    fabric (remote ports)
+> -Data structures and call points for FC-4 LS's and FCP IO requests
+> 
+> Target:
+> -LLDD registration with the target transport
+> -registering nvme subsystem ports (target ports)
+> -Data structures and call points for reception of FC-4 LS's and
+>    FCP IO requests, and callbacks to perform data and rsp transfers
+>    for the io.
+> 
+> Add to MAINTAINERS file
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > Reviewed-by: Christoph Hellwig <hch at lst.de>
 > Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
 > Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-> 
-> ---
-> v4 mods:
-> - Sync with FC-NVME v1.11: add RS definitions
-> 
->  MAINTAINERS             |   6 +
->  include/linux/nvme-fc.h | 294 ++++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 300 insertions(+)
->  create mode 100644 include/linux/nvme-fc.h
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
