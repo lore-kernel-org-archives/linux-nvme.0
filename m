@@ -1,57 +1,30 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 07 Nov 2016 10:41:17 -0800
-Subject: [PATCH v2] nvmet: Don't queue fatal error work if csts.cfs is set
-In-Reply-To: <1478453200-16762-1-git-send-email-sagi@grimberg.me>
-References: <1478453200-16762-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1478544077.3350.26.camel@linux.intel.com>
+From: hch@lst.de ('Christoph Hellwig')
+Date: Mon, 7 Nov 2016 19:41:26 +0100
+Subject: nvmet_rdma crash - DISCONNECT event with NULL queue
+In-Reply-To: <1478543378.3350.17.camel@linux.intel.com>
+References: <01d101d2345e$2f054390$8d0fcab0$@opengridcomputing.com>
+ <dbe5f18d-7928-f065-920f-753b30fb99a2@grimberg.me>
+ <01d901d2345f$da0d2e00$8e278a00$@opengridcomputing.com>
+ <1d09c064-1cbe-7e6e-43d2-cfa6cf0c19ea@grimberg.me>
+ <024e01d23476$6668b890$333a29b0$@opengridcomputing.com>
+ <3512b8bb-4d29-b90a-49e1-ebf1085c47d7@grimberg.me>
+ <004601d2351a$d9db85b0$8d929110$@opengridcomputing.com>
+ <20161102151540.GB14825@lst.de>
+ <bd82c206-668a-0794-2d51-3c48058350d3@grimberg.me>
+ <1478543378.3350.17.camel@linux.intel.com>
+Message-ID: <20161107184126.GA4400@lst.de>
 
-On Sun, 2016-11-06@19:26 +0200, Sagi Grimberg wrote:
-> In the transport, in case of an interal queue error like
-> error completion in rdma we trigger a fatal error. However,
-> multiple queues in the same controller can serr error completions
-> and we don't want to trigger fatal error work more than once.
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
-> Changes from v1:
-> - reversed the if condition to avoid a goto statement
-> 
-> Changes from v0:
-> - protect with ctrl lock instead of abusing atomic bitops on
-> ????ctrl->csts
-> 
-> ?drivers/nvme/target/core.c | 10 +++++++---
-> ?1 file changed, 7 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index 7c0fe31ee654..55ce769cecee 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -840,9 +840,13 @@ static void nvmet_fatal_error_handler(struct
-> work_struct *work)
-> ?
-> ?void nvmet_ctrl_fatal_error(struct nvmet_ctrl *ctrl)
-> ?{
-> -	ctrl->csts |= NVME_CSTS_CFS;
-> -	INIT_WORK(&ctrl->fatal_err_work, nvmet_fatal_error_handler);
-> -	schedule_work(&ctrl->fatal_err_work);
-> +	mutex_lock(&ctrl->lock);
-> +	if (!(ctrl->csts & NVME_CSTS_CFS)) {
-> +		ctrl->csts |= NVME_CSTS_CFS;
-> +		INIT_WORK(&ctrl->fatal_err_work,
-> nvmet_fatal_error_handler);
-> +		schedule_work(&ctrl->fatal_err_work);
-> +	}
-> +	mutex_unlock(&ctrl->lock);
+On Mon, Nov 07, 2016@10:29:38AM -0800, J Freyensee wrote:
+> The way I interpret the spec, ctrlid (I'm assuming you mean cntlid) is
+> allocated on a NVM subsystem basis. ?For example, Figure 34 of the
+> Discovery Log Page entry and Figure 20 of the Connect Command implies
+> to me CNTLID values are allocated on a NVM Subsystem granular-level
+> when I see statements such as:
 
-Surrounding the mutex_lock()/unlock() around the if() is definitely
-safer and a more conservative, but I would think it would be OK to
-stick the mutex_lock/unlock() within the if() statement (mutex_lock()
-as the first line after the if() check, mutex_unlock() as the last line
-of the if()), as trying to acquire a lock before checking the condition
-to see if CFS needs to be set is sub-optimal.
+It is per-subsystem.  But nothing in the spec prohibits and implementation
+that has multiple subsystems to simply not allocate cntlids that
+would conflict betweens it's subsystems.
 
-> ?}
-> ?EXPORT_SYMBOL_GPL(nvmet_ctrl_fatal_error);
-> ?
+And in fact there is a TP in the working group that would require
+implementations not to reuse cntlids for it to work.  We'll probably
+hear more about that once it's published.
