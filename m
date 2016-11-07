@@ -1,38 +1,50 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sun, 06 Nov 2016 22:23:43 -0800
-Subject: [PATCH v5 1/7] Add type 0x28 NVME type code to scsi fc headers
-Message-ID: <58201def.w5lxXYeII2Zh0+VN%jsmart2021@gmail.com>
+Date: Sun, 06 Nov 2016 22:23:45 -0800
+Subject: [PATCH v5 2/7] nvme-fabrics: Add FC transport error codes to
+ nvme.h
+Message-ID: <58201df1.MGZTkAoQfXHuIFTb%jsmart2021@gmail.com>
 
 
-Add type 0x28 NVME type code to scsi fc headers
+Add FC transport error codes to nvme.h
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- include/uapi/scsi/fc/fc_fs.h | 2 ++
- 1 file changed, 2 insertions(+)
+ include/linux/nvme.h | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/include/uapi/scsi/fc/fc_fs.h b/include/uapi/scsi/fc/fc_fs.h
-index 50f28b1..dcf314d 100644
---- a/include/uapi/scsi/fc/fc_fs.h
-+++ b/include/uapi/scsi/fc/fc_fs.h
-@@ -190,6 +190,7 @@ enum fc_fh_type {
- 	FC_TYPE_FCP =	0x08,	/* SCSI FCP */
- 	FC_TYPE_CT =	0x20,	/* Fibre Channel Services (FC-CT) */
- 	FC_TYPE_ILS =	0x22,	/* internal link service */
-+	FC_TYPE_NVME =	0x28,	/* FC-NVME */
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index fc3c242..aa3cac4 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -973,6 +973,26 @@ enum {
+ 	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
+ 
+ 	NVME_SC_DNR			= 0x4000,
++
++
++	/*
++	 * FC Transport-specific error status values for NVME commands
++	 *
++	 * Transport-specific status code values must be in the range 0xB0..0xBF
++	 */
++
++	/* Generic FC failure - catchall */
++	NVME_SC_FC_TRANSPORT_ERROR	= 0x00B0,
++
++	/* I/O failure due to FC ABTS'd */
++	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00B1,
++
++	/* IU format error */
++	NVME_SC_FC_FORMAT		= 0x00B2,
++
++	/* NVME Completion did not contain original CMDID */
++	NVME_SC_FC_CMDID_MISMATCH	= 0x00B3,
++
  };
  
- /*
-@@ -203,6 +204,7 @@ enum fc_fh_type {
- 	[FC_TYPE_FCP] =		"FCP",			\
- 	[FC_TYPE_CT] =		"CT",			\
- 	[FC_TYPE_ILS] =		"ILS",			\
-+	[FC_TYPE_NVME] =	"NVME",			\
- }
- 
- /*
+ struct nvme_completion {
 -- 
 2.5.0
