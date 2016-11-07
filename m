@@ -1,41 +1,39 @@
 From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 07 Nov 2016 12:25:29 -0800
-Subject: [PATCH RFC nvme-cli 2/2] nvme.spec: generate hostnqn file on
- install and remove on uninstall
-In-Reply-To: <1478459581-22654-3-git-send-email-sagi@grimberg.me>
+Date: Mon, 07 Nov 2016 12:34:46 -0800
+Subject: [PATCH RFC nvme-cli 0/2] auto generate hostnqn file on
+ installation
+In-Reply-To: <5a2ee2fb-8104-39cc-1af3-f0fca1caa48e@grimberg.me>
 References: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
- <1478459581-22654-3-git-send-email-sagi@grimberg.me>
-Message-ID: <1478550329.5463.7.camel@linux.intel.com>
+ <20161106192451.GA18342@lst.de>
+ <5a2ee2fb-8104-39cc-1af3-f0fca1caa48e@grimberg.me>
+Message-ID: <1478550886.5463.14.camel@linux.intel.com>
 
-On Sun, 2016-11-06@21:13 +0200, Sagi Grimberg wrote:
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
-> ?nvme.spec.in | 14 ++++++++++++++
-> ?1 file changed, 14 insertions(+)
+On Sun, 2016-11-06@23:36 +0200, Sagi Grimberg wrote:
+> > 
+> > > 
+> > > Not sure if it's the best way to do this as my packeging
+> > > understanding is
+> > > very limited, hence the RFC. the debian part is tested (don't
+> > > have
+> > > access to rpm distros at the moment).
+> > 
+> > My idea was to add a command to generate an automatic hostnqn to
+> > the nvme tool instead, what would you think about that?
 > 
-> diff --git a/nvme.spec.in b/nvme.spec.in
-> index a4718773a962..e95810995395 100644
-> --- a/nvme.spec.in
-> +++ b/nvme.spec.in
-> @@ -33,6 +33,20 @@ make install DESTDIR=%{buildroot} PREFIX=/usr
-> ?%clean
-> ?rm -rf $RPM_BUILD_ROOT
-> ?
-> +%post
-> +if [ $1 = 1 ]; then # 1 : This package is being installed for the
-> first time
-> +	if [ ! -f /etc/nvme/hostnqn ]; then
-> +		install -D /dev/null /etc/nvme/hostnqn
-> +		year_month=$(date | awk '{print $6"-"$3}')
+> I'm fine with that too.
 
-Hey Sagi,
+How about an extra tweak to that tool proposal? ?Have the tool have the
+option to do both NQN supported formats:
 
-7.9 of the base NVMe spec makes it clear on unique names that the "2nd
-format", which is what is being assembled here, uses a fixed date
-"2014-08" in it's name, which is exactly what the NVMe Host driver does
-as its default:
+A. the first format that uses a date code in which I think that is what
+patch 2 in this series was trying to do
 
-fabrics.c: ?"nqn.2014-08.org.nvmexpress:NVMf:uuid:%pUb", &host->id);
+and
 
-I would just do what the NVMe host is doing already and make it easier
-on yourself ;-).
+B. The second format the NVMe Host driver is already does in fabrics.c?
+
+> 
+> > 
+> > The install scripts could then call that.
+> 
+> Sounds fine.
