@@ -1,75 +1,40 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 7 Nov 2016 10:43:07 -0800
-Subject: [PATCH v5 6/7] nvme-fabrics: Add target support for FC transport
-In-Reply-To: <20161107092225.kub4sdnzy5uqgybe@linux-x5ow.site>
-References: <58201df5.VwHW5e3+1qgK/Why%jsmart2021@gmail.com>
- <20161107092225.kub4sdnzy5uqgybe@linux-x5ow.site>
-Message-ID: <89eef04f-61ae-534b-9169-fbebf66eb082@broadcom.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Mon, 07 Nov 2016 10:50:16 -0800
+Subject: nvmet_rdma crash - DISCONNECT event with NULL queue
+In-Reply-To: <20161107184126.GA4400@lst.de>
+References: <01d101d2345e$2f054390$8d0fcab0$@opengridcomputing.com>
+ <dbe5f18d-7928-f065-920f-753b30fb99a2@grimberg.me>
+ <01d901d2345f$da0d2e00$8e278a00$@opengridcomputing.com>
+ <1d09c064-1cbe-7e6e-43d2-cfa6cf0c19ea@grimberg.me>
+ <024e01d23476$6668b890$333a29b0$@opengridcomputing.com>
+ <3512b8bb-4d29-b90a-49e1-ebf1085c47d7@grimberg.me>
+ <004601d2351a$d9db85b0$8d929110$@opengridcomputing.com>
+ <20161102151540.GB14825@lst.de>
+ <bd82c206-668a-0794-2d51-3c48058350d3@grimberg.me>
+ <1478543378.3350.17.camel@linux.intel.com> <20161107184126.GA4400@lst.de>
+Message-ID: <1478544616.3350.29.camel@linux.intel.com>
+
+On Mon, 2016-11-07@19:41 +0100, 'Christoph Hellwig' wrote:
+> On Mon, Nov 07, 2016@10:29:38AM -0800, J Freyensee wrote:
+> > 
+> > The way I interpret the spec, ctrlid (I'm assuming you mean cntlid)
+> > is
+> > allocated on a NVM subsystem basis. ?For example, Figure 34 of the
+> > Discovery Log Page entry and Figure 20 of the Connect Command
+> > implies
+> > to me CNTLID values are allocated on a NVM Subsystem granular-level
+> > when I see statements such as:
+> 
+> It is per-subsystem.??But nothing in the spec prohibits and
+> implementation
+> that has multiple subsystems to simply not allocate cntlids that
+> would conflict betweens it's subsystems.
+
+OK, so basically the nvmet change would be to make sure unique cntlids
+are used across all NVM subsystems within the NVMe Target then?
 
 
-
-On 11/7/2016 1:22 AM, Johannes Thumshirn wrote:
-> Hi James,
->
-> On Sun, Nov 06, 2016@10:23:49PM -0800, James Smart wrote:
->> Add nvme-fabrics target support for FC transport
-> [...]
->
->> +static void
->> +nvmet_fc_prep_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
->> +				struct nvmet_fc_tgt_queue *queue)
->> +{
->> +	struct nvmet_fc_fcp_iod *fod = queue->fod;
->> +	int i;
->> +
->> +	for (i = 0; i < queue->sqsize; fod++, i++) {
->> +		INIT_WORK(&fod->work, nvmet_fc_handle_fcp_rqst_work);
->> +		fod->tgtport = tgtport;
->> +		fod->queue = queue;
->> +		atomic_set(&fod->active, 0);
-> Hmm why exactly do you need atomics here? You're using fod->active as bool and
-> don't ever do a real atomic operation such as atomic_inc()
-> atomic_dev_and_test(), etc.. on it. Also you're never checking if fod->active
-> is actually 1 when you come here (and if it can't what's the point of it being
-> atomic in the first place)?
-
-?? did you miss several atomic_read's/set's ?
-
-It's a boolean flag, and the intent was to avoid taking additional locks 
-when setting it as in most cases, the locks would be overkill. Where it 
-was used was in queue teardown, to identify the allocated jobs, thus 
-active I/O's, that the LLDD has to be called for to terminate.   But, as 
-I look at this, there does seem to be a benefit in creating a more 
-granular lock than is used now and avoid the atomic. I'll post a 
-subsequent patch to address it.
-
-
->
-> Same goes for fod->aborted.
-
-The use of the flag is a little different but the reason the same - 
-avoid creating yet another lock level or taking a higher-level lock for 
-a simple state transition. I'm not inclined to remove this one though.
->> +static void
->> +nvmet_fc_abort_op(struct nvmet_fc_tgtport *tgtport,
->> +				struct nvmefc_tgt_fcp_req *fcpreq)
->> +{
->> +	int ret;
->> +
->> +	fcpreq->op = NVMET_FCOP_ABORT;
->> +	fcpreq->offset = 0;
->> +	fcpreq->timeout = 0;
->> +	fcpreq->transfer_length = 0;
->> +	fcpreq->transferred_length = 0;
->> +	fcpreq->fcp_error = 0;
->> +	fcpreq->sg_cnt = 0;
->> +
->> +	ret = tgtport->ops->fcp_op(&tgtport->fc_target_port, fcpreq);
->> +	if (ret)
->> +		WARN_ON(1);
->> +		/* should never reach here !! */
-> WARN_ON(ret)?
-
-nit/nuance either way.
-
--- james
+> 
+> And in fact there is a TP in the working group that would require
+> implementations not to reuse cntlids for it to work.??We'll probably
+> hear more about that once it's published.
