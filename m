@@ -1,42 +1,26 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 7 Nov 2016 07:56:02 +0100
-Subject: [PATCH v5 5/7] nvme-fabrics: Add host support for FC transport
-In-Reply-To: <58201df4.eHDpXvb36YEr/bgi%jsmart2021@gmail.com>
-References: <58201df4.eHDpXvb36YEr/bgi%jsmart2021@gmail.com>
-Message-ID: <44c8b248-3495-4354-3673-81547ade3d1a@suse.de>
+Date: Mon, 7 Nov 2016 07:59:43 +0100
+Subject: [PATCH v5 6/7] nvme-fabrics: Add target support for FC transport
+In-Reply-To: <58201df5.VwHW5e3+1qgK/Why%jsmart2021@gmail.com>
+References: <58201df5.VwHW5e3+1qgK/Why%jsmart2021@gmail.com>
+Message-ID: <cf10de9e-bbed-8658-0dc6-99d5b8d1fdd8@suse.de>
 
 On 11/07/2016 07:23 AM, James Smart wrote:
 > 
-> Add nvme-fabrics host support for FC transport
+> Add nvme-fabrics target support for FC transport
 > 
 > Implements the FC-NVME T11 definition of how nvme fabric capsules are
 > performed on an FC fabric. Utilizes a lower-layer API to FC host adapters
-> to send/receive FC-4 LS operations and FCP operations that comprise NVME
-> over FC operation.
+> to send/receive FC-4 LS operations and perform the FCP transactions
+> necessary to perform and FCP IO request for NVME.
 > 
 > The T11 definitions for FC-4 Link Services are implemented which create
-> NVMeOF connections.  Implements the hooks with blk-mq to then submit admin
-> and io requests to the different connections.
+> NVMeOF connections.  Implements the hooks with nvmet layer to pass NVME
+> commands to it for processing and posting of data/response base to the
+> host via the different connections.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-> 
-> ---
-> v4 mods:
-> - added HAS_DMA to Kconfig
-> - Changed to support Christophs nvme_request update
-> - addressed return code in __nvme_fc_abort_op()
-> - fixed possible op->rq NULL reference in nvme_fc_start_fcp_op()
-> - FC-NVME v1.11: process transferred length in ersp iu and rsp iu mandates
-> - Add comments on teardown flow
-> - fix bad cqe reference in fcpio_done
-> 
->  MAINTAINERS                |    1 +
->  drivers/nvme/host/Kconfig  |   17 +
->  drivers/nvme/host/Makefile |    3 +
->  drivers/nvme/host/fc.c     | 2441 ++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 2462 insertions(+)
->  create mode 100644 drivers/nvme/host/fc.c
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
