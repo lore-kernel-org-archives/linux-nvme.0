@@ -1,20 +1,51 @@
-From: hch@lst.de ('Christoph Hellwig')
-Date: Mon, 7 Nov 2016 19:51:02 +0100
-Subject: nvmet_rdma crash - DISCONNECT event with NULL queue
-In-Reply-To: <1478544616.3350.29.camel@linux.intel.com>
-References: <01d901d2345f$da0d2e00$8e278a00$@opengridcomputing.com>
- <1d09c064-1cbe-7e6e-43d2-cfa6cf0c19ea@grimberg.me>
- <024e01d23476$6668b890$333a29b0$@opengridcomputing.com>
- <3512b8bb-4d29-b90a-49e1-ebf1085c47d7@grimberg.me>
- <004601d2351a$d9db85b0$8d929110$@opengridcomputing.com>
- <20161102151540.GB14825@lst.de>
- <bd82c206-668a-0794-2d51-3c48058350d3@grimberg.me>
- <1478543378.3350.17.camel@linux.intel.com> <20161107184126.GA4400@lst.de>
- <1478544616.3350.29.camel@linux.intel.com>
-Message-ID: <20161107185102.GA4820@lst.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon,  7 Nov 2016 21:17:15 +0200
+Subject: [PATCH 1/1] nvme/rdma: introduce delete_work_to_rdma_ctrl helper
+Message-ID: <1478546235-26907-1-git-send-email-maxg@mellanox.com>
 
-On Mon, Nov 07, 2016@10:50:16AM -0800, J Freyensee wrote:
-> OK, so basically the nvmet change would be to make sure unique cntlids
-> are used across all NVM subsystems within the NVMe Target then?
+In order to avoid some code duplication.
 
-Yes.
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/host/rdma.c |   12 ++++++++----
+ 1 files changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index af1c114..dbda962 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -141,6 +141,12 @@ struct nvme_rdma_ctrl {
+ 	return container_of(ctrl, struct nvme_rdma_ctrl, ctrl);
+ }
+ 
++static inline struct nvme_rdma_ctrl *
++delete_work_to_rdma_ctrl(struct work_struct *delete_work)
++{
++        return container_of(delete_work, struct nvme_rdma_ctrl, delete_work);
++}
++
+ static LIST_HEAD(device_list);
+ static DEFINE_MUTEX(device_list_mutex);
+ 
+@@ -1655,8 +1661,7 @@ static void __nvme_rdma_remove_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ 
+ static void nvme_rdma_del_ctrl_work(struct work_struct *work)
+ {
+-	struct nvme_rdma_ctrl *ctrl = container_of(work,
+-				struct nvme_rdma_ctrl, delete_work);
++	struct nvme_rdma_ctrl *ctrl = delete_work_to_rdma_ctrl(work);
+ 
+ 	__nvme_rdma_remove_ctrl(ctrl, true);
+ }
+@@ -1692,8 +1697,7 @@ static int nvme_rdma_del_ctrl(struct nvme_ctrl *nctrl)
+ 
+ static void nvme_rdma_remove_ctrl_work(struct work_struct *work)
+ {
+-	struct nvme_rdma_ctrl *ctrl = container_of(work,
+-				struct nvme_rdma_ctrl, delete_work);
++	struct nvme_rdma_ctrl *ctrl = delete_work_to_rdma_ctrl(work);
+ 
+ 	__nvme_rdma_remove_ctrl(ctrl, false);
+ }
+-- 
+1.7.1
