@@ -1,33 +1,42 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 7 Nov 2016 07:53:29 +0100
-Subject: [PATCH v5 4/7] nvme-fabrics: Add FC transport LLDD api definitions
-In-Reply-To: <58201df3./R4rmMdIaKAuYBto%jsmart2021@gmail.com>
-References: <58201df3./R4rmMdIaKAuYBto%jsmart2021@gmail.com>
-Message-ID: <cee41571-3200-3941-d852-5e357eb65440@suse.de>
+Date: Mon, 7 Nov 2016 07:56:02 +0100
+Subject: [PATCH v5 5/7] nvme-fabrics: Add host support for FC transport
+In-Reply-To: <58201df4.eHDpXvb36YEr/bgi%jsmart2021@gmail.com>
+References: <58201df4.eHDpXvb36YEr/bgi%jsmart2021@gmail.com>
+Message-ID: <44c8b248-3495-4354-3673-81547ade3d1a@suse.de>
 
 On 11/07/2016 07:23 AM, James Smart wrote:
 > 
-> nvme-fabrics: Add FC transport LLDD api definitions:
+> Add nvme-fabrics host support for FC transport
 > 
-> Host:
-> -LLDD registration with the host transport
-> -registering host ports (local ports) and target ports seen on
->    fabric (remote ports)
-> -Data structures and call points for FC-4 LS's and FCP IO requests
+> Implements the FC-NVME T11 definition of how nvme fabric capsules are
+> performed on an FC fabric. Utilizes a lower-layer API to FC host adapters
+> to send/receive FC-4 LS operations and FCP operations that comprise NVME
+> over FC operation.
 > 
-> Target:
-> -LLDD registration with the target transport
-> -registering nvme subsystem ports (target ports)
-> -Data structures and call points for reception of FC-4 LS's and
->    FCP IO requests, and callbacks to perform data and rsp transfers
->    for the io.
-> 
-> Add to MAINTAINERS file
+> The T11 definitions for FC-4 Link Services are implemented which create
+> NVMeOF connections.  Implements the hooks with blk-mq to then submit admin
+> and io requests to the different connections.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
 > Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+> 
+> ---
+> v4 mods:
+> - added HAS_DMA to Kconfig
+> - Changed to support Christophs nvme_request update
+> - addressed return code in __nvme_fc_abort_op()
+> - fixed possible op->rq NULL reference in nvme_fc_start_fcp_op()
+> - FC-NVME v1.11: process transferred length in ersp iu and rsp iu mandates
+> - Add comments on teardown flow
+> - fix bad cqe reference in fcpio_done
+> 
+>  MAINTAINERS                |    1 +
+>  drivers/nvme/host/Kconfig  |   17 +
+>  drivers/nvme/host/Makefile |    3 +
+>  drivers/nvme/host/fc.c     | 2441 ++++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 2462 insertions(+)
+>  create mode 100644 drivers/nvme/host/fc.c
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
