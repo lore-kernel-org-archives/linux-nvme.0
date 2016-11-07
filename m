@@ -1,34 +1,70 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 6 Nov 2016 23:41:41 +0200
-Subject: [PATCH RFC nvme-cli 1/2] debain: generate hostnqn file on install
- and remove on uninstall
-In-Reply-To: <20161106192530.GB18342@lst.de>
-References: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
- <1478459581-22654-2-git-send-email-sagi@grimberg.me>
- <20161106192530.GB18342@lst.de>
-Message-ID: <67cdf4dd-3638-8faf-7512-0ef39ca464a3@grimberg.me>
+From: jsmart2021@gmail.com (James Smart)
+Date: Sun, 06 Nov 2016 22:23:42 -0800
+Subject: [PATCH v5 0/7] nvme-fabrics: Add FC-NVME Transport support
+Message-ID: <58201dee.UqykrnPGU60HF9Da%jsmart2021@gmail.com>
 
-> I think the subject should read "debian" :)
 
-Probably :)
+I'm reposting due to a change in my email address. My normal
+broadcom.com address seems to be marked as spam when used as posting. 
 
->> diff --git a/debian/prerm b/debian/prerm
->> new file mode 100644
->> index 000000000000..40c6fea42284
->> --- /dev/null
->> +++ b/debian/prerm
->> @@ -0,0 +1,5 @@
->> +#!/bin/sh
->> +
->> +if [ "$1" = "remove" ]; then
->> +    rm -rf /etc/nvme
->> +fi
->
-> Shouldn't we only do that for a purge?
+This patchset has 2 minor mods over v4:
+in target fc.c - added a check on RS LS processing to ensure LLDD
+  forwarded LS via RS-specific callback.
+in target fcloop.c - removed some spurious parens
 
-I haven't given it much thought, it really was a 15 minute
-thing that I thought I'd through out here so people can
-tell suggest how to do it better...
+--
 
-I know rpms have .rpmsave for these sort of files but not
-sure what are the rules for debian.
+The patches in this set add support for the FC transport to the nvme
+fabrics subsystem.  The set include header files with T11 transport
+definitions and an api for the FC-NVME transport to talk with FC LLDDs.
+It also includes host and target transport files. A FC loopback driver
+is supplied to act as a FC LLDD to exercise the api.
+
+Revised for review comments from earlier this week.
+
+Cut against linux-block for-next branch as of 11/03
+
+This patchset is dependent upon the following patches:
+
+add u64 number parser
+https://groups.google.com/forum/#!msg/fa.linux.kernel/IKtbiXlp3-8/o_1VsNjvDwAJ
+
+[PATCH 1/2] nvme: introduce struct nvme_request
+http://lists.infradead.org/pipermail/linux-nvme/2016-October/006855.html
+
+[PATCH 2/2] nvme: don't pass the full CQE to nvme_complete_async_event
+http://lists.infradead.org/pipermail/linux-nvme/2016-October/006856.html
+
+-- james
+
+
+James Smart (7):
+  Add type 0x28 NVME type code to scsi fc headers
+  nvme-fabrics: Add FC transport error codes to nvme.h
+  nvme-fabrics: Add FC transport FC-NVME definitions
+  nvme-fabrics: Add FC transport LLDD api definitions
+  nvme-fabrics: Add host support for FC transport
+  nvme-fabrics: Add target support for FC transport
+  nvme-fabrics: Add FC LLDD loopback driver to test FC-NVME
+
+ MAINTAINERS                    |   10 +
+ drivers/nvme/host/Kconfig      |   17 +
+ drivers/nvme/host/Makefile     |    3 +
+ drivers/nvme/host/fc.c         | 2441 ++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/Kconfig    |   24 +
+ drivers/nvme/target/Makefile   |    4 +
+ drivers/nvme/target/fc.c       | 2317 ++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/fcloop.c   | 1147 +++++++++++++++++++
+ include/linux/nvme-fc-driver.h |  847 ++++++++++++++
+ include/linux/nvme-fc.h        |  294 +++++
+ include/linux/nvme.h           |   20 +
+ include/uapi/scsi/fc/fc_fs.h   |    2 +
+ 12 files changed, 7126 insertions(+)
+ create mode 100644 drivers/nvme/host/fc.c
+ create mode 100644 drivers/nvme/target/fc.c
+ create mode 100644 drivers/nvme/target/fcloop.c
+ create mode 100644 include/linux/nvme-fc-driver.h
+ create mode 100644 include/linux/nvme-fc.h
+
+-- 
+2.5.0
