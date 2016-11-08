@@ -1,99 +1,25 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 8 Nov 2016 08:05:31 +0100
-Subject: [PATCH v5 6/7] nvme-fabrics: Add target support for FC transport
-In-Reply-To: <89eef04f-61ae-534b-9169-fbebf66eb082@broadcom.com>
-References: <58201df5.VwHW5e3+1qgK/Why%jsmart2021@gmail.com>
- <20161107092225.kub4sdnzy5uqgybe@linux-x5ow.site>
- <89eef04f-61ae-534b-9169-fbebf66eb082@broadcom.com>
-Message-ID: <20161108070531.qvtpqwtzmdqkoam6@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 8 Nov 2016 12:23:02 +0200
+Subject: host/target keep alive timeout loop
+In-Reply-To: <057401d2394f$0b6195b0$2224c110$@opengridcomputing.com>
+References: <056f01d2394e$ea77ae70$bf670b50$@opengridcomputing.com>
+ <057401d2394f$0b6195b0$2224c110$@opengridcomputing.com>
+Message-ID: <ff2610d1-164f-d85e-839e-b91344192041@grimberg.me>
 
-On Mon, Nov 07, 2016@10:43:07AM -0800, James Smart wrote:
-> 
-> 
-> On 11/7/2016 1:22 AM, Johannes Thumshirn wrote:
-> > Hi James,
-> > 
-> > On Sun, Nov 06, 2016@10:23:49PM -0800, James Smart wrote:
-> > > Add nvme-fabrics target support for FC transport
-> > [...]
-> > 
-> > > +static void
-> > > +nvmet_fc_prep_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
-> > > +				struct nvmet_fc_tgt_queue *queue)
-> > > +{
-> > > +	struct nvmet_fc_fcp_iod *fod = queue->fod;
-> > > +	int i;
-> > > +
-> > > +	for (i = 0; i < queue->sqsize; fod++, i++) {
-> > > +		INIT_WORK(&fod->work, nvmet_fc_handle_fcp_rqst_work);
-> > > +		fod->tgtport = tgtport;
-> > > +		fod->queue = queue;
-> > > +		atomic_set(&fod->active, 0);
-> > Hmm why exactly do you need atomics here? You're using fod->active as bool and
-> > don't ever do a real atomic operation such as atomic_inc()
-> > atomic_dev_and_test(), etc.. on it. Also you're never checking if fod->active
-> > is actually 1 when you come here (and if it can't what's the point of it being
-> > atomic in the first place)?
-> 
-> ?? did you miss several atomic_read's/set's ?
+> Hey Sagi/Christoph,
+>
+> While running the same kato/recovery tests I've logged in a few other threads,
+> occasionally I get some controllers on the host that will not reconnect.  Even
+> after I quiesce the test and have the interfaces up and everything is pingable.
+> When it gets in this state, some of the 10 controllers are up and ok, and others
+> are stuck in this reconnect/fail loop.
+>
+> The host is stuck continually logging this for one or more controllers:
+>
+> [ 7885.617176] nvme nvme10: failed nvme_keep_alive_end_io error=16385
+> [ 7886.837087] nvme nvme10: rdma_resolve_addr wait failed (-110).
+> [ 7890.183979] nvme nvme10: failed to initialize i/o queue: -110
+> [ 7890.247538] nvme nvme10: Failed reconnect attempt, requeueing...
 
-Read and set, exactly. atmoic_set() and atomic_read() are no atomic
-instroctions, i.e. don't have a 'lock' prefix in their assembly output. Real
-atomic operations like atomic_add() do this and thus guarantee to be atomic.
-Have a look at the definitions of atomic_set() and i.e. atomic_add(). There's
-a good explanation of this at Roland Dreier's Blog:
-http://digitalvampire.org/blog/index.php/2007/05/13/atomic-cargo-cults/
-
-Either way, this is no blocker and can be changed after the initial
-submission.
-
-> 
-> It's a boolean flag, and the intent was to avoid taking additional locks
-> when setting it as in most cases, the locks would be overkill. Where it was
-> used was in queue teardown, to identify the allocated jobs, thus active
-> I/O's, that the LLDD has to be called for to terminate.   But, as I look at
-> this, there does seem to be a benefit in creating a more granular lock than
-> is used now and avoid the atomic. I'll post a subsequent patch to address
-> it.
-> 
-> 
-> > 
-> > Same goes for fod->aborted.
-> 
-> The use of the flag is a little different but the reason the same - avoid
-> creating yet another lock level or taking a higher-level lock for a simple
-> state transition. I'm not inclined to remove this one though.
-> > > +static void
-> > > +nvmet_fc_abort_op(struct nvmet_fc_tgtport *tgtport,
-> > > +				struct nvmefc_tgt_fcp_req *fcpreq)
-> > > +{
-> > > +	int ret;
-> > > +
-> > > +	fcpreq->op = NVMET_FCOP_ABORT;
-> > > +	fcpreq->offset = 0;
-> > > +	fcpreq->timeout = 0;
-> > > +	fcpreq->transfer_length = 0;
-> > > +	fcpreq->transferred_length = 0;
-> > > +	fcpreq->fcp_error = 0;
-> > > +	fcpreq->sg_cnt = 0;
-> > > +
-> > > +	ret = tgtport->ops->fcp_op(&tgtport->fc_target_port, fcpreq);
-> > > +	if (ret)
-> > > +		WARN_ON(1);
-> > > +		/* should never reach here !! */
-> > WARN_ON(ret)?
-> 
-> nit/nuance either way.
-
-Right, probably too late and no reason to re-send.
-
-Byte,
-	Johannes
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+This looks like an underlying problem causing the host rdma_connect
+to timeout. Did it happen before or is it a new thing?
