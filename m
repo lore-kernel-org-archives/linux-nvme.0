@@ -1,23 +1,19 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 8 Nov 2016 12:30:11 +0200
-Subject: [PATCH RFC nvme-cli 0/2] auto generate hostnqn file on
- installation
-In-Reply-To: <1478550886.5463.14.camel@linux.intel.com>
+Date: Tue, 8 Nov 2016 12:31:07 +0200
+Subject: [PATCH RFC nvme-cli 2/2] nvme.spec: generate hostnqn file on
+ install and remove on uninstall
+In-Reply-To: <20161107083639.naen6aolbogpe2ic@linux-x5ow.site>
 References: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
- <20161106192451.GA18342@lst.de>
- <5a2ee2fb-8104-39cc-1af3-f0fca1caa48e@grimberg.me>
- <1478550886.5463.14.camel@linux.intel.com>
-Message-ID: <8b97b0f3-750f-b892-a6f5-d15dbc2dfb50@grimberg.me>
+ <1478459581-22654-3-git-send-email-sagi@grimberg.me>
+ <20161107083639.naen6aolbogpe2ic@linux-x5ow.site>
+Message-ID: <3e1f41d7-e518-da7d-b561-2e17ca622a8b@grimberg.me>
 
 
-> How about an extra tweak to that tool proposal?  Have the tool have the
-> option to do both NQN supported formats:
->
-> A. the first format that uses a date code in which I think that is what
-> patch 2 in this series was trying to do
->
-> and
->
-> B. The second format the NVMe Host driver is already does in fabrics.c
+> Two things, a) are you sure this is correct? I interpret $year_month as year
+> and month, not year and day (date | awk '{print $6"-"$3}' evaluates to 2016-7
+> here) and b) 'date +"%Y-%m"' saves you a 2nd process.
 
-Lets not over-complicate this, perhaps just do (A)?
+Thanks for the tip... I'm moving it to nvme utility though.
+
+Cheers,
+Sagi.
