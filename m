@@ -1,36 +1,30 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 8 Nov 2016 08:56:50 -0600
-Subject: host/target keep alive timeout loop
-In-Reply-To: <ff2610d1-164f-d85e-839e-b91344192041@grimberg.me>
-References: <056f01d2394e$ea77ae70$bf670b50$@opengridcomputing.com>
- <057401d2394f$0b6195b0$2224c110$@opengridcomputing.com>
- <ff2610d1-164f-d85e-839e-b91344192041@grimberg.me>
-Message-ID: <007901d239d0$561eb700$025c2500$@opengridcomputing.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Tue, 08 Nov 2016 09:11:26 -0800
+Subject: [PATCH RFC nvme-cli 0/2] auto generate hostnqn file on
+ installation
+In-Reply-To: <8b97b0f3-750f-b892-a6f5-d15dbc2dfb50@grimberg.me>
+References: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
+ <20161106192451.GA18342@lst.de>
+ <5a2ee2fb-8104-39cc-1af3-f0fca1caa48e@grimberg.me>
+ <1478550886.5463.14.camel@linux.intel.com>
+ <8b97b0f3-750f-b892-a6f5-d15dbc2dfb50@grimberg.me>
+Message-ID: <1478625086.9959.10.camel@linux.intel.com>
 
- 
-> > Hey Sagi/Christoph,
-> >
-> > While running the same kato/recovery tests I've logged in a few other
-threads,
-> > occasionally I get some controllers on the host that will not reconnect.
-Even
-> > after I quiesce the test and have the interfaces up and everything is
-pingable.
-> > When it gets in this state, some of the 10 controllers are up and ok, and
-others
-> > are stuck in this reconnect/fail loop.
-> >
-> > The host is stuck continually logging this for one or more controllers:
-> >
-> > [ 7885.617176] nvme nvme10: failed nvme_keep_alive_end_io error=16385
-> > [ 7886.837087] nvme nvme10: rdma_resolve_addr wait failed (-110).
-> > [ 7890.183979] nvme nvme10: failed to initialize i/o queue: -110
-> > [ 7890.247538] nvme nvme10: Failed reconnect attempt, requeueing...
+On Tue, 2016-11-08@12:30 +0200, Sagi Grimberg wrote:
+> > 
+> > How about an extra tweak to that tool proposal???Have the tool have
+> > the
+> > option to do both NQN supported formats:
+> > 
+> > A. the first format that uses a date code in which I think that is
+> > what
+> > patch 2 in this series was trying to do
+> > 
+> > and
+> > 
+> > B. The second format the NVMe Host driver is already does in
+> > fabrics.c
 > 
-> This looks like an underlying problem causing the host rdma_connect
-> to timeout. Did it happen before or is it a new thing?
+> Lets not over-complicate this, perhaps just do (A)?
 
-I can't say for sure, since until Christoph's recent fix, it was crashing in
-other ways.   I don't think the connection is failing at the driver level, but
-I'll look into the stats for cxgb4 when it is in this state to see what is
-happening at that level.   
+I'd do B. and be consistent with the NVMe Host driver.
