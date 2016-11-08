@@ -1,75 +1,83 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  8 Nov 2016 12:48:27 +0200
-Subject: [PATCH nvme-cli v1 1/2] nvme-cli: Add nvme hostnqn generation option
+Date: Tue,  8 Nov 2016 12:48:28 +0200
+Subject: [PATCH nvme-cli v1 2/2] nvme.spec/debian: Auto generate host nqn as
+ part of install
 In-Reply-To: <1478602108-29571-1-git-send-email-sagi@grimberg.me>
 References: <1478602108-29571-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1478602108-29571-2-git-send-email-sagi@grimberg.me>
+Message-ID: <1478602108-29571-3-git-send-email-sagi@grimberg.me>
 
-Add option to generate a NVMe qualified name of a given host
-(in the form of: nqn.2014-08.org.nvmexpress:NVMf:uuid:<some_uuid>).
-This hostnqn will be used for fabrics discovery and connect functions.
+The installation will generate a hostnqn and store it in
+/etc/nvme/hostnqn file (in case it doesn't exist).
+This file will be removed upon uninstallation (purge on for debian).
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- Makefile       |  1 +
- nvme-builtin.h |  1 +
- nvme.c         | 14 ++++++++++++++
- 3 files changed, 16 insertions(+)
+ debian/postinst | 20 ++++++++++++++++++++
+ debian/postrm   |  5 +++++
+ nvme.spec.in    | 12 ++++++++++++
+ 3 files changed, 37 insertions(+)
+ create mode 100644 debian/postinst
+ create mode 100644 debian/postrm
 
-diff --git a/Makefile b/Makefile
-index 117cbbea886f..cc0245ad576d 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1,5 +1,6 @@
- CFLAGS += -std=gnu99 -O2 -g -Wall -Werror
- CPPFLAGS += -D_GNU_SOURCE -D__CHECK_ENDIAN__
-+LDFLAGS += -luuid
- NVME = nvme
- INSTALL ?= install
- DESTDIR =
-diff --git a/nvme-builtin.h b/nvme-builtin.h
-index dc314cbbb371..b182b1e01f5b 100644
---- a/nvme-builtin.h
-+++ b/nvme-builtin.h
-@@ -49,6 +49,7 @@ COMMAND_LIST(
- 	ENTRY("connect-all", "Discover and Connect to NVMeoF subsystems", connect_all_cmd)
- 	ENTRY("connect", "Connect to NVMeoF subsystem", connect_cmd)
- 	ENTRY("disconnect", "Disconnect from NVMeoF subsystem", disconnect_cmd)
-+	ENTRY("gen-hostnqn", "Generate NVMeoF host NQN", gen_hostnqn_cmd)
- );
- 
- #endif
-diff --git a/nvme.c b/nvme.c
-index a9e78aae50a9..fa9765cddc79 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -44,6 +44,7 @@
- #include <sys/types.h>
- #include <sys/stat.h>
- #include <sys/time.h>
-+#include <uuid/uuid.h>
- 
- #include "nvme-print.h"
- #include "nvme-ioctl.h"
-@@ -2704,6 +2705,19 @@ static int admin_passthru(int argc, char **argv, struct command *cmd, struct plu
- 	return passthru(argc, argv, NVME_IOCTL_ADMIN_CMD, desc, cmd);
- }
- 
-+static int gen_hostnqn_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
-+{
-+	char hostnqn[NVMF_NQN_SIZE];
-+	uuid_t uuid;
-+	char uuid_str[37]; /* e.g. 1b4e28ba-2fa1-11d2-883f-0016d3cca427 + \0 */
+diff --git a/debian/postinst b/debian/postinst
+new file mode 100644
+index 000000000000..b258cf569c3e
+--- /dev/null
++++ b/debian/postinst
+@@ -0,0 +1,20 @@
++#!/bin/sh
 +
-+	uuid_generate_random(uuid);
-+	uuid_unparse_lower(uuid, uuid_str);
-+	sprintf(hostnqn, "nqn.2014-08.org.nvmexpress:NVMf:uuid:%s", uuid_str);
-+	printf("%s\n", hostnqn);
-+	return 0;
-+}
++set -e
 +
- static int discover_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
- {
- 	const char *desc = "Send Get Log Page request to Discovery Controller.";
++case "$1" in
++    configure|install)
++	if [ ! -f /etc/nvme/hostnqn ]; then
++		install -D /dev/null /etc/nvme/hostnqn
++		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
++        fi
++        ;;
++
++    upgrade|abort-upgrade)
++        ;;
++    *)
++        echo "postinst called with unknown argument \`$1'" >&2
++        exit 0
++        ;;
++esac
++exit 0
+diff --git a/debian/postrm b/debian/postrm
+new file mode 100644
+index 000000000000..d678fc8a90ac
+--- /dev/null
++++ b/debian/postrm
+@@ -0,0 +1,5 @@
++#!/bin/sh
++
++if [ "$1" = "purge" ]; then
++    rm -rf /etc/nvme
++fi
+diff --git a/nvme.spec.in b/nvme.spec.in
+index a4718773a962..8bda97d819ba 100644
+--- a/nvme.spec.in
++++ b/nvme.spec.in
+@@ -33,6 +33,18 @@ make install DESTDIR=%{buildroot} PREFIX=/usr
+ %clean
+ rm -rf $RPM_BUILD_ROOT
+ 
++%post
++if [ $1 = 1 ]; then # 1 : This package is being installed for the first time
++	if [ ! -f /etc/nvme/hostnqn ]; then
++		install -D /dev/null /etc/nvme/hostnqn
++		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
++        fi
++fi
++
++%preun
++if [ "$1" = "remove" ]; then
++    rm -rf /etc/nvme
++fi
+ %changelog
+ * Thu Oct 15 2015 Keith Busch <keith.busch at intel.com>
+ - Initial RPM spec
 -- 
 2.7.4
