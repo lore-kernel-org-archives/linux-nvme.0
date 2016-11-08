@@ -1,39 +1,99 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 07 Nov 2016 12:34:46 -0800
-Subject: [PATCH RFC nvme-cli 0/2] auto generate hostnqn file on
- installation
-In-Reply-To: <5a2ee2fb-8104-39cc-1af3-f0fca1caa48e@grimberg.me>
-References: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
- <20161106192451.GA18342@lst.de>
- <5a2ee2fb-8104-39cc-1af3-f0fca1caa48e@grimberg.me>
-Message-ID: <1478550886.5463.14.camel@linux.intel.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 8 Nov 2016 08:05:31 +0100
+Subject: [PATCH v5 6/7] nvme-fabrics: Add target support for FC transport
+In-Reply-To: <89eef04f-61ae-534b-9169-fbebf66eb082@broadcom.com>
+References: <58201df5.VwHW5e3+1qgK/Why%jsmart2021@gmail.com>
+ <20161107092225.kub4sdnzy5uqgybe@linux-x5ow.site>
+ <89eef04f-61ae-534b-9169-fbebf66eb082@broadcom.com>
+Message-ID: <20161108070531.qvtpqwtzmdqkoam6@linux-x5ow.site>
 
-On Sun, 2016-11-06@23:36 +0200, Sagi Grimberg wrote:
-> > 
-> > > 
-> > > Not sure if it's the best way to do this as my packeging
-> > > understanding is
-> > > very limited, hence the RFC. the debian part is tested (don't
-> > > have
-> > > access to rpm distros at the moment).
-> > 
-> > My idea was to add a command to generate an automatic hostnqn to
-> > the nvme tool instead, what would you think about that?
+On Mon, Nov 07, 2016@10:43:07AM -0800, James Smart wrote:
 > 
-> I'm fine with that too.
+> 
+> On 11/7/2016 1:22 AM, Johannes Thumshirn wrote:
+> > Hi James,
+> > 
+> > On Sun, Nov 06, 2016@10:23:49PM -0800, James Smart wrote:
+> > > Add nvme-fabrics target support for FC transport
+> > [...]
+> > 
+> > > +static void
+> > > +nvmet_fc_prep_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
+> > > +				struct nvmet_fc_tgt_queue *queue)
+> > > +{
+> > > +	struct nvmet_fc_fcp_iod *fod = queue->fod;
+> > > +	int i;
+> > > +
+> > > +	for (i = 0; i < queue->sqsize; fod++, i++) {
+> > > +		INIT_WORK(&fod->work, nvmet_fc_handle_fcp_rqst_work);
+> > > +		fod->tgtport = tgtport;
+> > > +		fod->queue = queue;
+> > > +		atomic_set(&fod->active, 0);
+> > Hmm why exactly do you need atomics here? You're using fod->active as bool and
+> > don't ever do a real atomic operation such as atomic_inc()
+> > atomic_dev_and_test(), etc.. on it. Also you're never checking if fod->active
+> > is actually 1 when you come here (and if it can't what's the point of it being
+> > atomic in the first place)?
+> 
+> ?? did you miss several atomic_read's/set's ?
 
-How about an extra tweak to that tool proposal? ?Have the tool have the
-option to do both NQN supported formats:
+Read and set, exactly. atmoic_set() and atomic_read() are no atomic
+instroctions, i.e. don't have a 'lock' prefix in their assembly output. Real
+atomic operations like atomic_add() do this and thus guarantee to be atomic.
+Have a look at the definitions of atomic_set() and i.e. atomic_add(). There's
+a good explanation of this at Roland Dreier's Blog:
+http://digitalvampire.org/blog/index.php/2007/05/13/atomic-cargo-cults/
 
-A. the first format that uses a date code in which I think that is what
-patch 2 in this series was trying to do
+Either way, this is no blocker and can be changed after the initial
+submission.
 
-and
-
-B. The second format the NVMe Host driver is already does in fabrics.c?
-
+> 
+> It's a boolean flag, and the intent was to avoid taking additional locks
+> when setting it as in most cases, the locks would be overkill. Where it was
+> used was in queue teardown, to identify the allocated jobs, thus active
+> I/O's, that the LLDD has to be called for to terminate.   But, as I look at
+> this, there does seem to be a benefit in creating a more granular lock than
+> is used now and avoid the atomic. I'll post a subsequent patch to address
+> it.
+> 
 > 
 > > 
-> > The install scripts could then call that.
+> > Same goes for fod->aborted.
 > 
-> Sounds fine.
+> The use of the flag is a little different but the reason the same - avoid
+> creating yet another lock level or taking a higher-level lock for a simple
+> state transition. I'm not inclined to remove this one though.
+> > > +static void
+> > > +nvmet_fc_abort_op(struct nvmet_fc_tgtport *tgtport,
+> > > +				struct nvmefc_tgt_fcp_req *fcpreq)
+> > > +{
+> > > +	int ret;
+> > > +
+> > > +	fcpreq->op = NVMET_FCOP_ABORT;
+> > > +	fcpreq->offset = 0;
+> > > +	fcpreq->timeout = 0;
+> > > +	fcpreq->transfer_length = 0;
+> > > +	fcpreq->transferred_length = 0;
+> > > +	fcpreq->fcp_error = 0;
+> > > +	fcpreq->sg_cnt = 0;
+> > > +
+> > > +	ret = tgtport->ops->fcp_op(&tgtport->fc_target_port, fcpreq);
+> > > +	if (ret)
+> > > +		WARN_ON(1);
+> > > +		/* should never reach here !! */
+> > WARN_ON(ret)?
+> 
+> nit/nuance either way.
+
+Right, probably too late and no reason to re-send.
+
+Byte,
+	Johannes
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
