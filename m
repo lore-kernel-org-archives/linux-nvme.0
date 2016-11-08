@@ -1,83 +1,36 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue,  8 Nov 2016 12:48:28 +0200
-Subject: [PATCH nvme-cli v1 2/2] nvme.spec/debian: Auto generate host nqn as
- part of install
-In-Reply-To: <1478602108-29571-1-git-send-email-sagi@grimberg.me>
-References: <1478602108-29571-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1478602108-29571-3-git-send-email-sagi@grimberg.me>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Tue, 8 Nov 2016 08:56:50 -0600
+Subject: host/target keep alive timeout loop
+In-Reply-To: <ff2610d1-164f-d85e-839e-b91344192041@grimberg.me>
+References: <056f01d2394e$ea77ae70$bf670b50$@opengridcomputing.com>
+ <057401d2394f$0b6195b0$2224c110$@opengridcomputing.com>
+ <ff2610d1-164f-d85e-839e-b91344192041@grimberg.me>
+Message-ID: <007901d239d0$561eb700$025c2500$@opengridcomputing.com>
 
-The installation will generate a hostnqn and store it in
-/etc/nvme/hostnqn file (in case it doesn't exist).
-This file will be removed upon uninstallation (purge on for debian).
-
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- debian/postinst | 20 ++++++++++++++++++++
- debian/postrm   |  5 +++++
- nvme.spec.in    | 12 ++++++++++++
- 3 files changed, 37 insertions(+)
- create mode 100644 debian/postinst
- create mode 100644 debian/postrm
-
-diff --git a/debian/postinst b/debian/postinst
-new file mode 100644
-index 000000000000..b258cf569c3e
---- /dev/null
-+++ b/debian/postinst
-@@ -0,0 +1,20 @@
-+#!/bin/sh
-+
-+set -e
-+
-+case "$1" in
-+    configure|install)
-+	if [ ! -f /etc/nvme/hostnqn ]; then
-+		install -D /dev/null /etc/nvme/hostnqn
-+		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
-+        fi
-+        ;;
-+
-+    upgrade|abort-upgrade)
-+        ;;
-+    *)
-+        echo "postinst called with unknown argument \`$1'" >&2
-+        exit 0
-+        ;;
-+esac
-+exit 0
-diff --git a/debian/postrm b/debian/postrm
-new file mode 100644
-index 000000000000..d678fc8a90ac
---- /dev/null
-+++ b/debian/postrm
-@@ -0,0 +1,5 @@
-+#!/bin/sh
-+
-+if [ "$1" = "purge" ]; then
-+    rm -rf /etc/nvme
-+fi
-diff --git a/nvme.spec.in b/nvme.spec.in
-index a4718773a962..8bda97d819ba 100644
---- a/nvme.spec.in
-+++ b/nvme.spec.in
-@@ -33,6 +33,18 @@ make install DESTDIR=%{buildroot} PREFIX=/usr
- %clean
- rm -rf $RPM_BUILD_ROOT
  
-+%post
-+if [ $1 = 1 ]; then # 1 : This package is being installed for the first time
-+	if [ ! -f /etc/nvme/hostnqn ]; then
-+		install -D /dev/null /etc/nvme/hostnqn
-+		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
-+        fi
-+fi
-+
-+%preun
-+if [ "$1" = "remove" ]; then
-+    rm -rf /etc/nvme
-+fi
- %changelog
- * Thu Oct 15 2015 Keith Busch <keith.busch at intel.com>
- - Initial RPM spec
--- 
-2.7.4
+> > Hey Sagi/Christoph,
+> >
+> > While running the same kato/recovery tests I've logged in a few other
+threads,
+> > occasionally I get some controllers on the host that will not reconnect.
+Even
+> > after I quiesce the test and have the interfaces up and everything is
+pingable.
+> > When it gets in this state, some of the 10 controllers are up and ok, and
+others
+> > are stuck in this reconnect/fail loop.
+> >
+> > The host is stuck continually logging this for one or more controllers:
+> >
+> > [ 7885.617176] nvme nvme10: failed nvme_keep_alive_end_io error=16385
+> > [ 7886.837087] nvme nvme10: rdma_resolve_addr wait failed (-110).
+> > [ 7890.183979] nvme nvme10: failed to initialize i/o queue: -110
+> > [ 7890.247538] nvme nvme10: Failed reconnect attempt, requeueing...
+> 
+> This looks like an underlying problem causing the host rdma_connect
+> to timeout. Did it happen before or is it a new thing?
+
+I can't say for sure, since until Christoph's recent fix, it was crashing in
+other ways.   I don't think the connection is failing at the driver level, but
+I'll look into the stats for cxgb4 when it is in this state to see what is
+happening at that level.   
