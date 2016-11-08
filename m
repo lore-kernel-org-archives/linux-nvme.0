@@ -1,24 +1,23 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 8 Nov 2016 12:29:10 +0200
-Subject: [PATCH RFC nvme-cli 2/2] nvme.spec: generate hostnqn file on
- install and remove on uninstall
-In-Reply-To: <1478550329.5463.7.camel@linux.intel.com>
+Date: Tue, 8 Nov 2016 12:30:11 +0200
+Subject: [PATCH RFC nvme-cli 0/2] auto generate hostnqn file on
+ installation
+In-Reply-To: <1478550886.5463.14.camel@linux.intel.com>
 References: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
- <1478459581-22654-3-git-send-email-sagi@grimberg.me>
- <1478550329.5463.7.camel@linux.intel.com>
-Message-ID: <782d4021-539d-20a9-5979-d56a2b6a0017@grimberg.me>
+ <20161106192451.GA18342@lst.de>
+ <5a2ee2fb-8104-39cc-1af3-f0fca1caa48e@grimberg.me>
+ <1478550886.5463.14.camel@linux.intel.com>
+Message-ID: <8b97b0f3-750f-b892-a6f5-d15dbc2dfb50@grimberg.me>
 
 
-> Hey Sagi,
+> How about an extra tweak to that tool proposal?  Have the tool have the
+> option to do both NQN supported formats:
 >
-> 7.9 of the base NVMe spec makes it clear on unique names that the "2nd
-> format", which is what is being assembled here, uses a fixed date
-> "2014-08" in it's name, which is exactly what the NVMe Host driver does
-> as its default:
+> A. the first format that uses a date code in which I think that is what
+> patch 2 in this series was trying to do
 >
-> fabrics.c:  "nqn.2014-08.org.nvmexpress:NVMf:uuid:%pUb", &host->id);
+> and
 >
-> I would just do what the NVMe host is doing already and make it easier
-> on yourself ;-).
+> B. The second format the NVMe Host driver is already does in fabrics.c
 
-I'm fine with that...
+Lets not over-complicate this, perhaps just do (A)?
