@@ -1,31 +1,19 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 9 Nov 2016 20:39:56 +0100
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 9 Nov 2016 15:00:27 -0500
 Subject: rework NVMe command passthrough
-In-Reply-To: <1477411779-2993-1-git-send-email-hch@lst.de>
+In-Reply-To: <20161109193956.GA29228@lst.de>
 References: <1477411779-2993-1-git-send-email-hch@lst.de>
-Message-ID: <20161109193956.GA29228@lst.de>
+ <20161109193956.GA29228@lst.de>
+Message-ID: <20161109200027.GB3409@localhost.localdomain>
 
-Jens, Keith:
+On Wed, Nov 09, 2016@08:39:56PM +0100, Christoph Hellwig wrote:
+> Jens, Keith:
+> 
+> any opinion on this series?  I'd really prefer to have something
+> like this in before merging the NVMe FC support.
 
-any opinion on this series?  I'd really prefer to have something
-like this in before merging the NVMe FC support.
+Other than the issue you already pointed out in 2/2, this looks good to
+me. You can add my review if you just want to make the one fix and push
+to the nvme tree.
 
-On Tue, Oct 25, 2016@06:09:37PM +0200, Christoph Hellwig wrote:
-> Hi all,
-> 
-> this series started out as part of my attempt to get rid of the SCSI
-> passthrough fields in struct request, but reviewing the NVMe FC patches
-> and subsequent discussion with James gave them additional priority.
-> 
-> This series introduce? a nvme nvme_request structure common to all
-> transports, which allows us to stop abusing the SCSI passthrough fields
-> in struct request, and also allows us to stop passing the full CQE
-> up to the callers of the request interface which is rather painful
-> for FC.
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
----end quoted text---
+Reviewed-by: Keith Busch <keith.busch at intel.com>
