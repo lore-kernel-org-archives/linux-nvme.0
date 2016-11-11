@@ -1,46 +1,66 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 10 Nov 2016 22:11:27 -0700
-Subject: [GIT PULL] nvme fabrics patches for the next round of 4.9 rc
-In-Reply-To: <044901d23ba4$a6c59e50$f450daf0$@opengridcomputing.com>
-References: <1478678520-26697-1-git-send-email-sagi@grimberg.me>
- <950ac71c-1854-017e-a497-bba97138fa98@kernel.dk>
- <044901d23ba4$a6c59e50$f450daf0$@opengridcomputing.com>
-Message-ID: <56b11145-78ed-aead-2096-e14747d692fc@kernel.dk>
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Fri, 11 Nov 2016 20:05:28 +0800
+Subject: [PATCH 00/12] block: cleanup direct access to bvec table
+Message-ID: <1478865957-25252-1-git-send-email-tom.leiming@gmail.com>
 
-On 11/10/2016 03:49 PM, Steve Wise wrote:
->> On 11/09/2016 01:02 AM, Sagi Grimberg wrote:
->>> Hey Jens,
->>>
->>> Mostly some stability fixes for fabrics:
->>> - some memleaks, correctness and verbosity fixes from Bart
->>> - fix command delivery during queue reconnect from Christoph
->>> - nvme rdma reconnect vs io race fix from Christoph and steve
->>> - nvme rdma queue cleanup on connection failure fix from Steve
->>> - nvme rdma target error flow and queue teardown fixes
->>> - nvme rdma queue size fix from Samuel
->>> - nvmet namespace rcu race fix from Sasha
->>>
->>> please pull from:
->>>
->>>   git://git.infradead.org/nvme-fabrics.git nvmf-4.9-rc
->>
->> I'm scanning the list for anything that might NOT be appropriate this
->> late in the cycle, and I see a few:
->>
->>      nvme/scsi: Remove set-but-not-used variables
->>      nvme-fabrics: Adjust source code indentation
->>      nvme-rdma: remove redundant define
->>
->> I can pull this in for 4.10 without hesistation, but I don't want to
->> send a pull request for a fairly new feature with 3 of the commits being
->> cleanups for -rc5.
->>
->> Let me know what you want to do.
->
-> It would be great to get the kato/reconnect fixes in 4.9...
+Hi,
 
-Sagi? I'm sending patches for -rc5 tomorrow. Let's get this batch split
-in a 4.9 and 4.10 chunk.
+This patchset cleans up direct access to bvec table.
+
+The 1st patch passes bvec table to bio_init(), so that
+direct access to bvec table in bio initialization is avoided.
+
+For other patches, most of them uses bio_add_page()
+to replace hardcode style of adding page to bvec,
+and others avoids to access bio->bi_vcnt.
+
+The most special one is to use bvec iterator helpers
+to implement .get_page/.next_page for dm-io.c
+
+One big motivation is to prepare for supporting multipage
+bvec, but this patchset is one good cleanup too even not
+for that purpose.
+
+Thanks,
+Ming
+
+Ming Lei (12):
+  block: bio: pass bvec table to bio_init()
+  block: drbd: remove impossible failure handling
+  block: floppy: use bio_add_page()
+  target: avoid to access .bi_vcnt directly
+  bcache: debug: avoid to access .bi_io_vec directly
+  dm: crypt: use bio_add_page()
+  dm: use bvec iterator helpers to implement .get_page and .next_page
+  dm: dm.c: replace 'bio->bi_vcnt == 1' with !bio_multiple_segments
+  fs: logfs: convert to bio_add_page() in sync_request()
+  fs: logfs: use bio_add_page() in __bdev_writeseg()
+  fs: logfs: use bio_add_page() in do_erase()
+  fs: logfs: remove unnecesary check
+
+ block/bio.c                        |   8 ++-
+ drivers/block/drbd/drbd_receiver.c |  14 +----
+ drivers/block/floppy.c             |  10 ++--
+ drivers/md/bcache/debug.c          |  11 ++--
+ drivers/md/bcache/io.c             |   4 +-
+ drivers/md/bcache/journal.c        |   4 +-
+ drivers/md/bcache/movinggc.c       |   6 +--
+ drivers/md/bcache/request.c        |   2 +-
+ drivers/md/bcache/super.c          |  12 ++---
+ drivers/md/bcache/writeback.c      |   5 +-
+ drivers/md/dm-bufio.c              |   4 +-
+ drivers/md/dm-crypt.c              |   8 +--
+ drivers/md/dm-io.c                 |  34 ++++++++----
+ drivers/md/dm-rq.c                 |   7 ++-
+ drivers/md/dm.c                    |   2 +-
+ drivers/md/multipath.c             |   2 +-
+ drivers/md/raid5-cache.c           |   2 +-
+ drivers/md/raid5.c                 |   9 +---
+ drivers/nvme/target/io-cmd.c       |   4 +-
+ drivers/target/target_core_pscsi.c |   8 +--
+ fs/logfs/dev_bdev.c                | 106 +++++++++++++------------------------
+ include/linux/bio.h                |   3 +-
+ 22 files changed, 107 insertions(+), 158 deletions(-)
 
 -- 
-Jens Axboe
+2.7.4
