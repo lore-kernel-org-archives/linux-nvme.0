@@ -1,66 +1,78 @@
-From: tom.leiming@gmail.com (Ming Lei)
-Date: Fri, 11 Nov 2016 20:05:28 +0800
-Subject: [PATCH 00/12] block: cleanup direct access to bvec table
-Message-ID: <1478865957-25252-1-git-send-email-tom.leiming@gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sat, 12 Nov 2016 09:41:33 -0800
+Subject: [PATCH] NVMe: Call nvme_pci_disable on error path of
+ nvme_probe_work
+In-Reply-To: <20161101152756.GA32044@ub8ca3ab5e3235612a6d0.ant.amazon.com>
+References: <20161101152756.GA32044@ub8ca3ab5e3235612a6d0.ant.amazon.com>
+Message-ID: <20161112174133.GA10883@infradead.org>
 
-Hi,
+Bouncing to Keith and linux-nvme
 
-This patchset cleans up direct access to bvec table.
-
-The 1st patch passes bvec table to bio_init(), so that
-direct access to bvec table in bio initialization is avoided.
-
-For other patches, most of them uses bio_add_page()
-to replace hardcode style of adding page to bvec,
-and others avoids to access bio->bi_vcnt.
-
-The most special one is to use bvec iterator helpers
-to implement .get_page/.next_page for dm-io.c
-
-One big motivation is to prepare for supporting multipage
-bvec, but this patchset is one good cleanup too even not
-for that purpose.
-
-Thanks,
-Ming
-
-Ming Lei (12):
-  block: bio: pass bvec table to bio_init()
-  block: drbd: remove impossible failure handling
-  block: floppy: use bio_add_page()
-  target: avoid to access .bi_vcnt directly
-  bcache: debug: avoid to access .bi_io_vec directly
-  dm: crypt: use bio_add_page()
-  dm: use bvec iterator helpers to implement .get_page and .next_page
-  dm: dm.c: replace 'bio->bi_vcnt == 1' with !bio_multiple_segments
-  fs: logfs: convert to bio_add_page() in sync_request()
-  fs: logfs: use bio_add_page() in __bdev_writeseg()
-  fs: logfs: use bio_add_page() in do_erase()
-  fs: logfs: remove unnecesary check
-
- block/bio.c                        |   8 ++-
- drivers/block/drbd/drbd_receiver.c |  14 +----
- drivers/block/floppy.c             |  10 ++--
- drivers/md/bcache/debug.c          |  11 ++--
- drivers/md/bcache/io.c             |   4 +-
- drivers/md/bcache/journal.c        |   4 +-
- drivers/md/bcache/movinggc.c       |   6 +--
- drivers/md/bcache/request.c        |   2 +-
- drivers/md/bcache/super.c          |  12 ++---
- drivers/md/bcache/writeback.c      |   5 +-
- drivers/md/dm-bufio.c              |   4 +-
- drivers/md/dm-crypt.c              |   8 +--
- drivers/md/dm-io.c                 |  34 ++++++++----
- drivers/md/dm-rq.c                 |   7 ++-
- drivers/md/dm.c                    |   2 +-
- drivers/md/multipath.c             |   2 +-
- drivers/md/raid5-cache.c           |   2 +-
- drivers/md/raid5.c                 |   9 +---
- drivers/nvme/target/io-cmd.c       |   4 +-
- drivers/target/target_core_pscsi.c |   8 +--
- fs/logfs/dev_bdev.c                | 106 +++++++++++++------------------------
- include/linux/bio.h                |   3 +-
- 22 files changed, 107 insertions(+), 158 deletions(-)
-
--- 
-2.7.4
+On Tue, Nov 01, 2016@04:27:56PM +0100, Rashika Kheria wrote:
+> Commit d5537e988eec ("NVMe: Don't unmap controller registers on reset"),
+> introduced a regression in which it did not replace nvme_dev_unmap()
+> with nvme_pci_disable() in the error path of nvme_probe_work().
+> 
+> This led to the following NVMe driver crash on systems where the devices
+> did not initialise in the first try.
+> 
+> BUG: unable to handle kernel paging request at ffffc90006da001c
+> IP: [<ffffffffa027b6bb>] nvme_dev_remove+0x5b/0xf0 [nvme]
+> RIP: e030:[<ffffffffa027b6bb>]  [<ffffffffa027b6bb>]
+> nvme_dev_remove+0x5b/0xf0 [nvme]
+> RSP: e02b:ffff8806659c3cb8  EFLAGS: 00010286
+> RAX: ffffc90006da0000 RBX: ffff88067cbc3000 RCX: 0000000000000006
+> RDX: 0000000000000007 RSI: 0000000000000007 RDI: ffff8806864eda40
+> RBP: ffff8806659c3cd8 R08: 0000000000000006 R09: 000000000000fffe
+> R10: 0000000000000000 R11: 0000000000000000 R12: ffff88067e087000
+> R13: ffffffffa0281d20 R14: ffff88067e087098 R15: ffff8806799d8598
+> FS:  00007f880d5ba700(0000) GS:ffff8806864e0000(0000)
+> knlGS:0000000000000000
+> CS:  e033 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: ffffc90006da001c CR3: 0000000676a97000 CR4: 0000000000042660
+> Call Trace:
+> [<ffffffffa027b7ea>] nvme_remove+0x9a/0x140 [nvme]
+> [<ffffffff813503ef>] pci_device_remove+0x3f/0xc0
+> [<ffffffff81449869>] ? __pm_runtime_idle+0x89/0x90
+> [<ffffffff8143ed4f>] __device_release_driver+0xaf/0x140
+> [<ffffffff8143eec8>] device_release_driver+0x28/0x40
+> [<ffffffff8143db66>] unbind_store+0x96/0xb0
+> [<ffffffff8143d027>] drv_attr_store+0x27/0x30
+> [<ffffffff8122e279>] sysfs_kf_write+0x39/0x40
+> [<ffffffff8122d9e4>] kernfs_fop_write+0xe4/0x160
+> [<ffffffff811b15df>] __vfs_write+0x2f/0x100
+> [<ffffffff81003640>] ? syscall_slow_exit_work+0x140/0x180
+> [<ffffffff81161db9>] ? vm_mmap_pgoff+0xb9/0xe0
+> [<ffffffff810af981>] ? percpu_down_read+0x11/0x60
+> [<ffffffff811b2bce>] vfs_write+0xbe/0x190
+> [<ffffffff811b2d81>] SyS_write+0x51/0xb0
+> [<ffffffff815b8aee>] entry_SYSCALL_64_fastpath+0x12/0x71
+> 
+> Cc: stable at vger.kernel.org # 4.4.y
+> Cc: Jens Axboe <axboe at fb.com>
+> Cc: Keith Busch <keith.busch at intel.com>
+> Cc: Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com>
+> Cc: linux-nvme at lists.infradead.org
+> Fixes: d5537e988eec ("NVMe: Don't unmap controller registers on reset")
+> Signed-off-by: Rashika Kheria <rashika at amazon.de>
+> ---
+>  drivers/nvme/host/pci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index c851bc5..f5d1579 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -3184,7 +3184,7 @@ static void nvme_probe_work(struct work_struct *work)
+>  	nvme_disable_queue(dev, 0);
+>  	nvme_dev_list_remove(dev);
+>   unmap:
+> -	nvme_dev_unmap(dev);
+> +	nvme_pci_disable(dev);
+>   out:
+>  	if (!work_busy(&dev->reset_work))
+>  		nvme_dead_ctrl(dev);
+> -- 
+> 2.10.2
+> 
+---end quoted text---
