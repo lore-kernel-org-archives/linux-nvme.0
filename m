@@ -1,50 +1,45 @@
-From: rashika@amazon.com (Rashika Kheria)
-Date: Mon, 14 Nov 2016 15:02:55 +0100
-Subject: [PATCH] NVMe: Call nvme_pci_disable on error path of
- nvme_probe_work
-In-Reply-To: <87lgwm42pd.fsf@linux.vnet.ibm.com>
-References: <20161101152756.GA32044@ub8ca3ab5e3235612a6d0.ant.amazon.com>
- <20161112174133.GA10883@infradead.org>
- <62459369-5c23-8819-d360-58892b4ff1fc@amazon.com>
- <87lgwm42pd.fsf@linux.vnet.ibm.com>
-Message-ID: <c2282dfa-f1f8-6a3e-4cdf-e91be378874a@amazon.com>
+From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
+Date: Mon, 14 Nov 2016 12:55:05 -0200
+Subject: [PATCH RFC nvme-cli 1/2] debain: generate hostnqn file on install
+ and remove on uninstall
+In-Reply-To: <67cdf4dd-3638-8faf-7512-0ef39ca464a3@grimberg.me> (Sagi
+ Grimberg's message of "Sun, 6 Nov 2016 23:41:41 +0200")
+References: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
+ <1478459581-22654-2-git-send-email-sagi@grimberg.me>
+ <20161106192530.GB18342@lst.de>
+ <67cdf4dd-3638-8faf-7512-0ef39ca464a3@grimberg.me>
+Message-ID: <87h97a3yd2.fsf@linux.vnet.ibm.com>
 
+Sagi Grimberg <sagi at grimberg.me> writes:
 
-On 11/14/16 14:21, Gabriel Krisman Bertazi wrote:
-> Rashika Kheria <rashika at amazon.com> writes:
+>> I think the subject should read "debian" :)
 >
->> Hi everyone,
->>
->> Could you please review the following patch? This solves a regression in
->> stable 4.4.y tree.
->>
->>
->> On 11/12/16 18:41, Christoph Hellwig wrote:
->>> Bouncing to Keith and linux-nvme
->>>
->>> On Tue, Nov 01, 2016@04:27:56PM +0100, Rashika Kheria wrote:
->>>> Commit d5537e988eec ("NVMe: Don't unmap controller registers on reset"),
->>>> introduced a regression in which it did not replace nvme_dev_unmap()
->>>> with nvme_pci_disable() in the error path of nvme_probe_work().
->>>>
-> Hmm, the original commit had the same issue, which I think was fixed
-> upstream by f58944e265d4 ("NVMe: Simplify device reset failure"), which
-> was included in 4.5-rc7.  Isn't the upstream commit a better candidate
-> for -stable?  It's a bit larger but the commit message says it may
-> prevent other issues too.
+> Probably :)
 >
-I agree that the upstream commit does not have this issue. However, this 
-patch does not apply cleanly on -stable 4.4 tree and might need 
-ingestion of multiple other related patches. I am not sure if upstream 
-is open to ingest patches other than bug fix in -stable branches.
+>>> diff --git a/debian/prerm b/debian/prerm
+>>> new file mode 100644
+>>> index 000000000000..40c6fea42284
+>>> --- /dev/null
+>>> +++ b/debian/prerm
+>>> @@ -0,0 +1,5 @@
+>>> +#!/bin/sh
+>>> +
+>>> +if [ "$1" = "remove" ]; then
+>>> +    rm -rf /etc/nvme
+>>> +fi
+>>
+>> Shouldn't we only do that for a purge?
+>
+> I haven't given it much thought, it really was a 15 minute
+> thing that I thought I'd through out here so people can
+> tell suggest how to do it better...
+>
+
+I think you need to use postrm and only do it for purge.
+
+https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html#s-mscriptsinstact
+https://www.debian.org/doc/debian-policy/ap-pkg-conffiles.html#sE.2
+
 
 -- 
-Regards,
-Rashika
-
-Amazon Development Center Germany GmbH
-Berlin - Dresden - Aachen
-main office: Krausenstr. 38, 10117 Berlin
-Geschaeftsfuehrer: Dr. Ralf Herbrich, Christian Schlaeger
-Ust-ID: DE289237879
-Eingetragen am Amtsgericht Charlottenburg HRB 149173 B
+Gabriel Krisman Bertazi
