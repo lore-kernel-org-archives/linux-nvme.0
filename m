@@ -1,45 +1,93 @@
 From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
-Date: Mon, 14 Nov 2016 12:55:05 -0200
-Subject: [PATCH RFC nvme-cli 1/2] debain: generate hostnqn file on install
- and remove on uninstall
-In-Reply-To: <67cdf4dd-3638-8faf-7512-0ef39ca464a3@grimberg.me> (Sagi
- Grimberg's message of "Sun, 6 Nov 2016 23:41:41 +0200")
-References: <1478459581-22654-1-git-send-email-sagi@grimberg.me>
- <1478459581-22654-2-git-send-email-sagi@grimberg.me>
- <20161106192530.GB18342@lst.de>
- <67cdf4dd-3638-8faf-7512-0ef39ca464a3@grimberg.me>
-Message-ID: <87h97a3yd2.fsf@linux.vnet.ibm.com>
+Date: Mon, 14 Nov 2016 12:58:50 -0200
+Subject: [PATCH nvme-cli v1 2/2] nvme.spec/debian: Auto generate host nqn
+ as part of install
+In-Reply-To: <1478602108-29571-3-git-send-email-sagi@grimberg.me> (Sagi
+ Grimberg's message of "Tue, 8 Nov 2016 12:48:28 +0200")
+References: <1478602108-29571-1-git-send-email-sagi@grimberg.me>
+ <1478602108-29571-3-git-send-email-sagi@grimberg.me>
+Message-ID: <87d1hy3y6t.fsf@linux.vnet.ibm.com>
 
 Sagi Grimberg <sagi at grimberg.me> writes:
 
->> I think the subject should read "debian" :)
+> The installation will generate a hostnqn and store it in
+> /etc/nvme/hostnqn file (in case it doesn't exist).
+> This file will be removed upon uninstallation (purge on for debian).
 >
-> Probably :)
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  debian/postinst | 20 ++++++++++++++++++++
+>  debian/postrm   |  5 +++++
+>  nvme.spec.in    | 12 ++++++++++++
+>  3 files changed, 37 insertions(+)
+>  create mode 100644 debian/postinst
+>  create mode 100644 debian/postrm
 >
->>> diff --git a/debian/prerm b/debian/prerm
->>> new file mode 100644
->>> index 000000000000..40c6fea42284
->>> --- /dev/null
->>> +++ b/debian/prerm
->>> @@ -0,0 +1,5 @@
->>> +#!/bin/sh
->>> +
->>> +if [ "$1" = "remove" ]; then
->>> +    rm -rf /etc/nvme
->>> +fi
->>
->> Shouldn't we only do that for a purge?
->
-> I haven't given it much thought, it really was a 15 minute
-> thing that I thought I'd through out here so people can
-> tell suggest how to do it better...
->
+> diff --git a/debian/postinst b/debian/postinst
+> new file mode 100644
+> index 000000000000..b258cf569c3e
+> --- /dev/null
+> +++ b/debian/postinst
+> @@ -0,0 +1,20 @@
+> +#!/bin/sh
+> +
+> +set -e
+> +
+> +case "$1" in
+> +    configure|install)
+> +	if [ ! -f /etc/nvme/hostnqn ]; then
+> +		install -D /dev/null /etc/nvme/hostnqn
+> +		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
+> +        fi
+> +        ;;
+> +
+> +    upgrade|abort-upgrade)
+> +        ;;
+> +    *)
+> +        echo "postinst called with unknown argument \`$1'" >&2
+> +        exit 0
+> +        ;;
+> +esac
+> +exit 0
+> diff --git a/debian/postrm b/debian/postrm
+> new file mode 100644
+> index 000000000000..d678fc8a90ac
+> --- /dev/null
+> +++ b/debian/postrm
+> @@ -0,0 +1,5 @@
+> +#!/bin/sh
+> +
+> +if [ "$1" = "purge" ]; then
+> +    rm -rf /etc/nvme
+> +fi
 
-I think you need to use postrm and only do it for purge.
+Oh, here it is.  Didn't see your v1 before responding to the rfc. :)
 
-https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html#s-mscriptsinstact
-https://www.debian.org/doc/debian-policy/ap-pkg-conffiles.html#sE.2
 
+
+> diff --git a/nvme.spec.in b/nvme.spec.in
+> index a4718773a962..8bda97d819ba 100644
+> --- a/nvme.spec.in
+> +++ b/nvme.spec.in
+> @@ -33,6 +33,18 @@ make install DESTDIR=%{buildroot} PREFIX=/usr
+>  %clean
+>  rm -rf $RPM_BUILD_ROOT
+>
+> +%post
+> +if [ $1 = 1 ]; then # 1 : This package is being installed for the first time
+> +	if [ ! -f /etc/nvme/hostnqn ]; then
+> +		install -D /dev/null /etc/nvme/hostnqn
+> +		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
+> +        fi
+> +fi
+> +
+> +%preun
+> +if [ "$1" = "remove" ]; then
+> +    rm -rf /etc/nvme
+> +fi
+>  %changelog
+>  * Thu Oct 15 2015 Keith Busch <keith.busch at intel.com>
+>  - Initial RPM spec
 
 -- 
 Gabriel Krisman Bertazi
