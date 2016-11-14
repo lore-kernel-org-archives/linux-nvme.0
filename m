@@ -1,93 +1,156 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 14 Nov 2016 13:47:36 -0500
-Subject: [PATCH] NVMe: Call nvme_pci_disable on error path of
- nvme_probe_work
-In-Reply-To: <62459369-5c23-8819-d360-58892b4ff1fc@amazon.com>
-References: <20161101152756.GA32044@ub8ca3ab5e3235612a6d0.ant.amazon.com>
- <20161112174133.GA10883@infradead.org>
- <62459369-5c23-8819-d360-58892b4ff1fc@amazon.com>
-Message-ID: <20161114184736.GB14941@localhost.localdomain>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Mon, 14 Nov 2016 15:49:59 -0800
+Subject: [PATCH] blk-mq drivers: untangle 0 and BLK_MQ_RQ_QUEUE_OK
+Message-ID: <6ac81fdd561e008fec1f31e9a4530358737389a6.1479167141.git.osandov@fb.com>
 
-On Mon, Nov 14, 2016@09:57:27AM +0100, Rashika Kheria wrote:
-> Hi everyone,
-> 
-> Could you please review the following patch? This solves a regression in
-> stable 4.4.y tree.
+From: Omar Sandoval <osandov@fb.com>
 
-I missed the "Don't unmap" back-port to 4.4.y. I'm not sure, but I think
-we may have addressed that differently with something less risky if we
-needed that behaviour on 4.4-stable. That's okay, though, this new patch
-looks correct. The original was part of a series that fixes this in its
-following commit, but it should have looked like this from the beginning.
+Let's not depend on any of the BLK_MQ_RQ_QUEUE_* constants having
+specific values. No functional change.
 
-Acked-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Omar Sandoval <osandov at fb.com>
+---
+Hi, Jens,
 
+Some more trivial cleanup, feel free to apply or not if it's too intrusive.
+
+ drivers/nvme/host/core.c   | 4 ++--
+ drivers/nvme/host/pci.c    | 8 ++++----
+ drivers/nvme/host/rdma.c   | 2 +-
+ drivers/nvme/target/loop.c | 6 +++---
+ drivers/scsi/scsi_lib.c    | 6 +++---
+ 5 files changed, 13 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 79e679d..e7f9ef5 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -276,7 +276,7 @@ static inline int nvme_setup_discard(struct nvme_ns *ns, struct request *req,
+ 	 */
+ 	req->__data_len = nr_bytes;
  
-> > On Tue, Nov 01, 2016@04:27:56PM +0100, Rashika Kheria wrote:
-> > > Commit d5537e988eec ("NVMe: Don't unmap controller registers on reset"),
-> > > introduced a regression in which it did not replace nvme_dev_unmap()
-> > > with nvme_pci_disable() in the error path of nvme_probe_work().
-> > > 
-> > > This led to the following NVMe driver crash on systems where the devices
-> > > did not initialise in the first try.
-> > > 
-> > > BUG: unable to handle kernel paging request at ffffc90006da001c
-> > > IP: [<ffffffffa027b6bb>] nvme_dev_remove+0x5b/0xf0 [nvme]
-> > > RIP: e030:[<ffffffffa027b6bb>]  [<ffffffffa027b6bb>]
-> > > nvme_dev_remove+0x5b/0xf0 [nvme]
-> > > RSP: e02b:ffff8806659c3cb8  EFLAGS: 00010286
-> > > RAX: ffffc90006da0000 RBX: ffff88067cbc3000 RCX: 0000000000000006
-> > > RDX: 0000000000000007 RSI: 0000000000000007 RDI: ffff8806864eda40
-> > > RBP: ffff8806659c3cd8 R08: 0000000000000006 R09: 000000000000fffe
-> > > R10: 0000000000000000 R11: 0000000000000000 R12: ffff88067e087000
-> > > R13: ffffffffa0281d20 R14: ffff88067e087098 R15: ffff8806799d8598
-> > > FS:  00007f880d5ba700(0000) GS:ffff8806864e0000(0000)
-> > > knlGS:0000000000000000
-> > > CS:  e033 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > CR2: ffffc90006da001c CR3: 0000000676a97000 CR4: 0000000000042660
-> > > Call Trace:
-> > > [<ffffffffa027b7ea>] nvme_remove+0x9a/0x140 [nvme]
-> > > [<ffffffff813503ef>] pci_device_remove+0x3f/0xc0
-> > > [<ffffffff81449869>] ? __pm_runtime_idle+0x89/0x90
-> > > [<ffffffff8143ed4f>] __device_release_driver+0xaf/0x140
-> > > [<ffffffff8143eec8>] device_release_driver+0x28/0x40
-> > > [<ffffffff8143db66>] unbind_store+0x96/0xb0
-> > > [<ffffffff8143d027>] drv_attr_store+0x27/0x30
-> > > [<ffffffff8122e279>] sysfs_kf_write+0x39/0x40
-> > > [<ffffffff8122d9e4>] kernfs_fop_write+0xe4/0x160
-> > > [<ffffffff811b15df>] __vfs_write+0x2f/0x100
-> > > [<ffffffff81003640>] ? syscall_slow_exit_work+0x140/0x180
-> > > [<ffffffff81161db9>] ? vm_mmap_pgoff+0xb9/0xe0
-> > > [<ffffffff810af981>] ? percpu_down_read+0x11/0x60
-> > > [<ffffffff811b2bce>] vfs_write+0xbe/0x190
-> > > [<ffffffff811b2d81>] SyS_write+0x51/0xb0
-> > > [<ffffffff815b8aee>] entry_SYSCALL_64_fastpath+0x12/0x71
-> > > 
-> > > Cc: stable at vger.kernel.org # 4.4.y
-> > > Cc: Jens Axboe <axboe at fb.com>
-> > > Cc: Keith Busch <keith.busch at intel.com>
-> > > Cc: Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com>
-> > > Cc: linux-nvme at lists.infradead.org
-> > > Fixes: d5537e988eec ("NVMe: Don't unmap controller registers on reset")
-> > > Signed-off-by: Rashika Kheria <rashika at amazon.de>
-> > > ---
-> > >   drivers/nvme/host/pci.c | 2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> > > index c851bc5..f5d1579 100644
-> > > --- a/drivers/nvme/host/pci.c
-> > > +++ b/drivers/nvme/host/pci.c
-> > > @@ -3184,7 +3184,7 @@ static void nvme_probe_work(struct work_struct *work)
-> > >   	nvme_disable_queue(dev, 0);
-> > >   	nvme_dev_list_remove(dev);
-> > >    unmap:
-> > > -	nvme_dev_unmap(dev);
-> > > +	nvme_pci_disable(dev);
-> > >    out:
-> > >   	if (!work_busy(&dev->reset_work))
-> > >   		nvme_dead_ctrl(dev);
-> > > -- 
-> > > 2.10.2
-> > > 
-> > ---end quoted text---
+-	return 0;
++	return BLK_MQ_RQ_QUEUE_OK;
+ }
+ 
+ static inline void nvme_setup_rw(struct nvme_ns *ns, struct request *req,
+@@ -324,7 +324,7 @@ static inline void nvme_setup_rw(struct nvme_ns *ns, struct request *req,
+ int nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
+ 		struct nvme_command *cmd)
+ {
+-	int ret = 0;
++	int ret = BLK_MQ_RQ_QUEUE_OK;
+ 
+ 	if (req->cmd_type == REQ_TYPE_DRV_PRIV)
+ 		memcpy(cmd, req->cmd, sizeof(*cmd));
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0248d0e..4afa2f7 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -328,7 +328,7 @@ static int nvme_init_iod(struct request *rq, unsigned size,
+ 		rq->retries = 0;
+ 		rq->cmd_flags |= REQ_DONTPREP;
+ 	}
+-	return 0;
++	return BLK_MQ_RQ_QUEUE_OK;
+ }
+ 
+ static void nvme_free_iod(struct nvme_dev *dev, struct request *req)
+@@ -598,17 +598,17 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ 	map_len = nvme_map_len(req);
+ 	ret = nvme_init_iod(req, map_len, dev);
+-	if (ret)
++	if (ret != BLK_MQ_RQ_QUEUE_OK)
+ 		return ret;
+ 
+ 	ret = nvme_setup_cmd(ns, req, &cmnd);
+-	if (ret)
++	if (ret != BLK_MQ_RQ_QUEUE_OK)
+ 		goto out;
+ 
+ 	if (req->nr_phys_segments)
+ 		ret = nvme_map_data(dev, req, map_len, &cmnd);
+ 
+-	if (ret)
++	if (ret != BLK_MQ_RQ_QUEUE_OK)
+ 		goto out;
+ 
+ 	cmnd.common.command_id = req->tag;
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 5a83881..125c43b 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1399,7 +1399,7 @@ static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 			sizeof(struct nvme_command), DMA_TO_DEVICE);
+ 
+ 	ret = nvme_setup_cmd(ns, rq, c);
+-	if (ret)
++	if (ret != BLK_MQ_RQ_QUEUE_OK)
+ 		return ret;
+ 
+ 	c->common.command_id = rq->tag;
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index d5df77d..01035fb 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -168,7 +168,7 @@ static int nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	int ret;
+ 
+ 	ret = nvme_setup_cmd(ns, req, &iod->cmd);
+-	if (ret)
++	if (ret != BLK_MQ_RQ_QUEUE_OK)
+ 		return ret;
+ 
+ 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
+@@ -178,7 +178,7 @@ static int nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 		nvme_cleanup_cmd(req);
+ 		blk_mq_start_request(req);
+ 		nvme_loop_queue_response(&iod->req);
+-		return 0;
++		return BLK_MQ_RQ_QUEUE_OK;
+ 	}
+ 
+ 	if (blk_rq_bytes(req)) {
+@@ -197,7 +197,7 @@ static int nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	blk_mq_start_request(req);
+ 
+ 	schedule_work(&iod->work);
+-	return 0;
++	return BLK_MQ_RQ_QUEUE_OK;
+ }
+ 
+ static void nvme_loop_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 2cca9cf..13887c0 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1801,7 +1801,7 @@ static inline int prep_to_mq(int ret)
+ {
+ 	switch (ret) {
+ 	case BLKPREP_OK:
+-		return 0;
++		return BLK_MQ_RQ_QUEUE_OK;
+ 	case BLKPREP_DEFER:
+ 		return BLK_MQ_RQ_QUEUE_BUSY;
+ 	default:
+@@ -1888,7 +1888,7 @@ static int scsi_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	int reason;
+ 
+ 	ret = prep_to_mq(scsi_prep_state_check(sdev, req));
+-	if (ret)
++	if (ret != BLK_MQ_RQ_QUEUE_OK)
+ 		goto out;
+ 
+ 	ret = BLK_MQ_RQ_QUEUE_BUSY;
+@@ -1905,7 +1905,7 @@ static int scsi_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 
+ 	if (!(req->cmd_flags & REQ_DONTPREP)) {
+ 		ret = prep_to_mq(scsi_mq_prep_fn(req));
+-		if (ret)
++		if (ret != BLK_MQ_RQ_QUEUE_OK)
+ 			goto out_dec_host_busy;
+ 		req->cmd_flags |= REQ_DONTPREP;
+ 	} else {
+-- 
+2.10.2
