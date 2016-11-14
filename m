@@ -1,93 +1,93 @@
-From: krisman@linux.vnet.ibm.com (Gabriel Krisman Bertazi)
-Date: Mon, 14 Nov 2016 12:58:50 -0200
-Subject: [PATCH nvme-cli v1 2/2] nvme.spec/debian: Auto generate host nqn
- as part of install
-In-Reply-To: <1478602108-29571-3-git-send-email-sagi@grimberg.me> (Sagi
- Grimberg's message of "Tue, 8 Nov 2016 12:48:28 +0200")
-References: <1478602108-29571-1-git-send-email-sagi@grimberg.me>
- <1478602108-29571-3-git-send-email-sagi@grimberg.me>
-Message-ID: <87d1hy3y6t.fsf@linux.vnet.ibm.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 14 Nov 2016 13:47:36 -0500
+Subject: [PATCH] NVMe: Call nvme_pci_disable on error path of
+ nvme_probe_work
+In-Reply-To: <62459369-5c23-8819-d360-58892b4ff1fc@amazon.com>
+References: <20161101152756.GA32044@ub8ca3ab5e3235612a6d0.ant.amazon.com>
+ <20161112174133.GA10883@infradead.org>
+ <62459369-5c23-8819-d360-58892b4ff1fc@amazon.com>
+Message-ID: <20161114184736.GB14941@localhost.localdomain>
 
-Sagi Grimberg <sagi at grimberg.me> writes:
+On Mon, Nov 14, 2016@09:57:27AM +0100, Rashika Kheria wrote:
+> Hi everyone,
+> 
+> Could you please review the following patch? This solves a regression in
+> stable 4.4.y tree.
 
-> The installation will generate a hostnqn and store it in
-> /etc/nvme/hostnqn file (in case it doesn't exist).
-> This file will be removed upon uninstallation (purge on for debian).
->
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  debian/postinst | 20 ++++++++++++++++++++
->  debian/postrm   |  5 +++++
->  nvme.spec.in    | 12 ++++++++++++
->  3 files changed, 37 insertions(+)
->  create mode 100644 debian/postinst
->  create mode 100644 debian/postrm
->
-> diff --git a/debian/postinst b/debian/postinst
-> new file mode 100644
-> index 000000000000..b258cf569c3e
-> --- /dev/null
-> +++ b/debian/postinst
-> @@ -0,0 +1,20 @@
-> +#!/bin/sh
-> +
-> +set -e
-> +
-> +case "$1" in
-> +    configure|install)
-> +	if [ ! -f /etc/nvme/hostnqn ]; then
-> +		install -D /dev/null /etc/nvme/hostnqn
-> +		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
-> +        fi
-> +        ;;
-> +
-> +    upgrade|abort-upgrade)
-> +        ;;
-> +    *)
-> +        echo "postinst called with unknown argument \`$1'" >&2
-> +        exit 0
-> +        ;;
-> +esac
-> +exit 0
-> diff --git a/debian/postrm b/debian/postrm
-> new file mode 100644
-> index 000000000000..d678fc8a90ac
-> --- /dev/null
-> +++ b/debian/postrm
-> @@ -0,0 +1,5 @@
-> +#!/bin/sh
-> +
-> +if [ "$1" = "purge" ]; then
-> +    rm -rf /etc/nvme
-> +fi
+I missed the "Don't unmap" back-port to 4.4.y. I'm not sure, but I think
+we may have addressed that differently with something less risky if we
+needed that behaviour on 4.4-stable. That's okay, though, this new patch
+looks correct. The original was part of a series that fixes this in its
+following commit, but it should have looked like this from the beginning.
 
-Oh, here it is.  Didn't see your v1 before responding to the rfc. :)
+Acked-by: Keith Busch <keith.busch at intel.com>
 
-
-
-> diff --git a/nvme.spec.in b/nvme.spec.in
-> index a4718773a962..8bda97d819ba 100644
-> --- a/nvme.spec.in
-> +++ b/nvme.spec.in
-> @@ -33,6 +33,18 @@ make install DESTDIR=%{buildroot} PREFIX=/usr
->  %clean
->  rm -rf $RPM_BUILD_ROOT
->
-> +%post
-> +if [ $1 = 1 ]; then # 1 : This package is being installed for the first time
-> +	if [ ! -f /etc/nvme/hostnqn ]; then
-> +		install -D /dev/null /etc/nvme/hostnqn
-> +		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
-> +        fi
-> +fi
-> +
-> +%preun
-> +if [ "$1" = "remove" ]; then
-> +    rm -rf /etc/nvme
-> +fi
->  %changelog
->  * Thu Oct 15 2015 Keith Busch <keith.busch at intel.com>
->  - Initial RPM spec
-
--- 
-Gabriel Krisman Bertazi
+ 
+> > On Tue, Nov 01, 2016@04:27:56PM +0100, Rashika Kheria wrote:
+> > > Commit d5537e988eec ("NVMe: Don't unmap controller registers on reset"),
+> > > introduced a regression in which it did not replace nvme_dev_unmap()
+> > > with nvme_pci_disable() in the error path of nvme_probe_work().
+> > > 
+> > > This led to the following NVMe driver crash on systems where the devices
+> > > did not initialise in the first try.
+> > > 
+> > > BUG: unable to handle kernel paging request at ffffc90006da001c
+> > > IP: [<ffffffffa027b6bb>] nvme_dev_remove+0x5b/0xf0 [nvme]
+> > > RIP: e030:[<ffffffffa027b6bb>]  [<ffffffffa027b6bb>]
+> > > nvme_dev_remove+0x5b/0xf0 [nvme]
+> > > RSP: e02b:ffff8806659c3cb8  EFLAGS: 00010286
+> > > RAX: ffffc90006da0000 RBX: ffff88067cbc3000 RCX: 0000000000000006
+> > > RDX: 0000000000000007 RSI: 0000000000000007 RDI: ffff8806864eda40
+> > > RBP: ffff8806659c3cd8 R08: 0000000000000006 R09: 000000000000fffe
+> > > R10: 0000000000000000 R11: 0000000000000000 R12: ffff88067e087000
+> > > R13: ffffffffa0281d20 R14: ffff88067e087098 R15: ffff8806799d8598
+> > > FS:  00007f880d5ba700(0000) GS:ffff8806864e0000(0000)
+> > > knlGS:0000000000000000
+> > > CS:  e033 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > CR2: ffffc90006da001c CR3: 0000000676a97000 CR4: 0000000000042660
+> > > Call Trace:
+> > > [<ffffffffa027b7ea>] nvme_remove+0x9a/0x140 [nvme]
+> > > [<ffffffff813503ef>] pci_device_remove+0x3f/0xc0
+> > > [<ffffffff81449869>] ? __pm_runtime_idle+0x89/0x90
+> > > [<ffffffff8143ed4f>] __device_release_driver+0xaf/0x140
+> > > [<ffffffff8143eec8>] device_release_driver+0x28/0x40
+> > > [<ffffffff8143db66>] unbind_store+0x96/0xb0
+> > > [<ffffffff8143d027>] drv_attr_store+0x27/0x30
+> > > [<ffffffff8122e279>] sysfs_kf_write+0x39/0x40
+> > > [<ffffffff8122d9e4>] kernfs_fop_write+0xe4/0x160
+> > > [<ffffffff811b15df>] __vfs_write+0x2f/0x100
+> > > [<ffffffff81003640>] ? syscall_slow_exit_work+0x140/0x180
+> > > [<ffffffff81161db9>] ? vm_mmap_pgoff+0xb9/0xe0
+> > > [<ffffffff810af981>] ? percpu_down_read+0x11/0x60
+> > > [<ffffffff811b2bce>] vfs_write+0xbe/0x190
+> > > [<ffffffff811b2d81>] SyS_write+0x51/0xb0
+> > > [<ffffffff815b8aee>] entry_SYSCALL_64_fastpath+0x12/0x71
+> > > 
+> > > Cc: stable at vger.kernel.org # 4.4.y
+> > > Cc: Jens Axboe <axboe at fb.com>
+> > > Cc: Keith Busch <keith.busch at intel.com>
+> > > Cc: Gabriel Krisman Bertazi <krisman at linux.vnet.ibm.com>
+> > > Cc: linux-nvme at lists.infradead.org
+> > > Fixes: d5537e988eec ("NVMe: Don't unmap controller registers on reset")
+> > > Signed-off-by: Rashika Kheria <rashika at amazon.de>
+> > > ---
+> > >   drivers/nvme/host/pci.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > > index c851bc5..f5d1579 100644
+> > > --- a/drivers/nvme/host/pci.c
+> > > +++ b/drivers/nvme/host/pci.c
+> > > @@ -3184,7 +3184,7 @@ static void nvme_probe_work(struct work_struct *work)
+> > >   	nvme_disable_queue(dev, 0);
+> > >   	nvme_dev_list_remove(dev);
+> > >    unmap:
+> > > -	nvme_dev_unmap(dev);
+> > > +	nvme_pci_disable(dev);
+> > >    out:
+> > >   	if (!work_busy(&dev->reset_work))
+> > >   		nvme_dead_ctrl(dev);
+> > > -- 
+> > > 2.10.2
+> > > 
+> > ---end quoted text---
