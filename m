@@ -1,22 +1,15 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 15 Nov 2016 07:53:23 -0700
-Subject: [GIT PULL] nvme fabrics patches for 4.9-rc6
-In-Reply-To: <1479204030-20590-1-git-send-email-sagi@grimberg.me>
-References: <1479204030-20590-1-git-send-email-sagi@grimberg.me>
-Message-ID: <19898ee4-e15a-48af-768c-76b0c36c6e27@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 15 Nov 2016 19:52:07 +0100
+Subject: [PATCH 0/5] ahci: nvme remap support
+In-Reply-To: <147709592108.3733.7194541797066785254.stgit@dwillia2-desk3.amr.corp.intel.com>
+References: <147709592108.3733.7194541797066785254.stgit@dwillia2-desk3.amr.corp.intel.com>
+Message-ID: <20161115185207.GB5854@lst.de>
 
-On 11/15/2016 03:00 AM, Sagi Grimberg wrote:
-> Hey Jens,
->
-> These are the relevant fixes for rc6
-> - fix possible crash in nvmet-rdma cm_handler from Bart
-> - fix possible memory leak in nvmet-rdma for connection failures
-> - fix possible use-after-free conditions in nvmet-rdma
-> - fix possible IO errors during reconnect stage from Christoph
-> - fix possible memory leak in nvme-rdma during IO queues connect
->   failures from Steve
+As it's been a few weeks since this initial posting:  What's the
+status of either getting the magic chipset handshake mode published
+to take the chipset out of this degraded mode, or implementing a bridge
+driver like VMD?
 
-Pulled, thanks Sagi.
-
--- 
-Jens Axboe
+It seems devices supporting this "slow down the devices and make life
+hell for the OS" mode are getting more common, so we'll have to do
+something about it.
