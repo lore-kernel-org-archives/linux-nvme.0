@@ -1,67 +1,40 @@
-From: ckulkarnilinux@gmail.com (chaitany kulkarni)
-Date: Tue, 15 Nov 2016 23:06:58 -0800
-Subject: [PATCH 3/5] nvme.h: add Write Zeroes definitions
-Message-ID: <CAK0tqik5oMda+Avk17pR8rX_CS0vCpoPPp3LioEtcgyG3Ex8Ww@mail.gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 16 Nov 2016 18:47:22 +0200
+Subject: [PATCH 5/5] nvmet: add support for the Write Zeroes command
+In-Reply-To: <1479279039-25818-6-git-send-email-chaitanya.kulkarni@hgst.com>
+References: <1479279039-25818-1-git-send-email-chaitanya.kulkarni@hgst.com>
+ <1479279039-25818-6-git-send-email-chaitanya.kulkarni@hgst.com>
+Message-ID: <6591bf30-6f66-c4e6-e304-9b580489a9b9@grimberg.me>
 
-Add the command structure, optional command set support (ONCS) bit and
-a new error code for the Write Zeroes command.
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
----
- include/linux/nvme.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+> +static void nvmet_execute_write_zeroes(struct nvmet_req *req)
+> +{
+> +	struct nvme_write_zeroes_cmd *write_zeroes = &req->cmd->write_zeroes;
+> +	struct bio *bio = NULL;
+> +	u16 status = NVME_SC_SUCCESS;
+> +	sector_t sector;
+> +	sector_t nr_sector;
+> +
+> +	sector = le64_to_cpu(write_zeroes->slba) <<
+> +		(req->ns->blksize_shift - 9);
+> +	nr_sector = (((sector_t)le32_to_cpu(write_zeroes->length)) <<
+> +		(req->ns->blksize_shift - 9)) + 1;
+> +
+> +	if (__blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
+> +				GFP_KERNEL, &bio, false))
+> +		status = NVME_SC_INTERNAL | NVME_SC_DNR;
+> +
+> +	if (bio) {
+> +		bio->bi_private = req;
+> +		bio->bi_end_io = nvmet_bio_done;
+> +		if (status) {
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 9f3b488..5bf1d2d 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -242,6 +242,7 @@ enum {
-  NVME_CTRL_ONCS_COMPARE = 1 << 0,
-  NVME_CTRL_ONCS_WRITE_UNCORRECTABLE = 1 << 1,
-  NVME_CTRL_ONCS_DSM = 1 << 2,
-+ NVME_CTRL_ONCS_WRITE_ZEROES = 1 << 3,
-  NVME_CTRL_VWC_PRESENT = 1 << 0,
- };
+if (status != NVME_SC_SUCCESS) can this happen?
+can we end up with a bio if __blkdev_issue_zeroout
+failed?
 
-@@ -558,6 +559,23 @@ struct nvme_dsm_range {
-  __le64 slba;
- };
+> +			bio->bi_error = -EIO;
+> +			bio_endio(bio);
 
-+struct nvme_write_zeroes_cmd {
-+ __u8 opcode;
-+ __u8 flags;
-+ __u16 command_id;
-+ __le32 nsid;
-+ __u64 rsvd2;
-+ __le64 metadata;
-+ union nvme_data_ptr dptr;
-+ __le64 slba;
-+ __le16 length;
-+ __le16 control;
-+ __le32 dsmgmt;
-+ __le32 reftag;
-+ __le16 apptag;
-+ __le16 appmask;
-+};
-+
- /* Admin commands */
-
- enum nvme_admin_opcode {
-@@ -857,6 +875,7 @@ struct nvme_command {
-  struct nvme_download_firmware dlfw;
-  struct nvme_format_cmd format;
-  struct nvme_dsm_cmd dsm;
-+ struct nvme_write_zeroes_cmd write_zeroes;
-  struct nvme_abort_cmd abort;
-  struct nvme_get_log_page_command get_log_page;
-  struct nvmf_common_command fabrics;
-@@ -947,6 +966,7 @@ enum {
-  NVME_SC_BAD_ATTRIBUTES = 0x180,
-  NVME_SC_INVALID_PI = 0x181,
-  NVME_SC_READ_ONLY = 0x182,
-+ NVME_SC_ONCS_NOT_SUPPORTED = 0x183,
-
-  /*
-  * I/O Command Set Specific - Fabrics commands:
--- 
-1.8.3.1
+Something looks odd here, how does the status propagate in
+this case?
