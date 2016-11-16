@@ -1,17 +1,41 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Wed, 16 Nov 2016 12:40:18 -0700
-Subject: [PATCH] nvme/pci: Don't free queues on error
-In-Reply-To: <1479243386-4383-1-git-send-email-keith.busch@intel.com>
-References: <1479243386-4383-1-git-send-email-keith.busch@intel.com>
-Message-ID: <bbc4dcb8-20ee-3657-5669-21cf2b758274@fb.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Wed, 16 Nov 2016 11:43:30 -0800
+Subject: Introducing Unit test framework based on nvme-cli
+In-Reply-To: <20161116183522.GB10050@localhost.localdomain>
+References: <1477550917-6472-1-git-send-email-chaitanya.kulkarni@hgst.com>
+ <20161116175828.GA1207@infradead.org>
+ <20161116183522.GB10050@localhost.localdomain>
+Message-ID: <1479325410.31236.0.camel@linux.intel.com>
 
-On 11/15/2016 01:56 PM, Keith Busch wrote:
-> The nvme_remove function tears down all allocated resources in the correct
-> order, so no need to free queues on error during initialization. This
-> fixes possible use-after-free errors when queues are still associated
-> with a blk-mq hctx.
+On Wed, 2016-11-16@13:35 -0500, Keith Busch wrote:
+> On Wed, Nov 16, 2016@09:58:28AM -0800, Christoph Hellwig wrote:
+> > 
+> > Stephen, Keith:
+> > 
+> > any comments on this test suite???I'd really like to see this going
+> > somewhere, as it would make my life a lot easier.
+> 
+> This is awesome. Just a few comments on the documenation.
+> 
+> If we can get the README to list all the dependencies to run, it'd
+> make it easier on people like me who start with pretty bare-bones
+> Linux
+> installations. Getting the environment ready required I run:
+> 
+> ?$ pip install nose nose2 pep8 flake8
+> 
+> The README also references a 'doc' folder, but it appears to be
+> missing
+> from the commit.
+> 
+> Otherwise, I like this alot. I can apply it immediately if there's no
+> objection, and we can add more documentation as follow on commits.
 
-Added for 4.9, thanks Keith.
+No objections, enable Christoph now, address the doc issues in follow-
+on patches :-)
 
--- 
-Jens Axboe
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
