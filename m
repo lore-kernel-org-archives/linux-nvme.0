@@ -1,234 +1,295 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 15 Nov 2016 22:50:35 -0800
-Subject: [PATCH 1/5] block: add async variant of blkdev_issue_zeroout
+Date: Tue, 15 Nov 2016 22:50:36 -0800
+Subject: [PATCH 2/5] block: add support for REQ_OP_WRITE_ZEROES
 In-Reply-To: <1479279039-25818-1-git-send-email-chaitanya.kulkarni@hgst.com>
 References: <1479279039-25818-1-git-send-email-chaitanya.kulkarni@hgst.com>
-Message-ID: <1479279039-25818-2-git-send-email-chaitanya.kulkarni@hgst.com>
+Message-ID: <1479279039-25818-3-git-send-email-chaitanya.kulkarni@hgst.com>
 
-Similar to __blkdev_issue_discard this variant allows submitting
-the final bio asynchronously and chaining multiple ranges
-into a single completion.
+This adds a new block layer operation to zero out a range of
+LBAs. This allows to implement zeroing for devices that don't use
+either discard with a predictable zero pattern or WRITE SAME of zeroes.
+The prominent example of that is NVMe with the Write Zeroes command,
+but in the future this should also help with improving the way
+zeroing discards work.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
 ---
- block/blk-lib.c        | 115 ++++++++++++++++++++++++++++++++++---------------
- include/linux/blkdev.h |   3 ++
- 2 files changed, 84 insertions(+), 34 deletions(-)
+ block/bio.c               |  1 +
+ block/blk-core.c          |  4 ++++
+ block/blk-lib.c           | 58 +++++++++++++++++++++++++++++++++++++++++++++--
+ block/blk-merge.c         | 17 ++++++++++----
+ block/blk-wbt.c           |  5 ++--
+ include/linux/bio.h       | 25 +++++++++++---------
+ include/linux/blk_types.h |  2 ++
+ include/linux/blkdev.h    |  6 +++++
+ 8 files changed, 99 insertions(+), 19 deletions(-)
 
+diff --git a/block/bio.c b/block/bio.c
+index 2cf6eba..39fa10a 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -670,6 +670,7 @@ struct bio *bio_clone_bioset(struct bio *bio_src, gfp_t gfp_mask,
+ 	switch (bio_op(bio)) {
+ 	case REQ_OP_DISCARD:
+ 	case REQ_OP_SECURE_ERASE:
++	case REQ_OP_WRITE_ZEROES:
+ 		break;
+ 	case REQ_OP_WRITE_SAME:
+ 		bio->bi_io_vec[bio->bi_vcnt++] = bio_src->bi_io_vec[0];
+diff --git a/block/blk-core.c b/block/blk-core.c
+index eea2465..31e211f 100644
+--- a/block/blk-core.c
++++ b/block/blk-core.c
+@@ -1942,6 +1942,10 @@ static inline int bio_check_eod(struct bio *bio, unsigned int nr_sectors)
+ 		if (!bdev_is_zoned(bio->bi_bdev))
+ 			goto not_supported;
+ 		break;
++	case REQ_OP_WRITE_ZEROES:
++		if (!blk_queue_write_zeroes(q))
++			goto not_supported;
++		break;
+ 	default:
+ 		break;
+ 	}
 diff --git a/block/blk-lib.c b/block/blk-lib.c
-index 18abda8..bfb28b0 100644
+index bfb28b0..b6db957 100644
 --- a/block/blk-lib.c
 +++ b/block/blk-lib.c
-@@ -137,24 +137,24 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
- EXPORT_SYMBOL(blkdev_issue_discard);
+@@ -227,6 +227,55 @@ int blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
+ EXPORT_SYMBOL(blkdev_issue_write_same);
  
  /**
-- * blkdev_issue_write_same - queue a write same operation
-+ * __blkdev_issue_write_same - generate number of bios with same page
-  * @bdev:	target blockdev
-  * @sector:	start sector
-  * @nr_sects:	number of sectors to write
-  * @gfp_mask:	memory allocation flags (for bio_alloc)
-  * @page:	page containing data to write
++ * __blkdev_issue_write_zeroes - generate number of bios with WRITE ZEROES
++ * @bdev:	blockdev to issue
++ * @sector:	start sector
++ * @nr_sects:	number of sectors to write
++ * @gfp_mask:	memory allocation flags (for bio_alloc)
 + * @biop:	pointer to anchor bio
-  *
-  * Description:
-- *    Issue a write same request for the sectors in question.
-+ *  Generate and issue number of bios(REQ_OP_WRITE_SAME) with same page.
-  */
--int blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
--			    sector_t nr_sects, gfp_t gfp_mask,
--			    struct page *page)
-+static int __blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
-+		sector_t nr_sects, gfp_t gfp_mask, struct page *page,
++ *
++ * Description:
++ *  Generate and issue number of bios(REQ_OP_WRITE_ZEROES) with zerofiled pages.
++ */
++static int __blkdev_issue_write_zeroes(struct block_device *bdev,
++		sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
 +		struct bio **biop)
- {
- 	struct request_queue *q = bdev_get_queue(bdev);
- 	unsigned int max_write_same_sectors;
--	struct bio *bio = NULL;
--	int ret = 0;
++{
 +	struct bio *bio = *biop;
- 	sector_t bs_mask;
- 
- 	if (!q)
-@@ -164,6 +164,9 @@ int blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
- 	if ((sector | nr_sects) & bs_mask)
- 		return -EINVAL;
- 
-+	if (!bdev_write_same(bdev))
++	unsigned int max_write_zeroes_sectors;
++	struct request_queue *q = bdev_get_queue(bdev);
++
++	if (!q)
++		return -ENXIO;
++
++	if (!blk_queue_write_zeroes(q))
 +		return -EOPNOTSUPP;
 +
- 	/* Ensure that max_write_same_sectors doesn't overflow bi_size */
- 	max_write_same_sectors = UINT_MAX >> 9;
- 
-@@ -185,32 +188,63 @@ int blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
- 			bio->bi_iter.bi_size = nr_sects << 9;
- 			nr_sects = 0;
- 		}
++	/* Ensure that max_write_zeroes_sectors doesn't overflow bi_size */
++	max_write_zeroes_sectors = UINT_MAX >> 9;
++
++	while (nr_sects) {
++		bio = next_bio(bio, 0, gfp_mask);
++		bio->bi_iter.bi_sector = sector;
++		bio->bi_bdev = bdev;
++		bio_set_op_attrs(bio, REQ_OP_WRITE_ZEROES, 0);
++
++		if (nr_sects > max_write_zeroes_sectors) {
++			bio->bi_iter.bi_size = max_write_zeroes_sectors << 9;
++			nr_sects -= max_write_zeroes_sectors;
++			sector += max_write_zeroes_sectors;
++		} else {
++			bio->bi_iter.bi_size = nr_sects << 9;
++			nr_sects = 0;
++		}
 +		cond_resched();
- 	}
- 
--	if (bio) {
++	}
++
 +	*biop = bio;
 +	return 0;
 +}
 +
 +/**
-+ * blkdev_issue_write_same - queue a write same operation
-+ * @bdev:	target blockdev
-+ * @sector:	start sector
-+ * @nr_sects:	number of sectors to write
-+ * @gfp_mask:	memory allocation flags (for bio_alloc)
-+ * @page:	page containing data
-+ *
-+ * Description:
-+ *    Issue a write same request for the sectors in question.
-+ */
-+int blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
-+				sector_t nr_sects, gfp_t gfp_mask,
-+				struct page *page)
-+{
-+	struct bio *bio = NULL;
-+	struct blk_plug plug;
-+	int ret;
-+
-+	blk_start_plug(&plug);
-+	ret = __blkdev_issue_write_same(bdev, sector, nr_sects, gfp_mask, page,
-+			&bio);
-+	if (ret == 0 && bio) {
- 		ret = submit_bio_wait(bio);
- 		bio_put(bio);
- 	}
-+	blk_finish_plug(&plug);
- 	return ret;
- }
- EXPORT_SYMBOL(blkdev_issue_write_same);
- 
- /**
-- * blkdev_issue_zeroout - generate number of zero filed write bios
-+ * __blkdev_issue_zeroout - generate number of zero filed write bios
+  * __blkdev_issue_zeroout - generate number of zero filed write bios
   * @bdev:	blockdev to issue
   * @sector:	start sector
-  * @nr_sects:	number of sectors to write
-  * @gfp_mask:	memory allocation flags (for bio_alloc)
-+ * @biop:	pointer to anchor bio
-+ * @discard:	discard flag
-  *
-  * Description:
-  *  Generate and issue number of bios with zerofiled pages.
-  */
--
--static int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
--				  sector_t nr_sects, gfp_t gfp_mask)
-+int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
-+		sector_t nr_sects, gfp_t gfp_mask, struct bio **biop,
-+		bool discard)
- {
- 	int ret;
--	struct bio *bio = NULL;
-+	int bi_size = 0;
-+	struct bio *bio = *biop;
- 	unsigned int sz;
- 	sector_t bs_mask;
+@@ -259,6 +308,11 @@ int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
+ 			goto out;
+ 	}
  
-@@ -218,6 +252,19 @@ static int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
- 	if ((sector | nr_sects) & bs_mask)
- 		return -EINVAL;
- 
-+	if (discard) {
-+		ret = __blkdev_issue_discard(bdev, sector, nr_sects, gfp_mask,
-+				BLKDEV_DISCARD_ZERO, biop);
-+		if (ret == 0 || (ret && ret != -EOPNOTSUPP))
-+			goto out;
-+	}
-+
-+	ret = __blkdev_issue_write_same(bdev, sector, nr_sects, gfp_mask,
-+			ZERO_PAGE(0), biop);
++	ret = __blkdev_issue_write_zeroes(bdev, sector, nr_sects, gfp_mask,
++			biop);
 +	if (ret == 0 || (ret && ret != -EOPNOTSUPP))
 +		goto out;
 +
-+	ret = 0;
- 	while (nr_sects != 0) {
- 		bio = next_bio(bio, min(nr_sects, (sector_t)BIO_MAX_PAGES),
- 				gfp_mask);
-@@ -227,21 +274,20 @@ static int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
- 
- 		while (nr_sects != 0) {
- 			sz = min((sector_t) PAGE_SIZE >> 9 , nr_sects);
--			ret = bio_add_page(bio, ZERO_PAGE(0), sz << 9, 0);
--			nr_sects -= ret >> 9;
--			sector += ret >> 9;
--			if (ret < (sz << 9))
-+			bi_size = bio_add_page(bio, ZERO_PAGE(0), sz << 9, 0);
-+			nr_sects -= bi_size >> 9;
-+			sector += bi_size >> 9;
-+			if (bi_size < (sz << 9))
- 				break;
- 		}
-+		cond_resched();
- 	}
- 
--	if (bio) {
--		ret = submit_bio_wait(bio);
--		bio_put(bio);
--		return ret;
--	}
--	return 0;
-+	*biop = bio;
-+out:
-+	return ret;
- }
-+EXPORT_SYMBOL(__blkdev_issue_zeroout);
- 
- /**
-  * blkdev_issue_zeroout - zero-fill a block range
-@@ -263,21 +309,22 @@ static int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
+ 	ret = __blkdev_issue_write_same(bdev, sector, nr_sects, gfp_mask,
+ 			ZERO_PAGE(0), biop);
+ 	if (ret == 0 || (ret && ret != -EOPNOTSUPP))
+@@ -304,8 +358,8 @@ int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
+  *  the discard request fail, if the discard flag is not set, or if
+  *  discard_zeroes_data is not supported, this function will resort to
+  *  zeroing the blocks manually, thus provisioning (allocating,
+- *  anchoring) them. If the block device supports the WRITE SAME command
+- *  blkdev_issue_zeroout() will use it to optimize the process of
++ *  anchoring) them. If the block device supports WRITE ZEROES or WRITE SAME
++ *  command(s), blkdev_issue_zeroout() will use it to optimize the process of
   *  clearing the block range. Otherwise the zeroing will be performed
   *  using regular WRITE calls.
   */
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index fda6a12..cf2848c 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -199,6 +199,10 @@ void blk_queue_split(struct request_queue *q, struct bio **bio,
+ 	case REQ_OP_SECURE_ERASE:
+ 		split = blk_bio_discard_split(q, *bio, bs, &nsegs);
+ 		break;
++	case REQ_OP_WRITE_ZEROES:
++		split = NULL;
++		nsegs = (*bio)->bi_phys_segments;
++		break;
+ 	case REQ_OP_WRITE_SAME:
+ 		split = blk_bio_write_same_split(q, *bio, bs, &nsegs);
+ 		break;
+@@ -241,11 +245,15 @@ static unsigned int __blk_recalc_rq_segments(struct request_queue *q,
+ 	 * This should probably be returning 0, but blk_add_request_payload()
+ 	 * (Christoph!!!!)
+ 	 */
+-	if (bio_op(bio) == REQ_OP_DISCARD || bio_op(bio) == REQ_OP_SECURE_ERASE)
+-		return 1;
 -
- int blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
- 			 sector_t nr_sects, gfp_t gfp_mask, bool discard)
- {
--	if (discard) {
--		if (!blkdev_issue_discard(bdev, sector, nr_sects, gfp_mask,
--				BLKDEV_DISCARD_ZERO))
--			return 0;
--	}
-+	int ret;
-+	struct bio *bio = NULL;
-+	struct blk_plug plug;
- 
--	if (bdev_write_same(bdev) &&
--	    blkdev_issue_write_same(bdev, sector, nr_sects, gfp_mask,
--				    ZERO_PAGE(0)) == 0)
--		return 0;
-+	blk_start_plug(&plug);
-+	ret = __blkdev_issue_zeroout(bdev, sector, nr_sects, gfp_mask,
-+			&bio, discard);
-+	if (ret == 0 && bio) {
-+		ret = submit_bio_wait(bio);
-+		bio_put(bio);
+-	if (bio_op(bio) == REQ_OP_WRITE_SAME)
++	switch (bio_op(bio)) {
++	case REQ_OP_DISCARD:
++	case REQ_OP_SECURE_ERASE:
++	case REQ_OP_WRITE_SAME:
++	case REQ_OP_WRITE_ZEROES:
+ 		return 1;
++	default:
++		break;
 +	}
-+	blk_finish_plug(&plug);
  
--	return __blkdev_issue_zeroout(bdev, sector, nr_sects, gfp_mask);
-+	return ret;
+ 	fbio = bio;
+ 	cluster = blk_queue_cluster(q);
+@@ -416,6 +424,7 @@ static int __blk_bios_map_sg(struct request_queue *q, struct bio *bio,
+ 	switch (bio_op(bio)) {
+ 	case REQ_OP_DISCARD:
+ 	case REQ_OP_SECURE_ERASE:
++	case REQ_OP_WRITE_ZEROES:
+ 		/*
+ 		 * This is a hack - drivers should be neither modifying the
+ 		 * biovec, nor relying on bi_vcnt - but because of
+diff --git a/block/blk-wbt.c b/block/blk-wbt.c
+index 20712f0..83abaff 100644
+--- a/block/blk-wbt.c
++++ b/block/blk-wbt.c
+@@ -575,9 +575,10 @@ static inline bool wbt_should_throttle(struct rq_wb *rwb, struct bio *bio)
+ 	const int op = bio_op(bio);
+ 
+ 	/*
+-	 * If not a WRITE (or a discard), do nothing
++	 * If not a WRITE (or a discard or write zeroes), do nothing
+ 	 */
+-	if (!(op == REQ_OP_WRITE || op == REQ_OP_DISCARD))
++	if (!(op == REQ_OP_WRITE || op == REQ_OP_DISCARD ||
++				op == REQ_OP_WRITE_ZEROES))
+ 		return false;
+ 
+ 	/*
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index d367cd3..491c7e9 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -76,7 +76,8 @@ static inline bool bio_has_data(struct bio *bio)
+ 	if (bio &&
+ 	    bio->bi_iter.bi_size &&
+ 	    bio_op(bio) != REQ_OP_DISCARD &&
+-	    bio_op(bio) != REQ_OP_SECURE_ERASE)
++	    bio_op(bio) != REQ_OP_SECURE_ERASE &&
++	    bio_op(bio) != REQ_OP_WRITE_ZEROES)
+ 		return true;
+ 
+ 	return false;
+@@ -86,7 +87,8 @@ static inline bool bio_no_advance_iter(struct bio *bio)
+ {
+ 	return bio_op(bio) == REQ_OP_DISCARD ||
+ 	       bio_op(bio) == REQ_OP_SECURE_ERASE ||
+-	       bio_op(bio) == REQ_OP_WRITE_SAME;
++	       bio_op(bio) == REQ_OP_WRITE_SAME ||
++	       bio_op(bio) == REQ_OP_WRITE_ZEROES;
  }
- EXPORT_SYMBOL(blkdev_issue_zeroout);
+ 
+ static inline bool bio_mergeable(struct bio *bio)
+@@ -188,18 +190,19 @@ static inline unsigned bio_segments(struct bio *bio)
+ 	struct bvec_iter iter;
+ 
+ 	/*
+-	 * We special case discard/write same, because they interpret bi_size
+-	 * differently:
++	 * We special case discard/write same/write zeroes, because they
++	 * interpret bi_size differently:
+ 	 */
+ 
+-	if (bio_op(bio) == REQ_OP_DISCARD)
+-		return 1;
+-
+-	if (bio_op(bio) == REQ_OP_SECURE_ERASE)
+-		return 1;
+-
+-	if (bio_op(bio) == REQ_OP_WRITE_SAME)
++	switch (bio_op(bio)) {
++	case REQ_OP_DISCARD:
++	case REQ_OP_SECURE_ERASE:
++	case REQ_OP_WRITE_SAME:
++	case REQ_OP_WRITE_ZEROES:
+ 		return 1;
++	default:
++		break;
++	}
+ 
+ 	bio_for_each_segment(bv, bio, iter)
+ 		segs++;
+diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
+index 4d0044d..2b0aebf 100644
+--- a/include/linux/blk_types.h
++++ b/include/linux/blk_types.h
+@@ -159,6 +159,8 @@ enum req_opf {
+ 	REQ_OP_ZONE_RESET	= 6,
+ 	/* write the same sector many times */
+ 	REQ_OP_WRITE_SAME	= 7,
++	/* write the zero filled sector many times */
++	REQ_OP_WRITE_ZEROES	= 8,
+ 
+ 	REQ_OP_LAST,
+ };
 diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index bab18ee..13b2f2a 100644
+index 13b2f2a..9c843ec 100644
 --- a/include/linux/blkdev.h
 +++ b/include/linux/blkdev.h
-@@ -1268,6 +1268,9 @@ extern int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
- 		struct bio **biop);
- extern int blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
- 		sector_t nr_sects, gfp_t gfp_mask, struct page *page);
-+extern int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
-+		sector_t nr_sects, gfp_t gfp_mask, struct bio **biop,
-+		bool discard);
- extern int blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
- 		sector_t nr_sects, gfp_t gfp_mask, bool discard);
- static inline int sb_issue_discard(struct super_block *sb, sector_t block,
+@@ -595,6 +595,7 @@ struct request_queue {
+ #define QUEUE_FLAG_FLUSH_NQ    25	/* flush not queueuable */
+ #define QUEUE_FLAG_DAX         26	/* device supports DAX */
+ #define QUEUE_FLAG_STATS       27	/* track rq completion times */
++#define QUEUE_FLAG_WRITE_ZEROES 28	/* device supports write zeroes */
+ 
+ #define QUEUE_FLAG_DEFAULT	((1 << QUEUE_FLAG_IO_STAT) |		\
+ 				 (1 << QUEUE_FLAG_STACKABLE)	|	\
+@@ -685,6 +686,8 @@ static inline void queue_flag_clear(unsigned int flag, struct request_queue *q)
+ #define blk_queue_secure_erase(q) \
+ 	(test_bit(QUEUE_FLAG_SECERASE, &(q)->queue_flags))
+ #define blk_queue_dax(q)	test_bit(QUEUE_FLAG_DAX, &(q)->queue_flags)
++#define blk_queue_write_zeroes(q) \
++	(test_bit(QUEUE_FLAG_WRITE_ZEROES, &(q)->queue_flags))
+ 
+ #define blk_noretry_request(rq) \
+ 	((rq)->cmd_flags & (REQ_FAILFAST_DEV|REQ_FAILFAST_TRANSPORT| \
+@@ -773,6 +776,9 @@ static inline bool rq_mergeable(struct request *rq)
+ 	if (req_op(rq) == REQ_OP_FLUSH)
+ 		return false;
+ 
++	if (req_op(rq) == REQ_OP_WRITE_ZEROES)
++		return false;
++
+ 	if (rq->cmd_flags & REQ_NOMERGE_FLAGS)
+ 		return false;
+ 	if (rq->rq_flags & RQF_NOMERGE_FLAGS)
 -- 
 1.8.3.1
