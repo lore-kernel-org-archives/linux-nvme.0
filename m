@@ -1,14 +1,17 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 16 Nov 2016 13:46:07 -0500
+From: axboe@fb.com (Jens Axboe)
+Date: Wed, 16 Nov 2016 12:40:18 -0700
 Subject: [PATCH] nvme/pci: Don't free queues on error
-In-Reply-To: <20161116170855.GB5005@lst.de>
+In-Reply-To: <1479243386-4383-1-git-send-email-keith.busch@intel.com>
 References: <1479243386-4383-1-git-send-email-keith.busch@intel.com>
- <20161116170855.GB5005@lst.de>
-Message-ID: <20161116184607.GC10050@localhost.localdomain>
+Message-ID: <bbc4dcb8-20ee-3657-5669-21cf2b758274@fb.com>
 
-On Wed, Nov 16, 2016@06:08:55PM +0100, Christoph Hellwig wrote:
-> should this get a Cc to stable?
+On 11/15/2016 01:56 PM, Keith Busch wrote:
+> The nvme_remove function tears down all allocated resources in the correct
+> order, so no need to free queues on error during initialization. This
+> fixes possible use-after-free errors when queues are still associated
+> with a blk-mq hctx.
 
-Sure thing, but it'll have be a different patch going back to just
-stable-4.8.y. I'll follow "option 3" from the Stable Kernel Rules once
-this is applied.
+Added for 4.9, thanks Keith.
+
+-- 
+Jens Axboe
