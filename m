@@ -1,31 +1,52 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 16 Nov 2016 18:11:12 +0100
-Subject: [PATCH nvme-cli v1 1/2] nvme-cli: Add nvme hostnqn generation
- option
-In-Reply-To: <1478602108-29571-2-git-send-email-sagi@grimberg.me>
-References: <1478602108-29571-1-git-send-email-sagi@grimberg.me>
- <1478602108-29571-2-git-send-email-sagi@grimberg.me>
-Message-ID: <20161116171112.GC5005@lst.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 16 Nov 2016 12:59:07 -0500
+Subject: [PATCH 2/5] block: add support for REQ_OP_WRITE_ZEROES
+In-Reply-To: <1479279039-25818-3-git-send-email-chaitanya.kulkarni@hgst.com>
+References: <1479279039-25818-1-git-send-email-chaitanya.kulkarni@hgst.com>
+ <1479279039-25818-3-git-send-email-chaitanya.kulkarni@hgst.com>
+Message-ID: <20161116175906.GA10050@localhost.localdomain>
 
-On Tue, Nov 08, 2016@12:48:27PM +0200, Sagi Grimberg wrote:
-> Add option to generate a NVMe qualified name of a given host
-> (in the form of: nqn.2014-08.org.nvmexpress:NVMf:uuid:<some_uuid>).
-> This hostnqn will be used for fabrics discovery and connect functions.
+On Tue, Nov 15, 2016@10:50:36PM -0800, Chaitanya Kulkarni wrote:
+> This adds a new block layer operation to zero out a range of
+> LBAs. This allows to implement zeroing for devices that don't use
+> either discard with a predictable zero pattern or WRITE SAME of zeroes.
+> The prominent example of that is NVMe with the Write Zeroes command,
+> but in the future this should also help with improving the way
+> zeroing discards work.
+> 
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
+> ---
 
-Keith - should we have any special prefixes for nvme-cli commands
-that don't map to NVMe commands? 
-
-> +static int gen_hostnqn_cmd(int argc, char **argv, struct command *command, struct plugin *plugin)
+> +static int __blkdev_issue_write_zeroes(struct block_device *bdev,
+> +		sector_t sector, sector_t nr_sects, gfp_t gfp_mask,
+> +		struct bio **biop)
 > +{
-> +	char hostnqn[NVMF_NQN_SIZE];
-> +	uuid_t uuid;
-> +	char uuid_str[37]; /* e.g. 1b4e28ba-2fa1-11d2-883f-0016d3cca427 + \0 */
+> +	struct bio *bio = *biop;
+> +	unsigned int max_write_zeroes_sectors;
+> +	struct request_queue *q = bdev_get_queue(bdev);
 > +
-> +	uuid_generate_random(uuid);
-> +	uuid_unparse_lower(uuid, uuid_str);
-> +	sprintf(hostnqn, "nqn.2014-08.org.nvmexpress:NVMf:uuid:%s", uuid_str);
-> +	printf("%s\n", hostnqn);
+> +	if (!q)
+> +		return -ENXIO;
+> +
+> +	if (!blk_queue_write_zeroes(q))
+> +		return -EOPNOTSUPP;
+> +
+> +	/* Ensure that max_write_zeroes_sectors doesn't overflow bi_size */
+> +	max_write_zeroes_sectors = UINT_MAX >> 9;
+> +
+> +	while (nr_sects) {
+> +		bio = next_bio(bio, 0, gfp_mask);
+> +		bio->bi_iter.bi_sector = sector;
+> +		bio->bi_bdev = bdev;
+> +		bio_set_op_attrs(bio, REQ_OP_WRITE_ZEROES, 0);
+> +
+> +		if (nr_sects > max_write_zeroes_sectors) {
+> +			bio->bi_iter.bi_size = max_write_zeroes_sectors << 9;
 
-Shouldn't the sprintf and printf get merged into one?  No need for the
-local variable here.  That would also take care of the snprintf nitpick
-from Jay ;-)
+Your maximum bi_size exceeds the 2-bytes an NVMe Write Zeroes command
+provides for the block count. Instead of having a simple queue flag
+for write zeroes support, have it take a max sectors value instead. I
+proposed this here a couple years ago (though I goof'ed registering the
+nvme part...):
+
+  http://lists.infradead.org/pipermail/linux-nvme/2014-July/001054.html
