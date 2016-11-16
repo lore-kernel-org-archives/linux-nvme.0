@@ -1,73 +1,24 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 15 Nov 2016 15:56:26 -0500
-Subject: [PATCH] nvme/pci: Don't free queues on error
-Message-ID: <1479243386-4383-1-git-send-email-keith.busch@intel.com>
+From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
+Date: Tue, 15 Nov 2016 22:50:34 -0800
+Subject: [PATCHSET] Add support for write zeroes operation in Block layer and
+ NVMe Driver.
+Message-ID: <1479279039-25818-1-git-send-email-chaitanya.kulkarni@hgst.com>
 
-The nvme_remove function tears down all allocated resources in the correct
-order, so no need to free queues on error during initialization. This
-fixes possible use-after-free errors when queues are still associated
-with a blk-mq hctx.
+1. Block layer implementation details :-
+    a. Introducing __blkdev_issue_zeroout variant of exiting code.
+    b. Introducing new request operation flag REQ_OP_WRITE_ZEROES to represent
+       write zeroes operation.
+    c. Mechanism to issue bios without payload with the help of
+       __blkdev_issue_write_zeroes block library function. In block layer 
+       blkdev_issue_zeroout/__blkdev_issue_zeroout APIs are exported to execute 
+       write zeroes operation. Based on the device support these 
+       functions will :-
+       1. Try to execute optimized Write Zeroes (REQ_OP_WRITE_ZEROES).
+       2. If REQ_OP_WRITE_ZEROES is not supported, it will try to write zeroes
+          using write same (REQ_OP_WRITE_SAME) operation.
+       3. In case write zeroes and write same are not supported zeroes are
+          written using regular write (REQ_OP_WRITE) operation.
 
-Reported-by: Scott Bauer <scott.bauer at intel.com>
-Tested-by: Scott Bauer <scott.bauer at intel.com>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 18 ++++--------------
- 1 file changed, 4 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0248d0e..5e52034 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1242,20 +1242,16 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 
- 	result = nvme_enable_ctrl(&dev->ctrl, cap);
- 	if (result)
--		goto free_nvmeq;
-+		return result;
- 
- 	nvmeq->cq_vector = 0;
- 	result = queue_request_irq(nvmeq);
- 	if (result) {
- 		nvmeq->cq_vector = -1;
--		goto free_nvmeq;
-+		return result;
- 	}
- 
- 	return result;
--
-- free_nvmeq:
--	nvme_free_queues(dev, 0);
--	return result;
- }
- 
- static bool nvme_should_reset(struct nvme_dev *dev, u32 csts)
-@@ -1317,10 +1313,8 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
- 	max = min(dev->max_qid, dev->queue_count - 1);
- 	for (i = dev->online_queues; i <= max; i++) {
- 		ret = nvme_create_queue(dev->queues[i], i);
--		if (ret) {
--			nvme_free_queues(dev, i);
-+		if (ret)
- 			break;
--		}
- 	}
- 
- 	/*
-@@ -1460,13 +1454,9 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	result = queue_request_irq(adminq);
- 	if (result) {
- 		adminq->cq_vector = -1;
--		goto free_queues;
-+		return result;
- 	}
- 	return nvme_create_io_queues(dev);
--
-- free_queues:
--	nvme_free_queues(dev, 1);
--	return result;
- }
- 
- static void nvme_del_queue_end(struct request *req, int error)
--- 
-2.7.2
+2. NVMe over Fabric Driver implementation details :-
+       1. NVMe write zeroes command definitions for host and target.
+       2. NVMe write zeroes command implementation for host and target.
