@@ -1,64 +1,85 @@
 From: ckulkarnilinux@gmail.com (Chaitanya Kulkarni)
-Date: Tue, 15 Nov 2016 22:50:38 -0800
-Subject: [PATCH 4/5] nvme: add support for the Write Zeroes command
+Date: Tue, 15 Nov 2016 22:50:39 -0800
+Subject: [PATCH 5/5] nvmet: add support for the Write Zeroes command
 In-Reply-To: <1479279039-25818-1-git-send-email-chaitanya.kulkarni@hgst.com>
 References: <1479279039-25818-1-git-send-email-chaitanya.kulkarni@hgst.com>
-Message-ID: <1479279039-25818-5-git-send-email-chaitanya.kulkarni@hgst.com>
+Message-ID: <1479279039-25818-6-git-send-email-chaitanya.kulkarni@hgst.com>
 
-Allow write zeroes operations (REQ_OP_WRITE_ZEROES) on the queue
-if device supports optinal command bit set for write zeroes.
-Add support to setup write zeroes command.
+Add support for handling write zeroes command on target.
+Call into __blkdev_issue_zeroout, which the block layer expands into the
+best suitable variant of zeroing the LBAs.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
 ---
- drivers/nvme/host/core.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ drivers/nvme/target/admin-cmd.c |  3 ++-
+ drivers/nvme/target/io-cmd.c    | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 3fcd1f4..d1ebb2c 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -272,6 +272,21 @@ static inline int nvme_setup_discard(struct nvme_ns *ns, struct request *req,
- 	return 0;
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 6fe4c48..ec1ad2a 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -237,7 +237,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD);
+ 
+ 	id->nn = cpu_to_le32(ctrl->subsys->max_nsid);
+-	id->oncs = cpu_to_le16(NVME_CTRL_ONCS_DSM);
++	id->oncs = cpu_to_le16(NVME_CTRL_ONCS_DSM |
++			NVME_CTRL_ONCS_WRITE_ZEROES);
+ 
+ 	/* XXX: don't report vwc if the underlying device is write through */
+ 	id->vwc = NVME_CTRL_VWC_PRESENT;
+diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
+index ef52b1e..7d4b022 100644
+--- a/drivers/nvme/target/io-cmd.c
++++ b/drivers/nvme/target/io-cmd.c
+@@ -172,6 +172,37 @@ static void nvmet_execute_dsm(struct nvmet_req *req)
+ 	}
  }
  
-+static inline void nvme_setup_write_zeroes(struct nvme_ns *ns,
-+		struct request *req, struct nvme_command *cmnd)
++static void nvmet_execute_write_zeroes(struct nvmet_req *req)
 +{
-+	struct nvme_write_zeroes_cmd *write_zeroes = &cmnd->write_zeroes;
++	struct nvme_write_zeroes_cmd *write_zeroes = &req->cmd->write_zeroes;
++	struct bio *bio = NULL;
++	u16 status = NVME_SC_SUCCESS;
++	sector_t sector;
++	sector_t nr_sector;
 +
-+	memset(cmnd, 0, sizeof(*cmnd));
-+	write_zeroes->opcode = nvme_cmd_write_zeroes;
-+	write_zeroes->nsid = cpu_to_le32(ns->ns_id);
-+	write_zeroes->slba =
-+		cpu_to_le64(nvme_block_nr(ns, blk_rq_pos(req)));
-+	write_zeroes->length =
-+		cpu_to_le16((blk_rq_bytes(req) >> ns->lba_shift) - 1);
-+	write_zeroes->control = 0;
++	sector = le64_to_cpu(write_zeroes->slba) <<
++		(req->ns->blksize_shift - 9);
++	nr_sector = (((sector_t)le32_to_cpu(write_zeroes->length)) <<
++		(req->ns->blksize_shift - 9)) + 1;
++
++	if (__blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
++				GFP_KERNEL, &bio, false))
++		status = NVME_SC_INTERNAL | NVME_SC_DNR;
++
++	if (bio) {
++		bio->bi_private = req;
++		bio->bi_end_io = nvmet_bio_done;
++		if (status) {
++			bio->bi_error = -EIO;
++			bio_endio(bio);
++		} else {
++			submit_bio(bio);
++		}
++	} else {
++		nvmet_req_complete(req, status);
++	}
 +}
 +
- static inline void nvme_setup_rw(struct nvme_ns *ns, struct request *req,
- 		struct nvme_command *cmnd)
+ int nvmet_parse_io_cmd(struct nvmet_req *req)
  {
-@@ -325,6 +340,8 @@ int nvme_setup_cmd(struct nvme_ns *ns, struct request *req,
- 		nvme_setup_flush(ns, cmd);
- 	else if (req_op(req) == REQ_OP_DISCARD)
- 		ret = nvme_setup_discard(ns, req, cmd);
-+	else if (req_op(req) == REQ_OP_WRITE_ZEROES)
-+		nvme_setup_write_zeroes(ns, req, cmd);
- 	else
- 		nvme_setup_rw(ns, req, cmd);
- 
-@@ -943,6 +960,10 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
- 
- 	if (ns->ctrl->oncs & NVME_CTRL_ONCS_DSM)
- 		nvme_config_discard(ns);
-+
-+	if (ns->ctrl->oncs & NVME_CTRL_ONCS_WRITE_ZEROES)
-+		queue_flag_set_unlocked(QUEUE_FLAG_WRITE_ZEROES, ns->queue);
-+
- 	blk_mq_unfreeze_queue(disk->queue);
- }
- 
+ 	struct nvme_command *cmd = req->cmd;
+@@ -209,6 +240,9 @@ int nvmet_parse_io_cmd(struct nvmet_req *req)
+ 		req->data_len = le32_to_cpu(cmd->dsm.nr + 1) *
+ 			sizeof(struct nvme_dsm_range);
+ 		return 0;
++	case nvme_cmd_write_zeroes:
++		req->execute = nvmet_execute_write_zeroes;
++		return 0;
+ 	default:
+ 		pr_err("nvmet: unhandled cmd %d\n", cmd->common.opcode);
+ 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
 -- 
 1.8.3.1
