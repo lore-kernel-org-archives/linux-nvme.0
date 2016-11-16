@@ -1,8 +1,22 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 16 Nov 2016 18:48:48 +0200
-Subject: [PATCH 3/5] nvme.h: add Write Zeroes definitions
-In-Reply-To: <CAK0tqik5oMda+Avk17pR8rX_CS0vCpoPPp3LioEtcgyG3Ex8Ww@mail.gmail.com>
-References: <CAK0tqik5oMda+Avk17pR8rX_CS0vCpoPPp3LioEtcgyG3Ex8Ww@mail.gmail.com>
-Message-ID: <97ff04b0-8642-1f1f-55d3-a915c325cc3d@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 16 Nov 2016 18:08:55 +0100
+Subject: [PATCH] nvme/pci: Don't free queues on error
+In-Reply-To: <1479243386-4383-1-git-send-email-keith.busch@intel.com>
+References: <1479243386-4383-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20161116170855.GB5005@lst.de>
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+On Tue, Nov 15, 2016@03:56:26PM -0500, Keith Busch wrote:
+> The nvme_remove function tears down all allocated resources in the correct
+> order, so no need to free queues on error during initialization. This
+> fixes possible use-after-free errors when queues are still associated
+> with a blk-mq hctx.
+> 
+> Reported-by: Scott Bauer <scott.bauer at intel.com>
+> Tested-by: Scott Bauer <scott.bauer at intel.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+
+Looks good,
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+should this get a Cc to stable?
