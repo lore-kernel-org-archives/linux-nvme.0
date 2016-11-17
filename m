@@ -1,79 +1,61 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 17 Nov 2016 15:52:23 +0100
-Subject: [PATCH 3/3] add a disconnet man page
-In-Reply-To: <1479394343-4940-1-git-send-email-hch@lst.de>
-References: <1479394343-4940-1-git-send-email-hch@lst.de>
-Message-ID: <1479394343-4940-4-git-send-email-hch@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 17 Nov 2016 07:22:15 -0800
+Subject: [PATCH v1 1/7] Include: Add definitions for sed
+In-Reply-To: <1479338252-8777-2-git-send-email-scott.bauer@intel.com>
+References: <1479338252-8777-1-git-send-email-scott.bauer@intel.com>
+ <1479338252-8777-2-git-send-email-scott.bauer@intel.com>
+Message-ID: <20161117152215.GA20335@infradead.org>
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- Documentation/nvme-disconnect.txt | 58 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
- create mode 100644 Documentation/nvme-disconnect.txt
+> @@ -0,0 +1,58 @@
+> +/*
+> + * Copyright ? 2016 Intel Corporation
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a
+> + * copy of this software and associated documentation files (the "Software"),
+> + * to deal in the Software without restriction, including without limitation
+> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> + * and/or sell copies of the Software, and to permit persons to whom the
+> + * Software is furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice (including the next
+> + * paragraph) shall be included in all copies or substantial portions of the
+> + * Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+> + * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 
-diff --git a/Documentation/nvme-disconnect.txt b/Documentation/nvme-disconnect.txt
-new file mode 100644
-index 0000000..703d901
---- /dev/null
-+++ b/Documentation/nvme-disconnect.txt
-@@ -0,0 +1,58 @@
-+nvme-disconnect(1)
-+==================
-+
-+NAME
-+----
-+nvme-disconnect - Disonnect one or more Fabrics controller(s).
-+
-+SYNOPSIS
-+--------
-+[verse]
-+'nvme connect'
-+		[--nqn=<subnqn>           | -n <subnqn>]
-+		[--device=<device>        | -d <device>]
-+
-+DESCRIPTION
-+-----------
-+Disconnects and removes one or more existing NVMe over Fabrics controllers.
-+If the --nqn option is specified all controllers connecting to the Subsystem
-+identified by subnqn will be removed.  If the --device option is specified
-+the controller specified by the --device option will be removed.
-+
-+OPTIONS
-+-------
-+-n <subnqn>::
-+--nqn <subnqn>::
-+	Indicates that all controllers for the NVMe subsystems specified
-+	should be removed.
-+
-+-d <device>::
-+--device <device>::
-+	Indicates that the controller with the specified name should be
-+	removed.
-+
-+EXAMPLES
-+--------
-+* Disconnect all controllers for a subsystem named
-+nqn.2014-08.com.example:nvme:nvm-subsystem-sn-d78432:
-++
-+------------
-+# nvme disconnect --nqn=nqn.2014-08.com.example:nvme:nvm-subsystem-sn-d78432
-+------------
-+
-+* Disconnect the controller nvme4
-++
-+------------
-+# nvme disconnect --device=nvme4
-+------------
-+
-+------------
-+
-+SEE ALSO
-+--------
-+nvme-connect(1)
-+
-+
-+NVME
-+----
-+Part of the nvme-user suite
--- 
-2.1.4
+Can we get a proper GPLv2/GPLv2 license for this from the Intel
+layers?  While the license grant looks fine from a quick look I'd really
+prefer to have an official statement that this should be compatible
+with the kernel licensing.
+
+> +#define LINUX_OPAL_H
+> +
+> +#include <linux/sed.h>
+> +#include <linux/kernel.h>
+> +
+> +enum {
+> +	TCG_SECP_00 = 0,
+> +	TCG_SECP_01,
+> +};
+
+These are the SPC4 security protocol defintions, aren't they?
+Can you please add a separate include/scsi/sec_protocol.h header that
+defines just these and documents where they come from?
+
+Similarly for all the other constants it would be nice to refer to
+the spec they are from in the header.
+
+> +struct sec_ops {
+> +	int (*send)(void *data, __u16 SPSP, __u8 SECP,
+> +			void *buffer, size_t len,
+> +			sec_cb *cb, void *cb_data);
+> +	int (*recv)(void *data, __u16 SPSP, __u8 SECP,
+> +			void *buffer, size_t len,
+> +			sec_cb *cb, void *cb_data);
+
+please use lower case names for all arguments and variables.
