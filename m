@@ -1,61 +1,19 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 17 Nov 2016 07:22:15 -0800
-Subject: [PATCH v1 1/7] Include: Add definitions for sed
-In-Reply-To: <1479338252-8777-2-git-send-email-scott.bauer@intel.com>
+Date: Thu, 17 Nov 2016 07:38:11 -0800
+Subject: [PATCH v1 2/7] lib: Add Sed-opal library
+In-Reply-To: <1479338252-8777-3-git-send-email-scott.bauer@intel.com>
 References: <1479338252-8777-1-git-send-email-scott.bauer@intel.com>
- <1479338252-8777-2-git-send-email-scott.bauer@intel.com>
-Message-ID: <20161117152215.GA20335@infradead.org>
+ <1479338252-8777-3-git-send-email-scott.bauer@intel.com>
+Message-ID: <20161117153811.GA16761@infradead.org>
 
-> @@ -0,0 +1,58 @@
-> +/*
-> + * Copyright ? 2016 Intel Corporation
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining a
-> + * copy of this software and associated documentation files (the "Software"),
-> + * to deal in the Software without restriction, including without limitation
-> + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> + * and/or sell copies of the Software, and to permit persons to whom the
-> + * Software is furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice (including the next
-> + * paragraph) shall be included in all copies or substantial portions of the
-> + * Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-> + * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+I'm trying to understand the logic for how the OPAL state machine
+and how it interacts with the Security Send / Receive commands.
 
-Can we get a proper GPLv2/GPLv2 license for this from the Intel
-layers?  While the license grant looks fine from a quick look I'd really
-prefer to have an official statement that this should be compatible
-with the kernel licensing.
+It seems like it's implemented as an asynchronous state machine,
+but all the callers and up waiting synchronously for the result.
 
-> +#define LINUX_OPAL_H
-> +
-> +#include <linux/sed.h>
-> +#include <linux/kernel.h>
-> +
-> +enum {
-> +	TCG_SECP_00 = 0,
-> +	TCG_SECP_01,
-> +};
-
-These are the SPC4 security protocol defintions, aren't they?
-Can you please add a separate include/scsi/sec_protocol.h header that
-defines just these and documents where they come from?
-
-Similarly for all the other constants it would be nice to refer to
-the spec they are from in the header.
-
-> +struct sec_ops {
-> +	int (*send)(void *data, __u16 SPSP, __u8 SECP,
-> +			void *buffer, size_t len,
-> +			sec_cb *cb, void *cb_data);
-> +	int (*recv)(void *data, __u16 SPSP, __u8 SECP,
-> +			void *buffer, size_t len,
-> +			sec_cb *cb, void *cb_data);
-
-please use lower case names for all arguments and variables.
+How about making ->send and ->recv (or the merged method if you
+follow my earlier suggestion) synchronous, e.g. for nvme just
+switch from blk_execute_rq_nowait to blk_execute_rq for the
+execution and stop passing the cb and cb_data arguments which
+would not be needed with this scheme.
