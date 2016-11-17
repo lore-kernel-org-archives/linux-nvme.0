@@ -1,33 +1,41 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 17 Nov 2016 05:12:51 -0800
-Subject: [PATCH v1 0/7] SED OPAL Library
-In-Reply-To: <1479338252-8777-1-git-send-email-scott.bauer@intel.com>
+Date: Thu, 17 Nov 2016 05:16:51 -0800
+Subject: [PATCH v1 6/7] nvme: Implement SED Unlock from suspend
+In-Reply-To: <1479338252-8777-7-git-send-email-scott.bauer@intel.com>
 References: <1479338252-8777-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <20161117131251.GA15852@infradead.org>
+ <1479338252-8777-7-git-send-email-scott.bauer@intel.com>
+Message-ID: <20161117131651.GB15852@infradead.org>
 
-Hi Scott,
+> +{
+> +	struct opal_suspend_unlk ulk = { 0 };
+> +	struct nvme_ns *ns;
+> +	char diskname[DISK_NAME_LEN];
+> +	mutex_lock(&ctrl->namespaces_mutex);
+> +	if (list_empty(&ctrl->namespaces))
+> +		goto out_no_namespace;
+> +	ulk.data = ns =list_first_entry(&ctrl->namespaces, struct nvme_ns, list);
 
-I took a look at the code and here are some very high level comments:
+Simply grabbing a namespace without locking is broken.  That being
+said..
 
- - we only call into block_device_operations.sec_ops from the ioctl
-   handlers.  So instead of adding it to the block layer I'd rather
-   structure the code so that the driver itself calls a new common
-   blkdev_sed_ioctl handler implemented in lib/sed.c, which then gets
-   callbacks passed directly from the calling, similar to how
-   opal_unlock_from_suspend works.  And the callbacks might actually
-   be condensed to one I think, given that all potential
-   implementations would basically just dispatch to two
-   different opcode but otherwise use the same implementation.
- - talking about lib/sed*.c - I'd move it to block/
- - there are a lot of levels of indirection in the code, I think
-   we can condense them down a bit to basically just having the
-   main blkdev_sed_ioctl entry point, which should check
-   bdev_sec_capable first, and then dispatch to the security
-   types, probably through a little method table.
- - what's so special about request_user_key that it can't be inline
-   into the only caller but needs a separate file?
- - please don't use pointer indirections in your userspace ABI,
-   struct sed_key will be a pain to handle for 32-bit userspace
-   on 64-bit kernels.  I don't fully understand what the key_type
-   is for anyway - it seems like exactly one type is supported
-   per call anyway.
+> +	mutex_unlock(&ctrl->namespaces_mutex);
+> +	snprintf(diskname, sizeof(diskname), "%sn%d",
+> +		 dev_name(ctrl->device), ns->instance);
+> +	ulk.name = diskname;
+> +
+> +	ulk.ops.send = nvme_sec_send;
+> +	ulk.ops.recv = nvme_sec_recv;
+> +	opal_unlock_from_suspend(&ulk);
+
+passing a device _name_ to a lower level interface is even more
+broken.  The Security Send/Receive commands operate on the NVMe
+admin queue, and for SCSI and ATA that'd operate on the device.
+So what we need to do here is to pass an object that identifies
+the device - either the request queue if the opal code wants
+to use it directly, or an opaqueue object that allows us to find
+the nvme_ctrl.
+
+Looking a bit at the actual low-level OPAL code it seems
+like the driver should allocate the opal_dev structure when
+setting up the device, and we should always pass it in.  But
+maybe I need to understand that code a bit better first.
