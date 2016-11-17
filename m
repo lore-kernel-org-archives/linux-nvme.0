@@ -1,23 +1,39 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Wed, 16 Nov 2016 21:48:02 -0500
-Subject: [PATCH 2/5] block: add support for REQ_OP_WRITE_ZEROES
-In-Reply-To: <20161116175906.GA10050@localhost.localdomain> (Keith Busch's
- message of "Wed, 16 Nov 2016 12:59:07 -0500")
-References: <1479279039-25818-1-git-send-email-chaitanya.kulkarni@hgst.com>
- <1479279039-25818-3-git-send-email-chaitanya.kulkarni@hgst.com>
- <20161116175906.GA10050@localhost.localdomain>
-Message-ID: <yq1h976akkd.fsf@sermon.lab.mkp.net>
+From: ckulkarnilinux@gmail.com (chaitany kulkarni)
+Date: Thu, 17 Nov 2016 00:48:17 -0800
+Subject: [PATCH] nvmecli-tests : update the list of dependencies
+Message-ID: <CAK0tqinhd3jeasr5+3dtPFB149wREcBwwAw0UrpfNuqpE3Uheg@mail.gmail.com>
 
->>>>> "Keith" == Keith Busch <keith.busch at intel.com> writes:
+README file is updated with complete list of dependencies
+required to setup the environment for unitttests.
 
-Keith> Your maximum bi_size exceeds the 2-bytes an NVMe Write Zeroes
-Keith> command provides for the block count. Instead of having a simple
-Keith> queue flag for write zeroes support, have it take a max sectors
-Keith> value instead.
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
+---
+ tests/README | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-Yes, please. Make it a queue limit and make sure it is properly stacked.
+diff --git a/tests/README b/tests/README
+index 70686d8..686bd04 100644
+--- a/tests/README
++++ b/tests/README
+@@ -12,8 +12,17 @@ nvmetests
+ ------------------------------
 
-The rest looks sensible to me. I'll wire up the SCSI pieces.
+     1. Python(>= 2.7.5 or >= 3.3)
+-    2. nose2(Installation guide http://nose2.readthedocs.io/)
+-    3. nvme-cli(https://github.com/linux-nvme/nvme-cli.git)
++    2. nose(http://nose.readthedocs.io/en/latest/)
++    3. nose2(Installation guide http://nose2.readthedocs.io/)
++    4. pep8(https://pypi.python.org/pypi/setuptools-pep8)
++    5. flake8(https://pypi.python.org/pypi/flake8)
++    6. pylint(https://www.pylint.org/)
++    7. Epydoc(http://epydoc.sourceforge.net/)
++    8. nvme-cli(https://github.com/linux-nvme/nvme-cli.git)
++
++    Python package management system pip can be used to install most of the
++    listed packages(https://pip.pypa.io/en/stable/installing/) :-
++    $ pip install nose nose2 pep8 flake8 pylint epydoc
 
+ 2. Overview
+ -----------
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+1.9.1
