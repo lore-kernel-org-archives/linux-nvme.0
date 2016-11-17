@@ -1,39 +1,34 @@
-From: ckulkarnilinux@gmail.com (chaitany kulkarni)
-Date: Thu, 17 Nov 2016 00:48:17 -0800
-Subject: [PATCH] nvmecli-tests : update the list of dependencies
-Message-ID: <CAK0tqinhd3jeasr5+3dtPFB149wREcBwwAw0UrpfNuqpE3Uheg@mail.gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 17 Nov 2016 02:28:03 -0800
+Subject: [PATCH 5/5] nvmet: add support for the Write Zeroes command
+In-Reply-To: <6591bf30-6f66-c4e6-e304-9b580489a9b9@grimberg.me>
+References: <1479279039-25818-1-git-send-email-chaitanya.kulkarni@hgst.com>
+ <1479279039-25818-6-git-send-email-chaitanya.kulkarni@hgst.com>
+ <6591bf30-6f66-c4e6-e304-9b580489a9b9@grimberg.me>
+Message-ID: <20161117102803.GA8295@infradead.org>
 
-README file is updated with complete list of dependencies
-required to setup the environment for unitttests.
+On Wed, Nov 16, 2016@06:47:22PM +0200, Sagi Grimberg wrote:
+> > +	if (__blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
+> > +				GFP_KERNEL, &bio, false))
+> > +		status = NVME_SC_INTERNAL | NVME_SC_DNR;
+> > +
+> > +	if (bio) {
+> > +		bio->bi_private = req;
+> > +		bio->bi_end_io = nvmet_bio_done;
+> > +		if (status) {
+> 
+> if (status != NVME_SC_SUCCESS) can this happen?
+> can we end up with a bio if __blkdev_issue_zeroout
+> failed?
 
-Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
----
- tests/README | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+This can't happen, it's copy and paste from deallocate which operates on a
+range, and where it could happen.
 
-diff --git a/tests/README b/tests/README
-index 70686d8..686bd04 100644
---- a/tests/README
-+++ b/tests/README
-@@ -12,8 +12,17 @@ nvmetests
- ------------------------------
+> > +			bio->bi_error = -EIO;
+> > +			bio_endio(bio);
+> 
+> Something looks odd here, how does the status propagate in
+> this case?
 
-     1. Python(>= 2.7.5 or >= 3.3)
--    2. nose2(Installation guide http://nose2.readthedocs.io/)
--    3. nvme-cli(https://github.com/linux-nvme/nvme-cli.git)
-+    2. nose(http://nose.readthedocs.io/en/latest/)
-+    3. nose2(Installation guide http://nose2.readthedocs.io/)
-+    4. pep8(https://pypi.python.org/pypi/setuptools-pep8)
-+    5. flake8(https://pypi.python.org/pypi/flake8)
-+    6. pylint(https://www.pylint.org/)
-+    7. Epydoc(http://epydoc.sourceforge.net/)
-+    8. nvme-cli(https://github.com/linux-nvme/nvme-cli.git)
-+
-+    Python package management system pip can be used to install most of the
-+    listed packages(https://pip.pypa.io/en/stable/installing/) :-
-+    $ pip install nose nose2 pep8 flake8 pylint epydoc
-
- 2. Overview
- -----------
--- 
-1.9.1
+We'd only need the -EIO - but as said this can't actually happen and
+we can just remove it.
