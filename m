@@ -1,18 +1,19 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 17 Nov 2016 02:29:39 -0800
-Subject: [PATCH 1/5] block: add async variant of blkdev_issue_zeroout
-In-Reply-To: <1479279039-25818-2-git-send-email-chaitanya.kulkarni@hgst.com>
-References: <1479279039-25818-1-git-send-email-chaitanya.kulkarni@hgst.com>
- <1479279039-25818-2-git-send-email-chaitanya.kulkarni@hgst.com>
-Message-ID: <20161117102939.GC8295@infradead.org>
+Date: Thu, 17 Nov 2016 02:30:44 -0800
+Subject: [PATCH 3/5] nvme.h: add Write Zeroes definitions
+In-Reply-To: <CAK0tqik5oMda+Avk17pR8rX_CS0vCpoPPp3LioEtcgyG3Ex8Ww@mail.gmail.com>
+References: <CAK0tqik5oMda+Avk17pR8rX_CS0vCpoPPp3LioEtcgyG3Ex8Ww@mail.gmail.com>
+Message-ID: <20161117103044.GD8295@infradead.org>
 
-On Tue, Nov 15, 2016@10:50:35PM -0800, Chaitanya Kulkarni wrote:
-> Similar to __blkdev_issue_discard this variant allows submitting
-> the final bio asynchronously and chaining multiple ranges
-> into a single completion.
+On Tue, Nov 15, 2016@11:06:58PM -0800, chaitany kulkarni wrote:
+> Add the command structure, optional command set support (ONCS) bit and
+> a new error code for the Write Zeroes command.
 > 
 > Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
 
-Looks fine,
+Unlike the other patches this one looks white space damaged by a mail
+client (and it also arrived out of sequence).
+
+With the whitespaces fixed up this looks good:
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
