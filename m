@@ -1,41 +1,12 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 17 Nov 2016 05:16:51 -0800
-Subject: [PATCH v1 6/7] nvme: Implement SED Unlock from suspend
-In-Reply-To: <1479338252-8777-7-git-send-email-scott.bauer@intel.com>
-References: <1479338252-8777-1-git-send-email-scott.bauer@intel.com>
- <1479338252-8777-7-git-send-email-scott.bauer@intel.com>
-Message-ID: <20161117131651.GB15852@infradead.org>
+Date: Thu, 17 Nov 2016 05:34:04 -0800
+Subject: [PATCH nvme-cli v2 1/2] nvme-cli: Add nvme hostnqn generation
+ option
+In-Reply-To: <1479387288-13367-2-git-send-email-sagi@grimberg.me>
+References: <1479387288-13367-1-git-send-email-sagi@grimberg.me>
+ <1479387288-13367-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20161117133404.GA13756@infradead.org>
 
-> +{
-> +	struct opal_suspend_unlk ulk = { 0 };
-> +	struct nvme_ns *ns;
-> +	char diskname[DISK_NAME_LEN];
-> +	mutex_lock(&ctrl->namespaces_mutex);
-> +	if (list_empty(&ctrl->namespaces))
-> +		goto out_no_namespace;
-> +	ulk.data = ns =list_first_entry(&ctrl->namespaces, struct nvme_ns, list);
+Looks good,
 
-Simply grabbing a namespace without locking is broken.  That being
-said..
-
-> +	mutex_unlock(&ctrl->namespaces_mutex);
-> +	snprintf(diskname, sizeof(diskname), "%sn%d",
-> +		 dev_name(ctrl->device), ns->instance);
-> +	ulk.name = diskname;
-> +
-> +	ulk.ops.send = nvme_sec_send;
-> +	ulk.ops.recv = nvme_sec_recv;
-> +	opal_unlock_from_suspend(&ulk);
-
-passing a device _name_ to a lower level interface is even more
-broken.  The Security Send/Receive commands operate on the NVMe
-admin queue, and for SCSI and ATA that'd operate on the device.
-So what we need to do here is to pass an object that identifies
-the device - either the request queue if the opal code wants
-to use it directly, or an opaqueue object that allows us to find
-the nvme_ctrl.
-
-Looking a bit at the actual low-level OPAL code it seems
-like the driver should allocate the opal_dev structure when
-setting up the device, and we should always pass it in.  But
-maybe I need to understand that code a bit better first.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
