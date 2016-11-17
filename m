@@ -1,21 +1,10 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 17 Nov 2016 11:29:25 -0500
-Subject: [PATCH 1/3] update discover and connect-all man pages
-In-Reply-To: <1479394343-4940-2-git-send-email-hch@lst.de>
-References: <1479394343-4940-1-git-send-email-hch@lst.de>
- <1479394343-4940-2-git-send-email-hch@lst.de>
-Message-ID: <20161117162924.GI10050@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 17 Nov 2016 17:26:24 +0100
+Subject: nvme-cli fabrics man pages updates V2
+Message-ID: <1479399987-9220-1-git-send-email-hch@lst.de>
 
-On Thu, Nov 17, 2016@03:52:21PM +0100, Christoph Hellwig wrote:
-> Document the --host-traddr option, and add the missing description of
-> the --raw command to the connect-all man page.
+This completes the remaining missing pieces for documenting the
+fabrics commands.
 
-This isn't quite merged up to the latest. The short option for host-traddr
-needed to change since -s is already used.
- 
-> +		[--transport=<trtype>     | -t <trtype>]
-> +		[--traddr=<traddr>        | -a <traddr>]
-> +		[--trsvcid=<trsvcid>      | -s <trsvcid>]
-> +		[--host_traddr=<traddr>   | -s <traddr>]
-> +		[--hostnqn=<hostnqn>      | -q <hostnqn>]
-> +		[--raw=<filename>         | -r <filename>]
+Changes since V1:
+ - updated to latest master, doh
