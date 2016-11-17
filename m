@@ -1,86 +1,47 @@
-From: rafael.antognolli@intel.com (Rafael Antognolli)
-Date: Thu, 17 Nov 2016 10:21:36 -0800
-Subject: [PATCH v1 0/7] SED OPAL Library
-In-Reply-To: <20161117173613.GA13865@sbauer-Z170X-UD5>
-References: <1479338252-8777-1-git-send-email-scott.bauer@intel.com>
- <20161117131251.GA15852@infradead.org>
- <20161117173613.GA13865@sbauer-Z170X-UD5>
-Message-ID: <20161117182136.hju7dxe4bpb5xya2@nadine2.fso.intel.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Thu, 17 Nov 2016 10:56:31 -0800
+Subject: [PATCH] nvmecli-tests : update the list of dependencies
+In-Reply-To: <CAK0tqinhd3jeasr5+3dtPFB149wREcBwwAw0UrpfNuqpE3Uheg@mail.gmail.com>
+References: <CAK0tqinhd3jeasr5+3dtPFB149wREcBwwAw0UrpfNuqpE3Uheg@mail.gmail.com>
+Message-ID: <1479408991.3774.7.camel@linux.intel.com>
 
-On Thu, Nov 17, 2016@10:36:14AM -0700, Scott Bauer wrote:
-> On Thu, Nov 17, 2016@05:12:51AM -0800, Christoph Hellwig wrote:
-> > Hi Scott,
-> > 
-> > I took a look at the code and here are some very high level comments:
-> > 
-> >  - we only call into block_device_operations.sec_ops from the ioctl
-> >    handlers.  So instead of adding it to the block layer I'd rather
-> >    structure the code so that the driver itself calls a new common
-> >    blkdev_sed_ioctl handler implemented in lib/sed.c, which then gets
-> >    callbacks passed directly from the calling, similar to how
-> >    opal_unlock_from_suspend works.
+On Thu, 2016-11-17@00:48 -0800, chaitany kulkarni wrote:
+> README file is updated with complete list of dependencies
+> required to setup the environment for unitttests.
 > 
-> I want some further clarification, if you don't mind. We call sec_ops
-> inside the actual logic for the opal code. Which is only accessible via the
-> ioctls, is that what you were meaning?  When you say "the driver calls"
-> do you mean that the nvme/sata/et al drivers would implement some generic
-> block sed function that would be called via ioctl?
-> So the call chain would be:
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
+> ---
+> ?tests/README | 13 +++++++++++--
+> ?1 file changed, 11 insertions(+), 2 deletions(-)
 > 
-> Userland
->  block/ioctl  ops->blkdev_sed()
+> diff --git a/tests/README b/tests/README
+> index 70686d8..686bd04 100644
+> --- a/tests/README
+> +++ b/tests/README
+> @@ -12,8 +12,17 @@ nvmetests
+> ?------------------------------
 > 
->   nvme/et al (implements blkdev_sed()) which calls:
-> 
->    sed.c blkdev_sed_ioctl(with passed in combined fn to get data to controller)?
-> 
-> Is this what you were thinking, if so I agree it will alleviate a bunch of clutter
-> in block/ioctl.c. If this isn't what you were thinking please let me know.
-> 
-> 
-> 
-> 
-> >  - talking about lib/sed*.c - I'd move it to block/
-> 
-> I don't have any reservations about this but from a learning standpoint, why
->  block/ instead of lib/ ?
-> 
-> >  - there are a lot of levels of indirection in the code, I think
-> >    we can condense them down a bit to basically just having the
-> >    main blkdev_sed_ioctl entry point, which should check
-> >    bdev_sec_capable first, and then dispatch to the security
-> >    types, probably through a little method table.
-> 
-> If we go with what I described above I'm not sure if we'll even need
-> blkdev_sec_capable. If the driver(nvme/etc) implements blkdev_sed then we know it's
-> capable?
-> 
-> >  - what's so special about request_user_key that it can't be inline
-> >    into the only caller but needs a separate file?
-> 
-> Probably nothing I'll check with Rafael and see if there was a reason.
-> We do have another patch set which once all this new code lands lives in that file.
-> It can probably go elsewhere though.
-
-It's nothing special, but I just wanted to avoid polluting the sed
-implementation with keyring-only code. In the future, in theory, we
-could implement support for other types of keyring keys (right now only
-user keys are supported). So that code could go into this file too.
-
-But feel free to put it whetever you want and, if we happen to add other
-keys later, we could split it into its own file (if it makes sense).
-
-> >  - please don't use pointer indirections in your userspace ABI,
-> >    struct sed_key will be a pain to handle for 32-bit userspace
-> >    on 64-bit kernels.  I don't fully understand what the key_type
-> >    is for anyway - it seems like exactly one type is supported
-> >    per call anyway.
-> 
-> Sure good call... Now that you say this I see we didnt even implement the compat
-> ioctl properly for the indirect pointers.
-> We'll inline as much as we can.
-> 
+> ?????1. Python(>= 2.7.5 or >= 3.3)
+> -????2. nose2(Installation guide http://nose2.readthedocs.io/)
+> -????3. nvme-cli(https://github.com/linux-nvme/nvme-cli.git)
+> +????2. nose(http://nose.readthedocs.io/en/latest/)
+> +????3. nose2(Installation guide http://nose2.readthedocs.io/)
+> +????4. pep8(https://pypi.python.org/pypi/setuptools-pep8)
+> +????5. flake8(https://pypi.python.org/pypi/flake8)
+> +????6. pylint(https://www.pylint.org/)
+> +????7. Epydoc(http://epydoc.sourceforge.net/)
+> +????8. nvme-cli(https://github.com/linux-nvme/nvme-cli.git)
+> +
+> +????Python package management system pip can be used to install most
+> of the
+> +????listed packages(https://pip.pypa.io/en/stable/installing/) :-
+> +????$ pip install nose nose2 pep8 flake8 pylint epydoc
 > 
 
-Regards,
-Rafael
+Readme looks good, seems to address Keith's point on dependencies.
+
+Though Keith mentioned there was a 'doc' folder referenced in the
+README that appeared to be missing from the commit. ?Maybe that is a
+future patch?
+
+Reviewed-by: ?Jay Freyensee <james_p_freyensee at linux.intel.com>
