@@ -1,79 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 17 Nov 2016 17:26:27 +0100
-Subject: [PATCH 3/3] add a disconnect man page
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 17 Nov 2016 11:55:12 -0500
+Subject: nvme-cli fabrics man pages updates V2
 In-Reply-To: <1479399987-9220-1-git-send-email-hch@lst.de>
 References: <1479399987-9220-1-git-send-email-hch@lst.de>
-Message-ID: <1479399987-9220-4-git-send-email-hch@lst.de>
+Message-ID: <20161117165512.GA12377@localhost.localdomain>
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- Documentation/nvme-disconnect.txt | 58 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 58 insertions(+)
- create mode 100644 Documentation/nvme-disconnect.txt
+On Thu, Nov 17, 2016@05:26:24PM +0100, Christoph Hellwig wrote:
+> This completes the remaining missing pieces for documenting the
+> fabrics commands.
+> 
+> Changes since V1:
+>  - updated to latest master, doh
 
-diff --git a/Documentation/nvme-disconnect.txt b/Documentation/nvme-disconnect.txt
-new file mode 100644
-index 0000000..703d901
---- /dev/null
-+++ b/Documentation/nvme-disconnect.txt
-@@ -0,0 +1,58 @@
-+nvme-disconnect(1)
-+==================
-+
-+NAME
-+----
-+nvme-disconnect - Disonnect one or more Fabrics controller(s).
-+
-+SYNOPSIS
-+--------
-+[verse]
-+'nvme connect'
-+		[--nqn=<subnqn>           | -n <subnqn>]
-+		[--device=<device>        | -d <device>]
-+
-+DESCRIPTION
-+-----------
-+Disconnects and removes one or more existing NVMe over Fabrics controllers.
-+If the --nqn option is specified all controllers connecting to the Subsystem
-+identified by subnqn will be removed.  If the --device option is specified
-+the controller specified by the --device option will be removed.
-+
-+OPTIONS
-+-------
-+-n <subnqn>::
-+--nqn <subnqn>::
-+	Indicates that all controllers for the NVMe subsystems specified
-+	should be removed.
-+
-+-d <device>::
-+--device <device>::
-+	Indicates that the controller with the specified name should be
-+	removed.
-+
-+EXAMPLES
-+--------
-+* Disconnect all controllers for a subsystem named
-+nqn.2014-08.com.example:nvme:nvm-subsystem-sn-d78432:
-++
-+------------
-+# nvme disconnect --nqn=nqn.2014-08.com.example:nvme:nvm-subsystem-sn-d78432
-+------------
-+
-+* Disconnect the controller nvme4
-++
-+------------
-+# nvme disconnect --device=nvme4
-+------------
-+
-+------------
-+
-+SEE ALSO
-+--------
-+nvme-connect(1)
-+
-+
-+NVME
-+----
-+Part of the nvme-user suite
--- 
-2.1.4
+Thanks, applied them all. I did make a few minor changes to remove the older
+place holder entries in the doc that you've fixed. Looks correct to me,
+but let me know if there's any problem.
