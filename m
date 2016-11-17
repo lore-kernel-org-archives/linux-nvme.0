@@ -1,93 +1,33 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 17 Nov 2016 14:54:48 +0200
-Subject: [PATCH nvme-cli v2 2/2] nvme.spec/debian: Auto generate host nqn as
- part of install
-In-Reply-To: <1479387288-13367-1-git-send-email-sagi@grimberg.me>
-References: <1479387288-13367-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1479387288-13367-3-git-send-email-sagi@grimberg.me>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 17 Nov 2016 05:12:51 -0800
+Subject: [PATCH v1 0/7] SED OPAL Library
+In-Reply-To: <1479338252-8777-1-git-send-email-scott.bauer@intel.com>
+References: <1479338252-8777-1-git-send-email-scott.bauer@intel.com>
+Message-ID: <20161117131251.GA15852@infradead.org>
 
-The installation will generate a hostnqn and store it in
-/etc/nvme/hostnqn file (in case it doesn't exist).
-This file will be removed upon uninstallation (purge on for debian).
+Hi Scott,
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- debian/postinst | 20 ++++++++++++++++++++
- debian/postrm   | 10 ++++++++++
- nvme.spec.in    | 17 +++++++++++++++++
- 3 files changed, 47 insertions(+)
- create mode 100644 debian/postinst
- create mode 100644 debian/postrm
+I took a look at the code and here are some very high level comments:
 
-diff --git a/debian/postinst b/debian/postinst
-new file mode 100644
-index 000000000000..b258cf569c3e
---- /dev/null
-+++ b/debian/postinst
-@@ -0,0 +1,20 @@
-+#!/bin/sh
-+
-+set -e
-+
-+case "$1" in
-+    configure|install)
-+	if [ ! -f /etc/nvme/hostnqn ]; then
-+		install -D /dev/null /etc/nvme/hostnqn
-+		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
-+        fi
-+        ;;
-+
-+    upgrade|abort-upgrade)
-+        ;;
-+    *)
-+        echo "postinst called with unknown argument \`$1'" >&2
-+        exit 0
-+        ;;
-+esac
-+exit 0
-diff --git a/debian/postrm b/debian/postrm
-new file mode 100644
-index 000000000000..a7a724352327
---- /dev/null
-+++ b/debian/postrm
-@@ -0,0 +1,10 @@
-+#!/bin/sh
-+
-+if [ "$1" = "purge" ]; then
-+	if [ -d /etc/nvme ]; then
-+		rm -f /etc/nvme/hostnqn
-+		if [ ! -n "$(ls -A /etc/nvme)" ]; then
-+			rm -rf /etc/nvme
-+		fi
-+	fi
-+fi
-diff --git a/nvme.spec.in b/nvme.spec.in
-index a4718773a962..6efb28847005 100644
---- a/nvme.spec.in
-+++ b/nvme.spec.in
-@@ -33,6 +33,23 @@ make install DESTDIR=%{buildroot} PREFIX=/usr
- %clean
- rm -rf $RPM_BUILD_ROOT
- 
-+%post
-+if [ $1 = 1 ]; then # 1 : This package is being installed for the first time
-+	if [ ! -f /etc/nvme/hostnqn ]; then
-+		install -D /dev/null /etc/nvme/hostnqn
-+		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
-+        fi
-+fi
-+
-+%preun
-+if [ "$1" = "remove" ]; then
-+	if [ -d /etc/nvme ]; then
-+		rm -f /etc/nvme/hostnqn
-+		if [ ! -n "$(ls -A /etc/nvme)" ]; then
-+			rm -rf /etc/nvme
-+		fi
-+	fi
-+fi
- %changelog
- * Thu Oct 15 2015 Keith Busch <keith.busch at intel.com>
- - Initial RPM spec
--- 
-2.7.4
+ - we only call into block_device_operations.sec_ops from the ioctl
+   handlers.  So instead of adding it to the block layer I'd rather
+   structure the code so that the driver itself calls a new common
+   blkdev_sed_ioctl handler implemented in lib/sed.c, which then gets
+   callbacks passed directly from the calling, similar to how
+   opal_unlock_from_suspend works.  And the callbacks might actually
+   be condensed to one I think, given that all potential
+   implementations would basically just dispatch to two
+   different opcode but otherwise use the same implementation.
+ - talking about lib/sed*.c - I'd move it to block/
+ - there are a lot of levels of indirection in the code, I think
+   we can condense them down a bit to basically just having the
+   main blkdev_sed_ioctl entry point, which should check
+   bdev_sec_capable first, and then dispatch to the security
+   types, probably through a little method table.
+ - what's so special about request_user_key that it can't be inline
+   into the only caller but needs a separate file?
+ - please don't use pointer indirections in your userspace ABI,
+   struct sed_key will be a pain to handle for 32-bit userspace
+   on 64-bit kernels.  I don't fully understand what the key_type
+   is for anyway - it seems like exactly one type is supported
+   per call anyway.
