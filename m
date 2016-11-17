@@ -1,70 +1,21 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Thu, 17 Nov 2016 09:10:02 -0700
-Subject: [PATCH v1 1/7] Include: Add definitions for sed
-In-Reply-To: <20161117152215.GA20335@infradead.org>
-References: <1479338252-8777-1-git-send-email-scott.bauer@intel.com>
- <1479338252-8777-2-git-send-email-scott.bauer@intel.com>
- <20161117152215.GA20335@infradead.org>
-Message-ID: <20161117161001.GA13836@sbauer-Z170X-UD5>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 17 Nov 2016 11:29:25 -0500
+Subject: [PATCH 1/3] update discover and connect-all man pages
+In-Reply-To: <1479394343-4940-2-git-send-email-hch@lst.de>
+References: <1479394343-4940-1-git-send-email-hch@lst.de>
+ <1479394343-4940-2-git-send-email-hch@lst.de>
+Message-ID: <20161117162924.GI10050@localhost.localdomain>
 
-On Thu, Nov 17, 2016@07:22:15AM -0800, Christoph Hellwig wrote:
-> > @@ -0,0 +1,58 @@
-> > +/*
-> > + * Copyright ? 2016 Intel Corporation
-> > + *
-> > + * Permission is hereby granted, free of charge, to any person obtaining a
-> > + * copy of this software and associated documentation files (the "Software"),
-> > + * to deal in the Software without restriction, including without limitation
-> > + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
-> > + * and/or sell copies of the Software, and to permit persons to whom the
-> > + * Software is furnished to do so, subject to the following conditions:
-> > + *
-> > + * The above copyright notice and this permission notice (including the next
-> > + * paragraph) shall be included in all copies or substantial portions of the
-> > + * Software.
-> > + *
-> > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-> > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
-> > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-> > + * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-> 
-> Can we get a proper GPLv2/GPLv2 license for this from the Intel
-> layers?  While the license grant looks fine from a quick look I'd really
-> prefer to have an official statement that this should be compatible
-> with the kernel licensing.
-> 
-Sure, I will send them some mail to see if we can change them to something else.
+On Thu, Nov 17, 2016@03:52:21PM +0100, Christoph Hellwig wrote:
+> Document the --host-traddr option, and add the missing description of
+> the --raw command to the connect-all man page.
 
-
-> > +#define LINUX_OPAL_H
-> > +
-> > +#include <linux/sed.h>
-> > +#include <linux/kernel.h>
-> > +
-> > +enum {
-> > +	TCG_SECP_00 = 0,
-> > +	TCG_SECP_01,
-> > +};
-> 
-> These are the SPC4 security protocol defintions, aren't they?
-> Can you please add a separate include/scsi/sec_protocol.h header that
-> defines just these and documents where they come from?
-> 
-> Similarly for all the other constants it would be nice to refer to
-> the spec they are from in the header.
+This isn't quite merged up to the latest. The short option for host-traddr
+needed to change since -s is already used.
  
-Sure I can specify what spec/location they're pulled from.
-
-> > +struct sec_ops {
-> > +	int (*send)(void *data, __u16 SPSP, __u8 SECP,
-> > +			void *buffer, size_t len,
-> > +			sec_cb *cb, void *cb_data);
-> > +	int (*recv)(void *data, __u16 SPSP, __u8 SECP,
-> > +			void *buffer, size_t len,
-> > +			sec_cb *cb, void *cb_data);
-> 
-> please use lower case names for all arguments and variables.
-I think we chose the uppercase because that's how it was in the specification,
-none the less we'll swap them up.
+> +		[--transport=<trtype>     | -t <trtype>]
+> +		[--traddr=<traddr>        | -a <traddr>]
+> +		[--trsvcid=<trsvcid>      | -s <trsvcid>]
+> +		[--host_traddr=<traddr>   | -s <traddr>]
+> +		[--hostnqn=<hostnqn>      | -q <hostnqn>]
+> +		[--raw=<filename>         | -r <filename>]
