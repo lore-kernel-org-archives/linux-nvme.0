@@ -1,22 +1,49 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Thu, 17 Nov 2016 21:22:33 -0500
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 17 Nov 2016 23:46:15 -0800
 Subject: [PATCH v2 2/5] block: add support for REQ_OP_WRITE_ZEROES
 In-Reply-To: <1479421031-6060-1-git-send-email-ckulkarnilinux@gmail.com>
- (Chaitanya Kulkarni's message of "Thu, 17 Nov 2016 14:17:11 -0800")
 References: <1479421031-6060-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <yq11sy97cie.fsf@sermon.lab.mkp.net>
+Message-ID: <20161118074615.GA9077@infradead.org>
 
->>>>> "Chaitanya" == Chaitanya Kulkarni <ckulkarnilinux at gmail.com> writes:
+On Thu, Nov 17, 2016@02:17:11PM -0800, Chaitanya Kulkarni wrote:
+> From: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
+> 
+> This adds a new block layer operation to zero out a range of
+> LBAs. This allows to implement zeroing for devices that don't use
+> either discard with a predictable zero pattern or WRITE SAME of zeroes.
+> The prominent example of that is NVMe with the Write Zeroes command,
+> but in the future this should also help with improving the way
+> zeroing discards work.
+> 
+> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
 
-Chaitanya> This adds a new block layer operation to zero out a range of
-Chaitanya> LBAs. This allows to implement zeroing for devices that don't
-Chaitanya> use either discard with a predictable zero pattern or WRITE
-Chaitanya> SAME of zeroes.  The prominent example of that is NVMe with
-Chaitanya> the Write Zeroes command, but in the future this should also
-Chaitanya> help with improving the way zeroing discards work.
+I think you'll need to resend the whole series so that nvme can set
+the maximum discard sectors value.
 
-Looks good. Please also export the queue limit in blk-sysfs.c and create
-a suitable entry in Documentation/ABI/testing/sysfs-block.
+> @@ -575,9 +575,10 @@ static inline bool wbt_should_throttle(struct rq_wb *rwb, struct bio *bio)
+>  	const int op = bio_op(bio);
+>  
+>  	/*
+> -	 * If not a WRITE (or a discard), do nothing
+> +	 * If not a WRITE (or a discard or write zeroes), do nothing
+>  	 */
+> -	if (!(op == REQ_OP_WRITE || op == REQ_OP_DISCARD))
+> +	if (!(op == REQ_OP_WRITE || op == REQ_OP_DISCARD ||
+> +				op == REQ_OP_WRITE_ZEROES))
+>  		return false;
 
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Jens: should we really throttle for discard or write zeroes here?
+Those aren't really writeback driven..
+
+> +static inline unsigned int bdev_write_zeroes(struct block_device *bdev)
+> +{
+> +	struct request_queue *q = bdev_get_queue(bdev);
+> +
+> +	if (q)
+> +		return q->limits.max_write_zeroes_sectors;
+> +
+> +	return 0;
+
+If this returns a sector value I'd name it bdev_write_zeroes_sectors.
+
+Otherwise this looks great.
