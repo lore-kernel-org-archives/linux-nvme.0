@@ -1,22 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 18 Nov 2016 10:41:29 -0500
-Subject: [PATCH v2 2/5] block: add support for REQ_OP_WRITE_ZEROES
-In-Reply-To: <1479421031-6060-1-git-send-email-ckulkarnilinux@gmail.com>
-References: <1479421031-6060-1-git-send-email-ckulkarnilinux@gmail.com>
-Message-ID: <20161118154129.GE12377@localhost.localdomain>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Fri, 18 Nov 2016 22:12:00 -0800
+Subject: [PATCH 0/5] ahci: nvme remap support
+In-Reply-To: <20161115185207.GB5854@lst.de>
+References: <147709592108.3733.7194541797066785254.stgit@dwillia2-desk3.amr.corp.intel.com>
+ <20161115185207.GB5854@lst.de>
+Message-ID: <CAPcyv4ge6OO+N619t48m_aCNSEX1aEipP18E6_fvurmu5nr40w@mail.gmail.com>
 
-On Thu, Nov 17, 2016@02:17:11PM -0800, Chaitanya Kulkarni wrote:
-> From: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
-> 
-> This adds a new block layer operation to zero out a range of
-> LBAs. This allows to implement zeroing for devices that don't use
-> either discard with a predictable zero pattern or WRITE SAME of zeroes.
-> The prominent example of that is NVMe with the Write Zeroes command,
-> but in the future this should also help with improving the way
-> zeroing discards work.
-> 
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
-> ---
+On Tue, Nov 15, 2016@10:52 AM, Christoph Hellwig <hch@lst.de> wrote:
+> As it's been a few weeks since this initial posting:  What's the
+> status of either getting the magic chipset handshake mode published
+> to take the chipset out of this degraded mode, or implementing a bridge
+> driver like VMD?
 
-I think we also to assign queue_limits for stacked devices in
-blk_stack_limits. Otherwise, looks good.
+The setting is done via write-once registers (once per reset), so
+there is no mechanism for an OS to undo it.
+
+> It seems devices supporting this "slow down the devices and make life
+> hell for the OS" mode are getting more common, so we'll have to do
+> something about it.
+
+To my knowledge all platforms that ship this configuration now already
+ship a BIOS, or have an updated BIOS available, that allows the
+platform to be placed into AHCI mode.
+
+Setting the controller to AHCI mode is the best option for running
+Linux on these systems.
