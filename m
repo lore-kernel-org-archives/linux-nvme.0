@@ -1,29 +1,32 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 21 Nov 2016 22:45:45 +0200
-Subject: [PATCH 2/2] nvme-rdma: align to generic ib_event logging helper
-In-Reply-To: <1479761145-13264-1-git-send-email-maxg@mellanox.com>
-References: <1479761145-13264-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1479761145-13264-2-git-send-email-maxg@mellanox.com>
+Date: Mon, 21 Nov 2016 22:45:44 +0200
+Subject: [PATCH 1/2] nvmet-rdma: align to generic ib_event logging helper
+Message-ID: <1479761145-13264-1-git-send-email-maxg@mellanox.com>
 
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/host/rdma.c |    4 +++-
+ drivers/nvme/target/rdma.c |    4 +++-
  1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 3d25add..bad4ce1 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -241,7 +241,9 @@ static void nvme_rdma_free_ring(struct ib_device *ibdev,
- 
- static void nvme_rdma_qp_event(struct ib_event *event, void *context)
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 005ef5d..80650e2 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1124,12 +1124,14 @@ static void nvmet_rdma_qp_event(struct ib_event *event, void *priv)
  {
--	pr_debug("QP event %d\n", event->event);
-+	pr_err("QP event %s (%d)\n",
+ 	struct nvmet_rdma_queue *queue = priv;
+ 
++	pr_err("received IB QP event: %s (%d)\n",
 +	       ib_event_msg(event->event), event->event);
 +
+ 	switch (event->event) {
+ 	case IB_EVENT_COMM_EST:
+ 		rdma_notify(queue->cm_id, event->event);
+ 		break;
+ 	default:
+-		pr_err("received unrecognized IB QP event %d\n", event->event);
+ 		break;
+ 	}
  }
- 
- static int nvme_rdma_wait_for_cm(struct nvme_rdma_queue *queue)
 -- 
 1.7.1
