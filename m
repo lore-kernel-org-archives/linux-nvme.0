@@ -1,30 +1,34 @@
-From: sbates@raithlin.com (Stephen Bates)
-Date: Mon, 21 Nov 2016 20:45:13 -0600
-Subject: Introducing Unit test framework based on nvme-cli
-In-Reply-To: <20161117160511.GH10050@localhost.localdomain>
-References: <1477550917-6472-1-git-send-email-chaitanya.kulkarni@hgst.com>
- <20161116175828.GA1207@infradead.org>
- <20161116183522.GB10050@localhost.localdomain>
- <1479325410.31236.0.camel@linux.intel.com>
- <20161116213733.GE10050@localhost.localdomain>
- <257502b9-3373-c6aa-cbf4-a0a276d2dd59@grimberg.me>
- <20161117160511.GH10050@localhost.localdomain>
-Message-ID: <ca55487bd73a1f999146a99c66d3e0c8.squirrel@webmail.raithlin.com>
+From: Tomita.Haruo@toshiba-sol.co.jp (Tomita.Haruo@toshiba-sol.co.jp)
+Date: Tue, 22 Nov 2016 05:32:42 +0000
+Subject: [PATCH] Use rsps_lock in nvmet_rdma_free_rsp
+Message-ID: <8528f5ceac0745759549bc25fe17228c@TGXML382.toshiba.local>
 
->>
->> Usually when building a package we don't want to run tests
->> that require nvme devices. So until we can classify to tests that have
->> requirements to not run unless some env variables are set we need:
->
-> Okay, I see. Thanks for the update, I've applied the fix with
-> Christoph's review.
->
->
+Hi Christoph and Sagi,
 
-Hmmm I *thought* I had commented on this series and sent a reply to
-linux-block. Ah well, my points were minor and I am glad this has made it
-into name-cli.
+Without using rsps_lock in nvmet_rdma_free_rsp,  free_list is being operated.
+The following patch, this issue fixed. Is this patch right?
 
-Cheers
+rdma.c |    3 +++
+ 1 file changed, 3 insertions(+)
 
-Stephen
+--- linux-4.9-rc6/drivers/nvme/target/rdma.c.org        2016-11-21 06:52:19.000000000 +0900
++++ linux-4.9-rc6/drivers/nvme/target/rdma.c    2016-11-22 14:04:59.387510444 +0900
+@@ -423,11 +423,14 @@ static void nvmet_rdma_free_rsps(struct
+ {
+        struct nvmet_rdma_device *ndev = queue->dev;
+        int i, nr_rsps = queue->recv_queue_size * 2;
++       unsigned long flags;
+
+        for (i = 0; i < nr_rsps; i++) {
++               spin_lock_irqsave(&queue->rsps_lock, flags);
+                struct nvmet_rdma_rsp *rsp = &queue->rsps[i];
+
+                list_del(&rsp->free_list);
++               spin_unlock_irqrestore(&queue->rsps_lock, flags);
+                nvmet_rdma_free_rsp(ndev, rsp);
+        }
+        kfree(queue->rsps);
+
+thanks
+--
+Haruo
