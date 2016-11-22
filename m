@@ -1,32 +1,31 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 22 Nov 2016 16:43:00 +0200
-Subject: [PATCH v2 2/2] nvme-rdma: align to generic ib_event logging helper
-In-Reply-To: <1479825391-10389-3-git-send-email-maxg@mellanox.com>
-References: <1479825391-10389-1-git-send-email-maxg@mellanox.com>
- <1479825391-10389-3-git-send-email-maxg@mellanox.com>
-Message-ID: <325bd83e-8b6e-a2af-4bc4-878e952a0531@mellanox.com>
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 22 Nov 2016 08:53:00 -0700
+Subject: [PATCH 00/12] block: cleanup direct access to bvec table
+In-Reply-To: <1478865957-25252-1-git-send-email-tom.leiming@gmail.com>
+References: <1478865957-25252-1-git-send-email-tom.leiming@gmail.com>
+Message-ID: <167c2511-349f-a8e6-17d1-f7ce438b2f14@fb.com>
 
-sorry, but I don't know why it send the patch-set twice.
+On 11/11/2016 05:05 AM, Ming Lei wrote:
+> Hi,
+>
+> This patchset cleans up direct access to bvec table.
+>
+> The 1st patch passes bvec table to bio_init(), so that
+> direct access to bvec table in bio initialization is avoided.
+>
+> For other patches, most of them uses bio_add_page()
+> to replace hardcode style of adding page to bvec,
+> and others avoids to access bio->bi_vcnt.
+>
+> The most special one is to use bvec iterator helpers
+> to implement .get_page/.next_page for dm-io.c
+>
+> One big motivation is to prepare for supporting multipage
+> bvec, but this patchset is one good cleanup too even not
+> for that purpose.
 
-On 11/22/2016 4:36 PM, Max Gurtovoy wrote:
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> ---
->  drivers/nvme/host/rdma.c |    4 +++-
->  1 files changed, 3 insertions(+), 1 deletions(-)
->
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 3d25add..9c34da5 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -241,7 +241,9 @@ static void nvme_rdma_free_ring(struct ib_device *ibdev,
->
->  static void nvme_rdma_qp_event(struct ib_event *event, void *context)
->  {
-> -	pr_debug("QP event %d\n", event->event);
-> +	pr_debug("QP event %s (%d)\n",
-> +		 ib_event_msg(event->event), event->event);
-> +
->  }
->
->  static int nvme_rdma_wait_for_cm(struct nvme_rdma_queue *queue)
->
+I've added the series, except 6-8, the dm parts. I updated some of the
+descriptions/subjects to read a little better.
+
+-- 
+Jens Axboe
