@@ -1,32 +1,23 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 21 Nov 2016 22:45:44 +0200
-Subject: [PATCH 1/2] nvmet-rdma: align to generic ib_event logging helper
-Message-ID: <1479761145-13264-1-git-send-email-maxg@mellanox.com>
+From: sbates@raithlin.com (Stephen Bates)
+Date: Mon, 21 Nov 2016 20:43:40 -0600
+Subject: [PATCH] nvme: use __iowrite64_copy for SQs in the CMB
+In-Reply-To: <20161121091411.GA10123@infradead.org>
+References: <CACtDJFcvFUxCPYyy2de9v-0mrngQJ6+T57dc6K+BD04APk2nKA@mail.gmail.com>
+ <CACtDJFc2DwsHfVp5BKZLNrJ-EUoJjMCRr1tu9BR4gNyyzT1DHQ@mail.gmail.com>
+ <20161121091411.GA10123@infradead.org>
+Message-ID: <aa517f417f04c082415dcb004ef77d94.squirrel@webmail.raithlin.com>
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/target/rdma.c |    4 +++-
- 1 files changed, 3 insertions(+), 1 deletions(-)
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 005ef5d..80650e2 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1124,12 +1124,14 @@ static void nvmet_rdma_qp_event(struct ib_event *event, void *priv)
- {
- 	struct nvmet_rdma_queue *queue = priv;
- 
-+	pr_err("received IB QP event: %s (%d)\n",
-+	       ib_event_msg(event->event), event->event);
-+
- 	switch (event->event) {
- 	case IB_EVENT_COMM_EST:
- 		rdma_notify(queue->cm_id, event->event);
- 		break;
- 	default:
--		pr_err("received unrecognized IB QP event %d\n", event->event);
- 		break;
- 	}
- }
--- 
-1.7.1
+>>
+>> Any comments on this patch? I didn't receive any so far.
+>>
+>
+> Please explain why we would want to apply the patch, e.g. without
+> it some devices may be broken, or that on a particular device you get much
+> better performance (including numbers and an explanation of the setup).
+>
+
+Some PCIe devices have requirements on the alignment of PCIe writes into
+them. Would this patch help with some of those devices?
+
+Stephen
