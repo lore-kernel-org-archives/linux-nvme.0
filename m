@@ -1,31 +1,30 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Tue, 22 Nov 2016 08:53:00 -0700
-Subject: [PATCH 00/12] block: cleanup direct access to bvec table
-In-Reply-To: <1478865957-25252-1-git-send-email-tom.leiming@gmail.com>
-References: <1478865957-25252-1-git-send-email-tom.leiming@gmail.com>
-Message-ID: <167c2511-349f-a8e6-17d1-f7ce438b2f14@fb.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Tue, 22 Nov 2016 08:23:16 -0800
+Subject: [PATCH v2 0/2] align to generic ib_event logging helper
+In-Reply-To: <1479825391-10389-1-git-send-email-maxg@mellanox.com>
+References: <1479825391-10389-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1479831796.18270.3.camel@linux.intel.com>
 
-On 11/11/2016 05:05 AM, Ming Lei wrote:
-> Hi,
->
-> This patchset cleans up direct access to bvec table.
->
-> The 1st patch passes bvec table to bio_init(), so that
-> direct access to bvec table in bio initialization is avoided.
->
-> For other patches, most of them uses bio_add_page()
-> to replace hardcode style of adding page to bvec,
-> and others avoids to access bio->bi_vcnt.
->
-> The most special one is to use bvec iterator helpers
-> to implement .get_page/.next_page for dm-io.c
->
-> One big motivation is to prepare for supporting multipage
-> bvec, but this patchset is one good cleanup too even not
-> for that purpose.
+On Tue, 2016-11-22@16:36 +0200, Max Gurtovoy wrote:
+> Changes since V1:
+> ? - updated debug level to pr_debug
+> 
+> Max Gurtovoy (2):
+> ? nvmet-rdma: align to generic ib_event logging helper
+> ? nvme-rdma: align to generic ib_event logging helper
+> 
+> ?drivers/nvme/host/rdma.c???|????4 +++-
+> ?drivers/nvme/target/rdma.c |????4 +++-
+> ?2 files changed, 6 insertions(+), 2 deletions(-)
 
-I've added the series, except 6-8, the dm parts. I updated some of the
-descriptions/subjects to read a little better.
+Seems fine but I'm curious why the extra debugging is needed to the
+point it warrants a change to the Linux kernel? ?Why does the default
+print case need to be moved such that there will be a debug message
+printed for each event instead of the unmatched default event?
 
--- 
-Jens Axboe
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
