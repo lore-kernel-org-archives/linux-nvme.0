@@ -1,24 +1,31 @@
 From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Wed, 23 Nov 2016 10:01:10 -0800
-Subject: [PATCH 0/3] nvmetcli manpage and misc tweaks
-Message-ID: <1479924073-6952-1-git-send-email-james_p_freyensee@linux.intel.com>
+Date: Wed, 23 Nov 2016 10:01:12 -0800
+Subject: [PATCH 2/3] nvmetcli: add python-six to rpm package building
+In-Reply-To: <1479924073-6952-1-git-send-email-james_p_freyensee@linux.intel.com>
+References: <1479924073-6952-1-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <1479924073-6952-3-git-send-email-james_p_freyensee@linux.intel.com>
 
-Adding proper documentation solution to nvmetcli.
+>From experience, if python-six isn't installed on a Fedora
+system, hard-to-decipher errors can occur trying to use
+nvmetcli.
 
-Jay Freyensee (3):
-  nvmetcli: Adding manpage/html generation
-  nvmetcli: add python-six to rpm package building
-  nvmetcli: remove README file
+Signed-off-by: Jay Freyensee <james.p.freyensee at intel.com>
+---
+ rpm/nvmetcli.spec.tmpl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- Documentation/Makefile     |  21 ++++
- Documentation/nvmetcli.txt | 237 +++++++++++++++++++++++++++++++++++++++++++++
- Makefile                   |  15 ++-
- README                     | 173 ---------------------------------
- rpm/nvmetcli.spec.tmpl     |   2 +-
- 5 files changed, 272 insertions(+), 176 deletions(-)
- create mode 100644 Documentation/Makefile
- create mode 100644 Documentation/nvmetcli.txt
- delete mode 100644 README
-
+diff --git a/rpm/nvmetcli.spec.tmpl b/rpm/nvmetcli.spec.tmpl
+index 03667d7..1ffdbe6 100644
+--- a/rpm/nvmetcli.spec.tmpl
++++ b/rpm/nvmetcli.spec.tmpl
+@@ -9,7 +9,7 @@ Source:         nvmetcli-%{version}.tar.gz
+ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-rpmroot
+ BuildArch:      noarch
+ BuildRequires:  python-devel python-setuptools systemd-units
+-Requires:	python-configshell python-kmod
++Requires:	python-configshell python-kmod python-six
+ Requires(post): systemd
+ Requires(preun): systemd
+ Requires(postun): systemd
 -- 
 2.7.4
