@@ -1,23 +1,28 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 24 Nov 2016 23:48:07 -0800
-Subject: [PATCH v3 1/2] nvmet-rdma: align to generic ib_event logging
- helper
-In-Reply-To: <9e7a1e2a-aa02-e6b1-4821-1b47c795f743@mellanox.com>
-References: <1479893928-32445-1-git-send-email-maxg@mellanox.com>
- <1479893928-32445-2-git-send-email-maxg@mellanox.com>
- <1479925553.5486.4.camel@linux.intel.com>
- <9e7a1e2a-aa02-e6b1-4821-1b47c795f743@mellanox.com>
-Message-ID: <20161125074807.GC1569@infradead.org>
+Date: Thu, 24 Nov 2016 23:53:54 -0800
+Subject: [PATCH] Use rsps_lock in nvmet_rdma_free_rsp
+In-Reply-To: <923efced268f42a19eb96d593894d141@TGXML382.toshiba.local>
+References: <781668ff60b040b3a56e104f489c3ea9@TGXML382.toshiba.local>
+ <20161122074153.GC5497@infradead.org>
+ <923efced268f42a19eb96d593894d141@TGXML382.toshiba.local>
+Message-ID: <20161125075354.GA14095@infradead.org>
 
-On Thu, Nov 24, 2016@01:19:11PM +0200, Max Gurtovoy wrote:
-> in that case you'll get something like:
+On Fri, Nov 25, 2016@05:00:26AM +0000, Tomita.Haruo@toshiba-sol.co.jp wrote:
+> Hi Christoph,
 > 
-> "nvmet_rdma: received unrecognized IB QP event: last WQE reached (16)"
+> Thank you for your reply.
 > 
-> instead of
+> > what are you trying to protect against during device teardown?
 > 
-> "nvmet_rdma: received IB QP event: last WQE reached (16)"
-> 
-> Sagi/Christoph, what do you think ?
+> I'm trying to protect nvmet_rdma_get_rsp and nvmet_rdma_put_rsp.
+> In these functions, queue->free_rsps is protected by rsps_lock.
+> rsp->free_list is also protected at the same time.
 
-I don't care, it's only a debug printk anyway.
+If we can invoke these functions concurrently with nvmet_rdma_free_rsp
+we have sever life time rule error.  Under what circumstances do you
+see such concurrency?
+
+> I am investigating whether there is a race issue on the target of nvme.
+> For another function, I also think of the following patch.
+
+What do you try to protect against with this patch?
