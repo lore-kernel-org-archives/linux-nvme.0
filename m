@@ -1,54 +1,105 @@
-From: Tomita.Haruo@toshiba-sol.co.jp (Tomita.Haruo@toshiba-sol.co.jp)
-Date: Fri, 25 Nov 2016 05:00:26 +0000
-Subject: [PATCH] Use rsps_lock in nvmet_rdma_free_rsp
-In-Reply-To: <20161122074153.GC5497@infradead.org>
-References: <781668ff60b040b3a56e104f489c3ea9@TGXML382.toshiba.local>
- <20161122074153.GC5497@infradead.org>
-Message-ID: <923efced268f42a19eb96d593894d141@TGXML382.toshiba.local>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 25 Nov 2016 08:43:46 +0100
+Subject: [PATCH 1/3] nvmetcli: Adding manpage/html generation
+In-Reply-To: <1479924073-6952-2-git-send-email-james_p_freyensee@linux.intel.com>
+References: <1479924073-6952-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <1479924073-6952-2-git-send-email-james_p_freyensee@linux.intel.com>
+Message-ID: <20161125074346.GA753@lst.de>
 
-Hi Christoph,
+Hi Jay,
 
-Thank you for your reply.
+thanks a lot for writing this man page!  I have a few comments below,
+but otherwise this looks really great.
 
-> what are you trying to protect against during device teardown?
+> +NAME
+> +----
+> +nvmetcli - Configure NVMe Target for NVMe-over-Fabrics solution.
 
-I'm trying to protect nvmet_rdma_get_rsp and nvmet_rdma_put_rsp.
-In these functions, queue->free_rsps is protected by rsps_lock.
-rsp->free_list is also protected at the same time.
+I'd just say "Configure the NVMe-over-Fabrics Target".
 
-I am investigating whether there is a race issue on the target of nvme.
-For another function, I also think of the following patch.
+> +[verse]
+> +nvmetcli
+> +nvmetcli [cmd] [file]
 
---- linux-4.9-rc6/drivers/nvme/target/rdma.c.orig       2016-11-25 06:51:06.000000000 +0900
-+++ linux-4.9-rc6/drivers/nvme/target/rdma.c    2016-11-25 06:55:53.000000000 +0900
-@@ -724,6 +724,7 @@ static void nvmet_rdma_recv_done(struct
-                container_of(wc->wr_cqe, struct nvmet_rdma_cmd, cqe);
-        struct nvmet_rdma_queue *queue = cq->cq_context;
-        struct nvmet_rdma_rsp *rsp;
-+       unsigned long flags;
+Should we just list the three actual command here?
 
-        if (unlikely(wc->status != IB_WC_SUCCESS)) {
-                if (wc->status != IB_WC_WR_FLUSH_ERR) {
-@@ -747,10 +748,9 @@ static void nvmet_rdma_recv_done(struct
-        rsp->flags = 0;
-        rsp->req.cmd = cmd->nvme_cmd;
+> +DESCRIPTION
+> +-----------
+> +*nvmetcli* is a python-based program used for viewing, editing, saving,
 
-+       spin_lock_irqsave(&queue->state_lock, flags);
-        if (unlikely(queue->state != NVMET_RDMA_Q_LIVE)) {
--               unsigned long flags;
+I'd drop python here - that's an implementation detail not interesting
+to the actual user reading the man page.
 
--               spin_lock_irqsave(&queue->state_lock, flags);
-                if (queue->state == NVMET_RDMA_Q_CONNECTING)
-                        list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
-                else
-@@ -758,6 +758,7 @@ static void nvmet_rdma_recv_done(struct
-                spin_unlock_irqrestore(&queue->state_lock, flags);
-                return;
-        }
-+       spin_unlock_irqrestore(&queue->state_lock, flags);
 
-        nvmet_rdma_handle_command(queue, rsp);
- }
+> It enables an administrator to assign local
+> +storage resources backed by either local NVMe devices, OS files, or
+> +system volumes and export them to remote systems via network fabrics
+> +based on the NVMe-over-Fabrics specification from http://www.nvmexpress.org.
 
---
-Haruo
+I'd something like "It allows to export a local block device (including,
+but not limited to a NVMe devices).."  We can't really export files
+directly but need to turn them into a block device first using the loop
+device, and NVMe devices aren't really treated special, although they
+are of course worse mentioning.
+
+> +nvmetcli manages only one NVMe Target as there is only one Linux kernel
+> +NVMe Target per system.
+
+Can we just remove this sentence?  As per the spec there is no such
+thing as a NVMe Target (unfortunately, bit out my teeth on that), but
+just a collection of subsystems and ports - with nvmetcli we can create
+sets of subsystems and ports that are entirelt disjoint.
+
+> +|==================
+> +| cd                    | Same as Linux, allows to move around the tree. 
+> +| ls                    | Similar as Linux, lists contents of current tree node.
+
+Can we drop the "Same as" and "Similar as"?  It's really traditional
+Unix shells that we are similar too, but that wording seems a bit clumsy.
+
+> +ADDITIONAL INFORMATION
+> +----------------------
+> +nvmetcli has the ability to start and stop the NVMe Target configuration
+> +on boot and shutdown through the *systemctl* Linux utility via a .service file.
+
+It might be good to mention the actual service, e.g.
+
+nvmetcli ships with a nvmet systemd service file, which automatically
+restores the saved config from /etc/nvme/nvmet.json on system startup,
+and clears the configuration on shutdown.  You can uses systemctl (and we
+probably want a man page reference to systemctl here, no idea how to do
+that in asciidoc) to enable and disable this functionality.
+
+> +
+> +AUTHORS
+> +-------
+> +This was written by mailto:james.p.freyensee at intel.com[Jay Freyensee]
+> +for mailto:hch at infradead.org[Christoph Hellwig].
+
+If at all I'd word this as
+
+This man page was written by mailto:james.p.freyensee at intel.com[Jay Freyensee].
+nvmetcli was originall written by mailto:hch at infradead.org[Christoph Hellwig].
+
+But I'd be personallly fine with just dropping all this from the man page
+and instead have an AUTHORS file.  Any suggestions from someone else?
+
+> +
+> +REPORTING BUGS & DEVELOPMENT
+> +-----------------------------
+> +Please send patches to linux-nvme at lists.infradead.org for review and acceptance.
+
+Might be worth to also mention bug reports here.
+
+> +doc: ${NAME}
+> +	${MAKE} -C ${DOCDIR}
+> +
+> +cleandoc:
+> +	@rm -f ${DOCDIR}/${PKGNAME}.1
+> +	@rm -f ${DOCDIR}/${PKGNAME}.html
+> +	@rm -f ${DOCDIR}/${PKGNAME}.xml
+
+Should this be ${MAKE} -C ${DOCDIR} clean?
+
+Also I suspect this should be a .8 page, not .1 given that we install
+into sbin.
