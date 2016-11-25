@@ -1,46 +1,54 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 24 Nov 2016 13:19:11 +0200
-Subject: [PATCH v3 1/2] nvmet-rdma: align to generic ib_event logging
- helper
-In-Reply-To: <1479925553.5486.4.camel@linux.intel.com>
-References: <1479893928-32445-1-git-send-email-maxg@mellanox.com>
- <1479893928-32445-2-git-send-email-maxg@mellanox.com>
- <1479925553.5486.4.camel@linux.intel.com>
-Message-ID: <9e7a1e2a-aa02-e6b1-4821-1b47c795f743@mellanox.com>
+From: Tomita.Haruo@toshiba-sol.co.jp (Tomita.Haruo@toshiba-sol.co.jp)
+Date: Fri, 25 Nov 2016 05:00:26 +0000
+Subject: [PATCH] Use rsps_lock in nvmet_rdma_free_rsp
+In-Reply-To: <20161122074153.GC5497@infradead.org>
+References: <781668ff60b040b3a56e104f489c3ea9@TGXML382.toshiba.local>
+ <20161122074153.GC5497@infradead.org>
+Message-ID: <923efced268f42a19eb96d593894d141@TGXML382.toshiba.local>
 
+Hi Christoph,
 
+Thank you for your reply.
 
-On 11/23/2016 8:25 PM, J Freyensee wrote:
-> On Wed, 2016-11-23@11:38 +0200, Max Gurtovoy wrote:
->> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
->> ---
->>  drivers/nvme/target/rdma.c |    3 ++-
->>  1 files changed, 2 insertions(+), 1 deletions(-)
->>
->> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
->> index 005ef5d..ddbae24 100644
->> --- a/drivers/nvme/target/rdma.c
->> +++ b/drivers/nvme/target/rdma.c
->> @@ -1129,7 +1129,8 @@ static void nvmet_rdma_qp_event(struct ib_event
->> *event, void *priv)
->>  		rdma_notify(queue->cm_id, event->event);
->>  		break;
->>  	default:
->> -		pr_err("received unrecognized IB QP event %d\n",
->> event->event);
->> +		pr_err("received IB QP event: %s (%d)\n",
->> +		       ib_event_msg(event->event), event->event);
->
-> I liked the original print statement mentioning something that it hit
-> the default case ("received unrecognized IB QP event").  But if no one
-> else has a problem with it, then I'm ok with it.
+> what are you trying to protect against during device teardown?
 
-in that case you'll get something like:
+I'm trying to protect nvmet_rdma_get_rsp and nvmet_rdma_put_rsp.
+In these functions, queue->free_rsps is protected by rsps_lock.
+rsp->free_list is also protected at the same time.
 
-"nvmet_rdma: received unrecognized IB QP event: last WQE reached (16)"
+I am investigating whether there is a race issue on the target of nvme.
+For another function, I also think of the following patch.
 
-instead of
+--- linux-4.9-rc6/drivers/nvme/target/rdma.c.orig       2016-11-25 06:51:06.000000000 +0900
++++ linux-4.9-rc6/drivers/nvme/target/rdma.c    2016-11-25 06:55:53.000000000 +0900
+@@ -724,6 +724,7 @@ static void nvmet_rdma_recv_done(struct
+                container_of(wc->wr_cqe, struct nvmet_rdma_cmd, cqe);
+        struct nvmet_rdma_queue *queue = cq->cq_context;
+        struct nvmet_rdma_rsp *rsp;
++       unsigned long flags;
 
-"nvmet_rdma: received IB QP event: last WQE reached (16)"
+        if (unlikely(wc->status != IB_WC_SUCCESS)) {
+                if (wc->status != IB_WC_WR_FLUSH_ERR) {
+@@ -747,10 +748,9 @@ static void nvmet_rdma_recv_done(struct
+        rsp->flags = 0;
+        rsp->req.cmd = cmd->nvme_cmd;
 
-Sagi/Christoph, what do you think ?
++       spin_lock_irqsave(&queue->state_lock, flags);
+        if (unlikely(queue->state != NVMET_RDMA_Q_LIVE)) {
+-               unsigned long flags;
+
+-               spin_lock_irqsave(&queue->state_lock, flags);
+                if (queue->state == NVMET_RDMA_Q_CONNECTING)
+                        list_add_tail(&rsp->wait_list, &queue->rsp_wait_list);
+                else
+@@ -758,6 +758,7 @@ static void nvmet_rdma_recv_done(struct
+                spin_unlock_irqrestore(&queue->state_lock, flags);
+                return;
+        }
++       spin_unlock_irqrestore(&queue->state_lock, flags);
+
+        nvmet_rdma_handle_command(queue, rsp);
+ }
+
+--
+Haruo
