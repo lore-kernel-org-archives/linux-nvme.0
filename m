@@ -1,94 +1,21 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 28 Nov 2016 07:55:52 -0800
-Subject: [PATCH 3/3] nvmetcli: remove README file
-In-Reply-To: <20161125074604.GB753@lst.de>
-References: <1479924073-6952-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1479924073-6952-4-git-send-email-james_p_freyensee@linux.intel.com>
- <20161125074604.GB753@lst.de>
-Message-ID: <1480348552.2827.12.camel@linux.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 28 Nov 2016 11:36:00 -0500
+Subject: Linux-nvme Digest, Vol 56, Issue 64
+In-Reply-To: <CAEhOZrdzuwda+QZnE3D7rhGmY4S8Tk1VYmP4eFCZJtotY6p+Og@mail.gmail.com>
+References: <mailman.3.1480276802.9433.linux-nvme@lists.infradead.org>
+ <CAEhOZrdzuwda+QZnE3D7rhGmY4S8Tk1VYmP4eFCZJtotY6p+Og@mail.gmail.com>
+Message-ID: <20161128163600.GD2609@localhost.localdomain>
 
-On Fri, 2016-11-25@08:46 +0100, Christoph Hellwig wrote:
-> On Wed, Nov 23, 2016@10:01:13AM -0800, Jay Freyensee wrote:
-> > 
-> > Contents of README have been moved and updated into the
-> > manpage/html solution.
-> 
-> 
-> I still think that a basic README is useful, including pointing
-> people
-> to the manpage, and for build instruction in case we add any.
+On Sun, Nov 27, 2016@11:57:33PM -0500, Efrem Mc wrote:
+> What is the best way to read archives on past articles?  I have one of
+> those Windows 10 Signature machines.  The internal SSD is a 512 GB
+> PCIe NVME by Samsung model MZVLV512. Goal to unleash all the speed
+> this nvme driver can support on Windows and Linux.  I know I need to
+> enable nvme on the kernel initramfs and test.  This machine I have as
+> some RAID configuration and the MFG supplied a BIOS patch to enable
+> AHCI.  I want the true NVME support as AHCI will limit the speed.  Any
+> help and directions are welcome.
 
-OK, I can re-send the patch series and not touch the README.
-
-> 
-> 
-> > 
-> > --- a/README
-> > +++ /dev/null
-> > @@ -1,173 +0,0 @@
-> > -nvmetcli
-> > -========
-> > -This contains the NVMe target admin tool "nvmetcli".??It can
-> > either be
-> > -used interactively by invoking it without arguments, or it can be
-> > used
-> > -to save, restore or clear the current NVMe target configuration.
-> > -
-> > -Installation
-> > -------------
-> > -Please install the configshell-fb package from
-> > -https://github.com/agrover/configshell-fb first.
-> > -
-> > -nvmetcli can be run directly from the source directory or
-> > installed
-> > -using setup.py.
-> > -
-> > -Common Package Dependencies and Problems
-> > ------------------------------------------
-> > -nvmetcli uses the 'python-six' and 'pyparsing' packages
-> > -(running nvmetcli without these packages may produce
-> > -hard-to-decipher errors).
-> 
-> 
-> E.g. keep everything up to here, then add a reference to
-> nvmetcli.txt after that.
-> 
-> And keep the rest quotes below this text as well,
-> 
-> > 
-> > -Example NVMe Target .json files
-> > ---------------------------------------
-> > -To load the loop + explicit host version above do the following:
-> > -
-> > -??./nvmetcli restore loop.json
-> > -
-> > -Or to load the rdma + no host authentication version do the
-> > following
-> > -after you've ensured that the IP address in rdma.json fits your
-> > setup:
-> > -
-> > -??./nvmetcli restore rdma.json
-> > -
-> > -These files can also be edited directly using your favorite
-> > editor.
-> > -
-> > -Testing
-> > --------
-> > -nvmetcli comes with a testsuite that tests itself and the kernel
-> > configfs
-> > -interface for the NVMe target.??To run it make sure you have nose2
-> > and
-> > -the coverage plugin for it installed and simple run 'make test'.
-> > -
-> > -Development
-> > ------------------
-> > -Please send to linux-nvme at lists.infradead.org for review and
-> > acceptance.
-> > --?
-> > 2.7.4
-> ---end quoted text---
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+If I understand correctly what you're using, you'll want to use the
+BIOS's AHCI mode for Linux so that the NVMe device is not remapped into
+the "RAID" device.
