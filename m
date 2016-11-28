@@ -1,336 +1,176 @@
-From: andrzej.p@samsung.com (Andrzej Pietrasiewicz)
-Date: Mon, 28 Nov 2016 13:22:42 +0100
-Subject: [PATCH] fs: configfs: don't return anything from drop_link
-References: <CGME20161128122258eucas1p2c3543f6795fe54c07175a5f5fbae0765@eucas1p2.samsung.com>
-Message-ID: <1480335762-26408-1-git-send-email-andrzej.p@samsung.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Mon, 28 Nov 2016 07:54:57 -0800
+Subject: [PATCH 1/3] nvmetcli: Adding manpage/html generation
+In-Reply-To: <20161125074346.GA753@lst.de>
+References: <1479924073-6952-1-git-send-email-james_p_freyensee@linux.intel.com>
+ <1479924073-6952-2-git-send-email-james_p_freyensee@linux.intel.com>
+ <20161125074346.GA753@lst.de>
+Message-ID: <1480348497.2827.11.camel@linux.intel.com>
 
-Documentation/filesystems/configfs/configfs.txt says:
+On Fri, 2016-11-25@08:43 +0100, Christoph Hellwig wrote:
+> Hi Jay,
+> 
+> thanks a lot for writing this man page!??I have a few comments below,
+> but otherwise this looks really great.
 
-"When unlink(2) is called on the symbolic link, the source item is
-notified via the ->drop_link() method.  Like the ->drop_item() method,
-this is a void function and cannot return failure."
+No problem, thanks for the compliment :-).
 
-The ->drop_item() is indeed a void function, the ->drop_link() is
-actually not. This, together with the fact that the value of ->drop_link()
-is silently ignored suggests, that it is the ->drop_link() return
-type that should be corrected and changed to void.
+> 
+> > 
+> > +NAME
+> > +----
+> > +nvmetcli - Configure NVMe Target for NVMe-over-Fabrics solution.
+> 
+> I'd just say "Configure the NVMe-over-Fabrics Target".
 
-This patch changes drop_link() signature and all its users.
+Will do.
 
-Compile-tested only! It needs Tested-by from respective subsystems.
+> 
+> > 
+> > +[verse]
+> > +nvmetcli
+> > +nvmetcli [cmd] [file]
+> 
+> Should we just list the three actual command here?
 
-Signed-off-by: Andrzej Pietrasiewicz <andrzej.p at samsung.com>
----
- Documentation/filesystems/configfs/configfs.txt |  2 +-
- drivers/nvme/target/configfs.c                  | 46 ++++++++++---------------
- drivers/target/target_core_fabric_configfs.c    |  7 ++--
- drivers/usb/gadget/configfs.c                   |  8 ++---
- drivers/usb/gadget/function/uvc_configfs.c      | 25 +++-----------
- include/linux/configfs.h                        |  2 +-
- 6 files changed, 31 insertions(+), 59 deletions(-)
+You mean just list out all the "nvmetcli [cmd] [file]" commands
+(nvmetcli restore [file], nvmetcli clear [file])?
 
-diff --git a/Documentation/filesystems/configfs/configfs.txt b/Documentation/filesystems/configfs/configfs.txt
-index 8ec9136..3828e85 100644
---- a/Documentation/filesystems/configfs/configfs.txt
-+++ b/Documentation/filesystems/configfs/configfs.txt
-@@ -174,7 +174,7 @@ among other things.  For that, it needs a type.
- 		void (*release)(struct config_item *);
- 		int (*allow_link)(struct config_item *src,
- 				  struct config_item *target);
--		int (*drop_link)(struct config_item *src,
-+		void (*drop_link)(struct config_item *src,
- 				 struct config_item *target);
- 	};
- 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index af5e2dc..9ee1490 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -466,7 +466,7 @@ static int nvmet_port_subsys_allow_link(struct config_item *parent,
- 	return ret;
- }
- 
--static int nvmet_port_subsys_drop_link(struct config_item *parent,
-+static void nvmet_port_subsys_drop_link(struct config_item *parent,
- 		struct config_item *target)
- {
- 	struct nvmet_port *port = to_nvmet_port(parent->ci_parent);
-@@ -474,21 +474,16 @@ static int nvmet_port_subsys_drop_link(struct config_item *parent,
- 	struct nvmet_subsys_link *p;
- 
- 	down_write(&nvmet_config_sem);
--	list_for_each_entry(p, &port->subsystems, entry) {
--		if (p->subsys == subsys)
--			goto found;
--	}
--	up_write(&nvmet_config_sem);
--	return -EINVAL;
--
--found:
--	list_del(&p->entry);
--	nvmet_genctr++;
--	if (list_empty(&port->subsystems))
--		nvmet_disable_port(port);
-+	list_for_each_entry(p, &port->subsystems, entry)
-+		if (p->subsys == subsys) {
-+			list_del(&p->entry);
-+			nvmet_genctr++;
-+			if (list_empty(&port->subsystems))
-+				nvmet_disable_port(port);
-+			kfree(p);
-+			break;
-+		}
- 	up_write(&nvmet_config_sem);
--	kfree(p);
--	return 0;
- }
- 
- static struct configfs_item_operations nvmet_port_subsys_item_ops = {
-@@ -542,7 +537,7 @@ static int nvmet_allowed_hosts_allow_link(struct config_item *parent,
- 	return ret;
- }
- 
--static int nvmet_allowed_hosts_drop_link(struct config_item *parent,
-+static void nvmet_allowed_hosts_drop_link(struct config_item *parent,
- 		struct config_item *target)
- {
- 	struct nvmet_subsys *subsys = to_subsys(parent->ci_parent);
-@@ -550,19 +545,14 @@ static int nvmet_allowed_hosts_drop_link(struct config_item *parent,
- 	struct nvmet_host_link *p;
- 
- 	down_write(&nvmet_config_sem);
--	list_for_each_entry(p, &subsys->hosts, entry) {
--		if (!strcmp(nvmet_host_name(p->host), nvmet_host_name(host)))
--			goto found;
--	}
--	up_write(&nvmet_config_sem);
--	return -EINVAL;
--
--found:
--	list_del(&p->entry);
--	nvmet_genctr++;
-+	list_for_each_entry(p, &subsys->hosts, entry)
-+		if (!strcmp(nvmet_host_name(p->host), nvmet_host_name(host))) {
-+			list_del(&p->entry);
-+			nvmet_genctr++;
-+			kfree(p);
-+			break;
-+		}
- 	up_write(&nvmet_config_sem);
--	kfree(p);
--	return 0;
- }
- 
- static struct configfs_item_operations nvmet_allowed_hosts_item_ops = {
-diff --git a/drivers/target/target_core_fabric_configfs.c b/drivers/target/target_core_fabric_configfs.c
-index 31a096a..d8a16ca 100644
---- a/drivers/target/target_core_fabric_configfs.c
-+++ b/drivers/target/target_core_fabric_configfs.c
-@@ -137,7 +137,7 @@ static int target_fabric_mappedlun_link(
- 	return core_dev_add_initiator_node_lun_acl(se_tpg, lacl, lun, lun_access_ro);
- }
- 
--static int target_fabric_mappedlun_unlink(
-+static void target_fabric_mappedlun_unlink(
- 	struct config_item *lun_acl_ci,
- 	struct config_item *lun_ci)
- {
-@@ -146,7 +146,7 @@ static int target_fabric_mappedlun_unlink(
- 	struct se_lun *lun = container_of(to_config_group(lun_ci),
- 			struct se_lun, lun_group);
- 
--	return core_dev_del_initiator_node_lun_acl(lun, lacl);
-+	core_dev_del_initiator_node_lun_acl(lun, lacl);
- }
- 
- static struct se_lun_acl *item_to_lun_acl(struct config_item *item)
-@@ -669,7 +669,7 @@ static int target_fabric_port_link(
- 	return ret;
- }
- 
--static int target_fabric_port_unlink(
-+static void target_fabric_port_unlink(
- 	struct config_item *lun_ci,
- 	struct config_item *se_dev_ci)
- {
-@@ -688,7 +688,6 @@ static int target_fabric_port_unlink(
- 	}
- 
- 	core_dev_del_lun(se_tpg, lun);
--	return 0;
- }
- 
- static void target_fabric_port_release(struct config_item *item)
-diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
-index 3984787..78c4497 100644
---- a/drivers/usb/gadget/configfs.c
-+++ b/drivers/usb/gadget/configfs.c
-@@ -408,7 +408,7 @@ static int config_usb_cfg_link(
- 	return ret;
- }
- 
--static int config_usb_cfg_unlink(
-+static void config_usb_cfg_unlink(
- 	struct config_item *usb_cfg_ci,
- 	struct config_item *usb_func_ci)
- {
-@@ -437,12 +437,11 @@ static int config_usb_cfg_unlink(
- 			list_del(&f->list);
- 			usb_put_function(f);
- 			mutex_unlock(&gi->lock);
--			return 0;
-+			return;
- 		}
- 	}
- 	mutex_unlock(&gi->lock);
- 	WARN(1, "Unable to locate function to unbind\n");
--	return 0;
- }
- 
- static struct configfs_item_operations gadget_config_item_ops = {
-@@ -865,7 +864,7 @@ static int os_desc_link(struct config_item *os_desc_ci,
- 	return ret;
- }
- 
--static int os_desc_unlink(struct config_item *os_desc_ci,
-+static void os_desc_unlink(struct config_item *os_desc_ci,
- 			  struct config_item *usb_cfg_ci)
- {
- 	struct gadget_info *gi = container_of(to_config_group(os_desc_ci),
-@@ -878,7 +877,6 @@ static int os_desc_unlink(struct config_item *os_desc_ci,
- 	cdev->os_desc_config = NULL;
- 	WARN_ON(gi->composite.gadget_driver.udc_name);
- 	mutex_unlock(&gi->lock);
--	return 0;
- }
- 
- static struct configfs_item_operations os_desc_ops = {
-diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
-index 31125a4..4e037d2 100644
---- a/drivers/usb/gadget/function/uvc_configfs.c
-+++ b/drivers/usb/gadget/function/uvc_configfs.c
-@@ -547,7 +547,7 @@ static int uvcg_control_class_allow_link(struct config_item *src,
- 	return ret;
- }
- 
--static int uvcg_control_class_drop_link(struct config_item *src,
-+static void uvcg_control_class_drop_link(struct config_item *src,
- 					struct config_item *target)
- {
- 	struct config_item *control, *header;
-@@ -555,7 +555,6 @@ static int uvcg_control_class_drop_link(struct config_item *src,
- 	struct mutex *su_mutex = &src->ci_group->cg_subsys->su_mutex;
- 	struct uvc_descriptor_header **class_array;
- 	struct uvcg_control_header *target_hdr;
--	int ret = -EINVAL;
- 
- 	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
- 
-@@ -569,23 +568,17 @@ static int uvcg_control_class_drop_link(struct config_item *src,
- 	mutex_lock(&opts->lock);
- 
- 	class_array = uvcg_get_ctl_class_arr(src, opts);
--	if (!class_array)
--		goto unlock;
--	if (opts->refcnt) {
--		ret = -EBUSY;
-+	if (!class_array || opts->refcnt)
- 		goto unlock;
--	}
- 
- 	target_hdr = to_uvcg_control_header(target);
- 	--target_hdr->linked;
- 	class_array[0] = NULL;
--	ret = 0;
- 
- unlock:
- 	mutex_unlock(&opts->lock);
- out:
- 	mutex_unlock(su_mutex);
--	return ret;
- }
- 
- static struct configfs_item_operations uvcg_control_class_item_ops = {
-@@ -777,7 +770,7 @@ static int uvcg_streaming_header_allow_link(struct config_item *src,
- 	return ret;
- }
- 
--static int uvcg_streaming_header_drop_link(struct config_item *src,
-+static void uvcg_streaming_header_drop_link(struct config_item *src,
- 					   struct config_item *target)
- {
- 	struct mutex *su_mutex = &src->ci_group->cg_subsys->su_mutex;
-@@ -786,7 +779,6 @@ static int uvcg_streaming_header_drop_link(struct config_item *src,
- 	struct uvcg_streaming_header *src_hdr;
- 	struct uvcg_format *target_fmt = NULL;
- 	struct uvcg_format_ptr *format_ptr, *tmp;
--	int ret = -EINVAL;
- 
- 	src_hdr = to_uvcg_streaming_header(src);
- 	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
-@@ -811,8 +803,6 @@ static int uvcg_streaming_header_drop_link(struct config_item *src,
- out:
- 	mutex_unlock(&opts->lock);
- 	mutex_unlock(su_mutex);
--	return ret;
--
- }
- 
- static struct configfs_item_operations uvcg_streaming_header_item_ops = {
-@@ -2051,7 +2041,7 @@ static int uvcg_streaming_class_allow_link(struct config_item *src,
- 	return ret;
- }
- 
--static int uvcg_streaming_class_drop_link(struct config_item *src,
-+static void uvcg_streaming_class_drop_link(struct config_item *src,
- 					  struct config_item *target)
- {
- 	struct config_item *streaming, *header;
-@@ -2059,7 +2049,6 @@ static int uvcg_streaming_class_drop_link(struct config_item *src,
- 	struct mutex *su_mutex = &src->ci_group->cg_subsys->su_mutex;
- 	struct uvc_descriptor_header ***class_array;
- 	struct uvcg_streaming_header *target_hdr;
--	int ret = -EINVAL;
- 
- 	mutex_lock(su_mutex); /* for navigating configfs hierarchy */
- 
-@@ -2076,23 +2065,19 @@ static int uvcg_streaming_class_drop_link(struct config_item *src,
- 	if (!class_array || !*class_array)
- 		goto unlock;
- 
--	if (opts->refcnt) {
--		ret = -EBUSY;
-+	if (opts->refcnt)
- 		goto unlock;
--	}
- 
- 	target_hdr = to_uvcg_streaming_header(target);
- 	--target_hdr->linked;
- 	kfree(**class_array);
- 	kfree(*class_array);
- 	*class_array = NULL;
--	ret = 0;
- 
- unlock:
- 	mutex_unlock(&opts->lock);
- out:
- 	mutex_unlock(su_mutex);
--	return ret;
- }
- 
- static struct configfs_item_operations uvcg_streaming_class_item_ops = {
-diff --git a/include/linux/configfs.h b/include/linux/configfs.h
-index d9d6a9d..9a30b92 100644
---- a/include/linux/configfs.h
-+++ b/include/linux/configfs.h
-@@ -228,7 +228,7 @@ struct configfs_bin_attribute {
- struct configfs_item_operations {
- 	void (*release)(struct config_item *);
- 	int (*allow_link)(struct config_item *src, struct config_item *target);
--	int (*drop_link)(struct config_item *src, struct config_item *target);
-+	void (*drop_link)(struct config_item *src, struct config_item *target);
- };
- 
- struct configfs_group_operations {
--- 
-1.9.1
+> 
+> > 
+> > +DESCRIPTION
+> > +-----------
+> > +*nvmetcli* is a python-based program used for viewing, editing,
+> > saving,
+> 
+> I'd drop python here - that's an implementation detail not
+> interesting
+> to the actual user reading the man page.
+
+No problem.
+
+> 
+> 
+> > 
+> > It enables an administrator to assign local
+> > +storage resources backed by either local NVMe devices, OS files,
+> > or
+> > +system volumes and export them to remote systems via network
+> > fabrics
+> > +based on the NVMe-over-Fabrics specification from http://www.nvmex
+> > press.org.
+> 
+> I'd something like "It allows to export a local block device
+> (including,
+> but not limited to a NVMe devices).."??We can't really export files
+> directly but need to turn them into a block device first using the
+> loop
+> device, and NVMe devices aren't really treated special, although they
+> are of course worse mentioning.
+
+OK, I'll give it a stab to tweak and add that comment.
+
+> 
+> > 
+> > +nvmetcli manages only one NVMe Target as there is only one Linux
+> > kernel
+> > +NVMe Target per system.
+> 
+> Can we just remove this sentence???
+
+Sure.
+
+
+> > +|==================
+> > +| cd????????????????????| Same as Linux, allows to move around the
+> > tree.?
+> > +| ls????????????????????| Similar as Linux, lists contents of
+> > current tree node.
+> 
+> Can we drop the "Same as" and "Similar as"???It's really traditional
+> Unix shells that we are similar too, but that wording seems a bit
+> clumsy.
+
+Sure, no problem.
+
+> 
+> > 
+> > +ADDITIONAL INFORMATION
+> > +----------------------
+> > +nvmetcli has the ability to start and stop the NVMe Target
+> > configuration
+> > +on boot and shutdown through the *systemctl* Linux utility via a
+> > .service file.
+> 
+> It might be good to mention the actual service, e.g.
+> 
+> nvmetcli ships with a nvmet systemd service file, which automatically
+> restores the saved config from /etc/nvme/nvmet.json on system
+> startup,
+
+Yah, I've played with the nvmet systemd service file, I can mention
+that.
+
+> and clears the configuration on shutdown.??You can uses systemctl
+> (and we
+> probably want a man page reference to systemctl here, no idea how to
+> do
+> that in asciidoc) to enable and disable this functionality.
+
+I can explicitly state the commands:
+
+systemctl enable nvmet
+systemctl disable nvmet
+
+into this section...not sure how I'd add a man page reference to
+systemctl, I'm not an asciidoc power user.
+
+> 
+> > 
+> > +
+> > +AUTHORS
+> > +-------
+> > +This was written by mailto:james.p.freyensee at intel.com[Jay
+> > Freyensee]
+> > +for mailto:hch at infradead.org[Christoph Hellwig].
+> 
+> If at all I'd word this as
+> 
+> This man page was written by mailto:james.p.freyensee at intel.com[Jay
+> Freyensee].
+> nvmetcli was originall written by mailto:hch at infradead.org[Christoph
+> Hellwig].
+> 
+
+I can just do this. ?I don't mind mentioning I authored the man page,
+but I don't want to take credit that is yours.
+
+> > +
+> > +REPORTING BUGS & DEVELOPMENT
+> > +-----------------------------
+> > +Please send patches to linux-nvme at lists.infradead.org for review
+> > and acceptance.
+> 
+> Might be worth to also mention bug reports here.
+
+OK, I can tweak it.
+
+> 
+> > 
+> > +doc: ${NAME}
+> > +	${MAKE} -C ${DOCDIR}
+> > +
+> > +cleandoc:
+> > +	@rm -f ${DOCDIR}/${PKGNAME}.1
+> > +	@rm -f ${DOCDIR}/${PKGNAME}.html
+> > +	@rm -f ${DOCDIR}/${PKGNAME}.xml
+> 
+> Should this be ${MAKE} -C ${DOCDIR} clean?
+> 
+
+Maybe :-P. ?I'll look into it.
+
+> Also I suspect this should be a .8 page, not .1 given that we install
+> into sbin.
+
+Can change, no problem.
