@@ -1,15 +1,6 @@
-From: swise@opengridcomputing.com (Steve Wise)
-Date: Tue, 29 Nov 2016 11:05:08 -0600
-Subject: [PATCH v5 0/8] connect reject event helpers
-In-Reply-To: <cover.1477510827.git.swise@opengridcomputing.com>
-References: <cover.1477510827.git.swise@opengridcomputing.com>
-Message-ID: <017401d24a62$bcedd7c0$36c98740$@opengridcomputing.com>
+From: olopez@artba.org (Lopez Omar)
+Date: Tue, 29 Nov 2016 20:54:41 +0100
+Subject: Donation
+Message-ID: <c83bfb8f-cbfd-4e6b-94f4-e77d0f41ae23@artbavs04.artba.org>
 
-Hey Doug, 
-
-Are you planning to merge this series for 4.10?  They're still marked 'new' on
-patchworks.
-
-Thanks,
-
-Steve.
+Hello, My name is Gloria C. Mackenzie, i have a Monetary Donation to make for less privilege and yourself and your organization, am writing you with a friend's email, please contact me on g_mackenzie at rogers.com
