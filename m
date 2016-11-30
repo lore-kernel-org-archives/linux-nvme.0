@@ -1,31 +1,36 @@
-From: james_p_freyensee@linux.intel.com (Jay Freyensee)
-Date: Tue, 29 Nov 2016 15:11:00 -0800
-Subject: [PATCH v1 2/2] nvmetcli: add python-six to rpm package building
-In-Reply-To: <1480461060-9662-1-git-send-email-james_p_freyensee@linux.intel.com>
-References: <1480461060-9662-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <1480461060-9662-3-git-send-email-james_p_freyensee@linux.intel.com>
+From: luto@kernel.org (Andy Lutomirski)
+Date: Tue, 29 Nov 2016 17:18:55 -0800
+Subject: [PATCH] nvme/pci: Log PCI_STATUS when the controller dies
+Message-ID: <0e60b11aa18049f2643b62400c3fcbd959791c51.1480468668.git.luto@kernel.org>
 
->From experience, if python-six isn't installed on a Fedora
-system, hard-to-decipher errors can occur trying to use
-nvmetcli.
-
-Signed-off-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+Signed-off-by: Andy Lutomirski <luto at kernel.org>
 ---
- rpm/nvmetcli.spec.tmpl | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/rpm/nvmetcli.spec.tmpl b/rpm/nvmetcli.spec.tmpl
-index 03667d7..1ffdbe6 100644
---- a/rpm/nvmetcli.spec.tmpl
-+++ b/rpm/nvmetcli.spec.tmpl
-@@ -9,7 +9,7 @@ Source:         nvmetcli-%{version}.tar.gz
- BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-rpmroot
- BuildArch:      noarch
- BuildRequires:  python-devel python-setuptools systemd-units
--Requires:	python-configshell python-kmod
-+Requires:	python-configshell python-kmod python-six
- Requires(post): systemd
- Requires(preun): systemd
- Requires(postun): systemd
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0248d0e21fee..b4527e5b1364 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1292,10 +1292,16 @@ static void nvme_watchdog_timer(unsigned long data)
+ 
+ 	/* Skip controllers under certain specific conditions. */
+ 	if (nvme_should_reset(dev, csts)) {
+-		if (!nvme_reset(dev))
++		if (!nvme_reset(dev)) {
++			/* Read a config register to help see what died. */
++			u16 pci_status = 0xffff;
++
++			pci_read_config_word(to_pci_dev(dev->dev),
++					     PCI_STATUS, &pci_status);
+ 			dev_warn(dev->dev,
+-				"Failed status: 0x%x, reset controller.\n",
+-				csts);
++				"controller is down; will reset: CSTS=0x%x, PCI_STATUS=0x%hx\n",
++				 csts, pci_status);
++		}
+ 		return;
+ 	}
+ 
 -- 
-2.7.4
+2.9.3
