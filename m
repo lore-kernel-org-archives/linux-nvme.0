@@ -1,232 +1,81 @@
 From: chaitanya.kulkarni@hgst.com (Chaitanya Kulkarni)
-Date: Wed, 30 Nov 2016 12:28:58 -0800
-Subject: [PATCH V2 1/5] block: add async variant of blkdev_issue_zeroout
-Message-ID: <1480537742-15190-1-git-send-email-chaitanya.kulkarni@hgst.com>
+Date: Wed, 30 Nov 2016 12:29:02 -0800
+Subject: [PATCH V2 5/5] nvmet: add support for the Write Zeroes command
+In-Reply-To: <1480537742-15190-1-git-send-email-chaitanya.kulkarni@hgst.com>
+References: <1480537742-15190-1-git-send-email-chaitanya.kulkarni@hgst.com>
+Message-ID: <1480537742-15190-5-git-send-email-chaitanya.kulkarni@hgst.com>
 
-Similar to __blkdev_issue_discard this variant allows submitting
-the final bio asynchronously and chaining multiple ranges
-into a single completion.
+Add support for handling write zeroes command on target.
+Call into __blkdev_issue_zeroout, which the block layer expands into the
+best suitable variant of zeroing the LBAs. Allow write zeroes operation
+to deallocate the LBAs when calling __blkdev_issue_zeroout.
 
 Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
 ---
- block/blk-lib.c        | 115 ++++++++++++++++++++++++++++++++++---------------
- include/linux/blkdev.h |   3 ++
- 2 files changed, 84 insertions(+), 34 deletions(-)
+ drivers/nvme/target/admin-cmd.c |  3 ++-
+ drivers/nvme/target/io-cmd.c    | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/block/blk-lib.c b/block/blk-lib.c
-index 18abda8..bfb28b0 100644
---- a/block/blk-lib.c
-+++ b/block/blk-lib.c
-@@ -137,24 +137,24 @@ int blkdev_issue_discard(struct block_device *bdev, sector_t sector,
- EXPORT_SYMBOL(blkdev_issue_discard);
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 6fe4c48..ec1ad2a 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -237,7 +237,8 @@ static void nvmet_execute_identify_ctrl(struct nvmet_req *req)
+ 	id->maxcmd = cpu_to_le16(NVMET_MAX_CMD);
  
- /**
-- * blkdev_issue_write_same - queue a write same operation
-+ * __blkdev_issue_write_same - generate number of bios with same page
-  * @bdev:	target blockdev
-  * @sector:	start sector
-  * @nr_sects:	number of sectors to write
-  * @gfp_mask:	memory allocation flags (for bio_alloc)
-  * @page:	page containing data to write
-+ * @biop:	pointer to anchor bio
-  *
-  * Description:
-- *    Issue a write same request for the sectors in question.
-+ *  Generate and issue number of bios(REQ_OP_WRITE_SAME) with same page.
-  */
--int blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
--			    sector_t nr_sects, gfp_t gfp_mask,
--			    struct page *page)
-+static int __blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
-+		sector_t nr_sects, gfp_t gfp_mask, struct page *page,
-+		struct bio **biop)
- {
- 	struct request_queue *q = bdev_get_queue(bdev);
- 	unsigned int max_write_same_sectors;
--	struct bio *bio = NULL;
--	int ret = 0;
-+	struct bio *bio = *biop;
- 	sector_t bs_mask;
+ 	id->nn = cpu_to_le32(ctrl->subsys->max_nsid);
+-	id->oncs = cpu_to_le16(NVME_CTRL_ONCS_DSM);
++	id->oncs = cpu_to_le16(NVME_CTRL_ONCS_DSM |
++			NVME_CTRL_ONCS_WRITE_ZEROES);
  
- 	if (!q)
-@@ -164,6 +164,9 @@ int blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
- 	if ((sector | nr_sects) & bs_mask)
- 		return -EINVAL;
- 
-+	if (!bdev_write_same(bdev))
-+		return -EOPNOTSUPP;
-+
- 	/* Ensure that max_write_same_sectors doesn't overflow bi_size */
- 	max_write_same_sectors = UINT_MAX >> 9;
- 
-@@ -185,32 +188,63 @@ int blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
- 			bio->bi_iter.bi_size = nr_sects << 9;
- 			nr_sects = 0;
- 		}
-+		cond_resched();
+ 	/* XXX: don't report vwc if the underlying device is write through */
+ 	id->vwc = NVME_CTRL_VWC_PRESENT;
+diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
+index ef52b1e..b3d21b0 100644
+--- a/drivers/nvme/target/io-cmd.c
++++ b/drivers/nvme/target/io-cmd.c
+@@ -172,6 +172,32 @@ static void nvmet_execute_dsm(struct nvmet_req *req)
  	}
+ }
  
--	if (bio) {
-+	*biop = bio;
-+	return 0;
++static void nvmet_execute_write_zeroes(struct nvmet_req *req)
++{
++	struct nvme_write_zeroes_cmd *write_zeroes = &req->cmd->write_zeroes;
++	struct bio *bio = NULL;
++	u16 status = NVME_SC_SUCCESS;
++	sector_t sector;
++	sector_t nr_sector;
++
++	sector = le64_to_cpu(write_zeroes->slba) <<
++		(req->ns->blksize_shift - 9);
++	nr_sector = (((sector_t)le32_to_cpu(write_zeroes->length)) <<
++		(req->ns->blksize_shift - 9)) + 1;
++
++	if (__blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
++				GFP_KERNEL, &bio, true))
++		status = NVME_SC_INTERNAL | NVME_SC_DNR;
++
++	if (bio) {
++		bio->bi_private = req;
++		bio->bi_end_io = nvmet_bio_done;
++		submit_bio(bio);
++	} else {
++		nvmet_req_complete(req, status);
++	}
 +}
 +
-+/**
-+ * blkdev_issue_write_same - queue a write same operation
-+ * @bdev:	target blockdev
-+ * @sector:	start sector
-+ * @nr_sects:	number of sectors to write
-+ * @gfp_mask:	memory allocation flags (for bio_alloc)
-+ * @page:	page containing data
-+ *
-+ * Description:
-+ *    Issue a write same request for the sectors in question.
-+ */
-+int blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
-+				sector_t nr_sects, gfp_t gfp_mask,
-+				struct page *page)
-+{
-+	struct bio *bio = NULL;
-+	struct blk_plug plug;
-+	int ret;
-+
-+	blk_start_plug(&plug);
-+	ret = __blkdev_issue_write_same(bdev, sector, nr_sects, gfp_mask, page,
-+			&bio);
-+	if (ret == 0 && bio) {
- 		ret = submit_bio_wait(bio);
- 		bio_put(bio);
- 	}
-+	blk_finish_plug(&plug);
- 	return ret;
- }
- EXPORT_SYMBOL(blkdev_issue_write_same);
- 
- /**
-- * blkdev_issue_zeroout - generate number of zero filed write bios
-+ * __blkdev_issue_zeroout - generate number of zero filed write bios
-  * @bdev:	blockdev to issue
-  * @sector:	start sector
-  * @nr_sects:	number of sectors to write
-  * @gfp_mask:	memory allocation flags (for bio_alloc)
-+ * @biop:	pointer to anchor bio
-+ * @discard:	discard flag
-  *
-  * Description:
-  *  Generate and issue number of bios with zerofiled pages.
-  */
--
--static int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
--				  sector_t nr_sects, gfp_t gfp_mask)
-+int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
-+		sector_t nr_sects, gfp_t gfp_mask, struct bio **biop,
-+		bool discard)
+ int nvmet_parse_io_cmd(struct nvmet_req *req)
  {
- 	int ret;
--	struct bio *bio = NULL;
-+	int bi_size = 0;
-+	struct bio *bio = *biop;
- 	unsigned int sz;
- 	sector_t bs_mask;
- 
-@@ -218,6 +252,19 @@ static int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
- 	if ((sector | nr_sects) & bs_mask)
- 		return -EINVAL;
- 
-+	if (discard) {
-+		ret = __blkdev_issue_discard(bdev, sector, nr_sects, gfp_mask,
-+				BLKDEV_DISCARD_ZERO, biop);
-+		if (ret == 0 || (ret && ret != -EOPNOTSUPP))
-+			goto out;
-+	}
-+
-+	ret = __blkdev_issue_write_same(bdev, sector, nr_sects, gfp_mask,
-+			ZERO_PAGE(0), biop);
-+	if (ret == 0 || (ret && ret != -EOPNOTSUPP))
-+		goto out;
-+
-+	ret = 0;
- 	while (nr_sects != 0) {
- 		bio = next_bio(bio, min(nr_sects, (sector_t)BIO_MAX_PAGES),
- 				gfp_mask);
-@@ -227,21 +274,20 @@ static int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
- 
- 		while (nr_sects != 0) {
- 			sz = min((sector_t) PAGE_SIZE >> 9 , nr_sects);
--			ret = bio_add_page(bio, ZERO_PAGE(0), sz << 9, 0);
--			nr_sects -= ret >> 9;
--			sector += ret >> 9;
--			if (ret < (sz << 9))
-+			bi_size = bio_add_page(bio, ZERO_PAGE(0), sz << 9, 0);
-+			nr_sects -= bi_size >> 9;
-+			sector += bi_size >> 9;
-+			if (bi_size < (sz << 9))
- 				break;
- 		}
-+		cond_resched();
- 	}
- 
--	if (bio) {
--		ret = submit_bio_wait(bio);
--		bio_put(bio);
--		return ret;
--	}
--	return 0;
-+	*biop = bio;
-+out:
-+	return ret;
- }
-+EXPORT_SYMBOL(__blkdev_issue_zeroout);
- 
- /**
-  * blkdev_issue_zeroout - zero-fill a block range
-@@ -263,21 +309,22 @@ static int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
-  *  clearing the block range. Otherwise the zeroing will be performed
-  *  using regular WRITE calls.
-  */
--
- int blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
- 			 sector_t nr_sects, gfp_t gfp_mask, bool discard)
- {
--	if (discard) {
--		if (!blkdev_issue_discard(bdev, sector, nr_sects, gfp_mask,
--				BLKDEV_DISCARD_ZERO))
--			return 0;
--	}
-+	int ret;
-+	struct bio *bio = NULL;
-+	struct blk_plug plug;
- 
--	if (bdev_write_same(bdev) &&
--	    blkdev_issue_write_same(bdev, sector, nr_sects, gfp_mask,
--				    ZERO_PAGE(0)) == 0)
--		return 0;
-+	blk_start_plug(&plug);
-+	ret = __blkdev_issue_zeroout(bdev, sector, nr_sects, gfp_mask,
-+			&bio, discard);
-+	if (ret == 0 && bio) {
-+		ret = submit_bio_wait(bio);
-+		bio_put(bio);
-+	}
-+	blk_finish_plug(&plug);
- 
--	return __blkdev_issue_zeroout(bdev, sector, nr_sects, gfp_mask);
-+	return ret;
- }
- EXPORT_SYMBOL(blkdev_issue_zeroout);
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 541fdd8..7e9d8a0 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -1269,6 +1269,9 @@ extern int __blkdev_issue_discard(struct block_device *bdev, sector_t sector,
- 		struct bio **biop);
- extern int blkdev_issue_write_same(struct block_device *bdev, sector_t sector,
- 		sector_t nr_sects, gfp_t gfp_mask, struct page *page);
-+extern int __blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
-+		sector_t nr_sects, gfp_t gfp_mask, struct bio **biop,
-+		bool discard);
- extern int blkdev_issue_zeroout(struct block_device *bdev, sector_t sector,
- 		sector_t nr_sects, gfp_t gfp_mask, bool discard);
- static inline int sb_issue_discard(struct super_block *sb, sector_t block,
+ 	struct nvme_command *cmd = req->cmd;
+@@ -209,6 +235,9 @@ int nvmet_parse_io_cmd(struct nvmet_req *req)
+ 		req->data_len = le32_to_cpu(cmd->dsm.nr + 1) *
+ 			sizeof(struct nvme_dsm_range);
+ 		return 0;
++	case nvme_cmd_write_zeroes:
++		req->execute = nvmet_execute_write_zeroes;
++		return 0;
+ 	default:
+ 		pr_err("nvmet: unhandled cmd %d\n", cmd->common.opcode);
+ 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
 -- 
 1.8.3.1
