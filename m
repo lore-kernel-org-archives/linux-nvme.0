@@ -1,20 +1,54 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 1 Dec 2016 13:09:43 -0500
-Subject: [PATCH] nvme/pci: Log PCI_STATUS when the controller dies
-In-Reply-To: <CALCETrUt+JtDE1W97xjK+8U=oQFSV-4o4hqRFV_f9tsXUp=qRQ@mail.gmail.com>
-References: <0e60b11aa18049f2643b62400c3fcbd959791c51.1480468668.git.luto@kernel.org>
- <c1a8c6d2-2dfc-b9af-5134-b3aca2402957@fb.com>
- <CALCETrUt+JtDE1W97xjK+8U=oQFSV-4o4hqRFV_f9tsXUp=qRQ@mail.gmail.com>
-Message-ID: <20161201180943.GG21081@localhost.localdomain>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Thu, 1 Dec 2016 10:53:43 -0700
+Subject: [PATCH v2 2/4] block: Add Sed-opal library
+In-Reply-To: <20161201100456.GA17592@infradead.org>
+References: <1480456322-27339-1-git-send-email-scott.bauer@intel.com>
+ <1480456322-27339-3-git-send-email-scott.bauer@intel.com>
+ <20161201005006.GE21081@localhost.localdomain>
+ <20161201100456.GA17592@infradead.org>
+Message-ID: <20161201175343.GA6554@sbauer-Z170X-UD5>
 
-On Wed, Nov 30, 2016@10:28:03AM -0800, Andy Lutomirski wrote:
-> In theory, although not (AFAIK) on x86, config space reads can fail
-> outright.  Normally a failure looks like returning 0xffff, so I
-> figured I'd make it consistent.  I could alternatively check the
-> return value and print a different message if pci_read_config_word
-> fails.
+On Thu, Dec 01, 2016@02:04:56AM -0800, Christoph Hellwig wrote:
+> On Wed, Nov 30, 2016@07:50:07PM -0500, Keith Busch wrote:
+> > I think we should get rid of the "majmin" stuff
+> 
+> Absolutely agreed.
+> 
+> >
+> > and directly use
+> > block_device. Then if we add the security send/receive operations to the
+> > block_device_operations, that will simplify chaining the security request
+> > to the driver without needing to thread the driver's requested callback
+> > and data the way you have to here since all the necessary information
+> > is encapsulated in the block_device.
+> 
+> Maybe.  I need to look at the TCG spec again (oh my good, what a fucking
+> mess), but if I remember the context if it is the whole nvme controller
+> and not just a namespace, so a block_device might be the wrong context.
+> Then again we can always go from the block_device to the controller
+> fairly easily.  So instead of adding the security operation to the
+> block_device_operations which we don't really need for now maybe we
+> should add a security_conext to the block device so that we can avoid
+> all the lookup code?
 
-I agree it'd be nice to know if we actually got all 1's from hardware,
-or the pci config read itself returned an error without setting the
-status. x86 should be returning all 1's on a failure, but don't want to
-always count on that.
+I spent some time this morning reading through the numerous specs/documents,
+with a lot of coffee.
+
+Specifically in:
+https://www.trustedcomputinggroup.org/wp-content/uploads/TCG_SWG_SIIS_Version_1_02_Revision_1_00_20111230.pdf
+
+5.5.2
+Namespace
+
+A target that has multiple Namespaces MAY have  multiple TPers. Each TPer
+SHALL be associated with a different Namespace. Every Namespace on a device
+is not required to have a TPer, but Namespaces that support the TCG Core
+specification commands and functionality SHALL have a TPer. A TPer SHALL only
+be associated with exactly one Namespace. A Namespace MAY have no TPer.
+
+>From reading that it seems we will probably have to keep it at the block layer,
+since its possible to have a valid "Locking range 1" on n1 and a "Locking range 1"
+on n2.
+
+
+[snip]
