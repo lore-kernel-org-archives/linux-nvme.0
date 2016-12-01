@@ -1,43 +1,109 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 1 Dec 2016 02:04:56 -0800
-Subject: [PATCH v2 2/4] block: Add Sed-opal library
-In-Reply-To: <20161201005006.GE21081@localhost.localdomain>
-References: <1480456322-27339-1-git-send-email-scott.bauer@intel.com>
- <1480456322-27339-3-git-send-email-scott.bauer@intel.com>
- <20161201005006.GE21081@localhost.localdomain>
-Message-ID: <20161201100456.GA17592@infradead.org>
+From: jlayton@poochiereds.net (Jeff Layton)
+Date: Thu, 01 Dec 2016 09:11:46 -0500
+Subject: LSF/MM 2017: Call for Proposals
+Message-ID: <1480601506.2511.7.camel@poochiereds.net>
 
-On Wed, Nov 30, 2016@07:50:07PM -0500, Keith Busch wrote:
-> I think we should get rid of the "majmin" stuff
+The annual Linux Storage, Filesystem and Memory Management (LSF/MM)
+Summit for 2017 will be held on March 20th and 21st at the Hyatt
+Cambridge, Cambridge, MA. LSF/MM is an invitation-only technical
+workshop to map out improvements to the Linux storage, filesystem and
+memory management subsystems that will make their way into the mainline
+kernel within the coming years.
 
-Absolutely agreed.
+????http://events.linuxfoundation.org/events/linux-storage-filesystem-and-mm-summit
 
->
-> and directly use
-> block_device. Then if we add the security send/receive operations to the
-> block_device_operations, that will simplify chaining the security request
-> to the driver without needing to thread the driver's requested callback
-> and data the way you have to here since all the necessary information
-> is encapsulated in the block_device.
+Like last year, LSF/MM will be colocated with the Linux Foundation Vault
+conference which takes place on March 22nd and 23rd in the same Venue.
+For those that do not know, Vault is designed to be an event where open
+source storage and filesystem practitioners meet storage implementors
+and, as such, it would be of benefit for LSF/MM attendees to attend.
 
-Maybe.  I need to look at the TCG spec again (oh my good, what a fucking
-mess), but if I remember the context if it is the whole nvme controller
-and not just a namespace, so a block_device might be the wrong context.
-Then again we can always go from the block_device to the controller
-fairly easily.  So instead of adding the security operation to the
-block_device_operations which we don't really need for now maybe we
-should add a security_conext to the block device so that we can avoid
-all the lookup code?
+Unlike past years, Vault admission is not free for LSF/MM attendees this
+year unless they're giving a talk. There is a discount for LSF/MM
+attendees, however we would also like to encourage folks to submit talk
+proposals to speak at the Vault conference.
 
-> We shouldn't need to be allocating an 'opal_dev' for every range. The
-> range-specific parts should be in a different structure that the opal_dev
-> can have a list of. That will simpify the unlock from suspend a bit.
+????http://events.linuxfoundation.org/events/vault
 
-Agreed.
+On behalf of the committee I am issuing a call for agenda proposals that
+are suitable for cross-track discussion as well as technical subjects
+for the breakout sessions.
 
-> I can appreciate how compact this is, but this is a little harder to
-> read IMO, and it works only because you were so careful in setting up
-> the array. I think expanding the ioctl into a switch will be easier to
-> follow, and has a more tolerent coding convention for future additions.
+If advance notice is required for visa applications then please point
+that out in your proposal or request to attend, and submit the topic
+as soon as possible.
 
-Agreed.
+1) Proposals for agenda topics should be sent before January 15th, 2016
+to:
+
+????lsf-pc at lists.linux-foundation.org
+
+and cc the Linux list or lists that are relevant for the topic in
+question:
+
+????ATA:???linux-ide at vger.kernel.org
+????Block: linux-block at vger.kernel.org
+????FS:????linux-fsdevel at vger.kernel.org
+????MM:????linux-mm at kvack.org
+????SCSI:??linux-scsi at vger.kernel.org
+????NVMe:??linux-nvme at lists.infradead.org
+
+Please tag your proposal with [LSF/MM TOPIC] to make it easier to track.
+In addition, please make sure to start a new thread for each topic
+rather than following up to an existing one.??Agenda topics and
+attendees will be selected by the program committee, but the final
+agenda will be formed by consensus of the attendees on the day.
+
+2) Requests to attend the summit for those that are not proposing a
+topic should be sent to:
+
+????lsf-pc at lists.linux-foundation.org
+
+Please summarise what expertise you will bring to the meeting, and what
+you would like to discuss. Please also tag your email with [LSF/MM
+ATTEND] and send it as a new thread so there is less chance of it
+getting lost.
+
+We will try to cap attendance at around 25-30 per track to facilitate
+discussions although the final numbers will depend on the room sizes at
+the venue.
+
+Brief presentations are allowed to guide discussion, but are strongly
+discouraged. There will be no recording or audio bridge. However, we
+expect that written minutes will be published as we did in previous
+years:
+
+2016: https://lwn.net/Articles/lsfmm2016/
+
+2015: https://lwn.net/Articles/lsfmm2015/
+
+2014: http://lwn.net/Articles/LSFMM2014/
+
+2013: http://lwn.net/Articles/548089/
+
+3) If you have feedback on last year's meeting that we can use to
+improve this year's, please also send that to:
+
+????lsf-pc at lists.linux-foundation.org
+
+Thank you on behalf of the program committee:
+
+Storage:
+????James Bottomley
+????Martin K. Petersen (track chair)
+????Sagi Grimberg
+
+Filesystems:
+????Anna Schumaker
+????Chris Mason
+????Eric Sandeen
+????Jan Kara
+????Jeff Layton (summit chair)
+????Josef Bacik (track chair)
+????Trond Myklebust
+
+MM:
+????Johannes Weiner
+????Rik van Riel (track chair)
+-- 
+Jeff Layton <jlayton at poochiereds.net>
