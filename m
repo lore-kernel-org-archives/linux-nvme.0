@@ -1,11 +1,12 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 1 Dec 2016 10:44:14 +0100
-Subject: [PATCH v1 0/2] nvmetcli manpage and misc tweaks.
-In-Reply-To: <1480461060-9662-1-git-send-email-james_p_freyensee@linux.intel.com>
-References: <1480461060-9662-1-git-send-email-james_p_freyensee@linux.intel.com>
-Message-ID: <20161201094414.GA26168@lst.de>
+Date: Thu, 1 Dec 2016 10:53:12 +0100
+Subject: [PATCH] fs: configfs: don't return anything from drop_link
+In-Reply-To: <1480335762-26408-1-git-send-email-andrzej.p@samsung.com>
+References: <CGME20161128122258eucas1p2c3543f6795fe54c07175a5f5fbae0765@eucas1p2.samsung.com>
+ <1480335762-26408-1-git-send-email-andrzej.p@samsung.com>
+Message-ID: <20161201095312.GA26366@lst.de>
 
-Thanks a lot Jay!
+Thanks a lot Andrzej!
 
-I've applied your patches and also updated REAMDE to not duplicate
-the man page.
+I've applied the patch, but I undid the reformatting of the nvmet
+code to keep the patch as simple as possible.
