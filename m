@@ -1,23 +1,20 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 2 Dec 2016 10:16:44 +0100
-Subject: [PATCH v6 6/7] nvme-fabrics: Add target support for FC transport
-In-Reply-To: <584130bb.wO2ZMznRirRaByPC%jsmart2021@gmail.com>
-References: <584130bb.wO2ZMznRirRaByPC%jsmart2021@gmail.com>
-Message-ID: <20161202091644.a5qobhueby3mroeq@linux-x5ow.site>
+Date: Fri, 2 Dec 2016 10:16:53 +0100
+Subject: [PATCH v6 7/7] nvme-fabrics: Add FC LLDD loopback driver to test
+ FC-NVME
+In-Reply-To: <584130bc.jhaGKcwLa/ND+sLZ%jsmart2021@gmail.com>
+References: <584130bc.jhaGKcwLa/ND+sLZ%jsmart2021@gmail.com>
+Message-ID: <20161202091653.njg3tn24pla3nug5@linux-x5ow.site>
 
-On Fri, Dec 02, 2016@12:28:43AM -0800, James Smart wrote:
+On Fri, Dec 02, 2016@12:28:44AM -0800, James Smart wrote:
 > 
-> Add nvme-fabrics target support for FC transport
+> Add FC LLDD loopback driver to test FC host and target transport within
+> nvme-fabrics
 > 
-> Implements the FC-NVME T11 definition of how nvme fabric capsules are
-> performed on an FC fabric. Utilizes a lower-layer API to FC host adapters
-> to send/receive FC-4 LS operations and perform the FCP transactions
-> necessary to perform and FCP IO request for NVME.
-> 
-> The T11 definitions for FC-4 Link Services are implemented which create
-> NVMeOF connections.  Implements the hooks with nvmet layer to pass NVME
-> commands to it for processing and posting of data/response base to the
-> host via the different connections.
+> To aid in the development and testing of the lower-level api of the FC
+> transport, this loopback driver has been created to act as if it were a
+> FC hba driver supporting both the host interfaces as well as the target
+> interfaces with the nvme FC transport.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
