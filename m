@@ -1,43 +1,48 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 1 Dec 2016 13:22:39 -0500
-Subject: [PATCH v2 2/4] block: Add Sed-opal library
-In-Reply-To: <20161201175343.GA6554@sbauer-Z170X-UD5>
-References: <1480456322-27339-1-git-send-email-scott.bauer@intel.com>
- <1480456322-27339-3-git-send-email-scott.bauer@intel.com>
- <20161201005006.GE21081@localhost.localdomain>
- <20161201100456.GA17592@infradead.org>
- <20161201175343.GA6554@sbauer-Z170X-UD5>
-Message-ID: <20161201182239.GH21081@localhost.localdomain>
+From: luto@kernel.org (Andy Lutomirski)
+Date: Thu,  1 Dec 2016 16:42:41 -0800
+Subject: [PATCH v2] nvme/pci: Log PCI_STATUS when the controller dies
+Message-ID: <f028ad4073488a571f2e19e19ccff0f6daa4af33.1480639321.git.luto@kernel.org>
 
-On Thu, Dec 01, 2016@10:53:43AM -0700, Scott Bauer wrote:
-> > Maybe.  I need to look at the TCG spec again (oh my good, what a fucking
-> > mess), but if I remember the context if it is the whole nvme controller
-> > and not just a namespace, so a block_device might be the wrong context.
-> > Then again we can always go from the block_device to the controller
-> > fairly easily.  So instead of adding the security operation to the
-> > block_device_operations which we don't really need for now maybe we
-> > should add a security_conext to the block device so that we can avoid
-> > all the lookup code?
-> 
-> I spent some time this morning reading through the numerous specs/documents,
-> with a lot of coffee.
-> 
-> Specifically in:
-> https://www.trustedcomputinggroup.org/wp-content/uploads/TCG_SWG_SIIS_Version_1_02_Revision_1_00_20111230.pdf
-> 
-> 5.5.2
-> Namespace
-> 
-> A target that has multiple Namespaces MAY have  multiple TPers. Each TPer
-> SHALL be associated with a different Namespace. Every Namespace on a device
-> is not required to have a TPer, but Namespaces that support the TCG Core
-> specification commands and functionality SHALL have a TPer. A TPer SHALL only
-> be associated with exactly one Namespace. A Namespace MAY have no TPer.
-> 
-> From reading that it seems we will probably have to keep it at the block layer,
-> since its possible to have a valid "Locking range 1" on n1 and a "Locking range 1"
-> on n2.
+When debugging nvme controller crashes, it's nice to know whether
+the controller died cleanly so that the failure is just reflected in
+CSTS, it died and put an error in PCI_STATUS, or whether it died so
+badly that it stopped responding to PCI configuration space reads.
 
-Thanks for tracking that down! Specifically for NVMe, security
-send/recieve requires NSID, so it is a little more difficult to get to
-that if we're not using the abstracton that contains the namespace.
+Signed-off-by: Andy Lutomirski <luto at kernel.org>
+---
+ drivers/nvme/host/pci.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 0248d0e21fee..f8dd83be01d9 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1292,10 +1292,22 @@ static void nvme_watchdog_timer(unsigned long data)
+ 
+ 	/* Skip controllers under certain specific conditions. */
+ 	if (nvme_should_reset(dev, csts)) {
+-		if (!nvme_reset(dev))
+-			dev_warn(dev->dev,
+-				"Failed status: 0x%x, reset controller.\n",
+-				csts);
++		if (!nvme_reset(dev)) {
++			/* Read a config register to help see what died. */
++			u16 pci_status;
++			int result;
++
++			result = pci_read_config_word(to_pci_dev(dev->dev),
++						      PCI_STATUS, &pci_status);
++			if (result == PCIBIOS_SUCCESSFUL)
++				dev_warn(dev->dev,
++					 "controller is down; will reset: CSTS=0x%x, PCI_STATUS=0x%hx\n",
++					 csts, pci_status);
++			else
++				dev_warn(dev->dev,
++					 "controller is down; will reset: CSTS=0x%x, PCI_STATUS read failed (%d)\n",
++					 csts, result);
++		}
+ 		return;
+ 	}
+ 
+-- 
+2.9.3
