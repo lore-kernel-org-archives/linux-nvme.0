@@ -1,96 +1,170 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri,  2 Dec 2016 19:31:03 +0100
-Subject: [PATCH 3/3] ahci: warn about remapped NVMe devices
-In-Reply-To: <1480703463-17489-1-git-send-email-hch@lst.de>
-References: <1480703463-17489-1-git-send-email-hch@lst.de>
-Message-ID: <1480703463-17489-4-git-send-email-hch@lst.de>
+From: efremmc2@gmail.com (Efrem Mc)
+Date: Fri, 2 Dec 2016 14:22:29 -0500
+Subject: Storage Work Group Storage Interface Interactions Specification -
+ updates
+Message-ID: <CAEhOZreyG71otjMGnSocBUebABuyki67dsJSWxjAW6Gs5oR0Xg@mail.gmail.com>
 
-Some Intel ahci implementations have a completely broken remapping mode
-where they hide one or more NVMe devices behind the bar of an AHCI device.
+Hi all:
 
-Intel refuses to let the OS reprogram the BIOS to switch out of this
-mode at runtime, and so far we're not come up with another good way
-to undo the mess that the Chipset people created.  So for now the only
-thing we can do is to alert users about this situation and switch to the
-faster and much saner so called "AHCI" mode insted of the RAID mode in
-the BIOS so that the BIOS does not hide the NVMe devices from us.
+Scott B. previously provided us with an excellent resource link, it
+looks like there are updated specifications.  [I think I might be
+getting a NVME drive for my Z170 system, it support Gen 3x4,
+32Gb/xftr. My laptop has nvme 512MB PCIe good speeds]
 
-The sitation is even worse as at least one vendor (thanks a lot Lenovo..)
-has started hardcoding their BIOS into the "RAID" mode even for laptops
-that don't use AHCI _at all_ and just have a single NVMe device.  For now
-there is an unspported Linux-only BIOS that undoes this braindamage,
-but we'll have to see if things are getting better or worse from here.
+Public review:
+http://www.trustedcomputinggroup.org/wp-content/uploads/TCG_SWG_SIIS_Version_1_06_Revision_1_08_public-review.pdf
 
-Based on an earlier patch from Dan Williams <dan.j.williams at intel.com>.
+Latest:
+http://www.trustedcomputinggroup.org/wp-content/uploads/TCG_SWG_SIIS_Version_1_05_Revision_1_00.pdf
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/ata/ahci.c | 39 +++++++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+Errata 1.03 no others are listed
+http://www.trustedcomputinggroup.org/wp-content/uploads/TCG_Storage-SIIS_v1_03_errata_v1.00_r1.00.pdf
 
-diff --git a/drivers/ata/ahci.c b/drivers/ata/ahci.c
-index ba5f11c..516a689 100644
---- a/drivers/ata/ahci.c
-+++ b/drivers/ata/ahci.c
-@@ -46,6 +46,8 @@
- #include <scsi/scsi_host.h>
- #include <scsi/scsi_cmnd.h>
- #include <linux/libata.h>
-+#include <linux/ahci-remap.h>
-+#include <linux/io-64-nonatomic-lo-hi.h>
- #include "ahci.h"
- 
- #define DRV_NAME	"ahci"
-@@ -1400,6 +1402,40 @@ static irqreturn_t ahci_thunderx_irq_handler(int irq, void *dev_instance)
- }
- #endif
- 
-+static void ahci_remap_check(struct pci_dev *pdev, int bar,
-+		struct ahci_host_priv *hpriv)
-+{
-+	int i, count = 0;
-+	u32 cap;
-+
-+	/*
-+	 * Check if this device might have remapped nvme devices.
-+	 */
-+	if (pdev->vendor != PCI_VENDOR_ID_INTEL ||
-+	    pci_resource_len(pdev, bar) < SZ_512K ||
-+	    bar != AHCI_PCI_BAR_STANDARD ||
-+	    !(readl(hpriv->mmio + AHCI_VSCAP) & 1))
-+		return;
-+
-+	cap = readq(hpriv->mmio + AHCI_REMAP_CAP);
-+	for (i = 0; i < AHCI_MAX_REMAP; i++) {
-+		if ((cap & (1 << i)) == 0)
-+			continue;
-+		if (readl(hpriv->mmio + ahci_remap_dcc(i))
-+				!= PCI_CLASS_STORAGE_EXPRESS)
-+			continue;
-+
-+		/* We've found a remapped device */
-+		count++;
-+	}
-+
-+	if (!count)
-+		return;
-+
-+	dev_warn(&pdev->dev, "Found %d remapped NVMe devices.\n", count);
-+	dev_warn(&pdev->dev, "Switch your BIOS from RAID to AHCI mode to use them.\n");
-+}
-+
- static int ahci_get_irq_vector(struct ata_host *host, int port)
- {
- 	return pci_irq_vector(to_pci_dev(host->dev), port);
-@@ -1545,6 +1581,9 @@ static int ahci_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
- 
- 	hpriv->mmio = pcim_iomap_table(pdev)[ahci_pci_bar];
- 
-+	/* detect remapped nvme devices */
-+	ahci_remap_check(pdev, ahci_pci_bar, hpriv);
-+
- 	/* must set flag prior to save config in order to take effect */
- 	if (ahci_broken_devslp(pdev))
- 		hpriv->flags |= AHCI_HFLAG_NO_DEVSLP;
--- 
-2.1.4
+Thanks Scott, it was interesting to review,
+
+On Thu, Dec 1, 2016@3:00 PM,  <linux-nvme-request@lists.infradead.org> wrote:
+> Send Linux-nvme mailing list submissions to
+>         linux-nvme at lists.infradead.org
+>
+> To subscribe or unsubscribe via the World Wide Web, visit
+>         http://lists.infradead.org/mailman/listinfo/linux-nvme
+> or, via email, send a message with subject or body 'help' to
+>         linux-nvme-request at lists.infradead.org
+>
+> You can reach the person managing the list at
+>         linux-nvme-owner at lists.infradead.org
+>
+> When replying, please edit your Subject line so it is more specific
+> than "Re: Contents of Linux-nvme digest..."
+>
+>
+> Today's Topics:
+>
+>    1. Re: [PATCH v2 2/4] block: Add Sed-opal library (Scott Bauer)
+>    2. Re: [PATCH v2 2/4] block: Add Sed-opal library (Keith Busch)
+>
+>
+> ----------------------------------------------------------------------
+>
+> Message: 1
+> Date: Thu, 1 Dec 2016 10:53:43 -0700
+> From: Scott Bauer <scott.bauer at intel.com>
+> To: Christoph Hellwig <hch at infradead.org>
+> Cc: Keith Busch <keith.busch at intel.com>, sagi at grimberg.me,
+>         Rafael.Antognolli at intel.com, linux-nvme at lists.infradead.org,
+>         axboe at fb.com, linux-block at vger.kernel.org, jonathan.derrick at intel.com,
+>         j.naumann at fu-berlin.de
+> Subject: Re: [PATCH v2 2/4] block: Add Sed-opal library
+> Message-ID: <20161201175343.GA6554 at sbauer-Z170X-UD5>
+> Content-Type: text/plain; charset=us-ascii
+>
+> On Thu, Dec 01, 2016@02:04:56AM -0800, Christoph Hellwig wrote:
+>> On Wed, Nov 30, 2016@07:50:07PM -0500, Keith Busch wrote:
+>> > I think we should get rid of the "majmin" stuff
+>>
+>> Absolutely agreed.
+>>
+>> >
+>> > and directly use
+>> > block_device. Then if we add the security send/receive operations to the
+>> > block_device_operations, that will simplify chaining the security request
+>> > to the driver without needing to thread the driver's requested callback
+>> > and data the way you have to here since all the necessary information
+>> > is encapsulated in the block_device.
+>>
+>> Maybe.  I need to look at the TCG spec again (oh my good, what a fucking
+>> mess), but if I remember the context if it is the whole nvme controller
+>> and not just a namespace, so a block_device might be the wrong context.
+>> Then again we can always go from the block_device to the controller
+>> fairly easily.  So instead of adding the security operation to the
+>> block_device_operations which we don't really need for now maybe we
+>> should add a security_conext to the block device so that we can avoid
+>> all the lookup code?
+>
+> I spent some time this morning reading through the numerous specs/documents,
+> with a lot of coffee.
+>
+> Specifically in:
+> https://www.trustedcomputinggroup.org/wp-content/uploads/TCG_SWG_SIIS_Version_1_02_Revision_1_00_20111230.pdf
+>
+> 5.5.2
+> Namespace
+>
+> A target that has multiple Namespaces MAY have  multiple TPers. Each TPer
+> SHALL be associated with a different Namespace. Every Namespace on a device
+> is not required to have a TPer, but Namespaces that support the TCG Core
+> specification commands and functionality SHALL have a TPer. A TPer SHALL only
+> be associated with exactly one Namespace. A Namespace MAY have no TPer.
+>
+> >From reading that it seems we will probably have to keep it at the block layer,
+> since its possible to have a valid "Locking range 1" on n1 and a "Locking range 1"
+> on n2.
+>
+>
+> [snip]
+>
+>
+>
+> ------------------------------
+>
+> Message: 2
+> Date: Thu, 1 Dec 2016 13:22:39 -0500
+> From: Keith Busch <keith.busch at intel.com>
+> To: Scott Bauer <scott.bauer at intel.com>
+> Cc: Christoph Hellwig <hch at infradead.org>, sagi at grimberg.me,
+>         Rafael.Antognolli at intel.com, linux-nvme at lists.infradead.org,
+>         axboe at fb.com, linux-block at vger.kernel.org, jonathan.derrick at intel.com,
+>         j.naumann at fu-berlin.de
+> Subject: Re: [PATCH v2 2/4] block: Add Sed-opal library
+> Message-ID: <20161201182239.GH21081 at localhost.localdomain>
+> Content-Type: text/plain; charset=us-ascii
+>
+> On Thu, Dec 01, 2016@10:53:43AM -0700, Scott Bauer wrote:
+>> > Maybe.  I need to look at the TCG spec again (oh my good, what a fucking
+>> > mess), but if I remember the context if it is the whole nvme controller
+>> > and not just a namespace, so a block_device might be the wrong context.
+>> > Then again we can always go from the block_device to the controller
+>> > fairly easily.  So instead of adding the security operation to the
+>> > block_device_operations which we don't really need for now maybe we
+>> > should add a security_conext to the block device so that we can avoid
+>> > all the lookup code?
+>>
+>> I spent some time this morning reading through the numerous specs/documents,
+>> with a lot of coffee.
+>>
+>> Specifically in:
+>> https://www.trustedcomputinggroup.org/wp-content/uploads/TCG_SWG_SIIS_Version_1_02_Revision_1_00_20111230.pdf
+>>
+>> 5.5.2
+>> Namespace
+>>
+>> A target that has multiple Namespaces MAY have  multiple TPers. Each TPer
+>> SHALL be associated with a different Namespace. Every Namespace on a device
+>> is not required to have a TPer, but Namespaces that support the TCG Core
+>> specification commands and functionality SHALL have a TPer. A TPer SHALL only
+>> be associated with exactly one Namespace. A Namespace MAY have no TPer.
+>>
+>> From reading that it seems we will probably have to keep it at the block layer,
+>> since its possible to have a valid "Locking range 1" on n1 and a "Locking range 1"
+>> on n2.
+>
+> Thanks for tracking that down! Specifically for NVMe, security
+> send/recieve requires NSID, so it is a little more difficult to get to
+> that if we're not using the abstracton that contains the namespace.
+>
+>
+>
+> ------------------------------
+>
+> Subject: Digest Footer
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
+>
+> ------------------------------
+>
+> End of Linux-nvme Digest, Vol 57, Issue 3
+> *****************************************
