@@ -1,61 +1,8 @@
-From: luto@kernel.org (Andy Lutomirski)
-Date: Fri,  2 Dec 2016 08:58:57 -0800
-Subject: [PATCH v3] nvme/pci: Log PCI_STATUS when the controller dies
-Message-ID: <c28126550f46f20aec1f069a4a8d10d802332dda.1480697884.git.luto@kernel.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri,  2 Dec 2016 19:31:00 +0100
+Subject: detect and warn about ahci-remapped NVMe devices
+Message-ID: <1480703463-17489-1-git-send-email-hch@lst.de>
 
-When debugging nvme controller crashes, it's nice to know whether
-the controller died cleanly so that the failure is just reflected in
-CSTS, it died and put an error in PCI_STATUS, or whether it died so
-badly that it stopped responding to PCI configuration space reads.
-
-I've seen a failure that gives 0xffff in PCI_STATUS on a Samsung
-"SM951 NVMe SAMSUNG 256GB" with firmware "BXW75D0Q".
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Andy Lutomirski <luto at kernel.org>
----
- drivers/nvme/host/pci.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5e52034ab010..628dc916ae9a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1281,6 +1281,24 @@ static bool nvme_should_reset(struct nvme_dev *dev, u32 csts)
- 	return true;
- }
- 
-+static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
-+{
-+	/* Read a config register to help see what died. */
-+	u16 pci_status;
-+	int result;
-+
-+	result = pci_read_config_word(to_pci_dev(dev->dev), PCI_STATUS,
-+				      &pci_status);
-+	if (result == PCIBIOS_SUCCESSFUL)
-+		dev_warn(dev->dev,
-+			 "controller is down; will reset: CSTS=0x%x, PCI_STATUS=0x%hx\n",
-+			 csts, pci_status);
-+	else
-+		dev_warn(dev->dev,
-+			 "controller is down; will reset: CSTS=0x%x, PCI_STATUS read failed (%d)\n",
-+			 csts, result);
-+}
-+
- static void nvme_watchdog_timer(unsigned long data)
- {
- 	struct nvme_dev *dev = (struct nvme_dev *)data;
-@@ -1289,9 +1307,7 @@ static void nvme_watchdog_timer(unsigned long data)
- 	/* Skip controllers under certain specific conditions. */
- 	if (nvme_should_reset(dev, csts)) {
- 		if (!nvme_reset(dev))
--			dev_warn(dev->dev,
--				"Failed status: 0x%x, reset controller.\n",
--				csts);
-+			 nvme_warn_reset(dev, csts);
- 		return;
- 	}
- 
--- 
-2.9.3
+Just a small band-aid to detect the AHCI-remapped NVMe devices
+for now.  Hopefully we'll eventually get a fake PCIe root port
+driver ala VMD for them.
