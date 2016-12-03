@@ -1,22 +1,40 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Fri, 2 Dec 2016 21:16:11 -0700
-Subject: [PATCH v3] nvme/pci: Log PCI_STATUS when the controller dies
-In-Reply-To: <c28126550f46f20aec1f069a4a8d10d802332dda.1480697884.git.luto@kernel.org>
-References: <c28126550f46f20aec1f069a4a8d10d802332dda.1480697884.git.luto@kernel.org>
-Message-ID: <71a856fc-8a23-2686-fcc4-5ac05252e515@fb.com>
+From: sergei.shtylyov@cogentembedded.com (Sergei Shtylyov)
+Date: Sat, 3 Dec 2016 13:57:01 +0300
+Subject: [PATCH 2/3] ahci-remap.h: add ahci remapping definitions
+In-Reply-To: <1480703463-17489-3-git-send-email-hch@lst.de>
+References: <1480703463-17489-1-git-send-email-hch@lst.de>
+ <1480703463-17489-3-git-send-email-hch@lst.de>
+Message-ID: <aa6cba2c-6cf7-0222-b871-d98d1c8e4fe8@cogentembedded.com>
 
-On 12/02/2016 09:58 AM, Andy Lutomirski wrote:
-> When debugging nvme controller crashes, it's nice to know whether
-> the controller died cleanly so that the failure is just reflected in
-> CSTS, it died and put an error in PCI_STATUS, or whether it died so
-> badly that it stopped responding to PCI configuration space reads.
-> 
-> I've seen a failure that gives 0xffff in PCI_STATUS on a Samsung
-> "SM951 NVMe SAMSUNG 256GB" with firmware "BXW75D0Q".
+Hello.
 
-I have added this for 4.10. Note that I had to hand-apply, since your
-patch did not apply to the 4.10 branch. Additionally, you had a white
-space problem before the call to nvme_warn_reset() that I also fixed up.
+On 12/2/2016 9:31 PM, Christoph Hellwig wrote:
 
--- 
-Jens Axboe
+> From: Dan Williams <dan.j.williams at intel.com>
+>
+> Signed-off-by: Dan Williams <dan.j.williams at intel.com>
+> [hch: split into a separate header and commit]
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  include/linux/ahci-remap.h | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>  create mode 100644 include/linux/ahci-remap.h
+>
+> diff --git a/include/linux/ahci-remap.h b/include/linux/ahci-remap.h
+> new file mode 100644
+> index 0000000..883d366
+> --- /dev/null
+> +++ b/include/linux/ahci-remap.h
+> @@ -0,0 +1,29 @@
+> +#ifndef _LINUX_AHCI_REMAP_H
+> +#define _LINUX_AHCI_REMAP_H
+> +
+> +#include <linux/sizes.h>
+> +
+> +#define AHCI_VSCAP		0xa4
+> +#define AHCI_REMAP_CAP		0x800
+> +#define AHCI_VSCAP		0xa4
+
+    Why do it twice?
+
+MBR, Sergei
