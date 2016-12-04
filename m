@@ -1,40 +1,83 @@
-From: sergei.shtylyov@cogentembedded.com (Sergei Shtylyov)
-Date: Sat, 3 Dec 2016 13:57:01 +0300
-Subject: [PATCH 2/3] ahci-remap.h: add ahci remapping definitions
-In-Reply-To: <1480703463-17489-3-git-send-email-hch@lst.de>
-References: <1480703463-17489-1-git-send-email-hch@lst.de>
- <1480703463-17489-3-git-send-email-hch@lst.de>
-Message-ID: <aa6cba2c-6cf7-0222-b871-d98d1c8e4fe8@cogentembedded.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon,  5 Dec 2016 00:02:06 +0200
+Subject: [GIT PULL] nvme fabrics patches for 4.10
+Message-ID: <1480888926-19235-1-git-send-email-sagi@grimberg.me>
 
-Hello.
+Hey Jens,
 
-On 12/2/2016 9:31 PM, Christoph Hellwig wrote:
+The major addition here is the nvme FC transport implementation
+from James.
 
-> From: Dan Williams <dan.j.williams at intel.com>
->
-> Signed-off-by: Dan Williams <dan.j.williams at intel.com>
-> [hch: split into a separate header and commit]
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  include/linux/ahci-remap.h | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->  create mode 100644 include/linux/ahci-remap.h
->
-> diff --git a/include/linux/ahci-remap.h b/include/linux/ahci-remap.h
-> new file mode 100644
-> index 0000000..883d366
-> --- /dev/null
-> +++ b/include/linux/ahci-remap.h
-> @@ -0,0 +1,29 @@
-> +#ifndef _LINUX_AHCI_REMAP_H
-> +#define _LINUX_AHCI_REMAP_H
-> +
-> +#include <linux/sizes.h>
-> +
-> +#define AHCI_VSCAP		0xa4
-> +#define AHCI_REMAP_CAP		0x800
-> +#define AHCI_VSCAP		0xa4
+What else:
+- some cleanups and memory leak fixes in the host side fabrics code from Bart
+- possible rcu violation fix from Sasha
+- logging change from Max
+- small include cleanup
 
-    Why do it twice?
+Please pull from:
 
-MBR, Sergei
+  git://git.infradead.org/nvme-fabrics.git nvmf-4.10
+
+----------------------------------------------------------------
+Bart Van Assche (5):
+      nvmet-rdma: Fix REJ status code
+      nvme-fabrics: Fix memory leaks in nvmf_parse_options()
+      nvme-fabrics: Fix a memory leak in an nvmf_create_ctrl() error path
+      nvme/scsi: Remove set-but-not-used variables
+      nvme-fabrics: Adjust source code indentation
+
+James Smart (10):
+      parser: add u64 number parser
+      nvme-fabrics: set sqe.command_id in core not transports
+      nvme-fabrics: patch target code in prep for FC transport support
+      Add type 0x28 NVME type code to scsi fc headers
+      nvme-fabrics: Add FC transport error codes to nvme.h
+      nvme-fabrics: Add FC transport FC-NVME definitions
+      nvme-fabrics: Add FC transport LLDD api definitions
+      nvme-fabrics: Add host support for FC transport
+      nvme-fabrics: Add target support for FC transport
+      nvme-fabrics: Add FC LLDD loopback driver to test FC-NVME
+
+Max Gurtovoy (2):
+      nvmet-rdma: align to generic ib_event logging helper
+      nvme-rdma: align to generic ib_event logging helper
+
+Sagi Grimberg (1):
+      nvme-rdma: remove redundant define
+
+Samuel Jones (1):
+      nvme-rdma: force queue size to respect controller capability
+
+Solganik Alexander (1):
+      nvmet: Fix possible infinite loop triggered on hot namespace removal
+
+ MAINTAINERS                    |   10 +
+ drivers/nvme/host/Kconfig      |   17 +
+ drivers/nvme/host/Makefile     |    3 +
+ drivers/nvme/host/core.c       |    3 +-
+ drivers/nvme/host/fabrics.c    |    7 +-
+ drivers/nvme/host/fc.c         | 2586 ++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/pci.c        |    1 -
+ drivers/nvme/host/rdma.c       |   14 +-
+ drivers/nvme/host/scsi.c       |   11 +-
+ drivers/nvme/target/Kconfig    |   24 +
+ drivers/nvme/target/Makefile   |    4 +
+ drivers/nvme/target/configfs.c |   20 +-
+ drivers/nvme/target/core.c     |   14 +-
+ drivers/nvme/target/fc.c       | 2288 +++++++++++++++++++++++++++++++++++
+ drivers/nvme/target/fcloop.c   | 1148 ++++++++++++++++++
+ drivers/nvme/target/loop.c     |    1 -
+ drivers/nvme/target/nvmet.h    |    6 +-
+ drivers/nvme/target/rdma.c     |    8 +-
+ include/linux/nvme-fc-driver.h |  851 +++++++++++++
+ include/linux/nvme-fc.h        |  268 +++++
+ include/linux/nvme.h           |   13 +
+ include/linux/parser.h         |    1 +
+ include/uapi/scsi/fc/fc_fs.h   |    2 +
+ lib/parser.c                   |   47 +
+ 24 files changed, 7313 insertions(+), 34 deletions(-)
+ create mode 100644 drivers/nvme/host/fc.c
+ create mode 100644 drivers/nvme/target/fc.c
+ create mode 100644 drivers/nvme/target/fcloop.c
+ create mode 100644 include/linux/nvme-fc-driver.h
+ create mode 100644 include/linux/nvme-fc.h
