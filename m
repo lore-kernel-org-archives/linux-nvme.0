@@ -1,17 +1,23 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 5 Dec 2016 19:06:04 +0200
-Subject: [PATCH 3/3] nvme: Make controller state visible via sysfs
-In-Reply-To: <20161205153731.GB6529@lst.de>
+Date: Mon, 5 Dec 2016 19:06:44 +0200
+Subject: [PATCH 2/3] nvmet: Make cntlid globally unique
+In-Reply-To: <20161205153400.GA6529@lst.de>
 References: <1480936146-6406-1-git-send-email-sagi@grimberg.me>
- <1480936146-6406-4-git-send-email-sagi@grimberg.me>
- <20161205153731.GB6529@lst.de>
-Message-ID: <a6d90f76-b4db-1b5a-998c-739eef877dea@grimberg.me>
+ <1480936146-6406-3-git-send-email-sagi@grimberg.me>
+ <20161205153400.GA6529@lst.de>
+Message-ID: <1bbcabad-e586-c92b-ec06-c50f4dd1d09f@grimberg.me>
 
 
->> +	return sprintf(buf, "%s\n",
->> +		       (unsigned)ctrl->state < ARRAY_SIZE(state_name) ?
->> +		       state_name[ctrl->state] : "???");
+>> +	pr_info("creating controller %d for subsystem %s for NQN %s.\n",
+>> +		ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl->hostnqn);
 >
-> I'd use an if here instead of the ? : and print unknown instead of the ???
+> That's going to be a crazy long line in the dmesg log..
 
-I can change that...
+Have a better idea how to provide this information?
+
+>
+> Otherwise looks fine:
+>
+>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+>
