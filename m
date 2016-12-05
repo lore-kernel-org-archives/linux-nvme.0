@@ -1,21 +1,20 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 5 Dec 2016 16:08:01 +0200
-Subject: [PATCH 1/3] nvmet: delete controllers deletion upon subsystem
- release
-In-Reply-To: <20161205113907.GH8481@linux-x5ow.site>
+Date: Mon, 5 Dec 2016 16:08:52 +0200
+Subject: [PATCH 2/3] nvmet: Make cntlid globally unique
+In-Reply-To: <20161205113843.GG8481@linux-x5ow.site>
 References: <1480936146-6406-1-git-send-email-sagi@grimberg.me>
- <1480936146-6406-2-git-send-email-sagi@grimberg.me>
- <20161205113907.GH8481@linux-x5ow.site>
-Message-ID: <a3074fea-0a1e-e5dc-03f8-6b4420c8a628@mellanox.com>
+ <1480936146-6406-3-git-send-email-sagi@grimberg.me>
+ <20161205113843.GG8481@linux-x5ow.site>
+Message-ID: <eac28c7d-c6c9-7dcf-844a-b3f0da3beaa8@mellanox.com>
 
 
 
-On 12/5/2016 1:39 PM, Johannes Thumshirn wrote:
-> On Mon, Dec 05, 2016@01:09:04PM +0200, Sagi Grimberg wrote:
->> No reason for them to be kept around if we are
->> deleting the subsystem, so instead of passively
->> wait for the host to disconnect, actively delete
->> the controllers.
+On 12/5/2016 1:38 PM, Johannes Thumshirn wrote:
+> On Mon, Dec 05, 2016@01:09:05PM +0200, Sagi Grimberg wrote:
+>> We usually log the cntlid which is confusing in case
+>> we have multiple subsystems each with it's own cntlid ida.
+>> Instead make cntlid ida globally unique and log the initial
+>> association.
 >>
 >> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 >> ---
