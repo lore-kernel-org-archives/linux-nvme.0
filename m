@@ -1,66 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  5 Dec 2016 13:09:04 +0200
-Subject: [PATCH 1/3] nvmet: delete controllers deletion upon subsystem release
-In-Reply-To: <1480936146-6406-1-git-send-email-sagi@grimberg.me>
-References: <1480936146-6406-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1480936146-6406-2-git-send-email-sagi@grimberg.me>
+Date: Mon,  5 Dec 2016 13:09:03 +0200
+Subject: [PATCH 0/3] some useful fabrics patches
+Message-ID: <1480936146-6406-1-git-send-email-sagi@grimberg.me>
 
-No reason for them to be kept around if we are
-deleting the subsystem, so instead of passively
-wait for the host to disconnect, actively delete
-the controllers.
+No bug fixes, but useful patches I had in the pipe...
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/target/configfs.c |  1 +
- drivers/nvme/target/core.c     | 10 ++++++++++
- drivers/nvme/target/nvmet.h    |  1 +
- 3 files changed, 12 insertions(+)
+Sagi Grimberg (3):
+  nvmet: delete controllers deletion upon subsystem release
+  nvmet: Make cntlid globally unique
+  nvme: Make controller state visible via sysfs
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index d0f60c36d576..634a2d780e16 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -633,6 +633,7 @@ static void nvmet_subsys_release(struct config_item *item)
- {
- 	struct nvmet_subsys *subsys = to_subsys(item);
- 
-+	nvmet_subsys_del_ctrls(subsys);
- 	nvmet_subsys_put(subsys);
- }
- 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index b1d66ed655c9..4a367549eb93 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -935,6 +935,16 @@ static void nvmet_subsys_free(struct kref *ref)
- 	kfree(subsys);
- }
- 
-+void nvmet_subsys_del_ctrls(struct nvmet_subsys *subsys)
-+{
-+	struct nvmet_ctrl *ctrl;
-+
-+	mutex_lock(&subsys->lock);
-+	list_for_each_entry(ctrl, &subsys->ctrls, subsys_entry)
-+		ctrl->ops->delete_ctrl(ctrl);
-+	mutex_unlock(&subsys->lock);
-+}
-+
- void nvmet_subsys_put(struct nvmet_subsys *subsys)
- {
- 	kref_put(&subsys->ref, nvmet_subsys_free);
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 23d5eb1c944f..cc7ad06b43a7 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -282,6 +282,7 @@ void nvmet_ctrl_put(struct nvmet_ctrl *ctrl);
- struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 		enum nvme_subsys_type type);
- void nvmet_subsys_put(struct nvmet_subsys *subsys);
-+void nvmet_subsys_del_ctrls(struct nvmet_subsys *subsys);
- 
- struct nvmet_ns *nvmet_find_namespace(struct nvmet_ctrl *ctrl, __le32 nsid);
- void nvmet_put_namespace(struct nvmet_ns *ns);
+ drivers/nvme/host/core.c          | 21 +++++++++++++++++++++
+ drivers/nvme/target/configfs.c    |  1 +
+ drivers/nvme/target/core.c        | 20 ++++++++++++++------
+ drivers/nvme/target/fabrics-cmd.c |  4 ++--
+ drivers/nvme/target/nvmet.h       |  2 +-
+ 5 files changed, 39 insertions(+), 9 deletions(-)
+
 -- 
 2.7.4
