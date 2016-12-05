@@ -1,23 +1,29 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 5 Dec 2016 19:08:03 +0200
-Subject: [PATCH 1/3] nvmet: delete controllers deletion upon subsystem
- release
-In-Reply-To: <20161205154039.GC6529@lst.de>
-References: <1480936146-6406-1-git-send-email-sagi@grimberg.me>
- <1480936146-6406-2-git-send-email-sagi@grimberg.me>
- <20161205154039.GC6529@lst.de>
-Message-ID: <72c13127-830a-e3b1-c10c-6992da0502e8@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 5 Dec 2016 10:42:37 -0700
+Subject: [GIT PULL] nvme fabrics patches for 4.10
+In-Reply-To: <1480888926-19235-1-git-send-email-sagi@grimberg.me>
+References: <1480888926-19235-1-git-send-email-sagi@grimberg.me>
+Message-ID: <6d35084f-f7e2-28bc-9a2b-740af461f02e@kernel.dk>
 
+On 12/04/2016 03:02 PM, Sagi Grimberg wrote:
+> Hey Jens,
+> 
+> The major addition here is the nvme FC transport implementation
+> from James.
+> 
+> What else:
+> - some cleanups and memory leak fixes in the host side fabrics code from Bart
+> - possible rcu violation fix from Sasha
+> - logging change from Max
+> - small include cleanup
+> 
+> Please pull from:
+> 
+>   git://git.infradead.org/nvme-fabrics.git nvmf-4.10
 
->> No reason for them to be kept around if we are
->> deleting the subsystem, so instead of passively
->> wait for the host to disconnect, actively delete
->> the controllers.
->
-> Looks fine, but I'd really love to see a testcase for this in some form..
+Ehm no. This isn't based on my 4.10 branch, hence I get a ton of
+unrelated commits if I pull this in. Please rebase this on top of
+4.10/block first, thanks.
 
-Should we revive the selftests branch?
-
->
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
->
+-- 
+Jens Axboe
