@@ -1,14 +1,17 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 5 Dec 2016 19:05:41 +0200
+Date: Mon, 5 Dec 2016 19:06:04 +0200
 Subject: [PATCH 3/3] nvme: Make controller state visible via sysfs
-In-Reply-To: <06f399ae-4483-2790-878e-08bfc04bea4b@mellanox.com>
+In-Reply-To: <20161205153731.GB6529@lst.de>
 References: <1480936146-6406-1-git-send-email-sagi@grimberg.me>
  <1480936146-6406-4-git-send-email-sagi@grimberg.me>
- <06f399ae-4483-2790-878e-08bfc04bea4b@mellanox.com>
-Message-ID: <bc5fafa8-7afe-f02d-4bde-0b5bbeadaa6e@grimberg.me>
+ <20161205153731.GB6529@lst.de>
+Message-ID: <a6d90f76-b4db-1b5a-998c-739eef877dea@grimberg.me>
 
 
-> Sagi,
-> what about locking the "ctrl->lock" and making it more up-to-date ?
+>> +	return sprintf(buf, "%s\n",
+>> +		       (unsigned)ctrl->state < ARRAY_SIZE(state_name) ?
+>> +		       state_name[ctrl->state] : "???");
+>
+> I'd use an if here instead of the ? : and print unknown instead of the ???
 
-Don't see why we should do that. What are you trying to protect against?
+I can change that...
