@@ -1,14 +1,16 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 5 Dec 2016 12:37:33 +0100
-Subject: [PATCH 3/3] nvme: Make controller state visible via sysfs
-In-Reply-To: <1480936146-6406-4-git-send-email-sagi@grimberg.me>
+Date: Mon, 5 Dec 2016 12:38:43 +0100
+Subject: [PATCH 2/3] nvmet: Make cntlid globally unique
+In-Reply-To: <1480936146-6406-3-git-send-email-sagi@grimberg.me>
 References: <1480936146-6406-1-git-send-email-sagi@grimberg.me>
- <1480936146-6406-4-git-send-email-sagi@grimberg.me>
-Message-ID: <20161205113733.GF8481@linux-x5ow.site>
+ <1480936146-6406-3-git-send-email-sagi@grimberg.me>
+Message-ID: <20161205113843.GG8481@linux-x5ow.site>
 
-On Mon, Dec 05, 2016@01:09:06PM +0200, Sagi Grimberg wrote:
-> Easier for debugging and testing state machine
-> transitions.
+On Mon, Dec 05, 2016@01:09:05PM +0200, Sagi Grimberg wrote:
+> We usually log the cntlid which is confusing in case
+> we have multiple subsystems each with it's own cntlid ida.
+> Instead make cntlid ida globally unique and log the initial
+> association.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
