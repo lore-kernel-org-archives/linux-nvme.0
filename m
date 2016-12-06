@@ -1,20 +1,32 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 6 Dec 2016 09:28:26 +0100
-Subject: [PATCH 2/3] nvmet: Make cntlid globally unique
-In-Reply-To: <1bbcabad-e586-c92b-ec06-c50f4dd1d09f@grimberg.me>
-References: <1480936146-6406-1-git-send-email-sagi@grimberg.me>
- <1480936146-6406-3-git-send-email-sagi@grimberg.me>
- <20161205153400.GA6529@lst.de>
- <1bbcabad-e586-c92b-ec06-c50f4dd1d09f@grimberg.me>
-Message-ID: <20161206082826.GC12194@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 6 Dec 2016 11:03:04 +0200
+Subject: [GIT PULL] nvme fabrics patches for 4.10
+In-Reply-To: <6d35084f-f7e2-28bc-9a2b-740af461f02e@kernel.dk>
+References: <1480888926-19235-1-git-send-email-sagi@grimberg.me>
+ <6d35084f-f7e2-28bc-9a2b-740af461f02e@kernel.dk>
+Message-ID: <81f35340-759e-b134-296f-60b832cccf12@grimberg.me>
 
-On Mon, Dec 05, 2016@07:06:44PM +0200, Sagi Grimberg wrote:
->
->>> +	pr_info("creating controller %d for subsystem %s for NQN %s.\n",
->>> +		ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl->hostnqn);
+
+
+>> Hey Jens,
 >>
->> That's going to be a crazy long line in the dmesg log..
+>> The major addition here is the nvme FC transport implementation
+>> from James.
+>>
+>> What else:
+>> - some cleanups and memory leak fixes in the host side fabrics code from Bart
+>> - possible rcu violation fix from Sasha
+>> - logging change from Max
+>> - small include cleanup
+>>
+>> Please pull from:
+>>
+>>   git://git.infradead.org/nvme-fabrics.git nvmf-4.10
 >
-> Have a better idea how to provide this information?
+> Ehm no. This isn't based on my 4.10 branch, hence I get a ton of
+> unrelated commits if I pull this in. Please rebase this on top of
+> 4.10/block first, thanks.
 
-Not sure.  Maybe multiple lines?
+Sorry for that,
+
+I updated nvmf-4.10 to apply on top of for-4.10/block.
