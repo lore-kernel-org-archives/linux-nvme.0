@@ -1,50 +1,24 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 7 Dec 2016 17:27:46 -0500
-Subject: [PATCH] nvme: create the correct number of queues
-In-Reply-To: <20161207220326.8461-1-ddstreet@ieee.org>
-References: <20161207220326.8461-1-ddstreet@ieee.org>
-Message-ID: <20161207222746.GD22478@localhost.localdomain>
+Date: Wed, 7 Dec 2016 17:44:14 -0500
+Subject: [PATCH] nvme: use the correct msix vector for each queue
+In-Reply-To: <20161207220348.8572-1-ddstreet@ieee.org>
+References: <20161207220348.8572-1-ddstreet@ieee.org>
+Message-ID: <20161207224414.GE22478@localhost.localdomain>
 
-On Wed, Dec 07, 2016@05:03:26PM -0500, Dan Streetman wrote:
-> Change nr_io_queues variable name to nr_queues, as it includes not
-> only the io queues but also the admin queue in its count; and change
-> the variable name in functions that it is passed into, for clarity.
+On Wed, Dec 07, 2016@05:03:48PM -0500, Dan Streetman wrote:
+> Change each queue's cq_vector to match its qid, instead of qid - 1.
 > 
-> Also correct misuses of the nr_queue count:
-> 
-> In the db_bar_size() function, the calculation added 1 to the
-> nr_io_queues value to account for the admin queue, but since that's
-> actually already in the nr_queue count, don't add it.
-> 
-> In the nvme_setup_io_queues() function when allocating irq vectors,
-> it considers the minimum number of queues to be 1, but actually 2
-> queues are needed; 1 admin queue + at least 1 io queue.
-> 
-> When setting the device's max_qid (maximum queue index id), it's
-> currently set to nr_io_queues, but since nr_queues counts all
-> queues, and because max_qid is 0-based and nr_queues is 1-based,
-> max_qid must be set to nr_queues - 1.
-> 
-> Signed-off-by: Dan Streetman <dan.streetman at canonical.com>
->
-> ---
+> The first queue is always the admin queue, and the remaining queues are
+> I/O queues.  The interrupt vectors they use are all in the same array,
+> however, the vector indexes for the admin and I/O queues are setup
+> differently; the admin queue's cq_vector is manually set to 0, while
+> each I/O queue's cq_vector is set to qid - 1.  Since the admin queue
+> is qid 0, and the I/O queues start at qid 1, using qid - 1 is wrong for the
+> I/O queues, as it makes the first I/O queue (qid 1) share the vector from
+> the admin queue (qid 0), and no queue uses the last interrupt vector.
+> Instead, each I/O queue should set their cq_vector to qid.
 
-[snip]  
-
->  static int nvme_setup_io_queues(struct nvme_dev *dev)
->  {
->  	struct nvme_queue *adminq = dev->queues[0];
->  	struct pci_dev *pdev = to_pci_dev(dev->dev);
-> -	int result, nr_io_queues, size;
-> +	int result, nr_queues, size;
->  
-> -	nr_io_queues = num_online_cpus();
-> -	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
-> +	nr_queues = num_online_cpus();
-
-I'm not sure I follow. If you want to say nr_queues includes the admin
-queue, the above is incorrect. We want the number of io queues to equal
-the number of online cpus, so if nr_queues includes the admin, we're
-off by one.
-
-I don't think there's anything wrong with the code as it is, though.
+pci_alloc_irq_vectors doesn't know you intend to make the first
+vector special, so it's going to come up with a CPU affinity from
+blk_mq_pci_map_queues that clashes with what you've programmed in the
+IO completion queues.
