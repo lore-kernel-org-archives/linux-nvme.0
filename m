@@ -1,34 +1,36 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Tue, 06 Dec 2016 15:23:21 -0800
-Subject: [PATCH 2/3] nvmet: Make cntlid globally unique
-In-Reply-To: <20161206082826.GC12194@lst.de>
-References: <1480936146-6406-1-git-send-email-sagi@grimberg.me>
- <1480936146-6406-3-git-send-email-sagi@grimberg.me>
- <20161205153400.GA6529@lst.de>
- <1bbcabad-e586-c92b-ec06-c50f4dd1d09f@grimberg.me>
- <20161206082826.GC12194@lst.de>
-Message-ID: <1481066601.2675.42.camel@linux.intel.com>
+From: James.Bottomley@HansenPartnership.com (James Bottomley)
+Date: Wed, 07 Dec 2016 06:57:06 -0800
+Subject: LSF/MM 2017: Call for Proposals
+In-Reply-To: <1480601506.2511.7.camel@poochiereds.net>
+References: <1480601506.2511.7.camel@poochiereds.net>
+Message-ID: <1481122626.2354.14.camel@HansenPartnership.com>
 
-On Tue, 2016-12-06@09:28 +0100, Christoph Hellwig wrote:
-> On Mon, Dec 05, 2016@07:06:44PM +0200, Sagi Grimberg wrote:
-> > 
-> > 
-> > > 
-> > > > 
-> > > > +	pr_info("creating controller %d for subsystem %s for
-> > > > NQN %s.\n",
-> > > > +		ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl-
-> > > > >hostnqn);
-> > > 
-> > > That's going to be a crazy long line in the dmesg log..
-> > 
-> > Have a better idea how to provide this information?
+On Thu, 2016-12-01@09:11 -0500, Jeff Layton wrote:
+> 1) Proposals for agenda topics should be sent before January 15th, 
+> 2016 to:
 > 
-> Not sure.??Maybe multiple lines?
+>     lsf-pc at lists.linux-foundation.org
+> 
+> and cc the Linux list or lists that are relevant for the topic in
+> question:
+> 
+>     ATA:   linux-ide at vger.kernel.org
+>     Block: linux-block at vger.kernel.org
+>     FS:    linux-fsdevel at vger.kernel.org
+>     MM:    linux-mm at kvack.org
+>     SCSI:  linux-scsi at vger.kernel.org
+>     NVMe:  linux-nvme at lists.infradead.org
+> 
+> Please tag your proposal with [LSF/MM TOPIC] to make it easier to 
+> track.
 
+Just on this point, since there seems to be a lot of confusion: lsf-pc
+is the list for contacting the programme committee, so you cannot
+subscribe to it.
 
-pr_info("Creating controller: %d\n ? in subsystem: %s\n ? for host:
-%s\n",
-? ? ? ? ctrl->cntlid, ctrl->subsys->subsysnqn, ctrl->hostnqn);
+There is no -discuss equivalent, like kernel summit has, because we
+expect you to cc the relevant existing mailing list and have the
+discussion there instead rather than expecting people to subscribe to a
+new list.
 
-????
+James
