@@ -1,22 +1,20 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 9 Dec 2016 10:30:34 -0800
-Subject: [PATCH v2 2/4] block: Add Sed-opal library
-In-Reply-To: <20161209174529.GA7865@sbauer-Z170X-UD5>
-References: <1480456322-27339-1-git-send-email-scott.bauer@intel.com>
- <1480456322-27339-3-git-send-email-scott.bauer@intel.com>
- <20161201005006.GE21081@localhost.localdomain>
- <20161201100456.GA17592@infradead.org>
- <20161201175343.GA6554@sbauer-Z170X-UD5>
- <20161201182239.GH21081@localhost.localdomain>
- <20161209174529.GA7865@sbauer-Z170X-UD5>
-Message-ID: <20161209183034.GA28669@infradead.org>
+Date: Fri, 9 Dec 2016 10:32:09 -0800
+Subject: [PATCH] nvme/pci: Delete misleading queue-wrap comment
+In-Reply-To: <1481303338-25134-1-git-send-email-keith.busch@intel.com>
+References: <1481303338-25134-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20161209183209.GA8964@infradead.org>
 
-On Fri, Dec 09, 2016@10:45:30AM -0700, Scott Bauer wrote:
-> Now, with this in mind, it sort of makes sense to move this from
-> block/ back into lib/ and interface with the character dev. Instead
-> of passing around block_devices, we can pass around struct file *'s.
->
+On Fri, Dec 09, 2016@12:08:58PM -0500, Keith Busch wrote:
+> It is not theoretically possible for this driver to wrap twice while
+> processing completions. The driver allocates only 'queue_depth - 1'
+> tags, so there can never be more than that to reap when processing a
+> completion queue. Removing this misleading comment makes it a little
+> less likely people with broken controllers will blame the driver for
+> their spurious interrupts.
 
-Even the character device is always backed by the queues, and I'd really
-not prefer to have a struct file here - that's not useful at all
-for in-kernel users.
+heh :)
+
+Looks fine,
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
