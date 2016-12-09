@@ -1,17 +1,29 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 9 Dec 2016 10:32:25 -0800
-Subject: [PATCH] nvme/scsi: Remove START STOP emulation
-In-Reply-To: <1a075417a8c929924316bb5f9d93370c485c9d0e.1481048041.git.luto@kernel.org>
-References: <1a075417a8c929924316bb5f9d93370c485c9d0e.1481048041.git.luto@kernel.org>
-Message-ID: <20161209183225.GB8964@infradead.org>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Fri, 9 Dec 2016 11:50:51 -0700
+Subject: [PATCH v2 2/4] block: Add Sed-opal library
+In-Reply-To: <20161209183034.GA28669@infradead.org>
+References: <1480456322-27339-1-git-send-email-scott.bauer@intel.com>
+ <1480456322-27339-3-git-send-email-scott.bauer@intel.com>
+ <20161201005006.GE21081@localhost.localdomain>
+ <20161201100456.GA17592@infradead.org>
+ <20161201175343.GA6554@sbauer-Z170X-UD5>
+ <20161201182239.GH21081@localhost.localdomain>
+ <20161209174529.GA7865@sbauer-Z170X-UD5>
+ <20161209183034.GA28669@infradead.org>
+Message-ID: <20161209185051.GB7865@sbauer-Z170X-UD5>
 
-On Tue, Dec 06, 2016@10:14:35AM -0800, Andy Lutomirski wrote:
-> Now that the broken power state control is gone, it appears to serve
-> no purpose.  Just delete it.  NVME devices don't have a concept of
-> started vs stopped anyway.
+On Fri, Dec 09, 2016@10:30:34AM -0800, Christoph Hellwig wrote:
+> On Fri, Dec 09, 2016@10:45:30AM -0700, Scott Bauer wrote:
+> > Now, with this in mind, it sort of makes sense to move this from
+> > block/ back into lib/ and interface with the character dev. Instead
+> > of passing around block_devices, we can pass around struct file *'s.
+> >
 > 
-> Signed-off-by: Andy Lutomirski <luto at kernel.org>
+> Even the character device is always backed by the queues, and I'd really
+> not prefer to have a struct file here - that's not useful at all
+> for in-kernel users.
 
-Looks fine,
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Is your main concern that if an in-kernel user wants to use this functionality
+they have to pass us a block device pointer, and may not be able to? Is that
+why you wanted to pass a function pointer to the code because a driver/kernel-user
+can probably always have that availiable to send to us?
