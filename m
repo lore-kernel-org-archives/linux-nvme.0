@@ -1,50 +1,38 @@
 From: daniel.verkamp@intel.com (Daniel Verkamp)
-Date: Fri,  9 Dec 2016 12:59:46 -0700
-Subject: [PATCH v2] nvmet: fix KATO offset in Set Features
-In-Reply-To: <20161207183947.128897-1-daniel.verkamp@intel.com>
+Date: Fri, 9 Dec 2016 13:04:49 -0700
+Subject: [PATCH] nvmet: fix KATO offset in Set Features
+In-Reply-To: <20161209182827.GA16834@lst.de>
 References: <20161207183947.128897-1-daniel.verkamp@intel.com>
-Message-ID: <20161209195946.119756-1-daniel.verkamp@intel.com>
+ <138d5098-5d12-9a06-66c4-14f53770b0ba@intel.com>
+ <20161209182827.GA16834@lst.de>
+Message-ID: <7c17a439-5a28-f458-3af7-221d84607611@intel.com>
 
-The Set Features implementation for Keep Alive Timer was using the wrong
-structure when retrieving the KATO value; it was treating the Set
-Features command as a Property Set command.
+On 12/09/2016 11:28 AM, Christoph Hellwig wrote:
+> On Wed, Dec 07, 2016@12:09:40PM -0700, Daniel Verkamp wrote:
+>> Should I remove the nvmet_set_result() or fix it to at least return
+>> the correct units?
+> 
+> Please remove it, as the spec does not define the result.  Otherwise
+> the patch looks fine to me.
 
-The NVMe spec defines the Keep Alive Timer feature as having one input
-in CDW11 (4 bytes at offset 44 in the command) whereas the code was
-reading 8 bytes at offset 48.
+I sent a new version of the patch that just fixes the unused variable.
+I'll send another one to remove the result.  I was going to remove it
+in this patch, but I couldn't find out where (if anywhere) the result
+is initialized to 0 in the common command handling.  Is it OK to just
+remove the call to nvmet_set_result()? Is the whole request zeroed
+out somewhere earlier? Or should I just change it to call
+nvmet_set_result(req, 0) for clarity?
 
-Since the Linux NVMe over Fabrics host never sets this feature, this
-code has presumably never been tested.
+> Thanks for doing this work! Btw, did you catch this using a test
+> suite?
 
-Signed-off-by: Daniel Verkamp <daniel.verkamp at intel.com>
----
+I caught this when testing the SPDK NVMe over Fabrics host code, which
+was using the Set Features command to set up KATO.  However, I later
+realized that since we already set KATO during Connect, it's pretty
+useless to configure it again with a Set Features - so I removed the
+code that was hitting this bug.
 
-v2: remove unused val variable
+A NVMe over Fabrics test suite would be a great idea, though...
 
- drivers/nvme/target/admin-cmd.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 6fe4c48..f791d46 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -381,7 +381,6 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
- {
- 	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
- 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10[0]);
--	u64 val;
- 	u32 val32;
- 	u16 status = 0;
- 
-@@ -391,8 +390,7 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
- 			(subsys->max_qid - 1) | ((subsys->max_qid - 1) << 16));
- 		break;
- 	case NVME_FEAT_KATO:
--		val = le64_to_cpu(req->cmd->prop_set.value);
--		val32 = val & 0xffff;
-+		val32 = le32_to_cpu(req->cmd->common.cdw10[1]);
- 		req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
- 		nvmet_set_result(req, req->sq->ctrl->kato);
- 		break;
--- 
-2.9.3
+Thanks,
+-- Daniel
