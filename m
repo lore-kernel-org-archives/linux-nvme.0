@@ -1,29 +1,50 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Fri, 9 Dec 2016 11:50:51 -0700
-Subject: [PATCH v2 2/4] block: Add Sed-opal library
-In-Reply-To: <20161209183034.GA28669@infradead.org>
-References: <1480456322-27339-1-git-send-email-scott.bauer@intel.com>
- <1480456322-27339-3-git-send-email-scott.bauer@intel.com>
- <20161201005006.GE21081@localhost.localdomain>
- <20161201100456.GA17592@infradead.org>
- <20161201175343.GA6554@sbauer-Z170X-UD5>
- <20161201182239.GH21081@localhost.localdomain>
- <20161209174529.GA7865@sbauer-Z170X-UD5>
- <20161209183034.GA28669@infradead.org>
-Message-ID: <20161209185051.GB7865@sbauer-Z170X-UD5>
+From: daniel.verkamp@intel.com (Daniel Verkamp)
+Date: Fri,  9 Dec 2016 12:59:46 -0700
+Subject: [PATCH v2] nvmet: fix KATO offset in Set Features
+In-Reply-To: <20161207183947.128897-1-daniel.verkamp@intel.com>
+References: <20161207183947.128897-1-daniel.verkamp@intel.com>
+Message-ID: <20161209195946.119756-1-daniel.verkamp@intel.com>
 
-On Fri, Dec 09, 2016@10:30:34AM -0800, Christoph Hellwig wrote:
-> On Fri, Dec 09, 2016@10:45:30AM -0700, Scott Bauer wrote:
-> > Now, with this in mind, it sort of makes sense to move this from
-> > block/ back into lib/ and interface with the character dev. Instead
-> > of passing around block_devices, we can pass around struct file *'s.
-> >
-> 
-> Even the character device is always backed by the queues, and I'd really
-> not prefer to have a struct file here - that's not useful at all
-> for in-kernel users.
+The Set Features implementation for Keep Alive Timer was using the wrong
+structure when retrieving the KATO value; it was treating the Set
+Features command as a Property Set command.
 
-Is your main concern that if an in-kernel user wants to use this functionality
-they have to pass us a block device pointer, and may not be able to? Is that
-why you wanted to pass a function pointer to the code because a driver/kernel-user
-can probably always have that availiable to send to us?
+The NVMe spec defines the Keep Alive Timer feature as having one input
+in CDW11 (4 bytes at offset 44 in the command) whereas the code was
+reading 8 bytes at offset 48.
+
+Since the Linux NVMe over Fabrics host never sets this feature, this
+code has presumably never been tested.
+
+Signed-off-by: Daniel Verkamp <daniel.verkamp at intel.com>
+---
+
+v2: remove unused val variable
+
+ drivers/nvme/target/admin-cmd.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 6fe4c48..f791d46 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -381,7 +381,6 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
+ {
+ 	struct nvmet_subsys *subsys = req->sq->ctrl->subsys;
+ 	u32 cdw10 = le32_to_cpu(req->cmd->common.cdw10[0]);
+-	u64 val;
+ 	u32 val32;
+ 	u16 status = 0;
+ 
+@@ -391,8 +390,7 @@ static void nvmet_execute_set_features(struct nvmet_req *req)
+ 			(subsys->max_qid - 1) | ((subsys->max_qid - 1) << 16));
+ 		break;
+ 	case NVME_FEAT_KATO:
+-		val = le64_to_cpu(req->cmd->prop_set.value);
+-		val32 = val & 0xffff;
++		val32 = le32_to_cpu(req->cmd->common.cdw10[1]);
+ 		req->sq->ctrl->kato = DIV_ROUND_UP(val32, 1000);
+ 		nvmet_set_result(req, req->sq->ctrl->kato);
+ 		break;
+-- 
+2.9.3
