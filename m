@@ -1,19 +1,16 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 9 Dec 2016 10:32:09 -0800
-Subject: [PATCH] nvme/pci: Delete misleading queue-wrap comment
-In-Reply-To: <1481303338-25134-1-git-send-email-keith.busch@intel.com>
-References: <1481303338-25134-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20161209183209.GA8964@infradead.org>
+Date: Fri, 9 Dec 2016 10:32:25 -0800
+Subject: [PATCH] nvme/scsi: Remove START STOP emulation
+In-Reply-To: <1a075417a8c929924316bb5f9d93370c485c9d0e.1481048041.git.luto@kernel.org>
+References: <1a075417a8c929924316bb5f9d93370c485c9d0e.1481048041.git.luto@kernel.org>
+Message-ID: <20161209183225.GB8964@infradead.org>
 
-On Fri, Dec 09, 2016@12:08:58PM -0500, Keith Busch wrote:
-> It is not theoretically possible for this driver to wrap twice while
-> processing completions. The driver allocates only 'queue_depth - 1'
-> tags, so there can never be more than that to reap when processing a
-> completion queue. Removing this misleading comment makes it a little
-> less likely people with broken controllers will blame the driver for
-> their spurious interrupts.
-
-heh :)
+On Tue, Dec 06, 2016@10:14:35AM -0800, Andy Lutomirski wrote:
+> Now that the broken power state control is gone, it appears to serve
+> no purpose.  Just delete it.  NVME devices don't have a concept of
+> started vs stopped anyway.
+> 
+> Signed-off-by: Andy Lutomirski <luto at kernel.org>
 
 Looks fine,
 
