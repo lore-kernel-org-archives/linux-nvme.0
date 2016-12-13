@@ -1,7 +1,7 @@
-From: colyli@suse.de (Coly Li)
-Date: Tue, 13 Dec 2016 22:53:55 +0800
+From: i@coly.li (Coly Li)
+Date: Tue, 13 Dec 2016 22:53:32 +0800
 Subject: extend bi_size to unsigned long ?
-Message-ID: <359dd6f4-b0fa-da37-f4fb-82a055451714@suse.de>
+Message-ID: <82fdc4e9-3573-f5a5-6d27-34ea49d5f047@coly.li>
 
 Hi linux-block and linux-nvme lists,
 
@@ -28,4 +28,5 @@ bi_size from unsigned int to unsigned long ?
 
 Thanks in advance.
 
+-- 
 Coly Li
