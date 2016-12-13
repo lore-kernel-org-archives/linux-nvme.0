@@ -1,41 +1,31 @@
-From: sbates@raithlin.com (Stephen Bates)
-Date: Mon, 12 Dec 2016 11:51:54 -0600
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] Enabling Peer-to-Peer DMAs between
- PCIe devices
-Message-ID: <055180bb41167c3a6b9f1f20ae4d4f3f.squirrel@webmail.raithlin.com>
+From: colyli@suse.de (Coly Li)
+Date: Tue, 13 Dec 2016 22:53:55 +0800
+Subject: extend bi_size to unsigned long ?
+Message-ID: <359dd6f4-b0fa-da37-f4fb-82a055451714@suse.de>
 
-Hi
+Hi linux-block and linux-nvme lists,
 
-I'd like to discuss the topic of how best to enable DMAs between PCIe
-devices in the Linux kernel.
+Recently when I work on md-raid0 DISCARD optimization, I found the
+maximum DISCARD bio length that raid0_make_request() receives is 8388608
+sectors. I find it is because of the limitation of bi_size, which is
+unsigned int and 32 bits length.
 
-There have been many attempts to add to the kernel the ability to DMA
-between two PCIe devices. However, to date, none of these have been
-accepted. However as PCIe devices like NICs, NVMe SSDs and GPGPUs continue
-to get faster the desire to move data directly between these devices (as
-opposed to having to using a temporary buffer in system memory) is
-increasing. Out of tree solutions like GPU-Direct are one illustration of
-the popularity of this functionality. A recent discussion on this topic
-provides a good summary of where things stand [1].
+A 32 bits bi_size means a DISCARD bio can only cover UINT_MAX>>9
+sectors, see commit a22c4d7e3440 ("block: re-add discard_granularity and
+alignment checks"). To format a xfs volume on 4x4TB NVMe SSDs, the
+original DISCARD bio has to be split for 4x1024 times. If bi_size is a
+64 bits unsigned long, in ideal condition the original DISCARD bio can
+only be split for 4 times, that is one split bio for each device.
 
-I would like to propose a session at LFS/MM to discuss some of the
-different use cases for these P2P DMAs and also to discuss the pros and
-cons of these approaches. The desire would be to try and form a consensus
-on how best to move forward to an upstreamable solution to this problem.
+Now days it won't be a big issue since block layer may merge the split
+bios (or may not if its block-mq and NVMe). When the underlying device
+becomes larger and larger, maybe a 32 bits bi_size will hurt DISCARD
+performance.
 
-In addition I would also be interested in participating in the following
-topics:
+I know this is not simple, it changes a very important KABI. But this is
+really an interesting question to ask: do we have any idea to extend
+bi_size from unsigned int to unsigned long ?
 
- * Anything related to PMEM and DAX.
+Thanks in advance.
 
- * Integrating the block-layer polling capability into file-systems.
-
- * New feature integration into the NVMe driver (e.g. fabrics, CMBs, IO
-tags etc.)
-
-Cheers
-
-Stephen
-
-[1] http://marc.info/?l=linux-pci&m=147976059431355&w=2 (and subsequent
-thread).
+Coly Li
