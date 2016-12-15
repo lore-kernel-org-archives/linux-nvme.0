@@ -1,17 +1,48 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 15 Dec 2016 00:32:36 -0800
-Subject: [PATCH] nvme: simplify stripe quirk
-In-Reply-To: <1481760655-25877-1-git-send-email-keith.busch@intel.com>
-References: <1481760655-25877-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20161215083236.GA32244@infradead.org>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 15 Dec 2016 14:20:48 +0100
+Subject: [PATCH] nvme-fabrics: simplify error handling of
+ nvme_fc_create_hw_io_queues
+Message-ID: <20161215132048.12645-1-jthumshirn@suse.de>
 
-On Wed, Dec 14, 2016@07:10:55PM -0500, Keith Busch wrote:
-> Some subsystem vendors believe they own the Identify Controller vendor
-> specific region, and will repurpose it with their own values.
+Simplify the error handling of nvme_fc_create_hw_io_queues(), this saves us
+one variable and one level of indentation.
 
-Well, it's vendor specific, right?
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ drivers/nvme/host/fc.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-I don't understand this patch at all - you hardcode a value that was
-previously vendor specific, and your argument for that is that the
-vendor specific value is used by the value - heck, that's exactly why
-the value is there.
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 771e2e7..ca2fd02 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1491,19 +1491,20 @@ enum {
+ nvme_fc_create_hw_io_queues(struct nvme_fc_ctrl *ctrl, u16 qsize)
+ {
+ 	struct nvme_fc_queue *queue = &ctrl->queues[1];
+-	int i, j, ret;
++	int i, ret;
+ 
+ 	for (i = 1; i < ctrl->queue_count; i++, queue++) {
+ 		ret = __nvme_fc_create_hw_queue(ctrl, queue, i, qsize);
+-		if (ret) {
+-			for (j = i-1; j >= 0; j--)
+-				__nvme_fc_delete_hw_queue(ctrl,
+-						&ctrl->queues[j], j);
+-			return ret;
+-		}
++		if (ret)
++			goto delete_queues;
+ 	}
+ 
+ 	return 0;
++
++delete_queues:
++	for (; i >= 0; i--)
++		__nvme_fc_delete_hw_queue(ctrl, &ctrl->queues[i], i);
++	return ret;
+ }
+ 
+ static int
+-- 
+1.8.5.6
