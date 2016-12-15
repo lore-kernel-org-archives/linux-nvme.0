@@ -1,58 +1,32 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 15 Dec 2016 08:37:21 -0800
-Subject: [PATCH] nvme-fabrics: simplify error handling of
- nvme_fc_create_hw_io_queues
-In-Reply-To: <20161215132048.12645-1-jthumshirn@suse.de>
-References: <20161215132048.12645-1-jthumshirn@suse.de>
-Message-ID: <82b700f4-7a4c-777d-e7c2-b934548a71ba@broadcom.com>
+From: narayan.ayalasomayajula@kazan-networks.com (Narayan Ayalasomayajula)
+Date: Thu, 15 Dec 2016 19:13:27 +0000
+Subject: Enabling RoCEv2 and connecting to IPv6 targets
+Message-ID: <BY2PR08MB181560EB58B0E8DF5A944E84C09D0@BY2PR08MB1815.namprd08.prod.outlook.com>
 
-Looks fine
+All,
 
--- james
+I am attempting to enable connecting to IPv6 NVMe-oF targets (not the Linux NVMe-oF target) as well as enable RoCEv2 and have a couple of questions:
 
+1.  With regards to IPv6, I tried the following syntax in the "echo" command (executed on a Ubuntu Host running the 4.8.0-rc22 version of the kernel) and got the following error message:
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
+	echo "traddr=fe80::0c6:11ff:fe41:0516,transport=rdma,trsvcid=4420,nqn=nqn.kazannet.0" > /dev/nvme-fabrics
+	bash: echo: write error: Invalid argument
 
+	dmesg log indicates:
 
+	nvme_rdma: malformed IP address passed: fe80::0c6:11ff:fe41:0516
 
-On 12/15/2016 5:20 AM, Johannes Thumshirn wrote:
-> Simplify the error handling of nvme_fc_create_hw_io_queues(), this saves us
-> one variable and one level of indentation.
->
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-> ---
->   drivers/nvme/host/fc.c | 15 ++++++++-------
->   1 file changed, 8 insertions(+), 7 deletions(-)
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 771e2e7..ca2fd02 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -1491,19 +1491,20 @@ enum {
->   nvme_fc_create_hw_io_queues(struct nvme_fc_ctrl *ctrl, u16 qsize)
->   {
->   	struct nvme_fc_queue *queue = &ctrl->queues[1];
-> -	int i, j, ret;
-> +	int i, ret;
->   
->   	for (i = 1; i < ctrl->queue_count; i++, queue++) {
->   		ret = __nvme_fc_create_hw_queue(ctrl, queue, i, qsize);
-> -		if (ret) {
-> -			for (j = i-1; j >= 0; j--)
-> -				__nvme_fc_delete_hw_queue(ctrl,
-> -						&ctrl->queues[j], j);
-> -			return ret;
-> -		}
-> +		if (ret)
-> +			goto delete_queues;
->   	}
->   
->   	return 0;
-> +
-> +delete_queues:
-> +	for (; i >= 0; i--)
-> +		__nvme_fc_delete_hw_queue(ctrl, &ctrl->queues[i], i);
-> +	return ret;
->   }
->   
->   static int
+Is the support for connecting to IPv6 NVMe-oF targets not available in  the 4.8 version of the kernel?
+
+2.  With regards to RoCEv2, I need to select/configure the appropriate GID on the Host NVMe-oF network interface but have not found a way to do so. I see the following example for IB at (https://community.mellanox.com/docs/DOC-2415):
+
+	ib_send_bw -x 1
+
+How do I do this for NVMe-oF?
+
+Sorry if I am missing something very obvious - any guidance is appreciated.
+
+Thanks,
+
+Narayan
+Kazan Networks
