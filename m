@@ -1,22 +1,22 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 16 Dec 2016 23:13:15 -0800
-Subject: [PATCH] nvme: simplify stripe quirk
-In-Reply-To: <20161216154800.GB8888@localhost.localdomain>
-References: <1481760655-25877-1-git-send-email-keith.busch@intel.com>
- <20161215083236.GA32244@infradead.org>
- <20161215155958.GA29688@localhost.localdomain>
- <20161216080753.GB22912@infradead.org>
- <20161216154800.GB8888@localhost.localdomain>
-Message-ID: <20161217071315.GA30294@infradead.org>
+Date: Fri, 16 Dec 2016 23:25:03 -0800
+Subject: [PATCH] nvme-cli: fabrics: remove libudev dependency
+In-Reply-To: <20161216152703.GA8888@localhost.localdomain>
+References: <1481846751-2896-1-git-send-email-keith.busch@intel.com>
+ <20161216080419.GA22912@infradead.org>
+ <20161216152703.GA8888@localhost.localdomain>
+Message-ID: <20161217072503.GA15478@infradead.org>
 
-On Fri, Dec 16, 2016@10:48:01AM -0500, Keith Busch wrote:
-> It's fortunately not common for an OEM to break the decoding assumptions
-> we were promised, but the problem exists. I think this patch is the best
-> I can do for these devices.
+On Fri, Dec 16, 2016@10:27:04AM -0500, Keith Busch wrote:
+> On Fri, Dec 16, 2016@12:04:19AM -0800, Christoph Hellwig wrote:
+> > We can have multiple controllers with the same nqn, and they should all
+> > be deleted with this option.  Also I think factoring the removal code
+> > in the inner block into a separate function would make this a bit more
+> > readable.
+> 
+> I also noticed that the description for the 'nqn' field is LIST, but
+> we're not splitting that item. Was this supposed to be a comma separated
+> value of nqn's?
 
-With a small change to the changelog including the above and clearly
-stating that it's an OEM changing it (and not the subsystem vendor
-which sounds weird in NVMe context):
-
-
-Reluctantly-Acked-by: Christoph Hellwig <hch at lst.de>
+It wasn't supposed to be a list, but now that you mention it a list
+of nqn might actually be useful.
