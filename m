@@ -1,76 +1,31 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 19 Dec 2016 11:37:50 -0500
-Subject: [PATCHv2] nvme: simplify stripe quirk
-Message-ID: <1482165470-14811-1-git-send-email-keith.busch@intel.com>
+Date: Mon, 19 Dec 2016 12:02:02 -0500
+Subject: [RFC 1/1] MicroSemi Switchtec management interface driver
+In-Reply-To: <1481994562-9283-2-git-send-email-logang@deltatee.com>
+References: <1481994562-9283-1-git-send-email-logang@deltatee.com>
+ <1481994562-9283-2-git-send-email-logang@deltatee.com>
+Message-ID: <20161219170201.GA1043@localhost.localdomain>
 
-Some OEMs believe they own the Identify Controller vendor specific
-region and will repurpose it with their own values. While not common,
-we can't rely on the PCI VID:DID to tell use how to decode the field
-we reserved for this as the stripe size so we need to do something else
-for the list of devices using this quirk.
+On Sat, Dec 17, 2016@10:09:22AM -0700, Logan Gunthorpe wrote:
+> Microsemi's "Switchtec" line of PCI switch devices is already
+> supported by the kernel with standard PCI switch drivers. However, the
+> Switchtec device advertises a special management endpoint which
+> enables some additional functionality. This includes:
+> 
+>  * Packet and Byte Counters
+>  * Firmware Upgrades
+>  * Event and Error logs
+>  * Querying port link status
+>  * Custom user firmware commands
+> 
+> This patch introduces the switchtec kernel module which provides
+> pci driver that exposes a char device. The char device provides
+> userspace access to this interface through read, write and (optionally)
+> poll calls. Currently no ioctls have been implemented but a couple
+> may be added in a later revision.
+> 
+> A short text file is provided which documents the switchtec driver
+> and outlines the semantics of using the char device.
 
-The field was supposed to allow flexibility on the device's back-end
-striping, but it turned out that never materialized; the chunk is always
-the same as MDTS in the products subscribing to this quirk, so this
-patch removes the stripe_size field and sets the chunk to the max hw
-transfer size for the devices using this quirk.
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
-Acked-by: Christoph Hellwig <hch at lst.de>
----
-v1->v2:
-  Updated change log to something much less ambiguous.
-
- drivers/nvme/host/core.c | 17 ++---------------
- drivers/nvme/host/nvme.h |  1 -
- 2 files changed, 2 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index b40cfb0..2fc86dc 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1193,8 +1193,8 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
- 		blk_queue_max_hw_sectors(q, ctrl->max_hw_sectors);
- 		blk_queue_max_segments(q, min_t(u32, max_segments, USHRT_MAX));
- 	}
--	if (ctrl->stripe_size)
--		blk_queue_chunk_sectors(q, ctrl->stripe_size >> 9);
-+	if (ctrl->quirks & NVME_QUIRK_STRIPE_SIZE)
-+		blk_queue_chunk_sectors(q, ctrl->max_hw_sectors);
- 	blk_queue_virt_boundary(q, ctrl->page_size - 1);
- 	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
- 		vwc = true;
-@@ -1250,19 +1250,6 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ctrl->max_hw_sectors =
- 		min_not_zero(ctrl->max_hw_sectors, max_hw_sectors);
- 
--	if ((ctrl->quirks & NVME_QUIRK_STRIPE_SIZE) && id->vs[3]) {
--		unsigned int max_hw_sectors;
--
--		ctrl->stripe_size = 1 << (id->vs[3] + page_shift);
--		max_hw_sectors = ctrl->stripe_size >> (page_shift - 9);
--		if (ctrl->max_hw_sectors) {
--			ctrl->max_hw_sectors = min(max_hw_sectors,
--							ctrl->max_hw_sectors);
--		} else {
--			ctrl->max_hw_sectors = max_hw_sectors;
--		}
--	}
--
- 	nvme_set_queue_limits(ctrl, ctrl->admin_q);
- 	ctrl->sgls = le32_to_cpu(id->sgls);
- 	ctrl->kas = le16_to_cpu(id->kas);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index bd53214..6377e14 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -135,7 +135,6 @@ struct nvme_ctrl {
- 
- 	u32 page_size;
- 	u32 max_hw_sectors;
--	u32 stripe_size;
- 	u16 oncs;
- 	u16 vid;
- 	atomic_t abort_limit;
--- 
-2.5.5
+Some of this would be simplified if you use the managed device API's:
+devm_request_irq, pcim_enable_device, pcim_iomap, etc...
