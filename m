@@ -1,107 +1,77 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Mon, 19 Dec 2016 08:42:56 -0700
-Subject: [PATCH 2/2] nvme: improve cmb sysfs reporting
-In-Reply-To: <1481914491-21456-3-git-send-email-sbates@raithlin.com>
-References: <1481914491-21456-1-git-send-email-sbates@raithlin.com>
- <1481914491-21456-3-git-send-email-sbates@raithlin.com>
-Message-ID: <20161219154256.GB3512@localhost.localdomain>
+From: myron.stowe@gmail.com (Myron Stowe)
+Date: Mon, 19 Dec 2016 09:09:05 -0700
+Subject: [RFC 0/1] New PCI Switch Management Driver
+In-Reply-To: <1481994562-9283-1-git-send-email-logang@deltatee.com>
+References: <1481994562-9283-1-git-send-email-logang@deltatee.com>
+Message-ID: <CAL-B5D3g=ZWRg7Qh8_KumJkdg6F2+2a8=HCz2US7a4g2tKC0Lw@mail.gmail.com>
 
-Minor nit below
+I guess the obvious questions is: why is a driver for a PCI switch
+necessary?  The core works with all compliant switches today and there
+are no specifics for a particular design or such.
 
-On Fri, Dec 16, 2016@11:54:51AM -0700, Stephen Bates wrote:
-> Add more information to the NVMe CMB sysfs entry. This includes
-> information about the CMB size, location and capabilities.
-> 
-> Signed-off-by: Stephen Bates <sbates at raithlin.com>
-> ---
->  drivers/nvme/host/pci.c | 31 +++++++++++++++++++++++++++++--
->  include/linux/nvme.h    |  8 ++++++++
->  2 files changed, 37 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index be10860..1f70630 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -98,6 +98,7 @@ struct nvme_dev {
->  	void __iomem *cmb;
->  	dma_addr_t cmb_dma_addr;
->  	u64 cmb_size;
-> +	u64 cmb_offset;
->  	u32 cmbsz;
->  	u32 cmbloc;
->  	struct nvme_ctrl ctrl;
-> @@ -1326,14 +1327,39 @@ static int nvme_create_io_queues(struct nvme_dev *dev)
->  	return ret >= 0 ? 0 : ret;
->  }
->  
-> +static const char * const cmb_caps[] = {
-> +	[NVME_CMB_CAP_SQS] = "SQS",
-> +	[NVME_CMB_CAP_CQS] = "CQS",
-> +	[NVME_CMB_CAP_LISTS] = "LISTS",
-> +	[NVME_CMB_CAP_RDS] = "RDS",
-> +	[NVME_CMB_CAP_WDS] = "WDS",
-> +};
-> +
->  static ssize_t nvme_cmb_show(struct device *dev,
->  			     struct device_attribute *attr,
->  			     char *buf)
->  {
->  	struct nvme_dev *ndev = to_nvme_dev(dev_get_drvdata(dev));
-> +	unsigned int i, len = 0;
-> +
-> +	len += scnprintf(buf+len, PAGE_SIZE-len,
-> +			"cmbloc  : 0x%08x\ncmbsz   : 0x%08x\n\n",
-> +			ndev->cmbloc, ndev->cmbsz);
-> +
-> +	len += scnprintf(buf+len, PAGE_SIZE-len,
-> +			"OFFSET   : 0x%016llx\nSIZE     : %llu Bytes\n" \
-> +			"DMA ADDR : %pad\n\n",
-> +			ndev->cmb_offset, ndev->cmb_size,
-> +			&ndev->cmb_dma_addr);
-> +
-> +	for (i = NVME_CMB_CAP_SQS; i <= NVME_CMB_CAP_WDS; i++)
-I'd prefer seeing (i = 0; i < ARRAY_SIZE(..); i++) because it provides
-automatic bounds checking against future code.
+So I guess I'd like to hear the reasoning and justifications for why a
+driver for a common device that should conform to the specifications
+and not seem to need any special considerations is required or desired
+here.
 
-> +		len += scnprintf(buf+len, PAGE_SIZE-len, "%-7s: %s\n",
-> +				 cmb_caps[i],
-> +				 ((ndev->cmbsz) & (1<<i)) ? "SUPPORTED" :
-> +				 "NOT SUPPORTED");
-> +
-> +	return len;
->  
-> -	return scnprintf(buf, PAGE_SIZE, "cmbloc : x%08x\ncmbsz  : x%08x\n",
-> -		       ndev->cmbloc, ndev->cmbsz);
->  }
->  static DEVICE_ATTR(cmb, S_IRUGO, nvme_cmb_show, NULL);
->  
-> @@ -1376,6 +1402,7 @@ static void __iomem *nvme_map_cmb(struct nvme_dev *dev)
->  
->  	dev->cmb_dma_addr = dma_addr;
->  	dev->cmb_size = size;
-> +	dev->cmb_offset = offset;
->  	return cmb;
->  }
->  
-> diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> index fc3c242..cd0d324 100644
-> --- a/include/linux/nvme.h
-> +++ b/include/linux/nvme.h
-> @@ -121,6 +121,14 @@ enum {
->  #define NVME_CMB_CQS(cmbsz)	((cmbsz) & 0x2)
->  #define NVME_CMB_SQS(cmbsz)	((cmbsz) & 0x1)
->  
-> +enum {
-> +	NVME_CMB_CAP_SQS = 0,
-> +	NVME_CMB_CAP_CQS,
-> +	NVME_CMB_CAP_LISTS,
-> +	NVME_CMB_CAP_RDS,
-> +	NVME_CMB_CAP_WDS,
-> +};
-> +
->  /*
->   * Submission and Completion Queue Entry Sizes for the NVM command set.
->   * (In bytes and specified as a power of two (2^n)).
-> -- 
+On Sat, Dec 17, 2016@10:09 AM, Logan Gunthorpe <logang@deltatee.com> wrote:
+> Hi,
+>
+> [Appologies: this is a resend for some people. Due to a configuration
+> error the original email was rejected by the mailing lists. I hope
+> this one makes it!]
+>
+> We're looking to get some initial feedback on a new driver for
+> a line of PCIe switches produced and produced and sold by Microsemi.
+> The goal is to get the process moving to get this code included in
+> upstream hopefully for 4.11. Facebook is currently gearing up to
+> use this hardware in its Open Compute Platform and is pushing to
+> have this driver in the upstream kernel.
+>
+> The following patch briefly describes the hardware and provides
+> the first draft of driver code. Currently, the driver works and
+> has been tested but is not feature complete. Thus, we are not looking
+> to get it merged immediately. However we would like some early review,
+> specifically on the interfaces and core concepts so that we don't
+> do a lot of work down a path the community would reject. Barring any
+> objections to this RFC, we will flesh out all the features
+> and provide a completed patch for inclusion in the coming weeks.
+>
+> Work on a userspace tool, that utilizes this driver, is also being
+> done at [1]. The tool is currently also a bit of a skeleton and
+> will be fleshed out assuming there are no serious objections to our
+> userspace interface. In the end, the tool will be released with a
+> GPL license.
+>
+> The patch is based off of the v4.9 release.
+>
+> Thanks for your review,
+>
+> Logan
+>
+> [1] https://github.com/sbates130272/switchtec-user
+>
+> Logan Gunthorpe (1):
+>   MicroSemi Switchtec management interface driver
+>
+>  Documentation/switchtec.txt    |  54 +++
+>  MAINTAINERS                    |   9 +
+>  drivers/pci/Kconfig            |   1 +
+>  drivers/pci/Makefile           |   1 +
+>  drivers/pci/switch/Kconfig     |  13 +
+>  drivers/pci/switch/Makefile    |   1 +
+>  drivers/pci/switch/switchtec.c | 824 +++++++++++++++++++++++++++++++++++++++++
+>  drivers/pci/switch/switchtec.h | 119 ++++++
+>  8 files changed, 1022 insertions(+)
+>  create mode 100644 Documentation/switchtec.txt
+>  create mode 100644 drivers/pci/switch/Kconfig
+>  create mode 100644 drivers/pci/switch/Makefile
+>  create mode 100644 drivers/pci/switch/switchtec.c
+>  create mode 100644 drivers/pci/switch/switchtec.h
+>
+> --
 > 2.1.4
-> 
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-pci" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
