@@ -1,41 +1,46 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 19 Dec 2016 16:18:24 +0200
-Subject: [PATCH 1/1] nvme: Fix whitespace problem
-Message-ID: <1482157104-24266-1-git-send-email-maxg@mellanox.com>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Mon, 19 Dec 2016 08:20:14 -0700
+Subject: [PATCH 1/2] nvme : Use correct scnprintf in cmb show
+In-Reply-To: <1481914491-21456-2-git-send-email-sbates@raithlin.com>
+References: <1481914491-21456-1-git-send-email-sbates@raithlin.com>
+ <1481914491-21456-2-git-send-email-sbates@raithlin.com>
+Message-ID: <20161219152013.GA3512@localhost.localdomain>
 
-Convert to tabs and remove unneeded whitespaces.
+Looks good. Thanks Stephen.
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/host/pci.c |    8 ++++----
- 1 files changed, 4 insertions(+), 4 deletions(-)
+Reviewed-by Jon Derrick: <jonathan.derrick at intel.com>
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5e52034..e25bbb5 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -50,7 +50,7 @@
- #define NVME_AQ_DEPTH		256
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
- #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
--		
-+
- /*
-  * We handle AEN commands ourselves and don't even let the
-  * block layer know about them.
-@@ -1892,10 +1892,10 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	if (!dev->bar)
- 		goto release;
- 
--       return 0;
-+	return 0;
-   release:
--       pci_release_mem_regions(pdev);
--       return -ENODEV;
-+	pci_release_mem_regions(pdev);
-+	return -ENODEV;
- }
- 
- static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
--- 
-1.7.8.2
+On Fri, Dec 16, 2016@11:54:50AM -0700, Stephen Bates wrote:
+> Make sure we are using the correct scnprintf in the sysfs show
+> function for the CMB.
+> 
+> Signed-off-by: Stephen Bates <sbates at raithlin.com>
+> ---
+>  drivers/nvme/host/pci.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 5e52034..be10860 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -50,7 +50,7 @@
+>  #define NVME_AQ_DEPTH		256
+>  #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
+>  #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
+> -		
+> +
+>  /*
+>   * We handle AEN commands ourselves and don't even let the
+>   * block layer know about them.
+> @@ -1332,7 +1332,7 @@ static ssize_t nvme_cmb_show(struct device *dev,
+>  {
+>  	struct nvme_dev *ndev = to_nvme_dev(dev_get_drvdata(dev));
+>  
+> -	return snprintf(buf, PAGE_SIZE, "cmbloc : x%08x\ncmbsz  : x%08x\n",
+> +	return scnprintf(buf, PAGE_SIZE, "cmbloc : x%08x\ncmbsz  : x%08x\n",
+>  		       ndev->cmbloc, ndev->cmbsz);
+>  }
+>  static DEVICE_ATTR(cmb, S_IRUGO, nvme_cmb_show, NULL);
+> -- 
+> 2.1.4
+> 
