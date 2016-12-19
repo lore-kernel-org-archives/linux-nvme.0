@@ -1,46 +1,31 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Mon, 19 Dec 2016 08:20:14 -0700
-Subject: [PATCH 1/2] nvme : Use correct scnprintf in cmb show
-In-Reply-To: <1481914491-21456-2-git-send-email-sbates@raithlin.com>
+From: axboe@fb.com (Jens Axboe)
+Date: Mon, 19 Dec 2016 08:36:48 -0700
+Subject: [PATCH 0/2] nvme: Improvements in sysfs entry for NVMe CMBs
+In-Reply-To: <1481914491-21456-1-git-send-email-sbates@raithlin.com>
 References: <1481914491-21456-1-git-send-email-sbates@raithlin.com>
- <1481914491-21456-2-git-send-email-sbates@raithlin.com>
-Message-ID: <20161219152013.GA3512@localhost.localdomain>
+Message-ID: <aead4ef4-4fbf-10a1-c307-24abbc3fe9d6@fb.com>
 
-Looks good. Thanks Stephen.
+On 12/16/2016 11:54 AM, Stephen Bates wrote:
+> Hi
+> 
+> This series adds some more verbosity to the NVMe CMB sysfs entry.
+> 
+> Jens I based this off v4.9 because for some reason your for-4.10/block
+> is missing my original CMB commit (202021c1a63c6)?
+> 
+> Stephen
+> 
+> Stephen Bates (2):
+>   nvme : Use correct scnprintf in cmb show
+>   nvme: improve cmb sysfs reporting
+> 
+>  drivers/nvme/host/pci.c | 33 ++++++++++++++++++++++++++++++---
+>  include/linux/nvme.h    |  8 ++++++++
+>  2 files changed, 38 insertions(+), 3 deletions(-)
 
-Reviewed-by Jon Derrick: <jonathan.derrick at intel.com>
+I have added 1/2, since that one is a no-brainer. For 2/2, not so sure.
+Generally we try to avoid having sysfs file that aren't single value
+output. That isn't a super hard rule, but it is preferable.
 
-On Fri, Dec 16, 2016@11:54:50AM -0700, Stephen Bates wrote:
-> Make sure we are using the correct scnprintf in the sysfs show
-> function for the CMB.
-> 
-> Signed-off-by: Stephen Bates <sbates at raithlin.com>
-> ---
->  drivers/nvme/host/pci.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 5e52034..be10860 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -50,7 +50,7 @@
->  #define NVME_AQ_DEPTH		256
->  #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
->  #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
-> -		
-> +
->  /*
->   * We handle AEN commands ourselves and don't even let the
->   * block layer know about them.
-> @@ -1332,7 +1332,7 @@ static ssize_t nvme_cmb_show(struct device *dev,
->  {
->  	struct nvme_dev *ndev = to_nvme_dev(dev_get_drvdata(dev));
->  
-> -	return snprintf(buf, PAGE_SIZE, "cmbloc : x%08x\ncmbsz  : x%08x\n",
-> +	return scnprintf(buf, PAGE_SIZE, "cmbloc : x%08x\ncmbsz  : x%08x\n",
->  		       ndev->cmbloc, ndev->cmbsz);
->  }
->  static DEVICE_ATTR(cmb, S_IRUGO, nvme_cmb_show, NULL);
-> -- 
-> 2.1.4
-> 
+-- 
+Jens Axboe
