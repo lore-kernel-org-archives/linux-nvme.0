@@ -1,50 +1,51 @@
-From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Mon, 19 Dec 2016 07:35:15 +0100
-Subject: [RFC 1/1] MicroSemi Switchtec management interface driver
-In-Reply-To: <d7c26e15-34f3-26d4-e13a-f24b4a9034c3@deltatee.com>
-References: <1481994562-9283-1-git-send-email-logang@deltatee.com>
- <1481994562-9283-2-git-send-email-logang@deltatee.com>
- <20161218075141.GE29850@kroah.com>
- <d7c26e15-34f3-26d4-e13a-f24b4a9034c3@deltatee.com>
-Message-ID: <20161219063515.GA5814@kroah.com>
+From: saar@annapurnalabs.com (Saar Gross)
+Date: Mon, 19 Dec 2016 14:18:30 +0200
+Subject: [PATCH] nvme: use __iowrite64_copy for SQs in the CMB
+In-Reply-To: <CACtDJFfFL2uha09razaLA+D1pwfj0mXdiRQ+UXTFND+GHo5Mwg@mail.gmail.com>
+References: <CACtDJFcvFUxCPYyy2de9v-0mrngQJ6+T57dc6K+BD04APk2nKA@mail.gmail.com>
+ <CACtDJFc2DwsHfVp5BKZLNrJ-EUoJjMCRr1tu9BR4gNyyzT1DHQ@mail.gmail.com>
+ <20161121091411.GA10123@infradead.org>
+ <aa517f417f04c082415dcb004ef77d94.squirrel@webmail.raithlin.com>
+ <CACtDJFfFL2uha09razaLA+D1pwfj0mXdiRQ+UXTFND+GHo5Mwg@mail.gmail.com>
+Message-ID: <CACtDJFcCJzhAvCK7gj6hkW9BSaCrZFa5bm6GsWwdMcy_NLDw_w@mail.gmail.com>
 
-On Sun, Dec 18, 2016@10:20:47AM -0700, Logan Gunthorpe wrote:
-> Hi Greg,
-> 
-> Thanks for the quick review!
-> 
-> On 18/12/16 12:51 AM, Greg Kroah-Hartman wrote:
-> > On Sat, Dec 17, 2016@10:09:22AM -0700, Logan Gunthorpe wrote:
-> > > +struct switchtec_dev {
-> > > +	struct pci_dev *pdev;
-> > > +	struct msix_entry *msix;
-> > > +	struct device *dev;
-> > > +	struct kref kref;
-> > 
-> > Why do you have a pointer to a device, yet a kref as well?  Just have
-> > this structure embed a 'struct device' in itself, like you did for a
-> > kref, and you will be fine.  Otherwise you are dealing with two
-> > different sets of reference counting here, for no good reason.
-> 
-> Ok, understood. I had referenced the device dax driver which did it this way
-> in 4.8 but looks like it was changed to the way you suggest in 4.9.
-> 
-> > > +#define stdev_pdev(stdev) ((stdev)->pdev)
-> > > +#define stdev_pdev_dev(stdev) (&stdev_pdev(stdev)->dev)
-> > > +#define stdev_name(stdev) pci_name(stdev_pdev(stdev))
-> > > +#define stdev_dev(stdev) ((stdev)->dev)
-> > 
-> > Ick, just open code these please.  That's a huge hint your use of the
-> > driver model is not correct :)
-> 
-> Ok, will do. For reference, I was copying
-> 
-> drivers/ntb/hw/intel/ntb_hw_intel.h
-> 
-> which does a similar thing.
+Hi again,
 
-No need to copy bad code, I suggest fixing that up as well :)
+Any other comments?
 
-thanks,
+Thanks,
+Saar
 
-greg k-h
+
+On Wed, Nov 30, 2016@10:31 AM, Saar Gross <saar@annapurnalabs.com> wrote:
+> Sorry for taking so long to reply: yes, it might help with some PCIe
+> devices with weird alignment requirements.
+>
+> The patch itself doesn't fix any broken devices (possibly other than
+> those PCIe devices mentioned above), it only replaces the current
+> implementation of memcpy_toio() to __iowrite64_copy() which is more
+> suited when working with WC buffers. We've tested the patch on a CMB
+> enabled device where we got the same performance as the original
+> implementation, which is expected as using __iowrite64_copy() should
+> really only make a difference with a very stressed system.
+>
+> Thanks,
+> Saar
+>
+>
+> On Tue, Nov 22, 2016@4:43 AM, Stephen Bates <sbates@raithlin.com> wrote:
+>>
+>>>>
+>>>> Any comments on this patch? I didn't receive any so far.
+>>>>
+>>>
+>>> Please explain why we would want to apply the patch, e.g. without
+>>> it some devices may be broken, or that on a particular device you get much
+>>> better performance (including numbers and an explanation of the setup).
+>>>
+>>
+>> Some PCIe devices have requirements on the alignment of PCIe writes into
+>> them. Would this patch help with some of those devices?
+>>
+>> Stephen
+>>
