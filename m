@@ -1,30 +1,33 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 19 Dec 2016 22:49:01 -0800
-Subject: [PATCH v3 4/5] nvme: Implement resume_from_suspend and SED
- Allocation code.
-In-Reply-To: <1482176149-2257-5-git-send-email-scott.bauer@intel.com>
+From: viro@ZenIV.linux.org.uk (Al Viro)
+Date: Tue, 20 Dec 2016 06:50:13 +0000
+Subject: [PATCH v3 2/5] lib: Add Sed-opal library
+In-Reply-To: <1482176149-2257-3-git-send-email-scott.bauer@intel.com>
 References: <1482176149-2257-1-git-send-email-scott.bauer@intel.com>
- <1482176149-2257-5-git-send-email-scott.bauer@intel.com>
-Message-ID: <20161220064901.GB13844@infradead.org>
+ <1482176149-2257-3-git-send-email-scott.bauer@intel.com>
+Message-ID: <20161220065013.GC1555@ZenIV.linux.org.uk>
 
-> +void nvme_unlock_from_suspend(struct nvme_ctrl *ctrl)
+On Mon, Dec 19, 2016@12:35:46PM -0700, Scott Bauer wrote:
+
+> +int fdev_sed_ioctl(struct file *filep, unsigned int cmd,
+> +		   unsigned long arg)
 > +{
-> +	if (opal_unlock_from_suspend(&ctrl->sed_ctx))
-> +		pr_warn("Failed to unlock one or more locking ranges!\n");
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_unlock_from_suspend);
+> +	struct sed_key key;
+> +	struct sed_context *sed_ctx;
+> +
+> +	if (!capable(CAP_SYS_ADMIN))
+> +		return -EACCES;
+> +
+> +	if (!filep->f_sedctx || !filep->f_sedctx->ops || !filep->f_sedctx->dev)
+> +		return -ENODEV;
+> +
+> +	sed_ctx = filep->f_sedctx;
 
-I don't think we even need this wrapper.  Also for the warning please
-use dev_warn so that the user knows which controller failed.
-
-> @@ -1765,7 +1766,7 @@ static void nvme_reset_work(struct work_struct *work)
->  {
->  	struct nvme_dev *dev = container_of(work, struct nvme_dev, reset_work);
->  	int result = -ENODEV;
-> -
-> +	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
->  	if (WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING))
-
-Please don't remove the empty line after the variable declarations.
-Also I would place your new line before the result line, as that makes
-it a tad easier to read.
+First of all, that's a bisect hazard.  What's more, looking through the
+rest of patchset, WTF does it
+	* need to be called that early in ioctl(2) handling, instead of
+having ->ioctl() instance for that sucker calling it?
+	* _not_ get your ->f_sedctx as an explicit argument, passed by
+the caller in ->ioctl(), seeing that it's possible to calculate by
+file->private_data?
+	* store that thing in struct file itself, bloating it for everything
+all for the sake of few drivers that might want to use that helper?
