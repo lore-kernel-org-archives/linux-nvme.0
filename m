@@ -1,5 +1,5 @@
-From: sbauer@eng.utah.edu (Scott Bauer)
-Date: Tue, 20 Dec 2016 09:05:32 -0700
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Tue, 20 Dec 2016 10:52:41 -0700
 Subject: [PATCH v3 4/5] nvme: Implement resume_from_suspend and SED
  Allocation code.
 In-Reply-To: <20161220154639.GA16393@infradead.org>
@@ -10,45 +10,79 @@ References: <1482176149-2257-1-git-send-email-scott.bauer@intel.com>
  <20161220061744.GB4765@infradead.org>
  <20161220154916.GC10634@localhost.localdomain>
  <20161220154639.GA16393@infradead.org>
-Message-ID: <aa3b337c-deeb-057d-1054-1443a43dbae4@eng.utah.edu>
+Message-ID: <20161220175239.GA2426@sbauer-Z170X-UD5>
 
-
-
-On 12/20/2016 08:46 AM, Christoph Hellwig wrote:
+On Tue, Dec 20, 2016@07:46:39AM -0800, Christoph Hellwig wrote:
 > On Tue, Dec 20, 2016@10:49:16AM -0500, Keith Busch wrote:
->> On Mon, Dec 19, 2016@10:17:44PM -0800, Christoph Hellwig wrote:
->>> As far as I can tell Security Send / Receive has always been intended to
->>> apply to the whole controller, even if that's something I would not
->>> personally think is a good idea.
->>
->> NVMe security commands required the namespace ID since the very
->> beginning. It's currently documented in figure 42 of section 5,
->> "Namespace Identifier Used" column.
+> > On Mon, Dec 19, 2016@10:17:44PM -0800, Christoph Hellwig wrote:
+> > > As far as I can tell Security Send / Receive has always been intended to
+> > > apply to the whole controller, even if that's something I would not
+> > > personally think is a good idea.
+> > 
+> > NVMe security commands required the namespace ID since the very
+> > beginning. It's currently documented in figure 42 of section 5,
+> > "Namespace Identifier Used" column.
 > 
 > Oh, for some reason I read a no there when looking it up.
 > Good to know, although TCG spec still seem to ignore it.
 
-Thanks Keith. Although TCG Spec currently ignores it in the future it may not.
-In that case we should probably attempt to future proof it a bit. Since the
-namespace ID is accessible via the block device structure I'll find a way to
-include that in some opaque pointer that we can deliver through the core into
-NVMe.
+Before I submit another version I want to address a few design issues we seem
+to be walking around a bit:
 
-But this also brings up another question (and part of the reason I moved from
-the block ioctl to fs ioctl): For drives with multiple namsepaces is it 
-acceptable to allow a namespace, who has a segregated chunk of space, the ability
-to perform actions outside of its range? Since the multiple namespaces portion
-of the spec says there will be one Global LR a namespace that doesn't encompass
-the entire LBA range can end up locking other LBAs via locking the global.
+The other reviews you gave for the series are fine and will be implemented,
+thank you for that.
 
-That's why I wanted to go to char dev because it seemed like a better fit for 
-this scenario. Any thoughts on the above?
+The main development issue seems to be how the drivers/block layer interact
+with the core sed.
 
+1) We will move the core from lib/ back to block/ and add CONFIGS in kconfig.
 
+2) Do we want to continue passing around a sed_context to the core? Instead of
+   a block_device struct like we did in previous versions.
 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
-> 
+ 2a) If we do wish to do wish to continue passng sed_contexts to the core I
+ have to add a new variable to the block_device structure for our sed_context.
+ Will this be acceptable? It wasn't acceptable for the file struct. The reason
+ I need a new variable in the struct is:
+ On the ioctl path, if we intercept the SED call in the block layer ioctl and
+ have the call chain be:
+ uland -> blk_ioctl -> sed_ioctl() -> sedcore -> sec_send/recv -> nvme
+ then I need to be able to pass a sed_ctx struct in blk_ioctl to sed-ioctl and
+ the only  way is to have it sitting in our block_device structure.
+
+ The other way which was sorta nack'd last time is the following call chain:
+ uland -> blk_ioctl -> nvme_ioctl -> sed_ioctl -> sedcore -> send/rcv -> nvme
+
+ In this call chain in nvme_ioctl we have access to our block device struct
+ and from there we can do blkdev->bd_disk->private_data to get our ns and then
+ eventually our sed_ctx to pass to sed_ioctl. I could add the ns to the sec_data
+ pointer in sed_context. This would give us access to ns without having to pass
+ around a block device or store it anywhere.
+
+ In the first scenario I can't work at all with opaque pointers like we can in
+ the drivers itself (private_data). I don't know what they are, the drivers have
+ the domain knowledge of what type they actually stored in private_data. That's
+ why I need an explicit member in the block_device for the first scenario.
+
+3) For NVMe we need access to our ns ID. It's in the block_device behind a few
+pointers. What I can do is if we want to continue with the first ioctl path
+described above is something like:
+
+sed_ioctl(struct block_device *bdev, ...)
+{
+  sed_context *ctx = bdev->sed_ctx;
+  ctx->sed_data = bdev->bd_disk->private_data;
+  switch(cmd) {
+  ...
+  ...
+  return some_opal_cmd(ctx);
+  }
+}
+
+While this works for NVMe I don't know if this is acceptible for *all* users.
+Since this is in a generic ioctl that is supposed to work with all drivers, who
+knows what the hell they're putting in private_data and whether its useful for
+their implementation of sec_send/recv.
+
+I think that's all I have for now. If I think of anything throughout the day I'll
+reply to to this email.
