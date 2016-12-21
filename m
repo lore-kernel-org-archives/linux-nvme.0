@@ -1,93 +1,45 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Tue, 20 Dec 2016 15:07:46 -0700
-Subject: [PATCH v3 2/5] lib: Add Sed-opal library
-In-Reply-To: <20161220072847.GA11946@infradead.org>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 21 Dec 2016 01:01:28 -0800
+Subject: [PATCH v3 4/5] nvme: Implement resume_from_suspend and SED
+ Allocation code.
+In-Reply-To: <aa3b337c-deeb-057d-1054-1443a43dbae4@eng.utah.edu>
 References: <1482176149-2257-1-git-send-email-scott.bauer@intel.com>
- <1482176149-2257-3-git-send-email-scott.bauer@intel.com>
- <20161220072847.GA11946@infradead.org>
-Message-ID: <20161220220746.GA3939@localhost.localdomain>
+ <1482176149-2257-5-git-send-email-scott.bauer@intel.com>
+ <20161219215954.GB10634@localhost.localdomain>
+ <20161219222311.GA2056@sbauer-Z170X-UD5>
+ <20161220061744.GB4765@infradead.org>
+ <20161220154916.GC10634@localhost.localdomain>
+ <20161220154639.GA16393@infradead.org>
+ <aa3b337c-deeb-057d-1054-1443a43dbae4@eng.utah.edu>
+Message-ID: <20161221090128.GA7048@infradead.org>
 
-On Mon, Dec 19, 2016@11:28:47PM -0800, Christoph Hellwig wrote:
-[snip]
-> > +	while (cpos < total) {
-> > +		if (!(pos[0] & 0x80)) /* tiny atom */
-> > +			token_length = response_parse_tiny(iter, pos);
-> > +		else if (!(pos[0] & 0x40)) /* short atom */
-> > +			token_length = response_parse_short(iter, pos);
-> > +		else if (!(pos[0] & 0x20)) /* medium atom */
-> > +			token_length = response_parse_medium(iter, pos);
-> > +		else if (!(pos[0] & 0x10)) /* long atom */
-> > +			token_length = response_parse_long(iter, pos);
-> 
-> Please add symbolic names for these constants to the protocol header.
-> 
-I get tripped up by this logic every time I look at it. I'd almost
-rather see something like the following, which more closely follows the
-TCG core spec and the optimizing compiler should turn it into something
-similar to above anyways:
+On Tue, Dec 20, 2016@09:05:32AM -0700, Scott Bauer wrote:
+> Thanks Keith. Although TCG Spec currently ignores it in the future it may not.
+> In that case we should probably attempt to future proof it a bit. Since the
+> namespace ID is accessible via the block device structure I'll find a way to
+> include that in some opaque pointer that we can deliver through the core into
+> NVMe.
 
-	if (pos[0] <= 0x7F)
-		token_length = response_parse_tiny..
-	else if (pos[0] <= 0xBF)
-		token_length = response_parse_short..
-	else if (pos[0] <= 0xDF)
-		token_length = response_parse_medium..
-	else if (pos[0] <= 0xE3)
-		token_length = response_parse_long..
+Honestly I think this nsid issue is a major, major mess.  Without a nsid
+only the global range makes sense, and in that case it does not make
+sense to set a nsid (so it should be 0xFFFFFFFF).  This one more of the
+major major issues because the NVMe group decided to not care about
+security and outsourced it to that giant heap of crap called TCG.
 
-Then just add those 0x7F, 0xBF, 0xDF, and 0xE3 constants to proto
-header. We could even add in a TCG reserved error for 0xE4-0xEF
+I think we'll need to start a little conversation on the nvme list on
+how to handle this, including potential errata.
 
-Also instead of tracking cpos, we could subtract from total until
-negative (if you make it signed). It's similar to how we do length in
-nvme_setup_prps.
+> But this also brings up another question (and part of the reason I moved from
+> the block ioctl to fs ioctl): For drives with multiple namsepaces is it 
+> acceptable to allow a namespace, who has a segregated chunk of space, the ability
+> to perform actions outside of its range? Since the multiple namespaces portion
+> of the spec says there will be one Global LR a namespace that doesn't encompass
+> the entire LBA range can end up locking other LBAs via locking the global.
+> 
+> That's why I wanted to go to char dev because it seemed like a better fit for 
+> this scenario. Any thoughts on the above?
 
-[snip]
-> > --- /dev/null
-> > +++ b/lib/sed-opal_internal.h
-> 
-> This pretty much seem to contain the OPAL protocol defintions, so why
-> not opal_proto.h?
-Since there might eventually be a whole class of opal-like sed
-protocols, why does it make more sense to have opal_proto.h instead of
-sed-opal.h or some variation? This is similar to how leds-*.h look to
-me. Although I agree that sed-ATA.h would be dishonest since ATA
-security doesn't imply a self-encrypting-disk.
-
-[snip]
-> > +int sed_save(struct sed_context *sed_ctx, struct sed_key *key)
-> > +{
-> > +	switch (key->sed_type) {
-> > +	case OPAL_LOCK_UNLOCK:
-> > +		return opal_save(sed_ctx, key);
-> > +	}
-> > +
-> > +	return -EOPNOTSUPP;
-> 
-> It seems to me that we should skip this whole sed_type indirections
-> and just specify the ioctls directly for OPAL (which would include
-> opalite and pyrite as subsets).  The only other protocols of interest
-> for Linux would be the ATA "security" plain text passwords, which can
-> be handled differently, or enterprise SSC which we can hopefully avoid
-> to implement entirely.
-I'm on board with this if you think we won't have enough different, but
-similar, SED protocols to justify the indirection. In that case you can
-ignore the above comment as well.
-
-> 
-> > +
-> > +int fdev_sed_ioctl(struct file *filep, unsigned int cmd,
-> > +		   unsigned long arg)
-> > +{
-> > +	struct sed_key key;
-> > +	struct sed_context *sed_ctx;
-> > +
-> > +	if (!capable(CAP_SYS_ADMIN))
-> > +		return -EACCES;
-> > +
-> > +	if (!filep->f_sedctx || !filep->f_sedctx->ops || !filep->f_sedctx->dev)
-> > +		return -ENODEV;
-> 
-> In the previous version this was called from the block driver which
-> could pass in the context (and ops).  Why was this changed?
-> 
+In SCSI we allow all kinds of ioctls affecting target-wide behavior on
+the device nodes.  These needs to be protected using CAP_SYS_ADMIN,
+otherwise we're going to get security issues, though (and in SCSI land
+we had such issues before).
