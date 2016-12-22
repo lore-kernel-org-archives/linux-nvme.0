@@ -1,9 +1,22 @@
-From: sagi@lightbits.io (Sagi Grimberg)
-Date: Thu, 22 Dec 2016 15:03:53 +0200
+From: narayan.ayalasomayajula@kazan-networks.com (Narayan Ayalasomayajula)
+Date: Thu, 22 Dec 2016 14:13:40 +0000
 Subject: Enabling RoCEv2 and connecting to IPv6 targets
-In-Reply-To: <BY2PR08MB181560EB58B0E8DF5A944E84C09D0@BY2PR08MB1815.namprd08.prod.outlook.com>
+In-Reply-To: <5b221596-ac9a-f49a-43ea-92068706341e@grimberg.me>
 References: <BY2PR08MB181560EB58B0E8DF5A944E84C09D0@BY2PR08MB1815.namprd08.prod.outlook.com>
-Message-ID: <5b221596-ac9a-f49a-43ea-92068706341e@grimberg.me>
+ <5b221596-ac9a-f49a-43ea-92068706341e@grimberg.me>
+Message-ID: <BY2PR08MB1815D6BDABDE0AE35A9A4C8FC0920@BY2PR08MB1815.namprd08.prod.outlook.com>
+
+Hi Sagi,
+
+Thanks for the pointer. I will try out these patches and will let you know how it goes.
+
+Narayan
+
+-----Original Message-----
+From: Sagi Grimberg [mailto:sagi@lightbitslabs.com] On Behalf Of Sagi Grimberg
+Sent: Thursday, December 22, 2016 5:04 AM
+To: Narayan Ayalasomayajula <narayan.ayalasomayajula at kazan-networks.com>; linux-nvme at lists.infradead.org
+Subject: Re: Enabling RoCEv2 and connecting to IPv6 targets
 
 
 
@@ -35,12 +48,10 @@ Hi Narayan,
 
 You're not missing anything obvious.
 
-We actually had this discussion and proposed some patches to add ipv6
-support, see thread at:
+We actually had this discussion and proposed some patches to add ipv6 support, see thread at:
 http://lists.infradead.org/pipermail/linux-nvme/2016-July/thread.html#5572
 
-starts with "[PATCH 2/2] nvme-rdma: Add handling for connecting to IPv6 
-targets".
+starts with "[PATCH 2/2] nvme-rdma: Add handling for connecting to IPv6 targets".
 
 I recall that the conclusion was to come up with a generic addition.
 
@@ -52,8 +63,7 @@ Can you try with the below three patches applied?
 --
 From: Roland Dreier <roland@purestorage.com>
 
-If a target address does not parse as IPv4, try parsing it as IPv6
-(including handling '%<scope-id>' suffixes for link-local addresses).
+If a target address does not parse as IPv4, try parsing it as IPv6 (including handling '%<scope-id>' suffixes for link-local addresses).
 
 Signed-off-by: Roland Dreier <roland at purestorage.com>
 ---
@@ -61,8 +71,7 @@ Signed-off-by: Roland Dreier <roland at purestorage.com>
 ++++++++++++++++++++++++++++++++++++++----------
   1 file changed, 44 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index b96b88369871..dd4aa54cd709 100644
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c index b96b88369871..dd4aa54cd709 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
 @@ -138,6 +138,7 @@ struct nvme_rdma_ctrl {
@@ -133,9 +142,7 @@ index b96b88369871..dd4aa54cd709 100644
 +	return -EINVAL;
   }
 
-  static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
-@@ -1875,7 +1908,7 @@ static struct nvme_ctrl 
-*nvme_rdma_create_ctrl(struct device *dev,
+  static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev, @@ -1875,7 +1908,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
   	ctrl->ctrl.opts = opts;
   	INIT_LIST_HEAD(&ctrl->list);
 
@@ -144,8 +151,7 @@ index b96b88369871..dd4aa54cd709 100644
   	if (ret) {
   		pr_err("malformed IP address passed: %s\n", opts->traddr);
   		goto out_free_ctrl;
-@@ -1949,7 +1982,7 @@ static struct nvme_ctrl 
-*nvme_rdma_create_ctrl(struct device *dev,
+@@ -1949,7 +1982,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
   	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
   	WARN_ON_ONCE(!changed);
 
@@ -169,8 +175,7 @@ Date:   Sun Jul 31 13:45:44 2016 +0300
 
       Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 4e83d92d6bdd..347cc6d37dad 100644
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c index 4e83d92d6bdd..347cc6d37dad 100644
 --- a/drivers/nvme/target/rdma.c
 +++ b/drivers/nvme/target/rdma.c
 @@ -1336,29 +1336,65 @@ restart:
@@ -238,8 +243,7 @@ index 4e83d92d6bdd..347cc6d37dad 100644
 -       addr_in.sin_family = AF_INET;
 -       addr_in.sin_addr.s_addr = in_aton(port->disc_addr.traddr);
 -       addr_in.sin_port = htons(port_in);
-+static int nvmet_rdma_add_port(struct nvmet_port *port)
-+{
++static int nvmet_rdma_add_port(struct nvmet_port *port) {
 +       struct rdma_cm_id *cm_id;
 +       struct sockaddr_storage addr = { };
 +       int ret;
@@ -253,8 +257,7 @@ index 4e83d92d6bdd..347cc6d37dad 100644
 +       }
 
           cm_id = rdma_create_id(&init_net, nvmet_rdma_cm_handler, port,
-                          RDMA_PS_TCP, IB_QPT_RC);
-@@ -1367,20 +1403,33 @@ static int nvmet_rdma_add_port(struct nvmet_port
+                          RDMA_PS_TCP, IB_QPT_RC); @@ -1367,20 +1403,33 @@ static int nvmet_rdma_add_port(struct nvmet_port
 *port)
                   return PTR_ERR(cm_id);
           }
@@ -310,8 +313,7 @@ diff --git a/fabrics.c b/fabrics.c
 index 4bf557b5e672..221e34e5e39b 100644
 --- a/fabrics.c
 +++ b/fabrics.c
-@@ -390,7 +390,8 @@ static int connect_ctrl(struct
-nvmf_disc_rsp_page_entry *e)
+@@ -390,7 +390,8 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
                   /* we can safely ignore the rest of the entries */
                   break;
           case NVMF_TRTYPE_RDMA:
