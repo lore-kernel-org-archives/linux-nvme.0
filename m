@@ -1,22 +1,23 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 22 Dec 2016 11:55:51 -0700
-Subject: [GIT PULL] NVMe updates
-In-Reply-To: <20161222183340.GA29357@infradead.org>
-References: <20161222183340.GA29357@infradead.org>
-Message-ID: <de356052-8b81-5e02-8052-1d81f29a132b@kernel.dk>
+From: jsmart2021@gmail.com (James Smart)
+Date: Sat, 24 Dec 2016 09:46:37 -0800
+Subject: [PATCH 0/3] nvme fc: Sync with FC-NVME spec rev 1.14
+Message-ID: <585eb47d.k1ljfudCPAIbKa+X%jsmart2021@gmail.com>
 
-On 12/22/2016 11:33 AM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> below is the pull request for additional NVMe updates for 4.10.
-> 
-> The most significant one is that we've agreed on shared maintaince and
-> a common repository for the PCIe NVMe driver and NVMe over Fabrics.  The
-> target code still only has a subset of the maintainers but goes through
-> the same tree as well.  Keith, Sagi and me will take turns at collecting
-> patches and sending you pull requests.
 
-Pulled, thanks.
+Update FC-NVME definitions to match FC-NVME r1.14 (16-020vB).
+Includes the following:
+- Addition of "status_code" field to ERSP IU
+- Addition of FC-NVME LS RJT reason_codes and reason_explanations
+
+James Smart (3):
+  Sync FC-NVME header with standard
+  nvme_fc: Add check of status_code in ERSP_IU
+  nvmet_fc: Sync NVME LS reject reasons with spec
+
+ drivers/nvme/host/fc.c   |  1 +
+ drivers/nvme/target/fc.c | 19 +++++++++-----
+ include/linux/nvme-fc.h  | 66 ++++++++++++++++++++++++++++++++++++++++++------
+ 3 files changed, 71 insertions(+), 15 deletions(-)
 
 -- 
-Jens Axboe
+2.5.0
