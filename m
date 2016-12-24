@@ -1,47 +1,48 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 24 Dec 2016 09:46:41 -0800
-Subject: [PATCH] nvme_fc: correct LS validation
-Message-ID: <585eb481.Z9kloEOnhgH+OCC7%jsmart2021@gmail.com>
+Date: Sat, 24 Dec 2016 09:46:44 -0800
+Subject: [PATCH] nvmet_fc: cleanup of abort flag processing in fcp_op_done
+Message-ID: <585eb484.M7R72sCIYQYXrRlx%jsmart2021@gmail.com>
 
 
-LS validations shouldn't have been independent checks.
+Cleanup of abort flag processing in fcp_op_done.
+References were unnecessary
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fc.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/nvme/target/fc.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 03bb599..d30ef8c 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -848,11 +848,12 @@ nvme_fc_connect_admin_queue(struct nvme_fc_ctrl *ctrl,
- 	/* validate the ACC response */
- 	if (assoc_acc->hdr.w0.ls_cmd != FCNVME_LS_ACC)
- 		fcret = VERR_LSACC;
--	if (assoc_acc->hdr.desc_list_len !=
-+	else if (assoc_acc->hdr.desc_list_len !=
- 			fcnvme_lsdesc_len(
- 				sizeof(struct fcnvme_ls_cr_assoc_acc)))
- 		fcret = VERR_CR_ASSOC_ACC_LEN;
--	if (assoc_acc->hdr.rqst.desc_tag != cpu_to_be32(FCNVME_LSDESC_RQST))
-+	else if (assoc_acc->hdr.rqst.desc_tag !=
-+			cpu_to_be32(FCNVME_LSDESC_RQST))
- 		fcret = VERR_LSDESC_RQST;
- 	else if (assoc_acc->hdr.rqst.desc_len !=
- 			fcnvme_lsdesc_len(sizeof(struct fcnvme_lsdesc_rqst)))
-@@ -955,10 +956,10 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 	/* validate the ACC response */
- 	if (conn_acc->hdr.w0.ls_cmd != FCNVME_LS_ACC)
- 		fcret = VERR_LSACC;
--	if (conn_acc->hdr.desc_list_len !=
-+	else if (conn_acc->hdr.desc_list_len !=
- 			fcnvme_lsdesc_len(sizeof(struct fcnvme_ls_cr_conn_acc)))
- 		fcret = VERR_CR_CONN_ACC_LEN;
--	if (conn_acc->hdr.rqst.desc_tag != cpu_to_be32(FCNVME_LSDESC_RQST))
-+	else if (conn_acc->hdr.rqst.desc_tag != cpu_to_be32(FCNVME_LSDESC_RQST))
- 		fcret = VERR_LSDESC_RQST;
- 	else if (conn_acc->hdr.rqst.desc_len !=
- 			fcnvme_lsdesc_len(sizeof(struct fcnvme_lsdesc_rqst)))
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 90cd652..2c0709f 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -1824,16 +1824,14 @@ nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
+ 		/* data no longer needed */
+ 		nvmet_fc_free_tgt_pgs(fod);
+ 
+-		if (fcpreq->fcp_error || abort)
+-			nvmet_req_complete(&fod->req, fcpreq->fcp_error);
+-
++		nvmet_req_complete(&fod->req, fcpreq->fcp_error);
+ 		return;
+ 	}
+ 
+ 	switch (fcpreq->op) {
+ 
+ 	case NVMET_FCOP_WRITEDATA:
+-		if (abort || fcpreq->fcp_error ||
++		if (fcpreq->fcp_error ||
+ 		    fcpreq->transferred_length != fcpreq->transfer_length) {
+ 			nvmet_req_complete(&fod->req,
+ 					NVME_SC_FC_TRANSPORT_ERROR);
+@@ -1856,7 +1854,7 @@ nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
+ 
+ 	case NVMET_FCOP_READDATA:
+ 	case NVMET_FCOP_READDATA_RSP:
+-		if (abort || fcpreq->fcp_error ||
++		if (fcpreq->fcp_error ||
+ 		    fcpreq->transferred_length != fcpreq->transfer_length) {
+ 			/* data no longer needed */
+ 			nvmet_fc_free_tgt_pgs(fod);
 -- 
 2.5.0
