@@ -1,28 +1,27 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 24 Dec 2016 09:46:42 -0800
-Subject: [PATCH] nvmet_fc: Clear SG list to avoid double frees
-Message-ID: <585eb482.c+IlMeE1LJXQhHJk%jsmart2021@gmail.com>
+Date: Sat, 24 Dec 2016 09:46:39 -0800
+Subject: [PATCH 2/3] nvme_fc: Add check of status_code in ERSP_IU
+Message-ID: <585eb47f.QfHJhdihZkHxbVbF%jsmart2021@gmail.com>
 
 
-Clear SG list to avoid double frees of payload page list
+Add check of status_code in ERSP_IU
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/target/fc.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/nvme/host/fc.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index ce1f08d..fe74fc6 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1616,6 +1616,8 @@ nvmet_fc_free_tgt_pgs(struct nvmet_fc_fcp_iod *fod)
- 	for_each_sg(fod->data_sg, sg, fod->data_sg_cnt, count)
- 		__free_page(sg_page(sg));
- 	kfree(fod->data_sg);
-+	fod->data_sg = NULL;
-+	fod->data_sg_cnt = 0;
- }
- 
- 
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 827c2b5..03bb599 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1226,6 +1226,7 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
+ 					(freq->rcv_rsplen / 4) ||
+ 			     be32_to_cpu(op->rsp_iu.xfrd_len) !=
+ 					freq->transferred_length ||
++			     op->rsp_iu.status_code ||
+ 			     op->rqno != le16_to_cpu(cqe->command_id))) {
+ 			status = -EIO;
+ 			goto done;
 -- 
 2.5.0
