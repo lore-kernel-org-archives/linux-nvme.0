@@ -1,66 +1,47 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 24 Dec 2016 09:46:40 -0800
-Subject: [PATCH 3/3] nvmet_fc: Sync NVME LS reject reasons with spec
-Message-ID: <585eb480.1dw38w2IfDewitYc%jsmart2021@gmail.com>
+Date: Sat, 24 Dec 2016 09:46:41 -0800
+Subject: [PATCH] nvme_fc: correct LS validation
+Message-ID: <585eb481.Z9kloEOnhgH+OCC7%jsmart2021@gmail.com>
 
 
-nvmet_fc: Sync NVME LS reject reasons with spec
+LS validations shouldn't have been independent checks.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/target/fc.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ drivers/nvme/host/fc.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 173e842..ce1f08d 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1189,8 +1189,8 @@ nvmet_fc_ls_create_association(struct nvmet_fc_tgtport *tgtport,
- 			validation_errors[ret]);
- 		iod->lsreq->rsplen = nvmet_fc_format_rjt(acc,
- 				NVME_FC_MAX_LS_BUFFER_SIZE, rqst->w0.ls_cmd,
--				ELS_RJT_LOGIC,
--				ELS_EXPL_NONE, 0);
-+				FCNVME_RJT_RC_LOGIC,
-+				FCNVME_RJT_EXP_NONE, 0);
- 		return;
- 	}
- 
-@@ -1281,8 +1281,9 @@ nvmet_fc_ls_create_connection(struct nvmet_fc_tgtport *tgtport,
- 		iod->lsreq->rsplen = nvmet_fc_format_rjt(acc,
- 				NVME_FC_MAX_LS_BUFFER_SIZE, rqst->w0.ls_cmd,
- 				(ret == VERR_NO_ASSOC) ?
--						ELS_RJT_PROT : ELS_RJT_LOGIC,
--				ELS_EXPL_NONE, 0);
-+					FCNVME_RJT_RC_INV_ASSOC :
-+					FCNVME_RJT_RC_LOGIC,
-+				FCNVME_RJT_EXP_NONE, 0);
- 		return;
- 	}
- 
-@@ -1358,8 +1359,12 @@ nvmet_fc_ls_disconnect(struct nvmet_fc_tgtport *tgtport,
- 			validation_errors[ret]);
- 		iod->lsreq->rsplen = nvmet_fc_format_rjt(acc,
- 				NVME_FC_MAX_LS_BUFFER_SIZE, rqst->w0.ls_cmd,
--				(ret == 8) ? ELS_RJT_PROT : ELS_RJT_LOGIC,
--				ELS_EXPL_NONE, 0);
-+				(ret == VERR_NO_ASSOC) ?
-+					FCNVME_RJT_RC_INV_ASSOC :
-+					(ret == VERR_NO_CONN) ?
-+						FCNVME_RJT_RC_INV_CONN :
-+						FCNVME_RJT_RC_LOGIC,
-+				FCNVME_RJT_EXP_NONE, 0);
- 		return;
- 	}
- 
-@@ -1471,7 +1476,7 @@ nvmet_fc_handle_ls_rqst(struct nvmet_fc_tgtport *tgtport,
- 	default:
- 		iod->lsreq->rsplen = nvmet_fc_format_rjt(iod->rspbuf,
- 				NVME_FC_MAX_LS_BUFFER_SIZE, w0->ls_cmd,
--				ELS_RJT_INVAL, ELS_EXPL_NONE, 0);
-+				FCNVME_RJT_RC_INVAL, FCNVME_RJT_EXP_NONE, 0);
- 	}
- 
- 	nvmet_fc_xmt_ls_rsp(tgtport, iod);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 03bb599..d30ef8c 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -848,11 +848,12 @@ nvme_fc_connect_admin_queue(struct nvme_fc_ctrl *ctrl,
+ 	/* validate the ACC response */
+ 	if (assoc_acc->hdr.w0.ls_cmd != FCNVME_LS_ACC)
+ 		fcret = VERR_LSACC;
+-	if (assoc_acc->hdr.desc_list_len !=
++	else if (assoc_acc->hdr.desc_list_len !=
+ 			fcnvme_lsdesc_len(
+ 				sizeof(struct fcnvme_ls_cr_assoc_acc)))
+ 		fcret = VERR_CR_ASSOC_ACC_LEN;
+-	if (assoc_acc->hdr.rqst.desc_tag != cpu_to_be32(FCNVME_LSDESC_RQST))
++	else if (assoc_acc->hdr.rqst.desc_tag !=
++			cpu_to_be32(FCNVME_LSDESC_RQST))
+ 		fcret = VERR_LSDESC_RQST;
+ 	else if (assoc_acc->hdr.rqst.desc_len !=
+ 			fcnvme_lsdesc_len(sizeof(struct fcnvme_lsdesc_rqst)))
+@@ -955,10 +956,10 @@ nvme_fc_connect_queue(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+ 	/* validate the ACC response */
+ 	if (conn_acc->hdr.w0.ls_cmd != FCNVME_LS_ACC)
+ 		fcret = VERR_LSACC;
+-	if (conn_acc->hdr.desc_list_len !=
++	else if (conn_acc->hdr.desc_list_len !=
+ 			fcnvme_lsdesc_len(sizeof(struct fcnvme_ls_cr_conn_acc)))
+ 		fcret = VERR_CR_CONN_ACC_LEN;
+-	if (conn_acc->hdr.rqst.desc_tag != cpu_to_be32(FCNVME_LSDESC_RQST))
++	else if (conn_acc->hdr.rqst.desc_tag != cpu_to_be32(FCNVME_LSDESC_RQST))
+ 		fcret = VERR_LSDESC_RQST;
+ 	else if (conn_acc->hdr.rqst.desc_len !=
+ 			fcnvme_lsdesc_len(sizeof(struct fcnvme_lsdesc_rqst)))
 -- 
 2.5.0
