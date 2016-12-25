@@ -1,48 +1,25 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 24 Dec 2016 09:46:44 -0800
-Subject: [PATCH] nvmet_fc: cleanup of abort flag processing in fcp_op_done
-Message-ID: <585eb484.M7R72sCIYQYXrRlx%jsmart2021@gmail.com>
+From: kernel@jbeekman.nl (Jethro Beekman)
+Date: Sun, 25 Dec 2016 15:15:52 +0100
+Subject: [PATCH v3 4/5] nvme: Implement resume_from_suspend and SED
+ Allocation code.
+In-Reply-To: <1482176149-2257-5-git-send-email-scott.bauer@intel.com>
+References: <1482176149-2257-1-git-send-email-scott.bauer@intel.com>
+ <1482176149-2257-5-git-send-email-scott.bauer@intel.com>
+Message-ID: <3d8b8516-aac6-c11c-dbbb-47fc01308f8c@jbeekman.nl>
 
+On 19-12-16 20:35, Scott Bauer wrote:
+> @@ -1796,6 +1797,13 @@ static void nvme_reset_work(struct work_struct *work)
+>  	if (result)
+>  		goto out;
+>  
+> +	result = nvme_opal_initialize(&dev->ctrl);
+> +	if (result)
+> +		goto out;
 
-Cleanup of abort flag processing in fcp_op_done.
-References were unnecessary
+It seems you always try to intialize OPAL even if the drive doesn't support it.
+I think you should check if the device supports security commands and then see
+if it supports OPAL before calling this. See e.g.
+https://lkml.org/lkml/2016/6/19/139 . Ideally, this code would check all
+supported protocols and initialize the appropriate security device based on that.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/fc.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 90cd652..2c0709f 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -1824,16 +1824,14 @@ nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
- 		/* data no longer needed */
- 		nvmet_fc_free_tgt_pgs(fod);
- 
--		if (fcpreq->fcp_error || abort)
--			nvmet_req_complete(&fod->req, fcpreq->fcp_error);
--
-+		nvmet_req_complete(&fod->req, fcpreq->fcp_error);
- 		return;
- 	}
- 
- 	switch (fcpreq->op) {
- 
- 	case NVMET_FCOP_WRITEDATA:
--		if (abort || fcpreq->fcp_error ||
-+		if (fcpreq->fcp_error ||
- 		    fcpreq->transferred_length != fcpreq->transfer_length) {
- 			nvmet_req_complete(&fod->req,
- 					NVME_SC_FC_TRANSPORT_ERROR);
-@@ -1856,7 +1854,7 @@ nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
- 
- 	case NVMET_FCOP_READDATA:
- 	case NVMET_FCOP_READDATA_RSP:
--		if (abort || fcpreq->fcp_error ||
-+		if (fcpreq->fcp_error ||
- 		    fcpreq->transferred_length != fcpreq->transfer_length) {
- 			/* data no longer needed */
- 			nvmet_fc_free_tgt_pgs(fod);
--- 
-2.5.0
+Jethro
