@@ -1,65 +1,29 @@
-From: kernel@jbeekman.nl (Jethro Beekman)
-Date: Sun, 25 Dec 2016 15:15:53 +0100
-Subject: [PATCH v3 1/5] include: Add definitions for sed
-In-Reply-To: <1482176149-2257-2-git-send-email-scott.bauer@intel.com>
-References: <1482176149-2257-1-git-send-email-scott.bauer@intel.com>
- <1482176149-2257-2-git-send-email-scott.bauer@intel.com>
-Message-ID: <26b9c96f-99ae-6669-5cbe-bff563e20255@jbeekman.nl>
+From: colin.king@canonical.com (Colin King)
+Date: Tue, 27 Dec 2016 16:04:09 +0000
+Subject: [PATCH] nvme: admin-cmd: fix spelling mistake: "Counld" -> "Could"
+Message-ID: <20161227160409.9059-1-colin.king@canonical.com>
 
-On 19-12-16 20:35, Scott Bauer wrote:
-> diff --git a/include/linux/sed.h b/include/linux/sed.h
->
-> +/*
-> + * These constant values come from:
-> + * TCG Storage Architecture Core Spec v2.01 r1
-> + * Section: 3.3 Interface Communications
-> + */
-> +enum {
-> +	TCG_SECP_00 = 0,
+From: Colin Ian King <colin.king@canonical.com>
 
-Protocol 0 is not defined by TCG. Perhaps you should reference SPC-4 section
-6.30 SECURITY PROTOCOL IN command / table 265.
+trivial fix to spelling mistake in pr_err message
 
-> diff --git a/include/uapi/linux/sed.h b/include/uapi/linux/sed.h
->
-> +enum sed_key_type {
-> +	OPAL,
-> +	OPAL_PW,
-> +	OPAL_ACT_USR,
-> +	OPAL_LR_SETUP,
-> +	OPAL_LOCK_UNLOCK,
-> +	OPAL_MBR_DATA,
-> +};
-> +
-> +struct sed_key {
-> +	__u32 sed_type;
-> +	union {
-> +		struct opal_key            opal;
-> +		struct opal_new_pw         opal_pw;
-> +		struct opal_session_info   opal_session;
-> +		struct opal_user_lr_setup  opal_lrs;
-> +		struct opal_lock_unlock    opal_lk_unlk;
-> +		struct opal_mbr_data       opal_mbr;
-> +		/* additional command set key types */
-> +	};
-> +};
-> +
-> +#define IOC_SED_SAVE		   _IOW('p', 220, struct sed_key)
-> +#define IOC_SED_LOCK_UNLOCK	   _IOW('p', 221, struct sed_key)
-> +#define IOC_SED_TAKE_OWNERSHIP	   _IOW('p', 222, struct sed_key)
-> +#define IOC_SED_ACTIVATE_LSP       _IOW('p', 223, struct sed_key)
-> +#define IOC_SED_SET_PW             _IOW('p', 224, struct sed_key)
-> +#define IOC_SED_ACTIVATE_USR       _IOW('p', 225, struct sed_key)
-> +#define IOC_SED_REVERT_TPR         _IOW('p', 226, struct sed_key)
-> +#define IOC_SED_LR_SETUP           _IOW('p', 227, struct sed_key)
-> +#define IOC_SED_ADD_USR_TO_LR      _IOW('p', 228, struct sed_key)
-> +#define IOC_SED_ENABLE_DISABLE_MBR _IOW('p', 229, struct sed_key)
-> +#define IOC_SED_ERASE_LR           _IOW('p', 230, struct sed_key)
-> +#define IOC_SED_SECURE_ERASE_LR    _IOW('p', 231, struct sed_key)
+Signed-off-by: Colin Ian King <colin.king at canonical.com>
+---
+ drivers/nvme/target/admin-cmd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm slightly confused by the split between SED-generic and OPAL-specific files
-here. Maybe I'm misunderstanding the intent of these ioctls. I think SED means
-"possible any drive supporting the security command set". Therefore these
-definitions (quoted) should have OPAL names and live in an OPAL header.
-
-Jethro
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index ec1ad2a..0c2688c 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -41,7 +41,7 @@ static u16 nvmet_get_smart_log_nsid(struct nvmet_req *req,
+ 	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->get_log_page.nsid);
+ 	if (!ns) {
+ 		status = NVME_SC_INVALID_NS;
+-		pr_err("nvmet : Counld not find namespace id : %d\n",
++		pr_err("nvmet : Could not find namespace id : %d\n",
+ 				le32_to_cpu(req->cmd->get_log_page.nsid));
+ 		goto out;
+ 	}
+-- 
+2.10.2
