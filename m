@@ -1,129 +1,43 @@
 From: scott.bauer@intel.com (Scott Bauer)
-Date: Thu, 29 Dec 2016 12:26:50 -0700
-Subject: [PATCH v4 1/6] Include: Uapi: Add user ABI for Sed/Opal
+Date: Thu, 29 Dec 2016 12:26:53 -0700
+Subject: [PATCH v4 4/6] block: Add Opal Files to Makefile & add config option
+ to Kconfig
 In-Reply-To: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
 References: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <1483039615-22407-2-git-send-email-scott.bauer@intel.com>
+Message-ID: <1483039615-22407-5-git-send-email-scott.bauer@intel.com>
 
 Signed-off-by: Scott Bauer <scott.bauer at intel.com>
 Signed-off-by: Rafael Antognolli <Rafael.Antognolli at intel.com>
 ---
- include/uapi/linux/sed-opal.h | 107 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 107 insertions(+)
- create mode 100644 include/uapi/linux/sed-opal.h
+ block/Kconfig  | 6 ++++++
+ block/Makefile | 1 +
+ 2 files changed, 7 insertions(+)
 
-diff --git a/include/uapi/linux/sed-opal.h b/include/uapi/linux/sed-opal.h
-new file mode 100644
-index 0000000..c06077a
---- /dev/null
-+++ b/include/uapi/linux/sed-opal.h
-@@ -0,0 +1,107 @@
-+/*
-+ * Copyright ? 2016 Intel Corporation
-+ *
-+ * Authors:
-+ *    Rafael Antognolli <rafael.antognolli at intel.com>
-+ *    Scott  Bauer      <scott.bauer at intel.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ */
+diff --git a/block/Kconfig b/block/Kconfig
+index 8bf114a..45a7863 100644
+--- a/block/Kconfig
++++ b/block/Kconfig
+@@ -147,6 +147,12 @@ config BLK_WBT_MQ
+ 	Multiqueue currently doesn't have support for IO scheduling,
+ 	enabling this option is recommended.
+ 
++config BLK_SED_OPAL
++        bool "Library for interfacing with Opal enabled SEDs"
++	default n
++	---help---
++	Builds library for interfacing with Opal enabled controllers.
 +
-+#ifndef _UAPI_SED_OPAL_H
-+#define _UAPI_SED_OPAL_H
-+
-+#include <linux/types.h>
-+
-+#define OPAL_KEY_MAX 256
-+
-+enum opal_mbr {
-+	OPAL_MBR_ENABLE,
-+	OPAL_MBR_DISABLE,
-+};
-+
-+enum opal_user {
-+	OPAL_ADMIN1,
-+	OPAL_USER1,
-+	OPAL_USER2,
-+	OPAL_USER3,
-+	OPAL_USER4,
-+	OPAL_USER5,
-+	OPAL_USER6,
-+	OPAL_USER7,
-+	OPAL_USER8,
-+	OPAL_USER9,
-+};
-+
-+enum opal_lock_state {
-+	OPAL_RO = 0x01, /* 0001 */
-+	OPAL_RW = 0x02, /* 0010 */
-+	OPAL_LK = 0x04, /* 0100 */
-+};
-+
-+struct opal_key {
-+	uint8_t	lr;
-+	uint8_t	key_len;
-+	char 	key[OPAL_KEY_MAX];
-+};
-+
-+struct opal_session_info {
-+	int sum;
-+	struct opal_key opal_key;
-+	enum opal_user who;
-+};
-+
-+struct opal_user_lr_setup {
-+	struct opal_session_info session;
-+	size_t range_start;
-+	size_t range_length;
-+	int    RLE; /* Read Lock enabled */
-+	int    WLE; /* Write Lock Enabled */
-+};
-+
-+struct opal_lock_unlock {
-+	struct opal_session_info session;
-+	enum opal_lock_state l_state;
-+};
-+
-+struct opal_new_pw {
-+	struct opal_session_info session;
-+
-+	/* When we're not operating in sum, and we first set
-+	 * passwords we need to set them via ADMIN authority.
-+	 * After passwords are changed, we can set them via,
-+	 * User authorities.
-+	 * Because of this restriction we need to know about
-+	 * Two different users. One in 'session' which we will use
-+	 * to start the session and new_userr_pw as the user we're
-+	 * chaning the pw for.
-+	 */
-+	struct opal_session_info new_user_pw;
-+};
-+
-+struct opal_mbr_data {
-+	u8 enable_disable;
-+	struct opal_key key;
-+};
-+
-+#define IOC_OPAL_SAVE		    _IOW('p', 220, struct opal_lock_unlock)
-+#define IOC_OPAL_LOCK_UNLOCK	    _IOW('p', 221, struct opal_lock_unlock)
-+#define IOC_OPAL_TAKE_OWNERSHIP	    _IOW('p', 222, struct opal_key)
-+#define IOC_OPAL_ACTIVATE_LSP       _IOW('p', 223, struct opal_key)
-+#define IOC_OPAL_SET_PW             _IOW('p', 224, struct opal_new_pw)
-+#define IOC_OPAL_ACTIVATE_USR       _IOW('p', 225, struct opal_session_info)
-+#define IOC_OPAL_REVERT_TPR         _IOW('p', 226, struct opal_key)
-+#define IOC_OPAL_LR_SETUP           _IOW('p', 227, struct opal_user_lr_setup)
-+#define IOC_OPAL_ADD_USR_TO_LR      _IOW('p', 228, struct opal_lock_unlock)
-+#define IOC_OPAL_ENABLE_DISABLE_MBR _IOW('p', 229, struct opal_mbr_data)
-+#define IOC_OPAL_ERASE_LR           _IOW('p', 230, struct opal_session_info)
-+#define IOC_OPAL_SECURE_ERASE_LR    _IOW('p', 231, struct opal_session_info)
-+
-+#endif /* _UAPI_SED_OPAL_H */
+ menu "Partition Types"
+ 
+ source "block/partitions/Kconfig"
+diff --git a/block/Makefile b/block/Makefile
+index a827f98..876c28d 100644
+--- a/block/Makefile
++++ b/block/Makefile
+@@ -25,3 +25,4 @@ obj-$(CONFIG_BLK_DEV_INTEGRITY) += bio-integrity.o blk-integrity.o t10-pi.o
+ obj-$(CONFIG_BLK_MQ_PCI)	+= blk-mq-pci.o
+ obj-$(CONFIG_BLK_DEV_ZONED)	+= blk-zoned.o
+ obj-$(CONFIG_BLK_WBT)		+= blk-wbt.o
++obj-$(CONFIG_BLK_SED_OPAL)	+= sed-opal.o sed-ioctl.o
 -- 
 2.7.4
