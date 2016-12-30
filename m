@@ -1,51 +1,33 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Fri, 30 Dec 2016 14:02:56 -0700
-Subject: [PATCH v4 2/6] block: Add Sed-opal library
-In-Reply-To: <1483039615-22407-3-git-send-email-scott.bauer@intel.com>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Fri, 30 Dec 2016 15:52:53 -0700
+Subject: [PATCH v4 0/6] SED OPAL Library
+In-Reply-To: <20161230082826.GA30378@infradead.org>
 References: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
- <1483039615-22407-3-git-send-email-scott.bauer@intel.com>
-Message-ID: <20161230210255.GA4148@localhost.localdomain>
+ <20161230082826.GA30378@infradead.org>
+Message-ID: <20161230225252.GA3716@sbauer-Z170X-UD5>
 
-Hi Scott,
-
-I haven't had much time with this yet, but..
-
-[snip]
-> +static int do_cmds(struct opal_dev *dev)
-> +{
-> +	int ret;
-> +	ret = next(dev);
-> +	mutex_unlock(&dev->dev_lock);
-> +	return ret;
-> +}
-> +
-> +static struct opal_dev *get_opal_dev(struct sed_context *sedc,
-> +				     const opal_step *funcs)
-> +{
-> +	struct opal_dev *dev = sedc->dev;
-> +	if (dev) {
-> +		mutex_lock(&dev->dev_lock);
-> +		dev->state = 0;
-> +		dev->funcs = funcs;
-> +		dev->tsn = 0;
-> +		dev->hsn = 0;
-> +		dev->error_cb = end_opal_session_error;
-> +		dev->error_cb_data = dev;
-> +		dev->func_data = NULL;
-> +		dev->prev_data = NULL;
-> +		dev->sed_ctx = sedc;
-> +		dev->save_discovery = false;
-> +	}
-> +	return dev;
-> +}
-> +
+On Fri, Dec 30, 2016@12:28:26AM -0800, Christoph Hellwig wrote:
+> Hi Scott,
 > 
+> do you have a pointer to the userspace using this ioctls?  Over the
+> holidays I finally managed to put a test system for my collection of m.2
+> key M cards together, so I should be able to test the code, which I'd
+> definitively like to do before ACKing.  More comments on the code itself
+> will follow soon.
 
-It's a bit nontraditional to lock and unlock in different functions, but
-I see why you're doing it this way.
 
-Can we move the mutex locking/unlocking to the callers of these
-functions, such that they are both in the same function; then we can use
-lockdep_assert_held(..) on the in-between?
+We've enabled the supporte into nvmecli you can pull my branch here:
+https://github.com/ScottyBauer/nvme-cli/tree/sed-nvme
 
-Cheers
+
+Here are some shellscripts I use for testing -- also a HOW-TO-USE in there.
+https://github.com/ScottyBauer/nvme-cli-sed-sh
+
+
+I may have regressed some Single user mode stuff in the library. I was under
+the impression one could setup multiple Locking ranges under Single User Mode.
+But I can only get one setup without my drive complaining. It doesn't work in
+sed-util either, so I have to go read the SUM spec again and see if that is
+actually a use-case that's possible or if I was dreaming this test up. I swore
+I had this working on previous iterations, but I could be wrong. Normal mode
+seems to work fine, though.
