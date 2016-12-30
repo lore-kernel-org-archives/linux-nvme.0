@@ -1,14 +1,14 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 30 Dec 2016 00:28:26 -0800
-Subject: [PATCH v4 0/6] SED OPAL Library
-In-Reply-To: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
-References: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <20161230082826.GA30378@infradead.org>
+Date: Fri, 30 Dec 2016 00:36:07 -0800
+Subject: How to run NVMe over Fabric on Softiwarp
+In-Reply-To: <c3f066ec-8dae-e403-cc01-ab00f80040e9@yunify.com>
+References: <c3f066ec-8dae-e403-cc01-ab00f80040e9@yunify.com>
+Message-ID: <20161230083607.GA13826@infradead.org>
 
-Hi Scott,
+On Thu, Dec 29, 2016@09:35:33AM +0800, LiuLele wrote:
+> Hi,
+> 
+> Does any body know how to run NVMe over Fabric with Softiwarp?
 
-do you have a pointer to the userspace using this ioctls?  Over the
-holidays I finally managed to put a test system for my collection of m.2
-key M cards together, so I should be able to test the code, which I'd
-definitively like to do before ACKing.  More comments on the code itself
-will follow soon.
+You can't as there has never been any softiwarp support in the linux
+kernel.
