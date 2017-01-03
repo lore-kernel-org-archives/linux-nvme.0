@@ -1,83 +1,34 @@
-From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Tue, 3 Jan 2017 20:10:38 +0100
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] OCSSDs - SMR, Hierarchical
- Interface, and Vector I/Os
-In-Reply-To: <1483464921.2440.19.camel@dubeyko.com>
-References: <05204e9d-ed4d-f97a-88f0-41b5e008af43@bjorling.me>
- <1483398761.2440.4.camel@dubeyko.com>
- <e42ff0c8-6568-d211-331f-7bfa6af94e2e@bjorling.me>
- <1483464921.2440.19.camel@dubeyko.com>
-Message-ID: <9319ce16-8355-3560-95b6-45e3f07220de@bjorling.me>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Tue, 3 Jan 2017 15:09:43 -0700
+Subject: [PATCH v4 0/6] SED OPAL Library
+In-Reply-To: <20161231054735.GA28356@infradead.org>
+References: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
+ <20161230082826.GA30378@infradead.org>
+ <20161230225252.GA3716@sbauer-Z170X-UD5>
+ <20161231035108.GA18886@infradead.org>
+ <5c2ba56a-dfc4-d83a-0df0-b66b2f59cb54@eng.utah.edu>
+ <20161231054735.GA28356@infradead.org>
+Message-ID: <20170103220941.GA2182@sbauer-Z170X-UD5>
 
-On 01/03/2017 06:35 PM, Viacheslav Dubeyko wrote:
-> Hi Matias,
->
-> On Tue, 2017-01-03@09:56 +0100, Matias Bj?rling wrote:
->> On 01/03/2017 12:12 AM, Viacheslav Dubeyko wrote:
->>>
->>> On Mon, 2017-01-02@22:06 +0100, Matias Bj?rling wrote:
->>>>
->>>> Hi,
->>>>
->>>> The open-channel SSD subsystem is maturing, and drives are
->>>> beginning
->>>> to
->>>> become available on the market.
->>> What do you mean? We still have nothing on the market. I haven't
->>> opportunity to access to any of such device. Could you share your
->>> knowledge where and what device can be bought on the market?
->>>
->> Hi Vyacheslav,
->>
->> You are right that they are not available off the shelf at a
->> convenient
->> store. You may contact one of these vendors for availability: CNEX
->> Labs
->> (Westlake LightNVM SDK), Radian Memory Systems (RMS-325), and/or EMC
->> (OX
->> Controller + Dragon Fire card).
->
-> We, Western Digital, contacted with CNEX Labs about a half year ago.
-> Our request was refused. Also we contacted with Radian Memory Systems
-> about a year ago. Our negotiations finished with no sucess at all. And
-> I doubt that EMC will share with us something. So, such situation looks
-> really weird, especially for the case of open-source community. We
-> cannot access or test any Open-channel SSD nor for money nor under NDA.
-> Usually, open-source means that everybody has access to hardware and we
-> can discuss implementation, architecture or approach without any
-> restrictions. But we haven't access to hardware right now. I understand
-> the business model and blah, blah, blah. But it looks like that,
-> finally, we have nothing like Open-channel SSD on the market, from my
-> personal point of view. And I suppose that it's really tricky way to
-> discuss software interface or any other details about something that
-> doesn't exist at all. Because if I cannot take and test some hardware
-> then I cannot build my own opinion about this technology.
->
+On Fri, Dec 30, 2016@09:47:35PM -0800, Christoph Hellwig wrote:
+> On Fri, Dec 30, 2016@10:41:46PM -0700, Scott Bauer wrote:
+> > I don't have an issue with that. It may take a week or two we'll have to have
+> > lawyers and crap OK the new program, not sure how long that takes.
+> 
+> If it makes your life easier I can just take your existing code and
+> move it to a new tools once we're ready to merge the kernel code.
 
-I understand your frustration. It is annoying not having easy access to 
-hardware. As you properly are aware, similarly with host-managed SMR 
-drives, there are customers that use your drives, while not being 
-available off-the-shelf.
+I think that will be the best for us. I've ripped it out of nvme-cli
+and attempted to make a stand alone utility. I blatantly stole some
+functions and files from nvme-cli to get it to work but it isn't dependent
+on nvme-cli anymore.
 
-All of the open-channel SSD work is done in the open. Patches, new 
-targets, and so forth are being developed for everyone to see. 
-Similarly, the NVMe host interface is developed in the open as well. The 
-interface allows one to implements supporting firmware. The "front-end" 
-of the FTL on the SSD, is removed, and the "back-end" engine is exposed. 
-It is not much work and given HGST already have an SSD firmware 
-implementation. I bet you guys can whip up an internal implementation in 
-a matter of weeks. If you choose to do so, I will bend over backwards to 
-help you sort out any quirks that might be.
+I've temporarily pushed it here:
+https://github.com/ScottyBauer/sed-opal-temp
 
-Another option is to use the qemu extension. We are improving it 
-continuously to make sure it follows the implementation of a real 
-hardware OCSSDs. Today we do 90% of our FTL work using qemu, and most of 
-the time it just works when we run the FTL code on real hardware.
+I don't know anything about licensing but it's dependent on some GPL2 code
+in argconfig.c so I assume it will have to be under that one as well.
 
-Similarly to vendors that provide new CPUs, NVDIMMs, and graphic 
-drivers. Some code and refactoring go in years in advance. What I am 
-proposing here is to discuss how OCSSDs fits into the storage stack, and 
-what we can do to improve it. Optimally, most of the lightnvm subsystem 
-can be removed by exposing vectored I/Os. Which then enables 
-implementation of a target to be a traditional device mapper module. 
-That would be great!
+I'd prefer to maintain it off my Personal Github account so if we want to host it
+on infradead that would be good or if we want to create another repo on github
+that's fine too (like what nvme-cli is hosted on).
