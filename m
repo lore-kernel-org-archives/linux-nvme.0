@@ -1,26 +1,37 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  4 Jan 2017 17:41:11 -0500
-Subject: [PATCH 6/6] blk-mq: Remove unused variable
+Date: Wed,  4 Jan 2017 17:41:07 -0500
+Subject: [PATCH 2/6] irq/affinity: Assign offline CPUs a vector
 In-Reply-To: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
 References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1483569671-1462-7-git-send-email-keith.busch@intel.com>
+Message-ID: <1483569671-1462-3-git-send-email-keith.busch@intel.com>
+
+The offline CPUs need to assigned to something incase they come online
+later, otherwise anyone using the mapping for things other than affinity
+will have blank entries for that online CPU.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- block/blk-mq.c | 1 -
- 1 file changed, 1 deletion(-)
+ kernel/irq/affinity.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 0c9a2a3..fae9651 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -916,7 +916,6 @@ bool blk_mq_dispatch_rq_list(struct blk_mq_hw_ctx *hctx, struct list_head *list)
- static void blk_mq_process_rq_list(struct blk_mq_hw_ctx *hctx)
- {
- 	LIST_HEAD(rq_list);
--	LIST_HEAD(driver_list);
+diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+index b25dce0..2367531 100644
+--- a/kernel/irq/affinity.c
++++ b/kernel/irq/affinity.c
+@@ -129,6 +129,14 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 	}
  
- 	if (unlikely(blk_mq_hctx_stopped(hctx)))
- 		return;
+ done:
++	/*
++	 * Assign offline CPUs to first mask in case they come online later. A
++	 * driver can rerun this from a cpu notifier if they want a more optimal
++	 * spread.
++	 */
++	cpumask_andnot(nmsk, cpu_possible_mask, cpu_online_mask);
++	irq_spread_init_one(masks, nmsk, cpumask_weight(nmsk));
++
+ 	put_online_cpus();
+ 
+ 	/* Fill out vectors at the end that don't need affinity */
 -- 
 2.5.5
