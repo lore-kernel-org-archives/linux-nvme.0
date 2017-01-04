@@ -1,30 +1,29 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  4 Jan 2017 08:25:58 +0300
-Subject: [PATCH] nvme-rdma: fix nvme_rdma_queue_is_ready
-Message-ID: <1483507558-26861-1-git-send-email-hch@lst.de>
+From: saar@annapurnalabs.com (Saar Gross)
+Date: Wed, 4 Jan 2017 09:22:34 +0200
+Subject: [PATCH] nvme: use __iowrite64_copy for SQs in the CMB
+In-Reply-To: <20161221102237.GA24532@infradead.org>
+References: <CACtDJFcvFUxCPYyy2de9v-0mrngQJ6+T57dc6K+BD04APk2nKA@mail.gmail.com>
+ <CACtDJFc2DwsHfVp5BKZLNrJ-EUoJjMCRr1tu9BR4gNyyzT1DHQ@mail.gmail.com>
+ <20161121091411.GA10123@infradead.org>
+ <aa517f417f04c082415dcb004ef77d94.squirrel@webmail.raithlin.com>
+ <CACtDJFfFL2uha09razaLA+D1pwfj0mXdiRQ+UXTFND+GHo5Mwg@mail.gmail.com>
+ <CACtDJFcCJzhAvCK7gj6hkW9BSaCrZFa5bm6GsWwdMcy_NLDw_w@mail.gmail.com>
+ <20161221102237.GA24532@infradead.org>
+Message-ID: <CACtDJFcKB9r+Fzoo7+ewwEUR_qyt+mRxKU+JYyYXSmX6=mw5pA@mail.gmail.com>
 
-Now that we don't abuse the cmd field in struct request for nvme command
-passthrough this function needs to be converted to the proper accessor
-as well.
+As already mentioned: the current implementation uses memcpy() which
+is generic in nature, whereas the new implementation uses explicit
+64-bit writes when possible.
+What else are you looking for?
 
-Fixes: d49187e97e ("nvme: introduce struct nvme_request")
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks,
+Saar
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index f587af3..34e5648 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1422,7 +1422,7 @@ static inline bool nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
- 		struct request *rq)
- {
- 	if (unlikely(!test_bit(NVME_RDMA_Q_LIVE, &queue->flags))) {
--		struct nvme_command *cmd = (struct nvme_command *)rq->cmd;
-+		struct nvme_command *cmd = nvme_req(rq)->cmd;
- 
- 		if (rq->cmd_type != REQ_TYPE_DRV_PRIV ||
- 		    cmd->common.opcode != nvme_fabrics_command ||
--- 
-2.1.4
+
+On Wed, Dec 21, 2016@12:22 PM, Christoph Hellwig <hch@infradead.org> wrote:
+> On Mon, Dec 19, 2016@02:18:30PM +0200, Saar Gross wrote:
+>> Hi again,
+>>
+>> Any other comments?
+>
+> I still can't see a good explanation on why we'd want/need the patch.
