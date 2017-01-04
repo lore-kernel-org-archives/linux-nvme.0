@@ -1,41 +1,31 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  4 Jan 2017 17:41:05 -0500
-Subject: [PATCH 0/6] NVMe related fixes
-Message-ID: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
+Date: Wed,  4 Jan 2017 17:41:08 -0500
+Subject: [PATCH 3/6] nvme/pci: Start queues after tagset is updated
+In-Reply-To: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
+References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1483569671-1462-4-git-send-email-keith.busch@intel.com>
 
-I've been looking into an old regression origianlly reported here:
+We need to leave the block queues stopped if we're changing the tagset's
+number of queues.
 
-  http://lists.infradead.org/pipermail/linux-nvme/2016-August/005699.html
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The root cause is blk-mq's hot cpu notifier is stuck indefinitely during
-suspend on requests that entered a stopped hardware context, and that
-hardware context will not be restarted until suspend completes.
-
-I originally set out to unwind the requests and block on reentry,
-but blk-mq doesn't support doing that: once a request enters a hardware
-context, it needs to complete on that context. Since the context won't be
-starting again, we need to do _something_ with those entered requests,
-and unfortunately ending them in error is the simplest way to resolve
-the deadlock.
-
-Alternatively, it might have been nice if we didn't need to freeze at
-all if we could leverage the new blk_mq_quiesce_queue, but that wouldn't
-work when the queue map needs to be redone...
-
-Any feedback appreciated. Thanks!
-
-Keith Busch (6):
-  irq/affinity: Assign all online CPUs to vectors
-  irq/affinity: Assign offline CPUs a vector
-  nvme/pci: Start queues after tagset is updated
-  blk-mq: Update queue map when changing queue count
-  blk-mq: Fix freeze deadlock
-  blk-mq: Remove unused variable
-
- block/blk-mq.c          | 86 +++++++++++++++++++++++++++++++++++++++++--------
- drivers/nvme/host/pci.c |  2 +-
- kernel/irq/affinity.c   | 17 ++++++++--
- 3 files changed, 87 insertions(+), 18 deletions(-)
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 19beeb7..a94fbcb 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1813,8 +1813,8 @@ static void nvme_reset_work(struct work_struct *work)
+ 		nvme_kill_queues(&dev->ctrl);
+ 		nvme_remove_namespaces(&dev->ctrl);
+ 	} else {
+-		nvme_start_queues(&dev->ctrl);
+ 		nvme_dev_add(dev);
++		nvme_start_queues(&dev->ctrl);
+ 	}
+ 
+ 	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_LIVE)) {
 -- 
 2.5.5
