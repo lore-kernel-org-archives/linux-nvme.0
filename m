@@ -1,60 +1,41 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  4 Jan 2017 17:41:06 -0500
-Subject: [PATCH 1/6] irq/affinity: Assign all online CPUs to vectors
-In-Reply-To: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
-References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1483569671-1462-2-git-send-email-keith.busch@intel.com>
+Date: Wed,  4 Jan 2017 17:41:05 -0500
+Subject: [PATCH 0/6] NVMe related fixes
+Message-ID: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
 
-This patch makes sure all online CPUs are assigned to vectors in
-cases where the nodes don't have the same number of online CPUs.
-The calculation for how many vectors needs to be assigned should account
-for the number of CPUs for a particular node on each round of assignment
-in order to ensure all online CPUs are assigned a vector when they don't
-evenly divide, and calculate extras accordingly.
+I've been looking into an old regression origianlly reported here:
 
-Since we attempt to divide evently among the nodes, this may still result
-in unused vectors if some nodes have fewer CPUs than nodes previosuly
-set up, but at least every online CPU will be assigned to something.
+  http://lists.infradead.org/pipermail/linux-nvme/2016-August/005699.html
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- kernel/irq/affinity.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+The root cause is blk-mq's hot cpu notifier is stuck indefinitely during
+suspend on requests that entered a stopped hardware context, and that
+hardware context will not be restarted until suspend completes.
 
-diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-index 4544b11..b25dce0 100644
---- a/kernel/irq/affinity.c
-+++ b/kernel/irq/affinity.c
-@@ -96,17 +96,19 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
- 
- 	/* Spread the vectors per node */
- 	vecs_per_node = affv / nodes;
--	/* Account for rounding errors */
--	extra_vecs = affv - (nodes * vecs_per_node);
- 
- 	for_each_node_mask(n, nodemsk) {
--		int ncpus, v, vecs_to_assign = vecs_per_node;
-+		int ncpus, v, vecs_to_assign;
- 
- 		/* Get the cpus on this node which are in the mask */
- 		cpumask_and(nmsk, cpu_online_mask, cpumask_of_node(n));
- 
- 		/* Calculate the number of cpus per vector */
- 		ncpus = cpumask_weight(nmsk);
-+		vecs_to_assign = min(vecs_per_node, ncpus);
-+
-+		/* Account for rounding errors */
-+		extra_vecs = ncpus - vecs_to_assign;
- 
- 		for (v = 0; curvec < last_affv && v < vecs_to_assign;
- 		     curvec++, v++) {
-@@ -123,6 +125,7 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
- 
- 		if (curvec >= last_affv)
- 			break;
-+		vecs_per_node = (affv - curvec) / --nodes;
- 	}
- 
- done:
+I originally set out to unwind the requests and block on reentry,
+but blk-mq doesn't support doing that: once a request enters a hardware
+context, it needs to complete on that context. Since the context won't be
+starting again, we need to do _something_ with those entered requests,
+and unfortunately ending them in error is the simplest way to resolve
+the deadlock.
+
+Alternatively, it might have been nice if we didn't need to freeze at
+all if we could leverage the new blk_mq_quiesce_queue, but that wouldn't
+work when the queue map needs to be redone...
+
+Any feedback appreciated. Thanks!
+
+Keith Busch (6):
+  irq/affinity: Assign all online CPUs to vectors
+  irq/affinity: Assign offline CPUs a vector
+  nvme/pci: Start queues after tagset is updated
+  blk-mq: Update queue map when changing queue count
+  blk-mq: Fix freeze deadlock
+  blk-mq: Remove unused variable
+
+ block/blk-mq.c          | 86 +++++++++++++++++++++++++++++++++++++++++--------
+ drivers/nvme/host/pci.c |  2 +-
+ kernel/irq/affinity.c   | 17 ++++++++--
+ 3 files changed, 87 insertions(+), 18 deletions(-)
+
 -- 
 2.5.5
