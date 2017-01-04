@@ -1,31 +1,42 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  4 Jan 2017 17:41:08 -0500
-Subject: [PATCH 3/6] nvme/pci: Start queues after tagset is updated
+Date: Wed,  4 Jan 2017 17:41:09 -0500
+Subject: [PATCH 4/6] blk-mq: Update queue map when changing queue count
 In-Reply-To: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
 References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1483569671-1462-4-git-send-email-keith.busch@intel.com>
+Message-ID: <1483569671-1462-5-git-send-email-keith.busch@intel.com>
 
-We need to leave the block queues stopped if we're changing the tagset's
-number of queues.
+The queue map needs to match how many hardware queues exist, otherwise
+it may indicate a less than optimal mapping, contain a hctx_id that
+was freed, or attempt to initialize a request map for invalid context.
 
 Signed-off-by: Keith Busch <keith.busch at intel.com>
 ---
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/blk-mq.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 19beeb7..a94fbcb 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1813,8 +1813,8 @@ static void nvme_reset_work(struct work_struct *work)
- 		nvme_kill_queues(&dev->ctrl);
- 		nvme_remove_namespaces(&dev->ctrl);
- 	} else {
--		nvme_start_queues(&dev->ctrl);
- 		nvme_dev_add(dev);
-+		nvme_start_queues(&dev->ctrl);
- 	}
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index a8e67a1..9b7ed03 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -2223,7 +2223,6 @@ static void blk_mq_queue_reinit(struct request_queue *q,
+ 	 * we should change hctx numa_node according to new topology (this
+ 	 * involves free and re-allocate memory, worthy doing?)
+ 	 */
+-
+ 	blk_mq_map_swqueue(q, online_mask);
  
- 	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_LIVE)) {
+ 	blk_mq_sysfs_register(q);
+@@ -2481,6 +2480,11 @@ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues)
+ 		blk_mq_freeze_queue(q);
+ 
+ 	set->nr_hw_queues = nr_hw_queues;
++	if (set->ops->map_queues)
++		set->ops->map_queues(set);
++	else
++		blk_mq_map_queues(set);
++
+ 	list_for_each_entry(q, &set->tag_list, tag_set_list) {
+ 		blk_mq_realloc_hw_ctxs(set, q);
+ 
 -- 
 2.5.5
