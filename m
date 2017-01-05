@@ -1,63 +1,17 @@
-From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Thu, 5 Jan 2017 07:33:22 +0000
-Subject: [PATCH 5/6] blk-mq: Fix queue freeze deadlock
-In-Reply-To: <1483569671-1462-6-git-send-email-keith.busch@intel.com>
-References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
- <1483569671-1462-6-git-send-email-keith.busch@intel.com>
-Message-ID: <1483601585.2811.5.camel@sandisk.com>
+From: santosh.singh@xilinx.com (Santosh Singh)
+Date: Thu, 5 Jan 2017 10:05:00 +0000
+Subject: Flow control  in  NVMf fabric host driver  
+Message-ID: <0EB3EE68A0248840B83293F49B2AACAF267713A8@XAP-PVEXMBX01.xlnx.xilinx.com>
 
-On Wed, 2017-01-04@17:41 -0500, Keith Busch wrote:
-> +static void blk_mq_abandon_stopped_requests(struct request_queue *q)
-> +{
-> +	int i;
-> +	struct request *rq, *next;
-> +	struct blk_mq_hw_ctx *hctx;
-> +	LIST_HEAD(rq_list);
-> +
-> +	blk_mq_sync_queue(q);
-> +
-> +	spin_lock(&q->requeue_lock);
-> +	list_for_each_entry_safe(rq, next, &q->requeue_list, queuelist) {
-> +		struct blk_mq_ctx *ctx;
-> +
-> +		ctx = rq->mq_ctx;
-> +		hctx = blk_mq_map_queue(q, ctx->cpu);
-> +		if (blk_mq_hctx_stopped(hctx)) {
-> +			list_del_init(&rq->queuelist);
-> +
-> +			spin_lock(&hctx->lock);
-> +			list_add_tail(&rq->queuelist, &rq_list);
-> +			spin_unlock(&hctx->lock);
-> +		}
-> +	}
-> +
-> +	queue_for_each_hw_ctx(q, hctx, i) {
-> +		if (!blk_mq_hctx_stopped(hctx))
-> +			continue;
-> +
-> +		flush_busy_ctxs(hctx, &rq_list);
-> +
-> +		spin_lock(&hctx->lock);
-> +		if (!list_empty(&hctx->dispatch))
-> +			list_splice_init(&hctx->dispatch, &rq_list);
-> +		spin_unlock(&hctx->lock);
-> +	}
-> +	spin_unlock(&q->requeue_lock);
-> +
-> +	while (!list_empty(&rq_list)) {
-> +		rq = list_first_entry(&rq_list, struct request, queuelist);
-> +		list_del_init(&rq->queuelist);
-> +		rq->errors = -EAGAIN;
-> +		blk_mq_end_request(rq, rq->errors);
-> +	}
-> +}
+Hi All,
 
-Hello Keith,
+I am using the NVMf host driver and found that SQHD is not being used for SQ flow control any specific reason for same.
 
-This patch adds a second code path to the blk-mq core for running queues and
-hence will make the blk-mq core harder to maintain. Have you considered to
-implement this functionality by introducing a new "fail all requests" flag
-for hctx queues such that blk_mq_abandon_stopped_requests() can reuse the
-existing mechanism for running a queue?
+Thanks
+Santosh
 
-Bart.
+
+
+
+
+This email and any attachments are intended for the sole use of the named recipient(s) and contain(s) confidential information that may be proprietary, privileged or copyrighted under applicable law. If you are not the intended recipient, do not read, copy, or forward this email message or any attachments. Delete this email message and any attachments immediately.
