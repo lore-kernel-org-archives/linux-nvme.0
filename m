@@ -1,37 +1,63 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  4 Jan 2017 17:41:07 -0500
-Subject: [PATCH 2/6] irq/affinity: Assign offline CPUs a vector
-In-Reply-To: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Thu, 5 Jan 2017 07:33:22 +0000
+Subject: [PATCH 5/6] blk-mq: Fix queue freeze deadlock
+In-Reply-To: <1483569671-1462-6-git-send-email-keith.busch@intel.com>
 References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
-Message-ID: <1483569671-1462-3-git-send-email-keith.busch@intel.com>
+ <1483569671-1462-6-git-send-email-keith.busch@intel.com>
+Message-ID: <1483601585.2811.5.camel@sandisk.com>
 
-The offline CPUs need to assigned to something incase they come online
-later, otherwise anyone using the mapping for things other than affinity
-will have blank entries for that online CPU.
+On Wed, 2017-01-04@17:41 -0500, Keith Busch wrote:
+> +static void blk_mq_abandon_stopped_requests(struct request_queue *q)
+> +{
+> +	int i;
+> +	struct request *rq, *next;
+> +	struct blk_mq_hw_ctx *hctx;
+> +	LIST_HEAD(rq_list);
+> +
+> +	blk_mq_sync_queue(q);
+> +
+> +	spin_lock(&q->requeue_lock);
+> +	list_for_each_entry_safe(rq, next, &q->requeue_list, queuelist) {
+> +		struct blk_mq_ctx *ctx;
+> +
+> +		ctx = rq->mq_ctx;
+> +		hctx = blk_mq_map_queue(q, ctx->cpu);
+> +		if (blk_mq_hctx_stopped(hctx)) {
+> +			list_del_init(&rq->queuelist);
+> +
+> +			spin_lock(&hctx->lock);
+> +			list_add_tail(&rq->queuelist, &rq_list);
+> +			spin_unlock(&hctx->lock);
+> +		}
+> +	}
+> +
+> +	queue_for_each_hw_ctx(q, hctx, i) {
+> +		if (!blk_mq_hctx_stopped(hctx))
+> +			continue;
+> +
+> +		flush_busy_ctxs(hctx, &rq_list);
+> +
+> +		spin_lock(&hctx->lock);
+> +		if (!list_empty(&hctx->dispatch))
+> +			list_splice_init(&hctx->dispatch, &rq_list);
+> +		spin_unlock(&hctx->lock);
+> +	}
+> +	spin_unlock(&q->requeue_lock);
+> +
+> +	while (!list_empty(&rq_list)) {
+> +		rq = list_first_entry(&rq_list, struct request, queuelist);
+> +		list_del_init(&rq->queuelist);
+> +		rq->errors = -EAGAIN;
+> +		blk_mq_end_request(rq, rq->errors);
+> +	}
+> +}
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- kernel/irq/affinity.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Hello Keith,
 
-diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-index b25dce0..2367531 100644
---- a/kernel/irq/affinity.c
-+++ b/kernel/irq/affinity.c
-@@ -129,6 +129,14 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
- 	}
- 
- done:
-+	/*
-+	 * Assign offline CPUs to first mask in case they come online later. A
-+	 * driver can rerun this from a cpu notifier if they want a more optimal
-+	 * spread.
-+	 */
-+	cpumask_andnot(nmsk, cpu_possible_mask, cpu_online_mask);
-+	irq_spread_init_one(masks, nmsk, cpumask_weight(nmsk));
-+
- 	put_online_cpus();
- 
- 	/* Fill out vectors at the end that don't need affinity */
--- 
-2.5.5
+This patch adds a second code path to the blk-mq core for running queues and
+hence will make the blk-mq core harder to maintain. Have you considered to
+implement this functionality by introducing a new "fail all requests" flag
+for hctx queues such that blk_mq_abandon_stopped_requests() can reuse the
+existing mechanism for running a queue?
+
+Bart.
