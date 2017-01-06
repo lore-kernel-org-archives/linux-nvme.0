@@ -1,55 +1,19 @@
-From: m@bjorling.me (=?UTF-8?Q?Matias_Bj=c3=b8rling?=)
-Date: Fri, 6 Jan 2017 14:05:34 +0100
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] OCSSDs - SMR, Hierarchical
- Interface, and Vector I/Os
-In-Reply-To: <SN2PR04MB2191BE43398C84C4D262960488600@SN2PR04MB2191.namprd04.prod.outlook.com>
-References: <05204e9d-ed4d-f97a-88f0-41b5e008af43@bjorling.me>
- <1483398761.2440.4.camel@dubeyko.com>
- <e42ff0c8-6568-d211-331f-7bfa6af94e2e@bjorling.me>
- <1483464921.2440.19.camel@dubeyko.com>
- <9319ce16-8355-3560-95b6-45e3f07220de@bjorling.me>
- <SN2PR04MB219184580108939442EBDA7E88610@SN2PR04MB2191.namprd04.prod.outlook.com>
- <a5acdf89-99c0-774d-cb08-76cb5d846f29@wdc.com>
- <SN2PR04MB2191BE43398C84C4D262960488600@SN2PR04MB2191.namprd04.prod.outlook.com>
-Message-ID: <6ef654fa-292e-ed9d-b8b6-fe4282fb1ef1@bjorling.me>
+From: agrover@redhat.com (Andy Grover)
+Date: Fri, 6 Jan 2017 11:05:01 -0800
+Subject: targetcli and nvmetcli
+Message-ID: <cab11273-41c3-9af5-9263-e4d251b2c927@redhat.com>
 
-On 01/05/2017 11:58 PM, Slava Dubeyko wrote:
-> Next point is read disturbance. If BER of physical page/block achieves some threshold then
-> we need to move data from one page/block into another one. What subsystem will be
-> responsible for this activity? The drive-managed case expects that device's GC will manage
-> read disturbance issue. But what's about host-aware or host-managed case? If the host side
-> hasn't information about BER then the host's software is unable to manage this issue. Finally,
-> it sounds that we will have GC subsystem as on file system side as on device side. As a result,
-> it means possible unpredictable performance degradation and decreasing device lifetime.
-> Let's imagine that host-aware case could be unaware about read disturbance management.
-> But how host-managed case can manage this issue?
+Hi James and Christoph,
 
-The OCSSD interface uses a couple of methods:
+Have you considered integrating nvmetcli with targetcli?
 
-1) Piggy back soft ECC errors onto the completion entry. Tells the host
-that a block properly should be refreshed when appropriate.
-2) Use an asynchronous interface, e.g., NVMe get log page. Report blocks
-through this interface that has been read disturbed. This may be coupled
-with the various processes running on the SSD.
-3) (That Ted suggested). Expose a "reset" bit in the Report Zones
-command to let the host know which blocks should be reset. If the
-plumbing for 2) is not available, or the information has been lost on
-the host side, this method can be used to "resync".
+I see there being reasons why it was developed as a standalone, but I'm 
+not sure how many of these still apply.
 
-> 
-> Bad block management... So, drive-managed and host-aware cases should be completely unaware
-> about  bad blocks. But what's about host-managed case? If a device will hide bad blocks from
-> the host then it means mapping table presence, access to logical pages/blocks and so on. If the host
-> hasn't access to the bad block management then it's not host-managed model. And it sounds as
-> completely unmanageable situation for the host-managed model. Because if the host has access
-> to bad block management (but how?) then we have really simple model. Otherwise, the host
-> has access to logical pages/blocks only and device should have internal GC. As a result,
-> it means possible unpredictable performance degradation and decreasing device lifetime because
-> of competition of GC on device side and GC on the host side.
+Especially given their shared source history, combining them at the cli 
+level, or even the lib level, would be straightforward, and could give 
+users a unified tool for managing both types of targets.
 
-Agree. depending on the use-case, one may expose a "perfect" interface
-to the host, or one may expose an interface where media errors may be
-reported to the host. The former case are great for consumer units,
-where I/O predictability isn't critical, and similarly if I/O
-predictability is critical, the media errors can be reported, and the
-host may deal with them appropriately.
+What do you think?
+
+Thanks -- Regards -- Andy
