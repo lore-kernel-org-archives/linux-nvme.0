@@ -1,40 +1,33 @@
-From: james.p.freyensee@intel.com (Freyensee, James P)
-Date: Fri, 6 Jan 2017 20:34:56 +0000
-Subject: targetcli and nvmetcli
-In-Reply-To: <cab11273-41c3-9af5-9263-e4d251b2c927@redhat.com>
-References: <cab11273-41c3-9af5-9263-e4d251b2c927@redhat.com>
-Message-ID: <1483734894.5538.14.camel@intel.com>
+From: adilger@dilger.ca (Andreas Dilger)
+Date: Fri, 6 Jan 2017 16:58:43 -0700
+Subject: [LSF/MM TOPIC] status update on stream IDs
+In-Reply-To: <E86FC13D-0058-473C-B9D6-36B988ABEFFE@dilger.ca>
+References: <E86FC13D-0058-473C-B9D6-36B988ABEFFE@dilger.ca>
+Message-ID: <7B0B6B53-D692-4084-AC63-55138132F509@dilger.ca>
 
-On Fri, 2017-01-06@11:05 -0800, Andy Grover wrote:
-> Hi James and Christoph,
-> 
-> Have you considered integrating nvmetcli with targetcli?
-> 
-> I see there being reasons why it was developed as a standalone, but I'm?
-> not sure how many of these still apply.
-> 
-> Especially given their shared source history, combining them at the cli?
-> level, or even the lib level, would be straightforward, and could give?
-> users a unified tool for managing both types of targets.
-> 
-> What do you think?
+[resend to include other relevant lists]
 
-I donno, in my opinion, it seems from support/maintenance to philosophy
-difference it would be confusing and difficult to combine the two. ?NVMe is a
-new storage protocol with its own terminology (ex namespaces vs LUNS), defined
-in its own standard, written by its own standard body that reserves the right
-to not necessarily follow what iSCSI does (though there are a few borrowed
-concepts like IQNs), and is supported by its own Linux email list.
-
-Christoph has done design work on both the NVMe Target and LIO so he could give
-a more intelligent technical answer than me.
-
-Jay
-
+On Jan 6, 2017,@4:54 PM, Andreas Dilger <adilger@dilger.ca> wrote:
 > 
-> Thanks -- Regards -- Andy
+> At LSF/MM'16 and Linux FAST (https://lwn.net/Articles/685499/) there were
+> discussions about adding stream IDs to the block/device layer to allow higher
+> layers (filesystems, applications) to identify IO streams so lower layers
+> (SSDs, hybrid storage, etc.) can make better allocation/placement decisions.
 > 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> It would be useful to get an update on the state of this work, and discuss
+> any obstacles that need to be resolved for getting this code landed.
+
+
+Cheers, Andreas
+
+
+
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: Message signed with OpenPGP using GPGMail
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170106/2f7127e5/attachment.sig>
