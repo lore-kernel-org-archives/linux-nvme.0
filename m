@@ -1,30 +1,58 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Thu, 05 Jan 2017 15:28:53 -0800
-Subject: [PATCH 1/3] nvmetcli: Adding manpage/html generation
-In-Reply-To: <055f4d29-5b42-63ff-41f2-8f8a52bc93df@redhat.com>
-References: <1479924073-6952-1-git-send-email-james_p_freyensee@linux.intel.com>
- <1479924073-6952-2-git-send-email-james_p_freyensee@linux.intel.com>
- <20161125074346.GA753@lst.de>
- <055f4d29-5b42-63ff-41f2-8f8a52bc93df@redhat.com>
-Message-ID: <1483658933.6481.4.camel@linux.intel.com>
+From: jaegeuk@kernel.org (Jaegeuk Kim)
+Date: Thu, 5 Jan 2017 17:09:30 -0800
+Subject: [LSF/MM TOPIC][LSF/MM ATTEND] OCSSDs - SMR, Hierarchical
+ Interface, and Vector I/Os
+In-Reply-To: <a5acdf89-99c0-774d-cb08-76cb5d846f29@wdc.com>
+References: <05204e9d-ed4d-f97a-88f0-41b5e008af43@bjorling.me>
+ <1483398761.2440.4.camel@dubeyko.com>
+ <e42ff0c8-6568-d211-331f-7bfa6af94e2e@bjorling.me>
+ <1483464921.2440.19.camel@dubeyko.com>
+ <9319ce16-8355-3560-95b6-45e3f07220de@bjorling.me>
+ <SN2PR04MB219184580108939442EBDA7E88610@SN2PR04MB2191.namprd04.prod.outlook.com>
+ <a5acdf89-99c0-774d-cb08-76cb5d846f29@wdc.com>
+Message-ID: <20170106010930.GC2064@jaegeuk.local>
 
-On Thu, 2017-01-05@13:43 -0800, Andy Grover wrote:
-> On 11/24/2016 11:43 PM, Christoph Hellwig wrote:
-> > 
-> > Hi Jay,
-> > 
-> > thanks a lot for writing this man page!??I have a few comments below,
-> > but otherwise this looks really great.
-> 
-> Hi, do you mind tagging this into a release?
+Hello,
 
-Love too, but I think Christoph has the only power :-)
+On 01/04, Damien Le Moal wrote:
 
+...
 > 
-> Thanks -- Andy
+> > Finally, if I really like to develop SMR- or NAND flash oriented file
+> > system then I would like to play with peculiarities of concrete
+> > technologies. And any unified interface will destroy the opportunity 
+> > to create the really efficient solution. Finally, if my software
+> > solution is unable to provide some fancy and efficient features then
+> > guys will prefer to use the regular stack (ext4, xfs + block layer).
 > 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> Not necessarily. Again think in terms of device "model" and associated
+> feature set. An FS implementation may decide to support all possible
+> models, with likely a resulting incredible complexity. More likely,
+> similarly with what is happening with SMR, only models that make sense
+> will be supported by FS implementation that can be easily modified.
+> Example again here of f2fs: changes to support SMR were rather simple,
+> whereas the initial effort to support SMR with ext4 was pretty much
+> abandoned as it was too complex to integrate in the existing code while
+> keeping the existing on-disk format.
+
+>From the f2fs viewpoint, now we support single host-managed SMR drive having
+a portion of conventional zones. In addition, f2fs supports multiple devices
+[1], which enables us to use pure host-managed SMR which has no conventional
+zone, working with another small conventional partition.
+
+I think current lightNVM with OCSSD aims towards a drive-managed device for
+generic filesystems. Depending on FTL, however, OCSSD can report conventional
+or sequential zones. 1) If FTL handles random 4K writes pretty well, it would
+be better to report converntional zones. Otherwise, 2) if FTL has almost nothing
+to map bettwen LBA to PBA, it is able to report sequential zones likewise pure
+host-managed SMR.
+
+Interestingly, for 1) host-aware model, there is no need to change f2fs at all.
+In order to explore 2) pure host-managed model, I introduced aligned write IO
+[2] to make FTL more simple by eliminating partial page write. IMHO, it'd be
+funny to evaluate several zoned models of SMR and OCSSD accordingly.
+
+[1] https://lkml.org/lkml/2016/11/9/727
+[2] https://lkml.org/lkml/2016/12/30/242
+
+Thanks,
