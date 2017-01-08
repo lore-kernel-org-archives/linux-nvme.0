@@ -1,29 +1,22 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 8 Jan 2017 02:13:28 -0800
-Subject: [PATCH] nvme: use __iowrite64_copy for SQs in the CMB
-In-Reply-To: <CACtDJFcKB9r+Fzoo7+ewwEUR_qyt+mRxKU+JYyYXSmX6=mw5pA@mail.gmail.com>
-References: <CACtDJFcvFUxCPYyy2de9v-0mrngQJ6+T57dc6K+BD04APk2nKA@mail.gmail.com>
- <CACtDJFc2DwsHfVp5BKZLNrJ-EUoJjMCRr1tu9BR4gNyyzT1DHQ@mail.gmail.com>
- <20161121091411.GA10123@infradead.org>
- <aa517f417f04c082415dcb004ef77d94.squirrel@webmail.raithlin.com>
- <CACtDJFfFL2uha09razaLA+D1pwfj0mXdiRQ+UXTFND+GHo5Mwg@mail.gmail.com>
- <CACtDJFcCJzhAvCK7gj6hkW9BSaCrZFa5bm6GsWwdMcy_NLDw_w@mail.gmail.com>
- <20161221102237.GA24532@infradead.org>
- <CACtDJFcKB9r+Fzoo7+ewwEUR_qyt+mRxKU+JYyYXSmX6=mw5pA@mail.gmail.com>
-Message-ID: <20170108101328.GF25268@infradead.org>
+Date: Sun, 8 Jan 2017 05:32:51 -0800
+Subject: [PATCH v4 2/6] block: Add Sed-opal library
+In-Reply-To: <20161230210255.GA4148@localhost.localdomain>
+References: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
+ <1483039615-22407-3-git-send-email-scott.bauer@intel.com>
+ <20161230210255.GA4148@localhost.localdomain>
+Message-ID: <20170108133251.GA19514@infradead.org>
 
-On Wed, Jan 04, 2017@09:22:34AM +0200, Saar Gross wrote:
-> As already mentioned: the current implementation uses memcpy() which
-> is generic in nature, whereas the new implementation uses explicit
-> 64-bit writes when possible.
-> What else are you looking for?
+On Fri, Dec 30, 2016@02:02:56PM -0700, Jon Derrick wrote:
+> It's a bit nontraditional to lock and unlock in different functions, but
+> I see why you're doing it this way.
+> 
+> Can we move the mutex locking/unlocking to the callers of these
+> functions, such that they are both in the same function; then we can use
+> lockdep_assert_held(..) on the in-between?
 
-Any explanation of why this would benefit the driver in practive.
-You've now explained the mechanics of your change in detail, but still
-haven't shown in numbers or bugs fixed.
-
-Note that we currently don't use 64-bit MMIO writes in the NVMe driver
-at all, as we work around buggy Apple controllers.  This would be the
-first one, and while I'm not against it at all, I'd rather have a good
-reason to make the change instead of just having a drive-by patch in
-the tree.
+Yes, that sounds like a good idea to me.  Note that sparse would warn
+about these unbalanced locks/unlocks without annotations, so I'll use
+this opportunity to run sparse over it.  Documentation for it used to
+be trivial to find in Documentation/sparse.txt but somehow has
+disappeared in the latest kernel tree unfortunately.
