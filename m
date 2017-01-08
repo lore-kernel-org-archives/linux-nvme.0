@@ -1,13 +1,28 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 8 Jan 2017 06:06:47 -0800
-Subject: [PATCH v4 3/6] block: add ioctl interface for interfacing with
- Opal library
-In-Reply-To: <1483039615-22407-4-git-send-email-scott.bauer@intel.com>
+Date: Sun, 8 Jan 2017 06:09:11 -0800
+Subject: [PATCH v4 4/6] block: Add Opal Files to Makefile & add config
+ option to Kconfig
+In-Reply-To: <1483039615-22407-5-git-send-email-scott.bauer@intel.com>
 References: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
- <1483039615-22407-4-git-send-email-scott.bauer@intel.com>
-Message-ID: <20170108140647.GA25986@infradead.org>
+ <1483039615-22407-5-git-send-email-scott.bauer@intel.com>
+Message-ID: <20170108140911.GB25986@infradead.org>
 
-Given that by now these are OPAL-family specific I'd just merge this file
-into sed-opal.c.  That why all the ioctl implementation functions can
-become static in that file, and only sed_ioctl needs to be exported to
-the drivers.
+> +config BLK_SED_OPAL
+> +        bool "Library for interfacing with Opal enabled SEDs"
+> +	default n
+> +	---help---
+> +	Builds library for interfacing with Opal enabled controllers.
+> +
+
+Inconsistant whitespaces here, kust use tabs.  The defauly n is the
+defaul, so it could be dropped.  Maybe the help text could be expanded
+a bit, including explining what SED stands for (I know, but many
+potential users don't), and de-emphasis the library part.
+
+E.g. something like
+
+config BLK_SED_OPAL
+	bool "Support for OPAL Self Encrypting Drives"
+	help
+	  This optional enables support for Self Encrypting Drives
+	  using the TCG OPAL protocol family.
