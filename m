@@ -1,40 +1,31 @@
-From: changho.c@samsung.com (Changho Choi)
-Date: Sat, 07 Jan 2017 02:06:27 +0000
-Subject: [LSF/MM TOPIC] status update on stream IDs
-In-Reply-To: <87B8B7C67ECB1048AE5FA3C64D62B73E1CA9473A@SSIEXCH-MB3.ssi.samsung.com>
-References: <E86FC13D-0058-473C-B9D6-36B988ABEFFE@dilger.ca>
- <CGME20170106235940epcas4p1b4e8c499548496e1bfabb83e818d5b71@epcas4p1.samsung.com>
- <7B0B6B53-D692-4084-AC63-55138132F509@dilger.ca>
- <87B8B7C67ECB1048AE5FA3C64D62B73E1CA9473A@SSIEXCH-MB3.ssi.samsung.com>
-Message-ID: <8F1CD504A027484E89249BCD2A7248DD5867B290@SSIEXCH-MB3.ssi.samsung.com>
+From: haggaie@mellanox.com (Haggai Eran)
+Date: Sun, 8 Jan 2017 10:55:28 +0200
+Subject: phys_addr_t instead of dma_addr_t for nvme_dev->cmb_dma_addr
+In-Reply-To: <20170105183933.GA4724@localhost.localdomain>
+References: <1d5efe82-0654-3217-ffde-fb6ad499170a@mellanox.com>
+ <1ce2030c-d31f-0ad4-02db-410abfc87c06@mellanox.com>
+ <20170105183933.GA4724@localhost.localdomain>
+Message-ID: <0846672a-484d-ab80-aa1c-751042405f29@mellanox.com>
 
-Hi Andreas,
+On 1/5/2017 8:39 PM, Jon Derrick wrote:
+>> Perhaps I'm mistaken, but shouldn't the code use pcibios_resource_to_bus()
+>> in this case to convert the resource to bus addresses? I see cmb_dma_addr 
+>> is later passed directly to the device as the sq_dma_addr.
+>>
+> That gets us a region from a window within a larger region, but to me it
+> looks to me like resource_contains() would fail to match if the CMB
+> region went beyond the window.
+I thought that the CMB must fit in its BAR, and therefore in the window that 
+contains it. Isn't it so?
 
-Thanks for the heads up!
+> There's another option - pci_bus_addr_t/pci_bus_region takes the largest
+> of phys_addr_t's width and dma_addr_t's width. So in the cases where
+> those two types might differ it should still be able to hold a valid
+> physical address, which is what both the resource API and Create-SQes
+> expect.
+I don't think the issue is just the width of the types. What happens on 
+architectures where phy_addr_t addresses are translated before going to 
+the PCIe bus?
 
-There has been big progress on it. It was ratified as a NVMe 1.3 standard in Oct 31st, 2016 in NVMe org(As you may already understand it was ratified as SCSI standard in T10 in May, 2015).
-The standard compliant product is available for NVMe and SAS in the market.
-Also Jens Axboe implemented the features in Kernel, etc. 
-
-We are more than happy to update the status in the meeting. 
-Also it would be a great time to revive the Linux Kernel implementation discussion to support both application-assigned stream ID and kernel-assigned stream ID at the same time. 
-I think people will start circulating the possible approaches sooner or later unless it is already started.
-
-Thanks,
-Changho
-
-
-[resend to include other relevant lists]
-
-On Jan 6, 2017,@4:54 PM, Andreas Dilger <adilger@dilger.ca> wrote:
->
-> At LSF/MM'16 and Linux FAST (https://lwn.net/Articles/685499/) there 
-> were discussions about adding stream IDs to the block/device layer to 
-> allow higher layers (filesystems, applications) to identify IO streams 
-> so lower layers (SSDs, hybrid storage, etc.) can make better allocation/placement decisions.
->
-> It would be useful to get an update on the state of this work, and 
-> discuss any obstacles that need to be resolved for getting this code landed.
-
-
-Cheers, Andreas
+Regards,
+Haggai
