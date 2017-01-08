@@ -1,17 +1,21 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 8 Jan 2017 10:58:50 +0100
-Subject: targetcli and nvmetcli
-In-Reply-To: <cab11273-41c3-9af5-9263-e4d251b2c927@redhat.com>
-References: <cab11273-41c3-9af5-9263-e4d251b2c927@redhat.com>
-Message-ID: <20170108095850.GA25936@lst.de>
+Date: Sun, 8 Jan 2017 11:01:52 +0100
+Subject: [PATCH 2/6] irq/affinity: Assign offline CPUs a vector
+In-Reply-To: <1483569671-1462-3-git-send-email-keith.busch@intel.com>
+References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
+ <1483569671-1462-3-git-send-email-keith.busch@intel.com>
+Message-ID: <20170108100152.GA26025@lst.de>
 
-On Fri, Jan 06, 2017@11:05:01AM -0800, Andy Grover wrote:
-> Hi James and Christoph,
->
-> Have you considered integrating nvmetcli with targetcli?
+On Wed, Jan 04, 2017@05:41:07PM -0500, Keith Busch wrote:
+> The offline CPUs need to assigned to something incase they come online
+> later, otherwise anyone using the mapping for things other than affinity
+> will have blank entries for that online CPU.
 
-We looked into all the options earlier and decided against it.
+I don't really like the idea behind it.  Back when we came up with
+this code I had some discussion with Thomas if we should do the
+assignment only for online CPUs, or maybe for all possible CPUs.
 
-The NVMe object are a lot more standardized than those for the SCSI
-transports, and both the kernel nvme target condigfs code, and thus
-nvmetcli take advantage of that to provide a more coherent user interface.
+Except for some big iron with physical node hotplug the difference
+usually is just that some nodes have been temporarily offlined.  So
+maybe we need to bite the bullet and move the irq and block code
+to consider all possible cpus.
