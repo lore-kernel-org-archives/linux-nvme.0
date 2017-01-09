@@ -1,13 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 9 Jan 2017 16:00:24 +0100
-Subject: [PATCH 3/3] nvmet_fc: Sync NVME LS reject reasons with spec
-In-Reply-To: <585eb480.1dw38w2IfDewitYc%jsmart2021@gmail.com>
-References: <585eb480.1dw38w2IfDewitYc%jsmart2021@gmail.com>
-Message-ID: <20170109150024.GG3711@linux-x5ow.site>
+Date: Mon, 9 Jan 2017 16:01:30 +0100
+Subject: [PATCH] nvme_fc: correct LS validation
+In-Reply-To: <585eb481.Z9kloEOnhgH+OCC7%jsmart2021@gmail.com>
+References: <585eb481.Z9kloEOnhgH+OCC7%jsmart2021@gmail.com>
+Message-ID: <20170109150130.GH3711@linux-x5ow.site>
 
-On Sat, Dec 24, 2016@09:46:40AM -0800, James Smart wrote:
+On Sat, Dec 24, 2016@09:46:41AM -0800, James Smart wrote:
 > 
-> nvmet_fc: Sync NVME LS reject reasons with spec
+> LS validations shouldn't have been independent checks.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
