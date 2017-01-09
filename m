@@ -1,13 +1,14 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 9 Jan 2017 16:03:42 +0100
-Subject: [PATCH] nvmet_fc: Clear SG list to avoid double frees
-In-Reply-To: <585eb482.c+IlMeE1LJXQhHJk%jsmart2021@gmail.com>
-References: <585eb482.c+IlMeE1LJXQhHJk%jsmart2021@gmail.com>
-Message-ID: <20170109150342.GI3711@linux-x5ow.site>
+Date: Mon, 9 Jan 2017 16:04:31 +0100
+Subject: [PATCH] nvmet_fc: cleanup of abort flag processing in fcp_op_done
+In-Reply-To: <585eb484.M7R72sCIYQYXrRlx%jsmart2021@gmail.com>
+References: <585eb484.M7R72sCIYQYXrRlx%jsmart2021@gmail.com>
+Message-ID: <20170109150431.GJ3711@linux-x5ow.site>
 
-On Sat, Dec 24, 2016@09:46:42AM -0800, James Smart wrote:
+On Sat, Dec 24, 2016@09:46:44AM -0800, James Smart wrote:
 > 
-> Clear SG list to avoid double frees of payload page list
+> Cleanup of abort flag processing in fcp_op_done.
+> References were unnecessary
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
