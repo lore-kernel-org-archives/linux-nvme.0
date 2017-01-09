@@ -1,71 +1,51 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 9 Jan 2017 21:57:46 +0100
-Subject: [PATCH 1/2] arm64: dma_mapping: allow PCI host driver to limit
- DMA mask
-In-Reply-To: <b50e25af-3936-d22d-2e9b-5bf6be19c800@cogentembedded.com>
-References: <1483044304-2085-1-git-send-email-nikita.yoush@cogentembedded.com>
- <2723285.JORgusvJv4@wuerfel>
- <9a03c05d-ad4c-0547-d1fe-01edb8b082d6@cogentembedded.com>
- <6374144.HVL0QxNJiT@wuerfel>
- <b50e25af-3936-d22d-2e9b-5bf6be19c800@cogentembedded.com>
-Message-ID: <20170109205746.GA6274@lst.de>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Mon, 9 Jan 2017 14:54:23 -0700
+Subject: phys_addr_t instead of dma_addr_t for nvme_dev->cmb_dma_addr
+In-Reply-To: <0846672a-484d-ab80-aa1c-751042405f29@mellanox.com>
+References: <1d5efe82-0654-3217-ffde-fb6ad499170a@mellanox.com>
+ <1ce2030c-d31f-0ad4-02db-410abfc87c06@mellanox.com>
+ <20170105183933.GA4724@localhost.localdomain>
+ <0846672a-484d-ab80-aa1c-751042405f29@mellanox.com>
+Message-ID: <20170109215422.GA5286@localhost.localdomain>
 
-On Mon, Jan 09, 2017@11:34:55PM +0300, Nikita Yushchenko wrote:
-> I believe the bounce buffering code you refer to is not in SATA/SCSI/MMC
-> but in block layer, in particular it should be controlled by
-> blk_queue_bounce_limit().  [Yes there is CONFIG_MMC_BLOCK_BOUNCE but it
-> is something completely different, namely it is for request merging for
-> hw not supporting scatter-gather].  And NVMe also uses block layer and
-> thus should get same support.
-
-NVMe shouldn't have to call blk_queue_bounce_limit - 
-blk_queue_bounce_limit is to set the DMA addressing limit of the device.
-NVMe devices must support unlimited 64-bit addressing and thus calling
-blk_queue_bounce_limit from NVMe does not make sense.
-
-That being said currently the default for a queue without a call
-to blk_queue_make_request which does the wrong thing on highmem
-setups, so we should fix it.  In fact BLK_BOUNCE_HIGH as-is doesn't
-really make much sense these days as no driver should ever dereference
-pages passed to it directly.
-
-> Maybe fixing that, together with making NVMe use this API, could stop it
-> from issuing dma_map()s of addresses beyond mask.
-
-NVMe should never bounce, the fact that it currently possibly does
-for highmem pages is a bug.
-
-> As for PCI_DMA_BUS_IS_PHYS - ironically, what all current usages of this
-> macro in the kernel do is - *disable* bounce buffers in block layer if
-> PCI_DMA_BUS_IS_PHYS is zero.
-
-That's not ironic but the whole point of the macro (horrible name and
-the fact that it should be a dma_ops setting aside).
-
-> - architecture should stop breaking 64-bit DMA when driver attempts to
-> set 64-bit dma mask,
+On Sun, Jan 08, 2017@10:55:28AM +0200, Haggai Eran wrote:
+> On 1/5/2017 8:39 PM, Jon Derrick wrote:
+> >> Perhaps I'm mistaken, but shouldn't the code use pcibios_resource_to_bus()
+> >> in this case to convert the resource to bus addresses? I see cmb_dma_addr 
+> >> is later passed directly to the device as the sq_dma_addr.
+> >>
+> > That gets us a region from a window within a larger region, but to me it
+> > looks to me like resource_contains() would fail to match if the CMB
+> > region went beyond the window.
+> I thought that the CMB must fit in its BAR, and therefore in the window that 
+> contains it. Isn't it so?
 > 
-> - NVMe should issue proper blk_queue_bounce_limit() call based on what
-> is actually set mask,
+The spec is unclear if it's the host's responsibility to stay within the
+BAR, or the device's to reduce CMBLOC and CMBSZ to fit:
 
-Or even better remove the call to dma_set_mask_and_coherent with
-DMA_BIT_MASK(32).  NVMe is designed around having proper 64-bit DMA
-addressing, there is not point in trying to pretent it works without that
+"If the Offset + Size exceeds the length of
+the indicated BAR, the size available to the host is limited by the
+length of the BAR."
 
-> - and blk_queue_bounce_limit() should also be fixed to actually set
-> 0xffffffff limit, instead of replacing it with (max_low_pfn <<
-> PAGE_SHIFT) as it does now.
+I think this would only happen if we're behind a bridge with a smaller
+window than BAR.
 
-We need to kill off BLK_BOUNCE_HIGH, it just doesn't make sense to
-mix the highmem aspect with the addressing limits.  In fact the whole
-block bouncing scheme doesn't make much sense at all these days, we
-should rely on swiotlb instead.
 
-> What I mean is some API to allocate memory for use with streaming DMA in
-> such way that bounce buffers won't be needed. There are many cases when
-> at buffer allocation time, it is already known that buffer will be used
-> for DMA with particular device. Bounce buffers will still be needed
-> cases when no such information is available at allocation time, or when
-> there is no directly-DMAable memory available at allocation time.
+> > There's another option - pci_bus_addr_t/pci_bus_region takes the largest
+> > of phys_addr_t's width and dma_addr_t's width. So in the cases where
+> > those two types might differ it should still be able to hold a valid
+> > physical address, which is what both the resource API and Create-SQes
+> > expect.
+> I don't think the issue is just the width of the types. What happens on 
+> architectures where phy_addr_t addresses are translated before going to 
+> the PCIe bus?
+If we have a DMA translation, we get the host side addresses from the
+ioremapping and I believe the device is still expecting the untranslated
+addresses, since it needs to DMA over the fabric. Do archs exists that
+don't fit this model?
 
-For block I/O that is never the case.
+> 
+> Regards,
+> Haggai
+
+Cheers
