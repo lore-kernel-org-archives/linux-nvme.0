@@ -1,13 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 9 Jan 2017 16:01:30 +0100
-Subject: [PATCH] nvme_fc: correct LS validation
-In-Reply-To: <585eb481.Z9kloEOnhgH+OCC7%jsmart2021@gmail.com>
-References: <585eb481.Z9kloEOnhgH+OCC7%jsmart2021@gmail.com>
-Message-ID: <20170109150130.GH3711@linux-x5ow.site>
+Date: Mon, 9 Jan 2017 16:03:42 +0100
+Subject: [PATCH] nvmet_fc: Clear SG list to avoid double frees
+In-Reply-To: <585eb482.c+IlMeE1LJXQhHJk%jsmart2021@gmail.com>
+References: <585eb482.c+IlMeE1LJXQhHJk%jsmart2021@gmail.com>
+Message-ID: <20170109150342.GI3711@linux-x5ow.site>
 
-On Sat, Dec 24, 2016@09:46:41AM -0800, James Smart wrote:
+On Sat, Dec 24, 2016@09:46:42AM -0800, James Smart wrote:
 > 
-> LS validations shouldn't have been independent checks.
+> Clear SG list to avoid double frees of payload page list
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
