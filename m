@@ -1,51 +1,28 @@
 From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Mon, 9 Jan 2017 14:54:23 -0700
-Subject: phys_addr_t instead of dma_addr_t for nvme_dev->cmb_dma_addr
-In-Reply-To: <0846672a-484d-ab80-aa1c-751042405f29@mellanox.com>
-References: <1d5efe82-0654-3217-ffde-fb6ad499170a@mellanox.com>
- <1ce2030c-d31f-0ad4-02db-410abfc87c06@mellanox.com>
- <20170105183933.GA4724@localhost.localdomain>
- <0846672a-484d-ab80-aa1c-751042405f29@mellanox.com>
-Message-ID: <20170109215422.GA5286@localhost.localdomain>
+Date: Mon, 9 Jan 2017 14:55:18 -0700
+Subject: [PATCH] NVME: Fix CMB types
+In-Reply-To: <20170108171817.GA20466@infradead.org>
+References: <1483654731-12049-1-git-send-email-jonathan.derrick@intel.com>
+ <20170108171817.GA20466@infradead.org>
+Message-ID: <20170109215517.GB5286@localhost.localdomain>
 
-On Sun, Jan 08, 2017@10:55:28AM +0200, Haggai Eran wrote:
-> On 1/5/2017 8:39 PM, Jon Derrick wrote:
-> >> Perhaps I'm mistaken, but shouldn't the code use pcibios_resource_to_bus()
-> >> in this case to convert the resource to bus addresses? I see cmb_dma_addr 
-> >> is later passed directly to the device as the sq_dma_addr.
-> >>
-> > That gets us a region from a window within a larger region, but to me it
-> > looks to me like resource_contains() would fail to match if the CMB
-> > region went beyond the window.
-> I thought that the CMB must fit in its BAR, and therefore in the window that 
-> contains it. Isn't it so?
+On Sun, Jan 08, 2017@09:18:17AM -0800, Christoph Hellwig wrote:
+> On Thu, Jan 05, 2017@03:18:51PM -0700, Jon Derrick wrote:
+> > ioremapping and the Create SQes command expect a phys_addr_t, so convert
+> > current usages of dma_addr_t to this type. Also break out the current
+> > reuse of sq_dma_addr into dma and physical addresses, depending on if
+> > CMB is being used for SQes.
+> > 
+> > Reported by: Max Gurtovoy <maxg at mellanox.com>
+> > Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+> > ---
+> > Hope this is a good stopgap until we get a more formalized CMB
+> > management code. Also I don't know whose tree we are using now, so this
+> > applies to axboe/master
 > 
-The spec is unclear if it's the host's responsibility to stay within the
-BAR, or the device's to reduce CMBLOC and CMBSZ to fit:
+> I don't really like the helper with the if - what's the point of having
+> two variables with different types if we the only user does an implicit
+> cast to another type.  Maybe we should use use u64 instead of either
+> dma_addr_t or phys_addr_t and add a comment explaining why we do this?
 
-"If the Offset + Size exceeds the length of
-the indicated BAR, the size available to the host is limited by the
-length of the BAR."
-
-I think this would only happen if we're behind a bridge with a smaller
-window than BAR.
-
-
-> > There's another option - pci_bus_addr_t/pci_bus_region takes the largest
-> > of phys_addr_t's width and dma_addr_t's width. So in the cases where
-> > those two types might differ it should still be able to hold a valid
-> > physical address, which is what both the resource API and Create-SQes
-> > expect.
-> I don't think the issue is just the width of the types. What happens on 
-> architectures where phy_addr_t addresses are translated before going to 
-> the PCIe bus?
-If we have a DMA translation, we get the host side addresses from the
-ioremapping and I believe the device is still expecting the untranslated
-addresses, since it needs to DMA over the fabric. Do archs exists that
-don't fit this model?
-
-> 
-> Regards,
-> Haggai
-
-Cheers
+That's good too. Barring no other issues I'll resend in a few days.
