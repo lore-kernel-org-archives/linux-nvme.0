@@ -1,13 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 9 Jan 2017 15:59:06 +0100
-Subject: [PATCH 2/3] nvme_fc: Add check of status_code in ERSP_IU
-In-Reply-To: <585eb47f.QfHJhdihZkHxbVbF%jsmart2021@gmail.com>
-References: <585eb47f.QfHJhdihZkHxbVbF%jsmart2021@gmail.com>
-Message-ID: <20170109145906.GF3711@linux-x5ow.site>
+Date: Mon, 9 Jan 2017 16:00:24 +0100
+Subject: [PATCH 3/3] nvmet_fc: Sync NVME LS reject reasons with spec
+In-Reply-To: <585eb480.1dw38w2IfDewitYc%jsmart2021@gmail.com>
+References: <585eb480.1dw38w2IfDewitYc%jsmart2021@gmail.com>
+Message-ID: <20170109150024.GG3711@linux-x5ow.site>
 
-On Sat, Dec 24, 2016@09:46:39AM -0800, James Smart wrote:
+On Sat, Dec 24, 2016@09:46:40AM -0800, James Smart wrote:
 > 
-> Add check of status_code in ERSP_IU
+> nvmet_fc: Sync NVME LS reject reasons with spec
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
