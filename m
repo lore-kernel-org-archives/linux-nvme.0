@@ -1,117 +1,131 @@
-From: jlayton@poochiereds.net (Jeff Layton)
-Date: Mon, 09 Jan 2017 08:40:18 -0500
-Subject: LSF/MM 2017: Call for Proposals closes January 15th
-Message-ID: <1483969218.2609.2.camel@poochiereds.net>
+From: tytso@mit.edu (Theodore Ts'o)
+Date: Mon, 9 Jan 2017 09:55:31 -0500
+Subject: [LSF/MM TOPIC][LSF/MM ATTEND] OCSSDs - SMR, Hierarchical
+ Interface, and Vector I/Os
+In-Reply-To: <SN2PR04MB21910EA8BC7A76ABDD20003888640@SN2PR04MB2191.namprd04.prod.outlook.com>
+References: <05204e9d-ed4d-f97a-88f0-41b5e008af43@bjorling.me>
+ <1483398761.2440.4.camel@dubeyko.com>
+ <e42ff0c8-6568-d211-331f-7bfa6af94e2e@bjorling.me>
+ <1483464921.2440.19.camel@dubeyko.com>
+ <9319ce16-8355-3560-95b6-45e3f07220de@bjorling.me>
+ <SN2PR04MB219184580108939442EBDA7E88610@SN2PR04MB2191.namprd04.prod.outlook.com>
+ <a5acdf89-99c0-774d-cb08-76cb5d846f29@wdc.com>
+ <SN2PR04MB2191BE43398C84C4D262960488600@SN2PR04MB2191.namprd04.prod.outlook.com>
+ <20170106011144.fbfqx4ksr7dtsy5p@thunk.org>
+ <SN2PR04MB21910EA8BC7A76ABDD20003888640@SN2PR04MB2191.namprd04.prod.outlook.com>
+Message-ID: <20170109145531.vty7fwposnih7pqy@thunk.org>
 
-We initially sent this pretty early this year, so this is a resend in           
-case anyone missed the first posting. The call for topics and attendance        
-requests is open until January 15th, 2017.
+So in the model where the Flash-side is tracking logical to physical
+zone mapping, and host is merely expecting the ZBC interface, one way
+it could work is as follows.
 
-The original message follows:
+1)  The flash signals that a particular zone should be reset soon.
 
-----------------------8<------------------------
+2)  If the host does not honor the request, eventually the flash will
+    have to do a forced copy of the zone to a new erase block.  (This
+    is a fail-safe and shouldn't happen under normal circumstances.)
 
-The annual Linux Storage, Filesystem and Memory Management (LSF/MM)
-Summit for 2017 will be held on March 20th and 21st at the Hyatt
-Cambridge, Cambridge, MA. LSF/MM is an invitation-only technical
-workshop to map out improvements to the Linux storage, filesystem and
-memory management subsystems that will make their way into the mainline
-kernel within the coming years.
+    (By the way, this model can be used for any number of things.  For
+    example, for cloud workloads where tail latency is really
+    important, it would be really cool if T10/T13 adopted a way that
+    the host could be notified about the potential need for ATI
+    remediation in a particular disk region, so the host could
+    schedule it when it would be least likely to impact high priority,
+    low latency workloads.  If the host fails to give permission to
+    the firmware to do the ATI remediation before the "gotta go"
+    deadline is exceed, the disk would could the ATI remediation at
+    that point to assure data integrity as a fail safe.)
 
-????http://events.linuxfoundation.org/events/linux-storage-filesystem-and-mm-summit
+3) The host, since it has better knowledge of which blocks belong to
+    which inode, and which inodes are more likely to have identical
+    object lifetimes (example, all of the .o files in a directory are
+    likely to be deleted at the same time when the user runs "make
+    clean"; there was a Usenix or FAST paper over a decade ago the
+    pointed out that doing hueristics based on file names were likely
+    to be helpful), can do a better job of distributing the blocks to
+    different partially filled sequential write preferred / sequential
+    write required zones.
 
-Like last year, LSF/MM will be colocated with the Linux Foundation Vault
-conference which takes place on March 22nd and 23rd in the same Venue.
-For those that do not know, Vault is designed to be an event where open
-source storage and filesystem practitioners meet storage implementors
-and, as such, it would be of benefit for LSF/MM attendees to attend.
+    The idea here is that you might have multiple zones that are
+    partially filled based on expected object lifetime predictions.
+    Or the host could move blocks based on the knowledge that a
+    particular already has blocks that will share the same fate (e.g.,
+    belong to the same inode) --- this is knowledge that the FTL can
+    not know, so with a sufficiently smart host file system, it ought
+    to be able to do a better job than the FTL.
 
-Unlike past years, Vault admission is not free for LSF/MM attendees this
-year unless they're giving a talk. There is a discount for LSF/MM
-attendees, however we would also like to encourage folks to submit talk
-proposals to speak at the Vault conference.
+4) Since we assumed that the Flash is tracking logical to physial zone
+   mappings, and the host is responsible for everything else, if the
+   host decides to move blocks to different SMR zones, the host file
+   system will be responsible for updating its existing (inode,
+   logical block) to physical block (SMR zone plus offset) mapping
+   tables.
 
-????http://events.linuxfoundation.org/events/vault
+The main advantage of this model is to the extent that there are
+cloud/enterprise customers who are already implementing Host Aware SMR
+storage solutions, they might be able to reutilize code already
+written for SMR HDD's, and reuse it for this model/interface.  Yes,
+some tweaks would probably be needed since the design tradeoffs for
+disks and flash are very different.  But the point is that the Host
+Managed and Host Aware SMR models is one that is well understood by
+everyone.
 
-On behalf of the committee I am issuing a call for agenda proposals that
-are suitable for cross-track discussion as well as technical subjects
-for the breakout sessions.
+				 ----
 
-If advance notice is required for visa applications then please point
-that out in your proposal or request to attend, and submit the topic
-as soon as possible.
+There is another model you might consider, and it's one which
+Christoph Hillwig suggested at a LSF/MM at least 2-3 years ago, and
+this is a model where the flash or the SMR disk could use a division
+of labor similar to Object Based Disks (except hopefully with a less
+awful interface).  The idea here is that you give up on LBA numbers,
+and instead you move the entire responsibility of mapping (inode,
+logical block) to (physical location) to the storage device.  The file
+system would then be responsibile for managing metadata (mod times,
+user/group ownership, permission bits/ACL's, etc) and namespace issues
+(e.g., directory pathnames to inode lookups).
 
-1) Proposals for agenda topics should be sent before January 15th, 2016
-to:
+So this solves the problem you seem to be concerned about in terms of
+keeping mapping information at two layers, and it solves it
+completely, since the file system no longer has to do a mapping
+between inode+logical offset to LBA number, which it would in the
+models you've outlined to date.  It also solves the problem of giving
+the storage device more information about which blocks belong to which
+inode/object, and it would also make it easier for the OS to pass
+object lifetime and shared fate hints to the storage device.  This
+should hopefully allow the FTL or STL to do a better job, since it now
+has access to low-level hardware inforation (e.g., BER / Soft ECC
+failures) as well as higher-level object information to do a better
+job making storage layout and garbage collection activities.
 
-????lsf-pc at lists.linux-foundation.org
+				 ----
 
-and cc the Linux list or lists that are relevant for the topic in
-question:
+A fair criticism of any of the models discussed to date (one based on
+ZBC, the object-based storage model, or OCSSD) don't have any mature
+implementations, either in the open source or the clost source world.
+But since it's true for *all* of them, we should be using other
+criteria for deciding which model is the best one to choose for the
+long term.
 
-????ATA:???linux-ide at vger.kernel.org
-????Block: linux-block at vger.kernel.org
-????FS:????linux-fsdevel at vger.kernel.org
-????MM:????linux-mm at kvack.org
-????SCSI:??linux-scsi at vger.kernel.org
-????NVMe:??linux-nvme at lists.infradead.org
+The advantage of the ZBC model is that people have had several years
+to consider and understand the model, so in terms of mind share it has
+an advantage.
 
-Please tag your proposal with [LSF/MM TOPIC] to make it easier to track.
-In addition, please make sure to start a new thread for each topic
-rather than following up to an existing one.??Agenda topics and
-attendees will be selected by the program committee, but the final
-agenda will be formed by consensus of the attendees on the day.
+The advantage of the object-based model is that it transfers a lot of
+the complexity to the storage device, so the job that needs to be done
+by the file system is much simpler than either of the other two models.
 
-2) Requests to attend the summit for those that are not proposing a
-topic should be sent to:
+The advantage of the OCSSD model is that it exposes a lot of the raw
+flash complexities to the host.  This can be good in that the host can
+now do a really good job optimize for a particular flash technology.
+The downside is that by exposing all of that complexity to the host,
+it makes file system design very fragile, since as the number of chips
+changes, or the size of erase blocks changes, or as flash developes
+new capabilities such as erase suspend/resume, *all* of that hair gets
+exposed to the file system implementor.
 
-????lsf-pc at lists.linux-foundation.org
+Personally, I think that's why either the ZBC model or the
+object-based model makes a lot more sense than something where we
+expose all of the vagaries of NAND flash to the file system.
 
-Please summarise what expertise you will bring to the meeting, and what
-you would like to discuss. Please also tag your email with [LSF/MM
-ATTEND] and send it as a new thread so there is less chance of it
-getting lost.
+Cheers,
 
-We will try to cap attendance at around 25-30 per track to facilitate
-discussions although the final numbers will depend on the room sizes at
-the venue.
-
-Brief presentations are allowed to guide discussion, but are strongly
-discouraged. There will be no recording or audio bridge. However, we
-expect that written minutes will be published as we did in previous
-years:
-
-2016: https://lwn.net/Articles/lsfmm2016/
-
-2015: https://lwn.net/Articles/lsfmm2015/
-
-2014: http://lwn.net/Articles/LSFMM2014/
-
-2013: http://lwn.net/Articles/548089/
-
-3) If you have feedback on last year's meeting that we can use to
-improve this year's, please also send that to:
-
-????lsf-pc at lists.linux-foundation.org
-
-Thank you on behalf of the program committee:
-
-Storage:
-????James Bottomley
-????Martin K. Petersen (track chair)
-????Sagi Grimberg
-
-Filesystems:
-????Anna Schumaker
-????Chris Mason
-????Eric Sandeen
-????Jan Kara
-????Jeff Layton (summit chair)
-????Josef Bacik (track chair)
-????Trond Myklebust
-
-MM:
-????Johannes Weiner
-????Rik van Riel (track chair)
--- 
-Jeff Layton <jlayton at poochiereds.net>
+					- Ted
