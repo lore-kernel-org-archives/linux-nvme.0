@@ -1,37 +1,78 @@
-From: arnd@linaro.org (Arnd Bergmann)
-Date: Tue, 10 Jan 2017 16:02:28 +0100
-Subject: NVMe vs DMA addressing limitations
-In-Reply-To: <20170110144839.GB27156@lst.de>
-References: <1483044304-2085-1-git-send-email-nikita.yoush@cogentembedded.com>
- <4137257.d2v87kqLLv@wuerfel> <20170110144839.GB27156@lst.de>
-Message-ID: <9020459.Ga31IGQ4TP@wuerfel>
+From: Chaitanya.Kulkarni@wdc.com (Chaitanya Kulkarni)
+Date: Tue, 10 Jan 2017 22:40:53 +0000
+Subject: [LFS/MM TOPIC][LFS/MM ATTEND]: - Storage Stack and Driver Testing
+ methodology.
+In-Reply-To: <CO2PR04MB218427BF42159B20FB26F74186670@CO2PR04MB2184.namprd04.prod.outlook.com>
+References: <CO2PR04MB218427BF42159B20FB26F74186670@CO2PR04MB2184.namprd04.prod.outlook.com>
+Message-ID: <CO2PR04MB2184DB653C04FB620B41435486670@CO2PR04MB2184.namprd04.prod.outlook.com>
 
-On Tuesday, January 10, 2017 3:48:39 PM CET Christoph Hellwig wrote:
-> On Tue, Jan 10, 2017@12:01:05PM +0100, Arnd Bergmann wrote:
-> > Another workaround me might need is to limit amount of concurrent DMA
-> > in the NVMe driver based on some platform quirk. The way that NVMe works,
-> > it can have very large amounts of data that is concurrently mapped into
-> > the device.
-> 
-> That's not really just NVMe - other storage and network controllers also
-> can DMA map giant amounts of memory.  There are a couple aspects to it:
-> 
->  - dma coherent memoery - right now NVMe doesn't use too much of it,
->    but upcoming low-end NVMe controllers will soon start to require
->    fairl large amounts of it for the host memory buffer feature that
->    allows for DRAM-less controller designs.  As an interesting quirk
->    that is memory only used by the PCIe devices, and never accessed
->    by the Linux host at all.
+Resending it at as a plain text.
 
-Right, that is going to become interesting, as some platforms are
-very limited with their coherent allocations.
+From: Chaitanya Kulkarni
+Sent: Tuesday, January 10, 2017 2:37 PM
+To: lsf-pc at lists.linux-foundation.org
+Cc: linux-fsdevel at vger.kernel.org; linux-block at vger.kernel.org; linux-nvme at lists.infradead.org; linux-scsi at vger.kernel.org; linux-ide at vger.kernel.org
+Subject: [LFS/MM TOPIC][LFS/MM ATTEND]: - Storage Stack and Driver Testing methodology.
+? 
 
->  - size vs number of the dynamic mapping.  We probably want the dma_ops
->    specify a maximum mapping size for a given device.  As long as we
->    can make progress with a few mappings swiotlb / the iommu can just
->    fail mapping and the driver will propagate that to the block layer
->    that throttles I/O.
+Hi Folks,
 
-Good idea.
+I would like to propose a general discussion on Storage stack and device driver testing.
 
-	Arnd
+Purpose:-
+-------------
+The main objective of this discussion is to address the need for?
+a Unified Test Automation Framework which can be used by different subsystems
+in the kernel in order to improve the overall development and stability
+of the storage stack.
+
+For Example:-?
+>From my previous experience, I've worked on the NVMe driver testing last year and we
+have developed simple unit test framework
+?(https://github.com/linux-nvme/nvme-cli/tree/master/tests).?
+In current implementation Upstream NVMe Driver supports following subsystems:-
+1. PCI Host.
+2. RDMA Target.
+3. Fiber Channel Target (in progress).
+Today due to lack of centralized automated test framework NVMe Driver testing is?
+scattered and performed using the combination of various utilities like nvme-cli/tests,?
+nvmet-cli, shell scripts (git://git.infradead.org/nvme-fabrics.git nvmf-selftests) etc.
+
+In order to improve overall driver stability with various subsystems, it will be beneficial
+to have a Unified Test Automation Framework (UTAF) which will centralize overall
+testing.?
+
+This topic will allow developers from various subsystem engage in the discussion about?
+how to collaborate efficiently instead of having discussions on lengthy email threads.
+
+Participants:-
+------------------
+I'd like to invite developers from different subsystems to discuss an approach towards?
+a unified testing methodology for storage stack and device drivers belongs to?
+different subsystems.
+
+Topics for Discussion:-
+------------------------------
+As a part of discussion following are some of the key points which we can focus on:-
+1. What are the common components of the kernel used by the various subsystems?
+2. What are the potential target drivers which can benefit from this approach??
+? (e.g. NVMe, NVMe Over Fabric, Open Channel Solid State Drives etc.)
+3. What are the desired features that can be implemented in this Framework?
+? (code coverage, unit tests, stress testings, regression, generating Coccinelle reports etc.)?
+4. Desirable Report generation mechanism?
+5. Basic performance validation?
+6. Whether QEMU can be used to emulate some of the H/W functionality to create a test?
+? platform? (Optional subsystem specific)
+
+Some background about myself I'm Chaitanya Kulkarni, I worked as a team lead?
+which was responsible for delivering scalable multiplatform Automated Test?
+Framework for device drivers testing at HGST. It's been used for more than 1 year on?
+Linux/Windows for unit testing/regression/performance validation of the NVMe Linux and
+Windows driver successfully. I've also recently started contributing?to the?
+
+NVMe Host and NVMe over Fabrics Target driver.
+
+Regards,
+-Chaitanya
+
+     
