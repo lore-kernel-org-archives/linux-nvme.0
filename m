@@ -1,35 +1,57 @@
-From: m@bjorling.me (Matias Bjorling)
-Date: Tue, 10 Jan 2017 14:06:01 +0100
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] OCSSDs - SMR, Hierarchical
- Interface, and Vector I/Os
-In-Reply-To: <20170110042442.ixxxi4yhj5gu7byh@thunk.org>
-References: <05204e9d-ed4d-f97a-88f0-41b5e008af43@bjorling.me>
- <1483398761.2440.4.camel@dubeyko.com>
- <e42ff0c8-6568-d211-331f-7bfa6af94e2e@bjorling.me>
- <1483464921.2440.19.camel@dubeyko.com>
- <9319ce16-8355-3560-95b6-45e3f07220de@bjorling.me>
- <SN2PR04MB219184580108939442EBDA7E88610@SN2PR04MB2191.namprd04.prod.outlook.com>
- <a5acdf89-99c0-774d-cb08-76cb5d846f29@wdc.com>
- <20170104165745.7uuwl6phm6g6kouu@thunk.org>
- <1b457b77-34d8-ab82-ae1d-279e86053af9@wdc.com>
- <20170110042442.ixxxi4yhj5gu7byh@thunk.org>
-Message-ID: <ddeefd67-afb6-72a4-f59b-6fe623fbfbc3@bjorling.me>
+From: Jeff.Lien@wdc.com (Jeffrey Lien)
+Date: Tue, 10 Jan 2017 14:15:59 +0000
+Subject: [PATCH] nvme/quirk: apply DELAY_BEFORE_CHK_RDY quirk at probe
+ time too
+In-Reply-To: <1482970395-14867-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
+References: <1482970395-14867-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
+Message-ID: <CY4PR04MB067867FDBE90838EADDEDC4CEA670@CY4PR04MB0678.namprd04.prod.outlook.com>
 
-On 01/10/2017 05:24 AM, Theodore Ts'o wrote:
-> This may be an area where if we can create the right framework, and
-> fund some research work, we might be able to get some researchers and
-> their graduate students interested in doing some work in figuring out
-> what sort of divisions of responsibilities and hints back and forth
-> between the storage device and host have the most benefit.
-> 
+I have reviewed this change and approve of it.  
 
-That is a good idea. There is a couple of papers at FAST with
-Open-Channel SSDs this year.  They look into the interface and various
-ways to reduce latency fluctuations.
 
-One thing I've heard a couple of times is the feature to move the GC
-read/write process into the firmware. Enabling the host to offload GC
-data movement, while the keeping the host in control. Would this be
-beneficial for SMR?
+Jeff Lien
 
--Matias
+-----Original Message-----
+From: Guilherme G. Piccoli [mailto:gpiccoli@linux.vnet.ibm.com] 
+Sent: Wednesday, December 28, 2016 6:13 PM
+To: linux-nvme at lists.infradead.org
+Cc: keith.busch at intel.com; axboe at fb.com; hch at lst.de; byrneadw at ie.ibm.com; jahgomez at mx1.ibm.com; zdmyers at us.ibm.com; gpiccoli at linux.vnet.ibm.com; mniyer at us.ibm.com; dougmill at linux.vnet.ibm.com; Jeffrey Lien; David Darrington
+Subject: [PATCH] nvme/quirk: apply DELAY_BEFORE_CHK_RDY quirk at probe time too
+
+Commit 54adc01055b7 ("nvme/quirk: Add a delay before checking for adapter
+readiness") introduced a quirk to adapters that cannot read the bit NVME_CSTS_RDY right after register NVME_REG_CC is set; these adapters need a delay or else the action of reading the bit NVME_CSTS_RDY could somehow corrupt adapter's registers state and it never recovers.
+
+When this quirk was added, we checked ctrl->tagset in order to avoid quirking in probe time, supposing we would never require such delay during probe. Well, it was too optimistic; we in fact need this quirk at probe time in some cases, like after a kexec.
+
+In some experiments, after abnormal shutdown of machine (aka power cord unplug), we booted into our bootloader in Power, which is a Linux kernel, and kexec'ed into another distro. If this kexec is too quick, we end up reaching the probe of NVMe adapter in that distro when adapter is in bad state (not fully initialized on our bootloader). What happens next is that nvme_wait_ready() is unable to complete, except if the quirk is enabled.
+
+So, this patch removes the original ctrl->tagset verification in order to enable the quirk even on probe time.
+
+Fixes: 54adc01055b7 ("nvme/quirk: Add a delay before checking for adapter readiness")
+Reported-by: Andrew Byrne <byrneadw at ie.ibm.com>
+Reported-by: Jaime A. H. Gomez <jahgomez at mx1.ibm.com>
+Reported-by: Zachary D. Myers <zdmyers at us.ibm.com>
+Signed-off-by: Guilherme G. Piccoli <gpiccoli at linux.vnet.ibm.com>
+---
+ drivers/nvme/host/core.c | 7 +------
+ 1 file changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c index b40cfb0..96b6f6a 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1106,12 +1106,7 @@ int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap)
+ 	if (ret)
+ 		return ret;
+ 
+-	/* Checking for ctrl->tagset is a trick to avoid sleeping on module
+-	 * load, since we only need the quirk on reset_controller. Notice
+-	 * that the HGST device needs this delay only in firmware activation
+-	 * procedure; unfortunately we have no (easy) way to verify this.
+-	 */
+-	if ((ctrl->quirks & NVME_QUIRK_DELAY_BEFORE_CHK_RDY) && ctrl->tagset)
++	if (ctrl->quirks & NVME_QUIRK_DELAY_BEFORE_CHK_RDY)
+ 		msleep(NVME_QUIRK_DELAY_AMOUNT);
+ 
+ 	return nvme_wait_ready(ctrl, cap, false);
+--
+2.1.0
