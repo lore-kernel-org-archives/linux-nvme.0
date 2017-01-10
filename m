@@ -1,44 +1,35 @@
-From: arnd@linaro.org (Arnd Bergmann)
-Date: Tue, 10 Jan 2017 12:01:05 +0100
-Subject: NVMe vs DMA addressing limitations
-In-Reply-To: <c4fd007c-3f07-fc2a-8cbb-7152f578609d@cogentembedded.com>
-References: <1483044304-2085-1-git-send-email-nikita.yoush@cogentembedded.com>
- <20170110070719.GA17208@lst.de>
- <c4fd007c-3f07-fc2a-8cbb-7152f578609d@cogentembedded.com>
-Message-ID: <4137257.d2v87kqLLv@wuerfel>
+From: m@bjorling.me (Matias Bjorling)
+Date: Tue, 10 Jan 2017 14:06:01 +0100
+Subject: [LSF/MM TOPIC][LSF/MM ATTEND] OCSSDs - SMR, Hierarchical
+ Interface, and Vector I/Os
+In-Reply-To: <20170110042442.ixxxi4yhj5gu7byh@thunk.org>
+References: <05204e9d-ed4d-f97a-88f0-41b5e008af43@bjorling.me>
+ <1483398761.2440.4.camel@dubeyko.com>
+ <e42ff0c8-6568-d211-331f-7bfa6af94e2e@bjorling.me>
+ <1483464921.2440.19.camel@dubeyko.com>
+ <9319ce16-8355-3560-95b6-45e3f07220de@bjorling.me>
+ <SN2PR04MB219184580108939442EBDA7E88610@SN2PR04MB2191.namprd04.prod.outlook.com>
+ <a5acdf89-99c0-774d-cb08-76cb5d846f29@wdc.com>
+ <20170104165745.7uuwl6phm6g6kouu@thunk.org>
+ <1b457b77-34d8-ab82-ae1d-279e86053af9@wdc.com>
+ <20170110042442.ixxxi4yhj5gu7byh@thunk.org>
+Message-ID: <ddeefd67-afb6-72a4-f59b-6fe623fbfbc3@bjorling.me>
 
-On Tuesday, January 10, 2017 10:31:47 AM CET Nikita Yushchenko wrote:
-> Christoph, thanks for clear input.
+On 01/10/2017 05:24 AM, Theodore Ts'o wrote:
+> This may be an area where if we can create the right framework, and
+> fund some research work, we might be able to get some researchers and
+> their graduate students interested in doing some work in figuring out
+> what sort of divisions of responsibilities and hints back and forth
+> between the storage device and host have the most benefit.
 > 
-> Arnd, I think that given this discussion, best short-term solution is
-> indeed the patch I've submitted yesterday. That is, your version +
-> coherent mask support.  With that, set_dma_mask(DMA_BIT_MASK(64)) will
-> succeed and hardware with work with swiotlb.
 
-Ok, good.
+That is a good idea. There is a couple of papers at FAST with
+Open-Channel SSDs this year.  They look into the interface and various
+ways to reduce latency fluctuations.
 
-> Possible next step is to teach swiotlb to dynamically allocate bounce
-> buffers within entire arm64's ZONE_DMA.
+One thing I've heard a couple of times is the feature to move the GC
+read/write process into the firmware. Enabling the host to offload GC
+data movement, while the keeping the host in control. Would this be
+beneficial for SMR?
 
-That seems reasonable, yes. We probably have to do both, as there are
-cases where a device has dma_mask smaller than ZONE_DMA but the swiotlb
-bounce area is low enough to work anyway.
-
-Another workaround me might need is to limit amount of concurrent DMA
-in the NVMe driver based on some platform quirk. The way that NVMe works,
-it can have very large amounts of data that is concurrently mapped into
-the device. SWIOTLB is one case where this currently fails, but another
-example would be old PowerPC servers that have a 256MB window of virtual
-I/O addresses per VM guest in their IOMMU. Those will likely fail the same
-way that your does.
-
-> Also there is some hope that R-Car *can* iommu-translate addresses that
-> PCIe module issues to system bus.  Although previous attempts to make
-> that working failed. Additional research is needed here.
-
-Does this IOMMU support remapping data within a virtual machine? I believe
-there are some that only do one of the two -- either you can have guest
-machines with DMA access to their low memory, or you can remap data on
-the fly in the host.
-
-	Arnd
+-Matias
