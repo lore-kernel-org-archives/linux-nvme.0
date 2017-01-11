@@ -1,24 +1,40 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 11 Jan 2017 11:47:29 -0700
-Subject: [GIT PULL] NVMe fixes for 4.10-rc4
-In-Reply-To: <20170111184236.GA21620@infradead.org>
-References: <20170111184236.GA21620@infradead.org>
-Message-ID: <d5fc380b-446e-ca0b-6e1f-38588521a8ce@kernel.dk>
+From: nikita.yoush@cogentembedded.com (Nikita Yushchenko)
+Date: Wed, 11 Jan 2017 21:56:31 +0300
+Subject: [PATCH resend] swiotlb: ensure that page-sized mappings are
+ page-aligned
+Message-ID: <1484160991-29624-1-git-send-email-nikita.yoush@cogentembedded.com>
 
-On 01/11/2017 11:42 AM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> below are two small NVMe fixes for this merge window.
-> 
-> The following changes since commit 6bf6b0aa3da84a3d9126919a94c49c0fb7ee2fb3:
-> 
->   virtio_blk: fix panic in initialization error path (2017-01-10 13:30:50 -0700)
-> 
-> are available in the git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.10-fixes
+Some drivers do depend on page mappings to be page aligned.
 
-Pulled, thanks.
+Swiotlb already enforces such alignment for mappings greater than page,
+extend that to page-sized mappings as well.
 
+Without this fix, nvme hits BUG() in nvme_setup_prps(), because that routine
+assumes page-aligned mappings.
+
+Signed-off-by: Nikita Yushchenko <nikita.yoush at cogentembedded.com>
+---
+ lib/swiotlb.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/lib/swiotlb.c b/lib/swiotlb.c
+index 975b8fc..a8d74a7 100644
+--- a/lib/swiotlb.c
++++ b/lib/swiotlb.c
+@@ -483,11 +483,11 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev,
+ 		    : 1UL << (BITS_PER_LONG - IO_TLB_SHIFT);
+ 
+ 	/*
+-	 * For mappings greater than a page, we limit the stride (and
+-	 * hence alignment) to a page size.
++	 * For mappings greater than or equal to a page, we limit the stride
++	 * (and hence alignment) to a page size.
+ 	 */
+ 	nslots = ALIGN(size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
+-	if (size > PAGE_SIZE)
++	if (size >= PAGE_SIZE)
+ 		stride = (1 << (PAGE_SHIFT - IO_TLB_SHIFT));
+ 	else
+ 		stride = 1;
 -- 
-Jens Axboe
+2.1.4
