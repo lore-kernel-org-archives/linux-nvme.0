@@ -1,41 +1,81 @@
-From: hch@lst.de (hch@lst.de)
-Date: Wed, 11 Jan 2017 10:06:11 +0100
-Subject: phys_addr_t instead of dma_addr_t for nvme_dev->cmb_dma_addr
-In-Reply-To: <1484122522.26936.9.camel@mellanox.com>
-References: <1d5efe82-0654-3217-ffde-fb6ad499170a@mellanox.com>
- <1ce2030c-d31f-0ad4-02db-410abfc87c06@mellanox.com>
- <20170105183933.GA4724@localhost.localdomain>
- <0846672a-484d-ab80-aa1c-751042405f29@mellanox.com>
- <20170109215422.GA5286@localhost.localdomain>
- <1484122522.26936.9.camel@mellanox.com>
-Message-ID: <20170111090611.GC7350@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 11 Jan 2017 10:19:45 +0100
+Subject: [LFS/MM TOPIC][LFS/MM ATTEND]: - Storage Stack and Driver
+ Testing methodology.
+In-Reply-To: <CO2PR04MB2184DB653C04FB620B41435486670@CO2PR04MB2184.namprd04.prod.outlook.com>
+References: <CO2PR04MB218427BF42159B20FB26F74186670@CO2PR04MB2184.namprd04.prod.outlook.com>
+ <CO2PR04MB2184DB653C04FB620B41435486670@CO2PR04MB2184.namprd04.prod.outlook.com>
+Message-ID: <20170111091945.GD6286@linux-x5ow.site>
 
-On Wed, Jan 11, 2017@08:15:23AM +0000, Haggai Eran wrote:
-> If the BAR is smaller than (offset + size) then any address that is
-> outside the BAR must be treated by the device as if it is not in the
-> CMB (otherwise some other devices / host memory will simply be
-> inaccessible by the NVMe device).?
-
-Yes.  I so wish the CMB design wasn't so messed up and we'd just have
-a separate BAR with a relative index for it.  Maybe we'll need to
-propose a CMBv2 in the working group, at least for the proposed new
-extensions :)
-
-> > I think this would only happen if we're behind a bridge with a
-> > smaller
-> > window than BAR.
+On Tue, Jan 10, 2017@10:40:53PM +0000, Chaitanya Kulkarni wrote:
+> Resending it at as a plain text.
 > 
-> I'm pretty sure that the bridge window must contain the underlying
-> device BARs. If it can't contain them, they can be simply left
-> disabled.
+> From: Chaitanya Kulkarni
+> Sent: Tuesday, January 10, 2017 2:37 PM
+> To: lsf-pc at lists.linux-foundation.org
+> Cc: linux-fsdevel at vger.kernel.org; linux-block at vger.kernel.org; linux-nvme at lists.infradead.org; linux-scsi at vger.kernel.org; linux-ide at vger.kernel.org
+> Subject: [LFS/MM TOPIC][LFS/MM ATTEND]: - Storage Stack and Driver Testing methodology.
+> ? 
+> 
+> Hi Folks,
+> 
+> I would like to propose a general discussion on Storage stack and device driver testing.
+> 
+> Purpose:-
+> -------------
+> The main objective of this discussion is to address the need for?
+> a Unified Test Automation Framework which can be used by different subsystems
+> in the kernel in order to improve the overall development and stability
+> of the storage stack.
+> 
+> For Example:-?
+> From my previous experience, I've worked on the NVMe driver testing last year and we
+> have developed simple unit test framework
+> ?(https://github.com/linux-nvme/nvme-cli/tree/master/tests).?
+> In current implementation Upstream NVMe Driver supports following subsystems:-
+> 1. PCI Host.
+> 2. RDMA Target.
+> 3. Fiber Channel Target (in progress).
+> Today due to lack of centralized automated test framework NVMe Driver testing is?
+> scattered and performed using the combination of various utilities like nvme-cli/tests,?
+> nvmet-cli, shell scripts (git://git.infradead.org/nvme-fabrics.git nvmf-selftests) etc.
+> 
+> In order to improve overall driver stability with various subsystems, it will be beneficial
+> to have a Unified Test Automation Framework (UTAF) which will centralize overall
+> testing.?
+> 
+> This topic will allow developers from various subsystem engage in the discussion about?
+> how to collaborate efficiently instead of having discussions on lengthy email threads.
+> 
+> Participants:-
+> ------------------
+> I'd like to invite developers from different subsystems to discuss an approach towards?
+> a unified testing methodology for storage stack and device drivers belongs to?
+> different subsystems.
+> 
+> Topics for Discussion:-
+> ------------------------------
+> As a part of discussion following are some of the key points which we can focus on:-
+> 1. What are the common components of the kernel used by the various subsystems?
+> 2. What are the potential target drivers which can benefit from this approach??
+> ? (e.g. NVMe, NVMe Over Fabric, Open Channel Solid State Drives etc.)
+> 3. What are the desired features that can be implemented in this Framework?
+> ? (code coverage, unit tests, stress testings, regression, generating Coccinelle reports etc.)?
+> 4. Desirable Report generation mechanism?
+> 5. Basic performance validation?
+> 6. Whether QEMU can be used to emulate some of the H/W functionality to create a test?
+> ? platform? (Optional subsystem specific)
 
-Exactly.
+Well, something I was thinking about but didn't find enough time to actually
+implement is making a xfstestes like test suite written using sg3_utils for
+SCSI. This idea could very well be extented to NVMe, AHCI, blk, etc...
 
-> I'm not talking about DMA translation. I'm talking about MMIO
-> translation. From what I understand this can happen on POWER systems.
-> The physical addresses for MMIO that are used by the CPU are different
-> from the ones that are used on the PCIe bus.
-
-As far as I know MMIO translation is absolutely usual for IOMMUs.
-That being said my knowledge of IOMMUs is mostly form before Intel
-and AMD chipset added them and thus from the RISC/IA64 world.
+Byte,
+	Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
