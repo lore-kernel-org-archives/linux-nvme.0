@@ -1,71 +1,89 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 11 Jan 2017 08:49:10 +0100
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] OCSSDs - SMR, Hierarchical
- Interface, and Vector I/Os
-In-Reply-To: <03f7ac72-c0a6-3101-7f07-e8322dcd32f5@wdc.com>
-References: <05204e9d-ed4d-f97a-88f0-41b5e008af43@bjorling.me>
- <1483398761.2440.4.camel@dubeyko.com>
- <e42ff0c8-6568-d211-331f-7bfa6af94e2e@bjorling.me>
- <1483464921.2440.19.camel@dubeyko.com>
- <9319ce16-8355-3560-95b6-45e3f07220de@bjorling.me>
- <SN2PR04MB219184580108939442EBDA7E88610@SN2PR04MB2191.namprd04.prod.outlook.com>
- <a5acdf89-99c0-774d-cb08-76cb5d846f29@wdc.com>
- <20170104165745.7uuwl6phm6g6kouu@thunk.org>
- <1b457b77-34d8-ab82-ae1d-279e86053af9@wdc.com>
- <20170110042442.ixxxi4yhj5gu7byh@thunk.org>
- <ddeefd67-afb6-72a4-f59b-6fe623fbfbc3@bjorling.me>
- <03f7ac72-c0a6-3101-7f07-e8322dcd32f5@wdc.com>
-Message-ID: <a545cf3e-26b1-9b35-5d5f-1f6180dabb1c@suse.de>
+From: haggaie@mellanox.com (Haggai Eran)
+Date: Wed, 11 Jan 2017 08:15:23 +0000
+Subject: phys_addr_t instead of dma_addr_t for nvme_dev->cmb_dma_addr
+In-Reply-To: <20170109215422.GA5286@localhost.localdomain>
+References: <1d5efe82-0654-3217-ffde-fb6ad499170a@mellanox.com>
+ <1ce2030c-d31f-0ad4-02db-410abfc87c06@mellanox.com>
+ <20170105183933.GA4724@localhost.localdomain>
+ <0846672a-484d-ab80-aa1c-751042405f29@mellanox.com>
+ <20170109215422.GA5286@localhost.localdomain>
+Message-ID: <1484122522.26936.9.camel@mellanox.com>
 
-On 01/11/2017 05:07 AM, Damien Le Moal wrote:
+On Mon, 2017-01-09@14:54 -0700, Jon Derrick wrote:
+> On Sun, Jan 08, 2017@10:55:28AM +0200, Haggai Eran wrote:
+> > 
+> > On 1/5/2017 8:39 PM, Jon Derrick wrote:
+> > > 
+> > > > 
+> > > > Perhaps I'm mistaken, but shouldn't the code use
+> > > > pcibios_resource_to_bus()
+> > > > in this case to convert the resource to bus addresses? I see
+> > > > cmb_dma_addr?
+> > > > is later passed directly to the device as the sq_dma_addr.
+> > > > 
+> > > That gets us a region from a window within a larger region, but
+> > > to me it
+> > > looks to me like resource_contains() would fail to match if the
+> > > CMB
+> > > region went beyond the window.
+> > I thought that the CMB must fit in its BAR, and therefore in the
+> > window that?
+> > contains it. Isn't it so?
+> > 
+> The spec is unclear if it's the host's responsibility to stay within
+> the
+> BAR, or the device's to reduce CMBLOC and CMBSZ to fit:
 > 
-> Matias,
-> 
-> On 1/10/17 22:06, Matias Bjorling wrote:
->> On 01/10/2017 05:24 AM, Theodore Ts'o wrote:
->>> This may be an area where if we can create the right framework, and
->>> fund some research work, we might be able to get some researchers and
->>> their graduate students interested in doing some work in figuring out
->>> what sort of divisions of responsibilities and hints back and forth
->>> between the storage device and host have the most benefit.
->>>
->>
->> That is a good idea. There is a couple of papers at FAST with
->> Open-Channel SSDs this year.  They look into the interface and various
->> ways to reduce latency fluctuations.
->>
->> One thing I've heard a couple of times is the feature to move the GC
->> read/write process into the firmware. Enabling the host to offload GC
->> data movement, while the keeping the host in control. Would this be
->> beneficial for SMR?
-> 
-> Host-aware SMR drives already have GC internally implemented (for cases
-> when the host does not write sequentially). Host-managed drives do not.
-> As for moving an application specific GC code into the device, well,
-> code injection in the storage device is not for tomorrow, and likely not
-> ever.
-> 
-> There are however other clever ways to reduce GC related host overhead
-> with basic commands. For SCSI, these may be WRITE SCATTERED, EXTENDED
-> COPY, and some others can greatly improve overhead over a simple
-> read+write loop. A better approach to GC offload may not be a "GC"
-> command, but something more generic for moving around LBAs internally
-> within the device. That is, if existing commands are not satisfactory.
-> 
-Logical head depop rears its head again...
+> "If the Offset + Size exceeds the length of
+> the indicated BAR, the size available to the host is limited by the
+> length of the BAR."
 
-But yes, I think it's more sensible to have I/O functions which help GC
-(like UNMAP) instead of influencing the GC itself.
+If the BAR is smaller than (offset + size) then any address that is
+outside the BAR must be treated by the device as if it is not in the
+CMB (otherwise some other devices / host memory will simply be
+inaccessible by the NVMe device).?
+> 
+> I think this would only happen if we're behind a bridge with a
+> smaller
+> window than BAR.
 
-Anyway. Given the length of this thread I guess this is a worthy topic
-for LSF.
+I'm pretty sure that the bridge window must contain the underlying
+device BARs. If it can't contain them, they can be simply left
+disabled.
 
-Cheers,
+The situation can still happen in case the NVMe device exposes a
+smaller BAR than the CMB, or if it supports the resizeable BAR PCIe
+capability and the BIOS resized it to a smaller size (although I
+haven't heard of any device or BIOS that supports that).?
 
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+> 
+> 
+> > 
+> > > 
+> > > There's another option - pci_bus_addr_t/pci_bus_region takes the
+> > > largest
+> > > of phys_addr_t's width and dma_addr_t's width. So in the cases
+> > > where
+> > > those two types might differ it should still be able to hold a
+> > > valid
+> > > physical address, which is what both the resource API and Create-
+> > > SQes
+> > > expect.
+> > I don't think the issue is just the width of the types. What
+> > happens on?
+> > architectures where phy_addr_t addresses are translated before
+> > going to?
+> > the PCIe bus?
+> If we have a DMA translation, we get the host side addresses from the
+> ioremapping and I believe the device is still expecting the
+> untranslated
+> addresses, since it needs to DMA over the fabric. Do archs exists
+> that
+> don't fit this model?
+I'm not talking about DMA translation. I'm talking about MMIO
+translation. From what I understand this can happen on POWER systems.
+The physical addresses for MMIO that are used by the CPU are different
+from the ones that are used on the PCIe bus.
+
+Regards,
+Haggai
