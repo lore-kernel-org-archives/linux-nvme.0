@@ -1,63 +1,88 @@
-From: m@bjorling.me (Matias Bjorling)
-Date: Wed, 11 Jan 2017 07:06:12 +0100
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] OCSSDs - SMR, Hierarchical
- Interface, and Vector I/Os
-In-Reply-To: <03f7ac72-c0a6-3101-7f07-e8322dcd32f5@wdc.com>
-References: <05204e9d-ed4d-f97a-88f0-41b5e008af43@bjorling.me>
- <1483398761.2440.4.camel@dubeyko.com>
- <e42ff0c8-6568-d211-331f-7bfa6af94e2e@bjorling.me>
- <1483464921.2440.19.camel@dubeyko.com>
- <9319ce16-8355-3560-95b6-45e3f07220de@bjorling.me>
- <SN2PR04MB219184580108939442EBDA7E88610@SN2PR04MB2191.namprd04.prod.outlook.com>
- <a5acdf89-99c0-774d-cb08-76cb5d846f29@wdc.com>
- <20170104165745.7uuwl6phm6g6kouu@thunk.org>
- <1b457b77-34d8-ab82-ae1d-279e86053af9@wdc.com>
- <20170110042442.ixxxi4yhj5gu7byh@thunk.org>
- <ddeefd67-afb6-72a4-f59b-6fe623fbfbc3@bjorling.me>
- <03f7ac72-c0a6-3101-7f07-e8322dcd32f5@wdc.com>
-Message-ID: <9f8b4f74-c48a-1b66-8870-a2610306345b@bjorling.me>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 11 Jan 2017 08:42:33 +0100
+Subject: [LFS/MM TOPIC][LFS/MM ATTEND]: - Storage Stack and Driver Testing
+ methodology.
+In-Reply-To: <CO2PR04MB2184DB653C04FB620B41435486670@CO2PR04MB2184.namprd04.prod.outlook.com>
+References: <CO2PR04MB218427BF42159B20FB26F74186670@CO2PR04MB2184.namprd04.prod.outlook.com>
+ <CO2PR04MB2184DB653C04FB620B41435486670@CO2PR04MB2184.namprd04.prod.outlook.com>
+Message-ID: <6aa8ee3e-a74b-41c7-e2f8-aba0f8f4236c@suse.de>
 
-On 01/11/2017 05:07 AM, Damien Le Moal wrote:
+On 01/10/2017 11:40 PM, Chaitanya Kulkarni wrote:
+> Resending it at as a plain text.
 > 
-> Matias,
+> From: Chaitanya Kulkarni
+> Sent: Tuesday, January 10, 2017 2:37 PM
+> To: lsf-pc at lists.linux-foundation.org
+> Cc: linux-fsdevel at vger.kernel.org; linux-block at vger.kernel.org; linux-nvme at lists.infradead.org; linux-scsi at vger.kernel.org; linux-ide at vger.kernel.org
+> Subject: [LFS/MM TOPIC][LFS/MM ATTEND]: - Storage Stack and Driver Testing methodology.
+>   
 > 
-> On 1/10/17 22:06, Matias Bjorling wrote:
->> On 01/10/2017 05:24 AM, Theodore Ts'o wrote:
->>> This may be an area where if we can create the right framework, and
->>> fund some research work, we might be able to get some researchers and
->>> their graduate students interested in doing some work in figuring out
->>> what sort of divisions of responsibilities and hints back and forth
->>> between the storage device and host have the most benefit.
->>>
->>
->> That is a good idea. There is a couple of papers at FAST with
->> Open-Channel SSDs this year.  They look into the interface and various
->> ways to reduce latency fluctuations.
->>
->> One thing I've heard a couple of times is the feature to move the GC
->> read/write process into the firmware. Enabling the host to offload GC
->> data movement, while the keeping the host in control. Would this be
->> beneficial for SMR?
+> Hi Folks,
 > 
-> Host-aware SMR drives already have GC internally implemented (for cases
-> when the host does not write sequentially). Host-managed drives do not.
-> As for moving an application specific GC code into the device, well,
-> code injection in the storage device is not for tomorrow, and likely not
-> ever.
+> I would like to propose a general discussion on Storage stack and device driver testing.
 > 
-> There are however other clever ways to reduce GC related host overhead
-> with basic commands. For SCSI, these may be WRITE SCATTERED, EXTENDED
-> COPY, and some others can greatly improve overhead over a simple
-> read+write loop. A better approach to GC offload may not be a "GC"
-> command, but something more generic for moving around LBAs internally
-> within the device. That is, if existing commands are not satisfactory.
+> Purpose:-
+> -------------
+> The main objective of this discussion is to address the need for 
+> a Unified Test Automation Framework which can be used by different subsystems
+> in the kernel in order to improve the overall development and stability
+> of the storage stack.
+> 
+> For Example:- 
+> From my previous experience, I've worked on the NVMe driver testing last year and we
+> have developed simple unit test framework
+>  (https://github.com/linux-nvme/nvme-cli/tree/master/tests). 
+> In current implementation Upstream NVMe Driver supports following subsystems:-
+> 1. PCI Host.
+> 2. RDMA Target.
+> 3. Fiber Channel Target (in progress).
+> Today due to lack of centralized automated test framework NVMe Driver testing is 
+> scattered and performed using the combination of various utilities like nvme-cli/tests, 
+> nvmet-cli, shell scripts (git://git.infradead.org/nvme-fabrics.git nvmf-selftests) etc.
+> 
+> In order to improve overall driver stability with various subsystems, it will be beneficial
+> to have a Unified Test Automation Framework (UTAF) which will centralize overall
+> testing. 
+> 
+> This topic will allow developers from various subsystem engage in the discussion about 
+> how to collaborate efficiently instead of having discussions on lengthy email threads.
+> 
+> Participants:-
+> ------------------
+> I'd like to invite developers from different subsystems to discuss an approach towards 
+> a unified testing methodology for storage stack and device drivers belongs to 
+> different subsystems.
+> 
+> Topics for Discussion:-
+> ------------------------------
+> As a part of discussion following are some of the key points which we can focus on:-
+> 1. What are the common components of the kernel used by the various subsystems?
+> 2. What are the potential target drivers which can benefit from this approach? 
+>   (e.g. NVMe, NVMe Over Fabric, Open Channel Solid State Drives etc.)
+> 3. What are the desired features that can be implemented in this Framework?
+>   (code coverage, unit tests, stress testings, regression, generating Coccinelle reports etc.) 
+> 4. Desirable Report generation mechanism?
+> 5. Basic performance validation?
+> 6. Whether QEMU can be used to emulate some of the H/W functionality to create a test 
+>   platform? (Optional subsystem specific)
+> 
+> Some background about myself I'm Chaitanya Kulkarni, I worked as a team lead 
+> which was responsible for delivering scalable multiplatform Automated Test 
+> Framework for device drivers testing at HGST. It's been used for more than 1 year on 
+> Linux/Windows for unit testing/regression/performance validation of the NVMe Linux and
+> Windows driver successfully. I've also recently started contributing to the 
+> 
+> NVMe Host and NVMe over Fabrics Target driver.
+> 
+Oh, yes, please.
+That's a discussion I'd like to have, too.
 
-Hi Damien,
+Cheers,
 
-You're right. I was thinking of something similar to scattered
-read/write to move data from one place to another. There is no
-sector-granularity mapping table maintained by the OCSSD, which leaves
-the logic up to the host.
-
-Let me know if you decide to kick of a standardized interface for code
-injection. Such an interface is long overdue. ;)
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
