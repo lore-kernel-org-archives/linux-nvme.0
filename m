@@ -1,11 +1,11 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 11 Jan 2017 14:46:04 +0100
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 11 Jan 2017 08:07:37 -0700
 Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
 In-Reply-To: <20170111134312.GH6286@linux-x5ow.site>
 References: <20170111134312.GH6286@linux-x5ow.site>
-Message-ID: <79efbc41-26fb-77e5-751a-05d7c811870d@suse.de>
+Message-ID: <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
 
-On 01/11/2017 02:43 PM, Johannes Thumshirn wrote:
+On 01/11/2017 06:43 AM, Johannes Thumshirn wrote:
 > Hi all,
 > 
 > I'd like to attend LSF/MM and would like to discuss polling for block drivers.
@@ -16,19 +16,9 @@ On 01/11/2017 02:43 PM, Johannes Thumshirn wrote:
 > 
 > On LSF/MM I'd like to whether it is desirable to have NAPI like polling in
 > more block drivers and how to overcome the currently seen performance issues.
-> 
-> [1] http://lists.infradead.org/pipermail/linux-nvme/2016-October/006975.html
-> 
-Yup.
 
-I'm all for it.
+It would be an interesting topic to discuss, as it is a shame that blk-iopoll
+isn't used more widely.
 
-Cheers,
-
-Hannes
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Jens Axboe
