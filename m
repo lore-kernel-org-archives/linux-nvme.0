@@ -1,31 +1,32 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 11 Jan 2017 19:42:36 +0100
-Subject: [GIT PULL] NVMe fixes for 4.10-rc4
-Message-ID: <20170111184236.GA21620@infradead.org>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Wed, 11 Jan 2017 16:42:56 -0200
+Subject: [PATCH] nvme/quirk: apply DELAY_BEFORE_CHK_RDY quirk at probe
+ time too
+In-Reply-To: <20170111161907.GA16710@lst.de>
+References: <1482970395-14867-1-git-send-email-gpiccoli@linux.vnet.ibm.com>
+ <CY4PR04MB067867FDBE90838EADDEDC4CEA670@CY4PR04MB0678.namprd04.prod.outlook.com>
+ <58765012.9090105@linux.vnet.ibm.com> <20170111161907.GA16710@lst.de>
+Message-ID: <58767CB0.80705@linux.vnet.ibm.com>
 
-Hi Jens,
+On 01/11/2017 02:19 PM, hch@lst.de wrote:
+> I guess I'll have to pick it up, not that I'm too fond of more boot
+> delay time..
 
-below are two small NVMe fixes for this merge window.
+Thanks very much Christoph.
 
-The following changes since commit 6bf6b0aa3da84a3d9126919a94c49c0fb7ee2fb3:
+Me neither...at least this is a quirk to only 2 adapters currently. The
+risk of not having it is reach a scenario with zombie adapter, and
+reboots won't solve it. We manage to restore adapters sometimes with pci
+rescan...
 
-  virtio_blk: fix panic in initialization error path (2017-01-10 13:30:50 -0700)
+Cheers,
 
-are available in the git repository at:
 
-  git://git.infradead.org/nvme.git nvme-4.10-fixes
+Guilherme
 
-for you to fetch changes up to b5a10c5f7532b7473776da87e67f8301bbc32693:
-
-  nvme: apply DELAY_BEFORE_CHK_RDY quirk at probe time too (2017-01-11 17:21:35 +0100)
-
-----------------------------------------------------------------
-Christoph Hellwig (1):
-      nvme-rdma: fix nvme_rdma_queue_is_ready
-
-Guilherme G. Piccoli (1):
-      nvme: apply DELAY_BEFORE_CHK_RDY quirk at probe time too
-
- drivers/nvme/host/core.c | 7 +------
- drivers/nvme/host/rdma.c | 2 +-
- 2 files changed, 2 insertions(+), 7 deletions(-)
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> 
