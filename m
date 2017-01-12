@@ -1,28 +1,47 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 12 Jan 2017 12:31:14 +0200
-Subject: [PATCH 0/5] nvme fabrics patches
-Message-ID: <1484217079-9259-1-git-send-email-sagi@grimberg.me>
+Date: Thu, 12 Jan 2017 13:13:27 +0200
+Subject: [PATCH nvme-cli v3 0/3] auto generate hostnqn file on installation
+Message-ID: <1484219610-18370-1-git-send-email-sagi@grimberg.me>
 
-This is a resend of some patches I sent a while ago
-and just now got some time to revisit.
+This set is designed to help the user by auto-generating a hostnqn and
+placing it in /etc/nvme/hostnqn file upon installation of nvme-cli (in
+case such a file doesn't exist).
 
-I added a fix to a possible race condition where we
-free a controller without making sure that fatal_err
-and/or async works are cancelled/flushed.
+The user can re-generate different hostnqns on demand by running:
+$ nvme gen-hostnqn
 
-Sagi Grimberg (5):
-  nvmet: delete controllers deletion upon subsystem release
-  nvmet: Make cntlid globally unique
-  nvme: Make controller state visible via sysfs
-  nvmet: cancel fatal error and flush async work before free controller
-  nvmet: Call fatal_error from keep-alive timout expiration
+Only the deb package is tested.
 
- drivers/nvme/host/core.c          | 24 ++++++++++++++++++++++++
- drivers/nvme/target/configfs.c    |  1 +
- drivers/nvme/target/core.c        | 25 ++++++++++++++++++-------
- drivers/nvme/target/fabrics-cmd.c |  4 ++--
- drivers/nvme/target/nvmet.h       |  2 +-
- 5 files changed, 46 insertions(+), 10 deletions(-)
+Changes from v2:
+- fixed bash style
+- added review tags
+- added a documentation entry
+
+Changes from v1:
+- don't keep local hostnqn var for sprintf
+- don't delete /etc/nvme if it contains other files other
+  than what we installed (hostnqn)
+
+Changes from v0 (rfc):
+- Moved hostnqn generation to nvme with the command gen-hostnqn
+- Cleanup hostnqn file only on purge in debian
+
+Sagi Grimberg (3):
+  nvme-cli: Add nvme hostnqn generation option
+  nvme.spec/debian: Auto generate host nqn as part of install
+  Documentation: Add entry for gen-hostnqn
+
+ Documentation/nvme-gen-hostnqn.txt | 29 +++++++++++++++++++++++++++++
+ Makefile                           |  1 +
+ debian/postinst                    | 20 ++++++++++++++++++++
+ debian/postrm                      | 10 ++++++++++
+ nvme-builtin.h                     |  1 +
+ nvme.c                             | 12 ++++++++++++
+ nvme.spec.in                       | 17 +++++++++++++++++
+ 7 files changed, 90 insertions(+)
+ create mode 100644 Documentation/nvme-gen-hostnqn.txt
+ create mode 100644 debian/postinst
+ create mode 100644 debian/postrm
 
 -- 
 2.7.4
