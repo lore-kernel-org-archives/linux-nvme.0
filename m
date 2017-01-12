@@ -1,27 +1,18 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 12 Jan 2017 16:41:00 +0200
-Subject: [Lsf-pc] [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block
- drivers
-In-Reply-To: <20170112125338.GH3598@linux-x5ow.site>
-References: <20170111134312.GH6286@linux-x5ow.site>
- <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
- <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
- <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
- <20170112100251.GB3598@linux-x5ow.site>
- <879a91ba-eff7-682d-12a9-5d83f26e7e09@grimberg.me>
- <20170112125338.GH3598@linux-x5ow.site>
-Message-ID: <91262998-8dd7-107a-06e7-6f333df59a91@grimberg.me>
+Date: Thu, 12 Jan 2017 17:09:23 +0200
+Subject: [Lsf-pc] [LSF/MM TOPIC] [LSF/MM ATTEND] md raid general discussion
+In-Reply-To: <79796ea4-2631-c762-b8a1-50bcdcbc602e@suse.de>
+References: <79796ea4-2631-c762-b8a1-50bcdcbc602e@suse.de>
+Message-ID: <17625a3f-5598-d83d-44a1-316ccc917ad5@grimberg.me>
 
+Hey Coly,
 
->> **Note: when I ran multiple threads on more cpus the performance
->> degradation phenomenon disappeared, but I tested on a VM with
->> qemu emulation backed by null_blk so I figured I had some other
->> bottleneck somewhere (that's why I asked for some more testing).
->
-> That could be because of the vmexits as every MMIO access in the guest
-> triggers a vmexit and if you poll with a low budget you do more MMIOs hence
-> you have more vmexits.
->
-> Did you do testing only in qemu or with real H/W as well?
+> Also I receive reports from users that raid1 performance is desired when
+> it is built on NVMe SSDs as a cache (maybe bcache or dm-cache). I am
+> working on some raid1 performance improvement (e.g. new raid1 I/O
+> barrier and lockless raid1 I/O submit), and have some more ideas to discuss.
 
-I tried once. IIRC, I saw the same phenomenons...
+Do you have some performance measurements to share?
+
+Mike used null devices to simulate very fast devices which
+led to nice performance enhancements in dm-multipath code.
