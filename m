@@ -1,95 +1,50 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 12 Jan 2017 13:13:29 +0200
-Subject: [PATCH nvme-cli v3 2/3] nvme.spec/debian: Auto generate host nqn as
- part of install
+Date: Thu, 12 Jan 2017 13:13:30 +0200
+Subject: [PATCH nvme-cli v3 3/3] Documentation: Add entry for gen-hostnqn
 In-Reply-To: <1484219610-18370-1-git-send-email-sagi@grimberg.me>
 References: <1484219610-18370-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1484219610-18370-3-git-send-email-sagi@grimberg.me>
-
-The installation will generate a hostnqn and store it in
-/etc/nvme/hostnqn file (in case it doesn't exist).
-This file will be removed upon uninstallation (purge on for debian).
+Message-ID: <1484219610-18370-4-git-send-email-sagi@grimberg.me>
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
 ---
- debian/postinst | 20 ++++++++++++++++++++
- debian/postrm   | 10 ++++++++++
- nvme.spec.in    | 17 +++++++++++++++++
- 3 files changed, 47 insertions(+)
- create mode 100644 debian/postinst
- create mode 100644 debian/postrm
+ Documentation/nvme-gen-hostnqn.txt | 29 +++++++++++++++++++++++++++++
+ 1 file changed, 29 insertions(+)
+ create mode 100644 Documentation/nvme-gen-hostnqn.txt
 
-diff --git a/debian/postinst b/debian/postinst
+diff --git a/Documentation/nvme-gen-hostnqn.txt b/Documentation/nvme-gen-hostnqn.txt
 new file mode 100644
-index 000000000000..cd497b7af90b
+index 000000000000..6d5346face5c
 --- /dev/null
-+++ b/debian/postinst
-@@ -0,0 +1,20 @@
-+#!/bin/sh
++++ b/Documentation/nvme-gen-hostnqn.txt
+@@ -0,0 +1,29 @@
++nvme-gen-hostnqn(1)
++===================
 +
-+set -e
++NAME
++----
++nvme-gen-hostnqn - Generate a host NVMe Qualified Name
 +
-+case "$1" in
-+    configure|install)
-+	if [ ! -f /etc/nvme/hostnqn ]; then
-+		install -D /dev/null /etc/nvme/hostnqn
-+		echo `nvme gen-hostnqn` > /etc/nvme/hostnqn
-+        fi
-+        ;;
++SYNOPSIS
++--------
++[verse]
++'nvme gen-hostnqn'
 +
-+    upgrade|abort-upgrade)
-+        ;;
-+    *)
-+        echo "postinst called with unknown argument \`$1'" >&2
-+        exit 0
-+        ;;
-+esac
-+exit 0
-diff --git a/debian/postrm b/debian/postrm
-new file mode 100644
-index 000000000000..c655ee47004a
---- /dev/null
-+++ b/debian/postrm
-@@ -0,0 +1,10 @@
-+#!/bin/sh
++DESCRIPTION
++-----------
++Generate a random host NQN in the form:
++nqn.2014-08.org.nvmexpress:NVMf:uuid:1b4e28ba-2fa1-11d2-883f-0016d3cca427
++and prints it to stdout.
 +
-+if [ "$1" = "purge" ]; then
-+	if [ -d /etc/nvme ]; then
-+		rm -f /etc/nvme/hostnqn
-+		if [ ! -n "`ls -A /etc/nvme`" ]; then
-+			rm -rf /etc/nvme
-+		fi
-+	fi
-+fi
-diff --git a/nvme.spec.in b/nvme.spec.in
-index a4718773a962..36c3b2141641 100644
---- a/nvme.spec.in
-+++ b/nvme.spec.in
-@@ -33,6 +33,23 @@ make install DESTDIR=%{buildroot} PREFIX=/usr
- %clean
- rm -rf $RPM_BUILD_ROOT
- 
-+%post
-+if [ $1 = 1 ]; then # 1 : This package is being installed for the first time
-+	if [ ! -f /etc/nvme/hostnqn ]; then
-+		install -D /dev/null /etc/nvme/hostnqn
-+		echo $(nvme gen-hostnqn) > /etc/nvme/hostnqn
-+        fi
-+fi
++OPTIONS
++-------
++No options needed
 +
-+%preun
-+if [ "$1" = "remove" ]; then
-+	if [ -d /etc/nvme ]; then
-+		rm -f /etc/nvme/hostnqn
-+		if [ ! -n "`ls -A /etc/nvme`" ]; then
-+			rm -rf /etc/nvme
-+		fi
-+	fi
-+fi
- %changelog
- * Thu Oct 15 2015 Keith Busch <keith.busch at intel.com>
- - Initial RPM spec
++EXAMPLES
++--------
++nvme gen-hostnqn
++
++NVME
++----
++Part of the nvme-user suite
 -- 
 2.7.4
