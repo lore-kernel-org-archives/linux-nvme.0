@@ -1,41 +1,47 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 12 Jan 2017 19:59:34 +0100
-Subject: [Lsf-pc] [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block
- drivers
-In-Reply-To: <91262998-8dd7-107a-06e7-6f333df59a91@grimberg.me>
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Thu, 12 Jan 2017 19:13:17 +0000
+Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
+In-Reply-To: <ccb6cf4d-4810-47b2-015a-0202d784280a@grimberg.me>
 References: <20170111134312.GH6286@linux-x5ow.site>
- <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
- <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
- <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
- <20170112100251.GB3598@linux-x5ow.site>
- <879a91ba-eff7-682d-12a9-5d83f26e7e09@grimberg.me>
- <20170112125338.GH3598@linux-x5ow.site>
- <91262998-8dd7-107a-06e7-6f333df59a91@grimberg.me>
-Message-ID: <20170112185933.GA3554@linux-x5ow.site>
+ <1484150893.2619.1.camel@sandisk.com>
+ <ccb6cf4d-4810-47b2-015a-0202d784280a@grimberg.me>
+Message-ID: <1484248382.2720.9.camel@sandisk.com>
 
-On Thu, Jan 12, 2017@04:41:00PM +0200, Sagi Grimberg wrote:
+On Thu, 2017-01-12@10:41 +0200, Sagi Grimberg wrote:
+> First, when the nvme device fires an interrupt, the driver consumes
+> the completion(s) from the interrupt (usually there will be some more
+> completions waiting in the cq by the time the host start processing it).
+> With irq-poll, we disable further interrupts and schedule soft-irq for
+> processing, which if at all, improve the completions per interrupt
+> utilization (because it takes slightly longer before processing the cq).
 > 
-> >>**Note: when I ran multiple threads on more cpus the performance
-> >>degradation phenomenon disappeared, but I tested on a VM with
-> >>qemu emulation backed by null_blk so I figured I had some other
-> >>bottleneck somewhere (that's why I asked for some more testing).
-> >
-> >That could be because of the vmexits as every MMIO access in the guest
-> >triggers a vmexit and if you poll with a low budget you do more MMIOs hence
-> >you have more vmexits.
-> >
-> >Did you do testing only in qemu or with real H/W as well?
+> Moreover, irq-poll is budgeting the completion queue processing which is
+> important for a couple of reasons.
 > 
-> I tried once. IIRC, I saw the same phenomenons...
+> 1. it prevents hard-irq context abuse like we do today. if other cpu
+>     cores are pounding with more submissions on the same queue, we might
+>     get into a hard-lockup (which I've seen happening).
+> 
+> 2. irq-poll maintains fairness between devices by correctly budgeting
+>     the processing of different completions queues that share the same
+>     affinity. This can become crucial when working with multiple nvme
+>     devices, each has multiple io queues that share the same IRQ
+>     assignment.
+> 
+> 3. It reduces (or at least should reduce) the overall number of
+>     interrupts in the system because we only enable interrupts again
+>     when the completion queue is completely processed.
+> 
+> So overall, I think it's very useful for nvme and other modern HBAs,
+> but unfortunately, other than solving (1), I wasn't able to see
+> performance improvement but rather a slight regression, but I can't
+> explain where its coming from...
 
-JFTR I tried my AHCI irq_poll patch on the Qemu emulation and the read
-throughput dropped from ~1GB/s to ~350MB/s. But this can be related to
-Qemu's I/O wiredness as well I think. I'll try on real hardware tomorrow.
+Hello Sagi,
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Thank you for the additional clarification. Although I am not sure whether
+irq-poll is the ideal solution for the problems that has been described
+above, I agree that it would help to discuss this topic further during
+LSF/MM.
+
+Bart.
