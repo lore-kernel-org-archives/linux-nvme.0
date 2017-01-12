@@ -1,50 +1,60 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 12 Jan 2017 13:13:30 +0200
-Subject: [PATCH nvme-cli v3 3/3] Documentation: Add entry for gen-hostnqn
-In-Reply-To: <1484219610-18370-1-git-send-email-sagi@grimberg.me>
-References: <1484219610-18370-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1484219610-18370-4-git-send-email-sagi@grimberg.me>
+Date: Thu, 12 Jan 2017 13:44:05 +0200
+Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
+In-Reply-To: <20170112100251.GB3598@linux-x5ow.site>
+References: <20170111134312.GH6286@linux-x5ow.site>
+ <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
+ <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
+ <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
+ <20170112100251.GB3598@linux-x5ow.site>
+Message-ID: <879a91ba-eff7-682d-12a9-5d83f26e7e09@grimberg.me>
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- Documentation/nvme-gen-hostnqn.txt | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
- create mode 100644 Documentation/nvme-gen-hostnqn.txt
 
-diff --git a/Documentation/nvme-gen-hostnqn.txt b/Documentation/nvme-gen-hostnqn.txt
-new file mode 100644
-index 000000000000..6d5346face5c
---- /dev/null
-+++ b/Documentation/nvme-gen-hostnqn.txt
-@@ -0,0 +1,29 @@
-+nvme-gen-hostnqn(1)
-+===================
-+
-+NAME
-+----
-+nvme-gen-hostnqn - Generate a host NVMe Qualified Name
-+
-+SYNOPSIS
-+--------
-+[verse]
-+'nvme gen-hostnqn'
-+
-+DESCRIPTION
-+-----------
-+Generate a random host NQN in the form:
-+nqn.2014-08.org.nvmexpress:NVMf:uuid:1b4e28ba-2fa1-11d2-883f-0016d3cca427
-+and prints it to stdout.
-+
-+OPTIONS
-+-------
-+No options needed
-+
-+EXAMPLES
-+--------
-+nvme gen-hostnqn
-+
-+NVME
-+----
-+Part of the nvme-user suite
--- 
-2.7.4
+>> I agree with Jens that we'll need some analysis if we want the
+>> discussion to be affective, and I can spend some time this if I
+>> can find volunteers with high-end nvme devices (I only have access
+>> to client nvme devices.
+>
+> I have a P3700 but somehow burned the FW. Let me see if I can bring it back to
+> live.
+>
+> I also have converted AHCI to the irq_poll interface and will run some tests.
+> I do also have some hpsa devices on which I could run tests once the driver is
+> adopted.
+>
+> But can we come to a common testing methology not to compare apples with
+> oranges? Sagi do you still have the fio job file from your last tests laying
+> somewhere and if yes could you share it?
+
+Its pretty basic:
+--
+[global]
+group_reporting
+cpus_allowed=0
+cpus_allowed_policy=split
+rw=randrw
+bs=4k
+numjobs=4
+iodepth=32
+runtime=60
+time_based
+loops=1
+ioengine=libaio
+direct=1
+invalidate=1
+randrepeat=1
+norandommap
+exitall
+
+[job]
+--
+
+**Note: when I ran multiple threads on more cpus the performance
+degradation phenomenon disappeared, but I tested on a VM with
+qemu emulation backed by null_blk so I figured I had some other
+bottleneck somewhere (that's why I asked for some more testing).
+
+Note that I ran randrw because I was backed with null_blk, testing
+with a real nvme device, you should either run randread or write, and
+if you do a write, you can't run it multi-threaded (well you can, but
+you'll get unpredictable performance...).
