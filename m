@@ -1,40 +1,33 @@
-From: nikita.yoush@cogentembedded.com (Nikita Yushchenko)
-Date: Wed, 11 Jan 2017 21:56:31 +0300
-Subject: [PATCH resend] swiotlb: ensure that page-sized mappings are
- page-aligned
-Message-ID: <1484160991-29624-1-git-send-email-nikita.yoush@cogentembedded.com>
+From: James.Bottomley@HansenPartnership.com (James Bottomley)
+Date: Wed, 11 Jan 2017 18:18:40 -0800
+Subject: [Lsf-pc] [LSF/MM ATTEND] OCSSDs - SMR, Hierarchical Interface,
+ and Vector I/Os
+In-Reply-To: <e1c0b8e0-da91-563a-5913-a9a0db613ab3@wdc.com>
+References: <05204e9d-ed4d-f97a-88f0-41b5e008af43@bjorling.me>
+ <e1c0b8e0-da91-563a-5913-a9a0db613ab3@wdc.com>
+Message-ID: <1484187520.2509.37.camel@HansenPartnership.com>
 
-Some drivers do depend on page mappings to be page aligned.
+On Thu, 2017-01-12@10:33 +0900, Damien Le Moal wrote:
+> Hello,
+> 
+> A long discussion on the list followed this initial topic proposal 
+> from Matias. I think this is a worthy topic to discuss at LSF in 
+> order to steer development of the zoned block device interface in the 
+> right direction. Considering the relation and implication to ZBC/ZAC
+> support,I would like to attend LSF/MM to participate in this
+> discussion.
 
-Swiotlb already enforces such alignment for mappings greater than page,
-extend that to page-sized mappings as well.
+Just a note for the poor admin looking after the lists: to find all the
+ATTEND and TOPIC requests for the lists I fold up the threads to the
+top.  If you frame your attend request as a reply, it's possible it
+won't get counted because I didn't find it
 
-Without this fix, nvme hits BUG() in nvme_setup_prps(), because that routine
-assumes page-aligned mappings.
+so please *start a new thread* for ATTEND and TOPIC requests.
 
-Signed-off-by: Nikita Yushchenko <nikita.yoush at cogentembedded.com>
----
- lib/swiotlb.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Thanks,
 
-diff --git a/lib/swiotlb.c b/lib/swiotlb.c
-index 975b8fc..a8d74a7 100644
---- a/lib/swiotlb.c
-+++ b/lib/swiotlb.c
-@@ -483,11 +483,11 @@ phys_addr_t swiotlb_tbl_map_single(struct device *hwdev,
- 		    : 1UL << (BITS_PER_LONG - IO_TLB_SHIFT);
- 
- 	/*
--	 * For mappings greater than a page, we limit the stride (and
--	 * hence alignment) to a page size.
-+	 * For mappings greater than or equal to a page, we limit the stride
-+	 * (and hence alignment) to a page size.
- 	 */
- 	nslots = ALIGN(size, 1 << IO_TLB_SHIFT) >> IO_TLB_SHIFT;
--	if (size > PAGE_SIZE)
-+	if (size >= PAGE_SIZE)
- 		stride = (1 << (PAGE_SHIFT - IO_TLB_SHIFT));
- 	else
- 		stride = 1;
--- 
-2.1.4
+James
+
+PS If you think you sent a TOPIC/ATTEND request in reply to something,
+then I really haven't seen it because this is the first one I noticed,
+and you should resend.
