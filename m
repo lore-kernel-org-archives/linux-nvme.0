@@ -1,68 +1,38 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 12 Jan 2017 11:02:51 +0100
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
-In-Reply-To: <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
-References: <20170111134312.GH6286@linux-x5ow.site>
- <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
- <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
- <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
-Message-ID: <20170112100251.GB3598@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 12 Jan 2017 12:09:11 +0200
+Subject: NVMe vs DMA addressing limitations
+In-Reply-To: <20170110144839.GB27156@lst.de>
+References: <1483044304-2085-1-git-send-email-nikita.yoush@cogentembedded.com>
+ <20170110070719.GA17208@lst.de>
+ <c4fd007c-3f07-fc2a-8cbb-7152f578609d@cogentembedded.com>
+ <4137257.d2v87kqLLv@wuerfel> <20170110144839.GB27156@lst.de>
+Message-ID: <80676b35-121b-0462-23fc-ed5608e1e671@grimberg.me>
 
-On Thu, Jan 12, 2017@10:23:47AM +0200, Sagi Grimberg wrote:
-> 
-> >>>Hi all,
-> >>>
-> >>>I'd like to attend LSF/MM and would like to discuss polling for block drivers.
-> >>>
-> >>>Currently there is blk-iopoll but it is neither as widely used as NAPI in the
-> >>>networking field and accoring to Sagi's findings in [1] performance with
-> >>>polling is not on par with IRQ usage.
-> >>>
-> >>>On LSF/MM I'd like to whether it is desirable to have NAPI like polling in
-> >>>more block drivers and how to overcome the currently seen performance issues.
-> >>
-> >>It would be an interesting topic to discuss, as it is a shame that blk-iopoll
-> >>isn't used more widely.
-> >
-> >Forgot to mention - it should only be a topic, if experimentation has
-> >been done and results gathered to pin point what the issues are, so we
-> >have something concrete to discus. I'm not at all interested in a hand
-> >wavy discussion on the topic.
-> >
-> 
-> Hey all,
-> 
-> Indeed I attempted to convert nvme to use irq-poll (let's use its
-> new name) but experienced some unexplained performance degradations.
-> 
-> Keith reported a 700ns degradation for QD=1 with his Xpoint devices,
-> this sort of degradation are acceptable I guess because we do schedule
-> a soft-irq before consuming the completion, but I noticed ~10% IOPs
-> degradation fr QD=32 which is not acceptable.
-> 
-> I agree with Jens that we'll need some analysis if we want the
-> discussion to be affective, and I can spend some time this if I
-> can find volunteers with high-end nvme devices (I only have access
-> to client nvme devices.
 
-I have a P3700 but somehow burned the FW. Let me see if I can bring it back to
-live. 
+>> Another workaround me might need is to limit amount of concurrent DMA
+>> in the NVMe driver based on some platform quirk. The way that NVMe works,
+>> it can have very large amounts of data that is concurrently mapped into
+>> the device.
+>
+> That's not really just NVMe - other storage and network controllers also
+> can DMA map giant amounts of memory.  There are a couple aspects to it:
+>
+>  - dma coherent memoery - right now NVMe doesn't use too much of it,
+>    but upcoming low-end NVMe controllers will soon start to require
+>    fairl large amounts of it for the host memory buffer feature that
+>    allows for DRAM-less controller designs.  As an interesting quirk
+>    that is memory only used by the PCIe devices, and never accessed
+>    by the Linux host at all.
 
-I also have converted AHCI to the irq_poll interface and will run some tests.
-I do also have some hpsa devices on which I could run tests once the driver is
-adopted.
+Would it make sense to convert the nvme driver to use normal allocations
+and use the DMA streaming APIs (dma_sync_single_for_[cpu|device]) for
+both queues and future HMB?
 
-But can we come to a common testing methology not to compare apples with
-oranges? Sagi do you still have the fio job file from your last tests laying
-somewhere and if yes could you share it?
+>  - size vs number of the dynamic mapping.  We probably want the dma_ops
+>    specify a maximum mapping size for a given device.  As long as we
+>    can make progress with a few mappings swiotlb / the iommu can just
+>    fail mapping and the driver will propagate that to the block layer
+>    that throttles I/O.
 
-Byte,
-	Johannes
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Isn't max mapping size per device too restrictive? it is possible that
+not all devices posses active mappings concurrently.
