@@ -1,18 +1,17 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 13 Jan 2017 21:35:28 +0200
+Date: Fri, 13 Jan 2017 21:42:43 +0200
 Subject: [PATCH] nvmet-rdma: Fix missing dma sync to nvme data structures
-In-Reply-To: <20170113074420.GA25814@lst.de>
+In-Reply-To: <VI1PR0502MB30086F641A07262801C02A28D1780@VI1PR0502MB3008.eurprd05.prod.outlook.com>
 References: <1484261109-3316-1-git-send-email-parav@mellanox.com>
  <20170113074420.GA25814@lst.de>
-Message-ID: <9a459692-05dc-bfc8-e08e-8bb7c5a99ac8@grimberg.me>
+ <VI1PR0502MB30086F641A07262801C02A28D1780@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+Message-ID: <1f8d3db6-03b7-6c8f-8010-4ab964a87f3c@grimberg.me>
 
 
-> This seems like a fix for 4.10-rc as the old code is buggy on
-> not DMA coherent architectures, so I suspect it should go in without
-> being based on Barts cleanup.
+> Doug needs to rebase to above git tree.
+> Followed by Bart's patches, followed by my changes in his tree.
+> Without that, Linux-next will get compile error because ib_dma_xx won't be defined.
+> Let me know, I have 4.10-rc patch also tested.
 
-It does,
-
-We should also give it a stable 4.8+ tag.
-
-I'll queue this for nvme rc4 pull-req.
+No need, we'll jest keep the patch as is, no compile error
+will generate.
