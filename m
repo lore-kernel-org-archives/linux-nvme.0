@@ -1,33 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 13 Jan 2017 08:22:23 +0100
-Subject: [PATCH 5/5] nvmet: Call fatal_error from keep-alive timout
- expiration
-In-Reply-To: <1484217079-9259-6-git-send-email-sagi@grimberg.me>
-References: <1484217079-9259-1-git-send-email-sagi@grimberg.me>
- <1484217079-9259-6-git-send-email-sagi@grimberg.me>
-Message-ID: <20170113072223.GB25355@lst.de>
+Date: Fri, 13 Jan 2017 08:44:20 +0100
+Subject: [PATCH] nvmet-rdma: Fix missing dma sync to nvme data structures
+In-Reply-To: <1484261109-3316-1-git-send-email-parav@mellanox.com>
+References: <1484261109-3316-1-git-send-email-parav@mellanox.com>
+Message-ID: <20170113074420.GA25814@lst.de>
 
-On Thu, Jan 12, 2017@12:31:19PM +0200, Sagi Grimberg wrote:
-> We only need to call delete_ctrl once, so given that both
-> keep-alive timeout and any other fatal error can trigger it,
-> just make sure we only call delete_ctrl once.
+On Thu, Jan 12, 2017@04:45:09PM -0600, Parav Pandit wrote:
+> This patch performs dma sync operations on nvme_commmand,
+> inline page(s) and nvme_completion.
 > 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->  drivers/nvme/target/core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> nvme_command and write cmd inline data is synced
+> (a) on receiving of the recv queue completion for cpu access.
+> (b) before posting recv wqe back to rdma adapter for device access.
 > 
-> diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-> index dcdc2f6146f1..5267ce20c12d 100644
-> --- a/drivers/nvme/target/core.c
-> +++ b/drivers/nvme/target/core.c
-> @@ -201,7 +201,7 @@ static void nvmet_keep_alive_timer(struct work_struct *work)
->  	pr_err("ctrl %d keep-alive timer (%d seconds) expired!\n",
->  		ctrl->cntlid, ctrl->kato);
->  
-> -	ctrl->ops->delete_ctrl(ctrl);
-> +	nvmet_ctrl_fatal_error(ctrl);
+> nvme_completion is synced
+> (a) on receiving send completion for nvme_completion for cpu access.
+> (b) before posting send wqe to rdma adapter for device access.
+> 
+> Pushing this patch through linux-rdma tree as its more relavant with
+> Bart's changes for dma_map_ops of[1].
+> 
+> [1] https://patchwork.kernel.org/patch/9514085/
 
-Looks good,
+This seems like a fix for 4.10-rc as the old code is buggy on
+not DMA coherent architectures, so I suspect it should go in without
+being based on Barts cleanup.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Btw, what architecture did you test this with?  One of the not coherent
+ARM SOCs?
