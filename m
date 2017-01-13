@@ -1,11 +1,19 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 13 Jan 2017 23:56:00 +0200
-Subject: [PATCH 4/4] sd: remove __data_len hack for WRITE SAME
-In-Reply-To: <1484306953-3194-5-git-send-email-hch@lst.de>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 13 Jan 2017 15:17:20 -0700
+Subject: fix data transfer size caculation for special payload requests
+In-Reply-To: <1484306953-3194-1-git-send-email-hch@lst.de>
 References: <1484306953-3194-1-git-send-email-hch@lst.de>
- <1484306953-3194-5-git-send-email-hch@lst.de>
-Message-ID: <f8cc7c28-fb7d-d5b6-1994-b2e447bd1f56@grimberg.me>
+Message-ID: <20170113221720.GA16425@kernel.dk>
 
-Looks good,
+On Fri, Jan 13 2017, Christoph Hellwig wrote:
+> Hi all,
+> 
+> the first two fixes fix a regression in 4.10-rc1 where the data transfer
+> size for discard commands wasn't set properly, leading to hangs with
+> Hyper-V VMs.  The use the new data transfer size helper added in patch 1
+> more widely.
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Added for this series, thanks.
+
+-- 
+Jens Axboe
