@@ -1,22 +1,11 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 13 Jan 2017 23:05:19 +0200
-Subject: [PATCH 5/6] blk-mq: Fix queue freeze deadlock
-In-Reply-To: <1483569671-1462-6-git-send-email-keith.busch@intel.com>
+Date: Fri, 13 Jan 2017 23:05:49 +0200
+Subject: [PATCH 6/6] blk-mq: Remove unused variable
+In-Reply-To: <1483569671-1462-7-git-send-email-keith.busch@intel.com>
 References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
- <1483569671-1462-6-git-send-email-keith.busch@intel.com>
-Message-ID: <1031ba43-4c5e-f6a7-e12f-f6169eae5edf@grimberg.me>
+ <1483569671-1462-7-git-send-email-keith.busch@intel.com>
+Message-ID: <4b167b93-05cb-3991-fbf3-341c018c5023@grimberg.me>
 
+Looks good,
 
-> If hardware queues are stopped for some event, like the device has been
-> suspended by power management, requests allocated on that hardware queue
-> are indefinitely stuck causing a queue freeze to wait forever.
-
-I have a problem with this patch. IMO, this is a general issue so, so
-why do we tie a fix to calling blk_mq_update_nr_hw_queues()? We might
-not need to update nr_hw_queues at all. I'm fine with the
-blk_mq_abandon_stopped_requests but not with its call-site.
-
-Usually a driver knows when it wants to abandon all busy requests
-blk_mq_tagset_busy_iter(), maybe the right approach is to add
-a hook for all allocated tags? Or have blk_mq_quisce_queue get a
-fail all requests parameter from the callers?
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
