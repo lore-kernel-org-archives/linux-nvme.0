@@ -1,36 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 13 Jan 2017 22:39:38 +0200
-Subject: [PATCH 4/6] blk-mq: Update queue map when changing queue count
-In-Reply-To: <1483569671-1462-5-git-send-email-keith.busch@intel.com>
+Date: Fri, 13 Jan 2017 23:05:19 +0200
+Subject: [PATCH 5/6] blk-mq: Fix queue freeze deadlock
+In-Reply-To: <1483569671-1462-6-git-send-email-keith.busch@intel.com>
 References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
- <1483569671-1462-5-git-send-email-keith.busch@intel.com>
-Message-ID: <5daa7b54-d797-1485-04ae-f5318b22a7f2@grimberg.me>
+ <1483569671-1462-6-git-send-email-keith.busch@intel.com>
+Message-ID: <1031ba43-4c5e-f6a7-e12f-f6169eae5edf@grimberg.me>
 
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index a8e67a1..9b7ed03 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -2223,7 +2223,6 @@ static void blk_mq_queue_reinit(struct request_queue *q,
->  	 * we should change hctx numa_node according to new topology (this
->  	 * involves free and re-allocate memory, worthy doing?)
->  	 */
-> -
 
-This looks mis-placed.
+> If hardware queues are stopped for some event, like the device has been
+> suspended by power management, requests allocated on that hardware queue
+> are indefinitely stuck causing a queue freeze to wait forever.
 
->  	blk_mq_map_swqueue(q, online_mask);
->
->  	blk_mq_sysfs_register(q);
-> @@ -2481,6 +2480,11 @@ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues)
->  		blk_mq_freeze_queue(q);
->
->  	set->nr_hw_queues = nr_hw_queues;
-> +	if (set->ops->map_queues)
-> +		set->ops->map_queues(set);
-> +	else
-> +		blk_mq_map_queues(set);
-> +
+I have a problem with this patch. IMO, this is a general issue so, so
+why do we tie a fix to calling blk_mq_update_nr_hw_queues()? We might
+not need to update nr_hw_queues at all. I'm fine with the
+blk_mq_abandon_stopped_requests but not with its call-site.
 
-Makes sense,
-
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Usually a driver knows when it wants to abandon all busy requests
+blk_mq_tagset_busy_iter(), maybe the right approach is to add
+a hook for all allocated tags? Or have blk_mq_quisce_queue get a
+fail all requests parameter from the callers?
