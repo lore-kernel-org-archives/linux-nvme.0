@@ -1,88 +1,48 @@
-From: parav@mellanox.com (Parav Pandit)
-Date: Thu, 12 Jan 2017 16:45:09 -0600
-Subject: [PATCH] nvmet-rdma: Fix missing dma sync to nvme data structures
-Message-ID: <1484261109-3316-1-git-send-email-parav@mellanox.com>
+From: colyli@suse.de (Coly Li)
+Date: Fri, 13 Jan 2017 12:00:12 +0800
+Subject: [Lsf-pc] [LSF/MM TOPIC] [LSF/MM ATTEND] md raid general discussion
+In-Reply-To: <17625a3f-5598-d83d-44a1-316ccc917ad5@grimberg.me>
+References: <79796ea4-2631-c762-b8a1-50bcdcbc602e@suse.de>
+ <17625a3f-5598-d83d-44a1-316ccc917ad5@grimberg.me>
+Message-ID: <0e2dc23a-bee9-6c7b-0903-a2edc05f75e6@suse.de>
 
-This patch performs dma sync operations on nvme_commmand,
-inline page(s) and nvme_completion.
+On 2017/1/12 ??11:09, Sagi Grimberg wrote:
+> Hey Coly,
+> 
+>> Also I receive reports from users that raid1 performance is desired when
+>> it is built on NVMe SSDs as a cache (maybe bcache or dm-cache). I am
+>> working on some raid1 performance improvement (e.g. new raid1 I/O
+>> barrier and lockless raid1 I/O submit), and have some more ideas to
+>> discuss.
+> 
+> Do you have some performance measurements to share?
+> 
+> Mike used null devices to simulate very fast devices which
+> led to nice performance enhancements in dm-multipath code.
 
-nvme_command and write cmd inline data is synced
-(a) on receiving of the recv queue completion for cpu access.
-(b) before posting recv wqe back to rdma adapter for device access.
+I have several performance data of raid1 and raid0, which is still work
+in progress.
 
-nvme_completion is synced
-(a) on receiving send completion for nvme_completion for cpu access.
-(b) before posting send wqe to rdma adapter for device access.
+- md raid1
+  Current md raid1 read performance is not ideal. A raid1 with 2 NVMe
+SSD, only observe 2.6GB/s throughput for multi I/O and depth reading.
+Most of the time spending on I/O barrier locking. Now I am working on a
+lockless I/O submit patch (the original idea is from Hannes Reinecke),
+which improves reading throughput to 4.7~5GB/s. When using md raid1 as a
+cache device, reading performance improvement is critical.
+  On my hardware, the ideal reading throughput of 2 NVMe is 6GB/s,
+currently the reading performance number is 4.7~5GB/s, still have a
+little some space to improve.
+- md raid0
+  People reports on linux-raid mailing list that DISCARD/TRIM
+performance on raid0 is slow. In my reproducing, a raid0 built by 4x3TB
+NVMe SSD, formatting a XFS volume on top of it takes 306 seconds. Most
+of the time is inside md raid0 code to issue DISCARD/TRIM request in
+chunk size range. I compose a POC patch to re-combine a large
+DISCARD/TRIM command into per-device request, which reduces the
+formatting time to 15 seconds. Now I work on patch simplifying by the
+suggestions from upstream maintainers.
 
-Pushing this patch through linux-rdma tree as its more relavant with
-Bart's changes for dma_map_ops of[1].
+For raid1, currently most of feed backs are from read performance.
 
-[1] https://patchwork.kernel.org/patch/9514085/
-
-Signed-off-by: Parav Pandit <parav at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/target/rdma.c | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 8c3760a..c6468b3 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -438,6 +438,14 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
- {
- 	struct ib_recv_wr *bad_wr;
- 
-+	dma_sync_single_for_device(ndev->device->dma_device,
-+			cmd->sge[0].addr, sizeof(*cmd->nvme_cmd),
-+			DMA_FROM_DEVICE);
-+
-+	if (cmd->sge[1].addr)
-+		dma_sync_single_for_device(ndev->device->dma_device,
-+				cmd->sge[1].addr, NVMET_RDMA_INLINE_DATA_SIZE,
-+				DMA_FROM_DEVICE);
- 	if (ndev->srq)
- 		return ib_post_srq_recv(ndev->srq, &cmd->wr, &bad_wr);
- 	return ib_post_recv(cmd->queue->cm_id->qp, &cmd->wr, &bad_wr);
-@@ -507,6 +515,10 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
- 	struct nvmet_rdma_rsp *rsp =
- 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
- 
-+	dma_sync_single_for_cpu(rsp->queue->dev->device->dma_device,
-+			rsp->send_sge.addr, sizeof(*rsp->req.rsp),
-+			DMA_TO_DEVICE);
-+
- 	nvmet_rdma_release_rsp(rsp);
- 
- 	if (unlikely(wc->status != IB_WC_SUCCESS &&
-@@ -538,6 +550,11 @@ static void nvmet_rdma_queue_response(struct nvmet_req *req)
- 		first_wr = &rsp->send_wr;
- 
- 	nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd);
-+
-+	dma_sync_single_for_device(rsp->queue->dev->device->dma_device,
-+			rsp->send_sge.addr, sizeof(*rsp->req.rsp),
-+			DMA_TO_DEVICE);
-+
- 	if (ib_post_send(cm_id->qp, first_wr, &bad_wr)) {
- 		pr_err("sending cmd response failed\n");
- 		nvmet_rdma_release_rsp(rsp);
-@@ -698,6 +715,16 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
- 	cmd->n_rdma = 0;
- 	cmd->req.port = queue->port;
- 
-+	dma_sync_single_for_cpu(queue->dev->device->dma_device,
-+			cmd->cmd->sge[0].addr, sizeof(*cmd->cmd->nvme_cmd),
-+			DMA_FROM_DEVICE);
-+
-+	if (cmd->cmd->sge[1].addr)
-+		dma_sync_single_for_cpu(queue->dev->device->dma_device,
-+				cmd->cmd->sge[1].addr,
-+				NVMET_RDMA_INLINE_DATA_SIZE,
-+				DMA_FROM_DEVICE);
-+
- 	if (!nvmet_req_init(&cmd->req, &queue->nvme_cq,
- 			&queue->nvme_sq, &nvmet_rdma_ops))
- 		return;
--- 
-1.8.3.1
+Coly
