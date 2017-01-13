@@ -1,36 +1,56 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Fri, 13 Jan 2017 12:43:24 +0100
-Subject: [PATCH 2/4] scsi: use blk_rq_payload_bytes
-In-Reply-To: <1484306953-3194-3-git-send-email-hch@lst.de>
+Date: Fri, 13 Jan 2017 12:44:16 +0100
+Subject: [PATCH 4/4] sd: remove __data_len hack for WRITE SAME
+In-Reply-To: <1484306953-3194-5-git-send-email-hch@lst.de>
 References: <1484306953-3194-1-git-send-email-hch@lst.de>
- <1484306953-3194-3-git-send-email-hch@lst.de>
-Message-ID: <2043a73a-c616-948a-6484-faefe13ef024@suse.de>
+ <1484306953-3194-5-git-send-email-hch@lst.de>
+Message-ID: <c44e21a1-ed63-dca6-daec-f42b4d62691c@suse.de>
 
 On 01/13/2017 12:29 PM, Christoph Hellwig wrote:
-> Without that we'll pass a wrong payload size in cmd->sdb, which
-> can lead to hangs with drivers that need the total transfer size.
+> Now that we have the blk_rq_payload_bytes helper available to determine
+> the actual I/O size we don't need to mess around with __data_len for
+> WRITE SAME.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> Reported-by: Chris Valean <v-chvale at microsoft.com>
-> Reported-by: Dexuan Cui <decui at microsoft.com>
-> Fixes: f9d03f96 ("block: improve handling of the magic discard payload")
 > ---
->  drivers/scsi/scsi_lib.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/scsi/sd.c | 17 +----------------
+>  1 file changed, 1 insertion(+), 16 deletions(-)
 > 
-> diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-> index c35b6de..ad4ff8f 100644
-> --- a/drivers/scsi/scsi_lib.c
-> +++ b/drivers/scsi/scsi_lib.c
-> @@ -1018,7 +1018,7 @@ static int scsi_init_sgtable(struct request *req, struct scsi_data_buffer *sdb)
->  	count = blk_rq_map_sg(req->q, req, sdb->table.sgl);
->  	BUG_ON(count > sdb->table.nents);
->  	sdb->table.nents = count;
-> -	sdb->length = blk_rq_bytes(req);
-> +	sdb->length = blk_rq_payload_bytes(req);
->  	return BLKPREP_OK;
+> diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
+> index b193304..1fbb1ec 100644
+> --- a/drivers/scsi/sd.c
+> +++ b/drivers/scsi/sd.c
+> @@ -836,7 +836,6 @@ static int sd_setup_write_same_cmnd(struct scsi_cmnd *cmd)
+>  	struct bio *bio = rq->bio;
+>  	sector_t sector = blk_rq_pos(rq);
+>  	unsigned int nr_sectors = blk_rq_sectors(rq);
+> -	unsigned int nr_bytes = blk_rq_bytes(rq);
+>  	int ret;
+>  
+>  	if (sdkp->device->no_write_same)
+> @@ -869,21 +868,7 @@ static int sd_setup_write_same_cmnd(struct scsi_cmnd *cmd)
+>  
+>  	cmd->transfersize = sdp->sector_size;
+>  	cmd->allowed = SD_MAX_RETRIES;
+> -
+> -	/*
+> -	 * For WRITE_SAME the data transferred in the DATA IN buffer is
+> -	 * different from the amount of data actually written to the target.
+> -	 *
+> -	 * We set up __data_len to the amount of data transferred from the
+> -	 * DATA IN buffer so that blk_rq_map_sg set up the proper S/G list
+> -	 * to transfer a single sector of data first, but then reset it to
+> -	 * the amount of data to be written right after so that the I/O path
+> -	 * knows how much to actually write.
+> -	 */
+> -	rq->__data_len = sdp->sector_size;
+> -	ret = scsi_init_io(cmd);
+> -	rq->__data_len = nr_bytes;
+> -	return ret;
+> +	return scsi_init_io(cmd);
 >  }
 >  
+>  static int sd_setup_flush_cmnd(struct scsi_cmnd *cmd)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
