@@ -1,82 +1,27 @@
-From: parav@mellanox.com (Parav Pandit)
-Date: Sat, 14 Jan 2017 10:45:37 -0600
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sat, 14 Jan 2017 23:00:36 +0200
 Subject: [PATCH] nvmet-rdma: Fix missing dma sync to nvme data structures
-Message-ID: <1484412337-10860-1-git-send-email-parav@mellanox.com>
+In-Reply-To: <VI1PR0502MB3008E00F1FC094A35496C6DBD17B0@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+References: <1484261109-3316-1-git-send-email-parav@mellanox.com>
+ <20170113074420.GA25814@lst.de>
+ <VI1PR0502MB30086F641A07262801C02A28D1780@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+ <1f8d3db6-03b7-6c8f-8010-4ab964a87f3c@grimberg.me>
+ <CAG53R5XGW-up2JtB_X29nPwbEGW14mvRBjnao8yOHczYUvvPgg@mail.gmail.com>
+ <45c8815c-d9a1-4a74-8a70-0a0ea11d8201@grimberg.me>
+ <VI1PR0502MB3008E00F1FC094A35496C6DBD17B0@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+Message-ID: <e8064999-c6a5-1820-2caa-7850ce24fb1c@grimberg.me>
 
-This patch performs dma sync operations on nvme_command,
-inline page(s) and nvme_completion.
 
-nvme_command and write cmd inline data is synced
-(a) on receiving of the recv queue completion for cpu access.
-(b) before posting recv wqe back to rdma adapter for device access.
+> I see there is some discussion with Bart's patch with respect to SDMA.
+> So I guess it might take a while to merge his patchset.
+>
+> How about doing this?
+> - add this with 'ib_' prefix into 4.10-rc.
+> - followed by cherry pick this commit in linux-rdma tree.
+>
+> When Bart rebase it, changes of this fix will automatically get converted from ib_ to dma_.
+> So shall I send patch for 4.10-rc with 'ib_' prefix?
 
-nvme_completion is synced
-(a) on receiving send completion for nvme_completion for cpu access.
-(b) before posting send wqe to rdma adapter for device access.
+Sounds good,
 
-Signed-off-by: Parav Pandit <parav at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/target/rdma.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 6c1c368..da3d553 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -438,6 +438,14 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
- {
- 	struct ib_recv_wr *bad_wr;
- 
-+	ib_dma_sync_single_for_device(ndev->device,
-+			cmd->sge[0].addr, sizeof(*cmd->nvme_cmd),
-+			DMA_FROM_DEVICE);
-+
-+	if (cmd->sge[1].addr)
-+		ib_dma_sync_single_for_device(ndev->device,
-+				cmd->sge[1].addr, NVMET_RDMA_INLINE_DATA_SIZE,
-+				DMA_FROM_DEVICE);
- 	if (ndev->srq)
- 		return ib_post_srq_recv(ndev->srq, &cmd->wr, &bad_wr);
- 	return ib_post_recv(cmd->queue->cm_id->qp, &cmd->wr, &bad_wr);
-@@ -507,6 +515,10 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
- 	struct nvmet_rdma_rsp *rsp =
- 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
- 
-+	ib_dma_sync_single_for_cpu(rsp->queue->dev->device,
-+			rsp->send_sge.addr, sizeof(*rsp->req.rsp),
-+			DMA_TO_DEVICE);
-+
- 	nvmet_rdma_release_rsp(rsp);
- 
- 	if (unlikely(wc->status != IB_WC_SUCCESS &&
-@@ -538,6 +550,11 @@ static void nvmet_rdma_queue_response(struct nvmet_req *req)
- 		first_wr = &rsp->send_wr;
- 
- 	nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd);
-+
-+	ib_dma_sync_single_for_device(rsp->queue->dev->device,
-+			rsp->send_sge.addr, sizeof(*rsp->req.rsp),
-+			DMA_TO_DEVICE);
-+
- 	if (ib_post_send(cm_id->qp, first_wr, &bad_wr)) {
- 		pr_err("sending cmd response failed\n");
- 		nvmet_rdma_release_rsp(rsp);
-@@ -698,6 +715,15 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
- 	cmd->n_rdma = 0;
- 	cmd->req.port = queue->port;
- 
-+	ib_dma_sync_single_for_cpu(queue->dev->device, cmd->cmd->sge[0].addr,
-+			sizeof(*cmd->cmd->nvme_cmd), DMA_FROM_DEVICE);
-+
-+	if (cmd->cmd->sge[1].addr)
-+		ib_dma_sync_single_for_cpu(queue->dev->device,
-+				cmd->cmd->sge[1].addr,
-+				NVMET_RDMA_INLINE_DATA_SIZE,
-+				DMA_FROM_DEVICE);
-+
- 	if (!nvmet_req_init(&cmd->req, &queue->nvme_cq,
- 			&queue->nvme_sq, &nvmet_rdma_ops))
- 		return;
--- 
-1.8.3.1
+Thanks Parav.
