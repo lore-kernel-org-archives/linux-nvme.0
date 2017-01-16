@@ -1,54 +1,20 @@
-From: James.Bottomley@HansenPartnership.com (James Bottomley)
-Date: Sun, 15 Jan 2017 21:40:51 -0800
-Subject: [Lsf-pc] [LSF/MM TOPIC] [LSF/MM ATTEND] md raid general discussion
-In-Reply-To: <587C3EF1.3020401@suse.com>
-References: <79796ea4-2631-c762-b8a1-50bcdcbc602e@suse.de>
- <587C3EF1.3020401@suse.com>
-Message-ID: <1484545251.2405.29.camel@HansenPartnership.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 16 Jan 2017 16:31:09 +0100
+Subject: [PATCH] nvmet-rdma: Fix missing dma sync to nvme data structures
+In-Reply-To: <1484412337-10860-1-git-send-email-parav@mellanox.com>
+References: <1484412337-10860-1-git-send-email-parav@mellanox.com>
+Message-ID: <20170116153109.GA16170@lst.de>
 
-On Mon, 2017-01-16@11:33 +0800, Guoqing Jiang wrote:
-> 
-> On 01/10/2017 12:38 AM, Coly Li wrote:
-> > Hi Folks,
-> > 
-> > I'd like to propose a general md raid discussion, it is quite 
-> > necessary for most of active md raid developers sit together to 
-> > discuss current challenge of Linux software raid and development
-> > trends.
-> > 
-> > In the last years, we have many development activities in md raid, 
-> > e.g. raid5 cache, raid1 clustering, partial parity log, fast fail
-> > upstreaming, and some effort for raid1 & raid0 performance
-> > improvement.
-> > 
-> > I see there are some kind of functionality overlap between r5cache
-> > (raid5 cache) and PPL (partial parity log), currently I have no 
-> > idea where we will go for these two development activities.
-> > Also I receive reports from users that raid1 performance is desired 
-> > when it is built on NVMe SSDs as a cache (maybe bcache or dm
-> > -cache). I am working on some raid1 performance improvement (e.g. 
-> > new raid1 I/O barrier and lockless raid1 I/O submit), and have some 
-> > more ideas to discuss.
-> > 
-> > Therefore, if md raid developers may have a chance to sit together,
-> > discuss how to efficiently collaborate in next year, it will be 
-> > much more productive then communicating on mailing list.
-> 
-> I would like to attend raid discussion, besides above topics I think 
-> we can talk about improve the test suite of mdadm to make it more 
-> robust (I can share related test suite which is used for clustered
-> raid).
+> +++ b/drivers/nvme/target/rdma.c
+> @@ -438,6 +438,14 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
+>  {
+>  	struct ib_recv_wr *bad_wr;
+>  
+> +	ib_dma_sync_single_for_device(ndev->device,
+> +			cmd->sge[0].addr, sizeof(*cmd->nvme_cmd),
+> +			DMA_FROM_DEVICE);
+> +
+> +	if (cmd->sge[1].addr)
 
-Just so you know ... and just in case others are watching.  You're not
-going to be getting an invite to LSF/MM unless you send an attend or
-topic request in as the CFP asks:
-
-http://marc.info/?l=linux-fsdevel&m=148285919408577
-
-The rationale is simple: it's to difficult to track all the "me too"
-reply emails and even if we could, it's not actually clear what the
-intention of the sender is.  So you taking the time to compose an
-official email as the CFP requests allows the programme committee to
-distinguish.
-
-James
+0 can be a valid address returned from dma_map_single on some
+architectures. 
