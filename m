@@ -1,56 +1,90 @@
-From: joshua_mora@usa.net (Joshua Mora)
-Date: Mon, 16 Jan 2017 14:18:48 -0600
-Subject: nvme queue load balanced distribution of requests
-Message-ID: <940VaPuRW9216S05.1484597928@web05.cms.usa.net>
+From: parav@mellanox.com (Parav Pandit)
+Date: Mon, 16 Jan 2017 14:19:05 -0600
+Subject: [PATCHv1] nvmet-rdma: Fix missing dma sync to nvme data structures
+Message-ID: <1484597945-31143-1-git-send-email-parav@mellanox.com>
 
-Thanks Christoph for your quick reply.
+This patch performs dma sync operations on nvme_command,
+inline page(s) and nvme_completion.
 
-I want to limit the number of cpu cores used per NVME but I want to use all
-the queues available. This is important for read requests at low record
-length.
-How do I control that ?
-It seems that in order to use more queues I have to use more cores and that is
-precisely what I want to restrict to 2-4 cores at most but using all the
-queues available.
+nvme_command and write cmd inline data is synced
+(a) on receiving of the recv queue completion for cpu access.
+(b) before posting recv wqe back to rdma adapter for device access.
 
-I have many NVME drives and many cores within the system so I want to
-"manually" assign a limited set of cores and their NVME interrupts to the same
-few cores.
-Is it possible for instance to assign 4 cores to deal with a device with 32
-queues ?
-How do I make sure that the 32 queues are used ? with few cores ?
+nvme_completion is synced
+(a) on receiving send completion for nvme_completion for cpu access.
+(b) before posting send wqe to rdma adapter for device access.
 
-Where is in the code where that decision is made ?
-Also, related with power management on the nvme, is there any tool for that
-(nvme-cli ?)
+This patch is generated for git://git.infradead.org/nvme-fabrics.git
+Branch: nvmf-4.10
 
-Joshua
+Signed-off-by: Parav Pandit <parav at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/target/rdma.c | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
------- Original Message ------
-Received: 11:40 AM CST, 01/16/2017
-From: Christoph Hellwig <hch@infradead.org>
-To: Joshua Mora <joshua_mora at usa.net>Cc: linux-nvme at lists.infradead.org
-Subject: Re: nvme queue load balanced distribution of requests
-
-> On Sun, Jan 15, 2017@07:33:26PM -0600, Joshua Mora wrote:
-> > Hello.
-> > I am benchmarking different NVMEs that have 8, 16 or upto 32 queues.
-> > Despite I provide a queue depth in the benchmark (like fio) and also run
-> > concurrently multiple threads to different files to the same NVME (ie.
-> > multiple jobs), I do not succeed to use all those queues.
-> > Is there any parameter somewhere to configure that ?
-> 
-> Linux assigns the queue to CPUs to provide a lock less or at least
-> low on contention I/O submission and completion path.  So to use
-> all queues you needd to
-> 
->  a) have a CPU core count bigger or equal to the number of queues
->  b) have I/O issued on all CPUs
-> 
-> Note that using more queues doesn't automatically mean getting better
-> IOPS numbers.
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 6c1c368..fe7e257 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -437,6 +437,14 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
+ 		struct nvmet_rdma_cmd *cmd)
+ {
+ 	struct ib_recv_wr *bad_wr;
++	int i;
++
++	for (i = 0; i < 2; i++) {
++		if (cmd->sge[i].length)
++			ib_dma_sync_single_for_device(ndev->device,
++				cmd->sge[0].addr, cmd->sge[0].length,
++				DMA_FROM_DEVICE);
++	}
+ 
+ 	if (ndev->srq)
+ 		return ib_post_srq_recv(ndev->srq, &cmd->wr, &bad_wr);
+@@ -507,6 +515,10 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct ib_wc *wc)
+ 	struct nvmet_rdma_rsp *rsp =
+ 		container_of(wc->wr_cqe, struct nvmet_rdma_rsp, send_cqe);
+ 
++	ib_dma_sync_single_for_cpu(rsp->queue->dev->device,
++			rsp->send_sge.addr, rsp->send_sge.length,
++			DMA_TO_DEVICE);
++
+ 	nvmet_rdma_release_rsp(rsp);
+ 
+ 	if (unlikely(wc->status != IB_WC_SUCCESS &&
+@@ -538,6 +550,11 @@ static void nvmet_rdma_queue_response(struct nvmet_req *req)
+ 		first_wr = &rsp->send_wr;
+ 
+ 	nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd);
++
++	ib_dma_sync_single_for_device(rsp->queue->dev->device,
++			rsp->send_sge.addr, rsp->send_sge.length,
++			DMA_TO_DEVICE);
++
+ 	if (ib_post_send(cm_id->qp, first_wr, &bad_wr)) {
+ 		pr_err("sending cmd response failed\n");
+ 		nvmet_rdma_release_rsp(rsp);
+@@ -692,12 +709,20 @@ static bool nvmet_rdma_execute_command(struct nvmet_rdma_rsp *rsp)
+ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
+ 		struct nvmet_rdma_rsp *cmd)
+ {
++	int i;
+ 	u16 status;
+ 
+ 	cmd->queue = queue;
+ 	cmd->n_rdma = 0;
+ 	cmd->req.port = queue->port;
+ 
++	for (i = 0; i < 2; i++) {
++		if (cmd->cmd->sge[i].length)
++			ib_dma_sync_single_for_cpu(queue->dev->device,
++				cmd->cmd->sge[i].addr, cmd->cmd->sge[i].length,
++				DMA_FROM_DEVICE);
++	}
++
+ 	if (!nvmet_req_init(&cmd->req, &queue->nvme_cq,
+ 			&queue->nvme_sq, &nvmet_rdma_ops))
+ 		return;
+-- 
+1.8.3.1
