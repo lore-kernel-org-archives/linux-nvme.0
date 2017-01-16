@@ -1,33 +1,42 @@
-From: joshua_mora@usa.net (Joshua Mora)
-Date: Sun, 15 Jan 2017 19:33:26 -0600
-Subject: nvme queue load balanced distribution of requests
-Message-ID: <259VaPBGA7184S06.1484530406@web06.cms.usa.net>
+From: gqjiang@suse.com (Guoqing Jiang)
+Date: Mon, 16 Jan 2017 11:33:05 +0800
+Subject: [LSF/MM TOPIC] [LSF/MM ATTEND] md raid general discussion
+In-Reply-To: <79796ea4-2631-c762-b8a1-50bcdcbc602e@suse.de>
+References: <79796ea4-2631-c762-b8a1-50bcdcbc602e@suse.de>
+Message-ID: <587C3EF1.3020401@suse.com>
 
-Hello.
-I am benchmarking different NVMEs that have 8, 16 or upto 32 queues.
-Despite I provide a queue depth in the benchmark (like fio) and also run
-concurrently multiple threads to different files to the same NVME (ie.
-multiple jobs), I do not succeed to use all those queues.
-Is there any parameter somewhere to configure that ?
-It that issuing of requests controlled by the nvme driver ?
-Is there also any documentation about parameters that can be passed to the
-NVME driver to improve the response time, to set max power,... ?
-I would be interested in those settings for Linux and for Windows.
-If this is not about settings but about meeting some requirements during
-execution to issue the requests to different queues, I would be interested to
-understand that as well.
-If you can point me to the specific information that has influence on the
-performance of requests, I would be very interested to know about it.
-The main goal is to try to achieve the highest IOPs while reading at short
-record length (~4KB) with the few amount of CPU cycles with the fewest amount
-of cores but as many as needed to maxout the capabilities of the NVME
-devices.
-Additionally, in order to reduce CPU cycles utilization, is there a
-"coalescing" mechanism as well to dial the amount of CPU intervention to
-interrupt requests ?
 
-If the above questions are more suited to a different distribution
-list/newsgroup, please let me know as well.
 
-Thanks in advance,
-Joshua
+On 01/10/2017 12:38 AM, Coly Li wrote:
+> Hi Folks,
+>
+> I'd like to propose a general md raid discussion, it is quite necessary
+> for most of active md raid developers sit together to discuss current
+> challenge of Linux software raid and development trends.
+>
+> In the last years, we have many development activities in md raid, e.g.
+> raid5 cache, raid1 clustering, partial parity log, fast fail
+> upstreaming, and some effort for raid1 & raid0 performance improvement.
+>
+> I see there are some kind of functionality overlap between r5cache
+> (raid5 cache) and PPL (partial parity log), currently I have no idea
+> where we will go for these two development activities.
+> Also I receive reports from users that raid1 performance is desired when
+> it is built on NVMe SSDs as a cache (maybe bcache or dm-cache). I am
+> working on some raid1 performance improvement (e.g. new raid1 I/O
+> barrier and lockless raid1 I/O submit), and have some more ideas to discuss.
+>
+> Therefore, if md raid developers may have a chance to sit together,
+> discuss how to efficiently collaborate in next year, it will be much
+> more productive then communicating on mailing list.
+
+I would like to attend raid discussion, besides above topics I think we
+can talk about improve the test suite of mdadm to make it more robust
+(I can share related test suite which is used for clustered raid).
+
+And I could share  the status of clustered raid about what we have done
+and what we can do in the future. Finally, I'd like to know/discuss about
+the roadmap of RAID.
+
+Thanks a lot!
+Guoqing
