@@ -1,37 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 17 Jan 2017 18:38:43 +0200
+Date: Tue, 17 Jan 2017 18:50:10 +0200
 Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
-In-Reply-To: <20170117162752.GE6067@linux-x5ow.site>
+In-Reply-To: <CANvN+emx1-F3iAY45t1_MQRcijw7sf1jPvjwv0uh8A3GzzQwMg@mail.gmail.com>
 References: <20170111134312.GH6286@linux-x5ow.site>
  <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
  <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
  <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
  <499af528-7810-f82d-1f11-cbf8f3a5b21c@grimberg.me>
- <53a3fb6c-c75a-519a-f669-2bcab404e01d@grimberg.me>
- <20170117162752.GE6067@linux-x5ow.site>
-Message-ID: <6df6bf6a-7cd3-1700-2b0a-e140325ebf47@grimberg.me>
+ <CANvN+emx1-F3iAY45t1_MQRcijw7sf1jPvjwv0uh8A3GzzQwMg@mail.gmail.com>
+Message-ID: <e2b16f22-5743-23c8-cd20-13a20ec956b7@grimberg.me>
 
 
-> Just for the record, all tests you've run are with the upper irq_poll_budget of
-> 256 [1]?
+>     So it looks like we are super not efficient because most of the
+>     times we catch 1
+>     completion per interrupt and the whole point is that we need to find
+>     more! This fio
+>     is single threaded with QD=32 so I'd expect that we be somewhere in
+>     8-31 almost all
+>     the time... I also tried QD=1024, histogram is still the same.
+>
+>
+> It looks like it takes you longer to submit an I/O than to service an
+> interrupt,
 
-Yes, but that's the point, I never ever reach this budget because
-I'm only processing 1-2 completions per interrupt.
+Well, with irq-poll we do practically nothing in the interrupt handler,
+only schedule irq-poll. Note that the latency measures are only from
+the point the interrupt arrives and the point we actually service it
+by polling for completions.
 
-> We (Hannes and me) recently stumbed accross this when trying to poll for more
-> than 256 queue entries in the drivers we've been testing.
+> so increasing queue depth in the singe-threaded case doesn't
+> make much difference. You might want to try multiple threads per core
+> with QD, say, 32
 
-What do you mean by stumbed? irq-poll should be agnostic to the fact
-that drivers can poll more than their given budget?
-
-> Did your system load reduce with irq polling? In theory it should but I have
-> seen increases with AHCI at least according to fio. IIRC Hannes saw decreases
-> with his SAS HBA tests, as expected.
-
-I didn't see any reduction. When I tested on a single cpu core (to
-simplify for a single queue) the cpu was at 100% cpu but got less iops
-(which makes sense, a single cpu-core is not enough to max out the nvme
-device, at least not the core I'm using). Before irqpoll I got
-~230 KIOPs on a single cpu-core and after irqpoll I got ~205 KIOPs
-which is consistent with the ~10% iops decrease I've reported in the
-original submission.
+This is how I ran, QD=32.
