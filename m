@@ -1,95 +1,14 @@
-From: parav@mellanox.com (Parav Pandit)
-Date: Tue, 17 Jan 2017 16:03:17 +0000
-Subject: [PATCHv1] nvmet-rdma: Fix missing dma sync to nvme data structures
-In-Reply-To: <77902aab-5d1c-5755-ca46-679d737f496d@grimberg.me>
-References: <1484597945-31143-1-git-send-email-parav@mellanox.com>
- <ff2d3e9b-323c-aae5-f2dc-b18da5e0dc09@grimberg.me>
- <VI1PR0502MB30083D014DF2D4C0BEEA9F17D17D0@VI1PR0502MB3008.eurprd05.prod.outlook.com>
- <77902aab-5d1c-5755-ca46-679d737f496d@grimberg.me>
-Message-ID: <VI1PR0502MB30084649FCD15D2E9AFDE67CD17C0@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 17 Jan 2017 18:15:43 +0200
+Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
+In-Reply-To: <499af528-7810-f82d-1f11-cbf8f3a5b21c@grimberg.me>
+References: <20170111134312.GH6286@linux-x5ow.site>
+ <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
+ <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
+ <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
+ <499af528-7810-f82d-1f11-cbf8f3a5b21c@grimberg.me>
+Message-ID: <53a3fb6c-c75a-519a-f669-2bcab404e01d@grimberg.me>
 
-Hi Sagi,
+Oh, and the current code that was tested can be found at:
 
-> -----Original Message-----
-> From: Sagi Grimberg [mailto:sagi at grimberg.me]
-> Sent: Tuesday, January 17, 2017 2:08 AM
-> To: Parav Pandit <parav at mellanox.com>; hch at lst.de; linux-
-> nvme at lists.infradead.org; linux-rdma at vger.kernel.org;
-> dledford at redhat.com
-> Subject: Re: [PATCHv1] nvmet-rdma: Fix missing dma sync to nvme data
-> structures
-> 
-> >>> +	for (i = 0; i < 2; i++) {
-> >>> +		if (cmd->sge[i].length)
-> >>> +			ib_dma_sync_single_for_device(ndev->device,
-> >>> +				cmd->sge[0].addr, cmd->sge[0].length,
-> >>> +				DMA_FROM_DEVICE);
-> >>> +	}
-> >>
-> >> a. you test on sge[i] but sync sge[0].
-> > Crap code. I will fix this.
-> >
-> >> b. I don't think we need the for statement, lest keep it open-coded
-> >> for [0] and [1].
-> >
-> > I put for loop because, there was high level agreement in max_sge thread
-> chain between Chuck, Steve and Jason about having generic sg_list/bounce
-> buffer and doing things similar to RW APIs.
-> > Now if we generalize at that point, my thoughts were, that this code can
-> eventually move out from every ULP to that generic send() API.
-> > So I put a for loop to make is more ULP agnostic from beginning.
-> 
-> Lets start simple and clear, if we indeed do this (and I should checkout this
-> discussion) we'll move it out like all the rest of the ULPs.
-> 
-Yes. So I that's why I changed the code to use send_sge.length instead of sizeof(nvme_completion).
-
-> >>>  	if (ndev->srq)
-> >>>  		return ib_post_srq_recv(ndev->srq, &cmd->wr, &bad_wr);
-> >> @@ -507,6
-> >>> +515,10 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, struct
-> >> ib_wc *wc)
-> >>>  	struct nvmet_rdma_rsp *rsp =
-> >>>  		container_of(wc->wr_cqe, struct nvmet_rdma_rsp,
-> >> send_cqe);
-> >>>
-> >>> +	ib_dma_sync_single_for_cpu(rsp->queue->dev->device,
-> >>> +			rsp->send_sge.addr, rsp->send_sge.length,
-> >>> +			DMA_TO_DEVICE);
-> >>
-> >> Why do you need to sync_for_cpu here? you have no interest in the
-> >> data at this point.
-> >>
-> > Before a cqe can be prepared by cpu, it needs to be synced.
-> > So once CQE send is completed, that region is ready for preparing new
-> CQE.
-> > In error case cqe is prepared by the RDMA layer and sent using
-> nvmet_req_complete.
-> > In happy path case cqe is prepared by the core layer before invoking
-> queue_response() callback of fabric_ops.
-> >
-> > In happy case nvmet-core needs to do the sync_to_cpu.
-> > In error case rdma layer needs to do the sync_to_cpu.
-> >
-> > Instead of messing code at both places, I did the sync_for_cpu in
-> send_done() which is unified place.
-> > If there is generic callback in fabric_ops that can be invoked by
-> __nvmet_req_complete(), than its cleaner to do at single place by invoking it.
-> > I didn't find it worth enough to increase fabric_ops for this.
-> > Let me know if you have different idea to resolve this.
-> 
-> Why not sync it when you start using the cmd at nvmet_rdma_recv_done()?
-> --
-Yes, that works too.
-nvmet_rdma_handle_command() seems better place to me where sync_cpu() is done for nvme_command as well.
-This makes is more readable too.
-Having it in handle_command () also covers the case of receiving RQEs before QP moves to established state.
-
-> > Now when I review the code of map_sgl_inline() I am wondering that we
-> should not sync the INLINE data page at all because cpu is not going to read it
-> anyway.
-> > Its only the remote device which will read/write and it will do the
-> dma_sync_to_device as part of that driver anyway.
-> 
-> Yea, you're right. Let's kill it.
-Ok.
+git://git.infradead.org/nvme.git nvme-irqpoll
