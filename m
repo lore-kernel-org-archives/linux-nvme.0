@@ -1,19 +1,39 @@
-From: azher@hep.caltech.edu (Azher Mughal)
-Date: Tue, 17 Jan 2017 08:18:48 -0800
-Subject: Monitoring NVMe M.2 temperature
-In-Reply-To: <5d4f81ef-16a6-d417-e66c-13e39e0a73e4@grimberg.me>
-References: <a6d82f2f-9b2f-7309-31fa-30a85c03f01b@hep.caltech.edu>
- <5d4f81ef-16a6-d417-e66c-13e39e0a73e4@grimberg.me>
-Message-ID: <4b883a24-8519-72ed-2af0-ce865710578b@hep.caltech.edu>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 17 Jan 2017 17:27:52 +0100
+Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
+In-Reply-To: <53a3fb6c-c75a-519a-f669-2bcab404e01d@grimberg.me>
+References: <20170111134312.GH6286@linux-x5ow.site>
+ <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
+ <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
+ <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
+ <499af528-7810-f82d-1f11-cbf8f3a5b21c@grimberg.me>
+ <53a3fb6c-c75a-519a-f669-2bcab404e01d@grimberg.me>
+Message-ID: <20170117162752.GE6067@linux-x5ow.site>
 
-Thanks.
+On Tue, Jan 17, 2017@06:15:43PM +0200, Sagi Grimberg wrote:
+> Oh, and the current code that was tested can be found at:
+> 
+> git://git.infradead.org/nvme.git nvme-irqpoll
 
-On 1/17/2017 12:27 AM, Sagi Grimberg wrote:
->
->> Hi All,
->>
->> I am testing Samsung M.2 drives (SM 961 and 950 PRO) in a Dell quad M.2
->> enclosure. Is there a way to monitor the temperature for an individual
->> drive ?
->
-> nvme smart-log /dev/$nvme_ctrl
+Just for the record, all tests you've run are with the upper irq_poll_budget of
+256 [1]?
+
+We (Hannes and me) recently stumbed accross this when trying to poll for more
+than 256 queue entries in the drivers we've been testing.
+
+Did your system load reduce with irq polling? In theory it should but I have
+seen increases with AHCI at least according to fio. IIRC Hannes saw decreases
+with his SAS HBA tests, as expected.
+
+[1] lib/irq_poll.c:13
+
+Byte,
+	Johannes
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
