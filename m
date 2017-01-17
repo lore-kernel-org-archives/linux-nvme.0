@@ -1,29 +1,78 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 17 Jan 2017 13:00:08 -0500
-Subject: [PATCH 5/6] blk-mq: Fix queue freeze deadlock
-In-Reply-To: <1031ba43-4c5e-f6a7-e12f-f6169eae5edf@grimberg.me>
-References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
- <1483569671-1462-6-git-send-email-keith.busch@intel.com>
- <1031ba43-4c5e-f6a7-e12f-f6169eae5edf@grimberg.me>
-Message-ID: <20170117180008.GB8989@localhost.localdomain>
+Date: Tue, 17 Jan 2017 13:40:43 -0500
+Subject: nvme queue load balanced distribution of requests
+In-Reply-To: <940VaPuRW9216S05.1484597928@web05.cms.usa.net>
+References: <940VaPuRW9216S05.1484597928@web05.cms.usa.net>
+Message-ID: <20170117184043.GD8989@localhost.localdomain>
 
-On Fri, Jan 13, 2017@11:05:19PM +0200, Sagi Grimberg wrote:
-> > If hardware queues are stopped for some event, like the device has been
-> > suspended by power management, requests allocated on that hardware queue
-> > are indefinitely stuck causing a queue freeze to wait forever.
+On Mon, Jan 16, 2017@02:18:48PM -0600, Joshua Mora wrote:
+> Thanks Christoph for your quick reply.
 > 
-> I have a problem with this patch. IMO, this is a general issue so, so
-> why do we tie a fix to calling blk_mq_update_nr_hw_queues()? We might
-> not need to update nr_hw_queues at all. I'm fine with the
-> blk_mq_abandon_stopped_requests but not with its call-site.
+> I want to limit the number of cpu cores used per NVME but I want to use all
+> the queues available. This is important for read requests at low record
+> length.
+> How do I control that ?
+> It seems that in order to use more queues I have to use more cores and that is
+> precisely what I want to restrict to 2-4 cores at most but using all the
+> queues available.
 > 
-> Usually a driver knows when it wants to abandon all busy requests
-> blk_mq_tagset_busy_iter(), maybe the right approach is to add
-> a hook for all allocated tags? Or have blk_mq_quisce_queue get a
-> fail all requests parameter from the callers?
+> I have many NVME drives and many cores within the system so I want to
+> "manually" assign a limited set of cores and their NVME interrupts to the same
+> few cores.
+> Is it possible for instance to assign 4 cores to deal with a device with 32
+> queues ?
+> How do I make sure that the 32 queues are used ? with few cores ?
+> 
+> Where is in the code where that decision is made ?
+> Also, related with power management on the nvme, is there any tool for that
+> (nvme-cli ?)
+> 
+> Joshua
 
-This patch is overly aggressive on failing allocated requests. There
-are scenarios where we wouldn't want to abandon them, like if the hw
-context is about to be brough back online, but this patch assumes all
-need to be abandoned. I'll see if there's some other tricks we can have
-a driver do. Thanks for the suggestions.
+The NVMe driver assigns queues in a per-cpu fashion. If your device
+supports more queues than you have CPU's, the driver won't use them.
+There's really nothing to gain from assigning multiple queues to a
+single CPU.
+
+In order to force using all your queues, you need to force your IO
+threads to run on different CPUs. There are different ways to do this.
+The 'fio' tool provides a "cpus_allowed" parameter you can set for each
+job. You can also start up different instances of an io generating tool
+with 'taskset' to force each one to execute on a different subset of
+CPUs.
+
+> ------ Original Message ------
+> Received: 11:40 AM CST, 01/16/2017
+> From: Christoph Hellwig <hch at infradead.org>
+> To: Joshua Mora <joshua_mora at usa.net>Cc: linux-nvme at lists.infradead.org
+> Subject: Re: nvme queue load balanced distribution of requests
+> 
+> > On Sun, Jan 15, 2017@07:33:26PM -0600, Joshua Mora wrote:
+> > > Hello.
+> > > I am benchmarking different NVMEs that have 8, 16 or upto 32 queues.
+> > > Despite I provide a queue depth in the benchmark (like fio) and also run
+> > > concurrently multiple threads to different files to the same NVME (ie.
+> > > multiple jobs), I do not succeed to use all those queues.
+> > > Is there any parameter somewhere to configure that ?
+> > 
+> > Linux assigns the queue to CPUs to provide a lock less or at least
+> > low on contention I/O submission and completion path.  So to use
+> > all queues you needd to
+> > 
+> >  a) have a CPU core count bigger or equal to the number of queues
+> >  b) have I/O issued on all CPUs
+> > 
+> > Note that using more queues doesn't automatically mean getting better
+> > IOPS numbers.
+> > 
+> > _______________________________________________
+> > Linux-nvme mailing list
+> > Linux-nvme at lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-nvme
+> 
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
