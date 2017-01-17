@@ -1,35 +1,19 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 17 Jan 2017 18:50:10 +0200
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
-In-Reply-To: <CANvN+emx1-F3iAY45t1_MQRcijw7sf1jPvjwv0uh8A3GzzQwMg@mail.gmail.com>
-References: <20170111134312.GH6286@linux-x5ow.site>
- <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
- <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
- <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
- <499af528-7810-f82d-1f11-cbf8f3a5b21c@grimberg.me>
- <CANvN+emx1-F3iAY45t1_MQRcijw7sf1jPvjwv0uh8A3GzzQwMg@mail.gmail.com>
-Message-ID: <e2b16f22-5743-23c8-cd20-13a20ec956b7@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 17 Jan 2017 12:53:13 -0500
+Subject: [PATCH 5/6] blk-mq: Fix queue freeze deadlock
+In-Reply-To: <1483601585.2811.5.camel@sandisk.com>
+References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
+ <1483569671-1462-6-git-send-email-keith.busch@intel.com>
+ <1483601585.2811.5.camel@sandisk.com>
+Message-ID: <20170117175312.GA8989@localhost.localdomain>
 
+On Thu, Jan 05, 2017@07:33:22AM +0000, Bart Van Assche wrote:
+> This patch adds a second code path to the blk-mq core for running queues and
+> hence will make the blk-mq core harder to maintain. Have you considered to
+> implement this functionality by introducing a new "fail all requests" flag
+> for hctx queues such that blk_mq_abandon_stopped_requests() can reuse the
+> existing mechanism for running a queue?
 
->     So it looks like we are super not efficient because most of the
->     times we catch 1
->     completion per interrupt and the whole point is that we need to find
->     more! This fio
->     is single threaded with QD=32 so I'd expect that we be somewhere in
->     8-31 almost all
->     the time... I also tried QD=1024, histogram is still the same.
->
->
-> It looks like it takes you longer to submit an I/O than to service an
-> interrupt,
-
-Well, with irq-poll we do practically nothing in the interrupt handler,
-only schedule irq-poll. Note that the latency measures are only from
-the point the interrupt arrives and the point we actually service it
-by polling for completions.
-
-> so increasing queue depth in the singe-threaded case doesn't
-> make much difference. You might want to try multiple threads per core
-> with QD, say, 32
-
-This is how I ran, QD=32.
+Thanks for the suggestion. I'll look into that. I wanted to avoid more
+flags to test for in the fast-path, but I see that a special queue run
+method is problematic for maintenance.
