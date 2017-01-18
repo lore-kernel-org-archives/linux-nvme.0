@@ -1,38 +1,110 @@
 From: luto@kernel.org (Andy Lutomirski)
-Date: Tue, 17 Jan 2017 17:54:17 -0800
-Subject: [PATCH 0/3] nvme: APST support
-Message-ID: <cover.1484703713.git.luto@kernel.org>
+Date: Tue, 17 Jan 2017 17:54:19 -0800
+Subject: [PATCH 2/3] nvme: Add a quirk mechanism that uses identify_ctrl
+In-Reply-To: <cover.1484703713.git.luto@kernel.org>
+References: <cover.1484703713.git.luto@kernel.org>
+Message-ID: <66c502d8607570266163224149b1e7f613c65a45.1484703713.git.luto@kernel.org>
 
-As far as I can tell, APST works fine on every NVMe device I'm aware
-of with the single exception of a particular Samsung device.  This
-series enables APST by default but quirks it off on the offending
-Samsung device.  Some Samsung engineers are taking a look, and,
-depending on what they find, we may be able to change the quirk to
-work around the bug rather than disabling APST outright.
+Currently, all NVMe quirks are based on PCI IDs.  Add a mechanism to
+define quirks based on identify_ctrl's vendor id, model number,
+and/or firmware revision.
 
-I think it would be nice to queue this up and give it a soak in
-linux-next.
+Signed-off-by: Andy Lutomirski <luto at kernel.org>
+---
+ drivers/nvme/host/core.c | 54 ++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 55 insertions(+)
 
-I restarted the numbering since I lost track of what version I was
-on.  This version has roughly these changes from before:
-
- - Rebased to linux-block/for-next.
- - I added a quirk for the known-bad Samsung device.
- - It's fully integrated with dev_pm_qos.
- - I now program APST after all the queues are set up, which seems safer.
-   (This didn't fix the Samsung problem, though.)
-
-Andy Lutomirski (3):
-  nvme: Enable autonomous power state transitions
-  nvme: Add a quirk mechanism that uses identify_ctrl
-  nvme: Add a quirk to disable APST on a buggy Samsung device
-
- drivers/nvme/host/core.c | 204 +++++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |  13 +++
- drivers/nvme/host/pci.c  |   2 +
- drivers/nvme/host/rdma.c |   2 +
- include/linux/nvme.h     |   6 ++
- 5 files changed, 227 insertions(+)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f4e177f042ed..be887dc2ffc9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1316,6 +1316,49 @@ static void nvme_set_latency_tolerance(struct device *dev, s32 val)
+ 	}
+ }
+ 
++struct nvme_core_quirk_entry {
++	/*
++	 * Careful: the strings are padded with spaces.  Strings in the
++	 * table should be padded with spaces, too.
++	 */
++	u16 vid;
++	const char *mn;
++	const char *fr;
++	unsigned long quirks;
++};
++
++static const struct nvme_core_quirk_entry core_quirks[] = {
++};
++
++/* match is null-terminated but idstr is space-padded. */
++static bool string_matches(const char *idstr, const char *match, size_t len)
++{
++	size_t matchlen;
++
++	if (!match)
++		return true;
++
++	matchlen = strlen(match);
++	WARN_ON_ONCE(matchlen > len);
++
++	if (memcmp(idstr, match, matchlen))
++		return false;
++
++	for (; matchlen < len; matchlen++)
++		if (idstr[matchlen] != ' ')
++			return false;
++
++	return true;
++}
++
++static bool quirk_matches(const struct nvme_id_ctrl *id,
++			  const struct nvme_core_quirk_entry *q)
++{
++	return q->vid == le16_to_cpu(id->vid) &&
++		string_matches(id->mn, q->mn, sizeof(id->mn)) &&
++		string_matches(id->fr, q->fr, sizeof(id->fr));
++}
++
+ /*
+  * Initialize the cached copies of the Identify data and various controller
+  * register in our nvme_ctrl structure.  This should be called as soon as
+@@ -1351,6 +1394,15 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 		return -EIO;
+ 	}
+ 
++	if (!ctrl->identified) {
++		int i;
++
++		for (i = 0; i < ARRAY_SIZE(core_quirks); i++) {
++			if (quirk_matches(id, &core_quirks[i]))
++				ctrl->quirks |= core_quirks[i].quirks;
++		}
++	}
++
+ 	ctrl->vid = le16_to_cpu(id->vid);
+ 	ctrl->oncs = le16_to_cpup(&id->oncs);
+ 	atomic_set(&ctrl->abort_limit, id->acl + 1);
+@@ -1404,6 +1456,8 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 	else if (!ctrl->apsta && prev_apsta)
+ 		dev_pm_qos_hide_latency_tolerance(ctrl->device);
+ 
++	ctrl->identified = true;
++
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(nvme_init_identify);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 38df1745ccc8..1e9aa7482b75 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -111,6 +111,7 @@ enum nvme_ctrl_state {
+ 
+ struct nvme_ctrl {
+ 	enum nvme_ctrl_state state;
++	bool identified;
+ 	spinlock_t lock;
+ 	const struct nvme_ctrl_ops *ops;
+ 	struct request_queue *admin_q;
 -- 
 2.9.3
