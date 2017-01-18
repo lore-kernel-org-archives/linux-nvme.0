@@ -1,30 +1,30 @@
-From: rajur@chelsio.com (Raju  Rangoju)
-Date: Wed, 18 Jan 2017 04:36:24 +0000
-Subject: nvmef target login hangs
-In-Reply-To: <9bc2ade1-95ef-5060-fb6c-7e11f4cd86bf@grimberg.me>
-References: <CY1PR12MB07742E08D08352B7413B06F8BC780@CY1PR12MB0774.namprd12.prod.outlook.com>,
- <9bc2ade1-95ef-5060-fb6c-7e11f4cd86bf@grimberg.me>
-Message-ID: <CY1PR12MB0774E6F32888B838D3396F0ABC7F0@CY1PR12MB0774.namprd12.prod.outlook.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Wed, 18 Jan 2017 07:57:10 +0100
+Subject: [PATCH 01/17] lpfc: Use new pci_alloc_irq_vectors() interface
+In-Reply-To: <587ec2ec.lHOM16QZ9nmppg4/%jsmart2021@gmail.com>
+References: <587ec2ec.lHOM16QZ9nmppg4/%jsmart2021@gmail.com>
+Message-ID: <9773daca-af73-0575-c2b8-a5e44777e1b5@suse.de>
 
-Hi Sagi,
+On 01/18/2017 02:20 AM, James Smart wrote:
+> 
+> Move to new pci_alloc_irq_vectors() interface for intx/msi/msix
+> 
+> Note: io channel paradigm remains, for now.
+> 
+> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> ---
+>  drivers/scsi/lpfc/lpfc_init.c | 227 ++++++++++++++++++++++++++++--------------
+>  1 file changed, 154 insertions(+), 73 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Thanks for the quick response.
+Cheers,
 
-Christoph's fix resolves our issue. nvme target login works fine now.
-
-Thanks,
-Raju
-________________________________________
-From: Sagi Grimberg <sagi@grimberg.me>
-Sent: Saturday, January 14, 2017 3:12 AM
-To: Raju Rangoju; linux-nvme at lists.infradead.org
-Cc: SWise OGC
-Subject: Re: nvmef target login hangs 
-?
-Hi Raju,
-
-I think you need the fix from Christoph:
-
-[PATCH] nvme-rdma: fix nvme_rdma_queue_is_ready
-
-It's sent for 4.10-rc3.
+Hannes
+-- 
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
