@@ -1,325 +1,68 @@
 From: luto@kernel.org (Andy Lutomirski)
-Date: Tue, 17 Jan 2017 17:54:18 -0800
-Subject: [PATCH 1/3] nvme: Enable autonomous power state transitions
+Date: Tue, 17 Jan 2017 17:54:20 -0800
+Subject: [PATCH 3/3] nvme: Add a quirk to disable APST on a buggy Samsung
+ device
 In-Reply-To: <cover.1484703713.git.luto@kernel.org>
 References: <cover.1484703713.git.luto@kernel.org>
-Message-ID: <d688a12d66ef945fbfa0d3e20713408867ec41a0.1484703713.git.luto@kernel.org>
+Message-ID: <c03cc754700d18667ffe88d9e46b2e458f8848ee.1484703713.git.luto@kernel.org>
 
-NVMe devices can advertise multiple power states.  These states can
-be either "operational" (the device is fully functional but possibly
-slow) or "non-operational" (the device is asleep until woken up).
-Some devices can automatically enter a non-operational state when
-idle for a specified amount of time and then automatically wake back
-up when needed.
-
-The hardware configuration is a table.  For each state, an entry in
-the table indicates the next deeper non-operational state, if any,
-to autonomously transition to and the idle time required before
-transitioning.
-
-This patch teaches the driver to program APST so that each successive
-non-operational state will be entered after an idle time equal to 100%
-of the total latency (entry plus exit) associated with that state.
-The maximum acceptable latency is controlled using dev_pm_qos
-(e.g. power/pm_qos_latency_tolerance_us in sysfs); non-operational
-states with total latency greater than this value will not be used.
-As a special case, setting the latency tolerance to 0 will disable
-APST entirely.  On hardware without APST support, the sysfs file will
-not be exposed.
-
-The latency tolerance for newly-probed devices is set by the module
-parameter nvme_core.default_ps_max_latency_us.
-
-In theory, the device can expose "default" APST table, but this
-doesn't seem to function correctly on my device (Samsung 950), nor
-does it seem particularly useful.  There is also an optional
-mechanism by which a configuration can be "saved" so it will be
-automatically loaded on reset.  This can be configured from
-userspace, but it doesn't seem useful to support in the driver.
-
-On my laptop, enabling APST seems to save nearly 1W.
-
-The hardware tables can be decoded in userspace with nvme-cli.
-'nvme id-ctrl /dev/nvmeN' will show the power state table and
-'nvme get-feature -f 0x0c -H /dev/nvme0' will show the current APST
-configuration.
+This can't use the existing NVMe-over-PCI quirk mechanism because,
+as far as I can tell, all the Samsung devices use the same PCI
+device id.  Instead, this adds a "core" quirk table that matches on
+the vendor id and one or more of (model name, firmware revision),
+and quirks found in that table will be added to the quirk mask.
 
 Signed-off-by: Andy Lutomirski <luto at kernel.org>
 ---
- drivers/nvme/host/core.c | 140 +++++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |   7 +++
- drivers/nvme/host/pci.c  |   2 +
- drivers/nvme/host/rdma.c |   2 +
- include/linux/nvme.h     |   6 ++
- 5 files changed, 157 insertions(+)
+ drivers/nvme/host/core.c | 12 +++++++++++-
+ drivers/nvme/host/nvme.h |  5 +++++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8a3c3e32a704..f4e177f042ed 100644
+index be887dc2ffc9..9395e016f602 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -26,6 +26,7 @@
- #include <linux/ptrace.h>
- #include <linux/nvme_ioctl.h>
- #include <linux/t10-pi.h>
-+#include <linux/pm_qos.h>
- #include <scsi/sg.h>
- #include <asm/unaligned.h>
- 
-@@ -56,6 +57,11 @@ EXPORT_SYMBOL_GPL(nvme_max_retries);
- static int nvme_char_major;
- module_param(nvme_char_major, int, 0);
- 
-+static unsigned long default_ps_max_latency_us = 25000;
-+module_param(default_ps_max_latency_us, ulong, 0644);
-+MODULE_PARM_DESC(default_ps_max_latency_us,
-+		 "max power saving latency for new devices; use PM QOS to change per device");
-+
- static LIST_HEAD(nvme_ctrl_list);
- static DEFINE_SPINLOCK(dev_list_lock);
- 
-@@ -1196,6 +1202,120 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
- 	blk_queue_write_cache(q, vwc, vwc);
- }
- 
-+void nvme_configure_apst(struct nvme_ctrl *ctrl)
-+{
-+	/*
-+	 * APST (Autonomous Power State Transition) lets us program a
-+	 * table of power state transitions that the controller will
-+	 * perform automatically.  We configure it with a simple
-+	 * heuristic: we are willing to spend at most 2% of the time
-+	 * transitioning between power states.  Therefore, when running
-+	 * in any given state, we will enter the next lower-power
-+	 * non-operational state after waiting 100 * (enlat + exlat)
-+	 * microseconds, as long as that state's total latency is under
-+	 * the requested maximum latency.
-+	 *
-+	 * We will not autonomously enter any non-operational state for
-+	 * which the total latency exceeds ps_max_latency_us.  Users
-+	 * can set ps_max_latency_us to zero to turn off APST.
-+	 */
-+
-+	unsigned apste;
-+	struct nvme_feat_auto_pst *table;
-+	int ret;
-+
-+	/*
-+	 * If APST isn't supported or if we haven't been initialized yet,
-+	 * then don't do anything.
-+	 */
-+	if (!ctrl->apsta)
-+		return;
-+
-+	if (ctrl->npss > 31) {
-+		dev_warn(ctrl->device, "NPSS is invalid; not using APST\n");
-+		return;
-+	}
-+
-+	table = kzalloc(sizeof(*table), GFP_KERNEL);
-+	if (!table)
-+		return;
-+
-+	if (ctrl->ps_max_latency_us == 0) {
-+		/* Turn off APST. */
-+		apste = 0;
-+	} else {
-+		__le64 target = cpu_to_le64(0);
-+		int state;
-+
-+		/*
-+		 * Walk through all states from lowest- to highest-power.
-+		 * According to the spec, lower-numbered states use more
-+		 * power.  NPSS, despite the name, is the index of the
-+		 * lowest-power state, not the number of states.
-+		 */
-+		for (state = (int)ctrl->npss; state >= 0; state--) {
-+			u64 total_latency_us, transition_ms;
-+
-+			if (target)
-+				table->entries[state] = target;
-+
-+			/*
-+			 * Is this state a useful non-operational state for
-+			 * higher-power states to autonomously transition to?
-+			 */
-+			if (!(ctrl->psd[state].flags &
-+			      NVME_PS_FLAGS_NON_OP_STATE))
-+				continue;
-+
-+			total_latency_us =
-+				(u64)le32_to_cpu(ctrl->psd[state].entry_lat) +
-+				+ le32_to_cpu(ctrl->psd[state].exit_lat);
-+			if (total_latency_us > ctrl->ps_max_latency_us)
-+				continue;
-+
-+			/*
-+			 * This state is good.  Use it as the APST idle
-+			 * target for higher power states.
-+			 */
-+			transition_ms = total_latency_us + 19;
-+			do_div(transition_ms, 20);
-+			if (transition_ms > (1 << 24) - 1)
-+				transition_ms = (1 << 24) - 1;
-+
-+			target = cpu_to_le64((state << 3) |
-+					     (transition_ms << 8));
-+		}
-+
-+		apste = 1;
-+	}
-+
-+	ret = nvme_set_features(ctrl, NVME_FEAT_AUTO_PST, apste,
-+				table, sizeof(*table), NULL);
-+	if (ret)
-+		dev_err(ctrl->device, "failed to set APST feature (%d)\n", ret);
-+
-+	kfree(table);
-+}
-+EXPORT_SYMBOL_GPL(nvme_configure_apst);
-+
-+static void nvme_set_latency_tolerance(struct device *dev, s32 val)
-+{
-+	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
-+
-+	u64 latency;
-+
-+	if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT ||
-+	    val == PM_QOS_LATENCY_ANY)
-+		latency = U64_MAX;
-+	else
-+		latency = val;
-+
-+	if (ctrl->ps_max_latency_us != val) {
-+		ctrl->ps_max_latency_us = val;
-+		nvme_configure_apst(ctrl);
-+	}
-+}
-+
- /*
-  * Initialize the cached copies of the Identify data and various controller
-  * register in our nvme_ctrl structure.  This should be called as soon as
-@@ -1207,6 +1327,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	u64 cap;
- 	int ret, page_shift;
- 	u32 max_hw_sectors;
-+	u8 prev_apsta;
- 
- 	ret = ctrl->ops->reg_read32(ctrl, NVME_REG_VS, &ctrl->vs);
- 	if (ret) {
-@@ -1249,6 +1370,11 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ctrl->sgls = le32_to_cpu(id->sgls);
- 	ctrl->kas = le16_to_cpu(id->kas);
- 
-+	ctrl->npss = id->npss;
-+	prev_apsta = ctrl->apsta;
-+	ctrl->apsta = id->apsta;
-+	memcpy(ctrl->psd, id->psd, sizeof(ctrl->psd));
-+
- 	if (ctrl->ops->is_fabrics) {
- 		ctrl->icdoff = le16_to_cpu(id->icdoff);
- 		ctrl->ioccsz = le32_to_cpu(id->ioccsz);
-@@ -1272,6 +1398,12 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	}
- 
- 	kfree(id);
-+
-+	if (ctrl->apsta && !prev_apsta)
-+		dev_pm_qos_expose_latency_tolerance(ctrl->device);
-+	else if (!ctrl->apsta && prev_apsta)
-+		dev_pm_qos_hide_latency_tolerance(ctrl->device);
-+
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(nvme_init_identify);
-@@ -2009,6 +2141,14 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- 	list_add_tail(&ctrl->node, &nvme_ctrl_list);
- 	spin_unlock(&dev_list_lock);
- 
-+	/*
-+	 * Initialize latency tolerance controls.  The sysfs files won't
-+	 * be visible to userspace unless the device actually supports APST.
-+	 */
-+	ctrl->device->power.set_latency_tolerance = nvme_set_latency_tolerance;
-+	dev_pm_qos_update_user_latency_tolerance(ctrl->device,
-+		min(default_ps_max_latency_us, (unsigned long)S32_MAX));
-+
- 	return 0;
- out_release_instance:
- 	nvme_release_instance(ctrl);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index aead6d08ed2c..38df1745ccc8 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -143,13 +143,19 @@ struct nvme_ctrl {
- 	u32 vs;
- 	u32 sgls;
- 	u16 kas;
-+	u8 npss;
-+	u8 apsta;
- 	unsigned int kato;
- 	bool subsystem;
- 	unsigned long quirks;
-+	struct nvme_id_power_state psd[32];
- 	struct work_struct scan_work;
- 	struct work_struct async_event_work;
- 	struct delayed_work ka_work;
- 
-+	/* Power saving configuration */
-+	u64 ps_max_latency_us;
-+
- 	/* Fabrics only */
- 	u16 sqsize;
- 	u32 ioccsz;
-@@ -263,6 +269,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
- void nvme_uninit_ctrl(struct nvme_ctrl *ctrl);
- void nvme_put_ctrl(struct nvme_ctrl *ctrl);
- int nvme_init_identify(struct nvme_ctrl *ctrl);
-+void nvme_configure_apst(struct nvme_ctrl *ctrl);
- 
- void nvme_queue_scan(struct nvme_ctrl *ctrl);
- void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 7103bce4ba4f..1c3e170da6de 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1791,6 +1791,8 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (result)
- 		goto out;
- 
-+	nvme_configure_apst(&dev->ctrl);
-+
- 	/*
- 	 * A controller that can not execute IO typically requires user
- 	 * intervention to correct. For such degraded controllers, the driver
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 557f29b1f1bb..a64b5db96fd8 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1629,6 +1629,8 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl)
- 
- 	nvme_start_keep_alive(&ctrl->ctrl);
- 
-+	nvme_configure_apst(&ctrl->ctrl);
-+
- 	return 0;
- 
- out_cleanup_queue:
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 3d1c6f1b15c9..f929e8cf0a16 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -576,6 +576,12 @@ struct nvme_write_zeroes_cmd {
- 	__le16			appmask;
+@@ -1328,6 +1328,16 @@ struct nvme_core_quirk_entry {
  };
  
-+/* Features */
-+
-+struct nvme_feat_auto_pst {
-+	__le64 entries[32];
-+};
-+
- /* Admin commands */
+ static const struct nvme_core_quirk_entry core_quirks[] = {
++	/*
++	 * Seen on a Samsung "SM951 NVMe SAMSUNG 256GB": using APST causes
++	 * the controller to go out to lunch.  It dies when the watchdog
++	 * timer reads CSTS and gets 0xffffffff.
++	 */
++	{
++		.vid = 0x144d,
++		.fr = "BXW75D0Q",
++		.quirks = NVME_QUIRK_NO_APST,
++	},
+ };
  
- enum nvme_admin_opcode {
+ /* match is null-terminated but idstr is space-padded. */
+@@ -1424,7 +1434,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 
+ 	ctrl->npss = id->npss;
+ 	prev_apsta = ctrl->apsta;
+-	ctrl->apsta = id->apsta;
++	ctrl->apsta = (ctrl->quirks & NVME_QUIRK_NO_APST) ? 0 : id->apsta;
+ 	memcpy(ctrl->psd, id->psd, sizeof(ctrl->psd));
+ 
+ 	if (ctrl->ops->is_fabrics) {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 1e9aa7482b75..629129133be0 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -77,6 +77,11 @@ enum nvme_quirks {
+ 	 * readiness, which is done by reading the NVME_CSTS_RDY bit.
+ 	 */
+ 	NVME_QUIRK_DELAY_BEFORE_CHK_RDY		= (1 << 3),
++
++	/*
++	 * APST should not be used.
++	 */
++	NVME_QUIRK_NO_APST			= (1 << 4),
+ };
+ 
+ /*
 -- 
 2.9.3
