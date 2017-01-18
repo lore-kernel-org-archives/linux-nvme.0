@@ -1,21 +1,17 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 18 Jan 2017 08:54:43 -0800
-Subject: [PATCH 01/17] lpfc: Use new pci_alloc_irq_vectors() interface
-In-Reply-To: <587ec2ec.lHOM16QZ9nmppg4/%jsmart2021@gmail.com>
-References: <587ec2ec.lHOM16QZ9nmppg4/%jsmart2021@gmail.com>
-Message-ID: <20170118165443.GA14012@infradead.org>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 18 Jan 2017 12:13:47 -0500
+Subject: [PATCH nvme-cli v3 0/3] auto generate hostnqn file on installation
+In-Reply-To: <1484219610-18370-1-git-send-email-sagi@grimberg.me>
+References: <1484219610-18370-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20170118171347.GB16243@localhost.localdomain>
 
-On Tue, Jan 17, 2017@05:20:44PM -0800, James Smart wrote:
+On Thu, Jan 12, 2017@01:13:27PM +0200, Sagi Grimberg wrote:
+> This set is designed to help the user by auto-generating a hostnqn and
+> placing it in /etc/nvme/hostnqn file upon installation of nvme-cli (in
+> case such a file doesn't exist).
 > 
-> Move to new pci_alloc_irq_vectors() interface for intx/msi/msix
-> 
-> Note: io channel paradigm remains, for now.
+> The user can re-generate different hostnqns on demand by running:
+> $ nvme gen-hostnqn
 
-Not exactly a well written changelog.  I'd like to know why this is
-better than my version here:
-
-http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/lpfc-msix
-
-It also seems to be missing the post_vectors setting for the
-Flash Optimized Fabric interrupt, which may lead to an incorrect
-vector assignment for all the queues.
+Thanks, I've applied the series and regenerated the documentation to create
+the man page you've added.
