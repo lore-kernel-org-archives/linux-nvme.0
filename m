@@ -1,7 +1,7 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 18 Jan 2017 16:40:00 +0200
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 18 Jan 2017 15:58:16 +0100
 Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
-In-Reply-To: <CANvN+emK-+HietjkUEuv9Ec=DYNN48jDQnpTiwm7UZMGz1hXig@mail.gmail.com>
+In-Reply-To: <e3438024-e0f2-db96-5122-4508863be603@grimberg.me>
 References: <20170111134312.GH6286@linux-x5ow.site>
  <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
  <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
@@ -12,15 +12,45 @@ References: <20170111134312.GH6286@linux-x5ow.site>
  <6df6bf6a-7cd3-1700-2b0a-e140325ebf47@grimberg.me>
  <20170118135156.GG3514@linux-x5ow.site>
  <e3438024-e0f2-db96-5122-4508863be603@grimberg.me>
- <CANvN+emK-+HietjkUEuv9Ec=DYNN48jDQnpTiwm7UZMGz1hXig@mail.gmail.com>
-Message-ID: <a52f2192-81c8-24db-3657-98da3cc11ef7@grimberg.me>
+Message-ID: <20170118145816.GI3514@linux-x5ow.site>
 
+On Wed, Jan 18, 2017@04:27:24PM +0200, Sagi Grimberg wrote:
+> 
+> >So what you say is you saw a consomed == 1 [1] most of the time?
+> >
+> >[1] from http://git.infradead.org/nvme.git/commitdiff/eed5a9d925c59e43980047059fde29e3aa0b7836
+> 
+> Exactly. By processing 1 completion per interrupt it makes perfect sense
+> why this performs poorly, it's not worth paying the soft-irq schedule
+> for only a single completion.
+> 
+> What I'm curious is how consistent is this with different devices (wish
+> I had some...)
 
-> Your report provided this stats with one-completion dominance for the
-> single-threaded case. Does it also hold if you run multiple fio
-> threads per core?
+Hannes just spotted this:
+static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+                         const struct blk_mq_queue_data *bd)
+{
+[...]
+        __nvme_submit_cmd(nvmeq, &cmnd);
+        nvme_process_cq(nvmeq);
+        spin_unlock_irq(&nvmeq->q_lock);
+        return BLK_MQ_RQ_QUEUE_OK;
+out_cleanup_iod:
+        nvme_free_iod(dev, req);
+out_free_cmd:
+        nvme_cleanup_cmd(req);
+        return ret;
+}
 
-It's useless to run more threads on that core, it's already fully
-utilized. That single threads is already posting a fair amount of
-submissions, so I don't see how adding more fio jobs can help in any
-way.
+So we're draining the CQ on submit. This of cause makes polling for
+completions in the IRQ handler rather pointless as we already did in the
+submission path. 
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
