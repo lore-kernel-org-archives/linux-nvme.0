@@ -1,30 +1,26 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 18 Jan 2017 07:57:10 +0100
-Subject: [PATCH 01/17] lpfc: Use new pci_alloc_irq_vectors() interface
-In-Reply-To: <587ec2ec.lHOM16QZ9nmppg4/%jsmart2021@gmail.com>
-References: <587ec2ec.lHOM16QZ9nmppg4/%jsmart2021@gmail.com>
-Message-ID: <9773daca-af73-0575-c2b8-a5e44777e1b5@suse.de>
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 17 Jan 2017 23:06:09 -0800
+Subject: [PATCH 0/3] nvme: APST support
+In-Reply-To: <cover.1484703713.git.luto@kernel.org>
+References: <cover.1484703713.git.luto@kernel.org>
+Message-ID: <ea94f6b8-61d3-b4c1-719b-dccf7cc474ad@fb.com>
 
-On 01/18/2017 02:20 AM, James Smart wrote:
-> 
-> Move to new pci_alloc_irq_vectors() interface for intx/msi/msix
-> 
-> Note: io channel paradigm remains, for now.
-> 
-> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
->  drivers/scsi/lpfc/lpfc_init.c | 227 ++++++++++++++++++++++++++++--------------
->  1 file changed, 154 insertions(+), 73 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+On 01/17/2017 05:54 PM, Andy Lutomirski wrote:
+> As far as I can tell, APST works fine on every NVMe device I'm aware
+> of with the single exception of a particular Samsung device.  This
+> series enables APST by default but quirks it off on the offending
+> Samsung device.  Some Samsung engineers are taking a look, and,
+> depending on what they find, we may be able to change the quirk to
+> work around the bug rather than disabling APST outright.
 
-Cheers,
+Funky, so we did have hardware problems after all...
 
-Hannes
+I think you need to flip this series, where you first add the
+blacklist and the samsung blacklist entry, before adding the
+feature. In the current order, you have a bisection point
+that's potentially broken.
+
+Apart from that, looks OK to me.
+
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+Jens Axboe
