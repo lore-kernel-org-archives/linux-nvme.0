@@ -1,17 +1,37 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 18 Jan 2017 12:13:47 -0500
-Subject: [PATCH nvme-cli v3 0/3] auto generate hostnqn file on installation
-In-Reply-To: <1484219610-18370-1-git-send-email-sagi@grimberg.me>
-References: <1484219610-18370-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20170118171347.GB16243@localhost.localdomain>
+Date: Wed, 18 Jan 2017 13:45:05 -0500
+Subject: [PATCH v4 5/6] nvme: Add Support for Opal: Unlock from S3 & Opal
+ Allocation/Ioctls
+In-Reply-To: <20170108142020.GC25986@infradead.org>
+References: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
+ <1483039615-22407-6-git-send-email-scott.bauer@intel.com>
+ <20170108142020.GC25986@infradead.org>
+Message-ID: <20170118184505.GB27274@localhost.localdomain>
 
-On Thu, Jan 12, 2017@01:13:27PM +0200, Sagi Grimberg wrote:
-> This set is designed to help the user by auto-generating a hostnqn and
-> placing it in /etc/nvme/hostnqn file upon installation of nvme-cli (in
-> case such a file doesn't exist).
+On Sun, Jan 08, 2017@06:20:20AM -0800, Christoph Hellwig wrote:
+> > +config BLK_DEV_SED_OPAL
+> > +       bool "Enable support for Opal Enabled NVMe Device"
+> > +       depends on BLK_SED_OPAL
+> > +       default n
+> > +       ---help---
+> > +       This enables support for an Opal enabled NVMe device.
 > 
-> The user can re-generate different hostnqns on demand by running:
-> $ nvme gen-hostnqn
+> I'd like to hear an opinion from Keith as well, but I personally would
+> drop this confif option and just enable NVMe OPAL support if core block
+> OPAL is supported.
 
-Thanks, I've applied the series and regenerated the documentation to create
-the man page you've added.
+Yes, I'd agree to just dropping this and tying it to BLK_SED_OPAL rather
+than having this longer chain of config dependencies.
+ 
+> > +#ifdef CONFIG_BLK_DEV_SED_OPAL
+> > +		if (is_sed_ioctl(cmd))
+> > +			return sed_ioctl(&ns->sed_ctx, cmd, arg);
+> > +#endif
+> 
+> To avoid these ifdefs I would suggest to provide an always false
+> inline version of is_sed_ioctl and a no-op inline of sed_ioctl
+> in the header.
+
+Yeah, see section 20 of the Linux kernel coding-style in
+Documentation/process/coding-style.rst on the recommended way of
+conditional code depending on config options.
