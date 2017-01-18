@@ -1,79 +1,30 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 18 Jan 2017 16:39:19 +0100
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
-In-Reply-To: <20170118151643.GJ3514@linux-x5ow.site>
-References: <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
- <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
- <499af528-7810-f82d-1f11-cbf8f3a5b21c@grimberg.me>
- <53a3fb6c-c75a-519a-f669-2bcab404e01d@grimberg.me>
- <20170117162752.GE6067@linux-x5ow.site>
- <6df6bf6a-7cd3-1700-2b0a-e140325ebf47@grimberg.me>
- <20170118135156.GG3514@linux-x5ow.site>
- <e3438024-e0f2-db96-5122-4508863be603@grimberg.me>
- <20170118145816.GI3514@linux-x5ow.site>
- <c7eabe1c-5dcd-9859-2b41-9683f68a0534@grimberg.me>
- <20170118151643.GJ3514@linux-x5ow.site>
-Message-ID: <aaf5c35f-7e81-fa44-d467-53b574debdd4@suse.de>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 18 Jan 2017 10:56:47 -0500
+Subject: [PATCH 2/3] nvme: Add a quirk mechanism that uses identify_ctrl
+In-Reply-To: <66c502d8607570266163224149b1e7f613c65a45.1484703713.git.luto@kernel.org>
+References: <cover.1484703713.git.luto@kernel.org>
+ <66c502d8607570266163224149b1e7f613c65a45.1484703713.git.luto@kernel.org>
+Message-ID: <20170118155647.GE8989@localhost.localdomain>
 
-On 01/18/2017 04:16 PM, Johannes Thumshirn wrote:
-> On Wed, Jan 18, 2017@05:14:36PM +0200, Sagi Grimberg wrote:
->>
->>> Hannes just spotted this:
->>> static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
->>>                         const struct blk_mq_queue_data *bd)
->>> {
->>> [...]
->>>        __nvme_submit_cmd(nvmeq, &cmnd);
->>>        nvme_process_cq(nvmeq);
->>>        spin_unlock_irq(&nvmeq->q_lock);
->>>        return BLK_MQ_RQ_QUEUE_OK;
->>> out_cleanup_iod:
->>>        nvme_free_iod(dev, req);
->>> out_free_cmd:
->>>        nvme_cleanup_cmd(req);
->>>        return ret;
->>> }
->>>
->>> So we're draining the CQ on submit. This of cause makes polling for
->>> completions in the IRQ handler rather pointless as we already did in the
->>> submission path.
->>
->> I think you missed:
->> http://git.infradead.org/nvme.git/commit/49c91e3e09dc3c9dd1718df85112a8cce3ab7007
-> 
-> I indeed did, thanks.
-> 
-But it doesn't help.
+On Tue, Jan 17, 2017@05:54:19PM -0800, Andy Lutomirski wrote:
+> @@ -1351,6 +1394,15 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+>  		return -EIO;
+>  	}
+>  
+> +	if (!ctrl->identified) {
 
-We're still having to wait for the first interrupt, and if we're really
-fast that's the only completion we have to process.
+Part of the quirk is matching firmware revision. That potentially changes
+after a reset, but you only check the quirks the first time we initialise
+the controller. It's a little awkward to unmask the quirk out when it
+previously set for this, though, so maybe it's just as well to have the
+user reboot after a firmware upgrade fixes a quirk.
 
-Try this:
+Otherwise, looks good to me.
 
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index b4b32e6..e2dd9e2 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -623,6 +623,8 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
-        }
-        __nvme_submit_cmd(nvmeq, &cmnd);
-        spin_unlock(&nvmeq->sq_lock);
-+       disable_irq_nosync(nvmeq_irq(irq));
-+       irq_poll_sched(&nvmeq->iop);
-        return BLK_MQ_RQ_QUEUE_OK;
- out_cleanup_iod:
-        nvme_free_iod(dev, req);
-
-That should avoid the first interrupt, and with a bit of lock reduce the
-number of interrupts _drastically_.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+> +		int i;
+> +
+> +		for (i = 0; i < ARRAY_SIZE(core_quirks); i++) {
+> +			if (quirk_matches(id, &core_quirks[i]))
+> +				ctrl->quirks |= core_quirks[i].quirks;
+> +		}
+> +	}
