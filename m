@@ -1,7 +1,7 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 18 Jan 2017 15:58:16 +0100
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 18 Jan 2017 17:14:36 +0200
 Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
-In-Reply-To: <e3438024-e0f2-db96-5122-4508863be603@grimberg.me>
+In-Reply-To: <20170118145816.GI3514@linux-x5ow.site>
 References: <20170111134312.GH6286@linux-x5ow.site>
  <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
  <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
@@ -12,45 +12,29 @@ References: <20170111134312.GH6286@linux-x5ow.site>
  <6df6bf6a-7cd3-1700-2b0a-e140325ebf47@grimberg.me>
  <20170118135156.GG3514@linux-x5ow.site>
  <e3438024-e0f2-db96-5122-4508863be603@grimberg.me>
-Message-ID: <20170118145816.GI3514@linux-x5ow.site>
+ <20170118145816.GI3514@linux-x5ow.site>
+Message-ID: <c7eabe1c-5dcd-9859-2b41-9683f68a0534@grimberg.me>
 
-On Wed, Jan 18, 2017@04:27:24PM +0200, Sagi Grimberg wrote:
-> 
-> >So what you say is you saw a consomed == 1 [1] most of the time?
-> >
-> >[1] from http://git.infradead.org/nvme.git/commitdiff/eed5a9d925c59e43980047059fde29e3aa0b7836
-> 
-> Exactly. By processing 1 completion per interrupt it makes perfect sense
-> why this performs poorly, it's not worth paying the soft-irq schedule
-> for only a single completion.
-> 
-> What I'm curious is how consistent is this with different devices (wish
-> I had some...)
 
-Hannes just spotted this:
-static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
-                         const struct blk_mq_queue_data *bd)
-{
-[...]
-        __nvme_submit_cmd(nvmeq, &cmnd);
-        nvme_process_cq(nvmeq);
-        spin_unlock_irq(&nvmeq->q_lock);
-        return BLK_MQ_RQ_QUEUE_OK;
-out_cleanup_iod:
-        nvme_free_iod(dev, req);
-out_free_cmd:
-        nvme_cleanup_cmd(req);
-        return ret;
-}
+> Hannes just spotted this:
+> static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+>                          const struct blk_mq_queue_data *bd)
+> {
+> [...]
+>         __nvme_submit_cmd(nvmeq, &cmnd);
+>         nvme_process_cq(nvmeq);
+>         spin_unlock_irq(&nvmeq->q_lock);
+>         return BLK_MQ_RQ_QUEUE_OK;
+> out_cleanup_iod:
+>         nvme_free_iod(dev, req);
+> out_free_cmd:
+>         nvme_cleanup_cmd(req);
+>         return ret;
+> }
+>
+> So we're draining the CQ on submit. This of cause makes polling for
+> completions in the IRQ handler rather pointless as we already did in the
+> submission path.
 
-So we're draining the CQ on submit. This of cause makes polling for
-completions in the IRQ handler rather pointless as we already did in the
-submission path. 
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+I think you missed:
+http://git.infradead.org/nvme.git/commit/49c91e3e09dc3c9dd1718df85112a8cce3ab7007
