@@ -1,23 +1,33 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Wed, 18 Jan 2017 09:06:49 +0100
-Subject: [PATCH 15/17] lpfc: NVME Target: Add debugfs support
-In-Reply-To: <587ec2fa.4XfVnWpJuiX/2Gal%jsmart2021@gmail.com>
-References: <587ec2fa.4XfVnWpJuiX/2Gal%jsmart2021@gmail.com>
-Message-ID: <4a226c80-fb83-0559-c6c3-031ad78403e2@suse.de>
+Date: Wed, 18 Jan 2017 09:06:38 +0100
+Subject: [PATCH 17/17] lpfc: Update lpfc version to 11.2.0.7
+In-Reply-To: <587ec2fc.VRwkzlaMrjIvUNsO%jsmart2021@gmail.com>
+References: <587ec2fc.VRwkzlaMrjIvUNsO%jsmart2021@gmail.com>
+Message-ID: <cac309aa-2842-2b6a-0ab5-3f9bc30c9921@suse.de>
 
-On 01/18/2017 02:20 AM, James Smart wrote:
+On 01/18/2017 02:21 AM, James Smart wrote:
 > 
-> NVME Target: Add debugfs support
-> 
-> Adds debugfs snippets to cover the new NVME target functionality
+> Update lpfc version to 11.2.0.7
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/scsi/lpfc/lpfc_debugfs.c | 387 ++++++++++++++++++++++++++++++++++++++-
->  drivers/scsi/lpfc/lpfc_nvmet.c   | 279 +++++++++++++++++++++++++++-
->  drivers/scsi/lpfc/lpfc_nvmet.h   |  13 ++
->  3 files changed, 674 insertions(+), 5 deletions(-)
+>  drivers/scsi/lpfc/lpfc_version.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/scsi/lpfc/lpfc_version.h b/drivers/scsi/lpfc/lpfc_version.h
+> index 4e46ce4..9dfdab1 100644
+> --- a/drivers/scsi/lpfc/lpfc_version.h
+> +++ b/drivers/scsi/lpfc/lpfc_version.h
+> @@ -18,7 +18,7 @@
+>   * included with this package.                                     *
+>   *******************************************************************/
+>  
+> -#define LPFC_DRIVER_VERSION "11.2.0.4"
+> +#define LPFC_DRIVER_VERSION "11.2.0.7"
+>  #define LPFC_DRIVER_NAME		"lpfc"
+>  #define LPFCMGMT_NAME			"lpfcmgmt"
+>  
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
