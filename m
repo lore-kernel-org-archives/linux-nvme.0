@@ -1,70 +1,36 @@
-From: parav@mellanox.com (Parav Pandit)
-Date: Thu, 19 Jan 2017 09:55:08 -0600
-Subject: [PATCHv4] nvmet-rdma: Fix missing dma sync to nvme data structures
-Message-ID: <1484841308-9053-1-git-send-email-parav@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 19 Jan 2017 16:55:57 +0100
+Subject: [PATCH] nvme-fc: use blk_rq_nr_phys_segments
+Message-ID: <1484841357-17539-1-git-send-email-hch@lst.de>
 
-This patch performs dma sync operations on nvme_command
-and nvme_completion.
+Without this deallocate won't work properly due to the mismatch
+of the bio/request size and the actual payload size.
 
-nvme_command is synced
-(a) on receiving of the recv queue completion for cpu access.
-(b) before posting recv wqe back to rdma adapter for device access.
-
-nvme_completion is synced
-(a) on receiving of the recv queue completion of associated
-nvme_command for cpu access.
-(b) before posting send wqe to rdma adapter for device access.
-
-This patch is generated for git://git.infradead.org/nvme-fabrics.git
-Branch: nvmf-4.10
-
-Signed-off-by: Parav Pandit <parav at mellanox.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/target/rdma.c | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ drivers/nvme/host/fc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 6c1c368..b572da1 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -438,6 +438,10 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
- {
- 	struct ib_recv_wr *bad_wr;
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index fcc9dcf..e65041c 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1663,13 +1663,13 @@ nvme_fc_map_data(struct nvme_fc_ctrl *ctrl, struct request *rq,
+ 		return 0;
  
-+	ib_dma_sync_single_for_device(ndev->device,
-+		cmd->sge[0].addr, cmd->sge[0].length,
-+		DMA_FROM_DEVICE);
-+
- 	if (ndev->srq)
- 		return ib_post_srq_recv(ndev->srq, &cmd->wr, &bad_wr);
- 	return ib_post_recv(cmd->queue->cm_id->qp, &cmd->wr, &bad_wr);
-@@ -538,6 +542,11 @@ static void nvmet_rdma_queue_response(struct nvmet_req *req)
- 		first_wr = &rsp->send_wr;
+ 	freq->sg_table.sgl = freq->first_sgl;
+-	ret = sg_alloc_table_chained(&freq->sg_table, rq->nr_phys_segments,
+-			freq->sg_table.sgl);
++	ret = sg_alloc_table_chained(&freq->sg_table,
++			blk_rq_nr_phys_segments(rq), freq->sg_table.sgl);
+ 	if (ret)
+ 		return -ENOMEM;
  
- 	nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd);
-+
-+	ib_dma_sync_single_for_device(rsp->queue->dev->device,
-+		rsp->send_sge.addr, rsp->send_sge.length,
-+		DMA_TO_DEVICE);
-+
- 	if (ib_post_send(cm_id->qp, first_wr, &bad_wr)) {
- 		pr_err("sending cmd response failed\n");
- 		nvmet_rdma_release_rsp(rsp);
-@@ -698,6 +707,14 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
- 	cmd->n_rdma = 0;
- 	cmd->req.port = queue->port;
- 
-+
-+	ib_dma_sync_single_for_cpu(queue->dev->device,
-+		cmd->cmd->sge[0].addr, cmd->cmd->sge[0].length,
-+		DMA_FROM_DEVICE);
-+	ib_dma_sync_single_for_cpu(queue->dev->device,
-+		cmd->send_sge.addr, cmd->send_sge.length,
-+		DMA_TO_DEVICE);
-+
- 	if (!nvmet_req_init(&cmd->req, &queue->nvme_cq,
- 			&queue->nvme_sq, &nvmet_rdma_ops))
- 		return;
+ 	op->nents = blk_rq_map_sg(rq->q, rq, freq->sg_table.sgl);
+-	WARN_ON(op->nents > rq->nr_phys_segments);
++	WARN_ON(op->nents > blk_rq_nr_phys_segments(rq));
+ 	dir = (rq_data_dir(rq) == WRITE) ? DMA_TO_DEVICE : DMA_FROM_DEVICE;
+ 	freq->sg_cnt = fc_dma_map_sg(ctrl->lport->dev, freq->sg_table.sgl,
+ 				op->nents, dir);
 -- 
-1.8.3.1
+2.1.4
