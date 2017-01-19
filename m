@@ -1,33 +1,27 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 18 Jan 2017 20:57:22 -0800
-Subject: [PATCH 01/17] lpfc: Use new pci_alloc_irq_vectors() interface
-In-Reply-To: <20170118165443.GA14012@infradead.org>
-References: <587ec2ec.lHOM16QZ9nmppg4/%jsmart2021@gmail.com>
- <20170118165443.GA14012@infradead.org>
-Message-ID: <81b7018d-6957-6a9a-b122-0dab31984541@gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 19 Jan 2017 10:23:28 +0200
+Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
+In-Reply-To: <97a3f3d3-3619-871d-55f3-75449b0c34cf@grimberg.me>
+References: <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
+ <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
+ <499af528-7810-f82d-1f11-cbf8f3a5b21c@grimberg.me>
+ <53a3fb6c-c75a-519a-f669-2bcab404e01d@grimberg.me>
+ <20170117162752.GE6067@linux-x5ow.site>
+ <6df6bf6a-7cd3-1700-2b0a-e140325ebf47@grimberg.me>
+ <20170118135156.GG3514@linux-x5ow.site>
+ <e3438024-e0f2-db96-5122-4508863be603@grimberg.me>
+ <20170118145816.GI3514@linux-x5ow.site>
+ <c7eabe1c-5dcd-9859-2b41-9683f68a0534@grimberg.me>
+ <20170118151643.GJ3514@linux-x5ow.site>
+ <aaf5c35f-7e81-fa44-d467-53b574debdd4@suse.de>
+ <97a3f3d3-3619-871d-55f3-75449b0c34cf@grimberg.me>
+Message-ID: <dfb4890a-57c0-c070-1d38-ee72bfd85506@grimberg.me>
 
+Christoph suggest to me once that we can take a hybrid
+approach where we consume a small amount of completions (say 4)
+right away from the interrupt handler and if we have more
+we schedule irq-poll to reap the rest. But back then it
+didn't work better which is not aligned with my observations
+that we consume only 1 completion per interrupt...
 
-On 1/18/2017 8:54 AM, Christoph Hellwig wrote:
-> On Tue, Jan 17, 2017@05:20:44PM -0800, James Smart wrote:
->> Move to new pci_alloc_irq_vectors() interface for intx/msi/msix
->>
->> Note: io channel paradigm remains, for now.
-> Not exactly a well written changelog.  I'd like to know why this is
-> better than my version here:
->
-> http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/lpfc-msix
->
-> It also seems to be missing the post_vectors setting for the
-> Flash Optimized Fabric interrupt, which may lead to an incorrect
-> vector assignment for all the queues.
-
-well, my intent was to post what we've been testing for a while. Then we 
-would look at your mods, the remaining blk-mq mods from Hannes, and 
-re-evalute the io channel thing and see where we end up.   This patch 
-was just an initial convert to new api change, with the real mods to 
-queing and adapter configuration following in the initiator basemods 
-patches (a..f). I know your mods did more than the simple api change.
-
-thanks for the post_vectors pickup.
-
--- james
+I can give it another go... What do people think about it?
