@@ -1,59 +1,46 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Thu, 19 Jan 2017 11:28:40 -0700
-Subject: [PATCH v4 2/6] block: Add Sed-opal library
-In-Reply-To: <1483039615-22407-3-git-send-email-scott.bauer@intel.com>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Thu, 19 Jan 2017 12:32:50 -0700
+Subject: [PATCH v4 5/6] nvme: Add Support for Opal: Unlock from S3 & Opal
+ Allocation/Ioctls
+In-Reply-To: <1483039615-22407-6-git-send-email-scott.bauer@intel.com>
 References: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
- <1483039615-22407-3-git-send-email-scott.bauer@intel.com>
-Message-ID: <20170119182839.GB9228@sbauer-Z170X-UD5>
+ <1483039615-22407-6-git-send-email-scott.bauer@intel.com>
+Message-ID: <20170119193249.GA6489@localhost.localdomain>
 
-
-> +struct opal_dev *alloc_opal_dev(struct request_queue *q)
+[snip]
+> +static int nvme_opal_initialize(struct nvme_ns *ns)
 > +{
-> +	struct opal_dev *opal_dev;
-> +	unsigned long dma_align;
-> +	struct opal_cmd *cmd;
 > +
-> +	opal_dev = kzalloc(sizeof(*opal_dev), GFP_KERNEL);
-> +	if (!opal_dev)
-> +		return opal_dev;
+> +#ifdef CONFIG_BLK_DEV_SED_OPAL
+> +	/* Opal dev has already been allocated for this controller */
+> +	if (ns->sed_ctx.dev)
+> +		return 0;
 > +
-> +	cmd = &opal_dev->cmd;
-> +	cmd->cmd = cmd->cmd_buf;
-> +	cmd->resp = cmd->resp_buf;
+> +	ns->sed_ctx.dev = alloc_opal_dev(ns->ctrl->admin_q);
+> +	if (!ns->sed_ctx.dev)
+> +		return -ENOMEM;
+> +	ns->sed_ctx.send_recv = &nvme_sec_submit;
 > +
-> +	dma_align = (queue_dma_alignment(q) | q->dma_pad_mask) + 1;
-> +	cmd->cmd = (u8 *)round_up((uintptr_t)cmd->cmd, dma_align);
-> +	cmd->resp = (u8 *)round_up((uintptr_t)cmd->resp, dma_align);
-> +
-> +	INIT_LIST_HEAD(&opal_dev->unlk_lst);
-> +	opal_dev->state = 0;
-> +
-> +	mutex_init(&opal_dev->dev_lock);
-> +
-> +	return opal_dev;
-> +
-> +}
-> +EXPORT_SYMBOL(alloc_opal_dev);
+> +	/* In the future when we have to determine whether or not we're in
+> +	 * Multi-LR Mult-NS mode or Single-LR Multi-NS mode we'll
+> +	 * pass pointers into is_opal_supported
+> +	 */
+> +	if (is_opal_supported(&ns->sed_ctx, NULL, NULL) != 1) {
+I don't know if it's helpful to have is_opal_supported able to return
+errno if we're just going to ignore the error. Maybe change that to
+check_opal_support, which has less true/false connotation, and can
+return 0 for success and positive if we need it for any unknowns.
 
-Internally we've been discussing this function. We don't like the requirement
-that we have to pass in a request_queue just to allocate an opal dev.
-
-We have a few ideas and wanted to toss them out here and see if anyone has
-one they love or one they hate.
-
-So Idea one:
-
-Pass in the alignment insetead of the request_queue. This pushes the burden
-onto the driver calling alloc_opal_dev instead of the opal core. It also removes
-the requirement of passing in a request_queue to something we think should be
-agnostic to any blocklayer/lower level structures/knowledge.
+Then do:
+        if (check_opal_support(..) < 0)
+                cleanup...
 
 
-Idea two:
 
-Just let alloc_opal_dev kzalloc normally and do no alignment. It would then
-be up to the drivers to move the data from the buffer to a bounce buffer,
-that is aligned, in the send/recv functions before sending down to the controller.
-
-Both are easy to implement but we wanted to see if anyone had other ideas or liked
-one over the other.
+> +		dev_warn(ns->ctrl->device, "Opal is not supported\n");
+> +		kfree(ns->sed_ctx.dev);
+> +		ns->sed_ctx.dev = NULL;
+I might get some pushback since it's only two lines, but I'd say move the two
+lines above into a free_opal_dev to match the alloc_opal_dev. Also if there's
+any more de-initialization we need to do in the future (opal buffers, etc),
+then the free_opal_dev() will be ready for it.
