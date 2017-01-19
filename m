@@ -1,27 +1,38 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 19 Jan 2017 10:23:28 +0200
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
-In-Reply-To: <97a3f3d3-3619-871d-55f3-75449b0c34cf@grimberg.me>
-References: <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
- <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
- <499af528-7810-f82d-1f11-cbf8f3a5b21c@grimberg.me>
- <53a3fb6c-c75a-519a-f669-2bcab404e01d@grimberg.me>
- <20170117162752.GE6067@linux-x5ow.site>
- <6df6bf6a-7cd3-1700-2b0a-e140325ebf47@grimberg.me>
- <20170118135156.GG3514@linux-x5ow.site>
- <e3438024-e0f2-db96-5122-4508863be603@grimberg.me>
- <20170118145816.GI3514@linux-x5ow.site>
- <c7eabe1c-5dcd-9859-2b41-9683f68a0534@grimberg.me>
- <20170118151643.GJ3514@linux-x5ow.site>
- <aaf5c35f-7e81-fa44-d467-53b574debdd4@suse.de>
- <97a3f3d3-3619-871d-55f3-75449b0c34cf@grimberg.me>
-Message-ID: <dfb4890a-57c0-c070-1d38-ee72bfd85506@grimberg.me>
+Date: Thu, 19 Jan 2017 09:54:23 +0200
+Subject: [PATCH 5/6] blk-mq: Fix queue freeze deadlock
+In-Reply-To: <20170117180008.GB8989@localhost.localdomain>
+References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
+ <1483569671-1462-6-git-send-email-keith.busch@intel.com>
+ <1031ba43-4c5e-f6a7-e12f-f6169eae5edf@grimberg.me>
+ <20170117180008.GB8989@localhost.localdomain>
+Message-ID: <c17c426c-44c3-2b3a-b351-a1717e36ce35@grimberg.me>
 
-Christoph suggest to me once that we can take a hybrid
-approach where we consume a small amount of completions (say 4)
-right away from the interrupt handler and if we have more
-we schedule irq-poll to reap the rest. But back then it
-didn't work better which is not aligned with my observations
-that we consume only 1 completion per interrupt...
 
-I can give it another go... What do people think about it?
+>>> If hardware queues are stopped for some event, like the device has been
+>>> suspended by power management, requests allocated on that hardware queue
+>>> are indefinitely stuck causing a queue freeze to wait forever.
+>>
+>> I have a problem with this patch. IMO, this is a general issue so, so
+>> why do we tie a fix to calling blk_mq_update_nr_hw_queues()? We might
+>> not need to update nr_hw_queues at all. I'm fine with the
+>> blk_mq_abandon_stopped_requests but not with its call-site.
+>>
+>> Usually a driver knows when it wants to abandon all busy requests
+>> blk_mq_tagset_busy_iter(), maybe the right approach is to add
+>> a hook for all allocated tags? Or have blk_mq_quisce_queue get a
+>> fail all requests parameter from the callers?
+>
+> This patch is overly aggressive on failing allocated requests. There
+> are scenarios where we wouldn't want to abandon them, like if the hw
+> context is about to be brough back online, but this patch assumes all
+> need to be abandoned. I'll see if there's some other tricks we can have
+> a driver do. Thanks for the suggestions.
+
+I agree,
+
+I do think though that this should be driven from the driver, because
+for fabrics, we might have some fabric error that triggers a periodic
+reconnect. So the "hw context is about to be brought back" is unknown
+from the driver pov, and when we delete the controller (because we give
+up) this is exactly where we need to abandon the allocated requests.
