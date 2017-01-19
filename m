@@ -1,39 +1,39 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 18 Jan 2017 18:14:35 -0800
-Subject: [PATCH 06/17] lpfc: NVME Initiator: Base modifications Part E
-In-Reply-To: <cefa5f07-a3f3-c5dc-2d3a-ddd410d1ffa4@suse.de>
-References: <587ec2f1.pGgoAJWGU6FWMEv6%jsmart2021@gmail.com>
- <cefa5f07-a3f3-c5dc-2d3a-ddd410d1ffa4@suse.de>
-Message-ID: <cc0b019e-19e9-dfaa-314d-98a8545e7542@gmail.com>
+Date: Wed, 18 Jan 2017 18:34:02 -0800
+Subject: [PATCH 02/17] lpfc: NVME Initiator: Base modifications Part A
+In-Reply-To: <20170118094921.GB3514@linux-x5ow.site>
+References: <587ec2ed.BwM2pzG0hT3uy4dN%jsmart2021@gmail.com>
+ <20170118094921.GB3514@linux-x5ow.site>
+Message-ID: <af9d3d56-2239-232c-7317-7ae0ec25be90@gmail.com>
 
 
 
-On 1/17/2017 11:34 PM, Hannes Reinecke wrote:
-> Is this ever reset?
-> I don't see it here ...
+On 1/18/2017 1:50 AM, Johannes Thumshirn wrote:
 
-the lpfc_sli4_hba_setup(), which resets the function and reinits, clears 
-the flag.
-
->
-> [ .. ]
->> @@ -4380,9 +4469,12 @@ lpfc_sli_chipset_init(struct lpfc_hba *phba)
->>    * configured.
->>    **/
->>   int
->> -lpfc_sli_hbq_count(void)
->> +lpfc_sli_hbq_count(struct lpfc_hba *phba)
->>   {
->> -	return ARRAY_SIZE(lpfc_hbq_defs);
->> +	int i;
->> +
->> +	i = ARRAY_SIZE(lpfc_hbq_defs);
->> +	return i;
->>   }
+>> @@ -4959,11 +4968,11 @@ lpfc_send_taskmgmt(struct lpfc_vport *vport, struct scsi_cmnd *cmnd,
+>>   	int status;
 >>   
->>   /**
-> The point of this change being ...?
+>>   	rdata = lpfc_rport_data_from_scsi_device(cmnd->device);
+>> -	if (!rdata || !rdata->pnode || !NLP_CHK_NODE_ACT(rdata->pnode))
+>> -		return FAILED;
+> OK, I don't get this hunk. lpfc_rport_data_from_scsi_device() cannot return
+> NULL anymore?
+>
+> I at least expected something like:
+>
+>    	rdata = lpfc_rport_data_from_scsi_device(cmnd->device);
+> 	if (!rdata || !rdata->pnode)
+> 		return FAILED;
+> 	
+> 	pnode = rdata->pnode;
+> 	if (!NLP_CHK_NODE_ACT(pnode)
+> 		return FAILED;
 
-I don't know - will collapse it.
+it can and the order of precedence for the if check allows for it. I 
+don't see any difference in what you wrote vs what's there, other than 
+pnode gets an assignment.
+
+
+Agree with all your other comments and will address them.
 
 -- james
