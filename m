@@ -1,77 +1,81 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 18 Jan 2017 18:45:46 -0800
-Subject: [PATCH 03/17] lpfc: NVME Initiator: Base modifications Part B
-In-Reply-To: <20170118101112.GC3514@linux-x5ow.site>
-References: <587ec2ee.01djIfQsSlhQj6k1%jsmart2021@gmail.com>
- <20170118101112.GC3514@linux-x5ow.site>
-Message-ID: <4c44ac81-e409-371e-7fa5-bc1946b6c650@gmail.com>
+Date: Wed, 18 Jan 2017 18:54:37 -0800
+Subject: [PATCH 04/17] lpfc: NVME Initiator: Base modifications Part C
+In-Reply-To: <20170118110304.GD3514@linux-x5ow.site>
+References: <587ec2ef.Y/y2qvlPHm64sAst%jsmart2021@gmail.com>
+ <20170118110304.GD3514@linux-x5ow.site>
+Message-ID: <784acc16-b284-6159-4399-dfd39ae1a8bd@gmail.com>
 
 
 
-On 1/18/2017 2:11 AM, Johannes Thumshirn wrote:
-> On Tue, Jan 17, 2017@05:20:46PM -0800, James Smart wrote:
->> NVME Initiator: Base modifications
->>
->> This is part B of parts A..F.
->>
->> Part B is limited to lpfc_attr.c: lpfc attribute modifications
->>
->> *********
->>
->> Refer to Part A for a description of base modifications
->>
->> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
->> Signed-off-by: James Smart <james.smart at broadcom.com>
->> ---
-> [...]
+On 1/18/2017 3:03 AM, Johannes Thumshirn wrote:
 >
->> +	len += snprintf(buf + len, PAGE_SIZE - len,
->> +			"%s%d WWPN x%llx WWNN x%llx DID x%06x %s\n",
->> +			"NVME LPORT lpfc",
-> Is it the lack of coffee or should it be
-> 			"NVME LPORT lpfc%d WWPN x%llx WWNN x%llx DID x%06x %s\n"
+>> +	/* maximum number of xris available for nvme buffers */
+>> +	els_xri_cnt = lpfc_sli4_get_els_iocb_cnt(phba);
+>> +	phba->sli4_hba.nvme_xri_max = phba->sli4_hba.max_cfg_param.max_xri -
+>> +				      els_xri_cnt;
+>> +	phba->sli4_hba.nvme_xri_max -= phba->sli4_hba.scsi_xri_max;
+> 	nvme_xri_max = phba->sli4_hba.max_cfg_param.max_xri - els_xri_cnt;
+> 	nvme_xri_max -= phba->sli4_hba.scsi_xri_max;
+> 	phba->sli4_hba.nvme_xri_max = nvme_xri_max;
 >
-> I think you're doing it to not hit the 80 chars limit, but then there are
-> way more offenders than that one, so...
+> Low hanging anti line-break fruit.
 
-The line split is certainly due to the 80 limit and have that issue a lot.
+ok - but I didn't think that a style change like this is a mandate.   As 
+I'm addressing your other comments, I'll do so.
 
-As for what the string name should be - I agree with you. something is 
-confused.
 
->> +int
->> +lpfc_emptyq_wait(struct lpfc_hba *phba, struct list_head *q, spinlock_t *lock)
->> +{
->> +	int cnt = 0;
->> +
->> +	spin_lock_irq(lock);
->> +	while (!list_empty(q)) {
->> +		spin_unlock_irq(lock);
->> +		msleep(20);
->> +		if (cnt++ > 250) {  /* 5 secs */
->> +			lpfc_printf_log(phba, KERN_WARNING, LOG_INIT,
->> +					"0466 %s %s\n",
->> +					"Outstanding IO when ",
->> +					"bringing Adapter offline\n");
->> +				return 0;
->> +		}
->> +		spin_lock_irq(lock);
->> +	}
->> +	spin_unlock_irq(lock);
->> +	return 1;
->> +}
->> +
-> Aren't you using lpc_emptyq_wait() in patches prior to that already? This
-> breaks git bisect. Pleas test-build (ideally + checkpatch and sparse/smatch)
-> each patch in the series individually.
+>>   		}
+>> @@ -4273,13 +4489,13 @@ lpfc_sli4_async_sli_evt(struct lpfc_hba *phba, struct lpfc_acqe_sli *acqe_sli)
+>>   			sprintf(message, "Unqualified optics - Replace with "
+>>   				"Avago optics for Warranty and Technical "
+> Is Avago still correct, or should it read Broadcom?
 
-I called out - in patch2 - that Patches 2 through 7, known as parts 
-A..F, area really one big patch. They will not follow the git bisect 
-rules.  I could have sent them in one huge patch, but chose to break 
-them up. Unfortunately, the mods accumulated over time with lots of 
-reworks - creating a base that was too intertwined to put into small 
-functional patches without spending oodles of time to carve them up.   I 
-hope you can bear with me on this set and review the 7 pieces as one big 
-patch.
+It's right - Avago.
+
+
+>> @@ -4854,17 +5070,20 @@ static int
+>>   lpfc_enable_pci_dev(struct lpfc_hba *phba)
+>>   {
+>>   	struct pci_dev *pdev;
+>> +	int bars = 0;
+>>   
+>>   	/* Obtain PCI device reference */
+>>   	if (!phba->pcidev)
+>>   		goto out_error;
+>>   	else
+>>   		pdev = phba->pcidev;
+>> +	/* Select PCI BARs */
+>> +	bars = pci_select_bars(pdev, IORESOURCE_MEM);
+>>   	/* Enable PCI device */
+>>   	if (pci_enable_device_mem(pdev))
+>>   		goto out_error;
+>>   	/* Request PCI resource for the device */
+>> -	if (pci_request_mem_regions(pdev, LPFC_DRIVER_NAME))
+>> +	if (pci_request_selected_regions(pdev, bars, LPFC_DRIVER_NAME))
+>>   		goto out_disable_device;
+>>   	/* Set up device as PCI master and save state for EEH */
+>>   	pci_set_master(pdev);
+>> @@ -4881,7 +5100,7 @@ lpfc_enable_pci_dev(struct lpfc_hba *phba)
+>>   	pci_disable_device(pdev);
+>>   out_error:
+>>   	lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+>> -			"1401 Failed to enable pci device\n");
+>> +			"1401 Failed to enable pci device, bars:x%x\n", bars);
+>>   	return -ENODEV;
+>>   }
+> I don't get this change. pci_request_mem_regions does
+>
+> pci_request_selected_regions(pdev,
+> 		pci_select_bars(pdev, IORESOURCE_MEM), name);
+>
+> if you want to have the bars in the error log please do:
+>    	lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+> 			"1401 Failed to enable pci device, bars:x%x\n",
+> 			pci_select_regions(pdev, IORESOURCE_MEM));
+
+I agree - this is weird.  I'll track why it was ever changed and address it.
+
+Other comments are good. I'll address them.
 
 -- james
