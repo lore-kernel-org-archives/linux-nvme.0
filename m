@@ -1,32 +1,70 @@
 From: parav@mellanox.com (Parav Pandit)
-Date: Thu, 19 Jan 2017 15:51:25 +0000
-Subject: [PATCHv3] nvmet-rdma: Fix missing dma sync to nvme data structures
-In-Reply-To: <20170119154601.GA597@lst.de>
-References: <1484785346-2991-1-git-send-email-parav@mellanox.com>
- <20170119152240.GA32400@lst.de>
- <VI1PR0502MB300864C57897C37D4397A76AD17E0@VI1PR0502MB3008.eurprd05.prod.outlook.com>
- <20170119154601.GA597@lst.de>
-Message-ID: <VI1PR0502MB30085FE37E38A20D99BD03C0D17E0@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+Date: Thu, 19 Jan 2017 09:55:08 -0600
+Subject: [PATCHv4] nvmet-rdma: Fix missing dma sync to nvme data structures
+Message-ID: <1484841308-9053-1-git-send-email-parav@mellanox.com>
 
-After sending I realized that Doug might also need to do that to merge this to Linux-rdma so that Bart's dma_ops series works correctly.
-So its work for more people.
-Let me just resend it. Its minor.
+This patch performs dma sync operations on nvme_command
+and nvme_completion.
 
-Parav
+nvme_command is synced
+(a) on receiving of the recv queue completion for cpu access.
+(b) before posting recv wqe back to rdma adapter for device access.
 
-> -----Original Message-----
-> From: Christoph Hellwig [mailto:hch at lst.de]
-> Sent: Thursday, January 19, 2017 9:46 AM
-> To: Parav Pandit <parav at mellanox.com>
-> Cc: Christoph Hellwig <hch at lst.de>; sagi at grimberg.me; linux-
-> nvme at lists.infradead.org; linux-rdma at vger.kernel.org;
-> dledford at redhat.com
-> Subject: Re: [PATCHv3] nvmet-rdma: Fix missing dma sync to nvme data
-> structures
-> 
-> On Thu, Jan 19, 2017@03:45:30PM +0000, Parav Pandit wrote:
-> > I agree. I should have taken care of that.
-> > Shall I resend patch with same indentation at all places or this can be taken
-> care during commit?
-> 
-> I think Sagi or I can just take care of it on commit.
+nvme_completion is synced
+(a) on receiving of the recv queue completion of associated
+nvme_command for cpu access.
+(b) before posting send wqe to rdma adapter for device access.
+
+This patch is generated for git://git.infradead.org/nvme-fabrics.git
+Branch: nvmf-4.10
+
+Signed-off-by: Parav Pandit <parav at mellanox.com>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+---
+ drivers/nvme/target/rdma.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 6c1c368..b572da1 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -438,6 +438,10 @@ static int nvmet_rdma_post_recv(struct nvmet_rdma_device *ndev,
+ {
+ 	struct ib_recv_wr *bad_wr;
+ 
++	ib_dma_sync_single_for_device(ndev->device,
++		cmd->sge[0].addr, cmd->sge[0].length,
++		DMA_FROM_DEVICE);
++
+ 	if (ndev->srq)
+ 		return ib_post_srq_recv(ndev->srq, &cmd->wr, &bad_wr);
+ 	return ib_post_recv(cmd->queue->cm_id->qp, &cmd->wr, &bad_wr);
+@@ -538,6 +542,11 @@ static void nvmet_rdma_queue_response(struct nvmet_req *req)
+ 		first_wr = &rsp->send_wr;
+ 
+ 	nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd);
++
++	ib_dma_sync_single_for_device(rsp->queue->dev->device,
++		rsp->send_sge.addr, rsp->send_sge.length,
++		DMA_TO_DEVICE);
++
+ 	if (ib_post_send(cm_id->qp, first_wr, &bad_wr)) {
+ 		pr_err("sending cmd response failed\n");
+ 		nvmet_rdma_release_rsp(rsp);
+@@ -698,6 +707,14 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
+ 	cmd->n_rdma = 0;
+ 	cmd->req.port = queue->port;
+ 
++
++	ib_dma_sync_single_for_cpu(queue->dev->device,
++		cmd->cmd->sge[0].addr, cmd->cmd->sge[0].length,
++		DMA_FROM_DEVICE);
++	ib_dma_sync_single_for_cpu(queue->dev->device,
++		cmd->send_sge.addr, cmd->send_sge.length,
++		DMA_TO_DEVICE);
++
+ 	if (!nvmet_req_init(&cmd->req, &queue->nvme_cq,
+ 			&queue->nvme_sq, &nvmet_rdma_ops))
+ 		return;
+-- 
+1.8.3.1
