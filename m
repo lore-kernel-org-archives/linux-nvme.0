@@ -1,42 +1,62 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Jan 2017 09:14:06 +0100
-Subject: [PATCH 04/17] lpfc: NVME Initiator: Base modifications Part C
-In-Reply-To: <784acc16-b284-6159-4399-dfd39ae1a8bd@gmail.com>
-References: <587ec2ef.Y/y2qvlPHm64sAst%jsmart2021@gmail.com>
- <20170118110304.GD3514@linux-x5ow.site>
- <784acc16-b284-6159-4399-dfd39ae1a8bd@gmail.com>
-Message-ID: <20170119081406.GD5054@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 19 Jan 2017 10:12:17 +0200
+Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
+In-Reply-To: <aaf5c35f-7e81-fa44-d467-53b574debdd4@suse.de>
+References: <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
+ <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
+ <499af528-7810-f82d-1f11-cbf8f3a5b21c@grimberg.me>
+ <53a3fb6c-c75a-519a-f669-2bcab404e01d@grimberg.me>
+ <20170117162752.GE6067@linux-x5ow.site>
+ <6df6bf6a-7cd3-1700-2b0a-e140325ebf47@grimberg.me>
+ <20170118135156.GG3514@linux-x5ow.site>
+ <e3438024-e0f2-db96-5122-4508863be603@grimberg.me>
+ <20170118145816.GI3514@linux-x5ow.site>
+ <c7eabe1c-5dcd-9859-2b41-9683f68a0534@grimberg.me>
+ <20170118151643.GJ3514@linux-x5ow.site>
+ <aaf5c35f-7e81-fa44-d467-53b574debdd4@suse.de>
+Message-ID: <97a3f3d3-3619-871d-55f3-75449b0c34cf@grimberg.me>
 
-On Wed, Jan 18, 2017@06:54:37PM -0800, James Smart wrote:
-> 
-> 
-> On 1/18/2017 3:03 AM, Johannes Thumshirn wrote:
-> >
-> >>+	/* maximum number of xris available for nvme buffers */
-> >>+	els_xri_cnt = lpfc_sli4_get_els_iocb_cnt(phba);
-> >>+	phba->sli4_hba.nvme_xri_max = phba->sli4_hba.max_cfg_param.max_xri -
-> >>+				      els_xri_cnt;
-> >>+	phba->sli4_hba.nvme_xri_max -= phba->sli4_hba.scsi_xri_max;
-> >	nvme_xri_max = phba->sli4_hba.max_cfg_param.max_xri - els_xri_cnt;
-> >	nvme_xri_max -= phba->sli4_hba.scsi_xri_max;
-> >	phba->sli4_hba.nvme_xri_max = nvme_xri_max;
-> >
-> >Low hanging anti line-break fruit.
-> 
-> ok - but I didn't think that a style change like this is a mandate.   As I'm
-> addressing your other comments, I'll do so.
 
-I don't think it's a mandate, but line wrappings are always bad to read. Code
-is written once but read a lot of times. I know I'm nitpicking a lot here but
-hard to read code makes errors hard to spot.
+>>> I think you missed:
+>>> http://git.infradead.org/nvme.git/commit/49c91e3e09dc3c9dd1718df85112a8cce3ab7007
+>>
+>> I indeed did, thanks.
+>>
+> But it doesn't help.
+>
+> We're still having to wait for the first interrupt, and if we're really
+> fast that's the only completion we have to process.
+>
+> Try this:
+>
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index b4b32e6..e2dd9e2 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -623,6 +623,8 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
+>         }
+>         __nvme_submit_cmd(nvmeq, &cmnd);
+>         spin_unlock(&nvmeq->sq_lock);
+> +       disable_irq_nosync(nvmeq_irq(irq));
+> +       irq_poll_sched(&nvmeq->iop);
 
-Thanks for your patience,
-	Johannes
+a. This would trigger a condition that we disable irq twice which
+is wrong at least because it will generate a warning.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+b. This would cause a way-too-much triggers of ksoftirqd. In order for
+it to be effective we need to to run only when it should and optimally
+when the completion queue has a batch of completions waiting.
+
+After a deeper analysis, I agree with Bart that interrupt coalescing is
+needed for it to work. The problem with nvme coalescing as Jens said, is
+a death penalty of 100us granularity. Hannes, Johannes, how does it look
+like with the devices you are testing with?
+
+Also, I think that adaptive moderation is needed in order for it to
+work well. I know that some networking drivers implemented adaptive
+moderation in SW before having HW support for it. It can be done by
+maintaining stats and having a periodic work that looks at it and
+changes the moderation parameters.
+
+Does anyone think that this is something we should consider?
