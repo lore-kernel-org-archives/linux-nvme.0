@@ -1,83 +1,33 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 19 Jan 2017 10:13:08 +0100
+From: tom.leiming@gmail.com (Ming Lei)
+Date: Thu, 19 Jan 2017 18:57:46 +0800
 Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
-In-Reply-To: <97a3f3d3-3619-871d-55f3-75449b0c34cf@grimberg.me>
-References: <53a3fb6c-c75a-519a-f669-2bcab404e01d@grimberg.me>
- <20170117162752.GE6067@linux-x5ow.site>
- <6df6bf6a-7cd3-1700-2b0a-e140325ebf47@grimberg.me>
- <20170118135156.GG3514@linux-x5ow.site>
- <e3438024-e0f2-db96-5122-4508863be603@grimberg.me>
- <20170118145816.GI3514@linux-x5ow.site>
- <c7eabe1c-5dcd-9859-2b41-9683f68a0534@grimberg.me>
- <20170118151643.GJ3514@linux-x5ow.site>
- <aaf5c35f-7e81-fa44-d467-53b574debdd4@suse.de>
- <97a3f3d3-3619-871d-55f3-75449b0c34cf@grimberg.me>
-Message-ID: <20170119091308.GL5054@linux-x5ow.site>
+In-Reply-To: <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
+References: <20170111134312.GH6286@linux-x5ow.site>
+ <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
+Message-ID: <CACVXFVP=mdetwMds9W-YL22ghW3ra4R9=RAnWrKdb6G-jjuqFA@mail.gmail.com>
 
-On Thu, Jan 19, 2017@10:12:17AM +0200, Sagi Grimberg wrote:
-> 
-> >>>I think you missed:
-> >>>http://git.infradead.org/nvme.git/commit/49c91e3e09dc3c9dd1718df85112a8cce3ab7007
-> >>
-> >>I indeed did, thanks.
-> >>
-> >But it doesn't help.
-> >
-> >We're still having to wait for the first interrupt, and if we're really
-> >fast that's the only completion we have to process.
-> >
-> >Try this:
-> >
-> >
-> >diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> >index b4b32e6..e2dd9e2 100644
-> >--- a/drivers/nvme/host/pci.c
-> >+++ b/drivers/nvme/host/pci.c
-> >@@ -623,6 +623,8 @@ static int nvme_queue_rq(struct blk_mq_hw_ctx *hctx,
-> >        }
-> >        __nvme_submit_cmd(nvmeq, &cmnd);
-> >        spin_unlock(&nvmeq->sq_lock);
-> >+       disable_irq_nosync(nvmeq_irq(irq));
-> >+       irq_poll_sched(&nvmeq->iop);
-> 
-> a. This would trigger a condition that we disable irq twice which
-> is wrong at least because it will generate a warning.
-> 
-> b. This would cause a way-too-much triggers of ksoftirqd. In order for
-> it to be effective we need to to run only when it should and optimally
-> when the completion queue has a batch of completions waiting.
-> 
-> After a deeper analysis, I agree with Bart that interrupt coalescing is
-> needed for it to work. The problem with nvme coalescing as Jens said, is
-> a death penalty of 100us granularity. Hannes, Johannes, how does it look
-> like with the devices you are testing with?
+On Wed, Jan 11, 2017@11:07 PM, Jens Axboe <axboe@kernel.dk> wrote:
+> On 01/11/2017 06:43 AM, Johannes Thumshirn wrote:
+>> Hi all,
+>>
+>> I'd like to attend LSF/MM and would like to discuss polling for block drivers.
+>>
+>> Currently there is blk-iopoll but it is neither as widely used as NAPI in the
+>> networking field and accoring to Sagi's findings in [1] performance with
+>> polling is not on par with IRQ usage.
+>>
+>> On LSF/MM I'd like to whether it is desirable to have NAPI like polling in
+>> more block drivers and how to overcome the currently seen performance issues.
+>
+> It would be an interesting topic to discuss, as it is a shame that blk-iopoll
+> isn't used more widely.
 
-I haven't had a look at AHCI's Command Completion Coalescing yet but hopefully
-I find the time today (+SSD testing!!!).
+I remembered that Keith and I discussed some issues of blk-iopoll:
 
-Don't know if Hannes did (but I _think_ no). The problem is we've already
-maxed out our test HW w/o irq_poll and so the only changes we're seeing
-currently is an increase of wasted CPU cycles. Not what we wanted to have.
+    http://marc.info/?l=linux-block&m=147576999016407&w=2
 
-> 
-> Also, I think that adaptive moderation is needed in order for it to
-> work well. I know that some networking drivers implemented adaptive
-> moderation in SW before having HW support for it. It can be done by
-> maintaining stats and having a periodic work that looks at it and
-> changes the moderation parameters.
-> 
-> Does anyone think that this is something we should consider?
+seems which isn't addressed yet.
 
-Yes we've been discussing this internally as well and it sounds good but thats
-still all pure theory and nothing actually implemented and tested.
 
-Byte,
-	Johannes
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Thanks,
+Ming Lei
