@@ -1,53 +1,13 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 19 Jan 2017 12:03:59 +0100
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
-In-Reply-To: <CACVXFVP=mdetwMds9W-YL22ghW3ra4R9=RAnWrKdb6G-jjuqFA@mail.gmail.com>
-References: <20170111134312.GH6286@linux-x5ow.site>
- <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
- <CACVXFVP=mdetwMds9W-YL22ghW3ra4R9=RAnWrKdb6G-jjuqFA@mail.gmail.com>
-Message-ID: <65d46eca-33f7-adb3-ed86-7c7feec84130@suse.de>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 19 Jan 2017 07:13:23 -0800
+Subject: [PATCH 02/17] lpfc: NVME Initiator: Base modifications Part A
+In-Reply-To: <20170119080436.GB5054@linux-x5ow.site>
+References: <587ec2ed.BwM2pzG0hT3uy4dN%jsmart2021@gmail.com>
+ <20170118094921.GB3514@linux-x5ow.site>
+ <af9d3d56-2239-232c-7317-7ae0ec25be90@gmail.com>
+ <20170119080436.GB5054@linux-x5ow.site>
+Message-ID: <622a3272-816f-f1da-3fbb-873037c3ebfe@broadcom.com>
 
-On 01/19/2017 11:57 AM, Ming Lei wrote:
-> On Wed, Jan 11, 2017@11:07 PM, Jens Axboe <axboe@kernel.dk> wrote:
->> On 01/11/2017 06:43 AM, Johannes Thumshirn wrote:
->>> Hi all,
->>>
->>> I'd like to attend LSF/MM and would like to discuss polling for block drivers.
->>>
->>> Currently there is blk-iopoll but it is neither as widely used as NAPI in the
->>> networking field and accoring to Sagi's findings in [1] performance with
->>> polling is not on par with IRQ usage.
->>>
->>> On LSF/MM I'd like to whether it is desirable to have NAPI like polling in
->>> more block drivers and how to overcome the currently seen performance issues.
->>
->> It would be an interesting topic to discuss, as it is a shame that blk-iopoll
->> isn't used more widely.
-> 
-> I remembered that Keith and I discussed some issues of blk-iopoll:
-> 
->     http://marc.info/?l=linux-block&m=147576999016407&w=2
-> 
-> seems which isn't addressed yet.
-> 
-That's a different poll.
+Nevermind - I misread the "-" for "+". will fix
 
-For some obscure reasons you have a blk-mq-poll function (via
-q->mq_ops->poll) and an irqpoll function.
-The former is for polling completion of individual block-layer tags, the
-latter for polling completions from the hardware instead of relying on
-interrupts.
-
-We're discussing the latter here, so that thread isn't really applicable
-here. However, there have been requests to discuss the former at LSF/MM,
-too. So there might be a chance of restarting that discussion.
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+-- james
