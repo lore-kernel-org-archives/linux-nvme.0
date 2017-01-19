@@ -1,38 +1,42 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 19 Jan 2017 09:54:23 +0200
-Subject: [PATCH 5/6] blk-mq: Fix queue freeze deadlock
-In-Reply-To: <20170117180008.GB8989@localhost.localdomain>
-References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
- <1483569671-1462-6-git-send-email-keith.busch@intel.com>
- <1031ba43-4c5e-f6a7-e12f-f6169eae5edf@grimberg.me>
- <20170117180008.GB8989@localhost.localdomain>
-Message-ID: <c17c426c-44c3-2b3a-b351-a1717e36ce35@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 19 Jan 2017 09:14:06 +0100
+Subject: [PATCH 04/17] lpfc: NVME Initiator: Base modifications Part C
+In-Reply-To: <784acc16-b284-6159-4399-dfd39ae1a8bd@gmail.com>
+References: <587ec2ef.Y/y2qvlPHm64sAst%jsmart2021@gmail.com>
+ <20170118110304.GD3514@linux-x5ow.site>
+ <784acc16-b284-6159-4399-dfd39ae1a8bd@gmail.com>
+Message-ID: <20170119081406.GD5054@linux-x5ow.site>
 
+On Wed, Jan 18, 2017@06:54:37PM -0800, James Smart wrote:
+> 
+> 
+> On 1/18/2017 3:03 AM, Johannes Thumshirn wrote:
+> >
+> >>+	/* maximum number of xris available for nvme buffers */
+> >>+	els_xri_cnt = lpfc_sli4_get_els_iocb_cnt(phba);
+> >>+	phba->sli4_hba.nvme_xri_max = phba->sli4_hba.max_cfg_param.max_xri -
+> >>+				      els_xri_cnt;
+> >>+	phba->sli4_hba.nvme_xri_max -= phba->sli4_hba.scsi_xri_max;
+> >	nvme_xri_max = phba->sli4_hba.max_cfg_param.max_xri - els_xri_cnt;
+> >	nvme_xri_max -= phba->sli4_hba.scsi_xri_max;
+> >	phba->sli4_hba.nvme_xri_max = nvme_xri_max;
+> >
+> >Low hanging anti line-break fruit.
+> 
+> ok - but I didn't think that a style change like this is a mandate.   As I'm
+> addressing your other comments, I'll do so.
 
->>> If hardware queues are stopped for some event, like the device has been
->>> suspended by power management, requests allocated on that hardware queue
->>> are indefinitely stuck causing a queue freeze to wait forever.
->>
->> I have a problem with this patch. IMO, this is a general issue so, so
->> why do we tie a fix to calling blk_mq_update_nr_hw_queues()? We might
->> not need to update nr_hw_queues at all. I'm fine with the
->> blk_mq_abandon_stopped_requests but not with its call-site.
->>
->> Usually a driver knows when it wants to abandon all busy requests
->> blk_mq_tagset_busy_iter(), maybe the right approach is to add
->> a hook for all allocated tags? Or have blk_mq_quisce_queue get a
->> fail all requests parameter from the callers?
->
-> This patch is overly aggressive on failing allocated requests. There
-> are scenarios where we wouldn't want to abandon them, like if the hw
-> context is about to be brough back online, but this patch assumes all
-> need to be abandoned. I'll see if there's some other tricks we can have
-> a driver do. Thanks for the suggestions.
+I don't think it's a mandate, but line wrappings are always bad to read. Code
+is written once but read a lot of times. I know I'm nitpicking a lot here but
+hard to read code makes errors hard to spot.
 
-I agree,
+Thanks for your patience,
+	Johannes
 
-I do think though that this should be driven from the driver, because
-for fabrics, we might have some fabric error that triggers a periodic
-reconnect. So the "hw context is about to be brought back" is unknown
-from the driver pov, and when we delete the controller (because we give
-up) this is exactly where we need to abandon the allocated requests.
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
