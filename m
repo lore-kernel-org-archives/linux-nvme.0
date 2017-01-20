@@ -1,72 +1,85 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 20 Jan 2017 13:22:54 +0100
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
-In-Reply-To: <f10b8508-22a2-2959-c369-2dd29f271d2c@grimberg.me>
-References: <20170111134312.GH6286@linux-x5ow.site>
- <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
- <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
- <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
- <499af528-7810-f82d-1f11-cbf8f3a5b21c@grimberg.me>
- <f10b8508-22a2-2959-c369-2dd29f271d2c@grimberg.me>
-Message-ID: <20170120122254.GA5947@linux-x5ow.site>
+From: luto@amacapital.net (Andy Lutomirski)
+Date: Fri, 20 Jan 2017 10:07:42 -0800
+Subject: [PATCH v2 2/2] nvme: Enable autonomous power state transitions
+In-Reply-To: <20170120103030.GB23149@lst.de>
+References: <cover.1484855622.git.luto@kernel.org>
+ <9b150934a9d756f69ca241199af512925a4050ec.1484855622.git.luto@kernel.org>
+ <20170120103030.GB23149@lst.de>
+Message-ID: <CALCETrUdRHZ35FfAjN3mOjcLA4XawQbw2E7sZxe5stjJNH+0vA@mail.gmail.com>
 
-On Tue, Jan 17, 2017@05:45:53PM +0200, Sagi Grimberg wrote:
-> 
-> >--
-> >[1]
-> >queue = b'nvme0q1'
-> >     usecs               : count     distribution
-> >         0 -> 1          : 7310 |****************************************|
-> >         2 -> 3          : 11       |      |
-> >         4 -> 7          : 10       |      |
-> >         8 -> 15         : 20       |      |
-> >        16 -> 31         : 0        |      |
-> >        32 -> 63         : 0        |      |
-> >        64 -> 127        : 1        |      |
-> >
-> >[2]
-> >queue = b'nvme0q1'
-> >     usecs               : count     distribution
-> >         0 -> 1          : 7309 |****************************************|
-> >         2 -> 3          : 14       |      |
-> >         4 -> 7          : 7        |      |
-> >         8 -> 15         : 17       |      |
-> >
-> 
-> Rrr, email made the histograms look funky (tabs vs. spaces...)
-> The count is what's important anyways...
-> 
-> Just adding that I used an Intel P3500 nvme device.
-> 
-> >We can see that most of the time our latency is pretty good (<1ns) but with
-> >huge tail latencies (some 8-15 ns and even one in 32-63 ns).
-> 
-> Obviously is micro-seconds and not nano-seconds (I wish...)
+On Fri, Jan 20, 2017@2:30 AM, Christoph Hellwig <hch@lst.de> wrote:
+>
+>> +static void nvme_set_latency_tolerance(struct device *dev, s32 val)
+>> +{
+>> +     struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+>> +
+>> +     u64 latency;
+>> +
+>> +     if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT ||
+>> +         val == PM_QOS_LATENCY_ANY)
+>> +             latency = U64_MAX;
+>> +     else
+>> +             latency = val;
+>
+> In addition to the latency vs val mixup pointed out earlier -
+> can you use a switch statement here to make the code a little
+> more obvious?
 
-So to share yesterday's (and today's) findings:
+Sure.
 
-On AHCI I see only one completion polled as well.
+>
+>> +     if (ctrl->ps_max_latency_us != val) {
+>> +             ctrl->ps_max_latency_us = val;
+>> +             nvme_configure_apst(ctrl);
+>> +     }
+>> +}
+>> +
+>
+>>       ctrl->identified = true;
+>
+> The ->identified field seems to never be checked anywhere.
+>
 
-This probably is because in contrast to networking (with NAPI) in the block
-layer we do have a link between submission and completion whereas in networking
-RX and TX are decoupled. So if we're sending out one request we get the
-completion for it.
+See the previous patch:
 
-What we'd need is a link to know "we've sent 10 requests out, now poll for the
-10 completions after the 1st IRQ". So basically what NVMe already did with
-calling __nvme_process_cq() after submission. Maybe we should even disable
-IRQs when submitting and re-enable after submitting so the
-submission patch doesn't get preempted by a completion.
++       if (!ctrl->identified) {
 
-Does this make sense?
 
-Byte,
-	Johannes
+>
+>> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+>> index 7103bce4ba4f..1c3e170da6de 100644
+>> --- a/drivers/nvme/host/pci.c
+>> +++ b/drivers/nvme/host/pci.c
+>> @@ -1791,6 +1791,8 @@ static void nvme_reset_work(struct work_struct *work)
+>>       if (result)
+>>               goto out;
+>>
+>> +     nvme_configure_apst(&dev->ctrl);
+>> +
+>>       /*
+>>        * A controller that can not execute IO typically requires user
+>>        * intervention to correct. For such degraded controllers, the driver
+>> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+>> index 557f29b1f1bb..a64b5db96fd8 100644
+>> --- a/drivers/nvme/host/rdma.c
+>> +++ b/drivers/nvme/host/rdma.c
+>> @@ -1629,6 +1629,8 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl)
+>>
+>>       nvme_start_keep_alive(&ctrl->ctrl);
+>>
+>> +     nvme_configure_apst(&ctrl->ctrl);
+>> +
+>
+> Is there a specific reason for the exact placement of these calls here
+> and not at inside nvme_init_identify?  Having all the code called
+> from an existing core function would make things a lot easier in the
+> future.  And if that's not possible we'll probably need comments
+> on why it's placed like it is.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+In the original version I had this in nvme_init_identify().  I moved
+it later just in case there was a buggy device that didn't like having
+APST flipped on before the queue setup was done.  I could easily move
+it back to nvme_init_identify() or add a new nvme_finish_setup() or
+similar.  Any preference?
+
+--Andy
