@@ -1,34 +1,11 @@
-From: luto@amacapital.net (Andy Lutomirski)
-Date: Thu, 19 Jan 2017 21:17:09 -0800
-Subject: [PATCH v2 2/2] nvme: Enable autonomous power state transitions
-In-Reply-To: <20170119201530.GA31954@localhost.localdomain>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 20 Jan 2017 11:24:40 +0100
+Subject: [PATCH v2 1/2] nvme: Add a quirk mechanism that uses identify_ctrl
+In-Reply-To: <eac3c1b2bec90d02ea8d60cd349f786ba03fd869.1484855622.git.luto@kernel.org>
 References: <cover.1484855622.git.luto@kernel.org>
- <9b150934a9d756f69ca241199af512925a4050ec.1484855622.git.luto@kernel.org>
- <20170119201530.GA31954@localhost.localdomain>
-Message-ID: <CALCETrUaHmvrSrDHL5ysri+dXZq8iqGWzJdusVxPMxdsuieZhQ@mail.gmail.com>
+ <eac3c1b2bec90d02ea8d60cd349f786ba03fd869.1484855622.git.luto@kernel.org>
+Message-ID: <20170120102440.GA23149@lst.de>
 
-On Thu, Jan 19, 2017@12:15 PM, Keith Busch <keith.busch@intel.com> wrote:
-> On Thu, Jan 19, 2017@11:55:44AM -0800, Andy Lutomirski wrote:
->> +static void nvme_set_latency_tolerance(struct device *dev, s32 val)
->> +{
->> +     struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
->> +
->> +     u64 latency;
->> +
->> +     if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT ||
->> +         val == PM_QOS_LATENCY_ANY)
->> +             latency = U64_MAX;
->> +     else
->> +             latency = val;
->> +
->> +     if (ctrl->ps_max_latency_us != val) {
->> +             ctrl->ps_max_latency_us = val;
->
-> Did you mean to use 'latency' here instead of 'val'? Otherwise, I don't
-> see why the latency variable exists.
+Looks fine,
 
-D'oh!  I'm a bit surprised the compiler didn't warn.
-
-As a practical matter, this probably had no effect in my testing
-because the two magic values would have ended up being rather large
-s32 values, so the effect would be the same.  v3 coming, though.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
