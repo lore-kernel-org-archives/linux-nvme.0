@@ -1,63 +1,34 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 19 Jan 2017 16:13:40 -0800
-Subject: [LSF/MM TOPIC][LSF/MM ATTEND] NAPI polling for block drivers
-In-Reply-To: <4ad78959-3991-98f1-4c27-298b20163e52@suse.de>
-References: <20170111134312.GH6286@linux-x5ow.site>
- <cc00cc1f-17d7-105e-ef2c-61791b7cc676@kernel.dk>
- <d60d4499-6ed8-0a69-edbf-db205a6dba6a@kernel.dk>
- <8b47ca34-d2ff-26dc-721e-2cb1e18f1efc@grimberg.me>
- <499af528-7810-f82d-1f11-cbf8f3a5b21c@grimberg.me>
- <CANvN+emx1-F3iAY45t1_MQRcijw7sf1jPvjwv0uh8A3GzzQwMg@mail.gmail.com>
- <e2b16f22-5743-23c8-cd20-13a20ec956b7@grimberg.me>
- <4ad78959-3991-98f1-4c27-298b20163e52@suse.de>
-Message-ID: <0e0dd594-5348-9ccb-5929-b1ec73234f7c@kernel.dk>
+From: luto@amacapital.net (Andy Lutomirski)
+Date: Thu, 19 Jan 2017 21:17:09 -0800
+Subject: [PATCH v2 2/2] nvme: Enable autonomous power state transitions
+In-Reply-To: <20170119201530.GA31954@localhost.localdomain>
+References: <cover.1484855622.git.luto@kernel.org>
+ <9b150934a9d756f69ca241199af512925a4050ec.1484855622.git.luto@kernel.org>
+ <20170119201530.GA31954@localhost.localdomain>
+Message-ID: <CALCETrUaHmvrSrDHL5ysri+dXZq8iqGWzJdusVxPMxdsuieZhQ@mail.gmail.com>
 
-On 01/18/2017 06:02 AM, Hannes Reinecke wrote:
-> On 01/17/2017 05:50 PM, Sagi Grimberg wrote:
->>
->>>     So it looks like we are super not efficient because most of the
->>>     times we catch 1
->>>     completion per interrupt and the whole point is that we need to find
->>>     more! This fio
->>>     is single threaded with QD=32 so I'd expect that we be somewhere in
->>>     8-31 almost all
->>>     the time... I also tried QD=1024, histogram is still the same.
->>>
->>>
->>> It looks like it takes you longer to submit an I/O than to service an
->>> interrupt,
->>
->> Well, with irq-poll we do practically nothing in the interrupt handler,
->> only schedule irq-poll. Note that the latency measures are only from
->> the point the interrupt arrives and the point we actually service it
->> by polling for completions.
->>
->>> so increasing queue depth in the singe-threaded case doesn't
->>> make much difference. You might want to try multiple threads per core
->>> with QD, say, 32
->>
->> This is how I ran, QD=32.
-> 
-> The one thing which I found _really_ curious is this:
-> 
->   IO depths    : 1=0.1%, 2=0.1%, 4=0.1%, 8=0.1%, 16=0.1%, 32=0.1%,
->> =64=100.0%
->      submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%,
->> =64=0.0%
->      complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%,
->> =64=0.1%
->      issued    : total=r=7673377/w=0/d=0, short=r=0/w=0/d=0,
-> drop=r=0/w=0/d=0
->      latency   : target=0, window=0, percentile=100.00%, depth=256
-> 
-> (note the lines starting with 'submit' and 'complete').
-> They are _always_ 4, irrespective of the hardware and/or tests which I
-> run. Jens, what are these numbers supposed to mean?
-> Is this intended?
+On Thu, Jan 19, 2017@12:15 PM, Keith Busch <keith.busch@intel.com> wrote:
+> On Thu, Jan 19, 2017@11:55:44AM -0800, Andy Lutomirski wrote:
+>> +static void nvme_set_latency_tolerance(struct device *dev, s32 val)
+>> +{
+>> +     struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+>> +
+>> +     u64 latency;
+>> +
+>> +     if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT ||
+>> +         val == PM_QOS_LATENCY_ANY)
+>> +             latency = U64_MAX;
+>> +     else
+>> +             latency = val;
+>> +
+>> +     if (ctrl->ps_max_latency_us != val) {
+>> +             ctrl->ps_max_latency_us = val;
+>
+> Did you mean to use 'latency' here instead of 'val'? Otherwise, I don't
+> see why the latency variable exists.
 
-It's bucketized. 0=0.0% means that 0% of the submissions didn't submit
-anything (unsurprisingly), and ditto for the complete side. The next bucket
-is 1..4, so 100% of submissions and completions was in that range.
+D'oh!  I'm a bit surprised the compiler didn't warn.
 
--- 
-Jens Axboe
+As a practical matter, this probably had no effect in my testing
+because the two magic values would have ended up being rather large
+s32 values, so the effect would be the same.  v3 coming, though.
