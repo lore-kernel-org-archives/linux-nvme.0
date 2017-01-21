@@ -1,85 +1,122 @@
-From: luto@amacapital.net (Andy Lutomirski)
-Date: Fri, 20 Jan 2017 10:07:42 -0800
-Subject: [PATCH v2 2/2] nvme: Enable autonomous power state transitions
-In-Reply-To: <20170120103030.GB23149@lst.de>
-References: <cover.1484855622.git.luto@kernel.org>
- <9b150934a9d756f69ca241199af512925a4050ec.1484855622.git.luto@kernel.org>
- <20170120103030.GB23149@lst.de>
-Message-ID: <CALCETrUdRHZ35FfAjN3mOjcLA4XawQbw2E7sZxe5stjJNH+0vA@mail.gmail.com>
+From: dan.carpenter@oracle.com (Dan Carpenter)
+Date: Sat, 21 Jan 2017 07:56:45 +0300
+Subject: [bug report] lightnvm: add ioctls for vector I/Os
+Message-ID: <20170121045645.GF15269@mwanda>
 
-On Fri, Jan 20, 2017@2:30 AM, Christoph Hellwig <hch@lst.de> wrote:
->
->> +static void nvme_set_latency_tolerance(struct device *dev, s32 val)
->> +{
->> +     struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
->> +
->> +     u64 latency;
->> +
->> +     if (val == PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT ||
->> +         val == PM_QOS_LATENCY_ANY)
->> +             latency = U64_MAX;
->> +     else
->> +             latency = val;
->
-> In addition to the latency vs val mixup pointed out earlier -
-> can you use a switch statement here to make the code a little
-> more obvious?
+Hello Matias Bj?rling,
 
-Sure.
+The patch 3c6ff84da779: "lightnvm: add ioctls for vector I/Os" from
+Nov 16, 2016, leads to the following static checker warning:
 
->
->> +     if (ctrl->ps_max_latency_us != val) {
->> +             ctrl->ps_max_latency_us = val;
->> +             nvme_configure_apst(ctrl);
->> +     }
->> +}
->> +
->
->>       ctrl->identified = true;
->
-> The ->identified field seems to never be checked anywhere.
->
+	drivers/nvme/host/lightnvm.c:695 nvme_nvm_submit_user_cmd()
+	error: uninitialized symbol 'metadata_dma'.
 
-See the previous patch:
+	drivers/nvme/host/lightnvm.c:704 nvme_nvm_submit_user_cmd()
+	error: uninitialized symbol 'ppa_dma'.
 
-+       if (!ctrl->identified) {
+drivers/nvme/host/lightnvm.c
+   627          if (ppa_buf && ppa_len) {
+                    ^^^^^^^^^^^^^^^^^^
+Here we assume that we can have a non-NULL buf and a zero len or the
+reverse where len is non-zero but ppa_buf is NULL.
+
+   628                  ppa_list = dma_pool_alloc(dev->dma_pool, GFP_KERNEL, &ppa_dma);
+                                                                              ^^^^^^^
+   629                  if (!ppa_list) {
+   630                          ret = -ENOMEM;
+   631                          goto err_rq;
+   632                  }
+   633                  if (copy_from_user(ppa_list, (void __user *)ppa_buf,
+   634                                                  sizeof(u64) * (ppa_len + 1))) {
+   635                          ret = -EFAULT;
+   636                          goto err_ppa;
+   637                  }
+   638                  vcmd->ph_rw.spba = cpu_to_le64(ppa_dma);
+   639          } else {
+   640                  vcmd->ph_rw.spba = cpu_to_le64((uintptr_t)ppa_buf);
+   641          }
+   642  
+   643          if (ubuf && bufflen) {
+   644                  ret = blk_rq_map_user(q, rq, NULL, ubuf, bufflen, GFP_KERNEL);
+   645                  if (ret)
+   646                          goto err_ppa;
+   647                  bio = rq->bio;
+   648  
+   649                  if (meta_buf && meta_len) {
+                            ^^^^^^^^^^^^^^^^^^^^
+Same assumptions, that the one doesn't imply the other.
+
+   650                          metadata = dma_pool_alloc(dev->dma_pool, GFP_KERNEL,
+   651                                                                  &metadata_dma);
+                                                                        ^^^^^^^^^^^^^
+   652                          if (!metadata) {
+   653                                  ret = -ENOMEM;
+   654                                  goto err_map;
+   655                          }
+   656  
+   657                          if (write) {
+   658                                  if (copy_from_user(metadata,
+   659                                                  (void __user *)meta_buf,
+   660                                                  meta_len)) {
+   661                                          ret = -EFAULT;
+   662                                          goto err_meta;
+   663                                  }
+   664                          }
+   665                          vcmd->ph_rw.metadata = cpu_to_le64(metadata_dma);
+   666                  }
+   667  
+   668                  if (!disk)
+   669                          goto submit;
+   670  
+   671                  bio->bi_bdev = bdget_disk(disk, 0);
+   672                  if (!bio->bi_bdev) {
+   673                          ret = -ENODEV;
+   674                          goto err_meta;
+   675                  }
+   676          }
+   677  
+   678  submit:
+   679          blk_execute_rq_nowait(q, NULL, rq, 0, nvme_nvm_end_user_vio);
+   680  
+   681          wait_for_completion_io(&wait);
+   682  
+   683          ret = nvme_error_status(rq->errors);
+   684          if (result)
+   685                  *result = rq->errors & 0x7ff;
+   686          if (status)
+   687                  *status = le64_to_cpu(nvme_req(rq)->result.u64);
+   688  
+   689          if (metadata && !ret && !write) {
+   690                  if (copy_to_user(meta_buf, (void *)metadata, meta_len))
+   691                          ret = -EFAULT;
+   692          }
+   693  err_meta:
+   694          if (meta_len)
+   695                  dma_pool_free(dev->dma_pool, metadata, metadata_dma);
+                                                               ^^^^^^^^^^^^
+
+But here we assume that just testing meta_len is sufficient, that len
+implies buf is non-NULL.  Could we clean these up so they're consistent
+with each other?
+
+   696  err_map:
+   697          if (bio) {
+   698                  if (disk && bio->bi_bdev)
+   699                          bdput(bio->bi_bdev);
+   700                  blk_rq_unmap_user(bio);
+   701          }
+   702  err_ppa:
+   703          if (ppa_len)
+   704                  dma_pool_free(dev->dma_pool, ppa_list, ppa_dma);
+                                                               ^^^^^^^
+Same.
+
+   705  err_rq:
+   706          blk_mq_free_request(rq);
+   707  err_cmd:
+   708          return ret;
+   709  }
 
 
->
->> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
->> index 7103bce4ba4f..1c3e170da6de 100644
->> --- a/drivers/nvme/host/pci.c
->> +++ b/drivers/nvme/host/pci.c
->> @@ -1791,6 +1791,8 @@ static void nvme_reset_work(struct work_struct *work)
->>       if (result)
->>               goto out;
->>
->> +     nvme_configure_apst(&dev->ctrl);
->> +
->>       /*
->>        * A controller that can not execute IO typically requires user
->>        * intervention to correct. For such degraded controllers, the driver
->> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
->> index 557f29b1f1bb..a64b5db96fd8 100644
->> --- a/drivers/nvme/host/rdma.c
->> +++ b/drivers/nvme/host/rdma.c
->> @@ -1629,6 +1629,8 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl)
->>
->>       nvme_start_keep_alive(&ctrl->ctrl);
->>
->> +     nvme_configure_apst(&ctrl->ctrl);
->> +
->
-> Is there a specific reason for the exact placement of these calls here
-> and not at inside nvme_init_identify?  Having all the code called
-> from an existing core function would make things a lot easier in the
-> future.  And if that's not possible we'll probably need comments
-> on why it's placed like it is.
-
-In the original version I had this in nvme_init_identify().  I moved
-it later just in case there was a buggy device that didn't like having
-APST flipped on before the queue setup was done.  I could easily move
-it back to nvme_init_identify() or add a new nvme_finish_setup() or
-similar.  Any preference?
-
---Andy
+regards,
+dan carpenter
