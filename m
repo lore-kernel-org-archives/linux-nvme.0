@@ -1,10 +1,21 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 23 Jan 2017 21:52:06 +0200
-Subject: [PATCH 1/1] nvmet: avoid dereferencing nvmet_req
-In-Reply-To: <1485162072-10335-1-git-send-email-maxg@mellanox.com>
-References: <1485162072-10335-1-git-send-email-maxg@mellanox.com>
-Message-ID: <b2320af1-0bbe-6224-cb13-4fe41d63f960@grimberg.me>
+From: Darren.Trapp@cavium.com (Trapp, Darren)
+Date: Mon, 23 Jan 2017 22:53:04 +0000
+Subject: crash in sg_alloc_table_chained
+Message-ID: <8C8F83F9-BDBB-4B59-BA4E-BAA34CB2E20D@cavium.com>
 
-Looks fine,
+Gents,
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+I am using 4.10rc4 kernel with the FC-NVME transport to format a partition on a remote nvme device.  I?ve created a partition on the device, but when I try and create a FS via:
+
+Mkfs ?t ext3 /dev/nvme0n1p1
+
+I get a crash in sg_alloc_table_chained at the BUG_ON(!nents).  It is called from nvme_fc_map_data:
+	        ret = sg_alloc_table_chained(&freq->sg_table, rq->nr_phys_segments,
+                        freq->sg_table.sgl);
+
+ In this case, rq->nr_phys_segments is 0.  For reference blk_rq_payload_bytes returned 0x10.
+
+Any ideas what is going on?  
+
+
+Darren
