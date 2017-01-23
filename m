@@ -1,11 +1,15 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 23 Jan 2017 19:32:16 +0100
-Subject: [PATCH 4/6] blk-mq: Update queue map when changing queue count
-In-Reply-To: <1483569671-1462-5-git-send-email-keith.busch@intel.com>
-References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
- <1483569671-1462-5-git-send-email-keith.busch@intel.com>
-Message-ID: <20170123183216.GC23791@lst.de>
+Date: Mon, 23 Jan 2017 19:38:15 +0100
+Subject: [PATCH 1/1] nvmet: avoid dereferencing nvmet_req
+In-Reply-To: <1485162072-10335-1-git-send-email-maxg@mellanox.com>
+References: <1485162072-10335-1-git-send-email-maxg@mellanox.com>
+Message-ID: <20170123183815.GA24026@lst.de>
 
-Looks fine except for the nitpick pointed out by Sagi:
+On Mon, Jan 23, 2017@11:01:12AM +0200, Max Gurtovoy wrote:
+> No need to dereference req twice to get the cmd when we already
+> have it stored in a local variable.
+> 
+> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> Reviewed-by: Parav Pandit <parav at mellanox.com>
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Looks good (for 4.11)
