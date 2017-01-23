@@ -1,15 +1,10 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 23 Jan 2017 19:38:15 +0100
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 23 Jan 2017 21:52:06 +0200
 Subject: [PATCH 1/1] nvmet: avoid dereferencing nvmet_req
 In-Reply-To: <1485162072-10335-1-git-send-email-maxg@mellanox.com>
 References: <1485162072-10335-1-git-send-email-maxg@mellanox.com>
-Message-ID: <20170123183815.GA24026@lst.de>
+Message-ID: <b2320af1-0bbe-6224-cb13-4fe41d63f960@grimberg.me>
 
-On Mon, Jan 23, 2017@11:01:12AM +0200, Max Gurtovoy wrote:
-> No need to dereference req twice to get the cmd when we already
-> have it stored in a local variable.
-> 
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> Reviewed-by: Parav Pandit <parav at mellanox.com>
+Looks fine,
 
-Looks good (for 4.11)
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
