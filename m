@@ -1,29 +1,27 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 23 Jan 2017 11:01:12 +0200
-Subject: [PATCH 1/1] nvmet: avoid dereferencing nvmet_req
-Message-ID: <1485162072-10335-1-git-send-email-maxg@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 23 Jan 2017 19:30:50 +0100
+Subject: [PATCH 1/6] irq/affinity: Assign all online CPUs to vectors
+In-Reply-To: <1483569671-1462-2-git-send-email-keith.busch@intel.com>
+References: <1483569671-1462-1-git-send-email-keith.busch@intel.com>
+ <1483569671-1462-2-git-send-email-keith.busch@intel.com>
+Message-ID: <20170123183050.GA23791@lst.de>
 
-No need to dereference req twice to get the cmd when we already
-have it stored in a local variable.
+On Wed, Jan 04, 2017@05:41:06PM -0500, Keith Busch wrote:
+> This patch makes sure all online CPUs are assigned to vectors in
+> cases where the nodes don't have the same number of online CPUs.
+> The calculation for how many vectors needs to be assigned should account
+> for the number of CPUs for a particular node on each round of assignment
+> in order to ensure all online CPUs are assigned a vector when they don't
+> evenly divide, and calculate extras accordingly.
+> 
+> Since we attempt to divide evently among the nodes, this may still result
+> in unused vectors if some nodes have fewer CPUs than nodes previosuly
+> set up, but at least every online CPU will be assigned to something.
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Parav Pandit <parav at mellanox.com>
----
- drivers/nvme/target/fabrics-cmd.c |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+This looks fine:
 
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index f408819..11c6682 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -220,7 +220,7 @@ int nvmet_parse_connect_cmd(struct nvmet_req *req)
- 
- 	req->ns = NULL;
- 
--	if (req->cmd->common.opcode != nvme_fabrics_command) {
-+	if (cmd->common.opcode != nvme_fabrics_command) {
- 		pr_err("invalid command 0x%x on unconnected queue.\n",
- 			cmd->fabrics.opcode);
- 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
--- 
-1.7.1
+I think we still should switch to something like all present or possible
+cpus for MSI-X vector and blk-mq queue assignment, though reduce
+the needs for this:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
