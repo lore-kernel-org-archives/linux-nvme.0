@@ -1,39 +1,77 @@
-From: Darren.Trapp@cavium.com (Trapp, Darren)
-Date: Mon, 23 Jan 2017 23:10:11 +0000
-Subject: crash in sg_alloc_table_chained
-In-Reply-To: <20170123230838.GB10771@localhost.localdomain>
-References: <8C8F83F9-BDBB-4B59-BA4E-BAA34CB2E20D@cavium.com>
- <20170123230838.GB10771@localhost.localdomain>
-Message-ID: <FE63694B-6112-480D-8ABF-5146C7AD85B6@cavium.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Mon, 23 Jan 2017 16:20:03 -0800
+Subject: [PATCH v4 2/6] block: Add Sed-opal library
+In-Reply-To: <20170119182839.GB9228@sbauer-Z170X-UD5>
+References: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
+ <1483039615-22407-3-git-send-email-scott.bauer@intel.com>
+ <20170119182839.GB9228@sbauer-Z170X-UD5>
+Message-ID: <1485217203.2574.4.camel@linux.intel.com>
 
-So that works other than hitting a WARN_ON_ONCE in nvme_fc_start_fcp_op  at: 
-        WARN_ON_ONCE(sqe->common.command_id != cpu_to_le16(op->rqno));
+On Thu, 2017-01-19@11:28 -0700, Scott Bauer wrote:
+> > 
+> > +struct opal_dev *alloc_opal_dev(struct request_queue *q)
+> > +{
+> > +	struct opal_dev *opal_dev;
+> > +	unsigned long dma_align;
+> > +	struct opal_cmd *cmd;
+> > +
+> > +	opal_dev = kzalloc(sizeof(*opal_dev), GFP_KERNEL);
+> > +	if (!opal_dev)
+> > +		return opal_dev;
+> > +
+> > +	cmd = &opal_dev->cmd;
+> > +	cmd->cmd = cmd->cmd_buf;
+> > +	cmd->resp = cmd->resp_buf;
+> > +
+> > +	dma_align = (queue_dma_alignment(q) | q->dma_pad_mask) + 1;
+> > +	cmd->cmd = (u8 *)round_up((uintptr_t)cmd->cmd, dma_align);
+> > +	cmd->resp = (u8 *)round_up((uintptr_t)cmd->resp, dma_align);
+> > +
+> > +	INIT_LIST_HEAD(&opal_dev->unlk_lst);
+> > +	opal_dev->state = 0;
+> > +
+> > +	mutex_init(&opal_dev->dev_lock);
+> > +
+> > +	return opal_dev;
+> > +
+> > +}
+> > +EXPORT_SYMBOL(alloc_opal_dev);
+> 
+> Internally we've been discussing this function. We don't like the requirement
+> that we have to pass in a request_queue just to allocate an opal dev.
+> 
+> We have a few ideas and wanted to toss them out here and see if anyone has
+> one they love or one they hate.
+> 
+> So Idea one:
+> 
+> Pass in the alignment insetead of the request_queue. This pushes the burden
+> onto the driver calling alloc_opal_dev instead of the opal core. It also
+> removes
+> the requirement of passing in a request_queue to something we think should be
+> agnostic to any blocklayer/lower level structures/knowledge.
+> 
+> 
+
+I would think it would be easier to support and validate and guarantee working
+operation of opal if the driver controlled the alignment instead relying on
+someone else in the kernel to make sure it's aligned. ?Plus wouldn't this also
+supply a more optimized solution?
 
 
-I am able to mount and unmount the FS now.  
-
-Darren 
-
-On 1/23/17, 3:08 PM, "Keith Busch" <keith.busch@intel.com> wrote:
-
-    On Mon, Jan 23, 2017@10:53:04PM +0000, Trapp, Darren wrote:
-    > Gents,
-    > 
-    > I am using 4.10rc4 kernel with the FC-NVME transport to format a partition on a remote nvme device.  I?ve created a partition on the device, but when I try and create a FS via:
-    > 
-    > Mkfs ?t ext3 /dev/nvme0n1p1
-    > 
-    > I get a crash in sg_alloc_table_chained at the BUG_ON(!nents).  It is called from nvme_fc_map_data:
-    > 	        ret = sg_alloc_table_chained(&freq->sg_table, rq->nr_phys_segments,
-    >                         freq->sg_table.sgl);
-    > 
-    >  In this case, rq->nr_phys_segments is 0.  For reference blk_rq_payload_bytes returned 0x10.
-    > 
-    > Any ideas what is going on?  
-    
-    Just to confirm a suspicion, is it successful if you run:
-    
-      # mkfs.ext3 /dev/nvme0n1p1 -E nodiscard
-    
-    ?
-    
+> Idea two:
+> 
+> Just let alloc_opal_dev kzalloc normally and do no alignment. It would then
+> be up to the drivers to move the data from the buffer to a bounce buffer,
+> that is aligned, in the send/recv functions before sending down to the
+> controller.
+> 
+> Both are easy to implement but we wanted to see if anyone had other ideas or
+> liked
+> one over the other.
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
