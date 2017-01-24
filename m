@@ -1,29 +1,35 @@
-From: Darren.Trapp@cavium.com (Trapp, Darren)
-Date: Tue, 24 Jan 2017 19:20:05 +0000
-Subject: crash in sg_alloc_table_chained
-In-Reply-To: <20170124074756.GB27932@infradead.org>
-References: <8C8F83F9-BDBB-4B59-BA4E-BAA34CB2E20D@cavium.com>
- <20170124074756.GB27932@infradead.org>
-Message-ID: <25B54EB5-D9FC-426E-95F0-55021EC880BB@cavium.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 24 Jan 2017 18:07:00 -0500
+Subject: [PATCH] nvme/pci: Don't mark IOD as aborted if abort wasn't sent
+Message-ID: <1485299220-14866-1-git-send-email-keith.busch@intel.com>
 
-Thanks Christoph.  That patch worked.  
+This patch sets the aborted flag only if an abort was sent, reducing
+excessive kernel message spamming for completed IO that wasn't actually
+aborted.
 
+Reported-by: Jens Axboe <axboe at kernel.dk>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-
-Darren Trapp
-Senior Director - Engineering
-darren.trapp at cavium.com <mailto:darren.trapp at caviumnetworks.com>
-T 949-389-6273
-M 949-212-8576
-26650 Aliso Viejo Pkwy, Aliso Viejo, CA 92656
-www.qlogic.com <http://www.qlogic.com/>
- <http://www.qlogic.com/>
-
-On 1/23/17, 11:47 PM, "Christoph Hellwig" <hch@infradead.org> wrote:
-
-    Hi Darren,
-    
-    you probably want this patch that I sent last week:
-    
-       "Subject: [PATCH] nvme-fc: use blk_rq_nr_phys_segments"
-    
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 3d21a15..f88659b 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -905,12 +905,11 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+ 		return BLK_EH_HANDLED;
+ 	}
+ 
+-	iod->aborted = 1;
+-
+ 	if (atomic_dec_return(&dev->ctrl.abort_limit) < 0) {
+ 		atomic_inc(&dev->ctrl.abort_limit);
+ 		return BLK_EH_RESET_TIMER;
+ 	}
++	iod->aborted = 1;
+ 
+ 	memset(&cmd, 0, sizeof(cmd));
+ 	cmd.abort.opcode = nvme_admin_abort_cmd;
+-- 
+2.5.5
