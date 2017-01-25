@@ -1,20 +1,20 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 25 Jan 2017 09:14:54 -0800
-Subject: [PATCH] nvme-fc: use blk_rq_nr_phys_segments
-In-Reply-To: <1484841357-17539-1-git-send-email-hch@lst.de>
-References: <1484841357-17539-1-git-send-email-hch@lst.de>
-Message-ID: <3e53c830-d3ea-373a-cffe-597a2f6a76e7@broadcom.com>
+From: kchena@micron.com (Ken Chen (kchena))
+Date: Wed, 25 Jan 2017 23:20:45 +0000
+Subject: Linux host behavior when CSTS.CFS bit is set to 1
+Message-ID: <4a511c691bbe4e08ace7c92fd017dddb@bowex36b.micron.com>
 
-On 1/19/2017 7:55 AM, Christoph Hellwig wrote:
-> Without this deallocate won't work properly due to the mismatch
-> of the bio/request size and the actual payload size.
->
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->   
+Hi All,
 
-looks fine to me.
+>From a recent message exchange in this mail list, I saw the following statement:
 
-Reviewed-by: James Smart <james.smart at broadcom.com>
+"In the nvme Linux driver in function nvme_kthread() the CSTS register is read once a second to check for controller status failure." 
 
--- james
+If this statement is true, is Linux supposed to initiate a reset to the drive if CSTS.CFS bit is set to 1?
+
+I am working on a SSD firmware. When certain hardware exceptions occur in the drive, the firmware sets CSTS.CFS bit to 1, expecting a reset by the host.  I am using Centos 7 with kernel 4.2.2-1.el7.elrepo.x86_64. In my tests, when firmware sets CFS bit, the host does not seem to reset the drive. That is, there is no transition of CC.EN bit from 1 to 0, there is no setting CC.SHN bit to 1, and there is no writing "NVMe" to NSSR register, etc. Is there anything else that firmware needs to do to trigger a reset from the host? Or is there any configuration (such as PCIe AER) that needs to be enabled in order for Linux to support this functionality?
+
+Any advice will be appreciated.
+
+Thanks,
+
+Ken
