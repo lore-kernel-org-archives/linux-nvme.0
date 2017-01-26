@@ -1,34 +1,105 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 25 Jan 2017 18:39:57 -0500
-Subject: Linux host behavior when CSTS.CFS bit is set to 1
-In-Reply-To: <4a511c691bbe4e08ace7c92fd017dddb@bowex36b.micron.com>
-References: <4a511c691bbe4e08ace7c92fd017dddb@bowex36b.micron.com>
-Message-ID: <20170125233956.GC1729@localhost.localdomain>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 26 Jan 2017 17:17:28 +0200
+Subject: [PATCH 2/2] nvme: Use CNS as 8-bit field and avoid endianness
+ conversion
+In-Reply-To: <1485443848-29478-1-git-send-email-maxg@mellanox.com>
+References: <1485443848-29478-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1485443848-29478-2-git-send-email-maxg@mellanox.com>
 
-On Wed, Jan 25, 2017@11:20:45PM +0000, Ken Chen (kchena) wrote:
-> Hi All,
-> 
-> From a recent message exchange in this mail list, I saw the following statement:
-> 
-> "In the nvme Linux driver in function nvme_kthread() the CSTS register is read once a second to check for controller status failure." 
+From: Parav Pandit <parav@mellanox.com>
 
-That's probably not a recent exchange on this list. We got rid of the
-kthread almost a year ago. It was replaced with a per-controller timer.
+This patch defines CNS field as 8-bit field and avoids cpu_to/from_le
+conversions.
+Also initialize nvme_command cns value explicitly to NVME_ID_CNS_NS
+for readability (don't rely on the fact that NVME_ID_CNS_NS = 0).
+
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Parav Pandit <parav at mellanox.com>
+---
+ drivers/nvme/host/core.c        |    5 +++--
+ drivers/nvme/target/admin-cmd.c |    2 +-
+ drivers/nvme/target/discovery.c |    4 ++--
+ include/linux/nvme.h            |    4 +++-
+ 4 files changed, 9 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4300f88..bde2406 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -538,7 +538,7 @@ int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
  
-> If this statement is true, is Linux supposed to initiate a reset to the drive if CSTS.CFS bit is set to 1?
-
-Yes, that is correct.
+ 	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
+ 	c.identify.opcode = nvme_admin_identify;
+-	c.identify.cns = cpu_to_le32(NVME_ID_CNS_CTRL);
++	c.identify.cns = NVME_ID_CNS_CTRL;
  
-> I am working on a SSD firmware. When certain hardware exceptions occur in the drive, the firmware sets CSTS.CFS bit to 1, expecting a reset by the host.  I am using Centos 7 with kernel 4.2.2-1.el7.elrepo.x86_64. In my tests, when firmware sets CFS bit, the host does not seem to reset the drive. That is, there is no transition of CC.EN bit from 1 to 0, there is no setting CC.SHN bit to 1, and there is no writing "NVMe" to NSSR register, etc. Is there anything else that firmware needs to do to trigger a reset from the host? Or is there any configuration (such as PCIe AER) that needs to be enabled in order for Linux to support this functionality?
-> 
-> Any advice will be appreciated.
-
-There's no additional driver dependency required for this.
-
-I've tested this part quite a bit, and it's always worked as designed
-as far as I know. Are you sure the controller is really raising the
-CSTS.CFS bit for the host to see? How are you verifying that it is
-really set?
-
-The only reason the driver may skip the reset if CFS is raised is if the
-driver is already trying to reset the controller.
+ 	*id = kmalloc(sizeof(struct nvme_id_ctrl), GFP_KERNEL);
+ 	if (!*id)
+@@ -556,7 +556,7 @@ static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *n
+ 	struct nvme_command c = { };
+ 
+ 	c.identify.opcode = nvme_admin_identify;
+-	c.identify.cns = cpu_to_le32(NVME_ID_CNS_NS_ACTIVE_LIST);
++	c.identify.cns = NVME_ID_CNS_NS_ACTIVE_LIST;
+ 	c.identify.nsid = cpu_to_le32(nsid);
+ 	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_list, 0x1000);
+ }
+@@ -570,6 +570,7 @@ int nvme_identify_ns(struct nvme_ctrl *dev, unsigned nsid,
+ 	/* gcc-4.4.4 (at least) has issues with initializers and anon unions */
+ 	c.identify.opcode = nvme_admin_identify;
+ 	c.identify.nsid = cpu_to_le32(nsid);
++	c.identify.cns = NVME_ID_CNS_NS;
+ 
+ 	*id = kmalloc(sizeof(struct nvme_id_ns), GFP_KERNEL);
+ 	if (!*id)
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index 95ae523..f376dc4 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -509,7 +509,7 @@ int nvmet_parse_admin_cmd(struct nvmet_req *req)
+ 		break;
+ 	case nvme_admin_identify:
+ 		req->data_len = 4096;
+-		switch (le32_to_cpu(cmd->identify.cns)) {
++		switch (cmd->identify.cns) {
+ 		case NVME_ID_CNS_NS:
+ 			req->execute = nvmet_execute_identify_ns;
+ 			return 0;
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index 12f39ee..af8aabf 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -186,14 +186,14 @@ int nvmet_parse_discovery_cmd(struct nvmet_req *req)
+ 		}
+ 	case nvme_admin_identify:
+ 		req->data_len = 4096;
+-		switch (le32_to_cpu(cmd->identify.cns)) {
++		switch (cmd->identify.cns) {
+ 		case NVME_ID_CNS_CTRL:
+ 			req->execute =
+ 				nvmet_execute_identify_disc_ctrl;
+ 			return 0;
+ 		default:
+ 			pr_err("nvmet: unsupported identify cns %d\n",
+-				le32_to_cpu(cmd->identify.cns));
++				cmd->identify.cns);
+ 			return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
+ 		}
+ 	default:
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 3d1c6f1..d718890 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -641,7 +641,9 @@ struct nvme_identify {
+ 	__le32			nsid;
+ 	__u64			rsvd2[2];
+ 	union nvme_data_ptr	dptr;
+-	__le32			cns;
++	__u8			cns;
++	__u8			rsvd3;
++	__le16			ctrlid;
+ 	__u32			rsvd11[5];
+ };
+ 
+-- 
+1.7.1
