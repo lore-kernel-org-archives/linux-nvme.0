@@ -1,21 +1,50 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 26 Jan 2017 12:09:16 -0500
-Subject: [PATCH 2/2] nvme: Use CNS as 8-bit field and avoid endianness
- conversion
-In-Reply-To: <1485443848-29478-2-git-send-email-maxg@mellanox.com>
-References: <1485443848-29478-1-git-send-email-maxg@mellanox.com>
- <1485443848-29478-2-git-send-email-maxg@mellanox.com>
-Message-ID: <20170126170916.GB1048@localhost.localdomain>
+From: lkp@intel.com (kbuild test robot)
+Date: Fri, 27 Jan 2017 01:45:49 +0800
+Subject: [PATCH] nvme: make nvmf_register_transport require a create_ctrl
+ callback
+In-Reply-To: <20170126152228.15330-1-jthumshirn@suse.de>
+Message-ID: <201701270119.Vec32uLQ%fengguang.wu@intel.com>
 
-On Thu, Jan 26, 2017@05:17:28PM +0200, Max Gurtovoy wrote:
-> From: Parav Pandit <parav at mellanox.com>
-> 
-> This patch defines CNS field as 8-bit field and avoids cpu_to/from_le
-> conversions.
-> Also initialize nvme_command cns value explicitly to NVME_ID_CNS_NS
-> for readability (don't rely on the fact that NVME_ID_CNS_NS = 0).
-> 
-> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-> Signed-off-by: Parav Pandit <parav at mellanox.com>
+Hi Johannes,
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+[auto build test ERROR on block/for-next]
+[also build test ERROR on v4.10-rc5 next-20170125]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+
+url:    https://github.com/0day-ci/linux/commits/Johannes-Thumshirn/nvme-make-nvmf_register_transport-require-a-create_ctrl-callback/20170126-234702
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+config: ia64-allmodconfig (attached as .config)
+compiler: ia64-linux-gcc (GCC) 6.2.0
+reproduce:
+        wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        make.cross ARCH=ia64 
+
+All error/warnings (new ones prefixed by >>):
+
+
+vim +2066 drivers/nvme/host/rdma.c
+
+  2060		ret = ib_register_client(&nvme_rdma_ib_client);
+  2061		if (ret) {
+  2062			destroy_workqueue(nvme_rdma_wq);
+  2063			return ret;
+  2064		}
+  2065	
+> 2066		return = nvmf_register_transport(&nvme_rdma_transport);
+> 2067	}
+  2068	
+  2069	static void __exit nvme_rdma_cleanup_module(void)
+  2070	{
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 45519 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170127/38ecb354/attachment-0001.gz>
