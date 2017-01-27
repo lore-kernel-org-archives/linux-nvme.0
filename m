@@ -1,50 +1,35 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Fri, 27 Jan 2017 01:45:49 +0800
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 27 Jan 2017 09:00:08 +0100
 Subject: [PATCH] nvme: make nvmf_register_transport require a create_ctrl
  callback
-In-Reply-To: <20170126152228.15330-1-jthumshirn@suse.de>
-Message-ID: <201701270119.Vec32uLQ%fengguang.wu@intel.com>
+In-Reply-To: <2cc9ed5f-c9af-fd9d-2c90-04541ceebab6@grimberg.me>
+References: <20170126152228.15330-1-jthumshirn@suse.de>
+ <2cc9ed5f-c9af-fd9d-2c90-04541ceebab6@grimberg.me>
+Message-ID: <20170127080008.GA4501@linux-x5ow.site>
 
-Hi Johannes,
+On Thu, Jan 26, 2017@06:30:47PM +0200, Sagi Grimberg wrote:
+> 
+> > static void __exit nvme_fc_exit_module(void)
+> >diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> >index 557f29b..80f3695 100644
+> >--- a/drivers/nvme/host/rdma.c
+> >+++ b/drivers/nvme/host/rdma.c
+> >@@ -2063,8 +2063,7 @@ static int __init nvme_rdma_init_module(void)
+> > 		return ret;
+> > 	}
+> >
+> >-	nvmf_register_transport(&nvme_rdma_transport);
+> >-	return 0;
+> >+	return = nvmf_register_transport(&nvme_rdma_transport);
 
-[auto build test ERROR on block/for-next]
-[also build test ERROR on v4.10-rc5 next-20170125]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+Gah typo and I had only fc enabled in my .config.
 
-url:    https://github.com/0day-ci/linux/commits/Johannes-Thumshirn/nvme-make-nvmf_register_transport-require-a-create_ctrl-callback/20170126-234702
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
-config: ia64-allmodconfig (attached as .config)
-compiler: ia64-linux-gcc (GCC) 6.2.0
-reproduce:
-        wget https://git.kernel.org/cgit/linux/kernel/git/wfg/lkp-tests.git/plain/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        make.cross ARCH=ia64 
+Sorry.
 
-All error/warnings (new ones prefixed by >>):
-
-
-vim +2066 drivers/nvme/host/rdma.c
-
-  2060		ret = ib_register_client(&nvme_rdma_ib_client);
-  2061		if (ret) {
-  2062			destroy_workqueue(nvme_rdma_wq);
-  2063			return ret;
-  2064		}
-  2065	
-> 2066		return = nvmf_register_transport(&nvme_rdma_transport);
-> 2067	}
-  2068	
-  2069	static void __exit nvme_rdma_cleanup_module(void)
-  2070	{
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/gzip
-Size: 45519 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170127/38ecb354/attachment-0001.gz>
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
