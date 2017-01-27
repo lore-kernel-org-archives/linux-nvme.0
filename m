@@ -1,35 +1,99 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 27 Jan 2017 09:00:08 +0100
-Subject: [PATCH] nvme: make nvmf_register_transport require a create_ctrl
+Date: Fri, 27 Jan 2017 09:03:45 +0100
+Subject: [PATCH v2] nvme: make nvmf_register_transport require a create_ctrl
  callback
-In-Reply-To: <2cc9ed5f-c9af-fd9d-2c90-04541ceebab6@grimberg.me>
-References: <20170126152228.15330-1-jthumshirn@suse.de>
- <2cc9ed5f-c9af-fd9d-2c90-04541ceebab6@grimberg.me>
-Message-ID: <20170127080008.GA4501@linux-x5ow.site>
+Message-ID: <20170127080345.5676-1-jthumshirn@suse.de>
 
-On Thu, Jan 26, 2017@06:30:47PM +0200, Sagi Grimberg wrote:
-> 
-> > static void __exit nvme_fc_exit_module(void)
-> >diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> >index 557f29b..80f3695 100644
-> >--- a/drivers/nvme/host/rdma.c
-> >+++ b/drivers/nvme/host/rdma.c
-> >@@ -2063,8 +2063,7 @@ static int __init nvme_rdma_init_module(void)
-> > 		return ret;
-> > 	}
-> >
-> >-	nvmf_register_transport(&nvme_rdma_transport);
-> >-	return 0;
-> >+	return = nvmf_register_transport(&nvme_rdma_transport);
+nvmf_create_ctrl() relys on the presence of a create_crtl callback in the
+registered nvmf_transport_ops, so make nvmf_register_transport require one.
 
-Gah typo and I had only fc enabled in my .config.
+Update the available call-sites as well to reflect these changes.
 
-Sorry.
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ drivers/nvme/host/fabrics.c | 7 ++++++-
+ drivers/nvme/host/fabrics.h | 2 +-
+ drivers/nvme/host/fc.c      | 3 +--
+ drivers/nvme/host/rdma.c    | 3 +--
+ drivers/nvme/target/loop.c  | 3 +--
+ 5 files changed, 10 insertions(+), 8 deletions(-)
 
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 916d136..5b7386f 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -480,11 +480,16 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
+  * being implemented to the common NVMe fabrics library. Part of
+  * the overall init sequence of starting up a fabrics driver.
+  */
+-void nvmf_register_transport(struct nvmf_transport_ops *ops)
++int nvmf_register_transport(struct nvmf_transport_ops *ops)
+ {
++	if (!ops->create_ctrl)
++		return -EINVAL;
++
+ 	mutex_lock(&nvmf_transports_mutex);
+ 	list_add_tail(&ops->entry, &nvmf_transports);
+ 	mutex_unlock(&nvmf_transports_mutex);
++
++	return 0;
+ }
+ EXPORT_SYMBOL_GPL(nvmf_register_transport);
+ 
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index 924145c9..1560181 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -128,7 +128,7 @@ struct nvmf_transport_ops {
+ int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
+ int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl);
+ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid);
+-void nvmf_register_transport(struct nvmf_transport_ops *ops);
++int nvmf_register_transport(struct nvmf_transport_ops *ops);
+ void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
+ void nvmf_free_options(struct nvmf_ctrl_options *opts);
+ const char *nvmf_get_subsysnqn(struct nvme_ctrl *ctrl);
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index fcc9dcf..2912963 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -2562,8 +2562,7 @@ static int __init nvme_fc_init_module(void)
+ 	if (!nvme_fc_wq)
+ 		return -ENOMEM;
+ 
+-	nvmf_register_transport(&nvme_fc_transport);
+-	return 0;
++	return nvmf_register_transport(&nvme_fc_transport);
+ }
+ 
+ static void __exit nvme_fc_exit_module(void)
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 557f29b..1ad5fa8 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -2063,8 +2063,7 @@ static int __init nvme_rdma_init_module(void)
+ 		return ret;
+ 	}
+ 
+-	nvmf_register_transport(&nvme_rdma_transport);
+-	return 0;
++	return nvmf_register_transport(&nvme_rdma_transport);
+ }
+ 
+ static void __exit nvme_rdma_cleanup_module(void)
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 9aaa700..07f1cb8 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -724,8 +724,7 @@ static int __init nvme_loop_init_module(void)
+ 	ret = nvmet_register_transport(&nvme_loop_ops);
+ 	if (ret)
+ 		return ret;
+-	nvmf_register_transport(&nvme_loop_transport);
+-	return 0;
++	return nvmf_register_transport(&nvme_loop_transport);
+ }
+ 
+ static void __exit nvme_loop_cleanup_module(void)
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+1.8.5.6
