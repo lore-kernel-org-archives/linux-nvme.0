@@ -1,99 +1,31 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 27 Jan 2017 09:03:45 +0100
-Subject: [PATCH v2] nvme: make nvmf_register_transport require a create_ctrl
- callback
-Message-ID: <20170127080345.5676-1-jthumshirn@suse.de>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Mon, 30 Jan 2017 10:08:10 -0700
+Subject: [PATCH v4 2/6] block: Add Sed-opal library
+In-Reply-To: <20170108140507.GA32432@infradead.org>
+References: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
+ <1483039615-22407-3-git-send-email-scott.bauer@intel.com>
+ <20170108140507.GA32432@infradead.org>
+Message-ID: <20170130170810.GA20723@sbauer-Z170X-UD5>
 
-nvmf_create_ctrl() relys on the presence of a create_crtl callback in the
-registered nvmf_transport_ops, so make nvmf_register_transport require one.
+On Sun, Jan 08, 2017@06:05:07AM -0800, Christoph Hellwig wrote:
+> On Thu, Dec 29, 2016@12:26:51PM -0700, Scott Bauer wrote:
+> 
+> > +	cmd->cmd = cmd->cmd_buf;
+> > +	cmd->resp = cmd->resp_buf;
+> > +
+> > +	dma_align = (queue_dma_alignment(q) | q->dma_pad_mask) + 1;
+> > +	cmd->cmd = (u8 *)round_up((uintptr_t)cmd->cmd, dma_align);
+> > +	cmd->resp = (u8 *)round_up((uintptr_t)cmd->resp, dma_align);
+> 
+> The block layer will automatically bounce buffer non-aligned payloads.
+> If the cost of copying is too high we could switch back to dynamic
+> allocations using kmalloc here, which will be properly aligned.
+> 
+> Also ->cmd and ->resp probably should be void pointers, so that no
+> casting is required for the various command and response structures.
 
-Update the available call-sites as well to reflect these changes.
-
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- drivers/nvme/host/fabrics.c | 7 ++++++-
- drivers/nvme/host/fabrics.h | 2 +-
- drivers/nvme/host/fc.c      | 3 +--
- drivers/nvme/host/rdma.c    | 3 +--
- drivers/nvme/target/loop.c  | 3 +--
- 5 files changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 916d136..5b7386f 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -480,11 +480,16 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid)
-  * being implemented to the common NVMe fabrics library. Part of
-  * the overall init sequence of starting up a fabrics driver.
-  */
--void nvmf_register_transport(struct nvmf_transport_ops *ops)
-+int nvmf_register_transport(struct nvmf_transport_ops *ops)
- {
-+	if (!ops->create_ctrl)
-+		return -EINVAL;
-+
- 	mutex_lock(&nvmf_transports_mutex);
- 	list_add_tail(&ops->entry, &nvmf_transports);
- 	mutex_unlock(&nvmf_transports_mutex);
-+
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(nvmf_register_transport);
- 
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index 924145c9..1560181 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -128,7 +128,7 @@ struct nvmf_transport_ops {
- int nvmf_reg_write32(struct nvme_ctrl *ctrl, u32 off, u32 val);
- int nvmf_connect_admin_queue(struct nvme_ctrl *ctrl);
- int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid);
--void nvmf_register_transport(struct nvmf_transport_ops *ops);
-+int nvmf_register_transport(struct nvmf_transport_ops *ops);
- void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
- void nvmf_free_options(struct nvmf_ctrl_options *opts);
- const char *nvmf_get_subsysnqn(struct nvme_ctrl *ctrl);
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index fcc9dcf..2912963 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2562,8 +2562,7 @@ static int __init nvme_fc_init_module(void)
- 	if (!nvme_fc_wq)
- 		return -ENOMEM;
- 
--	nvmf_register_transport(&nvme_fc_transport);
--	return 0;
-+	return nvmf_register_transport(&nvme_fc_transport);
- }
- 
- static void __exit nvme_fc_exit_module(void)
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 557f29b..1ad5fa8 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -2063,8 +2063,7 @@ static int __init nvme_rdma_init_module(void)
- 		return ret;
- 	}
- 
--	nvmf_register_transport(&nvme_rdma_transport);
--	return 0;
-+	return nvmf_register_transport(&nvme_rdma_transport);
- }
- 
- static void __exit nvme_rdma_cleanup_module(void)
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 9aaa700..07f1cb8 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -724,8 +724,7 @@ static int __init nvme_loop_init_module(void)
- 	ret = nvmet_register_transport(&nvme_loop_ops);
- 	if (ret)
- 		return ret;
--	nvmf_register_transport(&nvme_loop_transport);
--	return 0;
-+	return nvmf_register_transport(&nvme_loop_transport);
- }
- 
- static void __exit nvme_loop_cleanup_module(void)
--- 
-1.8.5.6
+We'll keep it unaligned and let the block layer deal with it. I had
+previously toyed with the void pointers, but we reference directly into
+cmd->cmd[] during command setup. So while we'll avoid a cast here we'll
+end up adding more code/casts to other functions, so I'm going to leave
+it as is in the series coming out in an hour or so.
