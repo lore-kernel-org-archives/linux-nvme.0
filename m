@@ -1,31 +1,137 @@
 From: scott.bauer@intel.com (Scott Bauer)
-Date: Mon, 30 Jan 2017 10:08:10 -0700
-Subject: [PATCH v4 2/6] block: Add Sed-opal library
-In-Reply-To: <20170108140507.GA32432@infradead.org>
-References: <1483039615-22407-1-git-send-email-scott.bauer@intel.com>
- <1483039615-22407-3-git-send-email-scott.bauer@intel.com>
- <20170108140507.GA32432@infradead.org>
-Message-ID: <20170130170810.GA20723@sbauer-Z170X-UD5>
+Date: Tue, 31 Jan 2017 03:17:21 -0700
+Subject: [PATCH v5 1/4] Include: Uapi: Add user ABI for Sed/Opal
+In-Reply-To: <1485857844-15130-1-git-send-email-scott.bauer@intel.com>
+References: <1485857844-15130-1-git-send-email-scott.bauer@intel.com>
+Message-ID: <1485857844-15130-2-git-send-email-scott.bauer@intel.com>
 
-On Sun, Jan 08, 2017@06:05:07AM -0800, Christoph Hellwig wrote:
-> On Thu, Dec 29, 2016@12:26:51PM -0700, Scott Bauer wrote:
-> 
-> > +	cmd->cmd = cmd->cmd_buf;
-> > +	cmd->resp = cmd->resp_buf;
-> > +
-> > +	dma_align = (queue_dma_alignment(q) | q->dma_pad_mask) + 1;
-> > +	cmd->cmd = (u8 *)round_up((uintptr_t)cmd->cmd, dma_align);
-> > +	cmd->resp = (u8 *)round_up((uintptr_t)cmd->resp, dma_align);
-> 
-> The block layer will automatically bounce buffer non-aligned payloads.
-> If the cost of copying is too high we could switch back to dynamic
-> allocations using kmalloc here, which will be properly aligned.
-> 
-> Also ->cmd and ->resp probably should be void pointers, so that no
-> casting is required for the various command and response structures.
+Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+Signed-off-by: Rafael Antognolli <Rafael.Antognolli at intel.com>
+---
+ include/uapi/linux/sed-opal.h | 115 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 115 insertions(+)
+ create mode 100644 include/uapi/linux/sed-opal.h
 
-We'll keep it unaligned and let the block layer deal with it. I had
-previously toyed with the void pointers, but we reference directly into
-cmd->cmd[] during command setup. So while we'll avoid a cast here we'll
-end up adding more code/casts to other functions, so I'm going to leave
-it as is in the series coming out in an hour or so.
+diff --git a/include/uapi/linux/sed-opal.h b/include/uapi/linux/sed-opal.h
+new file mode 100644
+index 0000000..723ad89
+--- /dev/null
++++ b/include/uapi/linux/sed-opal.h
+@@ -0,0 +1,115 @@
++/*
++ * Copyright ? 2016 Intel Corporation
++ *
++ * Authors:
++ *    Rafael Antognolli <rafael.antognolli at intel.com>
++ *    Scott  Bauer      <scott.bauer at intel.com>
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ */
++
++#ifndef _UAPI_SED_OPAL_H
++#define _UAPI_SED_OPAL_H
++
++#include <linux/types.h>
++
++#define OPAL_KEY_MAX 256
++#define OPAL_MAX_LRS 9
++
++enum opal_mbr {
++	OPAL_MBR_ENABLE,
++	OPAL_MBR_DISABLE,
++};
++
++enum opal_user {
++	OPAL_ADMIN1,
++	OPAL_USER1,
++	OPAL_USER2,
++	OPAL_USER3,
++	OPAL_USER4,
++	OPAL_USER5,
++	OPAL_USER6,
++	OPAL_USER7,
++	OPAL_USER8,
++	OPAL_USER9,
++};
++
++enum opal_lock_state {
++	OPAL_RO = 0x01, /* 0001 */
++	OPAL_RW = 0x02, /* 0010 */
++	OPAL_LK = 0x04, /* 0100 */
++};
++
++struct opal_key {
++	uint8_t	lr;
++	uint8_t	key_len;
++	char 	key[OPAL_KEY_MAX];
++};
++
++struct opal_lr_act {
++	int sum;
++	uint8_t num_lrs;
++	uint8_t lr[OPAL_MAX_LRS];
++	struct opal_key key;
++};
++
++struct opal_session_info {
++	int sum;
++	struct opal_key opal_key;
++	enum opal_user who;
++};
++
++struct opal_user_lr_setup {
++	struct opal_session_info session;
++	size_t range_start;
++	size_t range_length;
++	int    RLE; /* Read Lock enabled */
++	int    WLE; /* Write Lock Enabled */
++};
++
++struct opal_lock_unlock {
++	struct opal_session_info session;
++	enum opal_lock_state l_state;
++};
++
++struct opal_new_pw {
++	struct opal_session_info session;
++
++	/* When we're not operating in sum, and we first set
++	 * passwords we need to set them via ADMIN authority.
++	 * After passwords are changed, we can set them via,
++	 * User authorities.
++	 * Because of this restriction we need to know about
++	 * Two different users. One in 'session' which we will use
++	 * to start the session and new_userr_pw as the user we're
++	 * chaning the pw for.
++	 */
++	struct opal_session_info new_user_pw;
++};
++
++struct opal_mbr_data {
++	u8 enable_disable;
++	struct opal_key key;
++};
++
++#define IOC_OPAL_SAVE		    _IOW('p', 220, struct opal_lock_unlock)
++#define IOC_OPAL_LOCK_UNLOCK	    _IOW('p', 221, struct opal_lock_unlock)
++#define IOC_OPAL_TAKE_OWNERSHIP	    _IOW('p', 222, struct opal_key)
++#define IOC_OPAL_ACTIVATE_LSP       _IOW('p', 223, struct opal_key)
++#define IOC_OPAL_SET_PW             _IOW('p', 224, struct opal_new_pw)
++#define IOC_OPAL_ACTIVATE_USR       _IOW('p', 225, struct opal_session_info)
++#define IOC_OPAL_REVERT_TPR         _IOW('p', 226, struct opal_key)
++#define IOC_OPAL_LR_SETUP           _IOW('p', 227, struct opal_user_lr_setup)
++#define IOC_OPAL_ADD_USR_TO_LR      _IOW('p', 228, struct opal_lock_unlock)
++#define IOC_OPAL_ENABLE_DISABLE_MBR _IOW('p', 229, struct opal_mbr_data)
++#define IOC_OPAL_ERASE_LR           _IOW('p', 230, struct opal_session_info)
++#define IOC_OPAL_SECURE_ERASE_LR    _IOW('p', 231, struct opal_session_info)
++
++#endif /* _UAPI_SED_OPAL_H */
+-- 
+2.7.4
