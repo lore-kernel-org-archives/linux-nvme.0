@@ -1,42 +1,88 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 31 Jan 2017 12:04:27 -0700
+From: emil.l.velikov@gmail.com (Emil Velikov)
+Date: Tue, 31 Jan 2017 20:48:34 +0000
 Subject: [PATCH 1/1] MicroSemi Switchtec management interface driver
-In-Reply-To: <20170131185754.GA17684@kroah.com>
+In-Reply-To: <1485882204-26947-2-git-send-email-logang@deltatee.com>
 References: <1485882204-26947-1-git-send-email-logang@deltatee.com>
  <1485882204-26947-2-git-send-email-logang@deltatee.com>
- <20170131172630.GB12595@kroah.com>
- <57658098-b24a-cb25-b2e3-ccf8fcbf8fe5@deltatee.com>
- <20170131185754.GA17684@kroah.com>
-Message-ID: <e4802fb9-2b24-0c12-ca02-d33bd3ccb5dc@deltatee.com>
+Message-ID: <CACvgo50ruxTOfhGF=bV+xWVq+5UZ_xWeoTqxA+SzSwFNCVaS8g@mail.gmail.com>
+
+Hi Logan,
+
+NOTE: Please take my comments with a healthy pinch of salt.
+
+I'd imagine that core/more experienced developers have more thorough
+feedback, so I'll mention a few things on the less common part -
+robust/compat UABI.
+Above all, please read through the in-tree documentation on the topic [1]
+
+[1] https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/Documentation/ioctl/botching-up-ioctls.txt?id=refs/tags/v4.10-rc6
+
+On 31 January 2017@17:03, Logan Gunthorpe <logang@deltatee.com> wrote:
+
+> --- /dev/null
+> +++ b/include/uapi/linux/switchtec_ioctl.h
 
 
+> +enum switchtec_ioctl_partition {
 
-On 31/01/17 11:57 AM, Greg Kroah-Hartman wrote:
-> Sorry, it was probably me :)
+> +       SWITCHTEC_IOCTL_NUM_PARTITIONS,
+> +};
+I'm not sure what the overall consensus on the topic of 'enums vs
+defines in UABI'. Fwiw personally I'm in favour of defines since enums
+can lead to subtle issues if one is not extra careful. For example:
+ - add new enum amidst the list - ABI break
+ - add new enum at the end of the list [just before NUM_PARTITIONS] - ABI break.
+ - opt for negative value for existing/new enum - ABI break
+ - other
 
-Nope, it was Christoph Hellwig. I don't mind changing it. It's just hard
-to know what's expected all the time.
+With a variable size in mind, carefully consider how you'll copy data
+back and forth in the case of new kernel (supports partition[X) + old
+userspace (partition [X-1]) and vice-versa. Feel free to look at the
+drm ioctl handler and/or others through the kernel.
 
-> Why do you need this?  Wherever you put it, it should be built as part
-> of the online kernel documentation.  Who is the audience for this
-> documentation?
+Hint - as-is we'll end up with buffer overflows/other issues.
 
-Well usually documenting how to use the device is a good thing. Is it
-not? The audience would be people wanting to make use of the userspace
-interface. Though in fairness, the vast majority of people should use
-our library. I also thought it would be useful to reviewers to more
-quickly understand the interface we are creating. If maintainers want us
-to leave it out, we can, but that seems like an odd request.
+> +
+> +struct switchtec_ioctl_fw_info {
+> +       __u32 flash_length;
+> +
+> +       struct {
+> +               __u32 address;
+> +               __u32 length;
+> +               __u32 active;
+Something to keep in mind, not sure how likely it is here:
+If you embed structs (partition in this case), you will not be able to
+extend it [the embedded one] it in the future without the risk of ABI
+breakage.
 
-> Do future stuff in the future, no need for that now, right?
-> 
-> Simple is best.
+> +       } partition[SWITCHTEC_IOCTL_NUM_PARTITIONS];
+> +};
+> +
+Afaict this and most/all other structs [in this patch] are in
+violation of Prerequisites#2 and/or #3.
+Personally I find pahole quite useful - reference all the UABI structs
+in a dummy userspace app, compile with gcc -g -O0 and observe the
+output across 32 and 64bit builds. Members _must_ be at the same
+offset, otherwise things will be broken with 64bit kernel on a 32bit
+userspace. Something which people will eventually end up trying/using,
+even if you don't plan to support it.
 
-Ok, I can push it all into the C file for v2.
+Please check that Basics (#2 and #5 in particular) are also covered.
 
-> I'll leave that up to the PCI maintainer, but just a single .c file in a
-> subdir seems odd to me.
+A couple more generic suggestions, which I may have noticed while
+skimming through:
+ - please ensure that all the input is properly sanitised, before,
+going into the actual implementation
+Afaict having the separate step/separation helps clarity and reduces
+chances of you/others getting it wrong down the line.
+ - user provided storage must not be changed when the ioctl fails.
 
-Thanks,
+Additionally you want to provide a reference to open-source userspace
+[alongside acknowledgement of the maintainers/co-developers about the
+design] which makes use of said IOCTL(s). But please, do _not_ merge
+userspace code before the kernel work has landed.
 
-Logan
+Hope that provided you with sufficient good points wrt IOCTL design.
+
+Regards,
+Emil
