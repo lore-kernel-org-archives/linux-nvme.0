@@ -1,10 +1,10 @@
 From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Tue, 31 Jan 2017 18:26:30 +0100
+Date: Tue, 31 Jan 2017 18:27:50 +0100
 Subject: [PATCH 1/1] MicroSemi Switchtec management interface driver
 In-Reply-To: <1485882204-26947-2-git-send-email-logang@deltatee.com>
 References: <1485882204-26947-1-git-send-email-logang@deltatee.com>
  <1485882204-26947-2-git-send-email-logang@deltatee.com>
-Message-ID: <20170131172630.GB12595@kroah.com>
+Message-ID: <20170131172750.GC12595@kroah.com>
 
 On Tue, Jan 31, 2017@10:03:24AM -0700, Logan Gunthorpe wrote:
 > Microsemi's "Switchtec" line of PCI switch devices is already well
@@ -57,19 +57,10 @@ On Tue, Jan 31, 2017@10:03:24AM -0700, Logan Gunthorpe wrote:
 >  drivers/pci/switch/Makefile                     |    1 +
 >  drivers/pci/switch/switchtec.c                  | 1320 +++++++++++++++++++++++
 >  drivers/pci/switch/switchtec.h                  |  266 +++++
->  include/uapi/linux/switchtec_ioctl.h            |  129 +++
->  11 files changed, 1919 insertions(+)
 
-That's one big patch to review, would you want to do that?
+Why a .h file for a single .c file?
 
-Can you break it up into smaller parts?  At least put the documentation
-separately, right?
-
-And don't dump a .txt file into Documentation/ anymore, people are
-working to move to the newer format.
-
-Also, please rebase against Linus's tree at the least, we can't go back
-in time and apply this to the 4.9 kernel tree.
+Also, why a whole new directory?
 
 thanks,
 
