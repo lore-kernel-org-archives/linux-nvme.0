@@ -1,67 +1,47 @@
-From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Tue, 31 Jan 2017 18:27:50 +0100
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Tue, 31 Jan 2017 10:35:44 -0700
 Subject: [PATCH 1/1] MicroSemi Switchtec management interface driver
-In-Reply-To: <1485882204-26947-2-git-send-email-logang@deltatee.com>
+In-Reply-To: <20170131172630.GB12595@kroah.com>
 References: <1485882204-26947-1-git-send-email-logang@deltatee.com>
  <1485882204-26947-2-git-send-email-logang@deltatee.com>
-Message-ID: <20170131172750.GC12595@kroah.com>
+ <20170131172630.GB12595@kroah.com>
+Message-ID: <57658098-b24a-cb25-b2e3-ccf8fcbf8fe5@deltatee.com>
 
-On Tue, Jan 31, 2017@10:03:24AM -0700, Logan Gunthorpe wrote:
-> Microsemi's "Switchtec" line of PCI switch devices is already well
-> supported by the kernel with standard PCI switch drivers. However, the
-> Switchtec device advertises a special management endpoint with a separate
-> PCI function address and class code. This endpoint enables some additional
-> functionality which includes:
-> 
->  * Packet and Byte Counters
->  * Switch Firmware Upgrades
->  * Event and Error logs
->  * Querying port link status
->  * Custom user firmware commands
-> 
-> This patch introduces the switchtec kernel module which provides
-> PCI driver that exposes a char device. The char device provides
-> userspace access to this interface through read, write and (optionally)
-> poll calls. A couple of special IOCTLs are provided to:
-> 
-> * Inform userspace of firmware partition locations
-> * Pass event counts and allow userspace to wait on events
-> 
-> A short text file is provided which documents the switchtec driver,
-> outlines the semantics of using the char device and describes the
-> IOCTLs.
-> 
-> The device also exposes a few read-only sysfs attributes which provide
-> some device information component names and versions which is provided
-> by the hardware. These are documented in
-> Documentation/ABI/testing/sysfs-class-switchtec
-> 
-> A userspace tool and library which utilizes this interface is available
-> at [1]. This tool takes inspiration (and borrows some code) from
-> nvme-cli [2]. The tool is largely complete at this time but additional
-> features may be added in the future.
-> 
-> [1] https://github.com/sbates130272/switchtec-user
-> [2] https://github.com/linux-nvme/nvme-cli
-> 
-> Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-> Signed-off-by: Stephen Bates <stephen.bates at microsemi.com>
-> ---
->  Documentation/ABI/testing/sysfs-class-switchtec |   96 ++
->  Documentation/ioctl/ioctl-number.txt            |    1 +
->  Documentation/switchtec.txt                     |   80 ++
->  MAINTAINERS                                     |   11 +
->  drivers/pci/Kconfig                             |    1 +
->  drivers/pci/Makefile                            |    1 +
->  drivers/pci/switch/Kconfig                      |   13 +
->  drivers/pci/switch/Makefile                     |    1 +
->  drivers/pci/switch/switchtec.c                  | 1320 +++++++++++++++++++++++
->  drivers/pci/switch/switchtec.h                  |  266 +++++
 
-Why a .h file for a single .c file?
 
-Also, why a whole new directory?
+On 31/01/17 10:26 AM, Greg Kroah-Hartman wrote:
+> That's one big patch to review, would you want to do that?
 
-thanks,
+Sorry, will do.
 
-greg k-h
+> Can you break it up into smaller parts?  At least put the documentation
+> separately, right?
+
+Ha, funny. Last time I sent a patch someone asked for the documentation
+to be in the same patch. But I can easily split this up.
+
+> And don't dump a .txt file into Documentation/ anymore, people are
+> working to move to the newer format.
+
+Fair. I wasn't sure where a good place to put it was. Any suggestions?
+
+> Also, please rebase against Linus's tree at the least, we can't go back
+> in time and apply this to the 4.9 kernel tree.
+
+Will do.
+
+> Why a .h file for a single .c file?
+
+I wanted to keep the hardware defining structs and macros in a separate
+file for future expansion. This hardware is also capable of some NTB
+functions which may find it's way into the kernel in the future.
+
+> Also, why a whole new directory?
+
+We didn't feel it fit in the pci director which was for standard pci
+stuff. We're more than open to other suggestions as to where this code
+belongs.
+
+Thanks,
+
+Logan
