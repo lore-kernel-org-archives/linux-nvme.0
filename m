@@ -1,93 +1,92 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu,  2 Feb 2017 11:06:01 -0700
-Subject: [PATCH v2 2/4] switchtec: Add user interface documentation
-In-Reply-To: <1486058763-7730-1-git-send-email-logang@deltatee.com>
-References: <1486058763-7730-1-git-send-email-logang@deltatee.com>
-Message-ID: <1486058763-7730-3-git-send-email-logang@deltatee.com>
+Date: Thu,  2 Feb 2017 11:05:59 -0700
+Subject: [PATCH v2 0/4] New Microsemi PCI Switch Management Driver
+Message-ID: <1486058763-7730-1-git-send-email-logang@deltatee.com>
 
-This adds standard documentation for the sysfs switchtec attributes and
-a RST formatted text file which documents the char device interface.
-Jonathan Corbet has indicated he will move this to a new user-space
-developer documentation book once it's created.
+Changes since v1:
 
-Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-Signed-off-by: Stephen Bates <stephen.bates at microsemi.com>
----
- Documentation/switchtec.txt | 53 +++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                 |  1 +
- 2 files changed, 54 insertions(+)
+* Rebased onto 4.10-rc6 (cleanly)
+* Split the patch into a few more easily digestible patches (as
+  suggested by Greg Kroah-Hartman)
+* Folded switchtec.c into switchtec.h (per Greg)
+* Fixed a bunch of 32bit build warnings caught by the kbuild test robot
+* Fixed some issues in the documentation so it has a proper
+  reStructredText format (as noted by Jonathan Corbet)
+* Fixed padding and sizes in the IOCTL structures as noticed by Emil
+  Velikov and used pahole to verify their consistency across 32 and 64
+  bit builds
+* Reworked one of the IOCTL interfaces to be more future proof (per
+  Emil).
+
+Changes since RFC:
+
+* Fixed incorrect use of the drive model as pointed out by Greg
+  Kroah-Hartman
+* Used devm functions as suggested by Keith Busch
+* Added a handful of sysfs attributes to the switchtec class
+* Added a handful of IOCTLs to the switchtec device
+* A number of miscellaneous bug fixes
+
+--
+
+Hi,
+
+This is a continuation of the RFC we posted lasted month [1] which
+proposes a management driver for Microsemi's Switchtec line of PCI
+switches. This hardware is still looking to be used in the Open
+Compute Platform
+
+To make this entirely clear: the Switchtec products are compliant
+with the PCI specifications and are supported today with the standard
+in-kernel driver. However, these devices also expose a management endpoint
+on a separate PCI function address which can be used to perform some
+advanced operations. This is a driver for that function. See the patch
+for more information.
+
+Since the RFC, we've made the changes requested by Greg Kroah-Hartman
+and Keith Busch, and we've also fleshed out a number of features. We've
+added a couple of IOCTLs and sysfs attributes which are documented in
+the patch. Significant work has also been done on the userspace tool
+which is available under a GPL license at [2]. We've also had testing
+done by some of the interested parties.
+
+We hope to see this work included in either 4.11 or 4.12 assuming a
+smooth review process.
+
+The patch is based off of the v4.10-rc6 release.
+
+Thanks for your review,
+
+Logan
+
+[1] https://www.spinics.net/lists/linux-pci/msg56897.html
+[2] https://github.com/sbates130272/switchtec-user
+
+--
+
+Logan Gunthorpe (4):
+  MicroSemi Switchtec management interface driver
+  switchtec: Add user interface documentation
+  switchtec: Add sysfs attributes to the Switchtec driver
+  switchtec: Add IOCTLs to the Switchtec driver
+
+ Documentation/ABI/testing/sysfs-class-switchtec |   96 ++
+ Documentation/ioctl/ioctl-number.txt            |    1 +
+ Documentation/switchtec.txt                     |   80 ++
+ MAINTAINERS                                     |   11 +
+ drivers/pci/Kconfig                             |    1 +
+ drivers/pci/Makefile                            |    1 +
+ drivers/pci/switch/Kconfig                      |   13 +
+ drivers/pci/switch/Makefile                     |    1 +
+ drivers/pci/switch/switchtec.c                  | 1608 +++++++++++++++++++++++
+ include/uapi/linux/switchtec_ioctl.h            |  132 ++
+ 10 files changed, 1944 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-switchtec
  create mode 100644 Documentation/switchtec.txt
+ create mode 100644 drivers/pci/switch/Kconfig
+ create mode 100644 drivers/pci/switch/Makefile
+ create mode 100644 drivers/pci/switch/switchtec.c
+ create mode 100644 include/uapi/linux/switchtec_ioctl.h
 
-diff --git a/Documentation/switchtec.txt b/Documentation/switchtec.txt
-new file mode 100644
-index 0000000..4bced4c
---- /dev/null
-+++ b/Documentation/switchtec.txt
-@@ -0,0 +1,53 @@
-+========================
-+Linux Switchtec Support
-+========================
-+
-+Microsemi's "Switchtec" line of PCI switch devices is already
-+supported by the kernel with standard PCI switch drivers. However, the
-+Switchtec device advertises a special management endpoint which
-+enables some additional functionality. This includes:
-+
-+* Packet and Byte Counters
-+* Firmware Upgrades
-+* Event and Error logs
-+* Querying port link status
-+* Custom user firmware commands
-+
-+The switchtec kernel module implements this functionality.
-+
-+
-+Interface
-+=========
-+
-+The primary means of communicating with the Switchtec management firmware is
-+through the Memory-mapped Remote Procedure Call (MRPC) interface.
-+Commands are submitted to the interface with a 4-byte command
-+identifier and up to 1KB of command specific data. The firmware will
-+respond with a 4 bytes return code and up to 1KB of command specific
-+data. The interface only processes a single command at a time.
-+
-+
-+Userspace Interface
-+===================
-+
-+The MRPC interface will be exposed to userspace through a simple char
-+device: /dev/switchtec#, one for each management endpoint in the system.
-+
-+The char device has the following semantics:
-+
-+* A write must consist of at least 4 bytes and no more than 1028 bytes.
-+  The first four bytes will be interpreted as the command to run and
-+  the remainder will be used as the input data. A write will send the
-+  command to the firmware to begin processing.
-+
-+* Each write must be followed by exactly one read. Any double write will
-+  produce an error and any read that doesn't follow a write will
-+  produce an error.
-+
-+* A read will block until the firmware completes the command and return
-+  the four bytes of status plus up to 1024 bytes of output data. (The
-+  length will be specified by the size parameter of the read call --
-+  reading less than 4 bytes will produce an error.
-+
-+* The poll call will also be supported for userspace applications that
-+  need to do other things while waiting for the command to complete.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9c35198..0ab858d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9513,6 +9513,7 @@ M:	Stephen Bates <stephen.bates at microsemi.com>
- M:	Logan Gunthorpe <logang at deltatee.com>
- L:	linux-pci at vger.kernel.org
- S:	Maintained
-+F:	Documentation/switchtec.txt
- F:	drivers/pci/switch/switchtec*
- 
- PCI DRIVER FOR NVIDIA TEGRA
--- 
+--
 2.1.4
