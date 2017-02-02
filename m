@@ -1,14 +1,93 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 2 Feb 2017 11:55:23 -0500
-Subject: [PATCH nvme-cli] Documentation: fix location of device reset
-In-Reply-To: <20170202153805.16406-1-jthumshirn@suse.de>
-References: <20170202153805.16406-1-jthumshirn@suse.de>
-Message-ID: <20170202165523.GB24601@localhost.localdomain>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu,  2 Feb 2017 11:06:01 -0700
+Subject: [PATCH v2 2/4] switchtec: Add user interface documentation
+In-Reply-To: <1486058763-7730-1-git-send-email-logang@deltatee.com>
+References: <1486058763-7730-1-git-send-email-logang@deltatee.com>
+Message-ID: <1486058763-7730-3-git-send-email-logang@deltatee.com>
 
-On Thu, Feb 02, 2017@04:38:05PM +0100, Johannes Thumshirn wrote:
-> Fix the location of the device reset sysfs path.
-> 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+This adds standard documentation for the sysfs switchtec attributes and
+a RST formatted text file which documents the char device interface.
+Jonathan Corbet has indicated he will move this to a new user-space
+developer documentation book once it's created.
 
-Thanks for the fix. I've applied and regenerated the manpages to include
-this.
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Signed-off-by: Stephen Bates <stephen.bates at microsemi.com>
+---
+ Documentation/switchtec.txt | 53 +++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                 |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 Documentation/switchtec.txt
+
+diff --git a/Documentation/switchtec.txt b/Documentation/switchtec.txt
+new file mode 100644
+index 0000000..4bced4c
+--- /dev/null
++++ b/Documentation/switchtec.txt
+@@ -0,0 +1,53 @@
++========================
++Linux Switchtec Support
++========================
++
++Microsemi's "Switchtec" line of PCI switch devices is already
++supported by the kernel with standard PCI switch drivers. However, the
++Switchtec device advertises a special management endpoint which
++enables some additional functionality. This includes:
++
++* Packet and Byte Counters
++* Firmware Upgrades
++* Event and Error logs
++* Querying port link status
++* Custom user firmware commands
++
++The switchtec kernel module implements this functionality.
++
++
++Interface
++=========
++
++The primary means of communicating with the Switchtec management firmware is
++through the Memory-mapped Remote Procedure Call (MRPC) interface.
++Commands are submitted to the interface with a 4-byte command
++identifier and up to 1KB of command specific data. The firmware will
++respond with a 4 bytes return code and up to 1KB of command specific
++data. The interface only processes a single command at a time.
++
++
++Userspace Interface
++===================
++
++The MRPC interface will be exposed to userspace through a simple char
++device: /dev/switchtec#, one for each management endpoint in the system.
++
++The char device has the following semantics:
++
++* A write must consist of at least 4 bytes and no more than 1028 bytes.
++  The first four bytes will be interpreted as the command to run and
++  the remainder will be used as the input data. A write will send the
++  command to the firmware to begin processing.
++
++* Each write must be followed by exactly one read. Any double write will
++  produce an error and any read that doesn't follow a write will
++  produce an error.
++
++* A read will block until the firmware completes the command and return
++  the four bytes of status plus up to 1024 bytes of output data. (The
++  length will be specified by the size parameter of the read call --
++  reading less than 4 bytes will produce an error.
++
++* The poll call will also be supported for userspace applications that
++  need to do other things while waiting for the command to complete.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9c35198..0ab858d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9513,6 +9513,7 @@ M:	Stephen Bates <stephen.bates at microsemi.com>
+ M:	Logan Gunthorpe <logang at deltatee.com>
+ L:	linux-pci at vger.kernel.org
+ S:	Maintained
++F:	Documentation/switchtec.txt
+ F:	drivers/pci/switch/switchtec*
+ 
+ PCI DRIVER FOR NVIDIA TEGRA
+-- 
+2.1.4
