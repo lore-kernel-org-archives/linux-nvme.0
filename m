@@ -1,58 +1,140 @@
 From: scott.bauer@intel.com (Scott Bauer)
-Date: Fri,  3 Feb 2017 12:50:29 -0700
-Subject: [PATCH v6 0/3] SED OPAL Library
-Message-ID: <1486151432-3431-1-git-send-email-scott.bauer@intel.com>
+Date: Fri,  3 Feb 2017 12:50:30 -0700
+Subject: [PATCH v6 1/3] Include: Uapi: Add user ABI for Sed/Opal
+In-Reply-To: <1486151432-3431-1-git-send-email-scott.bauer@intel.com>
+References: <1486151432-3431-1-git-send-email-scott.bauer@intel.com>
+Message-ID: <1486151432-3431-2-git-send-email-scott.bauer@intel.com>
 
-Changes from v5->v6:
-
-1) Fixed comments from last review From Christoph
-2) Rebased code on top of Jens' for-next
-3) Explicitly aligned the structs in the uapi
-
-===============================================================================
-This Patch series implements a large portion of the Opal protocol for
-self encrypting devices. The driver has the capability of storing a
-locking range's password. The password can then be replayed
-during a resume from previous suspend-to-RAM.
-
-The driver also supports logic to bring the device out of a factory
-default-inactive state into a functional Opal state.
-
-The following logic is supported in order to bring the tper into a
-working state:
-
-1) Taking Ownership of the drive (Setting the Admin CPIN).
-2) Activating the Locking SP (In Single User Mode or Normal Mode).
-3) Setting up Locking Ranges (Single User or Normal Mode).
-4) Adding users to Locking Ranges (Normal Mode Only).
-5) Locking or Unlocking Locking Ranges (Single User Mode or Normal Mode).
-6) Reverting the TPer (Restore to factory default).
-7) Setting LR/User passwords (Single User Mode or Normal Mode).
-8) Enabling/disabling Shadow MBR.
-9) Enabling Users in the LockingSP (Normal Mode Only).
-10) Saving Password for resume from suspend.
-11) Erase and Secure erasing locking ranges.
-
-Scott Bauer (3):
-  Include: Uapi: Add user ABI for Sed/Opal
-  block: Add Sed-opal library
-  nvme: Add Support for Opal: Unlock from S3 & Opal Allocation/Ioctls
-
- MAINTAINERS                   |   11 +
- block/Kconfig                 |    7 +
- block/Makefile                |    1 +
- block/opal_proto.h            |  429 ++++++++
- block/sed-opal.c              | 2448 +++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/core.c      |   25 +
- drivers/nvme/host/nvme.h      |   14 +
- drivers/nvme/host/pci.c       |    7 +
- include/linux/sed-opal.h      |  178 +++
- include/uapi/linux/sed-opal.h |  118 ++
- 10 files changed, 3238 insertions(+)
- create mode 100644 block/opal_proto.h
- create mode 100644 block/sed-opal.c
- create mode 100644 include/linux/sed-opal.h
+Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+Signed-off-by: Rafael Antognolli <Rafael.Antognolli at intel.com>
+---
+ include/uapi/linux/sed-opal.h | 118 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 118 insertions(+)
  create mode 100644 include/uapi/linux/sed-opal.h
 
+diff --git a/include/uapi/linux/sed-opal.h b/include/uapi/linux/sed-opal.h
+new file mode 100644
+index 0000000..3179952
+--- /dev/null
++++ b/include/uapi/linux/sed-opal.h
+@@ -0,0 +1,118 @@
++/*
++ * Copyright ? 2016 Intel Corporation
++ *
++ * Authors:
++ *    Rafael Antognolli <rafael.antognolli at intel.com>
++ *    Scott  Bauer      <scott.bauer at intel.com>
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms and conditions of the GNU General Public License,
++ * version 2, as published by the Free Software Foundation.
++ *
++ * This program is distributed in the hope it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++ * more details.
++ */
++
++#ifndef _UAPI_SED_OPAL_H
++#define _UAPI_SED_OPAL_H
++
++#include <linux/types.h>
++
++#define OPAL_KEY_MAX 256
++#define OPAL_MAX_LRS 9
++
++enum opal_mbr {
++	OPAL_MBR_ENABLE = 0x0,
++	OPAL_MBR_DISABLE = 0x01,
++};
++
++enum opal_user {
++	OPAL_ADMIN1 = 0x0,
++	OPAL_USER1 = 0x01,
++	OPAL_USER2 = 0x02,
++	OPAL_USER3 = 0x03,
++	OPAL_USER4 = 0x04,
++	OPAL_USER5 = 0x05,
++	OPAL_USER6 = 0x06,
++	OPAL_USER7 = 0x07,
++	OPAL_USER8 = 0x08,
++	OPAL_USER9 = 0x09,
++};
++
++enum opal_lock_state {
++	OPAL_RO = 0x01, /* 0001 */
++	OPAL_RW = 0x02, /* 0010 */
++	OPAL_LK = 0x04, /* 0100 */
++};
++
++struct opal_key {
++	uint8_t	lr;
++	uint8_t	key_len;
++	char 	key[OPAL_KEY_MAX];
++};
++
++struct opal_lr_act {
++	int sum;
++	uint8_t num_lrs;
++	uint8_t lr[OPAL_MAX_LRS];
++	struct opal_key key;
++};
++
++struct opal_session_info {
++	int sum;
++	enum opal_user who;
++	struct opal_key opal_key;
++	uint8_t __align[2];
++};
++
++struct opal_user_lr_setup {
++	size_t range_start;
++	size_t range_length;
++	int    RLE; /* Read Lock enabled */
++	int    WLE; /* Write Lock Enabled */
++	struct opal_session_info session;
++	uint8_t __align[4];
++};
++
++struct opal_lock_unlock {
++	enum opal_lock_state l_state;
++	struct opal_session_info session;
++};
++
++struct opal_new_pw {
++	struct opal_session_info session;
++
++	/* When we're not operating in sum, and we first set
++	 * passwords we need to set them via ADMIN authority.
++	 * After passwords are changed, we can set them via,
++	 * User authorities.
++	 * Because of this restriction we need to know about
++	 * Two different users. One in 'session' which we will use
++	 * to start the session and new_userr_pw as the user we're
++	 * chaning the pw for.
++	 */
++	struct opal_session_info new_user_pw;
++};
++
++struct opal_mbr_data {
++	u8 enable_disable;
++	struct opal_key key;
++	uint8_t __align[5];
++};
++
++#define IOC_OPAL_SAVE		    _IOW('p', 220, struct opal_lock_unlock)
++#define IOC_OPAL_LOCK_UNLOCK	    _IOW('p', 221, struct opal_lock_unlock)
++#define IOC_OPAL_TAKE_OWNERSHIP	    _IOW('p', 222, struct opal_key)
++#define IOC_OPAL_ACTIVATE_LSP       _IOW('p', 223, struct opal_key)
++#define IOC_OPAL_SET_PW             _IOW('p', 224, struct opal_new_pw)
++#define IOC_OPAL_ACTIVATE_USR       _IOW('p', 225, struct opal_session_info)
++#define IOC_OPAL_REVERT_TPR         _IOW('p', 226, struct opal_key)
++#define IOC_OPAL_LR_SETUP           _IOW('p', 227, struct opal_user_lr_setup)
++#define IOC_OPAL_ADD_USR_TO_LR      _IOW('p', 228, struct opal_lock_unlock)
++#define IOC_OPAL_ENABLE_DISABLE_MBR _IOW('p', 229, struct opal_mbr_data)
++#define IOC_OPAL_ERASE_LR           _IOW('p', 230, struct opal_session_info)
++#define IOC_OPAL_SECURE_ERASE_LR    _IOW('p', 231, struct opal_session_info)
++
++#endif /* _UAPI_SED_OPAL_H */
 -- 
 2.7.4
