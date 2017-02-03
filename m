@@ -1,140 +1,137 @@
 From: scott.bauer@intel.com (Scott Bauer)
-Date: Fri,  3 Feb 2017 12:50:30 -0700
-Subject: [PATCH v6 1/3] Include: Uapi: Add user ABI for Sed/Opal
+Date: Fri,  3 Feb 2017 12:50:32 -0700
+Subject: [PATCH v6 3/3] nvme: Add Support for Opal: Unlock from S3 & Opal
+ Allocation/Ioctls
 In-Reply-To: <1486151432-3431-1-git-send-email-scott.bauer@intel.com>
 References: <1486151432-3431-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <1486151432-3431-2-git-send-email-scott.bauer@intel.com>
+Message-ID: <1486151432-3431-4-git-send-email-scott.bauer@intel.com>
+
+This patch implements the necessary logic to unlock an Opal
+enabled device coming back from an S3.
+
+The patch also implements the SED/Opal allocation necessary to support
+the opal ioctls.
 
 Signed-off-by: Scott Bauer <scott.bauer at intel.com>
-Signed-off-by: Rafael Antognolli <Rafael.Antognolli at intel.com>
 ---
- include/uapi/linux/sed-opal.h | 118 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 118 insertions(+)
- create mode 100644 include/uapi/linux/sed-opal.h
+ drivers/nvme/host/core.c | 25 +++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h | 14 ++++++++++++++
+ drivers/nvme/host/pci.c  |  7 +++++++
+ 3 files changed, 46 insertions(+)
 
-diff --git a/include/uapi/linux/sed-opal.h b/include/uapi/linux/sed-opal.h
-new file mode 100644
-index 0000000..3179952
---- /dev/null
-+++ b/include/uapi/linux/sed-opal.h
-@@ -0,0 +1,118 @@
-+/*
-+ * Copyright ? 2016 Intel Corporation
-+ *
-+ * Authors:
-+ *    Rafael Antognolli <rafael.antognolli at intel.com>
-+ *    Scott  Bauer      <scott.bauer at intel.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ */
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index f7a602c..efe8ec3 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -798,6 +798,8 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 		if (ns->ndev)
+ 			return nvme_nvm_ioctl(ns, cmd, arg);
+ #endif
++		if (is_sed_ioctl(cmd))
++			return sed_ioctl(&ns->ctrl->opal_dev, cmd, arg);
+ 		return -ENOTTY;
+ 	}
+ }
+@@ -1065,6 +1067,29 @@ static const struct pr_ops nvme_pr_ops = {
+ 	.pr_clear	= nvme_pr_clear,
+ };
+ 
++#ifdef CONFIG_BLK_SED_OPAL
++int nvme_sec_submit(struct opal_dev *dev, u16 spsp, u8 secp,
++		    void *buffer, size_t len, bool send)
++{
++	struct nvme_command cmd;
++	struct nvme_ctrl *ctrl = NULL;
 +
-+#ifndef _UAPI_SED_OPAL_H
-+#define _UAPI_SED_OPAL_H
++	memset(&cmd, 0, sizeof(cmd));
++	if (send)
++		cmd.common.opcode = nvme_admin_security_send;
++	else
++		cmd.common.opcode = nvme_admin_security_recv;
++	ctrl = container_of(dev, struct nvme_ctrl, opal_dev);
++	cmd.common.nsid = 0;
++	cmd.common.cdw10[0] = cpu_to_le32(((u32)secp) << 24 | ((u32)spsp) << 8);
++	cmd.common.cdw10[1] = cpu_to_le32(len);
 +
-+#include <linux/types.h>
++	return __nvme_submit_sync_cmd(ctrl->admin_q, &cmd, NULL, buffer, len,
++				      ADMIN_TIMEOUT, NVME_QID_ANY, 1, 0);
++}
++EXPORT_SYMBOL_GPL(nvme_sec_submit);
++#endif /* CONFIG_BLK_SED_OPAL */
 +
-+#define OPAL_KEY_MAX 256
-+#define OPAL_MAX_LRS 9
+ static const struct block_device_operations nvme_fops = {
+ 	.owner		= THIS_MODULE,
+ 	.ioctl		= nvme_ioctl,
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 61b8170..569cba1 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -19,6 +19,7 @@
+ #include <linux/kref.h>
+ #include <linux/blk-mq.h>
+ #include <linux/lightnvm.h>
++#include <linux/sed-opal.h>
+ 
+ enum {
+ 	/*
+@@ -125,6 +126,8 @@ struct nvme_ctrl {
+ 	struct list_head node;
+ 	struct ida ns_ida;
+ 
++	struct opal_dev opal_dev;
 +
-+enum opal_mbr {
-+	OPAL_MBR_ENABLE = 0x0,
-+	OPAL_MBR_DISABLE = 0x01,
-+};
+ 	char name[12];
+ 	char serial[20];
+ 	char model[40];
+@@ -267,6 +270,17 @@ int nvme_init_identify(struct nvme_ctrl *ctrl);
+ void nvme_queue_scan(struct nvme_ctrl *ctrl);
+ void nvme_remove_namespaces(struct nvme_ctrl *ctrl);
+ 
++#ifdef CONFIG_BLK_SED_OPAL
++int nvme_sec_submit(struct opal_dev *dev, u16 spsp, u8 secp,
++		    void *buffer, size_t len, bool send);
++#else
++static inline int nvme_sec_submit(struct opal_dev *dev, u16 spsp, u8 secp,
++				  void *buffer, size_t len, bool send)
++{
++	return 0;
++}
++#endif /* CONFIG_BLK_DEV_SED_OPAL */
 +
-+enum opal_user {
-+	OPAL_ADMIN1 = 0x0,
-+	OPAL_USER1 = 0x01,
-+	OPAL_USER2 = 0x02,
-+	OPAL_USER3 = 0x03,
-+	OPAL_USER4 = 0x04,
-+	OPAL_USER5 = 0x05,
-+	OPAL_USER6 = 0x06,
-+	OPAL_USER7 = 0x07,
-+	OPAL_USER8 = 0x08,
-+	OPAL_USER9 = 0x09,
-+};
+ #define NVME_NR_AERS	1
+ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		union nvme_result *res);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 032237c..e25d632 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -43,6 +43,7 @@
+ #include <linux/types.h>
+ #include <linux/io-64-nonatomic-lo-hi.h>
+ #include <asm/unaligned.h>
++#include <linux/sed-opal.h>
+ 
+ #include "nvme.h"
+ 
+@@ -1754,6 +1755,7 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
+ static void nvme_reset_work(struct work_struct *work)
+ {
+ 	struct nvme_dev *dev = container_of(work, struct nvme_dev, reset_work);
++	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+ 	int result = -ENODEV;
+ 
+ 	if (WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING))
+@@ -1786,6 +1788,11 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (result)
+ 		goto out;
+ 
++	init_opal_dev(&dev->ctrl.opal_dev, &nvme_sec_submit);
 +
-+enum opal_lock_state {
-+	OPAL_RO = 0x01, /* 0001 */
-+	OPAL_RW = 0x02, /* 0010 */
-+	OPAL_LK = 0x04, /* 0100 */
-+};
++	if (was_suspend)
++		opal_unlock_from_suspend(&dev->ctrl.opal_dev);
 +
-+struct opal_key {
-+	uint8_t	lr;
-+	uint8_t	key_len;
-+	char 	key[OPAL_KEY_MAX];
-+};
-+
-+struct opal_lr_act {
-+	int sum;
-+	uint8_t num_lrs;
-+	uint8_t lr[OPAL_MAX_LRS];
-+	struct opal_key key;
-+};
-+
-+struct opal_session_info {
-+	int sum;
-+	enum opal_user who;
-+	struct opal_key opal_key;
-+	uint8_t __align[2];
-+};
-+
-+struct opal_user_lr_setup {
-+	size_t range_start;
-+	size_t range_length;
-+	int    RLE; /* Read Lock enabled */
-+	int    WLE; /* Write Lock Enabled */
-+	struct opal_session_info session;
-+	uint8_t __align[4];
-+};
-+
-+struct opal_lock_unlock {
-+	enum opal_lock_state l_state;
-+	struct opal_session_info session;
-+};
-+
-+struct opal_new_pw {
-+	struct opal_session_info session;
-+
-+	/* When we're not operating in sum, and we first set
-+	 * passwords we need to set them via ADMIN authority.
-+	 * After passwords are changed, we can set them via,
-+	 * User authorities.
-+	 * Because of this restriction we need to know about
-+	 * Two different users. One in 'session' which we will use
-+	 * to start the session and new_userr_pw as the user we're
-+	 * chaning the pw for.
-+	 */
-+	struct opal_session_info new_user_pw;
-+};
-+
-+struct opal_mbr_data {
-+	u8 enable_disable;
-+	struct opal_key key;
-+	uint8_t __align[5];
-+};
-+
-+#define IOC_OPAL_SAVE		    _IOW('p', 220, struct opal_lock_unlock)
-+#define IOC_OPAL_LOCK_UNLOCK	    _IOW('p', 221, struct opal_lock_unlock)
-+#define IOC_OPAL_TAKE_OWNERSHIP	    _IOW('p', 222, struct opal_key)
-+#define IOC_OPAL_ACTIVATE_LSP       _IOW('p', 223, struct opal_key)
-+#define IOC_OPAL_SET_PW             _IOW('p', 224, struct opal_new_pw)
-+#define IOC_OPAL_ACTIVATE_USR       _IOW('p', 225, struct opal_session_info)
-+#define IOC_OPAL_REVERT_TPR         _IOW('p', 226, struct opal_key)
-+#define IOC_OPAL_LR_SETUP           _IOW('p', 227, struct opal_user_lr_setup)
-+#define IOC_OPAL_ADD_USR_TO_LR      _IOW('p', 228, struct opal_lock_unlock)
-+#define IOC_OPAL_ENABLE_DISABLE_MBR _IOW('p', 229, struct opal_mbr_data)
-+#define IOC_OPAL_ERASE_LR           _IOW('p', 230, struct opal_session_info)
-+#define IOC_OPAL_SECURE_ERASE_LR    _IOW('p', 231, struct opal_session_info)
-+
-+#endif /* _UAPI_SED_OPAL_H */
+ 	result = nvme_setup_io_queues(dev);
+ 	if (result)
+ 		goto out;
 -- 
 2.7.4
