@@ -1,75 +1,115 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 2 Feb 2017 23:54:55 -0800
-Subject: [PATCH v5 1/4] Include: Uapi: Add user ABI for Sed/Opal
-In-Reply-To: <1485857844-15130-2-git-send-email-scott.bauer@intel.com>
+Date: Fri, 3 Feb 2017 00:13:53 -0800
+Subject: [PATCH v5 2/4] block: Add Sed-opal library
+In-Reply-To: <1485857844-15130-3-git-send-email-scott.bauer@intel.com>
 References: <1485857844-15130-1-git-send-email-scott.bauer@intel.com>
- <1485857844-15130-2-git-send-email-scott.bauer@intel.com>
-Message-ID: <20170203075455.GB25892@infradead.org>
+ <1485857844-15130-3-git-send-email-scott.bauer@intel.com>
+Message-ID: <20170203081353.GC25892@infradead.org>
 
-On Tue, Jan 31, 2017@03:17:21AM -0700, Scott Bauer wrote:
-> Signed-off-by: Scott Bauer <scott.bauer at intel.com>
-> Signed-off-by: Rafael Antognolli <Rafael.Antognolli at intel.com>
-> ---
->  include/uapi/linux/sed-opal.h | 115 ++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 115 insertions(+)
->  create mode 100644 include/uapi/linux/sed-opal.h
-> 
-> diff --git a/include/uapi/linux/sed-opal.h b/include/uapi/linux/sed-opal.h
-> new file mode 100644
-> index 0000000..723ad89
-> --- /dev/null
-> +++ b/include/uapi/linux/sed-opal.h
-> @@ -0,0 +1,115 @@
-> +/*
-> + * Copyright ? 2016 Intel Corporation
-> + *
-> + * Authors:
-> + *    Rafael Antognolli <rafael.antognolli at intel.com>
-> + *    Scott  Bauer      <scott.bauer at intel.com>
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
+> +config BLK_SED_OPAL
+> +        bool "Logic for interfacing with Opal enabled SEDs"
+
+switch to tabe for indendtation for the above line, all others
+already get it right.
+
+> +	default n
+> +	---help---
+
+n is the default default, you can just remove it.
+
+> +	Builds Logic for interfacing with Opal enabled controllers.
+> +	Enabling this option enables users to setup/unlock/lock
+> +	Locking ranges for SED devices using the Opal protocol.
+> +	Currently enables support on NVMe devices.
+
+I'd drop that last line, it's just guaranteed to get stale quickly.
+
+> +/* Enum to index OPALUID array */
+> +enum OPAL_UID {
+
+Can you switch all the type names to lower case, e.g. opal_uid
+for this one.  I though I rought this up earlier, but it might have
+gotten lost between all the more important comments.
+
+Note this only applies to the enum and struct type names, not the
+constants defined in the enum, those are usually all upper case by
+convention as in your code.
+
+Also the arrays might want to use named initalizers to make the relation
+to the indices more clear, e.g.
+
+	[OPAL_SMUID_UID] =
+		{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff},
+	...
+
+It's a bit more verbose, but also more future-proof.  And it probably
+allows you to drop the comments explaining each array member.
+
+> + * Structures to build and decode the Opal SSC messages
+> + * fields that are NOT really numeric are defined as u8[] to
+> + * help reduce the endianness issues
 > + */
-> +
-> +#ifndef _UAPI_SED_OPAL_H
-> +#define _UAPI_SED_OPAL_H
-> +
-> +#include <linux/types.h>
-> +
-> +#define OPAL_KEY_MAX 256
-> +#define OPAL_MAX_LRS 9
-> +
-> +enum opal_mbr {
-> +	OPAL_MBR_ENABLE,
-> +	OPAL_MBR_DISABLE,
 
-For all user ABIs please always use explicitly assigned values.  There
-is a religious fight going on if these should be enmums or #defines,
-but at least I don't care about that part.
+That's normal in all on disk / protocol defintions.  I personally
+would just drop this comment, but it's not really a major issue.
 
-> +	OPAL_RW = 0x02, /* 0010 */
-> +	OPAL_LK = 0x04, /* 0100 */
-> +};
-> +
-> +struct opal_key {
-> +	uint8_t	lr;
-> +	uint8_t	key_len;
-> +	char 	key[OPAL_KEY_MAX];
-> +};
-> +
-> +struct opal_lr_act {
-> +	int sum;
-> +	uint8_t num_lrs;
-> +	uint8_t lr[OPAL_MAX_LRS];
-> +	struct opal_key key;
-> +};
+> +static const u8 OPALUID[][8] = {
 
-Can you go over all theses types and make sure that the structs
-are nicely aligned and all holes in the layout are explicitly
-padded with reserved values?
+Variable names should be lower cases, too.  Also the magic 8 here
+is OPAL_UID_LENGTH, isn't it?
+
+> +struct opal_dev;
+
+We don't need the forward delcaration here, do we?
+
+> +{
+> +	bool found_com_id = false, supported = true, single_user = false;
+> +	const struct d0_header *hdr;
+> +	const u8 *epos, *cpos;
+> +	u16 comid = 0;
+> +
+> +	epos = dev->resp;
+> +	cpos = dev->resp;
+> +	hdr = (struct d0_header *)dev->resp;
+
+Shouldn't need the cast, and could be assigned in the variable
+declaration line.  The same thing appears in various other functions
+below.
+
+> + * struct opal_dev - The structure representing a OPAL enabled SED.
+> + * @supported: Whether or not OPAL is supported on this controller.
+> + * @send_recv: The combined sec_send/sec_recv function pointer.
+> + * @opal_step: A series of opal methods that are necessary to complete a command.
+> + * @func_data: An array of parameters for the opal methods above.
+> + * @state: Describes the current opal_step we're working on.
+> + * @dev_lock: Locks the entire opal_dev structure.
+> + * @parsed: Parsed response from controller.
+> + * @prev_data: Data returned from a method to the controller.
+> + * @unlk_lst: A list of Locking ranges to unlock on this device during a resume.
+> + */
+> +struct opal_dev {
+
+It seems like the driver only needs the struct defintion for looking
+at the initialized and supported flags, as well as to use container_of
+to get back to containing structure.
+
+I wonder if it might be better to keep the defintion private after
+all (and I probably suggested something else earlier, but so much
+changed since then).
+
+I suggest you keep it as-is for now and I'll look into an incremental
+patch to change it on top yours to make sure the code goes in this
+window.
+
+> +int opal_save(struct opal_dev *dev, struct opal_lock_unlock *lk_unlk);
+> +int opal_lock_unlock(struct opal_dev *dev, struct opal_lock_unlock *lk_unlk);
+
+...
+
+These don't seem to be used anywhere outside of sed-opal.c, so
+please drop the prototypes and mark the functions static.
+
+> +#ifdef CONFIG_BLK_SED_OPAL
+> +static inline int is_sed_ioctl(unsigned int cmd)
+
+This should return a bool value.
