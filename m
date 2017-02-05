@@ -1,32 +1,23 @@
-From: weiyj.lk@gmail.com (Wei Yongjun)
-Date: Sun,  5 Feb 2017 15:44:00 +0000
-Subject: [PATCH -next] lightnvm: fix possible memory leak in
- nvme_nvm_get_l2p_tbl()
-Message-ID: <20170205154400.31336-1-weiyj.lk@gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sun, 5 Feb 2017 17:40:23 +0100
+Subject: [PATCH 1/6] genirq: allow assigning affinity to present but
+ not online CPUs
+In-Reply-To: <20170204015809.GA16203@zipoli.ccur.kvm>
+References: <t6NbP-2IT-5@gated-at.bofh.it> <t6NbP-2IT-13@gated-at.bofh.it>
+ <20170204015809.GA16203@zipoli.ccur.kvm>
+Message-ID: <20170205164023.GA9281@lst.de>
 
-From: Wei Yongjun <weiyongjun1@huawei.com>
+Hi Joe,
 
-'entries' is malloced in nvme_nvm_get_l2p_tbl() and should be freed
-before leaving from the error handling cases, otherwise it will cause
-memory leak.
+On Fri, Feb 03, 2017@08:58:09PM -0500, Joe Korty wrote:
+> IIRC, some years ago I ran across a customer system where
+> the #cpus_present was twice as big as #cpus_possible.
+> 
+> Hyperthreading was turned off in the BIOS so it was not
+> entirely out of line for the extra cpus to be declared
+> present, even though none of them would ever be available
+> for use.
 
-Fixes: 8e79b5cb1d3b ("lightnvm: move block provisioning to targets")
-Signed-off-by: Wei Yongjun <weiyongjun1 at huawei.com>
----
- drivers/nvme/host/lightnvm.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index 588d4a3..2388716 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -368,7 +368,8 @@ static int nvme_nvm_get_l2p_tbl(struct nvm_dev *nvmdev, u64 slba, u32 nlb,
- 
- 		if (unlikely(elba > nvmdev->total_secs)) {
- 			pr_err("nvm: L2P data from device is out of bounds!\n");
--			return -EINVAL;
-+			ret = -EINVAL;
-+			goto out;
- 		}
- 
- 		/* Transform physical address to target address space */
+This sounds like a system we should quirk around instead of optimizing
+for it.  Unless I totally misunderstand the idea behind cpu_possible
+and cpu_present.
