@@ -1,42 +1,30 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Mon, 6 Feb 2017 09:44:53 -0700
-Subject: [PATCH v6 0/3] SED OPAL Library
-In-Reply-To: <1486151432-3431-1-git-send-email-scott.bauer@intel.com>
-References: <1486151432-3431-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <1ac62773-df21-2523-02ee-ec82af5458b2@fb.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 6 Feb 2017 12:03:05 -0500
+Subject: [PATCH 1/6] genirq: allow assigning affinity to present but not
+ online CPUs
+In-Reply-To: <20170205164023.GA9281@lst.de>
+References: <t6NbP-2IT-5@gated-at.bofh.it> <t6NbP-2IT-13@gated-at.bofh.it>
+ <20170204015809.GA16203@zipoli.ccur.kvm>
+ <20170205164023.GA9281@lst.de>
+Message-ID: <20170206170304.GF24601@localhost.localdomain>
 
-On 02/03/2017 12:50 PM, Scott Bauer wrote:
-> Changes from v5->v6:
+On Sun, Feb 05, 2017@05:40:23PM +0100, Christoph Hellwig wrote:
+> Hi Joe,
 > 
-> 1) Fixed comments from last review From Christoph
-> 2) Rebased code on top of Jens' for-next
-> 3) Explicitly aligned the structs in the uapi
+> On Fri, Feb 03, 2017@08:58:09PM -0500, Joe Korty wrote:
+> > IIRC, some years ago I ran across a customer system where
+> > the #cpus_present was twice as big as #cpus_possible.
+> > 
+> > Hyperthreading was turned off in the BIOS so it was not
+> > entirely out of line for the extra cpus to be declared
+> > present, even though none of them would ever be available
+> > for use.
 > 
-> ===============================================================================
-> This Patch series implements a large portion of the Opal protocol for
-> self encrypting devices. The driver has the capability of storing a
-> locking range's password. The password can then be replayed
-> during a resume from previous suspend-to-RAM.
-> 
-> The driver also supports logic to bring the device out of a factory
-> default-inactive state into a functional Opal state.
-> 
-> The following logic is supported in order to bring the tper into a
-> working state:
-> 
-> 1) Taking Ownership of the drive (Setting the Admin CPIN).
-> 2) Activating the Locking SP (In Single User Mode or Normal Mode).
-> 3) Setting up Locking Ranges (Single User or Normal Mode).
-> 4) Adding users to Locking Ranges (Normal Mode Only).
-> 5) Locking or Unlocking Locking Ranges (Single User Mode or Normal Mode).
-> 6) Reverting the TPer (Restore to factory default).
-> 7) Setting LR/User passwords (Single User Mode or Normal Mode).
-> 8) Enabling/disabling Shadow MBR.
-> 9) Enabling Users in the LockingSP (Normal Mode Only).
-> 10) Saving Password for resume from suspend.
-> 11) Erase and Secure erasing locking ranges.
+> This sounds like a system we should quirk around instead of optimizing
+> for it.  Unless I totally misunderstand the idea behind cpu_possible
+> and cpu_present.
 
-Applied for 4.11, thanks.
-
--- 
-Jens Axboe
+Can we use the online CPUs and create a new hot-cpu notifier to the nvme
+driver to free/reallocate as needed? We were doing that before blk-mq. Now
+blk-mq can change the number hardware contexts on a live queue, so we
+can reintroduce that behavior to nvme and only allocate what we need.
