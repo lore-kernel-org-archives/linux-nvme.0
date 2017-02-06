@@ -1,23 +1,26 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 5 Feb 2017 17:40:23 +0100
-Subject: [PATCH 1/6] genirq: allow assigning affinity to present but
- not online CPUs
-In-Reply-To: <20170204015809.GA16203@zipoli.ccur.kvm>
-References: <t6NbP-2IT-5@gated-at.bofh.it> <t6NbP-2IT-13@gated-at.bofh.it>
- <20170204015809.GA16203@zipoli.ccur.kvm>
-Message-ID: <20170205164023.GA9281@lst.de>
+Date: Mon, 6 Feb 2017 09:58:05 +0100
+Subject: [PATCH v3 2/2] nvme: Enable autonomous power state transitions
+In-Reply-To: <CALCETrW8dixddw-y4pitqOqUJbJn9BieYkb4fg90iYrsTh5Gcw@mail.gmail.com>
+References: <cover.1486158145.git.luto@kernel.org>
+ <348b90a06980a671ff82a6555cabbb292f46c837.1486158145.git.luto@kernel.org>
+ <CALCETrW8dixddw-y4pitqOqUJbJn9BieYkb4fg90iYrsTh5Gcw@mail.gmail.com>
+Message-ID: <20170206085805.GB22409@lst.de>
 
-Hi Joe,
-
-On Fri, Feb 03, 2017@08:58:09PM -0500, Joe Korty wrote:
-> IIRC, some years ago I ran across a customer system where
-> the #cpus_present was twice as big as #cpus_possible.
+On Sat, Feb 04, 2017@07:46:45PM -0800, Andy Lutomirski wrote:
+> The only decent argument I have for not just putting
+> nvme_configure_apst() into nvme_init_identify() is the code in pci.c's
+> nvme_setup_io_queues() that tears down the admin queue interrupt and
+> the whole BAR mapping after nvme_init_identify().  This shouldn't be a
+> problem, but it makes me a tiny bit nervous to have APST on when we do
+> this -- is it plausible that something bad would happen if the NVMe
+> device took a nap while we this happens?
 > 
-> Hyperthreading was turned off in the BIOS so it was not
-> entirely out of line for the extra cpus to be declared
-> present, even though none of them would ever be available
-> for use.
+> Christoph, Keith, and/or Jens, any insight here?  Maybe I should stop
+> worrying about this and just move everything into
+> nvme_init_identify().
 
-This sounds like a system we should quirk around instead of optimizing
-for it.  Unless I totally misunderstand the idea behind cpu_possible
-and cpu_present.
+I would much prefer to move the code to nvme_init_identify.  The
+NVMe spec has no prohibition on taking down interrupts after setting
+up features.  In fact there are all kinds of drivers that run NVMe
+devices without any interrupts at all.
