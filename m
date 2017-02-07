@@ -1,29 +1,43 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 7 Feb 2017 09:40:48 +0100
-Subject: [PATCH v2 02/18] lpfc: use pci_irq_alloc_vectors and
- pci_irq_free_vectors
-In-Reply-To: <58990203.ANy3k+SskRqjvxSM%jsmart2021@gmail.com>
-References: <58990203.ANy3k+SskRqjvxSM%jsmart2021@gmail.com>
-Message-ID: <e6adeb78-01ee-1394-4afc-69c95bda9276@suse.de>
+Date: Tue, 7 Feb 2017 10:03:12 +0100
+Subject: [PATCH v2 07/18] lpfc: NVME Initiator: Base modifications Part E
+In-Reply-To: <58990208.nZVFaqC7RkseErlq%jsmart2021@gmail.com>
+References: <58990208.nZVFaqC7RkseErlq%jsmart2021@gmail.com>
+Message-ID: <5881e84b-c932-f812-7f41-a16152d12106@suse.de>
 
 On 02/07/2017 12:08 AM, James Smart wrote:
 > 
-> I replaced the v1 patch with Christoph's original
+> NVME Initiator: Base modifications
 > 
->   james
+> This is part E of parts A..F.
 > 
-> From: Christoph Hellwig <hch at lst.de>
+> Part E is limited to lpfc_sli.c. This is the location of most of changes
+> for the following:
+> - sli3 ring vs sli4 wq splits
+> - io abort interfaces
+> - actual queuing routines and use of dma and sgl pools
+> - service routines to create/delete queues
 > 
-> This avoids having to store the msix_entries array and simpliefies the
-> shutdown and cleanup path a lot.
+> This patch by itself will not result in a compilable driver. All parts
+> A..F must be applied to create a compilable driver.
 > 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> *********
+> 
+> Refer to Part A for a description of base modifications
+> 
+> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
+> 
 > ---
+> Modifications in V2:
+> Note: this was patch 6 in the V1 patches
+>  Address review items:
+>   Reverted lpfc_sli_hbq_count() spurious change. Thus more files than
+>      just lpfc_sli.c
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
+Yes but patch  03/18 'lpfc: NVME Initiator: Base modifications Part A'
+still has calls to lpfc_sli_hbq_count(phba) (and in fact introduces this
+change).
 
 -- 
 Johannes Thumshirn                                          Storage
