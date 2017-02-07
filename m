@@ -1,43 +1,22 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 7 Feb 2017 10:03:12 +0100
-Subject: [PATCH v2 07/18] lpfc: NVME Initiator: Base modifications Part E
-In-Reply-To: <58990208.nZVFaqC7RkseErlq%jsmart2021@gmail.com>
-References: <58990208.nZVFaqC7RkseErlq%jsmart2021@gmail.com>
-Message-ID: <5881e84b-c932-f812-7f41-a16152d12106@suse.de>
+Date: Tue, 7 Feb 2017 12:06:05 +0100
+Subject: [PATCH v2] nvme: make nvmf_register_transport require a
+ create_ctrl callback
+In-Reply-To: <20170127080345.5676-1-jthumshirn@suse.de>
+References: <20170127080345.5676-1-jthumshirn@suse.de>
+Message-ID: <340627ba-0ca9-b807-efde-8bd3a3b9e338@suse.de>
 
-On 02/07/2017 12:08 AM, James Smart wrote:
+On 01/27/2017 09:03 AM, Johannes Thumshirn wrote:
+> nvmf_create_ctrl() relys on the presence of a create_crtl callback in the
+> registered nvmf_transport_ops, so make nvmf_register_transport require one.
 > 
-> NVME Initiator: Base modifications
+> Update the available call-sites as well to reflect these changes.
 > 
-> This is part E of parts A..F.
-> 
-> Part E is limited to lpfc_sli.c. This is the location of most of changes
-> for the following:
-> - sli3 ring vs sli4 wq splits
-> - io abort interfaces
-> - actual queuing routines and use of dma and sgl pools
-> - service routines to create/delete queues
-> 
-> This patch by itself will not result in a compilable driver. All parts
-> A..F must be applied to create a compilable driver.
-> 
-> *********
-> 
-> Refer to Part A for a description of base modifications
-> 
-> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> 
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
-> Modifications in V2:
-> Note: this was patch 6 in the V1 patches
->  Address review items:
->   Reverted lpfc_sli_hbq_count() spurious change. Thus more files than
->      just lpfc_sli.c
+>
 
-Yes but patch  03/18 'lpfc: NVME Initiator: Base modifications Part A'
-still has calls to lpfc_sli_hbq_count(phba) (and in fact introduces this
-change).
+Any comments?
 
 -- 
 Johannes Thumshirn                                          Storage
