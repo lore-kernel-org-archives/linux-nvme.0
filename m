@@ -1,459 +1,285 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  8 Feb 2017 14:13:41 +0100
-Subject: [PATCH 2/4] block: enumify ELEVATOR_*_MERGE
+Date: Wed,  8 Feb 2017 14:13:42 +0100
+Subject: [PATCH 3/4] block: optionally merge discontiguous discard bios into a
+ single request
 In-Reply-To: <20170208131343.4003-1-hch@lst.de>
 References: <20170208131343.4003-1-hch@lst.de>
-Message-ID: <20170208131343.4003-3-hch@lst.de>
+Message-ID: <20170208131343.4003-4-hch@lst.de>
 
-Switch these constants to an enum, and make let the compiler ensure that
-all callers of blk_try_merge and elv_merge handle all potential values.
+Add a new merge strategy that merges discard bios into a request until the
+maximum number of discard ranges (or the maximum discard size) is reached
+from the plug merging code.  I/O scheduler merging is not wired up yet
+but might also be useful, although not for fast devices like NVMe which
+are the only user for now.
+
+Note that for now we don't support limiting the size of each discard range,
+but if needed that can be added later.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- block/blk-core.c         | 76 +++++++++++++++++++++++++-----------------------
- block/blk-merge.c        |  2 +-
- block/blk-mq-sched.c     | 35 +++++++++++-----------
- block/blk-mq.c           | 32 +++++++++-----------
- block/blk.h              |  2 +-
- block/cfq-iosched.c      |  4 +--
- block/deadline-iosched.c | 12 +++-----
- block/elevator.c         | 10 ++++---
- block/mq-deadline.c      |  2 +-
- include/linux/elevator.h | 28 ++++++++++--------
- 10 files changed, 102 insertions(+), 101 deletions(-)
+ block/blk-core.c         | 27 +++++++++++++++++++++++++++
+ block/blk-merge.c        |  5 ++++-
+ block/blk-mq.c           |  3 +++
+ block/blk-settings.c     | 20 ++++++++++++++++++++
+ block/blk-sysfs.c        | 12 ++++++++++++
+ block/blk.h              |  2 ++
+ include/linux/blkdev.h   | 26 ++++++++++++++++++++++++++
+ include/linux/elevator.h |  1 +
+ 8 files changed, 95 insertions(+), 1 deletion(-)
 
 diff --git a/block/blk-core.c b/block/blk-core.c
-index d161d4ab7052..75fe534861df 100644
+index 75fe534861df..b9e857f4afe8 100644
 --- a/block/blk-core.c
 +++ b/block/blk-core.c
-@@ -1513,12 +1513,11 @@ bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
- {
- 	struct blk_plug *plug;
- 	struct request *rq;
--	bool ret = false;
- 	struct list_head *plug_list;
- 
- 	plug = current->plug;
- 	if (!plug)
--		goto out;
-+		return false;
- 	*request_count = 0;
- 
- 	if (q->mq_ops)
-@@ -1527,7 +1526,7 @@ bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
- 		plug_list = &plug->list;
- 
- 	list_for_each_entry_reverse(rq, plug_list, queuelist) {
--		int el_ret;
-+		bool merged = false;
- 
- 		if (rq->q == q) {
- 			(*request_count)++;
-@@ -1543,19 +1542,22 @@ bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
- 		if (rq->q != q || !blk_rq_merge_ok(rq, bio))
- 			continue;
- 
--		el_ret = blk_try_merge(rq, bio);
--		if (el_ret == ELEVATOR_BACK_MERGE) {
--			ret = bio_attempt_back_merge(q, rq, bio);
--			if (ret)
--				break;
--		} else if (el_ret == ELEVATOR_FRONT_MERGE) {
--			ret = bio_attempt_front_merge(q, rq, bio);
--			if (ret)
--				break;
-+		switch (blk_try_merge(rq, bio)) {
-+		case ELEVATOR_BACK_MERGE:
-+			merged = bio_attempt_back_merge(q, rq, bio);
-+			break;
-+		case ELEVATOR_FRONT_MERGE:
-+			merged = bio_attempt_front_merge(q, rq, bio);
-+			break;
-+		default:
-+			break;
- 		}
-+
-+		if (merged)
-+			return true;
- 	}
--out:
--	return ret;
-+
-+	return false;
- }
- 
- unsigned int blk_plug_queued_count(struct request_queue *q)
-@@ -1597,7 +1599,7 @@ void init_request_from_bio(struct request *req, struct bio *bio)
- static blk_qc_t blk_queue_bio(struct request_queue *q, struct bio *bio)
- {
- 	struct blk_plug *plug;
--	int el_ret, where = ELEVATOR_INSERT_SORT;
-+	int where = ELEVATOR_INSERT_SORT;
- 	struct request *req, *free;
- 	unsigned int request_count = 0;
- 	unsigned int wb_acct;
-@@ -1635,27 +1637,29 @@ static blk_qc_t blk_queue_bio(struct request_queue *q, struct bio *bio)
- 
- 	spin_lock_irq(q->queue_lock);
- 
--	el_ret = elv_merge(q, &req, bio);
--	if (el_ret == ELEVATOR_BACK_MERGE) {
--		if (bio_attempt_back_merge(q, req, bio)) {
--			elv_bio_merged(q, req, bio);
--			free = attempt_back_merge(q, req);
--			if (!free)
--				elv_merged_request(q, req, el_ret);
--			else
--				__blk_put_request(q, free);
--			goto out_unlock;
--		}
--	} else if (el_ret == ELEVATOR_FRONT_MERGE) {
--		if (bio_attempt_front_merge(q, req, bio)) {
--			elv_bio_merged(q, req, bio);
--			free = attempt_front_merge(q, req);
--			if (!free)
--				elv_merged_request(q, req, el_ret);
--			else
--				__blk_put_request(q, free);
--			goto out_unlock;
--		}
-+	switch (elv_merge(q, &req, bio)) {
-+	case ELEVATOR_BACK_MERGE:
-+		if (!bio_attempt_back_merge(q, req, bio))
-+			break;
-+		elv_bio_merged(q, req, bio);
-+		free = attempt_back_merge(q, req);
-+		if (free)
-+			__blk_put_request(q, free);
-+		else
-+			elv_merged_request(q, req, ELEVATOR_BACK_MERGE);
-+		goto out_unlock;
-+	case ELEVATOR_FRONT_MERGE:
-+		if (!bio_attempt_front_merge(q, req, bio))
-+			break;
-+		elv_bio_merged(q, req, bio);
-+		free = attempt_front_merge(q, req);
-+		if (free)
-+			__blk_put_request(q, free);
-+		else
-+			elv_merged_request(q, req, ELEVATOR_FRONT_MERGE);
-+		goto out_unlock;
-+	default:
-+		break;
- 	}
- 
- get_rq:
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index c956d9e7aafd..6cbd90ad5f90 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -801,7 +801,7 @@ bool blk_rq_merge_ok(struct request *rq, struct bio *bio)
+@@ -1485,6 +1485,30 @@ bool bio_attempt_front_merge(struct request_queue *q, struct request *req,
  	return true;
  }
  
--int blk_try_merge(struct request *rq, struct bio *bio)
-+enum elv_merge blk_try_merge(struct request *rq, struct bio *bio)
++bool bio_attempt_discard_merge(struct request_queue *q, struct request *req,
++		struct bio *bio)
++{
++	unsigned short segments = blk_rq_nr_discard_segments(req);
++
++	if (segments >= queue_max_discard_segments(q))
++		goto no_merge;
++	if (blk_rq_sectors(req) + bio_sectors(bio) >
++	    blk_rq_get_max_sectors(req, blk_rq_pos(req)))
++		goto no_merge;
++
++	req->biotail->bi_next = bio;
++	req->biotail = bio;
++	req->__data_len += bio->bi_iter.bi_size;
++	req->ioprio = ioprio_best(req->ioprio, bio_prio(bio));
++	req->nr_phys_segments = segments + 1;
++
++	blk_account_io_start(req, false);
++	return true;
++no_merge:
++	req_set_nomerge(q, req);
++	return false;
++}
++
+ /**
+  * blk_attempt_plug_merge - try to merge with %current's plugged list
+  * @q: request_queue new bio is being queued at
+@@ -1549,6 +1573,9 @@ bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
+ 		case ELEVATOR_FRONT_MERGE:
+ 			merged = bio_attempt_front_merge(q, rq, bio);
+ 			break;
++		case ELEVATOR_DISCARD_MERGE:
++			merged = bio_attempt_discard_merge(q, rq, bio);
++			break;
+ 		default:
+ 			break;
+ 		}
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index 6cbd90ad5f90..2afa262425d1 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -803,7 +803,10 @@ bool blk_rq_merge_ok(struct request *rq, struct bio *bio)
+ 
+ enum elv_merge blk_try_merge(struct request *rq, struct bio *bio)
  {
- 	if (blk_rq_pos(rq) + blk_rq_sectors(rq) == bio->bi_iter.bi_sector)
+-	if (blk_rq_pos(rq) + blk_rq_sectors(rq) == bio->bi_iter.bi_sector)
++	if (req_op(rq) == REQ_OP_DISCARD &&
++	    queue_max_discard_segments(rq->q) > 1)
++		return ELEVATOR_DISCARD_MERGE;
++	else if (blk_rq_pos(rq) + blk_rq_sectors(rq) == bio->bi_iter.bi_sector)
  		return ELEVATOR_BACK_MERGE;
-diff --git a/block/blk-mq-sched.c b/block/blk-mq-sched.c
-index ee455e7cf9d8..72d0d8361175 100644
---- a/block/blk-mq-sched.c
-+++ b/block/blk-mq-sched.c
-@@ -238,30 +238,29 @@ bool blk_mq_sched_try_merge(struct request_queue *q, struct bio *bio,
- 			    struct request **merged_request)
- {
- 	struct request *rq;
--	int ret;
- 
--	ret = elv_merge(q, &rq, bio);
--	if (ret == ELEVATOR_BACK_MERGE) {
-+	switch (elv_merge(q, &rq, bio)) {
-+	case ELEVATOR_BACK_MERGE:
- 		if (!blk_mq_sched_allow_merge(q, rq, bio))
- 			return false;
--		if (bio_attempt_back_merge(q, rq, bio)) {
--			*merged_request = attempt_back_merge(q, rq);
--			if (!*merged_request)
--				elv_merged_request(q, rq, ret);
--			return true;
--		}
--	} else if (ret == ELEVATOR_FRONT_MERGE) {
-+		if (!bio_attempt_back_merge(q, rq, bio))
-+			return false;
-+		*merged_request = attempt_back_merge(q, rq);
-+		if (!*merged_request)
-+			elv_merged_request(q, rq, ELEVATOR_BACK_MERGE);
-+		return true;
-+	case ELEVATOR_FRONT_MERGE:
- 		if (!blk_mq_sched_allow_merge(q, rq, bio))
- 			return false;
--		if (bio_attempt_front_merge(q, rq, bio)) {
--			*merged_request = attempt_front_merge(q, rq);
--			if (!*merged_request)
--				elv_merged_request(q, rq, ret);
--			return true;
--		}
-+		if (!bio_attempt_front_merge(q, rq, bio))
-+			return false;
-+		*merged_request = attempt_front_merge(q, rq);
-+		if (!*merged_request)
-+			elv_merged_request(q, rq, ELEVATOR_FRONT_MERGE);
-+		return true;
-+	default:
-+		return false;
- 	}
--
--	return false;
- }
- EXPORT_SYMBOL_GPL(blk_mq_sched_try_merge);
- 
+ 	else if (blk_rq_pos(rq) - bio_sectors(bio) == bio->bi_iter.bi_sector)
+ 		return ELEVATOR_FRONT_MERGE;
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index be183e6115a1..9294633759d9 100644
+index 9294633759d9..89cb2d224488 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -763,7 +763,7 @@ static bool blk_mq_attempt_merge(struct request_queue *q,
- 	int checked = 8;
- 
- 	list_for_each_entry_reverse(rq, &ctx->rq_list, queuelist) {
--		int el_ret;
-+		bool merged = false;
- 
- 		if (!checked--)
+@@ -780,6 +780,9 @@ static bool blk_mq_attempt_merge(struct request_queue *q,
+ 			if (blk_mq_sched_allow_merge(q, rq, bio))
+ 				merged = bio_attempt_front_merge(q, rq, bio);
  			break;
-@@ -771,26 +771,22 @@ static bool blk_mq_attempt_merge(struct request_queue *q,
- 		if (!blk_rq_merge_ok(rq, bio))
++		case ELEVATOR_DISCARD_MERGE:
++			merged = bio_attempt_discard_merge(q, rq, bio);
++			break;
+ 		default:
  			continue;
- 
--		el_ret = blk_try_merge(rq, bio);
--		if (el_ret == ELEVATOR_NO_MERGE)
--			continue;
--
--		if (!blk_mq_sched_allow_merge(q, rq, bio))
-+		switch (blk_try_merge(rq, bio)) {
-+		case ELEVATOR_BACK_MERGE:
-+			if (blk_mq_sched_allow_merge(q, rq, bio))
-+				merged = bio_attempt_back_merge(q, rq, bio);
- 			break;
--
--		if (el_ret == ELEVATOR_BACK_MERGE) {
--			if (bio_attempt_back_merge(q, rq, bio)) {
--				ctx->rq_merged++;
--				return true;
--			}
--			break;
--		} else if (el_ret == ELEVATOR_FRONT_MERGE) {
--			if (bio_attempt_front_merge(q, rq, bio)) {
--				ctx->rq_merged++;
--				return true;
--			}
-+		case ELEVATOR_FRONT_MERGE:
-+			if (blk_mq_sched_allow_merge(q, rq, bio))
-+				merged = bio_attempt_front_merge(q, rq, bio);
- 			break;
-+		default:
-+			continue;
  		}
+diff --git a/block/blk-settings.c b/block/blk-settings.c
+index 6eb19bcbf3cb..1e7174ffc9d4 100644
+--- a/block/blk-settings.c
++++ b/block/blk-settings.c
+@@ -88,6 +88,7 @@ EXPORT_SYMBOL_GPL(blk_queue_lld_busy);
+ void blk_set_default_limits(struct queue_limits *lim)
+ {
+ 	lim->max_segments = BLK_MAX_SEGMENTS;
++	lim->max_discard_segments = 1;
+ 	lim->max_integrity_segments = 0;
+ 	lim->seg_boundary_mask = BLK_SEG_BOUNDARY_MASK;
+ 	lim->virt_boundary_mask = 0;
+@@ -128,6 +129,7 @@ void blk_set_stacking_limits(struct queue_limits *lim)
+ 	/* Inherit limits from component devices */
+ 	lim->discard_zeroes_data = 1;
+ 	lim->max_segments = USHRT_MAX;
++	lim->max_discard_segments = 1;
+ 	lim->max_hw_sectors = UINT_MAX;
+ 	lim->max_segment_size = UINT_MAX;
+ 	lim->max_sectors = UINT_MAX;
+@@ -337,6 +339,22 @@ void blk_queue_max_segments(struct request_queue *q, unsigned short max_segments
+ EXPORT_SYMBOL(blk_queue_max_segments);
+ 
+ /**
++ * blk_queue_max_discard_segments - set max segments for discard requests
++ * @q:  the request queue for the device
++ * @max_segments:  max number of segments
++ *
++ * Description:
++ *    Enables a low level driver to set an upper limit on the number of
++ *    segments in a discard request.
++ **/
++void blk_queue_max_discard_segments(struct request_queue *q,
++		unsigned short max_segments)
++{
++	q->limits.max_discard_segments = max_segments;
++}
++EXPORT_SYMBOL_GPL(blk_queue_max_discard_segments);
 +
-+		if (merged)
-+			ctx->rq_merged++;
-+		return merged;
- 	}
++/**
+  * blk_queue_max_segment_size - set max segment size for blk_rq_map_sg
+  * @q:  the request queue for the device
+  * @max_size:  max size of segment in bytes
+@@ -553,6 +571,8 @@ int blk_stack_limits(struct queue_limits *t, struct queue_limits *b,
+ 					    b->virt_boundary_mask);
  
- 	return false;
-diff --git a/block/blk.h b/block/blk.h
-index 3e08703902a9..ae82f2ac4019 100644
---- a/block/blk.h
-+++ b/block/blk.h
-@@ -215,7 +215,7 @@ int blk_attempt_req_merge(struct request_queue *q, struct request *rq,
- void blk_recalc_rq_segments(struct request *rq);
- void blk_rq_set_mixed_merge(struct request *rq);
- bool blk_rq_merge_ok(struct request *rq, struct bio *bio);
--int blk_try_merge(struct request *rq, struct bio *bio);
-+enum elv_merge blk_try_merge(struct request *rq, struct bio *bio);
+ 	t->max_segments = min_not_zero(t->max_segments, b->max_segments);
++	t->max_discard_segments = min_not_zero(t->max_discard_segments,
++					       b->max_discard_segments);
+ 	t->max_integrity_segments = min_not_zero(t->max_integrity_segments,
+ 						 b->max_integrity_segments);
  
- void blk_queue_congestion_threshold(struct request_queue *q);
- 
-diff --git a/block/cfq-iosched.c b/block/cfq-iosched.c
-index f0f29ee731e1..921262770636 100644
---- a/block/cfq-iosched.c
-+++ b/block/cfq-iosched.c
-@@ -2528,7 +2528,7 @@ static void cfq_remove_request(struct request *rq)
- 	}
+diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
+index 48032c4759a7..070d81bae1d5 100644
+--- a/block/blk-sysfs.c
++++ b/block/blk-sysfs.c
+@@ -121,6 +121,12 @@ static ssize_t queue_max_segments_show(struct request_queue *q, char *page)
+ 	return queue_var_show(queue_max_segments(q), (page));
  }
  
--static int cfq_merge(struct request_queue *q, struct request **req,
-+static enum elv_merge cfq_merge(struct request_queue *q, struct request **req,
- 		     struct bio *bio)
- {
- 	struct cfq_data *cfqd = q->elevator->elevator_data;
-@@ -2544,7 +2544,7 @@ static int cfq_merge(struct request_queue *q, struct request **req,
- }
- 
- static void cfq_merged_request(struct request_queue *q, struct request *req,
--			       int type)
-+			       enum elv_merge type)
- {
- 	if (type == ELEVATOR_FRONT_MERGE) {
- 		struct cfq_queue *cfqq = RQ_CFQQ(req);
-diff --git a/block/deadline-iosched.c b/block/deadline-iosched.c
-index 05fc0ea25a98..c68f6bbc0dcd 100644
---- a/block/deadline-iosched.c
-+++ b/block/deadline-iosched.c
-@@ -120,12 +120,11 @@ static void deadline_remove_request(struct request_queue *q, struct request *rq)
- 	deadline_del_rq_rb(dd, rq);
- }
- 
--static int
-+static enum elv_merge
- deadline_merge(struct request_queue *q, struct request **req, struct bio *bio)
- {
- 	struct deadline_data *dd = q->elevator->elevator_data;
- 	struct request *__rq;
--	int ret;
- 
- 	/*
- 	 * check for front merge
-@@ -138,20 +137,17 @@ deadline_merge(struct request_queue *q, struct request **req, struct bio *bio)
- 			BUG_ON(sector != blk_rq_pos(__rq));
- 
- 			if (elv_bio_merge_ok(__rq, bio)) {
--				ret = ELEVATOR_FRONT_MERGE;
--				goto out;
-+				*req = __rq;
-+				return ELEVATOR_FRONT_MERGE;
- 			}
- 		}
- 	}
- 
- 	return ELEVATOR_NO_MERGE;
--out:
--	*req = __rq;
--	return ret;
- }
- 
- static void deadline_merged_request(struct request_queue *q,
--				    struct request *req, int type)
-+				    struct request *req, enum elv_merge type)
- {
- 	struct deadline_data *dd = q->elevator->elevator_data;
- 
-diff --git a/block/elevator.c b/block/elevator.c
-index 7e4f5880dd64..27ff1ed5a6fa 100644
---- a/block/elevator.c
-+++ b/block/elevator.c
-@@ -427,11 +427,11 @@ void elv_dispatch_add_tail(struct request_queue *q, struct request *rq)
- }
- EXPORT_SYMBOL(elv_dispatch_add_tail);
- 
--int elv_merge(struct request_queue *q, struct request **req, struct bio *bio)
-+enum elv_merge elv_merge(struct request_queue *q, struct request **req,
-+		struct bio *bio)
- {
- 	struct elevator_queue *e = q->elevator;
- 	struct request *__rq;
--	int ret;
- 
- 	/*
- 	 * Levels of merges:
-@@ -446,7 +446,8 @@ int elv_merge(struct request_queue *q, struct request **req, struct bio *bio)
- 	 * First try one-hit cache.
- 	 */
- 	if (q->last_merge && elv_bio_merge_ok(q->last_merge, bio)) {
--		ret = blk_try_merge(q->last_merge, bio);
-+		enum elv_merge ret = blk_try_merge(q->last_merge, bio);
++static ssize_t queue_max_discard_segments_show(struct request_queue *q,
++		char *page)
++{
++	return queue_var_show(queue_max_discard_segments(q), (page));
++}
 +
- 		if (ret != ELEVATOR_NO_MERGE) {
- 			*req = q->last_merge;
- 			return ret;
-@@ -514,7 +515,8 @@ bool elv_attempt_insert_merge(struct request_queue *q, struct request *rq)
- 	return ret;
- }
- 
--void elv_merged_request(struct request_queue *q, struct request *rq, int type)
-+void elv_merged_request(struct request_queue *q, struct request *rq,
-+		enum elv_merge type)
+ static ssize_t queue_max_integrity_segments_show(struct request_queue *q, char *page)
  {
- 	struct elevator_queue *e = q->elevator;
+ 	return queue_var_show(q->limits.max_integrity_segments, (page));
+@@ -545,6 +551,11 @@ static struct queue_sysfs_entry queue_max_segments_entry = {
+ 	.show = queue_max_segments_show,
+ };
  
-diff --git a/block/mq-deadline.c b/block/mq-deadline.c
-index d68d9c273a66..236121633ca0 100644
---- a/block/mq-deadline.c
-+++ b/block/mq-deadline.c
-@@ -121,7 +121,7 @@ static void deadline_remove_request(struct request_queue *q, struct request *rq)
- }
- 
- static void dd_request_merged(struct request_queue *q, struct request *req,
--			      int type)
-+			      enum elv_merge type)
- {
- 	struct deadline_data *dd = q->elevator->elevator_data;
- 
-diff --git a/include/linux/elevator.h b/include/linux/elevator.h
-index b5825c4f06f7..b38b4e651ea6 100644
---- a/include/linux/elevator.h
-+++ b/include/linux/elevator.h
-@@ -9,12 +9,21 @@
- struct io_cq;
- struct elevator_type;
- 
--typedef int (elevator_merge_fn) (struct request_queue *, struct request **,
-+/*
-+ * Return values from elevator merger
-+ */
-+enum elv_merge {
-+	ELEVATOR_NO_MERGE	= 0,
-+	ELEVATOR_FRONT_MERGE	= 1,
-+	ELEVATOR_BACK_MERGE	= 2,
++static struct queue_sysfs_entry queue_max_discard_segments_entry = {
++	.attr = {.name = "max_discard_segments", .mode = S_IRUGO },
++	.show = queue_max_discard_segments_show,
 +};
 +
-+typedef enum elv_merge (elevator_merge_fn) (struct request_queue *, struct request **,
- 				 struct bio *);
+ static struct queue_sysfs_entry queue_max_integrity_segments_entry = {
+ 	.attr = {.name = "max_integrity_segments", .mode = S_IRUGO },
+ 	.show = queue_max_integrity_segments_show,
+@@ -697,6 +708,7 @@ static struct attribute *default_attrs[] = {
+ 	&queue_max_hw_sectors_entry.attr,
+ 	&queue_max_sectors_entry.attr,
+ 	&queue_max_segments_entry.attr,
++	&queue_max_discard_segments_entry.attr,
+ 	&queue_max_integrity_segments_entry.attr,
+ 	&queue_max_segment_size_entry.attr,
+ 	&queue_iosched_entry.attr,
+diff --git a/block/blk.h b/block/blk.h
+index ae82f2ac4019..d1ea4bd9b9a3 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -100,6 +100,8 @@ bool bio_attempt_front_merge(struct request_queue *q, struct request *req,
+ 			     struct bio *bio);
+ bool bio_attempt_back_merge(struct request_queue *q, struct request *req,
+ 			    struct bio *bio);
++bool bio_attempt_discard_merge(struct request_queue *q, struct request *req,
++		struct bio *bio);
+ bool blk_attempt_plug_merge(struct request_queue *q, struct bio *bio,
+ 			    unsigned int *request_count,
+ 			    struct request **same_queue_rq);
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index e0bac14347e6..aecca0e7d9ca 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -331,6 +331,7 @@ struct queue_limits {
+ 	unsigned short		logical_block_size;
+ 	unsigned short		max_segments;
+ 	unsigned short		max_integrity_segments;
++	unsigned short		max_discard_segments;
  
- typedef void (elevator_merge_req_fn) (struct request_queue *, struct request *, struct request *);
+ 	unsigned char		misaligned;
+ 	unsigned char		discard_misaligned;
+@@ -1146,6 +1147,8 @@ extern void blk_queue_bounce_limit(struct request_queue *, u64);
+ extern void blk_queue_max_hw_sectors(struct request_queue *, unsigned int);
+ extern void blk_queue_chunk_sectors(struct request_queue *, unsigned int);
+ extern void blk_queue_max_segments(struct request_queue *, unsigned short);
++extern void blk_queue_max_discard_segments(struct request_queue *,
++		unsigned short);
+ extern void blk_queue_max_segment_size(struct request_queue *, unsigned int);
+ extern void blk_queue_max_discard_sectors(struct request_queue *q,
+ 		unsigned int max_discard_sectors);
+@@ -1189,6 +1192,15 @@ extern void blk_queue_rq_timeout(struct request_queue *, unsigned int);
+ extern void blk_queue_flush_queueable(struct request_queue *q, bool queueable);
+ extern void blk_queue_write_cache(struct request_queue *q, bool enabled, bool fua);
  
--typedef void (elevator_merged_fn) (struct request_queue *, struct request *, int);
-+typedef void (elevator_merged_fn) (struct request_queue *, struct request *, enum elv_merge);
++/*
++ * Number of physical segments as sent to the device.
++ *
++ * Normally this is the number of discontiguous data segments sent by the
++ * submitter.  But for data-less command like discard we might have no
++ * actual data segments submitted, but the driver might have to add it's
++ * own special payload.  In that case we still return 1 here so that this
++ * special payload will be mapped.
++ */
+ static inline unsigned short blk_rq_nr_phys_segments(struct request *rq)
+ {
+ 	if (rq->rq_flags & RQF_SPECIAL_PAYLOAD)
+@@ -1196,6 +1208,15 @@ static inline unsigned short blk_rq_nr_phys_segments(struct request *rq)
+ 	return rq->nr_phys_segments;
+ }
  
- typedef int (elevator_allow_bio_merge_fn) (struct request_queue *,
- 					   struct request *, struct bio *);
-@@ -87,7 +96,7 @@ struct elevator_mq_ops {
- 	bool (*allow_merge)(struct request_queue *, struct request *, struct bio *);
- 	bool (*bio_merge)(struct blk_mq_hw_ctx *, struct bio *);
- 	int (*request_merge)(struct request_queue *q, struct request **, struct bio *);
--	void (*request_merged)(struct request_queue *, struct request *, int);
-+	void (*request_merged)(struct request_queue *, struct request *, enum elv_merge);
- 	void (*requests_merged)(struct request_queue *, struct request *, struct request *);
- 	struct request *(*get_request)(struct request_queue *, unsigned int, struct blk_mq_alloc_data *);
- 	void (*put_request)(struct request *);
-@@ -166,10 +175,12 @@ extern void elv_dispatch_sort(struct request_queue *, struct request *);
- extern void elv_dispatch_add_tail(struct request_queue *, struct request *);
- extern void elv_add_request(struct request_queue *, struct request *, int);
- extern void __elv_add_request(struct request_queue *, struct request *, int);
--extern int elv_merge(struct request_queue *, struct request **, struct bio *);
-+extern enum elv_merge elv_merge(struct request_queue *, struct request **,
-+		struct bio *);
- extern void elv_merge_requests(struct request_queue *, struct request *,
- 			       struct request *);
--extern void elv_merged_request(struct request_queue *, struct request *, int);
-+extern void elv_merged_request(struct request_queue *, struct request *,
-+		enum elv_merge);
- extern void elv_bio_merged(struct request_queue *q, struct request *,
- 				struct bio *);
- extern bool elv_attempt_insert_merge(struct request_queue *, struct request *);
-@@ -219,13 +230,6 @@ extern void elv_rb_del(struct rb_root *, struct request *);
- extern struct request *elv_rb_find(struct rb_root *, sector_t);
++/*
++ * Number of discard segments (or ranges) the driver needs to fill in.
++ * Each discard bio merged into a request is counted as one segment.
++ */
++static inline unsigned short blk_rq_nr_discard_segments(struct request *rq)
++{
++	return max_t(unsigned short, rq->nr_phys_segments, 1);
++}
++
+ extern int blk_rq_map_sg(struct request_queue *, struct request *, struct scatterlist *);
+ extern void blk_dump_rq_flags(struct request *, char *);
+ extern long nr_blockdev_pages(void);
+@@ -1384,6 +1405,11 @@ static inline unsigned short queue_max_segments(struct request_queue *q)
+ 	return q->limits.max_segments;
+ }
  
- /*
-- * Return values from elevator merger
-- */
--#define ELEVATOR_NO_MERGE	0
--#define ELEVATOR_FRONT_MERGE	1
--#define ELEVATOR_BACK_MERGE	2
--
--/*
-  * Insertion selection
-  */
- #define ELEVATOR_INSERT_FRONT	1
++static inline unsigned short queue_max_discard_segments(struct request_queue *q)
++{
++	return q->limits.max_discard_segments;
++}
++
+ static inline unsigned int queue_max_segment_size(struct request_queue *q)
+ {
+ 	return q->limits.max_segment_size;
+diff --git a/include/linux/elevator.h b/include/linux/elevator.h
+index b38b4e651ea6..8265b6330cc2 100644
+--- a/include/linux/elevator.h
++++ b/include/linux/elevator.h
+@@ -16,6 +16,7 @@ enum elv_merge {
+ 	ELEVATOR_NO_MERGE	= 0,
+ 	ELEVATOR_FRONT_MERGE	= 1,
+ 	ELEVATOR_BACK_MERGE	= 2,
++	ELEVATOR_DISCARD_MERGE	= 3,
+ };
+ 
+ typedef enum elv_merge (elevator_merge_fn) (struct request_queue *, struct request **,
 -- 
 2.11.0
