@@ -1,20 +1,17 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 8 Feb 2017 04:49:35 -0800
-Subject: [PATCH v2 02/18] lpfc: use pci_irq_alloc_vectors and
- pci_irq_free_vectors
-In-Reply-To: <58990203.ANy3k+SskRqjvxSM%jsmart2021@gmail.com>
-References: <58990203.ANy3k+SskRqjvxSM%jsmart2021@gmail.com>
-Message-ID: <20170208124935.GC23225@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed,  8 Feb 2017 14:13:39 +0100
+Subject: support for multi-range discard requests V2
+Message-ID: <20170208131343.4003-1-hch@lst.de>
 
-On Mon, Feb 06, 2017@03:08:51PM -0800, James Smart wrote:
-> 
-> I replaced the v1 patch with Christoph's original
-> 
->   james
-> 
-> From: Christoph Hellwig <hch at lst.de>
+Hi all,
 
-Everything above this from line should not go into the mail sent
-to the list.  Note that git-send-email will automatically do the right
-thing for you as long as the patch has been properly applied to your
-local tree.
+this series adds support for merging discontiguous discard bios into a
+single request if the driver supports it.  This reduces the number of
+discards sent to the device by about a factor of 5-6 for typical
+workloads on NVMe, and for slower devices that use I/O scheduling
+the number will probably be even bigger but I've not implemented
+that support yet.
+
+Changes since V1:
+    - hardcoded max ranges for NVMe to 255
+    - minor cleanups
