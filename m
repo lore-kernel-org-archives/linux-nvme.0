@@ -1,34 +1,36 @@
-From: duane.grigsby@qlogic.com (Duane Grigsby)
-Date: Wed, 8 Feb 2017 10:46:24 -0800
-Subject: [PATCH] nvme-cli: fabrics: Fix to pass "host_traddr" to the kernel
- driver.
-In-Reply-To: <n>
-References: <n>
-Message-ID: <1486579584-5660-1-git-send-email-duane.grigsby@qlogic.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Wed, 8 Feb 2017 11:13:27 -0800
+Subject: [PATCH v2 07/18] lpfc: NVME Initiator: Base modifications Part E
+In-Reply-To: <20170208124754.GA23225@infradead.org>
+References: <58990208.nZVFaqC7RkseErlq%jsmart2021@gmail.com>
+ <5881e84b-c932-f812-7f41-a16152d12106@suse.de>
+ <52f4f81e-2353-4da2-7ce9-a7cd7796e1f7@gmail.com>
+ <20170208124754.GA23225@infradead.org>
+Message-ID: <5b0f8560-a1ca-1b9a-3951-96e251c7b1a9@broadcom.com>
 
-This fix adds the  "host_traddr" to the contructed string that is
-passed to the kernel.
 
-Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
----
- fabrics.c | 5 +++++
- 1 file changed, 5 insertions(+)
+On 2/8/2017 4:47 AM, Christoph Hellwig wrote:
+> On Tue, Feb 07, 2017@06:32:30PM -0800, James Smart wrote:
+>> I realize I cut these in a silly way.  In the v1 patches, I had a big patch
+>> that I then cut into 6 parts, by file.  In the v2 patches, I tried to keep
+>> the patches as is, and address the comments in the respective patch the
+>> comment came from. Which resulted in 3/8 with an old reference, but patch
+>> 8/8 being the one that reverted this reverence. Sorry..  I'll recut and
+>> repost.
+> This whole split doesn't make sense - either the patches are logically
+> split, in which case they can be posted separately, or they belong
+> together in which case they should be sent together.  But the size
+> of them suggest to me they probably need to be broken down to logically
+> separate patches.
+>
+> And can you please switch to using git-send-email to send the patches
+> straight from a git branch?  There are lot of patch formatting issues
+> with the lpfc patches, and that should fix most of them instantly.
+>
 
-diff --git a/fabrics.c b/fabrics.c
-index 362ca6f..3f6be53 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -595,6 +595,11 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
- 				return -EINVAL;
- 			p += len;
- 
-+			len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
-+			if (len < 0)
-+				return -EINVAL;
-+			p+= len;
-+
- 			len = sprintf(p, ",traddr=%s", e->traddr);
- 			if (len < 0)
- 				return -EINVAL;
--- 
-1.7.10.GIT
+Ok. I will see if they can be further split. I don't have a lot of hope 
+beyond a couple splits. So, the resulting patches will be large.
+
+git-send-email: I'll talk to you offline.
+
+-- james
