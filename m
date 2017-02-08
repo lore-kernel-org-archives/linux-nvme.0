@@ -1,35 +1,25 @@
-From: parav@mellanox.com (Parav Pandit)
-Date: Tue,  7 Feb 2017 17:35:57 -0600
-Subject: [PATCH] nvmet: Do not check for sg_cnt being zero for read/write
- commands.
-Message-ID: <1486510557-26831-1-git-send-email-parav@mellanox.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Tue, 7 Feb 2017 18:32:30 -0800
+Subject: [PATCH v2 07/18] lpfc: NVME Initiator: Base modifications Part E
+In-Reply-To: <5881e84b-c932-f812-7f41-a16152d12106@suse.de>
+References: <58990208.nZVFaqC7RkseErlq%jsmart2021@gmail.com>
+ <5881e84b-c932-f812-7f41-a16152d12106@suse.de>
+Message-ID: <52f4f81e-2353-4da2-7ce9-a7cd7796e1f7@gmail.com>
 
-sg_cnt cannot be zero for inline or sge mode from the fabric drivers
-because nvme read/write commands have minimum of one block to be
-read or written. (nlb dw12 is 0 based value).
-So sg_cnt check for 0 is not useful.
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Signed-off-by: Parav Pandit <parav at mellanox.com>
----
- drivers/nvme/target/io-cmd.c | 5 -----
- 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
-index 4195115..e6a3a8a 100644
---- a/drivers/nvme/target/io-cmd.c
-+++ b/drivers/nvme/target/io-cmd.c
-@@ -49,11 +49,6 @@ static void nvmet_execute_rw(struct nvmet_req *req)
- 	blk_qc_t cookie;
- 	int op, op_flags = 0, i;
- 
--	if (!req->sg_cnt) {
--		nvmet_req_complete(req, 0);
--		return;
--	}
--
- 	if (req->cmd->rw.opcode == nvme_cmd_write) {
- 		op = REQ_OP_WRITE;
- 		op_flags = REQ_SYNC | REQ_IDLE;
--- 
-1.8.3.1
+On 2/7/2017 1:03 AM, Johannes Thumshirn wrote:
+>
+> Yes but patch  03/18 'lpfc: NVME Initiator: Base modifications Part A'
+> still has calls to lpfc_sli_hbq_count(phba) (and in fact introduces this
+> change).
+>
+
+I realize I cut these in a silly way.  In the v1 patches, I had a big 
+patch that I then cut into 6 parts, by file.  In the v2 patches, I tried 
+to keep the patches as is, and address the comments in the respective 
+patch the comment came from. Which resulted in 3/8 with an old 
+reference, but patch 8/8 being the one that reverted this reverence. 
+Sorry..  I'll recut and repost.
+
+-- james
