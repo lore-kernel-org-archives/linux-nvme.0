@@ -1,36 +1,66 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Wed, 8 Feb 2017 11:13:27 -0800
-Subject: [PATCH v2 07/18] lpfc: NVME Initiator: Base modifications Part E
-In-Reply-To: <20170208124754.GA23225@infradead.org>
-References: <58990208.nZVFaqC7RkseErlq%jsmart2021@gmail.com>
- <5881e84b-c932-f812-7f41-a16152d12106@suse.de>
- <52f4f81e-2353-4da2-7ce9-a7cd7796e1f7@gmail.com>
- <20170208124754.GA23225@infradead.org>
-Message-ID: <5b0f8560-a1ca-1b9a-3951-96e251c7b1a9@broadcom.com>
+From: parav@mellanox.com (Parav Pandit)
+Date: Wed, 8 Feb 2017 20:02:33 +0000
+Subject: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on every
+ request.
+In-Reply-To: <700fde5d-3b84-2279-4176-c871364d4b97@grimberg.me>
+References: <1486507066-23168-1-git-send-email-parav@mellanox.com>
+ <5bcb5982-36a6-67f5-8416-45e321235fa9@grimberg.me>
+ <VI1PR0502MB3008C2598C5492B2EB4D1E55D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+ <700fde5d-3b84-2279-4176-c871364d4b97@grimberg.me>
+Message-ID: <VI1PR0502MB3008340EBFDDFFD720162BD7D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
 
+Hi Sagi,
 
-On 2/8/2017 4:47 AM, Christoph Hellwig wrote:
-> On Tue, Feb 07, 2017@06:32:30PM -0800, James Smart wrote:
->> I realize I cut these in a silly way.  In the v1 patches, I had a big patch
->> that I then cut into 6 parts, by file.  In the v2 patches, I tried to keep
->> the patches as is, and address the comments in the respective patch the
->> comment came from. Which resulted in 3/8 with an old reference, but patch
->> 8/8 being the one that reverted this reverence. Sorry..  I'll recut and
->> repost.
-> This whole split doesn't make sense - either the patches are logically
-> split, in which case they can be posted separately, or they belong
-> together in which case they should be sent together.  But the size
-> of them suggest to me they probably need to be broken down to logically
-> separate patches.
->
-> And can you please switch to using git-send-email to send the patches
-> straight from a git branch?  There are lot of patch formatting issues
-> with the lpfc patches, and that should fix most of them instantly.
->
+> -----Original Message-----
+> From: Sagi Grimberg [mailto:sagi at grimberg.me]
+> Sent: Wednesday, February 8, 2017 12:18 PM
+> To: Parav Pandit <parav at mellanox.com>; hch at lst.de;
+> james.smart at broadcom.com; linux-nvme at lists.infradead.org
+> Subject: Re: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on
+> every request.
+> 
+> 
+> >>> Additionally this patch further avoid nvme cq and sq pointer
+> >>> initialization for every request during every request processing for
+> >>> rdma because nvme queue linking occurs during queue allocation time
+> >>> for AQ and IOQ.
+> >>
+> >> This breaks SRQ mode where every nvmet_rdma_cmd serves different
+> >> queues in it's lifetime..
+> >
+> > I fail to understand that.
+> > nvmet_rdma_create_queue_ib() is call for as many QPs as we create; not
+> based on number of SRQs we create.
+> 
+> Correct.
+> 
+> > nvmet_rdma_queue stores cq and sq.
+> 
+> Correct.
+> 
+> > So there are as many cq and sq on the fabric side as QPs for fabric_connect
+> command is called.
+> > queue is pulled out of cq context on which we received the command.
+> > SRQ is just a place shared among this nvme queues to share the RQ buffer,
+> right?
+> 
+> Correct too, but we then assign the queue to the command, which is the
+> context of the received SQE (maybe with in-capsule data). For the SRQ case
+> we allocate the commands and pre-post them (before we have any queues),
+> they are absolutely not bound to a given queue, they can't actually.
+> 
+> So for each new recv completion, the command context is now bound to the
+> queue that it completed on, so it can be bound to different queues in its life-
+> time.
 
-Ok. I will see if they can be further split. I don't have a lot of hope 
-beyond a couple splits. So, the resulting patches will be large.
+Sorry, I am still not getting it. 
+nvmet_rdma_rsp structure contains nvmet_req.
+nvmet_rdma_rsp (and so nvmet_req) are per QP allocations.
+cq and sq pointers are initialized inside nvmet_req.
 
-git-send-email: I'll talk to you offline.
+nvmet_rdma_cmd is per RQ/SRQ allocation.
+When we do recv_done(), we bind rsp structure to cmd (cmd can be from RQ or SRQ).
+So I believe this is still good.
+If we have cq and sq pointer inside the nvmet_rdma_cmd than I can understand that it can break.
 
--- james
+On a side note: I tested the patch with use_srq flag (but didn't publish its performance numbers as they awaiting your per core SRQ fixes to match regular RQ numbers :-) ).
