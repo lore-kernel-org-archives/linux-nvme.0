@@ -1,56 +1,91 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 8 Feb 2017 08:02:07 -0800
-Subject: [PATCH 5/6] f2fs: add a kernel thread to issue discard commands
- asynchronously
-In-Reply-To: <20170207034403.GA24935@jaegeuk.local>
-References: <20170112224407.54026-1-jaegeuk@kernel.org>
- <20170112224407.54026-5-jaegeuk@kernel.org>
- <20170113080159.GB31777@infradead.org>
- <20170113191211.GB1301@jaegeuk.local>
- <20170116173220.GA2199@infradead.org>
- <20170205085947.GA25319@infradead.org>
- <20170207034403.GA24935@jaegeuk.local>
-Message-ID: <20170208160207.GA14621@infradead.org>
+From: parav@mellanox.com (Parav Pandit)
+Date: Wed, 8 Feb 2017 16:03:17 +0000
+Subject: [PATCHv1] nvmet-rdma: Support 16K worth of inline data for write
+ commands
+In-Reply-To: <87f64c8b-efe1-9d74-a582-28c4184525f9@grimberg.me>
+References: <1486507882-23688-1-git-send-email-parav@mellanox.com>
+ <87f64c8b-efe1-9d74-a582-28c4184525f9@grimberg.me>
+Message-ID: <VI1PR0502MB30087E81A465D07DDC4DA599D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
 
-On Mon, Feb 06, 2017@07:44:03PM -0800, Jaegeuk Kim wrote:
-> Sorry for the late response due to the travel.
+Hi Sagi,
+
+> -----Original Message-----
+> From: Sagi Grimberg [mailto:sagi at grimberg.me]
+> Sent: Wednesday, February 8, 2017 3:59 AM
+> To: Parav Pandit <parav at mellanox.com>; hch at lst.de;
+> james.smart at broadcom.com; linux-nvme at lists.infradead.org
+> Subject: Re: [PATCHv1] nvmet-rdma: Support 16K worth of inline data for
+> write commands
 > 
-> When doing fstrim with a fresh f2fs image fomatted on Intel NVMe SSD whose
-> model name is SSDPE2MW012T4, I've got the following trace.
-
-<snip>
-
-> So, I investigated why block_rq_complete() happened in more detail.
+> > This patch allows supporting 16Kbytes of inline data for write commands.
+> >
+> > With null target below are the performance improvements achieved.
+> > Workload: random write, 70-30 mixed IOs null target: 250GB, 64 core
+> > CPU, single controller.
+> > Queue depth: 256 commands
+> >
+> >            cpu idle %        iops (K)            latency (usec)
+> >            (higher better)   (higher better)     (lower better)
+> >
+> > Inline     16K       4K      16K       4K        16K       4K
+> > size
+> > io_size    random write      random write        random write
+> > 512        78        79      2349      2343      5.45      5.45
+> > 1K         78        78      2438      2417      5.78      5.29
+> > 2K         78        78      2437      2387      5.78      5.35
+> > 4K         78        79      2332      2274      5.75      5.62
+> > 8K         78        87      1308      711       11        21.65
+> > 16K        79        90      680       538       22        28.64
+> > 32K        80        95      337       333       47        47.41
+> >
+> >            mix RW-30/70      mix RW-30/70        mix RW-30/70
+> > 512        78        78      2389      2349      5.43      5.45
+> > 1K         78        78      2250      2354      5.61      5.42
+> > 2K         79        78      2261      2294      5.62      5.60
+> > 4K         77        78      2180      2131      5.8       6.28
+> > 8K         78        79      1746      797       8.5       18.42
+> > 16K        78        86      943       628       15.90     23.76
+> > 32K        92        92      440       440       32        33.39
+> >
+> > This is tested with modified Linux initiator that can support 16K
+> > worth of inline data.
+> > Applications which has typical 8K or 16K block size will benefit most
+> > out of this performance improvement.
+> >
+> > Additionally when IOPs are throttled to 700K IOPs, cpu utilization and
+> > latency numbers are same for both the inline size; confirming that
+> > higher inline size is not consuming any extra CPU for serving same
+> > number of IOPs.
+> >
+> >            cpu idle %        iops (K)            latency (usec)
+> >            (higher better)   (higher better)     (lower better)
+> >
+> > Inline     16K       4K      16K       4K       16K        4K
+> > size
+> > io_size    random write      random write        random write
+> > 4K         93        93      700       700       5.75      5.62
+> > 8K         86        87      700       700       11        21.65
+> > 16K        83        88      680       538       22        28.64
+> > 32K        94        94      337       333       47        47.41
 > 
-> The root-caused call path looks like:
->  - submit_bio
->   - generic_make_request
->    - q->make_request_fn
->     - blk_mq_make_request
->      - blk_mq_map_request
->       - blk_mq_alloc_request
->        - blk_mq_get_tag
->         - __blk_mq_get_tag
->          - bt_get
->           - blk_mq_run_hw_queue
->           - finish_wait
->           --> this waits for pending 8 discard bios!
-
-You're blocking on tag allocation.  How many tags per queue does
-your device have?, e.g. do a
-
-cat /sys/block/nvme0n1/mq/0/nr_tags
-
-> It seems the problem comes from the storage processing discard commands too
-> slowly comparing to normal read/write IOs.
+> Parav,
 > 
-> Any thoughts?
+> I think the value is evident in this, however, I share Christoph's concern of
+> memory usage, moreover, I think we should avoid higher order allocations
+> and be more friendly to slub/slab.
+> 
+> I think this can impacts the scalability of the target, 
 
-Deallocate is always going to be an exception path compared to normal
-read/write? but just how much slower is going to be device
-dependent.
+I agree that it requires more memory to deliver more IOPs with current spec definition.
+We will make it configfs parameters per host as follow on patch to this.
+I was thinking to first enable them for more performance.
+And I guess queue depth too as Christoph suggested.
 
-One option would be to reuse the number of discards, for that can you
-try the series here to support vectored discards:
+> however, I think that if we
+> use SRQ (per-core) where we can, can ease the limitation.
+Yes. Per core SRQ will be helpful. Per Core will be needed to issue the IOs also via same cpu core to block stack.
 
-http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/vectored-discard-for-axboe
+> I have code that
+> makes nvme-rdma use SRQ per-core, but I was kind of hoping we can get a
+> generic interface for it so other ULPs can enjoy it as well. I thought about
+> some hook into the CQ pool API but didn't follow up on it.
