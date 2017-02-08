@@ -1,31 +1,27 @@
 From: parav@mellanox.com (Parav Pandit)
-Date: Wed, 8 Feb 2017 15:11:12 +0000
-Subject: [PATCH] nvmet: Do not check for sg_cnt being zero for	read/write
- commands.
-In-Reply-To: <20170208082426.GA7629@lst.de>
-References: <1486510557-26831-1-git-send-email-parav@mellanox.com>
- <20170208082426.GA7629@lst.de>
-Message-ID: <VI1PR0502MB300881F12D7D38A247990A4AD1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+Date: Wed, 8 Feb 2017 15:15:39 +0000
+Subject: [PATCH] nvme-rdma: Support 2 inline data SGEs for write	commands.
+In-Reply-To: <20170208082743.GB7629@lst.de>
+References: <1486507170-23285-1-git-send-email-parav@mellanox.com>
+ <20170208082743.GB7629@lst.de>
+Message-ID: <VI1PR0502MB30080615048602665537DBB9D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+
 
 
 > -----Original Message-----
 > From: Christoph Hellwig [mailto:hch at lst.de]
-> Sent: Wednesday, February 8, 2017 2:24 AM
+> Sent: Wednesday, February 8, 2017 2:28 AM
 > To: Parav Pandit <parav at mellanox.com>
-> Cc: hch at lst.de; sagi at grimberg.me; linux-nvme at lists.infradead.org
-> Subject: Re: [PATCH] nvmet: Do not check for sg_cnt being zero for
-> read/write commands.
+> Cc: hch at lst.de; sagi at grimberg.me; linux-nvme at lists.infradead.org;
+> axboe at fb.com; keith.busch at intel.com
+> Subject: Re: [PATCH] nvme-rdma: Support 2 inline data SGEs for write
+> commands.
 > 
-> On Tue, Feb 07, 2017@05:35:57PM -0600, Parav Pandit wrote:
-> > sg_cnt cannot be zero for inline or sge mode from the fabric drivers
-> > because nvme read/write commands have minimum of one block to be
-> read
-> > or written. (nlb dw12 is 0 based value).
-> > So sg_cnt check for 0 is not useful.
-> 
-> Except that we currently don't verify the data transfer in the SGL matches
-> that in the command.  It's been on my todo list for a while, so maybe you can
-> take it off my plate first before we'll aply this patch.
+> This looks fine to me in general, but I'm a little curious how your arrived at
+> that 2 number.  Why not 4 or 8?
 
-Yes. I hit an error when there was a mismatch between nlba and sge length.
-That check is needed to fail the nvme requests. I will post that patch soon.
+Some adapters doesn't support more than 5 sges. So increasing it to 4 or 8 would fail them.
+Chuck reported 1 out of 3 adapters only support 3. Its likely due to min(send_sge, recv_sge).
+With total of 3 SGEs (64B cmd sge + data sges), WQE fits in 64 bytes size at the provider driver level. So to strike balance between cache line usage and performance, and to be nice to those adapters which has low SGE (either due to min(send_sge, recv) or other otherwise, I picked 2 data sges. 
+
+Side  note: I have split out send and recv sge in other unrelated patch which is in review internally from linux-rdma tree.
