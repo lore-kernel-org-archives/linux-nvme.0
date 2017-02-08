@@ -1,21 +1,32 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 8 Feb 2017 12:54:30 +0100
-Subject: [PATCH] nvmet: Do not check for sg_cnt being zero for
- read/write commands.
-In-Reply-To: <eb2c9d8b-ead6-8472-1f3a-9f91ca5cb0de@grimberg.me>
-References: <1486510557-26831-1-git-send-email-parav@mellanox.com>
- <20170208082426.GA7629@lst.de>
- <eb2c9d8b-ead6-8472-1f3a-9f91ca5cb0de@grimberg.me>
-Message-ID: <20170208115430.GA11342@lst.de>
+Date: Wed, 8 Feb 2017 12:57:10 +0100
+Subject: [PATCH 3/4] block: optionally merge discontiguous discard bios
+ into a single request
+In-Reply-To: <CACVXFVOZfrLGb59q=V_O2xijM6t9uUq8Foj5qWZ5sAQpRSWngA@mail.gmail.com>
+References: <20170207164658.32449-1-hch@lst.de>
+ <20170207164658.32449-4-hch@lst.de>
+ <CACVXFVOZfrLGb59q=V_O2xijM6t9uUq8Foj5qWZ5sAQpRSWngA@mail.gmail.com>
+Message-ID: <20170208115710.GB11342@lst.de>
 
-On Wed, Feb 08, 2017@11:43:23AM +0200, Sagi Grimberg wrote:
->
->> Except that we currently don't verify the data transfer in the SGL
->> matches that in the command.  It's been on my todo list for a while,
->> so maybe you can take it off my plate first before we'll aply this
->> patch.
->
-> Any reason not to take it as is and add the sgl validity check
-> incrementally?
+On Wed, Feb 08, 2017@06:54:24PM +0800, Ming Lei wrote:
+> > +               struct bio *bio)
+> > +{
+> > +       unsigned short segments = blk_rq_nr_discard_segments(req);
+> > +
+> > +       if (segments >= queue_max_discard_segments(q))
+> > +               goto no_merge;
+> > +       if (blk_rq_sectors(req) + bio_sectors(bio) >
+> > +           blk_rq_get_max_sectors(req, blk_rq_pos(req)))
+> > +               goto no_merge;
+> > +
+> > +       req->biotail->bi_next = bio;
+> > +       req->biotail = bio;
+> > +       req->__data_len += bio->bi_iter.bi_size;
+> 
+> typeof(__data_len) is unsigned, and should be easy to overflow
+> for discard rq's merge.
 
-Because that would allow a bad actor host to crash the target easily.
+We respect the max_discard_sectors setting which is unsigned as well
+above in blk_rq_get_max_sectors(), so we can't actually overflow here.
+
+And please remove the fullquote after your two line comment, thanks!
