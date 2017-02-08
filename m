@@ -1,66 +1,43 @@
 From: parav@mellanox.com (Parav Pandit)
-Date: Wed, 8 Feb 2017 20:02:33 +0000
-Subject: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on every
- request.
-In-Reply-To: <700fde5d-3b84-2279-4176-c871364d4b97@grimberg.me>
-References: <1486507066-23168-1-git-send-email-parav@mellanox.com>
- <5bcb5982-36a6-67f5-8416-45e321235fa9@grimberg.me>
- <VI1PR0502MB3008C2598C5492B2EB4D1E55D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
- <700fde5d-3b84-2279-4176-c871364d4b97@grimberg.me>
-Message-ID: <VI1PR0502MB3008340EBFDDFFD720162BD7D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+Date: Wed, 8 Feb 2017 20:06:10 +0000
+Subject: [PATCH] nvmet: Do not check for sg_cnt being zero for	read/write
+ commands.
+References: <1486510557-26831-1-git-send-email-parav@mellanox.com>
+ <20170208082426.GA7629@lst.de> 
+Message-ID: <VI1PR0502MB3008EA12098DAF45C42CF937D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
 
-Hi Sagi,
+
 
 > -----Original Message-----
-> From: Sagi Grimberg [mailto:sagi at grimberg.me]
-> Sent: Wednesday, February 8, 2017 12:18 PM
-> To: Parav Pandit <parav at mellanox.com>; hch at lst.de;
-> james.smart at broadcom.com; linux-nvme at lists.infradead.org
-> Subject: Re: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on
-> every request.
+> From: Parav Pandit
+> Sent: Wednesday, February 8, 2017 9:11 AM
+> To: 'Christoph Hellwig' <hch at lst.de>
+> Cc: sagi at grimberg.me; linux-nvme at lists.infradead.org
+> Subject: RE: [PATCH] nvmet: Do not check for sg_cnt being zero for
+> read/write commands.
 > 
 > 
-> >>> Additionally this patch further avoid nvme cq and sq pointer
-> >>> initialization for every request during every request processing for
-> >>> rdma because nvme queue linking occurs during queue allocation time
-> >>> for AQ and IOQ.
-> >>
-> >> This breaks SRQ mode where every nvmet_rdma_cmd serves different
-> >> queues in it's lifetime..
+> > -----Original Message-----
+> > From: Christoph Hellwig [mailto:hch at lst.de]
+> > Sent: Wednesday, February 8, 2017 2:24 AM
+> > To: Parav Pandit <parav at mellanox.com>
+> > Cc: hch at lst.de; sagi at grimberg.me; linux-nvme at lists.infradead.org
+> > Subject: Re: [PATCH] nvmet: Do not check for sg_cnt being zero for
+> > read/write commands.
 > >
-> > I fail to understand that.
-> > nvmet_rdma_create_queue_ib() is call for as many QPs as we create; not
-> based on number of SRQs we create.
+> > On Tue, Feb 07, 2017@05:35:57PM -0600, Parav Pandit wrote:
+> > > sg_cnt cannot be zero for inline or sge mode from the fabric drivers
+> > > because nvme read/write commands have minimum of one block to be
+> > read
+> > > or written. (nlb dw12 is 0 based value).
+> > > So sg_cnt check for 0 is not useful.
+> >
+> > Except that we currently don't verify the data transfer in the SGL
+> > matches that in the command.  It's been on my todo list for a while,
+> > so maybe you can take it off my plate first before we'll aply this patch.
 > 
-> Correct.
-> 
-> > nvmet_rdma_queue stores cq and sq.
-> 
-> Correct.
-> 
-> > So there are as many cq and sq on the fabric side as QPs for fabric_connect
-> command is called.
-> > queue is pulled out of cq context on which we received the command.
-> > SRQ is just a place shared among this nvme queues to share the RQ buffer,
-> right?
-> 
-> Correct too, but we then assign the queue to the command, which is the
-> context of the received SQE (maybe with in-capsule data). For the SRQ case
-> we allocate the commands and pre-post them (before we have any queues),
-> they are absolutely not bound to a given queue, they can't actually.
-> 
-> So for each new recv completion, the command context is now bound to the
-> queue that it completed on, so it can be bound to different queues in its life-
-> time.
+> Yes. I hit an error when there was a mismatch between nlba and sge length.
+> That check is needed to fail the nvme requests. I will post that patch soon.
 
-Sorry, I am still not getting it. 
-nvmet_rdma_rsp structure contains nvmet_req.
-nvmet_rdma_rsp (and so nvmet_req) are per QP allocations.
-cq and sq pointers are initialized inside nvmet_req.
-
-nvmet_rdma_cmd is per RQ/SRQ allocation.
-When we do recv_done(), we bind rsp structure to cmd (cmd can be from RQ or SRQ).
-So I believe this is still good.
-If we have cq and sq pointer inside the nvmet_rdma_cmd than I can understand that it can break.
-
-On a side note: I tested the patch with use_srq flag (but didn't publish its performance numbers as they awaiting your per core SRQ fixes to match regular RQ numbers :-) ).
+However check for sg_cnt being not zero doesn't catch that error either, so both the checks are unrelated.
+I think this patch still holds fine?
