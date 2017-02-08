@@ -1,15 +1,17 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 8 Feb 2017 09:31:10 +0100
-Subject: [PATCHv1] nvmet-rdma: Support 16K worth of inline data for
- write commands
-In-Reply-To: <1486507882-23688-1-git-send-email-parav@mellanox.com>
-References: <1486507882-23688-1-git-send-email-parav@mellanox.com>
-Message-ID: <20170208083110.GC7629@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 8 Feb 2017 11:43:23 +0200
+Subject: [PATCH] nvmet: Do not check for sg_cnt being zero for read/write
+ commands.
+In-Reply-To: <20170208082426.GA7629@lst.de>
+References: <1486510557-26831-1-git-send-email-parav@mellanox.com>
+ <20170208082426.GA7629@lst.de>
+Message-ID: <eb2c9d8b-ead6-8472-1f3a-9f91ca5cb0de@grimberg.me>
 
-Hi Parav,
 
-I like this in principle, but I'm really worried about the resource
-consumption of just enabling this by default.  I think we need
-a tunable in configfs for the max inline data, and for the queue
-depth at least, and maybe reduce the queue depth a bit by default
-to compensate for the much higher per-queue memory usage.
+> Except that we currently don't verify the data transfer in the SGL
+> matches that in the command.  It's been on my todo list for a while,
+> so maybe you can take it off my plate first before we'll aply this
+> patch.
+
+Any reason not to take it as is and add the sgl validity check
+incrementally?
