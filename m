@@ -1,8 +1,8 @@
 From: scott.bauer@intel.com (Scott Bauer)
-Date: Wed,  8 Feb 2017 15:56:16 -0700
-Subject: [PATCH] Move stack parameters for sed_ioctl to prevent oversized
+Date: Wed,  8 Feb 2017 16:00:15 -0700
+Subject: [PATCH v2] Move stack parameters for sed_ioctl to prevent oversized
  stack with CONFIG_KASAN
-Message-ID: <1486594576-1621-1-git-send-email-scott.bauer@intel.com>
+Message-ID: <1486594815-2427-1-git-send-email-scott.bauer@intel.com>
 
 When CONFIG_KASAN is enabled, compilation fails:
 
@@ -21,7 +21,7 @@ Signed-off-by: Scott Bauer <scott.bauer at intel.com>
  1 file changed, 102 insertions(+), 85 deletions(-)
 
 diff --git a/block/sed-opal.c b/block/sed-opal.c
-index bf1406e..b88867d 100644
+index bf1406e..7979d12 100644
 --- a/block/sed-opal.c
 +++ b/block/sed-opal.c
 @@ -2344,8 +2344,21 @@ bool opal_unlock_from_suspend(struct opal_dev *dev)
@@ -225,7 +225,7 @@ index bf1406e..b88867d 100644
  	}
 -	return -ENOTTY;
 +
-+		out:
++out:
 +	mutex_unlock(&ioctl_lock);
 +	return ret;
  }
