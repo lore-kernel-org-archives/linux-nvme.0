@@ -1,32 +1,26 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 8 Feb 2017 12:57:10 +0100
-Subject: [PATCH 3/4] block: optionally merge discontiguous discard bios
- into a single request
-In-Reply-To: <CACVXFVOZfrLGb59q=V_O2xijM6t9uUq8Foj5qWZ5sAQpRSWngA@mail.gmail.com>
-References: <20170207164658.32449-1-hch@lst.de>
- <20170207164658.32449-4-hch@lst.de>
- <CACVXFVOZfrLGb59q=V_O2xijM6t9uUq8Foj5qWZ5sAQpRSWngA@mail.gmail.com>
-Message-ID: <20170208115710.GB11342@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 8 Feb 2017 04:47:54 -0800
+Subject: [PATCH v2 07/18] lpfc: NVME Initiator: Base modifications Part E
+In-Reply-To: <52f4f81e-2353-4da2-7ce9-a7cd7796e1f7@gmail.com>
+References: <58990208.nZVFaqC7RkseErlq%jsmart2021@gmail.com>
+ <5881e84b-c932-f812-7f41-a16152d12106@suse.de>
+ <52f4f81e-2353-4da2-7ce9-a7cd7796e1f7@gmail.com>
+Message-ID: <20170208124754.GA23225@infradead.org>
 
-On Wed, Feb 08, 2017@06:54:24PM +0800, Ming Lei wrote:
-> > +               struct bio *bio)
-> > +{
-> > +       unsigned short segments = blk_rq_nr_discard_segments(req);
-> > +
-> > +       if (segments >= queue_max_discard_segments(q))
-> > +               goto no_merge;
-> > +       if (blk_rq_sectors(req) + bio_sectors(bio) >
-> > +           blk_rq_get_max_sectors(req, blk_rq_pos(req)))
-> > +               goto no_merge;
-> > +
-> > +       req->biotail->bi_next = bio;
-> > +       req->biotail = bio;
-> > +       req->__data_len += bio->bi_iter.bi_size;
-> 
-> typeof(__data_len) is unsigned, and should be easy to overflow
-> for discard rq's merge.
+On Tue, Feb 07, 2017@06:32:30PM -0800, James Smart wrote:
+> I realize I cut these in a silly way.  In the v1 patches, I had a big patch
+> that I then cut into 6 parts, by file.  In the v2 patches, I tried to keep
+> the patches as is, and address the comments in the respective patch the
+> comment came from. Which resulted in 3/8 with an old reference, but patch
+> 8/8 being the one that reverted this reverence. Sorry..  I'll recut and
+> repost.
 
-We respect the max_discard_sectors setting which is unsigned as well
-above in blk_rq_get_max_sectors(), so we can't actually overflow here.
+This whole split doesn't make sense - either the patches are logically
+split, in which case they can be posted separately, or they belong
+together in which case they should be sent together.  But the size
+of them suggest to me they probably need to be broken down to logically
+separate patches.
 
-And please remove the fullquote after your two line comment, thanks!
+And can you please switch to using git-send-email to send the patches
+straight from a git branch?  There are lot of patch formatting issues
+with the lpfc patches, and that should fix most of them instantly.
