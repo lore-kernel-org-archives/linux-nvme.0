@@ -1,20 +1,21 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 8 Feb 2017 14:36:32 +0100
-Subject: [PATCH 4/4] nvme: support ranged discard requests
-In-Reply-To: <CANvN+ekrmaCZaYt02wX1DRz4+hTLicjyP-tYDTTcKsWe2Lo5MQ@mail.gmail.com>
-References: <20170208131343.4003-1-hch@lst.de>
- <20170208131343.4003-5-hch@lst.de>
- <CANvN+ekrmaCZaYt02wX1DRz4+hTLicjyP-tYDTTcKsWe2Lo5MQ@mail.gmail.com>
-Message-ID: <20170208133632.GA13064@lst.de>
+Date: Wed,  8 Feb 2017 14:46:46 +0100
+Subject: support for multi-range discard requests V3
+Message-ID: <20170208134650.5380-1-hch@lst.de>
 
-On Wed, Feb 08, 2017@01:32:22PM +0000, Andrey Kuzmin wrote:
-> On Wed, Feb 8, 2017, 16:14 Christoph Hellwig <hch@lst.de> wrote:
-> 
-> > NVMe supports up to 255 ranges per DSM command,
-> 
-> 
-> 256 per spec, with number of ranges being zero-based.
+Hi all,
 
-You're right.  I'll do another round of the patch.  That beeing
-said in my tests I never even managed to get three-digit ranges
-anyway with any workload.
+this series adds support for merging discontiguous discard bios into a
+single request if the driver supports it.  This reduces the number of
+discards sent to the device by about a factor of 5-6 for typical
+workloads on NVMe, and for slower devices that use I/O scheduling
+the number will probably be even bigger but I've not implemented
+that support yet.
+
+Changes since V2:
+  - really fix nr of NVMe ranges to 256
+  - free range on error
+
+Changes since V1:
+  - hardcoded max ranges for NVMe to 255
+  - minor cleanups
