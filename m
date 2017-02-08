@@ -1,21 +1,54 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed,  8 Feb 2017 14:46:46 +0100
-Subject: support for multi-range discard requests V3
-Message-ID: <20170208134650.5380-1-hch@lst.de>
+Date: Wed,  8 Feb 2017 14:46:47 +0100
+Subject: [PATCH 1/4] block: move req_set_nomerge to blk.h
+In-Reply-To: <20170208134650.5380-1-hch@lst.de>
+References: <20170208134650.5380-1-hch@lst.de>
+Message-ID: <20170208134650.5380-2-hch@lst.de>
 
-Hi all,
+This makes it available outside of blk-merge.c, and inlining such a trivial
+helper seems pretty useful to start with.
 
-this series adds support for merging discontiguous discard bios into a
-single request if the driver supports it.  This reduces the number of
-discards sent to the device by about a factor of 5-6 for typical
-workloads on NVMe, and for slower devices that use I/O scheduling
-the number will probably be even bigger but I've not implemented
-that support yet.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ block/blk-merge.c | 7 -------
+ block/blk.h       | 7 +++++++
+ 2 files changed, 7 insertions(+), 7 deletions(-)
 
-Changes since V2:
-  - really fix nr of NVMe ranges to 256
-  - free range on error
-
-Changes since V1:
-  - hardcoded max ranges for NVMe to 255
-  - minor cleanups
+diff --git a/block/blk-merge.c b/block/blk-merge.c
+index a373416dbc9a..c956d9e7aafd 100644
+--- a/block/blk-merge.c
++++ b/block/blk-merge.c
+@@ -482,13 +482,6 @@ int blk_rq_map_sg(struct request_queue *q, struct request *rq,
+ }
+ EXPORT_SYMBOL(blk_rq_map_sg);
+ 
+-static void req_set_nomerge(struct request_queue *q, struct request *req)
+-{
+-	req->cmd_flags |= REQ_NOMERGE;
+-	if (req == q->last_merge)
+-		q->last_merge = NULL;
+-}
+-
+ static inline int ll_new_hw_segment(struct request_queue *q,
+ 				    struct request *req,
+ 				    struct bio *bio)
+diff --git a/block/blk.h b/block/blk.h
+index 4972b98d47e1..3e08703902a9 100644
+--- a/block/blk.h
++++ b/block/blk.h
+@@ -256,6 +256,13 @@ static inline int blk_do_io_stat(struct request *rq)
+ 		!blk_rq_is_passthrough(rq);
+ }
+ 
++static inline void req_set_nomerge(struct request_queue *q, struct request *req)
++{
++	req->cmd_flags |= REQ_NOMERGE;
++	if (req == q->last_merge)
++		q->last_merge = NULL;
++}
++
+ /*
+  * Internal io_context interface
+  */
+-- 
+2.11.0
