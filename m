@@ -1,18 +1,34 @@
 From: scott.bauer@intel.com (Scott Bauer)
-Date: Thu,  9 Feb 2017 10:19:59 -0700
-Subject: Sed-opal fixups 
-Message-ID: <1486660801-5105-1-git-send-email-scott.bauer@intel.com>
+Date: Thu,  9 Feb 2017 10:20:00 -0700
+Subject: [PATCH V3 1/2] uapi: sed-opal fix IOW for activate lsp to use correct
+ struct
+In-Reply-To: <1486660801-5105-1-git-send-email-scott.bauer@intel.com>
+References: <1486660801-5105-1-git-send-email-scott.bauer@intel.com>
+Message-ID: <1486660801-5105-2-git-send-email-scott.bauer@intel.com>
 
-It may be too late to change anyhting in the uapi header. When we
-switched over to using IOC_SIZE I found a bug where I had switched
-up a structure in one of the series from v4 to v5 but never changed
-the structure in the IOW. The structure that was in there was to small
-so when we kzalloc on it we don't request enough space. It worked before
-because we were using the cmd strictly as a command #, not using the IOC
-and friends.
+the IOW for the IOC_OPAL_ACTIVATE_LSP took the wrong strcure which
+would give us the wrong size when using _IOC_SIZE, switch it to the
+right structure.
 
-If it's too late to modify that IOW, I can work around it by reallocing
-on the correct size for that command only. I verified the rest of the
-commands and the structures are the same.
+Fixes: 058f8a2 ("Include: Uapi: Add user ABI for Sed/Opal")
 
-Let me know what you think, please.
+Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+---
+ include/uapi/linux/sed-opal.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/uapi/linux/sed-opal.h b/include/uapi/linux/sed-opal.h
+index fc06e3a..c72e073 100644
+--- a/include/uapi/linux/sed-opal.h
++++ b/include/uapi/linux/sed-opal.h
+@@ -106,7 +106,7 @@ struct opal_mbr_data {
+ #define IOC_OPAL_SAVE		    _IOW('p', 220, struct opal_lock_unlock)
+ #define IOC_OPAL_LOCK_UNLOCK	    _IOW('p', 221, struct opal_lock_unlock)
+ #define IOC_OPAL_TAKE_OWNERSHIP	    _IOW('p', 222, struct opal_key)
+-#define IOC_OPAL_ACTIVATE_LSP       _IOW('p', 223, struct opal_key)
++#define IOC_OPAL_ACTIVATE_LSP       _IOW('p', 223, struct opal_lr_act)
+ #define IOC_OPAL_SET_PW             _IOW('p', 224, struct opal_new_pw)
+ #define IOC_OPAL_ACTIVATE_USR       _IOW('p', 225, struct opal_session_info)
+ #define IOC_OPAL_REVERT_TPR         _IOW('p', 226, struct opal_key)
+-- 
+2.7.4
