@@ -1,48 +1,120 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Thu, 9 Feb 2017 13:01:59 -0700
-Subject: Sed-opal fixups
-In-Reply-To: <45bcab45-3efa-e817-911a-ec3a0924dc6b@fb.com>
-References: <1486660801-5105-1-git-send-email-scott.bauer@intel.com>
- <063D6719AE5E284EB5DD2968C1650D6DB0281B85@AcuExch.aculab.com>
- <20170209174526.GA5200@sbauer-Z170X-UD5>
- <45bcab45-3efa-e817-911a-ec3a0924dc6b@fb.com>
-Message-ID: <20170209200158.GA5273@sbauer-Z170X-UD5>
+From: wzhang@fb.com (Wei Zhang)
+Date: Thu, 9 Feb 2017 23:16:05 +0000
+Subject: [PATCH v2 0/4] New Microsemi PCI Switch Management Driver
+In-Reply-To: <1486058763-7730-1-git-send-email-logang@deltatee.com>
+References: <1486058763-7730-1-git-send-email-logang@deltatee.com>
+Message-ID: <B0BD08E8-442E-4FBF-AF52-7AC0A7CA092C@fb.com>
 
-e0;136;0csOn Thu, Feb 09, 2017@11:24:58AM -0700, Jens Axboe wrote:
-> On 02/09/2017 10:45 AM, Scott Bauer wrote:
-> > On Thu, Feb 09, 2017@05:43:20PM +0000, David Laight wrote:
-> >> From: Scott Bauer
-> >>> Sent: 09 February 2017 17:20
-> >>> It may be too late to change anyhting in the uapi header. When we
-> >>> switched over to using IOC_SIZE I found a bug where I had switched
-> >>> up a structure in one of the series from v4 to v5 but never changed
-> >>> the structure in the IOW. The structure that was in there was to small
-> >>> so when we kzalloc on it we don't request enough space. It worked before
-> >>> because we were using the cmd strictly as a command #, not using the IOC
-> >>> and friends.
-> >>>
-> >>> If it's too late to modify that IOW, I can work around it by reallocing
-> >>> on the correct size for that command only. I verified the rest of the
-> >>> commands and the structures are the same.
-> >>>
-> >>> Let me know what you think, please.
-> >>
-> >> Maybe define IOC_OPAL_ACTIVATE_LSP_OLD to the incorrect value and
-> >> IOC_OPAL_ACTIVATE_LSP to the correct one.
-> >> But that relies on any users specifying the correct structure.
-> >> I wouldn't guarantee that.
-> > 
-> > I think I'm the only userspace user right now, this went in on monday,
-> > so I can can change my tooling easily. I just wasnt sure if there was a
-> > set time where the user ABI cannot be changed.
-> 
-> We can still change it, and we definitely should if it improves the
-> interface. It's not a ABI until it's in a released, final kernel.
->
+Hi,
 
-Thanks for the clarification, Jens.
-In that case I'd like to keep the ABI fixup in patch one and the dynamic allocation
-in patch 2.
-I'd like to wait for Christoph's blessing as well before you take it.
+The switchtec driver patches [PATCH v2 (0-4)/4] in conjunction with the switchtec userland tool is used to communicate with the Microsemi 8536 PCIe Switch used on Facebook?s Lightning platform. The following essential driver and tool functions were successfully tested with it:
+?         Retrieval of firmware and configuration information along with CRCs
+?         Switch firmware and configuration upgrades
+?         Switch PHY/Link error counter collection and the ability to reset them
+?         Switch upstream and downstream ports? link status reporting
+?         Switch interface functioning
+?         Retrieval of switch ASIC temperature
+?         Exporting switch firmware log dump
+?         Read the information of firmware and configuration binaries
+?         Extract the firmware and configuration images stored in the switch EEPROM
 
-Thanks
+Tested-by: Krishna Dhulipala krishnad at fb.com
+Tested-by: Wei Zhang wzhang at fb.com  
+
+Thanks,
+-Wei
+
+--
+wei zhang | software engineer | facebook
+wzhang at fb.com | (408) 460-4803
+
+On 2/2/17, 10:05 AM, "Logan Gunthorpe" <logang@deltatee.com> wrote:
+
+    Changes since v1:
+    
+    * Rebased onto 4.10-rc6 (cleanly)
+    * Split the patch into a few more easily digestible patches (as
+      suggested by Greg Kroah-Hartman)
+    * Folded switchtec.c into switchtec.h (per Greg)
+    * Fixed a bunch of 32bit build warnings caught by the kbuild test robot
+    * Fixed some issues in the documentation so it has a proper
+      reStructredText format (as noted by Jonathan Corbet)
+    * Fixed padding and sizes in the IOCTL structures as noticed by Emil
+      Velikov and used pahole to verify their consistency across 32 and 64
+      bit builds
+    * Reworked one of the IOCTL interfaces to be more future proof (per
+      Emil).
+    
+    Changes since RFC:
+    
+    * Fixed incorrect use of the drive model as pointed out by Greg
+      Kroah-Hartman
+    * Used devm functions as suggested by Keith Busch
+    * Added a handful of sysfs attributes to the switchtec class
+    * Added a handful of IOCTLs to the switchtec device
+    * A number of miscellaneous bug fixes
+    
+    --
+    
+    Hi,
+    
+    This is a continuation of the RFC we posted lasted month [1] which
+    proposes a management driver for Microsemi's Switchtec line of PCI
+    switches. This hardware is still looking to be used in the Open
+    Compute Platform
+    
+    To make this entirely clear: the Switchtec products are compliant
+    with the PCI specifications and are supported today with the standard
+    in-kernel driver. However, these devices also expose a management endpoint
+    on a separate PCI function address which can be used to perform some
+    advanced operations. This is a driver for that function. See the patch
+    for more information.
+    
+    Since the RFC, we've made the changes requested by Greg Kroah-Hartman
+    and Keith Busch, and we've also fleshed out a number of features. We've
+    added a couple of IOCTLs and sysfs attributes which are documented in
+    the patch. Significant work has also been done on the userspace tool
+    which is available under a GPL license at [2]. We've also had testing
+    done by some of the interested parties.
+    
+    We hope to see this work included in either 4.11 or 4.12 assuming a
+    smooth review process.
+    
+    The patch is based off of the v4.10-rc6 release.
+    
+    Thanks for your review,
+    
+    Logan
+    
+    [1] https://urldefense.proofpoint.com/v2/url?u=https-3A__www.spinics.net_lists_linux-2Dpci_msg56897.html&d=DwIBAg&c=5VD0RTtNlTh3ycd41b3MUw&r=LRFoLl92zWj5mkgkc_hRcg&m=VLDBJqzotzGkTj8-xjlfT-J0k2uFq6FcWg2nA_oKYJo&s=OkigHoSqH1Z3dnmLqN76lIQ_WxRJDj1uqIDl35SI58A&e= 
+    [2] https://github.com/sbates130272/switchtec-user
+    
+    --
+    
+    Logan Gunthorpe (4):
+      MicroSemi Switchtec management interface driver
+      switchtec: Add user interface documentation
+      switchtec: Add sysfs attributes to the Switchtec driver
+      switchtec: Add IOCTLs to the Switchtec driver
+    
+     Documentation/ABI/testing/sysfs-class-switchtec |   96 ++
+     Documentation/ioctl/ioctl-number.txt            |    1 +
+     Documentation/switchtec.txt                     |   80 ++
+     MAINTAINERS                                     |   11 +
+     drivers/pci/Kconfig                             |    1 +
+     drivers/pci/Makefile                            |    1 +
+     drivers/pci/switch/Kconfig                      |   13 +
+     drivers/pci/switch/Makefile                     |    1 +
+     drivers/pci/switch/switchtec.c                  | 1608 +++++++++++++++++++++++
+     include/uapi/linux/switchtec_ioctl.h            |  132 ++
+     10 files changed, 1944 insertions(+)
+     create mode 100644 Documentation/ABI/testing/sysfs-class-switchtec
+     create mode 100644 Documentation/switchtec.txt
+     create mode 100644 drivers/pci/switch/Kconfig
+     create mode 100644 drivers/pci/switch/Makefile
+     create mode 100644 drivers/pci/switch/switchtec.c
+     create mode 100644 include/uapi/linux/switchtec_ioctl.h
+    
+    --
+    2.1.4
+    
