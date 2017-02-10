@@ -1,35 +1,54 @@
-From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Fri, 10 Feb 2017 18:09:10 +0100
-Subject: [PATCH v2 1/4] MicroSemi Switchtec management interface driver
-In-Reply-To: <9a1d4150-b329-1a69-9efd-f06da32afe02@deltatee.com>
-References: <1486058763-7730-1-git-send-email-logang@deltatee.com>
- <1486058763-7730-2-git-send-email-logang@deltatee.com>
- <20170210145124.GA24594@kroah.com>
- <ca970e7a-b062-d351-9a04-49a9e05955b5@deltatee.com>
- <20170210165550.GA23959@kroah.com>
- <9a1d4150-b329-1a69-9efd-f06da32afe02@deltatee.com>
-Message-ID: <20170210170910.GA25450@kroah.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Fri, 10 Feb 2017 10:57:20 -0700
+Subject: [PATCH] switchtec: cleanup cdev init
+In-Reply-To: <20170210145124.GA24594@kroah.com>
+References: <20170210145124.GA24594@kroah.com>
+Message-ID: <1486749440-24309-1-git-send-email-logang@deltatee.com>
 
-On Fri, Feb 10, 2017@10:03:10AM -0700, Logan Gunthorpe wrote:
-> 
-> 
-> On 10/02/17 09:55 AM, Greg Kroah-Hartman wrote:
-> > Yes, but try it yourself to verify it really is correct :)
-> 
-> Yes, of course... turns out it wasn't. I accidentally refereed to dev
-> before I assigned it. I had mainly just wanted your feedback to ensure
-> that switching to device_register made sense.
-> 
-> > And it can just be an add-on patch, no need to respin a whole new
-> > version for just that simple change, it doesn't hurt anything as-is,
-> > it's just "not needed".
-> 
-> Ok... How should I do that exactly? Attempt to reply to the thread with
-> another patch?
+Per a suggestion from Greg Kroah-Hartman [1], don't set the cdev's
+kobject parent. This allows us to use device_register instead of init
+and add.
 
-Sure, or just wait for these to be applied to the PCI tree and then send
-a follow-on patch.  It's up to Bjorn really, as to what he wants.
+[1] https://lkml.org/lkml/2017/2/10/370
+---
+ drivers/pci/switch/switchtec.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-thanks,
-
-greg k-h
+diff --git a/drivers/pci/switch/switchtec.c b/drivers/pci/switch/switchtec.c
+index 82bfd18..014eaec 100644
+--- a/drivers/pci/switch/switchtec.c
++++ b/drivers/pci/switch/switchtec.c
+@@ -1222,24 +1222,23 @@ static struct switchtec_dev *stdev_create(struct pci_dev *pdev)
+ 		return ERR_PTR(minor);
+ 
+ 	dev = &stdev->dev;
+-	device_initialize(dev);
+ 	dev->devt = MKDEV(MAJOR(switchtec_devt), minor);
+-	dev->class = switchtec_class;
+-	dev->parent = &pdev->dev;
+-	dev->groups = switchtec_device_groups;
+-	dev->release = stdev_release;
+-	dev_set_name(dev, "switchtec%d", minor);
+ 
+ 	cdev = &stdev->cdev;
+ 	cdev_init(cdev, &switchtec_fops);
+ 	cdev->owner = THIS_MODULE;
+-	cdev->kobj.parent = &dev->kobj;
+ 
+ 	rc = cdev_add(&stdev->cdev, dev->devt, 1);
+ 	if (rc)
+ 		goto err_cdev;
+ 
+-	rc = device_add(dev);
++	dev->class = switchtec_class;
++	dev->parent = &pdev->dev;
++	dev->groups = switchtec_device_groups;
++	dev->release = stdev_release;
++	dev_set_name(dev, "switchtec%d", minor);
++
++	rc = device_register(dev);
+ 	if (rc) {
+ 		cdev_del(&stdev->cdev);
+ 		put_device(dev);
+-- 
+2.1.4
