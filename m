@@ -1,13 +1,13 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 10 Feb 2017 08:45:38 +0100
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Fri, 10 Feb 2017 09:01:23 +0100
 Subject: [PATCH V3 2/2] Move stack parameters for sed_ioctl to prevent
  oversized stack with CONFIG_KASAN
 In-Reply-To: <1486660801-5105-3-git-send-email-scott.bauer@intel.com>
 References: <1486660801-5105-1-git-send-email-scott.bauer@intel.com>
  <1486660801-5105-3-git-send-email-scott.bauer@intel.com>
-Message-ID: <e82756b9-df77-6033-b6ce-fbf9aac3b9a8@suse.de>
+Message-ID: <4455227.qpXP0b5apU@wuerfel>
 
-On 02/09/2017 06:20 PM, Scott Bauer wrote:
+On Thursday, February 9, 2017 10:20:01 AM CET Scott Bauer wrote:
 > When CONFIG_KASAN is enabled, compilation fails:
 > 
 > block/sed-opal.c: In function 'sed_ioctl':
@@ -24,28 +24,31 @@ On 02/09/2017 06:20 PM, Scott Bauer wrote:
 >  block/sed-opal.c | 134 +++++++++++++++++++++----------------------------------
 >  1 file changed, 50 insertions(+), 84 deletions(-)
 > 
+> diff --git a/block/sed-opal.c b/block/sed-opal.c
+> index bf1406e..4985d95 100644
+> --- a/block/sed-opal.c
+> +++ b/block/sed-opal.c
+> @@ -2346,7 +2346,10 @@ EXPORT_SYMBOL(opal_unlock_from_suspend);
+>  
+>  int sed_ioctl(struct opal_dev *dev, unsigned int cmd, unsigned long ptr)
+>  {
+> +	void *ioctl_ptr;
+> +	int ret = -ENOTTY;
+>  	void __user *arg = (void __user *)ptr;
+> +	unsigned int cmd_size = _IOC_SIZE(cmd);
+>  
+>  	if (!capable(CAP_SYS_ADMIN))
+>  		return -EACCES;
 
-[...]
+We usually have a size check in there to avoid allocating large amounts
+of memory. _IOC_SIZEBITS is 14, so you can have up to 16kb here, which
+is probably ok, but I'd recommend either adding a comment to say that
+it is, or just checking against the largest realistic size.
 
-> -		if (copy_from_user(&session, arg, sizeof(session)))
-> -			return -EFAULT;
-> -		return opal_erase_locking_range(dev, &session);
-> +	ioctl_ptr = kzalloc(cmd_size, GFP_KERNEL);
-> +	if (!ioctl_ptr)
-> +		return -ENOMEM;
-> +	if (copy_from_user(ioctl_ptr, arg, cmd_size)) {
-> +		ret = -EFAULT;
-> +		goto out;
->  	}
+Having something like v4l with their tables if ioctl commands and
+function pointers would also solve it, as you'd be checking for valid
+command numbers before doing the copy then.
 
-Can't we use memdup_user() instead of kzalloc() + copy_from_user()?
+Otherwise looks good to me.
 
-
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+	Arnd
