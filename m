@@ -1,54 +1,49 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Fri, 10 Feb 2017 09:01:23 +0100
+From: David.Laight@ACULAB.COM (David Laight)
+Date: Fri, 10 Feb 2017 10:28:17 +0000
 Subject: [PATCH V3 2/2] Move stack parameters for sed_ioctl to prevent
  oversized stack with CONFIG_KASAN
-In-Reply-To: <1486660801-5105-3-git-send-email-scott.bauer@intel.com>
+In-Reply-To: <e82756b9-df77-6033-b6ce-fbf9aac3b9a8@suse.de>
 References: <1486660801-5105-1-git-send-email-scott.bauer@intel.com>
  <1486660801-5105-3-git-send-email-scott.bauer@intel.com>
-Message-ID: <4455227.qpXP0b5apU@wuerfel>
+ <e82756b9-df77-6033-b6ce-fbf9aac3b9a8@suse.de>
+Message-ID: <063D6719AE5E284EB5DD2968C1650D6DB02833C4@AcuExch.aculab.com>
 
-On Thursday, February 9, 2017 10:20:01 AM CET Scott Bauer wrote:
-> When CONFIG_KASAN is enabled, compilation fails:
-> 
-> block/sed-opal.c: In function 'sed_ioctl':
-> block/sed-opal.c:2447:1: error: the frame size of 2256 bytes is larger than 2048 bytes [-Werror=frame-larger-than=]
-> 
-> Moved all the ioctl structures off the stack and dynamically activate
-> using _IOC_SIZE()
-> 
-> Fixes: 455a7b238cd6 ("block: Add Sed-opal library")
-> 
-> Reported-by: Arnd Bergmann <arnd at arndb.de>
-> Signed-off-by: Scott Bauer <scott.bauer at intel.com>
-> ---
->  block/sed-opal.c | 134 +++++++++++++++++++++----------------------------------
->  1 file changed, 50 insertions(+), 84 deletions(-)
-> 
-> diff --git a/block/sed-opal.c b/block/sed-opal.c
-> index bf1406e..4985d95 100644
-> --- a/block/sed-opal.c
-> +++ b/block/sed-opal.c
-> @@ -2346,7 +2346,10 @@ EXPORT_SYMBOL(opal_unlock_from_suspend);
->  
->  int sed_ioctl(struct opal_dev *dev, unsigned int cmd, unsigned long ptr)
->  {
-> +	void *ioctl_ptr;
-> +	int ret = -ENOTTY;
->  	void __user *arg = (void __user *)ptr;
-> +	unsigned int cmd_size = _IOC_SIZE(cmd);
->  
->  	if (!capable(CAP_SYS_ADMIN))
->  		return -EACCES;
+From: Johannes Thumshirn
+> Sent: 10 February 2017 07:46
+> On 02/09/2017 06:20 PM, Scott Bauer wrote:
+> > When CONFIG_KASAN is enabled, compilation fails:
 
-We usually have a size check in there to avoid allocating large amounts
-of memory. _IOC_SIZEBITS is 14, so you can have up to 16kb here, which
-is probably ok, but I'd recommend either adding a comment to say that
-it is, or just checking against the largest realistic size.
+Does CONFIG_KASAN allocate guard stack space around everything that
+is passed by address?
+That sounds completely brain-dead.
+There are a lot of functions that have an 'int *' argument to return
+a single value - and are never going to do anything else.
 
-Having something like v4l with their tables if ioctl commands and
-function pointers would also solve it, as you'd be checking for valid
-command numbers before doing the copy then.
+...
+> > Moved all the ioctl structures off the stack and dynamically activate
+> > using _IOC_SIZE()
+...
+> 
+> > -		if (copy_from_user(&session, arg, sizeof(session)))
+> > -			return -EFAULT;
+> > -		return opal_erase_locking_range(dev, &session);
+> > +	ioctl_ptr = kzalloc(cmd_size, GFP_KERNEL);
+> > +	if (!ioctl_ptr)
+> > +		return -ENOMEM;
+> > +	if (copy_from_user(ioctl_ptr, arg, cmd_size)) {
+> > +		ret = -EFAULT;
+> > +		goto out;
+> >  	}
+> 
+> Can't we use memdup_user() instead of kzalloc() + copy_from_user()?
 
-Otherwise looks good to me.
+You either want the copy_from_user() or the memzero() not both.
 
-	Arnd
+ISTM there could be two 'library' functions, maybe:
+void *get_ioctl_buf(unsigned int cmd, long arg)
+to malloc the buffer, memzero/copy_from_user, returns -EFAULT if copy fails.
+int put_ioctl_buf(int rval, unsigned int cmd, const void *buf)
+does copy_to_user() if rval >= 0 and IOR_READ, then frees buf.
+return value is rval unless the copyout fails.
+
+	David
