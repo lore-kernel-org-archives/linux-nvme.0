@@ -1,47 +1,60 @@
-From: elliott@hpe.com (Elliott, Robert (Persistent Memory))
-Date: Fri, 10 Feb 2017 16:46:09 +0000
-Subject: [PATCH v2 4/4] Maintainers: Add Information for SED Opal library
-In-Reply-To: <1480456322-27339-5-git-send-email-scott.bauer@intel.com>
-References: <1480456322-27339-1-git-send-email-scott.bauer@intel.com>
- <1480456322-27339-5-git-send-email-scott.bauer@intel.com>
-Message-ID: <DF4PR84MB0169EB8A90CC23F59135B464AB440@DF4PR84MB0169.NAMPRD84.PROD.OUTLOOK.COM>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Fri, 10 Feb 2017 09:48:37 -0700
+Subject: [PATCH v2 1/4] MicroSemi Switchtec management interface driver
+In-Reply-To: <20170210145124.GA24594@kroah.com>
+References: <1486058763-7730-1-git-send-email-logang@deltatee.com>
+ <1486058763-7730-2-git-send-email-logang@deltatee.com>
+ <20170210145124.GA24594@kroah.com>
+Message-ID: <ca970e7a-b062-d351-9a04-49a9e05955b5@deltatee.com>
 
+Hey Greg,
 
+Thanks so much for the review.
 
-> -----Original Message-----
-> From: linux-block-owner at vger.kernel.org [mailto:linux-block-
-> owner at vger.kernel.org] On Behalf Of Scott Bauer
-> Sent: Tuesday, November 29, 2016 3:52 PM
-> To: linux-nvme at lists.infradead.org
-> Cc: Rafael.Antognolli at intel.com; axboe at fb.com; keith.busch at intel.com;
-> jonathan.derrick at intel.com; j.naumann at fu-berlin.de; hch at infradead.org;
-> linux-block at vger.kernel.org; sagi at grimberg.me; Scott Bauer
-> <scott.bauer at intel.com>
-> Subject: [PATCH v2 4/4] Maintainers: Add Information for SED Opal library
+On 10/02/17 07:51 AM, Greg Kroah-Hartman wrote:
+> On Thu, Feb 02, 2017@11:06:00AM -0700, Logan Gunthorpe wrote:
+>> +	cdev = &stdev->cdev;
+>> +	cdev_init(cdev, &switchtec_fops);
+>> +	cdev->owner = THIS_MODULE;
+>> +	cdev->kobj.parent = &dev->kobj;
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8d414840..929eba3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10846,6 +10846,16 @@ L:	linux-mmc at vger.kernel.org
->  S:	Maintained
->  F:	drivers/mmc/host/sdhci-spear.c
-> 
-> +SECURE ENCRYPTING DEVICE (SED) OPAL DRIVER
-> +M:	Scott Bauer <scott.bauer at intel.com>
-> +M:	Jonathan Derrick <jonathan.derrick at intel.com>
-> +M:	Rafael Antognolli <rafael.antognolli at intel.com>
-> +L:	linux-nvme at lists.infradead.org
-> +S:	Supported
-> +F:	block/sed*
-> +F:	include/linux/sed*
-> +F:	include/uapi/linux/sed*
+> Minor nit, the kobject in a cdev is unlike any other kobject you have
+> ever seen, don't mess with it, it's not doing anything like you think it
+> is doing.  So no need to set the parent field.
 
-Since this is in the block tree and is not nvme specific, could you use 
-linux-block as the main list?
+Ok, that makes sense. I'll do a v3 shortly.
 
-Apparently the series has progressed to v6, but only on the 
-linux-nvme list.
+I copied this from drivers/dax/dax.c so when I have a spare moment I'll
+submit a patch to remove it from there as well.
 
----
-Robert Elliott, HPE Persistent Memory
+Just to make sure I get this right without extra churn: does this look
+correct?
+
+
+        cdev = &stdev->cdev;
+        cdev_init(cdev, &switchtec_fops);
+        cdev->owner = THIS_MODULE;
+
+        rc = cdev_add(&stdev->cdev, dev->devt, 1);
+        if (rc)
+                goto err_cdev;
+
+        dev = &stdev->dev;
+        dev->devt = MKDEV(MAJOR(switchtec_devt), minor);
+        dev->class = switchtec_class;
+        dev->parent = &pdev->dev;
+        dev->groups = switchtec_device_groups;
+        dev->release = stdev_release;
+        dev_set_name(dev, "switchtec%d", minor);
+
+        rc = device_register(dev);
+        if (rc) {
+                cdev_del(&stdev->cdev);
+                put_device(dev);
+                return ERR_PTR(rc);
+        }
+
+
+Thanks,
+
+Logan
