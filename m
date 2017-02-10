@@ -1,68 +1,30 @@
-From: gregkh@linuxfoundation.org (Greg Kroah-Hartman)
-Date: Fri, 10 Feb 2017 17:55:50 +0100
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Fri, 10 Feb 2017 10:03:10 -0700
 Subject: [PATCH v2 1/4] MicroSemi Switchtec management interface driver
-In-Reply-To: <ca970e7a-b062-d351-9a04-49a9e05955b5@deltatee.com>
+In-Reply-To: <20170210165550.GA23959@kroah.com>
 References: <1486058763-7730-1-git-send-email-logang@deltatee.com>
  <1486058763-7730-2-git-send-email-logang@deltatee.com>
  <20170210145124.GA24594@kroah.com>
  <ca970e7a-b062-d351-9a04-49a9e05955b5@deltatee.com>
-Message-ID: <20170210165550.GA23959@kroah.com>
+ <20170210165550.GA23959@kroah.com>
+Message-ID: <9a1d4150-b329-1a69-9efd-f06da32afe02@deltatee.com>
 
-On Fri, Feb 10, 2017@09:48:37AM -0700, Logan Gunthorpe wrote:
-> Hey Greg,
-> 
-> Thanks so much for the review.
-> 
-> On 10/02/17 07:51 AM, Greg Kroah-Hartman wrote:
-> > On Thu, Feb 02, 2017@11:06:00AM -0700, Logan Gunthorpe wrote:
-> >> +	cdev = &stdev->cdev;
-> >> +	cdev_init(cdev, &switchtec_fops);
-> >> +	cdev->owner = THIS_MODULE;
-> >> +	cdev->kobj.parent = &dev->kobj;
-> > 
-> > Minor nit, the kobject in a cdev is unlike any other kobject you have
-> > ever seen, don't mess with it, it's not doing anything like you think it
-> > is doing.  So no need to set the parent field.
-> 
-> Ok, that makes sense. I'll do a v3 shortly.
-> 
-> I copied this from drivers/dax/dax.c so when I have a spare moment I'll
-> submit a patch to remove it from there as well.
-> 
-> Just to make sure I get this right without extra churn: does this look
-> correct?
-> 
-> 
->         cdev = &stdev->cdev;
->         cdev_init(cdev, &switchtec_fops);
->         cdev->owner = THIS_MODULE;
-> 
->         rc = cdev_add(&stdev->cdev, dev->devt, 1);
->         if (rc)
->                 goto err_cdev;
-> 
->         dev = &stdev->dev;
->         dev->devt = MKDEV(MAJOR(switchtec_devt), minor);
->         dev->class = switchtec_class;
->         dev->parent = &pdev->dev;
->         dev->groups = switchtec_device_groups;
->         dev->release = stdev_release;
->         dev_set_name(dev, "switchtec%d", minor);
-> 
->         rc = device_register(dev);
->         if (rc) {
->                 cdev_del(&stdev->cdev);
->                 put_device(dev);
->                 return ERR_PTR(rc);
->         }
-> 
 
-Yes, but try it yourself to verify it really is correct :)
 
-And it can just be an add-on patch, no need to respin a whole new
-version for just that simple change, it doesn't hurt anything as-is,
-it's just "not needed".
+On 10/02/17 09:55 AM, Greg Kroah-Hartman wrote:
+> Yes, but try it yourself to verify it really is correct :)
 
-thanks,
+Yes, of course... turns out it wasn't. I accidentally refereed to dev
+before I assigned it. I had mainly just wanted your feedback to ensure
+that switching to device_register made sense.
 
-greg k-h
+> And it can just be an add-on patch, no need to respin a whole new
+> version for just that simple change, it doesn't hurt anything as-is,
+> it's just "not needed".
+
+Ok... How should I do that exactly? Attempt to reply to the thread with
+another patch?
+
+Thanks,
+
+Logan
