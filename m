@@ -1,28 +1,35 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 10 Feb 2017 11:00:01 -0700
-Subject: [PATCH v2 1/4] MicroSemi Switchtec management interface driver
-In-Reply-To: <20170210170910.GA25450@kroah.com>
-References: <1486058763-7730-1-git-send-email-logang@deltatee.com>
- <1486058763-7730-2-git-send-email-logang@deltatee.com>
- <20170210145124.GA24594@kroah.com>
- <ca970e7a-b062-d351-9a04-49a9e05955b5@deltatee.com>
- <20170210165550.GA23959@kroah.com>
- <9a1d4150-b329-1a69-9efd-f06da32afe02@deltatee.com>
- <20170210170910.GA25450@kroah.com>
-Message-ID: <becec124-373d-5cec-55c1-87c17f87ca9c@deltatee.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 10 Feb 2017 18:15:49 -0500
+Subject: [PATCH 1/5] nvme/pci: Disable on removal when disconnected
+In-Reply-To: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
+References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1486768553-13738-2-git-send-email-keith.busch@intel.com>
 
+If the device is not present, the driver should disable the queues
+immediately. Prior to this, the driver was relying on the watchdog timer
+to kill the queues if requests were outstanding to the device, and that
+just delays removal up to one second.
 
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-On 10/02/17 10:09 AM, Greg Kroah-Hartman wrote:
-> Sure, or just wait for these to be applied to the PCI tree and then send
-> a follow-on patch.  It's up to Bjorn really, as to what he wants.
-
-Ok, I sent a working follow-on patch to this thread.
-
-@Bjorn: I'm happy to send the patches however you like. Just let me
-know. If at all possible, we'd really like to see this in for the 4.11
-merge window.
-
-Thanks,
-
-Logan
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index e25d632..9126637 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1997,8 +1997,10 @@ static void nvme_remove(struct pci_dev *pdev)
+ 
+ 	pci_set_drvdata(pdev, NULL);
+ 
+-	if (!pci_device_is_present(pdev))
++	if (!pci_device_is_present(pdev)) {
+ 		nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD);
++		nvme_dev_disable(dev, false);
++	}
+ 
+ 	flush_work(&dev->reset_work);
+ 	nvme_uninit_ctrl(&dev->ctrl);
+-- 
+1.8.3.1
