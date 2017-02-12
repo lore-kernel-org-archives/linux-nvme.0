@@ -1,669 +1,393 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sun, 12 Feb 2017 13:52:28 -0800
-Subject: [PATCH v3 04/16] lpfc: refactor debugfs queue prints
-Message-ID: <58a0d91c.FMlII2L+0d4RFlSj%jsmart2021@gmail.com>
+Date: Sun, 12 Feb 2017 13:52:36 -0800
+Subject: [PATCH v3 12/16] lpfc: NVME Target: Merge into FC discovery
+Message-ID: <58a0d924.WAYUSKz7ndFiR9lM%jsmart2021@gmail.com>
 
 
-Create common wq, cq, eq, rq print functions
+NVME Target: Merge into FC discovery
+
+Adds NVME PRLI handling and Nameserver registrations for NVME
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc.h         |   1 +
- drivers/scsi/lpfc/lpfc_debugfs.c | 564 ++++++++++++++++-----------------------
- 2 files changed, 228 insertions(+), 337 deletions(-)
+ drivers/scsi/lpfc/lpfc_ct.c        |  8 +++-
+ drivers/scsi/lpfc/lpfc_els.c       | 61 ++++++++++++++++++++++++++++---
+ drivers/scsi/lpfc/lpfc_hbadisc.c   | 27 ++++++++++++--
+ drivers/scsi/lpfc/lpfc_hw.h        | 10 ++++-
+ drivers/scsi/lpfc/lpfc_nportdisc.c | 75 ++++++++++++++++++++++++++++++++++++--
+ 5 files changed, 167 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
-index 64022d7..8e0d6f4 100644
---- a/drivers/scsi/lpfc/lpfc.h
-+++ b/drivers/scsi/lpfc/lpfc.h
-@@ -948,6 +948,7 @@ struct lpfc_hba {
- 	struct dentry *idiag_ctl_acc;
- 	struct dentry *idiag_mbx_acc;
- 	struct dentry *idiag_ext_acc;
-+	uint8_t lpfc_idiag_last_eq;
- #endif
+diff --git a/drivers/scsi/lpfc/lpfc_ct.c b/drivers/scsi/lpfc/lpfc_ct.c
+index 2c051369..d576da4 100644
+--- a/drivers/scsi/lpfc/lpfc_ct.c
++++ b/drivers/scsi/lpfc/lpfc_ct.c
+@@ -1433,7 +1433,13 @@ lpfc_ns_cmd(struct lpfc_vport *vport, int cmdcode,
+ 		if (((phba->cfg_enable_fc4_type == LPFC_ENABLE_BOTH) ||
+ 		     (phba->cfg_enable_fc4_type == LPFC_ENABLE_NVME)) &&
+ 		    (context == FC_TYPE_NVME)) {
+-			lpfc_nvme_update_localport(vport);
++			if ((vport == phba->pport) && phba->nvmet_support) {
++				CtReq->un.rff.fbits = (FC4_FEATURE_TARGET |
++					FC4_FEATURE_NVME_DISC);
++				/* todo: update targetport attributes */
++			} else {
++				lpfc_nvme_update_localport(vport);
++			}
+ 			CtReq->un.rff.type_code = context;
  
- 	/* Used for deferred freeing of ELS data buffers */
-diff --git a/drivers/scsi/lpfc/lpfc_debugfs.c b/drivers/scsi/lpfc/lpfc_debugfs.c
-index 0b99bdf..4b00809 100644
---- a/drivers/scsi/lpfc/lpfc_debugfs.c
-+++ b/drivers/scsi/lpfc/lpfc_debugfs.c
-@@ -1972,6 +1972,155 @@ lpfc_idiag_baracc_write(struct file *file, const char __user *buf,
- 	return -EINVAL;
- }
+ 		} else if (((phba->cfg_enable_fc4_type == LPFC_ENABLE_BOTH) ||
+diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
+index cc1c03a..2de5cbe 100644
+--- a/drivers/scsi/lpfc/lpfc_els.c
++++ b/drivers/scsi/lpfc/lpfc_els.c
+@@ -2001,11 +2001,21 @@ lpfc_issue_els_plogi(struct lpfc_vport *vport, uint32_t did, uint8_t retry)
+ 		sp->cmn.fcphHigh = FC_PH3;
  
-+static int
-+__lpfc_idiag_print_wq(struct lpfc_queue *qp, char *wqtype,
-+			char *pbuffer, int len)
-+{
-+	if (!qp)
-+		return len;
-+
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"\t\t%s WQ info: ", wqtype);
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"AssocCQID[%04d]: WQ-STAT[oflow:x%x posted:x%llx]\n",
-+			qp->assoc_qid, qp->q_cnt_1,
-+			(unsigned long long)qp->q_cnt_4);
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"\t\tWQID[%02d], QE-CNT[%04d], QE-SIZE[%04d], "
-+			"HOST-IDX[%04d], PORT-IDX[%04d]",
-+			qp->queue_id, qp->entry_count,
-+			qp->entry_size, qp->host_index,
-+			qp->hba_index);
-+	len +=  snprintf(pbuffer + len,
-+			LPFC_QUE_INFO_GET_BUF_SIZE - len, "\n");
-+	return len;
-+}
-+
-+static int
-+lpfc_idiag_wqs_for_cq(struct lpfc_hba *phba, char *wqtype, char *pbuffer,
-+		int *len, int max_cnt, int cq_id)
-+{
-+	struct lpfc_queue *qp;
-+	int qidx;
-+
-+	for (qidx = 0; qidx < phba->cfg_fcp_io_channel; qidx++) {
-+		qp = phba->sli4_hba.fcp_wq[qidx];
-+		if (qp->assoc_qid != cq_id)
-+			continue;
-+		*len = __lpfc_idiag_print_wq(qp, wqtype, pbuffer, *len);
-+		if (*len >= max_cnt)
-+			return 1;
-+	}
-+	return 0;
-+}
-+
-+static int
-+__lpfc_idiag_print_cq(struct lpfc_queue *qp, char *cqtype,
-+			char *pbuffer, int len)
-+{
-+	if (!qp)
-+		return len;
-+
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"\t%s CQ info: ", cqtype);
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"AssocEQID[%02d]: CQ STAT[max:x%x relw:x%x "
-+			"xabt:x%x wq:x%llx]\n",
-+			qp->assoc_qid, qp->q_cnt_1, qp->q_cnt_2,
-+			qp->q_cnt_3, (unsigned long long)qp->q_cnt_4);
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"\tCQID[%02d], QE-CNT[%04d], QE-SIZE[%04d], "
-+			"HOST-IDX[%04d], PORT-IDX[%04d]",
-+			qp->queue_id, qp->entry_count,
-+			qp->entry_size, qp->host_index,
-+			qp->hba_index);
-+
-+	len +=  snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len, "\n");
-+
-+	return len;
-+}
-+
-+static int
-+__lpfc_idiag_print_rqpair(struct lpfc_queue *qp, struct lpfc_queue *datqp,
-+			char *rqtype, char *pbuffer, int len)
-+{
-+	if (!qp || !datqp)
-+		return len;
-+
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"\t\t%s RQ info: ", rqtype);
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"AssocCQID[%02d]: RQ-STAT[nopost:x%x nobuf:x%x "
-+			"trunc:x%x rcv:x%llx]\n",
-+			qp->assoc_qid, qp->q_cnt_1, qp->q_cnt_2,
-+			qp->q_cnt_3, (unsigned long long)qp->q_cnt_4);
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"\t\tHQID[%02d], QE-CNT[%04d], QE-SIZE[%04d], "
-+			"HOST-IDX[%04d], PORT-IDX[%04d]\n",
-+			qp->queue_id, qp->entry_count, qp->entry_size,
-+			qp->host_index, qp->hba_index);
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"\t\tDQID[%02d], QE-CNT[%04d], QE-SIZE[%04d], "
-+			"HOST-IDX[%04d], PORT-IDX[%04d]\n",
-+			datqp->queue_id, datqp->entry_count,
-+			datqp->entry_size, datqp->host_index,
-+			datqp->hba_index);
-+	len +=  snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len, "\n");
-+
-+	return len;
-+}
-+
-+static int
-+lpfc_idiag_cqs_for_eq(struct lpfc_hba *phba, char *pbuffer,
-+		int *len, int max_cnt, int eq_id)
-+{
-+	struct lpfc_queue *qp;
-+	int qidx, rc;
-+
-+	for (qidx = 0; qidx < phba->cfg_fcp_io_channel; qidx++) {
-+		qp = phba->sli4_hba.fcp_cq[qidx];
-+		if (qp->assoc_qid != eq_id)
-+			continue;
-+
-+		*len = __lpfc_idiag_print_cq(qp, "FCP", pbuffer, *len);
-+
-+		/* Reset max counter */
-+		qp->CQ_max_cqe = 0;
-+
-+		if (*len >= max_cnt)
-+			return 1;
-+
-+		rc = lpfc_idiag_wqs_for_cq(phba, "FCP", pbuffer, len,
-+				max_cnt, qp->queue_id);
-+		if (rc)
-+			return 1;
+ 	sp->cmn.valid_vendor_ver_level = 0;
++	memset(sp->un.vendorVersion, 0, sizeof(sp->un.vendorVersion));
+ 
+ 	lpfc_debugfs_disc_trc(vport, LPFC_DISC_TRC_ELS_CMD,
+ 		"Issue PLOGI:     did:x%x",
+ 		did, 0, 0);
+ 
++	/* If our firmware supports this feature, convey that
++	 * information to the target using the vendor specific field.
++	 */
++	if (phba->sli.sli_flag & LPFC_SLI_SUPPRESS_RSP) {
++		sp->cmn.valid_vendor_ver_level = 1;
++		sp->un.vv.vid = cpu_to_be32(LPFC_VV_EMLX_ID);
++		sp->un.vv.flags = cpu_to_be32(LPFC_VV_SUPPRESS_RSP);
 +	}
 +
-+	return 0;
-+}
-+
-+static int
-+__lpfc_idiag_print_eq(struct lpfc_queue *qp, char *eqtype,
-+			char *pbuffer, int len)
-+{
-+	if (!qp)
-+		return len;
-+
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"\n%s EQ info: EQ-STAT[max:x%x noE:x%x "
-+			"bs:x%x proc:x%llx]\n",
-+			eqtype, qp->q_cnt_1, qp->q_cnt_2, qp->q_cnt_3,
-+			(unsigned long long)qp->q_cnt_4);
-+	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+			"EQID[%02d], QE-CNT[%04d], QE-SIZE[%04d], "
-+			"HOST-IDX[%04d], PORT-IDX[%04d]",
-+			qp->queue_id, qp->entry_count, qp->entry_size,
-+			qp->host_index, qp->hba_index);
-+	len +=  snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len, "\n");
-+
-+	return len;
-+}
-+
- /**
-  * lpfc_idiag_queinfo_read - idiag debugfs read queue information
-  * @file: The file pointer to read from.
-@@ -1982,6 +2131,9 @@ lpfc_idiag_baracc_write(struct file *file, const char __user *buf,
-  * Description:
-  * This routine reads data from the @phba SLI4 PCI function queue information,
-  * and copies to user @buf.
-+ * This routine only returns 1 EQs worth of information. It remembers the last
-+ * EQ read and jumps to the next EQ. Thus subsequent calls to queInfo will
-+ * retrieve all EQs allocated for the phba.
-  *
-  * Returns:
-  * This function returns the amount of data that was read (this could be less
-@@ -1993,19 +2145,16 @@ lpfc_idiag_queinfo_read(struct file *file, char __user *buf, size_t nbytes,
- {
- 	struct lpfc_debug *debug = file->private_data;
- 	struct lpfc_hba *phba = (struct lpfc_hba *)debug->i_private;
--	int len = 0;
- 	char *pbuffer;
--	int x, cnt;
--	int max_cnt;
-+	int max_cnt, rc, x, len = 0;
- 	struct lpfc_queue *qp = NULL;
+ 	phba->fc_stat.elsXmitPLOGI++;
+ 	elsiocb->iocb_cmpl = lpfc_cmpl_els_plogi;
+ 	ret = lpfc_sli_issue_iocb(phba, LPFC_ELS_RING, elsiocb, 0);
+@@ -2207,7 +2217,13 @@ lpfc_issue_els_prli(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
+ 		    !phba->nvmet_support)
+ 			bf_set(prli_fba, npr_nvme, 1);
  
--
- 	if (!debug->buffer)
- 		debug->buffer = kmalloc(LPFC_QUE_INFO_GET_BUF_SIZE, GFP_KERNEL);
- 	if (!debug->buffer)
- 		return 0;
- 	pbuffer = debug->buffer;
--	max_cnt = LPFC_QUE_INFO_GET_BUF_SIZE - 128;
-+	max_cnt = LPFC_QUE_INFO_GET_BUF_SIZE - 256;
- 
- 	if (*ppos)
- 		return 0;
-@@ -2014,374 +2163,115 @@ lpfc_idiag_queinfo_read(struct file *file, char __user *buf, size_t nbytes,
- 
- 	/* Fast-path event queue */
- 	if (phba->sli4_hba.hba_eq && phba->cfg_fcp_io_channel) {
--		cnt = phba->cfg_fcp_io_channel;
- 
--		for (x = 0; x < cnt; x++) {
-+		x = phba->lpfc_idiag_last_eq;
-+		if (phba->cfg_fof && (x >= phba->cfg_fcp_io_channel)) {
-+			phba->lpfc_idiag_last_eq = 0;
-+			goto fof;
+-		bf_set(prli_init, npr_nvme, 1);
++		if (phba->nvmet_support) {
++			bf_set(prli_tgt, npr_nvme, 1);
++			bf_set(prli_disc, npr_nvme, 1);
++
++		} else {
++			bf_set(prli_init, npr_nvme, 1);
 +		}
-+		phba->lpfc_idiag_last_eq++;
-+		if (phba->lpfc_idiag_last_eq >= phba->cfg_fcp_io_channel)
-+			if (phba->cfg_fof == 0)
-+				phba->lpfc_idiag_last_eq = 0;
+ 		npr_nvme->word1 = cpu_to_be32(npr_nvme->word1);
+ 		npr_nvme->word4 = cpu_to_be32(npr_nvme->word4);
+ 		elsiocb->iocb_flag |= LPFC_PRLI_NVME_REQ;
+@@ -2619,8 +2635,11 @@ lpfc_cmpl_els_logo(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+ 		phba->pport->fc_myDID = 0;
  
--			/* Fast-path EQ */
--			qp = phba->sli4_hba.hba_eq[x];
--			if (!qp)
--				goto proc_cq;
-+		len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
-+					"EQ %d out of %d HBA EQs\n",
-+					x, phba->cfg_fcp_io_channel);
+ 		if ((phba->cfg_enable_fc4_type == LPFC_ENABLE_BOTH) ||
+-		    (phba->cfg_enable_fc4_type == LPFC_ENABLE_NVME))
+-			lpfc_nvme_update_localport(phba->pport);
++		    (phba->cfg_enable_fc4_type == LPFC_ENABLE_NVME)) {
++			if (!phba->nvmet_support)
++				lpfc_nvme_update_localport(phba->pport);
++			/* todo: tgt: update targetport attributes */
++		}
  
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"\nHBA EQ info: "
--				"EQ-STAT[max:x%x noE:x%x "
--				"bs:x%x proc:x%llx]\n",
--				qp->q_cnt_1, qp->q_cnt_2,
--				qp->q_cnt_3, (unsigned long long)qp->q_cnt_4);
--
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"EQID[%02d], "
--				"QE-CNT[%04d], QE-SIZE[%04d], "
--				"HOST-IDX[%04d], PORT-IDX[%04d]",
--				qp->queue_id,
--				qp->entry_count,
--				qp->entry_size,
--				qp->host_index,
--				qp->hba_index);
--
--
--			/* Reset max counter */
--			qp->EQ_max_eqe = 0;
-+		/* Fast-path EQ */
-+		qp = phba->sli4_hba.hba_eq[x];
-+		if (!qp)
-+			goto out;
+ 		mbox = mempool_alloc(phba->mbox_mem_pool, GFP_KERNEL);
+ 		if (mbox) {
+@@ -4072,10 +4091,25 @@ lpfc_els_rsp_acc(struct lpfc_vport *vport, uint32_t flag,
+ 			       sizeof(struct lpfc_name));
+ 			memcpy(&sp->nodeName, &vport->fc_sparam.nodeName,
+ 			       sizeof(struct lpfc_name));
+-		} else
++		} else {
+ 			memcpy(pcmd, &vport->fc_sparam,
+ 			       sizeof(struct serv_parm));
  
--			len +=  snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len, "\n");
--			if (len >= max_cnt)
--				goto too_big;
--proc_cq:
--			/* Fast-path FCP CQ */
--			qp = phba->sli4_hba.fcp_cq[x];
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"\tFCP CQ info: ");
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"AssocEQID[%02d]: "
--				"CQ STAT[max:x%x relw:x%x "
--				"xabt:x%x wq:x%llx]\n",
--				qp->assoc_qid,
--				qp->q_cnt_1, qp->q_cnt_2,
--				qp->q_cnt_3, (unsigned long long)qp->q_cnt_4);
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"\tCQID[%02d], "
--				"QE-CNT[%04d], QE-SIZE[%04d], "
--				"HOST-IDX[%04d], PORT-IDX[%04d]",
--				qp->queue_id, qp->entry_count,
--				qp->entry_size, qp->host_index,
--				qp->hba_index);
-+		len = __lpfc_idiag_print_eq(qp, "HBA", pbuffer, len);
- 
-+		/* Reset max counter */
-+		qp->EQ_max_eqe = 0;
- 
--			/* Reset max counter */
--			qp->CQ_max_cqe = 0;
-+		if (len >= max_cnt)
-+			goto too_big;
- 
--			len +=  snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len, "\n");
--			if (len >= max_cnt)
--				goto too_big;
-+		rc = lpfc_idiag_cqs_for_eq(phba, pbuffer, &len,
-+			max_cnt, qp->queue_id);
-+		if (rc)
-+			goto too_big;
- 
--			/* Fast-path FCP WQ */
--			qp = phba->sli4_hba.fcp_wq[x];
-+		/* Only EQ 0 has slow path CQs configured */
-+		if (x)
-+			goto out;
- 
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"\t\tFCP WQ info: ");
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"AssocCQID[%02d]: "
--				"WQ-STAT[oflow:x%x posted:x%llx]\n",
--				qp->assoc_qid,
--				qp->q_cnt_1, (unsigned long long)qp->q_cnt_4);
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"\t\tWQID[%02d], "
--				"QE-CNT[%04d], QE-SIZE[%04d], "
--				"HOST-IDX[%04d], PORT-IDX[%04d]",
--				qp->queue_id,
--				qp->entry_count,
--				qp->entry_size,
--				qp->host_index,
--				qp->hba_index);
--
--			len +=  snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len, "\n");
--			if (len >= max_cnt)
--				goto too_big;
--
--			if (x)
--				continue;
--
--			/* Only EQ 0 has slow path CQs configured */
--
--			/* Slow-path mailbox CQ */
--			qp = phba->sli4_hba.mbx_cq;
--			if (qp) {
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"\tMBX CQ info: ");
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"AssocEQID[%02d]: "
--					"CQ-STAT[mbox:x%x relw:x%x "
--					"xabt:x%x wq:x%llx]\n",
--					qp->assoc_qid,
--					qp->q_cnt_1, qp->q_cnt_2,
--					qp->q_cnt_3,
--					(unsigned long long)qp->q_cnt_4);
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"\tCQID[%02d], "
--					"QE-CNT[%04d], QE-SIZE[%04d], "
--					"HOST-IDX[%04d], PORT-IDX[%04d]",
--					qp->queue_id, qp->entry_count,
--					qp->entry_size, qp->host_index,
--					qp->hba_index);
--
--				len +=  snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len, "\n");
--				if (len >= max_cnt)
--					goto too_big;
--			}
-+		/* Slow-path mailbox CQ */
-+		qp = phba->sli4_hba.mbx_cq;
-+		len = __lpfc_idiag_print_cq(qp, "MBX", pbuffer, len);
-+		if (len >= max_cnt)
-+			goto too_big;
- 
--			/* Slow-path MBOX MQ */
--			qp = phba->sli4_hba.mbx_wq;
--			if (qp) {
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"\t\tMBX MQ info: ");
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"AssocCQID[%02d]:\n",
--					phba->sli4_hba.mbx_wq->assoc_qid);
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"\t\tWQID[%02d], "
--					"QE-CNT[%04d], QE-SIZE[%04d], "
--					"HOST-IDX[%04d], PORT-IDX[%04d]",
--					qp->queue_id, qp->entry_count,
--					qp->entry_size, qp->host_index,
--					qp->hba_index);
--
--				len +=  snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len, "\n");
--				if (len >= max_cnt)
--					goto too_big;
--			}
-+		/* Slow-path MBOX MQ */
-+		qp = phba->sli4_hba.mbx_wq;
-+		len = __lpfc_idiag_print_wq(qp, "MBX", pbuffer, len);
-+		if (len >= max_cnt)
-+			goto too_big;
- 
--			/* Slow-path ELS response CQ */
--			qp = phba->sli4_hba.els_cq;
--			if (qp) {
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"\tELS CQ info: ");
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"AssocEQID[%02d]: "
--					"CQ-STAT[max:x%x relw:x%x "
--					"xabt:x%x wq:x%llx]\n",
--					qp->assoc_qid,
--					qp->q_cnt_1, qp->q_cnt_2,
--					qp->q_cnt_3,
--					(unsigned long long)qp->q_cnt_4);
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"\tCQID [%02d], "
--					"QE-CNT[%04d], QE-SIZE[%04d], "
--					"HOST-IDX[%04d], PORT-IDX[%04d]",
--					qp->queue_id, qp->entry_count,
--					qp->entry_size, qp->host_index,
--					qp->hba_index);
--
--				/* Reset max counter */
--				qp->CQ_max_cqe = 0;
--
--				len +=  snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len, "\n");
--				if (len >= max_cnt)
--					goto too_big;
--			}
-+		/* Slow-path ELS response CQ */
-+		qp = phba->sli4_hba.els_cq;
-+		len = __lpfc_idiag_print_cq(qp, "ELS", pbuffer, len);
-+		/* Reset max counter */
-+		if (qp)
-+			qp->CQ_max_cqe = 0;
-+		if (len >= max_cnt)
-+			goto too_big;
- 
--			/* Slow-path ELS WQ */
--			qp = phba->sli4_hba.els_wq;
--			if (qp) {
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"\t\tELS WQ info: ");
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"AssocCQID[%02d]: "
--					" WQ-STAT[oflow:x%x "
--					"posted:x%llx]\n",
--					qp->assoc_qid,
--					qp->q_cnt_1,
--					(unsigned long long)qp->q_cnt_4);
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"\t\tWQID[%02d], "
--					"QE-CNT[%04d], QE-SIZE[%04d], "
--					"HOST-IDX[%04d], PORT-IDX[%04d]",
--					qp->queue_id, qp->entry_count,
--					qp->entry_size, qp->host_index,
--					qp->hba_index);
--
--				len +=  snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len, "\n");
--				if (len >= max_cnt)
--					goto too_big;
--			}
-+		/* Slow-path ELS WQ */
-+		qp = phba->sli4_hba.els_wq;
-+		len = __lpfc_idiag_print_wq(qp, "ELS", pbuffer, len);
-+		if (len >= max_cnt)
-+			goto too_big;
- 
--			if (phba->sli4_hba.hdr_rq && phba->sli4_hba.dat_rq) {
--				/* Slow-path RQ header */
--				qp = phba->sli4_hba.hdr_rq;
-+		qp = phba->sli4_hba.hdr_rq;
-+		len = __lpfc_idiag_print_rqpair(qp, phba->sli4_hba.dat_rq,
-+				"RQpair", pbuffer, len);
-+		if (len >= max_cnt)
-+			goto too_big;
- 
--				len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"\t\tRQ info: ");
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"AssocCQID[%02d]: "
--					"RQ-STAT[nopost:x%x nobuf:x%x "
--					"trunc:x%x rcv:x%llx]\n",
--					qp->assoc_qid,
--					qp->q_cnt_1, qp->q_cnt_2,
--					qp->q_cnt_3,
--					(unsigned long long)qp->q_cnt_4);
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"\t\tHQID[%02d], "
--					"QE-CNT[%04d], QE-SIZE[%04d], "
--					"HOST-IDX[%04d], PORT-IDX[%04d]\n",
--					qp->queue_id,
--					qp->entry_count,
--					qp->entry_size,
--					qp->host_index,
--					qp->hba_index);
--
--				/* Slow-path RQ data */
--				qp = phba->sli4_hba.dat_rq;
--				len += snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len,
--					"\t\tDQID[%02d], "
--					"QE-CNT[%04d], QE-SIZE[%04d], "
--					"HOST-IDX[%04d], PORT-IDX[%04d]\n",
--					qp->queue_id,
--					qp->entry_count,
--					qp->entry_size,
--					qp->host_index,
--					qp->hba_index);
--
--				len +=  snprintf(pbuffer+len,
--					LPFC_QUE_INFO_GET_BUF_SIZE-len, "\n");
--			}
--		}
-+		goto out;
- 	}
- 
-+fof:
- 	if (phba->cfg_fof) {
- 		/* FOF EQ */
- 		qp = phba->sli4_hba.fof_eq;
--		if (!qp)
--			goto out;
--
--		len += snprintf(pbuffer+len,
--			LPFC_QUE_INFO_GET_BUF_SIZE-len,
--			"\nFOF EQ info: "
--			"EQ-STAT[max:x%x noE:x%x "
--			"bs:x%x proc:x%llx]\n",
--			qp->q_cnt_1, qp->q_cnt_2,
--			qp->q_cnt_3, (unsigned long long)qp->q_cnt_4);
--
--		len += snprintf(pbuffer+len,
--			LPFC_QUE_INFO_GET_BUF_SIZE-len,
--			"EQID[%02d], "
--			"QE-CNT[%04d], QE-SIZE[%04d], "
--			"HOST-IDX[%04d], PORT-IDX[%04d]",
--			qp->queue_id,
--			qp->entry_count,
--			qp->entry_size,
--			qp->host_index,
--			qp->hba_index);
-+		len = __lpfc_idiag_print_eq(qp, "FOF", pbuffer, len);
- 
- 		/* Reset max counter */
--		qp->EQ_max_eqe = 0;
-+		if (qp)
-+			qp->EQ_max_eqe = 0;
- 
--		len +=  snprintf(pbuffer+len,
--			LPFC_QUE_INFO_GET_BUF_SIZE-len, "\n");
- 		if (len >= max_cnt)
- 			goto too_big;
--	}
--
--	if (phba->cfg_fof) {
- 
- 		/* OAS CQ */
- 		qp = phba->sli4_hba.oas_cq;
--		if (qp) {
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"\tOAS CQ info: ");
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"AssocEQID[%02d]: "
--				"CQ STAT[max:x%x relw:x%x "
--				"xabt:x%x wq:x%llx]\n",
--				qp->assoc_qid,
--				qp->q_cnt_1, qp->q_cnt_2,
--				qp->q_cnt_3, (unsigned long long)qp->q_cnt_4);
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"\tCQID[%02d], "
--				"QE-CNT[%04d], QE-SIZE[%04d], "
--				"HOST-IDX[%04d], PORT-IDX[%04d]",
--				qp->queue_id, qp->entry_count,
--				qp->entry_size, qp->host_index,
--				qp->hba_index);
--
--			/* Reset max counter */
-+		len = __lpfc_idiag_print_cq(qp, "OAS", pbuffer, len);
-+		/* Reset max counter */
-+		if (qp)
- 			qp->CQ_max_cqe = 0;
--
--			len +=  snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len, "\n");
--			if (len >= max_cnt)
--				goto too_big;
--		}
-+		if (len >= max_cnt)
-+			goto too_big;
- 
- 		/* OAS WQ */
- 		qp = phba->sli4_hba.oas_wq;
--		if (qp) {
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"\t\tOAS WQ info: ");
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"AssocCQID[%02d]: "
--				"WQ-STAT[oflow:x%x posted:x%llx]\n",
--				qp->assoc_qid,
--				qp->q_cnt_1, (unsigned long long)qp->q_cnt_4);
--			len += snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len,
--				"\t\tWQID[%02d], "
--				"QE-CNT[%04d], QE-SIZE[%04d], "
--				"HOST-IDX[%04d], PORT-IDX[%04d]",
--				qp->queue_id,
--				qp->entry_count,
--				qp->entry_size,
--				qp->host_index,
--				qp->hba_index);
--
--			len +=  snprintf(pbuffer+len,
--				LPFC_QUE_INFO_GET_BUF_SIZE-len, "\n");
--			if (len >= max_cnt)
--				goto too_big;
--		}
-+		len = __lpfc_idiag_print_wq(qp, "OAS", pbuffer, len);
-+		if (len >= max_cnt)
-+			goto too_big;
- 	}
--out:
++			sp->cmn.valid_vendor_ver_level = 0;
++			memset(sp->un.vendorVersion, 0,
++			       sizeof(sp->un.vendorVersion));
 +
- 	spin_unlock_irq(&phba->hbalock);
- 	return simple_read_from_buffer(buf, nbytes, ppos, pbuffer, len);
++			/* If our firmware supports this feature, convey that
++			 * info to the target using the vendor specific field.
++			 */
++			if (phba->sli.sli_flag & LPFC_SLI_SUPPRESS_RSP) {
++				sp->cmn.valid_vendor_ver_level = 1;
++				sp->un.vv.vid = cpu_to_be32(LPFC_VV_EMLX_ID);
++				sp->un.vv.flags =
++					cpu_to_be32(LPFC_VV_SUPPRESS_RSP);
++			}
++		}
++
+ 		lpfc_debugfs_disc_trc(vport, LPFC_DISC_TRC_ELS_RSP,
+ 			"Issue ACC FLOGI/PLOGI: did:x%x flg:x%x",
+ 			ndlp->nlp_DID, ndlp->nlp_flag, 0);
+@@ -4395,7 +4429,22 @@ lpfc_els_rsp_prli_acc(struct lpfc_vport *vport, struct lpfc_iocbq *oldiocb,
+ 		bf_set(prli_type_code, npr_nvme, PRLI_NVME_TYPE);
+ 		bf_set(prli_estabImagePair, npr_nvme, 0);  /* Should be 0 */
+ 		bf_set(prli_acc_rsp_code, npr_nvme, PRLI_REQ_EXECUTED);
+-		bf_set(prli_init, npr_nvme, 1);
++		if (phba->nvmet_support) {
++			bf_set(prli_tgt, npr_nvme, 1);
++			bf_set(prli_disc, npr_nvme, 1);
++			if (phba->cfg_nvme_enable_fb) {
++				bf_set(prli_fba, npr_nvme, 1);
++
++				/* TBD.  Target mode needs to post buffers
++				 * that support the configured first burst
++				 * byte size.
++				 */
++				bf_set(prli_fb_sz, npr_nvme,
++				       phba->cfg_nvmet_fb_size);
++			}
++		} else {
++			bf_set(prli_init, npr_nvme, 1);
++		}
  
- too_big:
--	len +=  snprintf(pbuffer+len,
--		LPFC_QUE_INFO_GET_BUF_SIZE-len, "Truncated ...\n");
-+	len +=  snprintf(pbuffer + len,
-+		LPFC_QUE_INFO_GET_BUF_SIZE - len, "Truncated ...\n");
-+out:
- 	spin_unlock_irq(&phba->hbalock);
- 	return simple_read_from_buffer(buf, nbytes, ppos, pbuffer, len);
+ 		lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME_DISC,
+ 				 "6015 NVME issue PRLI ACC word1 x%08x "
+@@ -5813,6 +5862,8 @@ lpfc_rscn_recovery_check(struct lpfc_vport *vport)
+ 		    (ndlp->nlp_state == NLP_STE_UNUSED_NODE) ||
+ 		    !lpfc_rscn_payload_check(vport, ndlp->nlp_DID))
+ 			continue;
++		if (vport->phba->nvmet_support)
++			continue;
+ 		lpfc_disc_state_machine(vport, ndlp, NULL,
+ 					NLP_EVT_DEVICE_RECOVERY);
+ 		lpfc_cancel_retry_delay_tmo(vport, ndlp);
+diff --git a/drivers/scsi/lpfc/lpfc_hbadisc.c b/drivers/scsi/lpfc/lpfc_hbadisc.c
+index e7f99c8..fc1564b 100644
+--- a/drivers/scsi/lpfc/lpfc_hbadisc.c
++++ b/drivers/scsi/lpfc/lpfc_hbadisc.c
+@@ -910,8 +910,11 @@ lpfc_linkdown(struct lpfc_hba *phba)
+ 			vports[i]->fc_myDID = 0;
+ 
+ 			if ((phba->cfg_enable_fc4_type == LPFC_ENABLE_BOTH) ||
+-			    (phba->cfg_enable_fc4_type == LPFC_ENABLE_NVME))
+-				lpfc_nvme_update_localport(vports[i]);
++			    (phba->cfg_enable_fc4_type == LPFC_ENABLE_NVME)) {
++				if (!phba->nvmet_support)
++					lpfc_nvme_update_localport(vports[i]);
++				/* todo: tgt: update targetport attributes */
++			}
+ 		}
+ 	}
+ 	lpfc_destroy_vport_work_array(phba, vports);
+@@ -3583,8 +3586,11 @@ lpfc_mbx_cmpl_reg_vpi(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb)
+ 		vport->fc_myDID = 0;
+ 
+ 		if ((phba->cfg_enable_fc4_type == LPFC_ENABLE_BOTH) ||
+-		    (phba->cfg_enable_fc4_type == LPFC_ENABLE_NVME))
+-			lpfc_nvme_update_localport(vport);
++		    (phba->cfg_enable_fc4_type == LPFC_ENABLE_NVME)) {
++			if (!phba->nvmet_support)
++				lpfc_nvme_update_localport(vport);
++			/* todo: update targetport attributes */
++		}
+ 		goto out;
+ 	}
+ 
+@@ -4175,6 +4181,11 @@ lpfc_nlp_state_cleanup(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
+ 				 */
+ 				vport->phba->nport_event_cnt++;
+ 				lpfc_nvme_register_port(vport, ndlp);
++			} else {
++				/* Just take an NDLP ref count since the
++				 * target does not register rports.
++				 */
++				lpfc_nlp_get(ndlp);
+ 			}
+ 		}
+ 	}
+@@ -5096,6 +5107,8 @@ lpfc_setup_disc_node(struct lpfc_vport *vport, uint32_t did)
+ 			return NULL;
+ 		lpfc_nlp_init(vport, ndlp, did);
+ 		lpfc_nlp_set_state(vport, ndlp, NLP_STE_NPR_NODE);
++		if (vport->phba->nvmet_support)
++			return ndlp;
+ 		spin_lock_irq(shost->host_lock);
+ 		ndlp->nlp_flag |= NLP_NPR_2B_DISC;
+ 		spin_unlock_irq(shost->host_lock);
+@@ -5104,6 +5117,8 @@ lpfc_setup_disc_node(struct lpfc_vport *vport, uint32_t did)
+ 		ndlp = lpfc_enable_node(vport, ndlp, NLP_STE_NPR_NODE);
+ 		if (!ndlp)
+ 			return NULL;
++		if (vport->phba->nvmet_support)
++			return ndlp;
+ 		spin_lock_irq(shost->host_lock);
+ 		ndlp->nlp_flag |= NLP_NPR_2B_DISC;
+ 		spin_unlock_irq(shost->host_lock);
+@@ -5123,6 +5138,8 @@ lpfc_setup_disc_node(struct lpfc_vport *vport, uint32_t did)
+ 			 * delay timeout is not needed.
+ 			 */
+ 			lpfc_cancel_retry_delay_tmo(vport, ndlp);
++			if (vport->phba->nvmet_support)
++				return ndlp;
+ 			spin_lock_irq(shost->host_lock);
+ 			ndlp->nlp_flag |= NLP_NPR_2B_DISC;
+ 			spin_unlock_irq(shost->host_lock);
+@@ -5138,6 +5155,8 @@ lpfc_setup_disc_node(struct lpfc_vport *vport, uint32_t did)
+ 		    ndlp->nlp_flag & NLP_RCV_PLOGI)
+ 			return NULL;
+ 		lpfc_nlp_set_state(vport, ndlp, NLP_STE_NPR_NODE);
++		if (vport->phba->nvmet_support)
++			return ndlp;
+ 		spin_lock_irq(shost->host_lock);
+ 		ndlp->nlp_flag |= NLP_NPR_2B_DISC;
+ 		spin_unlock_irq(shost->host_lock);
+diff --git a/drivers/scsi/lpfc/lpfc_hw.h b/drivers/scsi/lpfc/lpfc_hw.h
+index 883e6d2..c2221377 100644
+--- a/drivers/scsi/lpfc/lpfc_hw.h
++++ b/drivers/scsi/lpfc/lpfc_hw.h
+@@ -515,7 +515,15 @@ struct serv_parm {	/* Structure is in Big Endian format */
+ 	struct class_parms cls2;
+ 	struct class_parms cls3;
+ 	struct class_parms cls4;
+-	uint8_t vendorVersion[16];
++	union {
++		uint8_t vendorVersion[16];
++		struct {
++			uint32_t vid;
++#define LPFC_VV_EMLX_ID	0x454d4c58	/* EMLX */
++			uint32_t flags;
++#define LPFC_VV_SUPPRESS_RSP	1
++		} vv;
++	} un;
+ };
+ 
+ /*
+diff --git a/drivers/scsi/lpfc/lpfc_nportdisc.c b/drivers/scsi/lpfc/lpfc_nportdisc.c
+index 470f958..0716818 100644
+--- a/drivers/scsi/lpfc/lpfc_nportdisc.c
++++ b/drivers/scsi/lpfc/lpfc_nportdisc.c
+@@ -288,6 +288,7 @@ lpfc_rcv_plogi(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
+ 	uint32_t ed_tov;
+ 	LPFC_MBOXQ_t *mbox;
+ 	struct ls_rjt stat;
++	uint32_t vid, flag;
+ 	int rc;
+ 
+ 	memset(&stat, 0, sizeof (struct ls_rjt));
+@@ -423,6 +424,15 @@ lpfc_rcv_plogi(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
+ 		lpfc_can_disctmo(vport);
+ 	}
+ 
++	ndlp->nlp_flag &= ~NLP_SUPPRESS_RSP;
++	if ((phba->sli.sli_flag & LPFC_SLI_SUPPRESS_RSP) &&
++	    sp->cmn.valid_vendor_ver_level) {
++		vid = be32_to_cpu(sp->un.vv.vid);
++		flag = be32_to_cpu(sp->un.vv.flags);
++		if ((vid == LPFC_VV_EMLX_ID) && (flag & LPFC_VV_SUPPRESS_RSP))
++			ndlp->nlp_flag |= NLP_SUPPRESS_RSP;
++	}
++
+ 	mbox = mempool_alloc(phba->mbox_mem_pool, GFP_KERNEL);
+ 	if (!mbox)
+ 		goto out;
+@@ -744,6 +754,14 @@ lpfc_rcv_prli(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
+ 		}
+ 		if (npr->Retry)
+ 			ndlp->nlp_fcp_info |= NLP_FCP_2_DEVICE;
++
++		/* If this driver is in nvme target mode, set the ndlp's fc4
++		 * type to NVME provided the PRLI response claims NVME FC4
++		 * type.  Target mode does not issue gft_id so doesn't get
++		 * the fc4 type set until now.
++		 */
++		if ((phba->nvmet_support) && (npr->prliType == PRLI_NVME_TYPE))
++			ndlp->nlp_fc4_type |= NLP_FC4_NVME;
+ 	}
+ 	if (rport) {
+ 		/* We need to update the rport role values */
+@@ -1041,6 +1059,7 @@ lpfc_cmpl_plogi_plogi_issue(struct lpfc_vport *vport,
+ 	struct lpfc_iocbq  *cmdiocb, *rspiocb;
+ 	struct lpfc_dmabuf *pcmd, *prsp, *mp;
+ 	uint32_t *lp;
++	uint32_t vid, flag;
+ 	IOCB_t *irsp;
+ 	struct serv_parm *sp;
+ 	uint32_t ed_tov;
+@@ -1109,6 +1128,16 @@ lpfc_cmpl_plogi_plogi_issue(struct lpfc_vport *vport,
+ 			ed_tov = (phba->fc_edtov + 999999) / 1000000;
+ 		}
+ 
++		ndlp->nlp_flag &= ~NLP_SUPPRESS_RSP;
++		if ((phba->sli.sli_flag & LPFC_SLI_SUPPRESS_RSP) &&
++		    sp->cmn.valid_vendor_ver_level) {
++			vid = be32_to_cpu(sp->un.vv.vid);
++			flag = be32_to_cpu(sp->un.vv.flags);
++			if ((vid == LPFC_VV_EMLX_ID) &&
++			    (flag & LPFC_VV_SUPPRESS_RSP))
++				ndlp->nlp_flag |= NLP_SUPPRESS_RSP;
++		}
++
+ 		/*
+ 		 * Use the larger EDTOV
+ 		 * RATOV = 2 * EDTOV for pt-to-pt
+@@ -1504,9 +1533,37 @@ lpfc_rcv_prli_reglogin_issue(struct lpfc_vport *vport,
+ 			     uint32_t evt)
+ {
+ 	struct lpfc_iocbq *cmdiocb = (struct lpfc_iocbq *) arg;
++	struct ls_rjt     stat;
+ 
+-	/* Initiator mode. */
+-	lpfc_els_rsp_prli_acc(vport, cmdiocb, ndlp);
++	if (vport->phba->nvmet_support) {
++		/* NVME Target mode.  Handle and respond to the PRLI and
++		 * transition to UNMAPPED provided the RPI has completed
++		 * registration.
++		 */
++		if (ndlp->nlp_flag & NLP_RPI_REGISTERED) {
++			lpfc_rcv_prli(vport, ndlp, cmdiocb);
++			lpfc_els_rsp_prli_acc(vport, cmdiocb, ndlp);
++			lpfc_nlp_set_state(vport, ndlp, NLP_STE_UNMAPPED_NODE);
++		} else {
++			/* RPI registration has not completed. Reject the PRLI
++			 * to prevent an illegal state transition when the
++			 * rpi registration does complete.
++			 */
++			lpfc_printf_vlog(vport, KERN_WARNING, LOG_NVME_DISC,
++					 "6115 NVMET ndlp rpi %d state "
++					 "unknown, state x%x flags x%08x\n",
++					 ndlp->nlp_rpi, ndlp->nlp_state,
++					 ndlp->nlp_flag);
++			memset(&stat, 0, sizeof(struct ls_rjt));
++			stat.un.b.lsRjtRsnCode = LSRJT_UNABLE_TPC;
++			stat.un.b.lsRjtRsnCodeExp = LSEXP_CMD_IN_PROGRESS;
++			lpfc_els_rsp_reject(vport, stat.un.lsRjtError, cmdiocb,
++					    ndlp, NULL);
++		}
++	} else {
++		/* Initiator mode. */
++		lpfc_els_rsp_prli_acc(vport, cmdiocb, ndlp);
++	}
+ 
+ 	return ndlp->nlp_state;
  }
+@@ -1668,7 +1725,12 @@ lpfc_cmpl_reglogin_reglogin_issue(struct lpfc_vport *vport,
+ 		lpfc_nlp_set_state(vport, ndlp, NLP_STE_PRLI_ISSUE);
+ 		lpfc_issue_els_prli(vport, ndlp, 0);
+ 	} else {
+-		/* Only Fabric ports should transition */
++		if ((vport->fc_flag & FC_PT2PT) && phba->nvmet_support)
++			phba->targetport->port_id = vport->fc_myDID;
++
++		/* Only Fabric ports should transition. NVME target
++		 * must complete PRLI.
++		 */
+ 		if (ndlp->nlp_type & NLP_FABRIC) {
+ 			ndlp->nlp_prev_state = NLP_STE_REG_LOGIN_ISSUE;
+ 			lpfc_nlp_set_state(vport, ndlp, NLP_STE_UNMAPPED_NODE);
+@@ -1714,6 +1776,13 @@ lpfc_device_recov_reglogin_issue(struct lpfc_vport *vport,
+ 	lpfc_nlp_set_state(vport, ndlp, NLP_STE_NPR_NODE);
+ 	spin_lock_irq(shost->host_lock);
+ 
++	/* If we are a target we won't immediately transition into PRLI,
++	 * so if REG_LOGIN already completed we don't need to ignore it.
++	 */
++	if (!(ndlp->nlp_flag & NLP_RPI_REGISTERED) ||
++	    !vport->phba->nvmet_support)
++		ndlp->nlp_flag |= NLP_IGNR_REG_CMPL;
++
+ 	ndlp->nlp_flag &= ~(NLP_NODEV_REMOVE | NLP_NPR_2B_DISC);
+ 	spin_unlock_irq(shost->host_lock);
+ 	lpfc_disc_set_adisc(vport, ndlp);
 -- 
 2.5.0
