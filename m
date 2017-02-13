@@ -1,15 +1,19 @@
 From: parav@mellanox.com (Parav Pandit)
-Date: Mon, 13 Feb 2017 16:11:49 +0000
+Date: Mon, 13 Feb 2017 16:12:49 +0000
 Subject: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on every
  request.
 References: <1486507066-23168-1-git-send-email-parav@mellanox.com>
  <5bcb5982-36a6-67f5-8416-45e321235fa9@grimberg.me>
  <VI1PR0502MB3008C2598C5492B2EB4D1E55D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
  <700fde5d-3b84-2279-4176-c871364d4b97@grimberg.me> 
-Message-ID: <VI1PR0502MB3008753C22DDAD6B5C20FC57D1590@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+Message-ID: <VI1PR0502MB3008119A87F7058CAA4B22C0D1590@VI1PR0502MB3008.eurprd05.prod.outlook.com>
 
-Hi Sagi,
+Hi James,
 
+Does this change look fine for FC?
+I do not have infrastructure to test the FC side.
+
+Parav
 
 > -----Original Message-----
 > From: Parav Pandit
@@ -19,6 +23,17 @@ Hi Sagi,
 > Subject: RE: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on
 > every request.
 > 
+> Hi Sagi,
+> 
+> > -----Original Message-----
+> > From: Sagi Grimberg [mailto:sagi at grimberg.me]
+> > Sent: Wednesday, February 8, 2017 12:18 PM
+> > To: Parav Pandit <parav at mellanox.com>; hch at lst.de;
+> > james.smart at broadcom.com; linux-nvme at lists.infradead.org
+> > Subject: Re: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers
+> > on every request.
+> >
+> >
 > > >>> Additionally this patch further avoid nvme cq and sq pointer
 > > >>> initialization for every request during every request processing
 > > >>> for rdma because nvme queue linking occurs during queue allocation
@@ -73,5 +88,3 @@ Hi Sagi,
 > regular RQ numbers :-) ).
 > 
 > 
-Did you get chance to review my comments?
-Can you please ack that this doesn't break the SRQ? 
