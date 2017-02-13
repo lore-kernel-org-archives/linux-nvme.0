@@ -1,29 +1,25 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 13 Feb 2017 09:29:37 +0100
-Subject: [PATCH v3 02/16] lpfc: use pci_irq_alloc_vectors and
- pci_irq_free_vectors
-In-Reply-To: <58a0d91a.9n5crfX+63xwYfdj%jsmart2021@gmail.com>
-References: <58a0d91a.9n5crfX+63xwYfdj%jsmart2021@gmail.com>
-Message-ID: <041a559d-036b-0782-dafc-159872cc7940@suse.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 13 Feb 2017 09:30:17 +0100
+Subject: [PATCH v3 04/16] lpfc: refactor debugfs queue prints
+In-Reply-To: <58a0d91c.FMlII2L+0d4RFlSj%jsmart2021@gmail.com>
+References: <58a0d91c.FMlII2L+0d4RFlSj%jsmart2021@gmail.com>
+Message-ID: <e7b44d7b-7733-24e1-f598-65285fef43df@suse.de>
 
 On 02/12/2017 10:52 PM, James Smart wrote:
 > 
-> From: Christoph Hellwig <hch at lst.de>
+> Create common wq, cq, eq, rq print functions
 > 
-> This avoids having to store the msix_entries array and simpliefies the
-> shutdown and cleanup path a lot.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
-> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+> ---
 
-Cheers,
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-Hannes
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
 HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
