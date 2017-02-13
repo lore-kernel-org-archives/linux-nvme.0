@@ -1,27 +1,35 @@
 From: scott.bauer@intel.com (Scott Bauer)
-Date: Mon, 13 Feb 2017 09:11:12 -0700
-Subject: [PATCH V5 4/4] Maintainers: Modify SED list from nvme to block
-In-Reply-To: <1487002272-17940-1-git-send-email-scott.bauer@intel.com>
+Date: Mon, 13 Feb 2017 09:15:10 -0700
+Subject: [PATCH V5 1/4] block: sed-opal: change ioctl to take user
+ pointer instead of unsinged long
+In-Reply-To: <1487002272-17940-2-git-send-email-scott.bauer@intel.com>
 References: <1487002272-17940-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <1487002272-17940-5-git-send-email-scott.bauer@intel.com>
+ <1487002272-17940-2-git-send-email-scott.bauer@intel.com>
+Message-ID: <20170213161509.GA18913@sbauer-Z170X-UD5>
 
-Signed-off-by: Scott Bauer <scott.bauer at intel.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+esOn Mon, Feb 13, 2017@09:11:09AM -0700, Scott Bauer wrote:
+> Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+> ---
+>  block/sed-opal.c         | 6 ++++--
+>  drivers/nvme/host/core.c | 3 ++-
+>  include/linux/sed-opal.h | 4 ++--
+>  3 files changed, 8 insertions(+), 5 deletions(-)
+> 
+> diff --git a/block/sed-opal.c b/block/sed-opal.c
+> index bf1406e..2448d4a 100644
+> --- a/block/sed-opal.c
+> +++ b/block/sed-opal.c
+> @@ -2344,9 +2344,11 @@ bool opal_unlock_from_suspend(struct opal_dev *dev)
+>  }
+>  EXPORT_SYMBOL(opal_unlock_from_suspend);
+>  
+> -int sed_ioctl(struct opal_dev *dev, unsigned int cmd, unsigned long ptr)
+> +int sed_ioctl(struct opal_dev *dev, unsigned int cmd, void __user *arg)
+>  {
+> -	void __user *arg = (void __user *)ptr;
+> +	void *ioctl_ptr;
+> +	int ret = -ENOTTY;
+> +	unsigned int cmd_size = _IOC_SIZE(cmd);
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e325373..b983b25 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11094,7 +11094,7 @@ SECURE ENCRYPTING DEVICE (SED) OPAL DRIVER
- M:	Scott Bauer <scott.bauer at intel.com>
- M:	Jonathan Derrick <jonathan.derrick at intel.com>
- M:	Rafael Antognolli <rafael.antognolli at intel.com>
--L:	linux-nvme at lists.infradead.org
-+L:	linux-block at vger.kernel.org
- S:	Supported
- F:	block/sed*
- F:	block/opal_proto.h
--- 
-2.7.4
+ugh, I apparently messed up my rebase these should be in patch 2 or maybe I should
+sqash p1 and p2  together.
