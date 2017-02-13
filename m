@@ -1,27 +1,23 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 12 Feb 2017 23:54:22 -0800
-Subject: [PATCH V4 2/2] Move stack parameters for sed_ioctl to prevent
- oversized stack with CONFIG_KASAN
-In-Reply-To: <1486742454-3254-3-git-send-email-scott.bauer@intel.com>
-References: <1486742454-3254-1-git-send-email-scott.bauer@intel.com>
- <1486742454-3254-3-git-send-email-scott.bauer@intel.com>
-Message-ID: <20170213075422.GB20361@infradead.org>
+From: hch@infradead.org (hch@infradead.org)
+Date: Mon, 13 Feb 2017 00:04:54 -0800
+Subject: [PATCH v2 4/4] Maintainers: Add Information for SED Opal library
+In-Reply-To: <20170210164458.GB2734@sbauer-Z170X-UD5>
+References: <1480456322-27339-1-git-send-email-scott.bauer@intel.com>
+ <1480456322-27339-5-git-send-email-scott.bauer@intel.com>
+ <DF4PR84MB0169EB8A90CC23F59135B464AB440@DF4PR84MB0169.NAMPRD84.PROD.OUTLOOK.COM>
+ <20170210164458.GB2734@sbauer-Z170X-UD5>
+Message-ID: <20170213080454.GA18903@infradead.org>
 
->  int sed_ioctl(struct opal_dev *dev, unsigned int cmd, unsigned long ptr)
->  {
-> +	void *ioctl_ptr;
-> +	int ret = -ENOTTY;
->  	void __user *arg = (void __user *)ptr;
+On Fri, Feb 10, 2017@09:44:59AM -0700, Scott Bauer wrote:
+> > > +F:include/linux/sed*
+> > > +F:include/uapi/linux/sed*
+> > 
+> > Since this is in the block tree and is not nvme specific, could you use
+> > linux-block as the main list?
+> 
+> Sure, that's fine. Is there a way to denote "main list" in maintainers,
+> or just list it first?
 
-Can we use this opportunity to clean up the usual ioctl argument mess.
-Id say pass the "void __user *argp" argument already (nvme_ioctl should
-have a local variable for it anyway), and then just rename ioctl_ptr
-variable to the usual short p.
-
-> +	unsigned int cmd_size = _IOC_SIZE(cmd);
->  
-
-> +	ioctl_ptr = memdup_user(arg, cmd_size);
-
-cmd_size is only used once, so why not opencode the expression in the
-argument to memdup_user.
+I'd just use linux-block - traffic isn't much higher than the nvme list,
+and it fits a lot better.  FYI, I hope to have ATA (and as byproduct
+SCSI) support ready for the next merge window.
