@@ -1,19 +1,23 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 13 Feb 2017 09:55:38 +0100
-Subject: [PATCH v3 07/16] lpfc: NVME Initiator: Merge into FC discovery
-In-Reply-To: <58a0d91f.nboC53FhKREevlcy%jsmart2021@gmail.com>
-References: <58a0d91f.nboC53FhKREevlcy%jsmart2021@gmail.com>
-Message-ID: <d1daaf33-c909-bb7f-c1ca-58a3449c6b79@suse.de>
+Date: Mon, 13 Feb 2017 09:59:57 +0100
+Subject: [PATCH v3 08/16] lpfc: NVME Initiator: bind to nvme_fc api
+In-Reply-To: <58a0d920.BHYSqh6Jz9Hoai1s%jsmart2021@gmail.com>
+References: <58a0d920.BHYSqh6Jz9Hoai1s%jsmart2021@gmail.com>
+Message-ID: <75bdcb47-789e-7cbe-7c12-b7427c9ee7a4@suse.de>
 
 On 02/12/2017 10:52 PM, James Smart wrote:
 > 
-> NVME Initiator: Merge into FC discovery
+> NVME Initiator: Tie in to NVME Fabrics nvme_fc LLDD initiator api
 > 
-> Adds NVME PRLI support and Nameserver registrations and Queries for NVME
+> Adds the routines to:
+> - register and deregister the FC port as a nvme-fc initiator localport
+> - register and deregister remote FC ports as a nvme-fc remoteport
+> - binding of nvme queues to adapter WQs
+> - send/perform NVME LS's
+> - send/perform NVME FCP initiator io operations
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
