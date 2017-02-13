@@ -1,13 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 13 Feb 2017 09:18:34 +0100
-Subject: [PATCH v3 16/16] lpfc: Update lpfc version to 11.2.0.7
-In-Reply-To: <58a0d928.Zhz1nZh7kjbELlcG%jsmart2021@gmail.com>
-References: <58a0d928.Zhz1nZh7kjbELlcG%jsmart2021@gmail.com>
-Message-ID: <50c6f558-cca8-4326-21b2-9cbc929843f4@suse.de>
+Date: Mon, 13 Feb 2017 09:19:19 +0100
+Subject: [PATCH v3 15/16] lpfc: Update copyrights
+In-Reply-To: <58a0d927.Lc7/+JzyheHf2blh%jsmart2021@gmail.com>
+References: <58a0d927.Lc7/+JzyheHf2blh%jsmart2021@gmail.com>
+Message-ID: <daebe3e1-6613-7cbf-cf83-3cac3995c8fd@suse.de>
 
 On 02/12/2017 10:52 PM, James Smart wrote:
 > 
-> Update lpfc version to 11.2.0.7
+> Update copyrights to 2017 for all files touched in this patch set
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
