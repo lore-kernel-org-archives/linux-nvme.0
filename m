@@ -1,21 +1,15 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 13 Feb 2017 10:17:17 +0100
-Subject: [PATCH v3 13/16] lpfc: NVME Target: bind to nvmet_fc api
-In-Reply-To: <58a0d925.kcLFILjOKj1r3hVd%jsmart2021@gmail.com>
-References: <58a0d925.kcLFILjOKj1r3hVd%jsmart2021@gmail.com>
-Message-ID: <9b84947c-e44d-b5b8-e61a-b994e4d9dd80@suse.de>
+Date: Mon, 13 Feb 2017 10:17:43 +0100
+Subject: [PATCH v3 14/16] lpfc: NVME Target: Add debugfs support
+In-Reply-To: <58a0d926.j1Mfi9jXdyU4nDWM%jsmart2021@gmail.com>
+References: <58a0d926.j1Mfi9jXdyU4nDWM%jsmart2021@gmail.com>
+Message-ID: <a7834a6e-2610-57d7-54bd-ef6a6f307fe5@suse.de>
 
 On 02/12/2017 10:52 PM, James Smart wrote:
 > 
-> NVME Target: Tie in to NVME Fabrics nvmet_fc LLDD target api
+> NVME Target: Add debugfs support
 > 
-> Adds the routines to:
-> - register and deregister the FC port as a nvmet-fc targetport
-> - binding of nvme queues to adapter WQs
-> - receipt and passing of NVME LS's to transport, sending transport response
-> - receipt of NVME FCP CMD IUs, processing FCP target io data transmission
->   commands; transmission of FCP io response
-> - Abort operations for tgt io exchanges
+> Adds debugfs snippets to cover the new NVME target functionality
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
