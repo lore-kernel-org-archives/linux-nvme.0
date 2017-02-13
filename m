@@ -1,20 +1,15 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 13 Feb 2017 09:59:57 +0100
-Subject: [PATCH v3 08/16] lpfc: NVME Initiator: bind to nvme_fc api
-In-Reply-To: <58a0d920.BHYSqh6Jz9Hoai1s%jsmart2021@gmail.com>
-References: <58a0d920.BHYSqh6Jz9Hoai1s%jsmart2021@gmail.com>
-Message-ID: <75bdcb47-789e-7cbe-7c12-b7427c9ee7a4@suse.de>
+Date: Mon, 13 Feb 2017 10:00:51 +0100
+Subject: [PATCH v3 09/16] lpfc: NVME Initiator: Add debugfs support
+In-Reply-To: <58a0d921.mH+KNbibgP5l6GvQ%jsmart2021@gmail.com>
+References: <58a0d921.mH+KNbibgP5l6GvQ%jsmart2021@gmail.com>
+Message-ID: <b90a543d-eb95-23a2-5663-646919de0519@suse.de>
 
 On 02/12/2017 10:52 PM, James Smart wrote:
 > 
-> NVME Initiator: Tie in to NVME Fabrics nvme_fc LLDD initiator api
+> NVME Initiator: Add debugfs support
 > 
-> Adds the routines to:
-> - register and deregister the FC port as a nvme-fc initiator localport
-> - register and deregister remote FC ports as a nvme-fc remoteport
-> - binding of nvme queues to adapter WQs
-> - send/perform NVME LS's
-> - send/perform NVME FCP initiator io operations
+> Adds debugfs snippets to cover the new NVME initiator functionality
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
