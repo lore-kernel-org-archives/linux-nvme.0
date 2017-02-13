@@ -1,90 +1,71 @@
-From: parav@mellanox.com (Parav Pandit)
-Date: Mon, 13 Feb 2017 16:12:49 +0000
-Subject: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on every
- request.
-References: <1486507066-23168-1-git-send-email-parav@mellanox.com>
- <5bcb5982-36a6-67f5-8416-45e321235fa9@grimberg.me>
- <VI1PR0502MB3008C2598C5492B2EB4D1E55D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
- <700fde5d-3b84-2279-4176-c871364d4b97@grimberg.me> 
-Message-ID: <VI1PR0502MB3008119A87F7058CAA4B22C0D1590@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Mon, 13 Feb 2017 09:11:09 -0700
+Subject: [PATCH V5 1/4] block: sed-opal: change ioctl to take user pointer
+ instead of unsinged long
+In-Reply-To: <1487002272-17940-1-git-send-email-scott.bauer@intel.com>
+References: <1487002272-17940-1-git-send-email-scott.bauer@intel.com>
+Message-ID: <1487002272-17940-2-git-send-email-scott.bauer@intel.com>
 
-Hi James,
+Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+---
+ block/sed-opal.c         | 6 ++++--
+ drivers/nvme/host/core.c | 3 ++-
+ include/linux/sed-opal.h | 4 ++--
+ 3 files changed, 8 insertions(+), 5 deletions(-)
 
-Does this change look fine for FC?
-I do not have infrastructure to test the FC side.
-
-Parav
-
-> -----Original Message-----
-> From: Parav Pandit
-> Sent: Wednesday, February 8, 2017 2:03 PM
-> To: 'Sagi Grimberg' <sagi at grimberg.me>; hch at lst.de;
-> james.smart at broadcom.com; linux-nvme at lists.infradead.org
-> Subject: RE: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on
-> every request.
-> 
-> Hi Sagi,
-> 
-> > -----Original Message-----
-> > From: Sagi Grimberg [mailto:sagi at grimberg.me]
-> > Sent: Wednesday, February 8, 2017 12:18 PM
-> > To: Parav Pandit <parav at mellanox.com>; hch at lst.de;
-> > james.smart at broadcom.com; linux-nvme at lists.infradead.org
-> > Subject: Re: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers
-> > on every request.
-> >
-> >
-> > >>> Additionally this patch further avoid nvme cq and sq pointer
-> > >>> initialization for every request during every request processing
-> > >>> for rdma because nvme queue linking occurs during queue allocation
-> > >>> time for AQ and IOQ.
-> > >>
-> > >> This breaks SRQ mode where every nvmet_rdma_cmd serves different
-> > >> queues in it's lifetime..
-> > >
-> > > I fail to understand that.
-> > > nvmet_rdma_create_queue_ib() is call for as many QPs as we create;
-> > > not
-> > based on number of SRQs we create.
-> >
-> > Correct.
-> >
-> > > nvmet_rdma_queue stores cq and sq.
-> >
-> > Correct.
-> >
-> > > So there are as many cq and sq on the fabric side as QPs for
-> > > fabric_connect
-> > command is called.
-> > > queue is pulled out of cq context on which we received the command.
-> > > SRQ is just a place shared among this nvme queues to share the RQ
-> > > buffer,
-> > right?
-> >
-> > Correct too, but we then assign the queue to the command, which is the
-> > context of the received SQE (maybe with in-capsule data). For the SRQ
-> > case we allocate the commands and pre-post them (before we have any
-> > queues), they are absolutely not bound to a given queue, they can't
-> actually.
-> >
-> > So for each new recv completion, the command context is now bound to
-> > the queue that it completed on, so it can be bound to different queues
-> > in its life- time.
-> 
-> Sorry, I am still not getting it.
-> nvmet_rdma_rsp structure contains nvmet_req.
-> nvmet_rdma_rsp (and so nvmet_req) are per QP allocations.
-> cq and sq pointers are initialized inside nvmet_req.
-> 
-> nvmet_rdma_cmd is per RQ/SRQ allocation.
-> When we do recv_done(), we bind rsp structure to cmd (cmd can be from RQ
-> or SRQ).
-> So I believe this is still good.
-> If we have cq and sq pointer inside the nvmet_rdma_cmd than I can
-> understand that it can break.
-> 
-> On a side note: I tested the patch with use_srq flag (but didn't publish its
-> performance numbers as they awaiting your per core SRQ fixes to match
-> regular RQ numbers :-) ).
-> 
-> 
+diff --git a/block/sed-opal.c b/block/sed-opal.c
+index bf1406e..2448d4a 100644
+--- a/block/sed-opal.c
++++ b/block/sed-opal.c
+@@ -2344,9 +2344,11 @@ bool opal_unlock_from_suspend(struct opal_dev *dev)
+ }
+ EXPORT_SYMBOL(opal_unlock_from_suspend);
+ 
+-int sed_ioctl(struct opal_dev *dev, unsigned int cmd, unsigned long ptr)
++int sed_ioctl(struct opal_dev *dev, unsigned int cmd, void __user *arg)
+ {
+-	void __user *arg = (void __user *)ptr;
++	void *ioctl_ptr;
++	int ret = -ENOTTY;
++	unsigned int cmd_size = _IOC_SIZE(cmd);
+ 
+ 	if (!capable(CAP_SYS_ADMIN))
+ 		return -EACCES;
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d9f4903..04c48e7 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -811,7 +811,8 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 			return nvme_nvm_ioctl(ns, cmd, arg);
+ #endif
+ 		if (is_sed_ioctl(cmd))
+-			return sed_ioctl(&ns->ctrl->opal_dev, cmd, arg);
++			return sed_ioctl(&ns->ctrl->opal_dev, cmd,
++					 (void __user *) arg);
+ 		return -ENOTTY;
+ 	}
+ }
+diff --git a/include/linux/sed-opal.h b/include/linux/sed-opal.h
+index af1a85e..205d520 100644
+--- a/include/linux/sed-opal.h
++++ b/include/linux/sed-opal.h
+@@ -132,7 +132,7 @@ struct opal_dev {
+ #ifdef CONFIG_BLK_SED_OPAL
+ bool opal_unlock_from_suspend(struct opal_dev *dev);
+ void init_opal_dev(struct opal_dev *opal_dev, sec_send_recv *send_recv);
+-int sed_ioctl(struct opal_dev *dev, unsigned int cmd, unsigned long ptr);
++int sed_ioctl(struct opal_dev *dev, unsigned int cmd, void __user *ioctl_ptr);
+ 
+ static inline bool is_sed_ioctl(unsigned int cmd)
+ {
+@@ -160,7 +160,7 @@ static inline bool is_sed_ioctl(unsigned int cmd)
+ }
+ 
+ static inline int sed_ioctl(struct opal_dev *dev, unsigned int cmd,
+-			    unsigned long ptr)
++			    void __user *ioctl_ptr)
+ {
+ 	return 0;
+ }
+-- 
+2.7.4
