@@ -1,28 +1,25 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 13 Feb 2017 09:30:54 +0100
-Subject: [PATCH v3 03/16] lpfc: minor code cleanups
-In-Reply-To: <58a0d91b.VLyGPk7S2XWliQJD%jsmart2021@gmail.com>
-References: <58a0d91b.VLyGPk7S2XWliQJD%jsmart2021@gmail.com>
-Message-ID: <158bf3bb-4ae9-d834-e1dc-d40940a50c3e@suse.de>
+Date: Mon, 13 Feb 2017 09:32:57 +0100
+Subject: [PATCH v3 04/16] lpfc: refactor debugfs queue prints
+In-Reply-To: <58a0d91c.FMlII2L+0d4RFlSj%jsmart2021@gmail.com>
+References: <58a0d91c.FMlII2L+0d4RFlSj%jsmart2021@gmail.com>
+Message-ID: <c8f1e00a-974a-8e65-4a64-f5fcbe1af0dc@suse.de>
 
 On 02/12/2017 10:52 PM, James Smart wrote:
 > 
-> This contains code cleanups that were in the prior patch set.
-> This allows better review of real changes later.
-> 
-> minor code cleanups:
->  fix indentation, punctuation, line length
->  addition/reduction of whitespace
->  remove unneeded parens, braces
->  lpfc_debugfs_nodelist_data: print as u64 rather than byte by byte
->  covert printk(KERN_ERR to pr_err
->  small print string deltas
->  use num_present_cpus() rather than count them
->  comment updates
->  rctl/type names moved to module variable, not on stack
+> Create common wq, cq, eq, rq print functions
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
+> ---
+>  drivers/scsi/lpfc/lpfc.h         |   1 +
+>  drivers/scsi/lpfc/lpfc_debugfs.c | 564 ++++++++++++++++-----------------------
+>  2 files changed, 228 insertions(+), 337 deletions(-)
+> 
+One should look at converting it to seq_file(), seeing that there are
+provisions for overflow already.
+But that can be done in a later patch.
+
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
