@@ -1,19 +1,24 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 13 Feb 2017 10:15:44 +0100
-Subject: [PATCH v3 12/16] lpfc: NVME Target: Merge into FC discovery
-In-Reply-To: <58a0d924.WAYUSKz7ndFiR9lM%jsmart2021@gmail.com>
-References: <58a0d924.WAYUSKz7ndFiR9lM%jsmart2021@gmail.com>
-Message-ID: <a10bfc96-b0e8-1f9c-13f4-ddef7b9890ef@suse.de>
+Date: Mon, 13 Feb 2017 10:17:17 +0100
+Subject: [PATCH v3 13/16] lpfc: NVME Target: bind to nvmet_fc api
+In-Reply-To: <58a0d925.kcLFILjOKj1r3hVd%jsmart2021@gmail.com>
+References: <58a0d925.kcLFILjOKj1r3hVd%jsmart2021@gmail.com>
+Message-ID: <9b84947c-e44d-b5b8-e61a-b994e4d9dd80@suse.de>
 
 On 02/12/2017 10:52 PM, James Smart wrote:
 > 
-> NVME Target: Merge into FC discovery
+> NVME Target: Tie in to NVME Fabrics nvmet_fc LLDD target api
 > 
-> Adds NVME PRLI handling and Nameserver registrations for NVME
+> Adds the routines to:
+> - register and deregister the FC port as a nvmet-fc targetport
+> - binding of nvme queues to adapter WQs
+> - receipt and passing of NVME LS's to transport, sending transport response
+> - receipt of NVME FCP CMD IUs, processing FCP target io data transmission
+>   commands; transmission of FCP io response
+> - Abort operations for tgt io exchanges
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
-
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
