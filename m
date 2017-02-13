@@ -1,35 +1,40 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Mon, 13 Feb 2017 09:15:10 -0700
-Subject: [PATCH V5 1/4] block: sed-opal: change ioctl to take user
- pointer instead of unsinged long
-In-Reply-To: <1487002272-17940-2-git-send-email-scott.bauer@intel.com>
+From: David.Laight@ACULAB.COM (David Laight)
+Date: Mon, 13 Feb 2017 16:30:36 +0000
+Subject: [PATCH V5 3/4] Move stack parameters for sed_ioctl to prevent
+ oversized stack with CONFIG_KASAN
+In-Reply-To: <1487002272-17940-4-git-send-email-scott.bauer@intel.com>
 References: <1487002272-17940-1-git-send-email-scott.bauer@intel.com>
- <1487002272-17940-2-git-send-email-scott.bauer@intel.com>
-Message-ID: <20170213161509.GA18913@sbauer-Z170X-UD5>
+ <1487002272-17940-4-git-send-email-scott.bauer@intel.com>
+Message-ID: <063D6719AE5E284EB5DD2968C1650D6DB028519B@AcuExch.aculab.com>
 
-esOn Mon, Feb 13, 2017@09:11:09AM -0700, Scott Bauer wrote:
-> Signed-off-by: Scott Bauer <scott.bauer at intel.com>
-> ---
->  block/sed-opal.c         | 6 ++++--
->  drivers/nvme/host/core.c | 3 ++-
->  include/linux/sed-opal.h | 4 ++--
->  3 files changed, 8 insertions(+), 5 deletions(-)
+From: Scott Bauer Sent: 13 February 2017 16:11
+> When CONFIG_KASAN is enabled, compilation fails:
 > 
-> diff --git a/block/sed-opal.c b/block/sed-opal.c
-> index bf1406e..2448d4a 100644
-> --- a/block/sed-opal.c
-> +++ b/block/sed-opal.c
-> @@ -2344,9 +2344,11 @@ bool opal_unlock_from_suspend(struct opal_dev *dev)
->  }
->  EXPORT_SYMBOL(opal_unlock_from_suspend);
->  
-> -int sed_ioctl(struct opal_dev *dev, unsigned int cmd, unsigned long ptr)
-> +int sed_ioctl(struct opal_dev *dev, unsigned int cmd, void __user *arg)
->  {
-> -	void __user *arg = (void __user *)ptr;
-> +	void *ioctl_ptr;
-> +	int ret = -ENOTTY;
-> +	unsigned int cmd_size = _IOC_SIZE(cmd);
+> block/sed-opal.c: In function 'sed_ioctl':
+> block/sed-opal.c:2447:1: error: the frame size of 2256 bytes is larger than 2048 bytes [-Werror=frame-
+> larger-than=]
+> 
+> Moved all the ioctl structures off the stack and dynamically activate
+> using _IOC_SIZE()
 
-ugh, I apparently messed up my rebase these should be in patch 2 or maybe I should
-sqash p1 and p2  together.
+Think I'd not that this simplifies the code considerably.
+AFAICT CONFIG_KASAN is a just brainf*ck.
+It at least needs annotation that copy_from_user() has properties
+similar to memset().
+So if the size matches that of the type then no guard space (etc)
+is required.
+
+...
+> +	ioctl_ptr = memdup_user(arg,  _IOC_SIZE(cmd));
+> +	if (IS_ERR_OR_NULL(ioctl_ptr)) {
+> +		ret = PTR_ERR(ioctl_ptr);
+> +		goto out;
+...
+> + out:
+> +	kfree(ioctl_ptr);
+> +	return ret;
+>  }
+
+That error path doesn't look quite right to me.
+
+	David
