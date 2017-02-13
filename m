@@ -1,47 +1,28 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 13 Feb 2017 10:19:32 +0100
-Subject: [PATCH v3 16/16] lpfc: Update lpfc version to 11.2.0.7
-In-Reply-To: <58a0d928.Zhz1nZh7kjbELlcG%jsmart2021@gmail.com>
-References: <58a0d928.Zhz1nZh7kjbELlcG%jsmart2021@gmail.com>
-Message-ID: <d4587f50-e88a-f322-8205-29052953f502@suse.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 13 Feb 2017 11:18:58 +0100
+Subject: [PATCH 1/5] nvme/pci: Disable on removal when disconnected
+In-Reply-To: <1486768553-13738-2-git-send-email-keith.busch@intel.com>
+References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
+ <1486768553-13738-2-git-send-email-keith.busch@intel.com>
+Message-ID: <fd836369-7662-c9ef-699d-df2478ef7fa1@suse.de>
 
-On 02/12/2017 10:52 PM, James Smart wrote:
+On 02/11/2017 12:15 AM, Keith Busch wrote:
+> If the device is not present, the driver should disable the queues
+> immediately. Prior to this, the driver was relying on the watchdog timer
+> to kill the queues if requests were outstanding to the device, and that
+> just delays removal up to one second.
 > 
-> Update lpfc version to 11.2.0.7
-> 
-> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-> Signed-off-by: James Smart <james.smart at broadcom.com>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 > ---
->  drivers/scsi/lpfc/lpfc_version.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/scsi/lpfc/lpfc_version.h b/drivers/scsi/lpfc/lpfc_version.h
-> index 0d93535..86c6c9b 100644
-> --- a/drivers/scsi/lpfc/lpfc_version.h
-> +++ b/drivers/scsi/lpfc/lpfc_version.h
-> @@ -20,7 +20,7 @@
->   * included with this package.                                     *
->   *******************************************************************/
->  
-> -#define LPFC_DRIVER_VERSION "11.2.0.4"
-> +#define LPFC_DRIVER_VERSION "11.2.0.7"
->  #define LPFC_DRIVER_NAME		"lpfc"
->  
->  /* Used for SLI 2/3 */
-> 
-Hmm. One would have thought that a major rework like this would warrant
-an increased major number.
-But that's probably just me being totally ignorant of any company
-policies :-)
 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-Cheers,
 
-Hannes
 -- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
 HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
