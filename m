@@ -1,40 +1,23 @@
-From: Darren.Trapp@cavium.com (Trapp, Darren)
-Date: Wed, 15 Feb 2017 17:00:49 +0000
-Subject: [PATCH] nvme-cli: fabrics: Fix to pass "host_traddr" to the
- kernel driver.
-In-Reply-To: <23f1e7ba-7085-2692-cc95-ef63a535a31c@grimberg.me>
-References: <n> <1486579584-5660-1-git-send-email-duane.grigsby@qlogic.com>
- <23f1e7ba-7085-2692-cc95-ef63a535a31c@grimberg.me>
-Message-ID: <A4F3AC48-4E31-49F4-9498-6A65C3659EF1@cavium.com>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Wed, 15 Feb 2017 09:36:00 -0800
+Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
+In-Reply-To: <20170215160448.fk3igep336tj5f3k@merlins.org>
+References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
+ <1486768553-13738-6-git-send-email-keith.busch@intel.com>
+ <c42e8e1e-f96f-9b2d-f3e6-72599430a327@grimberg.me>
+ <20170215154649.GA30251@localhost.localdomain>
+ <20170215160448.fk3igep336tj5f3k@merlins.org>
+Message-ID: <1487180160.31009.42.camel@linux.intel.com>
 
-FC requires the host_traddr to make the connection.  If it wasn?t provided, the fc transport wouldn?t have been able to connect to the discovery controller and request the disc page.  Hence, we wouldn?t be here parsing the response.  
 
-Darren Trapp
-Senior Director - Engineering
-darren.trapp at cavium.com <mailto:darren.trapp at caviumnetworks.com>
-T 949-389-6273
-M 949-212-8576
-26650 Aliso Viejo Pkwy, Aliso Viejo, CA 92656
-www.qlogic.com <http://www.qlogic.com/>
- <http://www.qlogic.com/>
+> So while I don't have the knowledge to say whether Keith's patch is the
+> best way to fix my problem, it is the only thing I've seen that works in
+> the last 9 months, and has taken me from 100% failure to 0% failure so
+> far.
+> 
+> As a result, a big thanks to Keith again and thumbs up from me.
 
-On 2/15/17, 1:56 AM, "Linux-nvme on behalf of Sagi Grimberg" <linux-nvme-bounces@lists.infradead.org on behalf of sagi@grimberg.me> wrote:
+You should put a "Tested-by:" tag on the patch to help get this patch accepted
+:-).
 
-    
-    > @@ -595,6 +595,11 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
-    >  				return -EINVAL;
-    >  			p += len;
-    >
-    > +			len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
-    > +			if (len < 0)
-    > +				return -EINVAL;
-    > +			p+= len;
-    > +
-    
-    I think this needs to be conditional on if provided at all.
-    
-    _______________________________________________
-    Linux-nvme mailing list
-    Linux-nvme at lists.infradead.org
-    http://lists.infradead.org/mailman/listinfo/linux-nvme
-    
+>?
