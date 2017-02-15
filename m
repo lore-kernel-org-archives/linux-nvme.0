@@ -1,30 +1,61 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Wed, 15 Feb 2017 11:52:51 -0800
-Subject: [PATCH v3 00/16] lpfc: Add NVME Fabrics support
-In-Reply-To: <bf3afee6-cd38-86fc-2e12-53df9c731987@gmail.com>
-References: <58a0d918.RXFImMqrhYsCnA/U%jsmart2021@gmail.com>
- <3440afa9-9449-3378-6e8f-7cbe8dbb52cf@grimberg.me>
- <bf3afee6-cd38-86fc-2e12-53df9c731987@gmail.com>
-Message-ID: <abb0b870-4afd-b2ef-48aa-8184cb74c0e7@sandisk.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 15 Feb 2017 16:12:41 -0500
+Subject: Linux 4.9.8 + NVMe CiB Issue
+In-Reply-To: <CAHkw+LcMtBp_xC6YdR-c=P-feZJvukNtkeEWueJ_y9wkAg2hUA@mail.gmail.com>
+References: <CAHkw+LcMtBp_xC6YdR-c=P-feZJvukNtkeEWueJ_y9wkAg2hUA@mail.gmail.com>
+Message-ID: <20170215211240.GA23472@localhost.localdomain>
 
-On 02/15/2017 08:04 AM, James Smart wrote:
-> On 2/15/2017 2:12 AM, Sagi Grimberg wrote:
->> Also, can you send your patchset threaded? It usually does so
->> when generating the patches with git format-patch, not sure
->> how this is not the case with your set... It would make my
->> life a bit easier.
+On Wed, Feb 15, 2017@02:27:13PM -0500, Marc Smith wrote:
+> Hi,
 > 
-> Well, I am using git format-patch to create them. But have to revert to
-> a manual mailing request as I haven't been able to get git-send-email
-> working past our firewalls.  Sorry.
+> I'm testing with a Supermicro SSG-2028R-DN2R40L NVMe CiB
+> (cluster-in-a-box) solution. The performance is amazing so far, but I
+> experienced an issue during a performance test while using the fio
+> tool.
+> 
+> Linux 4.9.8
+> fio 2.14
+> 
+> We have just (8) NVMe drives in the "enclosure", and it contains two
+> server nodes, but right now we're just testing from one of the nodes.
+> 
+> This is the command we ran:
+> fio --bs=4k --direct=1 --rw=randread --ioengine=libaio --iodepth=12
+> --numjobs=16 --name=/dev/nvme0n1 --name=/dev/nvme1n1
+> --name=/dev/nvme2n1 --name=/dev/nvme3n1 --name=/dev/nvme4n1
+> --name=/dev/nvme5n1 --name=/dev/nvme6n1 --name=/dev/nvme7n1
+> 
+> After a few seconds, noticed the performance numbers started dropping,
+> and started flaking out. This is what we saw in the kernel logs:
 
-Hello James,
+It looks like your controller stopped posting completions to commands.
 
-In the headers of your patch e-mails I found the following: "User-Agent:
-Heirloom mailx 12.5 6/20/10". As far as I know the transports supported
-by that e-mail client are IMAP, POP3 and SMTP. I think git supports both
-SMTP and IMAP for sending e-mails.
+There is some excessive kernel spamming going on here, though, but that
+fix is already staged for 4.11 inclusion here:
 
-Thanks,
+  http://git.infradead.org/nvme.git/commitdiff/7bf7d778620d83f14fcd92d0938fb97c7d78bf19?hp=9a69b0ed6257ae5e71c99bf21ce53f98c558476a
 
-Bart.
+As to why the driver was triggered to abort IO in the first place, that
+appears to be the device not posting completions on time. As far as I
+can tell, blk-mq's timeout handling won't mistakenly time out a command
+on the initial abort, and the default 30 second timeout should be more
+than enough for your workload.
+
+There does appear to be a small window where blk-mq can miss a completion,
+though: blk-mq's timeout handler sets the REQ_ATOM_COMPLETE flag
+while running the timeout handler, which blocks a natural completion
+from occuring while set. So if a real completion did occur, then that
+completion is lost, which will force the subseqent timeout handler to
+issue a controller reset.
+
+But I don't think that's what's happening here. You are getting time
+outs on admin commands as well, so that really looks like your
+controller just stopped responding.
+
+> --snip--
+> [70961.868655] nvme nvme0: I/O 1009 QID 1 timeout, aborting
+> [70961.868666] nvme nvme0: I/O 1010 QID 1 timeout, aborting
+> [70961.868670] nvme nvme0: I/O 1011 QID 1 timeout, aborting
+> [70961.868673] nvme nvme0: I/O 1013 QID 1 timeout, aborting
+> [70992.073974] nvme nvme0: I/O 1009 QID 1 timeout, reset controller
+> [71022.727229] nvme nvme0: I/O 237 QID 0 timeout, reset controller
