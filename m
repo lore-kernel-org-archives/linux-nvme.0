@@ -1,42 +1,43 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 15 Feb 2017 14:38:20 +0200
-Subject: [PATCH] nvme-cli: fabrics: Fix to pass "host_traddr" to the
- kernel driver.
-In-Reply-To: <23f1e7ba-7085-2692-cc95-ef63a535a31c@grimberg.me>
-References: <n> <1486579584-5660-1-git-send-email-duane.grigsby@qlogic.com>
- <23f1e7ba-7085-2692-cc95-ef63a535a31c@grimberg.me>
-Message-ID: <6f56f570-c0a9-0f8a-2459-ec49ea680364@mellanox.com>
+From: parav@mellanox.com (Parav Pandit)
+Date: Wed, 15 Feb 2017 14:51:21 +0000
+Subject: [PATCH] nvmet: Fixed avoided printing nvmet: twice in error logs.
+In-Reply-To: <07938b52-ca0c-f2bb-d8f8-4964475edf93@grimberg.me>
+References: <1486591039-1177-1-git-send-email-parav@mellanox.com>
+ <07938b52-ca0c-f2bb-d8f8-4964475edf93@grimberg.me>
+Message-ID: <VI1PR0502MB30084AD770E0262118E8443CD15B0@VI1PR0502MB3008.eurprd05.prod.outlook.com>
 
+Ok. I will a patch set with two patches in it as they will be dependent.
+Thanks for the review.
 
-
-On 2/15/2017 11:56 AM, Sagi Grimberg wrote:
->
->> @@ -595,6 +595,11 @@ static int connect_ctrl(struct
->> nvmf_disc_rsp_page_entry *e)
->>                  return -EINVAL;
->>              p += len;
->>
->> +            len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
->> +            if (len < 0)
->> +                return -EINVAL;
->> +            p+= len;
->> +
->
-> I think this needs to be conditional on if provided at all.
->
-
-Also, currently this is implemented for FC but I'll want to add an 
-option for rdma too.
-so we'll be able to use it like that:
-
-nvme connect -t rdma -n testsubsystem -a <target_ip> -w <host_ip> -s 1023
-
-in case we want to choose the interface for rdma_resolve_addr.
-I'll put it on my plate.
-
-Max.
-
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> -----Original Message-----
+> From: Sagi Grimberg [mailto:sagi at grimberg.me]
+> Sent: Wednesday, February 15, 2017 2:55 AM
+> To: Parav Pandit <parav at mellanox.com>; hch at lst.de; linux-
+> nvme at lists.infradead.org
+> Subject: Re: [PATCH] nvmet: Fixed avoided printing nvmet: twice in error
+> logs.
+> 
+> 
+> > This patch avoids printing "nvmet:" twice in error logs as its already
+> > coming through pr_fmt macro.
+> > It makes some of the logs more verbose by including qid to it.
+> > It avoid code duplication for checking controller status for admin and
+> > io queue by having common function for both that further can be reused
+> > by other transports.
+> > Fixed typo reported by Max Gurtovoy.
+> 
+> Hey Parav,
+> 
+> This looks good but please split this patch to:
+> 1. nvmet_check_ctrl_status()
+> 2. remove "nvmet:" from logging
+> 
+> > @@ -645,6 +645,22 @@ u16 nvmet_ctrl_find_get(const char *subsysnqn,
+> const char *hostnqn, u16 cntlid,
+> >  	return status;
+> >  }
+> >
+> > +int nvmet_check_ctrl_status(struct nvmet_req *req, struct
+> > +nvme_command *cmd)
+> 
+> Please return u16 status here.
