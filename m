@@ -1,27 +1,17 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Tue, 14 Feb 2017 17:29:37 -0700
-Subject: [PATCH V6 3/3] Maintainers: Modify SED list from nvme to block
+From: axboe@fb.com (Jens Axboe)
+Date: Tue, 14 Feb 2017 19:47:50 -0700
+Subject: [PATCH V6 1/3] uapi: sed-opal fix IOW for activate lsp to use
+ correct struct
 In-Reply-To: <1487118577-1719-1-git-send-email-scott.bauer@intel.com>
 References: <1487118577-1719-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <1487118577-1719-3-git-send-email-scott.bauer@intel.com>
+Message-ID: <9cd7e86f-7d2f-f58e-65c1-7f7ddd85b904@fb.com>
 
-Signed-off-by: Scott Bauer <scott.bauer at intel.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 02/14/2017 05:29 PM, Scott Bauer wrote:
+> The IOC_OPAL_ACTIVATE_LSP took the wrong strcure which would
+> give us the wrong size when using _IOC_SIZE, switch it to the
+> right structure.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index e325373..b983b25 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11094,7 +11094,7 @@ SECURE ENCRYPTING DEVICE (SED) OPAL DRIVER
- M:	Scott Bauer <scott.bauer at intel.com>
- M:	Jonathan Derrick <jonathan.derrick at intel.com>
- M:	Rafael Antognolli <rafael.antognolli at intel.com>
--L:	linux-nvme at lists.infradead.org
-+L:	linux-block at vger.kernel.org
- S:	Supported
- F:	block/sed*
- F:	block/opal_proto.h
+Applied 1-3, thanks.
+
 -- 
-2.7.4
+Jens Axboe
