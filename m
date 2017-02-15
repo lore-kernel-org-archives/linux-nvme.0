@@ -1,41 +1,32 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 14 Feb 2017 19:47:19 +0200
-Subject: [PATCH] nvme-cli: fabrics: Fix to pass "host_traddr" to the
- kernel driver.
-In-Reply-To: <1486579584-5660-1-git-send-email-duane.grigsby@qlogic.com>
-References: <n> <1486579584-5660-1-git-send-email-duane.grigsby@qlogic.com>
-Message-ID: <38171155-38a1-096d-2069-91bb4e09f6f7@mellanox.com>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Tue, 14 Feb 2017 17:29:35 -0700
+Subject: [PATCH V6 1/3] uapi: sed-opal fix IOW for activate lsp to use correct
+ struct
+Message-ID: <1487118577-1719-1-git-send-email-scott.bauer@intel.com>
 
-Hi Darren,
-Can you send an example for usage ?
-I want to try this out.
+The IOC_OPAL_ACTIVATE_LSP took the wrong strcure which would
+give us the wrong size when using _IOC_SIZE, switch it to the
+right structure.
 
-thanks,
-Max.
+Fixes: 058f8a2 ("Include: Uapi: Add user ABI for Sed/Opal")
 
-On 2/8/2017 8:46 PM, Duane Grigsby wrote:
-> This fix adds the  "host_traddr" to the contructed string that is
-> passed to the kernel.
->
-> Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
-> ---
->  fabrics.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/fabrics.c b/fabrics.c
-> index 362ca6f..3f6be53 100644
-> --- a/fabrics.c
-> +++ b/fabrics.c
-> @@ -595,6 +595,11 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
->  				return -EINVAL;
->  			p += len;
->
-> +			len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
-> +			if (len < 0)
-> +				return -EINVAL;
-> +			p+= len;
-> +
->  			len = sprintf(p, ",traddr=%s", e->traddr);
->  			if (len < 0)
->  				return -EINVAL;
->
+Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+---
+ include/uapi/linux/sed-opal.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/include/uapi/linux/sed-opal.h b/include/uapi/linux/sed-opal.h
+index fc06e3a..c72e073 100644
+--- a/include/uapi/linux/sed-opal.h
++++ b/include/uapi/linux/sed-opal.h
+@@ -106,7 +106,7 @@ struct opal_mbr_data {
+ #define IOC_OPAL_SAVE		    _IOW('p', 220, struct opal_lock_unlock)
+ #define IOC_OPAL_LOCK_UNLOCK	    _IOW('p', 221, struct opal_lock_unlock)
+ #define IOC_OPAL_TAKE_OWNERSHIP	    _IOW('p', 222, struct opal_key)
+-#define IOC_OPAL_ACTIVATE_LSP       _IOW('p', 223, struct opal_key)
++#define IOC_OPAL_ACTIVATE_LSP       _IOW('p', 223, struct opal_lr_act)
+ #define IOC_OPAL_SET_PW             _IOW('p', 224, struct opal_new_pw)
+ #define IOC_OPAL_ACTIVATE_USR       _IOW('p', 225, struct opal_session_info)
+ #define IOC_OPAL_REVERT_TPR         _IOW('p', 226, struct opal_key)
+-- 
+2.7.4
