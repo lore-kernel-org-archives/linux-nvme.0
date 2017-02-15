@@ -1,20 +1,8 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 15 Feb 2017 11:56:49 +0200
-Subject: [PATCH] nvme-cli: fabrics: Fix to pass "host_traddr" to the
- kernel driver.
-In-Reply-To: <1486579584-5660-1-git-send-email-duane.grigsby@qlogic.com>
-References: <n> <1486579584-5660-1-git-send-email-duane.grigsby@qlogic.com>
-Message-ID: <23f1e7ba-7085-2692-cc95-ef63a535a31c@grimberg.me>
+Date: Wed, 15 Feb 2017 12:00:06 +0200
+Subject: [PATCH v4 0/2] [PATCH v4 0/2] nvme: APST support
+In-Reply-To: <cover.1486490885.git.luto@kernel.org>
+References: <cover.1486490885.git.luto@kernel.org>
+Message-ID: <684b1341-b942-144e-3f71-2248e6b4fb8a@grimberg.me>
 
-
-> @@ -595,6 +595,11 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
->  				return -EINVAL;
->  			p += len;
->
-> +			len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
-> +			if (len < 0)
-> +				return -EINVAL;
-> +			p+= len;
-> +
-
-I think this needs to be conditional on if provided at all.
+I've queued this up for nvme-4.11, thanks.
