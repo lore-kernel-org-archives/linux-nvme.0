@@ -1,17 +1,29 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Tue, 14 Feb 2017 19:47:50 -0700
-Subject: [PATCH V6 1/3] uapi: sed-opal fix IOW for activate lsp to use
- correct struct
-In-Reply-To: <1487118577-1719-1-git-send-email-scott.bauer@intel.com>
-References: <1487118577-1719-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <9cd7e86f-7d2f-f58e-65c1-7f7ddd85b904@fb.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 15 Feb 2017 10:54:56 +0200
+Subject: [PATCH] nvmet: Fixed avoided printing nvmet: twice in error logs.
+In-Reply-To: <1486591039-1177-1-git-send-email-parav@mellanox.com>
+References: <1486591039-1177-1-git-send-email-parav@mellanox.com>
+Message-ID: <07938b52-ca0c-f2bb-d8f8-4964475edf93@grimberg.me>
 
-On 02/14/2017 05:29 PM, Scott Bauer wrote:
-> The IOC_OPAL_ACTIVATE_LSP took the wrong strcure which would
-> give us the wrong size when using _IOC_SIZE, switch it to the
-> right structure.
 
-Applied 1-3, thanks.
+> This patch avoids printing "nvmet:" twice in error logs as its already
+> coming through pr_fmt macro.
+> It makes some of the logs more verbose by including qid to it.
+> It avoid code duplication for checking controller status for admin and
+> io queue by having common function for both that further can be reused
+> by other transports.
+> Fixed typo reported by Max Gurtovoy.
 
--- 
-Jens Axboe
+Hey Parav,
+
+This looks good but please split this patch to:
+1. nvmet_check_ctrl_status()
+2. remove "nvmet:" from logging
+
+> @@ -645,6 +645,22 @@ u16 nvmet_ctrl_find_get(const char *subsysnqn, const char *hostnqn, u16 cntlid,
+>  	return status;
+>  }
+>
+> +int nvmet_check_ctrl_status(struct nvmet_req *req, struct nvme_command *cmd)
+
+Please return u16 status here.
