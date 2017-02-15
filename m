@@ -1,43 +1,24 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 15 Feb 2017 08:04:54 -0800
-Subject: [PATCH v3 00/16] lpfc: Add NVME Fabrics support
-In-Reply-To: <3440afa9-9449-3378-6e8f-7cbe8dbb52cf@grimberg.me>
-References: <58a0d918.RXFImMqrhYsCnA/U%jsmart2021@gmail.com>
- <3440afa9-9449-3378-6e8f-7cbe8dbb52cf@grimberg.me>
-Message-ID: <bf3afee6-cd38-86fc-2e12-53df9c731987@gmail.com>
+From: hch@lst.de (hch@lst.de)
+Date: Wed, 15 Feb 2017 17:15:23 +0100
+Subject: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on
+ every request.
+In-Reply-To: <fbe16be7-ed21-d231-471e-cdffe346264b@grimberg.me>
+References: <1486507066-23168-1-git-send-email-parav@mellanox.com>
+ <5bcb5982-36a6-67f5-8416-45e321235fa9@grimberg.me>
+ <VI1PR0502MB3008C2598C5492B2EB4D1E55D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+ <700fde5d-3b84-2279-4176-c871364d4b97@grimberg.me>
+ <VI1PR0502MB3008753C22DDAD6B5C20FC57D1590@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+ <fbe16be7-ed21-d231-471e-cdffe346264b@grimberg.me>
+Message-ID: <20170215161523.GA27837@lst.de>
 
-
-
-On 2/15/2017 2:12 AM, Sagi Grimberg wrote:
+On Wed, Feb 15, 2017@10:58:32AM +0200, Sagi Grimberg wrote:
+> Yep, forgot that the sq/cq are referenced from the rsp which is
+> per-queue.
 >
->>
->> The patches were cut against 1/30 scsi.git tree, misc branch.
->> ** THEY ARE INTENDED FOR THE SCSI.GIT TREE, MISC BRANCH **
->>
->> The lpfc version in the linux-block.git tree is rather old. I have a
->> recipe for how to get it to a version that syncs with the
->> scsi.git/misc tree so that these patches can apply there as well.
->> Contact me if you would like it.
->
-> This set does not seem to apply cleanly on nvme-4.11 tree, looks
-> like patch 6 is failing.
+> Christoph, James, can I get an ack from you guys?
 
-As I stated - the patches were cut vs the scsi.git tree - where the most 
-recent lpfc is. So I expected merge via the scsi.git tree.
+I really hate the nvmet_req_fabric_ops_init and
+nvmet_req_link_to_nvme_queues helpers, just use direct assignments
+instead of trivial helpers with crazy long names.
 
-Given how old the scsi/lpfc part was on linux-block as of a little while 
-ago, it doesn't surprise me they aren't clean.  I'll cut a version vs 
-git.infradead.orig/nvme.git nvme-4.11 and send them privately.
-
-
->
-> Also, can you send your patchset threaded? It usually does so
-> when generating the patches with git format-patch, not sure
-> how this is not the case with your set... It would make my
-> life a bit easier.
-
-Well, I am using git format-patch to create them. But have to revert to 
-a manual mailing request as I haven't been able to get git-send-email 
-working past our firewalls.  Sorry.
-
--- james
+I need to look at it a bit more for the a real review.
