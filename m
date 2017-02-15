@@ -1,37 +1,40 @@
-From: parav@mellanox.com (Parav Pandit)
-Date: Wed, 15 Feb 2017 16:54:44 +0000
-Subject: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on	every
- request.
-In-Reply-To: <20170215163422.GA28506@lst.de>
-References: <1486507066-23168-1-git-send-email-parav@mellanox.com>
- <5bcb5982-36a6-67f5-8416-45e321235fa9@grimberg.me>
- <VI1PR0502MB3008C2598C5492B2EB4D1E55D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
- <700fde5d-3b84-2279-4176-c871364d4b97@grimberg.me>
- <VI1PR0502MB3008753C22DDAD6B5C20FC57D1590@VI1PR0502MB3008.eurprd05.prod.outlook.com>
- <fbe16be7-ed21-d231-471e-cdffe346264b@grimberg.me>
- <20170215161523.GA27837@lst.de>
- <c76d9dcf-f5d4-0133-ff22-e8bb7f672680@grimberg.me>
- <VI1PR0502MB3008DEDC435576804B935D98D15B0@VI1PR0502MB3008.eurprd05.prod.outlook.com>
- <20170215163422.GA28506@lst.de>
-Message-ID: <VI1PR0502MB3008E499C4E3012CA0DAE5E4D15B0@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+From: Darren.Trapp@cavium.com (Trapp, Darren)
+Date: Wed, 15 Feb 2017 17:00:49 +0000
+Subject: [PATCH] nvme-cli: fabrics: Fix to pass "host_traddr" to the
+ kernel driver.
+In-Reply-To: <23f1e7ba-7085-2692-cc95-ef63a535a31c@grimberg.me>
+References: <n> <1486579584-5660-1-git-send-email-duane.grigsby@qlogic.com>
+ <23f1e7ba-7085-2692-cc95-ef63a535a31c@grimberg.me>
+Message-ID: <A4F3AC48-4E31-49F4-9498-6A65C3659EF1@cavium.com>
 
+FC requires the host_traddr to make the connection.  If it wasn?t provided, the fc transport wouldn?t have been able to connect to the discovery controller and request the disc page.  Hence, we wouldn?t be here parsing the response.  
 
+Darren Trapp
+Senior Director - Engineering
+darren.trapp at cavium.com <mailto:darren.trapp at caviumnetworks.com>
+T 949-389-6273
+M 949-212-8576
+26650 Aliso Viejo Pkwy, Aliso Viejo, CA 92656
+www.qlogic.com <http://www.qlogic.com/>
+ <http://www.qlogic.com/>
 
-> -----Original Message-----
-> From: hch at lst.de [mailto:hch at lst.de]
-> Sent: Wednesday, February 15, 2017 10:34 AM
-> To: Parav Pandit <parav at mellanox.com>
-> Cc: Sagi Grimberg <sagi at grimberg.me>; hch at lst.de;
-> james.smart at broadcom.com; linux-nvme at lists.infradead.org
-> Subject: Re: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on
-> every request.
-> 
-> On Wed, Feb 15, 2017@04:31:00PM +0000, Parav Pandit wrote:
-> > How about
-> > nvmet_ops_init()
-> > nvmet_link_queues()
-> 
-> Just do the one respective two trivial assignment inline in the callers.  That
-> actually leads to smaller source and binary code.
+On 2/15/17, 1:56 AM, "Linux-nvme on behalf of Sagi Grimberg" <linux-nvme-bounces@lists.infradead.org on behalf of sagi@grimberg.me> wrote:
 
-o.k.
+    
+    > @@ -595,6 +595,11 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
+    >  				return -EINVAL;
+    >  			p += len;
+    >
+    > +			len = sprintf(p, ",host_traddr=%s", cfg.host_traddr);
+    > +			if (len < 0)
+    > +				return -EINVAL;
+    > +			p+= len;
+    > +
+    
+    I think this needs to be conditional on if provided at all.
+    
+    _______________________________________________
+    Linux-nvme mailing list
+    Linux-nvme at lists.infradead.org
+    http://lists.infradead.org/mailman/listinfo/linux-nvme
+    
