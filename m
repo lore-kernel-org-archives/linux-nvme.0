@@ -1,43 +1,54 @@
-From: parav@mellanox.com (Parav Pandit)
-Date: Wed, 15 Feb 2017 14:51:21 +0000
-Subject: [PATCH] nvmet: Fixed avoided printing nvmet: twice in error logs.
-In-Reply-To: <07938b52-ca0c-f2bb-d8f8-4964475edf93@grimberg.me>
-References: <1486591039-1177-1-git-send-email-parav@mellanox.com>
- <07938b52-ca0c-f2bb-d8f8-4964475edf93@grimberg.me>
-Message-ID: <VI1PR0502MB30084AD770E0262118E8443CD15B0@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 15 Feb 2017 10:46:49 -0500
+Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
+In-Reply-To: <c42e8e1e-f96f-9b2d-f3e6-72599430a327@grimberg.me>
+References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
+ <1486768553-13738-6-git-send-email-keith.busch@intel.com>
+ <c42e8e1e-f96f-9b2d-f3e6-72599430a327@grimberg.me>
+Message-ID: <20170215154649.GA30251@localhost.localdomain>
 
-Ok. I will a patch set with two patches in it as they will be dependent.
-Thanks for the review.
+On Wed, Feb 15, 2017@11:50:15AM +0200, Sagi Grimberg wrote:
+> How is this is something specific to nvme? What prevents this
+> for other multi-queue devices that shutdown during live IO?
+> 
+> Can you please describe the race in specific? Is it stuck on
+> nvme_ns_remove (blk_cleanup_queue)? If so, then I think we
+> might want to fix blk_cleanup_queue to start/drain/wait
+> instead?
+> 
+> I think it's acceptable to have drivers make their own use
+> of freeze_start and freeze_wait, but if this is not
+> nvme specific perhaps we want to move it to block instead?
 
-> -----Original Message-----
-> From: Sagi Grimberg [mailto:sagi at grimberg.me]
-> Sent: Wednesday, February 15, 2017 2:55 AM
-> To: Parav Pandit <parav at mellanox.com>; hch at lst.de; linux-
-> nvme at lists.infradead.org
-> Subject: Re: [PATCH] nvmet: Fixed avoided printing nvmet: twice in error
-> logs.
-> 
-> 
-> > This patch avoids printing "nvmet:" twice in error logs as its already
-> > coming through pr_fmt macro.
-> > It makes some of the logs more verbose by including qid to it.
-> > It avoid code duplication for checking controller status for admin and
-> > io queue by having common function for both that further can be reused
-> > by other transports.
-> > Fixed typo reported by Max Gurtovoy.
-> 
-> Hey Parav,
-> 
-> This looks good but please split this patch to:
-> 1. nvmet_check_ctrl_status()
-> 2. remove "nvmet:" from logging
-> 
-> > @@ -645,6 +645,22 @@ u16 nvmet_ctrl_find_get(const char *subsysnqn,
-> const char *hostnqn, u16 cntlid,
-> >  	return status;
-> >  }
-> >
-> > +int nvmet_check_ctrl_status(struct nvmet_req *req, struct
-> > +nvme_command *cmd)
-> 
-> Please return u16 status here.
+There are many sequences that can get a request queue stuck forever, but
+the one that was initially raised is on a system suspend. It could look
+something like this:
+
+  CPU A                       CPU B
+  -----                       -----
+  nvme_suspend
+   nvme_dev_disable           generic_make_request
+    nvme_stop_queues           blk_queue_enter
+     blk_queue_quiesce_queue    blk_mq_alloc_request
+                                 blk_mq_map_request
+                                  blk_mq_enter_live
+                                 blk_mq_run_hw_queue <-- the hctx is stopped,
+                                                         request is stuck until
+                                                         restarted.
+
+Shortly later, suspend takes a CPU offline:
+
+ blk_mq_queue_reinit_dead
+  blk_mq_queue_reinit_work
+   blk_mq_free_queue_wait
+
+Now we're stuck forever waiting for that queue to freeze because a request
+entered a stopped hctx that we're not going to bring back online. The
+driver was told to suspend, and suspend must complete before resume
+can start.
+
+The problem is not specific to pci nvme, but control needs to pass back to
+the device specific driver: after halting new queue entering by starting
+the queue freeze, the driver needs a chance to complete everything that
+was submitted. Only after the driver finishes its specific clean up tasks,
+it can flush all the entered requests to a failed completion.
