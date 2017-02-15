@@ -1,37 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 15 Feb 2017 10:58:32 +0200
-Subject: [PATCH] nvmet: Avoid writing fabric_ops, queue pointers on every
- request.
-In-Reply-To: <VI1PR0502MB3008753C22DDAD6B5C20FC57D1590@VI1PR0502MB3008.eurprd05.prod.outlook.com>
-References: <1486507066-23168-1-git-send-email-parav@mellanox.com>
- <5bcb5982-36a6-67f5-8416-45e321235fa9@grimberg.me>
- <VI1PR0502MB3008C2598C5492B2EB4D1E55D1420@VI1PR0502MB3008.eurprd05.prod.outlook.com>
- <700fde5d-3b84-2279-4176-c871364d4b97@grimberg.me>
- <VI1PR0502MB3008753C22DDAD6B5C20FC57D1590@VI1PR0502MB3008.eurprd05.prod.outlook.com>
-Message-ID: <fbe16be7-ed21-d231-471e-cdffe346264b@grimberg.me>
+Date: Wed, 15 Feb 2017 11:40:04 +0200
+Subject: [PATCH 0/5] NVMe pci fixes, for-4.11
+In-Reply-To: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
+References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
+Message-ID: <af92646f-0973-84d5-a895-19c45e6b1196@grimberg.me>
 
+Hi Keith,
 
-> Hi Sagi,
+> These are some fixes for some more device and CPU hot plug scenarios. The
+> end result should fix up a long-standing deadlock caused by requests
+> entering a quiesced queue that block blk_mq_freeze_queue_wait forever. I'd
+> previously tried to fix that here:
+>
+>   http://lists.infradead.org/pipermail/linux-nvme/2017-January/007620.html
+>
+> But that was overly complex and overkill anyway on ending requests that
+> could have been successful. This time is much simpler, isolated to the
+> nvme driver, and more likely to not fail good IO.
 
-Hi Parav,
+Umm, I have some questions on 5/5, I think we can go ahead and queue
+1-4 though.
 
->> Sorry, I am still not getting it.
->> nvmet_rdma_rsp structure contains nvmet_req.
->> nvmet_rdma_rsp (and so nvmet_req) are per QP allocations.
->> cq and sq pointers are initialized inside nvmet_req.
->>
->> nvmet_rdma_cmd is per RQ/SRQ allocation.
->> When we do recv_done(), we bind rsp structure to cmd (cmd can be from RQ
->> or SRQ).
->> So I believe this is still good.
->> If we have cq and sq pointer inside the nvmet_rdma_cmd than I can
->> understand that it can break.
->>
->> On a side note: I tested the patch with use_srq flag (but didn't publish its
->> performance numbers as they awaiting your per core SRQ fixes to match
->> regular RQ numbers :-) ).
+> This is based off linux-block/for-next because I needed to make use
+> of the "was_suspend" bool that was recently added with the Opal patch
+> set. I also merged in the nvme git tree for final testing, and noticed
+> there is a conflict between the following to commits:
+>
+>   https://git.kernel.org/cgit/linux/kernel/git/axboe/linux-block.git/commit/?h=for-next&id=06406d81a2d7cfb8abcc4fa6cdfeb8e5897007c5
+>   http://git.infradead.org/nvme.git/commitdiff/73494e87734f2c2cd4f9e91e98700cd4fd5f3e05
+>
+> It's a trivial fix, but I think we gotta sort out our merging flow among
+> these trees.
 
-Yep, forgot that the sq/cq are referenced from the rsp which is
-per-queue.
-
-Christoph, James, can I get an ack from you guys?
+Where is this? I didn't see this set on nvme-4.11?
