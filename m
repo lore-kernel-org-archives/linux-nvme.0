@@ -1,30 +1,39 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Wed, 15 Feb 2017 21:00:07 -0800
-Subject: [dm-devel] hch's native NVMe multipathing [was: Re: [PATCH 1/2]
- Don't blacklist nvme]
-In-Reply-To: <20170216025357.GA9241@redhat.com>
-References: <1487107154-24883-1-git-send-email-keith.busch@intel.com>
- <20170215145617.GA4241@infradead.org> <20170216025357.GA9241@redhat.com>
-Message-ID: <d1f39bbd-d5fe-06d7-34a7-484b723886c9@sandisk.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 16 Feb 2017 11:12:53 +0200
+Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
+In-Reply-To: <20170215160448.fk3igep336tj5f3k@merlins.org>
+References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
+ <1486768553-13738-6-git-send-email-keith.busch@intel.com>
+ <c42e8e1e-f96f-9b2d-f3e6-72599430a327@grimberg.me>
+ <20170215154649.GA30251@localhost.localdomain>
+ <20170215160448.fk3igep336tj5f3k@merlins.org>
+Message-ID: <8b6205c1-00f6-0a5f-7cd1-10f9a3e3f63b@grimberg.me>
 
-On 02/15/17 18:53, Mike Snitzer wrote:
-> Nobody has interest in Linux multipathing becoming fragmented.
->
-> If every transport implemented their own multipathing the end-user would
-> be amazingly screwed trying to keep track of all the
-> quirks/configuration/management of each.
->
-> Not saying multipath-tools is great, nor that DM multipath is god's
-> gift.  But substantiating _why_ you need this "native NVMe
-> multipathing" would go a really long way to justifying your effort.
->
-> For starters, how about you show just how much better than DM multipath
-> this native NVMe multipathing performs?  NOTE: it'd imply you put effort
-> to making DM multipath work with NVMe.. if you've sat on that code too
-> that'd be amazingly unfortunate/frustrating.
 
-Another question is what your attitude is towards dm-mpath changes? Last 
-time I posted a series of patches that significantly clean up and
-improve readability of the dm-mpath code you refused to take these upstream.
+> Howdy,
 
-Bart.
+Hey Mark,
+
+> Let me chime in here about how the stuck request thing is not just
+> theory, or made up :)
+>
+> I first reported this in Aug 2016: https://patchwork.kernel.org/patch/9265695/
+>
+> Long story short, I have been unable to upgrade to any kernel past 4.4
+> due to my M2 NVME drive. No matter what I did, S3 suspend would not
+> succeed or resume (as in ever, not just sometimes).
+>
+> It's only until the last patch I got from Keith applied to 4.10
+> linux-block/for-next that I can _finally_ upgrade to a kernel past 4.4
+> and that suspend/resume works.
+>
+> So while I don't have the knowledge to say whether Keith's patch is the
+> best way to fix my problem, it is the only thing I've seen that works in
+> the last 9 months, and has taken me from 100% failure to 0% failure so
+> far.
+>
+> As a result, a big thanks to Keith again and thumbs up from me.
+
+I have no doubt this patch is useful, I'm just wandering if we can
+place the functionality in a more generic location so that more
+drivers can enjoy it.
