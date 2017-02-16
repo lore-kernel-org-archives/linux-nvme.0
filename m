@@ -1,20 +1,35 @@
-From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Thu, 16 Feb 2017 17:37:41 +0000
-Subject: hch's native NVMe multipathing [was: Re: [PATCH 1/2] Don't
- blacklist nvme]
-In-Reply-To: <20170216173856.GB17828@localhost.localdomain>
-References: <1487107154-24883-1-git-send-email-keith.busch@intel.com>
- <20170215145617.GA4241@infradead.org> <20170216025357.GA9241@redhat.com>
- <20170216142621.GA21972@infradead.org> <20170216151337.GA12678@redhat.com>
- <20170216173856.GB17828@localhost.localdomain>
-Message-ID: <1487266648.2612.3.camel@sandisk.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 16 Feb 2017 19:43:33 +0200
+Subject: [PATCH rfc 0/4] Introduce a new helper for parsing ipv[4|6]:port to
+ socket address
+Message-ID: <1487267017-29904-1-git-send-email-sagi@grimberg.me>
 
-On Thu, 2017-02-16@12:38 -0500, Keith Busch wrote:
-> Maybe I'm not seeing the bigger picture. Is there some part to multipath
-> that the kernel is not in a better position to handle?
+We have some places in the stack that support ipv4 and ipv6. In
+some cases the user configuration does not reveal which
+address family is given and needs to be parsed from the input string.
 
-Does this mean that the code to parse /etc/multipath.conf will be moved into
-the kernel? Or will we lose the ability to configure the policies that
-/etc/multipath.conf allows to configure?
+Given that the user-input varies between subsystems, some processing
+is required from the call-site to separate address and port strings.
 
-Bart.
+As a side-effect, this set adds ipv6 support for nvme over fabrics.
+I also converted iscsi target and plan to convert nfs/cifs next but
+wanted to get some feedback before doing that.
+
+patch #1 is based off roland's patch:
+http://lists.infradead.org/pipermail/linux-nvme/2016-August/005600.html
+
+Sagi Grimberg (4):
+  net/utils: generic inet_pton_with_scope helper
+  nvmet-rdma: use generic inet_pton_with_scope
+  nvme-rdma: use inet_pton_with_scope helper
+  iscsi-target: use generic inet_pton_with_scope
+
+ drivers/nvme/host/rdma.c                     | 48 ++++-----------
+ drivers/nvme/target/rdma.c                   | 42 +++++++++----
+ drivers/target/iscsi/iscsi_target_configfs.c | 46 ++++----------
+ include/linux/inet.h                         |  6 ++
+ net/core/utils.c                             | 91 ++++++++++++++++++++++++++++
+ 5 files changed, 151 insertions(+), 82 deletions(-)
+
+-- 
+2.7.4
