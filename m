@@ -1,20 +1,22 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Thu, 16 Feb 2017 13:47:07 -0700
-Subject: [PATCH 2/2] block/sed-opal: allocate struct opal_dev dynamically
-In-Reply-To: <20170216201053.1190-2-hch@lst.de>
-References: <20170216201053.1190-1-hch@lst.de>
- <20170216201053.1190-2-hch@lst.de>
-Message-ID: <20170216204707.GB3732@sbauer-Z170X-UD5>
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Thu, 16 Feb 2017 20:58:13 +0000
+Subject: hch's native NVMe multipathing [was: Re: [PATCH 1/2] Don't
+ blacklist nvme]
+In-Reply-To: <20170216202339.GB13742@redhat.com>
+References: <1487107154-24883-1-git-send-email-keith.busch@intel.com>
+ <20170215145617.GA4241@infradead.org> <20170216025357.GA9241@redhat.com>
+ <d1f39bbd-d5fe-06d7-34a7-484b723886c9@sandisk.com>
+ <20170216123702.GA12047@redhat.com> <1487274356.2612.5.camel@sandisk.com>
+ <20170216202339.GB13742@redhat.com>
+Message-ID: <1487278678.2612.6.camel@sandisk.com>
 
-On Thu, Feb 16, 2017@09:10:53PM +0100, Christoph Hellwig wrote:
-> Insted of bloating the containing structure with it all the time this
-> allocates struct opal_dev dynamically.  Additionally this allows moving
-> the definition of struct opal_dev into sed-opal.c.  For this a new
-> private data field is added to it that is passed to the send/receive
-> callback.  After that a lot of internals can be made private as well.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-Don't know if we need both but:
+On Thu, 2017-02-16@15:23 -0500, Mike Snitzer wrote:
+> Or you can wait to rebase on v4.11-rc1 in ~2 weeks.
 
-Tested-by: Scott Bauer <scott.bauer at intel.com>
-Reviewed-by: Scott Bauer <scott.bauer at intel.com>
+Hello Mike,
+
+I will wait until v4.11-rc1 has been released.
+
+Thanks,
+
+Bart.
