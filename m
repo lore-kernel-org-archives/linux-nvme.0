@@ -1,36 +1,20 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 16 Feb 2017 12:38:56 -0500
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Thu, 16 Feb 2017 17:37:41 +0000
 Subject: hch's native NVMe multipathing [was: Re: [PATCH 1/2] Don't
  blacklist nvme]
-In-Reply-To: <20170216151337.GA12678@redhat.com>
+In-Reply-To: <20170216173856.GB17828@localhost.localdomain>
 References: <1487107154-24883-1-git-send-email-keith.busch@intel.com>
- <20170215145617.GA4241@infradead.org>
- <20170216025357.GA9241@redhat.com>
- <20170216142621.GA21972@infradead.org>
- <20170216151337.GA12678@redhat.com>
-Message-ID: <20170216173856.GB17828@localhost.localdomain>
+ <20170215145617.GA4241@infradead.org> <20170216025357.GA9241@redhat.com>
+ <20170216142621.GA21972@infradead.org> <20170216151337.GA12678@redhat.com>
+ <20170216173856.GB17828@localhost.localdomain>
+Message-ID: <1487266648.2612.3.camel@sandisk.com>
 
-On Thu, Feb 16, 2017@10:13:37AM -0500, Mike Snitzer wrote:
-> On Thu, Feb 16 2017 at  9:26am -0500,
-> Christoph Hellwig <hch@infradead.org> wrote:
->
-> > just a little new code in the block layer, and a move of the path
-> > selectors from dm to the block layer.  I would not call this
-> > fragmentation.
-> 
-> I'm fine with the path selectors getting moved out; maybe it'll
-> encourage new path selectors to be developed.
-> 
-> But there will need to be some userspace interface stood up to support
-> your native NVMe multipathing (you may not think it needed but think in
-> time there will be a need to configure _something_).  That is the
-> fragmentation I'm referring to.
+On Thu, 2017-02-16@12:38 -0500, Keith Busch wrote:
+> Maybe I'm not seeing the bigger picture. Is there some part to multipath
+> that the kernel is not in a better position to handle?
 
-I'm not sure what Christoph's proposal looks like, but I have to agree
-that multipath support directly in the kernel without requiring user
-space to setup the mpath block device is easier for everyone. The only
-NVMe specific part, though, just needs to be how it reports unique
-identifiers to the multipath layer.
+Does this mean that the code to parse /etc/multipath.conf will be moved into
+the kernel? Or will we lose the ability to configure the policies that
+/etc/multipath.conf allows to configure?
 
-Maybe I'm not seeing the bigger picture. Is there some part to multipath
-that the kernel is not in a better position to handle?
+Bart.
