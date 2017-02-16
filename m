@@ -1,29 +1,49 @@
-From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Thu, 16 Feb 2017 19:46:15 +0000
-Subject: hch's native NVMe multipathing [was: Re: [PATCH 1/2] Don't
- blacklist nvme]
-In-Reply-To: <20170216123702.GA12047@redhat.com>
-References: <1487107154-24883-1-git-send-email-keith.busch@intel.com>
- <20170215145617.GA4241@infradead.org> <20170216025357.GA9241@redhat.com>
- <d1f39bbd-d5fe-06d7-34a7-484b723886c9@sandisk.com>
- <20170216123702.GA12047@redhat.com>
-Message-ID: <1487274356.2612.5.camel@sandisk.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 16 Feb 2017 21:10:52 +0100
+Subject: [PATCH 1/2] block/sed-opal: tone down not supported warnings
+Message-ID: <20170216201053.1190-1-hch@lst.de>
 
-On Thu, 2017-02-16@07:37 -0500, Mike Snitzer wrote:
-> Weird.  I did push back on those changes initially (just felt like
-> churn) but I ultimately did take them:
-> 
-> $ git log --oneline --author=bart drivers/md/dm-mpath.c
-> 6599c84 dm mpath: do not modify *__clone if blk_mq_alloc_request() fails
-> 4813577 dm mpath: change return type of pg_init_all_paths() from int to void
-> 9f4c3f8 dm: convert wait loops to use autoremove_wake_function()
-> 
-> Did I miss any?
+Not having OPAL or a sub-feature supported is an entirely normal
+condition for many drives, so don't warn about it.  Keep the messages,
+but tone them down to debug only.
 
-Hello Mike,
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ block/sed-opal.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Thank you for having accepted these patches. However, I was not referring
-to these patches but to the eight patches available at
-https://github.com/bvanassche/linux/tree/dm-mpath
-
-Bart.
+diff --git a/block/sed-opal.c b/block/sed-opal.c
+index e95b8a57053d..bcdd5b6d02e8 100644
+--- a/block/sed-opal.c
++++ b/block/sed-opal.c
+@@ -387,16 +387,16 @@ static int opal_discovery0_end(struct opal_dev *dev)
+ 	}
+ 
+ 	if (!supported) {
+-		pr_err("This device is not Opal enabled. Not Supported!\n");
++		pr_debug("This device is not Opal enabled. Not Supported!\n");
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+ 	if (!single_user)
+-		pr_warn("Device doesn't support single user mode\n");
++		pr_debug("Device doesn't support single user mode\n");
+ 
+ 
+ 	if (!found_com_id) {
+-		pr_warn("Could not find OPAL comid for device. Returning early\n");
++		pr_debug("Could not find OPAL comid for device. Returning early\n");
+ 		return -EOPNOTSUPP;;
+ 	}
+ 
+@@ -1951,7 +1951,7 @@ void init_opal_dev(struct opal_dev *opal_dev, sec_send_recv *send_recv)
+ 	mutex_init(&opal_dev->dev_lock);
+ 	opal_dev->send_recv = send_recv;
+ 	if (check_opal_support(opal_dev) < 0)
+-		pr_warn("Opal is not supported on this device\n");
++		pr_debug("Opal is not supported on this device\n");
+ 	opal_dev->initialized = true;
+ }
+ EXPORT_SYMBOL(init_opal_dev);
+-- 
+2.11.0
