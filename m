@@ -1,64 +1,24 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Thu, 16 Feb 2017 14:19:40 -0700
-Subject: [PATCH] nvme/core: Check for Security send/recv support before
- issuing commands.
-Message-ID: <1487279980-3465-1-git-send-email-scott.bauer@intel.com>
+From: lkp@intel.com (kbuild test robot)
+Date: Fri, 17 Feb 2017 05:34:00 +0800
+Subject: [PATCH rfc 1/4] net/utils: generic inet_pton_with_scope helper
+In-Reply-To: <1487267017-29904-2-git-send-email-sagi@grimberg.me>
+Message-ID: <201702170514.zqhVrek9%fengguang.wu@intel.com>
 
-We need to verify that the controller supports the security
-commands before actually trying to issue them.
+Hi Sagi,
 
-Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+[auto build test WARNING on linus/master]
+[also build test WARNING on v4.10-rc8 next-20170216]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+
+url:    https://github.com/0day-ci/linux/commits/Sagi-Grimberg/Introduce-a-new-helper-for-parsing-ipv-4-6-port-to-socket-address/20170217-015537
+
+
+coccinelle warnings: (new ones prefixed by >>)
+
+>> net/core/utils.c:388:2-3: Unneeded semicolon
+
+Please review and possibly fold the followup patch.
+
 ---
- drivers/nvme/host/core.c | 4 ++++
- drivers/nvme/host/nvme.h | 1 +
- include/linux/nvme.h     | 1 +
- 3 files changed, 6 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8aeb4a6..4dff95a 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1091,6 +1091,9 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
- 	struct nvme_ctrl *ctrl = data;
- 	struct nvme_command cmd;
- 
-+	if (!(ctrl->oacs & NVME_CTRL_SEC_SEND_RECV_SUPP))
-+		return -EOPNOTSUPP;
-+
- 	memset(&cmd, 0, sizeof(cmd));
- 	if (send)
- 		cmd.common.opcode = nvme_admin_security_send;
-@@ -1285,6 +1288,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 		return -EIO;
- 	}
- 
-+	ctrl->oacs = le16_to_cpu(id->oacs);
- 	ctrl->vid = le16_to_cpu(id->vid);
- 	ctrl->oncs = le16_to_cpup(&id->oncs);
- 	atomic_set(&ctrl->abort_limit, id->acl + 1);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 5126c4b..14cfc6f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -140,6 +140,7 @@ struct nvme_ctrl {
- 	u32 max_hw_sectors;
- 	u16 oncs;
- 	u16 vid;
-+	u16 oacs;
- 	atomic_t abort_limit;
- 	u8 event_limit;
- 	u8 vwc;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 3e2ed49..534d27c 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -244,6 +244,7 @@ enum {
- 	NVME_CTRL_ONCS_DSM			= 1 << 2,
- 	NVME_CTRL_ONCS_WRITE_ZEROES		= 1 << 3,
- 	NVME_CTRL_VWC_PRESENT			= 1 << 0,
-+	NVME_CTRL_SEC_SEND_RECV_SUPP            = 1 << 0,
- };
- 
- struct nvme_lbaf {
--- 
-2.7.4
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
