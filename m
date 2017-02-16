@@ -1,49 +1,14 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Thu, 16 Feb 2017 07:37:02 -0500
-Subject: hch's native NVMe multipathing [was: Re: [PATCH 1/2] Don't
- blacklist nvme]
-In-Reply-To: <d1f39bbd-d5fe-06d7-34a7-484b723886c9@sandisk.com>
-References: <1487107154-24883-1-git-send-email-keith.busch@intel.com>
- <20170215145617.GA4241@infradead.org>
- <20170216025357.GA9241@redhat.com>
- <d1f39bbd-d5fe-06d7-34a7-484b723886c9@sandisk.com>
-Message-ID: <20170216123702.GA12047@redhat.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 16 Feb 2017 16:17:53 +0200
+Subject: [PATCH] nvme-cli: fabrics: Fix to pass "host_traddr" to the
+ kernel driver.
+In-Reply-To: <A4F3AC48-4E31-49F4-9498-6A65C3659EF1@cavium.com>
+References: <n> <1486579584-5660-1-git-send-email-duane.grigsby@qlogic.com>
+ <23f1e7ba-7085-2692-cc95-ef63a535a31c@grimberg.me>
+ <A4F3AC48-4E31-49F4-9498-6A65C3659EF1@cavium.com>
+Message-ID: <fec0b817-0ebd-0e49-b04d-9601ce516fe6@grimberg.me>
 
-On Thu, Feb 16 2017 at 12:00am -0500,
-Bart Van Assche <bart.vanassche@sandisk.com> wrote:
 
-> On 02/15/17 18:53, Mike Snitzer wrote:
-> >Nobody has interest in Linux multipathing becoming fragmented.
-> >
-> >If every transport implemented their own multipathing the end-user would
-> >be amazingly screwed trying to keep track of all the
-> >quirks/configuration/management of each.
-> >
-> >Not saying multipath-tools is great, nor that DM multipath is god's
-> >gift.  But substantiating _why_ you need this "native NVMe
-> >multipathing" would go a really long way to justifying your effort.
-> >
-> >For starters, how about you show just how much better than DM multipath
-> >this native NVMe multipathing performs?  NOTE: it'd imply you put effort
-> >to making DM multipath work with NVMe.. if you've sat on that code too
-> >that'd be amazingly unfortunate/frustrating.
-> 
-> Another question is what your attitude is towards dm-mpath changes?
-> Last time I posted a series of patches that significantly clean up
-> and improve readability of the dm-mpath code you refused to take these upstream.
+> FC requires the host_traddr to make the connection.  If it wasn?t provided, the fc transport wouldn?t have been able to connect to the discovery controller and request the disc page.  Hence, we wouldn?t be here parsing the response.
 
-Weird.  I did push back on those changes initially (just felt like
-churn) but I ultimately did take them:
-
-$ git log --oneline --author=bart drivers/md/dm-mpath.c
-6599c84 dm mpath: do not modify *__clone if blk_mq_alloc_request() fails
-4813577 dm mpath: change return type of pg_init_all_paths() from int to void
-9f4c3f8 dm: convert wait loops to use autoremove_wake_function()
-
-Did I miss any?
-
-But to be 100% clear, I'm very appreciative of any DM mpath (and
-request-based DM core) changes.  I'll review them with a critical eye
-but if they hold up they get included.
-
-Mike
+Did you test this patch with nvme-loop?
