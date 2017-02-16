@@ -1,24 +1,29 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 16 Feb 2017 20:05:36 +0200
-Subject: hch's native NVMe multipathing [was: Re: [PATCH 1/2] Don't
- blacklist nvme]
-In-Reply-To: <20170216151337.GA12678@redhat.com>
-References: <1487107154-24883-1-git-send-email-keith.busch@intel.com>
- <20170215145617.GA4241@infradead.org> <20170216025357.GA9241@redhat.com>
- <20170216142621.GA21972@infradead.org> <20170216151337.GA12678@redhat.com>
-Message-ID: <8ce207d3-844a-8190-9644-1f54dbd7d56b@grimberg.me>
+Date: Thu, 16 Feb 2017 20:11:27 +0200
+Subject: [PATCH rfc 0/4] Introduce a new helper for parsing ipv[4|6]:port
+ to socket address
+In-Reply-To: <EB281BA3-28DB-4DBA-BA3B-31A98BC0D44E@oracle.com>
+References: <1487267017-29904-1-git-send-email-sagi@grimberg.me>
+ <AD117189-9D24-4C5C-9751-9EA6B27575B1@oracle.com>
+ <8dc41cfc-85b2-fb42-61b0-5be499fa7ad0@grimberg.me>
+ <EB281BA3-28DB-4DBA-BA3B-31A98BC0D44E@oracle.com>
+Message-ID: <34a7fa67-2b72-aaa8-1c66-cfdd5d041124@grimberg.me>
 
 
-> I'm fine with the path selectors getting moved out; maybe it'll
-> encourage new path selectors to be developed.
+>> Yea, I wanted to get all the rpc_pton/rpc_ntop (which handle both
+>> ipv4 and ipv6 with scopes) converted to use a common helper.
 >
-> But there will need to be some userspace interface stood up to support
-> your native NVMe multipathing (you may not think it needed but think in
-> time there will be a need to configure _something_).  That is the
-> fragmentation I'm referring to.
+> RPC is dealing with universal addresses, which are not quite the
+> same as IP presentation addresses. The port number is expressed
+> as:
+>
+>   hi8.lo8
 
-I guess one config option that we'd need is multibus vs. failover
-which are used per use-case.
+I noticed that, that's why there will be some processing in
+sunrpc to construct a port string to a generic helper (if it chooses to
+use it).
 
-I'd have to say that having something much simpler than multipath-tools
-does sound appealing.
+> And universal IPv6 addresses don't have a mechanism for conveying
+> scope information.
+
+I do see scope handling in rpc_pton6 code if provided...
