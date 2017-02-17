@@ -1,51 +1,21 @@
-From: snitzer@redhat.com (Mike Snitzer)
-Date: Fri, 17 Feb 2017 09:43:47 -0500
-Subject: hch's native NVMe multipathing [was: Re: [PATCH 1/2] Don't
- blacklist nvme]
-In-Reply-To: <20170217090420.GA29629@infradead.org>
-References: <1487107154-24883-1-git-send-email-keith.busch@intel.com>
- <20170215145617.GA4241@infradead.org>
- <20170216025357.GA9241@redhat.com>
- <20170216142621.GA21972@infradead.org>
- <20170216151337.GA12678@redhat.com>
- <20170216173856.GB17828@localhost.localdomain>
- <1487266648.2612.3.camel@sandisk.com>
- <20170216180742.GC17828@localhost.localdomain>
- <20170216182129.GC12678@redhat.com>
- <20170217090420.GA29629@infradead.org>
-Message-ID: <20170217144347.GC19043@redhat.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 17 Feb 2017 07:11:21 -0800
+Subject: [ANNOUNCE] nvmetcli 0.3 release
+Message-ID: <20170217151121.GA20719@infradead.org>
 
-On Fri, Feb 17 2017 at  4:04am -0500,
-hch@infradead.org <hch@infradead.org> wrote:
+Hi all,
 
-> On Thu, Feb 16, 2017@01:21:29PM -0500, Mike Snitzer wrote:
-> > multipath-tools has tables that specify all the defaults for a given
-> > target backend.  NVMe will just be yet another.
-> 
-> No, if we get things right it won't.  ALUA already got rid of most
-> of the parameter people would have to set under normal conditions,
-> and I plan to make sure the NVMe equivalent will do it for all
-> parameters.  I am active in the NVMe working group and will do my
-> best to get there.  There's a few others folks here that are more or
-> less active there as well (Keith, Martin, Jens for example), so I
-> think we have a chance.
-> 
-> That beeing said Keith is right that we'll always have odd setups
-> where we need to overrid things, and we will have to provide tunables
-> for that.  It's no different from any other kernel subsystem in that.
+I've tagged a 0.3 release of nvmetcli at:
 
-Before ALUA fixed all that vendor specific fragmentation there was the
-even worse fragmentation where different vendors pushed multipathing
-into their FC drivers.  James correctly pushed them toward a generic
-solution (and DM multipath was born).  If every transport implements its
-own multipathing then it'll be a more generic, yet very similar,
-fragmentation problem.
+	git://git.infradead.org/users/hch/nvmetcli.git
 
-But if your native NVMe multipathing really is factored such that the
-actual IO fast path is implemented in block core, and transport specific
-hooks are called out to as needed, then you've simply reimplement DM
-multipath in block core.
+and uploaded the release tarball at:
 
-Pretty weird place to invest _so_ much energy before you've fully
-explored how unworkable DM multipath support for NVMe is.  But I
-digress.
+	ftp://ftp.infradead.org/pub/nvmetcli/nvmetcli-0.3.tar.gz
+	ftp://ftp.infradead.org/pub/nvmetcli/nvmetcli-0.3.tar.gz.asc
+
+This release includes a couple minor fixes, mostly packaging or
+documentation related.
+
+I'd like to thank Andy Grover and Jay Freyensee for contributing to
+this release.
