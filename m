@@ -1,28 +1,26 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 17 Feb 2017 09:25:21 +0100
-Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
-In-Reply-To: <20170216225142.GA2227@localhost.localdomain>
-References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
- <1486768553-13738-6-git-send-email-keith.busch@intel.com>
- <c42e8e1e-f96f-9b2d-f3e6-72599430a327@grimberg.me>
- <20170215154649.GA30251@localhost.localdomain>
- <20170215160448.fk3igep336tj5f3k@merlins.org>
- <8b6205c1-00f6-0a5f-7cd1-10f9a3e3f63b@grimberg.me>
- <20170216225142.GA2227@localhost.localdomain>
-Message-ID: <20170217082521.GB18090@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 17 Feb 2017 09:58:27 +0100
+Subject: [PATCH 2/2] block/sed-opal: allocate struct opal_dev dynamically
+In-Reply-To: <20170216201053.1190-2-hch@lst.de>
+References: <20170216201053.1190-1-hch@lst.de>
+ <20170216201053.1190-2-hch@lst.de>
+Message-ID: <10ec775b-cbdc-7cac-336b-015d97c486de@suse.de>
 
-On Thu, Feb 16, 2017@05:51:42PM -0500, Keith Busch wrote:
-> On Thu, Feb 16, 2017@11:12:53AM +0200, Sagi Grimberg wrote:
-> > 
-> > I have no doubt this patch is useful, I'm just wandering if we can
-> > place the functionality in a more generic location so that more
-> > drivers can enjoy it.
-> 
-> What this is doing is too driver specific to make generically.
-> 
-> I think we actually want the ability to back out a request and renter
-> a different hardware context, but that's too hard. :)
+On 02/16/2017 09:10 PM, Christoph Hellwig wrote:
+> -enum opal_response_token {
+> -	OPAL_DTA_TOKENID_BYTESTRING = 0xe0,
+> -	OPAL_DTA_TOKENID_SINT = 0xe1,
+> -	OPAL_DTA_TOKENID_UINT = 0xe2,
+> -	OPAL_DTA_TOKENID_TOKEN = 0xe3, /* actual token is returned */
+> -	OPAL_DTA_TOKENID_INVALID = 0X0
 
-I don't think it's all that bad.  But I'll need to take another look
-at your patch - I'd really like to see the issue fixed.  But it's just
-been too complicated to easily understand so it'll take some time.
+Nit, here's a capital 'X' that slipped in
+
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
