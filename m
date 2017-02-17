@@ -1,11 +1,52 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 17 Feb 2017 13:59:37 +0100
-Subject: OPAL fixups
-Message-ID: <20170217125941.14319-1-hch@lst.de>
+Date: Fri, 17 Feb 2017 13:59:38 +0100
+Subject: [PATCH 1/4] block/sed-opal: tone down not supported warnings
+In-Reply-To: <20170217125941.14319-1-hch@lst.de>
+References: <20170217125941.14319-1-hch@lst.de>
+Message-ID: <20170217125941.14319-2-hch@lst.de>
 
-Hi all,
+Not having OPAL or a sub-feature supported is an entirely normal
+condition for many drives, so don't warn about it.  Keep the messages,
+but tone them down to debug only.
 
-this contains a few more OPAL-related fixups.  It tones down warnings a bit,
-allocates the OPAL-?pecific data structure in a separate dynamic allocation,
-checks for support of Security Send/Receive in NVMe before using them,
-and makes sure we re-discovery the security capabilities after each reset.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Scott Bauer <scott.bauer at intel.com>
+---
+ block/sed-opal.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/block/sed-opal.c b/block/sed-opal.c
+index e95b8a57053d..bcdd5b6d02e8 100644
+--- a/block/sed-opal.c
++++ b/block/sed-opal.c
+@@ -387,16 +387,16 @@ static int opal_discovery0_end(struct opal_dev *dev)
+ 	}
+ 
+ 	if (!supported) {
+-		pr_err("This device is not Opal enabled. Not Supported!\n");
++		pr_debug("This device is not Opal enabled. Not Supported!\n");
+ 		return -EOPNOTSUPP;
+ 	}
+ 
+ 	if (!single_user)
+-		pr_warn("Device doesn't support single user mode\n");
++		pr_debug("Device doesn't support single user mode\n");
+ 
+ 
+ 	if (!found_com_id) {
+-		pr_warn("Could not find OPAL comid for device. Returning early\n");
++		pr_debug("Could not find OPAL comid for device. Returning early\n");
+ 		return -EOPNOTSUPP;;
+ 	}
+ 
+@@ -1951,7 +1951,7 @@ void init_opal_dev(struct opal_dev *opal_dev, sec_send_recv *send_recv)
+ 	mutex_init(&opal_dev->dev_lock);
+ 	opal_dev->send_recv = send_recv;
+ 	if (check_opal_support(opal_dev) < 0)
+-		pr_warn("Opal is not supported on this device\n");
++		pr_debug("Opal is not supported on this device\n");
+ 	opal_dev->initialized = true;
+ }
+ EXPORT_SYMBOL(init_opal_dev);
+-- 
+2.11.0
