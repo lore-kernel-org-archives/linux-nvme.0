@@ -1,72 +1,64 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 17 Feb 2017 16:27:13 +0100
-Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
-In-Reply-To: <1486768553-13738-6-git-send-email-keith.busch@intel.com>
-References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
- <1486768553-13738-6-git-send-email-keith.busch@intel.com>
-Message-ID: <20170217152713.GA27158@lst.de>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Fri, 17 Feb 2017 08:41:57 -0700
+Subject: [PATCH 4/4] nvme: re-check security protocol support after reset
+In-Reply-To: <20170217152651.GA18275@localhost.localdomain>
+References: <20170217125941.14319-1-hch@lst.de>
+ <20170217125941.14319-5-hch@lst.de>
+ <20170217152651.GA18275@localhost.localdomain>
+Message-ID: <20170217154157.GA2254@sbauer-Z170X-UD5>
 
->  	u32 csts = -1;
-> +	bool drain_queue = pci_is_enabled(to_pci_dev(dev->dev));
+On Fri, Feb 17, 2017@10:26:51AM -0500, Keith Busch wrote:
+> On Fri, Feb 17, 2017@01:59:41PM +0100, Christoph Hellwig wrote:
+> > @@ -1789,7 +1789,8 @@ static void nvme_reset_work(struct work_struct *work)
+> >  	if (result)
+> >  		goto out;
+> >  
+> > -	if ((dev->ctrl.oacs & NVME_CTRL_OACS_SEC_SUPP) && !dev->ctrl.opal_dev) {
+> > +	kfree(dev->ctrl.opal_dev);
+> > +	if (dev->ctrl.oacs & NVME_CTRL_OACS_SEC_SUPP) {
+> >  		dev->ctrl.opal_dev =
+> >  			init_opal_dev(&dev->ctrl, &nvme_sec_submit);
+> >  	}
+> 
+> A couple things.
+> 
+> This has a use-after-free in opal_unlock_from_suspend if the nvme
+> device had an opal_dev before, but no longer support the capability
+> after resume. So you'd want to set ctrl.opal_dev to NULL after the free.
+> 
+> But we don't want to unconditionally free it anyway during resume
+> since opal_unlock_from_suspend requires the exisiting opal_dev state
+> information saved in the 'unlk_list'.
+> 
+> Something like this instead:
+> 
+> ---
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index ddc51ad..8fa6be9 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1789,13 +1789,17 @@ static void nvme_reset_work(struct work_struct *work)
+>  	if (result)
+>  		goto out;
 >  
->  	del_timer_sync(&dev->watchdog_timer);
->  	cancel_work_sync(&dev->reset_work);
->  
->  	mutex_lock(&dev->shutdown_lock);
-> -	if (pci_is_enabled(to_pci_dev(dev->dev))) {
-> +	if (drain_queue) {
-> +		if (shutdown)
-> +			nvme_start_freeze(&dev->ctrl);
+> -	if ((dev->ctrl.oacs & NVME_CTRL_OACS_SEC_SUPP) && !dev->ctrl.opal_dev) {
+> -		dev->ctrl.opal_dev =
+> -			init_opal_dev(&dev->ctrl, &nvme_sec_submit);
+> +	if (dev->ctrl.oacs & NVME_CTRL_OACS_SEC_SUPP)
+> +		if (was_suspend && dev->ctrl.opal_dev)
+> +			opal_unlock_from_suspend(dev->ctrl.opal_dev);
+> +		else if (!dev->ctrl.opal_dev)
+> +			dev->ctrl.opal_dev =
+> +				init_opal_dev(&dev->ctrl, &nvme_sec_submit);
+> +	} else {
+> +		kfree(dev->ctrl.opal_dev);
+> +		dev->ctrl.opal_dev = NULL;
 
-So if the devices is enabled and we are going to shut the device
-down we're going to freeze all I/O queues here.
 
-Question 1:  why skip the freeze if we are not shutting down?
-
->  		nvme_stop_queues(&dev->ctrl);
-
-Especially as we're now going to wait for all I/O to finish here in
-all shutdown cases.
-
->  		csts = readl(dev->bar + NVME_REG_CSTS);
->  	}
-> @@ -1701,6 +1704,25 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
->  
->  	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
->  	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
-
-And kill all busy requests down here.
-
-> +
-> +	/*
-> +	 * If shutting down, the driver will not be starting up queues again,
-> +	 * so must drain all entered requests to their demise to avoid
-> +	 * deadlocking blk-mq hot-cpu notifier.
-> +	 */
-> +	if (drain_queue && shutdown) {
-> +		nvme_start_queues(&dev->ctrl);
-> +		/*
-> +		 * Waiting for frozen increases the freeze depth. Since we
-> +		 * already start the freeze earlier in this function to stop
-> +		 * incoming requests, we have to unfreeze after froze to get
-> +		 * the depth back to the desired.
-> +		 */
-> +		nvme_wait_freeze(&dev->ctrl);
-> +		nvme_unfreeze(&dev->ctrl);
-> +		nvme_stop_queues(&dev->ctrl);
-
-And all this (just like the start_free + quience sequence above)
-really sounds like something we'd need to move to the core.
-
-> +		/*
-> +		 * If we are resuming from suspend, the queue was set to freeze
-> +		 * to prevent blk-mq's hot CPU notifier from getting stuck on
-> +		 * requests that entered the queue that NVMe had quiesced. Now
-> +		 * that we are resuming and have notified blk-mq of the new h/w
-> +		 * context queue count, it is safe to unfreeze the queues.
-> +		 */
-> +		if (was_suspend)
-> +			nvme_unfreeze(&dev->ctrl);
-
-And this change I don't understand at all.  It doesn't seem to pair
-up with anything else in the patch.
+Keith's comments made me realize something even deeper as well. Assuming the firmware
+changed and we no longer support security commands we need to free the opal_dev structure
+like we're doing but there is a possiblity that there were saved ranges in the structure
+that we need to free as well.  If the user had previously told the kernel to unlock 5
+ranges coming out of a suspend there are 5 structures we need to free inside the opal_dev
+before we free the opal dev. We'll need to re-introduce free_opal_dev() in the opal code
+like we had a while back.
