@@ -1,31 +1,21 @@
-From: hch@infradead.org (hch@infradead.org)
-Date: Fri, 17 Feb 2017 01:04:20 -0800
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 17 Feb 2017 01:05:45 -0800
 Subject: [dm-devel] hch's native NVMe multipathing [was: Re: [PATCH 1/2]
  Don't blacklist nvme]
-In-Reply-To: <20170216182129.GC12678@redhat.com>
+In-Reply-To: <8ce207d3-844a-8190-9644-1f54dbd7d56b@grimberg.me>
 References: <1487107154-24883-1-git-send-email-keith.busch@intel.com>
  <20170215145617.GA4241@infradead.org>
  <20170216025357.GA9241@redhat.com>
  <20170216142621.GA21972@infradead.org>
  <20170216151337.GA12678@redhat.com>
- <20170216173856.GB17828@localhost.localdomain>
- <1487266648.2612.3.camel@sandisk.com>
- <20170216180742.GC17828@localhost.localdomain>
- <20170216182129.GC12678@redhat.com>
-Message-ID: <20170217090420.GA29629@infradead.org>
+ <8ce207d3-844a-8190-9644-1f54dbd7d56b@grimberg.me>
+Message-ID: <20170217090545.GB29629@infradead.org>
 
-On Thu, Feb 16, 2017@01:21:29PM -0500, Mike Snitzer wrote:
-> multipath-tools has tables that specify all the defaults for a given
-> target backend.  NVMe will just be yet another.
+On Thu, Feb 16, 2017@08:05:36PM +0200, Sagi Grimberg wrote:
+> I guess one config option that we'd need is multibus vs. failover
+> which are used per use-case.
 
-No, if we get things right it won't.  ALUA already got rid of most
-of the parameter people would have to set under normal conditions,
-and I plan to make sure the NVMe equivalent will do it for all
-parameters.  I am active in the NVMe working group and will do my
-best to get there.  There's a few others folks here that are more or
-less active there as well (Keith, Martin, Jens for example), so I
-think we have a chance.
-
-That beeing said Keith is right that we'll always have odd setups
-where we need to overrid things, and we will have to provide tunables
-for that.  It's no different from any other kernel subsystem in that.
+Which fundamentally is a property of the target first, and it should
+tell us that.  There might be the occasional need for an override,
+but certainly not locally maintained tables of targets and their
+preferences.
