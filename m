@@ -1,23 +1,106 @@
 From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Fri, 17 Feb 2017 15:56:13 -0700
-Subject: [PATCH 0/5] OPAL patches cont'd
-Message-ID: <1487372178-15715-1-git-send-email-jonathan.derrick@intel.com>
+Date: Fri, 17 Feb 2017 15:56:14 -0700
+Subject: [PATCH 1/5] block/sed: Use ssize_t on atom parsers to return errors
+In-Reply-To: <1487372178-15715-1-git-send-email-jonathan.derrick@intel.com>
+References: <1487372178-15715-1-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <1487372178-15715-2-git-send-email-jonathan.derrick@intel.com>
 
-The first three in the series have been reviewed already but I wanted to
-squash them with the next two since they haven't been pulled yet.
+The short atom parser can return an errno from decoding but does not
+currently return the error as a signed value. Convert all of the parsers
+to ssize_t.
 
-The latter 2 are an attempt to refactor some of the awkward func data
-and state separation into a common struct
+Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+---
+ block/sed-opal.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-Jon Derrick (5):
-  block/sed: Use ssize_t on atom parsers to return errors
-  block/sed: Add helper to qualify response tokens
-  block/sed: Check received header lengths
-  block/sed: embedded function data into the function sequence
-  block/sed: Eliminate state variable
-
- block/sed-opal.c | 494 +++++++++++++++++++++++--------------------------------
- 1 file changed, 202 insertions(+), 292 deletions(-)
-
+diff --git a/block/sed-opal.c b/block/sed-opal.c
+index d1c52ba..4675fd8 100644
+--- a/block/sed-opal.c
++++ b/block/sed-opal.c
+@@ -706,8 +706,8 @@ static enum opal_token response_get_token(const struct parsed_resp *resp,
+ 	return tok->pos[0];
+ }
+ 
+-static size_t response_parse_tiny(struct opal_resp_tok *tok,
+-				  const u8 *pos)
++static ssize_t response_parse_tiny(struct opal_resp_tok *tok,
++				   const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = 1;
+@@ -723,8 +723,8 @@ static size_t response_parse_tiny(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
+ 
+-static size_t response_parse_short(struct opal_resp_tok *tok,
+-				   const u8 *pos)
++static ssize_t response_parse_short(struct opal_resp_tok *tok,
++				    const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = (pos[0] & SHORT_ATOM_LEN_MASK) + 1;
+@@ -736,7 +736,7 @@ static size_t response_parse_short(struct opal_resp_tok *tok,
+ 		tok->type = OPAL_DTA_TOKENID_SINT;
+ 	} else {
+ 		u64 u_integer = 0;
+-		int i, b = 0;
++		ssize_t i, b = 0;
+ 
+ 		tok->type = OPAL_DTA_TOKENID_UINT;
+ 		if (tok->len > 9) {
+@@ -753,8 +753,8 @@ static size_t response_parse_short(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
+ 
+-static size_t response_parse_medium(struct opal_resp_tok *tok,
+-				    const u8 *pos)
++static ssize_t response_parse_medium(struct opal_resp_tok *tok,
++				     const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = (((pos[0] & MEDIUM_ATOM_LEN_MASK) << 8) | pos[1]) + 2;
+@@ -770,8 +770,8 @@ static size_t response_parse_medium(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
+ 
+-static size_t response_parse_long(struct opal_resp_tok *tok,
+-				  const u8 *pos)
++static ssize_t response_parse_long(struct opal_resp_tok *tok,
++				   const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = ((pos[1] << 16) | (pos[2] << 8) | pos[3]) + 4;
+@@ -787,8 +787,8 @@ static size_t response_parse_long(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
+ 
+-static size_t response_parse_token(struct opal_resp_tok *tok,
+-				   const u8 *pos)
++static ssize_t response_parse_token(struct opal_resp_tok *tok,
++				    const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = 1;
+@@ -805,7 +805,7 @@ static int response_parse(const u8 *buf, size_t length,
+ 	struct opal_resp_tok *iter;
+ 	int num_entries = 0;
+ 	int total;
+-	size_t token_length;
++	ssize_t token_length;
+ 	const u8 *pos;
+ 
+ 	if (!buf)
+@@ -851,8 +851,8 @@ static int response_parse(const u8 *buf, size_t length,
+ 		else /* TOKEN */
+ 			token_length = response_parse_token(iter, pos);
+ 
+-		if (token_length == -EINVAL)
+-			return -EINVAL;
++		if (token_length < 0)
++			return token_length;
+ 
+ 		pos += token_length;
+ 		total -= token_length;
 -- 
 1.8.3.1
