@@ -1,16 +1,90 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 18 Feb 2017 09:24:40 +0100
-Subject: [PATCHv2 0/5] OPAL patche'd cont'd
-In-Reply-To: <1487376029-22662-1-git-send-email-jonathan.derrick@intel.com>
+Date: Sat, 18 Feb 2017 09:36:05 +0100
+Subject: [PATCHv2 4/5] block/sed: Embed function data into the function
+ sequence
+In-Reply-To: <1487376029-22662-5-git-send-email-jonathan.derrick@intel.com>
 References: <1487376029-22662-1-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <20170218082440.GA11798@lst.de>
+ <1487376029-22662-5-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <20170218083605.GB11798@lst.de>
 
-On Fri, Feb 17, 2017@05:00:24PM -0700, Jon Derrick wrote:
-> v1->v2:
-> Moved misplaced code from 5/5 to 4/5
-> 
-> The first three in the series have been reviewed already but I wanted to
-> squash them with the next two since they haven't been pulled yet.
+Hi Jon,
 
-Next time please carry the reviewed-by tags over to make everyones
-life easier.
+I think this is a great cleanup!
+
+A few nitpicky comments below:
+
+> -typedef int (*opal_step)(struct opal_dev *dev);
+> +typedef struct opal_step {
+> +	int (*fn)(struct opal_dev *dev, void *data);
+> +	void *data;
+> +} opal_step;
+
+no typedefs for structure types, please.
+
+> +	opal_step *funcs;
+
+maybe calls this member steps?
+
+> +static int set_mbr_done(struct opal_dev *dev, void *data)
+>  {
+> -	u8 mbr_done_tf = *(u8 *)dev->func_data[dev->state];
+> +	u8 mbr_done_tf = *(u8 *)data;
+
+No need for casts when going from void * to any pointer type.  There are
+a couple more instance below where the cast should be removed as well.
+
+> +static int __opal_lock_unlock(struct opal_dev *dev,
+> +			      struct opal_lock_unlock *lk_unlk)
+>  {
+> +	opal_step _unlock_funcs[] = {
+> +		{ opal_discovery0, },
+> +		{ start_auth_opal_session, &lk_unlk->session },
+> +		{ NULL, lk_unlk },
+> +		{ end_opal_session, },
+> +		{ NULL, }
+>  	};
+>  
+> +	if (lk_unlk->session.sum)
+> +		_unlock_funcs[2].fn = lock_unlock_locking_range_sum;
+> +	else
+> +		_unlock_funcs[2].fn = lock_unlock_locking_range;
+>  
+>  	dev->funcs = _unlock_funcs;
+
+I would suggest to just have two different arrays, and merge
+__opal_lock_unlock into opal_lock_unlock.  E.g. something like:
+
+static int opal_lock_unlock(struct opal_dev *dev,
+		struct opal_lock_unlock *lk_unlk)
+{
+	const struct opal_step unlock_funcs[] = {
+		{ opal_discovery0, },
+		{ start_auth_opal_session, &lk_unlk->session },
+		{ lock_unlock_locking_range, lk_unlk },
+		{ end_opal_session, },
+		{ NULL, }
+	};
+	const struct opal_step unlock_sun_funcs[] = {
+		{ opal_discovery0, },
+		{ start_auth_opal_session, &lk_unlk->session },
+		{ lock_unlock_locking_range_sum, lk_unlk },
+		{ end_opal_session, },
+		{ NULL, }
+	};
+	int ret;
+
+	if (lk_unlk->session.who < OPAL_ADMIN1 ||
+	    lk_unlk->session.who > OPAL_USER9)
+		return -EINVAL;
+
+	mutex_lock(&dev->dev_lock);
+	setup_opal_dev(dev, lk_unlk->session.sum ?
+			unlock_sum_funcs : unlock_funcs);
+	ret = next(dev);
+	mutex_unlock(&dev->dev_lock);
+	return ret;
+}
+
+and yes, I noticed that all the opal_step structures really should
+be marked const, especially given that they contain function pointers
+and are potential exploit targets.  Please apply that everywhere.
