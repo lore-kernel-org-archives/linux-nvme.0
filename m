@@ -1,129 +1,106 @@
 From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Fri, 17 Feb 2017 15:56:18 -0700
-Subject: [PATCH 5/5] block/sed: Eliminate state variable
-In-Reply-To: <1487372178-15715-1-git-send-email-jonathan.derrick@intel.com>
-References: <1487372178-15715-1-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <1487372178-15715-6-git-send-email-jonathan.derrick@intel.com>
+Date: Fri, 17 Feb 2017 17:00:25 -0700
+Subject: [PATCHv2 1/5] block/sed: Use ssize_t on atom parsers to return errors
+In-Reply-To: <1487376029-22662-1-git-send-email-jonathan.derrick@intel.com>
+References: <1487376029-22662-1-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <1487376029-22662-2-git-send-email-jonathan.derrick@intel.com>
 
-Now that the function data is embedded with the function, there is no
-need to carry a device state variable.
+The short atom parser can return an errno from decoding but does not
+currently return the error as a signed value. Convert all of the parsers
+to ssize_t.
 
 Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
 ---
- block/sed-opal.c | 26 +++++++++++---------------
- 1 file changed, 11 insertions(+), 15 deletions(-)
+ block/sed-opal.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
 diff --git a/block/sed-opal.c b/block/sed-opal.c
-index 9fc323c..791a40a 100644
+index d1c52ba..4675fd8 100644
 --- a/block/sed-opal.c
 +++ b/block/sed-opal.c
-@@ -85,7 +85,6 @@ struct opal_dev {
- 	sec_send_recv *send_recv;
- 
- 	opal_step *funcs;
--	int state;
- 	struct mutex dev_lock;
- 	u16 comid;
- 	u32 hsn;
-@@ -377,17 +376,17 @@ static void check_geometry(struct opal_dev *dev, const void *data)
- static int next(struct opal_dev *dev)
- {
- 	opal_step *func;
--	int error = 0;
-+	int state = 0, error = 0;
- 
- 	do {
--		func = &dev->funcs[dev->state];
-+		func = &dev->funcs[state];
- 		if (!func->fn)
- 			break;
- 
- 		error = func->fn(dev, func->data);
- 		if (error) {
- 			pr_err("Error on step function: %d with error %d: %s\n",
--			       dev->state, error,
-+			       state, error,
- 			       opal_error_to_human(error));
- 
- 			/* For each OPAL command we do a discovery0 then we
-@@ -397,10 +396,10 @@ static int next(struct opal_dev *dev)
- 			 * session. Therefore we shouldn't attempt to terminate
- 			 * a session, as one has not yet been created.
- 			 */
--			if (dev->state > 1)
-+			if (state > 1)
- 				return end_opal_session_error(dev);
- 		}
--		dev->state++;
-+		state++;
- 	} while (!error);
- 
- 	return error;
-@@ -1285,7 +1284,7 @@ static int start_generic_opal_session(struct opal_dev *dev,
- 	return finalize_and_send(dev, start_opal_session_cont);
+@@ -706,8 +706,8 @@ static enum opal_token response_get_token(const struct parsed_resp *resp,
+ 	return tok->pos[0];
  }
  
--static int start_anybodyASP_opal_session(struct opal_dev *dev)
-+static int start_anybodyASP_opal_session(struct opal_dev *dev, void *data)
+-static size_t response_parse_tiny(struct opal_resp_tok *tok,
+-				  const u8 *pos)
++static ssize_t response_parse_tiny(struct opal_resp_tok *tok,
++				   const u8 *pos)
  {
- 	return start_generic_opal_session(dev, OPAL_ANYBODY_UID,
- 					  OPAL_ADMINSP_UID, NULL, 0);
-@@ -1376,7 +1375,7 @@ static int start_auth_opal_session(struct opal_dev *dev, void *data)
- 	return finalize_and_send(dev, start_opal_session_cont);
+ 	tok->pos = pos;
+ 	tok->len = 1;
+@@ -723,8 +723,8 @@ static size_t response_parse_tiny(struct opal_resp_tok *tok,
+ 	return tok->len;
  }
  
--static int revert_tper(struct opal_dev *dev)
-+static int revert_tper(struct opal_dev *dev, void *data)
+-static size_t response_parse_short(struct opal_resp_tok *tok,
+-				   const u8 *pos)
++static ssize_t response_parse_short(struct opal_resp_tok *tok,
++				    const u8 *pos)
  {
- 	int err = 0;
+ 	tok->pos = pos;
+ 	tok->len = (pos[0] & SHORT_ATOM_LEN_MASK) + 1;
+@@ -736,7 +736,7 @@ static size_t response_parse_short(struct opal_resp_tok *tok,
+ 		tok->type = OPAL_DTA_TOKENID_SINT;
+ 	} else {
+ 		u64 u_integer = 0;
+-		int i, b = 0;
++		ssize_t i, b = 0;
  
-@@ -1461,7 +1460,7 @@ static int erase_locking_range(struct opal_dev *dev, void *data)
- 
- static int set_mbr_done(struct opal_dev *dev, void *data)
- {
--	u8 mbr_done_tf = data;
-+	u8 mbr_done_tf = *(u8 *)data;
- 	int err = 0;
- 
- 	clear_opal_cmd(dev);
-@@ -1493,7 +1492,7 @@ static int set_mbr_done(struct opal_dev *dev, void *data)
- 
- static int set_mbr_enable_disable(struct opal_dev *dev, void *data)
- {
--	u8 mbr_en_dis = data;
-+	u8 mbr_en_dis = *(u8 *)data;
- 	int err = 0;
- 
- 	clear_opal_cmd(dev);
-@@ -1962,19 +1961,17 @@ static int end_opal_session(struct opal_dev *dev, void *data)
- 
- static int end_opal_session_error(struct opal_dev *dev)
- {
--	const opal_step error_end_session[] = {
-+	opal_step error_end_session[] = {
- 		{ end_opal_session, },
- 		{ NULL, }
- 	};
- 	dev->funcs = error_end_session;
--	dev->state = 0;
- 	return next(dev);
+ 		tok->type = OPAL_DTA_TOKENID_UINT;
+ 		if (tok->len > 9) {
+@@ -753,8 +753,8 @@ static size_t response_parse_short(struct opal_resp_tok *tok,
+ 	return tok->len;
  }
  
- static inline void setup_opal_dev(struct opal_dev *dev,
--				  const opal_step *funcs)
-+				  opal_step *funcs)
+-static size_t response_parse_medium(struct opal_resp_tok *tok,
+-				    const u8 *pos)
++static ssize_t response_parse_medium(struct opal_resp_tok *tok,
++				     const u8 *pos)
  {
--	dev->state = 0;
- 	dev->funcs = funcs;
- 	dev->tsn = 0;
- 	dev->hsn = 0;
-@@ -2320,7 +2317,6 @@ bool opal_unlock_from_suspend(struct opal_dev *dev)
- 	setup_opal_dev(dev, NULL);
+ 	tok->pos = pos;
+ 	tok->len = (((pos[0] & MEDIUM_ATOM_LEN_MASK) << 8) | pos[1]) + 2;
+@@ -770,8 +770,8 @@ static size_t response_parse_medium(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
  
- 	list_for_each_entry(suspend, &dev->unlk_lst, node) {
--		dev->state = 0;
- 		dev->tsn = 0;
- 		dev->hsn = 0;
+-static size_t response_parse_long(struct opal_resp_tok *tok,
+-				  const u8 *pos)
++static ssize_t response_parse_long(struct opal_resp_tok *tok,
++				   const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = ((pos[1] << 16) | (pos[2] << 8) | pos[3]) + 4;
+@@ -787,8 +787,8 @@ static size_t response_parse_long(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
  
+-static size_t response_parse_token(struct opal_resp_tok *tok,
+-				   const u8 *pos)
++static ssize_t response_parse_token(struct opal_resp_tok *tok,
++				    const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = 1;
+@@ -805,7 +805,7 @@ static int response_parse(const u8 *buf, size_t length,
+ 	struct opal_resp_tok *iter;
+ 	int num_entries = 0;
+ 	int total;
+-	size_t token_length;
++	ssize_t token_length;
+ 	const u8 *pos;
+ 
+ 	if (!buf)
+@@ -851,8 +851,8 @@ static int response_parse(const u8 *buf, size_t length,
+ 		else /* TOKEN */
+ 			token_length = response_parse_token(iter, pos);
+ 
+-		if (token_length == -EINVAL)
+-			return -EINVAL;
++		if (token_length < 0)
++			return token_length;
+ 
+ 		pos += token_length;
+ 		total -= token_length;
 -- 
 1.8.3.1
