@@ -1,116 +1,86 @@
 From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Fri, 17 Feb 2017 17:00:26 -0700
-Subject: [PATCHv2 2/5] block/sed: Add helper to qualify response tokens
+Date: Fri, 17 Feb 2017 17:00:29 -0700
+Subject: [PATCHv2 5/5] block/sed: Eliminate state variable
 In-Reply-To: <1487376029-22662-1-git-send-email-jonathan.derrick@intel.com>
 References: <1487376029-22662-1-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <1487376029-22662-3-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <1487376029-22662-6-git-send-email-jonathan.derrick@intel.com>
 
-Add helper which verifies the response token is valid and matches the
-expected value. Merges token_type and response_get_token.
+Now that the function data is embedded with the function, there is no
+need to carry a device state variable.
 
 Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
 ---
- block/sed-opal.c | 61 +++++++++++++++++++++++---------------------------------
- 1 file changed, 25 insertions(+), 36 deletions(-)
+ block/sed-opal.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/block/sed-opal.c b/block/sed-opal.c
-index 4675fd8..d3d6db2 100644
+index e2e3228..791a40a 100644
 --- a/block/sed-opal.c
 +++ b/block/sed-opal.c
-@@ -662,48 +662,25 @@ static int cmd_finalize(struct opal_dev *cmd, u32 hsn, u32 tsn)
- 	return 0;
- }
+@@ -85,7 +85,6 @@ struct opal_dev {
+ 	sec_send_recv *send_recv;
  
--static enum opal_response_token token_type(const struct parsed_resp *resp,
--					   int n)
-+static const struct opal_resp_tok *response_get_token(
-+				const struct parsed_resp *resp,
-+				int n)
+ 	opal_step *funcs;
+-	int state;
+ 	struct mutex dev_lock;
+ 	u16 comid;
+ 	u32 hsn;
+@@ -377,17 +376,17 @@ static void check_geometry(struct opal_dev *dev, const void *data)
+ static int next(struct opal_dev *dev)
  {
- 	const struct opal_resp_tok *tok;
+ 	opal_step *func;
+-	int error = 0;
++	int state = 0, error = 0;
  
- 	if (n >= resp->num) {
- 		pr_err("Token number doesn't exist: %d, resp: %d\n",
- 		       n, resp->num);
--		return OPAL_DTA_TOKENID_INVALID;
-+		return ERR_PTR(-EINVAL);
- 	}
+ 	do {
+-		func = &dev->funcs[dev->state];
++		func = &dev->funcs[state];
+ 		if (!func->fn)
+ 			break;
  
- 	tok = &resp->toks[n];
- 	if (tok->len == 0) {
- 		pr_err("Token length must be non-zero\n");
--		return OPAL_DTA_TOKENID_INVALID;
-+		return ERR_PTR(-EINVAL);
- 	}
+ 		error = func->fn(dev, func->data);
+ 		if (error) {
+ 			pr_err("Error on step function: %d with error %d: %s\n",
+-			       dev->state, error,
++			       state, error,
+ 			       opal_error_to_human(error));
  
--	return tok->type;
--}
--
--/*
-- * This function returns 0 in case of invalid token. One should call
-- * token_type() first to find out if the token is valid or not.
-- */
--static enum opal_token response_get_token(const struct parsed_resp *resp,
--					  int n)
--{
--	const struct opal_resp_tok *tok;
--
--	if (n >= resp->num) {
--		pr_err("Token number doesn't exist: %d, resp: %d\n",
--		       n, resp->num);
--		return 0;
--	}
--
--	tok = &resp->toks[n];
--	if (tok->len == 0) {
--		pr_err("Token length must be non-zero\n");
--		return 0;
--	}
--
--	return tok->pos[0];
-+	return tok;
+ 			/* For each OPAL command we do a discovery0 then we
+@@ -397,10 +396,10 @@ static int next(struct opal_dev *dev)
+ 			 * session. Therefore we shouldn't attempt to terminate
+ 			 * a session, as one has not yet been created.
+ 			 */
+-			if (dev->state > 1)
++			if (state > 1)
+ 				return end_opal_session_error(dev);
+ 		}
+-		dev->state++;
++		state++;
+ 	} while (!error);
+ 
+ 	return error;
+@@ -1967,14 +1966,12 @@ static int end_opal_session_error(struct opal_dev *dev)
+ 		{ NULL, }
+ 	};
+ 	dev->funcs = error_end_session;
+-	dev->state = 0;
+ 	return next(dev);
  }
  
- static ssize_t response_parse_tiny(struct opal_resp_tok *tok,
-@@ -922,20 +899,32 @@ static u64 response_get_u64(const struct parsed_resp *resp, int n)
- 	return resp->toks[n].stored.u;
- }
- 
-+static bool response_token_matches(const struct opal_resp_tok *token, u8 match)
-+{
-+	if (IS_ERR(token) ||
-+	    token->type != OPAL_DTA_TOKENID_TOKEN ||
-+	    token->pos[0] != match)
-+		return false;
-+	return true;
-+}
-+
- static u8 response_status(const struct parsed_resp *resp)
+ static inline void setup_opal_dev(struct opal_dev *dev,
+ 				  opal_step *funcs)
  {
--	if (token_type(resp, 0) == OPAL_DTA_TOKENID_TOKEN &&
--	    response_get_token(resp, 0) == OPAL_ENDOFSESSION) {
-+	const struct opal_resp_tok *tok;
-+
-+	tok = response_get_token(resp, 0);
-+	if (response_token_matches(tok, OPAL_ENDOFSESSION))
- 		return 0;
--	}
+-	dev->state = 0;
+ 	dev->funcs = funcs;
+ 	dev->tsn = 0;
+ 	dev->hsn = 0;
+@@ -2320,7 +2317,6 @@ bool opal_unlock_from_suspend(struct opal_dev *dev)
+ 	setup_opal_dev(dev, NULL);
  
- 	if (resp->num < 5)
- 		return DTAERROR_NO_METHOD_STATUS;
+ 	list_for_each_entry(suspend, &dev->unlk_lst, node) {
+-		dev->state = 0;
+ 		dev->tsn = 0;
+ 		dev->hsn = 0;
  
--	if (token_type(resp, resp->num - 1) != OPAL_DTA_TOKENID_TOKEN ||
--	    token_type(resp, resp->num - 5) != OPAL_DTA_TOKENID_TOKEN ||
--	    response_get_token(resp, resp->num - 1) != OPAL_ENDLIST ||
--	    response_get_token(resp, resp->num - 5) != OPAL_STARTLIST)
-+	tok = response_get_token(resp, resp->num - 5);
-+	if (!response_token_matches(tok, OPAL_STARTLIST))
-+		return DTAERROR_NO_METHOD_STATUS;
-+
-+	tok = response_get_token(resp, resp->num - 1);
-+	if (!response_token_matches(tok, OPAL_ENDLIST))
- 		return DTAERROR_NO_METHOD_STATUS;
- 
- 	return response_get_u64(resp, resp->num - 4);
 -- 
 1.8.3.1
