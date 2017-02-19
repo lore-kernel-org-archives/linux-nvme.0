@@ -1,96 +1,109 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Sat, 18 Feb 2017 13:22:20 -0700
-Subject: [PATCH] switchtec: cleanup cdev init
-In-Reply-To: <1486749440-24309-1-git-send-email-logang@deltatee.com>
-References: <20170210145124.GA24594@kroah.com>
- <1486749440-24309-1-git-send-email-logang@deltatee.com>
-Message-ID: <20e55da4-b3c1-7c57-15cf-b0aa52442e18@deltatee.com>
+From: nab@linux-iscsi.org (Nicholas A. Bellinger)
+Date: Sat, 18 Feb 2017 21:54:02 -0800
+Subject: [PATCH rfc 4/4] iscsi-target: use generic inet_pton_with_scope
+In-Reply-To: <1487267017-29904-5-git-send-email-sagi@grimberg.me>
+References: <1487267017-29904-1-git-send-email-sagi@grimberg.me>
+ <1487267017-29904-5-git-send-email-sagi@grimberg.me>
+Message-ID: <1487483642.2958.43.camel@haakon3.risingtidesystems.com>
 
-Hi,
-
-Please don't apply this patch and instead apply the switchtec driver as
-we submitted in v2. As per the discussion in [1], not using the cdev's
-kobj parent results in incorrect reference counting and a possible use
-of the cdev after its containing structure is freed.
-
-I've also done a quick review around the kernel and found the pattern in
-question to be quite prevalent. It's used in, at least, these drivers:
-
-drivers/dax/dax.c:708
-drivers/input/evdev.c:1419
-drivers/input/joydev.c:908
-drivers/input/mousedev.c:904
-drivers/gpio/gpiolib.c:1039
-drivers/char/tpm/tpm-chip.c:190
-drivers/platform/chrome/cros_ec_dev.c:411
-drivers/infiniband/hw/hfi1/device.c:72
-drivers/infiniband/core/uverbs_main.c:1168
-drivers/infiniband/core/user_mad.c:1186
-drivers/infiniband/core/user_mad.c:1205
-drivers/iio/industrialio-core.c:1721
-drivers/media/cec/cec-core.c:140
-drivers/media/media-devnode.c:258
-
-Dan Williams has proposed a helper API in [2] that could make this code
-appear significantly less suspect which I think would be a good idea.
-However, for now, I feel the switchtec code should also follow this
-pattern (ie. the way it was submitted in v2) and can be changed or
-cleaned up when/if the above numerous examples are fixed up.
-
-Thanks,
-
-Logan
-
-[1] https://lkml.org/lkml/2017/2/10/589
-[2] https://lkml.org/lkml/2017/2/13/700
-
-
-
-
-On 10/02/17 10:57 AM, Logan Gunthorpe wrote:
-> Per a suggestion from Greg Kroah-Hartman [1], don't set the cdev's
-> kobject parent. This allows us to use device_register instead of init
-> and add.
-> 
-> [1] https://lkml.org/lkml/2017/2/10/370
+On Thu, 2017-02-16@19:43 +0200, Sagi Grimberg wrote:
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->  drivers/pci/switch/switchtec.c | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
+>  drivers/target/iscsi/iscsi_target_configfs.c | 46 ++++++++--------------------
+>  1 file changed, 12 insertions(+), 34 deletions(-)
 > 
-> diff --git a/drivers/pci/switch/switchtec.c b/drivers/pci/switch/switchtec.c
-> index 82bfd18..014eaec 100644
-> --- a/drivers/pci/switch/switchtec.c
-> +++ b/drivers/pci/switch/switchtec.c
-> @@ -1222,24 +1222,23 @@ static struct switchtec_dev *stdev_create(struct pci_dev *pdev)
->  		return ERR_PTR(minor);
+> diff --git a/drivers/target/iscsi/iscsi_target_configfs.c b/drivers/target/iscsi/iscsi_target_configfs.c
+> index bf40f03755dd..f30c27b83c5e 100644
+> --- a/drivers/target/iscsi/iscsi_target_configfs.c
+> +++ b/drivers/target/iscsi/iscsi_target_configfs.c
+> @@ -167,10 +167,7 @@ static struct se_tpg_np *lio_target_call_addnptotpg(
+>  	struct iscsi_portal_group *tpg;
+>  	struct iscsi_tpg_np *tpg_np;
+>  	char *str, *str2, *ip_str, *port_str;
+> -	struct sockaddr_storage sockaddr;
+> -	struct sockaddr_in *sock_in;
+> -	struct sockaddr_in6 *sock_in6;
+> -	unsigned long port;
+> +	struct sockaddr_storage sockaddr = { };
+>  	int ret;
+>  	char buf[MAX_PORTAL_LEN + 1];
 >  
->  	dev = &stdev->dev;
-> -	device_initialize(dev);
->  	dev->devt = MKDEV(MAJOR(switchtec_devt), minor);
-> -	dev->class = switchtec_class;
-> -	dev->parent = &pdev->dev;
-> -	dev->groups = switchtec_device_groups;
-> -	dev->release = stdev_release;
-> -	dev_set_name(dev, "switchtec%d", minor);
+> @@ -182,21 +179,19 @@ static struct se_tpg_np *lio_target_call_addnptotpg(
+>  	memset(buf, 0, MAX_PORTAL_LEN + 1);
+>  	snprintf(buf, MAX_PORTAL_LEN + 1, "%s", name);
 >  
->  	cdev = &stdev->cdev;
->  	cdev_init(cdev, &switchtec_fops);
->  	cdev->owner = THIS_MODULE;
-> -	cdev->kobj.parent = &dev->kobj;
->  
->  	rc = cdev_add(&stdev->cdev, dev->devt, 1);
->  	if (rc)
->  		goto err_cdev;
->  
-> -	rc = device_add(dev);
-> +	dev->class = switchtec_class;
-> +	dev->parent = &pdev->dev;
-> +	dev->groups = switchtec_device_groups;
-> +	dev->release = stdev_release;
-> +	dev_set_name(dev, "switchtec%d", minor);
+> -	memset(&sockaddr, 0, sizeof(struct sockaddr_storage));
+> -
+>  	str = strstr(buf, "[");
+>  	if (str) {
+> -		const char *end;
+> -
+>  		str2 = strstr(str, "]");
+>  		if (!str2) {
+>  			pr_err("Unable to locate trailing \"]\""
+>  				" in IPv6 iSCSI network portal address\n");
+>  			return ERR_PTR(-EINVAL);
+>  		}
+> -		str++; /* Skip over leading "[" */
 > +
-> +	rc = device_register(dev);
->  	if (rc) {
->  		cdev_del(&stdev->cdev);
->  		put_device(dev);
-> 
+> +		ip_str = str + 1; /* Skip over leading "[" */
+>  		*str2 = '\0'; /* Terminate the unbracketed IPv6 address */
+>  		str2++; /* Skip over the \0 */
+> +
+>  		port_str = strstr(str2, ":");
+>  		if (!port_str) {
+>  			pr_err("Unable to locate \":port\""
+> @@ -205,23 +200,8 @@ static struct se_tpg_np *lio_target_call_addnptotpg(
+>  		}
+>  		*port_str = '\0'; /* Terminate string for IP */
+>  		port_str++; /* Skip over ":" */
+> -
+> -		ret = kstrtoul(port_str, 0, &port);
+> -		if (ret < 0) {
+> -			pr_err("kstrtoul() failed for port_str: %d\n", ret);
+> -			return ERR_PTR(ret);
+> -		}
+> -		sock_in6 = (struct sockaddr_in6 *)&sockaddr;
+> -		sock_in6->sin6_family = AF_INET6;
+> -		sock_in6->sin6_port = htons((unsigned short)port);
+> -		ret = in6_pton(str, -1,
+> -				(void *)&sock_in6->sin6_addr.in6_u, -1, &end);
+> -		if (ret <= 0) {
+> -			pr_err("in6_pton returned: %d\n", ret);
+> -			return ERR_PTR(-EINVAL);
+> -		}
+>  	} else {
+> -		str = ip_str = &buf[0];
+> +		ip_str = &buf[0];
+>  		port_str = strstr(ip_str, ":");
+>  		if (!port_str) {
+>  			pr_err("Unable to locate \":port\""
+> @@ -230,17 +210,15 @@ static struct se_tpg_np *lio_target_call_addnptotpg(
+>  		}
+>  		*port_str = '\0'; /* Terminate string for IP */
+>  		port_str++; /* Skip over ":" */
+> +	}
+>  
+> -		ret = kstrtoul(port_str, 0, &port);
+> -		if (ret < 0) {
+> -			pr_err("kstrtoul() failed for port_str: %d\n", ret);
+> -			return ERR_PTR(ret);
+> -		}
+> -		sock_in = (struct sockaddr_in *)&sockaddr;
+> -		sock_in->sin_family = AF_INET;
+> -		sock_in->sin_port = htons((unsigned short)port);
+> -		sock_in->sin_addr.s_addr = in_aton(ip_str);
+> +	ret = inet_pton_with_scope(&init_net, AF_UNSPEC, ip_str,
+> +			port_str, &sockaddr);
+> +	if (ret) {
+> +		pr_err("malformed ip/port passed: %s\n", name);
+> +		return ERR_PTR(ret);
+>  	}
+> +
+>  	tpg = container_of(se_tpg, struct iscsi_portal_group, tpg_se_tpg);
+>  	ret = iscsit_get_tpg(tpg);
+>  	if (ret < 0)
+
+A nice cleanup.
+
+Acked-by: Nicholas Bellinger <nab at linux-iscsi.org>
