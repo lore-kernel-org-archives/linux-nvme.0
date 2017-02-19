@@ -1,28 +1,26 @@
-From: christophe.jaillet@wanadoo.fr (Christophe JAILLET)
-Date: Sun, 19 Feb 2017 20:04:38 +0100
-Subject: [PATCH] nvmet-rdma: Fix error handling
-Message-ID: <20170219190438.19371-1-christophe.jaillet@wanadoo.fr>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sun, 19 Feb 2017 11:43:23 -0800
+Subject: [PATCH 1/2] nvme-rdma: move nvme cm status helper to .h file
+In-Reply-To: <1487527146-5358-1-git-send-email-maxg@mellanox.com>
+References: <1487527146-5358-1-git-send-email-maxg@mellanox.com>
+Message-ID: <20170219194323.GB16163@infradead.org>
 
-According to the surrounding goto, it is likely that 'out_destroy_sq' was
-expected here.
+> +static inline const char *nvme_rdma_cm_msg(enum nvme_rdma_cm_status status)
+> +{
+> +	switch (status) {
+> +	case NVME_RDMA_CM_INVALID_LEN: return "invalid length";
+> +	case NVME_RDMA_CM_INVALID_RECFMT: return "invalid record format";
+> +	case NVME_RDMA_CM_INVALID_QID: return "invalid queue ID";
+> +	case NVME_RDMA_CM_INVALID_HSQSIZE: return "invalid host SQ size";
+> +	case NVME_RDMA_CM_INVALID_HRQSIZE: return "invalid host RQ size";
+> +	case NVME_RDMA_CM_NO_RSC: return "resource not found";
+> +	case NVME_RDMA_CM_INVALID_IRD: return "invalid IRD";
+> +	case NVME_RDMA_CM_INVALID_ORD: return "Invalid ORD";
+> +	default: return "unrecognized reason";
+> +	}
+> +}
 
-Signed-off-by: Christophe JAILLET <christophe.jaillet at wanadoo.fr>
----
- drivers/nvme/target/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This also moves from a lookup array to a switch statement.  That's
+fine with me, but should be mentioned in the changelog.
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 60990220bd83..2ae63f7e17ed 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1091,7 +1091,7 @@ nvmet_rdma_alloc_queue(struct nvmet_rdma_device *ndev,
- 	queue->idx = ida_simple_get(&nvmet_rdma_queue_ida, 0, 0, GFP_KERNEL);
- 	if (queue->idx < 0) {
- 		ret = NVME_RDMA_CM_NO_RSC;
--		goto out_free_queue;
-+		goto out_destroy_sq;
- 	}
- 
- 	ret = nvmet_rdma_alloc_rsps(queue);
--- 
-2.9.3
+Also please don't put code on the same line as the switch label.
