@@ -1,16 +1,20 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 19 Feb 2017 20:46:57 +0100
-Subject: [PATCH] nvmet-rdma: Fix error handling
-In-Reply-To: <20170219190438.19371-1-christophe.jaillet@wanadoo.fr>
-References: <20170219190438.19371-1-christophe.jaillet@wanadoo.fr>
-Message-ID: <20170219194657.GA6591@lst.de>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Sun, 19 Feb 2017 13:43:23 -0800
+Subject: [PATCH] switchtec: cleanup cdev init
+In-Reply-To: <20e55da4-b3c1-7c57-15cf-b0aa52442e18@deltatee.com>
+References: <20170210145124.GA24594@kroah.com>
+ <1486749440-24309-1-git-send-email-logang@deltatee.com>
+ <20e55da4-b3c1-7c57-15cf-b0aa52442e18@deltatee.com>
+Message-ID: <CAA9_cmfbJEPhCj_Ukav841zW5P=uYkTir4jFRTKyOvzHmJNmVg@mail.gmail.com>
 
-On Sun, Feb 19, 2017@08:04:38PM +0100, Christophe JAILLET wrote:
-> According to the surrounding goto, it is likely that 'out_destroy_sq' was
-> expected here.
+On Sat, Feb 18, 2017@12:22 PM, Logan Gunthorpe <logang@deltatee.com> wrote:
+> Hi,
+>
+> Please don't apply this patch and instead apply the switchtec driver as
+> we submitted in v2. As per the discussion in [1], not using the cdev's
+> kobj parent results in incorrect reference counting and a possible use
+> of the cdev after its containing structure is freed.
 
-s/surrounding/preceeding/ ?
-
-But the patch itself looks good, thanks.
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Is this race present for all file operations? I've only seen it with
+mmap() and late faults. So if these other drivers do not support mmap
+it's not clear they can trigger the failure.
