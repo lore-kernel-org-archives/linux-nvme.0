@@ -1,113 +1,81 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 19 Feb 2017 09:15:23 -0800
-Subject: [PATCH rfc 1/4] net/utils: generic inet_pton_with_scope helper
-In-Reply-To: <1487267017-29904-2-git-send-email-sagi@grimberg.me>
-References: <1487267017-29904-1-git-send-email-sagi@grimberg.me>
- <1487267017-29904-2-git-send-email-sagi@grimberg.me>
-Message-ID: <20170219171523.GC10310@infradead.org>
+Date: Sun, 19 Feb 2017 09:17:02 -0800
+Subject: [PATCH 1/1] nvme-rdma: add support for host_traddr
+In-Reply-To: <1487263893-22089-1-git-send-email-maxg@mellanox.com>
+References: <1487263893-22089-1-git-send-email-maxg@mellanox.com>
+Message-ID: <20170219171702.GD10310@infradead.org>
 
-On Thu, Feb 16, 2017@07:43:34PM +0200, Sagi Grimberg wrote:
-> Several locations in the stack need to handle ipv4/ipv6
-> (with scope) and port strings conversion to sockaddr.
-> Add a helper that takes either AF_INET, AF_INET6 or
-> AF_UNSPEC (for wildcard) to centralize this handling.
+On Thu, Feb 16, 2017@06:51:33PM +0200, Max Gurtovoy wrote:
+> This will enable the user to control the specific interface for
+> connection establishment in case the host has more than 1 interface
+> under the same subnet.
+> E.g:
+> Host interfaces configured as:
+>  - ib0 1.1.1.1/16
+>  - ib1 1.1.1.2/16
 > 
-> Suggested-by: Christoph Hellwig <hch at lst.de>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> Target interfaces configured as:
+>  - ib0 1.1.1.3/16 (listener interface)
+>  - ib1 1.1.1.4/16
+> 
+> the following connect command will go through host iface ib0 (default):
+> nvme connect -t rdma -n testsubsystem -a 1.1.1.3 -s 1023
+> 
+> but the following command will go through host iface ib1:
+> nvme connect -t rdma -n testsubsystem -a 1.1.1.3 -s 1023 -w 1.1.1.2
+> 
+> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> Reviewed-by: Parav Pandit <parav at mellanox.com>
 > ---
->  include/linux/inet.h |  6 ++++
->  net/core/utils.c     | 91 ++++++++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 97 insertions(+)
+>  drivers/nvme/host/rdma.c  | 21 +++++++++++++++++++--
+>  1 files changed, 19 insertions(+), 2 deletions(-)
 > 
-> diff --git a/include/linux/inet.h b/include/linux/inet.h
-> index 4cca05c9678e..636ebe87e6f8 100644
-> --- a/include/linux/inet.h
-> +++ b/include/linux/inet.h
-> @@ -43,6 +43,8 @@
->  #define _LINUX_INET_H
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 3d25add..36b8253 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -133,6 +133,10 @@ struct nvme_rdma_ctrl {
+>  		struct sockaddr addr;
+>  		struct sockaddr_in addr_in;
+>  	};
+> +	union {
+> +		struct sockaddr src_addr;
+> +		struct sockaddr_in src_addr_in;
+> +	};
 >  
->  #include <linux/types.h>
-> +#include <net/net_namespace.h>
-> +#include <linux/socket.h>
+>  	struct nvme_ctrl	ctrl;
+>  };
+> @@ -543,6 +547,7 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
+>  		int idx, size_t queue_size)
+>  {
+>  	struct nvme_rdma_queue *queue;
+> +	struct sockaddr *src_addr = NULL;
+>  	int ret;
 >  
->  /*
->   * These mimic similar macros defined in user-space for inet_ntop(3).
-> @@ -54,4 +56,8 @@
->  extern __be32 in_aton(const char *str);
->  extern int in4_pton(const char *src, int srclen, u8 *dst, int delim, const char **end);
->  extern int in6_pton(const char *src, int srclen, u8 *dst, int delim, const char **end);
+>  	queue = &ctrl->queues[idx];
+> @@ -565,7 +570,10 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
+>  	}
+>  
+>  	queue->cm_error = -ETIMEDOUT;
+> -	ret = rdma_resolve_addr(queue->cm_id, NULL, &ctrl->addr,
+> +	if (ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR)
+> +		src_addr = &ctrl->src_addr;
 > +
-> +extern int inet_pton_with_scope(struct net *net, unsigned short af,
-> +		const char *src, const char *port, struct sockaddr_storage *addr);
-> +
->  #endif	/* _LINUX_INET_H */
-> diff --git a/net/core/utils.c b/net/core/utils.c
-> index 6592d7bbed39..8f15d016c64a 100644
-> --- a/net/core/utils.c
-> +++ b/net/core/utils.c
-> @@ -26,9 +26,11 @@
->  #include <linux/percpu.h>
->  #include <linux/init.h>
->  #include <linux/ratelimit.h>
-> +#include <linux/socket.h>
+> +	ret = rdma_resolve_addr(queue->cm_id, src_addr, &ctrl->addr,
+>  			NVME_RDMA_CONNECT_TIMEOUT_MS);
+>  	if (ret) {
+>  		dev_info(ctrl->ctrl.device,
+> @@ -1885,6 +1893,14 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+>  		goto out_free_ctrl;
+>  	}
 >  
->  #include <net/sock.h>
->  #include <net/net_ratelimit.h>
-> +#include <net/ipv6.h>
->  
->  #include <asm/byteorder.h>
->  #include <linux/uaccess.h>
-> @@ -300,6 +302,95 @@ int in6_pton(const char *src, int srclen,
->  }
->  EXPORT_SYMBOL(in6_pton);
->  
-> +/**
-> + * inet_pton_with_scope - convert an IPv4/IPv6 and port to socket address
-> + * @net: net namespace (used for scope handling)
-> + * @af: address family, AF_INET, AF_INET6 or AF_UNSPEC for either
-> + * @src: the start of the address string
-> + * @port: the start of the port string (or NULL for none)
-> + * @addr: output socket address
-> + *
-> + * Return zero on success, return errno when any error occurs.
-> + */
-> +int inet_pton_with_scope(struct net *net, __kernel_sa_family_t af,
-> +		const char *src, const char *port, struct sockaddr_storage *addr)
-> +{
-> +	struct sockaddr_in *addr4;
-> +	struct sockaddr_in6 *addr6;
-> +	const char *scope_delim;
-> +	bool unspec = false;
-> +	int srclen = strlen(src);
-> +	u16 port_num;
-> +
-> +	if (port) {
-> +		if (kstrtou16(port, 0, &port_num)) {
-> +			pr_err("failed port_num %s\n", port);
-> +			return -EINVAL;
-> +		}
-> +	} else {
-> +		port_num = 0;
-> +	}
-> +
-> +	switch (af) {
-> +	case AF_UNSPEC:
-> +		unspec = true;
-> +		/* FALLTHRU */
-> +	case AF_INET:
-> +		if (srclen <= INET_ADDRSTRLEN) {
-> +			addr4 = (struct sockaddr_in *)addr;
-> +			if (in4_pton(src, srclen, (u8 *) &addr4->sin_addr.s_addr,
-> +				     '\n', NULL) > 0) {
-> +				addr4->sin_family = AF_INET;
-> +				addr4->sin_port = htons(port_num);
-> +				return 0;
-> +			}
-> +			pr_err("failed in4_pton %s\n", src);
-> +		}
+> +	if (opts->mask & NVMF_OPT_HOST_TRADDR) {
+> +		ret = nvme_rdma_parse_ipaddr(&ctrl->src_addr_in, opts->host_traddr);
+> +		if (ret) {
+> +			pr_err("malformed src IP address passed: %s\n", opts->host_traddr);
 
-I would probably factor this and the IPv6 equivalent below into helpers
-to keep the code a little more self-contained so that we could avoid the
-fallthrough magic.
+Please break these lines after 80 characters.
 
-Except for that and the semicolon warnings this looks fine to me.
+Otherwise looks fine:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
