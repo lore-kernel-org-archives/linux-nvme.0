@@ -1,47 +1,75 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 19 Feb 2017 19:59:06 +0200
-Subject: [PATCH 2/2] nvmet-rdma: use nvme cm status helper
-In-Reply-To: <1487527146-5358-1-git-send-email-maxg@mellanox.com>
-References: <1487527146-5358-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1487527146-5358-2-git-send-email-maxg@mellanox.com>
+Date: Sun, 19 Feb 2017 19:59:05 +0200
+Subject: [PATCH 1/2] nvme-rdma: move nvme cm status helper to .h file
+Message-ID: <1487527146-5358-1-git-send-email-maxg@mellanox.com>
 
-Also remove redundant debug prints.
+This will enable the usage also for nvme rdma target.
 
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 Reviewed-by: Parav Pandit <parav at mellanox.com>
 ---
- drivers/nvme/target/rdma.c |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
+ drivers/nvme/host/rdma.c  |   22 ----------------------
+ include/linux/nvme-rdma.h |   15 +++++++++++++++
+ 2 files changed, 15 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 6099022..5d189c0 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1041,6 +1041,9 @@ static int nvmet_rdma_cm_reject(struct rdma_cm_id *cm_id,
- {
- 	struct nvme_rdma_cm_rej rej;
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 557f29b..3c9fd9b 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -42,28 +42,6 @@
  
-+	pr_debug("rejecting connect request: status %d (%s)\n",
-+		 status, nvme_rdma_cm_msg(status));
+ #define NVME_RDMA_MAX_INLINE_SEGMENTS	1
+ 
+-static const char *const nvme_rdma_cm_status_strs[] = {
+-	[NVME_RDMA_CM_INVALID_LEN]	= "invalid length",
+-	[NVME_RDMA_CM_INVALID_RECFMT]	= "invalid record format",
+-	[NVME_RDMA_CM_INVALID_QID]	= "invalid queue ID",
+-	[NVME_RDMA_CM_INVALID_HSQSIZE]	= "invalid host SQ size",
+-	[NVME_RDMA_CM_INVALID_HRQSIZE]	= "invalid host RQ size",
+-	[NVME_RDMA_CM_NO_RSC]		= "resource not found",
+-	[NVME_RDMA_CM_INVALID_IRD]	= "invalid IRD",
+-	[NVME_RDMA_CM_INVALID_ORD]	= "Invalid ORD",
+-};
+-
+-static const char *nvme_rdma_cm_msg(enum nvme_rdma_cm_status status)
+-{
+-	size_t index = status;
+-
+-	if (index < ARRAY_SIZE(nvme_rdma_cm_status_strs) &&
+-	    nvme_rdma_cm_status_strs[index])
+-		return nvme_rdma_cm_status_strs[index];
+-	else
+-		return "unrecognized reason";
+-};
+-
+ /*
+  * We handle AEN commands ourselves and don't even let the
+  * block layer know about them.
+diff --git a/include/linux/nvme-rdma.h b/include/linux/nvme-rdma.h
+index bf240a3..e679204 100644
+--- a/include/linux/nvme-rdma.h
++++ b/include/linux/nvme-rdma.h
+@@ -29,6 +29,21 @@ enum nvme_rdma_cm_status {
+ 	NVME_RDMA_CM_INVALID_ORD	= 0x08,
+ };
+ 
++static inline const char *nvme_rdma_cm_msg(enum nvme_rdma_cm_status status)
++{
++	switch (status) {
++	case NVME_RDMA_CM_INVALID_LEN: return "invalid length";
++	case NVME_RDMA_CM_INVALID_RECFMT: return "invalid record format";
++	case NVME_RDMA_CM_INVALID_QID: return "invalid queue ID";
++	case NVME_RDMA_CM_INVALID_HSQSIZE: return "invalid host SQ size";
++	case NVME_RDMA_CM_INVALID_HRQSIZE: return "invalid host RQ size";
++	case NVME_RDMA_CM_NO_RSC: return "resource not found";
++	case NVME_RDMA_CM_INVALID_IRD: return "invalid IRD";
++	case NVME_RDMA_CM_INVALID_ORD: return "Invalid ORD";
++	default: return "unrecognized reason";
++	}
++}
 +
- 	rej.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0);
- 	rej.sts = cpu_to_le16(status);
- 
-@@ -1135,7 +1138,6 @@ static int nvmet_rdma_cm_reject(struct rdma_cm_id *cm_id,
- out_free_queue:
- 	kfree(queue);
- out_reject:
--	pr_debug("rejecting connect request with status code %d\n", ret);
- 	nvmet_rdma_cm_reject(cm_id, ret);
- 	return NULL;
- }
-@@ -1188,7 +1190,6 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 
- 	ndev = nvmet_rdma_find_get_device(cm_id);
- 	if (!ndev) {
--		pr_err("no client data!\n");
- 		nvmet_rdma_cm_reject(cm_id, NVME_RDMA_CM_NO_RSC);
- 		return -ECONNREFUSED;
- 	}
+ /**
+  * struct nvme_rdma_cm_req - rdma connect request
+  *
 -- 
 1.7.1
