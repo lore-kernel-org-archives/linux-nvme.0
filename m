@@ -1,75 +1,100 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 19 Feb 2017 19:59:05 +0200
-Subject: [PATCH 1/2] nvme-rdma: move nvme cm status helper to .h file
-Message-ID: <1487527146-5358-1-git-send-email-maxg@mellanox.com>
+Date: Sun, 19 Feb 2017 20:08:03 +0200
+Subject: [PATCHv2 1/1] nvme-rdma: add support for host_traddr
+Message-ID: <1487527683-10108-1-git-send-email-maxg@mellanox.com>
 
-This will enable the usage also for nvme rdma target.
+This will enable the user to control the specific interface for
+connection establishment in case the host has more than 1 interface
+under the same subnet.
+E.g:
+Host interfaces configured as:
+ - ib0 1.1.1.1/16
+ - ib1 1.1.1.2/16
+
+Target interfaces configured as:
+ - ib0 1.1.1.3/16 (listener interface)
+ - ib1 1.1.1.4/16
+
+the following connect command will go through host iface ib0 (default):
+nvme connect -t rdma -n testsubsystem -a 1.1.1.3 -s 1023
+
+but the following command will go through host iface ib1:
+nvme connect -t rdma -n testsubsystem -a 1.1.1.3 -s 1023 -w 1.1.1.2
 
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
 Reviewed-by: Parav Pandit <parav at mellanox.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/rdma.c  |   22 ----------------------
- include/linux/nvme-rdma.h |   15 +++++++++++++++
- 2 files changed, 15 insertions(+), 22 deletions(-)
+
+Changes from v1:
+ - break lines after 80 characters
+ - Add Christoph as reviewer
+
+---
+ drivers/nvme/host/rdma.c |   23 +++++++++++++++++++++--
+ 1 files changed, 21 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 557f29b..3c9fd9b 100644
+index 557f29b..96285ef 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -42,28 +42,6 @@
+@@ -155,6 +155,10 @@ struct nvme_rdma_ctrl {
+ 		struct sockaddr addr;
+ 		struct sockaddr_in addr_in;
+ 	};
++	union {
++		struct sockaddr src_addr;
++		struct sockaddr_in src_addr_in;
++	};
  
- #define NVME_RDMA_MAX_INLINE_SEGMENTS	1
+ 	struct nvme_ctrl	ctrl;
+ };
+@@ -567,6 +571,7 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
+ 		int idx, size_t queue_size)
+ {
+ 	struct nvme_rdma_queue *queue;
++	struct sockaddr *src_addr = NULL;
+ 	int ret;
  
--static const char *const nvme_rdma_cm_status_strs[] = {
--	[NVME_RDMA_CM_INVALID_LEN]	= "invalid length",
--	[NVME_RDMA_CM_INVALID_RECFMT]	= "invalid record format",
--	[NVME_RDMA_CM_INVALID_QID]	= "invalid queue ID",
--	[NVME_RDMA_CM_INVALID_HSQSIZE]	= "invalid host SQ size",
--	[NVME_RDMA_CM_INVALID_HRQSIZE]	= "invalid host RQ size",
--	[NVME_RDMA_CM_NO_RSC]		= "resource not found",
--	[NVME_RDMA_CM_INVALID_IRD]	= "invalid IRD",
--	[NVME_RDMA_CM_INVALID_ORD]	= "Invalid ORD",
--};
--
--static const char *nvme_rdma_cm_msg(enum nvme_rdma_cm_status status)
--{
--	size_t index = status;
--
--	if (index < ARRAY_SIZE(nvme_rdma_cm_status_strs) &&
--	    nvme_rdma_cm_status_strs[index])
--		return nvme_rdma_cm_status_strs[index];
--	else
--		return "unrecognized reason";
--};
--
- /*
-  * We handle AEN commands ourselves and don't even let the
-  * block layer know about them.
-diff --git a/include/linux/nvme-rdma.h b/include/linux/nvme-rdma.h
-index bf240a3..e679204 100644
---- a/include/linux/nvme-rdma.h
-+++ b/include/linux/nvme-rdma.h
-@@ -29,6 +29,21 @@ enum nvme_rdma_cm_status {
- 	NVME_RDMA_CM_INVALID_ORD	= 0x08,
+ 	queue = &ctrl->queues[idx];
+@@ -589,7 +594,10 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
+ 	}
+ 
+ 	queue->cm_error = -ETIMEDOUT;
+-	ret = rdma_resolve_addr(queue->cm_id, NULL, &ctrl->addr,
++	if (ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR)
++		src_addr = &ctrl->src_addr;
++
++	ret = rdma_resolve_addr(queue->cm_id, src_addr, &ctrl->addr,
+ 			NVME_RDMA_CONNECT_TIMEOUT_MS);
+ 	if (ret) {
+ 		dev_info(ctrl->ctrl.device,
+@@ -1905,6 +1913,16 @@ static int nvme_rdma_parse_ipaddr(struct sockaddr_in *in_addr, char *p)
+ 		goto out_free_ctrl;
+ 	}
+ 
++	if (opts->mask & NVMF_OPT_HOST_TRADDR) {
++		ret = nvme_rdma_parse_ipaddr(&ctrl->src_addr_in,
++				opts->host_traddr);
++		if (ret) {
++			pr_err("malformed src IP address passed: %s\n",
++			       opts->host_traddr);
++			goto out_free_ctrl;
++		}
++	}
++
+ 	if (opts->mask & NVMF_OPT_TRSVCID) {
+ 		u16 port;
+ 
+@@ -2016,7 +2034,8 @@ static int nvme_rdma_parse_ipaddr(struct sockaddr_in *in_addr, char *p)
+ static struct nvmf_transport_ops nvme_rdma_transport = {
+ 	.name		= "rdma",
+ 	.required_opts	= NVMF_OPT_TRADDR,
+-	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY,
++	.allowed_opts	= NVMF_OPT_TRSVCID | NVMF_OPT_RECONNECT_DELAY |
++			  NVMF_OPT_HOST_TRADDR,
+ 	.create_ctrl	= nvme_rdma_create_ctrl,
  };
  
-+static inline const char *nvme_rdma_cm_msg(enum nvme_rdma_cm_status status)
-+{
-+	switch (status) {
-+	case NVME_RDMA_CM_INVALID_LEN: return "invalid length";
-+	case NVME_RDMA_CM_INVALID_RECFMT: return "invalid record format";
-+	case NVME_RDMA_CM_INVALID_QID: return "invalid queue ID";
-+	case NVME_RDMA_CM_INVALID_HSQSIZE: return "invalid host SQ size";
-+	case NVME_RDMA_CM_INVALID_HRQSIZE: return "invalid host RQ size";
-+	case NVME_RDMA_CM_NO_RSC: return "resource not found";
-+	case NVME_RDMA_CM_INVALID_IRD: return "invalid IRD";
-+	case NVME_RDMA_CM_INVALID_ORD: return "Invalid ORD";
-+	default: return "unrecognized reason";
-+	}
-+}
-+
- /**
-  * struct nvme_rdma_cm_req - rdma connect request
-  *
 -- 
 1.7.1
