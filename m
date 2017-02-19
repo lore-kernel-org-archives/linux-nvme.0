@@ -1,9 +1,16 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sun, 19 Feb 2017 11:43:53 -0800
-Subject: [PATCH 2/2] nvmet-rdma: use nvme cm status helper
-In-Reply-To: <1487527146-5358-2-git-send-email-maxg@mellanox.com>
-References: <1487527146-5358-1-git-send-email-maxg@mellanox.com>
- <1487527146-5358-2-git-send-email-maxg@mellanox.com>
-Message-ID: <20170219194353.GC16163@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sun, 19 Feb 2017 20:46:57 +0100
+Subject: [PATCH] nvmet-rdma: Fix error handling
+In-Reply-To: <20170219190438.19371-1-christophe.jaillet@wanadoo.fr>
+References: <20170219190438.19371-1-christophe.jaillet@wanadoo.fr>
+Message-ID: <20170219194657.GA6591@lst.de>
+
+On Sun, Feb 19, 2017@08:04:38PM +0100, Christophe JAILLET wrote:
+> According to the surrounding goto, it is likely that 'out_destroy_sq' was
+> expected here.
+
+s/surrounding/preceeding/ ?
+
+But the patch itself looks good, thanks.
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
