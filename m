@@ -1,53 +1,10 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 20 Feb 2017 13:44:29 +0200
-Subject: [PATCHv2 2/2] nvmet-rdma: use nvme cm status helper
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 20 Feb 2017 08:04:03 -0800
+Subject: [PATCHv2 1/2] nvme-rdma: move nvme cm status helper to .h file
 In-Reply-To: <1487591069-6261-1-git-send-email-maxg@mellanox.com>
 References: <1487591069-6261-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1487591069-6261-2-git-send-email-maxg@mellanox.com>
+Message-ID: <20170220160403.GA17717@infradead.org>
 
-Also remove redundant debug prints.
+Looks fine,
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Parav Pandit <parav at mellanox.com>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
----
-
-Changes from v1:
- - Add Christoph as reviewer
-
----
- drivers/nvme/target/rdma.c |    5 +++--
- 1 files changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 6099022..5d189c0 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1041,6 +1041,9 @@ static int nvmet_rdma_cm_reject(struct rdma_cm_id *cm_id,
- {
- 	struct nvme_rdma_cm_rej rej;
- 
-+	pr_debug("rejecting connect request: status %d (%s)\n",
-+		 status, nvme_rdma_cm_msg(status));
-+
- 	rej.recfmt = cpu_to_le16(NVME_RDMA_CM_FMT_1_0);
- 	rej.sts = cpu_to_le16(status);
- 
-@@ -1135,7 +1138,6 @@ static int nvmet_rdma_cm_reject(struct rdma_cm_id *cm_id,
- out_free_queue:
- 	kfree(queue);
- out_reject:
--	pr_debug("rejecting connect request with status code %d\n", ret);
- 	nvmet_rdma_cm_reject(cm_id, ret);
- 	return NULL;
- }
-@@ -1188,7 +1190,6 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 
- 	ndev = nvmet_rdma_find_get_device(cm_id);
- 	if (!ndev) {
--		pr_err("no client data!\n");
- 		nvmet_rdma_cm_reject(cm_id, NVME_RDMA_CM_NO_RSC);
- 		return -ECONNREFUSED;
- 	}
--- 
-1.7.1
