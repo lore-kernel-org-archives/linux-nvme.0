@@ -1,29 +1,91 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 20 Feb 2017 11:05:15 +0100
-Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
-In-Reply-To: <20170217163328.GC18275@localhost.localdomain>
-References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
- <1486768553-13738-6-git-send-email-keith.busch@intel.com>
- <20170217152713.GA27158@lst.de>
- <20170217163328.GC18275@localhost.localdomain>
-Message-ID: <20170220100515.GA20285@lst.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 20 Feb 2017 13:44:28 +0200
+Subject: [PATCHv2 1/2] nvme-rdma: move nvme cm status helper to .h file
+Message-ID: <1487591069-6261-1-git-send-email-maxg@mellanox.com>
 
-> > > +		 * If we are resuming from suspend, the queue was set to freeze
-> > > +		 * to prevent blk-mq's hot CPU notifier from getting stuck on
-> > > +		 * requests that entered the queue that NVMe had quiesced. Now
-> > > +		 * that we are resuming and have notified blk-mq of the new h/w
-> > > +		 * context queue count, it is safe to unfreeze the queues.
-> > > +		 */
-> > > +		if (was_suspend)
-> > > +			nvme_unfreeze(&dev->ctrl);
-> > 
-> > And this change I don't understand at all.  It doesn't seem to pair
-> > up with anything else in the patch.
-> 
-> If we had done a controller shutdown, as would happen on a system suspend,
-> the resume needs to restore the queue freeze depth. That's all this
-> is doing.
+This will enable the usage for nvme rdma target.
+Also move from a lookup array to a switch statement.
 
-I've spent tons of times trying to understand this, but still fail
-to.  Where is the nvme_start_freeze / nvme_wait_freeze that this
-pairs with?
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Parav Pandit <parav at mellanox.com>
+---
+
+Changes from v1:
+ - updated the code in the switch label to be in a new line
+ - updated the changelog
+
+---
+ drivers/nvme/host/rdma.c  |   22 ----------------------
+ include/linux/nvme-rdma.h |   24 ++++++++++++++++++++++++
+ 2 files changed, 24 insertions(+), 22 deletions(-)
+
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 96285ef..b3e1071 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -42,28 +42,6 @@
+ 
+ #define NVME_RDMA_MAX_INLINE_SEGMENTS	1
+ 
+-static const char *const nvme_rdma_cm_status_strs[] = {
+-	[NVME_RDMA_CM_INVALID_LEN]	= "invalid length",
+-	[NVME_RDMA_CM_INVALID_RECFMT]	= "invalid record format",
+-	[NVME_RDMA_CM_INVALID_QID]	= "invalid queue ID",
+-	[NVME_RDMA_CM_INVALID_HSQSIZE]	= "invalid host SQ size",
+-	[NVME_RDMA_CM_INVALID_HRQSIZE]	= "invalid host RQ size",
+-	[NVME_RDMA_CM_NO_RSC]		= "resource not found",
+-	[NVME_RDMA_CM_INVALID_IRD]	= "invalid IRD",
+-	[NVME_RDMA_CM_INVALID_ORD]	= "Invalid ORD",
+-};
+-
+-static const char *nvme_rdma_cm_msg(enum nvme_rdma_cm_status status)
+-{
+-	size_t index = status;
+-
+-	if (index < ARRAY_SIZE(nvme_rdma_cm_status_strs) &&
+-	    nvme_rdma_cm_status_strs[index])
+-		return nvme_rdma_cm_status_strs[index];
+-	else
+-		return "unrecognized reason";
+-};
+-
+ /*
+  * We handle AEN commands ourselves and don't even let the
+  * block layer know about them.
+diff --git a/include/linux/nvme-rdma.h b/include/linux/nvme-rdma.h
+index bf240a3..a72fd04 100644
+--- a/include/linux/nvme-rdma.h
++++ b/include/linux/nvme-rdma.h
+@@ -29,6 +29,30 @@ enum nvme_rdma_cm_status {
+ 	NVME_RDMA_CM_INVALID_ORD	= 0x08,
+ };
+ 
++static inline const char *nvme_rdma_cm_msg(enum nvme_rdma_cm_status status)
++{
++	switch (status) {
++	case NVME_RDMA_CM_INVALID_LEN:
++		return "invalid length";
++	case NVME_RDMA_CM_INVALID_RECFMT:
++		return "invalid record format";
++	case NVME_RDMA_CM_INVALID_QID:
++		return "invalid queue ID";
++	case NVME_RDMA_CM_INVALID_HSQSIZE:
++		return "invalid host SQ size";
++	case NVME_RDMA_CM_INVALID_HRQSIZE:
++		return "invalid host RQ size";
++	case NVME_RDMA_CM_NO_RSC:
++		return "resource not found";
++	case NVME_RDMA_CM_INVALID_IRD:
++		return "invalid IRD";
++	case NVME_RDMA_CM_INVALID_ORD:
++		return "Invalid ORD";
++	default:
++		return "unrecognized reason";
++	}
++}
++
+ /**
+  * struct nvme_rdma_cm_req - rdma connect request
+  *
+-- 
+1.7.1
