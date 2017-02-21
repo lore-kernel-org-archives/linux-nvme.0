@@ -1,40 +1,107 @@
-From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
-Date: Tue, 21 Feb 2017 11:37:53 -0700
-Subject: [PATCH] switchtec: cleanup cdev init
-In-Reply-To: <2cd5df88-c018-3e76-fd08-483fec374932@deltatee.com>
-References: <20170210145124.GA24594@kroah.com>
- <1486749440-24309-1-git-send-email-logang@deltatee.com>
- <20e55da4-b3c1-7c57-15cf-b0aa52442e18@deltatee.com>
- <CAA9_cmfbJEPhCj_Ukav841zW5P=uYkTir4jFRTKyOvzHmJNmVg@mail.gmail.com>
- <2cd5df88-c018-3e76-fd08-483fec374932@deltatee.com>
-Message-ID: <20170221183753.GB13138@obsidianresearch.com>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Tue, 21 Feb 2017 11:44:33 -0700
+Subject: [PATCHv3 1/4] block/sed: Use ssize_t on atom parsers to return errors
+In-Reply-To: <1487702676-10658-1-git-send-email-jonathan.derrick@intel.com>
+References: <1487702676-10658-1-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <1487702676-10658-2-git-send-email-jonathan.derrick@intel.com>
 
-On Sun, Feb 19, 2017@09:22:35PM -0700, Logan Gunthorpe wrote:
+The short atom parser can return an errno from decoding but does not
+currently return the error as a signed value. Convert all of the parsers
+to ssize_t.
 
-> Really, in any situation where there's a cdev and a device in the same
-> structure, the life cycles of the two become linked but their reference
-> counts are not and that is the problem here.
+Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+Reviewed-by: Scott Bauer <scott.bauer at intel.com>
+---
+ block/sed-opal.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-Yes, the cdev must hold a kref on the containing struct otherwise
-userspace can trigger a use after free. This cannot be fixed with an
-approach inside the open/release function either as the cdev core code
-itself relies on the memory to exist.
-
-I've suggested something like this before:
-
-https://lkml.org/lkml/2015/7/8/1066
-
-So I hope this will make it in, it is a step in the right direction.
-
-If it does, would you make another patch to go further? I think
-cdev_init should take enough arguments to hold the enclosing kref, API
-wise there should be no API to init a cdev without the caller
-specifying the enclosing struct's kref. That is the only way we will
-stamp this bug-class out.
-
-Eg look at kernel/time/posix-clock.c, it is wrong in the same way as
-well - the kref_put in posix_clock_release is not enough to make it
-work, clk->cdev is referenced after posix_clock_release returns by the
-cdev core so this has a use-after-free.
-
-Jason
+diff --git a/block/sed-opal.c b/block/sed-opal.c
+index d1c52ba..4675fd8 100644
+--- a/block/sed-opal.c
++++ b/block/sed-opal.c
+@@ -706,8 +706,8 @@ static enum opal_token response_get_token(const struct parsed_resp *resp,
+ 	return tok->pos[0];
+ }
+ 
+-static size_t response_parse_tiny(struct opal_resp_tok *tok,
+-				  const u8 *pos)
++static ssize_t response_parse_tiny(struct opal_resp_tok *tok,
++				   const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = 1;
+@@ -723,8 +723,8 @@ static size_t response_parse_tiny(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
+ 
+-static size_t response_parse_short(struct opal_resp_tok *tok,
+-				   const u8 *pos)
++static ssize_t response_parse_short(struct opal_resp_tok *tok,
++				    const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = (pos[0] & SHORT_ATOM_LEN_MASK) + 1;
+@@ -736,7 +736,7 @@ static size_t response_parse_short(struct opal_resp_tok *tok,
+ 		tok->type = OPAL_DTA_TOKENID_SINT;
+ 	} else {
+ 		u64 u_integer = 0;
+-		int i, b = 0;
++		ssize_t i, b = 0;
+ 
+ 		tok->type = OPAL_DTA_TOKENID_UINT;
+ 		if (tok->len > 9) {
+@@ -753,8 +753,8 @@ static size_t response_parse_short(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
+ 
+-static size_t response_parse_medium(struct opal_resp_tok *tok,
+-				    const u8 *pos)
++static ssize_t response_parse_medium(struct opal_resp_tok *tok,
++				     const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = (((pos[0] & MEDIUM_ATOM_LEN_MASK) << 8) | pos[1]) + 2;
+@@ -770,8 +770,8 @@ static size_t response_parse_medium(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
+ 
+-static size_t response_parse_long(struct opal_resp_tok *tok,
+-				  const u8 *pos)
++static ssize_t response_parse_long(struct opal_resp_tok *tok,
++				   const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = ((pos[1] << 16) | (pos[2] << 8) | pos[3]) + 4;
+@@ -787,8 +787,8 @@ static size_t response_parse_long(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
+ 
+-static size_t response_parse_token(struct opal_resp_tok *tok,
+-				   const u8 *pos)
++static ssize_t response_parse_token(struct opal_resp_tok *tok,
++				    const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = 1;
+@@ -805,7 +805,7 @@ static int response_parse(const u8 *buf, size_t length,
+ 	struct opal_resp_tok *iter;
+ 	int num_entries = 0;
+ 	int total;
+-	size_t token_length;
++	ssize_t token_length;
+ 	const u8 *pos;
+ 
+ 	if (!buf)
+@@ -851,8 +851,8 @@ static int response_parse(const u8 *buf, size_t length,
+ 		else /* TOKEN */
+ 			token_length = response_parse_token(iter, pos);
+ 
+-		if (token_length == -EINVAL)
+-			return -EINVAL;
++		if (token_length < 0)
++			return token_length;
+ 
+ 		pos += token_length;
+ 		total -= token_length;
+-- 
+1.8.3.1
