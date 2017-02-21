@@ -1,41 +1,114 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 21 Feb 2017 23:55:10 +0200
-Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
-In-Reply-To: <20170217163328.GC18275@localhost.localdomain>
-References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
- <1486768553-13738-6-git-send-email-keith.busch@intel.com>
- <20170217152713.GA27158@lst.de>
- <20170217163328.GC18275@localhost.localdomain>
-Message-ID: <2e1c1ca8-1272-5bc1-2b9c-551c872e8dea@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 21 Feb 2017 17:12:31 -0500
+Subject: [PATCHv2] Fill NVMe specific path info
+Message-ID: <1487715151-1179-1-git-send-email-keith.busch@intel.com>
 
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+v1->v2:
+  Removed explicitly setting the wwid path information. We get that with
+  through exported udev attributes.
 
->>> +
->>> +	/*
->>> +	 * If shutting down, the driver will not be starting up queues again,
->>> +	 * so must drain all entered requests to their demise to avoid
->>> +	 * deadlocking blk-mq hot-cpu notifier.
->>> +	 */
->>> +	if (drain_queue && shutdown) {
->>> +		nvme_start_queues(&dev->ctrl);
->>> +		/*
->>> +		 * Waiting for frozen increases the freeze depth. Since we
->>> +		 * already start the freeze earlier in this function to stop
->>> +		 * incoming requests, we have to unfreeze after froze to get
->>> +		 * the depth back to the desired.
->>> +		 */
->>> +		nvme_wait_freeze(&dev->ctrl);
->>> +		nvme_unfreeze(&dev->ctrl);
->>> +		nvme_stop_queues(&dev->ctrl);
->>
->> And all this (just like the start_free + quience sequence above)
->> really sounds like something we'd need to move to the core.
->
-> Maybe. I'm okay with moving it to the core and document the intended
-> usage, but the sequence inbetween initiating the freeze and waiting for
-> frozen is specific to the driver, as well as knowing when it needs to
-> be done. The above could be moved to core, but it only makes sense to
-> call it only if the request to start the freeze was done prior to
-> reclaiming controller owned IO.
+  Added default retain_hwhandler to off for NVME devices. This has the
+  kernel not call into scsi specific APIs that don't exist for NVMe.
 
-What if we pass a flag to blk_mq_quiesce_queue to indicate that we want
-it to flush (and freeze) all entered requests?
+ libmultipath/discovery.c | 35 +++++++++++++++++++++++++++++++++++
+ libmultipath/hwtable.c   | 10 ++++++++++
+ libmultipath/structs.h   |  1 +
+ 3 files changed, 46 insertions(+)
+
+diff --git a/libmultipath/discovery.c b/libmultipath/discovery.c
+index d1aec31..39dd92a 100644
+--- a/libmultipath/discovery.c
++++ b/libmultipath/discovery.c
+@@ -1187,6 +1187,36 @@ scsi_sysfs_pathinfo (struct path * pp, vector hwtable)
+ }
+ 
+ static int
++nvme_sysfs_pathinfo (struct path * pp, vector hwtable)
++{
++	struct udev_device *parent, *nvme = NULL;
++
++	parent = pp->udev;
++	while (parent) {
++		const char *subsys = udev_device_get_subsystem(parent);
++
++		if (subsys && !strncmp(subsys, "nvme", 4)) {
++			nvme = parent;
++			break;
++		}
++		parent = udev_device_get_parent(parent);
++	}
++	if (!nvme)
++		return 1;
++
++	snprintf(pp->vendor_id, SCSI_VENDOR_SIZE, "NVME");
++	snprintf(pp->product_id, SCSI_PRODUCT_SIZE, "%s", udev_device_get_sysattr_value(nvme, "model"));
++	snprintf(pp->serial, SERIAL_SIZE, "%s", udev_device_get_sysattr_value(nvme, "serial"));
++	snprintf(pp->rev, SCSI_REV_SIZE, "%s", udev_device_get_sysattr_value(nvme, "firmware_rev"));
++
++	condlog(3, "%s: vendor:%s product:%s serial:%s rev:%s", pp->dev,
++		pp->vendor_id, pp->product_id, pp->serial, pp->rev);
++	pp->hwe = find_hwe(hwtable, pp->vendor_id, pp->product_id, NULL);
++
++	return 0;
++}
++
++static int
+ rbd_sysfs_pathinfo (struct path * pp, vector hwtable)
+ {
+ 	sprintf(pp->vendor_id, "Ceph");
+@@ -1405,6 +1435,8 @@ sysfs_pathinfo(struct path * pp, vector hwtable)
+ 		pp->bus = SYSFS_BUS_SCSI;
+ 	if (!strncmp(pp->dev,"rbd", 3))
+ 		pp->bus = SYSFS_BUS_RBD;
++	if (!strncmp(pp->dev,"nvme", 4))
++		pp->bus = SYSFS_BUS_NVME;
+ 
+ 	if (pp->bus == SYSFS_BUS_UNDEF)
+ 		return 0;
+@@ -1420,6 +1452,9 @@ sysfs_pathinfo(struct path * pp, vector hwtable)
+ 	} else if (pp->bus == SYSFS_BUS_RBD) {
+ 		if (rbd_sysfs_pathinfo(pp, hwtable))
+ 			return 1;
++	} else if (pp->bus == SYSFS_BUS_NVME) {
++		if (nvme_sysfs_pathinfo(pp, hwtable))
++			return 1;
+ 	}
+ 	return 0;
+ }
+diff --git a/libmultipath/hwtable.c b/libmultipath/hwtable.c
+index f5a5f7b..8409261 100644
+--- a/libmultipath/hwtable.c
++++ b/libmultipath/hwtable.c
+@@ -1073,6 +1073,16 @@ static struct hwentry default_hw[] = {
+ 		.prio_name     = PRIO_ALUA,
+ 		.no_path_retry = 30,
+ 	},
++	/*
++	 * Generic NVMe devices
++	 */
++	{
++		.vendor	       = "NVME",
++		.product       = ".*",
++		.uid_attribute = "ID_WWN",
++		.checker_name  = DIRECTIO,
++		.retain_hwhandler = RETAIN_HWHANDLER_OFF,
++	},
+ #if 0
+ 	/*
+ 	 * Copy this TEMPLATE to add new hardware.
+diff --git a/libmultipath/structs.h b/libmultipath/structs.h
+index 6edd927..dfd65ae 100644
+--- a/libmultipath/structs.h
++++ b/libmultipath/structs.h
+@@ -53,6 +53,7 @@ enum sysfs_buses {
+ 	SYSFS_BUS_CCW,
+ 	SYSFS_BUS_CCISS,
+ 	SYSFS_BUS_RBD,
++	SYSFS_BUS_NVME,
+ };
+ 
+ enum pathstates {
+-- 
+2.5.5
