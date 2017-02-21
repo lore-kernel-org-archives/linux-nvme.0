@@ -1,20 +1,15 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 21 Feb 2017 23:20:25 +0200
-Subject: [PATCH] nvmet-rdma: Fix error handling
-In-Reply-To: <20170219194657.GA6591@lst.de>
-References: <20170219190438.19371-1-christophe.jaillet@wanadoo.fr>
- <20170219194657.GA6591@lst.de>
-Message-ID: <bea43248-6c09-2a2e-56cc-59c707c2226b@grimberg.me>
+Date: Tue, 21 Feb 2017 23:21:01 +0200
+Subject: [PATCHv2 1/2] nvme-rdma: move nvme cm status helper to .h file
+In-Reply-To: <9611eb27-4922-3674-7272-8ceecb2dd4a9@mellanox.com>
+References: <1487591069-6261-1-git-send-email-maxg@mellanox.com>
+ <1D08B61A9CF0974AA09887BE32D889DA0A9949@ULS-OP-MBXIP03.sdcorp.global.sandisk.com>
+ <d21d9ca9-92fe-5994-d09a-f6ad37bbd099@mellanox.com>
+ <20170221092705.GA27568@infradead.org>
+ <9611eb27-4922-3674-7272-8ceecb2dd4a9@mellanox.com>
+Message-ID: <8add827b-e74f-e541-fec2-ca14327db988@grimberg.me>
 
+> Sagi,
+> can you take it to nvme-4.11 ?
 
-> On Sun, Feb 19, 2017@08:04:38PM +0100, Christophe JAILLET wrote:
->> According to the surrounding goto, it is likely that 'out_destroy_sq' was
->> expected here.
->
-> s/surrounding/preceeding/ ?
->
-> But the patch itself looks good, thanks.
->
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-
-Picked it up and reworded, thanks.
+Yea, queued, thanks.
