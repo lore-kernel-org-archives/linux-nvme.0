@@ -1,31 +1,38 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 21 Feb 2017 12:52:43 +0200
-Subject: [PATCHv2 1/2] nvme-rdma: move nvme cm status helper to .h file
-In-Reply-To: <20170221092705.GA27568@infradead.org>
-References: <1487591069-6261-1-git-send-email-maxg@mellanox.com>
- <1D08B61A9CF0974AA09887BE32D889DA0A9949@ULS-OP-MBXIP03.sdcorp.global.sandisk.com>
- <d21d9ca9-92fe-5994-d09a-f6ad37bbd099@mellanox.com>
- <20170221092705.GA27568@infradead.org>
-Message-ID: <9611eb27-4922-3674-7272-8ceecb2dd4a9@mellanox.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 21 Feb 2017 10:57:04 -0500
+Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
+In-Reply-To: <20170220100515.GA20285@lst.de>
+References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
+ <1486768553-13738-6-git-send-email-keith.busch@intel.com>
+ <20170217152713.GA27158@lst.de>
+ <20170217163328.GC18275@localhost.localdomain>
+ <20170220100515.GA20285@lst.de>
+Message-ID: <20170221155703.GA4619@localhost.localdomain>
 
+On Mon, Feb 20, 2017@11:05:15AM +0100, Christoph Hellwig wrote:
+> > > > +		 * If we are resuming from suspend, the queue was set to freeze
+> > > > +		 * to prevent blk-mq's hot CPU notifier from getting stuck on
+> > > > +		 * requests that entered the queue that NVMe had quiesced. Now
+> > > > +		 * that we are resuming and have notified blk-mq of the new h/w
+> > > > +		 * context queue count, it is safe to unfreeze the queues.
+> > > > +		 */
+> > > > +		if (was_suspend)
+> > > > +			nvme_unfreeze(&dev->ctrl);
+> > > 
+> > > And this change I don't understand at all.  It doesn't seem to pair
+> > > up with anything else in the patch.
+> > 
+> > If we had done a controller shutdown, as would happen on a system suspend,
+> > the resume needs to restore the queue freeze depth. That's all this
+> > is doing.
+> 
+> I've spent tons of times trying to understand this, but still fail
+> to.  Where is the nvme_start_freeze / nvme_wait_freeze that this
+> pairs with?
 
-
-On 2/21/2017 11:27 AM, hch@infradead.org wrote:
-> On Tue, Feb 21, 2017@11:24:24AM +0200, Max Gurtovoy wrote:
->> Hi Bart,
->>
->> Currently we don't have any .c file to put this function implementation
->> without creating a code duplication and module dependencies.
->> I think that this new solution is better than code duplication, right ?
->
-> Yes, it is - especially given that it's just a bit of constant and not
-> much code anyway, and each new module would take up at least a page of
-> memory.
->
-
-Maybe we'll need it in the future, but for now let's take it as is.
-
-Sagi,
-can you take it to nvme-4.11 ?
-
-Max.
+This is for suspend/resume. The freeze start is done during the suspend
+phase, and the unfreeze on resume. Power management calls nvme_suspend,
+which calls nvme_dev_disable with 'suspend == true', and that sets the
+freeze depth. Power management later calls nvme_resume, which queues
+the reset work that will observe 'was_suspend == true', and that pairs
+the unfreeze.
