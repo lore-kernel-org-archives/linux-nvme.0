@@ -1,43 +1,107 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 21 Feb 2017 14:07:41 -0500
-Subject: [PATCH] Revert "nvme/pci: Cancel work after watchdog disabled"
-Message-ID: <1487704061-16852-1-git-send-email-keith.busch@intel.com>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Tue, 21 Feb 2017 11:59:13 -0700
+Subject: [PATCHv4 1/4] block/sed: Use ssize_t on atom parsers to return errors
+In-Reply-To: <1487703556-19913-1-git-send-email-jonathan.derrick@intel.com>
+References: <1487703556-19913-1-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <1487703556-19913-2-git-send-email-jonathan.derrick@intel.com>
 
-This reverts commit f666775720c2b1ddcd7e1bc24262265af03ab194.
+The short atom parser can return an errno from decoding but does not
+currently return the error as a signed value. Convert all of the parsers
+to ssize_t.
 
-The patch was trying to fix a condition where a reset is queued during
-disabling, but it breaks a standard reset since the reset_work can't sync
-with itself. The original patch testing isolated an unlikely condition,
-but neglected the more common use.
-
-The condition this was trying to fix doesn't happen anyway with the most
-recent patches included, so just reverting the broken part and not trying
-to correct with a different patch.
-
-Signed-off-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+Reviewed-by: Scott Bauer <scott.bauer at intel.com>
 ---
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ block/sed-opal.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3b6fc3e..f4ce192 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1677,7 +1677,6 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	u32 csts = -1;
+diff --git a/block/sed-opal.c b/block/sed-opal.c
+index d1c52ba..4675fd8 100644
+--- a/block/sed-opal.c
++++ b/block/sed-opal.c
+@@ -706,8 +706,8 @@ static enum opal_token response_get_token(const struct parsed_resp *resp,
+ 	return tok->pos[0];
+ }
  
- 	del_timer_sync(&dev->watchdog_timer);
--	cancel_work_sync(&dev->reset_work);
+-static size_t response_parse_tiny(struct opal_resp_tok *tok,
+-				  const u8 *pos)
++static ssize_t response_parse_tiny(struct opal_resp_tok *tok,
++				   const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = 1;
+@@ -723,8 +723,8 @@ static size_t response_parse_tiny(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
  
- 	mutex_lock(&dev->shutdown_lock);
- 	if (pci_is_enabled(to_pci_dev(dev->dev))) {
-@@ -2003,6 +2002,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 		nvme_dev_disable(dev, false);
- 	}
+-static size_t response_parse_short(struct opal_resp_tok *tok,
+-				   const u8 *pos)
++static ssize_t response_parse_short(struct opal_resp_tok *tok,
++				    const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = (pos[0] & SHORT_ATOM_LEN_MASK) + 1;
+@@ -736,7 +736,7 @@ static size_t response_parse_short(struct opal_resp_tok *tok,
+ 		tok->type = OPAL_DTA_TOKENID_SINT;
+ 	} else {
+ 		u64 u_integer = 0;
+-		int i, b = 0;
++		ssize_t i, b = 0;
  
-+	flush_work(&dev->reset_work);
- 	nvme_uninit_ctrl(&dev->ctrl);
- 	nvme_dev_disable(dev, true);
- 	nvme_dev_remove_admin(dev);
+ 		tok->type = OPAL_DTA_TOKENID_UINT;
+ 		if (tok->len > 9) {
+@@ -753,8 +753,8 @@ static size_t response_parse_short(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
+ 
+-static size_t response_parse_medium(struct opal_resp_tok *tok,
+-				    const u8 *pos)
++static ssize_t response_parse_medium(struct opal_resp_tok *tok,
++				     const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = (((pos[0] & MEDIUM_ATOM_LEN_MASK) << 8) | pos[1]) + 2;
+@@ -770,8 +770,8 @@ static size_t response_parse_medium(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
+ 
+-static size_t response_parse_long(struct opal_resp_tok *tok,
+-				  const u8 *pos)
++static ssize_t response_parse_long(struct opal_resp_tok *tok,
++				   const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = ((pos[1] << 16) | (pos[2] << 8) | pos[3]) + 4;
+@@ -787,8 +787,8 @@ static size_t response_parse_long(struct opal_resp_tok *tok,
+ 	return tok->len;
+ }
+ 
+-static size_t response_parse_token(struct opal_resp_tok *tok,
+-				   const u8 *pos)
++static ssize_t response_parse_token(struct opal_resp_tok *tok,
++				    const u8 *pos)
+ {
+ 	tok->pos = pos;
+ 	tok->len = 1;
+@@ -805,7 +805,7 @@ static int response_parse(const u8 *buf, size_t length,
+ 	struct opal_resp_tok *iter;
+ 	int num_entries = 0;
+ 	int total;
+-	size_t token_length;
++	ssize_t token_length;
+ 	const u8 *pos;
+ 
+ 	if (!buf)
+@@ -851,8 +851,8 @@ static int response_parse(const u8 *buf, size_t length,
+ 		else /* TOKEN */
+ 			token_length = response_parse_token(iter, pos);
+ 
+-		if (token_length == -EINVAL)
+-			return -EINVAL;
++		if (token_length < 0)
++			return token_length;
+ 
+ 		pos += token_length;
+ 		total -= token_length;
 -- 
-2.7.2
+1.8.3.1
