@@ -1,20 +1,17 @@
-From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Mon, 20 Feb 2017 17:03:15 +0000
-Subject: [PATCHv2 1/2] nvme-rdma: move nvme cm status helper to .h file
-References: <1487591069-6261-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1D08B61A9CF0974AA09887BE32D889DA0A9949@ULS-OP-MBXIP03.sdcorp.global.sandisk.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Mon, 20 Feb 2017 22:59:07 -0500
+Subject: [PATCH v3 00/16] lpfc: Add NVME Fabrics support
+In-Reply-To: <58a0d918.RXFImMqrhYsCnA/U%jsmart2021@gmail.com> (James Smart's
+ message of "Sun, 12 Feb 2017 13:52:24 -0800")
+References: <58a0d918.RXFImMqrhYsCnA/U%jsmart2021@gmail.com>
+Message-ID: <yq1zihg2nzo.fsf@oracle.com>
 
-On 02/20/2017 03:44 AM, Max Gurtovoy wrote:
-> This will enable the usage for nvme rdma target.
-> Also move from a lookup array to a switch statement.
+>>>>> "James" == James Smart <jsmart2021 at gmail.com> writes:
 
-Hello Max,
+James> This patch set adds support for NVME over Fabrics FC transport to
+James> lpfc
 
-In general un-inlining code that is not in the hot path is wrong because
-this increases the size of the kernel and because this increases the
-time needed to build the kernel. Would it have been possible to keep the
-nvme_rdma_cm_msg() definition in a .c file?
+Applied to 4.11/scsi-queue.
 
-Thanks,
-
-Bart.
+-- 
+Martin K. Petersen	Oracle Linux Engineering
