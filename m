@@ -1,45 +1,12 @@
 From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Tue, 21 Feb 2017 12:36:24 -0800
+Date: Tue, 21 Feb 2017 12:37:57 -0800
 Subject: [PATCH] nvmet: discovery controller to set ioccsz and iorcsz
-In-Reply-To: <58a65552.zF6EjNdRTHBlXYtH%jsmart2021@gmail.com>
+In-Reply-To: <1487709384.3502.20.camel@linux.intel.com>
 References: <58a65552.zF6EjNdRTHBlXYtH%jsmart2021@gmail.com>
-Message-ID: <1487709384.3502.20.camel@linux.intel.com>
+ <1487709384.3502.20.camel@linux.intel.com>
+Message-ID: <1487709477.3502.21.camel@linux.intel.com>
 
-On Thu, 2017-02-16@17:43 -0800, James Smart wrote:
-> The discovery controller's Identify command handler never set these
-> fields leaving them zero. The host-side fc transport validates that
-> these values are appropriate and was killing the connection with the
-> controller as they were zero.
-> 
-> Change them to the minimal SQE and CQE size values.
+On Tue, 2017-02-21@12:36 -0800, J Freyensee wrote:
+> On Thu, 2017-02-16@17:43 -0800, James Smart wrote:
 
-Looks good to me.
-
-Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
-
-> 
-> -- james
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
-> ?drivers/nvme/target/discovery.c | 5 +++++
-> ?1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/nvme/target/discovery.c
-> b/drivers/nvme/target/discovery.c
-> index 12f39ee..6adb9e9 100644
-> --- a/drivers/nvme/target/discovery.c
-> +++ b/drivers/nvme/target/discovery.c
-> @@ -152,6 +152,11 @@ static void nvmet_execute_identify_disc_ctrl(struct
-> nvmet_req *req)
-> ?
-> ?	strcpy(id->subnqn, ctrl->subsys->subsysnqn);
-> ?
-> +	/* Max command capsule size is sqe */
-> +	id->ioccsz = cpu_to_le32(sizeof(struct nvme_command) / 16);
-> +	/* Max response capsule size is cqe */
-> +	id->iorcsz = cpu_to_le32(sizeof(struct nvme_completion) / 16);
-> +
-> ?	status = nvmet_copy_to_sgl(req, 0, id, sizeof(*id));
-> ?
-> ?	kfree(id);
+Nack this, I missed the next version thread :-/.
