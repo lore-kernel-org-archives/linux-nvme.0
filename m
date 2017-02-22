@@ -1,33 +1,20 @@
-From: sbauer@eng.utah.edu (Scott Bauer)
-Date: Tue, 21 Feb 2017 20:14:51 -0700
-Subject: [PATCHv4 0/4] OPAL patches, cont'd
-In-Reply-To: <a75babc1-5a9d-2979-514a-5fea19370084@fb.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 22 Feb 2017 08:13:42 +0100
+Subject: [PATCHv4 4/4] block/sed: Embed function data into the function
+ sequence
+In-Reply-To: <1487703556-19913-5-git-send-email-jonathan.derrick@intel.com>
 References: <1487703556-19913-1-git-send-email-jonathan.derrick@intel.com>
- <a75babc1-5a9d-2979-514a-5fea19370084@fb.com>
-Message-ID: <ab5119d2-467f-f08d-c1ad-c91d9ed97d58@eng.utah.edu>
+ <1487703556-19913-5-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <20170222071342.GA17472@lst.de>
 
+> +	if (!lock_held)
+> +		mutex_lock(&dev->dev_lock);
 
+No conditional locking, please.  I guess I causesd this by asking you
+to remove __opal_lock_unlock, but it seems we'd either need to keep it
+in the end.
 
-On 02/21/2017 07:42 PM, Jens Axboe wrote:
-> On 02/21/2017 11:59 AM, Jon Derrick wrote:
->> v3->v4:
->> Passes in 'lock_held' into opal_lock_unlock() so we don't need to
->> mutex_trylock(). I wasn't totally confident in that approach anyways.
->>
->> v2->v3:
->> Squashed 5/5 into 4/5
->> Changed opal_step structs back to const
->> Cleaned up opal_lock_unlock
->>
->> v1->v2:
->> Moved misplaced code from 5/5 to 4/5
-> 
-> Guys, where are we at with this? I'm shipping off some more fixes
-> for -rc1 soon, and I'd really like to get this wrapped up sooner
-> rather than later.
-> 
+Except for that the series looks fine to me.
 
-We just need Christoph to look at patch 4/4. Once he reviews it it the series
-is good to go. Once this goes in I have one patch I previously sent and one from 
-Christoph I took over. After that the opal code should be quiet for the rest of the
-release candidates. We've ironed out all the kinks and clean ups it seems. 
+Jens: given that 1-3 are the important fixes how about you pick those
+up ASAP?  They all also had my Reviewed-by for previous postings.
