@@ -1,29 +1,32 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 22 Feb 2017 12:16:50 -0800
-Subject: [PATCH v2] lpfc: add missing Kconfig NVME dependencies
-Message-ID: <58adf1b2.pGf0m6CGsoX83xvw%jsmart2021@gmail.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 22 Feb 2017 13:28:20 -0700
+Subject: [GIT PULL] nvme patches for 4.11
+In-Reply-To: <1487791916-25599-1-git-send-email-sagi@grimberg.me>
+References: <1487791916-25599-1-git-send-email-sagi@grimberg.me>
+Message-ID: <6e829c66-8ebf-9aff-a14f-8031ba891876@kernel.dk>
 
+On 02/22/2017 12:31 PM, Sagi Grimberg wrote:
+> Hey Jens,
+> 
+> This pull-request includes:
+> - autonomous power state transitions from Andy
+> - nvme-rdma support for connecting via configurable source ip
+> - nvmet-rdma cleanups from Max
+> - nvme-fc cleanups from James
+> - quirk fixup for apple from Daniel
+> - various nvme-pci fixes from Keith
+> - expose nvme controller state via sysfs
+> - identify CNS fixup from Parav
+> - enforce fabrics implement ->create_ctrl callout from Johannes
+> - nvme-rdma fix goto tag from Christophe
+> - spelling fixup from Colin
+> 
+> Please pull from:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.11
 
-add missing Kconfig NVME dependencies
+Pulled, but this really should have been sent in at least a
+week earlier...
 
--- james
-
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/scsi/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/scsi/Kconfig b/drivers/scsi/Kconfig
-index d4023bf..2558434 100644
---- a/drivers/scsi/Kconfig
-+++ b/drivers/scsi/Kconfig
-@@ -1240,6 +1240,7 @@ config SCSI_LPFC
- 	tristate "Emulex LightPulse Fibre Channel Support"
- 	depends on PCI && SCSI
- 	depends on SCSI_FC_ATTRS
-+	depends on NVME_FC && NVME_TARGET_FC
- 	select CRC_T10DIF
- 	help
-           This lpfc driver supports the Emulex LightPulse
 -- 
-2.5.0
+Jens Axboe
