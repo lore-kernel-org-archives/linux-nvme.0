@@ -1,48 +1,26 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 21 Feb 2017 23:43:54 -0800
-Subject: [PATCH rfc 1/4] net/utils: generic inet_pton_with_scope helper
-In-Reply-To: <6c2a4f67-ede6-0ee1-5a90-14023994d029@grimberg.me>
-References: <1487267017-29904-1-git-send-email-sagi@grimberg.me>
- <1487267017-29904-2-git-send-email-sagi@grimberg.me>
- <20170219171523.GC10310@infradead.org>
- <6c2a4f67-ede6-0ee1-5a90-14023994d029@grimberg.me>
-Message-ID: <20170222074354.GA19012@infradead.org>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Wed, 22 Feb 2017 07:35:36 -0700
+Subject: [PATCHv4 4/4] block/sed: Embed function data into the function
+ sequence
+In-Reply-To: <20170222071342.GA17472@lst.de>
+References: <1487703556-19913-1-git-send-email-jonathan.derrick@intel.com>
+ <1487703556-19913-5-git-send-email-jonathan.derrick@intel.com>
+ <20170222071342.GA17472@lst.de>
+Message-ID: <d9164183-013f-eab9-9469-9631b0f85d89@intel.com>
 
-On Tue, Feb 21, 2017@11:18:04PM +0200, Sagi Grimberg wrote:
-> I can maybe do something like:
+On 02/22/2017 12:13 AM, Christoph Hellwig wrote:
+>> +	if (!lock_held)
+>> +		mutex_lock(&dev->dev_lock);
 > 
-> if (af == AF_INET || af == AF_UNSPEC) {
-> 	ret = inet4_pton();
-> 	if (!ret)
-> 		return 0;
-> 	else if (af != AF_UNSPEC)
-> 		return ret;
-> }
+> No conditional locking, please.  I guess I causesd this by asking you
+> to remove __opal_lock_unlock, but it seems we'd either need to keep it
+> in the end.
 > 
-> if (af == AF_INET6 || af == AF_UNSPEC) {
-> 	ret = inet6_pton();
-> 	if (!ret)
-> 		return 0;
-> 	else if (af != AF_UNSPEC)
-> 		return ret;
-> }
+> Except for that the series looks fine to me.
 > 
-> return -EINVAL;
+> Jens: given that 1-3 are the important fixes how about you pick those
+> up ASAP?  They all also had my Reviewed-by for previous postings.
 > 
-> better?
+Thanks
 
-My idead was the following:
-
-	switch (af) {
-	case AF_INET:
-		ret = inet_pton();
-		break;
-	case AF_INET6:
-		ret = inet6_pton();
-		break;
-	case AF_UNSPEC:
-		ret = inet6_pton();
-		if (ret)
-			ret = inet_pton();
-		break;
-	}
+I'll respin just 4/4 shortly with __opal_lock_unlock
