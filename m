@@ -1,17 +1,27 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 22 Feb 2017 21:39:37 +0200
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
-References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
- <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
- <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
-Message-ID: <472f1b94-6618-43c9-6497-cbc72250a3a0@grimberg.me>
+From: parav@mellanox.com (Parav Pandit)
+Date: Wed, 22 Feb 2017 19:52:41 +0000
+Subject: [PATCH] nvme-rdma: Support 2 inline data SGEs for write commands.
+In-Reply-To: <b91079ca-0d63-8dae-6a3f-281fc0deb636@grimberg.me>
+References: <VI1PR0502MB3008FAE182CFAFA906ECF62DD1500@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+ <b91079ca-0d63-8dae-6a3f-281fc0deb636@grimberg.me>
+Message-ID: <VI1PR0502MB3008D4BD11A7F360840347A4D1500@VI1PR0502MB3008.eurprd05.prod.outlook.com>
 
+> -----Original Message-----
+> From: Sagi Grimberg [mailto:sagi at grimberg.me]
+> Sent: Wednesday, February 22, 2017 1:39 PM
+> To: Parav Pandit <parav at mellanox.com>; Christoph Hellwig <hch at lst.de>
+> Cc: linux-nvme at lists.infradead.org; axboe at fb.com; keith.busch at intel.com
+> Subject: Re: [PATCH] nvme-rdma: Support 2 inline data SGEs for write
+> commands.
+> 
+> 
+> > Hi Christoph, Sagi,
+> 
+> > Does this host side patch look fine? Its unrelated to target side
+> implementation.
+> 
+> I'm still wandering if we want it dynamic according to the target ioccsz (say 1
+> per PAGE_SIZE?)
 
-> Hi Sagi,
->
-> Have not looked in depth here but is this maybe the GAPS issue again I bumped into where we had to revert the patch for the SRP transport.
-> Would we have to do a similar revert in the NVME space or modify mlx5 where this issue exists.
-
-We didn't add gaps support to nvme, the block layer splits gappy
-io for us.
+I don't think we are consuming any more resources by increasing to 2SGEs because it's still aligns to hardware's minimum WQE size of 64B or 128B size.
+Can we add that additional complexity in incremental manner unless 2 SGEs are less optimal compared to 1?
