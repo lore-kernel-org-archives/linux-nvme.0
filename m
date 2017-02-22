@@ -1,18 +1,29 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 22 Feb 2017 22:07:00 +0200
-Subject: [PATCH] nvme-rdma: Support 2 inline data SGEs for write commands.
-In-Reply-To: <VI1PR0502MB3008674F9EA0F9D891CE06F2D1500@VI1PR0502MB3008.eurprd05.prod.outlook.com>
-References: <VI1PR0502MB3008FAE182CFAFA906ECF62DD1500@VI1PR0502MB3008.eurprd05.prod.outlook.com>
- <b91079ca-0d63-8dae-6a3f-281fc0deb636@grimberg.me>
- <VI1PR0502MB3008D4BD11A7F360840347A4D1500@VI1PR0502MB3008.eurprd05.prod.outlook.com>
- <1b133bcf-9b4e-9817-dbff-9b69dbcb01dc@grimberg.me>
- <VI1PR0502MB3008674F9EA0F9D891CE06F2D1500@VI1PR0502MB3008.eurprd05.prod.outlook.com>
-Message-ID: <c9679af1-cece-07d0-1ba9-af475a4f1070@grimberg.me>
+From: jsmart2021@gmail.com (James Smart)
+Date: Wed, 22 Feb 2017 12:16:50 -0800
+Subject: [PATCH v2] lpfc: add missing Kconfig NVME dependencies
+Message-ID: <58adf1b2.pGf0m6CGsoX83xvw%jsmart2021@gmail.com>
 
 
->> I'm referring to struct nvme_rdma_request
-> Yes, I got that now.
-> That needs to have dynamic allocation for sge array if we want to do based on ioccsz.
-> Unless we do 4 or 8 or larger SGEs, extra 8 byte pointer to store link to more than one SGE might not be worth enough just for writes.
+add missing Kconfig NVME dependencies
 
-Which is what Christoph asked, why not 4 or 8?
+-- james
+
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/scsi/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/scsi/Kconfig b/drivers/scsi/Kconfig
+index d4023bf..2558434 100644
+--- a/drivers/scsi/Kconfig
++++ b/drivers/scsi/Kconfig
+@@ -1240,6 +1240,7 @@ config SCSI_LPFC
+ 	tristate "Emulex LightPulse Fibre Channel Support"
+ 	depends on PCI && SCSI
+ 	depends on SCSI_FC_ATTRS
++	depends on NVME_FC && NVME_TARGET_FC
+ 	select CRC_T10DIF
+ 	help
+           This lpfc driver supports the Emulex LightPulse
+-- 
+2.5.0
