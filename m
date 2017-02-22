@@ -1,38 +1,57 @@
 From: scott.bauer@intel.com (Scott Bauer)
-Date: Wed, 22 Feb 2017 10:15:08 -0700
-Subject: [PATCH 3/3] block/sed-opal: Propagate original error message to
- userland.
+Date: Wed, 22 Feb 2017 10:15:07 -0700
+Subject: [PATCH 2/3] nvme/pci: re-check security protocol support after reset
 In-Reply-To: <1487783708-16285-1-git-send-email-scott.bauer@intel.com>
 References: <1487783708-16285-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <1487783708-16285-4-git-send-email-scott.bauer@intel.com>
+Message-ID: <1487783708-16285-3-git-send-email-scott.bauer@intel.com>
 
-During an error on a comannd, ex: user provides wrong pw to unlock
-range, we will gracefully terminate the opal session. We want to
-propagate the original error to userland instead of the result of
-the session termination, which is almost always a success.
+A device may change capabilities after each reset, e.g. due to a firmware
+upgrade.  We should thus check for Security Send/Receive and OPAL support
+after each reset.
+
+Based on patches from Christoph and Keith.
 
 Signed-off-by: Scott Bauer <scott.bauer at intel.com>
 ---
- block/sed-opal.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/nvme/host/pci.c | 17 ++++++++++-------
+ 1 file changed, 10 insertions(+), 7 deletions(-)
 
-diff --git a/block/sed-opal.c b/block/sed-opal.c
-index 020bf3e..1e18dca 100644
---- a/block/sed-opal.c
-+++ b/block/sed-opal.c
-@@ -396,8 +396,11 @@ static int next(struct opal_dev *dev)
- 			 * session. Therefore we shouldn't attempt to terminate
- 			 * a session, as one has not yet been created.
- 			 */
--			if (state > 1)
--				return end_opal_session_error(dev);
-+			if (state > 1) {
-+				end_opal_session_error(dev);
-+				return error;
-+			}
-+
- 		}
- 		state++;
- 	} while (!error);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index ddc51ad..f660fc2 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1739,7 +1739,7 @@ static void nvme_pci_free_ctrl(struct nvme_ctrl *ctrl)
+ 	if (dev->ctrl.admin_q)
+ 		blk_put_queue(dev->ctrl.admin_q);
+ 	kfree(dev->queues);
+-	kfree(dev->ctrl.opal_dev);
++	free_opal_dev(dev->ctrl.opal_dev);
+ 	kfree(dev);
+ }
+ 
+@@ -1789,14 +1789,17 @@ static void nvme_reset_work(struct work_struct *work)
+ 	if (result)
+ 		goto out;
+ 
+-	if ((dev->ctrl.oacs & NVME_CTRL_OACS_SEC_SUPP) && !dev->ctrl.opal_dev) {
+-		dev->ctrl.opal_dev =
+-			init_opal_dev(&dev->ctrl, &nvme_sec_submit);
++	if (dev->ctrl.oacs & NVME_CTRL_OACS_SEC_SUPP) {
++		if (!dev->ctrl.opal_dev)
++			dev->ctrl.opal_dev =
++				init_opal_dev(&dev->ctrl, &nvme_sec_submit);
++		else if (was_suspend)
++			opal_unlock_from_suspend(dev->ctrl.opal_dev);
++	} else {
++		free_opal_dev(dev->ctrl.opal_dev);
++		dev->ctrl.opal_dev = NULL;
+ 	}
+ 
+-	if (was_suspend)
+-		opal_unlock_from_suspend(dev->ctrl.opal_dev);
+-
+ 	result = nvme_setup_io_queues(dev);
+ 	if (result)
+ 		goto out;
 -- 
 2.7.4
