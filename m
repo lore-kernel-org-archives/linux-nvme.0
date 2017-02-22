@@ -1,50 +1,47 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 22 Feb 2017 13:41:11 -0700
-Subject: [GIT PULL] nvme patches for 4.11
-In-Reply-To: <6e829c66-8ebf-9aff-a14f-8031ba891876@kernel.dk>
-References: <1487791916-25599-1-git-send-email-sagi@grimberg.me>
- <6e829c66-8ebf-9aff-a14f-8031ba891876@kernel.dk>
-Message-ID: <d6ec5d30-84d6-706b-cfc9-1927619b585e@kernel.dk>
+From: parav@mellanox.com (Parav Pandit)
+Date: Wed, 22 Feb 2017 20:46:04 +0000
+Subject: [PATCH] nvme-rdma: Support 2 inline data SGEs for write commands.
+In-Reply-To: <c9679af1-cece-07d0-1ba9-af475a4f1070@grimberg.me>
+References: <VI1PR0502MB3008FAE182CFAFA906ECF62DD1500@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+ <b91079ca-0d63-8dae-6a3f-281fc0deb636@grimberg.me>
+ <VI1PR0502MB3008D4BD11A7F360840347A4D1500@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+ <1b133bcf-9b4e-9817-dbff-9b69dbcb01dc@grimberg.me>
+ <VI1PR0502MB3008674F9EA0F9D891CE06F2D1500@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+ <c9679af1-cece-07d0-1ba9-af475a4f1070@grimberg.me>
+Message-ID: <VI1PR0502MB30080758C49E4177429914BCD1500@VI1PR0502MB3008.eurprd05.prod.outlook.com>
 
-On 02/22/2017 01:28 PM, Jens Axboe wrote:
-> On 02/22/2017 12:31 PM, Sagi Grimberg wrote:
->> Hey Jens,
->>
->> This pull-request includes:
->> - autonomous power state transitions from Andy
->> - nvme-rdma support for connecting via configurable source ip
->> - nvmet-rdma cleanups from Max
->> - nvme-fc cleanups from James
->> - quirk fixup for apple from Daniel
->> - various nvme-pci fixes from Keith
->> - expose nvme controller state via sysfs
->> - identify CNS fixup from Parav
->> - enforce fabrics implement ->create_ctrl callout from Johannes
->> - nvme-rdma fix goto tag from Christophe
->> - spelling fixup from Colin
->>
->> Please pull from:
->>
->>   git://git.infradead.org/nvme.git nvme-4.11
+Hi Sagi,
+
+> -----Original Message-----
+> From: Sagi Grimberg [mailto:sagi at grimberg.me]
+> Sent: Wednesday, February 22, 2017 2:07 PM
+> To: Parav Pandit <parav at mellanox.com>; Christoph Hellwig <hch at lst.de>
+> Cc: linux-nvme at lists.infradead.org; axboe at fb.com; keith.busch at intel.com
+> Subject: Re: [PATCH] nvme-rdma: Support 2 inline data SGEs for write
+> commands.
 > 
-> Pulled, but this really should have been sent in at least a
-> week earlier...
+> 
+> >> I'm referring to struct nvme_rdma_request
+> > Yes, I got that now.
+> > That needs to have dynamic allocation for sge array if we want to do based
+> on ioccsz.
+> > Unless we do 4 or 8 or larger SGEs, extra 8 byte pointer to store link to
+> more than one SGE might not be worth enough just for writes.
+> 
+> Which is what Christoph asked, why not 4 or 8?
+Which I explained in to his reply as below previously.
 
-A few issues with this:
-
-- It throws a merge conflict. No big deal, that was easy enough
-  to fix up.
-
-- What is this based on? Looks like some version of my for-next,
-  but ends up duplicating 4 patches from me. I don't remember
-  if I rebased my for-next this time around, but I often do. It's
-  not a stable branch like the for-4.xx/topic branches.
-
-- Out of 22 patches, one commit reverts another commit. That should
-  just have been squashed.
-
-I ended up simply fixing all of that up, and generating the patches
-and applying. Otherwise the whole history would have been a mess.
-
--- 
-Jens Axboe
+Snippet:
+--------------
+Some adapters doesn't support more than 5 sges. So increasing it to 4 
+or 8 would fail them.
+Chuck reported 1 out of 3 adapters only support 3. Its likely due to 
+min(send_sge, recv_sge).
+With total of 3 SGEs (64B cmd sge + data sges), WQE fits in 64 bytes 
+size at the provider driver level. So to strike balance between cache 
+line usage and performance, and to be nice to those adapters which has 
+low SGE (either due to min(send_sge, recv) or other otherwise, I picked 2 data sges.
+--------------
+I have this patch ready that splits send and receive sges for a while now,
+but it's been tested in very limited environment and requires some more testing that Steve already offered.
+I plan to finish these patches first before I push this additional enhancement.
