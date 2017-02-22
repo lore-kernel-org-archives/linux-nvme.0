@@ -1,19 +1,48 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 22 Feb 2017 08:17:54 +0100
-Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
-In-Reply-To: <20170221155703.GA4619@localhost.localdomain>
-References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
- <1486768553-13738-6-git-send-email-keith.busch@intel.com>
- <20170217152713.GA27158@lst.de>
- <20170217163328.GC18275@localhost.localdomain>
- <20170220100515.GA20285@lst.de> <20170221155703.GA4619@localhost.localdomain>
-Message-ID: <20170222071754.GA17709@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 21 Feb 2017 23:43:54 -0800
+Subject: [PATCH rfc 1/4] net/utils: generic inet_pton_with_scope helper
+In-Reply-To: <6c2a4f67-ede6-0ee1-5a90-14023994d029@grimberg.me>
+References: <1487267017-29904-1-git-send-email-sagi@grimberg.me>
+ <1487267017-29904-2-git-send-email-sagi@grimberg.me>
+ <20170219171523.GC10310@infradead.org>
+ <6c2a4f67-ede6-0ee1-5a90-14023994d029@grimberg.me>
+Message-ID: <20170222074354.GA19012@infradead.org>
 
-On Tue, Feb 21, 2017@10:57:04AM -0500, Keith Busch wrote:
-> This is for suspend/resume. The freeze start is done during the suspend
-> phase, and the unfreeze on resume. Power management calls nvme_suspend,
-> which calls nvme_dev_disable with 'suspend == true',
+On Tue, Feb 21, 2017@11:18:04PM +0200, Sagi Grimberg wrote:
+> I can maybe do something like:
+> 
+> if (af == AF_INET || af == AF_UNSPEC) {
+> 	ret = inet4_pton();
+> 	if (!ret)
+> 		return 0;
+> 	else if (af != AF_UNSPEC)
+> 		return ret;
+> }
+> 
+> if (af == AF_INET6 || af == AF_UNSPEC) {
+> 	ret = inet6_pton();
+> 	if (!ret)
+> 		return 0;
+> 	else if (af != AF_UNSPEC)
+> 		return ret;
+> }
+> 
+> return -EINVAL;
+> 
+> better?
 
-I guess I'm missing something in my tree then.  I have a local tree
-with your five patches applied and there is no suspend argument anywhere
-in pci.c.
+My idead was the following:
+
+	switch (af) {
+	case AF_INET:
+		ret = inet_pton();
+		break;
+	case AF_INET6:
+		ret = inet6_pton();
+		break;
+	case AF_UNSPEC:
+		ret = inet6_pton();
+		if (ret)
+			ret = inet_pton();
+		break;
+	}
