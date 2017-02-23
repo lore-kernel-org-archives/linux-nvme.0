@@ -1,16 +1,10 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Wed, 22 Feb 2017 18:53:23 -0500
-Subject: [PATCH v2] lpfc: add missing Kconfig NVME dependencies
-In-Reply-To: <58adf1b2.pGf0m6CGsoX83xvw%jsmart2021@gmail.com> (James Smart's
- message of "Wed, 22 Feb 2017 12:16:50 -0800")
-References: <58adf1b2.pGf0m6CGsoX83xvw%jsmart2021@gmail.com>
-Message-ID: <yq1mvdd940c.fsf@oracle.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 23 Feb 2017 10:54:22 +0100
+Subject: [PATCH] block/sed: Embed function data into the function sequence
+In-Reply-To: <1487775313-10188-1-git-send-email-jonathan.derrick@intel.com>
+References: <1487775313-10188-1-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <20170223095422.GA29627@lst.de>
 
->>>>> "James" == James Smart <jsmart2021 at gmail.com> writes:
+Looks fine,
 
-James> add missing Kconfig NVME dependencies
-
-Applied to 4.11/scsi-fixes.
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Reviewed-by: Christoph Hellwig <hch at lst.de>
