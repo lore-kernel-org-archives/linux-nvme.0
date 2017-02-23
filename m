@@ -1,31 +1,23 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 23 Feb 2017 16:16:54 +0100
-Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
-In-Reply-To: <20170223152140.GA5196@localhost.localdomain>
-References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
- <1486768553-13738-6-git-send-email-keith.busch@intel.com>
- <20170217152713.GA27158@lst.de>
- <20170217163328.GC18275@localhost.localdomain>
- <20170220100515.GA20285@lst.de> <20170221155703.GA4619@localhost.localdomain>
- <20170222071754.GA17709@lst.de> <20170222144510.GB1362@localhost.localdomain>
- <20170223150651.GA3178@lst.de> <20170223152140.GA5196@localhost.localdomain>
-Message-ID: <20170223151654.GA3328@lst.de>
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu, 23 Feb 2017 07:51:35 -0800
+Subject: [PATCH] lpfc: add missing Kconfig NVME dependencies
+In-Reply-To: <20170223100938.GA20495@infradead.org>
+References: <58adba5f.BoP49Cv2S5zD9ZuD%jsmart2021@gmail.com>
+ <20170223100938.GA20495@infradead.org>
+Message-ID: <523a2eb4-7d02-9ec8-8e81-9d1112cdc98e@gmail.com>
 
-On Thu, Feb 23, 2017@10:21:40AM -0500, Keith Busch wrote:
-> I thought this would be non-obvious, so I put this detailed commend just
-> before the unfreeze:
-> 
-> 	/*
-> 	 * Waiting for frozen increases the freeze depth. Since we
-> 	 * already start the freeze earlier in this function to stop
-> 	 * incoming requests, we have to unfreeze after froze to get
-> 	 * the depth back to the desired.
-> 	 */
-> 
-> Assuming we are starting with a freeze depth of 0, the nvme_start_freeze
-> gets us to 1. Then nvme_wait_freeze increases the freeze depth to 2
-> (blk_mq_freeze_wait is not exported),
+On 2/23/2017 2:09 AM, Christoph Hellwig wrote:
+> On Wed, Feb 22, 2017@08:20:47AM -0800, James Smart wrote:
+>> add missing Kconfig NVME dependencies
+>>
+>> Can't believe I missed posting this
+> Oh.  I'm not sure everyone is happy having to drag in the whole
+> nvme and nvme target stack when building lpfc.  Is there a way
+> to make nvme optional?  And in the future scsi as well?
 
-Oooh.  I didn't spot nvme_wait_freeze did not actually call
-blk_mq_freeze_queue_wait.  Let's start by exporting that and beating
-some sense into the sequence.
+yes - I'll work on doing that.  Scsi is a little further off as the fc 
+transport has to be dealt with - moved out from under scsi and put above 
+scsi and nvme in the device tree.  The transport is where the hooks for 
+adapter mgmt are right now.
+
+-- james
