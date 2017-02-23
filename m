@@ -1,10 +1,15 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 23 Feb 2017 10:54:22 +0100
-Subject: [PATCH] block/sed: Embed function data into the function sequence
-In-Reply-To: <1487775313-10188-1-git-send-email-jonathan.derrick@intel.com>
-References: <1487775313-10188-1-git-send-email-jonathan.derrick@intel.com>
-Message-ID: <20170223095422.GA29627@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 23 Feb 2017 12:06:24 +0200
+Subject: [GIT PULL] nvme patches for 4.11
+In-Reply-To: <6e829c66-8ebf-9aff-a14f-8031ba891876@kernel.dk>
+References: <1487791916-25599-1-git-send-email-sagi@grimberg.me>
+ <6e829c66-8ebf-9aff-a14f-8031ba891876@kernel.dk>
+Message-ID: <1349a184-d083-8d8d-87c1-8f1abb517e7f@grimberg.me>
 
-Looks fine,
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+> Pulled, but this really should have been sent in at least a
+> week earlier...
+
+Sorry, I'll make sure to send it earlier next time.
+
+Thanks.
