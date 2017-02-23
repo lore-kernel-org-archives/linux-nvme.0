@@ -1,40 +1,42 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 23 Feb 2017 12:16:02 +0200
-Subject: [GIT PULL] nvme patches for 4.11
-In-Reply-To: <c9ae134c-47dd-3a34-16da-8d53b6ef6e96@kernel.dk>
-References: <1487791916-25599-1-git-send-email-sagi@grimberg.me>
- <6e829c66-8ebf-9aff-a14f-8031ba891876@kernel.dk>
- <d6ec5d30-84d6-706b-cfc9-1927619b585e@kernel.dk>
- <12639552.D9MSj1FbeR@buzzard>
- <c9ae134c-47dd-3a34-16da-8d53b6ef6e96@kernel.dk>
-Message-ID: <27c18733-658d-7804-f948-d17173adf06a@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 23 Feb 2017 16:06:51 +0100
+Subject: [PATCH 5/5] nvme/pci: Complete all stuck requests
+In-Reply-To: <20170222144510.GB1362@localhost.localdomain>
+References: <1486768553-13738-1-git-send-email-keith.busch@intel.com>
+ <1486768553-13738-6-git-send-email-keith.busch@intel.com>
+ <20170217152713.GA27158@lst.de>
+ <20170217163328.GC18275@localhost.localdomain>
+ <20170220100515.GA20285@lst.de> <20170221155703.GA4619@localhost.localdomain>
+ <20170222071754.GA17709@lst.de> <20170222144510.GB1362@localhost.localdomain>
+Message-ID: <20170223150651.GA3178@lst.de>
 
+On Wed, Feb 22, 2017@09:45:11AM -0500, Keith Busch wrote:
+> > with your five patches applied and there is no suspend argument anywhere
+> > in pci.c.
+> 
+> Err, I meant 'shutdown == true' for nvme_dev_disable, not suspend. That's
+> in the nvme tree. The part that isn't is the tree is the 'was_suspend' in
+> nvme_reset_work. That was part of the opal series directly in Jens' tree.
 
->> Urgs, I don't know what went wrong with the pull request from Sagi, but at
->> least the change in there I authored is fundamently different from what I
->> submitted!
->>
->> Looking at git://git.infradead.org/nvme.git nvme-4.11, instead of my original
->> patch adding a device ID for another NVMe controller for MacBooks, this branch
->> replaces the original entry! That'd be a regression for all MacBook8,1 out
->> there!
->>
->> See http://git.kernel.dk/cgit/linux-block/commit/?h=for-linus&id=4f6cc1c29b0b5d3a964d5ad0cbe7c48e6c44686f
->> vs. http://lists.infradead.org/pipermail/linux-nvme/2017-February/008323.html
->>
->> How do we get that fixed?
->
-> Beats me how that happened, Sagi? Sagi is the one that applied it. This
-> is the commit in the nvme tree:
->
-> http://git.infradead.org/nvme.git/commitdiff/918896679f5ca6ee3462aadaaee53049635769c9?hp=1792eac722b0ab651e9eb543114e929dadb1f613
+I still don't understand it.  nvme_dev_disable has no early return,
+and it does the nvme_start_freeze, nvme_wait_freeze and nvme_unfreeze
+calls under exactly the same conditionals:
 
-Thats odd, not sure how that happened. it applied cleanly for me.
+	if (drain_queue) {
+		if (shutdown)
+			nvme_start_freeze(&dev->ctrl);
+		nvme_stop_queues(&dev->ctrl);
+		...
+	}
 
-I'll do it again just to understand if something went wrong.
+	..
 
-Thanks for catching this Daniel.
+	if (drain_queue && shutdown) {
+		nvme_start_queues(&dev->ctrl);
+		nvme_wait_freeze(&dev->ctrl);
+		nvme_unfreeze(&dev->ctrl);
+		nvme_stop_queues(&dev->ctrl);
+	}
 
-> I will fix it up in my tree...
-
-Thanks Jens.
+so where is the pairing for the unfreeze in nvme_reset_work
+coming from?
