@@ -1,24 +1,133 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Thu, 23 Feb 2017 11:57:02 -0700
-Subject: Final opal patches for rc1
-In-Reply-To: <1487783708-16285-1-git-send-email-scott.bauer@intel.com>
-References: <1487783708-16285-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <8f4f0a3a-be80-8704-0168-c74d4dbe4feb@fb.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu, 23 Feb 2017 13:36:51 -0700
+Subject: [PATCH v2 0/4] New Microsemi PCI Switch Management Driver
+In-Reply-To: <2eb2b814-d621-5d8d-8366-4c4e9f789208@deltatee.com>
+References: <1486058763-7730-1-git-send-email-logang@deltatee.com>
+ <2eb2b814-d621-5d8d-8366-4c4e9f789208@deltatee.com>
+Message-ID: <e27a2363-1b11-f74b-532d-7de089875c90@deltatee.com>
 
-On 02/22/2017 10:15 AM, Scott Bauer wrote:
-> These are the final changes for rc1.
-> 
-> Patch 1 contains some code to clean up an opal structure if something changes
-> at runtime. (already reviewed by Christoph)
-> 
-> Patch 2 contains changes to the nvme driver to use the above patch. If a new
-> FW is loaded and we no longer support opal we clean up. This patch is based off
-> code from Keith and Christoph.
-> 
-> Patch 3 is a one line change to propagate an original error messaage to user
-> land instead of the return status of the session termination code.
+Hello,
 
-Applied, thanks.
+We're still waiting on any kind of response from Bjorn. (If you're
+listening please say something!)
 
--- 
-Jens Axboe
+Does anyone have any suggestions for dealing with an unresponsive
+maintainer? Or a way for us to move forward with this quickly and get it
+merged?
+
+ie. Can anyone else pick this up through another route? In the end, it's
+just a fairly basic driver and doesn't touch any core PCI functionality
+and we've had a fair amount of review from other kernel contributors,
+all of which we've addressed.
+
+Thanks,
+
+Logan
+
+
+
+
+On 17/02/17 01:36 PM, Logan Gunthorpe wrote:
+> Hi Bjorn,
+> 
+> Can you give us an idea of when you might be able to comment on our
+> patchset? We've addressed all the outstanding issues and have a couple
+> of reviewed and tested tags. So we'd like to see this move forward as
+> soon as possible.
+> 
+> I can do a respin with the tags collected or address any concerns you
+> may have, just please let us know.
+> 
+> Thanks,
+> 
+> Logan
+> 
+> On 02/02/17 11:05 AM, Logan Gunthorpe wrote:
+>> Changes since v1:
+>>
+>> * Rebased onto 4.10-rc6 (cleanly)
+>> * Split the patch into a few more easily digestible patches (as
+>>   suggested by Greg Kroah-Hartman)
+>> * Folded switchtec.c into switchtec.h (per Greg)
+>> * Fixed a bunch of 32bit build warnings caught by the kbuild test robot
+>> * Fixed some issues in the documentation so it has a proper
+>>   reStructredText format (as noted by Jonathan Corbet)
+>> * Fixed padding and sizes in the IOCTL structures as noticed by Emil
+>>   Velikov and used pahole to verify their consistency across 32 and 64
+>>   bit builds
+>> * Reworked one of the IOCTL interfaces to be more future proof (per
+>>   Emil).
+>>
+>> Changes since RFC:
+>>
+>> * Fixed incorrect use of the drive model as pointed out by Greg
+>>   Kroah-Hartman
+>> * Used devm functions as suggested by Keith Busch
+>> * Added a handful of sysfs attributes to the switchtec class
+>> * Added a handful of IOCTLs to the switchtec device
+>> * A number of miscellaneous bug fixes
+>>
+>> --
+>>
+>> Hi,
+>>
+>> This is a continuation of the RFC we posted lasted month [1] which
+>> proposes a management driver for Microsemi's Switchtec line of PCI
+>> switches. This hardware is still looking to be used in the Open
+>> Compute Platform
+>>
+>> To make this entirely clear: the Switchtec products are compliant
+>> with the PCI specifications and are supported today with the standard
+>> in-kernel driver. However, these devices also expose a management endpoint
+>> on a separate PCI function address which can be used to perform some
+>> advanced operations. This is a driver for that function. See the patch
+>> for more information.
+>>
+>> Since the RFC, we've made the changes requested by Greg Kroah-Hartman
+>> and Keith Busch, and we've also fleshed out a number of features. We've
+>> added a couple of IOCTLs and sysfs attributes which are documented in
+>> the patch. Significant work has also been done on the userspace tool
+>> which is available under a GPL license at [2]. We've also had testing
+>> done by some of the interested parties.
+>>
+>> We hope to see this work included in either 4.11 or 4.12 assuming a
+>> smooth review process.
+>>
+>> The patch is based off of the v4.10-rc6 release.
+>>
+>> Thanks for your review,
+>>
+>> Logan
+>>
+>> [1] https://www.spinics.net/lists/linux-pci/msg56897.html
+>> [2] https://github.com/sbates130272/switchtec-user
+>>
+>> --
+>>
+>> Logan Gunthorpe (4):
+>>   MicroSemi Switchtec management interface driver
+>>   switchtec: Add user interface documentation
+>>   switchtec: Add sysfs attributes to the Switchtec driver
+>>   switchtec: Add IOCTLs to the Switchtec driver
+>>
+>>  Documentation/ABI/testing/sysfs-class-switchtec |   96 ++
+>>  Documentation/ioctl/ioctl-number.txt            |    1 +
+>>  Documentation/switchtec.txt                     |   80 ++
+>>  MAINTAINERS                                     |   11 +
+>>  drivers/pci/Kconfig                             |    1 +
+>>  drivers/pci/Makefile                            |    1 +
+>>  drivers/pci/switch/Kconfig                      |   13 +
+>>  drivers/pci/switch/Makefile                     |    1 +
+>>  drivers/pci/switch/switchtec.c                  | 1608 +++++++++++++++++++++++
+>>  include/uapi/linux/switchtec_ioctl.h            |  132 ++
+>>  10 files changed, 1944 insertions(+)
+>>  create mode 100644 Documentation/ABI/testing/sysfs-class-switchtec
+>>  create mode 100644 Documentation/switchtec.txt
+>>  create mode 100644 drivers/pci/switch/Kconfig
+>>  create mode 100644 drivers/pci/switch/Makefile
+>>  create mode 100644 drivers/pci/switch/switchtec.c
+>>  create mode 100644 include/uapi/linux/switchtec_ioctl.h
+>>
+>> --
+>> 2.1.4
+>>
