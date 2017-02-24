@@ -1,40 +1,49 @@
-From: scott.bauer@intel.com (Scott Bauer)
-Date: Thu, 23 Feb 2017 18:48:47 -0700
-Subject: [PATCH] nvme/lightnvm: Prevent small buffer overflow in
- nvme_nvm_identify
-Message-ID: <1487900927-29348-1-git-send-email-scott.bauer@intel.com>
+From: chaitanya.kulkarni@hgst.com (Chaitanya Kulkarni)
+Date: Thu, 23 Feb 2017 18:39:32 -0800
+Subject: [PATCH 2/7] nvme-cli: id-ns: Fix memory leak for JSON.
+In-Reply-To: <1487903977-11963-1-git-send-email-chaitanya.kulkarni@hgst.com>
+References: <1487903977-11963-1-git-send-email-chaitanya.kulkarni@hgst.com>
+Message-ID: <1487903977-11963-3-git-send-email-chaitanya.kulkarni@hgst.com>
 
-There are two closely named structs in lightnvm:
-struct nvme_nvm_addr_format and
-struct nvme_addr_format.
+This patch fixes the following memory leak when id-ns command
+executed with JSON option:-
+==7642==
+==7642== HEAP SUMMARY:
+==7642==     in use at exit: 3,297 bytes in 120 blocks
+==7642==   total heap usage: 182 allocs, 62 frees, 9,204 bytes allocated
+==7642==
+==7642== LEAK SUMMARY:
+==7642==    definitely lost: 24 bytes in 1 blocks
+==7642==    indirectly lost: 3,273 bytes in 119 blocks
+==7642==      possibly lost: 0 bytes in 0 blocks
+==7642==    still reachable: 0 bytes in 0 blocks
+==7642==         suppressed: 0 bytes in 0 blocks
+==7642== Rerun with --leak-check=full to see details of leaked memory
+==7642==
 
-The first struct has 4 reserved bytes at the end, the second does not.
-(gdb) p sizeof(struct nvme_nvm_addr_format)
-$1 = 16
-(gdb) p sizeof(struct nvm_addr_format)
-$2 = 12
+Fix:-
+==7949==
+==7949== HEAP SUMMARY:
+==7949==     in use at exit: 0 bytes in 0 blocks
+==7949==   total heap usage: 182 allocs, 182 frees, 9,204 bytes allocated
+==7949==
 
-In the nvme_nvm_identify function we memcpy from the larger struct to the
-smaller struct. We incorrectly pass the length of the larger struct
-and overflow by 4 bytes, lets not do that.
-
-Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni at hgst.com>
 ---
- drivers/nvme/host/lightnvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ nvme-print.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
-index 21cac85..fd98954 100644
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -324,7 +324,7 @@ static int nvme_nvm_identity(struct nvm_dev *nvmdev, struct nvm_id *nvm_id)
- 	nvm_id->cap = le32_to_cpu(nvme_nvm_id->cap);
- 	nvm_id->dom = le32_to_cpu(nvme_nvm_id->dom);
- 	memcpy(&nvm_id->ppaf, &nvme_nvm_id->ppaf,
--					sizeof(struct nvme_nvm_addr_format));
-+					sizeof(struct nvm_addr_format));
+diff --git a/nvme-print.c b/nvme-print.c
+index bcc67ff..5cdc327 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -1256,6 +1256,7 @@ void json_nvme_id_ns(struct nvme_id_ns *ns, unsigned int mode)
  
- 	ret = init_grps(nvm_id, nvme_nvm_id);
- out:
+ 	json_print_object(root, NULL);
+ 	printf("\n");
++	json_free_object(root);
+ }
+ 
+ void json_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode)
 -- 
-2.7.4
+1.9.1
