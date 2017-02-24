@@ -1,161 +1,96 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 24 Feb 2017 11:32:34 -0700
-Subject: [PATCH v2 1/4] MicroSemi Switchtec management interface driver
-In-Reply-To: <20170224003559.GB21548@bhelgaas-glaptop.roam.corp.google.com>
-References: <1486058763-7730-1-git-send-email-logang@deltatee.com>
- <1486058763-7730-2-git-send-email-logang@deltatee.com>
- <20170224003559.GB21548@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <665fc46c-6b26-8b4c-fdd8-a720801158d5@deltatee.com>
+Date: Fri, 24 Feb 2017 12:27:47 -0700
+Subject: [PATCH v4 2/4] switchtec: Add user interface documentation
+In-Reply-To: <1487964469-2944-1-git-send-email-logang@deltatee.com>
+References: <1487964469-2944-1-git-send-email-logang@deltatee.com>
+Message-ID: <1487964469-2944-3-git-send-email-logang@deltatee.com>
 
-Hey Bjorn,
+This adds standard documentation for the sysfs switchtec attributes and
+a RST formatted text file which documents the char device interface.
+Jonathan Corbet has indicated he will move this to a new user-space
+developer documentation book once it's created.
 
-Thanks for the thorough review. It definitely helped a lot to make the
-code as good as it can be.
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Signed-off-by: Stephen Bates <stephen.bates at microsemi.com>
+Tested-by: Krishna Dhulipala <krishnad at fb.com>
+Reviewed-by: Wei Zhang <wzhang at fb.com>
+Reviewed-by: Jens Axboe <axboe at fb.com>
+---
+ Documentation/switchtec.txt | 53 +++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                 |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 Documentation/switchtec.txt
 
-I've made all of the changes you suggested. I'm just going to do a bit
-more testing and then post a v4. See my responses to all of your
-feedback bellow.
-
-Logan
-
-On 23/02/17 05:35 PM, Bjorn Helgaas wrote:
-> Would it make any sense to integrate this with the perf tool?  It
-> looks like switchtec-user measures bandwidth and latency, which sounds
-> sort of perf-ish.
-
-That would be cool but lets file that under potential future work. This
-driver also enables more than bandwidth and latency so it's still
-required for us.
-
->> +MODULE_DESCRIPTION("Microsemi Switchtec(tm) PCI-E Management Driver");
-> 
-> Nit: s/PCI-E/PCIe/
-> 
-
-Fixed.
-
->> +MODULE_VERSION("0.1");
->> +MODULE_LICENSE("GPL");
->> +MODULE_AUTHOR("Microsemi Corporation");
->> +
->> +static int max_devices = 16;
-> 
-> This static initialization is slightly misleading because
-> switchtec_init() immediately sets max_devices to at least 256.
-
-Oops copied that from dax without thinking. I've just removed the max()
-call in the init function.
-
-
->> +	atomic_t event_cnt;
-> 
-> Why is this atomic_t?  You only do an atomic_set() (in stdev_create())
-> and atomic_reads() -- no writes other than the initial one.  So I'm
-> not sure what value atomic_t brings.
-
-If you looked at a following patch in the series you'd see that there's
-an atomic_inc in the ISR. The splitting of the series wasn't as precise
-as it maybe should have been and thus this became a bit confusing.
-
->> +	memcpy_fromio(stuser->data, &stdev->mmio_mrpc->output_data,
->> +		      sizeof(stuser->data));
-> 
-> Apparently you always get 1K of data back, no matter what?
-
-Yes, sort of unfortunately. Because these transactions can occur before
-the user actually does the read, we don't know how much data the user
-wants. This may be a performance improvement in the future (ie. if the
-user reads before the MRPC transaction comes back, then only read the
-requested amount). But we will leave it this way for now.
-
-
->> +	if (!stdev_is_alive(stdev))
->> +		return -ENXIO;
-> 
-> What exactly does this protect against?  Is it OK if stdev_is_alive()
-> becomes false immediately after we check?
-
-Yup, you're right: that's racy. Turns out cleanup is hard and I've
-learned a lot even in the short time since I wrote this code. I've
-gotten rid of stdev_is_alive and moved the pci cleanup code into the
-device's release function so they won't occur until the last user closes
-the cdev. I think that should work better but please let me know if you
-see an issue with this.
-
->> +
->> +	if (size < sizeof(stuser->cmd) ||
->> +	    size > sizeof(stuser->cmd) + SWITCHTEC_MRPC_PAYLOAD_SIZE)
-> 
-> I think I would use "sizeof(stuser->data)" instead of
-> SWITCHTEC_MRPC_PAYLOAD_SIZE so it matches what mrpc_complete_cmd()
-> does.  Same below in switchtec_dev_read().
-
-Ok.
-
-> mrpc_mutex doesn't protect the stuser things, does it?  If not, you
-> could do this without the gotos.  And I think it's a little easier to
-> be confident there are no buffer overruns:
-
-I was using the mutex to protect stuser->state as well. But I've made
-your changes and just adjusted stuser->state to be atomic and I think
-this should be just as good.
-
->> +static int switchtec_init_msix_isr(struct switchtec_dev *stdev)
->> +{
->> +	struct pci_dev *pdev = stdev->pdev;
->> +	int rc, i, msix_count, node;
->> +
->> +	node = dev_to_node(&pdev->dev);
-> 
-> Unused?
-
-Yup, I've removed it.
-
->> +	for (i = 0; i < ARRAY_SIZE(stdev->msix); ++i)
->> +		stdev->msix[i].entry = i;
->> +
->> +	msix_count = pci_enable_msix_range(pdev, stdev->msix, 1,
->> +					   ARRAY_SIZE(stdev->msix));
->> +	if (msix_count < 0)
->> +		return msix_count;
-> 
-> Maybe this could be simplified by using pci_alloc_irq_vectors()?
-
-Yup! I wasn't aware of that function. It's a _huge_ improvement. Thanks.
-Still I'd really appreciate a quick re-review after I post v4 just to
-make sure I got it correct.
-
->> +	stdev->event_irq = ioread32(&stdev->mmio_part_cfg->vep_vector_number);
->> +	if (stdev->event_irq < 0 || stdev->event_irq >= msix_count) {
->> +		rc = -EFAULT;
->> +		goto err_msix_request;
->> +	}
-> 
-> Not sure what this is doing, but you immediately overwrite
-> stdev->event_irq below.  If you're using it as just a temporary above
-> for doing some validation, I would just use a local variable to avoid
-> the connection with stdev->event_irq.
-
-Yes, I made this temporary.
-
->> +	stdev->event_irq = stdev->msix[stdev->event_irq].vector;
-> 
-> Oh, I guess you allocate several MSI-X vectors, but you only actually
-> use one of them?  Why is that?  I was confused about why you allocate
-> several vectors, but there's only one devm_request_irq() call below.
-
-The event_irq is configurable in hardware and won't necessarily be the
-first irq available. (It should always be in the first four.) As I
-understand it, we need to allocate all of them in order to use the one
-we want. The hardware has a couple of other IRQs that do other things
-that we are not currently using.
-
->> +	iowrite32(SWITCHTEC_EVENT_CLEAR |
->> +		  SWITCHTEC_EVENT_EN_IRQ,
-> 
-> Does this enable the device to generate IRQs?  You haven't connected
-> the ISR yet (but I guess you probably also haven't told the device to
-> do anything that would actually generate an IRQ).
-
-Yes on both counts. I've moved it past the ISR initialization just so
-it's more correct.
+diff --git a/Documentation/switchtec.txt b/Documentation/switchtec.txt
+new file mode 100644
+index 0000000..4bced4c
+--- /dev/null
++++ b/Documentation/switchtec.txt
+@@ -0,0 +1,53 @@
++========================
++Linux Switchtec Support
++========================
++
++Microsemi's "Switchtec" line of PCI switch devices is already
++supported by the kernel with standard PCI switch drivers. However, the
++Switchtec device advertises a special management endpoint which
++enables some additional functionality. This includes:
++
++* Packet and Byte Counters
++* Firmware Upgrades
++* Event and Error logs
++* Querying port link status
++* Custom user firmware commands
++
++The switchtec kernel module implements this functionality.
++
++
++Interface
++=========
++
++The primary means of communicating with the Switchtec management firmware is
++through the Memory-mapped Remote Procedure Call (MRPC) interface.
++Commands are submitted to the interface with a 4-byte command
++identifier and up to 1KB of command specific data. The firmware will
++respond with a 4 bytes return code and up to 1KB of command specific
++data. The interface only processes a single command at a time.
++
++
++Userspace Interface
++===================
++
++The MRPC interface will be exposed to userspace through a simple char
++device: /dev/switchtec#, one for each management endpoint in the system.
++
++The char device has the following semantics:
++
++* A write must consist of at least 4 bytes and no more than 1028 bytes.
++  The first four bytes will be interpreted as the command to run and
++  the remainder will be used as the input data. A write will send the
++  command to the firmware to begin processing.
++
++* Each write must be followed by exactly one read. Any double write will
++  produce an error and any read that doesn't follow a write will
++  produce an error.
++
++* A read will block until the firmware completes the command and return
++  the four bytes of status plus up to 1024 bytes of output data. (The
++  length will be specified by the size parameter of the read call --
++  reading less than 4 bytes will produce an error.
++
++* The poll call will also be supported for userspace applications that
++  need to do other things while waiting for the command to complete.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a57686f..aa702b0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9512,6 +9512,7 @@ M:	Stephen Bates <stephen.bates at microsemi.com>
+ M:	Logan Gunthorpe <logang at deltatee.com>
+ L:	linux-pci at vger.kernel.org
+ S:	Maintained
++F:	Documentation/switchtec.txt
+ F:	drivers/pci/switch/switchtec*
+ 
+ PCI DRIVER FOR NVIDIA TEGRA
+-- 
+2.1.4
