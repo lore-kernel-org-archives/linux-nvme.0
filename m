@@ -1,55 +1,96 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 23 Feb 2017 15:56:21 -0700
-Subject: [PATCH v2 3/4] switchtec: Add sysfs attributes to the Switchtec
- driver
-In-Reply-To: <20170223224317.GA21548@bhelgaas-glaptop.roam.corp.google.com>
-References: <1486058763-7730-1-git-send-email-logang@deltatee.com>
- <1486058763-7730-4-git-send-email-logang@deltatee.com>
- <20170223224317.GA21548@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <7c981c0d-e7ff-bf28-ec55-cf5c39290437@deltatee.com>
+Date: Thu, 23 Feb 2017 17:07:22 -0700
+Subject: [PATCH v3 2/4] switchtec: Add user interface documentation
+In-Reply-To: <1487894844-2721-1-git-send-email-logang@deltatee.com>
+References: <1487894844-2721-1-git-send-email-logang@deltatee.com>
+Message-ID: <1487894844-2721-3-git-send-email-logang@deltatee.com>
 
+This adds standard documentation for the sysfs switchtec attributes and
+a RST formatted text file which documents the char device interface.
+Jonathan Corbet has indicated he will move this to a new user-space
+developer documentation book once it's created.
 
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Signed-off-by: Stephen Bates <stephen.bates at microsemi.com>
+Tested-by: Krishna Dhulipala <krishnad at fb.com>
+Reviewed-by: Wei Zhang <wzhang at fb.com>
+Reviewed-by: Jens Axboe <axboe at fb.com>
+---
+ Documentation/switchtec.txt | 53 +++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                 |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 Documentation/switchtec.txt
 
-On 23/02/17 03:43 PM, Bjorn Helgaas wrote:
-> This path seems a little generic.  I don't see other cases where a
-> product brand name ("Switchtec") appears at the top level of
-> /sys/class/...
-
-Ok, well we are certainly open to suggestions, but there isn't really a
-generic version of this device available so I'm not sure how we would
-change that. Per device-type classes aren't that uncommon though, a
-quick grep shows things like:
-
-platform/chrome/cros_ec_dev.c:40:static struct class cros_class
-s390/char/raw3270.h:94:extern struct class *class3270;
-net/ethernet/hisilicon/hns/hnae.c:19:static struct class *hnae_class;
-mfd/ucb1x00-core.c:490:static struct class ucb1x00_class
-
-> My question is based on "ls Documentation/ABI/testing/sysfs-class*",
-> not on any great knowledge of sysfs, and I see Greg has already given
-> a Reviewed-by for this, so maybe this is the right approach.
-> 
-> It does seem like the path could include a clue that this is related
-> to PCI.
-
-I mean, we could change it to pci-switchtec or something if you think
-that would be better..?? But I'm not sure how else to accommodate this.
-
-> Is there a link to the switch PCI device itself, e.g., to
-> /sys/devices/pci*?  Should these attributes simply be put in a
-> subdirectory there, e.g., in
-> 
->   /sys/devices/pci0000:00/0000:00:00.0/stats/...
-
-Well our device shows up here in the tree:
-
-/sys/devices/pci0000:00/0000:00:03.0/0000:03:00.1/switchtec/switchtec0
-
-(Which userspace can get to by following the link at
-/sys/class/switchtec/switchtec0) The switch is then always:
-
-/sys/devices/pci0000:00/0000:00:03.0
-
-Thanks,
-
-Logan
+diff --git a/Documentation/switchtec.txt b/Documentation/switchtec.txt
+new file mode 100644
+index 0000000..4bced4c
+--- /dev/null
++++ b/Documentation/switchtec.txt
+@@ -0,0 +1,53 @@
++========================
++Linux Switchtec Support
++========================
++
++Microsemi's "Switchtec" line of PCI switch devices is already
++supported by the kernel with standard PCI switch drivers. However, the
++Switchtec device advertises a special management endpoint which
++enables some additional functionality. This includes:
++
++* Packet and Byte Counters
++* Firmware Upgrades
++* Event and Error logs
++* Querying port link status
++* Custom user firmware commands
++
++The switchtec kernel module implements this functionality.
++
++
++Interface
++=========
++
++The primary means of communicating with the Switchtec management firmware is
++through the Memory-mapped Remote Procedure Call (MRPC) interface.
++Commands are submitted to the interface with a 4-byte command
++identifier and up to 1KB of command specific data. The firmware will
++respond with a 4 bytes return code and up to 1KB of command specific
++data. The interface only processes a single command at a time.
++
++
++Userspace Interface
++===================
++
++The MRPC interface will be exposed to userspace through a simple char
++device: /dev/switchtec#, one for each management endpoint in the system.
++
++The char device has the following semantics:
++
++* A write must consist of at least 4 bytes and no more than 1028 bytes.
++  The first four bytes will be interpreted as the command to run and
++  the remainder will be used as the input data. A write will send the
++  command to the firmware to begin processing.
++
++* Each write must be followed by exactly one read. Any double write will
++  produce an error and any read that doesn't follow a write will
++  produce an error.
++
++* A read will block until the firmware completes the command and return
++  the four bytes of status plus up to 1024 bytes of output data. (The
++  length will be specified by the size parameter of the read call --
++  reading less than 4 bytes will produce an error.
++
++* The poll call will also be supported for userspace applications that
++  need to do other things while waiting for the command to complete.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a57686f..aa702b0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9512,6 +9512,7 @@ M:	Stephen Bates <stephen.bates at microsemi.com>
+ M:	Logan Gunthorpe <logang at deltatee.com>
+ L:	linux-pci at vger.kernel.org
+ S:	Maintained
++F:	Documentation/switchtec.txt
+ F:	drivers/pci/switch/switchtec*
+ 
+ PCI DRIVER FOR NVIDIA TEGRA
+-- 
+2.1.4
