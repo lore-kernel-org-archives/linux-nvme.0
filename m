@@ -1,43 +1,62 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 24 Feb 2017 19:44:05 -0700
-Subject: NVMe IO error due to abort..
-In-Reply-To: <CA+55aFzAJ+v0cMV_EtzcgfuXSQKUPDUV99GFcMg=nFeEzCE3Hg@mail.gmail.com>
-References: <CA+55aFy+b3W+F7jv9HSqs1UTrkUCKdGjTLUrdmiggG9Y6BApMQ@mail.gmail.com>
- <CA+55aFxpdWPL3=X1gop4jeCk7JQpT4KMvaUq2aAeSfNNW6N=kg@mail.gmail.com>
- <CA+55aFwA+=ojRqcydxa-6ZGqHo+YJqEQqaa9w6HpKtYPmsN+jw@mail.gmail.com>
- <CA+55aFzb8uLKbYaAdGHkJzRfSSqzr3irh0EOQ5NTO4Noeb8htw@mail.gmail.com>
- <18390BD4-644C-40DD-A6FF-E8327962D5F2@kernel.dk>
- <7cc18f03-935e-c053-8752-1c42b711f441@kernel.dk>
- <CA+55aFw8=Xh=GS0KJzYKcV612EtWOvCMkfZe7H3vGT8W7AYmwQ@mail.gmail.com>
- <38e75ee9-e20a-3a64-c570-c780cb593958@kernel.dk>
- <b8efa7ec-be2b-cb26-9fff-e3f1c5412719@kernel.dk>
- <CA+55aFx77v1cOVZOiPCWP-LgK0w_AVL+3-G-xsC8nkp7ze_HQQ@mail.gmail.com>
- <CA+55aFzAJ+v0cMV_EtzcgfuXSQKUPDUV99GFcMg=nFeEzCE3Hg@mail.gmail.com>
-Message-ID: <4def9539-cdfd-15b8-34ca-6effa06782dd@kernel.dk>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sat, 25 Feb 2017 22:47:01 -0800
+Subject: [PATCH 1/2] lightnvm: add generic ocssd detection
+In-Reply-To: <8cce0bfd-a153-ba4e-0d84-bea29764982e@cnexlabs.com>
+References: <20170224171649.27409-1-matias@cnexlabs.com>
+ <20170225182117.GA26447@infradead.org>
+ <8cce0bfd-a153-ba4e-0d84-bea29764982e@cnexlabs.com>
+Message-ID: <20170226064701.GA7557@infradead.org>
 
-On 02/24/2017 05:47 PM, Linus Torvalds wrote:
-> On Fri, Feb 24, 2017 at 3:08 PM, Linus Torvalds
-> <torvalds@linux-foundation.org> wrote:
->> I may have been able to reproduce it once, but I'm not sure how easily
->> I'll repro it again, so..
+[adding linux-nvme to Cc as the patch changes the nvme driver, despite
+the subject line]
+
+On Sat, Feb 25, 2017@08:16:04PM +0100, Matias Bj?rling wrote:
+> On 02/25/2017 07:21 PM, Christoph Hellwig wrote:
+> > On Fri, Feb 24, 2017@06:16:48PM +0100, Matias Bj?rling wrote:
+> > > More implementations of OCSSDs are becoming available. Adding each using
+> > > pci ids are becoming a hassle. Instead, use a 16 byte string in the
+> > > vendor-specific area of the identification command to identify an
+> > > Open-Channel SSD.
+> > > 
+> > > The large string should make the collision probability with other
+> > > vendor-specific strings to be near nil.
+> > 
+> > No way in hell.  vs is vendor specific and we absolutely can't overload
+> > it with any sort of meaning.  Get OCSSD support properly standardized and
+> > add a class code for it.  Until then it's individual PCI IDs.
+> > 
 > 
-> I'm not seeing it with current git and the NOOP scheduler, at least
-> with a few builds and trying to do what I did to get it to happen last
-> time.
-> 
-> But I think I'll continue to use this configuration for the rest of
-> the merge window just to make sure it's stable. I may not have hit the
-> right trigger for the problem.
+> You are right, that is the right way to go, and we are working on it. In the
+> meantime, there are a couple of reasons I want to do a pragmatic solution:
 
-I have an XPS13 sitting that I don't use anymore. It's nvme as well, but
-I don't think it's a Toshiba drive (nor is it 1TB). I will fire that up
-with the new kernel as well and see if I catch anything. But it's most
-puzzling if this is related to the drive, since I've run this on lots of
-other nvme drives. I'm more inclined to think it's related to your dm
-setup.
+Reasonable reaosons, but that's just not how standard interfaces work.
+Either you standardize the behaviour and have a standardized trigger
+for it, or it is vendor specific and needs to be keyed off a specific
+vendor/device identification.
 
-It's fine if you run the rest of the merge window like that, hopefully
-I'll get something concrete out of some testing with dm.
+> 1. Enabling open-channel SSDs on NVMeoF. Customers are asking to use OCSSDs
+> with NVMoeF. I do not think detection of PCI ids works with that.
 
--- 
-Jens Axboe
+To use NVMoeF your protocol needs to be NVMe.  Get it standardized.
+
+> 2. Some vendors are circumventing the OCSSD detection by utilizing the CNEX
+> Labs PCI ids. That is not very helpful and shows that there is a need for a
+> generic approach. When they become public and will use their PCI id (if they
+> will do that...), it is cumbersome to backport their PCI ids back to
+> previous kernel versions to detect support.
+
+Sue them.
+
+> 3. Things are not a technical issue for why this is not adopted today. It
+> will be soon enough one way or another, but until then, a pragmatic approach
+> would go a long way.
+
+It's not a pragmatic approach, it's broken so please don't use these
+whitewashing words.
+
+> If identify VS is too specific, is there another combination that solves the
+> above in a generic and practical way that would satisfy you and the above?
+
+Standardize your interface and get a I/O command set bit for it
+standardized in the NVMe spec.  You've had a year and a half since
+the lightnvm code hit the kernel tree to do this.
