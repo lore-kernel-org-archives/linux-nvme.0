@@ -1,96 +1,272 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Sat, 25 Feb 2017 23:53:15 -0700
-Subject: [PATCH v5 2/4] switchtec: Add user interface documentation
+Date: Sat, 25 Feb 2017 23:53:16 -0700
+Subject: [PATCH v5 3/4] switchtec: Add sysfs attributes to the Switchtec driver
 In-Reply-To: <1488091997-12843-1-git-send-email-logang@deltatee.com>
 References: <1488091997-12843-1-git-send-email-logang@deltatee.com>
-Message-ID: <1488091997-12843-3-git-send-email-logang@deltatee.com>
+Message-ID: <1488091997-12843-4-git-send-email-logang@deltatee.com>
 
-This adds standard documentation for the sysfs switchtec attributes and
-a RST formatted text file which documents the char device interface.
-Jonathan Corbet has indicated he will move this to a new user-space
-developer documentation book once it's created.
+This patch adds a few read-only sysfs attributes which provide
+some device information that is exposed from the devices. Primarily
+component and device names and versions. These are documented in
+Documentation/ABI/testing/sysfs-class-switchtec.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 Signed-off-by: Stephen Bates <stephen.bates at microsemi.com>
 Tested-by: Krishna Dhulipala <krishnad at fb.com>
 Reviewed-by: Wei Zhang <wzhang at fb.com>
 Reviewed-by: Jens Axboe <axboe at fb.com>
+Reviewed-by: Greg Kroah-Hartman <gregkh at linuxfoundation.org>
 ---
- Documentation/switchtec.txt | 53 +++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                 |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 Documentation/switchtec.txt
+ Documentation/ABI/testing/sysfs-class-switchtec |  96 ++++++++++++++++++++
+ MAINTAINERS                                     |   1 +
+ drivers/pci/switch/switchtec.c                  | 113 ++++++++++++++++++++++++
+ 3 files changed, 210 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-switchtec
 
-diff --git a/Documentation/switchtec.txt b/Documentation/switchtec.txt
+diff --git a/Documentation/ABI/testing/sysfs-class-switchtec b/Documentation/ABI/testing/sysfs-class-switchtec
 new file mode 100644
-index 0000000..4bced4c
+index 0000000..48cb4c1
 --- /dev/null
-+++ b/Documentation/switchtec.txt
-@@ -0,0 +1,53 @@
-+========================
-+Linux Switchtec Support
-+========================
++++ b/Documentation/ABI/testing/sysfs-class-switchtec
+@@ -0,0 +1,96 @@
++switchtec - Microsemi Switchtec PCI Switch Management Endpoint
 +
-+Microsemi's "Switchtec" line of PCI switch devices is already
-+supported by the kernel with standard PCI switch drivers. However, the
-+Switchtec device advertises a special management endpoint which
-+enables some additional functionality. This includes:
++For details on this subsystem look at Documentation/switchtec.txt.
 +
-+* Packet and Byte Counters
-+* Firmware Upgrades
-+* Event and Error logs
-+* Querying port link status
-+* Custom user firmware commands
-+
-+The switchtec kernel module implements this functionality.
++What: 		/sys/class/switchtec
++Date:		05-Jan-2017
++KernelVersion:	v4.11
++Contact:	Logan Gunthorpe <logang at deltatee.com>
++Description:	The switchtec class subsystem folder.
++		Each registered switchtec driver is represented by a switchtecX
++		subfolder (X being an integer >= 0).
 +
 +
-+Interface
-+=========
-+
-+The primary means of communicating with the Switchtec management firmware is
-+through the Memory-mapped Remote Procedure Call (MRPC) interface.
-+Commands are submitted to the interface with a 4-byte command
-+identifier and up to 1KB of command specific data. The firmware will
-+respond with a 4 bytes return code and up to 1KB of command specific
-+data. The interface only processes a single command at a time.
++What:		/sys/class/switchtec/switchtec[0-9]+/component_id
++Date:		05-Jan-2017
++KernelVersion:	v4.11
++Contact:	Logan Gunthorpe <logang at deltatee.com>
++Description:	Component identifier as stored in the hardware (eg. PM8543)
++		(read only)
++Values: 	arbitrary string.
 +
 +
-+Userspace Interface
-+===================
++What:		/sys/class/switchtec/switchtec[0-9]+/component_revision
++Date:		05-Jan-2017
++KernelVersion:	v4.11
++Contact:	Logan Gunthorpe <logang at deltatee.com>
++Description:	Component revision stored in the hardware (read only)
++Values: 	integer.
 +
-+The MRPC interface will be exposed to userspace through a simple char
-+device: /dev/switchtec#, one for each management endpoint in the system.
 +
-+The char device has the following semantics:
++What:		/sys/class/switchtec/switchtec[0-9]+/component_vendor
++Date:		05-Jan-2017
++KernelVersion:	v4.11
++Contact:	Logan Gunthorpe <logang at deltatee.com>
++Description:	Component vendor as stored in the hardware (eg. MICROSEM)
++		(read only)
++Values: 	arbitrary string.
 +
-+* A write must consist of at least 4 bytes and no more than 1028 bytes.
-+  The first four bytes will be interpreted as the command to run and
-+  the remainder will be used as the input data. A write will send the
-+  command to the firmware to begin processing.
 +
-+* Each write must be followed by exactly one read. Any double write will
-+  produce an error and any read that doesn't follow a write will
-+  produce an error.
++What:		/sys/class/switchtec/switchtec[0-9]+/device_version
++Date:		05-Jan-2017
++KernelVersion:	v4.11
++Contact:	Logan Gunthorpe <logang at deltatee.com>
++Description:	Device version as stored in the hardware (read only)
++Values: 	integer.
 +
-+* A read will block until the firmware completes the command and return
-+  the four bytes of status plus up to 1024 bytes of output data. (The
-+  length will be specified by the size parameter of the read call --
-+  reading less than 4 bytes will produce an error.
 +
-+* The poll call will also be supported for userspace applications that
-+  need to do other things while waiting for the command to complete.
++What:		/sys/class/switchtec/switchtec[0-9]+/fw_version
++Date:		05-Jan-2017
++KernelVersion:	v4.11
++Contact:	Logan Gunthorpe <logang at deltatee.com>
++Description:	Currently running firmware version (read only)
++Values: 	integer (in hexadecimal).
++
++
++What:		/sys/class/switchtec/switchtec[0-9]+/partition
++Date:		05-Jan-2017
++KernelVersion:	v4.11
++Contact:	Logan Gunthorpe <logang at deltatee.com>
++Description:	Partition number for this device in the switch (read only)
++Values: 	integer.
++
++
++What:		/sys/class/switchtec/switchtec[0-9]+/partition_count
++Date:		05-Jan-2017
++KernelVersion:	v4.11
++Contact:	Logan Gunthorpe <logang at deltatee.com>
++Description:	Total number of partitions in the switch (read only)
++Values: 	integer.
++
++
++What:		/sys/class/switchtec/switchtec[0-9]+/product_id
++Date:		05-Jan-2017
++KernelVersion:	v4.11
++Contact:	Logan Gunthorpe <logang at deltatee.com>
++Description:	Product identifier as stored in the hardware (eg. PSX 48XG3)
++		(read only)
++Values: 	arbitrary string.
++
++
++What:		/sys/class/switchtec/switchtec[0-9]+/product_revision
++Date:		05-Jan-2017
++KernelVersion:	v4.11
++Contact:	Logan Gunthorpe <logang at deltatee.com>
++Description:	Product revision stored in the hardware (eg. RevB)
++		(read only)
++Values: 	arbitrary string.
++
++
++What:		/sys/class/switchtec/switchtec[0-9]+/product_vendor
++Date:		05-Jan-2017
++KernelVersion:	v4.11
++Contact:	Logan Gunthorpe <logang at deltatee.com>
++Description:	Product vendor as stored in the hardware (eg. MICROSEM)
++		(read only)
++Values: 	arbitrary string.
 diff --git a/MAINTAINERS b/MAINTAINERS
-index a57686f..aa702b0 100644
+index aa702b0..6fed938 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -9512,6 +9512,7 @@ M:	Stephen Bates <stephen.bates at microsemi.com>
- M:	Logan Gunthorpe <logang at deltatee.com>
+@@ -9513,6 +9513,7 @@ M:	Logan Gunthorpe <logang at deltatee.com>
  L:	linux-pci at vger.kernel.org
  S:	Maintained
-+F:	Documentation/switchtec.txt
+ F:	Documentation/switchtec.txt
++F:	Documentation/ABI/testing/sysfs-class-switchtec
  F:	drivers/pci/switch/switchtec*
  
  PCI DRIVER FOR NVIDIA TEGRA
+diff --git a/drivers/pci/switch/switchtec.c b/drivers/pci/switch/switchtec.c
+index 4aaf89b..2e47d79 100644
+--- a/drivers/pci/switch/switchtec.c
++++ b/drivers/pci/switch/switchtec.c
+@@ -495,6 +495,118 @@ static void mrpc_timeout_work(struct work_struct *work)
+ 	mutex_unlock(&stdev->mrpc_mutex);
+ }
+ 
++static ssize_t device_version_show(struct device *dev,
++	struct device_attribute *attr, char *buf)
++{
++	struct switchtec_dev *stdev = to_stdev(dev);
++	u32 ver;
++
++	ver = ioread32(&stdev->mmio_sys_info->device_version);
++
++	return sprintf(buf, "%x\n", ver);
++}
++static DEVICE_ATTR_RO(device_version);
++
++static ssize_t fw_version_show(struct device *dev,
++	struct device_attribute *attr, char *buf)
++{
++	struct switchtec_dev *stdev = to_stdev(dev);
++	u32 ver;
++
++	ver = ioread32(&stdev->mmio_sys_info->firmware_version);
++
++	return sprintf(buf, "%08x\n", ver);
++}
++static DEVICE_ATTR_RO(fw_version);
++
++static ssize_t io_string_show(char *buf, void __iomem *attr, size_t len)
++{
++	int i;
++
++	memcpy_fromio(buf, attr, len);
++	buf[len] = '\n';
++	buf[len + 1] = 0;
++
++	for (i = len - 1; i > 0; i--) {
++		if (buf[i] != ' ')
++			break;
++		buf[i] = '\n';
++		buf[i + 1] = 0;
++	}
++
++	return strlen(buf);
++}
++
++#define DEVICE_ATTR_SYS_INFO_STR(field) \
++static ssize_t field ## _show(struct device *dev, \
++	struct device_attribute *attr, char *buf) \
++{ \
++	struct switchtec_dev *stdev = to_stdev(dev); \
++	return io_string_show(buf, &stdev->mmio_sys_info->field, \
++			    sizeof(stdev->mmio_sys_info->field)); \
++} \
++\
++static DEVICE_ATTR_RO(field)
++
++DEVICE_ATTR_SYS_INFO_STR(vendor_id);
++DEVICE_ATTR_SYS_INFO_STR(product_id);
++DEVICE_ATTR_SYS_INFO_STR(product_revision);
++DEVICE_ATTR_SYS_INFO_STR(component_vendor);
++
++static ssize_t component_id_show(struct device *dev,
++	struct device_attribute *attr, char *buf)
++{
++	struct switchtec_dev *stdev = to_stdev(dev);
++	int id = ioread16(&stdev->mmio_sys_info->component_id);
++
++	return sprintf(buf, "PM%04X\n", id);
++}
++static DEVICE_ATTR_RO(component_id);
++
++static ssize_t component_revision_show(struct device *dev,
++	struct device_attribute *attr, char *buf)
++{
++	struct switchtec_dev *stdev = to_stdev(dev);
++	int rev = ioread8(&stdev->mmio_sys_info->component_revision);
++
++	return sprintf(buf, "%d\n", rev);
++}
++static DEVICE_ATTR_RO(component_revision);
++
++static ssize_t partition_show(struct device *dev,
++	struct device_attribute *attr, char *buf)
++{
++	struct switchtec_dev *stdev = to_stdev(dev);
++
++	return sprintf(buf, "%d\n", stdev->partition);
++}
++static DEVICE_ATTR_RO(partition);
++
++static ssize_t partition_count_show(struct device *dev,
++	struct device_attribute *attr, char *buf)
++{
++	struct switchtec_dev *stdev = to_stdev(dev);
++
++	return sprintf(buf, "%d\n", stdev->partition_count);
++}
++static DEVICE_ATTR_RO(partition_count);
++
++static struct attribute *switchtec_device_attrs[] = {
++	&dev_attr_device_version.attr,
++	&dev_attr_fw_version.attr,
++	&dev_attr_vendor_id.attr,
++	&dev_attr_product_id.attr,
++	&dev_attr_product_revision.attr,
++	&dev_attr_component_vendor.attr,
++	&dev_attr_component_id.attr,
++	&dev_attr_component_revision.attr,
++	&dev_attr_partition.attr,
++	&dev_attr_partition_count.attr,
++	NULL,
++};
++
++ATTRIBUTE_GROUPS(switchtec_device);
++
+ static int switchtec_dev_open(struct inode *inode, struct file *filp)
+ {
+ 	struct switchtec_dev *stdev;
+@@ -688,6 +800,7 @@ static struct switchtec_dev *stdev_create(struct pci_dev *pdev)
+ 	device_initialize(dev);
+ 	dev->class = switchtec_class;
+ 	dev->parent = &pdev->dev;
++	dev->groups = switchtec_device_groups;
+ 	dev->release = stdev_release;
+ 
+ 	minor = ida_simple_get(&switchtec_minor_ida, 0, 0,
 -- 
 2.1.4
