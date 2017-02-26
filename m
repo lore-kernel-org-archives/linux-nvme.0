@@ -1,62 +1,119 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Sat, 25 Feb 2017 22:47:01 -0800
-Subject: [PATCH 1/2] lightnvm: add generic ocssd detection
-In-Reply-To: <8cce0bfd-a153-ba4e-0d84-bea29764982e@cnexlabs.com>
-References: <20170224171649.27409-1-matias@cnexlabs.com>
- <20170225182117.GA26447@infradead.org>
- <8cce0bfd-a153-ba4e-0d84-bea29764982e@cnexlabs.com>
-Message-ID: <20170226064701.GA7557@infradead.org>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Sat, 25 Feb 2017 23:53:13 -0700
+Subject: [PATCH v5 0/4] New Microsemi PCI Switch Management Driver
+Message-ID: <1488091997-12843-1-git-send-email-logang@deltatee.com>
 
-[adding linux-nvme to Cc as the patch changes the nvme driver, despite
-the subject line]
+Changes since v4:
 
-On Sat, Feb 25, 2017@08:16:04PM +0100, Matias Bj?rling wrote:
-> On 02/25/2017 07:21 PM, Christoph Hellwig wrote:
-> > On Fri, Feb 24, 2017@06:16:48PM +0100, Matias Bj?rling wrote:
-> > > More implementations of OCSSDs are becoming available. Adding each using
-> > > pci ids are becoming a hassle. Instead, use a 16 byte string in the
-> > > vendor-specific area of the identification command to identify an
-> > > Open-Channel SSD.
-> > > 
-> > > The large string should make the collision probability with other
-> > > vendor-specific strings to be near nil.
-> > 
-> > No way in hell.  vs is vendor specific and we absolutely can't overload
-> > it with any sort of meaning.  Get OCSSD support properly standardized and
-> > add a class code for it.  Until then it's individual PCI IDs.
-> > 
-> 
-> You are right, that is the right way to go, and we are working on it. In the
-> meantime, there are a couple of reasons I want to do a pragmatic solution:
+* Turns out pushing the pci release code into the device release
+  function didn't work as I would have liked. If you try to unbind the
+  device with an instance open, then you hit a kernel bug at
+  drivers/pci/msi.c:371. (This didn't occur in v3.)
 
-Reasonable reaosons, but that's just not how standard interfaces work.
-Either you standardize the behaviour and have a standardized trigger
-for it, or it is vendor specific and needs to be keyed off a specific
-vendor/device identification.
+  To solve this, we've moved the pci release code back into the
+  unregister function and reintroduced an alive flag. This time,
+  however, the alive flag is protected by mrpc_mutex and we're very
+  careful about what happens to devices still in use (they should
+  all be released through the timeout path and an ENODEV error
+  returned to userspace; while new commands are blocked with the
+  same error).
 
-> 1. Enabling open-channel SSDs on NVMeoF. Customers are asking to use OCSSDs
-> with NVMoeF. I do not think detection of PCI ids works with that.
+Changes since v3:
 
-To use NVMoeF your protocol needs to be NVMe.  Get it standardized.
+* Removed stdev_is_alive and moved pci deinit functions
+  into the device release function which only occurs after all
+  cdev instances are closed. (per Bjorn)
+* Reduced locking in read/write functions (per Bjorn)
+* Use pci_alloc_irq_vectors to vastly improve ISR initialization (Bjorn)
+* A few other minor nits and cleanup as noticed by Bjorn
 
-> 2. Some vendors are circumventing the OCSSD detection by utilizing the CNEX
-> Labs PCI ids. That is not very helpful and shows that there is a need for a
-> generic approach. When they become public and will use their PCI id (if they
-> will do that...), it is cumbersome to backport their PCI ids back to
-> previous kernel versions to detect support.
+Changes since v2:
 
-Sue them.
+* Collected reviewed and tested tags
+* Very minor fix to the error path in the create function
 
-> 3. Things are not a technical issue for why this is not adopted today. It
-> will be soon enough one way or another, but until then, a pragmatic approach
-> would go a long way.
+Changes since v1:
 
-It's not a pragmatic approach, it's broken so please don't use these
-whitewashing words.
+* Rebased onto 4.10-rc6 (cleanly)
+* Split the patch into a few more easily digestible patches (as
+  suggested by Greg Kroah-Hartman)
+* Folded switchtec.c into switchtec.h (per Greg)
+* Fixed a bunch of 32bit build warnings caught by the kbuild test robot
+* Fixed some issues in the documentation so it has a proper
+  reStructredText format (as noted by Jonathan Corbet)
+* Fixed padding and sizes in the IOCTL structures as noticed by Emil
+  Velikov and used pahole to verify their consistency across 32 and 64
+  bit builds
+* Reworked one of the IOCTL interfaces to be more future proof (per
+  Emil).
 
-> If identify VS is too specific, is there another combination that solves the
-> above in a generic and practical way that would satisfy you and the above?
+Changes since RFC:
 
-Standardize your interface and get a I/O command set bit for it
-standardized in the NVMe spec.  You've had a year and a half since
-the lightnvm code hit the kernel tree to do this.
+* Fixed incorrect use of the drive model as pointed out by Greg
+  Kroah-Hartman
+* Used devm functions as suggested by Keith Busch
+* Added a handful of sysfs attributes to the switchtec class
+* Added a handful of IOCTLs to the switchtec device
+* A number of miscellaneous bug fixes
+
+--
+
+Hi,
+
+This is a continuation of the RFC we posted lasted month [1] which
+proposes a management driver for Microsemi's Switchtec line of PCI
+switches. This hardware is still looking to be used in the Open
+Compute Platform
+
+To make this entirely clear: the Switchtec products are compliant
+with the PCI specifications and are supported today with the standard
+in-kernel driver. However, these devices also expose a management endpoint
+on a separate PCI function address which can be used to perform some
+advanced operations. This is a driver for that function. See the patch
+for more information.
+
+Since the RFC, we've made the changes requested by Greg Kroah-Hartman
+and Keith Busch, and we've also fleshed out a number of features. We've
+added a couple of IOCTLs and sysfs attributes which are documented in
+the patch. Significant work has also been done on the userspace tool
+which is available under a GPL license at [2]. We've also had testing
+done by some of the interested parties.
+
+We hope to see this work included in either 4.11 or 4.12 assuming a
+smooth review process.
+
+The patch is based off of the v4.10-rc6 release.
+
+Thanks for your review,
+
+Logan
+
+[1] https://www.spinics.net/lists/linux-pci/msg56897.html
+[2] https://github.com/sbates130272/switchtec-user
+
+Logan Gunthorpe (4):
+  MicroSemi Switchtec management interface driver
+  switchtec: Add user interface documentation
+  switchtec: Add sysfs attributes to the Switchtec driver
+  switchtec: Add IOCTLs to the Switchtec driver
+
+ Documentation/ABI/testing/sysfs-class-switchtec |   96 ++
+ Documentation/ioctl/ioctl-number.txt            |    1 +
+ Documentation/switchtec.txt                     |   80 ++
+ MAINTAINERS                                     |   11 +
+ drivers/pci/Kconfig                             |    1 +
+ drivers/pci/Makefile                            |    1 +
+ drivers/pci/switch/Kconfig                      |   13 +
+ drivers/pci/switch/Makefile                     |    1 +
+ drivers/pci/switch/switchtec.c                  | 1535 +++++++++++++++++++++++
+ include/uapi/linux/switchtec_ioctl.h            |  132 ++
+ 10 files changed, 1871 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-switchtec
+ create mode 100644 Documentation/switchtec.txt
+ create mode 100644 drivers/pci/switch/Kconfig
+ create mode 100644 drivers/pci/switch/Makefile
+ create mode 100644 drivers/pci/switch/switchtec.c
+ create mode 100644 include/uapi/linux/switchtec_ioctl.h
+
+--
+2.1.4
