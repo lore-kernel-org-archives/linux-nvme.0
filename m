@@ -1,26 +1,42 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 27 Feb 2017 15:46:09 +0200
-Subject: [PATCHv2 2/2] nvme: Complete all stuck requests
-In-Reply-To: <1487896561-10454-2-git-send-email-keith.busch@intel.com>
-References: <1487896561-10454-1-git-send-email-keith.busch@intel.com>
- <1487896561-10454-2-git-send-email-keith.busch@intel.com>
-Message-ID: <b66a614e-140e-86e9-56bf-d3eafb750aa5@grimberg.me>
+Date: Mon, 27 Feb 2017 16:39:03 +0200
+Subject: nvmf regression with mq-deadline
+In-Reply-To: <34fb43d6-37e7-feb3-73c6-63140993ba7c@grimberg.me>
+References: <8384a5c8-c8e6-4e46-65d6-208b802f6957@grimberg.me>
+ <34fb43d6-37e7-feb3-73c6-63140993ba7c@grimberg.me>
+Message-ID: <0f06d732-fe32-bca0-8a4d-299a6cce7a6e@grimberg.me>
 
 
-
-On 24/02/17 02:36, Keith Busch wrote:
-> If the block layer has entered requests and gets a CPU hot plug event
-> prior to the resume event, it will wait for those requests to exit. If
-> the nvme driver is shutting down, it will not start the queues back up,
-> preventing forward progress.
+> Now I'm getting a NULL deref with nvme-rdma [1].
 >
-> To fix that, this patch freezes the request queues when the driver intends
-> to shut down the controller so that no new requests may enter.  After the
-> controller has been disabled, the queues will be restarted to force all
-> entered requests to end in failure so that blk-mq's hot cpu notifier may
-> progress. To ensure the queue usage count is 0 on a shutdown, the driver
-> waits for freeze to complete before completing the controller shutdown.
+> For some reason blk_mq_tag_to_rq() is returning NULL on
+> tag 0x0 which is io queue connect.
+>
+> I'll try to see where this is coming from.
+> This does not happen with loop though...
 
-Keith, can you explain (again) for me why is the freeze_wait must happen
-after the controller has been disabled, instead of starting the queues
-and waiting right after freeze start?
+That's because the loop driver does not rely on the
+cqe.command_id to resolve the submitted request (I'll
+fix that).
+
+Looks like blk_mq_alloc_request_hctx was overlooked when
+the back assignment of the request to the rq_map...
+
+This patch solves the issue for fabrics:
+--
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index d84c66fb37b7..9611cd9920e9 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -312,6 +312,7 @@ struct request *blk_mq_alloc_request_hctx(struct 
+request_queue *q, int rw,
+                 ret = -EWOULDBLOCK;
+                 goto out_queue_exit;
+         }
++       alloc_data.hctx->tags->rqs[rq->tag] = rq;
+
+         return rq;
+--
+
+If its agreed with everyone I'll send a proper patch
+for this and the blk_mq_sched_setup fix?
