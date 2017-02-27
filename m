@@ -1,63 +1,70 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 27 Feb 2017 09:27:34 -0700
-Subject: [PATCH 1/2] blk-mq-sched: Allocate sched reserved tags as
- specified in the original queue tagset
-In-Reply-To: <20170227162520.GC10715@vader>
-References: <1488209781-1084-1-git-send-email-sagi@grimberg.me>
- <20170227154939.GA10715@vader>
- <4829b70c-53fd-f622-310e-0a30e4ede6fa@kernel.dk>
- <eb51d324-62df-629e-8a7b-fea50ef7543e@grimberg.me>
- <353bb44b-7180-7a78-47f5-2ebf03b714bc@kernel.dk>
- <20170227162520.GC10715@vader>
-Message-ID: <c80fb68a-8031-b5b2-7403-307475bf8352@kernel.dk>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 27 Feb 2017 19:00:19 +0200
+Subject: [PATCH 1/2] nvme-loop: retrieve iod from the cqe command_id
+Message-ID: <1488214820-3578-1-git-send-email-sagi@grimberg.me>
 
-On 02/27/2017 09:25 AM, Omar Sandoval wrote:
-> On Mon, Feb 27, 2017@09:15:27AM -0700, Jens Axboe wrote:
->> On 02/27/2017 09:10 AM, Sagi Grimberg wrote:
->>>
->>>>> Hm, this may fix the crash, but I'm not sure it'll work as intended.
->>>>> When we allocate the request, we'll get a reserved scheduler tag, but
->>>>> then when we go to dispatch the request and call
->>>>> blk_mq_get_driver_tag(), we'll be competing with all of the normal
->>>>> requests for a regular driver tag. So maybe on top of this we should add
->>>>> the BLK_MQ_REQ_RESERVED flag to the allocation attempt in
->>>>> blk_mq_get_driver_tag() if the scheduler tag is reserved? I'm hazy on
->>>>> what we expect from reserved tags, so feel free to call me crazy.
->>>>
->>>> Yeah good point, we need to carry it through. Reserved tags exist
->>>> because drivers often need a request/tag for error handling. If all
->>>> tags currently are used up for regular IO that is stuck, you need
->>>> a reserved tag for error handling to guarantee progress.
->>>>
->>>> So Sagi's patch does take it half the way there, but get_driver_tag
->>>> really needs to know about this as well, or we will just get stuck
->>>> there as well. Two solutions, I can think of:
->>>>
->>>> 1) Check the tag value in get_driver_tag, add BLK_MQ_REQ_RESERVED
->>>>    when allocating a driver tag if above X.
->>>> 2) Add an RQF_SOMETHING_RESERVED. Add BLK_MQ_REQ_RESERVED in
->>>>    get_driver_tag if that is set.
->>>>
->>>> Comments?
->>>
->>> Can't we just not go through the scheduler for reserved tags? Obviously
->>> there is no point in scheduling them...
->>
->> Right, that would be possible. But I'd rather not treat any requests
->> differently, it's a huge pain in the ass that flush request currently
->> insert with a driver tag already allocated. So it's not because
->> scheduling will add anything at all, it's more that I'd like to move
->> flush requests to use regular inserts as well and not deal with some
->> request being "special" in any way.
->>
->> The below should hopefully work. Totally untested...
-> 
-> I like your variant if it works for Sagi. My only complaint (which was
-> already there) is that the BUG_ON(tag >= tags->nr_reserved_tags) in
-> blk_mq_put_tag() looks kind of silly since we just checked that exact
-> same condition.
+useful to validate that the we didn't mess up
+the command_id.
 
-Yeah, that check is nonsensical. Let's kill it.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/loop.c | 31 +++++++++++++++++++++++++------
+ 1 file changed, 25 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index d1f06e7768ff..8e19bf48691c 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -113,11 +113,20 @@ static void nvme_loop_complete_rq(struct request *req)
+ 	blk_mq_end_request(req, error);
+ }
+ 
++static struct blk_mq_tags *nvme_loop_tagset(struct nvme_loop_queue *queue)
++{
++	u32 queue_idx = nvme_loop_queue_idx(queue);
++
++	if (queue_idx == 0)
++		return queue->ctrl->admin_tag_set.tags[queue_idx];
++	return queue->ctrl->tag_set.tags[queue_idx - 1];
++}
++
+ static void nvme_loop_queue_response(struct nvmet_req *req)
+ {
+-	struct nvme_loop_iod *iod =
+-		container_of(req, struct nvme_loop_iod, req);
+-	struct nvme_completion *cqe = &iod->rsp;
++	struct nvme_loop_queue *queue =
++		container_of(req->sq, struct nvme_loop_queue, nvme_sq);
++	struct nvme_completion *cqe = req->rsp;
+ 
+ 	/*
+ 	 * AEN requests are special as they don't time out and can
+@@ -125,13 +134,23 @@ static void nvme_loop_queue_response(struct nvmet_req *req)
+ 	 * aborts.  We don't even bother to allocate a struct request
+ 	 * for them but rather special case them here.
+ 	 */
+-	if (unlikely(nvme_loop_queue_idx(iod->queue) == 0 &&
++	if (unlikely(nvme_loop_queue_idx(queue) == 0 &&
+ 			cqe->command_id >= NVME_LOOP_AQ_BLKMQ_DEPTH)) {
+-		nvme_complete_async_event(&iod->queue->ctrl->ctrl, cqe->status,
++		nvme_complete_async_event(&queue->ctrl->ctrl, cqe->status,
+ 				&cqe->result);
+ 	} else {
+-		struct request *rq = blk_mq_rq_from_pdu(iod);
++		struct request *rq;
++		struct nvme_loop_iod *iod;
++
++		rq = blk_mq_tag_to_rq(nvme_loop_tagset(queue), cqe->command_id);
++		if (!rq) {
++			dev_err(queue->ctrl->ctrl.device,
++				"tag 0x%x on queue %d not found\n",
++				cqe->command_id, nvme_loop_queue_idx(queue));
++			return;
++		}
+ 
++		iod = blk_mq_rq_to_pdu(rq);
+ 		iod->nvme_req.result = cqe->result;
+ 		blk_mq_complete_request(rq, le16_to_cpu(cqe->status) >> 1);
+ 	}
 -- 
-Jens Axboe
+2.7.4
