@@ -1,10 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 27 Feb 2017 10:43:40 -0500
-Subject: [PATCH] nvme-cli: smart-log: Allow negative values for temp
- sensors.
-In-Reply-To: <f4a2b870-7927-0612-e5ca-b7585c5863db@grimberg.me>
-References: <1488094482-22323-1-git-send-email-chaitanya.kulkarni@hgst.com>
- <f4a2b870-7927-0612-e5ca-b7585c5863db@grimberg.me>
-Message-ID: <20170227154340.GB5789@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 27 Feb 2017 17:36:20 +0200
+Subject: [PATCH 1/2] blk-mq-sched: Allocate sched reserved tags as specified
+ in the original queue tagset
+Message-ID: <1488209781-1084-1-git-send-email-sagi@grimberg.me>
 
-Thanks, applied.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ block/blk-mq-sched.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/block/blk-mq-sched.c b/block/blk-mq-sched.c
+index 98c7b061781e..46ca965fff5c 100644
+--- a/block/blk-mq-sched.c
++++ b/block/blk-mq-sched.c
+@@ -454,7 +454,8 @@ int blk_mq_sched_setup(struct request_queue *q)
+ 	 */
+ 	ret = 0;
+ 	queue_for_each_hw_ctx(q, hctx, i) {
+-		hctx->sched_tags = blk_mq_alloc_rq_map(set, i, q->nr_requests, 0);
++		hctx->sched_tags = blk_mq_alloc_rq_map(set, i,
++				q->nr_requests, set->reserved_tags);
+ 		if (!hctx->sched_tags) {
+ 			ret = -ENOMEM;
+ 			break;
+-- 
+2.7.4
