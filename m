@@ -1,22 +1,37 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 27 Feb 2017 19:26:53 +0200
-Subject: [PATCH 2/2] blk-mq: make sure to back-assign the request to
- rq_map in blk_mq_alloc_request_hctx
-In-Reply-To: <7c499dec-b3b3-be6c-c650-c358fb69b391@kernel.dk>
-References: <1488209781-1084-1-git-send-email-sagi@grimberg.me>
- <1488209781-1084-2-git-send-email-sagi@grimberg.me>
- <20170227165959.GD10715@vader>
- <ad451231-eca0-3f25-fd82-1db44acc1cd9@kernel.dk>
- <20170227170434.GE10715@vader>
- <7c499dec-b3b3-be6c-c650-c358fb69b391@kernel.dk>
-Message-ID: <30974cec-7d46-849d-05d3-52c08dd6c2c9@grimberg.me>
+Date: Mon, 27 Feb 2017 19:27:51 +0200
+Subject: [PATCHv2 2/2] nvme: Complete all stuck requests
+In-Reply-To: <20170227150107.GA5789@localhost.localdomain>
+References: <1487896561-10454-1-git-send-email-keith.busch@intel.com>
+ <1487896561-10454-2-git-send-email-keith.busch@intel.com>
+ <b66a614e-140e-86e9-56bf-d3eafb750aa5@grimberg.me>
+ <20170227150107.GA5789@localhost.localdomain>
+Message-ID: <4c952c67-9871-249d-86b0-5f81acf00571@grimberg.me>
 
 
-> Thanks. Sagi, I updated your first patch as follows:
+>>> If the block layer has entered requests and gets a CPU hot plug event
+>>> prior to the resume event, it will wait for those requests to exit. If
+>>> the nvme driver is shutting down, it will not start the queues back up,
+>>> preventing forward progress.
+>>>
+>>> To fix that, this patch freezes the request queues when the driver intends
+>>> to shut down the controller so that no new requests may enter.  After the
+>>> controller has been disabled, the queues will be restarted to force all
+>>> entered requests to end in failure so that blk-mq's hot cpu notifier may
+>>> progress. To ensure the queue usage count is 0 on a shutdown, the driver
+>>> waits for freeze to complete before completing the controller shutdown.
+>>
+>> Keith, can you explain (again) for me why is the freeze_wait must happen
+>> after the controller has been disabled, instead of starting the queues
+>> and waiting right after freeze start?
 >
-> http://git.kernel.dk/cgit/linux-block/commit/?h=for-linus&id=d06f713e5d200959cdb445a0104e71d9e6070c51
->
-> and this is now head of for-linus.
->
+> Yeah, the driver needs to make forward progress even if the controller
+> isn't functioning. If we do the freeze wait before disabling the
+> controller, there's no way to reclaim missing completions. If the
+> controller is working perfectly, it'd be okay, but the driver would be
+> stuck if there's a problem.
 
-thanks.
+OK, I think we can get it for fabrics too, need to figure out how to
+handle it there too.
+
+Do you have a reproducer?
