@@ -1,11 +1,32 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 27 Feb 2017 16:40:07 +0200
-Subject: [PATCH] nvme-cli: smart-log: Allow negative values for temp
- sensors.
-In-Reply-To: <1488094482-22323-1-git-send-email-chaitanya.kulkarni@hgst.com>
-References: <1488094482-22323-1-git-send-email-chaitanya.kulkarni@hgst.com>
-Message-ID: <f4a2b870-7927-0612-e5ca-b7585c5863db@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 27 Feb 2017 10:01:08 -0500
+Subject: [PATCHv2 2/2] nvme: Complete all stuck requests
+In-Reply-To: <b66a614e-140e-86e9-56bf-d3eafb750aa5@grimberg.me>
+References: <1487896561-10454-1-git-send-email-keith.busch@intel.com>
+ <1487896561-10454-2-git-send-email-keith.busch@intel.com>
+ <b66a614e-140e-86e9-56bf-d3eafb750aa5@grimberg.me>
+Message-ID: <20170227150107.GA5789@localhost.localdomain>
 
-Looks good,
+On Mon, Feb 27, 2017@03:46:09PM +0200, Sagi Grimberg wrote:
+> On 24/02/17 02:36, Keith Busch wrote:
+> > If the block layer has entered requests and gets a CPU hot plug event
+> > prior to the resume event, it will wait for those requests to exit. If
+> > the nvme driver is shutting down, it will not start the queues back up,
+> > preventing forward progress.
+> > 
+> > To fix that, this patch freezes the request queues when the driver intends
+> > to shut down the controller so that no new requests may enter.  After the
+> > controller has been disabled, the queues will be restarted to force all
+> > entered requests to end in failure so that blk-mq's hot cpu notifier may
+> > progress. To ensure the queue usage count is 0 on a shutdown, the driver
+> > waits for freeze to complete before completing the controller shutdown.
+> 
+> Keith, can you explain (again) for me why is the freeze_wait must happen
+> after the controller has been disabled, instead of starting the queues
+> and waiting right after freeze start?
 
-Reviewed-by: Sagi Grimberg <sagi at grimbeg.me>
+Yeah, the driver needs to make forward progress even if the controller
+isn't functioning. If we do the freeze wait before disabling the
+controller, there's no way to reclaim missing completions. If the
+controller is working perfectly, it'd be okay, but the driver would be
+stuck if there's a problem.
