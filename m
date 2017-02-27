@@ -1,32 +1,29 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 27 Feb 2017 13:50:17 -0500
-Subject: [PATCH 1/2] lightnvm: add generic ocssd detection
-In-Reply-To: <108882ac-9f55-e4f5-c04e-244848139db8@grimberg.me>
-References: <20170224171649.27409-1-matias@cnexlabs.com>
- <20170225182117.GA26447@infradead.org>
- <8cce0bfd-a153-ba4e-0d84-bea29764982e@cnexlabs.com>
- <20170226064701.GA7557@infradead.org>
- <108882ac-9f55-e4f5-c04e-244848139db8@grimberg.me>
-Message-ID: <20170227185016.GC5789@localhost.localdomain>
+Date: Mon, 27 Feb 2017 14:15:00 -0500
+Subject: [PATCHv2 2/2] nvme: Complete all stuck requests
+In-Reply-To: <4c952c67-9871-249d-86b0-5f81acf00571@grimberg.me>
+References: <1487896561-10454-1-git-send-email-keith.busch@intel.com>
+ <1487896561-10454-2-git-send-email-keith.busch@intel.com>
+ <b66a614e-140e-86e9-56bf-d3eafb750aa5@grimberg.me>
+ <20170227150107.GA5789@localhost.localdomain>
+ <4c952c67-9871-249d-86b0-5f81acf00571@grimberg.me>
+Message-ID: <20170227191459.GA1170@localhost.localdomain>
 
-On Mon, Feb 27, 2017@08:35:06PM +0200, Sagi Grimberg wrote:
-> > On Sat, Feb 25, 2017@08:16:04PM +0100, Matias Bj?rling wrote:
-> > > On 02/25/2017 07:21 PM, Christoph Hellwig wrote:
-> > > > No way in hell.  vs is vendor specific and we absolutely can't overload
-> > > > it with any sort of meaning.  Get OCSSD support properly standardized and
-> > > > add a class code for it.  Until then it's individual PCI IDs.
-> > > > 
-> > > 
-> > > You are right, that is the right way to go, and we are working on it. In the
-> > > meantime, there are a couple of reasons I want to do a pragmatic solution:
-> > 
-> > Reasonable reaosons, but that's just not how standard interfaces work.
-> > Either you standardize the behaviour and have a standardized trigger
-> > for it, or it is vendor specific and needs to be keyed off a specific
-> > vendor/device identification.
+On Mon, Feb 27, 2017@07:27:51PM +0200, Sagi Grimberg wrote:
+> OK, I think we can get it for fabrics too, need to figure out how to
+> handle it there too.
 > 
-> I agree, I don't see how we're allowed to use vs for that.
+> Do you have a reproducer?
 
->From personal experience, some OEMs will put whatever they want in the
-VS region for their rebranded device, making it an unreliable place to
-check for a capability.
+To repro, I have to run a buffered writer workload then put the system into S3.
+
+This fio job seems to reproduce for me:
+
+  fio --name=global --filename=/dev/nvme0n1 --bsrange=4k-128k --rw=randwrite --ioengine=libaio --iodepth=8 --numjobs=8 --name=foobar
+
+I use rtcwake to test suspend/resume:
+
+  rtcwake -m mem -s 10
+
+Without the patch we'll get stuck after "Disabling non-boot CPUs ..."
+when blk-mq waits to freeze some entered queues after nvme was disabled.
