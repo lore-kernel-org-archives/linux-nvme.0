@@ -1,29 +1,20 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 27 Feb 2017 14:15:00 -0500
-Subject: [PATCHv2 2/2] nvme: Complete all stuck requests
-In-Reply-To: <4c952c67-9871-249d-86b0-5f81acf00571@grimberg.me>
-References: <1487896561-10454-1-git-send-email-keith.busch@intel.com>
- <1487896561-10454-2-git-send-email-keith.busch@intel.com>
- <b66a614e-140e-86e9-56bf-d3eafb750aa5@grimberg.me>
- <20170227150107.GA5789@localhost.localdomain>
- <4c952c67-9871-249d-86b0-5f81acf00571@grimberg.me>
-Message-ID: <20170227191459.GA1170@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 27 Feb 2017 22:13:46 +0200
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
+References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
+ <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
+ <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
+ <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
+Message-ID: <7267b601-e436-570a-a103-65ffeb6e7a97@grimberg.me>
 
-On Mon, Feb 27, 2017@07:27:51PM +0200, Sagi Grimberg wrote:
-> OK, I think we can get it for fabrics too, need to figure out how to
-> handle it there too.
-> 
-> Do you have a reproducer?
 
-To repro, I have to run a buffered writer workload then put the system into S3.
+> Hi,
+>
+> I will try with kernel 4.10 when I get my hands on the machine.
+>
+> In addition, I found that the machine did not have the kernel-firmware
+> package installed. Could this cause the "strange" CX4 behavior? I will
+> obviously re-test with the kernel-firmware package.
 
-This fio job seems to reproduce for me:
-
-  fio --name=global --filename=/dev/nvme0n1 --bsrange=4k-128k --rw=randwrite --ioengine=libaio --iodepth=8 --numjobs=8 --name=foobar
-
-I use rtcwake to test suspend/resume:
-
-  rtcwake -m mem -s 10
-
-Without the patch we'll get stuck after "Disabling non-boot CPUs ..."
-when blk-mq waits to freeze some entered queues after nvme was disabled.
+Not really, Mellanox FW is obtained by mellanox provided tools.
