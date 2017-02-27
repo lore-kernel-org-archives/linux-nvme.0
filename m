@@ -1,33 +1,92 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 27 Feb 2017 19:00:20 +0200
-Subject: [PATCH 2/2] nvme-loop: fix a possible use-after-free when destroying
- the admin queue
-In-Reply-To: <1488214820-3578-1-git-send-email-sagi@grimberg.me>
-References: <1488214820-3578-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1488214820-3578-2-git-send-email-sagi@grimberg.me>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Mon, 27 Feb 2017 08:59:59 -0800
+Subject: [PATCH 2/2] blk-mq: make sure to back-assign the request to
+ rq_map in blk_mq_alloc_request_hctx
+In-Reply-To: <1488209781-1084-2-git-send-email-sagi@grimberg.me>
+References: <1488209781-1084-1-git-send-email-sagi@grimberg.me>
+ <1488209781-1084-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20170227165959.GD10715@vader>
 
-we need to destroy the nvmet sq and let it finish gracefully
-before continue to cleanup the queue.
+On Mon, Feb 27, 2017@05:36:21PM +0200, Sagi Grimberg wrote:
+> Otherwise we won't be able to retrieve the request from
+> the tag.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  block/blk-mq.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index d84c66fb37b7..9611cd9920e9 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -312,6 +312,7 @@ struct request *blk_mq_alloc_request_hctx(struct request_queue *q, int rw,
+>  		ret = -EWOULDBLOCK;
+>  		goto out_queue_exit;
+>  	}
+> +	alloc_data.hctx->tags->rqs[rq->tag] = rq;
+>  
+>  	return rq;
+>  
+> -- 
+> 2.7.4
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/target/loop.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This one I think is a little bit cleaner if we just push that assignment
+into __blk_mq_alloc_request() like this (again, compile tested only):
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 8e19bf48691c..2fc750010e93 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -307,9 +307,9 @@ static struct blk_mq_ops nvme_loop_admin_mq_ops = {
+diff --git a/block/blk-mq-sched.c b/block/blk-mq-sched.c
+index 98c7b061781e..7267c9c23529 100644
+--- a/block/blk-mq-sched.c
++++ b/block/blk-mq-sched.c
+@@ -135,8 +135,6 @@ struct request *blk_mq_sched_get_request(struct request_queue *q,
+ 			rq = __blk_mq_alloc_request(data, op);
+ 	} else {
+ 		rq = __blk_mq_alloc_request(data, op);
+-		if (rq)
+-			data->hctx->tags->rqs[rq->tag] = rq;
+ 	}
  
- static void nvme_loop_destroy_admin_queue(struct nvme_loop_ctrl *ctrl)
- {
-+	nvmet_sq_destroy(&ctrl->queues[0].nvme_sq);
- 	blk_cleanup_queue(ctrl->ctrl.admin_q);
- 	blk_mq_free_tag_set(&ctrl->admin_tag_set);
--	nvmet_sq_destroy(&ctrl->queues[0].nvme_sq);
- }
+ 	if (rq) {
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 9e6b064e5339..b4cf9dfa926b 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -234,6 +234,7 @@ struct request *__blk_mq_alloc_request(struct blk_mq_alloc_data *data,
+ 			}
+ 			rq->tag = tag;
+ 			rq->internal_tag = -1;
++			data->hctx->tags->rqs[rq->tag] = rq;
+ 		}
  
- static void nvme_loop_free_ctrl(struct nvme_ctrl *nctrl)
--- 
-2.7.4
+ 		blk_mq_rq_ctx_init(data->q, data->ctx, rq, op);
+
+Looking a little closer at the caller, though, this is kind of weird:
+
+struct request *nvme_alloc_request(struct request_queue *q,
+		struct nvme_command *cmd, unsigned int flags, int qid)
+{
+	unsigned op = nvme_is_write(cmd) ? REQ_OP_DRV_OUT : REQ_OP_DRV_IN;
+	struct request *req;
+
+	if (qid == NVME_QID_ANY) {
+		req = blk_mq_alloc_request(q, op, flags);
+	} else {
+		req = blk_mq_alloc_request_hctx(q, op, flags,
+				qid ? qid - 1 : 0);
+	}
+	if (IS_ERR(req))
+		return req;
+
+	req->cmd_flags |= REQ_FAILFAST_DRIVER;
+	nvme_req(req)->cmd = cmd;
+
+	return req;
+}
+
+In the "any" case, we allocate a request with a scheduler tag and go
+through the scheduler as usual. In the hctx case, we're getting a
+request with a driver tag, meaning we go through the
+blk_mq_sched_bypass_insert() path when we run the request.
+
+There's nothing really wrong about that, it just seems weird. Not sure
+if it's weird enough to act on :)
