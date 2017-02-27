@@ -1,32 +1,15 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 27 Feb 2017 10:01:08 -0500
-Subject: [PATCHv2 2/2] nvme: Complete all stuck requests
-In-Reply-To: <b66a614e-140e-86e9-56bf-d3eafb750aa5@grimberg.me>
-References: <1487896561-10454-1-git-send-email-keith.busch@intel.com>
- <1487896561-10454-2-git-send-email-keith.busch@intel.com>
- <b66a614e-140e-86e9-56bf-d3eafb750aa5@grimberg.me>
-Message-ID: <20170227150107.GA5789@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 27 Feb 2017 16:42:08 +0200
+Subject: [PATCH] nvme/pci: Poll CQ on timeout
+In-Reply-To: <1487977168-5347-1-git-send-email-keith.busch@intel.com>
+References: <1487977168-5347-1-git-send-email-keith.busch@intel.com>
+Message-ID: <c29ea931-b57e-b873-2e22-06f02f26bc8c@grimberg.me>
 
-On Mon, Feb 27, 2017@03:46:09PM +0200, Sagi Grimberg wrote:
-> On 24/02/17 02:36, Keith Busch wrote:
-> > If the block layer has entered requests and gets a CPU hot plug event
-> > prior to the resume event, it will wait for those requests to exit. If
-> > the nvme driver is shutting down, it will not start the queues back up,
-> > preventing forward progress.
-> > 
-> > To fix that, this patch freezes the request queues when the driver intends
-> > to shut down the controller so that no new requests may enter.  After the
-> > controller has been disabled, the queues will be restarted to force all
-> > entered requests to end in failure so that blk-mq's hot cpu notifier may
-> > progress. To ensure the queue usage count is 0 on a shutdown, the driver
-> > waits for freeze to complete before completing the controller shutdown.
-> 
-> Keith, can you explain (again) for me why is the freeze_wait must happen
-> after the controller has been disabled, instead of starting the queues
-> and waiting right after freeze start?
+> If an IO timeout occurs, it's helpful to know if the controller did not
+> post a completion or the driver missed an interrupt. While we never expect
+> the latter, this patch will make it possible to tell the difference so
+> we don't have to guess.
 
-Yeah, the driver needs to make forward progress even if the controller
-isn't functioning. If we do the freeze wait before disabling the
-controller, there's no way to reclaim missing completions. If the
-controller is working perfectly, it'd be okay, but the driver would be
-stuck if there's a problem.
+Did you really got a missed interrupt?
+
+It seems reasonable, I'm just curious...
