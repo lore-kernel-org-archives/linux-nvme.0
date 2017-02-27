@@ -1,15 +1,49 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 27 Feb 2017 16:42:08 +0200
-Subject: [PATCH] nvme/pci: Poll CQ on timeout
-In-Reply-To: <1487977168-5347-1-git-send-email-keith.busch@intel.com>
-References: <1487977168-5347-1-git-send-email-keith.busch@intel.com>
-Message-ID: <c29ea931-b57e-b873-2e22-06f02f26bc8c@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 27 Feb 2017 08:33:33 -0700
+Subject: nvmf regression with mq-deadline
+In-Reply-To: <0f06d732-fe32-bca0-8a4d-299a6cce7a6e@grimberg.me>
+References: <8384a5c8-c8e6-4e46-65d6-208b802f6957@grimberg.me>
+ <34fb43d6-37e7-feb3-73c6-63140993ba7c@grimberg.me>
+ <0f06d732-fe32-bca0-8a4d-299a6cce7a6e@grimberg.me>
+Message-ID: <20170227153333.GA25478@kernel.dk>
 
-> If an IO timeout occurs, it's helpful to know if the controller did not
-> post a completion or the driver missed an interrupt. While we never expect
-> the latter, this patch will make it possible to tell the difference so
-> we don't have to guess.
+On Mon, Feb 27 2017, Sagi Grimberg wrote:
+> 
+> >Now I'm getting a NULL deref with nvme-rdma [1].
+> >
+> >For some reason blk_mq_tag_to_rq() is returning NULL on
+> >tag 0x0 which is io queue connect.
+> >
+> >I'll try to see where this is coming from.
+> >This does not happen with loop though...
+> 
+> That's because the loop driver does not rely on the
+> cqe.command_id to resolve the submitted request (I'll
+> fix that).
+> 
+> Looks like blk_mq_alloc_request_hctx was overlooked when
+> the back assignment of the request to the rq_map...
+> 
+> This patch solves the issue for fabrics:
+> --
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index d84c66fb37b7..9611cd9920e9 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -312,6 +312,7 @@ struct request *blk_mq_alloc_request_hctx(struct
+> request_queue *q, int rw,
+>                 ret = -EWOULDBLOCK;
+>                 goto out_queue_exit;
+>         }
+> +       alloc_data.hctx->tags->rqs[rq->tag] = rq;
+> 
+>         return rq;
+> --
+> 
+> If its agreed with everyone I'll send a proper patch
+> for this and the blk_mq_sched_setup fix?
 
-Did you really got a missed interrupt?
+Thanks Sagi, yes please send a proper patch for those two conditions!
 
-It seems reasonable, I'm just curious...
+-- 
+Jens Axboe
