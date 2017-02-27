@@ -1,37 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 27 Feb 2017 19:27:51 +0200
-Subject: [PATCHv2 2/2] nvme: Complete all stuck requests
-In-Reply-To: <20170227150107.GA5789@localhost.localdomain>
-References: <1487896561-10454-1-git-send-email-keith.busch@intel.com>
- <1487896561-10454-2-git-send-email-keith.busch@intel.com>
- <b66a614e-140e-86e9-56bf-d3eafb750aa5@grimberg.me>
- <20170227150107.GA5789@localhost.localdomain>
-Message-ID: <4c952c67-9871-249d-86b0-5f81acf00571@grimberg.me>
+Date: Mon, 27 Feb 2017 19:39:20 +0200
+Subject: [PATCH v1 0/4] Introduce a new helper for parsing ipv[4|6]:port to
+ socket address
+Message-ID: <1488217164-9221-1-git-send-email-sagi@grimberg.me>
 
+Changes from v0:
+- rebased on 4.10
+- splitted inet_pton_with_scope to be a bit saner (from Chrsitoph)
+- converted nvme-rdma host_traddr to use a generic helper
 
->>> If the block layer has entered requests and gets a CPU hot plug event
->>> prior to the resume event, it will wait for those requests to exit. If
->>> the nvme driver is shutting down, it will not start the queues back up,
->>> preventing forward progress.
->>>
->>> To fix that, this patch freezes the request queues when the driver intends
->>> to shut down the controller so that no new requests may enter.  After the
->>> controller has been disabled, the queues will be restarted to force all
->>> entered requests to end in failure so that blk-mq's hot cpu notifier may
->>> progress. To ensure the queue usage count is 0 on a shutdown, the driver
->>> waits for freeze to complete before completing the controller shutdown.
->>
->> Keith, can you explain (again) for me why is the freeze_wait must happen
->> after the controller has been disabled, instead of starting the queues
->> and waiting right after freeze start?
->
-> Yeah, the driver needs to make forward progress even if the controller
-> isn't functioning. If we do the freeze wait before disabling the
-> controller, there's no way to reclaim missing completions. If the
-> controller is working perfectly, it'd be okay, but the driver would be
-> stuck if there's a problem.
+We have some places in the stack that support ipv4 and ipv6. In
+some cases the user configuration does not reveal which
+address family is given and needs to be parsed from the input string.
 
-OK, I think we can get it for fabrics too, need to figure out how to
-handle it there too.
+Given that the user-input varies between subsystems, some processing
+is required from the call-site to separate address and port strings.
 
-Do you have a reproducer?
+As a side-effect, this set adds ipv6 support for nvme over fabrics.
+
+Sagi Grimberg (4):
+  net/utils: generic inet_pton_with_scope helper
+  nvmet-rdma: use generic inet_pton_with_scope
+  nvme-rdma: use inet_pton_with_scope helper
+  iscsi-target: use generic inet_pton_with_scope
+
+ drivers/nvme/host/rdma.c                     |  63 +++++-----------
+ drivers/nvme/target/rdma.c                   |  42 +++++++----
+ drivers/target/iscsi/iscsi_target_configfs.c |  46 ++++--------
+ include/linux/inet.h                         |   6 ++
+ net/core/utils.c                             | 103 +++++++++++++++++++++++++++
+ 5 files changed, 169 insertions(+), 91 deletions(-)
+
+-- 
+2.7.4
