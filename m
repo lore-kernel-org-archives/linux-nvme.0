@@ -1,76 +1,31 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Tue, 28 Feb 2017 09:09:20 -0600
-Subject: [PATCH v5 0/4] New Microsemi PCI Switch Management Driver
-In-Reply-To: <1488091997-12843-1-git-send-email-logang@deltatee.com>
-References: <1488091997-12843-1-git-send-email-logang@deltatee.com>
-Message-ID: <20170228150920.GB12481@bhelgaas-glaptop.roam.corp.google.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 28 Feb 2017 11:00:57 -0500
+Subject: [PATCH] nvme/pci: Poll CQ on timeout
+In-Reply-To: <20170228141017.GC20317@lst.de>
+References: <1487977168-5347-1-git-send-email-keith.busch@intel.com>
+ <20170228141017.GC20317@lst.de>
+Message-ID: <20170228160056.GA15639@localhost.localdomain>
 
-Hi Logan,
+On Tue, Feb 28, 2017@03:10:17PM +0100, Christoph Hellwig wrote:
+> On Fri, Feb 24, 2017@05:59:28PM -0500, Keith Busch wrote:
+> > If an IO timeout occurs, it's helpful to know if the controller did not
+> > post a completion or the driver missed an interrupt. While we never expect
+> > the latter, this patch will make it possible to tell the difference so
+> > we don't have to guess.
+> 
+> Do you have any good real use case for it?  I mostly don't like it
+> becuase it ties us to polling for a specific tag, something I'd like
+> to change in the ->poll API.
 
-On Sat, Feb 25, 2017@11:53:13PM -0700, Logan Gunthorpe wrote:
-> ...
-> This is a continuation of the RFC we posted lasted month [1] which
-> proposes a management driver for Microsemi's Switchtec line of PCI
-> switches. This hardware is still looking to be used in the Open
-> Compute Platform
-> 
-> To make this entirely clear: the Switchtec products are compliant
-> with the PCI specifications and are supported today with the standard
-> in-kernel driver. However, these devices also expose a management endpoint
-> on a separate PCI function address which can be used to perform some
-> advanced operations. This is a driver for that function. See the patch
-> for more information.
-> 
-> Since the RFC, we've made the changes requested by Greg Kroah-Hartman
-> and Keith Busch, and we've also fleshed out a number of features. We've
-> added a couple of IOCTLs and sysfs attributes which are documented in
-> the patch. Significant work has also been done on the userspace tool
-> which is available under a GPL license at [2]. We've also had testing
-> done by some of the interested parties.
-> 
-> We hope to see this work included in either 4.11 or 4.12 assuming a
-> smooth review process.
-> 
-> The patch is based off of the v4.10-rc6 release.
-> 
-> Thanks for your review,
-> 
-> Logan
-> 
-> [1] https://www.spinics.net/lists/linux-pci/msg56897.html
-> [2] https://github.com/sbates130272/switchtec-user
-> 
-> Logan Gunthorpe (4):
->   MicroSemi Switchtec management interface driver
->   switchtec: Add user interface documentation
->   switchtec: Add sysfs attributes to the Switchtec driver
->   switchtec: Add IOCTLs to the Switchtec driver
-> 
->  Documentation/ABI/testing/sysfs-class-switchtec |   96 ++
->  Documentation/ioctl/ioctl-number.txt            |    1 +
->  Documentation/switchtec.txt                     |   80 ++
->  MAINTAINERS                                     |   11 +
->  drivers/pci/Kconfig                             |    1 +
->  drivers/pci/Makefile                            |    1 +
->  drivers/pci/switch/Kconfig                      |   13 +
->  drivers/pci/switch/Makefile                     |    1 +
->  drivers/pci/switch/switchtec.c                  | 1535 +++++++++++++++++++++++
->  include/uapi/linux/switchtec_ioctl.h            |  132 ++
->  10 files changed, 1871 insertions(+)
->  create mode 100644 Documentation/ABI/testing/sysfs-class-switchtec
->  create mode 100644 Documentation/switchtec.txt
->  create mode 100644 drivers/pci/switch/Kconfig
->  create mode 100644 drivers/pci/switch/Makefile
->  create mode 100644 drivers/pci/switch/switchtec.c
->  create mode 100644 include/uapi/linux/switchtec_ioctl.h
+I don't expect this to often catch anything, but this is a cheap way of
+constraining the problem just by having this in place: the "Timeout"
+message definitely means the device did not post an entry on that
+command's completion queue, so either the device is broken or we messed
+up the queue mapping.
 
-This driver doesn't have anything to do with the PCI core, other than
-using the pci_register_driver() interface (just like all other drivers
-for PCI-connected devices), so drivers/pci doesn't really feel like
-the right place for it.  Putting it in drivers/pci leads to the sort
-of confusion you mentioned above ("To make this entirely clear ...").
+In the event it does trigger (I've seen this only a handlful of times
+on new platforms and devices, as well as legacy IRQs), we know a whole
+lot more about the problem, compared to just seeing "Timeout".
 
-Would drivers/perf or drivers/misc/switchtec/ be possible places for
-it?
-
-Bjorn
+If you want to remove the tag specific polling, I can look into an
+alternative.
