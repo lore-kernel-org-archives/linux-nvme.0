@@ -1,41 +1,64 @@
-From: artur.paszkiewicz@intel.com (Artur Paszkiewicz)
-Date: Tue, 28 Feb 2017 08:42:19 +0100
-Subject: [PATCHv2 2/2] nvme: Complete all stuck requests
-In-Reply-To: <20170227191459.GA1170@localhost.localdomain>
-References: <1487896561-10454-1-git-send-email-keith.busch@intel.com>
- <1487896561-10454-2-git-send-email-keith.busch@intel.com>
- <b66a614e-140e-86e9-56bf-d3eafb750aa5@grimberg.me>
- <20170227150107.GA5789@localhost.localdomain>
- <4c952c67-9871-249d-86b0-5f81acf00571@grimberg.me>
- <20170227191459.GA1170@localhost.localdomain>
-Message-ID: <913d4d24-b80b-b7f6-2374-8095bc6fc047@intel.com>
+From: idryomov@gmail.com (Ilya Dryomov)
+Date: Tue, 28 Feb 2017 09:19:14 +0100
+Subject: blk_integrity_revalidate() clears BDI_CAP_STABLE_WRITES
+In-Reply-To: <yq1fuj44geq.fsf@oracle.com>
+References: <CAOi1vP8M91kiF-FnT=EoJgTxfstMEsC-nhLY5KtRkrKROjWPWA@mail.gmail.com>
+ <yq1efyq25y2.fsf@oracle.com>
+ <CAOi1vP-amFyFHbPV3FhG3F1Tp+df6V7a4mcP8LLWY0GZx+JsFw@mail.gmail.com>
+ <yq1fuj44geq.fsf@oracle.com>
+Message-ID: <CAOi1vP_g-MMe9XvWDgkVL4R6UjckMQVC_CDF9+hQEpZbxwx0Jw@mail.gmail.com>
 
-On 02/27/2017 08:15 PM, Keith Busch wrote:
-> On Mon, Feb 27, 2017@07:27:51PM +0200, Sagi Grimberg wrote:
->> OK, I think we can get it for fabrics too, need to figure out how to
->> handle it there too.
->>
->> Do you have a reproducer?
-> 
-> To repro, I have to run a buffered writer workload then put the system into S3.
-> 
-> This fio job seems to reproduce for me:
-> 
->   fio --name=global --filename=/dev/nvme0n1 --bsrange=4k-128k --rw=randwrite --ioengine=libaio --iodepth=8 --numjobs=8 --name=foobar
-> 
-> I use rtcwake to test suspend/resume:
-> 
->   rtcwake -m mem -s 10
-> 
-> Without the patch we'll get stuck after "Disabling non-boot CPUs ..."
-> when blk-mq waits to freeze some entered queues after nvme was disabled.
+On Fri, Feb 24, 2017 at 12:49 AM, Martin K. Petersen
+<martin.petersen@oracle.com> wrote:
+>>>>>> "Ilya" == Ilya Dryomov <idryomov at gmail.com> writes:
+>
+> Ilya,
+>
+> Ilya> Well, blk_integrity_revalidate() doesn't clear the profile, it
+> Ilya> just clears the stable pages flag.  Whoever calls
+> Ilya> blk_integrity_unregister() to clear the profile can also clear the
+> Ilya> stable pages flag -- why not let blk_integrity_unregister() clear
+> Ilya> the flag like I suggested?
+>
+> That's what it used to do.
+>
+> blk_integrity_revalidate() was obviously introduced to overcome some
+> problem. Unfortunately, I can't recall what that was and Google isn't
+> being particularly helpful. I suspect it was either in the NVDIMM or
+> NVMe camps since that's where the churn was.
 
-I'm observing the same thing when hibernating during mdraid resync on
-nvme - it hangs in blk_mq_freeze_queue_wait() after "Disabling non-boot
-CPUs ...". This patch did not help but when I put nvme_wait_freeze()
-right after nvme_start_freeze() it appeared to be working. Maybe the
-difference here is that requests are submitted from a non-freezable
-kernel thread (md sync_thread)?
+Adding more people from 25520d55cdb6 -- does anyone remember the story
+behind blk_integrity_revalidate()?
+
+>
+> I don't have a problem with your patch as long as we're sure there are
+> no regressions. I would carry the gendisk check over, though.
+
+I spent quite some time trying to do basic tests on nvme, since it uses
+both nop_profile and real integrity profiles.  Unfortunately I don't
+have access to an nvme card with separate-metadata capability and
+upstream qemu driver doesn't support any metadata capabilities at all,
+so I turned to https://github.com/OpenChannelSSD/qemu-nvme.  It lets
+you configure mc and multiple lbafs, but
+
+    commit ff646a5841f743fdd9cfef138ac6be1f0ba4fbfb
+    Author: Keith Busch <keith.busch at intel.com> Thu Oct 23 20:02:44 2014
+
+    As part of this, I am removing all meta-data support. It's not well
+    supported in any immediatly available operating system, so the code
+    is not well tested.
+
+In the end I got it into a semi-working state by checking out an old
+version and dropping some sanity checks.  I formatted the namespace in
+a number of ways -- bdi/stable_pages_required and integrity/format
+behaved as expected ("none", "nop", "T10-DIF-TYPE1-CRC").
+
+Given the above, I'm not sure what the baseline is -- blk_integrity
+code isn't invoked for data-only lbafs.  Could nvme folks please look
+at this?  rbd regression caused by integrity revalidate change goes
+back to 4.4 and I'd really like to get it fixed.  The proposed patch
+is attached to my earlier reply on linux-block.
 
 Thanks,
-Artur
+
+                Ilya
