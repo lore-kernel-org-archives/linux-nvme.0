@@ -1,12 +1,12 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 28 Feb 2017 19:41:51 +0200
-Subject: [PATCH v1 2/4] nvmet-rdma: use generic inet_pton_with_scope
-In-Reply-To: <20170228163510.GB26480@infradead.org>
+Date: Tue, 28 Feb 2017 19:42:02 +0200
+Subject: [PATCH v1 3/4] nvme-rdma: use inet_pton_with_scope helper
+In-Reply-To: <20170228163548.GC26480@infradead.org>
 References: <1488217164-9221-1-git-send-email-sagi@grimberg.me>
- <1488217164-9221-3-git-send-email-sagi@grimberg.me>
- <20170228163510.GB26480@infradead.org>
-Message-ID: <c4b59bb5-eae0-b976-0980-b61b4bff601d@grimberg.me>
+ <1488217164-9221-4-git-send-email-sagi@grimberg.me>
+ <20170228163548.GC26480@infradead.org>
+Message-ID: <6b0d30df-371e-4108-83ee-c4e5886bedc2@grimberg.me>
 
-> Please add a changelog and mention that this adds IPv6 support.
+> Could use a proper changelog.
 
 Will do, thanks!
