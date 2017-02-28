@@ -1,125 +1,32 @@
-From: joseph.r.gruher@intel.com (Gruher, Joseph R)
-Date: Mon, 27 Feb 2017 20:57:40 +0000
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
-References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
- <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
- <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
- <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
- <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
- <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
-Message-ID: <DE927C68B458BE418D582EC97927A9285465740F@ORSMSX112.amr.corp.intel.com>
+From: parav@mellanox.com (Parav Pandit)
+Date: Mon, 27 Feb 2017 23:20:24 -0600
+Subject: [PATCHv1 0/2] nvmet: cleanup around error logs 
+Message-ID: <1488259224-62321-1-git-send-email-parav@mellanox.com>
 
-> Seems to me this is a CX4 FW issue. Mellanox can elaborate on these vendor
-> specific syndromes on this output.
+This patchset performs cleanup around error logs.
+It also introduces helper function for checking controller status.
+It converts parsing routine return status from int
+to u16 to align to spec.
+It prints qid on certain error logs as well.
 
-> You can try out this patch to see if it makes the memreg issues to go
-> away:
+Changes from v0 to address Sagi's two comments:
+1. Split one patch to two related patches.
+2. Changed return status from int to u16.
 
-Thanks for the response Sagi!  We will try to engage Mellanox and also see if we can load the patch.
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Signed-off-by: Parav Pandit <parav at mellanox.com>
 
--Joe
+Parav Pandit (2):
+  nvmet: Fixed avoided printing nvmet: twice in error logs.
+  nvmet: Introduced helper routine for controller status check.
 
+ drivers/nvme/target/admin-cmd.c   | 19 +++++++------------
+ drivers/nvme/target/core.c        | 21 +++++++++++++++++++--
+ drivers/nvme/target/discovery.c   | 19 +++++++++----------
+ drivers/nvme/target/fabrics-cmd.c |  4 ++--
+ drivers/nvme/target/io-cmd.c      | 22 ++++++++--------------
+ drivers/nvme/target/nvmet.h       | 11 ++++++-----
+ 6 files changed, 51 insertions(+), 45 deletions(-)
 
-> -----Original Message-----
-> From: Sagi Grimberg [mailto:sagi at grimberg.me]
-> Sent: Monday, February 27, 2017 12:33 PM
-> To: Gruher, Joseph R <joseph.r.gruher at intel.com>; shahar.salzman
-> <shahar.salzman at gmail.com>; Laurence Oberman <loberman at redhat.com>;
-> Riches Jr, Robert M <robert.m.riches.jr at intel.com>
-> Cc: linux-rdma at vger.kernel.org; linux-nvme at lists.infradead.org
-> Subject: Re: Unexpected issues with 2 NVME initiators using the same target
-> 
-> 
-> Hey Joseph,
-> 
-> > In our lab we are dealing with an issue which has some of the same
-> symptoms.  Wanted to add to the thread in case it is useful here.  We have a
-> target system with 16 Intel P3520 disks and a Mellanox CX4 50Gb NIC directly
-> connected (no switch) to a single initiator system with a matching Mellanox
-> CX4 50Gb NIC.  We are running Ubuntu 16.10 with 4.10-RC8 mainline kernel.
-> All drivers are kernel default drivers.  I've attached our nvmetcli json, and FIO
-> workload, and dmesg from both systems.
-> >
-> > We are able to provoke this problem with a variety of workloads but a high
-> bandwidth read operation seems to cause it the most reliably, harder to
-> produce with smaller block sizes.  For some reason the problem seems
-> produced when we stop and restart IO - I can run the FIO workload on the
-> initiator system for 1-2 hours without any new events in dmesg, pushing about
-> 5500MB/sec the whole time, then kill it and wait 10 seconds and restart it, and
-> the errors and reconnect events happen reliably at that point.  Working to
-> characterize further this week and also to see if we can produce on a smaller
-> configuration.  Happy to provide any additional details that would be useful or
-> try any fixes!
-> >
-> > On the initiator we see events like this:
-> >
-> > [51390.065641] mlx5_0:dump_cqe:262:(pid 0): dump error cqe
-> > [51390.065644] 00000000 00000000 00000000 00000000 [51390.065645]
-> > 00000000 00000000 00000000 00000000 [51390.065646] 00000000
-> 00000000
-> > 00000000 00000000 [51390.065648] 00000000 08007806 250003ab
-> 02b9dcd2
-> > [51390.065666] nvme nvme3: MEMREG for CQE 0xffff9fc845039410 failed
-> > with status memory management operation error (6) [51390.079156] nvme
-> > nvme3: reconnecting in 10 seconds [51400.432782] nvme nvme3:
-> > Successfully reconnected
-> 
-> Seems to me this is a CX4 FW issue. Mellanox can elaborate on these vendor
-> specific syndromes on this output.
-> 
-> > On the target we see events like this:
-> >
-> > [51370.394694] mlx5_0:dump_cqe:262:(pid 6623): dump error cqe
-> > [51370.394696] 00000000 00000000 00000000 00000000 [51370.394697]
-> > 00000000 00000000 00000000 00000000 [51370.394699] 00000000
-> 00000000
-> > 00000000 00000000 [51370.394701] 00000000 00008813 080003ea
-> 00c3b1d2
-> 
-> If the host is failing on memory mapping while the target is initiating rdma
-> access it makes sense that it will see errors.
-> 
-> >
-> > Sometimes, but less frequently, we also will see events on the target like this
-> as part of the problem:
-> >
-> > [21322.678571] nvmet: ctrl 1 fatal error occurred!
-> 
-> Again, also makes sense because for nvmet this is a fatal error and we need to
-> teardown the controller.
-> 
-> You can try out this patch to see if it makes the memreg issues to go
-> away:
-> --
-> diff --git a/drivers/infiniband/hw/mlx5/qp.c b/drivers/infiniband/hw/mlx5/qp.c
-> index ad8a2638e339..0f9a12570262 100644
-> --- a/drivers/infiniband/hw/mlx5/qp.c
-> +++ b/drivers/infiniband/hw/mlx5/qp.c
-> @@ -3893,7 +3893,7 @@ int mlx5_ib_post_send(struct ib_qp *ibqp, struct
-> ib_send_wr *wr,
->                                  goto out;
-> 
->                          case IB_WR_LOCAL_INV:
-> -                               next_fence =
-> MLX5_FENCE_MODE_INITIATOR_SMALL;
-> +                               next_fence =
-> MLX5_FENCE_MODE_STRONG_ORDERING;
->                                  qp->sq.wr_data[idx] = IB_WR_LOCAL_INV;
->                                  ctrl->imm = cpu_to_be32(wr->ex.invalidate_rkey);
->                                  set_linv_wr(qp, &seg, &size); @@ -3901,7 +3901,7 @@ int
-> mlx5_ib_post_send(struct ib_qp *ibqp, struct ib_send_wr *wr,
->                                  break;
-> 
->                          case IB_WR_REG_MR:
-> -                               next_fence =
-> MLX5_FENCE_MODE_INITIATOR_SMALL;
-> +                               next_fence =
-> MLX5_FENCE_MODE_STRONG_ORDERING;
->                                  qp->sq.wr_data[idx] = IB_WR_REG_MR;
->                                  ctrl->imm = cpu_to_be32(reg_wr(wr)->key);
->                                  err = set_reg_wr(qp, reg_wr(wr), &seg, &size);
-> --
-> 
-> Note that this will have a big performance (negative) impact on small read
-> workloads.
+-- 
+1.8.3.1
