@@ -1,191 +1,103 @@
-From: parav@mellanox.com (Parav Pandit)
-Date: Tue, 28 Feb 2017 13:54:42 -0600
-Subject: [PATCHv1] nvmet: Avoid writing fabric_ops,
- queue pointers on every request.
-Message-ID: <1488311682-11000-1-git-send-email-parav@mellanox.com>
+From: JBauer@sjm.com (Bauer, John)
+Date: Tue, 28 Feb 2017 21:02:32 +0000
+Subject: NVMe nvme_queue_rq crash
+Message-ID: <AEFEA030B02DC74F8C729339175739E672D4F97D@USC1PMSG10.ad.sjm.com>
 
-Fabric operations are constants of a registered transport. They don't
-change with every target request that gets processed by the nvmet-core.
-Therefore this patch moves fabrics_ops initialization out of the hot
-request processing path for rdma and fc.
-It continues to remain in same way for loop target.
+We are having crashing problems when doing load testing with fio on multiple servers with the same hardware using NVMe storage.
 
-Additionally this patch further avoid nvme cq and sq pointer
-initialization for every request during every request processing for
-rdma because nvme queue linking occurs during queue allocation time for
-AQ and IOQ.
+We have support cases open with vendors for months without any definitive answers or results.  Can someone advise if there is a version or patch to fix this issue?
 
-As a result, in nvmet_req_init function, this change saves
-initialization of 24 bytes constants on every datapath request and also
-reduces function size by 32 bytes for rdma transport.
+Offending command sometimes results in a crash:
+fio --name=4k_benchmark --size=1T --filename=/PATH/test1T --ioengine=libaio --randrepeat=0 --iodepth=128 --direct=1 --invalidate=1 --verify=0 --verify_fatal=0 --numjobs 12 --rw=randread --blocksize=4k --group_reporting
 
-Changes from v0 to address Christoph's comment:
-Avoiding long name functions, instead initializing them in
-appropriate functions.
+Crash info:
+[ 2850.077486] nvme 0000:87:00.0: I/O 447 QID 11 timeout, aborting
+[ 2854.077154] nvme 0000:87:00.0: I/O 537 QID 1 timeout, aborting
+[ 2854.077238] BUG: unable to handle kernel NULL pointer dereference at 0000000000000048
+[ 2854.077303] IP: [<ffffffffa00c382f>] nvme_queue_rq+0x2af/0xa70 [nvme]
+[ 2854.077368] PGD 0
+[ 2854.077389] Oops: 0000 [#1] SMP
+[ 2854.077421] Modules linked in: rpcsec_gss_krb5 nfsv4 dns_resolver nfsv3 nfs fscache bonding intel_powerclamp coretemp intel_rapl iosf_mbi kvm_intel kvm irqbypass crc32_pclmul ghash_clmulni_intel aesni_intel lrw gf128mul glue_helper ablk_helper cryptd iTCO_wdt iTCO_vendor_support mxm_wmi ipmi_devintf dcdbas raid456 async_raid6_recov async_memcpy async_pq ipmi_ssif raid6_pq async_xor xor async_tx pcspkr sg ipmi_si lpc_ich ipmi_msghandler wmi shpchp acpi_power_meter binfmt_misc nfsd auth_rpcgss nfs_acl lockd grace sunrpc ip_tables xfs libcrc32c sd_mod crc_t10dif crct10dif_generic crct10dif_pclmul mgag200 crct10dif_common i2c_algo_bit crc32c_intel drm_kms_helper syscopyarea sysfillrect sysimgblt fb_sys_fops ttm ahci nvme drm libahci tg3 libata i2c_core ptp megaraid_sas pps_core fjes dm_mirror dm_region_hash
+[ 2854.078110]  dm_log dm_mod
+[ 2854.078128] CPU: 0 PID: 1626 Comm: kworker/0:1H Not tainted 3.10.0-514.2.2.el7.x86_64 #1
+[ 2854.078189] Hardware name: Dual 22 core processors, 88 threads total, 128GB RAM
+[ 2854.078252] Workqueue: kblockd blk_mq_timeout_work
+[ 2854.078291] task: ffff8810346b8000 ti: ffff881028e40000 task.ti: ffff881028e40000
+[ 2854.078347] RIP: 0010:[<ffffffffa00c382f>]  [<ffffffffa00c382f>] nvme_queue_rq+0x2af/0xa70 [nvme]
+[ 2854.078423] RSP: 0018:ffff881028e43aa8  EFLAGS: 00010246
+[ 2854.078464] RAX: 0000000000000001 RBX: ffff88203a238200 RCX: 0000000000000000
+[ 2854.078517] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffff881028e43b50
+[ 2854.078570] RBP: ffff881028e43b80 R08: 0000000000000000 R09: ffff881028e43ba8
+[ 2854.078622] R10: 0000000000000207 R11: ffff881028e43b10 R12: ffff8810f902b800
+[ 2854.078675] R13: 0000000000000000 R14: 0000000000000000 R15: ffff882038de0240
+[ 2854.078729] FS:  0000000000000000(0000) GS:ffff88103e600000(0000) knlGS:0000000000000000
+[ 2854.078789] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 2854.078833] CR2: 0000000000000048 CR3: 00000000019ba000 CR4: 00000000003407f0
+[ 2854.078886] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+[ 2854.078939] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+[ 2854.078991] Stack:
+[ 2854.079009]  0000000000000006 ffff881028e43b20 ffffffff810889d4 ffffffff81d384a0
+[ 2854.079072]  ffff881000000032 0000000000000026 ffff881028e43be8 ffffffff818ff51c
+[ 2854.079134]  0000000000e43b20 0000000000000246 ffff881028e43b30 0000000000000004
+[ 2854.079197] Call Trace:
+[ 2854.079225]  [<ffffffff810889d4>] ? vprintk_emit+0x3c4/0x510
+[ 2854.079274]  [<ffffffff812f89ba>] __blk_mq_run_hw_queue+0x1fa/0x3c0
+[ 2854.079325]  [<ffffffff812f8795>] blk_mq_run_hw_queue+0xa5/0xd0
+[ 2854.079371]  [<ffffffff812fa0c8>] blk_mq_insert_request+0x98/0x100
+[ 2854.079421]  [<ffffffff812f43b3>] blk_execute_rq_nowait+0x73/0x180
+[ 2854.079478]  [<ffffffffa00c4c0a>] nvme_timeout+0x1ca/0x1e0 [nvme]
+[ 2854.081317]  [<ffffffff812f860f>] blk_mq_rq_timed_out+0x2f/0x80
+[ 2854.083128]  [<ffffffff812f86af>] blk_mq_check_expired+0x4f/0x90
+[ 2854.084927]  [<ffffffff812fad54>] bt_for_each+0xe4/0xf0
+[ 2854.086718]  [<ffffffff812f8660>] ? blk_mq_rq_timed_out+0x80/0x80
+[ 2854.088545]  [<ffffffff812fb6ce>] blk_mq_queue_tag_busy_iter+0x4e/0xc0
+[ 2854.090334]  [<ffffffff812f8660>] ? blk_mq_rq_timed_out+0x80/0x80
+[ 2854.092102]  [<ffffffff812f6ecb>] blk_mq_timeout_work+0x8b/0x180
+[ 2854.093879]  [<ffffffff810a805b>] process_one_work+0x17b/0x470
+[ 2854.095643]  [<ffffffff810a8e96>] worker_thread+0x126/0x410
+[ 2854.097411]  [<ffffffff810a8d70>] ? rescuer_thread+0x460/0x460
+[ 2854.099158]  [<ffffffff810b064f>] kthread+0xcf/0xe0
+[ 2854.100875]  [<ffffffff810b0580>] ? kthread_create_on_node+0x140/0x140
+[ 2854.102599]  [<ffffffff81696618>] ret_from_fork+0x58/0x90
+[ 2854.104331]  [<ffffffff810b0580>] ? kthread_create_on_node+0x140/0x140
+[ 2854.106028] Code: 00 00 48 83 f9 01 b9 08 00 00 00 f3 48 ab 41 8b 87 10 01 00 00 45 19 c0 83 e2 01 f7 da 41 f7 d0 83 c2 02 41 83 e0 07 66 89 45 92 <41> 8b 46 48 88 55 90 41 8b 56 4c 89 45 94 49 8b 47 68 8d 4a f7
+[ 2854.109555] RIP  [<ffffffffa00c382f>] nvme_queue_rq+0x2af/0xa70 [nvme]
+[ 2854.111223]  RSP <ffff881028e43aa8>
+[ 2854.112822] CR2: 0000000000000048
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Signed-off-by: Parav Pandit <parav at mellanox.com>
----
- drivers/nvme/target/core.c  |  8 ++------
- drivers/nvme/target/fc.c    | 13 +++++++------
- drivers/nvme/target/loop.c  | 14 ++++++++++----
- drivers/nvme/target/nvmet.h |  3 +--
- drivers/nvme/target/rdma.c  |  8 +++++---
- 5 files changed, 25 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 2fb7897..a7a670c 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -464,15 +464,11 @@ int nvmet_sq_init(struct nvmet_sq *sq)
- }
- EXPORT_SYMBOL_GPL(nvmet_sq_init);
- 
--bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
--		struct nvmet_sq *sq, struct nvmet_fabrics_ops *ops)
-+bool nvmet_req_init(struct nvmet_req *req)
- {
- 	u8 flags = req->cmd->common.flags;
- 	u16 status;
- 
--	req->cq = cq;
--	req->sq = sq;
--	req->ops = ops;
- 	req->sg = NULL;
- 	req->sg_cnt = 0;
- 	req->rsp->status = 0;
-@@ -505,7 +501,7 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 	if (status)
- 		goto fail;
- 
--	if (unlikely(!percpu_ref_tryget_live(&sq->ref))) {
-+	if (unlikely(!percpu_ref_tryget_live(&req->sq->ref))) {
- 		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
- 		goto fail;
- 	}
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 8f483ee..ab1c4db 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -142,6 +142,7 @@ struct nvmet_fc_tgt_assoc {
- 	struct kref			ref;
- };
- 
-+static struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops;
- 
- static inline int
- nvmet_fc_iodnum(struct nvmet_fc_ls_iod *iodptr)
-@@ -417,6 +418,8 @@ struct nvmet_fc_tgt_assoc {
- 		fod->tgtport = tgtport;
- 		fod->queue = queue;
- 		fod->active = false;
-+		fod->req.ops = &nvmet_fc_tgt_fcp_ops;
-+
- 		list_add_tail(&fod->fcp_list, &queue->fod_list);
- 		spin_lock_init(&fod->flock);
- 
-@@ -1411,8 +1414,6 @@ enum {
- 
- static void nvmet_fc_fcp_nvme_cmd_done(struct nvmet_req *nvme_req);
- 
--static struct nvmet_fabrics_ops nvmet_fc_tgt_fcp_ops;
--
- static void
- nvmet_fc_xmt_ls_rsp_done(struct nvmefc_tgt_ls_req *lsreq)
- {
-@@ -2014,10 +2015,10 @@ enum {
- 	/* clear any response payload */
- 	memset(&fod->rspiubuf, 0, sizeof(fod->rspiubuf));
- 
--	ret = nvmet_req_init(&fod->req,
--				&fod->queue->nvme_cq,
--				&fod->queue->nvme_sq,
--				&nvmet_fc_tgt_fcp_ops);
-+	fod->req.cq = &fod->queue->nvme_cq;
-+	fod->req.sq = &fod->queue->nvme_sq;
-+
-+	ret = nvmet_req_init(&fod->req);
- 	if (!ret) {	/* bad SQE content */
- 		nvmet_fc_abort_op(tgtport, fod->fcpreq);
- 		return;
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index d1f06e7..ee22388 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -174,8 +174,11 @@ static int nvme_loop_queue_rq(struct blk_mq_hw_ctx *hctx,
- 
- 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
- 	iod->req.port = nvmet_loop_port;
--	if (!nvmet_req_init(&iod->req, &queue->nvme_cq,
--			&queue->nvme_sq, &nvme_loop_ops)) {
-+	iod->req.cq = &queue->nvme_cq;
-+	iod->req.sq = &queue->nvme_sq;
-+	iod->req.ops = &nvme_loop_ops;
-+
-+	if (!nvmet_req_init(&iod->req)) {
- 		nvme_cleanup_cmd(req);
- 		blk_mq_start_request(req);
- 		nvme_loop_queue_response(&iod->req);
-@@ -211,8 +214,11 @@ static void nvme_loop_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
- 	iod->cmd.common.command_id = NVME_LOOP_AQ_BLKMQ_DEPTH;
- 	iod->cmd.common.flags |= NVME_CMD_SGL_METABUF;
- 
--	if (!nvmet_req_init(&iod->req, &queue->nvme_cq, &queue->nvme_sq,
--			&nvme_loop_ops)) {
-+	iod->req.cq = &queue->nvme_cq;
-+	iod->req.sq = &queue->nvme_sq;
-+	iod->req.ops = &nvme_loop_ops;
-+
-+	if (!nvmet_req_init(&iod->req)) {
- 		dev_err(ctrl->ctrl.device, "failed async event work\n");
- 		return;
- 	}
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 6898231..d7d1d07 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -258,8 +258,7 @@ struct nvmet_async_event {
- u16 nvmet_parse_discovery_cmd(struct nvmet_req *req);
- u16 nvmet_parse_fabrics_cmd(struct nvmet_req *req);
- 
--bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
--		struct nvmet_sq *sq, struct nvmet_fabrics_ops *ops);
-+bool nvmet_req_init(struct nvmet_req *req);
- void nvmet_req_complete(struct nvmet_req *req, u16 status);
- 
- void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 9aa1da3..072068d 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -402,6 +402,10 @@ static void nvmet_rdma_free_rsp(struct nvmet_rdma_device *ndev,
- 		if (ret)
- 			goto out_free;
- 
-+		rsp->req.cq = &queue->nvme_cq;
-+		rsp->req.sq = &queue->nvme_sq;
-+		rsp->req.ops = &nvmet_rdma_ops;
-+
- 		list_add_tail(&rsp->free_list, &queue->free_rsps);
- 	}
- 
-@@ -707,7 +711,6 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
- 	cmd->n_rdma = 0;
- 	cmd->req.port = queue->port;
- 
--
- 	ib_dma_sync_single_for_cpu(queue->dev->device,
- 		cmd->cmd->sge[0].addr, cmd->cmd->sge[0].length,
- 		DMA_FROM_DEVICE);
-@@ -715,8 +718,7 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
- 		cmd->send_sge.addr, cmd->send_sge.length,
- 		DMA_TO_DEVICE);
- 
--	if (!nvmet_req_init(&cmd->req, &queue->nvme_cq,
--			&queue->nvme_sq, &nvmet_rdma_ops))
-+	if (!nvmet_req_init(&cmd->req))
- 		return;
- 
- 	status = nvmet_rdma_map_sgl(cmd);
--- 
-1.8.3.1
+Version info:
+
+Linux 3.10.0-520.el7_3.bz1392923.1.x86_64 #1 SMP Wed Jan 18 16:22:09 EST 2017 x86_64 x86_64 x86_64 GNU/Linux
+
+> modinfo nvme
+filename:       /lib/modules/3.10.0-520.el7_3.bz1392923.1.x86_64/kernel/drivers/nvme/host/nvme.ko
+version:        1.0
+license:        GPL
+author:         Matthew Wilcox <willy at linux.intel.com>
+rhelversion:    7.4
+srcversion:     80C25968F401246C1527FF3
+alias:          pci:v*d*sv*sd*bc01sc08i02*
+alias:          pci:v00001C58d00000003sv*sd*bc*sc*i*
+alias:          pci:v00008086d00005845sv*sd*bc*sc*i*
+alias:          pci:v00008086d00000A54sv*sd*bc*sc*i*
+alias:          pci:v00008086d00000A53sv*sd*bc*sc*i*
+alias:          pci:v00008086d00000953sv*sd*bc*sc*i*
+depends:
+intree:         Y
+vermagic:       3.10.0-520.el7_3.bz1392923.1.x86_64 SMP mod_unload modversions
+signer:         Red Hat Enterprise Linux kernel signing key
+sig_key:        E2:7B:67:88:A8:50:97:CB:EE:6D:E4:07:CD:51:61:84:07:C8:79:DA
+sig_hashalgo:   sha256
+parm:           admin_timeout:timeout in seconds for admin commands (byte)
+parm:           io_timeout:timeout in seconds for I/O (byte)
+parm:           shutdown_timeout:timeout in seconds for controller shutdown (byte)
+parm:           use_threaded_interrupts:int
+parm:           use_cmb_sqes:use controller's memory buffer for I/O SQes (bool)
+parm:           nvme_major:int
+parm:           nvme_char_major:int
+
+Thanks,
+John
+
+This communication may contain information that is proprietary, confidential, or exempt from disclosure. If you are not the intended recipient, please note that any other dissemination, distribution, use or copying of this communication is strictly prohibited. Anyone who receives this message in error should notify the sender immediately by telephone or by return e-mail and delete it from his or her computer.
