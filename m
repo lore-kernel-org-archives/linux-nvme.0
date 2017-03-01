@@ -1,19 +1,29 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 1 Mar 2017 15:53:47 -0700
-Subject: [PATCH v5 0/4] New Microsemi PCI Switch Management Driver
-In-Reply-To: <20170301225958.GB14852@localhost.localdomain>
-References: <1488091997-12843-1-git-send-email-logang@deltatee.com>
- <20170301214120.GA30451@bhelgaas-glaptop.roam.corp.google.com>
- <20170301222651.GA14852@localhost.localdomain>
- <84556478-c01c-0925-be75-13a61d4c8f4f@deltatee.com>
- <20170301225958.GB14852@localhost.localdomain>
-Message-ID: <fba68b70-1dd7-2480-8248-577526265917@deltatee.com>
+From: axboe@fb.com (Jens Axboe)
+Date: Wed, 1 Mar 2017 16:29:09 -0700
+Subject: [PATCH 0/3] nvme suspend/resume fix
+In-Reply-To: <1488396132-11369-1-git-send-email-keith.busch@intel.com>
+References: <1488396132-11369-1-git-send-email-keith.busch@intel.com>
+Message-ID: <2d236d6a-f8dd-c585-8f6a-edd0be6fa115@fb.com>
 
+On 03/01/2017 12:22 PM, Keith Busch wrote:
+> Hi Jens,
+> 
+> This is hopefully the last version to fix nvme stopping blk-mq's CPU
+> event from making forward progress. The solution requires a couple new
+> blk-mq exports so the nvme driver can properly sync with queue states.
+> 
+> Since this depends on the blk-mq parts, and if you approve of the
+> proposal, I think it'd be easiest if you can take this directly into
+> linux-block/for-linus. Otherwise, we can send you a pull request if you
+> Ack the blk-mq parts.
+> 
+> The difference from the previous patch is an update that Artur
+> confirmed passes hibernate on a stacked request queue. Personally,
+> I tested this for several hours with fio running buffered writes
+> in the back-ground and rtcwake running suspend/resume at intervals.
+> This succeeded with no fio errors.
 
+I've queued it up for this series, thanks Keith.
 
-On 01/03/17 03:59 PM, Keith Busch wrote:
-> Okay, I see. Was mistakenliy looking at v4. The v5 looks right.
-
-Great! Thanks for reviewing that for me.
-
-Logan
+-- 
+Jens Axboe
