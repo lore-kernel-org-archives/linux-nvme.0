@@ -1,32 +1,36 @@
-From: parav@mellanox.com (Parav Pandit)
-Date: Wed, 1 Mar 2017 15:11:37 +0000
-Subject: [PATCH] nvme-rdma: nvme-fc: Fix avoid tag set initialization
- twice.
-In-Reply-To: <20170301145918.GA12248@lst.de>
-References: <1488333999-30412-1-git-send-email-parav@mellanox.com>
- <20170301145918.GA12248@lst.de>
-Message-ID: <VI1PR0502MB3008DDF70AD2CB310B194786D1290@VI1PR0502MB3008.eurprd05.prod.outlook.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed,  1 Mar 2017 14:22:09 -0500
+Subject: [PATCH 0/3] nvme suspend/resume fix
+Message-ID: <1488396132-11369-1-git-send-email-keith.busch@intel.com>
 
-Hi Christoph,
+Hi Jens,
 
-I tried for-linus branch of Jens. That seems to work without this fix.
-So I will resend the patch as optimization instead of as fix similar to PCIe?
+This is hopefully the last version to fix nvme stopping blk-mq's CPU
+event from making forward progress. The solution requires a couple new
+blk-mq exports so the nvme driver can properly sync with queue states.
 
-Parav
+Since this depends on the blk-mq parts, and if you approve of the
+proposal, I think it'd be easiest if you can take this directly into
+linux-block/for-linus. Otherwise, we can send you a pull request if you
+Ack the blk-mq parts.
 
-> -----Original Message-----
-> From: Christoph Hellwig [mailto:hch at lst.de]
-> Sent: Wednesday, March 1, 2017 8:59 AM
-> To: Parav Pandit <parav at mellanox.com>
-> Cc: james.smart at broadcom.com; keith.busch at intel.com; axboe at fb.com;
-> hch at lst.de; sagi at grimberg.me; linux-nvme at lists.infradead.org
-> Subject: Re: [PATCH] nvme-rdma: nvme-fc: Fix avoid tag set initialization
-> twice.
-> 
-> On Tue, Feb 28, 2017@08:06:39PM -0600, Parav Pandit wrote:
-> > When BLK_MQ_F_NO_SCHED is not set for a tagset of a request queue, it
-> > tries to initialize the queue twice where blk_mq_alloc_rq_map() gets
-> > invoked twice as part of blk_mq_alloc_tag_set() and
-> > blk_mq_init_queue() through elevator init path.
-> 
-> Maybe we'll need to fix this in the block core instead of working around it?
+The difference from the previous patch is an update that Artur
+confirmed passes hibernate on a stacked request queue. Personally,
+I tested this for several hours with fio running buffered writes
+in the back-ground and rtcwake running suspend/resume at intervals.
+This succeeded with no fio errors.
+
+Keith Busch (3):
+  blk-mq: Export blk_mq_freeze_queue_wait
+  blk-mq: Provide queue freeze wait timeout
+  nvme: Complete all stuck requests
+
+ block/blk-mq.c           | 12 +++++++++++-
+ drivers/nvme/host/core.c | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  4 ++++
+ drivers/nvme/host/pci.c  | 33 ++++++++++++++++++++++++++++-----
+ include/linux/blk-mq.h   |  3 +++
+ 5 files changed, 93 insertions(+), 6 deletions(-)
+
+-- 
+2.5.5
