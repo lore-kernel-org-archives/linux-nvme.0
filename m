@@ -1,62 +1,48 @@
-From: linda.knippers@hpe.com (Linda Knippers)
-Date: Fri, 30 Jun 2017 16:31:30 -0400
-Subject: [PATCHv2] nvme: Remove SCSI translations
-In-Reply-To: <20170630193840.GA12428@localhost.localdomain>
-References: <1497987223-3119-1-git-send-email-keith.busch@intel.com>
- <AT5PR84MB00825BA1A84C313BE26C1099ABD30@AT5PR84MB0082.NAMPRD84.PROD.OUTLOOK.COM>
- <20170630193840.GA12428@localhost.localdomain>
-Message-ID: <4a1e20a7-c162-d767-d1ce-612add511acc@hpe.com>
+From: artur.paszkiewicz@intel.com (Artur Paszkiewicz)
+Date: Wed, 1 Mar 2017 09:54:17 +0100
+Subject: [PATCHv2 2/2] nvme: Complete all stuck requests
+In-Reply-To: <20170228165719.GA23236@localhost.localdomain>
+References: <1487896561-10454-1-git-send-email-keith.busch@intel.com>
+ <1487896561-10454-2-git-send-email-keith.busch@intel.com>
+ <b66a614e-140e-86e9-56bf-d3eafb750aa5@grimberg.me>
+ <20170227150107.GA5789@localhost.localdomain>
+ <4c952c67-9871-249d-86b0-5f81acf00571@grimberg.me>
+ <20170227191459.GA1170@localhost.localdomain>
+ <913d4d24-b80b-b7f6-2374-8095bc6fc047@intel.com>
+ <20170228165719.GA23236@localhost.localdomain>
+Message-ID: <a1e30246-20d4-ac78-89f9-b0fbd3b3f7de@intel.com>
 
-On 06/30/2017 03:38 PM, Keith Busch wrote:
-> On Fri, Jun 30, 2017@12:44:11PM +0000, Elliott, Robert (Persistent Memory) wrote:
+On 02/28/2017 05:57 PM, Keith Busch wrote:
+> On Tue, Feb 28, 2017@08:42:19AM +0100, Artur Paszkiewicz wrote:
 >>
->> As Linda and Micah mentioned, this violates a cardinal linux kernel rule -
->> it breaks user space.
->>
->> Please:
->> 1. Incorporate the TEST UNIT READY bug fix now.
->> 2. Add a WARN_ONCE printing a message that the interface that was just
->> used is deprecated and will go away, and modify the CONFIG description
->> to include that warning too.
->> 3. Wait a few kernel cycles before really removing it.
+>> I'm observing the same thing when hibernating during mdraid resync on
+>> nvme - it hangs in blk_mq_freeze_queue_wait() after "Disabling non-boot
+>> CPUs ...".
 > 
-> I really want to emphasize a few points here:
+> The patch guarantees forward progress for blk-mq's hot-cpu notifier on
+> nvme request queues by failing all entered requests. It sounds like some
+> part of your setup needs those requests to succeed in order to hibernate.
 > 
-> The linux nvme driver support for SG_IO was never really working in the
-> first place. We can't break what's broken.
-
-It was working well enough that people are using it.
-
-> We're not making any nvme features unreachable by deleting broken
-> interfaces. The driver has supported a real NVMe management interface
-> since day 1, and open source tooling for it is freely available. These
-> tools are also part of many distribution's package repositories.
+> If your mdraid uses a stacking request_queue that submits retries while
+> it's request queue is entered, that may explain how you remain stuck
+> at blk_mq_freeze_queue_wait.
 > 
-> The NVMe translation for TUR has been broken for years and you didn't
-> notice. 
-
-As I said, it was working well enough until recently.  We noticed
-the problem when the recent code was pulled into an enterprise distro
-where we do most of our production/customer testing.  David Milburn
-posted a simple patch to fix at least the part that we're using.  I
-can't speak for other people who may be using other parts.
-
-> Your WARN proposal won't do you any good in that case, but
-> it certainly puts a burden on the developers trying to progress and
-> enhance NVMe.
-
-I don't see how this prevents enhancing NVMe.  It seems like a
-reasonable transition.
-
-> The distributions supporting SCSI translations for NVMe are already
-> applying out of tree patches to enable them.
-
-All of them?  Are you sure?
-
--- ljk
+>> This patch did not help but when I put nvme_wait_freeze()
+>> right after nvme_start_freeze() it appeared to be working. Maybe the
+>> difference here is that requests are submitted from a non-freezable
+>> kernel thread (md sync_thread)?
 > 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> Wait freeze prior to quiescing the queue is ok when the controller is
+> functioning, but it'd be impossible to complete a reset if the controller
+> is in a failed or degraded state.
 > 
+> We probably want to give those requests a chance to succeed, and I think
+> we'd need to be able to timeout the freeze wait. Below are two patches
+> I tested. Prior to these, the fio test would report IO errors from some
+> of its jobs; no errors with these.
+
+With these patches it works fine. I tested multiple iterations on 2
+platforms and they were able to hibernate and resume without issues.
+
+Thanks,
+Artur
