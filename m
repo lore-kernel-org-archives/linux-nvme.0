@@ -1,31 +1,77 @@
-From: JBauer@sjm.com (Bauer, John)
-Date: Tue, 28 Feb 2017 21:37:00 +0000
-Subject: NVMe nvme_queue_rq crash
-In-Reply-To: <20170228211953.GA7861@localhost.localdomain>
-References: <AEFEA030B02DC74F8C729339175739E672D4F97D@USC1PMSG10.ad.sjm.com>
- <20170228211953.GA7861@localhost.localdomain>
-Message-ID: <AEFEA030B02DC74F8C729339175739E672D4FA3A@USC1PMSG10.ad.sjm.com>
+From: parav@mellanox.com (Parav Pandit)
+Date: Tue, 28 Feb 2017 20:06:39 -0600
+Subject: [PATCH] nvme-rdma: nvme-fc: Fix avoid tag set initialization twice.
+Message-ID: <1488333999-30412-1-git-send-email-parav@mellanox.com>
 
-That does make sense as I just did the uname today and a new kernel was supplied since the crash log I supplied. I was told there was still a problem with the new kernel even though crashing has stopped. I was hoping that something from this crash log could be used to determine a stable mainline version to use.
+When BLK_MQ_F_NO_SCHED is not set for a tagset of a request queue,
+it tries to initialize the queue twice where blk_mq_alloc_rq_map() gets
+invoked twice as part of blk_mq_alloc_tag_set() and blk_mq_init_queue()
+through elevator init path.
+When for a given tagset it gets reinitialized through init_queue() path,
+number of reserved tags are zero. Due to which any command issued with
+BLK_MQ_REQ_RESERVED fails to allocate a tag as seen in below stack
+trace.
 
-I'll gather some more information and make sure that our support cases are on the same page, thanks for the quick response.
+Set it for nvme admin queue of RDMA and FC to avoid such error similar
+to change of d34849913.
 
-John
+kernel: CPU: 37 PID: 20942 Comm: nvme Not tainted 4.10.0-linux-block+ #12
+kernel: Call Trace:
+kernel: dump_stack+0x63/0x87
+kernel: __warn+0xd1/0xf0
+kernel: warn_slowpath_null+0x1d/0x20
+kernel: blk_mq_get_tag+0x298/0x2a0
+kernel: ? remove_wait_queue+0x60/0x60
+kernel: __blk_mq_alloc_request+0x1b/0xc0
+kernel: blk_mq_sched_get_request+0x186/0x270
+kernel: blk_mq_alloc_request+0x81/0xd0
+kernel: nvme_alloc_request+0x5a/0x70 [nvme_core]
+kernel: __nvme_submit_sync_cmd+0x31/0xe0 [nvme_core]
+kernel: nvmf_connect_admin_queue+0x128/0x190 [nvme_fabrics]
+kernel: ? blk_mq_init_allocated_queue+0x502/0x540
+kernel: nvme_rdma_configure_admin_queue+0x1a0/0x480 [nvme_rdma]
+kernel: nvme_rdma_create_ctrl+0x2a9/0x7a0 [nvme_rdma]
+kernel: nvmf_dev_write+0x793/0x952 [nvme_fabrics]
+kernel: __vfs_write+0x37/0x140
+kernel: ? __fd_install+0x31/0xd0
+kernel: vfs_write+0xb2/0x1b0
+kernel: SyS_write+0x55/0xc0
+kernel: entry_SYSCALL_64_fastpath+0x1a/0xa9
 
------Original Message-----
-From: Keith Busch [mailto:keith.busch@intel.com]
-Sent: Tuesday, February 28, 2017 3:20 PM
-To: Bauer, John
-Cc: linux-nvme at lists.infradead.org
-Subject: Re: NVMe nvme_queue_rq crash
+Going forward admin_queue and ioq tag set initialization helper function
+will be implemented to be used by all the transports to avoid such bugs
+in future.
 
-On Tue, Feb 28, 2017@09:02:32PM +0000, Bauer, John wrote:
-> Version info:
->
-> Linux 3.10.0-520.el7_3.bz1392923.1.x86_64 #1 SMP Wed Jan 18 16:22:09
-> EST 2017 x86_64 x86_64 x86_64 GNU/Linux
+Fixes: d34849913 ("blk-mq-sched: allow setting of default IO scheduler")
+Signed-off-by: Parav Pandit <parav at mellanox.com>
+---
+ drivers/nvme/host/fc.c   | 1 +
+ drivers/nvme/host/rdma.c | 1 +
+ 2 files changed, 2 insertions(+)
 
-The bz1392923 above is the one for tracking this issue with RH bugzilla, and this issue should be corrected in that build.
-
-Your crash, however, says you are running 3.10.0-514.2.2.el7.x86_64, which does not have the fix.
-This communication may contain information that is proprietary, confidential, or exempt from disclosure. If you are not the intended recipient, please note that any other dissemination, distribution, use or copying of this communication is strictly prohibited. Anyone who receives this message in error should notify the sender immediately by telephone or by return e-mail and delete it from his or her computer.
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 9690beb..876e99c 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1987,6 +1987,7 @@ enum blk_eh_timer_return
+ 	ctrl->admin_tag_set.ops = &nvme_fc_admin_mq_ops;
+ 	ctrl->admin_tag_set.queue_depth = NVME_FC_AQ_BLKMQ_DEPTH;
+ 	ctrl->admin_tag_set.reserved_tags = 2; /* fabric connect + Keep-Alive */
++	ctrl->admin_tag_set.flags = BLK_MQ_F_NO_SCHED;
+ 	ctrl->admin_tag_set.numa_node = NUMA_NO_NODE;
+ 	ctrl->admin_tag_set.cmd_size = sizeof(struct nvme_fc_fcp_op) +
+ 					(SG_CHUNK_SIZE *
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 49b2121..c3f96fd 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1563,6 +1563,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl)
+ 	ctrl->admin_tag_set.ops = &nvme_rdma_admin_mq_ops;
+ 	ctrl->admin_tag_set.queue_depth = NVME_RDMA_AQ_BLKMQ_DEPTH;
+ 	ctrl->admin_tag_set.reserved_tags = 2; /* connect + keep-alive */
++	ctrl->admin_tag_set.flags = BLK_MQ_F_NO_SCHED;
+ 	ctrl->admin_tag_set.numa_node = NUMA_NO_NODE;
+ 	ctrl->admin_tag_set.cmd_size = sizeof(struct nvme_rdma_request) +
+ 		SG_CHUNK_SIZE * sizeof(struct scatterlist);
+-- 
+1.8.3.1
