@@ -1,36 +1,48 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed,  1 Mar 2017 14:22:09 -0500
-Subject: [PATCH 0/3] nvme suspend/resume fix
-Message-ID: <1488396132-11369-1-git-send-email-keith.busch@intel.com>
+Date: Wed,  1 Mar 2017 14:22:10 -0500
+Subject: [PATCH 1/3] blk-mq: Export blk_mq_freeze_queue_wait
+In-Reply-To: <1488396132-11369-1-git-send-email-keith.busch@intel.com>
+References: <1488396132-11369-1-git-send-email-keith.busch@intel.com>
+Message-ID: <1488396132-11369-2-git-send-email-keith.busch@intel.com>
 
-Hi Jens,
+Drivers can start a freeze, so this provides a way to wait for frozen.
 
-This is hopefully the last version to fix nvme stopping blk-mq's CPU
-event from making forward progress. The solution requires a couple new
-blk-mq exports so the nvme driver can properly sync with queue states.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ block/blk-mq.c         | 3 ++-
+ include/linux/blk-mq.h | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-Since this depends on the blk-mq parts, and if you approve of the
-proposal, I think it'd be easiest if you can take this directly into
-linux-block/for-linus. Otherwise, we can send you a pull request if you
-Ack the blk-mq parts.
-
-The difference from the previous patch is an update that Artur
-confirmed passes hibernate on a stacked request queue. Personally,
-I tested this for several hours with fio running buffered writes
-in the back-ground and rtcwake running suspend/resume at intervals.
-This succeeded with no fio errors.
-
-Keith Busch (3):
-  blk-mq: Export blk_mq_freeze_queue_wait
-  blk-mq: Provide queue freeze wait timeout
-  nvme: Complete all stuck requests
-
- block/blk-mq.c           | 12 +++++++++++-
- drivers/nvme/host/core.c | 47 +++++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |  4 ++++
- drivers/nvme/host/pci.c  | 33 ++++++++++++++++++++++++++++-----
- include/linux/blk-mq.h   |  3 +++
- 5 files changed, 93 insertions(+), 6 deletions(-)
-
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 94593c6..8da2c04 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -75,10 +75,11 @@ void blk_mq_freeze_queue_start(struct request_queue *q)
+ }
+ EXPORT_SYMBOL_GPL(blk_mq_freeze_queue_start);
+ 
+-static void blk_mq_freeze_queue_wait(struct request_queue *q)
++void blk_mq_freeze_queue_wait(struct request_queue *q)
+ {
+ 	wait_event(q->mq_freeze_wq, percpu_ref_is_zero(&q->q_usage_counter));
+ }
++EXPORT_SYMBOL_GPL(blk_mq_freeze_queue_wait);
+ 
+ /*
+  * Guarantee no request is in use, so we can change any data structure of
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index 001d30d..8dacf68 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -245,6 +245,7 @@ void blk_mq_tagset_busy_iter(struct blk_mq_tag_set *tagset,
+ void blk_mq_freeze_queue(struct request_queue *q);
+ void blk_mq_unfreeze_queue(struct request_queue *q);
+ void blk_mq_freeze_queue_start(struct request_queue *q);
++void blk_mq_freeze_queue_wait(struct request_queue *q);
+ int blk_mq_reinit_tagset(struct blk_mq_tag_set *set);
+ 
+ int blk_mq_map_queues(struct blk_mq_tag_set *set);
 -- 
 2.5.5
