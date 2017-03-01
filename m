@@ -1,14 +1,32 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 1 Mar 2017 16:00:04 +0100
-Subject: [PATCHv1] nvmet: Avoid writing fabric_ops, queue pointers on
- every request.
-In-Reply-To: <1488311682-11000-1-git-send-email-parav@mellanox.com>
-References: <1488311682-11000-1-git-send-email-parav@mellanox.com>
-Message-ID: <20170301150004.GB12248@lst.de>
+From: parav@mellanox.com (Parav Pandit)
+Date: Wed, 1 Mar 2017 15:11:37 +0000
+Subject: [PATCH] nvme-rdma: nvme-fc: Fix avoid tag set initialization
+ twice.
+In-Reply-To: <20170301145918.GA12248@lst.de>
+References: <1488333999-30412-1-git-send-email-parav@mellanox.com>
+ <20170301145918.GA12248@lst.de>
+Message-ID: <VI1PR0502MB3008DDF70AD2CB310B194786D1290@VI1PR0502MB3008.eurprd05.prod.outlook.com>
 
-This looks fine to me:
+Hi Christoph,
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+I tried for-linus branch of Jens. That seems to work without this fix.
+So I will resend the patch as optimization instead of as fix similar to PCIe?
 
-But it's too late for 4.11 now, let's wait until get a 4.12 branch
-started.
+Parav
+
+> -----Original Message-----
+> From: Christoph Hellwig [mailto:hch at lst.de]
+> Sent: Wednesday, March 1, 2017 8:59 AM
+> To: Parav Pandit <parav at mellanox.com>
+> Cc: james.smart at broadcom.com; keith.busch at intel.com; axboe at fb.com;
+> hch at lst.de; sagi at grimberg.me; linux-nvme at lists.infradead.org
+> Subject: Re: [PATCH] nvme-rdma: nvme-fc: Fix avoid tag set initialization
+> twice.
+> 
+> On Tue, Feb 28, 2017@08:06:39PM -0600, Parav Pandit wrote:
+> > When BLK_MQ_F_NO_SCHED is not set for a tagset of a request queue, it
+> > tries to initialize the queue twice where blk_mq_alloc_rq_map() gets
+> > invoked twice as part of blk_mq_alloc_tag_set() and
+> > blk_mq_init_queue() through elevator init path.
+> 
+> Maybe we'll need to fix this in the block core instead of working around it?
