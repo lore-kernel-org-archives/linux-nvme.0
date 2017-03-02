@@ -1,59 +1,60 @@
-From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
-Date: Wed, 1 Mar 2017 17:50:47 -0700
-Subject: [PATCH v5 0/4] New Microsemi PCI Switch Management Driver
-In-Reply-To: <7d6b3b59-5cec-d73f-b65c-4d685ccc70f8@deltatee.com>
-References: <1488091997-12843-1-git-send-email-logang@deltatee.com>
- <20170301214120.GA30451@bhelgaas-glaptop.roam.corp.google.com>
- <4a867c32-ed29-bc98-c7cb-6315243e664a@deltatee.com>
- <b34d6872-35de-da6d-2d7f-8842642d3f21@deltatee.com>
- <20170301235854.GF2820@obsidianresearch.com>
- <7d6b3b59-5cec-d73f-b65c-4d685ccc70f8@deltatee.com>
-Message-ID: <20170302005047.GA14301@obsidianresearch.com>
+From: roland@kernel.org (Roland Dreier)
+Date: Wed,  1 Mar 2017 18:22:01 -0800
+Subject: [PATCH] nvme: Correct NVMF enum values to match NVMe-oF rev 1.0
+Message-ID: <20170302022201.2946-1-roland@kernel.org>
 
-On Wed, Mar 01, 2017@05:23:38PM -0700, Logan Gunthorpe wrote:
+From: Roland Dreier <roland@purestorage.com>
 
-> > That could help, but this would mean cdev would have to insert a shim
-> > to grab locks around the various file ops.
-> 
-> Hmm, I was hoping something more along the lines of actually killing the
-> processes instead of just shimming away fops.
+The enum values for QPTYPE, PRTYPE and CMS are off by 1 from the
+values defined in figure 42 of the NVM Express over Fabrics 1.0:
 
-That would probably make most cdev users unhappy, it is not what we
-want in tpm or infiniband, for instance.
+    http://www.nvmexpress.org/wp-content/uploads/NVMe_over_Fabrics_1_0_Gold_20160605-1.pdf
 
-> > AFAIK TPM is correct and has been robustly tested now. We have a 'vtpm'
-> > driver that agressively uses hot-unplug.
-> 
-> Switchtec is a bit more tricky because a) there's no upper level driver
-> to handle things
+Fix our enums to match the final spec.
 
-Introducing a light split between 'the upper part that owns the cdev'
-and 'the lower part that owns the hardware' makes things much easier
-to understand in a driver and it becomes clearer where, eg, devm
-actions should be linked (ie probably not to the cdev part)
+Signed-off-by: Roland Dreier <roland at purestorage.com>
+---
+ include/linux/nvme.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-> and b) userspace may be inside a wait_for_completion (via read or
-> poll) that needs to be completed. If a so called 'cdev_kill' could
-> actually just kill these processes it would be a bit easier.
-
-For TPM, poll could be something like:
-
-static unsigned int tpm_poll(struct file *filp,
-                             struct poll_table_struct *wait)
-{
-   poll_wait(filp, &chip->poll_wait, wait);
-   if (tpm_try_get_ops(chip)) {
-          mask = chip->ops->driver_do_poll(...);
-          tpm_put_ops(chip);
-   } else 
-          mask = POLLIN | POLLRDHUP | POLLOUT | POLLERR | POLLHUP;
-   return mask;
-}
-
-And we would trigger chip->poll_wait in the unregister.
-
-wait_for_completion is similar, drop the rwsem while sleeping, add
-'ops = NULL' to the sleeping condition test, trigger the wait on
-unregister then reacquire the rwsem and test ops on wake.
-
-Jason
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index c43d435d4225..9061780b141f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -64,26 +64,26 @@ enum {
+  * RDMA_QPTYPE field
+  */
+ enum {
+-	NVMF_RDMA_QPTYPE_CONNECTED	= 0, /* Reliable Connected */
+-	NVMF_RDMA_QPTYPE_DATAGRAM	= 1, /* Reliable Datagram */
++	NVMF_RDMA_QPTYPE_CONNECTED	= 1, /* Reliable Connected */
++	NVMF_RDMA_QPTYPE_DATAGRAM	= 2, /* Reliable Datagram */
+ };
+ 
+ /* RDMA QP Service Type codes for Discovery Log Page entry TSAS
+  * RDMA_QPTYPE field
+  */
+ enum {
+-	NVMF_RDMA_PRTYPE_NOT_SPECIFIED	= 0, /* No Provider Specified */
+-	NVMF_RDMA_PRTYPE_IB		= 1, /* InfiniBand */
+-	NVMF_RDMA_PRTYPE_ROCE		= 2, /* InfiniBand RoCE */
+-	NVMF_RDMA_PRTYPE_ROCEV2		= 3, /* InfiniBand RoCEV2 */
+-	NVMF_RDMA_PRTYPE_IWARP		= 4, /* IWARP */
++	NVMF_RDMA_PRTYPE_NOT_SPECIFIED	= 1, /* No Provider Specified */
++	NVMF_RDMA_PRTYPE_IB		= 2, /* InfiniBand */
++	NVMF_RDMA_PRTYPE_ROCE		= 3, /* InfiniBand RoCE */
++	NVMF_RDMA_PRTYPE_ROCEV2		= 4, /* InfiniBand RoCEV2 */
++	NVMF_RDMA_PRTYPE_IWARP		= 5, /* IWARP */
+ };
+ 
+ /* RDMA Connection Management Service Type codes for Discovery Log Page
+  * entry TSAS RDMA_CMS field
+  */
+ enum {
+-	NVMF_RDMA_CMS_RDMA_CM	= 0, /* Sockets based enpoint addressing */
++	NVMF_RDMA_CMS_RDMA_CM	= 1, /* Sockets based endpoint addressing */
+ };
+ 
+ #define NVMF_AQ_DEPTH		32
+-- 
+2.10.2
