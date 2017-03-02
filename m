@@ -1,93 +1,96 @@
-From: roland@kernel.org (Roland Dreier)
-Date: Thu,  2 Mar 2017 11:06:36 -0800
-Subject: [PATCH] fabrics: Handle space-padded TRSVCID and TRADDR fields
-Message-ID: <20170302190636.15726-1-roland@kernel.org>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Thu,  2 Mar 2017 16:07:45 -0700
+Subject: [PATCH v6 2/4] switchtec: Add user interface documentation
+In-Reply-To: <1488496067-2763-1-git-send-email-logang@deltatee.com>
+References: <1488496067-2763-1-git-send-email-logang@deltatee.com>
+Message-ID: <1488496067-2763-3-git-send-email-logang@deltatee.com>
 
-From: Roland Dreier <roland@purestorage.com>
+This adds standard documentation for the sysfs switchtec attributes and
+a RST formatted text file which documents the char device interface.
+Jonathan Corbet has indicated he will move this to a new user-space
+developer documentation book once it's created.
 
-The TRSVCID and TRADDR fields in the discovery log page are defined
-as ASCII strings, which according to the NVMe standard means they
-should be space-padded rather than NUL-terminated.
-
-The current nvme-cli code will print all the spaces and possibly some
-garbage from the next field.  For example this causes "connect-all"
-to write strings that get rejected with "malformed IP address passed."
-
-Fix this by only writing the contents of these fields until the first
-space character.
-
-Signed-off-by: Roland Dreier <roland at purestorage.com>
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Signed-off-by: Stephen Bates <stephen.bates at microsemi.com>
+Tested-by: Krishna Dhulipala <krishnad at fb.com>
+Reviewed-by: Wei Zhang <wzhang at fb.com>
+Reviewed-by: Jens Axboe <axboe at fb.com>
 ---
- fabrics.c | 31 ++++++++++++++++++++++++++-----
- 1 file changed, 26 insertions(+), 5 deletions(-)
+ Documentation/switchtec.txt | 53 +++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                 |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 Documentation/switchtec.txt
 
-diff --git a/fabrics.c b/fabrics.c
-index 3f6be53cf332..c837208110e0 100644
---- a/fabrics.c
-+++ b/fabrics.c
-@@ -354,6 +354,17 @@ out:
- 	return error;
- }
- 
-+static int space_strip_len(int max, const char *str)
-+{
-+	int i;
+diff --git a/Documentation/switchtec.txt b/Documentation/switchtec.txt
+new file mode 100644
+index 0000000..4bced4c
+--- /dev/null
++++ b/Documentation/switchtec.txt
+@@ -0,0 +1,53 @@
++========================
++Linux Switchtec Support
++========================
 +
-+	for (i = 0; i < max; i++)
-+		if (str[i] == '\0' || str[i] == ' ')
-+			break;
++Microsemi's "Switchtec" line of PCI switch devices is already
++supported by the kernel with standard PCI switch drivers. However, the
++Switchtec device advertises a special management endpoint which
++enables some additional functionality. This includes:
 +
-+	return i;
-+}
++* Packet and Byte Counters
++* Firmware Upgrades
++* Event and Error logs
++* Querying port link status
++* Custom user firmware commands
 +
- static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
- {
- 	int i;
-@@ -371,9 +382,13 @@ static void print_discovery_log(struct nvmf_disc_rsp_page_hdr *log, int numrec)
- 		printf("subtype: %s\n", subtype_str(e->subtype));
- 		printf("treq:    %s\n", treq_str(e->treq));
- 		printf("portid:  %d\n", e->portid);
--		printf("trsvcid: %s\n", e->trsvcid);
-+		printf("trsvcid: %.*s\n",
-+		       space_strip_len(NVMF_TRSVCID_SIZE, e->trsvcid),
-+		       e->trsvcid);
- 		printf("subnqn:  %s\n", e->subnqn);
--		printf("traddr:  %s\n", e->traddr);
-+		printf("traddr:  %.*s\n",
-+		       space_strip_len(NVMF_TRADDR_SIZE, e->traddr),
-+		       e->traddr);
++The switchtec kernel module implements this functionality.
++
++
++Interface
++=========
++
++The primary means of communicating with the Switchtec management firmware is
++through the Memory-mapped Remote Procedure Call (MRPC) interface.
++Commands are submitted to the interface with a 4-byte command
++identifier and up to 1KB of command specific data. The firmware will
++respond with a 4 bytes return code and up to 1KB of command specific
++data. The interface only processes a single command at a time.
++
++
++Userspace Interface
++===================
++
++The MRPC interface will be exposed to userspace through a simple char
++device: /dev/switchtec#, one for each management endpoint in the system.
++
++The char device has the following semantics:
++
++* A write must consist of at least 4 bytes and no more than 1028 bytes.
++  The first four bytes will be interpreted as the command to run and
++  the remainder will be used as the input data. A write will send the
++  command to the firmware to begin processing.
++
++* Each write must be followed by exactly one read. Any double write will
++  produce an error and any read that doesn't follow a write will
++  produce an error.
++
++* A read will block until the firmware completes the command and return
++  the four bytes of status plus up to 1024 bytes of output data. (The
++  length will be specified by the size parameter of the read call --
++  reading less than 4 bytes will produce an error.
++
++* The poll call will also be supported for userspace applications that
++  need to do other things while waiting for the command to complete.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a57686f..aa702b0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -9512,6 +9512,7 @@ M:	Stephen Bates <stephen.bates at microsemi.com>
+ M:	Logan Gunthorpe <logang at deltatee.com>
+ L:	linux-pci at vger.kernel.org
+ S:	Maintained
++F:	Documentation/switchtec.txt
+ F:	drivers/pci/switch/switchtec*
  
- 		switch (e->trtype) {
- 		case NVMF_TRTYPE_RDMA:
-@@ -572,12 +587,16 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
- 				return -EINVAL;
- 			p += len;
- 
--			len = sprintf(p, ",traddr=%s", e->traddr);
-+			len = sprintf(p, ",traddr=%.*s",
-+				      space_strip_len(NVMF_TRADDR_SIZE, e->traddr),
-+				      e->traddr);
- 			if (len < 0)
- 				return -EINVAL;
- 			p += len;
- 
--			len = sprintf(p, ",trsvcid=%s", e->trsvcid);
-+			len = sprintf(p, ",trsvcid=%.*s",
-+				      space_strip_len(NVMF_TRSVCID_SIZE, e->trsvcid),
-+				      e->trsvcid);
- 			if (len < 0)
- 				return -EINVAL;
- 			p += len;
-@@ -600,7 +619,9 @@ static int connect_ctrl(struct nvmf_disc_rsp_page_entry *e)
- 				return -EINVAL;
- 			p+= len;
- 
--			len = sprintf(p, ",traddr=%s", e->traddr);
-+			len = sprintf(p, ",traddr=%.*s",
-+				      space_strip_len(NVMF_TRADDR_SIZE, e->traddr),
-+				      e->traddr);
- 			if (len < 0)
- 				return -EINVAL;
- 			p += len;
+ PCI DRIVER FOR NVIDIA TEGRA
 -- 
-2.10.2
+2.1.4
