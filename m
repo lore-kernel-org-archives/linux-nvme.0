@@ -1,20 +1,50 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 2 Mar 2017 01:14:59 +0100
-Subject: [PATCH 2/3] blk-mq: Provide freeze queue timeout
-In-Reply-To: <1488396132-11369-3-git-send-email-keith.busch@intel.com>
-References: <1488396132-11369-1-git-send-email-keith.busch@intel.com>
- <1488396132-11369-3-git-send-email-keith.busch@intel.com>
-Message-ID: <20170302001459.GA23070@lst.de>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 1 Mar 2017 17:23:38 -0700
+Subject: [PATCH v5 0/4] New Microsemi PCI Switch Management Driver
+In-Reply-To: <20170301235854.GF2820@obsidianresearch.com>
+References: <1488091997-12843-1-git-send-email-logang@deltatee.com>
+ <20170301214120.GA30451@bhelgaas-glaptop.roam.corp.google.com>
+ <4a867c32-ed29-bc98-c7cb-6315243e664a@deltatee.com>
+ <b34d6872-35de-da6d-2d7f-8842642d3f21@deltatee.com>
+ <20170301235854.GF2820@obsidianresearch.com>
+Message-ID: <7d6b3b59-5cec-d73f-b65c-4d685ccc70f8@deltatee.com>
 
-> +int blk_mq_freeze_queue_wait_timeout(struct request_queue *q,
-> +				     unsigned long timeout)
-> +{
-> +	return wait_event_timeout(q->mq_freeze_wq,
-> +					percpu_ref_is_zero(&q->q_usage_counter),
-> +					timeout);
-> +}
-> +EXPORT_SYMBOL_GPL(blk_mq_freeze_queue_wait_timeout);
 
-Can you just add the timeout argument to blk_mq_freeze_queue_wait?
-Existing callers can pass 0, which is interpreted as no timeout by
-the low-level wait code.
+
+On 01/03/17 04:58 PM, Jason Gunthorpe wrote:
+> On Wed, Mar 01, 2017@03:49:04PM -0700, Logan Gunthorpe wrote:
+> 
+>> Seems to me like an elegant solution would be to implement a 'cdev_kill'
+>> function which could kill all the processes using a cdev. Thus, during
+>> an unbind, a driver could call it and be sure that there are no users
+>> left and it can safely allow the devres unwind to continue. Then no
+>> difficult and racy 'alive' flags would be necessary and it would be much
+>> easier on drivers.
+> 
+> That could help, but this would mean cdev would have to insert a shim
+> to grab locks around the various file ops.
+
+Hmm, I was hoping something more along the lines of actually killing the
+processes instead of just shimming away fops.
+
+> AFAIK TPM is correct and has been robustly tested now. We have a 'vtpm'
+> driver that agressively uses hot-unplug.
+
+Ah, thanks for the explanation of how that works. I didn't notice the
+semaphore usage.
+
+Switchtec is a bit more tricky because a) there's no upper level driver
+to handle things and b) userspace may be inside a wait_for_completion
+(via read or poll) that needs to be completed. If a so called
+'cdev_kill' could actually just kill these processes it would be a bit
+easier.
+
+Currently, in the Switchtec code, there's a timeout if the interrupt
+doesn't fire (which occurs if the pci device has been torn down) and the
+code will check an alive bit (under mutex protection) and error out if
+it's not alive.
+
+Because of how poll works, I don't see how I can just hold a semaphore
+inside every fops call like the tpm code does.
+
+Logan
