@@ -1,31 +1,48 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 1 Mar 2017 17:29:27 -0700
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Wed, 1 Mar 2017 18:32:16 -0600
 Subject: [PATCH v5 0/4] New Microsemi PCI Switch Management Driver
-In-Reply-To: <7d6b3b59-5cec-d73f-b65c-4d685ccc70f8@deltatee.com>
+In-Reply-To: <d3d5567a-2147-43c5-d094-fb5345f02143@deltatee.com>
 References: <1488091997-12843-1-git-send-email-logang@deltatee.com>
- <20170301214120.GA30451@bhelgaas-glaptop.roam.corp.google.com>
- <4a867c32-ed29-bc98-c7cb-6315243e664a@deltatee.com>
- <b34d6872-35de-da6d-2d7f-8842642d3f21@deltatee.com>
- <20170301235854.GF2820@obsidianresearch.com>
- <7d6b3b59-5cec-d73f-b65c-4d685ccc70f8@deltatee.com>
-Message-ID: <8e20a911-988b-b486-4530-2525efc8b2c2@deltatee.com>
+ <20170228150920.GB12481@bhelgaas-glaptop.roam.corp.google.com>
+ <d3d5567a-2147-43c5-d094-fb5345f02143@deltatee.com>
+Message-ID: <20170302003216.GC13171@bhelgaas-glaptop.roam.corp.google.com>
 
+On Tue, Feb 28, 2017@10:11:56AM -0700, Logan Gunthorpe wrote:
+> 
+> > This driver doesn't have anything to do with the PCI core, other than
+> > using the pci_register_driver() interface (just like all other drivers
+> > for PCI-connected devices), so drivers/pci doesn't really feel like
+> > the right place for it.  Putting it in drivers/pci leads to the sort
+> > of confusion you mentioned above ("To make this entirely clear ...").
+> > 
+> > Would drivers/perf or drivers/misc/switchtec/ be possible places for
+> > it?
+> 
+> I made a similar argument when we made the decision of where to put the
+> code. In the end, the device _is_ a PCI Switch and someone going through
+> menuconfig or the source tree would probably look there first.
+> 
+> As for drivers/perf, our device does a fair bit more than performance
+> counters so it doesn't seem like it really fits in there. drivers/misc
+> just seems like a dumping ground which we'd prefer not to contribute to.
+> We also considered drivers/char (seeing it exposes a char device), but
+> that also seems like a dumping ground with stuff that belongs and other
+> stuff that just ended up stuck between the cracks.
+> 
+> If you still feel strongly about this we can move it into misc, but I
+> think from an organizational perspective pci/switch makes a bit more sense.
 
+It's not a perfect fit in drivers/pci because it's not bus
+infrastructure and I don't want to be the default maintainer of it,
+but I agree there's not really an alternative that's clearly better,
+so let's leave it where it is for now.
 
-On 01/03/17 05:23 PM, Logan Gunthorpe wrote:
-> Because of how poll works, I don't see how I can just hold a semaphore
-> inside every fops call like the tpm code does.
+> In any case, I also wish we could have had this discussion 3 months ago
+> when we posted the RFC and not when I have people pushing to get this
+> merged.
 
-On 01/03/17 04:58 PM, Jason Gunthorpe wrote:
-> Both infiniband and TPM have the 'detach' flavour of unplug where the
-> user is not forced to close their open cdevs. For simpler cases you
-> can just wait for all cdevs to close with a simple rwsem, much like
-> sysfs does already during device_del.
+You and me both!  I hope some of those same people are pushing to help
+avoid the tragedy of the commons by helping review other
+contributions.
 
-Though, after reading your email again, a hard fence on close sounds
-like a good idea. Tomorrow I'll post a v6 that uses that approach.
-
-
-Thanks,
-
-Logan
+Bjorn
