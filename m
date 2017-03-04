@@ -1,74 +1,48 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Sat,  4 Mar 2017 09:30:27 -0800
-Subject: [PATCH 07/20] lpfc: Fix NVME CMD IU byte swapped word 1 problem
+Date: Sat,  4 Mar 2017 09:30:26 -0800
+Subject: [PATCH 06/20] lpfc: Fix RCTL value on NVME LS request and response
 In-Reply-To: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
 References: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
-Message-ID: <1488648640-5170-8-git-send-email-jsmart2021@gmail.com>
+Message-ID: <1488648640-5170-7-git-send-email-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-Word 1 in NVME CMD IU appears byte swapped from value placed in WQE
-Should be Big Endian value in WQE word 16
+NVME LS requests and responses had wrong R_CTL values.
+Use the FC4 ELS Request and Response defines (defines badly
+named, they are FC4 LS's) instead of the base ELS values.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_nvme.c | 17 ++++-------------
- 1 file changed, 4 insertions(+), 13 deletions(-)
+ drivers/scsi/lpfc/lpfc_nvme.c  | 2 +-
+ drivers/scsi/lpfc/lpfc_nvmet.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
-index 6346d4d..bf3ccc5 100644
+index 609a908..6346d4d 100644
 --- a/drivers/scsi/lpfc/lpfc_nvme.c
 +++ b/drivers/scsi/lpfc/lpfc_nvme.c
-@@ -620,15 +620,15 @@ lpfc_nvme_adj_fcp_sgls(struct lpfc_vport *vport,
- 	 * Embed the payload in the last half of the WQE
- 	 * WQE words 16-30 get the NVME CMD IU payload
- 	 *
--	 * WQE Word 16 is already setup with flags
--	 * WQE words 17-19 get payload Words 2-4
-+	 * WQE words 16-19 get payload Words 1-4
- 	 * WQE words 20-21 get payload Words 6-7
- 	 * WQE words 22-29 get payload Words 16-23
- 	 */
--	wptr = &wqe->words[17];  /* WQE ptr */
-+	wptr = &wqe->words[16];  /* WQE ptr */
- 	dptr = (uint32_t *)nCmd->cmdaddr;  /* payload ptr */
--	dptr += 2;		/* Skip Words 0-1 in payload */
-+	dptr++;			/* Skip Word 0 in payload */
+@@ -316,7 +316,7 @@ lpfc_nvme_gen_req(struct lpfc_vport *vport, struct lpfc_dmabuf *bmp,
+ 	bf_set(wqe_dfctl, &wqe->gen_req.wge_ctl, 0);
+ 	bf_set(wqe_si, &wqe->gen_req.wge_ctl, 1);
+ 	bf_set(wqe_la, &wqe->gen_req.wge_ctl, 1);
+-	bf_set(wqe_rctl, &wqe->gen_req.wge_ctl, FC_RCTL_DD_UNSOL_CTL);
++	bf_set(wqe_rctl, &wqe->gen_req.wge_ctl, FC_RCTL_ELS4_REQ);
+ 	bf_set(wqe_type, &wqe->gen_req.wge_ctl, FC_TYPE_NVME);
  
-+	*wptr++ = *dptr++;	/* Word 1 */
- 	*wptr++ = *dptr++;	/* Word 2 */
- 	*wptr++ = *dptr++;	/* Word 3 */
- 	*wptr++ = *dptr++;	/* Word 4 */
-@@ -978,9 +978,6 @@ lpfc_nvme_prep_io_cmd(struct lpfc_vport *vport,
- 			bf_set(wqe_cmd_type, &wqe->generic.wqe_com,
- 			       NVME_WRITE_CMD);
+ 	/* Word 6 */
+diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
+index e59a0a8..6c2221a 100644
+--- a/drivers/scsi/lpfc/lpfc_nvmet.c
++++ b/drivers/scsi/lpfc/lpfc_nvmet.c
+@@ -1114,7 +1114,7 @@ lpfc_nvmet_prep_ls_wqe(struct lpfc_hba *phba,
+ 	bf_set(wqe_dfctl, &wqe->xmit_sequence.wge_ctl, 0);
+ 	bf_set(wqe_ls, &wqe->xmit_sequence.wge_ctl, 1);
+ 	bf_set(wqe_la, &wqe->xmit_sequence.wge_ctl, 0);
+-	bf_set(wqe_rctl, &wqe->xmit_sequence.wge_ctl, FC_RCTL_DD_SOL_CTL);
++	bf_set(wqe_rctl, &wqe->xmit_sequence.wge_ctl, FC_RCTL_ELS4_REP);
+ 	bf_set(wqe_type, &wqe->xmit_sequence.wge_ctl, FC_TYPE_NVME);
  
--			/* Word 16 */
--			wqe->words[16] = LPFC_NVME_EMBED_WRITE;
--
- 			phba->fc4NvmeOutputRequests++;
- 		} else {
- 			/* Word 7 */
-@@ -1002,9 +999,6 @@ lpfc_nvme_prep_io_cmd(struct lpfc_vport *vport,
- 			bf_set(wqe_cmd_type, &wqe->generic.wqe_com,
- 			       NVME_READ_CMD);
- 
--			/* Word 16 */
--			wqe->words[16] = LPFC_NVME_EMBED_READ;
--
- 			phba->fc4NvmeInputRequests++;
- 		}
- 	} else {
-@@ -1026,9 +1020,6 @@ lpfc_nvme_prep_io_cmd(struct lpfc_vport *vport,
- 		/* Word 11 */
- 		bf_set(wqe_cmd_type, &wqe->generic.wqe_com, NVME_READ_CMD);
- 
--		/* Word 16 */
--		wqe->words[16] = LPFC_NVME_EMBED_CMD;
--
- 		phba->fc4NvmeControlRequests++;
- 	}
- 	/*
+ 	/* Word 6 */
 -- 
 2.5.0
