@@ -1,52 +1,36 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Sat,  4 Mar 2017 09:30:37 -0800
-Subject: [PATCH 17/20] lpfc: correct rdp diag portnames
+Date: Sat,  4 Mar 2017 09:30:36 -0800
+Subject: [PATCH 16/20] lpfc: remove dead sli3 nvme code
 In-Reply-To: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
 References: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
-Message-ID: <1488648640-5170-18-git-send-email-jsmart2021@gmail.com>
+Message-ID: <1488648640-5170-17-git-send-email-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-NVME merge reverted diag port names to the physical port.
-They should be the vport.
+Remove nvme teardown calls that should not be there on sli3 devices
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_els.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/scsi/lpfc/lpfc_init.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-index d260a13..d9c61d0 100644
---- a/drivers/scsi/lpfc/lpfc_els.c
-+++ b/drivers/scsi/lpfc/lpfc_els.c
-@@ -5177,15 +5177,15 @@ lpfc_rdp_res_speed(struct fc_rdp_port_speed_desc *desc, struct lpfc_hba *phba)
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index 10c89e8..77d8840 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -10459,12 +10459,7 @@ lpfc_pci_remove_one_s3(struct pci_dev *pdev)
+ 	fc_remove_host(shost);
+ 	scsi_remove_host(shost);
  
- static uint32_t
- lpfc_rdp_res_diag_port_names(struct fc_rdp_port_name_desc *desc,
--		struct lpfc_hba *phba)
-+		struct lpfc_vport *vport)
- {
+-	/* Perform ndlp cleanup on the physical port.  The nvme and nvmet
+-	 * localports are destroyed after to cleanup all transport memory.
+-	 */
+ 	lpfc_cleanup(vport);
+-	lpfc_nvmet_destroy_targetport(phba);
+-	lpfc_nvme_destroy_localport(vport);
  
- 	desc->tag = cpu_to_be32(RDP_PORT_NAMES_DESC_TAG);
- 
--	memcpy(desc->port_names.wwnn, phba->wwnn,
-+	memcpy(desc->port_names.wwnn, &vport->fc_nodename,
- 			sizeof(desc->port_names.wwnn));
- 
--	memcpy(desc->port_names.wwpn, phba->wwpn,
-+	memcpy(desc->port_names.wwpn, &vport->fc_portname,
- 			sizeof(desc->port_names.wwpn));
- 
- 	desc->length = cpu_to_be32(sizeof(desc->port_names));
-@@ -5279,7 +5279,7 @@ lpfc_els_rdp_cmpl(struct lpfc_hba *phba, struct lpfc_rdp_context *rdp_context,
- 	len += lpfc_rdp_res_link_error((struct fc_rdp_link_error_status_desc *)
- 				       (len + pcmd), &rdp_context->link_stat);
- 	len += lpfc_rdp_res_diag_port_names((struct fc_rdp_port_name_desc *)
--					     (len + pcmd), phba);
-+					     (len + pcmd), vport);
- 	len += lpfc_rdp_res_attach_port_names((struct fc_rdp_port_name_desc *)
- 					(len + pcmd), vport, ndlp);
- 	len += lpfc_rdp_res_fec_desc((struct fc_fec_rdp_desc *)(len + pcmd),
+ 	/*
+ 	 * Bring down the SLI Layer. This step disable all interrupts,
 -- 
 2.5.0
