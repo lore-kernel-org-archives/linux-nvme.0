@@ -1,20 +1,64 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 3 Mar 2017 09:20:19 -0700
-Subject: WARN_ON() when booting with nvme loopback over zram
-In-Reply-To: <20170303161826.GA26324@linux-x5ow.site>
-References: <20170303161826.GA26324@linux-x5ow.site>
-Message-ID: <d18616eb-bce4-379b-4328-f4df4763a10a@kernel.dk>
+From: james_p_freyensee@linux.intel.com (J Freyensee)
+Date: Fri, 03 Mar 2017 17:33:23 -0800
+Subject: [nvmet/nvmetcli]- bug/break in setting a host on NVMe Target?
+Message-ID: <1488591203.4759.20.camel@linux.intel.com>
 
-On 03/03/2017 09:18 AM, Johannes Thumshirn wrote:
-> Hi,
-> 
-> I get the following WARN_ON when trying to establish a nvmf loopback device
-> backed by zram.
-> 
-> My topmost commit is c82be9d2244aacea9851c86f4fb74694c99cd874
+Christoph,
 
-It's fixed in my for-linus, pull request went out to Linus yesterday.
-So hopefully master should be fine with nvmf very shortly.
+I think something might have broke being able to use nvmetcli to set up a host
+nqn name interactively?
 
--- 
-Jens Axboe
+Just following a simple example with mainline 4.10 kernel (tag - v4.10):
+
+[stg at localhost nvmetcli]$ sudo ./nvmetcli?
+/> cd /hosts
+/hosts> create hostnqn
+'module' object has no attribute 'Host'
+/hosts>?
+
+but if I hand-write the equivalent JSON file and load the target with that
+there seems to be no issue:
+
+[stg at localhost nvmetcli]$ sudo cat test.json?
+{
+? "hosts": [
+? {
+	"nqn": "hostnqn"
+? }
+? ],?
+? "ports": [],?
+? "subsystems": [
+????{
+????}
+? ]
+}
+
+[stg at localhost nvmetcli]$ sudo ./nvmetcli restore test.json?
+[stg at localhost nvmetcli]$ sudo ./nvmetcli?
+/hosts> ls
+o- hosts .................................................................
+[...]
+? o- hostnqn .............................................................
+[...]
+/hosts>?
+
+Setting up a subsystem interactively is no issue:
+[stg at localhost nvmetcli]$ sudo ./nvmetcli clear
+[stg at localhost nvmetcli]$ sudo ./nvmetcli
+/hosts> ls
+o- hosts .................................................................
+[...]
+/hosts> cd ../subsystems?
+/subsystems> create testnqn
+/subsystems> ls
+o- subsystems ............................................................
+[...]
+? o- testnqn .............................................................
+[...]
+????o- allowed_hosts .....................................................
+[...]
+????o- namespaces ........................................................
+[...]
+/subsystems>?
+
+I haven't figured what is causing the problem yet.
