@@ -1,38 +1,74 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Sat,  4 Mar 2017 09:30:29 -0800
-Subject: [PATCH 09/20] lpfc: Fix nvme allocation bug on failed
- nvme_fc_register_localport
+Date: Sat,  4 Mar 2017 09:30:27 -0800
+Subject: [PATCH 07/20] lpfc: Fix NVME CMD IU byte swapped word 1 problem
 In-Reply-To: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
 References: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
-Message-ID: <1488648640-5170-10-git-send-email-jsmart2021@gmail.com>
+Message-ID: <1488648640-5170-8-git-send-email-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-nvme bufs get allocated even when the registration fails.
-Move allocation into the rsgistration success path.
+Word 1 in NVME CMD IU appears byte swapped from value placed in WQE
+Should be Big Endian value in WQE word 16
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_nvme.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/scsi/lpfc/lpfc_nvme.c | 17 ++++-------------
+ 1 file changed, 4 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
-index e1bf31e..26cde7c 100644
+index 6346d4d..bf3ccc5 100644
 --- a/drivers/scsi/lpfc/lpfc_nvme.c
 +++ b/drivers/scsi/lpfc/lpfc_nvme.c
-@@ -2164,10 +2164,10 @@ lpfc_nvme_create_localport(struct lpfc_vport *vport)
- 		lport->vport = vport;
- 		INIT_LIST_HEAD(&lport->rport_list);
- 		vport->nvmei_support = 1;
-+		len  = lpfc_new_nvme_buf(vport, phba->sli4_hba.nvme_xri_max);
-+		vport->phba->total_nvme_bufs += len;
+@@ -620,15 +620,15 @@ lpfc_nvme_adj_fcp_sgls(struct lpfc_vport *vport,
+ 	 * Embed the payload in the last half of the WQE
+ 	 * WQE words 16-30 get the NVME CMD IU payload
+ 	 *
+-	 * WQE Word 16 is already setup with flags
+-	 * WQE words 17-19 get payload Words 2-4
++	 * WQE words 16-19 get payload Words 1-4
+ 	 * WQE words 20-21 get payload Words 6-7
+ 	 * WQE words 22-29 get payload Words 16-23
+ 	 */
+-	wptr = &wqe->words[17];  /* WQE ptr */
++	wptr = &wqe->words[16];  /* WQE ptr */
+ 	dptr = (uint32_t *)nCmd->cmdaddr;  /* payload ptr */
+-	dptr += 2;		/* Skip Words 0-1 in payload */
++	dptr++;			/* Skip Word 0 in payload */
+ 
++	*wptr++ = *dptr++;	/* Word 1 */
+ 	*wptr++ = *dptr++;	/* Word 2 */
+ 	*wptr++ = *dptr++;	/* Word 3 */
+ 	*wptr++ = *dptr++;	/* Word 4 */
+@@ -978,9 +978,6 @@ lpfc_nvme_prep_io_cmd(struct lpfc_vport *vport,
+ 			bf_set(wqe_cmd_type, &wqe->generic.wqe_com,
+ 			       NVME_WRITE_CMD);
+ 
+-			/* Word 16 */
+-			wqe->words[16] = LPFC_NVME_EMBED_WRITE;
+-
+ 			phba->fc4NvmeOutputRequests++;
+ 		} else {
+ 			/* Word 7 */
+@@ -1002,9 +999,6 @@ lpfc_nvme_prep_io_cmd(struct lpfc_vport *vport,
+ 			bf_set(wqe_cmd_type, &wqe->generic.wqe_com,
+ 			       NVME_READ_CMD);
+ 
+-			/* Word 16 */
+-			wqe->words[16] = LPFC_NVME_EMBED_READ;
+-
+ 			phba->fc4NvmeInputRequests++;
+ 		}
+ 	} else {
+@@ -1026,9 +1020,6 @@ lpfc_nvme_prep_io_cmd(struct lpfc_vport *vport,
+ 		/* Word 11 */
+ 		bf_set(wqe_cmd_type, &wqe->generic.wqe_com, NVME_READ_CMD);
+ 
+-		/* Word 16 */
+-		wqe->words[16] = LPFC_NVME_EMBED_CMD;
+-
+ 		phba->fc4NvmeControlRequests++;
  	}
- 
--	len  = lpfc_new_nvme_buf(vport, phba->sli4_hba.nvme_xri_max);
--	vport->phba->total_nvme_bufs += len;
- 	return ret;
- }
- 
+ 	/*
 -- 
 2.5.0
