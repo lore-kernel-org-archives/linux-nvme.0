@@ -1,74 +1,115 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Sat,  4 Mar 2017 09:30:39 -0800
-Subject: [PATCH 19/20] lpfc: code cleanups in NVME initiator discovery
+Date: Sat,  4 Mar 2017 09:30:38 -0800
+Subject: [PATCH 18/20] lpfc: code cleanups in NVME initiator base
 In-Reply-To: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
 References: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
-Message-ID: <1488648640-5170-20-git-send-email-jsmart2021@gmail.com>
+Message-ID: <1488648640-5170-19-git-send-email-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
 This patch addresses the smatch issues identified by Dan Carpenter
-in http://www.spinics.net/lists/linux-scsi/msg105665.html
+in http://www.spinics.net/lists/linux-scsi/msg105663.html
 
 The issues are:
 
-drivers/scsi/lpfc/lpfc_ct.c:943 lpfc_cmpl_ct_cmd_gft_id()
-error: we previously assumed 'ndlp' could be null (see line 928)
+drivers/scsi/lpfc/lpfc_hbadisc.c:316 lpfc_dev_loss_tmo_handler()
+warn: we tested 'vport->load_flag & 2' before and it was 'false'
 
-Action: moved under if check
+Action: removed item from test
 
-drivers/scsi/lpfc/lpfc_nvmet.c:1694 lpfc_nvmet_unsol_issue_abort()
-error: we previously assumed 'ndlp' could be null (see line 1690)
+drivers/scsi/lpfc/lpfc_hbadisc.c:701 lpfc_work_done()
+warn: test_bit() takes a bit number
 
-Action: conditionalized arg in printf stmt
+Action: changed definition so bit number
 
-drivers/scsi/lpfc/lpfc_nvmet.c:1792 lpfc_nvmet_sol_fcp_issue_abort()
-error: we previously assumed 'ndlp' could be null (see line 1788)
+drivers/scsi/lpfc/lpfc_hbadisc.c:2206 lpfc_mbx_cmpl_fcf_scan_read_fcf_rec()
+error: uninitialized symbol 'vlan_id'.
+drivers/scsi/lpfc/lpfc_hbadisc.c:2582 lpfc_mbx_cmpl_fcf_rr_read_fcf_rec()
+error: uninitialized symbol 'vlan_id'.
+drivers/scsi/lpfc/lpfc_hbadisc.c:2683 lpfc_mbx_cmpl_read_fcf_rec() error:
+uninitialized symbol 'vlan_id'.
 
-Action: conditionalized arg in printf stmt
+Action: initilized value
+
+drivers/scsi/lpfc/lpfc_hbadisc.c:4025 lpfc_register_remote_port()
+error: we previously assumed 'rdata' could be null (see line 4023)
+
+Action: refactored check block
+
+drivers/scsi/lpfc/lpfc_hbadisc.c:4613 lpfc_sli4_dequeue_nport_iocbs()
+error: double unlock 'irq:'
+
+Action: removed inner irq reference
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_ct.c    | 2 +-
- drivers/scsi/lpfc/lpfc_nvmet.c | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/scsi/lpfc/lpfc.h         |  2 +-
+ drivers/scsi/lpfc/lpfc_hbadisc.c | 17 +++++++++--------
+ 2 files changed, 10 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_ct.c b/drivers/scsi/lpfc/lpfc_ct.c
-index c22bb3f..d3e9af9 100644
---- a/drivers/scsi/lpfc/lpfc_ct.c
-+++ b/drivers/scsi/lpfc/lpfc_ct.c
-@@ -939,8 +939,8 @@ lpfc_cmpl_ct_cmd_gft_id(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
- 					 "FC4 x%08x, Data: x%08x x%08x\n",
- 					 ndlp, did, ndlp->nlp_fc4_type,
- 					 FC_TYPE_FCP, FC_TYPE_NVME);
-+			ndlp->nlp_prev_state = NLP_STE_REG_LOGIN_ISSUE;
- 		}
--		ndlp->nlp_prev_state = NLP_STE_REG_LOGIN_ISSUE;
- 		lpfc_nlp_set_state(vport, ndlp, NLP_STE_PRLI_ISSUE);
- 		lpfc_issue_els_prli(vport, ndlp, 0);
- 	} else
-diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
-index a69ca6e..b7739a5 100644
---- a/drivers/scsi/lpfc/lpfc_nvmet.c
-+++ b/drivers/scsi/lpfc/lpfc_nvmet.c
-@@ -1720,7 +1720,7 @@ lpfc_nvmet_unsol_issue_abort(struct lpfc_hba *phba,
- 		atomic_inc(&tgtp->xmt_abort_rsp_error);
- 		lpfc_printf_log(phba, KERN_WARNING, LOG_NVME_ABTS,
- 				"6134 Drop ABTS - wrong NDLP state x%x.\n",
--				ndlp->nlp_state);
-+				(ndlp) ? ndlp->nlp_state : NLP_STE_MAX_STATE);
+diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
+index 763f32d..257bbdd 100644
+--- a/drivers/scsi/lpfc/lpfc.h
++++ b/drivers/scsi/lpfc/lpfc.h
+@@ -105,7 +105,7 @@ struct lpfc_sli2_slim;
+ #define LPFC_MSIX_VECTORS	2
  
- 		/* No failure to an ABTS request. */
- 		return 0;
-@@ -1818,7 +1818,7 @@ lpfc_nvmet_sol_fcp_issue_abort(struct lpfc_hba *phba,
- 		atomic_inc(&tgtp->xmt_abort_rsp_error);
- 		lpfc_printf_log(phba, KERN_WARNING, LOG_NVME_ABTS,
- 				"6160 Drop ABTS - wrong NDLP state x%x.\n",
--				ndlp->nlp_state);
-+				(ndlp) ? ndlp->nlp_state : NLP_STE_MAX_STATE);
+ /* lpfc wait event data ready flag */
+-#define LPFC_DATA_READY		(1<<0)
++#define LPFC_DATA_READY		0	/* bit 0 */
  
- 		/* No failure to an ABTS request. */
- 		return 0;
+ /* queue dump line buffer size */
+ #define LPFC_LBUF_SZ		128
+diff --git a/drivers/scsi/lpfc/lpfc_hbadisc.c b/drivers/scsi/lpfc/lpfc_hbadisc.c
+index b940092..b0c4060 100644
+--- a/drivers/scsi/lpfc/lpfc_hbadisc.c
++++ b/drivers/scsi/lpfc/lpfc_hbadisc.c
+@@ -313,8 +313,7 @@ lpfc_dev_loss_tmo_handler(struct lpfc_nodelist *ndlp)
+ 				 ndlp->nlp_state, ndlp->nlp_rpi);
+ 	}
+ 
+-	if (!(vport->load_flag & FC_UNLOADING) &&
+-	    !(ndlp->nlp_flag & NLP_DELAY_TMO) &&
++	if (!(ndlp->nlp_flag & NLP_DELAY_TMO) &&
+ 	    !(ndlp->nlp_flag & NLP_NPR_2B_DISC) &&
+ 	    (ndlp->nlp_state != NLP_STE_UNMAPPED_NODE) &&
+ 	    (ndlp->nlp_state != NLP_STE_REG_LOGIN_ISSUE) &&
+@@ -2175,7 +2174,7 @@ lpfc_mbx_cmpl_fcf_scan_read_fcf_rec(struct lpfc_hba *phba, LPFC_MBOXQ_t *mboxq)
+ 	uint32_t boot_flag, addr_mode;
+ 	uint16_t fcf_index, next_fcf_index;
+ 	struct lpfc_fcf_rec *fcf_rec = NULL;
+-	uint16_t vlan_id;
++	uint16_t vlan_id = LPFC_FCOE_NULL_VID;
+ 	bool select_new_fcf;
+ 	int rc;
+ 
+@@ -4022,9 +4021,11 @@ lpfc_register_remote_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
+ 		rdata = rport->dd_data;
+ 		/* break the link before dropping the ref */
+ 		ndlp->rport = NULL;
+-		if (rdata && rdata->pnode == ndlp)
+-			lpfc_nlp_put(ndlp);
+-		rdata->pnode = NULL;
++		if (rdata) {
++			if (rdata->pnode == ndlp)
++				lpfc_nlp_put(ndlp);
++			rdata->pnode = NULL;
++		}
+ 		/* drop reference for earlier registeration */
+ 		put_device(&rport->dev);
+ 	}
+@@ -4608,9 +4609,9 @@ lpfc_sli4_dequeue_nport_iocbs(struct lpfc_hba *phba,
+ 		pring = qp->pring;
+ 		if (!pring)
+ 			continue;
+-		spin_lock_irq(&pring->ring_lock);
++		spin_lock(&pring->ring_lock);
+ 		__lpfc_dequeue_nport_iocbs(phba, ndlp, pring, dequeue_list);
+-		spin_unlock_irq(&pring->ring_lock);
++		spin_unlock(&pring->ring_lock);
+ 	}
+ 	spin_unlock_irq(&phba->hbalock);
+ }
 -- 
 2.5.0
