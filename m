@@ -1,32 +1,74 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Sat,  4 Mar 2017 09:30:40 -0800
-Subject: [PATCH 20/20] lpfc: revise version number to 11.2.0.10
+Date: Sat,  4 Mar 2017 09:30:39 -0800
+Subject: [PATCH 19/20] lpfc: code cleanups in NVME initiator discovery
 In-Reply-To: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
 References: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
-Message-ID: <1488648640-5170-21-git-send-email-jsmart2021@gmail.com>
+Message-ID: <1488648640-5170-20-git-send-email-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-Revise lpfc version number to 11.2.0.10
+This patch addresses the smatch issues identified by Dan Carpenter
+in http://www.spinics.net/lists/linux-scsi/msg105665.html
+
+The issues are:
+
+drivers/scsi/lpfc/lpfc_ct.c:943 lpfc_cmpl_ct_cmd_gft_id()
+error: we previously assumed 'ndlp' could be null (see line 928)
+
+Action: moved under if check
+
+drivers/scsi/lpfc/lpfc_nvmet.c:1694 lpfc_nvmet_unsol_issue_abort()
+error: we previously assumed 'ndlp' could be null (see line 1690)
+
+Action: conditionalized arg in printf stmt
+
+drivers/scsi/lpfc/lpfc_nvmet.c:1792 lpfc_nvmet_sol_fcp_issue_abort()
+error: we previously assumed 'ndlp' could be null (see line 1788)
+
+Action: conditionalized arg in printf stmt
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_version.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/scsi/lpfc/lpfc_ct.c    | 2 +-
+ drivers/scsi/lpfc/lpfc_nvmet.c | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_version.h b/drivers/scsi/lpfc/lpfc_version.h
-index 86c6c9b..d4e95e2 100644
---- a/drivers/scsi/lpfc/lpfc_version.h
-+++ b/drivers/scsi/lpfc/lpfc_version.h
-@@ -20,7 +20,7 @@
-  * included with this package.                                     *
-  *******************************************************************/
+diff --git a/drivers/scsi/lpfc/lpfc_ct.c b/drivers/scsi/lpfc/lpfc_ct.c
+index c22bb3f..d3e9af9 100644
+--- a/drivers/scsi/lpfc/lpfc_ct.c
++++ b/drivers/scsi/lpfc/lpfc_ct.c
+@@ -939,8 +939,8 @@ lpfc_cmpl_ct_cmd_gft_id(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+ 					 "FC4 x%08x, Data: x%08x x%08x\n",
+ 					 ndlp, did, ndlp->nlp_fc4_type,
+ 					 FC_TYPE_FCP, FC_TYPE_NVME);
++			ndlp->nlp_prev_state = NLP_STE_REG_LOGIN_ISSUE;
+ 		}
+-		ndlp->nlp_prev_state = NLP_STE_REG_LOGIN_ISSUE;
+ 		lpfc_nlp_set_state(vport, ndlp, NLP_STE_PRLI_ISSUE);
+ 		lpfc_issue_els_prli(vport, ndlp, 0);
+ 	} else
+diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
+index a69ca6e..b7739a5 100644
+--- a/drivers/scsi/lpfc/lpfc_nvmet.c
++++ b/drivers/scsi/lpfc/lpfc_nvmet.c
+@@ -1720,7 +1720,7 @@ lpfc_nvmet_unsol_issue_abort(struct lpfc_hba *phba,
+ 		atomic_inc(&tgtp->xmt_abort_rsp_error);
+ 		lpfc_printf_log(phba, KERN_WARNING, LOG_NVME_ABTS,
+ 				"6134 Drop ABTS - wrong NDLP state x%x.\n",
+-				ndlp->nlp_state);
++				(ndlp) ? ndlp->nlp_state : NLP_STE_MAX_STATE);
  
--#define LPFC_DRIVER_VERSION "11.2.0.7"
-+#define LPFC_DRIVER_VERSION "11.2.0.10"
- #define LPFC_DRIVER_NAME		"lpfc"
+ 		/* No failure to an ABTS request. */
+ 		return 0;
+@@ -1818,7 +1818,7 @@ lpfc_nvmet_sol_fcp_issue_abort(struct lpfc_hba *phba,
+ 		atomic_inc(&tgtp->xmt_abort_rsp_error);
+ 		lpfc_printf_log(phba, KERN_WARNING, LOG_NVME_ABTS,
+ 				"6160 Drop ABTS - wrong NDLP state x%x.\n",
+-				ndlp->nlp_state);
++				(ndlp) ? ndlp->nlp_state : NLP_STE_MAX_STATE);
  
- /* Used for SLI 2/3 */
+ 		/* No failure to an ABTS request. */
+ 		return 0;
 -- 
 2.5.0
