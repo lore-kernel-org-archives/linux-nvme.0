@@ -1,64 +1,44 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Fri, 03 Mar 2017 17:33:23 -0800
-Subject: [nvmet/nvmetcli]- bug/break in setting a host on NVMe Target?
-Message-ID: <1488591203.4759.20.camel@linux.intel.com>
+From: mauricfo@linux.vnet.ibm.com (Mauricio Faria de Oliveira)
+Date: Fri, 3 Mar 2017 22:43:16 -0300
+Subject: [PATCH v3 01/16] lpfc: Correct WQ creation for pagesize
+In-Reply-To: <58a0d919.08BhoypOnvRSLIqV%jsmart2021@gmail.com>
+References: <58a0d919.08BhoypOnvRSLIqV%jsmart2021@gmail.com>
+Message-ID: <6a197069-2f10-6df1-4cf1-1a62808c8903@linux.vnet.ibm.com>
 
-Christoph,
+Hi Martin and James,
 
-I think something might have broke being able to use nvmetcli to set up a host
-nqn name interactively?
+On 02/12/2017 07:52 PM, James Smart wrote:
+> Correct WQ creation for pagesize
 
-Just following a simple example with mainline 4.10 kernel (tag - v4.10):
+Reviewed-by: Mauricio Faria de Oliveira <mauricfo at linux.vnet.ibm.com>
 
-[stg at localhost nvmetcli]$ sudo ./nvmetcli?
-/> cd /hosts
-/hosts> create hostnqn
-'module' object has no attribute 'Host'
-/hosts>?
 
-but if I hand-write the equivalent JSON file and load the target with that
-there seems to be no issue:
+Please flag this patch for stable.
 
-[stg at localhost nvmetcli]$ sudo cat test.json?
-{
-? "hosts": [
-? {
-	"nqn": "hostnqn"
-? }
-? ],?
-? "ports": [],?
-? "subsystems": [
-????{
-????}
-? ]
-}
+This patch resolves a serious problem on IBM Power systems at least.
 
-[stg at localhost nvmetcli]$ sudo ./nvmetcli restore test.json?
-[stg at localhost nvmetcli]$ sudo ./nvmetcli?
-/hosts> ls
-o- hosts .................................................................
-[...]
-? o- hostnqn .............................................................
-[...]
-/hosts>?
+An (apparently constant) series of invalid iotags cause a series of
+SCSI command aborts that escalates into host reset, which fails too, 
+bringing the adapter offline.
 
-Setting up a subsystem interactively is no issue:
-[stg at localhost nvmetcli]$ sudo ./nvmetcli clear
-[stg at localhost nvmetcli]$ sudo ./nvmetcli
-/hosts> ls
-o- hosts .................................................................
-[...]
-/hosts> cd ../subsystems?
-/subsystems> create testnqn
-/subsystems> ls
-o- subsystems ............................................................
-[...]
-? o- testnqn .............................................................
-[...]
-????o- allowed_hosts .....................................................
-[...]
-????o- namespaces ........................................................
-[...]
-/subsystems>?
+And it takes forever to boot, as udev waits on the initial SCSI I/O.
 
-I haven't figured what is causing the problem yet.
+Thank you.
+
+
+[   17.044690] lpfc 0000:01:00.1: 1:0372 iotag x0 is out off range: max 
+iotag (x840)
+...
+[  723.680700] lpfc 0000:01:00.1: 1:(0):0714 SCSI layer issued Bus Reset 
+Data: x2003
+[  723.680873] lpfc 0000:01:00.1: 1:(0):3172 SCSI layer issued Host 
+Reset Data:
+[  724.052506] lpfc 0000:01:00.1: 1:0383 Error -5 during scsi sgl post 
+operation
+[  724.052701] lpfc 0000:01:00.1: 1:(0):3323 Failed host reset, bring it 
+offline
+
+
+-- 
+Mauricio Faria de Oliveira
+IBM Linux Technology Center
