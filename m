@@ -1,168 +1,149 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Sun, 5 Mar 2017 10:12:06 +0200
-Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
- during stress test on reset_controller
-In-Reply-To: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
-References: <1908657724.31179983.1488539944957.JavaMail.zimbra@redhat.com>
- <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
-Message-ID: <20170305081206.GI14379@mtr-leonro.local>
+From: yizhan@redhat.com (Yi Zhang)
+Date: Sun, 5 Mar 2017 08:39:44 -0500 (EST)
+Subject: kernull NULL pointer observed on initiator side after 'nvmetcli
+ clear' on target side
+In-Reply-To: <1832491330.31443919.1488709276951.JavaMail.zimbra@redhat.com>
+Message-ID: <1053522223.31446389.1488721184925.JavaMail.zimbra@redhat.com>
 
-On Fri, Mar 03, 2017@06:55:11AM -0500, Yi Zhang wrote:
-> Hi experts
->
-> I reproduced this issue during stress test on reset_controller, could you help check it, thanks.
->
-> Reproduce steps on initiator side:
-> num=0
-> while [ 1 ]
-> do
-> 	echo "-------------------------------$num"
-> 	echo 1 >/sys/block/nvme0n1/device/reset_controller || exit 1
-> 	((num++))
-> done
->
-> Here is the full log:
-> http://pastebin.com/mek9fb0b
->
-> Target side log:
-> [  326.411481] nvmet: creating controller 1061 for NQN nqn.2014-08.org.nvmexpress:NVMf:uuid:32413b2b-89cc-4939-b816-399ff293800d.
-> [  326.516226] nvmet: adding queue 1 to ctrl 1061.
-> [  326.516428] nvmet: adding queue 2 to ctrl 1061.
-> [  326.516616] nvmet: adding queue 3 to ctrl 1061.
-> [  326.5361ing queue 4 to ctrl 1061.
-> [  326.556148] nvmet: adding queue 5 to ctrl 1061.
-> [  326.556499] nvmet: adding queue 6 to ctrl 1061.
-> [  326.556779] nvmet: adding queue 7 to ctrl 1061.
-> [  326.557093] nvmet: adding queue 8 to ctrl 1061.
-> [  326.576166] nvmet: adding queue 9 to ctrl 1061.
-> [  326.576420] nvmet: adding queue 10 to ctrl 1061.
-> [  326.576674] nvmet: adding queue 11 to ctrl 1061.
-> [  326.576922] nvmet: adding queue 12 to ctrl 1061.
-> [  326.577274] nvmet: adding queue 13 to ctrl 1061.
-> [  326.577595] nvmet: adding queue 14 to ctrl 1061.
-> [  326.596656] nvmet: adding queue 15 to ctrl 1061.
-> [  326.596936] nvmet: adding queue 16 to ctrl 1061.
-> [  326.662587] nvmet: creating controller 1062 for NQN nqn.2014-08.org.nvmexpress:NVMf:uuid:32413b2b-89cc-4939-b816-399ff293800d.
-> [  326.686765] mlx4_core 0000:07:00.0: swiotlb buffer is full (sz: 532480 bytes)
-> [  326.686766] swiotlb: coherent allocation failed for device 0000:07:00.0 size=532480
-> [  326.686768] CPU: 6 PID: 3931 Comm: kworker/6:256 Not tainted 4.10.0 #2
-> [  326.686768] Hardware name: HP ProLiant DL388p Gen8, BIOS P70 12/20/2013
-> [  326.686775] Workqueue: ib_cm cm_work_handler [ib_cm]
-> [  326.686776] Call Trace:
-> [  326.686781]  dump_stack+0x63/0x87
-> [  326.686783]herent+0x14a/0x160
-> [  326.686786]  x86_swiotlb_alloc_coherent+0x43/0x50
-> [  326.686795]  mlx4_buf_direct_alloc.isra.4+0xb1/0x150 [mlx4_core]
-> [  326.686798]  mlx4_buf_alloc+0x172/0x1c0 [mlx4_core]
-> [  326.686802]  create_qp_common.isra.33+0x633/0x1010 [mlx4_ib]
-> [  326.686805]  ? mlx4_ib_create_qp+0xf7/0x450 [mlx4_ib]
-> [  326.686807]  mlx4_ib_create_qp+0x149/0x450 [mlx4_ib]
-> [  326.686816]  ib_create_qp+0x70/0x2b0 [ib_core]
-> [  326.686819]  rdma_create_qp+0x34/0xa0 [rdma_cm]
-> [  326.686823]  nvmet_rdma_alloc_queue+0x692/0x900 [nvmet_rdma]
-> [  326.686824]  ? nvmet_rdma_execute_command+0x100/0x100 [nvmet_rdma]
-> [  326.686826]  nvmet_rdma_cm_handler+0x1e6/0x708 [nvmet_rdma]
-> [  326.686827]  ? cma_acquire_dev+0x1e7/0x4b0 [rdma_cm]
-> [  326.686829]  ? cma_new_conn_id+0xb2/0x4b0 [rdma_cm]
-> [  326.686830]  ? cma_new_conn_id+0x153/0x4b0 [rdma_cm]
-> [  326.686832]  cma_req_handler+0x1f5/0x4c0 [rdma_cm]
-> [  326.686834]  cm_process_work+0x25/0x120 [ib_cm]
-> [  326.686835]  cm_req_handler+0x994/0xcd0 [ib_cm]
-> [  326.686837]  cm_work_handler+0x1ce/0x1753 [ib_cm]
-> [  326.686839]  process_one_work+0x165/0x410
-> [  326.686840]  worker_thread+0x137/0x4c0
-> [  326.686841]  kthread+0x101/0x140
-> [  326.686842]  ? rescuer_thread+0x3b0/0x3b0
-> [  326.686843]  ? kthread_park+0x90/0x90
-> [  326.686845]  ret_from_fork+0x2c/0x40
-> [  326.691158] mlx4_core 0000:07:00.0: swiotlb buffer is full (sz: 532480 bytes)
-> [  326.691158] swiotlb: coherent allocevice 0000:07:00.0 size=532480
-> [  326.691160] CPU: 6 PID: 3931 Comm: kworker/6:256 Not tainted 4.10.0 #2
-> [  326.691160] Hardware name: HP ProLiant DL388p Gen8, BIOS P70 12/20/2013
-> [  326.691163] Workqueue: ib_cm cm_work_handler [ib_cm]
-> [  326.691163] Call Trace:
-> [  326.691165]  dump_stack+0x63/0x87
-> [  326.691167]  swiotlb_alloc_coherent+0x14a/0x160
-> [  326.691168]  x86_swiotlb_alloc_coherent+0x43/0x50
-> [  326.691173]  mlx4_buf_direct_alloc.isra.4+0xb1/0x150 [mlx4_core]
-> [  326.691176]  mlx4_buf_alloc+0x172/0x1c0 [mlx4_core]
-> [  326.691179]  create_qp_common.isra.33+0x633/0x1010 [mlx4_ib]
-> [  326.691181]  mlx4_ib_create_qp+0x149/0x450 [mlx4_ib]
-> [  326.691186]  ib_create_qp+0x70/0x2b0 [ib_core]
-> [  326.691188]  rdma_create_qp+0x34/0xa0 [rdma_cm]
-> [  326.691190]  nvmet_rdma_alloc_queue+0x692/0x900 [nvmet_rdma]
-> [  326.691191]  ? nvmet_rdma_execute_command+0x100/0x100 [nvmet_rdma]
-> [  326.691193]  nvmet_rdma_cm_handler+0x1e6/0x708 [nvmet_rdma]
-> [  326.691194]  ? cma_acquire_dev+0x1e7/0x4b0 [rdma_cm]
-> [  326.691196]  ? cma_new_conn_id+0xb2/0x4b0 [rdma_cm]
-> [  326.691197]  ? cma_new_conn_id+0x153/0x4b0 [rdma_cm]
-> [  326.691199]  cma_req_handler+0x1f5/0x4c0 [rdma_cm]
-> [  326.691201]  cm_process_work+0x25/0x120 [ib_cm]
-> [  326.691202]  cm_req_handler+0x994/0xcd0 [ib_cm]
-> [  326.691204]  cm_work_handler+0x1ce/0x1753 [ib_cm]
-> [  326.691205]  process_one_work+0x165/0x410
-> [  326.691206]  worker_thread+0x137/0x4c0
-> [  326.691207]  kthread+0x101/0x140
-> [  326.691209]  ? rescuer_thread+0x3b0/0x3b0
-> [  326.691209]  ? kthread_park+0x90/0x90
-> [  326.691211]  ret_from_fork+0x2c/0x40
-> [  326.695215] mlx4_core 0000:07:00.0: swiotlb buffer is full (sz: 532480 bytes)
-> [  326.695216] swiotlb: coherent allocation failed for device 0000:07:00.0 size=532480
-> [  326.695217] CPU: 6 PID: 3931 Comm: kworker/6:256 Not tainted 4.10.0 #2
-> [  326.695217] Hardware name: HP ProLiant DL388p Gen8, BIOS P70 12/20/2013
-> [  326.695219] Workqueue: ib_cm cm_work_handler [ib_cm]
-> [  326.695220] Call Trace:
-> [  326.695222]  dump_stack+0x63/0x87
-> [  .695223]  swiotlb_alloc_coherent+0x14a/0x160
-> [  326.695224]  x86_swiotlb_alloc_coherent+0x43/0x50
-> [  326.695228]  mlx4_buf_direct_alloc.isra.4+0xb1/0x150 [mlx4_core]
-> [  326.695232]  mlx4_buf_alloc+0x172/0x1c0 [mlx4_core]
-> [  326.695234]  create_qp_common.isra.33+0x633/0x1010 [mlx4_ib]
-> [  326.695237]  mlx4_ib_create_qp+0x149/0x450 [mlx4_ib]
-> [  326.695241]  ib_create_qp+0x70/0x2b0 [ib_core]
-> [  326.695243]  rdma_create_qp+0x34/0xa0 [rdma_cm]
-> [  326.695245]  nvmet_rdma_alloc_queue+0x692/0x900 [nvmet_rdma]
-> [  326.695246]  ? nvmet_rdma_execute_command+0x100/0x100 [nvmet_rdma]
-> [  326.695247]  nvmet_rdma_cm_handler+0x1e6/0x708 [nvmet_rdma]
-> [  326.695249]  ? cma_acquire_dev+0x1e7/0x4b0 [rdma_cm]
-> [  326.695251]  ? cma_new_conn_id+0xb2/0x4b0 [rdma_cm]
-> [  326.695252]  ? cma_new_conn_id+0x153/0x4b0 [rdma_cm]
-> [  326.695254]  cma_req_handler+0x1f5/0x4c0 [rdma_cm]
-> [  326.695256]  cm_process_work+0x25/0x120 [ib_cm]
-> [  326.695257]  cm_req_handler+0x994/0xcd0 [ib_cm]
-> [  326.695259]  cm_work_handler+0x1ce/0x1753 [ib_cm]
-> [  326.695260]  process_one_work+0x165/0x410
-> [  326.695261]  worker_thread+0x137/0x4c0
-> [  326.695262]  kthread+0x101/0x140
-> [  326.695263]  ? rescuer_thread+0x3b0/0x3b0
-> [  326.695264]  ? kthread_park+0x90/0x90
-> [  3t_from_fork+0x2c/0x40
->
-> Initiator side log:
-> [  532.880043] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 172.31.2.3:1023
-> [  533.002002] nvme nvme0: creating 16 I/O queues.
-> [  533.446540] nvme nvme0: new ctrl: NQN "nvme-subsystem-name", addr 172.31.2.3:1023
-> [  691.641201] nvme nvme0: rdma_resolve_addr wait failed (-110).
-> [  691.672089] nvme nvme0: failed to initialize i/o queue: -110
-> [  691.721031] nvme nvme0: Removing after reset failure
+Hi experts
 
-+ Christoph and Sagi.
+If I offline one CPU on initiator side and nvmetcli clear on target side, it will cause kernel NULL pointer on initiator side, could you help check it, thanks
 
->
->
-> Best Regards,
->   Yi Zhang
->
->
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170305/9c64980d/attachment-0001.sig>
+Steps to reproduce:
+1. setup nvmet target with null-blk device:
+#modprobe nvmet
+#modprobe nvmet-rdma
+#modprobe null_blk nr_devices=1
+#nvmetcli restore rdma.json
+
+2. connect the target on initiator side and offline one cpu:
+#modprobe nvme-rdma
+#nvme connect-all -t rdma -a 172.31.2.3 -s 1023
+#echo 0 > /sys/devices/system/cpu/cpu1/online
+
+3. nvmetcli clear on target side
+#nvmetcli clear
+
+Kernel log:
+
+[  125.039340] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 172.31.2.3:1023
+[  125.160587] nvme nvme0: creating 16 I/O queues.
+[  125.602244] nvme nvme0: new ctrl: NQN "testnqn", addr 172.31.2.3:1023
+[  140.930343] Broke affinity for irq 16
+[  140.950295] Broke affinity for irq 28
+[  140.969957] Broke affinity for irq 70
+[  140.986584] Broke affinity for irq 90
+[  141.003160] Broke affinity for irq 93
+[  141.019779] Broke affinity for irq 97
+[  141.036341] Broke affinity for irq 100
+[  141.053782] Broke affinity for irq 104
+[  141.072860] smpboot: CPU 1 is now offline
+[  154.768104] nvme nvme0: reconnecting in 10 seconds
+[  165.349689] BUG: unable to handle kernel NULL pointer dereference at           (null)
+[  165.387783] IP: blk_mq_reinit_tagset+0x35/0x80
+[  165.409550] PGD 0 
+[  165.409550] 
+[  165.427269] Oops: 0000 [#1] SMP
+[  165.442876] Modules linked in: nvme_rdma nvme_fabrics nvme_core xt_CHECKSUM iptable_mangle ipt_MASQUERADE nf_nat_masquerade_ipv4 iptable_nat nf_nat_ipv4 nf_nat nf_conntrack_ipv4 nf_defrag_ipv4 xt_conntrack nf_conntrack ipt_REJECT nf_reject_ipv4 tun ebtable_filter ebtables ip6table_filter ip6_tables iptable_filter bridge stp llc rpcrdma ib_isert iscsi_target_mod ib_iser libiscsi scsi_transport_iscsi ib_srpt target_core_mod ib_srp scsi_transport_srp ib_ipoib rdma_ucm ib_ucm ib_uverbs ib_umad rdma_cm ib_cm iw_cm mlx4_ib ib_core intel_rapl ipmi_ssif sb_edac edac_core x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel kvm irqbypass crct10dif_pclmul crc32_pclmul ghash_clmulni_intel intel_cstate intel_uncore intel_rapl_perf iTCO_wdt ipmi_si iTCO_vendor_support wmi hpwdt pcspkr sg ipmi_devintf hpilo
+[  165.769732]  acpi_power_meter ipmi_msghandler ioatdma shpchp acpi_cpufreq lpc_ich dca nfsd auth_rpcgss nfs_acl lockd grace sunrpc ip_tables xfs mlx4_en sr_mod sd_mod cdrom mgag200 i2c_algo_bit drm_kms_helper syscopyarea sysfillrect sysimgblt ata_generic fb_sys_fops pata_acpi ttm bnx2x drm e1000e ata_piix mdio ptp mlx4_core i2c_core serio_raw libata pps_core hpsa libcrc32c devlink fjes scsi_transport_sas crc32c_intel dm_mirror dm_region_hash dm_log dm_mod
+[  165.957288] CPU: 6 PID: 424 Comm: kworker/6:2 Not tainted 4.10.0+ #3
+[  165.985856] Hardware name: HP ProLiant DL388p Gen8, BIOS P70 12/20/2013
+[  166.015576] Workqueue: nvme_rdma_wq nvme_rdma_reconnect_ctrl_work [nvme_rdma]
+[  166.047813] task: ffff8804291f9680 task.stack: ffffc90004fa4000
+[  166.074543] RIP: 0010:blk_mq_reinit_tagset+0x35/0x80
+[  166.096784] RSP: 0018:ffffc90004fa7e00 EFLAGS: 00010246
+[  166.120205] RAX: ffff88082a97f600 RBX: 0000000000000000 RCX: 000000018020001a
+[  166.152099] RDX: 0000000000000001 RSI: ffff88042c1b5240 RDI: ffff88042c163680
+[  166.183997] RBP: ffffc90004fa7e20 R08: ffff88042c388400 R09: 000000018020001a
+[  166.216018] R10: 000000002c388801 R11: ffff88042c388400 R12: 0000000000000000
+[  166.248248] R13: 0000000000000001 R14: ffff8804be65d018 R15: 0000000000000180
+[  166.280594] FS:  0000000000000000(0000) GS:ffff88042f780000(0000) knlGS:0000000000000000
+[  166.317022] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[  166.342821] CR2: 0000000000000000 CR3: 0000000001c09000 CR4: 00000000000406e0
+[  166.374899] Call Trace:
+[  166.385854]  nvme_rdma_reconnect_ctrl_work+0x60/0x1f0 [nvme_rdma]
+[  166.414954]  process_one_work+0x165/0x410
+[  166.434888]  worker_thread+0x137/0x4c0
+[  166.453275]  kthread+0x101/0x140
+[  166.469530]  ? rescuer_thread+0x3b0/0x3b0
+[  166.487549]  ? kthread_park+0x90/0x90
+[  166.503966]  ret_from_fork+0x2c/0x40
+[  166.520071] Code: 56 49 89 fe 41 55 41 54 53 48 8b 47 08 48 83 78 40 00 74 55 8b 57 10 85 d2 74 4e 45 31 ed 49 8b 46 38 49 63 d5 31 db 4c 8b 24 d0 <41> 8b 04 24 85 c0 74 2c 49 8b 84 24 80 00 00 00 48 63 d3 48 8b 
+[  166.605127] RIP: blk_mq_reinit_tagset+0x35/0x80 RSP: ffffc90004fa7e00
+[  166.634093] CR2: 0000000000000000
+[  166.648963] ---[ end trace cabb6f7f7f9f7187 ]---
+[  166.674180] Kernel panic - not syncing: Fatal exception
+[  166.697717] Kernel Offset: disabled
+[  166.717719] ---[ end Kernel panic - not syncing: Fatal exception
+[  166.746440] ------------[ cut here ]------------
+[  166.767150] WARNING: CPU: 6 PID: 424 at arch/x86/kernel/smp.c:127 native_smp_send_reschedule+0x3f/0x50
+[  166.808742] Modules linked in: nvme_rdma nvme_fabrics nvme_core xt_CHECKSUM iptable_mangle ipt_MASQUERADE nf_nat_masquerade_ipv4 iptable_nat nf_nat_ipv4 nf_nat nf_conntrack_ipv4 nf_defrag_ipv4 xt_conntrack nf_conntrack ipt_REJECT nf_reject_ipv4 tun ebtable_filter ebtables ip6table_filter ip6_tables iptable_filter bridge stp llc rpcrdma ib_isert iscsi_target_mod ib_iser libiscsi scsi_transport_iscsi ib_srpt target_core_mod ib_srp scsi_transport_srp ib_ipoib rdma_ucm ib_ucm ib_uverbs ib_umad rdma_cm ib_cm iw_cm mlx4_ib ib_core intel_rapl ipmi_ssif sb_edac edac_core x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel kvm irqbypass crct10dif_pclmul crc32_pclmul ghash_clmulni_intel intel_cstate intel_uncore intel_rapl_perf iTCO_wdt ipmi_si iTCO_vendor_support wmi hpwdt pcspkr sg ipmi_devintf hpilo
+[  167.131981]  acpi_power_meter ipmi_msghandler ioatdma shpchp acpi_cpufreq lpc_ich dca nfsd auth_rpcgss nfs_acl lockd grace sunrpc ip_tables xfs mlx4_en sr_mod sd_mod cdrom mgag200 i2c_algo_bit drm_kms_helper syscopyarea sysfillrect sysimgblt ata_generic fb_sys_fops pata_acpi ttm bnx2x drm e1000e ata_piix mdio ptp mlx4_core i2c_core serio_raw libata pps_core hpsa libcrc32c devlink fjes scsi_transport_sas crc32c_intel dm_mirror dm_region_hash dm_log dm_mod
+[  167.315426] CPU: 6 PID: 424 Comm: kworker/6:2 Tainted: G      D         4.10.0+ #3
+[  167.349430] Hardware name: HP ProLiant DL388p Gen8, BIOS P70 12/20/2013
+[  167.379147] Workqueue: nvme_rdma_wq nvme_rdma_reconnect_ctrl_work [nvme_rdma]
+[  167.411437] Call Trace:
+[  167.422486]  <IRQ>
+[  167.432587]  dump_stack+0x63/0x87
+[  167.449042]  __warn+0xd1/0xf0
+[  167.463891]  warn_slowpath_null+0x1d/0x20
+[  167.483697]  native_smp_send_reschedule+0x3f/0x50
+[  167.506498]  resched_curr+0xa1/0xc0
+[  167.522992]  check_preempt_curr+0x70/0x90
+[  167.541625]  ttwu_do_wakeup+0x19/0xe0
+[  167.559098]  ttwu_do_activate+0x6f/0x80
+[  167.577357]  try_to_wake_up+0x1aa/0x3b0
+[  167.594742]  ? select_idle_sibling+0x2c/0x3d0
+[  167.614498]  default_wake_function+0x12/0x20
+[  167.633655]  __wake_up_common+0x55/0x90
+[  167.650534]  __wake_up_locked+0x13/0x20
+[  167.667784]  ep_poll_callback+0xbb/0x240
+[  167.685405]  __wake_up_common+0x55/0x90
+[  167.702615]  __wake_up+0x39/0x50
+[  167.717046]  wake_up_klogd_work_func+0x40/0x60
+[  167.736993]  irq_work_run_list+0x4d/0x70
+[  167.755647]  ? tick_sched_do_timer+0x70/0x70
+[  167.776239]  irq_work_tick+0x40/0x50
+[  167.792914]  update_process_times+0x42/0x60
+[  167.812138]  tick_sched_handle.isra.18+0x25/0x60
+[  167.833794]  tick_sched_timer+0x3d/0x70
+[  167.851391]  __hrtimer_run_queues+0xf3/0x280
+[  167.871180]  hrtimer_interrupt+0xa8/0x1a0
+[  167.889854]  local_apic_timer_interrupt+0x35/0x60
+[  167.912036]  smp_apic_timer_interrupt+0x38/0x50
+[  167.933375]  apic_timer_interrupt+0x93/0xa0
+[  167.954586] RIP: 0010:panic+0x1f5/0x239
+[  167.974032] RSP: 0018:ffffc90004fa7b50 EFLAGS: 00000246 ORIG_RAX: ffffffffffffff10
+[  168.009365] RAX: 0000000000000034 RBX: 0000000000000000 RCX: 0000000000000006
+[  168.041566] RDX: 0000000000000000 RSI: 0000000000000046 RDI: ffff88042f78e000
+[  168.073801] RBP: ffffc90004fa7bc0 R08: 00000000fffffffe R09: 00000000000004d9
+[  168.105833] R10: 0000000000000005 R11: 00000000000004d8 R12: ffffffff81a0e2e1
+[  168.137892] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000046
+[  168.170234]  </IRQ>
+[  168.179603]  oops_end+0xb8/0xd0
+[  168.193685]  no_context+0x19e/0x3f0
+[  168.209369]  ? lock_timer_base+0xa0/0xa0
+[  168.227067]  __bad_area_nosemaphore+0xee/0x1d0
+[  168.246978]  bad_area_nosemaphore+0x14/0x20
+[  168.266108]  __do_page_fault+0x89/0x4a0
+[  168.283345]  ? __slab_free+0x9b/0x2c0
+[  168.299742]  do_page_fault+0x30/0x80
+[  168.315903]  page_fault+0x28/0x30
+[  168.330741] RIP: 0010:blk_mq_reinit_tagset+0x35/0x80
+[  168.353028] RSP: 0018:ffffc90004fa7e00 EFLAGS: 00010246
+[  168.376493] RAX: ffff88082a97f600 RBX: 0000000000000000 RCX: 000000018020001a
+[  168.408373] RDX: 0000000000000001 RSI: ffff88042c1b5240 RDI: ffff88042c163680
+[  168.440447] RBP: ffffc90004fa7e20 R08: ffff88042c388400 R09: 000000018020001a
+[  168.476491] R10: 000000002c388801 R11: ffff88042c388400 R12: 0000000000000000
+[  168.510913] R13: 0000000000000001 R14: ffff8804be65d018 R15: 0000000000000180
+[  168.543964]  nvme_rdma_reconnect_ctrl_work+0x60/0x1f0 [nvme_rdma]
+[  168.571458]  process_one_work+0x165/0x410
+[  168.589496]  worker_thread+0x137/0x4c0
+[  168.606267]  kthread+0x101/0x140
+[  168.620712]  ? rescuer_thread+0x3b0/0x3b0
+[  168.638747]  ? kthread_park+0x90/0x90
+[  168.655224]  ret_from_fork+0x2c/0x40
+[  168.671278] ---[ end trace cabb6f7f7f9f7188 ]---
+
+Best Regards,
+  Yi Zhang
