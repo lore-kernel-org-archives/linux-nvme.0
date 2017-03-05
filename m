@@ -1,190 +1,168 @@
-From: yizhan@redhat.com (Yi Zhang)
-Date: Sun, 5 Mar 2017 01:41:08 -0500 (EST)
-Subject: WARNING on drivers/infiniband/core/verbs.c:1975
- __ib_drain_sq+0x182/0x1c0 [ib_core]
-In-Reply-To: <530228679.31424535.1488695516036.JavaMail.zimbra@redhat.com>
-Message-ID: <1457714996.31424605.1488696068958.JavaMail.zimbra@redhat.com>
+From: leon@kernel.org (Leon Romanovsky)
+Date: Sun, 5 Mar 2017 10:12:06 +0200
+Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
+ during stress test on reset_controller
+In-Reply-To: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
+References: <1908657724.31179983.1488539944957.JavaMail.zimbra@redhat.com>
+ <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
+Message-ID: <20170305081206.GI14379@mtr-leonro.local>
 
-Hi
+On Fri, Mar 03, 2017@06:55:11AM -0500, Yi Zhang wrote:
+> Hi experts
+>
+> I reproduced this issue during stress test on reset_controller, could you help check it, thanks.
+>
+> Reproduce steps on initiator side:
+> num=0
+> while [ 1 ]
+> do
+> 	echo "-------------------------------$num"
+> 	echo 1 >/sys/block/nvme0n1/device/reset_controller || exit 1
+> 	((num++))
+> done
+>
+> Here is the full log:
+> http://pastebin.com/mek9fb0b
+>
+> Target side log:
+> [  326.411481] nvmet: creating controller 1061 for NQN nqn.2014-08.org.nvmexpress:NVMf:uuid:32413b2b-89cc-4939-b816-399ff293800d.
+> [  326.516226] nvmet: adding queue 1 to ctrl 1061.
+> [  326.516428] nvmet: adding queue 2 to ctrl 1061.
+> [  326.516616] nvmet: adding queue 3 to ctrl 1061.
+> [  326.5361ing queue 4 to ctrl 1061.
+> [  326.556148] nvmet: adding queue 5 to ctrl 1061.
+> [  326.556499] nvmet: adding queue 6 to ctrl 1061.
+> [  326.556779] nvmet: adding queue 7 to ctrl 1061.
+> [  326.557093] nvmet: adding queue 8 to ctrl 1061.
+> [  326.576166] nvmet: adding queue 9 to ctrl 1061.
+> [  326.576420] nvmet: adding queue 10 to ctrl 1061.
+> [  326.576674] nvmet: adding queue 11 to ctrl 1061.
+> [  326.576922] nvmet: adding queue 12 to ctrl 1061.
+> [  326.577274] nvmet: adding queue 13 to ctrl 1061.
+> [  326.577595] nvmet: adding queue 14 to ctrl 1061.
+> [  326.596656] nvmet: adding queue 15 to ctrl 1061.
+> [  326.596936] nvmet: adding queue 16 to ctrl 1061.
+> [  326.662587] nvmet: creating controller 1062 for NQN nqn.2014-08.org.nvmexpress:NVMf:uuid:32413b2b-89cc-4939-b816-399ff293800d.
+> [  326.686765] mlx4_core 0000:07:00.0: swiotlb buffer is full (sz: 532480 bytes)
+> [  326.686766] swiotlb: coherent allocation failed for device 0000:07:00.0 size=532480
+> [  326.686768] CPU: 6 PID: 3931 Comm: kworker/6:256 Not tainted 4.10.0 #2
+> [  326.686768] Hardware name: HP ProLiant DL388p Gen8, BIOS P70 12/20/2013
+> [  326.686775] Workqueue: ib_cm cm_work_handler [ib_cm]
+> [  326.686776] Call Trace:
+> [  326.686781]  dump_stack+0x63/0x87
+> [  326.686783]herent+0x14a/0x160
+> [  326.686786]  x86_swiotlb_alloc_coherent+0x43/0x50
+> [  326.686795]  mlx4_buf_direct_alloc.isra.4+0xb1/0x150 [mlx4_core]
+> [  326.686798]  mlx4_buf_alloc+0x172/0x1c0 [mlx4_core]
+> [  326.686802]  create_qp_common.isra.33+0x633/0x1010 [mlx4_ib]
+> [  326.686805]  ? mlx4_ib_create_qp+0xf7/0x450 [mlx4_ib]
+> [  326.686807]  mlx4_ib_create_qp+0x149/0x450 [mlx4_ib]
+> [  326.686816]  ib_create_qp+0x70/0x2b0 [ib_core]
+> [  326.686819]  rdma_create_qp+0x34/0xa0 [rdma_cm]
+> [  326.686823]  nvmet_rdma_alloc_queue+0x692/0x900 [nvmet_rdma]
+> [  326.686824]  ? nvmet_rdma_execute_command+0x100/0x100 [nvmet_rdma]
+> [  326.686826]  nvmet_rdma_cm_handler+0x1e6/0x708 [nvmet_rdma]
+> [  326.686827]  ? cma_acquire_dev+0x1e7/0x4b0 [rdma_cm]
+> [  326.686829]  ? cma_new_conn_id+0xb2/0x4b0 [rdma_cm]
+> [  326.686830]  ? cma_new_conn_id+0x153/0x4b0 [rdma_cm]
+> [  326.686832]  cma_req_handler+0x1f5/0x4c0 [rdma_cm]
+> [  326.686834]  cm_process_work+0x25/0x120 [ib_cm]
+> [  326.686835]  cm_req_handler+0x994/0xcd0 [ib_cm]
+> [  326.686837]  cm_work_handler+0x1ce/0x1753 [ib_cm]
+> [  326.686839]  process_one_work+0x165/0x410
+> [  326.686840]  worker_thread+0x137/0x4c0
+> [  326.686841]  kthread+0x101/0x140
+> [  326.686842]  ? rescuer_thread+0x3b0/0x3b0
+> [  326.686843]  ? kthread_park+0x90/0x90
+> [  326.686845]  ret_from_fork+0x2c/0x40
+> [  326.691158] mlx4_core 0000:07:00.0: swiotlb buffer is full (sz: 532480 bytes)
+> [  326.691158] swiotlb: coherent allocevice 0000:07:00.0 size=532480
+> [  326.691160] CPU: 6 PID: 3931 Comm: kworker/6:256 Not tainted 4.10.0 #2
+> [  326.691160] Hardware name: HP ProLiant DL388p Gen8, BIOS P70 12/20/2013
+> [  326.691163] Workqueue: ib_cm cm_work_handler [ib_cm]
+> [  326.691163] Call Trace:
+> [  326.691165]  dump_stack+0x63/0x87
+> [  326.691167]  swiotlb_alloc_coherent+0x14a/0x160
+> [  326.691168]  x86_swiotlb_alloc_coherent+0x43/0x50
+> [  326.691173]  mlx4_buf_direct_alloc.isra.4+0xb1/0x150 [mlx4_core]
+> [  326.691176]  mlx4_buf_alloc+0x172/0x1c0 [mlx4_core]
+> [  326.691179]  create_qp_common.isra.33+0x633/0x1010 [mlx4_ib]
+> [  326.691181]  mlx4_ib_create_qp+0x149/0x450 [mlx4_ib]
+> [  326.691186]  ib_create_qp+0x70/0x2b0 [ib_core]
+> [  326.691188]  rdma_create_qp+0x34/0xa0 [rdma_cm]
+> [  326.691190]  nvmet_rdma_alloc_queue+0x692/0x900 [nvmet_rdma]
+> [  326.691191]  ? nvmet_rdma_execute_command+0x100/0x100 [nvmet_rdma]
+> [  326.691193]  nvmet_rdma_cm_handler+0x1e6/0x708 [nvmet_rdma]
+> [  326.691194]  ? cma_acquire_dev+0x1e7/0x4b0 [rdma_cm]
+> [  326.691196]  ? cma_new_conn_id+0xb2/0x4b0 [rdma_cm]
+> [  326.691197]  ? cma_new_conn_id+0x153/0x4b0 [rdma_cm]
+> [  326.691199]  cma_req_handler+0x1f5/0x4c0 [rdma_cm]
+> [  326.691201]  cm_process_work+0x25/0x120 [ib_cm]
+> [  326.691202]  cm_req_handler+0x994/0xcd0 [ib_cm]
+> [  326.691204]  cm_work_handler+0x1ce/0x1753 [ib_cm]
+> [  326.691205]  process_one_work+0x165/0x410
+> [  326.691206]  worker_thread+0x137/0x4c0
+> [  326.691207]  kthread+0x101/0x140
+> [  326.691209]  ? rescuer_thread+0x3b0/0x3b0
+> [  326.691209]  ? kthread_park+0x90/0x90
+> [  326.691211]  ret_from_fork+0x2c/0x40
+> [  326.695215] mlx4_core 0000:07:00.0: swiotlb buffer is full (sz: 532480 bytes)
+> [  326.695216] swiotlb: coherent allocation failed for device 0000:07:00.0 size=532480
+> [  326.695217] CPU: 6 PID: 3931 Comm: kworker/6:256 Not tainted 4.10.0 #2
+> [  326.695217] Hardware name: HP ProLiant DL388p Gen8, BIOS P70 12/20/2013
+> [  326.695219] Workqueue: ib_cm cm_work_handler [ib_cm]
+> [  326.695220] Call Trace:
+> [  326.695222]  dump_stack+0x63/0x87
+> [  .695223]  swiotlb_alloc_coherent+0x14a/0x160
+> [  326.695224]  x86_swiotlb_alloc_coherent+0x43/0x50
+> [  326.695228]  mlx4_buf_direct_alloc.isra.4+0xb1/0x150 [mlx4_core]
+> [  326.695232]  mlx4_buf_alloc+0x172/0x1c0 [mlx4_core]
+> [  326.695234]  create_qp_common.isra.33+0x633/0x1010 [mlx4_ib]
+> [  326.695237]  mlx4_ib_create_qp+0x149/0x450 [mlx4_ib]
+> [  326.695241]  ib_create_qp+0x70/0x2b0 [ib_core]
+> [  326.695243]  rdma_create_qp+0x34/0xa0 [rdma_cm]
+> [  326.695245]  nvmet_rdma_alloc_queue+0x692/0x900 [nvmet_rdma]
+> [  326.695246]  ? nvmet_rdma_execute_command+0x100/0x100 [nvmet_rdma]
+> [  326.695247]  nvmet_rdma_cm_handler+0x1e6/0x708 [nvmet_rdma]
+> [  326.695249]  ? cma_acquire_dev+0x1e7/0x4b0 [rdma_cm]
+> [  326.695251]  ? cma_new_conn_id+0xb2/0x4b0 [rdma_cm]
+> [  326.695252]  ? cma_new_conn_id+0x153/0x4b0 [rdma_cm]
+> [  326.695254]  cma_req_handler+0x1f5/0x4c0 [rdma_cm]
+> [  326.695256]  cm_process_work+0x25/0x120 [ib_cm]
+> [  326.695257]  cm_req_handler+0x994/0xcd0 [ib_cm]
+> [  326.695259]  cm_work_handler+0x1ce/0x1753 [ib_cm]
+> [  326.695260]  process_one_work+0x165/0x410
+> [  326.695261]  worker_thread+0x137/0x4c0
+> [  326.695262]  kthread+0x101/0x140
+> [  326.695263]  ? rescuer_thread+0x3b0/0x3b0
+> [  326.695264]  ? kthread_park+0x90/0x90
+> [  3t_from_fork+0x2c/0x40
+>
+> Initiator side log:
+> [  532.880043] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 172.31.2.3:1023
+> [  533.002002] nvme nvme0: creating 16 I/O queues.
+> [  533.446540] nvme nvme0: new ctrl: NQN "nvme-subsystem-name", addr 172.31.2.3:1023
+> [  691.641201] nvme nvme0: rdma_resolve_addr wait failed (-110).
+> [  691.672089] nvme nvme0: failed to initialize i/o queue: -110
+> [  691.721031] nvme nvme0: Removing after reset failure
 
-I get bellow WARNING when trying to connect nvmet with nvmecli.
++ Christoph and Sagi.
 
-Steps I used:
-On target:
-1. Use nvmetcli setup nvmet with below json 
-{
-  "hosts": [
-    {
-      "nqn": "hostnqn"
-    }
-  ], 
-  "ports": [
-    {
-      "addr": {
-        "adrfam": "ipv4", 
-        "traddr": "172.31.40.4", 
-        "treq": "not specified", 
-        "trsvcid": "1023", 
-        "trtype": "rdma"
-      }, 
-      "portid": 2, 
-      "referrals": [], 
-      "subsystems": [
-        "testnqn"
-      ]
-    }
-  ], 
-  "subsystems": [
-    {
-      "allowed_hosts": [], 
-      "attr": {
-        "allow_any_host": "1"
-      }, 
-      "namespaces": [
-        {
-          "device": {
-            "nguid": "ef90689c-6c46-d44c-89c1-4067801309a8", 
-            "path": "/dev/nullb0"
-          }, 
-          "enable": 1, 
-          "nsid": 1
-        }
-      ], 
-      "nqn": "testnqn"
-    }
-  ]
-}
-2. Initiator side:
-#nvme connect-all -t rdma -a 172.31.40.4 -s 1023
-
-3. check the kernel log on both target/initiator side.
-
-kernel log:
-[  242.494533] ocrdma0:Using VLAN with PFC is recommended
-[  242.520244] ocrdma0:Using VLAN 0 for this connection
-[  242.652599] ocrdma0:Using VLAN with PFC is recommended
-[  242.676365] ocrdma0:Using VLAN 0 for this connection
-[  242.700476] ocrdma0:Using VLAN with PFC is recommended
-[  242.723497] ocrdma0:Using VLAN 0 for this connection
-[  242.812331] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 172.31.40.4:1023
-[  242.854149] ocrdma0:Using VLAN with PFC is recommended
-[  242.854149] ocrdma0:Using VLAN 0 for this connection
-[  242.854662] ------------[ cut here ]------------
-[  242.854671] WARNING: CPU: 2 PID: 158 at drivers/infiniband/core/verbs.c:1975 __ib_drain_sq+0x182/0x1c0 [ib_core]
-[  242.854671] failed to drain send queue: -22
-[  242.854671] Modules linked in: nvme_rdma nvme_fabrics nvme_core sch_mqprio 8021q garp mrp stp llc rpcrdma ib_isert iscsi_target_mod ib_iser libiscsi scsi_transport_iscsi ib_srpt target_core_mod ib_srp scsi_transport_srp ib_ipoib rdma_ucm ib_ucm ib_uverbs ib_umad rdma_cm ib_cm iw_cm ocrdma ib_core ipmi_ssif intel_rapl x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel kvm irqbypass crct10dif_pclmul crc32_pclmul ghash_clmulni_intel intel_cstate intel_uncore ipmi_si ipmi_devintf hpilo hpwdt intel_rapl_perf gpio_ich iTCO_wdt iTCO_vendor_support pcspkr ie31200_edac shpchp sg edac_core acpi_power_meter lpc_ich ipmi_msghandler pcc_cpufreq acpi_cpufreq nfsd auth_rpcgss nfs_acl lockd grace sunrpc ip_tables xfs libcrc32c sd_mod tg3 ptp mgag200 i2c_algo_bit drm_kms_helper syscopyarea sysfillrect sysimgblt
-[  242.854694]  fb_sys_fops ttm drm ahci libahci libata crc32c_intel be2net fjes serio_raw i2c_core pps_core dm_mirror dm_region_hash dm_log dm_mod
-[  242.854699] CPU: 2 PID: 158 Comm: kworker/2:2 Not tainted 4.10.0 #2
-[  242.854699] Hardware name: HP ProLiant DL320e Gen8 v2, BIOS P80 09/01/2013
-[  242.854702] Workqueue: nvme_rdma_wq nvme_rdma_del_ctrl_work [nvme_rdma]
-[  242.854702] Call Trace:
-[  242.854706]  dump_stack+0x63/0x87
-[  242.854711]  __warn+0xd1/0xf0
-[  242.854712]  warn_slowpath_fmt+0x5f/0x80
-[  242.854715]  ? ocrdma_mbx_modify_qp+0x23b/0x370 [ocrdma]
-[  242.854718]  __ib_drain_sq+0x182/0x1c0 [ib_core]
-[  242.854721]  ? ib_sg_to_pages+0x1a0/0x1a0 [ib_core]
-[  242.854724]  ib_drain_sq+0x25/0x30 [ib_core]
-[  242.854727]  ib_drain_qp+0x12/0x30 [ib_core]
-[  242.854728]  nvme_rdma_stop_and_free_queue+0x27/0x40 [nvme_rdma]
-[  242.854729]  nvme_rdma_destroy_admin_queue+0x4d/0xc0 [nvme_rdma]
-[  242.854730]  nvme_rdma_shutdown_ctrl+0xd4/0xe0 [nvme_rdma]
-[  242.854731]  __nvme_rdma_remove_ctrl+0x84/0x90 [nvme_rdma]
-[  242.854732]  nvme_rdma_del_ctrl_work+0x1a/0x20 [nvme_rdma]
-[  242.854733]  process_one_work+0x165/0x410
-[  242.854734]  worker_thread+0x27f/0x4c0
-[  242.854735]  kthread+0x101/0x140
-[  242.854736]  ? rescuer_thread+0x3b0/0x3b0
-[  242.854737]  ? kthread_park+0x90/0x90
-[  242.854751]  ret_from_fork+0x2c/0x40
-[  242.854752] ---[ end trace 87cf24af407fe063 ]---
-[  242.855216] ------------[ cut here ]------------
-[  242.855220] WARNING: CPU: 2 PID: 158 at drivers/infiniband/core/verbs.c:2010 __ib_drain_rq+0x177/0x1c0 [ib_core]
-[  242.855220] failed to drain recv queue: -22
-[  242.855220] Modules linked in: nvme_rdma nvme_fabrics nvme_core sch_mqprio 8021q garp mrp stp llc rpcrdma ib_isert iscsi_target_mod ib_iser libiscsi scsi_transport_iscsi ib_srpt target_core_mod ib_srp scsi_transport_srp ib_ipoib rdma_ucm ib_ucm ib_uverbs ib_umad rdma_cm ib_cm iw_cm ocrdma ib_core ipmi_ssif intel_rapl x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel kvm irqbypass crct10dif_pclmul crc32_pclmul ghash_clmulni_intel intel_cstate intel_uncore ipmi_si ipmi_devintf hpilo hpwdt intel_rapl_perf gpio_ich iTCO_wdt iTCO_vendor_support pcspkr ie31200_edac shpchp sg edac_core acpi_power_meter lpc_ich ipmi_msghandler pcc_cpufreq acpi_cpufreq nfsd auth_rpcgss nfs_acl lockd grace sunrpc ip_tables xfs libcrc32c sd_mod tg3 ptp mgag200 i2c_algo_bit drm_kms_helper syscopyarea sysfillrect sysimgblt
-[  242.855232]  fb_sys_fops ttm drm ahci libahci libata crc32c_intel be2net fjes serio_raw i2c_core pps_core dm_mirror dm_region_hash dm_log dm_mod
-[  242.855235] CPU: 2 PID: 158 Comm: kworker/2:2 Tainted: G        W       4.10.0 #2
-[  242.855235] Hardware name: HP ProLiant DL320e Gen8 v2, BIOS P80 09/01/2013
-[  242.855237] Workqueue: nvme_rdma_wq nvme_rdma_del_ctrl_work [nvme_rdma]
-[  242.855237] Call Trace:
-[  242.855238]  dump_stack+0x63/0x87
-[  242.855239]  __warn+0xd1/0xf0
-[  242.855240]  warn_slowpath_fmt+0x5f/0x80
-[  242.855242]  ? ocrdma_post_recv+0x127/0x140 [ocrdma]
-[  242.855243]  ? ocrdma_mbx_modify_qp+0x23b/0x370 [ocrdma]
-[  242.855246]  __ib_drain_rq+0x177/0x1c0 [ib_core]
-[  242.855268]  ? ib_sg_to_pages+0x1a0/0x1a0 [ib_core]
-[  242.855271]  ib_drain_rq+0x25/0x30 [ib_core]
-[  242.855273]  ib_drain_qp+0x24/0x30 [ib_core]
-[  242.855274]  nvme_rdma_stop_and_free_queue+0x27/0x40 [nvme_rdma]
-[  242.855275]  nvme_rdma_destroy_admin_queue+0x4d/0xc0 [nvme_rdma]
-[  242.855276]  nvme_rdma_shutdown_ctrl+0xd4/0xe0 [nvme_rdma]
-[  242.855277]  __nvme_rdma_remove_ctrl+0x84/0x90 [nvme_rdma]
-[  242.855278]  nvme_rdma_del_ctrl_work+0x1a/0x20 [nvme_rdma]
-[  242.855279]  process_one_work+0x165/0x410
-[  242.855280]  worker_thread+0x27f/0x4c0
-[  242.855282]  kthread+0x101/0x140
-[  242.855283]  ? rescuer_thread+0x3b0/0x3b0
-[  242.855283]  ? kthread_park+0x90/0x90
-[  242.855284]  ret_from_fork+0x2c/0x40
-[  242.855285] ---[ end trace 87cf24af407fe064 ]---
-[  244.970302] ocrdma0:Using VLAN with PFC is recommended
-[  244.970302] ocrdma0:Using VLAN 0 for this connection
-[  245.074424] ocrdma0:Using VLAN with PFC is recommended
-[  245.098195] ocrdma0:Using VLAN 0 for this connection
-[  245.122976] ocrdma0:Using VLAN with PFC is recommended
-[  245.147078] ocrdma0:Using VLAN 0 for this connection
-[  245.183682] nvme nvme0: creating 8 I/O queues.
-[  245.242477] ocrdma0:Using VLAN with PFC is recommended
-[  245.266737] ocrdma0:Using VLAN 0 for this connection
-[  245.388146] ocrdma0:Using VLAN with PFC is recommended
-[  245.411813] ocrdma0:Using VLAN 0 for this connection
-[  245.436101] ocrdma0:Using VLAN with PFC is recommended
-[  245.459634] ocrdma0:Using VLAN 0 for this connection
-[  245.485689] ocrdma0:Using VLAN with PFC is recommended
-[  245.512216] ocrdma0:Using VLAN 0 for this connection
-[  245.662331] ocrdma0:Using VLAN with PFC is recommended
-[  245.687422] ocrdma0:Using VLAN 0 for this connection
-[  245.713057] ocrdma0:Using VLAN with PFC is recommended
-[  245.738019] ocrdma0:Using VLAN 0 for this connection
-[  245.766147] ocrdma0:Using VLAN with PFC is recommended
-[  245.791930] ocrdma0:Using VLAN 0 for this connection
-[  245.824506] ocrdma0:Using VLAN with PFC is recommended
-[  245.849968] ocrdma0:Using VLAN 0 for this connection
-[  245.876203] ocrdma0:Using VLAN with PFC is recommended
-[  245.900670] ocrdma0:Using VLAN 0 for this connection
-[  245.926549] ocrdma0:Using VLAN with PFC is recommended
-[  245.949892] ocrdma0:Using VLAN 0 for this connection
-[  246.102218] ocrdma0:Using VLAN with PFC is recommended
-[  246.125597] ocrdma0:Using VLAN 0 for this connection
-[  246.150668] ocrdma0:Using VLAN with PFC is recommended
-[  246.174000] ocrdma0:Using VLAN 0 for this connection
-[  246.199945] ocrdma0:Using VLAN with PFC is recommended
-[  246.223247] ocrdma0:Using VLAN 0 for this connection
-[  246.253534] ocrdma0:Using VLAN with PFC is recommended
-[  246.278590] ocrdma0:Using VLAN 0 for this connection
-[  246.303311] ocrdma0:Using VLAN with PFC is recommended
-[  246.329326] ocrdma0:Using VLAN 0 for this connection
-[  246.358014] ocrdma0:Using VLAN with PFC is recommended
-[  246.382120] ocrdma0:Using VLAN 0 for this connection
-[  246.537506] ocrdma0:Using VLAN with PFC is recommended
-[  246.560855] ocrdma0:Using VLAN 0 for this connection
-[  246.585018] ocrdma0:Using VLAN with PFC is recommended
-[  246.608393] ocrdma0:Using VLAN 0 for this connection
-[  246.634275] ocrdma0:Using VLAN with PFC is recommended
-[  246.658760] ocrdma0:Using VLAN 0 for this connection
-[  246.779071] ocrdma0:Using VLAN with PFC is recommended
-[  246.803813] ocrdma0:Using VLAN 0 for this connection
-[  246.829115] ocrdma0:Using VLAN with PFC is recommended
-[  246.853383] ocrdma0:Using VLAN 0 for this connection
-[  246.880570] ocrdma0:Using VLAN with PFC is recommended
-[  246.905561] ocrdma0:Using VLAN 0 for this connection
-[  247.033429] ocrdma0:Using VLAN with PFC is recommended
-[  247.060779] ocrdma0:Using VLAN 0 for this connection
-[  247.087520] ocrdma0:Using VLAN with PFC is recommended
-[  247.111723] ocrdma0:Using VLAN 0 for this connection
-[  247.701156] nvme nvme0: new ctrl: NQN "testnqn", addr 172.31.40.4:1023
-
-
-Best Regards,
-  Yi Zhang
+>
+>
+> Best Regards,
+>   Yi Zhang
+>
+>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170305/9c64980d/attachment-0001.sig>
