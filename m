@@ -1,237 +1,190 @@
-From: loberman@redhat.com (Laurence Oberman)
-Date: Sat, 4 Mar 2017 18:51:58 -0500 (EST)
-Subject: [PATCH 11/20] lpfc: Fix eh_deadline setting for sli3 adapters.
-In-Reply-To: <1488648640-5170-12-git-send-email-jsmart2021@gmail.com>
-References: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
- <1488648640-5170-12-git-send-email-jsmart2021@gmail.com>
-Message-ID: <1212844355.42089348.1488671518567.JavaMail.zimbra@redhat.com>
+From: yizhan@redhat.com (Yi Zhang)
+Date: Sun, 5 Mar 2017 01:41:08 -0500 (EST)
+Subject: WARNING on drivers/infiniband/core/verbs.c:1975
+ __ib_drain_sq+0x182/0x1c0 [ib_core]
+In-Reply-To: <530228679.31424535.1488695516036.JavaMail.zimbra@redhat.com>
+Message-ID: <1457714996.31424605.1488696068958.JavaMail.zimbra@redhat.com>
+
+Hi
+
+I get bellow WARNING when trying to connect nvmet with nvmecli.
+
+Steps I used:
+On target:
+1. Use nvmetcli setup nvmet with below json 
+{
+  "hosts": [
+    {
+      "nqn": "hostnqn"
+    }
+  ], 
+  "ports": [
+    {
+      "addr": {
+        "adrfam": "ipv4", 
+        "traddr": "172.31.40.4", 
+        "treq": "not specified", 
+        "trsvcid": "1023", 
+        "trtype": "rdma"
+      }, 
+      "portid": 2, 
+      "referrals": [], 
+      "subsystems": [
+        "testnqn"
+      ]
+    }
+  ], 
+  "subsystems": [
+    {
+      "allowed_hosts": [], 
+      "attr": {
+        "allow_any_host": "1"
+      }, 
+      "namespaces": [
+        {
+          "device": {
+            "nguid": "ef90689c-6c46-d44c-89c1-4067801309a8", 
+            "path": "/dev/nullb0"
+          }, 
+          "enable": 1, 
+          "nsid": 1
+        }
+      ], 
+      "nqn": "testnqn"
+    }
+  ]
+}
+2. Initiator side:
+#nvme connect-all -t rdma -a 172.31.40.4 -s 1023
+
+3. check the kernel log on both target/initiator side.
+
+kernel log:
+[  242.494533] ocrdma0:Using VLAN with PFC is recommended
+[  242.520244] ocrdma0:Using VLAN 0 for this connection
+[  242.652599] ocrdma0:Using VLAN with PFC is recommended
+[  242.676365] ocrdma0:Using VLAN 0 for this connection
+[  242.700476] ocrdma0:Using VLAN with PFC is recommended
+[  242.723497] ocrdma0:Using VLAN 0 for this connection
+[  242.812331] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 172.31.40.4:1023
+[  242.854149] ocrdma0:Using VLAN with PFC is recommended
+[  242.854149] ocrdma0:Using VLAN 0 for this connection
+[  242.854662] ------------[ cut here ]------------
+[  242.854671] WARNING: CPU: 2 PID: 158 at drivers/infiniband/core/verbs.c:1975 __ib_drain_sq+0x182/0x1c0 [ib_core]
+[  242.854671] failed to drain send queue: -22
+[  242.854671] Modules linked in: nvme_rdma nvme_fabrics nvme_core sch_mqprio 8021q garp mrp stp llc rpcrdma ib_isert iscsi_target_mod ib_iser libiscsi scsi_transport_iscsi ib_srpt target_core_mod ib_srp scsi_transport_srp ib_ipoib rdma_ucm ib_ucm ib_uverbs ib_umad rdma_cm ib_cm iw_cm ocrdma ib_core ipmi_ssif intel_rapl x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel kvm irqbypass crct10dif_pclmul crc32_pclmul ghash_clmulni_intel intel_cstate intel_uncore ipmi_si ipmi_devintf hpilo hpwdt intel_rapl_perf gpio_ich iTCO_wdt iTCO_vendor_support pcspkr ie31200_edac shpchp sg edac_core acpi_power_meter lpc_ich ipmi_msghandler pcc_cpufreq acpi_cpufreq nfsd auth_rpcgss nfs_acl lockd grace sunrpc ip_tables xfs libcrc32c sd_mod tg3 ptp mgag200 i2c_algo_bit drm_kms_helper syscopyarea sysfillrect sysimgblt
+[  242.854694]  fb_sys_fops ttm drm ahci libahci libata crc32c_intel be2net fjes serio_raw i2c_core pps_core dm_mirror dm_region_hash dm_log dm_mod
+[  242.854699] CPU: 2 PID: 158 Comm: kworker/2:2 Not tainted 4.10.0 #2
+[  242.854699] Hardware name: HP ProLiant DL320e Gen8 v2, BIOS P80 09/01/2013
+[  242.854702] Workqueue: nvme_rdma_wq nvme_rdma_del_ctrl_work [nvme_rdma]
+[  242.854702] Call Trace:
+[  242.854706]  dump_stack+0x63/0x87
+[  242.854711]  __warn+0xd1/0xf0
+[  242.854712]  warn_slowpath_fmt+0x5f/0x80
+[  242.854715]  ? ocrdma_mbx_modify_qp+0x23b/0x370 [ocrdma]
+[  242.854718]  __ib_drain_sq+0x182/0x1c0 [ib_core]
+[  242.854721]  ? ib_sg_to_pages+0x1a0/0x1a0 [ib_core]
+[  242.854724]  ib_drain_sq+0x25/0x30 [ib_core]
+[  242.854727]  ib_drain_qp+0x12/0x30 [ib_core]
+[  242.854728]  nvme_rdma_stop_and_free_queue+0x27/0x40 [nvme_rdma]
+[  242.854729]  nvme_rdma_destroy_admin_queue+0x4d/0xc0 [nvme_rdma]
+[  242.854730]  nvme_rdma_shutdown_ctrl+0xd4/0xe0 [nvme_rdma]
+[  242.854731]  __nvme_rdma_remove_ctrl+0x84/0x90 [nvme_rdma]
+[  242.854732]  nvme_rdma_del_ctrl_work+0x1a/0x20 [nvme_rdma]
+[  242.854733]  process_one_work+0x165/0x410
+[  242.854734]  worker_thread+0x27f/0x4c0
+[  242.854735]  kthread+0x101/0x140
+[  242.854736]  ? rescuer_thread+0x3b0/0x3b0
+[  242.854737]  ? kthread_park+0x90/0x90
+[  242.854751]  ret_from_fork+0x2c/0x40
+[  242.854752] ---[ end trace 87cf24af407fe063 ]---
+[  242.855216] ------------[ cut here ]------------
+[  242.855220] WARNING: CPU: 2 PID: 158 at drivers/infiniband/core/verbs.c:2010 __ib_drain_rq+0x177/0x1c0 [ib_core]
+[  242.855220] failed to drain recv queue: -22
+[  242.855220] Modules linked in: nvme_rdma nvme_fabrics nvme_core sch_mqprio 8021q garp mrp stp llc rpcrdma ib_isert iscsi_target_mod ib_iser libiscsi scsi_transport_iscsi ib_srpt target_core_mod ib_srp scsi_transport_srp ib_ipoib rdma_ucm ib_ucm ib_uverbs ib_umad rdma_cm ib_cm iw_cm ocrdma ib_core ipmi_ssif intel_rapl x86_pkg_temp_thermal intel_powerclamp coretemp kvm_intel kvm irqbypass crct10dif_pclmul crc32_pclmul ghash_clmulni_intel intel_cstate intel_uncore ipmi_si ipmi_devintf hpilo hpwdt intel_rapl_perf gpio_ich iTCO_wdt iTCO_vendor_support pcspkr ie31200_edac shpchp sg edac_core acpi_power_meter lpc_ich ipmi_msghandler pcc_cpufreq acpi_cpufreq nfsd auth_rpcgss nfs_acl lockd grace sunrpc ip_tables xfs libcrc32c sd_mod tg3 ptp mgag200 i2c_algo_bit drm_kms_helper syscopyarea sysfillrect sysimgblt
+[  242.855232]  fb_sys_fops ttm drm ahci libahci libata crc32c_intel be2net fjes serio_raw i2c_core pps_core dm_mirror dm_region_hash dm_log dm_mod
+[  242.855235] CPU: 2 PID: 158 Comm: kworker/2:2 Tainted: G        W       4.10.0 #2
+[  242.855235] Hardware name: HP ProLiant DL320e Gen8 v2, BIOS P80 09/01/2013
+[  242.855237] Workqueue: nvme_rdma_wq nvme_rdma_del_ctrl_work [nvme_rdma]
+[  242.855237] Call Trace:
+[  242.855238]  dump_stack+0x63/0x87
+[  242.855239]  __warn+0xd1/0xf0
+[  242.855240]  warn_slowpath_fmt+0x5f/0x80
+[  242.855242]  ? ocrdma_post_recv+0x127/0x140 [ocrdma]
+[  242.855243]  ? ocrdma_mbx_modify_qp+0x23b/0x370 [ocrdma]
+[  242.855246]  __ib_drain_rq+0x177/0x1c0 [ib_core]
+[  242.855268]  ? ib_sg_to_pages+0x1a0/0x1a0 [ib_core]
+[  242.855271]  ib_drain_rq+0x25/0x30 [ib_core]
+[  242.855273]  ib_drain_qp+0x24/0x30 [ib_core]
+[  242.855274]  nvme_rdma_stop_and_free_queue+0x27/0x40 [nvme_rdma]
+[  242.855275]  nvme_rdma_destroy_admin_queue+0x4d/0xc0 [nvme_rdma]
+[  242.855276]  nvme_rdma_shutdown_ctrl+0xd4/0xe0 [nvme_rdma]
+[  242.855277]  __nvme_rdma_remove_ctrl+0x84/0x90 [nvme_rdma]
+[  242.855278]  nvme_rdma_del_ctrl_work+0x1a/0x20 [nvme_rdma]
+[  242.855279]  process_one_work+0x165/0x410
+[  242.855280]  worker_thread+0x27f/0x4c0
+[  242.855282]  kthread+0x101/0x140
+[  242.855283]  ? rescuer_thread+0x3b0/0x3b0
+[  242.855283]  ? kthread_park+0x90/0x90
+[  242.855284]  ret_from_fork+0x2c/0x40
+[  242.855285] ---[ end trace 87cf24af407fe064 ]---
+[  244.970302] ocrdma0:Using VLAN with PFC is recommended
+[  244.970302] ocrdma0:Using VLAN 0 for this connection
+[  245.074424] ocrdma0:Using VLAN with PFC is recommended
+[  245.098195] ocrdma0:Using VLAN 0 for this connection
+[  245.122976] ocrdma0:Using VLAN with PFC is recommended
+[  245.147078] ocrdma0:Using VLAN 0 for this connection
+[  245.183682] nvme nvme0: creating 8 I/O queues.
+[  245.242477] ocrdma0:Using VLAN with PFC is recommended
+[  245.266737] ocrdma0:Using VLAN 0 for this connection
+[  245.388146] ocrdma0:Using VLAN with PFC is recommended
+[  245.411813] ocrdma0:Using VLAN 0 for this connection
+[  245.436101] ocrdma0:Using VLAN with PFC is recommended
+[  245.459634] ocrdma0:Using VLAN 0 for this connection
+[  245.485689] ocrdma0:Using VLAN with PFC is recommended
+[  245.512216] ocrdma0:Using VLAN 0 for this connection
+[  245.662331] ocrdma0:Using VLAN with PFC is recommended
+[  245.687422] ocrdma0:Using VLAN 0 for this connection
+[  245.713057] ocrdma0:Using VLAN with PFC is recommended
+[  245.738019] ocrdma0:Using VLAN 0 for this connection
+[  245.766147] ocrdma0:Using VLAN with PFC is recommended
+[  245.791930] ocrdma0:Using VLAN 0 for this connection
+[  245.824506] ocrdma0:Using VLAN with PFC is recommended
+[  245.849968] ocrdma0:Using VLAN 0 for this connection
+[  245.876203] ocrdma0:Using VLAN with PFC is recommended
+[  245.900670] ocrdma0:Using VLAN 0 for this connection
+[  245.926549] ocrdma0:Using VLAN with PFC is recommended
+[  245.949892] ocrdma0:Using VLAN 0 for this connection
+[  246.102218] ocrdma0:Using VLAN with PFC is recommended
+[  246.125597] ocrdma0:Using VLAN 0 for this connection
+[  246.150668] ocrdma0:Using VLAN with PFC is recommended
+[  246.174000] ocrdma0:Using VLAN 0 for this connection
+[  246.199945] ocrdma0:Using VLAN with PFC is recommended
+[  246.223247] ocrdma0:Using VLAN 0 for this connection
+[  246.253534] ocrdma0:Using VLAN with PFC is recommended
+[  246.278590] ocrdma0:Using VLAN 0 for this connection
+[  246.303311] ocrdma0:Using VLAN with PFC is recommended
+[  246.329326] ocrdma0:Using VLAN 0 for this connection
+[  246.358014] ocrdma0:Using VLAN with PFC is recommended
+[  246.382120] ocrdma0:Using VLAN 0 for this connection
+[  246.537506] ocrdma0:Using VLAN with PFC is recommended
+[  246.560855] ocrdma0:Using VLAN 0 for this connection
+[  246.585018] ocrdma0:Using VLAN with PFC is recommended
+[  246.608393] ocrdma0:Using VLAN 0 for this connection
+[  246.634275] ocrdma0:Using VLAN with PFC is recommended
+[  246.658760] ocrdma0:Using VLAN 0 for this connection
+[  246.779071] ocrdma0:Using VLAN with PFC is recommended
+[  246.803813] ocrdma0:Using VLAN 0 for this connection
+[  246.829115] ocrdma0:Using VLAN with PFC is recommended
+[  246.853383] ocrdma0:Using VLAN 0 for this connection
+[  246.880570] ocrdma0:Using VLAN with PFC is recommended
+[  246.905561] ocrdma0:Using VLAN 0 for this connection
+[  247.033429] ocrdma0:Using VLAN with PFC is recommended
+[  247.060779] ocrdma0:Using VLAN 0 for this connection
+[  247.087520] ocrdma0:Using VLAN with PFC is recommended
+[  247.111723] ocrdma0:Using VLAN 0 for this connection
+[  247.701156] nvme nvme0: new ctrl: NQN "testnqn", addr 172.31.40.4:1023
 
 
-
------ Original Message -----
-> From: jsmart2021 at gmail.com
-> To: linux-scsi at vger.kernel.org, linux-nvme at lists.infradead.org
-> Cc: "James Smart" <jsmart2021 at gmail.com>, "Dick Kennedy" <dick.kennedy at broadcom.com>, "James Smart"
-> <james.smart at broadcom.com>
-> Sent: Saturday, March 4, 2017 12:30:31 PM
-> Subject: [PATCH 11/20] lpfc: Fix eh_deadline setting for sli3 adapters.
-> 
-> From: James Smart <jsmart2021 at gmail.com>
-> 
-> A previous change unilaterally removed the hba reset entry point
-> from the sli3 host template. This was done to allow tape devices
-> being used for back up from being removed. Why was this done ?
-> When there was non-responding device on the fabric, the error
-> escalation policy would escalate to the reset handler. When the
-> reset handler was called, it would reset the adapter, dropping
-> link, thus logging out and terminating all i/o's - on any target.
-> If there was a tape device on the same adapter that wasn't in
-> error, it would kill the tape i/o's, effectively killing the
-> tape device state.  With the reset point removed, the adapter
-> reset avoided the fabric logout, allowing the other devices to
-> continue to operate unaffected. A hack - yes. Hint: we really
-> need a transport I_T nexus reset callback added to the eh process
-> (in between the SCSI target reset and hba reset points), so a
-> fc logout could occur to the one bad target only and stop the error
-> escalation process.
-> 
-> This patch commonizes the approach so it can be used for sli3 and sli4
-> adapters, but mandates the admin, via module parameter, specifically
-> identify which adapters the resets are to be removed for. Additionally,
-> bus_reset, which sends Target Reset TMFs to all targets, is also removed
-> from the template as it too has the same effect as the adapter reset.
-> 
-> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
->  drivers/scsi/lpfc/lpfc.h      |  1 +
->  drivers/scsi/lpfc/lpfc_attr.c |  6 +++++
->  drivers/scsi/lpfc/lpfc_crtn.h |  4 ++-
->  drivers/scsi/lpfc/lpfc_init.c | 61
->  ++++++++++++++++++++++++++++++++++++++++---
->  drivers/scsi/lpfc/lpfc_scsi.c |  3 +--
->  5 files changed, 69 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
-> index de6cd57..763f32d 100644
-> --- a/drivers/scsi/lpfc/lpfc.h
-> +++ b/drivers/scsi/lpfc/lpfc.h
-> @@ -99,6 +99,7 @@ struct lpfc_sli2_slim;
->  #define FC_MAX_ADPTMSG		64
->  
->  #define MAX_HBAEVT	32
-> +#define MAX_HBAS_NO_RESET 16
->  
->  /* Number of MSI-X vectors the driver uses */
->  #define LPFC_MSIX_VECTORS	2
-> diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
-> index 4114cf4..b741dcb 100644
-> --- a/drivers/scsi/lpfc/lpfc_attr.c
-> +++ b/drivers/scsi/lpfc/lpfc_attr.c
-> @@ -3010,6 +3010,12 @@ MODULE_PARM_DESC(lpfc_poll, "FCP ring polling mode
-> control:"
->  static DEVICE_ATTR(lpfc_poll, S_IRUGO | S_IWUSR,
->  		   lpfc_poll_show, lpfc_poll_store);
->  
-> +int lpfc_no_hba_reset_cnt;
-> +unsigned long lpfc_no_hba_reset[MAX_HBAS_NO_RESET] = {
-> +	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-> +module_param_array(lpfc_no_hba_reset, ulong, &lpfc_no_hba_reset_cnt, 0444);
-> +MODULE_PARM_DESC(lpfc_no_hba_reset, "WWPN of HBAs that should not be
-> reset");
-> +
->  LPFC_ATTR(sli_mode, 0, 0, 3,
->  	"SLI mode selector:"
->  	" 0 - auto (SLI-3 if supported),"
-> diff --git a/drivers/scsi/lpfc/lpfc_crtn.h b/drivers/scsi/lpfc/lpfc_crtn.h
-> index 843dd73..54e6ac4 100644
-> --- a/drivers/scsi/lpfc/lpfc_crtn.h
-> +++ b/drivers/scsi/lpfc/lpfc_crtn.h
-> @@ -384,7 +384,7 @@ void lpfc_free_sysfs_attr(struct lpfc_vport *);
->  extern struct device_attribute *lpfc_hba_attrs[];
->  extern struct device_attribute *lpfc_vport_attrs[];
->  extern struct scsi_host_template lpfc_template;
-> -extern struct scsi_host_template lpfc_template_s3;
-> +extern struct scsi_host_template lpfc_template_no_hr;
->  extern struct scsi_host_template lpfc_template_nvme;
->  extern struct scsi_host_template lpfc_vport_template;
->  extern struct fc_function_template lpfc_transport_functions;
-> @@ -554,3 +554,5 @@ void lpfc_nvme_abort_fcreq_cmpl(struct lpfc_hba *phba,
->  				struct lpfc_wcqe_complete *abts_cmpl);
->  extern int lpfc_enable_nvmet_cnt;
->  extern unsigned long long lpfc_enable_nvmet[];
-> +extern int lpfc_no_hba_reset_cnt;
-> +extern unsigned long lpfc_no_hba_reset[];
-> diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-> index b754887..ecb8e1c 100644
-> --- a/drivers/scsi/lpfc/lpfc_init.c
-> +++ b/drivers/scsi/lpfc/lpfc_init.c
-> @@ -3555,6 +3555,44 @@ lpfc_sli4_scsi_sgl_update(struct lpfc_hba *phba)
->  	return rc;
->  }
->  
-> +static uint64_t
-> +lpfc_get_wwpn(struct lpfc_hba *phba)
-> +{
-> +	uint64_t wwn;
-> +	int rc;
-> +	LPFC_MBOXQ_t *mboxq;
-> +	MAILBOX_t *mb;
-> +
-> +
-> +	mboxq = (LPFC_MBOXQ_t *) mempool_alloc(phba->mbox_mem_pool,
-> +						GFP_KERNEL);
-> +	if (!mboxq)
-> +		return (uint64_t)-1;
-> +
-> +	/* First get WWN of HBA instance */
-> +	lpfc_read_nv(phba, mboxq);
-> +	rc = lpfc_sli_issue_mbox(phba, mboxq, MBX_POLL);
-> +	if (rc != MBX_SUCCESS) {
-> +		lpfc_printf_log(phba, KERN_ERR, LOG_SLI,
-> +				"6019 Mailbox failed , mbxCmd x%x "
-> +				"READ_NV, mbxStatus x%x\n",
-> +				bf_get(lpfc_mqe_command, &mboxq->u.mqe),
-> +				bf_get(lpfc_mqe_status, &mboxq->u.mqe));
-> +		mempool_free(mboxq, phba->mbox_mem_pool);
-> +		return (uint64_t) -1;
-> +	}
-> +	mb = &mboxq->u.mb;
-> +	memcpy(&wwn, (char *)mb->un.varRDnvp.portname, sizeof(uint64_t));
-> +	/* wwn is WWPN of HBA instance */
-> +	mempool_free(mboxq, phba->mbox_mem_pool);
-> +	if (phba->sli_rev == LPFC_SLI_REV4)
-> +		return be64_to_cpu(wwn);
-> +	else
-> +		return (((wwn & 0xffffffff00000000) >> 32) |
-> +			((wwn & 0x00000000ffffffff) << 32));
-> +
-> +}
-> +
->  /**
->   * lpfc_sli4_nvme_sgl_update - update xri-sgl sizing and mapping
->   * @phba: pointer to lpfc hba data structure.
-> @@ -3676,17 +3714,32 @@ lpfc_create_port(struct lpfc_hba *phba, int instance,
-> struct device *dev)
->  	struct lpfc_vport *vport;
->  	struct Scsi_Host  *shost = NULL;
->  	int error = 0;
-> +	int i;
-> +	uint64_t wwn;
-> +	bool use_no_reset_hba = false;
-> +
-> +	wwn = lpfc_get_wwpn(phba);
-> +
-> +	for (i = 0; i < lpfc_no_hba_reset_cnt; i++) {
-> +		if (wwn == lpfc_no_hba_reset[i]) {
-> +			lpfc_printf_log(phba, KERN_ERR, LOG_SLI,
-> +					"6020 Setting use_no_reset port=%llx\n",
-> +					wwn);
-> +			use_no_reset_hba = true;
-> +			break;
-> +		}
-> +	}
->  
->  	if (phba->cfg_enable_fc4_type & LPFC_ENABLE_FCP) {
->  		if (dev != &phba->pcidev->dev) {
->  			shost = scsi_host_alloc(&lpfc_vport_template,
->  						sizeof(struct lpfc_vport));
->  		} else {
-> -			if (phba->sli_rev == LPFC_SLI_REV4)
-> +			if (!use_no_reset_hba)
->  				shost = scsi_host_alloc(&lpfc_template,
->  						sizeof(struct lpfc_vport));
->  			else
-> -				shost = scsi_host_alloc(&lpfc_template_s3,
-> +				shost = scsi_host_alloc(&lpfc_template_no_hr,
->  						sizeof(struct lpfc_vport));
->  		}
->  	} else if (phba->cfg_enable_fc4_type & LPFC_ENABLE_NVME) {
-> @@ -5482,7 +5535,8 @@ lpfc_sli_driver_resource_setup(struct lpfc_hba *phba)
->  
->  	/* Initialize the host templates the configured values. */
->  	lpfc_vport_template.sg_tablesize = phba->cfg_sg_seg_cnt;
-> -	lpfc_template_s3.sg_tablesize = phba->cfg_sg_seg_cnt;
-> +	lpfc_template_no_hr.sg_tablesize = phba->cfg_sg_seg_cnt;
-> +	lpfc_template.sg_tablesize = phba->cfg_sg_seg_cnt;
->  
->  	/* There are going to be 2 reserved BDEs: 1 FCP cmnd + 1 FCP rsp */
->  	if (phba->cfg_enable_bg) {
-> @@ -5706,6 +5760,7 @@ lpfc_sli4_driver_resource_setup(struct lpfc_hba *phba)
->  	/* Initialize the host templates with the updated values. */
->  	lpfc_vport_template.sg_tablesize = phba->cfg_sg_seg_cnt;
->  	lpfc_template.sg_tablesize = phba->cfg_sg_seg_cnt;
-> +	lpfc_template_no_hr.sg_tablesize = phba->cfg_sg_seg_cnt;
->  
->  	if (phba->cfg_sg_dma_buf_size  <= LPFC_MIN_SG_SLI4_BUF_SZ)
->  		phba->cfg_sg_dma_buf_size = LPFC_MIN_SG_SLI4_BUF_SZ;
-> diff --git a/drivers/scsi/lpfc/lpfc_scsi.c b/drivers/scsi/lpfc/lpfc_scsi.c
-> index 9d6384a..bcfd6d6 100644
-> --- a/drivers/scsi/lpfc/lpfc_scsi.c
-> +++ b/drivers/scsi/lpfc/lpfc_scsi.c
-> @@ -5953,7 +5953,7 @@ struct scsi_host_template lpfc_template_nvme = {
->  	.track_queue_depth	= 0,
->  };
->  
-> -struct scsi_host_template lpfc_template_s3 = {
-> +struct scsi_host_template lpfc_template_no_hr = {
->  	.module			= THIS_MODULE,
->  	.name			= LPFC_DRIVER_NAME,
->  	.proc_name		= LPFC_DRIVER_NAME,
-> @@ -6015,7 +6015,6 @@ struct scsi_host_template lpfc_vport_template = {
->  	.eh_abort_handler	= lpfc_abort_handler,
->  	.eh_device_reset_handler = lpfc_device_reset_handler,
->  	.eh_target_reset_handler = lpfc_target_reset_handler,
-> -	.eh_bus_reset_handler	= lpfc_bus_reset_handler,
->  	.slave_alloc		= lpfc_slave_alloc,
->  	.slave_configure	= lpfc_slave_configure,
->  	.slave_destroy		= lpfc_slave_destroy,
-> --
-> 2.5.0
-> 
-> 
-
-This patch was implemented and tested in the Red Hat lab and validated for a customer requiring eh_deadline.
-
-Reviewed-by: Laurence Oberman <loberman at redhat.com>
-Tested-by:   Laurence Oberman <loberman at redhat.com>
+Best Regards,
+  Yi Zhang
