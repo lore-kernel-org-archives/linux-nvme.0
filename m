@@ -1,33 +1,28 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 6 Mar 2017 09:35:04 +0100
-Subject: WARN_ON() when booting with nvme loopback over zram
-In-Reply-To: <d18616eb-bce4-379b-4328-f4df4763a10a@kernel.dk>
-References: <20170303161826.GA26324@linux-x5ow.site>
- <d18616eb-bce4-379b-4328-f4df4763a10a@kernel.dk>
-Message-ID: <b7d20007-6174-cf31-f9aa-7ca2237023fb@suse.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 6 Mar 2017 13:23:33 +0200
+Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
+ during stress test on reset_controller
+In-Reply-To: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
+References: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
+Message-ID: <95e045a8-ace0-6a9a-b9a9-555cb2670572@grimberg.me>
 
-On 03/03/2017 05:20 PM, Jens Axboe wrote:
-> On 03/03/2017 09:18 AM, Johannes Thumshirn wrote:
->> Hi,
->>
->> I get the following WARN_ON when trying to establish a nvmf loopback device
->> backed by zram.
->>
->> My topmost commit is c82be9d2244aacea9851c86f4fb74694c99cd874
-> 
-> It's fixed in my for-linus, pull request went out to Linus yesterday.
-> So hopefully master should be fine with nvmf very shortly.
-> 
 
-Yup today's pull fixed it.
+> Hi experts
+>
+> I reproduced this issue during stress test on reset_controller, could you help check it, thanks.
+>
+> Reproduce steps on initiator side:
+> num=0
+> while [ 1 ]
+> do
+> 	echo "-------------------------------$num"
+> 	echo 1 >/sys/block/nvme0n1/device/reset_controller || exit 1
+> 	((num++))
+> done
+>
+> Here is the full log:
+> http://pastebin.com/mek9fb0b
 
-Thanks,
-	Johannes
+I'm using CX5-LX device and have not seen any issues with it.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Would it be possible to retest with kmemleak?
