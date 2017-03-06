@@ -1,26 +1,15 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 06 Mar 2017 11:49:46 -0800
-Subject: [PATCH v2] fabrics: Handle space-padded TRSVCID and TRADDR fields
-In-Reply-To: <20170306193621.11190-1-roland@kernel.org>
-References: <20170306193621.11190-1-roland@kernel.org>
-Message-ID: <1488829786.3733.8.camel@linux.intel.com>
+From: axboe@fb.com (Jens Axboe)
+Date: Mon, 6 Mar 2017 13:15:15 -0700
+Subject: [PATCH] block/sed: Fix opal user range check and unused variables
+In-Reply-To: <1488814864-28478-1-git-send-email-jonathan.derrick@intel.com>
+References: <1488814864-28478-1-git-send-email-jonathan.derrick@intel.com>
+Message-ID: <3b17e72f-e58c-8f21-0c0c-c0692db88aea@fb.com>
 
-On Mon, 2017-03-06@11:36 -0800, Roland Dreier wrote:
-> From: Roland Dreier <roland at purestorage.com>
-> 
-> The TRSVCID and TRADDR fields in the discovery log page are defined
-> as ASCII strings, which according to the NVMe standard means they
-> should be space-padded rather than NUL-terminated.
-> 
-> The current nvme-cli code will print all the spaces and possibly some
-> garbage from the next field.??For example this causes "connect-all"
-> to write strings that get rejected with "malformed IP address passed."
-> 
-> Fix this by only writing the contents of these fields until the last
-> non-space character, and limiting the length to the size of the field.
-> 
-> Signed-off-by: Roland Dreier <roland at purestorage.com>
+On 03/06/2017 08:41 AM, Jon Derrick wrote:
+> Fixes check that the opal user is within the range, and cleans up unused
+> method variables.
 
-Reviewed-by: Jay Freyensee <james_p_freyensee at linux.intel.com>
+Applied, thanks.
 
-(already pulled into nvme-cli by Keith).
+-- 
+Jens Axboe
