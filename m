@@ -1,62 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 6 Mar 2017 13:28:56 +0200
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
-References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
- <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
- <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
- <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
- <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
- <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
- <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
-Message-ID: <16c4bd86-fd63-f230-40bc-f52cb106e11b@grimberg.me>
+Date: Mon, 6 Mar 2017 13:42:36 +0200
+Subject: WARNING on drivers/infiniband/core/verbs.c:1975
+ __ib_drain_sq+0x182/0x1c0 [ib_core]
+In-Reply-To: <1457714996.31424605.1488696068958.JavaMail.zimbra@redhat.com>
+References: <1457714996.31424605.1488696068958.JavaMail.zimbra@redhat.com>
+Message-ID: <3ce3cfdb-a452-ff0c-fa52-2ad0546c8b8f@grimberg.me>
 
-> Hi Sagi,
->
-> I think we need to add fence to the UMR wqe.
->
-> so lets try this one:
->
-> diff --git a/drivers/infiniband/hw/mlx5/qp.c
-> b/drivers/infiniband/hw/mlx5/qp.c
-> index ad8a263..c38c4fa 100644
-> --- a/drivers/infiniband/hw/mlx5/qp.c
-> +++ b/drivers/infiniband/hw/mlx5/qp.c
-> @@ -3737,8 +3737,7 @@ static void dump_wqe(struct mlx5_ib_qp *qp, int
-> idx, int size_16)
->
->  static u8 get_fence(u8 fence, struct ib_send_wr *wr)
->  {
-> -       if (unlikely(wr->opcode == IB_WR_LOCAL_INV &&
-> -                    wr->send_flags & IB_SEND_FENCE))
-> +       if (wr->opcode == IB_WR_LOCAL_INV || wr->opcode == IB_WR_REG_MR)
->                 return MLX5_FENCE_MODE_STRONG_ORDERING;
->
->         if (unlikely(fence)) {
 
-This will kill performance, isn't there another fix that can
-be applied just for retransmission flow?
+> 2. Initiator side:
+> #nvme connect-all -t rdma -a 172.31.40.4 -s 1023
+>
+> 3. check the kernel log on both target/initiator side.
+>
+> kernel log:
+> [  242.494533] ocrdma0:Using VLAN with PFC is recommended
+> [  242.520244] ocrdma0:Using VLAN 0 for this connection
+> [  242.652599] ocrdma0:Using VLAN with PFC is recommended
+> [  242.676365] ocrdma0:Using VLAN 0 for this connection
+> [  242.700476] ocrdma0:Using VLAN with PFC is recommended
+> [  242.723497] ocrdma0:Using VLAN 0 for this connection
+> [  242.812331] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 172.31.40.4:1023
+> [  242.854149] ocrdma0:Using VLAN with PFC is recommended
+> [  242.854149] ocrdma0:Using VLAN 0 for this connection
+> [  242.854662] ------------[ cut here ]------------
+> [  242.854671] WARNING: CPU: 2 PID: 158 at drivers/infiniband/core/verbs.c:1975 __ib_drain_sq+0x182/0x1c0 [ib_core]
 
-> Couldn't repro that case but I run some initial tests in my Lab (with my
-> patch above) - not performace servers:
->
-> Initiator with 24 CPUs (2 threads/core, 6 cores/socket, 2 sockets),
-> Connect IB (same driver mlx5_ib), kernel 4.10.0, fio test with 24 jobs
-> and 128 iodepth.
-> register_always=N
->
-> Target - 1 subsystem with 1 ns (null_blk)
->
-> bs   read (without/with patch)   write (without/with patch)
-> --- --------------------------  ---------------------------
-> 512     1019k / 1008k                 1004k / 992k
-> 1k      1021k / 1013k                 1002k / 991k
-> 4k      1030k / 1022k                 978k  / 969k
->
-> CPU usage is 100% for both cases in the initiator side.
-> haven't seen difference with bs = 16k.
-> No so big drop like we would expect,
 
-Obviously you won't see a drop without registering memory
-for small IO (register_always=N), this would bypass registration
-altogether... Please retest with register_always=Y.
+
+I suspect that ib_drain_sq is not supported on ocrdma. From looking at
+the code it seems that ocrdma fails and send post when the qp is not
+in RTS. I think that if this is the case ocrdma needs to implement
+its own qp drain logic similar to cxgb4, ns, i40e etc.
+
+Devesh (CC'd), has anyone tested ib_drain_qp on ocrdma?
