@@ -1,57 +1,175 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon,  6 Mar 2017 00:30:38 +0200
-Subject: [PATCH 1/1] nvmet: use symbolic constants for log identifiers
-Message-ID: <1488753038-26188-1-git-send-email-maxg@mellanox.com>
+Date: Mon, 6 Mar 2017 02:07:26 +0200
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
+References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
+ <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
+ <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
+ <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
+ <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
+ <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
+Message-ID: <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Parav Pandit <parav at mellanox.com>
----
- drivers/nvme/target/admin-cmd.c |   12 ++++++------
- 1 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index a7bcff4..7502269 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -121,7 +121,7 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
- 	}
- 
- 	switch (req->cmd->get_log_page.lid) {
--	case 0x01:
-+	case NVME_LOG_ERROR:
- 		/*
- 		 * We currently never set the More bit in the status field,
- 		 * so all error log entries are invalid and can be zeroed out.
-@@ -129,7 +129,7 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
- 		 * mandatory log page.
- 		 */
- 		break;
--	case 0x02:
-+	case NVME_LOG_SMART:
- 		/*
- 		 * XXX: fill out actual smart log
- 		 *
-@@ -149,7 +149,7 @@ static void nvmet_execute_get_log_page(struct nvmet_req *req)
- 			goto err;
- 		}
- 		break;
--	case 0x03:
-+	case NVME_LOG_FW_SLOT:
- 		/*
- 		 * We only support a single firmware slot which always is
- 		 * active, so we can zero out the whole firmware slot log and
-@@ -502,9 +502,9 @@ int nvmet_parse_admin_cmd(struct nvmet_req *req)
- 		req->data_len = nvmet_get_log_page_len(cmd);
- 
- 		switch (cmd->get_log_page.lid) {
--		case 0x01:
--		case 0x02:
--		case 0x03:
-+		case NVME_LOG_ERROR:
-+		case NVME_LOG_SMART:
-+		case NVME_LOG_FW_SLOT:
- 			req->execute = nvmet_execute_get_log_page;
- 			return 0;
- 		}
--- 
-1.7.1
+
+On 2/27/2017 10:33 PM, Sagi Grimberg wrote:
+>
+> Hey Joseph,
+>
+>> In our lab we are dealing with an issue which has some of the same
+>> symptoms.  Wanted to add to the thread in case it is useful here.  We
+>> have a target system with 16 Intel P3520 disks and a Mellanox CX4 50Gb
+>> NIC directly connected (no switch) to a single initiator system with a
+>> matching Mellanox CX4 50Gb NIC.  We are running Ubuntu 16.10 with
+>> 4.10-RC8 mainline kernel.  All drivers are kernel default drivers.
+>> I've attached our nvmetcli json, and FIO workload, and dmesg from both
+>> systems.
+>>
+>> We are able to provoke this problem with a variety of workloads but a
+>> high bandwidth read operation seems to cause it the most reliably,
+>> harder to produce with smaller block sizes.  For some reason the
+>> problem seems produced when we stop and restart IO - I can run the FIO
+>> workload on the initiator system for 1-2 hours without any new events
+>> in dmesg, pushing about 5500MB/sec the whole time, then kill it and
+>> wait 10 seconds and restart it, and the errors and reconnect events
+>> happen reliably at that point.  Working to characterize further this
+>> week and also to see if we can produce on a smaller configuration.
+>> Happy to provide any additional details that would be useful or try
+>> any fixes!
+>>
+>> On the initiator we see events like this:
+>>
+>> [51390.065641] mlx5_0:dump_cqe:262:(pid 0): dump error cqe
+>> [51390.065644] 00000000 00000000 00000000 00000000
+>> [51390.065645] 00000000 00000000 00000000 00000000
+>> [51390.065646] 00000000 00000000 00000000 00000000
+>> [51390.065648] 00000000 08007806 250003ab 02b9dcd2
+>> [51390.065666] nvme nvme3: MEMREG for CQE 0xffff9fc845039410 failed
+>> with status memory management operation error (6)
+>> [51390.079156] nvme nvme3: reconnecting in 10 seconds
+>> [51400.432782] nvme nvme3: Successfully reconnected
+>
+> Seems to me this is a CX4 FW issue. Mellanox can elaborate on these
+> vendor specific syndromes on this output.
+>
+>> On the target we see events like this:
+>>
+>> [51370.394694] mlx5_0:dump_cqe:262:(pid 6623): dump error cqe
+>> [51370.394696] 00000000 00000000 00000000 00000000
+>> [51370.394697] 00000000 00000000 00000000 00000000
+>> [51370.394699] 00000000 00000000 00000000 00000000
+>> [51370.394701] 00000000 00008813 080003ea 00c3b1d2
+>
+> If the host is failing on memory mapping while the target is initiating
+> rdma access it makes sense that it will see errors.
+>
+>>
+>> Sometimes, but less frequently, we also will see events on the target
+>> like this as part of the problem:
+>>
+>> [21322.678571] nvmet: ctrl 1 fatal error occurred!
+>
+> Again, also makes sense because for nvmet this is a fatal error and we
+> need to teardown the controller.
+>
+> You can try out this patch to see if it makes the memreg issues to go
+> away:
+> --
+> diff --git a/drivers/infiniband/hw/mlx5/qp.c
+> b/drivers/infiniband/hw/mlx5/qp.c
+> index ad8a2638e339..0f9a12570262 100644
+> --- a/drivers/infiniband/hw/mlx5/qp.c
+> +++ b/drivers/infiniband/hw/mlx5/qp.c
+> @@ -3893,7 +3893,7 @@ int mlx5_ib_post_send(struct ib_qp *ibqp, struct
+> ib_send_wr *wr,
+>                                 goto out;
+>
+>                         case IB_WR_LOCAL_INV:
+> -                               next_fence =
+> MLX5_FENCE_MODE_INITIATOR_SMALL;
+> +                               next_fence =
+> MLX5_FENCE_MODE_STRONG_ORDERING;
+>                                 qp->sq.wr_data[idx] = IB_WR_LOCAL_INV;
+>                                 ctrl->imm =
+> cpu_to_be32(wr->ex.invalidate_rkey);
+>                                 set_linv_wr(qp, &seg, &size);
+> @@ -3901,7 +3901,7 @@ int mlx5_ib_post_send(struct ib_qp *ibqp, struct
+> ib_send_wr *wr,
+>                                 break;
+>
+>                         case IB_WR_REG_MR:
+> -                               next_fence =
+> MLX5_FENCE_MODE_INITIATOR_SMALL;
+> +                               next_fence =
+> MLX5_FENCE_MODE_STRONG_ORDERING;
+>                                 qp->sq.wr_data[idx] = IB_WR_REG_MR;
+>                                 ctrl->imm = cpu_to_be32(reg_wr(wr)->key);
+>                                 err = set_reg_wr(qp, reg_wr(wr), &seg,
+> &size);
+> --
+>
+> Note that this will have a big performance (negative) impact on small
+> read workloads.
+>
+
+Hi Sagi,
+
+I think we need to add fence to the UMR wqe.
+
+so lets try this one:
+
+diff --git a/drivers/infiniband/hw/mlx5/qp.c 
+b/drivers/infiniband/hw/mlx5/qp.c
+index ad8a263..c38c4fa 100644
+--- a/drivers/infiniband/hw/mlx5/qp.c
++++ b/drivers/infiniband/hw/mlx5/qp.c
+@@ -3737,8 +3737,7 @@ static void dump_wqe(struct mlx5_ib_qp *qp, int 
+idx, int size_16)
+
+  static u8 get_fence(u8 fence, struct ib_send_wr *wr)
+  {
+-       if (unlikely(wr->opcode == IB_WR_LOCAL_INV &&
+-                    wr->send_flags & IB_SEND_FENCE))
++       if (wr->opcode == IB_WR_LOCAL_INV || wr->opcode == IB_WR_REG_MR)
+                 return MLX5_FENCE_MODE_STRONG_ORDERING;
+
+         if (unlikely(fence)) {
+
+
+Couldn't repro that case but I run some initial tests in my Lab (with my 
+patch above) - not performace servers:
+
+Initiator with 24 CPUs (2 threads/core, 6 cores/socket, 2 sockets), 
+Connect IB (same driver mlx5_ib), kernel 4.10.0, fio test with 24 jobs 
+and 128 iodepth.
+register_always=N
+
+Target - 1 subsystem with 1 ns (null_blk)
+
+bs   read (without/with patch)   write (without/with patch)
+--- --------------------------  ---------------------------
+512     1019k / 1008k                 1004k / 992k
+1k      1021k / 1013k                 1002k / 991k
+4k      1030k / 1022k                 978k  / 969k
+
+CPU usage is 100% for both cases in the initiator side.
+haven't seen difference with bs = 16k.
+No so big drop like we would expect,
+
+Joseph,
+please update after trying the 2 patches (seperatly) + perf numbers.
+
+I'll take it internally and run some more tests with stronger servers 
+using ConnectX4 NICs.
+
+These patches are only for testing and not for submission yet. If we 
+find them good enought for upstream then we need to distinguish between 
+ConnexcX4/IB and ConnectX5 (we probably won't see it there).
+
+Thanks,
+Max.
+
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
