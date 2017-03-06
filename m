@@ -1,64 +1,55 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 6 Mar 2017 17:46:33 -0500
-Subject: nvme, allocation failures, and aborted commands
-In-Reply-To: <24015519.RaUGNvtkS7@natasha>
-References: <2324331.vgmPNSfijK@natasha> <1898554.3jK49l1AhF@natasha>
- <24015519.RaUGNvtkS7@natasha>
-Message-ID: <20170306224633.GA21202@localhost.localdomain>
+From: leeyo@linux.vnet.ibm.com (Youngjae Lee)
+Date: Mon, 6 Mar 2017 17:19:03 -0600
+Subject: Fail to configure NVMe-fabric over soft-RoCE
+Message-ID: <d3b98e03-47fb-defc-baf5-d845e0c34919@linux.vnet.ibm.com>
 
-On Sun, Mar 05, 2017@11:11:45PM -0700, Thomas Fjellstrom wrote:
-> Tonight I decided to try kernel 4.11-rc1. Still getting page allocation
-> failures and aborted nvme commands once iozone gets to the fwrite/fread
-> testing.
-> 
-> The taint seems to be comming from previos warnings from the radeon kernel 
-> driver.
-> 
-> Its a pretty simple: iozone -a -s 64G  run. 
-> 
-> new log:
-> 
-> [ 5710.312195] kworker/u16:1: page allocation failure: order:2, mode:0x1084020(GFP_ATOMIC|__GFP_COMP), nodemask=(null)
-> [ 5710.312202] kworker/u16:1 cpuset=/ mems_allowed=0
-> [ 5710.312208] CPU: 1 PID: 30166 Comm: kworker/u16:1 Tainted: G        W       4.11.0-rc1 #2
-> [ 5710.312209] Hardware name: To be filled by O.E.M. To be filled by O.E.M./970 PRO GAMING/AURA, BIOS 0901 11/07/2016
-> [ 5710.312214] Workqueue: writeback wb_workfn (flush-259:0)
-> [ 5710.312217] Call Trace:
-> [ 5710.312223]  dump_stack+0x4f/0x73
-> [ 5710.312225]  warn_alloc+0xde/0x170
-> [ 5710.312227]  ? wake_all_kswapds+0x60/0xa0
-> [ 5710.312229]  __alloc_pages_slowpath+0xe21/0xe50
-> [ 5710.312232]  ? __inc_zone_state+0x42/0xb0
-> [ 5710.312235]  ? preempt_count_add+0xa3/0xc0
-> [ 5710.312236]  __alloc_pages_nodemask+0x1c6/0x1e0
-> [ 5710.312239]  alloc_pages_current+0x90/0x140
-> [ 5710.312241]  kmalloc_order_trace+0x29/0xf0
-> [ 5710.312243]  ? alloc_pages_current+0x90/0x140
-> [ 5710.312245]  __kmalloc+0x17a/0x1a0
-> [ 5710.312250]  nvme_queue_rq+0x12f/0x860 [nvme]
-> [ 5710.312253]  ? __sbitmap_queue_get+0x2b/0xa0
-> [ 5710.312255]  ? __blk_mq_get_tag.isra.7+0x62/0x70
-> [ 5710.312256]  ? blk_mq_get_tag+0x82/0x2b0
-> [ 5710.312258]  blk_mq_try_issue_directly+0x8f/0xe0
-> [ 5710.312260]  blk_mq_make_request+0x1ef/0x750
+Hi, all
 
-I'm not familiar with iozone, but I'll offer what the nvme driver is
-doing here.
+Has anyone succeeded to configure NVMe over Fabrics with soft-RoCE (rxe) ?
+I'm trying it with the latest rc kernel (4.11.0-rc1), but the discover 
+operation (of nvme-cli) on the client side fails. (please see the 
+attached nvme-cli/dmesg logs below..)
 
-The error says we failed to allocate 2 physically continguous pages from
-nvme_queue_rq. The only thing we allocate is a driver IO descriptor. Order
-2 means your data transfer for this IO is pretty large, somewhere between
-1 and 4MB. I don't think we need contiguous memory here, though; I'll
-see if we can use vmalloc in case memory is heavily fragmented.
+I'm following the instructions from this page to configure it. 
+https://community.mellanox.com/docs/DOC-2504
+A NVMe target seems to be perfectly set up on the target server side.
 
-On the timeout/abort, this appears to be happening on a functioning
-device completing commands just slower than the kernel's timeout.
-If your io test creates a very high outstanding depth with very large
-transfer sizes, it's possible to create tail latencies higher than the
-default 30 second timeout (YMMV, check your device's capabilities).
+Dmesg log on the target server,
+[ 5574.892787] nvmet: adding nsid 10 to subsystem test
+[ 5574.897461] nvmet_rdma: enabling port 1 (10.1.1.17:1023)
+[ 5612.369855] nvmet: creating controller 1 for subsystem 
+nqn.2014-08.org.nvmexpress.discovery for NQN 
+nqn.2014-08.org.nvmexpress:NVMf:uuid:15b61008-8a88-4d7b-b9be-66600269a9e7.
+[ 5673.040744] nvmet_rdma: freeing queue 0
 
-Could you throttle the device's max transfer and queue depth prior to
-running your IO test and see if the error messages clear up? For example:
+nvme-cli output and dmesg log on the client,
+root at rxe2:~/nvme-cli# ./nvme discover -t rdma -a 10.1.1.17 -s 1023
+Failed to write to /dev/nvme-fabrics: Input/output error
 
-  echo 128 > /sys/block/nvme0n1/queue/max_hw_sectors_kb
-  echo 128 > /sys/block/nvme0n1/queue/max_nr_requests
+[  386.091648] rdma_rxe: qp#17 moved to error state
+[  446.756855] nvme nvme0: Identify Controller failed (16391)
+
+I enabled debug msgs of rdma_rxe to see what happened in rdma_rxe and it 
+looks like there were some errors in rdma communications during the nvme 
+discover operation.
+....
+[ 8908.806021] rdma_rxe: qp#17 state = GET_REQ
+[ 8908.806022] rdma_rxe: qp#17 state = CHK_PSN
+[ 8908.806023] rdma_rxe: qp#17 state = CHK_OP_SEQ
+[ 8908.806025] rdma_rxe: qp#17 state = CHK_OP_VALID
+[ 8908.806026] rdma_rxe: qp#17 state = CHK_RESOURCE
+[ 8908.806028] rdma_rxe: qp#17 state = CHK_LENGTH
+[ 8908.806030] rdma_rxe: qp#17 state = CHK_RKEY
+[ 8908.806033] rdma_rxe: qp#17 state = ERR_LENGTH
+[ 8908.806035] rdma_rxe: qp#17 state = COMPLETE
+[ 8908.806036] rdma_rxe: qp#17 state = CLEANUP
+[ 8908.806037] rdma_rxe: qp#17 state = DONE
+[ 8908.806039] rdma_rxe: qp#17 state = ERROR
+[ 8908.806040] rdma_rxe: qp#17 moved to error state
+.....
+
+Any advice to resolve this issue ???
+
+Thanks.
+
+- Youngjae Lee
