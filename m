@@ -1,35 +1,32 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 6 Mar 2017 13:42:36 +0200
-Subject: WARNING on drivers/infiniband/core/verbs.c:1975
- __ib_drain_sq+0x182/0x1c0 [ib_core]
-In-Reply-To: <1457714996.31424605.1488696068958.JavaMail.zimbra@redhat.com>
-References: <1457714996.31424605.1488696068958.JavaMail.zimbra@redhat.com>
-Message-ID: <3ce3cfdb-a452-ff0c-fa52-2ad0546c8b8f@grimberg.me>
+Date: Mon, 6 Mar 2017 13:52:13 +0200
+Subject: kernel NULL pointer on nvmet with stress
+ rescan_controller/reset_controller test during I/O
+In-Reply-To: <1855135937.31179102.1488539265795.JavaMail.zimbra@redhat.com>
+References: <1855135937.31179102.1488539265795.JavaMail.zimbra@redhat.com>
+Message-ID: <8f4f2a1c-8bca-1ca3-8cf1-97572a729a9e@grimberg.me>
 
+> Hi
 
-> 2. Initiator side:
-> #nvme connect-all -t rdma -a 172.31.40.4 -s 1023
+Hi Yi,
+
+> I always can reproduce this issue during stress test on rescan_controller/reset_controller, could you help check it, thanks.
 >
-> 3. check the kernel log on both target/initiator side.
->
-> kernel log:
-> [  242.494533] ocrdma0:Using VLAN with PFC is recommended
-> [  242.520244] ocrdma0:Using VLAN 0 for this connection
-> [  242.652599] ocrdma0:Using VLAN with PFC is recommended
-> [  242.676365] ocrdma0:Using VLAN 0 for this connection
-> [  242.700476] ocrdma0:Using VLAN with PFC is recommended
-> [  242.723497] ocrdma0:Using VLAN 0 for this connection
-> [  242.812331] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 172.31.40.4:1023
-> [  242.854149] ocrdma0:Using VLAN with PFC is recommended
-> [  242.854149] ocrdma0:Using VLAN 0 for this connection
-> [  242.854662] ------------[ cut here ]------------
-> [  242.854671] WARNING: CPU: 2 PID: 158 at drivers/infiniband/core/verbs.c:1975 __ib_drain_sq+0x182/0x1c0 [ib_core]
+> Reproduce steps on Initiator side:
+> #fio -filename=/dev/nvme0n1 -iodepth=1 -thread -rw=randwrite -ioengine=psync -bssplit=5k/10:9k/10:13k/10:17k/10:21k/10:25k/10:29k/10:33k/10:37k/10:41k/10 -bs_unaligned -runtime=1200 -size=-group_reporting -name=mytest -numjobs=60 &
+> #num=0
+> while [ $num -lt 200 ]
+> do
+>         echo "-------------------------------$num"
+>         echo 1 >/sys/block/nvme0n1/device/rescan_controller || exit 1
+>         echo 1 >/sys/block/nvme0n1/device/reset_controller || exit 1
+>         ((num++))
+> done
 
+nvmet-rdma makes sure that no inflight IO nor completions are pending
+when destroying the queue. The below looks like we got a recv completion
+event after we freed all the tasks for the queue (which happens after
+ib_drain_qp and rdma_destroy_qp).
 
-
-I suspect that ib_drain_sq is not supported on ocrdma. From looking at
-the code it seems that ocrdma fails and send post when the qp is not
-in RTS. I think that if this is the case ocrdma needs to implement
-its own qp drain logic similar to cxgb4, ns, i40e etc.
-
-Devesh (CC'd), has anyone tested ib_drain_qp on ocrdma?
+So this is definitely weird. Which device are you using? I ran
+the exact scenario on my VM and didn't see any NULL deref...
