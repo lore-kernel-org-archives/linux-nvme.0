@@ -1,83 +1,99 @@
-From: mauricfo@linux.vnet.ibm.com (Mauricio Faria de Oliveira)
-Date: Tue, 7 Mar 2017 10:44:51 -0300
-Subject: [PATCH v3 01/16] lpfc: Correct WQ creation for pagesize
-In-Reply-To: <yq1tw75kbdn.fsf@oracle.com>
-References: <58a0d919.08BhoypOnvRSLIqV%jsmart2021@gmail.com>
- <6a197069-2f10-6df1-4cf1-1a62808c8903@linux.vnet.ibm.com>
- <yq1tw75kbdn.fsf@oracle.com>
-Message-ID: <7c6d6f3b-330c-ea6f-ad3f-65479354c94d@linux.vnet.ibm.com>
+From: leeyo@linux.vnet.ibm.com (Youngjae Lee)
+Date: Tue, 7 Mar 2017 09:39:00 -0600
+Subject: Fail to configure NVMe-fabric over soft-RoCE
+In-Reply-To: <801e400e-d940-eb37-62c3-8a9d42f39fd9@mellanox.com>
+References: <d3b98e03-47fb-defc-baf5-d845e0c34919@linux.vnet.ibm.com>
+ <801e400e-d940-eb37-62c3-8a9d42f39fd9@mellanox.com>
+Message-ID: <3c95ecde-84de-688b-f89b-fd6376e3b051@linux.vnet.ibm.com>
 
-Hello stable kernel maintainers,
+Hi, Max,
 
-On 03/07/2017 12:35 AM, Martin K. Petersen wrote:
-> Mauricio> Please flag this patch for stable.
+
+Sure, I passed some basic rdma tests like udaddy and ibv_rc_pingtest....
+
+Thanks.
+
+
+On 3/7/17 3:35 AM, Max Gurtovoy wrote:
+> adding Moni.
 >
-> Mauricio> This patch resolves a serious problem on IBM Power systems at
-> Mauricio> least.
+> Youngjae Lee,
 >
-> Both patches are already upstream so I can't tag them for stable. Either
-> you or James should mail stable at vger.kernel.org and request for the
-> patches to be queued up.
-
-Can this commit be included on stable v4.4+ , please? (in Linus tree)
-
-     8ea73db486cda442f0671f4bc9c03a76be398a28 "scsi: lpfc: Correct WQ 
-creation for pagesize"
-
-Thanks!
-
-
-For documentation purposes, the resolved issue is described on [1].
-
-Following is the rationale for the stable kernel version asked for, in
-case Broadcom/others would like to discuss/contribute.
-
-These are the 3 commits which introduced the lines changed by the 
-desired fix commit
-
-     0c651878ba3018bb4bbfa2ccd0a876bebb618768 "[SCSI] lpfc 8.3.41: Fixed 
-support for 128 byte WQEs"
-     5a6f133eea2d0b4f8f75367b803fef0f03acf268 "[SCSI] lpfc 8.3.22: Add 
-new mailbox command and new BSG fix"
-     c31098cef5e091e22a02ff255f911e0ad71cc393 "[SCSI] lpfc 8.3.23: Fixes 
-related to new hardware"
-
-So, checking the oldest release git tag which contains the most recent
-commit (so the fix applies cleanly)
-
-     $ git tag --contains 0c651878ba3018bb4bbfa2ccd0a876bebb618768 | 
-grep -v rc | sort -V
-     v3.12
-     <...>
-     v4.10
-
-And it is cherry-picked/applies cleanly on v3.12:
-
-     $ git checkout -b lpfc-v3.12 v3.12
-     Switched to a new branch 'lpfc-v3.12'
-
-     $ git cherry-pick 8ea73db486cda442f0671f4bc9c03a76be398a28
-     [lpfc-v3.12 c2b0912e6135] scsi: lpfc: Correct WQ creation for pagesize
-     Author: James Smart <jsmart2021 at gmail.com>
-     2 files changed, 7 insertions(+), 4 deletions(-)
-
-However, v3.12 seems too old to go back, and it's unclear whether there
-was any problem actually reported on these older kernel releases, or
-whether the hardware/configuration that reproduces this problem is
-supported on v3.12 at all.
-
-On PowerPC (which is directly affected by the fix, as at least IBM
-Power servers uses a 64k page size by default on most distros), this
-fix is probably only required on v4.4+, so to cover a distro for which
-Broadcom doesn't ship inbox drivers to (w/ fix included).
-
-So, I'll ask it for stable v4.4+, and Broadcom/others can expand the
-range if they see fit/required.
-
-[1] http://www.spinics.net/lists/linux-scsi/msg105886.html
-
-cheers,
+> did you run some basic rdma tests before NVMEoF ?
+> This is a precondition.
+>
+> Moni,
+> please advise.
+>
+> Max.
+>
+> On 3/7/2017 1:19 AM, Youngjae Lee wrote:
+>> Hi, all
+>>
+>> Has anyone succeeded to configure NVMe over Fabrics with soft-RoCE 
+>> (rxe) ?
+>> I'm trying it with the latest rc kernel (4.11.0-rc1), but the discover
+>> operation (of nvme-cli) on the client side fails. (please see the
+>> attached nvme-cli/dmesg logs below..)
+>>
+>> I'm following the instructions from this page to configure it.
+>> https://community.mellanox.com/docs/DOC-2504
+>> A NVMe target seems to be perfectly set up on the target server side.
+>>
+>> Dmesg log on the target server,
+>> [ 5574.892787] nvmet: adding nsid 10 to subsystem test
+>> [ 5574.897461] nvmet_rdma: enabling port 1 (10.1.1.17:1023)
+>> [ 5612.369855] nvmet: creating controller 1 for subsystem
+>> nqn.2014-08.org.nvmexpress.discovery for NQN
+>> nqn.2014-08.org.nvmexpress:NVMf:uuid:15b61008-8a88-4d7b-b9be-66600269a9e7. 
+>>
+>> [ 5673.040744] nvmet_rdma: freeing queue 0
+>>
+>> nvme-cli output and dmesg log on the client,
+>> root at rxe2:~/nvme-cli# ./nvme discover -t rdma -a 10.1.1.17 -s 1023
+>> Failed to write to /dev/nvme-fabrics: Input/output error
+>>
+>> [  386.091648] rdma_rxe: qp#17 moved to error state
+>> [  446.756855] nvme nvme0: Identify Controller failed (16391)
+>>
+>> I enabled debug msgs of rdma_rxe to see what happened in rdma_rxe and it
+>> looks like there were some errors in rdma communications during the nvme
+>> discover operation.
+>> ....
+>> [ 8908.806021] rdma_rxe: qp#17 state = GET_REQ
+>> [ 8908.806022] rdma_rxe: qp#17 state = CHK_PSN
+>> [ 8908.806023] rdma_rxe: qp#17 state = CHK_OP_SEQ
+>> [ 8908.806025] rdma_rxe: qp#17 state = CHK_OP_VALID
+>> [ 8908.806026] rdma_rxe: qp#17 state = CHK_RESOURCE
+>> [ 8908.806028] rdma_rxe: qp#17 state = CHK_LENGTH
+>> [ 8908.806030] rdma_rxe: qp#17 state = CHK_RKEY
+>> [ 8908.806033] rdma_rxe: qp#17 state = ERR_LENGTH
+>> [ 8908.806035] rdma_rxe: qp#17 state = COMPLETE
+>> [ 8908.806036] rdma_rxe: qp#17 state = CLEANUP
+>> [ 8908.806037] rdma_rxe: qp#17 state = DONE
+>> [ 8908.806039] rdma_rxe: qp#17 state = ERROR
+>> [ 8908.806040] rdma_rxe: qp#17 moved to error state
+>> .....
+>>
+>> Any advice to resolve this issue ???
+>>
+>> Thanks.
+>>
+>> - Youngjae Lee
+>>
+>>
+>> _______________________________________________
+>> Linux-nvme mailing list
+>> Linux-nvme at lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
 
 -- 
-Mauricio Faria de Oliveira
-IBM Linux Technology Center
+Best Regards.
+
+- Youngjae Lee
