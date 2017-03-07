@@ -1,77 +1,76 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 7 Mar 2017 11:27:49 +0200
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <16c4bd86-fd63-f230-40bc-f52cb106e11b@grimberg.me>
-References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
- <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
- <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
- <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
- <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
- <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
- <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
- <16c4bd86-fd63-f230-40bc-f52cb106e11b@grimberg.me>
-Message-ID: <fbd647dd-3a16-8155-107d-f98e8326cc63@mellanox.com>
+Date: Tue, 7 Mar 2017 11:35:16 +0200
+Subject: Fail to configure NVMe-fabric over soft-RoCE
+In-Reply-To: <d3b98e03-47fb-defc-baf5-d845e0c34919@linux.vnet.ibm.com>
+References: <d3b98e03-47fb-defc-baf5-d845e0c34919@linux.vnet.ibm.com>
+Message-ID: <801e400e-d940-eb37-62c3-8a9d42f39fd9@mellanox.com>
 
-Hi,
+adding Moni.
 
-Shahar/Joseph, what is your link layer conf (IB/Eth) ?
-In eth case, have you configured some PFC ? if not, can you try it ?
-I suspect that this is the root cause and it might help you avoiding 
-this case, meanwhile we're looking for for the best solution.
+Youngjae Lee,
 
-Adding Vladimir that will run iSER on his performance setup with the new 
-fencing patch (not an NVMEoF related issue).
-We can run also NVMEoF later on if needed.
+did you run some basic rdma tests before NVMEoF ?
+This is a precondition.
+
+Moni,
+please advise.
 
 Max.
 
-On 3/6/2017 1:28 PM, Sagi Grimberg wrote:
->> Hi Sagi,
->>
->> I think we need to add fence to the UMR wqe.
->>
->> so lets try this one:
->>
->> diff --git a/drivers/infiniband/hw/mlx5/qp.c
->> b/drivers/infiniband/hw/mlx5/qp.c
->> index ad8a263..c38c4fa 100644
->> --- a/drivers/infiniband/hw/mlx5/qp.c
->> +++ b/drivers/infiniband/hw/mlx5/qp.c
->> @@ -3737,8 +3737,7 @@ static void dump_wqe(struct mlx5_ib_qp *qp, int
->> idx, int size_16)
->>
->>  static u8 get_fence(u8 fence, struct ib_send_wr *wr)
->>  {
->> -       if (unlikely(wr->opcode == IB_WR_LOCAL_INV &&
->> -                    wr->send_flags & IB_SEND_FENCE))
->> +       if (wr->opcode == IB_WR_LOCAL_INV || wr->opcode == IB_WR_REG_MR)
->>                 return MLX5_FENCE_MODE_STRONG_ORDERING;
->>
->>         if (unlikely(fence)) {
+On 3/7/2017 1:19 AM, Youngjae Lee wrote:
+> Hi, all
 >
-> This will kill performance, isn't there another fix that can
-> be applied just for retransmission flow?
+> Has anyone succeeded to configure NVMe over Fabrics with soft-RoCE (rxe) ?
+> I'm trying it with the latest rc kernel (4.11.0-rc1), but the discover
+> operation (of nvme-cli) on the client side fails. (please see the
+> attached nvme-cli/dmesg logs below..)
 >
->> Couldn't repro that case but I run some initial tests in my Lab (with my
->> patch above) - not performace servers:
->>
->> Initiator with 24 CPUs (2 threads/core, 6 cores/socket, 2 sockets),
->> Connect IB (same driver mlx5_ib), kernel 4.10.0, fio test with 24 jobs
->> and 128 iodepth.
->> register_always=N
->>
->> Target - 1 subsystem with 1 ns (null_blk)
->>
->> bs   read (without/with patch)   write (without/with patch)
->> --- --------------------------  ---------------------------
->> 512     1019k / 1008k                 1004k / 992k
->> 1k      1021k / 1013k                 1002k / 991k
->> 4k      1030k / 1022k                 978k  / 969k
->>
->> CPU usage is 100% for both cases in the initiator side.
->> haven't seen difference with bs = 16k.
->> No so big drop like we would expect,
+> I'm following the instructions from this page to configure it.
+> https://community.mellanox.com/docs/DOC-2504
+> A NVMe target seems to be perfectly set up on the target server side.
 >
-> Obviously you won't see a drop without registering memory
-> for small IO (register_always=N), this would bypass registration
-> altogether... Please retest with register_always=Y.
+> Dmesg log on the target server,
+> [ 5574.892787] nvmet: adding nsid 10 to subsystem test
+> [ 5574.897461] nvmet_rdma: enabling port 1 (10.1.1.17:1023)
+> [ 5612.369855] nvmet: creating controller 1 for subsystem
+> nqn.2014-08.org.nvmexpress.discovery for NQN
+> nqn.2014-08.org.nvmexpress:NVMf:uuid:15b61008-8a88-4d7b-b9be-66600269a9e7.
+> [ 5673.040744] nvmet_rdma: freeing queue 0
+>
+> nvme-cli output and dmesg log on the client,
+> root at rxe2:~/nvme-cli# ./nvme discover -t rdma -a 10.1.1.17 -s 1023
+> Failed to write to /dev/nvme-fabrics: Input/output error
+>
+> [  386.091648] rdma_rxe: qp#17 moved to error state
+> [  446.756855] nvme nvme0: Identify Controller failed (16391)
+>
+> I enabled debug msgs of rdma_rxe to see what happened in rdma_rxe and it
+> looks like there were some errors in rdma communications during the nvme
+> discover operation.
+> ....
+> [ 8908.806021] rdma_rxe: qp#17 state = GET_REQ
+> [ 8908.806022] rdma_rxe: qp#17 state = CHK_PSN
+> [ 8908.806023] rdma_rxe: qp#17 state = CHK_OP_SEQ
+> [ 8908.806025] rdma_rxe: qp#17 state = CHK_OP_VALID
+> [ 8908.806026] rdma_rxe: qp#17 state = CHK_RESOURCE
+> [ 8908.806028] rdma_rxe: qp#17 state = CHK_LENGTH
+> [ 8908.806030] rdma_rxe: qp#17 state = CHK_RKEY
+> [ 8908.806033] rdma_rxe: qp#17 state = ERR_LENGTH
+> [ 8908.806035] rdma_rxe: qp#17 state = COMPLETE
+> [ 8908.806036] rdma_rxe: qp#17 state = CLEANUP
+> [ 8908.806037] rdma_rxe: qp#17 state = DONE
+> [ 8908.806039] rdma_rxe: qp#17 state = ERROR
+> [ 8908.806040] rdma_rxe: qp#17 moved to error state
+> .....
+>
+> Any advice to resolve this issue ???
+>
+> Thanks.
+>
+> - Youngjae Lee
+>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
