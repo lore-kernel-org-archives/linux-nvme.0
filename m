@@ -1,34 +1,27 @@
-From: gregkh@linuxfoundation.org (Greg KH)
-Date: Tue, 7 Mar 2017 20:57:04 +0100
-Subject: [PATCH v3 01/16] lpfc: Correct WQ creation for pagesize
-In-Reply-To: <7c6d6f3b-330c-ea6f-ad3f-65479354c94d@linux.vnet.ibm.com>
-References: <58a0d919.08BhoypOnvRSLIqV%jsmart2021@gmail.com>
- <6a197069-2f10-6df1-4cf1-1a62808c8903@linux.vnet.ibm.com>
- <yq1tw75kbdn.fsf@oracle.com>
- <7c6d6f3b-330c-ea6f-ad3f-65479354c94d@linux.vnet.ibm.com>
-Message-ID: <20170307195704.GB25619@kroah.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 7 Mar 2017 13:23:51 -0800
+Subject: [PATCH] lpfc: Finalize Kconfig options for nvme
+In-Reply-To: <1488914228-7289-1-git-send-email-jsmart2021@gmail.com>
+References: <1488914228-7289-1-git-send-email-jsmart2021@gmail.com>
+Message-ID: <20170307212351.GA5697@infradead.org>
 
-On Tue, Mar 07, 2017@10:44:51AM -0300, Mauricio Faria de Oliveira wrote:
-> Hello stable kernel maintainers,
-> 
-> On 03/07/2017 12:35 AM, Martin K. Petersen wrote:
-> > Mauricio> Please flag this patch for stable.
-> > 
-> > Mauricio> This patch resolves a serious problem on IBM Power systems at
-> > Mauricio> least.
-> > 
-> > Both patches are already upstream so I can't tag them for stable. Either
-> > you or James should mail stable at vger.kernel.org and request for the
-> > patches to be queued up.
-> 
-> Can this commit be included on stable v4.4+ , please? (in Linus tree)
-> 
->     8ea73db486cda442f0671f4bc9c03a76be398a28 "scsi: lpfc: Correct WQ
-> creation for pagesize"
+> +#if defined(CONFIG_NVME_FC)
+> +#define CONFIG_LPFC_NVME_INITIATOR
+> +#endif
+> +
+> +#if defined(CONFIG_NVME_TARGET_FC)
+> +#define CONFIG_LPFC_NVME_TARGET
+> +#endif
 
-I need an ack from a scsi maintainer that this is an ok thing to do
-before I can do so.
+The CONFIG_* namespace is reserved for Kconfig defined symbols.
 
-thanks,
+Also I think the above is wrong if the nvme fc core code is built
+modular.  I think you want to replace all occurances of
 
-greg k-h
+#ifdef CONFIG_LPFC_NVME_INITIATOR
+
+with
+
+if (IS_ENABLED(CONFIG_NVME_FC))
+
+and vice versa for the taget.
