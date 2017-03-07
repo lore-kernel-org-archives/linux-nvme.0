@@ -1,55 +1,25 @@
-From: leeyo@linux.vnet.ibm.com (Youngjae Lee)
-Date: Mon, 6 Mar 2017 17:19:03 -0600
-Subject: Fail to configure NVMe-fabric over soft-RoCE
-Message-ID: <d3b98e03-47fb-defc-baf5-d845e0c34919@linux.vnet.ibm.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Mon, 06 Mar 2017 22:35:00 -0500
+Subject: [PATCH v3 01/16] lpfc: Correct WQ creation for pagesize
+In-Reply-To: <6a197069-2f10-6df1-4cf1-1a62808c8903@linux.vnet.ibm.com>
+ (Mauricio Faria de Oliveira's message of "Fri, 3 Mar 2017 22:43:16
+ -0300")
+References: <58a0d919.08BhoypOnvRSLIqV%jsmart2021@gmail.com>
+ <6a197069-2f10-6df1-4cf1-1a62808c8903@linux.vnet.ibm.com>
+Message-ID: <yq1tw75kbdn.fsf@oracle.com>
 
-Hi, all
+>>>>> "Mauricio" == Mauricio Faria de Oliveira <mauricfo at linux.vnet.ibm.com> writes:
 
-Has anyone succeeded to configure NVMe over Fabrics with soft-RoCE (rxe) ?
-I'm trying it with the latest rc kernel (4.11.0-rc1), but the discover 
-operation (of nvme-cli) on the client side fails. (please see the 
-attached nvme-cli/dmesg logs below..)
+Mauricio,
 
-I'm following the instructions from this page to configure it. 
-https://community.mellanox.com/docs/DOC-2504
-A NVMe target seems to be perfectly set up on the target server side.
+Mauricio> Please flag this patch for stable.
 
-Dmesg log on the target server,
-[ 5574.892787] nvmet: adding nsid 10 to subsystem test
-[ 5574.897461] nvmet_rdma: enabling port 1 (10.1.1.17:1023)
-[ 5612.369855] nvmet: creating controller 1 for subsystem 
-nqn.2014-08.org.nvmexpress.discovery for NQN 
-nqn.2014-08.org.nvmexpress:NVMf:uuid:15b61008-8a88-4d7b-b9be-66600269a9e7.
-[ 5673.040744] nvmet_rdma: freeing queue 0
+Mauricio> This patch resolves a serious problem on IBM Power systems at
+Mauricio> least.
 
-nvme-cli output and dmesg log on the client,
-root at rxe2:~/nvme-cli# ./nvme discover -t rdma -a 10.1.1.17 -s 1023
-Failed to write to /dev/nvme-fabrics: Input/output error
+Both patches are already upstream so I can't tag them for stable. Either
+you or James should mail stable at vger.kernel.org and request for the
+patches to be queued up.
 
-[  386.091648] rdma_rxe: qp#17 moved to error state
-[  446.756855] nvme nvme0: Identify Controller failed (16391)
-
-I enabled debug msgs of rdma_rxe to see what happened in rdma_rxe and it 
-looks like there were some errors in rdma communications during the nvme 
-discover operation.
-....
-[ 8908.806021] rdma_rxe: qp#17 state = GET_REQ
-[ 8908.806022] rdma_rxe: qp#17 state = CHK_PSN
-[ 8908.806023] rdma_rxe: qp#17 state = CHK_OP_SEQ
-[ 8908.806025] rdma_rxe: qp#17 state = CHK_OP_VALID
-[ 8908.806026] rdma_rxe: qp#17 state = CHK_RESOURCE
-[ 8908.806028] rdma_rxe: qp#17 state = CHK_LENGTH
-[ 8908.806030] rdma_rxe: qp#17 state = CHK_RKEY
-[ 8908.806033] rdma_rxe: qp#17 state = ERR_LENGTH
-[ 8908.806035] rdma_rxe: qp#17 state = COMPLETE
-[ 8908.806036] rdma_rxe: qp#17 state = CLEANUP
-[ 8908.806037] rdma_rxe: qp#17 state = DONE
-[ 8908.806039] rdma_rxe: qp#17 state = ERROR
-[ 8908.806040] rdma_rxe: qp#17 moved to error state
-.....
-
-Any advice to resolve this issue ???
-
-Thanks.
-
-- Youngjae Lee
+-- 
+Martin K. Petersen	Oracle Linux Engineering
