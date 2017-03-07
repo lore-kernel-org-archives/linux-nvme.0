@@ -1,25 +1,24 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Mon, 06 Mar 2017 22:35:00 -0500
-Subject: [PATCH v3 01/16] lpfc: Correct WQ creation for pagesize
-In-Reply-To: <6a197069-2f10-6df1-4cf1-1a62808c8903@linux.vnet.ibm.com>
- (Mauricio Faria de Oliveira's message of "Fri, 3 Mar 2017 22:43:16
- -0300")
-References: <58a0d919.08BhoypOnvRSLIqV%jsmart2021@gmail.com>
- <6a197069-2f10-6df1-4cf1-1a62808c8903@linux.vnet.ibm.com>
-Message-ID: <yq1tw75kbdn.fsf@oracle.com>
+Date: Mon, 06 Mar 2017 23:09:02 -0500
+Subject: [PATCH 00/20] lpfc: Update lpfc to revision 11.2.0.10
+In-Reply-To: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com> (jsmart's
+ message of "Sat, 4 Mar 2017 09:30:20 -0800")
+References: <1488648640-5170-1-git-send-email-jsmart2021@gmail.com>
+Message-ID: <yq1d1dtk9sx.fsf@oracle.com>
 
->>>>> "Mauricio" == Mauricio Faria de Oliveira <mauricfo at linux.vnet.ibm.com> writes:
+>>>>> "James" == jsmart2021  <jsmart2021 at gmail.com> writes:
 
-Mauricio,
+James,
 
-Mauricio> Please flag this patch for stable.
+James> This set of patches are mainly cleanups and fixes to the large
+James> nvme post that was recently integrated. It includes a patch to
+James> break the mandate for both NVME and SCSI subystems.
 
-Mauricio> This patch resolves a serious problem on IBM Power systems at
-Mauricio> least.
+A couple of the patches in this series felt quite a bit bigger than "a
+fix". I let them in because I acknowledge that it was a pretty big chunk
+of code that just got merged and that some fallout was inevitable.
 
-Both patches are already upstream so I can't tag them for stable. Either
-you or James should mail stable at vger.kernel.org and request for the
-patches to be queued up.
+Applied to 4.11/scsi-fixes.
 
 -- 
 Martin K. Petersen	Oracle Linux Engineering
