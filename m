@@ -1,104 +1,93 @@
-From: monis@mellanox.com (Moni Shoua)
-Date: Tue, 7 Mar 2017 15:57:39 +0000
-Subject: Fail to configure NVMe-fabric over soft-RoCE
-In-Reply-To: <3c95ecde-84de-688b-f89b-fd6376e3b051@linux.vnet.ibm.com>
-References: <d3b98e03-47fb-defc-baf5-d845e0c34919@linux.vnet.ibm.com>
- <801e400e-d940-eb37-62c3-8a9d42f39fd9@mellanox.com>
- <3c95ecde-84de-688b-f89b-fd6376e3b051@linux.vnet.ibm.com>
-Message-ID: <DB6PR0501MB20378ECBF75A15D87CAC73A4D32F0@DB6PR0501MB2037.eurprd05.prod.outlook.com>
+From: jsmart2021@gmail.com (jsmart2021@gmail.com)
+Date: Tue,  7 Mar 2017 11:17:08 -0800
+Subject: [PATCH] lpfc: Finalize Kconfig options for nvme
+Message-ID: <1488914228-7289-1-git-send-email-jsmart2021@gmail.com>
 
-Max, please  take it and let me know if you see any connectivity issues 
+From: James Smart <jsmart2021@gmail.com>
 
------Original Message-----
-From: Youngjae Lee [mailto:leeyo@linux.vnet.ibm.com] 
-Sent: Tuesday, March 07, 2017 5:39 PM
-To: Max Gurtovoy <maxg at mellanox.com>; linux-nvme at lists.infradead.org; Moni Shoua <monis at mellanox.com>
-Subject: Re: Fail to configure NVMe-fabric over soft-RoCE
+Reviewing the result of what was just added for Kconfig, we made
+a poor choice. It worked well for full kernel builds, but not so
+much for how it would be deployed on a distro.
 
-Hi, Max,
+Here's the final result:
+- lpfc will compile in NVME initiator and/or NVME target support
+  based on whether the kernel has the corresponding subsystem support.
+  Kconfig is not used to drive this specifically for lpfc.
+- There is a module parameter, lpfc_enable_fc4_type, that indicates
+  whether the ports will do FCP-only or FCP & NVME (NVME-only not yet
+  possible due to dependency on fc transport). As FCP & NVME divvys
+  up exchange resources, and given NVME will not be often initially,
+  the default is changed to FCP only.
 
+-- james
 
-Sure, I passed some basic rdma tests like udaddy and ibv_rc_pingtest....
+Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/scsi/Kconfig          | 14 --------------
+ drivers/scsi/lpfc/lpfc.h      |  8 ++++++++
+ drivers/scsi/lpfc/lpfc_attr.c |  4 ++--
+ 3 files changed, 10 insertions(+), 16 deletions(-)
 
-Thanks.
-
-
-On 3/7/17 3:35 AM, Max Gurtovoy wrote:
-> adding Moni.
->
-> Youngjae Lee,
->
-> did you run some basic rdma tests before NVMEoF ?
-> This is a precondition.
->
-> Moni,
-> please advise.
->
-> Max.
->
-> On 3/7/2017 1:19 AM, Youngjae Lee wrote:
->> Hi, all
->>
->> Has anyone succeeded to configure NVMe over Fabrics with soft-RoCE
->> (rxe) ?
->> I'm trying it with the latest rc kernel (4.11.0-rc1), but the 
->> discover operation (of nvme-cli) on the client side fails. (please 
->> see the attached nvme-cli/dmesg logs below..)
->>
->> I'm following the instructions from this page to configure it.
->> https://community.mellanox.com/docs/DOC-2504
->> A NVMe target seems to be perfectly set up on the target server side.
->>
->> Dmesg log on the target server,
->> [ 5574.892787] nvmet: adding nsid 10 to subsystem test [ 5574.897461] 
->> nvmet_rdma: enabling port 1 (10.1.1.17:1023) [ 5612.369855] nvmet: 
->> creating controller 1 for subsystem 
->> nqn.2014-08.org.nvmexpress.discovery for NQN 
->> nqn.2014-08.org.nvmexpress:NVMf:uuid:15b61008-8a88-4d7b-b9be-66600269a9e7.
->>
->> [ 5673.040744] nvmet_rdma: freeing queue 0
->>
->> nvme-cli output and dmesg log on the client, root at rxe2:~/nvme-cli# 
->> ./nvme discover -t rdma -a 10.1.1.17 -s 1023 Failed to write to 
->> /dev/nvme-fabrics: Input/output error
->>
->> [  386.091648] rdma_rxe: qp#17 moved to error state [  446.756855] 
->> nvme nvme0: Identify Controller failed (16391)
->>
->> I enabled debug msgs of rdma_rxe to see what happened in rdma_rxe and 
->> it looks like there were some errors in rdma communications during 
->> the nvme discover operation.
->> ....
->> [ 8908.806021] rdma_rxe: qp#17 state = GET_REQ [ 8908.806022] 
->> rdma_rxe: qp#17 state = CHK_PSN [ 8908.806023] rdma_rxe: qp#17 state 
->> = CHK_OP_SEQ [ 8908.806025] rdma_rxe: qp#17 state = CHK_OP_VALID [ 
->> 8908.806026] rdma_rxe: qp#17 state = CHK_RESOURCE [ 8908.806028] 
->> rdma_rxe: qp#17 state = CHK_LENGTH [ 8908.806030] rdma_rxe: qp#17 
->> state = CHK_RKEY [ 8908.806033] rdma_rxe: qp#17 state = ERR_LENGTH [ 
->> 8908.806035] rdma_rxe: qp#17 state = COMPLETE [ 8908.806036] 
->> rdma_rxe: qp#17 state = CLEANUP [ 8908.806037] rdma_rxe: qp#17 state 
->> = DONE [ 8908.806039] rdma_rxe: qp#17 state = ERROR [ 8908.806040] 
->> rdma_rxe: qp#17 moved to error state .....
->>
->> Any advice to resolve this issue ???
->>
->> Thanks.
->>
->> - Youngjae Lee
->>
->>
->> _______________________________________________
->> Linux-nvme mailing list
->> Linux-nvme at lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-nvme
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
->
-
---
-Best Regards.
-
-- Youngjae Lee
+diff --git a/drivers/scsi/Kconfig b/drivers/scsi/Kconfig
+index 4bf55b5..3c52867 100644
+--- a/drivers/scsi/Kconfig
++++ b/drivers/scsi/Kconfig
+@@ -1253,20 +1253,6 @@ config SCSI_LPFC_DEBUG_FS
+ 	  This makes debugging information from the lpfc driver
+ 	  available via the debugfs filesystem.
+ 
+-config LPFC_NVME_INITIATOR
+-	bool "Emulex LightPulse Fibre Channel NVME Initiator Support"
+-	depends on SCSI_LPFC && NVME_FC
+-	---help---
+-	  This enables NVME Initiator support in the Emulex lpfc driver.
+-
+-config LPFC_NVME_TARGET
+-	bool "Emulex LightPulse Fibre Channel NVME Initiator Support"
+-	depends on SCSI_LPFC && NVME_TARGET_FC
+-	---help---
+-	  This enables NVME Target support in the Emulex lpfc driver.
+-	  Target enablement must still be enabled on a per adapter
+-	  basis by module parameters.
+-
+ config SCSI_SIM710
+ 	tristate "Simple 53c710 SCSI support (Compaq, NCR machines)"
+ 	depends on (EISA || MCA) && SCSI
+diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
+index 257bbdd..ce571ca 100644
+--- a/drivers/scsi/lpfc/lpfc.h
++++ b/drivers/scsi/lpfc/lpfc.h
+@@ -28,6 +28,14 @@
+ #define CONFIG_SCSI_LPFC_DEBUG_FS
+ #endif
+ 
++#if defined(CONFIG_NVME_FC)
++#define CONFIG_LPFC_NVME_INITIATOR
++#endif
++
++#if defined(CONFIG_NVME_TARGET_FC)
++#define CONFIG_LPFC_NVME_TARGET
++#endif
++
+ struct lpfc_sli2_slim;
+ 
+ #define ELX_MODEL_NAME_SIZE	80
+diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
+index fbd3a56..84aa62f 100644
+--- a/drivers/scsi/lpfc/lpfc_attr.c
++++ b/drivers/scsi/lpfc/lpfc_attr.c
+@@ -3315,9 +3315,9 @@ LPFC_ATTR_R(nvmet_mrq_post, LPFC_DEF_MRQ_POST,
+  * lpfc_enable_fc4_type: Defines what FC4 types are supported.
+  * Supported Values:  1 - register just FCP
+  *                    3 - register both FCP and NVME
+- * Supported values are [1,3]. Default value is 3
++ * Supported values are [1,3]. Default value is 1
+  */
+-LPFC_ATTR_R(enable_fc4_type, LPFC_ENABLE_BOTH,
++LPFC_ATTR_R(enable_fc4_type, LPFC_ENABLE_FCP,
+ 	    LPFC_ENABLE_FCP, LPFC_ENABLE_BOTH,
+ 	    "Define fc4 type to register with fabric.");
+ 
+-- 
+2.5.0
