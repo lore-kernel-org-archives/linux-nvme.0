@@ -1,12 +1,10 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 8 Mar 2017 22:35:19 +0100
-Subject: [RFC PATCH] nvmet: Back namespace with files
-In-Reply-To: <1489008937-31043-1-git-send-email-keith.busch@intel.com>
-References: <1489008937-31043-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20170308213519.GA32009@lst.de>
+Date: Wed, 8 Mar 2017 22:35:36 +0100
+Subject: [PATCH] IB/core: Protect against self-requeue of a cq work item
+In-Reply-To: <1489003252-1893-1-git-send-email-sagi@grimberg.me>
+References: <1489003252-1893-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20170308213536.GB32009@lst.de>
 
-Wrong kind of interface - this needs to use vfs_iter_read/write
-of type ITER_BVEC.
+Looks good,
 
-And before merging anything I'd really like to see how this is
-an improvement over simply using the loop device.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
