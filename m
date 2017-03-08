@@ -1,19 +1,14 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 8 Mar 2017 17:15:28 -0500
-Subject: [RFC PATCH] nvmet: Back namespace with files
-In-Reply-To: <20170308213519.GA32009@lst.de>
-References: <1489008937-31043-1-git-send-email-keith.busch@intel.com>
- <20170308213519.GA32009@lst.de>
-Message-ID: <20170308221527.GA1885@localhost.localdomain>
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Wed, 8 Mar 2017 22:12:56 +0000
+Subject: [PATCH] IB/core: Protect against self-requeue of a cq work item
+In-Reply-To: <1489003252-1893-1-git-send-email-sagi@grimberg.me>
+References: <1489003252-1893-1-git-send-email-sagi@grimberg.me>
+Message-ID: <1489011163.2813.7.camel@sandisk.com>
 
-On Wed, Mar 08, 2017@10:35:19PM +0100, Christoph Hellwig wrote:
-> Wrong kind of interface - this needs to use vfs_iter_read/write
-> of type ITER_BVEC.
+On Wed, 2017-03-08@22:00 +0200, Sagi Grimberg wrote:
+> We need to make sure that the cq work item does not
+> run when we are destroying the cq. Unlike flush_work,
+> cancel_work_sync protects against self-requeue of the
+> work item (which we can do in ib_cq_poll_work).
 
-Gotchya, that's what I was locking for. Thanks for the pointer.
-
-> And before merging anything I'd really like to see how this is
-> an improvement over simply using the loop device.
-
-This is a step toward getting namespace management. It's easy to create
-namespaces if they're files.
+Reviewed-by: Bart Van Assche <bart.vanassche at sandisk.com>
