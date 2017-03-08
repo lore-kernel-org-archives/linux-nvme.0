@@ -1,75 +1,64 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 8 Mar 2017 17:11:29 +0100
+From: monis@mellanox.com (Moni Shoua)
+Date: Wed, 8 Mar 2017 18:33:22 +0200
 Subject: Need some pointers to debug a KASAN splat in NVMe over Fabrics
  with rdma-rxe
 In-Reply-To: <5b16edcf-c39a-bc4b-0e32-8ccfb5d75efb@suse.de>
 References: <5b16edcf-c39a-bc4b-0e32-8ccfb5d75efb@suse.de>
-Message-ID: <db58598f-6cd7-0e90-9a41-a7f26e5722e3@suse.de>
+Message-ID: <CAG9sBKPwEryc7U+hV=XJvRrFFhNvoktDOtwwS6piUw=cQ=bZhA@mail.gmail.com>
 
-On 03/08/2017 04:35 PM, Johannes Thumshirn wrote:
+On Wed, Mar 8, 2017@5:35 PM, Johannes Thumshirn <jthumshirn@suse.de> wrote:
 > Hi Moni et al.,
-> 
+>
 > I'm getting a KASAN stack-out-of-bounds in rxe_post_send+0xdfe/0x1830
 > [rdma_rxe] at addr ffff8800187072e8 with v4.11-rc1
-> 
+>
 > rxe_post_send+0xdfe is the following (note: the pr_err was inserted by
 > me to aid debugging).
+>
+> (gdb) list *(rxe_post_send+0xdfe)
+> 0x1dc3e is in rxe_post_send (drivers/infiniband/sw/rxe/rxe_verbs.c:765).
+> 760             pr_err("%s: *_wr(ibwr): %p\n",
+> 761                    __func__, (void *)(mask & WR_ATOMIC_MASK ?
+> atomic_wr(ibwr)
+> 762                    : rdma_wr(ibwr)));
+> 763
+> 764             wqe->iova               = (mask & WR_ATOMIC_MASK) ?
+> 765
+> atomic_wr(ibwr)->remote_addr :
+> 766                                             rdma_wr(ibwr)->remote_addr;
+> 767             wqe->mask               = mask;
+> 768             wqe->dma.length         = length;
+> 769             wqe->dma.resid          = length;
+>
+> Coincidentially ffff8800187072e8 = ibwr + 0x28. ibwr comes from
+> nvme_rdma_post_send() and has an opcode of IB_WR_SEND (verified . So the
+> rdma_wr(ibwr) call cannot return a correct/valid parent object (neither
+> could the atomic_wr(ibr)).
+>
+> So much for the easy/mechanic part.
+>
+> I can special case IB_WR_SEND in rxe's init_send_wqe() but I neither
+> know if it is correct nor how the wqe elements (especially wqe->iova)
+> should be set up.
+>
+> So any help would be appreciated here.
+>
+> Thanks in advance,
+>         Johannes
+> --
 
-Quick follow up to my last mail
+Hi Johannes
 
-Slamming in a:
-@@ -753,9 +757,18 @@ static int init_send_wqe(struct rxe_qp *qp, struct
-ib_send_wr *ibwr,
-                memcpy(wqe->dma.sge, ibwr->sg_list,
-                       num_sge * sizeof(struct ib_sge));
+Your report and analysis seem to be accurate (regarding value of wqe->iova)
+Unfortunately we didn't have a chance yet to run kernel application
+tests but I will try to add them soon and be able to debug it myself.
+In the meantime
+1. DId the test fail completely or is it just the KASAN error that
+made you look at init_send_wqe()?
+2. You can take a look at librxe implementation of init_send_wqe() (it
+looks slightly different from kernel's implementation) and see what
+happens if you change implementation accordingly.
 
--       wqe->iova               = (mask & WR_ATOMIC_MASK) ?
--                                       atomic_wr(ibwr)->remote_addr :
--                                       rdma_wr(ibwr)->remote_addr;
-+
-+       if (ibwr->opcode == IB_WR_RDMA_WRITE ||
-+           ibwr->opcode == IB_WR_RDMA_WRITE_WITH_IMM ||
-+           ibwr->opcode == IB_WR_ATOMIC_CMP_AND_SWP ||
-+           ibwr->opcode == IB_WR_ATOMIC_FETCH_AND_ADD)
-+               wqe->iova = (mask & WR_ATOMIC_MASK) ?
-+                       atomic_wr(ibwr)->remote_addr :
-+                       rdma_wr(ibwr)->remote_addr;
-+
-        wqe->mask               = mask;
-        wqe->dma.length         = length;
-        wqe->dma.resid          = length;
+thanks
 
-
-Gives me
-[    4.286632] rdma_rxe: qp#17 moved to error state
-[ ...hang... ]
-[   64.847464] nvme nvme0: Connect command failed, error wo/DNR bit: 7
-[   64.859829]
-==================================================================
-[   64.861048] BUG: KASAN: stack-out-of-bounds in
-rxe_post_send+0x12f3/0x1880 [rdma_rxe] at addr ffff88001f787838
-
-Which translates to:
-(gdb) list *(rxe_post_send+0x12f3)
-0x1e133 is in rxe_post_send (drivers/infiniband/sw/rxe/rxe_verbs.c:685).
-680                     switch (wr->opcode) {
-681                     case IB_WR_RDMA_WRITE_WITH_IMM:
-682                             wr->ex.imm_data = ibwr->ex.imm_data;
-683                     case IB_WR_RDMA_READ:
-684                     case IB_WR_RDMA_WRITE:
-685                             wr->wr.rdma.remote_addr =
-rdma_wr(ibwr)->remote_addr;
-686                             wr->wr.rdma.rkey        =
-rdma_wr(ibwr)->rkey;
-687                             break;
-688                     case IB_WR_SEND_WITH_IMM:
-689                             wr->ex.imm_data = ibwr->ex.imm_data;
-
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Moni
