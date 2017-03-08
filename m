@@ -1,33 +1,30 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 8 Mar 2017 21:34:17 +0200
-Subject: nvmet: race condition while CQE are getting processed
- concurrently with the DISCONNECTED event
-In-Reply-To: <20170308154605.GA28937@infradead.org>
-References: <CY1PR12MB077418C35F6EA2499CBACA45BC2C0@CY1PR12MB0774.namprd12.prod.outlook.com>
- <7dc99796-899e-b1a0-6ddb-cbfc497195dd@grimberg.me>
- <20170308154605.GA28937@infradead.org>
-Message-ID: <9e9301a7-93a1-20a7-4f4f-d50f26a176e8@grimberg.me>
+Date: Wed,  8 Mar 2017 22:00:52 +0200
+Subject: [PATCH] IB/core: Protect against self-requeue of a cq work item
+Message-ID: <1489003252-1893-1-git-send-email-sagi@grimberg.me>
 
+We need to make sure that the cq work item does not
+run when we are destroying the cq. Unlike flush_work,
+cancel_work_sync protects against self-requeue of the
+work item (which we can do in ib_cq_poll_work).
 
->> For that perhaps you can try patch [1].
->
-> Yes, I'll think we need that.  Did I mention that the percpu
-> refounter API is a complete trainwreck a couple times? :)
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/infiniband/core/cq.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Heh, You probably did, I wander what is the use-case
-for percpu_ref_kill without the guarantee that subsequent
-percpu_ref_tryget_live will fail...
-
->> 2. ib_destroy_cq does not really protect against a case where
->>    the work requeue itself because it runs flush_work(). In this
->>    case when the work re-executes it polls a cq array that is
->>    already freed and sees a bogus successful completion. Perhaps
->>    ib_free_cq should run cancel_work_sync() instead? see [2].
->
-> Yeah, we'll probably need that as well.  Independent of it solves
-> the problem reported here.
-
-I'll send proper patches.
-
-Would be nice if Raju or Yi can see if this helps
-at all..
+diff --git a/drivers/infiniband/core/cq.c b/drivers/infiniband/core/cq.c
+index e95510117a6d..2746d2eb3d52 100644
+--- a/drivers/infiniband/core/cq.c
++++ b/drivers/infiniband/core/cq.c
+@@ -196,7 +196,7 @@ void ib_free_cq(struct ib_cq *cq)
+ 		irq_poll_disable(&cq->iop);
+ 		break;
+ 	case IB_POLL_WORKQUEUE:
+-		flush_work(&cq->work);
++		cancel_work_sync(&cq->work);
+ 		break;
+ 	default:
+ 		WARN_ON_ONCE(1);
+-- 
+2.7.4
