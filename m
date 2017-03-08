@@ -1,50 +1,51 @@
-From: yizhan@redhat.com (Yi Zhang)
-Date: Wed, 8 Mar 2017 14:41:23 +0800
-Subject: kernel NULL pointer on nvmet with stress
- rescan_controller/reset_controller test during I/O
-In-Reply-To: <8f4f2a1c-8bca-1ca3-8cf1-97572a729a9e@grimberg.me>
-References: <1855135937.31179102.1488539265795.JavaMail.zimbra@redhat.com>
- <8f4f2a1c-8bca-1ca3-8cf1-97572a729a9e@grimberg.me>
-Message-ID: <003061f2-39e3-79e8-24aa-0ad9027dbef3@redhat.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 8 Mar 2017 16:35:50 +0100
+Subject: Need some pointers to debug a KASAN splat in NVMe over Fabrics with
+ rdma-rxe
+Message-ID: <5b16edcf-c39a-bc4b-0e32-8ccfb5d75efb@suse.de>
 
+Hi Moni et al.,
 
+I'm getting a KASAN stack-out-of-bounds in rxe_post_send+0xdfe/0x1830
+[rdma_rxe] at addr ffff8800187072e8 with v4.11-rc1
 
-On 03/06/2017 07:52 PM, Sagi Grimberg wrote:
->> Hi
->
-> Hi Yi,
->
->> I always can reproduce this issue during stress test on 
->> rescan_controller/reset_controller, could you help check it, thanks.
->>
->> Reproduce steps on Initiator side:
->> #fio -filename=/dev/nvme0n1 -iodepth=1 -thread -rw=randwrite 
->> -ioengine=psync 
->> -bssplit=5k/10:9k/10:13k/10:17k/10:21k/10:25k/10:29k/10:33k/10:37k/10:41k/10 
->> -bs_unaligned -runtime=1200 -size=-group_reporting -name=mytest 
->> -numjobs=60 &
->> #num=0
->> while [ $num -lt 200 ]
->> do
->>         echo "-------------------------------$num"
->>         echo 1 >/sys/block/nvme0n1/device/rescan_controller || exit 1
->>         echo 1 >/sys/block/nvme0n1/device/reset_controller || exit 1
->>         ((num++))
->> done
->
-> nvmet-rdma makes sure that no inflight IO nor completions are pending
-> when destroying the queue. The below looks like we got a recv completion
-> event after we freed all the tasks for the queue (which happens after
-> ib_drain_qp and rdma_destroy_qp).
->
-> So this is definitely weird. Which device are you using? I ran
-> the exact scenario on my VM and didn't see any NULL deref...
-Here is the device I used:
-07:00.0 Network controller: Mellanox Technologies MT27500 Family 
-[ConnectX-3]
+rxe_post_send+0xdfe is the following (note: the pr_err was inserted by
+me to aid debugging).
 
-Could your run this test with more cycles, I always can reproduce this 
-issue with less than 200 times.
+(gdb) list *(rxe_post_send+0xdfe)
+0x1dc3e is in rxe_post_send (drivers/infiniband/sw/rxe/rxe_verbs.c:765).
+760             pr_err("%s: *_wr(ibwr): %p\n",
+761                    __func__, (void *)(mask & WR_ATOMIC_MASK ?
+atomic_wr(ibwr)
+762                    : rdma_wr(ibwr)));
+763
+764             wqe->iova               = (mask & WR_ATOMIC_MASK) ?
+765
+atomic_wr(ibwr)->remote_addr :
+766                                             rdma_wr(ibwr)->remote_addr;
+767             wqe->mask               = mask;
+768             wqe->dma.length         = length;
+769             wqe->dma.resid          = length;
 
-Thanks
-Yi
+Coincidentially ffff8800187072e8 = ibwr + 0x28. ibwr comes from
+nvme_rdma_post_send() and has an opcode of IB_WR_SEND (verified . So the
+rdma_wr(ibwr) call cannot return a correct/valid parent object (neither
+could the atomic_wr(ibr)).
+
+So much for the easy/mechanic part.
+
+I can special case IB_WR_SEND in rxe's init_send_wqe() but I neither
+know if it is correct nor how the wqe elements (especially wqe->iova)
+should be set up.
+
+So any help would be appreciated here.
+
+Thanks in advance,
+	Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
