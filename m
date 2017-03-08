@@ -1,30 +1,50 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Tue, 07 Mar 2017 20:26:43 -0500
-Subject: [PATCH v3 01/16] lpfc: Correct WQ creation for pagesize
-In-Reply-To: <20170307195704.GB25619@kroah.com> (Greg KH's message of "Tue, 7
- Mar 2017 20:57:04 +0100")
-References: <58a0d919.08BhoypOnvRSLIqV%jsmart2021@gmail.com>
- <6a197069-2f10-6df1-4cf1-1a62808c8903@linux.vnet.ibm.com>
- <yq1tw75kbdn.fsf@oracle.com>
- <7c6d6f3b-330c-ea6f-ad3f-65479354c94d@linux.vnet.ibm.com>
- <20170307195704.GB25619@kroah.com>
-Message-ID: <yq1h934imng.fsf@oracle.com>
+From: yizhan@redhat.com (Yi Zhang)
+Date: Wed, 8 Mar 2017 14:41:23 +0800
+Subject: kernel NULL pointer on nvmet with stress
+ rescan_controller/reset_controller test during I/O
+In-Reply-To: <8f4f2a1c-8bca-1ca3-8cf1-97572a729a9e@grimberg.me>
+References: <1855135937.31179102.1488539265795.JavaMail.zimbra@redhat.com>
+ <8f4f2a1c-8bca-1ca3-8cf1-97572a729a9e@grimberg.me>
+Message-ID: <003061f2-39e3-79e8-24aa-0ad9027dbef3@redhat.com>
 
->>>>> "Greg" == Greg KH <gregkh at linuxfoundation.org> writes:
 
-Greg,
 
->> Can this commit be included on stable v4.4+ , please? (in Linus tree)
->> 
->> 8ea73db486cda442f0671f4bc9c03a76be398a28 "scsi: lpfc: Correct WQ
->> creation for pagesize"
+On 03/06/2017 07:52 PM, Sagi Grimberg wrote:
+>> Hi
+>
+> Hi Yi,
+>
+>> I always can reproduce this issue during stress test on 
+>> rescan_controller/reset_controller, could you help check it, thanks.
+>>
+>> Reproduce steps on Initiator side:
+>> #fio -filename=/dev/nvme0n1 -iodepth=1 -thread -rw=randwrite 
+>> -ioengine=psync 
+>> -bssplit=5k/10:9k/10:13k/10:17k/10:21k/10:25k/10:29k/10:33k/10:37k/10:41k/10 
+>> -bs_unaligned -runtime=1200 -size=-group_reporting -name=mytest 
+>> -numjobs=60 &
+>> #num=0
+>> while [ $num -lt 200 ]
+>> do
+>>         echo "-------------------------------$num"
+>>         echo 1 >/sys/block/nvme0n1/device/rescan_controller || exit 1
+>>         echo 1 >/sys/block/nvme0n1/device/reset_controller || exit 1
+>>         ((num++))
+>> done
+>
+> nvmet-rdma makes sure that no inflight IO nor completions are pending
+> when destroying the queue. The below looks like we got a recv completion
+> event after we freed all the tasks for the queue (which happens after
+> ib_drain_qp and rdma_destroy_qp).
+>
+> So this is definitely weird. Which device are you using? I ran
+> the exact scenario on my VM and didn't see any NULL deref...
+Here is the device I used:
+07:00.0 Network controller: Mellanox Technologies MT27500 Family 
+[ConnectX-3]
 
-Greg> I need an ack from a scsi maintainer that this is an ok thing to
-Greg> do before I can do so.
+Could your run this test with more cycles, I always can reproduce this 
+issue with less than 200 times.
 
-It's fine with me. This was merged as part of a bigger driver update.
-And as a result, the patch in question wasn't tagged as a fix/stable
-candidate.
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
+Thanks
+Yi
