@@ -1,34 +1,30 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 7 Mar 2017 13:37:35 -0800
-Subject: [PATCH] lpfc: Finalize Kconfig options for nvme
-In-Reply-To: <20170307212351.GA5697@infradead.org>
-References: <1488914228-7289-1-git-send-email-jsmart2021@gmail.com>
- <20170307212351.GA5697@infradead.org>
-Message-ID: <6ae124f3-b5c7-655a-fda8-cb08ec71dab9@broadcom.com>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Tue, 07 Mar 2017 20:26:43 -0500
+Subject: [PATCH v3 01/16] lpfc: Correct WQ creation for pagesize
+In-Reply-To: <20170307195704.GB25619@kroah.com> (Greg KH's message of "Tue, 7
+ Mar 2017 20:57:04 +0100")
+References: <58a0d919.08BhoypOnvRSLIqV%jsmart2021@gmail.com>
+ <6a197069-2f10-6df1-4cf1-1a62808c8903@linux.vnet.ibm.com>
+ <yq1tw75kbdn.fsf@oracle.com>
+ <7c6d6f3b-330c-ea6f-ad3f-65479354c94d@linux.vnet.ibm.com>
+ <20170307195704.GB25619@kroah.com>
+Message-ID: <yq1h934imng.fsf@oracle.com>
 
+>>>>> "Greg" == Greg KH <gregkh at linuxfoundation.org> writes:
 
+Greg,
 
-On 3/7/2017 1:23 PM, Christoph Hellwig wrote:
->> +#if defined(CONFIG_NVME_FC)
->> +#define CONFIG_LPFC_NVME_INITIATOR
->> +#endif
->> +
->> +#if defined(CONFIG_NVME_TARGET_FC)
->> +#define CONFIG_LPFC_NVME_TARGET
->> +#endif
-> The CONFIG_* namespace is reserved for Kconfig defined symbols.
->
-> Also I think the above is wrong if the nvme fc core code is built
-> modular.  I think you want to replace all occurances of
->
-> #ifdef CONFIG_LPFC_NVME_INITIATOR
->
-> with
->
-> if (IS_ENABLED(CONFIG_NVME_FC))
->
-> and vice versa for the taget.
+>> Can this commit be included on stable v4.4+ , please? (in Linus tree)
+>> 
+>> 8ea73db486cda442f0671f4bc9c03a76be398a28 "scsi: lpfc: Correct WQ
+>> creation for pagesize"
 
-make sense
+Greg> I need an ack from a scsi maintainer that this is an ok thing to
+Greg> do before I can do so.
 
--- james
+It's fine with me. This was merged as part of a bigger driver update.
+And as a result, the patch in question wasn't tagged as a fix/stable
+candidate.
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
