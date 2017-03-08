@@ -1,14 +1,14 @@
-From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Wed, 8 Mar 2017 22:12:56 +0000
-Subject: [PATCH] IB/core: Protect against self-requeue of a cq work item
-In-Reply-To: <1489003252-1893-1-git-send-email-sagi@grimberg.me>
-References: <1489003252-1893-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1489011163.2813.7.camel@sandisk.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 8 Mar 2017 23:20:14 +0100
+Subject: [RFC PATCH] nvmet: Back namespace with files
+In-Reply-To: <20170308221527.GA1885@localhost.localdomain>
+References: <1489008937-31043-1-git-send-email-keith.busch@intel.com>
+ <20170308213519.GA32009@lst.de> <20170308221527.GA1885@localhost.localdomain>
+Message-ID: <20170308222014.GA635@lst.de>
 
-On Wed, 2017-03-08@22:00 +0200, Sagi Grimberg wrote:
-> We need to make sure that the cq work item does not
-> run when we are destroying the cq. Unlike flush_work,
-> cancel_work_sync protects against self-requeue of the
-> work item (which we can do in ib_cq_poll_work).
+On Wed, Mar 08, 2017@05:15:28PM -0500, Keith Busch wrote:
+> This is a step toward getting namespace management. It's easy to create
+> namespaces if they're files.
 
-Reviewed-by: Bart Van Assche <bart.vanassche at sandisk.com>
+Given that namespace management is tied to controller IDs it's a fairly
+bad fit for fabrics, especially so with our dynamic controller model.
