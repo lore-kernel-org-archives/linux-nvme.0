@@ -1,47 +1,156 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 9 Mar 2017 13:42:41 +0200
-Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
- during stress test on reset_controller
-In-Reply-To: <d21c5571-78fd-7882-b4cc-c24f76f6ff47@redhat.com>
-References: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
- <95e045a8-ace0-6a9a-b9a9-555cb2670572@grimberg.me>
- <d21c5571-78fd-7882-b4cc-c24f76f6ff47@redhat.com>
-Message-ID: <36a4aef6-d745-b0df-d6c5-f28afb1daa89@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 9 Mar 2017 13:45:37 +0200
+Subject: nvmet: race condition while CQE are getting processed
+ concurrently with the DISCONNECTED event
+In-Reply-To: <CY1PR12MB07747089AFFCB6115BBCF5ECBC210@CY1PR12MB0774.namprd12.prod.outlook.com>
+References: <CY1PR12MB07747089AFFCB6115BBCF5ECBC210@CY1PR12MB0774.namprd12.prod.outlook.com>
+Message-ID: <7c08d54c-7a2d-74dd-79df-807113b032c3@grimberg.me>
 
+> Hi Sagi,
 
+Hi Raju (CC'ing Yi)
 
-On 3/9/2017 6:20 AM, Yi Zhang wrote:
 >
->> I'm using CX5-LX device and have not seen any issues with it.
->>
->> Would it be possible to retest with kmemleak?
->>
-> Here is the device I used.
+> I had tried each of the below patches individually,  issue is still seen with both the patches.
 >
-> Network controller: Mellanox Technologies MT27500 Family [ConnectX-3]
+> with patch #1, from the dmesg I see that NULL pointer dereference issue is hit before the 3,4,5 (see below) were finished successfully for that queue
 >
-> The issue always can be reproduced with about 1000 time.
->
-> Another thing is I found one strange phenomenon from the log:
->
-> before the OOM occurred, most of the log are  about "adding queue", and
-> after the OOM occurred, most of the log are about "nvmet_rdma: freeing
-> queue".
->
-> seems the release work: "schedule_work(&queue->release_work);" not
-> executed timely, not sure whether the OOM is caused by this reason.
->
-> Here is the log before/after OOM
-> http://pastebin.com/Zb6w4nEv
+> Where :
+> 1. rdma_diconnect
+> 2. nvmet_sq_destroy
+> 3. ib_drain_qp
+> 4. rdma_destroy_qp
+> 5. ib_free_cq (which flushes the cq worker)
 
+I took a deeper look here, and I think that the root cause has nothing
+to do with the 2 (still useful) patches I sent. Actually, the fact that
+patch (1) caused you to get the NULL deref even before 3,4,5 tells me
+that the qp and cq are not free at all, and for some reason we see them
+as NULL.
 
-we are loading many jobs to the system_wq at the target side.
+So in nvmet_rdma_recv_done() if the queue is not in state
+NVMET_RDMA_Q_LIVE, we simply restore the rsp back to the queue free
+list:
 
-Can you try creating local workqueue (as the rdma host does for example) 
-or using some high priority workqueue ?
+static inline void
+nvmet_rdma_put_rsp(struct nvmet_rdma_rsp *rsp)
+{
+         unsigned long flags;
 
-let me know if you need some patch to do this.
+         spin_lock_irqsave(&rsp->queue->rsps_lock, flags);
+         list_add_tail(&rsp->free_list, &rsp->queue->free_rsps);
+         spin_unlock_irqrestore(&rsp->queue->rsps_lock, flags);
+}
 
-I'll try to put it on my currently full plate.
+However we only set rsp->queue in nvmet_rdma_handle_command() which
+does not take place because, as I mentioned, we are in disconnect
+state...
 
-Max.
+I think this patch should make this issue go away:
+--
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index 973b674ab55b..06a8c6114098 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -180,9 +180,9 @@ nvmet_rdma_put_rsp(struct nvmet_rdma_rsp *rsp)
+  {
+         unsigned long flags;
+
+-       spin_lock_irqsave(&rsp->queue->rsps_lock, flags);
+-       list_add_tail(&rsp->free_list, &rsp->queue->free_rsps);
+-       spin_unlock_irqrestore(&rsp->queue->rsps_lock, flags);
++       spin_lock_irqsave(&rsp->cmd->queue->rsps_lock, flags);
++       list_add_tail(&rsp->free_list, &rsp->cmd->queue->free_rsps);
++       spin_unlock_irqrestore(&rsp->cmd->queue->rsps_lock, flags);
+  }
+
+  static void nvmet_rdma_free_sgl(struct scatterlist *sgl, unsigned int 
+nents)
+@@ -473,7 +473,7 @@ static void nvmet_rdma_process_wr_wait_list(struct 
+nvmet_rdma_queue *queue)
+
+  static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
+  {
+-       struct nvmet_rdma_queue *queue = rsp->queue;
++       struct nvmet_rdma_queue *queue = rsp->cmd->queue;
+
+         atomic_add(1 + rsp->n_rdma, &queue->sq_wr_avail);
+
+@@ -517,7 +517,7 @@ static void nvmet_rdma_send_done(struct ib_cq *cq, 
+struct ib_wc *wc)
+                      wc->status != IB_WC_WR_FLUSH_ERR)) {
+                 pr_err("SEND for CQE 0x%p failed with status %s (%d).\n",
+                         wc->wr_cqe, ib_wc_status_msg(wc->status), 
+wc->status);
+-               nvmet_rdma_error_comp(rsp->queue);
++               nvmet_rdma_error_comp(rsp->cmd->queue);
+         }
+  }
+
+@@ -525,7 +525,7 @@ static void nvmet_rdma_queue_response(struct 
+nvmet_req *req)
+  {
+         struct nvmet_rdma_rsp *rsp =
+                 container_of(req, struct nvmet_rdma_rsp, req);
+-       struct rdma_cm_id *cm_id = rsp->queue->cm_id;
++       struct rdma_cm_id *cm_id = rsp->cmd->queue->cm_id;
+         struct ib_send_wr *first_wr, *bad_wr;
+
+         if (rsp->flags & NVMET_RDMA_REQ_INVALIDATE_RKEY) {
+@@ -541,9 +541,9 @@ static void nvmet_rdma_queue_response(struct 
+nvmet_req *req)
+         else
+                 first_wr = &rsp->send_wr;
+
+-       nvmet_rdma_post_recv(rsp->queue->dev, rsp->cmd);
++       nvmet_rdma_post_recv(rsp->cmd->queue->dev, rsp->cmd);
+
+-       ib_dma_sync_single_for_device(rsp->queue->dev->device,
++       ib_dma_sync_single_for_device(rsp->cmd->queue->dev->device,
+                 rsp->send_sge.addr, rsp->send_sge.length,
+                 DMA_TO_DEVICE);
+
+@@ -614,7 +614,7 @@ static u16 nvmet_rdma_map_sgl_inline(struct 
+nvmet_rdma_rsp *rsp)
+  static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
+                 struct nvme_keyed_sgl_desc *sgl, bool invalidate)
+  {
+-       struct rdma_cm_id *cm_id = rsp->queue->cm_id;
++       struct rdma_cm_id *cm_id = rsp->cmd->queue->cm_id;
+         u64 addr = le64_to_cpu(sgl->addr);
+         u32 len = get_unaligned_le24(sgl->length);
+         u32 key = get_unaligned_le32(sgl->key);
+@@ -676,7 +676,7 @@ static u16 nvmet_rdma_map_sgl(struct nvmet_rdma_rsp 
+*rsp)
+
+  static bool nvmet_rdma_execute_command(struct nvmet_rdma_rsp *rsp)
+  {
+-       struct nvmet_rdma_queue *queue = rsp->queue;
++       struct nvmet_rdma_queue *queue = rsp->cmd->queue;
+
+         if (unlikely(atomic_sub_return(1 + rsp->n_rdma,
+                         &queue->sq_wr_avail) < 0)) {
+@@ -703,11 +703,6 @@ static void nvmet_rdma_handle_command(struct 
+nvmet_rdma_queue *queue,
+  {
+         u16 status;
+
+-       cmd->queue = queue;
+-       cmd->n_rdma = 0;
+-       cmd->req.port = queue->port;
+-
+-
+         ib_dma_sync_single_for_cpu(queue->dev->device,
+                 cmd->cmd->sge[0].addr, cmd->cmd->sge[0].length,
+                 DMA_FROM_DEVICE);
+@@ -763,6 +758,8 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, 
+struct ib_wc *wc)
+         rsp->cmd = cmd;
+         rsp->flags = 0;
+         rsp->req.cmd = cmd->nvme_cmd;
++       rsp->n_rdma = 0;
++       rsp->req.port = queue->port;
+
+         if (unlikely(queue->state != NVMET_RDMA_Q_LIVE)) {
+                 unsigned long flags;
+--
