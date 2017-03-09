@@ -1,55 +1,39 @@
-From: shahar.salzman@gmail.com (shahar.salzman)
-Date: Thu, 9 Mar 2017 14:18:28 +0200
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <c5a6f55b-a633-53ca-4378-7a7eaf7f77bd@grimberg.me>
-References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
- <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
- <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
- <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
- <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
- <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
- <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
- <16c4bd86-fd63-f230-40bc-f52cb106e11b@grimberg.me>
- <fbd647dd-3a16-8155-107d-f98e8326cc63@mellanox.com>
- <c5a6f55b-a633-53ca-4378-7a7eaf7f77bd@grimberg.me>
-Message-ID: <b81bb611-533a-1715-841b-f7615b55048f@gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu,  9 Mar 2017 14:49:49 +0200
+Subject: [PATCH v3 0/4] Introduce a new helper for parsing ipv[4|6]:port to
+ socket address
+Message-ID: <1489063793-12838-1-git-send-email-sagi@grimberg.me>
 
-Hi,
+Changes from v1:
+- rebased to 4.11-rc1
+- improved changelogs
 
-Sorry for the delay, I have been OOO for the past few days.
+Changes from v0:
+- rebased on 4.10
+- splitted inet_pton_with_scope to be a bit saner (from Chrsitoph)
+- converted nvme-rdma host_traddr to use a generic helper
 
-Indeed the underlying transport is Ethernet, and we have found that flow 
-control is disabled on the switch side.
-I still do not have access to the system for re-tests with the flow 
-control, and 4.10. But I am working on assembling another system.
+We have some places in the stack that support ipv4 and ipv6. In
+some cases the user configuration does not reveal which
+address family is given and needs to be parsed from the input string.
 
-A little off-topic, but something that may help me get the other system 
-up faster, can I use a dual CX4 card as initiator and target (i.e. one 
-port going up to the switch, and the other coming back into the system) 
-without the kernel looping back? I have a spare CX4, so if possible, I 
-will use it to build a mini system for recreates of this sort.
+Given that the user-input varies between subsystems, some processing
+is required from the call-site to separate address and port strings.
 
-Thanks,
-Shahar
+As a side-effect, this set adds ipv6 support for nvme over fabrics.
 
+Sagi Grimberg (4):
+  net/utils: generic inet_pton_with_scope helper
+  nvmet-rdma: use generic inet_pton_with_scope
+  nvme-rdma: use inet_pton_with_scope helper
+  iscsi-target: use generic inet_pton_with_scope
 
-On 03/07/2017 03:41 PM, Sagi Grimberg wrote:
->
->> Hi,
->>
->> Shahar/Joseph, what is your link layer conf (IB/Eth) ?
->> In eth case, have you configured some PFC ? if not, can you try it ?
->> I suspect that this is the root cause
->
-> The root cause is that the device fails frwr in retransmission
-> flow, if PFC is not on, it will happen almost immediately, if not
-> it will happen at some point...
->
->> and it might help you avoiding
->> this case, meanwhile we're looking for for the best solution.
->>
->> Adding Vladimir that will run iSER on his performance setup with the new
->> fencing patch (not an NVMEoF related issue).
->> We can run also NVMEoF later on if needed.
->
-> Thanks.
+ drivers/nvme/host/rdma.c                     |  63 +++++-----------
+ drivers/nvme/target/rdma.c                   |  42 +++++++----
+ drivers/target/iscsi/iscsi_target_configfs.c |  46 ++++--------
+ include/linux/inet.h                         |   6 ++
+ net/core/utils.c                             | 103 +++++++++++++++++++++++++++
+ 5 files changed, 169 insertions(+), 91 deletions(-)
+
+-- 
+2.7.4
