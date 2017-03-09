@@ -1,48 +1,33 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  9 Mar 2017 15:16:37 +0200
-Subject: [PATCH rfc 05/10] nvme-pci: Support blk_poll_batch
+Date: Thu,  9 Mar 2017 15:16:38 +0200
+Subject: [PATCH rfc 06/10] IB/cq: Don't force IB_POLL_DIRECT poll context for
+ ib_process_cq_direct
 In-Reply-To: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
 References: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1489065402-14757-6-git-send-email-sagi@grimberg.me>
+Message-ID: <1489065402-14757-7-git-send-email-sagi@grimberg.me>
+
+polling the completion queue directly does not interfere
+with the existing polling logic, hence drop the requirement.
+
+This can be used for polling mode ULPs.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/pci.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+ drivers/infiniband/core/cq.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index a7ad514c2451..f8dcd0bd19f8 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -789,6 +789,21 @@ static int nvme_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
- 	return found;
- }
- 
-+static int nvme_poll_batch(struct blk_mq_hw_ctx *hctx, unsigned int batch)
-+{
-+	struct nvme_queue *nvmeq = hctx->driver_data;
-+	int completed;
-+
-+	if (!nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase))
-+		return 0;
-+
-+	spin_lock_irq(&nvmeq->q_lock);
-+	completed = __nvme_process_cq(nvmeq, batch);
-+	spin_unlock_irq(&nvmeq->q_lock);
-+
-+	return completed;
-+}
-+
- static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl, int aer_idx)
+diff --git a/drivers/infiniband/core/cq.c b/drivers/infiniband/core/cq.c
+index 21d1a38af489..7f6ae0ecb0c5 100644
+--- a/drivers/infiniband/core/cq.c
++++ b/drivers/infiniband/core/cq.c
+@@ -64,8 +64,6 @@ static int __ib_process_cq(struct ib_cq *cq, int budget)
+  */
+ int ib_process_cq_direct(struct ib_cq *cq, int budget)
  {
- 	struct nvme_dev *dev = to_nvme_dev(ctrl);
-@@ -1174,6 +1189,7 @@ static struct blk_mq_ops nvme_mq_ops = {
- 	.map_queues	= nvme_pci_map_queues,
- 	.timeout	= nvme_timeout,
- 	.poll		= nvme_poll,
-+	.poll_batch	= nvme_poll_batch,
- };
- 
- static void nvme_dev_remove_admin(struct nvme_dev *dev)
+-	WARN_ON_ONCE(cq->poll_ctx != IB_POLL_DIRECT);
+-
+ 	return __ib_process_cq(cq, budget);
+ }
+ EXPORT_SYMBOL(ib_process_cq_direct);
 -- 
 2.7.4
