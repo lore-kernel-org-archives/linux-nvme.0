@@ -1,140 +1,109 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  9 Mar 2017 14:49:52 +0200
-Subject: [PATCH v3 3/4] nvme-rdma: use inet_pton_with_scope helper
+Date: Thu,  9 Mar 2017 14:49:53 +0200
+Subject: [PATCH v3 4/4] iscsi-target: use generic inet_pton_with_scope
 In-Reply-To: <1489063793-12838-1-git-send-email-sagi@grimberg.me>
 References: <1489063793-12838-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1489063793-12838-4-git-send-email-sagi@grimberg.me>
+Message-ID: <1489063793-12838-5-git-send-email-sagi@grimberg.me>
 
-Both the destination and the host addresses are now
-parsed using inet_pton_with_scope helper. We also
-get ipv6 (with address scopes support).
+Instead of parsing address strings, use a generic
+helper.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Acked-by: Nicholas Bellinger <nab at linux-iscsi.org>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 63 +++++++++++++++---------------------------------
- 1 file changed, 19 insertions(+), 44 deletions(-)
+ drivers/target/iscsi/iscsi_target_configfs.c | 46 ++++++++--------------------
+ 1 file changed, 12 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 779f516e7a4e..7bad791a7fe9 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -129,14 +129,8 @@ struct nvme_rdma_ctrl {
- 	u64			cap;
- 	u32			max_fr_pages;
- 
--	union {
--		struct sockaddr addr;
--		struct sockaddr_in addr_in;
--	};
--	union {
--		struct sockaddr src_addr;
--		struct sockaddr_in src_addr_in;
--	};
-+	struct sockaddr_storage addr;
-+	struct sockaddr_storage src_addr;
- 
- 	struct nvme_ctrl	ctrl;
- };
-@@ -571,11 +565,12 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
- 		return PTR_ERR(queue->cm_id);
- 	}
- 
--	queue->cm_error = -ETIMEDOUT;
- 	if (ctrl->ctrl.opts->mask & NVMF_OPT_HOST_TRADDR)
--		src_addr = &ctrl->src_addr;
-+		src_addr = (struct sockaddr *)&ctrl->src_addr;
- 
--	ret = rdma_resolve_addr(queue->cm_id, src_addr, &ctrl->addr,
-+	queue->cm_error = -ETIMEDOUT;
-+	ret = rdma_resolve_addr(queue->cm_id, src_addr,
-+			(struct sockaddr *)&ctrl->addr,
- 			NVME_RDMA_CONNECT_TIMEOUT_MS);
- 	if (ret) {
- 		dev_info(ctrl->ctrl.device,
-@@ -1857,27 +1852,13 @@ static int nvme_rdma_create_io_queues(struct nvme_rdma_ctrl *ctrl)
- 	return ret;
- }
- 
--static int nvme_rdma_parse_ipaddr(struct sockaddr_in *in_addr, char *p)
--{
--	u8 *addr = (u8 *)&in_addr->sin_addr.s_addr;
--	size_t buflen = strlen(p);
--
--	/* XXX: handle IPv6 addresses */
--
--	if (buflen > INET_ADDRSTRLEN)
--		return -EINVAL;
--	if (in4_pton(p, buflen, addr, '\0', NULL) == 0)
--		return -EINVAL;
--	in_addr->sin_family = AF_INET;
--	return 0;
--}
--
- static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 		struct nvmf_ctrl_options *opts)
- {
- 	struct nvme_rdma_ctrl *ctrl;
+diff --git a/drivers/target/iscsi/iscsi_target_configfs.c b/drivers/target/iscsi/iscsi_target_configfs.c
+index bf40f03755dd..f30c27b83c5e 100644
+--- a/drivers/target/iscsi/iscsi_target_configfs.c
++++ b/drivers/target/iscsi/iscsi_target_configfs.c
+@@ -167,10 +167,7 @@ static struct se_tpg_np *lio_target_call_addnptotpg(
+ 	struct iscsi_portal_group *tpg;
+ 	struct iscsi_tpg_np *tpg_np;
+ 	char *str, *str2, *ip_str, *port_str;
+-	struct sockaddr_storage sockaddr;
+-	struct sockaddr_in *sock_in;
+-	struct sockaddr_in6 *sock_in6;
+-	unsigned long port;
++	struct sockaddr_storage sockaddr = { };
  	int ret;
- 	bool changed;
-+	char *port;
+ 	char buf[MAX_PORTAL_LEN + 1];
  
- 	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
- 	if (!ctrl)
-@@ -1885,34 +1866,28 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 	ctrl->ctrl.opts = opts;
- 	INIT_LIST_HEAD(&ctrl->list);
+@@ -182,21 +179,19 @@ static struct se_tpg_np *lio_target_call_addnptotpg(
+ 	memset(buf, 0, MAX_PORTAL_LEN + 1);
+ 	snprintf(buf, MAX_PORTAL_LEN + 1, "%s", name);
  
--	ret = nvme_rdma_parse_ipaddr(&ctrl->addr_in, opts->traddr);
-+	if (opts->mask & NVMF_OPT_TRSVCID)
-+		port = opts->trsvcid;
-+	else
-+		port = __stringify(NVME_RDMA_IP_PORT);
-+
-+	ret = inet_pton_with_scope(&init_net, AF_UNSPEC,
-+			opts->traddr, port, &ctrl->addr);
- 	if (ret) {
--		pr_err("malformed IP address passed: %s\n", opts->traddr);
-+		pr_err("malformed address passed: %s:%s\n", opts->traddr, port);
- 		goto out_free_ctrl;
- 	}
- 
- 	if (opts->mask & NVMF_OPT_HOST_TRADDR) {
--		ret = nvme_rdma_parse_ipaddr(&ctrl->src_addr_in,
--				opts->host_traddr);
-+		ret = inet_pton_with_scope(&init_net, AF_UNSPEC,
-+			opts->host_traddr, NULL, &ctrl->src_addr);
- 		if (ret) {
--			pr_err("malformed src IP address passed: %s\n",
-+			pr_err("malformed src address passed: %s\n",
- 			       opts->host_traddr);
- 			goto out_free_ctrl;
+-	memset(&sockaddr, 0, sizeof(struct sockaddr_storage));
+-
+ 	str = strstr(buf, "[");
+ 	if (str) {
+-		const char *end;
+-
+ 		str2 = strstr(str, "]");
+ 		if (!str2) {
+ 			pr_err("Unable to locate trailing \"]\""
+ 				" in IPv6 iSCSI network portal address\n");
+ 			return ERR_PTR(-EINVAL);
  		}
+-		str++; /* Skip over leading "[" */
++
++		ip_str = str + 1; /* Skip over leading "[" */
+ 		*str2 = '\0'; /* Terminate the unbracketed IPv6 address */
+ 		str2++; /* Skip over the \0 */
++
+ 		port_str = strstr(str2, ":");
+ 		if (!port_str) {
+ 			pr_err("Unable to locate \":port\""
+@@ -205,23 +200,8 @@ static struct se_tpg_np *lio_target_call_addnptotpg(
+ 		}
+ 		*port_str = '\0'; /* Terminate string for IP */
+ 		port_str++; /* Skip over ":" */
+-
+-		ret = kstrtoul(port_str, 0, &port);
+-		if (ret < 0) {
+-			pr_err("kstrtoul() failed for port_str: %d\n", ret);
+-			return ERR_PTR(ret);
+-		}
+-		sock_in6 = (struct sockaddr_in6 *)&sockaddr;
+-		sock_in6->sin6_family = AF_INET6;
+-		sock_in6->sin6_port = htons((unsigned short)port);
+-		ret = in6_pton(str, -1,
+-				(void *)&sock_in6->sin6_addr.in6_u, -1, &end);
+-		if (ret <= 0) {
+-			pr_err("in6_pton returned: %d\n", ret);
+-			return ERR_PTR(-EINVAL);
+-		}
+ 	} else {
+-		str = ip_str = &buf[0];
++		ip_str = &buf[0];
+ 		port_str = strstr(ip_str, ":");
+ 		if (!port_str) {
+ 			pr_err("Unable to locate \":port\""
+@@ -230,17 +210,15 @@ static struct se_tpg_np *lio_target_call_addnptotpg(
+ 		}
+ 		*port_str = '\0'; /* Terminate string for IP */
+ 		port_str++; /* Skip over ":" */
++	}
+ 
+-		ret = kstrtoul(port_str, 0, &port);
+-		if (ret < 0) {
+-			pr_err("kstrtoul() failed for port_str: %d\n", ret);
+-			return ERR_PTR(ret);
+-		}
+-		sock_in = (struct sockaddr_in *)&sockaddr;
+-		sock_in->sin_family = AF_INET;
+-		sock_in->sin_port = htons((unsigned short)port);
+-		sock_in->sin_addr.s_addr = in_aton(ip_str);
++	ret = inet_pton_with_scope(&init_net, AF_UNSPEC, ip_str,
++			port_str, &sockaddr);
++	if (ret) {
++		pr_err("malformed ip/port passed: %s\n", name);
++		return ERR_PTR(ret);
  	}
- 
--	if (opts->mask & NVMF_OPT_TRSVCID) {
--		u16 port;
--
--		ret = kstrtou16(opts->trsvcid, 0, &port);
--		if (ret)
--			goto out_free_ctrl;
--
--		ctrl->addr_in.sin_port = cpu_to_be16(port);
--	} else {
--		ctrl->addr_in.sin_port = cpu_to_be16(NVME_RDMA_IP_PORT);
--	}
--
- 	ret = nvme_init_ctrl(&ctrl->ctrl, dev, &nvme_rdma_ctrl_ops,
- 				0 /* no quirks, we're perfect! */);
- 	if (ret)
-@@ -1977,7 +1952,7 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
- 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
- 	WARN_ON_ONCE(!changed);
- 
--	dev_info(ctrl->ctrl.device, "new ctrl: NQN \"%s\", addr %pISp\n",
-+	dev_info(ctrl->ctrl.device, "new ctrl: NQN \"%s\", addr %pISpcs\n",
- 		ctrl->ctrl.opts->subsysnqn, &ctrl->addr);
- 
- 	kref_get(&ctrl->ctrl.kref);
++
+ 	tpg = container_of(se_tpg, struct iscsi_portal_group, tpg_se_tpg);
+ 	ret = iscsit_get_tpg(tpg);
+ 	if (ret < 0)
 -- 
 2.7.4
