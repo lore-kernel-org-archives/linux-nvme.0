@@ -1,47 +1,19 @@
-From: yizhan@redhat.com (Yi Zhang)
-Date: Thu, 9 Mar 2017 18:33:58 +0800
-Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
- during stress test on reset_controller
-In-Reply-To: <20170309084641.GY14379@mtr-leonro.local>
-References: <1908657724.31179983.1488539944957.JavaMail.zimbra@redhat.com>
- <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
- <20170305081206.GI14379@mtr-leonro.local>
- <20170309084641.GY14379@mtr-leonro.local>
-Message-ID: <e4a9ba2d-6ccd-53bc-1c0d-f6ad6c2c8ce3@redhat.com>
+From: monis@mellanox.com (Moni Shoua)
+Date: Thu, 9 Mar 2017 12:59:31 +0200
+Subject: Need some pointers to debug a KASAN splat in NVMe over Fabrics
+ with rdma-rxe
+In-Reply-To: <38a12b22-7bad-c069-4c96-39fc93d20d79@suse.de>
+References: <5b16edcf-c39a-bc4b-0e32-8ccfb5d75efb@suse.de>
+ <CAG9sBKPwEryc7U+hV=XJvRrFFhNvoktDOtwwS6piUw=cQ=bZhA@mail.gmail.com>
+ <38a12b22-7bad-c069-4c96-39fc93d20d79@suse.de>
+Message-ID: <CAG9sBKNXwHFkmQYsOPPu40822h6Z7J3+63CaZ844juZp5hfHfg@mail.gmail.com>
 
-
->> + Christoph and Sagi.
-> +Tariq and Yishai.
+>> 2. You can take a look at librxe implementation of init_send_wqe() (it
+>> looks slightly different from kernel's implementation) and see what
+>> happens if you change implementation accordingly.
 >
-> How can we know from this log which memory order failed?
->
-> It can be one of two: memory leak (most probably) or/and fragmented
-> memory.
+> OK I'll have a look and hopefully come back with a (RFC) patch (fingers
+> crossed).
 
-I have tried to enable memleak and retest, didn't found any kmemleak 
-reported from kernel.
-Just as I said from previous mail: before the OOM occurred, most of the 
-log are  about "adding queue", and after the OOM occurred, most of the 
-log are about "nvmet_rdma: freeing queue".
-I guess the release work: "schedule_work(&queue->release_work);" not 
-executed timely that caused this issue, correct me if I'm wrong.
-
-As the attachment size limit I have to cut to 500KB, pls check the 
-attached file for more log.
->>>
->>> Best Regards,
->>>    Yi Zhang
->>>
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: oom.log
-Type: text/x-log
-Size: 465811 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170309/1c9704b6/attachment-0001.bin>
+Thanks. Waiting to see what you found and in the meantime I'll try to
+reproduce in my setup
