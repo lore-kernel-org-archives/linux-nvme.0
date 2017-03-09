@@ -1,28 +1,20 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 9 Mar 2017 14:54:47 +0100
-Subject: [PATCH rfc 09/10] nvmet: Use non-selective polling
-In-Reply-To: <1489065402-14757-10-git-send-email-sagi@grimberg.me>
+Date: Thu, 9 Mar 2017 14:56:27 +0100
+Subject: [PATCH rfc 03/10] nvme-pci: open-code polling logic in nvme_poll
+In-Reply-To: <1489065402-14757-4-git-send-email-sagi@grimberg.me>
 References: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
- <1489065402-14757-10-git-send-email-sagi@grimberg.me>
-Message-ID: <74284e7b-ae3f-4bbd-c28a-2dccab58cdc0@suse.de>
+ <1489065402-14757-4-git-send-email-sagi@grimberg.me>
+Message-ID: <534565a7-4a8d-d125-49db-c8679f716466@suse.de>
 
 On 03/09/2017 02:16 PM, Sagi Grimberg wrote:
-> It doesn't really make sense to do selective polling
-> because we never care about specific IOs. Non selective
-> polling can actually help by doing some useful work
-> while we're submitting a command.
-> 
-> We ask for a batch of (magic) 4 completions which looks
-> like a decent network<->backend proportion, if less are
-> available we'll see less.
+> Given that the code is simple enough it seems better
+> then passing a tag by reference for each call site.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
 
-Just out of curiosity, how did you come up with the magic 4?
-
-Thanks,
-	Johannes
+Deja-vu again?
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
 -- 
 Johannes Thumshirn                                          Storage
