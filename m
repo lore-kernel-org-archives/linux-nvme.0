@@ -1,58 +1,87 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  9 Mar 2017 15:16:34 +0200
-Subject: [PATCH rfc 02/10] nvme-pci: Add budget to __nvme_process_cq
+Date: Thu,  9 Mar 2017 15:16:35 +0200
+Subject: [PATCH rfc 03/10] nvme-pci: open-code polling logic in nvme_poll
 In-Reply-To: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
 References: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1489065402-14757-3-git-send-email-sagi@grimberg.me>
+Message-ID: <1489065402-14757-4-git-send-email-sagi@grimberg.me>
 
-Prepare to allow passing a batch size to nvme cq processing.
-
-This patch does not change an functionality.
+Given that the code is simple enough it seems better
+then passing a tag by reference for each call site.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/pci.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/nvme/host/pci.c | 34 ++++++++++++++++++++--------------
+ 1 file changed, 20 insertions(+), 14 deletions(-)
 
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d3f74fa40f26..4ed67f194cfd 100644
+index 4ed67f194cfd..a7ad514c2451 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -716,14 +716,15 @@ static inline bool nvme_read_cqe(struct nvme_queue *nvmeq,
+@@ -716,7 +716,7 @@ static inline bool nvme_read_cqe(struct nvme_queue *nvmeq,
  	return false;
  }
  
--static int __nvme_process_cq(struct nvme_queue *nvmeq, int *tag)
-+static int __nvme_process_cq(struct nvme_queue *nvmeq, int budget, int *tag)
+-static int __nvme_process_cq(struct nvme_queue *nvmeq, int budget, int *tag)
++static int __nvme_process_cq(struct nvme_queue *nvmeq, int budget)
  {
  	struct nvme_completion cqe;
  	int consumed = 0;
- 
- 	while (nvme_read_cqe(nvmeq, &cqe)) {
+@@ -725,11 +725,6 @@ static int __nvme_process_cq(struct nvme_queue *nvmeq, int budget, int *tag)
  		nvme_handle_cqe(nvmeq, &cqe);
--		consumed++;
-+		if (++consumed == budget)
-+			break;
+ 		if (++consumed == budget)
+ 			break;
+-
+-		if (tag && *tag == cqe.command_id) {
+-			*tag = -1;
+-			break;
+-		}
+ 	}
  
- 		if (tag && *tag == cqe.command_id) {
- 			*tag = -1;
-@@ -741,7 +742,7 @@ static int __nvme_process_cq(struct nvme_queue *nvmeq, int *tag)
+ 	if (consumed) {
+@@ -742,7 +737,7 @@ static int __nvme_process_cq(struct nvme_queue *nvmeq, int budget, int *tag)
  
  static int nvme_process_cq(struct nvme_queue *nvmeq)
  {
--	return __nvme_process_cq(nvmeq, NULL);
-+	return __nvme_process_cq(nvmeq, INT_MAX, NULL);
+-	return __nvme_process_cq(nvmeq, INT_MAX, NULL);
++	return __nvme_process_cq(nvmeq, INT_MAX);
  }
  
  static irqreturn_t nvme_irq(int irq, void *data)
-@@ -772,7 +773,7 @@ static int nvme_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+@@ -770,17 +765,28 @@ static irqreturn_t nvme_irq_check(int irq, void *data)
+ static int nvme_poll(struct blk_mq_hw_ctx *hctx, unsigned int tag)
+ {
+ 	struct nvme_queue *nvmeq = hctx->driver_data;
++	struct nvme_completion cqe;
++	int found = 0, consumed = 0;
  
- 	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase)) {
- 		spin_lock_irq(&nvmeq->q_lock);
--		__nvme_process_cq(nvmeq, &tag);
-+		__nvme_process_cq(nvmeq, INT_MAX, &tag);
- 		spin_unlock_irq(&nvmeq->q_lock);
+-	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase)) {
+-		spin_lock_irq(&nvmeq->q_lock);
+-		__nvme_process_cq(nvmeq, INT_MAX, &tag);
+-		spin_unlock_irq(&nvmeq->q_lock);
++	if (!nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase))
++		return 0;
  
- 		if (tag == -1)
+-		if (tag == -1)
+-			return 1;
++	spin_lock_irq(&nvmeq->q_lock);
++	while (nvme_read_cqe(nvmeq, &cqe)) {
++		nvme_handle_cqe(nvmeq, &cqe);
++		consumed++;
++
++		if (tag == cqe.command_id) {
++			found = 1;
++			break;
++		}
+ 	}
+ 
+-	return 0;
++	if (consumed)
++		nvme_ring_cq_doorbell(nvmeq);
++	spin_unlock_irq(&nvmeq->q_lock);
++
++	return found;
+ }
+ 
+ static void nvme_pci_submit_async_event(struct nvme_ctrl *ctrl, int aer_idx)
 -- 
 2.7.4
