@@ -1,73 +1,174 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  9 Mar 2017 15:16:32 +0200
-Subject: [PATCH rfc 00/10] non selective polling block interface
-Message-ID: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
+Date: Thu,  9 Mar 2017 15:16:33 +0200
+Subject: [PATCH rfc 01/10] nvme-pci: Split __nvme_process_cq to poll and handle
+In-Reply-To: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
+References: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
+Message-ID: <1489065402-14757-2-git-send-email-sagi@grimberg.me>
 
-Today, our only polling interface is selective in the sense that
-it polls for a specific tag (cookie). blk_mq_poll will not complete
-until the specific tag has completed (given that the block driver
-implements it obviously).
+Just some rework to split the logic and make it slightly
+more readable. This will help us to easily add the irq-poll
+logic.
 
-target mode drivers like our nvme and scsi target, can benefit
-from opportunistically polling the block device when we submit
-a bio to it, but it doesn't make sense to use a selective
-polling interface (like nvmet does at the moment) for it
-because we don't care about specific I/O for the time being.
+Also, introduce nvme_ring_cq_doorbell helper to mask out the
+cq_vector validity check.
 
-Instead, allow to poll for batch of completions and return if
-we don't have any completions or we exhausted our budget (batch).
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/pci.c | 109 +++++++++++++++++++++++++++++-------------------
+ 1 file changed, 65 insertions(+), 44 deletions(-)
 
-This set also adds poll_batch support for nvme-pci and nvme-rdma,
-and converts nvmet and scsi target to use it. Note that I couldn't
-come up with a hero value for the batch size, so I left it at
-magic 4 for now, perhaps someone can have a better idea for this.
-
-In addition, I'd like to see if we can hook this with frontend
-context (nvmet-rdma, srpt or isert) to avoid scheduling for interrupt
-if we have pending block IO that we can poll for.
-
-I would also like to somehow allow aio-dio user-space reap to also have
-access to this in the future, but I have yet to come up with something
-good for it.
-
-I experimented with this code on nvmet-rdma with a strong initiator
-bombarding small 512B IOs (4k block size saturates my network) against
-a 4 cpu-core nvmet-rdma target system.
-
-Without this patchset I got:
-590K/590K read/write IOPs
-
-With this patchset applied I got:
-680K/680K read/write IOPs
-
-The canonical read latency (QD=1) did not have a noticeable
-change (29-30 usec).
-
-Hopefully if this is appealing, people can experiment with this
-and report back their results.
-
-Sagi Grimberg (10):
-  nvme-pci: Split __nvme_process_cq to poll and handle
-  nvme-pci: Add budget to __nvme_process_cq
-  nvme-pci: open-code polling logic in nvme_poll
-  block: Add a non-selective polling interface
-  nvme-pci: Support blk_poll_batch
-  IB/cq: Don't force IB_POLL_DIRECT poll context for
-    ib_process_cq_direct
-  nvme-rdma: Don't rearm the CQ when polling directly
-  nvme-rdma: Support blk_poll_batch
-  nvmet: Use non-selective polling
-  target: Use non-selective polling
-
- block/blk-mq.c                      |  14 ++++
- drivers/infiniband/core/cq.c        |   2 -
- drivers/nvme/host/pci.c             | 146 +++++++++++++++++++++++-------------
- drivers/nvme/host/rdma.c            |   9 ++-
- drivers/nvme/target/io-cmd.c        |   8 +-
- drivers/target/target_core_iblock.c |   1 +
- include/linux/blk-mq.h              |   2 +
- include/linux/blkdev.h              |   1 +
- 8 files changed, 125 insertions(+), 58 deletions(-)
-
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 26a5fd05fe88..d3f74fa40f26 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -71,7 +71,7 @@ struct nvme_dev;
+ struct nvme_queue;
+ 
+ static int nvme_reset(struct nvme_dev *dev);
+-static void nvme_process_cq(struct nvme_queue *nvmeq);
++static int nvme_process_cq(struct nvme_queue *nvmeq);
+ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown);
+ 
+ /*
+@@ -665,75 +665,96 @@ static inline bool nvme_cqe_valid(struct nvme_queue *nvmeq, u16 head,
+ 	return (le16_to_cpu(nvmeq->cqes[head].status) & 1) == phase;
+ }
+ 
+-static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
++static inline void nvme_ring_cq_doorbell(struct nvme_queue *nvmeq)
+ {
+-	u16 head, phase;
++	if (likely(nvmeq->cq_vector >= 0))
++		writel(nvmeq->cq_head, nvmeq->q_db + nvmeq->dev->db_stride);
++}
+ 
+-	head = nvmeq->cq_head;
+-	phase = nvmeq->cq_phase;
++static inline void nvme_handle_cqe(struct nvme_queue *nvmeq,
++		struct nvme_completion *cqe)
++{
++	struct request *req;
+ 
+-	while (nvme_cqe_valid(nvmeq, head, phase)) {
+-		struct nvme_completion cqe = nvmeq->cqes[head];
+-		struct request *req;
++	if (unlikely(cqe->command_id >= nvmeq->q_depth)) {
++		dev_warn(nvmeq->dev->ctrl.device,
++			"invalid id %d completed on queue %d\n",
++			cqe->command_id, le16_to_cpu(cqe->sq_id));
++		return;
++	}
+ 
+-		if (++head == nvmeq->q_depth) {
+-			head = 0;
+-			phase = !phase;
+-		}
++	/*
++	 * AEN requests are special as they don't time out and can
++	 * survive any kind of queue freeze and often don't respond to
++	 * aborts.  We don't even bother to allocate a struct request
++	 * for them but rather special case them here.
++	 */
++	if (unlikely(nvmeq->qid == 0 &&
++			cqe->command_id >= NVME_AQ_BLKMQ_DEPTH)) {
++		nvme_complete_async_event(&nvmeq->dev->ctrl,
++				cqe->status, &cqe->result);
++		return;
++	}
+ 
+-		if (tag && *tag == cqe.command_id)
+-			*tag = -1;
++	req = blk_mq_tag_to_rq(*nvmeq->tags, cqe->command_id);
++	nvme_req(req)->result = cqe->result;
++	blk_mq_complete_request(req, le16_to_cpu(cqe->status) >> 1);
++}
+ 
+-		if (unlikely(cqe.command_id >= nvmeq->q_depth)) {
+-			dev_warn(nvmeq->dev->ctrl.device,
+-				"invalid id %d completed on queue %d\n",
+-				cqe.command_id, le16_to_cpu(cqe.sq_id));
+-			continue;
+-		}
++static inline bool nvme_read_cqe(struct nvme_queue *nvmeq,
++		struct nvme_completion *cqe)
++{
++	if (nvme_cqe_valid(nvmeq, nvmeq->cq_head, nvmeq->cq_phase)) {
++		*cqe = nvmeq->cqes[nvmeq->cq_head];
+ 
+-		/*
+-		 * AEN requests are special as they don't time out and can
+-		 * survive any kind of queue freeze and often don't respond to
+-		 * aborts.  We don't even bother to allocate a struct request
+-		 * for them but rather special case them here.
+-		 */
+-		if (unlikely(nvmeq->qid == 0 &&
+-				cqe.command_id >= NVME_AQ_BLKMQ_DEPTH)) {
+-			nvme_complete_async_event(&nvmeq->dev->ctrl,
+-					cqe.status, &cqe.result);
+-			continue;
++		if (++nvmeq->cq_head == nvmeq->q_depth) {
++			nvmeq->cq_head = 0;
++			nvmeq->cq_phase = !nvmeq->cq_phase;
+ 		}
+-
+-		req = blk_mq_tag_to_rq(*nvmeq->tags, cqe.command_id);
+-		nvme_req(req)->result = cqe.result;
+-		blk_mq_complete_request(req, le16_to_cpu(cqe.status) >> 1);
++		return true;
+ 	}
++	return false;
++}
+ 
+-	if (head == nvmeq->cq_head && phase == nvmeq->cq_phase)
+-		return;
++static int __nvme_process_cq(struct nvme_queue *nvmeq, int *tag)
++{
++	struct nvme_completion cqe;
++	int consumed = 0;
+ 
+-	if (likely(nvmeq->cq_vector >= 0))
+-		writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
+-	nvmeq->cq_head = head;
+-	nvmeq->cq_phase = phase;
++	while (nvme_read_cqe(nvmeq, &cqe)) {
++		nvme_handle_cqe(nvmeq, &cqe);
++		consumed++;
+ 
+-	nvmeq->cqe_seen = 1;
++		if (tag && *tag == cqe.command_id) {
++			*tag = -1;
++			break;
++		}
++	}
++
++	if (consumed) {
++		nvme_ring_cq_doorbell(nvmeq);
++		nvmeq->cqe_seen = 1;
++	}
++
++	return consumed;
+ }
+ 
+-static void nvme_process_cq(struct nvme_queue *nvmeq)
++static int nvme_process_cq(struct nvme_queue *nvmeq)
+ {
+-	__nvme_process_cq(nvmeq, NULL);
++	return __nvme_process_cq(nvmeq, NULL);
+ }
+ 
+ static irqreturn_t nvme_irq(int irq, void *data)
+ {
+ 	irqreturn_t result;
+ 	struct nvme_queue *nvmeq = data;
++
+ 	spin_lock(&nvmeq->q_lock);
+ 	nvme_process_cq(nvmeq);
+ 	result = nvmeq->cqe_seen ? IRQ_HANDLED : IRQ_NONE;
+ 	nvmeq->cqe_seen = 0;
+ 	spin_unlock(&nvmeq->q_lock);
++
+ 	return result;
+ }
+ 
 -- 
 2.7.4
