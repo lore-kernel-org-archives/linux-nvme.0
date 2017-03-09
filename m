@@ -1,36 +1,47 @@
-From: yizhan@redhat.com (Yi Zhang)
-Date: Thu, 9 Mar 2017 12:20:14 +0800
-Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
- during stress test on reset_controller
-In-Reply-To: <95e045a8-ace0-6a9a-b9a9-555cb2670572@grimberg.me>
-References: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
- <95e045a8-ace0-6a9a-b9a9-555cb2670572@grimberg.me>
-Message-ID: <d21c5571-78fd-7882-b4cc-c24f76f6ff47@redhat.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 9 Mar 2017 08:57:46 +0100
+Subject: Need some pointers to debug a KASAN splat in NVMe over Fabrics
+ with rdma-rxe
+In-Reply-To: <CAG9sBKPwEryc7U+hV=XJvRrFFhNvoktDOtwwS6piUw=cQ=bZhA@mail.gmail.com>
+References: <5b16edcf-c39a-bc4b-0e32-8ccfb5d75efb@suse.de>
+ <CAG9sBKPwEryc7U+hV=XJvRrFFhNvoktDOtwwS6piUw=cQ=bZhA@mail.gmail.com>
+Message-ID: <38a12b22-7bad-c069-4c96-39fc93d20d79@suse.de>
 
+Hi Moni,
 
-> I'm using CX5-LX device and have not seen any issues with it.
->
-> Would it be possible to retest with kmemleak?
->
-Here is the device I used.
+On 03/08/2017 05:33 PM, Moni Shoua wrote:
+> Your report and analysis seem to be accurate (regarding value of wqe->iova)
+> Unfortunately we didn't have a chance yet to run kernel application
+> tests but I will try to add them soon and be able to debug it myself.
+> In the meantime
 
-Network controller: Mellanox Technologies MT27500 Family [ConnectX-3]
+OK, thanks. This is highly appreciated as I think Soft RoCE is the
+coolest thing since sliced bread for quick NVMf/iSER and SRP tests.
 
-The issue always can be reproduced with about 1000 time.
+> 1. DId the test fail completely or is it just the KASAN error that
+> made you look at init_send_wqe()?
 
-Another thing is I found one strange phenomenon from the log:
+No it fails completely. I can see both hosts talk RDMA/NVMf to each
+other but the initiator side can't establish a connection. Without KASAN
+I couldn't find a reason for it other than the following log message:
+rdma_rxe: qp#17 moved to error state
 
-before the OOM occurred, most of the log are  about "adding queue", and 
-after the OOM occurred, most of the log are about "nvmet_rdma: freeing 
-queue".
+I must admit I haven't looked up it's source yet, as my first test had
+KASAN enabled.
 
-seems the release work: "schedule_work(&queue->release_work);" not 
-executed timely, not sure whether the OOM is caused by this reason.
+> 2. You can take a look at librxe implementation of init_send_wqe() (it
+> looks slightly different from kernel's implementation) and see what
+> happens if you change implementation accordingly.
 
-Here is the log before/after OOM
-http://pastebin.com/Zb6w4nEv
+OK I'll have a look and hopefully come back with a (RFC) patch (fingers
+crossed).
 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Thanks,
+	Johannes
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
