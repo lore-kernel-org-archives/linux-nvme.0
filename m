@@ -1,19 +1,23 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 9 Mar 2017 14:56:27 +0100
-Subject: [PATCH rfc 03/10] nvme-pci: open-code polling logic in nvme_poll
-In-Reply-To: <1489065402-14757-4-git-send-email-sagi@grimberg.me>
+Date: Thu, 9 Mar 2017 14:57:44 +0100
+Subject: [PATCH rfc 01/10] nvme-pci: Split __nvme_process_cq to poll and
+ handle
+In-Reply-To: <1489065402-14757-2-git-send-email-sagi@grimberg.me>
 References: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
- <1489065402-14757-4-git-send-email-sagi@grimberg.me>
-Message-ID: <534565a7-4a8d-d125-49db-c8679f716466@suse.de>
+ <1489065402-14757-2-git-send-email-sagi@grimberg.me>
+Message-ID: <872aed98-0974-820d-c8fc-0300e40c8fcb@suse.de>
 
 On 03/09/2017 02:16 PM, Sagi Grimberg wrote:
-> Given that the code is simple enough it seems better
-> then passing a tag by reference for each call site.
+> Just some rework to split the logic and make it slightly
+> more readable. This will help us to easily add the irq-poll
+> logic.
+> 
+> Also, introduce nvme_ring_cq_doorbell helper to mask out the
+> cq_vector validity check.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
 
-Deja-vu again?
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
 -- 
