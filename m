@@ -1,23 +1,16 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 9 Mar 2017 14:46:15 +0100
-Subject: [PATCH rfc 02/10] nvme-pci: Add budget to __nvme_process_cq
-In-Reply-To: <1489065402-14757-3-git-send-email-sagi@grimberg.me>
+Date: Thu, 9 Mar 2017 14:52:20 +0100
+Subject: [PATCH rfc 07/10] nvme-rdma: Don't rearm the CQ when polling
+ directly
+In-Reply-To: <1489065402-14757-8-git-send-email-sagi@grimberg.me>
 References: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
- <1489065402-14757-3-git-send-email-sagi@grimberg.me>
-Message-ID: <d3664ffa-4781-83b6-276c-a935d7ce9723@suse.de>
+ <1489065402-14757-8-git-send-email-sagi@grimberg.me>
+Message-ID: <1999891a-f19a-f705-705c-98afed65497b@suse.de>
 
 On 03/09/2017 02:16 PM, Sagi Grimberg wrote:
-> Prepare to allow passing a batch size to nvme cq processing.
-> 
-> This patch does not change an functionality.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
-
-I think I already did this with the 1st RFC (this patch gives me a deja
-vu moment), but:
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
+> We don't need it as the core polling context will take
+> are of rearming the completion queue.
+ ^ care?
 
 -- 
 Johannes Thumshirn                                          Storage
