@@ -1,20 +1,31 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 9 Mar 2017 18:03:34 -0500
-Subject: nvme, allocation failures, and aborted commands
-In-Reply-To: <3290252.oG8R0O7IFj@natasha>
-References: <2324331.vgmPNSfijK@natasha> <24015519.RaUGNvtkS7@natasha>
- <20170306224633.GA21202@localhost.localdomain>
- <3290252.oG8R0O7IFj@natasha>
-Message-ID: <20170309230334.GE14329@localhost.localdomain>
+Date: Thu, 9 Mar 2017 19:27:46 -0500
+Subject: Linux 4.9.8 + NVMe CiB Issue
+In-Reply-To: <CAHkw+Ldp4C+we2sCJ1EjcAquA0JcCwf91T0Pq0DThmRU3EwLVQ@mail.gmail.com>
+References: <CAHkw+LcMtBp_xC6YdR-c=P-feZJvukNtkeEWueJ_y9wkAg2hUA@mail.gmail.com>
+ <20170215211240.GA23472@localhost.localdomain>
+ <CAHkw+Lfy-3b+Dg4Bwfg1ViBSNrWsiiuBSXJTcu2VQNdfBRcB0g@mail.gmail.com>
+ <CAHkw+LfthNu5Bs5xFNw3YRNmTHxFpea1E_W--f4ZVvd_gnMs0g@mail.gmail.com>
+ <CAHkw+Lem6EzvxwPYK+5R02rdDARzNxjCKGZXc-vDzLcdj8FJnQ@mail.gmail.com>
+ <CAHkw+Ldp4C+we2sCJ1EjcAquA0JcCwf91T0Pq0DThmRU3EwLVQ@mail.gmail.com>
+Message-ID: <20170310002745.GH14329@localhost.localdomain>
 
-On Thu, Mar 09, 2017@03:01:27PM -0700, Thomas Fjellstrom wrote:
-> On Monday, March 6, 2017 5:46:33 PM MST Keith Busch wrote:
-> > 
-> >   echo 128 > /sys/block/nvme0n1/queue/max_hw_sectors_kb
-> >   echo 128 > /sys/block/nvme0n1/queue/max_nr_requests
-> > 
+On Thu, Mar 09, 2017@03:25:01PM -0500, Marc Smith wrote:
+> Hi,
 > 
-> First off, theres no max_nr_requests, and echoing into max_hw_sectors_kb gets
-> me a permission denied even as root no matter the value I tried.
+> We opened a support case with Intel (# 02641251) but we aren't making
+> much progress... they looked at log files from /var/log/ on our system
+> and now seem to be blaming warning/error log lines from
+> Corosync/Pacemaker on the issue. =)
+> 
+> We're still able to reproduce this issue with high load... the NVMe
+> drives "drop out", randomly, not always the same drive, when pushing
+> I/O across all of our NVMe drives.
+> 
+> We don't mind to keep pushing on the Intel NVMe hardware support
+> front, but looking for confirmation that its believed based on the
+> kernel log messages posted, that this is an issue with the NVMe drives
+> themselves (eg, firmware)?
 
-What I meant to say was "max_sectors_kb" and "nr_request".
+This genuinely looks like the drives have stopped responding and needs
+to be directed to the drive vendor.
