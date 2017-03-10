@@ -1,31 +1,29 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 9 Mar 2017 19:27:46 -0500
-Subject: Linux 4.9.8 + NVMe CiB Issue
-In-Reply-To: <CAHkw+Ldp4C+we2sCJ1EjcAquA0JcCwf91T0Pq0DThmRU3EwLVQ@mail.gmail.com>
-References: <CAHkw+LcMtBp_xC6YdR-c=P-feZJvukNtkeEWueJ_y9wkAg2hUA@mail.gmail.com>
- <20170215211240.GA23472@localhost.localdomain>
- <CAHkw+Lfy-3b+Dg4Bwfg1ViBSNrWsiiuBSXJTcu2VQNdfBRcB0g@mail.gmail.com>
- <CAHkw+LfthNu5Bs5xFNw3YRNmTHxFpea1E_W--f4ZVvd_gnMs0g@mail.gmail.com>
- <CAHkw+Lem6EzvxwPYK+5R02rdDARzNxjCKGZXc-vDzLcdj8FJnQ@mail.gmail.com>
- <CAHkw+Ldp4C+we2sCJ1EjcAquA0JcCwf91T0Pq0DThmRU3EwLVQ@mail.gmail.com>
-Message-ID: <20170310002745.GH14329@localhost.localdomain>
+From: wzhang@fb.com (Wei Zhang)
+Date: Fri, 10 Mar 2017 00:21:49 +0000
+Subject: [PATCH v7 0/4] New Microsemi PCI Switch Management Driver
+In-Reply-To: <e01826a0-6c81-6bce-b633-5033da66f401@deltatee.com>
+References: <1488497074-14186-1-git-send-email-logang@deltatee.com>
+ <20170309195531.GB19517@bhelgaas-glaptop.roam.corp.google.com>
+ <e01826a0-6c81-6bce-b633-5033da66f401@deltatee.com>
+Message-ID: <48F91B98-32A0-43CB-9F03-A617242AEE55@fb.com>
 
-On Thu, Mar 09, 2017@03:25:01PM -0500, Marc Smith wrote:
-> Hi,
-> 
-> We opened a support case with Intel (# 02641251) but we aren't making
-> much progress... they looked at log files from /var/log/ on our system
-> and now seem to be blaming warning/error log lines from
-> Corosync/Pacemaker on the issue. =)
-> 
-> We're still able to reproduce this issue with high load... the NVMe
-> drives "drop out", randomly, not always the same drive, when pushing
-> I/O across all of our NVMe drives.
-> 
-> We don't mind to keep pushing on the Intel NVMe hardware support
-> front, but looking for confirmation that its believed based on the
-> kernel log messages posted, that this is an issue with the NVMe drives
-> themselves (eg, firmware)?
+This is great!  Thanks Bjorn and Logan for getting this drivers upstreamed!
 
-This genuinely looks like the drives have stopped responding and needs
-to be directed to the drive vendor.
+-Wei
+
+--
+wei zhang | software engineer | facebook
+wzhang at fb.com | (408) 460-4803
+
+On 3/9/17, 11:56 AM, "Logan Gunthorpe" <logang@deltatee.com> wrote:
+
+    
+    
+    On 09/03/17 12:55 PM, Bjorn Helgaas wrote:
+    > Applied to pci/switchtec for v4.12, thanks!
+    
+    Great! Thanks so much!
+    
+    Logan
+    
+    
