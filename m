@@ -1,35 +1,57 @@
-From: idryomov@gmail.com (Ilya Dryomov)
-Date: Fri, 10 Mar 2017 17:49:22 +0100
-Subject: blk_integrity_revalidate() clears BDI_CAP_STABLE_WRITES
-In-Reply-To: <yq1zih4pdhn.fsf@oracle.com>
-References: <CAOi1vP8M91kiF-FnT=EoJgTxfstMEsC-nhLY5KtRkrKROjWPWA@mail.gmail.com>
- <yq1efyq25y2.fsf@oracle.com>
- <CAOi1vP-amFyFHbPV3FhG3F1Tp+df6V7a4mcP8LLWY0GZx+JsFw@mail.gmail.com>
- <yq1fuj44geq.fsf@oracle.com>
- <CAOi1vP_g-MMe9XvWDgkVL4R6UjckMQVC_CDF9+hQEpZbxwx0Jw@mail.gmail.com>
- <yq1zih4pdhn.fsf@oracle.com>
-Message-ID: <CAOi1vP-VAUYwnuxMMgknpGLKgZR=8+JV_naASKE8vx8h9+R=pQ@mail.gmail.com>
+From: leon@kernel.org (Leon Romanovsky)
+Date: Fri, 10 Mar 2017 18:52:14 +0200
+Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
+ during stress test on reset_controller
+In-Reply-To: <d21c5571-78fd-7882-b4cc-c24f76f6ff47@redhat.com>
+References: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
+ <95e045a8-ace0-6a9a-b9a9-555cb2670572@grimberg.me>
+ <d21c5571-78fd-7882-b4cc-c24f76f6ff47@redhat.com>
+Message-ID: <20170310165214.GC14379@mtr-leonro.local>
 
-On Thu, Mar 2, 2017 at 4:24 AM, Martin K. Petersen
-<martin.petersen@oracle.com> wrote:
->>>>>> "Ilya" == Ilya Dryomov <idryomov at gmail.com> writes:
+On Thu, Mar 09, 2017@12:20:14PM +0800, Yi Zhang wrote:
 >
-> Ilya,
+> > I'm using CX5-LX device and have not seen any issues with it.
+> >
+> > Would it be possible to retest with kmemleak?
+> >
+> Here is the device I used.
 >
-> Ilya> Given the above, I'm not sure what the baseline is --
-> Ilya> blk_integrity code isn't invoked for data-only lbafs.  Could nvme
-> Ilya> folks please look at this?  rbd regression caused by integrity
-> Ilya> revalidate change goes back to 4.4 and I'd really like to get it
-> Ilya> fixed.  The proposed patch is attached to my earlier reply on
-> Ilya> linux-block.
+> Network controller: Mellanox Technologies MT27500 Family [ConnectX-3]
 >
-> I've had a couple of fires to attend to this week. I'll try and give
-> your patch a spin on my FC setup tomorrow or Friday.
+> The issue always can be reproduced with about 1000 time.
+>
+> Another thing is I found one strange phenomenon from the log:
+>
+> before the OOM occurred, most of the log are  about "adding queue", and
+> after the OOM occurred, most of the log are about "nvmet_rdma: freeing
+> queue".
+>
+> seems the release work: "schedule_work(&queue->release_work);" not executed
+> timely, not sure whether the OOM is caused by this reason.
 
-Hi Martin,
+Sagi,
+The release function is placed in global workqueue. I'm not familiar
+with NVMe design and I don't know all the details, but maybe the proper way will
+be to create special workqueue with MEM_RECLAIM flag to ensure the progress?
 
-Ping...  Did you get a chance to try it?
-
-Thanks,
-
-                Ilya
+>
+> Here is the log before/after OOM
+> http://pastebin.com/Zb6w4nEv
+>
+> > _______________________________________________
+> > Linux-nvme mailing list
+> > Linux-nvme at lists.infradead.org
+> > http://lists.infradead.org/mailman/listinfo/linux-nvme
+>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170310/af927836/attachment.sig>
