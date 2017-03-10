@@ -1,76 +1,134 @@
-From: damien.lemoal@wdc.com (Damien Le Moal)
-Date: Fri, 10 Mar 2017 12:04:12 +0900
-Subject: [PATCH rfc 04/10] block: Add a non-selective polling interface
-In-Reply-To: <83713ef7-168d-e1f6-8220-b7d6264ea29a@suse.de>
-References: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
- <1489065402-14757-5-git-send-email-sagi@grimberg.me>
- <83713ef7-168d-e1f6-8220-b7d6264ea29a@suse.de>
-Message-ID: <c5ef3bd9-42dc-53c9-d2f7-2e49399f7a8d@wdc.com>
+From: yizhan@redhat.com (Yi Zhang)
+Date: Fri, 10 Mar 2017 15:59:17 +0800
+Subject: kernull NULL pointer observed on initiator side after 'nvmetcli
+ clear' on target side
+In-Reply-To: <6ffda302-02f9-12f0-a112-ea7cd20b9ffa@grimberg.me>
+References: <1053522223.31446389.1488721184925.JavaMail.zimbra@redhat.com>
+ <644fc4ab-df6b-a337-1431-bad881ef56ee@grimberg.me>
+ <88ae146a-7510-9be0-c9b4-58e70f9d73b9@redhat.com>
+ <6ffda302-02f9-12f0-a112-ea7cd20b9ffa@grimberg.me>
+Message-ID: <b0a84bcc-7dca-d342-b30e-b01eba8088cd@redhat.com>
 
-On 3/9/17 22:44, Johannes Thumshirn wrote:
-> On 03/09/2017 02:16 PM, Sagi Grimberg wrote:
->> For a server/target appliance mode where we don't
->> necessarily care about specific IOs but rather want
->> to poll opportunisticly, it is useful to have a
->> non-selective polling interface.
+
 >>
->> Expose a blk_poll_batch for a batched blkdev polling
->> interface so our nvme target (and others) can use.
->>
->> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
->> ---
->>  block/blk-mq.c         | 14 ++++++++++++++
->>  include/linux/blk-mq.h |  2 ++
->>  include/linux/blkdev.h |  1 +
->>  3 files changed, 17 insertions(+)
->>
->> diff --git a/block/blk-mq.c b/block/blk-mq.c
->> index b2fd175e84d7..1962785b571a 100644
->> --- a/block/blk-mq.c
->> +++ b/block/blk-mq.c
->> @@ -2911,6 +2911,20 @@ bool blk_mq_poll(struct request_queue *q, blk_qc_t cookie)
->>  }
->>  EXPORT_SYMBOL_GPL(blk_mq_poll);
->>  
->> +int blk_mq_poll_batch(struct request_queue *q, unsigned int batch)
->> +{
->> +	struct blk_mq_hw_ctx *hctx;
->> +
->> +	if (!q->mq_ops || !q->mq_ops->poll_batch)
->> +		return 0;
->> +
->> +	hctx = blk_mq_map_queue(q, smp_processor_id());
->> +	return q->mq_ops->poll_batch(hctx, batch);
->> +}
->> +EXPORT_SYMBOL_GPL(blk_mq_poll_batch);
->> +
->> +
->> +
-> 
-> Quite some additional newlines and I'm not really fond of the
-> ->poll_batch() name. It's a bit confusing with ->poll() and we also have
-> irq_poll(). But the only thing that would come to my mind is
-> complete_batch() which "races" with ->complete().
+>
+> Yep... looks like we don't take into account that we can't use all the
+> queues now...
+>
+> Does this patch help:
+Still can reproduce the reconnect in 10 seconds issues with the patch, 
+here is the log:
 
-What about ->check_completions()? After all, that is what both ->poll()
-and ->poll_batch do but with a different stop condition, no ?
-So it would also be easy to merge the two: both tag and batch are
-unsigned int which could be called "cookie", and add a flag to tell how
-to interpret it (as a tag or a batch limit).
-e.g. something like:
+[  193.574183] nvme nvme0: new ctrl: NQN "nvme-subsystem-name", addr 
+172.31.2.3:1023
+[  193.612039] __nvme_rdma_init_request: changing called
+[  193.638723] __nvme_rdma_init_request: changing called
+[  193.661767] __nvme_rdma_init_request: changing called
+[  193.684579] __nvme_rdma_init_request: changing called
+[  193.707327] __nvme_rdma_init_request: changing called
+[  193.730071] __nvme_rdma_init_request: changing called
+[  193.752896] __nvme_rdma_init_request: changing called
+[  193.775699] __nvme_rdma_init_request: changing called
+[  193.798813] __nvme_rdma_init_request: changing called
+[  193.821257] __nvme_rdma_init_request: changing called
+[  193.844090] __nvme_rdma_init_request: changing called
+[  193.866472] __nvme_rdma_init_request: changing called
+[  193.889375] __nvme_rdma_init_request: changing called
+[  193.912094] __nvme_rdma_init_request: changing called
+[  193.934942] __nvme_rdma_init_request: changing called
+[  193.957688] __nvme_rdma_init_request: changing called
+[  606.273376] Broke affinity for irq 16
+[  606.291940] Broke affinity for irq 28
+[  606.310201] Broke affinity for irq 90
+[  606.328211] Broke affinity for irq 93
+[  606.346263] Broke affinity for irq 97
+[  606.364314] Broke affinity for irq 100
+[  606.382105] Broke affinity for irq 104
+[  606.400727] smpboot: CPU 1 is now offline
+[  616.820505] nvme nvme0: reconnecting in 10 seconds
+[  626.882747] blk_mq_reinit_tagset: tag is null, continue
+[  626.914000] nvme nvme0: Connect rejected: status 8 (invalid service ID).
+[  626.947965] nvme nvme0: rdma_resolve_addr wait failed (-104).
+[  626.974673] nvme nvme0: Failed reconnect attempt, requeueing...
+[  637.100252] blk_mq_reinit_tagset: tag is null, continue
+[  637.129200] nvme nvme0: Connect rejected: status 8 (invalid service ID).
+[  637.163578] nvme nvme0: rdma_resolve_addr wait failed (-104).
+[  637.190246] nvme nvme0: Failed reconnect attempt, requeueing...
+[  647.340147] blk_mq_reinit_tagset: tag is null, continue
+[  647.367612] nvme nvme0: Connect rejected: status 8 (invalid service ID).
+[  647.402527] nvme nvme0: rdma_resolve_addr wait failed (-104).
+[  647.430338] nvme nvme0: Failed reconnect attempt, requeueing...
+[  657.579993] blk_mq_reinit_tagset: tag is null, continue
+[  657.608478] nvme nvme0: Connect rejected: status 8 (invalid service ID).
+[  657.643947] nvme nvme0: rdma_resolve_addr wait failed (-104).
+[  657.670579] nvme nvme0: Failed reconnect attempt, requeueing...
+[  667.819897] blk_mq_reinit_tagset: tag is null, continue
+[  667.848786] nvme nvme0: Connect rejected: status 8 (invalid service ID).
+[  667.881951] nvme nvme0: rdma_resolve_addr wait failed (-104).
+[  667.908578] nvme nvme0: Failed reconnect attempt, requeueing...
+[  678.059821] blk_mq_reinit_tagset: tag is null, continue
+[  678.089295] nvme nvme0: Connect rejected: status 8 (invalid service ID).
+[  678.123602] nvme nvme0: rdma_resolve_addr wait failed (-104).
+[  678.150317] nvme nvme0: Failed reconnect attempt, requeueing...
 
-+typedef int (check_completions_fn)(struct blk_mq_hw_ctx *,
-		enum blk_mq_check_flags, /* flag (TAG or BATCH) */
-		unsigned int); /* Target tag or batch limit */
 
-Best regards.
-
--- 
-Damien Le Moal, Ph.D.
-Sr. Manager, System Software Research Group,
-Western Digital Corporation
-Damien.LeMoal at wdc.com
-(+81) 0466-98-3593 (ext. 513593)
-1 kirihara-cho, Fujisawa,
-Kanagawa, 252-0888 Japan
-www.wdc.com, www.hgst.com
+> -- 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 29ac8fcb8d2c..25af3f75f6f1 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -337,8 +337,6 @@ static int __nvme_rdma_init_request(struct 
+> nvme_rdma_ctrl *ctrl,
+>         struct ib_device *ibdev = dev->dev;
+>         int ret;
+>
+> -       BUG_ON(queue_idx >= ctrl->queue_count);
+> -
+>         ret = nvme_rdma_alloc_qe(ibdev, &req->sqe, sizeof(struct 
+> nvme_command),
+>                         DMA_TO_DEVICE);
+>         if (ret)
+> @@ -647,8 +645,22 @@ static int nvme_rdma_connect_io_queues(struct 
+> nvme_rdma_ctrl *ctrl)
+>
+>  static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl *ctrl)
+>  {
+> +       struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+> +       unsigned int nr_io_queues;
+>         int i, ret;
+>
+> +       nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
+> +       ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+> +       if (ret)
+> +               return ret;
+> +
+> +       ctrl->queue_count = nr_io_queues + 1;
+> +       if (ctrl->queue_count < 2)
+> +               return 0;
+> +
+> +       dev_info(ctrl->ctrl.device,
+> +               "creating %d I/O queues.\n", nr_io_queues);
+> +
+>         for (i = 1; i < ctrl->queue_count; i++) {
+>                 ret = nvme_rdma_init_queue(ctrl, i,
+> ctrl->ctrl.opts->queue_size);
+> @@ -1793,20 +1805,8 @@ static const struct nvme_ctrl_ops 
+> nvme_rdma_ctrl_ops = {
+>
+>  static int nvme_rdma_create_io_queues(struct nvme_rdma_ctrl *ctrl)
+>  {
+> -       struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+>         int ret;
+>
+> -       ret = nvme_set_queue_count(&ctrl->ctrl, &opts->nr_io_queues);
+> -       if (ret)
+> -               return ret;
+> -
+> -       ctrl->queue_count = opts->nr_io_queues + 1;
+> -       if (ctrl->queue_count < 2)
+> -               return 0;
+> -
+> -       dev_info(ctrl->ctrl.device,
+> -               "creating %d I/O queues.\n", opts->nr_io_queues);
+> -
+> -- 
