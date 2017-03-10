@@ -1,41 +1,30 @@
 From: bkenward@solarflare.com (Bert Kenward)
-Date: Fri, 10 Mar 2017 11:30:00 +0000
-Subject: [PATCH RFC 0/4] nvme-fabrics: TCP transport
-Message-ID: <ecf773d2-beb9-51db-0ddf-3942e598a581@solarflare.com>
+Date: Fri, 10 Mar 2017 11:31:04 +0000
+Subject: [PATCH RFC 1/4] nvme-fabrics: add TCP as valid NVMe transport type
+In-Reply-To: <ecf773d2-beb9-51db-0ddf-3942e598a581@solarflare.com>
+References: <ecf773d2-beb9-51db-0ddf-3942e598a581@solarflare.com>
+Message-ID: <6d0af936-06b2-ffbc-248a-2586efa35064@solarflare.com>
 
-Experimental proof of concept NVMe Fabrics transport over TCP, intended
-to provide good performance over any network.
+From: Ripduman Sohan <rip.sohan@verrko.com>
 
-Initial performance tests using both ramdisks and NVMe SSDs show latency
-and throughput broadly comparable to a RoCE transport. Further optimisation
-is needed, but we welcome input and feedback on our approach and goal of
-adding a TCP transport to the NVMe Fabrics specification.
+Cc: Lucian Carata <lucian.carata at cl.cam.ac.uk>
+Signed-off-by: Ripduman Sohan <rip.sohan at verrko.com>
+Signed-off-by: Bert Kenward <bkenward at solarflare.com>
+---
+ include/linux/nvme.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-Using this requires a modified version of the nvme-cli tool, available at
-https://github.com/solarflarecommunications/nvme-cli/
-
-IPv6 support is not yet implemented, but will be added using Sagi's new
-inet_pton_with_scope.
-
-Bert Kenward (2):
-  nvme-fabrics: add target support for TCP transport
-  nvme-fabrics: add tcp to trtype list for configfs
-
-Ripduman Sohan (2):
-  nvme-fabrics: add TCP as valid NVMe transport type
-  nvme-fabrics: add host support for TCP transport
-
- drivers/nvme/host/Kconfig      |   14 +
- drivers/nvme/host/Makefile     |    3 +
- drivers/nvme/host/tcp.c        | 1616 ++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/target/Kconfig    |   12 +
- drivers/nvme/target/Makefile   |    2 +
- drivers/nvme/target/configfs.c |   10 +
- drivers/nvme/target/tcp.c      | 1186 +++++++++++++++++++++++++++++
- include/linux/nvme.h           |    1 +
- 8 files changed, 2844 insertions(+)
- create mode 100644 drivers/nvme/host/tcp.c
- create mode 100644 drivers/nvme/target/tcp.c
-
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index c43d435d4225..bfe6f2121e5b 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -49,6 +49,7 @@ enum {
+ enum {
+ 	NVMF_TRTYPE_RDMA	= 1,	/* RDMA */
+ 	NVMF_TRTYPE_FC		= 2,	/* Fibre Channel */
++	NVMF_TRTYPE_TCP         = 3,    /* TCP */
+ 	NVMF_TRTYPE_LOOP	= 254,	/* Reserved for host usage */
+ 	NVMF_TRTYPE_MAX,
+ };
 -- 
 2.7.4
