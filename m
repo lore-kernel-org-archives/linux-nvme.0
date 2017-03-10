@@ -1,21 +1,23 @@
-From: bkenward@solarflare.com (Bert Kenward)
-Date: Fri, 10 Mar 2017 12:32:31 +0000
-Subject: [PATCH RFC 0/4] nvme-fabrics: TCP transport
-In-Reply-To: <21804c4f-3553-cf21-0f4b-86af9548d581@grimberg.me>
-References: <ecf773d2-beb9-51db-0ddf-3942e598a581@solarflare.com>
- <21804c4f-3553-cf21-0f4b-86af9548d581@grimberg.me>
-Message-ID: <7b9e5c1b-c912-2e6e-44f9-43971d7146a0@solarflare.com>
+From: dwmw2@infradead.org (David Woodhouse)
+Date: Fri, 10 Mar 2017 13:51:11 +0100
+Subject: [PATCH 25/47] nvme: don't take the I/O queue q_lock in
+ nvme_timeout
+In-Reply-To: <1448037342-18384-26-git-send-email-hch@lst.de>
+Message-ID: <1489150271.26967.6.camel@infradead.org>
 
-Hello,
+> There is nothing it protects, but it makes lockdep unhappy in many different
+> ways.
+>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-On 10/03/17 11:56, Sagi Grimberg wrote:
-> I'd recommend that you join the fabrics 1.1 work that has started on
-> the NVMe TWG. I can't really provide feedback on an non-standardized
-> implementation, and we're obviously not going to accept it.
-> 
-> If you have any intentions for pursuing this, you should go through the
-> NVMe TWG.
+This is commit 4c9f748f0ee88447b28546991f60f43a7319aafd in 4.5.
 
-Thanks for the feedback Sagi.
-
-Bert.
+Doesn't it want to be applied to 4.4 stable too?
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: smime.p7s
+Type: application/x-pkcs7-signature
+Size: 4938 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170310/d0a700bf/attachment.bin>
