@@ -1,138 +1,71 @@
-From: vladimirn@mellanox.com (Vladimir Neyelov)
-Date: Sun, 12 Mar 2017 12:33:45 +0000
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <fbd647dd-3a16-8155-107d-f98e8326cc63@mellanox.com>
-References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
- <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
- <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
- <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
- <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
- <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
- <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
- <16c4bd86-fd63-f230-40bc-f52cb106e11b@grimberg.me>
- <fbd647dd-3a16-8155-107d-f98e8326cc63@mellanox.com>
-Message-ID: <AM4PR0501MB278621363209E177A738D75FCB220@AM4PR0501MB2786.eurprd05.prod.outlook.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Sun, 12 Mar 2017 20:16:58 +0200
+Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
+ during stress test on reset_controller
+In-Reply-To: <20170310165214.GC14379@mtr-leonro.local>
+References: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
+ <95e045a8-ace0-6a9a-b9a9-555cb2670572@grimberg.me>
+ <d21c5571-78fd-7882-b4cc-c24f76f6ff47@redhat.com>
+ <20170310165214.GC14379@mtr-leonro.local>
+Message-ID: <56e8ccd3-8116-89a1-2f65-eb61a91c5f84@mellanox.com>
 
-Hi,
-I tested performance regression with/without patch of Max.
-I user to servers of HP.
 
-Initiator:												
-CPUs: 48												
-CPU: Intel(R) Xeon(R) CPU E5-2690 v3 @ 2.60GHz												
-Hardware: ConnectX-4 												
-Interface : Infiniband	Ethernet											
-Kernel: 3.10.0-327.el7.x86_64												
-OFED:	MLNX_OFED_LINUX-4.0-1.5.6.0:											
-OS: RHEL 7.2												
-Tunning commands:												
-modprobe ib_iser always_register=N												
-for i in `ls sd*`;do echo 2 > /sys/block/$i/queue/nomerges;done												
-for i in `ls sd*`;do echo 0 > /sys/block/$i/queue/add_random ;done												
-for i in `ls sd*`;do echo 1 > /sys/block/$i/queue/rq_affinity;done												
-for i in `ls sd*`;do echo noop > /sys/block/$i/queue/scheduler;done												
-echo performance > /sys/devices/system/cpu/cpu[0-9]*/cpufreq/scaling_governor												
-service irqbalance stop												
-set_irq_affinity.sh ens4f0												
-												
-												
-Target:												
-Hardware: ConnectX-4 												
-CPUs: 48												
-CPU: Intel(R) Xeon(R) CPU E5-2690 v3 @ 2.60GHz												
-Interface : Infiniband												
-												
-OS: RHEL 7.2												
-Kernel: 3.10.0-327.el7.x86_64												
-Tunning commands:												
-service irqbalance stop												
-set_irq_affinity.sh ens4f0												
-Target type LIO												
-												
-Command:												
-fio --rw=write -bs=4K --numjobs=3 --iodepth=128 --runtime=60 --time_based --size=300k --loops=1 --ioengine=libaio --direct=1 --invalidate=1 --fsync_on_close=1 --randrepeat=1 --norandommap --group_reporting --exitall `cat disks`
 
-Results:
-
-Patched  by patch of Max (block 4K):
-
-allways reg          Y                N
-write              1902K            1923.3K
-read               1315K            2009K 
-
-Original  OFED code (block 4K)     
-
-allways reg          Y                N
-write              1947K           1982K
-read               1273K           1978K												
-
-Thanks,
-Vladimir
-
------Original Message-----
-From: Max Gurtovoy 
-Sent: Tuesday, March 7, 2017 11:28 AM
-To: Sagi Grimberg <sagi at grimberg.me>; Gruher, Joseph R <joseph.r.gruher at intel.com>; shahar.salzman <shahar.salzman at gmail.com>; Laurence Oberman <loberman at redhat.com>; Riches Jr, Robert M <robert.m.riches.jr at intel.com>
-Cc: linux-rdma at vger.kernel.org; linux-nvme at lists.infradead.org; Robert LeBlanc <robert at leblancnet.us>; Vladimir Neyelov <vladimirn at mellanox.com>
-Subject: Re: Unexpected issues with 2 NVME initiators using the same target
+On 3/10/2017 6:52 PM, Leon Romanovsky wrote:
+> On Thu, Mar 09, 2017@12:20:14PM +0800, Yi Zhang wrote:
+>>
+>>> I'm using CX5-LX device and have not seen any issues with it.
+>>>
+>>> Would it be possible to retest with kmemleak?
+>>>
+>> Here is the device I used.
+>>
+>> Network controller: Mellanox Technologies MT27500 Family [ConnectX-3]
+>>
+>> The issue always can be reproduced with about 1000 time.
+>>
+>> Another thing is I found one strange phenomenon from the log:
+>>
+>> before the OOM occurred, most of the log are  about "adding queue", and
+>> after the OOM occurred, most of the log are about "nvmet_rdma: freeing
+>> queue".
+>>
+>> seems the release work: "schedule_work(&queue->release_work);" not executed
+>> timely, not sure whether the OOM is caused by this reason.
+>
+> Sagi,
+> The release function is placed in global workqueue. I'm not familiar
+> with NVMe design and I don't know all the details, but maybe the proper way will
+> be to create special workqueue with MEM_RECLAIM flag to ensure the progress?
+>
 
 Hi,
 
-Shahar/Joseph, what is your link layer conf (IB/Eth) ?
-In eth case, have you configured some PFC ? if not, can you try it ?
-I suspect that this is the root cause and it might help you avoiding this case, meanwhile we're looking for for the best solution.
-
-Adding Vladimir that will run iSER on his performance setup with the new fencing patch (not an NVMEoF related issue).
-We can run also NVMEoF later on if needed.
+I was able to repro it in my lab with ConnectX3. added a dedicated 
+workqueue with high priority but the bug still happens.
+if I add a "sleep 1" after echo 1 
+ >/sys/block/nvme0n1/device/reset_controller the test pass. So there is 
+no leak IMO, but the allocation process is much faster than the 
+destruction of the resources.
+In the initiator we don't wait for RDMA_CM_EVENT_DISCONNECTED event 
+after we call rdma_disconnect, and we try to connect immediatly again.
+maybe we need to slow down the storm of connect requests from the 
+initiator somehow to let the target time to settle up.
 
 Max.
 
-On 3/6/2017 1:28 PM, Sagi Grimberg wrote:
->> Hi Sagi,
+
 >>
->> I think we need to add fence to the UMR wqe.
+>> Here is the log before/after OOM
+>> http://pastebin.com/Zb6w4nEv
 >>
->> so lets try this one:
+>>> _______________________________________________
+>>> Linux-nvme mailing list
+>>> Linux-nvme at lists.infradead.org
+>>> http://lists.infradead.org/mailman/listinfo/linux-nvme
 >>
->> diff --git a/drivers/infiniband/hw/mlx5/qp.c 
->> b/drivers/infiniband/hw/mlx5/qp.c index ad8a263..c38c4fa 100644
->> --- a/drivers/infiniband/hw/mlx5/qp.c
->> +++ b/drivers/infiniband/hw/mlx5/qp.c
->> @@ -3737,8 +3737,7 @@ static void dump_wqe(struct mlx5_ib_qp *qp, int 
->> idx, int size_16)
 >>
->>  static u8 get_fence(u8 fence, struct ib_send_wr *wr)  {
->> -       if (unlikely(wr->opcode == IB_WR_LOCAL_INV &&
->> -                    wr->send_flags & IB_SEND_FENCE))
->> +       if (wr->opcode == IB_WR_LOCAL_INV || wr->opcode == 
->> + IB_WR_REG_MR)
->>                 return MLX5_FENCE_MODE_STRONG_ORDERING;
->>
->>         if (unlikely(fence)) {
->
-> This will kill performance, isn't there another fix that can be 
-> applied just for retransmission flow?
->
->> Couldn't repro that case but I run some initial tests in my Lab (with 
->> my patch above) - not performace servers:
->>
->> Initiator with 24 CPUs (2 threads/core, 6 cores/socket, 2 sockets), 
->> Connect IB (same driver mlx5_ib), kernel 4.10.0, fio test with 24 
->> jobs and 128 iodepth.
->> register_always=N
->>
->> Target - 1 subsystem with 1 ns (null_blk)
->>
->> bs   read (without/with patch)   write (without/with patch)
->> --- --------------------------  ---------------------------
->> 512     1019k / 1008k                 1004k / 992k
->> 1k      1021k / 1013k                 1002k / 991k
->> 4k      1030k / 1022k                 978k  / 969k
->>
->> CPU usage is 100% for both cases in the initiator side.
->> haven't seen difference with bs = 16k.
->> No so big drop like we would expect,
->
-> Obviously you won't see a drop without registering memory for small IO 
-> (register_always=N), this would bypass registration altogether... 
-> Please retest with register_always=Y.
+>> _______________________________________________
+>> Linux-nvme mailing list
+>> Linux-nvme at lists.infradead.org
+>> http://lists.infradead.org/mailman/listinfo/linux-nvme
