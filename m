@@ -1,54 +1,32 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 13 Mar 2017 15:39:41 +0200
-Subject: [PATCH v2] nvmet-rdma: Fix a possible uninitialized variable
- dereference
-Message-ID: <1489412381-28947-1-git-send-email-sagi@grimberg.me>
+Date: Mon, 13 Mar 2017 16:00:09 +0200
+Subject: [PATCH v3 0/4] Introduce a new helper for parsing ipv[4|6]:port
+ to socket address
+In-Reply-To: <1489063793-12838-1-git-send-email-sagi@grimberg.me>
+References: <1489063793-12838-1-git-send-email-sagi@grimberg.me>
+Message-ID: <55ad78fd-266f-09b9-417d-b6cf7b723879@grimberg.me>
 
-When handling a new recv command, we grab a new rsp resource and
-check for the queue state being live. In case the queue is not in
-live state, we simply restore the rsp back to the free list. However
-in this flow we didn't set rsp->queue yet, so we cannot dereference it.
 
-Instead, make sure to initialize rsp->queue (and other rsp members)
-as soon as possible so we won't reference uninitialized variables.
+> Changes from v1:
+> - rebased to 4.11-rc1
+> - improved changelogs
+>
+> Changes from v0:
+> - rebased on 4.10
+> - splitted inet_pton_with_scope to be a bit saner (from Chrsitoph)
+> - converted nvme-rdma host_traddr to use a generic helper
+>
+> We have some places in the stack that support ipv4 and ipv6. In
+> some cases the user configuration does not reveal which
+> address family is given and needs to be parsed from the input string.
+>
+> Given that the user-input varies between subsystems, some processing
+> is required from the call-site to separate address and port strings.
+>
+> As a side-effect, this set adds ipv6 support for nvme over fabrics.
 
-Reported-by: Yi Zhang <yizhan at redhat.com>
-Reported-by: Raju Rangoju <rajur at chelsio.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-- v1 broke srq, this one doesn't
+Hi Dave,
 
- drivers/nvme/target/rdma.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 9aa1da3778b3..ecc4fe862561 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -703,11 +703,6 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,
- {
- 	u16 status;
- 
--	cmd->queue = queue;
--	cmd->n_rdma = 0;
--	cmd->req.port = queue->port;
--
--
- 	ib_dma_sync_single_for_cpu(queue->dev->device,
- 		cmd->cmd->sge[0].addr, cmd->cmd->sge[0].length,
- 		DMA_FROM_DEVICE);
-@@ -760,9 +755,12 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
- 
- 	cmd->queue = queue;
- 	rsp = nvmet_rdma_get_rsp(queue);
-+	rsp->queue = queue;
- 	rsp->cmd = cmd;
- 	rsp->flags = 0;
- 	rsp->req.cmd = cmd->nvme_cmd;
-+	rsp->req.port = queue->port;
-+	rsp->n_rdma = 0;
- 
- 	if (unlikely(queue->state != NVMET_RDMA_Q_LIVE)) {
- 		unsigned long flags;
--- 
-2.7.4
+This set got review tags from two kernel maintainers but this is your
+realm so I wouldn't be comfortable moving forward with this without
+your feedback.
