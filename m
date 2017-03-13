@@ -1,24 +1,40 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 13 Mar 2017 10:32:38 +0200
-Subject: [RFC PATCH] nvmet: Back namespace with files
-In-Reply-To: <20170309174120.GA14329@localhost.localdomain>
-References: <1489008937-31043-1-git-send-email-keith.busch@intel.com>
- <20170308213519.GA32009@lst.de> <20170308221527.GA1885@localhost.localdomain>
- <20170308222014.GA635@lst.de> <20170309174120.GA14329@localhost.localdomain>
-Message-ID: <d6291643-c644-5790-4311-3a159d5eecc9@grimberg.me>
+Date: Mon, 13 Mar 2017 11:43:15 +0200
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <AM4PR0501MB278621363209E177A738D75FCB220@AM4PR0501MB2786.eurprd05.prod.outlook.com>
+References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
+ <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
+ <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
+ <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
+ <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
+ <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
+ <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
+ <16c4bd86-fd63-f230-40bc-f52cb106e11b@grimberg.me>
+ <fbd647dd-3a16-8155-107d-f98e8326cc63@mellanox.com>
+ <AM4PR0501MB278621363209E177A738D75FCB220@AM4PR0501MB2786.eurprd05.prod.outlook.com>
+Message-ID: <9a7e48b5-6e2d-75ed-bf12-8fd4543f2f76@grimberg.me>
 
->> Given that namespace management is tied to controller IDs it's a fairly
->> bad fit for fabrics, especially so with our dynamic controller model.
+
+> Patched  by patch of Max (block 4K):
 >
-> Hm, implementation details aside for a second, isn't namespace management
-> more useful on fabrics than pci? It's like managing LUNs on a SAN,
-> but with spec defined commands.
+> allways reg          Y                N
+> write              1902K            1923.3K
+> read               1315K            2009K
+>
+> Original  OFED code (block 4K)
+>
+> allways reg          Y                N
+> write              1947K           1982K
+> read               1273K           1978K												
 
-Not exactly, usually namespace/lun provisioning is something that a
-given host does not typically do or even aware of. Unlike in PCIe,
-in fabrics, the host does not really own "the" subsystem, it just owns
-a virtual subsystem that the target exposed for it.
+First, the write comparison is redundant because
+we send immediate data without memory registration.
 
-If we do support namespace management in the linux target, it'd need
-to be emulated somehow, obviously a host cannot simply add
-unprovisioned resources.
+And, I'd compare against upstream code and not OFED.
+
+So it seems that strong fencing does not effect performance
+from the ULP point of view, surprising...
+I'd suggest comparing on nvmf and srp as well.
+
+If this is the case, and it indeed resolves the issue, we
+should move forward with it as is.
