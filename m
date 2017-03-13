@@ -1,181 +1,86 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 13 Mar 2017 16:02:19 +0200
-Subject: [PATCH 2/3] nvme-loop: handle cpu unplug when re-establishing the
- controller
+Date: Mon, 13 Mar 2017 16:02:20 +0200
+Subject: [PATCH 3/3] nvme-loop: remove some code duplication
 In-Reply-To: <1489413740-29085-1-git-send-email-sagi@grimberg.me>
 References: <1489413740-29085-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1489413740-29085-2-git-send-email-sagi@grimberg.me>
-
-If a cpu unplug event has occured, we need to take the minimum
-of the provided nr_io_queues and the number of online cpus,
-otherwise we won't be able to connect them as blk-mq mapping
-won't dispatch to those queues.
+Message-ID: <1489413740-29085-3-git-send-email-sagi@grimberg.me>
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/loop.c | 88 ++++++++++++++++++++++++++--------------------
- 1 file changed, 50 insertions(+), 38 deletions(-)
+ drivers/nvme/target/loop.c | 33 +++++++++++++++++++++------------
+ 1 file changed, 21 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 74e04a0855d4..22f7bc6bac7f 100644
+index 22f7bc6bac7f..87da4bcceaa4 100644
 --- a/drivers/nvme/target/loop.c
 +++ b/drivers/nvme/target/loop.c
-@@ -223,8 +223,6 @@ static void nvme_loop_submit_async_event(struct nvme_ctrl *arg, int aer_idx)
- static int nvme_loop_init_iod(struct nvme_loop_ctrl *ctrl,
- 		struct nvme_loop_iod *iod, unsigned int queue_idx)
- {
--	BUG_ON(queue_idx >= ctrl->queue_count);
--
- 	iod->req.cmd = &iod->cmd;
- 	iod->req.rsp = &iod->rsp;
- 	iod->queue = &ctrl->queues[queue_idx];
-@@ -314,6 +312,43 @@ static void nvme_loop_free_ctrl(struct nvme_ctrl *nctrl)
- 	kfree(ctrl);
+@@ -349,6 +349,19 @@ static int nvme_loop_init_io_queues(struct nvme_loop_ctrl *ctrl)
+ 	return ret;
  }
  
-+static void nvme_loop_destroy_io_queues(struct nvme_loop_ctrl *ctrl)
++static int nvme_loop_connect_io_queues(struct nvme_loop_ctrl *ctrl)
 +{
-+	int i;
++	int i, ret;
 +
-+	for (i = 1; i < ctrl->queue_count; i++)
-+		nvmet_sq_destroy(&ctrl->queues[i].nvme_sq);
-+}
-+
-+static int nvme_loop_init_io_queues(struct nvme_loop_ctrl *ctrl)
-+{
-+	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
-+	unsigned int nr_io_queues;
-+	int ret, i;
-+
-+	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
-+	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
-+	if (ret || !nr_io_queues)
-+		return ret;
-+
-+	dev_info(ctrl->ctrl.device, "creating %d I/O queues.\n", nr_io_queues);
-+
-+	for (i = 1; i <= nr_io_queues; i++) {
-+		ctrl->queues[i].ctrl = ctrl;
-+		ret = nvmet_sq_init(&ctrl->queues[i].nvme_sq);
++	for (i = 1; i < ctrl->queue_count; i++) {
++		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
 +		if (ret)
-+			goto out_destroy_queues;
-+
-+		ctrl->queue_count++;
++			return ret;
 +	}
 +
 +	return 0;
-+
-+out_destroy_queues:
-+	nvme_loop_destroy_io_queues(ctrl);
-+	return ret;
 +}
 +
  static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
  {
  	int error;
-@@ -385,17 +420,13 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
+@@ -490,7 +503,7 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
+ 	struct nvme_loop_ctrl *ctrl = container_of(work,
+ 					struct nvme_loop_ctrl, reset_work);
+ 	bool changed;
+-	int i, ret;
++	int ret;
  
- static void nvme_loop_shutdown_ctrl(struct nvme_loop_ctrl *ctrl)
- {
--	int i;
--
- 	nvme_stop_keep_alive(&ctrl->ctrl);
+ 	nvme_loop_shutdown_ctrl(ctrl);
  
- 	if (ctrl->queue_count > 1) {
- 		nvme_stop_queues(&ctrl->ctrl);
- 		blk_mq_tagset_busy_iter(&ctrl->tag_set,
- 					nvme_cancel_request, &ctrl->ctrl);
--
--		for (i = 1; i < ctrl->queue_count; i++)
--			nvmet_sq_destroy(&ctrl->queues[i].nvme_sq);
-+		nvme_loop_destroy_io_queues(ctrl);
- 	}
- 
- 	if (ctrl->ctrl.state == NVME_CTRL_LIVE)
-@@ -467,19 +498,14 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
+@@ -502,11 +515,9 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
  	if (ret)
- 		goto out_disable;
+ 		goto out_destroy_admin;
  
--	for (i = 1; i <= ctrl->ctrl.opts->nr_io_queues; i++) {
--		ctrl->queues[i].ctrl = ctrl;
--		ret = nvmet_sq_init(&ctrl->queues[i].nvme_sq);
+-	for (i = 1; i < ctrl->queue_count; i++) {
+-		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
 -		if (ret)
--			goto out_free_queues;
--
--		ctrl->queue_count++;
+-			goto out_destroy_io;
 -	}
-+	ret = nvme_loop_init_io_queues(ctrl);
++	ret = nvme_loop_connect_io_queues(ctrl);
 +	if (ret)
-+		goto out_destroy_admin;
- 
--	for (i = 1; i <= ctrl->ctrl.opts->nr_io_queues; i++) {
-+	for (i = 1; i < ctrl->queue_count; i++) {
- 		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
- 		if (ret)
--			goto out_free_queues;
-+			goto out_destroy_io;
- 	}
++		goto out_destroy_io;
  
  	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
-@@ -492,9 +518,9 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
- 
- 	return;
- 
--out_free_queues:
--	for (i = 1; i < ctrl->queue_count; i++)
--		nvmet_sq_destroy(&ctrl->queues[i].nvme_sq);
-+out_destroy_io:
-+	nvme_loop_destroy_io_queues(ctrl);
-+out_destroy_admin:
- 	nvme_loop_destroy_admin_queue(ctrl);
- out_disable:
- 	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
-@@ -533,25 +559,12 @@ static const struct nvme_ctrl_ops nvme_loop_ctrl_ops = {
+ 	WARN_ON_ONCE(!changed);
+@@ -559,7 +570,7 @@ static const struct nvme_ctrl_ops nvme_loop_ctrl_ops = {
  
  static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
  {
--	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
- 	int ret, i;
+-	int ret, i;
++	int ret;
  
--	ret = nvme_set_queue_count(&ctrl->ctrl, &opts->nr_io_queues);
--	if (ret || !opts->nr_io_queues)
-+	ret = nvme_loop_init_io_queues(ctrl);
-+	if (ret)
- 		return ret;
- 
--	dev_info(ctrl->ctrl.device, "creating %d I/O queues.\n",
--		opts->nr_io_queues);
--
--	for (i = 1; i <= opts->nr_io_queues; i++) {
--		ctrl->queues[i].ctrl = ctrl;
--		ret = nvmet_sq_init(&ctrl->queues[i].nvme_sq);
--		if (ret)
--			goto out_destroy_queues;
--
--		ctrl->queue_count++;
--	}
--
- 	memset(&ctrl->tag_set, 0, sizeof(ctrl->tag_set));
- 	ctrl->tag_set.ops = &nvme_loop_mq_ops;
- 	ctrl->tag_set.queue_depth = ctrl->ctrl.opts->queue_size;
-@@ -575,7 +588,7 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
+ 	ret = nvme_loop_init_io_queues(ctrl);
+ 	if (ret)
+@@ -588,11 +599,9 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
  		goto out_free_tagset;
  	}
  
--	for (i = 1; i <= opts->nr_io_queues; i++) {
-+	for (i = 1; i < ctrl->queue_count; i++) {
- 		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
- 		if (ret)
- 			goto out_cleanup_connect_q;
-@@ -588,8 +601,7 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
- out_free_tagset:
- 	blk_mq_free_tag_set(&ctrl->tag_set);
- out_destroy_queues:
--	for (i = 1; i < ctrl->queue_count; i++)
--		nvmet_sq_destroy(&ctrl->queues[i].nvme_sq);
-+	nvme_loop_destroy_io_queues(ctrl);
- 	return ret;
- }
+-	for (i = 1; i < ctrl->queue_count; i++) {
+-		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
+-		if (ret)
+-			goto out_cleanup_connect_q;
+-	}
++	ret = nvme_loop_connect_io_queues(ctrl);
++	if (ret)
++		goto out_cleanup_connect_q;
+ 
+ 	return 0;
  
 -- 
 2.7.4
