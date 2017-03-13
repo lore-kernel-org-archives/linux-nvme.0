@@ -1,86 +1,31 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 13 Mar 2017 16:02:20 +0200
-Subject: [PATCH 3/3] nvme-loop: remove some code duplication
-In-Reply-To: <1489413740-29085-1-git-send-email-sagi@grimberg.me>
-References: <1489413740-29085-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1489413740-29085-3-git-send-email-sagi@grimberg.me>
+Date: Mon, 13 Mar 2017 16:10:11 +0200
+Subject: [PATCH] blk-mq: Fix tagset reinit in the presence of cpu hot-unplug
+Message-ID: <1489414211-30437-1-git-send-email-sagi@grimberg.me>
 
+In case cpu was unplugged, we need to make sure not to assume
+that the tags for that cpu are still allocated. so check
+for null tags when reinitializing a tagset.
+
+Reported-by: Yi Zhang <yizhan at redhat.com>
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/target/loop.c | 33 +++++++++++++++++++++------------
- 1 file changed, 21 insertions(+), 12 deletions(-)
+ block/blk-mq-tag.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 22f7bc6bac7f..87da4bcceaa4 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -349,6 +349,19 @@ static int nvme_loop_init_io_queues(struct nvme_loop_ctrl *ctrl)
- 	return ret;
- }
+diff --git a/block/blk-mq-tag.c b/block/blk-mq-tag.c
+index e48bc2c72615..9d97bfc4d465 100644
+--- a/block/blk-mq-tag.c
++++ b/block/blk-mq-tag.c
+@@ -295,6 +295,9 @@ int blk_mq_reinit_tagset(struct blk_mq_tag_set *set)
+ 	for (i = 0; i < set->nr_hw_queues; i++) {
+ 		struct blk_mq_tags *tags = set->tags[i];
  
-+static int nvme_loop_connect_io_queues(struct nvme_loop_ctrl *ctrl)
-+{
-+	int i, ret;
++		if (!tags)
++			continue;
 +
-+	for (i = 1; i < ctrl->queue_count; i++) {
-+		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
- {
- 	int error;
-@@ -490,7 +503,7 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
- 	struct nvme_loop_ctrl *ctrl = container_of(work,
- 					struct nvme_loop_ctrl, reset_work);
- 	bool changed;
--	int i, ret;
-+	int ret;
- 
- 	nvme_loop_shutdown_ctrl(ctrl);
- 
-@@ -502,11 +515,9 @@ static void nvme_loop_reset_ctrl_work(struct work_struct *work)
- 	if (ret)
- 		goto out_destroy_admin;
- 
--	for (i = 1; i < ctrl->queue_count; i++) {
--		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
--		if (ret)
--			goto out_destroy_io;
--	}
-+	ret = nvme_loop_connect_io_queues(ctrl);
-+	if (ret)
-+		goto out_destroy_io;
- 
- 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
- 	WARN_ON_ONCE(!changed);
-@@ -559,7 +570,7 @@ static const struct nvme_ctrl_ops nvme_loop_ctrl_ops = {
- 
- static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
- {
--	int ret, i;
-+	int ret;
- 
- 	ret = nvme_loop_init_io_queues(ctrl);
- 	if (ret)
-@@ -588,11 +599,9 @@ static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
- 		goto out_free_tagset;
- 	}
- 
--	for (i = 1; i < ctrl->queue_count; i++) {
--		ret = nvmf_connect_io_queue(&ctrl->ctrl, i);
--		if (ret)
--			goto out_cleanup_connect_q;
--	}
-+	ret = nvme_loop_connect_io_queues(ctrl);
-+	if (ret)
-+		goto out_cleanup_connect_q;
- 
- 	return 0;
- 
+ 		for (j = 0; j < tags->nr_tags; j++) {
+ 			if (!tags->static_rqs[j])
+ 				continue;
 -- 
 2.7.4
