@@ -1,20 +1,20 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 13 Mar 2017 20:56:50 +0100
-Subject: [PATCH v2] nvmet-rdma: Fix a possible uninitialized variable
- dereference
-In-Reply-To: <1489412381-28947-1-git-send-email-sagi@grimberg.me>
-References: <1489412381-28947-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20170313195650.GA9648@lst.de>
+Date: Mon, 13 Mar 2017 20:58:18 +0100
+Subject: [PATCH 1/3] nvme-rdma: handle cpu unplug when re-establishing
+ the controller
+In-Reply-To: <1489413740-29085-1-git-send-email-sagi@grimberg.me>
+References: <1489413740-29085-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20170313195818.GB9648@lst.de>
 
-On Mon, Mar 13, 2017@03:39:41PM +0200, Sagi Grimberg wrote:
-> When handling a new recv command, we grab a new rsp resource and
-> check for the queue state being live. In case the queue is not in
-> live state, we simply restore the rsp back to the free list. However
-> in this flow we didn't set rsp->queue yet, so we cannot dereference it.
-> 
-> Instead, make sure to initialize rsp->queue (and other rsp members)
-> as soon as possible so we won't reference uninitialized variables.
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 779f516e7a4e..47a479f26e5d 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -343,8 +343,6 @@ static int __nvme_rdma_init_request(struct nvme_rdma_ctrl *ctrl,
+>  	struct ib_device *ibdev = dev->dev;
+>  	int ret;
+>  
+> -	BUG_ON(queue_idx >= ctrl->queue_count);
 
-Looks good,
-
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+This makes me a bit nervous, shouldn't we ensure that queue_count
+is accurate even with the fix?
