@@ -1,32 +1,76 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 13 Mar 2017 16:00:09 +0200
-Subject: [PATCH v3 0/4] Introduce a new helper for parsing ipv[4|6]:port
- to socket address
-In-Reply-To: <1489063793-12838-1-git-send-email-sagi@grimberg.me>
-References: <1489063793-12838-1-git-send-email-sagi@grimberg.me>
-Message-ID: <55ad78fd-266f-09b9-417d-b6cf7b723879@grimberg.me>
+Date: Mon, 13 Mar 2017 16:02:18 +0200
+Subject: [PATCH 1/3] nvme-rdma: handle cpu unplug when re-establishing the
+ controller
+Message-ID: <1489413740-29085-1-git-send-email-sagi@grimberg.me>
 
+If a cpu unplug event has occured, we need to take the minimum
+of the provided nr_io_queues and the number of online cpus,
+otherwise we won't be able to connect them as blk-mq mapping
+won't dispatch to those queues.
 
-> Changes from v1:
-> - rebased to 4.11-rc1
-> - improved changelogs
->
-> Changes from v0:
-> - rebased on 4.10
-> - splitted inet_pton_with_scope to be a bit saner (from Chrsitoph)
-> - converted nvme-rdma host_traddr to use a generic helper
->
-> We have some places in the stack that support ipv4 and ipv6. In
-> some cases the user configuration does not reveal which
-> address family is given and needs to be parsed from the input string.
->
-> Given that the user-input varies between subsystems, some processing
-> is required from the call-site to separate address and port strings.
->
-> As a side-effect, this set adds ipv6 support for nvme over fabrics.
+Reported-by: Yi Zhang <yizhan at redhat.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/rdma.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-Hi Dave,
-
-This set got review tags from two kernel maintainers but this is your
-realm so I wouldn't be comfortable moving forward with this without
-your feedback.
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 779f516e7a4e..47a479f26e5d 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -343,8 +343,6 @@ static int __nvme_rdma_init_request(struct nvme_rdma_ctrl *ctrl,
+ 	struct ib_device *ibdev = dev->dev;
+ 	int ret;
+ 
+-	BUG_ON(queue_idx >= ctrl->queue_count);
+-
+ 	ret = nvme_rdma_alloc_qe(ibdev, &req->sqe, sizeof(struct nvme_command),
+ 			DMA_TO_DEVICE);
+ 	if (ret)
+@@ -652,8 +650,22 @@ static int nvme_rdma_connect_io_queues(struct nvme_rdma_ctrl *ctrl)
+ 
+ static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl *ctrl)
+ {
++	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
++	unsigned int nr_io_queues;
+ 	int i, ret;
+ 
++	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
++	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
++	if (ret)
++		return ret;
++
++	ctrl->queue_count = nr_io_queues + 1;
++	if (ctrl->queue_count < 2)
++		return 0;
++
++	dev_info(ctrl->ctrl.device,
++		"creating %d I/O queues.\n", nr_io_queues);
++
+ 	for (i = 1; i < ctrl->queue_count; i++) {
+ 		ret = nvme_rdma_init_queue(ctrl, i,
+ 					   ctrl->ctrl.opts->queue_size);
+@@ -1791,20 +1803,8 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
+ 
+ static int nvme_rdma_create_io_queues(struct nvme_rdma_ctrl *ctrl)
+ {
+-	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
+ 	int ret;
+ 
+-	ret = nvme_set_queue_count(&ctrl->ctrl, &opts->nr_io_queues);
+-	if (ret)
+-		return ret;
+-
+-	ctrl->queue_count = opts->nr_io_queues + 1;
+-	if (ctrl->queue_count < 2)
+-		return 0;
+-
+-	dev_info(ctrl->ctrl.device,
+-		"creating %d I/O queues.\n", opts->nr_io_queues);
+-
+ 	ret = nvme_rdma_init_io_queues(ctrl);
+ 	if (ret)
+ 		return ret;
+-- 
+2.7.4
