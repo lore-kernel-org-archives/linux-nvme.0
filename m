@@ -1,96 +1,63 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 13 Mar 2017 17:10:52 -0600
-Subject: [PATCH 2/4] remove json_add_smart_log
+Date: Mon, 13 Mar 2017 17:10:53 -0600
+Subject: [PATCH 3/4] remove nvme_intel_smart_log
 In-Reply-To: <20170313231054.30400-1-hch@lst.de>
 References: <20170313231054.30400-1-hch@lst.de>
-Message-ID: <20170313231054.30400-3-hch@lst.de>
+Message-ID: <20170313231054.30400-4-hch@lst.de>
 
-This is the json variant of the Intel additional smart log, but it
-appears to be entirely unused.  If we want to bring it back it should
-be moved to intel-nvme.c, though.
+and just inline it into the only caller.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- nvme-print.c | 53 -----------------------------------------------------
- nvme-print.h |  2 --
- 2 files changed, 55 deletions(-)
+ intel-nvme.c | 3 ++-
+ nvme-ioctl.c | 7 -------
+ nvme-ioctl.h | 2 --
+ 3 files changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/nvme-print.c b/nvme-print.c
-index 4eddbd4..a86902e 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -1408,59 +1408,6 @@ void json_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname)
- 	json_free_object(root);
+diff --git a/intel-nvme.c b/intel-nvme.c
+index dc13475..3446115 100644
+--- a/intel-nvme.c
++++ b/intel-nvme.c
+@@ -123,7 +123,8 @@ static int get_additional_smart_log(int argc, char **argv, struct command *cmd,
+ 
+ 	fd = parse_and_open(argc, argv, desc, command_line_options, &cfg, sizeof(cfg));
+ 
+-	err = nvme_intel_smart_log(fd, cfg.namespace_id, &smart_log);
++	err = nvme_get_log(fd, cfg.namespace_id, 0xca, sizeof(smart_log),
++			&smart_log);
+ 	if (!err) {
+ 		if (!cfg.raw_binary)
+ 			show_intel_smart_log(&smart_log, cfg.namespace_id, devicename);
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index b74cdc8..a22399a 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -397,13 +397,6 @@ int nvme_smart_log(int fd, __u32 nsid, struct nvme_smart_log *smart_log)
+ 	return nvme_get_log(fd, nsid, NVME_LOG_SMART, sizeof(*smart_log), smart_log);
  }
  
--void json_add_smart_log(struct nvme_additional_smart_log *smart,
--			unsigned int nsid, const char *devname)
+-int nvme_intel_smart_log(int fd, __u32 nsid,
+-			 struct nvme_additional_smart_log *intel_smart_log)
 -{
--	struct json_object *root;
--	struct json_object *data;
--	char fmt[128];
--
--	root = json_create_object();
--	data = json_create_object();
--
--	json_object_add_value_int(data, "Program Fail Count",
--				  int48_to_long(smart->program_fail_cnt.raw));
--	json_object_add_value_int(data, "Erase Fail Count",
--				  int48_to_long(smart->erase_fail_cnt.raw));
--	json_object_add_value_int(data, "Wear Leveling Min",
--				  le16toh(smart->wear_leveling_cnt.wear_level.min));
--	json_object_add_value_int(data, "Wear Leveling Max",
--				  le16toh(smart->wear_leveling_cnt.wear_level.max));
--	json_object_add_value_int(data, "Wear Leveling Avg",
--				  le16toh(smart->wear_leveling_cnt.wear_level.avg));
--	json_object_add_value_int(data, "End-to-end Error Detection Count",
--				  int48_to_long(smart->e2e_err_cnt.raw));
--	json_object_add_value_int(data, "CRC Error Count",
--				  int48_to_long(smart->crc_err_cnt.raw));
--	json_object_add_value_float(data, "Timed Workload Media Wear",
--				    ((long double)int48_to_long(smart->timed_workload_media_wear.raw)) / 1024);
--
--	json_object_add_value_int(data, "Timed Workload Host Reads",
--				  int48_to_long(smart->timed_workload_host_reads.raw));
--	json_object_add_value_int(data, "Timed Workload Timer",
--				  int48_to_long(smart->timed_workload_timer.raw));
--	snprintf(fmt, sizeof(fmt), "%u%%",
--		 smart->thermal_throttle_status.thermal_throttle.pct);
--	json_object_add_value_string(data, "Thermal Throttle status Percentage",
--				     fmt);
--	json_object_add_value_int(data, "Thermal Throttle Status Count",
--				  smart->thermal_throttle_status.thermal_throttle.count);
--	json_object_add_value_int(data, "Retry Buffer Overflow Count",
--				  int48_to_long(smart->retry_buffer_overflow_cnt.raw));
--	json_object_add_value_int(data, "PLL Lock Loss Count",
--				  int48_to_long(smart->pll_lock_loss_cnt.raw));
--	json_object_add_value_int(data, "Nand Bytes Written",
--				  int48_to_long(smart->nand_bytes_written.raw));
--	json_object_add_value_int(data, "Host Bytes Written",
--				  int48_to_long(smart->host_bytes_written.raw));
--
--	snprintf(fmt, sizeof(fmt), "Additional Smart Log for %s", devname);
--	json_object_add_value_object(root, fmt, data);
--	json_print_object(root, NULL);
--	json_free_object(data);
--	json_free_object(root);
+-	return nvme_get_log(fd, nsid, 0xca, sizeof(*intel_smart_log),
+-			intel_smart_log);
 -}
 -
- void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname)
+ int nvme_discovery_log(int fd, struct nvmf_disc_rsp_page_hdr *log, __u32 size)
  {
- 	struct json_object *root;
-diff --git a/nvme-print.h b/nvme-print.h
-index cd1c9e7..0502d0d 100644
---- a/nvme-print.h
-+++ b/nvme-print.h
-@@ -37,8 +37,6 @@ void json_nvme_id_ns(struct nvme_id_ns *ns, unsigned int flags);
- void json_nvme_resv_report(struct nvme_reservation_status *status);
- void json_error_log(struct nvme_error_log_page *err_log, int entries, const char *devname);
- void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname);
--void json_add_smart_log(struct nvme_additional_smart_log *smart,
--			unsigned int nsid, const char *devname);
- void json_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname);
- void json_print_list_items(struct list_item *items, unsigned amnt);
+ 	return nvme_get_log(fd, 0, NVME_LOG_DISC, size, log);
+diff --git a/nvme-ioctl.h b/nvme-ioctl.h
+index 434b29e..3beddf8 100644
+--- a/nvme-ioctl.h
++++ b/nvme-ioctl.h
+@@ -83,8 +83,6 @@ int nvme_fw_log(int fd, struct nvme_firmware_log_page *fw_log);
+ int nvme_error_log(int fd, __u32 nsid, int entries,
+ 		   struct nvme_error_log_page *err_log);
+ int nvme_smart_log(int fd, __u32 nsid, struct nvme_smart_log *smart_log);
+-int nvme_intel_smart_log(int fd, __u32 nsid,
+-			 struct nvme_additional_smart_log *intel_smart_log);
+ int nvme_discovery_log(int fd, struct nvmf_disc_rsp_page_hdr *log, __u32 size);
  
+ int nvme_feature(int fd, __u8 opcode, __u32 nsid, __u32 cdw10,
 -- 
 2.11.0
