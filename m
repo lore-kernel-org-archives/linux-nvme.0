@@ -1,56 +1,64 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 14 Mar 2017 10:55:26 +0200
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <9a7e48b5-6e2d-75ed-bf12-8fd4543f2f76@grimberg.me>
-References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
- <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
- <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
- <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
- <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
- <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
- <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
- <16c4bd86-fd63-f230-40bc-f52cb106e11b@grimberg.me>
- <fbd647dd-3a16-8155-107d-f98e8326cc63@mellanox.com>
- <AM4PR0501MB278621363209E177A738D75FCB220@AM4PR0501MB2786.eurprd05.prod.outlook.com>
- <9a7e48b5-6e2d-75ed-bf12-8fd4543f2f76@grimberg.me>
-Message-ID: <7aa4b74e-ea28-7bc1-68b8-01a728588297@mellanox.com>
+From: rajur@chelsio.com (Raju  Rangoju)
+Date: Tue, 14 Mar 2017 12:56:34 +0000
+Subject: [PATCH v2] nvmet-rdma: Fix a possible uninitialized variable
+ dereference
+In-Reply-To: <1489412381-28947-1-git-send-email-sagi@grimberg.me>
+References: <1489412381-28947-1-git-send-email-sagi@grimberg.me>
+Message-ID: <CY1PR12MB07744A34FBDC946B01E80F83BC240@CY1PR12MB0774.namprd12.prod.outlook.com>
 
+Patch looks good. 
 
+Tested-by: Raju Rangoju <rajur at chelsio.com>
 
-On 3/13/2017 11:43 AM, Sagi Grimberg wrote:
->
->> Patched  by patch of Max (block 4K):
->>
->> allways reg          Y                N
->> write              1902K            1923.3K
->> read               1315K            2009K
->>
->> Original  OFED code (block 4K)
->>
->> allways reg          Y                N
->> write              1947K           1982K
->> read               1273K
->> 1978K
->
-> First, the write comparison is redundant because
-> we send immediate data without memory registration.
->
-> And, I'd compare against upstream code and not OFED.
+-----Original Message-----
+From: linux-rdma-owner@vger.kernel.org [mailto:linux-rdma-owner@vger.kernel.org] On Behalf Of Sagi Grimberg
+Sent: 13 March 2017 19:10
+To: linux-nvme at lists.infradead.org; linux-rdma at vger.kernel.org
+Cc: Christoph Hellwig <hch at lst.de>
+Subject: [PATCH v2] nvmet-rdma: Fix a possible uninitialized variable dereference
 
-I dont thing we'll get different results (my first tests were with nvmf 
-upstream driver).
+When handling a new recv command, we grab a new rsp resource and check for the queue state being live. In case the queue is not in live state, we simply restore the rsp back to the free list. However in this flow we didn't set rsp->queue yet, so we cannot dereference it.
 
->
-> So it seems that strong fencing does not effect performance
-> from the ULP point of view, surprising...
-> I'd suggest comparing on nvmf and srp as well.
+Instead, make sure to initialize rsp->queue (and other rsp members) as soon as possible so we won't reference uninitialized variables.
 
-I agree. We also want to run other application types with it in our 
-performance lab.
+Reported-by: Yi Zhang <yizhan at redhat.com>
+Reported-by: Raju Rangoju <rajur at chelsio.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+- v1 broke srq, this one doesn't
 
->
-> If this is the case, and it indeed resolves the issue, we
-> should move forward with it as is.
+ drivers/nvme/target/rdma.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-Not as is, because it will have influence on ConnectX5 too (no need).
-We'll need to update the patch before submission.
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c index 9aa1da3778b3..ecc4fe862561 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -703,11 +703,6 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,  {
+ 	u16 status;
+ 
+-	cmd->queue = queue;
+-	cmd->n_rdma = 0;
+-	cmd->req.port = queue->port;
+-
+-
+ 	ib_dma_sync_single_for_cpu(queue->dev->device,
+ 		cmd->cmd->sge[0].addr, cmd->cmd->sge[0].length,
+ 		DMA_FROM_DEVICE);
+@@ -760,9 +755,12 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
+ 
+ 	cmd->queue = queue;
+ 	rsp = nvmet_rdma_get_rsp(queue);
++	rsp->queue = queue;
+ 	rsp->cmd = cmd;
+ 	rsp->flags = 0;
+ 	rsp->req.cmd = cmd->nvme_cmd;
++	rsp->req.port = queue->port;
++	rsp->n_rdma = 0;
+ 
+ 	if (unlikely(queue->state != NVMET_RDMA_Q_LIVE)) {
+ 		unsigned long flags;
+--
+2.7.4
+
+--
+To unsubscribe from this list: send the line "unsubscribe linux-rdma" in the body of a message to majordomo at vger.kernel.org More majordomo info at  http://vger.kernel.org/majordomo-info.html
