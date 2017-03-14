@@ -1,64 +1,48 @@
-From: rajur@chelsio.com (Raju  Rangoju)
-Date: Tue, 14 Mar 2017 12:56:34 +0000
-Subject: [PATCH v2] nvmet-rdma: Fix a possible uninitialized variable
- dereference
-In-Reply-To: <1489412381-28947-1-git-send-email-sagi@grimberg.me>
-References: <1489412381-28947-1-git-send-email-sagi@grimberg.me>
-Message-ID: <CY1PR12MB07744A34FBDC946B01E80F83BC240@CY1PR12MB0774.namprd12.prod.outlook.com>
+From: yizhan@redhat.com (Yi Zhang)
+Date: Tue, 14 Mar 2017 21:22:14 +0800
+Subject: nvmet: race condition while CQE are getting processed
+ concurrently with the DISCONNECTED event
+In-Reply-To: <ca954cbb-19a9-b061-982f-6ac98d4546fc@grimberg.me>
+References: <CY1PR12MB07747089AFFCB6115BBCF5ECBC210@CY1PR12MB0774.namprd12.prod.outlook.com>
+ <7c08d54c-7a2d-74dd-79df-807113b032c3@grimberg.me>
+ <33bffca1-f632-e2b2-3377-32fce207ac07@redhat.com>
+ <ca954cbb-19a9-b061-982f-6ac98d4546fc@grimberg.me>
+Message-ID: <48530c09-3e8f-b468-3c15-5137be9bb13e@redhat.com>
 
-Patch looks good. 
 
-Tested-by: Raju Rangoju <rajur at chelsio.com>
+On 03/13/2017 04:05 PM, Sagi Grimberg wrote:
+>> Hi Sagi
+>
+> Hi Yi,
+>
+>> With this patch, issue[1] cannot be reproduced, but I still can
+>> reproduce issue[2]. thanks
+>>
+>> [1]
+>>
+>> kernel NULL pointer on nvmet with stress
+>> rescan_controller/reset_controller test during I/O
+>>
+>> [2]
+>> mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed during
+>> stress test on reset_controller
+>
+> So this particular issue seems to do with the fact that the target is
+> attacked with reset attempts. The controller teardown happens
+> asynchronously and waits for safe termination while re-establishments
+> are allowed immediately.
+>
+> I think we need to somehow figure out what is our max allowed active
+> controllers and simply refuse controller establishment if we exceeded
+> this number. The tricky part is to understand what this magic number
+> is?
+>
+> Question, does the test in [2] complete eventually? or is this a fatal
+> error?
+Hi Sagi
+If I don't stop the reset_controller operation on client side, it will 
+finally got one fatal error since the operation will eat memory 
+continuously on target side.
 
------Original Message-----
-From: linux-rdma-owner@vger.kernel.org [mailto:linux-rdma-owner@vger.kernel.org] On Behalf Of Sagi Grimberg
-Sent: 13 March 2017 19:10
-To: linux-nvme at lists.infradead.org; linux-rdma at vger.kernel.org
-Cc: Christoph Hellwig <hch at lst.de>
-Subject: [PATCH v2] nvmet-rdma: Fix a possible uninitialized variable dereference
-
-When handling a new recv command, we grab a new rsp resource and check for the queue state being live. In case the queue is not in live state, we simply restore the rsp back to the free list. However in this flow we didn't set rsp->queue yet, so we cannot dereference it.
-
-Instead, make sure to initialize rsp->queue (and other rsp members) as soon as possible so we won't reference uninitialized variables.
-
-Reported-by: Yi Zhang <yizhan at redhat.com>
-Reported-by: Raju Rangoju <rajur at chelsio.com>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-- v1 broke srq, this one doesn't
-
- drivers/nvme/target/rdma.c | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c index 9aa1da3778b3..ecc4fe862561 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -703,11 +703,6 @@ static void nvmet_rdma_handle_command(struct nvmet_rdma_queue *queue,  {
- 	u16 status;
- 
--	cmd->queue = queue;
--	cmd->n_rdma = 0;
--	cmd->req.port = queue->port;
--
--
- 	ib_dma_sync_single_for_cpu(queue->dev->device,
- 		cmd->cmd->sge[0].addr, cmd->cmd->sge[0].length,
- 		DMA_FROM_DEVICE);
-@@ -760,9 +755,12 @@ static void nvmet_rdma_recv_done(struct ib_cq *cq, struct ib_wc *wc)
- 
- 	cmd->queue = queue;
- 	rsp = nvmet_rdma_get_rsp(queue);
-+	rsp->queue = queue;
- 	rsp->cmd = cmd;
- 	rsp->flags = 0;
- 	rsp->req.cmd = cmd->nvme_cmd;
-+	rsp->req.port = queue->port;
-+	rsp->n_rdma = 0;
- 
- 	if (unlikely(queue->state != NVMET_RDMA_Q_LIVE)) {
- 		unsigned long flags;
---
-2.7.4
-
---
-To unsubscribe from this list: send the line "unsubscribe linux-rdma" in the body of a message to majordomo at vger.kernel.org More majordomo info at  http://vger.kernel.org/majordomo-info.html
+Thanks
+Yi
