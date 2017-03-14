@@ -1,48 +1,63 @@
 From: yizhan@redhat.com (Yi Zhang)
-Date: Tue, 14 Mar 2017 21:22:14 +0800
-Subject: nvmet: race condition while CQE are getting processed
- concurrently with the DISCONNECTED event
-In-Reply-To: <ca954cbb-19a9-b061-982f-6ac98d4546fc@grimberg.me>
-References: <CY1PR12MB07747089AFFCB6115BBCF5ECBC210@CY1PR12MB0774.namprd12.prod.outlook.com>
- <7c08d54c-7a2d-74dd-79df-807113b032c3@grimberg.me>
- <33bffca1-f632-e2b2-3377-32fce207ac07@redhat.com>
- <ca954cbb-19a9-b061-982f-6ac98d4546fc@grimberg.me>
-Message-ID: <48530c09-3e8f-b468-3c15-5137be9bb13e@redhat.com>
+Date: Tue, 14 Mar 2017 21:27:28 +0800
+Subject: kernull NULL pointer observed on initiator side after 'nvmetcli
+ clear' on target side
+In-Reply-To: <6fe6d285-3cb4-c88c-9a7c-741fce54120c@grimberg.me>
+References: <1053522223.31446389.1488721184925.JavaMail.zimbra@redhat.com>
+ <644fc4ab-df6b-a337-1431-bad881ef56ee@grimberg.me>
+ <88ae146a-7510-9be0-c9b4-58e70f9d73b9@redhat.com>
+ <6ffda302-02f9-12f0-a112-ea7cd20b9ffa@grimberg.me>
+ <b0a84bcc-7dca-d342-b30e-b01eba8088cd@redhat.com>
+ <6fe6d285-3cb4-c88c-9a7c-741fce54120c@grimberg.me>
+Message-ID: <7a955472-1975-1b73-c88c-367576a56884@redhat.com>
 
 
-On 03/13/2017 04:05 PM, Sagi Grimberg wrote:
->> Hi Sagi
->
-> Hi Yi,
->
->> With this patch, issue[1] cannot be reproduced, but I still can
->> reproduce issue[2]. thanks
->>
->> [1]
->>
->> kernel NULL pointer on nvmet with stress
->> rescan_controller/reset_controller test during I/O
->>
->> [2]
->> mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed during
->> stress test on reset_controller
->
-> So this particular issue seems to do with the fact that the target is
-> attacked with reset attempts. The controller teardown happens
-> asynchronously and waits for safe termination while re-establishments
-> are allowed immediately.
->
-> I think we need to somehow figure out what is our max allowed active
-> controllers and simply refuse controller establishment if we exceeded
-> this number. The tricky part is to understand what this magic number
-> is?
->
-> Question, does the test in [2] complete eventually? or is this a fatal
-> error?
-Hi Sagi
-If I don't stop the reset_controller operation on client side, it will 
-finally got one fatal error since the operation will eat memory 
-continuously on target side.
 
-Thanks
-Yi
+On 03/13/2017 04:09 PM, Sagi Grimberg wrote:
+>
+>>> Yep... looks like we don't take into account that we can't use all the
+>>> queues now...
+>>>
+>>> Does this patch help:
+>> Still can reproduce the reconnect in 10 seconds issues with the patch,
+>> here is the log:
+>>
+>> [  193.574183] nvme nvme0: new ctrl: NQN "nvme-subsystem-name", addr
+>> 172.31.2.3:1023
+>> [  193.612039] __nvme_rdma_init_request: changing called
+>> [  193.638723] __nvme_rdma_init_request: changing called
+>> [  193.661767] __nvme_rdma_init_request: changing called
+>> [  193.684579] __nvme_rdma_init_request: changing called
+>> [  193.707327] __nvme_rdma_init_request: changing called
+>> [  193.730071] __nvme_rdma_init_request: changing called
+>> [  193.752896] __nvme_rdma_init_request: changing called
+>> [  193.775699] __nvme_rdma_init_request: changing called
+>> [  193.798813] __nvme_rdma_init_request: changing called
+>> [  193.821257] __nvme_rdma_init_request: changing called
+>> [  193.844090] __nvme_rdma_init_request: changing called
+>> [  193.866472] __nvme_rdma_init_request: changing called
+>> [  193.889375] __nvme_rdma_init_request: changing called
+>> [  193.912094] __nvme_rdma_init_request: changing called
+>> [  193.934942] __nvme_rdma_init_request: changing called
+>> [  193.957688] __nvme_rdma_init_request: changing called
+>> [  606.273376] Broke affinity for irq 16
+>> [  606.291940] Broke affinity for irq 28
+>> [  606.310201] Broke affinity for irq 90
+>> [  606.328211] Broke affinity for irq 93
+>> [  606.346263] Broke affinity for irq 97
+>> [  606.364314] Broke affinity for irq 100
+>> [  606.382105] Broke affinity for irq 104
+>> [  606.400727] smpboot: CPU 1 is now offline
+>> [  616.820505] nvme nvme0: reconnecting in 10 seconds
+>> [  626.882747] blk_mq_reinit_tagset: tag is null, continue
+>> [  626.914000] nvme nvme0: Connect rejected: status 8 (invalid 
+>> service ID).
+>> [  626.947965] nvme nvme0: rdma_resolve_addr wait failed (-104).
+>> [  626.974673] nvme nvme0: Failed reconnect attempt, requeueing...
+>
+> This is strange...
+>
+> Is the target alive? I'm assuming it didn't crash here correct?
+The target was deleted by 'nvmetcli clear' command.
+Then on client side, seems it doesn't know the target side was deleted 
+and will always reconnecting in 10 seconds.
