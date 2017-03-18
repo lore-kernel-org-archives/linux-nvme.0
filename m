@@ -1,36 +1,61 @@
-From: yizhan@redhat.com (Yi Zhang)
-Date: Sat, 18 Mar 2017 20:06:27 +0800
-Subject: kernull NULL pointer observed on initiator side after 'nvmetcli
- clear' on target side
-In-Reply-To: <bbb45ff5-8b61-2508-df4a-7c90eb6637de@grimberg.me>
-References: <1053522223.31446389.1488721184925.JavaMail.zimbra@redhat.com>
- <644fc4ab-df6b-a337-1431-bad881ef56ee@grimberg.me>
- <88ae146a-7510-9be0-c9b4-58e70f9d73b9@redhat.com>
- <6ffda302-02f9-12f0-a112-ea7cd20b9ffa@grimberg.me>
- <b0a84bcc-7dca-d342-b30e-b01eba8088cd@redhat.com>
- <6fe6d285-3cb4-c88c-9a7c-741fce54120c@grimberg.me>
- <7a955472-1975-1b73-c88c-367576a56884@redhat.com>
- <bbb45ff5-8b61-2508-df4a-7c90eb6637de@grimberg.me>
-Message-ID: <c9e2e08a-a740-2889-5b98-ea7845bb6566@redhat.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sat, 18 Mar 2017 19:50:59 +0200
+Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
+ during stress test on reset_controller
+In-Reply-To: <1768681609.3995777.1489837916289.JavaMail.zimbra@redhat.com>
+References: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
+ <d21c5571-78fd-7882-b4cc-c24f76f6ff47@redhat.com>
+ <20170310165214.GC14379@mtr-leonro.local>
+ <56e8ccd3-8116-89a1-2f65-eb61a91c5f84@mellanox.com>
+ <860db62d-ae93-d94c-e5fb-88e7b643f737@redhat.com>
+ <0a825b18-df06-9a6d-38c9-402f4ee121f7@mellanox.com>
+ <7496c68a-15f3-d8cb-b17f-20f5a59a24d2@redhat.com>
+ <31678a43-f76c-a921-e40c-470b0de1a86c@grimberg.me>
+ <1768681609.3995777.1489837916289.JavaMail.zimbra@redhat.com>
+Message-ID: <059299cc-7f45-e8eb-f1b1-7da2cf49cf5a@grimberg.me>
 
-On 03/17/2017 12:40 AM, Sagi Grimberg wrote:
->
->> The target was deleted by 'nvmetcli clear' command.
->> Then on client side, seems it doesn't know the target side was deleted
->> and will always reconnecting in 10 seconds.
->
-> Oh, so the target doesn't come back. That makes sense. The host
-> doesn't know if/when the target will come back so it attempts reconnect
-> periodically forever.
->
-> I think what you're asking is a "dev_loss_tmo" kind of functionality
-> where the host gives up on the controller correct?
-Hi Sagi
-Yes, since the target was deleted, but the client doesn't realized it 
-and always reconnect it.
-I think it's better to stop the reconnect operation. Or any other good idea?
-Since I'm a newbie and not familiar with for nvme-of, correct if my 
-thought not reasonable. :)
 
-Thanks
-Yi
+> Hi Sagi
+> With this path, the OOM cannot be reproduced now.
+>
+> But there is another problem, the reset operation[1] failed at iteration 1007.
+> [1]
+> echo 1 >/sys/block/nvme0n1/device/reset_controller
+
+We can relax this a bit by only flushing for admin queue accepts, and
+also let the host accept longer time for establishing a connection.
+
+Does this help?
+--
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 47a479f26e5d..e1db1736823f 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -34,7 +34,7 @@
+  #include "fabrics.h"
+
+
+-#define NVME_RDMA_CONNECT_TIMEOUT_MS   1000            /* 1 second */
++#define NVME_RDMA_CONNECT_TIMEOUT_MS   5000            /* 5 seconds */
+
+  #define NVME_RDMA_MAX_SEGMENT_SIZE     0xffffff        /* 24-bit SGL 
+field */
+
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index ecc4fe862561..88bb5814c264 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -1199,6 +1199,11 @@ static int nvmet_rdma_queue_connect(struct 
+rdma_cm_id *cm_id,
+         }
+         queue->port = cm_id->context;
+
++       if (queue->host_qid == 0) {
++               /* Let inflight controller teardown complete */
++               flush_scheduled_work();
++       }
++
+         ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
+         if (ret)
+                 goto release_queue;
+--
