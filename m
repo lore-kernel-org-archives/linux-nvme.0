@@ -1,137 +1,36 @@
 From: yizhan@redhat.com (Yi Zhang)
-Date: Sat, 18 Mar 2017 07:51:56 -0400 (EDT)
-Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
- during stress test on reset_controller
-In-Reply-To: <31678a43-f76c-a921-e40c-470b0de1a86c@grimberg.me>
-References: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
- <d21c5571-78fd-7882-b4cc-c24f76f6ff47@redhat.com>
- <20170310165214.GC14379@mtr-leonro.local>
- <56e8ccd3-8116-89a1-2f65-eb61a91c5f84@mellanox.com>
- <860db62d-ae93-d94c-e5fb-88e7b643f737@redhat.com>
- <0a825b18-df06-9a6d-38c9-402f4ee121f7@mellanox.com>
- <7496c68a-15f3-d8cb-b17f-20f5a59a24d2@redhat.com>
- <31678a43-f76c-a921-e40c-470b0de1a86c@grimberg.me>
-Message-ID: <1768681609.3995777.1489837916289.JavaMail.zimbra@redhat.com>
+Date: Sat, 18 Mar 2017 20:06:27 +0800
+Subject: kernull NULL pointer observed on initiator side after 'nvmetcli
+ clear' on target side
+In-Reply-To: <bbb45ff5-8b61-2508-df4a-7c90eb6637de@grimberg.me>
+References: <1053522223.31446389.1488721184925.JavaMail.zimbra@redhat.com>
+ <644fc4ab-df6b-a337-1431-bad881ef56ee@grimberg.me>
+ <88ae146a-7510-9be0-c9b4-58e70f9d73b9@redhat.com>
+ <6ffda302-02f9-12f0-a112-ea7cd20b9ffa@grimberg.me>
+ <b0a84bcc-7dca-d342-b30e-b01eba8088cd@redhat.com>
+ <6fe6d285-3cb4-c88c-9a7c-741fce54120c@grimberg.me>
+ <7a955472-1975-1b73-c88c-367576a56884@redhat.com>
+ <bbb45ff5-8b61-2508-df4a-7c90eb6637de@grimberg.me>
+Message-ID: <c9e2e08a-a740-2889-5b98-ea7845bb6566@redhat.com>
 
+On 03/17/2017 12:40 AM, Sagi Grimberg wrote:
+>
+>> The target was deleted by 'nvmetcli clear' command.
+>> Then on client side, seems it doesn't know the target side was deleted
+>> and will always reconnecting in 10 seconds.
+>
+> Oh, so the target doesn't come back. That makes sense. The host
+> doesn't know if/when the target will come back so it attempts reconnect
+> periodically forever.
+>
+> I think what you're asking is a "dev_loss_tmo" kind of functionality
+> where the host gives up on the controller correct?
 Hi Sagi
-With this path, the OOM cannot be reproduced now.
+Yes, since the target was deleted, but the client doesn't realized it 
+and always reconnect it.
+I think it's better to stop the reconnect operation. Or any other good idea?
+Since I'm a newbie and not familiar with for nvme-of, correct if my 
+thought not reasonable. :)
 
-But there is another problem, the reset operation[1] failed at iteration 1007.
-[1]
-echo 1 >/sys/block/nvme0n1/device/reset_controller
-
-Execution log:
--------------------------------1007
-reset.sh: line 8: echo: write error: Device or resource busy
-
-Server log:
-Client side log:
-[   55.712617] virbr0: port 1(virbr0-nic) entered listening state
-[   55.880978] virbr0: port 1(virbr0-nic) entered disabled state
-[  269.995587] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 172.31.2.3:1023
-[  270.178461] nvme nvme0: creating 16 I/O queues.
-[  270.624840] nvme nvme0: new ctrl: NQN "nvme-subsystem-name", addr 172.31.2.3:1023
-[ 1221.955386] nvme nvme0: rdma_resolve_addr wait failed (-110).
-[ 1221.987117] nvme nvme0: failed to initialize i/o queue: -110
-[ 1222.013938] nvme nvme0: Removing after reset failure
-
-Server side log:
-[ 1211.370445] nvmet: creating controller 1 for subsystem nvme-subsystem-name for NQN nqn.2014-08.org.nvmexpress:NVMf:uuid:6ed0e109-0b81-4bda-9950-786d67c91b5d.
-[ 1211.471407] nvmet: adding queue 1 to ctrl 1.
-[ 1211.490980] nvmet: adding queue 2 to ctrl 1.
-[ 1211.511142] nvmet: adding queue 3 to ctrl 1.
-[ 1211.530775] nvmet: adding queue 4 to ctrl 1.
-[ 1211.550138] nvmet: adding queue 5 to ctrl 1.
-[ 1211.569147] nvmet: adding queue 6 to ctrl 1.
-[ 1211.588649] nvmet: adding queue 7 to ctrl 1.
-[ 1211.608043] nvmet: adding queue 8 to ctrl 1.
-[ 1211.626965] nvmet: adding queue 9 to ctrl 1.
-[ 1211.646310] nvmet: adding queue 10 to ctrl 1.
-[ 1211.666774] nvmet: adding queue 11 to ctrl 1.
-[ 1211.686848] nvmet: adding queue 12 to ctrl 1.
-[ 1211.706654] nvmet: adding queue 13 to ctrl 1.
-[ 1211.726504] nvmet: adding queue 14 to ctrl 1.
-[ 1211.747046] nvmet: adding queue 15 to ctrl 1.
-[ 1211.767842] nvmet: adding queue 16 to ctrl 1.
-[ 1211.822222] nvmet_rdma: freeing queue 0
-[ 1211.840225] nvmet_rdma: freeing queue 1
-[ 1211.840301] nvmet_rdma: freeing queue 12
-[ 1211.841740] nvmet_rdma: freeing queue 13
-[ 1211.843222] nvmet_rdma: freeing queue 14
-[ 1211.844511] nvmet_rdma: freeing queue 15
-[ 1211.846102] nvmet_rdma: freeing queue 16
-[ 1211.946919] nvmet_rdma: freeing queue 2
-[ 1211.964700] nvmet_rdma: freeing queue 3
-[ 1211.982548] nvmet_rdma: freeing queue 4
-[ 1212.001528] nvmet_rdma: freeing queue 5
-[ 1212.020271] nvmet_rdma: freeing queue 6
-[ 1212.038598] nvmet_rdma: freeing queue 7
-[ 1212.048886] nvmet: creating controller 2 for subsystem nvme-subsystem-name for NQN nqn.2014-08.org.nvmexpress:NVMf:uuid:6ed0e109-0b81-4bda-9950-786d67c91b5d.
-[ 1212.120320] nvmet_rdma: freeing queue 8
-[ 1212.860605] nvmet_rdma: freeing queue 9
-[ 1214.039350] nvmet_rdma: freeing queue 10
-[ 1215.244894] nvmet_rdma: freeing queue 11
-[ 1216.235774] nvmet_rdma: failed to connect queue 0
-[ 1216.256877] nvmet_rdma: freeing queue 0
-[ 1217.356506] nvmet_rdma: freeing queue 17
-
-
-
-Best Regards,
-  Yi Zhang
-
-
------ Original Message -----
-From: "Sagi Grimberg" <sagi@grimberg.me>
-To: "Yi Zhang" <yizhan at redhat.com>, "Max Gurtovoy" <maxg at mellanox.com>, "Leon Romanovsky" <leon at kernel.org>
-Cc: linux-rdma at vger.kernel.org, "Christoph Hellwig" <hch at lst.de>, linux-nvme at lists.infradead.org
-Sent: Friday, March 17, 2017 12:51:16 AM
-Subject: Re: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed during stress test on reset_controller
-
-
->>>>> Sagi,
->>>>> The release function is placed in global workqueue. I'm not familiar
->>>>> with NVMe design and I don't know all the details, but maybe the
->>>>> proper way will
->>>>> be to create special workqueue with MEM_RECLAIM flag to ensure the
->>>>> progress?
-
-Leon, the release work makes progress, but it is inherently slower
-than the establishment work and when we are bombarded with
-establishments we have no backpressure...
-
-> I tried with 4.11.0-rc2, and still can reproduced it with less than 2000
-> times.
-
-Yi,
-
-Can you try the below (untested) patch:
-
-I'm not at all convinced this is the way to go because it will
-slow down all the connect requests, but I'm curious to know
-if it'll make the issue go away.
-
---
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index ecc4fe862561..f15fa6e6b640 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1199,6 +1199,9 @@ static int nvmet_rdma_queue_connect(struct 
-rdma_cm_id *cm_id,
-         }
-         queue->port = cm_id->context;
-
-+       /* Let inflight queue teardown complete */
-+       flush_scheduled_work();
-+
-         ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
-         if (ret)
-                 goto release_queue;
---
-
-Any other good ideas are welcome...
-
-_______________________________________________
-Linux-nvme mailing list
-Linux-nvme at lists.infradead.org
-http://lists.infradead.org/mailman/listinfo/linux-nvme
+Thanks
+Yi
