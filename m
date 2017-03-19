@@ -1,36 +1,11 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 19 Mar 2017 18:12:31 +0200
-Subject: [PATCH v3 0/4] Introduce a new helper for parsing ipv[4|6]:port
- to socket address
-In-Reply-To: <55ad78fd-266f-09b9-417d-b6cf7b723879@grimberg.me>
-References: <1489063793-12838-1-git-send-email-sagi@grimberg.me>
- <55ad78fd-266f-09b9-417d-b6cf7b723879@grimberg.me>
-Message-ID: <17d44419-a9db-1822-985e-619083e999b9@grimberg.me>
+Date: Mon, 20 Mar 2017 00:46:49 +0200
+Subject: nvme-cli: finish the move of vendor specific commands to plugins
+In-Reply-To: <20170314150238.GA9374@localhost.localdomain>
+References: <20170313231054.30400-1-hch@lst.de>
+ <20170314150238.GA9374@localhost.localdomain>
+Message-ID: <5ebc3baa-3a6d-5504-3237-01192fb5af0f@grimberg.me>
 
+FWIW, looks good to me too,
 
->> Changes from v1:
->> - rebased to 4.11-rc1
->> - improved changelogs
->>
->> Changes from v0:
->> - rebased on 4.10
->> - splitted inet_pton_with_scope to be a bit saner (from Chrsitoph)
->> - converted nvme-rdma host_traddr to use a generic helper
->>
->> We have some places in the stack that support ipv4 and ipv6. In
->> some cases the user configuration does not reveal which
->> address family is given and needs to be parsed from the input string.
->>
->> Given that the user-input varies between subsystems, some processing
->> is required from the call-site to separate address and port strings.
->>
->> As a side-effect, this set adds ipv6 support for nvme over fabrics.
->
-> Hi Dave,
->
-> This set got review tags from two kernel maintainers but this is your
-> realm so I wouldn't be comfortable moving forward with this without
-> your feedback.
-
-Would it be possible to get a review from one of the netdev folks
-on patch 1/4?
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
