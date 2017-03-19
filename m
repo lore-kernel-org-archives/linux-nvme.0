@@ -1,41 +1,36 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 19 Mar 2017 14:22:32 +0200
-Subject: [PATCH 3/3] nvme-fc: fix module_init (theoretical) error path
-Message-ID: <1489926152-9798-1-git-send-email-sagi@grimberg.me>
+Date: Sun, 19 Mar 2017 18:12:31 +0200
+Subject: [PATCH v3 0/4] Introduce a new helper for parsing ipv[4|6]:port
+ to socket address
+In-Reply-To: <55ad78fd-266f-09b9-417d-b6cf7b723879@grimberg.me>
+References: <1489063793-12838-1-git-send-email-sagi@grimberg.me>
+ <55ad78fd-266f-09b9-417d-b6cf7b723879@grimberg.me>
+Message-ID: <17d44419-a9db-1822-985e-619083e999b9@grimberg.me>
 
-If nvmf_register_transport happened to fail
-(it can't, but theoretically) we leak memory.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/fc.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+>> Changes from v1:
+>> - rebased to 4.11-rc1
+>> - improved changelogs
+>>
+>> Changes from v0:
+>> - rebased on 4.10
+>> - splitted inet_pton_with_scope to be a bit saner (from Chrsitoph)
+>> - converted nvme-rdma host_traddr to use a generic helper
+>>
+>> We have some places in the stack that support ipv4 and ipv6. In
+>> some cases the user configuration does not reveal which
+>> address family is given and needs to be parsed from the input string.
+>>
+>> Given that the user-input varies between subsystems, some processing
+>> is required from the call-site to separate address and port strings.
+>>
+>> As a side-effect, this set adds ipv6 support for nvme over fabrics.
+>
+> Hi Dave,
+>
+> This set got review tags from two kernel maintainers but this is your
+> realm so I wouldn't be comfortable moving forward with this without
+> your feedback.
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 9690beb15e69..f77cdcf51e65 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2546,11 +2546,20 @@ static struct nvmf_transport_ops nvme_fc_transport = {
- 
- static int __init nvme_fc_init_module(void)
- {
-+	int ret;
-+
- 	nvme_fc_wq = create_workqueue("nvme_fc_wq");
- 	if (!nvme_fc_wq)
- 		return -ENOMEM;
- 
--	return nvmf_register_transport(&nvme_fc_transport);
-+	ret = nvmf_register_transport(&nvme_fc_transport);
-+	if (ret)
-+		goto err;
-+
-+	return 0;
-+err:
-+	destroy_workqueue(nvme_fc_wq);
-+	return ret;
- }
- 
- static void __exit nvme_fc_exit_module(void)
--- 
-2.7.4
+Would it be possible to get a review from one of the netdev folks
+on patch 1/4?
