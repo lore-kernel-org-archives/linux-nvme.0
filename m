@@ -1,52 +1,20 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Tue, 21 Mar 2017 04:31:17 -0700
-Subject: [PATCH 3/3] nvme-fc: fix module_init (theoretical) error path
-In-Reply-To: <1489926152-9798-1-git-send-email-sagi@grimberg.me>
-References: <1489926152-9798-1-git-send-email-sagi@grimberg.me>
-Message-ID: <2ca9913b-77a4-c946-86a2-a1cde6931953@broadcom.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 21 Mar 2017 13:35:05 +0200
+Subject: [PATCH rfc 10/10] target: Use non-selective polling
+In-Reply-To: <1489881481.27336.23.camel@haakon3.risingtidesystems.com>
+References: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
+ <1489065402-14757-11-git-send-email-sagi@grimberg.me>
+ <1489881481.27336.23.camel@haakon3.risingtidesystems.com>
+Message-ID: <cd47b4c3-34fb-039c-ffb1-b9702701576f@grimberg.me>
 
-looks fine
+> Hey Sagi,
 
-thanks
+Hey Nic
 
--- james
-
-Signed-off-by: James Smart <james.smart at broadcom.com>
-
-
-
-On 3/19/2017 5:22 AM, Sagi Grimberg wrote:
-> If nvmf_register_transport happened to fail
-> (it can't, but theoretically) we leak memory.
+> Let's make 'batch' into a backend specific attribute so it can be
+> changed on-the-fly per device, instead of a hard-coded value.
 >
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/host/fc.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index 9690beb15e69..f77cdcf51e65 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2546,11 +2546,20 @@ static struct nvmf_transport_ops nvme_fc_transport = {
->   
->   static int __init nvme_fc_init_module(void)
->   {
-> +	int ret;
-> +
->   	nvme_fc_wq = create_workqueue("nvme_fc_wq");
->   	if (!nvme_fc_wq)
->   		return -ENOMEM;
->   
-> -	return nvmf_register_transport(&nvme_fc_transport);
-> +	ret = nvmf_register_transport(&nvme_fc_transport);
-> +	if (ret)
-> +		goto err;
-> +
-> +	return 0;
-> +err:
-> +	destroy_workqueue(nvme_fc_wq);
-> +	return ret;
->   }
->   
->   static void __exit nvme_fc_exit_module(void)
+> Here's a quick patch to that end.  Feel free to fold it into your
+> series.
+
+I will, thanks!
