@@ -1,15 +1,33 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue, 21 Mar 2017 10:31:19 -0400
-Subject: [PATCH V2] nvme-cli: fix nvme-list-ns documentation to match
- list_ns function
-In-Reply-To: <1490105343-13236-1-git-send-email-guanjunxiong@huawei.com>
-References: <1490105343-13236-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <20170321143119.GB19722@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 21 Mar 2017 18:33:35 +0200
+Subject: [GIT PULL] nvme patches for kernel 4.11 rc4
+Message-ID: <1490114015-17672-1-git-send-email-sagi@grimberg.me>
 
-On Tue, Mar 21, 2017@10:09:03PM +0800, Guan Junxiong wrote:
-> From: Junxiong Guan <guanjunxiong at huawei.com>
-> 
-> The list_ns function implements two command line options which is located in the line 496 to 499 of the nvme.c file but the manpage documentations of the nvme list-ns command only demostrate the first option i.e. the given namespace-id , leaving the second option i.e. all namesapces out. Therefore nvme-list-ns.1 , nvme-list-ns.html and nvme-lsit-ns.txt are corrected to match the actual implementation of the list_ns function.
+Hey Jens,
 
-Thanks for the update. I applied after adjusting the commit log to make
-it multiple lines.
+This consists of some fixes for issues reported lately:
+- loop and rdma host driver cpu hotplug fixes
+- fix loop use-after-free
+- nvmet percpu_ref confirmation fix to fail ongoing requests
+- nvmet-rdma fix a non-initialized commands deref
+
+please pull from:
+
+  git://git.infradead.org/nvme.git nvme-4.11-rc
+
+Thanks!
+
+----------------------------------------------------------------
+Sagi Grimberg (5):
+      nvme-loop: fix a possible use-after-free when destroying the admin queue
+      nvmet: confirm sq percpu has scheduled and switched to atomic
+      nvmet-rdma: Fix a possible uninitialized variable dereference
+      nvme-rdma: handle cpu unplug when re-establishing the controller
+      nvme-loop: handle cpu unplug when re-establishing the controller
+
+ drivers/nvme/host/rdma.c    | 28 +++++++-------
+ drivers/nvme/target/core.c  | 11 +++++-
+ drivers/nvme/target/loop.c  | 90 +++++++++++++++++++++++++--------------------
+ drivers/nvme/target/nvmet.h |  1 +
+ drivers/nvme/target/rdma.c  |  8 ++--
+ 5 files changed, 79 insertions(+), 59 deletions(-)
