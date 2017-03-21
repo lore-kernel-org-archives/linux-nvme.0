@@ -1,29 +1,20 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 21 Mar 2017 15:59:58 +0200
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 21 Mar 2017 10:01:28 -0400
 Subject: [PATCH] nvme-loop: remove unneeded includes
-Message-ID: <1490104798-7548-1-git-send-email-sagi@grimberg.me>
+In-Reply-To: <1490104798-7548-1-git-send-email-sagi@grimberg.me>
+References: <1490104798-7548-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20170321140128.GG30013@linux-x5ow.site>
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/target/loop.c | 2 --
- 1 file changed, 2 deletions(-)
+On Tue, Mar 21, 2017@03:59:58PM +0200, Sagi Grimberg wrote:
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index 7053676aa87f..bdf207825718 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -13,12 +13,10 @@
-  */
- #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
- #include <linux/scatterlist.h>
--#include <linux/delay.h>
- #include <linux/blk-mq.h>
- #include <linux/nvme.h>
- #include <linux/module.h>
- #include <linux/parser.h>
--#include <linux/t10-pi.h>
- #include "nvmet.h"
- #include "../host/nvme.h"
- #include "../host/fabrics.h"
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
 -- 
-2.7.4
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
