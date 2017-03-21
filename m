@@ -1,13 +1,14 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 21 Mar 2017 09:43:58 -0400
-Subject: [PATCH 1/2] nvme-rdma: fix module_init (theoretical) error path
-In-Reply-To: <1489897752-16691-1-git-send-email-sagi@grimberg.me>
+Date: Tue, 21 Mar 2017 09:44:32 -0400
+Subject: [PATCH 2/2] nvme-loop: fix module_init (theoretical) error path
+In-Reply-To: <1489897752-16691-2-git-send-email-sagi@grimberg.me>
 References: <1489897752-16691-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20170321134358.GD30013@linux-x5ow.site>
+ <1489897752-16691-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20170321134432.GE30013@linux-x5ow.site>
 
-On Sun, Mar 19, 2017@06:29:11AM +0200, Sagi Grimberg wrote:
-> If nvmf_register_transport happened to fail
-> (it can't, but theoretically) we leak memory.
+On Sun, Mar 19, 2017@06:29:12AM +0200, Sagi Grimberg wrote:
+> if nvmf_register_transport happend to fail, we
+> need to nvmet_unregister_transport as well.
 > 
 > Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
