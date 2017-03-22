@@ -1,24 +1,12 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 21 Mar 2017 13:05:05 -0400
-Subject: [GIT PULL] nvme patches for kernel 4.11 rc4
-In-Reply-To: <1490114015-17672-1-git-send-email-sagi@grimberg.me>
-References: <1490114015-17672-1-git-send-email-sagi@grimberg.me>
-Message-ID: <d50c0245-ac1a-243f-d0dc-95d906a1cd3b@kernel.dk>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 22 Mar 2017 12:07:22 -0700
+Subject: [PATCH rfc 01/10] nvme-pci: Split __nvme_process_cq to poll and
+ handle
+In-Reply-To: <1489065402-14757-2-git-send-email-sagi@grimberg.me>
+References: <1489065402-14757-1-git-send-email-sagi@grimberg.me>
+ <1489065402-14757-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20170322190722.GA28374@infradead.org>
 
-On 03/21/2017 12:33 PM, Sagi Grimberg wrote:
-> Hey Jens,
-> 
-> This consists of some fixes for issues reported lately:
-> - loop and rdma host driver cpu hotplug fixes
-> - fix loop use-after-free
-> - nvmet percpu_ref confirmation fix to fail ongoing requests
-> - nvmet-rdma fix a non-initialized commands deref
-> 
-> please pull from:
-> 
->   git://git.infradead.org/nvme.git nvme-4.11-rc
+Looks fine,
 
-Thanks Sagi, pulled.
-
--- 
-Jens Axboe
+Reviewed-by: Christoph Hellwig <hch at lst.de>
