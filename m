@@ -1,7 +1,9 @@
 From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Thu, 23 Mar 2017 10:04:09 +0100 (CET)
+Date: Thu, 23 Mar 2017 10:24:04 +0100 (CET)
 Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
-Message-ID: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
+In-Reply-To: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
+References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
+Message-ID: <1394319361.312127676.1490261044724.JavaMail.zimbra@kalray.eu>
 
 In the case of small NVMe-oF queue size (<32) we may enter
 a deadlock caused by the fact that the IB completions aren't sent
