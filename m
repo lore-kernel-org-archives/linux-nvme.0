@@ -1,344 +1,131 @@
-From: helen.koike@collabora.com (Helen Koike)
-Date: Fri, 24 Mar 2017 01:23:43 -0300
-Subject: [PATCH v5 RFC] nvme: improve performance for virtual NVMe devices
-In-Reply-To: <20170317222843.GD13709@localhost.localdomain>
-References: <20170317222843.GD13709@localhost.localdomain>
-Message-ID: <1490329423-17152-1-git-send-email-helen.koike@collabora.com>
+From: joseph.r.gruher@intel.com (Gruher, Joseph R)
+Date: Fri, 24 Mar 2017 18:30:02 +0000
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <DE927C68B458BE418D582EC97927A928550391C2@ORSMSX113.amr.corp.intel.com>
+References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
+ <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
+ <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
+ <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
+ <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
+ <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
+ <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
+ <DE927C68B458BE418D582EC97927A92855031724@ORSMSX113.amr.corp.intel.com>
+ <809f87ab-b787-9d40-5840-07500d12e81a@mellanox.com>
+ <DE927C68B458BE418D582EC97927A928550391C2@ORSMSX113.amr.corp.intel.com>
+Message-ID: <DE927C68B458BE418D582EC97927A928550419FA@ORSMSX113.amr.corp.intel.com>
 
-This change provides a mechanism to reduce the number of MMIO doorbell
-writes for the NVMe driver. When running in a virtualized environment
-like QEMU, the cost of an MMIO is quite hefy here. The main idea for
-the patch is provide the device two memory location locations:
- 1) to store the doorbell values so they can be lookup without the doorbell
-    MMIO write
- 2) to store an event index.
-I believe the doorbell value is obvious, the event index not so much.
-Similar to the virtio specification, the virtual device can tell the
-driver (guest OS) not to write MMIO unless you are writing past this
-value.
+> > >> From: Max Gurtovoy [mailto:maxg at mellanox.com]
+> > >>
+> > >> I think we need to add fence to the UMR wqe.
+> > >>
+> > >> diff --git a/drivers/infiniband/hw/mlx5/qp.c
+> > >> b/drivers/infiniband/hw/mlx5/qp.c index ad8a263..c38c4fa 100644
+> > >> --- a/drivers/infiniband/hw/mlx5/qp.c
+> > >> +++ b/drivers/infiniband/hw/mlx5/qp.c
+> > >> @@ -3737,8 +3737,7 @@ static void dump_wqe(struct mlx5_ib_qp *qp,
+> > >> int idx, int size_16)
+> > >>
+> > >>   static u8 get_fence(u8 fence, struct ib_send_wr *wr)
+> > >>   {
+> > >> -       if (unlikely(wr->opcode == IB_WR_LOCAL_INV &&
+> > >> -                    wr->send_flags & IB_SEND_FENCE))
+> > >> +       if (wr->opcode == IB_WR_LOCAL_INV || wr->opcode ==
+> > >> + IB_WR_REG_MR)
+> > >>                  return MLX5_FENCE_MODE_STRONG_ORDERING;
+> > >>
+> > >>          if (unlikely(fence)) {
+> > >>
+> > >> Joseph,
+> > >> please update after trying the 2 patches (seperatly) + perf numbers.
+> > >>
+> > >> I'll take it internally and run some more tests with stronger
+> > >> servers using
+> > >> ConnectX4 NICs.
+> > >>
+> > >> These patches are only for testing and not for submission yet. If
+> > >> we find them good enought for upstream then we need to distinguish
+> > >> between ConnexcX4/IB and ConnectX5 (we probably won't see it there).
+> > >
+> > > Hi Max-
+> > >
+> > > Our testing on this patch looks good, failures seem completely
+> > > alleviated.  We
+> > are not really detecting any performance impact to small block read
+> > workloads.  Data below uses 50Gb CX4 initiator and target and FIO to
+> > generate load.  Each disk runs 4KB random reads with 4 jobs and queue depth
+> 32 per job.
+> > Initiator uses 16 IO queues per attached subsystem.  We tested with 2
+> > P3520 disks attached, and again with 7 disks attached.
+> > >
+> > > 				IOPS		Latency (usec)
+> > > 4.10-RC8	2 disks		545,695		466.0
+> > > With Patch	2 disks		587,663		432.8
+> > > 4.10-RC8	7 disks		1,074,311	829.5
+> > > With Patch	7 disks		1,080,099	825.4
+> >
+> > Very nice.
+> > We also run testing on null devices in our labs on iSER/NVMf (show
+> > better the network/transport layer performance) and the impact was
+> Atolerable.
+> >
+> > >
+> > > You mention these patches are only for testing.  How do we get to
+> > > something
+> > which can be submitted to upstream?
+> >
+> > Yes, we need to be careful and not put the strong_fence if it's not a must.
+> > I'll be out for the upcoming week, but I'll ask our mlx5 maintainers
+> > to prepare a suitable patch and check some other applications
+> > performance numbers.
+> > Thanks for the testing, you can use this patch meanwhile till we push
+> > the formal solution.
+> 
+> With additional testing on this patch we are now encountering what seems to
+> be a new failure.  It takes hours of testing to reproduce but we've been able to
+> reproduce on 2 out of 2 overnight runs of continuous testing.  I cannot say
+> conclusively the failure is due to the patch, as we cannot run this exact
+> configuration without the patch, but I can say we did not see this failure mode
+> in previous testing.  Either the patch induced the new failure mode, or perhaps
+> this problem was always present and was just exposed by adding the patch.  We
+> will continue trying to characterize the failure.
+> 
+> I've attached a couple dmesg logs of two different reproductions.  The t01 files
+> are the target system and the i03 files are the initiator system.  Failure seems
+> to start with a sequence like below on the target.  Thoughts?
+> 
+> [38875.102023] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
+> [38875.108750] nvmet: ctrl 1 fatal error occurred!
+> [39028.696921] INFO: task kworker/7:3:10534 blocked for more than 120
+> seconds.
+> [39028.704813]       Not tainted 4.10.0-rc8patch-2-get-fence #5
+> [39028.711147] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables
+> this message.
+> [39028.719900] kworker/7:3     D    0 10534      2 0x00000000
+> [39028.719908] Workqueue: events nvmet_rdma_release_queue_work
+> [nvmet_rdma] [39028.719909] Call Trace:
+> [39028.719914]  __schedule+0x233/0x6f0
+> [39028.719918]  ? sched_clock+0x9/0x10
+> [39028.719919]  schedule+0x36/0x80
+> [39028.719921]  schedule_timeout+0x22a/0x3f0 [39028.719924]  ?
+> vprintk_emit+0x312/0x4a0 [39028.719927]  ? __kfifo_to_user_r+0xb0/0xb0
+> [39028.719929]  wait_for_completion+0xb4/0x140 [39028.719930]  ?
+> wake_up_q+0x80/0x80 [39028.719933]  nvmet_sq_destroy+0x41/0xf0 [nvmet]
+> [39028.719935]  nvmet_rdma_free_queue+0x28/0xa0 [nvmet_rdma]
+> [39028.719936]  nvmet_rdma_release_queue_work+0x25/0x50 [nvmet_rdma]
+> [39028.719939]  process_one_work+0x1fc/0x4b0 [39028.719940]
+> worker_thread+0x4b/0x500 [39028.719942]  kthread+0x101/0x140
+> [39028.719943]  ? process_one_work+0x4b0/0x4b0 [39028.719945]  ?
+> kthread_create_on_node+0x60/0x60 [39028.719946]
+> ret_from_fork+0x2c/0x40
 
-FYI: doorbell values are written by the nvme driver (guest OS) and the
-event index is written by the virtual device (host OS).
+Hey folks.  Apologies if this message comes through twice, but when I originally sent it the list flagged it as too large due to the dmesg log attachments, and then a coworker just told me they never saw it, so I don't think it made it through on the first attempt.
 
-The patch implements a new admin command that will communicate where
-these two memory locations reside. If the command fails, the nvme
-driver will work as before without any optimizations.
-
-Contributions:
-  Eric Northup <digitaleric at google.com>
-  Frank Swiderski <fes at google.com>
-  Ted Tso <tytso at mit.edu>
-  Keith Busch <keith.busch at intel.com>
-
-Just to give an idea on the performance boost with the vendor
-extension: Running fio [1], a stock NVMe driver I get about 200K read
-IOPs with my vendor patch I get about 1000K read IOPs. This was
-running with a null device i.e. the backing device simply returned
-success on every read IO request.
-
-[1] Running on a 4 core machine:
-  fio --time_based --name=benchmark --runtime=30
-  --filename=/dev/nvme0n1 --nrfiles=1 --ioengine=libaio --iodepth=32
-  --direct=1 --invalidate=1 --verify=0 --verify_fatal=0 --numjobs=4
-  --rw=randread --blocksize=4k --randrepeat=false
-
-Signed-off-by: Rob Nelson <rlnelson at google.com>
-[mlin: port for upstream]
-Signed-off-by: Ming Lin <mlin at kernel.org>
-[koike: updated for upstream]
-Signed-off-by: Helen Koike <helen.koike at collabora.com>
-
----
-
-This patch is based on git://git.infradead.org/nvme.git master
-Tested through Google Cloud Engine
-TPAR is ratified by the NVME working group
-
-Changes since v4
-	- Remove CONFIG_NVME_DBBUF
-	- Remove dbbuf.{c,h}, move the code to pci.c
-	- Coding style changes
-	- Functions and vaiables renamed
-
-Changes since v3
-	- Rename to dbbuf (be closer to the latest TPAR)
-	- Modify the opcodes according to the latest TPAR
-	- Check if the device support this feature through the OACS bit
-	- little cleanups
----
- drivers/nvme/host/pci.c | 144 +++++++++++++++++++++++++++++++++++++++++++++++-
- include/linux/nvme.h    |  13 +++++
- 2 files changed, 155 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 5b7bd9c..4289eb1 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -51,6 +51,8 @@
- #define NVME_AQ_DEPTH		256
- #define SQ_SIZE(depth)		(depth * sizeof(struct nvme_command))
- #define CQ_SIZE(depth)		(depth * sizeof(struct nvme_completion))
-+#define SQ_IDX(qid, stride)	((qid) * 2 * (stride))
-+#define CQ_IDX(qid, stride)	(((qid) * 2 + 1) * (stride))
- 
- /*
-  * We handle AEN commands ourselves and don't even let the
-@@ -103,6 +105,12 @@ struct nvme_dev {
- 	u32 cmbloc;
- 	struct nvme_ctrl ctrl;
- 	struct completion ioq_wait;
-+	struct {
-+		u32 *dbs;
-+		u32 *eis;
-+		dma_addr_t dbs_dma_addr;
-+		dma_addr_t eis_dma_addr;
-+	} dbbuf;
- };
- 
- static inline struct nvme_dev *to_nvme_dev(struct nvme_ctrl *ctrl)
-@@ -133,6 +141,12 @@ struct nvme_queue {
- 	u16 qid;
- 	u8 cq_phase;
- 	u8 cqe_seen;
-+	struct {
-+		u32 *sq_db;
-+		u32 *cq_db;
-+		u32 *sq_ei;
-+		u32 *cq_ei;
-+	} dbbuf;
- };
- 
- /*
-@@ -174,6 +188,121 @@ static inline void _nvme_check_size(void)
- 	BUILD_BUG_ON(sizeof(struct nvme_id_ns) != 4096);
- 	BUILD_BUG_ON(sizeof(struct nvme_lba_range_type) != 64);
- 	BUILD_BUG_ON(sizeof(struct nvme_smart_log) != 512);
-+	BUILD_BUG_ON(sizeof(struct nvme_dbbuf) != 64);
-+}
-+
-+static inline unsigned int nvme_dbbuf_size(u32 stride)
-+{
-+	return ((num_possible_cpus() + 1) * 8 * stride);
-+}
-+
-+static int nvme_dbbuf_dma_alloc(struct nvme_dev *dev)
-+{
-+	unsigned int mem_size = nvme_dbbuf_size(dev->db_stride);
-+
-+	dev->dbbuf.dbs = dma_alloc_coherent(dev->dev, mem_size,
-+					    &dev->dbbuf.dbs_dma_addr,
-+					    GFP_KERNEL);
-+	if (!dev->dbbuf.dbs)
-+		return -ENOMEM;
-+	dev->dbbuf.eis = dma_alloc_coherent(dev->dev, mem_size,
-+					    &dev->dbbuf.eis_dma_addr,
-+					    GFP_KERNEL);
-+	if (!dev->dbbuf.eis) {
-+		dma_free_coherent(dev->dev, mem_size,
-+				  dev->dbbuf.dbs, dev->dbbuf.dbs_dma_addr);
-+		dev->dbbuf.dbs = NULL;
-+		return -ENOMEM;
-+	}
-+
-+	return 0;
-+}
-+
-+static void nvme_dbbuf_dma_free(struct nvme_dev *dev)
-+{
-+	unsigned int mem_size = nvme_dbbuf_size(dev->db_stride);
-+
-+	if (dev->dbbuf.dbs) {
-+		dma_free_coherent(dev->dev, mem_size,
-+				  dev->dbbuf.dbs, dev->dbbuf.dbs_dma_addr);
-+		dev->dbbuf.dbs = NULL;
-+	}
-+	if (dev->dbbuf.eis) {
-+		dma_free_coherent(dev->dev, mem_size,
-+				  dev->dbbuf.eis, dev->dbbuf.eis_dma_addr);
-+		dev->dbbuf.eis = NULL;
-+	}
-+}
-+
-+static void nvme_dbbuf_init(struct nvme_dev *dev,
-+			    struct nvme_queue *nvmeq, int qid)
-+{
-+	if (!dev->dbbuf.dbs || !qid)
-+		return;
-+
-+	nvmeq->dbbuf.sq_db = &dev->dbbuf.dbs[SQ_IDX(qid, dev->db_stride)];
-+	nvmeq->dbbuf.cq_db = &dev->dbbuf.dbs[CQ_IDX(qid, dev->db_stride)];
-+	nvmeq->dbbuf.sq_ei = &dev->dbbuf.eis[SQ_IDX(qid, dev->db_stride)];
-+	nvmeq->dbbuf.cq_ei = &dev->dbbuf.eis[CQ_IDX(qid, dev->db_stride)];
-+}
-+
-+static void nvme_dbbuf_set(struct nvme_dev *dev)
-+{
-+	struct nvme_command c;
-+
-+	if (!dev->dbbuf.dbs)
-+		return;
-+
-+	memset(&c, 0, sizeof(c));
-+	c.dbbuf.opcode = nvme_admin_dbbuf;
-+	c.dbbuf.prp1 = cpu_to_le64(dev->dbbuf.dbs_dma_addr);
-+	c.dbbuf.prp2 = cpu_to_le64(dev->dbbuf.eis_dma_addr);
-+
-+	if (nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, 0))
-+		/* Free memory and continue on */
-+		nvme_dbbuf_dma_free(dev);
-+}
-+
-+static inline int nvme_dbbuf_need_event(u16 event_idx, u16 new_idx, u16 old)
-+{
-+	/* Borrowed from vring_need_event */
-+	return (u16)(new_idx - event_idx - 1) < (u16)(new_idx - old);
-+}
-+
-+static void nvme_write_doorbell(u16 value,
-+				u32 __iomem *db,
-+				u32 *dbbuf_db,
-+				volatile u32 *dbbuf_ei)
-+{
-+	u16 old_value;
-+
-+	if (!dbbuf_db) {
-+		writel(value, db);
-+		return;
-+	}
-+
-+	/*
-+	 * Ensure that the queue is written before updating
-+	 * the doorbell in memory
-+	 */
-+	wmb();
-+
-+	old_value = *dbbuf_db;
-+	*dbbuf_db = value;
-+	if (nvme_dbbuf_need_event(*dbbuf_ei, value, old_value))
-+		writel(value, db);
-+}
-+
-+static inline void nvme_write_doorbell_cq(struct nvme_queue *nvmeq, u16 value)
-+{
-+	nvme_write_doorbell(value, nvmeq->q_db + nvmeq->dev->db_stride,
-+			    nvmeq->dbbuf.cq_db, nvmeq->dbbuf.cq_ei);
-+}
-+
-+static inline void nvme_write_doorbell_sq(struct nvme_queue *nvmeq, u16 value)
-+{
-+	nvme_write_doorbell(value, nvmeq->q_db,
-+			    nvmeq->dbbuf.sq_db, nvmeq->dbbuf.sq_ei);
- }
- 
- /*
-@@ -300,7 +429,7 @@ static void __nvme_submit_cmd(struct nvme_queue *nvmeq,
- 
- 	if (++tail == nvmeq->q_depth)
- 		tail = 0;
--	writel(tail, nvmeq->q_db);
-+	nvme_write_doorbell_sq(nvmeq, tail);
- 	nvmeq->sq_tail = tail;
- }
- 
-@@ -716,7 +845,7 @@ static void __nvme_process_cq(struct nvme_queue *nvmeq, unsigned int *tag)
- 		return;
- 
- 	if (likely(nvmeq->cq_vector >= 0))
--		writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
-+		nvme_write_doorbell_cq(nvmeq, head);
- 	nvmeq->cq_head = head;
- 	nvmeq->cq_phase = phase;
- 
-@@ -1066,6 +1195,7 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
- 	nvmeq->q_depth = depth;
- 	nvmeq->qid = qid;
- 	nvmeq->cq_vector = -1;
-+	nvme_dbbuf_init(dev, nvmeq, qid);
- 	dev->queues[qid] = nvmeq;
- 	dev->queue_count++;
- 
-@@ -1099,6 +1229,7 @@ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
- 	nvmeq->cq_phase = 1;
- 	nvmeq->q_db = &dev->dbs[qid * 2 * dev->db_stride];
- 	memset((void *)nvmeq->cqes, 0, CQ_SIZE(nvmeq->q_depth));
-+	nvme_dbbuf_init(dev, nvmeq, qid);
- 	dev->online_queues++;
- 	spin_unlock_irq(&nvmeq->q_lock);
- }
-@@ -1568,6 +1699,8 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 		if (blk_mq_alloc_tag_set(&dev->tagset))
- 			return 0;
- 		dev->ctrl.tagset = &dev->tagset;
-+
-+		nvme_dbbuf_set(dev);
- 	} else {
- 		blk_mq_update_nr_hw_queues(&dev->tagset, dev->online_queues - 1);
- 
-@@ -1700,6 +1833,7 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 		nvme_disable_admin_queue(dev, shutdown);
- 	}
- 	nvme_pci_disable(dev);
-+	nvme_dbbuf_dma_free(dev);
- 
- 	blk_mq_tagset_busy_iter(&dev->tagset, nvme_cancel_request, &dev->ctrl);
- 	blk_mq_tagset_busy_iter(&dev->admin_tagset, nvme_cancel_request, &dev->ctrl);
-@@ -1800,6 +1934,12 @@ static void nvme_reset_work(struct work_struct *work)
- 		dev->ctrl.opal_dev = NULL;
- 	}
- 
-+	if (dev->ctrl.oacs & NVME_CTRL_OACS_DBBUF_SUPP) {
-+		result = nvme_dbbuf_dma_alloc(dev);
-+		if (result)
-+			goto out;
-+	}
-+
- 	result = nvme_setup_io_queues(dev);
- 	if (result)
- 		goto out;
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index c43d435..43a6289 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -245,6 +245,7 @@ enum {
- 	NVME_CTRL_ONCS_WRITE_ZEROES		= 1 << 3,
- 	NVME_CTRL_VWC_PRESENT			= 1 << 0,
- 	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
-+	NVME_CTRL_OACS_DBBUF_SUPP		= 1 << 7,
- };
- 
- struct nvme_lbaf {
-@@ -603,6 +604,7 @@ enum nvme_admin_opcode {
- 	nvme_admin_download_fw		= 0x11,
- 	nvme_admin_ns_attach		= 0x15,
- 	nvme_admin_keep_alive		= 0x18,
-+	nvme_admin_dbbuf		= 0x7C,
- 	nvme_admin_format_nvm		= 0x80,
- 	nvme_admin_security_send	= 0x81,
- 	nvme_admin_security_recv	= 0x82,
-@@ -874,6 +876,16 @@ struct nvmf_property_get_command {
- 	__u8		resv4[16];
- };
- 
-+struct nvme_dbbuf {
-+	__u8			opcode;
-+	__u8			flags;
-+	__u16			command_id;
-+	__u32			rsvd1[5];
-+	__le64			prp1;
-+	__le64			prp2;
-+	__u32			rsvd12[6];
-+};
-+
- struct nvme_command {
- 	union {
- 		struct nvme_common_command common;
-@@ -893,6 +905,7 @@ struct nvme_command {
- 		struct nvmf_connect_command connect;
- 		struct nvmf_property_set_command prop_set;
- 		struct nvmf_property_get_command prop_get;
-+		struct nvme_dbbuf dbbuf;
- 	};
- };
- 
--- 
-2.7.4
+Please see last note above and dmesg example attached - after more extensive testing with Max's patch we are still able to produce cqe dump errors (at a much lower frequency) as well as a new failure mode involving a crash dump.
+-------------- next part --------------
+An embedded and charset-unspecified text was scrubbed...
+Name: full-std-50g-round2-t01-dmesg.txt
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170324/6a4aff65/attachment-0002.txt>
+-------------- next part --------------
+An embedded and charset-unspecified text was scrubbed...
+Name: full-std-50g-single-t01-dmesg.txt
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170324/6a4aff65/attachment-0003.txt>
