@@ -1,362 +1,184 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu, 23 Mar 2017 20:43:18 -0700
-Subject: [PATCH 2/5] nvmet_fc: add req_release to lldd api
+Date: Thu, 23 Mar 2017 20:43:17 -0700
+Subject: [PATCH 1/5] nvmet_fc: add target feature flags for upcall isr contexts
 In-Reply-To: <20170324034321.8719-1-jsmart2021@gmail.com>
 References: <20170324034321.8719-1-jsmart2021@gmail.com>
-Message-ID: <20170324034321.8719-3-jsmart2021@gmail.com>
+Message-ID: <20170324034321.8719-2-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-With the advent of the opdone calls changing context, the lldd can no
-longer assume that once the op->done call returns for RSP operations
-that the request struct is no longer being accessed.
+Two new feature flags were added to control whether upcalls to the
+transport result in context switches or stay in the calling context.
 
-As such, revise the lldd api for a req_release callback that the
-transport will call when the job is complete. This will also be used
-with abort cases.
+NVMET_FCTGTFEAT_CMD_IN_ISR:
+  By default, if the flag is not set, the transport assumes the
+  lldd is in a non-isr context and in the cpu context it should be
+  for the io queue. As such, the cmd handler is called directly in the
+  calling context.
+  If the flag is set, indicating the upcall is an isr context, the
+  transport mandates a transition to a workqueue. The workqueue assigned
+  to the queue is used for the context.
+NVMET_FCTGTFEAT_OPDONE_IN_ISR
+  By default, if the flag is not set, the transport assumes the
+  lldd is in a non-isr context and in the cpu context it should be
+  for the io queue. As such, the fcp operation done callback is called
+  directly in the calling context.
+  If the flag is set, indicating the upcall is an isr context, the
+  transport mandates a transition to a workqueue. The workqueue assigned
+  to the queue is used for the context.
 
-Fixed text in api header for change in io complete semantics.
-
-Revised lpfc to support the new req_release api.
+Updated lpfc for flags
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/target/fc.c       |  8 +++--
- drivers/nvme/target/fcloop.c   | 15 ++++++---
- drivers/scsi/lpfc/lpfc_nvmet.c | 73 +++++++++++++++++++++++++++++++++++++++---
- drivers/scsi/lpfc/lpfc_nvmet.h |  7 ++--
- include/linux/nvme-fc-driver.h | 57 ++++++++++++++++++++-------------
- 5 files changed, 124 insertions(+), 36 deletions(-)
+ drivers/nvme/target/fc.c       | 37 ++++++++++++++++++++++++++++++++++---
+ drivers/nvme/target/fcloop.c   |  5 +++--
+ drivers/scsi/lpfc/lpfc_nvmet.c |  4 +++-
+ include/linux/nvme-fc-driver.h | 16 ++++++++++++++++
+ 4 files changed, 56 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index a4fad3d..d7068f0 100644
+index 2c0709f..a4fad3d 100644
 --- a/drivers/nvme/target/fc.c
 +++ b/drivers/nvme/target/fc.c
-@@ -482,6 +482,8 @@ static void
- nvmet_fc_free_fcp_iod(struct nvmet_fc_tgt_queue *queue,
- 			struct nvmet_fc_fcp_iod *fod)
- {
-+	struct nvmefc_tgt_fcp_req *fcpreq = fod->fcpreq;
-+	struct nvmet_fc_tgtport *tgtport = fod->tgtport;
- 	unsigned long flags;
+@@ -86,6 +86,7 @@ struct nvmet_fc_fcp_iod {
  
- 	spin_lock_irqsave(&queue->qlock, flags);
-@@ -493,6 +495,8 @@ nvmet_fc_free_fcp_iod(struct nvmet_fc_tgt_queue *queue,
- 	 * release the reference taken at queue lookup and fod allocation
- 	 */
- 	nvmet_fc_tgt_q_put(queue);
-+
-+	tgtport->ops->fcp_req_release(&tgtport->fc_target_port, fcpreq);
+ 	struct nvmet_req		req;
+ 	struct work_struct		work;
++	struct work_struct		done_work;
+ 
+ 	struct nvmet_fc_tgtport		*tgtport;
+ 	struct nvmet_fc_tgt_queue	*queue;
+@@ -213,6 +214,7 @@ static DEFINE_IDA(nvmet_fc_tgtport_cnt);
+ 
+ static void nvmet_fc_handle_ls_rqst_work(struct work_struct *work);
+ static void nvmet_fc_handle_fcp_rqst_work(struct work_struct *work);
++static void nvmet_fc_fcp_rqst_op_done_work(struct work_struct *work);
+ static void nvmet_fc_tgt_a_put(struct nvmet_fc_tgt_assoc *assoc);
+ static int nvmet_fc_tgt_a_get(struct nvmet_fc_tgt_assoc *assoc);
+ static void nvmet_fc_tgt_q_put(struct nvmet_fc_tgt_queue *queue);
+@@ -414,6 +416,7 @@ nvmet_fc_prep_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
+ 
+ 	for (i = 0; i < queue->sqsize; fod++, i++) {
+ 		INIT_WORK(&fod->work, nvmet_fc_handle_fcp_rqst_work);
++		INIT_WORK(&fod->done_work, nvmet_fc_fcp_rqst_op_done_work);
+ 		fod->tgtport = tgtport;
+ 		fod->queue = queue;
+ 		fod->active = false;
+@@ -1807,10 +1810,13 @@ nvmet_fc_transfer_fcp_data(struct nvmet_fc_tgtport *tgtport,
+ 	}
  }
  
- static int
-@@ -849,7 +853,7 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
- 	int ret, idx;
++/*
++ * actual done handler for FCP operations when completed by the lldd
++ */
+ static void
+-nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
++nvmet_fc_fod_op_done(struct nvmet_fc_fcp_iod *fod)
+ {
+-	struct nvmet_fc_fcp_iod *fod = fcpreq->nvmet_fc_private;
++	struct nvmefc_tgt_fcp_req *fcpreq = fod->fcpreq;
+ 	struct nvmet_fc_tgtport *tgtport = fod->tgtport;
+ 	unsigned long flags;
+ 	bool abort;
+@@ -1905,6 +1911,28 @@ nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
+ 	}
+ }
  
- 	if (!template->xmt_ls_rsp || !template->fcp_op ||
--	    !template->targetport_delete ||
-+	    !template->fcp_req_release || !template->targetport_delete ||
- 	    !template->max_hw_queues || !template->max_sgl_segments ||
- 	    !template->max_dif_sgl_segments || !template->dma_boundary) {
- 		ret = -EINVAL;
-@@ -2124,7 +2128,7 @@ nvmet_fc_handle_fcp_rqst_work(struct work_struct *work)
-  * If this routine returns error, the lldd should abort the exchange.
-  *
-  * @target_port: pointer to the (registered) target port the FCP CMD IU
-- *              was receive on.
-+ *              was received on.
-  * @fcpreq:     pointer to a fcpreq request structure to be used to reference
-  *              the exchange corresponding to the FCP Exchange.
-  * @cmdiubuf:   pointer to the buffer containing the FCP CMD IU
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index a5cdeca..2c4d682 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -492,15 +492,19 @@ fcloop_fcp_op(struct nvmet_fc_target_port *tgtport,
- 	tgt_fcpreq->fcp_error = fcp_err;
- 	tgt_fcpreq->done(tgt_fcpreq);
++static void
++nvmet_fc_fcp_rqst_op_done_work(struct work_struct *work)
++{
++	struct nvmet_fc_fcp_iod *fod =
++		container_of(work, struct nvmet_fc_fcp_iod, done_work);
++
++	nvmet_fc_fod_op_done(fod);
++}
++
++static void
++nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
++{
++	struct nvmet_fc_fcp_iod *fod = fcpreq->nvmet_fc_private;
++	struct nvmet_fc_tgt_queue *queue = fod->queue;
++
++	if (fod->tgtport->ops->target_features & NVMET_FCTGTFEAT_OPDONE_IN_ISR)
++		/* context switch so completion is not in ISR context */
++		queue_work_on(queue->cpu, queue->work_q, &fod->done_work);
++	else
++		nvmet_fc_fod_op_done(fod);
++}
++
+ /*
+  * actual completion handler after execution by the nvmet layer
+  */
+@@ -2149,7 +2177,10 @@ nvmet_fc_rcv_fcp_req(struct nvmet_fc_target_port *target_port,
+ 			((queue->qid - 1) % tgtport->ops->max_hw_queues) : 0;
+ 	memcpy(&fod->cmdiubuf, cmdiubuf, cmdiubuf_len);
  
--	if ((!fcp_err) && (op == NVMET_FCOP_RSP ||
--			op == NVMET_FCOP_READDATA_RSP ||
--			op == NVMET_FCOP_ABORT))
--		schedule_work(&tfcp_req->work);
--
+-	queue_work_on(queue->cpu, queue->work_q, &fod->work);
++	if (tgtport->ops->target_features & NVMET_FCTGTFEAT_CMD_IN_ISR)
++		queue_work_on(queue->cpu, queue->work_q, &fod->work);
++	else
++		nvmet_fc_handle_fcp_rqst(tgtport, fod);
+ 
  	return 0;
  }
- 
- static void
-+fcloop_fcp_req_release(struct nvmet_fc_target_port *tgtport,
-+			struct nvmefc_tgt_fcp_req *tgt_fcpreq)
-+{
-+	struct fcloop_fcpreq *tfcp_req = tgt_fcp_req_to_fcpreq(tgt_fcpreq);
-+
-+	schedule_work(&tfcp_req->work);
-+}
-+
-+static void
- fcloop_ls_abort(struct nvme_fc_local_port *localport,
- 			struct nvme_fc_remote_port *remoteport,
- 				struct nvmefc_ls_req *lsreq)
-@@ -570,6 +574,7 @@ struct nvmet_fc_target_template tgttemplate = {
- 	.targetport_delete	= fcloop_targetport_delete,
- 	.xmt_ls_rsp		= fcloop_xmt_ls_rsp,
- 	.fcp_op			= fcloop_fcp_op,
-+	.fcp_req_release	= fcloop_fcp_req_release,
- 	.max_hw_queues		= FCLOOP_HW_QUEUES,
- 	.max_sgl_segments	= FCLOOP_SGL_SEGS,
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index 4e8e6a2..a5cdeca 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -575,8 +575,9 @@ struct nvmet_fc_target_template tgttemplate = {
  	.max_dif_sgl_segments	= FCLOOP_SGL_SEGS,
+ 	.dma_boundary		= FCLOOP_DMABOUND_4G,
+ 	/* optional features */
+-	.target_features	= NVMET_FCTGTFEAT_READDATA_RSP |
+-				  NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED,
++	.target_features	= NVMET_FCTGTFEAT_CMD_IN_ISR |
++				  NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED |
++				  NVMET_FCTGTFEAT_OPDONE_IN_ISR,
+ 	/* sizes of additional private data for data structures */
+ 	.target_priv_sz		= sizeof(struct fcloop_tport),
+ };
 diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
-index 176b4e0..1846c7e 100644
+index 7ca868f..176b4e0 100644
 --- a/drivers/scsi/lpfc/lpfc_nvmet.c
 +++ b/drivers/scsi/lpfc/lpfc_nvmet.c
-@@ -408,9 +408,7 @@ lpfc_nvmet_xmt_fcp_op_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
- 		if (phba->ktime_on)
- 			lpfc_nvmet_ktime(phba, ctxp);
- #endif
--		/* Let Abort cmpl repost the context */
--		if (!(ctxp->flag & LPFC_NVMET_ABORT_OP))
--			lpfc_nvmet_rq_post(phba, ctxp, &ctxp->rqb_buffer->hbuf);
-+		/* lpfc_nvmet_xmt_fcp_release() will recycle the context */
- 	} else {
- 		ctxp->entry_cnt++;
- 		start_clean = offsetof(struct lpfc_iocbq, wqe);
-@@ -634,10 +632,47 @@ lpfc_nvmet_targetport_delete(struct nvmet_fc_target_port *targetport)
- 	complete(&tport->tport_unreg_done);
- }
+@@ -669,7 +669,9 @@ lpfc_nvmet_create_targetport(struct lpfc_hba *phba)
+ 	lpfc_tgttemplate.max_hw_queues = phba->cfg_nvme_io_channel;
+ 	lpfc_tgttemplate.max_sgl_segments = phba->cfg_sg_seg_cnt;
+ 	lpfc_tgttemplate.target_features = NVMET_FCTGTFEAT_READDATA_RSP |
+-					   NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED;
++					   NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED |
++					   NVMET_FCTGTFEAT_CMD_IN_ISR |
++					   NVMET_FCTGTFEAT_OPDONE_IN_ISR;
  
-+static void
-+lpfc_nvmet_xmt_fcp_release(struct nvmet_fc_target_port *tgtport,
-+			   struct nvmefc_tgt_fcp_req *rsp)
-+{
-+	struct lpfc_nvmet_tgtport *lpfc_nvmep = tgtport->private;
-+	struct lpfc_nvmet_rcv_ctx *ctxp =
-+		container_of(rsp, struct lpfc_nvmet_rcv_ctx, ctx.fcp_req);
-+	struct lpfc_hba *phba = ctxp->phba;
-+	unsigned long flags;
-+	bool aborting = false;
-+
-+	spin_lock_irqsave(&ctxp->ctxlock, flags);
-+	if (ctxp->flag & LPFC_NVMET_ABORT_OP) {
-+		aborting = true;
-+		ctxp->flag |= LPFC_NVMET_CTX_RLS;
-+	}
-+	spin_unlock_irqrestore(&ctxp->ctxlock, flags);
-+
-+	if (aborting)
-+		/* let the abort path do the real release */
-+		return;
-+
-+	/* Sanity check */
-+	if (ctxp->state != LPFC_NVMET_STE_DONE) {
-+		atomic_inc(&lpfc_nvmep->xmt_fcp_drop);
-+		lpfc_printf_log(phba, KERN_ERR, LOG_NVME_IOERR,
-+				"6117 Bad state IO x%x aborted\n",
-+				ctxp->oxid);
-+	}
-+
-+	lpfc_nvmeio_data(phba, "NVMET FCP FREE: xri x%x ste %d\n", ctxp->oxid,
-+			 ctxp->state, 0);
-+
-+	lpfc_nvmet_rq_post(phba, ctxp, &ctxp->rqb_buffer->hbuf);
-+}
-+
- static struct nvmet_fc_target_template lpfc_tgttemplate = {
- 	.targetport_delete = lpfc_nvmet_targetport_delete,
- 	.xmt_ls_rsp     = lpfc_nvmet_xmt_ls_rsp,
- 	.fcp_op         = lpfc_nvmet_xmt_fcp_op,
-+	.fcp_req_release = lpfc_nvmet_xmt_fcp_release,
- 
- 	.max_hw_queues  = 1,
- 	.max_sgl_segments = LPFC_NVMET_DEFAULT_SEGS,
-@@ -834,6 +869,7 @@ lpfc_nvmet_unsol_ls_buffer(struct lpfc_hba *phba, struct lpfc_sli_ring *pring,
- 	ctxp->wqeq = NULL;
- 	ctxp->state = LPFC_NVMET_STE_RCV;
- 	ctxp->rqb_buffer = (void *)nvmebuf;
-+	spin_lock_init(&ctxp->ctxlock);
- 
- 	lpfc_nvmeio_data(phba, "NVMET LS   RCV: xri x%x sz %d from %06x\n",
- 			 oxid, size, sid);
-@@ -1595,6 +1631,8 @@ lpfc_nvmet_sol_fcp_abort_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
- 	struct lpfc_nvmet_rcv_ctx *ctxp;
- 	struct lpfc_nvmet_tgtport *tgtp;
- 	uint32_t status, result;
-+	unsigned long flags;
-+	bool released = false;
- 
- 	ctxp = cmdwqe->context2;
- 	status = bf_get(lpfc_wcqe_c_status, wcqe);
-@@ -1609,7 +1647,18 @@ lpfc_nvmet_sol_fcp_abort_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
- 			result, wcqe->word3);
- 
- 	ctxp->state = LPFC_NVMET_STE_DONE;
--	lpfc_nvmet_rq_post(phba, ctxp, &ctxp->rqb_buffer->hbuf);
-+	spin_lock_irqsave(&ctxp->ctxlock, flags);
-+	if (ctxp->flag & LPFC_NVMET_CTX_RLS)
-+		released = true;
-+	ctxp->flag &= ~LPFC_NVMET_ABORT_OP;
-+	spin_unlock_irqrestore(&ctxp->ctxlock, flags);
-+
-+	/*
-+	 * if transport has released ctx, then can reuse it. Otherwise,
-+	 * will be recycled by transport release call.
-+	 */
-+	if (released)
-+		lpfc_nvmet_rq_post(phba, ctxp, &ctxp->rqb_buffer->hbuf);
- 
- 	cmdwqe->context2 = NULL;
- 	cmdwqe->context3 = NULL;
-@@ -1632,7 +1681,9 @@ lpfc_nvmet_xmt_fcp_abort_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
- {
- 	struct lpfc_nvmet_rcv_ctx *ctxp;
- 	struct lpfc_nvmet_tgtport *tgtp;
-+	unsigned long flags;
- 	uint32_t status, result;
-+	bool released = false;
- 
- 	ctxp = cmdwqe->context2;
- 	status = bf_get(lpfc_wcqe_c_status, wcqe);
-@@ -1654,7 +1705,19 @@ lpfc_nvmet_xmt_fcp_abort_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
- 					ctxp->state, ctxp->oxid);
- 		}
- 		ctxp->state = LPFC_NVMET_STE_DONE;
--		lpfc_nvmet_rq_post(phba, ctxp, &ctxp->rqb_buffer->hbuf);
-+		spin_lock_irqsave(&ctxp->ctxlock, flags);
-+		if (ctxp->flag & LPFC_NVMET_CTX_RLS)
-+			released = true;
-+		ctxp->flag &= ~LPFC_NVMET_ABORT_OP;
-+		spin_unlock_irqrestore(&ctxp->ctxlock, flags);
-+
-+		/*
-+		 * if transport has released ctx, then can reuse it. Otherwise,
-+		 * will be recycled by transport release call.
-+		 */
-+		if (released)
-+			lpfc_nvmet_rq_post(phba, ctxp, &ctxp->rqb_buffer->hbuf);
-+
- 		cmdwqe->context2 = NULL;
- 		cmdwqe->context3 = NULL;
- 	}
-diff --git a/drivers/scsi/lpfc/lpfc_nvmet.h b/drivers/scsi/lpfc/lpfc_nvmet.h
-index ca96f05..02735fc 100644
---- a/drivers/scsi/lpfc/lpfc_nvmet.h
-+++ b/drivers/scsi/lpfc/lpfc_nvmet.h
-@@ -81,6 +81,7 @@ struct lpfc_nvmet_rcv_ctx {
- 	struct lpfc_iocbq *wqeq;
- 	struct lpfc_iocbq *abort_wqeq;
- 	dma_addr_t txrdy_phys;
-+	spinlock_t ctxlock; /* protect flag access */
- 	uint32_t *txrdy;
- 	uint32_t sid;
- 	uint32_t offset;
-@@ -97,8 +98,10 @@ struct lpfc_nvmet_rcv_ctx {
- #define LPFC_NVMET_STE_RSP		4
- #define LPFC_NVMET_STE_DONE		5
- 	uint16_t flag;
--#define LPFC_NVMET_IO_INP		1
--#define LPFC_NVMET_ABORT_OP		2
-+#define LPFC_NVMET_IO_INP		0x1
-+#define LPFC_NVMET_ABORT_OP		0x2
-+#define LPFC_NVMET_CTX_RLS		0x4
-+
- 	struct rqb_dmabuf *rqb_buffer;
- 
- #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
+ #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
+ 	error = nvmet_fc_register_targetport(&pinfo, &lpfc_tgttemplate,
 diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index d70a9c9..d98ddb2 100644
+index 16eb264..d70a9c9 100644
 --- a/include/linux/nvme-fc-driver.h
 +++ b/include/linux/nvme-fc-driver.h
-@@ -741,12 +741,12 @@ struct nvmet_fc_target_port {
-  *       be freed/released.
-  *       Entrypoint is Mandatory.
-  *
-- * @fcp_op:  Called to perform a data transfer, transmit a response, or
-- *       abort an FCP opertion. The nvmefc_tgt_fcp_req structure is the same
-- *       LLDD-supplied exchange structure specified in the
-- *       nvmet_fc_rcv_fcp_req() call made when the FCP CMD IU was received.
-- *       The op field in the structure shall indicate the operation for
-- *       the LLDD to perform relative to the io.
-+ * @fcp_op:  Called to perform a data transfer or transmit a response.
-+ *       The nvmefc_tgt_fcp_req structure is the same LLDD-supplied
-+ *       exchange structure specified in the nvmet_fc_rcv_fcp_req() call
-+ *       made when the FCP CMD IU was received. The op field in the
-+ *       structure shall indicate the operation for the LLDD to perform
-+ *       relative to the io.
-  *         NVMET_FCOP_READDATA operation: the LLDD is to send the
-  *           payload data (described by sglist) to the host in 1 or
-  *           more FC sequences (preferrably 1).  Note: the fc-nvme layer
-@@ -768,29 +768,35 @@ struct nvmet_fc_target_port {
-  *           successfully, the LLDD is to update the nvmefc_tgt_fcp_req
-  *           transferred_length field and may subsequently transmit the
-  *           FCP_RSP iu payload (described by rspbuf, rspdma, rsplen).
-- *           The LLDD is to await FCP_CONF reception to confirm the RSP
-- *           reception by the host. The LLDD may retramsit the FCP_RSP iu
-- *           if necessary per FC-NVME. Upon reception of FCP_CONF, or upon
-- *           FCP_CONF failure, the LLDD is to set the nvmefc_tgt_fcp_req
-- *           fcp_error field and consider the operation complete..
-+ *           If FCP_CONF is supported, the LLDD is to await FCP_CONF
-+ *           reception to confirm the RSP reception by the host. The LLDD
-+ *           may retramsit the FCP_RSP iu if necessary per FC-NVME. Upon
-+ *           transmission of the FCP_RSP iu if FCP_CONF is not supported,
-+ *           or upon success/failure of FCP_CONF if it is supported, the
-+ *           LLDD is to set the nvmefc_tgt_fcp_req fcp_error field and
-+ *           consider the operation complete.
-  *         NVMET_FCOP_RSP: the LLDD is to transmit the FCP_RSP iu payload
-- *           (described by rspbuf, rspdma, rsplen).  The LLDD is to await
-- *           FCP_CONF reception to confirm the RSP reception by the host.
-- *           The LLDD may retramsit the FCP_RSP iu if necessary per FC-NVME.
-- *           Upon reception of FCP_CONF, or upon FCP_CONF failure, the
-+ *           (described by rspbuf, rspdma, rsplen). If FCP_CONF is
-+ *           supported, the LLDD is to await FCP_CONF reception to confirm
-+ *           the RSP reception by the host. The LLDD may retramsit the
-+ *           FCP_RSP iu if FCP_CONF is not received per FC-NVME. Upon
-+ *           transmission of the FCP_RSP iu if FCP_CONF is not supported,
-+ *           or upon success/failure of FCP_CONF if it is supported, the
-  *           LLDD is to set the nvmefc_tgt_fcp_req fcp_error field and
-- *           consider the operation complete..
-+ *           consider the operation complete.
-  *         NVMET_FCOP_ABORT: the LLDD is to terminate the exchange
-  *           corresponding to the fcp operation. The LLDD shall send
-  *           ABTS and follow FC exchange abort-multi rules, including
-  *           ABTS retries and possible logout.
-  *       Upon completing the indicated operation, the LLDD is to set the
-  *       status fields for the operation (tranferred_length and fcp_error
-- *       status) in the request, then all the "done" routine
-- *       indicated in the fcp request.  Upon return from the "done"
-- *       routine for either a NVMET_FCOP_RSP or NVMET_FCOP_ABORT operation
-- *       the fc-nvme layer will not longer reference the fcp request,
-- *       allowing the LLDD to free/release the fcp request.
-+ *       status) in the request, then call the "done" routine
-+ *       indicated in the fcp request. After the operation completes,
-+ *       regardless of whether the FCP_RSP iu was successfully transmit,
-+ *       the LLDD-supplied exchange structure must remain valid until the
-+ *       transport calls the fcp_req_release() callback to return ownership
-+ *       of the exchange structure back to the LLDD so that it may be used
-+ *       for another fcp command.
-  *       Note: when calling the done routine for READDATA or WRITEDATA
-  *       operations, the fc-nvme layer may immediate convert, in the same
-  *       thread and before returning to the LLDD, the fcp operation to
-@@ -802,6 +808,11 @@ struct nvmet_fc_target_port {
-  *       Returns 0 on success, -<errno> on failure (Ex: -EIO)
-  *       Entrypoint is Mandatory.
-  *
-+ * @fcp_req_release:  Called by the transport to return a nvmefc_tgt_fcp_req
-+ *       to the LLDD after all operations on the fcp operation are complete.
-+ *       This may be due to the command completing or upon completion of
-+ *       abort cleanup.
-+ *
-  * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
-  *       supports for cpu affinitization.
-  *       Value is Mandatory. Must be at least 1.
-@@ -836,7 +847,9 @@ struct nvmet_fc_target_template {
- 	int (*xmt_ls_rsp)(struct nvmet_fc_target_port *tgtport,
- 				struct nvmefc_tgt_ls_req *tls_req);
- 	int (*fcp_op)(struct nvmet_fc_target_port *tgtport,
--				struct nvmefc_tgt_fcp_req *);
-+				struct nvmefc_tgt_fcp_req *fcpreq);
-+	void (*fcp_req_release)(struct nvmet_fc_target_port *tgtport,
-+				struct nvmefc_tgt_fcp_req *fcpreq);
+@@ -655,6 +655,22 @@ enum {
+ 		 * on. The transport should pick a cpu to schedule the work
+ 		 * on.
+ 		 */
++	NVMET_FCTGTFEAT_CMD_IN_ISR = (1 << 2),
++		/* Bit 2: When 0, the LLDD is calling the cmd rcv handler
++		 * in a non-isr context, allowing the transport to finish
++		 * op completion in the calling context. When 1, the LLDD
++		 * is calling the cmd rcv handler in an ISR context,
++		 * requiring the transport to transition to a workqueue
++		 * for op completion.
++		 */
++	NVMET_FCTGTFEAT_OPDONE_IN_ISR = (1 << 3),
++		/* Bit 3: When 0, the LLDD is calling the op done handler
++		 * in a non-isr context, allowing the transport to finish
++		 * op completion in the calling context. When 1, the LLDD
++		 * is calling the op done handler in an ISR context,
++		 * requiring the transport to transition to a workqueue
++		 * for op completion.
++		 */
+ };
  
- 	u32	max_hw_queues;
- 	u16	max_sgl_segments;
+ 
 -- 
 2.9.3
