@@ -1,26 +1,154 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu, 23 Mar 2017 20:41:21 -0700
-Subject: [PATCH 0/6] nvme_fc: repost spec updates and fixes
-Message-ID: <20170324034127.8676-1-jsmart2021@gmail.com>
+Date: Thu, 23 Mar 2017 20:41:22 -0700
+Subject: [PATCH 1/6] nvme_fc: Sync FC-NVME header with standard
+In-Reply-To: <20170324034127.8676-1-jsmart2021@gmail.com>
+References: <20170324034127.8676-1-jsmart2021@gmail.com>
+Message-ID: <20170324034127.8676-2-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-The following items have been posted prior, but not pulled in. Resubmitting
+Update FC-NVME definitions to match FC-NVME r1.14 (16-020vB) plus
+change voted in by 2/22 FC-NVME Adhoc (see HOSTID below).
 
+Includes the following:
+- Addition of "status_code" field to ERSP IU
+- Addition of FC-NVME LS RJT reason_codes and reason_explanations
+- CreateAssociation payload, HostID field shortened to 16 bytes
 
-James Smart (6):
-  nvme_fc: Sync FC-NVME header with standard
-  nvme_fc: Add check of status_code in ERSP_IU
-  nvmet_fc: Sync NVME LS reject reasons with spec
-  nvme_fc: correct LS validation
-  nvmet_fc: Clear SG list to avoid double frees
-  nvme_fc: Clean up host fcpio done status handling
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ include/linux/nvme-fc.h | 68 ++++++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 59 insertions(+), 9 deletions(-)
 
- drivers/nvme/host/fc.c         | 24 ++++++++-------
- drivers/nvme/target/fc.c       | 21 ++++++++-----
- include/linux/nvme-fc-driver.h |  6 ++--
- include/linux/nvme-fc.h        | 68 ++++++++++++++++++++++++++++++++++++------
- 4 files changed, 89 insertions(+), 30 deletions(-)
-
+diff --git a/include/linux/nvme-fc.h b/include/linux/nvme-fc.h
+index 4b45226..e997c4a 100644
+--- a/include/linux/nvme-fc.h
++++ b/include/linux/nvme-fc.h
+@@ -16,8 +16,7 @@
+  */
+ 
+ /*
+- * This file contains definitions relative to FC-NVME r1.11 and a few
+- * newer items
++ * This file contains definitions relative to FC-NVME r1.14 (16-020vB).
+  */
+ 
+ #ifndef _NVME_FC_H
+@@ -47,8 +46,15 @@ struct nvme_fc_cmd_iu {
+ 
+ #define NVME_FC_SIZEOF_ZEROS_RSP	12
+ 
++enum {
++	FCNVME_SC_SUCCESS		= 0,
++	FCNVME_SC_INVALID_FIELD		= 1,
++	FCNVME_SC_INVALID_CONNID	= 2,
++};
++
+ struct nvme_fc_ersp_iu {
+-	__u8			rsvd0[2];
++	__u8			status_code;
++	__u8			rsvd1;
+ 	__be16			iu_len;
+ 	__be32			rsn;
+ 	__be32			xfrd_len;
+@@ -58,7 +64,7 @@ struct nvme_fc_ersp_iu {
+ };
+ 
+ 
+-/* FC-NVME r1.03/16-119v0 NVME Link Services */
++/* FC-NVME Link Services */
+ enum {
+ 	FCNVME_LS_RSVD			= 0,
+ 	FCNVME_LS_RJT			= 1,
+@@ -68,7 +74,7 @@ enum {
+ 	FCNVME_LS_DISCONNECT		= 5,
+ };
+ 
+-/* FC-NVME r1.03/16-119v0 NVME Link Service Descriptors */
++/* FC-NVME Link Service Descriptors */
+ enum {
+ 	FCNVME_LSDESC_RSVD		= 0x0,
+ 	FCNVME_LSDESC_RQST		= 0x1,
+@@ -92,7 +98,6 @@ static inline __be32 fcnvme_lsdesc_len(size_t sz)
+ 	return cpu_to_be32(sz - (2 * sizeof(u32)));
+ }
+ 
+-
+ struct fcnvme_ls_rqst_w0 {
+ 	u8	ls_cmd;			/* FCNVME_LS_xxx */
+ 	u8	zeros[3];
+@@ -106,8 +111,53 @@ struct fcnvme_lsdesc_rqst {
+ 	__be32	rsvd12;
+ };
+ 
++/* FC-NVME LS RJT reason_code values */
++enum fcnvme_ls_rjt_reason {
++	FCNVME_RJT_RC_NONE		= 0,
++	/* no reason - not to be sent */
++
++	FCNVME_RJT_RC_INVAL		= 0x01,
++	/* invalid NVMe_LS command code */
++
++	FCNVME_RJT_RC_LOGIC		= 0x03,
++	/* logical error */
++
++	FCNVME_RJT_RC_UNAB		= 0x09,
++	/* unable to perform command request */
++
++	FCNVME_RJT_RC_UNSUP		= 0x0b,
++	/* command not supported */
++
++	FCNVME_RJT_RC_INPROG		= 0x0e,
++	/* command already in progress */
+ 
++	FCNVME_RJT_RC_INV_ASSOC		= 0x40,
++	/* Invalid Association ID*/
+ 
++	FCNVME_RJT_RC_INV_CONN		= 0x41,
++	/* Invalid Connection ID*/
++
++	FCNVME_RJT_RC_VENDOR		= 0xff,
++	/* vendor specific error */
++};
++
++/* FC-NVME LS RJT reason_explanation values */
++enum fcnvme_ls_rjt_explan {
++	FCNVME_RJT_EXP_NONE		= 0x00,
++	/* No additional explanation */
++
++	FCNVME_RJT_EXP_OXID_RXID	= 0x17,
++	/* invalid OX_ID-RX_ID combination */
++
++	FCNVME_RJT_EXP_INSUF_RES	= 0x29,
++	/* insufficient resources */
++
++	FCNVME_RJT_EXP_UNAB_DATA	= 0x2a,
++	/* unable to supply requested data */
++
++	FCNVME_RJT_EXP_INV_LEN		= 0x2d,
++	/* Invalid payload length */
++};
+ 
+ /* FCNVME_LSDESC_RJT */
+ struct fcnvme_lsdesc_rjt {
+@@ -119,15 +169,15 @@ struct fcnvme_lsdesc_rjt {
+ 	 * Reject reason and explanaction codes are generic
+ 	 * to ELs's from LS-3.
+ 	 */
+-	u8	reason_code;
+-	u8	reason_explanation;
++	u8	reason_code;		/* fcnvme_ls_rjt_reason */
++	u8	reason_explanation;	/* fcnvme_ls_rjt_explan */
+ 
+ 	u8	vendor;
+ 	__be32	rsvd12;
+ };
+ 
+ 
+-#define FCNVME_ASSOC_HOSTID_LEN		64
++#define FCNVME_ASSOC_HOSTID_LEN		16
+ #define FCNVME_ASSOC_HOSTNQN_LEN	256
+ #define FCNVME_ASSOC_SUBNQN_LEN		256
+ 
 -- 
 2.9.3
