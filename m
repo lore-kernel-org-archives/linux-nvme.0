@@ -1,131 +1,225 @@
-From: joseph.r.gruher@intel.com (Gruher, Joseph R)
-Date: Fri, 24 Mar 2017 18:30:02 +0000
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <DE927C68B458BE418D582EC97927A928550391C2@ORSMSX113.amr.corp.intel.com>
-References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
- <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
- <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
- <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
- <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
- <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
- <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
- <DE927C68B458BE418D582EC97927A92855031724@ORSMSX113.amr.corp.intel.com>
- <809f87ab-b787-9d40-5840-07500d12e81a@mellanox.com>
- <DE927C68B458BE418D582EC97927A928550391C2@ORSMSX113.amr.corp.intel.com>
-Message-ID: <DE927C68B458BE418D582EC97927A928550419FA@ORSMSX113.amr.corp.intel.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 24 Mar 2017 16:49:42 -0400
+Subject: [RFC PATCH] nvme: Submit uevents for log page notification
+Message-ID: <1490388582-10237-1-git-send-email-keith.busch@intel.com>
 
-> > >> From: Max Gurtovoy [mailto:maxg at mellanox.com]
-> > >>
-> > >> I think we need to add fence to the UMR wqe.
-> > >>
-> > >> diff --git a/drivers/infiniband/hw/mlx5/qp.c
-> > >> b/drivers/infiniband/hw/mlx5/qp.c index ad8a263..c38c4fa 100644
-> > >> --- a/drivers/infiniband/hw/mlx5/qp.c
-> > >> +++ b/drivers/infiniband/hw/mlx5/qp.c
-> > >> @@ -3737,8 +3737,7 @@ static void dump_wqe(struct mlx5_ib_qp *qp,
-> > >> int idx, int size_16)
-> > >>
-> > >>   static u8 get_fence(u8 fence, struct ib_send_wr *wr)
-> > >>   {
-> > >> -       if (unlikely(wr->opcode == IB_WR_LOCAL_INV &&
-> > >> -                    wr->send_flags & IB_SEND_FENCE))
-> > >> +       if (wr->opcode == IB_WR_LOCAL_INV || wr->opcode ==
-> > >> + IB_WR_REG_MR)
-> > >>                  return MLX5_FENCE_MODE_STRONG_ORDERING;
-> > >>
-> > >>          if (unlikely(fence)) {
-> > >>
-> > >> Joseph,
-> > >> please update after trying the 2 patches (seperatly) + perf numbers.
-> > >>
-> > >> I'll take it internally and run some more tests with stronger
-> > >> servers using
-> > >> ConnectX4 NICs.
-> > >>
-> > >> These patches are only for testing and not for submission yet. If
-> > >> we find them good enought for upstream then we need to distinguish
-> > >> between ConnexcX4/IB and ConnectX5 (we probably won't see it there).
-> > >
-> > > Hi Max-
-> > >
-> > > Our testing on this patch looks good, failures seem completely
-> > > alleviated.  We
-> > are not really detecting any performance impact to small block read
-> > workloads.  Data below uses 50Gb CX4 initiator and target and FIO to
-> > generate load.  Each disk runs 4KB random reads with 4 jobs and queue depth
-> 32 per job.
-> > Initiator uses 16 IO queues per attached subsystem.  We tested with 2
-> > P3520 disks attached, and again with 7 disks attached.
-> > >
-> > > 				IOPS		Latency (usec)
-> > > 4.10-RC8	2 disks		545,695		466.0
-> > > With Patch	2 disks		587,663		432.8
-> > > 4.10-RC8	7 disks		1,074,311	829.5
-> > > With Patch	7 disks		1,080,099	825.4
-> >
-> > Very nice.
-> > We also run testing on null devices in our labs on iSER/NVMf (show
-> > better the network/transport layer performance) and the impact was
-> Atolerable.
-> >
-> > >
-> > > You mention these patches are only for testing.  How do we get to
-> > > something
-> > which can be submitted to upstream?
-> >
-> > Yes, we need to be careful and not put the strong_fence if it's not a must.
-> > I'll be out for the upcoming week, but I'll ask our mlx5 maintainers
-> > to prepare a suitable patch and check some other applications
-> > performance numbers.
-> > Thanks for the testing, you can use this patch meanwhile till we push
-> > the formal solution.
-> 
-> With additional testing on this patch we are now encountering what seems to
-> be a new failure.  It takes hours of testing to reproduce but we've been able to
-> reproduce on 2 out of 2 overnight runs of continuous testing.  I cannot say
-> conclusively the failure is due to the patch, as we cannot run this exact
-> configuration without the patch, but I can say we did not see this failure mode
-> in previous testing.  Either the patch induced the new failure mode, or perhaps
-> this problem was always present and was just exposed by adding the patch.  We
-> will continue trying to characterize the failure.
-> 
-> I've attached a couple dmesg logs of two different reproductions.  The t01 files
-> are the target system and the i03 files are the initiator system.  Failure seems
-> to start with a sequence like below on the target.  Thoughts?
-> 
-> [38875.102023] nvmet: ctrl 1 keep-alive timer (15 seconds) expired!
-> [38875.108750] nvmet: ctrl 1 fatal error occurred!
-> [39028.696921] INFO: task kworker/7:3:10534 blocked for more than 120
-> seconds.
-> [39028.704813]       Not tainted 4.10.0-rc8patch-2-get-fence #5
-> [39028.711147] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables
-> this message.
-> [39028.719900] kworker/7:3     D    0 10534      2 0x00000000
-> [39028.719908] Workqueue: events nvmet_rdma_release_queue_work
-> [nvmet_rdma] [39028.719909] Call Trace:
-> [39028.719914]  __schedule+0x233/0x6f0
-> [39028.719918]  ? sched_clock+0x9/0x10
-> [39028.719919]  schedule+0x36/0x80
-> [39028.719921]  schedule_timeout+0x22a/0x3f0 [39028.719924]  ?
-> vprintk_emit+0x312/0x4a0 [39028.719927]  ? __kfifo_to_user_r+0xb0/0xb0
-> [39028.719929]  wait_for_completion+0xb4/0x140 [39028.719930]  ?
-> wake_up_q+0x80/0x80 [39028.719933]  nvmet_sq_destroy+0x41/0xf0 [nvmet]
-> [39028.719935]  nvmet_rdma_free_queue+0x28/0xa0 [nvmet_rdma]
-> [39028.719936]  nvmet_rdma_release_queue_work+0x25/0x50 [nvmet_rdma]
-> [39028.719939]  process_one_work+0x1fc/0x4b0 [39028.719940]
-> worker_thread+0x4b/0x500 [39028.719942]  kthread+0x101/0x140
-> [39028.719943]  ? process_one_work+0x4b0/0x4b0 [39028.719945]  ?
-> kthread_create_on_node+0x60/0x60 [39028.719946]
-> ret_from_fork+0x2c/0x40
+This is a first attempt at adding uevents to nvme. The concept was
+discussed at LSFMM, so here it is for consideration. :)
 
-Hey folks.  Apologies if this message comes through twice, but when I originally sent it the list flagged it as too large due to the dmesg log attachments, and then a coworker just told me they never saw it, so I don't think it made it through on the first attempt.
+In this implementation, the driver will submit a "change" uevent whenever
+the controller indicates a log page contains pertinent information. This
+happens in response to an Asynchronouse Event Notification, or if a
+command completes with the "MORE" status bit set. If there are other
+events anyone thinks we'd like udev to get a chance to handle, or would
+prefer to see these variables submitted to udev in a different format,
+please let me know.
 
-Please see last note above and dmesg example attached - after more extensive testing with Max's patch we are still able to produce cqe dump errors (at a much lower frequency) as well as a new failure mode involving a crash dump.
--------------- next part --------------
-An embedded and charset-unspecified text was scrubbed...
-Name: full-std-50g-round2-t01-dmesg.txt
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170324/6a4aff65/attachment-0002.txt>
--------------- next part --------------
-An embedded and charset-unspecified text was scrubbed...
-Name: full-std-50g-single-t01-dmesg.txt
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170324/6a4aff65/attachment-0003.txt>
+Submitting a uevent from the kernel can't be done from an irq context,
+which is the context the driver learns of such event, so this path
+enqueues the log identifier of internest on a FIFO, then has the async
+event work flush the event FIFO to udev. Pretty simple.
+
+Tested with the following rule to kick an nvme-cli generic get-log to
+clear the log request and append the returned log data to a temporary
+log. This is just an example for testing and not intended for real
+life use.
+
+ACTION=="change", SUBSYSTEM=="nvme", ENV{NVME_LOG}=="*", \
+	RUN+="/bin/sh -c '/usr/local/sbin/nvme get-log $env{DEVNAME} --log-id=$env{NVME_LOG} --log-len=4096 >> /tmp/nvme-log'"
+
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/core.c   | 35 +++++++++++++++++++++++++++++++++--
+ drivers/nvme/host/fc.c     |  2 ++
+ drivers/nvme/host/nvme.h   |  4 ++++
+ drivers/nvme/host/pci.c    |  2 ++
+ drivers/nvme/host/rdma.c   |  2 ++
+ drivers/nvme/target/loop.c |  2 ++
+ include/linux/nvme.h       |  2 ++
+ 7 files changed, 47 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 9b3b57f..a757deb 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1879,6 +1879,27 @@ static const struct attribute_group *nvme_dev_attr_groups[] = {
+ 	NULL,
+ };
+ 
++void nvme_uevent_work(struct nvme_ctrl *ctrl, int log)
++{
++	char buffer[13]; /* NVME_LOG=255\0 */
++	char *envp[2] = {buffer, NULL};
++
++	snprintf(buffer, sizeof(buffer), "NVME_LOG=%d", log);
++	kobject_uevent_env(&ctrl->device->kobj, KOBJ_CHANGE, envp);
++}
++
++void nvme_uevent(struct nvme_ctrl *ctrl, int log_page)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&ctrl->lock, flags);
++	kfifo_put(&ctrl->log_event_fifo, log_page);
++	spin_unlock_irqrestore(&ctrl->lock, flags);
++
++	schedule_work(&ctrl->async_event_work);
++}
++EXPORT_SYMBOL_GPL(nvme_uevent);
++
+ static int ns_cmp(void *priv, struct list_head *a, struct list_head *b)
+ {
+ 	struct nvme_ns *nsa = container_of(a, struct nvme_ns, list);
+@@ -2149,8 +2170,14 @@ static void nvme_async_event_work(struct work_struct *work)
+ {
+ 	struct nvme_ctrl *ctrl =
+ 		container_of(work, struct nvme_ctrl, async_event_work);
++	int log_page;
+ 
+ 	spin_lock_irq(&ctrl->lock);
++	while (kfifo_get(&ctrl->log_event_fifo, &log_page)) {
++		spin_unlock_irq(&ctrl->lock);
++		nvme_uevent_work(ctrl, log_page);
++		spin_lock_irq(&ctrl->lock);
++	}
+ 	while (ctrl->event_limit > 0) {
+ 		int aer_idx = --ctrl->event_limit;
+ 
+@@ -2165,6 +2192,8 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		union nvme_result *res)
+ {
+ 	u32 result = le32_to_cpu(res->u32);
++	u8 log_page = (result >> 16) & 8;
++	u8 event_type = result & 7;
+ 	bool done = true;
+ 
+ 	switch (le16_to_cpu(status) >> 1) {
+@@ -2173,7 +2202,6 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		/*FALLTHRU*/
+ 	case NVME_SC_ABORT_REQ:
+ 		++ctrl->event_limit;
+-		schedule_work(&ctrl->async_event_work);
+ 		break;
+ 	default:
+ 		break;
+@@ -2182,13 +2210,15 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 	if (done)
+ 		return;
+ 
+-	switch (result & 0xff07) {
++	nvme_uevent(ctrl, log_page);
++	switch (event_type) {
+ 	case NVME_AER_NOTICE_NS_CHANGED:
+ 		dev_info(ctrl->device, "rescanning\n");
+ 		nvme_queue_scan(ctrl);
+ 		break;
+ 	default:
+ 		dev_warn(ctrl->device, "async event result %08x\n", result);
++		break;
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(nvme_complete_async_event);
+@@ -2280,6 +2310,7 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	ctrl->quirks = quirks;
+ 	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
+ 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
++	INIT_KFIFO(ctrl->log_event_fifo);
+ 
+ 	ret = nvme_set_instance(ctrl);
+ 	if (ret)
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 9690beb..3930a12 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1936,6 +1936,8 @@ nvme_fc_complete_rq(struct request *rq)
+ 			nvme_requeue_req(rq);
+ 			return;
+ 		}
++		if (req->errors & NVME_SC_MORE)
++			nvme_uevent(&dev->ctrl, NVME_LOG_ERROR);
+ 
+ 		if (blk_rq_is_passthrough(rq))
+ 			error = rq->errors;
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 2aa20e3..fda6ebb 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -173,6 +173,9 @@ struct nvme_ctrl {
+ 	u16 icdoff;
+ 	u16 maxcmd;
+ 	struct nvmf_ctrl_options *opts;
++
++#define NVME_EVENT_FIFO_SIZE 8
++	DECLARE_KFIFO(log_event_fifo, int, NVME_EVENT_FIFO_SIZE);
+ };
+ 
+ /*
+@@ -290,6 +293,7 @@ int nvme_sec_submit(void *data, u16 spsp, u8 secp, void *buffer, size_t len,
+ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 		union nvme_result *res);
+ void nvme_queue_async_events(struct nvme_ctrl *ctrl);
++void nvme_uevent(struct nvme_ctrl *ctrl, int log_id);
+ 
+ void nvme_stop_queues(struct nvme_ctrl *ctrl);
+ void nvme_start_queues(struct nvme_ctrl *ctrl);
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 26a5fd0..6a2f0d3 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -642,6 +642,8 @@ static void nvme_complete_rq(struct request *req)
+ 			nvme_requeue_req(req);
+ 			return;
+ 		}
++		if (req->errors & NVME_SC_MORE)
++			nvme_uevent(&dev->ctrl, NVME_LOG_ERROR);
+ 
+ 		if (blk_rq_is_passthrough(req))
+ 			error = req->errors;
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 779f516..d8397665 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1507,6 +1507,8 @@ static void nvme_rdma_complete_rq(struct request *rq)
+ 			nvme_requeue_req(rq);
+ 			return;
+ 		}
++		if (req->errors & NVME_SC_MORE)
++			nvme_uevent(&dev->ctrl, NVME_LOG_ERROR);
+ 
+ 		if (blk_rq_is_passthrough(rq))
+ 			error = rq->errors;
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index d1f06e7..369b5de3 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -103,6 +103,8 @@ static void nvme_loop_complete_rq(struct request *req)
+ 			nvme_requeue_req(req);
+ 			return;
+ 		}
++		if (req->errors & NVME_SC_MORE)
++			nvme_uevent(&dev->ctrl, NVME_LOG_ERROR);
+ 
+ 		if (blk_rq_is_passthrough(req))
+ 			error = req->errors;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index c43d435..e711de6 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -16,6 +16,7 @@
+ #define _LINUX_NVME_H
+ 
+ #include <linux/types.h>
++#include <linux/kfifo.h>
+ 
+ /* NQN names in commands fields specified one size */
+ #define NVMF_NQN_FIELD_LEN	256
+@@ -1003,6 +1004,7 @@ enum {
+ 	NVME_SC_ACCESS_DENIED		= 0x286,
+ 	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
+ 
++	NVME_SC_MORE			= 0x2000,
+ 	NVME_SC_DNR			= 0x4000,
+ 
+ 
+-- 
+2.7.2
