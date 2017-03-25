@@ -1,21 +1,34 @@
 From: dledford@redhat.com (Doug Ledford)
-Date: Fri, 24 Mar 2017 16:41:54 -0400
-Subject: [PATCH] IB/core: Protect against self-requeue of a cq work item
-In-Reply-To: <1489003252-1893-1-git-send-email-sagi@grimberg.me>
-References: <1489003252-1893-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1490388114.2404.24.camel@redhat.com>
+Date: Fri, 24 Mar 2017 21:44:26 -0400
+Subject: WARNING on drivers/infiniband/core/verbs.c:1975
+ __ib_drain_sq+0x182/0x1c0 [ib_core]
+In-Reply-To: <1457714996.31424605.1488696068958.JavaMail.zimbra@redhat.com>
+References: <1457714996.31424605.1488696068958.JavaMail.zimbra@redhat.com>
+Message-ID: <1490406266.2404.34.camel@redhat.com>
 
-On Wed, 2017-03-08@22:00 +0200, Sagi Grimberg wrote:
-> We need to make sure that the cq work item does not
-> run when we are destroying the cq. Unlike flush_work,
-> cancel_work_sync protects against self-requeue of the
-> work item (which we can do in ib_cq_poll_work).
+On Sun, 2017-03-05@01:41 -0500, Yi Zhang wrote:
+> Hi
 > 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> I get bellow WARNING when trying to connect nvmet with nvmecli.
+> 
+> Steps I used:
+> On target:
+> 1. Use nvmetcli setup nvmet with below json?
+> {
+> ? "hosts": [
+> ????{
+> ??????"nqn": "hostnqn"
+> ????}
+> ? ],?
+> ? "ports": [
+> ????{
+> ??????"addr": {
+> ????????"adrfam": "ipv4",?
+> ????????"traddr": "172.31.40.4",?
 
-Hi Sagi, I didn't know if this was a theoretical or you actually hit
-this in practice, so I pulled it for -rc in case it was actually being
-hit in the wild. ?Thanks.
+For testing ocrdma, you need to use the 172.31.45.0 network vlan. ?For
+testing other RoCE cards in our lab, you can use either the 43 or 45
+vlans, but you shouldn't use the untagged interface for RoCE tests.
 
 -- 
 Doug Ledford <dledford at redhat.com>
