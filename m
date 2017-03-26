@@ -1,93 +1,45 @@
 From: sbates@raithlin.com (sbates@raithlin.com)
-Date: Sat, 25 Mar 2017 20:18:11 -0600
-Subject: [PATCH 1/2] blk-stat: convert blk-stat bucket callback to signed
-In-Reply-To: <1490494692-2416-1-git-send-email-sbates@raithlin.com>
-References: <1490494692-2416-1-git-send-email-sbates@raithlin.com>
-Message-ID: <1490494692-2416-2-git-send-email-sbates@raithlin.com>
+Date: Sat, 25 Mar 2017 20:18:10 -0600
+Subject: [PATCH 0/2] blk-stat: Add ability to not bucket IO,
+ add this to IO poling.
+Message-ID: <1490494692-2416-1-git-send-email-sbates@raithlin.com>
 
 From: Stephen Bates <sbates@raithlin.com>
 
-In order to allow for filtering of IO based on some other properties
-of the request than direction we allow the bucket function to return
-an int.
+Omar recently developed some patches for block layer stats that use
+callbacks to determine which bucket an IO should be considered for. At
+the same time there was discussion at LSF/MM that we might not want to
+consider all IO when generating stats for certain algorithms (e.g. IO
+completion polling).
 
-If the bucket callback returns a negative do no count it in the stats
-accumulation.
+This set does two things. It makes the bucket callback for stats
+signed so we can now ignore IO that cause a negative to be returned
+from the bucket function. It then uses this new functionality to
+filter IO for the IO completion polling algorithms.
 
-Signed-off-by: Stephen Bates <sbates at raithlin.com>
----
- block/blk-stat.c | 8 +++++---
- block/blk-stat.h | 9 +++++----
- 2 files changed, 10 insertions(+), 7 deletions(-)
+This patchset applies cleanly on a83b576c9c25cf (block: fix stacked
+driver stats init and free) in Jens' for-next tree.
 
-diff --git a/block/blk-stat.c b/block/blk-stat.c
-index 188b535..936adfb 100644
---- a/block/blk-stat.c
-+++ b/block/blk-stat.c
-@@ -17,9 +17,9 @@ struct blk_queue_stats {
- 	spinlock_t lock;
- };
- 
--unsigned int blk_stat_rq_ddir(const struct request *rq)
-+int blk_stat_rq_ddir(const struct request *rq)
- {
--	return rq_data_dir(rq);
-+	return (int)rq_data_dir(rq);
- }
- EXPORT_SYMBOL_GPL(blk_stat_rq_ddir);
- 
-@@ -100,6 +100,8 @@ void blk_stat_add(struct request *rq)
- 	list_for_each_entry_rcu(cb, &q->stats->callbacks, list) {
- 		if (blk_stat_is_active(cb)) {
- 			bucket = cb->bucket_fn(rq);
-+			if (bucket < 0)
-+				continue;
- 			stat = &this_cpu_ptr(cb->cpu_stat)[bucket];
- 			__blk_stat_add(stat, value);
- 		}
-@@ -131,7 +133,7 @@ static void blk_stat_timer_fn(unsigned long data)
- 
- struct blk_stat_callback *
- blk_stat_alloc_callback(void (*timer_fn)(struct blk_stat_callback *),
--			unsigned int (*bucket_fn)(const struct request *),
-+			int (*bucket_fn)(const struct request *),
- 			unsigned int buckets, void *data)
- {
- 	struct blk_stat_callback *cb;
-diff --git a/block/blk-stat.h b/block/blk-stat.h
-index 6ad5b8c..7417805 100644
---- a/block/blk-stat.h
-+++ b/block/blk-stat.h
-@@ -41,9 +41,10 @@ struct blk_stat_callback {
- 
- 	/**
- 	 * @bucket_fn: Given a request, returns which statistics bucket it
--	 * should be accounted under.
-+	 * should be accounted under. Return -1 for no bucket for this
-+	 * request.
- 	 */
--	unsigned int (*bucket_fn)(const struct request *);
-+	int (*bucket_fn)(const struct request *);
- 
- 	/**
- 	 * @buckets: Number of statistics buckets.
-@@ -98,7 +99,7 @@ static inline u64 blk_stat_time(struct blk_issue_stat *stat)
-  *
-  * Return: Data direction of the request, either READ or WRITE.
-  */
--unsigned int blk_stat_rq_ddir(const struct request *rq);
-+int blk_stat_rq_ddir(const struct request *rq);
- 
- /**
-  * blk_stat_alloc_callback() - Allocate a block statistics callback.
-@@ -113,7 +114,7 @@ unsigned int blk_stat_rq_ddir(const struct request *rq);
-  */
- struct blk_stat_callback *
- blk_stat_alloc_callback(void (*timer_fn)(struct blk_stat_callback *),
--			unsigned int (*bucket_fn)(const struct request *),
-+			int (*bucket_fn)(const struct request *),
- 			unsigned int buckets, void *data);
- 
- /**
+I've lightly tested this using QEMU and a real NVMe low-latency
+device. I do not have performance number yet. Feedback would be
+appreciated!
+
+[BTW this is my first submission for an all new setup so apologies if
+this does not come through correctly!]
+
+Cc: Damien.LeMoal at wdc.com
+Cc: osandov at osandov.com
+
+Stephen Bates (2):
+  blk-stat: convert blk-stat bucket callback to signed
+  blk-stat: add a poll_size value to the request_queue struct
+
+ block/blk-mq.c         | 17 +++++++++++++++--
+ block/blk-stat.c       |  8 +++++---
+ block/blk-stat.h       |  9 +++++----
+ block/blk-sysfs.c      | 30 ++++++++++++++++++++++++++++++
+ include/linux/blkdev.h |  1 +
+ 5 files changed, 56 insertions(+), 9 deletions(-)
+
 -- 
 2.7.4
