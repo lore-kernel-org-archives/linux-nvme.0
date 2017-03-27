@@ -1,35 +1,30 @@
 From: maurosr@linux.vnet.ibm.com (Mauro S. M. Rodrigues)
-Date: Mon, 27 Mar 2017 14:46:43 -0300
-Subject: [PATCH 1/3] nvmetcli: Fix Port and Host operations in shell
-Message-ID: <1490636805-13688-1-git-send-email-maurosr@linux.vnet.ibm.com>
+Date: Mon, 27 Mar 2017 14:46:45 -0300
+Subject: [PATCH 3/3] nvmetcli: Install nvmetcli executable in $PATH
+In-Reply-To: <1490636805-13688-1-git-send-email-maurosr@linux.vnet.ibm.com>
+References: <1490636805-13688-1-git-send-email-maurosr@linux.vnet.ibm.com>
+Message-ID: <1490636805-13688-3-git-send-email-maurosr@linux.vnet.ibm.com>
 
-Operations against Port and Host entities are broken. When performing
-operations like the follow:
-
-/ports> create 1
-/hosts> create 1
-
-nvmetcli fails, saying the object doesn't have the attribute we're
-trying to access, for instance:
-'module' object has no attribute 'Port'
-
-This patch fixes this issue by importing the classes Port and Host in
-nvmet/__init__.py which was forgotten during the follow change:
-
-a21ebd54f0 ("nvmetcli: Fix nvmet import").
+According to the README, one can install nvmetcli through setup.py.
+When we try this, though, the nvmetcli wasn't configured in system's
+$PATH.
+Adding it to script list in setup.py solved the issue.
 
 Tested-by: Guilherme G. Piccoli <gpiccoli at linux.vnet.ibm.com>
 Signed-off-by: Mauro S. M. Rodrigues <maurosr at linux.vnet.ibm.com>
 ---
- nvmet/__init__.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ setup.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/nvmet/__init__.py b/nvmet/__init__.py
-index a084151..9a0b51d 100644
---- a/nvmet/__init__.py
-+++ b/nvmet/__init__.py
-@@ -1 +1 @@
--from .nvme import Root, Subsystem, Namespace
-+from .nvme import Root, Subsystem, Namespace, Port, Host
+diff --git a/setup.py b/setup.py
+index fdd6cea..4bd2ac2 100755
+--- a/setup.py
++++ b/setup.py
+@@ -27,4 +27,5 @@ setup(
+     maintainer_email = 'hch at lst.de',
+     test_suite='nose2.collector.collector',
+     packages = ['nvmet'],
++    scripts=['./nvmetcli'],
+     )
 -- 
 2.7.4
