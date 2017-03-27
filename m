@@ -1,10 +1,10 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 27 Mar 2017 02:54:19 -0700
-Subject: [PATCH 5/6] nvmet_fc: Clear SG list to avoid double frees
-In-Reply-To: <20170324034127.8676-6-jsmart2021@gmail.com>
+Date: Mon, 27 Mar 2017 02:54:49 -0700
+Subject: [PATCH 6/6] nvme_fc: Clean up host fcpio done status handling
+In-Reply-To: <20170324034127.8676-7-jsmart2021@gmail.com>
 References: <20170324034127.8676-1-jsmart2021@gmail.com>
- <20170324034127.8676-6-jsmart2021@gmail.com>
-Message-ID: <20170327095419.GM26830@infradead.org>
+ <20170324034127.8676-7-jsmart2021@gmail.com>
+Message-ID: <20170327095449.GN26830@infradead.org>
 
 Looks fine,
 
