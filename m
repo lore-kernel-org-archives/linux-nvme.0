@@ -1,52 +1,46 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 28 Mar 2017 14:37:38 +0300
-Subject: [PATCH 0/3] Introduce fabrics controller loss timeout
-In-Reply-To: <859829333.6134255.1490575296451.JavaMail.zimbra@redhat.com>
-References: <1489876941-6401-1-git-send-email-sagi@grimberg.me>
- <859829333.6134255.1490575296451.JavaMail.zimbra@redhat.com>
-Message-ID: <97faaf24-c95f-fa94-9ea7-7b91f3fc1291@grimberg.me>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Tue, 28 Mar 2017 21:59:37 +0800
+Subject: [PATCH] nvme: supplement nvme error status code enum items in
+ linux/nvme.h
+Message-ID: <1490709577-8204-1-git-send-email-guanjunxiong@huawei.com>
 
+Some of the nvme status codes/values enumerated in the linux/nvme.h 
+header file were omitted. Those left-out status codes/values include
+0x12, 0x13, 0x14, 0x19,0x1A and 0x84 shown in the section 4.6.1 of 
+NVMe Base Spec 1.2.1.  For furture use, those nvme error status code
+are supplemented.
 
-> Hello Sagi
-> With these three patches, the reconnecting stopped after 60 times.
+Signed-off-by: Junxiong Guan <guanjunxiong at huawei.com>
+---
+ include/linux/nvme.h | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Progress..
-
-> I restart another test that do fio testing on nvme0n1[1] on client before executing "nvmetclt clear" on target side.
-> After that, I found another issue that the fio jobs cannot be stopped even I tried "Ctrl + C", and the device node also cannot be released[2].
-> Here is the kernel log[3].
-
-Thanks for the new test case ;)
-
-> [3]
-> [  356.812399] nvme nvme0: Reconnecting in 10 seconds...
-> [  366.965161] nvme nvme0: Connect rejected: status 8 (invalid service ID).
-> [  367.002048] nvme nvme0: rdma_resolve_addr wait failed (-104).
-> [  367.029926] nvme nvme0: Failed reconnect attempt 21
-> [  367.051905] nvme nvme0: Reconnecting in 10 seconds...
-> [  371.444001] INFO: task kworker/u130:1:155 blocked for more than 120 seconds.
-> [  371.480773]       Not tainted 4.11.0-rc3.ctrl_tmo+ #1
-> [  371.505608] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
-> [  371.540918] kworker/u130:1  D    0   155      2 0x00000000
-> [  371.565584] Workqueue: writeback wb_workfn (flush-259:0)
-> [  371.590031] Call Trace:
-> [  371.600981]  __schedule+0x289/0x8f0
-> [  371.616644]  schedule+0x36/0x80
-> [  371.630693]  io_schedule+0x16/0x40
-> [  371.645565]  blk_mq_get_tag+0x16c/0x280
-> [  371.662929]  ? remove_wait_queue+0x60/0x60
-> [  371.680942]  __blk_mq_alloc_request+0x1b/0xe0
-> [  371.700508]  blk_mq_sched_get_request+0x1a0/0x240
-> [  371.721616]  blk_mq_make_request+0x113/0x620
-> [  371.741215]  generic_make_request+0x110/0x2c0
-> [  371.760755]  submit_bio+0x75/0x150
-
-Looks like we have I/O waiting for a tag, but the
-controller teardown couldn't interrupt and fail it...
-
-In this specific case, its a writeback, also udevd is
-stuck in the same location below...
-
-I'm thinking we might need something similar to Keith
-nvme_start_freeze/nvme_wait_freeze/nvme_unfreeze calls
-for fabrics too.. :/
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index c43d435d4225..fa4ea1103fc2 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -931,13 +931,22 @@ enum {
+ 	NVME_SC_SGL_INVALID_METADATA	= 0x10,
+ 	NVME_SC_SGL_INVALID_TYPE	= 0x11,
+ 
++	NMVE_SC_CMB_INVALID_USE		= 0x12,
++	NVME_SC_PRP_INVALID_OFFSET	= 0x13,
++	NVME_SC_ATOM_WRITE_UNIT_EXCEEDED = 0x14,
++
+ 	NVME_SC_SGL_INVALID_OFFSET	= 0x16,
+ 	NVME_SC_SGL_INVALID_SUBTYPE	= 0x17,
+ 
++	NVME_SC_HOST_ID_FMT_CONFLICT = 0x18,
++	NVME_SC_KATO_EXPIRED		 = 0x19,
++	NVME_SC_KATO_INVALID		 = 0x1a,
++
+ 	NVME_SC_LBA_RANGE		= 0x80,
+ 	NVME_SC_CAP_EXCEEDED		= 0x81,
+ 	NVME_SC_NS_NOT_READY		= 0x82,
+ 	NVME_SC_RESERVATION_CONFLICT	= 0x83,
++	NVME_SC_FORMAT_IN_PROGRESS		= 0x84,
+ 
+ 	/*
+ 	 * Command Specific Status:
+-- 
+2.11.1
