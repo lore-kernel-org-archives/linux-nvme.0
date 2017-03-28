@@ -1,28 +1,21 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 28 Mar 2017 13:32:56 +0300
-Subject: BUG report: Invalid cross-device link while connecting with
- various nr-io-queues
-In-Reply-To: <910e6625-1256-a6b4-68d3-c946f2b71aaf@mellanox.com>
-References: <910e6625-1256-a6b4-68d3-c946f2b71aaf@mellanox.com>
-Message-ID: <89604d8a-78e4-a754-7fd8-b5b1eedc38bd@grimberg.me>
+Date: Tue, 28 Mar 2017 13:39:41 +0300
+Subject: [nvmet/nvmetcli]- bug/break in setting a host on NVMe Target?
+In-Reply-To: <20170327184426.GA25265@korriban>
+References: <20170327184426.GA25265@korriban>
+Message-ID: <8f4c44b3-87aa-5018-57a1-9ea5c4221026@grimberg.me>
 
-...
 
-> [1102928.407720] nvme nvme0: failed to connect i/o queue: -18
-> [1102928.720957] nvme_rdma_find_get_device: enabling unsafe global rkey
-> [1102928.777948] nvme nvme0: creating 14 I/O queues.
-> [1102929.102588] nvme nvme0: Connect command failed, error wo/DNR bit:
-> -16402
-> [1102929.109029] nvme nvme0: failed to connect i/o queue: -18
-> [1102929.422299] nvme_rdma_find_get_device: enabling unsafe global rkey
-> [1102929.479662] nvme nvme0: creating 15 I/O queues.
-> [1102929.828792] nvme nvme0: Connect command failed, error wo/DNR bit:
-> -16402
-> [1102929.835232] nvme nvme0: failed to connect i/o queue: -18
+
+On 27/03/17 21:44, Mauro Rodrigues wrote:
+> Hi James!
 >
+> I just sent, earlier today, a couple of patches[0] to fix the issue to
+> setup Hosts and Ports interactively. There are also some other fixes in
+> the patch series.
 >
-> have someone saw it before ?
+> [0] - http://lists.infradead.org/pipermail/linux-nvme/2017-March/008940.html
 
-I haven't, can you share what the target is logging?
+Christoph, care to take it?
 
-This is strange because we get to an unknown connect error code...
+Tested-by: Sagi Grimberg <sagi at grimberg.me>
