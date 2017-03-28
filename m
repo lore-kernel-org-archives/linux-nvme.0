@@ -1,21 +1,12 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 28 Mar 2017 13:39:41 +0300
-Subject: [nvmet/nvmetcli]- bug/break in setting a host on NVMe Target?
-In-Reply-To: <20170327184426.GA25265@korriban>
-References: <20170327184426.GA25265@korriban>
-Message-ID: <8f4c44b3-87aa-5018-57a1-9ea5c4221026@grimberg.me>
+Date: Tue, 28 Mar 2017 13:40:05 +0300
+Subject: [PATCH 1/3] nvmetcli: Fix Port and Host operations in shell
+In-Reply-To: <1490636805-13688-1-git-send-email-maurosr@linux.vnet.ibm.com>
+References: <1490636805-13688-1-git-send-email-maurosr@linux.vnet.ibm.com>
+Message-ID: <f4a38295-c961-26be-ca90-1b732f0df751@grimberg.me>
 
 
+> Operations against Port and Host entities are broken. When performing
+> operations like the follow:
 
-On 27/03/17 21:44, Mauro Rodrigues wrote:
-> Hi James!
->
-> I just sent, earlier today, a couple of patches[0] to fix the issue to
-> setup Hosts and Ports interactively. There are also some other fixes in
-> the patch series.
->
-> [0] - http://lists.infradead.org/pipermail/linux-nvme/2017-March/008940.html
-
-Christoph, care to take it?
-
-Tested-by: Sagi Grimberg <sagi at grimberg.me>
+Tested-by: Sagi Grimberg <sagi at grimberg.m>
