@@ -1,40 +1,32 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 28 Mar 2017 14:30:14 +0300
-Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
-In-Reply-To: <1180136633.325075447.1490700022740.JavaMail.zimbra@kalray.eu>
-References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
- <20170323140042.GA30536@lst.de>
- <277345557.313693033.1490279818647.JavaMail.zimbra@kalray.eu>
- <4951fac6-662f-29a6-5ba5-38d37a2c2dca@grimberg.me>
- <1180136633.325075447.1490700022740.JavaMail.zimbra@kalray.eu>
-Message-ID: <8dc0414f-be90-ee30-0f66-8cee26c4c2aa@grimberg.me>
+Date: Tue, 28 Mar 2017 14:34:37 +0300
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <DE927C68B458BE418D582EC97927A928550419FA@ORSMSX113.amr.corp.intel.com>
+References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
+ <de1a559a-bf24-0d73-5fc7-148d6cd4d4e0@grimberg.me>
+ <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
+ <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
+ <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
+ <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
+ <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
+ <DE927C68B458BE418D582EC97927A92855031724@ORSMSX113.amr.corp.intel.com>
+ <809f87ab-b787-9d40-5840-07500d12e81a@mellanox.com>
+ <DE927C68B458BE418D582EC97927A928550391C2@ORSMSX113.amr.corp.intel.com>
+ <DE927C68B458BE418D582EC97927A928550419FA@ORSMSX113.amr.corp.intel.com>
+Message-ID: <6300c406-26e6-9040-b793-ade77177f05e@grimberg.me>
 
+Hey Joseph,
 
->> Maybe it'll be better if we do:
->>
->> static inline bool queue_sig_limit(struct nvme_rdma_queue *queue)
->> {
->> 	return (++queue->sig_count % (queue->queue_size / 2)) == 0;
->> }
->>
->> And lose the hard-coded 32 entirely. Care to test that?
+> Hey folks.  Apologies if this message comes through twice, but when I originally sent it the list flagged it as too large due to the dmesg log attachments, and then a coworker just told me they never saw it, so I don't think it made it through on the first attempt.
 >
-> Hello Sigi,
-> I agree with you, we've found a setup where the signalling every queue
-> depth is not enough and we're testing the division by two that seems
-> to work fine till now.
+> Please see last note above and dmesg example attached - after more extensive testing with Max's patch we are still able to produce cqe dump errors (at a much lower frequency) as well as a new failure mode involving a crash dump.
 >
-> In your version in case of queue length > 32 the notifications would
-> be sent less often that they are now. I'm wondering if it will have
-> impact on performance and internal card buffering (it seems that
-> Mellanox buffers are ~100 elements). Wouldn't it create issues?
->
-> I'd like see the magic constant removed. From what I can see we
-> need to have something not exceeding send buffer of the card but
-> also not lower than the queue depth. What do you think?
 
-I'm not sure what buffering is needed from the device at all in this
-case, the device is simply expected to avoid signaling completions.
+This is a different issue AFAICT,
 
-Mellanox folks, any idea where is this limitation coming from?
-Do we need a device capability for it?
+Looks like nvmet_sq_destroy() is stuck waiting for
+the final reference to drop (which seems to never happen).
+
+I'm trying to look for a code path where this may happen.
+Can jyou tell if the backend block device completed all of
+its I/O when this happens (can check for active tags in debugfs).
