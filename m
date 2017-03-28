@@ -1,148 +1,36 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 28 Mar 2017 13:50:16 +0300
-Subject: [PATCH 2/2] blk-stat: add a poll_size value to the request_queue
- struct
-In-Reply-To: <1490494692-2416-3-git-send-email-sbates@raithlin.com>
-References: <1490494692-2416-1-git-send-email-sbates@raithlin.com>
- <1490494692-2416-3-git-send-email-sbates@raithlin.com>
-Message-ID: <44296e0a-fb04-888b-aa00-a9b01709e1b8@grimberg.me>
+Date: Tue, 28 Mar 2017 14:09:47 +0300
+Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
+In-Reply-To: <277345557.313693033.1490279818647.JavaMail.zimbra@kalray.eu>
+References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
+ <20170323140042.GA30536@lst.de>
+ <277345557.313693033.1490279818647.JavaMail.zimbra@kalray.eu>
+Message-ID: <4951fac6-662f-29a6-5ba5-38d37a2c2dca@grimberg.me>
 
 
+>> Thanks, this looks useful.  But wouldn't it be better to do something
+>> like queue_size divided by 2 or 4 to get a better refill latency?
+>
+> That's an interesting question. The max number of requests is already at 3 or 4 times
+> of the queue size because of different message types (see Sam's original
+> message in 'NVMe RDMA driver: CX4 send queue fills up when nvme queue depth is low').
+> I guess it would have inflence on configs with bigger latency.
+>
+> I would like to have Sagi's view on this as he's the one who has changed that
+> part in the iSER initiator in 6df5a128f0fde6315a44e80b30412997147f5efd
 
-On 26/03/17 05:18, sbates@raithlin.com wrote:
-> From: Stephen Bates <sbates at raithlin.com>
->
-> In order to bucket IO for the polling algorithm we use a sysfs entry
-> to set the filter value. It is signed and we will use that as follows:
->
->  0   : No filtering. All IO are considered in stat generation
->  > 0 : Filtering based on IO of exactly this size only.
->  < 0 : Filtering based on IO less than or equal to -1 time this value.
+Hi Marta,
 
-I'd say that this is a fairly non-trivial semantic meanning to this...
+This looks good indeed. IIRC both for IB and iWARP we need to signal
+at least once every send-queue depth (in practice I remember that some
+devices need more than once) so maybe it'll be good to have division by
+2.
 
-Is there any use for the size exact match filter? If not then
-I suggest we always make it (<=) in its semantics...
+Maybe it'll be better if we do:
 
-> Use this member to implement a new bucket function for the io polling
-> stats.
->
-> Signed-off-by: Stephen Bates <sbates at raithlin.com>
-> ---
->  block/blk-mq.c         | 17 +++++++++++++++--
->  block/blk-sysfs.c      | 30 ++++++++++++++++++++++++++++++
->  include/linux/blkdev.h |  1 +
->  3 files changed, 46 insertions(+), 2 deletions(-)
->
-> diff --git a/block/blk-mq.c b/block/blk-mq.c
-> index 5ff66f2..5ea9481 100644
-> --- a/block/blk-mq.c
-> +++ b/block/blk-mq.c
-> @@ -2327,6 +2327,18 @@ static void blk_mq_realloc_hw_ctxs(struct blk_mq_tag_set *set,
->  	blk_mq_sysfs_register(q);
->  }
->
-> +int blk_mq_poll_stats_bucket(const struct request *rq)
-> +{
-> +	int val = rq->q->poll_size;
-> +
-> +	if ((val == 0) ||
-> +	    (val > 0 && blk_rq_bytes(rq) == val) ||
-> +	    (val < 0 && blk_rq_bytes(rq) <= -val))
-> +		return (int)rq_data_dir(rq);
-> +
-> +	return -1;
-> +}
-> +
->  struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
->  						  struct request_queue *q)
->  {
-> @@ -2338,7 +2350,7 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
->  		goto err_exit;
->
->  	q->poll_cb = blk_stat_alloc_callback(blk_mq_poll_stats_fn,
-> -					     blk_stat_rq_ddir, 2, q);
-> +					     blk_mq_poll_stats_bucket, 2, q);
->  	if (!q->poll_cb)
->  		goto err_exit;
->
-> @@ -2387,9 +2399,10 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
->  	q->nr_requests = set->queue_depth;
->
->  	/*
-> -	 * Default to classic polling
-> +	 * Default to classic polling. Default to considering all IO.
->  	 */
->  	q->poll_nsec = -1;
-> +	q->poll_size = 0;
->
->  	if (set->ops->complete)
->  		blk_queue_softirq_done(q, set->ops->complete);
-> diff --git a/block/blk-sysfs.c b/block/blk-sysfs.c
-> index fa831cb..000d5db 100644
-> --- a/block/blk-sysfs.c
-> +++ b/block/blk-sysfs.c
-> @@ -394,6 +394,29 @@ static ssize_t queue_poll_delay_store(struct request_queue *q, const char *page,
->  	return count;
->  }
->
-> +static ssize_t queue_poll_size_show(struct request_queue *q, char *page)
-> +{
-> +	return sprintf(page, "%d\n", q->poll_size);
-> +}
-> +
-> +static ssize_t queue_poll_size_store(struct request_queue *q, const char *page,
-> +				     size_t count)
-> +{
-> +	int err, val;
-> +
-> +	if (!q->mq_ops || !q->mq_ops->poll)
-> +		return -EINVAL;
-> +
-> +	err = kstrtoint(page, 10, &val);
-> +	if (err < 0)
-> +		return err;
-> +
-> +	q->poll_size = val;
-> +
-> +	return count;
-> +}
-> +
-> +
->  static ssize_t queue_poll_show(struct request_queue *q, char *page)
->  {
->  	return queue_var_show(test_bit(QUEUE_FLAG_POLL, &q->queue_flags), page);
-> @@ -654,6 +677,12 @@ static struct queue_sysfs_entry queue_poll_entry = {
->  	.store = queue_poll_store,
->  };
->
-> +static struct queue_sysfs_entry queue_poll_size_entry = {
-> +	.attr = {.name = "io_poll_size", .mode = S_IRUGO | S_IWUSR },
-> +	.show = queue_poll_size_show,
-> +	.store = queue_poll_size_store,
-> +};
-> +
->  static struct queue_sysfs_entry queue_poll_delay_entry = {
->  	.attr = {.name = "io_poll_delay", .mode = S_IRUGO | S_IWUSR },
->  	.show = queue_poll_delay_show,
-> @@ -710,6 +739,7 @@ static struct attribute *default_attrs[] = {
->  	&queue_dax_entry.attr,
->  	&queue_wb_lat_entry.attr,
->  	&queue_poll_delay_entry.attr,
-> +	&queue_poll_size_entry.attr,
->  	NULL,
->  };
->
-> diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-> index 1a7dc42..7ff5388 100644
-> --- a/include/linux/blkdev.h
-> +++ b/include/linux/blkdev.h
-> @@ -517,6 +517,7 @@ struct request_queue {
->
->  	unsigned int		rq_timeout;
->  	int			poll_nsec;
-> +	int			poll_size;
->
->  	struct blk_stat_callback	*poll_cb;
->  	struct blk_rq_stat	poll_stat[2];
->
+static inline bool queue_sig_limit(struct nvme_rdma_queue *queue)
+{
+	return (++queue->sig_count % (queue->queue_size / 2)) == 0;
+}
+
+And lose the hard-coded 32 entirely. Care to test that?
