@@ -1,39 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 29 Mar 2017 20:19:46 +0300
-Subject: [PATCH 1/1] nvme: don't ignore tagset allocation failures
-In-Reply-To: <1490778212-11007-1-git-send-email-maxg@mellanox.com>
-References: <1490778212-11007-1-git-send-email-maxg@mellanox.com>
-Message-ID: <a7db55a8-d40a-81e9-332e-2bd0306687bc@grimberg.me>
+Date: Wed, 29 Mar 2017 20:22:12 +0300
+Subject: [PATCH v3 0/4] Introduce a new helper for parsing ipv[4|6]:port
+ to socket address
+In-Reply-To: <20170329.101617.2078695643478702071.davem@davemloft.net>
+References: <55ad78fd-266f-09b9-417d-b6cf7b723879@grimberg.me>
+ <17d44419-a9db-1822-985e-619083e999b9@grimberg.me>
+ <a484e88e-317c-42a6-f7c2-69b77cb8486a@grimberg.me>
+ <20170329.101617.2078695643478702071.davem@davemloft.net>
+Message-ID: <9251950f-9e97-6768-6362-39e3a7a77d39@grimberg.me>
 
+Hey Dave, thanks for replying.
 
-> the nvme_dev_add() function silently ignores failures.
-> In case blk_mq_alloc_tag_set fails, we hit NULL deref while
-> calling blk_mq_init_queue during nvme_alloc_ns with tagset == NULL.
-> Instead, we'll not issue the scan_work in case tagset allocation
-> failed and leave the ctrl functional.
->
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> Reviewed-by: Keith Busch <keith.busch at intel.com>
-> ---
->  drivers/nvme/host/core.c |    4 ++--
->  1 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 9b3b57f..493722a 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2115,9 +2115,9 @@ void nvme_queue_scan(struct nvme_ctrl *ctrl)
->  {
->  	/*
->  	 * Do not queue new scan work when a controller is reset during
-> -	 * removal.
-> +	 * removal or if the tagset doesn't exist.
->  	 */
-> -	if (ctrl->state == NVME_CTRL_LIVE)
-> +	if (ctrl->state == NVME_CTRL_LIVE && ctrl->tagset)
->  		schedule_work(&ctrl->scan_work);
+> Please repost, the problem was you mixed it in a series that was
+> not targetting the net tree, so it was confusing what was going on.
 
-This looks wrong...
+I see, I posted the entire series because adding a helper without
+seeing it's call sites might be too detached.
 
-Why is the controller LIVE without a tagset allocated?
-I think you should handle it in the pci driver.
+> Just submit the networking change, by itself, for review.
+
+I will.
