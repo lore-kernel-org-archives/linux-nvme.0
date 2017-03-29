@@ -1,28 +1,28 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 29 Mar 2017 21:00:27 +0300
-Subject: [PATCH 3/3] nvme-fc: increment request retries counter before
+Date: Wed, 29 Mar 2017 21:00:26 +0300
+Subject: [PATCH 2/3] nvme-loop: increment request retries counter before
  requeuing
 In-Reply-To: <1490810427-27776-1-git-send-email-sagi@grimberg.me>
 References: <1490810427-27776-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1490810427-27776-4-git-send-email-sagi@grimberg.me>
+Message-ID: <1490810427-27776-3-git-send-email-sagi@grimberg.me>
 
 This way our max retry limit holds as well.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/fc.c | 1 +
+ drivers/nvme/target/loop.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 331ae9f8924d..2987f5ecd496 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1935,6 +1935,7 @@ nvme_fc_complete_rq(struct request *rq)
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 227a5320879e..6a54e387379e 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -98,6 +98,7 @@ static void nvme_loop_complete_rq(struct request *req)
  
- 	if (unlikely(rq->errors)) {
- 		if (nvme_req_needs_retry(rq, rq->errors)) {
-+			rq->retries++;
- 			nvme_requeue_req(rq);
+ 	if (unlikely(req->errors)) {
+ 		if (nvme_req_needs_retry(req, req->errors)) {
++			req->retries++;
+ 			nvme_requeue_req(req);
  			return;
  		}
 -- 
