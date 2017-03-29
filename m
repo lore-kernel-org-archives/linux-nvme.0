@@ -1,47 +1,61 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Wed, 29 Mar 2017 11:36:40 +0200 (CEST)
-Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
-In-Reply-To: <8dc0414f-be90-ee30-0f66-8cee26c4c2aa@grimberg.me>
-References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
- <20170323140042.GA30536@lst.de>
- <277345557.313693033.1490279818647.JavaMail.zimbra@kalray.eu>
- <4951fac6-662f-29a6-5ba5-38d37a2c2dca@grimberg.me>
- <1180136633.325075447.1490700022740.JavaMail.zimbra@kalray.eu>
- <8dc0414f-be90-ee30-0f66-8cee26c4c2aa@grimberg.me>
-Message-ID: <1606981439.330477492.1490780200808.JavaMail.zimbra@kalray.eu>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Wed, 29 Mar 2017 18:08:23 +0800
+Subject: [PATCH] nvme: make nvme error status codes converted to errno detailed
+Message-ID: <1490782103-14668-1-git-send-email-guanjunxiong@huawei.com>
 
->>> Maybe it'll be better if we do:
->>>
->>> static inline bool queue_sig_limit(struct nvme_rdma_queue *queue)
->>> {
->>> 	return (++queue->sig_count % (queue->queue_size / 2)) == 0;
->>> }
->>>
->>> And lose the hard-coded 32 entirely. Care to test that?
->>
->> Hello Sigi,
->> I agree with you, we've found a setup where the signalling every queue
->> depth is not enough and we're testing the division by two that seems
->> to work fine till now.
->>
->> In your version in case of queue length > 32 the notifications would
->> be sent less often that they are now. I'm wondering if it will have
->> impact on performance and internal card buffering (it seems that
->> Mellanox buffers are ~100 elements). Wouldn't it create issues?
->>
->> I'd like see the magic constant removed. From what I can see we
->> need to have something not exceeding send buffer of the card but
->> also not lower than the queue depth. What do you think?
-> 
-> I'm not sure what buffering is needed from the device at all in this
-> case, the device is simply expected to avoid signaling completions.
-> 
-> Mellanox folks, any idea where is this limitation coming from?
-> Do we need a device capability for it?
+From: Junxiong Guan <guanjunxiong@huawei.com>
 
-In the case of mlx5 the we're getting -ENOMEM from begin_wqe
-(condition on mlx5_wq_overflow). This queue is sized in the driver
-based on multiple factors. If we ack less often, this could
-happen for higher queue depths too, I think.
+For more detailed information about nvme error status when ending
+blk_mq request,some of nvme error status codes can be categorized into
+different errnos explicitly. For example, NVME_SC_ACCESS_DENIED and
+NVME_SC_CONNECT_CTRL_BUSY can be converted to EACCESS and EBUSY repec-
+tively.This patch makes conversion from those nvme error status to errno
+detailed.
+---
+ drivers/nvme/host/nvme.h | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
 
-Marta
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index a3da1e90b99d..be699ca38cc8 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -255,7 +255,37 @@ static inline int nvme_error_status(u16 status)
+ 	case NVME_SC_SUCCESS:
+ 		return 0;
+ 	case NVME_SC_CAP_EXCEEDED:
++	case NVME_SC_NS_INSUFFICENT_CAP:
+ 		return -ENOSPC;
++	case NVME_SC_READ_ONLY:
++	case NVME_SC_ACCESS_DENIED:
++		return -EACCES;
++	case NVME_SC_LBA_RANGE:
++		return -EFAULT;
++	case NVME_SC_CONNECT_CTRL_BUSY:
++		return -EBUSY;
++	case NVME_SC_INVALID_OPCODE:
++	case NVME_SC_INVALID_FIELD:
++	case NVME_SC_INVALID_NS:
++	case NVME_SC_SGL_INVALID_LAST:
++	case NVME_SC_SGL_INVALID_COUNT:
++	case NVME_SC_SGL_INVALID_DATA:
++	case NVME_SC_SGL_INVALID_METADATA:
++	case NVME_SC_SGL_INVALID_TYPE:
++	case NVME_SC_SGL_INVALID_OFFSET:
++	case NVME_SC_SGL_INVALID_SUBTYPE:
++	case NVME_SC_CQ_INVALID:
++	case NVME_SC_QID_INVALID:
++	case NVME_SC_QUEUE_SIZE:
++	case NVME_SC_FIRMWARE_SLOT:
++	case NVME_SC_FIRMWARE_IMAGE:
++	case NVME_SC_INVALID_VECTOR:
++	case NVME_SC_INVALID_LOG_PAGE:
++	case NVME_SC_INVALID_FORMAT:
++	case NVME_SC_CTRL_LIST_INVALID:
++		return -EINVAL;
++	case NVME_SC_CMD_SEQ_ERROR:
++		return -EPROTO;
+ 	default:
+ 		return -EIO;
+ 	}
+-- 
+2.11.1
