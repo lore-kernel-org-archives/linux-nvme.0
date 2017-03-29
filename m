@@ -1,68 +1,39 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 29 Mar 2017 14:30:34 +0300
-Subject: [PATCH for-4.11-rc] nvme: Correct NVMF enum values to match NVMe-oF
- rev 1.0
-Message-ID: <1490787034-12452-1-git-send-email-sagi@grimberg.me>
+From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
+Date: Wed, 29 Mar 2017 07:29:18 -0600
+Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
+In-Reply-To: <8dc0414f-be90-ee30-0f66-8cee26c4c2aa@grimberg.me>
+References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
+ <20170323140042.GA30536@lst.de>
+ <277345557.313693033.1490279818647.JavaMail.zimbra@kalray.eu>
+ <4951fac6-662f-29a6-5ba5-38d37a2c2dca@grimberg.me>
+ <1180136633.325075447.1490700022740.JavaMail.zimbra@kalray.eu>
+ <8dc0414f-be90-ee30-0f66-8cee26c4c2aa@grimberg.me>
+Message-ID: <20170329132918.GA32072@obsidianresearch.com>
 
-From: Roland Dreier <roland@purestorage.com>
+On Tue, Mar 28, 2017@02:30:14PM +0300, Sagi Grimberg wrote:
+> I'm not sure what buffering is needed from the device at all in this
+> case, the device is simply expected to avoid signaling completions.
+> 
+> Mellanox folks, any idea where is this limitation coming from?
+> Do we need a device capability for it?
 
-The enum values for QPTYPE, PRTYPE and CMS are off by 1 from the
-values defined in figure 42 of the NVM Express over Fabrics 1.0:
+Fundamentally you must drive SQ flow control via CQ completions. For
+instance a ULP cannot disable all CQ notifications and keep
+stuffing things into the SQ.
 
-    http://www.nvmexpress.org/wp-content/uploads/NVMe_over_Fabrics_1_0_Gold_20160605-1.pdf
+An alternative way to state this: A ULP cannot use activity on the
+RQ to infer that there is space in the SQ. Only CQ completions can be
+used to prove there is more available SQ space. Do not post to the SQ
+until a CQ has been polled proving available space.
 
-Fix our enums to match the final spec.
+Ultimately you need a minimum of one CQ notification for every SQ
+depth post and the ULP must not post to the SQ once it fills until
+it sees the CQ notification. That usually drives the rule of thumb to
+notify every 1/2 depth, however any SQWE posting failures indicate a
+ULP bug..
 
-Signed-off-by: Roland Dreier <roland at purestorage.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
-Hi Jens,
+There are a bunch of varied reasons for this, and it was discussed to
+death for NFS. NFS's bugs and wonkyness in this area went away when
+Chuck did strict accounting SQ capicty driven by the CQ...
 
-I missed this patch from Roland in the last rc pull request,
-can you please include it in your next rc pull request?
-
- include/linux/nvme.h | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
-
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index c43d435d4225..9061780b141f 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -64,26 +64,26 @@ enum {
-  * RDMA_QPTYPE field
-  */
- enum {
--	NVMF_RDMA_QPTYPE_CONNECTED	= 0, /* Reliable Connected */
--	NVMF_RDMA_QPTYPE_DATAGRAM	= 1, /* Reliable Datagram */
-+	NVMF_RDMA_QPTYPE_CONNECTED	= 1, /* Reliable Connected */
-+	NVMF_RDMA_QPTYPE_DATAGRAM	= 2, /* Reliable Datagram */
- };
- 
- /* RDMA QP Service Type codes for Discovery Log Page entry TSAS
-  * RDMA_QPTYPE field
-  */
- enum {
--	NVMF_RDMA_PRTYPE_NOT_SPECIFIED	= 0, /* No Provider Specified */
--	NVMF_RDMA_PRTYPE_IB		= 1, /* InfiniBand */
--	NVMF_RDMA_PRTYPE_ROCE		= 2, /* InfiniBand RoCE */
--	NVMF_RDMA_PRTYPE_ROCEV2		= 3, /* InfiniBand RoCEV2 */
--	NVMF_RDMA_PRTYPE_IWARP		= 4, /* IWARP */
-+	NVMF_RDMA_PRTYPE_NOT_SPECIFIED	= 1, /* No Provider Specified */
-+	NVMF_RDMA_PRTYPE_IB		= 2, /* InfiniBand */
-+	NVMF_RDMA_PRTYPE_ROCE		= 3, /* InfiniBand RoCE */
-+	NVMF_RDMA_PRTYPE_ROCEV2		= 4, /* InfiniBand RoCEV2 */
-+	NVMF_RDMA_PRTYPE_IWARP		= 5, /* IWARP */
- };
- 
- /* RDMA Connection Management Service Type codes for Discovery Log Page
-  * entry TSAS RDMA_CMS field
-  */
- enum {
--	NVMF_RDMA_CMS_RDMA_CM	= 0, /* Sockets based enpoint addressing */
-+	NVMF_RDMA_CMS_RDMA_CM	= 1, /* Sockets based endpoint addressing */
- };
- 
- #define NVMF_AQ_DEPTH		32
--- 
-2.7.4
+Jason
