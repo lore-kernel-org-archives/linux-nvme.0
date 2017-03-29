@@ -1,61 +1,68 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Wed, 29 Mar 2017 18:08:23 +0800
-Subject: [PATCH] nvme: make nvme error status codes converted to errno detailed
-Message-ID: <1490782103-14668-1-git-send-email-guanjunxiong@huawei.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 29 Mar 2017 14:30:34 +0300
+Subject: [PATCH for-4.11-rc] nvme: Correct NVMF enum values to match NVMe-oF
+ rev 1.0
+Message-ID: <1490787034-12452-1-git-send-email-sagi@grimberg.me>
 
-From: Junxiong Guan <guanjunxiong@huawei.com>
+From: Roland Dreier <roland@purestorage.com>
 
-For more detailed information about nvme error status when ending
-blk_mq request,some of nvme error status codes can be categorized into
-different errnos explicitly. For example, NVME_SC_ACCESS_DENIED and
-NVME_SC_CONNECT_CTRL_BUSY can be converted to EACCESS and EBUSY repec-
-tively.This patch makes conversion from those nvme error status to errno
-detailed.
+The enum values for QPTYPE, PRTYPE and CMS are off by 1 from the
+values defined in figure 42 of the NVM Express over Fabrics 1.0:
+
+    http://www.nvmexpress.org/wp-content/uploads/NVMe_over_Fabrics_1_0_Gold_20160605-1.pdf
+
+Fix our enums to match the final spec.
+
+Signed-off-by: Roland Dreier <roland at purestorage.com>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/nvme.h | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Hi Jens,
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index a3da1e90b99d..be699ca38cc8 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -255,7 +255,37 @@ static inline int nvme_error_status(u16 status)
- 	case NVME_SC_SUCCESS:
- 		return 0;
- 	case NVME_SC_CAP_EXCEEDED:
-+	case NVME_SC_NS_INSUFFICENT_CAP:
- 		return -ENOSPC;
-+	case NVME_SC_READ_ONLY:
-+	case NVME_SC_ACCESS_DENIED:
-+		return -EACCES;
-+	case NVME_SC_LBA_RANGE:
-+		return -EFAULT;
-+	case NVME_SC_CONNECT_CTRL_BUSY:
-+		return -EBUSY;
-+	case NVME_SC_INVALID_OPCODE:
-+	case NVME_SC_INVALID_FIELD:
-+	case NVME_SC_INVALID_NS:
-+	case NVME_SC_SGL_INVALID_LAST:
-+	case NVME_SC_SGL_INVALID_COUNT:
-+	case NVME_SC_SGL_INVALID_DATA:
-+	case NVME_SC_SGL_INVALID_METADATA:
-+	case NVME_SC_SGL_INVALID_TYPE:
-+	case NVME_SC_SGL_INVALID_OFFSET:
-+	case NVME_SC_SGL_INVALID_SUBTYPE:
-+	case NVME_SC_CQ_INVALID:
-+	case NVME_SC_QID_INVALID:
-+	case NVME_SC_QUEUE_SIZE:
-+	case NVME_SC_FIRMWARE_SLOT:
-+	case NVME_SC_FIRMWARE_IMAGE:
-+	case NVME_SC_INVALID_VECTOR:
-+	case NVME_SC_INVALID_LOG_PAGE:
-+	case NVME_SC_INVALID_FORMAT:
-+	case NVME_SC_CTRL_LIST_INVALID:
-+		return -EINVAL;
-+	case NVME_SC_CMD_SEQ_ERROR:
-+		return -EPROTO;
- 	default:
- 		return -EIO;
- 	}
+I missed this patch from Roland in the last rc pull request,
+can you please include it in your next rc pull request?
+
+ include/linux/nvme.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index c43d435d4225..9061780b141f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -64,26 +64,26 @@ enum {
+  * RDMA_QPTYPE field
+  */
+ enum {
+-	NVMF_RDMA_QPTYPE_CONNECTED	= 0, /* Reliable Connected */
+-	NVMF_RDMA_QPTYPE_DATAGRAM	= 1, /* Reliable Datagram */
++	NVMF_RDMA_QPTYPE_CONNECTED	= 1, /* Reliable Connected */
++	NVMF_RDMA_QPTYPE_DATAGRAM	= 2, /* Reliable Datagram */
+ };
+ 
+ /* RDMA QP Service Type codes for Discovery Log Page entry TSAS
+  * RDMA_QPTYPE field
+  */
+ enum {
+-	NVMF_RDMA_PRTYPE_NOT_SPECIFIED	= 0, /* No Provider Specified */
+-	NVMF_RDMA_PRTYPE_IB		= 1, /* InfiniBand */
+-	NVMF_RDMA_PRTYPE_ROCE		= 2, /* InfiniBand RoCE */
+-	NVMF_RDMA_PRTYPE_ROCEV2		= 3, /* InfiniBand RoCEV2 */
+-	NVMF_RDMA_PRTYPE_IWARP		= 4, /* IWARP */
++	NVMF_RDMA_PRTYPE_NOT_SPECIFIED	= 1, /* No Provider Specified */
++	NVMF_RDMA_PRTYPE_IB		= 2, /* InfiniBand */
++	NVMF_RDMA_PRTYPE_ROCE		= 3, /* InfiniBand RoCE */
++	NVMF_RDMA_PRTYPE_ROCEV2		= 4, /* InfiniBand RoCEV2 */
++	NVMF_RDMA_PRTYPE_IWARP		= 5, /* IWARP */
+ };
+ 
+ /* RDMA Connection Management Service Type codes for Discovery Log Page
+  * entry TSAS RDMA_CMS field
+  */
+ enum {
+-	NVMF_RDMA_CMS_RDMA_CM	= 0, /* Sockets based enpoint addressing */
++	NVMF_RDMA_CMS_RDMA_CM	= 1, /* Sockets based endpoint addressing */
+ };
+ 
+ #define NVMF_AQ_DEPTH		32
 -- 
-2.11.1
+2.7.4
