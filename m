@@ -1,7 +1,7 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 29 Mar 2017 19:39:39 +0300
+From: dledford@redhat.com (Doug Ledford)
+Date: Wed, 29 Mar 2017 11:44:28 -0500
 Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
-In-Reply-To: <20170329162751.GA7113@obsidianresearch.com>
+In-Reply-To: <80770042-743e-a271-c636-f72099f9ac56@grimberg.me>
 References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
  <20170323140042.GA30536@lst.de>
  <277345557.313693033.1490279818647.JavaMail.zimbra@kalray.eu>
@@ -11,21 +11,29 @@ References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
  <20170329132918.GA32072@obsidianresearch.com>
  <406682b9-d7ca-4718-5830-7940d2822bc0@grimberg.me>
  <20170329162751.GA7113@obsidianresearch.com>
-Message-ID: <80770042-743e-a271-c636-f72099f9ac56@grimberg.me>
+ <80770042-743e-a271-c636-f72099f9ac56@grimberg.me>
+Message-ID: <9eb08168-18a6-a176-01df-b68b6a225963@redhat.com>
 
-
->> For each I/O we post up to 2 work requests, 1 for memory registration
->> and 1 for sending an I/O request (and 1 for local invalidation if the
->> target doesn't do it for us, but that is not the case here). So if our
->> queue depth is X, we size our completion queue to be X*3, and we need
->> to make sure we signal every (X*3)/2.
+On 3/29/17 11:39 AM, Sagi Grimberg wrote:
 >
-> ??? If your SQ is X and your CQ is X*3 you need to signal at X/2.
+>>> For each I/O we post up to 2 work requests, 1 for memory registration
+>>> and 1 for sending an I/O request (and 1 for local invalidation if the
+>>> target doesn't do it for us, but that is not the case here). So if our
+>>> queue depth is X, we size our completion queue to be X*3, and we need
+>>> to make sure we signal every (X*3)/2.
+>>
+>> ??? If your SQ is X and your CQ is X*3 you need to signal at X/2.
+>
+> Sorry, I confused SQ with CQ (which made it even more confusing..)
+>
+> Our application queue-depth is X, we size our SQ to be X*3
+> (send+reg+inv), we size our RQ to be X (resp) and our CQ to be
+> X*4 (SQ+RQ).
+>
+> So we should signal every (X*3)/2
 
-Sorry, I confused SQ with CQ (which made it even more confusing..)
-
-Our application queue-depth is X, we size our SQ to be X*3
-(send+reg+inv), we size our RQ to be X (resp) and our CQ to be
-X*4 (SQ+RQ).
-
-So we should signal every (X*3)/2
+You say above "we post *up to* 2 work requests", unless you wish to 
+change that to "we always post at least 2 work requests per queue 
+entry", Jason is right, your frequency of signaling needs to be X/2 
+regardless of your CQ size, you need the signaling to control the queue 
+depth tracking.
