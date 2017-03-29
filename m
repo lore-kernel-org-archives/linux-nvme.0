@@ -1,38 +1,47 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 29 Mar 2017 13:54:15 -0400
-Subject: [PATCH] irq/affinity: Assign all CPUs a vector
-In-Reply-To: <6e7a93a7-b0bb-8835-6c49-3eaa3203e1d8@grimberg.me>
-References: <1490743277-14139-1-git-send-email-keith.busch@intel.com>
- <6e7a93a7-b0bb-8835-6c49-3eaa3203e1d8@grimberg.me>
-Message-ID: <20170329175415.GD20181@localhost.localdomain>
+From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
+Date: Wed, 29 Mar 2017 16:19:32 -0600
+Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
+In-Reply-To: <2ba93b5b-ad36-5533-36e2-9db2e3198c19@grimberg.me>
+References: <4951fac6-662f-29a6-5ba5-38d37a2c2dca@grimberg.me>
+ <1180136633.325075447.1490700022740.JavaMail.zimbra@kalray.eu>
+ <8dc0414f-be90-ee30-0f66-8cee26c4c2aa@grimberg.me>
+ <20170329132918.GA32072@obsidianresearch.com>
+ <406682b9-d7ca-4718-5830-7940d2822bc0@grimberg.me>
+ <20170329162751.GA7113@obsidianresearch.com>
+ <80770042-743e-a271-c636-f72099f9ac56@grimberg.me>
+ <9eb08168-18a6-a176-01df-b68b6a225963@redhat.com>
+ <3505b835-d0ba-70cb-dfe8-1265fc2bbb83@redhat.com>
+ <2ba93b5b-ad36-5533-36e2-9db2e3198c19@grimberg.me>
+Message-ID: <20170329221932.GA29457@obsidianresearch.com>
 
-On Wed, Mar 29, 2017@08:15:50PM +0300, Sagi Grimberg wrote:
+On Wed, Mar 29, 2017@07:59:13PM +0300, Sagi Grimberg wrote:
+> Yea, you're right, and not only I got it wrong, I even contradicted my
+> own suggestion that was exactly what you and Jason suggested (where is
+> the nearest rat-hole...)
 > 
-> > The number of vectors to assign needs to be adjusted for each node such
-> > that it doesn't exceed the number of CPUs in that node. This patch
-> > recalculates the vector assignment per-node so that we don't try to
-> > assign more vectors than there are CPUs. When that previously happened,
-> > the cpus_per_vec was calculated to be 0, so many vectors had no CPUs
-> > assigned. This then goes on to fail to allocate descriptors due to
-> > empty masks, leading to an unoptimal spread.
-> 
-> Can you give a specific (numeric) example where this happens? I'm having
-> a little trouble following the logical change here.
+> So I suggested to signal every X/2 and Marta reported SQ overflows for
+> high queue-dpeth. Marta, at what queue-depth have you seen this?
 
-Sure, I have a 2-socket server with 16 threads each. I take one CPU
-offline in socket 2, so I've 16 threads on socket 1, 15 in socket 2. In
-total, 31 threads so requesting 31 vectors.
+I just want to clarify my comment about RQ - because you are talking
+about a queue depth concept.
 
-Currently, vecs_per_node is calculated in the first iteration as 31 / 2, so 15.
+It is tempting to rely on a queue depth of X == SQ depth of X (or 2*
+in this case) and then try to re-use the flow control on the queue to
+protect the SQ from overflow.
 
-ncpus of socket 1 is 16. cpus_per_vec = 16 / 15, so 1 CPU per vector
-with one extra.
+Generally this does not work because the main queue can retire work
+from either the CQ or the RQ. If the retire workload is mainly RQ
+based then you can submit to the SQ without a CQ poll and overflow
+it.
 
-When iterating the second socket, though, vecs_per_node is incremented
-from 15 to 16 (to account for the "extra" from before). However, the
-ncpus is only 15, so that iteration calculates:
+Generally I expect to see direct measurement of SQ capacity and plug
+the main queue when the SQ goes full.
 
-  cpus_per_vec = 15 / 16
+To check this use a simple assertion, decrement a counter on every
+post, increment it appropriately on every polled CQ, init to the SQ
+depth, and assert the counter never goes negative.
 
-And since that's zero, the remaining 16 vectors are not assigned to any
-CPU, and the second socket has no vectors assigned to their CPUs.
+Triggering the assertion is an unconditional ULP bug, and is the most
+likely cause of a posting no space failure.
+
+Jason
