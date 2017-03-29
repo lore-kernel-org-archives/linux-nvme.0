@@ -1,39 +1,33 @@
-From: dledford@redhat.com (Doug Ledford)
-Date: Wed, 29 Mar 2017 11:44:28 -0500
-Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
-In-Reply-To: <80770042-743e-a271-c636-f72099f9ac56@grimberg.me>
-References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
- <20170323140042.GA30536@lst.de>
- <277345557.313693033.1490279818647.JavaMail.zimbra@kalray.eu>
- <4951fac6-662f-29a6-5ba5-38d37a2c2dca@grimberg.me>
- <1180136633.325075447.1490700022740.JavaMail.zimbra@kalray.eu>
- <8dc0414f-be90-ee30-0f66-8cee26c4c2aa@grimberg.me>
- <20170329132918.GA32072@obsidianresearch.com>
- <406682b9-d7ca-4718-5830-7940d2822bc0@grimberg.me>
- <20170329162751.GA7113@obsidianresearch.com>
- <80770042-743e-a271-c636-f72099f9ac56@grimberg.me>
-Message-ID: <9eb08168-18a6-a176-01df-b68b6a225963@redhat.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 29 Mar 2017 19:50:51 +0300
+Subject: [PATCH v3 0/4] Introduce a new helper for parsing ipv[4|6]:port
+ to socket address
+In-Reply-To: <17d44419-a9db-1822-985e-619083e999b9@grimberg.me>
+References: <1489063793-12838-1-git-send-email-sagi@grimberg.me>
+ <55ad78fd-266f-09b9-417d-b6cf7b723879@grimberg.me>
+ <17d44419-a9db-1822-985e-619083e999b9@grimberg.me>
+Message-ID: <a484e88e-317c-42a6-f7c2-69b77cb8486a@grimberg.me>
 
-On 3/29/17 11:39 AM, Sagi Grimberg wrote:
->
->>> For each I/O we post up to 2 work requests, 1 for memory registration
->>> and 1 for sending an I/O request (and 1 for local invalidation if the
->>> target doesn't do it for us, but that is not the case here). So if our
->>> queue depth is X, we size our completion queue to be X*3, and we need
->>> to make sure we signal every (X*3)/2.
+
+>> Hi Dave,
 >>
->> ??? If your SQ is X and your CQ is X*3 you need to signal at X/2.
+>> This set got review tags from two kernel maintainers but this is your
+>> realm so I wouldn't be comfortable moving forward with this without
+>> your feedback.
 >
-> Sorry, I confused SQ with CQ (which made it even more confusing..)
->
-> Our application queue-depth is X, we size our SQ to be X*3
-> (send+reg+inv), we size our RQ to be X (resp) and our CQ to be
-> X*4 (SQ+RQ).
->
-> So we should signal every (X*3)/2
+> Would it be possible to get a review from one of the netdev folks
+> on patch 1/4?
 
-You say above "we post *up to* 2 work requests", unless you wish to 
-change that to "we always post at least 2 work requests per queue 
-entry", Jason is right, your frequency of signaling needs to be X/2 
-regardless of your CQ size, you need the signaling to control the queue 
-depth tracking.
+Hi everyone,
+
+Still no feedback...
+
+This patchset is targeted to 4.12 as it adds IPv6 support to
+nvme over fabrics drivers which is desired by some linux users.
+
+Given that I'm in v3 by now, and accumulated reviews from two kernel
+maintainers, Unless someone is strongly against it, I'll be queuing this 
+from the nvme tree to 4.12.
+
+Cheers,
+Sagi.
