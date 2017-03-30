@@ -1,113 +1,175 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 30 Mar 2017 10:13:38 +0300
-Subject: [PATCH 1/1] nvme: don't ignore tagset allocation failures
-In-Reply-To: <0d85bb44-eb90-8712-1fcd-2f0885649cdf@grimberg.me>
-References: <1490778212-11007-1-git-send-email-maxg@mellanox.com>
- <a7db55a8-d40a-81e9-332e-2bd0306687bc@grimberg.me>
- <20170329173241.GC20181@localhost.localdomain>
- <fb263c4e-0403-c39c-1c88-be47d846c2b6@grimberg.me>
- <20170329231029.GE20181@localhost.localdomain>
- <0d85bb44-eb90-8712-1fcd-2f0885649cdf@grimberg.me>
-Message-ID: <6e05fb1e-edf2-2b0d-b680-7fddf1e3ecf1@mellanox.com>
+From: guanjunxiong@huawei.com (guanjunxiong)
+Date: Thu, 30 Mar 2017 16:05:23 +0800
+Subject: [PATCH] nvme: make nvme error status codes converted to errno
+ detailed
+In-Reply-To: <8bf05c27-b44d-906d-2c79-0e31db9ac0c3@grimberg.me>
+References: <1490782103-14668-1-git-send-email-guanjunxiong@huawei.com>
+ <8bf05c27-b44d-906d-2c79-0e31db9ac0c3@grimberg.me>
+Message-ID: <6aefb9a2-2cd3-63d5-d36f-3dcb4f8fd707@huawei.com>
 
-
-
-On 3/30/2017 8:47 AM, Sagi Grimberg wrote:
+>> --- a/drivers/nvme/host/nvme.h
+>> +++ b/drivers/nvme/host/nvme.h
+>> @@ -255,7 +255,37 @@ static inline int nvme_error_status(u16 status)
+>>      case NVME_SC_SUCCESS:
+>>          return 0;
+>>      case NVME_SC_CAP_EXCEEDED:
+>> +    case NVME_SC_NS_INSUFFICENT_CAP:
+>>          return -ENOSPC;
 >
->>>> Not having a tagset doesn't mean we can't go live; it just means we
->>>> can't
->>>> do IO, but the admin handle is still up for device management.
->>>
->>> So don't queue ns scanning...
+> why is this ENOSPC?
+
+In the NVMe Spec,  Namespace Insufficient Capacity (NVME_SC_NS_INSUFFICENT_CAP) means
+that creating the namespace requires more free space than is currently available. However
+ENOSPC means no space is left on the device.
+If there is a little free space on the device,NVME_SC_NS_INSUFFICENT_CAP will be returned.
+Your question is reasonble, so I will categorize NVME_SC_NS_INSUFFICENT_CAP into default EIO.
+
+
+>> +    case NVME_SC_INVALID_OPCODE:
+>> +    case NVME_SC_INVALID_FIELD:
+>> +    case NVME_SC_INVALID_NS:
+>> +    case NVME_SC_SGL_INVALID_LAST:
+>> +    case NVME_SC_SGL_INVALID_COUNT:
+>> +    case NVME_SC_SGL_INVALID_DATA:
+>> +    case NVME_SC_SGL_INVALID_METADATA:
+>> +    case NVME_SC_SGL_INVALID_TYPE:
+>> +    case NVME_SC_SGL_INVALID_OFFSET:
+>> +    case NVME_SC_SGL_INVALID_SUBTYPE:
+>> +    case NVME_SC_CQ_INVALID:
+>> +    case NVME_SC_QID_INVALID:
+>> +    case NVME_SC_QUEUE_SIZE:
+>> +    case NVME_SC_FIRMWARE_SLOT:
+>> +    case NVME_SC_FIRMWARE_IMAGE:
+>> +    case NVME_SC_INVALID_VECTOR:
+>> +    case NVME_SC_INVALID_LOG_PAGE:
+>> +    case NVME_SC_INVALID_FORMAT:
+>> +    case NVME_SC_CTRL_LIST_INVALID:
+> case NVME_SC_BAD_ATTRIBUTES:
+> case NVME_SC_INVALID_PI:
+> case NVME_SC_CONNECT_FORMAT:
+> case NVME_SC_CONNECT_INVALID_PARAM:
+> case NVME_SC_CONNECT_INVALID_HOST:
+>
+>> +        return -EINVAL;
+
+> Maybe we can add also some fabrics status codes?
+
+Nice. In addition, because the value of some fabrics status codes are the same as
+the value of the PCIe status code, such as:
+	/*
+	 * I/O Command Set Specific - NVM commands:
+	 */
+	NVME_SC_BAD_ATTRIBUTES		= 0x180,
+	NVME_SC_INVALID_PI		= 0x181,
+	NVME_SC_READ_ONLY		= 0x182,
+
+	/*
+	 * I/O Command Set Specific - Fabrics commands:
+	 */
+	NVME_SC_CONNECT_FORMAT		= 0x180,
+	NVME_SC_CONNECT_CTRL_BUSY	= 0x181,
+	NVME_SC_CONNECT_INVALID_PARAM	= 0x182,
+
+more consideration needs to be taken into the nvme_error_status(u16 status)
+function. Therefore , funct nvme_error_status(u16 status) need to accept one more
+parameter to distinguish the duplicated value of  the status codes above. Here is
+the new prototype of nvme_error_status function:
+	static inline int nvme_error_status(u16 status, bool is_fabrics_cmd);
+
+If command in the request is fabrics command, then is_fabrics_cmd is set to true.
+Or else set to false
+
+
+> It'll also be useful if we can log the specific error (as a human
+> readable string).
+>
+
+Nice advice. The nvme_status_to_string() function in the nvme-cli will be reused for this.
+
+Thanks.
+
+
+On 2017/3/30 1:39, Sagi Grimberg wrote:
+> 
+> 
+> On 29/03/17 13:08, Guan Junxiong wrote:
+>> From: Junxiong Guan <guanjunxiong at huawei.com>
 >>
->> And what about the sysfs rescan or namespace notify async event? We have
->> to fence those off too, so doing it in one place sounds better than
->> three.
->
-> True, but it still feels wrong that the pci driver fails tagset
-> allocation and continues to scan namespaces as if nothing happened, then
-> queue namespaces checks for the existence of a tagset... It looks
-> awkward...
->
-> Why is the controller moving to LIVE anyway? Obviously something went
-> wrong, which is either a SW BUG (EINVAL), or a temporary failure that
-> needs to be retried again (ENOMEM). So I think the proper solution would
-> be to either retry again later for transient errors and for
-> non-transient errors simply log the error remove the controller (its
-> not a device issue so no point in keeping the controller around for
-> error log query).
->
-> Thoughts?
-
-
-hi Sagi,
-
-what do you think about this solution that we don't keep the ctrl:
-
-The nvme_dev_add() function silently ignores failures.
-In case blk_mq_alloc_tag_set fails, we hit NULL deref while
-calling blk_mq_init_queue during nvme_alloc_ns with tagset == NULL.
-Instead we'll remove the dead ctrl as it can't be functional anymore.
-Also remove old and wrong comment.
-
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-
----
-  drivers/nvme/host/pci.c |   19 +++++++++----------
-  1 files changed, 9 insertions(+), 10 deletions(-)
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3faefab..3964e1d 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1545,14 +1545,10 @@ static void nvme_disable_io_queues(struct 
-nvme_dev *dev, int queues)
-  	}
-  }
-
--/*
-- * Return: error value if an error occurred setting up the queues or 
-calling
-- * Identify Device.  0 if these succeeded, even if adding some of the
-- * namespaces failed.  At the moment, these failures are silent.  TBD which
-- * failures should be reported.
-- */
-  static int nvme_dev_add(struct nvme_dev *dev)
-  {
-+	int ret = 0;
-+
-  	if (!dev->ctrl.tagset) {
-  		dev->tagset.ops = &nvme_mq_ops;
-  		dev->tagset.nr_hw_queues = dev->online_queues - 1;
-@@ -1564,8 +1560,9 @@ static int nvme_dev_add(struct nvme_dev *dev)
-  		dev->tagset.flags = BLK_MQ_F_SHOULD_MERGE;
-  		dev->tagset.driver_data = dev;
-
--		if (blk_mq_alloc_tag_set(&dev->tagset))
--			return 0;
-+		ret = blk_mq_alloc_tag_set(&dev->tagset);
-+		if (ret)
-+			return ret;
-  		dev->ctrl.tagset = &dev->tagset;
-  	} else {
-  		blk_mq_update_nr_hw_queues(&dev->tagset, dev->online_queues - 1);
-@@ -1574,7 +1571,7 @@ static int nvme_dev_add(struct nvme_dev *dev)
-  		nvme_free_queues(dev, dev->online_queues);
-  	}
-
--	return 0;
-+	return ret;
-  }
-
-  static int nvme_pci_enable(struct nvme_dev *dev)
-@@ -1811,7 +1808,9 @@ static void nvme_reset_work(struct work_struct *work)
-  		nvme_remove_namespaces(&dev->ctrl);
-  	} else {
-  		nvme_start_queues(&dev->ctrl);
--		nvme_dev_add(dev);
-+		result = nvme_dev_add(dev);
-+		if (result)
-+			goto out;
-  	}
-
-  	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_LIVE)) {
--- 
+>> For more detailed information about nvme error status when ending
+>> blk_mq request,some of nvme error status codes can be categorized into
+>> different errnos explicitly. For example, NVME_SC_ACCESS_DENIED and
+>> NVME_SC_CONNECT_CTRL_BUSY can be converted to EACCESS and EBUSY repec-
+>> tively.This patch makes conversion from those nvme error status to errno
+>> detailed.
+> 
+> This makes sense to me, see comments below.
+> 
+>> ---
+>>  drivers/nvme/host/nvme.h | 30 ++++++++++++++++++++++++++++++
+>>  1 file changed, 30 insertions(+)
+>>
+>> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+>> index a3da1e90b99d..be699ca38cc8 100644
+>> --- a/drivers/nvme/host/nvme.h
+>> +++ b/drivers/nvme/host/nvme.h
+>> @@ -255,7 +255,37 @@ static inline int nvme_error_status(u16 status)
+>>      case NVME_SC_SUCCESS:
+>>          return 0;
+>>      case NVME_SC_CAP_EXCEEDED:
+>> +    case NVME_SC_NS_INSUFFICENT_CAP:
+>>          return -ENOSPC;
+> 
+> why is this ENOSPC?
+> 
+> Maybe we can add also some fabrics status codes?
+> 
+>> +    case NVME_SC_READ_ONLY:
+>> +    case NVME_SC_ACCESS_DENIED:
+>> +        return -EACCES;
+>> +    case NVME_SC_LBA_RANGE:
+>> +        return -EFAULT;
+>> +    case NVME_SC_CONNECT_CTRL_BUSY:
+> case NVME_SC_CONNECT_CTRL_BUSY:
+> 
+>> +        return -EBUSY;
+> 
+> 
+> 
+>> +    case NVME_SC_INVALID_OPCODE:
+>> +    case NVME_SC_INVALID_FIELD:
+>> +    case NVME_SC_INVALID_NS:
+>> +    case NVME_SC_SGL_INVALID_LAST:
+>> +    case NVME_SC_SGL_INVALID_COUNT:
+>> +    case NVME_SC_SGL_INVALID_DATA:
+>> +    case NVME_SC_SGL_INVALID_METADATA:
+>> +    case NVME_SC_SGL_INVALID_TYPE:
+>> +    case NVME_SC_SGL_INVALID_OFFSET:
+>> +    case NVME_SC_SGL_INVALID_SUBTYPE:
+>> +    case NVME_SC_CQ_INVALID:
+>> +    case NVME_SC_QID_INVALID:
+>> +    case NVME_SC_QUEUE_SIZE:
+>> +    case NVME_SC_FIRMWARE_SLOT:
+>> +    case NVME_SC_FIRMWARE_IMAGE:
+>> +    case NVME_SC_INVALID_VECTOR:
+>> +    case NVME_SC_INVALID_LOG_PAGE:
+>> +    case NVME_SC_INVALID_FORMAT:
+>> +    case NVME_SC_CTRL_LIST_INVALID:
+> case NVME_SC_BAD_ATTRIBUTES:
+> case NVME_SC_INVALID_PI:
+> case NVME_SC_CONNECT_FORMAT:
+> case NVME_SC_CONNECT_INVALID_PARAM:
+> case NVME_SC_CONNECT_INVALID_HOST:
+> 
+>> +        return -EINVAL;
+>> +    case NVME_SC_CMD_SEQ_ERROR:
+>> +        return -EPROTO;
+>>      default:
+>>          return -EIO;
+>>      }
+>>
+> 
+> It'll also be useful if we can log the specific error (as a human
+> readable string).
+> 
+> .
+> 
