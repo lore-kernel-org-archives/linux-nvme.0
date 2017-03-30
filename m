@@ -1,188 +1,129 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 30 Mar 2017 16:12:36 -0600
-Subject: [RFC 5/8] scatterlist: Modify SG copy functions to support io memory.
+Date: Thu, 30 Mar 2017 16:12:35 -0600
+Subject: [RFC 4/8] p2pmem: Add debugfs "stats" file
 In-Reply-To: <1490911959-5146-1-git-send-email-logang@deltatee.com>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
-Message-ID: <1490911959-5146-6-git-send-email-logang@deltatee.com>
+Message-ID: <1490911959-5146-5-git-send-email-logang@deltatee.com>
 
-Now that we are using p2pmem SG buffers we occasionally have to copy
-to and from this memory. For this, we add an iomem flag to
-sg_copy_buffer for copying with iomemcpy. We also add the sg_iocopy_
-variants to use this more easily.
+From: Steve Wise <swise@opengridcomputing.com>
 
+For each p2pmem instance, add a "stats" file to show
+the gen_pool statistics.
+
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 Signed-off-by: Stephen Bates <sbates at raithlin.com>
-Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
- drivers/scsi/scsi_debug.c   |  7 ++---
- include/linux/scatterlist.h |  7 ++++-
- lib/scatterlist.c           | 64 ++++++++++++++++++++++++++++++++++++++-------
- 3 files changed, 65 insertions(+), 13 deletions(-)
+ drivers/memory/p2pmem.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+ include/linux/p2pmem.h  |  2 ++
+ 2 files changed, 51 insertions(+)
 
-diff --git a/drivers/scsi/scsi_debug.c b/drivers/scsi/scsi_debug.c
-index 17249c3..70c0d9f 100644
---- a/drivers/scsi/scsi_debug.c
-+++ b/drivers/scsi/scsi_debug.c
-@@ -1309,7 +1309,7 @@ static int resp_inquiry(struct scsi_cmnd *scp, struct sdebug_dev_info *devip)
- 		int lu_id_num, port_group_id, target_dev_id, len;
- 		char lu_id_str[6];
- 		int host_no = devip->sdbg_host->shost->host_no;
--		
+diff --git a/drivers/memory/p2pmem.c b/drivers/memory/p2pmem.c
+index c4ea311..71741c2 100644
+--- a/drivers/memory/p2pmem.c
++++ b/drivers/memory/p2pmem.c
+@@ -18,6 +18,7 @@
+ #include <linux/slab.h>
+ #include <linux/genalloc.h>
+ #include <linux/memremap.h>
++#include <linux/debugfs.h>
+ 
+ MODULE_DESCRIPTION("Peer 2 Peer Memory Device");
+ MODULE_VERSION("0.1");
+@@ -27,6 +28,40 @@ MODULE_AUTHOR("Microsemi Corporation");
+ static struct class *p2pmem_class;
+ static DEFINE_IDA(p2pmem_ida);
+ 
++static struct dentry *p2pmem_debugfs_root;
 +
- 		port_group_id = (((host_no + 1) & 0x7f) << 8) +
- 		    (devip->channel & 0x7f);
- 		if (sdebug_vpd_use_hostno == 0)
-@@ -2381,14 +2381,15 @@ static int do_device_access(struct scsi_cmnd *scmd, u64 lba, u32 num,
- 
- 	ret = sg_copy_buffer(sdb->table.sgl, sdb->table.nents,
- 		   fake_storep + (block * sdebug_sector_size),
--		   (num - rest) * sdebug_sector_size, 0, do_write);
-+		   (num - rest) * sdebug_sector_size, 0, do_write, false);
- 	if (ret != (num - rest) * sdebug_sector_size)
- 		return ret;
- 
- 	if (rest) {
- 		ret += sg_copy_buffer(sdb->table.sgl, sdb->table.nents,
- 			    fake_storep, rest * sdebug_sector_size,
--			    (num - rest) * sdebug_sector_size, do_write);
-+			    (num - rest) * sdebug_sector_size, do_write,
-+				      false);
- 	}
- 
- 	return ret;
-diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-index cb3c8fe..030b92b 100644
---- a/include/linux/scatterlist.h
-+++ b/include/linux/scatterlist.h
-@@ -267,7 +267,7 @@ int sg_alloc_table_from_pages(struct sg_table *sgt,
- 	gfp_t gfp_mask);
- 
- size_t sg_copy_buffer(struct scatterlist *sgl, unsigned int nents, void *buf,
--		      size_t buflen, off_t skip, bool to_buffer);
-+		      size_t buflen, off_t skip, bool to_buffer, bool iomem);
- 
- size_t sg_copy_from_buffer(struct scatterlist *sgl, unsigned int nents,
- 			   const void *buf, size_t buflen);
-@@ -279,6 +279,11 @@ size_t sg_pcopy_from_buffer(struct scatterlist *sgl, unsigned int nents,
- size_t sg_pcopy_to_buffer(struct scatterlist *sgl, unsigned int nents,
- 			  void *buf, size_t buflen, off_t skip);
- 
-+size_t sg_iocopy_from_buffer(struct scatterlist *sgl, unsigned int nents,
-+			     const void *buf, size_t buflen);
-+size_t sg_iocopy_to_buffer(struct scatterlist *sgl, unsigned int nents,
-+			   void *buf, size_t buflen);
-+
- /*
-  * Maximum number of entries that will be allocated in one piece, if
-  * a list larger than this is required then chaining will be utilized.
-diff --git a/lib/scatterlist.c b/lib/scatterlist.c
-index c6cf822..22abd94 100644
---- a/lib/scatterlist.c
-+++ b/lib/scatterlist.c
-@@ -647,7 +647,7 @@ EXPORT_SYMBOL(sg_miter_stop);
-  *
-  **/
- size_t sg_copy_buffer(struct scatterlist *sgl, unsigned int nents, void *buf,
--		      size_t buflen, off_t skip, bool to_buffer)
-+		      size_t buflen, off_t skip, bool to_buffer, bool iomem)
- {
- 	unsigned int offset = 0;
- 	struct sg_mapping_iter miter;
-@@ -668,10 +668,17 @@ size_t sg_copy_buffer(struct scatterlist *sgl, unsigned int nents, void *buf,
- 
- 		len = min(miter.length, buflen - offset);
- 
--		if (to_buffer)
--			memcpy(buf + offset, miter.addr, len);
--		else
--			memcpy(miter.addr, buf + offset, len);
-+		if (iomem) {
-+			if (to_buffer)
-+				memcpy_fromio(buf + offset,  miter.addr, len);
-+			else
-+				memcpy_toio(miter.addr, buf + offset, len);
-+		} else {
-+			if (to_buffer)
-+				memcpy(buf + offset, miter.addr, len);
-+			else
-+				memcpy(miter.addr, buf + offset, len);
-+		}
- 
- 		offset += len;
- 	}
-@@ -695,7 +702,8 @@ EXPORT_SYMBOL(sg_copy_buffer);
- size_t sg_copy_from_buffer(struct scatterlist *sgl, unsigned int nents,
- 			   const void *buf, size_t buflen)
- {
--	return sg_copy_buffer(sgl, nents, (void *)buf, buflen, 0, false);
-+	return sg_copy_buffer(sgl, nents, (void *)buf, buflen, 0, false,
-+			      false);
- }
- EXPORT_SYMBOL(sg_copy_from_buffer);
- 
-@@ -712,7 +720,7 @@ EXPORT_SYMBOL(sg_copy_from_buffer);
- size_t sg_copy_to_buffer(struct scatterlist *sgl, unsigned int nents,
- 			 void *buf, size_t buflen)
- {
--	return sg_copy_buffer(sgl, nents, buf, buflen, 0, true);
-+	return sg_copy_buffer(sgl, nents, buf, buflen, 0, true, false);
- }
- EXPORT_SYMBOL(sg_copy_to_buffer);
- 
-@@ -730,7 +738,8 @@ EXPORT_SYMBOL(sg_copy_to_buffer);
- size_t sg_pcopy_from_buffer(struct scatterlist *sgl, unsigned int nents,
- 			    const void *buf, size_t buflen, off_t skip)
- {
--	return sg_copy_buffer(sgl, nents, (void *)buf, buflen, skip, false);
-+	return sg_copy_buffer(sgl, nents, (void *)buf, buflen, skip, false,
-+			      false);
- }
- EXPORT_SYMBOL(sg_pcopy_from_buffer);
- 
-@@ -748,6 +757,43 @@ EXPORT_SYMBOL(sg_pcopy_from_buffer);
- size_t sg_pcopy_to_buffer(struct scatterlist *sgl, unsigned int nents,
- 			  void *buf, size_t buflen, off_t skip)
- {
--	return sg_copy_buffer(sgl, nents, buf, buflen, skip, true);
-+	return sg_copy_buffer(sgl, nents, buf, buflen, skip, true, false);
- }
- EXPORT_SYMBOL(sg_pcopy_to_buffer);
-+
-+/**
-+ * sg_iocopy_from_buffer - Copy from a linear buffer to an SG list containing
-+ *	IO memory.
-+ * @sgl:		 The SG list
-+ * @nents:		 Number of SG entries
-+ * @buf:		 Where to copy from
-+ * @buflen:		 The number of bytes to copy
-+ *
-+ * Returns the number of copied bytes.
-+ *
-+ **/
-+size_t sg_iocopy_from_buffer(struct scatterlist *sgl, unsigned int nents,
-+			     const void *buf, size_t buflen)
++static int stats_show(struct seq_file *seq, void *v)
 +{
-+	return sg_copy_buffer(sgl, nents, (void *)buf, buflen, 0, false,
-+			      true);
-+}
-+EXPORT_SYMBOL(sg_iocopy_from_buffer);
++	struct p2pmem_dev *p = seq->private;
 +
-+/**
-+ * sg_iocopy_to_buffer - Copy from an SG list containing IO memory
-+ *	to a linear buffer
-+ * @sgl:		 The SG list
-+ * @nents:		 Number of SG entries
-+ * @buf:		 Where to copy to
-+ * @buflen:		 The number of bytes to copy
-+ *
-+ * Returns the number of copied bytes.
-+ *
-+ **/
-+size_t sg_iocopy_to_buffer(struct scatterlist *sgl, unsigned int nents,
-+			   void *buf, size_t buflen)
-+{
-+	return sg_copy_buffer(sgl, nents, buf, buflen, 0, true, true);
++	if (p->pool) {
++		seq_printf(seq, "total size: %lu\n", gen_pool_size(p->pool));
++		seq_printf(seq, "available:  %lu\n", gen_pool_avail(p->pool));
++	}
++	return 0;
 +}
-+EXPORT_SYMBOL(sg_iocopy_to_buffer);
++
++static int stats_open(struct inode *inode, struct file *file)
++{
++	return single_open(file, stats_show, inode->i_private);
++}
++
++static const struct file_operations stats_debugfs_fops = {
++	.owner   = THIS_MODULE,
++	.open    = stats_open,
++	.release = single_release,
++	.read	 = seq_read,
++	.llseek  = seq_lseek,
++};
++
++static void setup_debugfs(struct p2pmem_dev *p)
++{
++	struct dentry *de;
++
++	de = debugfs_create_file("stats", 0400, p->debugfs_root,
++				 (void *)p, &stats_debugfs_fops);
++}
++
+ static struct p2pmem_dev *to_p2pmem(struct device *dev)
+ {
+ 	return container_of(dev, struct p2pmem_dev, dev);
+@@ -62,6 +97,8 @@ static void p2pmem_release(struct device *dev)
+ {
+ 	struct p2pmem_dev *p = to_p2pmem(dev);
+ 
++	debugfs_remove_recursive(p->debugfs_root);
++
+ 	if (p->pool)
+ 		gen_pool_destroy(p->pool);
+ 
+@@ -114,6 +151,13 @@ struct p2pmem_dev *p2pmem_create(struct device *parent)
+ 	if (rc)
+ 		goto err_id;
+ 
++	if (p2pmem_debugfs_root) {
++		p->debugfs_root = debugfs_create_dir(dev_name(&p->dev),
++						     p2pmem_debugfs_root);
++		if (p->debugfs_root)
++			setup_debugfs(p);
++	}
++
+ 	rc = device_add(&p->dev);
+ 	if (rc)
+ 		goto err_id;
+@@ -390,12 +434,17 @@ static int __init p2pmem_init(void)
+ 	if (IS_ERR(p2pmem_class))
+ 		return PTR_ERR(p2pmem_class);
+ 
++	p2pmem_debugfs_root = debugfs_create_dir("p2pmem", NULL);
++	if (!p2pmem_debugfs_root)
++		pr_info("could not create debugfs entry, continuing\n");
++
+ 	return 0;
+ }
+ module_init(p2pmem_init);
+ 
+ static void __exit p2pmem_exit(void)
+ {
++	debugfs_remove_recursive(p2pmem_debugfs_root);
+ 	class_destroy(p2pmem_class);
+ 
+ 	pr_info(KBUILD_MODNAME ": unloaded.\n");
+diff --git a/include/linux/p2pmem.h b/include/linux/p2pmem.h
+index 71dc1e1..4cd6f35 100644
+--- a/include/linux/p2pmem.h
++++ b/include/linux/p2pmem.h
+@@ -26,6 +26,8 @@ struct p2pmem_dev {
+ 	struct percpu_ref ref;
+ 	struct completion cmp;
+ 	struct gen_pool *pool;
++
++	struct dentry *debugfs_root;
+ };
+ 
+ #ifdef CONFIG_P2PMEM
 -- 
 2.1.4
