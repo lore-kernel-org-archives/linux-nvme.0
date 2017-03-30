@@ -1,25 +1,24 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 30 Mar 2017 13:22:37 -0400
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 30 Mar 2017 10:20:38 -0700
 Subject: [PATCH] nvme: make nvme error status codes converted to errno
  detailed
-In-Reply-To: <e81a210c-a911-b275-eb53-51ee9f3f7c5e@huawei.com>
+In-Reply-To: <20170330172236.GG20181@localhost.localdomain>
 References: <1490782103-14668-1-git-send-email-guanjunxiong@huawei.com>
  <20170330081107.GA2991@infradead.org>
  <e81a210c-a911-b275-eb53-51ee9f3f7c5e@huawei.com>
-Message-ID: <20170330172236.GG20181@localhost.localdomain>
+ <20170330172236.GG20181@localhost.localdomain>
+Message-ID: <20170330172038.GA6037@infradead.org>
 
-On Thu, Mar 30, 2017@07:32:50PM +0800, guanjunxiong wrote:
->    Current block layer ends the requests with errors and logs different errno in a
-> human readable string. So I think the detailed conversion above make sense.Also ,
-> as Sagi said, It'll be useful if we can log the specific error (as a human readable
-> string).
->    Anyway, since this patch would conflict with your rework in this area,
-> I decide to suspend this patch.
->    BTW, what's the plan of your rework in this area?
+On Thu, Mar 30, 2017@01:22:37PM -0400, Keith Busch wrote:
+> I don't see a problem having more appropriate errno's here. The block
+> layer looks okay to accept any value, and the spec folks might be happy
+> to see their thought out status codes don't all become EIO. :)
 
-I don't see a problem having more appropriate errno's here. The block
-layer looks okay to accept any value, and the spec folks might be happy
-to see their thought out status codes don't all become EIO. :)
+The block layer accepts all and treats a few magically.  That's why I
+want to get rid of errno values in the block layer entirely and replace
+the with a few status codes that make the special casing obvious.
 
-But just so we all know, the majority of those statuses are only possible
-to encounter with passthrough, and those are not translated to errno.
+> But just so we all know, the majority of those statuses are only possible
+> to encounter with passthrough, and those are not translated to errno.
+
+Exactly.
