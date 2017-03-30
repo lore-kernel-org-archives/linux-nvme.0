@@ -1,342 +1,277 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 30 Mar 2017 16:12:39 -0600
-Subject: [RFC 8/8] p2pmem: Added char device user interface
+Date: Thu, 30 Mar 2017 16:12:34 -0600
+Subject: [RFC 3/8] nvmet: Use p2pmem in nvme target
 In-Reply-To: <1490911959-5146-1-git-send-email-logang@deltatee.com>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
-Message-ID: <1490911959-5146-9-git-send-email-logang@deltatee.com>
+Message-ID: <1490911959-5146-4-git-send-email-logang@deltatee.com>
 
-This creates a userspace interface to use p2pmemory. A user can use
-mmap on the p2pmem char device to get buffers from the corresponding
-device. This allows a user to use p2p memory with existing
-interfaces like RDMA and O_DIRECT.
+We create a configfs attribute in each nvme-fabrics target port to
+enable p2p memory use. When enabled, the port will only then use the
+p2p memory if a p2p memory device can be found which is behind the
+same switch as the RDMA port and all the block devices in use. If
+the user enabled it an no devices are found, then the system will
+silently fall back on using regular memory.
 
-This patch is a bit more controversial because people don't want to
-expose these interfaces to userspace without more consideration.
-However, this patch is _very_ useful for expirementing with p2p memory.
+If appropriate, that port will allocate memory for the RDMA buffers
+for queues from the p2pmem device falling back to system memory should
+anything fail.
 
-For example, with this patch, you can test with commands like:
-
-ib_write_bw -R --mmap=/dev/p2pmem0 -D 30
-
-or use an fio script like:
-
-[rdma-server]
-rw=read
-mem=mmapshared:/dev/p2pmem0
-ioengine=rdma
-port=14242
-bs=64k
-size=10G
-iodepth=2
-
-which would test the bandwidth of RDMA to/from the specified p2p memory.
+Ideally, we'd want to use an NVME CMB buffer as p2p memory. This would
+save an extra PCI transfer as the NVME card could just take the data
+out of it's own memory. However, at this time, cards with CMB buffers
+don't seem to be available.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 Signed-off-by: Stephen Bates <sbates at raithlin.com>
 Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
- drivers/memory/p2pmem.c | 184 +++++++++++++++++++++++++++++++++++++++++++++++-
- include/linux/p2pmem.h  |   4 ++
- 2 files changed, 186 insertions(+), 2 deletions(-)
+ drivers/nvme/target/configfs.c | 31 +++++++++++++++
+ drivers/nvme/target/nvmet.h    |  1 +
+ drivers/nvme/target/rdma.c     | 90 ++++++++++++++++++++++++++++++++++++++----
+ 3 files changed, 114 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/memory/p2pmem.c b/drivers/memory/p2pmem.c
-index 499d42c..129c49c 100644
---- a/drivers/memory/p2pmem.c
-+++ b/drivers/memory/p2pmem.c
-@@ -19,14 +19,20 @@
- #include <linux/genalloc.h>
- #include <linux/memremap.h>
- #include <linux/debugfs.h>
-+#include <linux/pfn_t.h>
- 
- MODULE_DESCRIPTION("Peer 2 Peer Memory Device");
- MODULE_VERSION("0.1");
- MODULE_LICENSE("GPL");
- MODULE_AUTHOR("Microsemi Corporation");
- 
-+static int max_devices = 16;
-+module_param(max_devices, int, 0444);
-+MODULE_PARM_DESC(max_devices, "Maximum number of char devices");
-+
- static struct class *p2pmem_class;
- static DEFINE_IDA(p2pmem_ida);
-+static dev_t p2pmem_devt;
- 
- static struct dentry *p2pmem_debugfs_root;
- 
-@@ -67,6 +73,144 @@ static struct p2pmem_dev *to_p2pmem(struct device *dev)
- 	return container_of(dev, struct p2pmem_dev, dev);
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index be8c800..e61a7f4 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -777,12 +777,43 @@ static void nvmet_port_release(struct config_item *item)
+ 	kfree(port);
  }
  
-+struct p2pmem_vma {
-+	struct p2pmem_dev *p2pmem_dev;
-+	atomic_t mmap_count;
-+	size_t nr_pages;
-+
-+	/* Protects the used_pages array */
-+	struct mutex mutex;
-+	struct page *used_pages[];
-+};
-+
-+static void p2pmem_vma_open(struct vm_area_struct *vma)
++#ifdef CONFIG_P2PMEM
++static ssize_t nvmet_allow_p2pmem_show(struct config_item *item, char *page)
 +{
-+	struct p2pmem_vma *pv = vma->vm_private_data;
-+
-+	atomic_inc(&pv->mmap_count);
++	return sprintf(page, "%d\n", to_nvmet_port(item)->allow_p2pmem);
 +}
 +
-+static void p2pmem_vma_free_pages(struct vm_area_struct *vma)
++static ssize_t nvmet_allow_p2pmem_store(struct config_item *item,
++					const char *page, size_t count)
 +{
-+	int i;
-+	struct p2pmem_vma *pv = vma->vm_private_data;
++	struct nvmet_port *port = to_nvmet_port(item);
++	bool allow;
++	int ret;
 +
-+	mutex_lock(&pv->mutex);
++	ret = strtobool(page, &allow);
++	if (ret)
++		return ret;
 +
-+	for (i = 0; i < pv->nr_pages; i++) {
-+		if (pv->used_pages[i]) {
-+			p2pmem_free_page(pv->p2pmem_dev, pv->used_pages[i]);
-+			pv->used_pages[i] = NULL;
++	down_write(&nvmet_config_sem);
++	port->allow_p2pmem = allow;
++	up_write(&nvmet_config_sem);
++
++	return count;
++}
++CONFIGFS_ATTR(nvmet_, allow_p2pmem);
++#endif
++
+ static struct configfs_attribute *nvmet_port_attrs[] = {
+ 	&nvmet_attr_addr_adrfam,
+ 	&nvmet_attr_addr_treq,
+ 	&nvmet_attr_addr_traddr,
+ 	&nvmet_attr_addr_trsvcid,
+ 	&nvmet_attr_addr_trtype,
++
++	#ifdef CONFIG_P2PMEM
++	&nvmet_attr_allow_p2pmem,
++	#endif
++
+ 	NULL,
+ };
+ 
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index f7ff15f..ab67175 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -95,6 +95,7 @@ struct nvmet_port {
+ 	struct list_head		referrals;
+ 	void				*priv;
+ 	bool				enabled;
++	bool				allow_p2pmem;
+ };
+ 
+ static inline struct nvmet_port *to_nvmet_port(struct config_item *item)
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index ecc4fe8..7fd4840 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -23,6 +23,7 @@
+ #include <linux/string.h>
+ #include <linux/wait.h>
+ #include <linux/inet.h>
++#include <linux/p2pmem.h>
+ #include <asm/unaligned.h>
+ 
+ #include <rdma/ib_verbs.h>
+@@ -64,6 +65,7 @@ struct nvmet_rdma_rsp {
+ 	struct rdma_rw_ctx	rw;
+ 
+ 	struct nvmet_req	req;
++	struct p2pmem_dev       *p2pmem;
+ 
+ 	u8			n_rdma;
+ 	u32			flags;
+@@ -107,6 +109,8 @@ struct nvmet_rdma_queue {
+ 	int			send_queue_size;
+ 
+ 	struct list_head	queue_list;
++
++	struct p2pmem_dev	*p2pmem;
+ };
+ 
+ struct nvmet_rdma_device {
+@@ -185,7 +189,8 @@ nvmet_rdma_put_rsp(struct nvmet_rdma_rsp *rsp)
+ 	spin_unlock_irqrestore(&rsp->queue->rsps_lock, flags);
+ }
+ 
+-static void nvmet_rdma_free_sgl(struct scatterlist *sgl, unsigned int nents)
++static void nvmet_rdma_free_sgl(struct scatterlist *sgl, unsigned int nents,
++				struct p2pmem_dev *p2pmem)
+ {
+ 	struct scatterlist *sg;
+ 	int count;
+@@ -193,13 +198,17 @@ static void nvmet_rdma_free_sgl(struct scatterlist *sgl, unsigned int nents)
+ 	if (!sgl || !nents)
+ 		return;
+ 
+-	for_each_sg(sgl, sg, nents, count)
+-		__free_page(sg_page(sg));
++	for_each_sg(sgl, sg, nents, count) {
++		if (p2pmem)
++			p2pmem_free_page(p2pmem, sg_page(sg));
++		else
++			__free_page(sg_page(sg));
++	}
+ 	kfree(sgl);
+ }
+ 
+ static int nvmet_rdma_alloc_sgl(struct scatterlist **sgl, unsigned int *nents,
+-		u32 length)
++		u32 length, struct p2pmem_dev *p2pmem)
+ {
+ 	struct scatterlist *sg;
+ 	struct page *page;
+@@ -216,7 +225,11 @@ static int nvmet_rdma_alloc_sgl(struct scatterlist **sgl, unsigned int *nents,
+ 	while (length) {
+ 		u32 page_len = min_t(u32, length, PAGE_SIZE);
+ 
+-		page = alloc_page(GFP_KERNEL);
++		if (p2pmem)
++			page = p2pmem_alloc_page(p2pmem);
++		else
++			page = alloc_page(GFP_KERNEL);
++
+ 		if (!page)
+ 			goto out_free_pages;
+ 
+@@ -231,7 +244,10 @@ static int nvmet_rdma_alloc_sgl(struct scatterlist **sgl, unsigned int *nents,
+ out_free_pages:
+ 	while (i > 0) {
+ 		i--;
+-		__free_page(sg_page(&sg[i]));
++		if (p2pmem)
++			p2pmem_free_page(p2pmem, sg_page(&sg[i]));
++		else
++			__free_page(sg_page(&sg[i]));
+ 	}
+ 	kfree(sg);
+ out:
+@@ -484,7 +500,8 @@ static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
+ 	}
+ 
+ 	if (rsp->req.sg != &rsp->cmd->inline_sg)
+-		nvmet_rdma_free_sgl(rsp->req.sg, rsp->req.sg_cnt);
++		nvmet_rdma_free_sgl(rsp->req.sg, rsp->req.sg_cnt,
++				    rsp->p2pmem);
+ 
+ 	if (unlikely(!list_empty_careful(&queue->rsp_wr_wait_list)))
+ 		nvmet_rdma_process_wr_wait_list(queue);
+@@ -625,8 +642,16 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
+ 	if (!len)
+ 		return 0;
+ 
++	rsp->p2pmem = rsp->queue->p2pmem;
+ 	status = nvmet_rdma_alloc_sgl(&rsp->req.sg, &rsp->req.sg_cnt,
+-			len);
++			len, rsp->p2pmem);
++
++	if (status && rsp->p2pmem) {
++		rsp->p2pmem = NULL;
++		status = nvmet_rdma_alloc_sgl(&rsp->req.sg, &rsp->req.sg_cnt,
++					      len, rsp->p2pmem);
++	}
++
+ 	if (status)
+ 		return status;
+ 
+@@ -984,6 +1009,7 @@ static void nvmet_rdma_free_queue(struct nvmet_rdma_queue *queue)
+ 				!queue->host_qid);
+ 	}
+ 	nvmet_rdma_free_rsps(queue);
++	p2pmem_put(queue->p2pmem);
+ 	ida_simple_remove(&nvmet_rdma_queue_ida, queue->idx);
+ 	kfree(queue);
+ }
+@@ -1179,6 +1205,52 @@ static int nvmet_rdma_cm_accept(struct rdma_cm_id *cm_id,
+ 	return ret;
+ }
+ 
++/*
++ * If allow_p2pmem is set, we will try to use P2P memory for our
++ * sgl lists. This requires the p2pmem device to be compatible with
++ * the backing device for every namespace this device will support.
++ * If not, we fall back on using system memory.
++ */
++static void nvmet_rdma_queue_setup_p2pmem(struct nvmet_rdma_queue *queue)
++{
++	struct device **dma_devs;
++	struct nvmet_ns *ns;
++	int ndevs = 1;
++	int i = 0;
++	struct nvmet_subsys_link *s;
++
++	if (!queue->port->allow_p2pmem)
++		return;
++
++	list_for_each_entry(s, &queue->port->subsystems, entry) {
++		list_for_each_entry_rcu(ns, &s->subsys->namespaces, dev_link) {
++			ndevs++;
 +		}
 +	}
 +
-+	mutex_unlock(&pv->mutex);
-+}
-+
-+static void p2pmem_vma_close(struct vm_area_struct *vma)
-+{
-+	struct p2pmem_vma *pv = vma->vm_private_data;
-+
-+	if (!atomic_dec_and_test(&pv->mmap_count))
++	dma_devs = kmalloc((ndevs + 1) * sizeof(*dma_devs), GFP_KERNEL);
++	if (!dma_devs)
 +		return;
 +
-+	p2pmem_vma_free_pages(vma);
++	dma_devs[i++] = &queue->dev->device->dev;
 +
-+	dev_dbg(&pv->p2pmem_dev->dev, "vma close");
-+	kfree(pv);
-+}
-+
-+static int p2pmem_vma_fault(struct vm_fault *vmf)
-+{
-+	struct p2pmem_vma *pv = vmf->vma->vm_private_data;
-+	unsigned int pg_idx;
-+	struct page *pg;
-+	pfn_t pfn;
-+	int rc;
-+
-+	if (!pv->p2pmem_dev->alive)
-+		return VM_FAULT_SIGBUS;
-+
-+	pg_idx = (vmf->address - vmf->vma->vm_start) / PAGE_SIZE;
-+
-+	mutex_lock(&pv->mutex);
-+
-+	if (pv->used_pages[pg_idx])
-+		pg = pv->used_pages[pg_idx];
-+	else
-+		pg = p2pmem_alloc_page(pv->p2pmem_dev);
-+
-+	if (!pg)
-+		return VM_FAULT_OOM;
-+
-+	pv->used_pages[pg_idx] = pg;
-+
-+	pfn = phys_to_pfn_t(page_to_phys(pg), PFN_DEV | PFN_MAP);
-+	rc = vm_insert_mixed(vmf->vma, vmf->address, pfn);
-+
-+	mutex_unlock(&pv->mutex);
-+
-+	if (rc == -ENOMEM)
-+		return VM_FAULT_OOM;
-+	if (rc < 0 && rc != -EBUSY)
-+		return VM_FAULT_SIGBUS;
-+
-+	return VM_FAULT_NOPAGE;
-+}
-+
-+const struct vm_operations_struct p2pmem_vmops = {
-+	.open = p2pmem_vma_open,
-+	.close = p2pmem_vma_close,
-+	.fault = p2pmem_vma_fault,
-+};
-+
-+static int p2pmem_open(struct inode *inode, struct file *filp)
-+{
-+	struct p2pmem_dev *p;
-+
-+	p = container_of(inode->i_cdev, struct p2pmem_dev, cdev);
-+	filp->private_data = p;
-+	p->inode = inode;
-+
-+	return 0;
-+}
-+
-+static int p2pmem_mmap(struct file *filp, struct vm_area_struct *vma)
-+{
-+	struct p2pmem_dev *p = filp->private_data;
-+	struct p2pmem_vma *pv;
-+	size_t nr_pages = (vma->vm_end - vma->vm_start) / PAGE_SIZE;
-+
-+	if ((vma->vm_flags & VM_MAYSHARE) != VM_MAYSHARE) {
-+		dev_warn(&p->dev, "mmap failed: can't create private mapping\n");
-+		return -EINVAL;
++	list_for_each_entry(s, &queue->port->subsystems, entry) {
++		list_for_each_entry_rcu(ns, &s->subsys->namespaces, dev_link) {
++			dma_devs[i++] = disk_to_dev(ns->bdev->bd_disk);
++		}
 +	}
 +
-+	dev_dbg(&p->dev, "Allocating mmap with %zd pages.\n", nr_pages);
++	dma_devs[i++] = NULL;
 +
-+	pv = kzalloc(sizeof(*pv) + sizeof(pv->used_pages[0]) * nr_pages,
-+		     GFP_KERNEL);
-+	if (!pv)
-+		return -ENOMEM;
++	queue->p2pmem = p2pmem_find_compat(dma_devs);
 +
-+	mutex_init(&pv->mutex);
-+	pv->nr_pages = nr_pages;
-+	pv->p2pmem_dev = p;
-+	atomic_set(&pv->mmap_count, 1);
++	if (queue->p2pmem)
++		pr_debug("using %s for rdma nvme target queue",
++			 dev_name(&queue->p2pmem->dev));
 +
-+	vma->vm_private_data = pv;
-+	vma->vm_ops = &p2pmem_vmops;
-+	vma->vm_flags |= VM_MIXEDMAP;
-+
-+	return 0;
++	kfree(dma_devs);
 +}
 +
-+static const struct file_operations p2pmem_fops = {
-+	.owner = THIS_MODULE,
-+	.open = p2pmem_open,
-+	.mmap = p2pmem_mmap,
-+};
-+
- static void p2pmem_percpu_release(struct percpu_ref *ref)
+ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
+ 		struct rdma_cm_event *event)
  {
- 	struct p2pmem_dev *p = container_of(ref, struct p2pmem_dev, ref);
-@@ -114,10 +258,23 @@ struct remove_callback {
- static void p2pmem_remove(struct p2pmem_dev *p)
- {
- 	struct remove_callback *remove_call, *tmp;
-+	struct vm_area_struct *vma;
- 
- 	p->alive = false;
- 	list_for_each_entry_safe(remove_call, tmp, &p->remove_list, list)
- 		remove_call->callback(remove_call->context);
-+
-+	if (!p->inode)
-+		return;
-+
-+	unmap_mapping_range(p->inode->i_mapping, 0, 0, 1);
-+
-+	i_mmap_lock_write(p->inode->i_mapping);
-+	vma_interval_tree_foreach(vma, &p->inode->i_mapping->i_mmap, 0,
-+				  ULONG_MAX) {
-+		p2pmem_vma_free_pages(vma);
-+	}
-+	i_mmap_unlock_write(p->inode->i_mapping);
- }
- 
- /**
-@@ -147,6 +304,10 @@ struct p2pmem_dev *p2pmem_create(struct device *parent)
- 	p->dev.parent = parent;
- 	p->dev.release = p2pmem_release;
- 
-+	cdev_init(&p->cdev, &p2pmem_fops);
-+	p->cdev.owner = THIS_MODULE;
-+	p->cdev.kobj.parent = &p->dev.kobj;
-+
- 	p->id = ida_simple_get(&p2pmem_ida, 0, 0, GFP_KERNEL);
- 	if (p->id < 0) {
- 		rc = p->id;
-@@ -154,6 +315,7 @@ struct p2pmem_dev *p2pmem_create(struct device *parent)
+@@ -1199,6 +1271,8 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
  	}
+ 	queue->port = cm_id->context;
  
- 	dev_set_name(&p->dev, "p2pmem%d", p->id);
-+	p->dev.devt = MKDEV(MAJOR(p2pmem_devt), p->id);
- 
- 	p->pool = gen_pool_create(PAGE_SHIFT, nid);
- 	if (!p->pool) {
-@@ -177,14 +339,20 @@ struct p2pmem_dev *p2pmem_create(struct device *parent)
- 			setup_debugfs(p);
- 	}
- 
--	rc = device_add(&p->dev);
-+	rc = cdev_add(&p->cdev, p->dev.devt, 1);
- 	if (rc)
- 		goto err_id;
- 
--	dev_info(&p->dev, "registered");
-+	rc = device_add(&p->dev);
-+	if (rc)
-+		goto err_cdev;
- 
-+	dev_info(&p->dev, "registered");
- 	return p;
- 
-+err_cdev:
-+	cdev_del(&p->cdev);
-+	p2pmem_remove(p);
- err_id:
- 	ida_simple_remove(&p2pmem_ida, p->id);
- err_free:
-@@ -206,6 +374,7 @@ void p2pmem_unregister(struct p2pmem_dev *p)
- 
- 	dev_info(&p->dev, "unregistered");
- 	device_del(&p->dev);
-+	cdev_del(&p->cdev);
- 	p2pmem_remove(p);
- 	ida_simple_remove(&p2pmem_ida, p->id);
- 	put_device(&p->dev);
-@@ -495,21 +664,32 @@ EXPORT_SYMBOL(p2pmem_put);
- 
- static int __init p2pmem_init(void)
- {
-+	int rc;
++	nvmet_rdma_queue_setup_p2pmem(queue);
 +
- 	p2pmem_class = class_create(THIS_MODULE, "p2pmem");
- 	if (IS_ERR(p2pmem_class))
- 		return PTR_ERR(p2pmem_class);
- 
-+	rc = alloc_chrdev_region(&p2pmem_devt, 0, max_devices, "iopmemc");
-+	if (rc)
-+		goto err_chrdev;
-+
- 	p2pmem_debugfs_root = debugfs_create_dir("p2pmem", NULL);
- 	if (!p2pmem_debugfs_root)
- 		pr_info("could not create debugfs entry, continuing\n");
- 
- 	return 0;
-+
-+err_chrdev:
-+	class_destroy(p2pmem_class);
-+	return rc;
- }
- module_init(p2pmem_init);
- 
- static void __exit p2pmem_exit(void)
- {
- 	debugfs_remove_recursive(p2pmem_debugfs_root);
-+	unregister_chrdev_region(p2pmem_devt, max_devices);
- 	class_destroy(p2pmem_class);
- 
- 	pr_info(KBUILD_MODNAME ": unloaded.\n");
-diff --git a/include/linux/p2pmem.h b/include/linux/p2pmem.h
-index 9365b02..aeee60d 100644
---- a/include/linux/p2pmem.h
-+++ b/include/linux/p2pmem.h
-@@ -18,6 +18,7 @@
- 
- #include <linux/device.h>
- #include <linux/pci.h>
-+#include <linux/cdev.h>
- 
- struct p2pmem_dev {
- 	struct device dev;
-@@ -32,6 +33,9 @@ struct p2pmem_dev {
- 
- 	struct mutex remove_mutex;	/* protects the remove callback list */
- 	struct list_head remove_list;
-+
-+	struct cdev cdev;
-+	struct inode *inode;
- };
- 
- #ifdef CONFIG_P2PMEM
+ 	ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
+ 	if (ret)
+ 		goto release_queue;
 -- 
 2.1.4
