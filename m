@@ -1,277 +1,210 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 30 Mar 2017 16:12:34 -0600
-Subject: [RFC 3/8] nvmet: Use p2pmem in nvme target
+Date: Thu, 30 Mar 2017 16:12:33 -0600
+Subject: [RFC 2/8] cxgb4: setup pcie memory window 4 and create p2pmem region
 In-Reply-To: <1490911959-5146-1-git-send-email-logang@deltatee.com>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
-Message-ID: <1490911959-5146-4-git-send-email-logang@deltatee.com>
+Message-ID: <1490911959-5146-3-git-send-email-logang@deltatee.com>
 
-We create a configfs attribute in each nvme-fabrics target port to
-enable p2p memory use. When enabled, the port will only then use the
-p2p memory if a p2p memory device can be found which is behind the
-same switch as the RDMA port and all the block devices in use. If
-the user enabled it an no devices are found, then the system will
-silently fall back on using regular memory.
+From: Steve Wise <swise@opengridcomputing.com>
 
-If appropriate, that port will allocate memory for the RDMA buffers
-for queues from the p2pmem device falling back to system memory should
-anything fail.
+Some cxgb4 cards expose memory as part of BAR4. This patch registers
+this memory as a p2pmem device.
 
-Ideally, we'd want to use an NVME CMB buffer as p2p memory. This would
-save an extra PCI transfer as the NVME card could just take the data
-out of it's own memory. However, at this time, cards with CMB buffers
-don't seem to be available.
-
+Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 Signed-off-by: Stephen Bates <sbates at raithlin.com>
-Signed-off-by: Steve Wise <swise at opengridcomputing.com>
 ---
- drivers/nvme/target/configfs.c | 31 +++++++++++++++
- drivers/nvme/target/nvmet.h    |  1 +
- drivers/nvme/target/rdma.c     | 90 ++++++++++++++++++++++++++++++++++++++----
- 3 files changed, 114 insertions(+), 8 deletions(-)
+ drivers/net/ethernet/chelsio/cxgb4/cxgb4.h      |  3 +
+ drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c | 97 ++++++++++++++++++++++++-
+ drivers/net/ethernet/chelsio/cxgb4/t4_regs.h    |  5 ++
+ 3 files changed, 102 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index be8c800..e61a7f4 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -777,12 +777,43 @@ static void nvmet_port_release(struct config_item *item)
- 	kfree(port);
- }
- 
-+#ifdef CONFIG_P2PMEM
-+static ssize_t nvmet_allow_p2pmem_show(struct config_item *item, char *page)
-+{
-+	return sprintf(page, "%d\n", to_nvmet_port(item)->allow_p2pmem);
-+}
-+
-+static ssize_t nvmet_allow_p2pmem_store(struct config_item *item,
-+					const char *page, size_t count)
-+{
-+	struct nvmet_port *port = to_nvmet_port(item);
-+	bool allow;
-+	int ret;
-+
-+	ret = strtobool(page, &allow);
-+	if (ret)
-+		return ret;
-+
-+	down_write(&nvmet_config_sem);
-+	port->allow_p2pmem = allow;
-+	up_write(&nvmet_config_sem);
-+
-+	return count;
-+}
-+CONFIGFS_ATTR(nvmet_, allow_p2pmem);
-+#endif
-+
- static struct configfs_attribute *nvmet_port_attrs[] = {
- 	&nvmet_attr_addr_adrfam,
- 	&nvmet_attr_addr_treq,
- 	&nvmet_attr_addr_traddr,
- 	&nvmet_attr_addr_trsvcid,
- 	&nvmet_attr_addr_trtype,
-+
-+	#ifdef CONFIG_P2PMEM
-+	&nvmet_attr_allow_p2pmem,
-+	#endif
-+
- 	NULL,
- };
- 
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index f7ff15f..ab67175 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -95,6 +95,7 @@ struct nvmet_port {
- 	struct list_head		referrals;
- 	void				*priv;
- 	bool				enabled;
-+	bool				allow_p2pmem;
- };
- 
- static inline struct nvmet_port *to_nvmet_port(struct config_item *item)
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index ecc4fe8..7fd4840 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -23,6 +23,7 @@
- #include <linux/string.h>
- #include <linux/wait.h>
- #include <linux/inet.h>
+diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4.h b/drivers/net/ethernet/chelsio/cxgb4/cxgb4.h
+index 163543b..e92443b 100644
+--- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4.h
++++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4.h
+@@ -48,6 +48,7 @@
+ #include <linux/vmalloc.h>
+ #include <linux/etherdevice.h>
+ #include <linux/net_tstamp.h>
 +#include <linux/p2pmem.h>
- #include <asm/unaligned.h>
+ #include <asm/io.h>
+ #include "t4_chip_type.h"
+ #include "cxgb4_uld.h"
+@@ -859,6 +860,8 @@ struct adapter {
  
- #include <rdma/ib_verbs.h>
-@@ -64,6 +65,7 @@ struct nvmet_rdma_rsp {
- 	struct rdma_rw_ctx	rw;
- 
- 	struct nvmet_req	req;
-+	struct p2pmem_dev       *p2pmem;
- 
- 	u8			n_rdma;
- 	u32			flags;
-@@ -107,6 +109,8 @@ struct nvmet_rdma_queue {
- 	int			send_queue_size;
- 
- 	struct list_head	queue_list;
+ 	/* TC u32 offload */
+ 	struct cxgb4_tc_u32_table *tc_u32;
 +
-+	struct p2pmem_dev	*p2pmem;
++	struct p2pmem_dev *p2pmem;
  };
  
- struct nvmet_rdma_device {
-@@ -185,7 +189,8 @@ nvmet_rdma_put_rsp(struct nvmet_rdma_rsp *rsp)
- 	spin_unlock_irqrestore(&rsp->queue->rsps_lock, flags);
- }
+ /* Support for "sched-class" command to allow a TX Scheduling Class to be
+diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c
+index afb0967..a33bcd1 100644
+--- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c
++++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_main.c
+@@ -172,6 +172,11 @@ module_param(select_queue, int, 0644);
+ MODULE_PARM_DESC(select_queue,
+ 		 "Select between kernel provided method of selecting or driver method of selecting TX queue. Default is kernel method.");
  
--static void nvmet_rdma_free_sgl(struct scatterlist *sgl, unsigned int nents)
-+static void nvmet_rdma_free_sgl(struct scatterlist *sgl, unsigned int nents,
-+				struct p2pmem_dev *p2pmem)
- {
- 	struct scatterlist *sg;
- 	int count;
-@@ -193,13 +198,17 @@ static void nvmet_rdma_free_sgl(struct scatterlist *sgl, unsigned int nents)
- 	if (!sgl || !nents)
- 		return;
- 
--	for_each_sg(sgl, sg, nents, count)
--		__free_page(sg_page(sg));
-+	for_each_sg(sgl, sg, nents, count) {
-+		if (p2pmem)
-+			p2pmem_free_page(p2pmem, sg_page(sg));
-+		else
-+			__free_page(sg_page(sg));
-+	}
- 	kfree(sgl);
- }
- 
- static int nvmet_rdma_alloc_sgl(struct scatterlist **sgl, unsigned int *nents,
--		u32 length)
-+		u32 length, struct p2pmem_dev *p2pmem)
- {
- 	struct scatterlist *sg;
- 	struct page *page;
-@@ -216,7 +225,11 @@ static int nvmet_rdma_alloc_sgl(struct scatterlist **sgl, unsigned int *nents,
- 	while (length) {
- 		u32 page_len = min_t(u32, length, PAGE_SIZE);
- 
--		page = alloc_page(GFP_KERNEL);
-+		if (p2pmem)
-+			page = p2pmem_alloc_page(p2pmem);
-+		else
-+			page = alloc_page(GFP_KERNEL);
++static bool use_p2pmem;
++module_param(use_p2pmem, bool, 0644);
++MODULE_PARM_DESC(use_p2pmem,
++		 "Enable registering a p2pmem device with bar space (if available)");
 +
- 		if (!page)
- 			goto out_free_pages;
+ static struct dentry *cxgb4_debugfs_root;
  
-@@ -231,7 +244,10 @@ static int nvmet_rdma_alloc_sgl(struct scatterlist **sgl, unsigned int *nents,
- out_free_pages:
- 	while (i > 0) {
- 		i--;
--		__free_page(sg_page(&sg[i]));
-+		if (p2pmem)
-+			p2pmem_free_page(p2pmem, sg_page(&sg[i]));
-+		else
-+			__free_page(sg_page(&sg[i]));
+ LIST_HEAD(adapter_list);
+@@ -2835,6 +2840,54 @@ static void setup_memwin_rdma(struct adapter *adap)
  	}
- 	kfree(sg);
- out:
-@@ -484,7 +500,8 @@ static void nvmet_rdma_release_rsp(struct nvmet_rdma_rsp *rsp)
- 	}
- 
- 	if (rsp->req.sg != &rsp->cmd->inline_sg)
--		nvmet_rdma_free_sgl(rsp->req.sg, rsp->req.sg_cnt);
-+		nvmet_rdma_free_sgl(rsp->req.sg, rsp->req.sg_cnt,
-+				    rsp->p2pmem);
- 
- 	if (unlikely(!list_empty_careful(&queue->rsp_wr_wait_list)))
- 		nvmet_rdma_process_wr_wait_list(queue);
-@@ -625,8 +642,16 @@ static u16 nvmet_rdma_map_sgl_keyed(struct nvmet_rdma_rsp *rsp,
- 	if (!len)
- 		return 0;
- 
-+	rsp->p2pmem = rsp->queue->p2pmem;
- 	status = nvmet_rdma_alloc_sgl(&rsp->req.sg, &rsp->req.sg_cnt,
--			len);
-+			len, rsp->p2pmem);
-+
-+	if (status && rsp->p2pmem) {
-+		rsp->p2pmem = NULL;
-+		status = nvmet_rdma_alloc_sgl(&rsp->req.sg, &rsp->req.sg_cnt,
-+					      len, rsp->p2pmem);
-+	}
-+
- 	if (status)
- 		return status;
- 
-@@ -984,6 +1009,7 @@ static void nvmet_rdma_free_queue(struct nvmet_rdma_queue *queue)
- 				!queue->host_qid);
- 	}
- 	nvmet_rdma_free_rsps(queue);
-+	p2pmem_put(queue->p2pmem);
- 	ida_simple_remove(&nvmet_rdma_queue_ida, queue->idx);
- 	kfree(queue);
- }
-@@ -1179,6 +1205,52 @@ static int nvmet_rdma_cm_accept(struct rdma_cm_id *cm_id,
- 	return ret;
  }
  
-+/*
-+ * If allow_p2pmem is set, we will try to use P2P memory for our
-+ * sgl lists. This requires the p2pmem device to be compatible with
-+ * the backing device for every namespace this device will support.
-+ * If not, we fall back on using system memory.
-+ */
-+static void nvmet_rdma_queue_setup_p2pmem(struct nvmet_rdma_queue *queue)
++static void setup_memwin_p2pmem(struct adapter *adap)
 +{
-+	struct device **dma_devs;
-+	struct nvmet_ns *ns;
-+	int ndevs = 1;
-+	int i = 0;
-+	struct nvmet_subsys_link *s;
++	unsigned int mem_base = t4_read_reg(adap, CIM_EXTMEM2_BASE_ADDR_A);
++	unsigned int mem_size = t4_read_reg(adap, CIM_EXTMEM2_ADDR_SIZE_A);
 +
-+	if (!queue->port->allow_p2pmem)
++	if (!use_p2pmem)
 +		return;
 +
-+	list_for_each_entry(s, &queue->port->subsystems, entry) {
-+		list_for_each_entry_rcu(ns, &s->subsys->namespaces, dev_link) {
-+			ndevs++;
-+		}
-+	}
++	if (mem_base != 0 && mem_size != 0) {
++		unsigned int sz_kb, pcieofst;
 +
-+	dma_devs = kmalloc((ndevs + 1) * sizeof(*dma_devs), GFP_KERNEL);
-+	if (!dma_devs)
-+		return;
++		sz_kb = roundup_pow_of_two(mem_size) >> 10;
 +
-+	dma_devs[i++] = &queue->dev->device->dev;
++		/*
++		 * The start offset must be aligned to the window size.
++		 * Also, BAR4 has MSIX vectors using the first 8KB.
++		 * Further, the min allowed p2pmem region size is 1MB,
++		 * so set the start offset to the memory size and we're aligned
++		 * as well as past the 8KB vector table.
++		 */
++		pcieofst = sz_kb << 10;
 +
-+	list_for_each_entry(s, &queue->port->subsystems, entry) {
-+		list_for_each_entry_rcu(ns, &s->subsys->namespaces, dev_link) {
-+			dma_devs[i++] = disk_to_dev(ns->bdev->bd_disk);
-+		}
-+	}
++		dev_info(adap->pdev_dev,
++			 "p2pmem base 0x%x, size %uB, ilog2(sk_kb) 0x%x, "
++			 "pcieofst 0x%X\n", mem_base, mem_size, ilog2(sz_kb),
++			 pcieofst);
 +
-+	dma_devs[i++] = NULL;
++		/* Write the window offset and size */
++		t4_write_reg(adap,
++			PCIE_MEM_ACCESS_REG(PCIE_MEM_ACCESS_BASE_WIN_A,
++					    MEMWIN_RSVD4),
++			pcieofst | BIR_V(2) | WINDOW_V(ilog2(sz_kb)));
 +
-+	queue->p2pmem = p2pmem_find_compat(dma_devs);
++		/* Write the adapter memory base/start */
++		t4_write_reg(adap,
++			PCIE_MEM_ACCESS_REG(PCIE_MEM_ACCESS_OFFSET_A,
++					    MEMWIN_RSVD4),
++			MEMOFST_V((mem_base >> MEMOFST_S)) | PFNUM_V(adap->pf));
 +
-+	if (queue->p2pmem)
-+		pr_debug("using %s for rdma nvme target queue",
-+			 dev_name(&queue->p2pmem->dev));
-+
-+	kfree(dma_devs);
++		/* Read it back to flush it */
++		t4_read_reg(adap,
++			PCIE_MEM_ACCESS_REG(PCIE_MEM_ACCESS_OFFSET_A,
++					    MEMWIN_RSVD4));
++	} else
++		dev_info(adap->pdev_dev, "p2pmem memory not reserved, "
++			 "base 0x%x size %uB\n", mem_base, mem_size);
 +}
 +
- static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 		struct rdma_cm_event *event)
+ static int adap_init1(struct adapter *adap, struct fw_caps_config_cmd *c)
  {
-@@ -1199,6 +1271,8 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
- 	}
- 	queue->port = cm_id->context;
+ 	u32 v;
+@@ -4622,6 +4675,42 @@ static int cxgb4_iov_configure(struct pci_dev *pdev, int num_vfs)
+ }
+ #endif
  
-+	nvmet_rdma_queue_setup_p2pmem(queue);
++static int init_p2pmem(struct adapter *adapter)
++{
++	unsigned int mem_size = t4_read_reg(adapter, CIM_EXTMEM2_ADDR_SIZE_A);
++	struct p2pmem_dev *p;
++	int rc;
++	struct resource res;
 +
- 	ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
- 	if (ret)
- 		goto release_queue;
++	if (!mem_size || !use_p2pmem)
++		return 0;
++
++	mem_size = roundup_pow_of_two(mem_size);
++
++	/*
++	 * Create a subset of BAR4 for the p2pmem region based on the
++	 * exported memory size.
++	 */
++	memcpy(&res, &adapter->pdev->resource[4], sizeof(res));
++	res.start += mem_size;
++	res.end = res.start + mem_size - 1;
++	dev_info(adapter->pdev_dev, "p2pmem resource start 0x%llx end 0x%llx size %lluB\n",
++		 res.start, res.end, resource_size(&res));
++
++	p = p2pmem_create(&adapter->pdev->dev);
++	if (IS_ERR(p))
++		return PTR_ERR(p);
++
++	rc = p2pmem_add_resource(p, &res);
++	if (rc) {
++		p2pmem_unregister(p);
++		return rc;
++	}
++	adapter->p2pmem = p;
++
++	return 0;
++}
++
+ static int init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
+ {
+ 	int func, i, err, s_qpp, qpp, num_seg;
+@@ -4784,8 +4873,8 @@ static int init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	bitmap_zero(adapter->sge.blocked_fl, adapter->sge.egr_sz);
+ #endif
+ 	setup_memwin_rdma(adapter);
+-	if (err)
+-		goto out_unmap_bar;
++
++	setup_memwin_p2pmem(adapter);
+ 
+ 	/* configure SGE_STAT_CFG_A to read WC stats */
+ 	if (!is_t4(adapter->params.chip))
+@@ -4989,6 +5078,7 @@ static int init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 
+ 	print_adapter_info(adapter);
+ 	setup_fw_sge_queues(adapter);
++	init_p2pmem(adapter);
+ 	return 0;
+ 
+ sriov:
+@@ -5047,7 +5137,6 @@ static int init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 		free_msix_info(adapter);
+ 	if (adapter->num_uld || adapter->num_ofld_uld)
+ 		t4_uld_mem_free(adapter);
+- out_unmap_bar:
+ 	if (!is_t4(adapter->params.chip))
+ 		iounmap(adapter->bar2);
+  out_free_adapter:
+@@ -5075,6 +5164,8 @@ static void remove_one(struct pci_dev *pdev)
+ 		return;
+ 	}
+ 
++	p2pmem_unregister(adapter->p2pmem);
++
+ 	if (adapter->pf == 4) {
+ 		int i;
+ 
+diff --git a/drivers/net/ethernet/chelsio/cxgb4/t4_regs.h b/drivers/net/ethernet/chelsio/cxgb4/t4_regs.h
+index 3348d33..199ddfb 100644
+--- a/drivers/net/ethernet/chelsio/cxgb4/t4_regs.h
++++ b/drivers/net/ethernet/chelsio/cxgb4/t4_regs.h
+@@ -735,6 +735,11 @@
+ 
+ #define PCIE_MEM_ACCESS_OFFSET_A 0x306c
+ 
++#define MEMOFST_S    7
++#define MEMOFST_M    0x1ffffffU
++#define MEMOFST_V(x) ((x) << MEMOFST_S)
++#define MEMOFST_G(x) (((x) >> MEMOFST_S) & MEMOFST_M)
++
+ #define ENABLE_S    30
+ #define ENABLE_V(x) ((x) << ENABLE_S)
+ #define ENABLE_F    ENABLE_V(1U)
 -- 
 2.1.4
