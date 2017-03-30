@@ -1,10 +1,12 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 30 Mar 2017 16:03:24 +0300
-Subject: [PATCH 1/2] nvme-fc: drop ctrl for all command completions
-In-Reply-To: <20170330114132.27292-1-hch@lst.de>
+Date: Thu, 30 Mar 2017 16:03:44 +0300
+Subject: [PATCH 2/2] nvme: factor request completion code into a common
+ helper
+In-Reply-To: <20170330114132.27292-2-hch@lst.de>
 References: <20170330114132.27292-1-hch@lst.de>
-Message-ID: <9b314b68-6c27-75c9-82c6-c9a0262aea5f@grimberg.me>
+ <20170330114132.27292-2-hch@lst.de>
+Message-ID: <70a67427-302d-e00a-6580-0df562debc2d@grimberg.me>
 
-Looks good,
+Nice cleanup,
 
 added to nvme-4.12
