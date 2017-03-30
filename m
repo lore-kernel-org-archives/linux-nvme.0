@@ -1,20 +1,17 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 30 Mar 2017 11:54:51 +0300
-Subject: [PATCH 3/3] nvme-fc: increment request retries counter before
- requeuing
-In-Reply-To: <1490810427-27776-4-git-send-email-sagi@grimberg.me>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 30 Mar 2017 04:23:12 -0700
+Subject: [PATCH 0/3] update request retries (loop, rdma, fc)
+In-Reply-To: <1490810427-27776-1-git-send-email-sagi@grimberg.me>
 References: <1490810427-27776-1-git-send-email-sagi@grimberg.me>
- <1490810427-27776-4-git-send-email-sagi@grimberg.me>
-Message-ID: <7fcdede8-7310-b7b3-b052-fd92f5aed467@mellanox.com>
+Message-ID: <20170330112312.GA29643@infradead.org>
 
+On Wed, Mar 29, 2017@09:00:24PM +0300, Sagi Grimberg wrote:
+> Keep a consistent behavior with what's checked in the core which
+> does not requeue if we exhausted nvme_max_retries.
 
+Looks fine:
 
-On 3/29/2017 9:00 PM, Sagi Grimberg wrote:
-> This way our max retry limit holds as well.
->
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
 
-
-Looks good
-
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+But we really need to move this to common code.  I'll send a series
+to do that, but it will be on top of your series.
