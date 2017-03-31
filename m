@@ -1,28 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 31 Mar 2017 17:00:05 +0200
-Subject: [PATCH 1/4] nvme: add missing byte swap in nvme_setup_discard
+Date: Fri, 31 Mar 2017 17:00:06 +0200
+Subject: [PATCH 2/4] nvmet: add missing byte swap in nvmet_get_smart_log
 In-Reply-To: <20170331150008.16034-1-hch@lst.de>
 References: <20170331150008.16034-1-hch@lst.de>
-Message-ID: <20170331150008.16034-2-hch@lst.de>
+Message-ID: <20170331150008.16034-3-hch@lst.de>
 
-Fixes: b35ba01e ("nvme: support ranged discard requests")
+In this case entirely harmless as it's all-ones, but still nice to
+shut up sparse.
+
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c | 2 +-
+ drivers/nvme/target/admin-cmd.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9b3b57fef446..9583a5f58a1d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -270,7 +270,7 @@ static inline int nvme_setup_discard(struct nvme_ns *ns, struct request *req,
- 	memset(cmnd, 0, sizeof(*cmnd));
- 	cmnd->dsm.opcode = nvme_cmd_dsm;
- 	cmnd->dsm.nsid = cpu_to_le32(ns->ns_id);
--	cmnd->dsm.nr = segments - 1;
-+	cmnd->dsm.nr = cpu_to_le32(segments - 1);
- 	cmnd->dsm.attributes = cpu_to_le32(NVME_DSMGMT_AD);
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index a7bcff45f437..76450b0c55f1 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -100,7 +100,7 @@ static u16 nvmet_get_smart_log(struct nvmet_req *req,
+ 	u16 status;
  
- 	req->special_vec.bv_page = virt_to_page(range);
+ 	WARN_ON(req == NULL || slog == NULL);
+-	if (req->cmd->get_log_page.nsid == 0xFFFFFFFF)
++	if (req->cmd->get_log_page.nsid == cpu_to_le32(0xFFFFFFFF))
+ 		status = nvmet_get_smart_log_all(req, slog);
+ 	else
+ 		status = nvmet_get_smart_log_nsid(req, slog);
 -- 
 2.11.0
