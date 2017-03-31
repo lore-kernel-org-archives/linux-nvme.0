@@ -1,29 +1,26 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 31 Mar 2017 17:00:08 +0200
-Subject: [PATCH 4/4] nvmet: fix byte swap in nvmet_parse_io_cmd
-In-Reply-To: <20170331150008.16034-1-hch@lst.de>
-References: <20170331150008.16034-1-hch@lst.de>
-Message-ID: <20170331150008.16034-5-hch@lst.de>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Fri, 31 Mar 2017 09:41:56 -0600
+Subject: [RFC 5/8] scatterlist: Modify SG copy functions to support io
+ memory.
+In-Reply-To: <20170331070950.GA9059@infradead.org>
+References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
+ <1490911959-5146-6-git-send-email-logang@deltatee.com>
+ <20170331070950.GA9059@infradead.org>
+Message-ID: <435d4471-436b-87e6-8827-c9fc6cbdde2c@deltatee.com>
 
-We need to do arithmetics after byte swapping, not before.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/target/io-cmd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
-index e37acd77b5fe..6b0baa9caab9 100644
---- a/drivers/nvme/target/io-cmd.c
-+++ b/drivers/nvme/target/io-cmd.c
-@@ -230,7 +230,7 @@ int nvmet_parse_io_cmd(struct nvmet_req *req)
- 		return 0;
- 	case nvme_cmd_dsm:
- 		req->execute = nvmet_execute_dsm;
--		req->data_len = le32_to_cpu(cmd->dsm.nr + 1) *
-+		req->data_len = (le32_to_cpu(cmd->dsm.nr) + 1) *
- 			sizeof(struct nvme_dsm_range);
- 		return 0;
- 	case nvme_cmd_write_zeroes:
--- 
-2.11.0
+On 31/03/17 01:09 AM, Christoph Hellwig wrote:
+> You're calling memcpy_{to,from}_iomem on non-__iomem pointers.  This
+> is a fundamental no-go as we keep I/O memory separate from kernel
+> pointers.
+
+Yes, that's true, however I don't know how we could get around that when
+the iomem is referenced by struct pages inside a scatter gather list. Do
+we need to now have special __iomem sgls? And even still, I'm not sure
+how that could work when the nvme target code is using the same sgls to
+sometimes point to iomem and sometimes point to regular memory.
+
+I'm certainly open to suggestions, though.
+
+Logan
