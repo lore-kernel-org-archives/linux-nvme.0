@@ -1,43 +1,40 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Fri, 31 Mar 2017 12:59:12 +0200 (CEST)
-Subject: [PATCH] irq/affinity: Assign all CPUs a vector
-In-Reply-To: <1490743277-14139-1-git-send-email-keith.busch@intel.com>
-References: <1490743277-14139-1-git-send-email-keith.busch@intel.com>
-Message-ID: <alpine.DEB.2.20.1703311247160.1780@nanos>
+From: marc.smith@mcc.edu (Marc Smith)
+Date: Fri, 31 Mar 2017 09:26:32 -0400
+Subject: Linux 4.9.8 + NVMe CiB Issue
+In-Reply-To: <20170310002745.GH14329@localhost.localdomain>
+References: <CAHkw+LcMtBp_xC6YdR-c=P-feZJvukNtkeEWueJ_y9wkAg2hUA@mail.gmail.com>
+ <20170215211240.GA23472@localhost.localdomain>
+ <CAHkw+Lfy-3b+Dg4Bwfg1ViBSNrWsiiuBSXJTcu2VQNdfBRcB0g@mail.gmail.com>
+ <CAHkw+LfthNu5Bs5xFNw3YRNmTHxFpea1E_W--f4ZVvd_gnMs0g@mail.gmail.com>
+ <CAHkw+Lem6EzvxwPYK+5R02rdDARzNxjCKGZXc-vDzLcdj8FJnQ@mail.gmail.com>
+ <CAHkw+Ldp4C+we2sCJ1EjcAquA0JcCwf91T0Pq0DThmRU3EwLVQ@mail.gmail.com>
+ <20170310002745.GH14329@localhost.localdomain>
+Message-ID: <CAHkw+LdOnTdwpSR8=aefeLk51aUCg9NzsDSJdT1t-S97jP0tng@mail.gmail.com>
 
-On Tue, 28 Mar 2017, Keith Busch wrote:
+Just an update in case anyone else stumbles upon this thread with the
+same issue: Intel reviewed the logs from the drives and determined the
+NVMe drives are hitting their maximum operating temperature and then
+shutting down.
 
-> The number of vectors to assign needs to be adjusted for each node such
-> that it doesn't exceed the number of CPUs in that node. This patch
-> recalculates the vector assignment per-node so that we don't try to
-> assign more vectors than there are CPUs. When that previously happened,
-> the cpus_per_vec was calculated to be 0, so many vectors had no CPUs
-> assigned. This then goes on to fail to allocate descriptors due to
-> empty masks, leading to an unoptimal spread.
+--Marc
 
-To be honest: This changelog sucks. I really have a hard time to figure out
-what's wrong. Can you please structure and rephrase this so it's
-understandable for people who did not debug the issue five days ago? That
-includes yourself when you have to look at that patch 3 month from now.
-
-A proper structure would be: Context - Problem - Solution. e.g.
-
-  irq_create_affinity_masks() spreads the interrupt vectors of a multi
-  queue device across CPUs.
-
-  The algorithm fails to do X, which causes problem Y
-
-  Make it do frotz so the blas are properly assigned.
-
-> Not only does this patch get the intended spread, this also fixes
-> other subsystems that depend on every CPU being assigned to something:
-> blk_mq_map_swqueue dereferences NULL while mapping s/w queues when CPUs
-> are unnassigned, so making sure all CPUs are assigned fixes that.
-
-That's hardly a justification for that change. If blk_mq_map_swqueue()
-lacks sanity checks, then blk_mq_map_swqueue() is broken and needs to be
-fixed independently of this.
-
-Thanks,
-
-	tglx
+On Thu, Mar 9, 2017@7:27 PM, Keith Busch <keith.busch@intel.com> wrote:
+> On Thu, Mar 09, 2017@03:25:01PM -0500, Marc Smith wrote:
+>> Hi,
+>>
+>> We opened a support case with Intel (# 02641251) but we aren't making
+>> much progress... they looked at log files from /var/log/ on our system
+>> and now seem to be blaming warning/error log lines from
+>> Corosync/Pacemaker on the issue. =)
+>>
+>> We're still able to reproduce this issue with high load... the NVMe
+>> drives "drop out", randomly, not always the same drive, when pushing
+>> I/O across all of our NVMe drives.
+>>
+>> We don't mind to keep pushing on the Intel NVMe hardware support
+>> front, but looking for confirmation that its believed based on the
+>> kernel log messages posted, that this is an issue with the NVMe drives
+>> themselves (eg, firmware)?
+>
+> This genuinely looks like the drives have stopped responding and needs
+> to be directed to the drive vendor.
