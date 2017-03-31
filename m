@@ -1,37 +1,32 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 31 Mar 2017 15:23:26 -0600
+From: okaya@codeaurora.org (Sinan Kaya)
+Date: Fri, 31 Mar 2017 17:38:46 -0400
 Subject: [RFC 1/8] Introduce Peer-to-Peer memory (p2pmem) device
-In-Reply-To: <cb102386-0314-a3a3-ed44-b42debdf1512@codeaurora.org>
+In-Reply-To: <7158f2e8-2016-f398-e77f-0fcbe6cb41dd@deltatee.com>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
  <1490911959-5146-2-git-send-email-logang@deltatee.com>
  <cb102386-0314-a3a3-ed44-b42debdf1512@codeaurora.org>
-Message-ID: <7158f2e8-2016-f398-e77f-0fcbe6cb41dd@deltatee.com>
+ <7158f2e8-2016-f398-e77f-0fcbe6cb41dd@deltatee.com>
+Message-ID: <e6a74aeb-9f54-51c5-8ad9-3b6fb92c03b3@codeaurora.org>
 
+On 3/31/2017 5:23 PM, Logan Gunthorpe wrote:
+> What exactly would you white/black list? It can't be the NIC or the
+> disk. If it's going to be a white/black list on the switch or root port
+> then you'd need essentially the same code to ensure they are all behind
+> the same switch or root port.
 
+What is so special about being connected to the same switch?
 
-On 31/03/17 12:49 PM, Sinan Kaya wrote:
-> Don't you need to clean up the p->pool here.
+Why don't we allow the feature by default and blacklist by the root ports
+that don't work with a quirk.
 
-See Patch 7 in the series.
+I'm looking at this from portability perspective to be honest.
 
->> +	put_device(&p->dev);
->> +}
->> +EXPORT_SYMBOL(p2pmem_unregister);
->> +
-> 
-> I don't like the ugliness around the switch port to be honest. 
-> 
-> Going to whitelist/blacklist looks simpler in my opinion.
+I'd rather see the feature enabled by default without any assumptions.
+Using it with a switch is just a use case that you happened to test.
+It can allow new architectures to use your code tomorrow.
 
-What exactly would you white/black list? It can't be the NIC or the
-disk. If it's going to be a white/black list on the switch or root port
-then you'd need essentially the same code to ensure they are all behind
-the same switch or root port. So you could add a white/black list on top
-of the current scheme but you couldn't get rid of it.
-
-Our original plan was to just punt the decision to userspace but we had
-pushback on that at LSF.
-
-Thanks,
-
-Logan
+Sinan
+-- 
+Sinan Kaya
+Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
+Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
