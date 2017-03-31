@@ -1,26 +1,43 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Fri, 31 Mar 2017 09:41:56 -0600
-Subject: [RFC 5/8] scatterlist: Modify SG copy functions to support io
- memory.
-In-Reply-To: <20170331070950.GA9059@infradead.org>
+From: okaya@codeaurora.org (Sinan Kaya)
+Date: Fri, 31 Mar 2017 14:49:01 -0400
+Subject: [RFC 1/8] Introduce Peer-to-Peer memory (p2pmem) device
+In-Reply-To: <1490911959-5146-2-git-send-email-logang@deltatee.com>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <1490911959-5146-6-git-send-email-logang@deltatee.com>
- <20170331070950.GA9059@infradead.org>
-Message-ID: <435d4471-436b-87e6-8827-c9fc6cbdde2c@deltatee.com>
+ <1490911959-5146-2-git-send-email-logang@deltatee.com>
+Message-ID: <cb102386-0314-a3a3-ed44-b42debdf1512@codeaurora.org>
+
+Hi Logan,
+
+> +/**
+> + * p2pmem_unregister() - unregister a p2pmem device
+> + * @p: the device to unregister
+> + *
+> + * The device will remain until all users are done with it
+> + */
+> +void p2pmem_unregister(struct p2pmem_dev *p)
+> +{
+> +	if (!p)
+> +		return;
+> +
+> +	dev_info(&p->dev, "unregistered");
+> +	device_del(&p->dev);
+> +	ida_simple_remove(&p2pmem_ida, p->id);
+
+Don't you need to clean up the p->pool here.
+
+> +	put_device(&p->dev);
+> +}
+> +EXPORT_SYMBOL(p2pmem_unregister);
+> +
+
+I don't like the ugliness around the switch port to be honest. 
+
+Going to whitelist/blacklist looks simpler in my opinion.
+
+Sinan
 
 
-
-On 31/03/17 01:09 AM, Christoph Hellwig wrote:
-> You're calling memcpy_{to,from}_iomem on non-__iomem pointers.  This
-> is a fundamental no-go as we keep I/O memory separate from kernel
-> pointers.
-
-Yes, that's true, however I don't know how we could get around that when
-the iomem is referenced by struct pages inside a scatter gather list. Do
-we need to now have special __iomem sgls? And even still, I'm not sure
-how that could work when the nvme target code is using the same sgls to
-sometimes point to iomem and sometimes point to regular memory.
-
-I'm certainly open to suggestions, though.
-
-Logan
+-- 
+Sinan Kaya
+Qualcomm Datacenter Technologies, Inc. as an affiliate of Qualcomm Technologies, Inc.
+Qualcomm Technologies, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project.
