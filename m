@@ -1,11 +1,11 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 31 Mar 2017 17:00:07 +0200
-Subject: [PATCH 3/4] nvmet: fix byte swap in nvmet_execute_write_zeroes
+Date: Fri, 31 Mar 2017 17:00:08 +0200
+Subject: [PATCH 4/4] nvmet: fix byte swap in nvmet_parse_io_cmd
 In-Reply-To: <20170331150008.16034-1-hch@lst.de>
 References: <20170331150008.16034-1-hch@lst.de>
-Message-ID: <20170331150008.16034-4-hch@lst.de>
+Message-ID: <20170331150008.16034-5-hch@lst.de>
 
-The length field in the Write Zeroes command is a 16-bit field.
+We need to do arithmetics after byte swapping, not before.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
@@ -13,17 +13,17 @@ Signed-off-by: Christoph Hellwig <hch at lst.de>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/io-cmd.c b/drivers/nvme/target/io-cmd.c
-index 4195115c7e54..e37acd77b5fe 100644
+index e37acd77b5fe..6b0baa9caab9 100644
 --- a/drivers/nvme/target/io-cmd.c
 +++ b/drivers/nvme/target/io-cmd.c
-@@ -180,7 +180,7 @@ static void nvmet_execute_write_zeroes(struct nvmet_req *req)
- 
- 	sector = le64_to_cpu(write_zeroes->slba) <<
- 		(req->ns->blksize_shift - 9);
--	nr_sector = (((sector_t)le32_to_cpu(write_zeroes->length)) <<
-+	nr_sector = (((sector_t)le16_to_cpu(write_zeroes->length)) <<
- 		(req->ns->blksize_shift - 9)) + 1;
- 
- 	if (__blkdev_issue_zeroout(req->ns->bdev, sector, nr_sector,
+@@ -230,7 +230,7 @@ int nvmet_parse_io_cmd(struct nvmet_req *req)
+ 		return 0;
+ 	case nvme_cmd_dsm:
+ 		req->execute = nvmet_execute_dsm;
+-		req->data_len = le32_to_cpu(cmd->dsm.nr + 1) *
++		req->data_len = (le32_to_cpu(cmd->dsm.nr) + 1) *
+ 			sizeof(struct nvme_dsm_range);
+ 		return 0;
+ 	case nvme_cmd_write_zeroes:
 -- 
 2.11.0
