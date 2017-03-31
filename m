@@ -1,14 +1,12 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 30 Mar 2017 23:51:01 -0700
-Subject: [PATCH] nvme: supplement nvme error status code enum items in
- linux/nvme.h
-In-Reply-To: <480997ba-4ee6-0b5a-3581-56c401b2254e@huawei.com>
-References: <1490709577-8204-1-git-send-email-guanjunxiong@huawei.com>
- <480997ba-4ee6-0b5a-3581-56c401b2254e@huawei.com>
-Message-ID: <20170331065101.GA14519@infradead.org>
+Date: Fri, 31 Mar 2017 00:01:28 -0700
+Subject: [PATCH v7 RFC] nvme: improve performance for virtual NVMe devices
+In-Reply-To: <1490895961-28828-1-git-send-email-helen.koike@collabora.com>
+References: <20170330173324.GH20181@localhost.localdomain>
+ <1490895961-28828-1-git-send-email-helen.koike@collabora.com>
+Message-ID: <20170331070128.GA28852@infradead.org>
 
-On Fri, Mar 31, 2017@09:48:46AM +0800, Guan Junxiong wrote:
-> Does this patch which supplements  those left-out status codes/values  look good ?
+I'd still prefer to not hide the MMIO path behind nvme_write_doorbell,
+but except for that this looks fine to me:
 
-It looks fine.  Where fine means it looks correct but I don't see the
-point of adding status values not actually used in the kernel.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
