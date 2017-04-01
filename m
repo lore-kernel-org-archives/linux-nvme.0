@@ -1,84 +1,35 @@
-From: helen.koike@collabora.com (Helen Koike)
-Date: Sat, 1 Apr 2017 18:50:03 -0300
-Subject: [PATCH v7 RFC] nvme: improve performance for virtual NVMe devices
-In-Reply-To: <20170331070128.GA28852@infradead.org>
-References: <20170330173324.GH20181@localhost.localdomain>
- <1490895961-28828-1-git-send-email-helen.koike@collabora.com>
- <20170331070128.GA28852@infradead.org>
-Message-ID: <b421e5a1-d60d-10b0-1d26-33a38298e01e@collabora.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Sat, 1 Apr 2017 16:16:35 -0600
+Subject: [RFC 1/8] Introduce Peer-to-Peer memory (p2pmem) device
+In-Reply-To: <e2165253dc355d5cb223e754d78047b1@codeaurora.org>
+References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
+ <1490911959-5146-2-git-send-email-logang@deltatee.com>
+ <cb102386-0314-a3a3-ed44-b42debdf1512@codeaurora.org>
+ <7158f2e8-2016-f398-e77f-0fcbe6cb41dd@deltatee.com>
+ <e6a74aeb-9f54-51c5-8ad9-3b6fb92c03b3@codeaurora.org>
+ <0280fbb4-ba9e-ac64-6bb3-b72590a54e57@deltatee.com>
+ <0ae27bca-21be-b89c-aba4-6cc9766ebd7b@codeaurora.org>
+ <c8edc480-a2ac-a763-8438-18f3396db483@deltatee.com>
+ <e2165253dc355d5cb223e754d78047b1@codeaurora.org>
+Message-ID: <c5d7da85-41fd-2769-fcf8-b3c2a1fab95f@deltatee.com>
 
+Hey,
 
-Hi Christoph,
+On 31/03/17 08:17 PM, okaya@codeaurora.org wrote:
+> See drivers/pci and drivers/acpi directory.
 
-Thanks for reviewing this patch
+The best I could find was the date of the firmware/bios. I really don't
+think that makes sense to tie the two together. And really the more that
+I think about it trying to do a date cutoff for this seems crazy without
+very comprehensive hardware testing done. I have no idea which AMD chips
+have decent root ports for this and then if we include all of ARM and
+POWERPC, etc there's a huge amount of unknown hardware. Saying that the
+system's firmware has to be written after 2016 seems like an arbitrary
+restriction that isn't likely to correlate to any working systems.
 
-On 2017-03-31 04:01 AM, Christoph Hellwig wrote:
-> I'd still prefer to not hide the MMIO path behind nvme_write_doorbell,
-> but except for that this looks fine to me:
->
+I still say the only sane thing to do is allow all switches and then add
+a whitelist of root ports that are known to work well. If we care about
+preventing broken systems in a comprehensive way then that's the only
+thing that is going to work.
 
-Do you mean wrapping the call to writel()? What do you think if I send a new
-version with the changes below? It wouldn't hide the call to writel()
-inside nvme_write_doorbell anymore.
-
-Helen
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 3ce705a..0e5f2a1 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -277,8 +277,9 @@ static inline int nvme_dbbuf_need_event(u16 
-event_idx, u16 new_idx, u16 old)
-         return (u16)(new_idx - event_idx - 1) < (u16)(new_idx - old);
-  }
-
--static void nvme_write_doorbell(u16 value, u32 __iomem *db, u32 *dbbuf_db,
--                               volatile u32 *dbbuf_ei)
-+/* Update dbbuf and return true if a MMIO is required */
-+static bool nvme_dbbuf_update_and_check_event(u16 value, u32 *dbbuf_db,
-+                                             volatile u32 *dbbuf_ei)
-  {
-         if (dbbuf_db) {
-                 u16 old_value;
-@@ -291,11 +292,12 @@ static void nvme_write_doorbell(u16 value, u32 
-__iomem *db, u32 *dbbuf_db,
-
-                 old_value = *dbbuf_db;
-                 *dbbuf_db = value;
-+
-                 if (!nvme_dbbuf_need_event(*dbbuf_ei, value, old_value))
--                       return;
-+                       return false;
-         }
-
--       writel(value, db);
-+       return true;
-  }
-
-  /*
-@@ -422,8 +424,9 @@ static void __nvme_submit_cmd(struct nvme_queue *nvmeq,
-
-         if (++tail == nvmeq->q_depth)
-                 tail = 0;
--       nvme_write_doorbell(tail, nvmeq->q_db, nvmeq->dbbuf_sq_db,
--                           nvmeq->dbbuf_sq_ei);
-+       if (nvme_dbbuf_update_and_check_event(tail, nvmeq->dbbuf_sq_db,
-+                                             nvmeq->dbbuf_sq_ei))
-+               writel(tail, nvmeq->q_db);
-         nvmeq->sq_tail = tail;
-  }
-
-@@ -839,8 +842,9 @@ static void __nvme_process_cq(struct nvme_queue 
-*nvmeq, unsigned int *tag)
-                 return;
-
-         if (likely(nvmeq->cq_vector >= 0))
--               nvme_write_doorbell(head, nvmeq->q_db + 
-nvmeq->dev->db_stride,
--                                   nvmeq->dbbuf_cq_db, nvmeq->dbbuf_cq_ei);
-+               if (nvme_dbbuf_update_and_check_event(head, 
-nvmeq->dbbuf_cq_db,
-+                                                     nvmeq->dbbuf_cq_ei))
-+                       writel(head, nvmeq->q_db + nvmeq->dev->db_stride);
-         nvmeq->cq_head = head;
-         nvmeq->cq_phase = phase;
+Logan
