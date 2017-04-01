@@ -1,71 +1,82 @@
-From: bart.vanassche@sandisk.com (Bart Van Assche)
-Date: Fri, 30 Sep 2016 08:55:59 -0700
-Subject: [PATCH v2 4/7] blk-mq: Introduce blk_quiesce_queue() and
- blk_resume_queue()
-In-Reply-To: <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
-References: <f153ee47-e599-c333-92b0-d5da475012f3@sandisk.com>
- <a9eb4e95-6d77-e527-c42a-fd2e6f104bed@sandisk.com>
- <CACVXFVOO4P3RsnWci8XHdFoYBhNPq0KqjWJddsie-92+31bpEg@mail.gmail.com>
-Message-ID: <9fb67745-954c-a70f-a89a-d184c99ae9aa@sandisk.com>
+From: dmngaie@gmail.com (Dennis Mungai)
+Date: Sat, 1 Apr 2017 10:13:48 +0300
+Subject: Linux 4.9.8 + NVMe CiB Issue
+In-Reply-To: <CAHkw+LfMkJCdvc_bETjiXUbYtLuZKoaGXCGE1Hmo9K7=L7OOxw@mail.gmail.com>
+References: <CAHkw+LcMtBp_xC6YdR-c=P-feZJvukNtkeEWueJ_y9wkAg2hUA@mail.gmail.com>
+ <20170215211240.GA23472@localhost.localdomain>
+ <CAHkw+Lfy-3b+Dg4Bwfg1ViBSNrWsiiuBSXJTcu2VQNdfBRcB0g@mail.gmail.com>
+ <CAHkw+LfthNu5Bs5xFNw3YRNmTHxFpea1E_W--f4ZVvd_gnMs0g@mail.gmail.com>
+ <CAHkw+Lem6EzvxwPYK+5R02rdDARzNxjCKGZXc-vDzLcdj8FJnQ@mail.gmail.com>
+ <CAHkw+Ldp4C+we2sCJ1EjcAquA0JcCwf91T0Pq0DThmRU3EwLVQ@mail.gmail.com>
+ <20170310002745.GH14329@localhost.localdomain>
+ <CAHkw+LdOnTdwpSR8=aefeLk51aUCg9NzsDSJdT1t-S97jP0tng@mail.gmail.com>
+ <20170331140744.GJ20181@localhost.localdomain>
+ <CAHkw+LfMkJCdvc_bETjiXUbYtLuZKoaGXCGE1Hmo9K7=L7OOxw@mail.gmail.com>
+Message-ID: <CAKKYfmG3fLg2x0PDzCZYqGbjgAiMVP_pz_Nctz=KjndDEfVe3Q@mail.gmail.com>
 
-On 09/29/16 14:51, Ming Lei wrote:
-> On Thu, Sep 29, 2016 at 7:59 AM, Bart Van Assche
-> <bart.vanassche@sandisk.com> wrote:
->> blk_quiesce_queue() prevents that new queue_rq() invocations
+And to add a few comments on this:
+
+NVMe drives run hot, and one of their safety mechanisms is to first
+throttle (which drops IO performance ) in an attempt to lower
+operating temperature, and secondly, if all else fails, shut down
+completely.
+
+The problem the user is encountering here has to do with cooling. Let
+me explain:
+
+As a systems builder, one thing I've noticed with worrying concern is
+how quickly NVMe SSDs heat up significantly under load, yet so little
+is done by vendors to include either proper heat sink assemblies or
+throttling mechanisms in hardware (I'm looking at you, Samsung and
+Toshiba!), compounded with hilarious firmware bugs such as declaring
+support for asynchronous trim when in fact it's not supported,
+resulting in unneeded blacklists.
+
+The solution here, for the end user is simple:
+
+1. On installation, deploy the NVMe SSDs in such a way that they have
+adequate cooling and airflow. And if that's not possible, acquire a
+PCIe adapter as their clearance guarantees airflow which is critical
+for cooling.
+
+2. Use a third party silicon cooling strip on the drive. They act as
+good heat sinks that can keep the drive running under prolonged load.
+A simple Google search will show you what to get .
+
+And for manufacturers
+
+1. Implement heat sink shields on these drives. Samsung has done an
+excellent job on the 960 Evo and Pro NVMes, and even in a closed up
+space such as a gaming laptop, the heat sink assembly keeps the drive
+below the thermal throttling point.
+
+2. Firmware: Please implement throttling mechanisms that trip at
+reasonable temperatures. I've seen a drive out here (hint: Phison
+controller based) set to trip at 85 degrees, meaning that it often
+tends to shut down first before the thermal throttle kicks in.
+
+These hints might help.
+
+Regards,
+
+Dennis.
+
+On 31 March 2017@17:33, Marc Smith <marc.smith@mcc.edu> wrote:
+> Exactly! =)
 >
-> blk_mq_quiesce_queue()
-
-Thanks, I will update the patch title and patch description.
-
->> +void blk_mq_quiesce_queue(struct request_queue *q)
->> +{
->> +       struct blk_mq_hw_ctx *hctx;
->> +       unsigned int i;
->> +       bool res, rcu = false;
->> +
->> +       spin_lock_irq(q->queue_lock);
->> +       WARN_ON_ONCE(blk_queue_quiescing(q));
->> +       queue_flag_set(QUEUE_FLAG_QUIESCING, q);
->> +       spin_unlock_irq(q->queue_lock);
->> +
->> +       res = __blk_mq_freeze_queue_start(q, false);
+> Thanks for your help.
 >
-> Looks the implementation is a bit tricky and complicated, if the percpu
-> usage counter isn't killed, it isn't necessary to touch .mq_freeze_depth
-> since you use QUEUE_FLAG_QUIESCING to set/get this status of
-> the queue.
- >
- > Then using synchronize_rcu() and rcu_read_lock()/rcu_read_unlock()
- > with the flag of QUIESCING may be enough to wait for completing
- > of ongoing invocations of .queue_rq() and avoid to run new .queue_rq,
- > right?
-
-That's an interesting thought. Can you have a look at the attached patch 
-in which blk_mq_quiesce_queue() no longer manipulates the 
-mq_freeze_depth counter?
-
->> +       WARN_ON_ONCE(!res);
->> +       queue_for_each_hw_ctx(q, hctx, i) {
->> +               if (hctx->flags & BLK_MQ_F_BLOCKING) {
->> +                       mutex_lock(&hctx->queue_rq_mutex);
->> +                       mutex_unlock(&hctx->queue_rq_mutex);
 >
-> Could you explain a bit why all BLOCKING is treated so special? And
-> that flag just means the hw queue always need to schedule asynchronously,
-> and of course even though the flag isn't set, it still may be run
-> asynchronously too. So looks it should be enough to just use RCU.
-
-The mutex manipulations introduce atomic stores in the hot path. Hence 
-the use of synchronize_rcu() and rcu_read_lock()/rcu_read_unlock() when 
-possible. Since BLK_MQ_F_BLOCKING indicates that .queue_rq() may sleep 
-and since sleeping is not allowed while holding the RCU read lock, 
-queue_rq_mutex has been introduced for the BLK_MQ_F_BLOCKING case.
-
-Bart.
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: 0001-blk-mq-Introduce-blk_mq_quiesce_queue.patch
-Type: text/x-patch
-Size: 6466 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20160930/0dd0b79e/attachment-0001.bin>
+> --Marc
+>
+> On Fri, Mar 31, 2017@10:07 AM, Keith Busch <keith.busch@intel.com> wrote:
+>> On Fri, Mar 31, 2017@09:26:32AM -0400, Marc Smith wrote:
+>>> NVMe drives are hitting their maximum operating temperature and then
+>>> shutting down.
+>>
+>> That's not cool.
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
