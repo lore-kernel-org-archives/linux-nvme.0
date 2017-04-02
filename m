@@ -1,18 +1,59 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 2 Apr 2017 11:14:33 +0300
-Subject: trivial nvme fixes for 4.11
-In-Reply-To: <20170331150008.16034-1-hch@lst.de>
-References: <20170331150008.16034-1-hch@lst.de>
-Message-ID: <90d35dab-2c24-fcc0-8ccd-f25e884b3589@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun,  2 Apr 2017 16:41:26 +0300
+Subject: [PATCH rfc 0/6] Automatic affinity settings for nvme over rdma
+Message-ID: <1491140492-25703-1-git-send-email-sagi@grimberg.me>
 
+This patch set is aiming to automatically find the optimal
+queue <-> irq multi-queue assignments in storage ULPs (demonstrated
+on nvme-rdma) based on the underlying rdma device irq affinity
+settings.
 
+First two patches modify mlx5 core driver to use generic API
+to allocate array of irq vectors with automatic affinity
+settings instead of open-coding exactly what it does (and
+slightly worse).
 
-On 3/31/2017 6:00 PM, Christoph Hellwig wrote:
-> A few sparse fixes for endianes errors that slipped in in the last
-> releases.
->
->
+Then, in order to obtain an affinity map for a given completion
+vector, we expose a new RDMA core API, and implement it in mlx5.
 
-Series looks good,
+The third part is addition of a rdma-based queue mapping helper
+to blk-mq that maps the tagset hctx's according to the device
+affinity mappings.
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+I'd happily convert some more drivers, but I'll need volunteers
+to test as I don't have access to any other devices.
+
+I cc'd @netdev (and Saeed + Or) as this is the place that most of
+mlx5 core action takes place, so Saeed, would love to hear your
+feedback.
+
+Any feedback is welcome.
+
+Sagi Grimberg (6):
+  mlx5: convert to generic pci_alloc_irq_vectors
+  mlx5: move affinity hints assignments to generic code
+  RDMA/core: expose affinity mappings per completion vector
+  mlx5: support ->get_vector_affinity
+  block: Add rdma affinity based queue mapping helper
+  nvme-rdma: use intelligent affinity based queue mappings
+
+ block/Kconfig                                      |   5 +
+ block/Makefile                                     |   1 +
+ block/blk-mq-rdma.c                                |  56 +++++++++++
+ drivers/infiniband/hw/mlx5/main.c                  |  10 ++
+ drivers/net/ethernet/mellanox/mlx5/core/en_main.c  |   5 +-
+ drivers/net/ethernet/mellanox/mlx5/core/eq.c       |   9 +-
+ drivers/net/ethernet/mellanox/mlx5/core/eswitch.c  |   2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/health.c   |   2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/main.c     | 106 +++------------------
+ .../net/ethernet/mellanox/mlx5/core/mlx5_core.h    |   1 -
+ drivers/nvme/host/rdma.c                           |  13 +++
+ include/linux/blk-mq-rdma.h                        |  10 ++
+ include/linux/mlx5/driver.h                        |   2 -
+ include/rdma/ib_verbs.h                            |  24 +++++
+ 14 files changed, 138 insertions(+), 108 deletions(-)
+ create mode 100644 block/blk-mq-rdma.c
+ create mode 100644 include/linux/blk-mq-rdma.h
+
+-- 
+2.7.4
