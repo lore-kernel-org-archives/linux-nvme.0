@@ -1,48 +1,90 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Sun, 2 Apr 2017 22:26:08 -0600
-Subject: [RFC 1/8] Introduce Peer-to-Peer memory (p2pmem) device
-In-Reply-To: <bed80d4e-7709-5991-498e-0ac361ca96a6@codeaurora.org>
-References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <1490911959-5146-2-git-send-email-logang@deltatee.com>
- <cb102386-0314-a3a3-ed44-b42debdf1512@codeaurora.org>
- <7158f2e8-2016-f398-e77f-0fcbe6cb41dd@deltatee.com>
- <e6a74aeb-9f54-51c5-8ad9-3b6fb92c03b3@codeaurora.org>
- <0280fbb4-ba9e-ac64-6bb3-b72590a54e57@deltatee.com>
- <0ae27bca-21be-b89c-aba4-6cc9766ebd7b@codeaurora.org>
- <c8edc480-a2ac-a763-8438-18f3396db483@deltatee.com>
- <e2165253dc355d5cb223e754d78047b1@codeaurora.org>
- <c5d7da85-41fd-2769-fcf8-b3c2a1fab95f@deltatee.com>
- <f0448277-9381-5c3d-d194-1efa1d1b44a6@codeaurora.org>
- <63d73995-4dfa-6270-ca13-972e0628011b@deltatee.com>
- <bed80d4e-7709-5991-498e-0ac361ca96a6@codeaurora.org>
-Message-ID: <ef507444-d3e5-0454-86a0-b5c4ae4b4dd9@deltatee.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon,  3 Apr 2017 15:25:53 -0400
+Subject: [PATCHv2] irq/affinity: Fix CPU spread for unbalanced nodes
+Message-ID: <1491247553-7603-1-git-send-email-keith.busch@intel.com>
 
+The irq_create_affinity_masks routine is responsible for assigning a
+number of interrupt vectors to CPUs. The optimal assignemnet will spread
+requested vectors to all CPUs, with the fewest CPUs sharing a vector.
 
+The algorithm may fail to assign some vectors to any CPUs if a node's
+CPU count is lower than the average number of vectors per node. These
+vectors are unusable and create an un-optimal spread.
 
-On 02/04/17 03:03 PM, Sinan Kaya wrote:
-> Push the decision all the way to the user. Let them decide whether they
-> want this feature to work on a root port connected port or under the
-> switch.
+This patch will recalculate the number of vectors to assign at each node
+iteration by using the remaining number of vectors and nodes to assigned,
+not exceeding the number of CPUs in that node. This will guarantee that
+every CPU is assigned at least one vector.
 
-Yes, I prefer this too. If other folks agree with that I'd be very happy
-to go back to user chooses. I think Sagi was the most vocal proponent
-for kernel chooses at LSF so hopefully he will read this thread and
-offer some opinion.
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+---
+v1 -> v2:
 
-> I thought the issue was feature didn't work at all with some root ports
-> or there was some kind of memory corruption issue that you were trying to
-> avoid with the existing systems.
+  Updated the change log with a more coherent description of the problem
+  and solution, and removed the unnecessary blk-mq justification.
 
-I *think* there are some much older root ports where P2P TLPs don't even
-get through. But it doesn't really change the situation: in the nvmet
-case, the user would enable p2pmem and then be unable to connect and
-thus choose to disable it going forward. Not a big difference from the
-user seeing bad performance and not choosing to enable it.
+ kernel/irq/affinity.c | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-> I think you should get rid of all pci searching business in your code.
-
-Yes, my original proposal was when you configure the nvme target you
-chose the specific p2pmem device to use. That code had no tie ins to PCI
-code and could, in theory, work generically with any device and bus.
-
-Logan
+diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
+index 4544b11..dc52911 100644
+--- a/kernel/irq/affinity.c
++++ b/kernel/irq/affinity.c
+@@ -59,7 +59,7 @@ static int get_nodes_in_cpumask(const struct cpumask *mask, nodemask_t *nodemsk)
+ struct cpumask *
+ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ {
+-	int n, nodes, vecs_per_node, cpus_per_vec, extra_vecs, curvec;
++	int n, nodes, cpus_per_vec, extra_vecs, curvec;
+ 	int affv = nvecs - affd->pre_vectors - affd->post_vectors;
+ 	int last_affv = affv + affd->pre_vectors;
+ 	nodemask_t nodemsk = NODE_MASK_NONE;
+@@ -94,19 +94,21 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 		goto done;
+ 	}
+ 
+-	/* Spread the vectors per node */
+-	vecs_per_node = affv / nodes;
+-	/* Account for rounding errors */
+-	extra_vecs = affv - (nodes * vecs_per_node);
+-
+ 	for_each_node_mask(n, nodemsk) {
+-		int ncpus, v, vecs_to_assign = vecs_per_node;
++		int ncpus, v, vecs_to_assign, vecs_per_node;
++
++		/* Spread the vectors per node */
++		vecs_per_node = (affv - curvec) / nodes;
+ 
+ 		/* Get the cpus on this node which are in the mask */
+ 		cpumask_and(nmsk, cpu_online_mask, cpumask_of_node(n));
+ 
+ 		/* Calculate the number of cpus per vector */
+ 		ncpus = cpumask_weight(nmsk);
++		vecs_to_assign = min(vecs_per_node, ncpus);
++
++		/* Account for rounding errors */
++		extra_vecs = ncpus - vecs_to_assign;
+ 
+ 		for (v = 0; curvec < last_affv && v < vecs_to_assign;
+ 		     curvec++, v++) {
+@@ -115,14 +117,14 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 			/* Account for extra vectors to compensate rounding errors */
+ 			if (extra_vecs) {
+ 				cpus_per_vec++;
+-				if (!--extra_vecs)
+-					vecs_per_node++;
++				--extra_vecs;
+ 			}
+ 			irq_spread_init_one(masks + curvec, nmsk, cpus_per_vec);
+ 		}
+ 
+ 		if (curvec >= last_affv)
+ 			break;
++		--nodes;
+ 	}
+ 
+ done:
+-- 
+2.7.2
