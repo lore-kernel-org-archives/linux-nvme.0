@@ -1,44 +1,31 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 4 Apr 2017 10:51:47 +0300
-Subject: [PATCH rfc 0/6] Automatic affinity settings for nvme over rdma
-In-Reply-To: <1491140492-25703-1-git-send-email-sagi@grimberg.me>
-References: <1491140492-25703-1-git-send-email-sagi@grimberg.me>
-Message-ID: <86ed1762-a990-691f-e043-3d7dcac8fe85@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue,  4 Apr 2017 12:54:46 +0300
+Subject: [GIT PULL] nvme patches for kernel 4.11 rc6
+Message-ID: <1491299686-6222-1-git-send-email-sagi@grimberg.me>
 
->
-> Any feedback is welcome.
+Hey Jens,
 
-Hi Sagi,
+We have one spec mis-match fix from Roland and
+several sparse fixes from Christoph.
 
-the patchset looks good and of course we can add support for more 
-drivers in the future.
-have you run some performance testing with the nvmf initiator ?
+please pull from:
 
+  git://git.infradead.org/nvme.git nvme-4.11-rc
 
->
-> Sagi Grimberg (6):
->   mlx5: convert to generic pci_alloc_irq_vectors
->   mlx5: move affinity hints assignments to generic code
->   RDMA/core: expose affinity mappings per completion vector
->   mlx5: support ->get_vector_affinity
->   block: Add rdma affinity based queue mapping helper
->   nvme-rdma: use intelligent affinity based queue mappings
->
->  block/Kconfig                                      |   5 +
->  block/Makefile                                     |   1 +
->  block/blk-mq-rdma.c                                |  56 +++++++++++
->  drivers/infiniband/hw/mlx5/main.c                  |  10 ++
->  drivers/net/ethernet/mellanox/mlx5/core/en_main.c  |   5 +-
->  drivers/net/ethernet/mellanox/mlx5/core/eq.c       |   9 +-
->  drivers/net/ethernet/mellanox/mlx5/core/eswitch.c  |   2 +-
->  drivers/net/ethernet/mellanox/mlx5/core/health.c   |   2 +-
->  drivers/net/ethernet/mellanox/mlx5/core/main.c     | 106 +++------------------
->  .../net/ethernet/mellanox/mlx5/core/mlx5_core.h    |   1 -
->  drivers/nvme/host/rdma.c                           |  13 +++
->  include/linux/blk-mq-rdma.h                        |  10 ++
->  include/linux/mlx5/driver.h                        |   2 -
->  include/rdma/ib_verbs.h                            |  24 +++++
->  14 files changed, 138 insertions(+), 108 deletions(-)
->  create mode 100644 block/blk-mq-rdma.c
->  create mode 100644 include/linux/blk-mq-rdma.h
->
+Thanks!
+
+----------------------------------------------------------------
+Christoph Hellwig (4):
+      nvme: add missing byte swap in nvme_setup_discard
+      nvmet: add missing byte swap in nvmet_get_smart_log
+      nvmet: fix byte swap in nvmet_execute_write_zeroes
+      nvmet: fix byte swap in nvmet_parse_io_cmd
+
+Roland Dreier (1):
+      nvme: Correct NVMF enum values to match NVMe-oF rev 1.0
+
+ drivers/nvme/host/core.c        |  2 +-
+ drivers/nvme/target/admin-cmd.c |  2 +-
+ drivers/nvme/target/io-cmd.c    |  4 ++--
+ include/linux/nvme.h            | 16 ++++++++--------
+ 4 files changed, 12 insertions(+), 12 deletions(-)
