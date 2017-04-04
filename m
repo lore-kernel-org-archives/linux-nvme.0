@@ -1,31 +1,17 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 4 Apr 2017 13:42:57 +0300
-Subject: [RFC 2/8] cxgb4: setup pcie memory window 4 and create p2pmem
- region
-In-Reply-To: <1490911959-5146-3-git-send-email-logang@deltatee.com>
+Date: Tue, 4 Apr 2017 13:46:09 +0300
+Subject: [RFC 4/8] p2pmem: Add debugfs "stats" file
+In-Reply-To: <1490911959-5146-5-git-send-email-logang@deltatee.com>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <1490911959-5146-3-git-send-email-logang@deltatee.com>
-Message-ID: <f269d9e1-8dcf-7970-382e-cb0d9a020efc@grimberg.me>
+ <1490911959-5146-5-git-send-email-logang@deltatee.com>
+Message-ID: <95928b70-0148-7297-8f5e-5031d996bb98@grimberg.me>
 
 
-> +static void setup_memwin_p2pmem(struct adapter *adap)
-> +{
-> +	unsigned int mem_base = t4_read_reg(adap, CIM_EXTMEM2_BASE_ADDR_A);
-> +	unsigned int mem_size = t4_read_reg(adap, CIM_EXTMEM2_ADDR_SIZE_A);
+> +	p2pmem_debugfs_root = debugfs_create_dir("p2pmem", NULL);
+> +	if (!p2pmem_debugfs_root)
+> +		pr_info("could not create debugfs entry, continuing\n");
 > +
-> +	if (!use_p2pmem)
-> +		return;
 
-This is weird, why even call this if !use_p2pmem?
+Why continue? I think it'd be better to just fail it.
 
-> +static int init_p2pmem(struct adapter *adapter)
-> +{
-> +	unsigned int mem_size = t4_read_reg(adapter, CIM_EXTMEM2_ADDR_SIZE_A);
-> +	struct p2pmem_dev *p;
-> +	int rc;
-> +	struct resource res;
-> +
-> +	if (!mem_size || !use_p2pmem)
-> +		return 0;
-
-Again, weird...
+Besides, this can be safely squashed into patch 1.
