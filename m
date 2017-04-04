@@ -1,38 +1,28 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 4 Apr 2017 11:21:58 -0600
-Subject: [RFC 6/8] nvmet: Be careful about using iomem accesses when
- dealing with p2pmem
-In-Reply-To: <20170404154629.GA13552@obsidianresearch.com>
+Date: Tue, 4 Apr 2017 11:25:41 -0600
+Subject: [RFC 4/8] p2pmem: Add debugfs "stats" file
+In-Reply-To: <95928b70-0148-7297-8f5e-5031d996bb98@grimberg.me>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <1490911959-5146-7-git-send-email-logang@deltatee.com>
- <080b68b4-eba3-861c-4f29-5d829425b5e7@grimberg.me>
- <20170404154629.GA13552@obsidianresearch.com>
-Message-ID: <c5638d51-d43f-f30e-f32c-531b3091bd49@deltatee.com>
+ <1490911959-5146-5-git-send-email-logang@deltatee.com>
+ <95928b70-0148-7297-8f5e-5031d996bb98@grimberg.me>
+Message-ID: <d6dac1a4-8c16-d780-fca5-9cbc4d3e2407@deltatee.com>
 
 
 
-On 04/04/17 04:59 AM, Sagi Grimberg wrote:
-> We can never ever get here from an IO command, and that is a good thing
-> because it would have been broken if we did, regardless of what copy
-> method we use...
-
-Yes, I changed this mostly for admin commands. I did notice connect
-commands do end up reading from the p2mem and this patchset correctly
-switches it to iomemcpy. However, based on Cristoph's comment, I hope to
-make it more general such that iomem is hidden within sgls and any
-access will either be correct or create a warning.
-
-
-On 04/04/17 09:46 AM, Jason Gunthorpe wrote:
-> Transactions might not complete at the NVMe device before the CPU
-> processes the RDMA completion, however due to the PCI-E ordering rules
-> new TLPs directed to the NVMe will complete after the RMDA TLPs and
-> thus observe the new data. (eg order preserving)
+On 04/04/17 04:46 AM, Sagi Grimberg wrote:
 > 
-> It would be very hard to use P2P if fabric ordering is not preserved..
+>> +    p2pmem_debugfs_root = debugfs_create_dir("p2pmem", NULL);
+>> +    if (!p2pmem_debugfs_root)
+>> +        pr_info("could not create debugfs entry, continuing\n");
+>> +
+> 
+> Why continue? I think it'd be better to just fail it.
 
-Yes, my understanding is the same, the PCI-E ordering rules save us here.
+Yup, agreed. This should probably also be PTR_ERR as well.
 
-Thanks,
+> Besides, this can be safely squashed into patch 1.
+
+Sure, the only real reason I kept it separate was it was authored by
+Steve Wise.
 
 Logan
