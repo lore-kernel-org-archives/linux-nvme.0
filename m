@@ -1,45 +1,25 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 4 Apr 2017 13:59:26 +0300
-Subject: [RFC 6/8] nvmet: Be careful about using iomem accesses when
- dealing with p2pmem
-In-Reply-To: <1490911959-5146-7-git-send-email-logang@deltatee.com>
-References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <1490911959-5146-7-git-send-email-logang@deltatee.com>
-Message-ID: <080b68b4-eba3-861c-4f29-5d829425b5e7@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 4 Apr 2017 15:09:26 +0200
+Subject: [PATCH rfc 5/6] block: Add rdma affinity based queue mapping
+ helper
+In-Reply-To: <becb84ac-7819-a207-56b1-70f16cb80e42@mellanox.com>
+References: <1491140492-25703-1-git-send-email-sagi@grimberg.me>
+ <1491140492-25703-6-git-send-email-sagi@grimberg.me>
+ <becb84ac-7819-a207-56b1-70f16cb80e42@mellanox.com>
+Message-ID: <20170404130926.GA16338@lst.de>
 
+On Tue, Apr 04, 2017@10:46:54AM +0300, Max Gurtovoy wrote:
+>> +	if (set->nr_hw_queues > dev->num_comp_vectors)
+>> +		goto fallback;
+>> +
+>> +	for (queue = 0; queue < set->nr_hw_queues; queue++) {
+>> +		mask = ib_get_vector_affinity(dev, first_vec + queue);
+>> +		if (!mask)
+>> +			goto fallback;
+>
+> Christoph,
+> we can use fallback also in the blk-mq-pci.c in case pci_irq_get_affinity 
+> fails, right ?
 
->  u16 nvmet_copy_to_sgl(struct nvmet_req *req, off_t off, const void *buf,
->  		size_t len)
->  {
-> -	if (sg_pcopy_from_buffer(req->sg, req->sg_cnt, buf, len, off) != len)
-> +	bool iomem = req->p2pmem;
-> +	size_t ret;
-> +
-> +	ret = sg_copy_buffer(req->sg, req->sg_cnt, (void *)buf, len, off,
-> +			     false, iomem);
-> +
-> +	if (ret != len)
->  		return NVME_SC_SGL_INVALID_DATA | NVME_SC_DNR;
-> +
->  	return 0;
->  }
-
-We can never ever get here from an IO command, and that is a good thing
-because it would have been broken if we did, regardless of what copy
-method we use...
-
-Note that the nvme completion queues are still on the host memory, so
-this means we have lost the ordering between data and completions as
-they go to different pcie targets.
-
-If at all, this is the place to *emphasize* we must never get here
-with p2pmem, and immediately fail if we do.
-
-I'm not sure what will happen with to copy_from_sgl, I guess we
-have the same race because the nvme submission queues are also
-on the host memory (which is on a different pci target). Maybe
-more likely to happen with write-combine enabled?
-
-Anyway I don't think we have a real issue here *currently*, because
-we use copy_to_sgl only for admin/fabrics commands emulation and
-copy_from_sgl to setup dsm ranges...
+For PCI it shouldn't fail as the driver calling pci_irq_get_affinity
+knows how it set up the interrupts.  So I don't think it's necessary there.
