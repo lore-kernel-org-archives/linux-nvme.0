@@ -1,28 +1,28 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 4 Apr 2017 11:25:41 -0600
-Subject: [RFC 4/8] p2pmem: Add debugfs "stats" file
-In-Reply-To: <95928b70-0148-7297-8f5e-5031d996bb98@grimberg.me>
-References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <1490911959-5146-5-git-send-email-logang@deltatee.com>
- <95928b70-0148-7297-8f5e-5031d996bb98@grimberg.me>
-Message-ID: <d6dac1a4-8c16-d780-fca5-9cbc4d3e2407@deltatee.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue,  4 Apr 2017 18:18:12 -0400
+Subject: [PATCH] nvme/pci: Don't set reserved SQ create flags
+Message-ID: <1491344292-23949-1-git-send-email-keith.busch@intel.com>
 
+The QPRIO field is only valid if weighted round robin arbitration is used,
+and this driver doesn't enable that controller configuration option.
 
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ drivers/nvme/host/pci.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 04/04/17 04:46 AM, Sagi Grimberg wrote:
-> 
->> +    p2pmem_debugfs_root = debugfs_create_dir("p2pmem", NULL);
->> +    if (!p2pmem_debugfs_root)
->> +        pr_info("could not create debugfs entry, continuing\n");
->> +
-> 
-> Why continue? I think it'd be better to just fail it.
-
-Yup, agreed. This should probably also be PTR_ERR as well.
-
-> Besides, this can be safely squashed into patch 1.
-
-Sure, the only real reason I kept it separate was it was authored by
-Steve Wise.
-
-Logan
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 26a5fd0..4eb0815 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -812,7 +812,7 @@ static int adapter_alloc_sq(struct nvme_dev *dev, u16 qid,
+ 						struct nvme_queue *nvmeq)
+ {
+ 	struct nvme_command c;
+-	int flags = NVME_QUEUE_PHYS_CONTIG | NVME_SQ_PRIO_MEDIUM;
++	int flags = NVME_QUEUE_PHYS_CONTIG;
+ 
+ 	/*
+ 	 * Note: we (ab)use the fact the the prp fields survive if no data
+-- 
+2.5.5
