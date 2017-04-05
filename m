@@ -1,28 +1,15 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Tue,  4 Apr 2017 18:18:12 -0400
-Subject: [PATCH] nvme/pci: Don't set reserved SQ create flags
-Message-ID: <1491344292-23949-1-git-send-email-keith.busch@intel.com>
+From: nisha.miller420@gmail.com (Nisha Miller)
+Date: Tue, 4 Apr 2017 18:28:30 -0700
+Subject: PRP1 not min page size aligned in read/write cmds
+Message-ID: <CAG3=cOn1rZHQ7dETovf5n=_3QRSMOrZFC+PibNJiQeH0kr2ZWA@mail.gmail.com>
 
-The QPRIO field is only valid if weighted round robin arbitration is used,
-and this driver doesn't enable that controller configuration option.
+Hi,
 
-Signed-off-by: Keith Busch <keith.busch at intel.com>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+We have specified Min page size as 4K in our FW. So we expect that all
+read/write commands sent to FW will operate on multiples of 4K blocks.
+However we observe that sometimes we receive read/write commands where
+the PRP1 address is not 4K aligned, e.g 0x84CD5CD50. Is this normal or
+expected?
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 26a5fd0..4eb0815 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -812,7 +812,7 @@ static int adapter_alloc_sq(struct nvme_dev *dev, u16 qid,
- 						struct nvme_queue *nvmeq)
- {
- 	struct nvme_command c;
--	int flags = NVME_QUEUE_PHYS_CONTIG | NVME_SQ_PRIO_MEDIUM;
-+	int flags = NVME_QUEUE_PHYS_CONTIG;
- 
- 	/*
- 	 * Note: we (ab)use the fact the the prp fields survive if no data
--- 
-2.5.5
+TIA
+Nisha
