@@ -1,44 +1,26 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 5 Apr 2017 12:14:33 -0600
-Subject: [PATCH v2 2/2] blk-mq: Add a polling specific stats function
-In-Reply-To: <1491413957-30885-3-git-send-email-sbates@raithlin.com>
-References: <1491413957-30885-1-git-send-email-sbates@raithlin.com>
- <1491413957-30885-3-git-send-email-sbates@raithlin.com>
-Message-ID: <370c8854-1735-b0e7-089f-4b04068ca4f1@kernel.dk>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 5 Apr 2017 20:16:05 +0200
+Subject: ->retries fixups V2
+In-Reply-To: <20170405180653.GA5548@kernel.dk>
+References: <20170405171812.19911-1-hch@lst.de>
+ <20170405180653.GA5548@kernel.dk>
+Message-ID: <20170405181605.GA9702@lst.de>
 
-On 04/05/2017 11:39 AM, sbates@raithlin.com wrote:
-> @@ -42,6 +42,33 @@ static LIST_HEAD(all_q_list);
->  static void blk_mq_poll_stats_start(struct request_queue *q);
->  static void blk_mq_poll_stats_fn(struct blk_stat_callback *cb);
->  
-> +static int blk_mq_poll_stats_bkt(const struct request *rq)
-> +{
-> +	int dir, bytes;
-> +
-> +	dir = blk_stat_rq_ddir(rq);
-> +	bytes = blk_rq_bytes(rq);
-> +
-> +	if (bytes <= 512)
-> +		return dir;
-> +	else if (bytes <= 4096)
-> +		return dir + 2;
-> +	else if (bytes <= 8192)
-> +		return dir + 4;
-> +	else if (bytes <= 16384)
-> +		return dir + 6;
-> +	else if (bytes <= 32768)
-> +		return dir + 8;
-> +	else if (bytes <= 65536)
-> +		return dir + 10;
-> +	else
-> +		return dir + 12;
+On Wed, Apr 05, 2017@12:06:53PM -0600, Jens Axboe wrote:
+> On Wed, Apr 05 2017, Christoph Hellwig wrote:
+> > This series fixes a few lose bits in terms of how nvme uses ->retries,
+> > including fixing it for non-PCIe transports.  While at it I noticed that
+> > nvme and scsi use the field in entirely different ways, and no other
+> > driver uses it at all.  So I decided to move it into the nvme_request and
+> > scsi_request structures instead.
+> > 
+> > Changes since V1:
+> >  - better changelog for one patch
+> >  - move the new retries field to the end of struct nvme_request
+> 
+> Applied for 4.12. If we do the below on my box, we remove the (now) 2
+> holes from struct request and shrink it 8 bytes.
 
-Why not just have 8 buckets, and make it:
+Looks good:
 
-	bucket = ddir + ilog2(bytes) - 9;
-
-and cap it at MAX_BUCKET (8) and put all those above into the top
-bucket.
-
--- 
-Jens Axboe
+Reviewed-by: Christoph Hellwig <hch at lst.de>
