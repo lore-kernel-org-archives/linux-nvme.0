@@ -1,9 +1,9 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 5 Apr 2017 20:32:57 +0300
-Subject: [PATCH 2/5] nvme: cleanup nvme_req_needs_retry
-In-Reply-To: <20170405171812.19911-3-hch@lst.de>
+Date: Wed, 5 Apr 2017 20:33:04 +0300
+Subject: [PATCH 3/5] nvme: mark nvme_max_retries static
+In-Reply-To: <20170405171812.19911-4-hch@lst.de>
 References: <20170405171812.19911-1-hch@lst.de>
- <20170405171812.19911-3-hch@lst.de>
-Message-ID: <cfc0bb0d-1981-b6d6-c3d3-515d3349b5dc@grimberg.me>
+ <20170405171812.19911-4-hch@lst.de>
+Message-ID: <f9851fd6-6834-6c5e-71d2-998fc032b728@grimberg.me>
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
