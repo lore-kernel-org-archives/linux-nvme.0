@@ -1,32 +1,77 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 5 Apr 2017 12:18:07 -0600
-Subject: ->retries fixups V2
-In-Reply-To: <20170405181605.GA9702@lst.de>
-References: <20170405171812.19911-1-hch@lst.de>
- <20170405180653.GA5548@kernel.dk> <20170405181605.GA9702@lst.de>
-Message-ID: <3d389bc8-9de9-f523-f1b3-3e1d4a3d4dba@kernel.dk>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Wed,  5 Apr 2017 16:40:37 -0300
+Subject: [PATCH] nvme: avoid NULL pointer dereference in error recovery path
+Message-ID: <20170405194037.1019-1-gpiccoli@linux.vnet.ibm.com>
 
-On 04/05/2017 12:16 PM, Christoph Hellwig wrote:
-> On Wed, Apr 05, 2017@12:06:53PM -0600, Jens Axboe wrote:
->> On Wed, Apr 05 2017, Christoph Hellwig wrote:
->>> This series fixes a few lose bits in terms of how nvme uses ->retries,
->>> including fixing it for non-PCIe transports.  While at it I noticed that
->>> nvme and scsi use the field in entirely different ways, and no other
->>> driver uses it at all.  So I decided to move it into the nvme_request and
->>> scsi_request structures instead.
->>>
->>> Changes since V1:
->>>  - better changelog for one patch
->>>  - move the new retries field to the end of struct nvme_request
->>
->> Applied for 4.12. If we do the below on my box, we remove the (now) 2
->> holes from struct request and shrink it 8 bytes.
-> 
-> Looks good:
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
+It's possible that driver fails to recover from a PCI error and the
+PCI core (or arch PCI specifics, like EEH in PowerPC) starts a process
+of device removal. While this removal process is happening, if another
+PCI error is triggered, we might have a NULL address for
+"struct *nvme_dev", pointed by "pci_dev *driver_data" - for example this
+happens if nvme_remove() already have set that pci_dev struct's field
+to NULL.
 
-Thanks, added that too.
+In this case, the driver error handler functions will dereferece a NULL
+pointer, causing a kernel oops. This patch checks for NULL pointer on
+error handlers and in case "driver_data" points to NULL, it aborts the
+error recovery path and return a fail error value to PCI core.
 
+Also, the patch "standardize" the use of "pci_dev dev" as pointer to
+"struct device", instead of "nvme_dev->nvme_ctrl.device".
+
+Fixes: a0a3408ee614 ("NVMe: Add pci error handlers")
+Cc: stable at vger.kernel.org # v4.5+
+Signed-off-by: Guilherme G. Piccoli <gpiccoli at linux.vnet.ibm.com>
+---
+ drivers/nvme/host/pci.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 26a5fd05fe88..283a930ab6ac 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2089,6 +2089,12 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+ 
++	if (!dev) {
++		dev_err(&pdev->dev,
++			"device already removed, aborting error recovery\n");
++		return PCI_ERS_RESULT_DISCONNECT;
++	}
++
+ 	/*
+ 	 * A frozen channel requires a reset. When detected, this method will
+ 	 * shutdown the controller to quiesce. The controller will be restarted
+@@ -2098,12 +2104,12 @@ static pci_ers_result_t nvme_error_detected(struct pci_dev *pdev,
+ 	case pci_channel_io_normal:
+ 		return PCI_ERS_RESULT_CAN_RECOVER;
+ 	case pci_channel_io_frozen:
+-		dev_warn(dev->ctrl.device,
++		dev_warn(&pdev->dev,
+ 			"frozen state error detected, reset controller\n");
+ 		nvme_dev_disable(dev, false);
+ 		return PCI_ERS_RESULT_NEED_RESET;
+ 	case pci_channel_io_perm_failure:
+-		dev_warn(dev->ctrl.device,
++		dev_warn(&pdev->dev,
+ 			"failure state error detected, request disconnect\n");
+ 		return PCI_ERS_RESULT_DISCONNECT;
+ 	}
+@@ -2114,7 +2120,13 @@ static pci_ers_result_t nvme_slot_reset(struct pci_dev *pdev)
+ {
+ 	struct nvme_dev *dev = pci_get_drvdata(pdev);
+ 
+-	dev_info(dev->ctrl.device, "restart after slot reset\n");
++	if (!dev) {
++		dev_err(&pdev->dev,
++			"device already removed, aborting slot reset\n");
++		return PCI_ERS_RESULT_DISCONNECT;
++	}
++
++	dev_info(&pdev->dev, "restart after slot reset\n");
+ 	pci_restore_state(pdev);
+ 	nvme_reset(dev);
+ 	return PCI_ERS_RESULT_RECOVERED;
 -- 
-Jens Axboe
+2.11.0
