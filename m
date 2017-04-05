@@ -1,11 +1,16 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 5 Apr 2017 11:05:29 +0300
-Subject: [PATCH 0/5] nvmet_fc: bug fixes and lldd api mods
-In-Reply-To: <20170324034321.8719-1-jsmart2021@gmail.com>
-References: <20170324034321.8719-1-jsmart2021@gmail.com>
-Message-ID: <556c8471-fa11-5a84-a688-f1f7e549feb9@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 5 Apr 2017 09:12:25 -0400
+Subject: PRP1 not min page size aligned in read/write cmds
+In-Reply-To: <CAG3=cOn1rZHQ7dETovf5n=_3QRSMOrZFC+PibNJiQeH0kr2ZWA@mail.gmail.com>
+References: <CAG3=cOn1rZHQ7dETovf5n=_3QRSMOrZFC+PibNJiQeH0kr2ZWA@mail.gmail.com>
+Message-ID: <20170405131225.GR20181@localhost.localdomain>
 
-James,
+On Tue, Apr 04, 2017@06:28:30PM -0700, Nisha Miller wrote:
+> We have specified Min page size as 4K in our FW. So we expect that all
+> read/write commands sent to FW will operate on multiples of 4K blocks.
+> However we observe that sometimes we receive read/write commands where
+> the PRP1 address is not 4K aligned, e.g 0x84CD5CD50. Is this normal or
+> expected?
 
-This set and "nvme_fc: add ctlr reset support and abort fixes"
-no longer cleanly applied on nvme-4.12, care to rebase and resend?
+Yes, the first PRP entry and any list pointer may have an offset. The
+remaining entries can not. See section 4.3, figure 14 in NVMe 1.2.1 spec.
