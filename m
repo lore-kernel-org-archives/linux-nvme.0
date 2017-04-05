@@ -1,62 +1,59 @@
-From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
-Date: Wed, 5 Apr 2017 17:01:15 -0300
-Subject: [PATCH] nvme: avoid NULL pointer dereference in error recovery
- path
-In-Reply-To: <20170405194357.GA11705@lst.de>
-References: <20170405194037.1019-1-gpiccoli@linux.vnet.ibm.com>
- <20170405194357.GA11705@lst.de>
-Message-ID: <dbabb032-9d5f-9e92-b3c8-600e3e2e3719@linux.vnet.ibm.com>
+From: maurosr@linux.vnet.ibm.com (Mauro S. M. Rodrigues)
+Date: Wed,  5 Apr 2017 20:49:06 -0300
+Subject: [PATCH] nvmetcli: Install nvmetcli in /usr/sbin with setup.py
+Message-ID: <1491436146-8769-1-git-send-email-maurosr@linux.vnet.ibm.com>
 
-On 04/05/2017 04:43 PM, Christoph Hellwig wrote:
-> On Wed, Apr 05, 2017@04:40:37PM -0300, Guilherme G. Piccoli wrote:
->> It's possible that driver fails to recover from a PCI error and the
->> PCI core (or arch PCI specifics, like EEH in PowerPC) starts a process
->> of device removal. While this removal process is happening, if another
->> PCI error is triggered, we might have a NULL address for
->> "struct *nvme_dev", pointed by "pci_dev *driver_data" - for example this
->> happens if nvme_remove() already have set that pci_dev struct's field
->> to NULL.
->>
->> In this case, the driver error handler functions will dereferece a NULL
->> pointer, causing a kernel oops. This patch checks for NULL pointer on
->> error handlers and in case "driver_data" points to NULL, it aborts the
->> error recovery path and return a fail error value to PCI core.
-> 
-> I think this needs to be fixed at a higher level, that is the PCI
-> core.  Once you have the callbacks run in parallel a simple null check
-> isn't going to fix this but every single access to the structure
-> is a possible use after free.
-> 
+According to the README, one can install nvmetcli through setup.py.
+When one tries this though, the nvmetcli isn't configured in system's
+$PATH.
 
-Christoph, your point makes sense.
-It's possible (I guess not expected, but at least feasible) to have a
-2nd PCI error being triggered while a 1st error is in
-recovery/removal-on-failure process, after the slot_reset() step of the
-1st error specifically.
+Adding nvmetcli to scripts argument in setup call does half of the job.
+Then, in order to install it in the correct location in a maintanable
+way it's introduced setup.cfg file which contains 'install_scripts'
+parameter for 'install' command set to /usr/sbin.
 
-Many drivers around do these NULL pointer checks - solving this in EEH
-core would mean having a way to every driver communicate the error
-recovery process is completed and the next error could be "issued".
-Like PCI core would "stack" the next error.
+Nothing changes on the .deb package creation, the .rpm package process
+in the other hand was made simpler by lines that are now done by
+setup.py + setup.cfg settings.
 
-But...what if the device has really a severe issue in its slot, and it's
-unable to recover at all? So, it'll trigger another error and naturally
-the callbacks are going to be called, expecting to drop recoveries and
-signal to PCI core something went real bad.
+Signed-off-by: Mauro S. M. Rodrigues <maurosr at linux.vnet.ibm.com>
+---
+ rpm/nvmetcli.spec.tmpl | 2 --
+ setup.cfg              | 2 ++
+ setup.py               | 1 +
+ 3 files changed, 3 insertions(+), 2 deletions(-)
+ create mode 100644 setup.cfg
 
-So, I believe these NULL checks will avoid at least this dereference
-case and enforce signaling to PCI core to remove the device if this
-"racy" error sequence happens after a device recovery failure is in process.
-
-If you see another paths that multiple PCI errors happening in sequence
-might cause trouble to nvme driver that I'm not aware, please let me
-know and we can think a better solution. Also, if you have ideas on how
-to address this in a more elegant/generic way, let me know too, I really
-appreciate. Guess this patch is the most simplistic approach, at least
-the one I could think of.
-
-Thanks for the quick review!
-Cheers,
-
-
-Guilherme
+diff --git a/rpm/nvmetcli.spec.tmpl b/rpm/nvmetcli.spec.tmpl
+index 1ffdbe6..f1b5533 100644
+--- a/rpm/nvmetcli.spec.tmpl
++++ b/rpm/nvmetcli.spec.tmpl
+@@ -29,8 +29,6 @@ as well as saving / restoring the configuration to / from a json file.
+ rm -rf %{buildroot}
+ %{__python} setup.py install --skip-build --root=%{buildroot} --prefix=usr
+ mkdir -p %{buildroot}%{_sysconfdir}/nvmet
+-mkdir -p %{buildroot}/usr/sbin
+-install -m 755 nvmetcli %{buildroot}/usr/sbin/nvmetcli
+ mkdir -p %{buildroot}%{_unitdir}
+ install -m 644 nvmet.service %{buildroot}%{_unitdir}/nvmet.service
+ 
+diff --git a/setup.cfg b/setup.cfg
+new file mode 100644
+index 0000000..ed3bf6e
+--- /dev/null
++++ b/setup.cfg
+@@ -0,0 +1,2 @@
++[install]
++install_scripts=/usr/sbin
+diff --git a/setup.py b/setup.py
+index fdd6cea..c03a78d 100755
+--- a/setup.py
++++ b/setup.py
+@@ -27,4 +27,5 @@ setup(
+     maintainer_email = 'hch at lst.de',
+     test_suite='nose2.collector.collector',
+     packages = ['nvmet'],
++    scripts=['nvmetcli']
+     )
+-- 
+2.7.4
