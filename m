@@ -1,90 +1,78 @@
-From: sbates@raithlin.com (sbates@raithlin.com)
-Date: Wed,  5 Apr 2017 11:39:16 -0600
-Subject: [PATCH v2 1/2] blk-stat: convert blk-stat bucket callback to signed
-In-Reply-To: <1491413957-30885-1-git-send-email-sbates@raithlin.com>
-References: <1491413957-30885-1-git-send-email-sbates@raithlin.com>
-Message-ID: <1491413957-30885-2-git-send-email-sbates@raithlin.com>
+From: Darren.Trapp@cavium.com (Trapp, Darren)
+Date: Wed, 5 Apr 2017 17:48:51 +0000
+Subject: [PATCH] rdma: force queue size to respect controller capability
+In-Reply-To: <89695878-8e93-94ea-653d-6381b92e9cbd@grimberg.me>
+References: <444159155.19898733.1477380154029.JavaMail.zimbra@kalray.eu>
+ <df71b855-c133-b3ad-ec81-e36a6f851531@intel.com>
+ <89695878-8e93-94ea-653d-6381b92e9cbd@grimberg.me>
+Message-ID: <13B28543-5903-4CD0-ACA1-B34EC4D8F883@cavium.com>
 
-From: Stephen Bates <sbates@raithlin.com>
+Sagi,
 
-In order to allow for filtering of IO based on some other properties
-of the request than direction we allow the bucket function to return
-an int.
+Was the +1 issue resolved differently?  I?m looking at the current code and I still see MQES + 1 being used.
 
-If the bucket callback returns a negative do no count it in the stats
-accumulation.
+I?m running into an issue where my target reports a MQES of 3fh.  
 
-Signed-off-by: Stephen Bates <sbates at raithlin.com>
----
- block/blk-stat.c | 6 ++++--
- block/blk-stat.h | 9 +++++----
- 2 files changed, 9 insertions(+), 6 deletions(-)
+The original ctrl->ctrl.sqsize comes from the create ctrl which sets a 0 based size.
+       ctrl->ctrl.sqsize = opts->queue_size - 1;
 
-diff --git a/block/blk-stat.c b/block/blk-stat.c
-index e77ec52..dde9d39 100644
---- a/block/blk-stat.c
-+++ b/block/blk-stat.c
-@@ -19,7 +19,7 @@ struct blk_queue_stats {
- 	bool enable_accounting;
- };
- 
--unsigned int blk_stat_rq_ddir(const struct request *rq)
-+int blk_stat_rq_ddir(const struct request *rq)
- {
- 	return rq_data_dir(rq);
- }
-@@ -104,6 +104,8 @@ void blk_stat_add(struct request *rq)
- 	list_for_each_entry_rcu(cb, &q->stats->callbacks, list) {
- 		if (blk_stat_is_active(cb)) {
- 			bucket = cb->bucket_fn(rq);
-+			if (bucket < 0)
-+				continue;
- 			stat = &this_cpu_ptr(cb->cpu_stat)[bucket];
- 			__blk_stat_add(stat, value);
- 		}
-@@ -135,7 +137,7 @@ static void blk_stat_timer_fn(unsigned long data)
- 
- struct blk_stat_callback *
- blk_stat_alloc_callback(void (*timer_fn)(struct blk_stat_callback *),
--			unsigned int (*bucket_fn)(const struct request *),
-+			int (*bucket_fn)(const struct request *),
- 			unsigned int buckets, void *data)
- {
- 	struct blk_stat_callback *cb;
-diff --git a/block/blk-stat.h b/block/blk-stat.h
-index 53f08a6..622a62c 100644
---- a/block/blk-stat.h
-+++ b/block/blk-stat.h
-@@ -48,9 +48,10 @@ struct blk_stat_callback {
- 
- 	/**
- 	 * @bucket_fn: Given a request, returns which statistics bucket it
--	 * should be accounted under.
-+	 * should be accounted under. Return -1 for no bucket for this
-+	 * request.
- 	 */
--	unsigned int (*bucket_fn)(const struct request *);
-+	int (*bucket_fn)(const struct request *);
- 
- 	/**
- 	 * @buckets: Number of statistics buckets.
-@@ -120,7 +121,7 @@ void blk_stat_enable_accounting(struct request_queue *q);
-  *
-  * Return: Data direction of the request, either READ or WRITE.
-  */
--unsigned int blk_stat_rq_ddir(const struct request *rq);
-+int blk_stat_rq_ddir(const struct request *rq);
- 
- /**
-  * blk_stat_alloc_callback() - Allocate a block statistics callback.
-@@ -135,7 +136,7 @@ unsigned int blk_stat_rq_ddir(const struct request *rq);
-  */
- struct blk_stat_callback *
- blk_stat_alloc_callback(void (*timer_fn)(struct blk_stat_callback *),
--			unsigned int (*bucket_fn)(const struct request *),
-+			int (*bucket_fn)(const struct request *),
- 			unsigned int buckets, void *data);
- 
- /**
--- 
-2.7.4
+When host does the 
+        ctrl->ctrl.sqsize =
+                min_t(int, NVME_CAP_MQES(ctrl->cap) + 1, ctrl->ctrl.sqsize);
+
+ the comparison is  min_t(40h, 7fh)
+
+So sqsize is now set as a 1 based value.  When the IO q is created, the target rejects it since it is larger than the max size.
+
+
+
+Darren Trapp
+Senior Director - Engineering
+darren.trapp at cavium.com <mailto:darren.trapp at caviumnetworks.com>
+T 949-389-6273
+M 949-212-8576
+26650 Aliso Viejo Pkwy, Aliso Viejo, CA 92656
+www.qlogic.com <http://www.qlogic.com/>
+ <http://www.qlogic.com/>
+
+On 10/26/16, 1:36 AM, "Linux-nvme on behalf of Sagi Grimberg" <linux-nvme-bounces@lists.infradead.org on behalf of sagi@grimberg.me> wrote:
+
+    > I believe there's an off-by-one (or two) lurking here.
+    >
+    > It looks to me like ctrlr->ctrlr.sqsize is intended to be 0's-based:
+    > - sqsize is passed as HSQSIZE in the Connect private data, which is
+    > 0's-based
+    > - sqsize is set to opts->queue_size - 1 earlier in nvme_rdma_create_ctrlr()
+    >
+    > However, this new change assigns opts->queue_size (non-0's-based value)
+    > the current value of ctrlr->ctrlr.sqsize (0's-based value) without any
+    > adjustment.
+    >
+    > This is probably because there is another bug in
+    > nvme_rdma_configure_admin_queue(), where sqsize is set to a value based
+    > on CAP.MQES + 1.  MQES is a 0's-based value, so if sqsize is also
+    > supposed to be 0's based, no addition should be necessary.
+    >
+    > I think it is currently working only in the case where the original
+    > sqsize is already smaller than MQES, because then the min of MQES and
+    > sqsize will pick sqsize, which is already 0's based from the initial
+    > queue_size - 1 assignment.
+    >
+    > If I'm not missing anything, the correct fix should be removing the + 1
+    > adjustment of MQES as well as changing this patch to consider the 0's
+    > based nature of sqsize:
+    >
+    >     if (opts->queue_size > ctrlr->ctrlr->sqsize + 1) {
+    >         ...
+    >          opts->queue_size = ctrlr->ctrlr.sqsize + 1;
+    >     }
+    
+    Your correct Daniel. I'll fix that in the patch itself.
+    
+    Thanks!
+    
+    _______________________________________________
+    Linux-nvme mailing list
+    Linux-nvme at lists.infradead.org
+    http://lists.infradead.org/mailman/listinfo/linux-nvme
+    
