@@ -1,23 +1,42 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 5 Apr 2017 17:25:11 +0200
-Subject: [PATCH 4/5] nvme: move the retries count to struct nvme_request
-In-Reply-To: <20170405151430.GS20181@localhost.localdomain>
-References: <20170405141856.1862-1-hch@lst.de>
- <20170405141856.1862-5-hch@lst.de>
- <20170405151430.GS20181@localhost.localdomain>
-Message-ID: <20170405152511.GA6435@lst.de>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Wed, 5 Apr 2017 10:41:45 -0500
+Subject: [RFC 2/8] cxgb4: setup pcie memory window 4 and create p2pmem
+ region
+In-Reply-To: <f269d9e1-8dcf-7970-382e-cb0d9a020efc@grimberg.me>
+References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
+ <1490911959-5146-3-git-send-email-logang@deltatee.com>
+ <f269d9e1-8dcf-7970-382e-cb0d9a020efc@grimberg.me>
+Message-ID: <003001d2ae23$21e8f7d0$65bae770$@opengridcomputing.com>
 
-On Wed, Apr 05, 2017@11:14:30AM -0400, Keith Busch wrote:
-> On Wed, Apr 05, 2017@04:18:55PM +0200, Christoph Hellwig wrote:
-> > The way NVMe uses this field is entirely different from the older
-> > SCSI/BLOCK_PC usage, so move it into struct nvme_request.
-> > 
-> > Also reduce the size of the file to a unsigned char so that we leave space
-> > for additional smaller fields that will appear soon.
 > 
-> What new fields can we expect? Why temporarily pad the middle of the
-> struct instead of appending to the end? The "result" packed nicely
-> on 64-bit, at least.
+> 
+> > +static void setup_memwin_p2pmem(struct adapter *adap)
+> > +{
+> > +	unsigned int mem_base = t4_read_reg(adap,
+> CIM_EXTMEM2_BASE_ADDR_A);
+> > +	unsigned int mem_size = t4_read_reg(adap,
+> CIM_EXTMEM2_ADDR_SIZE_A);
+> > +
+> > +	if (!use_p2pmem)
+> > +		return;
+> 
+> This is weird, why even call this if !use_p2pmem?
+> 
 
-I've got another u8 and a u16 in pending patches.  That being said
-moving it to the end might make sense.
+The use_p2pmem was added after the original change.  I'll update as you
+suggest.
+
+> > +static int init_p2pmem(struct adapter *adapter)
+> > +{
+> > +	unsigned int mem_size = t4_read_reg(adapter,
+> CIM_EXTMEM2_ADDR_SIZE_A);
+> > +	struct p2pmem_dev *p;
+> > +	int rc;
+> > +	struct resource res;
+> > +
+> > +	if (!mem_size || !use_p2pmem)
+> > +		return 0;
+> 
+> Again, weird...
+
+Yup.
