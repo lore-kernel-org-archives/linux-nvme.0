@@ -1,16 +1,22 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 6 Apr 2017 20:38:10 +0200
-Subject: [PATCH 02/25] block: remove the blk_execute_rq return value
-In-Reply-To: <20170406153944.10058-3-hch@lst.de>
+Date: Thu, 6 Apr 2017 20:47:32 +0200
+Subject: [PATCH 04/25] nvme: split nvme status from block req->errors
+In-Reply-To: <20170406153944.10058-5-hch@lst.de>
 References: <20170406153944.10058-1-hch@lst.de>
- <20170406153944.10058-3-hch@lst.de>
-Message-ID: <20170406183808.GA8673@linux-x5ow.site>
+ <20170406153944.10058-5-hch@lst.de>
+Message-ID: <20170406184730.GB8673@linux-x5ow.site>
 
-On Thu, Apr 06, 2017@05:39:21PM +0200, Christoph Hellwig wrote:
-> The function only returns -EIO if rq->errors is non-zero, which is not
-> very useful and lets a large number of callers ignore the return value.
+On Thu, Apr 06, 2017@05:39:23PM +0200, Christoph Hellwig wrote:
+> We want our own clearly defined error field for NVMe passthrough commands,
+> and the request errors field is going away in its current form.
 > 
-> Just let the callers figure out their error themselves.
+> Just store the status and result field in the nvme_request field from
+> hardirq completion context (using a new helper) and then generate a
+> Linux errno for the block layer only when we actually need it.
+> 
+> Because we can't overload the status value with a negative error code
+> for cancelled command we now have a flags filed in struct nvme_request
+> that contains a bit for this condition.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
