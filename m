@@ -1,28 +1,45 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 6 Apr 2017 12:23:59 +0300
-Subject: [PATCH rfc 5/6] block: Add rdma affinity based queue mapping
- helper
-In-Reply-To: <becb84ac-7819-a207-56b1-70f16cb80e42@mellanox.com>
-References: <1491140492-25703-1-git-send-email-sagi@grimberg.me>
- <1491140492-25703-6-git-send-email-sagi@grimberg.me>
- <becb84ac-7819-a207-56b1-70f16cb80e42@mellanox.com>
-Message-ID: <e1ea43dd-c44b-4b2f-f381-1195fd082609@grimberg.me>
+Date: Thu,  6 Apr 2017 13:36:32 +0300
+Subject: [PATCH v2 0/6] Automatic affinity settings for nvme over rdma
+Message-ID: <1491474998-16423-1-git-send-email-sagi@grimberg.me>
 
-> shouldn't you include  <linux/kobject.h> and <linux/blkdev.h> like in
-> commit 8ec2ef2b66ea2f that fixes blk-mq-pci.c ?
+This patch set is aiming to automatically find the optimal
+queue <-> irq multi-queue assignments in storage ULPs (demonstrated
+on nvme-rdma) based on the underlying rdma device irq affinity
+settings.
 
-Not really. We can lose these from blk-mq-pci.c as well.
+Changes from v1:
+- Removed mlx5e_get_cpu as Christoph suggested
+- Fixed up nvme-rdma queue comp_vector selection to get a better match
+- Added a comment on why we limit on @dev->num_comp_vectors
+- rebased to Jens's for-4.12/block
+- Collected review tags
 
->> +#include <linux/blk-mq.h>
->> +#include <linux/blk-mq-rdma.h>
->> +#include <rdma/ib_verbs.h>
->> +#include <linux/module.h>
->> +#include "blk-mq.h"
->
-> Is this include needed ?
+Sagi Grimberg (6):
+  mlx5: convert to generic pci_alloc_irq_vectors
+  mlx5: move affinity hints assignments to generic code
+  RDMA/core: expose affinity mappings per completion vector
+  mlx5: support ->get_vector_affinity
+  block: Add rdma affinity based queue mapping helper
+  nvme-rdma: use intelligent affinity based queue mappings
 
-You're right, I can just keep:
+ block/Kconfig                                      |   5 +
+ block/Makefile                                     |   1 +
+ block/blk-mq-rdma.c                                |  54 +++++++++++
+ drivers/infiniband/hw/mlx5/main.c                  |  10 ++
+ drivers/net/ethernet/mellanox/mlx5/core/en_main.c  |  14 +--
+ drivers/net/ethernet/mellanox/mlx5/core/eq.c       |   9 +-
+ drivers/net/ethernet/mellanox/mlx5/core/eswitch.c  |   2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/health.c   |   2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/main.c     | 108 +++------------------
+ .../net/ethernet/mellanox/mlx5/core/mlx5_core.h    |   1 -
+ drivers/nvme/host/rdma.c                           |  29 ++++--
+ include/linux/blk-mq-rdma.h                        |  10 ++
+ include/linux/mlx5/driver.h                        |   2 -
+ include/rdma/ib_verbs.h                            |  24 +++++
+ 14 files changed, 149 insertions(+), 122 deletions(-)
+ create mode 100644 block/blk-mq-rdma.c
+ create mode 100644 include/linux/blk-mq-rdma.h
 
-+#include <linux/blk-mq.h>
-+#include <linux/blk-mq-rdma.h>
-+#include <rdma/ib_verbs.h>
+-- 
+2.7.4
