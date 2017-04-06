@@ -1,22 +1,21 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 6 Apr 2017 20:17:43 +0200
-Subject: [PATCH v2] nvme_fc: avoid double kfree(), don't call
- nvme_cleanup_cmd() in nvme_fc_unmap_data()
-In-Reply-To: <1491497276-15944-1-git-send-email-emilne@redhat.com>
-References: <1491497276-15944-1-git-send-email-emilne@redhat.com>
-Message-ID: <20170406181743.GB8215@linux-x5ow.site>
+Date: Thu, 6 Apr 2017 20:38:10 +0200
+Subject: [PATCH 02/25] block: remove the blk_execute_rq return value
+In-Reply-To: <20170406153944.10058-3-hch@lst.de>
+References: <20170406153944.10058-1-hch@lst.de>
+ <20170406153944.10058-3-hch@lst.de>
+Message-ID: <20170406183808.GA8673@linux-x5ow.site>
 
-On Thu, Apr 06, 2017@12:47:56PM -0400, Ewan Milne wrote:
-> nvme_cleanup_cmd() is already called by callers of nvme_fc_unmap_data().
-> Don't call it twice to avoid double-free on completion of discard commands.
+On Thu, Apr 06, 2017@05:39:21PM +0200, Christoph Hellwig wrote:
+> The function only returns -EIO if rq->errors is non-zero, which is not
+> very useful and lets a large number of callers ignore the return value.
 > 
-> v2:
-> Move nvme_cleanup_cmd() call *after* nvme_fc_unmap_data() for consistency.
+> Just let the callers figure out their error themselves.
 > 
-> Signed-off-by: Ewan D. Milne <emilne at redhat.com>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
 
-Thanks,
+Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
 -- 
