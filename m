@@ -1,50 +1,42 @@
-From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
-Date: Thu, 6 Apr 2017 10:35:21 -0600
-Subject: [RFC 6/8] nvmet: Be careful about using iomem accesses when
- dealing with p2pmem
-In-Reply-To: <4df229d8-8124-664a-9bc4-6401bc034be1@grimberg.me>
-References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <1490911959-5146-7-git-send-email-logang@deltatee.com>
- <080b68b4-eba3-861c-4f29-5d829425b5e7@grimberg.me>
- <20170404154629.GA13552@obsidianresearch.com>
- <4df229d8-8124-664a-9bc4-6401bc034be1@grimberg.me>
-Message-ID: <20170406163520.GA7657@obsidianresearch.com>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Thu,  6 Apr 2017 12:47:56 -0400
+Subject: [PATCH v2] nvme_fc: avoid double kfree(),
+ don't call nvme_cleanup_cmd() in nvme_fc_unmap_data()
+Message-ID: <1491497276-15944-1-git-send-email-emilne@redhat.com>
 
-On Thu, Apr 06, 2017@08:33:38AM +0300, Sagi Grimberg wrote:
-> 
-> >>Note that the nvme completion queues are still on the host memory, so
-> >>this means we have lost the ordering between data and completions as
-> >>they go to different pcie targets.
-> >
-> >Hmm, in this simple up/down case with a switch, I think it might
-> >actually be OK.
-> >
-> >Transactions might not complete at the NVMe device before the CPU
-> >processes the RDMA completion, however due to the PCI-E ordering rules
-> >new TLPs directed to the NVMe will complete after the RMDA TLPs and
-> >thus observe the new data. (eg order preserving)
-> >
-> >It would be very hard to use P2P if fabric ordering is not preserved..
-> 
-> I think it still can race if the p2p device is connected with more than
-> a single port to the switch.
-> 
-> Say it's connected via 2 legs, the bar is accessed from leg A and the
-> data from the disk comes via leg B. In this case, the data is heading
-> towards the p2p device via leg B (might be congested), the completion
-> goes directly to the RC, and then the host issues a read from the
-> bar via leg A. I don't understand what can guarantee ordering here.
+nvme_cleanup_cmd() is already called by callers of nvme_fc_unmap_data().
+Don't call it twice to avoid double-free on completion of discard commands.
 
-Right, this is why I qualified my statement with 'simple up/down case'
+v2:
+Move nvme_cleanup_cmd() call *after* nvme_fc_unmap_data() for consistency.
 
-Make it any more complex and it clearly stops working sanely, but I
-wouldn't worry about unusual PCI-E fabrics at this point..
+Signed-off-by: Ewan D. Milne <emilne at redhat.com>
+---
+ drivers/nvme/host/fc.c |    4 +---
+ 1 files changed, 1 insertions(+), 3 deletions(-)
 
-> Stephen told me that this still guarantees ordering, but I honestly
-> can't understand how, perhaps someone can explain to me in a simple
-> way that I can understand.
-
-AFAIK PCI-E ordering is explicitly per link, so things that need order
-must always traverse the same link.
-
-Jason
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index fc42172..5ff8674 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1700,8 +1700,6 @@ enum blk_eh_timer_return
+ 				((rq_data_dir(rq) == WRITE) ?
+ 					DMA_TO_DEVICE : DMA_FROM_DEVICE));
+ 
+-	nvme_cleanup_cmd(rq);
+-
+ 	sg_free_table_chained(&freq->sg_table, true);
+ 
+ 	freq->sg_cnt = 0;
+@@ -1929,8 +1927,8 @@ enum blk_eh_timer_return
+ 
+ 	state = atomic_xchg(&op->state, FCPOP_STATE_IDLE);
+ 
+-	nvme_cleanup_cmd(rq);
+ 	nvme_fc_unmap_data(ctrl, rq, op);
++	nvme_cleanup_cmd(rq);
+ 	nvme_complete_rq(rq);
+ 	nvme_fc_ctrl_put(ctrl);
+ 
+-- 
+1.7.1
