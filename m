@@ -1,28 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu,  6 Apr 2017 17:39:30 +0200
-Subject: [PATCH 11/25] null_blk: don't pass always-0 req->errors to
- blk_mq_complete_request
+Date: Thu,  6 Apr 2017 17:39:32 +0200
+Subject: [PATCH 13/25] dm mpath: don't check for req->errors
 In-Reply-To: <20170406153944.10058-1-hch@lst.de>
 References: <20170406153944.10058-1-hch@lst.de>
-Message-ID: <20170406153944.10058-12-hch@lst.de>
+Message-ID: <20170406153944.10058-14-hch@lst.de>
+
+We'll get all proper errors reported through ->end_io and ->errors will
+go away soon.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/block/null_blk.c | 2 +-
+ drivers/md/dm-mpath.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/block/null_blk.c b/drivers/block/null_blk.c
-index f93906ff31e8..24ca85a70fd8 100644
---- a/drivers/block/null_blk.c
-+++ b/drivers/block/null_blk.c
-@@ -281,7 +281,7 @@ static inline void null_handle_cmd(struct nullb_cmd *cmd)
- 	case NULL_IRQ_SOFTIRQ:
- 		switch (queue_mode)  {
- 		case NULL_Q_MQ:
--			blk_mq_complete_request(cmd->rq, cmd->rq->errors);
-+			blk_mq_complete_request(cmd->rq, 0);
- 			break;
- 		case NULL_Q_RQ:
- 			blk_complete_request(cmd->rq);
+diff --git a/drivers/md/dm-mpath.c b/drivers/md/dm-mpath.c
+index 7f223dbed49f..4aa1b865e66e 100644
+--- a/drivers/md/dm-mpath.c
++++ b/drivers/md/dm-mpath.c
+@@ -1491,7 +1491,7 @@ static int do_end_io(struct multipath *m, struct request *clone,
+ 	 */
+ 	int r = DM_ENDIO_REQUEUE;
+ 
+-	if (!error && !clone->errors)
++	if (!error)
+ 		return 0;	/* I/O complete */
+ 
+ 	if (noretry_error(error))
 -- 
 2.11.0
