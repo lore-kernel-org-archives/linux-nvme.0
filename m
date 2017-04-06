@@ -1,24 +1,30 @@
-From: leonro@mellanox.com (Leon Romanovsky)
-Date: Thu, 6 Apr 2017 17:30:47 +0300
-Subject: [PATCH v2 4/6] mlx5: support ->get_vector_affinity
-In-Reply-To: <1491474998-16423-5-git-send-email-sagi@grimberg.me>
-References: <1491474998-16423-1-git-send-email-sagi@grimberg.me>
- <1491474998-16423-5-git-send-email-sagi@grimberg.me>
-Message-ID: <20170406143047.GM2269@mtr-leonro.local>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 6 Apr 2017 16:53:40 +0200
+Subject: [PATCH] nvme_fc: avoid double kfree(), don't call
+ nvme_cleanup_cmd() in nvme_unmap_data()
+In-Reply-To: <1491488190-5564-1-git-send-email-emilne@redhat.com>
+References: <1491488190-5564-1-git-send-email-emilne@redhat.com>
+Message-ID: <20170406145340.GD3768@linux-x5ow.site>
 
-On Thu, Apr 06, 2017@01:36:36PM +0300, Sagi Grimberg wrote:
-> Simply refer to the generic affinity mask helper.
->
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
+Hi Ewan,
 
-Thanks,
-Acked-by: Leon Romanovsky <leonro at mellanox.com>
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170406/43aa98f9/attachment.sig>
+On Thu, Apr 06, 2017@10:16:30AM -0400, Ewan Milne wrote:
+> nvme_cleanup_cmd() is already called by callers of nvme_unmap_data().
+				nvme_fc_unmap_data()? ^
+
+And besides this, in nvme_fc_complete_rq() it is called before
+nvme_fc_unmap_data() in nvme_fc_start_fcp_op() afterwards. Even if this is a
+correct behaviour (i.e. doesn't harm as we're not touching
+req->special_vec.bv_page in nvme_fc_unmap_data() it at a first sight looks
+like an error. Care to adjust it?
+
+Byte,
+	Johannes
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
