@@ -1,38 +1,111 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 6 Apr 2017 08:33:38 +0300
-Subject: [RFC 6/8] nvmet: Be careful about using iomem accesses when
- dealing with p2pmem
-In-Reply-To: <20170404154629.GA13552@obsidianresearch.com>
+Date: Thu, 6 Apr 2017 08:47:22 +0300
+Subject: [RFC 3/8] nvmet: Use p2pmem in nvme target
+In-Reply-To: <ec05b7d9-8dfd-8227-84d2-7d391df32219@deltatee.com>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <1490911959-5146-7-git-send-email-logang@deltatee.com>
- <080b68b4-eba3-861c-4f29-5d829425b5e7@grimberg.me>
- <20170404154629.GA13552@obsidianresearch.com>
-Message-ID: <4df229d8-8124-664a-9bc4-6401bc034be1@grimberg.me>
+ <1490911959-5146-4-git-send-email-logang@deltatee.com>
+ <bce6b009-7756-3cf7-5053-2628b26c8d97@grimberg.me>
+ <ec05b7d9-8dfd-8227-84d2-7d391df32219@deltatee.com>
+Message-ID: <0689e764-bf04-6da2-3b7d-2cbf0b6b94a0@grimberg.me>
 
 
->> Note that the nvme completion queues are still on the host memory, so
->> this means we have lost the ordering between data and completions as
->> they go to different pcie targets.
+> I hadn't done this yet but I think a simple closest device in the tree
+> would solve the issue sufficiently. However, I originally had it so the
+> user has to pick the device and I prefer that approach. But if the user
+> picks the device, then why bother restricting what he picks?
+
+Because the user can get it wrong, and its our job to do what we can in
+order to prevent the user from screwing itself.
+
+> Per the
+> thread with Sinan, I'd prefer to use what the user picks. You were one
+> of the biggest opponents to that so I'd like to hear your opinion on
+> removing the restrictions.
+
+I wasn't against it that much, I'm all for making things "just work"
+with minimal configuration steps, but I'm not sure we can get it
+right without it.
+
+>>> Ideally, we'd want to use an NVME CMB buffer as p2p memory. This would
+>>> save an extra PCI transfer as the NVME card could just take the data
+>>> out of it's own memory. However, at this time, cards with CMB buffers
+>>> don't seem to be available.
+>>
+>> Even if it was available, it would be hard to make real use of this
+>> given that we wouldn't know how to pre-post recv buffers (for in-capsule
+>> data). But let's leave this out of the scope entirely...
 >
-> Hmm, in this simple up/down case with a switch, I think it might
-> actually be OK.
+> I don't understand what you're referring to. We'd simply use the CMB
+> buffer as a p2pmem device, why does that change anything?
+
+I'm referring to the in-capsule data buffers pre-posts that we do.
+Because we prepare a buffer that would contain in-capsule data, we have
+no knowledge to which device the incoming I/O is directed to, which
+means we can (and will) have I/O where the data lies in CMB of device
+A but it's really targeted to device B - which sorta defeats the purpose
+of what we're trying to optimize here...
+
+>> Why do you need this? you have a reference to the
+>> queue itself.
 >
-> Transactions might not complete at the NVMe device before the CPU
-> processes the RDMA completion, however due to the PCI-E ordering rules
-> new TLPs directed to the NVMe will complete after the RMDA TLPs and
-> thus observe the new data. (eg order preserving)
+> This keeps track of whether the response was actually allocated with
+> p2pmem or not. It's needed for when we free the SGL because the queue
+> may have a p2pmem device assigned to it but, if the alloc failed and it
+> fell back on system memory then we need to know how to free it. I'm
+> currently looking at having SGLs having an iomem flag. In which case,
+> this would no longer be needed as the flag in the SGL could be used.
+
+That would be better, maybe...
+
+[...]
+
+>> This is a problem. namespaces can be added at any point in time. No one
+>> guarantee that dma_devs are all the namepaces we'll ever see.
 >
-> It would be very hard to use P2P if fabric ordering is not preserved..
+> Yeah, well restricting p2pmem based on all the devices in use is hard.
+> So we'd need a call into the transport every time an ns is added and
+> we'd have to drop the p2pmem if they add one that isn't supported. This
+> complexity is just one of the reasons I prefer just letting the user chose.
 
-I think it still can race if the p2p device is connected with more than
-a single port to the switch.
+Still the user can get it wrong. Not sure we can get a way without
+keeping track of this as new devices join the subsystem.
 
-Say it's connected via 2 legs, the bar is accessed from leg A and the
-data from the disk comes via leg B. In this case, the data is heading
-towards the p2p device via leg B (might be congested), the completion
-goes directly to the RC, and then the host issues a read from the
-bar via leg A. I don't understand what can guarantee ordering here.
+>>> +
+>>> +    if (queue->p2pmem)
+>>> +        pr_debug("using %s for rdma nvme target queue",
+>>> +             dev_name(&queue->p2pmem->dev));
+>>> +
+>>> +    kfree(dma_devs);
+>>> +}
+>>> +
+>>>  static int nvmet_rdma_queue_connect(struct rdma_cm_id *cm_id,
+>>>          struct rdma_cm_event *event)
+>>>  {
+>>> @@ -1199,6 +1271,8 @@ static int nvmet_rdma_queue_connect(struct
+>>> rdma_cm_id *cm_id,
+>>>      }
+>>>      queue->port = cm_id->context;
+>>>
+>>> +    nvmet_rdma_queue_setup_p2pmem(queue);
+>>> +
+>>
+>> Why is all this done for each queue? looks completely redundant to me.
+>
+> A little bit. Where would you put it?
 
-Stephen told me that this still guarantees ordering, but I honestly
-can't understand how, perhaps someone can explain to me in a simple
-way that I can understand.
+I think we'll need a representation of a controller in nvmet-rdma for
+that. we sort of got a way without it so far, but I don't think we can
+anymore with this.
+
+>>>      ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
+>>>      if (ret)
+>>>          goto release_queue;
+>>
+>> You seemed to skip the in-capsule buffers for p2pmem (inline_page), I'm
+>> curious why?
+>
+> Yes, the thinking was that these transfers were small anyway so there
+> would not be significant benefit to pushing them through p2pmem. There's
+> really no reason why we couldn't do that if it made sense to though.
+
+I don't see an urgent reason for it too. I was just curious...
