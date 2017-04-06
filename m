@@ -1,29 +1,24 @@
-From: emilne@redhat.com (Ewan D. Milne)
-Date: Thu,  6 Apr 2017 10:16:30 -0400
-Subject: [PATCH] nvme_fc: avoid double kfree(),
- don't call nvme_cleanup_cmd() in nvme_unmap_data()
-Message-ID: <1491488190-5564-1-git-send-email-emilne@redhat.com>
+From: leonro@mellanox.com (Leon Romanovsky)
+Date: Thu, 6 Apr 2017 17:30:47 +0300
+Subject: [PATCH v2 4/6] mlx5: support ->get_vector_affinity
+In-Reply-To: <1491474998-16423-5-git-send-email-sagi@grimberg.me>
+References: <1491474998-16423-1-git-send-email-sagi@grimberg.me>
+ <1491474998-16423-5-git-send-email-sagi@grimberg.me>
+Message-ID: <20170406143047.GM2269@mtr-leonro.local>
 
-nvme_cleanup_cmd() is already called by callers of nvme_unmap_data().
-Don't call it twice to avoid double-free on completion of discard commands.
+On Thu, Apr 06, 2017@01:36:36PM +0300, Sagi Grimberg wrote:
+> Simply refer to the generic affinity mask helper.
+>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
 
-Signed-off-by: Ewan D. Milne <emilne at redhat.com>
----
- drivers/nvme/host/fc.c |    2 --
- 1 files changed, 0 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index fc42172..b5f92cc 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1700,8 +1700,6 @@ enum blk_eh_timer_return
- 				((rq_data_dir(rq) == WRITE) ?
- 					DMA_TO_DEVICE : DMA_FROM_DEVICE));
- 
--	nvme_cleanup_cmd(rq);
--
- 	sg_free_table_chained(&freq->sg_table, true);
- 
- 	freq->sg_cnt = 0;
--- 
-1.7.1
+Thanks,
+Acked-by: Leon Romanovsky <leonro at mellanox.com>
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170406/43aa98f9/attachment.sig>
