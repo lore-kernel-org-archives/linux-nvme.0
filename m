@@ -1,28 +1,28 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 6 Apr 2017 10:55:16 +0200
-Subject: [PATCH 1/5] nvme: move ->retries setup to nvme_setup_cmd
-In-Reply-To: <20170405171812.19911-2-hch@lst.de>
-References: <20170405171812.19911-1-hch@lst.de>
- <20170405171812.19911-2-hch@lst.de>
-Message-ID: <20170406085513.GC3768@linux-x5ow.site>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 6 Apr 2017 12:23:59 +0300
+Subject: [PATCH rfc 5/6] block: Add rdma affinity based queue mapping
+ helper
+In-Reply-To: <becb84ac-7819-a207-56b1-70f16cb80e42@mellanox.com>
+References: <1491140492-25703-1-git-send-email-sagi@grimberg.me>
+ <1491140492-25703-6-git-send-email-sagi@grimberg.me>
+ <becb84ac-7819-a207-56b1-70f16cb80e42@mellanox.com>
+Message-ID: <e1ea43dd-c44b-4b2f-f381-1195fd082609@grimberg.me>
 
-On Wed, Apr 05, 2017@07:18:08PM +0200, Christoph Hellwig wrote:
-> ->retries is counting the number of times a command is resubmitted, and
-> be cleared on the first time we see the command.  We currently don't do
-> that for non-PCIe command, which is easily fixed by moving the setup
-> to common code.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
+> shouldn't you include  <linux/kobject.h> and <linux/blkdev.h> like in
+> commit 8ec2ef2b66ea2f that fixes blk-mq-pci.c ?
 
-Thanks a lot.
+Not really. We can lose these from blk-mq-pci.c as well.
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+>> +#include <linux/blk-mq.h>
+>> +#include <linux/blk-mq-rdma.h>
+>> +#include <rdma/ib_verbs.h>
+>> +#include <linux/module.h>
+>> +#include "blk-mq.h"
+>
+> Is this include needed ?
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+You're right, I can just keep:
+
++#include <linux/blk-mq.h>
++#include <linux/blk-mq-rdma.h>
++#include <rdma/ib_verbs.h>
