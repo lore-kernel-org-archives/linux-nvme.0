@@ -1,34 +1,23 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 6 Apr 2017 11:29:12 +0300
-Subject: [PATCH rfc 2/6] mlx5: move affinity hints assignments to generic
- code
-In-Reply-To: <20170404063213.GB8978@lst.de>
+Date: Thu, 6 Apr 2017 11:30:02 +0300
+Subject: [PATCH rfc 6/6] nvme-rdma: use intelligent affinity based queue
+ mappings
+In-Reply-To: <20170404063444.GF8978@lst.de>
 References: <1491140492-25703-1-git-send-email-sagi@grimberg.me>
- <1491140492-25703-3-git-send-email-sagi@grimberg.me>
- <20170404063213.GB8978@lst.de>
-Message-ID: <2b915d44-e37f-d261-aa23-0944ddaf58a2@grimberg.me>
+ <1491140492-25703-7-git-send-email-sagi@grimberg.me>
+ <20170404063444.GF8978@lst.de>
+Message-ID: <d896e706-ae78-6be1-dd21-fa73150537b4@grimberg.me>
 
->>  static int mlx5e_get_cpu(struct mlx5e_priv *priv, int ix)
->>  {
->> -	return cpumask_first(priv->mdev->priv.irq_info[ix].mask);
->> +	return cpumask_first(pci_irq_get_affinity(priv->mdev->pdev,
->> +			MLX5_EQ_VEC_COMP_BASE + ix));
+
+>> Use the geneic block layer affinity mapping helper. Also,
 >
-> This looks ok for now, but if we look at the callers we'd probably
-> want to make direct use of pci_irq_get_node and pci_irq_get_affinity for
-> the uses directly in mlx5e_open_channel as well as the stored away
-> ->cpu field.  But maybe that should be left for another patch after
-> this one.
-
-Its small enough to fold it in.
-
->> +	struct irq_affinity irqdesc = { .pre_vectors = MLX5_EQ_VEC_COMP_BASE, };
+>           generic
 >
-> I usually move assignments inside structures onto a separate line to make
-> it more readable, e.g.
+>>  	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
+>> +	nr_io_queues = min_t(unsigned int, nr_io_queues,
+>> +				ibdev->num_comp_vectors);
+>> +
 >
-> 	struct irq_affinity irqdesc = {
-> 		.pre_vectors = MLX5_EQ_VEC_COMP_BASE,
-> 	};
+> Add a comment here?
 
-Will do.
+Will do
