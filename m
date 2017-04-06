@@ -1,24 +1,16 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 6 Apr 2017 20:50:53 +0200
-Subject: [PATCH 03/25] nvme-fc: fix status code handling in
- nvme_fc_fcpio_done
-In-Reply-To: <20170406153944.10058-4-hch@lst.de>
+Date: Thu, 6 Apr 2017 20:53:05 +0200
+Subject: [PATCH 06/25] virtio: fix spelling of virtblk_scsi_request_done
+In-Reply-To: <20170406153944.10058-7-hch@lst.de>
 References: <20170406153944.10058-1-hch@lst.de>
- <20170406153944.10058-4-hch@lst.de>
-Message-ID: <20170406185053.GC8673@linux-x5ow.site>
+ <20170406153944.10058-7-hch@lst.de>
+Message-ID: <20170406185305.GD8673@linux-x5ow.site>
 
-On Thu, Apr 06, 2017@05:39:22PM +0200, Christoph Hellwig wrote:
-> nvme_complete_async_event expects the little endian status code
-> including the phase bit, and a new completion handler I plan to
-> introduce will do so as well.
-> 
-> Change the status variable into the little endian format with the
-> phase bit used in the NVMe CQE to fix / enable this.
-> 
+On Thu, Apr 06, 2017@05:39:25PM +0200, Christoph Hellwig wrote:
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
 
-Looks good,
+Fair enough,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
 -- 
