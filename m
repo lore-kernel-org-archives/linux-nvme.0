@@ -1,16 +1,22 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 6 Apr 2017 20:53:05 +0200
-Subject: [PATCH 06/25] virtio: fix spelling of virtblk_scsi_request_done
-In-Reply-To: <20170406153944.10058-7-hch@lst.de>
+Date: Thu, 6 Apr 2017 20:55:42 +0200
+Subject: [PATCH 07/25] virtio_blk: don't use req->errors
+In-Reply-To: <20170406153944.10058-8-hch@lst.de>
 References: <20170406153944.10058-1-hch@lst.de>
- <20170406153944.10058-7-hch@lst.de>
-Message-ID: <20170406185305.GD8673@linux-x5ow.site>
+ <20170406153944.10058-8-hch@lst.de>
+Message-ID: <20170406185541.GE8673@linux-x5ow.site>
 
-On Thu, Apr 06, 2017@05:39:25PM +0200, Christoph Hellwig wrote:
+On Thu, Apr 06, 2017@05:39:26PM +0200, Christoph Hellwig wrote:
+> Remove passing req->errors (which at that point is always 0) to
+> blk_mq_complete_requestq, and rely on the virtio status code for the
+blk_mq_complete_request ^
+
+> serial number passthrough request.
+> 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
 
-Fair enough,
+Otherwise looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
 -- 
