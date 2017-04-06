@@ -1,30 +1,19 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 6 Apr 2017 16:53:40 +0200
-Subject: [PATCH] nvme_fc: avoid double kfree(), don't call
- nvme_cleanup_cmd() in nvme_unmap_data()
-In-Reply-To: <1491488190-5564-1-git-send-email-emilne@redhat.com>
-References: <1491488190-5564-1-git-send-email-emilne@redhat.com>
-Message-ID: <20170406145340.GD3768@linux-x5ow.site>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu,  6 Apr 2017 17:39:19 +0200
+Subject: kill req->errors
+Message-ID: <20170406153944.10058-1-hch@lst.de>
 
-Hi Ewan,
+Currently the request structure has an errors field that is used in
+various different ways.  The oldest drivers use it as an error count,
+blk-mq and the generic timeout code assume that it holds a Linux
+errno for block completions, and various drivers use it for internal
+status values, often overwriting them with Linux errnos later,
+that is unless they are processing passthrough requests in which
+case they'll leave their errors in it.
 
-On Thu, Apr 06, 2017@10:16:30AM -0400, Ewan Milne wrote:
-> nvme_cleanup_cmd() is already called by callers of nvme_unmap_data().
-				nvme_fc_unmap_data()? ^
+This series kills the ->errors field and replaced it with new fields
+in the drivers (or an odd hack in a union in struct request for
+two bitrotting old drivers).
 
-And besides this, in nvme_fc_complete_rq() it is called before
-nvme_fc_unmap_data() in nvme_fc_start_fcp_op() afterwards. Even if this is a
-correct behaviour (i.e. doesn't harm as we're not touching
-req->special_vec.bv_page in nvme_fc_unmap_data() it at a first sight looks
-like an error. Care to adjust it?
-
-Byte,
-	Johannes
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Note that this series expects that the patch to remove the mg_disk
+driver has been applied already on top of the block for-next tree.
