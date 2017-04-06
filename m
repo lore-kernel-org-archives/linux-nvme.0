@@ -1,93 +1,48 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  6 Apr 2017 13:36:38 +0300
-Subject: [PATCH v2 6/6] nvme-rdma: use intelligent affinity based queue
- mappings
-In-Reply-To: <1491474998-16423-1-git-send-email-sagi@grimberg.me>
-References: <1491474998-16423-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1491474998-16423-7-git-send-email-sagi@grimberg.me>
+From: mrybczyn@kalray.eu (Marta Rybczynska)
+Date: Thu, 6 Apr 2017 14:29:03 +0200 (CEST)
+Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
+In-Reply-To: <1121115847.336382032.1490883808617.JavaMail.zimbra@kalray.eu>
+References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
+ <406682b9-d7ca-4718-5830-7940d2822bc0@grimberg.me>
+ <20170329162751.GA7113@obsidianresearch.com>
+ <80770042-743e-a271-c636-f72099f9ac56@grimberg.me>
+ <9eb08168-18a6-a176-01df-b68b6a225963@redhat.com>
+ <3505b835-d0ba-70cb-dfe8-1265fc2bbb83@redhat.com>
+ <2ba93b5b-ad36-5533-36e2-9db2e3198c19@grimberg.me>
+ <1121115847.336382032.1490883808617.JavaMail.zimbra@kalray.eu>
+Message-ID: <1224897571.353404199.1491481743295.JavaMail.zimbra@kalray.eu>
 
-Use the generic block layer affinity mapping helper. Also,
-limit nr_hw_queues to the rdma device number of irq vectors
-as we don't really need more.
+>>>> You say above "we post *up to* 2 work requests", unless you wish to
+>>>> change that to "we always post at least 2 work requests per queue
+>>>> entry", Jason is right, your frequency of signaling needs to be X/2
+>>>> regardless of your CQ size, you need the signaling to control the queue
+>>>> depth tracking.
+>>>
+>>> If you would like to spread things out farther between signaling, then
+>>> you can modify your send routine to only increment the send counter for
+>>> actual send requests, ignoring registration WQEs and invalidate WQES,
+>>> and then signal every X/2 sends.
+>> 
+>> Yea, you're right, and not only I got it wrong, I even contradicted my
+>> own suggestion that was exactly what you and Jason suggested (where is
+>> the nearest rat-hole...)
+>> 
+>> So I suggested to signal every X/2 and Marta reported SQ overflows for
+>> high queue-dpeth. Marta, at what queue-depth have you seen this?
+> 
+> The remote side had queue depth of 16 or 32 and that's the WQ on the
+> initiator side that overflows (mlx5_wq_overflow). We're testing with
+> signalling X/2 and it seems to work.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/rdma.c | 29 ++++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+Update on the situation: the signalling on X/2 seems to work fine in
+practice. To clarify more that's the send queue that overflows
+(mlx5_wq_overflow in begin_wqe of drivers/infiniband/hw/mlx5/qp.c).
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 4aae363943e3..22334b6e8fc3 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -19,6 +19,7 @@
- #include <linux/string.h>
- #include <linux/atomic.h>
- #include <linux/blk-mq.h>
-+#include <linux/blk-mq-rdma.h>
- #include <linux/types.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-@@ -496,14 +497,10 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue,
- 	queue->device = dev;
- 
- 	/*
--	 * The admin queue is barely used once the controller is live, so don't
--	 * bother to spread it out.
-+	 * Spread I/O queues completion vectors according their queue index.
-+	 * Admin queues can always go on completion vector 0.
- 	 */
--	if (idx == 0)
--		comp_vector = 0;
--	else
--		comp_vector = idx % ibdev->num_comp_vectors;
--
-+	comp_vector = idx == 0 ? idx : idx - 1;
- 
- 	/* +1 for ib_stop_cq */
- 	queue->ib_cq = ib_alloc_cq(dev->dev, queue,
-@@ -645,10 +642,20 @@ static int nvme_rdma_connect_io_queues(struct nvme_rdma_ctrl *ctrl)
- static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl *ctrl)
- {
- 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
-+	struct ib_device *ibdev = ctrl->device->dev;
- 	unsigned int nr_io_queues;
- 	int i, ret;
- 
- 	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
-+
-+	/*
-+	 * we map queues according to the device irq vectors for
-+	 * optimal locality so we don't need more queues than
-+	 * completion vectors.
-+	 */
-+	nr_io_queues = min_t(unsigned int, nr_io_queues,
-+				ibdev->num_comp_vectors);
-+
- 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
- 	if (ret)
- 		return ret;
-@@ -1523,6 +1530,13 @@ static void nvme_rdma_complete_rq(struct request *rq)
- 	nvme_complete_rq(rq);
- }
- 
-+static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
-+{
-+	struct nvme_rdma_ctrl *ctrl = set->driver_data;
-+
-+	return blk_mq_rdma_map_queues(set, ctrl->device->dev, 0);
-+}
-+
- static const struct blk_mq_ops nvme_rdma_mq_ops = {
- 	.queue_rq	= nvme_rdma_queue_rq,
- 	.complete	= nvme_rdma_complete_rq,
-@@ -1532,6 +1546,7 @@ static const struct blk_mq_ops nvme_rdma_mq_ops = {
- 	.init_hctx	= nvme_rdma_init_hctx,
- 	.poll		= nvme_rdma_poll,
- 	.timeout	= nvme_rdma_timeout,
-+	.map_queues	= nvme_rdma_map_queues,
- };
- 
- static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
--- 
-2.7.4
+However, I have still doubt how it's going to work in the case of
+higher queue depths (i.e. the typical case). If we signal every X/2
+we'll do it much more rarely than today (every 32 messages). I'm not
+sure on the system effect this would have. 
+
+Mellanox guys, do you have an idea what it might do?
+
+Marta
