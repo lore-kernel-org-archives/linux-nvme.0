@@ -1,5 +1,5 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Thu, 6 Apr 2017 10:02:04 -0600
+From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
+Date: Thu, 6 Apr 2017 10:35:21 -0600
 Subject: [RFC 6/8] nvmet: Be careful about using iomem accesses when
  dealing with p2pmem
 In-Reply-To: <4df229d8-8124-664a-9bc4-6401bc034be1@grimberg.me>
@@ -8,25 +8,23 @@ References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
  <080b68b4-eba3-861c-4f29-5d829425b5e7@grimberg.me>
  <20170404154629.GA13552@obsidianresearch.com>
  <4df229d8-8124-664a-9bc4-6401bc034be1@grimberg.me>
-Message-ID: <cc2ac0cc-8543-5297-bc09-9946cca93894@deltatee.com>
+Message-ID: <20170406163520.GA7657@obsidianresearch.com>
 
-
-
-On 05/04/17 11:33 PM, Sagi Grimberg wrote:
+On Thu, Apr 06, 2017@08:33:38AM +0300, Sagi Grimberg wrote:
 > 
->>> Note that the nvme completion queues are still on the host memory, so
->>> this means we have lost the ordering between data and completions as
->>> they go to different pcie targets.
->>
->> Hmm, in this simple up/down case with a switch, I think it might
->> actually be OK.
->>
->> Transactions might not complete at the NVMe device before the CPU
->> processes the RDMA completion, however due to the PCI-E ordering rules
->> new TLPs directed to the NVMe will complete after the RMDA TLPs and
->> thus observe the new data. (eg order preserving)
->>
->> It would be very hard to use P2P if fabric ordering is not preserved..
+> >>Note that the nvme completion queues are still on the host memory, so
+> >>this means we have lost the ordering between data and completions as
+> >>they go to different pcie targets.
+> >
+> >Hmm, in this simple up/down case with a switch, I think it might
+> >actually be OK.
+> >
+> >Transactions might not complete at the NVMe device before the CPU
+> >processes the RDMA completion, however due to the PCI-E ordering rules
+> >new TLPs directed to the NVMe will complete after the RMDA TLPs and
+> >thus observe the new data. (eg order preserving)
+> >
+> >It would be very hard to use P2P if fabric ordering is not preserved..
 > 
 > I think it still can race if the p2p device is connected with more than
 > a single port to the switch.
@@ -36,18 +34,17 @@ On 05/04/17 11:33 PM, Sagi Grimberg wrote:
 > towards the p2p device via leg B (might be congested), the completion
 > goes directly to the RC, and then the host issues a read from the
 > bar via leg A. I don't understand what can guarantee ordering here.
-> 
+
+Right, this is why I qualified my statement with 'simple up/down case'
+
+Make it any more complex and it clearly stops working sanely, but I
+wouldn't worry about unusual PCI-E fabrics at this point..
+
 > Stephen told me that this still guarantees ordering, but I honestly
 > can't understand how, perhaps someone can explain to me in a simple
 > way that I can understand.
 
-I'll say I don't have a complete understanding of this myself. However,
-my understanding is the completion coming from disk won't be sent toward
-the RC until all the all the TLPs reached leg B. Then if the RC sends
-TLPs to the p2p device via leg B they will be behind all the TLPs the
-disk sent. Or something like that. Obviously this will only work with a
-tree topology (which I believe is the only topology that makes sense for
-PCI). If you had a mesh topology, then the data could route around
-congestion and that would get around the ordering restrictions.
+AFAIK PCI-E ordering is explicitly per link, so things that need order
+must always traverse the same link.
 
-Logan
+Jason
