@@ -1,23 +1,22 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 6 Apr 2017 11:30:02 +0300
-Subject: [PATCH rfc 6/6] nvme-rdma: use intelligent affinity based queue
- mappings
-In-Reply-To: <20170404063444.GF8978@lst.de>
+Date: Thu, 6 Apr 2017 11:34:03 +0300
+Subject: [PATCH rfc 0/6] Automatic affinity settings for nvme over rdma
+In-Reply-To: <86ed1762-a990-691f-e043-3d7dcac8fe85@mellanox.com>
 References: <1491140492-25703-1-git-send-email-sagi@grimberg.me>
- <1491140492-25703-7-git-send-email-sagi@grimberg.me>
- <20170404063444.GF8978@lst.de>
-Message-ID: <d896e706-ae78-6be1-dd21-fa73150537b4@grimberg.me>
+ <86ed1762-a990-691f-e043-3d7dcac8fe85@mellanox.com>
+Message-ID: <09b4dcb4-d0ab-43b7-5f1c-394ecfcce2f0@grimberg.me>
 
+> Hi Sagi,
 
->> Use the geneic block layer affinity mapping helper. Also,
->
->           generic
->
->>  	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
->> +	nr_io_queues = min_t(unsigned int, nr_io_queues,
->> +				ibdev->num_comp_vectors);
->> +
->
-> Add a comment here?
+Hey Max,
 
-Will do
+> the patchset looks good and of course we can add support for more
+> drivers in the future.
+> have you run some performance testing with the nvmf initiator ?
+
+I'm limited by the target machine in terms of IOPs, but the host shows
+~10% cpu usage decrease, and latency improves slightly as well
+which is more apparent depending on which cpu I'm running my IO
+thread (due to the mismatch in comp_vectors and queue mappings
+some queues have irq vectors mapped to a core on a different numa
+node.
