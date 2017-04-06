@@ -1,22 +1,15 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 6 Apr 2017 11:34:03 +0300
-Subject: [PATCH rfc 0/6] Automatic affinity settings for nvme over rdma
-In-Reply-To: <86ed1762-a990-691f-e043-3d7dcac8fe85@mellanox.com>
-References: <1491140492-25703-1-git-send-email-sagi@grimberg.me>
- <86ed1762-a990-691f-e043-3d7dcac8fe85@mellanox.com>
-Message-ID: <09b4dcb4-d0ab-43b7-5f1c-394ecfcce2f0@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 6 Apr 2017 10:38:26 +0200
+Subject: [PATCH 4/5] nvme: move the retries count to struct nvme_request
+In-Reply-To: <5a5f1f1.8f7d.15b4267e21e.Coremail.liaohengquan1986@163.com>
+References: <20170405141856.1862-1-hch@lst.de>
+ <20170405141856.1862-5-hch@lst.de>
+ <20170405151430.GS20181@localhost.localdomain>
+ <5a5f1f1.8f7d.15b4267e21e.Coremail.liaohengquan1986@163.com>
+Message-ID: <20170406083826.GA32535@lst.de>
 
-> Hi Sagi,
+On Thu, Apr 06, 2017@04:35:56PM +0800, ??? wrote:
+> Hi, Guys,
+>               I want to ask if there is any plan to plant the NVMe driver to Vxworks OS?Thank  you so much.---end quoted text---
 
-Hey Max,
-
-> the patchset looks good and of course we can add support for more
-> drivers in the future.
-> have you run some performance testing with the nvmf initiator ?
-
-I'm limited by the target machine in terms of IOPs, but the host shows
-~10% cpu usage decrease, and latency improves slightly as well
-which is more apparent depending on which cpu I'm running my IO
-thread (due to the mismatch in comp_vectors and queue mappings
-some queues have irq vectors mapped to a core on a different numa
-node.
+The Linux NVMe team has no plans for a Vxworks NVMe driver at the moment.
