@@ -1,43 +1,38 @@
-From: maurosr@linux.vnet.ibm.com (Mauro Rodrigues)
-Date: Wed, 5 Apr 2017 20:56:11 -0300
-Subject: [PATCH 3/3] nvmetcli: Install nvmetcli executable in $PATH
-In-Reply-To: <20170330082855.GC11540@lst.de>
-References: <1490636805-13688-1-git-send-email-maurosr@linux.vnet.ibm.com>
- <1490636805-13688-3-git-send-email-maurosr@linux.vnet.ibm.com>
- <20170330082855.GC11540@lst.de>
-Message-ID: <20170405235611.GA8885@korriban>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 6 Apr 2017 08:33:38 +0300
+Subject: [RFC 6/8] nvmet: Be careful about using iomem accesses when
+ dealing with p2pmem
+In-Reply-To: <20170404154629.GA13552@obsidianresearch.com>
+References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
+ <1490911959-5146-7-git-send-email-logang@deltatee.com>
+ <080b68b4-eba3-861c-4f29-5d829425b5e7@grimberg.me>
+ <20170404154629.GA13552@obsidianresearch.com>
+Message-ID: <4df229d8-8124-664a-9bc4-6401bc034be1@grimberg.me>
 
-On Thu, Mar 30, 2017@10:28:55AM +0200, Christoph Hellwig wrote:
-> On Mon, Mar 27, 2017@02:46:45PM -0300, Mauro S. M. Rodrigues wrote:
-> > According to the README, one can install nvmetcli through setup.py.
-> > When we try this, though, the nvmetcli wasn't configured in system's
-> > $PATH.
-> > Adding it to script list in setup.py solved the issue.
-> 
-> Andy sent the same patch a while ago, but it needs a fixup to
-> 
->  a) install into /usr/sbin
->  b) fixups to the deb and rpm packaging to take this into account
-> 
-> Do you want to fix this up?  Otherwise I'll try to get to it myself,
-> I should be able to access a Fedora test box again now.
+
+>> Note that the nvme completion queues are still on the host memory, so
+>> this means we have lost the ordering between data and completions as
+>> they go to different pcie targets.
 >
-Hi Cristoph!
+> Hmm, in this simple up/down case with a switch, I think it might
+> actually be OK.
+>
+> Transactions might not complete at the NVMe device before the CPU
+> processes the RDMA completion, however due to the PCI-E ordering rules
+> new TLPs directed to the NVMe will complete after the RMDA TLPs and
+> thus observe the new data. (eg order preserving)
+>
+> It would be very hard to use P2P if fabric ordering is not preserved..
 
-I just sent a new version of the patch. I've also checked the contents
-of both rpm and deb packages and everything looks correct:
+I think it still can race if the p2p device is connected with more than
+a single port to the switch.
 
-~/dev/nvmetcli$ dpkg -c dist/nvmetcli_0.3.3.g08963d2_all.deb  |grep /usr/sbin/nvmetcli
--rwxr-xr-x root/root     17050 2017-04-05 15:47 ./usr/sbin/nvmetcli
+Say it's connected via 2 legs, the bar is accessed from leg A and the
+data from the disk comes via leg B. In this case, the data is heading
+towards the p2p device via leg B (might be congested), the completion
+goes directly to the RC, and then the host issues a read from the
+bar via leg A. I don't understand what can guarantee ordering here.
 
-and for the rpm:
-
-# rpm -ql nvmetcli |grep /usr/sbin/nvmetcli
-/usr/sbin/nvmetcli
-
-Please let me know if I missed anything here.
-
-Thanks in advanced!
-
---
-Mauro Rodrigues
+Stephen told me that this still guarantees ordering, but I honestly
+can't understand how, perhaps someone can explain to me in a simple
+way that I can understand.
