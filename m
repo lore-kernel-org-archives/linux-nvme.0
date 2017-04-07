@@ -1,107 +1,55 @@
-From: sbates@raithlin.com (sbates@raithlin.com)
-Date: Fri,  7 Apr 2017 06:24:03 -0600
-Subject: [PATCH v3 2/2] blk-mq: Add a polling specific stats function
-In-Reply-To: <1491567843-26190-1-git-send-email-sbates@raithlin.com>
-References: <1491567843-26190-1-git-send-email-sbates@raithlin.com>
-Message-ID: <1491567843-26190-3-git-send-email-sbates@raithlin.com>
+From: mrybczyn@kalray.eu (Marta Rybczynska)
+Date: Fri, 7 Apr 2017 15:31:56 +0200 (CEST)
+Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
+In-Reply-To: <20170406130207.GI2269@mtr-leonro.local>
+References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
+ <80770042-743e-a271-c636-f72099f9ac56@grimberg.me>
+ <9eb08168-18a6-a176-01df-b68b6a225963@redhat.com>
+ <3505b835-d0ba-70cb-dfe8-1265fc2bbb83@redhat.com>
+ <2ba93b5b-ad36-5533-36e2-9db2e3198c19@grimberg.me>
+ <1121115847.336382032.1490883808617.JavaMail.zimbra@kalray.eu>
+ <1224897571.353404199.1491481743295.JavaMail.zimbra@kalray.eu>
+ <20170406130207.GI2269@mtr-leonro.local>
+Message-ID: <1917497781.360337179.1491571916242.JavaMail.zimbra@kalray.eu>
 
-From: Stephen Bates <sbates@raithlin.com>
+> On Thu, Apr 06, 2017@02:29:03PM +0200, Marta Rybczynska wrote:
+>> >>>> You say above "we post *up to* 2 work requests", unless you wish to
+>> >>>> change that to "we always post at least 2 work requests per queue
+>> >>>> entry", Jason is right, your frequency of signaling needs to be X/2
+>> >>>> regardless of your CQ size, you need the signaling to control the queue
+>> >>>> depth tracking.
+>> >>>
+>> >>> If you would like to spread things out farther between signaling, then
+>> >>> you can modify your send routine to only increment the send counter for
+>> >>> actual send requests, ignoring registration WQEs and invalidate WQES,
+>> >>> and then signal every X/2 sends.
+>> >>
+>> >> Yea, you're right, and not only I got it wrong, I even contradicted my
+>> >> own suggestion that was exactly what you and Jason suggested (where is
+>> >> the nearest rat-hole...)
+>> >>
+>> >> So I suggested to signal every X/2 and Marta reported SQ overflows for
+>> >> high queue-dpeth. Marta, at what queue-depth have you seen this?
+>> >
+>> > The remote side had queue depth of 16 or 32 and that's the WQ on the
+>> > initiator side that overflows (mlx5_wq_overflow). We're testing with
+>> > signalling X/2 and it seems to work.
+>>
+>> Update on the situation: the signalling on X/2 seems to work fine in
+>> practice. To clarify more that's the send queue that overflows
+>> (mlx5_wq_overflow in begin_wqe of drivers/infiniband/hw/mlx5/qp.c).
+>>
+>> However, I have still doubt how it's going to work in the case of
+>> higher queue depths (i.e. the typical case). If we signal every X/2
+>> we'll do it much more rarely than today (every 32 messages). I'm not
+>> sure on the system effect this would have.
+>>
+>> Mellanox guys, do you have an idea what it might do?
+> 
+> It will continue to work as expected with long depths too.
+> All that you need is do not to forget to issue signal if queue is terminated.
+> 
 
-Rather than bucketing IO statisics based on direction only we also
-bucket based on the IO size. This leads to improved polling
-performance. Update the bucket callback function and use it in the
-polling latency estimation.
+Thanks Leon. I will then submit the v2.
 
-Signed-off-by: Stephen Bates <sbates at raithlin.com>
----
- block/blk-mq.c | 45 +++++++++++++++++++++++++++++++++++----------
- 1 file changed, 35 insertions(+), 10 deletions(-)
-
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 061fc2c..5fd376b 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -42,6 +42,25 @@ static LIST_HEAD(all_q_list);
- static void blk_mq_poll_stats_start(struct request_queue *q);
- static void blk_mq_poll_stats_fn(struct blk_stat_callback *cb);
- 
-+/* Must be consisitent with function below */
-+#define BLK_MQ_POLL_STATS_BKTS 16
-+static int blk_mq_poll_stats_bkt(const struct request *rq)
-+{
-+	int ddir, bytes, bucket;
-+
-+	ddir = blk_stat_rq_ddir(rq);
-+	bytes = blk_rq_bytes(rq);
-+
-+	bucket = ddir + 2*(ilog2(bytes) - 9);
-+
-+	if (bucket < 0)
-+		return -1;
-+	else if (bucket >= BLK_MQ_POLL_STATS_BKTS)
-+		return ddir + BLK_MQ_POLL_STATS_BKTS - 2;
-+
-+	return bucket;
-+}
-+
- /*
-  * Check if any of the ctx's have pending work in this hardware queue
-  */
-@@ -2245,7 +2264,8 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
- 	q->mq_ops = set->ops;
- 
- 	q->poll_cb = blk_stat_alloc_callback(blk_mq_poll_stats_fn,
--					     blk_stat_rq_ddir, 2, q);
-+					     blk_mq_poll_stats_bkt,
-+					     BLK_MQ_POLL_STATS_BKTS, q);
- 	if (!q->poll_cb)
- 		goto err_exit;
- 
-@@ -2663,11 +2683,12 @@ static void blk_mq_poll_stats_start(struct request_queue *q)
- static void blk_mq_poll_stats_fn(struct blk_stat_callback *cb)
- {
- 	struct request_queue *q = cb->data;
-+	int bucket;
- 
--	if (cb->stat[READ].nr_samples)
--		q->poll_stat[READ] = cb->stat[READ];
--	if (cb->stat[WRITE].nr_samples)
--		q->poll_stat[WRITE] = cb->stat[WRITE];
-+	for (bucket = 0; bucket < BLK_MQ_POLL_STATS_BKTS; bucket++) {
-+		if (cb->stat[bucket].nr_samples)
-+			q->poll_stat[bucket] = cb->stat[bucket];
-+	}
- }
- 
- static unsigned long blk_mq_poll_nsecs(struct request_queue *q,
-@@ -2675,6 +2696,7 @@ static unsigned long blk_mq_poll_nsecs(struct request_queue *q,
- 				       struct request *rq)
- {
- 	unsigned long ret = 0;
-+	int bucket;
- 
- 	/*
- 	 * If stats collection isn't on, don't sleep but turn it on for
-@@ -2689,12 +2711,15 @@ static unsigned long blk_mq_poll_nsecs(struct request_queue *q,
- 	 * For instance, if the completion latencies are tight, we can
- 	 * get closer than just half the mean. This is especially
- 	 * important on devices where the completion latencies are longer
--	 * than ~10 usec.
-+	 * than ~10 usec. We do use the stats for the relevant IO size
-+	 * if available which does lead to better estimates.
- 	 */
--	if (req_op(rq) == REQ_OP_READ && q->poll_stat[READ].nr_samples)
--		ret = (q->poll_stat[READ].mean + 1) / 2;
--	else if (req_op(rq) == REQ_OP_WRITE && q->poll_stat[WRITE].nr_samples)
--		ret = (q->poll_stat[WRITE].mean + 1) / 2;
-+	bucket = blk_mq_poll_stats_bkt(rq);
-+	if (bucket < 0)
-+		return ret;
-+
-+	if (q->poll_stat[bucket].nr_samples)
-+		ret = (q->poll_stat[bucket].mean + 1) / 2;
- 
- 	return ret;
- }
--- 
-2.7.4
+Marta
