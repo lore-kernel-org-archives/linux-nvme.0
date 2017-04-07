@@ -1,16 +1,11 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 7 Apr 2017 09:11:24 +0200
-Subject: kill req->errors
-In-Reply-To: <20170406200024.GC6140@localhost.localdomain>
-References: <20170406153944.10058-1-hch@lst.de>
- <20170406200024.GC6140@localhost.localdomain>
-Message-ID: <20170407071124.GA26481@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 7 Apr 2017 00:27:29 -0700
+Subject: [PATCH v2] nvme_fc: avoid double kfree(), don't call
+ nvme_cleanup_cmd() in nvme_fc_unmap_data()
+In-Reply-To: <1491497276-15944-1-git-send-email-emilne@redhat.com>
+References: <1491497276-15944-1-git-send-email-emilne@redhat.com>
+Message-ID: <20170407072729.GA2574@infradead.org>
 
-On Thu, Apr 06, 2017@04:00:24PM -0400, Konrad Rzeszutek Wilk wrote:
-> You wouldn't have a git tree to easily test it? Thanks.
+Looks good,
 
-git://git.infradead.org/users/hch/block.git request-errors
-
-Gitweb:
-
-http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/request-errors
+Reviewed-by: Christoph Hellwig <hch at lst.de>
