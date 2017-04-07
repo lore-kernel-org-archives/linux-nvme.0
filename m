@@ -1,27 +1,90 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Fri, 7 Apr 2017 12:11:06 +0000
-Subject: [PATCH v2 2/2] blk-mq: Add a polling specific stats function
-In-Reply-To: <370c8854-1735-b0e7-089f-4b04068ca4f1@kernel.dk>
-References: <1491413957-30885-1-git-send-email-sbates@raithlin.com>
- <1491413957-30885-3-git-send-email-sbates@raithlin.com>
- <370c8854-1735-b0e7-089f-4b04068ca4f1@kernel.dk>
-Message-ID: <2AD7D1E1-3906-4ABA-A301-E15DABAF443C@raithlin.com>
+From: sbates@raithlin.com (sbates@raithlin.com)
+Date: Fri,  7 Apr 2017 06:24:02 -0600
+Subject: [PATCH v3 1/2] blk-stat: convert blk-stat bucket callback to signed
+In-Reply-To: <1491567843-26190-1-git-send-email-sbates@raithlin.com>
+References: <1491567843-26190-1-git-send-email-sbates@raithlin.com>
+Message-ID: <1491567843-26190-2-git-send-email-sbates@raithlin.com>
 
-On 2017-04-05, 7:14 PM, "Jens Axboe" <axboe@kernel.dk> wrote:
+From: Stephen Bates <sbates@raithlin.com>
 
-> Why not just have 8 buckets, and make it:
->
->	bucket = ddir + ilog2(bytes) - 9;
->
-> and cap it at MAX_BUCKET (8) and put all those above into the top
-> bucket.
+In order to allow for filtering of IO based on some other properties
+of the request than direction we allow the bucket function to return
+an int.
 
-Thanks. However, that equation does not differentiate between direction and size. Instead we can use
+If the bucket callback returns a negative do no count it in the stats
+accumulation.
 
-bucket = ddir + 2*(ilog2(bytes) - 9);
+Signed-off-by: Stephen Bates <sbates at raithlin.com>
+---
+ block/blk-stat.c | 6 ++++--
+ block/blk-stat.h | 9 +++++----
+ 2 files changed, 9 insertions(+), 6 deletions(-)
 
-and then bin any IO over 64K in the largest of the two buckets based on direction. I?ll implement this in a v3?.
-
-Cheers
-
-Stephen
+diff --git a/block/blk-stat.c b/block/blk-stat.c
+index e77ec52..dde9d39 100644
+--- a/block/blk-stat.c
++++ b/block/blk-stat.c
+@@ -19,7 +19,7 @@ struct blk_queue_stats {
+ 	bool enable_accounting;
+ };
+ 
+-unsigned int blk_stat_rq_ddir(const struct request *rq)
++int blk_stat_rq_ddir(const struct request *rq)
+ {
+ 	return rq_data_dir(rq);
+ }
+@@ -104,6 +104,8 @@ void blk_stat_add(struct request *rq)
+ 	list_for_each_entry_rcu(cb, &q->stats->callbacks, list) {
+ 		if (blk_stat_is_active(cb)) {
+ 			bucket = cb->bucket_fn(rq);
++			if (bucket < 0)
++				continue;
+ 			stat = &this_cpu_ptr(cb->cpu_stat)[bucket];
+ 			__blk_stat_add(stat, value);
+ 		}
+@@ -135,7 +137,7 @@ static void blk_stat_timer_fn(unsigned long data)
+ 
+ struct blk_stat_callback *
+ blk_stat_alloc_callback(void (*timer_fn)(struct blk_stat_callback *),
+-			unsigned int (*bucket_fn)(const struct request *),
++			int (*bucket_fn)(const struct request *),
+ 			unsigned int buckets, void *data)
+ {
+ 	struct blk_stat_callback *cb;
+diff --git a/block/blk-stat.h b/block/blk-stat.h
+index 53f08a6..622a62c 100644
+--- a/block/blk-stat.h
++++ b/block/blk-stat.h
+@@ -48,9 +48,10 @@ struct blk_stat_callback {
+ 
+ 	/**
+ 	 * @bucket_fn: Given a request, returns which statistics bucket it
+-	 * should be accounted under.
++	 * should be accounted under. Return -1 for no bucket for this
++	 * request.
+ 	 */
+-	unsigned int (*bucket_fn)(const struct request *);
++	int (*bucket_fn)(const struct request *);
+ 
+ 	/**
+ 	 * @buckets: Number of statistics buckets.
+@@ -120,7 +121,7 @@ void blk_stat_enable_accounting(struct request_queue *q);
+  *
+  * Return: Data direction of the request, either READ or WRITE.
+  */
+-unsigned int blk_stat_rq_ddir(const struct request *rq);
++int blk_stat_rq_ddir(const struct request *rq);
+ 
+ /**
+  * blk_stat_alloc_callback() - Allocate a block statistics callback.
+@@ -135,7 +136,7 @@ unsigned int blk_stat_rq_ddir(const struct request *rq);
+  */
+ struct blk_stat_callback *
+ blk_stat_alloc_callback(void (*timer_fn)(struct blk_stat_callback *),
+-			unsigned int (*bucket_fn)(const struct request *),
++			int (*bucket_fn)(const struct request *),
+ 			unsigned int buckets, void *data);
+ 
+ /**
+-- 
+2.7.4
