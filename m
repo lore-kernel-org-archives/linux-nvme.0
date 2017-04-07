@@ -1,22 +1,16 @@
-From: josef@toxicpanda.com (Josef Bacik)
-Date: Thu, 6 Apr 2017 17:11:00 -0400
-Subject: [PATCH 14/25] nbd: don't use req->errors
-In-Reply-To: <20170406153944.10058-15-hch@lst.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 7 Apr 2017 09:11:24 +0200
+Subject: kill req->errors
+In-Reply-To: <20170406200024.GC6140@localhost.localdomain>
 References: <20170406153944.10058-1-hch@lst.de>
- <20170406153944.10058-15-hch@lst.de>
-Message-ID: <5819A1CC-BB9E-4B28-B41A-B4F6EBCE5D0C@toxicpanda.com>
+ <20170406200024.GC6140@localhost.localdomain>
+Message-ID: <20170407071124.GA26481@lst.de>
 
+On Thu, Apr 06, 2017@04:00:24PM -0400, Konrad Rzeszutek Wilk wrote:
+> You wouldn't have a git tree to easily test it? Thanks.
 
-> On Apr 6, 2017,@11:39 AM, Christoph Hellwig <hch@lst.de> wrote:
-> 
-> Add a nbd-specific field instead.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+git://git.infradead.org/users/hch/block.git request-errors
 
-This is fine with me, you can add,
+Gitweb:
 
-Reviewed-by: Josef Bacik <jbacik at fb.com>
-
-Thanks,
-
-Josef
+http://git.infradead.org/users/hch/block.git/shortlog/refs/heads/request-errors
