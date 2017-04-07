@@ -1,55 +1,38 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Fri, 7 Apr 2017 15:31:56 +0200 (CEST)
-Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
-In-Reply-To: <20170406130207.GI2269@mtr-leonro.local>
-References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
- <80770042-743e-a271-c636-f72099f9ac56@grimberg.me>
- <9eb08168-18a6-a176-01df-b68b6a225963@redhat.com>
- <3505b835-d0ba-70cb-dfe8-1265fc2bbb83@redhat.com>
- <2ba93b5b-ad36-5533-36e2-9db2e3198c19@grimberg.me>
- <1121115847.336382032.1490883808617.JavaMail.zimbra@kalray.eu>
- <1224897571.353404199.1491481743295.JavaMail.zimbra@kalray.eu>
- <20170406130207.GI2269@mtr-leonro.local>
-Message-ID: <1917497781.360337179.1491571916242.JavaMail.zimbra@kalray.eu>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Fri, 7 Apr 2017 08:01:45 -0600
+Subject: [PATCH v2 2/2] blk-mq: Add a polling specific stats function
+In-Reply-To: <2AD7D1E1-3906-4ABA-A301-E15DABAF443C@raithlin.com>
+References: <1491413957-30885-1-git-send-email-sbates@raithlin.com>
+ <1491413957-30885-3-git-send-email-sbates@raithlin.com>
+ <370c8854-1735-b0e7-089f-4b04068ca4f1@kernel.dk>
+ <2AD7D1E1-3906-4ABA-A301-E15DABAF443C@raithlin.com>
+Message-ID: <bb76465b-d708-f5df-e2ec-c99d052e9b27@kernel.dk>
 
-> On Thu, Apr 06, 2017@02:29:03PM +0200, Marta Rybczynska wrote:
->> >>>> You say above "we post *up to* 2 work requests", unless you wish to
->> >>>> change that to "we always post at least 2 work requests per queue
->> >>>> entry", Jason is right, your frequency of signaling needs to be X/2
->> >>>> regardless of your CQ size, you need the signaling to control the queue
->> >>>> depth tracking.
->> >>>
->> >>> If you would like to spread things out farther between signaling, then
->> >>> you can modify your send routine to only increment the send counter for
->> >>> actual send requests, ignoring registration WQEs and invalidate WQES,
->> >>> and then signal every X/2 sends.
->> >>
->> >> Yea, you're right, and not only I got it wrong, I even contradicted my
->> >> own suggestion that was exactly what you and Jason suggested (where is
->> >> the nearest rat-hole...)
->> >>
->> >> So I suggested to signal every X/2 and Marta reported SQ overflows for
->> >> high queue-dpeth. Marta, at what queue-depth have you seen this?
->> >
->> > The remote side had queue depth of 16 or 32 and that's the WQ on the
->> > initiator side that overflows (mlx5_wq_overflow). We're testing with
->> > signalling X/2 and it seems to work.
->>
->> Update on the situation: the signalling on X/2 seems to work fine in
->> practice. To clarify more that's the send queue that overflows
->> (mlx5_wq_overflow in begin_wqe of drivers/infiniband/hw/mlx5/qp.c).
->>
->> However, I have still doubt how it's going to work in the case of
->> higher queue depths (i.e. the typical case). If we signal every X/2
->> we'll do it much more rarely than today (every 32 messages). I'm not
->> sure on the system effect this would have.
->>
->> Mellanox guys, do you have an idea what it might do?
+On 04/07/2017 06:11 AM, Stephen  Bates wrote:
+> On 2017-04-05, 7:14 PM, "Jens Axboe" <axboe@kernel.dk> wrote:
 > 
-> It will continue to work as expected with long depths too.
-> All that you need is do not to forget to issue signal if queue is terminated.
+>> Why not just have 8 buckets, and make it:
+>>
+>> 	bucket = ddir + ilog2(bytes) - 9;
+>>
+>> and cap it at MAX_BUCKET (8) and put all those above into the top
+>> bucket.
 > 
+> Thanks. However, that equation does not differentiate between
+> direction and size. Instead we can use
+> 
+> bucket = ddir + 2*(ilog2(bytes) - 9);
 
-Thanks Leon. I will then submit the v2.
+It would be cleaner to just embed the fact that we have 2 sets of
+identical buckets, and return 
 
-Marta
+	bucket = ilog2(bytes) - 9;
+
+and have poll_stat be indexed by:
+
+	->poll_stat[ddir][bucket];
+
+instead.
+
+-- 
+Jens Axboe
