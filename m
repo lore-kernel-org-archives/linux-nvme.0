@@ -1,28 +1,41 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 9 Apr 2017 15:31:29 +0300
-Subject: [PATCH RFC] nvme-rdma: support devices with queue size < 32
-In-Reply-To: <1917497781.360337179.1491571916242.JavaMail.zimbra@kalray.eu>
-References: <1315914765.312051621.1490259849534.JavaMail.zimbra@kalray.eu>
- <80770042-743e-a271-c636-f72099f9ac56@grimberg.me>
- <9eb08168-18a6-a176-01df-b68b6a225963@redhat.com>
- <3505b835-d0ba-70cb-dfe8-1265fc2bbb83@redhat.com>
- <2ba93b5b-ad36-5533-36e2-9db2e3198c19@grimberg.me>
- <1121115847.336382032.1490883808617.JavaMail.zimbra@kalray.eu>
- <1224897571.353404199.1491481743295.JavaMail.zimbra@kalray.eu>
- <20170406130207.GI2269@mtr-leonro.local>
- <1917497781.360337179.1491571916242.JavaMail.zimbra@kalray.eu>
-Message-ID: <c7e56394-feb3-282b-0eec-166ef0d8b13c@grimberg.me>
+Date: Sun, 9 Apr 2017 15:47:35 +0300
+Subject: kmemleak complaints in nvme PM
+Message-ID: <006f3319-0cd8-9d47-95cd-454b775a9b04@grimberg.me>
+
+Hi folks,
+
+I got this kmemleak complaint [1] on nvme-loop (but I'm pretty
+confident it should happen with any nvme transport).
+
+Initial code stare tells me that
+dev_pm_qos_update_user_latency_tolerance() can (and usually will
+in controller initializaion) allocate a dev_pm_qos_request, but I
+didn't see a pairing free of that request.
+
+I'll try to find some time looking into it, but thought it might
+be a good idea to throw it out here in the mean time...
 
 
->>> Mellanox guys, do you have an idea what it might do?
->>
->> It will continue to work as expected with long depths too.
->> All that you need is do not to forget to issue signal if queue is terminated.
->>
->
-> Thanks Leon. I will then submit the v2.
-
-Marta, can you please test with higher queue-depth? Say 512 and/or 1024?
-
-Thanks,
-Sagi.
+[1]:
+--
+unreferenced object 0xffff9d87f7f65b00 (size 64):
+   comm "nvme", pid 1088, jiffies 4295242789 (age 37.036s)
+   hex dump (first 32 bytes):
+     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+   backtrace:
+     [<ffffffffaf84312a>] kmemleak_alloc+0x4a/0xa0
+     [<ffffffffaf1ff780>] kmem_cache_alloc_trace+0x110/0x230
+     [<ffffffffaf579fbc>] 
+dev_pm_qos_update_user_latency_tolerance+0x7c/0x100
+     [<ffffffffc06b9b9c>] nvme_init_ctrl+0x21c/0x250 [nvme_core]
+     [<ffffffffc06bc52a>] nvme_probe_ctrl+0x9a/0x1c0 [nvme_core]
+     [<ffffffffc0736b9f>] nvme_loop_create_ctrl+0xbf/0x150 [nvme_loop]
+     [<ffffffffc053e3f2>] nvmf_dev_write+0x7a2/0x9d7 [nvme_fabrics]
+     [<ffffffffaf225fc8>] __vfs_write+0x28/0x140
+     [<ffffffffaf2268d8>] vfs_write+0xb8/0x1b0
+     [<ffffffffaf227d86>] SyS_write+0x46/0xa0
+     [<ffffffffaf84dffb>] entry_SYSCALL_64_fastpath+0x1e/0xad
+     [<ffffffffffffffff>] 0xffffffffffffffff
+--
