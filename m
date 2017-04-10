@@ -1,36 +1,29 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Mon, 10 Apr 2017 10:03:45 -0600
-Subject: [RFC 6/8] nvmet: Be careful about using iomem accesses when
- dealing with p2pmem
-In-Reply-To: <7fcc3ac8-8b96-90f5-3942-87f999c7499d@grimberg.me>
-References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <1490911959-5146-7-git-send-email-logang@deltatee.com>
- <080b68b4-eba3-861c-4f29-5d829425b5e7@grimberg.me>
- <20170404154629.GA13552@obsidianresearch.com>
- <4df229d8-8124-664a-9bc4-6401bc034be1@grimberg.me>
- <3E85B4D4-9EBC-4299-8209-2D8740947764@raithlin.com>
- <7fcc3ac8-8b96-90f5-3942-87f999c7499d@grimberg.me>
-Message-ID: <aeeaeb7b-9cec-4cc0-5d4d-e26aa6c02f80@deltatee.com>
+From: swise@opengridcomputing.com (Steve Wise)
+Date: Mon, 10 Apr 2017 13:05:50 -0500
+Subject: [PATCH rfc 0/6] Automatic affinity settings for nvme over rdma
+In-Reply-To: <1491140492-25703-1-git-send-email-sagi@grimberg.me>
+References: <1491140492-25703-1-git-send-email-sagi@grimberg.me>
+Message-ID: <14fd128d-7155-ab13-492f-952f072808d5@opengridcomputing.com>
 
+On 4/2/2017 8:41 AM, Sagi Grimberg wrote:
+> This patch set is aiming to automatically find the optimal
+> queue <-> irq multi-queue assignments in storage ULPs (demonstrated
+> on nvme-rdma) based on the underlying rdma device irq affinity
+> settings.
+>
+> First two patches modify mlx5 core driver to use generic API
+> to allocate array of irq vectors with automatic affinity
+> settings instead of open-coding exactly what it does (and
+> slightly worse).
+>
+> Then, in order to obtain an affinity map for a given completion
+> vector, we expose a new RDMA core API, and implement it in mlx5.
+>
+> The third part is addition of a rdma-based queue mapping helper
+> to blk-mq that maps the tagset hctx's according to the device
+> affinity mappings.
+>
+> I'd happily convert some more drivers, but I'll need volunteers
+> to test as I don't have access to any other devices.
 
-
-On 10/04/17 02:29 AM, Sagi Grimberg wrote:
-> What you are saying is surprising to me. The switch needs to preserve
-> ordering across different switch ports ??
-
-> You are suggesting that there is a *switch-wide* state that tracks
-> MemRds never pass MemWrs across all the switch ports? That is a very
-> non-trivial statement...
-
-Yes, it is a requirement of the PCIe spec for transactions to be
-strongly ordered throughout the fabric so switches must have an internal
-state across all ports. Without that, it would be impossible to have PCI
-cards work together even if they are using system memory to do so. Also,
-I believe, it was done this way to maintain maximum compatibility with
-the legacy PCI bus. There is also a relaxed ordering bit that allows
-specific transactions to ignore ordering which can help performance.
-
-Obviously this becomes impossible if you have some kind of complex
-multi-path fabric.
-
-Logan
+I'll test cxgb4 if you convert it. :)
