@@ -1,36 +1,185 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Tue, 11 Apr 2017 11:32:27 -0700
-Subject: [PATCH v2 0/5] nvmet_fc: bug fixes and lldd api mods
-Message-ID: <20170411183232.8955-1-jsmart2021@gmail.com>
+Date: Tue, 11 Apr 2017 11:32:28 -0700
+Subject: [PATCH v2 1/5] nvmet_fc: add target feature flags for upcall isr
+ contexts
+In-Reply-To: <20170411183232.8955-1-jsmart2021@gmail.com>
+References: <20170411183232.8955-1-jsmart2021@gmail.com>
+Message-ID: <20170411183232.8955-2-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-This patch set contains modifications to the lldd api on the target
-side to specify isr vs threaded calling contexts, address the manner in
-which the transport releases io contexts back to the lldd, and addresses
-the abort interface.
+Two new feature flags were added to control whether upcalls to the
+transport result in context switches or stay in the calling context.
 
-Any modifications to the lpfc driver are isolated to nvme-specific files.
-Therefore any mods should be able to go in through the blk tree and avoid
-the scsi tree.
+NVMET_FCTGTFEAT_CMD_IN_ISR:
+  By default, if the flag is not set, the transport assumes the
+  lldd is in a non-isr context and in the cpu context it should be
+  for the io queue. As such, the cmd handler is called directly in the
+  calling context.
+  If the flag is set, indicating the upcall is an isr context, the
+  transport mandates a transition to a workqueue. The workqueue assigned
+  to the queue is used for the context.
+NVMET_FCTGTFEAT_OPDONE_IN_ISR
+  By default, if the flag is not set, the transport assumes the
+  lldd is in a non-isr context and in the cpu context it should be
+  for the io queue. As such, the fcp operation done callback is called
+  directly in the calling context.
+  If the flag is set, indicating the upcall is an isr context, the
+  transport mandates a transition to a workqueue. The workqueue assigned
+  to the queue is used for the context.
 
-No changes were made from the prior posting. The patches were recut
-on the latest block for-4.12/block branch
+Updated lpfc for flags
 
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/target/fc.c       | 37 ++++++++++++++++++++++++++++++++++---
+ drivers/nvme/target/fcloop.c   |  5 +++--
+ drivers/scsi/lpfc/lpfc_nvmet.c |  4 +++-
+ include/linux/nvme-fc-driver.h | 16 ++++++++++++++++
+ 4 files changed, 56 insertions(+), 6 deletions(-)
 
-James Smart (5):
-  nvmet_fc: add target feature flags for upcall isr  contexts
-  nvmet_fc: add req_release to lldd api
-  nvme_fcloop: split job struct from transport for req_release
-  nvmet_fc: Rework target side abort handling
-  nvmet_fc: add missing reference in add_port
-
- drivers/nvme/target/fc.c       | 251 +++++++++++++++++++++++++++++++----------
- drivers/nvme/target/fcloop.c   | 197 ++++++++++++++++++++++++++------
- drivers/scsi/lpfc/lpfc_nvmet.c | 126 ++++++++++++++++-----
- drivers/scsi/lpfc/lpfc_nvmet.h |   7 +-
- include/linux/nvme-fc-driver.h |  98 +++++++++++-----
- 5 files changed, 523 insertions(+), 156 deletions(-)
-
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 2c0709f..a4fad3d 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -86,6 +86,7 @@ struct nvmet_fc_fcp_iod {
+ 
+ 	struct nvmet_req		req;
+ 	struct work_struct		work;
++	struct work_struct		done_work;
+ 
+ 	struct nvmet_fc_tgtport		*tgtport;
+ 	struct nvmet_fc_tgt_queue	*queue;
+@@ -213,6 +214,7 @@ static DEFINE_IDA(nvmet_fc_tgtport_cnt);
+ 
+ static void nvmet_fc_handle_ls_rqst_work(struct work_struct *work);
+ static void nvmet_fc_handle_fcp_rqst_work(struct work_struct *work);
++static void nvmet_fc_fcp_rqst_op_done_work(struct work_struct *work);
+ static void nvmet_fc_tgt_a_put(struct nvmet_fc_tgt_assoc *assoc);
+ static int nvmet_fc_tgt_a_get(struct nvmet_fc_tgt_assoc *assoc);
+ static void nvmet_fc_tgt_q_put(struct nvmet_fc_tgt_queue *queue);
+@@ -414,6 +416,7 @@ nvmet_fc_prep_fcp_iodlist(struct nvmet_fc_tgtport *tgtport,
+ 
+ 	for (i = 0; i < queue->sqsize; fod++, i++) {
+ 		INIT_WORK(&fod->work, nvmet_fc_handle_fcp_rqst_work);
++		INIT_WORK(&fod->done_work, nvmet_fc_fcp_rqst_op_done_work);
+ 		fod->tgtport = tgtport;
+ 		fod->queue = queue;
+ 		fod->active = false;
+@@ -1807,10 +1810,13 @@ nvmet_fc_transfer_fcp_data(struct nvmet_fc_tgtport *tgtport,
+ 	}
+ }
+ 
++/*
++ * actual done handler for FCP operations when completed by the lldd
++ */
+ static void
+-nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
++nvmet_fc_fod_op_done(struct nvmet_fc_fcp_iod *fod)
+ {
+-	struct nvmet_fc_fcp_iod *fod = fcpreq->nvmet_fc_private;
++	struct nvmefc_tgt_fcp_req *fcpreq = fod->fcpreq;
+ 	struct nvmet_fc_tgtport *tgtport = fod->tgtport;
+ 	unsigned long flags;
+ 	bool abort;
+@@ -1905,6 +1911,28 @@ nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
+ 	}
+ }
+ 
++static void
++nvmet_fc_fcp_rqst_op_done_work(struct work_struct *work)
++{
++	struct nvmet_fc_fcp_iod *fod =
++		container_of(work, struct nvmet_fc_fcp_iod, done_work);
++
++	nvmet_fc_fod_op_done(fod);
++}
++
++static void
++nvmet_fc_xmt_fcp_op_done(struct nvmefc_tgt_fcp_req *fcpreq)
++{
++	struct nvmet_fc_fcp_iod *fod = fcpreq->nvmet_fc_private;
++	struct nvmet_fc_tgt_queue *queue = fod->queue;
++
++	if (fod->tgtport->ops->target_features & NVMET_FCTGTFEAT_OPDONE_IN_ISR)
++		/* context switch so completion is not in ISR context */
++		queue_work_on(queue->cpu, queue->work_q, &fod->done_work);
++	else
++		nvmet_fc_fod_op_done(fod);
++}
++
+ /*
+  * actual completion handler after execution by the nvmet layer
+  */
+@@ -2149,7 +2177,10 @@ nvmet_fc_rcv_fcp_req(struct nvmet_fc_target_port *target_port,
+ 			((queue->qid - 1) % tgtport->ops->max_hw_queues) : 0;
+ 	memcpy(&fod->cmdiubuf, cmdiubuf, cmdiubuf_len);
+ 
+-	queue_work_on(queue->cpu, queue->work_q, &fod->work);
++	if (tgtport->ops->target_features & NVMET_FCTGTFEAT_CMD_IN_ISR)
++		queue_work_on(queue->cpu, queue->work_q, &fod->work);
++	else
++		nvmet_fc_handle_fcp_rqst(tgtport, fod);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index 4e8e6a2..a5cdeca 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -575,8 +575,9 @@ struct nvmet_fc_target_template tgttemplate = {
+ 	.max_dif_sgl_segments	= FCLOOP_SGL_SEGS,
+ 	.dma_boundary		= FCLOOP_DMABOUND_4G,
+ 	/* optional features */
+-	.target_features	= NVMET_FCTGTFEAT_READDATA_RSP |
+-				  NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED,
++	.target_features	= NVMET_FCTGTFEAT_CMD_IN_ISR |
++				  NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED |
++				  NVMET_FCTGTFEAT_OPDONE_IN_ISR,
+ 	/* sizes of additional private data for data structures */
+ 	.target_priv_sz		= sizeof(struct fcloop_tport),
+ };
+diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
+index 7ca868f..176b4e0 100644
+--- a/drivers/scsi/lpfc/lpfc_nvmet.c
++++ b/drivers/scsi/lpfc/lpfc_nvmet.c
+@@ -669,7 +669,9 @@ lpfc_nvmet_create_targetport(struct lpfc_hba *phba)
+ 	lpfc_tgttemplate.max_hw_queues = phba->cfg_nvme_io_channel;
+ 	lpfc_tgttemplate.max_sgl_segments = phba->cfg_sg_seg_cnt;
+ 	lpfc_tgttemplate.target_features = NVMET_FCTGTFEAT_READDATA_RSP |
+-					   NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED;
++					   NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED |
++					   NVMET_FCTGTFEAT_CMD_IN_ISR |
++					   NVMET_FCTGTFEAT_OPDONE_IN_ISR;
+ 
+ #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
+ 	error = nvmet_fc_register_targetport(&pinfo, &lpfc_tgttemplate,
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index 16eb264..d70a9c9 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -655,6 +655,22 @@ enum {
+ 		 * on. The transport should pick a cpu to schedule the work
+ 		 * on.
+ 		 */
++	NVMET_FCTGTFEAT_CMD_IN_ISR = (1 << 2),
++		/* Bit 2: When 0, the LLDD is calling the cmd rcv handler
++		 * in a non-isr context, allowing the transport to finish
++		 * op completion in the calling context. When 1, the LLDD
++		 * is calling the cmd rcv handler in an ISR context,
++		 * requiring the transport to transition to a workqueue
++		 * for op completion.
++		 */
++	NVMET_FCTGTFEAT_OPDONE_IN_ISR = (1 << 3),
++		/* Bit 3: When 0, the LLDD is calling the op done handler
++		 * in a non-isr context, allowing the transport to finish
++		 * op completion in the calling context. When 1, the LLDD
++		 * is calling the op done handler in an ISR context,
++		 * requiring the transport to transition to a workqueue
++		 * for op completion.
++		 */
+ };
+ 
+ 
 -- 
 2.9.3
