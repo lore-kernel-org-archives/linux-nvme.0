@@ -1,30 +1,28 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Tue, 11 Apr 2017 11:32:32 -0700
-Subject: [PATCH v2 5/5] nvmet_fc: add missing reference in add_port
-In-Reply-To: <20170411183232.8955-1-jsmart2021@gmail.com>
-References: <20170411183232.8955-1-jsmart2021@gmail.com>
-Message-ID: <20170411183232.8955-6-jsmart2021@gmail.com>
+Date: Tue, 11 Apr 2017 11:35:07 -0700
+Subject: [PATCH v2 0/5] nvme_fc: add ctlr reset support and abort fixes
+Message-ID: <20170411183512.9043-1-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-Add missing reference in add_port
+This patch set primarily is to add support for controller reset.
+It reorganizes the connect and teardown paths for cleaner support.
+It also addresses some things that weren't there prior - aborts of link
+services as well as aens.  Also fixes a few bugs.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/fc.c | 1 +
- 1 file changed, 1 insertion(+)
+The patches were recut on the latest block for-4.12/block branch and
+changed only to address merge issues.
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index e5d30bb..4a44fd3 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -2377,6 +2377,7 @@ nvmet_fc_add_port(struct nvmet_port *port)
- 			if (!tgtport->port) {
- 				tgtport->port = port;
- 				port->priv = tgtport;
-+				nvmet_fc_tgtport_get(tgtport);
- 				ret = 0;
- 			} else
- 				ret = -EALREADY;
+
+James Smart (5):
+  nvme_fc: Move LS's to rport
+  nvme_fc: Add ls aborts on remote port teardown
+  nvme_fc: fix command id check
+  nvme_fc: add aen abort to teardown
+  nvme_fc: add controller reset support
+
+ drivers/nvme/host/fc.c | 1231 ++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 832 insertions(+), 399 deletions(-)
+
 -- 
 2.9.3
