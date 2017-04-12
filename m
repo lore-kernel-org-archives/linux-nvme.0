@@ -1,35 +1,46 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 12 Apr 2017 11:00:37 -0400
-Subject: [NVMeF]: Multipathing setup for NVMeF
-In-Reply-To: <CAJvSebub-HnRnCpE-z2aTxmkrJLTo7=c9FoBncgJ+BZ_PUYsMQ@mail.gmail.com>
-References: <CAJvSebub-HnRnCpE-z2aTxmkrJLTo7=c9FoBncgJ+BZ_PUYsMQ@mail.gmail.com>
-Message-ID: <20170412150037.GC623@localhost.localdomain>
+Date: Wed, 12 Apr 2017 11:02:28 -0400
+Subject: [lkp-robot] [irq/affinity]  13c024422c:  fsmark.files_per_sec
+ -4.3% regression
+In-Reply-To: <20170412013328.GC31394@yexl-desktop>
+References: <20170330171255.GF20181@localhost.localdomain>
+ <20170412013328.GC31394@yexl-desktop>
+Message-ID: <20170412150227.GD623@localhost.localdomain>
 
-On Wed, Apr 12, 2017@02:58:05PM +0530, Ankur Srivastava wrote:
-> I have connected my Initiator to both the ports of Ethernet
-> Adapter(Target) to get 2 IO Paths, from the above data "/dev/nvme0n1"
-> is path 1 and "/dev/nvme1n1" is path 2 for the same namespace.
+On Wed, Apr 12, 2017@09:33:28AM +0800, kernel test robot wrote:
 > 
-> Note: I am using Null Block device on the Target Side.
+> Greeting,
 > 
-> But still the multipath is showing an error ie no path to Host for All
-> the NVMe Drives mapped on the Initiator. Does multipathd supports NVMe
-> over Fabric ??
-> Or what I am missing from configuration side ??
+> FYI, we noticed a -4.3% regression of fsmark.files_per_sec due to commit:
 > 
-> Thanks in advance!!
+> 
+> commit: 13c024422cbb6dcc513667be9a2613b0f0de781a ("irq/affinity: Assign all CPUs a vector")
+> url: https://github.com/0day-ci/linux/commits/Keith-Busch/irq-affinity-Assign-all-CPUs-a-vector/20170401-035036
+> 
+> 
+> in testcase: fsmark
+> on test machine: 72 threads Intel(R) Xeon(R) CPU E5-2699 v3 @ 2.30GHz with 128G memory
+> with following parameters:
+> 
+> 	iterations: 8
+> 	disk: 1SSD
+> 	nr_threads: 4
+> 	fs: btrfs
+> 	filesize: 9B
+> 	test_size: 16G
+> 	sync_method: fsyncBeforeClose
+> 	nr_directories: 16d
+> 	nr_files_per_directory: 256fpd
+> 	cpufreq_governor: performance
+> 
+> test-description: The fsmark is a file system benchmark to test synchronous write workloads, for example, mail servers workload.
+> test-url: https://sourceforge.net/projects/fsmark/
+> 
+> 
+> Details are as below:
+> -------------------------------------------------------------------------------------------------->
 
-I think you need a udev rule to export the wwn like
-
-  KERNEL=="nvme*[0-9]n*[0-9]", ENV{DEVTYPE}=="disk", ATTRS{wwid}=="?*", ENV{ID_WWN}="$attr{wwid}"
-
-And multipathd conf needs to use that attribute for uid for NVME,
-uid_attribute = "ID_WWN".
-
-These should be there by default if you've very recent versions (within
-the last 6 weeks) of multipath-tools and systemd installed.
-
-If your kernel has CONFIG_SCSI_DH set, you'll also need this recent
-kernel commit:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=857de6e00778738dc3d61f75acbac35bdc48e533
+This wasn't supposed to change anything if all the nodes have the same
+number of CPU's. I've reached out to the 0-day team to get a little more
+information on the before/after smp affinity settings to see how this
+algorithm messed up the spread on this system.
