@@ -1,64 +1,85 @@
-From: joseph.r.gruher@intel.com (Gruher, Joseph R)
-Date: Wed, 12 Apr 2017 16:41:54 +0000
-Subject: cqe dump errors on target while running nvme-of large block read IO
-Message-ID: <DE927C68B458BE418D582EC97927A9285505C9EA@ORSMSX113.amr.corp.intel.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 12 Apr 2017 11:09:53 -0600
+Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
+In-Reply-To: <1491974532.7236.43.camel@kernel.crashing.org>
+References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
+ <1491974532.7236.43.camel@kernel.crashing.org>
+Message-ID: <5ac22496-56ec-025d-f153-140001d2a7f9@deltatee.com>
 
-Hi folks-
 
-Wanted to put this issue out there and see if anyone had thoughts.
 
-Target system - 100Gb dual port CX5, FW 16.19.1000, through Arista 7060X switch with Ethernet flow control
-Initiator system - 25Gb dual port CX4, FW 14.18.2000, through Arista 7060X switch with Ethernet flow control
+On 11/04/17 11:22 PM, Benjamin Herrenschmidt wrote:
+> Another issue of course is that not all systems support P2P
+> between host bridges :-) (Though almost all switches can enable it).
 
-We attach 16 drives from target to initiator, but are only running IO on four of them in this test, two drives per network port on initiator/target.  Drives in use are Intel P3700 400GB.
+Yes, I'm either going to just let the user enable and test or limit it
+to switches only to start. However, currently our bigger issue is
+working on a way to not violate iomem safety.
 
-We are running Ubuntu 16.10 with the 4.11-rc6 kernel and this patch from Max:
+> Ok. I suppose that's a reasonable starting point. Do I haven't looked
+> at the patches in detail yet but it would be nice if that policy was in
+> a well isolated component so it can potentially be affected by
+> arch/platform code.
 
-diff --git a/drivers/infiniband/hw/mlx5/qp.c b/drivers/infiniband/hw/mlx5/qp.c index ad8a263..c38c4fa 100644
---- a/drivers/infiniband/hw/mlx5/qp.c
-+++ b/drivers/infiniband/hw/mlx5/qp.c
-@@ -3737,8 +3737,7 @@ static void dump_wqe(struct mlx5_ib_qp *qp, int idx, int size_16)
+The policy is isolated in the new p2pmem driver. There's no reason the
+policy couldn't become arbitrarily complex with specific arch
+exceptions. It's just people would have to do the work to create those
+exceptions.
 
-  static u8 get_fence(u8 fence, struct ib_send_wr *wr)
-  {
--       if (unlikely(wr->opcode == IB_WR_LOCAL_INV &&
--                    wr->send_flags & IB_SEND_FENCE))
-+       if (wr->opcode == IB_WR_LOCAL_INV || wr->opcode == IB_WR_REG_MR)
-                 return MLX5_FENCE_MODE_STRONG_ORDERING;
+> Do you handle funky address translation too ? IE. the fact that the PCI
+> addresses aren't the same as the CPU physical addresses for a BAR ?
 
-         if (unlikely(fence)) {
+No, we use the CPU physical address of the BAR. If it's not mapped that
+way we can't use it.
 
-For the most part we can run FIO IO on the initiator against the attached subsystems without problems.  4KB random read and write, 64KB sequential writes are working OK on this setup.  We seem to encounter errors when we run a 64KB sequential read workload.  I would not the 64KB sequential read workload is the only one which generates enough traffic that we could bottleneck on the initiator NIC throughput - not sure if that is relevant, or just a coincidence.  We can reproduce these errors fairly reliably at this time.  See attached dmesg and example below:
+>> This will mean many setups that could likely
+>> work well will not be supported so that we can be more confident it
+>> will work and not place any responsibility on the user to understand
+>> their topology. (We've chosen to go this route based on feedback we
+>> received at LSF).
+>>
+>> In order to enable this functionality we introduce a new p2pmem device
+>> which can be instantiated by PCI drivers. The device will register some
+>> PCI memory as ZONE_DEVICE and provide an genalloc based allocator for
+>> users of these devices to get buffers.
+> 
+> I don't completely understand this. This is actual memory on the PCI
+> bus ? Where does it come from ? Or are you just trying to create struct
+> pages that cover your PCIe DMA target ?
 
-[12728.885267] mlx5_1:dump_cqe:262:(pid 2943): dump error cqe
-[12728.885271] 00000000 00000000 00000000 00000000
-[12728.885272] 00000000 00000000 00000000 00000000
-[12728.885274] 00000000 00000000 00000000 00000000
-[12728.885275] 00000000 00008813 08000240 0255bcd3
-[12728.885852] mlx5_1:dump_cqe:262:(pid 2829): dump error cqe
-[12728.885855] 00000000 00000000 00000000 00000000
-[12728.885857] 00000000 00000000 00000000 00000000
-[12728.885859] 00000000 00000000 00000000 00000000
-[12728.885861] 00000000 00008813 08000239 c2e59fd3
-[12735.782466] nvmet: ctrl 17 keep-alive timer (15 seconds) expired!
-[12735.784949] nvmet: ctrl 17 fatal error occurred!
+Yes, the memory is on the PCI bus in a BAR. For now we have a special
+PCI card for this, but in the future it would likely be the CMB in an
+NVMe card. These patches create struct pages to map these BAR addresses
+using ZONE_DEVICE.
 
-These target side error prints seem correlated with IO failures and disconnect/reconnect events on the initiator so they are a problem.  Any ideas?  Any additional info we can provide?
 
-Thanks,
-Joe
--------------- next part --------------
-An embedded and charset-unspecified text was scrubbed...
-Name: initiator-dmesg.txt
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170412/5dcfdcd1/attachment-0002.txt>
--------------- next part --------------
-An embedded and charset-unspecified text was scrubbed...
-Name: target-dmesg.txt
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170412/5dcfdcd1/attachment-0003.txt>
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: joe16b.json
-Type: application/octet-stream
-Size: 6393 bytes
-Desc: joe16b.json
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170412/5dcfdcd1/attachment-0001.obj>
+> So correct me if I'm wrong, you are trying to create struct page's that
+> map a PCIe BAR right ? I'm trying to understand how that interacts with
+> what Jerome is doing for HMM.
+
+Yes, well we are using ZONE_DEVICE in the exact same way as the dax code
+is. These patches use the existing API with no modifications. As I
+understand it, HMM was using ZONE_DEVICE in a way that was quite
+different to how it was originally designed.
+
+> The reason is that the HMM currently creates the struct pages with
+> "fake" PFNs pointing to a hole in the address space rather than
+> covering the actual PCIe memory of the GPU. He does that to deal with
+> the fact that some GPUs have a smaller aperture on PCIe than their
+> total memory.
+
+I'm aware of what HMM is trying to do and although I'm not familiar with
+the intimate details, I saw it as fairly orthogonal to what we are
+attempting to do.
+
+> However, I have asked him to only apply that policy if the aperture is
+> indeed smaller, and if not, create struct pages that directly cover the
+> PCIe BAR of the GPU instead, which will work better on systems or
+> architecture that don't have a "pinhole" window limitation.
+> However he was under the impression that this was going to collide with
+> what you guys are doing, so I'm trying to understand how. 
+
+I'm not sure I understand how either. However, I suspect if you collide
+with these patches then you'd also be breaking dax too.
+
+Logan
