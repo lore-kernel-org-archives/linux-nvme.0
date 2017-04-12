@@ -1,101 +1,35 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 12 Apr 2017 18:24:35 +0800
-Subject: [PATCH 10/25] loop: zero-fill bio on the submitting cpu
-In-Reply-To: <20170406153944.10058-11-hch@lst.de>
-References: <20170406153944.10058-1-hch@lst.de>
- <20170406153944.10058-11-hch@lst.de>
-Message-ID: <20170412102434.GB8835@ming.t460p>
+From: yizhan@redhat.com (Yi Zhang)
+Date: Wed, 12 Apr 2017 19:34:28 +0800
+Subject: [PATCH] nvmetcli: create json file's dir first if it doesn't exist
+Message-ID: <20170412113428.32541-1-yizhan@redhat.com>
 
-On Thu, Apr 06, 2017@05:39:29PM +0200, Christoph Hellwig wrote:
-> In thruth I've just audited which blk-mq drivers don't currently have a
-> complete callback, but I think this change is at least borderline useful.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  drivers/block/loop.c | 30 ++++++++++++++----------------
->  drivers/block/loop.h |  1 +
->  2 files changed, 15 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/block/loop.c b/drivers/block/loop.c
-> index cc981f34e017..6924ec611a49 100644
-> --- a/drivers/block/loop.c
-> +++ b/drivers/block/loop.c
-> @@ -445,32 +445,27 @@ static int lo_req_flush(struct loop_device *lo, struct request *rq)
->  	return ret;
->  }
->  
-> -static inline void handle_partial_read(struct loop_cmd *cmd, long bytes)
-> +static void lo_complete_rq(struct request *rq)
->  {
-> -	if (bytes < 0 || op_is_write(req_op(cmd->rq)))
-> -		return;
-> +	struct loop_cmd *cmd = blk_mq_rq_to_pdu(rq);
->  
-> -	if (unlikely(bytes < blk_rq_bytes(cmd->rq))) {
-> +	if (unlikely(req_op(cmd->rq) == REQ_OP_READ && cmd->use_aio &&
-> +		     cmd->ret >= 0 && cmd->ret < blk_rq_bytes(cmd->rq))) {
->  		struct bio *bio = cmd->rq->bio;
->  
-> -		bio_advance(bio, bytes);
-> +		bio_advance(bio, cmd->ret);
->  		zero_fill_bio(bio);
->  	}
-> +
-> +	blk_mq_end_request(rq, cmd->ret < 0 ? -EIO : 0);
->  }
->  
->  static void lo_rw_aio_complete(struct kiocb *iocb, long ret, long ret2)
->  {
->  	struct loop_cmd *cmd = container_of(iocb, struct loop_cmd, iocb);
-> -	struct request *rq = cmd->rq;
-> -
-> -	handle_partial_read(cmd, ret);
->  
-> -	if (ret > 0)
-> -		ret = 0;
-> -	else if (ret < 0)
-> -		ret = -EIO;
-> -
-> -	blk_mq_complete_request(rq, ret);
-> +	cmd->ret = ret;
-> +	blk_mq_complete_request(cmd->rq, 0);
->  }
->  
->  static int lo_rw_aio(struct loop_device *lo, struct loop_cmd *cmd,
-> @@ -1686,8 +1681,10 @@ static void loop_handle_cmd(struct loop_cmd *cmd)
->  	ret = do_req_filebacked(lo, cmd->rq);
->   failed:
->  	/* complete non-aio request */
-> -	if (!cmd->use_aio || ret)
-> -		blk_mq_complete_request(cmd->rq, ret ? -EIO : 0);
-> +	if (!cmd->use_aio || ret) {
-> +		cmd->ret = ret ? -EIO : 0;
-> +		blk_mq_complete_request(cmd->rq, 0);
-> +	}
->  }
->  
->  static void loop_queue_work(struct kthread_work *work)
-> @@ -1713,6 +1710,7 @@ static int loop_init_request(void *data, struct request *rq,
->  static const struct blk_mq_ops loop_mq_ops = {
->  	.queue_rq       = loop_queue_rq,
->  	.init_request	= loop_init_request,
-> +	.complete	= lo_complete_rq,
->  };
->  
->  static int loop_add(struct loop_device **l, int i)
-> diff --git a/drivers/block/loop.h b/drivers/block/loop.h
-> index fb2237c73e61..fecd3f97ef8c 100644
-> --- a/drivers/block/loop.h
-> +++ b/drivers/block/loop.h
-> @@ -70,6 +70,7 @@ struct loop_cmd {
->  	struct request *rq;
->  	struct list_head list;
->  	bool use_aio;           /* use AIO interface to handle I/O */
-> +	long ret;
->  	struct kiocb iocb;
->  };
+The saveconfig operation will be failed as the /etc/nvmet dir
+doesn't exist by default, so create it first before save operation.
 
-Reviewed-by: Ming Lei <ming.lei at redhat.com>
+$ ./nvmetcli
+/> saveconfig
+[Errno 2] No such file or directory: '/etc/nvmet/config.json.temp'
 
-Thanks,
-Ming
+Signed-off-by: Yi Zhang <yizhan at redhat.com>
+---
+ nvmet/nvme.py | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/nvmet/nvme.py b/nvmet/nvme.py
+index 3316cab..c245a42 100644
+--- a/nvmet/nvme.py
++++ b/nvmet/nvme.py
+@@ -290,6 +290,11 @@ class Root(CFSNode):
+         else:
+             savefile = DEFAULT_SAVE_FILE
+ 
++        savefile_abspath = os.path.abspath(savefile)
++        savefile_dir = os.path.dirname(savefile_abspath)
++        if not os.path.exists(savefile_dir):
++            os.makedirs(savefile_dir)
++
+         with open(savefile + ".temp", "w+") as f:
+             os.fchmod(f.fileno(), stat.S_IRUSR | stat.S_IWUSR)
+             f.write(json.dumps(self.dump(), sort_keys=True, indent=2))
+-- 
+2.9.3
