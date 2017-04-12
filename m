@@ -1,35 +1,35 @@
-From: yizhan@redhat.com (Yi Zhang)
-Date: Wed, 12 Apr 2017 19:34:28 +0800
-Subject: [PATCH] nvmetcli: create json file's dir first if it doesn't exist
-Message-ID: <20170412113428.32541-1-yizhan@redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 12 Apr 2017 11:00:37 -0400
+Subject: [NVMeF]: Multipathing setup for NVMeF
+In-Reply-To: <CAJvSebub-HnRnCpE-z2aTxmkrJLTo7=c9FoBncgJ+BZ_PUYsMQ@mail.gmail.com>
+References: <CAJvSebub-HnRnCpE-z2aTxmkrJLTo7=c9FoBncgJ+BZ_PUYsMQ@mail.gmail.com>
+Message-ID: <20170412150037.GC623@localhost.localdomain>
 
-The saveconfig operation will be failed as the /etc/nvmet dir
-doesn't exist by default, so create it first before save operation.
+On Wed, Apr 12, 2017@02:58:05PM +0530, Ankur Srivastava wrote:
+> I have connected my Initiator to both the ports of Ethernet
+> Adapter(Target) to get 2 IO Paths, from the above data "/dev/nvme0n1"
+> is path 1 and "/dev/nvme1n1" is path 2 for the same namespace.
+> 
+> Note: I am using Null Block device on the Target Side.
+> 
+> But still the multipath is showing an error ie no path to Host for All
+> the NVMe Drives mapped on the Initiator. Does multipathd supports NVMe
+> over Fabric ??
+> Or what I am missing from configuration side ??
+> 
+> Thanks in advance!!
 
-$ ./nvmetcli
-/> saveconfig
-[Errno 2] No such file or directory: '/etc/nvmet/config.json.temp'
+I think you need a udev rule to export the wwn like
 
-Signed-off-by: Yi Zhang <yizhan at redhat.com>
----
- nvmet/nvme.py | 5 +++++
- 1 file changed, 5 insertions(+)
+  KERNEL=="nvme*[0-9]n*[0-9]", ENV{DEVTYPE}=="disk", ATTRS{wwid}=="?*", ENV{ID_WWN}="$attr{wwid}"
 
-diff --git a/nvmet/nvme.py b/nvmet/nvme.py
-index 3316cab..c245a42 100644
---- a/nvmet/nvme.py
-+++ b/nvmet/nvme.py
-@@ -290,6 +290,11 @@ class Root(CFSNode):
-         else:
-             savefile = DEFAULT_SAVE_FILE
- 
-+        savefile_abspath = os.path.abspath(savefile)
-+        savefile_dir = os.path.dirname(savefile_abspath)
-+        if not os.path.exists(savefile_dir):
-+            os.makedirs(savefile_dir)
-+
-         with open(savefile + ".temp", "w+") as f:
-             os.fchmod(f.fileno(), stat.S_IRUSR | stat.S_IWUSR)
-             f.write(json.dumps(self.dump(), sort_keys=True, indent=2))
--- 
-2.9.3
+And multipathd conf needs to use that attribute for uid for NVME,
+uid_attribute = "ID_WWN".
+
+These should be there by default if you've very recent versions (within
+the last 6 weeks) of multipath-tools and systemd installed.
+
+If your kernel has CONFIG_SCSI_DH set, you'll also need this recent
+kernel commit:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit?id=857de6e00778738dc3d61f75acbac35bdc48e533
