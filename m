@@ -1,26 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 12 Apr 2017 19:17:59 +0200
-Subject: [PATCH 2/2] nvme-rdma: add support for arbitrary sg lists mapping
-In-Reply-To: <1491948109-9224-2-git-send-email-maxg@mellanox.com>
-References: <1491948109-9224-1-git-send-email-maxg@mellanox.com>
- <1491948109-9224-2-git-send-email-maxg@mellanox.com>
-Message-ID: <20170412171759.GC8639@lst.de>
+Date: Wed, 12 Apr 2017 19:29:39 +0200
+Subject: kmemleak complaints in nvme PM
+In-Reply-To: <006f3319-0cd8-9d47-95cd-454b775a9b04@grimberg.me>
+References: <006f3319-0cd8-9d47-95cd-454b775a9b04@grimberg.me>
+Message-ID: <20170412172939.GE8639@lst.de>
 
-> -	req->mr = ib_alloc_mr(dev->pd, IB_MR_TYPE_MEM_REG,
-> +	req->mr = ib_alloc_mr(dev->pd, req->mr_type,
->  			ctrl->max_fr_pages);
->  	if (IS_ERR(req->mr)) {
->  		ret = PTR_ERR(req->mr);
-> @@ -348,8 +349,12 @@ static int __nvme_rdma_init_request(struct nvme_rdma_ctrl *ctrl,
->  	if (ret)
->  		return ret;
->  
-> -	req->mr = ib_alloc_mr(dev->pd, IB_MR_TYPE_MEM_REG,
-> -			ctrl->max_fr_pages);
-> +	if (ibdev->attrs.device_cap_flags & IB_DEVICE_SG_GAPS_REG)
-> +		req->mr_type = IB_MR_TYPE_SG_GAPS;
-> +	else
-> +		req->mr_type = IB_MR_TYPE_MEM_REG;
+On Sun, Apr 09, 2017@03:47:35PM +0300, Sagi Grimberg wrote:
+> Hi folks,
+>
+> I got this kmemleak complaint [1] on nvme-loop (but I'm pretty
+> confident it should happen with any nvme transport).
+>
+> Initial code stare tells me that
+> dev_pm_qos_update_user_latency_tolerance() can (and usually will
+> in controller initializaion) allocate a dev_pm_qos_request, but I
+> didn't see a pairing free of that request.
+>
+> I'll try to find some time looking into it, but thought it might
+> be a good idea to throw it out here in the mean time...
 
-Why do we need the req->mr_type member?  Can't we just check the device
-aps in the reinit path as well?
+Seems like the only way to free dev->power.qos->latency_tolerance_req
+is to call dev_pm_qos_update_user_latency_tolerance with a negative
+val argument.  What an odd API..
