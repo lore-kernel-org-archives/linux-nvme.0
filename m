@@ -1,16 +1,27 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 13 Apr 2017 09:06:39 +0200
-Subject: provide pci_request_irq / pci_free_irq helpers
-Message-ID: <20170413070643.32165-1-hch@lst.de>
+Date: Thu, 13 Apr 2017 09:06:40 +0200
+Subject: [PATCH 1/4] genirq: fix indentation in remove_irq
+In-Reply-To: <20170413070643.32165-1-hch@lst.de>
+References: <20170413070643.32165-1-hch@lst.de>
+Message-ID: <20170413070643.32165-2-hch@lst.de>
 
-PCI drivers that support multiple MSI or MSI-X vectors currently have a
-lot of boileplate code to generate names for each vector (or simply use
-the same name for all of them, which isn't nice either).  This series
-adds new helpers that allocate and free a name based on a format string
-passed to the request_irq wrapper.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ kernel/irq/manage.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-They also hide the [pci_dev,vector] to Linux irq number translation,
-in fact the example NVMe driver conversion now never sees the Linux irq
-number.  That might be useful to isolate PCI drivers from our IRQ numbers,
-although to have a full abstraction we'd need similar wrappers for
-{enable,disable,synchronize}_irq as well.
+diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+index a4afe5cc5af1..391cb738b2db 100644
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -1557,7 +1557,7 @@ void remove_irq(unsigned int irq, struct irqaction *act)
+ 	struct irq_desc *desc = irq_to_desc(irq);
+ 
+ 	if (desc && !WARN_ON(irq_settings_is_per_cpu_devid(desc)))
+-	    __free_irq(irq, act->dev_id);
++		__free_irq(irq, act->dev_id);
+ }
+ EXPORT_SYMBOL_GPL(remove_irq);
+ 
+-- 
+2.11.0
