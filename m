@@ -1,122 +1,97 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 13 Apr 2017 09:06:42 +0200
-Subject: [PATCH 3/4] PCI/irq: add pci_request_irq and pci_free_irq helpers
+Date: Thu, 13 Apr 2017 09:06:43 +0200
+Subject: [PATCH 4/4] nvme/pci: switch to pci_request_irq
 In-Reply-To: <20170413070643.32165-1-hch@lst.de>
 References: <20170413070643.32165-1-hch@lst.de>
-Message-ID: <20170413070643.32165-4-hch@lst.de>
-
-These are small wrappers around request_threaded_irq and free_irq,
-which dynamically allocate space for the device name so that drivers
-don't need to keep static buffers for these around.  Additionally it
-works with device-relative vector numbers to make the usage easier,
-and force the IRQF_SHARED flag on given that it has no runtime overhead
-and should be supported by all PCI devices.
+Message-ID: <20170413070643.32165-5-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/pci/irq.c   | 61 ++++++++++++++++++++++++++++++++++++++++++++++++++++-
- include/linux/pci.h |  6 ++++++
- 2 files changed, 66 insertions(+), 1 deletion(-)
+ drivers/nvme/host/pci.c | 30 +++++++++++++-----------------
+ 1 file changed, 13 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/pci/irq.c b/drivers/pci/irq.c
-index 6684f153ab57..53e7f30d9461 100644
---- a/drivers/pci/irq.c
-+++ b/drivers/pci/irq.c
-@@ -1,7 +1,8 @@
- /*
-- * PCI IRQ failure handing code
-+ * PCI IRQ handing code
-  *
-  * Copyright (c) 2008 James Bottomley <James.Bottomley at HansenPartnership.com>
-+ * Copyright (C) 2017 Christoph Hellwig.
-  */
- 
- #include <linux/acpi.h>
-@@ -59,3 +60,61 @@ enum pci_lost_interrupt_reason pci_lost_interrupt(struct pci_dev *pdev)
- 	return PCI_LOST_IRQ_NO_INFORMATION;
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 26a5fd05fe88..925997127a6b 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -117,7 +117,6 @@ static inline struct nvme_dev *to_nvme_dev(struct nvme_ctrl *ctrl)
+ struct nvme_queue {
+ 	struct device *q_dmadev;
+ 	struct nvme_dev *dev;
+-	char irqname[24];	/* nvme4294967295-65535\0 */
+ 	spinlock_t q_lock;
+ 	struct nvme_command *sq_cmds;
+ 	struct nvme_command __iomem *sq_cmds_io;
+@@ -204,11 +203,6 @@ static unsigned int nvme_cmd_size(struct nvme_dev *dev)
+ 		nvme_iod_alloc_size(dev, NVME_INT_BYTES(dev), NVME_INT_PAGES);
  }
- EXPORT_SYMBOL(pci_lost_interrupt);
-+
-+/**
-+ * pci_request_irq - allocate an interrupt line for a PCI device
-+ * @dev:	PCI device to operate on
-+ * @nr:		device-relative interrupt vector index (0-based).
-+ * @handler:	Function to be called when the IRQ occurs.
-+ *		Primary handler for threaded interrupts.
-+ *		If NULL and thread_fn != NULL the default primary handler is
-+ *		installed.
-+ * @thread_fn:	Function called from the irq handler thread
-+ *		If NULL, no irq thread is created
-+ * @dev_id:	Cookie passed back to the handler function
-+ * @fmt:	Printf-like format string naming the handler
-+ *
-+ * This call allocates interrupt resources and enables the interrupt line and
-+ * IRQ handling. From the point this call is made @handler and @thread_fn may
-+ * be invoked.  All interrupt requsted using this function might be shared.
-+ *
-+ * @dev_id must not ne NULL and be globally unique.
-+ */
-+int pci_request_irq(struct pci_dev *dev, unsigned int nr, irq_handler_t handler,
-+		irq_handler_t thread_fn, void *dev_id, const char *fmt, ...)
-+{
-+	va_list ap;
-+	int ret;
-+	char *devname;
-+
-+	va_start(ap, fmt);
-+	devname = kvasprintf(GFP_KERNEL, fmt, ap);
-+	va_end(ap);
-+
-+	ret = request_threaded_irq(pci_irq_vector(dev, nr), handler, thread_fn,
-+			IRQF_SHARED, devname, dev_id);
-+	if (ret)
-+		kfree(devname);
-+	return ret;
-+}
-+EXPORT_SYMBOL(pci_request_irq);
-+
-+/**
-+ * pci_free_irq - free an interrupt allocated with pci_request_irq
-+ * @dev:	PCI device to operate on
-+ * @nr:		device-relative interrupt vector index (0-based).
-+ * @dev_id:	Device identity to free
-+ *
-+ * Remove an interrupt handler. The handler is removed and if the interrupt
-+ * line is no longer in use by any driver it is disabled.  The caller must
-+ * ensure the interrupt is disabled on the device before calling this function.
-+ * The function does not return until any executing interrupts for this IRQ
-+ * have completed.
-+ *
-+ * This function must not be called from interrupt context.
-+ */
-+void pci_free_irq(struct pci_dev *dev, unsigned int nr, void *dev_id)
-+{
-+	kfree(free_irq(pci_irq_vector(dev, nr), dev_id));
-+}
-+EXPORT_SYMBOL(pci_free_irq);
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index eb3da1a04e6c..b23f81b583ab 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -28,6 +28,7 @@
- #include <linux/kobject.h>
- #include <linux/atomic.h>
- #include <linux/device.h>
-+#include <linux/interrupt.h>
- #include <linux/io.h>
- #include <linux/resource_ext.h>
- #include <uapi/linux/pci.h>
-@@ -1072,6 +1073,11 @@ int pci_select_bars(struct pci_dev *dev, unsigned long flags);
- bool pci_device_is_present(struct pci_dev *pdev);
- void pci_ignore_hotplug(struct pci_dev *dev);
  
-+int __printf(6, 7) pci_request_irq(struct pci_dev *dev, unsigned int nr,
-+		irq_handler_t handler, irq_handler_t thread_fn, void *dev_id,
-+		const char *fmt, ...);
-+void pci_free_irq(struct pci_dev *dev, unsigned int nr, void *dev_id);
+-static int nvmeq_irq(struct nvme_queue *nvmeq)
+-{
+-	return pci_irq_vector(to_pci_dev(nvmeq->dev->dev), nvmeq->cq_vector);
+-}
+-
+ static int nvme_admin_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 				unsigned int hctx_idx)
+ {
+@@ -962,7 +956,7 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
+ 		spin_unlock_irq(&nvmeq->q_lock);
+ 		return 1;
+ 	}
+-	vector = nvmeq_irq(nvmeq);
++	vector = nvmeq->cq_vector;
+ 	nvmeq->dev->online_queues--;
+ 	nvmeq->cq_vector = -1;
+ 	spin_unlock_irq(&nvmeq->q_lock);
+@@ -970,7 +964,7 @@ static int nvme_suspend_queue(struct nvme_queue *nvmeq)
+ 	if (!nvmeq->qid && nvmeq->dev->ctrl.admin_q)
+ 		blk_mq_stop_hw_queues(nvmeq->dev->ctrl.admin_q);
+ 
+-	free_irq(vector, nvmeq);
++	pci_free_irq(to_pci_dev(nvmeq->dev->dev), vector, nvmeq);
+ 
+ 	return 0;
+ }
+@@ -1055,8 +1049,6 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+ 
+ 	nvmeq->q_dmadev = dev->dev;
+ 	nvmeq->dev = dev;
+-	snprintf(nvmeq->irqname, sizeof(nvmeq->irqname), "nvme%dq%d",
+-			dev->ctrl.instance, qid);
+ 	spin_lock_init(&nvmeq->q_lock);
+ 	nvmeq->cq_head = 0;
+ 	nvmeq->cq_phase = 1;
+@@ -1079,12 +1071,16 @@ static struct nvme_queue *nvme_alloc_queue(struct nvme_dev *dev, int qid,
+ 
+ static int queue_request_irq(struct nvme_queue *nvmeq)
+ {
+-	if (use_threaded_interrupts)
+-		return request_threaded_irq(nvmeq_irq(nvmeq), nvme_irq_check,
+-				nvme_irq, IRQF_SHARED, nvmeq->irqname, nvmeq);
+-	else
+-		return request_irq(nvmeq_irq(nvmeq), nvme_irq, IRQF_SHARED,
+-				nvmeq->irqname, nvmeq);
++	struct pci_dev *pdev = to_pci_dev(nvmeq->dev->dev);
++	int nr = nvmeq->dev->ctrl.instance;
 +
- /* ROM control related routines */
- int pci_enable_rom(struct pci_dev *pdev);
- void pci_disable_rom(struct pci_dev *pdev);
++	if (use_threaded_interrupts) {
++		return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq_check,
++				nvme_irq, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
++	} else {
++		return pci_request_irq(pdev, nvmeq->cq_vector, nvme_irq,
++				NULL, nvmeq, "nvme%dq%d", nr, nvmeq->qid);
++	}
+ }
+ 
+ static void nvme_init_queue(struct nvme_queue *nvmeq, u16 qid)
+@@ -1440,7 +1436,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+ 	}
+ 
+ 	/* Deregister the admin queue's interrupt */
+-	free_irq(pci_irq_vector(pdev, 0), adminq);
++	pci_free_irq(pdev, 0, adminq);
+ 
+ 	/*
+ 	 * If we enable msix early due to not intx, disable it again before
 -- 
 2.11.0
