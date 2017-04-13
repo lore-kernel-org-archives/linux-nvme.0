@@ -1,15 +1,21 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 13 Apr 2017 16:02:55 -0400
-Subject: [PATCH 4/4] nvme/pci: switch to pci_request_irq
-In-Reply-To: <20170413070643.32165-5-hch@lst.de>
-References: <20170413070643.32165-1-hch@lst.de>
- <20170413070643.32165-5-hch@lst.de>
-Message-ID: <20170413200255.GB22775@localhost.localdomain>
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Thu, 13 Apr 2017 19:58:13 +0000
+Subject: [PATCH 01/25] remove the mg_disk driver
+In-Reply-To: <20170406153944.10058-2-hch@lst.de>
+References: <20170406153944.10058-1-hch@lst.de>
+ <20170406153944.10058-2-hch@lst.de>
+Message-ID: <1492113491.24345.7.camel@sandisk.com>
 
-On Thu, Apr 13, 2017@12:06:43AM -0700, Christoph Hellwig wrote:
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+On Thu, 2017-04-06@17:39 +0200, Christoph Hellwig wrote:
+> This drivers was added in 2008, but as far as a I can tell we never had a
+> single platform that actually registered resources for the platform driver.
+> 
+> It's also been unmaintained for a long time and apparently has a ATA mode
+> that can be driven using the IDE/libata subsystem.
 
-This is great. As an added bonus, more of struct nvme_queue's hot values
-are in the same cache line!
+Hello Christoph,
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Should the person who submitted this driver be CC-ed for this patch (unsik
+Kim <donari75 at gmail.com>)?
+
+Bart.
