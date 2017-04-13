@@ -1,5 +1,5 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Fri, 14 Apr 2017 08:37:29 +1000
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Thu, 13 Apr 2017 18:26:31 -0500
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
 In-Reply-To: <81888a1e-eb0d-cbbc-dc66-0a09c32e4ea2@deltatee.com>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
@@ -7,9 +7,10 @@ References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
  <5ac22496-56ec-025d-f153-140001d2a7f9@deltatee.com>
  <1492034124.7236.77.camel@kernel.crashing.org>
  <81888a1e-eb0d-cbbc-dc66-0a09c32e4ea2@deltatee.com>
-Message-ID: <1492123049.7236.123.camel@kernel.crashing.org>
+Message-ID: <20170413232631.GB24910@bhelgaas-glaptop.roam.corp.google.com>
 
-On Thu, 2017-04-13@15:22 -0600, Logan Gunthorpe wrote:
+On Thu, Apr 13, 2017@03:22:06PM -0600, Logan Gunthorpe wrote:
+> 
 > 
 > On 12/04/17 03:55 PM, Benjamin Herrenschmidt wrote:
 > > Look at pcibios_resource_to_bus() and pcibios_bus_to_resource(). They
@@ -24,22 +25,11 @@ On Thu, 2017-04-13@15:22 -0600, Logan Gunthorpe wrote:
 > something. The big difficulty I see is testing. Do you know what
 > architectures or in what circumstances are these translations used?
 
-I think a bunch of non-x86 architectures but I don't know which ones
-outside of powerpc.
+Any caller of pci_add_resource_offset() uses CPU addresses different from
+the PCI bus addresses (unless the offset is zero, of course).  All ACPI
+platforms also support this translation (see "translation_offset"), though
+in most x86 systems the offset is zero.  I'm aware of one x86 system that
+was tested with a non-zero offset but I don't think it was shipped that
+way.
 
-> > When behind the same switch you need to use PCI addresses. If one tries
-> > later to do P2P between host bridges (via the CPU fabric) things get
-> > more complex and one will have to use either CPU addresses or something
-> > else alltogether (probably would have to teach the arch DMA mapping
-> > routines to work with those struct pages you create and return the
-> > right thing).
-> 
-> Probably for starters we'd want to explicitly deny cases between host
-> bridges and add that later if someone wants to do the testing.
-
-Cheers,
-Ben.
-
-> Thanks,
-> 
-> Logan
+Bjorn
