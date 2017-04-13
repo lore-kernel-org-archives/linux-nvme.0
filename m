@@ -1,27 +1,36 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 13 Apr 2017 18:56:13 +0300
-Subject: [PATCH v2 0/4] arbitrary sg lists support
-Message-ID: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
+Date: Thu, 13 Apr 2017 18:56:15 +0300
+Subject: [PATCH v2 2/4] IB/iser: Use ib_get_sg_mr_type() helper
+In-Reply-To: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
+References: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
+Message-ID: <1492098977-5231-3-git-send-email-maxg@mellanox.com>
 
-This patch adds an arbitrary sg list support to NVMEoF host for
-capable devices (such as RDMA CX4/CX5 HCAs).
-During the review we decided to add an helper function to ib_core
-that will be used by ULPs in order to avoid code duplication.
-
-Changes from V1:
- - added helper function to verbes api
- - use helper in iSER code
- - add reviewrs signatures
-
-Max Gurtovoy (4):
-  IB/core: Add inline function to get sg mr type
-  IB/iser: Use ib_get_sg_mr_type() helper
-  nvme: enable SG gaps support
-  nvme-rdma: add support for arbitrary sg lists mapping
-
+Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Leon Romanovsky <leon at kernel.org>
+---
  drivers/infiniband/ulp/iser/iser_verbs.c |    8 +-------
- drivers/nvme/host/core.c                 |    5 ++++-
- drivers/nvme/host/nvme.h                 |    1 +
- drivers/nvme/host/rdma.c                 |   11 +++++++----
- include/rdma/ib_verbs.h                  |   17 +++++++++++++++++
- 5 files changed, 30 insertions(+), 12 deletions(-)
+ 1 files changed, 1 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/infiniband/ulp/iser/iser_verbs.c b/drivers/infiniband/ulp/iser/iser_verbs.c
+index c538a38..7e63ffc 100644
+--- a/drivers/infiniband/ulp/iser/iser_verbs.c
++++ b/drivers/infiniband/ulp/iser/iser_verbs.c
+@@ -242,15 +242,9 @@ void iser_free_fmr_pool(struct ib_conn *ib_conn)
+ 		   unsigned int size)
+ {
+ 	struct ib_device *ib_dev = device->ib_device;
+-	enum ib_mr_type mr_type;
+ 	int ret;
+ 
+-	if (ib_dev->attrs.device_cap_flags & IB_DEVICE_SG_GAPS_REG)
+-		mr_type = IB_MR_TYPE_SG_GAPS;
+-	else
+-		mr_type = IB_MR_TYPE_MEM_REG;
+-
+-	res->mr = ib_alloc_mr(pd, mr_type, size);
++	res->mr = ib_alloc_mr(pd, ib_get_sg_mr_type(ib_dev), size);
+ 	if (IS_ERR(res->mr)) {
+ 		ret = PTR_ERR(res->mr);
+ 		iser_err("Failed to allocate ib_fast_reg_mr err=%d\n", ret);
+-- 
+1.7.1
