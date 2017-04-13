@@ -1,50 +1,49 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 13 Apr 2017 18:56:16 +0300
-Subject: [PATCH v2 3/4] nvme: enable SG gaps support
+Date: Thu, 13 Apr 2017 18:56:14 +0300
+Subject: [PATCH v2 1/4] IB/core: Add inline function to get sg mr type
 In-Reply-To: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
 References: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1492098977-5231-4-git-send-email-maxg@mellanox.com>
+Message-ID: <1492098977-5231-2-git-send-email-maxg@mellanox.com>
 
-For controllers that can handle arbitrarily sized bios (e.g advanced
-RDMA ctrls) we can allow the block layer to pass us gaps by skip
-setting the queue virt_boundary.
+ULPs such as iSER/NVMEoF can use memory regions that support
+arbitrary sg list mapping in order to allow the block layer to
+send us gappy bios and reduce the stack workload. Add an helper
+function to get IB_MR_TYPE_SG_GAPS mr_type if the device support
+this kind of mapping.
 
 Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
-Reviewed-by: Christoph Hellwig <hch at lst.de>
 Reviewed-by: Leon Romanovsky <leon at kernel.org>
 ---
- drivers/nvme/host/core.c |    5 ++++-
- drivers/nvme/host/nvme.h |    1 +
- 2 files changed, 5 insertions(+), 1 deletions(-)
+ include/rdma/ib_verbs.h |   17 +++++++++++++++++
+ 1 files changed, 17 insertions(+), 0 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9583a5f..72bc70e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1252,7 +1252,10 @@ static void nvme_set_queue_limits(struct nvme_ctrl *ctrl,
- 	}
- 	if (ctrl->quirks & NVME_QUIRK_STRIPE_SIZE)
- 		blk_queue_chunk_sectors(q, ctrl->max_hw_sectors);
--	blk_queue_virt_boundary(q, ctrl->page_size - 1);
-+
-+	if (!ctrl->sg_gaps_support)
-+		blk_queue_virt_boundary(q, ctrl->page_size - 1);
-+
- 	if (ctrl->vwc & NVME_CTRL_VWC_PRESENT)
- 		vwc = true;
- 	blk_queue_write_cache(q, vwc, vwc);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2aa20e3..ccb895a 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -162,6 +162,7 @@ struct nvme_ctrl {
- 	struct work_struct scan_work;
- 	struct work_struct async_event_work;
- 	struct delayed_work ka_work;
-+	bool sg_gaps_support;
+diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+index 99e4423..dd97169 100644
+--- a/include/rdma/ib_verbs.h
++++ b/include/rdma/ib_verbs.h
+@@ -3375,6 +3375,23 @@ int ib_map_mr_sg(struct ib_mr *mr, struct scatterlist *sg, int sg_nents,
+ int ib_sg_to_pages(struct ib_mr *mr, struct scatterlist *sgl, int sg_nents,
+ 		unsigned int *sg_offset, int (*set_page)(struct ib_mr *, u64));
  
- 	/* Power saving configuration */
- 	u64 ps_max_latency_us;
++/**
++ * ib_get_sg_mr_type() - check if the device support arbitrary
++ *                       sg mapping and return a suitable mr type.
++ * @device: The device on which to check support.
++ *
++ * Return: IB_MR_TYPE_SG_GAPS if the device support.
++ *         Otherwise, return IB_MR_TYPE_MEM_REG.
++ */
++static inline enum ib_mr_type ib_get_sg_mr_type(struct ib_device *device)
++{
++	if (device->attrs.device_cap_flags & IB_DEVICE_SG_GAPS_REG)
++		return IB_MR_TYPE_SG_GAPS;
++	else
++		return IB_MR_TYPE_MEM_REG;
++
++}
++
+ void ib_drain_rq(struct ib_qp *qp);
+ void ib_drain_sq(struct ib_qp *qp);
+ void ib_drain_qp(struct ib_qp *qp);
 -- 
 1.7.1
