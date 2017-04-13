@@ -1,56 +1,27 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 13 Apr 2017 18:56:17 +0300
-Subject: [PATCH v2 4/4] nvme-rdma: add support for arbitrary sg lists mapping
-In-Reply-To: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
-References: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1492098977-5231-5-git-send-email-maxg@mellanox.com>
+Date: Thu, 13 Apr 2017 18:56:13 +0300
+Subject: [PATCH v2 0/4] arbitrary sg lists support
+Message-ID: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
 
-If the device support arbitrary sg list mapping (device
-cap IB_DEVICE_SG_GAPS_REG set) we allocate the memory regions with
-IB_MR_TYPE_SG_GAPS and allow the block layer to send us gappy bio
-vectors. We use this functionality in iSER driver as well.
+This patch adds an arbitrary sg list support to NVMEoF host for
+capable devices (such as RDMA CX4/CX5 HCAs).
+During the review we decided to add an helper function to ib_core
+that will be used by ULPs in order to avoid code duplication.
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Leon Romanovsky <leon at kernel.org>
----
- drivers/nvme/host/rdma.c |   11 +++++++----
- 1 files changed, 7 insertions(+), 4 deletions(-)
+Changes from V1:
+ - added helper function to verbes api
+ - use helper in iSER code
+ - add reviewrs signatures
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 47a479f..1c6f974 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -294,8 +294,8 @@ static int nvme_rdma_reinit_request(void *data, struct request *rq)
- 
- 	ib_dereg_mr(req->mr);
- 
--	req->mr = ib_alloc_mr(dev->pd, IB_MR_TYPE_MEM_REG,
--			ctrl->max_fr_pages);
-+	req->mr = ib_alloc_mr(dev->pd, ib_get_sg_mr_type(dev->dev),
-+			      ctrl->max_fr_pages);
- 	if (IS_ERR(req->mr)) {
- 		ret = PTR_ERR(req->mr);
- 		req->mr = NULL;
-@@ -348,8 +348,8 @@ static int __nvme_rdma_init_request(struct nvme_rdma_ctrl *ctrl,
- 	if (ret)
- 		return ret;
- 
--	req->mr = ib_alloc_mr(dev->pd, IB_MR_TYPE_MEM_REG,
--			ctrl->max_fr_pages);
-+	req->mr = ib_alloc_mr(dev->pd, ib_get_sg_mr_type(ibdev),
-+			      ctrl->max_fr_pages);
- 	if (IS_ERR(req->mr)) {
- 		ret = PTR_ERR(req->mr);
- 		goto out_free_qe;
-@@ -1608,6 +1608,9 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl)
- 	ctrl->ctrl.sqsize =
- 		min_t(int, NVME_CAP_MQES(ctrl->cap) + 1, ctrl->ctrl.sqsize);
- 
-+	if (ctrl->device->dev->attrs.device_cap_flags & IB_DEVICE_SG_GAPS_REG)
-+		ctrl->ctrl.sg_gaps_support = true;
-+
- 	error = nvme_enable_ctrl(&ctrl->ctrl, ctrl->cap);
- 	if (error)
- 		goto out_cleanup_queue;
--- 
-1.7.1
+Max Gurtovoy (4):
+  IB/core: Add inline function to get sg mr type
+  IB/iser: Use ib_get_sg_mr_type() helper
+  nvme: enable SG gaps support
+  nvme-rdma: add support for arbitrary sg lists mapping
+
+ drivers/infiniband/ulp/iser/iser_verbs.c |    8 +-------
+ drivers/nvme/host/core.c                 |    5 ++++-
+ drivers/nvme/host/nvme.h                 |    1 +
+ drivers/nvme/host/rdma.c                 |   11 +++++++----
+ include/rdma/ib_verbs.h                  |   17 +++++++++++++++++
+ 5 files changed, 30 insertions(+), 12 deletions(-)
