@@ -1,15 +1,17 @@
-From: hch@lst.de (hch@lst.de)
-Date: Fri, 14 Apr 2017 10:22:31 +0200
-Subject: [PATCH 02/25] block: remove the blk_execute_rq return value
-In-Reply-To: <1492113800.24345.9.camel@sandisk.com>
-References: <20170406153944.10058-1-hch@lst.de>
- <20170406153944.10058-3-hch@lst.de> <1492113800.24345.9.camel@sandisk.com>
-Message-ID: <20170414082231.GC24901@lst.de>
+From: alex.nlnnfn@gmail.com (alexnln)
+Date: Fri, 14 Apr 2017 13:54:51 +0300
+Subject: offest calculation from the dma_address
+Message-ID: <20170414135451.515c3a53134384c388071989@gmail.com>
 
-On Thu, Apr 13, 2017@08:03:22PM +0000, Bart Van Assche wrote:
-> That blk_execute_rq() call can only be reached if a few lines above 0 was
-> assigned to the "error" variable. Since nfsd4_scsi_identify_device() returns
-> the value of the "error" variable I think -EIO should be assigned to that
-> variable before the "goto out_put_request" statement is reached.
+Hello,
 
-You're right!  I'll fix it up.
+In pci.c, in nvme_setup_prps() offset is calculated from the dma address:
+int offset = dma_addr & (page_size - 1);
+
+Why not to use sg->offset?
+
+I mean, what if hypothetical dma allocator returns non-page aligned addresses?
+In such case offset would be wrong.
+
+Thanks,
+Alex
