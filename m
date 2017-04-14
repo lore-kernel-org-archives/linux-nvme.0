@@ -1,7 +1,7 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Fri, 14 Apr 2017 14:04:52 -0500
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Sat, 15 Apr 2017 08:07:23 +1000
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <630c1c63-ff17-1116-e069-2b8f93e50fa2@deltatee.com>
+In-Reply-To: <20170414190452.GA15679@bhelgaas-glaptop.roam.corp.google.com>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
  <1491974532.7236.43.camel@kernel.crashing.org>
  <5ac22496-56ec-025d-f153-140001d2a7f9@deltatee.com>
@@ -11,45 +11,68 @@ References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
  <20170414041656.GA30694@obsidianresearch.com>
  <1492169849.25766.3.camel@kernel.crashing.org>
  <630c1c63-ff17-1116-e069-2b8f93e50fa2@deltatee.com>
-Message-ID: <20170414190452.GA15679@bhelgaas-glaptop.roam.corp.google.com>
+ <20170414190452.GA15679@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <1492207643.25766.18.camel@kernel.crashing.org>
 
-On Fri, Apr 14, 2017@11:30:14AM -0600, Logan Gunthorpe wrote:
-> On 14/04/17 05:37 AM, Benjamin Herrenschmidt wrote:
-> > I object to designing a subsystem that by design cannot work on whole
-> > categories of architectures out there.
+On Fri, 2017-04-14@14:04 -0500, Bjorn Helgaas wrote:
+> I'm a little hesitant about excluding offset support, so I'd like to
+> hear more about this.
 > 
-> Hardly. That's extreme. We'd design a subsystem that works for the easy
-> cases and needs more work to support the offset cases. It would not be
-> designed in such a way that it could _never_ support those
-> architectures. It would simply be such that it only permits use by the
-> cases that are known to work. Then those cases could be expanded as time
-> goes on and people work on adding more support.
+> Is the issue related to PCI BARs that are not completely addressable
+> by the CPU?? If so, that sounds like a first-class issue that should
+> be resolved up front because I don't think the PCI core in general
+> would deal well with that.
+> 
+> If all the PCI memory of interest is in fact addressable by the CPU,
+> I would think it would be pretty straightforward to support offsets
+> --
+> everywhere you currently use a PCI bus address, you just use the
+> corresponding CPU physical address instead.
 
-I'm a little hesitant about excluding offset support, so I'd like to
-hear more about this.
+It's not *that* easy sadly. The reason is that normal dma map APIs
+assume the "target" of the DMAs are system memory, there is no way to
+pass it "another device", in a way that allows it to understand the
+offsets if needed.
 
-Is the issue related to PCI BARs that are not completely addressable
-by the CPU?  If so, that sounds like a first-class issue that should
-be resolved up front because I don't think the PCI core in general
-would deal well with that.
+That said, dma_map will already be problematic when doing p2p behind
+the same bridge due to the fact that the iommu is not in the way so you
+can't use the arch standard ops there.
 
-If all the PCI memory of interest is in fact addressable by the CPU,
-I would think it would be pretty straightforward to support offsets --
-everywhere you currently use a PCI bus address, you just use the
-corresponding CPU physical address instead.
+So I assume the p2p code provides a way to address that too via special
+dma_ops ? Or wrappers ?
 
-> There's tons of stuff that needs to be done to get this upstream. I'd
-> rather not require it to work for every possible architecture from the
-> start. The testing alone would be impossible. Many subsystems start by
-> working for x86 first and then adding support in other architectures
-> later. (Often with that work done by the people who care about those
-> systems and actually have the hardware to test with.)
+Basically there are two very different ways you can do p2p, either
+behind the same host bridge or accross two host bridges:
 
-I don't think exhaustive testing is that big a deal.  PCI offset
-support is generic, so you shouldn't need any arch-specific code to
-deal with it.  I'd rather have consistent support across the board,
-even though some arches might not be tested.  I think that's simpler
-and better than adding checks to disable functionality on some arches
-merely on the grounds that it hasn't been tested there.
+ - Behind the same host bridge, you don't go through the iommu, which
+means that even if your target looks like a struct page, you can't just
+use dma_map_* on it because what you'll get back from that is an iommu
+token, not a sibling BAR offset. Additionally, if you use the target
+struct resource address, you will need to offset it to get back to the
+actual BAR value on the PCIe bus.
 
-Bjorn
+ - Behind different host bridges, then you go through the iommu and the
+host remapping. IE. that's actually the easy case. You can probably
+just use the normal iommu path and normal dma mapping ops, you just
+need to have your struct page representing the target device BAR *in
+CPU space* this time. So no offsetting required either.
+
+The problem is that the latter while seemingly easier, is also slower
+and not supported by all platforms and architectures (for example,
+POWER currently won't allow it, or rather only allows a store-only
+subset of it under special circumstances).
+
+So what people practically want to do is to have 2 devices behind a
+switch DMA'ing to/from each other.
+
+But that brings the 2 problems above.
+
+I don't fully understand how p2pmem "solves" that by creating struct
+pages. The offset problem is one issue. But there's the iommu issue as
+well, the driver cannot just use the normal dma_map ops.
+
+I haven't had a chance to look at the details of the patches but it's
+not clear from the description in patch 0 how that is solved.
+
+Cheers,
+Ben.
