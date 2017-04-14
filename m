@@ -1,13 +1,53 @@
 From: tglx@linutronix.de (Thomas Gleixner)
-Date: Fri, 14 Apr 2017 19:20:31 +0200 (CEST)
-Subject: [PATCH 1/4] genirq: fix indentation in remove_irq
-In-Reply-To: <20170413070643.32165-2-hch@lst.de>
+Date: Fri, 14 Apr 2017 19:28:42 +0200 (CEST)
+Subject: [PATCH 2/4] genirq: return the irq name from free_irq
+In-Reply-To: <20170413070643.32165-3-hch@lst.de>
 References: <20170413070643.32165-1-hch@lst.de>
- <20170413070643.32165-2-hch@lst.de>
-Message-ID: <alpine.DEB.2.20.1704141920190.2327@nanos>
+ <20170413070643.32165-3-hch@lst.de>
+Message-ID: <alpine.DEB.2.20.1704141920560.2327@nanos>
 
 On Thu, 13 Apr 2017, Christoph Hellwig wrote:
 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> This allows callers to get back at them instead of having to store
+> it in another variable.
 
-Reviewed-by: Thomas Gleixner <tglx at linutronix.de>
+Alternatively you tell the irq code to free it for you. Patch below.
+
+Thanks,
+
+	tglx
+
+8<-----------------------
+
+--- a/include/linux/interrupt.h
++++ b/include/linux/interrupt.h
+@@ -60,7 +60,9 @@
+  * IRQF_COND_SUSPEND - If the IRQ is shared with a NO_SUSPEND user, execute this
+  *                interrupt handler after suspending interrupts. For system
+  *                wakeup devices users need to implement wakeup detection in
+- *                their interrupt handlers.
++ *                their interrupt handlers
++ * IRQF_FREE_NAME - Free the memory pointed to by the @name argument of
++ *		    request_irq() in free_irq()
+  */
+ #define IRQF_SHARED		0x00000080
+ #define IRQF_PROBE_SHARED	0x00000100
+@@ -74,6 +76,7 @@
+ #define IRQF_NO_THREAD		0x00010000
+ #define IRQF_EARLY_RESUME	0x00020000
+ #define IRQF_COND_SUSPEND	0x00040000
++#define IRQF_FREE_NAME		0x00080000
+ 
+ #define IRQF_TIMER		(__IRQF_TIMER | IRQF_NO_SUSPEND | IRQF_NO_THREAD)
+ 
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -1542,6 +1542,8 @@ static struct irqaction *__free_irq(unsi
+ 	irq_chip_pm_put(&desc->irq_data);
+ 	module_put(desc->owner);
+ 	kfree(action->secondary);
++	if (action->flags & IRQF_FREE_NAME)
++		kfree(action->name);
+ 	return action;
+ }
+ 
