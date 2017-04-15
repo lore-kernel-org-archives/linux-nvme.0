@@ -1,5 +1,5 @@
-From: dan.j.williams@intel.com (Dan Williams)
-Date: Sat, 15 Apr 2017 15:09:08 -0700
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Sun, 16 Apr 2017 08:17:08 +1000
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
 In-Reply-To: <bff1e503-95a9-e19f-bfd9-0ff962c63a81@deltatee.com>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
@@ -14,45 +14,73 @@ References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
  <20170414190452.GA15679@bhelgaas-glaptop.roam.corp.google.com>
  <1492207643.25766.18.camel@kernel.crashing.org>
  <bff1e503-95a9-e19f-bfd9-0ff962c63a81@deltatee.com>
-Message-ID: <CAPcyv4jUeKzKDARp6Z35kdPLKnP-M6aF8X5KpOx55CLyjnj4dA@mail.gmail.com>
+Message-ID: <1492294628.25766.33.camel@kernel.crashing.org>
 
-On Sat, Apr 15, 2017@10:41 AM, Logan Gunthorpe <logang@deltatee.com> wrote:
+On Sat, 2017-04-15@11:41 -0600, Logan Gunthorpe wrote:
 > Thanks, Benjamin, for the summary of some of the issues.
->
+> 
 > On 14/04/17 04:07 PM, Benjamin Herrenschmidt wrote
->> So I assume the p2p code provides a way to address that too via special
->> dma_ops ? Or wrappers ?
->
+> > So I assume the p2p code provides a way to address that too via special
+> > dma_ops ? Or wrappers ?
+> 
 > Not at this time. We will probably need a way to ensure the iommus do
-> not attempt to remap these addresses. Though if it does, I'd expect
+> not attempt to remap these addresses.
+
+You can't. If the iommu is on, everything is remapped. Or do you mean
+to have dma_map_* not do a remapping ?
+
+That's the problem again, same as before, for that to work, the
+dma_map_* ops would have to do something special that depends on *both*
+the source and target device.
+
+The current DMA infrastructure doesn't have anything like that. It's a
+rather fundamental issue to your design that you need to address.
+
+The dma_ops today are architecture specific and have no way to
+differenciate between normal and those special P2P DMA pages.
+
+> Though if it does, I'd expect
 > everything would still work you just wouldn't get the performance or
 > traffic flow you are looking for. We've been testing with the software
 > iommu which doesn't have this problem.
->
->> The problem is that the latter while seemingly easier, is also slower
->> and not supported by all platforms and architectures (for example,
->> POWER currently won't allow it, or rather only allows a store-only
->> subset of it under special circumstances).
->
+
+So first, no, it's more than "you wouldn't get the performance". On
+some systems it may also just not work. Also what do you mean by "the
+SW iommu doesn't have this problem" ? It catches the fact that
+addresses don't point to RAM and maps differently ?
+
+> > The problem is that the latter while seemingly easier, is also slower
+> > and not supported by all platforms and architectures (for example,
+> > POWER currently won't allow it, or rather only allows a store-only
+> > subset of it under special circumstances).
+> 
 > Yes, I think situations where we have to cross host bridges will remain
 > unsupported by this work for a long time. There are two many cases where
 > it just doesn't work or it performs too poorly to be useful.
->
->> I don't fully understand how p2pmem "solves" that by creating struct
->> pages. The offset problem is one issue. But there's the iommu issue as
->> well, the driver cannot just use the normal dma_map ops.
->
+
+And the situation where you don't cross bridges is the one where you
+need to also take into account the offsets.
+
+*both* cases mean that you need somewhat to intervene at the dma_ops
+level to handle this. Which means having a way to identify your special
+struct pages or PFNs to allow the arch to add a special case to the
+dma_ops.
+
+> > I don't fully understand how p2pmem "solves" that by creating struct
+> > pages. The offset problem is one issue. But there's the iommu issue as
+> > well, the driver cannot just use the normal dma_map ops.
+> 
 > We are not using a proper iommu and we are dealing with systems that
 > have zero offset. This case is also easily supported. I expect fixing
 > the iommus to not map these addresses would also be reasonably achievable.
 
-I'm wondering, since this is limited to support behind a single
-switch, if you could have a software-iommu hanging off that switch
-device object that knows how to catch and translate the non-zero
-offset bus address case. We have something like this with VMD driver,
-and I toyed with a soft pci bridge when trying to support AHCI+NVME
-bar remapping. When the dma api looks up the iommu for its device it
-hits this soft-iommu and that driver checks if the page is host memory
-or device memory to do the dma translation. You wouldn't need a bit in
-struct page, just a lookup to the hosting struct dev_pagemap in the
-is_zone_device_page() case and that can point you to p2p details.
+So you are designing something that is built from scratch to only work
+on a specific limited category of systems and is also incompatible with
+virtualization.
+
+This is an interesting experiement to look at I suppose, but if you
+ever want this upstream I would like at least for you to develop a
+strategy to support the wider case, if not an actual implementation.
+
+Cheers,
+Ben.
