@@ -1,43 +1,47 @@
-From: gmazyland@gmail.com (Milan Broz)
-Date: Sat, 15 Apr 2017 14:10:17 +0200
-Subject: [PATCH 09/22] dm-crypt: Make use of the new sg_map helper in 4
- call sites
-In-Reply-To: <302ae5ab-d515-5427-2e54-d58a9cdb8241@deltatee.com>
-References: <1492121135-4437-1-git-send-email-logang@deltatee.com>
- <1492121135-4437-10-git-send-email-logang@deltatee.com>
- <20170414083921.GC25471@lst.de>
- <302ae5ab-d515-5427-2e54-d58a9cdb8241@deltatee.com>
-Message-ID: <22703638-27a9-7dc5-5180-536f61661592@gmail.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Sat, 15 Apr 2017 11:41:36 -0600
+Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
+In-Reply-To: <1492207643.25766.18.camel@kernel.crashing.org>
+References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
+ <1491974532.7236.43.camel@kernel.crashing.org>
+ <5ac22496-56ec-025d-f153-140001d2a7f9@deltatee.com>
+ <1492034124.7236.77.camel@kernel.crashing.org>
+ <81888a1e-eb0d-cbbc-dc66-0a09c32e4ea2@deltatee.com>
+ <20170413232631.GB24910@bhelgaas-glaptop.roam.corp.google.com>
+ <20170414041656.GA30694@obsidianresearch.com>
+ <1492169849.25766.3.camel@kernel.crashing.org>
+ <630c1c63-ff17-1116-e069-2b8f93e50fa2@deltatee.com>
+ <20170414190452.GA15679@bhelgaas-glaptop.roam.corp.google.com>
+ <1492207643.25766.18.camel@kernel.crashing.org>
+Message-ID: <bff1e503-95a9-e19f-bfd9-0ff962c63a81@deltatee.com>
 
-On 04/14/2017 06:03 PM, Logan Gunthorpe wrote:
-> 
-> 
-> On 14/04/17 02:39 AM, Christoph Hellwig wrote:
->> On Thu, Apr 13, 2017@04:05:22PM -0600, Logan Gunthorpe wrote:
->>> Very straightforward conversion to the new function in all four spots.
->>
->> I think the right fix here is to switch dm-crypt to the ahash API
->> that takes a scatterlist.
-> 
-> Hmm, well I'm not sure I understand the code enough to make that
-> conversion. But I was looking at it. One tricky bit seems to be that
-> crypt_iv_lmk_one adds a seed, skips the first 16 bytes in the page and
-> then hashes another 16 bytes from other data. What would you do
-> construct a new sgl for it and pass it to the ahash api?
-> 
-> The other thing is crypt_iv_lmk_post also seems to modify the page after
-> the hash with a  crypto_xor so you'd still need at least one kmap in there.
+Thanks, Benjamin, for the summary of some of the issues.
 
-yes, it is in fact modification of CBC mode implemented this hacky way.
-These IVs are only for compatibility with loopaes and very old trueCrypt formats.
+On 14/04/17 04:07 PM, Benjamin Herrenschmidt wrote
+> So I assume the p2p code provides a way to address that too via special
+> dma_ops ? Or wrappers ?
 
-I think your patch is ok (if it is just plain conversion), if it is
-really needed, we can switch to ahash later in follow-up patch.
+Not at this time. We will probably need a way to ensure the iommus do
+not attempt to remap these addresses. Though if it does, I'd expect
+everything would still work you just wouldn't get the performance or
+traffic flow you are looking for. We've been testing with the software
+iommu which doesn't have this problem.
 
-All common code in dmcrypt uses async API already.
+> The problem is that the latter while seemingly easier, is also slower
+> and not supported by all platforms and architectures (for example,
+> POWER currently won't allow it, or rather only allows a store-only
+> subset of it under special circumstances).
 
-p.s.
-there is a lot of lists on cc, but for this patch is missing dm-devel, dmcrypt changes
-need to go through Mike's tree (I added dm-devel to cc:)
+Yes, I think situations where we have to cross host bridges will remain
+unsupported by this work for a long time. There are two many cases where
+it just doesn't work or it performs too poorly to be useful.
 
-Milan
+> I don't fully understand how p2pmem "solves" that by creating struct
+> pages. The offset problem is one issue. But there's the iommu issue as
+> well, the driver cannot just use the normal dma_map ops.
+
+We are not using a proper iommu and we are dealing with systems that
+have zero offset. This case is also easily supported. I expect fixing
+the iommus to not map these addresses would also be reasonably achievable.
+
+Logan
