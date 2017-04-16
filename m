@@ -1,99 +1,43 @@
 From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Mon, 17 Apr 2017 08:23:16 +1000
+Date: Mon, 17 Apr 2017 08:26:17 +1000
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
-References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
-Message-ID: <1492381396.25766.43.camel@kernel.crashing.org>
+In-Reply-To: <CAPcyv4iqnz1B00Q3xG-nGrLXdOyB7ditxmwZyotksLFgUqr+jA@mail.gmail.com>
+References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
+ <1491974532.7236.43.camel@kernel.crashing.org>
+ <5ac22496-56ec-025d-f153-140001d2a7f9@deltatee.com>
+ <1492034124.7236.77.camel@kernel.crashing.org>
+ <81888a1e-eb0d-cbbc-dc66-0a09c32e4ea2@deltatee.com>
+ <20170413232631.GB24910@bhelgaas-glaptop.roam.corp.google.com>
+ <20170414041656.GA30694@obsidianresearch.com>
+ <1492169849.25766.3.camel@kernel.crashing.org>
+ <630c1c63-ff17-1116-e069-2b8f93e50fa2@deltatee.com>
+ <20170414190452.GA15679@bhelgaas-glaptop.roam.corp.google.com>
+ <1492207643.25766.18.camel@kernel.crashing.org>
+ <bff1e503-95a9-e19f-bfd9-0ff962c63a81@deltatee.com>
+ <CAPcyv4jUeKzKDARp6Z35kdPLKnP-M6aF8X5KpOx55CLyjnj4dA@mail.gmail.com>
+ <1492311719.25766.37.camel@kernel.crashing.org>
+ <CAPcyv4iqnz1B00Q3xG-nGrLXdOyB7ditxmwZyotksLFgUqr+jA@mail.gmail.com>
+Message-ID: <1492381577.25766.46.camel@kernel.crashing.org>
 
-On Sun, 2017-04-16@08:44 -0700, Dan Williams wrote:
-> The difference is that there was nothing fundamental in the core
-> design of pmem + DAX that prevented other archs from growing pmem
-> support.
-
-Indeed. In fact we have work in progress support for pmem on power
-using experimental HW.
-
-> THP and memory hotplug existed on other architectures and
-> they just need to plug in their arch-specific enabling. p2p support
-> needs the same starting point of something more than one architecture
-> can plug into, and handling the bus address offset case needs to be
-> incorporated into the design.
+On Sun, 2017-04-16@08:53 -0700, Dan Williams wrote:
+> > Just thinking out loud ... I don't have a firm idea or a design. But
+> > peer to peer is definitely a problem we need to tackle generically, the
+> > demand for it keeps coming up.
 > 
-> pmem + dax did not change the meaning of what a dma_addr_t is, p2p does.
+> ZONE_DEVICE allows you to redirect via get_dev_pagemap() to retrieve
+> context about the physical address in question. I'm thinking you can
+> hang bus address translation data off of that structure. This seems
+> vaguely similar to what HMM is doing.
 
-The more I think about it, the more I tend toward something along the
-lines of having the arch DMA ops being able to quickly differentiate
-between "normal" memory (which includes non-PCI pmem in some cases,
-it's an architecture choice I suppose) and "special device" (page flag
-? pfn bit ? ... there are options).
+Ok, that's interesting. That would be a way to handle the "lookup" I
+was mentioning in the email I sent a few minutes ago.
 
->From there, we keep our existing fast path for the normal case.
+We would probably need to put some "structure" to that context.
 
-For the special case, we need to provide a fast lookup mechanism
-(assuming we can't stash enough stuff in struct page or the pfn)
-to get back to a struct of some sort that provides the necessary
-information to resolve the translation.
-
-This *could* be something like a struct p2mem device that carries
-a special set of DMA ops, though we probably shouldn't make the generic
-structure PCI specific.
-
-This is a slightly slower path, but that "stub" structure allows the
-special DMA ops to provide the necessary bus-specific knowledge, which
-for PCI for example, can check whether the devices are on the same
-segment, whether the switches are configured to allow p2p, etc...
-
-What form should that fast lookup take ? It's not completely clear to
-me at that point. We could start with a simple linear lookup I suppose
-and improve in a second stage.
-
-Of course this pipes into the old discussion about disconnecting
-the DMA ops from struct page. If we keep struct page, any device that
-wants to be a potential DMA target will need to do something "special"
-to create those struct pages etc.. though we could make that a simple
-pci helper that pops the necessary bits and pieces for a given BAR &
-range.
-
-If we don't need struct page, then it might be possible to hide it all
-in the PCI infrastructure.
-
-> > Virtualization specifically would be a _lot_ more difficult than simply
-> > supporting offsets. The actual topology of the bus will probably be lost
-> > on the guest OS and it would therefor have a difficult time figuring out
-> > when it's acceptable to use p2pmem. I also have a difficult time seeing
-> > a use case for it and thus I have a hard time with the argument that we
-> > can't support use cases that do want it because use cases that don't
-> > want it (perhaps yet) won't work.
-> > 
-> > > This is an interesting experiement to look at I suppose, but if you
-> > > ever want this upstream I would like at least for you to develop a
-> > > strategy to support the wider case, if not an actual implementation.
-> > 
-> > I think there are plenty of avenues forward to support offsets, etc.
-> > It's just work. Nothing we'd be proposing would be incompatible with it.
-> > We just don't want to have to do it all upfront especially when no one
-> > really knows how well various architecture's hardware supports this or
-> > if anyone even wants to run it on systems such as those. (Keep in mind
-> > this is a pretty specific optimization that mostly helps systems
-> > designed in specific ways -- not a general "everybody gets faster" type
-> > situation.) Get the cases working we know will work, can easily support
-> > and people actually want.? Then expand it to support others as people
-> > come around with hardware to test and use cases for it.
-> 
-> I think you need to give other archs a chance to support this with a
-> design that considers the offset case as a first class citizen rather
-> than an afterthought.
-
-Thanks :-) There's a reason why I'm insisting on this. We have constant
-requests for this today. We have hacks in the GPU drivers to do it for
-GPUs behind a switch, but those are just that, ad-hoc hacks in the
-drivers. We have similar grossness around the corner with some CAPI
-NICs trying to DMA to GPUs. I have people trying to use PLX DMA engines
-to whack nVME devices.
-
-I'm very interested in a more generic solution to deal with the problem
-of P2P between devices. I'm happy to contribute with code to handle the
-powerpc bits but we need to agree on the design first :)
+I'm very short on time to look into the details of this for at least
+a month (I'm taking about 3 weeks off for personal reasons next week),
+but I'm happy to dive more into this when I'm back and sort out with
+Jerome how to make it all co-habitate nicely with HMM.
 
 Cheers,
 Ben.
