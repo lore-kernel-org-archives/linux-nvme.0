@@ -1,90 +1,111 @@
-From: james_p_freyensee@linux.intel.com (J Freyensee)
-Date: Mon, 17 Apr 2017 09:45:19 -0700
-Subject: [PATCH V2] nvme: make use of nvme error status codes in block
- layer
-In-Reply-To: <1492434939-12308-1-git-send-email-guanjunxiong@huawei.com>
-References: <1492434939-12308-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <1492447519.3123.6.camel@linux.intel.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Mon, 17 Apr 2017 10:52:29 -0600
+Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
+In-Reply-To: <1492413640.25766.52.camel@kernel.crashing.org>
+References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
+ <6e732d6a-9baf-1768-3e9c-f6c887a836b2@deltatee.com>
+ <1492381958.25766.50.camel@kernel.crashing.org>
+ <6149ab5e-c981-6881-8c5a-22349561c3e8@deltatee.com>
+ <1492413640.25766.52.camel@kernel.crashing.org>
+Message-ID: <ac643c73-43e9-1658-ffcb-d5628f80cbc1@deltatee.com>
 
-On Mon, 2017-04-17@21:15 +0800, Guan Junxiong wrote:
-> From: Junxiong Guan <guanjunxiong at huawei.com>
+
+
+On 17/04/17 01:20 AM, Benjamin Herrenschmidt wrote:
+> But is it ? For example take a GPU, does it, in your scheme, need an
+> additional "p2pmem" child ? Why can't the GPU driver just use some
+> helper to instantiate the necessary struct pages ? What does having an
+> actual "struct device" child buys you ?
+
+Yes, in this scheme, it needs an additional p2pmem child. Why is that an
+issue? It certainly makes it a lot easier for the user to understand the
+p2pmem memory in the system (through the sysfs tree) and reason about
+the topology and when to use it. This is important.
+
 > 
-> For more detailed information about nvme error status when ending
-> blk_mq request,some of nvme error status codes can be categorized into
-> different errnos explicitly.This patch makes conversion from those nvme
-> error status to errno detail so that block layer can make use of the
-> detailed error information.
-
-
-This is a good list but it's not the complete list.  It also seems to be
-somewhat arbitrary list of chosen NVMe error codes to convert, with respect
-to include/linux/nvme.h, which is a little tedious to track.
-
-How about fold the conversion based on how the NVMe errors are grouped in
-nvme.h?  So there would be one patch for:
-
-	/*
-	 * Generic Command Status:
-	 */
-
-one patch for:
-
-	/*
-	 * Command Specific Status:
-	 */
-
-etc...
-
-This would make it easier to track and maintain what NVMe errors have been
-accounted for the errno conversion between submitted patches and what is
-implemented in the code.
-
-Thanks,
-Jay
-
-
-
-> ---
-> ?drivers/nvme/host/core.c | 29 +++++++++++++++++++++++++++++
-> ?1 file changed, 29 insertions(+)
+>> 2) In order to create the struct pages we use the ZONE_DEVICE
+>> infrastructure which requires a struct device. (See
+>> devm_memremap_pages.)
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 9bf758e3c911..95180ac0c710 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -73,6 +73,35 @@ static int nvme_error_status(struct request *req)
-> ?		return 0;
-> ?	case NVME_SC_CAP_EXCEEDED:
-> ?		return -ENOSPC;
-> +	case NVME_SC_READ_ONLY:
-> +	case NVME_SC_ACCESS_DENIED:
-> +		return -EACCES;
-> +	case NVME_SC_LBA_RANGE:
-> +		return -EFAULT;
-> +	case NVME_SC_CONNECT_CTRL_BUSY:
-> +		return -EBUSY;
-> +	case NVME_SC_INVALID_OPCODE:
-> +	case NVME_SC_INVALID_FIELD:
-> +	case NVME_SC_INVALID_NS:
-> +	case NVME_SC_SGL_INVALID_LAST:
-> +	case NVME_SC_SGL_INVALID_COUNT:
-> +	case NVME_SC_SGL_INVALID_DATA:
-> +	case NVME_SC_SGL_INVALID_METADATA:
-> +	case NVME_SC_SGL_INVALID_TYPE:
-> +	case NVME_SC_SGL_INVALID_OFFSET:
-> +	case NVME_SC_SGL_INVALID_SUBTYPE:
-> +	case NVME_SC_CQ_INVALID:
-> +	case NVME_SC_QID_INVALID:
-> +	case NVME_SC_QUEUE_SIZE:
-> +	case NVME_SC_FIRMWARE_SLOT:
-> +	case NVME_SC_FIRMWARE_IMAGE:
-> +	case NVME_SC_INVALID_VECTOR:
-> +	case NVME_SC_INVALID_LOG_PAGE:
-> +	case NVME_SC_INVALID_FORMAT:
-> +	case NVME_SC_CTRL_LIST_INVALID:
-> +		return -EINVAL;
-> +	case NVME_SC_CMD_SEQ_ERROR:
-> +		return -EPROTO;
-> ?	default:
-> ?		return -EIO;
-> ?	}
+> Yup, but you already have one in the actual pci_dev ... What is the
+> benefit of adding a second one ?
+
+But that would tie all of this very tightly to be pci only and may get
+hard to differentiate if more users of ZONE_DEVICE crop up who happen to
+be using a pci device. Having a specific class for this makes it very
+clear how this memory would be handled. For example, although I haven't
+looked into it, this could very well be a point of conflict with HMM. If
+they were to use the pci device to populate the dev_pagemap then we
+couldn't also use the pci device. I feel it's much better for users of
+dev_pagemap to have their struct devices they own to avoid such conflicts.
+
+> 
+>>  This amazingly gets us the get_dev_pagemap
+>> architecture which also uses a struct device. So by using a p2pmem
+>> device we can go from struct page to struct device to p2pmem device
+>> quickly and effortlessly.
+> 
+> Which isn't terribly useful in itself right ? What you care about is
+> the "enclosing" pci_dev no ? Or am I missing something ?
+
+Sure it is. What if we want to someday support p2pmem that's on another bus?
+
+>> 3) You wouldn't want to use the pci's struct device because it doesn't
+>> really describe what's going on. For example, there may be multiple
+>> devices on the pci device in question: eg. an NVME card and some p2pmem.
+> 
+> What is "some p2pmem" ?
+>> Or it could be a NIC with some p2pmem.
+> 
+> Again what is "some p2pmem" ?
+
+Some device local memory intended for use as a DMA target from a
+neighbour device or itself. On a PCI device, this would be a BAR, or a
+portion of a BAR with memory behind it.
+
+Keep in mind device classes tend to carve out common use cases and don't
+have a one to one mapping with a physical pci card.
+
+> That a device might have some memory-like buffer space is all well and
+> good but does it need to be specifically distinguished at the device
+> level ? It could be inherent to what the device is... for example again
+> take the GPU example, why would you call the FB memory "p2pmem" ? 
+
+Well if you are using it for p2p transactions why wouldn't you call it
+p2pmem? There's no technical downside here except some vague argument
+over naming. Once registered as p2pmem, that device will handle all the
+dma map stuff for you and have a central obvious place to put code which
+helps decide whether to use it or not based on topology.
+
+I can certainly see an issue you'd have with the current RFC in that the
+p2pmem device currently also handles memory allocation which a GPU would
+ want to do itself. There are plenty of solutions to this though: we
+could provide hooks for the parent device to override allocation or
+something like that. However, the use cases I'm concerned with don't do
+their own allocation so that is an important feature for them.
+
+> Again I'm not sure why it needs to "instanciate a p2pmem" device. Maybe
+> it's the term "p2pmem" that offputs me. If p2pmem allowed to have a
+> standard way to lookup the various offsets etc... I mentioned earlier,
+> then yes, it would make sense to have it as a staging point. As-is, I
+> don't know. 
+
+Well of course, at some point it would have a standard way to lookup
+offsets and figure out what's necessary for a mapping. We wouldn't make
+that separate from this, that would make no sense.
+
+I also forgot:
+
+4) We need someway in the kernel to configure drivers that use p2pmem.
+That means it needs a unique name that the user can understand, lookup
+and pass to other drivers. Then a way for those drivers to find it in
+the system. A specific device class gets that for us in a very simple
+fashion. We also don't want to have drivers like nvmet having to walk
+every pci device to figure out where the p2p memory is and whether it
+can use it.
+
+IMO there are many clear benefits here and you haven't really offered an
+alternative that provides the same features and potential for future use
+cases.
+
+Logan
