@@ -1,25 +1,50 @@
-From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Mon, 17 Apr 2017 08:32:38 +1000
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Sun, 16 Apr 2017 23:13:13 -0600
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <6e732d6a-9baf-1768-3e9c-f6c887a836b2@deltatee.com>
+In-Reply-To: <1492381958.25766.50.camel@kernel.crashing.org>
 References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
  <6e732d6a-9baf-1768-3e9c-f6c887a836b2@deltatee.com>
-Message-ID: <1492381958.25766.50.camel@kernel.crashing.org>
+ <1492381958.25766.50.camel@kernel.crashing.org>
+Message-ID: <6149ab5e-c981-6881-8c5a-22349561c3e8@deltatee.com>
 
-On Sun, 2017-04-16@10:47 -0600, Logan Gunthorpe wrote:
-> > I think you need to give other archs a chance to support this with a
-> > design that considers the offset case as a first class citizen rather
-> > than an afterthought.
+
+
+On 16/04/17 04:32 PM, Benjamin Herrenschmidt wrote:
+>> I'll consider this. Given the fact I can use your existing
+>> get_dev_pagemap infrastructure to look up the p2pmem device this
+>> probably isn't as hard as I thought it would be anyway (we probably
+>> don't even need a page flag). We'd just have lookup the dev_pagemap,
+>> test if it's a p2pmem device, and if so, call a p2pmem_dma_map function
+>> which could apply the offset or do any other arch specific logic (if
+>> necessary).
 > 
-> I'll consider this. Given the fact I can use your existing
-> get_dev_pagemap infrastructure to look up the p2pmem device this
-> probably isn't as hard as I thought it would be anyway (we probably
-> don't even need a page flag). We'd just have lookup the dev_pagemap,
-> test if it's a p2pmem device, and if so, call a p2pmem_dma_map function
-> which could apply the offset or do any other arch specific logic (if
-> necessary).
+> I'm still not 100% why do you need a "p2mem device" mind you ...
 
-I'm still not 100% why do you need a "p2mem device" mind you ...
+Well, you don't "need" it but it is a design choice that I think makes a
+lot of sense for the following reasons:
 
-Cheers,
-Ben.
+1) p2pmem is in fact a device on the pci bus. A pci driver will need to
+set it up and create the device and thus it will have a natural parent
+pci device. Instantiating a struct device for it means it will appear in
+the device hierarchy and one can use that to reason about its position
+in the topology.
+
+2) In order to create the struct pages we use the ZONE_DEVICE
+infrastructure which requires a struct device. (See
+devm_memremap_pages.) This amazingly gets us the get_dev_pagemap
+architecture which also uses a struct device. So by using a p2pmem
+device we can go from struct page to struct device to p2pmem device
+quickly and effortlessly.
+
+3) You wouldn't want to use the pci's struct device because it doesn't
+really describe what's going on. For example, there may be multiple
+devices on the pci device in question: eg. an NVME card and some p2pmem.
+Or it could be a NIC with some p2pmem. Or it could just be p2pmem by
+itself. And the logic to figure out what memory is available and where
+the address is will be non-standard so it's really straightforward to
+have any pci driver just instantiate a p2pmem device.
+
+It is probably worth you reading the RFC patches at this point to get a
+better feel for this.
+
+Logan
