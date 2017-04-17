@@ -1,39 +1,29 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 17 Apr 2017 15:29:22 -0700
-Subject: [PATCH 2/3] nvme-fabrics: Allow ctrl loss timeout configuration
-In-Reply-To: <1489876941-6401-3-git-send-email-sagi@grimberg.me>
-References: <1489876941-6401-1-git-send-email-sagi@grimberg.me>
- <1489876941-6401-3-git-send-email-sagi@grimberg.me>
-Message-ID: <1c260723-1771-3518-87b1-60d95fa423d8@broadcom.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 17 Apr 2017 19:01:40 -0400
+Subject: [PATCH v8] nvme: improve performance for virtual NVMe devices
+In-Reply-To: <9a406abf-1f39-003d-2863-144c4a263604@collabora.com>
+References: <20170331070128.GA28852@infradead.org>
+ <1491839467-11008-1-git-send-email-helen.koike@collabora.com>
+ <9a406abf-1f39-003d-2863-144c4a263604@collabora.com>
+Message-ID: <20170417230140.GA16224@localhost.localdomain>
 
-On 3/18/2017 3:42 PM, Sagi Grimberg wrote:
-> + * @nr_reconnects: number of reconnect attempted since the last ctrl failure
-> + * @max_reconnects: maximum number of allowed reconnect attempts before removing
-> + *              the controller, (-1) means reconnect forever, zero means remove
-> + *              immediately;
->    */
->   struct nvmf_ctrl_options {
->   	unsigned		mask;
-> @@ -91,6 +98,8 @@ struct nvmf_ctrl_options {
->   	bool			discovery_nqn;
->   	unsigned int		kato;
->   	struct nvmf_host	*host;
-> +	int			nr_reconnects;
-> +	int			max_reconnects;
->   };
->   
->   /*
-> @@ -133,5 +142,6 @@ void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
->   void nvmf_free_options(struct nvmf_ctrl_options *opts);
->   const char *nvmf_get_subsysnqn(struct nvme_ctrl *ctrl);
->   int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
-> +bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
+On Fri, Apr 14, 2017@03:10:30PM -0300, Helen Koike wrote:
+> + Add missing maintainers from scripts/get_maintainer.pl in the email thread
+> 
+> Hi,
+> 
+> I would like to know if it would be possible to get this patch for kernel
+> 4.12.
+> Should I send a pull request? Or do you usually get the patch from the email
+> thread?
 
-I know this patch has been pulled in - but I think it very odd that we 
-added a field (nr_reconnects) into the opts structure, that is not an 
-connect option but is instead a dynamically-changing transport 
-variable.  As the change introduced a common transport variable beyond 
-start options, the patch should have formally added a generic transport 
-structure to the ctrl structure.
+Hi Helen,
 
--- james
+This looks good to me. I pulled this into a branch for the next merge
+window here:
+
+http://git.infradead.org/nvme.git/shortlog/refs/heads/for-next
+
+There's only one other commit at the moment in addition to yours, so
+I'll just need to make sure we've got everything we want for 4.12 before
+submitting our next pull request.
