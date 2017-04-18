@@ -1,13 +1,38 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 18 Apr 2017 01:08:54 -0700
-Subject: [PATCH V2] nvme: make use of nvme error status codes in block
- layer
-In-Reply-To: <1492434939-12308-1-git-send-email-guanjunxiong@huawei.com>
-References: <1492434939-12308-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <20170418080854.GA21059@infradead.org>
+From: yizhan@redhat.com (Yi Zhang)
+Date: Tue, 18 Apr 2017 17:20:24 +0800
+Subject: [PATCH] nvme-cli: return 0 if disconnect operation with cfg.nqn
+ successfully
+Message-ID: <20170418092024.18252-1-yizhan@redhat.com>
 
-NAK.  Please don't start exposing random error codes to the block
-layer.  There are a few (very few) with special meaning in the block
-layer, mostly just for multipathing.  If you have an actual,
-demonstrated need for those we can add it.  Otherwise you're just
-creating noise.
+disconnect_by_nqn function will return the number of controllers
+successfully disconnected, so change ret = 0 if disconnect operation
+with nqn successfully.
+
+$ ./nvme disconnect -n testnqn
+NQN:testnqn disconnected 1 controller(s)
+$ echo $?
+1
+
+Signed-off-by: Yi Zhang <yizhan at redhat.com>
+---
+ fabrics.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/fabrics.c b/fabrics.c
+index cd671c7..a2e8f60 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -934,8 +934,10 @@ int disconnect(const char *desc, int argc, char **argv)
+ 		if (ret < 0)
+ 			fprintf(stderr, "Failed to disconnect by NQN: %s\n",
+ 				cfg.nqn);
+-		else
++		else {
+ 			printf("NQN:%s disconnected %d controller(s)\n", cfg.nqn, ret);
++			ret = 0;
++		}
+ 	}
+ 
+ 	if (cfg.device) {
+-- 
+2.9.3
