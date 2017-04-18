@@ -1,137 +1,64 @@
-From: idryomov@gmail.com (Ilya Dryomov)
-Date: Tue, 18 Apr 2017 18:43:20 +0200
-Subject: [PATCH] block: get rid of blk_integrity_revalidate()
-Message-ID: <1492533800-30627-1-git-send-email-idryomov@gmail.com>
+From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
+Date: Tue, 18 Apr 2017 10:45:57 -0600
+Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
+In-Reply-To: <1492381396.25766.43.camel@kernel.crashing.org>
+References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
+ <1492381396.25766.43.camel@kernel.crashing.org>
+Message-ID: <20170418164557.GA7181@obsidianresearch.com>
 
-Commit 25520d55cdb6 ("block: Inline blk_integrity in struct gendisk")
-introduced blk_integrity_revalidate(), which seems to assume ownership
-of the stable pages flag and unilaterally clears it if no blk_integrity
-profile is registered:
-
-    if (bi->profile)
-            disk->queue->backing_dev_info->capabilities |=
-                    BDI_CAP_STABLE_WRITES;
-    else
-            disk->queue->backing_dev_info->capabilities &=
-                    ~BDI_CAP_STABLE_WRITES;
-
-It's called from revalidate_disk() and rescan_partitions(), making it
-impossible to enable stable pages for drivers that support partitions
-and don't use blk_integrity: while the call in revalidate_disk() can be
-trivially worked around (see zram, which doesn't support partitions and
-hence gets away with zram_revalidate_disk()), rescan_partitions() can
-be triggered from userspace at any time.  This breaks rbd, where the
-ceph messenger is responsible for generating/verifying CRCs.
-
-Since blk_integrity_{un,}register() "must" be used for (un)registering
-the integrity profile with the block layer, move BDI_CAP_STABLE_WRITES
-setting there.  This way drivers that call blk_integrity_register() and
-use integrity infrastructure won't interfere with drivers that don't
-but still want stable pages.
-
-Fixes: 25520d55cdb6 ("block: Inline blk_integrity in struct gendisk")
-Cc: "Martin K. Petersen" <martin.petersen at oracle.com>
-Cc: Dan Williams <dan.j.williams at intel.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Mike Snitzer <snitzer at redhat.com>
-Cc: stable at vger.kernel.org # 4.4+, needs backporting
-Signed-off-by: Ilya Dryomov <idryomov at gmail.com>
----
-I don't have any integrity-capable disks or nvme separate-metadata
-cards, so I couldn't test this as well as I wanted to.  25520d55cdb6
-went in with some nvme work, but Martin recalls that it may have had
-something to do with integrity-capable dm arrays losing the integrity
-capability at runtime.  Previous discussion at
-
-    http://www.spinics.net/lists/ceph-devel/msg35413.html
-
----
- block/blk-integrity.c     | 19 ++-----------------
- block/partition-generic.c |  1 -
- fs/block_dev.c            |  1 -
- include/linux/genhd.h     |  2 --
- 4 files changed, 2 insertions(+), 21 deletions(-)
-
-diff --git a/block/blk-integrity.c b/block/blk-integrity.c
-index 9f0ff5ba4f84..35c5af1ea068 100644
---- a/block/blk-integrity.c
-+++ b/block/blk-integrity.c
-@@ -417,7 +417,7 @@ void blk_integrity_register(struct gendisk *disk, struct blk_integrity *template
- 	bi->tuple_size = template->tuple_size;
- 	bi->tag_size = template->tag_size;
+On Mon, Apr 17, 2017@08:23:16AM +1000, Benjamin Herrenschmidt wrote:
  
--	blk_integrity_revalidate(disk);
-+	disk->queue->backing_dev_info->capabilities |= BDI_CAP_STABLE_WRITES;
- }
- EXPORT_SYMBOL(blk_integrity_register);
- 
-@@ -430,26 +430,11 @@ EXPORT_SYMBOL(blk_integrity_register);
-  */
- void blk_integrity_unregister(struct gendisk *disk)
- {
--	blk_integrity_revalidate(disk);
-+	disk->queue->backing_dev_info->capabilities &= ~BDI_CAP_STABLE_WRITES;
- 	memset(&disk->queue->integrity, 0, sizeof(struct blk_integrity));
- }
- EXPORT_SYMBOL(blk_integrity_unregister);
- 
--void blk_integrity_revalidate(struct gendisk *disk)
--{
--	struct blk_integrity *bi = &disk->queue->integrity;
--
--	if (!(disk->flags & GENHD_FL_UP))
--		return;
--
--	if (bi->profile)
--		disk->queue->backing_dev_info->capabilities |=
--			BDI_CAP_STABLE_WRITES;
--	else
--		disk->queue->backing_dev_info->capabilities &=
--			~BDI_CAP_STABLE_WRITES;
--}
--
- void blk_integrity_add(struct gendisk *disk)
- {
- 	if (kobject_init_and_add(&disk->integrity_kobj, &integrity_ktype,
-diff --git a/block/partition-generic.c b/block/partition-generic.c
-index 7afb9907821f..0171a2faad68 100644
---- a/block/partition-generic.c
-+++ b/block/partition-generic.c
-@@ -497,7 +497,6 @@ int rescan_partitions(struct gendisk *disk, struct block_device *bdev)
- 
- 	if (disk->fops->revalidate_disk)
- 		disk->fops->revalidate_disk(disk);
--	blk_integrity_revalidate(disk);
- 	check_disk_size_change(disk, bdev);
- 	bdev->bd_invalidated = 0;
- 	if (!get_capacity(disk) || !(state = check_partition(disk, bdev)))
-diff --git a/fs/block_dev.c b/fs/block_dev.c
-index 2eca00ec4370..56039dfbc674 100644
---- a/fs/block_dev.c
-+++ b/fs/block_dev.c
-@@ -1451,7 +1451,6 @@ int revalidate_disk(struct gendisk *disk)
- 
- 	if (disk->fops->revalidate_disk)
- 		ret = disk->fops->revalidate_disk(disk);
--	blk_integrity_revalidate(disk);
- 	bdev = bdget_disk(disk, 0);
- 	if (!bdev)
- 		return ret;
-diff --git a/include/linux/genhd.h b/include/linux/genhd.h
-index 76f39754e7b0..76d6a1cd4153 100644
---- a/include/linux/genhd.h
-+++ b/include/linux/genhd.h
-@@ -722,11 +722,9 @@ static inline void part_nr_sects_write(struct hd_struct *part, sector_t size)
- #if defined(CONFIG_BLK_DEV_INTEGRITY)
- extern void blk_integrity_add(struct gendisk *);
- extern void blk_integrity_del(struct gendisk *);
--extern void blk_integrity_revalidate(struct gendisk *);
- #else	/* CONFIG_BLK_DEV_INTEGRITY */
- static inline void blk_integrity_add(struct gendisk *disk) { }
- static inline void blk_integrity_del(struct gendisk *disk) { }
--static inline void blk_integrity_revalidate(struct gendisk *disk) { }
- #endif	/* CONFIG_BLK_DEV_INTEGRITY */
- 
- #else /* CONFIG_BLOCK */
--- 
-2.4.3
+> Thanks :-) There's a reason why I'm insisting on this. We have constant
+> requests for this today. We have hacks in the GPU drivers to do it for
+> GPUs behind a switch, but those are just that, ad-hoc hacks in the
+> drivers. We have similar grossness around the corner with some CAPI
+> NICs trying to DMA to GPUs. I have people trying to use PLX DMA engines
+> to whack nVME devices.
+
+A lot of people feel this way in the RDMA community too. We have had
+vendors shipping out of tree code to enable P2P for RDMA with GPU
+years and years now. :(
+
+Attempts to get things in mainline have always run into the same sort
+of road blocks you've identified in this thread..
+
+FWIW, I read this discussion and it sounds closer to an agreement than
+I've ever seen in the past.
+
+>From Ben's comments, I would think that the 'first class' support that
+is needed here is simply a function to return the 'struct device'
+backing a CPU address range.
+
+This is the minimal required information for the arch or IOMMU code
+under the dma ops to figure out the fabric source/dest, compute the
+traffic path, determine if P2P is even possible, what translation
+hardware is crossed, and what DMA address should be used.
+
+If there is going to be more core support for this stuff I think it
+will be under the topic of more robustly describing the fabric to the
+core and core helpers to extract data from the description: eg compute
+the path, check if the path crosses translation, etc
+
+But that isn't really related to P2P, and is probably better left to
+the arch authors to figure out where they need to enhance the existing
+topology data..
+
+I think the key agreement to get out of Logan's series is that P2P DMA
+means:
+ - The BAR will be backed by struct pages
+ - Passing the CPU __iomem address of the BAR to the DMA API is
+   valid and, long term, dma ops providers are expected to fail
+   or return the right DMA address
+ - Mapping BAR memory into userspace and back to the kernel via
+   get_user_pages works transparently, and with the DMA API above
+ - The dma ops provider must be able to tell if source memory is bar
+   mapped and recover the pci device backing the mapping.
+
+At least this is what we'd like in RDMA :)
+
+FWIW, RDMA probably wouldn't want to use a p2mem device either, we
+already have APIs that map BAR memory to user space, and would like to
+keep using them. A 'enable P2P for bar' helper function sounds better
+to me.
+
+Jason
