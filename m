@@ -1,25 +1,24 @@
-From: konrad.wilk@oracle.com (Konrad Rzeszutek Wilk)
-Date: Tue, 18 Apr 2017 11:06:09 -0400
-Subject: [PATCH 17/25] blk-mq: remove the error argument to
- blk_mq_complete_request
-In-Reply-To: <20170418150321.s7yqpt63reutbs24@dhcp-3-128.uk.xensource.com>
-References: <20170406153944.10058-1-hch@lst.de>
- <20170406153944.10058-18-hch@lst.de>
- <20170418150321.s7yqpt63reutbs24@dhcp-3-128.uk.xensource.com>
-Message-ID: <20170418150609.GB12001@char.us.oracle.com>
+From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
+Date: Tue, 18 Apr 2017 15:19:37 +0000
+Subject: NVMe APST on XPS 9550/Precison 5510
+In-Reply-To: <CAAd53p4eGbYSNVgBGCxiL6ev6cVg+kwCZ3Kgt0bMiWt+2EKSjQ@mail.gmail.com>
+References: <CAAd53p4eGbYSNVgBGCxiL6ev6cVg+kwCZ3Kgt0bMiWt+2EKSjQ@mail.gmail.com>
+Message-ID: <8a3fa43e140d445a80f53228b4beee3e@ausx13mpc120.AMER.DELL.COM>
 
-On Tue, Apr 18, 2017@04:03:21PM +0100, Roger Pau Monn? wrote:
-> On Thu, Apr 06, 2017@05:39:36PM +0200, Christoph Hellwig wrote:
-> > Now that we always have a ->complete callback we can remove the direct
-> > call to blk_mq_end_request, as well as the error argument to
-> > blk_mq_complete_request.
-> > 
-> > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> 
-> For blkfront:
-> 
-> Acked-by: Roger Pau Monn? <roger.pau at citrix.com>
-> 
+Kai Heng,
 
-And also
-Reviewed-by: Konrad Rzeszutek Wilk <konrad.wilk at oracle.com>
+>Hi Andy,
+>The new quirk [1] in your nvme/power branch Mario pointd to me disables APST completely, but three different users reported that the NVMe works fine if the deepest state it enters is PS3 (comment #17, #18 and #19).
+>So instead of not enabling APST, can we have a quirk to target specific power state? Users can still get nice powersaving without dead NVMe this way.
+>Also, another user has the same issue on?Lenovo ThinkPad X270 (comment #11 and #13), it uses Toshiba NVMe instead of Samsung.
+>
+>[1]?https://git.kernel.org/pub/scm/linux/kernel/git/luto/linux.git/commit/?h=nvme/power&id=37294ae0e942e9dc56e869af23cc6face284dec8
+
+Presumably you're referring to this bug? https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1678184
+
+That's some interesting data points that you have found to share with other machines and drive combinations with problems as well
+as limiting the deepest state to enter.
+
+More and more people will be testing this since Ubuntu 17.04 is out with this patch included.  
+At least until the problems related to PS4 being entered are properly root caused on the affected combinations, I wonder if it would 
+be better to default to the more widely safe PS3 and whitelist combinations that PS4 is safe?
