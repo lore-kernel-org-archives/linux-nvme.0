@@ -1,64 +1,34 @@
 From: hch@bombadil.infradead.org (Christoph Hellwig)
-Date: Tue, 18 Apr 2017 08:52:12 -0700
-Subject: virtio_blk: don't use req->errors
+Date: Tue, 18 Apr 2017 08:52:23 -0700
+Subject: block: add a error_count field to struct request
 In-Reply-To: <20170418155229.5977-1-hch@bombadil.infradead.org>
 References: <20170418155229.5977-1-hch@bombadil.infradead.org>
-Message-ID: <20170418155229.5977-7-hch@bombadil.infradead.org>
+Message-ID: <20170418155229.5977-18-hch@bombadil.infradead.org>
 
 From: Christoph Hellwig <hch@lst.de>
 
-Remove passing req->errors (which at that point is always 0) to
-blk_mq_complete_request, and rely on the virtio status code for the
-serial number passthrough request.
+This is for the legacy floppy and ataflop drivers that currently abuse
+->errors for this purpose.  It's stashed away in a union to not grow
+the struct size, the other fields are either used by modern drivers
+for different purposes or the I/O scheduler before queing the I/O
+to drivers.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/block/virtio_blk.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ include/linux/blkdev.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
-index dbc4e80680b1..8378ad480f77 100644
---- a/drivers/block/virtio_blk.c
-+++ b/drivers/block/virtio_blk.c
-@@ -175,19 +175,15 @@ static int virtblk_add_req(struct virtqueue *vq, struct virtblk_req *vbr,
- static inline void virtblk_request_done(struct request *req)
- {
- 	struct virtblk_req *vbr = blk_mq_rq_to_pdu(req);
--	int error = virtblk_result(vbr);
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 5986e1250d7d..e618164462e8 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -175,6 +175,7 @@ struct request {
+ 		struct rb_node rb_node;	/* sort/lookup */
+ 		struct bio_vec special_vec;
+ 		void *completion_data;
++		int error_count; /* for legacy drivers, don't use */
+ 	};
  
- 	switch (req_op(req)) {
- 	case REQ_OP_SCSI_IN:
- 	case REQ_OP_SCSI_OUT:
- 		virtblk_scsi_request_done(req);
- 		break;
--	case REQ_OP_DRV_IN:
--		req->errors = (error != 0);
--		break;
- 	}
- 
--	blk_mq_end_request(req, error);
-+	blk_mq_end_request(req, virtblk_result(vbr));
- }
- 
- static void virtblk_done(struct virtqueue *vq)
-@@ -205,7 +201,7 @@ static void virtblk_done(struct virtqueue *vq)
- 		while ((vbr = virtqueue_get_buf(vblk->vqs[qid].vq, &len)) != NULL) {
- 			struct request *req = blk_mq_rq_from_pdu(vbr);
- 
--			blk_mq_complete_request(req, req->errors);
-+			blk_mq_complete_request(req, 0);
- 			req_done = true;
- 		}
- 		if (unlikely(virtqueue_is_broken(vq)))
-@@ -311,7 +307,7 @@ static int virtblk_get_id(struct gendisk *disk, char *id_str)
- 		goto out;
- 
- 	blk_execute_rq(vblk->disk->queue, vblk->disk, req, false);
--	err = req->errors ? -EIO : 0;
-+	err = virtblk_result(blk_mq_rq_to_pdu(req));
- out:
- 	blk_put_request(req);
- 	return err;
+ 	/*
 -- 
 2.11.0
