@@ -1,35 +1,46 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 18 Apr 2017 17:03:59 -0600
+From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
+Date: Tue, 18 Apr 2017 17:21:59 -0600
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <20170418222440.GA27113@obsidianresearch.com>
-References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
- <1492381396.25766.43.camel@kernel.crashing.org>
- <20170418164557.GA7181@obsidianresearch.com>
- <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
- <20170418190138.GH7181@obsidianresearch.com>
- <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
+In-Reply-To: <CAPcyv4gQxifHcKLv0CZZoXJWz=rtzv-vGoofkek6NxRABd4XyA@mail.gmail.com>
+References: <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
  <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
  <20170418210339.GA24257@obsidianresearch.com>
- <9fc9352f-86fe-3a9e-e372-24b3346b518c@deltatee.com>
- <20170418222440.GA27113@obsidianresearch.com>
-Message-ID: <d2d576e6-6bd6-22d7-6697-452104a503cd@deltatee.com>
+ <CAPcyv4h9n9Uzq4FAXR0ufieqvx5_txEwtnaaBWdxe-jF_XfTLg@mail.gmail.com>
+ <20170418212258.GA26838@obsidianresearch.com>
+ <CAPcyv4g5ifbpukthMXMro8qKdfoXAhftDpiwWWFCLZ4dK8JnnA@mail.gmail.com>
+ <96198489-1af5-abcf-f23f-9a7e41aa17f7@deltatee.com>
+ <CAPcyv4haUUs1Eew1PZTZkoGU4YFiHOuU93G+kG+CqfKzjz1gpw@mail.gmail.com>
+ <20170418224225.GB27113@obsidianresearch.com>
+ <CAPcyv4gQxifHcKLv0CZZoXJWz=rtzv-vGoofkek6NxRABd4XyA@mail.gmail.com>
+Message-ID: <20170418232159.GA28477@obsidianresearch.com>
 
+On Tue, Apr 18, 2017@03:51:27PM -0700, Dan Williams wrote:
+> > This really seems like much less trouble than trying to wrapper all
+> > the arch's dma ops, and doesn't have the wonky restrictions.
+> 
+> I don't think the root bus iommu drivers have any business knowing or
+> caring about dma happening between devices lower in the hierarchy.
 
+Maybe not, but performance requires some odd choices in this code.. :(
 
-On 18/04/17 04:24 PM, Jason Gunthorpe wrote:
-> Try and write a stacked map_sg function like you describe and you will
-> see how horrible it quickly becomes.
+> > Setting up the iommu is fairly expensive, so getting rid of the
+> > batching would kill performance..
+> 
+> When we're crossing device and host memory boundaries how much
+> batching is possible? As far as I can see you'll always be splitting
+> the sgl on these dma mapping boundaries.
 
-Yes, unfortunately, I have to agree with this statement completely.
+Splitting the sgl is different from iommu batching.
 
-> Since dma mapping is a performance path we must be careful not to
-> create intrinsic inefficiencies with otherwise nice layering :)
+As an example, an O_DIRECT write of 1 MB with a single 4K P2P page in
+the middle.
 
-Yeah, I'm also personally thinking your proposal is the way to go as
-well. Dan's injected ops suggestion is interesting but I can't see how
-it solves the issue completely. Your proposal is the only one that seems
-to be complete to me. It just has a few minor pain points which I've
-already described but are likely manageable and less than the pain
-stacked dma_ops creates.
+The optimum behavior is to allocate a 1MB-4K iommu range and fill it
+with the CPU memory. Then return a SGL with three entires, two
+pointing into the range and one to the p2p.
 
-Logan
+It is creating each range which tends to be expensive, so creating two
+ranges (or worse, if every SGL created a range it would be 255) is
+very undesired.
+
+Jason
