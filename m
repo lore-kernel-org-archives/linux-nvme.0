@@ -1,7 +1,7 @@
-From: dan.j.williams@intel.com (Dan Williams)
-Date: Tue, 18 Apr 2017 16:02:40 -0700
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Tue, 18 Apr 2017 17:03:59 -0600
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <462e318b-bcb8-7031-5b25-2c245086e077@deltatee.com>
+In-Reply-To: <20170418222440.GA27113@obsidianresearch.com>
 References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
  <1492381396.25766.43.camel@kernel.crashing.org>
  <20170418164557.GA7181@obsidianresearch.com>
@@ -10,58 +10,26 @@ References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
  <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
  <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
  <20170418210339.GA24257@obsidianresearch.com>
- <CAPcyv4h9n9Uzq4FAXR0ufieqvx5_txEwtnaaBWdxe-jF_XfTLg@mail.gmail.com>
- <20170418212258.GA26838@obsidianresearch.com>
- <CAPcyv4g5ifbpukthMXMro8qKdfoXAhftDpiwWWFCLZ4dK8JnnA@mail.gmail.com>
- <96198489-1af5-abcf-f23f-9a7e41aa17f7@deltatee.com>
- <CAPcyv4haUUs1Eew1PZTZkoGU4YFiHOuU93G+kG+CqfKzjz1gpw@mail.gmail.com>
- <5e68102d-e165-6ef3-8678-9bdb4f78382b@deltatee.com>
- <CAPcyv4jArrOBBih5jOU5wrC2imdo9VPzuQpfzepP3_QEwM-33g@mail.gmail.com>
- <462e318b-bcb8-7031-5b25-2c245086e077@deltatee.com>
-Message-ID: <CAPcyv4goxaeOFJjg3ior4zMRZmxuz=OZqd8Rb8zRmf1V2nDhAg@mail.gmail.com>
+ <9fc9352f-86fe-3a9e-e372-24b3346b518c@deltatee.com>
+ <20170418222440.GA27113@obsidianresearch.com>
+Message-ID: <d2d576e6-6bd6-22d7-6697-452104a503cd@deltatee.com>
 
-On Tue, Apr 18, 2017@3:56 PM, Logan Gunthorpe <logang@deltatee.com> wrote:
->
->
-> On 18/04/17 04:50 PM, Dan Williams wrote:
->> On Tue, Apr 18, 2017@3:48 PM, Logan Gunthorpe <logang@deltatee.com> wrote:
->>>
->>>
->>> On 18/04/17 04:28 PM, Dan Williams wrote:
->>>> Unlike the pci bus address offset case which I think is fundamental to
->>>> support since shipping archs do this today, I think it is ok to say
->>>> p2p is restricted to a single sgl that gets to talk to host memory or
->>>> a single device. That said, what's wrong with a p2p aware map_sg
->>>> implementation calling up to the host memory map_sg implementation on
->>>> a per sgl basis?
->>>
->>> I think Ben said they need mixed sgls and that is where this gets messy.
->>> I think I'd prefer this too given trying to enforce all sgs in a list to
->>> be one type or another could be quite difficult given the state of the
->>> scatterlist code.
->>>
->>>>> Also, what happens if p2p pages end up getting passed to a device that
->>>>> doesn't have the injected dma_ops?
->>>>
->>>> This goes back to limiting p2p to a single pci host bridge. If the p2p
->>>> capability is coordinated with the bridge rather than between the
->>>> individual devices then we have a central point to catch this case.
->>>
->>> Not really relevant. If these pages get to userspace (as people seem
->>> keen on doing) or a less than careful kernel driver they could easily
->>> get into the dma_map calls of devices that aren't even pci related (via
->>> an O_DIRECT operation on an incorrect file or something). The common
->>> code must reject these and can't rely on an injected dma op.
->>
->> No, we can't do that at get_user_pages() time, it will always need to
->> be up to the device driver to fail dma that it can't perform.
->
-> I'm not sure I follow -- are you agreeing with me? The dma_map_* needs
-> to fail for any dma it cannot perform. Which means either all dma_ops
-> providers need to be p2p aware or this logic has to be in dma_map_*
-> itself. My point being: you can't rely on an injected dma_op for some
-> devices to handle the fail case globally.
 
-Ah, I see what you're saying now. Yes, we do need something that
-guarantees any dma mapping implementation that gets a struct page that
-it does now know how to translate properly fails the request.
+
+On 18/04/17 04:24 PM, Jason Gunthorpe wrote:
+> Try and write a stacked map_sg function like you describe and you will
+> see how horrible it quickly becomes.
+
+Yes, unfortunately, I have to agree with this statement completely.
+
+> Since dma mapping is a performance path we must be careful not to
+> create intrinsic inefficiencies with otherwise nice layering :)
+
+Yeah, I'm also personally thinking your proposal is the way to go as
+well. Dan's injected ops suggestion is interesting but I can't see how
+it solves the issue completely. Your proposal is the only one that seems
+to be complete to me. It just has a few minor pain points which I've
+already described but are likely manageable and less than the pain
+stacked dma_ops creates.
+
+Logan
