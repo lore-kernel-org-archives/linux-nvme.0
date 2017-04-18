@@ -1,34 +1,113 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Tue, 18 Apr 2017 23:27:54 +0800
-Subject: NVMe APST on XPS 9550/Precison 5510
-In-Reply-To: <8a3fa43e140d445a80f53228b4beee3e@ausx13mpc120.AMER.DELL.COM>
-References: <CAAd53p4eGbYSNVgBGCxiL6ev6cVg+kwCZ3Kgt0bMiWt+2EKSjQ@mail.gmail.com>
- <8a3fa43e140d445a80f53228b4beee3e@ausx13mpc120.AMER.DELL.COM>
-Message-ID: <CAAd53p4Q2UAE8XjZrOxUQu=R6wkOoFcYOv1LC_JfDWDV=h1YXA@mail.gmail.com>
+From: hch@bombadil.infradead.org (Christoph Hellwig)
+Date: Tue, 18 Apr 2017 08:52:28 -0700
+Subject: blktrace: remove the unused block_rq_abort tracepoint
+In-Reply-To: <20170418155229.5977-1-hch@bombadil.infradead.org>
+References: <20170418155229.5977-1-hch@bombadil.infradead.org>
+Message-ID: <20170418155229.5977-23-hch@bombadil.infradead.org>
 
-Mario,
+From: Christoph Hellwig <hch@lst.de>
 
-On Tue, Apr 18, 2017@11:19 PM,  <Mario.Limonciello@dell.com> wrote:
-> Kai Heng,
->
->>Hi Andy,
->>The new quirk [1] in your nvme/power branch Mario pointd to me disables APST completely, but three different users reported that the NVMe works fine if the deepest state it enters is PS3 (comment #17, #18 and #19).
->>So instead of not enabling APST, can we have a quirk to target specific power state? Users can still get nice powersaving without dead NVMe this way.
->>Also, another user has the same issue on Lenovo ThinkPad X270 (comment #11 and #13), it uses Toshiba NVMe instead of Samsung.
->>
->>[1] https://git.kernel.org/pub/scm/linux/kernel/git/luto/linux.git/commit/?h=nvme/power&id=37294ae0e942e9dc56e869af23cc6face284dec8
->
-> Presumably you're referring to this bug? https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1678184
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ include/trace/events/block.h | 44 ++++++++++----------------------------------
+ kernel/trace/blktrace.c      |  9 ---------
+ 2 files changed, 10 insertions(+), 43 deletions(-)
 
-Thanks, I forgot the most important bug link...
-
->
-> That's some interesting data points that you have found to share with other machines and drive combinations with problems as well
-> as limiting the deepest state to enter.
->
-> More and more people will be testing this since Ubuntu 17.04 is out with this patch included.
-> At least until the problems related to PS4 being entered are properly root caused on the affected combinations, I wonder if it would
-> be better to default to the more widely safe PS3 and whitelist combinations that PS4 is safe?
-
-IMO it's a pretty good default for most users. If the NVMe doesn't
-lie, PS3 already uses less than 0.1 W.
+diff --git a/include/trace/events/block.h b/include/trace/events/block.h
+index a88ed13446ff..99ed69fad041 100644
+--- a/include/trace/events/block.h
++++ b/include/trace/events/block.h
+@@ -61,7 +61,16 @@ DEFINE_EVENT(block_buffer, block_dirty_buffer,
+ 	TP_ARGS(bh)
+ );
+ 
+-DECLARE_EVENT_CLASS(block_rq_with_error,
++/**
++ * block_rq_requeue - place block IO request back on a queue
++ * @q: queue holding operation
++ * @rq: block IO operation request
++ *
++ * The block operation request @rq is being placed back into queue
++ * @q.  For some reason the request was not completed and needs to be
++ * put back in the queue.
++ */
++TRACE_EVENT(block_rq_requeue,
+ 
+ 	TP_PROTO(struct request_queue *q, struct request *rq),
+ 
+@@ -94,39 +103,6 @@ DECLARE_EVENT_CLASS(block_rq_with_error,
+ );
+ 
+ /**
+- * block_rq_abort - abort block operation request
+- * @q: queue containing the block operation request
+- * @rq: block IO operation request
+- *
+- * Called immediately after pending block IO operation request @rq in
+- * queue @q is aborted. The fields in the operation request @rq
+- * can be examined to determine which device and sectors the pending
+- * operation would access.
+- */
+-DEFINE_EVENT(block_rq_with_error, block_rq_abort,
+-
+-	TP_PROTO(struct request_queue *q, struct request *rq),
+-
+-	TP_ARGS(q, rq)
+-);
+-
+-/**
+- * block_rq_requeue - place block IO request back on a queue
+- * @q: queue holding operation
+- * @rq: block IO operation request
+- *
+- * The block operation request @rq is being placed back into queue
+- * @q.  For some reason the request was not completed and needs to be
+- * put back in the queue.
+- */
+-DEFINE_EVENT(block_rq_with_error, block_rq_requeue,
+-
+-	TP_PROTO(struct request_queue *q, struct request *rq),
+-
+-	TP_ARGS(q, rq)
+-);
+-
+-/**
+  * block_rq_complete - block IO operation completed by device driver
+  * @q: queue containing the block operation request
+  * @rq: block operations request
+diff --git a/kernel/trace/blktrace.c b/kernel/trace/blktrace.c
+index b2058a7f94bd..9f3624dadb09 100644
+--- a/kernel/trace/blktrace.c
++++ b/kernel/trace/blktrace.c
+@@ -716,12 +716,6 @@ static void blk_add_trace_rq(struct request_queue *q, struct request *rq,
+ 			rq->cmd_flags, what, rq->errors, 0, NULL);
+ }
+ 
+-static void blk_add_trace_rq_abort(void *ignore,
+-				   struct request_queue *q, struct request *rq)
+-{
+-	blk_add_trace_rq(q, rq, blk_rq_bytes(rq), BLK_TA_ABORT);
+-}
+-
+ static void blk_add_trace_rq_insert(void *ignore,
+ 				    struct request_queue *q, struct request *rq)
+ {
+@@ -974,8 +968,6 @@ static void blk_register_tracepoints(void)
+ {
+ 	int ret;
+ 
+-	ret = register_trace_block_rq_abort(blk_add_trace_rq_abort, NULL);
+-	WARN_ON(ret);
+ 	ret = register_trace_block_rq_insert(blk_add_trace_rq_insert, NULL);
+ 	WARN_ON(ret);
+ 	ret = register_trace_block_rq_issue(blk_add_trace_rq_issue, NULL);
+@@ -1028,7 +1020,6 @@ static void blk_unregister_tracepoints(void)
+ 	unregister_trace_block_rq_requeue(blk_add_trace_rq_requeue, NULL);
+ 	unregister_trace_block_rq_issue(blk_add_trace_rq_issue, NULL);
+ 	unregister_trace_block_rq_insert(blk_add_trace_rq_insert, NULL);
+-	unregister_trace_block_rq_abort(blk_add_trace_rq_abort, NULL);
+ 
+ 	tracepoint_synchronize_unregister();
+ }
+-- 
+2.11.0
