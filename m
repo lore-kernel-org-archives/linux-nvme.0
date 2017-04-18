@@ -1,103 +1,30 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 18 Apr 2017 17:32:15 -0600
-Subject: [PATCH] nvmet: convert from kmap to nvmet_copy_from_sgl
-Message-ID: <1492558335-2845-1-git-send-email-logang@deltatee.com>
+From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
+Date: Wed, 19 Apr 2017 08:46:09 +1000
+Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
+In-Reply-To: <CAPcyv4izLa2vw12ysvVfd=ysaMKcASNFm+=CaqDKhnPY9B5OJg@mail.gmail.com>
+References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
+ <1492381396.25766.43.camel@kernel.crashing.org>
+ <20170418164557.GA7181@obsidianresearch.com>
+ <CAPcyv4izLa2vw12ysvVfd=ysaMKcASNFm+=CaqDKhnPY9B5OJg@mail.gmail.com>
+Message-ID: <1492555569.25766.99.camel@kernel.crashing.org>
 
-This is safer as it doesn't rely on the data being stored in
-a single page in an sgl.
+On Tue, 2017-04-18@10:27 -0700, Dan Williams wrote:
+> > FWIW, RDMA probably wouldn't want to use a p2mem device either, we
+> > already have APIs that map BAR memory to user space, and would like to
+> > keep using them. A 'enable P2P for bar' helper function sounds better
+> > to me.
+> 
+> ...and I think it's not a helper function as much as asking the bus
+> provider "can these two device dma to each other". The "helper" is the
+> dma api redirecting through a software-iommu that handles bus address
+> translation differently than it would handle host memory dma mapping.
 
-It also aids our effort to start phasing out users of sg_page. See [1].
+Do we even need tat function ? The dma_ops have a dma_supported()
+call...
 
-For this we kmalloc some memory, copy to it and free at the end. Note:
-we can't allocate this memory on the stack as the kbuild test robot
-reports some frame size overflows on i386.
+If we have those override ops built into the "dma_target" object,
+then these things can make that decision knowing both the source
+and target device.
 
-[1] https://lwn.net/Articles/720053/
-
-Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
-Cc: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/target/fabrics-cmd.c | 32 +++++++++++++++++++++++++-------
- 1 file changed, 25 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
-index 8bd022af..2e0ab10 100644
---- a/drivers/nvme/target/fabrics-cmd.c
-+++ b/drivers/nvme/target/fabrics-cmd.c
-@@ -122,7 +122,15 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 	struct nvmet_ctrl *ctrl = NULL;
- 	u16 status = 0;
- 
--	d = kmap(sg_page(req->sg)) + req->sg->offset;
-+	d = kmalloc(sizeof(*d), GFP_KERNEL);
-+	if (!d) {
-+		status = NVME_SC_INTERNAL;
-+		goto complete;
-+	}
-+
-+	status = nvmet_copy_from_sgl(req, 0, d, sizeof(*d));
-+	if (status)
-+		goto out;
- 
- 	/* zero out initial completion result, assign values as needed */
- 	req->rsp->result.u32 = 0;
-@@ -143,7 +151,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 	}
- 
- 	status = nvmet_alloc_ctrl(d->subsysnqn, d->hostnqn, req,
--			le32_to_cpu(c->kato), &ctrl);
-+				  le32_to_cpu(c->kato), &ctrl);
- 	if (status)
- 		goto out;
- 
-@@ -158,7 +166,8 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
- 	req->rsp->result.u16 = cpu_to_le16(ctrl->cntlid);
- 
- out:
--	kunmap(sg_page(req->sg));
-+	kfree(d);
-+complete:
- 	nvmet_req_complete(req, status);
- }
- 
-@@ -170,7 +179,15 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
- 	u16 qid = le16_to_cpu(c->qid);
- 	u16 status = 0;
- 
--	d = kmap(sg_page(req->sg)) + req->sg->offset;
-+	d = kmalloc(sizeof(*d), GFP_KERNEL);
-+	if (!d) {
-+		status = NVME_SC_INTERNAL;
-+		goto complete;
-+	}
-+
-+	status = nvmet_copy_from_sgl(req, 0, d, sizeof(*d));
-+	if (status)
-+		goto out;
- 
- 	/* zero out initial completion result, assign values as needed */
- 	req->rsp->result.u32 = 0;
-@@ -183,8 +200,8 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
- 	}
- 
- 	status = nvmet_ctrl_find_get(d->subsysnqn, d->hostnqn,
--			le16_to_cpu(d->cntlid),
--			req, &ctrl);
-+				     le16_to_cpu(d->cntlid),
-+				     req, &ctrl);
- 	if (status)
- 		goto out;
- 
-@@ -205,7 +222,8 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
- 	pr_info("adding queue %d to ctrl %d.\n", qid, ctrl->cntlid);
- 
- out:
--	kunmap(sg_page(req->sg));
-+	kfree(d);
-+complete:
- 	nvmet_req_complete(req, status);
- 	return;
- 
--- 
-2.1.4
+Cheers,
+Ben.
