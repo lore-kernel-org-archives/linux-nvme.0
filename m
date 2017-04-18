@@ -1,19 +1,24 @@
-From: roger.pau@citrix.com (Roger Pau =?iso-8859-1?Q?Monn=E9?=)
-Date: Tue, 18 Apr 2017 16:03:21 +0100
-Subject: [PATCH 17/25] blk-mq: remove the error argument to
- blk_mq_complete_request
-In-Reply-To: <20170406153944.10058-18-hch@lst.de>
+From: konrad.wilk@oracle.com (Konrad Rzeszutek Wilk)
+Date: Tue, 18 Apr 2017 11:05:33 -0400
+Subject: [PATCH 16/25] xen-blkfront: don't use req->errors
+In-Reply-To: <20170418150051.muglaxwfydaxypd6@dhcp-3-128.uk.xensource.com>
 References: <20170406153944.10058-1-hch@lst.de>
- <20170406153944.10058-18-hch@lst.de>
-Message-ID: <20170418150321.s7yqpt63reutbs24@dhcp-3-128.uk.xensource.com>
+ <20170406153944.10058-17-hch@lst.de>
+ <20170418150051.muglaxwfydaxypd6@dhcp-3-128.uk.xensource.com>
+Message-ID: <20170418150533.GA12001@char.us.oracle.com>
 
-On Thu, Apr 06, 2017@05:39:36PM +0200, Christoph Hellwig wrote:
-> Now that we always have a ->complete callback we can remove the direct
-> call to blk_mq_end_request, as well as the error argument to
-> blk_mq_complete_request.
+On Tue, Apr 18, 2017@04:00:51PM +0100, Roger Pau Monn? wrote:
+> On Thu, Apr 06, 2017@05:39:35PM +0200, Christoph Hellwig wrote:
+> > xen-blkfron is the last users using rq->errros for passing back error to
+> > blk-mq, and I'd like to get rid of that.  In the longer run the driver
+> > should be moving more of the completion processing into .complete, but
+> > this is the minimal change to move forward for now.
+> > 
+> > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Acked-by: Roger Pau Monn? <roger.pau at citrix.com>
+> 
 
-For blkfront:
+Reviewed-by: Konrad Rzeszutek Wilk <konrad.wilk at oracle.com>
 
-Acked-by: Roger Pau Monn? <roger.pau at citrix.com>
+Thanks!
