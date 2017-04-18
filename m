@@ -1,46 +1,103 @@
-From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
-Date: Tue, 18 Apr 2017 17:21:59 -0600
-Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <CAPcyv4gQxifHcKLv0CZZoXJWz=rtzv-vGoofkek6NxRABd4XyA@mail.gmail.com>
-References: <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
- <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
- <20170418210339.GA24257@obsidianresearch.com>
- <CAPcyv4h9n9Uzq4FAXR0ufieqvx5_txEwtnaaBWdxe-jF_XfTLg@mail.gmail.com>
- <20170418212258.GA26838@obsidianresearch.com>
- <CAPcyv4g5ifbpukthMXMro8qKdfoXAhftDpiwWWFCLZ4dK8JnnA@mail.gmail.com>
- <96198489-1af5-abcf-f23f-9a7e41aa17f7@deltatee.com>
- <CAPcyv4haUUs1Eew1PZTZkoGU4YFiHOuU93G+kG+CqfKzjz1gpw@mail.gmail.com>
- <20170418224225.GB27113@obsidianresearch.com>
- <CAPcyv4gQxifHcKLv0CZZoXJWz=rtzv-vGoofkek6NxRABd4XyA@mail.gmail.com>
-Message-ID: <20170418232159.GA28477@obsidianresearch.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Tue, 18 Apr 2017 17:32:15 -0600
+Subject: [PATCH] nvmet: convert from kmap to nvmet_copy_from_sgl
+Message-ID: <1492558335-2845-1-git-send-email-logang@deltatee.com>
 
-On Tue, Apr 18, 2017@03:51:27PM -0700, Dan Williams wrote:
-> > This really seems like much less trouble than trying to wrapper all
-> > the arch's dma ops, and doesn't have the wonky restrictions.
-> 
-> I don't think the root bus iommu drivers have any business knowing or
-> caring about dma happening between devices lower in the hierarchy.
+This is safer as it doesn't rely on the data being stored in
+a single page in an sgl.
 
-Maybe not, but performance requires some odd choices in this code.. :(
+It also aids our effort to start phasing out users of sg_page. See [1].
 
-> > Setting up the iommu is fairly expensive, so getting rid of the
-> > batching would kill performance..
-> 
-> When we're crossing device and host memory boundaries how much
-> batching is possible? As far as I can see you'll always be splitting
-> the sgl on these dma mapping boundaries.
+For this we kmalloc some memory, copy to it and free at the end. Note:
+we can't allocate this memory on the stack as the kbuild test robot
+reports some frame size overflows on i386.
 
-Splitting the sgl is different from iommu batching.
+[1] https://lwn.net/Articles/720053/
 
-As an example, an O_DIRECT write of 1 MB with a single 4K P2P page in
-the middle.
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Cc: Christoph Hellwig <hch at lst.de>
+Cc: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/fabrics-cmd.c | 32 +++++++++++++++++++++++++-------
+ 1 file changed, 25 insertions(+), 7 deletions(-)
 
-The optimum behavior is to allocate a 1MB-4K iommu range and fill it
-with the CPU memory. Then return a SGL with three entires, two
-pointing into the range and one to the p2p.
-
-It is creating each range which tends to be expensive, so creating two
-ranges (or worse, if every SGL created a range it would be 255) is
-very undesired.
-
-Jason
+diff --git a/drivers/nvme/target/fabrics-cmd.c b/drivers/nvme/target/fabrics-cmd.c
+index 8bd022af..2e0ab10 100644
+--- a/drivers/nvme/target/fabrics-cmd.c
++++ b/drivers/nvme/target/fabrics-cmd.c
+@@ -122,7 +122,15 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 	struct nvmet_ctrl *ctrl = NULL;
+ 	u16 status = 0;
+ 
+-	d = kmap(sg_page(req->sg)) + req->sg->offset;
++	d = kmalloc(sizeof(*d), GFP_KERNEL);
++	if (!d) {
++		status = NVME_SC_INTERNAL;
++		goto complete;
++	}
++
++	status = nvmet_copy_from_sgl(req, 0, d, sizeof(*d));
++	if (status)
++		goto out;
+ 
+ 	/* zero out initial completion result, assign values as needed */
+ 	req->rsp->result.u32 = 0;
+@@ -143,7 +151,7 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 	}
+ 
+ 	status = nvmet_alloc_ctrl(d->subsysnqn, d->hostnqn, req,
+-			le32_to_cpu(c->kato), &ctrl);
++				  le32_to_cpu(c->kato), &ctrl);
+ 	if (status)
+ 		goto out;
+ 
+@@ -158,7 +166,8 @@ static void nvmet_execute_admin_connect(struct nvmet_req *req)
+ 	req->rsp->result.u16 = cpu_to_le16(ctrl->cntlid);
+ 
+ out:
+-	kunmap(sg_page(req->sg));
++	kfree(d);
++complete:
+ 	nvmet_req_complete(req, status);
+ }
+ 
+@@ -170,7 +179,15 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+ 	u16 qid = le16_to_cpu(c->qid);
+ 	u16 status = 0;
+ 
+-	d = kmap(sg_page(req->sg)) + req->sg->offset;
++	d = kmalloc(sizeof(*d), GFP_KERNEL);
++	if (!d) {
++		status = NVME_SC_INTERNAL;
++		goto complete;
++	}
++
++	status = nvmet_copy_from_sgl(req, 0, d, sizeof(*d));
++	if (status)
++		goto out;
+ 
+ 	/* zero out initial completion result, assign values as needed */
+ 	req->rsp->result.u32 = 0;
+@@ -183,8 +200,8 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+ 	}
+ 
+ 	status = nvmet_ctrl_find_get(d->subsysnqn, d->hostnqn,
+-			le16_to_cpu(d->cntlid),
+-			req, &ctrl);
++				     le16_to_cpu(d->cntlid),
++				     req, &ctrl);
+ 	if (status)
+ 		goto out;
+ 
+@@ -205,7 +222,8 @@ static void nvmet_execute_io_connect(struct nvmet_req *req)
+ 	pr_info("adding queue %d to ctrl %d.\n", qid, ctrl->cntlid);
+ 
+ out:
+-	kunmap(sg_page(req->sg));
++	kfree(d);
++complete:
+ 	nvmet_req_complete(req, status);
+ 	return;
+ 
+-- 
+2.1.4
