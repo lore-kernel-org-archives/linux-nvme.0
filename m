@@ -1,8 +1,11 @@
-From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
-Date: Tue, 18 Apr 2017 16:42:25 -0600
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Tue, 18 Apr 2017 16:48:40 -0600
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
 In-Reply-To: <CAPcyv4haUUs1Eew1PZTZkoGU4YFiHOuU93G+kG+CqfKzjz1gpw@mail.gmail.com>
-References: <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
+References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
+ <1492381396.25766.43.camel@kernel.crashing.org>
+ <20170418164557.GA7181@obsidianresearch.com>
+ <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
  <20170418190138.GH7181@obsidianresearch.com>
  <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
  <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
@@ -12,36 +15,34 @@ References: <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
  <CAPcyv4g5ifbpukthMXMro8qKdfoXAhftDpiwWWFCLZ4dK8JnnA@mail.gmail.com>
  <96198489-1af5-abcf-f23f-9a7e41aa17f7@deltatee.com>
  <CAPcyv4haUUs1Eew1PZTZkoGU4YFiHOuU93G+kG+CqfKzjz1gpw@mail.gmail.com>
-Message-ID: <20170418224225.GB27113@obsidianresearch.com>
+Message-ID: <5e68102d-e165-6ef3-8678-9bdb4f78382b@deltatee.com>
 
-On Tue, Apr 18, 2017@03:28:17PM -0700, Dan Williams wrote:
 
+
+On 18/04/17 04:28 PM, Dan Williams wrote:
 > Unlike the pci bus address offset case which I think is fundamental to
-> support since shipping archs do this toda
+> support since shipping archs do this today, I think it is ok to say
+> p2p is restricted to a single sgl that gets to talk to host memory or
+> a single device. That said, what's wrong with a p2p aware map_sg
+> implementation calling up to the host memory map_sg implementation on
+> a per sgl basis?
 
-But we can support this by modifying those arch's unique dma_ops
-directly.
+I think Ben said they need mixed sgls and that is where this gets messy.
+I think I'd prefer this too given trying to enforce all sgs in a list to
+be one type or another could be quite difficult given the state of the
+scatterlist code.
 
-Eg as I explained, my p2p_same_segment_map_page() helper concept would
-do the offset adjustment for same-segement DMA.
+>> Also, what happens if p2p pages end up getting passed to a device that
+>> doesn't have the injected dma_ops?
+> 
+> This goes back to limiting p2p to a single pci host bridge. If the p2p
+> capability is coordinated with the bridge rather than between the
+> individual devices then we have a central point to catch this case.
 
-If PPC calls that in their IOMMU drivers then they will have proper
-support for this basic p2p, and the right framework to move on to more
-advanced cases of p2p.
+Not really relevant. If these pages get to userspace (as people seem
+keen on doing) or a less than careful kernel driver they could easily
+get into the dma_map calls of devices that aren't even pci related (via
+an O_DIRECT operation on an incorrect file or something). The common
+code must reject these and can't rely on an injected dma op.
 
-This really seems like much less trouble than trying to wrapper all
-the arch's dma ops, and doesn't have the wonky restrictions.
-
-> I think it is ok to say p2p is restricted to a single sgl that gets
-> to talk to host memory or a single device.
-
-RDMA and GPU would be sad with this restriction...
-
-> That said, what's wrong with a p2p aware map_sg implementation
-> calling up to the host memory map_sg implementation on a per sgl
-> basis?
-
-Setting up the iommu is fairly expensive, so getting rid of the
-batching would kill performance..
-
-Jason
+Logan
