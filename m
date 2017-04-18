@@ -1,37 +1,101 @@
-From: helen.koike@collabora.com (Helen Koike)
-Date: Mon, 17 Apr 2017 20:20:51 -0300
-Subject: [PATCH v8] nvme: improve performance for virtual NVMe devices
-In-Reply-To: <20170417230140.GA16224@localhost.localdomain>
-References: <20170331070128.GA28852@infradead.org>
- <1491839467-11008-1-git-send-email-helen.koike@collabora.com>
- <9a406abf-1f39-003d-2863-144c4a263604@collabora.com>
- <20170417230140.GA16224@localhost.localdomain>
-Message-ID: <96f664de-c73c-7b9f-a4f1-afe2eb91f6e4@collabora.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Tue, 18 Apr 2017 08:32:03 +0800
+Subject: [PATCH V2] nvme: make use of nvme error status codes in block
+ layer
+In-Reply-To: <1492447519.3123.6.camel@linux.intel.com>
+References: <1492434939-12308-1-git-send-email-guanjunxiong@huawei.com>
+ <1492447519.3123.6.camel@linux.intel.com>
+Message-ID: <2620fed2-7635-8f09-8716-bb89b404d6d5@huawei.com>
 
+Hi,Jay:
 
-
-On 2017-04-17 08:01 PM, Keith Busch wrote:
-> On Fri, Apr 14, 2017@03:10:30PM -0300, Helen Koike wrote:
->> + Add missing maintainers from scripts/get_maintainer.pl in the email thread
+On 2017/4/18 0:45, J Freyensee wrote:
+> On Mon, 2017-04-17@21:15 +0800, Guan Junxiong wrote:
+>> From: Junxiong Guan <guanjunxiong at huawei.com>
 >>
->> Hi,
+>> For more detailed information about nvme error status when ending
+>> blk_mq request,some of nvme error status codes can be categorized into
+>> different errnos explicitly.This patch makes conversion from those nvme
+>> error status to errno detail so that block layer can make use of the
+>> detailed error information.
+> 
+> 
+> This is a good list but it's not the complete list.  It also seems to be
+> somewhat arbitrary list of chosen NVMe error codes to convert, with respect
+> to include/linux/nvme.h, which is a little tedious to track.
+
+You are right it's not the complete list. Actually, some of the error codes
+such as NVME_SC_FIRMWARE_SLOT can not be converted to errno properly, so it
+is converted to EIO by default.
+
+> How about fold the conversion based on how the NVMe errors are grouped in
+> nvme.h?  So there would be one patch for:
+> 
+> 	/*
+> 	 * Generic Command Status:
+> 	 */
+> 
+> one patch for:
+> 
+> 	/*
+> 	 * Command Specific Status:
+> 	 */
+> 
+> etc...
+> 
+> This would make it easier to track and maintain what NVMe errors have been
+> accounted for the errno conversion between submitted patches and what is
+> implemented in the code.
+> 
+
+
+That's a good suggestion I will alter this patch folding the conversion based
+on how the NVMe errors and resubmit.
+
+>> ---
+>>  drivers/nvme/host/core.c | 29 +++++++++++++++++++++++++++++
+>>  1 file changed, 29 insertions(+)
 >>
->> I would like to know if it would be possible to get this patch for kernel
->> 4.12.
->> Should I send a pull request? Or do you usually get the patch from the email
->> thread?
->
-> Hi Helen,
->
-> This looks good to me. I pulled this into a branch for the next merge
-> window here:
-
-Thanks :)
-
->
-> http://git.infradead.org/nvme.git/shortlog/refs/heads/for-next
->
-> There's only one other commit at the moment in addition to yours, so
-> I'll just need to make sure we've got everything we want for 4.12 before
-> submitting our next pull request.
->
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index 9bf758e3c911..95180ac0c710 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -73,6 +73,35 @@ static int nvme_error_status(struct request *req)
+>>  		return 0;
+>>  	case NVME_SC_CAP_EXCEEDED:
+>>  		return -ENOSPC;
+>> +	case NVME_SC_READ_ONLY:
+>> +	case NVME_SC_ACCESS_DENIED:
+>> +		return -EACCES;
+>> +	case NVME_SC_LBA_RANGE:
+>> +		return -EFAULT;
+>> +	case NVME_SC_CONNECT_CTRL_BUSY:
+>> +		return -EBUSY;
+>> +	case NVME_SC_INVALID_OPCODE:
+>> +	case NVME_SC_INVALID_FIELD:
+>> +	case NVME_SC_INVALID_NS:
+>> +	case NVME_SC_SGL_INVALID_LAST:
+>> +	case NVME_SC_SGL_INVALID_COUNT:
+>> +	case NVME_SC_SGL_INVALID_DATA:
+>> +	case NVME_SC_SGL_INVALID_METADATA:
+>> +	case NVME_SC_SGL_INVALID_TYPE:
+>> +	case NVME_SC_SGL_INVALID_OFFSET:
+>> +	case NVME_SC_SGL_INVALID_SUBTYPE:
+>> +	case NVME_SC_CQ_INVALID:
+>> +	case NVME_SC_QID_INVALID:
+>> +	case NVME_SC_QUEUE_SIZE:
+>> +	case NVME_SC_FIRMWARE_SLOT:
+>> +	case NVME_SC_FIRMWARE_IMAGE:
+>> +	case NVME_SC_INVALID_VECTOR:
+>> +	case NVME_SC_INVALID_LOG_PAGE:
+>> +	case NVME_SC_INVALID_FORMAT:
+>> +	case NVME_SC_CTRL_LIST_INVALID:
+>> +		return -EINVAL;
+>> +	case NVME_SC_CMD_SEQ_ERROR:
+>> +		return -EPROTO;
+>>  	default:
+>>  		return -EIO;
+>>  	}
+> 
+> .
+> 
