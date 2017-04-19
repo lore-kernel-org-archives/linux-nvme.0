@@ -1,32 +1,39 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 19 Apr 2017 21:27:03 +0200
-Subject: [PATCH 18/23] block: add a error_count field to struct request
+Date: Wed, 19 Apr 2017 21:27:04 +0200
+Subject: [PATCH 19/23] floppy: switch from req->errors to req->error_count
 In-Reply-To: <20170419192708.22098-1-hch@lst.de>
 References: <20170419192708.22098-1-hch@lst.de>
-Message-ID: <20170419192708.22098-19-hch@lst.de>
-
-This is for the legacy floppy and ataflop drivers that currently abuse
-->errors for this purpose.  It's stashed away in a union to not grow
-the struct size, the other fields are either used by modern drivers
-for different purposes or the I/O scheduler before queing the I/O
-to drivers.
+Message-ID: <20170419192708.22098-20-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- include/linux/blkdev.h | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/block/floppy.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index d8bcd51b8a47..e8006abce8b6 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -175,6 +175,7 @@ struct request {
- 		struct rb_node rb_node;	/* sort/lookup */
- 		struct bio_vec special_vec;
- 		void *completion_data;
-+		int error_count; /* for legacy drivers, don't use */
- 	};
+diff --git a/drivers/block/floppy.c b/drivers/block/floppy.c
+index ce102ec47ef2..60d4c7653178 100644
+--- a/drivers/block/floppy.c
++++ b/drivers/block/floppy.c
+@@ -2805,8 +2805,10 @@ static int set_next_request(void)
+ 			fdc_queue = 0;
+ 		if (q) {
+ 			current_req = blk_fetch_request(q);
+-			if (current_req)
++			if (current_req) {
++				current_req->error_count = 0;
+ 				break;
++			}
+ 		}
+ 	} while (fdc_queue != old_pos);
  
- 	/*
+@@ -2866,7 +2868,7 @@ static void redo_fd_request(void)
+ 		_floppy = floppy_type + DP->autodetect[DRS->probed_format];
+ 	} else
+ 		probing = 0;
+-	errors = &(current_req->errors);
++	errors = &(current_req->error_count);
+ 	tmp = make_raw_rw_request();
+ 	if (tmp < 2) {
+ 		request_done(tmp);
 -- 
 2.11.0
