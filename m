@@ -1,9 +1,8 @@
-From: dan.j.williams@intel.com (Dan Williams)
-Date: Wed, 19 Apr 2017 11:30:06 -0700
+From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
+Date: Wed, 19 Apr 2017 12:32:47 -0600
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <99a22044-8f15-f381-19ee-e239e9d2da29@deltatee.com>
-References: <20170418164557.GA7181@obsidianresearch.com>
- <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
+In-Reply-To: <b0234176-e86b-6e7c-686d-b4fef719aad7@deltatee.com>
+References: <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
  <20170418190138.GH7181@obsidianresearch.com>
  <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
  <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
@@ -11,44 +10,89 @@ References: <20170418164557.GA7181@obsidianresearch.com>
  <1492564806.25766.124.camel@kernel.crashing.org>
  <20170419155557.GA8497@obsidianresearch.com>
  <4899b011-bdfb-18d8-ef00-33a1516216a6@deltatee.com>
- <CAPcyv4iJ9H8Ykwnjqa2R_D1qG6PsSQmi=QxYH-rKLF_ihrsWyw@mail.gmail.com>
- <20170419173225.GA11255@redhat.com>
- <CAPcyv4gxBgVsbSez7_dZYkZojUWU0X0txs7FxiJ+Z3xsMt6TqQ@mail.gmail.com>
- <c75b6f6e-2814-1be3-d044-e153849263ce@deltatee.com>
- <99a22044-8f15-f381-19ee-e239e9d2da29@deltatee.com>
-Message-ID: <CAPcyv4hPT3hEWC+q+DvQ_1o3rjeXsKmcRZT4GdKj9wFFVhdFpg@mail.gmail.com>
+ <20170419171451.GA10020@obsidianresearch.com>
+ <b0234176-e86b-6e7c-686d-b4fef719aad7@deltatee.com>
+Message-ID: <20170419183247.GA13716@obsidianresearch.com>
 
-On Wed, Apr 19, 2017@11:19 AM, Logan Gunthorpe <logang@deltatee.com> wrote:
->
->
-> On 19/04/17 12:11 PM, Logan Gunthorpe wrote:
->>
->>
->> On 19/04/17 11:41 AM, Dan Williams wrote:
->>> No, not quite ;-). I still don't think we should require the non-HMM
->>> to pass NULL for all the HMM arguments. What I like about Logan's
->>> proposal is to have a separate create and register steps dev_pagemap.
->>> That way call paths that don't care about HMM specifics can just turn
->>> around and register the vanilla dev_pagemap.
->>
->> Would you necessarily even need a create step? I was thinking more along
->> the lines that struct dev_pagemap _could_ just be a member in another
->> structure. The caller would set the attributes they needed and pass it
->> to devm_memremap. (Similar to how we commonly do things with struct
->> device, et al). Potentially, that could also get rid of the need for the
->> *data pointer HMM is using to get back the struct hmm_devmem seeing
->> container_of could be used instead.
->
-> Also, now that I've thought about it a little more, it _may_ be that
-> many or all of the hmm specific fields in dev_pagemap could move to a
-> containing struct too...
+On Wed, Apr 19, 2017@12:01:39PM -0600, Logan Gunthorpe wrote:
 
-Yes, that's already how we handle struct page_map, it's an internal
-implementation detail of devm_memremap_pages().
+> I'm just spit balling here but if HMM wanted to use unaddressable memory
+> as a DMA target, it could set that function to create a window ine gpu
+> memory, then call the pci_p2p_same_segment and return the result as the
+> dma address.
 
-Letting others users do the container_of() arrangement means that
-struct page_map needs to become public and move into struct
-dev_pagemap directly.
+Not entirely, it would have to call through the whole process
+including the arch_p2p_cross_segment()..
 
-...I think that encapsulation loss is worth it for the gain of clearly
-separating the HMM-case from the base case.
+Maybe we can start down the road of using ops for more iommu steps
+with something like this as the helper:
+
+dma_addr_t dma_map_pa(struct device *initiator, struct page *page,
+                      void *data)
+{
+         struct device *completer = get_p2p_completer(page);
+	 dma_addr_t pa;
+
+         if (IS_ERR(completer))
+	       return SYSTEM_MEMORY;
+	       // Or maybe ?
+	       return init_ops->dma_map_pa(..);
+
+	 // Try the generic method
+	 pa = pci_p2p_same_segment(dev, p2p_src, page);
+	 if (pa != ERROR)
+	       goto out;
+
+         // Try the arch specific helper
+	 const struct dma_map_ops *comp_ops = get_dma_ops(completer);
+	 const struct dma_map_ops *init_ops = get_dma_ops(initiator);
+
+         /* FUTURE: Let something translate a HMM page into a DMA'ble
+   	    page, eg by mapping it into a GPU window. Maybe this
+	    callback lives in devmap ? */
+	 page = comp_ops->translate_dma_page(completer, page);
+
+         /* New dma_map_op is the same as arch_p2p_cross_segment in
+	    prior version. Any arch specific data needed to program
+	    the iommu flows through data */
+	 pa = init_ops->p2p_cross_segment_map(completer, inititator, page, data);
+
+out:
+	 device_put(completer);
+	 return pa;
+}
+
+// map_sg op:
+for (each sgl) {
+    struct page *page = sg_page(s);
+    struct arch_iommu_data data = {}; // pass through to ops->p2p_cross_segment
+    dma_addr_t pa;
+
+    pa = dma_map_pa(dev, page, &data)
+    if (pa == ERROR)
+        // fail
+
+    if (!data.needs_iommu) {
+        // Insert PA directly into the result SGL
+        sg++;
+        continue;
+    }
+
+    // Else pa & data describe how to setup the iommu
+}
+
+> > dma_addr_t pci_p2p_same_segment(struct device *initator,
+> >                                 struct device *completer,
+> > 				struct page *page)
+> 
+> I'm not sure I like the name pci_p2p_same_segment. It reads as though
+> it's only checking if the devices are not the same segment.
+
+Well, that is exactly what it is doing. If it succeeds then the caller
+knows the DMA will not flow outside the segment and no iommu setup/etc
+is required.
+
+That function cannot be expanded to include generic cross-segment
+traffic, a new function would be needed..
+
+Jason
