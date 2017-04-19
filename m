@@ -1,111 +1,63 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 19 Apr 2017 21:27:07 +0200
-Subject: [PATCH 22/23] blktrace: remove the unused block_rq_abort tracepoint
-In-Reply-To: <20170419192708.22098-1-hch@lst.de>
-References: <20170419192708.22098-1-hch@lst.de>
-Message-ID: <20170419192708.22098-23-hch@lst.de>
+From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
+Date: Wed, 19 Apr 2017 13:31:54 -0600
+Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
+In-Reply-To: <21e8099a-d19d-7df0-682d-627d8b81dfde@deltatee.com>
+References: <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
+ <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
+ <20170418210339.GA24257@obsidianresearch.com>
+ <1492564806.25766.124.camel@kernel.crashing.org>
+ <20170419155557.GA8497@obsidianresearch.com>
+ <4899b011-bdfb-18d8-ef00-33a1516216a6@deltatee.com>
+ <20170419171451.GA10020@obsidianresearch.com>
+ <b0234176-e86b-6e7c-686d-b4fef719aad7@deltatee.com>
+ <20170419183247.GA13716@obsidianresearch.com>
+ <21e8099a-d19d-7df0-682d-627d8b81dfde@deltatee.com>
+Message-ID: <20170419193154.GA14340@obsidianresearch.com>
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- include/trace/events/block.h | 44 ++++++++++----------------------------------
- kernel/trace/blktrace.c      |  9 ---------
- 2 files changed, 10 insertions(+), 43 deletions(-)
+On Wed, Apr 19, 2017@01:02:49PM -0600, Logan Gunthorpe wrote:
+> 
+> 
+> On 19/04/17 12:32 PM, Jason Gunthorpe wrote:
+> > On Wed, Apr 19, 2017@12:01:39PM -0600, Logan Gunthorpe wrote:
+> > Not entirely, it would have to call through the whole process
+> > including the arch_p2p_cross_segment()..
+> 
+> Hmm, yes. Though it's still not clear what, if anything,
+> arch_p2p_cross_segment would be doing.
 
-diff --git a/include/trace/events/block.h b/include/trace/events/block.h
-index a88ed13446ff..99ed69fad041 100644
---- a/include/trace/events/block.h
-+++ b/include/trace/events/block.h
-@@ -61,7 +61,16 @@ DEFINE_EVENT(block_buffer, block_dirty_buffer,
- 	TP_ARGS(bh)
- );
- 
--DECLARE_EVENT_CLASS(block_rq_with_error,
-+/**
-+ * block_rq_requeue - place block IO request back on a queue
-+ * @q: queue holding operation
-+ * @rq: block IO operation request
-+ *
-+ * The block operation request @rq is being placed back into queue
-+ * @q.  For some reason the request was not completed and needs to be
-+ * put back in the queue.
-+ */
-+TRACE_EVENT(block_rq_requeue,
- 
- 	TP_PROTO(struct request_queue *q, struct request *rq),
- 
-@@ -94,39 +103,6 @@ DECLARE_EVENT_CLASS(block_rq_with_error,
- );
- 
- /**
-- * block_rq_abort - abort block operation request
-- * @q: queue containing the block operation request
-- * @rq: block IO operation request
-- *
-- * Called immediately after pending block IO operation request @rq in
-- * queue @q is aborted. The fields in the operation request @rq
-- * can be examined to determine which device and sectors the pending
-- * operation would access.
-- */
--DEFINE_EVENT(block_rq_with_error, block_rq_abort,
--
--	TP_PROTO(struct request_queue *q, struct request *rq),
--
--	TP_ARGS(q, rq)
--);
--
--/**
-- * block_rq_requeue - place block IO request back on a queue
-- * @q: queue holding operation
-- * @rq: block IO operation request
-- *
-- * The block operation request @rq is being placed back into queue
-- * @q.  For some reason the request was not completed and needs to be
-- * put back in the queue.
-- */
--DEFINE_EVENT(block_rq_with_error, block_rq_requeue,
--
--	TP_PROTO(struct request_queue *q, struct request *rq),
--
--	TP_ARGS(q, rq)
--);
--
--/**
-  * block_rq_complete - block IO operation completed by device driver
-  * @q: queue containing the block operation request
-  * @rq: block operations request
-diff --git a/kernel/trace/blktrace.c b/kernel/trace/blktrace.c
-index b2058a7f94bd..9f3624dadb09 100644
---- a/kernel/trace/blktrace.c
-+++ b/kernel/trace/blktrace.c
-@@ -716,12 +716,6 @@ static void blk_add_trace_rq(struct request_queue *q, struct request *rq,
- 			rq->cmd_flags, what, rq->errors, 0, NULL);
- }
- 
--static void blk_add_trace_rq_abort(void *ignore,
--				   struct request_queue *q, struct request *rq)
--{
--	blk_add_trace_rq(q, rq, blk_rq_bytes(rq), BLK_TA_ABORT);
--}
--
- static void blk_add_trace_rq_insert(void *ignore,
- 				    struct request_queue *q, struct request *rq)
- {
-@@ -974,8 +968,6 @@ static void blk_register_tracepoints(void)
- {
- 	int ret;
- 
--	ret = register_trace_block_rq_abort(blk_add_trace_rq_abort, NULL);
--	WARN_ON(ret);
- 	ret = register_trace_block_rq_insert(blk_add_trace_rq_insert, NULL);
- 	WARN_ON(ret);
- 	ret = register_trace_block_rq_issue(blk_add_trace_rq_issue, NULL);
-@@ -1028,7 +1020,6 @@ static void blk_unregister_tracepoints(void)
- 	unregister_trace_block_rq_requeue(blk_add_trace_rq_requeue, NULL);
- 	unregister_trace_block_rq_issue(blk_add_trace_rq_issue, NULL);
- 	unregister_trace_block_rq_insert(blk_add_trace_rq_insert, NULL);
--	unregister_trace_block_rq_abort(blk_add_trace_rq_abort, NULL);
- 
- 	tracepoint_synchronize_unregister();
- }
--- 
-2.11.0
+Sets up the iommu for arches that place a iommu between the pci root
+port and other pci root ports.
+
+> In my experience, if you are going between host bridges, the CPU
+> address (or PCI address -- I'm not sure which seeing they are the
+> same on my system) would still work fine
+
+Try it with VT-D turned on. It shouldn't work or there is a notable
+security hole in your platform..
+
+> > 	 const struct dma_map_ops *comp_ops = get_dma_ops(completer);
+> > 	 const struct dma_map_ops *init_ops = get_dma_ops(initiator);
+>
+> So, in this case, what device does the completer point to? The PCI
+> device or a more specific GPU device? If it's the former, who's
+> responsible for setting the new dma_ops? Typically the dma_ops are arch
+> specific but now you'd be adding ones that are tied to hmm or the gpu.
+
+Donno, that is for GPU folks to figure out :)
+
+But.. it could point to a GPU and the GPU struct device could have a
+proxy dma_ops like Dan pointed out.
+
+> >> I'm not sure I like the name pci_p2p_same_segment. It reads as though
+> >> it's only checking if the devices are not the same segment.
+> > 
+> > Well, that is exactly what it is doing. If it succeeds then the caller
+> > knows the DMA will not flow outside the segment and no iommu setup/etc
+> > is required.
+> 
+> It appears to me like it's calculating the DMA address, and the check is
+> just a side requirement. It reads as though it's only doing the check.
+
+pci_p2p_same_segment_get_pa() then?
+
+Jason
