@@ -1,30 +1,21 @@
 From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Wed, 19 Apr 2017 08:46:09 +1000
+Date: Wed, 19 Apr 2017 11:13:15 +1000
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <CAPcyv4izLa2vw12ysvVfd=ysaMKcASNFm+=CaqDKhnPY9B5OJg@mail.gmail.com>
+In-Reply-To: <20170418180020.GE7181@obsidianresearch.com>
 References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
  <1492381396.25766.43.camel@kernel.crashing.org>
  <20170418164557.GA7181@obsidianresearch.com>
  <CAPcyv4izLa2vw12ysvVfd=ysaMKcASNFm+=CaqDKhnPY9B5OJg@mail.gmail.com>
-Message-ID: <1492555569.25766.99.camel@kernel.crashing.org>
+ <20170418180020.GE7181@obsidianresearch.com>
+Message-ID: <1492564395.25766.120.camel@kernel.crashing.org>
 
-On Tue, 2017-04-18@10:27 -0700, Dan Williams wrote:
-> > FWIW, RDMA probably wouldn't want to use a p2mem device either, we
-> > already have APIs that map BAR memory to user space, and would like to
-> > keep using them. A 'enable P2P for bar' helper function sounds better
-> > to me.
-> 
-> ...and I think it's not a helper function as much as asking the bus
-> provider "can these two device dma to each other". The "helper" is the
-> dma api redirecting through a software-iommu that handles bus address
-> translation differently than it would handle host memory dma mapping.
+On Tue, 2017-04-18@12:00 -0600, Jason Gunthorpe wrote:
+> - All platforms can succeed if the PCI devices are under the same
+> ? 'segment', but where segments begin is somewhat platform specific
+> ? knowledge. (this is 'same switch' idea Logan has talked about)
 
-Do we even need tat function ? The dma_ops have a dma_supported()
-call...
-
-If we have those override ops built into the "dma_target" object,
-then these things can make that decision knowing both the source
-and target device.
+We also need to be careful whether P2P is enabled in the switch
+or not.
 
 Cheers,
 Ben.
