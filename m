@@ -1,39 +1,41 @@
-From: luto@kernel.org (Andy Lutomirski)
-Date: Wed, 19 Apr 2017 14:37:33 -0700
-Subject: kmemleak complaints in nvme PM
-In-Reply-To: <3179162.n86QkeM4IM@aspire.rjw.lan>
-References: <006f3319-0cd8-9d47-95cd-454b775a9b04@grimberg.me>
- <20170412172939.GE8639@lst.de>
- <CALCETrURYPsHZOfpey33vm-9HHLTBQqjti8YCXLkJJHs5nXByQ@mail.gmail.com>
- <3179162.n86QkeM4IM@aspire.rjw.lan>
-Message-ID: <CALCETrX2yD+D=qkOFajStC=9PaAxpkvhD2OWpO_bAhX5s+_LTA@mail.gmail.com>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 19 Apr 2017 16:55:22 -0600
+Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
+In-Reply-To: <20170419204808.GA15716@obsidianresearch.com>
+References: <20170418210339.GA24257@obsidianresearch.com>
+ <1492564806.25766.124.camel@kernel.crashing.org>
+ <20170419155557.GA8497@obsidianresearch.com>
+ <4899b011-bdfb-18d8-ef00-33a1516216a6@deltatee.com>
+ <20170419171451.GA10020@obsidianresearch.com>
+ <b0234176-e86b-6e7c-686d-b4fef719aad7@deltatee.com>
+ <20170419183247.GA13716@obsidianresearch.com>
+ <21e8099a-d19d-7df0-682d-627d8b81dfde@deltatee.com>
+ <20170419193154.GA14340@obsidianresearch.com>
+ <ea03e81f-e3d5-9f5c-db60-0ceaf4366612@deltatee.com>
+ <20170419204808.GA15716@obsidianresearch.com>
+Message-ID: <c143c2fd-8bff-595d-8a9e-debfcd56e531@deltatee.com>
 
-On Wed, Apr 12, 2017@7:47 PM, Rafael J. Wysocki <rjw@rjwysocki.net> wrote:
-> On Wednesday, April 12, 2017 10:42:51 AM Andy Lutomirski wrote:
->> On Wed, Apr 12, 2017@10:29 AM, Christoph Hellwig <hch@lst.de> wrote:
->> > On Sun, Apr 09, 2017@03:47:35PM +0300, Sagi Grimberg wrote:
->> >> Hi folks,
->> >>
->> >> I got this kmemleak complaint [1] on nvme-loop (but I'm pretty
->> >> confident it should happen with any nvme transport).
->> >>
->> >> Initial code stare tells me that
->> >> dev_pm_qos_update_user_latency_tolerance() can (and usually will
->> >> in controller initializaion) allocate a dev_pm_qos_request, but I
->> >> didn't see a pairing free of that request.
->> >>
->> >> I'll try to find some time looking into it, but thought it might
->> >> be a good idea to throw it out here in the mean time...
->> >
->> > Seems like the only way to free dev->power.qos->latency_tolerance_req
->> > is to call dev_pm_qos_update_user_latency_tolerance with a negative
->> > val argument.  What an odd API..
+
+
+On 19/04/17 02:48 PM, Jason Gunthorpe wrote:
+> On Wed, Apr 19, 2017@01:41:49PM -0600, Logan Gunthorpe wrote:
+> 
+>>> But.. it could point to a GPU and the GPU struct device could have a
+>>> proxy dma_ops like Dan pointed out.
 >>
->> Greg and/or Rafael, what's the right way to fix this?  I would imagine
->> that the driver core should free pm_qos requests when the device goes
->> away, no?
->
-> Yes, it should.
->
+>> Seems a bit awkward to me that in order for the intended use case, you
+>> have to proxy the dma_ops. I'd probably still suggest throwing a couple
+>> ops for things like this in the dev_pagemap.
+> 
+> Another option is adding a new 'struct completer_dma_ops *' to struct
+> device for this use case.
+> 
+> Seems like a waste to expand dev_pagemap when we only need a unique
+> value per struct device?
 
-I don't see the bug.  dev_pm_qos_constraints_destroy() should take care of it.
+I feel like expanding dev_pagemap has a much lower impact than expanding
+struct device... dev_pagemap is only one instance per zone device region
+so expanding it shouldn't be a huge issue. Expanding struct device means
+every device struct in the system gets bigger.
+
+Logan
