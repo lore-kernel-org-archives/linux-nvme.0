@@ -1,9 +1,8 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 19 Apr 2017 10:48:51 -0600
+From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
+Date: Wed, 19 Apr 2017 11:14:51 -0600
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <20170419155557.GA8497@obsidianresearch.com>
-References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
- <1492381396.25766.43.camel@kernel.crashing.org>
+In-Reply-To: <4899b011-bdfb-18d8-ef00-33a1516216a6@deltatee.com>
+References: <1492381396.25766.43.camel@kernel.crashing.org>
  <20170418164557.GA7181@obsidianresearch.com>
  <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
  <20170418190138.GH7181@obsidianresearch.com>
@@ -12,47 +11,93 @@ References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
  <20170418210339.GA24257@obsidianresearch.com>
  <1492564806.25766.124.camel@kernel.crashing.org>
  <20170419155557.GA8497@obsidianresearch.com>
-Message-ID: <4899b011-bdfb-18d8-ef00-33a1516216a6@deltatee.com>
+ <4899b011-bdfb-18d8-ef00-33a1516216a6@deltatee.com>
+Message-ID: <20170419171451.GA10020@obsidianresearch.com>
 
+On Wed, Apr 19, 2017@10:48:51AM -0600, Logan Gunthorpe wrote:
+> The pci_enable_p2p_bar function would then just need to call
+> devm_memremap_pages with the dma_map callback set to a function that
+> does the segment check and the offset calculation.
 
+I don't see a use for the dma_map function pointer at this point..
 
-On 19/04/17 09:55 AM, Jason Gunthorpe wrote:
-> I was thinking only this one would be supported with a core code
-> helper..
+It doesn't make alot of sense for the completor of the DMA to provide
+a mapping op, the mapping process is *path* specific, not specific to
+a completer/initiator.
 
-Pivoting slightly: I was looking at how HMM uses ZONE_DEVICE. They add a
-type flag to the dev_pagemap structure which would be very useful to us.
-We could add another MEMORY_DEVICE_P2P type to distinguish p2p pages.
-Then, potentially, we could add a dma_map callback to the structure
-(possibly unioned with an hmm field). The dev_ops providers would then
-just need to do something like this (enclosed in a helper):
+So, I would suggest more like this:
 
-if (is_zone_device_page(page)) {
-	pgmap = get_dev_pagemap(page_to_pfn(page));
-	if (!pgmap || pgmap->type !=  MEMORY_DEVICE_P2P ||
-	    !pgmap->dma_map)
-		return 0;
+static inline struct device *get_p2p_src(struct page *page)
+{
+        struct device *res;
+	struct dev_pagemap *pgmap;
+
+	if (!is_zone_device_page(page))
+	     return NULL;
 	
-	dma_addr = pgmap->dma_map(dev, pgmap->dev, page);
+        pgmap = get_dev_pagemap(page_to_pfn(page), NULL);
+        if (!pgmap || pgmap->type !=  MEMORY_DEVICE_P2P)
+	        /* For now ZONE_DEVICE memory that is not P2P is
+ 		   assumed to be configured for DMA the same as CPU
+		   memory. */
+                return ERR_PTR(-EINVAL);
+	res = pgmap->dev;
+	device_get(res);
 	put_dev_pagemap(pgmap);
-	if (!dma_addr)
-		return 0;
-	...
+	return res;
 }
 
-The pci_enable_p2p_bar function would then just need to call
-devm_memremap_pages with the dma_map callback set to a function that
-does the segment check and the offset calculation.
+dma_addr_t pci_p2p_same_segment(struct device *initator,
+                                struct device *completer,
+				struct page *page)
+{
+   if (! PCI initiator & completer)
+       return ERROR;
+   if (!same segment initiator & completer)
+       return ERROR;
 
-Thoughts?
+   // Translate page directly to the value programmed into the BAR
+   return (Completer's PCI BAR base address) + (offset of page within BAR);
+}
 
-@Jerome: my feedback to you would be that your patch assumes all users
-of devm_memremap_pages are MEMORY_DEVICE_PERSISTENT. It would be more
-useful if it was generic. My suggestion would be to have the caller
-allocate the dev_pagemap structure, populate it and pass it into
-devm_memremap_pages. Given that pretty much everything in that structure
-are already arguments to that function, I feel like this makes sense.
-This should also help to unify hmm_devmem_pages_create and
-devm_memremap_pages which look very similar to each other.
+// dma_sg_map
 
-Logan
+for (each sgl) {
+    struct page *page = sg_page(s);
+    struct device *p2p_src = get_p2p_src(page);
+
+    if (IS_ERR(p2p_src))
+        // fail dma_sg
+
+    if (p2p_src) {
+        bool needs_iommu = false;
+
+        pa = pci_p2p_same_segment(dev, p2p_src, page);
+	if (pa == ERROR)
+	    pa = arch_p2p_cross_segment(dev, p2psrc, page, &needs_iommui);
+
+        device_put(p2p_src);
+
+        if (pa == ERROR)
+	    // fail
+
+	if (!needs_iommu) {      
+	    // Insert PA directly into the result SGL
+	    sg++;
+	    continue;
+	}
+    }
+    else
+        // CPU memory
+        pa = page_to_phys(page);
+
+
+To me it looks like the code duplication across the iommu stuff comes
+from just duplicating the basic iommu algorithm in every driver.
+
+To clean that up I think someone would need to hoist the overall sgl
+loop and use more ops callbacks eg allocate_iommu_range,
+assign_page_to_rage, dealloc_range, etc. This is a problem p2p makes
+worse, but isn't directly causing :\
+
+Jason
