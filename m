@@ -1,7 +1,7 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 19 Apr 2017 12:19:32 -0600
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Wed, 19 Apr 2017 11:30:06 -0700
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <c75b6f6e-2814-1be3-d044-e153849263ce@deltatee.com>
+In-Reply-To: <99a22044-8f15-f381-19ee-e239e9d2da29@deltatee.com>
 References: <20170418164557.GA7181@obsidianresearch.com>
  <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
  <20170418190138.GH7181@obsidianresearch.com>
@@ -15,30 +15,40 @@ References: <20170418164557.GA7181@obsidianresearch.com>
  <20170419173225.GA11255@redhat.com>
  <CAPcyv4gxBgVsbSez7_dZYkZojUWU0X0txs7FxiJ+Z3xsMt6TqQ@mail.gmail.com>
  <c75b6f6e-2814-1be3-d044-e153849263ce@deltatee.com>
-Message-ID: <99a22044-8f15-f381-19ee-e239e9d2da29@deltatee.com>
+ <99a22044-8f15-f381-19ee-e239e9d2da29@deltatee.com>
+Message-ID: <CAPcyv4hPT3hEWC+q+DvQ_1o3rjeXsKmcRZT4GdKj9wFFVhdFpg@mail.gmail.com>
 
+On Wed, Apr 19, 2017@11:19 AM, Logan Gunthorpe <logang@deltatee.com> wrote:
+>
+>
+> On 19/04/17 12:11 PM, Logan Gunthorpe wrote:
+>>
+>>
+>> On 19/04/17 11:41 AM, Dan Williams wrote:
+>>> No, not quite ;-). I still don't think we should require the non-HMM
+>>> to pass NULL for all the HMM arguments. What I like about Logan's
+>>> proposal is to have a separate create and register steps dev_pagemap.
+>>> That way call paths that don't care about HMM specifics can just turn
+>>> around and register the vanilla dev_pagemap.
+>>
+>> Would you necessarily even need a create step? I was thinking more along
+>> the lines that struct dev_pagemap _could_ just be a member in another
+>> structure. The caller would set the attributes they needed and pass it
+>> to devm_memremap. (Similar to how we commonly do things with struct
+>> device, et al). Potentially, that could also get rid of the need for the
+>> *data pointer HMM is using to get back the struct hmm_devmem seeing
+>> container_of could be used instead.
+>
+> Also, now that I've thought about it a little more, it _may_ be that
+> many or all of the hmm specific fields in dev_pagemap could move to a
+> containing struct too...
 
+Yes, that's already how we handle struct page_map, it's an internal
+implementation detail of devm_memremap_pages().
 
-On 19/04/17 12:11 PM, Logan Gunthorpe wrote:
-> 
-> 
-> On 19/04/17 11:41 AM, Dan Williams wrote:
->> No, not quite ;-). I still don't think we should require the non-HMM
->> to pass NULL for all the HMM arguments. What I like about Logan's
->> proposal is to have a separate create and register steps dev_pagemap.
->> That way call paths that don't care about HMM specifics can just turn
->> around and register the vanilla dev_pagemap.
-> 
-> Would you necessarily even need a create step? I was thinking more along
-> the lines that struct dev_pagemap _could_ just be a member in another
-> structure. The caller would set the attributes they needed and pass it
-> to devm_memremap. (Similar to how we commonly do things with struct
-> device, et al). Potentially, that could also get rid of the need for the
-> *data pointer HMM is using to get back the struct hmm_devmem seeing
-> container_of could be used instead.
+Letting others users do the container_of() arrangement means that
+struct page_map needs to become public and move into struct
+dev_pagemap directly.
 
-Also, now that I've thought about it a little more, it _may_ be that
-many or all of the hmm specific fields in dev_pagemap could move to a
-containing struct too...
-
-Logan
+...I think that encapsulation loss is worth it for the gain of clearly
+separating the HMM-case from the base case.
