@@ -1,7 +1,7 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 19 Apr 2017 21:26:28 +0200
+Date: Wed, 19 Apr 2017 21:26:45 +0200
 Subject: kill req->errors V3
-Message-ID: <20170419192651.22037-1-hch@lst.de>
+Message-ID: <20170419192708.22098-1-hch@lst.de>
 
 Currently the request structure has an errors field that is used in
 various different ways.  The oldest drivers use it as an error count,
