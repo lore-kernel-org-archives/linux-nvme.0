@@ -1,10 +1,16 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 19 Apr 2017 21:32:52 +0200
-Subject: [PATCH] nvmet: convert from kmap to nvmet_copy_from_sgl
-In-Reply-To: <1492558335-2845-1-git-send-email-logang@deltatee.com>
-References: <1492558335-2845-1-git-send-email-logang@deltatee.com>
-Message-ID: <20170419193252.GA27776@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 19 Apr 2017 12:33:30 -0700
+Subject: [PATCH] nvmet_fc: Change traddr field separator to a colon
+In-Reply-To: <20170412221518.23473-1-jsmart2021@gmail.com>
+References: <20170412221518.23473-1-jsmart2021@gmail.com>
+Message-ID: <20170419193330.GA18191@infradead.org>
 
-Looks good,
+On Wed, Apr 12, 2017@03:15:18PM -0700, jsmart2021@gmail.com wrote:
+> From: James Smart <jsmart2021 at gmail.com>
+> 
+> The FC-NVME spec revised syntax to avoid comma separators.
+> Sync with the change in the parser for traddr on port attachments.
+
+Looks fine,
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
