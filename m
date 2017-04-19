@@ -1,7 +1,7 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 19 Apr 2017 12:41:29 -0600
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Wed, 19 Apr 2017 11:44:20 -0700
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <CAPcyv4hPT3hEWC+q+DvQ_1o3rjeXsKmcRZT4GdKj9wFFVhdFpg@mail.gmail.com>
+In-Reply-To: <f24888ac-00b8-1830-36f2-edd9587b0e58@deltatee.com>
 References: <20170418164557.GA7181@obsidianresearch.com>
  <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
  <20170418190138.GH7181@obsidianresearch.com>
@@ -17,24 +17,29 @@ References: <20170418164557.GA7181@obsidianresearch.com>
  <c75b6f6e-2814-1be3-d044-e153849263ce@deltatee.com>
  <99a22044-8f15-f381-19ee-e239e9d2da29@deltatee.com>
  <CAPcyv4hPT3hEWC+q+DvQ_1o3rjeXsKmcRZT4GdKj9wFFVhdFpg@mail.gmail.com>
-Message-ID: <f24888ac-00b8-1830-36f2-edd9587b0e58@deltatee.com>
+ <f24888ac-00b8-1830-36f2-edd9587b0e58@deltatee.com>
+Message-ID: <CAPcyv4iGBT4hKrg1aSpC8ZxoXQjsC4afB4UcJu+06o954jGGAA@mail.gmail.com>
 
+On Wed, Apr 19, 2017@11:41 AM, Logan Gunthorpe <logang@deltatee.com> wrote:
+>
+>
+> On 19/04/17 12:30 PM, Dan Williams wrote:
+>> Letting others users do the container_of() arrangement means that
+>> struct page_map needs to become public and move into struct
+>> dev_pagemap directly.
+>
+> Ah, yes, I got a bit turned around by that and failed to notice that
+> page_map and dev_pagemap are different. Why is it that dev_pagemap
+> contains pretty much the exact same information as page_map? The only
+> thing gained that I can see is that the struct resource gains const
+> protection...
+>
+>> ...I think that encapsulation loss is worth it for the gain of clearly
+>> separating the HMM-case from the base case.
+>
+> Agreed.
+>
 
-
-On 19/04/17 12:30 PM, Dan Williams wrote:
-> Letting others users do the container_of() arrangement means that
-> struct page_map needs to become public and move into struct
-> dev_pagemap directly.
-
-Ah, yes, I got a bit turned around by that and failed to notice that
-page_map and dev_pagemap are different. Why is it that dev_pagemap
-contains pretty much the exact same information as page_map? The only
-thing gained that I can see is that the struct resource gains const
-protection...
-
-> ...I think that encapsulation loss is worth it for the gain of clearly
-> separating the HMM-case from the base case.
-
-Agreed.
-
-Logan
+Yeah, I forgot that dev_pagemap grew those fields, so we don't have
+any real encapsulation today. So this would just be a pure cleanup to
+kill struct page_map.
