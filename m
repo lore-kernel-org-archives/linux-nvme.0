@@ -1,30 +1,43 @@
 From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Wed, 19 Apr 2017 11:23:04 +1000
+Date: Wed, 19 Apr 2017 11:25:49 +1000
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <20170418222440.GA27113@obsidianresearch.com>
-References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
- <1492381396.25766.43.camel@kernel.crashing.org>
- <20170418164557.GA7181@obsidianresearch.com>
- <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
- <20170418190138.GH7181@obsidianresearch.com>
- <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
+In-Reply-To: <20170418232159.GA28477@obsidianresearch.com>
+References: <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
  <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
  <20170418210339.GA24257@obsidianresearch.com>
- <9fc9352f-86fe-3a9e-e372-24b3346b518c@deltatee.com>
- <20170418222440.GA27113@obsidianresearch.com>
-Message-ID: <1492564984.25766.126.camel@kernel.crashing.org>
+ <CAPcyv4h9n9Uzq4FAXR0ufieqvx5_txEwtnaaBWdxe-jF_XfTLg@mail.gmail.com>
+ <20170418212258.GA26838@obsidianresearch.com>
+ <CAPcyv4g5ifbpukthMXMro8qKdfoXAhftDpiwWWFCLZ4dK8JnnA@mail.gmail.com>
+ <96198489-1af5-abcf-f23f-9a7e41aa17f7@deltatee.com>
+ <CAPcyv4haUUs1Eew1PZTZkoGU4YFiHOuU93G+kG+CqfKzjz1gpw@mail.gmail.com>
+ <20170418224225.GB27113@obsidianresearch.com>
+ <CAPcyv4gQxifHcKLv0CZZoXJWz=rtzv-vGoofkek6NxRABd4XyA@mail.gmail.com>
+ <20170418232159.GA28477@obsidianresearch.com>
+Message-ID: <1492565149.25766.128.camel@kernel.crashing.org>
 
-On Tue, 2017-04-18@16:24 -0600, Jason Gunthorpe wrote:
-> Basically, all this list processing is a huge overhead compared to
-> just putting a helper call in the existing sg iteration loop of the
-> actual op.? Particularly if the actual op is a no-op like no-mmu x86
-> would use.
-
-Yes, I'm leaning toward that approach too.
-
-The helper itself could hang off the devmap though.
-
-> Since dma mapping is a performance path we must be careful not to
-> create intrinsic inefficiencies with otherwise nice layering :)
+On Tue, 2017-04-18@17:21 -0600, Jason Gunthorpe wrote:
+> Splitting the sgl is different from iommu batching.
 > 
-> Jason
+> As an example, an O_DIRECT write of 1 MB with a single 4K P2P page in
+> the middle.
+> 
+> The optimum behavior is to allocate a 1MB-4K iommu range and fill it
+> with the CPU memory. Then return a SGL with three entires, two
+> pointing into the range and one to the p2p.
+> 
+> It is creating each range which tends to be expensive, so creating
+> two
+> ranges (or worse, if every SGL created a range it would be 255) is
+> very undesired.
+
+I think it's easier to get us started to just use a helper and
+stick it in the existing sglist processing loop of the architecture.
+
+As we noticed, stacking dma_ops is actually non-trivial and opens quite
+the can of worms.
+
+As Jerome mentioned, you can end up with IOs ops containing an sglist
+that is a collection of memory and GPU pages for example.
+
+Cheers,
+Ben.
