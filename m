@@ -1,10 +1,8 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 19 Apr 2017 13:41:49 -0600
+From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
+Date: Wed, 19 Apr 2017 14:48:08 -0600
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <20170419193154.GA14340@obsidianresearch.com>
-References: <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
- <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
- <20170418210339.GA24257@obsidianresearch.com>
+In-Reply-To: <ea03e81f-e3d5-9f5c-db60-0ceaf4366612@deltatee.com>
+References: <20170418210339.GA24257@obsidianresearch.com>
  <1492564806.25766.124.camel@kernel.crashing.org>
  <20170419155557.GA8497@obsidianresearch.com>
  <4899b011-bdfb-18d8-ef00-33a1516216a6@deltatee.com>
@@ -13,38 +11,22 @@ References: <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
  <20170419183247.GA13716@obsidianresearch.com>
  <21e8099a-d19d-7df0-682d-627d8b81dfde@deltatee.com>
  <20170419193154.GA14340@obsidianresearch.com>
-Message-ID: <ea03e81f-e3d5-9f5c-db60-0ceaf4366612@deltatee.com>
+ <ea03e81f-e3d5-9f5c-db60-0ceaf4366612@deltatee.com>
+Message-ID: <20170419204808.GA15716@obsidianresearch.com>
 
+On Wed, Apr 19, 2017@01:41:49PM -0600, Logan Gunthorpe wrote:
 
-
-On 19/04/17 01:31 PM, Jason Gunthorpe wrote:
-> Try it with VT-D turned on. It shouldn't work or there is a notable
-> security hole in your platform..
-
-Ah, ok.
-
->>> 	 const struct dma_map_ops *comp_ops = get_dma_ops(completer);
->>> 	 const struct dma_map_ops *init_ops = get_dma_ops(initiator);
->>
->> So, in this case, what device does the completer point to? The PCI
->> device or a more specific GPU device? If it's the former, who's
->> responsible for setting the new dma_ops? Typically the dma_ops are arch
->> specific but now you'd be adding ones that are tied to hmm or the gpu.
+> > But.. it could point to a GPU and the GPU struct device could have a
+> > proxy dma_ops like Dan pointed out.
 > 
-> Donno, that is for GPU folks to figure out :)
-> 
-> But.. it could point to a GPU and the GPU struct device could have a
-> proxy dma_ops like Dan pointed out.
+> Seems a bit awkward to me that in order for the intended use case, you
+> have to proxy the dma_ops. I'd probably still suggest throwing a couple
+> ops for things like this in the dev_pagemap.
 
-Seems a bit awkward to me that in order for the intended use case, you
-have to proxy the dma_ops. I'd probably still suggest throwing a couple
-ops for things like this in the dev_pagemap.
+Another option is adding a new 'struct completer_dma_ops *' to struct
+device for this use case.
 
->> It appears to me like it's calculating the DMA address, and the check is
->> just a side requirement. It reads as though it's only doing the check.
-> 
-> pci_p2p_same_segment_get_pa() then?
+Seems like a waste to expand dev_pagemap when we only need a unique
+value per struct device?
 
-Ok, I think that's a bit clearer.
-
-Logan
+Jason
