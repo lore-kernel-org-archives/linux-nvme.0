@@ -1,7 +1,7 @@
 From: benh@kernel.crashing.org (Benjamin Herrenschmidt)
-Date: Wed, 19 Apr 2017 11:17:49 +1000
+Date: Wed, 19 Apr 2017 11:20:06 +1000
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <1cdeee61-2107-a392-4e5e-77a6aa10354f@deltatee.com>
+In-Reply-To: <20170418210339.GA24257@obsidianresearch.com>
 References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
  <1492381396.25766.43.camel@kernel.crashing.org>
  <20170418164557.GA7181@obsidianresearch.com>
@@ -9,20 +9,38 @@ References: <CAPcyv4it56J8Voo6kV0bBcO3nHsOHYLENpAtONJZTGceDDwNPg@mail.gmail.com>
  <20170418190138.GH7181@obsidianresearch.com>
  <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
  <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
- <1565047873.28680036.1492547352121.JavaMail.zimbra@redhat.com>
- <CAPcyv4hTWbXkdeCEO9O0UM-EPcSjpdHCh7vDpSoNs1kB-Kup3A@mail.gmail.com>
- <1cdeee61-2107-a392-4e5e-77a6aa10354f@deltatee.com>
-Message-ID: <1492564669.25766.122.camel@kernel.crashing.org>
+ <20170418210339.GA24257@obsidianresearch.com>
+Message-ID: <1492564806.25766.124.camel@kernel.crashing.org>
 
-On Tue, 2017-04-18@14:48 -0600, Logan Gunthorpe wrote:
-> > ...and that dma_map goes through get_dma_ops(), so I don't see the conflict?
+On Tue, 2017-04-18@15:03 -0600, Jason Gunthorpe wrote:
+> I don't follow, when does get_dma_ops() return a p2p aware provider?
+> It has no way to know if the DMA is going to involve p2p, get_dma_ops
+> is called with the device initiating the DMA.
 > 
-> The main conflict is in dma_map_sg which only does get_dma_ops once but
-> the sg may contain memory of different types.
+> So you'd always return the P2P shim on a system that has registered
+> P2P memory?
+> 
+> Even so, how does this shim work? dma_ops are not really intended to
+> be stacked. How would we make unmap work, for instance? What happens
+> when the underlying iommu dma ops actually natively understands p2p
+> and doesn't want the shim?
 
-We can handle that in our "overriden" dma ops.
+Good point. We only know on a per-page basis ... ugh.
 
-It's a bit tricky but it *could* break it down into segments and
-forward portions back to the original dma ops.
+So we really need to change the arch main dma_ops. I'm not opposed to
+that. What we then need to do is have that main arch dma_map_sg,
+when it encounters a "device" page, call into a helper attached to
+the devmap to handle *that page*, providing sufficient context.
 
+That helper wouldn't perform the actual iommu mapping. It would simply
+return something along the lines of:
+
+ - "use that alternate bus address and don't map in the iommu"
+ - "use that alternate bus address and do map in the iommu"
+ - "proceed as normal"
+ - "fail"
+
+What do you think ?
+
+Cheers,
 Ben.
