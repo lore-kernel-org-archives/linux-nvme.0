@@ -1,9 +1,8 @@
-From: dan.j.williams@intel.com (Dan Williams)
-Date: Wed, 19 Apr 2017 11:44:20 -0700
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 19 Apr 2017 13:02:49 -0600
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <f24888ac-00b8-1830-36f2-edd9587b0e58@deltatee.com>
-References: <20170418164557.GA7181@obsidianresearch.com>
- <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
+In-Reply-To: <20170419183247.GA13716@obsidianresearch.com>
+References: <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
  <20170418190138.GH7181@obsidianresearch.com>
  <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
  <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
@@ -11,35 +10,46 @@ References: <20170418164557.GA7181@obsidianresearch.com>
  <1492564806.25766.124.camel@kernel.crashing.org>
  <20170419155557.GA8497@obsidianresearch.com>
  <4899b011-bdfb-18d8-ef00-33a1516216a6@deltatee.com>
- <CAPcyv4iJ9H8Ykwnjqa2R_D1qG6PsSQmi=QxYH-rKLF_ihrsWyw@mail.gmail.com>
- <20170419173225.GA11255@redhat.com>
- <CAPcyv4gxBgVsbSez7_dZYkZojUWU0X0txs7FxiJ+Z3xsMt6TqQ@mail.gmail.com>
- <c75b6f6e-2814-1be3-d044-e153849263ce@deltatee.com>
- <99a22044-8f15-f381-19ee-e239e9d2da29@deltatee.com>
- <CAPcyv4hPT3hEWC+q+DvQ_1o3rjeXsKmcRZT4GdKj9wFFVhdFpg@mail.gmail.com>
- <f24888ac-00b8-1830-36f2-edd9587b0e58@deltatee.com>
-Message-ID: <CAPcyv4iGBT4hKrg1aSpC8ZxoXQjsC4afB4UcJu+06o954jGGAA@mail.gmail.com>
+ <20170419171451.GA10020@obsidianresearch.com>
+ <b0234176-e86b-6e7c-686d-b4fef719aad7@deltatee.com>
+ <20170419183247.GA13716@obsidianresearch.com>
+Message-ID: <21e8099a-d19d-7df0-682d-627d8b81dfde@deltatee.com>
 
-On Wed, Apr 19, 2017@11:41 AM, Logan Gunthorpe <logang@deltatee.com> wrote:
->
->
-> On 19/04/17 12:30 PM, Dan Williams wrote:
->> Letting others users do the container_of() arrangement means that
->> struct page_map needs to become public and move into struct
->> dev_pagemap directly.
->
-> Ah, yes, I got a bit turned around by that and failed to notice that
-> page_map and dev_pagemap are different. Why is it that dev_pagemap
-> contains pretty much the exact same information as page_map? The only
-> thing gained that I can see is that the struct resource gains const
-> protection...
->
->> ...I think that encapsulation loss is worth it for the gain of clearly
->> separating the HMM-case from the base case.
->
-> Agreed.
->
 
-Yeah, I forgot that dev_pagemap grew those fields, so we don't have
-any real encapsulation today. So this would just be a pure cleanup to
-kill struct page_map.
+
+On 19/04/17 12:32 PM, Jason Gunthorpe wrote:
+> On Wed, Apr 19, 2017@12:01:39PM -0600, Logan Gunthorpe wrote:
+> Not entirely, it would have to call through the whole process
+> including the arch_p2p_cross_segment()..
+
+Hmm, yes. Though it's still not clear what, if anything,
+arch_p2p_cross_segment would be doing. In my experience, if you are
+going between host bridges, the CPU address (or PCI address -- I'm not
+sure which seeing they are the same on my system) would still work fine
+-- it just _may_ be a bad idea because of performance.
+
+Similarly if you are crossing via a QPI bus or similar, I'd expect the
+CPU address to work fine. But here the performance is even less likely
+to be any good.
+
+
+>          // Try the arch specific helper
+> 	 const struct dma_map_ops *comp_ops = get_dma_ops(completer);
+> 	 const struct dma_map_ops *init_ops = get_dma_ops(initiator);
+
+So, in this case, what device does the completer point to? The PCI
+device or a more specific GPU device? If it's the former, who's
+responsible for setting the new dma_ops? Typically the dma_ops are arch
+specific but now you'd be adding ones that are tied to hmm or the gpu.
+
+>> I'm not sure I like the name pci_p2p_same_segment. It reads as though
+>> it's only checking if the devices are not the same segment.
+> 
+> Well, that is exactly what it is doing. If it succeeds then the caller
+> knows the DMA will not flow outside the segment and no iommu setup/etc
+> is required.
+
+It appears to me like it's calculating the DMA address, and the check is
+just a side requirement. It reads as though it's only doing the check.
+
+Logan
