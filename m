@@ -1,84 +1,70 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu, 20 Apr 2017 15:04:29 -0700
-Subject: ["PATCH-v2" 03/22] Fix rejected nvme LS Req.
-In-Reply-To: <20170420220448.27095-1-jsmart2021@gmail.com>
-References: <20170420220448.27095-1-jsmart2021@gmail.com>
-Message-ID: <20170420220448.27095-4-jsmart2021@gmail.com>
+Date: Thu, 20 Apr 2017 15:04:26 -0700
+Subject: ["PATCH-v2" 00/22] lpfc updates for 11.2.0.12 
+Message-ID: <20170420220448.27095-1-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-In this case, the NVME initiator is sending an LS REQ command on an NDLP
-that is not MAPPED.  The FW rejects it.
+This patch set provides a number of bug fixes, code cleanups, and error
+handling, mostly in the nvme area of lpfc.
 
-The lpfc_nvme_ls_req routine checks for a NULL ndlp pointer
-but does not check the NDLP state.  This allows the routine
-to send an LS IO when the ndlp is disconnected.
+There is one new feature in the series to add Fabric Assigned WWN support.
 
-Check the ndlp for NULL, actual node, Target and MAPPED
-or Initiator and UNMAPPED. This avoids Fabric nodes getting
-the Create Association or Create Connection commands.  Initiators
-are free to Reject either Create.
-Also some of the messages numbers in lpfc_nvme_ls_req were changed because
-they were already used in other log messages.
+The patches were cut against the linux-block tree, for-4.12/block branch,
+and are intended to be pulled in through that tree rather than the scsi trees.
 
-Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-Signed-off-by: James Smart <james.smart at broadcom.com>
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- drivers/scsi/lpfc/lpfc_nvme.c | 26 +++++++++++++++++++++-----
- 1 file changed, 21 insertions(+), 5 deletions(-)
+The patches are dependent on the FC nvme/nvmet patches from the following 2
+series:
+http://lists.infradead.org/pipermail/linux-nvme/2017-April/009250.html
+http://lists.infradead.org/pipermail/linux-nvme/2017-April/009256.html
 
-diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
-index a39d72c..cbf3fe3 100644
---- a/drivers/scsi/lpfc/lpfc_nvme.c
-+++ b/drivers/scsi/lpfc/lpfc_nvme.c
-@@ -401,6 +401,7 @@ lpfc_nvme_ls_req(struct nvme_fc_local_port *pnvme_lport,
- 	struct lpfc_nodelist *ndlp;
- 	struct ulp_bde64 *bpl;
- 	struct lpfc_dmabuf *bmp;
-+	uint16_t ntype, nstate;
- 
- 	/* there are two dma buf in the request, actually there is one and
- 	 * the second one is just the start address + cmd size.
-@@ -417,11 +418,26 @@ lpfc_nvme_ls_req(struct nvme_fc_local_port *pnvme_lport,
- 	vport = lport->vport;
- 
- 	ndlp = lpfc_findnode_did(vport, pnvme_rport->port_id);
--	if (!ndlp) {
--		lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME_DISC,
--				 "6043 Could not find node for DID %x\n",
-+	if (!ndlp || !NLP_CHK_NODE_ACT(ndlp)) {
-+		lpfc_printf_vlog(vport, KERN_ERR, LOG_NODE | LOG_NVME_IOERR,
-+				 "6051 DID x%06x not an active rport.\n",
- 				 pnvme_rport->port_id);
--		return 1;
-+		return -ENODEV;
-+	}
-+
-+	/* The remote node has to be a mapped nvme target or an
-+	 * unmapped nvme initiator or it's an error.
-+	 */
-+	ntype = ndlp->nlp_type;
-+	nstate = ndlp->nlp_state;
-+	if ((ntype & NLP_NVME_TARGET && nstate != NLP_STE_MAPPED_NODE) ||
-+	    (ntype & NLP_NVME_INITIATOR && nstate != NLP_STE_UNMAPPED_NODE)) {
-+		lpfc_printf_vlog(vport, KERN_ERR, LOG_NODE | LOG_NVME_IOERR,
-+				 "6088 DID x%06x not ready for "
-+				 "IO. State x%x, Type x%x\n",
-+				 pnvme_rport->port_id,
-+				 ndlp->nlp_state, ndlp->nlp_type);
-+		return -ENODEV;
- 	}
- 	bmp = kmalloc(sizeof(struct lpfc_dmabuf), GFP_KERNEL);
- 	if (!bmp) {
-@@ -456,7 +472,7 @@ lpfc_nvme_ls_req(struct nvme_fc_local_port *pnvme_lport,
- 
- 	/* Expand print to include key fields. */
- 	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME_DISC,
--			 "6051 ENTER.  lport %p, rport %p lsreq%p rqstlen:%d "
-+			 "6149 ENTER.  lport %p, rport %p lsreq%p rqstlen:%d "
- 			 "rsplen:%d %pad %pad\n",
- 			 pnvme_lport, pnvme_rport,
- 			 pnvme_lsreq, pnvme_lsreq->rqstlen,
+James Smart (22):
+  Standardize nvme SGL segment count
+  Fix nvme unregister port timeout.
+  Fix rejected nvme LS Req.
+  Fix log message in completion path.
+  Add debug messages for nvme/fcp resource allocation.
+  Fix spelling in comments.
+  Remove unused defines for NVME PostBuf.
+  Remove NULL ptr check before kfree.
+  Fix extra line print in rqpair debug print.
+  Fix PRLI ACC rsp for NVME
+  Fix driver unload/reload operation.
+  Fix driver usage of 128B WQEs when WQ_CREATE is V1.
+  Fix nvme initiator handling when not enabled.
+  Remove hba lock from NVMET issue WQE.
+  Fix driver load issues when MRQ=8
+  Fix crash after issuing lip reset
+  Fix max_sgl_segments settings for NVME / NVMET
+  Add Fabric assigned WWN support.
+  Fix implicit logo and RSCN handling for NVMET
+  Update ABORT processing for NVMET.
+  Fix Express lane queue creation.
+  lpfc revison 11.2.0.12
+
+ drivers/scsi/lpfc/lpfc.h           |   5 +-
+ drivers/scsi/lpfc/lpfc_attr.c      |  10 +-
+ drivers/scsi/lpfc/lpfc_bsg.c       |   4 +
+ drivers/scsi/lpfc/lpfc_crtn.h      |   9 +-
+ drivers/scsi/lpfc/lpfc_ct.c        |  68 +++++--
+ drivers/scsi/lpfc/lpfc_debugfs.c   |  67 ++++---
+ drivers/scsi/lpfc/lpfc_disc.h      |   1 +
+ drivers/scsi/lpfc/lpfc_els.c       |  68 +++----
+ drivers/scsi/lpfc/lpfc_hbadisc.c   | 133 +++++++++----
+ drivers/scsi/lpfc/lpfc_hw.h        |   3 +
+ drivers/scsi/lpfc/lpfc_hw4.h       |   4 +
+ drivers/scsi/lpfc/lpfc_init.c      | 202 +++++++++++++-------
+ drivers/scsi/lpfc/lpfc_mbox.c      |   7 +-
+ drivers/scsi/lpfc/lpfc_nportdisc.c |   8 +-
+ drivers/scsi/lpfc/lpfc_nvme.c      | 140 ++++++++++----
+ drivers/scsi/lpfc/lpfc_nvme.h      |   7 +-
+ drivers/scsi/lpfc/lpfc_nvmet.c     | 377 ++++++++++++++++++++++++++++---------
+ drivers/scsi/lpfc/lpfc_nvmet.h     |  14 +-
+ drivers/scsi/lpfc/lpfc_sli.c       |  22 ++-
+ drivers/scsi/lpfc/lpfc_sli4.h      |   2 +-
+ drivers/scsi/lpfc/lpfc_version.h   |   2 +-
+ drivers/scsi/lpfc/lpfc_vport.c     |   3 +-
+ 22 files changed, 813 insertions(+), 343 deletions(-)
+
 -- 
 2.9.3
