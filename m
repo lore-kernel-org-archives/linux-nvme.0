@@ -1,70 +1,65 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu, 20 Apr 2017 15:04:26 -0700
-Subject: ["PATCH-v2" 00/22] lpfc updates for 11.2.0.12 
-Message-ID: <20170420220448.27095-1-jsmart2021@gmail.com>
+Date: Thu, 20 Apr 2017 15:04:28 -0700
+Subject: ["PATCH-v2" 02/22] Fix nvme unregister port timeout.
+In-Reply-To: <20170420220448.27095-1-jsmart2021@gmail.com>
+References: <20170420220448.27095-1-jsmart2021@gmail.com>
+Message-ID: <20170420220448.27095-3-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-This patch set provides a number of bug fixes, code cleanups, and error
-handling, mostly in the nvme area of lpfc.
+During some link event testing it was observed that the
+wait_for_completion_timeout in the lpfc_nvme_unregister_port
+was timing out all the time.
 
-There is one new feature in the series to add Fabric Assigned WWN support.
+The initiator is claiming the nvme_fc_unregister_remoteport upcall is
+not completing the unregister in the time allotted.
+[ 2186.151317] lpfc 0000:07:00.0: 0:(0):6169 Unreg nvme wait failed 0
 
-The patches were cut against the linux-block tree, for-4.12/block branch,
-and are intended to be pulled in through that tree rather than the scsi trees.
+ The wait_for_completion_timeout returns 0 when the wait has
+been outstanding for the jiffies passed by the caller.  In this error
+message, the nvme initiator passed value 5 - meaning 5 jiffies -
+and this is just wrong.
 
-The patches are dependent on the FC nvme/nvmet patches from the following 2
-series:
-http://lists.infradead.org/pipermail/linux-nvme/2017-April/009250.html
-http://lists.infradead.org/pipermail/linux-nvme/2017-April/009256.html
+Calculate 5 seconds in Jiffies and pass that value
+from the current jiffies.
 
-James Smart (22):
-  Standardize nvme SGL segment count
-  Fix nvme unregister port timeout.
-  Fix rejected nvme LS Req.
-  Fix log message in completion path.
-  Add debug messages for nvme/fcp resource allocation.
-  Fix spelling in comments.
-  Remove unused defines for NVME PostBuf.
-  Remove NULL ptr check before kfree.
-  Fix extra line print in rqpair debug print.
-  Fix PRLI ACC rsp for NVME
-  Fix driver unload/reload operation.
-  Fix driver usage of 128B WQEs when WQ_CREATE is V1.
-  Fix nvme initiator handling when not enabled.
-  Remove hba lock from NVMET issue WQE.
-  Fix driver load issues when MRQ=8
-  Fix crash after issuing lip reset
-  Fix max_sgl_segments settings for NVME / NVMET
-  Add Fabric assigned WWN support.
-  Fix implicit logo and RSCN handling for NVMET
-  Update ABORT processing for NVMET.
-  Fix Express lane queue creation.
-  lpfc revison 11.2.0.12
+Also the log message for the unregister timeout was reduced
+because timeout failure is the same as timeout.
 
- drivers/scsi/lpfc/lpfc.h           |   5 +-
- drivers/scsi/lpfc/lpfc_attr.c      |  10 +-
- drivers/scsi/lpfc/lpfc_bsg.c       |   4 +
- drivers/scsi/lpfc/lpfc_crtn.h      |   9 +-
- drivers/scsi/lpfc/lpfc_ct.c        |  68 +++++--
- drivers/scsi/lpfc/lpfc_debugfs.c   |  67 ++++---
- drivers/scsi/lpfc/lpfc_disc.h      |   1 +
- drivers/scsi/lpfc/lpfc_els.c       |  68 +++----
- drivers/scsi/lpfc/lpfc_hbadisc.c   | 133 +++++++++----
- drivers/scsi/lpfc/lpfc_hw.h        |   3 +
- drivers/scsi/lpfc/lpfc_hw4.h       |   4 +
- drivers/scsi/lpfc/lpfc_init.c      | 202 +++++++++++++-------
- drivers/scsi/lpfc/lpfc_mbox.c      |   7 +-
- drivers/scsi/lpfc/lpfc_nportdisc.c |   8 +-
- drivers/scsi/lpfc/lpfc_nvme.c      | 140 ++++++++++----
- drivers/scsi/lpfc/lpfc_nvme.h      |   7 +-
- drivers/scsi/lpfc/lpfc_nvmet.c     | 377 ++++++++++++++++++++++++++++---------
- drivers/scsi/lpfc/lpfc_nvmet.h     |  14 +-
- drivers/scsi/lpfc/lpfc_sli.c       |  22 ++-
- drivers/scsi/lpfc/lpfc_sli4.h      |   2 +-
- drivers/scsi/lpfc/lpfc_version.h   |   2 +-
- drivers/scsi/lpfc/lpfc_vport.c     |   3 +-
- 22 files changed, 813 insertions(+), 343 deletions(-)
+Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
+Signed-off-by: James Smart <james.smart at broadcom.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ drivers/scsi/lpfc/lpfc_nvme.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
+index 0024de1..a39d72c 100644
+--- a/drivers/scsi/lpfc/lpfc_nvme.c
++++ b/drivers/scsi/lpfc/lpfc_nvme.c
+@@ -2409,6 +2409,7 @@ lpfc_nvme_unregister_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
+ 	struct lpfc_nvme_lport *lport;
+ 	struct lpfc_nvme_rport *rport;
+ 	struct nvme_fc_remote_port *remoteport;
++	unsigned long wait_tmo;
+ 
+ 	localport = vport->localport;
+ 
+@@ -2451,11 +2452,12 @@ lpfc_nvme_unregister_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
+ 		 * before proceeding.  This guarantees the transport and driver
+ 		 * have completed the unreg process.
+ 		 */
+-		ret = wait_for_completion_timeout(&rport->rport_unreg_done, 5);
++		wait_tmo = msecs_to_jiffies(5000);
++		ret = wait_for_completion_timeout(&rport->rport_unreg_done,
++						  wait_tmo);
+ 		if (ret == 0) {
+ 			lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME_DISC,
+-					 "6169 Unreg nvme wait failed %d\n",
+-					 ret);
++					 "6169 Unreg nvme wait timeout\n");
+ 		}
+ 	}
+ 	return;
 -- 
 2.9.3
