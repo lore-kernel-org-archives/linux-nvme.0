@@ -1,124 +1,132 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 20 Apr 2017 16:03:06 +0200
-Subject: [PATCH 13/23] nbd: don't use req->errors
+Date: Thu, 20 Apr 2017 16:03:08 +0200
+Subject: [PATCH 15/23] xen-blkfront: don't use req->errors
 In-Reply-To: <20170420140316.6546-1-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
-Message-ID: <20170420140316.6546-14-hch@lst.de>
+Message-ID: <20170420140316.6546-16-hch@lst.de>
 
-Add a nbd-specific field instead.
+xen-blkfron is the last users using rq->errros for passing back error to
+blk-mq, and I'd like to get rid of that.  In the longer run the driver
+should be moving more of the completion processing into .complete, but
+this is the minimal change to move forward for now.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Josef Bacik <jbacik at fb.com>
+Acked-by: Roger Pau Monn? <roger.pau at citrix.com>
+Reviewed-by: Konrad Rzeszutek Wilk <konrad.wilk at oracle.com>
 ---
- drivers/block/nbd.c | 30 +++++++++++++++---------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ drivers/block/xen-blkfront.c | 36 +++++++++++++++++++++++++-----------
+ 1 file changed, 25 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
-index 6e592c2ba8fd..09a74a66beb1 100644
---- a/drivers/block/nbd.c
-+++ b/drivers/block/nbd.c
-@@ -115,6 +115,7 @@ struct nbd_cmd {
- 	int index;
- 	int cookie;
- 	struct completion send_complete;
-+	int status;
+diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
+index abed296ce605..57866355c060 100644
+--- a/drivers/block/xen-blkfront.c
++++ b/drivers/block/xen-blkfront.c
+@@ -115,6 +115,15 @@ struct split_bio {
+ 	atomic_t pending;
  };
  
- #if IS_ENABLED(CONFIG_DEBUG_FS)
-@@ -244,16 +245,14 @@ static void nbd_size_set(struct nbd_device *nbd, loff_t blocksize,
- 	nbd_size_update(nbd);
++struct blkif_req {
++	int	error;
++};
++
++static inline struct blkif_req *blkif_req(struct request *rq)
++{
++	return blk_mq_rq_to_pdu(rq);
++}
++
+ static DEFINE_MUTEX(blkfront_mutex);
+ static const struct block_device_operations xlvbd_block_fops;
+ 
+@@ -907,8 +916,14 @@ static int blkif_queue_rq(struct blk_mq_hw_ctx *hctx,
+ 	return BLK_MQ_RQ_QUEUE_BUSY;
  }
  
--static void nbd_end_request(struct nbd_cmd *cmd)
-+static void nbd_complete_rq(struct request *req)
- {
--	struct nbd_device *nbd = cmd->nbd;
--	struct request *req = blk_mq_rq_from_pdu(cmd);
--	int error = req->errors ? -EIO : 0;
-+	struct nbd_cmd *cmd = blk_mq_rq_to_pdu(req);
++static void blkif_complete_rq(struct request *rq)
++{
++	blk_mq_end_request(rq, blkif_req(rq)->error);
++}
++
+ static const struct blk_mq_ops blkfront_mq_ops = {
+ 	.queue_rq = blkif_queue_rq,
++	.complete = blkif_complete_rq,
+ };
  
--	dev_dbg(nbd_to_dev(nbd), "request %p: %s\n", cmd,
--		error ? "failed" : "done");
-+	dev_dbg(nbd_to_dev(cmd->nbd), "request %p: %s\n", cmd,
-+		cmd->status ? "failed" : "done");
+ static void blkif_set_queue_limits(struct blkfront_info *info)
+@@ -969,7 +984,7 @@ static int xlvbd_init_blk_queue(struct gendisk *gd, u16 sector_size,
+ 		info->tag_set.queue_depth = BLK_RING_SIZE(info);
+ 	info->tag_set.numa_node = NUMA_NO_NODE;
+ 	info->tag_set.flags = BLK_MQ_F_SHOULD_MERGE | BLK_MQ_F_SG_MERGE;
+-	info->tag_set.cmd_size = 0;
++	info->tag_set.cmd_size = sizeof(struct blkif_req);
+ 	info->tag_set.driver_data = info;
  
--	blk_mq_complete_request(req, error);
-+	blk_mq_end_request(req, cmd->status);
- }
+ 	if (blk_mq_alloc_tag_set(&info->tag_set))
+@@ -1543,7 +1558,6 @@ static irqreturn_t blkif_interrupt(int irq, void *dev_id)
+ 	unsigned long flags;
+ 	struct blkfront_ring_info *rinfo = (struct blkfront_ring_info *)dev_id;
+ 	struct blkfront_info *info = rinfo->dev_info;
+-	int error;
  
- /*
-@@ -286,7 +285,7 @@ static enum blk_eh_timer_return nbd_xmit_timeout(struct request *req,
- 	struct nbd_config *config;
- 
- 	if (!refcount_inc_not_zero(&nbd->config_refs)) {
--		req->errors = -EIO;
-+		cmd->status = -EIO;
- 		return BLK_EH_HANDLED;
- 	}
- 
-@@ -331,7 +330,7 @@ static enum blk_eh_timer_return nbd_xmit_timeout(struct request *req,
- 				    "Connection timed out\n");
- 	}
- 	set_bit(NBD_TIMEDOUT, &config->runtime_flags);
--	req->errors = -EIO;
-+	cmd->status = -EIO;
- 	sock_shutdown(nbd);
- 	nbd_config_put(nbd);
- 
-@@ -574,7 +573,7 @@ static struct nbd_cmd *nbd_read_stat(struct nbd_device *nbd, int index)
- 	if (ntohl(reply.error)) {
- 		dev_err(disk_to_dev(nbd->disk), "Other side returned error (%d)\n",
- 			ntohl(reply.error));
--		req->errors = -EIO;
-+		cmd->status = -EIO;
- 		return cmd;
- 	}
- 
-@@ -599,7 +598,7 @@ static struct nbd_cmd *nbd_read_stat(struct nbd_device *nbd, int index)
- 				 */
- 				if (nbd_disconnected(config) ||
- 				    config->num_connections <= 1) {
--					req->errors = -EIO;
-+					cmd->status = -EIO;
- 					return cmd;
- 				}
- 				return ERR_PTR(-EIO);
-@@ -636,7 +635,7 @@ static void recv_work(struct work_struct *work)
- 			break;
+ 	if (unlikely(info->connected != BLKIF_STATE_CONNECTED))
+ 		return IRQ_HANDLED;
+@@ -1587,37 +1601,36 @@ static irqreturn_t blkif_interrupt(int irq, void *dev_id)
+ 			continue;
  		}
  
--		nbd_end_request(cmd);
-+		blk_mq_complete_request(blk_mq_rq_from_pdu(cmd), 0);
- 	}
- 	atomic_dec(&config->recv_threads);
- 	wake_up(&config->recv_wq);
-@@ -651,8 +650,8 @@ static void nbd_clear_req(struct request *req, void *data, bool reserved)
- 	if (!blk_mq_request_started(req))
- 		return;
- 	cmd = blk_mq_rq_to_pdu(req);
--	req->errors = -EIO;
--	nbd_end_request(cmd);
-+	cmd->status = -EIO;
-+	blk_mq_complete_request(req, 0);
- }
+-		error = (bret->status == BLKIF_RSP_OKAY) ? 0 : -EIO;
++		blkif_req(req)->error = (bret->status == BLKIF_RSP_OKAY) ? 0 : -EIO;
+ 		switch (bret->operation) {
+ 		case BLKIF_OP_DISCARD:
+ 			if (unlikely(bret->status == BLKIF_RSP_EOPNOTSUPP)) {
+ 				struct request_queue *rq = info->rq;
+ 				printk(KERN_WARNING "blkfront: %s: %s op failed\n",
+ 					   info->gd->disk_name, op_name(bret->operation));
+-				error = -EOPNOTSUPP;
++				blkif_req(req)->error = -EOPNOTSUPP;
+ 				info->feature_discard = 0;
+ 				info->feature_secdiscard = 0;
+ 				queue_flag_clear(QUEUE_FLAG_DISCARD, rq);
+ 				queue_flag_clear(QUEUE_FLAG_SECERASE, rq);
+ 			}
+-			blk_mq_complete_request(req, error);
+ 			break;
+ 		case BLKIF_OP_FLUSH_DISKCACHE:
+ 		case BLKIF_OP_WRITE_BARRIER:
+ 			if (unlikely(bret->status == BLKIF_RSP_EOPNOTSUPP)) {
+ 				printk(KERN_WARNING "blkfront: %s: %s op failed\n",
+ 				       info->gd->disk_name, op_name(bret->operation));
+-				error = -EOPNOTSUPP;
++				blkif_req(req)->error = -EOPNOTSUPP;
+ 			}
+ 			if (unlikely(bret->status == BLKIF_RSP_ERROR &&
+ 				     rinfo->shadow[id].req.u.rw.nr_segments == 0)) {
+ 				printk(KERN_WARNING "blkfront: %s: empty %s op failed\n",
+ 				       info->gd->disk_name, op_name(bret->operation));
+-				error = -EOPNOTSUPP;
++				blkif_req(req)->error = -EOPNOTSUPP;
+ 			}
+-			if (unlikely(error)) {
+-				if (error == -EOPNOTSUPP)
+-					error = 0;
++			if (unlikely(blkif_req(req)->error)) {
++				if (blkif_req(req)->error == -EOPNOTSUPP)
++					blkif_req(req)->error = 0;
+ 				info->feature_fua = 0;
+ 				info->feature_flush = 0;
+ 				xlvbd_flush(info);
+@@ -1629,11 +1642,12 @@ static irqreturn_t blkif_interrupt(int irq, void *dev_id)
+ 				dev_dbg(&info->xbdev->dev, "Bad return from blkdev data "
+ 					"request: %x\n", bret->status);
  
- static void nbd_clear_que(struct nbd_device *nbd)
-@@ -740,7 +739,7 @@ static int nbd_handle_cmd(struct nbd_cmd *cmd, int index)
- 		nbd_config_put(nbd);
- 		return -EINVAL;
+-			blk_mq_complete_request(req, error);
+ 			break;
+ 		default:
+ 			BUG();
+ 		}
++
++		blk_mq_complete_request(req, 0);
  	}
--	req->errors = 0;
-+	cmd->status = 0;
- again:
- 	nsock = config->socks[index];
- 	mutex_lock(&nsock->tx_lock);
-@@ -1408,6 +1407,7 @@ static int nbd_init_request(void *data, struct request *rq,
  
- static const struct blk_mq_ops nbd_mq_ops = {
- 	.queue_rq	= nbd_queue_rq,
-+	.complete	= nbd_complete_rq,
- 	.init_request	= nbd_init_request,
- 	.timeout	= nbd_xmit_timeout,
- };
+ 	rinfo->ring.rsp_cons = i;
 -- 
 2.11.0
