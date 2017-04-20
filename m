@@ -1,31 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 20 Apr 2017 16:03:04 +0200
-Subject: [PATCH 11/23] dm rq: don't pass irrelevant error code to
- blk_mq_complete_request
+Date: Thu, 20 Apr 2017 16:03:05 +0200
+Subject: [PATCH 12/23] dm mpath: don't check for req->errors
 In-Reply-To: <20170420140316.6546-1-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
-Message-ID: <20170420140316.6546-12-hch@lst.de>
+Message-ID: <20170420140316.6546-13-hch@lst.de>
 
-dm never uses rq->errors, so there is no need to pass an error argument
-to blk_mq_complete_request.
+We'll get all proper errors reported through ->end_io and ->errors will
+go away soon.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/md/dm-rq.c | 2 +-
+ drivers/md/dm-mpath.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
-index e60f1b6845be..1173be21f6f6 100644
---- a/drivers/md/dm-rq.c
-+++ b/drivers/md/dm-rq.c
-@@ -363,7 +363,7 @@ static void dm_complete_request(struct request *rq, int error)
- 	if (!rq->q->mq_ops)
- 		blk_complete_request(rq);
- 	else
--		blk_mq_complete_request(rq, error);
-+		blk_mq_complete_request(rq, 0);
- }
+diff --git a/drivers/md/dm-mpath.c b/drivers/md/dm-mpath.c
+index ab55955ed704..2950b145443d 100644
+--- a/drivers/md/dm-mpath.c
++++ b/drivers/md/dm-mpath.c
+@@ -1492,7 +1492,7 @@ static int do_end_io(struct multipath *m, struct request *clone,
+ 	 */
+ 	int r = DM_ENDIO_REQUEUE;
  
- /*
+-	if (!error && !clone->errors)
++	if (!error)
+ 		return 0;	/* I/O complete */
+ 
+ 	if (noretry_error(error))
 -- 
 2.11.0
