@@ -1,35 +1,39 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Wed, 19 Apr 2017 21:07:12 -0600
-Subject: [PATCH 4/5] nvme: Adjust the Samsung APST quirk
-In-Reply-To: <a3e55fbb6afca363fcae66ca7d30f1175793594b.1492656278.git.luto@kernel.org>
+Date: Wed, 19 Apr 2017 21:10:00 -0600
+Subject: [PATCH 0/5] nvme APST fixes/improvements for 4.11
+In-Reply-To: <cover.1492656278.git.luto@kernel.org>
 References: <cover.1492656278.git.luto@kernel.org>
- <a3e55fbb6afca363fcae66ca7d30f1175793594b.1492656278.git.luto@kernel.org>
-Message-ID: <20170420030711.GB23085@kernel.dk>
+Message-ID: <20170420030959.GC23085@kernel.dk>
 
 On Wed, Apr 19 2017, Andy Lutomirski wrote:
-> I got a couple more reports: the Samsung APST issues appears to
-> affect multiple 950-series devices in Dell XPS 15 9550 and Precision
-> 5510 laptops.  Change the quirk: rather than blacklisting the
-> firmware on the first problematic SSD that was reported, disable
-> APST on all 144d:a802 devices if they're installed in the two
-> affected Dell models.  While we're at it, disable only the deepest
-> sleep state instead of all of them -- the reporters say that this is
-> sufficient to fix the problem.
+> Sorry for waiting so long for this.  I was waiting for feedback from
+> Samsung, but they haven't root-caused the issue yet, and I should
+> have just done this from the beginning.
 > 
-> (I have a device that appears to be entirely identical to one of the
-> affected devices, but I have a different Dell laptop, so it's not
-> the case that all Samsung devices with firmware BXW75D0Q are broken
-> under all circumstances.)
+> This series makes APST more debuggable and updates the quirk list.
+> The quirks I'm aware of are:
 > 
-> Samsung engineers have an affected system, and hopefully they'll
-> give us a better workaround some time soon.  In the mean time, this
-> should minimize regressions.
+>  - Samsung 950 series SSDs in Dell XPS 15 9550 and Precision 5510
+>    laptops (which are essentially the same laptop) can lose their
+>    PCIe link if they're allowed to use the deepest APST state.
+>    Samsung engineers have an affected system and are working on
+>    it.  The same exact SSDs in other machines (even an XPS 13)
+>    seem to work fine.
+> 
+>  - One Toshiba device malfunctions if APST is used at all.
 
-Do we know for a fact that it only happens on those systems, and isn't
-purely specific to the device?
+You need to split this series in two, patches 1-3 can wait. For 4.11,
+all we need to do is turn off APST on any device that potentially has
+this problem.
 
-At this point in time, I'd be much more comfortable completely disabling
-APST on Samsung, period.
+> One thing that improves my confidence that there aren't too many
+> more problems with APST is that Ubuntu has backported APST to Zesty,
+> so it's already gotten a bit of testing in a widely used (if very
+> new) release.
+
+Honestly, I think the best path for 4.11 is to turn off APST by default,
+make it opt-in instead. I don't share your optimism here, as I made
+clear back from before we even merged this feature.
 
 -- 
 Jens Axboe
