@@ -1,24 +1,24 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 20 Apr 2017 17:16:37 -0600
-Subject: [PATCH] blk-mq: Fix poll_stat for new size-based bucketing.
-In-Reply-To: <8F6E7173-D719-4E85-9F18-7B20319E972C@raithlin.com>
-References: <1492729151-20983-1-git-send-email-sbates@raithlin.com>
- <44a0b09e-d150-a0e8-f5e2-5792f4d4f74a@kernel.dk>
- <8F6E7173-D719-4E85-9F18-7B20319E972C@raithlin.com>
-Message-ID: <841b5b27-b498-207a-f360-ba4347c7809d@kernel.dk>
+Date: Thu, 20 Apr 2017 17:30:23 -0600
+Subject: [PATCH v3 0/2] nvme APST quirk updates, take two
+In-Reply-To: <cover.1492720361.git.luto@kernel.org>
+References: <cover.1492720361.git.luto@kernel.org>
+Message-ID: <cea93058-eb0f-b8cc-0fe3-08f39e7cf04b@kernel.dk>
 
-On 04/20/2017 05:13 PM, Stephen  Bates wrote:
+On 04/20/2017 02:37 PM, Andy Lutomirski wrote:
+> Hi Jens-
 > 
->> Thanks, added. BTW, in the future, we have a format for specifying
->> if a patch fixes another patch. This should have been:
+> These are just the quirk updates, split out.  The patches are
+> unchanged.
 > 
-> Thanks!
-> 
->> Fixes: 720b8ccc4500 ("blk-mq: Add a polling specific stats function")
-> 
-> Duly noted for next time. Apologies for the miss?
+> I think that, even if we want to apply a broader quirk for 4.11, we
+> should still apply these so that we can cleanly revert the broader
+> quirk later.  IOW, let's get the known regressions fixed before we
+> get too excited about the unknown regressions.
 
-No worries, I fixed it up for you while committing.
+Applied - and I agree, we should still do this and if we do a
+default-off type of patch, then we can easily revert that one
+on its own for 4.12.
 
 -- 
 Jens Axboe
