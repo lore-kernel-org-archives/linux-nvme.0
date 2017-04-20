@@ -1,19 +1,15 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 20 Apr 2017 17:25:58 +0200
-Subject: [PATCH 22/23] blktrace: remove the unused block_rq_abort
- tracepoint
-In-Reply-To: <20170420152056.GP13676@linux-x5ow.site>
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Thu, 20 Apr 2017 15:28:27 +0000
+Subject: [PATCH 16/23] blk-mq: remove the error argument to
+ blk_mq_complete_request
+In-Reply-To: <20170420140316.6546-17-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
- <20170420140316.6546-23-hch@lst.de> <20170420152056.GP13676@linux-x5ow.site>
-Message-ID: <20170420152558.GA23516@lst.de>
+ <20170420140316.6546-17-hch@lst.de>
+Message-ID: <1492702106.2642.4.camel@sandisk.com>
 
-On Thu, Apr 20, 2017@05:20:56PM +0200, Johannes Thumshirn wrote:
-> On Thu, Apr 20, 2017@04:03:15PM +0200, Christoph Hellwig wrote:
-> > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> > ---
-> 
-> Just to be sure nothings forgotten, does this change need an update for
-> blktrace as well?
+On Thu, 2017-04-20@16:03 +0200, Christoph Hellwig wrote:
+> Now that all drivers that call blk_mq_complete_requests have a
+> ->complete callback we can remove the direct call to blk_mq_end_request,
+> as well as the error argument to blk_mq_complete_request.
 
-I don't think so.  It will just never get this event before or after
-this patch.
+Reviewed-by: Bart Van Assche <Bart.VanAssche at sandisk.com>
