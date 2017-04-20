@@ -1,24 +1,16 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 20 Apr 2017 14:34:49 +0300
-Subject: kmemleak complaints in nvme PM
-In-Reply-To: <CALCETrX2yD+D=qkOFajStC=9PaAxpkvhD2OWpO_bAhX5s+_LTA@mail.gmail.com>
-References: <006f3319-0cd8-9d47-95cd-454b775a9b04@grimberg.me>
- <20170412172939.GE8639@lst.de>
- <CALCETrURYPsHZOfpey33vm-9HHLTBQqjti8YCXLkJJHs5nXByQ@mail.gmail.com>
- <3179162.n86QkeM4IM@aspire.rjw.lan>
- <CALCETrX2yD+D=qkOFajStC=9PaAxpkvhD2OWpO_bAhX5s+_LTA@mail.gmail.com>
-Message-ID: <d18ef22d-7e83-c287-6d86-7d0ebd5442ef@grimberg.me>
+Date: Thu, 20 Apr 2017 14:37:56 +0300
+Subject: [PATCH v3] nvme-rdma: support devices with queue size < 32
+In-Reply-To: <1677617891.385461828.1492681414720.JavaMail.zimbra@kalray.eu>
+References: <1519881025.363156294.1491837154312.JavaMail.zimbra@kalray.eu>
+ <1491838338.4199.5.camel@sandisk.com>
+ <1807354347.364485979.1491900728245.JavaMail.zimbra@kalray.eu>
+ <1491923426.2654.1.camel@sandisk.com>
+ <1677617891.385461828.1492681414720.JavaMail.zimbra@kalray.eu>
+Message-ID: <391faec7-924d-7af2-eb1b-b3106bd4193c@grimberg.me>
 
+Looks good,
 
->>> Greg and/or Rafael, what's the right way to fix this?  I would imagine
->>> that the driver core should free pm_qos requests when the device goes
->>> away, no?
->>
->> Yes, it should.
->>
->
-> I don't see the bug.  dev_pm_qos_constraints_destroy() should take care of it.
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-I see it all the time, where is dev_pm_qos_constraints_destroy() called?
-
-Not in nvme.
+BTW, did you test with deeper queue depths (say 512)?
