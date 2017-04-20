@@ -1,17 +1,30 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 09:35:18 +0200
-Subject: [PATCH-v1 09/22] Fix extra line print in rqpair debug print.
-In-Reply-To: <20170420044641.10657-10-jsmart2021@gmail.com>
+Date: Thu, 20 Apr 2017 09:35:35 +0200
+Subject: [PATCH-v1 10/22] Fix PRLI ACC rsp for NVME
+In-Reply-To: <20170420044641.10657-11-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
- <20170420044641.10657-10-jsmart2021@gmail.com>
-Message-ID: <20170420073518.GJ6217@linux-x5ow.site>
+ <20170420044641.10657-11-jsmart2021@gmail.com>
+Message-ID: <20170420073535.GK6217@linux-x5ow.site>
 
-On Wed, Apr 19, 2017@09:46:28PM -0700, jsmart2021@gmail.com wrote:
+On Wed, Apr 19, 2017@09:46:29PM -0700, jsmart2021@gmail.com wrote:
 > From: James Smart <jsmart2021 at gmail.com>
 > 
-> An extra blank line was being added the the rqpair printing.
+> PRLI ACC from target is FCP oriented.
 > 
-> Remove the extra line feed.
+> Word 0 was wrong. This was noticed by another nvmet-fc vendor that
+> was testing the lpfc nvme-fc initiator with their target.
+> 
+> Verified results with analyzer.
+> 
+> PRLI
+> BC B5 56 56  22 61 04 00  00 61 00 00  01 29 00 00  20 00 00 00
+> 00 10 FF FF  00 00 00 00  20 14 00 18  28 00 00 00  00 00 00 00
+> 00 00 00 00  00 00 00 20  00 00 00 00  9C D8 DA C9  BC 95 75 75
+> 
+> ACC
+> BC B5 56 56  23 61 00 00  00 61 04 00  01 98 00 00  30 00 00 00
+> 00 10 00 18  00 00 00 00  02 14 00 18  28 00 01 00  00 00 00 00
+> 00 00 00 00  00 00 00 18  00 00 00 00  B0 6B 07 57  BC B5 75 75
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
