@@ -1,22 +1,32 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 20 Apr 2017 14:27:59 +0300
-Subject: [PATCH v2 3/4] nvme: enable SG gaps support
-In-Reply-To: <1492098977-5231-4-git-send-email-maxg@mellanox.com>
+Date: Thu, 20 Apr 2017 14:30:46 +0300
+Subject: [PATCH v2 0/4] arbitrary sg lists support
+In-Reply-To: <1492101079.5176.9.camel@sandisk.com>
 References: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
- <1492098977-5231-4-git-send-email-maxg@mellanox.com>
-Message-ID: <2bd673ee-8455-32b7-1bad-34fa9eebb076@grimberg.me>
+ <1492101079.5176.9.camel@sandisk.com>
+Message-ID: <c52b5ce7-5346-419d-26f2-0d4d45d20471@grimberg.me>
 
 
->  	if (ctrl->quirks & NVME_QUIRK_STRIPE_SIZE)
->  		blk_queue_chunk_sectors(q, ctrl->max_hw_sectors);
-> -	blk_queue_virt_boundary(q, ctrl->page_size - 1);
-> +
-> +	if (!ctrl->sg_gaps_support)
-> +		blk_queue_virt_boundary(q, ctrl->page_size - 1);
-> +
+>> This patch adds an arbitrary sg list support to NVMEoF host for
+>> capable devices (such as RDMA CX4/CX5 HCAs).
+>> During the review we decided to add an helper function to ib_core
+>> that will be used by ULPs in order to avoid code duplication.
+>
+> Hello Max,
+>
+> A question that is not related to the ULP drivers touched by this patch series:
+> some time ago registration of sg-lists with gaps was disabled in the SRP
+> initiator because arbitrary sg-lists triggered CQE dumps in combination with the
+> mlx5 driver. Does this mean that this issue has been resolved? If so, what mlx5
+> driver and/or firmware version are needed to reenable arbitrary sg-list support
+> in the SRP initiator?
 
-I think it would be better if the ctrl will hold a virt_boundary
-provided by the fabric driver? Then we would always
-blk_queue_virt_boundary but with capable devices the fabric driver
-can set it to 0. This will also allow for dword aligned sgls to
-fit in pretty easily.
+I'm concerned about the fact that the SRP issue wasn't resolved. There
+might be a bug hiding there.
+
+Max, Leon, my recollection was that the error syndrome you saw with SRP
+described "too much sgls for a single mr". If this is true, then I still
+think we need a different device capability for it.
+
+I'm even thinking we need to remove gaps support from iSER until this
+is addressed.
