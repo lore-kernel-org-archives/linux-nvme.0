@@ -1,51 +1,39 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Wed, 19 Apr 2017 21:46:27 -0700
-Subject: [PATCH-v1 08/22] Remove NULL ptr check before kfree.
+Date: Wed, 19 Apr 2017 21:46:24 -0700
+Subject: [PATCH-v1 05/22] Add debug messages for nvme/fcp resource allocation.
 In-Reply-To: <20170420044641.10657-1-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
-Message-ID: <20170420044641.10657-9-jsmart2021@gmail.com>
+Message-ID: <20170420044641.10657-6-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-The check for NULL ptr is not necessary, kfree will check it.
+The xri resources are split into pools for NVME and FCP IO when NVME is
+enabled. There was not message in the log that identified this allocation.
 
-Removing NULL ptr check.
+Added debug message to log XRI split.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_debugfs.c | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ drivers/scsi/lpfc/lpfc_init.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/scsi/lpfc/lpfc_debugfs.c b/drivers/scsi/lpfc/lpfc_debugfs.c
-index 913eed8..76857e2 100644
---- a/drivers/scsi/lpfc/lpfc_debugfs.c
-+++ b/drivers/scsi/lpfc/lpfc_debugfs.c
-@@ -5700,10 +5700,8 @@ lpfc_debugfs_terminate(struct lpfc_vport *vport)
- #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
- 	struct lpfc_hba   *phba = vport->phba;
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index 6cc561b..b56da01 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -3508,6 +3508,12 @@ lpfc_sli4_scsi_sgl_update(struct lpfc_hba *phba)
+ 	spin_unlock(&phba->scsi_buf_list_put_lock);
+ 	spin_unlock_irq(&phba->scsi_buf_list_get_lock);
  
--	if (vport->disc_trc) {
--		kfree(vport->disc_trc);
--		vport->disc_trc = NULL;
--	}
-+	kfree(vport->disc_trc);
-+	vport->disc_trc = NULL;
- 
- 	debugfs_remove(vport->debug_disc_trc); /* discovery_trace */
- 	vport->debug_disc_trc = NULL;
-@@ -5770,10 +5768,8 @@ lpfc_debugfs_terminate(struct lpfc_vport *vport)
- 		debugfs_remove(phba->debug_readRef); /* readRef */
- 		phba->debug_readRef = NULL;
- 
--		if (phba->slow_ring_trc) {
--			kfree(phba->slow_ring_trc);
--			phba->slow_ring_trc = NULL;
--		}
-+		kfree(phba->slow_ring_trc);
-+		phba->slow_ring_trc = NULL;
- 
- 		/* slow_ring_trace */
- 		debugfs_remove(phba->debug_slow_ring_trc);
++	lpfc_printf_log(phba, KERN_INFO, LOG_SLI,
++			"6060 Current allocated SCSI xri-sgl count:%d, "
++			"maximum  SCSI xri count:%d (split:%d)\n",
++			phba->sli4_hba.scsi_xri_cnt,
++			phba->sli4_hba.scsi_xri_max, phba->cfg_xri_split);
++
+ 	if (phba->sli4_hba.scsi_xri_cnt > phba->sli4_hba.scsi_xri_max) {
+ 		/* max scsi xri shrinked below the allocated scsi buffers */
+ 		scsi_xri_cnt = phba->sli4_hba.scsi_xri_cnt -
 -- 
 2.1.0
