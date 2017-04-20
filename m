@@ -1,47 +1,34 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Wed, 19 Apr 2017 21:46:29 -0700
-Subject: [PATCH-v1 10/22] Fix PRLI ACC rsp for NVME
+Date: Wed, 19 Apr 2017 21:46:28 -0700
+Subject: [PATCH-v1 09/22] Fix extra line print in rqpair debug print.
 In-Reply-To: <20170420044641.10657-1-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
-Message-ID: <20170420044641.10657-11-jsmart2021@gmail.com>
+Message-ID: <20170420044641.10657-10-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-PRLI ACC from target is FCP oriented.
+An extra blank line was being added the the rqpair printing.
 
-Word 0 was wrong. This was noticed by another nvmet-fc vendor that
-was testing the lpfc nvme-fc initiator with their target.
-
-Verified results with analyzer.
-
-PRLI
-BC B5 56 56  22 61 04 00  00 61 00 00  01 29 00 00  20 00 00 00
-00 10 FF FF  00 00 00 00  20 14 00 18  28 00 00 00  00 00 00 00
-00 00 00 00  00 00 00 20  00 00 00 00  9C D8 DA C9  BC 95 75 75
-
-ACC
-BC B5 56 56  23 61 00 00  00 61 04 00  01 98 00 00  30 00 00 00
-00 10 00 18  00 00 00 00  02 14 00 18  28 00 01 00  00 00 00 00
-00 00 00 00  00 00 00 18  00 00 00 00  B0 6B 07 57  BC B5 75 75
+Remove the extra line feed.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_els.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/scsi/lpfc/lpfc_debugfs.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-index d9c61d0..d6e0f58 100644
---- a/drivers/scsi/lpfc/lpfc_els.c
-+++ b/drivers/scsi/lpfc/lpfc_els.c
-@@ -4403,7 +4403,7 @@ lpfc_els_rsp_prli_acc(struct lpfc_vport *vport, struct lpfc_iocbq *oldiocb,
- 	pcmd = (uint8_t *) (((struct lpfc_dmabuf *) elsiocb->context2)->virt);
- 	memset(pcmd, 0, cmdsize);
+diff --git a/drivers/scsi/lpfc/lpfc_debugfs.c b/drivers/scsi/lpfc/lpfc_debugfs.c
+index 76857e2..55a8d8f 100644
+--- a/drivers/scsi/lpfc/lpfc_debugfs.c
++++ b/drivers/scsi/lpfc/lpfc_debugfs.c
+@@ -3128,8 +3128,6 @@ __lpfc_idiag_print_rqpair(struct lpfc_queue *qp, struct lpfc_queue *datqp,
+ 			datqp->queue_id, datqp->entry_count,
+ 			datqp->entry_size, datqp->host_index,
+ 			datqp->hba_index);
+-	len +=  snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len, "\n");
+-
+ 	return len;
+ }
  
--	*((uint32_t *) (pcmd)) = (ELS_CMD_ACC | (ELS_CMD_PRLI & ~ELS_RSP_MASK));
-+	*((uint32_t *)(pcmd)) = elsrspcmd;
- 	pcmd += sizeof(uint32_t);
- 
- 	/* For PRLI, remainder of payload is PRLI parameter page */
 -- 
 2.1.0
