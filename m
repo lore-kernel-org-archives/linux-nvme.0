@@ -1,26 +1,39 @@
 From: luto@kernel.org (Andy Lutomirski)
-Date: Thu, 20 Apr 2017 09:11:14 -0700
-Subject: [PATCH v2 0/2] nvme APST quirk updates, take two
-Message-ID: <cover.1492704577.git.luto@kernel.org>
+Date: Thu, 20 Apr 2017 09:11:16 -0700
+Subject: [PATCH v2 2/2] nvme: Quirk APST off on "THNSF5256GPUK TOSHIBA"
+In-Reply-To: <cover.1492704577.git.luto@kernel.org>
+References: <cover.1492704577.git.luto@kernel.org>
+Message-ID: <69c1adef0d725e43212383b318c039f85a793b1d.1492704577.git.luto@kernel.org>
 
-Hi Jens-
+There's a report that it malfunctions with APST on.
 
-These are just the quirk updates, split out.  The patches are
-unchanged.
+See https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1678184
 
-I think that, even if we want to apply a broader quirk for 4.11, we
-should still apply these so that we can cleanly revert the broader
-quirk later.  IOW, let's get the known regressions fixed before we
-get too excited about the unknown regressions.
+Cc: Kai-Heng Feng <kai.heng.feng at canonical.com>
+Signed-off-by: Andy Lutomirski <luto at kernel.org>
+---
+ drivers/nvme/host/core.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Andy Lutomirski (2):
-  nvme: Adjust the Samsung APST quirk
-  nvme: Quirk APST off on "THNSF5256GPUK TOSHIBA"
-
- drivers/nvme/host/core.c | 28 ++++++++++++++++++++--------
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  | 26 +++++++++++++++++++++++++-
- 3 files changed, 50 insertions(+), 9 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d618b20ce6c6..1fbcdcdada78 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1395,6 +1395,15 @@ struct nvme_core_quirk_entry {
+ };
+ 
+ static const struct nvme_core_quirk_entry core_quirks[] = {
++	{
++		/*
++		 * This Toshiba device seems to die using any APST states.  See:
++		 * https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1678184/comments/11
++		 */
++		.vid = 0x1179,
++		.mn = "THNSF5256GPUK TOSHIBA",
++		.quirks = NVME_QUIRK_NO_APST,
++	}
+ };
+ 
+ /* match is null-terminated but idstr is space-padded. */
 -- 
 2.9.3
