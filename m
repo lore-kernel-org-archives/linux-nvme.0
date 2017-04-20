@@ -1,214 +1,100 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Wed, 19 Apr 2017 21:46:30 -0700
-Subject: [PATCH-v1 11/22] Fix driver unload/reload operation.
+Date: Wed, 19 Apr 2017 21:46:32 -0700
+Subject: [PATCH-v1 13/22] Fix nvme initiator handling when not enabled.
 In-Reply-To: <20170420044641.10657-1-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
-Message-ID: <20170420044641.10657-12-jsmart2021@gmail.com>
+Message-ID: <20170420044641.10657-14-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-There are couple of different load/unload issues fixed with this patch.
-One of the issues was reported by Junichi Nomura, a patch was submitted
-by Johannes Thumsrhirn which did fix one of the problems but the fix in
-this patch separates the pring free from the queue free and does not set
-the parameter passed in to NULL.
+Fix nvme initiator handline when CONFIG_LPFC_NVME_INITIATOR is not enabled.
 
-issues:
-(1) driver could not be unloaded and reloaded without some Oops or
- Panic occurring.
-(2) The driver was panicking because of a corruption in the Memory
-Manager when the iocb list was getting allocated.
+With update nvme upstream driver sources, loading
+the driver with nvme enabled resulting in this Oops.
 
-Root cause for the memory corruption was a double free of the Work Queue
-ring pointer memory - Freed once in the lpfc_sli4_queue_free when the CQ
-was destroyed and again in lpfc_sli4_queue_free when the WQ was destroyed.
+ BUG: unable to handle kernel NULL pointer dereference at 0000000000000018
+ IP: lpfc_nvme_update_localport+0x23/0xd0 [lpfc]
+ PGD 0
+ Oops: 0000 [#1] SMP
+ CPU: 0 PID: 10256 Comm: lpfc_worker_0 Tainted
+ Hardware name: ...
+ task: ffff881028191c40 task.stack: ffff880ffdf00000
+ RIP: 0010:lpfc_nvme_update_localport+0x23/0xd0 [lpfc]
+ RSP: 0018:ffff880ffdf03c20 EFLAGS: 00010202
 
-The pring free and the queue free were separated, the pring free was moved
-to the wq destroy routine because it a better fit logically to delete the
-ring with the wq.
+Cause: As the initiator driver completes discovery at different stages,
+it call lpfc_nvme_update_localport to hint that the DID and role may have
+changed.  In the implementation of lpfc_nvme_update_localport, the driver
+was not validating the localport or the lport during the execution
+of the update_localport routine.  With the recent upstream additions to
+the driver, the create_localport routine didn't run and so the localport
+was NULL causing the page-fault Oops.
 
-The checkpatch flagged several alignmenet issues that were also corrected
-with this patch.
+Fix: Add the CONFIG_LPFC_NVME_INITIATOR preprocessor inclusions to
+lpfc_nvme_update_localport to turn off all routine processing when
+the running kernel does not have NVME configured.  Add NULL pointer
+checks on the localport and lport in lpfc_nvme_update_localport and
+dump messages if they are NULL and just exit.
+Also one alingment issue fixed.
+Repalces the ifdef with the IS_ENABLED macro.
 
-The mboxq was never initialed correctly before it was used by the driver
-this patch corrects that issue.
-
-Reported-by: Junichi Nomura <j-nomura at ce.jp.nec.com>
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_init.c | 46 +++++++++++++++++++++++--------------------
- drivers/scsi/lpfc/lpfc_sli.c  |  7 ++++++-
- 2 files changed, 31 insertions(+), 22 deletions(-)
+ drivers/scsi/lpfc/lpfc_attr.c |  2 +-
+ drivers/scsi/lpfc/lpfc_nvme.c | 15 +++++++++++++--
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index b56da01..cca7f81 100644
---- a/drivers/scsi/lpfc/lpfc_init.c
-+++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -5815,6 +5815,12 @@ lpfc_sli4_driver_resource_setup(struct lpfc_hba *phba)
- 	INIT_LIST_HEAD(&phba->sli4_hba.lpfc_vfi_blk_list);
- 	INIT_LIST_HEAD(&phba->lpfc_vpi_blk_list);
+diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
+index 22819af..4b32d02 100644
+--- a/drivers/scsi/lpfc/lpfc_attr.c
++++ b/drivers/scsi/lpfc/lpfc_attr.c
+@@ -3335,7 +3335,7 @@ LPFC_ATTR_R(enable_fc4_type, LPFC_ENABLE_FCP,
+  * percentage will go to NVME.
+  */
+ LPFC_ATTR_R(xri_split, 50, 10, 90,
+-	     "Division of XRI resources between SCSI and NVME");
++	    "Division of XRI resources between SCSI and NVME");
  
-+	/* Initialize mboxq lists. If the early init routines fail
-+	 * these lists need to be correctly initialized.
-+	 */
-+	INIT_LIST_HEAD(&phba->sli.mboxq);
-+	INIT_LIST_HEAD(&phba->sli.mboxq_cmpl);
-+
- 	/* initialize optic_state to 0xFF */
- 	phba->sli4_hba.lnk_info.optic_state = 0xff;
- 
-@@ -5880,6 +5886,7 @@ lpfc_sli4_driver_resource_setup(struct lpfc_hba *phba)
- 					"READ_NV, mbxStatus x%x\n",
- 					bf_get(lpfc_mqe_command, &mboxq->u.mqe),
- 					bf_get(lpfc_mqe_status, &mboxq->u.mqe));
-+			mempool_free(mboxq, phba->mbox_mem_pool);
- 			rc = -EIO;
- 			goto out_free_bsmbx;
- 		}
-@@ -7805,7 +7812,7 @@ lpfc_alloc_fcp_wq_cq(struct lpfc_hba *phba, int wqidx)
- 
- 	/* Create Fast Path FCP WQs */
- 	wqesize = (phba->fcp_embed_io) ?
--				LPFC_WQE128_SIZE : phba->sli4_hba.wq_esize;
-+		LPFC_WQE128_SIZE : phba->sli4_hba.wq_esize;
- 	qdesc = lpfc_sli4_queue_alloc(phba, wqesize, phba->sli4_hba.wq_ecount);
- 	if (!qdesc) {
- 		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
-@@ -7836,7 +7843,7 @@ int
- lpfc_sli4_queue_create(struct lpfc_hba *phba)
+ /*
+ # lpfc_log_verbose: Only turn this flag on if you are willing to risk being
+diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
+index bc6946f..f23496b 100644
+--- a/drivers/scsi/lpfc/lpfc_nvme.c
++++ b/drivers/scsi/lpfc/lpfc_nvme.c
+@@ -2263,12 +2263,23 @@ lpfc_nvme_destroy_localport(struct lpfc_vport *vport)
+ void
+ lpfc_nvme_update_localport(struct lpfc_vport *vport)
  {
- 	struct lpfc_queue *qdesc;
--	int idx, io_channel, max;
-+	int idx, io_channel;
++#if (IS_ENABLED(CONFIG_NVME_FC))
+ 	struct nvme_fc_local_port *localport;
+ 	struct lpfc_nvme_lport *lport;
  
- 	/*
- 	 * Create HBA Record arrays.
-@@ -7997,15 +8004,6 @@ lpfc_sli4_queue_create(struct lpfc_hba *phba)
- 		if (lpfc_alloc_nvme_wq_cq(phba, idx))
- 			goto out_error;
- 
--	/* allocate MRQ CQs */
--	max = phba->cfg_nvme_io_channel;
--	if (max < phba->cfg_nvmet_mrq)
--		max = phba->cfg_nvmet_mrq;
+ 	localport = vport->localport;
++	if (!localport) {
++		lpfc_printf_vlog(vport, KERN_WARNING, LOG_NVME,
++				 "6710 Update NVME fail. No localport\n");
++		return;
++	}
+ 	lport = (struct lpfc_nvme_lport *)localport->private;
 -
--	for (idx = 0; idx < max; idx++)
--		if (lpfc_alloc_nvme_wq_cq(phba, idx))
--			goto out_error;
++	if (!lport) {
++		lpfc_printf_vlog(vport, KERN_WARNING, LOG_NVME,
++				 "6171 Update NVME fail. localP %p, No lport\n",
++				 localport);
++		return;
++	}
+ 	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
+ 			 "6012 Update NVME lport %p did x%x\n",
+ 			 localport, vport->fc_myDID);
+@@ -2282,7 +2293,7 @@ lpfc_nvme_update_localport(struct lpfc_vport *vport)
+ 	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME_DISC,
+ 			 "6030 bound lport %p to DID x%06x\n",
+ 			 lport, localport->port_id);
 -
- 	if (phba->nvmet_support) {
- 		for (idx = 0; idx < phba->cfg_nvmet_mrq; idx++) {
- 			qdesc = lpfc_sli4_queue_alloc(phba,
-@@ -8227,11 +8225,11 @@ lpfc_sli4_queue_destroy(struct lpfc_hba *phba)
- 
- 	/* Release FCP cqs */
- 	lpfc_sli4_release_queues(&phba->sli4_hba.fcp_cq,
--					phba->cfg_fcp_io_channel);
-+				 phba->cfg_fcp_io_channel);
- 
- 	/* Release FCP wqs */
- 	lpfc_sli4_release_queues(&phba->sli4_hba.fcp_wq,
--					phba->cfg_fcp_io_channel);
-+				 phba->cfg_fcp_io_channel);
- 
- 	/* Release FCP CQ mapping array */
- 	lpfc_sli4_release_queue_map(&phba->sli4_hba.fcp_cq_map);
-@@ -8577,15 +8575,15 @@ lpfc_sli4_queue_setup(struct lpfc_hba *phba)
- 		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
- 				"0528 %s not allocated\n",
- 				phba->sli4_hba.mbx_cq ?
--						"Mailbox WQ" : "Mailbox CQ");
-+				"Mailbox WQ" : "Mailbox CQ");
- 		rc = -ENOMEM;
- 		goto out_destroy;
- 	}
- 
- 	rc = lpfc_create_wq_cq(phba, phba->sli4_hba.hba_eq[0],
--					phba->sli4_hba.mbx_cq,
--					phba->sli4_hba.mbx_wq,
--					NULL, 0, LPFC_MBOX);
-+			       phba->sli4_hba.mbx_cq,
-+			       phba->sli4_hba.mbx_wq,
-+			       NULL, 0, LPFC_MBOX);
- 	if (rc) {
- 		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
- 			"0529 Failed setup of mailbox WQ/CQ: rc = 0x%x\n",
-@@ -10054,9 +10052,14 @@ lpfc_sli4_hba_unset(struct lpfc_hba *phba)
- 	/* Stop kthread signal shall trigger work_done one more time */
- 	kthread_stop(phba->worker_thread);
- 
-+	/* Unset the queues shared with the hardware then release all
-+	 * allocated resources.
-+	 */
-+	lpfc_sli4_queue_unset(phba);
-+	lpfc_sli4_queue_destroy(phba);
-+
- 	/* Reset SLI4 HBA FCoE function */
- 	lpfc_pci_function_reset(phba);
--	lpfc_sli4_queue_destroy(phba);
- 
- 	/* Stop the SLI4 device port */
- 	phba->pport->work_port_events = 0;
-@@ -10312,6 +10315,7 @@ lpfc_pci_probe_one_s3(struct pci_dev *pdev, const struct pci_device_id *pid)
- 	}
- 
- 	/* Initialize and populate the iocb list per host */
-+
- 	error = lpfc_init_iocb_list(phba, LPFC_IOCB_LIST_CNT);
- 	if (error) {
- 		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
-@@ -11092,7 +11096,6 @@ lpfc_pci_probe_one_s4(struct pci_dev *pdev, const struct pci_device_id *pid)
- 	}
- 
- 	/* Initialize and populate the iocb list per host */
--
- 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
- 			"2821 initialize iocb list %d.\n",
- 			phba->cfg_iocb_cnt*1024);
-@@ -11183,7 +11186,9 @@ lpfc_pci_probe_one_s4(struct pci_dev *pdev, const struct pci_device_id *pid)
- 	if ((phba->nvmet_support == 0) &&
- 	    (phba->cfg_enable_fc4_type & LPFC_ENABLE_NVME)) {
- 		/* Create NVME binding with nvme_fc_transport. This
--		 * ensures the vport is initialized.
-+		 * ensures the vport is initialized.  If the localport
-+		 * create fails, it should not unload the driver to
-+		 * support field issues.
- 		 */
- 		error = lpfc_nvme_create_localport(vport);
- 		if (error) {
-@@ -11191,7 +11196,6 @@ lpfc_pci_probe_one_s4(struct pci_dev *pdev, const struct pci_device_id *pid)
- 					"6004 NVME registration failed, "
- 					"error x%x\n",
- 					error);
--			goto out_disable_intr;
- 		}
- 	}
- 
-diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
-index 7087c55..d606944 100644
---- a/drivers/scsi/lpfc/lpfc_sli.c
-+++ b/drivers/scsi/lpfc/lpfc_sli.c
-@@ -13758,7 +13758,10 @@ lpfc_sli4_queue_free(struct lpfc_queue *queue)
- 		lpfc_free_rq_buffer(queue->phba, queue);
- 		kfree(queue->rqbp);
- 	}
--	kfree(queue->pring);
-+
-+	if (!list_empty(&queue->wq_list))
-+		list_del(&queue->wq_list);
-+
- 	kfree(queue);
- 	return;
++#endif
  }
-@@ -15561,6 +15564,8 @@ lpfc_wq_destroy(struct lpfc_hba *phba, struct lpfc_queue *wq)
- 	}
- 	/* Remove wq from any list */
- 	list_del_init(&wq->list);
-+	kfree(wq->pring);
-+	wq->pring = NULL;
- 	mempool_free(mbox, wq->phba->mbox_mem_pool);
- 	return status;
- }
+ 
+ int
 -- 
 2.1.0
