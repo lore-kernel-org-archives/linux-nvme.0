@@ -1,60 +1,38 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 09:42:10 +0200
-Subject: [PATCH-v1 15/22] Fix driver load issues when MRQ=8
-In-Reply-To: <20170420044641.10657-16-jsmart2021@gmail.com>
+Date: Thu, 20 Apr 2017 09:42:51 +0200
+Subject: [PATCH-v1 16/22] Fix crash after issuing lip reset
+In-Reply-To: <20170420044641.10657-17-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
- <20170420044641.10657-16-jsmart2021@gmail.com>
-Message-ID: <20170420074210.GP6217@linux-x5ow.site>
+ <20170420044641.10657-17-jsmart2021@gmail.com>
+Message-ID: <20170420074251.GQ6217@linux-x5ow.site>
 
-On Wed, Apr 19, 2017@09:46:34PM -0700, jsmart2021@gmail.com wrote:
+On Wed, Apr 19, 2017@09:46:35PM -0700, jsmart2021@gmail.com wrote:
 > From: James Smart <jsmart2021 at gmail.com>
 > 
-> The symptom is that the driver will fail to login to the fabric.
-> The reason is because it is out of iocb resources.
+> When RPI is not available, driver sends WQE with invalid RPI value and
+> rejected by HBA.
+> lpfc 0000:82:00.3: 1:3154 BLS ABORT RSP failed, data:  x3/xa0320008
+> and
+> lpfc :2753 PLOGI failure DID:FFFFFA Status:x3/xa0240008
 > 
-> There is a one to one relationship between MRQs
-> (receive buffers for NVMET-FC) and iocbs and the default number of
-> IOCBs was not accounting for the number of MRQs that were being created.
+> In this case, driver accesses rpi_ids array out of bounds.
 > 
-> This fix aligns the number of MRQ resources with the total resources so
-> that it can handle fabric events when needed.
+> Fix:
+> Check return value of lpfc_sli4_alloc_rpi(). Do not allocate
+> lpfc_nodelist entry if RPI is not available.
 > 
-> Also the initialization of ctxlock to be on FCP commands, NOT LS commands.
-> And modified log messages so that the log output can be correlated with
-> the analyzer trace.
+> When RPI is not available, we will get discovery timeouts and
+> command drops for some of the vports as seen below.
+> 
+> 
+> lpfc :0273 Unexpected discovery timeout, vport State x0
+> lpfc :0230 Unexpected timeout, hba link state x5
+> lpfc :0111 Dropping received ELS cmd Data: x0 xc90c55 x0
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/scsi/lpfc/lpfc_init.c  | 12 ++++++++----
->  drivers/scsi/lpfc/lpfc_nvme.c  | 23 ++++++++++++-----------
->  drivers/scsi/lpfc/lpfc_nvmet.c |  6 +++---
->  3 files changed, 23 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-> index cca7f81..88977b8 100644
-> --- a/drivers/scsi/lpfc/lpfc_init.c
-> +++ b/drivers/scsi/lpfc/lpfc_init.c
-> @@ -11061,7 +11061,7 @@ lpfc_pci_probe_one_s4(struct pci_dev *pdev, const struct pci_device_id *pid)
->  	struct lpfc_hba   *phba;
->  	struct lpfc_vport *vport = NULL;
->  	struct Scsi_Host  *shost = NULL;
-> -	int error;
-> +	int error, cnt;
->  	uint32_t cfg_mode, intr_mode;
->  
->  	/* Allocate memory for HBA structure */
-> @@ -11095,11 +11095,15 @@ lpfc_pci_probe_one_s4(struct pci_dev *pdev, const struct pci_device_id *pid)
->  		goto out_unset_pci_mem_s4;
->  	}
->  
-> +	cnt = phba->cfg_iocb_cnt * 1024;
-> +	if (phba->nvmet_support)
-> +		cnt += (phba->cfg_nvmet_mrq_post * phba->cfg_nvmet_mrq);
 
-Souperflous parenthesis ^
-
-Otherwise,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
