@@ -1,27 +1,37 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 20 Apr 2017 20:03:48 +0300
-Subject: kmemleak complaints in nvme PM
-In-Reply-To: <CALCETrWsU4FMmnv3Wcp6-qc2a6hYCJ0mteUQX0hK+F=KQe7Lvw@mail.gmail.com>
-References: <006f3319-0cd8-9d47-95cd-454b775a9b04@grimberg.me>
- <20170412172939.GE8639@lst.de>
- <CALCETrURYPsHZOfpey33vm-9HHLTBQqjti8YCXLkJJHs5nXByQ@mail.gmail.com>
- <3179162.n86QkeM4IM@aspire.rjw.lan>
- <CALCETrX2yD+D=qkOFajStC=9PaAxpkvhD2OWpO_bAhX5s+_LTA@mail.gmail.com>
- <d18ef22d-7e83-c287-6d86-7d0ebd5442ef@grimberg.me>
- <CALCETrWsU4FMmnv3Wcp6-qc2a6hYCJ0mteUQX0hK+F=KQe7Lvw@mail.gmail.com>
-Message-ID: <cfa923cb-e6b5-eb3a-f6ad-636135d05b3c@grimberg.me>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 20 Apr 2017 10:30:47 -0600
+Subject: [PATCH v2 0/2] nvme APST quirk updates, take two
+In-Reply-To: <20170420162925.GB25259@localhost.localdomain>
+References: <cover.1492704577.git.luto@kernel.org>
+ <9cd43193-af6b-2cb1-3951-5fa569bf1f31@kernel.dk>
+ <b6da572f-2c50-81b4-64b0-73abdd124408@grimberg.me>
+ <20170420162925.GB25259@localhost.localdomain>
+Message-ID: <90f94a38-7508-ba80-aa14-827e758dd418@kernel.dk>
 
+On 04/20/2017 10:29 AM, Keith Busch wrote:
+> On Thu, Apr 20, 2017@07:15:15PM +0300, Sagi Grimberg wrote:
+>>
+>>>> Hi Jens-
+>>>>
+>>>> These are just the quirk updates, split out.  The patches are
+>>>> unchanged.
+>>>>
+>>>> I think that, even if we want to apply a broader quirk for 4.11, we
+>>>> should still apply these so that we can cleanly revert the broader
+>>>> quirk later.  IOW, let's get the known regressions fixed before we
+>>>> get too excited about the unknown regressions.
+>>>
+>>> This looks good to me, and 4.11 appropriate. I'll expedite this
+>>> through the block tree, if Keith/Sagi/Christoph agrees on this
+>>> being the right approach for 4.11.
+>>
+>> I'm perfectly fine with this going to 4.11
+> 
+> All good with me as well.
+> 
+> Reviewed-by: Keith Busch <keith.busch at intel.com>
 
-> Anyway, I tried to reproduce it and I failed:
->
-> # nvmetcli
-> /> cd /ports/
-> /ports> create 1
-> module 'nvmet' has no attribute 'Port'
->
-> I can manually mkdir '1' in /sys/kernel/config/nvmet/ports, but I have
-> no idea what I'm supposed to do from there.
->
-> Help?  Is there some trivial script I can run to reproduce the problem?
+Great, I have queued it up.
 
-I think you need to pull from Christoph's nvmetcli repo to resolve this.
+-- 
+Jens Axboe
