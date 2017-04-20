@@ -1,20 +1,19 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 09:32:47 +0200
-Subject: [PATCH-v1 04/22] Fix log message in completion path.
-In-Reply-To: <20170420044641.10657-5-jsmart2021@gmail.com>
+Date: Thu, 20 Apr 2017 09:33:42 +0200
+Subject: [PATCH-v1 05/22] Add debug messages for nvme/fcp resource
+ allocation.
+In-Reply-To: <20170420044641.10657-6-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
- <20170420044641.10657-5-jsmart2021@gmail.com>
-Message-ID: <20170420073116.GE6217@linux-x5ow.site>
+ <20170420044641.10657-6-jsmart2021@gmail.com>
+Message-ID: <20170420073341.GF6217@linux-x5ow.site>
 
-On Wed, Apr 19, 2017@09:46:23PM -0700, jsmart2021@gmail.com wrote:
+On Wed, Apr 19, 2017@09:46:24PM -0700, jsmart2021@gmail.com wrote:
 > From: James Smart <jsmart2021 at gmail.com>
 > 
-> In the lpfc_nvme_io_cmd_wqe_cmpl routine the driver was printing two
-> pointers and the DID for the rport whenever an IO completed on a now
-> that had transitioned to a non active state.
+> The xri resources are split into pools for NVME and FCP IO when NVME is
+> enabled. There was not message in the log that identified this allocation.
 > 
-> There is no need to print the node pointer address for a node that
-> is not active the DID should be enough to debug.
+> Added debug message to log XRI split.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
