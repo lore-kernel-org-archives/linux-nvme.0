@@ -1,39 +1,25 @@
-From: luto@kernel.org (Andy Lutomirski)
-Date: Thu, 20 Apr 2017 13:37:56 -0700
-Subject: [PATCH v3 2/2] nvme: Quirk APST off on "THNSF5256GPUK TOSHIBA"
-In-Reply-To: <cover.1492720361.git.luto@kernel.org>
-References: <cover.1492720361.git.luto@kernel.org>
-Message-ID: <a05de8b1888e1481f910be21e7786f33a751f22a.1492720361.git.luto@kernel.org>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Thu, 20 Apr 2017 20:43:47 +0000
+Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
+In-Reply-To: <CAPcyv4gxBgVsbSez7_dZYkZojUWU0X0txs7FxiJ+Z3xsMt6TqQ@mail.gmail.com>
+References: <20170418164557.GA7181@obsidianresearch.com>
+ <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
+ <20170418190138.GH7181@obsidianresearch.com>
+ <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
+ <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
+ <20170418210339.GA24257@obsidianresearch.com>
+ <1492564806.25766.124.camel@kernel.crashing.org>
+ <20170419155557.GA8497@obsidianresearch.com>
+ <4899b011-bdfb-18d8-ef00-33a1516216a6@deltatee.com>
+ <CAPcyv4iJ9H8Ykwnjqa2R_D1qG6PsSQmi=QxYH-rKLF_ihrsWyw@mail.gmail.com>
+ <20170419173225.GA11255@redhat.com>
+ <CAPcyv4gxBgVsbSez7_dZYkZojUWU0X0txs7FxiJ+Z3xsMt6TqQ@mail.gmail.com>
+Message-ID: <D79A59A8-DC7E-413F-ABB8-05F373A9DFD4@raithlin.com>
 
-There's a report that it malfunctions with APST on.
 
-See https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1678184
+> Yes, this makes sense I think we really just want to distinguish host
+> memory or not in terms of the dev_pagemap type.
 
-Cc: Kai-Heng Feng <kai.heng.feng at canonical.com>
-Signed-off-by: Andy Lutomirski <luto at kernel.org>
----
- drivers/nvme/host/core.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+I would like to see mutually exclusive flags for host memory (or not) and persistence (or not).
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 00b2818dac31..eeb409c287b8 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1395,6 +1395,15 @@ struct nvme_core_quirk_entry {
- };
- 
- static const struct nvme_core_quirk_entry core_quirks[] = {
-+	{
-+		/*
-+		 * This Toshiba device seems to die using any APST states.  See:
-+		 * https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1678184/comments/11
-+		 */
-+		.vid = 0x1179,
-+		.mn = "THNSF5256GPUK TOSHIBA",
-+		.quirks = NVME_QUIRK_NO_APST,
-+	}
- };
- 
- /* match is null-terminated but idstr is space-padded. */
--- 
-2.9.3
+Stephen
