@@ -1,13 +1,16 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 17:13:36 +0200
-Subject: [PATCH 14/23] mtip32xx: add a status field to struct mtip_cmd
-In-Reply-To: <20170420140316.6546-15-hch@lst.de>
+Date: Thu, 20 Apr 2017 17:14:36 +0200
+Subject: [PATCH 16/23] blk-mq: remove the error argument to
+ blk_mq_complete_request
+In-Reply-To: <20170420140316.6546-17-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
- <20170420140316.6546-15-hch@lst.de>
-Message-ID: <20170420151335.GM13676@linux-x5ow.site>
+ <20170420140316.6546-17-hch@lst.de>
+Message-ID: <20170420151436.GN13676@linux-x5ow.site>
 
-On Thu, Apr 20, 2017@04:03:07PM +0200, Christoph Hellwig wrote:
-> Instead of using req->errors, which will go away.
+On Thu, Apr 20, 2017@04:03:09PM +0200, Christoph Hellwig wrote:
+> Now that all drivers that call blk_mq_complete_requests have a
+> ->complete callback we can remove the direct call to blk_mq_end_request,
+> as well as the error argument to blk_mq_complete_request.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
