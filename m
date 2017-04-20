@@ -1,64 +1,43 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 19 Apr 2017 16:19:41 -0700
-Subject: [PATCH v2 4/5] nvmet_fc: Rework target side abort handling
-In-Reply-To: <20170419193625.GE18191@infradead.org>
-References: <20170411183232.8955-1-jsmart2021@gmail.com>
- <20170411183232.8955-5-jsmart2021@gmail.com>
- <20170419193625.GE18191@infradead.org>
-Message-ID: <00a1f313-d5d2-d750-9993-e815fa780ffe@gmail.com>
+From: dan.j.williams@gmail.com (Dan Williams)
+Date: Wed, 19 Apr 2017 17:07:58 -0700
+Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
+In-Reply-To: <c143c2fd-8bff-595d-8a9e-debfcd56e531@deltatee.com>
+References: <20170418210339.GA24257@obsidianresearch.com>
+ <1492564806.25766.124.camel@kernel.crashing.org>
+ <20170419155557.GA8497@obsidianresearch.com>
+ <4899b011-bdfb-18d8-ef00-33a1516216a6@deltatee.com>
+ <20170419171451.GA10020@obsidianresearch.com>
+ <b0234176-e86b-6e7c-686d-b4fef719aad7@deltatee.com>
+ <20170419183247.GA13716@obsidianresearch.com>
+ <21e8099a-d19d-7df0-682d-627d8b81dfde@deltatee.com>
+ <20170419193154.GA14340@obsidianresearch.com>
+ <ea03e81f-e3d5-9f5c-db60-0ceaf4366612@deltatee.com>
+ <20170419204808.GA15716@obsidianresearch.com>
+ <c143c2fd-8bff-595d-8a9e-debfcd56e531@deltatee.com>
+Message-ID: <CAA9_cmdbi0=wS2TFhezzRhdWvO-W75LAG4aHCEwDMHV1gqP2BA@mail.gmail.com>
 
-On 4/19/2017 12:36 PM, Christoph Hellwig wrote:
-> This looks ok as a change to the existing code:
+On Wed, Apr 19, 2017@3:55 PM, Logan Gunthorpe <logang@deltatee.com> wrote:
 >
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
 >
-> But we really need to go to the NVMe technical working group about
-> how to cater for the fact that the FC transport does transport aborts
-> (and thus probably doesn't use NVMe aborts at all, although we'd need
-> to clarify that).  Can you reach out to the working group and the T11
-> folks?
+> On 19/04/17 02:48 PM, Jason Gunthorpe wrote:
+>> On Wed, Apr 19, 2017@01:41:49PM -0600, Logan Gunthorpe wrote:
+>>
+>>>> But.. it could point to a GPU and the GPU struct device could have a
+>>>> proxy dma_ops like Dan pointed out.
+>>>
+>>> Seems a bit awkward to me that in order for the intended use case, you
+>>> have to proxy the dma_ops. I'd probably still suggest throwing a couple
+>>> ops for things like this in the dev_pagemap.
+>>
+>> Another option is adding a new 'struct completer_dma_ops *' to struct
+>> device for this use case.
+>>
+>> Seems like a waste to expand dev_pagemap when we only need a unique
+>> value per struct device?
 >
+> I feel like expanding dev_pagemap has a much lower impact than expanding
+> struct device... dev_pagemap is only one instance per zone device region
+> so expanding it shouldn't be a huge issue. Expanding struct device means
+> every device struct in the system gets bigger.
 
-Thanks.
-
-I think there's a mis-understanding.  T11 doesn't use transport aborts 
-in lieu of an NVMe Abort.  In fact, it's written that if it has an I/O 
-failure and can't recover from it by retransmission/preserving the 
-exchange (and currently it can't, as the T11 1.0 spec deferred 
-retransmission support until 1.1), then it falls back to terminating the 
-connection, which also terminates the association - which is per the 
-language in the NVMe Fabric spec sec 7.1.  So, if it sees an ABTS for an 
-exchange, it kills the association.  Note: there would be several issues 
-if T11 tried to use ABTS's in lieu of Abort, or ABTS and cmd retry in 
-lieu of real retransmission. So neither are allowed.
-
-What you're probably seeing is the error being detected on the io, and 
-the ABTS being pre-emptively sent for that io, and then that escalating 
-to the connection/association failure, which usually spits out lots more 
-ABTS's.   On the target side implementation in linux, the one io gets 
-aborted, and it currently doesn't escalate to other commands - it 
-expects the initiator to get the ABTS, thus an io error, thus the 
-initiator to teardown the connection/association and send all the 
-ABTS's.   This may need to be revisited after the T11 1.0 spec comes 
-out, which I believe requires the target to also ABTS things on 
-connection failure.  I do need to check that if the linux nvmet layer 
-kills the association/connection its returning all the outstanding cmds 
-to the transport so I can meet that requirement.
-
-There are perhaps 2 things that could be improved on the linux initiator 
-fc transport:
-1) Use NVMe Aborts instead of defaulting to resetting the controller 
-(like rdma). This was held off as: ) NVME Abort are "best effort" and 
-there were a lot of comments in the tech group promoting lazy abort 
-support by always returning Dword 0 bit 0 =1 (cmd not aborted); b) Abort 
-vs SQ cmd delivery is even more asynchronous than on other transports, 
-creating more hit/miss conditions and requiring Abort command retries 
-(what is a reasonable policy?); and c) it really should be something in 
-the core layer and managing vs the Abort Command Limit is a real pain. 
-This can always change in the future.
-
-2) There are a couple of io error cases that detect a transport error 
-and set status to NVME_SC_FC_TRANSPORT and don't ABTS the cmds. They 
-should per T11 spec.
-
--- james
+Especially since we expect a very small subset of devices will ever support p2p.
