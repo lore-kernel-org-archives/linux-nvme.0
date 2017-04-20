@@ -1,29 +1,64 @@
 From: luto@kernel.org (Andy Lutomirski)
-Date: Wed, 19 Apr 2017 20:02:14 -0700
-Subject: [PATCH 1/5] nvme: Fix APST comment
+Date: Wed, 19 Apr 2017 20:02:15 -0700
+Subject: [PATCH 2/5] nvme: Display raw APST configuration via DYNAMIC_DEBUG
 In-Reply-To: <cover.1492656278.git.luto@kernel.org>
 References: <cover.1492656278.git.luto@kernel.org>
-Message-ID: <73505aedab12236d4d54add4db0b5c0d27905d8c.1492656278.git.luto@kernel.org>
+Message-ID: <f29dd2def54aadc386db60ab1bb818091d1a1b94.1492656278.git.luto@kernel.org>
 
-There was a typo in the description of the timeout heuristic.
+Debugging APST is currently a bit of a pain.  This gives optional
+simple log messages that describe the APST state.
+
+The easiest way to use this is probably with the nvme_core.dyndbg=+p
+module parameter.
 
 Signed-off-by: Andy Lutomirski <luto at kernel.org>
 ---
- drivers/nvme/host/core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/nvme/host/core.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9583a5f58a1d..4fc58866640e 100644
+index 4fc58866640e..52b4e52b85a2 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1267,7 +1267,7 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
- 	 * heuristic: we are willing to spend at most 2% of the time
- 	 * transitioning between power states.  Therefore, when running
- 	 * in any given state, we will enter the next lower-power
--	 * non-operational state after waiting 100 * (enlat + exlat)
-+	 * non-operational state after waiting 50 * (enlat + exlat)
- 	 * microseconds, as long as that state's total latency is under
- 	 * the requested maximum latency.
- 	 *
+@@ -1278,6 +1278,8 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
+ 
+ 	unsigned apste;
+ 	struct nvme_feat_auto_pst *table;
++	u64 max_lat_us = 0;
++	int max_ps = -1;
+ 	int ret;
+ 
+ 	/*
+@@ -1299,6 +1301,7 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
+ 	if (ctrl->ps_max_latency_us == 0) {
+ 		/* Turn off APST. */
+ 		apste = 0;
++		dev_dbg(ctrl->device, "APST disabled\n");
+ 	} else {
+ 		__le64 target = cpu_to_le64(0);
+ 		int state;
+@@ -1340,9 +1343,22 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
+ 
+ 			target = cpu_to_le64((state << 3) |
+ 					     (transition_ms << 8));
++
++			if (max_ps == -1)
++				max_ps = state;
++
++			if (total_latency_us > max_lat_us)
++				max_lat_us = total_latency_us;
+ 		}
+ 
+ 		apste = 1;
++
++		if (max_ps == -1) {
++			dev_dbg(ctrl->device, "APST enabled but no non-operational states are available\n");
++		} else {
++			dev_dbg(ctrl->device, "APST enabled: max PS = %d, max round-trip latency = %lluus, table = %*phN\n",
++				max_ps, max_lat_us, (int)sizeof(*table), table);
++		}
+ 	}
+ 
+ 	ret = nvme_set_features(ctrl, NVME_FEAT_AUTO_PST, apste,
 -- 
 2.9.3
