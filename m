@@ -1,39 +1,35 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Wed, 19 Apr 2017 21:46:24 -0700
-Subject: [PATCH-v1 05/22] Add debug messages for nvme/fcp resource allocation.
+Date: Wed, 19 Apr 2017 21:46:26 -0700
+Subject: [PATCH-v1 07/22] Remove unused defines for NVME PostBuf.
 In-Reply-To: <20170420044641.10657-1-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
-Message-ID: <20170420044641.10657-6-jsmart2021@gmail.com>
+Message-ID: <20170420044641.10657-8-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-The xri resources are split into pools for NVME and FCP IO when NVME is
-enabled. There was not message in the log that identified this allocation.
+These defines for the posting of buffers for nvmet target were not used.
 
-Added debug message to log XRI split.
+Removing the unused defines.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_init.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/scsi/lpfc/lpfc_nvme.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index 6cc561b..b56da01 100644
---- a/drivers/scsi/lpfc/lpfc_init.c
-+++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -3508,6 +3508,12 @@ lpfc_sli4_scsi_sgl_update(struct lpfc_hba *phba)
- 	spin_unlock(&phba->scsi_buf_list_put_lock);
- 	spin_unlock_irq(&phba->scsi_buf_list_get_lock);
+diff --git a/drivers/scsi/lpfc/lpfc_nvme.h b/drivers/scsi/lpfc/lpfc_nvme.h
+index 6277796..2582f46 100644
+--- a/drivers/scsi/lpfc/lpfc_nvme.h
++++ b/drivers/scsi/lpfc/lpfc_nvme.h
+@@ -22,9 +22,6 @@
+  ********************************************************************/
  
-+	lpfc_printf_log(phba, KERN_INFO, LOG_SLI,
-+			"6060 Current allocated SCSI xri-sgl count:%d, "
-+			"maximum  SCSI xri count:%d (split:%d)\n",
-+			phba->sli4_hba.scsi_xri_cnt,
-+			phba->sli4_hba.scsi_xri_max, phba->cfg_xri_split);
-+
- 	if (phba->sli4_hba.scsi_xri_cnt > phba->sli4_hba.scsi_xri_max) {
- 		/* max scsi xri shrinked below the allocated scsi buffers */
- 		scsi_xri_cnt = phba->sli4_hba.scsi_xri_cnt -
+ #define LPFC_NVME_DEFAULT_SEGS		(64 + 1)	/* 256K IOs */
+-#define LPFC_NVMET_MIN_POSTBUF		16
+-#define LPFC_NVMET_DEFAULT_POSTBUF	1024
+-#define LPFC_NVMET_MAX_POSTBUF		4096
+ #define LPFC_NVME_WQSIZE		256
+ 
+ #define LPFC_NVME_ERSP_LEN		0x20
 -- 
 2.1.0
