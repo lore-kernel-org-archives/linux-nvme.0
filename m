@@ -1,15 +1,14 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 17:04:21 +0200
-Subject: [PATCH 11/23] dm rq: don't pass irrelevant error code to
- blk_mq_complete_request
-In-Reply-To: <20170420140316.6546-12-hch@lst.de>
+Date: Thu, 20 Apr 2017 17:04:39 +0200
+Subject: [PATCH 12/23] dm mpath: don't check for req->errors
+In-Reply-To: <20170420140316.6546-13-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
- <20170420140316.6546-12-hch@lst.de>
-Message-ID: <20170420150421.GK13676@linux-x5ow.site>
+ <20170420140316.6546-13-hch@lst.de>
+Message-ID: <20170420150439.GL13676@linux-x5ow.site>
 
-On Thu, Apr 20, 2017@04:03:04PM +0200, Christoph Hellwig wrote:
-> dm never uses rq->errors, so there is no need to pass an error argument
-> to blk_mq_complete_request.
+On Thu, Apr 20, 2017@04:03:05PM +0200, Christoph Hellwig wrote:
+> We'll get all proper errors reported through ->end_io and ->errors will
+> go away soon.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
