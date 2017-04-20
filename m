@@ -1,48 +1,131 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Thu, 20 Apr 2017 22:05:33 +0000
-Subject: [PATCH v3 2/2] blk-mq: Add a polling specific stats function
-In-Reply-To: <16225338-232a-ef39-0b9d-1281e0a66367@kernel.dk>
-References: <1491567843-26190-1-git-send-email-sbates@raithlin.com>
- <1491567843-26190-3-git-send-email-sbates@raithlin.com>
- <20170420200706.GA24823@vader.DHCP.thefacebook.com>
- <c7543e20-8f3f-03c4-38a2-de185e066aa2@kernel.dk>
- <20170420202039.GB24823@vader.DHCP.thefacebook.com>
- <808e7f83-9f55-29cf-7472-c09daea665bd@kernel.dk>
- <0E9E52B3-977A-4159-83B3-758564FF67AD@raithlin.com>
- <6617fde7-4866-4a2d-6cf5-dc8b2c678186@kernel.dk>
- <D356CC80-F509-4427-B999-641636131E8D@raithlin.com>
- <ca5bec05-ba3c-55db-6f3d-ef0965a79737@kernel.dk>
- <0C2FFC52-512F-4031-8E6F-487FA651A31B@raithlin.com>
- <6214fe06-c636-c565-9b2c-fab7cf2e6d19@kernel.dk>
- <F8C6A572-C589-4FF9-8DB2-66D6CC045EA1@raithlin.com>
- <16225338-232a-ef39-0b9d-1281e0a66367@kernel.dk>
-Message-ID: <F1D4091B-6AA1-46D0-A99E-0A891DE4939E@raithlin.com>
+From: jsmart2021@gmail.com (jsmart2021@gmail.com)
+Date: Thu, 20 Apr 2017 15:04:43 -0700
+Subject: ["PATCH-v2" 17/22] Fix max_sgl_segments settings for NVME / NVMET
+In-Reply-To: <20170420220448.27095-1-jsmart2021@gmail.com>
+References: <20170420220448.27095-1-jsmart2021@gmail.com>
+Message-ID: <20170420220448.27095-18-jsmart2021@gmail.com>
 
+From: James Smart <jsmart2021@gmail.com>
 
-> You can, but it won't do much good since v3 is already applied. Any
-> further changes must be incremental.
+Cannot set NVME segment counts to a large number
 
-BTW getting a compile error from the Kyber code in for-4.12/block due to the fact we now return a signed from the bucket function?
+The existing module parameter lpfc_sg_seg_cnt is used for both
+SCSI and NVME.
 
-batesste at ubuntu64-batesste:~/kernel/linux$ make -j 2 all
-  CHK     include/config/kernel.release
-  CHK     include/generated/uapi/linux/version.h
-  CHK     include/generated/utsrelease.h
-  CHK     include/generated/timeconst.h
-  CHK     include/generated/bounds.h
-  CHK     include/generated/asm-offsets.h
-  CALL    scripts/checksyscalls.sh
-  CHK     include/generated/compile.h
-  CC      block/kyber-iosched.o
-block/kyber-iosched.c: In function ?kyber_queue_data_alloc?:
-block/kyber-iosched.c:295:57: error: passing argument 2 of ?blk_stat_alloc_callback? from incompatible pointer type [-Werror=incompatible-pointer-types]
-  kqd->cb = blk_stat_alloc_callback(kyber_stat_timer_fn, rq_sched_domain,
-                                                         ^
-In file included from block/blk-mq.h:4:0,
-                 from block/blk.h:6,
-                 from block/kyber-iosched.c:27:
-block/blk-stat.h:138:1: note: expected ?int (*)(const struct request *)? but argument is of type ?unsigned int (*)(const struct request *)?
- blk_stat_alloc_callback(void (*timer_fn)(struct blk_stat_callback *),
- ^
-  CC      block/compat_ioctl.o
-cc1: some warnings being treated as errors
+Limit the module parameter lpfc_sg_seg_cnt to 128 with the
+default being 64 for both NVME and NVMET, assuming NVME is enabled in the
+driver for that port. The driver will set max_sgl_segments in the
+NVME/NVMET template to lpfc_sg_seg_cnt + 1.
+
+Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
+Signed-off-by: James Smart <james.smart at broadcom.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ drivers/scsi/lpfc/lpfc.h       |  3 ++-
+ drivers/scsi/lpfc/lpfc_nvme.c  | 18 ++++++++++++++----
+ drivers/scsi/lpfc/lpfc_nvmet.c | 19 +++++++++++++++----
+ 3 files changed, 31 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
+index 257bbdd..0fc1450 100644
+--- a/drivers/scsi/lpfc/lpfc.h
++++ b/drivers/scsi/lpfc/lpfc.h
+@@ -56,7 +56,7 @@ struct lpfc_sli2_slim;
+ #define LPFC_MAX_SG_SEG_CNT	4096	/* sg element count per scsi cmnd */
+ #define LPFC_MAX_SGL_SEG_CNT	512	/* SGL element count per scsi cmnd */
+ #define LPFC_MAX_BPL_SEG_CNT	4096	/* BPL element count per scsi cmnd */
+-#define LPFC_MIN_NVME_SEG_CNT	254
++#define LPFC_MAX_NVME_SEG_CNT	128	/* max SGL element cnt per NVME cmnd */
+ 
+ #define LPFC_MAX_SGE_SIZE       0x80000000 /* Maximum data allowed in a SGE */
+ #define LPFC_IOCB_LIST_CNT	2250	/* list of IOCBs for fast-path usage. */
+@@ -781,6 +781,7 @@ struct lpfc_hba {
+ 	uint32_t cfg_nvmet_fb_size;
+ 	uint32_t cfg_total_seg_cnt;
+ 	uint32_t cfg_sg_seg_cnt;
++	uint32_t cfg_nvme_seg_cnt;
+ 	uint32_t cfg_sg_dma_buf_size;
+ 	uint64_t cfg_soft_wwnn;
+ 	uint64_t cfg_soft_wwpn;
+diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
+index cb1e82b..278ae00 100644
+--- a/drivers/scsi/lpfc/lpfc_nvme.c
++++ b/drivers/scsi/lpfc/lpfc_nvme.c
+@@ -1114,12 +1114,12 @@ lpfc_nvme_prep_io_dma(struct lpfc_vport *vport,
+ 
+ 		first_data_sgl = sgl;
+ 		lpfc_ncmd->seg_cnt = nCmd->sg_cnt;
+-		if (lpfc_ncmd->seg_cnt > phba->cfg_sg_seg_cnt) {
++		if (lpfc_ncmd->seg_cnt > phba->cfg_nvme_seg_cnt) {
+ 			lpfc_printf_log(phba, KERN_ERR, LOG_NVME_IOERR,
+ 					"6058 Too many sg segments from "
+ 					"NVME Transport.  Max %d, "
+ 					"nvmeIO sg_cnt %d\n",
+-					phba->cfg_sg_seg_cnt,
++					phba->cfg_nvme_seg_cnt,
+ 					lpfc_ncmd->seg_cnt);
+ 			lpfc_ncmd->seg_cnt = 0;
+ 			return 1;
+@@ -2158,8 +2158,18 @@ lpfc_nvme_create_localport(struct lpfc_vport *vport)
+ 	nfcp_info.node_name = wwn_to_u64(vport->fc_nodename.u.wwn);
+ 	nfcp_info.port_name = wwn_to_u64(vport->fc_portname.u.wwn);
+ 
+-	/* For now need + 1 to get around NVME transport logic */
+-	lpfc_nvme_template.max_sgl_segments = phba->cfg_sg_seg_cnt + 1;
++	/* Limit to LPFC_MAX_NVME_SEG_CNT.
++	 * For now need + 1 to get around NVME transport logic.
++	 */
++	if (phba->cfg_sg_seg_cnt > LPFC_MAX_NVME_SEG_CNT) {
++		lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME | LOG_INIT,
++				 "6300 Reducing sg segment cnt to %d\n",
++				 LPFC_MAX_NVME_SEG_CNT);
++		phba->cfg_nvme_seg_cnt = LPFC_MAX_NVME_SEG_CNT;
++	} else {
++		phba->cfg_nvme_seg_cnt = phba->cfg_sg_seg_cnt;
++	}
++	lpfc_nvme_template.max_sgl_segments = phba->cfg_nvme_seg_cnt + 1;
+ 	lpfc_nvme_template.max_hw_queues = phba->cfg_nvme_io_channel;
+ 
+ 	/* localport is allocated from the stack, but the registration
+diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
+index 8348bb5..d0dda42 100644
+--- a/drivers/scsi/lpfc/lpfc_nvmet.c
++++ b/drivers/scsi/lpfc/lpfc_nvmet.c
+@@ -704,8 +704,19 @@ lpfc_nvmet_create_targetport(struct lpfc_hba *phba)
+ 	pinfo.port_name = wwn_to_u64(vport->fc_portname.u.wwn);
+ 	pinfo.port_id = vport->fc_myDID;
+ 
++	/* Limit to LPFC_MAX_NVME_SEG_CNT.
++	 * For now need + 1 to get around NVME transport logic.
++	 */
++	if (phba->cfg_sg_seg_cnt > LPFC_MAX_NVME_SEG_CNT) {
++		lpfc_printf_log(phba, KERN_INFO, LOG_NVME | LOG_INIT,
++				"6400 Reducing sg segment cnt to %d\n",
++				LPFC_MAX_NVME_SEG_CNT);
++		phba->cfg_nvme_seg_cnt = LPFC_MAX_NVME_SEG_CNT;
++	} else {
++		phba->cfg_nvme_seg_cnt = phba->cfg_sg_seg_cnt;
++	}
++	lpfc_tgttemplate.max_sgl_segments = phba->cfg_nvme_seg_cnt + 1;
+ 	lpfc_tgttemplate.max_hw_queues = phba->cfg_nvme_io_channel;
+-	lpfc_tgttemplate.max_sgl_segments = phba->cfg_sg_seg_cnt + 1;
+ 	lpfc_tgttemplate.target_features = NVMET_FCTGTFEAT_READDATA_RSP |
+ 					   NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED |
+ 					   NVMET_FCTGTFEAT_CMD_IN_ISR |
+@@ -1278,11 +1289,11 @@ lpfc_nvmet_prep_fcp_wqe(struct lpfc_hba *phba,
+ 		return NULL;
+ 	}
+ 
+-	if (rsp->sg_cnt > phba->cfg_sg_seg_cnt) {
++	if (rsp->sg_cnt > phba->cfg_nvme_seg_cnt) {
+ 		lpfc_printf_log(phba, KERN_ERR, LOG_NVME_IOERR,
+ 				"6109 lpfc_nvmet_prep_fcp_wqe: seg cnt err: "
+-				"NPORT x%x oxid:x%x\n",
+-				ctxp->sid, ctxp->oxid);
++				"NPORT x%x oxid:x%x cnt %d\n",
++				ctxp->sid, ctxp->oxid, phba->cfg_nvme_seg_cnt);
+ 		return NULL;
+ 	}
+ 
+-- 
+2.9.3
