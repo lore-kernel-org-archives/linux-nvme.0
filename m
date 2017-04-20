@@ -1,283 +1,216 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu, 20 Apr 2017 15:04:44 -0700
-Subject: ["PATCH-v2" 18/22] Add Fabric assigned WWN support.
+Date: Thu, 20 Apr 2017 15:04:37 -0700
+Subject: ["PATCH-v2" 11/22] Fix driver unload/reload operation.
 In-Reply-To: <20170420220448.27095-1-jsmart2021@gmail.com>
 References: <20170420220448.27095-1-jsmart2021@gmail.com>
-Message-ID: <20170420220448.27095-19-jsmart2021@gmail.com>
+Message-ID: <20170420220448.27095-12-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-Adding support for Fabric assigned WWPN and WWNN.
+There are couple of different load/unload issues fixed with this patch.
+One of the issues was reported by Junichi Nomura, a patch was submitted
+by Johannes Thumsrhirn which did fix one of the problems but the fix in
+this patch separates the pring free from the queue free and does not set
+the parameter passed in to NULL.
 
-Firmware sends first FLOGI to fabric with vendor version changes.
-On link up driver gets updated service parameter with FAWWN assigned port
-name.  Driver sends 2nd FLOGI with updated fawwpn and modifies the
-vport->fc_portname in driver.
+issues:
+(1) driver could not be unloaded and reloaded without some Oops or
+ Panic occurring.
+(2) The driver was panicking because of a corruption in the Memory
+Manager when the iocb list was getting allocated.
 
-Note:
-Soft wwpn will not be allowed when fawwpn is enabled.
+Root cause for the memory corruption was a double free of the Work Queue
+ring pointer memory - Freed once in the lpfc_sli4_queue_free when the CQ
+was destroyed and again in lpfc_sli4_queue_free when the WQ was destroyed.
 
+The pring free and the queue free were separated, the pring free was moved
+to the wq destroy routine because it a better fit logically to delete the
+ring with the wq.
+
+The checkpatch flagged several alignmenet issues that were also corrected
+with this patch.
+
+The mboxq was never initialed correctly before it was used by the driver
+this patch corrects that issue.
+
+Reported-by: Junichi Nomura <j-nomura at ce.jp.nec.com>
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Tested-by: Junichi Nomura <j-nomura at ce.jp.nec.com>
 ---
- drivers/scsi/lpfc/lpfc.h         |  2 ++
- drivers/scsi/lpfc/lpfc_attr.c    |  8 ++++++++
- drivers/scsi/lpfc/lpfc_els.c     |  8 +++++---
- drivers/scsi/lpfc/lpfc_hbadisc.c | 24 ++++++++++++++++++------
- drivers/scsi/lpfc/lpfc_hw.h      |  3 +++
- drivers/scsi/lpfc/lpfc_hw4.h     |  1 +
- drivers/scsi/lpfc/lpfc_init.c    | 31 ++++++++++++++++++++++++++++---
- 7 files changed, 65 insertions(+), 12 deletions(-)
+ drivers/scsi/lpfc/lpfc_init.c | 46 +++++++++++++++++++++++--------------------
+ drivers/scsi/lpfc/lpfc_sli.c  |  7 ++++++-
+ 2 files changed, 31 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
-index 0fc1450..6d7840b 100644
---- a/drivers/scsi/lpfc/lpfc.h
-+++ b/drivers/scsi/lpfc/lpfc.h
-@@ -474,6 +474,8 @@ struct lpfc_vport {
- 	unsigned long rcv_buffer_time_stamp;
- 	uint32_t vport_flag;
- #define STATIC_VPORT	1
-+#define FAWWPN_SET	2
-+#define FAWWPN_PARAM_CHG	4
- 
- 	uint16_t fdmi_num_disc;
- 	uint32_t fdmi_hba_mask;
-diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
-index 4b32d02..513fd07 100644
---- a/drivers/scsi/lpfc/lpfc_attr.c
-+++ b/drivers/scsi/lpfc/lpfc_attr.c
-@@ -2292,6 +2292,8 @@ lpfc_soft_wwn_enable_store(struct device *dev, struct device_attribute *attr,
- 	struct lpfc_vport *vport = (struct lpfc_vport *) shost->hostdata;
- 	struct lpfc_hba   *phba = vport->phba;
- 	unsigned int cnt = count;
-+	uint8_t vvvl = vport->fc_sparam.cmn.valid_vendor_ver_level;
-+	u32 *fawwpn_key = (uint32_t *)&vport->fc_sparam.un.vendorVersion[0];
- 
- 	/*
- 	 * We're doing a simple sanity check for soft_wwpn setting.
-@@ -2305,6 +2307,12 @@ lpfc_soft_wwn_enable_store(struct device *dev, struct device_attribute *attr,
- 	 * here. The intent is to protect against the random user or
- 	 * application that is just writing attributes.
- 	 */
-+	if (vvvl == 1 && cpu_to_be32(*fawwpn_key) == FAPWWN_KEY_VENDOR) {
-+		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
-+				 "0051 "LPFC_DRIVER_NAME" soft wwpn can not"
-+				 " be enabled: fawwpn is enabled\n");
-+		return -EINVAL;
-+	}
- 
- 	/* count may include a LF at end of string */
- 	if (buf[cnt-1] == '\n')
-diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-index ffdcac0..35fc260 100644
---- a/drivers/scsi/lpfc/lpfc_els.c
-+++ b/drivers/scsi/lpfc/lpfc_els.c
-@@ -603,9 +603,11 @@ lpfc_check_clean_addr_bit(struct lpfc_vport *vport,
- 		memcmp(&vport->fabric_portname, &sp->portName,
- 			sizeof(struct lpfc_name)) ||
- 		memcmp(&vport->fabric_nodename, &sp->nodeName,
--			sizeof(struct lpfc_name)))
-+			sizeof(struct lpfc_name)) ||
-+		(vport->vport_flag & FAWWPN_PARAM_CHG)) {
- 		fabric_param_changed = 1;
--
-+		vport->vport_flag &= ~FAWWPN_PARAM_CHG;
-+	}
- 	/*
- 	 * Word 1 Bit 31 in common service parameter is overloaded.
- 	 * Word 1 Bit 31 in FLOGI request is multiple NPort request
-@@ -8755,7 +8757,7 @@ lpfc_issue_els_fdisc(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
- 	pcmd += sizeof(uint32_t); /* Node Name */
- 	pcmd += sizeof(uint32_t); /* Node Name */
- 	memcpy(pcmd, &vport->fc_nodename, 8);
--
-+	memset(sp->un.vendorVersion, 0, sizeof(sp->un.vendorVersion));
- 	lpfc_set_disctmo(vport);
- 
- 	phba->fc_stat.elsXmitFDISC++;
-diff --git a/drivers/scsi/lpfc/lpfc_hbadisc.c b/drivers/scsi/lpfc/lpfc_hbadisc.c
-index d313dde..90d3616 100644
---- a/drivers/scsi/lpfc/lpfc_hbadisc.c
-+++ b/drivers/scsi/lpfc/lpfc_hbadisc.c
-@@ -3002,6 +3002,7 @@ lpfc_mbx_cmpl_read_sparam(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb)
- 	MAILBOX_t *mb = &pmb->u.mb;
- 	struct lpfc_dmabuf *mp = (struct lpfc_dmabuf *) pmb->context1;
- 	struct lpfc_vport  *vport = pmb->vport;
-+	struct Scsi_Host *shost = lpfc_shost_from_vport(vport);
- 	struct serv_parm *sp = &vport->fc_sparam;
- 	uint32_t ed_tov;
- 
-@@ -3031,6 +3032,7 @@ lpfc_mbx_cmpl_read_sparam(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb)
- 	}
- 
- 	lpfc_update_vport_wwn(vport);
-+	fc_host_port_name(shost) = wwn_to_u64(vport->fc_portname.u.wwn);
- 	if (vport->port_type == LPFC_PHYSICAL_PORT) {
- 		memcpy(&phba->wwnn, &vport->fc_nodename, sizeof(phba->wwnn));
- 		memcpy(&phba->wwpn, &vport->fc_portname, sizeof(phba->wwnn));
-@@ -3309,6 +3311,7 @@ lpfc_mbx_cmpl_read_topology(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb)
- 	struct lpfc_sli_ring *pring;
- 	MAILBOX_t *mb = &pmb->u.mb;
- 	struct lpfc_dmabuf *mp = (struct lpfc_dmabuf *) (pmb->context1);
-+	uint8_t attn_type;
- 
- 	/* Unblock ELS traffic */
- 	pring = lpfc_phba_elsring(phba);
-@@ -3325,6 +3328,7 @@ lpfc_mbx_cmpl_read_topology(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb)
- 	}
- 
- 	la = (struct lpfc_mbx_read_top *) &pmb->u.mb.un.varReadTop;
-+	attn_type = bf_get(lpfc_mbx_read_top_att_type, la);
- 
- 	memcpy(&phba->alpa_map[0], mp->virt, 128);
- 
-@@ -3337,7 +3341,7 @@ lpfc_mbx_cmpl_read_topology(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb)
- 
- 	if (phba->fc_eventTag <= la->eventTag) {
- 		phba->fc_stat.LinkMultiEvent++;
--		if (bf_get(lpfc_mbx_read_top_att_type, la) == LPFC_ATT_LINK_UP)
-+		if (attn_type == LPFC_ATT_LINK_UP)
- 			if (phba->fc_eventTag != 0)
- 				lpfc_linkdown(phba);
- 	}
-@@ -3353,7 +3357,7 @@ lpfc_mbx_cmpl_read_topology(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb)
- 	}
- 
- 	phba->link_events++;
--	if ((bf_get(lpfc_mbx_read_top_att_type, la) == LPFC_ATT_LINK_UP) &&
-+	if ((attn_type == LPFC_ATT_LINK_UP) &&
- 	    !(phba->sli.sli_flag & LPFC_MENLO_MAINT)) {
- 		phba->fc_stat.LinkUp++;
- 		if (phba->link_flag & LS_LOOPBACK_MODE) {
-@@ -3379,8 +3383,8 @@ lpfc_mbx_cmpl_read_topology(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb)
- 					phba->wait_4_mlo_maint_flg);
- 		}
- 		lpfc_mbx_process_link_up(phba, la);
--	} else if (bf_get(lpfc_mbx_read_top_att_type, la) ==
--		   LPFC_ATT_LINK_DOWN) {
-+	} else if (attn_type == LPFC_ATT_LINK_DOWN ||
-+		   attn_type == LPFC_ATT_UNEXP_WWPN) {
- 		phba->fc_stat.LinkDown++;
- 		if (phba->link_flag & LS_LOOPBACK_MODE)
- 			lpfc_printf_log(phba, KERN_ERR, LOG_LINK_EVENT,
-@@ -3389,6 +3393,14 @@ lpfc_mbx_cmpl_read_topology(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb)
- 				"Data: x%x x%x x%x\n",
- 				la->eventTag, phba->fc_eventTag,
- 				phba->pport->port_state, vport->fc_flag);
-+		else if (attn_type == LPFC_ATT_UNEXP_WWPN)
-+			lpfc_printf_log(phba, KERN_ERR, LOG_LINK_EVENT,
-+				"1313 Link Down UNEXP WWPN Event x%x received "
-+				"Data: x%x x%x x%x x%x x%x\n",
-+				la->eventTag, phba->fc_eventTag,
-+				phba->pport->port_state, vport->fc_flag,
-+				bf_get(lpfc_mbx_read_top_mm, la),
-+				bf_get(lpfc_mbx_read_top_fa, la));
- 		else
- 			lpfc_printf_log(phba, KERN_ERR, LOG_LINK_EVENT,
- 				"1305 Link Down Event x%x received "
-@@ -3399,8 +3411,8 @@ lpfc_mbx_cmpl_read_topology(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmb)
- 				bf_get(lpfc_mbx_read_top_fa, la));
- 		lpfc_mbx_issue_link_down(phba);
- 	}
--	if ((phba->sli.sli_flag & LPFC_MENLO_MAINT) &&
--	    ((bf_get(lpfc_mbx_read_top_att_type, la) == LPFC_ATT_LINK_UP))) {
-+	if (phba->sli.sli_flag & LPFC_MENLO_MAINT &&
-+	    attn_type == LPFC_ATT_LINK_UP) {
- 		if (phba->link_state != LPFC_LINK_DOWN) {
- 			phba->fc_stat.LinkDown++;
- 			lpfc_printf_log(phba, KERN_ERR, LOG_LINK_EVENT,
-diff --git a/drivers/scsi/lpfc/lpfc_hw.h b/drivers/scsi/lpfc/lpfc_hw.h
-index 15ca214..26a5647 100644
---- a/drivers/scsi/lpfc/lpfc_hw.h
-+++ b/drivers/scsi/lpfc/lpfc_hw.h
-@@ -509,6 +509,8 @@ struct class_parms {
- 	uint8_t word3Reserved2;	/* Fc Word 3, bit  0: 7 */
- };
- 
-+#define FAPWWN_KEY_VENDOR	0x42524344 /*valid vendor version fawwpn key*/
-+
- struct serv_parm {	/* Structure is in Big Endian format */
- 	struct csp cmn;
- 	struct lpfc_name portName;
-@@ -2885,6 +2887,7 @@ struct lpfc_mbx_read_top {
- #define LPFC_ATT_RESERVED    0x00	/* Reserved - attType */
- #define LPFC_ATT_LINK_UP     0x01	/* Link is up */
- #define LPFC_ATT_LINK_DOWN   0x02	/* Link is down */
-+#define LPFC_ATT_UNEXP_WWPN  0x06	/* Link is down Unexpected WWWPN */
- 	uint32_t word3;
- #define lpfc_mbx_read_top_alpa_granted_SHIFT	24
- #define lpfc_mbx_read_top_alpa_granted_MASK	0x000000FF
-diff --git a/drivers/scsi/lpfc/lpfc_hw4.h b/drivers/scsi/lpfc/lpfc_hw4.h
-index 1527770..90499f9 100644
---- a/drivers/scsi/lpfc/lpfc_hw4.h
-+++ b/drivers/scsi/lpfc/lpfc_hw4.h
-@@ -3853,6 +3853,7 @@ struct lpfc_acqe_fc_la {
- #define LPFC_FC_LA_TYPE_NO_HARD_ALPA	0x3
- #define LPFC_FC_LA_TYPE_MDS_LINK_DOWN	0x4
- #define LPFC_FC_LA_TYPE_MDS_LOOPBACK	0x5
-+#define LPFC_FC_LA_TYPE_UNEXP_WWPN	0x6
- #define lpfc_acqe_fc_la_port_type_SHIFT		6
- #define lpfc_acqe_fc_la_port_type_MASK		0x00000003
- #define lpfc_acqe_fc_la_port_type_WORD		word0
 diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index b1957f86..4138d61 100644
+index b56da01..cca7f81 100644
 --- a/drivers/scsi/lpfc/lpfc_init.c
 +++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -335,6 +335,9 @@ lpfc_dump_wakeup_param_cmpl(struct lpfc_hba *phba, LPFC_MBOXQ_t *pmboxq)
- void
- lpfc_update_vport_wwn(struct lpfc_vport *vport)
- {
-+	uint8_t vvvl = vport->fc_sparam.cmn.valid_vendor_ver_level;
-+	u32 *fawwpn_key = (u32 *)&vport->fc_sparam.un.vendorVersion[0];
-+
- 	/* If the soft name exists then update it using the service params */
- 	if (vport->phba->cfg_soft_wwnn)
- 		u64_to_wwn(vport->phba->cfg_soft_wwnn,
-@@ -354,9 +357,25 @@ lpfc_update_vport_wwn(struct lpfc_vport *vport)
- 		memcpy(&vport->fc_sparam.nodeName, &vport->fc_nodename,
- 			sizeof(struct lpfc_name));
+@@ -5815,6 +5815,12 @@ lpfc_sli4_driver_resource_setup(struct lpfc_hba *phba)
+ 	INIT_LIST_HEAD(&phba->sli4_hba.lpfc_vfi_blk_list);
+ 	INIT_LIST_HEAD(&phba->lpfc_vpi_blk_list);
  
--	if (vport->fc_portname.u.wwn[0] == 0 || vport->phba->cfg_soft_wwpn)
-+	/*
-+	 * If the port name has changed, then set the Param changes flag
-+	 * to unreg the login
++	/* Initialize mboxq lists. If the early init routines fail
++	 * these lists need to be correctly initialized.
 +	 */
-+	if (vport->fc_portname.u.wwn[0] != 0 &&
-+		memcmp(&vport->fc_portname, &vport->fc_sparam.portName,
-+			sizeof(struct lpfc_name)))
-+		vport->vport_flag |= FAWWPN_PARAM_CHG;
++	INIT_LIST_HEAD(&phba->sli.mboxq);
++	INIT_LIST_HEAD(&phba->sli.mboxq_cmpl);
 +
-+	if (vport->fc_portname.u.wwn[0] == 0 ||
-+	    vport->phba->cfg_soft_wwpn ||
-+	    (vvvl == 1 && cpu_to_be32(*fawwpn_key) == FAPWWN_KEY_VENDOR) ||
-+	    vport->vport_flag & FAWWPN_SET) {
- 		memcpy(&vport->fc_portname, &vport->fc_sparam.portName,
- 			sizeof(struct lpfc_name));
-+		vport->vport_flag &= ~FAWWPN_SET;
-+		if (vvvl == 1 && cpu_to_be32(*fawwpn_key) == FAPWWN_KEY_VENDOR)
-+			vport->vport_flag |= FAWWPN_SET;
-+	}
- 	else
- 		memcpy(&vport->fc_sparam.portName, &vport->fc_portname,
- 			sizeof(struct lpfc_name));
-@@ -4518,9 +4537,15 @@ lpfc_sli4_async_fc_evt(struct lpfc_hba *phba, struct lpfc_acqe_fc_la *acqe_fc)
- 		/* Parse and translate link attention fields */
- 		la = (struct lpfc_mbx_read_top *)&pmb->u.mb.un.varReadTop;
- 		la->eventTag = acqe_fc->event_tag;
--		bf_set(lpfc_mbx_read_top_att_type, la,
--		       LPFC_FC_LA_TYPE_LINK_DOWN);
+ 	/* initialize optic_state to 0xFF */
+ 	phba->sli4_hba.lnk_info.optic_state = 0xff;
  
-+		if (phba->sli4_hba.link_state.status ==
-+		    LPFC_FC_LA_TYPE_UNEXP_WWPN) {
-+			bf_set(lpfc_mbx_read_top_att_type, la,
-+			       LPFC_FC_LA_TYPE_UNEXP_WWPN);
-+		} else {
-+			bf_set(lpfc_mbx_read_top_att_type, la,
-+			       LPFC_FC_LA_TYPE_LINK_DOWN);
-+		}
- 		/* Invoke the mailbox command callback function */
- 		lpfc_mbx_cmpl_read_topology(phba, pmb);
+@@ -5880,6 +5886,7 @@ lpfc_sli4_driver_resource_setup(struct lpfc_hba *phba)
+ 					"READ_NV, mbxStatus x%x\n",
+ 					bf_get(lpfc_mqe_command, &mboxq->u.mqe),
+ 					bf_get(lpfc_mqe_status, &mboxq->u.mqe));
++			mempool_free(mboxq, phba->mbox_mem_pool);
+ 			rc = -EIO;
+ 			goto out_free_bsmbx;
+ 		}
+@@ -7805,7 +7812,7 @@ lpfc_alloc_fcp_wq_cq(struct lpfc_hba *phba, int wqidx)
  
+ 	/* Create Fast Path FCP WQs */
+ 	wqesize = (phba->fcp_embed_io) ?
+-				LPFC_WQE128_SIZE : phba->sli4_hba.wq_esize;
++		LPFC_WQE128_SIZE : phba->sli4_hba.wq_esize;
+ 	qdesc = lpfc_sli4_queue_alloc(phba, wqesize, phba->sli4_hba.wq_ecount);
+ 	if (!qdesc) {
+ 		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+@@ -7836,7 +7843,7 @@ int
+ lpfc_sli4_queue_create(struct lpfc_hba *phba)
+ {
+ 	struct lpfc_queue *qdesc;
+-	int idx, io_channel, max;
++	int idx, io_channel;
+ 
+ 	/*
+ 	 * Create HBA Record arrays.
+@@ -7997,15 +8004,6 @@ lpfc_sli4_queue_create(struct lpfc_hba *phba)
+ 		if (lpfc_alloc_nvme_wq_cq(phba, idx))
+ 			goto out_error;
+ 
+-	/* allocate MRQ CQs */
+-	max = phba->cfg_nvme_io_channel;
+-	if (max < phba->cfg_nvmet_mrq)
+-		max = phba->cfg_nvmet_mrq;
+-
+-	for (idx = 0; idx < max; idx++)
+-		if (lpfc_alloc_nvme_wq_cq(phba, idx))
+-			goto out_error;
+-
+ 	if (phba->nvmet_support) {
+ 		for (idx = 0; idx < phba->cfg_nvmet_mrq; idx++) {
+ 			qdesc = lpfc_sli4_queue_alloc(phba,
+@@ -8227,11 +8225,11 @@ lpfc_sli4_queue_destroy(struct lpfc_hba *phba)
+ 
+ 	/* Release FCP cqs */
+ 	lpfc_sli4_release_queues(&phba->sli4_hba.fcp_cq,
+-					phba->cfg_fcp_io_channel);
++				 phba->cfg_fcp_io_channel);
+ 
+ 	/* Release FCP wqs */
+ 	lpfc_sli4_release_queues(&phba->sli4_hba.fcp_wq,
+-					phba->cfg_fcp_io_channel);
++				 phba->cfg_fcp_io_channel);
+ 
+ 	/* Release FCP CQ mapping array */
+ 	lpfc_sli4_release_queue_map(&phba->sli4_hba.fcp_cq_map);
+@@ -8577,15 +8575,15 @@ lpfc_sli4_queue_setup(struct lpfc_hba *phba)
+ 		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+ 				"0528 %s not allocated\n",
+ 				phba->sli4_hba.mbx_cq ?
+-						"Mailbox WQ" : "Mailbox CQ");
++				"Mailbox WQ" : "Mailbox CQ");
+ 		rc = -ENOMEM;
+ 		goto out_destroy;
+ 	}
+ 
+ 	rc = lpfc_create_wq_cq(phba, phba->sli4_hba.hba_eq[0],
+-					phba->sli4_hba.mbx_cq,
+-					phba->sli4_hba.mbx_wq,
+-					NULL, 0, LPFC_MBOX);
++			       phba->sli4_hba.mbx_cq,
++			       phba->sli4_hba.mbx_wq,
++			       NULL, 0, LPFC_MBOX);
+ 	if (rc) {
+ 		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+ 			"0529 Failed setup of mailbox WQ/CQ: rc = 0x%x\n",
+@@ -10054,9 +10052,14 @@ lpfc_sli4_hba_unset(struct lpfc_hba *phba)
+ 	/* Stop kthread signal shall trigger work_done one more time */
+ 	kthread_stop(phba->worker_thread);
+ 
++	/* Unset the queues shared with the hardware then release all
++	 * allocated resources.
++	 */
++	lpfc_sli4_queue_unset(phba);
++	lpfc_sli4_queue_destroy(phba);
++
+ 	/* Reset SLI4 HBA FCoE function */
+ 	lpfc_pci_function_reset(phba);
+-	lpfc_sli4_queue_destroy(phba);
+ 
+ 	/* Stop the SLI4 device port */
+ 	phba->pport->work_port_events = 0;
+@@ -10312,6 +10315,7 @@ lpfc_pci_probe_one_s3(struct pci_dev *pdev, const struct pci_device_id *pid)
+ 	}
+ 
+ 	/* Initialize and populate the iocb list per host */
++
+ 	error = lpfc_init_iocb_list(phba, LPFC_IOCB_LIST_CNT);
+ 	if (error) {
+ 		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
+@@ -11092,7 +11096,6 @@ lpfc_pci_probe_one_s4(struct pci_dev *pdev, const struct pci_device_id *pid)
+ 	}
+ 
+ 	/* Initialize and populate the iocb list per host */
+-
+ 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
+ 			"2821 initialize iocb list %d.\n",
+ 			phba->cfg_iocb_cnt*1024);
+@@ -11183,7 +11186,9 @@ lpfc_pci_probe_one_s4(struct pci_dev *pdev, const struct pci_device_id *pid)
+ 	if ((phba->nvmet_support == 0) &&
+ 	    (phba->cfg_enable_fc4_type & LPFC_ENABLE_NVME)) {
+ 		/* Create NVME binding with nvme_fc_transport. This
+-		 * ensures the vport is initialized.
++		 * ensures the vport is initialized.  If the localport
++		 * create fails, it should not unload the driver to
++		 * support field issues.
+ 		 */
+ 		error = lpfc_nvme_create_localport(vport);
+ 		if (error) {
+@@ -11191,7 +11196,6 @@ lpfc_pci_probe_one_s4(struct pci_dev *pdev, const struct pci_device_id *pid)
+ 					"6004 NVME registration failed, "
+ 					"error x%x\n",
+ 					error);
+-			goto out_disable_intr;
+ 		}
+ 	}
+ 
+diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
+index 7087c55..d606944 100644
+--- a/drivers/scsi/lpfc/lpfc_sli.c
++++ b/drivers/scsi/lpfc/lpfc_sli.c
+@@ -13758,7 +13758,10 @@ lpfc_sli4_queue_free(struct lpfc_queue *queue)
+ 		lpfc_free_rq_buffer(queue->phba, queue);
+ 		kfree(queue->rqbp);
+ 	}
+-	kfree(queue->pring);
++
++	if (!list_empty(&queue->wq_list))
++		list_del(&queue->wq_list);
++
+ 	kfree(queue);
+ 	return;
+ }
+@@ -15561,6 +15564,8 @@ lpfc_wq_destroy(struct lpfc_hba *phba, struct lpfc_queue *wq)
+ 	}
+ 	/* Remove wq from any list */
+ 	list_del_init(&wq->list);
++	kfree(wq->pring);
++	wq->pring = NULL;
+ 	mempool_free(mbox, wq->phba->mbox_mem_pool);
+ 	return status;
+ }
 -- 
 2.9.3
