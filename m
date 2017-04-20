@@ -1,65 +1,32 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 20 Apr 2017 16:03:10 +0200
-Subject: [PATCH 17/23] blk-mq: simplify __blk_mq_complete_request
+Date: Thu, 20 Apr 2017 16:03:11 +0200
+Subject: [PATCH 18/23] block: add a error_count field to struct request
 In-Reply-To: <20170420140316.6546-1-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
-Message-ID: <20170420140316.6546-18-hch@lst.de>
+Message-ID: <20170420140316.6546-19-hch@lst.de>
 
-Merge blk_mq_ipi_complete_request and blk_mq_stat_add into their only
-caller.
+This is for the legacy floppy and ataflop drivers that currently abuse
+->errors for this purpose.  It's stashed away in a union to not grow
+the struct size, the other fields are either used by modern drivers
+for different purposes or the I/O scheduler before queing the I/O
+to drivers.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- block/blk-mq.c | 25 ++++++++-----------------
- 1 file changed, 8 insertions(+), 17 deletions(-)
+ include/linux/blkdev.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 3a2d179d49d6..3a21948c867a 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -406,12 +406,19 @@ static void __blk_mq_complete_request_remote(void *data)
- 	rq->q->softirq_done_fn(rq);
- }
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index e2064ed3c703..a3dcee624de3 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -175,6 +175,7 @@ struct request {
+ 		struct rb_node rb_node;	/* sort/lookup */
+ 		struct bio_vec special_vec;
+ 		void *completion_data;
++		int error_count; /* for legacy drivers, don't use */
+ 	};
  
--static void blk_mq_ipi_complete_request(struct request *rq)
-+static void __blk_mq_complete_request(struct request *rq)
- {
- 	struct blk_mq_ctx *ctx = rq->mq_ctx;
- 	bool shared = false;
- 	int cpu;
- 
-+	if (rq->internal_tag != -1)
-+		blk_mq_sched_completed_request(rq);
-+	if (rq->rq_flags & RQF_STATS) {
-+		blk_mq_poll_stats_start(rq->q);
-+		blk_stat_add(rq);
-+	}
-+
- 	if (!test_bit(QUEUE_FLAG_SAME_COMP, &rq->q->queue_flags)) {
- 		rq->q->softirq_done_fn(rq);
- 		return;
-@@ -432,22 +439,6 @@ static void blk_mq_ipi_complete_request(struct request *rq)
- 	put_cpu();
- }
- 
--static void blk_mq_stat_add(struct request *rq)
--{
--	if (rq->rq_flags & RQF_STATS) {
--		blk_mq_poll_stats_start(rq->q);
--		blk_stat_add(rq);
--	}
--}
--
--static void __blk_mq_complete_request(struct request *rq)
--{
--	if (rq->internal_tag != -1)
--		blk_mq_sched_completed_request(rq);
--	blk_mq_stat_add(rq);
--	blk_mq_ipi_complete_request(rq);
--}
--
- /**
-  * blk_mq_complete_request - end I/O on a request
-  * @rq:		the request being processed
+ 	/*
 -- 
 2.11.0
