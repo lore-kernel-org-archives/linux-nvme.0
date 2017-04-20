@@ -1,100 +1,44 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Wed, 19 Apr 2017 21:46:32 -0700
-Subject: [PATCH-v1 13/22] Fix nvme initiator handling when not enabled.
+Date: Wed, 19 Apr 2017 21:46:31 -0700
+Subject: [PATCH-v1 12/22] Fix driver usage of 128B WQEs when WQ_CREATE is V1.
 In-Reply-To: <20170420044641.10657-1-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
-Message-ID: <20170420044641.10657-14-jsmart2021@gmail.com>
+Message-ID: <20170420044641.10657-13-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-Fix nvme initiator handline when CONFIG_LPFC_NVME_INITIATOR is not enabled.
+There are two versions of a structure for queue creation and setup that the
+driver shares with FW. The driver was only treating as version 0.
 
-With update nvme upstream driver sources, loading
-the driver with nvme enabled resulting in this Oops.
+Verify WQ_CREATE with 128B WQEs in V0 and V1.
 
- BUG: unable to handle kernel NULL pointer dereference at 0000000000000018
- IP: lpfc_nvme_update_localport+0x23/0xd0 [lpfc]
- PGD 0
- Oops: 0000 [#1] SMP
- CPU: 0 PID: 10256 Comm: lpfc_worker_0 Tainted
- Hardware name: ...
- task: ffff881028191c40 task.stack: ffff880ffdf00000
- RIP: 0010:lpfc_nvme_update_localport+0x23/0xd0 [lpfc]
- RSP: 0018:ffff880ffdf03c20 EFLAGS: 00010202
-
-Cause: As the initiator driver completes discovery at different stages,
-it call lpfc_nvme_update_localport to hint that the DID and role may have
-changed.  In the implementation of lpfc_nvme_update_localport, the driver
-was not validating the localport or the lport during the execution
-of the update_localport routine.  With the recent upstream additions to
-the driver, the create_localport routine didn't run and so the localport
-was NULL causing the page-fault Oops.
-
-Fix: Add the CONFIG_LPFC_NVME_INITIATOR preprocessor inclusions to
-lpfc_nvme_update_localport to turn off all routine processing when
-the running kernel does not have NVME configured.  Add NULL pointer
-checks on the localport and lport in lpfc_nvme_update_localport and
-dump messages if they are NULL and just exit.
-Also one alingment issue fixed.
-Repalces the ifdef with the IS_ENABLED macro.
+Code review of another bug showed the driver passing
+128B WQEs and 8 pages in WQ CREATE and V0.
+Code inspection/instrumentation showed that the driver
+uses V0 in WQ_CREATE and if the caller passes queue->entry_size
+128B, the driver sets the hdr_version to V1 so all is good.
+When I tested the V1 WQ_CREATE, the mailbox failed causing
+the driver to unload.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_attr.c |  2 +-
- drivers/scsi/lpfc/lpfc_nvme.c | 15 +++++++++++++--
- 2 files changed, 14 insertions(+), 3 deletions(-)
+ drivers/scsi/lpfc/lpfc_sli.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
-index 22819af..4b32d02 100644
---- a/drivers/scsi/lpfc/lpfc_attr.c
-+++ b/drivers/scsi/lpfc/lpfc_attr.c
-@@ -3335,7 +3335,7 @@ LPFC_ATTR_R(enable_fc4_type, LPFC_ENABLE_FCP,
-  * percentage will go to NVME.
-  */
- LPFC_ATTR_R(xri_split, 50, 10, 90,
--	     "Division of XRI resources between SCSI and NVME");
-+	    "Division of XRI resources between SCSI and NVME");
- 
- /*
- # lpfc_log_verbose: Only turn this flag on if you are willing to risk being
-diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
-index bc6946f..f23496b 100644
---- a/drivers/scsi/lpfc/lpfc_nvme.c
-+++ b/drivers/scsi/lpfc/lpfc_nvme.c
-@@ -2263,12 +2263,23 @@ lpfc_nvme_destroy_localport(struct lpfc_vport *vport)
- void
- lpfc_nvme_update_localport(struct lpfc_vport *vport)
- {
-+#if (IS_ENABLED(CONFIG_NVME_FC))
- 	struct nvme_fc_local_port *localport;
- 	struct lpfc_nvme_lport *lport;
- 
- 	localport = vport->localport;
-+	if (!localport) {
-+		lpfc_printf_vlog(vport, KERN_WARNING, LOG_NVME,
-+				 "6710 Update NVME fail. No localport\n");
-+		return;
-+	}
- 	lport = (struct lpfc_nvme_lport *)localport->private;
--
-+	if (!lport) {
-+		lpfc_printf_vlog(vport, KERN_WARNING, LOG_NVME,
-+				 "6171 Update NVME fail. localP %p, No lport\n",
-+				 localport);
-+		return;
-+	}
- 	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
- 			 "6012 Update NVME lport %p did x%x\n",
- 			 localport, vport->fc_myDID);
-@@ -2282,7 +2293,7 @@ lpfc_nvme_update_localport(struct lpfc_vport *vport)
- 	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME_DISC,
- 			 "6030 bound lport %p to DID x%06x\n",
- 			 lport, localport->port_id);
--
-+#endif
- }
- 
- int
+diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
+index d606944..1519fdf 100644
+--- a/drivers/scsi/lpfc/lpfc_sli.c
++++ b/drivers/scsi/lpfc/lpfc_sli.c
+@@ -14741,6 +14741,9 @@ lpfc_wq_create(struct lpfc_hba *phba, struct lpfc_queue *wq,
+ 	case LPFC_Q_CREATE_VERSION_1:
+ 		bf_set(lpfc_mbx_wq_create_wqe_count, &wq_create->u.request_1,
+ 		       wq->entry_count);
++		bf_set(lpfc_mbox_hdr_version, &shdr->request,
++		       LPFC_Q_CREATE_VERSION_1);
++
+ 		switch (wq->entry_size) {
+ 		default:
+ 		case 64:
 -- 
 2.1.0
