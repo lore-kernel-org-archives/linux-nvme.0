@@ -1,87 +1,242 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 20 Apr 2017 16:03:07 +0200
-Subject: [PATCH 14/23] mtip32xx: add a status field to struct mtip_cmd
+Date: Thu, 20 Apr 2017 16:03:09 +0200
+Subject: [PATCH 16/23] blk-mq: remove the error argument to
+ blk_mq_complete_request
 In-Reply-To: <20170420140316.6546-1-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
-Message-ID: <20170420140316.6546-15-hch@lst.de>
+Message-ID: <20170420140316.6546-17-hch@lst.de>
 
-Instead of using req->errors, which will go away.
+Now that all drivers that call blk_mq_complete_requests have a
+->complete callback we can remove the direct call to blk_mq_end_request,
+as well as the error argument to blk_mq_complete_request.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/block/mtip32xx/mtip32xx.c | 16 +++++++++-------
- drivers/block/mtip32xx/mtip32xx.h |  1 +
- 2 files changed, 10 insertions(+), 7 deletions(-)
+ block/blk-mq.c                    | 15 +++------------
+ drivers/block/loop.c              |  4 ++--
+ drivers/block/mtip32xx/mtip32xx.c |  4 ++--
+ drivers/block/nbd.c               |  4 ++--
+ drivers/block/null_blk.c          |  2 +-
+ drivers/block/virtio_blk.c        |  2 +-
+ drivers/block/xen-blkfront.c      |  2 +-
+ drivers/md/dm-rq.c                |  2 +-
+ drivers/nvme/host/core.c          |  2 +-
+ drivers/nvme/host/nvme.h          |  2 +-
+ drivers/scsi/scsi_lib.c           |  2 +-
+ include/linux/blk-mq.h            |  2 +-
+ 12 files changed, 17 insertions(+), 26 deletions(-)
 
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index c496692ecc5b..3a2d179d49d6 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -442,17 +442,10 @@ static void blk_mq_stat_add(struct request *rq)
+ 
+ static void __blk_mq_complete_request(struct request *rq)
+ {
+-	struct request_queue *q = rq->q;
+-
+ 	if (rq->internal_tag != -1)
+ 		blk_mq_sched_completed_request(rq);
+-
+ 	blk_mq_stat_add(rq);
+-
+-	if (!q->softirq_done_fn)
+-		blk_mq_end_request(rq, rq->errors);
+-	else
+-		blk_mq_ipi_complete_request(rq);
++	blk_mq_ipi_complete_request(rq);
+ }
+ 
+ /**
+@@ -463,16 +456,14 @@ static void __blk_mq_complete_request(struct request *rq)
+  *	Ends all I/O on a request. It does not handle partial completions.
+  *	The actual completion happens out-of-order, through a IPI handler.
+  **/
+-void blk_mq_complete_request(struct request *rq, int error)
++void blk_mq_complete_request(struct request *rq)
+ {
+ 	struct request_queue *q = rq->q;
+ 
+ 	if (unlikely(blk_should_fake_timeout(q)))
+ 		return;
+-	if (!blk_mark_rq_complete(rq)) {
+-		rq->errors = error;
++	if (!blk_mark_rq_complete(rq))
+ 		__blk_mq_complete_request(rq);
+-	}
+ }
+ EXPORT_SYMBOL(blk_mq_complete_request);
+ 
+diff --git a/drivers/block/loop.c b/drivers/block/loop.c
+index 86351b3f7350..994403efee19 100644
+--- a/drivers/block/loop.c
++++ b/drivers/block/loop.c
+@@ -465,7 +465,7 @@ static void lo_rw_aio_complete(struct kiocb *iocb, long ret, long ret2)
+ 	struct loop_cmd *cmd = container_of(iocb, struct loop_cmd, iocb);
+ 
+ 	cmd->ret = ret;
+-	blk_mq_complete_request(cmd->rq, 0);
++	blk_mq_complete_request(cmd->rq);
+ }
+ 
+ static int lo_rw_aio(struct loop_device *lo, struct loop_cmd *cmd,
+@@ -1685,7 +1685,7 @@ static void loop_handle_cmd(struct loop_cmd *cmd)
+ 	/* complete non-aio request */
+ 	if (!cmd->use_aio || ret) {
+ 		cmd->ret = ret ? -EIO : 0;
+-		blk_mq_complete_request(cmd->rq, 0);
++		blk_mq_complete_request(cmd->rq);
+ 	}
+ }
+ 
 diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
-index 05e3e664ea1b..7406de29db58 100644
+index 7406de29db58..66a6bd83faae 100644
 --- a/drivers/block/mtip32xx/mtip32xx.c
 +++ b/drivers/block/mtip32xx/mtip32xx.c
-@@ -241,7 +241,8 @@ static void mtip_async_complete(struct mtip_port *port,
- 
+@@ -242,7 +242,7 @@ static void mtip_async_complete(struct mtip_port *port,
  	rq = mtip_rq_from_tag(dd, tag);
  
--	blk_mq_complete_request(rq, status);
-+	cmd->status = status;
-+	blk_mq_complete_request(rq, 0);
+ 	cmd->status = status;
+-	blk_mq_complete_request(rq, 0);
++	blk_mq_complete_request(rq);
  }
  
  /*
-@@ -2910,18 +2911,19 @@ static void mtip_softirq_done_fn(struct request *rq)
- 	if (unlikely(cmd->unaligned))
- 		up(&dd->port->cmd_slot_unal);
+@@ -4109,7 +4109,7 @@ static void mtip_no_dev_cleanup(struct request *rq, void *data, bool reserv)
  
--	blk_mq_end_request(rq, rq->errors);
-+	blk_mq_end_request(rq, cmd->status);
- }
- 
- static void mtip_abort_cmd(struct request *req, void *data,
- 							bool reserved)
- {
-+	struct mtip_cmd *cmd = blk_mq_rq_to_pdu(req);
- 	struct driver_data *dd = data;
- 
- 	dbg_printk(MTIP_DRV_NAME " Aborting request, tag = %d\n", req->tag);
- 
- 	clear_bit(req->tag, dd->port->cmds_to_issue);
--	req->errors = -EIO;
-+	cmd->status = -EIO;
- 	mtip_softirq_done_fn(req);
- }
- 
-@@ -3816,7 +3818,6 @@ static int mtip_queue_rq(struct blk_mq_hw_ctx *hctx,
- 	if (likely(!ret))
- 		return BLK_MQ_RQ_QUEUE_OK;
- 
--	rq->errors = ret;
- 	return BLK_MQ_RQ_QUEUE_ERROR;
- }
- 
-@@ -4106,9 +4107,10 @@ static void mtip_no_dev_cleanup(struct request *rq, void *data, bool reserv)
- 	struct driver_data *dd = (struct driver_data *)data;
- 	struct mtip_cmd *cmd;
- 
--	if (likely(!reserv))
--		blk_mq_complete_request(rq, -ENODEV);
--	else if (test_bit(MTIP_PF_IC_ACTIVE_BIT, &dd->port->flags)) {
-+	if (likely(!reserv)) {
-+		cmd->status = -ENODEV;
-+		blk_mq_complete_request(rq, 0);
-+	} else if (test_bit(MTIP_PF_IC_ACTIVE_BIT, &dd->port->flags)) {
+ 	if (likely(!reserv)) {
+ 		cmd->status = -ENODEV;
+-		blk_mq_complete_request(rq, 0);
++		blk_mq_complete_request(rq);
+ 	} else if (test_bit(MTIP_PF_IC_ACTIVE_BIT, &dd->port->flags)) {
  
  		cmd = mtip_cmd_from_tag(dd, MTIP_TAG_INTERNAL);
- 		if (cmd->comp_func)
-diff --git a/drivers/block/mtip32xx/mtip32xx.h b/drivers/block/mtip32xx/mtip32xx.h
-index 7617888f7944..57b41528a824 100644
---- a/drivers/block/mtip32xx/mtip32xx.h
-+++ b/drivers/block/mtip32xx/mtip32xx.h
-@@ -352,6 +352,7 @@ struct mtip_cmd {
- 	int retries; /* The number of retries left for this command. */
+diff --git a/drivers/block/nbd.c b/drivers/block/nbd.c
+index 09a74a66beb1..d387bef07fcc 100644
+--- a/drivers/block/nbd.c
++++ b/drivers/block/nbd.c
+@@ -635,7 +635,7 @@ static void recv_work(struct work_struct *work)
+ 			break;
+ 		}
  
- 	int direction; /* Data transfer direction */
-+	int status;
- };
+-		blk_mq_complete_request(blk_mq_rq_from_pdu(cmd), 0);
++		blk_mq_complete_request(blk_mq_rq_from_pdu(cmd));
+ 	}
+ 	atomic_dec(&config->recv_threads);
+ 	wake_up(&config->recv_wq);
+@@ -651,7 +651,7 @@ static void nbd_clear_req(struct request *req, void *data, bool reserved)
+ 		return;
+ 	cmd = blk_mq_rq_to_pdu(req);
+ 	cmd->status = -EIO;
+-	blk_mq_complete_request(req, 0);
++	blk_mq_complete_request(req);
+ }
  
- /* Structure used to describe a port. */
+ static void nbd_clear_que(struct nbd_device *nbd)
+diff --git a/drivers/block/null_blk.c b/drivers/block/null_blk.c
+index 0ca4aa34edb9..d946e1eeac8e 100644
+--- a/drivers/block/null_blk.c
++++ b/drivers/block/null_blk.c
+@@ -281,7 +281,7 @@ static inline void null_handle_cmd(struct nullb_cmd *cmd)
+ 	case NULL_IRQ_SOFTIRQ:
+ 		switch (queue_mode)  {
+ 		case NULL_Q_MQ:
+-			blk_mq_complete_request(cmd->rq, 0);
++			blk_mq_complete_request(cmd->rq);
+ 			break;
+ 		case NULL_Q_RQ:
+ 			blk_complete_request(cmd->rq);
+diff --git a/drivers/block/virtio_blk.c b/drivers/block/virtio_blk.c
+index dea2a58d6734..f94614257462 100644
+--- a/drivers/block/virtio_blk.c
++++ b/drivers/block/virtio_blk.c
+@@ -201,7 +201,7 @@ static void virtblk_done(struct virtqueue *vq)
+ 		while ((vbr = virtqueue_get_buf(vblk->vqs[qid].vq, &len)) != NULL) {
+ 			struct request *req = blk_mq_rq_from_pdu(vbr);
+ 
+-			blk_mq_complete_request(req, 0);
++			blk_mq_complete_request(req);
+ 			req_done = true;
+ 		}
+ 		if (unlikely(virtqueue_is_broken(vq)))
+diff --git a/drivers/block/xen-blkfront.c b/drivers/block/xen-blkfront.c
+index 57866355c060..39459631667c 100644
+--- a/drivers/block/xen-blkfront.c
++++ b/drivers/block/xen-blkfront.c
+@@ -1647,7 +1647,7 @@ static irqreturn_t blkif_interrupt(int irq, void *dev_id)
+ 			BUG();
+ 		}
+ 
+-		blk_mq_complete_request(req, 0);
++		blk_mq_complete_request(req);
+ 	}
+ 
+ 	rinfo->ring.rsp_cons = i;
+diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
+index 1173be21f6f6..bff7e3bdb4ed 100644
+--- a/drivers/md/dm-rq.c
++++ b/drivers/md/dm-rq.c
+@@ -363,7 +363,7 @@ static void dm_complete_request(struct request *rq, int error)
+ 	if (!rq->q->mq_ops)
+ 		blk_complete_request(rq);
+ 	else
+-		blk_mq_complete_request(rq, 0);
++		blk_mq_complete_request(rq);
+ }
+ 
+ /*
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 805f250315ec..8dc664798293 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -117,7 +117,7 @@ void nvme_cancel_request(struct request *req, void *data, bool reserved)
+ 	if (blk_queue_dying(req->q))
+ 		status |= NVME_SC_DNR;
+ 	nvme_req(req)->status = status;
+-	blk_mq_complete_request(req, 0);
++	blk_mq_complete_request(req);
+ 
+ }
+ EXPORT_SYMBOL_GPL(nvme_cancel_request);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 550037f5efea..c6ef6c30e2f0 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -251,7 +251,7 @@ static inline void nvme_end_request(struct request *req, __le16 status,
+ 
+ 	rq->status = le16_to_cpu(status) >> 1;
+ 	rq->result = result;
+-	blk_mq_complete_request(req, 0);
++	blk_mq_complete_request(req);
+ }
+ 
+ void nvme_complete_rq(struct request *req);
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index b9298a499e19..4a20e6098f7c 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -1904,7 +1904,7 @@ static int scsi_mq_prep_fn(struct request *req)
+ static void scsi_mq_done(struct scsi_cmnd *cmd)
+ {
+ 	trace_scsi_dispatch_cmd_done(cmd);
+-	blk_mq_complete_request(cmd->request, 0);
++	blk_mq_complete_request(cmd->request);
+ }
+ 
+ static int scsi_queue_rq(struct blk_mq_hw_ctx *hctx,
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index d75de612845d..0c4dadb85f62 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -228,7 +228,7 @@ void blk_mq_add_to_requeue_list(struct request *rq, bool at_head,
+ void blk_mq_kick_requeue_list(struct request_queue *q);
+ void blk_mq_delay_kick_requeue_list(struct request_queue *q, unsigned long msecs);
+ void blk_mq_abort_requeue_list(struct request_queue *q);
+-void blk_mq_complete_request(struct request *rq, int error);
++void blk_mq_complete_request(struct request *rq);
+ 
+ bool blk_mq_queue_stopped(struct request_queue *q);
+ void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx);
 -- 
 2.11.0
