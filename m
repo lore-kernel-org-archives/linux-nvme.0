@@ -1,21 +1,29 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 10:11:50 +0200
-Subject: [PATCH-v1 22/22] lpfc revison 11.2.0.12
-In-Reply-To: <20170420044641.10657-23-jsmart2021@gmail.com>
-References: <20170420044641.10657-1-jsmart2021@gmail.com>
- <20170420044641.10657-23-jsmart2021@gmail.com>
-Message-ID: <20170420081150.GV6217@linux-x5ow.site>
+Date: Thu, 20 Apr 2017 10:56:09 +0200
+Subject: [PATCH] nvme/pci: Poll CQ on timeout
+In-Reply-To: <6c0cacb0-ab91-6270-8bae-dbd18a8dbd0e@fb.com>
+References: <1487977168-5347-1-git-send-email-keith.busch@intel.com>
+ <20170228141017.GC20317@lst.de>
+ <20170228160056.GA15639@localhost.localdomain>
+ <6c0cacb0-ab91-6270-8bae-dbd18a8dbd0e@fb.com>
+Message-ID: <20170420085609.GA6217@linux-x5ow.site>
 
-On Wed, Apr 19, 2017@09:46:41PM -0700, jsmart2021@gmail.com wrote:
-> From: James Smart <jsmart2021 at gmail.com>
+On Tue, Feb 28, 2017@10:44:21AM -0700, Jens Axboe wrote:
+> IMHO that can go at a later time, if we do remove polling for
+> specific entries. For now it's fine.
 > 
-> Update lpfc version to reflect this set of changes.
-> 
-> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
+> And I do think this is a nice addition - it's free, and it provides
+> us extra info for debugging an issue. That's a big deal, especially
+> if it's a user report.
 
+JFYI, we did have I/O timeout issues on one of our internal systems.
+Keith suggested to give this patch a shot and indeed it cought missed IRQs,
+which after being polled at least didn't result in filesystem errors.
+
+So if you want you can have my:
+Tested-by: Johannes Thumshirn <jthumshirn at suse.de>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
