@@ -1,48 +1,101 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu, 20 Apr 2017 15:04:36 -0700
-Subject: ["PATCH-v2" 10/22] Fix PRLI ACC rsp for NVME
+Date: Thu, 20 Apr 2017 15:04:39 -0700
+Subject: ["PATCH-v2" 13/22] Fix nvme initiator handling when not enabled.
 In-Reply-To: <20170420220448.27095-1-jsmart2021@gmail.com>
 References: <20170420220448.27095-1-jsmart2021@gmail.com>
-Message-ID: <20170420220448.27095-11-jsmart2021@gmail.com>
+Message-ID: <20170420220448.27095-14-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-PRLI ACC from target is FCP oriented.
+Fix nvme initiator handline when CONFIG_LPFC_NVME_INITIATOR is not enabled.
 
-Word 0 was wrong. This was noticed by another nvmet-fc vendor that
-was testing the lpfc nvme-fc initiator with their target.
+With update nvme upstream driver sources, loading
+the driver with nvme enabled resulting in this Oops.
 
-Verified results with analyzer.
+ BUG: unable to handle kernel NULL pointer dereference at 0000000000000018
+ IP: lpfc_nvme_update_localport+0x23/0xd0 [lpfc]
+ PGD 0
+ Oops: 0000 [#1] SMP
+ CPU: 0 PID: 10256 Comm: lpfc_worker_0 Tainted
+ Hardware name: ...
+ task: ffff881028191c40 task.stack: ffff880ffdf00000
+ RIP: 0010:lpfc_nvme_update_localport+0x23/0xd0 [lpfc]
+ RSP: 0018:ffff880ffdf03c20 EFLAGS: 00010202
 
-PRLI
-BC B5 56 56  22 61 04 00  00 61 00 00  01 29 00 00  20 00 00 00
-00 10 FF FF  00 00 00 00  20 14 00 18  28 00 00 00  00 00 00 00
-00 00 00 00  00 00 00 20  00 00 00 00  9C D8 DA C9  BC 95 75 75
+Cause: As the initiator driver completes discovery at different stages,
+it call lpfc_nvme_update_localport to hint that the DID and role may have
+changed.  In the implementation of lpfc_nvme_update_localport, the driver
+was not validating the localport or the lport during the execution
+of the update_localport routine.  With the recent upstream additions to
+the driver, the create_localport routine didn't run and so the localport
+was NULL causing the page-fault Oops.
 
-ACC
-BC B5 56 56  23 61 00 00  00 61 04 00  01 98 00 00  30 00 00 00
-00 10 00 18  00 00 00 00  02 14 00 18  28 00 01 00  00 00 00 00
-00 00 00 00  00 00 00 18  00 00 00 00  B0 6B 07 57  BC B5 75 75
+Fix: Add the CONFIG_LPFC_NVME_INITIATOR preprocessor inclusions to
+lpfc_nvme_update_localport to turn off all routine processing when
+the running kernel does not have NVME configured.  Add NULL pointer
+checks on the localport and lport in lpfc_nvme_update_localport and
+dump messages if they are NULL and just exit.
+Also one alingment issue fixed.
+Repalces the ifdef with the IS_ENABLED macro.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/scsi/lpfc/lpfc_els.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/scsi/lpfc/lpfc_attr.c |  2 +-
+ drivers/scsi/lpfc/lpfc_nvme.c | 15 +++++++++++++--
+ 2 files changed, 14 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
-index d9c61d0..d6e0f58 100644
---- a/drivers/scsi/lpfc/lpfc_els.c
-+++ b/drivers/scsi/lpfc/lpfc_els.c
-@@ -4403,7 +4403,7 @@ lpfc_els_rsp_prli_acc(struct lpfc_vport *vport, struct lpfc_iocbq *oldiocb,
- 	pcmd = (uint8_t *) (((struct lpfc_dmabuf *) elsiocb->context2)->virt);
- 	memset(pcmd, 0, cmdsize);
+diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
+index 22819af..4b32d02 100644
+--- a/drivers/scsi/lpfc/lpfc_attr.c
++++ b/drivers/scsi/lpfc/lpfc_attr.c
+@@ -3335,7 +3335,7 @@ LPFC_ATTR_R(enable_fc4_type, LPFC_ENABLE_FCP,
+  * percentage will go to NVME.
+  */
+ LPFC_ATTR_R(xri_split, 50, 10, 90,
+-	     "Division of XRI resources between SCSI and NVME");
++	    "Division of XRI resources between SCSI and NVME");
  
--	*((uint32_t *) (pcmd)) = (ELS_CMD_ACC | (ELS_CMD_PRLI & ~ELS_RSP_MASK));
-+	*((uint32_t *)(pcmd)) = elsrspcmd;
- 	pcmd += sizeof(uint32_t);
+ /*
+ # lpfc_log_verbose: Only turn this flag on if you are willing to risk being
+diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
+index ee1a285..264da8f 100644
+--- a/drivers/scsi/lpfc/lpfc_nvme.c
++++ b/drivers/scsi/lpfc/lpfc_nvme.c
+@@ -2264,12 +2264,23 @@ lpfc_nvme_destroy_localport(struct lpfc_vport *vport)
+ void
+ lpfc_nvme_update_localport(struct lpfc_vport *vport)
+ {
++#if (IS_ENABLED(CONFIG_NVME_FC))
+ 	struct nvme_fc_local_port *localport;
+ 	struct lpfc_nvme_lport *lport;
  
- 	/* For PRLI, remainder of payload is PRLI parameter page */
+ 	localport = vport->localport;
++	if (!localport) {
++		lpfc_printf_vlog(vport, KERN_WARNING, LOG_NVME,
++				 "6710 Update NVME fail. No localport\n");
++		return;
++	}
+ 	lport = (struct lpfc_nvme_lport *)localport->private;
+-
++	if (!lport) {
++		lpfc_printf_vlog(vport, KERN_WARNING, LOG_NVME,
++				 "6171 Update NVME fail. localP %p, No lport\n",
++				 localport);
++		return;
++	}
+ 	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME,
+ 			 "6012 Update NVME lport %p did x%x\n",
+ 			 localport, vport->fc_myDID);
+@@ -2283,7 +2294,7 @@ lpfc_nvme_update_localport(struct lpfc_vport *vport)
+ 	lpfc_printf_vlog(vport, KERN_INFO, LOG_NVME_DISC,
+ 			 "6030 bound lport %p to DID x%06x\n",
+ 			 lport, localport->port_id);
+-
++#endif
+ }
+ 
+ int
 -- 
 2.9.3
