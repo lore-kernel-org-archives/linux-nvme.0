@@ -1,54 +1,87 @@
-From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu, 20 Apr 2017 15:04:47 -0700
-Subject: ["PATCH-v2" 21/22] Fix Express lane queue creation.
-In-Reply-To: <20170420220448.27095-1-jsmart2021@gmail.com>
-References: <20170420220448.27095-1-jsmart2021@gmail.com>
-Message-ID: <20170420220448.27095-22-jsmart2021@gmail.com>
+From: sbates@raithlin.com (sbates@raithlin.com)
+Date: Thu, 20 Apr 2017 16:59:11 -0600
+Subject: [PATCH] blk-mq: Fix poll_stat for new size-based bucketing.
+Message-ID: <1492729151-20983-1-git-send-email-sbates@raithlin.com>
 
-From: James Smart <jsmart2021@gmail.com>
+From: Stephen Bates <sbates@raithlin.com>
 
-The older sli4 adapters only supported the 64 byte WQE entry size.
-The new adapter (fw) support both 64 and 128 byte WQE entry sizies.
-The Express lane WQ was not being created with the 128 byte WQE sizes
-when it was supported.
+Fixes an issue where the size of the poll_stat array in request_queue
+does not match the size expected by the new size based bucketing for
+IO completion polling.
 
-Not having the right WQE size created for the express lane work queue
-caused the the firmware to overwrite the lun indentifier in the FCP header.
+Should be applied on top of commit 720b8ccc4500 ("blk-mq: Add a
+polling specific stats function").
 
-This patch correctly creates the express lane work queue with the
-supported size.
-
-Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-Signed-off-by: James Smart <james.smart at broadcom.com>
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Signed-off-by: Stephen Bates <sbates at raithlin.com>
 ---
- drivers/scsi/lpfc/lpfc_init.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ block/blk-mq-debugfs.c | 15 +++++++++------
+ block/blk-mq.c         |  8 ++++----
+ include/linux/blkdev.h |  5 ++++-
+ 3 files changed, 17 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index 74cec22..90ae354 100644
---- a/drivers/scsi/lpfc/lpfc_init.c
-+++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -12040,6 +12040,7 @@ int
- lpfc_fof_queue_create(struct lpfc_hba *phba)
+diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
+index df9b688..3057641 100644
+--- a/block/blk-mq-debugfs.c
++++ b/block/blk-mq-debugfs.c
+@@ -159,14 +159,17 @@ static void print_stat(struct seq_file *m, struct blk_rq_stat *stat)
+ static int queue_poll_stat_show(struct seq_file *m, void *v)
  {
- 	struct lpfc_queue *qdesc;
-+	uint32_t wqesize;
+ 	struct request_queue *q = m->private;
++	int bucket;
  
- 	/* Create FOF EQ */
- 	qdesc = lpfc_sli4_queue_alloc(phba, phba->sli4_hba.eq_esize,
-@@ -12060,8 +12061,11 @@ lpfc_fof_queue_create(struct lpfc_hba *phba)
- 		phba->sli4_hba.oas_cq = qdesc;
+-	seq_puts(m, "read: ");
+-	print_stat(m, &q->poll_stat[READ]);
+-	seq_puts(m, "\n");
++	for (bucket = 0; bucket < BLK_MQ_POLL_STATS_BKTS/2; bucket++) {
++		seq_printf(m, "read  (%d Bytes): ", 1 << (9+bucket));
++		print_stat(m, &q->poll_stat[2*bucket]);
++		seq_puts(m, "\n");
  
- 		/* Create OAS WQ */
--		qdesc = lpfc_sli4_queue_alloc(phba, phba->sli4_hba.wq_esize,
-+		wqesize = (phba->fcp_embed_io) ?
-+				LPFC_WQE128_SIZE : phba->sli4_hba.wq_esize;
-+		qdesc = lpfc_sli4_queue_alloc(phba, wqesize,
- 					      phba->sli4_hba.wq_ecount);
+-	seq_puts(m, "write: ");
+-	print_stat(m, &q->poll_stat[WRITE]);
+-	seq_puts(m, "\n");
++		seq_printf(m, "write (%d Bytes): ",  1 << (9+bucket));
++		print_stat(m, &q->poll_stat[2*bucket+1]);
++		seq_puts(m, "\n");
++	}
+ 	return 0;
+ }
+ 
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index 9d7645f..81f7c99 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -42,8 +42,6 @@ static LIST_HEAD(all_q_list);
+ static void blk_mq_poll_stats_start(struct request_queue *q);
+ static void blk_mq_poll_stats_fn(struct blk_stat_callback *cb);
+ 
+-/* Must be consisitent with function below */
+-#define BLK_MQ_POLL_STATS_BKTS 16
+ static int blk_mq_poll_stats_bkt(const struct request *rq)
+ {
+ 	int ddir, bytes, bucket;
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 6c4ab0d..6c24786 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -46,6 +46,9 @@ struct blk_stat_callback;
+ #define BLKDEV_MIN_RQ	4
+ #define BLKDEV_MAX_RQ	128	/* Default maximum */
+ 
++/* Must be consisitent with blk_mq_poll_stats_bkt() */
++#define BLK_MQ_POLL_STATS_BKTS 16
 +
- 		if (!qdesc)
- 			goto out_error;
+ /*
+  * Maximum number of blkcg policies allowed to be registered concurrently.
+  * Defined here to simplify include dependency.
+@@ -517,7 +520,7 @@ struct request_queue {
+ 	int			poll_nsec;
  
+ 	struct blk_stat_callback	*poll_cb;
+-	struct blk_rq_stat	poll_stat[2];
++	struct blk_rq_stat	poll_stat[BLK_MQ_POLL_STATS_BKTS];
+ 
+ 	struct timer_list	timeout;
+ 	struct work_struct	timeout_work;
 -- 
-2.9.3
+2.7.4
