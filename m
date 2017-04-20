@@ -1,7 +1,7 @@
-From: sbates@raithlin.com (Stephen  Bates)
-Date: Thu, 20 Apr 2017 21:41:26 +0000
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 20 Apr 2017 15:42:56 -0600
 Subject: [PATCH v3 2/2] blk-mq: Add a polling specific stats function
-In-Reply-To: <6214fe06-c636-c565-9b2c-fab7cf2e6d19@kernel.dk>
+In-Reply-To: <F8C6A572-C589-4FF9-8DB2-66D6CC045EA1@raithlin.com>
 References: <1491567843-26190-1-git-send-email-sbates@raithlin.com>
  <1491567843-26190-3-git-send-email-sbates@raithlin.com>
  <20170420200706.GA24823@vader.DHCP.thefacebook.com>
@@ -14,12 +14,20 @@ References: <1491567843-26190-1-git-send-email-sbates@raithlin.com>
  <ca5bec05-ba3c-55db-6f3d-ef0965a79737@kernel.dk>
  <0C2FFC52-512F-4031-8E6F-487FA651A31B@raithlin.com>
  <6214fe06-c636-c565-9b2c-fab7cf2e6d19@kernel.dk>
-Message-ID: <F8C6A572-C589-4FF9-8DB2-66D6CC045EA1@raithlin.com>
+ <F8C6A572-C589-4FF9-8DB2-66D6CC045EA1@raithlin.com>
+Message-ID: <16225338-232a-ef39-0b9d-1281e0a66367@kernel.dk>
 
+On 04/20/2017 03:41 PM, Stephen  Bates wrote:
+> 
+>> Great thanks, pushed. I'll get this added for 4.11. Thanks for
+>> the report!
+> 
+> I see you applied my v3 series to the for-4.12/block branch. There is
+> one issue there I need to fix. Can I send you a v4 a bit later today
+> instead?
 
-> Great thanks, pushed. I'll get this added for 4.11. Thanks for
-> the report!
+You can, but it won't do much good since v3 is already applied. Any
+further changes must be incremental.
 
-I see you applied my v3 series to the for-4.12/block branch. There is one issue there I need to fix. Can I send you a v4 a bit later today instead?
 -- 
 Jens Axboe
