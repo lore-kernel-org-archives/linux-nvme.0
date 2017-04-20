@@ -1,17 +1,14 @@
-From: hch@lst.de (hch@lst.de)
-Date: Thu, 20 Apr 2017 07:11:12 +0200
-Subject: [PATCH 02/23] block: remove the blk_execute_rq return value
-In-Reply-To: <1492636063.2543.18.camel@sandisk.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 20 Apr 2017 07:17:30 +0200
+Subject: [PATCH 08/23] scsi: introduce a result field in struct
+ scsi_request
+In-Reply-To: <yq160hzsvkr.fsf@oracle.com>
 References: <20170419192708.22098-1-hch@lst.de>
- <20170419192708.22098-3-hch@lst.de> <1492636063.2543.18.camel@sandisk.com>
-Message-ID: <20170420051112.GA10822@lst.de>
+ <20170419192708.22098-9-hch@lst.de> <yq160hzsvkr.fsf@oracle.com>
+Message-ID: <20170420051730.GA10897@lst.de>
 
-On Wed, Apr 19, 2017@09:07:45PM +0000, Bart Van Assche wrote:
-> > +	blk_execute_rq(or->request->q, NULL, or->request, 0);
-> > +	error = or->request ? -EIO : 0;
-> 
-> Hello Christoph,
-> 
-> Did you perhaps intend or->request->errors instead of or->request?
+On Wed, Apr 19, 2017@09:43:00PM -0400, Martin K. Petersen wrote:
+> Really wish we could just obliterate drivers/ide.
 
-Yes, thanks.
+Same here.  It's been _the_ major pain point for doing block layer
+heavy lifting for the last 1 or two years.
