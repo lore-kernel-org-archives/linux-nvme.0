@@ -1,17 +1,17 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 09:34:21 +0200
-Subject: [PATCH-v1 07/22] Remove unused defines for NVME PostBuf.
-In-Reply-To: <20170420044641.10657-8-jsmart2021@gmail.com>
+Date: Thu, 20 Apr 2017 09:34:58 +0200
+Subject: [PATCH-v1 08/22] Remove NULL ptr check before kfree.
+In-Reply-To: <20170420044641.10657-9-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
- <20170420044641.10657-8-jsmart2021@gmail.com>
-Message-ID: <20170420073421.GH6217@linux-x5ow.site>
+ <20170420044641.10657-9-jsmart2021@gmail.com>
+Message-ID: <20170420073458.GI6217@linux-x5ow.site>
 
-On Wed, Apr 19, 2017@09:46:26PM -0700, jsmart2021@gmail.com wrote:
+On Wed, Apr 19, 2017@09:46:27PM -0700, jsmart2021@gmail.com wrote:
 > From: James Smart <jsmart2021 at gmail.com>
 > 
-> These defines for the posting of buffers for nvmet target were not used.
+> The check for NULL ptr is not necessary, kfree will check it.
 > 
-> Removing the unused defines.
+> Removing NULL ptr check.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
