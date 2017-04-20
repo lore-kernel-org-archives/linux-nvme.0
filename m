@@ -1,34 +1,72 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Thu, 20 Apr 2017 11:54:17 -0700
-Subject: [PATCH-v1 00/22] lpfc updates for 11.2.0.12
-In-Reply-To: <20170420183047.GD22378@kernel.dk>
-References: <20170420044641.10657-1-jsmart2021@gmail.com>
- <20170420183047.GD22378@kernel.dk>
-Message-ID: <aeb01fc4-1f18-3e8a-0c45-fb31f6d20eb0@broadcom.com>
+From: luto@kernel.org (Andy Lutomirski)
+Date: Thu, 20 Apr 2017 11:56:15 -0700
+Subject: [PATCH v2 0/2] nvme APST quirk updates, take two
+In-Reply-To: <dec142aa-ffd8-984e-adcc-f0e6bf0a4e0b@kernel.dk>
+References: <cover.1492704577.git.luto@kernel.org>
+ <9cd43193-af6b-2cb1-3951-5fa569bf1f31@kernel.dk>
+ <b6da572f-2c50-81b4-64b0-73abdd124408@grimberg.me>
+ <20170420162925.GB25259@localhost.localdomain>
+ <90f94a38-7508-ba80-aa14-827e758dd418@kernel.dk>
+ <2a988a17-eb37-58ca-edd7-a11d4bb61f5a@kernel.dk>
+ <CALCETrUQ_npTbm7eEeoFJP3V9y-keq9bjS0hD+t=k-AXSDMteA@mail.gmail.com>
+ <dec142aa-ffd8-984e-adcc-f0e6bf0a4e0b@kernel.dk>
+Message-ID: <CALCETrX=vXDZEJRtVpDZ8LO5eqgNF5-3gigKH0WYjYE0Ex_Y1g@mail.gmail.com>
 
-On 4/20/2017 11:30 AM, Jens Axboe wrote:
-> On Wed, Apr 19 2017, jsmart2021@gmail.com wrote:
->> From: James Smart <jsmart2021 at gmail.com>
+On Thu, Apr 20, 2017@10:08 AM, Jens Axboe <axboe@kernel.dk> wrote:
+> On 04/20/2017 11:06 AM, Andy Lutomirski wrote:
 >>
->> This patch set provides a number of bug fixes, code cleanups, and error
->> handling, mostly in the nvme area of lpfc.
 >>
->> There is one new feature in the series to add Fabric Assigned WWN support.
+>> On Apr 20, 2017 9:38 AM, "Jens Axboe" <axboe@kernel.dk <mailto:axboe@kernel.dk>> wrote:
 >>
->> The patches were cut against the linux-block tree, for-4.12/block branch,
->> and are intended to be pulled in through that tree rather than the scsi trees.
+>>     On 04/20/2017 10:30 AM, Jens Axboe wrote:
+>>     > On 04/20/2017 10:29 AM, Keith Busch wrote:
+>>     >> On Thu, Apr 20, 2017@07:15:15PM +0300, Sagi Grimberg wrote:
+>>     >>>
+>>     >>>>> Hi Jens-
+>>     >>>>>
+>>     >>>>> These are just the quirk updates, split out.  The patches are
+>>     >>>>> unchanged.
+>>     >>>>>
+>>     >>>>> I think that, even if we want to apply a broader quirk for 4.11, we
+>>     >>>>> should still apply these so that we can cleanly revert the broader
+>>     >>>>> quirk later.  IOW, let's get the known regressions fixed before we
+>>     >>>>> get too excited about the unknown regressions.
+>>     >>>>
+>>     >>>> This looks good to me, and 4.11 appropriate. I'll expedite this
+>>     >>>> through the block tree, if Keith/Sagi/Christoph agrees on this
+>>     >>>> being the right approach for 4.11.
+>>     >>>
+>>     >>> I'm perfectly fine with this going to 4.11
+>>     >>
+>>     >> All good with me as well.
+>>     >>
+>>     >> Reviewed-by: Keith Busch <keith.busch at intel.com <mailto:keith.busch at intel.com>>
+>>     >
+>>     > Great, I have queued it up.
 >>
->> The patches are dependent on the FC nvme/nvmet patches from the following 2
->> series:
->> http://lists.infradead.org/pipermail/linux-nvme/2017-April/009250.html
->> http://lists.infradead.org/pipermail/linux-nvme/2017-April/009256.html
-> James, if you can address the (minor) review comments from Johannes and
-> repost with the reviewed/tested-by collected, we can get this applied. I
-> almost applied it as-is, but we may as well just get the last little
-> bits fixed up.
+>>     Spoke too soon. Andy, did you compile this?
+>>
+>>     drivers/nvme/host/core.c: In function ?nvme_init_identify?:
+>>     drivers/nvme/host/core.c:1524:6: error: ?force_apst? undeclared (first use in this function)
+>>       if (force_apst && (ctrl->quirks & NVME_QUIRK_NO_DEEPEST_PS)) {
+>>           ^~~~~~~~~~
+>>     drivers/nvme/host/core.c:1524:6: note: each undeclared identifier is reported only once for each function it appears in
+>>
+>>     No, you did not.
+>>
+>>
+>> I compiled the end result but not the middle.  D'oh.  Better version coming in an hour or two.
 >
-> Thanks!
->
-yes - posting shortly.
+> This is from the end-result. I think you compiled the previous series,
+> but not the revised v2 one you sent out. Because none of those patches
+> add force_apst.
 
--- james
+I was differently dumb.  I did git rebase -i and rearranged
+everything, but I did git rebase --continue before running make, so I
+tested the buggy patch with the patch that added force_apst on top.
+
+Anyway, this time I'm going to compile, boot, and play with the exact
+patches I send before I send them.  (Sadly, removing the debug patch
+from the series has made this type of testing harder.  Oh well.)
+
+--Andy
