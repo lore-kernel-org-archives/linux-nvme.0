@@ -1,18 +1,19 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 17:19:16 +0200
-Subject: [PATCH 21/23] swim3: remove (commented out) printing of
- req->errors
-In-Reply-To: <20170420140316.6546-22-hch@lst.de>
+Date: Thu, 20 Apr 2017 17:20:56 +0200
+Subject: [PATCH 22/23] blktrace: remove the unused block_rq_abort
+ tracepoint
+In-Reply-To: <20170420140316.6546-23-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
- <20170420140316.6546-22-hch@lst.de>
-Message-ID: <20170420151916.GO13676@linux-x5ow.site>
+ <20170420140316.6546-23-hch@lst.de>
+Message-ID: <20170420152056.GP13676@linux-x5ow.site>
 
-On Thu, Apr 20, 2017@04:03:14PM +0200, Christoph Hellwig wrote:
+On Thu, Apr 20, 2017@04:03:15PM +0200, Christoph Hellwig wrote:
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
 
-Easy enough,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Just to be sure nothings forgotten, does this change need an update for
+blktrace as well?
+
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
