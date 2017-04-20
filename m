@@ -1,23 +1,19 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 17:21:49 +0200
-Subject: [PATCH 23/23] block: remove the errors field from struct request
-In-Reply-To: <20170420140316.6546-24-hch@lst.de>
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Thu, 20 Apr 2017 15:25:12 +0000
+Subject: [PATCH 08/23] scsi: introduce a result field in struct
+ scsi_request
+In-Reply-To: <20170420140316.6546-9-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
- <20170420140316.6546-24-hch@lst.de>
-Message-ID: <20170420152148.GQ13676@linux-x5ow.site>
+ <20170420140316.6546-9-hch@lst.de>
+Message-ID: <1492701911.2642.1.camel@sandisk.com>
 
-On Thu, Apr 20, 2017@04:03:16PM +0200, Christoph Hellwig wrote:
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> Reviewed-by: Bart Van Assche <Bart.VanAssche at sandisk.com>
-> Acked-by: Roger Pau Monn? <roger.pau at citrix.com>
-> Reviewed-by: Konrad Rzeszutek Wilk <konrad.wilk at oracle.com>
-> ---
+On Thu, 2017-04-20@16:03 +0200, Christoph Hellwig wrote:
+> This passes on the scsi_cmnd result field to users of passthrough
+> requests.  Currently we abuse req->errors for this purpose, but that
+> field will go away in its current form.
+> 
+> Note that the old IDE code abuses the errors field in very creative
+> ways and stores all kinds of different values in it.  I didn't dare
+> to touch this magic, so the abuses are brought forward 1:1.
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Reviewed-by: Bart Van Assche <Bart.VanAssche at sandisk.com>
