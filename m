@@ -1,55 +1,29 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 20 Apr 2017 16:03:13 +0200
-Subject: [PATCH 20/23] ataflop: switch from req->errors to req->error_count
+Date: Thu, 20 Apr 2017 16:03:14 +0200
+Subject: [PATCH 21/23] swim3: remove (commented out) printing of req->errors
 In-Reply-To: <20170420140316.6546-1-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
-Message-ID: <20170420140316.6546-21-hch@lst.de>
+Message-ID: <20170420140316.6546-22-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/block/ataflop.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/block/swim3.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/block/ataflop.c b/drivers/block/ataflop.c
-index 2104b1b4ccda..fa69ecd52cb5 100644
---- a/drivers/block/ataflop.c
-+++ b/drivers/block/ataflop.c
-@@ -617,12 +617,12 @@ static void fd_error( void )
- 	if (!fd_request)
- 		return;
+diff --git a/drivers/block/swim3.c b/drivers/block/swim3.c
+index 61b3ffa4f458..ba4809c9bdba 100644
+--- a/drivers/block/swim3.c
++++ b/drivers/block/swim3.c
+@@ -343,8 +343,8 @@ static void start_request(struct floppy_state *fs)
+ 			  req->rq_disk->disk_name, req->cmd,
+ 			  (long)blk_rq_pos(req), blk_rq_sectors(req),
+ 			  bio_data(req->bio));
+-		swim3_dbg("           errors=%d current_nr_sectors=%u\n",
+-			  req->errors, blk_rq_cur_sectors(req));
++		swim3_dbg("           current_nr_sectors=%u\n",
++			  blk_rq_cur_sectors(req));
+ #endif
  
--	fd_request->errors++;
--	if (fd_request->errors >= MAX_ERRORS) {
-+	fd_request->error_count++;
-+	if (fd_request->error_count >= MAX_ERRORS) {
- 		printk(KERN_ERR "fd%d: too many errors.\n", SelectedDrive );
- 		fd_end_request_cur(-EIO);
- 	}
--	else if (fd_request->errors == RECALIBRATE_ERRORS) {
-+	else if (fd_request->error_count == RECALIBRATE_ERRORS) {
- 		printk(KERN_WARNING "fd%d: recalibrating\n", SelectedDrive );
- 		if (SelectedDrive != -1)
- 			SUD.track = -1;
-@@ -1386,7 +1386,7 @@ static void setup_req_params( int drive )
- 	ReqData = ReqBuffer + 512 * ReqCnt;
- 
- 	if (UseTrackbuffer)
--		read_track = (ReqCmd == READ && fd_request->errors == 0);
-+		read_track = (ReqCmd == READ && fd_request->error_count == 0);
- 	else
- 		read_track = 0;
- 
-@@ -1409,8 +1409,10 @@ static struct request *set_next_request(void)
- 			fdc_queue = 0;
- 		if (q) {
- 			rq = blk_fetch_request(q);
--			if (rq)
-+			if (rq) {
-+				rq->error_count = 0;
- 				break;
-+			}
- 		}
- 	} while (fdc_queue != old_pos);
- 
+ 		if (blk_rq_pos(req) >= fs->total_secs) {
 -- 
 2.11.0
