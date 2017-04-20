@@ -1,32 +1,37 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 17:38:56 +0200
-Subject: [PATCH 22/23] blktrace: remove the unused block_rq_abort
- tracepoint
-In-Reply-To: <20170420152558.GA23516@lst.de>
-References: <20170420140316.6546-1-hch@lst.de>
- <20170420140316.6546-23-hch@lst.de>
- <20170420152056.GP13676@linux-x5ow.site>
- <20170420152558.GA23516@lst.de>
-Message-ID: <20170420153856.GR13676@linux-x5ow.site>
+From: axboe@fb.com (Jens Axboe)
+Date: Thu, 20 Apr 2017 09:45:11 -0600
+Subject: [PATCH] nvme/pci: Poll CQ on timeout
+In-Reply-To: <20170420142044.GB21311@localhost.localdomain>
+References: <1487977168-5347-1-git-send-email-keith.busch@intel.com>
+ <20170228141017.GC20317@lst.de>
+ <20170228160056.GA15639@localhost.localdomain>
+ <6c0cacb0-ab91-6270-8bae-dbd18a8dbd0e@fb.com>
+ <20170420085609.GA6217@linux-x5ow.site>
+ <20170420142044.GB21311@localhost.localdomain>
+Message-ID: <4c3be76c-0ae3-a95a-3067-cebb9fab340e@fb.com>
 
-On Thu, Apr 20, 2017@05:25:58PM +0200, Christoph Hellwig wrote:
-> On Thu, Apr 20, 2017@05:20:56PM +0200, Johannes Thumshirn wrote:
-> > On Thu, Apr 20, 2017@04:03:15PM +0200, Christoph Hellwig wrote:
-> > > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> > > ---
-> > 
-> > Just to be sure nothings forgotten, does this change need an update for
-> > blktrace as well?
+On 04/20/2017 08:20 AM, Keith Busch wrote:
+> On Thu, Apr 20, 2017@10:56:09AM +0200, Johannes Thumshirn wrote:
+>> On Tue, Feb 28, 2017@10:44:21AM -0700, Jens Axboe wrote:
+>>> IMHO that can go at a later time, if we do remove polling for
+>>> specific entries. For now it's fine.
+>>>
+>>> And I do think this is a nice addition - it's free, and it provides
+>>> us extra info for debugging an issue. That's a big deal, especially
+>>> if it's a user report.
+>>
+>> JFYI, we did have I/O timeout issues on one of our internal systems.
+>> Keith suggested to give this patch a shot and indeed it cought missed IRQs,
+>> which after being polled at least didn't result in filesystem errors.
+>>
+>> So if you want you can have my:
+>> Tested-by: Johannes Thumshirn <jthumshirn at suse.de>
+>> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 > 
-> I don't think so.  It will just never get this event before or after
-> this patch.
+> Thanks, I forgot about this one, but still think it's a good idea.
+> Applied it to for-next.
 
-Ok then,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Agree, it's a nice addition.
+
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Jens Axboe
