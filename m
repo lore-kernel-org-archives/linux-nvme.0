@@ -1,158 +1,24 @@
-From: luto@kernel.org (Andy Lutomirski)
-Date: Thu, 20 Apr 2017 09:11:15 -0700
-Subject: [PATCH v2 1/2] nvme: Adjust the Samsung APST quirk
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 20 Apr 2017 10:13:28 -0600
+Subject: [PATCH v2 0/2] nvme APST quirk updates, take two
 In-Reply-To: <cover.1492704577.git.luto@kernel.org>
 References: <cover.1492704577.git.luto@kernel.org>
-Message-ID: <5950ae7551936b2e2b90f731cf987e1f3c711079.1492704577.git.luto@kernel.org>
+Message-ID: <9cd43193-af6b-2cb1-3951-5fa569bf1f31@kernel.dk>
 
-I got a couple more reports: the Samsung APST issues appears to
-affect multiple 950-series devices in Dell XPS 15 9550 and Precision
-5510 laptops.  Change the quirk: rather than blacklisting the
-firmware on the first problematic SSD that was reported, disable
-APST on all 144d:a802 devices if they're installed in the two
-affected Dell models.  While we're at it, disable only the deepest
-sleep state instead of all of them -- the reporters say that this is
-sufficient to fix the problem.
+On 04/20/2017 10:11 AM, Andy Lutomirski wrote:
+> Hi Jens-
+> 
+> These are just the quirk updates, split out.  The patches are
+> unchanged.
+> 
+> I think that, even if we want to apply a broader quirk for 4.11, we
+> should still apply these so that we can cleanly revert the broader
+> quirk later.  IOW, let's get the known regressions fixed before we
+> get too excited about the unknown regressions.
 
-(I have a device that appears to be entirely identical to one of the
-affected devices, but I have a different Dell laptop, so it's not
-the case that all Samsung devices with firmware BXW75D0Q are broken
-under all circumstances.)
+This looks good to me, and 4.11 appropriate. I'll expedite this
+through the block tree, if Keith/Sagi/Christoph agrees on this
+being the right approach for 4.11.
 
-Samsung engineers have an affected system, and hopefully they'll
-give us a better workaround some time soon.  In the mean time, this
-should minimize regressions.
-
-See https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1678184
-
-Cc: Kai-Heng Feng <kai.heng.feng at canonical.com>
-Cc: Niranjan Sivakumar <ns253 at cornell.edu>
-Signed-off-by: Andy Lutomirski <luto at kernel.org>
----
- drivers/nvme/host/core.c | 23 +++++++++++++----------
- drivers/nvme/host/nvme.h |  5 +++++
- drivers/nvme/host/pci.c  | 26 +++++++++++++++++++++++++-
- 3 files changed, 43 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9583a5f58a1d..d618b20ce6c6 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1316,6 +1316,14 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
- 				table->entries[state] = target;
- 
- 			/*
-+			 * Don't allow transitions to the deepest state
-+			 * if it's quirked off.
-+			 */
-+			if (state == ctrl->npss &&
-+			    (ctrl->quirks & NVME_QUIRK_NO_DEEPEST_PS))
-+				continue;
-+
-+			/*
- 			 * Is this state a useful non-operational state for
- 			 * higher-power states to autonomously transition to?
- 			 */
-@@ -1387,16 +1395,6 @@ struct nvme_core_quirk_entry {
- };
- 
- static const struct nvme_core_quirk_entry core_quirks[] = {
--	/*
--	 * Seen on a Samsung "SM951 NVMe SAMSUNG 256GB": using APST causes
--	 * the controller to go out to lunch.  It dies when the watchdog
--	 * timer reads CSTS and gets 0xffffffff.
--	 */
--	{
--		.vid = 0x144d,
--		.fr = "BXW75D0Q",
--		.quirks = NVME_QUIRK_NO_APST,
--	},
- };
- 
- /* match is null-terminated but idstr is space-padded. */
-@@ -1481,6 +1479,11 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 		}
- 	}
- 
-+	if (force_apst && (ctrl->quirks & NVME_QUIRK_NO_DEEPEST_PS)) {
-+		dev_warn(ctrl->dev, "forcibly allowing all power states due to nvme_core.force_apst -- use at your own risk\n");
-+		ctrl->quirks &= ~NVME_QUIRK_NO_DEEPEST_PS;
-+	}
-+
- 	ctrl->oacs = le16_to_cpu(id->oacs);
- 	ctrl->vid = le16_to_cpu(id->vid);
- 	ctrl->oncs = le16_to_cpup(&id->oncs);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 2aa20e3e5675..ab2d6ec7eb5c 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -83,6 +83,11 @@ enum nvme_quirks {
- 	 * APST should not be used.
- 	 */
- 	NVME_QUIRK_NO_APST			= (1 << 4),
-+
-+	/*
-+	 * The deepest sleep state should not be used.
-+	 */
-+	NVME_QUIRK_NO_DEEPEST_PS		= (1 << 5),
- };
- 
- /*
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 26a5fd05fe88..5d309535abbd 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -19,6 +19,7 @@
- #include <linux/blk-mq-pci.h>
- #include <linux/cpu.h>
- #include <linux/delay.h>
-+#include <linux/dmi.h>
- #include <linux/errno.h>
- #include <linux/fs.h>
- #include <linux/genhd.h>
-@@ -1943,10 +1944,31 @@ static int nvme_dev_map(struct nvme_dev *dev)
- 	return -ENODEV;
- }
- 
-+static unsigned long check_dell_samsung_bug(struct pci_dev *pdev)
-+{
-+	if (pdev->vendor == 0x144d && pdev->device == 0xa802) {
-+		/*
-+		 * Several Samsung devices seem to drop off the PCIe bus
-+		 * randomly when APST is on and uses the deepest sleep state.
-+		 * This has been observed on a Samsung "SM951 NVMe SAMSUNG
-+		 * 256GB", a "PM951 NVMe SAMSUNG 512GB", and a "Samsung SSD
-+		 * 950 PRO 256GB", but it seems to be restricted to two Dell
-+		 * laptops.
-+		 */
-+		if (dmi_match(DMI_SYS_VENDOR, "Dell Inc.") &&
-+		    (dmi_match(DMI_PRODUCT_NAME, "XPS 15 9550") ||
-+		     dmi_match(DMI_PRODUCT_NAME, "Precision 5510")))
-+			return NVME_QUIRK_NO_DEEPEST_PS;
-+	}
-+
-+	return 0;
-+}
-+
- static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- {
- 	int node, result = -ENOMEM;
- 	struct nvme_dev *dev;
-+	unsigned long quirks = id->driver_data;
- 
- 	node = dev_to_node(&pdev->dev);
- 	if (node == NUMA_NO_NODE)
-@@ -1978,8 +2000,10 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (result)
- 		goto put_pci;
- 
-+	quirks |= check_dell_samsung_bug(pdev);
-+
- 	result = nvme_init_ctrl(&dev->ctrl, &pdev->dev, &nvme_pci_ctrl_ops,
--			id->driver_data);
-+			quirks);
- 	if (result)
- 		goto release_pools;
- 
 -- 
-2.9.3
+Jens Axboe
