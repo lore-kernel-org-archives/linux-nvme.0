@@ -1,24 +1,27 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Thu, 20 Apr 2017 12:16:55 -0600
-Subject: kill req->errors V4
-In-Reply-To: <20170420140316.6546-1-hch@lst.de>
-References: <20170420140316.6546-1-hch@lst.de>
-Message-ID: <20170420181654.GC22378@kernel.dk>
+From: daggs@gmx.com (daggs)
+Date: Thu, 20 Apr 2017 20:21:12 +0200
+Subject: question about spec hw reset
+In-Reply-To: <20170420180041.GB32324@localhost.localdomain>
+References: <trinity-e0cf29b4-06e9-4f13-aa54-8f1689d8ff58-1492710256428@3capp-mailcom-bs16>,
+ <20170420180041.GB32324@localhost.localdomain>
+Message-ID: <trinity-e0027aa6-dd0f-49bc-a396-867a2797d9bf-1492712472558@3capp-mailcom-bs10>
 
-On Thu, Apr 20 2017, Christoph Hellwig wrote:
-> Currently the request structure has an errors field that is used in
-> various different ways.  The oldest drivers use it as an error count,
-> blk-mq and the generic timeout code assume that it holds a Linux
-> errno for block completions, and various drivers use it for internal
-> status values, often overwriting them with Linux errnos later,
-> that is unless they are processing passthrough requests in which
-> case they'll leave their errors in it.
+Greetings,
+
+> Sent: Thursday, April 20, 2017 at 9:00 PM
+> From: "Keith Busch" <keith.busch at intel.com>
+> To: daggs <daggs at gmx.com>
+> Cc: linux-nvme at lists.infradead.org
+> Subject: Re: question about spec hw reset
+>
+> On Thu, Apr 20, 2017@07:44:16PM +0200, daggs wrote:
+> > 
+> > I have a question about the hw reset flow. I'm maintaining a kernel driver (not the one in the linux kernel)
 > 
-> This series kills the ->errors field and replaced it with new fields
-> in the drivers (or an odd hack in a union in struct request for
-> two bitrotting old drivers).
+> And that's where I stopped reading!
+> 
 
-Applied for 4.12, thanks.
+did I said something wrong? this driver is not intended for commrcial usage and will never by a competitor for the existing kernel driver.
+because the system in use is linux, I assumed someone might help me understand what I'm doing wrong.
 
--- 
-Jens Axboe
+Dagg.
