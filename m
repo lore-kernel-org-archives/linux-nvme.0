@@ -1,28 +1,27 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 20 Apr 2017 14:43:27 +0300
-Subject: [PATCH v3] nvme-rdma: support devices with queue size < 32
-In-Reply-To: <391faec7-924d-7af2-eb1b-b3106bd4193c@grimberg.me>
-References: <1519881025.363156294.1491837154312.JavaMail.zimbra@kalray.eu>
- <1491838338.4199.5.camel@sandisk.com>
- <1807354347.364485979.1491900728245.JavaMail.zimbra@kalray.eu>
- <1491923426.2654.1.camel@sandisk.com>
- <1677617891.385461828.1492681414720.JavaMail.zimbra@kalray.eu>
- <391faec7-924d-7af2-eb1b-b3106bd4193c@grimberg.me>
-Message-ID: <dc34a67f-a650-311d-f9ae-7e854c9d7067@grimberg.me>
+Date: Thu, 20 Apr 2017 14:46:29 +0300
+Subject: NVMe over fabrics - Caching controller Identity data
+In-Reply-To: <20170420054709.GB18181@infradead.org>
+References: <603f53f6-1211-3b5f-31c8-dfa1e8700c26@oracle.com>
+ <20170420054709.GB18181@infradead.org>
+Message-ID: <7bb84d87-0c17-20e8-d362-65483ea7356e@grimberg.me>
 
-> Looks good,
+
+>> As I understand it, the linux initiator caches the controller Identity data
+>> and some other values.  These only get loaded when it first connects, or
+>> when the controller is reset.  Now If a target wishes to change any of these
+>> values, capsule size for instance, it might set the new values and restart
+>> itself, but when the initiator reconnects to an existing controller, it
+>> still has the old values. Is there a way for the target to force the
+>> initiator to reload these values somehow?
 >
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> Identify controller is supposed to be static data for a controller.
 >
-> BTW, did you test with deeper queue depths (say 512)?
+> If your controller has changed you need to reject the reconnect and
+> present a new controller.
 
-Wait, taking it back...
+Given that we support dynamic controllers on the host side we need
+to issue identify again.
 
-Can you make nvme_rdma_queue_sig_limit() return a bool instead?
-
-Also, Looking at this closer, I'm pretty convinced that this
-should convert to atomic. For iSER its fine as is because
-we are under the iscsi connection lock, but here we need to
-handle mutual exclusion.
-
-This would be an incremental change though.
+I have some works to centralize this path and there I do re-identify
+the controller.
