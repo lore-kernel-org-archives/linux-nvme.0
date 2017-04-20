@@ -1,18 +1,31 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 20 Apr 2017 13:20:10 +0300
-Subject: [PATCH 2/3] nvme-fabrics: Allow ctrl loss timeout configuration
-In-Reply-To: <1c260723-1771-3518-87b1-60d95fa423d8@broadcom.com>
-References: <1489876941-6401-1-git-send-email-sagi@grimberg.me>
- <1489876941-6401-3-git-send-email-sagi@grimberg.me>
- <1c260723-1771-3518-87b1-60d95fa423d8@broadcom.com>
-Message-ID: <8fcd2b81-15a8-d85d-0fcd-4f7cefaffbfa@grimberg.me>
+Date: Thu, 20 Apr 2017 13:22:24 +0300
+Subject: [PATCH v8] nvme: improve performance for virtual NVMe devices
+In-Reply-To: <20170417230140.GA16224@localhost.localdomain>
+References: <20170331070128.GA28852@infradead.org>
+ <1491839467-11008-1-git-send-email-helen.koike@collabora.com>
+ <9a406abf-1f39-003d-2863-144c4a263604@collabora.com>
+ <20170417230140.GA16224@localhost.localdomain>
+Message-ID: <3615ff57-543d-6e51-6eea-a9e981036446@grimberg.me>
 
+>> + Add missing maintainers from scripts/get_maintainer.pl in the email thread
+>>
+>> Hi,
+>>
+>> I would like to know if it would be possible to get this patch for kernel
+>> 4.12.
+>> Should I send a pull request? Or do you usually get the patch from the email
+>> thread?
+>
+> Hi Helen,
+>
+> This looks good to me. I pulled this into a branch for the next merge
+> window here:
+>
+> http://git.infradead.org/nvme.git/shortlog/refs/heads/for-next
+>
+> There's only one other commit at the moment in addition to yours, so
+> I'll just need to make sure we've got everything we want for 4.12 before
+> submitting our next pull request.
 
-> I know this patch has been pulled in - but I think it very odd that we
-> added a field (nr_reconnects) into the opts structure, that is not an
-> connect option but is instead a dynamically-changing transport
-> variable.  As the change introduced a common transport variable beyond
-> start options, the patch should have formally added a generic transport
-> structure to the ctrl structure.
-
-You're correct, I can move it to sit in nvme_ctrl.
+I'm fine with this too.
