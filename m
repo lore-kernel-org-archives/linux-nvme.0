@@ -1,17 +1,81 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 20 Apr 2017 15:48:14 -0400
-Subject: question about spec hw reset
-In-Reply-To: <trinity-e0027aa6-dd0f-49bc-a396-867a2797d9bf-1492712472558@3capp-mailcom-bs10>
-References: <trinity-e0cf29b4-06e9-4f13-aa54-8f1689d8ff58-1492710256428@3capp-mailcom-bs16>
- <20170420180041.GB32324@localhost.localdomain>
- <trinity-e0027aa6-dd0f-49bc-a396-867a2797d9bf-1492712472558@3capp-mailcom-bs10>
-Message-ID: <20170420194814.GC32324@localhost.localdomain>
+From: osandov@osandov.com (Omar Sandoval)
+Date: Thu, 20 Apr 2017 13:07:06 -0700
+Subject: [PATCH v3 2/2] blk-mq: Add a polling specific stats function
+In-Reply-To: <1491567843-26190-3-git-send-email-sbates@raithlin.com>
+References: <1491567843-26190-1-git-send-email-sbates@raithlin.com>
+ <1491567843-26190-3-git-send-email-sbates@raithlin.com>
+Message-ID: <20170420200706.GA24823@vader.DHCP.thefacebook.com>
 
-On Thu, Apr 20, 2017@08:21:12PM +0200, daggs wrote:
+On Fri, Apr 07, 2017@06:24:03AM -0600, sbates@raithlin.com wrote:
+> From: Stephen Bates <sbates at raithlin.com>
 > 
-> did I said something wrong? this driver is not intended for commrcial usage and will never by a competitor for the existing kernel driver.
-> because the system in use is linux, I assumed someone might help me understand what I'm doing wrong.
+> Rather than bucketing IO statisics based on direction only we also
+> bucket based on the IO size. This leads to improved polling
+> performance. Update the bucket callback function and use it in the
+> polling latency estimation.
+> 
+> Signed-off-by: Stephen Bates <sbates at raithlin.com>
 
-This is just the linux kernel nvme mailing list and not the right forum
-for enabling custom out-of-tree drivers that don't benefit us or our
-customers. Of course, I don't speak for anyone but myself.
+Hey, Stephen, just taking a look at this now. Comments below.
+
+> ---
+>  block/blk-mq.c | 45 +++++++++++++++++++++++++++++++++++----------
+>  1 file changed, 35 insertions(+), 10 deletions(-)
+> 
+> diff --git a/block/blk-mq.c b/block/blk-mq.c
+> index 061fc2c..5fd376b 100644
+> --- a/block/blk-mq.c
+> +++ b/block/blk-mq.c
+> @@ -42,6 +42,25 @@ static LIST_HEAD(all_q_list);
+>  static void blk_mq_poll_stats_start(struct request_queue *q);
+>  static void blk_mq_poll_stats_fn(struct blk_stat_callback *cb);
+>  
+> +/* Must be consisitent with function below */
+> +#define BLK_MQ_POLL_STATS_BKTS 16
+> +static int blk_mq_poll_stats_bkt(const struct request *rq)
+> +{
+> +	int ddir, bytes, bucket;
+> +
+> +	ddir = blk_stat_rq_ddir(rq);
+
+No need to call the wrapper function here, we can use rq_data_dir()
+directly.
+
+> +	bytes = blk_rq_bytes(rq);
+> +
+> +	bucket = ddir + 2*(ilog2(bytes) - 9);
+> +
+> +	if (bucket < 0)
+> +		return -1;
+> +	else if (bucket >= BLK_MQ_POLL_STATS_BKTS)
+> +		return ddir + BLK_MQ_POLL_STATS_BKTS - 2;
+> +
+> +	return bucket;
+> +}
+
+Nitpicking here, but defining things in terms of the number of size
+buckets seems more natural to me. How about something like this
+(untested)? Note that this obviates the need for patch 1.
+
+#define BLK_MQ_POLL_STATS_SIZE_BKTS 8
+static unsigned int blk_mq_poll_stats_bkt(const struct request *rq)
+{
+	unsigned int size_bucket;
+
+	size_bucket = clamp(ilog2(blk_rq_bytes(rq)) - 9, 0,
+			    BLK_MQ_POLL_STATS_SIZE_BKTS - 1);
+	return 2 * size_bucket + rq_data_dir(rq);
+}
+
+>  /*
+>   * Check if any of the ctx's have pending work in this hardware queue
+>   */
+> @@ -2245,7 +2264,8 @@ struct request_queue *blk_mq_init_allocated_queue(struct blk_mq_tag_set *set,
+>  	q->mq_ops = set->ops;
+>  
+>  	q->poll_cb = blk_stat_alloc_callback(blk_mq_poll_stats_fn,
+> -					     blk_stat_rq_ddir, 2, q);
+> +					     blk_mq_poll_stats_bkt,
+> +					     BLK_MQ_POLL_STATS_BKTS, q);
+
+With the above change, this would become 2 * BLK_MQ_POLL_STATS_SIZE_BKTS.
