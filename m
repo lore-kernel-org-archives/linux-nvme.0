@@ -1,15 +1,17 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 09:34:03 +0200
-Subject: [PATCH-v1 06/22] Fix spelling in comments.
-In-Reply-To: <20170420044641.10657-7-jsmart2021@gmail.com>
+Date: Thu, 20 Apr 2017 09:34:21 +0200
+Subject: [PATCH-v1 07/22] Remove unused defines for NVME PostBuf.
+In-Reply-To: <20170420044641.10657-8-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
- <20170420044641.10657-7-jsmart2021@gmail.com>
-Message-ID: <20170420073402.GG6217@linux-x5ow.site>
+ <20170420044641.10657-8-jsmart2021@gmail.com>
+Message-ID: <20170420073421.GH6217@linux-x5ow.site>
 
-On Wed, Apr 19, 2017@09:46:25PM -0700, jsmart2021@gmail.com wrote:
+On Wed, Apr 19, 2017@09:46:26PM -0700, jsmart2021@gmail.com wrote:
 > From: James Smart <jsmart2021 at gmail.com>
 > 
-> Comment should have said Repost.
+> These defines for the posting of buffers for nvmet target were not used.
+> 
+> Removing the unused defines.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
