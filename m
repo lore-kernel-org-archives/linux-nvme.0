@@ -1,41 +1,41 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu, 20 Apr 2017 15:04:30 -0700
-Subject: ["PATCH-v2" 04/22] Fix log message in completion path.
+Date: Thu, 20 Apr 2017 15:04:31 -0700
+Subject: ["PATCH-v2" 05/22] Add debug messages for nvme/fcp resource
+ allocation.
 In-Reply-To: <20170420220448.27095-1-jsmart2021@gmail.com>
 References: <20170420220448.27095-1-jsmart2021@gmail.com>
-Message-ID: <20170420220448.27095-5-jsmart2021@gmail.com>
+Message-ID: <20170420220448.27095-6-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-In the lpfc_nvme_io_cmd_wqe_cmpl routine the driver was printing two
-pointers and the DID for the rport whenever an IO completed on a now
-that had transitioned to a non active state.
+The xri resources are split into pools for NVME and FCP IO when NVME is
+enabled. There was not message in the log that identified this allocation.
 
-There is no need to print the node pointer address for a node that
-is not active the DID should be enough to debug.
+Added debug message to log XRI split.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/scsi/lpfc/lpfc_nvme.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/scsi/lpfc/lpfc_init.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
-index cbf3fe3..ee1a285 100644
---- a/drivers/scsi/lpfc/lpfc_nvme.c
-+++ b/drivers/scsi/lpfc/lpfc_nvme.c
-@@ -788,9 +788,8 @@ lpfc_nvme_io_cmd_wqe_cmpl(struct lpfc_hba *phba, struct lpfc_iocbq *pwqeIn,
- 	ndlp = rport->ndlp;
- 	if (!ndlp || !NLP_CHK_NODE_ACT(ndlp)) {
- 		lpfc_printf_vlog(vport, KERN_ERR, LOG_NODE | LOG_NVME_IOERR,
--				 "6061 rport %p, ndlp %p, DID x%06x ndlp "
--				 "not ready.\n",
--				 rport, ndlp, rport->remoteport->port_id);
-+				 "6061 rport %p,  DID x%06x node not ready.\n",
-+				 rport, rport->remoteport->port_id);
+diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
+index 6cc561b..b56da01 100644
+--- a/drivers/scsi/lpfc/lpfc_init.c
++++ b/drivers/scsi/lpfc/lpfc_init.c
+@@ -3508,6 +3508,12 @@ lpfc_sli4_scsi_sgl_update(struct lpfc_hba *phba)
+ 	spin_unlock(&phba->scsi_buf_list_put_lock);
+ 	spin_unlock_irq(&phba->scsi_buf_list_get_lock);
  
- 		ndlp = lpfc_findnode_did(vport, rport->remoteport->port_id);
- 		if (!ndlp) {
++	lpfc_printf_log(phba, KERN_INFO, LOG_SLI,
++			"6060 Current allocated SCSI xri-sgl count:%d, "
++			"maximum  SCSI xri count:%d (split:%d)\n",
++			phba->sli4_hba.scsi_xri_cnt,
++			phba->sli4_hba.scsi_xri_max, phba->cfg_xri_split);
++
+ 	if (phba->sli4_hba.scsi_xri_cnt > phba->sli4_hba.scsi_xri_max) {
+ 		/* max scsi xri shrinked below the allocated scsi buffers */
+ 		scsi_xri_cnt = phba->sli4_hba.scsi_xri_cnt -
 -- 
 2.9.3
