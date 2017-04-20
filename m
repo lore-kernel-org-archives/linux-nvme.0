@@ -1,14 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 17:04:39 +0200
-Subject: [PATCH 12/23] dm mpath: don't check for req->errors
-In-Reply-To: <20170420140316.6546-13-hch@lst.de>
+Date: Thu, 20 Apr 2017 17:13:36 +0200
+Subject: [PATCH 14/23] mtip32xx: add a status field to struct mtip_cmd
+In-Reply-To: <20170420140316.6546-15-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
- <20170420140316.6546-13-hch@lst.de>
-Message-ID: <20170420150439.GL13676@linux-x5ow.site>
+ <20170420140316.6546-15-hch@lst.de>
+Message-ID: <20170420151335.GM13676@linux-x5ow.site>
 
-On Thu, Apr 20, 2017@04:03:05PM +0200, Christoph Hellwig wrote:
-> We'll get all proper errors reported through ->end_io and ->errors will
-> go away soon.
+On Thu, Apr 20, 2017@04:03:07PM +0200, Christoph Hellwig wrote:
+> Instead of using req->errors, which will go away.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
