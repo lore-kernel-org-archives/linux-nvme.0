@@ -1,26 +1,18 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 20 Apr 2017 12:28:55 -0400
-Subject: [PATCH] nvme/pci: Poll CQ on timeout
-In-Reply-To: <8ae3cdeb-0c81-7ce9-758e-717d7955808c@grimberg.me>
-References: <1487977168-5347-1-git-send-email-keith.busch@intel.com>
- <20170228141017.GC20317@lst.de>
- <20170228160056.GA15639@localhost.localdomain>
- <6c0cacb0-ab91-6270-8bae-dbd18a8dbd0e@fb.com>
- <20170420085609.GA6217@linux-x5ow.site>
- <20170420142044.GB21311@localhost.localdomain>
- <4c3be76c-0ae3-a95a-3067-cebb9fab340e@fb.com>
- <8ae3cdeb-0c81-7ce9-758e-717d7955808c@grimberg.me>
-Message-ID: <20170420162855.GA25259@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 20 Apr 2017 19:21:29 +0300
+Subject: kernel NULL pointer during reset_controller operation with IO on
+ 4.11.0-rc7
+In-Reply-To: <1413097100.14743757.1492668219336.JavaMail.zimbra@redhat.com>
+References: <1413097100.14743757.1492668219336.JavaMail.zimbra@redhat.com>
+Message-ID: <97bb90ec-4337-62f7-f08d-a673975a5637@grimberg.me>
 
-On Thu, Apr 20, 2017@07:17:40PM +0300, Sagi Grimberg wrote:
-> 
-> > > Thanks, I forgot about this one, but still think it's a good idea.
-> > > Applied it to for-next.
-> > 
-> > Agree, it's a nice addition.
-> 
-> I think its harmless to have. especially when we do log that it
-> happened.
 
-It's actually proved to be quite useful and maybe good for stable. Any
-objections to roll this into 4.11 instead 4.12?
+> [1]
+> [ 5968.515237] DMAR: DRHD: handling fault status reg 2
+> [ 5968.519449] mlx5_2:dump_cqe:262:(pid 0): dump error cqe
+> [ 5968.519450] 00000000 00000000 00000000 00000000
+> [ 5968.519451] 00000000 00000000 00000000 00000000
+> [ 5968.519451] 00000000 00000000 00000000 00000000
+> [ 5968.519452] 00000000 02005104 00000316 a71710e3
+
+Max, Can you decode this for us?
