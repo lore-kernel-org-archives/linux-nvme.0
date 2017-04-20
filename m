@@ -1,66 +1,70 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Wed, 19 Apr 2017 21:46:20 -0700
-Subject: [PATCH-v1 01/22] Standardize nvme SGL segment count
-In-Reply-To: <20170420044641.10657-1-jsmart2021@gmail.com>
-References: <20170420044641.10657-1-jsmart2021@gmail.com>
-Message-ID: <20170420044641.10657-2-jsmart2021@gmail.com>
+Date: Wed, 19 Apr 2017 21:46:19 -0700
+Subject: [PATCH-v1 00/22] lpfc updates for 11.2.0.12 
+Message-ID: <20170420044641.10657-1-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-Standardize default SGL segment count for nvme target and initiator
+This patch set provides a number of bug fixes, code cleanups, and error
+handling, mostly in the nvme area of lpfc.
 
-The driver needs to make them the same for clarity.
+There is one new feature in the series to add Fabric Assigned WWN support.
 
-Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/scsi/lpfc/lpfc_nvme.h  | 4 +---
- drivers/scsi/lpfc/lpfc_nvmet.c | 2 +-
- drivers/scsi/lpfc/lpfc_nvmet.h | 4 +---
- 3 files changed, 3 insertions(+), 7 deletions(-)
+The patches were cut against the linux-block tree, for-4.12/block branch,
+and are intended to be pulled in through that tree rather than the scsi trees.
 
-diff --git a/drivers/scsi/lpfc/lpfc_nvme.h b/drivers/scsi/lpfc/lpfc_nvme.h
-index 1347deb..6277796 100644
---- a/drivers/scsi/lpfc/lpfc_nvme.h
-+++ b/drivers/scsi/lpfc/lpfc_nvme.h
-@@ -21,9 +21,7 @@
-  * included with this package.                                     *
-  ********************************************************************/
- 
--#define LPFC_NVME_MIN_SEGS		16
--#define LPFC_NVME_DEFAULT_SEGS		66	/* 256K IOs - 64 + 2 */
--#define LPFC_NVME_MAX_SEGS		510
-+#define LPFC_NVME_DEFAULT_SEGS		(64 + 1)	/* 256K IOs */
- #define LPFC_NVMET_MIN_POSTBUF		16
- #define LPFC_NVMET_DEFAULT_POSTBUF	1024
- #define LPFC_NVMET_MAX_POSTBUF		4096
-diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
-index d488c33..c8a4941 100644
---- a/drivers/scsi/lpfc/lpfc_nvmet.c
-+++ b/drivers/scsi/lpfc/lpfc_nvmet.c
-@@ -709,7 +709,7 @@ lpfc_nvmet_create_targetport(struct lpfc_hba *phba)
- 	pinfo.port_id = vport->fc_myDID;
- 
- 	lpfc_tgttemplate.max_hw_queues = phba->cfg_nvme_io_channel;
--	lpfc_tgttemplate.max_sgl_segments = phba->cfg_sg_seg_cnt;
-+	lpfc_tgttemplate.max_sgl_segments = phba->cfg_sg_seg_cnt + 1;
- 	lpfc_tgttemplate.target_features = NVMET_FCTGTFEAT_READDATA_RSP |
- 					   NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED |
- 					   NVMET_FCTGTFEAT_CMD_IN_ISR |
-diff --git a/drivers/scsi/lpfc/lpfc_nvmet.h b/drivers/scsi/lpfc/lpfc_nvmet.h
-index 02735fc..d8bac4c 100644
---- a/drivers/scsi/lpfc/lpfc_nvmet.h
-+++ b/drivers/scsi/lpfc/lpfc_nvmet.h
-@@ -21,9 +21,7 @@
-  * included with this package.                                     *
-  ********************************************************************/
- 
--#define LPFC_NVMET_MIN_SEGS		16
--#define LPFC_NVMET_DEFAULT_SEGS		64	/* 256K IOs */
--#define LPFC_NVMET_MAX_SEGS		510
-+#define LPFC_NVMET_DEFAULT_SEGS		(64 + 1)	/* 256K IOs */
- #define LPFC_NVMET_SUCCESS_LEN	12
- 
- /* Used for NVME Target */
+The patches are dependent on the FC nvme/nvmet patches from the following 2
+series:
+http://lists.infradead.org/pipermail/linux-nvme/2017-April/009250.html
+http://lists.infradead.org/pipermail/linux-nvme/2017-April/009256.html
+
+James Smart (22):
+  Standardize nvme SGL segment count
+  Fix nvme unregister port timeout.
+  Fix rejected nvme LS Req.
+  Fix log message in completion path.
+  Add debug messages for nvme/fcp resource allocation.
+  Fix spelling in comments.
+  Remove unused defines for NVME PostBuf.
+  Remove NULL ptr check before kfree.
+  Fix extra line print in rqpair debug print.
+  Fix PRLI ACC rsp for NVME
+  Fix driver unload/reload operation.
+  Fix driver usage of 128B WQEs when WQ_CREATE is V1.
+  Fix nvme initiator handling when not enabled.
+  Remove hba lock from NVMET issue WQE.
+  Fix driver load issues when MRQ=8
+  Fix crash after issuing lip reset
+  Fix max_sgl_segments settings for NVME / NVMET
+  Add Fabric assigned WWN support.
+  Fix implicit logo and RSCN handling for NVMET
+  Update ABORT processing for NVMET.
+  Fix Express lane queue creation.
+  lpfc revison 11.2.0.12
+
+ drivers/scsi/lpfc/lpfc.h           |   5 +-
+ drivers/scsi/lpfc/lpfc_attr.c      |  10 +-
+ drivers/scsi/lpfc/lpfc_bsg.c       |   4 +
+ drivers/scsi/lpfc/lpfc_crtn.h      |   9 +-
+ drivers/scsi/lpfc/lpfc_ct.c        |  68 +++++--
+ drivers/scsi/lpfc/lpfc_debugfs.c   |  69 ++++---
+ drivers/scsi/lpfc/lpfc_disc.h      |   1 +
+ drivers/scsi/lpfc/lpfc_els.c       |  68 +++----
+ drivers/scsi/lpfc/lpfc_hbadisc.c   | 131 +++++++++----
+ drivers/scsi/lpfc/lpfc_hw.h        |   3 +
+ drivers/scsi/lpfc/lpfc_hw4.h       |   4 +
+ drivers/scsi/lpfc/lpfc_init.c      | 202 +++++++++++++-------
+ drivers/scsi/lpfc/lpfc_mbox.c      |   7 +-
+ drivers/scsi/lpfc/lpfc_nportdisc.c |   8 +-
+ drivers/scsi/lpfc/lpfc_nvme.c      | 139 ++++++++++----
+ drivers/scsi/lpfc/lpfc_nvme.h      |   7 +-
+ drivers/scsi/lpfc/lpfc_nvmet.c     | 378 ++++++++++++++++++++++++++++---------
+ drivers/scsi/lpfc/lpfc_nvmet.h     |  14 +-
+ drivers/scsi/lpfc/lpfc_sli.c       |  22 ++-
+ drivers/scsi/lpfc/lpfc_sli4.h      |   2 +-
+ drivers/scsi/lpfc/lpfc_version.h   |   2 +-
+ drivers/scsi/lpfc/lpfc_vport.c     |   3 +-
+ 22 files changed, 814 insertions(+), 342 deletions(-)
+
 -- 
 2.1.0
