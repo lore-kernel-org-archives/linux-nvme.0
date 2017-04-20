@@ -1,19 +1,19 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 17:20:56 +0200
-Subject: [PATCH 22/23] blktrace: remove the unused block_rq_abort
- tracepoint
-In-Reply-To: <20170420140316.6546-23-hch@lst.de>
+Date: Thu, 20 Apr 2017 17:21:49 +0200
+Subject: [PATCH 23/23] block: remove the errors field from struct request
+In-Reply-To: <20170420140316.6546-24-hch@lst.de>
 References: <20170420140316.6546-1-hch@lst.de>
- <20170420140316.6546-23-hch@lst.de>
-Message-ID: <20170420152056.GP13676@linux-x5ow.site>
+ <20170420140316.6546-24-hch@lst.de>
+Message-ID: <20170420152148.GQ13676@linux-x5ow.site>
 
-On Thu, Apr 20, 2017@04:03:15PM +0200, Christoph Hellwig wrote:
+On Thu, Apr 20, 2017@04:03:16PM +0200, Christoph Hellwig wrote:
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Bart Van Assche <Bart.VanAssche at sandisk.com>
+> Acked-by: Roger Pau Monn? <roger.pau at citrix.com>
+> Reviewed-by: Konrad Rzeszutek Wilk <konrad.wilk at oracle.com>
 > ---
 
-Just to be sure nothings forgotten, does this change need an update for
-blktrace as well?
-
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
