@@ -1,64 +1,40 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Wed, 19 Apr 2017 21:46:21 -0700
-Subject: [PATCH-v1 02/22] Fix nvme unregister port timeout.
+Date: Wed, 19 Apr 2017 21:46:23 -0700
+Subject: [PATCH-v1 04/22] Fix log message in completion path.
 In-Reply-To: <20170420044641.10657-1-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
-Message-ID: <20170420044641.10657-3-jsmart2021@gmail.com>
+Message-ID: <20170420044641.10657-5-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-During some link event testing it was observed that the
-wait_for_completion_timeout in the lpfc_nvme_unregister_port
-was timing out all the time.
+In the lpfc_nvme_io_cmd_wqe_cmpl routine the driver was printing two
+pointers and the DID for the rport whenever an IO completed on a now
+that had transitioned to a non active state.
 
-The initiator is claiming the nvme_fc_unregister_remoteport upcall is
-not completing the unregister in the time allotted.
-[ 2186.151317] lpfc 0000:07:00.0: 0:(0):6169 Unreg nvme wait failed 0
-
- The wait_for_completion_timeout returns 0 when the wait has
-been outstanding for the jiffies passed by the caller.  In this error
-message, the nvme initiator passed value 5 - meaning 5 jiffies -
-and this is just wrong.
-
-Calculate 5 seconds in Jiffies and pass that value
-from the current jiffies.
-
-Also the log message for the unregister timeout was reduced
-because timeout failure is the same as timeout.
+There is no need to print the node pointer address for a node that
+is not active the DID should be enough to debug.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc_nvme.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/scsi/lpfc/lpfc_nvme.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
-index 0024de1..a39d72c 100644
+index 2a87428..bc6946f 100644
 --- a/drivers/scsi/lpfc/lpfc_nvme.c
 +++ b/drivers/scsi/lpfc/lpfc_nvme.c
-@@ -2409,6 +2409,7 @@ lpfc_nvme_unregister_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
- 	struct lpfc_nvme_lport *lport;
- 	struct lpfc_nvme_rport *rport;
- 	struct nvme_fc_remote_port *remoteport;
-+	unsigned long wait_tmo;
+@@ -787,9 +787,8 @@ lpfc_nvme_io_cmd_wqe_cmpl(struct lpfc_hba *phba, struct lpfc_iocbq *pwqeIn,
+ 	ndlp = rport->ndlp;
+ 	if (!ndlp || !NLP_CHK_NODE_ACT(ndlp)) {
+ 		lpfc_printf_vlog(vport, KERN_ERR, LOG_NODE | LOG_NVME_IOERR,
+-				 "6061 rport %p, ndlp %p, DID x%06x ndlp "
+-				 "not ready.\n",
+-				 rport, ndlp, rport->remoteport->port_id);
++				 "6061 rport %p,  DID x%06x node not ready.\n",
++				 rport, rport->remoteport->port_id);
  
- 	localport = vport->localport;
- 
-@@ -2451,11 +2452,12 @@ lpfc_nvme_unregister_port(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp)
- 		 * before proceeding.  This guarantees the transport and driver
- 		 * have completed the unreg process.
- 		 */
--		ret = wait_for_completion_timeout(&rport->rport_unreg_done, 5);
-+		wait_tmo = msecs_to_jiffies(5000);
-+		ret = wait_for_completion_timeout(&rport->rport_unreg_done,
-+						  wait_tmo);
- 		if (ret == 0) {
- 			lpfc_printf_vlog(vport, KERN_ERR, LOG_NVME_DISC,
--					 "6169 Unreg nvme wait failed %d\n",
--					 ret);
-+					 "6169 Unreg nvme wait timeout\n");
- 		}
- 	}
- 	return;
+ 		ndlp = lpfc_findnode_did(vport, rport->remoteport->port_id);
+ 		if (!ndlp) {
 -- 
 2.1.0
