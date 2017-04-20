@@ -1,87 +1,56 @@
-From: sbates@raithlin.com (sbates@raithlin.com)
-Date: Thu, 20 Apr 2017 16:59:11 -0600
-Subject: [PATCH] blk-mq: Fix poll_stat for new size-based bucketing.
-Message-ID: <1492729151-20983-1-git-send-email-sbates@raithlin.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 20 Apr 2017 16:06:42 -0600
+Subject: [PATCH v3 2/2] blk-mq: Add a polling specific stats function
+In-Reply-To: <F1D4091B-6AA1-46D0-A99E-0A891DE4939E@raithlin.com>
+References: <1491567843-26190-1-git-send-email-sbates@raithlin.com>
+ <1491567843-26190-3-git-send-email-sbates@raithlin.com>
+ <20170420200706.GA24823@vader.DHCP.thefacebook.com>
+ <c7543e20-8f3f-03c4-38a2-de185e066aa2@kernel.dk>
+ <20170420202039.GB24823@vader.DHCP.thefacebook.com>
+ <808e7f83-9f55-29cf-7472-c09daea665bd@kernel.dk>
+ <0E9E52B3-977A-4159-83B3-758564FF67AD@raithlin.com>
+ <6617fde7-4866-4a2d-6cf5-dc8b2c678186@kernel.dk>
+ <D356CC80-F509-4427-B999-641636131E8D@raithlin.com>
+ <ca5bec05-ba3c-55db-6f3d-ef0965a79737@kernel.dk>
+ <0C2FFC52-512F-4031-8E6F-487FA651A31B@raithlin.com>
+ <6214fe06-c636-c565-9b2c-fab7cf2e6d19@kernel.dk>
+ <F8C6A572-C589-4FF9-8DB2-66D6CC045EA1@raithlin.com>
+ <16225338-232a-ef39-0b9d-1281e0a66367@kernel.dk>
+ <F1D4091B-6AA1-46D0-A99E-0A891DE4939E@raithlin.com>
+Message-ID: <c8a630f0-2745-3c3c-3e2f-e6515d39f75d@kernel.dk>
 
-From: Stephen Bates <sbates@raithlin.com>
+On 04/20/2017 04:05 PM, Stephen  Bates wrote:
+> 
+>> You can, but it won't do much good since v3 is already applied. Any
+>> further changes must be incremental.
+> 
+> BTW getting a compile error from the Kyber code in for-4.12/block due to the fact we now return a signed from the bucket function?
+> 
+> batesste at ubuntu64-batesste:~/kernel/linux$ make -j 2 all
+>   CHK     include/config/kernel.release
+>   CHK     include/generated/uapi/linux/version.h
+>   CHK     include/generated/utsrelease.h
+>   CHK     include/generated/timeconst.h
+>   CHK     include/generated/bounds.h
+>   CHK     include/generated/asm-offsets.h
+>   CALL    scripts/checksyscalls.sh
+>   CHK     include/generated/compile.h
+>   CC      block/kyber-iosched.o
+> block/kyber-iosched.c: In function ?kyber_queue_data_alloc?:
+> block/kyber-iosched.c:295:57: error: passing argument 2 of ?blk_stat_alloc_callback? from incompatible pointer type [-Werror=incompatible-pointer-types]
+>   kqd->cb = blk_stat_alloc_callback(kyber_stat_timer_fn, rq_sched_domain,
+>                                                          ^
+> In file included from block/blk-mq.h:4:0,
+>                  from block/blk.h:6,
+>                  from block/kyber-iosched.c:27:
+> block/blk-stat.h:138:1: note: expected ?int (*)(const struct request *)? but argument is of type ?unsigned int (*)(const struct request *)?
+>  blk_stat_alloc_callback(void (*timer_fn)(struct blk_stat_callback *),
+>  ^
+>   CC      block/compat_ioctl.o
+> cc1: some warnings being treated as errors
 
-Fixes an issue where the size of the poll_stat array in request_queue
-does not match the size expected by the new size based bucketing for
-IO completion polling.
+I did fix that one up, I did a ninja rebase, but apparently you pulled in the
+few minutes it existed. So just update, and you should be fine.
 
-Should be applied on top of commit 720b8ccc4500 ("blk-mq: Add a
-polling specific stats function").
-
-Signed-off-by: Stephen Bates <sbates at raithlin.com>
----
- block/blk-mq-debugfs.c | 15 +++++++++------
- block/blk-mq.c         |  8 ++++----
- include/linux/blkdev.h |  5 ++++-
- 3 files changed, 17 insertions(+), 11 deletions(-)
-
-diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
-index df9b688..3057641 100644
---- a/block/blk-mq-debugfs.c
-+++ b/block/blk-mq-debugfs.c
-@@ -159,14 +159,17 @@ static void print_stat(struct seq_file *m, struct blk_rq_stat *stat)
- static int queue_poll_stat_show(struct seq_file *m, void *v)
- {
- 	struct request_queue *q = m->private;
-+	int bucket;
- 
--	seq_puts(m, "read: ");
--	print_stat(m, &q->poll_stat[READ]);
--	seq_puts(m, "\n");
-+	for (bucket = 0; bucket < BLK_MQ_POLL_STATS_BKTS/2; bucket++) {
-+		seq_printf(m, "read  (%d Bytes): ", 1 << (9+bucket));
-+		print_stat(m, &q->poll_stat[2*bucket]);
-+		seq_puts(m, "\n");
- 
--	seq_puts(m, "write: ");
--	print_stat(m, &q->poll_stat[WRITE]);
--	seq_puts(m, "\n");
-+		seq_printf(m, "write (%d Bytes): ",  1 << (9+bucket));
-+		print_stat(m, &q->poll_stat[2*bucket+1]);
-+		seq_puts(m, "\n");
-+	}
- 	return 0;
- }
- 
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 9d7645f..81f7c99 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -42,8 +42,6 @@ static LIST_HEAD(all_q_list);
- static void blk_mq_poll_stats_start(struct request_queue *q);
- static void blk_mq_poll_stats_fn(struct blk_stat_callback *cb);
- 
--/* Must be consisitent with function below */
--#define BLK_MQ_POLL_STATS_BKTS 16
- static int blk_mq_poll_stats_bkt(const struct request *rq)
- {
- 	int ddir, bytes, bucket;
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 6c4ab0d..6c24786 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -46,6 +46,9 @@ struct blk_stat_callback;
- #define BLKDEV_MIN_RQ	4
- #define BLKDEV_MAX_RQ	128	/* Default maximum */
- 
-+/* Must be consisitent with blk_mq_poll_stats_bkt() */
-+#define BLK_MQ_POLL_STATS_BKTS 16
-+
- /*
-  * Maximum number of blkcg policies allowed to be registered concurrently.
-  * Defined here to simplify include dependency.
-@@ -517,7 +520,7 @@ struct request_queue {
- 	int			poll_nsec;
- 
- 	struct blk_stat_callback	*poll_cb;
--	struct blk_rq_stat	poll_stat[2];
-+	struct blk_rq_stat	poll_stat[BLK_MQ_POLL_STATS_BKTS];
- 
- 	struct timer_list	timeout;
- 	struct work_struct	timeout_work;
 -- 
-2.7.4
+Jens Axboe
