@@ -1,38 +1,27 @@
-From: joseph.r.gruher@intel.com (Gruher, Joseph R)
-Date: Thu, 20 Apr 2017 17:30:52 +0000
-Subject: cqe dump errors on target while running nvme-of large block
- read IO
-In-Reply-To: <991b26ec-69d3-9e1c-ed3e-0d6e6618e73a@grimberg.me>
-References: <DE927C68B458BE418D582EC97927A9285505C9EA@ORSMSX113.amr.corp.intel.com>
- <47f19583-1882-09d4-ce1c-534b8e59068b@mellanox.com>
- <DE927C68B458BE418D582EC97927A9285505F0C9@ORSMSX113.amr.corp.intel.com>
- <52c550c1-849b-7ea5-ab34-56543cb9069d@mellanox.com>
- <991b26ec-69d3-9e1c-ed3e-0d6e6618e73a@grimberg.me>
-Message-ID: <DE927C68B458BE418D582EC97927A928550680FF@ORSMSX113.amr.corp.intel.com>
+From: daggs@gmx.com (daggs)
+Date: Thu, 20 Apr 2017 19:44:16 +0200
+Subject: question about spec hw reset
+Message-ID: <trinity-e0cf29b4-06e9-4f13-aa54-8f1689d8ff58-1492710256428@3capp-mailcom-bs16>
 
-> These errors are either from:
-> 1. mapping error on the host side - not sure given we don't see any error
-> completions/events from the rdma device. However, can you turn on dynamic
-> debug to see QP events?
-> 
-> echo "func nvme_rdma_qp_event +p" >
-> /sys/kernel/debug/dynamic_debug/control
+Greetings,
 
-Yes, I can try this out.  Will this just print to dmesg or do I need to collect a log from somewhere?
+I have a question about the hw reset flow. I'm maintaining a kernel driver (not the one in the linux kernel) for nvme which the company I work for uses for internal benchmarking, I was asked to implement an hardware reset.
 
-> The fact that null_blk didn't reproduce this was probably because it is less
-> bursty (which can cause network congestion).
+I've followed the spec and did the following:
+1. disable the en bit and wait until the ctrl is off.
+2. set the shutdown bit and wait until the ctrl completed shutdown.
+3. did a pci reset.
+4. set the num of queues in the aqa register.
+5. populate the acq and asq register with the physical addr ofthe buffers.
+6. configure the cc register with the default values.
+7. enable the device via the en bit and wait until the ready bit it set.
+8. prepate a ctrl id cmd on the sq and send a doorbell.
+9. poll for completion.
 
-See email I just now sent in reply to Max (this same thread).  I believe we reproduced the same issue with null_blk last night after correctly configuring some latency into the null_blk devices.
+my issue is that I never get a completion for that request.
+am I doing something wrong? is there any way to query the controller for status that might help me figure out what I did wrong or what is the status of the controller?
+are there any limitations on the addresses the admin queue can use?
 
-> Joseph, are you sure that flow control is correctly configured and working
-> reliably?
+Thanks,
 
-I believe it is set up correctly.  Running ethtool against the NIC interfaces in use reports:
-	Supported pause frame use: Symmetric Receive-only
-
-And all ports in use on the Arista 7060X switch report it turned on in both directions:
-	flowcontrol send on
-	flowcontrol receive on
-
-If there's anywhere else we can check, or any direct test of flow control we can run, happy to try it.  Should we be OK with only Rx flow control at the NIC (this seems to be the default behavior) or is it recommended to set up Tx flow control as well?
+Dagg.
