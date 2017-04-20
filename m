@@ -1,19 +1,15 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 09:33:42 +0200
-Subject: [PATCH-v1 05/22] Add debug messages for nvme/fcp resource
- allocation.
-In-Reply-To: <20170420044641.10657-6-jsmart2021@gmail.com>
+Date: Thu, 20 Apr 2017 09:34:03 +0200
+Subject: [PATCH-v1 06/22] Fix spelling in comments.
+In-Reply-To: <20170420044641.10657-7-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
- <20170420044641.10657-6-jsmart2021@gmail.com>
-Message-ID: <20170420073341.GF6217@linux-x5ow.site>
+ <20170420044641.10657-7-jsmart2021@gmail.com>
+Message-ID: <20170420073402.GG6217@linux-x5ow.site>
 
-On Wed, Apr 19, 2017@09:46:24PM -0700, jsmart2021@gmail.com wrote:
+On Wed, Apr 19, 2017@09:46:25PM -0700, jsmart2021@gmail.com wrote:
 > From: James Smart <jsmart2021 at gmail.com>
 > 
-> The xri resources are split into pools for NVME and FCP IO when NVME is
-> enabled. There was not message in the log that identified this allocation.
-> 
-> Added debug message to log XRI split.
+> Comment should have said Repost.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
