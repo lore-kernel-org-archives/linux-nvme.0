@@ -1,17 +1,17 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 20 Apr 2017 09:34:58 +0200
-Subject: [PATCH-v1 08/22] Remove NULL ptr check before kfree.
-In-Reply-To: <20170420044641.10657-9-jsmart2021@gmail.com>
+Date: Thu, 20 Apr 2017 09:35:18 +0200
+Subject: [PATCH-v1 09/22] Fix extra line print in rqpair debug print.
+In-Reply-To: <20170420044641.10657-10-jsmart2021@gmail.com>
 References: <20170420044641.10657-1-jsmart2021@gmail.com>
- <20170420044641.10657-9-jsmart2021@gmail.com>
-Message-ID: <20170420073458.GI6217@linux-x5ow.site>
+ <20170420044641.10657-10-jsmart2021@gmail.com>
+Message-ID: <20170420073518.GJ6217@linux-x5ow.site>
 
-On Wed, Apr 19, 2017@09:46:27PM -0700, jsmart2021@gmail.com wrote:
+On Wed, Apr 19, 2017@09:46:28PM -0700, jsmart2021@gmail.com wrote:
 > From: James Smart <jsmart2021 at gmail.com>
 > 
-> The check for NULL ptr is not necessary, kfree will check it.
+> An extra blank line was being added the the rqpair printing.
 > 
-> Removing NULL ptr check.
+> Remove the extra line feed.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
