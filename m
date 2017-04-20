@@ -1,33 +1,24 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Fri, 21 Apr 2017 02:57:39 +0300
+From: axboe@kernel.dk (Jens Axboe)
+Date: Thu, 20 Apr 2017 17:12:08 -0600
 Subject: [PATCH] blk-mq: Fix poll_stat for new size-based bucketing.
-In-Reply-To: <8F6E7173-D719-4E85-9F18-7B20319E972C@raithlin.com>
+In-Reply-To: <1492729151-20983-1-git-send-email-sbates@raithlin.com>
 References: <1492729151-20983-1-git-send-email-sbates@raithlin.com>
- <44a0b09e-d150-a0e8-f5e2-5792f4d4f74a@kernel.dk>
- <8F6E7173-D719-4E85-9F18-7B20319E972C@raithlin.com>
-Message-ID: <15b270ab-c012-1ab5-8ce7-235146e226e7@grimberg.me>
+Message-ID: <44a0b09e-d150-a0e8-f5e2-5792f4d4f74a@kernel.dk>
 
->> Thanks, added. BTW, in the future, we have a format for specifying
->> if a patch fixes another patch. This should have been:
->
-> Thanks!
->
->> Fixes: 720b8ccc4500 ("blk-mq: Add a polling specific stats function")
->
-> Duly noted for next time. Apologies for the miss?
+On 04/20/2017 04:59 PM, sbates@raithlin.com wrote:
+> From: Stephen Bates <sbates at raithlin.com>
+> 
+> Fixes an issue where the size of the poll_stat array in request_queue
+> does not match the size expected by the new size based bucketing for
+> IO completion polling.
+> 
+> Should be applied on top of commit 720b8ccc4500 ("blk-mq: Add a
+> polling specific stats function").
 
-Stephen,
+Thanks, added. BTW, in the future, we have a format for specifying
+if a patch fixes another patch. This should have been:
 
-I recommend adding a pretty section to your gitconfig:
+Fixes: 720b8ccc4500 ("blk-mq: Add a polling specific stats function")
 
-[pretty]
-         fixes = Fixes: %h (\"%s\")
-
-This way you can run:
-
-git log --pretty=fixes <broken_commit_hash>^!
-
-and get the format for free :)
-
-Cheers,
-Sagi.
+-- 
+Jens Axboe
