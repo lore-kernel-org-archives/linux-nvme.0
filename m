@@ -1,28 +1,29 @@
-From: dan.j.williams@intel.com (Dan Williams)
-Date: Thu, 20 Apr 2017 13:47:19 -0700
-Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <D79A59A8-DC7E-413F-ABB8-05F373A9DFD4@raithlin.com>
-References: <20170418164557.GA7181@obsidianresearch.com>
- <cce00131-1f28-27b3-40ab-04f8783f1e5a@deltatee.com>
- <20170418190138.GH7181@obsidianresearch.com>
- <df1351d8-b86c-2e21-1948-4688ece5dc2b@deltatee.com>
- <CAPcyv4gScx6A7vG9VEHpNF41GOy1Nxst7QQ3QC3uZ54bWoxbMg@mail.gmail.com>
- <20170418210339.GA24257@obsidianresearch.com>
- <1492564806.25766.124.camel@kernel.crashing.org>
- <20170419155557.GA8497@obsidianresearch.com>
- <4899b011-bdfb-18d8-ef00-33a1516216a6@deltatee.com>
- <CAPcyv4iJ9H8Ykwnjqa2R_D1qG6PsSQmi=QxYH-rKLF_ihrsWyw@mail.gmail.com>
- <20170419173225.GA11255@redhat.com>
- <CAPcyv4gxBgVsbSez7_dZYkZojUWU0X0txs7FxiJ+Z3xsMt6TqQ@mail.gmail.com>
- <D79A59A8-DC7E-413F-ABB8-05F373A9DFD4@raithlin.com>
-Message-ID: <CAPcyv4i+a_14E58SjFHncyq2O2-zf_PB=aT7k0a-Jc0XsfPapQ@mail.gmail.com>
+From: sbates@raithlin.com (Stephen  Bates)
+Date: Thu, 20 Apr 2017 20:47:51 +0000
+Subject: [PATCH v3 2/2] blk-mq: Add a polling specific stats function
+In-Reply-To: <6617fde7-4866-4a2d-6cf5-dc8b2c678186@kernel.dk>
+References: <1491567843-26190-1-git-send-email-sbates@raithlin.com>
+ <1491567843-26190-3-git-send-email-sbates@raithlin.com>
+ <20170420200706.GA24823@vader.DHCP.thefacebook.com>
+ <c7543e20-8f3f-03c4-38a2-de185e066aa2@kernel.dk>
+ <20170420202039.GB24823@vader.DHCP.thefacebook.com>
+ <808e7f83-9f55-29cf-7472-c09daea665bd@kernel.dk>
+ <0E9E52B3-977A-4159-83B3-758564FF67AD@raithlin.com>
+ <6617fde7-4866-4a2d-6cf5-dc8b2c678186@kernel.dk>
+Message-ID: <D356CC80-F509-4427-B999-641636131E8D@raithlin.com>
 
-On Thu, Apr 20, 2017@1:43 PM, Stephen  Bates <sbates@raithlin.com> wrote:
->
->> Yes, this makes sense I think we really just want to distinguish host
->> memory or not in terms of the dev_pagemap type.
->
-> I would like to see mutually exclusive flags for host memory (or not) and persistence (or not).
->
 
-Why persistence? It has zero meaning to the mm.
+> I agree, it's fine as-is. We should queue it up for 4.12.
+
+Great. I will get something based on Omar?s latest comments asap.
+
+> > However right now I am stuck as I am seeing the kernel oops I reported
+> > before in testing of my latest patchset [1]. I will try and find some
+>> time to bisect that but it looks like it was introduced when the
+> > support for mq schedulers was added (on or around bd166ef18).
+
+> Just replied to that one, let me know if the suggestion works.
+
+That suggestion worked. Do you want me to send a patch for it?
+
+Stephen
