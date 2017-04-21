@@ -1,38 +1,68 @@
-From: axboe@fb.com (Jens Axboe)
-Date: Fri, 21 Apr 2017 14:18:08 -0600
-Subject: [PATCH] block: get rid of blk_integrity_revalidate()
-In-Reply-To: <1492533800-30627-1-git-send-email-idryomov@gmail.com>
-References: <1492533800-30627-1-git-send-email-idryomov@gmail.com>
-Message-ID: <30a66f64-2785-dc9d-d64a-cb3cf4fc346e@fb.com>
+From: jsmart2021@gmail.com (jsmart2021@gmail.com)
+Date: Fri, 21 Apr 2017 16:04:44 -0700
+Subject: [PATCH v3 00/22] lpfc updates for 11.2.0.12 
+Message-ID: <20170421230506.925-1-jsmart2021@gmail.com>
 
-On 04/18/2017 10:43 AM, Ilya Dryomov wrote:
-> Commit 25520d55cdb6 ("block: Inline blk_integrity in struct gendisk")
-> introduced blk_integrity_revalidate(), which seems to assume ownership
-> of the stable pages flag and unilaterally clears it if no blk_integrity
-> profile is registered:
-> 
->     if (bi->profile)
->             disk->queue->backing_dev_info->capabilities |=
->                     BDI_CAP_STABLE_WRITES;
->     else
->             disk->queue->backing_dev_info->capabilities &=
->                     ~BDI_CAP_STABLE_WRITES;
-> 
-> It's called from revalidate_disk() and rescan_partitions(), making it
-> impossible to enable stable pages for drivers that support partitions
-> and don't use blk_integrity: while the call in revalidate_disk() can be
-> trivially worked around (see zram, which doesn't support partitions and
-> hence gets away with zram_revalidate_disk()), rescan_partitions() can
-> be triggered from userspace at any time.  This breaks rbd, where the
-> ceph messenger is responsible for generating/verifying CRCs.
-> 
-> Since blk_integrity_{un,}register() "must" be used for (un)registering
-> the integrity profile with the block layer, move BDI_CAP_STABLE_WRITES
-> setting there.  This way drivers that call blk_integrity_register() and
-> use integrity infrastructure won't interfere with drivers that don't
-> but still want stable pages.
+From: James Smart <jsmart2021@gmail.com>
 
-Applied, thanks.
+This patch set provides a number of bug fixes, code cleanups, and error
+handling, mostly in the nvme area of lpfc.
+
+There is one new feature in the series to add Fabric Assigned WWN support.
+
+The patches were cut against the linux-block tree, for-4.12/block branch,
+after Jens has pulled in the "nmve updates for 4.12" from today.
+The updates included all dependencies for lpfc. The patches apply
+cleanly to both the block branch and the nvme-4.12 tree/branch.
+They should be good to go through Jen's tree.
+
+James Smart (22):
+  Standardize nvme SGL segment count
+  Fix nvme unregister port timeout.
+  Fix rejected nvme LS Req.
+  Fix log message in completion path.
+  Add debug messages for nvme/fcp resource allocation.
+  Fix spelling in comments.
+  Remove unused defines for NVME PostBuf.
+  Remove NULL ptr check before kfree.
+  Fix extra line print in rqpair debug print.
+  Fix PRLI ACC rsp for NVME
+  Fix driver unload/reload operation.
+  Fix driver usage of 128B WQEs when WQ_CREATE is V1.
+  Fix nvme initiator handling when not enabled.
+  Remove hba lock from NVMET issue WQE.
+  Fix driver load issues when MRQ=8
+  Fix crash after issuing lip reset
+  Fix max_sgl_segments settings for NVME / NVMET
+  Add Fabric assigned WWN support.
+  Fix implicit logo and RSCN handling for NVMET
+  Update ABORT processing for NVMET.
+  Fix Express lane queue creation.
+  lpfc revison 11.2.0.12
+
+ drivers/scsi/lpfc/lpfc.h           |   5 +-
+ drivers/scsi/lpfc/lpfc_attr.c      |  10 +-
+ drivers/scsi/lpfc/lpfc_bsg.c       |   4 +
+ drivers/scsi/lpfc/lpfc_crtn.h      |   9 +-
+ drivers/scsi/lpfc/lpfc_ct.c        |  68 +++++--
+ drivers/scsi/lpfc/lpfc_debugfs.c   |  67 ++++---
+ drivers/scsi/lpfc/lpfc_disc.h      |   1 +
+ drivers/scsi/lpfc/lpfc_els.c       |  68 +++----
+ drivers/scsi/lpfc/lpfc_hbadisc.c   | 133 +++++++++----
+ drivers/scsi/lpfc/lpfc_hw.h        |   3 +
+ drivers/scsi/lpfc/lpfc_hw4.h       |   4 +
+ drivers/scsi/lpfc/lpfc_init.c      | 202 +++++++++++++-------
+ drivers/scsi/lpfc/lpfc_mbox.c      |   7 +-
+ drivers/scsi/lpfc/lpfc_nportdisc.c |   8 +-
+ drivers/scsi/lpfc/lpfc_nvme.c      | 140 ++++++++++----
+ drivers/scsi/lpfc/lpfc_nvme.h      |   7 +-
+ drivers/scsi/lpfc/lpfc_nvmet.c     | 377 ++++++++++++++++++++++++++++---------
+ drivers/scsi/lpfc/lpfc_nvmet.h     |  14 +-
+ drivers/scsi/lpfc/lpfc_sli.c       |  22 ++-
+ drivers/scsi/lpfc/lpfc_sli4.h      |   2 +-
+ drivers/scsi/lpfc/lpfc_version.h   |   2 +-
+ drivers/scsi/lpfc/lpfc_vport.c     |   3 +-
+ 22 files changed, 813 insertions(+), 343 deletions(-)
 
 -- 
-Jens Axboe
+2.9.3
