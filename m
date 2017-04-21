@@ -1,15 +1,12 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 21 Apr 2017 10:54:50 +0200
-Subject: [PATCH 2/7] nvme/fc: don't byte swap command_id
-In-Reply-To: <20170421085005.5945-3-hch@lst.de>
+Date: Fri, 21 Apr 2017 10:55:11 +0200
+Subject: [PATCH 3/7] nvmet/fc: mark nvmet_fc_handle_fcp_rqst static
+In-Reply-To: <20170421085005.5945-4-hch@lst.de>
 References: <20170421085005.5945-1-hch@lst.de>
- <20170421085005.5945-3-hch@lst.de>
-Message-ID: <20170421085450.GF26346@linux-x5ow.site>
+ <20170421085005.5945-4-hch@lst.de>
+Message-ID: <20170421085511.GG26346@linux-x5ow.site>
 
-On Fri, Apr 21, 2017@10:50:00AM +0200, Christoph Hellwig wrote:
-> The command ID is a field for host only use and thus always is in
-> native endian.
-> 
+On Fri, Apr 21, 2017@10:50:01AM +0200, Christoph Hellwig wrote:
 > Found by sparse.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
