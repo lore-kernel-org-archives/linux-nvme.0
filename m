@@ -1,36 +1,21 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 21 Apr 2017 08:39:40 +0200
-Subject: [PATCH] nvme/pci: Poll CQ on timeout
-In-Reply-To: <dd4e55da-a01a-9671-cd25-3b65add80872@fb.com>
-References: <1487977168-5347-1-git-send-email-keith.busch@intel.com>
- <20170228141017.GC20317@lst.de>
- <20170228160056.GA15639@localhost.localdomain>
- <6c0cacb0-ab91-6270-8bae-dbd18a8dbd0e@fb.com>
- <20170420085609.GA6217@linux-x5ow.site>
- <20170420142044.GB21311@localhost.localdomain>
- <4c3be76c-0ae3-a95a-3067-cebb9fab340e@fb.com>
- <8ae3cdeb-0c81-7ce9-758e-717d7955808c@grimberg.me>
- <20170420162855.GA25259@localhost.localdomain>
- <dd4e55da-a01a-9671-cd25-3b65add80872@fb.com>
-Message-ID: <20170421063940.GA6008@lst.de>
+Date: Fri, 21 Apr 2017 08:44:27 +0200
+Subject: [PATCH v2 3/4] nvme: enable SG gaps support
+In-Reply-To: <2bd673ee-8455-32b7-1bad-34fa9eebb076@grimberg.me>
+References: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
+ <1492098977-5231-4-git-send-email-maxg@mellanox.com>
+ <2bd673ee-8455-32b7-1bad-34fa9eebb076@grimberg.me>
+Message-ID: <20170421064427.GB6095@lst.de>
 
-On Thu, Apr 20, 2017@10:31:36AM -0600, Jens Axboe wrote:
-> On 04/20/2017 10:28 AM, Keith Busch wrote:
-> > On Thu, Apr 20, 2017@07:17:40PM +0300, Sagi Grimberg wrote:
-> >>
-> >>>> Thanks, I forgot about this one, but still think it's a good idea.
-> >>>> Applied it to for-next.
-> >>>
-> >>> Agree, it's a nice addition.
-> >>
-> >> I think its harmless to have. especially when we do log that it
-> >> happened.
-> > 
-> > It's actually proved to be quite useful and maybe good for stable. Any
-> > objections to roll this into 4.11 instead 4.12?
-> 
-> I'll object to that, we should not queue up anything for 4.11 that
-> isn't potentially fixing a major issue at this point.
+On Thu, Apr 20, 2017@02:27:59PM +0300, Sagi Grimberg wrote:
+> I think it would be better if the ctrl will hold a virt_boundary
+> provided by the fabric driver? Then we would always
+> blk_queue_virt_boundary but with capable devices the fabric driver
+> can set it to 0. This will also allow for dword aligned sgls to
+> fit in pretty easily.
 
-Agreed.  I'll send it to you for 4.12 with the nvme pull request later
-today.
+All our block I/O must be cache line aligned, so dword aligned SGLs
+should not be an issue.  And for PRPs or MRs we'll always use the
+host page size.
+
+But I don't think I really care in the end..
