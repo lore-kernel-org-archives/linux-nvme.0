@@ -1,36 +1,35 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Fri, 21 Apr 2017 16:04:51 -0700
-Subject: [PATCH v3 07/22] Remove unused defines for NVME PostBuf.
+Date: Fri, 21 Apr 2017 16:04:53 -0700
+Subject: [PATCH v3 09/22] Fix extra line print in rqpair debug print.
 In-Reply-To: <20170421230506.925-1-jsmart2021@gmail.com>
 References: <20170421230506.925-1-jsmart2021@gmail.com>
-Message-ID: <20170421230506.925-8-jsmart2021@gmail.com>
+Message-ID: <20170421230506.925-10-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-These defines for the posting of buffers for nvmet target were not used.
+An extra blank line was being added the the rqpair printing.
 
-Removing the unused defines.
+Remove the extra line feed.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/scsi/lpfc/lpfc_nvme.h | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/scsi/lpfc/lpfc_debugfs.c | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_nvme.h b/drivers/scsi/lpfc/lpfc_nvme.h
-index 6277796..2582f46 100644
---- a/drivers/scsi/lpfc/lpfc_nvme.h
-+++ b/drivers/scsi/lpfc/lpfc_nvme.h
-@@ -22,9 +22,6 @@
-  ********************************************************************/
+diff --git a/drivers/scsi/lpfc/lpfc_debugfs.c b/drivers/scsi/lpfc/lpfc_debugfs.c
+index 76857e2..55a8d8f 100644
+--- a/drivers/scsi/lpfc/lpfc_debugfs.c
++++ b/drivers/scsi/lpfc/lpfc_debugfs.c
+@@ -3128,8 +3128,6 @@ __lpfc_idiag_print_rqpair(struct lpfc_queue *qp, struct lpfc_queue *datqp,
+ 			datqp->queue_id, datqp->entry_count,
+ 			datqp->entry_size, datqp->host_index,
+ 			datqp->hba_index);
+-	len +=  snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len, "\n");
+-
+ 	return len;
+ }
  
- #define LPFC_NVME_DEFAULT_SEGS		(64 + 1)	/* 256K IOs */
--#define LPFC_NVMET_MIN_POSTBUF		16
--#define LPFC_NVMET_DEFAULT_POSTBUF	1024
--#define LPFC_NVMET_MAX_POSTBUF		4096
- #define LPFC_NVME_WQSIZE		256
- 
- #define LPFC_NVME_ERSP_LEN		0x20
 -- 
 2.9.3
