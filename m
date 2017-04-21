@@ -1,17 +1,34 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 20 Apr 2017 22:41:51 -0700
-Subject: question about spec hw reset
-In-Reply-To: <20170420194814.GC32324@localhost.localdomain>
-References: <trinity-e0cf29b4-06e9-4f13-aa54-8f1689d8ff58-1492710256428@3capp-mailcom-bs16>
- <20170420180041.GB32324@localhost.localdomain>
- <trinity-e0027aa6-dd0f-49bc-a396-867a2797d9bf-1492712472558@3capp-mailcom-bs10>
- <20170420194814.GC32324@localhost.localdomain>
-Message-ID: <20170421054151.GA4259@infradead.org>
+Date: Thu, 20 Apr 2017 23:22:58 -0700
+Subject: ["PATCH-v2" 00/22] lpfc updates for 11.2.0.12
+In-Reply-To: <a8ba07f3-348e-4ae4-010b-1c9ff63b6f0d@grimberg.me>
+References: <20170420220448.27095-1-jsmart2021@gmail.com>
+ <a8ba07f3-348e-4ae4-010b-1c9ff63b6f0d@grimberg.me>
+Message-ID: <20170421062258.GA30237@infradead.org>
 
-On Thu, Apr 20, 2017@03:48:14PM -0400, Keith Busch wrote:
-> This is just the linux kernel nvme mailing list and not the right forum
-> for enabling custom out-of-tree drivers that don't benefit us or our
-> customers. Of course, I don't speak for anyone but myself.
+On Fri, Apr 21, 2017@02:52:13AM +0300, Sagi Grimberg wrote:
+> 
+> > The patches are dependent on the FC nvme/nvmet patches from the following 2
+> > series:
+> > http://lists.infradead.org/pipermail/linux-nvme/2017-April/009250.html
+> > http://lists.infradead.org/pipermail/linux-nvme/2017-April/009256.html
+> 
+> Hmm,
+> 
+> So it seems that we have conflicts here
+> 
+> A local merge attempt on Jens's current for-4.12/block
+> from nvme-4.12 (with this patchset)is generating:
 
-Fully agreed.  For question on NVMe spec interpretations there is the
-NVMe technical working group mailing list.
+The problem are two patches from the "nvme_fc: add ctlr reset support
+and abort fixes" series from James which conflict badly with the NVMe
+result/state rework in block/for-next.
+
+I will drop this series from nvme-4.12 for now, and rebase nvme-4.12
+on top of Jens' for-4.12 tree so that we have a good base to start
+from.  I think we can get James' patch in post-rc1 or wih a second
+pull request still.
+
+Also James once you do that please run the patches through sparse,
+there are a few warnings in the changes, although they mostly seem
+to replace old warnings with different ones.
