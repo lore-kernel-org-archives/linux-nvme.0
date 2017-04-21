@@ -1,34 +1,28 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 20 Apr 2017 23:22:58 -0700
-Subject: ["PATCH-v2" 00/22] lpfc updates for 11.2.0.12
-In-Reply-To: <a8ba07f3-348e-4ae4-010b-1c9ff63b6f0d@grimberg.me>
-References: <20170420220448.27095-1-jsmart2021@gmail.com>
- <a8ba07f3-348e-4ae4-010b-1c9ff63b6f0d@grimberg.me>
-Message-ID: <20170421062258.GA30237@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 21 Apr 2017 08:30:17 +0200
+Subject: [PATCH] nvme/lightnvm: add missing endianess conversion in
+ nvme_nvm_end_io
+Message-ID: <20170421063017.26380-1-hch@lst.de>
 
-On Fri, Apr 21, 2017@02:52:13AM +0300, Sagi Grimberg wrote:
-> 
-> > The patches are dependent on the FC nvme/nvmet patches from the following 2
-> > series:
-> > http://lists.infradead.org/pipermail/linux-nvme/2017-April/009250.html
-> > http://lists.infradead.org/pipermail/linux-nvme/2017-April/009256.html
-> 
-> Hmm,
-> 
-> So it seems that we have conflicts here
-> 
-> A local merge attempt on Jens's current for-4.12/block
-> from nvme-4.12 (with this patchset)is generating:
+Found by sparse.
 
-The problem are two patches from the "nvme_fc: add ctlr reset support
-and abort fixes" series from James which conflict badly with the NVMe
-result/state rework in block/for-next.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/lightnvm.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I will drop this series from nvme-4.12 for now, and rebase nvme-4.12
-on top of Jens' for-4.12 tree so that we have a good base to start
-from.  I think we can get James' patch in post-rc1 or wih a second
-pull request still.
-
-Also James once you do that please run the patches through sparse,
-there are a few warnings in the changes, although they mostly seem
-to replace old warnings with different ones.
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index de61a4a03d78..e4e4e60b1224 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -483,7 +483,7 @@ static void nvme_nvm_end_io(struct request *rq, int error)
+ {
+ 	struct nvm_rq *rqd = rq->end_io_data;
+ 
+-	rqd->ppa_status = nvme_req(rq)->result.u64;
++	rqd->ppa_status = le64_to_cpu(nvme_req(rq)->result.u64);
+ 	rqd->error = nvme_req(rq)->status;
+ 	nvm_end_io(rqd);
+ 
+-- 
+2.11.0
