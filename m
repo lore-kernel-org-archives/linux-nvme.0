@@ -1,107 +1,45 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 21 Apr 2017 09:07:12 +0200
-Subject: ["PATCH-v2" 20/22] Update ABORT processing for NVMET.
-In-Reply-To: <20170420220448.27095-21-jsmart2021@gmail.com>
-References: <20170420220448.27095-1-jsmart2021@gmail.com>
- <20170420220448.27095-21-jsmart2021@gmail.com>
-Message-ID: <20170421070712.GC26346@linux-x5ow.site>
+From: mrybczyn@kalray.eu (Marta Rybczynska)
+Date: Fri, 21 Apr 2017 10:01:29 +0200 (CEST)
+Subject: [PATCH v3] nvme-rdma: support devices with queue size < 32
+In-Reply-To: <dc34a67f-a650-311d-f9ae-7e854c9d7067@grimberg.me>
+References: <1519881025.363156294.1491837154312.JavaMail.zimbra@kalray.eu>
+ <1491838338.4199.5.camel@sandisk.com>
+ <1807354347.364485979.1491900728245.JavaMail.zimbra@kalray.eu>
+ <1491923426.2654.1.camel@sandisk.com>
+ <1677617891.385461828.1492681414720.JavaMail.zimbra@kalray.eu>
+ <391faec7-924d-7af2-eb1b-b3106bd4193c@grimberg.me>
+ <dc34a67f-a650-311d-f9ae-7e854c9d7067@grimberg.me>
+Message-ID: <1470265850.389792108.1492761689842.JavaMail.zimbra@kalray.eu>
 
-On Thu, Apr 20, 2017@03:04:46PM -0700, jsmart2021@gmail.com wrote:
-> From: James Smart <jsmart2021 at gmail.com>
-> 
-> The driver with nvme had this routine stubbed.
-> 
-> Right now XRI_ABORTED_CQE is not handled and the FC NVMET
-> Transport has a new API for the driver.
-> 
-> Missing code path, new NVME abort API
-> Update ABORT processing for NVMET
-> 
-> There are 3 new FC NVMET Transport API/ template routines for NVMET:
-> 
-> lpfc_nvmet_xmt_fcp_release
-> This NVMET template callback routine called to release context
-> associated with an IO This routine is ALWAYS called last, even
-> if the IO was aborted or completed in error.
-> 
-> lpfc_nvmet_xmt_fcp_abort
-> This NVMET template callback routine called to abort an exchange that
-> has an IO in progress
-> 
-> nvmet_fc_rcv_fcp_req
-> When the lpfc driver receives an ABTS, this NVME FC transport layer
-> callback routine is called. For this case there are 2 paths thru the
-> driver: the driver either has an outstanding exchange / context for the
-> XRI to be aborted or not.  If not, a BA_RJT is issued otherwise a BA_ACC
-> 
-> NVMET Driver abort paths:
-> 
-> There are 2 paths for aborting an IO. The first one is we receive an IO and
-> decide not to process it because of lack of resources. An unsolicated ABTS
-> is immediately sent back to the initiator as a response.
-> lpfc_nvmet_unsol_fcp_buffer
->             lpfc_nvmet_unsol_issue_abort  (XMIT_SEQUENCE_WQE)
-> 
-> The second one is we sent the IO up to the NVMET transport layer to
-> process, and for some reason the NVME Transport layer decided to abort the
-> IO before it completes all its phases. For this case there are 2 paths
-> thru the driver:
-> the driver either has an outstanding TSEND/TRECEIVE/TRSP WQE or no
-> outstanding WQEs are present for the exchange / context.
-> lpfc_nvmet_xmt_fcp_abort
->     if (LPFC_NVMET_IO_INP)
->         lpfc_nvmet_sol_fcp_issue_abort  (ABORT_WQE)
->                 lpfc_nvmet_sol_fcp_abort_cmp
->     else
->         lpfc_nvmet_unsol_fcp_issue_abort
->                 lpfc_nvmet_unsol_issue_abort  (XMIT_SEQUENCE_WQE)
->                         lpfc_nvmet_unsol_fcp_abort_cmp
-> 
-> Context flags:
-> LPFC_NVMET_IOP - his flag signifies an IO is in progress on the exchange.
-> LPFC_NVMET_XBUSY  - this flag indicates the IO completed but the firmware
-> is still busy with the corresponding exchange. The exchange should not be
-> reused until after a XRI_ABORTED_CQE is received for that exchange.
-> LPFC_NVMET_ABORT_OP - this flag signifies an ABORT_WQE was issued on the
-> exchange.
-> LPFC_NVMET_CTX_RLS  - this flag signifies a context free was requested,
-> but we are deferring it due to an XBUSY or ABORT in progress.
-> 
-> A ctxlock is added to the context structure that is used whenever these
-> flags are set/read  within the context of an IO.
-> The LPFC_NVMET_CTX_RLS flag is only set in the defer_relase routine when
-> the transport has resolved all IO associated with the buffer. The flag is
-> cleared when the CTX is associated with a new IO.
-> 
-> An exchange can has both an LPFC_NVMET_XBUSY and a LPFC_NVMET_ABORT_OP
-> condition active simultaneously. Both conditions must complete before the
-> exchange is freed.
-> When the abort callback (lpfc_nvmet_xmt_fcp_abort) is envoked:
-> If there is an outstanding IO, the driver will issue an ABORT_WQE. This
-> should result in 3 completions for the exchange:
-> 1) IO cmpl with XB bit set
-> 2) Abort WQE cmpl
-> 3) XRI_ABORTED_CQE cmpl
-> For this scenerio, after completion #1, the NVMET Transport IO rsp
-> callback is called.  After completion #2, no action is taken with respect
-> to the exchange / context.  After completion #3, the exchange context is
-> free for re-use on another IO.
-> 
-> If there is no outstanding activity on the exchange, the driver will send a
-> ABTS to the Initiator. Upon completion of this WQE, the exchange / context
-> is freed for re-use on another IO.
-> 
-> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
 
-Looks good. Thanks,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+----- Le 20 Avr 17, ? 13:43, Sagi Grimberg sagi at grimberg.me a ?crit :
+
+>> Looks good,
+>>
+>> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+>>
+>> BTW, did you test with deeper queue depths (say 512)?
+
+It's in progress. Small depth (16) is running for several
+days already.
+
+> 
+> Wait, taking it back...
+> 
+> Can you make nvme_rdma_queue_sig_limit() return a bool instead?
+
+Sure.
+
+> 
+> Also, Looking at this closer, I'm pretty convinced that this
+> should convert to atomic. For iSER its fine as is because
+> we are under the iscsi connection lock, but here we need to
+> handle mutual exclusion.
+> 
+> This would be an incremental change though.
+
+I can see that. I was wondering about atomics when rewriting
+this, and I agree that it will be cleaner.
+
+Marta
