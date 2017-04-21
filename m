@@ -1,12 +1,15 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 21 Apr 2017 10:55:11 +0200
-Subject: [PATCH 3/7] nvmet/fc: mark nvmet_fc_handle_fcp_rqst static
-In-Reply-To: <20170421085005.5945-4-hch@lst.de>
+Date: Fri, 21 Apr 2017 10:55:58 +0200
+Subject: [PATCH 4/7] nvmet/fc: fix endianess annoations for
+ nvmet_fc_format_rsp_hdr
+In-Reply-To: <20170421085005.5945-5-hch@lst.de>
 References: <20170421085005.5945-1-hch@lst.de>
- <20170421085005.5945-4-hch@lst.de>
-Message-ID: <20170421085511.GG26346@linux-x5ow.site>
+ <20170421085005.5945-5-hch@lst.de>
+Message-ID: <20170421085558.GH26346@linux-x5ow.site>
 
-On Fri, Apr 21, 2017@10:50:01AM +0200, Christoph Hellwig wrote:
+On Fri, Apr 21, 2017@10:50:02AM +0200, Christoph Hellwig wrote:
+> The passed in desc_len is a big endian value, so mark it as such.
+> 
 > Found by sparse.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
