@@ -1,56 +1,50 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Fri, 21 Apr 2017 11:15:11 -0600
-Subject: [GIT PULL] nvme updates for 4.12
-In-Reply-To: <20170421170229.awfwczwwe3vetii6@infradead.org>
-References: <20170421170229.awfwczwwe3vetii6@infradead.org>
-Message-ID: <55ff9f20-13d2-de63-db00-4f4a5446a2b9@kernel.dk>
+From: dan.j.williams@intel.com (Dan Williams)
+Date: Fri, 21 Apr 2017 13:13:52 -0700
+Subject: [PATCH] block: get rid of blk_integrity_revalidate()
+In-Reply-To: <yq1shl3rfzo.fsf@oracle.com>
+References: <1492533800-30627-1-git-send-email-idryomov@gmail.com>
+ <yq1shl3rfzo.fsf@oracle.com>
+Message-ID: <CAPcyv4h_T734PmfLPOgz8U_jNXKburcD688fdGRJX+SHQvfPjQ@mail.gmail.com>
 
-On 04/21/2017 11:02 AM, Christoph Hellwig wrote:
-> Hi Jens,
-> 
-> this is the current NVMe pile: virtualization extensions, lots of FC
-> updates and various misc bits.  There are a few more FC bits that didn't
-> make the cut, but we'd like to get this request out before the merge
-> window for sure.
-> 
-> 
-> The following changes since commit 99c749a4c4f4ea2c9eee01f81f79bdbf26c3914e:
-> 
->   blk-stat: kill blk_stat_rq_ddir() (2017-04-21 07:56:23 -0600)
-> 
-> are available in the git repository at:
-> 
->   git://git.infradead.org/nvme.git nvme-4.12
-> 
-> for you to fetch changes up to e02ab0230489461fd9fdd8028841dae6f03a4874:
-> 
->   nvme: let dm-mpath distinguish nvme error codes (2017-04-21 16:41:56 +0200)
-> 
-> ----------------------------------------------------------------
-> Helen Koike (1):
->       nvme: improve performance for virtual NVMe devices
-> 
-> James Smart (8):
->       nvmet_fc: add target feature flags for upcall isr contexts
->       nvmet_fc: add req_release to lldd api
->       nvme_fcloop: split job struct from transport for req_release
->       nvmet_fc: Rework target side abort handling
->       nvmet_fc: add missing reference in add_port
->       nvme_fc: Move LS's to rport
->       nvme_fc: Add ls aborts on remote port teardown
->       nvmet_fc: Change traddr field separator to a colon
-> 
-> Junxiong Guan (1):
->       nvme: let dm-mpath distinguish nvme error codes
-> 
-> Keith Busch (2):
->       nvme/pci: Don't set reserved SQ create flags
->       nvme/pci: Poll CQ on timeout
-> 
-> Logan Gunthorpe (1):
->       nvmet: convert from kmap to nvmet_copy_from_sgl
+On Wed, Apr 19, 2017 at 7:04 PM, Martin K. Petersen
+<martin.petersen@oracle.com> wrote:
+> Ilya Dryomov <idryomov at gmail.com> writes:
+>
+> Ilya,
+>
+>> Commit 25520d55cdb6 ("block: Inline blk_integrity in struct gendisk")
+>> introduced blk_integrity_revalidate(), which seems to assume ownership
+>> of the stable pages flag and unilaterally clears it if no blk_integrity
+>> profile is registered:
+>>
+>>     if (bi->profile)
+>>             disk->queue->backing_dev_info->capabilities |=
+>>                     BDI_CAP_STABLE_WRITES;
+>>     else
+>>             disk->queue->backing_dev_info->capabilities &=
+>>                     ~BDI_CAP_STABLE_WRITES;
+>>
+>> It's called from revalidate_disk() and rescan_partitions(), making it
+>> impossible to enable stable pages for drivers that support partitions
+>> and don't use blk_integrity: while the call in revalidate_disk() can be
+>> trivially worked around (see zram, which doesn't support partitions and
+>> hence gets away with zram_revalidate_disk()), rescan_partitions() can
+>> be triggered from userspace at any time.  This breaks rbd, where the
+>> ceph messenger is responsible for generating/verifying CRCs.
+>>
+>> Since blk_integrity_{un,}register() "must" be used for (un)registering
+>> the integrity profile with the block layer, move BDI_CAP_STABLE_WRITES
+>> setting there.  This way drivers that call blk_integrity_register() and
+>> use integrity infrastructure won't interfere with drivers that don't
+>> but still want stable pages.
+>
+> I seem to recall that the reason for the revalidate hook was that either
+> NVMe or nvdimm had to register an integrity profile prior to the actual
+> format being known.
+>
+> So while I am OK with the change from a SCSI perspective, I think we
+> need Keith and Dan to ack it.
 
-Pulled, thanks.
+Looks good to me,
 
--- 
-Jens Axboe
+Tested-by: Dan Williams <dan.j.williams at intel.com>
