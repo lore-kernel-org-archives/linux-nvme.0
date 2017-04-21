@@ -1,24 +1,39 @@
 From: james.smart@broadcom.com (James Smart)
-Date: Fri, 21 Apr 2017 09:41:31 -0700
-Subject: [PATCH-v1 00/22] lpfc updates for 11.2.0.12
-In-Reply-To: <yq1h91im2a8.fsf@oracle.com>
-References: <20170420044641.10657-1-jsmart2021@gmail.com>
- <20170420183047.GD22378@kernel.dk> <20170421070027.GB26346@linux-x5ow.site>
- <yq1h91im2a8.fsf@oracle.com>
-Message-ID: <08e8252e-826e-2560-7ae7-08253413fa96@broadcom.com>
+Date: Fri, 21 Apr 2017 09:44:28 -0700
+Subject: ["PATCH-v2" 00/22] lpfc updates for 11.2.0.12
+In-Reply-To: <20170421062258.GA30237@infradead.org>
+References: <20170420220448.27095-1-jsmart2021@gmail.com>
+ <a8ba07f3-348e-4ae4-010b-1c9ff63b6f0d@grimberg.me>
+ <20170421062258.GA30237@infradead.org>
+Message-ID: <3375ebb0-7711-d55f-ee11-22dff1085555@broadcom.com>
 
-On 4/21/2017 4:24 AM, Martin K. Petersen wrote:
-> Johannes Thumshirn <jthumshirn at suse.de> writes:
+On 4/20/2017 11:22 PM, Christoph Hellwig wrote:
+> On Fri, Apr 21, 2017@02:52:13AM +0300, Sagi Grimberg wrote:
+>>> The patches are dependent on the FC nvme/nvmet patches from the following 2
+>>> series:
+>>> http://lists.infradead.org/pipermail/linux-nvme/2017-April/009250.html
+>>> http://lists.infradead.org/pipermail/linux-nvme/2017-April/009256.html
+>> Hmm,
+>>
+>> So it seems that we have conflicts here
+>>
+>> A local merge attempt on Jens's current for-4.12/block
+>> from nvme-4.12 (with this patchset)is generating:
+> The problem are two patches from the "nvme_fc: add ctlr reset support
+> and abort fixes" series from James which conflict badly with the NVMe
+> result/state rework in block/for-next.
 >
->> Just for clarification, shouldn't Martin take the patches? They're for
->> drivers/scsi/lpfc/ after all. I just want to avoid confusion and possible
->> merge conflicts.
-> Yeah, at this point I think it's better we do a second stage merge
-> through 4.12/scsi-fixes. I'll set that up after Linus pulls from Jens.
+> I will drop this series from nvme-4.12 for now, and rebase nvme-4.12
+> on top of Jens' for-4.12 tree so that we have a good base to start
+> from.  I think we can get James' patch in post-rc1 or wih a second
+> pull request still.
 >
-no - most of the fixes are nvme related.  There are at best 3 that are 
-"generic" or scsi specific.  Given the nvme parts need the nvme-fc api 
-in the 2 dependencies... this won't be something that works well going 
-through scsi.
+> Also James once you do that please run the patches through sparse,
+> there are a few warnings in the changes, although they mostly seem
+> to replace old warnings with different ones.
+looking back, looks like I didn't reback to the latest block tree, so 
+the conflicts exist.   I'm having a hard time believe the conflicts are 
+that egregious. Almost all of these mods are internal or toward the fc 
+facing side.    I'll reback vs block and nvme-4.12 and will look to repost.
 
 -- james
