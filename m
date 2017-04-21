@@ -1,57 +1,46 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 20 Apr 2017 23:52:46 -0700
-Subject: [PATCH] nvme:let dm-mpath distinguish nvme error codes,no retry
-In-Reply-To: <1492521592-20648-1-git-send-email-guanjunxiong@huawei.com>
-References: <1492521592-20648-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <20170421065246.GA3817@infradead.org>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 21 Apr 2017 09:00:27 +0200
+Subject: [PATCH-v1 00/22] lpfc updates for 11.2.0.12
+In-Reply-To: <20170420183047.GD22378@kernel.dk>
+References: <20170420044641.10657-1-jsmart2021@gmail.com>
+ <20170420183047.GD22378@kernel.dk>
+Message-ID: <20170421070027.GB26346@linux-x5ow.site>
 
-Hi Guang,
+On Thu, Apr 20, 2017@12:30:48PM -0600, Jens Axboe wrote:
+> On Wed, Apr 19 2017, jsmart2021@gmail.com wrote:
+> > From: James Smart <jsmart2021 at gmail.com>
+> > 
+> > This patch set provides a number of bug fixes, code cleanups, and error
+> > handling, mostly in the nvme area of lpfc.
+> > 
+> > There is one new feature in the series to add Fabric Assigned WWN support.
+> > 
+> > The patches were cut against the linux-block tree, for-4.12/block branch,
+> > and are intended to be pulled in through that tree rather than the scsi trees.
+> > 
+> > The patches are dependent on the FC nvme/nvmet patches from the following 2
+> > series:
+> > http://lists.infradead.org/pipermail/linux-nvme/2017-April/009250.html
+> > http://lists.infradead.org/pipermail/linux-nvme/2017-April/009256.html
+> 
+> James, if you can address the (minor) review comments from Johannes and
+> repost with the reviewed/tested-by collected, we can get this applied. I
+> almost applied it as-is, but we may as well just get the last little
+> bits fixed up.
 
-I'll need your Signed-off-by to apply this patch.
+Hi Jens,
 
-Also I'd like to update subject and comments a bit, are you fine with
-the version below?
+Just for clarification, shouldn't Martin take the patches? They're for
+drivers/scsi/lpfc/ after all. I just want to avoid confusion and possible
+merge conflicts.
 
----
->From 7a252de505d4327a93fecf321c72691b14caa727 Mon Sep 17 00:00:00 2001
-From: Junxiong Guan <guanjunxiong@huawei.com>
-Date: Tue, 18 Apr 2017 21:19:52 +0800
-Subject: nvme: let dm-mpath distinguish nvme error codes
+Thanks,
+	Johannes
 
-Currently most IOs which return the nvme error codes are retried on
-the other path if those IOs returns EIO from NVMe driver. This
-patch let Multipath distinguish nvme media error codes and some
-generic or cmd-specific nvme error codes so that multipath will
-not retry those kinds of IO, to save bandwidth.
-
----
- drivers/nvme/host/core.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 8dc664798293..263946b23628 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -75,6 +75,20 @@ static int nvme_error_status(struct request *req)
- 		return -ENOSPC;
- 	default:
- 		return -EIO;
-+
-+	/*
-+	 * XXX: these errors are a nasty side-band protocol to
-+	 * drivers/md/dm-mpath.c:noretry_error() that aren't documented
-+	 * anywhere..
-+	 */
-+	case NVME_SC_CMD_SEQ_ERROR:
-+		return -EILSEQ;
-+	case NVME_SC_ONCS_NOT_SUPPORTED:
-+		return -EOPNOTSUPP;
-+	case NVME_SC_WRITE_FAULT:
-+	case NVME_SC_READ_ERROR:
-+	case NVME_SC_UNWRITTEN_BLOCK:
-+		return -ENODATA;
- 	}
- }
- 
 -- 
-2.11.0
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
