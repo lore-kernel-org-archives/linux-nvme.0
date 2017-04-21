@@ -1,14 +1,12 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 21 Apr 2017 10:56:22 +0200
-Subject: [PATCH 5/7] nvmet/fc: mark the sqhd field as __le16
-In-Reply-To: <20170421085005.5945-6-hch@lst.de>
+Date: Fri, 21 Apr 2017 10:57:18 +0200
+Subject: [PATCH 6/7] nvmet/fc: properly endian swap sq_head
+In-Reply-To: <20170421085005.5945-7-hch@lst.de>
 References: <20170421085005.5945-1-hch@lst.de>
- <20170421085005.5945-6-hch@lst.de>
-Message-ID: <20170421085622.GI26346@linux-x5ow.site>
+ <20170421085005.5945-7-hch@lst.de>
+Message-ID: <20170421085718.GJ26346@linux-x5ow.site>
 
-On Fri, Apr 21, 2017@10:50:03AM +0200, Christoph Hellwig wrote:
-> That's what it's used as.
-> 
+On Fri, Apr 21, 2017@10:50:04AM +0200, Christoph Hellwig wrote:
 > Found by sparse.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
