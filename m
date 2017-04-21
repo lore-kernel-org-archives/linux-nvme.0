@@ -1,12 +1,12 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 21 Apr 2017 10:57:18 +0200
-Subject: [PATCH 6/7] nvmet/fc: properly endian swap sq_head
-In-Reply-To: <20170421085005.5945-7-hch@lst.de>
+Date: Fri, 21 Apr 2017 10:57:45 +0200
+Subject: [PATCH 7/7] nvmet/fcloop: mark two symbols static
+In-Reply-To: <20170421085005.5945-8-hch@lst.de>
 References: <20170421085005.5945-1-hch@lst.de>
- <20170421085005.5945-7-hch@lst.de>
-Message-ID: <20170421085718.GJ26346@linux-x5ow.site>
+ <20170421085005.5945-8-hch@lst.de>
+Message-ID: <20170421085745.GK26346@linux-x5ow.site>
 
-On Fri, Apr 21, 2017@10:50:04AM +0200, Christoph Hellwig wrote:
+On Fri, Apr 21, 2017@10:50:05AM +0200, Christoph Hellwig wrote:
 > Found by sparse.
 > 
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
