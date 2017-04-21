@@ -1,10 +1,8 @@
 From: sandeep@purestorage.com (Sandeep Mann)
-Date: Fri, 21 Apr 2017 17:23:33 -0600
+Date: Fri, 21 Apr 2017 17:24:15 -0600
 Subject: [PATCH] nvme: change cq_vector to a bool and set to true after
  request_irq
-In-Reply-To: <1492817013-33557-1-git-send-email-sandeep@purestorage.com>
-References: <1492817013-33557-1-git-send-email-sandeep@purestorage.com>
-Message-ID: <1492817013-33557-2-git-send-email-sandeep@purestorage.com>
+Message-ID: <1492817055-33601-1-git-send-email-sandeep@purestorage.com>
 
 Currently nvme_create_queue sets nvmeq->cq_vector early, before calling
 adapter_alloc_cq/sq.  And once the queues have been instantiated, the last
