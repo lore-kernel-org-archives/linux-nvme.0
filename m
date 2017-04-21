@@ -1,41 +1,52 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Fri, 21 Apr 2017 16:04:48 -0700
-Subject: [PATCH v3 04/22] Fix log message in completion path.
+Date: Fri, 21 Apr 2017 16:04:52 -0700
+Subject: [PATCH v3 08/22] Remove NULL ptr check before kfree.
 In-Reply-To: <20170421230506.925-1-jsmart2021@gmail.com>
 References: <20170421230506.925-1-jsmart2021@gmail.com>
-Message-ID: <20170421230506.925-5-jsmart2021@gmail.com>
+Message-ID: <20170421230506.925-9-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-In the lpfc_nvme_io_cmd_wqe_cmpl routine the driver was printing two
-pointers and the DID for the rport whenever an IO completed on a now
-that had transitioned to a non active state.
+The check for NULL ptr is not necessary, kfree will check it.
 
-There is no need to print the node pointer address for a node that
-is not active the DID should be enough to debug.
+Removing NULL ptr check.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/scsi/lpfc/lpfc_nvme.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/scsi/lpfc/lpfc_debugfs.c | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_nvme.c b/drivers/scsi/lpfc/lpfc_nvme.c
-index cbf3fe3..ee1a285 100644
---- a/drivers/scsi/lpfc/lpfc_nvme.c
-+++ b/drivers/scsi/lpfc/lpfc_nvme.c
-@@ -788,9 +788,8 @@ lpfc_nvme_io_cmd_wqe_cmpl(struct lpfc_hba *phba, struct lpfc_iocbq *pwqeIn,
- 	ndlp = rport->ndlp;
- 	if (!ndlp || !NLP_CHK_NODE_ACT(ndlp)) {
- 		lpfc_printf_vlog(vport, KERN_ERR, LOG_NODE | LOG_NVME_IOERR,
--				 "6061 rport %p, ndlp %p, DID x%06x ndlp "
--				 "not ready.\n",
--				 rport, ndlp, rport->remoteport->port_id);
-+				 "6061 rport %p,  DID x%06x node not ready.\n",
-+				 rport, rport->remoteport->port_id);
+diff --git a/drivers/scsi/lpfc/lpfc_debugfs.c b/drivers/scsi/lpfc/lpfc_debugfs.c
+index 913eed82..76857e2 100644
+--- a/drivers/scsi/lpfc/lpfc_debugfs.c
++++ b/drivers/scsi/lpfc/lpfc_debugfs.c
+@@ -5700,10 +5700,8 @@ lpfc_debugfs_terminate(struct lpfc_vport *vport)
+ #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
+ 	struct lpfc_hba   *phba = vport->phba;
  
- 		ndlp = lpfc_findnode_did(vport, rport->remoteport->port_id);
- 		if (!ndlp) {
+-	if (vport->disc_trc) {
+-		kfree(vport->disc_trc);
+-		vport->disc_trc = NULL;
+-	}
++	kfree(vport->disc_trc);
++	vport->disc_trc = NULL;
+ 
+ 	debugfs_remove(vport->debug_disc_trc); /* discovery_trace */
+ 	vport->debug_disc_trc = NULL;
+@@ -5770,10 +5768,8 @@ lpfc_debugfs_terminate(struct lpfc_vport *vport)
+ 		debugfs_remove(phba->debug_readRef); /* readRef */
+ 		phba->debug_readRef = NULL;
+ 
+-		if (phba->slow_ring_trc) {
+-			kfree(phba->slow_ring_trc);
+-			phba->slow_ring_trc = NULL;
+-		}
++		kfree(phba->slow_ring_trc);
++		phba->slow_ring_trc = NULL;
+ 
+ 		/* slow_ring_trace */
+ 		debugfs_remove(phba->debug_slow_ring_trc);
 -- 
 2.9.3
