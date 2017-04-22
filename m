@@ -1,30 +1,27 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Sat, 22 Apr 2017 11:31:58 +0800
-Subject: [PATCH] nvme-cli/list-ns: fix for identifying active or allocated
- namespaces list
-Message-ID: <1492831918-19476-1-git-send-email-guanjunxiong@huawei.com>
+From: yizhan@redhat.com (Yi Zhang)
+Date: Sat, 22 Apr 2017 04:09:57 -0400 (EDT)
+Subject: iwpm_register_pid: Unable to send a nlmsg (client = 2) observed on
+ 4.11.0-rc7 during configure NVMe over iWARP RDMA
+In-Reply-To: <1613368219.36836.1492847910707.JavaMail.zimbra@redhat.com>
+Message-ID: <770183667.36997.1492848597368.JavaMail.zimbra@redhat.com>
 
-From: Junxiong Guan <guanjunxiong@huawei.com>
+Hello experts
 
-For example, nvme list-ns /dev/nvme# -n 0  should return active namespaces
-list starting with id 1 (including), but currently this script command returns
-INVALID_OPCODE . So fix it.
----
- nvme-ioctl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I found below pid_query_error, could anyone help check it? I have attached all the dmesg log. Thanks
 
-diff --git a/nvme-ioctl.c b/nvme-ioctl.c
-index a22399a..3518e87 100644
---- a/nvme-ioctl.c
-+++ b/nvme-ioctl.c
-@@ -352,7 +352,7 @@ int nvme_identify_ns(int fd, __u32 nsid, bool present, void *data)
- 
- int nvme_identify_ns_list(int fd, __u32 nsid, bool all, void *data)
- {
--	int cns = all ? NVME_ID_CNS_NS_ACTIVE_LIST : NVME_ID_CNS_NS_PRESENT_LIST;
-+	int cns = all ? NVME_ID_CNS_NS_PRESENT_LIST : NVME_ID_CNS_NS_ACTIVE_LIST;
- 
- 	return nvme_identify(fd, nsid, cns, data);
- }
--- 
-2.11.1
+[  152.372481] nvmet: adding nsid 1 to subsystem testnqn
+[  152.398705] iwpm_register_pid: Unable to send a nlmsg (client = 2)
+[  152.430011] nvmet_rdma: enabling port 2 (172.31.52.12:4420)
+
+
+Best Regards,
+  Yi Zhang
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: dmesg.log
+Type: text/x-log
+Size: 65341 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170422/92671ff3/attachment-0001.bin>
