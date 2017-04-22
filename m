@@ -1,7 +1,7 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Fri, 21 Apr 2017 17:21:45 -0700
-Subject: [PATCH] Fix panic on BFS configuration.
-Message-ID: <20170422002145.15923-1-jsmart2021@gmail.com>
+Date: Fri, 21 Apr 2017 17:24:04 -0700
+Subject: [PATCH] lpfc: Fix panic on BFS configuration.
+Message-ID: <20170422002404.16027-1-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
