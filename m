@@ -1,25 +1,15 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 23 Apr 2017 10:20:59 +0300
-Subject: [PATCH v2 3/4] nvme: enable SG gaps support
-In-Reply-To: <20170421064427.GB6095@lst.de>
-References: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
- <1492098977-5231-4-git-send-email-maxg@mellanox.com>
- <2bd673ee-8455-32b7-1bad-34fa9eebb076@grimberg.me>
- <20170421064427.GB6095@lst.de>
-Message-ID: <9ff1a2e8-f84f-c772-e294-2339eee8e37d@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sun, 23 Apr 2017 09:40:11 +0200
+Subject: [PATCH 5/7] nvmet/fc: mark the sqhd field as __le16
+In-Reply-To: <01043680-3084-a345-96b1-9820a45f3ed6@broadcom.com>
+References: <20170421085005.5945-1-hch@lst.de>
+ <20170421085005.5945-6-hch@lst.de>
+ <01043680-3084-a345-96b1-9820a45f3ed6@broadcom.com>
+Message-ID: <20170423074011.GB20524@lst.de>
 
-Christoph,
+On Fri, Apr 21, 2017@06:17:08PM -0700, James Smart wrote:
+> This is fine, but this also highlights several different areas where sqhd 
+> is referenced and endianness wasn't accounted for.  So I'll need to make a 
+> complimentary patch.
 
-> All our block I/O must be cache line aligned, so dword aligned SGLs
-> should not be an issue.  And for PRPs or MRs we'll always use the
-> host page size.
-
-Where is that constraint coming from? Is that new? Back when I wrote
-GAP support in rdma I tested a single byte alignment via vectored
-direct IO and it seemed to be going through...
-
-I also just tested Bart's unaligned test [1] on scsi_debug and it seems
-to go through as well (alignment and length are 4)...
-
-[1]:
-https://github.com/bvanassche/srp-test/blob/master/discontiguous-io/discontiguous-io.cpp
+All the assignments to/from it are already to __le16 values.
