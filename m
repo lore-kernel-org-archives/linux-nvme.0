@@ -1,44 +1,48 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 23 Apr 2017 12:45:39 +0300
-Subject: [PATCH v2 3/4] nvme: enable SG gaps support
-In-Reply-To: <20170423084553.GA24434@lst.de>
+From: leon@kernel.org (Leon Romanovsky)
+Date: Sun, 23 Apr 2017 13:34:39 +0300
+Subject: [PATCH v2 0/4] arbitrary sg lists support
+In-Reply-To: <c52b5ce7-5346-419d-26f2-0d4d45d20471@grimberg.me>
 References: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
- <1492098977-5231-4-git-send-email-maxg@mellanox.com>
- <2bd673ee-8455-32b7-1bad-34fa9eebb076@grimberg.me>
- <20170421064427.GB6095@lst.de>
- <9ff1a2e8-f84f-c772-e294-2339eee8e37d@grimberg.me>
- <20170423084553.GA24434@lst.de>
-Message-ID: <9fe3f5fa-4496-3819-0288-08a073dd1a1a@grimberg.me>
+ <1492101079.5176.9.camel@sandisk.com>
+ <c52b5ce7-5346-419d-26f2-0d4d45d20471@grimberg.me>
+Message-ID: <20170423103439.GC14088@mtr-leonro.local>
 
-
-> Each block queue has a ->dma_alignment field, which is set to 511
-> by default unless changed.  Everything not aligned to that will be
-> bounced in __blk_rq_map_user_iov and friends before we send it to
-> the driver.
-
-Thanks, I missed the default setting...
-
->> I also just tested Bart's unaligned test [1] on scsi_debug and it seems
->> to go through as well (alignment and length are 4)...
+On Thu, Apr 20, 2017@02:30:46PM +0300, Sagi Grimberg wrote:
 >
-> SCSI reduces the alignment in __scsi_init_queue:
+> > > This patch adds an arbitrary sg list support to NVMEoF host for
+> > > capable devices (such as RDMA CX4/CX5 HCAs).
+> > > During the review we decided to add an helper function to ib_core
+> > > that will be used by ULPs in order to avoid code duplication.
+> >
+> > Hello Max,
+> >
+> > A question that is not related to the ULP drivers touched by this patch series:
+> > some time ago registration of sg-lists with gaps was disabled in the SRP
+> > initiator because arbitrary sg-lists triggered CQE dumps in combination with the
+> > mlx5 driver. Does this mean that this issue has been resolved? If so, what mlx5
+> > driver and/or firmware version are needed to reenable arbitrary sg-list support
+> > in the SRP initiator?
 >
-> 	/*
->          * set a reasonable default alignment on word boundaries: the
-> 	 * host and device may alter it using
-> 	 * blk_queue_update_dma_alignment() later.
-> 	 */
-> 	blk_queue_dma_alignment(q, 0x03);
+> I'm concerned about the fact that the SRP issue wasn't resolved. There
+> might be a bug hiding there.
+>
+> Max, Leon, my recollection was that the error syndrome you saw with SRP
+> described "too much sgls for a single mr". If this is true, then I still
+> think we need a different device capability for it.
 
-That explains why I was able to test that with iSER :)
+I don't remember that Max succeeded to reproduce it.
 
-I guess I didn't test single byte alignment after all, but
-I definitely remember using less than a sector...
+>
+> I'm even thinking we need to remove gaps support from iSER until this
+> is addressed.
 
-> still would fit NVMe dword-alignment SGLs, though :)
+Better to find the root cause.
 
-I would say its useful to have, but its only relevant to ioctls as
-normal io we explicitly on sub logical block size alignment.
-
-Anyways, I still think having ctrl->virt_boundary instead of
-ctrl->sg_gap_support is cleaner...
+Thanks
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170423/6c617d56/attachment.sig>
