@@ -1,27 +1,25 @@
-From: yizhan@redhat.com (Yi Zhang)
-Date: Sat, 22 Apr 2017 04:09:57 -0400 (EDT)
-Subject: iwpm_register_pid: Unable to send a nlmsg (client = 2) observed on
- 4.11.0-rc7 during configure NVMe over iWARP RDMA
-In-Reply-To: <1613368219.36836.1492847910707.JavaMail.zimbra@redhat.com>
-Message-ID: <770183667.36997.1492848597368.JavaMail.zimbra@redhat.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 23 Apr 2017 10:20:59 +0300
+Subject: [PATCH v2 3/4] nvme: enable SG gaps support
+In-Reply-To: <20170421064427.GB6095@lst.de>
+References: <1492098977-5231-1-git-send-email-maxg@mellanox.com>
+ <1492098977-5231-4-git-send-email-maxg@mellanox.com>
+ <2bd673ee-8455-32b7-1bad-34fa9eebb076@grimberg.me>
+ <20170421064427.GB6095@lst.de>
+Message-ID: <9ff1a2e8-f84f-c772-e294-2339eee8e37d@grimberg.me>
 
-Hello experts
+Christoph,
 
-I found below pid_query_error, could anyone help check it? I have attached all the dmesg log. Thanks
+> All our block I/O must be cache line aligned, so dword aligned SGLs
+> should not be an issue.  And for PRPs or MRs we'll always use the
+> host page size.
 
-[  152.372481] nvmet: adding nsid 1 to subsystem testnqn
-[  152.398705] iwpm_register_pid: Unable to send a nlmsg (client = 2)
-[  152.430011] nvmet_rdma: enabling port 2 (172.31.52.12:4420)
+Where is that constraint coming from? Is that new? Back when I wrote
+GAP support in rdma I tested a single byte alignment via vectored
+direct IO and it seemed to be going through...
 
+I also just tested Bart's unaligned test [1] on scsi_debug and it seems
+to go through as well (alignment and length are 4)...
 
-Best Regards,
-  Yi Zhang
-
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: dmesg.log
-Type: text/x-log
-Size: 65341 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170422/92671ff3/attachment-0001.bin>
+[1]:
+https://github.com/bvanassche/srp-test/blob/master/discontiguous-io/discontiguous-io.cpp
