@@ -1,19 +1,32 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 24 Apr 2017 00:12:58 -0700
-Subject: [PATCH 3/3] nvme_fc: add controller reset support
-In-Reply-To: <ef1354c7-d1df-a90f-e67f-063159c5959a@grimberg.me>
-References: <20170423153008.22795-1-jsmart2021@gmail.com>
- <20170423153008.22795-4-jsmart2021@gmail.com>
- <ef1354c7-d1df-a90f-e67f-063159c5959a@grimberg.me>
-Message-ID: <20170424071258.GA17381@infradead.org>
+From: daggs@gmx.com (daggs)
+Date: Mon, 24 Apr 2017 09:12:41 +0200
+Subject: question about spec hw reset
+In-Reply-To: <20170420194814.GC32324@localhost.localdomain>
+References: <trinity-e0cf29b4-06e9-4f13-aa54-8f1689d8ff58-1492710256428@3capp-mailcom-bs16>
+ <20170420180041.GB32324@localhost.localdomain>
+ <trinity-e0027aa6-dd0f-49bc-a396-867a2797d9bf-1492712472558@3capp-mailcom-bs10>,
+ <20170420194814.GC32324@localhost.localdomain>
+Message-ID: <trinity-ea186de3-b3e9-4901-a02b-0c92a26cd107-1493017961299@3capp-mailcom-bs11>
 
-On Sun, Apr 23, 2017@08:43:53PM +0300, Sagi Grimberg wrote:
-> 
-> > +
-> > +	ctrl->ctrl.sqsize =
-> > +		min_t(int, NVME_CAP_MQES(ctrl->cap) + 1, ctrl->ctrl.sqsize);
-> 
-> This will conflict with 4.11 fixes...
+Greetings,
 
-I don't think we have much of a chance to avoid that.  Should be easy
-enough to merge, though.
+> Sent: Thursday, April 20, 2017 at 10:48 PM
+> From: "Keith Busch" <keith.busch at intel.com>
+> To: daggs <daggs at gmx.com>
+> Cc: linux-nvme at lists.infradead.org
+> Subject: Re: question about spec hw reset
+>
+> On Thu, Apr 20, 2017@08:21:12PM +0200, daggs wrote:
+> > 
+> > did I said something wrong? this driver is not intended for commrcial usage and will never by a competitor for the existing kernel driver.
+> > because the system in use is linux, I assumed someone might help me understand what I'm doing wrong.
+> 
+> This is just the linux kernel nvme mailing list and not the right forum
+> for enabling custom out-of-tree drivers that don't benefit us or our
+> customers. Of course, I don't speak for anyone but myself.
+> 
+
+I understand, I thought because it wasn't any competition for the exiting kernel driver (as mentioned in previous mail), I'd try and seek help here.
+I apologize if I offended anyone.
+
+Dagg.
