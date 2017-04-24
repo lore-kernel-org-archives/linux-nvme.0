@@ -1,48 +1,43 @@
-From: yizhan@redhat.com (Yi Zhang)
-Date: Mon, 24 Apr 2017 12:07:19 -0400 (EDT)
-Subject: iwpm_register_pid: Unable to send a nlmsg (client = 2) observed
- on 4.11.0-rc7 during configure NVMe over iWARP RDMA
-In-Reply-To: <09c501d2bd13$a8d58700$fa809500$@opengridcomputing.com>
-References: <1613368219.36836.1492847910707.JavaMail.zimbra@redhat.com>
- <770183667.36997.1492848597368.JavaMail.zimbra@redhat.com>
- <09c501d2bd13$a8d58700$fa809500$@opengridcomputing.com>
-Message-ID: <1387499651.389985.1493050039361.JavaMail.zimbra@redhat.com>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Mon, 24 Apr 2017 13:24:16 -0400
+Subject: [PATCH 1/1] nvme-fc: avoid memory corruption caused by calling
+ nvmf_free_options() twice
+In-Reply-To: <1493054656-18296-1-git-send-email-emilne@redhat.com>
+References: <1493054656-18296-1-git-send-email-emilne@redhat.com>
+Message-ID: <1493054656-18296-2-git-send-email-emilne@redhat.com>
 
-Hi Steve
+From: "Ewan D. Milne" <emilne@redhat.com>
 
-Here is another issue I filed that using iw_cxgb4. 
-http://lists.infradead.org/pipermail/linux-nvme/2017-April/009458.html
+Do not call nvmf_free_options() from the nvme_fc_ctlr destructor if
+nvme_fc_create_ctrl() returns an error, because nvmf_create_ctrl()
+frees the options when an error is returned.
 
-Best Regards,
-  Yi Zhang
+Signed-off-by: Ewan D. Milne <emilne at redhat.com>
+---
+ drivers/nvme/host/fc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-
------ Original Message -----
-From: "Steve Wise" <swise@opengridcomputing.com>
-To: "Yi Zhang" <yizhan at redhat.com>, linux-nvme at lists.infradead.org, linux-rdma at vger.kernel.org
-Sent: Monday, April 24, 2017 11:58:48 PM
-Subject: RE: iwpm_register_pid: Unable to send a nlmsg (client = 2) observed on 4.11.0-rc7 during configure NVMe over iWARP RDMA
-
-> Subject: iwpm_register_pid: Unable to send a nlmsg (client = 2) observed on 4.11.0-
-> rc7 during configure NVMe over iWARP RDMA
-> 
-> Hello experts
-> 
-> I found below pid_query_error, could anyone help check it? I have attached all the
-> dmesg log. Thanks
-> 
-> [  152.372481] nvmet: adding nsid 1 to subsystem testnqn
-> [  152.398705] iwpm_register_pid: Unable to send a nlmsg (client = 2)
-> [  152.430011] nvmet_rdma: enabling port 2 (172.31.52.12:4420)
-> 
-> 
-> Best Regards,
->   Yi Zhang
->
-
-Hey Yi, 
-
-This is the iWARP port mapping kernel service logging that no iwarp port mapper daemon is running on the system.  This is benign in the context of nvme/fabrics.  Are you having other problems with using iw_cxgb4?
-
-Steve.
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 890e096..9da98ec 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1716,7 +1716,8 @@ enum {
+ 	nvme_fc_rport_put(ctrl->rport);
  
+ 	ida_simple_remove(&nvme_fc_ctrl_cnt, ctrl->cnum);
+-	nvmf_free_options(ctrl->ctrl.opts);
++	if (ctrl->ctrl.opts)
++		nvmf_free_options(ctrl->ctrl.opts);
+ 	kfree(ctrl);
+ }
+ 
+@@ -2821,6 +2822,7 @@ enum blk_eh_timer_return
+ 
+ 	ret = nvme_fc_create_association(ctrl);
+ 	if (ret) {
++		ctrl->ctrl.opts = NULL;
+ 		/* initiate nvme ctrl ref counting teardown */
+ 		nvme_uninit_ctrl(&ctrl->ctrl);
+ 		nvme_put_ctrl(&ctrl->ctrl);
+-- 
+1.8.3.1
