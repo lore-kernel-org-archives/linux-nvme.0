@@ -1,68 +1,136 @@
-From: emilne@redhat.com (Ewan D. Milne)
-Date: Mon, 24 Apr 2017 13:24:15 -0400
-Subject: [PATCH 0/1] Fix crash when failing to connect to FC NVMe target
-Message-ID: <1493054656-18296-1-git-send-email-emilne@redhat.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 24 Apr 2017 12:42:23 -0700
+Subject: [PATCH v2 5/5] nvme_fc: add controller reset support
+In-Reply-To: <ab68b3c3-7cce-336e-108d-062e4076c449@grimberg.me>
+References: <20170411183512.9043-1-jsmart2021@gmail.com>
+ <20170411183512.9043-6-jsmart2021@gmail.com>
+ <ab68b3c3-7cce-336e-108d-062e4076c449@grimberg.me>
+Message-ID: <39cbb355-9def-c1ad-4e97-7e3d0ea74bfb@gmail.com>
 
-From: "Ewan D. Milne" <emilne@redhat.com>
+On 4/20/2017 5:56 AM, Sagi Grimberg wrote:
+>
+>> From: James Smart <jsmart2021 at gmail.com>
+>>
+> It would be very helpful to split this patch into several pieces:
+> 1. fixes and cleanups
+> 2. preps for teardown and establishment
+> 3. delete support
+> 4. reset support
+> 5. reconnect support
+>
+> As is, its very hard to review this patch...
 
-This patch fixes the following crash, caused because nvmf_create_ctrl()
-calls nvmf_free_options() when an error is returned from nvme_fc_create_ctrl().
+Understood. As Christoph has merged it as is into nvme-4.12, I'll 
+address the issues that have been pointed out.
 
-However, if we get as far as calling nvme_fc_create_assocation() and it returns
-an error, we have an nvme_fc_ctrl kobject with a pointer to the nvmf_ctrl_options,
-and nvmf_free_options() will be called upon object destruction.
+>> +#define NVME_FC_MAX_CONNECT_ATTEMPTS    1
+>> +
+>
+> Why 1?
 
-Since the caller allocated the nvmf_ctrl_options, and frees it on error,
-ensure that the kobject will not free the options unless a good status is
-returned from the ops->create_ctrl() call.
+Agreed, pretty weak. Needs to be tied into your new 
+nvmef_should_reconnect() logic.
 
-[ 1175.863718] general protection fault: 0000 [#1] SMP
-[ 1175.869157] Modules linked in: intel_rapl sb_edac edac_core x86_pkg_temp_thermal intel_powerclamp coretep
-[ 1175.929882] CPU: 2 PID: 11385 Comm: sh Not tainted 4.10.0-rc2+ #31
-[ 1175.936776] Hardware name: Dell Inc. PowerEdge R730/072T6D, BIOS 2.3.4 11/08/2016
-[ 1175.945123] task: ffff880840cc1880 task.stack: ffffc9000ea14000
-[ 1175.951728] RIP: 0010:nvmf_free_options+0x16/0x70
-[ 1175.956973] RSP: 0018:ffffc9000ea17d50 EFLAGS: 00010202
-[ 1175.962800] RAX: 00000000fffffffb RBX: ffff88083cc3fb18 RCX: 0000000000000000
-[ 1175.970761] RDX: ffff880840cc1880 RSI: ffffffff8151a3e0 RDI: 6b6b6b6b6b6b6b6b
-[ 1175.978721] RBP: ffffc9000ea17d58 R08: ffff880843d09bf8 R09: fffffffffffffffb
-[ 1175.986680] R10: ffff880843d08958 R11: ffff880843d09bf8 R12: fffffffffffffffb
-[ 1175.994639] R13: ffff88084b3435a8 R14: ffff880843c07da8 R15: ffff88083cc3fb18
-[ 1176.002598] FS:  00007f8bbce7a740(0000) GS:ffff88085f280000(0000) knlGS:0000000000000000
-[ 1176.011634] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[ 1176.018044] CR2: 00007f8bbca3c090 CR3: 000000083a981000 CR4: 00000000003406e0
-[ 1176.026004] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[ 1176.033964] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[ 1176.041937] Call Trace:
-[ 1176.044663]  nvmf_dev_write+0x428/0x9a0
-[ 1176.048946]  ? __slab_free+0x17d/0x2c0
-[ 1176.053126]  __vfs_write+0x37/0x160
-[ 1176.057015]  ? selinux_file_permission+0xe5/0x120
-[ 1176.062262]  ? security_file_permission+0x3b/0xc0
-[ 1176.067506]  vfs_write+0xb2/0x1b0
-[ 1176.071203]  ? syscall_trace_enter+0x1d0/0x2b0
-[ 1176.076157]  SyS_write+0x55/0xc0
-[ 1176.079755]  do_syscall_64+0x67/0x180
-[ 1176.083839]  entry_SYSCALL64_slow_path+0x25/0x25
-[ 1176.088987] RIP: 0033:0x7f8bbc560c60
-[ 1176.092971] RSP: 002b:00007ffeaf3d5f28 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-[ 1176.101415] RAX: ffffffffffffffda RBX: 0000000000000084 RCX: 00007f8bbc560c60
-[ 1176.109374] RDX: 0000000000000084 RSI: 00007f8bbce7d000 RDI: 0000000000000001
-[ 1176.117333] RBP: 00007f8bbce7d000 R08: 000000000000000a R09: 00007f8bbce7a740
-[ 1176.125293] R10: 0000000000000083 R11: 0000000000000246 R12: 00007f8bbc833400
-[ 1176.133252] R13: 0000000000000084 R14: 0000000000000001 R15: 0000000000000000
-[ 1176.141213] Code: 89 1c 24 48 c7 c7 40 c5 d0 81 e8 86 fd 22 00 5b 41 5c 5d c3 90 0f 1f 44 00 00 55 48 89 
-[ 1176.162277] RIP: nvmf_free_options+0x16/0x70 RSP: ffffc9000ea17d50
-[ 1176.172046] ---[ end trace b6423bd8df867883 ]---
-[ 1176.179704] Kernel panic - not syncing: Fatal exception
-[ 1176.185570] Kernel Offset: disabled
 
-Ewan D. Milne (1):
-  nvme-fc: avoid memory corruption caused by calling nvmf_free_options()
-    twice
 
- drivers/nvme/host/fc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+>> +static void
+>> +nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
+>> +{
+>> +    dev_warn(ctrl->ctrl.device,
+>> +        "NVME-FC{%d}: transport association error detected: %s\n",
+>> +        ctrl->cnum, errmsg);
+>> +    dev_info(ctrl->ctrl.device,
+>> +        "NVME-FC{%d}: resetting controller\n", ctrl->cnum);
+>>
+>> -        nvme_fc_destroy_admin_queue(ctrl);
+>> +    if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
+>> +        dev_err(ctrl->ctrl.device,
+>> +            "NVME-FC{%d}: error_recovery: Couldn't change state "
+>> +            "to RECONNECTING\n", ctrl->cnum);
+>> +        return;
+>>      }
+>>
+>> -    nvme_fc_ctrl_put(ctrl);
+>> +    if (!queue_work(nvme_fc_wq, &ctrl->reset_work))
+>> +        dev_err(ctrl->ctrl.device,
+>> +            "NVME-FC{%d}: error_recovery: Failed to schedule "
+>> +            "reset work\n", ctrl->cnum);
+>>  }
+>
+> Don't you want to stop the queues and fail inflight I/O?
 
--- 
-1.8.3.1
+Those are the first actions as part of the reset work.   Failing 
+inflight i/o - no, as that's a rather large amount of work for FC. 
+Stopping the queues - perhaps. I'll look. In general, shouldn't really
+matter as doing it now or elongating the time window to reset work
+doesn't change the race. it lowers the number of other ios that may
+report error, but does not eliminate it. So if some will hit it, it
+doesn't matter.
+
+
+
+
+>> +    /* wait for all io that had to be aborted */
+>> +    spin_lock_irqsave(&ctrl->lock, flags);
+>> +    while (ctrl->iocnt) {
+>> +        spin_unlock_irqrestore(&ctrl->lock, flags);
+>> +        msleep(1000);
+>> +        spin_lock_irqsave(&ctrl->lock, flags);
+>> +    }
+>
+> struct completion for this?
+
+Agreed.
+
+
+
+>> +static void
+>> +nvme_fc_delete_ctrl_work(struct work_struct *work)
+>> +{
+>> +    struct nvme_fc_ctrl *ctrl =
+>> +        container_of(work, struct nvme_fc_ctrl, delete_work);
+>> +
+>> +    cancel_work_sync(&ctrl->reset_work);
+>> +    cancel_delayed_work_sync(&ctrl->connect_work);
+>> +
+>> +    /*
+>> +     * kill the association on the link side.  this will block
+>> +     * waiting for io to terminate
+>> +     */
+>> +    nvme_fc_delete_association(ctrl);
+>> +
+>> +    /*
+>> +     * tear down the controller
+>> +     * This will result in the last reference on the nvme ctrl to
+>> +     * expire, calling the transport nvme_fc_nvme_ctrl_freed() callback.
+>> +     * From there, the transport will tear down it's logical queues and
+>> +     * association.
+>> +     */
+>
+> Aren't you taking an extra ref in nvme_fc_del_nvme_ctrl?
+
+I think you're right.
+
+
+>> +/*
+>> + * called by the nvme core layer, for sysfs interface that requests
+>> + * a reset of the nvme controller
+>> + */
+>> +static int
+>> +nvme_fc_reset_nvme_ctrl(struct nvme_ctrl *nctrl)
+>> +{
+>> +    struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+>> +
+>> +    dev_warn(ctrl->ctrl.device,
+>> +        "NVME-FC{%d}: admin requested controller reset\n", ctrl->cnum);
+>
+> Isn't this warn to chatty?
+
+I don't think so. Resets are a lot like scsi device/target/host resets. 
+They are destructive enough to link-side io and transactions on the link 
+that you want to know when occur. You also want to know why they 
+occurred. I think it's significant to know that a reset was induced by 
+an admin request, not a transport-detected event. Admin requests should 
+be rare so this shouldn't be an issue.
+
+-- james
