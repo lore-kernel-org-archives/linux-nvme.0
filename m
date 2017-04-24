@@ -1,78 +1,53 @@
-From: knut.omang@oracle.com (Knut Omang)
-Date: Mon, 24 Apr 2017 09:36:37 +0200
-Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <1492381907.25766.49.camel@kernel.crashing.org>
-References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <1491974532.7236.43.camel@kernel.crashing.org>
- <5ac22496-56ec-025d-f153-140001d2a7f9@deltatee.com>
- <1492034124.7236.77.camel@kernel.crashing.org>
- <81888a1e-eb0d-cbbc-dc66-0a09c32e4ea2@deltatee.com>
- <20170413232631.GB24910@bhelgaas-glaptop.roam.corp.google.com>
- <20170414041656.GA30694@obsidianresearch.com>
- <1492169849.25766.3.camel@kernel.crashing.org>
- <630c1c63-ff17-1116-e069-2b8f93e50fa2@deltatee.com>
- <20170414190452.GA15679@bhelgaas-glaptop.roam.corp.google.com>
- <1492207643.25766.18.camel@kernel.crashing.org>
- <bff1e503-95a9-e19f-bfd9-0ff962c63a81@deltatee.com>
- <CAPcyv4jUeKzKDARp6Z35kdPLKnP-M6aF8X5KpOx55CLyjnj4dA@mail.gmail.com>
- <1492311719.25766.37.camel@kernel.crashing.org>
- <CAPcyv4iqnz1B00Q3xG-nGrLXdOyB7ditxmwZyotksLFgUqr+jA@mail.gmail.com>
- <5e43818e-8c6b-8be8-23ff-b798633d2a73@deltatee.com>
- <1492381907.25766.49.camel@kernel.crashing.org>
-Message-ID: <1493019397.3171.118.camel@oracle.com>
+From: rakesh@tuxera.com (Rakesh Pandit)
+Date: Mon, 24 Apr 2017 10:44:17 +0300
+Subject: [PATCH v2] nvme-cli: Fix build on aarch64-linux-android-4.9
+Message-ID: <20170424074417.GA3319@hercules.tuxera.com>
 
-On Mon, 2017-04-17@08:31 +1000, Benjamin Herrenschmidt wrote:
-> On Sun, 2017-04-16@10:34 -0600, Logan Gunthorpe wrote:
-> >?
-> > On 16/04/17 09:53 AM, Dan Williams wrote:
-> > > ZONE_DEVICE allows you to redirect via get_dev_pagemap() to retrieve
-> > > context about the physical address in question. I'm thinking you can
-> > > hang bus address translation data off of that structure. This seems
-> > > vaguely similar to what HMM is doing.
-> >?
-> > Thanks! I didn't realize you had the infrastructure to look up a device
-> > from a pfn/page. That would really come in handy for us.
-> 
-> It does indeed. I won't be able to play with that much for a few weeks
-> (see my other email) so if you're going to tackle this while I'm away,
-> can you work with Jerome to make sure you don't conflict with HMM ?
-> 
-> I really want a way for HMM to be able to layout struct pages over the
-> GPU BARs rather than in "allocated free space" for the case where the
-> BAR is big enough to cover all of the GPU memory.
-> 
-> In general, I'd like a simple & generic way for any driver to ask the
-> core to layout DMA'ble struct pages over BAR space. I an not convinced
-> this requires a "p2mem device" to be created on top of this though but
-> that's a different discussion.
-> 
-> Of course the actual ability to perform the DMA mapping will be subject
-> to various restrictions that will have to be implemented in the actual
-> "dma_ops override" backend. We can have generic code to handle the case
-> where devices reside on the same domain, which can deal with switch
-> configuration etc... we will need to have iommu specific code to handle
-> the case going through the fabric.?
-> 
-> Virtualization is a separate can of worms due to how qemu completely
-> fakes the MMIO space, we can look into that later.
+Need to include sys/stat.h to fix:
+fabrics.c:414:45: error: 'S_IRUSR' undeclared (first use in this function)
+fabrics.c:414:53: error: 'S_IWUSR' undeclared (first use in this function)
 
-My first reflex when reading this thread was to think that this whole domain
-lends it self excellently to testing via Qemu. Could it be that doing this in?
-the opposite direction might be a safer approach in the long run even though?
-(significant) more work up-front?
+Also fix warning:
+common.h:4:0:
+warning: "offsetof" redefined #define offsetof(x, y)
+__builtin_offsetof(x, y) ^
 
-Eg. start by fixing/providing/documenting suitable model(s)?
-for testing this in Qemu, then implement the patch set based?
-on those models?
+Fix this trivial warning by including stddef.h and removing this
+definition.
 
-Thanks,
-Knut
+V2: Instead of using ifndef remove the offsetof definition and include
+stddef.h
+Signed-off-by: Rakesh Pandit <rakesh at tuxera.com>
+---
+ common.h  | 2 --
+ fabrics.c | 2 ++
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-> 
-> Cheers,
-> Ben.
-> 
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at??http://vger.kernel.org/majordomo-info.html
+diff --git a/common.h b/common.h
+index f0a94de..8338a3d 100644
+--- a/common.h
++++ b/common.h
+@@ -1,8 +1,6 @@
+ #ifndef _COMMON_H
+ #define _COMMON_H
+ 
+-#define offsetof(x, y)	__builtin_offsetof(x, y)
+-
+ #define __round_mask(x, y) ((__typeof__(x))((y)-1))
+ #define round_up(x, y) ((((x)-1) | __round_mask(x, y))+1)
+ 
+diff --git a/fabrics.c b/fabrics.c
+index a2e8f60..6648bae 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -32,6 +32,8 @@
+ #include <inttypes.h>
+ #include <linux/types.h>
+ #include <libgen.h>
++#include <sys/stat.h>
++#include <stddef.h>
+ 
+ #include "parser.h"
+ #include "nvme-ioctl.h"
+-- 
+2.9.3
