@@ -1,37 +1,16 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Tue, 25 Apr 2017 21:06:30 +0300
-Subject: kernel NULL pointer during reset_controller operation with IO on
- 4.11.0-rc7
-In-Reply-To: <97bb90ec-4337-62f7-f08d-a673975a5637@grimberg.me>
-References: <1413097100.14743757.1492668219336.JavaMail.zimbra@redhat.com>
- <97bb90ec-4337-62f7-f08d-a673975a5637@grimberg.me>
-Message-ID: <20170425180630.GU14088@mtr-leonro.local>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 25 Apr 2017 14:58:13 -0400
+Subject: [PATCH] nvme-scsi: remove nvme_trans_security_protocol
+In-Reply-To: <20170425170056.15735-1-hch@lst.de>
+References: <20170425170056.15735-1-hch@lst.de>
+Message-ID: <20170425185812.GB8927@localhost.localdomain>
 
-On Thu, Apr 20, 2017@07:21:29PM +0300, Sagi Grimberg wrote:
->
-> > [1]
-> > [ 5968.515237] DMAR: DRHD: handling fault status reg 2
-> > [ 5968.519449] mlx5_2:dump_cqe:262:(pid 0): dump error cqe
-> > [ 5968.519450] 00000000 00000000 00000000 00000000
-> > [ 5968.519451] 00000000 00000000 00000000 00000000
-> > [ 5968.519451] 00000000 00000000 00000000 00000000
-> > [ 5968.519452] 00000000 02005104 00000316 a71710e3
->
-> Max, Can you decode this for us?
+On Tue, Apr 25, 2017@07:00:56PM +0200, Christoph Hellwig wrote:
+> This function just returns the same error code and sense data as
+> the default statement in the switch in the caller.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-I'm not Max and maybe he will shed more light on it. I didn't find such
-error in our documentation.
+Looks good.
 
-Thanks
-
-> --
-> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
-> the body of a message to majordomo at vger.kernel.org
-> More majordomo info at  http://vger.kernel.org/majordomo-info.html
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170425/8d9465e4/attachment.sig>
+Reviewed-by: Keith Busch <keith.busch at intel.com>
