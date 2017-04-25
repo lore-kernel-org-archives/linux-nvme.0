@@ -1,26 +1,23 @@
-From: zouming.zouming@huawei.com (Zou Ming)
-Date: Tue, 25 Apr 2017 06:40:21 +0000
-Subject: [PATCH] nvme-cli:fix free json object memory after print
-Message-ID: <1493102421-18988-1-git-send-email-zouming.zouming@huawei.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 25 Apr 2017 09:18:24 +0200
+Subject: [PATCH] nvme: change cq_vector to a bool and set to true after
+ request_irq
+In-Reply-To: <7814D156-5C3D-47A3-B73F-07EED4719920@purestorage.com>
+References: <1492817055-33601-1-git-send-email-sandeep@purestorage.com>
+ <20170423074710.GB20750@lst.de>
+ <7814D156-5C3D-47A3-B73F-07EED4719920@purestorage.com>
+Message-ID: <20170425071824.GA26885@lst.de>
 
-The json_print_list_items function need to free json object memory after
-print,this patch fix it.
----
- nvme-print.c | 2 ++
- 1 file changed, 2 insertions(+)
+On Mon, Apr 24, 2017@01:25:39PM -0700, Sandeep Mann wrote:
+> 
+> > nvmeq_irq went away in a commit in the PCI tree, so merging this now
+> > would create a bit of a merge problem.  Either we can live with the
+> > conflict or delay the patch until the first round of merges for -rc1
+> > are done..
+> 
+> I am not sure if I need to anything here, would you like me provide a diff on top of the PCI tree?
 
-diff --git a/nvme-print.c b/nvme-print.c
-index a86902e..e3c35f4 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -1151,6 +1151,8 @@ void json_print_list_items(struct list_item *list_items, unsigned len)
- 	}
- 	json_object_add_value_array(root, "Devices", devices);
- 	json_print_object(root, NULL);
-+	printf("\n");
-+	json_free_object(root);    
- }
- 
- void json_nvme_id_ns(struct nvme_id_ns *ns, unsigned int mode)
--- 
-2.6.4.windows.1
+Yes, feel free to work based on that.  I think we'll have to wait
+until both the PCI and block/nvme trees are merged in mainline to apply
+it, though.  And then it will be even more work to backport it to stable,
+sorry.
