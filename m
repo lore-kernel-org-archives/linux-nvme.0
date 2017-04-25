@@ -1,32 +1,57 @@
-From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Mon, 24 Apr 2017 18:02:43 -0600
-Subject: [PATCH] nvme/scsi: Consider LBA format in IO splitting calculation
-Message-ID: <20170425000243.2019-1-jonathan.derrick@intel.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Mon, 24 Apr 2017 17:46:50 -0700
+Subject: [PATCH 3/3] nvme-rdma: Support ctrl_loss_tmo
+In-Reply-To: <1489876941-6401-4-git-send-email-sagi@grimberg.me>
+References: <1489876941-6401-1-git-send-email-sagi@grimberg.me>
+ <1489876941-6401-4-git-send-email-sagi@grimberg.me>
+Message-ID: <d52b4109-e6d7-9085-a358-8812f937d169@broadcom.com>
 
-The current command submission code uses a sector-based value when
-considering the maximum number of blocks per command. With a
-4k-formatted namespace and a command exceeding max hardware limits, this
-calculation doesn't split IOs which should be split and fails in the
-nvme layer. This patch fixes that calculation and enables IO splitting
-in these circumstances.
+On 3/18/2017 3:42 PM, Sagi Grimberg wrote:
+> Before scheduling a reconnect attempt, check
+> nr_reconnects against max_reconnects, if not
+> exhausted (or max_reconnects is not -1), schedule
+> a reconnect attempts, otherwise schedule ctrl
+> removal.
+>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>   drivers/nvme/host/rdma.c | 41 ++++++++++++++++++++++++++++-------------
+>   1 file changed, 28 insertions(+), 13 deletions(-)
+>
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 33f18636ea99..71d1e1a6b928 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -711,6 +711,26 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
+>   	kfree(ctrl);
+>   }
+>   
+> +static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
+> +{
+> +	/* If we are resetting/deleting then do nothing */
+> +	if (ctrl->ctrl.state != NVME_CTRL_RECONNECTING) {
+> +		WARN_ON_ONCE(ctrl->ctrl.state == NVME_CTRL_NEW ||
+> +			ctrl->ctrl.state == NVME_CTRL_LIVE);
+> +		return;
+> +	}
+> +
+> +	if (nvmf_should_reconnect(&ctrl->ctrl)) {
+> +		dev_info(ctrl->ctrl.device, "Reconnecting in %d seconds...\n",
+> +			ctrl->ctrl.opts->reconnect_delay);
+> +		queue_delayed_work(nvme_rdma_wq, &ctrl->reconnect_work,
+> +				ctrl->ctrl.opts->reconnect_delay * HZ);
+> +	} else {
+> +		dev_info(ctrl->ctrl.device, "Removing controller...\n");
+Shouldn't there be a:
+         if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
+                 return;
 
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
----
- drivers/nvme/host/scsi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+right here ?
 
-diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
-index f49ae27..988da61 100644
---- a/drivers/nvme/host/scsi.c
-+++ b/drivers/nvme/host/scsi.c
-@@ -1609,7 +1609,7 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	struct nvme_command c;
- 	u8 opcode = (is_write ? nvme_cmd_write : nvme_cmd_read);
- 	u16 control;
--	u32 max_blocks = queue_max_hw_sectors(ns->queue);
-+	u32 max_blocks = queue_max_hw_sectors(ns->queue) >> (ns->lba_shift - 9);
- 
- 	num_cmds = nvme_trans_io_get_num_cmds(hdr, cdb_info, max_blocks);
- 
--- 
-2.9.3
+> +		queue_work(nvme_rdma_wq, &ctrl->delete_work);
+> +	}
+> +}
+> +
+
+
+-- james
