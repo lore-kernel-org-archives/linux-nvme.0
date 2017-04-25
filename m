@@ -1,37 +1,62 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Tue, 25 Apr 2017 15:32:01 -0700
-Subject: [PATCH] nvme_fc: stop queues on error detection
-Message-ID: <20170425223201.3835-1-jsmart2021@gmail.com>
+Date: Tue, 25 Apr 2017 15:32:12 -0700
+Subject: [PATCH] nvme_fc: replace ioabort msleep loop with completion
+Message-ID: <20170425223212.3876-1-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
 Per the recommendation by Sagi on:
 http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
 
-Rather than waiting for reset work thread to stop queues and abort the ios,
-immediately stop the queues on error detection. Reset thread will restop
-the queues (as it's called on other paths), but it does not appear to have
-a side effect.
+Wait for io aborts to complete wait converted from msleep look to
+using a struct completion.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fc.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/nvme/host/fc.c | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 4d4b902..16a658c 100644
+index 16a658c..2690824 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -1751,6 +1751,10 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
- 	dev_info(ctrl->ctrl.device,
- 		"NVME-FC{%d}: resetting controller\n", ctrl->cnum);
+@@ -167,6 +167,7 @@ struct nvme_fc_ctrl {
+ 	struct kref		ref;
+ 	u32			flags;
+ 	u32			iocnt;
++	struct completion	ioaborts_done;
  
-+	/* stop the queues on error, cleanup is in reset thread */
-+	if (ctrl->queue_count > 1)
-+		nvme_stop_queues(&ctrl->ctrl);
+ 	struct nvme_fc_fcp_op	aen_ops[NVME_FC_NR_AEN_COMMANDS];
+ 
+@@ -1241,8 +1242,10 @@ __nvme_fc_fcpop_chk_teardowns(struct nvme_fc_ctrl *ctrl,
+ 
+ 	spin_lock_irqsave(&ctrl->lock, flags);
+ 	if (unlikely(op->flags & FCOP_FLAGS_TERMIO)) {
+-		if (ctrl->flags & FCCTRL_TERMIO)
+-			ctrl->iocnt--;
++		if (ctrl->flags & FCCTRL_TERMIO) {
++			if (!(--ctrl->iocnt))
++				complete(&ctrl->ioaborts_done);
++		}
+ 	}
+ 	if (op->flags & FCOP_FLAGS_RELEASED)
+ 		complete_rq = true;
+@@ -2488,10 +2491,14 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
+ 
+ 	/* wait for all io that had to be aborted */
+ 	spin_lock_irqsave(&ctrl->lock, flags);
+-	while (ctrl->iocnt) {
++	if (ctrl->iocnt) {
++		init_completion(&ctrl->ioaborts_done);
+ 		spin_unlock_irqrestore(&ctrl->lock, flags);
+-		msleep(1000);
 +
- 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
- 		dev_err(ctrl->ctrl.device,
- 			"NVME-FC{%d}: error_recovery: Couldn't change state "
++		wait_for_completion(&ctrl->ioaborts_done);
++
+ 		spin_lock_irqsave(&ctrl->lock, flags);
++		WARN_ON(ctrl->iocnt);
+ 	}
+ 	ctrl->flags &= ~FCCTRL_TERMIO;
+ 	spin_unlock_irqrestore(&ctrl->lock, flags);
 -- 
 2.9.3
