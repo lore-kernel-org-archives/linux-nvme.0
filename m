@@ -1,51 +1,51 @@
-From: logang@deltatee.com (Logan Gunthorpe)
-Date: Tue, 25 Apr 2017 11:03:27 -0600
-Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <1493101803.3171.246.camel@oracle.com>
-References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <1492034124.7236.77.camel@kernel.crashing.org>
- <81888a1e-eb0d-cbbc-dc66-0a09c32e4ea2@deltatee.com>
- <20170413232631.GB24910@bhelgaas-glaptop.roam.corp.google.com>
- <20170414041656.GA30694@obsidianresearch.com>
- <1492169849.25766.3.camel@kernel.crashing.org>
- <630c1c63-ff17-1116-e069-2b8f93e50fa2@deltatee.com>
- <20170414190452.GA15679@bhelgaas-glaptop.roam.corp.google.com>
- <1492207643.25766.18.camel@kernel.crashing.org>
- <bff1e503-95a9-e19f-bfd9-0ff962c63a81@deltatee.com>
- <CAPcyv4jUeKzKDARp6Z35kdPLKnP-M6aF8X5KpOx55CLyjnj4dA@mail.gmail.com>
- <1492311719.25766.37.camel@kernel.crashing.org>
- <CAPcyv4iqnz1B00Q3xG-nGrLXdOyB7ditxmwZyotksLFgUqr+jA@mail.gmail.com>
- <5e43818e-8c6b-8be8-23ff-b798633d2a73@deltatee.com>
- <1492381907.25766.49.camel@kernel.crashing.org>
- <1493019397.3171.118.camel@oracle.com>
- <9b6c0830-a728-c7ca-e6c6-2135f3f760ed@deltatee.com>
- <1493101803.3171.246.camel@oracle.com>
-Message-ID: <0cc95df5-b9dd-6493-15fe-771d535c1020@deltatee.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 25 Apr 2017 19:53:26 +0200
+Subject: [PATCH] nvme-lightnvm: use blk_execute_rq nvme_nvm_submit_user_cmd
+Message-ID: <20170425175326.6587-1-hch@lst.de>
 
+Instead of reinventing it poorly.
 
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/lightnvm.c | 12 +-----------
+ 1 file changed, 1 insertion(+), 11 deletions(-)
 
-On 25/04/17 12:30 AM, Knut Omang wrote:
-> Yes, that's why I used 'significant'. One good thing is that given resources 
-> it can easily be done in parallel with other development, and will give additional
-> insight of some form.
-
-Yup, well if someone wants to start working on an emulated RDMA device
-that actually simulates proper DMA transfers that would be great!
-
->> I also imagine it would be quite difficult to develop those models
->> given the array of hardware that needs to be supported and the deep
->> functional knowledge required to figure out appropriate restrictions.
-> 
-> From my naive perspective it seems it need not even be a full model to get some benefits,
-> just low level functionality tests with some instances of a
-> device that offers some MMIO space 'playground'.
-
-Yes, the nvme device in qemu has a CMB buffer which is a good choice to
-test with but we don't have code to use it for p2p transfers in the
-kernel so it is a bit awkward. We also posted [1] to qemu which was also
-handy to test with using a small out of tree module. But I don't see a
-lot of value in it if you completely ignore any hardware quirks.
-
-Logan
-
-[1] https://lists.gnu.org/archive/html/qemu-devel/2016-10/msg04331.html
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index de61a4a03d78..ddf28a743b5c 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -570,13 +570,6 @@ static struct nvm_dev_ops nvme_nvm_dev_ops = {
+ 	.max_phys_sect		= 64,
+ };
+ 
+-static void nvme_nvm_end_user_vio(struct request *rq, int error)
+-{
+-	struct completion *waiting = rq->end_io_data;
+-
+-	complete(waiting);
+-}
+-
+ static int nvme_nvm_submit_user_cmd(struct request_queue *q,
+ 				struct nvme_ns *ns,
+ 				struct nvme_nvm_command *vcmd,
+@@ -607,7 +600,6 @@ static int nvme_nvm_submit_user_cmd(struct request_queue *q,
+ 	rq->timeout = timeout ? timeout : ADMIN_TIMEOUT;
+ 
+ 	rq->cmd_flags &= ~REQ_FAILFAST_DRIVER;
+-	rq->end_io_data = &wait;
+ 
+ 	if (ppa_buf && ppa_len) {
+ 		ppa_list = dma_pool_alloc(dev->dma_pool, GFP_KERNEL, &ppa_dma);
+@@ -661,9 +653,7 @@ static int nvme_nvm_submit_user_cmd(struct request_queue *q,
+ 	}
+ 
+ submit:
+-	blk_execute_rq_nowait(q, NULL, rq, 0, nvme_nvm_end_user_vio);
+-
+-	wait_for_completion_io(&wait);
++	blk_execute_rq(q, NULL, rq, 0);
+ 
+ 	if (nvme_req(rq)->flags & NVME_REQ_CANCELLED)
+ 		ret = -EINTR;
+-- 
+2.11.0
