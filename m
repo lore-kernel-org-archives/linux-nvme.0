@@ -1,62 +1,42 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Tue, 25 Apr 2017 15:32:12 -0700
+Date: Tue, 25 Apr 2017 15:32:23 -0700
 Subject: [PATCH] nvme_fc: replace ioabort msleep loop with completion
-Message-ID: <20170425223212.3876-1-jsmart2021@gmail.com>
+Message-ID: <20170425223223.3917-1-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
 Per the recommendation by Sagi on:
 http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
 
-Wait for io aborts to complete wait converted from msleep look to
-using a struct completion.
+An extra reference was pointed out.  There's no issue with the
+references, but rather a literal interpretation of what the comment
+is saying.
+
+Reword the comment to avoid confusion.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fc.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/nvme/host/fc.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 16a658c..2690824 100644
+index 2690824..e917d91 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -167,6 +167,7 @@ struct nvme_fc_ctrl {
- 	struct kref		ref;
- 	u32			flags;
- 	u32			iocnt;
-+	struct completion	ioaborts_done;
+@@ -2540,10 +2540,10 @@ nvme_fc_delete_ctrl_work(struct work_struct *work)
  
- 	struct nvme_fc_fcp_op	aen_ops[NVME_FC_NR_AEN_COMMANDS];
+ 	/*
+ 	 * tear down the controller
+-	 * This will result in the last reference on the nvme ctrl to
+-	 * expire, calling the transport nvme_fc_nvme_ctrl_freed() callback.
+-	 * From there, the transport will tear down it's logical queues and
+-	 * association.
++	 * After the last reference on the nvme ctrl is removed,
++	 * the transport nvme_fc_nvme_ctrl_freed() callback will be
++	 * invoked. From there, the transport will tear down it's
++	 * logical queues and association.
+ 	 */
+ 	nvme_uninit_ctrl(&ctrl->ctrl);
  
-@@ -1241,8 +1242,10 @@ __nvme_fc_fcpop_chk_teardowns(struct nvme_fc_ctrl *ctrl,
- 
- 	spin_lock_irqsave(&ctrl->lock, flags);
- 	if (unlikely(op->flags & FCOP_FLAGS_TERMIO)) {
--		if (ctrl->flags & FCCTRL_TERMIO)
--			ctrl->iocnt--;
-+		if (ctrl->flags & FCCTRL_TERMIO) {
-+			if (!(--ctrl->iocnt))
-+				complete(&ctrl->ioaborts_done);
-+		}
- 	}
- 	if (op->flags & FCOP_FLAGS_RELEASED)
- 		complete_rq = true;
-@@ -2488,10 +2491,14 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
- 
- 	/* wait for all io that had to be aborted */
- 	spin_lock_irqsave(&ctrl->lock, flags);
--	while (ctrl->iocnt) {
-+	if (ctrl->iocnt) {
-+		init_completion(&ctrl->ioaborts_done);
- 		spin_unlock_irqrestore(&ctrl->lock, flags);
--		msleep(1000);
-+
-+		wait_for_completion(&ctrl->ioaborts_done);
-+
- 		spin_lock_irqsave(&ctrl->lock, flags);
-+		WARN_ON(ctrl->iocnt);
- 	}
- 	ctrl->flags &= ~FCCTRL_TERMIO;
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
 -- 
 2.9.3
