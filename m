@@ -1,30 +1,40 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Tue, 25 Apr 2017 09:20:00 +0800
-Subject: [PATCH] nvme: avoid connecting to the same subsystem from the
- same path gain.
-In-Reply-To: <20170424145842.GA32128@infradead.org>
-References: <1493040417-15680-1-git-send-email-guanjunxiong@huawei.com>
- <20170424145842.GA32128@infradead.org>
-Message-ID: <4e371196-36af-a389-a1a2-bdac1bb70e21@huawei.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 24 Apr 2017 22:00:26 -0600
+Subject: [PATCH] nvme/scsi: Consider LBA format in IO splitting calculation
+In-Reply-To: <20170425000243.2019-1-jonathan.derrick@intel.com>
+References: <20170425000243.2019-1-jonathan.derrick@intel.com>
+Message-ID: <20170425040025.GA23572@kernel.dk>
 
-
-
-On 2017/4/24 22:58, Christoph Hellwig wrote:
-> On Mon, Apr 24, 2017@09:26:57PM +0800, Guan Junxiong wrote:
->> From: Junxiong Guan <guanjunxiong at huawei.com>
->>
->> Current code has the defect that we will get more /dev/nvme#n#
->> generated in the /dev node if we execute the same connect command
->> with nvme-cli tools more than once.
+On Mon, Apr 24 2017, Jon Derrick wrote:
+> The current command submission code uses a sector-based value when
+> considering the maximum number of blocks per command. With a
+> 4k-formatted namespace and a command exceeding max hardware limits, this
+> calculation doesn't split IOs which should be split and fails in the
+> nvme layer. This patch fixes that calculation and enables IO splitting
+> in these circumstances.
 > 
-> That's not a bug, it's a a feature.
+> Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+> ---
+>  drivers/nvme/host/scsi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> .
-Hi ,Christoph:
-   What's the benefits of this feature? If we execute the following cmd
-10 times, it will generate 10 character and at least 20 block devices.
+> diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
+> index f49ae27..988da61 100644
+> --- a/drivers/nvme/host/scsi.c
+> +++ b/drivers/nvme/host/scsi.c
+> @@ -1609,7 +1609,7 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+>  	struct nvme_command c;
+>  	u8 opcode = (is_write ? nvme_cmd_write : nvme_cmd_read);
+>  	u16 control;
+> -	u32 max_blocks = queue_max_hw_sectors(ns->queue);
+> +	u32 max_blocks = queue_max_hw_sectors(ns->queue) >> (ns->lba_shift - 9);
+>  
+>  	num_cmds = nvme_trans_io_get_num_cmds(hdr, cdb_info, max_blocks);
 
-   nvme connect -r rdma -a 192.168.2.1 -n tgtnqn -q hostnqn
-   10 times repeating, then list nvme devices:
-   nvme list
-   we get a flood of nvme devices now.
+Patch looks correct to me, as we always consider the hw sectors settings
+in units of 512b blocks.
+
+Reviewed-by: Jens Axboe <axboe at fb.com>
+
+-- 
+Jens Axboe
