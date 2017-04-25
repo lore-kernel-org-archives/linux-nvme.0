@@ -1,57 +1,30 @@
-From: james.smart@broadcom.com (James Smart)
-Date: Mon, 24 Apr 2017 17:46:50 -0700
-Subject: [PATCH 3/3] nvme-rdma: Support ctrl_loss_tmo
-In-Reply-To: <1489876941-6401-4-git-send-email-sagi@grimberg.me>
-References: <1489876941-6401-1-git-send-email-sagi@grimberg.me>
- <1489876941-6401-4-git-send-email-sagi@grimberg.me>
-Message-ID: <d52b4109-e6d7-9085-a358-8812f937d169@broadcom.com>
-
-On 3/18/2017 3:42 PM, Sagi Grimberg wrote:
-> Before scheduling a reconnect attempt, check
-> nr_reconnects against max_reconnects, if not
-> exhausted (or max_reconnects is not -1), schedule
-> a reconnect attempts, otherwise schedule ctrl
-> removal.
->
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> ---
->   drivers/nvme/host/rdma.c | 41 ++++++++++++++++++++++++++++-------------
->   1 file changed, 28 insertions(+), 13 deletions(-)
->
-> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-> index 33f18636ea99..71d1e1a6b928 100644
-> --- a/drivers/nvme/host/rdma.c
-> +++ b/drivers/nvme/host/rdma.c
-> @@ -711,6 +711,26 @@ static void nvme_rdma_free_ctrl(struct nvme_ctrl *nctrl)
->   	kfree(ctrl);
->   }
->   
-> +static void nvme_rdma_reconnect_or_remove(struct nvme_rdma_ctrl *ctrl)
-> +{
-> +	/* If we are resetting/deleting then do nothing */
-> +	if (ctrl->ctrl.state != NVME_CTRL_RECONNECTING) {
-> +		WARN_ON_ONCE(ctrl->ctrl.state == NVME_CTRL_NEW ||
-> +			ctrl->ctrl.state == NVME_CTRL_LIVE);
-> +		return;
-> +	}
-> +
-> +	if (nvmf_should_reconnect(&ctrl->ctrl)) {
-> +		dev_info(ctrl->ctrl.device, "Reconnecting in %d seconds...\n",
-> +			ctrl->ctrl.opts->reconnect_delay);
-> +		queue_delayed_work(nvme_rdma_wq, &ctrl->reconnect_work,
-> +				ctrl->ctrl.opts->reconnect_delay * HZ);
-> +	} else {
-> +		dev_info(ctrl->ctrl.device, "Removing controller...\n");
-Shouldn't there be a:
-         if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
-                 return;
-
-right here ?
-
-> +		queue_work(nvme_rdma_wq, &ctrl->delete_work);
-> +	}
-> +}
-> +
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Tue, 25 Apr 2017 09:20:00 +0800
+Subject: [PATCH] nvme: avoid connecting to the same subsystem from the
+ same path gain.
+In-Reply-To: <20170424145842.GA32128@infradead.org>
+References: <1493040417-15680-1-git-send-email-guanjunxiong@huawei.com>
+ <20170424145842.GA32128@infradead.org>
+Message-ID: <4e371196-36af-a389-a1a2-bdac1bb70e21@huawei.com>
 
 
--- james
+
+On 2017/4/24 22:58, Christoph Hellwig wrote:
+> On Mon, Apr 24, 2017@09:26:57PM +0800, Guan Junxiong wrote:
+>> From: Junxiong Guan <guanjunxiong at huawei.com>
+>>
+>> Current code has the defect that we will get more /dev/nvme#n#
+>> generated in the /dev node if we execute the same connect command
+>> with nvme-cli tools more than once.
+> 
+> That's not a bug, it's a a feature.
+> 
+> .
+Hi ,Christoph:
+   What's the benefits of this feature? If we execute the following cmd
+10 times, it will generate 10 character and at least 20 block devices.
+
+   nvme connect -r rdma -a 192.168.2.1 -n tgtnqn -q hostnqn
+   10 times repeating, then list nvme devices:
+   nvme list
+   we get a flood of nvme devices now.
