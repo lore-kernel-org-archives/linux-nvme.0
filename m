@@ -1,8 +1,10 @@
 From: sbates@raithlin.com (Stephen  Bates)
-Date: Tue, 25 Apr 2017 21:23:30 +0000
+Date: Tue, 25 Apr 2017 21:23:31 +0000
 Subject: [RFC 0/8] Copy Offload with Peer-to-Peer PCI Memory
-In-Reply-To: <0cc95df5-b9dd-6493-15fe-771d535c1020@deltatee.com>
+In-Reply-To: <1493019397.3171.118.camel@oracle.com>
 References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
+ <1491974532.7236.43.camel@kernel.crashing.org>
+ <5ac22496-56ec-025d-f153-140001d2a7f9@deltatee.com>
  <1492034124.7236.77.camel@kernel.crashing.org>
  <81888a1e-eb0d-cbbc-dc66-0a09c32e4ea2@deltatee.com>
  <20170413232631.GB24910@bhelgaas-glaptop.roam.corp.google.com>
@@ -18,26 +20,18 @@ References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
  <5e43818e-8c6b-8be8-23ff-b798633d2a73@deltatee.com>
  <1492381907.25766.49.camel@kernel.crashing.org>
  <1493019397.3171.118.camel@oracle.com>
- <9b6c0830-a728-c7ca-e6c6-2135f3f760ed@deltatee.com>
- <1493101803.3171.246.camel@oracle.com>
- <0cc95df5-b9dd-6493-15fe-771d535c1020@deltatee.com>
-Message-ID: <B5A68214-E3A6-45F6-9820-758C5C84688A@raithlin.com>
+Message-ID: <705B114E-A084-4C0C-84BD-47E752FEE198@raithlin.com>
 
->> Yes, that's why I used 'significant'. One good thing is that given resources 
->> it can easily be done in parallel with other development, and will give additional
->> insight of some form.
->
->Yup, well if someone wants to start working on an emulated RDMA device
->that actually simulates proper DMA transfers that would be great!
 
-Give that each RDMA vendor?s devices expose a different MMIO I don?t expect this to happen anytime soon.
+> My first reflex when reading this thread was to think that this whole domain
+> lends it self excellently to testing via Qemu. Could it be that doing this in 
+> the opposite direction might be a safer approach in the long run even though 
+> (significant) more work up-front?
 
-> Yes, the nvme device in qemu has a CMB buffer which is a good choice to
-> test with but we don't have code to use it for p2p transfers in the
->kernel so it is a bit awkward.
+While the idea of QEMU for this work is attractive it will be a long time before QEMU is in a position to support this development. 
 
-Note the CMB code is not in upstream QEMU, it?s in Keith?s fork [1]. I will see if I can push this upstream.
+Another approach is to propose a common development platform for p2pmem work using a platform we know is going to work. This an extreme version of the whitelisting approach that was discussed on this thread. We can list a very specific set of hardware (motherboard, PCIe end-points and (possibly) PCIe switch enclosure) that has been shown to work that others can copy for their development purposes.
+
+p2pmem.io perhaps ;-)?
 
 Stephen
-
-[1] git://git.infradead.org/users/kbusch/qemu-nvme.git
