@@ -1,25 +1,32 @@
-From: sandeep@purestorage.com (Sandeep Mann)
-Date: Mon, 24 Apr 2017 13:25:39 -0700
-Subject: [PATCH] nvme: change cq_vector to a bool and set to true after
- request_irq
-In-Reply-To: <20170423074710.GB20750@lst.de>
-References: <1492817055-33601-1-git-send-email-sandeep@purestorage.com>
- <20170423074710.GB20750@lst.de>
-Message-ID: <7814D156-5C3D-47A3-B73F-07EED4719920@purestorage.com>
+From: jonathan.derrick@intel.com (Jon Derrick)
+Date: Mon, 24 Apr 2017 18:02:43 -0600
+Subject: [PATCH] nvme/scsi: Consider LBA format in IO splitting calculation
+Message-ID: <20170425000243.2019-1-jonathan.derrick@intel.com>
 
+The current command submission code uses a sector-based value when
+considering the maximum number of blocks per command. With a
+4k-formatted namespace and a command exceeding max hardware limits, this
+calculation doesn't split IOs which should be split and fails in the
+nvme layer. This patch fixes that calculation and enables IO splitting
+in these circumstances.
 
-> nvmeq_irq went away in a commit in the PCI tree, so merging this now
-> would create a bit of a merge problem.  Either we can live with the
-> conflict or delay the patch until the first round of merges for -rc1
-> are done..
+Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
+---
+ drivers/nvme/host/scsi.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I am not sure if I need to anything here, would you like me provide a diff on top of the PCI tree?
-
->> +	bool cq_vector;
-> 
-> I think the field is badly misnamed now.  Something like a flags
-> field with an NVME_PCI_Q_IS_ALIVE flag might be more suitable now?
-
-I will make this change, thanks.
-
-Sandeep
+diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
+index f49ae27..988da61 100644
+--- a/drivers/nvme/host/scsi.c
++++ b/drivers/nvme/host/scsi.c
+@@ -1609,7 +1609,7 @@ static int nvme_trans_do_nvme_io(struct nvme_ns *ns, struct sg_io_hdr *hdr,
+ 	struct nvme_command c;
+ 	u8 opcode = (is_write ? nvme_cmd_write : nvme_cmd_read);
+ 	u16 control;
+-	u32 max_blocks = queue_max_hw_sectors(ns->queue);
++	u32 max_blocks = queue_max_hw_sectors(ns->queue) >> (ns->lba_shift - 9);
+ 
+ 	num_cmds = nvme_trans_io_get_num_cmds(hdr, cdb_info, max_blocks);
+ 
+-- 
+2.9.3
