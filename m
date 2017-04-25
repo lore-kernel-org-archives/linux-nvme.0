@@ -1,48 +1,41 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Tue, 25 Apr 2017 13:58:53 +0200 (CEST)
-Subject: [RFC 1/8] Introduce Peer-to-Peer memory (p2pmem) device
-In-Reply-To: <ef507444-d3e5-0454-86a0-b5c4ae4b4dd9@deltatee.com>
-References: <1490911959-5146-1-git-send-email-logang@deltatee.com>
- <c8edc480-a2ac-a763-8438-18f3396db483@deltatee.com>
- <e2165253dc355d5cb223e754d78047b1@codeaurora.org>
- <c5d7da85-41fd-2769-fcf8-b3c2a1fab95f@deltatee.com>
- <f0448277-9381-5c3d-d194-1efa1d1b44a6@codeaurora.org>
- <63d73995-4dfa-6270-ca13-972e0628011b@deltatee.com>
- <bed80d4e-7709-5991-498e-0ac361ca96a6@codeaurora.org>
- <ef507444-d3e5-0454-86a0-b5c4ae4b4dd9@deltatee.com>
-Message-ID: <117239810.400362790.1493121533234.JavaMail.zimbra@kalray.eu>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 25 Apr 2017 18:41:00 +0200
+Subject: [PATCH] nvme/lightnvm: add missing endianess conversion in
+ nvme_nvm_end_io
+In-Reply-To: <20170421063017.26380-1-hch@lst.de>
+References: <20170421063017.26380-1-hch@lst.de>
+Message-ID: <20170425164100.GA15964@lst.de>
 
-> On 02/04/17 03:03 PM, Sinan Kaya wrote:
->> Push the decision all the way to the user. Let them decide whether they
->> want this feature to work on a root port connected port or under the
->> switch.
-> 
-> Yes, I prefer this too. If other folks agree with that I'd be very happy
-> to go back to user chooses. I think Sagi was the most vocal proponent
-> for kernel chooses at LSF so hopefully he will read this thread and
-> offer some opinion.
-> 
->> I thought the issue was feature didn't work at all with some root ports
->> or there was some kind of memory corruption issue that you were trying to
->> avoid with the existing systems.
-> 
-> I *think* there are some much older root ports where P2P TLPs don't even
-> get through. But it doesn't really change the situation: in the nvmet
-> case, the user would enable p2pmem and then be unable to connect and
-> thus choose to disable it going forward. Not a big difference from the
-> user seeing bad performance and not choosing to enable it.
-> 
->> I think you should get rid of all pci searching business in your code.
-> 
-> Yes, my original proposal was when you configure the nvme target you
-> chose the specific p2pmem device to use. That code had no tie ins to PCI
-> code and could, in theory, work generically with any device and bus.
-> 
+Javier, Matias:  can I get a quick ACK?  This is the last patch needed
+to make drivers/nvme warning-free.
 
-I would add one issue that doesn't seem to be addressed: in my experience
-P2P doesn't work when IOMMU activated. It works best with deactivation at
-the BIOS level, even the kernel options are not enough in some cases.
-
-This is another argument to leave the chose to user/integrator.
-
-Marta
+On Fri, Apr 21, 2017@08:30:17AM +0200, Christoph Hellwig wrote:
+> Found by sparse.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/host/lightnvm.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+> index de61a4a03d78..e4e4e60b1224 100644
+> --- a/drivers/nvme/host/lightnvm.c
+> +++ b/drivers/nvme/host/lightnvm.c
+> @@ -483,7 +483,7 @@ static void nvme_nvm_end_io(struct request *rq, int error)
+>  {
+>  	struct nvm_rq *rqd = rq->end_io_data;
+>  
+> -	rqd->ppa_status = nvme_req(rq)->result.u64;
+> +	rqd->ppa_status = le64_to_cpu(nvme_req(rq)->result.u64);
+>  	rqd->error = nvme_req(rq)->status;
+>  	nvm_end_io(rqd);
+>  
+> -- 
+> 2.11.0
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+---end quoted text---
