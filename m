@@ -1,55 +1,20 @@
 From: jonathan.derrick@intel.com (Jon Derrick)
-Date: Tue, 25 Apr 2017 14:18:09 -0600
-Subject: [PATCH] nvme-scsi: Use correct byte ordering for eui64 in Dev ID VPD
-Message-ID: <20170425201809.1683-1-jonathan.derrick@intel.com>
+Date: Tue, 25 Apr 2017 14:55:19 -0600
+Subject: [PATCH] nvme-scsi: Use correct byte ordering for eui64 in Dev ID
+ VPD
+In-Reply-To: <20170425201809.1683-1-jonathan.derrick@intel.com>
+References: <20170425201809.1683-1-jonathan.derrick@intel.com>
+Message-ID: <894f6326-35e9-583b-80a8-f7df54c683b0@intel.com>
 
-NVME specifies an EUI64/NGUID in little-endian format, while SCSI
-specifies that the Device Identification VPD use big-endian for EUI
-formats. The current code copies this bytestream directly from the
-Identification Namespace page, meaning we just need to reverse the
-bytestream when passing it on to the VPD.
+On 04/25/2017 02:18 PM, Jon Derrick wrote:
+> NVME specifies an EUI64/NGUID in little-endian format, while SCSI
+> specifies that the Device Identification VPD use big-endian for EUI
+> formats. The current code copies this bytestream directly from the
+> Identification Namespace page, meaning we just need to reverse the
+> bytestream when passing it on to the VPD.
+> 
 
-This results in the correct values being parsed by sg-tools, eg:
-$ sg_inq -e -p 0x83 /dev/nvme1n1 -vvv
-open /dev/nvme1n1 with flags=0x800
-VPD INQUIRY: Device Identification page
-    inquiry cdb: 12 01 83 00 fc 00
-      duration=0 ms
-  Designation descriptor number 1, descriptor length: 20
-    designator_type: EUI-64 based,  code_set: Binary
-    associated with the addressed logical unit
-      EUI-64 based 16 byte identifier
-      Identifier extension: 0x100000001
-      IEEE Company_id: 0x5cd2e4
-      Vendor Specific Extension Identifier: 0x0
-      [0x00000001000000015cd2e40000000000]
-
-Signed-off-by: Jon Derrick <jonathan.derrick at intel.com>
----
- drivers/nvme/host/scsi.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
-index f49ae27..8f94e77 100644
---- a/drivers/nvme/host/scsi.c
-+++ b/drivers/nvme/host/scsi.c
-@@ -598,6 +598,7 @@ static int nvme_fill_device_id_eui64(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	int nvme_sc, res;
- 	size_t len;
- 	void *eui;
-+	int i;
- 
- 	nvme_sc = nvme_identify_ns(ns->ctrl, ns->ns_id, &id_ns);
- 	res = nvme_trans_status_code(hdr, nvme_sc);
-@@ -628,7 +629,8 @@ static int nvme_fill_device_id_eui64(struct nvme_ns *ns, struct sg_io_hdr *hdr,
- 	inq_response[5] = 0x02;	/* PIV=0b | Asso=00b | Designator Type=2h */
- 	inq_response[6] = 0x00;	/* Rsvd */
- 	inq_response[7] = len;	/* Designator Length */
--	memcpy(&inq_response[8], eui, len);
-+	for (i = 0; i < len; i++)
-+		inq_response[8 + i] = ((char *)eui)[len - (i + 1)];
- 
- 	res = nvme_trans_copy_to_user(hdr, inq_response, alloc_len);
- out_free_id:
--- 
-2.9.3
+This seems to hold true for NGUID devices, but Keith just pointed out to
+me that it may not hold true for EUI64 devices. It seems like that case
+needs byte swiveling within each field. So I'll NAK for now until I can
+figure out if that's the case.
