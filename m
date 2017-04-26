@@ -1,28 +1,136 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 26 Apr 2017 17:45:09 +0300
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <af9044c2-fb7c-e8b3-d8fc-4874cfd1bb67@mellanox.com>
-References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
- <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
- <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
- <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
- <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
- <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
- <DE927C68B458BE418D582EC97927A92855031724@ORSMSX113.amr.corp.intel.com>
- <809f87ab-b787-9d40-5840-07500d12e81a@mellanox.com>
- <1948057100.362217696.1491824459274.JavaMail.zimbra@kalray.eu>
- <33e2cc35-f147-d4a4-9a42-8f1245e35842@mellanox.com>
- <517fb6d2-a010-1926-b4cb-0e6041722c28@grimberg.me>
- <af9044c2-fb7c-e8b3-d8fc-4874cfd1bb67@mellanox.com>
-Message-ID: <c2a1436f-48a6-bdea-c910-168fc6031364@grimberg.me>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Wed, 26 Apr 2017 12:33:03 -0300
+Subject: [PATCH] nvme: avoid connecting to the same subsystem from the
+ same path gain.
+In-Reply-To: <1493040417-15680-1-git-send-email-guanjunxiong@huawei.com>
+References: <1493040417-15680-1-git-send-email-guanjunxiong@huawei.com>
+Message-ID: <eb6c96b5-4427-083f-db6d-fa3180664b9a@linux.vnet.ibm.com>
+
+On 04/24/2017 10:26 AM, Guan Junxiong wrote:
+> From: Junxiong Guan <guanjunxiong at huawei.com>
+> 
+> Current code has the defect that we will get more /dev/nvme#n#
+> generated in the /dev node if we execute the same connect command
+> with nvme-cli tools more than once. To fix it, this patch iterate
+> the allocated controller list to check if the same subsystem with
+> the same path of topology exists before create new controller. If
+> exists, just log and return. The path identifier is combined with
+> tranport type, transport address, target subsystem nqn and hostnqn.
+
+Agree with you, and I'm curious too on why this is considered a feature
+instead of a problematic behavior.
+
+Minor suggestions to the patch:
+
+1) On title: s/gain/again/g
+
+2) s/with nvme-cli tools/with nvme-cli tool/g
+
+3) s/tranport/transport/g
+
+Thanks for the good fix!
+Cheers,
 
 
->> Can we get it to 4.12 please (we need you to send it out today).
->
-> Sagi,
-> we are preparing a cap bit for it.
-> I'll send it as soon as it will be ready (otherwise we'll add fence for
-> devices that can handle without it - such as ConnectX5).
+Guilherme
 
-Why? can't you just get what you have as a fix and incrementally add the
-optimization for CX5?
+> ---
+>  drivers/nvme/host/core.c   | 33 +++++++++++++++++++++++++++++++++
+>  drivers/nvme/host/nvme.h   |  1 +
+>  drivers/nvme/host/rdma.c   |  8 ++++++++
+>  drivers/nvme/target/loop.c |  6 ++++++
+>  4 files changed, 48 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 6dcd7a123b50..1d3a077cba78 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2318,6 +2318,39 @@ void nvme_put_ctrl(struct nvme_ctrl *ctrl)
+>  }
+>  EXPORT_SYMBOL_GPL(nvme_put_ctrl);
+> 
+> +bool nvme_is_ctrl_existed(const struct nvmf_ctrl_options *opts)
+> +{
+> +	struct nvme_ctrl *ctrl;
+> +	bool find = false;
+> +
+> +	spin_lock(&dev_list_lock);
+> +	list_for_each_entry(ctrl, &nvme_ctrl_list, node) {
+> +		if(strcmp(ctrl->opts->transport, opts->transport))
+> +			continue;
+> +		if((opts->mask&NVMF_OPT_TRADDR) \
+> +				&& (ctrl->opts->traddr != NULL)) {
+> +			if(strcmp(ctrl->opts->traddr, opts->traddr))
+> +				continue;
+> +		}
+> +		if((opts->mask & NVMF_OPT_TRSVCID) \
+> +				&& (ctrl->opts->trsvcid != NULL)) {
+> +			if(strcmp(ctrl->opts->trsvcid, opts->trsvcid))
+> +				continue;
+> +		}
+> +		if(strcmp(ctrl->opts->subsysnqn, opts->subsysnqn))
+> +			continue;
+> +		if(strcmp(ctrl->opts->host->nqn, opts->host->nqn))
+> +			continue;
+> +		find = true;
+> +		break;
+> +	}
+> +	spin_unlock(&dev_list_lock);
+> +
+> +	return find;
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_is_ctrl_existed);
+> +
+> +
+>  /*
+>   * Initialize a NVMe controller structures.  This needs to be called during
+>   * earliest initialization so that we have the initialized structured around
+> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+> index 72dc98f6a6c6..07635522b691 100644
+> --- a/drivers/nvme/host/nvme.h
+> +++ b/drivers/nvme/host/nvme.h
+> @@ -261,6 +261,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+>  int nvme_disable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+>  int nvme_enable_ctrl(struct nvme_ctrl *ctrl, u64 cap);
+>  int nvme_shutdown_ctrl(struct nvme_ctrl *ctrl);
+> +bool nvme_is_ctrl_existed(const struct nvmf_ctrl_options *opts);
+>  int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+>  		const struct nvme_ctrl_ops *ops, unsigned long quirks);
+>  void nvme_uninit_ctrl(struct nvme_ctrl *ctrl);
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 53b611f9ba5d..6696ed0fdd87 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -1858,6 +1858,14 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+>  	bool changed;
+>  	char *port;
+> 
+> +	if(!(opts->mask & NVMF_OPT_TRSVCID))
+> +		opts->trsvcid = __stringify(NVME_RDMA_IP_PORT);
+> +	if(nvme_is_ctrl_existed(opts)) {
+> +		pr_err("connect to the same subsystem from the same path\n");
+> +		ret = -EBUSY;
+> +		return ERR_PTR(ret);
+> +	}
+> +
+>  	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
+>  	if (!ctrl)
+>  		return ERR_PTR(-ENOMEM);
+> diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+> index 8260ee1f8e48..1e0fa2397aa7 100644
+> --- a/drivers/nvme/target/loop.c
+> +++ b/drivers/nvme/target/loop.c
+> @@ -621,6 +621,12 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
+>  	bool changed;
+>  	int ret;
+> 
+> +	if(nvme_is_ctrl_existed(opts)) {
+> +		pr_err("connect to the same subsystem from the same path\n");
+> +		ret = -EBUSY;
+> +		return ERR_PTR(ret);
+> +	}
+> +
+>  	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
+>  	if (!ctrl)
+>  		return ERR_PTR(-ENOMEM);
+> 
