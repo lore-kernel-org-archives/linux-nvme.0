@@ -1,20 +1,28 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 26 Apr 2017 00:22:48 -0700
-Subject: [PATCH] nvme-scsi: Use correct byte ordering for eui64 in Dev ID
- VPD
-In-Reply-To: <20170425201809.1683-1-jonathan.derrick@intel.com>
-References: <20170425201809.1683-1-jonathan.derrick@intel.com>
-Message-ID: <20170426072248.GA8552@infradead.org>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Wed, 26 Apr 2017 17:34:13 +0800
+Subject: [PATCH] nvme: avoid connecting to the same subsystem from the
+ same path gain.
+In-Reply-To: <4e371196-36af-a389-a1a2-bdac1bb70e21@huawei.com>
+References: <1493040417-15680-1-git-send-email-guanjunxiong@huawei.com>
+ <20170424145842.GA32128@infradead.org>
+ <4e371196-36af-a389-a1a2-bdac1bb70e21@huawei.com>
+Message-ID: <d8a5b465-3ba6-dfb5-4f1a-df2ddad35cec@huawei.com>
 
-On Tue, Apr 25, 2017@02:18:09PM -0600, Jon Derrick wrote:
-> NVME specifies an EUI64/NGUID in little-endian format, while SCSI
-> specifies that the Device Identification VPD use big-endian for EUI
-> formats. The current code copies this bytestream directly from the
-> Identification Namespace page, meaning we just need to reverse the
-> bytestream when passing it on to the VPD.
 
-This will break existing setups that rely on VPD 0x83 for device
-identification (which I think includes older SuSE distros).
 
-And once you change the setup anyway please stop using this buggy
-SCSI emulation.
+On 2017/4/25 9:20, Guan Junxiong wrote:
+> 
+> Hi ,Christoph:
+>    What's the benefits of this feature? If we execute the following cmd
+> 10 times, it will generate 10 character and at least 10 block devices.
+> 
+>    nvme connect -r rdma -a 192.168.2.1 -n tgtnqn -q hostnqn
+>    10 times repeating, then list nvme devices:
+>    nvme list
+>    we get a flood of nvme devices now.
+> 
+> 
+> 
+Hi, Christoph:
+   I am looking forward to your response of this feature.
+Thanks a lot.
