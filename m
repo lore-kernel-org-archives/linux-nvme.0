@@ -1,88 +1,105 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Tue, 25 Apr 2017 16:23:09 -0700
-Subject: [PATCH] nvmet_fc: remove target cpu scheduling flag
-Message-ID: <20170425232309.2981-1-jsmart2021@gmail.com>
+Date: Tue, 25 Apr 2017 21:04:09 -0700
+Subject: [PATCH] nvmet_fc: Add queue create and delete callbacks in LLDD api
+Message-ID: <20170426040409.3121-1-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-Remove NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED. It's unnecessary.
+To facilitate LLDD resource management on nvme queue creation and
+deletion, add optional callbacks queue_create and queue_delete.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/target/fc.c       |  4 +---
- drivers/nvme/target/fcloop.c   |  1 -
- drivers/scsi/lpfc/lpfc_nvmet.c |  1 -
- include/linux/nvme-fc-driver.h | 12 ++----------
- 4 files changed, 3 insertions(+), 15 deletions(-)
+ drivers/nvme/target/fc.c       | 18 +++++++++++++++++-
+ include/linux/nvme-fc-driver.h | 18 ++++++++++++++++++
+ 2 files changed, 35 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 3bc85e7..da6e5a3 100644
+index da6e5a3..e9e96cc 100644
 --- a/drivers/nvme/target/fc.c
 +++ b/drivers/nvme/target/fc.c
-@@ -532,9 +532,7 @@ nvmet_fc_queue_to_cpu(struct nvmet_fc_tgtport *tgtport, int qid)
+@@ -555,6 +555,7 @@ static struct nvmet_fc_tgt_queue *
+ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 			u16 qid, u16 sqsize)
  {
- 	int cpu, idx, cnt;
++	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
+ 	struct nvmet_fc_tgt_queue *queue;
+ 	unsigned long flags;
+ 	int ret;
+@@ -568,8 +569,14 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 	if (!queue)
+ 		return NULL;
  
--	if (!(tgtport->ops->target_features &
--			NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED) ||
--	    tgtport->ops->max_hw_queues == 1)
-+	if (tgtport->ops->max_hw_queues == 1)
- 		return WORK_CPU_UNBOUND;
++	if (tgtport->ops->queue_create) {
++		if (tgtport->ops->queue_create(&tgtport->fc_target_port,
++				nvmet_fc_makeconnid(assoc, qid), sqsize))
++			goto out_free_queue;
++	}
++
+ 	if (!nvmet_fc_tgt_a_get(assoc))
+-		goto out_free_queue;
++		goto out_queue_delete;
  
- 	/* Simple cpu selection based on qid modulo active cpu count */
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 15551ef..294a661 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -698,7 +698,6 @@ static struct nvmet_fc_target_template tgttemplate = {
- 	.dma_boundary		= FCLOOP_DMABOUND_4G,
- 	/* optional features */
- 	.target_features	= NVMET_FCTGTFEAT_CMD_IN_ISR |
--				  NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED |
- 				  NVMET_FCTGTFEAT_OPDONE_IN_ISR,
- 	/* sizes of additional private data for data structures */
- 	.target_priv_sz		= sizeof(struct fcloop_tport),
-diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
-index f9aafe2..90527e7 100644
---- a/drivers/scsi/lpfc/lpfc_nvmet.c
-+++ b/drivers/scsi/lpfc/lpfc_nvmet.c
-@@ -764,7 +764,6 @@ lpfc_nvmet_create_targetport(struct lpfc_hba *phba)
- 	lpfc_tgttemplate.max_sgl_segments = phba->cfg_nvme_seg_cnt + 1;
- 	lpfc_tgttemplate.max_hw_queues = phba->cfg_nvme_io_channel;
- 	lpfc_tgttemplate.target_features = NVMET_FCTGTFEAT_READDATA_RSP |
--					   NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED |
- 					   NVMET_FCTGTFEAT_CMD_IN_ISR |
- 					   NVMET_FCTGTFEAT_OPDONE_IN_ISR;
+ 	queue->fod = (struct nvmet_fc_fcp_iod *)&queue[1];
+ 	queue->qid = qid;
+@@ -601,6 +608,10 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ out_fail_iodlist:
+ 	nvmet_fc_destroy_fcp_iodlist(assoc->tgtport, queue);
+ 	nvmet_fc_tgt_a_put(assoc);
++out_queue_delete:
++	if (tgtport->ops->queue_delete)
++		tgtport->ops->queue_delete(&tgtport->fc_target_port,
++				nvmet_fc_makeconnid(assoc, qid), sqsize);
+ out_free_queue:
+ 	kfree(queue);
+ 	return NULL;
+@@ -676,6 +687,11 @@ nvmet_fc_delete_target_queue(struct nvmet_fc_tgt_queue *queue)
+ 	if (disconnect)
+ 		nvmet_sq_destroy(&queue->nvme_sq);
+ 
++	if (tgtport->ops->queue_delete)
++		tgtport->ops->queue_delete(&tgtport->fc_target_port,
++				nvmet_fc_makeconnid(queue->assoc, queue->qid),
++				queue->sqsize);
++
+ 	nvmet_fc_tgt_q_put(queue);
+ }
  
 diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 0db3715..8dbf164 100644
+index 8dbf164..abcefb7 100644
 --- a/include/linux/nvme-fc-driver.h
 +++ b/include/linux/nvme-fc-driver.h
-@@ -642,15 +642,7 @@ enum {
- 		 * sequence in one LLDD operation. Errors during Data
- 		 * sequence transmit must not allow RSP sequence to be sent.
- 		 */
--	NVMET_FCTGTFEAT_NEEDS_CMD_CPUSCHED = (1 << 1),
--		/* Bit 1: When 0, the LLDD will deliver FCP CMD
--		 * on the CPU it should be affinitized to. Thus work will
--		 * be scheduled on the cpu received on. When 1, the LLDD
--		 * may not deliver the CMD on the CPU it should be worked
--		 * on. The transport should pick a cpu to schedule the work
--		 * on.
--		 */
--	NVMET_FCTGTFEAT_CMD_IN_ISR = (1 << 2),
-+	NVMET_FCTGTFEAT_CMD_IN_ISR = (1 << 1),
- 		/* Bit 2: When 0, the LLDD is calling the cmd rcv handler
- 		 * in a non-isr context, allowing the transport to finish
- 		 * op completion in the calling context. When 1, the LLDD
-@@ -658,7 +650,7 @@ enum {
- 		 * requiring the transport to transition to a workqueue
- 		 * for op completion.
- 		 */
--	NVMET_FCTGTFEAT_OPDONE_IN_ISR = (1 << 3),
-+	NVMET_FCTGTFEAT_OPDONE_IN_ISR = (1 << 2),
- 		/* Bit 3: When 0, the LLDD is calling the op done handler
- 		 * in a non-isr context, allowing the transport to finish
- 		 * op completion in the calling context. When 1, the LLDD
+@@ -806,6 +806,20 @@ struct nvmet_fc_target_port {
+  *       to the LLDD after all operations on the fcp operation are complete.
+  *       This may be due to the command completing or upon completion of
+  *       abort cleanup.
++ *       Entrypoint is Mandatory.
++ *
++ * @queue_create:  Called by the transport to indicate the creation of an
++ *       nvme queue and to allow the LLDD to allocate resources for the
++ *       queue.
++ *       Returns 0 on successfull allocation of resources for the queue.
++ *       -<errno> on failure.  Failure will result in failure of the
++ *       FC-NVME Create Assocation or Create Connection LS's.
++ *       Entrypoint is Optional.
++ *
++ * @queue_delete:  Called by the transport to indicate the deletion of an
++ *       nvme queue and to allow the LLDD to de-allocate resources for the
++ *       queue.
++ *       Entrypoint is Optional.
+  *
+  * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
+  *       supports for cpu affinitization.
+@@ -846,6 +860,10 @@ struct nvmet_fc_target_template {
+ 				struct nvmefc_tgt_fcp_req *fcpreq);
+ 	void (*fcp_req_release)(struct nvmet_fc_target_port *tgtport,
+ 				struct nvmefc_tgt_fcp_req *fcpreq);
++	int (*queue_create)(struct nvmet_fc_target_port *tgtport,
++				u64 connection_id, u16 qsize);
++	void (*queue_delete)(struct nvmet_fc_target_port *tgtport,
++				u64 connection_id, u16 qsize);
+ 
+ 	u32	max_hw_queues;
+ 	u16	max_sgl_segments;
 -- 
 2.9.3
