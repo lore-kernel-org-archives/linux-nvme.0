@@ -1,7 +1,7 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 26 Apr 2017 14:56:17 +0300
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 26 Apr 2017 17:45:09 +0300
 Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <517fb6d2-a010-1926-b4cb-0e6041722c28@grimberg.me>
+In-Reply-To: <af9044c2-fb7c-e8b3-d8fc-4874cfd1bb67@mellanox.com>
 References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
  <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
  <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
@@ -13,24 +13,16 @@ References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
  <1948057100.362217696.1491824459274.JavaMail.zimbra@kalray.eu>
  <33e2cc35-f147-d4a4-9a42-8f1245e35842@mellanox.com>
  <517fb6d2-a010-1926-b4cb-0e6041722c28@grimberg.me>
-Message-ID: <af9044c2-fb7c-e8b3-d8fc-4874cfd1bb67@mellanox.com>
+ <af9044c2-fb7c-e8b3-d8fc-4874cfd1bb67@mellanox.com>
+Message-ID: <c2a1436f-48a6-bdea-c910-168fc6031364@grimberg.me>
 
 
-
-On 4/20/2017 1:18 PM, Sagi Grimberg wrote:
-> Max,
+>> Can we get it to 4.12 please (we need you to send it out today).
 >
->> Hi Marta,
->> thanks for testing my patch. I'll send it early next week (holiday's in
->> our country) so it will be available in 4.11 kernel hopefully.
->> if you can share on which NIC's you tested it and the perf numbers you
->> get (with and without the patch), it will be great.
->
-> Can we get it to 4.12 please (we need you to send it out today).
+> Sagi,
+> we are preparing a cap bit for it.
+> I'll send it as soon as it will be ready (otherwise we'll add fence for
+> devices that can handle without it - such as ConnectX5).
 
-Sagi,
-we are preparing a cap bit for it.
-I'll send it as soon as it will be ready (otherwise we'll add fence for 
-devices that can handle without it - such as ConnectX5).
-
-Max.
+Why? can't you just get what you have as a fix and incrementally add the
+optimization for CX5?
