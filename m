@@ -1,28 +1,36 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Wed, 26 Apr 2017 17:34:13 +0800
-Subject: [PATCH] nvme: avoid connecting to the same subsystem from the
- same path gain.
-In-Reply-To: <4e371196-36af-a389-a1a2-bdac1bb70e21@huawei.com>
-References: <1493040417-15680-1-git-send-email-guanjunxiong@huawei.com>
- <20170424145842.GA32128@infradead.org>
- <4e371196-36af-a389-a1a2-bdac1bb70e21@huawei.com>
-Message-ID: <d8a5b465-3ba6-dfb5-4f1a-df2ddad35cec@huawei.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 26 Apr 2017 14:56:17 +0300
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <517fb6d2-a010-1926-b4cb-0e6041722c28@grimberg.me>
+References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
+ <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
+ <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
+ <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
+ <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
+ <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
+ <DE927C68B458BE418D582EC97927A92855031724@ORSMSX113.amr.corp.intel.com>
+ <809f87ab-b787-9d40-5840-07500d12e81a@mellanox.com>
+ <1948057100.362217696.1491824459274.JavaMail.zimbra@kalray.eu>
+ <33e2cc35-f147-d4a4-9a42-8f1245e35842@mellanox.com>
+ <517fb6d2-a010-1926-b4cb-0e6041722c28@grimberg.me>
+Message-ID: <af9044c2-fb7c-e8b3-d8fc-4874cfd1bb67@mellanox.com>
 
 
 
-On 2017/4/25 9:20, Guan Junxiong wrote:
-> 
-> Hi ,Christoph:
->    What's the benefits of this feature? If we execute the following cmd
-> 10 times, it will generate 10 character and at least 10 block devices.
-> 
->    nvme connect -r rdma -a 192.168.2.1 -n tgtnqn -q hostnqn
->    10 times repeating, then list nvme devices:
->    nvme list
->    we get a flood of nvme devices now.
-> 
-> 
-> 
-Hi, Christoph:
-   I am looking forward to your response of this feature.
-Thanks a lot.
+On 4/20/2017 1:18 PM, Sagi Grimberg wrote:
+> Max,
+>
+>> Hi Marta,
+>> thanks for testing my patch. I'll send it early next week (holiday's in
+>> our country) so it will be available in 4.11 kernel hopefully.
+>> if you can share on which NIC's you tested it and the perf numbers you
+>> get (with and without the patch), it will be great.
+>
+> Can we get it to 4.12 please (we need you to send it out today).
+
+Sagi,
+we are preparing a cap bit for it.
+I'll send it as soon as it will be ready (otherwise we'll add fence for 
+devices that can handle without it - such as ConnectX5).
+
+Max.
