@@ -1,38 +1,35 @@
 From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Thu, 27 Apr 2017 15:16:00 +0800
+Date: Thu, 27 Apr 2017 15:21:41 +0800
 Subject: [PATCH] nvme: avoid connecting to the same subsystem from the
  same path gain.
-In-Reply-To: <20170427064041.GB28074@infradead.org>
+In-Reply-To: <eb6c96b5-4427-083f-db6d-fa3180664b9a@linux.vnet.ibm.com>
 References: <1493040417-15680-1-git-send-email-guanjunxiong@huawei.com>
- <20170424145842.GA32128@infradead.org>
- <4e371196-36af-a389-a1a2-bdac1bb70e21@huawei.com>
- <20170427064041.GB28074@infradead.org>
-Message-ID: <31fc10fb-386a-c430-4ca6-1a48e6b356d0@huawei.com>
+ <eb6c96b5-4427-083f-db6d-fa3180664b9a@linux.vnet.ibm.com>
+Message-ID: <f565b530-3504-1906-81c4-2ee207db2af1@huawei.com>
 
 
 
-On 2017/4/27 14:40, Christoph Hellwig wrote:
-> On Tue, Apr 25, 2017@09:20:00AM +0800, Guan Junxiong wrote:
->> Hi ,Christoph:
->>    What's the benefits of this feature? If we execute the following cmd
->> 10 times, it will generate 10 character and at least 20 block devices.
+On 2017/4/26 23:33, Guilherme G. Piccoli wrote:
+> On 04/24/2017 10:26 AM, Guan Junxiong wrote:
+>> From: Junxiong Guan <guanjunxiong at huawei.com>
+
+> Agree with you, and I'm curious too on why this is considered a feature
+> instead of a problematic behavior.
 > 
-> The number of block devices will depend on the number of namespaces
-> configured, but yes, this is expected.  The NVMe architecture allows
-> for multiple connections from a given host to a subsystem.
+> Minor suggestions to the patch:
 > 
-> .
+> 1) On title: s/gain/again/g
 > 
-Hi, Christoph,Thanks for your reply!
+> 2) s/with nvme-cli tools/with nvme-cli tool/g
+> 
+> 3) s/tranport/transport/g
+> 
+> Thanks for the good fix!
+> Cheers,
+> 
+> 
+> Guilherme
 
-Currently, the number of block devices will depend on both the number of
-namespaces configured in a subsystem and the number of connections created by
-connect command.
-
-In addition , I still have the suggestion:
-Can this feature or problematic behavior be adjusted to prevent generating
-another block devices when a new connection is created from a given host to
-a subsystem via the same patho< Maybe a character device (controller) or
-block device (namespaces) can represent more connections given the same path.
-
-Looking forward for you response. Thanks.
+Hi,Guilherme:
+   Thanks for your review. I will send next modified version of patch according
+your suggestion if Christoph Hellwig confirms this is really needed to be improved.
