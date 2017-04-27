@@ -1,49 +1,84 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 27 Apr 2017 19:45:01 +0200
-Subject: [PATCH 5/5] nvme-loop: merge init_request methods
-In-Reply-To: <20170427174501.18965-1-hch@lst.de>
+From: jmoyer@redhat.com (Jeff Moyer)
+Date: Thu, 27 Apr 2017 14:20:21 -0400
+Subject: [PATCH 1/5] blk-mq: update ->init_request and ->exit_request
+ prototypes
+In-Reply-To: <20170427174501.18965-2-hch@lst.de> (Christoph Hellwig's message
+ of "Thu, 27 Apr 2017 19:44:57 +0200")
 References: <20170427174501.18965-1-hch@lst.de>
-Message-ID: <20170427174501.18965-6-hch@lst.de>
+ <20170427174501.18965-2-hch@lst.de>
+Message-ID: <x49inlpsoey.fsf@segfault.boston.devel.redhat.com>
 
-Now that we get the tagset passed we can have a single implementation for
-the I/O and admin queues.
+Hi, Christoph,
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/target/loop.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+Christoph Hellwig <hch at lst.de> writes:
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index feb497134aee..420bde8ed488 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -234,15 +234,10 @@ static int nvme_loop_init_request(struct blk_mq_tag_set *set,
- 		struct request *req, unsigned int hctx_idx,
- 		unsigned int numa_node)
- {
--	return nvme_loop_init_iod(set->driver_data, blk_mq_rq_to_pdu(req),
--			hctx_idx + 1);
--}
-+	struct nvme_loop_ctrl *ctrl = set->driver_data;
- 
--static int nvme_loop_init_admin_request(struct blk_mq_tag_set *set,
--		struct request *req, unsigned int hctx_idx,
--		unsigned int numa_node)
--{
--	return nvme_loop_init_iod(set->driver_data, blk_mq_rq_to_pdu(req), 0);
-+	return nvme_loop_init_iod(ctrl, blk_mq_rq_to_pdu(req),
-+			(set == &ctrl->tag_set) ? hctx_idx + 1 : 0);
- }
- 
- static int nvme_loop_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
-@@ -280,7 +275,7 @@ static const struct blk_mq_ops nvme_loop_mq_ops = {
- static const struct blk_mq_ops nvme_loop_admin_mq_ops = {
- 	.queue_rq	= nvme_loop_queue_rq,
- 	.complete	= nvme_loop_complete_rq,
--	.init_request	= nvme_loop_init_admin_request,
-+	.init_request	= nvme_loop_init_request,
- 	.init_hctx	= nvme_loop_init_admin_hctx,
- 	.timeout	= nvme_loop_timeout,
- };
--- 
-2.11.0
+> Remove the request_idx parameter, which can't be used safely now that we
+> support I/O schedulers with blk-mq.  Except for a superflous check in
+> mtip32xx it was unused anyway.
+
+I'm not sure how your patch builds.  If I look at the mtip32xx driver in
+for-4.12/post-merge, I see this:
+
+static int mtip_init_cmd(void *data, struct request *rq, unsigned int hctx_idx,
+			 unsigned int request_idx, unsigned int numa_node)
+{
+...
+	/* Point the command headers at the command tables. */
+	cmd->command_header = dd->port->command_list +
+				(sizeof(struct mtip_cmd_hdr) * request_idx);
+	cmd->command_header_dma = dd->port->command_list_dma +
+				(sizeof(struct mtip_cmd_hdr) * request_idx);
+
+If you got rid of request_idx, then this shouldn't build.  So, is there
+some other prerequisite patch I'm missing?
+
+Note that the patch that introduced the request_idx check fixed a bug,
+where module load would walk off the end of an array.  See commit
+74c9c9134bf8.
+
+Cheers,
+Jeff
+
+> diff --git a/drivers/block/mtip32xx/mtip32xx.c b/drivers/block/mtip32xx/mtip32xx.c
+> index eba8bcd677fa..75e3f91de199 100644
+> --- a/drivers/block/mtip32xx/mtip32xx.c
+> +++ b/drivers/block/mtip32xx/mtip32xx.c
+> @@ -3821,10 +3821,10 @@ static int mtip_queue_rq(struct blk_mq_hw_ctx *hctx,
+>  	return BLK_MQ_RQ_QUEUE_ERROR;
+>  }
+>  
+> -static void mtip_free_cmd(void *data, struct request *rq,
+> -			  unsigned int hctx_idx, unsigned int request_idx)
+> +static void mtip_free_cmd(struct blk_mq_tag_set *set, struct request *rq,
+> +			  unsigned int hctx_idx)
+>  {
+> -	struct driver_data *dd = data;
+> +	struct driver_data *dd = set->driver_data;
+>  	struct mtip_cmd *cmd = blk_mq_rq_to_pdu(rq);
+>  
+>  	if (!cmd->command)
+> @@ -3834,21 +3834,13 @@ static void mtip_free_cmd(void *data, struct request *rq,
+>  				cmd->command, cmd->command_dma);
+>  }
+>  
+> -static int mtip_init_cmd(void *data, struct request *rq, unsigned int hctx_idx,
+> -			 unsigned int request_idx, unsigned int numa_node)
+> +static int mtip_init_cmd(struct blk_mq_tag_set *set, struct request *rq,
+> +			 unsigned int hctx_idx, unsigned int numa_node)
+>  {
+> -	struct driver_data *dd = data;
+> +	struct driver_data *dd = set->driver_data;
+>  	struct mtip_cmd *cmd = blk_mq_rq_to_pdu(rq);
+>  	u32 host_cap_64 = readl(dd->mmio + HOST_CAP) & HOST_CAP_64;
+>  
+> -	/*
+> -	 * For flush requests, request_idx starts at the end of the
+> -	 * tag space.  Since we don't support FLUSH/FUA, simply return
+> -	 * 0 as there's nothing to be done.
+> -	 */
+> -	if (request_idx >= MTIP_MAX_COMMAND_SLOTS)
+> -		return 0;
+> -
+>  	cmd->command = dmam_alloc_coherent(&dd->pdev->dev, CMD_DMA_ALLOC_SZ,
+>  			&cmd->command_dma, GFP_KERNEL);
+>  	if (!cmd->command)
