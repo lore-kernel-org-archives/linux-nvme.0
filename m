@@ -1,19 +1,20 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 28 Apr 2017 16:24:44 +0200
-Subject: [PATCH 1/5] blk-mq: update ->init_request and ->exit_request
- prototypes
-In-Reply-To: <588c2352-08f8-721b-37d5-ba90a1794c5d@kernel.dk>
-References: <20170427174501.18965-1-hch@lst.de>
- <20170427174501.18965-2-hch@lst.de>
- <x49inlpsoey.fsf@segfault.boston.devel.redhat.com>
- <20170428140923.GA32073@lst.de>
- <e97a7758-075f-f48a-9a5f-52ce9ac8c1ec@kernel.dk>
- <588c2352-08f8-721b-37d5-ba90a1794c5d@kernel.dk>
-Message-ID: <20170428142444.GA1082@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 28 Apr 2017 07:28:12 -0700
+Subject: [PATCH v2] nvmet core: skip flags checks on fabric commands
+In-Reply-To: <20170428030414.27185-1-jsmart2021@gmail.com>
+References: <20170428030414.27185-1-jsmart2021@gmail.com>
+Message-ID: <20170428142812.GA30820@infradead.org>
 
-On Fri, Apr 28, 2017@08:20:26AM -0600, Jens Axboe wrote:
-> Actually, I'll leave it as-is, just base things on top of for-next for
-> now.
+On Thu, Apr 27, 2017@08:04:14PM -0700, jsmart2021@gmail.com wrote:
+> From: James Smart <jsmart2021 at gmail.com>
+> 
+> The core layer validates nvme command flags (w0 byte 1) values before
+> decoding opcodes. On fabric commands the flags field is reserved.
+> Current validations require NVME_CMD_SGL_METABUF or NVME_CMD_SGL_METASEG
+> to be set. If host sets flags to 0 as reserved field, command fails.
+> 
+> Exclude fabric commands from flags checks.
 
-Ok.  I'll resend the init_request changes then, as having request_idx
-around in a blk-mq iosched world is actively harmful.
+Eww.  I'd rather talk to the working group and get this fixed in an
+errata.  Treating a field special for fabrics command does not make
+sense.
