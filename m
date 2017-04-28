@@ -1,69 +1,33 @@
-From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu, 27 Apr 2017 17:20:56 -0700
-Subject: [PATCH] nvmet core: skip flags checks on fabric commands
-Message-ID: <20170428002056.26213-1-jsmart2021@gmail.com>
+From: zouming.zouming@huawei.com (Zouming (IT))
+Date: Fri, 28 Apr 2017 02:12:55 +0000
+Subject: =?gb2312?B?tPC4tDogW1BBVENIXSBudm1lLWNsaTogSHVhd2VpIHBsdWctaW4u?=
+In-Reply-To: <20170427153515.GB20859@localhost.localdomain>
+References: <1493280301-19648-1-git-send-email-zouming.zouming@huawei.com>
+ <20170427153515.GB20859@localhost.localdomain>
+Message-ID: <32770656ECCC174D9F733890F5D00C0D994751AD@dggemm511-mbx.china.huawei.com>
 
-From: James Smart <jsmart2021@gmail.com>
+hi,Keith
 
-The core layer validates nvme command flags (w0 byte 1) values before
-decoding opcodes. On fabric commands the flags field is reserved.
-Current validations require NVME_CMD_SGL_METABUF or NVME_CMD_SGL_METASEG
-to be set. If host sets flags to 0 as reserved field, command fails.
+Thanks a lot for your reivew.
+We will continue to enhance the Huawei plug-in.
 
-Exclude fabric commands from flags checks.
+Best wishes,
+Zou Ming, Philip Yang
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/core.c | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+-----????-----
+???: Keith Busch [mailto:keith.busch at intel.com] 
+????: 2017?4?27? 23:35
+???: Zouming (IT) <zouming.zouming at huawei.com>
+??: linux-nvme at lists.infradead.org; guanjunxiong <guanjunxiong at huawei.com>; Yangfeng (B) <philip.yang at huawei.com>; Shenhong (C) <shenhong09 at huawei.com>; Hege (A) <hege09 at huawei.com>; Qiuxin (robert) <qiuxin at huawei.com>
+??: Re: [PATCH] nvme-cli: Huawei plug-in.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index cf90713..2ad987a 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -475,6 +475,20 @@ int nvmet_sq_init(struct nvmet_sq *sq)
- }
- EXPORT_SYMBOL_GPL(nvmet_sq_init);
- 
-+u16 nvmet_req_validate_flags(u8 flags)
-+{
-+	/* no support for fused commands yet */
-+	if (unlikely(flags & (NVME_CMD_FUSE_FIRST | NVME_CMD_FUSE_SECOND)))
-+		return (NVME_SC_INVALID_FIELD | NVME_SC_DNR);
-+
-+	/* either variant of SGLs is fine, as we don't support metadata */
-+	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF &&
-+		     (flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METASEG))
-+		return (NVME_SC_INVALID_FIELD | NVME_SC_DNR);
-+
-+	return 0;
-+}
-+
- bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 		struct nvmet_sq *sq, struct nvmet_fabrics_ops *ops)
- {
-@@ -488,17 +502,11 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 	req->sg_cnt = 0;
- 	req->rsp->status = 0;
- 
--	/* no support for fused commands yet */
--	if (unlikely(flags & (NVME_CMD_FUSE_FIRST | NVME_CMD_FUSE_SECOND))) {
--		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
--		goto fail;
--	}
--
--	/* either variant of SGLs is fine, as we don't support metadata */
--	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF &&
--		     (flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METASEG)) {
--		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
--		goto fail;
-+	/* validate flags except on fabric commands, where field is rsvd */
-+	if (req->cmd->common.opcode != nvme_fabrics_command) {
-+		status = nvmet_req_validate_flags(flags);
-+		if (status)
-+			goto fail;
- 	}
- 
- 	if (unlikely(!req->sq->ctrl))
--- 
-2.9.3
+On Thu, Apr 27, 2017@08:05:01AM +0000, Zou Ming wrote:
+> This patch adds support for Vendor unique commands for Huawei devices.
+> Following commands are supported in current version of this extension:
+> 
+> 1.list  List addition info (such as namespace name and array name) for 
+> Huawei devices
+
+Looks fine. You may want to add a vendor specific id-ns and id-ctrl to decode those VS bits for individual namespaces and controllers beyond the full list, but this is a start.
+
+I fixed up some of the formatting and applied. Thanks!
