@@ -1,20 +1,25 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 28 Apr 2017 07:28:12 -0700
-Subject: [PATCH v2] nvmet core: skip flags checks on fabric commands
-In-Reply-To: <20170428030414.27185-1-jsmart2021@gmail.com>
-References: <20170428030414.27185-1-jsmart2021@gmail.com>
-Message-ID: <20170428142812.GA30820@infradead.org>
+From: jmoyer@redhat.com (Jeff Moyer)
+Date: Fri, 28 Apr 2017 10:27:50 -0400
+Subject: [PATCH 1/5] blk-mq: update ->init_request and ->exit_request
+ prototypes
+In-Reply-To: <20170428140923.GA32073@lst.de> (Christoph Hellwig's message of
+ "Fri, 28 Apr 2017 16:09:23 +0200")
+References: <20170427174501.18965-1-hch@lst.de>
+ <20170427174501.18965-2-hch@lst.de>
+ <x49inlpsoey.fsf@segfault.boston.devel.redhat.com>
+ <20170428140923.GA32073@lst.de>
+Message-ID: <x494lx8r4ih.fsf@segfault.boston.devel.redhat.com>
 
-On Thu, Apr 27, 2017@08:04:14PM -0700, jsmart2021@gmail.com wrote:
-> From: James Smart <jsmart2021 at gmail.com>
-> 
-> The core layer validates nvme command flags (w0 byte 1) values before
-> decoding opcodes. On fabric commands the flags field is reserved.
-> Current validations require NVME_CMD_SGL_METABUF or NVME_CMD_SGL_METASEG
-> to be set. If host sets flags to 0 as reserved field, command fails.
-> 
-> Exclude fabric commands from flags checks.
+Christoph Hellwig <hch at lst.de> writes:
 
-Eww.  I'd rather talk to the working group and get this fixed in an
-errata.  Treating a field special for fabrics command does not make
-sense.
+>> If you got rid of request_idx, then this shouldn't build.  So, is there
+>> some other prerequisite patch I'm missing?
+>
+> Yes, both you and I are.  It's "mtip32xx: use runtime tag to initialize
+> command header" which is in Jens' for-4.12/block tree, but not in the
+> post-merge one.
+
+I see.  With that patch, my concern about walking off the end of the
+array is addressed.  Thanks.
+
+-Jeff
