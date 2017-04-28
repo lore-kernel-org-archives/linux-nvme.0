@@ -1,58 +1,42 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Fri, 28 Apr 2017 13:15:30 +0800
-Subject: [PATCH] nvme-fabrics: keep track of nvmet connect error status
-Message-ID: <1493356530-8224-1-git-send-email-guanjunxiong@huawei.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 28 Apr 2017 16:09:23 +0200
+Subject: [PATCH 1/5] blk-mq: update ->init_request and ->exit_request
+ prototypes
+In-Reply-To: <x49inlpsoey.fsf@segfault.boston.devel.redhat.com>
+References: <20170427174501.18965-1-hch@lst.de>
+ <20170427174501.18965-2-hch@lst.de>
+ <x49inlpsoey.fsf@segfault.boston.devel.redhat.com>
+Message-ID: <20170428140923.GA32073@lst.de>
 
-nvmf target shall return NVME_SC_CONNECT_INVALID_HOST instead of
-the general code INVALID_PARAM. Also, to let the host know what
-happends to the connection establishment, adjust the behavior of
-nvmf_log_connect_error to make more connect specific error codes
-human-readble.
----
- drivers/nvme/host/fabrics.c | 18 ++++++++++++++++++
- drivers/nvme/target/core.c  |  1 +
- 2 files changed, 19 insertions(+)
+On Thu, Apr 27, 2017@02:20:21PM -0400, Jeff Moyer wrote:
+> Hi, Christoph,
+> 
+> Christoph Hellwig <hch at lst.de> writes:
+> 
+> > Remove the request_idx parameter, which can't be used safely now that we
+> > support I/O schedulers with blk-mq.  Except for a superflous check in
+> > mtip32xx it was unused anyway.
+> 
+> I'm not sure how your patch builds.  If I look at the mtip32xx driver in
+> for-4.12/post-merge, I see this:
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 916d1360..1f315987 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -337,6 +337,24 @@ static void nvmf_log_connect_error(struct nvme_ctrl *ctrl,
- 			}
- 		}
- 		break;
-+
-+	case NVME_SC_CONNECT_INVALID_HOST:
-+		dev_err(ctrl->device,
-+				"Connect for subsystem %s is not allowed, hostnqn : %s\n",
-+				data->subsysnqn, data->hostnqn);
-+		break;
-+
-+	case NVME_SC_CONNECT_CTRL_BUSY:
-+		dev_err(ctrl->device,
-+				"Connect command failed : controller is busy or not available\n");
-+		break;
-+
-+	case NVME_SC_CONNECT_FORMAT:
-+		dev_err(ctrl->device,
-+				"Connect incompatible format : %d",
-+				cmd->connect.recfmt);
-+		break;
-+
- 	default:
- 		dev_err(ctrl->device,
- 			"Connect command failed, error wo/DNR bit: %d\n",
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index fc5ba2f9..e6c5a47f 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -713,6 +713,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
- 			hostnqn, subsysnqn);
- 		req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(hostnqn);
- 		up_read(&nvmet_config_sem);
-+		status = NVME_SC_CONNECT_INVALID_HOST | NVME_SC_DNR;
- 		goto out_put_subsystem;
- 	}
- 	up_read(&nvmet_config_sem);
--- 
-2.11.1
+Meh, you're right.  It did build fine when I tested it based on Jens'
+for-4.12/block + my nvme PR.  But it seems like the post-merge merge
+branch doesn't have the previous mtip32xxx fix yet that is a prerequisite
+for this change.  Jens:  any idea why?  I'm getting lost in the maze
+of branches..
+
+> If you got rid of request_idx, then this shouldn't build.  So, is there
+> some other prerequisite patch I'm missing?
+
+Yes, both you and I are.  It's "mtip32xx: use runtime tag to initialize
+command header" which is in Jens' for-4.12/block tree, but not in the
+post-merge one.
+
+> 
+> Note that the patch that introduced the request_idx check fixed a bug,
+> where module load would walk off the end of an array.  See commit
+> 74c9c9134bf8.
+
+Yes, but that behavior is gone with the above patch, which was
+necessary to support blk-mq I/O schedulers.
