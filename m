@@ -1,69 +1,58 @@
-From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu, 27 Apr 2017 20:04:14 -0700
-Subject: [PATCH v2] nvmet core: skip flags checks on fabric commands
-Message-ID: <20170428030414.27185-1-jsmart2021@gmail.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Fri, 28 Apr 2017 13:15:30 +0800
+Subject: [PATCH] nvme-fabrics: keep track of nvmet connect error status
+Message-ID: <1493356530-8224-1-git-send-email-guanjunxiong@huawei.com>
 
-From: James Smart <jsmart2021@gmail.com>
-
-The core layer validates nvme command flags (w0 byte 1) values before
-decoding opcodes. On fabric commands the flags field is reserved.
-Current validations require NVME_CMD_SGL_METABUF or NVME_CMD_SGL_METASEG
-to be set. If host sets flags to 0 as reserved field, command fails.
-
-Exclude fabric commands from flags checks.
-
-Signed-off-by: James Smart <james.smart at broadcom.com>
+nvmf target shall return NVME_SC_CONNECT_INVALID_HOST instead of
+the general code INVALID_PARAM. Also, to let the host know what
+happends to the connection establishment, adjust the behavior of
+nvmf_log_connect_error to make more connect specific error codes
+human-readble.
 ---
- drivers/nvme/target/core.c | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+ drivers/nvme/host/fabrics.c | 18 ++++++++++++++++++
+ drivers/nvme/target/core.c  |  1 +
+ 2 files changed, 19 insertions(+)
 
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 916d1360..1f315987 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -337,6 +337,24 @@ static void nvmf_log_connect_error(struct nvme_ctrl *ctrl,
+ 			}
+ 		}
+ 		break;
++
++	case NVME_SC_CONNECT_INVALID_HOST:
++		dev_err(ctrl->device,
++				"Connect for subsystem %s is not allowed, hostnqn : %s\n",
++				data->subsysnqn, data->hostnqn);
++		break;
++
++	case NVME_SC_CONNECT_CTRL_BUSY:
++		dev_err(ctrl->device,
++				"Connect command failed : controller is busy or not available\n");
++		break;
++
++	case NVME_SC_CONNECT_FORMAT:
++		dev_err(ctrl->device,
++				"Connect incompatible format : %d",
++				cmd->connect.recfmt);
++		break;
++
+ 	default:
+ 		dev_err(ctrl->device,
+ 			"Connect command failed, error wo/DNR bit: %d\n",
 diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index cf90713..6861ae2 100644
+index fc5ba2f9..e6c5a47f 100644
 --- a/drivers/nvme/target/core.c
 +++ b/drivers/nvme/target/core.c
-@@ -475,6 +475,20 @@ int nvmet_sq_init(struct nvmet_sq *sq)
- }
- EXPORT_SYMBOL_GPL(nvmet_sq_init);
- 
-+static u16 nvmet_req_validate_flags(u8 flags)
-+{
-+	/* no support for fused commands yet */
-+	if (unlikely(flags & (NVME_CMD_FUSE_FIRST | NVME_CMD_FUSE_SECOND)))
-+		return (NVME_SC_INVALID_FIELD | NVME_SC_DNR);
-+
-+	/* either variant of SGLs is fine, as we don't support metadata */
-+	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF &&
-+		     (flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METASEG))
-+		return (NVME_SC_INVALID_FIELD | NVME_SC_DNR);
-+
-+	return 0;
-+}
-+
- bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 		struct nvmet_sq *sq, struct nvmet_fabrics_ops *ops)
- {
-@@ -488,17 +502,11 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 	req->sg_cnt = 0;
- 	req->rsp->status = 0;
- 
--	/* no support for fused commands yet */
--	if (unlikely(flags & (NVME_CMD_FUSE_FIRST | NVME_CMD_FUSE_SECOND))) {
--		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
--		goto fail;
--	}
--
--	/* either variant of SGLs is fine, as we don't support metadata */
--	if (unlikely((flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METABUF &&
--		     (flags & NVME_CMD_SGL_ALL) != NVME_CMD_SGL_METASEG)) {
--		status = NVME_SC_INVALID_FIELD | NVME_SC_DNR;
--		goto fail;
-+	/* validate flags except on fabric commands, where field is rsvd */
-+	if (req->cmd->common.opcode != nvme_fabrics_command) {
-+		status = nvmet_req_validate_flags(flags);
-+		if (status)
-+			goto fail;
+@@ -713,6 +713,7 @@ u16 nvmet_alloc_ctrl(const char *subsysnqn, const char *hostnqn,
+ 			hostnqn, subsysnqn);
+ 		req->rsp->result.u32 = IPO_IATTR_CONNECT_DATA(hostnqn);
+ 		up_read(&nvmet_config_sem);
++		status = NVME_SC_CONNECT_INVALID_HOST | NVME_SC_DNR;
+ 		goto out_put_subsystem;
  	}
- 
- 	if (unlikely(!req->sq->ctrl))
+ 	up_read(&nvmet_config_sem);
 -- 
-2.9.3
+2.11.1
