@@ -1,38 +1,16 @@
-From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Tue,  2 May 2017 11:54:58 -0700
-Subject: [PATCH] nvme core: allow controller RESETTING to RECONNECTING
- transition
-Message-ID: <20170502185458.3495-1-jsmart2021@gmail.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 3 May 2017 10:53:36 +0300
+Subject: update ->init_request and ->exit_request prototypes
+In-Reply-To: <20170428145300.GA1776@lst.de>
+References: <20170427174501.18965-1-hch@lst.de> <20170428145300.GA1776@lst.de>
+Message-ID: <7aaf923d-4f7c-82f1-7bcc-80c435d59f93@grimberg.me>
 
-From: James Smart <jsmart2021@gmail.com>
 
-Allow controller state transition : RESETTING to RECONNECTING
+> Turns out that while Jeff was right that this won't work against
+> for-4.12/post-merge, it applies without fuzz and works fine against
+> for-next.  Sorry for the confusion.
 
-I intend to have the nvme_fc transport set the state to RESETTING when
-tearing down the current association (error or controller reset), then
-transitioning to RECONNECTING when attempting to establish a new
-association.
+Regardless of that, series looks like a nice cleanup to me,
+you can add to your respin:
 
--- james
-
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
-patch cut against the nvme-4.12 tree
-
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 263946b23628..a265e528a02f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -171,6 +171,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 	case NVME_CTRL_RECONNECTING:
- 		switch (old_state) {
- 		case NVME_CTRL_LIVE:
-+		case NVME_CTRL_RESETTING:
- 			changed = true;
- 			/* FALLTHRU */
- 		default:
--- 
-2.11.0
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
