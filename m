@@ -1,52 +1,27 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 3 May 2017 10:59:40 +0300
-Subject: [PATCH] nvme core: allow controller RESETTING to RECONNECTING
- transition
-In-Reply-To: <20170502185458.3495-1-jsmart2021@gmail.com>
-References: <20170502185458.3495-1-jsmart2021@gmail.com>
-Message-ID: <fa1b98e7-9751-885e-a2b0-a1918779cf2a@grimberg.me>
+Date: Wed, 3 May 2017 11:02:14 +0300
+Subject: [PATCH v2 3/6] RDMA/core: expose affinity mappings per completion
+ vector
+In-Reply-To: <1493419685.3041.174.camel@redhat.com>
+References: <1491474998-16423-1-git-send-email-sagi@grimberg.me>
+ <1491474998-16423-4-git-send-email-sagi@grimberg.me>
+ <1493419685.3041.174.camel@redhat.com>
+Message-ID: <c477c396-f9ae-6c60-18a2-c70d2998d7ef@grimberg.me>
 
 
-> Allow controller state transition : RESETTING to RECONNECTING
+>> This will allow ULPs to intelligently locate threads based
+>> on completion vector cpu affinity mappings. In case the
+>> driver does not expose a get_vector_affinity callout, return
+>> NULL so the caller can maintain a fallback logic.
+>>
+>> Reviewed-by: Christoph Hellwig <hch at lst.de>
+>> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+>>
 >
-> I intend to have the nvme_fc transport set the state to RESETTING when
-> tearing down the current association (error or controller reset), then
-> transitioning to RECONNECTING when attempting to establish a new
-> association.
+> Acked-by: Doug Ledford <dledford at redhat.com>
 
-I'm not sure this is a good idea. I think that the semantics of
-RESETTING state is that we are performing a controller reset,
-RECONNECTING semantics means we are trying to reestablish our controller
-session. It seems that mixing these states is just confusing.
+Thanks Doug,
 
-In fact, I have a patch in the pipe that disallows the state transition
-from RECONNECTING to RESETTING:
-
---
-commit 210917a2a84fc8c19c37a899d5783bd0fcaaf1ac
-Author: Sagi Grimberg <sagi at grimberg.me>
-Date:   Sun Apr 30 12:35:44 2017 +0300
-
-     nvme: Don't allow to reset a reconnecting controller
-
-     The reset operation is guaranteed to fail for all scenarios
-     but the esoteric case where in the last reconnect attempt
-     concurrent with the reset we happen to successfully reconnect.
-
-     We just deny initiating a reset if we are reconnecting.
-
-     Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d5e0906262ea..cfc8f8da89c8 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -165,7 +165,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
-                 switch (old_state) {
-                 case NVME_CTRL_NEW:
-                 case NVME_CTRL_LIVE:
--               case NVME_CTRL_RECONNECTING:
-                         changed = true;
-                         /* FALLTHRU */
-                 default:
---
+Saeed, I did not receive any feedback from you on this patchset.
+I got a review tag from Leon, which is sufficient to move forward
+with this for 4.13 I guess.
