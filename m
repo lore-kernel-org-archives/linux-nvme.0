@@ -1,46 +1,62 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 3 May 2017 19:55:36 +0300
-Subject: [PATCH] nvme core: allow controller RESETTING to RECONNECTING
- transition
-In-Reply-To: <ce7a80c3-e746-cffc-7624-b013a94bca73@gmail.com>
-References: <20170502185458.3495-1-jsmart2021@gmail.com>
- <fa1b98e7-9751-885e-a2b0-a1918779cf2a@grimberg.me>
- <ce7a80c3-e746-cffc-7624-b013a94bca73@gmail.com>
-Message-ID: <a531ab03-f3d8-355c-80ec-9f66437ae67e@grimberg.me>
+From: dledford@redhat.com (Doug Ledford)
+Date: Wed, 3 May 2017 15:07:45 -0400
+Subject: [PATCH v4, under testing] nvme-rdma: support devices with queue
+ size < 32
+In-Reply-To: <1493828639.3901.11.camel@sandisk.com>
+References: <79901165.5342369.1493805915415.JavaMail.zimbra@kalray.eu>
+ <823aa3f0-685f-4569-11d6-238cc4f0b126@grimberg.me>
+ <780938034.8003164.1493824767084.JavaMail.zimbra@kalray.eu>
+ <20170503155316.GA14334@obsidianresearch.com>
+ <1493827096.3901.4.camel@sandisk.com>
+ <92010426-c898-0a56-e615-bbf6eb1c5e7e@redhat.com>
+ <1493828639.3901.11.camel@sandisk.com>
+Message-ID: <3bbd412e-f361-e657-1f84-835b5f80388c@redhat.com>
 
-> I'm not following as, at a high level, it sounds like we're saying the
-> same thing. I'm sure the difference is in the definitions of "controller
-> reset" and "reestablish our controller session".
->
-> here's how I view them:
->
-> RESETTING: stopping the blk queues, killing the transport
-> queues/connections and outstanding io on them, then formally tearing
-> down the fabric association.  Officially, RESETTING would be when
-> CC.EN=0 is done. But that can only occur if there is connectivity to the
-> target and can use the admin connection for a Set_Property command. All
-> the same actions take place except the Set_Property on cases where you
-> lose connectivity. I'm viewing all of these actions, of terminating the
-> original transport association, as RESETTING.
->
-> RECONNECTING: restarting the association - creating transport
-> queues/connections, reprobing the controller and re-releasing block
-> queues. I'm viewing all of the actions to create a new transport
-> association, as RECONNECTING.
->
-> on FC, I was going to: move the controller from LIVE->RESETTING when
-> tearing down the association, whether invoked by the core reset
-> interface or upon detecting an error and independent of whether I can
-> send an CC.EN=0 (which I'll do if connected); and after teardown, from
-> RESETTING->CONNECTING as I start the new association. And if the new
-> association can't be immediately created: a) if there is connectivity,
-> use the same periodic retry based on max_reconnects and reconnect_delay;
-> and b) if there isn't connectivity, delay until connectivity occurs or a
-> timeout.
+On 5/3/2017 12:24 PM, Bart Van Assche wrote:
+> On Wed, 2017-05-03@12:17 -0400, Doug Ledford wrote:
+>> On 5/3/2017 11:58 AM, Bart Van Assche wrote:
+>>> On Wed, 2017-05-03@09:53 -0600, Jason Gunthorpe wrote:
+>>>> On Wed, May 03, 2017@05:19:27PM +0200, Marta Rybczynska wrote:
+>>>>
+>>>>>> where
+>>>>>> 	queue->sig_limit = max(queue->queue_size / 2, 1);
+>>>>>
+>>>>> I tried to avoid that because this adds a division in the fast path Bart
+>>>>> was unhappy about in v2.
+>>>>
+>>>> The compiler switches divide/multiply by powers of two into fast bit shifts.
+>>>
+>>> Hello Jason,
+>>>
+>>> As far as I know the compiler only does that for compile-time constants. In
+>>> this case the divisor (max(queue_size / 2, 1)) is not a compile-time constant.
+>>
+>> Sure it is.  The only thing that needs to be constant for the compiler
+>> to do the right thing is the '/ 2' part.  queue_size need not be
+>> constant, and the max is performed after the division.  I would fully
+>> expect the compiler to get this right and convert it internally to the
+>> equivalent bit shift, but if it didn't you could always just write it
+>> that way in the first place:
+>>
+>> queue->sig_limit = max(queue->queue_size >> 1, 1);
+> 
+> Hello Doug,
+> 
+> In my comment I was referring to "% max(queue_size / 2, 1)" and not to
+> "queue_size / 2".
 
-This sort of discussion really calls for a unification of control and
-the error handling flows for all transports, with a single state
-machine semantics. I'm currently looking into it, but I suspect it'll
-take me a little while...
+Sorry, too much context was cut for that to come through.
 
-Christoph, Keith, any thoughts?
+
+-- 
+Doug Ledford <dledford at redhat.com>
+    GPG Key ID: B826A3330E572FDD
+    Key fingerprint = AE6B 1BDA 122B 23B4 265B  1274 B826 A333 0E57 2FDD
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 884 bytes
+Desc: OpenPGP digital signature
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170503/d21eb6b0/attachment.sig>
