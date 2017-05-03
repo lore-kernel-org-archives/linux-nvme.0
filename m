@@ -1,62 +1,32 @@
-From: dledford@redhat.com (Doug Ledford)
-Date: Wed, 3 May 2017 15:07:45 -0400
-Subject: [PATCH v4, under testing] nvme-rdma: support devices with queue
- size < 32
-In-Reply-To: <1493828639.3901.11.camel@sandisk.com>
-References: <79901165.5342369.1493805915415.JavaMail.zimbra@kalray.eu>
- <823aa3f0-685f-4569-11d6-238cc4f0b126@grimberg.me>
- <780938034.8003164.1493824767084.JavaMail.zimbra@kalray.eu>
- <20170503155316.GA14334@obsidianresearch.com>
- <1493827096.3901.4.camel@sandisk.com>
- <92010426-c898-0a56-e615-bbf6eb1c5e7e@redhat.com>
- <1493828639.3901.11.camel@sandisk.com>
-Message-ID: <3bbd412e-f361-e657-1f84-835b5f80388c@redhat.com>
+From: vijayi@attalasystems.com (Vijay Immanuel)
+Date: Wed, 3 May 2017 12:51:42 -0700
+Subject: [PATCH] nvmet: release the sq ref on rdma read errors
+In-Reply-To: <01cb01d2c446$20cd83a0$62688ae0$@attalasystems.com>
+References: <CAN9s3O597CB9d2BoPx1gL5a7NnqhxrXYMhE==Q3E8+BoDxRFiQ@mail.gmail.com>
+ <01cb01d2c446$20cd83a0$62688ae0$@attalasystems.com>
+Message-ID: <01d601d2c446$b087cb90$119762b0$@attalasystems.com>
 
-On 5/3/2017 12:24 PM, Bart Van Assche wrote:
-> On Wed, 2017-05-03@12:17 -0400, Doug Ledford wrote:
->> On 5/3/2017 11:58 AM, Bart Van Assche wrote:
->>> On Wed, 2017-05-03@09:53 -0600, Jason Gunthorpe wrote:
->>>> On Wed, May 03, 2017@05:19:27PM +0200, Marta Rybczynska wrote:
->>>>
->>>>>> where
->>>>>> 	queue->sig_limit = max(queue->queue_size / 2, 1);
->>>>>
->>>>> I tried to avoid that because this adds a division in the fast path Bart
->>>>> was unhappy about in v2.
->>>>
->>>> The compiler switches divide/multiply by powers of two into fast bit shifts.
->>>
->>> Hello Jason,
->>>
->>> As far as I know the compiler only does that for compile-time constants. In
->>> this case the divisor (max(queue_size / 2, 1)) is not a compile-time constant.
->>
->> Sure it is.  The only thing that needs to be constant for the compiler
->> to do the right thing is the '/ 2' part.  queue_size need not be
->> constant, and the max is performed after the division.  I would fully
->> expect the compiler to get this right and convert it internally to the
->> equivalent bit shift, but if it didn't you could always just write it
->> that way in the first place:
->>
->> queue->sig_limit = max(queue->queue_size >> 1, 1);
-> 
-> Hello Doug,
-> 
-> In my comment I was referring to "% max(queue_size / 2, 1)" and not to
-> "queue_size / 2".
+On rdma read errors, complete the req and release the sq ref that
+was taken when the req was initialized. This avoids a hang in
+nvmet_sq_destroy() when the queue is being freed.
 
-Sorry, too much context was cut for that to come through.
+Signed-off-by: Vijay Immanuel <vijayi at attalasystems.com>
+---
+ drivers/nvme/target/rdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index ecc4fe8..cf98f0b 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -567,7 +567,7 @@ static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc)
+        rsp->n_rdma = 0;
 
--- 
-Doug Ledford <dledford at redhat.com>
-    GPG Key ID: B826A3330E572FDD
-    Key fingerprint = AE6B 1BDA 122B 23B4 265B  1274 B826 A333 0E57 2FDD
-
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 884 bytes
-Desc: OpenPGP digital signature
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170503/d21eb6b0/attachment.sig>
+        if (unlikely(wc->status != IB_WC_SUCCESS)) {
+-               nvmet_rdma_release_rsp(rsp);
++               nvmet_req_complete(&rsp->req, NVME_SC_DATA_XFER_ERROR);
+                if (wc->status != IB_WC_WR_FLUSH_ERR) {
+                        pr_info("RDMA READ for CQE 0x%p failed with status %s (%d).\n",
+                                wc->wr_cqe, ib_wc_status_msg(wc->status), wc->status);
+--
+1.8.3.1
