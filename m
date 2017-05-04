@@ -1,18 +1,22 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 4 May 2017 13:12:37 +0200
-Subject: [PATCH 04/11] nvme-rdma: Don't rearm the CQ when polling directly
-In-Reply-To: <1493893995-27063-5-git-send-email-sagi@grimberg.me>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 4 May 2017 14:20:19 +0300
+Subject: [PATCH 00/11] a few useful nvme fixes and cleanups
+In-Reply-To: <20170504111127.GA9301@lst.de>
 References: <1493893995-27063-1-git-send-email-sagi@grimberg.me>
- <1493893995-27063-5-git-send-email-sagi@grimberg.me>
-Message-ID: <20170504111237.GE9301@lst.de>
+ <20170504111127.GA9301@lst.de>
+Message-ID: <18acd434-17dd-158c-121d-cc26a9d70426@grimberg.me>
 
-On Thu, May 04, 2017@01:33:08PM +0300, Sagi Grimberg wrote:
-> We don't need it as the core polling context will take
-> are of rearming the completion queue.
-> 
-> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 
-Looks fine (and I remember we had this discussion and am a bit
-surprised we didn't merge something like this yet).
+>> Some patches I've been sitting on for that past two weeks.
+>
+> What's your target for these?  A few look like 4.12 material for
+> sure, but some look like material for the next merge window.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+Nothing here is 4.12 material I think.
+
+Only patch 10/11 fixes a real bug if I'm not wrong. Note that I've
+triggered it only with loop which before patch 9/11 didn't even use a
+WQ_MEM_RECLAIM workqueue, but once I converted it to use that, it
+easily triggered the warning which I think can easily happen if the pci
+driver happens to call nvme_uninit_ctrl when a ns scan is running
+(system_wq is not WQ_MEM_RECLAIM).
