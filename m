@@ -1,56 +1,33 @@
-From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu,  4 May 2017 11:07:35 -0700
-Subject: [RFC 5/7] nvme_fc: change failure code on remoteport connectivity loss
+From: jsmart2021@gmail.com (James Smart)
+Date: Thu, 4 May 2017 12:24:34 -0700
+Subject: [RFC 0/7] nvme_fc: add dev_loss_tmo support
 In-Reply-To: <20170504180737.5472-1-jsmart2021@gmail.com>
 References: <20170504180737.5472-1-jsmart2021@gmail.com>
-Message-ID: <20170504180737.5472-6-jsmart2021@gmail.com>
+Message-ID: <38787b57-5778-5e26-5fd0-0159568e9c6b@gmail.com>
 
-From: James Smart <jsmart2021@gmail.com>
+On 5/4/2017 11:07 AM, jsmart2021@gmail.com wrote:
+> Also, a reconnect window only makes sense if
+> the target stays alive for the duration of the window. Currently,
+> there is no attempt to set KATO so that it is aligned with the window.
+> In fact, in most cases, KATO is set far smaller than reconnect windows.
+> There's also no way currently, other than snooping, for the transport
+> to know the KATO value set in the connect command.
 
-Rather than return BLK_MQ_RQ_QUEUE_ERROR if connectivity has been
-lost to the remoteport, which gets reflected all the way back to the
-user, change failure location to let the lldd bounce it and have it
-fall back into the busy logic which requeues the io.
+I should give some additional context.
 
-This addresses io failures that occur on ios issued right at the time
-of connectivity loss.
+Currently, if there is an error or connectivity loss, the existing 
+association is torn down immediately. Therefore, it is independent of 
+KATO and KATO doesn't really matter as a new association will always 
+replace the old one.
 
-Note: check of connectivity is not done under a lock to avoid a
-fast-path performance penalty. Thus expectation is that LLDD will
-validate the connectivity as well.
+But, in the future, FC-NVME will support retransmission. Meaning we 
+would not immediately delete the existing association and terminate all 
+i/o. Therefore, it would be preferred if the association stays active at 
+the target at least as long as our connectivity window (if possible), 
+and i/o resumes, perhaps with retransmission to recover from errors that 
+occurred during the loss of connectivity.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/fc.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+So, the first solution could ignore KATO, but I'd like to discuss it for 
+the future.
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 419d4a85218d..a666f87e2437 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1916,13 +1916,6 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 	u32 csn;
- 	int ret;
- 
--	/*
--	 * before attempting to send the io, check to see if we believe
--	 * the target device is present
--	 */
--	if (ctrl->rport->remoteport.port_state != FC_OBJSTATE_ONLINE)
--		return BLK_MQ_RQ_QUEUE_ERROR;
--
- 	if (!nvme_fc_ctrl_get(ctrl))
- 		return BLK_MQ_RQ_QUEUE_ERROR;
- 
-@@ -1998,7 +1991,8 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
- 
- 		nvme_fc_ctrl_put(ctrl);
- 
--		if (ret != -EBUSY)
-+		if (ctrl->rport->remoteport.port_state == FC_OBJSTATE_ONLINE &&
-+				ret != -EBUSY)
- 			return BLK_MQ_RQ_QUEUE_ERROR;
- 
- 		if (op->rq) {
--- 
-2.11.0
+-- james
