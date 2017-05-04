@@ -1,103 +1,369 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Thu,  4 May 2017 11:07:32 -0700
-Subject: [RFC 2/7] nvme_fc: add a dev_loss_tmo field to the remoteport
+Date: Thu,  4 May 2017 11:07:37 -0700
+Subject: [RFC 7/7] nvme_fc: add dev_loss_tmo timeout and remoteport resume
+ support
 In-Reply-To: <20170504180737.5472-1-jsmart2021@gmail.com>
 References: <20170504180737.5472-1-jsmart2021@gmail.com>
-Message-ID: <20170504180737.5472-3-jsmart2021@gmail.com>
+Message-ID: <20170504180737.5472-8-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-Add a dev_loss_tmo value, paralleling the SCSI FC transport, for device
-connectivity loss. The transport can initialize it in the
-nvme_fc_register_remoteport() call or fall back on a default of 60s.
+This patch adds the dev_loss_tmo functionality to the transport.
+
+When a remoteport is unregistered (connectivity lost), it is marked
+DELETED and the following is perfomed on all the controllers on the
+remoteport: the controller is reset to delete the current association.
+Once the association is terminated, the dev_loss_tmo timer is started.
+A reconnect is not scheduled as there is no connectivity. Note: the
+start of the dev_loss_tmo timer is in the generic
+delete-association/create-new-association path. Thus it will be started
+regardless of whether the reset was due to remote port connectivity
+loss, a controller reset, or a transport run-time error.
+
+When a remoteport is registered (connectivity established), the
+transport searches the list of remoteport structures that have pending
+deletions (controllers waiting to have dev_loss_tmo fire, thus
+preventing remoteport deletion). The transport looks for a matching
+wwnn/wwpn. If one is found, the remoteport is transitioned back to
+ONLINE, and the following occurs on all controllers on the remoteport:
+any controllers in a RECONNECTING state have reconnection attempts kicked
+off. If the controller was DELETING, it's natural RECONNECT transition
+will start a reconnect attempt.
+
+Once a controller successfully reconnects to a new association, any
+dev_loss_tmo timer for it is terminated.
+
+If a dev_loss_tmo timer for a controller fires, the controller is
+unconditionally deleted.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fc.c         | 14 ++++++++++++++
- include/linux/nvme-fc-driver.h |  9 +++++++--
- 2 files changed, 21 insertions(+), 2 deletions(-)
+ drivers/nvme/host/fc.c | 225 ++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 214 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index ac7e8145e5ec..89a5aa3c8cd9 100644
+index 484b7d55676c..a3d4b061fe39 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -45,6 +45,10 @@ enum nvme_fc_queue_flags {
+@@ -167,6 +167,7 @@ struct nvme_fc_ctrl {
+ 	struct work_struct	delete_work;
+ 	struct work_struct	reset_work;
+ 	struct delayed_work	connect_work;
++	struct delayed_work	dev_loss_work;
+ 	u32			dev_loss_tmo;
  
- #define NVMEFC_QUEUE_DELAY	3		/* ms units */
+ 	struct kref		ref;
+@@ -433,6 +434,86 @@ nvme_fc_rport_get(struct nvme_fc_rport *rport)
+ 	return kref_get_unless_zero(&rport->ref);
+ }
  
-+#define NVME_FC_DEFAULT_DEV_LOSS_TMO	60	/* seconds */
-+#define NVME_FC_EXPECTED_RECONNECT_TM	2	/* seconds - E_D_TOV */
-+#define NVME_FC_MIN_DEV_LOSS_TMO	(2 * NVME_FC_EXPECTED_RECONNECT_TM)
++static void
++nvme_fc_resume_controller(struct nvme_fc_ctrl *ctrl)
++{
++	switch (ctrl->ctrl.state) {
++	case NVME_CTRL_RECONNECTING:
++		/*
++		 * As all reconnects were suppressed, schedule a
++		 * connect.
++		 */
++		queue_delayed_work(nvme_fc_wq, &ctrl->connect_work, 0);
++		break;
 +
- struct nvme_fc_queue {
- 	struct nvme_fc_ctrl	*ctrl;
- 	struct device		*dev;
-@@ -415,6 +419,12 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
- 	unsigned long flags;
- 	int ret, idx;
++	case NVME_CTRL_RESETTING:
++		/*
++		 * Controller is already in the process of terminating the
++		 * association. No need to do anything further. The reconnect
++		 * step will naturally occur after the reset completes.
++		 */
++		break;
++
++	default:
++		/* no action to take - let it delete */
++		break;
++	}
++}
++
++static struct nvme_fc_rport *
++nvme_fc_attach_to_suspended_rport(struct nvme_fc_lport *lport,
++				struct nvme_fc_port_info *pinfo)
++{
++	struct nvme_fc_rport *rport;
++	struct nvme_fc_ctrl *ctrl;
++	unsigned long flags;
++
++	spin_lock_irqsave(&nvme_fc_lock, flags);
++
++	list_for_each_entry(rport, &lport->endp_list, endp_list) {
++		if (rport->remoteport.node_name != pinfo->node_name ||
++		    rport->remoteport.port_name != pinfo->port_name)
++			continue;
++
++		if (!nvme_fc_rport_get(rport)) {
++			rport = ERR_PTR(-ENOLCK);
++			goto out_done;
++		}
++
++		spin_unlock_irqrestore(&nvme_fc_lock, flags);
++
++		spin_lock_irqsave(&rport->lock, flags);
++
++		/* has it been unregistered */
++		if (rport->remoteport.port_state != FC_OBJSTATE_DELETED) {
++			/* means lldd called us twice */
++			spin_unlock_irqrestore(&rport->lock, flags);
++			nvme_fc_rport_put(rport);
++			return ERR_PTR(-ESTALE);
++		}
++
++		rport->remoteport.port_state = FC_OBJSTATE_ONLINE;
++
++		/*
++		 * kick off a reconnect attempt on all associations to the
++		 * remote port. A successful reconnects will resume i/o.
++		 */
++		list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list)
++			nvme_fc_resume_controller(ctrl);
++
++		spin_unlock_irqrestore(&rport->lock, flags);
++
++		return rport;
++	}
++
++	rport = NULL;
++
++out_done:
++	spin_unlock_irqrestore(&nvme_fc_lock, flags);
++
++	return rport;
++}
++
+ /**
+  * nvme_fc_register_remoteport - transport entry point called by an
+  *                              LLDD to register the existence of a NVME
+@@ -465,22 +546,45 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
+ 		goto out_reghost_failed;
+ 	}
  
-+	if (pinfo->dev_loss_tmo &&
-+			pinfo->dev_loss_tmo < NVME_FC_MIN_DEV_LOSS_TMO) {
-+		ret = -EINVAL;
++	if (!nvme_fc_lport_get(lport)) {
++		ret = -ESHUTDOWN;
 +		goto out_reghost_failed;
 +	}
++
++	/*
++	 * look to see if there is already a remoteport that is waiting
++	 * for a reconnect (within dev_loss_tmo) with the same WWN's.
++	 * If so, transition to it and reconnect.
++	 */
++	newrec = nvme_fc_attach_to_suspended_rport(lport, pinfo);
++
++	/* found an rport, but something about its state is bad */
++	if (IS_ERR(newrec)) {
++		ret = PTR_ERR(newrec);
++		goto out_lport_put;
++
++	/* found existing rport, which was resumed */
++	} else if (newrec) {
++		/* Ignore pinfo->dev_loss_tmo. Leave rport and ctlr's as is */
++
++		nvme_fc_lport_put(lport);
++		*portptr = &newrec->remoteport;
++		return 0;
++	}
++
++	/* nothing found - allocate a new remoteport struct */
 +
  	newrec = kmalloc((sizeof(*newrec) + lport->ops->remote_priv_sz),
  			 GFP_KERNEL);
  	if (!newrec) {
-@@ -448,6 +458,10 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
- 	newrec->remoteport.port_id = pinfo->port_id;
- 	newrec->remoteport.port_state = FC_OBJSTATE_ONLINE;
- 	newrec->remoteport.port_num = idx;
-+	if (pinfo->dev_loss_tmo)
-+		newrec->remoteport.dev_loss_tmo = pinfo->dev_loss_tmo;
-+	else
-+		newrec->remoteport.dev_loss_tmo = NVME_FC_DEFAULT_DEV_LOSS_TMO;
- 
- 	spin_lock_irqsave(&nvme_fc_lock, flags);
- 	list_add_tail(&newrec->endp_list, &lport->endp_list);
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index abcefb708008..7df9faef5af0 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -40,6 +40,8 @@
-  * @node_name: FC WWNN for the port
-  * @port_name: FC WWPN for the port
-  * @port_role: What NVME roles are supported (see FC_PORT_ROLE_xxx)
-+ * @dev_loss_tmo: maximum delay for reconnects to an association on
-+ *             this device. Used only on a remoteport.
-  *
-  * Initialization values for dynamic port fields:
-  * @port_id:      FC N_Port_ID currently assigned the port. Upper 8 bits must
-@@ -50,6 +52,7 @@ struct nvme_fc_port_info {
- 	u64			port_name;
- 	u32			port_role;
- 	u32			port_id;
-+	u32			dev_loss_tmo;
- };
- 
- 
-@@ -244,6 +247,9 @@ struct nvme_fc_local_port {
-  *             The length of the buffer corresponds to the remote_priv_sz
-  *             value specified in the nvme_fc_port_template supplied by
-  *             the LLDD.
-+ * @dev_loss_tmo: maximum delay for reconnects to an association on
-+ *             this device. To modify, lldd must call
-+ *             nvme_fc_set_remoteport_devloss().
-  *
-  * Fields with dynamic values. Values may change base on link or login
-  * state. LLDD may reference fields directly to change them. Initialized by
-@@ -259,10 +265,9 @@ struct nvme_fc_remote_port {
- 	u32 port_role;
- 	u64 node_name;
- 	u64 port_name;
+ 		ret = -ENOMEM;
+-		goto out_reghost_failed;
+-	}
 -
- 	struct nvme_fc_local_port *localport;
--
- 	void *private;
-+	u32 dev_loss_tmo;
+-	if (!nvme_fc_lport_get(lport)) {
+-		ret = -ESHUTDOWN;
+-		goto out_kfree_rport;
++		goto out_lport_put;
+ 	}
  
- 	/* dynamic fields */
- 	u32 port_id;
+ 	idx = ida_simple_get(&lport->endp_cnt, 0, 0, GFP_KERNEL);
+ 	if (idx < 0) {
+ 		ret = -ENOSPC;
+-		goto out_lport_put;
++		goto out_kfree_rport;
+ 	}
+ 
+ 	INIT_LIST_HEAD(&newrec->endp_list);
+@@ -510,10 +614,10 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
+ 	*portptr = &newrec->remoteport;
+ 	return 0;
+ 
+-out_lport_put:
+-	nvme_fc_lport_put(lport);
+ out_kfree_rport:
+ 	kfree(newrec);
++out_lport_put:
++	nvme_fc_lport_put(lport);
+ out_reghost_failed:
+ 	*portptr = NULL;
+ 	return ret;
+@@ -544,6 +648,74 @@ nvme_fc_abort_lsops(struct nvme_fc_rport *rport)
+ 	return 0;
+ }
+ 
++static void
++nvmet_fc_start_dev_loss_tmo(struct nvme_fc_ctrl *ctrl, u32 dev_loss_tmo)
++{
++	/* if dev_loss_tmo==0, dev loss is immediate */
++	if (!dev_loss_tmo) {
++		dev_info(ctrl->ctrl.device,
++			"NVME-FC{%d}: controller connectivity lost. "
++			"Deleting controller.\n",
++			ctrl->cnum);
++		__nvme_fc_del_ctrl(ctrl);
++		return;
++	}
++
++	dev_info(ctrl->ctrl.device,
++		"NVME-FC{%d}: controller connectivity lost. Awaiting reconnect",
++		ctrl->cnum);
++
++	switch (ctrl->ctrl.state) {
++	case NVME_CTRL_LIVE:
++		/*
++		 * Schedule a controller reset. The reset will terminate
++		 * the association and schedule the dev_loss_tmo timer.
++		 * The reconnect after terminating the association will
++		 * note the rport state and will not be scheduled.
++		 * The controller will sit in that state, with io
++		 * suspended at the block layer, until either dev_loss_tmo
++		 * expires or the remoteport is re-registered. If
++		 * re-registered, an immediate connect attempt will be
++		 * made.
++		 */
++		if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING) ||
++		    !queue_work(nvme_fc_wq, &ctrl->reset_work))
++			__nvme_fc_del_ctrl(ctrl);
++		break;
++
++	case NVME_CTRL_RECONNECTING:
++		/*
++		 * The association has already been terminated and
++		 * dev_loss_tmo scheduled. The controller is either in
++		 * the process of connecting or has scheduled a
++		 * reconnect attempt.
++		 * If in the process of connecting, it will fail due
++		 * to loss of connectivity to the remoteport, and the
++		 * reconnect will not be scheduled as there is no
++		 * connectivity.
++		 * If awaiting the reconnect, terminate it as it'll only
++		 * fail.
++		 */
++		cancel_delayed_work_sync(&ctrl->connect_work);
++		break;
++
++	case NVME_CTRL_RESETTING:
++		/*
++		 * Controller is already in the process of terminating the
++		 * association. No need to do anything further. The reconnect
++		 * step will kick in naturally after the association is
++		 * terminated, detecting the lack of connectivity, and not
++		 * attempt a reconnect or schedule one.
++		 */
++		break;
++
++	case NVME_CTRL_DELETING:
++	default:
++		/* no action to take - let it delete */
++		break;
++	}
++}
++
+ /**
+  * nvme_fc_unregister_remoteport - transport entry point called by an
+  *                              LLDD to deregister/remove a previously
+@@ -573,15 +745,20 @@ nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *portptr)
+ 	}
+ 	portptr->port_state = FC_OBJSTATE_DELETED;
+ 
+-	/* tear down all associations to the remote port */
+ 	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list)
+-		__nvme_fc_del_ctrl(ctrl);
++		nvmet_fc_start_dev_loss_tmo(ctrl, portptr->dev_loss_tmo);
+ 
+ 	spin_unlock_irqrestore(&rport->lock, flags);
+ 
+ 	nvme_fc_abort_lsops(rport);
+ 
++	/*
++	 * release the reference, which will allow, if all controllers
++	 * go away, which should only occur after dev_loss_tmo occurs,
++	 * for the rport to be torn down.
++	 */
+ 	nvme_fc_rport_put(rport);
++
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(nvme_fc_unregister_remoteport);
+@@ -2434,6 +2611,8 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 		nvme_queue_async_events(&ctrl->ctrl);
+ 	}
+ 
++	cancel_delayed_work_sync(&ctrl->dev_loss_work);
++
+ 	return 0;	/* Success */
+ 
+ out_term_aen_ops:
+@@ -2552,6 +2731,7 @@ nvme_fc_delete_ctrl_work(struct work_struct *work)
+ 
+ 	cancel_work_sync(&ctrl->reset_work);
+ 	cancel_delayed_work_sync(&ctrl->connect_work);
++	cancel_delayed_work_sync(&ctrl->dev_loss_work);
+ 
+ 	/*
+ 	 * kill the association on the link side.  this will block
+@@ -2666,6 +2846,9 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ 		return;
+ 	}
+ 
++	queue_delayed_work(nvme_fc_wq, &ctrl->dev_loss_work,
++			ctrl->dev_loss_tmo * HZ);
++
+ 	if (nvme_fc_rport_is_online(ctrl->rport)) {
+ 		ret = nvme_fc_create_association(ctrl);
+ 		if (ret)
+@@ -2733,6 +2916,25 @@ nvme_fc_connect_ctrl_work(struct work_struct *work)
+ 			ctrl->cnum);
+ }
+ 
++static void
++nvme_fc_dev_loss_ctrl_work(struct work_struct *work)
++{
++	struct nvme_fc_ctrl *ctrl =
++			container_of(to_delayed_work(work),
++				struct nvme_fc_ctrl, dev_loss_work);
++
++	if (ctrl->ctrl.state != NVME_CTRL_DELETING) {
++		dev_warn(ctrl->ctrl.device,
++			"NVME-FC{%d}: Device failed to reconnect within "
++			"dev_loss_tmo (%d seconds). Deleting controller\n",
++			ctrl->cnum, ctrl->dev_loss_tmo);
++		if (__nvme_fc_del_ctrl(ctrl))
++			dev_warn(ctrl->ctrl.device,
++				"NVME-FC{%d}: delete request failed\n",
++				ctrl->cnum);
++	}
++}
++
+ 
+ static const struct blk_mq_ops nvme_fc_admin_mq_ops = {
+ 	.queue_rq	= nvme_fc_queue_rq,
+@@ -2891,6 +3093,7 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	INIT_WORK(&ctrl->delete_work, nvme_fc_delete_ctrl_work);
+ 	INIT_WORK(&ctrl->reset_work, nvme_fc_reset_ctrl_work);
+ 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
++	INIT_DELAYED_WORK(&ctrl->dev_loss_work, nvme_fc_dev_loss_ctrl_work);
+ 	spin_lock_init(&ctrl->lock);
+ 
+ 	/* io queue count */
 -- 
 2.11.0
