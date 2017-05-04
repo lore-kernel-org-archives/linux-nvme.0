@@ -1,32 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  4 May 2017 13:33:04 +0300
-Subject: [PATCH 00/11] a few useful nvme fixes and cleanups
-Message-ID: <1493893995-27063-1-git-send-email-sagi@grimberg.me>
+Date: Thu,  4 May 2017 13:33:05 +0300
+Subject: [PATCH 01/11] nvme-loop: get rid of unused controller lock
+In-Reply-To: <1493893995-27063-1-git-send-email-sagi@grimberg.me>
+References: <1493893995-27063-1-git-send-email-sagi@grimberg.me>
+Message-ID: <1493893995-27063-2-git-send-email-sagi@grimberg.me>
 
-Some patches I've been sitting on for that past two weeks.
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/target/loop.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Sagi Grimberg (11):
-  nvme-loop: get rid of unused controller lock
-  nvme-rdma: get rid of unused ctrl lock
-  nvme-rdma: Make queue flags bit numbers and not shifts
-  nvme-rdma: Don't rearm the CQ when polling directly
-  nvme-rdma: make nvme_rdma_[create|destroy]_queue_ib symmetrical
-  nvme-rdma: rework rdma connection establishment error path
-  nvme-rdma: Get rid of CONNECTED state
-  nvme: Don't allow to reset a reconnecting controller
-  nvme: Move transports to use nvme-core workqueue
-  nvme: queue ns scanning and async request from nvme_wq
-  nvme: move nr_reconnects to nvme_ctrl
-
- drivers/nvme/host/core.c    |  22 +++++++---
- drivers/nvme/host/fabrics.c |   2 +-
- drivers/nvme/host/fabrics.h |   2 -
- drivers/nvme/host/fc.c      |  34 ++++-----------
- drivers/nvme/host/nvme.h    |   3 ++
- drivers/nvme/host/pci.c     |  18 ++------
- drivers/nvme/host/rdma.c    | 100 ++++++++++++++++----------------------------
- drivers/nvme/target/loop.c  |  11 ++---
- 8 files changed, 72 insertions(+), 120 deletions(-)
-
+diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
+index 304f1c87c160..84ae300d6498 100644
+--- a/drivers/nvme/target/loop.c
++++ b/drivers/nvme/target/loop.c
+@@ -45,7 +45,6 @@ struct nvme_loop_iod {
+ };
+ 
+ struct nvme_loop_ctrl {
+-	spinlock_t		lock;
+ 	struct nvme_loop_queue	*queues;
+ 	u32			queue_count;
+ 
+@@ -635,8 +634,6 @@ static struct nvme_ctrl *nvme_loop_create_ctrl(struct device *dev,
+ 	if (ret)
+ 		goto out_put_ctrl;
+ 
+-	spin_lock_init(&ctrl->lock);
+-
+ 	ret = -ENOMEM;
+ 
+ 	ctrl->ctrl.sqsize = opts->queue_size - 1;
 -- 
 2.7.4
