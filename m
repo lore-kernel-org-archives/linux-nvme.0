@@ -1,61 +1,32 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  4 May 2017 13:33:11 +0300
-Subject: [PATCH 07/11] nvme-rdma: Get rid of CONNECTED state
+Date: Thu,  4 May 2017 13:33:12 +0300
+Subject: [PATCH 08/11] nvme: Don't allow to reset a reconnecting controller
 In-Reply-To: <1493893995-27063-1-git-send-email-sagi@grimberg.me>
 References: <1493893995-27063-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1493893995-27063-8-git-send-email-sagi@grimberg.me>
+Message-ID: <1493893995-27063-9-git-send-email-sagi@grimberg.me>
 
-We only care about if the queue is LIVE for request submission,
-so no need for CONNECTED.
+The reset operation is guaranteed to fail for all scenarios
+but the esoteric case where in the last reconnect attempt
+concurrent with the reset we happen to successfully reconnect.
+
+We just deny initiating a reset if we are reconnecting.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 10 +++-------
- 1 file changed, 3 insertions(+), 7 deletions(-)
+ drivers/nvme/host/core.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 7df52896f321..9ce56520bb1a 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -80,9 +80,8 @@ struct nvme_rdma_request {
- };
- 
- enum nvme_rdma_queue_flags {
--	NVME_RDMA_Q_CONNECTED		= 0,
-+	NVME_RDMA_Q_LIVE		= 0,
- 	NVME_RDMA_Q_DELETING		= 1,
--	NVME_RDMA_Q_LIVE		= 2,
- };
- 
- struct nvme_rdma_queue {
-@@ -580,7 +579,6 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
- 	}
- 
- 	clear_bit(NVME_RDMA_Q_DELETING, &queue->flags);
--	set_bit(NVME_RDMA_Q_CONNECTED, &queue->flags);
- 
- 	return 0;
- 
-@@ -803,10 +801,8 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
- 
- 	nvme_stop_keep_alive(&ctrl->ctrl);
- 
--	for (i = 0; i < ctrl->queue_count; i++) {
--		clear_bit(NVME_RDMA_Q_CONNECTED, &ctrl->queues[i].flags);
-+	for (i = 0; i < ctrl->queue_count; i++)
- 		clear_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[i].flags);
--	}
- 
- 	if (ctrl->queue_count > 1)
- 		nvme_stop_queues(&ctrl->ctrl);
-@@ -1634,7 +1630,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl)
- 		nvme_rdma_free_io_queues(ctrl);
- 	}
- 
--	if (test_bit(NVME_RDMA_Q_CONNECTED, &ctrl->queues[0].flags))
-+	if (test_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags))
- 		nvme_shutdown_ctrl(&ctrl->ctrl);
- 
- 	blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d5e0906262ea..cfc8f8da89c8 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -165,7 +165,6 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
+ 		switch (old_state) {
+ 		case NVME_CTRL_NEW:
+ 		case NVME_CTRL_LIVE:
+-		case NVME_CTRL_RECONNECTING:
+ 			changed = true;
+ 			/* FALLTHRU */
+ 		default:
 -- 
 2.7.4
