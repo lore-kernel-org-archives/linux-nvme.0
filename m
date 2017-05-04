@@ -1,47 +1,36 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 3 May 2017 22:40:13 -0400
-Subject: [PATCH] nvme-core: add apst_override param to force APST if
- controller does not report APSTA=1
-In-Reply-To: <1493863327-18024-1-git-send-email-agk@godking.net>
-References: <1493863327-18024-1-git-send-email-agk@godking.net>
-Message-ID: <20170504024013.GA30314@localhost.localdomain>
-
-On Wed, May 03, 2017@07:02:07PM -0700, Alexander Kappner wrote:
-> Some buggy NVMe controllers support APST (autonomous power
-> state transitions), but do not report APSTA=1. On these controllers, the NVMe
-> driver does not enable APST support. I have verified this problem occurring
-> on
-> 	- Samsung 960 Pro 2TB (Firmware 2B6QCXP7, current as of 5/4/17) 
-> 	- Samsung 960 Pro 1TB (Firmware 3L0QCXY7) 
-> 
-> These disks support APST, but
-> assert APSTA=0 and so never get enabled in the driver.
-> 
-> This patch introduces an apst_override module parameter.
-> By booting with nvme_core.apst_override=1, the driver can force using APST
-> on disks which claim to not support it. This patch
-> successfully enables APST on both Samsung disks.
-> 
-> This patch also introduces an additional sanity check on the NPSS to mitigate
-> the risk of force-enabling APST on disks that genuinely do not support it.
-
-It sounds like you really want to target this to specific devices rather
-than on the module. This param potenially does undefined things if you set
-it on a system with a mixure of devices. We've at least 27 bits left for
-quirks so maybe you want to reserve one for these devices while they're
-still available.
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 4 May 2017 08:50:56 +0300
+Subject: [PATCH] nvmet: release the sq ref on rdma read errors
+In-Reply-To: <da2ec86f-3c22-30a0-0e9b-f4c0fdf5eabb@grimberg.me>
+References: <CAN9s3O597CB9d2BoPx1gL5a7NnqhxrXYMhE==Q3E8+BoDxRFiQ@mail.gmail.com>
+ <01cb01d2c446$20cd83a0$62688ae0$@attalasystems.com>
+ <01d601d2c446$b087cb90$119762b0$@attalasystems.com>
+ <da2ec86f-3c22-30a0-0e9b-f4c0fdf5eabb@grimberg.me>
+Message-ID: <00d6f8bf-07bd-03ca-3060-fd3def1ef1d7@grimberg.me>
 
 
-> +	if (nvme_apst_override != -1 && ctrl->apsta != nvme_apst_override) {
-> +		dev_dbg(ctrl->device, "Overriding APSTA.\n");
-> +		ctrl->apsta = nvme_apst_override;
-> +	}
-> +	/*
->  	 * If APST isn't supported or if we haven't been initialized yet,
->  	 * then don't do anything.
->  	 */
->  	if (!ctrl->apsta)
-> +		dev_dbg(ctrl->device, "APSTA not set, disabling APST.\n");
->  		return;
+> Nice catch Vijay!
+>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-You're missing some { brackets } here.
+
+Wait... let me take that back.
+
+While it is true that we need to drop the reference on
+the nvmet_sq, there is no point in queuing a response
+message because the rdma qp is in error state and the response
+will never make it to the host.
+
+Moreover, posting a send (and a recv) on a qp in error state can
+potentially give us a flush completion after we drained the qp which can
+trigger a use-after-free condition. We rely on ib_drain_qp to
+guarantee that we'll never see more completions for this queue
+and we can safely free the resources.
+
+I think we should explicitly drop the sq reference and release
+the rsp and avoid triggering the TX path, and provide a detailed
+comment on why we are doing this. Maybe a nicer way to do this,
+is to introduce a nvme_req_uninit() that would take care of
+it in the right layer (that is nvmet core).
+
+CC'ing Steve and Christoph for their thoughts...
