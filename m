@@ -1,110 +1,85 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu,  4 May 2017 13:33:09 +0300
-Subject: [PATCH 05/11] nvme-rdma: make nvme_rdma_[create|destroy]_queue_ib
- symmetrical
+Date: Thu,  4 May 2017 13:33:10 +0300
+Subject: [PATCH 06/11] nvme-rdma: rework rdma connection establishment error
+ path
 In-Reply-To: <1493893995-27063-1-git-send-email-sagi@grimberg.me>
 References: <1493893995-27063-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1493893995-27063-6-git-send-email-sagi@grimberg.me>
+Message-ID: <1493893995-27063-7-git-send-email-sagi@grimberg.me>
 
-We put the reference on the device in the destroy routine
-so we should lookup and take the reference in the create
-routine.
+Instead of introducing a flag for if the queue is allocated,
+simply free the rdma resources when we get the error.
+
+We allocate the queue rdma resources when we have an address
+resolution, their we allocate (or take a reference on) our device
+so we should free it when we have error after the address resolution
+namely:
+1. route resolution error
+2. connect reject
+3. connect error
+4. peer unreachable error
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 42 ++++++++++++++++++------------------------
- 1 file changed, 18 insertions(+), 24 deletions(-)
+ drivers/nvme/host/rdma.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index d76fcb22b2c4..2dc381b57e4b 100644
+index 2dc381b57e4b..7df52896f321 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -480,17 +480,21 @@ static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
- 	nvme_rdma_dev_put(dev);
- }
+@@ -81,9 +81,8 @@ struct nvme_rdma_request {
  
--static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue,
--		struct nvme_rdma_device *dev)
-+static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- {
--	struct ib_device *ibdev = dev->dev;
-+	struct ib_device *ibdev;
- 	const int send_wr_factor = 3;			/* MR, SEND, INV */
- 	const int cq_factor = send_wr_factor + 1;	/* + RECV */
- 	int comp_vector, idx = nvme_rdma_queue_idx(queue);
+ enum nvme_rdma_queue_flags {
+ 	NVME_RDMA_Q_CONNECTED		= 0,
+-	NVME_RDMA_IB_QUEUE_ALLOCATED	= 1,
+-	NVME_RDMA_Q_DELETING		= 2,
+-	NVME_RDMA_Q_LIVE		= 3,
++	NVME_RDMA_Q_DELETING		= 1,
++	NVME_RDMA_Q_LIVE		= 2,
+ };
+ 
+ struct nvme_rdma_queue {
+@@ -466,9 +465,6 @@ static void nvme_rdma_destroy_queue_ib(struct nvme_rdma_queue *queue)
+ 	struct nvme_rdma_device *dev;
+ 	struct ib_device *ibdev;
+ 
+-	if (!test_and_clear_bit(NVME_RDMA_IB_QUEUE_ALLOCATED, &queue->flags))
+-		return;
 -
- 	int ret;
- 
--	queue->device = dev;
-+	queue->device = nvme_rdma_find_get_device(queue->cm_id);
-+	if (!queue->device) {
-+		dev_err(queue->cm_id->device->dev.parent,
-+			"no client data found!\n");
-+		return -ECONNREFUSED;
-+	}
-+	ibdev = queue->device->dev;
- 
- 	/*
- 	 * The admin queue is barely used once the controller is live, so don't
-@@ -503,12 +507,12 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue,
- 
- 
- 	/* +1 for ib_stop_cq */
--	queue->ib_cq = ib_alloc_cq(dev->dev, queue,
--				cq_factor * queue->queue_size + 1, comp_vector,
--				IB_POLL_SOFTIRQ);
-+	queue->ib_cq = ib_alloc_cq(ibdev, queue,
-+				cq_factor * queue->queue_size + 1,
-+				comp_vector, IB_POLL_SOFTIRQ);
- 	if (IS_ERR(queue->ib_cq)) {
- 		ret = PTR_ERR(queue->ib_cq);
--		goto out;
-+		goto out_put_dev;
+ 	dev = queue->device;
+ 	ibdev = dev->dev;
+ 	rdma_destroy_qp(queue->cm_id);
+@@ -525,7 +521,6 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+ 		ret = -ENOMEM;
+ 		goto out_destroy_qp;
  	}
+-	set_bit(NVME_RDMA_IB_QUEUE_ALLOCATED, &queue->flags);
  
- 	ret = nvme_rdma_create_qp(queue, send_wr_factor);
-@@ -529,7 +533,8 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue,
- 	ib_destroy_qp(queue->qp);
- out_destroy_ib_cq:
- 	ib_free_cq(queue->ib_cq);
--out:
-+out_put_dev:
-+	nvme_rdma_dev_put(queue->device);
+ 	return 0;
+ 
+@@ -590,7 +585,6 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
+ 	return 0;
+ 
+ out_destroy_cm_id:
+-	nvme_rdma_destroy_queue_ib(queue);
+ 	rdma_destroy_id(queue->cm_id);
  	return ret;
  }
- 
-@@ -1263,21 +1268,11 @@ static int nvme_rdma_conn_rejected(struct nvme_rdma_queue *queue,
- 
- static int nvme_rdma_addr_resolved(struct nvme_rdma_queue *queue)
- {
--	struct nvme_rdma_device *dev;
- 	int ret;
- 
--	dev = nvme_rdma_find_get_device(queue->cm_id);
--	if (!dev) {
--		dev_err(queue->cm_id->device->dev.parent,
--			"no client data found!\n");
--		return -ECONNREFUSED;
--	}
--
--	ret = nvme_rdma_create_queue_ib(queue, dev);
--	if (ret) {
--		nvme_rdma_dev_put(dev);
--		goto out;
--	}
-+	ret = nvme_rdma_create_queue_ib(queue);
-+	if (ret)
-+		return ret;
- 
- 	ret = rdma_resolve_route(queue->cm_id, NVME_RDMA_CONNECT_TIMEOUT_MS);
- 	if (ret) {
-@@ -1291,7 +1286,6 @@ static int nvme_rdma_addr_resolved(struct nvme_rdma_queue *queue)
- 
- out_destroy_queue:
- 	nvme_rdma_destroy_queue_ib(queue);
--out:
- 	return ret;
- }
- 
+@@ -1362,12 +1356,14 @@ static int nvme_rdma_cm_handler(struct rdma_cm_id *cm_id,
+ 		complete(&queue->cm_done);
+ 		return 0;
+ 	case RDMA_CM_EVENT_REJECTED:
++		nvme_rdma_destroy_queue_ib(queue);
+ 		cm_error = nvme_rdma_conn_rejected(queue, ev);
+ 		break;
+-	case RDMA_CM_EVENT_ADDR_ERROR:
+ 	case RDMA_CM_EVENT_ROUTE_ERROR:
+ 	case RDMA_CM_EVENT_CONNECT_ERROR:
+ 	case RDMA_CM_EVENT_UNREACHABLE:
++		nvme_rdma_destroy_queue_ib(queue);
++	case RDMA_CM_EVENT_ADDR_ERROR:
+ 		dev_dbg(queue->ctrl->ctrl.device,
+ 			"CM error event %d\n", ev->event);
+ 		cm_error = -ECONNRESET;
 -- 
 2.7.4
