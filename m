@@ -1,34 +1,20 @@
 From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Fri,  5 May 2017 16:13:15 -0700
-Subject: [PATCH] nvme_fc: require target or discovery role for fc-nvme targets
-Message-ID: <20170505231315.31622-1-jsmart2021@gmail.com>
+Date: Fri,  5 May 2017 16:13:33 -0700
+Subject: [PATCH 0/2] nvme_fc: add uevent to allow dynamic connects
+Message-ID: <20170505231335.31726-1-jsmart2021@gmail.com>
 
 From: James Smart <jsmart2021@gmail.com>
 
-In order to create an association, the remoteport must be
-serving either a target role or a discovery role.
+These patches add support for generating a uevent which can be
+caugth and converted to a nvme-cli connect-all request for the
+FC initiator and target ports.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/fc.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+James Smart (2):
+  nvme_fc: create fc class and transport device
+  nvme_fc: add uevent for auto-connect
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 9993ff8d5656..e8f4cbdb9b5f 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2712,6 +2712,12 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	unsigned long flags;
- 	int ret, idx;
- 
-+	if (!(rport->remoteport.port_role &
-+		(FC_PORT_ROLE_NVME_DISCOVERY | FC_PORT_ROLE_NVME_TARGET))) {
-+		ret = -EBADR;
-+		goto out_fail;
-+	}
-+
- 	ctrl = kzalloc(sizeof(*ctrl), GFP_KERNEL);
- 	if (!ctrl) {
- 		ret = -ENOMEM;
+ drivers/nvme/host/fc.c | 83 +++++++++++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 79 insertions(+), 4 deletions(-)
+
 -- 
 2.11.0
