@@ -1,20 +1,56 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sat, 6 May 2017 23:31:38 +0300
-Subject: [PATCH] nvmet: release the sq ref on rdma read errors
-In-Reply-To: <014901d2c528$ec347430$c49d5c90$@attalasystems.com>
-References: <CAN9s3O597CB9d2BoPx1gL5a7NnqhxrXYMhE==Q3E8+BoDxRFiQ@mail.gmail.com>
- <01cb01d2c446$20cd83a0$62688ae0$@attalasystems.com>
- <01d601d2c446$b087cb90$119762b0$@attalasystems.com>
- <da2ec86f-3c22-30a0-0e9b-f4c0fdf5eabb@grimberg.me>
- <00d6f8bf-07bd-03ca-3060-fd3def1ef1d7@grimberg.me>
- <20170504085631.GA5584@lst.de>
- <5e0ca611-97d8-8884-abc3-c0f3b6172a21@grimberg.me>
- <014901d2c528$ec347430$c49d5c90$@attalasystems.com>
-Message-ID: <2e17506a-f44e-a962-e469-60521fd0cc53@grimberg.me>
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Sun,  7 May 2017 16:14:44 +0200
+Subject: [PATCH] lightnvm: remove unused rq parameter of nvme_nvm_rqtocmd() to
+ kill warning
+Message-ID: <1494166484-11363-1-git-send-email-geert@linux-m68k.org>
 
-Vijay,
+With gcc 4.1.2:
 
-> Thanks for the feedback. Here's an updated patch.
+    drivers/nvme/host/lightnvm.c: In function ?nvme_nvm_submit_io?:
+    drivers/nvme/host/lightnvm.c:498: warning: ?rq? is used uninitialized in this function
 
-Can you please resubmit it as a proper patch? it'd make
-our lives much easier.
+Indeed, since commit 2e13f33a2464fc3a ("lightnvm: create cmd before
+allocating request"), the request is passed to nvme_nvm_rqtocmd() before
+it is allocated.
+
+Fortunately, as of commit 91276162de9476b8 ("lightnvm: refactor end_io
+functions for sync"), nvme_nvm_rqtocmd () no longer uses the passed
+request, so this warning is a false positive.
+
+Drop the unused parameter to clean up the code and kill the warning.
+
+Fixes: 2e13f33a2464fc3a ("lightnvm: create cmd before allocating request")
+Fixes: 91276162de9476b8 ("lightnvm: refactor end_io functions for sync")
+Signed-off-by: Geert Uytterhoeven <geert at linux-m68k.org>
+---
+Perhaps nvme_nvm_rqtocmd() should be renamed, too?
+---
+ drivers/nvme/host/lightnvm.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
+index 8c4adac6fafcc56d..206bfdbc1c982b04 100644
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -464,8 +464,8 @@ static int nvme_nvm_set_bb_tbl(struct nvm_dev *nvmdev, struct ppa_addr *ppas,
+ 	return ret;
+ }
+ 
+-static inline void nvme_nvm_rqtocmd(struct request *rq, struct nvm_rq *rqd,
+-				struct nvme_ns *ns, struct nvme_nvm_command *c)
++static inline void nvme_nvm_rqtocmd(struct nvm_rq *rqd, struct nvme_ns *ns,
++				    struct nvme_nvm_command *c)
+ {
+ 	c->ph_rw.opcode = rqd->opcode;
+ 	c->ph_rw.nsid = cpu_to_le32(ns->ns_id);
+@@ -503,7 +503,7 @@ static int nvme_nvm_submit_io(struct nvm_dev *dev, struct nvm_rq *rqd)
+ 	if (!cmd)
+ 		return -ENOMEM;
+ 
+-	nvme_nvm_rqtocmd(rq, rqd, ns, cmd);
++	nvme_nvm_rqtocmd(rqd, ns, cmd);
+ 
+ 	rq = nvme_alloc_request(q, (struct nvme_command *)cmd, 0, NVME_QID_ANY);
+ 	if (IS_ERR(rq)) {
+-- 
+2.7.4
