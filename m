@@ -1,26 +1,32 @@
-From: arnd@arndb.de (Arnd Bergmann)
-Date: Mon, 8 May 2017 09:51:56 +0200
-Subject: [PATCH] lightnvm: remove unused rq parameter of
- nvme_nvm_rqtocmd() to kill warning
-In-Reply-To: <CAMuHMdWANws_wSzhSFiKzw4f36NmTBa+O6ZEVCz9Oq8wMcdhjQ@mail.gmail.com>
-References: <1494166484-11363-1-git-send-email-geert@linux-m68k.org>
- <5bc0bd5f-4eb5-5975-4700-071b78047917@fb.com>
- <CAMuHMdWANws_wSzhSFiKzw4f36NmTBa+O6ZEVCz9Oq8wMcdhjQ@mail.gmail.com>
-Message-ID: <CAK8P3a0Y0pHyXKrNDhrAmKhvDse686TRFYbEqBeT9X_KcG_MjQ@mail.gmail.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 8 May 2017 11:26:53 +0200
+Subject: [PATCH] nvme_fc: stop queues on error detection
+In-Reply-To: <20170425223201.3835-1-jsmart2021@gmail.com>
+References: <20170425223201.3835-1-jsmart2021@gmail.com>
+Message-ID: <ff3f6b93-9bd4-dfcc-0a62-289f66f4e65b@suse.de>
 
-On Mon, May 8, 2017@9:25 AM, Geert Uytterhoeven <geert@linux-m68k.org> wrote:
-> Hi Jens,
->
-> On Mon, May 8, 2017@3:53 AM, Jens Axboe <axboe@fb.com> wrote:
->> On 05/07/2017 08:14 AM, Geert Uytterhoeven wrote:
->>> With gcc 4.1.2:
->>
->> Wow, that's ancient.
->
-> But it helps to find things like this, and improve the code ;-)
+On 04/26/2017 12:32 AM, jsmart2021@gmail.com wrote:
+> From: James Smart <jsmart2021 at gmail.com>
+> 
+> Per the recommendation by Sagi on:
+> http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
+> 
+> Rather than waiting for reset work thread to stop queues and abort the ios,
+> immediately stop the queues on error detection. Reset thread will restop
+> the queues (as it's called on other paths), but it does not appear to have
+> a side effect.
+> 
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> ---
 
-For reference, the warning shows up in gcc-4.2 and 4.3 as well, but
-not in gcc-4.4 or
-higher unless you disable all optimizations (e.g. gcc-7.1 -O0 warns).
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-      Arnd
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
