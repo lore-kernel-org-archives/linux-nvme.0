@@ -1,50 +1,62 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 8 May 2017 13:25:12 -0400
-Subject: [PATCH] nvme: remove disk after hw queue is started
-In-Reply-To: <20170508161524.GE5696@ming.t460p>
-References: <20170508112457.10236-1-ming.lei@redhat.com>
- <20170508124638.GD5696@ming.t460p>
- <20170508150720.GB32736@localhost.localdomain>
- <20170508151123.GA463@localhost.localdomain>
- <20170508161524.GE5696@ming.t460p>
-Message-ID: <20170508172511.GA1750@localhost.localdomain>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 8 May 2017 10:22:46 -0700
+Subject: [PATCH 0/2] nvme_fc: add uevent to allow dynamic connects
+In-Reply-To: <2340db12-7f96-1d05-de6a-f36ddb913e4f@suse.de>
+References: <20170505231335.31726-1-jsmart2021@gmail.com>
+ <2340db12-7f96-1d05-de6a-f36ddb913e4f@suse.de>
+Message-ID: <a17c9b99-e1ee-c12e-eb3e-62130d72af08@gmail.com>
 
-On Tue, May 09, 2017@12:15:25AM +0800, Ming Lei wrote:
-> This patch looks working, but seems any 'goto out' in this function
-> may have rick to cause the same race too.
+On 5/8/2017 4:11 AM, Johannes Thumshirn wrote:
+> On 05/06/2017 01:13 AM, jsmart2021@gmail.com wrote:
+>> From: James Smart <jsmart2021 at gmail.com>
+>>
+>> These patches add support for generating a uevent which can be
+>> caugth and converted to a nvme-cli connect-all request for the
+>> FC initiator and target ports.
+>
+> IMHO this should be a bit more generic. We do have two fabrics, FC and
+> RDMA (we can leave out PCIe here I think). *Iff* we want to do this we
+> at least need to do this for FC _and_ RDMA.
 
-The goto was really intended for handling totally broken contronllers,
-which isn't the case if someone requested to remove the pci device while
-we're initializing it. Point taken, though, let me run a few tests and
-see if there's a better way to handle this condition.
+It's not really possible due to differences in fabrics.
 
-> Another solution I thought of is to kill queues earlier, what do you
-> think about the following patch?
+With Ethernet/IP fabrics, the local host doesn't necessarily know about 
+the activation/termination of other IP addresses on the network, nor 
+what IP addresses map to NVME subsystems (discovery controllers or 
+storage controllers) nor the IP port numbers for the subsystems. Thus, 
+something (admin action, config scripts, etc) must at least supply how 
+to start the discovery process - specifying the location of the storage 
+controllers or at least the location(s) of the discovery controllers. 
+Even then, dynamic changes need something to restart that scan or be 
+told where to rescan. None of the initial or dynamic connectivity info 
+can come from the RDMA transport.
 
-That should get it unstuck, but it will error all the IO that fsync_bdev
-would probably rather complete successfully.
+With FC fabrics, given FC has it's own dynamic discovery engine, it can 
+recognize when FC ports have nvme subsystems present - discovery 
+controllers and/or storage controllers. It can determine when they come 
+into existence, go away, or are in existence and had some kind of state 
+change (thus please rescan). FC fabrics still use the same NVME 
+discovery engines that RDMA uses - based on the discovery controllers. 
+Its using the FC discovery engine to then initiate the discovery 
+controller scans, eliminating the admin/config steps mandated for RDMA. 
+The other things about FC is that connections are very centric to the 
+initiator FC ports, due to zoning. Thus, every FC connection must 
+specify the initiator FC port and the target FC port.
 
-Question though, why doesn't the remove_work's nvme_kill_queues in
-its current place allow forward progress already?
- 
-> ---
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index c8541c3dcd19..16740e8c4225 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1892,6 +1892,7 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
->  
->  	kref_get(&dev->ctrl.kref);
->  	nvme_dev_disable(dev, false);
-> +	nvme_kill_queues(&dev->ctrl);
->  	if (!schedule_work(&dev->remove_work))
->  		nvme_put_ctrl(&dev->ctrl);
->  }
-> @@ -1998,7 +1999,6 @@ static void nvme_remove_dead_ctrl_work(struct work_struct *work)
->  	struct nvme_dev *dev = container_of(work, struct nvme_dev, remove_work);
->  	struct pci_dev *pdev = to_pci_dev(dev->dev);
->  
-> -	nvme_kill_queues(&dev->ctrl);
->  	if (pci_get_drvdata(pdev))
->  		device_release_driver(&pdev->dev);
->  	nvme_put_ctrl(&dev->ctrl);
+The user is free to not put the udev scripts in place and to utilize the 
+same methods used by RDMA.   However, the FC storage environment has 
+always had dynamic auto-connection and re-connection for SCSI storage 
+and the eco-system has the same expectation for NVME storage. Therefore 
+I believe FC should have the support in the kernel and allow for the 
+user to put the udev scripts in place to support the auto-connection.
+
+In the future, although there is currently a desire to keep connectivity 
+management in user space, in order to support boot/swap support (and 
+low-memory configs) on NVME fabric storage, it will likely require 
+moving the discovery controller attachment in to the kernel rather than 
+in the nvme cli.  (iscsi discussions ring a bell ?).  With FC, boot 
+support does not require things like iBFT for boot support. It acts like 
+SCSI. Making it much easier.
+
+
+-- james
