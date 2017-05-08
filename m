@@ -1,115 +1,63 @@
-From: jsmart2021@gmail.com (jsmart2021@gmail.com)
-Date: Mon,  8 May 2017 14:48:51 -0700
-Subject: [PATCH v2] nvmet_fc: Add queue create and delete callbacks in LLDD api
-Message-ID: <20170508214851.28690-1-jsmart2021@gmail.com>
+From: vijayi@attalasystems.com (Vijay Immanuel)
+Date: Mon, 8 May 2017 16:38:35 -0700
+Subject: [PATCH v2] nvmet: release the sq ref on rdma read errors
+Message-ID: <20170508233835.GA16635@vijayi-vm1>
 
-From: James Smart <jsmart2021@gmail.com>
+On rdma read errors, release the sq ref that was taken
+when the req was initialized. This avoids a hang in
+nvmet_sq_destroy() when the queue is being freed.
 
-To facilitate LLDD resource management on nvme queue creation and
-deletion, add optional callbacks queue_create and queue_delete.
-
-Signed-off-by: James Smart <james.smart at broadcom.com>
+Signed-off-by: Vijay Immanuel <vijayi at attalasystems.com>
 ---
-v2: require queue_delete if queue_create entrypoint present
+Changes in v2:
+  - Added nvmet_req_uninit().
+  - Release the rsp without queuing it.
 
- drivers/nvme/target/fc.c       | 19 ++++++++++++++++++-
- include/linux/nvme-fc-driver.h | 18 ++++++++++++++++++
- 2 files changed, 36 insertions(+), 1 deletion(-)
+ drivers/nvme/target/core.c  | 6 ++++++
+ drivers/nvme/target/nvmet.h | 1 +
+ drivers/nvme/target/rdma.c  | 1 +
+ 3 files changed, 8 insertions(+)
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index da6e5a3722fd..2490c36d410b 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -555,6 +555,7 @@ static struct nvmet_fc_tgt_queue *
- nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
- 			u16 qid, u16 sqsize)
- {
-+	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
- 	struct nvmet_fc_tgt_queue *queue;
- 	unsigned long flags;
- 	int ret;
-@@ -568,8 +569,14 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
- 	if (!queue)
- 		return NULL;
- 
-+	if (tgtport->ops->queue_create) {
-+		if (tgtport->ops->queue_create(&tgtport->fc_target_port,
-+				nvmet_fc_makeconnid(assoc, qid), sqsize))
-+			goto out_free_queue;
-+	}
-+
- 	if (!nvmet_fc_tgt_a_get(assoc))
--		goto out_free_queue;
-+		goto out_queue_delete;
- 
- 	queue->fod = (struct nvmet_fc_fcp_iod *)&queue[1];
- 	queue->qid = qid;
-@@ -601,6 +608,10 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
- out_fail_iodlist:
- 	nvmet_fc_destroy_fcp_iodlist(assoc->tgtport, queue);
- 	nvmet_fc_tgt_a_put(assoc);
-+out_queue_delete:
-+	if (tgtport->ops->queue_delete)
-+		tgtport->ops->queue_delete(&tgtport->fc_target_port,
-+				nvmet_fc_makeconnid(assoc, qid), sqsize);
- out_free_queue:
- 	kfree(queue);
- 	return NULL;
-@@ -676,6 +687,11 @@ nvmet_fc_delete_target_queue(struct nvmet_fc_tgt_queue *queue)
- 	if (disconnect)
- 		nvmet_sq_destroy(&queue->nvme_sq);
- 
-+	if (tgtport->ops->queue_delete)
-+		tgtport->ops->queue_delete(&tgtport->fc_target_port,
-+				nvmet_fc_makeconnid(queue->assoc, queue->qid),
-+				queue->sqsize);
-+
- 	nvmet_fc_tgt_q_put(queue);
+diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
+index 798653b..fcb2906 100644
+--- a/drivers/nvme/target/core.c
++++ b/drivers/nvme/target/core.c
+@@ -529,6 +529,12 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
  }
+ EXPORT_SYMBOL_GPL(nvmet_req_init);
  
-@@ -862,6 +878,7 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
- 	if (!template->xmt_ls_rsp || !template->fcp_op ||
- 	    !template->fcp_abort ||
- 	    !template->fcp_req_release || !template->targetport_delete ||
-+	    (template->queue_create && !template->queue_delete) ||
- 	    !template->max_hw_queues || !template->max_sgl_segments ||
- 	    !template->max_dif_sgl_segments || !template->dma_boundary) {
- 		ret = -EINVAL;
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 8dbf16437bb6..abcefb708008 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -806,6 +806,20 @@ struct nvmet_fc_target_port {
-  *       to the LLDD after all operations on the fcp operation are complete.
-  *       This may be due to the command completing or upon completion of
-  *       abort cleanup.
-+ *       Entrypoint is Mandatory.
-+ *
-+ * @queue_create:  Called by the transport to indicate the creation of an
-+ *       nvme queue and to allow the LLDD to allocate resources for the
-+ *       queue.
-+ *       Returns 0 on successfull allocation of resources for the queue.
-+ *       -<errno> on failure.  Failure will result in failure of the
-+ *       FC-NVME Create Assocation or Create Connection LS's.
-+ *       Entrypoint is Optional.
-+ *
-+ * @queue_delete:  Called by the transport to indicate the deletion of an
-+ *       nvme queue and to allow the LLDD to de-allocate resources for the
-+ *       queue.
-+ *       Entrypoint is Optional.
-  *
-  * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
-  *       supports for cpu affinitization.
-@@ -846,6 +860,10 @@ struct nvmet_fc_target_template {
- 				struct nvmefc_tgt_fcp_req *fcpreq);
- 	void (*fcp_req_release)(struct nvmet_fc_target_port *tgtport,
- 				struct nvmefc_tgt_fcp_req *fcpreq);
-+	int (*queue_create)(struct nvmet_fc_target_port *tgtport,
-+				u64 connection_id, u16 qsize);
-+	void (*queue_delete)(struct nvmet_fc_target_port *tgtport,
-+				u64 connection_id, u16 qsize);
++void nvmet_req_uninit(struct nvmet_req *req)
++{
++	percpu_ref_put(&req->sq->ref);
++}
++EXPORT_SYMBOL_GPL(nvmet_req_uninit);
++
+ static inline bool nvmet_cc_en(u32 cc)
+ {
+ 	return cc & 0x1;
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index f7ff15f..dae9ed6 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -261,6 +261,7 @@ struct nvmet_async_event {
  
- 	u32	max_hw_queues;
- 	u16	max_sgl_segments;
+ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
+ 		struct nvmet_sq *sq, struct nvmet_fabrics_ops *ops);
++void nvmet_req_uninit(struct nvmet_req *req);
+ void nvmet_req_complete(struct nvmet_req *req, u16 status);
+ 
+ void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
+diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+index ecc4fe8..8fc245d 100644
+--- a/drivers/nvme/target/rdma.c
++++ b/drivers/nvme/target/rdma.c
+@@ -567,6 +567,7 @@ static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc)
+ 	rsp->n_rdma = 0;
+ 
+ 	if (unlikely(wc->status != IB_WC_SUCCESS)) {
++		nvmet_req_uninit(&rsp->req);
+ 		nvmet_rdma_release_rsp(rsp);
+ 		if (wc->status != IB_WC_WR_FLUSH_ERR) {
+ 			pr_info("RDMA READ for CQE 0x%p failed with status %s (%d).\n",
 -- 
-2.11.0
+1.8.3.1
