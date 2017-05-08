@@ -1,9 +1,9 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 8 May 2017 11:26:53 +0200
-Subject: [PATCH] nvme_fc: stop queues on error detection
-In-Reply-To: <20170425223201.3835-1-jsmart2021@gmail.com>
-References: <20170425223201.3835-1-jsmart2021@gmail.com>
-Message-ID: <ff3f6b93-9bd4-dfcc-0a62-289f66f4e65b@suse.de>
+Date: Mon, 8 May 2017 11:28:30 +0200
+Subject: [PATCH] nvme_fc: replace ioabort msleep loop with completion
+In-Reply-To: <20170425223212.3876-1-jsmart2021@gmail.com>
+References: <20170425223212.3876-1-jsmart2021@gmail.com>
+Message-ID: <3831a9bf-97cc-0a60-c943-c53dca712812@suse.de>
 
 On 04/26/2017 12:32 AM, jsmart2021@gmail.com wrote:
 > From: James Smart <jsmart2021 at gmail.com>
@@ -11,17 +11,14 @@ On 04/26/2017 12:32 AM, jsmart2021@gmail.com wrote:
 > Per the recommendation by Sagi on:
 > http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
 > 
-> Rather than waiting for reset work thread to stop queues and abort the ios,
-> immediately stop the queues on error detection. Reset thread will restop
-> the queues (as it's called on other paths), but it does not appear to have
-> a side effect.
+> Wait for io aborts to complete wait converted from msleep look to
+> using a struct completion.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
 
 -- 
 Johannes Thumshirn                                          Storage
