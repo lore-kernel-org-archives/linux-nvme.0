@@ -1,23 +1,22 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 8 May 2017 13:03:21 +0200
-Subject: [PATCH] nvme_fc: correct port role bits
-In-Reply-To: <20170505231302.31578-1-jsmart2021@gmail.com>
-References: <20170505231302.31578-1-jsmart2021@gmail.com>
-Message-ID: <8c2c1c9b-3a61-916b-1fb4-8fc0953b6208@suse.de>
+Date: Mon, 8 May 2017 13:04:22 +0200
+Subject: [PATCH] nvme_fc: require target or discovery role for fc-nvme
+ targets
+In-Reply-To: <20170505231315.31622-1-jsmart2021@gmail.com>
+References: <20170505231315.31622-1-jsmart2021@gmail.com>
+Message-ID: <44f6e763-58ed-ba91-6c9f-dd80fda04945@suse.de>
 
 On 05/06/2017 01:13 AM, jsmart2021@gmail.com wrote:
 > From: James Smart <jsmart2021 at gmail.com>
 > 
-> FC Port roles is a bit mask, not individual values.
-> Correct nvme definitions to unique bits.
+> In order to create an association, the remoteport must be
+> serving either a target role or a discovery role.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
 
+Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
-Although it really should be merged into scsi/scsi_transport_fc.h some day.
-
 
 
 -- 
