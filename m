@@ -1,18 +1,20 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 8 May 2017 09:41:46 -0700
-Subject: [PATCH] nvmet_fc: Add queue create and delete callbacks in LLDD
- api
-In-Reply-To: <6e4a8196-1b1e-ba2f-74a3-0b845c91d772@suse.de>
-References: <20170426040409.3121-1-jsmart2021@gmail.com>
- <6e4a8196-1b1e-ba2f-74a3-0b845c91d772@suse.de>
-Message-ID: <cd1cbbb8-2ea5-ac60-7685-0d5d7c2c5790@gmail.com>
+Date: Mon, 8 May 2017 09:35:11 -0700
+Subject: [PATCH] nvme_fc: set logging level on resets/deletes
+In-Reply-To: <552d0a62-d74d-f20b-049f-11338b701c5f@suse.de>
+References: <20170425223234.3958-1-jsmart2021@gmail.com>
+ <552d0a62-d74d-f20b-049f-11338b701c5f@suse.de>
+Message-ID: <58f12888-7c66-88e2-5a31-3dbb3f3b886d@gmail.com>
 
+On 5/8/2017 2:31 AM, Johannes Thumshirn wrote:
+> Can you maybe change the above two messages to dev_debug()? I have a gut
+> feeling that they might become handy one day.
 
-> One minor addition, please add a sanity check to
-> nvmet_fc_register_targetport() making sure if one registers a
-> queue_create() a matching queue_delete() has to be provided as well,
-> otherwise someone could theoretically build a memory leak.
-
-ok
+After debugging things, I didn't find these providing anything of value, 
+thus their deletion. The debug message of the connecting-to subnqn is 
+more than enough to derive this (e.g. is it the discovery nqn or not; as 
+only discovery ctrl would not attempt io queues), and additional actions 
+on the link, as well as messages by the target as it creates queues was 
+enough.
 
 -- james
