@@ -1,57 +1,29 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 8 May 2017 09:10:08 +0200
-Subject: [PATCH v3] lpfc: Fix panic on BFS configuration.
-In-Reply-To: <20170427220826.12693-1-jsmart2021@gmail.com>
-References: <20170427220826.12693-1-jsmart2021@gmail.com>
-Message-ID: <20170508071008.GA3982@linux-x5ow.site>
+From: geert@linux-m68k.org (Geert Uytterhoeven)
+Date: Mon, 8 May 2017 09:25:05 +0200
+Subject: [PATCH] lightnvm: remove unused rq parameter of
+ nvme_nvm_rqtocmd() to kill warning
+In-Reply-To: <5bc0bd5f-4eb5-5975-4700-071b78047917@fb.com>
+References: <1494166484-11363-1-git-send-email-geert@linux-m68k.org>
+ <5bc0bd5f-4eb5-5975-4700-071b78047917@fb.com>
+Message-ID: <CAMuHMdWANws_wSzhSFiKzw4f36NmTBa+O6ZEVCz9Oq8wMcdhjQ@mail.gmail.com>
 
-On Thu, Apr 27, 2017@03:08:26PM -0700, jsmart2021@gmail.com wrote:
-> From: James Smart <jsmart2021 at gmail.com>
-> 
-> To select the appropriate shost template, the driver is issuing
-> a mailbox command to retrieve the wwn. Turns out the sending of
-> the command precedes the reset of the function.  On SLI-4 adapters,
-> this is inconsequential as the mailbox command location is specified
-> by dma via the BMBX register. However, on SLI-3 adapters, the
-> location of the mailbox command submission area changes. When the
-> function is first powered on or reset, the cmd is submitted via PCI
-> bar memory. Later the driver changes the function config to use
-> host memory and DMA. The request to start a mailbox command is the
-> same, a simple doorbell write, regardless of submission area.
-> So.. if there has not been a boot driver run against the adapter,
-> the mailbox command works as defaults are ok. But, if the boot
-> driver has configured the card and, and if no platform pci
-> function/slot reset occurs as the os starts, the mailbox command
-> will fail. The SLI-3 device will use the stale boot driver dma
-> location. This can cause PCI eeh errors.
-> 
-> Fix is to reset the sli-3 function before sending the
-> mailbox command, thus synchronizing the function/driver on mailbox
-> location.
-> 
-> Note: The fix uses routines that are typically invoked later in the
-> call flow to reset the sli-3 device. The issue in using those routines is
-> that the normal (non-fix) flow does additional initialization, namely the
-> allocation of the pport structure. So, rather than significantly reworking
-> the initialization flow so that the pport is alloc'd first, pointer checks
-> are added to work around it. Checks are limited to the routines invoked
-> by a sli-3 adapter (s3 routines) as this fix/early call is only invoked
-> on a sli3 adapter. Nothing changes post the fix. Subsequent initialization,
-> and another adapter reset, still occur - both on sli-3 and sli-4 adapters.
-> 
-> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> Fixes: 96418b5e2c88 ("scsi: lpfc: Fix eh_deadline setting for sli3 adapters.")
-> Cc: stable at vger.kernel.org
-> ---
+Hi Jens,
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+On Mon, May 8, 2017@3:53 AM, Jens Axboe <axboe@fb.com> wrote:
+> On 05/07/2017 08:14 AM, Geert Uytterhoeven wrote:
+>> With gcc 4.1.2:
+>
+> Wow, that's ancient.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+But it helps to find things like this, and improve the code ;-)
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert at linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
