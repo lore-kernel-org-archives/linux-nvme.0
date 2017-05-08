@@ -1,22 +1,20 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 8 May 2017 13:04:22 +0200
-Subject: [PATCH] nvme_fc: require target or discovery role for fc-nvme
- targets
-In-Reply-To: <20170505231315.31622-1-jsmart2021@gmail.com>
-References: <20170505231315.31622-1-jsmart2021@gmail.com>
-Message-ID: <44f6e763-58ed-ba91-6c9f-dd80fda04945@suse.de>
+Date: Mon, 8 May 2017 13:11:49 +0200
+Subject: [PATCH 0/2] nvme_fc: add uevent to allow dynamic connects
+In-Reply-To: <20170505231335.31726-1-jsmart2021@gmail.com>
+References: <20170505231335.31726-1-jsmart2021@gmail.com>
+Message-ID: <2340db12-7f96-1d05-de6a-f36ddb913e4f@suse.de>
 
 On 05/06/2017 01:13 AM, jsmart2021@gmail.com wrote:
 > From: James Smart <jsmart2021 at gmail.com>
 > 
-> In order to create an association, the remoteport must be
-> serving either a target role or a discovery role.
-> 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
+> These patches add support for generating a uevent which can be
+> caugth and converted to a nvme-cli connect-all request for the
+> FC initiator and target ports.
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+IMHO this should be a bit more generic. We do have two fabrics, FC and
+RDMA (we can leave out PCIe here I think). *Iff* we want to do this we
+at least need to do this for FC _and_ RDMA.
 
 
 -- 
