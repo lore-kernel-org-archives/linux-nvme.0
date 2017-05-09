@@ -1,45 +1,31 @@
 From: axboe@fb.com (Jens Axboe)
-Date: Tue, 9 May 2017 08:49:12 -0600
-Subject: [PATCH] nvme: lightnvm: fix memory leak
-In-Reply-To: <FFAA9DA2-8A84-4C03-AFED-82F4BE10985B@lightnvm.io>
-References: <20170509135506.GA22624@dhcp-216.srv.tuxera.com>
- <FFAA9DA2-8A84-4C03-AFED-82F4BE10985B@lightnvm.io>
-Message-ID: <42485a11-e9ba-93a1-33bb-1059edae9d3a@fb.com>
+Date: Tue, 9 May 2017 08:50:17 -0600
+Subject: [PATCH] lightnvm: Remove an unused variable
+In-Reply-To: <79988EFB-7909-4234-B4D9-435AAFAE2E07@lightnvm.io>
+References: <20170509093450.dgj3qghdwefpg6li@mwanda>
+ <79988EFB-7909-4234-B4D9-435AAFAE2E07@lightnvm.io>
+Message-ID: <ff06f5a2-bff2-a366-34d4-53b993c13602@fb.com>
 
-On 05/09/2017 07:59 AM, Javier Gonz?lez wrote:
->> On 9 May 2017,@15.55, Rakesh Pandit <rakesh@tuxera.com> wrote:
+On 05/09/2017 04:19 AM, Javier Gonz?lez wrote:
+>> On 9 May 2017,@11.34, Dan Carpenter <dan.carpenter@oracle.com> wrote:
 >>
->> Free up kmalloc allocated memory if failure happens while handling L2P
->> table transfer in nvme_nvm_get_l2p_tbl.
+>> "rq" is never used in nvme_nvm_rqtocmd().  We also recently shifted some
+>> code around so it's uninitialized and causes a static checker warning.
+>> Let's just remove it.
 >>
->> Fixes: 8e79b5cb ("lightnvm: move block provisioning to targets")
->> Signed-off-by: Rakesh Pandit <rakesh at tuxera.com>
->> ---
->> drivers/nvme/host/lightnvm.c | 3 ++-
->> 1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/nvme/host/lightnvm.c b/drivers/nvme/host/lightnvm.c
->> index 206bfdb..f5df78e 100644
->> --- a/drivers/nvme/host/lightnvm.c
->> +++ b/drivers/nvme/host/lightnvm.c
->> @@ -367,7 +367,8 @@ static int nvme_nvm_get_l2p_tbl(struct nvm_dev *nvmdev, u64 slba, u32 nlb,
->>
->> 		if (unlikely(elba > nvmdev->total_secs)) {
->> 			pr_err("nvm: L2P data from device is out of bounds!\n");
->> -			return -EINVAL;
->> +			ret = -EINVAL;
->> +			goto out;
->> 		}
->>
->> 		/* Transform physical address to target address space */
->> --
->> 2.5.5
 > 
-> Looks good. Thanks Rakesh.
+> Looks good. I didn't see it when I refactored that part.
+> Matias: If it is ok with you, can you pick it up?
 > 
 > Reviewed-by: Javier Gonz?lez <javier at cnexlabs.com>
 
-Added for this series.
+Geert sent in a similar fix two days ago, it's already queued up:
+
+commit 629b1b2e0e6c8285fdc21624af60e8190fa4417e
+Author: Geert Uytterhoeven <geert at linux-m68k.org>
+Date:   Sun May 7 16:14:44 2017 +0200
+
+    lightnvm: remove unused rq parameter of nvme_nvm_rqtocmd() to kill warning
 
 -- 
 Jens Axboe
