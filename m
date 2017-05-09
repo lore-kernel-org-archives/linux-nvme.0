@@ -1,29 +1,69 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 9 May 2017 09:26:53 +0200
-Subject: [PATCH v2] nvmet_fc: Add queue create and delete callbacks in
- LLDD api
-In-Reply-To: <20170508214851.28690-1-jsmart2021@gmail.com>
-References: <20170508214851.28690-1-jsmart2021@gmail.com>
-Message-ID: <f60d818d-3053-1a51-0702-882f59bdd702@suse.de>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 9 May 2017 16:30:02 +0800
+Subject: [PATCH] nvme: remove disk after hw queue is started
+In-Reply-To: <CAOSXXT5KzFN4m8DpqsssvEBPfkj=v=t8aq528wt2tFU_+LUmDQ@mail.gmail.com>
+References: <CAOSXXT6nGggnZj6e0Mo4eBwq63HfWRrVe3ddVA-YORvPJd9Raw@mail.gmail.com>
+ <CAOSXXT5KzFN4m8DpqsssvEBPfkj=v=t8aq528wt2tFU_+LUmDQ@mail.gmail.com>
+Message-ID: <20170509082957.GA16165@ming.t460p>
 
-On 05/08/2017 11:48 PM, jsmart2021@gmail.com wrote:
-> From: James Smart <jsmart2021 at gmail.com>
+On Mon, May 08, 2017@11:58:44PM -0600, Keith Busch wrote:
+> [ Trying again with plain-text mode... ]
 > 
-> To facilitate LLDD resource management on nvme queue creation and
-> deletion, add optional callbacks queue_create and queue_delete.
+> Sorry for replying with a new thread from a different email that isn't
+> subscribed to the list, but my work computer isn't available at the moment
+> and I am interested in hearing your thoughts on this one sooner.
+
+No a problem at all, :-)
+
 > 
-> Signed-off-by: James Smart <james.smart at broadcom.com>
-> ---
-> v2: require queue_delete if queue_create entrypoint present
+> >> On Mon, May 08, 2017@01:25:12PM -0400, Keith Busch wrote:
+> >> > > On Tue, May 09, 2017@12:15:25AM +0800, Ming Lei wrote:
+> >> > > This patch looks working, but seems any 'goto out' in this function
+> >> > > may have rick to cause the same race too.
+> >>
+> >> > The goto was really intended for handling totally broken contronllers,
+> >> > which isn't the case if someone requested to remove the pci device while
+> >> > we're initializing it. Point taken, though, let me run a few tests and
+> >> > see if there's a better way to handle this condition.
+> >>
+> >> The thing is that remove can happen any time, either from hotplug or
+> >> unbinding driver or 'echo 1 > $PCI_PATH/remove'. At the same time,
+> >> the reset can be ongoing.
+> 
+> Yes, it's true you can run "echo 1 > ..." at any time to the sysfs remove
+> file. You can also run "sudo umount /" or on any other in-use mounted
+> partition, but that doesn't succeed. Why should "echo 1" take precedence
+> over tasks writing to the device?
+> 
+> Compared to umount, it is more problematic to remove the pci device through
+> sysfs since that holds the pci rescan remove lock, so we do need to make
+> forward progress, but I really think we ought to let the dirty data sync
+> before that completes. Killing the queues makes that impossible, so I think
+> not considering this to be a "dead" controller is in the right direction.
+
+OK.
+
+I agree on this point now if I/O still can be submitted to the controller
+successfully under this situation, and we still need to consider how to
+handle if the controller can't complete these I/O.
+
+> 
+> But obviously the user is doing something _wrong_ if they're actively
+> writing to the device they're respectfully asking Linux remove from the
+> topology, right? If you _really_ want to remove it without caring about your
+> data, just yank it out, and we'll handle that by destroying your in flight
+> data with a synthesized failure status. But if the device you want to remove
+> is still perfectly accessible, we ought to get the user data committed to
+> storage, right?
+
+Actually we don't mount a filesystem over NVMe in this test, and just
+do I/O to /dev/nvme0n1p1 directly. Then in reality it is stil possible
+to see reset & remove coming during heavy I/O load.
+
+IMO we can't let these actions hang the system even though they are
+insane, and we try best to not lose data, but if data lost happend,
+that is still user's responsility.
+
 
 Thanks,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Ming
