@@ -1,59 +1,18 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 9 May 2017 09:10:30 +0800
-Subject: [PATCH] nvme: remove disk after hw queue is started
-In-Reply-To: <20170508172511.GA1750@localhost.localdomain>
-References: <20170508112457.10236-1-ming.lei@redhat.com>
- <20170508124638.GD5696@ming.t460p>
- <20170508150720.GB32736@localhost.localdomain>
- <20170508151123.GA463@localhost.localdomain>
- <20170508161524.GE5696@ming.t460p>
- <20170508172511.GA1750@localhost.localdomain>
-Message-ID: <20170509011025.GA13210@ming.t460p>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Mon, 08 May 2017 21:26:11 -0400
+Subject: [PATCH v3] lpfc: Fix panic on BFS configuration.
+In-Reply-To: <20170427220826.12693-1-jsmart2021@gmail.com> (jsmart's message
+ of "Thu, 27 Apr 2017 15:08:26 -0700")
+References: <20170427220826.12693-1-jsmart2021@gmail.com>
+Message-ID: <yq1h90uu8gc.fsf@oracle.com>
 
-Hi Keith,
 
-Thanks for looking at this issue!
+James,
 
-On Mon, May 08, 2017@01:25:12PM -0400, Keith Busch wrote:
-> On Tue, May 09, 2017@12:15:25AM +0800, Ming Lei wrote:
-> > This patch looks working, but seems any 'goto out' in this function
-> > may have rick to cause the same race too.
-> 
-> The goto was really intended for handling totally broken contronllers,
-> which isn't the case if someone requested to remove the pci device while
-> we're initializing it. Point taken, though, let me run a few tests and
-> see if there's a better way to handle this condition.
+> Fix is to reset the sli-3 function before sending the mailbox command,
+> thus synchronizing the function/driver on mailbox location.
 
-The thing is that remove can happen any time, either from hotplug or
-unbinding driver or 'echo 1 > $PCI_PATH/remove'. At the same time,
-the reset can be ongoing.
+Applied to 4.12/scsi-fixes.
 
-Also looks the hang in del_gendisk() is fixed by this change, but I
-just found a new issue which is triggered after the NVMe PCI device is rescaned
-again after last remove.
-
-[  504.135554] VFS: Dirty inode writeback failed for block device nvme0n1p1 (err=-5).
-
-> 
-> > Another solution I thought of is to kill queues earlier, what do you
-> > think about the following patch?
-> 
-> That should get it unstuck, but it will error all the IO that fsync_bdev
-> would probably rather complete successfully.
-
-nvme_dev_disable(false) has been completed already before killing queues in
-nvme_remove_dead_ctrl(), so both hw queue is stopped and nvmeq->cq_vector is
-set as -1 in nvme_suspend_queue(). That means no new I/O(include IO in
-fsync_bdev) can be submitted successfully any more, so looks it is reasonable
-to kill queue in nvme_remove_dead_ctrl().
-
-> 
-> Question though, why doesn't the remove_work's nvme_kill_queues in
-> its current place allow forward progress already?
-
-That is because .remove_work may not be run before del_gendisk() is
-started even though the .reset_work is flushed, and we can't flush
-.remove_work simply here.
-
-Thanks,
-Ming
+-- 
+Martin K. Petersen	Oracle Linux Engineering
