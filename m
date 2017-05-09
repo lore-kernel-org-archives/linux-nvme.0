@@ -1,63 +1,59 @@
-From: vijayi@attalasystems.com (Vijay Immanuel)
-Date: Mon, 8 May 2017 16:38:35 -0700
-Subject: [PATCH v2] nvmet: release the sq ref on rdma read errors
-Message-ID: <20170508233835.GA16635@vijayi-vm1>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue, 9 May 2017 09:10:30 +0800
+Subject: [PATCH] nvme: remove disk after hw queue is started
+In-Reply-To: <20170508172511.GA1750@localhost.localdomain>
+References: <20170508112457.10236-1-ming.lei@redhat.com>
+ <20170508124638.GD5696@ming.t460p>
+ <20170508150720.GB32736@localhost.localdomain>
+ <20170508151123.GA463@localhost.localdomain>
+ <20170508161524.GE5696@ming.t460p>
+ <20170508172511.GA1750@localhost.localdomain>
+Message-ID: <20170509011025.GA13210@ming.t460p>
 
-On rdma read errors, release the sq ref that was taken
-when the req was initialized. This avoids a hang in
-nvmet_sq_destroy() when the queue is being freed.
+Hi Keith,
 
-Signed-off-by: Vijay Immanuel <vijayi at attalasystems.com>
----
-Changes in v2:
-  - Added nvmet_req_uninit().
-  - Release the rsp without queuing it.
+Thanks for looking at this issue!
 
- drivers/nvme/target/core.c  | 6 ++++++
- drivers/nvme/target/nvmet.h | 1 +
- drivers/nvme/target/rdma.c  | 1 +
- 3 files changed, 8 insertions(+)
+On Mon, May 08, 2017@01:25:12PM -0400, Keith Busch wrote:
+> On Tue, May 09, 2017@12:15:25AM +0800, Ming Lei wrote:
+> > This patch looks working, but seems any 'goto out' in this function
+> > may have rick to cause the same race too.
+> 
+> The goto was really intended for handling totally broken contronllers,
+> which isn't the case if someone requested to remove the pci device while
+> we're initializing it. Point taken, though, let me run a few tests and
+> see if there's a better way to handle this condition.
 
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index 798653b..fcb2906 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -529,6 +529,12 @@ bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- }
- EXPORT_SYMBOL_GPL(nvmet_req_init);
- 
-+void nvmet_req_uninit(struct nvmet_req *req)
-+{
-+	percpu_ref_put(&req->sq->ref);
-+}
-+EXPORT_SYMBOL_GPL(nvmet_req_uninit);
-+
- static inline bool nvmet_cc_en(u32 cc)
- {
- 	return cc & 0x1;
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index f7ff15f..dae9ed6 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -261,6 +261,7 @@ struct nvmet_async_event {
- 
- bool nvmet_req_init(struct nvmet_req *req, struct nvmet_cq *cq,
- 		struct nvmet_sq *sq, struct nvmet_fabrics_ops *ops);
-+void nvmet_req_uninit(struct nvmet_req *req);
- void nvmet_req_complete(struct nvmet_req *req, u16 status);
- 
- void nvmet_cq_setup(struct nvmet_ctrl *ctrl, struct nvmet_cq *cq, u16 qid,
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index ecc4fe8..8fc245d 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -567,6 +567,7 @@ static void nvmet_rdma_read_data_done(struct ib_cq *cq, struct ib_wc *wc)
- 	rsp->n_rdma = 0;
- 
- 	if (unlikely(wc->status != IB_WC_SUCCESS)) {
-+		nvmet_req_uninit(&rsp->req);
- 		nvmet_rdma_release_rsp(rsp);
- 		if (wc->status != IB_WC_WR_FLUSH_ERR) {
- 			pr_info("RDMA READ for CQE 0x%p failed with status %s (%d).\n",
--- 
-1.8.3.1
+The thing is that remove can happen any time, either from hotplug or
+unbinding driver or 'echo 1 > $PCI_PATH/remove'. At the same time,
+the reset can be ongoing.
+
+Also looks the hang in del_gendisk() is fixed by this change, but I
+just found a new issue which is triggered after the NVMe PCI device is rescaned
+again after last remove.
+
+[  504.135554] VFS: Dirty inode writeback failed for block device nvme0n1p1 (err=-5).
+
+> 
+> > Another solution I thought of is to kill queues earlier, what do you
+> > think about the following patch?
+> 
+> That should get it unstuck, but it will error all the IO that fsync_bdev
+> would probably rather complete successfully.
+
+nvme_dev_disable(false) has been completed already before killing queues in
+nvme_remove_dead_ctrl(), so both hw queue is stopped and nvmeq->cq_vector is
+set as -1 in nvme_suspend_queue(). That means no new I/O(include IO in
+fsync_bdev) can be submitted successfully any more, so looks it is reasonable
+to kill queue in nvme_remove_dead_ctrl().
+
+> 
+> Question though, why doesn't the remove_work's nvme_kill_queues in
+> its current place allow forward progress already?
+
+That is because .remove_work may not be run before del_gendisk() is
+started even though the .reset_work is flushed, and we can't flush
+.remove_work simply here.
+
+Thanks,
+Ming
