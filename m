@@ -1,29 +1,24 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 9 May 2017 08:54:00 +0200
-Subject: [PATCH] nvme_fc: set logging level on resets/deletes
-In-Reply-To: <58f12888-7c66-88e2-5a31-3dbb3f3b886d@gmail.com>
-References: <20170425223234.3958-1-jsmart2021@gmail.com>
- <552d0a62-d74d-f20b-049f-11338b701c5f@suse.de>
- <58f12888-7c66-88e2-5a31-3dbb3f3b886d@gmail.com>
-Message-ID: <43be8f95-d967-7f8e-df34-8133ea9ca1d1@suse.de>
+Date: Tue, 9 May 2017 09:26:53 +0200
+Subject: [PATCH v2] nvmet_fc: Add queue create and delete callbacks in
+ LLDD api
+In-Reply-To: <20170508214851.28690-1-jsmart2021@gmail.com>
+References: <20170508214851.28690-1-jsmart2021@gmail.com>
+Message-ID: <f60d818d-3053-1a51-0702-882f59bdd702@suse.de>
 
-On 05/08/2017 06:35 PM, James Smart wrote:
-> On 5/8/2017 2:31 AM, Johannes Thumshirn wrote:
->> Can you maybe change the above two messages to dev_debug()? I have a gut
->> feeling that they might become handy one day.
+On 05/08/2017 11:48 PM, jsmart2021@gmail.com wrote:
+> From: James Smart <jsmart2021 at gmail.com>
 > 
-> After debugging things, I didn't find these providing anything of value,
-> thus their deletion. The debug message of the connecting-to subnqn is
-> more than enough to derive this (e.g. is it the discovery nqn or not; as
-> only discovery ctrl would not attempt io queues), and additional actions
-> on the link, as well as messages by the target as it creates queues was
-> enough.
+> To facilitate LLDD resource management on nvme queue creation and
+> deletion, add optional callbacks queue_create and queue_delete.
 > 
-> -- james
-> 
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> ---
+> v2: require queue_delete if queue_create entrypoint present
 
-OK fair enough,
+Thanks,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
 
 -- 
 Johannes Thumshirn                                          Storage
