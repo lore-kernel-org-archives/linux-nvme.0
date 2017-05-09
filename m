@@ -1,117 +1,45 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue, 9 May 2017 11:26:59 +0800
+From: keith.busch@gmail.com (Keith Busch)
+Date: Mon, 8 May 2017 23:58:44 -0600
 Subject: [PATCH] nvme: remove disk after hw queue is started
-In-Reply-To: <20170509011025.GA13210@ming.t460p>
-References: <20170508112457.10236-1-ming.lei@redhat.com>
- <20170508124638.GD5696@ming.t460p>
- <20170508150720.GB32736@localhost.localdomain>
- <20170508151123.GA463@localhost.localdomain>
- <20170508161524.GE5696@ming.t460p>
- <20170508172511.GA1750@localhost.localdomain>
- <20170509011025.GA13210@ming.t460p>
-Message-ID: <20170509032654.GA15037@ming.t460p>
+In-Reply-To: <CAOSXXT6nGggnZj6e0Mo4eBwq63HfWRrVe3ddVA-YORvPJd9Raw@mail.gmail.com>
+References: <CAOSXXT6nGggnZj6e0Mo4eBwq63HfWRrVe3ddVA-YORvPJd9Raw@mail.gmail.com>
+Message-ID: <CAOSXXT5KzFN4m8DpqsssvEBPfkj=v=t8aq528wt2tFU_+LUmDQ@mail.gmail.com>
 
-Hi Keith.
+[ Trying again with plain-text mode... ]
 
-On Tue, May 09, 2017@09:10:30AM +0800, Ming Lei wrote:
-> Hi Keith,
-> 
-> Thanks for looking at this issue!
-> 
-> On Mon, May 08, 2017@01:25:12PM -0400, Keith Busch wrote:
-> > On Tue, May 09, 2017@12:15:25AM +0800, Ming Lei wrote:
-> > > This patch looks working, but seems any 'goto out' in this function
-> > > may have rick to cause the same race too.
-> > 
-> > The goto was really intended for handling totally broken contronllers,
-> > which isn't the case if someone requested to remove the pci device while
-> > we're initializing it. Point taken, though, let me run a few tests and
-> > see if there's a better way to handle this condition.
-> 
-> The thing is that remove can happen any time, either from hotplug or
-> unbinding driver or 'echo 1 > $PCI_PATH/remove'. At the same time,
-> the reset can be ongoing.
-> 
-> Also looks the hang in del_gendisk() is fixed by this change, but I
-> just found a new issue which is triggered after the NVMe PCI device is rescaned
-> again after last remove.
-> 
-> [  504.135554] VFS: Dirty inode writeback failed for block device nvme0n1p1 (err=-5).
-> 
-> > 
-> > > Another solution I thought of is to kill queues earlier, what do you
-> > > think about the following patch?
-> > 
-> > That should get it unstuck, but it will error all the IO that fsync_bdev
-> > would probably rather complete successfully.
-> 
-> nvme_dev_disable(false) has been completed already before killing queues in
-> nvme_remove_dead_ctrl(), so both hw queue is stopped and nvmeq->cq_vector is
-> set as -1 in nvme_suspend_queue(). That means no new I/O(include IO in
-> fsync_bdev) can be submitted successfully any more, so looks it is reasonable
-> to kill queue in nvme_remove_dead_ctrl().
-> 
-> > 
-> > Question though, why doesn't the remove_work's nvme_kill_queues in
-> > its current place allow forward progress already?
-> 
-> That is because .remove_work may not be run before del_gendisk() is
-> started even though the .reset_work is flushed, and we can't flush
-> .remove_work simply here.
+Sorry for replying with a new thread from a different email that isn't
+subscribed to the list, but my work computer isn't available at the moment
+and I am interested in hearing your thoughts on this one sooner.
 
-The following patch should be a complete version, and the io stress test
-with pci reset/remove has been survived for hours, and previously
-the hang can be reproduced in at most half an hour.
+>> On Mon, May 08, 2017@01:25:12PM -0400, Keith Busch wrote:
+>> > > On Tue, May 09, 2017@12:15:25AM +0800, Ming Lei wrote:
+>> > > This patch looks working, but seems any 'goto out' in this function
+>> > > may have rick to cause the same race too.
+>>
+>> > The goto was really intended for handling totally broken contronllers,
+>> > which isn't the case if someone requested to remove the pci device while
+>> > we're initializing it. Point taken, though, let me run a few tests and
+>> > see if there's a better way to handle this condition.
+>>
+>> The thing is that remove can happen any time, either from hotplug or
+>> unbinding driver or 'echo 1 > $PCI_PATH/remove'. At the same time,
+>> the reset can be ongoing.
 
----
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d5e0906262ea..f74cdf8e710f 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2097,6 +2097,15 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 					&nvme_ns_attr_group);
- 		if (ns->ndev)
- 			nvme_nvm_unregister_sysfs(ns);
-+
-+		/*
-+		 * If queue is dead, we have to abort requests in
-+		 * requeue list first because fsync_bdev() in removing disk
-+		 * path may wait for these IOs, which can't
-+		 * be submitted to hardware too.
-+		 */
-+		if (blk_queue_dying(ns->queue))
-+			blk_mq_abort_requeue_list(ns->queue);
- 		del_gendisk(ns->disk);
- 		blk_mq_abort_requeue_list(ns->queue);
- 		blk_cleanup_queue(ns->queue);
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index c8541c3dcd19..661b5ff7c168 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1892,6 +1892,14 @@ static void nvme_remove_dead_ctrl(struct nvme_dev *dev, int status)
- 
- 	kref_get(&dev->ctrl.kref);
- 	nvme_dev_disable(dev, false);
-+
-+	/*
-+	 * nvme_dev_disable() has suspended queues, then no new I/O
-+	 * can be submitted to hardware successfully any more, so
-+	 * kill queues now for avoiding race between reset failure
-+	 * and remove.
-+	 */
-+	nvme_kill_queues(&dev->ctrl);
- 	if (!schedule_work(&dev->remove_work))
- 		nvme_put_ctrl(&dev->ctrl);
- }
-@@ -1998,7 +2006,6 @@ static void nvme_remove_dead_ctrl_work(struct work_struct *work)
- 	struct nvme_dev *dev = container_of(work, struct nvme_dev, remove_work);
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	nvme_kill_queues(&dev->ctrl);
- 	if (pci_get_drvdata(pdev))
- 		device_release_driver(&pdev->dev);
- 	nvme_put_ctrl(&dev->ctrl);
+Yes, it's true you can run "echo 1 > ..." at any time to the sysfs remove
+file. You can also run "sudo umount /" or on any other in-use mounted
+partition, but that doesn't succeed. Why should "echo 1" take precedence
+over tasks writing to the device?
 
+Compared to umount, it is more problematic to remove the pci device through
+sysfs since that holds the pci rescan remove lock, so we do need to make
+forward progress, but I really think we ought to let the dirty data sync
+before that completes. Killing the queues makes that impossible, so I think
+not considering this to be a "dead" controller is in the right direction.
 
-Thanks,
-Ming
+But obviously the user is doing something _wrong_ if they're actively
+writing to the device they're respectfully asking Linux remove from the
+topology, right? If you _really_ want to remove it without caring about your
+data, just yank it out, and we'll handle that by destroying your in flight
+data with a synthesized failure status. But if the device you want to remove
+is still perfectly accessible, we ought to get the user data committed to
+storage, right?
