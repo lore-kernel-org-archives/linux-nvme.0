@@ -1,45 +1,34 @@
-From: keith.busch@gmail.com (Keith Busch)
-Date: Mon, 8 May 2017 23:58:44 -0600
-Subject: [PATCH] nvme: remove disk after hw queue is started
-In-Reply-To: <CAOSXXT6nGggnZj6e0Mo4eBwq63HfWRrVe3ddVA-YORvPJd9Raw@mail.gmail.com>
-References: <CAOSXXT6nGggnZj6e0Mo4eBwq63HfWRrVe3ddVA-YORvPJd9Raw@mail.gmail.com>
-Message-ID: <CAOSXXT5KzFN4m8DpqsssvEBPfkj=v=t8aq528wt2tFU_+LUmDQ@mail.gmail.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 9 May 2017 08:54:00 +0200
+Subject: [PATCH] nvme_fc: set logging level on resets/deletes
+In-Reply-To: <58f12888-7c66-88e2-5a31-3dbb3f3b886d@gmail.com>
+References: <20170425223234.3958-1-jsmart2021@gmail.com>
+ <552d0a62-d74d-f20b-049f-11338b701c5f@suse.de>
+ <58f12888-7c66-88e2-5a31-3dbb3f3b886d@gmail.com>
+Message-ID: <43be8f95-d967-7f8e-df34-8133ea9ca1d1@suse.de>
 
-[ Trying again with plain-text mode... ]
+On 05/08/2017 06:35 PM, James Smart wrote:
+> On 5/8/2017 2:31 AM, Johannes Thumshirn wrote:
+>> Can you maybe change the above two messages to dev_debug()? I have a gut
+>> feeling that they might become handy one day.
+> 
+> After debugging things, I didn't find these providing anything of value,
+> thus their deletion. The debug message of the connecting-to subnqn is
+> more than enough to derive this (e.g. is it the discovery nqn or not; as
+> only discovery ctrl would not attempt io queues), and additional actions
+> on the link, as well as messages by the target as it creates queues was
+> enough.
+> 
+> -- james
+> 
 
-Sorry for replying with a new thread from a different email that isn't
-subscribed to the list, but my work computer isn't available at the moment
-and I am interested in hearing your thoughts on this one sooner.
+OK fair enough,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
->> On Mon, May 08, 2017@01:25:12PM -0400, Keith Busch wrote:
->> > > On Tue, May 09, 2017@12:15:25AM +0800, Ming Lei wrote:
->> > > This patch looks working, but seems any 'goto out' in this function
->> > > may have rick to cause the same race too.
->>
->> > The goto was really intended for handling totally broken contronllers,
->> > which isn't the case if someone requested to remove the pci device while
->> > we're initializing it. Point taken, though, let me run a few tests and
->> > see if there's a better way to handle this condition.
->>
->> The thing is that remove can happen any time, either from hotplug or
->> unbinding driver or 'echo 1 > $PCI_PATH/remove'. At the same time,
->> the reset can be ongoing.
-
-Yes, it's true you can run "echo 1 > ..." at any time to the sysfs remove
-file. You can also run "sudo umount /" or on any other in-use mounted
-partition, but that doesn't succeed. Why should "echo 1" take precedence
-over tasks writing to the device?
-
-Compared to umount, it is more problematic to remove the pci device through
-sysfs since that holds the pci rescan remove lock, so we do need to make
-forward progress, but I really think we ought to let the dirty data sync
-before that completes. Killing the queues makes that impossible, so I think
-not considering this to be a "dead" controller is in the right direction.
-
-But obviously the user is doing something _wrong_ if they're actively
-writing to the device they're respectfully asking Linux remove from the
-topology, right? If you _really_ want to remove it without caring about your
-data, just yank it out, and we'll handle that by destroying your in flight
-data with a synthesized failure status. But if the device you want to remove
-is still perfectly accessible, we ought to get the user data committed to
-storage, right?
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
