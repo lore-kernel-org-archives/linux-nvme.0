@@ -1,9 +1,12 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 10 May 2017 10:09:55 -0700
-Subject: [PATCH] nvme_fc: require target or discovery role for fc-nvme
- targets
-In-Reply-To: <20170505231315.31622-1-jsmart2021@gmail.com>
-References: <20170505231315.31622-1-jsmart2021@gmail.com>
-Message-ID: <20170510170955.GE15161@infradead.org>
+Date: Wed, 10 May 2017 10:12:11 -0700
+Subject: [PATCH v2] nvmet: release the sq ref on rdma read errors
+In-Reply-To: <20170508233835.GA16635@vijayi-vm1>
+References: <20170508233835.GA16635@vijayi-vm1>
+Message-ID: <20170510171211.GF15161@infradead.org>
 
-Applied to nvme-4.12.
+Looks good to me:
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+Sagi: are you fine with this as well?
