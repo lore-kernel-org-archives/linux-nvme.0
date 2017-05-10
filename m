@@ -1,12 +1,12 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 10 May 2017 10:12:11 -0700
-Subject: [PATCH v2] nvmet: release the sq ref on rdma read errors
-In-Reply-To: <20170508233835.GA16635@vijayi-vm1>
-References: <20170508233835.GA16635@vijayi-vm1>
-Message-ID: <20170510171211.GF15161@infradead.org>
+Date: Wed, 10 May 2017 10:16:07 -0700
+Subject: [PATCH] nvme: change cq_vector to a bool and set to true after
+ request_irq
+In-Reply-To: <1492817055-33601-1-git-send-email-sandeep@purestorage.com>
+References: <1492817055-33601-1-git-send-email-sandeep@purestorage.com>
+Message-ID: <20170510171607.GA20827@infradead.org>
 
-Looks good to me:
+Can you repost the patch with the flags comment address against the
+current git tree from Linus?
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-
-Sagi: are you fine with this as well?
+Thanks!
