@@ -1,149 +1,26 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 10 May 2017 09:00:10 -0700
-Subject: [PATCH] nvme_fcloop: fix port deletes and callbacks
-Message-ID: <20170510160010.32707-1-jsmart2021@gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 10 May 2017 09:55:12 -0700
+Subject: [PATCH] nvmet: release the sq ref on rdma read errors
+In-Reply-To: <2e17506a-f44e-a962-e469-60521fd0cc53@grimberg.me>
+References: <CAN9s3O597CB9d2BoPx1gL5a7NnqhxrXYMhE==Q3E8+BoDxRFiQ@mail.gmail.com>
+ <01cb01d2c446$20cd83a0$62688ae0$@attalasystems.com>
+ <01d601d2c446$b087cb90$119762b0$@attalasystems.com>
+ <da2ec86f-3c22-30a0-0e9b-f4c0fdf5eabb@grimberg.me>
+ <00d6f8bf-07bd-03ca-3060-fd3def1ef1d7@grimberg.me>
+ <20170504085631.GA5584@lst.de>
+ <5e0ca611-97d8-8884-abc3-c0f3b6172a21@grimberg.me>
+ <014901d2c528$ec347430$c49d5c90$@attalasystems.com>
+ <2e17506a-f44e-a962-e469-60521fd0cc53@grimberg.me>
+Message-ID: <20170510165512.GA7992@infradead.org>
 
-Now that there are potentially long delays between when a
-remoteport or targetport delete calls is made and when the
-callback occurs (dev_loss_tmo timeout), no longer block in the
-delete routines and move the final nport puts to the callbacks.
+On Sat, May 06, 2017@11:31:38PM +0300, Sagi Grimberg wrote:
+> Vijay,
+> 
+> > Thanks for the feedback. Here's an updated patch.
+> 
+> Can you please resubmit it as a proper patch? it'd make
+> our lives much easier.
 
-Moved the fcloop_nport_get/put/free routines to avoid forward
-declarations.
-
-Ensure port_info structs used in registrations are nulled in
-case fields are not set (ex: devloss_tmo values).
-
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/fcloop.c | 66 +++++++++++++++++++++-----------------------
- 1 file changed, 32 insertions(+), 34 deletions(-)
-
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 294a6611fb24..6a9dfbd87574 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -636,6 +636,32 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
- }
- 
- static void
-+fcloop_nport_free(struct kref *ref)
-+{
-+	struct fcloop_nport *nport =
-+		container_of(ref, struct fcloop_nport, ref);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&fcloop_lock, flags);
-+	list_del(&nport->nport_list);
-+	spin_unlock_irqrestore(&fcloop_lock, flags);
-+
-+	kfree(nport);
-+}
-+
-+static void
-+fcloop_nport_put(struct fcloop_nport *nport)
-+{
-+	kref_put(&nport->ref, fcloop_nport_free);
-+}
-+
-+static int
-+fcloop_nport_get(struct fcloop_nport *nport)
-+{
-+	return kref_get_unless_zero(&nport->ref);
-+}
-+
-+static void
- fcloop_localport_delete(struct nvme_fc_local_port *localport)
- {
- 	struct fcloop_lport *lport = localport->private;
-@@ -651,6 +677,8 @@ fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
- 
- 	/* release any threads waiting for the unreg to complete */
- 	complete(&rport->nport->rport_unreg_done);
-+
-+	fcloop_nport_put(rport->nport);
- }
- 
- static void
-@@ -660,6 +688,8 @@ fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
- 
- 	/* release any threads waiting for the unreg to complete */
- 	complete(&tport->nport->tport_unreg_done);
-+
-+	fcloop_nport_put(tport->nport);
- }
- 
- #define	FCLOOP_HW_QUEUES		4
-@@ -727,6 +757,7 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
- 		goto out_free_opts;
- 	}
- 
-+	memset(&pinfo, 0, sizeof(pinfo));
- 	pinfo.node_name = opts->wwnn;
- 	pinfo.port_name = opts->wwpn;
- 	pinfo.port_role = opts->roles;
-@@ -809,32 +840,6 @@ fcloop_delete_local_port(struct device *dev, struct device_attribute *attr,
- 	return ret ? ret : count;
- }
- 
--static void
--fcloop_nport_free(struct kref *ref)
--{
--	struct fcloop_nport *nport =
--		container_of(ref, struct fcloop_nport, ref);
--	unsigned long flags;
--
--	spin_lock_irqsave(&fcloop_lock, flags);
--	list_del(&nport->nport_list);
--	spin_unlock_irqrestore(&fcloop_lock, flags);
--
--	kfree(nport);
--}
--
--static void
--fcloop_nport_put(struct fcloop_nport *nport)
--{
--	kref_put(&nport->ref, fcloop_nport_free);
--}
--
--static int
--fcloop_nport_get(struct fcloop_nport *nport)
--{
--	return kref_get_unless_zero(&nport->ref);
--}
--
- static struct fcloop_nport *
- fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
- {
-@@ -943,6 +948,7 @@ fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
- 	if (!nport)
- 		return -EIO;
- 
-+	memset(&pinfo, 0, sizeof(pinfo));
- 	pinfo.node_name = nport->node_name;
- 	pinfo.port_name = nport->port_name;
- 	pinfo.port_role = nport->port_role;
-@@ -997,10 +1003,6 @@ __wait_remoteport_unreg(struct fcloop_nport *nport, struct fcloop_rport *rport)
- 	if (ret)
- 		return ret;
- 
--	wait_for_completion(&nport->rport_unreg_done);
--
--	fcloop_nport_put(nport);
--
- 	return ret;
- }
- 
-@@ -1104,10 +1106,6 @@ __wait_targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
- 	if (ret)
- 		return ret;
- 
--	wait_for_completion(&nport->tport_unreg_done);
--
--	fcloop_nport_put(nport);
--
- 	return ret;
- }
- 
--- 
-2.11.0
+What's the problem with it?  Except for the ---- instead of the usual
+--- it looks like the normal way to submit a patch inside a mail
+with other content.
