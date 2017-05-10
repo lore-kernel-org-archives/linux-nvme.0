@@ -1,354 +1,338 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 10 May 2017 12:07:07 -0700
-Subject: [PATCH 09/15] lpfc: Added recovery logic for running out of NVMET IO
- context resources
+Date: Wed, 10 May 2017 12:07:12 -0700
+Subject: [PATCH 14/15] lpfc: Add MDS Diagnostic support.
 In-Reply-To: <20170510190713.30171-1-jsmart2021@gmail.com>
 References: <20170510190713.30171-1-jsmart2021@gmail.com>
-Message-ID: <20170510190713.30171-10-jsmart2021@gmail.com>
+Message-ID: <20170510190713.30171-15-jsmart2021@gmail.com>
 
-Previous logic would just drop the IO
-
-Added logic to queue the IO to wait for an IO context resource from an IO
-thats already in progress.
+Added code to support Cisco MDS loopback diagnostic. The diagnostics
+run various loopbacks including one which loops-back frame through
+the driver.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc.h         |   1 +
- drivers/scsi/lpfc/lpfc_attr.c    |   6 ++
- drivers/scsi/lpfc/lpfc_crtn.h    |   2 +
- drivers/scsi/lpfc/lpfc_debugfs.c |   6 ++
- drivers/scsi/lpfc/lpfc_init.c    |   2 +
- drivers/scsi/lpfc/lpfc_nvmet.c   | 138 +++++++++++++++++++++++++++++++++------
- drivers/scsi/lpfc/lpfc_sli.c     |   7 +-
- drivers/scsi/lpfc/lpfc_sli4.h    |   6 +-
- 8 files changed, 144 insertions(+), 24 deletions(-)
+ drivers/scsi/lpfc/lpfc.h         |   2 +
+ drivers/scsi/lpfc/lpfc_els.c     |   7 +++
+ drivers/scsi/lpfc/lpfc_hbadisc.c |   3 +-
+ drivers/scsi/lpfc/lpfc_hw4.h     |  15 ++++-
+ drivers/scsi/lpfc/lpfc_init.c    |  13 ++++
+ drivers/scsi/lpfc/lpfc_sli.c     | 131 ++++++++++++++++++++++++++++++++++++---
+ 6 files changed, 161 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
-index 72641b1d3ab8..c47bde6205c9 100644
+index c47bde6205c9..f2c0ba6ced78 100644
 --- a/drivers/scsi/lpfc/lpfc.h
 +++ b/drivers/scsi/lpfc/lpfc.h
-@@ -170,6 +170,7 @@ struct rqb_dmabuf {
- 	struct lpfc_dmabuf dbuf;
- 	uint16_t total_size;
- 	uint16_t bytes_recv;
-+	uint16_t idx;
- 	struct lpfc_queue *hrq;	  /* ptr to associated Header RQ */
- 	struct lpfc_queue *drq;	  /* ptr to associated Data RQ */
+@@ -675,6 +675,8 @@ struct lpfc_hba {
+ 					/* INIT_LINK mailbox command */
+ #define LS_NPIV_FAB_SUPPORTED 0x2	/* Fabric supports NPIV */
+ #define LS_IGNORE_ERATT       0x4	/* intr handler should ignore ERATT */
++#define LS_MDS_LINK_DOWN      0x8	/* MDS Diagnostics Link Down */
++#define LS_MDS_LOOPBACK      0x16	/* MDS Diagnostics Link Up (Loopback) */
+ 
+ 	uint32_t hba_flag;	/* hba generic flags */
+ #define HBA_ERATT_HANDLED	0x1 /* This flag is set when eratt handled */
+diff --git a/drivers/scsi/lpfc/lpfc_els.c b/drivers/scsi/lpfc/lpfc_els.c
+index 3085895464d9..1d36f82fa369 100644
+--- a/drivers/scsi/lpfc/lpfc_els.c
++++ b/drivers/scsi/lpfc/lpfc_els.c
+@@ -1047,6 +1047,13 @@ lpfc_cmpl_els_flogi(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
+ 				 irsp->ulpStatus, irsp->un.ulpWord[4],
+ 				 irsp->ulpTimeout);
+ 
++
++		/* If this is not a loop open failure, bail out */
++		if (!(irsp->ulpStatus == IOSTAT_LOCAL_REJECT &&
++		      ((irsp->un.ulpWord[4] & IOERR_PARAM_MASK) ==
++					IOERR_LOOP_OPEN_FAILURE)))
++			goto flogifail;
++
+ 		/* FLOGI failed, so there is no fabric */
+ 		spin_lock_irq(shost->host_lock);
+ 		vport->fc_flag &= ~(FC_FABRIC | FC_PUBLIC_LOOP);
+diff --git a/drivers/scsi/lpfc/lpfc_hbadisc.c b/drivers/scsi/lpfc/lpfc_hbadisc.c
+index dcc9b3858778..3ffcd9215ca8 100644
+--- a/drivers/scsi/lpfc/lpfc_hbadisc.c
++++ b/drivers/scsi/lpfc/lpfc_hbadisc.c
+@@ -701,7 +701,8 @@ lpfc_work_done(struct lpfc_hba *phba)
+ 			/* Set the lpfc data pending flag */
+ 			set_bit(LPFC_DATA_READY, &phba->data_flags);
+ 		} else {
+-			if (phba->link_state >= LPFC_LINK_UP) {
++			if (phba->link_state >= LPFC_LINK_UP ||
++			    phba->link_flag & LS_MDS_LOOPBACK) {
+ 				pring->flag &= ~LPFC_DEFERRED_RING_EVENT;
+ 				lpfc_sli_handle_slow_ring_event(phba, pring,
+ 								(status &
+diff --git a/drivers/scsi/lpfc/lpfc_hw4.h b/drivers/scsi/lpfc/lpfc_hw4.h
+index df97c6b7433b..e0a5fce416ae 100644
+--- a/drivers/scsi/lpfc/lpfc_hw4.h
++++ b/drivers/scsi/lpfc/lpfc_hw4.h
+@@ -4421,6 +4421,19 @@ struct fcp_treceive64_wqe {
  };
-diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
-index ebde2e06fb4b..f60ab7322d6c 100644
---- a/drivers/scsi/lpfc/lpfc_attr.c
-+++ b/drivers/scsi/lpfc/lpfc_attr.c
-@@ -245,6 +245,12 @@ lpfc_nvme_info_show(struct device *dev, struct device_attribute *attr,
- 				atomic_read(&tgtp->xmt_abort_rsp),
- 				atomic_read(&tgtp->xmt_abort_rsp_error));
+ #define TXRDY_PAYLOAD_LEN      12
  
-+		len += snprintf(buf + len, PAGE_SIZE - len,
-+				"IO_CTX: %08x outstanding %08x total %x",
-+				phba->sli4_hba.nvmet_ctx_cnt,
-+				phba->sli4_hba.nvmet_io_wait_cnt,
-+				phba->sli4_hba.nvmet_io_wait_total);
++#define CMD_SEND_FRAME	0xE1
 +
- 		len +=  snprintf(buf+len, PAGE_SIZE-len, "\n");
- 		return len;
- 	}
-diff --git a/drivers/scsi/lpfc/lpfc_crtn.h b/drivers/scsi/lpfc/lpfc_crtn.h
-index cc95abd130b4..8912767e7bc8 100644
---- a/drivers/scsi/lpfc/lpfc_crtn.h
-+++ b/drivers/scsi/lpfc/lpfc_crtn.h
-@@ -77,6 +77,8 @@ void lpfc_retry_pport_discovery(struct lpfc_hba *);
- void lpfc_release_rpi(struct lpfc_hba *, struct lpfc_vport *, uint16_t);
- int lpfc_init_iocb_list(struct lpfc_hba *phba, int cnt);
- void lpfc_free_iocb_list(struct lpfc_hba *phba);
-+int lpfc_post_rq_buffer(struct lpfc_hba *phba, struct lpfc_queue *hrq,
-+			struct lpfc_queue *drq, int count, int idx);
++struct send_frame_wqe {
++	struct ulp_bde64 bde;          /* words 0-2 */
++	uint32_t frame_len;            /* word 3 */
++	uint32_t fc_hdr_wd0;           /* word 4 */
++	uint32_t fc_hdr_wd1;           /* word 5 */
++	struct wqe_common wqe_com;     /* words 6-11 */
++	uint32_t fc_hdr_wd2;           /* word 12 */
++	uint32_t fc_hdr_wd3;           /* word 13 */
++	uint32_t fc_hdr_wd4;           /* word 14 */
++	uint32_t fc_hdr_wd5;           /* word 15 */
++};
  
- void lpfc_mbx_cmpl_local_config_link(struct lpfc_hba *, LPFC_MBOXQ_t *);
- void lpfc_mbx_cmpl_reg_login(struct lpfc_hba *, LPFC_MBOXQ_t *);
-diff --git a/drivers/scsi/lpfc/lpfc_debugfs.c b/drivers/scsi/lpfc/lpfc_debugfs.c
-index 7284533f4df2..c7d1c9d37a64 100644
---- a/drivers/scsi/lpfc/lpfc_debugfs.c
-+++ b/drivers/scsi/lpfc/lpfc_debugfs.c
-@@ -842,6 +842,12 @@ lpfc_debugfs_nvmestat_data(struct lpfc_vport *vport, char *buf, int size)
- 			}
- 			spin_unlock(&phba->sli4_hba.abts_nvme_buf_list_lock);
- 		}
-+
-+		len += snprintf(buf + len, size - len,
-+				"IO_CTX: %08x  outstanding %08x total %08x\n",
-+				phba->sli4_hba.nvmet_ctx_cnt,
-+				phba->sli4_hba.nvmet_io_wait_cnt,
-+				phba->sli4_hba.nvmet_io_wait_total);
- 	} else {
- 		if (!(phba->cfg_enable_fc4_type & LPFC_ENABLE_NVME))
- 			return len;
+ union lpfc_wqe {
+ 	uint32_t words[16];
+@@ -4439,7 +4452,7 @@ union lpfc_wqe {
+ 	struct fcp_trsp64_wqe fcp_trsp;
+ 	struct fcp_tsend64_wqe fcp_tsend;
+ 	struct fcp_treceive64_wqe fcp_treceive;
+-
++	struct send_frame_wqe send_frame;
+ };
+ 
+ union lpfc_wqe128 {
 diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index 53d5ab37a46e..472117eb9257 100644
+index 9f6c7e71814b..9add9473cae5 100644
 --- a/drivers/scsi/lpfc/lpfc_init.c
 +++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -5825,6 +5825,7 @@ lpfc_sli4_driver_resource_setup(struct lpfc_hba *phba)
- 		INIT_LIST_HEAD(&phba->sli4_hba.lpfc_abts_nvme_buf_list);
- 		INIT_LIST_HEAD(&phba->sli4_hba.lpfc_abts_nvmet_ctx_list);
- 		INIT_LIST_HEAD(&phba->sli4_hba.lpfc_nvmet_ctx_list);
-+		INIT_LIST_HEAD(&phba->sli4_hba.lpfc_nvmet_io_wait_list);
+@@ -4540,6 +4540,19 @@ lpfc_sli4_async_fc_evt(struct lpfc_hba *phba, struct lpfc_acqe_fc_la *acqe_fc)
+ 	pmb->vport = phba->pport;
  
- 		/* Fast-path XRI aborted CQ Event work queue list */
- 		INIT_LIST_HEAD(&phba->sli4_hba.sp_nvme_xri_aborted_work_queue);
-@@ -5833,6 +5834,7 @@ lpfc_sli4_driver_resource_setup(struct lpfc_hba *phba)
- 	/* This abort list used by worker thread */
- 	spin_lock_init(&phba->sli4_hba.sgl_list_lock);
- 	spin_lock_init(&phba->sli4_hba.nvmet_io_lock);
-+	spin_lock_init(&phba->sli4_hba.nvmet_io_wait_lock);
- 
- 	/*
- 	 * Initialize driver internal slow-path work queues
-diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
-index fcc77ae0c71c..312f54278bd4 100644
---- a/drivers/scsi/lpfc/lpfc_nvmet.c
-+++ b/drivers/scsi/lpfc/lpfc_nvmet.c
-@@ -158,6 +158,12 @@ void
- lpfc_nvmet_ctxbuf_post(struct lpfc_hba *phba, struct lpfc_nvmet_ctxbuf *ctx_buf)
- {
- 	struct lpfc_nvmet_rcv_ctx *ctxp = ctx_buf->context;
-+	struct lpfc_nvmet_tgtport *tgtp;
-+	struct fc_frame_header *fc_hdr;
-+	struct rqb_dmabuf *nvmebuf;
-+	struct lpfc_dmabuf *hbufp;
-+	uint32_t *payload;
-+	uint32_t size, oxid, sid, rc;
- 	unsigned long iflag;
- 
- 	if (ctxp->txrdy) {
-@@ -168,6 +174,87 @@ lpfc_nvmet_ctxbuf_post(struct lpfc_hba *phba, struct lpfc_nvmet_ctxbuf *ctx_buf)
- 	}
- 	ctxp->state = LPFC_NVMET_STE_FREE;
- 
-+	spin_lock_irqsave(&phba->sli4_hba.nvmet_io_wait_lock, iflag);
-+	if (phba->sli4_hba.nvmet_io_wait_cnt) {
-+		hbufp = &nvmebuf->hbuf;
-+		list_remove_head(&phba->sli4_hba.lpfc_nvmet_io_wait_list,
-+				 nvmebuf, struct rqb_dmabuf,
-+				 hbuf.list);
-+		phba->sli4_hba.nvmet_io_wait_cnt--;
-+		spin_unlock_irqrestore(&phba->sli4_hba.nvmet_io_wait_lock,
-+				       iflag);
+ 	if (phba->sli4_hba.link_state.status != LPFC_FC_LA_TYPE_LINK_UP) {
++		phba->link_flag &= ~(LS_MDS_LINK_DOWN | LS_MDS_LOOPBACK);
 +
-+		fc_hdr = (struct fc_frame_header *)(nvmebuf->hbuf.virt);
-+		oxid = be16_to_cpu(fc_hdr->fh_ox_id);
-+		tgtp = (struct lpfc_nvmet_tgtport *)phba->targetport->private;
-+		payload = (uint32_t *)(nvmebuf->dbuf.virt);
-+		size = nvmebuf->bytes_recv;
-+		sid = sli4_sid_from_fc_hdr(fc_hdr);
-+
-+		ctxp = (struct lpfc_nvmet_rcv_ctx *)ctx_buf->context;
-+		memset(ctxp, 0, sizeof(ctxp->ctx));
-+		ctxp->wqeq = NULL;
-+		ctxp->txrdy = NULL;
-+		ctxp->offset = 0;
-+		ctxp->phba = phba;
-+		ctxp->size = size;
-+		ctxp->oxid = oxid;
-+		ctxp->sid = sid;
-+		ctxp->state = LPFC_NVMET_STE_RCV;
-+		ctxp->entry_cnt = 1;
-+		ctxp->flag = 0;
-+		ctxp->ctxbuf = ctx_buf;
-+		spin_lock_init(&ctxp->ctxlock);
-+
-+#ifdef CONFIG_SCSI_LPFC_DEBUG_FS
-+		if (phba->ktime_on) {
-+			ctxp->ts_cmd_nvme = ktime_get_ns();
-+			ctxp->ts_isr_cmd = ctxp->ts_cmd_nvme;
-+			ctxp->ts_nvme_data = 0;
-+			ctxp->ts_data_wqput = 0;
-+			ctxp->ts_isr_data = 0;
-+			ctxp->ts_data_nvme = 0;
-+			ctxp->ts_nvme_status = 0;
-+			ctxp->ts_status_wqput = 0;
-+			ctxp->ts_isr_status = 0;
-+			ctxp->ts_status_nvme = 0;
-+		}
-+#endif
-+		atomic_inc(&tgtp->rcv_fcp_cmd_in);
-+		/*
-+		 * The calling sequence should be:
-+		 * nvmet_fc_rcv_fcp_req->lpfc_nvmet_xmt_fcp_op/cmp- req->done
-+		 * lpfc_nvmet_xmt_fcp_op_cmp should free the allocated ctxp.
-+		 * When we return from nvmet_fc_rcv_fcp_req, all relevant info
-+		 * the NVME command / FC header is stored.
-+		 * A buffer has already been reposted for this IO, so just free
-+		 * the nvmebuf.
-+		 */
-+		rc = nvmet_fc_rcv_fcp_req(phba->targetport, &ctxp->ctx.fcp_req,
-+					  payload, size);
-+
-+		/* Process FCP command */
-+		if (rc == 0) {
-+			atomic_inc(&tgtp->rcv_fcp_cmd_out);
-+			nvmebuf->hrq->rqbp->rqb_free_buffer(phba, nvmebuf);
-+			return;
++		switch (phba->sli4_hba.link_state.status) {
++		case LPFC_FC_LA_TYPE_MDS_LINK_DOWN:
++			phba->link_flag |= LS_MDS_LINK_DOWN;
++			break;
++		case LPFC_FC_LA_TYPE_MDS_LOOPBACK:
++			phba->link_flag |= LS_MDS_LOOPBACK;
++			break;
++		default:
++			break;
 +		}
 +
-+		atomic_inc(&tgtp->rcv_fcp_cmd_drop);
-+		lpfc_printf_log(phba, KERN_ERR, LOG_NVME_IOERR,
-+				"2582 FCP Drop IO x%x: err x%x: x%x x%x x%x\n",
-+				ctxp->oxid, rc,
-+				atomic_read(&tgtp->rcv_fcp_cmd_in),
-+				atomic_read(&tgtp->rcv_fcp_cmd_out),
-+				atomic_read(&tgtp->xmt_fcp_release));
-+
-+		lpfc_nvmet_defer_release(phba, ctxp);
-+		lpfc_nvmet_unsol_fcp_issue_abort(phba, ctxp, sid, oxid);
-+		nvmebuf->hrq->rqbp->rqb_free_buffer(phba, nvmebuf);
-+		return;
-+	}
-+	spin_unlock_irqrestore(&phba->sli4_hba.nvmet_io_wait_lock, iflag);
-+
- 	spin_lock_irqsave(&phba->sli4_hba.nvmet_io_lock, iflag);
- 	list_add_tail(&ctx_buf->list,
- 		      &phba->sli4_hba.lpfc_nvmet_ctx_list);
-@@ -1232,7 +1319,7 @@ lpfc_nvmet_unsol_fcp_buffer(struct lpfc_hba *phba,
- 	struct fc_frame_header *fc_hdr;
- 	struct lpfc_nvmet_ctxbuf *ctx_buf;
- 	uint32_t *payload;
--	uint32_t size, oxid, sid, rc;
-+	uint32_t size, oxid, sid, rc, qno;
- 	unsigned long iflag;
- #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
- 	uint32_t id;
-@@ -1257,21 +1344,41 @@ lpfc_nvmet_unsol_fcp_buffer(struct lpfc_hba *phba,
- 	}
- 	spin_unlock_irqrestore(&phba->sli4_hba.nvmet_io_lock, iflag);
- 
-+	fc_hdr = (struct fc_frame_header *)(nvmebuf->hbuf.virt);
-+	oxid = be16_to_cpu(fc_hdr->fh_ox_id);
-+	size = nvmebuf->bytes_recv;
-+
-+#ifdef CONFIG_SCSI_LPFC_DEBUG_FS
-+	if (phba->cpucheck_on & LPFC_CHECK_NVMET_RCV) {
-+		id = smp_processor_id();
-+		if (id < LPFC_CHECK_CPU_CNT)
-+			phba->cpucheck_rcv_io[id]++;
-+	}
-+#endif
-+
-+	lpfc_nvmeio_data(phba, "NVMET FCP  RCV: xri x%x sz %d CPU %02x\n",
-+			 oxid, size, smp_processor_id());
-+
- 	if (!ctx_buf) {
--		lpfc_printf_log(phba, KERN_ERR, LOG_NVME_IOERR,
--				"6408 No NVMET ctx Drop IO\n");
--		oxid = 0;
--		size = 0;
--		sid = 0;
--		ctxp = NULL;
--		goto dropit;
-+		/* Queue this NVME IO to process later */
-+		spin_lock_irqsave(&phba->sli4_hba.nvmet_io_wait_lock, iflag);
-+		list_add_tail(&nvmebuf->hbuf.list,
-+			      &phba->sli4_hba.lpfc_nvmet_io_wait_list);
-+		phba->sli4_hba.nvmet_io_wait_cnt++;
-+		phba->sli4_hba.nvmet_io_wait_total++;
-+		spin_unlock_irqrestore(&phba->sli4_hba.nvmet_io_wait_lock,
-+				       iflag);
-+
-+		/* Post a brand new DMA buffer to RQ */
-+		qno = nvmebuf->idx;
-+		lpfc_post_rq_buffer(
-+			phba, phba->sli4_hba.nvmet_mrq_hdr[qno],
-+			phba->sli4_hba.nvmet_mrq_data[qno], 1, qno);
-+		return;
- 	}
- 
- 	tgtp = (struct lpfc_nvmet_tgtport *)phba->targetport->private;
- 	payload = (uint32_t *)(nvmebuf->dbuf.virt);
--	fc_hdr = (struct fc_frame_header *)(nvmebuf->hbuf.virt);
--	size = nvmebuf->bytes_recv;
--	oxid = be16_to_cpu(fc_hdr->fh_ox_id);
- 	sid = sli4_sid_from_fc_hdr(fc_hdr);
- 
- 	ctxp = (struct lpfc_nvmet_rcv_ctx *)ctx_buf->context;
-@@ -1302,17 +1409,8 @@ lpfc_nvmet_unsol_fcp_buffer(struct lpfc_hba *phba,
- 		ctxp->ts_isr_status = 0;
- 		ctxp->ts_status_nvme = 0;
- 	}
--
--	if (phba->cpucheck_on & LPFC_CHECK_NVMET_RCV) {
--		id = smp_processor_id();
--		if (id < LPFC_CHECK_CPU_CNT)
--			phba->cpucheck_rcv_io[id]++;
--	}
- #endif
- 
--	lpfc_nvmeio_data(phba, "NVMET FCP  RCV: xri x%x sz %d CPU %02x\n",
--			 oxid, size, smp_processor_id());
--
- 	atomic_inc(&tgtp->rcv_fcp_cmd_in);
- 	/*
- 	 * The calling sequence should be:
+ 		/* Parse and translate status field */
+ 		mb = &pmb->u.mb;
+ 		mb->mbxStatus = lpfc_sli4_parse_latt_fault(phba,
 diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
-index b4ab095deb5d..c8f597f4d49a 100644
+index 903c06ff828a..d6b184839bc2 100644
 --- a/drivers/scsi/lpfc/lpfc_sli.c
 +++ b/drivers/scsi/lpfc/lpfc_sli.c
-@@ -6513,9 +6513,9 @@ lpfc_set_host_data(struct lpfc_hba *phba, LPFC_MBOXQ_t *mbox)
- 		 (phba->hba_flag & HBA_FCOE_MODE) ? "FCoE" : "FC");
+@@ -74,6 +74,8 @@ static struct lpfc_iocbq *lpfc_sli4_els_wcqe_to_rspiocbq(struct lpfc_hba *,
+ 							 struct lpfc_iocbq *);
+ static void lpfc_sli4_send_seq_to_ulp(struct lpfc_vport *,
+ 				      struct hbq_dmabuf *);
++static void lpfc_sli4_handle_mds_loopback(struct lpfc_vport *vport,
++					  struct hbq_dmabuf *dmabuf);
+ static int lpfc_sli4_fp_handle_cqe(struct lpfc_hba *, struct lpfc_queue *,
+ 				    struct lpfc_cqe *);
+ static int lpfc_sli4_post_sgl_list(struct lpfc_hba *, struct list_head *,
+@@ -5907,7 +5909,7 @@ lpfc_set_features(struct lpfc_hba *phba, LPFC_MBOXQ_t *mbox,
+ 		bf_set(lpfc_mbx_set_feature_mds,
+ 		       &mbox->u.mqe.un.set_feature, 1);
+ 		bf_set(lpfc_mbx_set_feature_mds_deep_loopbk,
+-		       &mbox->u.mqe.un.set_feature, 0);
++		       &mbox->u.mqe.un.set_feature, 1);
+ 		mbox->u.mqe.un.set_feature.feature = LPFC_SET_MDS_DIAGS;
+ 		mbox->u.mqe.un.set_feature.param_len = 8;
+ 		break;
+@@ -8688,8 +8690,11 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
+ 		memset(wqe, 0, sizeof(union lpfc_wqe128));
+ 	/* Some of the fields are in the right position already */
+ 	memcpy(wqe, &iocbq->iocb, sizeof(union lpfc_wqe));
+-	wqe->generic.wqe_com.word7 = 0; /* The ct field has moved so reset */
+-	wqe->generic.wqe_com.word10 = 0;
++	if (iocbq->iocb.ulpCommand != CMD_SEND_FRAME) {
++		/* The ct field has moved so reset */
++		wqe->generic.wqe_com.word7 = 0;
++		wqe->generic.wqe_com.word10 = 0;
++	}
+ 
+ 	abort_tag = (uint32_t) iocbq->iotag;
+ 	xritag = iocbq->sli4_xritag;
+@@ -9183,6 +9188,10 @@ lpfc_sli4_iocb2wqe(struct lpfc_hba *phba, struct lpfc_iocbq *iocbq,
+ 		}
+ 
+ 		break;
++	case CMD_SEND_FRAME:
++		bf_set(wqe_xri_tag, &wqe->generic.wqe_com, xritag);
++		bf_set(wqe_reqtag, &wqe->generic.wqe_com, iocbq->iotag);
++		return 0;
+ 	case CMD_XRI_ABORTED_CX:
+ 	case CMD_CREATE_XRI_CR: /* Do we expect to use this? */
+ 	case CMD_IOCB_FCP_IBIDIR64_CR: /* bidirectional xfer */
+@@ -16137,6 +16146,8 @@ lpfc_fc_frame_check(struct lpfc_hba *phba, struct fc_frame_header *fc_hdr)
+ 	struct fc_vft_header *fc_vft_hdr;
+ 	uint32_t *header = (uint32_t *) fc_hdr;
+ 
++#define FC_RCTL_MDS_DIAGS	0xF4
++
+ 	switch (fc_hdr->fh_r_ctl) {
+ 	case FC_RCTL_DD_UNCAT:		/* uncategorized information */
+ 	case FC_RCTL_DD_SOL_DATA:	/* solicited data */
+@@ -16164,6 +16175,7 @@ lpfc_fc_frame_check(struct lpfc_hba *phba, struct fc_frame_header *fc_hdr)
+ 	case FC_RCTL_F_BSY:	/* fabric busy to data frame */
+ 	case FC_RCTL_F_BSYL:	/* fabric busy to link control frame */
+ 	case FC_RCTL_LCR:	/* link credit reset */
++	case FC_RCTL_MDS_DIAGS: /* MDS Diagnostics */
+ 	case FC_RCTL_END:	/* end */
+ 		break;
+ 	case FC_RCTL_VFTH:	/* Virtual Fabric tagging Header */
+@@ -16173,12 +16185,16 @@ lpfc_fc_frame_check(struct lpfc_hba *phba, struct fc_frame_header *fc_hdr)
+ 	default:
+ 		goto drop;
+ 	}
++
++#define FC_TYPE_VENDOR_UNIQUE	0xFF
++
+ 	switch (fc_hdr->fh_type) {
+ 	case FC_TYPE_BLS:
+ 	case FC_TYPE_ELS:
+ 	case FC_TYPE_FCP:
+ 	case FC_TYPE_CT:
+ 	case FC_TYPE_NVME:
++	case FC_TYPE_VENDOR_UNIQUE:
+ 		break;
+ 	case FC_TYPE_IP:
+ 	case FC_TYPE_ILS:
+@@ -16189,12 +16205,14 @@ lpfc_fc_frame_check(struct lpfc_hba *phba, struct fc_frame_header *fc_hdr)
+ 	lpfc_printf_log(phba, KERN_INFO, LOG_ELS,
+ 			"2538 Received frame rctl:%s (x%x), type:%s (x%x), "
+ 			"frame Data:%08x %08x %08x %08x %08x %08x %08x\n",
++			(fc_hdr->fh_r_ctl == FC_RCTL_MDS_DIAGS) ? "MDS Diags" :
+ 			lpfc_rctl_names[fc_hdr->fh_r_ctl], fc_hdr->fh_r_ctl,
+-			lpfc_type_names[fc_hdr->fh_type], fc_hdr->fh_type,
+-			be32_to_cpu(header[0]), be32_to_cpu(header[1]),
+-			be32_to_cpu(header[2]), be32_to_cpu(header[3]),
+-			be32_to_cpu(header[4]), be32_to_cpu(header[5]),
+-			be32_to_cpu(header[6]));
++			(fc_hdr->fh_type == FC_TYPE_VENDOR_UNIQUE) ?
++			"Vendor Unique" : lpfc_type_names[fc_hdr->fh_type],
++			fc_hdr->fh_type, be32_to_cpu(header[0]),
++			be32_to_cpu(header[1]), be32_to_cpu(header[2]),
++			be32_to_cpu(header[3]), be32_to_cpu(header[4]),
++			be32_to_cpu(header[5]), be32_to_cpu(header[6]));
+ 	return 0;
+ drop:
+ 	lpfc_printf_log(phba, KERN_WARNING, LOG_ELS,
+@@ -17000,6 +17018,96 @@ lpfc_sli4_send_seq_to_ulp(struct lpfc_vport *vport,
+ 	lpfc_sli_release_iocbq(phba, iocbq);
  }
  
--static int
-+int
- lpfc_post_rq_buffer(struct lpfc_hba *phba, struct lpfc_queue *hrq,
--		    struct lpfc_queue *drq, int count)
-+		    struct lpfc_queue *drq, int count, int idx)
- {
- 	int rc, i;
- 	struct lpfc_rqe hrqe;
-@@ -6534,6 +6534,7 @@ lpfc_post_rq_buffer(struct lpfc_hba *phba, struct lpfc_queue *hrq,
- 			break;
- 		rqb_buffer->hrq = hrq;
- 		rqb_buffer->drq = drq;
-+		rqb_buffer->idx = idx;
- 		list_add_tail(&rqb_buffer->hbuf.list, &rqb_buf_list);
- 	}
- 	while (!list_empty(&rqb_buf_list)) {
-@@ -6985,7 +6986,7 @@ lpfc_sli4_hba_setup(struct lpfc_hba *phba)
- 			lpfc_post_rq_buffer(
- 				phba, phba->sli4_hba.nvmet_mrq_hdr[i],
- 				phba->sli4_hba.nvmet_mrq_data[i],
--				LPFC_NVMET_RQE_DEF_COUNT);
-+				LPFC_NVMET_RQE_DEF_COUNT, i);
- 		}
- 	}
++static void
++lpfc_sli4_mds_loopback_cmpl(struct lpfc_hba *phba, struct lpfc_iocbq *cmdiocb,
++			    struct lpfc_iocbq *rspiocb)
++{
++	struct lpfc_dmabuf *pcmd = cmdiocb->context2;
++
++	if (pcmd && pcmd->virt)
++		pci_pool_free(phba->lpfc_drb_pool, pcmd->virt, pcmd->phys);
++	kfree(pcmd);
++	lpfc_sli_release_iocbq(phba, cmdiocb);
++}
++
++static void
++lpfc_sli4_handle_mds_loopback(struct lpfc_vport *vport,
++			      struct hbq_dmabuf *dmabuf)
++{
++	struct fc_frame_header *fc_hdr;
++	struct lpfc_hba *phba = vport->phba;
++	struct lpfc_iocbq *iocbq = NULL;
++	union  lpfc_wqe *wqe;
++	struct lpfc_dmabuf *pcmd = NULL;
++	uint32_t frame_len;
++	int rc;
++
++	fc_hdr = (struct fc_frame_header *)dmabuf->hbuf.virt;
++	frame_len = bf_get(lpfc_rcqe_length, &dmabuf->cq_event.cqe.rcqe_cmpl);
++
++	/* Send the received frame back */
++	iocbq = lpfc_sli_get_iocbq(phba);
++	if (!iocbq)
++		goto exit;
++
++	/* Allocate buffer for command payload */
++	pcmd = kmalloc(sizeof(struct lpfc_dmabuf), GFP_KERNEL);
++	if (pcmd)
++		pcmd->virt = pci_pool_alloc(phba->lpfc_drb_pool, GFP_KERNEL,
++					    &pcmd->phys);
++	if (!pcmd || !pcmd->virt)
++		goto exit;
++
++	INIT_LIST_HEAD(&pcmd->list);
++
++	/* copyin the payload */
++	memcpy(pcmd->virt, dmabuf->dbuf.virt, frame_len);
++
++	/* fill in BDE's for command */
++	iocbq->iocb.un.xseq64.bdl.addrHigh = putPaddrHigh(pcmd->phys);
++	iocbq->iocb.un.xseq64.bdl.addrLow = putPaddrLow(pcmd->phys);
++	iocbq->iocb.un.xseq64.bdl.bdeFlags = BUFF_TYPE_BDE_64;
++	iocbq->iocb.un.xseq64.bdl.bdeSize = frame_len;
++
++	iocbq->context2 = pcmd;
++	iocbq->vport = vport;
++	iocbq->iocb_flag &= ~LPFC_FIP_ELS_ID_MASK;
++	iocbq->iocb_flag |= LPFC_USE_FCPWQIDX;
++
++	/*
++	 * Setup rest of the iocb as though it were a WQE
++	 * Build the SEND_FRAME WQE
++	 */
++	wqe = (union lpfc_wqe *)&iocbq->iocb;
++
++	wqe->send_frame.frame_len = frame_len;
++	wqe->send_frame.fc_hdr_wd0 = be32_to_cpu(*((uint32_t *)fc_hdr));
++	wqe->send_frame.fc_hdr_wd1 = be32_to_cpu(*((uint32_t *)fc_hdr + 1));
++	wqe->send_frame.fc_hdr_wd2 = be32_to_cpu(*((uint32_t *)fc_hdr + 2));
++	wqe->send_frame.fc_hdr_wd3 = be32_to_cpu(*((uint32_t *)fc_hdr + 3));
++	wqe->send_frame.fc_hdr_wd4 = be32_to_cpu(*((uint32_t *)fc_hdr + 4));
++	wqe->send_frame.fc_hdr_wd5 = be32_to_cpu(*((uint32_t *)fc_hdr + 5));
++
++	iocbq->iocb.ulpCommand = CMD_SEND_FRAME;
++	iocbq->iocb.ulpLe = 1;
++	iocbq->iocb_cmpl = lpfc_sli4_mds_loopback_cmpl;
++	rc = lpfc_sli_issue_iocb(phba, LPFC_ELS_RING, iocbq, 0);
++	if (rc == IOCB_ERROR)
++		goto exit;
++
++	lpfc_in_buf_free(phba, &dmabuf->dbuf);
++	return;
++
++exit:
++	lpfc_printf_log(phba, KERN_WARNING, LOG_SLI,
++			"2023 Unable to process MDS loopback frame\n");
++	if (pcmd && pcmd->virt)
++		pci_pool_free(phba->lpfc_drb_pool, pcmd->virt, pcmd->phys);
++	kfree(pcmd);
++	lpfc_sli_release_iocbq(phba, iocbq);
++	lpfc_in_buf_free(phba, &dmabuf->dbuf);
++}
++
+ /**
+  * lpfc_sli4_handle_received_buffer - Handle received buffers from firmware
+  * @phba: Pointer to HBA context object.
+@@ -17038,6 +17146,13 @@ lpfc_sli4_handle_received_buffer(struct lpfc_hba *phba,
+ 		fcfi = bf_get(lpfc_rcqe_fcf_id,
+ 			      &dmabuf->cq_event.cqe.rcqe_cmpl);
  
-diff --git a/drivers/scsi/lpfc/lpfc_sli4.h b/drivers/scsi/lpfc/lpfc_sli4.h
-index 3e1ad28e2088..a650308a95c5 100644
---- a/drivers/scsi/lpfc/lpfc_sli4.h
-+++ b/drivers/scsi/lpfc/lpfc_sli4.h
-@@ -619,13 +619,16 @@ struct lpfc_sli4_hba {
- 	uint16_t els_xri_cnt;
- 	uint16_t nvmet_xri_cnt;
- 	uint16_t nvmet_ctx_cnt;
-+	uint16_t nvmet_io_wait_cnt;
-+	uint16_t nvmet_io_wait_total;
- 	struct list_head lpfc_els_sgl_list;
- 	struct list_head lpfc_abts_els_sgl_list;
- 	struct list_head lpfc_nvmet_sgl_list;
- 	struct list_head lpfc_abts_nvmet_ctx_list;
--	struct list_head lpfc_nvmet_ctx_list;
- 	struct list_head lpfc_abts_scsi_buf_list;
- 	struct list_head lpfc_abts_nvme_buf_list;
-+	struct list_head lpfc_nvmet_ctx_list;
-+	struct list_head lpfc_nvmet_io_wait_list;
- 	struct lpfc_sglq **lpfc_sglq_active_list;
- 	struct list_head lpfc_rpi_hdr_list;
- 	unsigned long *rpi_bmask;
-@@ -657,6 +660,7 @@ struct lpfc_sli4_hba {
- 	spinlock_t abts_scsi_buf_list_lock; /* list of aborted SCSI IOs */
- 	spinlock_t sgl_list_lock; /* list of aborted els IOs */
- 	spinlock_t nvmet_io_lock;
-+	spinlock_t nvmet_io_wait_lock; /* IOs waiting for ctx resources */
- 	uint32_t physical_port;
++	if (fc_hdr->fh_r_ctl == 0xF4 && fc_hdr->fh_type == 0xFF) {
++		vport = phba->pport;
++		/* Handle MDS Loopback frames */
++		lpfc_sli4_handle_mds_loopback(vport, dmabuf);
++		return;
++	}
++
+ 	/* d_id this frame is directed to */
+ 	did = sli4_did_from_fc_hdr(fc_hdr);
  
- 	/* CPU to vector mapping information */
 -- 
 2.11.0
