@@ -1,221 +1,64 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Wed, 10 May 2017 12:07:05 -0700
-Subject: [PATCH 07/15] lpfc: Separate NVMET data buffer pool fir ELS/CT.
+Date: Wed, 10 May 2017 12:07:11 -0700
+Subject: [PATCH 13/15] lpfc: Fix NVMEI's handling of NVMET's PRLI response
+ attributes
 In-Reply-To: <20170510190713.30171-1-jsmart2021@gmail.com>
 References: <20170510190713.30171-1-jsmart2021@gmail.com>
-Message-ID: <20170510190713.30171-8-jsmart2021@gmail.com>
+Message-ID: <20170510190713.30171-14-jsmart2021@gmail.com>
 
-Using 2048 byte buffer and onle 128 bytes is needed.
+Code review of NVMEI's FC_PORT_ROLE_NVME_DISCOVERY
+looked wrong.
 
-Create nee LFPC_NVMET_DATA_BUF_SIZE define to use
-for NVMET RQ/MRQs.
+Discussions with storage architecture team clarified
+NVMEI's audit of the PRLI response port roles.  Following up
+discussion with code review showed a few minor corrections
+were required - especially in anticipation of NVME auto
+discovery.
+
+During PRLI, NVMEI should sent prli_init - which it it
+does.  NVMET should send prli_tgt and prli_disc - which it does.
+When NVMEI receives a PRLI Response now, it audits the
+incoming target bits and stores the attributes in the
+corresponding NDLP.  Later, when NVMEI registers the NVME
+rport, it uses the stored ndlp attributes to set the rport
+port_roles correctly.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/scsi/lpfc/lpfc.h      |  1 +
- drivers/scsi/lpfc/lpfc_crtn.h |  1 +
- drivers/scsi/lpfc/lpfc_hw4.h  |  1 +
- drivers/scsi/lpfc/lpfc_init.c |  7 ++++++-
- drivers/scsi/lpfc/lpfc_mem.c  | 33 ++++++++++++++++++++++++++-------
- drivers/scsi/lpfc/lpfc_sli.c  | 19 +++++++++++++++----
- 6 files changed, 50 insertions(+), 12 deletions(-)
+ drivers/scsi/lpfc/lpfc_disc.h      | 1 +
+ drivers/scsi/lpfc/lpfc_nportdisc.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
-index 62571fa9c6ad..c4b38491da8e 100644
---- a/drivers/scsi/lpfc/lpfc.h
-+++ b/drivers/scsi/lpfc/lpfc.h
-@@ -943,6 +943,7 @@ struct lpfc_hba {
- 	struct pci_pool *lpfc_mbuf_pool;
- 	struct pci_pool *lpfc_hrb_pool;	/* header receive buffer pool */
- 	struct pci_pool *lpfc_drb_pool; /* data receive buffer pool */
-+	struct pci_pool *lpfc_nvmet_drb_pool; /* data receive buffer pool */
- 	struct pci_pool *lpfc_hbq_pool;	/* SLI3 hbq buffer pool */
- 	struct pci_pool *txrdy_payload_pool;
- 	struct lpfc_dma_pool lpfc_mbuf_safety_pool;
-diff --git a/drivers/scsi/lpfc/lpfc_crtn.h b/drivers/scsi/lpfc/lpfc_crtn.h
-index 1c55408ac718..fb7fc48a1324 100644
---- a/drivers/scsi/lpfc/lpfc_crtn.h
-+++ b/drivers/scsi/lpfc/lpfc_crtn.h
-@@ -271,6 +271,7 @@ int lpfc_sli4_fcf_rr_next_proc(struct lpfc_vport *, uint16_t);
- void lpfc_sli4_clear_fcf_rr_bmask(struct lpfc_hba *);
+diff --git a/drivers/scsi/lpfc/lpfc_disc.h b/drivers/scsi/lpfc/lpfc_disc.h
+index 9d5a379f4b15..094c97b9e5f7 100644
+--- a/drivers/scsi/lpfc/lpfc_disc.h
++++ b/drivers/scsi/lpfc/lpfc_disc.h
+@@ -90,6 +90,7 @@ struct lpfc_nodelist {
+ #define NLP_FCP_INITIATOR  0x10			/* entry is an FCP Initiator */
+ #define NLP_NVME_TARGET    0x20			/* entry is a NVME Target */
+ #define NLP_NVME_INITIATOR 0x40			/* entry is a NVME Initiator */
++#define NLP_NVME_DISCOVERY 0x80                 /* entry has NVME disc srvc */
  
- int lpfc_mem_alloc(struct lpfc_hba *, int align);
-+int lpfc_nvmet_mem_alloc(struct lpfc_hba *phba);
- int lpfc_mem_alloc_active_rrq_pool_s4(struct lpfc_hba *);
- void lpfc_mem_free(struct lpfc_hba *);
- void lpfc_mem_free_all(struct lpfc_hba *);
-diff --git a/drivers/scsi/lpfc/lpfc_hw4.h b/drivers/scsi/lpfc/lpfc_hw4.h
-index 1d12f2be36bc..df97c6b7433b 100644
---- a/drivers/scsi/lpfc/lpfc_hw4.h
-+++ b/drivers/scsi/lpfc/lpfc_hw4.h
-@@ -1356,6 +1356,7 @@ struct lpfc_mbx_wq_destroy {
+ 	uint16_t	nlp_fc4_type;		/* FC types node supports. */
+ 						/* Assigned from GID_FF, only
+diff --git a/drivers/scsi/lpfc/lpfc_nportdisc.c b/drivers/scsi/lpfc/lpfc_nportdisc.c
+index 8777c2d5f50d..bff3de053df4 100644
+--- a/drivers/scsi/lpfc/lpfc_nportdisc.c
++++ b/drivers/scsi/lpfc/lpfc_nportdisc.c
+@@ -1944,7 +1944,13 @@ lpfc_cmpl_prli_prli_issue(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
  
- #define LPFC_HDR_BUF_SIZE 128
- #define LPFC_DATA_BUF_SIZE 2048
-+#define LPFC_NVMET_DATA_BUF_SIZE 128
- struct rq_context {
- 	uint32_t word0;
- #define lpfc_rq_context_rqe_count_SHIFT	16	/* Version 0 Only */
-diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index 66e3cc40d64e..ced1fa3a3983 100644
---- a/drivers/scsi/lpfc/lpfc_init.c
-+++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -5956,16 +5956,21 @@ lpfc_sli4_driver_resource_setup(struct lpfc_hba *phba)
- 		for (i = 0; i < lpfc_enable_nvmet_cnt; i++) {
- 			if (wwn == lpfc_enable_nvmet[i]) {
- #if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
-+				if (lpfc_nvmet_mem_alloc(phba))
-+					break;
-+
-+				phba->nvmet_support = 1; /* a match */
-+
- 				lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
- 						"6017 NVME Target %016llx\n",
- 						wwn);
--				phba->nvmet_support = 1; /* a match */
- #else
- 				lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
- 						"6021 Can't enable NVME Target."
- 						" NVME_TARGET_FC infrastructure"
- 						" is not in kernel\n");
- #endif
-+				break;
- 			}
- 		}
- 	}
-diff --git a/drivers/scsi/lpfc/lpfc_mem.c b/drivers/scsi/lpfc/lpfc_mem.c
-index 5986c7957199..91060afc9721 100644
---- a/drivers/scsi/lpfc/lpfc_mem.c
-+++ b/drivers/scsi/lpfc/lpfc_mem.c
-@@ -214,6 +214,21 @@ lpfc_mem_alloc(struct lpfc_hba *phba, int align)
- 	return -ENOMEM;
- }
- 
-+int
-+lpfc_nvmet_mem_alloc(struct lpfc_hba *phba)
-+{
-+	phba->lpfc_nvmet_drb_pool =
-+		pci_pool_create("lpfc_nvmet_drb_pool",
-+				phba->pcidev, LPFC_NVMET_DATA_BUF_SIZE,
-+				SGL_ALIGN_SZ, 0);
-+	if (!phba->lpfc_nvmet_drb_pool) {
-+		lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
-+				"6024 Can't enable NVME Target - no memory\n");
-+		return -ENOMEM;
-+	}
-+	return 0;
-+}
-+
- /**
-  * lpfc_mem_free - Frees memory allocated by lpfc_mem_alloc
-  * @phba: HBA to free memory for
-@@ -232,6 +247,9 @@ lpfc_mem_free(struct lpfc_hba *phba)
- 
- 	/* Free HBQ pools */
- 	lpfc_sli_hbqbuf_free_all(phba);
-+	if (phba->lpfc_nvmet_drb_pool)
-+		pci_pool_destroy(phba->lpfc_nvmet_drb_pool);
-+	phba->lpfc_nvmet_drb_pool = NULL;
- 	if (phba->lpfc_drb_pool)
- 		pci_pool_destroy(phba->lpfc_drb_pool);
- 	phba->lpfc_drb_pool = NULL;
-@@ -624,20 +642,20 @@ lpfc_sli4_nvmet_alloc(struct lpfc_hba *phba)
- 		kfree(dma_buf);
- 		return NULL;
- 	}
--	dma_buf->dbuf.virt = pci_pool_alloc(phba->lpfc_drb_pool, GFP_KERNEL,
--					    &dma_buf->dbuf.phys);
-+	dma_buf->dbuf.virt = pci_pool_alloc(phba->lpfc_nvmet_drb_pool,
-+					    GFP_KERNEL, &dma_buf->dbuf.phys);
- 	if (!dma_buf->dbuf.virt) {
- 		pci_pool_free(phba->lpfc_hrb_pool, dma_buf->hbuf.virt,
- 			      dma_buf->hbuf.phys);
- 		kfree(dma_buf);
- 		return NULL;
- 	}
--	dma_buf->total_size = LPFC_DATA_BUF_SIZE;
-+	dma_buf->total_size = LPFC_NVMET_DATA_BUF_SIZE;
- 
- 	dma_buf->context = kzalloc(sizeof(struct lpfc_nvmet_rcv_ctx),
- 				   GFP_KERNEL);
- 	if (!dma_buf->context) {
--		pci_pool_free(phba->lpfc_drb_pool, dma_buf->dbuf.virt,
-+		pci_pool_free(phba->lpfc_nvmet_drb_pool, dma_buf->dbuf.virt,
- 			      dma_buf->dbuf.phys);
- 		pci_pool_free(phba->lpfc_hrb_pool, dma_buf->hbuf.virt,
- 			      dma_buf->hbuf.phys);
-@@ -648,7 +666,7 @@ lpfc_sli4_nvmet_alloc(struct lpfc_hba *phba)
- 	dma_buf->iocbq = lpfc_sli_get_iocbq(phba);
- 	if (!dma_buf->iocbq) {
- 		kfree(dma_buf->context);
--		pci_pool_free(phba->lpfc_drb_pool, dma_buf->dbuf.virt,
-+		pci_pool_free(phba->lpfc_nvmet_drb_pool, dma_buf->dbuf.virt,
- 			      dma_buf->dbuf.phys);
- 		pci_pool_free(phba->lpfc_hrb_pool, dma_buf->hbuf.virt,
- 			      dma_buf->hbuf.phys);
-@@ -678,7 +696,7 @@ lpfc_sli4_nvmet_alloc(struct lpfc_hba *phba)
- 	if (!dma_buf->sglq) {
- 		lpfc_sli_release_iocbq(phba, dma_buf->iocbq);
- 		kfree(dma_buf->context);
--		pci_pool_free(phba->lpfc_drb_pool, dma_buf->dbuf.virt,
-+		pci_pool_free(phba->lpfc_nvmet_drb_pool, dma_buf->dbuf.virt,
- 			      dma_buf->dbuf.phys);
- 		pci_pool_free(phba->lpfc_hrb_pool, dma_buf->hbuf.virt,
- 			      dma_buf->hbuf.phys);
-@@ -718,7 +736,8 @@ lpfc_sli4_nvmet_free(struct lpfc_hba *phba, struct rqb_dmabuf *dmab)
- 	lpfc_sli_release_iocbq(phba, dmab->iocbq);
- 	kfree(dmab->context);
- 	pci_pool_free(phba->lpfc_hrb_pool, dmab->hbuf.virt, dmab->hbuf.phys);
--	pci_pool_free(phba->lpfc_drb_pool, dmab->dbuf.virt, dmab->dbuf.phys);
-+	pci_pool_free(phba->lpfc_nvmet_drb_pool,
-+		      dmab->dbuf.virt, dmab->dbuf.phys);
- 	kfree(dmab);
- }
- 
-diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
-index 66bb86656bba..da74724e0e3d 100644
---- a/drivers/scsi/lpfc/lpfc_sli.c
-+++ b/drivers/scsi/lpfc/lpfc_sli.c
-@@ -15113,7 +15113,12 @@ lpfc_rq_create(struct lpfc_hba *phba, struct lpfc_queue *hrq,
- 	if (phba->sli4_hba.pc_sli4_params.rqv == LPFC_Q_CREATE_VERSION_1) {
- 		bf_set(lpfc_rq_context_rqe_count_1,
- 		       &rq_create->u.request.context, hrq->entry_count);
--		rq_create->u.request.context.buffer_size = LPFC_DATA_BUF_SIZE;
-+		if (subtype == LPFC_NVMET)
-+			rq_create->u.request.context.buffer_size =
-+				LPFC_NVMET_DATA_BUF_SIZE;
-+		else
-+			rq_create->u.request.context.buffer_size =
-+				LPFC_DATA_BUF_SIZE;
- 		bf_set(lpfc_rq_context_rqe_size, &rq_create->u.request.context,
- 		       LPFC_RQE_SIZE_8);
- 		bf_set(lpfc_rq_context_page_size, &rq_create->u.request.context,
-@@ -15150,8 +15155,14 @@ lpfc_rq_create(struct lpfc_hba *phba, struct lpfc_queue *hrq,
- 			       LPFC_RQ_RING_SIZE_4096);
- 			break;
- 		}
--		bf_set(lpfc_rq_context_buf_size, &rq_create->u.request.context,
--		       LPFC_DATA_BUF_SIZE);
-+		if (subtype == LPFC_NVMET)
-+			bf_set(lpfc_rq_context_buf_size,
-+			       &rq_create->u.request.context,
-+			       LPFC_NVMET_DATA_BUF_SIZE);
-+		else
-+			bf_set(lpfc_rq_context_buf_size,
-+			       &rq_create->u.request.context,
-+			       LPFC_DATA_BUF_SIZE);
- 	}
- 	bf_set(lpfc_rq_context_cq_id, &rq_create->u.request.context,
- 	       cq->queue_id);
-@@ -15296,7 +15307,7 @@ lpfc_mrq_create(struct lpfc_hba *phba, struct lpfc_queue **hrqp,
- 			       cq->queue_id);
- 			bf_set(lpfc_rq_context_data_size,
- 			       &rq_create->u.request.context,
--			       LPFC_DATA_BUF_SIZE);
-+			       LPFC_NVMET_DATA_BUF_SIZE);
- 			bf_set(lpfc_rq_context_hdr_size,
- 			       &rq_create->u.request.context,
- 			       LPFC_HDR_BUF_SIZE);
+ 		/* Target driver cannot solicit NVME FB. */
+ 		if (bf_get_be32(prli_tgt, nvpr)) {
++			/* Complete the nvme target roles.  The transport
++			 * needs to know if the rport is capable of
++			 * discovery in addition to its role.
++			 */
+ 			ndlp->nlp_type |= NLP_NVME_TARGET;
++			if (bf_get_be32(prli_disc, nvpr))
++				ndlp->nlp_type |= NLP_NVME_DISCOVERY;
+ 			if ((bf_get_be32(prli_fba, nvpr) == 1) &&
+ 			    (bf_get_be32(prli_fb_sz, nvpr) > 0) &&
+ 			    (phba->cfg_nvme_enable_fb) &&
 -- 
 2.11.0
