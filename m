@@ -1,29 +1,28 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 11 May 2017 08:18:58 +0200
-Subject: [PATCH 05/15] lpfc: Fix NVMEI driver not decrementing counter
- causing bad rport state.
-In-Reply-To: <20170510190713.30171-6-jsmart2021@gmail.com>
+Date: Thu, 11 May 2017 08:21:09 +0200
+Subject: [PATCH 06/15] lpfc: Fix NMI watchdog assertions when running
+ nvmet IOPS tests
+In-Reply-To: <20170510190713.30171-7-jsmart2021@gmail.com>
 References: <20170510190713.30171-1-jsmart2021@gmail.com>
- <20170510190713.30171-6-jsmart2021@gmail.com>
-Message-ID: <f7328a57-bd4d-37cb-ba76-0e028198fbb9@suse.de>
+ <20170510190713.30171-7-jsmart2021@gmail.com>
+Message-ID: <26548783-b861-a415-5d39-03d040a0b998@suse.de>
 
 On 05/10/2017 09:07 PM, James Smart wrote:
-> During driver boot, a latency in the NVMET driver
-> side causes the incoming NVMEI PRLI to get rejected by the
-> NVMET driver.  When this happens, the NVMEI driver runs
-> out of PRLI retries.  Bouncing the link does not fix the
-> situation.
+> After running IOPS test for 30 second we get
+> kernel:NMI watchdog: Watchdog detected hard LOCKUP on cpu 0
 > 
-> If the NVMEI driver decides, on PRLI completion
-> failures, to retry the PRLI, always decrement the
-> fc4_prli_sent counter.  This allows the PRLI completion
-> to resolve to UNMAPPED when NVMET rejects the PRLI.
+> The driver is speend too much time in it's ISR.
+> 
+> In ISR EQ and CQ processing routines, if we hit the entry_repost
+> numbers of EQE/CQEs just break out of the routine as opposed to
+> hitting the doorbell with NOARM and continue processing.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/scsi/lpfc/lpfc_els.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+>  drivers/scsi/lpfc/lpfc_debugfs.c | 30 +++++++++++++++---------------
+>  drivers/scsi/lpfc/lpfc_sli.c     |  8 ++------
+>  2 files changed, 17 insertions(+), 21 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
