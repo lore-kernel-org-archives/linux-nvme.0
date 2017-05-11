@@ -1,36 +1,26 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 11 May 2017 09:50:32 +0200
-Subject: [PATCH 13/15] lpfc: Fix NVMEI's handling of NVMET's PRLI response
- attributes
-In-Reply-To: <20170510190713.30171-14-jsmart2021@gmail.com>
+Date: Thu, 11 May 2017 09:51:29 +0200
+Subject: [PATCH 14/15] lpfc: Add MDS Diagnostic support.
+In-Reply-To: <20170510190713.30171-15-jsmart2021@gmail.com>
 References: <20170510190713.30171-1-jsmart2021@gmail.com>
- <20170510190713.30171-14-jsmart2021@gmail.com>
-Message-ID: <b39d44a4-3fc0-2fc6-90ee-bef846dd9247@suse.de>
+ <20170510190713.30171-15-jsmart2021@gmail.com>
+Message-ID: <2a4b53a6-a9ea-cef0-ed46-9c93f571532b@suse.de>
 
 On 05/10/2017 09:07 PM, James Smart wrote:
-> Code review of NVMEI's FC_PORT_ROLE_NVME_DISCOVERY
-> looked wrong.
-> 
-> Discussions with storage architecture team clarified
-> NVMEI's audit of the PRLI response port roles.  Following up
-> discussion with code review showed a few minor corrections
-> were required - especially in anticipation of NVME auto
-> discovery.
-> 
-> During PRLI, NVMEI should sent prli_init - which it it
-> does.  NVMET should send prli_tgt and prli_disc - which it does.
-> When NVMEI receives a PRLI Response now, it audits the
-> incoming target bits and stores the attributes in the
-> corresponding NDLP.  Later, when NVMEI registers the NVME
-> rport, it uses the stored ndlp attributes to set the rport
-> port_roles correctly.
+> Added code to support Cisco MDS loopback diagnostic. The diagnostics
+> run various loopbacks including one which loops-back frame through
+> the driver.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/scsi/lpfc/lpfc_disc.h      | 1 +
->  drivers/scsi/lpfc/lpfc_nportdisc.c | 6 ++++++
->  2 files changed, 7 insertions(+)
+>  drivers/scsi/lpfc/lpfc.h         |   2 +
+>  drivers/scsi/lpfc/lpfc_els.c     |   7 +++
+>  drivers/scsi/lpfc/lpfc_hbadisc.c |   3 +-
+>  drivers/scsi/lpfc/lpfc_hw4.h     |  15 ++++-
+>  drivers/scsi/lpfc/lpfc_init.c    |  13 ++++
+>  drivers/scsi/lpfc/lpfc_sli.c     | 131 ++++++++++++++++++++++++++++++++++++---
+>  6 files changed, 161 insertions(+), 10 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
