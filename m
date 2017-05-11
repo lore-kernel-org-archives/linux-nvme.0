@@ -1,26 +1,33 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 11 May 2017 09:51:29 +0200
-Subject: [PATCH 14/15] lpfc: Add MDS Diagnostic support.
-In-Reply-To: <20170510190713.30171-15-jsmart2021@gmail.com>
+Date: Thu, 11 May 2017 09:51:49 +0200
+Subject: [PATCH 15/15] lpfc: update version to 11.2.0.14
+In-Reply-To: <20170510190713.30171-16-jsmart2021@gmail.com>
 References: <20170510190713.30171-1-jsmart2021@gmail.com>
- <20170510190713.30171-15-jsmart2021@gmail.com>
-Message-ID: <2a4b53a6-a9ea-cef0-ed46-9c93f571532b@suse.de>
+ <20170510190713.30171-16-jsmart2021@gmail.com>
+Message-ID: <6eaf1cf3-5ced-65ad-f265-01b591f24a6a@suse.de>
 
 On 05/10/2017 09:07 PM, James Smart wrote:
-> Added code to support Cisco MDS loopback diagnostic. The diagnostics
-> run various loopbacks including one which loops-back frame through
-> the driver.
+> Change driver version to 11.2.0.14
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/scsi/lpfc/lpfc.h         |   2 +
->  drivers/scsi/lpfc/lpfc_els.c     |   7 +++
->  drivers/scsi/lpfc/lpfc_hbadisc.c |   3 +-
->  drivers/scsi/lpfc/lpfc_hw4.h     |  15 ++++-
->  drivers/scsi/lpfc/lpfc_init.c    |  13 ++++
->  drivers/scsi/lpfc/lpfc_sli.c     | 131 ++++++++++++++++++++++++++++++++++++---
->  6 files changed, 161 insertions(+), 10 deletions(-)
+>  drivers/scsi/lpfc/lpfc_version.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/scsi/lpfc/lpfc_version.h b/drivers/scsi/lpfc/lpfc_version.h
+> index 1c26dc67151b..c2653244221c 100644
+> --- a/drivers/scsi/lpfc/lpfc_version.h
+> +++ b/drivers/scsi/lpfc/lpfc_version.h
+> @@ -20,7 +20,7 @@
+>   * included with this package.                                     *
+>   *******************************************************************/
+>  
+> -#define LPFC_DRIVER_VERSION "11.2.0.12"
+> +#define LPFC_DRIVER_VERSION "11.2.0.14"
+>  #define LPFC_DRIVER_NAME		"lpfc"
+>  
+>  /* Used for SLI 2/3 */
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
