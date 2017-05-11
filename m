@@ -1,22 +1,24 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 11 May 2017 08:05:26 +0200
-Subject: [PATCH 02/15] lpfc: Fix system crash when port is reset.
-In-Reply-To: <20170510190713.30171-3-jsmart2021@gmail.com>
+Date: Thu, 11 May 2017 08:06:27 +0200
+Subject: [PATCH 03/15] lpfc: Adding additional stats counters for nvme.
+In-Reply-To: <20170510190713.30171-4-jsmart2021@gmail.com>
 References: <20170510190713.30171-1-jsmart2021@gmail.com>
- <20170510190713.30171-3-jsmart2021@gmail.com>
-Message-ID: <f64876d0-0087-366d-e214-1082616863c3@suse.de>
+ <20170510190713.30171-4-jsmart2021@gmail.com>
+Message-ID: <0b3bd7fb-2897-dfb2-3c87-8ed7e581ab56@suse.de>
 
 On 05/10/2017 09:07 PM, James Smart wrote:
-> The driver panic when using the els_wq during port reset.
-> 
-> Check for NULL els_wq before dereferencing.
+> More debug messages added for nvme statistics.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/scsi/lpfc/lpfc.h         | 8 ++++++--
->  drivers/scsi/lpfc/lpfc_hbadisc.c | 6 +++---
->  2 files changed, 9 insertions(+), 5 deletions(-)
+>  drivers/scsi/lpfc/lpfc_attr.c    | 24 ++++++++++++---------
+>  drivers/scsi/lpfc/lpfc_debugfs.c | 27 +++++++++++++----------
+>  drivers/scsi/lpfc/lpfc_nvmet.c   | 46 ++++++++++++++++++++++++++++++----------
+>  drivers/scsi/lpfc/lpfc_nvmet.h   | 12 ++++++-----
+>  drivers/scsi/lpfc/lpfc_sli.c     | 38 ++++++++++++++++++++++++++++-----
+>  drivers/scsi/lpfc/lpfc_sli4.h    |  2 +-
+>  6 files changed, 106 insertions(+), 43 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
