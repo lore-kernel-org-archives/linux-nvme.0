@@ -1,29 +1,22 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 11 May 2017 08:04:55 +0200
-Subject: [PATCH 01/15] lpfc: Fix used-RPI accounting problem.
-In-Reply-To: <20170510190713.30171-2-jsmart2021@gmail.com>
+Date: Thu, 11 May 2017 08:05:26 +0200
+Subject: [PATCH 02/15] lpfc: Fix system crash when port is reset.
+In-Reply-To: <20170510190713.30171-3-jsmart2021@gmail.com>
 References: <20170510190713.30171-1-jsmart2021@gmail.com>
- <20170510190713.30171-2-jsmart2021@gmail.com>
-Message-ID: <8727c83e-9064-e53c-34ed-f46edb6dd6c2@suse.de>
+ <20170510190713.30171-3-jsmart2021@gmail.com>
+Message-ID: <f64876d0-0087-366d-e214-1082616863c3@suse.de>
 
-On 05/10/2017 09:06 PM, James Smart wrote:
-> With 255 vports created a link trasition can casue a crash.
+On 05/10/2017 09:07 PM, James Smart wrote:
+> The driver panic when using the els_wq during port reset.
 > 
-> When going through discovery after a link bounce the driver is using
-> rpis before the cmd FCOE_POST_HDR_TEMPLATES completes. By doing that
-> the next rpi bumps the rpi range out of the boundary.
-> 
-> The fix it to increment the next_rpi only when the FCOE_POST_HDR_TEMPLATE
-> succeeds.
+> Check for NULL els_wq before dereferencing.
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/scsi/lpfc/lpfc_els.c  |  3 ++-
->  drivers/scsi/lpfc/lpfc_init.c | 24 +++++-------------------
->  drivers/scsi/lpfc/lpfc_sli.c  |  8 ++++++++
->  drivers/scsi/lpfc/lpfc_sli4.h |  1 +
->  4 files changed, 16 insertions(+), 20 deletions(-)
+>  drivers/scsi/lpfc/lpfc.h         | 8 ++++++--
+>  drivers/scsi/lpfc/lpfc_hbadisc.c | 6 +++---
+>  2 files changed, 9 insertions(+), 5 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
