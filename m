@@ -1,30 +1,55 @@
-From: joseph.r.gruher@intel.com (Gruher, Joseph R)
-Date: Fri, 12 May 2017 19:20:32 +0000
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <c2a1436f-48a6-bdea-c910-168fc6031364@grimberg.me>
-References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
- <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
- <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
- <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
- <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
- <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
- <DE927C68B458BE418D582EC97927A92855031724@ORSMSX113.amr.corp.intel.com>
- <809f87ab-b787-9d40-5840-07500d12e81a@mellanox.com>
- <1948057100.362217696.1491824459274.JavaMail.zimbra@kalray.eu>
- <33e2cc35-f147-d4a4-9a42-8f1245e35842@mellanox.com>
- <517fb6d2-a010-1926-b4cb-0e6041722c28@grimberg.me>
- <af9044c2-fb7c-e8b3-d8fc-4874cfd1bb67@mellanox.com>
- <c2a1436f-48a6-bdea-c910-168fc6031364@grimberg.me>
-Message-ID: <DE927C68B458BE418D582EC97927A92855088C6F@ORSMSX113.amr.corp.intel.com>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Fri, 12 May 2017 14:29:05 -0600
+Subject: [PATCH] nvme: Implement NS Optimial IO Boundary from 1.3 Spec
+Message-ID: <1494620945-8061-1-git-send-email-scott.bauer@intel.com>
 
-> >> Can we get it to 4.12 please (we need you to send it out today).
-> >
-> > Sagi,
-> > we are preparing a cap bit for it.
-> > I'll send it as soon as it will be ready (otherwise we'll add fence
-> > for devices that can handle without it - such as ConnectX5).
-> 
-> Why? can't you just get what you have as a fix and incrementally add the
-> optimization for CX5?
+The NVMe 1.3 spec introduces Namespace Optimal IO Boundaries (NOIOB).
+This feature standardizes the stripe mechanism we currently have quirks for.
+This patch implements the necessary logic to handle this new feature.
 
-Any update here?  Would love to be able to load up the new kernels without patching them every time. :)
+Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+---
+ drivers/nvme/host/core.c | 7 +++++++
+ include/linux/nvme.h     | 2 +-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d5e0906..69d2798 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1000,6 +1000,7 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ 	u8 lbaf, pi_type;
+ 	u16 old_ms;
+ 	unsigned short bs;
++	unsigned int iob;
+ 
+ 	old_ms = ns->ms;
+ 	lbaf = id->flbas & NVME_NS_FLBAS_LBA_MASK;
+@@ -1027,6 +1028,12 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ 
+ 	ns->pi_type = pi_type;
+ 	blk_queue_logical_block_size(ns->queue, bs);
++	if (ns->ctrl->vs >= NVME_VS(1, 3, 0) && le16_to_cpu(id->noiob)) {
++		/* Convert from controller logical blocks to 512 sectors. */
++		iob = ((unsigned int)le16_to_cpu(id->noiob)) << (ns->lba_shift - 9);
++		if (is_power_of_2(iob))
++			blk_queue_chunk_sectors(ns->queue, iob);
++	}
+ 
+ 	if (ns->ms && !blk_get_integrity(disk) && !ns->ext)
+ 		nvme_init_integrity(ns);
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b625bac..d19b193 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -274,7 +274,7 @@ struct nvme_id_ns {
+ 	__le16			nabsn;
+ 	__le16			nabo;
+ 	__le16			nabspf;
+-	__u16			rsvd46;
++	__le16			noiob;
+ 	__u8			nvmcap[16];
+ 	__u8			rsvd64[40];
+ 	__u8			nguid[16];
+-- 
+2.7.4
