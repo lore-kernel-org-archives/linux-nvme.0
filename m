@@ -1,61 +1,30 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 13 May 2017 12:03:00 -0700
-Subject: [PATCH 01/10] nvme_fc: get rid of local reconnect_delay
-In-Reply-To: <20170513190309.25417-1-jsmart2021@gmail.com>
-References: <20170513190309.25417-1-jsmart2021@gmail.com>
-Message-ID: <20170513190309.25417-2-jsmart2021@gmail.com>
+Date: Sat, 13 May 2017 12:02:59 -0700
+Subject: [PATCH 00/10] outstanding nvme_fc/nvmet_fc fixes
+Message-ID: <20170513190309.25417-1-jsmart2021@gmail.com>
 
-Remove the local copy of reconnect_delay.
-Use the value in the controller options directly.
+This set contains outstanding fixes for the nvmf fc transport.
+All but the last patch has been previously posted.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/host/fc.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+patches cut against nvme-4.12
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index dca7165fabcf..c3ab1043efbd 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -165,7 +165,6 @@ struct nvme_fc_ctrl {
- 	struct work_struct	delete_work;
- 	struct work_struct	reset_work;
- 	struct delayed_work	connect_work;
--	int			reconnect_delay;
- 	int			connect_attempts;
- 
- 	struct kref		ref;
-@@ -2615,9 +2614,9 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
- 
- 		dev_warn(ctrl->ctrl.device,
- 			"NVME-FC{%d}: Reconnect attempt in %d seconds.\n",
--			ctrl->cnum, ctrl->reconnect_delay);
-+			ctrl->cnum, ctrl->ctrl.opts->reconnect_delay);
- 		queue_delayed_work(nvme_fc_wq, &ctrl->connect_work,
--				ctrl->reconnect_delay * HZ);
-+				ctrl->ctrl.opts->reconnect_delay * HZ);
- 	} else
- 		dev_info(ctrl->ctrl.device,
- 			"NVME-FC{%d}: controller reset complete\n", ctrl->cnum);
-@@ -2695,9 +2694,9 @@ nvme_fc_connect_ctrl_work(struct work_struct *work)
- 
- 		dev_warn(ctrl->ctrl.device,
- 			"NVME-FC{%d}: Reconnect attempt in %d seconds.\n",
--			ctrl->cnum, ctrl->reconnect_delay);
-+			ctrl->cnum, ctrl->ctrl.opts->reconnect_delay);
- 		queue_delayed_work(nvme_fc_wq, &ctrl->connect_work,
--				ctrl->reconnect_delay * HZ);
-+				ctrl->ctrl.opts->reconnect_delay * HZ);
- 	} else
- 		dev_info(ctrl->ctrl.device,
- 			"NVME-FC{%d}: controller reconnect complete\n",
-@@ -2755,7 +2754,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	INIT_WORK(&ctrl->delete_work, nvme_fc_delete_ctrl_work);
- 	INIT_WORK(&ctrl->reset_work, nvme_fc_reset_ctrl_work);
- 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
--	ctrl->reconnect_delay = opts->reconnect_delay;
- 	spin_lock_init(&ctrl->lock);
- 
- 	/* io queue count */
+James Smart (10):
+  nvme_fc: get rid of local reconnect_delay
+  nvme_fc: Support ctrl_loss_tmo
+  nvme_fc: replace ioabort msleep loop with completion
+  nvme_fc: revise comment on teardown
+  nvme_fc: set logging level on resets/deletes
+  nvmet_fc: Reduce work_q count
+  nvmet_fc: Add queue create and delete callbacks in LLDD api
+  nvme_fc: remove extra controller reference taken on reconnect
+  nvme_fcloop: fix port deletes and callbacks
+  nvme_fc: correct nvme status set on abort
+
+ drivers/nvme/host/fc.c         | 160 +++++++++++++----------------
+ drivers/nvme/target/fc.c       | 224 +++++++++++++++++++++++++++++++----------
+ drivers/nvme/target/fcloop.c   |  66 ++++++------
+ include/linux/nvme-fc-driver.h |  18 ++++
+ 4 files changed, 292 insertions(+), 176 deletions(-)
+
 -- 
 2.11.0
