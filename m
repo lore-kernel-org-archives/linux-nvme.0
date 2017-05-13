@@ -1,33 +1,61 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 13 May 2017 07:24:30 -0700
-Subject: [PATCH] nvme_fc: replace ioabort msleep loop with completion
-In-Reply-To: <20170510172221.GA28599@infradead.org>
-References: <20170425223212.3876-1-jsmart2021@gmail.com>
- <20170510172221.GA28599@infradead.org>
-Message-ID: <b1917814-c09e-274f-35ca-0d3bca8de48b@gmail.com>
+Date: Sat, 13 May 2017 12:03:00 -0700
+Subject: [PATCH 01/10] nvme_fc: get rid of local reconnect_delay
+In-Reply-To: <20170513190309.25417-1-jsmart2021@gmail.com>
+References: <20170513190309.25417-1-jsmart2021@gmail.com>
+Message-ID: <20170513190309.25417-2-jsmart2021@gmail.com>
 
-On 5/10/2017 10:22 AM, Christoph Hellwig wrote:
+Remove the local copy of reconnect_delay.
+Use the value in the controller options directly.
 
->> -	while (ctrl->iocnt) {
->> +	if (ctrl->iocnt) {
->> +		init_completion(&ctrl->ioaborts_done);
->>  		spin_unlock_irqrestore(&ctrl->lock, flags);
->> -		msleep(1000);
->> +
->> +		wait_for_completion(&ctrl->ioaborts_done);
->> +
->>  		spin_lock_irqsave(&ctrl->lock, flags);
->> +		WARN_ON(ctrl->iocnt);
->
-> But more importantly the single wait is potentially wrong.  Please
-> switch to a waitqueue and use wait_event_lock_irq here.
->
+Signed-off-by: James Smart <james.smart at broadcom.com>
+---
+ drivers/nvme/host/fc.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-Why do you think a single wait is wrong ?
-
-All aborts have been scheduled, which is what ctrl->iocnt tracks, and 
-will not increase. Thus ctrl->iocnt is set to its max prior to init'ing 
-the completion and releasing the lock. The completion only triggers on 
-decrement of ctrl->iocnt to zero checked under lock.
-
--- james
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index dca7165fabcf..c3ab1043efbd 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -165,7 +165,6 @@ struct nvme_fc_ctrl {
+ 	struct work_struct	delete_work;
+ 	struct work_struct	reset_work;
+ 	struct delayed_work	connect_work;
+-	int			reconnect_delay;
+ 	int			connect_attempts;
+ 
+ 	struct kref		ref;
+@@ -2615,9 +2614,9 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ 
+ 		dev_warn(ctrl->ctrl.device,
+ 			"NVME-FC{%d}: Reconnect attempt in %d seconds.\n",
+-			ctrl->cnum, ctrl->reconnect_delay);
++			ctrl->cnum, ctrl->ctrl.opts->reconnect_delay);
+ 		queue_delayed_work(nvme_fc_wq, &ctrl->connect_work,
+-				ctrl->reconnect_delay * HZ);
++				ctrl->ctrl.opts->reconnect_delay * HZ);
+ 	} else
+ 		dev_info(ctrl->ctrl.device,
+ 			"NVME-FC{%d}: controller reset complete\n", ctrl->cnum);
+@@ -2695,9 +2694,9 @@ nvme_fc_connect_ctrl_work(struct work_struct *work)
+ 
+ 		dev_warn(ctrl->ctrl.device,
+ 			"NVME-FC{%d}: Reconnect attempt in %d seconds.\n",
+-			ctrl->cnum, ctrl->reconnect_delay);
++			ctrl->cnum, ctrl->ctrl.opts->reconnect_delay);
+ 		queue_delayed_work(nvme_fc_wq, &ctrl->connect_work,
+-				ctrl->reconnect_delay * HZ);
++				ctrl->ctrl.opts->reconnect_delay * HZ);
+ 	} else
+ 		dev_info(ctrl->ctrl.device,
+ 			"NVME-FC{%d}: controller reconnect complete\n",
+@@ -2755,7 +2754,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	INIT_WORK(&ctrl->delete_work, nvme_fc_delete_ctrl_work);
+ 	INIT_WORK(&ctrl->reset_work, nvme_fc_reset_ctrl_work);
+ 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
+-	ctrl->reconnect_delay = opts->reconnect_delay;
+ 	spin_lock_init(&ctrl->lock);
+ 
+ 	/* io queue count */
+-- 
+2.11.0
