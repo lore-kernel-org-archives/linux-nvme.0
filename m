@@ -1,65 +1,87 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 13 May 2017 12:03:02 -0700
-Subject: [PATCH 03/10] nvme_fc: replace ioabort msleep loop with completion
+Date: Sat, 13 May 2017 12:03:04 -0700
+Subject: [PATCH 05/10] nvme_fc: set logging level on resets/deletes
 In-Reply-To: <20170513190309.25417-1-jsmart2021@gmail.com>
 References: <20170513190309.25417-1-jsmart2021@gmail.com>
-Message-ID: <20170513190309.25417-4-jsmart2021@gmail.com>
+Message-ID: <20170513190309.25417-6-jsmart2021@gmail.com>
 
-Per the recommendation by Sagi on:
+Per the review by Sagi on:
 http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
 
-Wait for io aborts to complete wait converted from msleep look to
-using a struct completion.
+Looked at existing warn vs info vs err dev_xxx levels for the messages
+printed on reconnects and deletes:
+- Resets due to error and resets transitioned to deletes are dev_warn
+- Other reset/disconnect messages are dev_info
+- Removed chatty io queue related messages
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
 this is version 2 of the patch:
-removed unneeded inner braces
+v2: remove admin-requested delete info message as deletes are common
+ for discovery controllers
 
- drivers/nvme/host/fc.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/nvme/host/fc.c | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index a0f05d5e966c..d2cf4e2e560b 100644
+index 2708c0caee14..8a721aa11387 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -167,6 +167,7 @@ struct nvme_fc_ctrl {
- 	struct kref		ref;
- 	u32			flags;
- 	u32			iocnt;
-+	struct completion	ioaborts_done;
+@@ -1750,7 +1750,7 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
+ 	dev_warn(ctrl->ctrl.device,
+ 		"NVME-FC{%d}: transport association error detected: %s\n",
+ 		ctrl->cnum, errmsg);
+-	dev_info(ctrl->ctrl.device,
++	dev_warn(ctrl->ctrl.device,
+ 		"NVME-FC{%d}: resetting controller\n", ctrl->cnum);
  
- 	struct nvme_fc_fcp_op	aen_ops[NVME_FC_NR_AEN_COMMANDS];
+ 	/* stop the queues on error, cleanup is in reset thread */
+@@ -2194,9 +2194,6 @@ nvme_fc_create_io_queues(struct nvme_fc_ctrl *ctrl)
+ 	if (!opts->nr_io_queues)
+ 		return 0;
  
-@@ -1241,8 +1242,10 @@ __nvme_fc_fcpop_chk_teardowns(struct nvme_fc_ctrl *ctrl,
+-	dev_info(ctrl->ctrl.device, "creating %d I/O queues.\n",
+-			opts->nr_io_queues);
+-
+ 	nvme_fc_init_io_queues(ctrl);
  
- 	spin_lock_irqsave(&ctrl->lock, flags);
- 	if (unlikely(op->flags & FCOP_FLAGS_TERMIO)) {
--		if (ctrl->flags & FCCTRL_TERMIO)
--			ctrl->iocnt--;
-+		if (ctrl->flags & FCCTRL_TERMIO) {
-+			if (!--ctrl->iocnt)
-+				complete(&ctrl->ioaborts_done);
-+		}
+ 	memset(&ctrl->tag_set, 0, sizeof(ctrl->tag_set));
+@@ -2267,9 +2264,6 @@ nvme_fc_reinit_io_queues(struct nvme_fc_ctrl *ctrl)
+ 	if (ctrl->queue_count == 1)
+ 		return 0;
+ 
+-	dev_info(ctrl->ctrl.device, "Recreating %d I/O queues.\n",
+-			opts->nr_io_queues);
+-
+ 	nvme_fc_init_io_queues(ctrl);
+ 
+ 	ret = blk_mq_reinit_tagset(&ctrl->tag_set);
+@@ -2599,7 +2593,7 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ 		return;
  	}
- 	if (op->flags & FCOP_FLAGS_RELEASED)
- 		complete_rq = true;
-@@ -2487,10 +2490,14 @@ nvme_fc_delete_association(struct nvme_fc_ctrl *ctrl)
  
- 	/* wait for all io that had to be aborted */
- 	spin_lock_irqsave(&ctrl->lock, flags);
--	while (ctrl->iocnt) {
-+	if (ctrl->iocnt) {
-+		init_completion(&ctrl->ioaborts_done);
- 		spin_unlock_irqrestore(&ctrl->lock, flags);
--		msleep(1000);
-+
-+		wait_for_completion(&ctrl->ioaborts_done);
-+
- 		spin_lock_irqsave(&ctrl->lock, flags);
-+		WARN_ON(ctrl->iocnt);
- 	}
- 	ctrl->flags &= ~FCCTRL_TERMIO;
- 	spin_unlock_irqrestore(&ctrl->lock, flags);
+-	dev_warn(ctrl->ctrl.device,
++	dev_info(ctrl->ctrl.device,
+ 		"NVME-FC{%d}: reset: Reconnect attempt failed (%d)\n",
+ 		ctrl->cnum, status);
+ 
+@@ -2610,7 +2604,7 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
+ 		queue_delayed_work(nvme_fc_wq, &ctrl->connect_work,
+ 				ctrl->ctrl.opts->reconnect_delay * HZ);
+ 	} else {
+-		dev_info(ctrl->ctrl.device,
++		dev_warn(ctrl->ctrl.device,
+ 				"NVME-FC{%d}: Max reconnect attempts (%d) "
+ 				"reached. Removing controller\n",
+ 				ctrl->cnum, ctrl->ctrl.opts->nr_reconnects);
+@@ -2645,7 +2639,7 @@ nvme_fc_reset_nvme_ctrl(struct nvme_ctrl *nctrl)
+ {
+ 	struct nvme_fc_ctrl *ctrl = to_fc_ctrl(nctrl);
+ 
+-	dev_warn(ctrl->ctrl.device,
++	dev_info(ctrl->ctrl.device,
+ 		"NVME-FC{%d}: admin requested controller reset\n", ctrl->cnum);
+ 
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING))
 -- 
 2.11.0
