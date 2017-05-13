@@ -1,21 +1,33 @@
-From: luto@kernel.org (Andy Lutomirski)
-Date: Sat, 13 May 2017 05:27:55 -0700
-Subject: [PATCH] nvme: Change our APST table to be no more aggressive than
- Intel RSTe
-In-Reply-To: <ddc5be5d81966effaf73e3cee54330c351bc8169.1494561654.git.luto@kernel.org>
-References: <ddc5be5d81966effaf73e3cee54330c351bc8169.1494561654.git.luto@kernel.org>
-Message-ID: <CALCETrXLhbiGTmeMDFjYAAwMi2PSK38cy1Z8UEPKxOWJz55wyQ@mail.gmail.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Sat, 13 May 2017 07:24:30 -0700
+Subject: [PATCH] nvme_fc: replace ioabort msleep loop with completion
+In-Reply-To: <20170510172221.GA28599@infradead.org>
+References: <20170425223212.3876-1-jsmart2021@gmail.com>
+ <20170510172221.GA28599@infradead.org>
+Message-ID: <b1917814-c09e-274f-35ca-0d3bca8de48b@gmail.com>
 
-On Thu, May 11, 2017@9:06 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> It seems like RSTe is much more conservative with transition timing
-> that we are.  According to Mario, RSTe programs APST to transition from
-> active states to the first idle state after 60ms and, thereafter, to
-> 1000 * the exit latency of the target state.
+On 5/10/2017 10:22 AM, Christoph Hellwig wrote:
 
-Bad news, folks: this appears to be merely more stable, not all the way stable:
+>> -	while (ctrl->iocnt) {
+>> +	if (ctrl->iocnt) {
+>> +		init_completion(&ctrl->ioaborts_done);
+>>  		spin_unlock_irqrestore(&ctrl->lock, flags);
+>> -		msleep(1000);
+>> +
+>> +		wait_for_completion(&ctrl->ioaborts_done);
+>> +
+>>  		spin_lock_irqsave(&ctrl->lock, flags);
+>> +		WARN_ON(ctrl->iocnt);
+>
+> But more importantly the single wait is potentially wrong.  Please
+> switch to a waitqueue and use wait_event_lock_irq here.
+>
 
-https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1678184/comments/65
+Why do you think a single wait is wrong ?
 
-I maintain my hypothesis that no one ever validated these disks and
-that the very conservative parameters set by RSTe merely make it rare
-to trigger the bug.  But maybe something else is going on.
+All aborts have been scheduled, which is what ctrl->iocnt tracks, and 
+will not increase. Thus ctrl->iocnt is set to its max prior to init'ing 
+the completion and releasing the lock. The completion only triggers on 
+decrement of ctrl->iocnt to zero checked under lock.
+
+-- james
