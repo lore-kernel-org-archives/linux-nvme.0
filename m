@@ -1,56 +1,169 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 13 May 2017 12:07:16 -0700
-Subject: [PATCH 2/8] nvme_fc: change ctlr state assignments during
- reset/reconnect
+Date: Sat, 13 May 2017 12:07:18 -0700
+Subject: [PATCH 4/8] nvme_fc: add dev_loss_tmo to controller
 In-Reply-To: <20170513190722.25536-1-jsmart2021@gmail.com>
 References: <20170513190722.25536-1-jsmart2021@gmail.com>
-Message-ID: <20170513190722.25536-3-jsmart2021@gmail.com>
+Message-ID: <20170513190722.25536-5-jsmart2021@gmail.com>
 
-Existing code:
-Set NVME_CTRL_RESETTING upon entry from the core reset_ctrl
-callback and left it set that way until reconnected.
-Set NVME_CTRL_REcONNECTING after a transport detected error
-and left it set that way until reconnected.
+This patch adds a dev_loss_tmo value to the controller. The value
+is initialized from the remoteport.
 
-Revise the code so that NVME_CTRL_RESETTING is always set when
-tearing down the association regardless of why/how, and after
-the association is torn down, transition to NVME_CTRL_RECONNECTING
-while it attempts to establish a new association with the target.
+The patch also adds a lldd-callable routine,
+nvme_fc_set_remoteport_devloss() to change the value on the remoteport
+and apply the new value to the controllers on the remote port.
 
-The RESETTING->RECONNECTING state transition is dependent upon the
-patch that enables the transition.
+The dev_loss_tmo value set on the controller will ultimately be the
+maximum window allowed for reconnection, whether it was started due
+to controller reset, transport error, or loss of connectivity to the
+target.
+
+The dev_loss_tmo value set on the controller will be the smaller of
+the controller's (max_connects * reconnect_delay) window set at creation
+and the remoteport's dev_loss_tmo value.  After selecting the smallest
+value, if the controller's reconnect window is superceeded by the
+remoteport's dev_loss_tmo value, the reconnect values will be
+adjusted for the new dev_loss_tmo value.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
+
 ---
- drivers/nvme/host/fc.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+This a revised version of what was in the RFC:
+removed all references to kato, which was a red herring.
+
+ drivers/nvme/host/fc.c         | 93 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/nvme-fc-driver.h |  2 +
+ 2 files changed, 95 insertions(+)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 9a594ea323e8..55d0d8c3e92f 100644
+index 6eaf70eaedf4..13c18966fadc 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -1799,7 +1799,7 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
- 	if (ctrl->queue_count > 1)
- 		nvme_stop_queues(&ctrl->ctrl);
+@@ -167,6 +167,7 @@ struct nvme_fc_ctrl {
+ 	struct work_struct	delete_work;
+ 	struct work_struct	reset_work;
+ 	struct delayed_work	connect_work;
++	u32			dev_loss_tmo;
  
--	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
-+	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING)) {
- 		dev_err(ctrl->ctrl.device,
- 			"NVME-FC{%d}: error_recovery: Couldn't change state "
- 			"to RECONNECTING\n", ctrl->cnum);
-@@ -2662,6 +2662,13 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
- 	/* will block will waiting for io to terminate */
- 	nvme_fc_delete_association(ctrl);
+ 	struct kref		ref;
+ 	u32			flags;
+@@ -2772,6 +2773,96 @@ __nvme_fc_options_match(struct nvmf_ctrl_options *opts,
+ 	return true;
+ }
  
-+	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
-+		dev_err(ctrl->ctrl.device,
-+			"NVME-FC{%d}: controller reset: Couldn't change "
-+			"state to RECONNECTING\n", ctrl->cnum);
-+		return;
++static void
++nvme_fc_set_ctrl_devloss(struct nvme_fc_ctrl *ctrl,
++		struct nvmf_ctrl_options *opts)
++{
++	u32 dev_loss_tmo;
++
++	/*
++	 * dev_loss_tmo will be the max amount of time after an association
++	 * failure that will be allowed for a new association to be
++	 * established. It doesn't matter why the original association
++	 * failed (FC connectivity loss, transport error, admin-request).
++	 * The new association must be established before dev_loss_tmo
++	 * expires or the controller will be torn down.
++	 *
++	 * If the connect parameters are less than the FC port dev_loss_tmo
++	 * parameter, scale dev_loss_tmo to the connect parameters.
++	 *
++	 * If the connect parameters are larger than the FC port
++	 * dev_loss_tmo parameter, adjust the connect parameters so that
++	 * there is at least 1 attempt at a reconnect attempt before failing.
++	 * Note: reconnects will be attempted only if there is FC connectivity.
++	 */
++
++	if (opts->max_reconnects < 1)
++		opts->max_reconnects = 1;
++	dev_loss_tmo = opts->reconnect_delay * opts->max_reconnects;
++
++	ctrl->dev_loss_tmo =
++		min_t(u32, ctrl->rport->remoteport.dev_loss_tmo, dev_loss_tmo);
++	if (ctrl->dev_loss_tmo < ctrl->rport->remoteport.dev_loss_tmo)
++		dev_warn(ctrl->ctrl.device,
++			"NVME-FC{%d}: scaling dev_loss_tmo to reconnect "
++			"window (%d)\n",
++			ctrl->cnum, ctrl->dev_loss_tmo);
++
++	/* resync dev_loss_tmo with the reconnect window */
++	if (ctrl->dev_loss_tmo < opts->reconnect_delay * opts->max_reconnects) {
++		if (!ctrl->dev_loss_tmo)
++			opts->max_reconnects = 0;
++		else {
++			opts->reconnect_delay =
++				min_t(u32, opts->reconnect_delay,
++					ctrl->dev_loss_tmo -
++						NVME_FC_EXPECTED_RECONNECT_TM);
++			opts->max_reconnects = DIV_ROUND_UP(ctrl->dev_loss_tmo,
++						opts->reconnect_delay);
++			dev_warn(ctrl->ctrl.device,
++				"NVME-FC{%d}: dev_loss_tmo %d: scaling "
++				"reconnect delay %d max reconnects %d\n",
++				ctrl->cnum, ctrl->dev_loss_tmo,
++				opts->reconnect_delay, opts->max_reconnects);
++		}
++	}
++}
++
++int
++nvme_fc_set_remoteport_devloss(struct nvme_fc_remote_port *portptr,
++			u32 dev_loss_tmo)
++{
++	struct nvme_fc_rport *rport = remoteport_to_rport(portptr);
++	struct nvme_fc_ctrl *ctrl;
++	unsigned long flags;
++
++	/*
++	 * Allow dev_loss_tmo set to 0. This will allow
++	 * nvme_fc_unregister_remoteport() to immediately delete
++	 * controllers without waiting a dev_loss_tmo timeout.
++	 */
++	if (dev_loss_tmo && dev_loss_tmo < NVME_FC_MIN_DEV_LOSS_TMO)
++		return -ERANGE;
++
++	spin_lock_irqsave(&rport->lock, flags);
++
++	if (portptr->port_state != FC_OBJSTATE_ONLINE) {
++		spin_unlock_irqrestore(&rport->lock, flags);
++		return -EINVAL;
 +	}
 +
++	rport->remoteport.dev_loss_tmo = dev_loss_tmo;
++
++	list_for_each_entry(ctrl, &rport->ctrl_list, ctrl_list)
++		/* Apply values for use in next reconnect cycle */
++		nvme_fc_set_ctrl_devloss(ctrl, ctrl->ctrl.opts);
++
++	spin_unlock_irqrestore(&rport->lock, flags);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(nvme_fc_set_remoteport_devloss);
++
+ static struct nvme_ctrl *
+ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	struct nvme_fc_lport *lport, struct nvme_fc_rport *rport)
+@@ -2884,6 +2975,8 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 	list_add_tail(&ctrl->ctrl_list, &rport->ctrl_list);
+ 	spin_unlock_irqrestore(&rport->lock, flags);
+ 
++	nvme_fc_set_ctrl_devloss(ctrl, opts);
++
  	ret = nvme_fc_create_association(ctrl);
- 	if (ret)
- 		nvme_fc_reconnect_or_delete(ctrl, ret);
+ 	if (ret) {
+ 		ctrl->ctrl.opts = NULL;
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index 61f3eae534ee..e96a073861b6 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -453,6 +453,8 @@ int nvme_fc_unregister_remoteport(struct nvme_fc_remote_port *remoteport);
+ 
+ void nvme_fc_rescan_remoteport(struct nvme_fc_remote_port *remoteport);
+ 
++int nvme_fc_set_remoteport_devloss(struct nvme_fc_remote_port *remoteport,
++			u32 dev_loss_tmo);
+ 
+ 
+ /*
 -- 
 2.11.0
