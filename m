@@ -1,43 +1,51 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 13 May 2017 12:03:03 -0700
-Subject: [PATCH 04/10] nvme_fc: revise comment on teardown
+Date: Sat, 13 May 2017 12:03:07 -0700
+Subject: [PATCH 08/10] nvme_fc: remove extra controller reference taken on
+ reconnect
 In-Reply-To: <20170513190309.25417-1-jsmart2021@gmail.com>
 References: <20170513190309.25417-1-jsmart2021@gmail.com>
-Message-ID: <20170513190309.25417-5-jsmart2021@gmail.com>
+Message-ID: <20170513190309.25417-9-jsmart2021@gmail.com>
 
-Per the recommendation by Sagi on:
-http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
-
-An extra reference was pointed out.  There's no issue with the
-references, but rather a literal interpretation of what the comment
-is saying.
-
-Reword the comment to avoid confusion.
+fix extra controller reference taken on reconnect by moving
+reference to initial controller create
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/fc.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+this is version 3 of the patch:
+v2: per review: moved location of where ref taken
+
+ drivers/nvme/host/fc.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index d2cf4e2e560b..2708c0caee14 100644
+index 8a721aa11387..78973407430a 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -2539,10 +2539,10 @@ nvme_fc_delete_ctrl_work(struct work_struct *work)
+@@ -2398,8 +2398,6 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
  
- 	/*
- 	 * tear down the controller
--	 * This will result in the last reference on the nvme ctrl to
--	 * expire, calling the transport nvme_fc_nvme_ctrl_freed() callback.
--	 * From there, the transport will tear down it's logical queues and
--	 * association.
-+	 * After the last reference on the nvme ctrl is removed,
-+	 * the transport nvme_fc_nvme_ctrl_freed() callback will be
-+	 * invoked. From there, the transport will tear down it's
-+	 * logical queues and association.
- 	 */
- 	nvme_uninit_ctrl(&ctrl->ctrl);
+ 	ctrl->ctrl.opts->nr_reconnects = 0;
  
+-	kref_get(&ctrl->ctrl.kref);
+-
+ 	if (ctrl->queue_count > 1) {
+ 		nvme_start_queues(&ctrl->ctrl);
+ 		nvme_queue_scan(&ctrl->ctrl);
+@@ -2800,7 +2798,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 		ctrl->ctrl.opts = NULL;
+ 		/* initiate nvme ctrl ref counting teardown */
+ 		nvme_uninit_ctrl(&ctrl->ctrl);
+-		nvme_put_ctrl(&ctrl->ctrl);
+ 
+ 		/* as we're past the point where we transition to the ref
+ 		 * counting teardown path, if we return a bad pointer here,
+@@ -2816,6 +2813,8 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
+ 		return ERR_PTR(ret);
+ 	}
+ 
++	kref_get(&ctrl->ctrl.kref);
++
+ 	dev_info(ctrl->ctrl.device,
+ 		"NVME-FC{%d}: new ctrl: NQN \"%s\"\n",
+ 		ctrl->cnum, ctrl->ctrl.opts->subsysnqn);
 -- 
 2.11.0
