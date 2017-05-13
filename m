@@ -1,39 +1,56 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 13 May 2017 12:07:15 -0700
-Subject: [PATCH 1/8] nvme core: allow controller RESETTING to RECONNECTING
- transition
+Date: Sat, 13 May 2017 12:07:16 -0700
+Subject: [PATCH 2/8] nvme_fc: change ctlr state assignments during
+ reset/reconnect
 In-Reply-To: <20170513190722.25536-1-jsmart2021@gmail.com>
 References: <20170513190722.25536-1-jsmart2021@gmail.com>
-Message-ID: <20170513190722.25536-2-jsmart2021@gmail.com>
+Message-ID: <20170513190722.25536-3-jsmart2021@gmail.com>
 
-Allow controller state transition : RESETTING to RECONNECTING
+Existing code:
+Set NVME_CTRL_RESETTING upon entry from the core reset_ctrl
+callback and left it set that way until reconnected.
+Set NVME_CTRL_REcONNECTING after a transport detected error
+and left it set that way until reconnected.
 
-The nvme_fc transport will set the state to RESETTING when
-tearing down the current association (error or controller reset),
-then transition to RECONNECTING when attempting to establish a new
-association.
+Revise the code so that NVME_CTRL_RESETTING is always set when
+tearing down the association regardless of why/how, and after
+the association is torn down, transition to NVME_CTRL_RECONNECTING
+while it attempts to establish a new association with the target.
 
--- james
+The RESETTING->RECONNECTING state transition is dependent upon the
+patch that enables the transition.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
-originally posted standalone
-recut on nvme-4.12
+ drivers/nvme/host/fc.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
- drivers/nvme/host/core.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d5e0906262ea..ae977ef886a3 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -175,6 +175,7 @@ bool nvme_change_ctrl_state(struct nvme_ctrl *ctrl,
- 	case NVME_CTRL_RECONNECTING:
- 		switch (old_state) {
- 		case NVME_CTRL_LIVE:
-+		case NVME_CTRL_RESETTING:
- 			changed = true;
- 			/* FALLTHRU */
- 		default:
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index 9a594ea323e8..55d0d8c3e92f 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1799,7 +1799,7 @@ nvme_fc_error_recovery(struct nvme_fc_ctrl *ctrl, char *errmsg)
+ 	if (ctrl->queue_count > 1)
+ 		nvme_stop_queues(&ctrl->ctrl);
+ 
+-	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
++	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RESETTING)) {
+ 		dev_err(ctrl->ctrl.device,
+ 			"NVME-FC{%d}: error_recovery: Couldn't change state "
+ 			"to RECONNECTING\n", ctrl->cnum);
+@@ -2662,6 +2662,13 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ 	/* will block will waiting for io to terminate */
+ 	nvme_fc_delete_association(ctrl);
+ 
++	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_RECONNECTING)) {
++		dev_err(ctrl->ctrl.device,
++			"NVME-FC{%d}: controller reset: Couldn't change "
++			"state to RECONNECTING\n", ctrl->cnum);
++		return;
++	}
++
+ 	ret = nvme_fc_create_association(ctrl);
+ 	if (ret)
+ 		nvme_fc_reconnect_or_delete(ctrl, ret);
 -- 
 2.11.0
