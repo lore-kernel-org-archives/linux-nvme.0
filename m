@@ -1,35 +1,21 @@
 From: luto@kernel.org (Andy Lutomirski)
-Date: Fri, 12 May 2017 16:49:01 -0700
+Date: Sat, 13 May 2017 05:27:55 -0700
 Subject: [PATCH] nvme: Change our APST table to be no more aggressive than
  Intel RSTe
-In-Reply-To: <1494599685838.3433@Dell.com>
+In-Reply-To: <ddc5be5d81966effaf73e3cee54330c351bc8169.1494561654.git.luto@kernel.org>
 References: <ddc5be5d81966effaf73e3cee54330c351bc8169.1494561654.git.luto@kernel.org>
- <1494597516613.95190@Dell.com>
- <CALCETrUVb8KqOOzW7fXDWCyCiXj6jpPm-w=XZ-FXrh_rfdDkJQ@mail.gmail.com>
- <1494599685838.3433@Dell.com>
-Message-ID: <CALCETrUh0TB6b5UKfYjFLVcciYppTrPGyJNhpj5W0Z7vgngyMw@mail.gmail.com>
+Message-ID: <CALCETrXLhbiGTmeMDFjYAAwMi2PSK38cy1Z8UEPKxOWJz55wyQ@mail.gmail.com>
 
-On Fri, May 12, 2017@7:34 AM,  <Mario.Limonciello@dell.com> wrote:
->>Yes, mostly.  I've written the patch, but I was planning to target it
->>at 4.12 or 4.13 but not -stable.  It's mostly just a cleanup and has
->>no real power saving benefit since the RSTe timeouts are so absurdly
->>conservative that I doubt PS4 will happen in practical usage.
-> OK.
->
->>Perhaps
->>in suspend-to-idle?  (For suspend-to-idle, I suspect we should really
->>be using D3 instead.  Do we already do that?)
->
-> Well I think this will depend upon what the SSD "will" support.
+On Thu, May 11, 2017@9:06 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> It seems like RSTe is much more conservative with transition timing
+> that we are.  According to Mario, RSTe programs APST to transition from
+> active states to the first idle state after 60ms and, thereafter, to
+> 1000 * the exit latency of the target state.
 
-I thought it was basically impossible for the SSD to fail to support
-D3.  Afterall, cutting the power due to runtime D3 is more or less the
-same thing (from the SSD's POV) as cutting the power during S3 or full
-power off.
+Bad news, folks: this appears to be merely more stable, not all the way stable:
 
-I've contemplated adding runtime D3 support to the nvme driver, but it
-would probably be barely a win and quite slow.
+https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1678184/comments/65
 
-When Linux suspends-to-idle, does it call driver suspend callbacks and
-kick devices into D3?  It should work, but I don't know what actually
-happens.
+I maintain my hypothesis that no one ever validated these disks and
+that the very conservative parameters set by RSTe merely make it rare
+to trigger the bug.  But maybe something else is going on.
