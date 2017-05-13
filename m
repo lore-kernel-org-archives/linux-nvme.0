@@ -1,85 +1,113 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Sat, 13 May 2017 12:07:19 -0700
-Subject: [PATCH 5/8] nvme_fc: check connectivity before initiating reconnects
+Date: Sat, 13 May 2017 12:07:21 -0700
+Subject: [PATCH 7/8] nvme_fc: move remote port get/put/free location
 In-Reply-To: <20170513190722.25536-1-jsmart2021@gmail.com>
 References: <20170513190722.25536-1-jsmart2021@gmail.com>
-Message-ID: <20170513190722.25536-6-jsmart2021@gmail.com>
+Message-ID: <20170513190722.25536-8-jsmart2021@gmail.com>
 
-check remoteport connectivity before initiating reconnects
+move nvme_fc_rport_get/put and rport free to higher in the file to
+avoid adding prototypes to resolve references in upcoming code additions
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fc.c | 37 +++++++++++++++++++++++++++++++------
- 1 file changed, 31 insertions(+), 6 deletions(-)
+ drivers/nvme/host/fc.c | 78 +++++++++++++++++++++++++-------------------------
+ 1 file changed, 39 insertions(+), 39 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 13c18966fadc..930c9bfa0aca 100644
+index 8fb3845f7faa..8150e5d937cf 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -628,6 +628,19 @@ nvme_fc_rescan_remoteport(struct nvme_fc_remote_port *remoteport)
+@@ -417,6 +417,45 @@ nvme_fc_signal_discovery_scan(struct nvme_fc_lport *lport,
+ 	kobject_uevent_env(&nvmefc_device->kobj, KOBJ_CHANGE, envp);
  }
- EXPORT_SYMBOL_GPL(nvme_fc_rescan_remoteport);
  
-+static inline bool
-+nvme_fc_rport_is_online(struct nvme_fc_rport *rport)
++static void
++nvme_fc_free_rport(struct kref *ref)
 +{
++	struct nvme_fc_rport *rport =
++		container_of(ref, struct nvme_fc_rport, ref);
++	struct nvme_fc_lport *lport =
++			localport_to_lport(rport->remoteport.localport);
 +	unsigned long flags;
-+	bool online;
 +
-+	spin_lock_irqsave(&rport->lock, flags);
-+	online = (rport->remoteport.port_state == FC_OBJSTATE_ONLINE);
-+	spin_unlock_irqrestore(&rport->lock, flags);
++	WARN_ON(rport->remoteport.port_state != FC_OBJSTATE_DELETED);
++	WARN_ON(!list_empty(&rport->ctrl_list));
 +
-+	return online;
++	/* remove from lport list */
++	spin_lock_irqsave(&nvme_fc_lock, flags);
++	list_del(&rport->endp_list);
++	spin_unlock_irqrestore(&nvme_fc_lock, flags);
++
++	/* let the LLDD know we've finished tearing it down */
++	lport->ops->remoteport_delete(&rport->remoteport);
++
++	ida_simple_remove(&lport->endp_cnt, rport->remoteport.port_num);
++
++	kfree(rport);
++
++	nvme_fc_lport_put(lport);
 +}
 +
- 
- /* *********************** FC-NVME DMA Handling **************************** */
- 
-@@ -2358,6 +2371,9 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 
- 	++ctrl->ctrl.opts->nr_reconnects;
- 
-+	if (!nvme_fc_rport_is_online(ctrl->rport))
-+		return -ENODEV;
++static void
++nvme_fc_rport_put(struct nvme_fc_rport *rport)
++{
++	kref_put(&rport->ref, nvme_fc_free_rport);
++}
 +
- 	/*
- 	 * Create the admin queue
- 	 */
-@@ -2653,6 +2669,12 @@ nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
- 		ctrl->cnum, status);
- 
- 	if (nvmf_should_reconnect(&ctrl->ctrl)) {
-+		/*
-+		 * Only schedule the reconnect if the remote port is online
-+		 */
-+		if (!nvme_fc_rport_is_online(ctrl->rport))
-+			return;
++static int
++nvme_fc_rport_get(struct nvme_fc_rport *rport)
++{
++	return kref_get_unless_zero(&rport->ref);
++}
 +
- 		dev_info(ctrl->ctrl.device,
- 			"NVME-FC{%d}: Reconnect attempt in %d seconds.\n",
- 			ctrl->cnum, ctrl->ctrl.opts->reconnect_delay);
-@@ -2684,12 +2706,15 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
- 		return;
- 	}
- 
--	ret = nvme_fc_create_association(ctrl);
--	if (ret)
--		nvme_fc_reconnect_or_delete(ctrl, ret);
--	else
--		dev_info(ctrl->ctrl.device,
--			"NVME-FC{%d}: controller reset complete\n", ctrl->cnum);
-+	if (nvme_fc_rport_is_online(ctrl->rport)) {
-+		ret = nvme_fc_create_association(ctrl);
-+		if (ret)
-+			nvme_fc_reconnect_or_delete(ctrl, ret);
-+		else
-+			dev_info(ctrl->ctrl.device,
-+				"NVME-FC{%d}: controller reset complete\n",
-+				ctrl->cnum);
-+	}
+ /**
+  * nvme_fc_register_remoteport - transport entry point called by an
+  *                              LLDD to register the existence of a NVME
+@@ -506,45 +545,6 @@ nvme_fc_register_remoteport(struct nvme_fc_local_port *localport,
  }
+ EXPORT_SYMBOL_GPL(nvme_fc_register_remoteport);
  
- /*
+-static void
+-nvme_fc_free_rport(struct kref *ref)
+-{
+-	struct nvme_fc_rport *rport =
+-		container_of(ref, struct nvme_fc_rport, ref);
+-	struct nvme_fc_lport *lport =
+-			localport_to_lport(rport->remoteport.localport);
+-	unsigned long flags;
+-
+-	WARN_ON(rport->remoteport.port_state != FC_OBJSTATE_DELETED);
+-	WARN_ON(!list_empty(&rport->ctrl_list));
+-
+-	/* remove from lport list */
+-	spin_lock_irqsave(&nvme_fc_lock, flags);
+-	list_del(&rport->endp_list);
+-	spin_unlock_irqrestore(&nvme_fc_lock, flags);
+-
+-	/* let the LLDD know we've finished tearing it down */
+-	lport->ops->remoteport_delete(&rport->remoteport);
+-
+-	ida_simple_remove(&lport->endp_cnt, rport->remoteport.port_num);
+-
+-	kfree(rport);
+-
+-	nvme_fc_lport_put(lport);
+-}
+-
+-static void
+-nvme_fc_rport_put(struct nvme_fc_rport *rport)
+-{
+-	kref_put(&rport->ref, nvme_fc_free_rport);
+-}
+-
+-static int
+-nvme_fc_rport_get(struct nvme_fc_rport *rport)
+-{
+-	return kref_get_unless_zero(&rport->ref);
+-}
+-
+ static int
+ nvme_fc_abort_lsops(struct nvme_fc_rport *rport)
+ {
 -- 
 2.11.0
