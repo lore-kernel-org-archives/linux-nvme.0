@@ -1,12 +1,47 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 15 May 2017 17:01:02 +0200
-Subject: [PATCH] nvme: Implement NS Optimial IO Boundary from 1.3 Spec
-In-Reply-To: <1494620945-8061-1-git-send-email-scott.bauer@intel.com>
-References: <1494620945-8061-1-git-send-email-scott.bauer@intel.com>
-Message-ID: <20170515150102.GB14995@lst.de>
+From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
+Date: Mon, 15 May 2017 15:51:04 +0000
+Subject: [PATCH] nvme: Change our APST table to be no more aggressive than
+ Intel RSTe
+In-Reply-To: <CALCETrUh0TB6b5UKfYjFLVcciYppTrPGyJNhpj5W0Z7vgngyMw@mail.gmail.com>
+References: <ddc5be5d81966effaf73e3cee54330c351bc8169.1494561654.git.luto@kernel.org>
+ <1494597516613.95190@Dell.com>
+ <CALCETrUVb8KqOOzW7fXDWCyCiXj6jpPm-w=XZ-FXrh_rfdDkJQ@mail.gmail.com>
+ <1494599685838.3433@Dell.com>
+ <CALCETrUh0TB6b5UKfYjFLVcciYppTrPGyJNhpj5W0Z7vgngyMw@mail.gmail.com>
+Message-ID: <99073b97a532496ea009231adb577b8c@ausx13mpc120.AMER.DELL.COM>
 
-Looks fine,
+> On Fri, May 12, 2017@7:34 AM,  <Mario.Limonciello@dell.com> wrote:
+> >>Yes, mostly.  I've written the patch, but I was planning to target it
+> >>at 4.12 or 4.13 but not -stable.  It's mostly just a cleanup and has
+> >>no real power saving benefit since the RSTe timeouts are so absurdly
+> >>conservative that I doubt PS4 will happen in practical usage.
+> > OK.
+> >
+> >>Perhaps
+> >>in suspend-to-idle?  (For suspend-to-idle, I suspect we should really
+> >>be using D3 instead.  Do we already do that?)
+> >
+> > Well I think this will depend upon what the SSD "will" support.
+> 
+> I thought it was basically impossible for the SSD to fail to support
+> D3.  Afterall, cutting the power due to runtime D3 is more or less the
+> same thing (from the SSD's POV) as cutting the power during S3 or full
+> power off.
+> 
+You need to have an extra load switch in the system for this to work with
+RTD3.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+At least today - no Dell systems put the drive into RTD3 when going into
+Modern Standby.  It's all PS4.
 
-Can you also add support to nvme-cli?
+> I've contemplated adding runtime D3 support to the nvme driver, but it
+> would probably be barely a win and quite slow.
+> 
+> When Linux suspends-to-idle, does it call driver suspend callbacks and
+> kick devices into D3?  It should work, but I don't know what actually
+> happens.
+
+There are callback that happen for drivers.  It doesn't need to be a dedicated
+callback specifically for freeze (what's invoked with S2I).
+For example Qualcomm WLAN driver when the client disconnects from the 
+AP will put the card into RTD3.  That will happen while going down to S2I.
