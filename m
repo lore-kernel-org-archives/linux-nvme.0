@@ -1,46 +1,29 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 15 May 2017 08:25:35 +0200
-Subject: [PATCH 04/10] nvme_fc: revise comment on teardown
-In-Reply-To: <20170513190309.25417-5-jsmart2021@gmail.com>
+Date: Mon, 15 May 2017 08:26:03 +0200
+Subject: [PATCH 05/10] nvme_fc: set logging level on resets/deletes
+In-Reply-To: <20170513190309.25417-6-jsmart2021@gmail.com>
 References: <20170513190309.25417-1-jsmart2021@gmail.com>
- <20170513190309.25417-5-jsmart2021@gmail.com>
-Message-ID: <a2851cc8-13ab-9bf6-01ff-b52086e11811@suse.de>
+ <20170513190309.25417-6-jsmart2021@gmail.com>
+Message-ID: <91ace3cc-5206-6366-db4b-5248f4b62ac9@suse.de>
 
 On 05/13/2017 09:03 PM, James Smart wrote:
-> Per the recommendation by Sagi on:
+> Per the review by Sagi on:
 > http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
 > 
-> An extra reference was pointed out.  There's no issue with the
-> references, but rather a literal interpretation of what the comment
-> is saying.
-> 
-> Reword the comment to avoid confusion.
+> Looked at existing warn vs info vs err dev_xxx levels for the messages
+> printed on reconnects and deletes:
+> - Resets due to error and resets transitioned to deletes are dev_warn
+> - Other reset/disconnect messages are dev_info
+> - Removed chatty io queue related messages
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
-> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
->  drivers/nvme/host/fc.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> this is version 2 of the patch:
+> v2: remove admin-requested delete info message as deletes are common
+>  for discovery controllers
 > 
-> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> index d2cf4e2e560b..2708c0caee14 100644
-> --- a/drivers/nvme/host/fc.c
-> +++ b/drivers/nvme/host/fc.c
-> @@ -2539,10 +2539,10 @@ nvme_fc_delete_ctrl_work(struct work_struct *work)
->  
->  	/*
->  	 * tear down the controller
-> -	 * This will result in the last reference on the nvme ctrl to
-> -	 * expire, calling the transport nvme_fc_nvme_ctrl_freed() callback.
-> -	 * From there, the transport will tear down it's logical queues and
-> -	 * association.
-> +	 * After the last reference on the nvme ctrl is removed,
-> +	 * the transport nvme_fc_nvme_ctrl_freed() callback will be
-> +	 * invoked. From there, the transport will tear down it's
-> +	 * logical queues and association.
->  	 */
->  	nvme_uninit_ctrl(&ctrl->ctrl);
->  
+>  drivers/nvme/host/fc.c | 14 ++++----------
+>  1 file changed, 4 insertions(+), 10 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
