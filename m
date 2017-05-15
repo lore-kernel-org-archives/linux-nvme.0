@@ -1,23 +1,27 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 15 May 2017 08:41:35 +0200
-Subject: [PATCH 08/10] nvme_fc: remove extra controller reference taken on
- reconnect
-In-Reply-To: <20170513190309.25417-9-jsmart2021@gmail.com>
+Date: Mon, 15 May 2017 08:45:00 +0200
+Subject: [PATCH 09/10] nvme_fcloop: fix port deletes and callbacks
+In-Reply-To: <20170513190309.25417-10-jsmart2021@gmail.com>
 References: <20170513190309.25417-1-jsmart2021@gmail.com>
- <20170513190309.25417-9-jsmart2021@gmail.com>
-Message-ID: <f0eff2b1-1c69-e3a3-1607-1e9238c52376@suse.de>
+ <20170513190309.25417-10-jsmart2021@gmail.com>
+Message-ID: <a94ab92e-f085-ea86-751b-825ee5a725f1@suse.de>
 
 On 05/13/2017 09:03 PM, James Smart wrote:
-> fix extra controller reference taken on reconnect by moving
-> reference to initial controller create
+> Now that there are potentially long delays between when a
+> remoteport or targetport delete calls is made and when the
+> callback occurs (dev_loss_tmo timeout), no longer block in the
+> delete routines and move the final nport puts to the callbacks.
+> 
+> Moved the fcloop_nport_get/put/free routines to avoid forward
+> declarations.
+> 
+> Ensure port_info structs used in registrations are nulled in
+> case fields are not set (ex: devloss_tmo values).
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
 > this is version 3 of the patch:
-> v2: per review: moved location of where ref taken
-> 
->  drivers/nvme/host/fc.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> v2: cut on nvme-4.12
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
