@@ -1,47 +1,55 @@
 From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
-Date: Mon, 15 May 2017 15:51:04 +0000
+Date: Mon, 15 May 2017 16:11:21 +0000
 Subject: [PATCH] nvme: Change our APST table to be no more aggressive than
  Intel RSTe
-In-Reply-To: <CALCETrUh0TB6b5UKfYjFLVcciYppTrPGyJNhpj5W0Z7vgngyMw@mail.gmail.com>
+In-Reply-To: <CALCETrXLhbiGTmeMDFjYAAwMi2PSK38cy1Z8UEPKxOWJz55wyQ@mail.gmail.com>
 References: <ddc5be5d81966effaf73e3cee54330c351bc8169.1494561654.git.luto@kernel.org>
- <1494597516613.95190@Dell.com>
- <CALCETrUVb8KqOOzW7fXDWCyCiXj6jpPm-w=XZ-FXrh_rfdDkJQ@mail.gmail.com>
- <1494599685838.3433@Dell.com>
- <CALCETrUh0TB6b5UKfYjFLVcciYppTrPGyJNhpj5W0Z7vgngyMw@mail.gmail.com>
-Message-ID: <99073b97a532496ea009231adb577b8c@ausx13mpc120.AMER.DELL.COM>
+ <CALCETrXLhbiGTmeMDFjYAAwMi2PSK38cy1Z8UEPKxOWJz55wyQ@mail.gmail.com>
+Message-ID: <e3790097493247b5b483e0196ae2c973@ausx13mpc120.AMER.DELL.COM>
 
-> On Fri, May 12, 2017@7:34 AM,  <Mario.Limonciello@dell.com> wrote:
-> >>Yes, mostly.  I've written the patch, but I was planning to target it
-> >>at 4.12 or 4.13 but not -stable.  It's mostly just a cleanup and has
-> >>no real power saving benefit since the RSTe timeouts are so absurdly
-> >>conservative that I doubt PS4 will happen in practical usage.
-> > OK.
-> >
-> >>Perhaps
-> >>in suspend-to-idle?  (For suspend-to-idle, I suspect we should really
-> >>be using D3 instead.  Do we already do that?)
-> >
-> > Well I think this will depend upon what the SSD "will" support.
+> -----Original Message-----
+> From: Andy Lutomirski [mailto:luto at kernel.org]
+> Sent: Saturday, May 13, 2017 7:28 AM
+> To: Andy Lutomirski <luto at kernel.org>
+> Cc: Jens Axboe <axboe at kernel.dk>; linux-kernel at vger.kernel.org; Kai-Heng Feng
+> <kai.heng.feng at canonical.com>; linux-nvme <linux-nvme at lists.infradead.org>;
+> Christoph Hellwig <hch at lst.de>; Sagi Grimberg <sagi at grimberg.me>; Keith Busch
+> <keith.busch at intel.com>; Limonciello, Mario <Mario_Limonciello at Dell.com>
+> Subject: Re: [PATCH] nvme: Change our APST table to be no more aggressive than
+> Intel RSTe
 > 
-> I thought it was basically impossible for the SSD to fail to support
-> D3.  Afterall, cutting the power due to runtime D3 is more or less the
-> same thing (from the SSD's POV) as cutting the power during S3 or full
-> power off.
+> On Thu, May 11, 2017@9:06 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> > It seems like RSTe is much more conservative with transition timing
+> > that we are.  According to Mario, RSTe programs APST to transition from
+> > active states to the first idle state after 60ms and, thereafter, to
+> > 1000 * the exit latency of the target state.
 > 
-You need to have an extra load switch in the system for this to work with
-RTD3.
-
-At least today - no Dell systems put the drive into RTD3 when going into
-Modern Standby.  It's all PS4.
-
-> I've contemplated adding runtime D3 support to the nvme driver, but it
-> would probably be barely a win and quite slow.
+> Bad news, folks: this appears to be merely more stable, not all the way stable:
 > 
-> When Linux suspends-to-idle, does it call driver suspend callbacks and
-> kick devices into D3?  It should work, but I don't know what actually
-> happens.
+> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1678184/comments/65
+> 
+> I maintain my hypothesis that no one ever validated these disks and
+> that the very conservative parameters set by RSTe merely make it rare
+> to trigger the bug.  But maybe something else is going on.
 
-There are callback that happen for drivers.  It doesn't need to be a dedicated
-callback specifically for freeze (what's invoked with S2I).
-For example Qualcomm WLAN driver when the client disconnects from the 
-AP will put the card into RTD3.  That will happen while going down to S2I.
+This is really unfortunate to hear.  I think the conservative parameters set
+by Intel are still best though.
+
+I've been talking to folks about this.  There has been mentions to a possible 
+signal integrity issue specifically on the quirked Dell systems and how it 
+relates to this.  The current (working) theory is that when the drive is in PS4 
+and is supposed to transition back that crosstalk causes problems with the 
+link negotiation and thus fails.
+So there's two possible ways I see to approach solving this (from Linux side):
+
+1) Keep quirking those systems from going into PS4.
+This isn't ideal as the jump to PS4 gets you the most power savings, but of course
+stable system > power savings
+
+2) Quirk those systems to redo link negotiation a few times if it fails
+I don't know if this is actually possible.  Where is link negotiation invoked?
+
+If our partners come up with a way to solve this from drive firmware though 
+I'll let this group know.
+
+Thanks,
