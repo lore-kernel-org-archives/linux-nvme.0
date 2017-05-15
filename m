@@ -1,289 +1,171 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 15 May 2017 15:20:41 -0700
-Subject: [PATCH v2 04/15] lpfc: Fix nvmet RQ resource needs for large block
- writes.
+Date: Mon, 15 May 2017 15:20:43 -0700
+Subject: [PATCH v2 06/15] lpfc: Fix NMI watchdog assertions when running nvmet
+ IOPS tests
 In-Reply-To: <20170515222052.26004-1-jsmart2021@gmail.com>
 References: <20170515222052.26004-1-jsmart2021@gmail.com>
-Message-ID: <20170515222052.26004-5-jsmart2021@gmail.com>
+Message-ID: <20170515222052.26004-7-jsmart2021@gmail.com>
 
-Large block writes to the nvme target were failing because
-the default number of RQs posted was insufficient.
+After running IOPS test for 30 second we get
+kernel:NMI watchdog: Watchdog detected hard LOCKUP on cpu 0
 
-Expand the NVMET RQs to 2048 RQEs and ensure a minimum of 512
-RQEs are posted, no matter how many MRQs are configured.
+The driver is speend too much time in it's ISR.
+
+In ISR EQ and CQ processing routines, if we hit the entry_repost
+numbers of EQE/CQEs just break out of the routine as opposed to
+hitting the doorbell with NOARM and continue processing.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 
 ---
 v2:
- set minimum mrq post to 512
  merged parts of fixup patch 0012 into the patch:
-   rq/mrq entry_repost values
+   eq/cq processing breaks
 
- drivers/scsi/lpfc/lpfc_attr.c  |  6 +++---
- drivers/scsi/lpfc/lpfc_init.c  | 23 +++++++++++++-------
- drivers/scsi/lpfc/lpfc_nvmet.c |  2 +-
- drivers/scsi/lpfc/lpfc_nvmet.h |  1 +
- drivers/scsi/lpfc/lpfc_sli.c   | 49 +++++++++---------------------------------
- drivers/scsi/lpfc/lpfc_sli4.h  |  2 +-
- 6 files changed, 31 insertions(+), 52 deletions(-)
+ drivers/scsi/lpfc/lpfc_debugfs.c | 30 +++++++++++++++---------------
+ drivers/scsi/lpfc/lpfc_sli.c     | 16 ++++++----------
+ 2 files changed, 21 insertions(+), 25 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_attr.c b/drivers/scsi/lpfc/lpfc_attr.c
-index 41ec7451689b..129d6cd7635b 100644
---- a/drivers/scsi/lpfc/lpfc_attr.c
-+++ b/drivers/scsi/lpfc/lpfc_attr.c
-@@ -60,9 +60,9 @@
- #define LPFC_MIN_DEVLOSS_TMO	1
- #define LPFC_MAX_DEVLOSS_TMO	255
+diff --git a/drivers/scsi/lpfc/lpfc_debugfs.c b/drivers/scsi/lpfc/lpfc_debugfs.c
+index a41daedeb967..7284533f4df2 100644
+--- a/drivers/scsi/lpfc/lpfc_debugfs.c
++++ b/drivers/scsi/lpfc/lpfc_debugfs.c
+@@ -3075,11 +3075,11 @@ __lpfc_idiag_print_wq(struct lpfc_queue *qp, char *wqtype,
+ 			qp->assoc_qid, qp->q_cnt_1,
+ 			(unsigned long long)qp->q_cnt_4);
+ 	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
+-			"\t\tWQID[%02d], QE-CNT[%04d], QE-SIZE[%04d], "
+-			"HOST-IDX[%04d], PORT-IDX[%04d]",
++			"\t\tWQID[%02d], QE-CNT[%04d], QE-SZ[%04d], "
++			"HST-IDX[%04d], PRT-IDX[%04d], PST[%03d]",
+ 			qp->queue_id, qp->entry_count,
+ 			qp->entry_size, qp->host_index,
+-			qp->hba_index);
++			qp->hba_index, qp->entry_repost);
+ 	len +=  snprintf(pbuffer + len,
+ 			LPFC_QUE_INFO_GET_BUF_SIZE - len, "\n");
+ 	return len;
+@@ -3126,11 +3126,11 @@ __lpfc_idiag_print_cq(struct lpfc_queue *qp, char *cqtype,
+ 			qp->assoc_qid, qp->q_cnt_1, qp->q_cnt_2,
+ 			qp->q_cnt_3, (unsigned long long)qp->q_cnt_4);
+ 	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
+-			"\tCQID[%02d], QE-CNT[%04d], QE-SIZE[%04d], "
+-			"HOST-IDX[%04d], PORT-IDX[%04d]",
++			"\tCQID[%02d], QE-CNT[%04d], QE-SZ[%04d], "
++			"HST-IDX[%04d], PRT-IDX[%04d], PST[%03d]",
+ 			qp->queue_id, qp->entry_count,
+ 			qp->entry_size, qp->host_index,
+-			qp->hba_index);
++			qp->hba_index, qp->entry_repost);
  
--#define LPFC_DEF_MRQ_POST	256
--#define LPFC_MIN_MRQ_POST	32
--#define LPFC_MAX_MRQ_POST	512
-+#define LPFC_DEF_MRQ_POST	512
-+#define LPFC_MIN_MRQ_POST	512
-+#define LPFC_MAX_MRQ_POST	2048
+ 	len +=  snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len, "\n");
  
- /*
-  * Write key size should be multiple of 4. If write key is changed
-diff --git a/drivers/scsi/lpfc/lpfc_init.c b/drivers/scsi/lpfc/lpfc_init.c
-index b1b181a756dc..5f62e3a1dff6 100644
---- a/drivers/scsi/lpfc/lpfc_init.c
-+++ b/drivers/scsi/lpfc/lpfc_init.c
-@@ -3390,6 +3390,11 @@ lpfc_sli4_nvmet_sgl_update(struct lpfc_hba *phba)
- 	 */
- 	els_xri_cnt = lpfc_sli4_get_els_iocb_cnt(phba);
- 	nvmet_xri_cnt = phba->cfg_nvmet_mrq * phba->cfg_nvmet_mrq_post;
-+
-+	/* Ensure we at least meet the minimun for the system */
-+	if (nvmet_xri_cnt < LPFC_NVMET_RQE_DEF_COUNT)
-+		nvmet_xri_cnt = LPFC_NVMET_RQE_DEF_COUNT;
-+
- 	tot_cnt = phba->sli4_hba.max_cfg_param.max_xri - els_xri_cnt;
- 	if (nvmet_xri_cnt > tot_cnt) {
- 		phba->cfg_nvmet_mrq_post = tot_cnt / phba->cfg_nvmet_mrq;
-@@ -8158,7 +8163,7 @@ lpfc_sli4_queue_create(struct lpfc_hba *phba)
- 			/* Create NVMET Receive Queue for header */
- 			qdesc = lpfc_sli4_queue_alloc(phba,
- 						      phba->sli4_hba.rq_esize,
--						      phba->sli4_hba.rq_ecount);
-+						      LPFC_NVMET_RQE_DEF_COUNT);
- 			if (!qdesc) {
- 				lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
- 						"3146 Failed allocate "
-@@ -8180,7 +8185,7 @@ lpfc_sli4_queue_create(struct lpfc_hba *phba)
- 			/* Create NVMET Receive Queue for data */
- 			qdesc = lpfc_sli4_queue_alloc(phba,
- 						      phba->sli4_hba.rq_esize,
--						      phba->sli4_hba.rq_ecount);
-+						      LPFC_NVMET_RQE_DEF_COUNT);
- 			if (!qdesc) {
- 				lpfc_printf_log(phba, KERN_ERR, LOG_INIT,
- 						"3156 Failed allocate "
-@@ -8770,9 +8775,6 @@ lpfc_sli4_queue_setup(struct lpfc_hba *phba)
- 		goto out_destroy;
- 	}
- 
--	lpfc_rq_adjust_repost(phba, phba->sli4_hba.hdr_rq, LPFC_ELS_HBQ);
--	lpfc_rq_adjust_repost(phba, phba->sli4_hba.dat_rq, LPFC_ELS_HBQ);
--
- 	rc = lpfc_rq_create(phba, phba->sli4_hba.hdr_rq, phba->sli4_hba.dat_rq,
- 			    phba->sli4_hba.els_cq, LPFC_USOL);
- 	if (rc) {
-@@ -11096,7 +11098,7 @@ lpfc_pci_probe_one_s4(struct pci_dev *pdev, const struct pci_device_id *pid)
- 	struct lpfc_hba   *phba;
- 	struct lpfc_vport *vport = NULL;
- 	struct Scsi_Host  *shost = NULL;
--	int error, cnt;
-+	int error, cnt, num;
- 	uint32_t cfg_mode, intr_mode;
- 
- 	/* Allocate memory for HBA structure */
-@@ -11131,8 +11133,13 @@ lpfc_pci_probe_one_s4(struct pci_dev *pdev, const struct pci_device_id *pid)
- 	}
- 
- 	cnt = phba->cfg_iocb_cnt * 1024;
--	if (phba->nvmet_support)
--		cnt += phba->cfg_nvmet_mrq_post * phba->cfg_nvmet_mrq;
-+	if (phba->nvmet_support) {
-+		/* Ensure we at least meet the minimun for the system */
-+		num = (phba->cfg_nvmet_mrq_post * phba->cfg_nvmet_mrq);
-+		if (num < LPFC_NVMET_RQE_DEF_COUNT)
-+			num = LPFC_NVMET_RQE_DEF_COUNT;
-+		cnt += num;
-+	}
- 
- 	/* Initialize and populate the iocb list per host */
- 	lpfc_printf_log(phba, KERN_INFO, LOG_INIT,
-diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
-index bb12e2c9fbf4..dfa7296499cf 100644
---- a/drivers/scsi/lpfc/lpfc_nvmet.c
-+++ b/drivers/scsi/lpfc/lpfc_nvmet.c
-@@ -614,9 +614,9 @@ lpfc_nvmet_xmt_fcp_op(struct nvmet_fc_target_port *tgtport,
- 	lpfc_nvmeio_data(phba, "NVMET FCP CMND: xri x%x op x%x len x%x\n",
- 			 ctxp->oxid, rsp->op, rsp->rsplen);
- 
-+	ctxp->flag |= LPFC_NVMET_IO_INP;
- 	rc = lpfc_sli4_issue_wqe(phba, LPFC_FCP_RING, nvmewqeq);
- 	if (rc == WQE_SUCCESS) {
--		ctxp->flag |= LPFC_NVMET_IO_INP;
- #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
- 		if (!phba->ktime_on)
- 			return 0;
-diff --git a/drivers/scsi/lpfc/lpfc_nvmet.h b/drivers/scsi/lpfc/lpfc_nvmet.h
-index 837210a3e7c8..55f2a859dc70 100644
---- a/drivers/scsi/lpfc/lpfc_nvmet.h
-+++ b/drivers/scsi/lpfc/lpfc_nvmet.h
-@@ -22,6 +22,7 @@
-  ********************************************************************/
- 
- #define LPFC_NVMET_DEFAULT_SEGS		(64 + 1)	/* 256K IOs */
-+#define LPFC_NVMET_RQE_DEF_COUNT	512
- #define LPFC_NVMET_SUCCESS_LEN	12
- 
- /* Used for NVME Target */
-diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
-index 333c5094b97d..f344abce4949 100644
---- a/drivers/scsi/lpfc/lpfc_sli.c
-+++ b/drivers/scsi/lpfc/lpfc_sli.c
-@@ -479,22 +479,23 @@ lpfc_sli4_rq_put(struct lpfc_queue *hq, struct lpfc_queue *dq,
- 	if (unlikely(!hq) || unlikely(!dq))
- 		return -ENOMEM;
- 	put_index = hq->host_index;
--	temp_hrqe = hq->qe[hq->host_index].rqe;
-+	temp_hrqe = hq->qe[put_index].rqe;
- 	temp_drqe = dq->qe[dq->host_index].rqe;
- 
- 	if (hq->type != LPFC_HRQ || dq->type != LPFC_DRQ)
- 		return -EINVAL;
--	if (hq->host_index != dq->host_index)
-+	if (put_index != dq->host_index)
- 		return -EINVAL;
- 	/* If the host has not yet processed the next entry then we are done */
--	if (((hq->host_index + 1) % hq->entry_count) == hq->hba_index)
-+	if (((put_index + 1) % hq->entry_count) == hq->hba_index)
- 		return -EBUSY;
- 	lpfc_sli_pcimem_bcopy(hrqe, temp_hrqe, hq->entry_size);
- 	lpfc_sli_pcimem_bcopy(drqe, temp_drqe, dq->entry_size);
- 
- 	/* Update the host index to point to the next slot */
--	hq->host_index = ((hq->host_index + 1) % hq->entry_count);
-+	hq->host_index = ((put_index + 1) % hq->entry_count);
- 	dq->host_index = ((dq->host_index + 1) % dq->entry_count);
-+	hq->RQ_buf_posted++;
- 
- 	/* Ring The Header Receive Queue Doorbell */
- 	if (!(hq->host_index % hq->entry_repost)) {
-@@ -512,7 +513,6 @@ lpfc_sli4_rq_put(struct lpfc_queue *hq, struct lpfc_queue *dq,
- 		} else {
- 			return -EINVAL;
- 		}
--		hq->RQ_buf_posted += hq->entry_repost;
- 		writel(doorbell.word0, hq->db_regaddr);
- 	}
- 	return put_index;
-@@ -6905,14 +6905,9 @@ lpfc_sli4_hba_setup(struct lpfc_hba *phba)
- 			INIT_LIST_HEAD(&rqbp->rqb_buffer_list);
- 			rqbp->rqb_alloc_buffer = lpfc_sli4_nvmet_alloc;
- 			rqbp->rqb_free_buffer = lpfc_sli4_nvmet_free;
--			rqbp->entry_count = 256;
-+			rqbp->entry_count = LPFC_NVMET_RQE_DEF_COUNT;
- 			rqbp->buffer_count = 0;
- 
--			/* Divide by 4 and round down to multiple of 16 */
--			rc = (phba->cfg_nvmet_mrq_post >> 2) & 0xfff8;
--			phba->sli4_hba.nvmet_mrq_hdr[i]->entry_repost = rc;
--			phba->sli4_hba.nvmet_mrq_data[i]->entry_repost = rc;
--
- 			lpfc_post_rq_buffer(
- 				phba, phba->sli4_hba.nvmet_mrq_hdr[i],
- 				phba->sli4_hba.nvmet_mrq_data[i],
-@@ -14893,34 +14888,6 @@ lpfc_wq_create(struct lpfc_hba *phba, struct lpfc_queue *wq,
+@@ -3152,16 +3152,16 @@ __lpfc_idiag_print_rqpair(struct lpfc_queue *qp, struct lpfc_queue *datqp,
+ 			qp->assoc_qid, qp->q_cnt_1, qp->q_cnt_2,
+ 			qp->q_cnt_3, (unsigned long long)qp->q_cnt_4);
+ 	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
+-			"\t\tHQID[%02d], QE-CNT[%04d], QE-SIZE[%04d], "
+-			"HOST-IDX[%04d], PORT-IDX[%04d]\n",
++			"\t\tHQID[%02d], QE-CNT[%04d], QE-SZ[%04d], "
++			"HST-IDX[%04d], PRT-IDX[%04d], PST[%03d]\n",
+ 			qp->queue_id, qp->entry_count, qp->entry_size,
+-			qp->host_index, qp->hba_index);
++			qp->host_index, qp->hba_index, qp->entry_repost);
+ 	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
+-			"\t\tDQID[%02d], QE-CNT[%04d], QE-SIZE[%04d], "
+-			"HOST-IDX[%04d], PORT-IDX[%04d]\n",
++			"\t\tDQID[%02d], QE-CNT[%04d], QE-SZ[%04d], "
++			"HST-IDX[%04d], PRT-IDX[%04d], PST[%03d]\n",
+ 			datqp->queue_id, datqp->entry_count,
+ 			datqp->entry_size, datqp->host_index,
+-			datqp->hba_index);
++			datqp->hba_index, datqp->entry_repost);
+ 	return len;
  }
  
- /**
-- * lpfc_rq_adjust_repost - Adjust entry_repost for an RQ
-- * @phba: HBA structure that indicates port to create a queue on.
-- * @rq:   The queue structure to use for the receive queue.
-- * @qno:  The associated HBQ number
-- *
-- *
-- * For SLI4 we need to adjust the RQ repost value based on
-- * the number of buffers that are initially posted to the RQ.
-- */
--void
--lpfc_rq_adjust_repost(struct lpfc_hba *phba, struct lpfc_queue *rq, int qno)
--{
--	uint32_t cnt;
--
--	/* sanity check on queue memory */
--	if (!rq)
--		return;
--	cnt = lpfc_hbq_defs[qno]->entry_count;
--
--	/* Recalc repost for RQs based on buffers initially posted */
--	cnt = (cnt >> 3);
--	if (cnt < LPFC_QUEUE_MIN_REPOST)
--		cnt = LPFC_QUEUE_MIN_REPOST;
--
--	rq->entry_repost = cnt;
--}
--
--/**
-  * lpfc_rq_create - Create a Receive Queue on the HBA
-  * @phba: HBA structure that indicates port to create a queue on.
-  * @hrq: The queue structure to use to create the header receive queue.
-@@ -15105,6 +15072,7 @@ lpfc_rq_create(struct lpfc_hba *phba, struct lpfc_queue *hrq,
- 	hrq->subtype = subtype;
- 	hrq->host_index = 0;
- 	hrq->hba_index = 0;
-+	hrq->entry_repost = LPFC_RQ_REPOST;
+@@ -3247,10 +3247,10 @@ __lpfc_idiag_print_eq(struct lpfc_queue *qp, char *eqtype,
+ 			eqtype, qp->q_cnt_1, qp->q_cnt_2, qp->q_cnt_3,
+ 			(unsigned long long)qp->q_cnt_4);
+ 	len += snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len,
+-			"EQID[%02d], QE-CNT[%04d], QE-SIZE[%04d], "
+-			"HOST-IDX[%04d], PORT-IDX[%04d]",
++			"EQID[%02d], QE-CNT[%04d], QE-SZ[%04d], "
++			"HST-IDX[%04d], PRT-IDX[%04d], PST[%03d]",
+ 			qp->queue_id, qp->entry_count, qp->entry_size,
+-			qp->host_index, qp->hba_index);
++			qp->host_index, qp->hba_index, qp->entry_repost);
+ 	len +=  snprintf(pbuffer + len, LPFC_QUE_INFO_GET_BUF_SIZE - len, "\n");
  
- 	/* now create the data queue */
- 	lpfc_sli4_config(phba, mbox, LPFC_MBOX_SUBSYSTEM_FCOE,
-@@ -15186,6 +15154,7 @@ lpfc_rq_create(struct lpfc_hba *phba, struct lpfc_queue *hrq,
- 	drq->subtype = subtype;
- 	drq->host_index = 0;
- 	drq->hba_index = 0;
-+	drq->entry_repost = LPFC_RQ_REPOST;
+ 	return len;
+diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
+index f344abce4949..cc45e9191062 100644
+--- a/drivers/scsi/lpfc/lpfc_sli.c
++++ b/drivers/scsi/lpfc/lpfc_sli.c
+@@ -12961,7 +12961,7 @@ lpfc_sli4_sp_handle_eqe(struct lpfc_hba *phba, struct lpfc_eqe *eqe,
+ 		while ((cqe = lpfc_sli4_cq_get(cq))) {
+ 			workposted |= lpfc_sli4_sp_handle_mcqe(phba, cqe);
+ 			if (!(++ecount % cq->entry_repost))
+-				lpfc_sli4_cq_release(cq, LPFC_QUEUE_NOARM);
++				break;
+ 			cq->CQ_mbox++;
+ 		}
+ 		break;
+@@ -12975,7 +12975,7 @@ lpfc_sli4_sp_handle_eqe(struct lpfc_hba *phba, struct lpfc_eqe *eqe,
+ 				workposted |= lpfc_sli4_sp_handle_cqe(phba, cq,
+ 								      cqe);
+ 			if (!(++ecount % cq->entry_repost))
+-				lpfc_sli4_cq_release(cq, LPFC_QUEUE_NOARM);
++				break;
+ 		}
  
- 	/* link the header and data RQs onto the parent cq child list */
- 	list_add_tail(&hrq->list, &cq->child_list);
-@@ -15343,6 +15312,7 @@ lpfc_mrq_create(struct lpfc_hba *phba, struct lpfc_queue **hrqp,
- 		hrq->subtype = subtype;
- 		hrq->host_index = 0;
- 		hrq->hba_index = 0;
-+		hrq->entry_repost = LPFC_RQ_REPOST;
+ 		/* Track the max number of CQEs processed in 1 EQ */
+@@ -13227,10 +13227,6 @@ lpfc_sli4_nvmet_handle_rcqe(struct lpfc_hba *phba, struct lpfc_queue *cq,
+ 	case FC_STATUS_INSUFF_BUF_NEED_BUF:
+ 		hrq->RQ_no_posted_buf++;
+ 		/* Post more buffers if possible */
+-		spin_lock_irqsave(&phba->hbalock, iflags);
+-		phba->hba_flag |= HBA_POST_RECEIVE_BUFFER;
+-		spin_unlock_irqrestore(&phba->hbalock, iflags);
+-		workposted = true;
+ 		break;
+ 	}
+ out:
+@@ -13384,7 +13380,7 @@ lpfc_sli4_hba_handle_eqe(struct lpfc_hba *phba, struct lpfc_eqe *eqe,
+ 	while ((cqe = lpfc_sli4_cq_get(cq))) {
+ 		workposted |= lpfc_sli4_fp_handle_cqe(phba, cq, cqe);
+ 		if (!(++ecount % cq->entry_repost))
+-			lpfc_sli4_cq_release(cq, LPFC_QUEUE_NOARM);
++			break;
+ 	}
  
- 		drq->db_format = LPFC_DB_RING_FORMAT;
- 		drq->db_regaddr = phba->sli4_hba.RQDBregaddr;
-@@ -15351,6 +15321,7 @@ lpfc_mrq_create(struct lpfc_hba *phba, struct lpfc_queue **hrqp,
- 		drq->subtype = subtype;
- 		drq->host_index = 0;
- 		drq->hba_index = 0;
-+		drq->entry_repost = LPFC_RQ_REPOST;
+ 	/* Track the max number of CQEs processed in 1 EQ */
+@@ -13475,7 +13471,7 @@ lpfc_sli4_fof_handle_eqe(struct lpfc_hba *phba, struct lpfc_eqe *eqe)
+ 	while ((cqe = lpfc_sli4_cq_get(cq))) {
+ 		workposted |= lpfc_sli4_fp_handle_cqe(phba, cq, cqe);
+ 		if (!(++ecount % cq->entry_repost))
+-			lpfc_sli4_cq_release(cq, LPFC_QUEUE_NOARM);
++			break;
+ 	}
  
- 		list_add_tail(&hrq->list, &cq->child_list);
- 		list_add_tail(&drq->list, &cq->child_list);
-diff --git a/drivers/scsi/lpfc/lpfc_sli4.h b/drivers/scsi/lpfc/lpfc_sli4.h
-index 7a8cbeb6a745..422bde85c9f1 100644
---- a/drivers/scsi/lpfc/lpfc_sli4.h
-+++ b/drivers/scsi/lpfc/lpfc_sli4.h
-@@ -156,6 +156,7 @@ struct lpfc_queue {
- 	uint32_t entry_size;	/* Size of each queue entry. */
- 	uint32_t entry_repost;	/* Count of entries before doorbell is rung */
- #define LPFC_QUEUE_MIN_REPOST	8
-+#define LPFC_RQ_REPOST		64
- 	uint32_t queue_id;	/* Queue ID assigned by the hardware */
- 	uint32_t assoc_qid;     /* Queue ID associated with, for CQ/WQ/MQ */
- 	uint32_t page_count;	/* Number of pages allocated for this queue */
-@@ -763,7 +764,6 @@ int lpfc_rq_create(struct lpfc_hba *, struct lpfc_queue *,
- int lpfc_mrq_create(struct lpfc_hba *phba, struct lpfc_queue **hrqp,
- 			struct lpfc_queue **drqp, struct lpfc_queue **cqp,
- 			uint32_t subtype);
--void lpfc_rq_adjust_repost(struct lpfc_hba *, struct lpfc_queue *, int);
- int lpfc_eq_destroy(struct lpfc_hba *, struct lpfc_queue *);
- int lpfc_cq_destroy(struct lpfc_hba *, struct lpfc_queue *);
- int lpfc_mq_destroy(struct lpfc_hba *, struct lpfc_queue *);
+ 	/* Track the max number of CQEs processed in 1 EQ */
+@@ -13557,7 +13553,7 @@ lpfc_sli4_fof_intr_handler(int irq, void *dev_id)
+ 	while ((eqe = lpfc_sli4_eq_get(eq))) {
+ 		lpfc_sli4_fof_handle_eqe(phba, eqe);
+ 		if (!(++ecount % eq->entry_repost))
+-			lpfc_sli4_eq_release(eq, LPFC_QUEUE_NOARM);
++			break;
+ 		eq->EQ_processed++;
+ 	}
+ 
+@@ -13674,7 +13670,7 @@ lpfc_sli4_hba_intr_handler(int irq, void *dev_id)
+ 
+ 		lpfc_sli4_hba_handle_eqe(phba, eqe, hba_eqidx);
+ 		if (!(++ecount % fpeq->entry_repost))
+-			lpfc_sli4_eq_release(fpeq, LPFC_QUEUE_NOARM);
++			break;
+ 		fpeq->EQ_processed++;
+ 	}
+ 
 -- 
 2.11.0
