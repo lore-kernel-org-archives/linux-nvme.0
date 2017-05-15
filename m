@@ -1,13 +1,8 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 15 May 2017 15:00:07 +0300
+From: leon@kernel.org (Leon Romanovsky)
+Date: Mon, 15 May 2017 16:31:22 +0300
 Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <DE927C68B458BE418D582EC97927A92855088C6F@ORSMSX113.amr.corp.intel.com>
-References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
- <1848296658.37025722.1487782361271.JavaMail.zimbra@redhat.com>
- <1554c1d1-6bf4-9ca2-12d4-a0125d8c5715@gmail.com>
- <DE927C68B458BE418D582EC97927A92854655137@ORSMSX112.amr.corp.intel.com>
- <3eb5814f-14cb-2b94-adf8-335d4b2eb7e9@grimberg.me>
- <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
+In-Reply-To: <82dd5b24-5657-ae5e-8a33-646fddd8b75b@grimberg.me>
+References: <26912d0c-578f-26e9-490d-94fc95bdf259@mellanox.com>
  <DE927C68B458BE418D582EC97927A92855031724@ORSMSX113.amr.corp.intel.com>
  <809f87ab-b787-9d40-5840-07500d12e81a@mellanox.com>
  <1948057100.362217696.1491824459274.JavaMail.zimbra@kalray.eu>
@@ -16,10 +11,32 @@ References: <08131a05-1f56-ef61-990a-7fff04eea095@gmail.com>
  <af9044c2-fb7c-e8b3-d8fc-4874cfd1bb67@mellanox.com>
  <c2a1436f-48a6-bdea-c910-168fc6031364@grimberg.me>
  <DE927C68B458BE418D582EC97927A92855088C6F@ORSMSX113.amr.corp.intel.com>
-Message-ID: <82dd5b24-5657-ae5e-8a33-646fddd8b75b@grimberg.me>
+ <82dd5b24-5657-ae5e-8a33-646fddd8b75b@grimberg.me>
+Message-ID: <20170515133122.GG3616@mtr-leonro.local>
 
-> Any update here?  Would love to be able to load up the new kernels without patching them every time. :)
+On Mon, May 15, 2017@03:00:07PM +0300, Sagi Grimberg wrote:
+> > Any update here?  Would love to be able to load up the new kernels without patching them every time. :)
+>
+> I would like that too,
+>
+> Max, can you send a patch? or should I?
 
-I would like that too,
+Sagi,
 
-Max, can you send a patch? or should I?
+Max is doing his best to provide a patch, unfortunately he is limited
+by various architecture implications which he needs to resolve before
+sending it.
+
+Thanks
+
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170515/d9229a4b/attachment.sig>
