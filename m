@@ -1,49 +1,130 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 15 May 2017 15:20:48 -0700
-Subject: [PATCH v2 11/15] lpfc: Fix debugfs root inode "lpfc" not getting
- deleted on driver unload.
+Date: Mon, 15 May 2017 15:20:49 -0700
+Subject: [PATCH v2 12/15] lpfc: Cleanup entry_repost settings on SLI4 queues
 In-Reply-To: <20170515222052.26004-1-jsmart2021@gmail.com>
 References: <20170515222052.26004-1-jsmart2021@gmail.com>
-Message-ID: <20170515222052.26004-12-jsmart2021@gmail.com>
+Message-ID: <20170515222052.26004-13-jsmart2021@gmail.com>
 
-When unloading and reloading the driver, the driver
-fails to recreate the lpfc root inode in the debugfs tree.
+Too many work items being processed in IRQ context take a lot
+of CPU time and cause problems.
 
-The driver is incorrectly removing the lpfc root inode
-in lpfc_debugfs_terminate in the first driver instance that
-unloads and then sets the lpfc_debugfs_root global parameter
-to NULL.  When the final driver instance unloads, the debugfs
-calls quietly ignore the remove on a NULL pointer.  The bug
-is that the debugfs_remove call returns void so the driver
-doesn't know to correctly set the global parameter to NULL.
+With a recent change, we get out of the ISR after hitting entry_repost
+work items on a queue. However, the actual values for entry repost are
+still high. EQ is 128 and CQ is 128, this could translate into
+processing 128 * 128 (16384) work items under IRQ context.
 
-Base the debugfs_remove of the lpfc_debugfs_root parameter
-on lpfc_debugfs_hba_count because this parameter tracks the
-fnX instance tracked per driver instance.
+Set entry_repost in the actual queue creation routine now.
+Limit EQ repost to 8 and CQ repost to 64 to further limit the amount
+of time spent in the IRQ.
+
+Fix fof IRQ routines as well.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
----
- drivers/scsi/lpfc/lpfc_debugfs.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/scsi/lpfc/lpfc_debugfs.c b/drivers/scsi/lpfc/lpfc_debugfs.c
-index c7d1c9d37a64..4bcb92c844ca 100644
---- a/drivers/scsi/lpfc/lpfc_debugfs.c
-+++ b/drivers/scsi/lpfc/lpfc_debugfs.c
-@@ -5866,8 +5866,10 @@ lpfc_debugfs_terminate(struct lpfc_vport *vport)
- 			atomic_dec(&lpfc_debugfs_hba_count);
- 		}
- 
--		debugfs_remove(lpfc_debugfs_root); /* lpfc */
--		lpfc_debugfs_root = NULL;
-+		if (atomic_read(&lpfc_debugfs_hba_count) == 0) {
-+			debugfs_remove(lpfc_debugfs_root); /* lpfc */
-+			lpfc_debugfs_root = NULL;
-+		}
+---
+v2: portions of the original patch reworked:
+ rq/mrq entry_repost values - moved to
+     0004-lpfc-Fix-nvmet-RQ-resource-needs-for-large-block-wri.patch
+ eq/cq processing breaks- moved to
+     0006-lpfc-Fix-NMI-watchdog-assertions-when-running-nvmet-.patch
+
+ drivers/scsi/lpfc/lpfc_sli.c  | 19 ++++++++-----------
+ drivers/scsi/lpfc/lpfc_sli4.h |  6 ++++--
+ 2 files changed, 12 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
+index 3fb4e715bfa2..903c06ff828a 100644
+--- a/drivers/scsi/lpfc/lpfc_sli.c
++++ b/drivers/scsi/lpfc/lpfc_sli.c
+@@ -13922,17 +13922,10 @@ lpfc_sli4_queue_alloc(struct lpfc_hba *phba, uint32_t entry_size,
  	}
- #endif
- 	return;
+ 	queue->entry_size = entry_size;
+ 	queue->entry_count = entry_count;
+-
+-	/*
+-	 * entry_repost is calculated based on the number of entries in the
+-	 * queue. This works out except for RQs. If buffers are NOT initially
+-	 * posted for every RQE, entry_repost should be adjusted accordingly.
+-	 */
+-	queue->entry_repost = (entry_count >> 3);
+-	if (queue->entry_repost < LPFC_QUEUE_MIN_REPOST)
+-		queue->entry_repost = LPFC_QUEUE_MIN_REPOST;
+ 	queue->phba = phba;
+ 
++	/* entry_repost will be set during q creation */
++
+ 	return queue;
+ out_fail:
+ 	lpfc_sli4_queue_free(queue);
+@@ -14163,6 +14156,7 @@ lpfc_eq_create(struct lpfc_hba *phba, struct lpfc_queue *eq, uint32_t imax)
+ 		status = -ENXIO;
+ 	eq->host_index = 0;
+ 	eq->hba_index = 0;
++	eq->entry_repost = LPFC_EQ_REPOST;
+ 
+ 	mempool_free(mbox, phba->mbox_mem_pool);
+ 	return status;
+@@ -14236,9 +14230,9 @@ lpfc_cq_create(struct lpfc_hba *phba, struct lpfc_queue *cq,
+ 	default:
+ 		lpfc_printf_log(phba, KERN_ERR, LOG_SLI,
+ 				"0361 Unsupported CQ count: "
+-				"entry cnt %d sz %d pg cnt %d repost %d\n",
++				"entry cnt %d sz %d pg cnt %d\n",
+ 				cq->entry_count, cq->entry_size,
+-				cq->page_count, cq->entry_repost);
++				cq->page_count);
+ 		if (cq->entry_count < 256) {
+ 			status = -EINVAL;
+ 			goto out;
+@@ -14291,6 +14285,7 @@ lpfc_cq_create(struct lpfc_hba *phba, struct lpfc_queue *cq,
+ 	cq->assoc_qid = eq->queue_id;
+ 	cq->host_index = 0;
+ 	cq->hba_index = 0;
++	cq->entry_repost = LPFC_CQ_REPOST;
+ 
+ out:
+ 	mempool_free(mbox, phba->mbox_mem_pool);
+@@ -14482,6 +14477,7 @@ lpfc_cq_create_set(struct lpfc_hba *phba, struct lpfc_queue **cqp,
+ 		cq->assoc_qid = eq->queue_id;
+ 		cq->host_index = 0;
+ 		cq->hba_index = 0;
++		cq->entry_repost = LPFC_CQ_REPOST;
+ 
+ 		rc = 0;
+ 		list_for_each_entry(dmabuf, &cq->page_list, list) {
+@@ -14730,6 +14726,7 @@ lpfc_mq_create(struct lpfc_hba *phba, struct lpfc_queue *mq,
+ 	mq->subtype = subtype;
+ 	mq->host_index = 0;
+ 	mq->hba_index = 0;
++	mq->entry_repost = LPFC_MQ_REPOST;
+ 
+ 	/* link the mq onto the parent cq child list */
+ 	list_add_tail(&mq->list, &cq->child_list);
+diff --git a/drivers/scsi/lpfc/lpfc_sli4.h b/drivers/scsi/lpfc/lpfc_sli4.h
+index c1c9a9125266..cf863db27700 100644
+--- a/drivers/scsi/lpfc/lpfc_sli4.h
++++ b/drivers/scsi/lpfc/lpfc_sli4.h
+@@ -24,7 +24,6 @@
+ #define LPFC_XRI_EXCH_BUSY_WAIT_TMO		10000
+ #define LPFC_XRI_EXCH_BUSY_WAIT_T1   		10
+ #define LPFC_XRI_EXCH_BUSY_WAIT_T2              30000
+-#define LPFC_RELEASE_NOTIFICATION_INTERVAL	32
+ #define LPFC_RPI_LOW_WATER_MARK			10
+ 
+ #define LPFC_UNREG_FCF                          1
+@@ -155,8 +154,11 @@ struct lpfc_queue {
+ 	uint32_t entry_count;	/* Number of entries to support on the queue */
+ 	uint32_t entry_size;	/* Size of each queue entry. */
+ 	uint32_t entry_repost;	/* Count of entries before doorbell is rung */
+-#define LPFC_QUEUE_MIN_REPOST	8
++#define LPFC_EQ_REPOST		8
++#define LPFC_MQ_REPOST		8
++#define LPFC_CQ_REPOST		64
+ #define LPFC_RQ_REPOST		64
++#define LPFC_RELEASE_NOTIFICATION_INTERVAL	32  /* For WQs */
+ 	uint32_t queue_id;	/* Queue ID assigned by the hardware */
+ 	uint32_t assoc_qid;     /* Queue ID associated with, for CQ/WQ/MQ */
+ 	uint32_t page_count;	/* Number of pages allocated for this queue */
 -- 
 2.11.0
