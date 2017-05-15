@@ -1,130 +1,65 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 15 May 2017 15:20:49 -0700
-Subject: [PATCH v2 12/15] lpfc: Cleanup entry_repost settings on SLI4 queues
+Date: Mon, 15 May 2017 15:20:50 -0700
+Subject: [PATCH v2 13/15] lpfc: Fix NVMEI's handling of NVMET's PRLI response
+ attributes
 In-Reply-To: <20170515222052.26004-1-jsmart2021@gmail.com>
 References: <20170515222052.26004-1-jsmart2021@gmail.com>
-Message-ID: <20170515222052.26004-13-jsmart2021@gmail.com>
+Message-ID: <20170515222052.26004-14-jsmart2021@gmail.com>
 
-Too many work items being processed in IRQ context take a lot
-of CPU time and cause problems.
+Code review of NVMEI's FC_PORT_ROLE_NVME_DISCOVERY
+looked wrong.
 
-With a recent change, we get out of the ISR after hitting entry_repost
-work items on a queue. However, the actual values for entry repost are
-still high. EQ is 128 and CQ is 128, this could translate into
-processing 128 * 128 (16384) work items under IRQ context.
+Discussions with storage architecture team clarified
+NVMEI's audit of the PRLI response port roles.  Following up
+discussion with code review showed a few minor corrections
+were required - especially in anticipation of NVME auto
+discovery.
 
-Set entry_repost in the actual queue creation routine now.
-Limit EQ repost to 8 and CQ repost to 64 to further limit the amount
-of time spent in the IRQ.
-
-Fix fof IRQ routines as well.
+During PRLI, NVMEI should sent prli_init - which it it
+does.  NVMET should send prli_tgt and prli_disc - which it does.
+When NVMEI receives a PRLI Response now, it audits the
+incoming target bits and stores the attributes in the
+corresponding NDLP.  Later, when NVMEI registers the NVME
+rport, it uses the stored ndlp attributes to set the rport
+port_roles correctly.
 
 Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
-
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
-v2: portions of the original patch reworked:
- rq/mrq entry_repost values - moved to
-     0004-lpfc-Fix-nvmet-RQ-resource-needs-for-large-block-wri.patch
- eq/cq processing breaks- moved to
-     0006-lpfc-Fix-NMI-watchdog-assertions-when-running-nvmet-.patch
+ drivers/scsi/lpfc/lpfc_disc.h      | 1 +
+ drivers/scsi/lpfc/lpfc_nportdisc.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
- drivers/scsi/lpfc/lpfc_sli.c  | 19 ++++++++-----------
- drivers/scsi/lpfc/lpfc_sli4.h |  6 ++++--
- 2 files changed, 12 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/scsi/lpfc/lpfc_sli.c b/drivers/scsi/lpfc/lpfc_sli.c
-index 3fb4e715bfa2..903c06ff828a 100644
---- a/drivers/scsi/lpfc/lpfc_sli.c
-+++ b/drivers/scsi/lpfc/lpfc_sli.c
-@@ -13922,17 +13922,10 @@ lpfc_sli4_queue_alloc(struct lpfc_hba *phba, uint32_t entry_size,
- 	}
- 	queue->entry_size = entry_size;
- 	queue->entry_count = entry_count;
--
--	/*
--	 * entry_repost is calculated based on the number of entries in the
--	 * queue. This works out except for RQs. If buffers are NOT initially
--	 * posted for every RQE, entry_repost should be adjusted accordingly.
--	 */
--	queue->entry_repost = (entry_count >> 3);
--	if (queue->entry_repost < LPFC_QUEUE_MIN_REPOST)
--		queue->entry_repost = LPFC_QUEUE_MIN_REPOST;
- 	queue->phba = phba;
+diff --git a/drivers/scsi/lpfc/lpfc_disc.h b/drivers/scsi/lpfc/lpfc_disc.h
+index 9d5a379f4b15..094c97b9e5f7 100644
+--- a/drivers/scsi/lpfc/lpfc_disc.h
++++ b/drivers/scsi/lpfc/lpfc_disc.h
+@@ -90,6 +90,7 @@ struct lpfc_nodelist {
+ #define NLP_FCP_INITIATOR  0x10			/* entry is an FCP Initiator */
+ #define NLP_NVME_TARGET    0x20			/* entry is a NVME Target */
+ #define NLP_NVME_INITIATOR 0x40			/* entry is a NVME Initiator */
++#define NLP_NVME_DISCOVERY 0x80                 /* entry has NVME disc srvc */
  
-+	/* entry_repost will be set during q creation */
-+
- 	return queue;
- out_fail:
- 	lpfc_sli4_queue_free(queue);
-@@ -14163,6 +14156,7 @@ lpfc_eq_create(struct lpfc_hba *phba, struct lpfc_queue *eq, uint32_t imax)
- 		status = -ENXIO;
- 	eq->host_index = 0;
- 	eq->hba_index = 0;
-+	eq->entry_repost = LPFC_EQ_REPOST;
+ 	uint16_t	nlp_fc4_type;		/* FC types node supports. */
+ 						/* Assigned from GID_FF, only
+diff --git a/drivers/scsi/lpfc/lpfc_nportdisc.c b/drivers/scsi/lpfc/lpfc_nportdisc.c
+index 8777c2d5f50d..bff3de053df4 100644
+--- a/drivers/scsi/lpfc/lpfc_nportdisc.c
++++ b/drivers/scsi/lpfc/lpfc_nportdisc.c
+@@ -1944,7 +1944,13 @@ lpfc_cmpl_prli_prli_issue(struct lpfc_vport *vport, struct lpfc_nodelist *ndlp,
  
- 	mempool_free(mbox, phba->mbox_mem_pool);
- 	return status;
-@@ -14236,9 +14230,9 @@ lpfc_cq_create(struct lpfc_hba *phba, struct lpfc_queue *cq,
- 	default:
- 		lpfc_printf_log(phba, KERN_ERR, LOG_SLI,
- 				"0361 Unsupported CQ count: "
--				"entry cnt %d sz %d pg cnt %d repost %d\n",
-+				"entry cnt %d sz %d pg cnt %d\n",
- 				cq->entry_count, cq->entry_size,
--				cq->page_count, cq->entry_repost);
-+				cq->page_count);
- 		if (cq->entry_count < 256) {
- 			status = -EINVAL;
- 			goto out;
-@@ -14291,6 +14285,7 @@ lpfc_cq_create(struct lpfc_hba *phba, struct lpfc_queue *cq,
- 	cq->assoc_qid = eq->queue_id;
- 	cq->host_index = 0;
- 	cq->hba_index = 0;
-+	cq->entry_repost = LPFC_CQ_REPOST;
- 
- out:
- 	mempool_free(mbox, phba->mbox_mem_pool);
-@@ -14482,6 +14477,7 @@ lpfc_cq_create_set(struct lpfc_hba *phba, struct lpfc_queue **cqp,
- 		cq->assoc_qid = eq->queue_id;
- 		cq->host_index = 0;
- 		cq->hba_index = 0;
-+		cq->entry_repost = LPFC_CQ_REPOST;
- 
- 		rc = 0;
- 		list_for_each_entry(dmabuf, &cq->page_list, list) {
-@@ -14730,6 +14726,7 @@ lpfc_mq_create(struct lpfc_hba *phba, struct lpfc_queue *mq,
- 	mq->subtype = subtype;
- 	mq->host_index = 0;
- 	mq->hba_index = 0;
-+	mq->entry_repost = LPFC_MQ_REPOST;
- 
- 	/* link the mq onto the parent cq child list */
- 	list_add_tail(&mq->list, &cq->child_list);
-diff --git a/drivers/scsi/lpfc/lpfc_sli4.h b/drivers/scsi/lpfc/lpfc_sli4.h
-index c1c9a9125266..cf863db27700 100644
---- a/drivers/scsi/lpfc/lpfc_sli4.h
-+++ b/drivers/scsi/lpfc/lpfc_sli4.h
-@@ -24,7 +24,6 @@
- #define LPFC_XRI_EXCH_BUSY_WAIT_TMO		10000
- #define LPFC_XRI_EXCH_BUSY_WAIT_T1   		10
- #define LPFC_XRI_EXCH_BUSY_WAIT_T2              30000
--#define LPFC_RELEASE_NOTIFICATION_INTERVAL	32
- #define LPFC_RPI_LOW_WATER_MARK			10
- 
- #define LPFC_UNREG_FCF                          1
-@@ -155,8 +154,11 @@ struct lpfc_queue {
- 	uint32_t entry_count;	/* Number of entries to support on the queue */
- 	uint32_t entry_size;	/* Size of each queue entry. */
- 	uint32_t entry_repost;	/* Count of entries before doorbell is rung */
--#define LPFC_QUEUE_MIN_REPOST	8
-+#define LPFC_EQ_REPOST		8
-+#define LPFC_MQ_REPOST		8
-+#define LPFC_CQ_REPOST		64
- #define LPFC_RQ_REPOST		64
-+#define LPFC_RELEASE_NOTIFICATION_INTERVAL	32  /* For WQs */
- 	uint32_t queue_id;	/* Queue ID assigned by the hardware */
- 	uint32_t assoc_qid;     /* Queue ID associated with, for CQ/WQ/MQ */
- 	uint32_t page_count;	/* Number of pages allocated for this queue */
+ 		/* Target driver cannot solicit NVME FB. */
+ 		if (bf_get_be32(prli_tgt, nvpr)) {
++			/* Complete the nvme target roles.  The transport
++			 * needs to know if the rport is capable of
++			 * discovery in addition to its role.
++			 */
+ 			ndlp->nlp_type |= NLP_NVME_TARGET;
++			if (bf_get_be32(prli_disc, nvpr))
++				ndlp->nlp_type |= NLP_NVME_DISCOVERY;
+ 			if ((bf_get_be32(prli_fba, nvpr) == 1) &&
+ 			    (bf_get_be32(prli_fb_sz, nvpr) > 0) &&
+ 			    (phba->cfg_nvme_enable_fb) &&
 -- 
 2.11.0
