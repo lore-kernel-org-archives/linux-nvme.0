@@ -1,22 +1,46 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 15 May 2017 08:24:44 +0200
-Subject: [PATCH 03/10] nvme_fc: replace ioabort msleep loop with completion
-In-Reply-To: <20170513190309.25417-4-jsmart2021@gmail.com>
+Date: Mon, 15 May 2017 08:25:35 +0200
+Subject: [PATCH 04/10] nvme_fc: revise comment on teardown
+In-Reply-To: <20170513190309.25417-5-jsmart2021@gmail.com>
 References: <20170513190309.25417-1-jsmart2021@gmail.com>
- <20170513190309.25417-4-jsmart2021@gmail.com>
-Message-ID: <8b796b2b-dd46-b9c0-caeb-571e53b3655a@suse.de>
+ <20170513190309.25417-5-jsmart2021@gmail.com>
+Message-ID: <a2851cc8-13ab-9bf6-01ff-b52086e11811@suse.de>
 
 On 05/13/2017 09:03 PM, James Smart wrote:
 > Per the recommendation by Sagi on:
 > http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
 > 
-> Wait for io aborts to complete wait converted from msleep look to
-> using a struct completion.
+> An extra reference was pointed out.  There's no issue with the
+> references, but rather a literal interpretation of what the comment
+> is saying.
+> 
+> Reword the comment to avoid confusion.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
+> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
-> this is version 2 of the patch:
-> removed unneeded inner braces
+>  drivers/nvme/host/fc.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index d2cf4e2e560b..2708c0caee14 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -2539,10 +2539,10 @@ nvme_fc_delete_ctrl_work(struct work_struct *work)
+>  
+>  	/*
+>  	 * tear down the controller
+> -	 * This will result in the last reference on the nvme ctrl to
+> -	 * expire, calling the transport nvme_fc_nvme_ctrl_freed() callback.
+> -	 * From there, the transport will tear down it's logical queues and
+> -	 * association.
+> +	 * After the last reference on the nvme ctrl is removed,
+> +	 * the transport nvme_fc_nvme_ctrl_freed() callback will be
+> +	 * invoked. From there, the transport will tear down it's
+> +	 * logical queues and association.
+>  	 */
+>  	nvme_uninit_ctrl(&ctrl->ctrl);
+>  
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
