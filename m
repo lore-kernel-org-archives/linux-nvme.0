@@ -1,55 +1,41 @@
-From: Mario.Limonciello@dell.com (Mario.Limonciello@dell.com)
-Date: Mon, 15 May 2017 16:11:21 +0000
-Subject: [PATCH] nvme: Change our APST table to be no more aggressive than
- Intel RSTe
-In-Reply-To: <CALCETrXLhbiGTmeMDFjYAAwMi2PSK38cy1Z8UEPKxOWJz55wyQ@mail.gmail.com>
-References: <ddc5be5d81966effaf73e3cee54330c351bc8169.1494561654.git.luto@kernel.org>
- <CALCETrXLhbiGTmeMDFjYAAwMi2PSK38cy1Z8UEPKxOWJz55wyQ@mail.gmail.com>
-Message-ID: <e3790097493247b5b483e0196ae2c973@ausx13mpc120.AMER.DELL.COM>
+From: leon@kernel.org (Leon Romanovsky)
+Date: Mon, 15 May 2017 20:05:06 +0300
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <20170515145952.GA7871@infradead.org>
+References: <33e2cc35-f147-d4a4-9a42-8f1245e35842@mellanox.com>
+ <517fb6d2-a010-1926-b4cb-0e6041722c28@grimberg.me>
+ <af9044c2-fb7c-e8b3-d8fc-4874cfd1bb67@mellanox.com>
+ <c2a1436f-48a6-bdea-c910-168fc6031364@grimberg.me>
+ <DE927C68B458BE418D582EC97927A92855088C6F@ORSMSX113.amr.corp.intel.com>
+ <82dd5b24-5657-ae5e-8a33-646fddd8b75b@grimberg.me>
+ <20170515133122.GG3616@mtr-leonro.local>
+ <9465cd0c-83db-b058-7615-5626ef60dbb0@grimberg.me>
+ <20170515143632.GH3616@mtr-leonro.local>
+ <20170515145952.GA7871@infradead.org>
+Message-ID: <20170515170506.GK3616@mtr-leonro.local>
 
-> -----Original Message-----
-> From: Andy Lutomirski [mailto:luto at kernel.org]
-> Sent: Saturday, May 13, 2017 7:28 AM
-> To: Andy Lutomirski <luto at kernel.org>
-> Cc: Jens Axboe <axboe at kernel.dk>; linux-kernel at vger.kernel.org; Kai-Heng Feng
-> <kai.heng.feng at canonical.com>; linux-nvme <linux-nvme at lists.infradead.org>;
-> Christoph Hellwig <hch at lst.de>; Sagi Grimberg <sagi at grimberg.me>; Keith Busch
-> <keith.busch at intel.com>; Limonciello, Mario <Mario_Limonciello at Dell.com>
-> Subject: Re: [PATCH] nvme: Change our APST table to be no more aggressive than
-> Intel RSTe
-> 
-> On Thu, May 11, 2017@9:06 PM, Andy Lutomirski <luto@kernel.org> wrote:
-> > It seems like RSTe is much more conservative with transition timing
-> > that we are.  According to Mario, RSTe programs APST to transition from
-> > active states to the first idle state after 60ms and, thereafter, to
-> > 1000 * the exit latency of the target state.
-> 
-> Bad news, folks: this appears to be merely more stable, not all the way stable:
-> 
-> https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1678184/comments/65
-> 
-> I maintain my hypothesis that no one ever validated these disks and
-> that the very conservative parameters set by RSTe merely make it rare
-> to trigger the bug.  But maybe something else is going on.
+On Mon, May 15, 2017@07:59:52AM -0700, Christoph Hellwig wrote:
+> On Mon, May 15, 2017@05:36:32PM +0300, Leon Romanovsky wrote:
+> > I understand you and both Max and me are feeling the same as you. For more
+> > than 2 months, we constantly (almost on daily basis) asked for a solution from
+> > architecture group, but received different answers. The proposals were
+> > extremely broad from need for strong fence for all cards to no need for
+> > strong fence at all.
+>
+> So let's get the patch to do a strong fence everywhere now, and relax
+> it later where possible.
+>
+> Correntness before speed..
 
-This is really unfortunate to hear.  I think the conservative parameters set
-by Intel are still best though.
+OK, please give me and Max till EOW to stop this saga. One of the two
+options will be: Max will resend original patch, or Max will send patch
+blessed by architecture group.
 
-I've been talking to folks about this.  There has been mentions to a possible 
-signal integrity issue specifically on the quirked Dell systems and how it 
-relates to this.  The current (working) theory is that when the drive is in PS4 
-and is supposed to transition back that crosstalk causes problems with the 
-link negotiation and thus fails.
-So there's two possible ways I see to approach solving this (from Linux side):
-
-1) Keep quirking those systems from going into PS4.
-This isn't ideal as the jump to PS4 gets you the most power savings, but of course
-stable system > power savings
-
-2) Quirk those systems to redo link negotiation a few times if it fails
-I don't know if this is actually possible.  Where is link negotiation invoked?
-
-If our partners come up with a way to solve this from drive firmware though 
-I'll let this group know.
-
-Thanks,
+Thanks
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170515/eda44767/attachment.sig>
