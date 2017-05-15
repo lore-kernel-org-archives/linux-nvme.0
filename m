@@ -1,31 +1,23 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 15 May 2017 08:21:25 +0200
-Subject: [PATCH 02/10] nvme_fc: Support ctrl_loss_tmo
-In-Reply-To: <20170513190309.25417-3-jsmart2021@gmail.com>
+Date: Mon, 15 May 2017 08:24:44 +0200
+Subject: [PATCH 03/10] nvme_fc: replace ioabort msleep loop with completion
+In-Reply-To: <20170513190309.25417-4-jsmart2021@gmail.com>
 References: <20170513190309.25417-1-jsmart2021@gmail.com>
- <20170513190309.25417-3-jsmart2021@gmail.com>
-Message-ID: <8982f301-c151-fb0a-68a4-710b81cce8eb@suse.de>
+ <20170513190309.25417-4-jsmart2021@gmail.com>
+Message-ID: <8b796b2b-dd46-b9c0-caeb-571e53b3655a@suse.de>
 
 On 05/13/2017 09:03 PM, James Smart wrote:
-> Sync with Sagi's recent addition of ctrl_loss_tmo in the core fabrics
-> layer.
-> 
-> Remove local connect limits and connect_attempts variable.
-> Use fabrics new nr_connects variable and use of nvmf_should_reconnect()
-> Refactor duplicate reconnect failure code.
-> 
-> Addresses review comment by Sagi on controller reset support:
+> Per the recommendation by Sagi on:
 > http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
+> 
+> Wait for io aborts to complete wait converted from msleep look to
+> using a struct completion.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/nvme/host/fc.c | 116 +++++++++++++++++++++----------------------------
->  1 file changed, 49 insertions(+), 67 deletions(-)
+> this is version 2 of the patch:
+> removed unneeded inner braces
 > 
-Makes one wonder if we shouldn't move the entire 'dev_loss_tmo' thingie
-into the block-layer altogether ...
-Anyway:
-
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
