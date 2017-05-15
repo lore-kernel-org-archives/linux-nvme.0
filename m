@@ -1,20 +1,31 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Mon, 15 May 2017 08:20:02 +0200
-Subject: [PATCH 01/10] nvme_fc: get rid of local reconnect_delay
-In-Reply-To: <20170513190309.25417-2-jsmart2021@gmail.com>
+Date: Mon, 15 May 2017 08:21:25 +0200
+Subject: [PATCH 02/10] nvme_fc: Support ctrl_loss_tmo
+In-Reply-To: <20170513190309.25417-3-jsmart2021@gmail.com>
 References: <20170513190309.25417-1-jsmart2021@gmail.com>
- <20170513190309.25417-2-jsmart2021@gmail.com>
-Message-ID: <11a410ef-e9ab-336e-8b1f-3911627b1d62@suse.de>
+ <20170513190309.25417-3-jsmart2021@gmail.com>
+Message-ID: <8982f301-c151-fb0a-68a4-710b81cce8eb@suse.de>
 
 On 05/13/2017 09:03 PM, James Smart wrote:
-> Remove the local copy of reconnect_delay.
-> Use the value in the controller options directly.
+> Sync with Sagi's recent addition of ctrl_loss_tmo in the core fabrics
+> layer.
+> 
+> Remove local connect limits and connect_attempts variable.
+> Use fabrics new nr_connects variable and use of nvmf_should_reconnect()
+> Refactor duplicate reconnect failure code.
+> 
+> Addresses review comment by Sagi on controller reset support:
+> http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/nvme/host/fc.c | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+>  drivers/nvme/host/fc.c | 116 +++++++++++++++++++++----------------------------
+>  1 file changed, 49 insertions(+), 67 deletions(-)
 > 
+Makes one wonder if we shouldn't move the entire 'dev_loss_tmo' thingie
+into the block-layer altogether ...
+Anyway:
+
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
 Cheers,
