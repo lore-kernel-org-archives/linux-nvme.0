@@ -1,57 +1,27 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 15 May 2017 10:44:39 -0400
-Subject: [RFC] NVMe Configuraiton using sysctl
-In-Reply-To: <f4e5a2bd-9e41-8025-31a9-9bcadd2468c3@grimberg.me>
-References: <CAMSpPPcxWYtZMbAc4TWam3iC1cLbxBPM=EhNPKA6qweiGnJvVg@mail.gmail.com>
- <CAMSpPPf640XfjW38=NXHmkDG0SeduavOEkKiEJuGmobq183jNg@mail.gmail.com>
- <f4e5a2bd-9e41-8025-31a9-9bcadd2468c3@grimberg.me>
-Message-ID: <20170515144439.GA28520@localhost.localdomain>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 15 May 2017 07:59:52 -0700
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <20170515143632.GH3616@mtr-leonro.local>
+References: <1948057100.362217696.1491824459274.JavaMail.zimbra@kalray.eu>
+ <33e2cc35-f147-d4a4-9a42-8f1245e35842@mellanox.com>
+ <517fb6d2-a010-1926-b4cb-0e6041722c28@grimberg.me>
+ <af9044c2-fb7c-e8b3-d8fc-4874cfd1bb67@mellanox.com>
+ <c2a1436f-48a6-bdea-c910-168fc6031364@grimberg.me>
+ <DE927C68B458BE418D582EC97927A92855088C6F@ORSMSX113.amr.corp.intel.com>
+ <82dd5b24-5657-ae5e-8a33-646fddd8b75b@grimberg.me>
+ <20170515133122.GG3616@mtr-leonro.local>
+ <9465cd0c-83db-b058-7615-5626ef60dbb0@grimberg.me>
+ <20170515143632.GH3616@mtr-leonro.local>
+Message-ID: <20170515145952.GA7871@infradead.org>
 
-On Mon, May 15, 2017@12:15:28PM +0300, Sagi Grimberg wrote:
-> 
-> > > Hi,
-> 
-> Hi Oza,
-> 
-> > > we are configuring interrupt coalesce for NVMe, but right now, it uses
-> > > module param.
-> > > so the same interrupt coalesce settings get applied for all the NVMEs
-> > > connected to different RCs.
-> > > 
-> > > ideally it should be with sysctl.
-> 
-> If at all, I would place this in nvme-cli (via ioctl) instead of
-> sysctl.
+On Mon, May 15, 2017@05:36:32PM +0300, Leon Romanovsky wrote:
+> I understand you and both Max and me are feeling the same as you. For more
+> than 2 months, we constantly (almost on daily basis) asked for a solution from
+> architecture group, but received different answers. The proposals were
+> extremely broad from need for strong fence for all cards to no need for
+> strong fence at all.
 
-That's also how I currently recommend testing this feature out. A problem
-with that, though, is the feature isn't persistent across controller
-resets, so the setting could be reverted without the user knowing.
+So let's get the patch to do a strong fence everywhere now, and relax
+it later where possible.
 
-
-> > > for e.g.
-> > > sysctl should provide interface to change
-> > > Per-CPU IO queue pairs, interrupt coalesce settings etc..
-> 
-> My personal feeling is that percpu granularity is a lot to take in for
-> the user, and also can yield some unexpected performance
-> characteristics. But I might be wrong here..
-
-We currently use the IRQ affinity spread to get good default pairings.
-It's possible to decouple that, but let's hear what about the default
-setting isn't optimal before exposing additional knobs. More user tunables
-just means one of us will get to frequently re-explain how to use it!
-
-
-> > > please suggest if we could have/implement sysctl module for NVMe ?
-> 
-> I have asked this before, but interrupt coalescing has very little
-> merit without being able to be adaptive. net drivers maintain online
-> stats and schedule interrupt coalescing modifications.
-> 
-> Should work in theory, but having said that, interrupt coalescing as a
-> whole is essentially unusable in nvme since the coalescing time limit
-> is in units of 100us increments...
-
-Yeah, as it is defined, the low depth work-load latency does suffer
-quite a bit. If the user only cares about IOPs, though, we find that
-coalescing is necessary for some workloads to hit the peak capabilities.
+Correntness before speed..
