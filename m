@@ -1,62 +1,213 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 15 May 2017 17:10:15 -0700
-Subject: [PATCH v2 01/10] nvme_fc: get rid of local reconnect_delay
+Date: Mon, 15 May 2017 17:10:16 -0700
+Subject: [PATCH v2 02/10] nvme_fc: Support ctrl_loss_tmo
 In-Reply-To: <20170516001024.5281-1-jsmart2021@gmail.com>
 References: <20170516001024.5281-1-jsmart2021@gmail.com>
-Message-ID: <20170516001024.5281-2-jsmart2021@gmail.com>
+Message-ID: <20170516001024.5281-3-jsmart2021@gmail.com>
 
-Remove the local copy of reconnect_delay.
-Use the value in the controller options directly.
+Sync with Sagi's recent addition of ctrl_loss_tmo in the core fabrics
+layer.
+
+Remove local connect limits and connect_attempts variable.
+Use fabrics new nr_connects variable and use of nvmf_should_reconnect()
+Refactor duplicate reconnect failure code.
+
+Addresses review comment by Sagi on controller reset support:
+http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/fc.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/nvme/host/fc.c | 116 +++++++++++++++++++++----------------------------
+ 1 file changed, 49 insertions(+), 67 deletions(-)
 
 diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index dca7165fabcf..c3ab1043efbd 100644
+index c3ab1043efbd..a0f05d5e966c 100644
 --- a/drivers/nvme/host/fc.c
 +++ b/drivers/nvme/host/fc.c
-@@ -165,7 +165,6 @@ struct nvme_fc_ctrl {
+@@ -45,8 +45,6 @@ enum nvme_fc_queue_flags {
+ 
+ #define NVMEFC_QUEUE_DELAY	3		/* ms units */
+ 
+-#define NVME_FC_MAX_CONNECT_ATTEMPTS	1
+-
+ struct nvme_fc_queue {
+ 	struct nvme_fc_ctrl	*ctrl;
+ 	struct device		*dev;
+@@ -165,7 +163,6 @@ struct nvme_fc_ctrl {
  	struct work_struct	delete_work;
  	struct work_struct	reset_work;
  	struct delayed_work	connect_work;
--	int			reconnect_delay;
- 	int			connect_attempts;
+-	int			connect_attempts;
  
  	struct kref		ref;
-@@ -2615,9 +2614,9 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ 	u32			flags;
+@@ -2305,7 +2302,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	int ret;
+ 	bool changed;
  
- 		dev_warn(ctrl->ctrl.device,
- 			"NVME-FC{%d}: Reconnect attempt in %d seconds.\n",
--			ctrl->cnum, ctrl->reconnect_delay);
+-	ctrl->connect_attempts++;
++	++ctrl->ctrl.opts->nr_reconnects;
+ 
+ 	/*
+ 	 * Create the admin queue
+@@ -2402,7 +2399,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+ 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+ 	WARN_ON_ONCE(!changed);
+ 
+-	ctrl->connect_attempts = 0;
++	ctrl->ctrl.opts->nr_reconnects = 0;
+ 
+ 	kref_get(&ctrl->ctrl.kref);
+ 
+@@ -2545,16 +2542,22 @@ nvme_fc_delete_ctrl_work(struct work_struct *work)
+ 	nvme_put_ctrl(&ctrl->ctrl);
+ }
+ 
+-static int
+-__nvme_fc_del_ctrl(struct nvme_fc_ctrl *ctrl)
++static bool
++__nvme_fc_schedule_delete_work(struct nvme_fc_ctrl *ctrl)
+ {
+ 	if (!nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_DELETING))
+-		return -EBUSY;
++		return true;
+ 
+ 	if (!queue_work(nvme_fc_wq, &ctrl->delete_work))
+-		return -EBUSY;
++		return true;
+ 
+-	return 0;
++	return false;
++}
++
++static int
++__nvme_fc_del_ctrl(struct nvme_fc_ctrl *ctrl)
++{
++	return __nvme_fc_schedule_delete_work(ctrl) ? -EBUSY : 0;
+ }
+ 
+ /*
+@@ -2580,6 +2583,35 @@ nvme_fc_del_nvme_ctrl(struct nvme_ctrl *nctrl)
+ }
+ 
+ static void
++nvme_fc_reconnect_or_delete(struct nvme_fc_ctrl *ctrl, int status)
++{
++	/* If we are resetting/deleting then do nothing */
++	if (ctrl->ctrl.state != NVME_CTRL_RECONNECTING) {
++		WARN_ON_ONCE(ctrl->ctrl.state == NVME_CTRL_NEW ||
++			ctrl->ctrl.state == NVME_CTRL_LIVE);
++		return;
++	}
++
++	dev_warn(ctrl->ctrl.device,
++		"NVME-FC{%d}: reset: Reconnect attempt failed (%d)\n",
++		ctrl->cnum, status);
++
++	if (nvmf_should_reconnect(&ctrl->ctrl)) {
++		dev_info(ctrl->ctrl.device,
++			"NVME-FC{%d}: Reconnect attempt in %d seconds.\n",
 +			ctrl->cnum, ctrl->ctrl.opts->reconnect_delay);
- 		queue_delayed_work(nvme_fc_wq, &ctrl->connect_work,
--				ctrl->reconnect_delay * HZ);
++		queue_delayed_work(nvme_fc_wq, &ctrl->connect_work,
 +				ctrl->ctrl.opts->reconnect_delay * HZ);
- 	} else
++	} else {
++		dev_info(ctrl->ctrl.device,
++				"NVME-FC{%d}: Max reconnect attempts (%d) "
++				"reached. Removing controller\n",
++				ctrl->cnum, ctrl->ctrl.opts->nr_reconnects);
++		WARN_ON(__nvme_fc_schedule_delete_work(ctrl));
++	}
++}
++
++static void
+ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ {
+ 	struct nvme_fc_ctrl *ctrl =
+@@ -2590,34 +2622,9 @@ nvme_fc_reset_ctrl_work(struct work_struct *work)
+ 	nvme_fc_delete_association(ctrl);
+ 
+ 	ret = nvme_fc_create_association(ctrl);
+-	if (ret) {
+-		dev_warn(ctrl->ctrl.device,
+-			"NVME-FC{%d}: reset: Reconnect attempt failed (%d)\n",
+-			ctrl->cnum, ret);
+-		if (ctrl->connect_attempts >= NVME_FC_MAX_CONNECT_ATTEMPTS) {
+-			dev_warn(ctrl->ctrl.device,
+-				"NVME-FC{%d}: Max reconnect attempts (%d) "
+-				"reached. Removing controller\n",
+-				ctrl->cnum, ctrl->connect_attempts);
+-
+-			if (!nvme_change_ctrl_state(&ctrl->ctrl,
+-				NVME_CTRL_DELETING)) {
+-				dev_err(ctrl->ctrl.device,
+-					"NVME-FC{%d}: failed to change state "
+-					"to DELETING\n", ctrl->cnum);
+-				return;
+-			}
+-
+-			WARN_ON(!queue_work(nvme_fc_wq, &ctrl->delete_work));
+-			return;
+-		}
+-
+-		dev_warn(ctrl->ctrl.device,
+-			"NVME-FC{%d}: Reconnect attempt in %d seconds.\n",
+-			ctrl->cnum, ctrl->ctrl.opts->reconnect_delay);
+-		queue_delayed_work(nvme_fc_wq, &ctrl->connect_work,
+-				ctrl->ctrl.opts->reconnect_delay * HZ);
+-	} else
++	if (ret)
++		nvme_fc_reconnect_or_delete(ctrl, ret);
++	else
  		dev_info(ctrl->ctrl.device,
  			"NVME-FC{%d}: controller reset complete\n", ctrl->cnum);
-@@ -2695,9 +2694,9 @@ nvme_fc_connect_ctrl_work(struct work_struct *work)
+ }
+@@ -2670,34 +2677,9 @@ nvme_fc_connect_ctrl_work(struct work_struct *work)
+ 				struct nvme_fc_ctrl, connect_work);
  
- 		dev_warn(ctrl->ctrl.device,
- 			"NVME-FC{%d}: Reconnect attempt in %d seconds.\n",
--			ctrl->cnum, ctrl->reconnect_delay);
-+			ctrl->cnum, ctrl->ctrl.opts->reconnect_delay);
- 		queue_delayed_work(nvme_fc_wq, &ctrl->connect_work,
--				ctrl->reconnect_delay * HZ);
-+				ctrl->ctrl.opts->reconnect_delay * HZ);
- 	} else
+ 	ret = nvme_fc_create_association(ctrl);
+-	if (ret) {
+-		dev_warn(ctrl->ctrl.device,
+-			"NVME-FC{%d}: Reconnect attempt failed (%d)\n",
+-			ctrl->cnum, ret);
+-		if (ctrl->connect_attempts >= NVME_FC_MAX_CONNECT_ATTEMPTS) {
+-			dev_warn(ctrl->ctrl.device,
+-				"NVME-FC{%d}: Max reconnect attempts (%d) "
+-				"reached. Removing controller\n",
+-				ctrl->cnum, ctrl->connect_attempts);
+-
+-			if (!nvme_change_ctrl_state(&ctrl->ctrl,
+-				NVME_CTRL_DELETING)) {
+-				dev_err(ctrl->ctrl.device,
+-					"NVME-FC{%d}: failed to change state "
+-					"to DELETING\n", ctrl->cnum);
+-				return;
+-			}
+-
+-			WARN_ON(!queue_work(nvme_fc_wq, &ctrl->delete_work));
+-			return;
+-		}
+-
+-		dev_warn(ctrl->ctrl.device,
+-			"NVME-FC{%d}: Reconnect attempt in %d seconds.\n",
+-			ctrl->cnum, ctrl->ctrl.opts->reconnect_delay);
+-		queue_delayed_work(nvme_fc_wq, &ctrl->connect_work,
+-				ctrl->ctrl.opts->reconnect_delay * HZ);
+-	} else
++	if (ret)
++		nvme_fc_reconnect_or_delete(ctrl, ret);
++	else
  		dev_info(ctrl->ctrl.device,
  			"NVME-FC{%d}: controller reconnect complete\n",
-@@ -2755,7 +2754,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 	INIT_WORK(&ctrl->delete_work, nvme_fc_delete_ctrl_work);
- 	INIT_WORK(&ctrl->reset_work, nvme_fc_reset_ctrl_work);
- 	INIT_DELAYED_WORK(&ctrl->connect_work, nvme_fc_connect_ctrl_work);
--	ctrl->reconnect_delay = opts->reconnect_delay;
- 	spin_lock_init(&ctrl->lock);
+ 			ctrl->cnum);
+@@ -2969,7 +2951,7 @@ nvme_fc_create_ctrl(struct device *dev, struct nvmf_ctrl_options *opts)
+ static struct nvmf_transport_ops nvme_fc_transport = {
+ 	.name		= "fc",
+ 	.required_opts	= NVMF_OPT_TRADDR | NVMF_OPT_HOST_TRADDR,
+-	.allowed_opts	= NVMF_OPT_RECONNECT_DELAY,
++	.allowed_opts	= NVMF_OPT_RECONNECT_DELAY | NVMF_OPT_CTRL_LOSS_TMO,
+ 	.create_ctrl	= nvme_fc_create_ctrl,
+ };
  
- 	/* io queue count */
 -- 
 2.11.0
