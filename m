@@ -1,20 +1,23 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 16 May 2017 09:33:36 +0200
-Subject: [PATCH v2 03/10] nvme_fc: replace ioabort msleep loop with
- completion
-In-Reply-To: <20170516001024.5281-4-jsmart2021@gmail.com>
+Date: Tue, 16 May 2017 09:33:55 +0200
+Subject: [PATCH v2 04/10] nvme_fc: revise comment on teardown
+In-Reply-To: <20170516001024.5281-5-jsmart2021@gmail.com>
 References: <20170516001024.5281-1-jsmart2021@gmail.com>
- <20170516001024.5281-4-jsmart2021@gmail.com>
-Message-ID: <96e3cab7-0bcb-cdff-cb11-2d81777749c0@suse.de>
+ <20170516001024.5281-5-jsmart2021@gmail.com>
+Message-ID: <7c05fa5b-c931-8e32-a19f-d3d42c389f64@suse.de>
 
 On 05/16/2017 02:10 AM, James Smart wrote:
 > Per the recommendation by Sagi on:
 > http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
 > 
-> Wait for io aborts to complete wait converted from msleep look to
-> using a struct completion.
+> An extra reference was pointed out.  There's no issue with the
+> references, but rather a literal interpretation of what the comment
+> is saying.
+> 
+> Reword the comment to avoid confusion.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
+> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 > Reviewed-by: Hannes Reinecke <hare at suse.com>
 > ---
 
