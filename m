@@ -1,23 +1,16 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 16 May 2017 09:35:05 +0200
-Subject: [PATCH v2 05/10] nvme_fc: set logging level on resets/deletes
-In-Reply-To: <20170516001024.5281-6-jsmart2021@gmail.com>
+Date: Tue, 16 May 2017 09:38:25 +0200
+Subject: [PATCH v2 06/10] nvmet_fc: Reduce work_q count
+In-Reply-To: <20170516001024.5281-7-jsmart2021@gmail.com>
 References: <20170516001024.5281-1-jsmart2021@gmail.com>
- <20170516001024.5281-6-jsmart2021@gmail.com>
-Message-ID: <247183dd-767a-42e2-1425-e24df346d406@suse.de>
+ <20170516001024.5281-7-jsmart2021@gmail.com>
+Message-ID: <fcdbfb78-02fd-6f9e-2dc9-c604a2de6c65@suse.de>
 
 On 05/16/2017 02:10 AM, James Smart wrote:
-> Per the review by Sagi on:
-> http://lists.infradead.org/pipermail/linux-nvme/2017-April/009261.html
-> 
-> Looked at existing warn vs info vs err dev_xxx levels for the messages
-> printed on reconnects and deletes:
-> - Resets due to error and resets transitioned to deletes are dev_warn
-> - Other reset/disconnect messages are dev_info
-> - Removed chatty io queue related messages
+> Instead of a work_q per controller queue, make 1 per cpu and have
+> controller queues post work elements to the work_q.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
-> Reviewed-by: Hannes Reinecke <hare at suse.com>
 > ---
 
 Thanks,
