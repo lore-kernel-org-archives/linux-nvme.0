@@ -1,34 +1,154 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 15 May 2017 17:10:24 -0700
-Subject: [PATCH v2 10/10] nvme_fc: correct nvme status set on abort
+Date: Mon, 15 May 2017 17:10:23 -0700
+Subject: [PATCH v2 09/10] nvme_fcloop: fix port deletes and callbacks
 In-Reply-To: <20170516001024.5281-1-jsmart2021@gmail.com>
 References: <20170516001024.5281-1-jsmart2021@gmail.com>
-Message-ID: <20170516001024.5281-11-jsmart2021@gmail.com>
+Message-ID: <20170516001024.5281-10-jsmart2021@gmail.com>
 
-correct nvme status set on abort. Patch that changed status to being actual
-nvme status crossed in the night with the patch that added abort values.
+Now that there are potentially long delays between when a
+remoteport or targetport delete calls is made and when the
+callback occurs (dev_loss_tmo timeout), no longer block in the
+delete routines and move the final nport puts to the callbacks.
+
+Moved the fcloop_nport_get/put/free routines to avoid forward
+declarations.
+
+Ensure port_info structs used in registrations are nulled in
+case fields are not set (ex: devloss_tmo values).
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
- drivers/nvme/host/fc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v2: cut on nvme-4.12
+---
+ drivers/nvme/target/fcloop.c | 66 +++++++++++++++++++++-----------------------
+ 1 file changed, 32 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 78973407430a..8dd06e97736d 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -1375,9 +1375,9 @@ nvme_fc_fcpio_done(struct nvmefc_fcp_req *req)
- 	complete_rq = __nvme_fc_fcpop_chk_teardowns(ctrl, op);
- 	if (!complete_rq) {
- 		if (unlikely(op->flags & FCOP_FLAGS_TERMIO)) {
--			status = cpu_to_le16(NVME_SC_ABORT_REQ);
-+			status = cpu_to_le16(NVME_SC_ABORT_REQ << 1);
- 			if (blk_queue_dying(rq->q))
--				status |= cpu_to_le16(NVME_SC_DNR);
-+				status |= cpu_to_le16(NVME_SC_DNR << 1);
- 		}
- 		nvme_end_request(rq, status, result);
- 	} else
+diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
+index 294a6611fb24..6a9dfbd87574 100644
+--- a/drivers/nvme/target/fcloop.c
++++ b/drivers/nvme/target/fcloop.c
+@@ -636,6 +636,32 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
+ }
+ 
+ static void
++fcloop_nport_free(struct kref *ref)
++{
++	struct fcloop_nport *nport =
++		container_of(ref, struct fcloop_nport, ref);
++	unsigned long flags;
++
++	spin_lock_irqsave(&fcloop_lock, flags);
++	list_del(&nport->nport_list);
++	spin_unlock_irqrestore(&fcloop_lock, flags);
++
++	kfree(nport);
++}
++
++static void
++fcloop_nport_put(struct fcloop_nport *nport)
++{
++	kref_put(&nport->ref, fcloop_nport_free);
++}
++
++static int
++fcloop_nport_get(struct fcloop_nport *nport)
++{
++	return kref_get_unless_zero(&nport->ref);
++}
++
++static void
+ fcloop_localport_delete(struct nvme_fc_local_port *localport)
+ {
+ 	struct fcloop_lport *lport = localport->private;
+@@ -651,6 +677,8 @@ fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
+ 
+ 	/* release any threads waiting for the unreg to complete */
+ 	complete(&rport->nport->rport_unreg_done);
++
++	fcloop_nport_put(rport->nport);
+ }
+ 
+ static void
+@@ -660,6 +688,8 @@ fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
+ 
+ 	/* release any threads waiting for the unreg to complete */
+ 	complete(&tport->nport->tport_unreg_done);
++
++	fcloop_nport_put(tport->nport);
+ }
+ 
+ #define	FCLOOP_HW_QUEUES		4
+@@ -727,6 +757,7 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
+ 		goto out_free_opts;
+ 	}
+ 
++	memset(&pinfo, 0, sizeof(pinfo));
+ 	pinfo.node_name = opts->wwnn;
+ 	pinfo.port_name = opts->wwpn;
+ 	pinfo.port_role = opts->roles;
+@@ -809,32 +840,6 @@ fcloop_delete_local_port(struct device *dev, struct device_attribute *attr,
+ 	return ret ? ret : count;
+ }
+ 
+-static void
+-fcloop_nport_free(struct kref *ref)
+-{
+-	struct fcloop_nport *nport =
+-		container_of(ref, struct fcloop_nport, ref);
+-	unsigned long flags;
+-
+-	spin_lock_irqsave(&fcloop_lock, flags);
+-	list_del(&nport->nport_list);
+-	spin_unlock_irqrestore(&fcloop_lock, flags);
+-
+-	kfree(nport);
+-}
+-
+-static void
+-fcloop_nport_put(struct fcloop_nport *nport)
+-{
+-	kref_put(&nport->ref, fcloop_nport_free);
+-}
+-
+-static int
+-fcloop_nport_get(struct fcloop_nport *nport)
+-{
+-	return kref_get_unless_zero(&nport->ref);
+-}
+-
+ static struct fcloop_nport *
+ fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
+ {
+@@ -943,6 +948,7 @@ fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
+ 	if (!nport)
+ 		return -EIO;
+ 
++	memset(&pinfo, 0, sizeof(pinfo));
+ 	pinfo.node_name = nport->node_name;
+ 	pinfo.port_name = nport->port_name;
+ 	pinfo.port_role = nport->port_role;
+@@ -997,10 +1003,6 @@ __wait_remoteport_unreg(struct fcloop_nport *nport, struct fcloop_rport *rport)
+ 	if (ret)
+ 		return ret;
+ 
+-	wait_for_completion(&nport->rport_unreg_done);
+-
+-	fcloop_nport_put(nport);
+-
+ 	return ret;
+ }
+ 
+@@ -1104,10 +1106,6 @@ __wait_targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
+ 	if (ret)
+ 		return ret;
+ 
+-	wait_for_completion(&nport->tport_unreg_done);
+-
+-	fcloop_nport_put(nport);
+-
+ 	return ret;
+ }
+ 
 -- 
 2.11.0
