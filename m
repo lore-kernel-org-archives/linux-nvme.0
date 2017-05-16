@@ -1,154 +1,44 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 15 May 2017 17:10:23 -0700
-Subject: [PATCH v2 09/10] nvme_fcloop: fix port deletes and callbacks
-In-Reply-To: <20170516001024.5281-1-jsmart2021@gmail.com>
-References: <20170516001024.5281-1-jsmart2021@gmail.com>
-Message-ID: <20170516001024.5281-10-jsmart2021@gmail.com>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 16 May 2017 09:00:27 +0200
+Subject: [PATCH v2 04/15] lpfc: Fix nvmet RQ resource needs for large
+ block writes.
+In-Reply-To: <20170515222052.26004-5-jsmart2021@gmail.com>
+References: <20170515222052.26004-1-jsmart2021@gmail.com>
+ <20170515222052.26004-5-jsmart2021@gmail.com>
+Message-ID: <31ea2268-bb8a-047e-1c62-5cd3a59d622f@suse.de>
 
-Now that there are potentially long delays between when a
-remoteport or targetport delete calls is made and when the
-callback occurs (dev_loss_tmo timeout), no longer block in the
-delete routines and move the final nport puts to the callbacks.
-
-Moved the fcloop_nport_get/put/free routines to avoid forward
-declarations.
-
-Ensure port_info structs used in registrations are nulled in
-case fields are not set (ex: devloss_tmo values).
-
-Signed-off-by: James Smart <james.smart at broadcom.com>
+On 05/16/2017 12:20 AM, James Smart wrote:
+> Large block writes to the nvme target were failing because
+> the default number of RQs posted was insufficient.
+> 
+> Expand the NVMET RQs to 2048 RQEs and ensure a minimum of 512
+> RQEs are posted, no matter how many MRQs are configured.
+> 
+> Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> 
+> ---
+> v2:
+>  set minimum mrq post to 512
+>  merged parts of fixup patch 0012 into the patch:
+>    rq/mrq entry_repost values
+> 
+>  drivers/scsi/lpfc/lpfc_attr.c  |  6 +++---
+>  drivers/scsi/lpfc/lpfc_init.c  | 23 +++++++++++++-------
+>  drivers/scsi/lpfc/lpfc_nvmet.c |  2 +-
+>  drivers/scsi/lpfc/lpfc_nvmet.h |  1 +
+>  drivers/scsi/lpfc/lpfc_sli.c   | 49 +++++++++---------------------------------
+>  drivers/scsi/lpfc/lpfc_sli4.h  |  2 +-
+>  6 files changed, 31 insertions(+), 52 deletions(-)
+> 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
----
-v2: cut on nvme-4.12
----
- drivers/nvme/target/fcloop.c | 66 +++++++++++++++++++++-----------------------
- 1 file changed, 32 insertions(+), 34 deletions(-)
 
-diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-index 294a6611fb24..6a9dfbd87574 100644
---- a/drivers/nvme/target/fcloop.c
-+++ b/drivers/nvme/target/fcloop.c
-@@ -636,6 +636,32 @@ fcloop_fcp_abort(struct nvme_fc_local_port *localport,
- }
- 
- static void
-+fcloop_nport_free(struct kref *ref)
-+{
-+	struct fcloop_nport *nport =
-+		container_of(ref, struct fcloop_nport, ref);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&fcloop_lock, flags);
-+	list_del(&nport->nport_list);
-+	spin_unlock_irqrestore(&fcloop_lock, flags);
-+
-+	kfree(nport);
-+}
-+
-+static void
-+fcloop_nport_put(struct fcloop_nport *nport)
-+{
-+	kref_put(&nport->ref, fcloop_nport_free);
-+}
-+
-+static int
-+fcloop_nport_get(struct fcloop_nport *nport)
-+{
-+	return kref_get_unless_zero(&nport->ref);
-+}
-+
-+static void
- fcloop_localport_delete(struct nvme_fc_local_port *localport)
- {
- 	struct fcloop_lport *lport = localport->private;
-@@ -651,6 +677,8 @@ fcloop_remoteport_delete(struct nvme_fc_remote_port *remoteport)
- 
- 	/* release any threads waiting for the unreg to complete */
- 	complete(&rport->nport->rport_unreg_done);
-+
-+	fcloop_nport_put(rport->nport);
- }
- 
- static void
-@@ -660,6 +688,8 @@ fcloop_targetport_delete(struct nvmet_fc_target_port *targetport)
- 
- 	/* release any threads waiting for the unreg to complete */
- 	complete(&tport->nport->tport_unreg_done);
-+
-+	fcloop_nport_put(tport->nport);
- }
- 
- #define	FCLOOP_HW_QUEUES		4
-@@ -727,6 +757,7 @@ fcloop_create_local_port(struct device *dev, struct device_attribute *attr,
- 		goto out_free_opts;
- 	}
- 
-+	memset(&pinfo, 0, sizeof(pinfo));
- 	pinfo.node_name = opts->wwnn;
- 	pinfo.port_name = opts->wwpn;
- 	pinfo.port_role = opts->roles;
-@@ -809,32 +840,6 @@ fcloop_delete_local_port(struct device *dev, struct device_attribute *attr,
- 	return ret ? ret : count;
- }
- 
--static void
--fcloop_nport_free(struct kref *ref)
--{
--	struct fcloop_nport *nport =
--		container_of(ref, struct fcloop_nport, ref);
--	unsigned long flags;
--
--	spin_lock_irqsave(&fcloop_lock, flags);
--	list_del(&nport->nport_list);
--	spin_unlock_irqrestore(&fcloop_lock, flags);
--
--	kfree(nport);
--}
--
--static void
--fcloop_nport_put(struct fcloop_nport *nport)
--{
--	kref_put(&nport->ref, fcloop_nport_free);
--}
--
--static int
--fcloop_nport_get(struct fcloop_nport *nport)
--{
--	return kref_get_unless_zero(&nport->ref);
--}
--
- static struct fcloop_nport *
- fcloop_alloc_nport(const char *buf, size_t count, bool remoteport)
- {
-@@ -943,6 +948,7 @@ fcloop_create_remote_port(struct device *dev, struct device_attribute *attr,
- 	if (!nport)
- 		return -EIO;
- 
-+	memset(&pinfo, 0, sizeof(pinfo));
- 	pinfo.node_name = nport->node_name;
- 	pinfo.port_name = nport->port_name;
- 	pinfo.port_role = nport->port_role;
-@@ -997,10 +1003,6 @@ __wait_remoteport_unreg(struct fcloop_nport *nport, struct fcloop_rport *rport)
- 	if (ret)
- 		return ret;
- 
--	wait_for_completion(&nport->rport_unreg_done);
--
--	fcloop_nport_put(nport);
--
- 	return ret;
- }
- 
-@@ -1104,10 +1106,6 @@ __wait_targetport_unreg(struct fcloop_nport *nport, struct fcloop_tport *tport)
- 	if (ret)
- 		return ret;
- 
--	wait_for_completion(&nport->tport_unreg_done);
--
--	fcloop_nport_put(nport);
--
- 	return ret;
- }
- 
+Cheers,
+
+Hannes
 -- 
-2.11.0
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
