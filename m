@@ -1,22 +1,32 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 15 May 2017 15:43:11 -0700
-Subject: [PATCH 06/10] nvmet_fc: Reduce work_q count
-In-Reply-To: <5ca80708-59d9-d7d1-6102-67ff2d1c1b8f@broadcom.com>
-References: <20170513190309.25417-1-jsmart2021@gmail.com>
- <20170513190309.25417-7-jsmart2021@gmail.com>
- <5e0fefab-9a20-a409-8ff2-6eefe3ab1649@suse.de>
- <5ca80708-59d9-d7d1-6102-67ff2d1c1b8f@broadcom.com>
-Message-ID: <f9b9d254-59fd-c133-ab6e-55c2ff8a77ed@gmail.com>
+Date: Mon, 15 May 2017 17:10:14 -0700
+Subject: [PATCH v2 00/10] outstanding nvme_fc/nvmet_fc fixes
+Message-ID: <20170516001024.5281-1-jsmart2021@gmail.com>
 
->>>
->> Per-cpu ptr?
->> Check drivers/scsi/fcoe/fcoe.c:fcoe_init() for reference.
->
-> As you can see above - I'm using per_cpu(), which is actually "#define
-> per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))". So I'm already
-> using it.
+This set contains outstanding fixes for the nvmf fc transport.
+All but the last patch has been previously posted.
 
-Actually your right, they aren't quite the same. Should have looked a 
-little closer at the macros. I'll repost.
+v2: Revise patch 08, for per_cpu_ptr, per review.
 
--- james
+patches cut against nvme-4.12
+
+James Smart (10):
+  nvme_fc: get rid of local reconnect_delay
+  nvme_fc: Support ctrl_loss_tmo
+  nvme_fc: replace ioabort msleep loop with completion
+  nvme_fc: revise comment on teardown
+  nvme_fc: set logging level on resets/deletes
+  nvmet_fc: Reduce work_q count
+  nvmet_fc: Add queue create and delete callbacks in LLDD api
+  nvme_fc: remove extra controller reference taken on reconnect
+  nvme_fcloop: fix port deletes and callbacks
+  nvme_fc: correct nvme status set on abort
+
+ drivers/nvme/host/fc.c         | 160 +++++++++++++----------------
+ drivers/nvme/target/fc.c       | 224 +++++++++++++++++++++++++++++++----------
+ drivers/nvme/target/fcloop.c   |  66 ++++++------
+ include/linux/nvme-fc-driver.h |  18 ++++
+ 4 files changed, 292 insertions(+), 176 deletions(-)
+
+-- 
+2.11.0
