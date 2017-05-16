@@ -1,22 +1,14 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 16 May 2017 09:41:19 +0200
-Subject: [PATCH v2 09/10] nvme_fcloop: fix port deletes and callbacks
-In-Reply-To: <20170516001024.5281-10-jsmart2021@gmail.com>
+Date: Tue, 16 May 2017 09:42:24 +0200
+Subject: [PATCH v2 10/10] nvme_fc: correct nvme status set on abort
+In-Reply-To: <20170516001024.5281-11-jsmart2021@gmail.com>
 References: <20170516001024.5281-1-jsmart2021@gmail.com>
- <20170516001024.5281-10-jsmart2021@gmail.com>
-Message-ID: <517ddff2-1e1e-f07d-bcd9-51502437de3b@suse.de>
+ <20170516001024.5281-11-jsmart2021@gmail.com>
+Message-ID: <7ee25c54-7d8d-bcdb-4916-2f3f7962eb49@suse.de>
 
 On 05/16/2017 02:10 AM, James Smart wrote:
-> Now that there are potentially long delays between when a
-> remoteport or targetport delete calls is made and when the
-> callback occurs (dev_loss_tmo timeout), no longer block in the
-> delete routines and move the final nport puts to the callbacks.
-> 
-> Moved the fcloop_nport_get/put/free routines to avoid forward
-> declarations.
-> 
-> Ensure port_info structs used in registrations are nulled in
-> case fields are not set (ex: devloss_tmo values).
+> correct nvme status set on abort. Patch that changed status to being actual
+> nvme status crossed in the night with the patch that added abort values.
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
 > Reviewed-by: Hannes Reinecke <hare at suse.com>
