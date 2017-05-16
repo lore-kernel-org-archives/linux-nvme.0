@@ -1,51 +1,119 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 15 May 2017 17:10:22 -0700
-Subject: [PATCH v2 08/10] nvme_fc: remove extra controller reference taken on
- reconnect
+Date: Mon, 15 May 2017 17:10:21 -0700
+Subject: [PATCH v2 07/10] nvmet_fc: Add queue create and delete callbacks in
+ LLDD api
 In-Reply-To: <20170516001024.5281-1-jsmart2021@gmail.com>
 References: <20170516001024.5281-1-jsmart2021@gmail.com>
-Message-ID: <20170516001024.5281-9-jsmart2021@gmail.com>
+Message-ID: <20170516001024.5281-8-jsmart2021@gmail.com>
 
-fix extra controller reference taken on reconnect by moving
-reference to initial controller create
+To facilitate LLDD resource management on nvme queue creation and
+deletion, add optional callbacks queue_create and queue_delete.
 
 Signed-off-by: James Smart <james.smart at broadcom.com>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
-v2: pre review: moved location of where ref taken
+v2: require queue_delete if queue_create entrypoint present
+v3: recut on nvme-4.12
 ---
- drivers/nvme/host/fc.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ drivers/nvme/target/fc.c       | 19 ++++++++++++++++++-
+ include/linux/nvme-fc-driver.h | 18 ++++++++++++++++++
+ 2 files changed, 36 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 8a721aa11387..78973407430a 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2398,8 +2398,6 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 93d4714e7070..43701c590bcd 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -556,6 +556,7 @@ static struct nvmet_fc_tgt_queue *
+ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 			u16 qid, u16 sqsize)
+ {
++	struct nvmet_fc_tgtport *tgtport = assoc->tgtport;
+ 	struct nvmet_fc_tgt_queue *queue;
+ 	unsigned long flags;
+ 	int ret;
+@@ -569,8 +570,14 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ 	if (!queue)
+ 		return NULL;
  
- 	ctrl->ctrl.opts->nr_reconnects = 0;
- 
--	kref_get(&ctrl->ctrl.kref);
--
- 	if (ctrl->queue_count > 1) {
- 		nvme_start_queues(&ctrl->ctrl);
- 		nvme_queue_scan(&ctrl->ctrl);
-@@ -2800,7 +2798,6 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 		ctrl->ctrl.opts = NULL;
- 		/* initiate nvme ctrl ref counting teardown */
- 		nvme_uninit_ctrl(&ctrl->ctrl);
--		nvme_put_ctrl(&ctrl->ctrl);
- 
- 		/* as we're past the point where we transition to the ref
- 		 * counting teardown path, if we return a bad pointer here,
-@@ -2816,6 +2813,8 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 		return ERR_PTR(ret);
- 	}
- 
-+	kref_get(&ctrl->ctrl.kref);
++	if (tgtport->ops->queue_create) {
++		if (tgtport->ops->queue_create(&tgtport->fc_target_port,
++				nvmet_fc_makeconnid(assoc, qid), sqsize))
++			goto out_free_queue;
++	}
 +
- 	dev_info(ctrl->ctrl.device,
- 		"NVME-FC{%d}: new ctrl: NQN \"%s\"\n",
- 		ctrl->cnum, ctrl->ctrl.opts->subsysnqn);
+ 	if (!nvmet_fc_tgt_a_get(assoc))
+-		goto out_free_queue;
++		goto out_queue_delete;
+ 
+ 	queue->fod = (struct nvmet_fc_fcp_iod *)&queue[1];
+ 	queue->qid = qid;
+@@ -602,6 +609,10 @@ nvmet_fc_alloc_target_queue(struct nvmet_fc_tgt_assoc *assoc,
+ out_fail_iodlist:
+ 	nvmet_fc_destroy_fcp_iodlist(assoc->tgtport, queue);
+ 	nvmet_fc_tgt_a_put(assoc);
++out_queue_delete:
++	if (tgtport->ops->queue_delete)
++		tgtport->ops->queue_delete(&tgtport->fc_target_port,
++				nvmet_fc_makeconnid(assoc, qid), sqsize);
+ out_free_queue:
+ 	kfree(queue);
+ 	return NULL;
+@@ -677,6 +688,11 @@ nvmet_fc_delete_target_queue(struct nvmet_fc_tgt_queue *queue)
+ 	if (disconnect)
+ 		nvmet_sq_destroy(&queue->nvme_sq);
+ 
++	if (tgtport->ops->queue_delete)
++		tgtport->ops->queue_delete(&tgtport->fc_target_port,
++				nvmet_fc_makeconnid(queue->assoc, queue->qid),
++				queue->sqsize);
++
+ 	nvmet_fc_tgt_q_put(queue);
+ }
+ 
+@@ -863,6 +879,7 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
+ 	if (!template->xmt_ls_rsp || !template->fcp_op ||
+ 	    !template->fcp_abort ||
+ 	    !template->fcp_req_release || !template->targetport_delete ||
++	    (template->queue_create && !template->queue_delete) ||
+ 	    !template->max_hw_queues || !template->max_sgl_segments ||
+ 	    !template->max_dif_sgl_segments || !template->dma_boundary) {
+ 		ret = -EINVAL;
+diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
+index 6c8c5d8041b7..492e9f402223 100644
+--- a/include/linux/nvme-fc-driver.h
++++ b/include/linux/nvme-fc-driver.h
+@@ -806,6 +806,20 @@ struct nvmet_fc_target_port {
+  *       to the LLDD after all operations on the fcp operation are complete.
+  *       This may be due to the command completing or upon completion of
+  *       abort cleanup.
++ *       Entrypoint is Mandatory.
++ *
++ * @queue_create:  Called by the transport to indicate the creation of an
++ *       nvme queue and to allow the LLDD to allocate resources for the
++ *       queue.
++ *       Returns 0 on successful allocation of resources for the queue.
++ *       -<errno> on failure.  Failure will result in failure of the
++ *       FC-NVME Create Association or Create Connection LS's.
++ *       Entrypoint is Optional.
++ *
++ * @queue_delete:  Called by the transport to indicate the deletion of an
++ *       nvme queue and to allow the LLDD to de-allocate resources for the
++ *       queue.
++ *       Entrypoint is Optional.
+  *
+  * @max_hw_queues:  indicates the maximum number of hw queues the LLDD
+  *       supports for cpu affinitization.
+@@ -846,6 +860,10 @@ struct nvmet_fc_target_template {
+ 				struct nvmefc_tgt_fcp_req *fcpreq);
+ 	void (*fcp_req_release)(struct nvmet_fc_target_port *tgtport,
+ 				struct nvmefc_tgt_fcp_req *fcpreq);
++	int (*queue_create)(struct nvmet_fc_target_port *tgtport,
++				u64 connection_id, u16 qsize);
++	void (*queue_delete)(struct nvmet_fc_target_port *tgtport,
++				u64 connection_id, u16 qsize);
+ 
+ 	u32	max_hw_queues;
+ 	u16	max_sgl_segments;
 -- 
 2.11.0
