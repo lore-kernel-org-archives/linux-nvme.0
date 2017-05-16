@@ -1,16 +1,18 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 16 May 2017 09:38:25 +0200
-Subject: [PATCH v2 06/10] nvmet_fc: Reduce work_q count
-In-Reply-To: <20170516001024.5281-7-jsmart2021@gmail.com>
+Date: Tue, 16 May 2017 09:40:55 +0200
+Subject: [PATCH v2 08/10] nvme_fc: remove extra controller reference taken
+ on reconnect
+In-Reply-To: <20170516001024.5281-9-jsmart2021@gmail.com>
 References: <20170516001024.5281-1-jsmart2021@gmail.com>
- <20170516001024.5281-7-jsmart2021@gmail.com>
-Message-ID: <fcdbfb78-02fd-6f9e-2dc9-c604a2de6c65@suse.de>
+ <20170516001024.5281-9-jsmart2021@gmail.com>
+Message-ID: <9a80e931-454d-c4bf-620d-1b2078b23919@suse.de>
 
 On 05/16/2017 02:10 AM, James Smart wrote:
-> Instead of a work_q per controller queue, make 1 per cpu and have
-> controller queues post work elements to the work_q.
+> fix extra controller reference taken on reconnect by moving
+> reference to initial controller create
 > 
 > Signed-off-by: James Smart <james.smart at broadcom.com>
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
 > ---
 
 Thanks,
