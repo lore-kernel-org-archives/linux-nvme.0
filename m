@@ -1,49 +1,69 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 16 May 2017 11:53:04 +0200
-Subject: [PATCH v2 12/15] lpfc: Cleanup entry_repost settings on SLI4
- queues
-In-Reply-To: <20170515222052.26004-13-jsmart2021@gmail.com>
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Tue, 16 May 2017 09:26:59 -0300
+Subject: [PATCH v2 02/15] lpfc: Fix system crash when port is reset.
+In-Reply-To: <20170515222052.26004-3-jsmart2021@gmail.com>
 References: <20170515222052.26004-1-jsmart2021@gmail.com>
- <20170515222052.26004-13-jsmart2021@gmail.com>
-Message-ID: <ac839511-61fb-5aab-f54e-0f85ae038e91@suse.de>
+ <20170515222052.26004-3-jsmart2021@gmail.com>
+Message-ID: <73cdc776-8eea-b63b-89af-ffa9829e1f9d@linux.vnet.ibm.com>
 
-On 05/16/2017 12:20 AM, James Smart wrote:
-> Too many work items being processed in IRQ context take a lot
-> of CPU time and cause problems.
+On 05/15/2017 07:20 PM, James Smart wrote:
+> The driver panic when using the els_wq during port reset.
 > 
-> With a recent change, we get out of the ISR after hitting entry_repost
-> work items on a queue. However, the actual values for entry repost are
-> still high. EQ is 128 and CQ is 128, this could translate into
-> processing 128 * 128 (16384) work items under IRQ context.
-> 
-> Set entry_repost in the actual queue creation routine now.
-> Limit EQ repost to 8 and CQ repost to 64 to further limit the amount
-> of time spent in the IRQ.
-> 
-> Fix fof IRQ routines as well.
+> Check for NULL els_wq before dereferencing.
+
+James/Dick, if possible please take a look on:
+https://marc.info/?l=linux-scsi&m=149487670315697
+
+For some reason that email didn't get threaded as I expect. And also I
+forgot to include James' Gmail address, sorry.
+
+Thanks in advance,
+
+
+Guilherme
+
 > 
 > Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
 > Signed-off-by: James Smart <james.smart at broadcom.com>
-> 
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
 > ---
-> v2: portions of the original patch reworked:
->  rq/mrq entry_repost values - moved to
->      0004-lpfc-Fix-nvmet-RQ-resource-needs-for-large-block-wri.patch
->  eq/cq processing breaks- moved to
->      0006-lpfc-Fix-NMI-watchdog-assertions-when-running-nvmet-.patch
+>  drivers/scsi/lpfc/lpfc.h         | 8 ++++++--
+>  drivers/scsi/lpfc/lpfc_hbadisc.c | 6 +++---
+>  2 files changed, 9 insertions(+), 5 deletions(-)
 > 
->  drivers/scsi/lpfc/lpfc_sli.c  | 19 ++++++++-----------
->  drivers/scsi/lpfc/lpfc_sli4.h |  6 ++++--
->  2 files changed, 12 insertions(+), 13 deletions(-)
+> diff --git a/drivers/scsi/lpfc/lpfc.h b/drivers/scsi/lpfc/lpfc.h
+> index 6d7840b096e6..62571fa9c6ad 100644
+> --- a/drivers/scsi/lpfc/lpfc.h
+> +++ b/drivers/scsi/lpfc/lpfc.h
+> @@ -1228,7 +1228,11 @@ lpfc_sli_read_hs(struct lpfc_hba *phba)
+>  static inline struct lpfc_sli_ring *
+>  lpfc_phba_elsring(struct lpfc_hba *phba)
+>  {
+> -	if (phba->sli_rev == LPFC_SLI_REV4)
+> -		return phba->sli4_hba.els_wq->pring;
+> +	if (phba->sli_rev == LPFC_SLI_REV4) {
+> +		if (phba->sli4_hba.els_wq)
+> +			return phba->sli4_hba.els_wq->pring;
+> +		else
+> +			return NULL;
+> +	}
+>  	return &phba->sli.sli3_ring[LPFC_ELS_RING];
+>  }
+> diff --git a/drivers/scsi/lpfc/lpfc_hbadisc.c b/drivers/scsi/lpfc/lpfc_hbadisc.c
+> index 0482c5580331..dcc9b3858778 100644
+> --- a/drivers/scsi/lpfc/lpfc_hbadisc.c
+> +++ b/drivers/scsi/lpfc/lpfc_hbadisc.c
+> @@ -693,9 +693,9 @@ lpfc_work_done(struct lpfc_hba *phba)
+>  	pring = lpfc_phba_elsring(phba);
+>  	status = (ha_copy & (HA_RXMASK  << (4*LPFC_ELS_RING)));
+>  	status >>= (4*LPFC_ELS_RING);
+> -	if ((status & HA_RXMASK) ||
+> -	    (pring->flag & LPFC_DEFERRED_RING_EVENT) ||
+> -	    (phba->hba_flag & HBA_SP_QUEUE_EVT)) {
+> +	if (pring && (status & HA_RXMASK ||
+> +		      pring->flag & LPFC_DEFERRED_RING_EVENT ||
+> +		      phba->hba_flag & HBA_SP_QUEUE_EVT)) {
+>  		if (pring->flag & LPFC_STOP_IOCB_EVENT) {
+>  			pring->flag |= LPFC_DEFERRED_RING_EVENT;
+>  			/* Set the lpfc data pending flag */
 > 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
