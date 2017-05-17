@@ -1,73 +1,89 @@
 From: alex@vastdata.com (Alex Turin)
-Date: Wed, 17 May 2017 17:42:11 +0300
-Subject: NVMeoF + 1 port down => nvme cli stuck
-Message-ID: <CAK0KL7DLT=aNNV=R3pWfbi7Q29xNbExmEQ2Hza7NWk_6QBwXgw@mail.gmail.com>
+Date: Wed, 17 May 2017 19:08:04 +0300
+Subject: NVMeoF: multipath stuck after bringing one ethernet port down
+Message-ID: <CAK0KL7DPLw+0AB8cGop7jowfE1HV9wyXBmJhE90trpor-PcSYw@mail.gmail.com>
 
-1. Connected to one NVMeoF device.
-2. Bring the port that NVMeoF is connected through down (ifconfig eth3 down)
-3. Execute nvme-cli command like: "nvme list".
-In this case I expect that "nvme list" will do the job or will return an error.
-But in this case "nvme list" becomes stuck and even "kill -9" cannot release it.
-4. Bringing port up doesn't release "nvme list".
+I am trying to test failure scenarios of NVMeoF + multipath. I bring
+one of ports down and expect to see failed paths using "multipath
+-ll". Instead I see that "multipath -ll" get stuck.
 
-Thanks in advance
+reproduce:
+1. Connected to NVMeoF device through 2 ports.
+2. Bind them with multipath.
+3. Bring one port down (ifconfig eth3 down)
+4. Execute "multipath -ll" command and it will get stuck.
+>From strace I see that multipath is stuck in io_destroy() during
+release of resources. As I understand io_destroy is stuck because of
+io_cancel() that failed. And io_cancel() failed because of port that
+was disabled in step 3.
+
 
 environment:
 Kernel: 4.11.1-1.el7.elrepo.x86_64
 Network card: ConnectX-4 Lx
 rdma-core: version 14 (commit 240c019)
-nvme-cli: commit 4b5b4d2 (https://github.com/linux-nvme/nvme-cli.git)
+nvme-cli: master - commit 4b5b4d2 (https://github.com/linux-nvme/nvme-cli.git)
 
 
-$ strace nvme list
-execve("/sbin/nvme", ["nvme", "list"], [/* 25 vars */]) = 0
-brk(0)                                  = 0xd49000
-mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1,
-0) = 0x7f981b120000
-access("/etc/ld.so.preload", R_OK)      = -1 ENOENT (No such file or directory)
-open("/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=34068, ...}) = 0
-mmap(NULL, 34068, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f981b117000
-close(3)                                = 0
-open("/lib64/libc.so.6", O_RDONLY|O_CLOEXEC) = 3
-read(3, "\177ELF\2\1\1\3\0\0\0\0\0\0\0\0\3\0>\0\1\0\0\0@\34\2\0\0\0\0\0"...,
-832) = 832
-fstat(3, {st_mode=S_IFREG|0755, st_size=2118128, ...}) = 0
-mmap(NULL, 3932672, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3,
-0) = 0x7f981ab41000
-mprotect(0x7f981acf7000, 2097152, PROT_NONE) = 0
-mmap(0x7f981aef7000, 24576, PROT_READ|PROT_WRITE,
-MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x1b6000) = 0x7f981aef7000
-mmap(0x7f981aefd000, 16896, PROT_READ|PROT_WRITE,
-MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f981aefd000
-close(3)                                = 0
-mmap(NULL, 4096, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1,
-0) = 0x7f981b116000
-mmap(NULL, 8192, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_ANONYMOUS, -1,
-0) = 0x7f981b114000
-arch_prctl(ARCH_SET_FS, 0x7f981b114740) = 0
-mprotect(0x7f981aef7000, 16384, PROT_READ) = 0
-mprotect(0x629000, 4096, PROT_READ)     = 0
-mprotect(0x7f981b121000, 4096, PROT_READ) = 0
-munmap(0x7f981b117000, 34068)           = 0
-brk(0)                                  = 0xd49000
-brk(0xd6a000)                           = 0xd6a000
-brk(0)                                  = 0xd6a000
-open("/usr/lib/locale/locale-archive", O_RDONLY|O_CLOEXEC) = 3
-fstat(3, {st_mode=S_IFREG|0644, st_size=106070960, ...}) = 0
-mmap(NULL, 106070960, PROT_READ, MAP_PRIVATE, 3, 0) = 0x7f9814618000
-close(3)                                = 0
-openat(AT_FDCWD, "/dev/", O_RDONLY|O_NONBLOCK|O_DIRECTORY|O_CLOEXEC) = 3
-getdents(3, /* 164 entries */, 32768)   = 4800
-stat("/etc/sysconfig/64bit_strstr_via_64bit_strstr_sse2_unaligned",
-0x7ffc2b837f70) = -1 ENOENT (No such file or directory)
-stat("/dev/nvme1n1", {st_mode=S_IFBLK|0660, st_rdev=makedev(259, 1), ...}) = 0
-stat("/dev/nvme1", {st_mode=S_IFCHR|0600, st_rdev=makedev(240, 1), ...}) = 0
-stat("/dev/nvme0n1", {st_mode=S_IFBLK|0660, st_rdev=makedev(259, 0), ...}) = 0
-stat("/dev/nvme0", {st_mode=S_IFCHR|0600, st_rdev=makedev(240, 0), ...}) = 0
-stat("/dev/nvme-fabrics", {st_mode=S_IFCHR|0600, st_rdev=makedev(10,
-57), ...}) = 0
-getdents(3, /* 0 entries */, 32768)     = 0
-close(3)                                = 0
-open("/dev/nvme0n1", O_RDONLY)          = 3
-ioctl(3, 0xc0484e41
+/var/log/messages
+May 17 11:15:00 localhost NetworkManager[1352]: <info>
+[1495034100.7162] device (eth3): state change: activated ->
+unavailable (reason 'carrier-changed') [100 20 40]
+May 17 11:15:00 localhost dbus-daemon: dbus[1300]: [system] Activating
+via systemd: service name='org.freedesktop.nm_dispatcher'
+unit='dbus-org.freedesktop.nm-dispatcher.service'
+May 17 11:15:00 localhost dbus[1300]: [system] Activating via systemd:
+service name='org.freedesktop.nm_dispatcher'
+unit='dbus-org.freedesktop.nm-dispatcher.service'
+May 17 11:15:00 localhost systemd: Starting Network Manager Script
+Dispatcher Service...
+May 17 11:15:00 localhost dbus[1300]: [system] Successfully activated
+service 'org.freedesktop.nm_dispatcher'
+May 17 11:15:00 localhost dbus-daemon: dbus[1300]: [system]
+Successfully activated service 'org.freedesktop.nm_dispatcher'
+May 17 11:15:00 localhost systemd: Started Network Manager Script
+Dispatcher Service.
+May 17 11:15:00 localhost nm-dispatcher: req:1 'down' [eth3]: new
+request (3 scripts)
+May 17 11:15:00 localhost nm-dispatcher: req:1 'down' [eth3]: start
+running ordered scripts...
+May 17 11:15:09 localhost kernel: nvme nvme2: failed
+nvme_keep_alive_end_io error=16391
+May 17 11:15:09 localhost kernel: nvme nvme1: failed
+nvme_keep_alive_end_io error=16391
+May 17 11:15:09 localhost kernel: nvme nvme2: reconnecting in 10 seconds
+May 17 11:15:09 localhost kernel: nvme nvme1: reconnecting in 10 seconds
+
+
+# strace multipath -ll 2>&1 | grep  "io_\|open(\"/dev/nvme"
+io_setup(1, {140204923695104})          = 0
+io_submit(140204923695104, 1, {{pread, filedes:4, buf:0x1d14000,
+nbytes:4096, offset:0}}) = 1
+io_getevents(140204923695104, 1, 1, {{(nil), 0x1d11ba8, 4096, 0}}, {2, 0}) = 1
+open("/dev/nvme0n1", O_RDONLY)          = 5
+io_setup(1, {140204923682816})          = 0
+io_submit(140204923682816, 1, {{pread, filedes:5, buf:0x1d22000,
+nbytes:4096, offset:0}}) = 1
+io_getevents(140204923682816, 1, 1, {{(nil), 0x1d21548, 4096, 0}}, {2, 0}) = 1
+open("/dev/nvme1n1", O_RDONLY)          = 6
+io_setup(1, {140204923670528})          = 0
+io_submit(140204923670528, 1, {{pread, filedes:6, buf:0x1d25000,
+nbytes:4096, offset:0}}) = 1
+io_getevents(140204923670528, 1, 1, {}{2, 0}) = 0
+io_cancel(140204923670528, {(nil), 0, 0, 0, 6}, {...}) = -1 EINVAL
+(Invalid argument)
+open("/dev/nvme2n1", O_RDONLY)          = 7
+io_setup(1, {140204923355136})          = 0
+io_submit(140204923355136, 1, {{pread, filedes:7, buf:0x1d29000,
+nbytes:4096, offset:0}}) = 1
+io_getevents(140204923355136, 1, 1, {}{2, 0}) = 0
+io_cancel(140204923355136, {(nil), 0, 0, 0, 7}, {...}) = -1 EINVAL
+(Invalid argument)
+open("/dev/nvme3n1", O_RDONLY)          = 8
+io_setup(1, {140204923342848})          = 0
+io_submit(140204923342848, 1, {{pread, filedes:8, buf:0x1d2d000,
+nbytes:4096, offset:0}}) = 1
+io_getevents(140204923342848, 1, 1, {{(nil), 0x1d2af28, 4096, 0}}, {2, 0}) = 1
+io_destroy(140204923695104)             = 0
+io_destroy(140204923682816)             = 0
+io_destroy(140204923670528
