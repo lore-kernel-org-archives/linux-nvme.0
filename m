@@ -1,36 +1,41 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 16 May 2017 20:52:29 -0700
-Subject: [PATCH] lpfc: fix build issue if NVME_FC_TARGET is not defined
-Message-ID: <20170517035229.1145-1-jsmart2021@gmail.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 17 May 2017 08:38:01 +0200
+Subject: [PATCH 1/2] nvme: fix race between removing and reseting failure
+In-Reply-To: <20170517012729.13469-2-ming.lei@redhat.com>
+References: <20170517012729.13469-1-ming.lei@redhat.com>
+ <20170517012729.13469-2-ming.lei@redhat.com>
+Message-ID: <3394ff16-2876-c9da-b457-98d6479516e0@suse.de>
 
-fix build issue if NVME_FC_TARGET is not defined. noop the code.
-The code will never be invoked if target mode is not enabled.
+On 05/17/2017 03:27 AM, Ming Lei wrote:
+> When one NVMe PCI device is being resetted and found reset failue,
+> nvme_remove_dead_ctrl() is called to handle the failure: blk-mq hw queues
+> are put into stopped first, then schedule .remove_work to release the driver.
+> 
+> Unfortunately if the driver is being released via sysfs store
+> just before the .remove_work is run, del_gendisk() from
+> nvme_remove() may hang forever because hw queues are stopped and
+> the submitted writeback IOs from fsync_bdev() can't be completed at all.
+> 
+> This patch fixes the following issue[1][2] by moving nvme_kill_queues()
+> into nvme_remove_dead_ctrl() to avoid the issue because nvme_remove()
+> flushs .reset_work, and this way is reasonable and safe because
+> nvme_dev_disable() has started to suspend queues and canceled requests
+> already.
+> 
+> [1] test script
+> 	fio -filename=$NVME_DISK -iodepth=1 -thread -rw=randwrite -ioengine=psync \
+> 	    -bssplit=5k/10:9k/10:13k/10:17k/10:21k/10:25k/10:29k/10:33k/10:37k/10:41k/10 \
+> 	    -bs_unaligned -runtime=1200 -size=-group_reporting -name=mytest -numjobs=60
 
-Signed-off-by: Dick Kennedy <dick.kennedy at broadcom.com>
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/scsi/lpfc/lpfc_nvmet.c | 2 ++
- 1 file changed, 2 insertions(+)
+Nit: the actual size after the -size parameter is missing.
 
-diff --git a/drivers/scsi/lpfc/lpfc_nvmet.c b/drivers/scsi/lpfc/lpfc_nvmet.c
-index 312f54278bd4..f94294b77b7b 100644
---- a/drivers/scsi/lpfc/lpfc_nvmet.c
-+++ b/drivers/scsi/lpfc/lpfc_nvmet.c
-@@ -157,6 +157,7 @@ lpfc_nvmet_xmt_ls_rsp_cmp(struct lpfc_hba *phba, struct lpfc_iocbq *cmdwqe,
- void
- lpfc_nvmet_ctxbuf_post(struct lpfc_hba *phba, struct lpfc_nvmet_ctxbuf *ctx_buf)
- {
-+#if (IS_ENABLED(CONFIG_NVME_TARGET_FC))
- 	struct lpfc_nvmet_rcv_ctx *ctxp = ctx_buf->context;
- 	struct lpfc_nvmet_tgtport *tgtp;
- 	struct fc_frame_header *fc_hdr;
-@@ -260,6 +261,7 @@ lpfc_nvmet_ctxbuf_post(struct lpfc_hba *phba, struct lpfc_nvmet_ctxbuf *ctx_buf)
- 		      &phba->sli4_hba.lpfc_nvmet_ctx_list);
- 	phba->sli4_hba.nvmet_ctx_cnt++;
- 	spin_unlock_irqrestore(&phba->sli4_hba.nvmet_io_lock, iflag);
-+#endif
- }
- 
- #ifdef CONFIG_SCSI_LPFC_DEBUG_FS
+Anyways:
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
 -- 
-2.11.0
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
