@@ -1,28 +1,20 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 17 May 2017 23:38:08 -0700
-Subject: [PATCH] Add a parameter for  NVME_IOCTL_ID to get Namespaces ID
-In-Reply-To: <1495081061-17660-1-git-send-email-zouming.zouming@huawei.com>
+From: zouming.zouming@huawei.com (Zouming (IT))
+Date: Thu, 18 May 2017 15:14:23 +0800
+Subject: [PATCH] Add a parameter for NVME_IOCTL_ID to get Namespaces ID
+In-Reply-To: <20170518063808.GA28607@infradead.org>
 References: <1495081061-17660-1-git-send-email-zouming.zouming@huawei.com>
-Message-ID: <20170518063808.GA28607@infradead.org>
+ <20170518063808.GA28607@infradead.org>
+Message-ID: <bfb905ee-27a4-d39c-8e4d-2511e66292b1@huawei.com>
 
-On Thu, May 18, 2017@04:17:41AM +0000, Zou Ming wrote:
-> For distinguish return value,add a parameter for NVME_IOCTL_ID to get Namespaces ID.
-> ---
->  drivers/nvme/host/core.c        | 3 +--
->  include/uapi/linux/nvme_ioctl.h | 2 +-
->  2 files changed, 2 insertions(+), 3 deletions(-)
+
+> This break any existing user.  I also don't really understand the
+> problem you're trying to solve..
 > 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 3818ff6..886a031 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -769,8 +769,7 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
->  
->  	switch (cmd) {
->  	case NVME_IOCTL_ID:
-> -		force_successful_syscall_return();
-> -		return ns->ns_id;
-> +		return put_user(ns->ns_id, (__u32 __user *)arg);
+> .
+> 
+The problem trying to solve is below:
+1?According to nvme spec, the possible range of Namespaces ID is form 1 to FFFFFFFe
+2?When use NVME_IOCTL_ID IOCTL cmd to get namespaces ID?if return error before function nvme_ioctl?
+How can user distinguish the return value is valid namespaces ID or error value?
 
-This break any existing user.  I also don't really understand the
-problem you're trying to solve..
+Do you think this situation exsits or there will never fail when use NVME_IOCTL_ID cmd?
