@@ -1,236 +1,234 @@
-From: zouming.zouming@huawei.com (Zou Ming)
-Date: Thu, 18 May 2017 04:18:13 +0000
-Subject: [PATCH] nvme-cli:add a parameter for NVME_IOCTL_ID to get NS ID
-Message-ID: <1495081093-14084-1-git-send-email-zouming.zouming@huawei.com>
+From: shahar.salzman@gmail.com (shahar.salzman)
+Date: Thu, 18 May 2017 08:52:15 +0300
+Subject: NVMeoF: multipath stuck after bringing one ethernet port down
+In-Reply-To: <ebb7ffb8-4dec-5540-5cef-ffd36bef3e25@grimberg.me>
+References: <CAK0KL7DPLw+0AB8cGop7jowfE1HV9wyXBmJhE90trpor-PcSYw@mail.gmail.com>
+ <ebb7ffb8-4dec-5540-5cef-ffd36bef3e25@grimberg.me>
+Message-ID: <fa6277fa-948f-103e-1322-f8b2362467c3@gmail.com>
 
-According to nvme spec, the possible range of Namespaces ID is form 1 to
-FFFFFFFe.
-For distinguish return value ,Add a parameter for  NVME_IOCTL_ID to get
-Namespaces ID.
----
- huawei-nvme.c |  7 +++++--
- nvme-ioctl.c  |  6 +++---
- nvme-ioctl.h  |  2 +-
- nvme.c        | 43 +++++++++++++++++++++++++------------------
- nvme.h        |  2 +-
- 5 files changed, 35 insertions(+), 25 deletions(-)
+I have seen this too, but was internally investigating it as I am 
+running 4.9.6 and not upstream. I will be able to check this patch on 
+Sunday/Monday.
 
-diff --git a/huawei-nvme.c b/huawei-nvme.c
-index f941533..add67eb 100644
---- a/huawei-nvme.c
-+++ b/huawei-nvme.c
-@@ -49,7 +49,7 @@
- struct huawei_list_item {
- 	char                node[1024];
- 	struct nvme_id_ctrl ctrl;
--	int                 nsid;
-+	__u32               nsid;
- 	struct nvme_id_ns   ns;
- 	unsigned            block;
- 	char                ns_name[NS_NAME_LEN];
-@@ -111,7 +111,10 @@ static int huawei_get_nvme_info(int fd, struct huawei_list_item *item, const cha
- 	else
- 		item->huawei_device = true;
- 
--	item->nsid = nvme_get_nsid(fd);
-+	nvme_get_nsid(fd, &item->nsid);
-+	if (err)
-+		return err;
-+
- 	err = nvme_identify_ns(fd, item->nsid,
- 							0, &item->ns);
- 	if (err)
-diff --git a/nvme-ioctl.c b/nvme-ioctl.c
-index a22399a..2fb1d37 100644
---- a/nvme-ioctl.c
-+++ b/nvme-ioctl.c
-@@ -58,7 +58,7 @@ int nvme_reset_controller(int fd)
- 	return ioctl(fd, NVME_IOCTL_RESET);
- }
- 
--int nvme_get_nsid(int fd)
-+int nvme_get_nsid(int fd, __u32 *ns_id)
- {
- 	static struct stat nvme_stat;
- 	int err = fstat(fd, &nvme_stat);
-@@ -69,9 +69,9 @@ int nvme_get_nsid(int fd)
- 	if (!S_ISBLK(nvme_stat.st_mode)) {
- 		fprintf(stderr,
- 			"Error: requesting namespace-id from non-block device\n");
--		return ENOTBLK;
-+		return -ENOTBLK;
- 	}
--	return ioctl(fd, NVME_IOCTL_ID);
-+	return ioctl(fd, NVME_IOCTL_ID, ns_id);
- }
- 
- int nvme_submit_passthru(int fd, int ioctl_cmd, struct nvme_passthru_cmd *cmd)
-diff --git a/nvme-ioctl.h b/nvme-ioctl.h
-index 3beddf8..1cf24e8 100644
---- a/nvme-ioctl.h
-+++ b/nvme-ioctl.h
-@@ -6,7 +6,7 @@
- #include "linux/nvme_ioctl.h"
- #include "nvme.h"
- 
--int nvme_get_nsid(int fd);
-+int nvme_get_nsid(int fd, __u32 *ns_id);
- 
- /* Generic passthrough */
- int nvme_submit_passthru(int fd, int ioctl_cmd, struct nvme_passthru_cmd *cmd);
-diff --git a/nvme.c b/nvme.c
-index 98f96be..fbb6e01 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -770,7 +770,11 @@ static int get_nvme_info(int fd, struct list_item *item, const char *node)
- 	err = nvme_identify_ctrl(fd, &item->ctrl);
- 	if (err)
- 		return err;
--	item->nsid = nvme_get_nsid(fd);
-+
-+	err = nvme_get_nsid(fd, &item->nsid);
-+	if (err)
-+		return err;
-+
- 	err = nvme_identify_ns(fd, item->nsid,
- 			       0, &item->ns);
- 	if (err)
-@@ -864,17 +868,19 @@ static int list(int argc, char **argv, struct command *cmd, struct plugin *plugi
- 	return 0;
- }
- 
--static int get_nsid(int fd)
-+static int get_nsid(int fd, __u32 *nsid)
- {
--	int nsid = nvme_get_nsid(fd);
-+	int err;
-+
-+	err = nvme_get_nsid(fd, nsid);
- 
--	if (nsid <= 0) {
-+	if (err) {
- 		fprintf(stderr,
- 			"%s: failed to return namespace id\n",
- 			devicename);
--		return errno;
-+		return err;
- 	}
--	return nsid;
-+	return 0;
- }
- 
- int __id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *plugin, void (*vs)(__u8 *vs, struct json_object *root))
-@@ -1003,7 +1009,7 @@ static int id_ns(int argc, char **argv, struct command *cmd, struct plugin *plug
- 	if (cfg.human_readable)
- 		flags |= HUMAN;
- 	if (!cfg.namespace_id)
--		cfg.namespace_id = get_nsid(fd);
-+		get_nsid(fd, &cfg.namespace_id);
- 
- 	err = nvme_identify_ns(fd, cfg.namespace_id, cfg.force, &ns);
- 	if (!err) {
-@@ -1026,13 +1032,14 @@ static int id_ns(int argc, char **argv, struct command *cmd, struct plugin *plug
- 
- static int get_ns_id(int argc, char **argv, struct command *cmd, struct plugin *plugin)
- {
--	int nsid, fd;
-+	int err, fd;
-+	__u32 nsid;
- 
- 	fd = get_dev(argc, argv);
- 	if (fd < 0)
- 		return fd;
--	nsid = nvme_get_nsid(fd);
--	if (nsid <= 0) {
-+	err = nvme_get_nsid(fd, &nsid);
-+	if (err) {
- 		perror(devicename);
- 		return errno;
- 	}
-@@ -1438,7 +1445,7 @@ static int format(int argc, char **argv, struct command *cmd, struct plugin *plu
- 		return fd;
- 
- 	if (S_ISBLK(nvme_stat.st_mode))
--		cfg.namespace_id = get_nsid(fd);
-+		get_nsid(fd, &cfg.namespace_id);
- 	if (cfg.namespace_id != 0xffffffff) {
- 		err = nvme_identify_ns(fd, cfg.namespace_id, 0, &ns);
- 		if (err) {
-@@ -1715,7 +1722,7 @@ static int write_uncor(int argc, char **argv, struct command *cmd, struct plugin
- 		return fd;
- 
- 	if (!cfg.namespace_id)
--		cfg.namespace_id = get_nsid(fd);
-+		get_nsid(fd, &cfg.namespace_id);
- 
- 	err = nvme_write_uncorrectable(fd, cfg.namespace_id, cfg.start_block,
- 					cfg.block_count);
-@@ -1792,7 +1799,7 @@ static int write_zeroes(int argc, char **argv, struct command *cmd, struct plugi
- 	if (cfg.force_unit_access)
- 		control |= NVME_RW_FUA;
- 	if (!cfg.namespace_id)
--		cfg.namespace_id = get_nsid(fd);
-+		get_nsid(fd, &cfg.namespace_id);
- 
- 	err = nvme_write_zeros(fd, cfg.namespace_id, cfg.start_block, cfg.block_count,
- 			control, cfg.ref_tag, cfg.app_tag, cfg.app_tag_mask);
-@@ -1876,7 +1883,7 @@ static int dsm(int argc, char **argv, struct command *cmd, struct plugin *plugin
- 	}
- 
- 	if (!cfg.namespace_id)
--		cfg.namespace_id = get_nsid(fd);
-+		get_nsid(fd, &cfg.namespace_id);
- 	if (!cfg.cdw11)
- 		cfg.cdw11 = (cfg.ad << 2) | (cfg.idw << 1) | (cfg.idr << 0);
- 
-@@ -1983,7 +1990,7 @@ static int resv_acquire(int argc, char **argv, struct command *cmd, struct plugi
- 		return fd;
- 
- 	if (!cfg.namespace_id)
--		cfg.namespace_id = get_nsid(fd);
-+		get_nsid(fd, &cfg.namespace_id);
- 	if (cfg.racqa > 7) {
- 		fprintf(stderr, "invalid racqa:%d\n", cfg.racqa);
- 		return EINVAL;
-@@ -2045,7 +2052,7 @@ static int resv_register(int argc, char **argv, struct command *cmd, struct plug
- 		return fd;
- 
- 	if (!cfg.namespace_id)
--		cfg.namespace_id = get_nsid(fd);
-+		get_nsid(fd, &cfg.namespace_id);
- 	if (cfg.cptpl > 3) {
- 		fprintf(stderr, "invalid cptpl:%d\n", cfg.cptpl);
- 		return EINVAL;
-@@ -2109,7 +2116,7 @@ static int resv_release(int argc, char **argv, struct command *cmd, struct plugi
- 		return fd;
- 
- 	if (!cfg.namespace_id)
--		cfg.namespace_id = get_nsid(fd);
-+		get_nsid(fd, &cfg.namespace_id);
- 	if (cfg.iekey > 1) {
- 		fprintf(stderr, "invalid iekey:%d\n", cfg.iekey);
- 		return EINVAL;
-@@ -2176,7 +2183,7 @@ static int resv_report(int argc, char **argv, struct command *cmd, struct plugin
- 		fmt = BINARY;
- 
- 	if (!cfg.namespace_id)
--		cfg.namespace_id = get_nsid(fd);
-+		get_nsid(fd, &cfg.namespace_id);
- 	if (!cfg.numd || cfg.numd > (0x1000 >> 2))
- 		cfg.numd = 0x1000 >> 2;
- 
-diff --git a/nvme.h b/nvme.h
-index 397a1a5..53dff4a 100644
---- a/nvme.h
-+++ b/nvme.h
-@@ -106,7 +106,7 @@ struct nvme_bar_cap {
- struct list_item {
- 	char                node[1024];
- 	struct nvme_id_ctrl ctrl;
--	int                 nsid;
-+	__u32               nsid;
- 	struct nvme_id_ns   ns;
- 	unsigned            block;
- };
--- 
-2.6.4.windows.1
+On my setup the IOs never complete even after the path is reconnected, 
+and the process remains stuck in D state, and the path unusable until I 
+power cycle the server.
+
+Some more information, hope it helps:
+
+Dumping the stuck process stack (multipath -ll):
+
+[root at kblock01-knode02 ~]# cat /proc/9715/stack
+[<ffffffff94354727>] blk_execute_rq+0x97/0x110
+[<ffffffffc0a72f8a>] __nvme_submit_user_cmd+0xca/0x300 [nvme_core]
+[<ffffffffc0a73369>] nvme_submit_user_cmd+0x29/0x30 [nvme_core]
+[<ffffffffc0a734bd>] nvme_user_cmd+0x14d/0x180 [nvme_core]
+[<ffffffffc0a7376c>] nvme_ioctl+0x7c/0xa0 [nvme_core]
+[<ffffffff9435d548>] __blkdev_driver_ioctl+0x28/0x30
+[<ffffffff9435dce1>] blkdev_ioctl+0x131/0x8f0
+[<ffffffff9428993c>] block_ioctl+0x3c/0x40
+[<ffffffff94260ae8>] vfs_ioctl+0x18/0x30
+[<ffffffff94261201>] do_vfs_ioctl+0x161/0x600
+[<ffffffff94261732>] SyS_ioctl+0x92/0xa0
+[<ffffffff9479cc77>] entry_SYSCALL_64_fastpath+0x1a/0xa9
+[<ffffffffffffffff>] 0xffffffffffffffff
+
+Looking at the dissasembly:
+
+0000000000000170 <blk_execute_rq>:
+
+...
+
+  1fa:   e8 00 00 00 00          callq  1ff <blk_execute_rq+0x8f>
+         /* Prevent hang_check timer from firing at us during very long 
+I/O */
+         hang_check = sysctl_hung_task_timeout_secs;
+         if (hang_check)
+                 while (!wait_for_completion_io_timeout(&wait, 
+hang_check * (HZ/2)));
+         else
+                 wait_for_completion_io(&wait);
+  1ff:   4c 89 e7                mov    %r12,%rdi
+  202:   e8 00 00 00 00          callq  207 <blk_execute_rq+0x97>
+
+         if (rq->errors)
+  207:   83 bb 04 01 00 00 01    cmpl   $0x1,0x104(%rbx)
+
+I ran btrace, and it seems that the IO running before the path 
+disconnect is properly cleaned, and only the IO running after gets stuck 
+(in the btrace example bellow I run both multipath -ll, and a dd):
+
+259,2   15    27548     4.790727567  8527  I  RS 764837376 + 8 [fio]
+259,2   15    27549     4.790728103  8527  D  RS 764837376 + 8 [fio]
+259,2   15    27550     4.791244566  8527  A   R 738007008 + 8 <- 
+(253,0) 738007008
+259,2   15    27551     4.791245136  8527  I  RS 738007008 + 8 [fio]
+259,2   15    27552     4.791245803  8527  D  RS 738007008 + 8 [fio]
+<<<<< From this stage there are no more fio Queue requests, only completions
+259,2    8     9118     4.758116423  8062  C  RS 2294539440 + 8 [0]
+259,2    8     9119     4.758559461  8062  C  RS 160307464 + 8 [0]
+259,2    8     9120     4.759009990     0  C  RS 2330623512 + 8 [0]
+259,2    8     9121     4.759457400     0  C  RS 2657710096 + 8 [0]
+259,2    8     9122     4.759928113     0  C  RS 2988256176 + 8 [0]
+259,2    8     9123     4.760388009     0  C  RS 789190936 + 8 [0]
+259,2    8     9124     4.760835889     0  C  RS 2915035352 + 8 [0]
+259,2    8     9125     4.761304282     0  C  RS 2458313624 + 8 [0]
+259,2    8     9126     4.761779694     0  C  RS 2280411456 + 8 [0]
+259,2    8     9127     4.762286741     0  C  RS 2082207376 + 8 [0]
+259,2    8     9128     4.762783722     0  C  RS 2874601688 + 8 [0]
+....
+259,2    8     9173     4.785798485     0  C  RS 828737568 + 8 [0]
+259,2    8     9174     4.786301391     0  C  RS 229168888 + 8 [0]
+259,2    8     9175     4.786769105     0  C  RS 893604096 + 8 [0]
+259,2    8     9176     4.787270594     0  C  RS 2308778728 + 8 [0]
+259,2    8     9177     4.787797448     0  C  RS 2190029912 + 8 [0]
+259,2    8     9178     4.788298956     0  C  RS 2652012944 + 8 [0]
+259,2    8     9179     4.788803759     0  C  RS 2205242008 + 8 [0]
+259,2    8     9180     4.789309423     0  C  RS 1948528416 + 8 [0]
+259,2    8     9181     4.789831240     0  C  RS 2003421288 + 8 [0]
+259,2    8     9182     4.790343528     0  C  RS 2464964728 + 8 [0]
+259,2    8     9183     4.790854684     0  C  RS 764837376 + 8 [0]
+<<<<<< This is probably where the port had been disconnected
+259,2   21        7     9.413088410  8574  Q   R 0 + 8 [multipathd]
+259,2   21        8     9.413089387  8574  G   R 0 + 8 [multipathd]
+259,2   21        9     9.413095030  8574  U   N [multipathd] 1
+259,2   21       10     9.413095367  8574  I  RS 0 + 8 [multipathd]
+259,2   21       11     9.413096534  8574  D  RS 0 + 8 [multipathd]
+259,2   10        1    14.381330190  2016  C  RS 738007008 + 8 [7]
+259,2   21       12    14.381394890     0  R  RS 0 + 8 [7]
+259,2    8     9184    80.500537429  8657  Q   R 0 + 8 [dd]
+259,2    8     9185    80.500540122  8657  G   R 0 + 8 [dd]
+259,2    8     9186    80.500545289  8657  U   N [dd] 1
+259,2    8     9187    80.500545792  8657  I  RS 0 + 8 [dd]
+<<<<<< At this stage, I reconnected the path:
+259,2    4        1  8381.791090134 11127  Q   R 0 + 8 [dd]
+259,2    4        2  8381.791093611 11127  G   R 0 + 8 [dd]
+259,2    4        3  8381.791098288 11127  U   N [dd] 1
+259,2    4        4  8381.791098791 11127  I  RS 0 + 8 [dd]
+
+
+As I wrote above, I will check the patch on Sunday/Monday.
+
+On 05/17/2017 08:28 PM, Sagi Grimberg wrote:
+> Hi Alex,
+>
+>> I am trying to test failure scenarios of NVMeoF + multipath. I bring
+>> one of ports down and expect to see failed paths using "multipath
+>> -ll". Instead I see that "multipath -ll" get stuck.
+>>
+>> reproduce:
+>> 1. Connected to NVMeoF device through 2 ports.
+>> 2. Bind them with multipath.
+>> 3. Bring one port down (ifconfig eth3 down)
+>> 4. Execute "multipath -ll" command and it will get stuck.
+>> From strace I see that multipath is stuck in io_destroy() during
+>> release of resources. As I understand io_destroy is stuck because of
+>> io_cancel() that failed. And io_cancel() failed because of port that
+>> was disabled in step 3.
+>
+> Hmm, it looks like we do take care of failing fast pending IO, but once
+> we schedule periodic reconnects the request queues are already stopped
+> and new incoming requests may block until we successfully reconnect.
+>
+> I don't have too much time for it at the moment, but here is an untested
+> patch for you to try out:
+>
+> -- 
+> [PATCH] nvme-rdma: restart queues after we at error recovery to fast
+>  fail incoming io
+>
+> When we encounter an transport/controller errors, error recovery
+> kicks in which performs:
+> 1. stops io/admin queues
+> 2. moves transport queues out of LIVE state
+> 3. fast fail pending io
+> 4. schedule periodic reconnects.
+>
+> But we also need to fast fail incoming IO taht enters after we
+> already scheduled. Given that our queue is not LIVE anymore, simply
+> restart the request queues to fail in .queue_rq
+>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/host/rdma.c | 20 +++++++++++---------
+>  1 file changed, 11 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index dd1c6deef82f..a0aa2bfb91ee 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -753,28 +753,26 @@ static void nvme_rdma_reconnect_ctrl_work(struct 
+> work_struct *work)
+>         if (ret)
+>                 goto requeue;
+>
+> -       blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
+> -
+>         ret = nvmf_connect_admin_queue(&ctrl->ctrl);
+>         if (ret)
+> -               goto stop_admin_q;
+> +               goto requeue;
+>
+>         set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags);
+>
+>         ret = nvme_enable_ctrl(&ctrl->ctrl, ctrl->cap);
+>         if (ret)
+> -               goto stop_admin_q;
+> +               goto requeue;
+>
+>         nvme_start_keep_alive(&ctrl->ctrl);
+>
+>         if (ctrl->queue_count > 1) {
+>                 ret = nvme_rdma_init_io_queues(ctrl);
+>                 if (ret)
+> -                       goto stop_admin_q;
+> +                       goto requeue;
+>
+>                 ret = nvme_rdma_connect_io_queues(ctrl);
+>                 if (ret)
+> -                       goto stop_admin_q;
+> +                       goto requeue;
+>         }
+>
+>         changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+> @@ -782,7 +780,6 @@ static void nvme_rdma_reconnect_ctrl_work(struct 
+> work_struct *work)
+>         ctrl->ctrl.opts->nr_reconnects = 0;
+>
+>         if (ctrl->queue_count > 1) {
+> -               nvme_start_queues(&ctrl->ctrl);
+>                 nvme_queue_scan(&ctrl->ctrl);
+>                 nvme_queue_async_events(&ctrl->ctrl);
+>         }
+> @@ -791,8 +788,6 @@ static void nvme_rdma_reconnect_ctrl_work(struct 
+> work_struct *work)
+>
+>         return;
+>
+> -stop_admin_q:
+> -       blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
+>  requeue:
+>         dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
+>                         ctrl->ctrl.opts->nr_reconnects);
+> @@ -823,6 +818,13 @@ static void nvme_rdma_error_recovery_work(struct 
+> work_struct *work)
+>         blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+>                                 nvme_cancel_request, &ctrl->ctrl);
+>
+> +       /*
+> +        * queues are not a live anymore, so restart the queues to 
+> fail fast
+> +        * new IO
+> +        */
+> +       blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
+> +       nvme_start_queues(&ctrl->ctrl);
+> +
+>         nvme_rdma_reconnect_or_remove(ctrl);
+>  }
+>
+> -- 
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
