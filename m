@@ -1,57 +1,129 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 18 May 2017 12:06:24 -0400
-Subject: [PATCH 2/2] nvme: avoid to hang in remove disk
-In-Reply-To: <20170518153542.GC18526@ming.t460p>
-References: <20170517012729.13469-1-ming.lei@redhat.com>
- <20170517012729.13469-3-ming.lei@redhat.com>
- <20170518134931.GB31489@lst.de> <20170518153542.GC18526@ming.t460p>
-Message-ID: <20170518160624.GA6015@localhost.localdomain>
+From: yizhan@redhat.com (Yi Zhang)
+Date: Thu, 18 May 2017 13:01:59 -0400 (EDT)
+Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
+ during stress test on reset_controller
+In-Reply-To: <20170319070115.GP2079@mtr-leonro.local>
+References: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
+ <20170310165214.GC14379@mtr-leonro.local>
+ <56e8ccd3-8116-89a1-2f65-eb61a91c5f84@mellanox.com>
+ <860db62d-ae93-d94c-e5fb-88e7b643f737@redhat.com>
+ <0a825b18-df06-9a6d-38c9-402f4ee121f7@mellanox.com>
+ <7496c68a-15f3-d8cb-b17f-20f5a59a24d2@redhat.com>
+ <31678a43-f76c-a921-e40c-470b0de1a86c@grimberg.me>
+ <20170319070115.GP2079@mtr-leonro.local>
+Message-ID: <136275928.8307994.1495126919829.JavaMail.zimbra@redhat.com>
 
-On Thu, May 18, 2017@11:35:43PM +0800, Ming Lei wrote:
-> On Thu, May 18, 2017@03:49:31PM +0200, Christoph Hellwig wrote:
-> > On Wed, May 17, 2017@09:27:29AM +0800, Ming Lei wrote:
-> > > If some writeback requests are submitted just before queue is killed,
-> > > and these requests may not be canceled in nvme_dev_disable() because
-> > > they are not started yet, it is still possible for blk-mq to hold
-> > > these requests in .requeue list.
-> > > 
-> > > So we have to abort these requests first before del_gendisk(), because
-> > > del_gendisk() may wait for completion of these requests.
-> > > 
-> > > Cc: stable at vger.kernel.org
-> > > Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> > > ---
-> > >  drivers/nvme/host/core.c | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > > 
-> > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > > index d5e0906262ea..8eaeea86509a 100644
-> > > --- a/drivers/nvme/host/core.c
-> > > +++ b/drivers/nvme/host/core.c
-> > > @@ -2097,6 +2097,14 @@ static void nvme_ns_remove(struct nvme_ns *ns)
-> > >  					&nvme_ns_attr_group);
-> > >  		if (ns->ndev)
-> > >  			nvme_nvm_unregister_sysfs(ns);
-> > > +		/*
-> > > +		 * If queue is dead, we have to abort requests in
-> > > +		 * requeue list because fsync_bdev() in removing disk
-> > > +		 * path may wait for these IOs, which can't
-> > > +		 * be submitted to hardware too.
-> > > +		 */
-> > > +		if (blk_queue_dying(ns->queue))
-> > > +			blk_mq_abort_requeue_list(ns->queue);
-> > >  		del_gendisk(ns->disk);
-> > >  		blk_mq_abort_requeue_list(ns->queue);
-> > 
-> > Why can't we just move the blk_mq_abort_requeue_list call before
-> > del_gendisk in general?
-> 
-> That may cause data loss if queue isn't killed. Normally queue is only killed
-> when the controller is dead(such as in reset failure) or !pci_device_is_present()
-> (in nvme_remove()).
+I retest this issue on 4.11.0, the OOM issue cannot be reproduced now on the same environment[1] with test script[2], not sure which patch fixed this issue?
 
-But in your test, your controller isn't even dead. Why are we killing
-it when it's still functional? I think we need to first not consider
-this perfectly functional controller to be dead under these conditions,
-and second, understand why killing the queues after del_gendisk is called
-does not allow forward progress.
+And finally got reset_controller failed[3].
+
+[1]
+memory:32GB
+CPU: Intel(R) Xeon(R) CPU E5-2665 0 @ 2.40GHz
+Card: 07:00.0 Network controller: Mellanox Technologies MT27500 Family [ConnectX-3]
+
+[2]
+#!/bin/bash
+num=0
+while [ 1 ]
+do
+        echo "-------------------------------$num"
+        echo 1 >/sys/block/nvme0n1/device/reset_controller || exit 1
+        ((num++))
+	sleep 0.1
+done 
+
+[3]
+-------------------------------897
+reset_controller.sh: line 7: /sys/block/nvme0n1/device/reset_controller: No such file or directory
+
+Log from client:
+[ 2373.319860] nvme nvme0: creating 16 I/O queues.
+[ 2374.214380] nvme nvme0: creating 16 I/O queues.
+[ 2375.092755] nvme nvme0: creating 16 I/O queues.
+[ 2375.988591] nvme nvme0: creating 16 I/O queues.
+[ 2376.874315] nvme nvme0: creating 16 I/O queues.
+[ 2384.604400] nvme nvme0: rdma_resolve_addr wait failed (-110).
+[ 2384.636329] nvme nvme0: Removing after reset failure
+
+
+Best Regards,
+  Yi Zhang
+
+
+----- Original Message -----
+From: "Leon Romanovsky" <leon@kernel.org>
+To: "Sagi Grimberg" <sagi at grimberg.me>
+Cc: linux-rdma at vger.kernel.org, "Max Gurtovoy" <maxg at mellanox.com>, "Christoph Hellwig" <hch at lst.de>, linux-nvme at lists.infradead.org, "Yi Zhang" <yizhan at redhat.com>
+Sent: Sunday, March 19, 2017 3:01:15 PM
+Subject: Re: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed during stress test on reset_controller
+
+On Thu, Mar 16, 2017@06:51:16PM +0200, Sagi Grimberg wrote:
+>
+> > > > > > Sagi,
+> > > > > > The release function is placed in global workqueue. I'm not familiar
+> > > > > > with NVMe design and I don't know all the details, but maybe the
+> > > > > > proper way will
+> > > > > > be to create special workqueue with MEM_RECLAIM flag to ensure the
+> > > > > > progress?
+>
+> Leon, the release work makes progress, but it is inherently slower
+> than the establishment work and when we are bombarded with
+> establishments we have no backpressure...
+
+Sagi,
+How do you see that release is slower than alloc? In this specific
+test, all queues are empty and QP drains should finish immediately.
+
+If we rely on the prints that Yi posted in the beginning of this thread,
+the release function doesn't have enough priority for execution and
+constantly delayed.
+
+>
+> > I tried with 4.11.0-rc2, and still can reproduced it with less than 2000
+> > times.
+>
+> Yi,
+>
+> Can you try the below (untested) patch:
+>
+> I'm not at all convinced this is the way to go because it will
+> slow down all the connect requests, but I'm curious to know
+> if it'll make the issue go away.
+>
+> --
+> diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
+> index ecc4fe862561..f15fa6e6b640 100644
+> --- a/drivers/nvme/target/rdma.c
+> +++ b/drivers/nvme/target/rdma.c
+> @@ -1199,6 +1199,9 @@ static int nvmet_rdma_queue_connect(struct rdma_cm_id
+> *cm_id,
+>         }
+>         queue->port = cm_id->context;
+>
+> +       /* Let inflight queue teardown complete */
+> +       flush_scheduled_work();
+> +
+>         ret = nvmet_rdma_cm_accept(cm_id, queue, &event->param.conn);
+>         if (ret)
+>                 goto release_queue;
+> --
+>
+> Any other good ideas are welcome...
+
+Maybe create separate workqueue and flush its only, instead of global
+system queue.
+
+It will stress the system a little bit less.
+
+Thanks
+
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+
+_______________________________________________
+Linux-nvme mailing list
+Linux-nvme at lists.infradead.org
+http://lists.infradead.org/mailman/listinfo/linux-nvme
