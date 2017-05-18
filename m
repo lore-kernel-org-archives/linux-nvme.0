@@ -1,44 +1,30 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 18 May 2017 15:49:31 +0200
-Subject: [PATCH 2/2] nvme: avoid to hang in remove disk
-In-Reply-To: <20170517012729.13469-3-ming.lei@redhat.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Thu, 18 May 2017 10:13:07 -0400
+Subject: [PATCH 1/2] nvme: fix race between removing and reseting failure
+In-Reply-To: <20170517012729.13469-2-ming.lei@redhat.com>
 References: <20170517012729.13469-1-ming.lei@redhat.com>
- <20170517012729.13469-3-ming.lei@redhat.com>
-Message-ID: <20170518134931.GB31489@lst.de>
+ <20170517012729.13469-2-ming.lei@redhat.com>
+Message-ID: <20170518141307.GD28520@localhost.localdomain>
 
-On Wed, May 17, 2017@09:27:29AM +0800, Ming Lei wrote:
-> If some writeback requests are submitted just before queue is killed,
-> and these requests may not be canceled in nvme_dev_disable() because
-> they are not started yet, it is still possible for blk-mq to hold
-> these requests in .requeue list.
+On Wed, May 17, 2017@09:27:28AM +0800, Ming Lei wrote:
+> When one NVMe PCI device is being resetted and found reset failue,
+> nvme_remove_dead_ctrl() is called to handle the failure: blk-mq hw queues
+> are put into stopped first, then schedule .remove_work to release the driver.
 > 
-> So we have to abort these requests first before del_gendisk(), because
-> del_gendisk() may wait for completion of these requests.
+> Unfortunately if the driver is being released via sysfs store
+> just before the .remove_work is run, del_gendisk() from
+> nvme_remove() may hang forever because hw queues are stopped and
+> the submitted writeback IOs from fsync_bdev() can't be completed at all.
 > 
-> Cc: stable at vger.kernel.org
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> ---
->  drivers/nvme/host/core.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index d5e0906262ea..8eaeea86509a 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2097,6 +2097,14 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->  					&nvme_ns_attr_group);
->  		if (ns->ndev)
->  			nvme_nvm_unregister_sysfs(ns);
-> +		/*
-> +		 * If queue is dead, we have to abort requests in
-> +		 * requeue list because fsync_bdev() in removing disk
-> +		 * path may wait for these IOs, which can't
-> +		 * be submitted to hardware too.
-> +		 */
-> +		if (blk_queue_dying(ns->queue))
-> +			blk_mq_abort_requeue_list(ns->queue);
->  		del_gendisk(ns->disk);
->  		blk_mq_abort_requeue_list(ns->queue);
+> This patch fixes the following issue[1][2] by moving nvme_kill_queues()
+> into nvme_remove_dead_ctrl() to avoid the issue because nvme_remove()
+> flushs .reset_work, and this way is reasonable and safe because
+> nvme_dev_disable() has started to suspend queues and canceled requests
+> already.
 
-Why can't we just move the blk_mq_abort_requeue_list call before
-del_gendisk in general?
+I'm still not sure moving where we kill the queues is the correct way
+to fix this problem. The nvme_kill_queues restarts all the hardware
+queues to force all IO to failure already, so why is this really stuck?
+We should be able to make forward progress even if we kill the queues
+while calling into del_gendisk, right? That could happen with a different
+sequence of events, so that also needs to work.
