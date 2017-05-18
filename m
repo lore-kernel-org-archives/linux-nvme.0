@@ -1,47 +1,40 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Thu, 18 May 2017 09:34:59 +0800
-Subject: BUG: hot removal during writes on ext4 formatted nvme device
-In-Reply-To: <037dd98d-595e-f96b-6241-2474bd2c3e8f@intel.com>
-References: <037dd98d-595e-f96b-6241-2474bd2c3e8f@intel.com>
-Message-ID: <20170518013454.GA13864@ming.t460p>
+From: zouming.zouming@huawei.com (Zou Ming)
+Date: Thu, 18 May 2017 04:17:41 +0000
+Subject: [PATCH] Add a parameter for  NVME_IOCTL_ID to get Namespaces ID
+Message-ID: <1495081061-17660-1-git-send-email-zouming.zouming@huawei.com>
 
-On Mon, May 22, 2017@06:38:12PM -0600, Jon Derrick wrote:
-> Hello,
-> 
-> I've encountered a BUG that I've experienced during hot removal on an
-> ext4-formatted nvme device undergoing writes. I have been able to verify
-> that 4.5, 4.6, 4.10.12, 4.11, and 4.12-rc1 show similar issues (the v4.6
-> trace below shows issues with block that have already been fixed). I'm
-> using VMD hardware for my hotplug controller so 4.5 is as far back as I
-> can go (maybe someone else can verify on non-VMD hardware?).
-> 
-> To reproduce:
-> 1) mkfs.ext4 <nvme>
-> 2) mount <nvme> <mnt>
-> 3) dd if=/dev/zero of=<mnt>/file bs=1M count=10000
-> 4) Hot remove the drive while above is writing
-> 
-> From what I can tell, the ext4 sb is trying to be committed in the error
-> path. There is supposed to be a check if the device is still alive via
-> block_device_ejected(), but my guess is that there is a race between the
-> removal/deletion in genhd and this check. I would appreciate any help
-> resolving this.
->
+For distinguish return value,add a parameter for NVME_IOCTL_ID to get Namespaces ID.
+---
+ drivers/nvme/host/core.c        | 3 +--
+ include/uapi/linux/nvme_ioctl.h | 2 +-
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-Recently I played fio over NVMe partition direclty with hot-remove too, and
-found that d3cfb2a0ac0b8487d28(block: block new I/O just after queue is set
-as dying) is helpful for this kind of issue.
-
-Also the following patch fixes one issue in remove path.
-
-	http://marc.info/?l=linux-block&m=149498450028434&w=2
-
-So could you test v4.12-rc1(d3cfb2a0 is merged) with the above patch?
-
-With these patches in, block layer & NVMe should make sure that all I/O can
-be finished with -EIO before del_gendisk() returns once after hot-remove
-is triggered, then the failure handling of fs might need further investigation.
-
-
-Thanks,
-Ming
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 3818ff6..886a031 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -769,8 +769,7 @@ static int nvme_ioctl(struct block_device *bdev, fmode_t mode,
+ 
+ 	switch (cmd) {
+ 	case NVME_IOCTL_ID:
+-		force_successful_syscall_return();
+-		return ns->ns_id;
++		return put_user(ns->ns_id, (__u32 __user *)arg);
+ 	case NVME_IOCTL_ADMIN_CMD:
+ 		return nvme_user_cmd(ns->ctrl, NULL, (void __user *)arg);
+ 	case NVME_IOCTL_IO_CMD:
+diff --git a/include/uapi/linux/nvme_ioctl.h b/include/uapi/linux/nvme_ioctl.h
+index 50ff21f..71eb8fd 100644
+--- a/include/uapi/linux/nvme_ioctl.h
++++ b/include/uapi/linux/nvme_ioctl.h
+@@ -55,7 +55,7 @@ struct nvme_passthru_cmd {
+ 
+ #define nvme_admin_cmd nvme_passthru_cmd
+ 
+-#define NVME_IOCTL_ID		_IO('N', 0x40)
++#define NVME_IOCTL_ID		_IO('N', 0x40, __u32)
+ #define NVME_IOCTL_ADMIN_CMD	_IOWR('N', 0x41, struct nvme_admin_cmd)
+ #define NVME_IOCTL_SUBMIT_IO	_IOW('N', 0x42, struct nvme_user_io)
+ #define NVME_IOCTL_IO_CMD	_IOWR('N', 0x43, struct nvme_passthru_cmd)
+-- 
+2.6.4.windows.1
