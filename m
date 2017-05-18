@@ -1,11 +1,50 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 18 May 2017 06:39:36 -0700
-Subject: [PATCH] Add a parameter for NVME_IOCTL_ID to get Namespaces ID
-In-Reply-To: <bfb905ee-27a4-d39c-8e4d-2511e66292b1@huawei.com>
-References: <1495081061-17660-1-git-send-email-zouming.zouming@huawei.com>
- <20170518063808.GA28607@infradead.org>
- <bfb905ee-27a4-d39c-8e4d-2511e66292b1@huawei.com>
-Message-ID: <20170518133936.GA30370@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 18 May 2017 15:43:44 +0200
+Subject: [PATCH] nvme/pci: remap BAR0 to cover admin CQ doorbell for
+ large stride
+In-Reply-To: <1495060547-6180-1-git-send-email-yu.a.xu@intel.com>
+References: <1495060547-6180-1-git-send-email-yu.a.xu@intel.com>
+Message-ID: <20170518134344.GA31139@lst.de>
 
-I can't see how it would fail.  But if you're worried about thast case
-use the nsid sysfs attribute instead.
+On Thu, May 18, 2017@06:35:47AM +0800, Xu Yu wrote:
+> The existing driver initially maps 8192 bytes of BAR0 which is
+> intended to cover doorbells of admin SQ and CQ. However, if a
+> large stride, e.g. 10, is used, the doorbell of admin CQ will
+> be out of 8192 bytes. Consequently, a page fault will be raised
+> when the admin CQ doorbell is accessed in nvme_configure_admin_queue().
+> 
+> This patch fixes this issue by remapping BAR0 before accessing
+> admin CQ doorbell if the initial mapping is not enough.
+> 
+> Signed-off-by: "Xu, Yu A" <yu.a.xu at intel.com>
+> ---
+>  drivers/nvme/host/pci.c | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
+> 
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index 9d4640a..7c991eb 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1322,6 +1322,17 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+>  	u32 aqa;
+>  	u64 cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
+>  	struct nvme_queue *nvmeq;
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +	unsigned long size;
+> +
+> +	size = 4096 + 2 * 4 * dev->db_stride;
+> +	if (size > 8192) {
+> +		iounmap(dev->bar);
+> +		dev->bar = ioremap(pci_resource_start(pdev, 0), size);
+> +		if (!dev->bar)
+> +			return -ENOMEM;
+> +		dev->dbs = dev->bar + 4096;
+> +	}
+
+This code duplicates logic in db_bar_size / nvme_setup_io_queues.
+Please reuse the db_bar_size helper by passing 0 to, and try to
+figure out if we can factor this whole sequence into a new helper
+as well.
+
+Bonus points for adding constants to nvme.h for the 4096 offset of
+the first db register, and our magic 8192 threshold.
