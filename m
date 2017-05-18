@@ -1,47 +1,53 @@
-From: newhorizons009@gmail.com (Linux User)
-Date: Thu, 18 May 2017 11:30:42 -0400
-Subject: NVMe sluggish
-In-Reply-To: <CA+12NBLYg47+yJp8u0+Oq=+t0qfwRLUePep9N4uaomnJ6Y6+SQ@mail.gmail.com>
-References: <CA+12NBLYg47+yJp8u0+Oq=+t0qfwRLUePep9N4uaomnJ6Y6+SQ@mail.gmail.com>
-Message-ID: <CA+12NBJP2jkpSqNfYRd59HLcwSNnrrpBjFFaH2pYBvdu9_=8Zg@mail.gmail.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 18 May 2017 23:35:43 +0800
+Subject: [PATCH 2/2] nvme: avoid to hang in remove disk
+In-Reply-To: <20170518134931.GB31489@lst.de>
+References: <20170517012729.13469-1-ming.lei@redhat.com>
+ <20170517012729.13469-3-ming.lei@redhat.com>
+ <20170518134931.GB31489@lst.de>
+Message-ID: <20170518153542.GC18526@ming.t460p>
 
-Any inputs ?
+On Thu, May 18, 2017@03:49:31PM +0200, Christoph Hellwig wrote:
+> On Wed, May 17, 2017@09:27:29AM +0800, Ming Lei wrote:
+> > If some writeback requests are submitted just before queue is killed,
+> > and these requests may not be canceled in nvme_dev_disable() because
+> > they are not started yet, it is still possible for blk-mq to hold
+> > these requests in .requeue list.
+> > 
+> > So we have to abort these requests first before del_gendisk(), because
+> > del_gendisk() may wait for completion of these requests.
+> > 
+> > Cc: stable at vger.kernel.org
+> > Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> > ---
+> >  drivers/nvme/host/core.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
+> > 
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index d5e0906262ea..8eaeea86509a 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -2097,6 +2097,14 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+> >  					&nvme_ns_attr_group);
+> >  		if (ns->ndev)
+> >  			nvme_nvm_unregister_sysfs(ns);
+> > +		/*
+> > +		 * If queue is dead, we have to abort requests in
+> > +		 * requeue list because fsync_bdev() in removing disk
+> > +		 * path may wait for these IOs, which can't
+> > +		 * be submitted to hardware too.
+> > +		 */
+> > +		if (blk_queue_dying(ns->queue))
+> > +			blk_mq_abort_requeue_list(ns->queue);
+> >  		del_gendisk(ns->disk);
+> >  		blk_mq_abort_requeue_list(ns->queue);
+> 
+> Why can't we just move the blk_mq_abort_requeue_list call before
+> del_gendisk in general?
 
-On Wed, May 17, 2017@3:34 PM, Linux User <newhorizons009@gmail.com> wrote:
-> Hello All,
->
->
-> I switched my ssd from M.2 based ahci protocol to nvme protocol, with
-> that, when i do chmod 777 -R /mnt/ssd it takes forever, however same
-> step on the ahci based ssd takes a blink of an eye.
->
-> Even doing ls at /mnt/ssd takes a long time.
->
->
-> I am running 3.10-ltsi. Below are my fs creation params.
->
-> mke2fs -F -t ext4 /dev/nvme0n1p1
->   tune2fs -o journal_data_writeback /dev/nvme0n1p1
->   tune2fs -O ^has_journal /dev/nvme0n1p1
->
->
-> Below are my mounting options,
->
-> mount -t ext4 -o data=ordered,noatime,nodiratime,norelatime /dev/nvme0n1p1
->
->
-> Any clues ?
->
->
-> Having said above, I did a fio random read test on both AHCI and NVMe,
-> and that seems to have good results.
->
-> Toshiba NVMe
->
-> bw (KB  /s): min=14320, max=21496, per=100.00%, avg=19765.54, stdev=1813.54
->
->
->
-> Samsung AHCI
->
-> bw (KB  /s): min=15687, max=19720, per=99.52%, avg=17773.93, stdev=1236.09
+That may cause data loss if queue isn't killed. Normally queue is only killed
+when the controller is dead(such as in reset failure) or !pci_device_is_present()
+(in nvme_remove()).
+
+Thanks,
+Ming
