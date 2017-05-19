@@ -1,81 +1,81 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 19 May 2017 21:19:28 +0800
-Subject: [PATCH 2/2] nvme: avoid to hang in remove disk
-In-Reply-To: <20170518160624.GA6015@localhost.localdomain>
-References: <20170517012729.13469-1-ming.lei@redhat.com>
- <20170517012729.13469-3-ming.lei@redhat.com>
- <20170518134931.GB31489@lst.de> <20170518153542.GC18526@ming.t460p>
- <20170518160624.GA6015@localhost.localdomain>
-Message-ID: <20170519131923.GA4019@ming.t460p>
+From: keith.busch@intel.com (Keith Busch)
+Date: Fri, 19 May 2017 10:18:34 -0400
+Subject: [PATCH] nvme: Change our APST table to be no more aggressive
+ than Intel RSTe
+In-Reply-To: <20170519063505.GA15980@infradead.org>
+References: <ddc5be5d81966effaf73e3cee54330c351bc8169.1494561654.git.luto@kernel.org>
+ <CALCETrUYutdtp5U7oYwf7-eNuB0MrwoC18mG5-S8iOP4ZEVDuA@mail.gmail.com>
+ <20170519063505.GA15980@infradead.org>
+Message-ID: <20170519141834.GB6015@localhost.localdomain>
 
-On Thu, May 18, 2017@12:06:24PM -0400, Keith Busch wrote:
-> On Thu, May 18, 2017@11:35:43PM +0800, Ming Lei wrote:
-> > On Thu, May 18, 2017@03:49:31PM +0200, Christoph Hellwig wrote:
-> > > On Wed, May 17, 2017@09:27:29AM +0800, Ming Lei wrote:
-> > > > If some writeback requests are submitted just before queue is killed,
-> > > > and these requests may not be canceled in nvme_dev_disable() because
-> > > > they are not started yet, it is still possible for blk-mq to hold
-> > > > these requests in .requeue list.
-> > > > 
-> > > > So we have to abort these requests first before del_gendisk(), because
-> > > > del_gendisk() may wait for completion of these requests.
-> > > > 
-> > > > Cc: stable at vger.kernel.org
-> > > > Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> > > > ---
-> > > >  drivers/nvme/host/core.c | 8 ++++++++
-> > > >  1 file changed, 8 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > > > index d5e0906262ea..8eaeea86509a 100644
-> > > > --- a/drivers/nvme/host/core.c
-> > > > +++ b/drivers/nvme/host/core.c
-> > > > @@ -2097,6 +2097,14 @@ static void nvme_ns_remove(struct nvme_ns *ns)
-> > > >  					&nvme_ns_attr_group);
-> > > >  		if (ns->ndev)
-> > > >  			nvme_nvm_unregister_sysfs(ns);
-> > > > +		/*
-> > > > +		 * If queue is dead, we have to abort requests in
-> > > > +		 * requeue list because fsync_bdev() in removing disk
-> > > > +		 * path may wait for these IOs, which can't
-> > > > +		 * be submitted to hardware too.
-> > > > +		 */
-> > > > +		if (blk_queue_dying(ns->queue))
-> > > > +			blk_mq_abort_requeue_list(ns->queue);
-> > > >  		del_gendisk(ns->disk);
-> > > >  		blk_mq_abort_requeue_list(ns->queue);
-> > > 
-> > > Why can't we just move the blk_mq_abort_requeue_list call before
-> > > del_gendisk in general?
-> > 
-> > That may cause data loss if queue isn't killed. Normally queue is only killed
-> > when the controller is dead(such as in reset failure) or !pci_device_is_present()
-> > (in nvme_remove()).
+On Thu, May 18, 2017@11:35:05PM -0700, Christoph Hellwig wrote:
+> On Thu, May 18, 2017@06:13:55PM -0700, Andy Lutomirski wrote:
+> > a) Leave the Dell quirk in place until someone from Dell or Samsung
+> > figures out what's actually going on.  Add a blanket quirk turning off
+> > the deepest sleep state on all Intel devices [1] at least until
+> > someone from Intel figures out what's going on -- Hi, Keith!  Deal
+> > with any other problems as they're reported.
 > 
-> But in your test, your controller isn't even dead. Why are we killing
-> it when it's still functional? I think we need to first not consider
+> I think we should just blacklist the 60p entirely.  It also seems to
+> corrupt data 100% reliable when used with XFS.
 
-Last time, you posted one patch which looks fixes the hang, but the
-NVMe device becomes not functional after rebinding later, see
-the link:
+I assume you're talking about the 600p/p3100. That family of devices
+prefer 4k alignment, and patch below will enforce that, fixing all
+access issues. I wasn't planning to post it because my understanding is
+an imminent f/w update will make it unnecessary.
 
-	http://marc.info/?l=linux-block&m=149430047402103&w=2
+I understand there is a different issue specific to the KBL NUC platforms
+that exposes some other errata, but I don't know much about that.
 
-Also not sure it is worthy of doing that, because in my case,
-nvme_dev_disable() has been called in nvme_reset_notify() before the reset,
-that means requests have been canceled already. As I mentioned, the two
-directions aren't contradictorily. But thinking controller as live under
-this situation need big change, such as, not canceling requests in whole
-reset path.
+For all issues, though, a f/w update fixing them is undergoing validation,
+but I don't have insider information on the release date.
 
-Finally this patch is not only for the case of reset failure vs. remove,
-but also for hot-unplug, queues are still killed in path of hot remove.
-
-> this perfectly functional controller to be dead under these conditions,
-> and second, understand why killing the queues after del_gendisk is called
-> does not allow forward progress.
-
-I have explained this cause in last email, :-)
-
-Thanks,
-Ming
+---
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c5e709d..49d8070 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -964,7 +964,11 @@ static void __nvme_revalidate_disk(struct gendisk
+*disk, struct nvme_id_ns *id)
+ 		blk_integrity_unregister(disk);
+ 
+ 	ns->pi_type = pi_type;
+-	blk_queue_logical_block_size(ns->queue, bs);
++
++	if (ns->ctrl->quirks & NVME_QUIRK_PAGE_ALIGN)
++		blk_queue_logical_block_size(ns->queue, ns->ctrl->page_size);
++	else
++		blk_queue_logical_block_size(ns->queue, bs);
+ 
+ 	if (ns->ms && !blk_get_integrity(disk) && !ns->ext)
+ 		nvme_init_integrity(ns);
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index fda6ebb..4b6e21f 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -83,6 +83,11 @@ enum nvme_quirks {
+ 	 * APST should not be used.
+ 	 */
+ 	NVME_QUIRK_NO_APST			= (1 << 4),
++
++	/*
++	 * Require 4k aligned IO despite smaller LBA size
++	 */
++	NVME_QUIRK_PAGE_ALIGN			= (1 << 5),
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 6a2f0d3..e08d1f7 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2144,6 +2144,8 @@ static const struct pci_device_id nvme_id_table[] = {
+ 	{ PCI_VDEVICE(INTEL, 0x0a54),
+ 		.driver_data = NVME_QUIRK_STRIPE_SIZE |
+ 				NVME_QUIRK_DISCARD_ZEROES, },
++	{ PCI_VDEVICE(INTEL, 0xf1a5),
++		.driver_data = NVME_QUIRK_PAGE_ALIGN },
+ 	{ PCI_VDEVICE(INTEL, 0x5845),	/* Qemu emulated controller */
+ 		.driver_data = NVME_QUIRK_IDENTIFY_CNS, },
+ 	{ PCI_DEVICE(0x1c58, 0x0003),	/* HGST adapter */
+--
