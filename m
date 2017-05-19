@@ -1,19 +1,44 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 19 May 2017 10:57:49 +0200
-Subject: spread MSI(-X) vectors to all possible CPUs V2
-Message-ID: <20170519085756.29742-1-hch@lst.de>
+Date: Fri, 19 May 2017 10:57:50 +0200
+Subject: [PATCH 1/7] genirq: allow assigning affinity to present but not
+ online CPUs
+In-Reply-To: <20170519085756.29742-1-hch@lst.de>
+References: <20170519085756.29742-1-hch@lst.de>
+Message-ID: <20170519085756.29742-2-hch@lst.de>
 
-Hi all,
+This will allow us to spread MSI/MSI-X affinity over all present CPUs and
+thus better deal with systems where cpus are take on and offline all the
+time.
 
-this series changes our automatic MSI-X vector assignment so that it
-takes all present CPUs into account instead of all online ones.  This
-allows to better deal with cpu hotplug events, which could happen
-frequently due to power management for example.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ kernel/irq/manage.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Changes since V1:
- - rebase to current Linus' tree
- - add irq_lock_sparse calls
- - move memory allocations outside of (raw) spinlocks
- - remove the irq_force_complete_move call
- - factor some common code into helpers
- - identation fixups
+diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+index 070be980c37a..5c25d4a5dc46 100644
+--- a/kernel/irq/manage.c
++++ b/kernel/irq/manage.c
+@@ -361,17 +361,17 @@ static int setup_affinity(struct irq_desc *desc, struct cpumask *mask)
+ 	if (irqd_affinity_is_managed(&desc->irq_data) ||
+ 	    irqd_has_set(&desc->irq_data, IRQD_AFFINITY_SET)) {
+ 		if (cpumask_intersects(desc->irq_common_data.affinity,
+-				       cpu_online_mask))
++				       cpu_present_mask))
+ 			set = desc->irq_common_data.affinity;
+ 		else
+ 			irqd_clear(&desc->irq_data, IRQD_AFFINITY_SET);
+ 	}
+ 
+-	cpumask_and(mask, cpu_online_mask, set);
++	cpumask_and(mask, cpu_present_mask, set);
+ 	if (node != NUMA_NO_NODE) {
+ 		const struct cpumask *nodemask = cpumask_of_node(node);
+ 
+-		/* make sure at least one of the cpus in nodemask is online */
++		/* make sure at least one of the cpus in nodemask is present */
+ 		if (cpumask_intersects(mask, nodemask))
+ 			cpumask_and(mask, mask, nodemask);
+ 	}
+-- 
+2.11.0
