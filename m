@@ -1,23 +1,50 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Sat, 20 May 2017 11:56:02 +0800
-Subject: [PATCH v2 0/3] nvme: fix hang in path of removing disk
-Message-ID: <20170520035605.21785-1-ming.lei@redhat.com>
+Date: Sat, 20 May 2017 11:56:03 +0800
+Subject: [PATCH v2 1/3] nvme: use blk_mq_start_hw_queues() in
+ nvme_kill_queues()
+In-Reply-To: <20170520035605.21785-1-ming.lei@redhat.com>
+References: <20170520035605.21785-1-ming.lei@redhat.com>
+Message-ID: <20170520035605.21785-2-ming.lei@redhat.com>
 
-The first two patches fixes hang during removing disk.
+Inside nvme_kill_queues(), we have to start hw queues for
+draining requests in sw queues, .dispatch list and requeue list,
+so use blk_mq_start_hw_queues() instead of blk_mq_start_stopped_hw_queues()
+which only run queues if queues are stopped, but the queues may have
+been started already, for example nvme_start_queues() is called in reset work
+function.
 
-The 3rd patch removes blk_mq_abort_requeue_list() since
-no one uses it any more.
+blk_mq_start_hw_queues() run hw queues in current context, instead
+of running asynchronously like before. Given nvme_kill_queues() is
+run from either remove context or reset worker context, both are fine
+to run hw queue directly. And the mutex of namespaces_mutex isn't a
+problem too becasue nvme_start_freeze() runs hw queue in this way
+already.
 
+Cc: stable at vger.kernel.org
+Reported-by: Zhang Yi <yizhan at redhat.com>
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
+---
+ drivers/nvme/host/core.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-Ming Lei (3):
-  nvme: use blk_mq_start_hw_queues() in nvme_kill_queues()
-  nvme: avoid to use blk_mq_abort_requeue_list()
-  blk-mq: remove blk_mq_abort_requeue_list()
-
- block/blk-mq.c           | 19 -------------------
- drivers/nvme/host/core.c | 13 ++++++++++---
- include/linux/blk-mq.h   |  1 -
- 3 files changed, 10 insertions(+), 23 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index d5e0906262ea..ce0d96913ee6 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2437,7 +2437,13 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 		revalidate_disk(ns->disk);
+ 		blk_set_queue_dying(ns->queue);
+ 		blk_mq_abort_requeue_list(ns->queue);
+-		blk_mq_start_stopped_hw_queues(ns->queue, true);
++
++		/*
++		 * We have to force to start queues for avoiding hang
++		 * forever, and we have to make sure that queues won't
++		 * be stopped forever from now on.
++		 */
++		blk_mq_start_hw_queues(ns->queue);
+ 	}
+ 	mutex_unlock(&ctrl->namespaces_mutex);
+ }
 -- 
 2.9.4
