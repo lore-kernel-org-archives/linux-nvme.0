@@ -1,119 +1,46 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Sat, 20 May 2017 13:34:15 +0800
-Subject: [PATCH v2 2/3] nvme: avoid to use blk_mq_abort_requeue_list()
-In-Reply-To: <20170520035605.21785-3-ming.lei@redhat.com>
-References: <20170520035605.21785-1-ming.lei@redhat.com>
- <20170520035605.21785-3-ming.lei@redhat.com>
-Message-ID: <20170520053409.GA22317@ming.t460p>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Sat, 20 May 2017 15:10:48 +0200
+Subject: [GIT PULL] nvme fixes for 4.12-rc2
+Message-ID: <20170520131048.cjmpq2dnttritszb@infradead.org>
 
-On Sat, May 20, 2017@11:56:04AM +0800, Ming Lei wrote:
-> NVMe may add request into requeue list simply and not kick off the
-> requeue if hw queues are stopped. Then blk_mq_abort_requeue_list()
-> is called in both nvme_kill_queues() and nvme_ns_remove() for
-> dealing with this issue.
-> 
-> Unfortunately blk_mq_abort_requeue_list() is absolutely a
-> race maker, for example, one request may be requeued during
-> the aborting. So this patch just calls blk_mq_kick_requeue_list() in
-> nvme_kill_queues() to handle this issue like what nvme_start_queues()
-> does. Now all requests in requeue list when queues are stopped will be
-> handled by blk_mq_kick_requeue_list() when queues are restarted, either
-> in nvme_start_queues() or in nvme_kill_queues().
-> 
-> Cc: stable at vger.kernel.org
-> Reported-by: Zhang Yi <yizhan at redhat.com>
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> ---
->  drivers/nvme/host/core.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index ce0d96913ee6..9ce0a0a16984 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2098,7 +2098,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->  		if (ns->ndev)
->  			nvme_nvm_unregister_sysfs(ns);
->  		del_gendisk(ns->disk);
-> -		blk_mq_abort_requeue_list(ns->queue);
->  		blk_cleanup_queue(ns->queue);
->  	}
->  
-> @@ -2436,7 +2435,6 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
->  			continue;
->  		revalidate_disk(ns->disk);
->  		blk_set_queue_dying(ns->queue);
-> -		blk_mq_abort_requeue_list(ns->queue);
->  
->  		/*
->  		 * We have to force to start queues for avoiding hang
-> @@ -2444,6 +2442,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
->  		 * be stopped forever from now on.
->  		 */
->  		blk_mq_start_hw_queues(ns->queue);
-> +
-> +		/* draining requests in requeue list */
-> +		blk_mq_kick_requeue_list(q);
+Hi Jens,
 
-oops, the above line causes build failure, please
-take the following one.
+a few fixes for 4.12-rc2.  There are a few more that we need to get into
+4.12, but I'd rather get the current queue to you ASAP.
 
----
 
->From e70cfe2edacf278e3e6605f8c08e01ebf65bff01 Mon Sep 17 00:00:00 2001
-From: Ming Lei <ming.lei@redhat.com>
-Date: Wed, 17 May 2017 09:02:07 +0800
-Subject: [PATCH v2 2/3] nvme: avoid to use blk_mq_abort_requeue_list()
+The following changes since commit 56868a460b83c0f93d339256a81064d89aadae8e:
 
-NVMe may add request into requeue list simply and not kick off the
-requeue if hw queues are stopped. Then blk_mq_abort_requeue_list()
-is called in both nvme_kill_queues() and nvme_ns_remove() for
-dealing with this issue.
+  Merge git://git.kernel.org/pub/scm/linux/kernel/git/davem/ide (2017-05-09 15:56:58 -0700)
 
-Unfortunately blk_mq_abort_requeue_list() is absolutely a
-race maker, for example, one request may be requeued during
-the aborting. So this patch just calls blk_mq_kick_requeue_list() in
-nvme_kill_queues() to handle this issue like what nvme_start_queues()
-does. Now all requests in requeue list when queues are stopped will be
-handled by blk_mq_kick_requeue_list() when queues are restarted, either
-in nvme_start_queues() or in nvme_kill_queues().
+are available in the git repository at:
 
-Cc: stable at vger.kernel.org
-Reported-by: Zhang Yi <yizhan at redhat.com>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/host/core.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+  git://git.infradead.org/nvme.git nvme-4.12
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index ce0d96913ee6..e344f5d7c1bc 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2098,7 +2098,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 		if (ns->ndev)
- 			nvme_nvm_unregister_sysfs(ns);
- 		del_gendisk(ns->disk);
--		blk_mq_abort_requeue_list(ns->queue);
- 		blk_cleanup_queue(ns->queue);
- 	}
- 
-@@ -2436,7 +2435,6 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 			continue;
- 		revalidate_disk(ns->disk);
- 		blk_set_queue_dying(ns->queue);
--		blk_mq_abort_requeue_list(ns->queue);
- 
- 		/*
- 		 * We have to force to start queues for avoiding hang
-@@ -2444,6 +2442,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 		 * be stopped forever from now on.
- 		 */
- 		blk_mq_start_hw_queues(ns->queue);
-+
-+		/* draining requests in requeue list */
-+		blk_mq_kick_requeue_list(ns->queue);
- 	}
- 	mutex_unlock(&ctrl->namespaces_mutex);
- }
--- 
-2.9.4
+for you to fetch changes up to 3d5d1207d61b522b6aac24f896e53401e876b26e:
+
+  nvmet: release the sq ref on rdma read errors (2017-05-11 12:52:46 +0200)
+
+----------------------------------------------------------------
+James Smart (4):
+      nvme-fc: correct port role bits
+      nvme-fc: require target or discovery role for fc-nvme targets
+      nvme-fc: stop queues on error detection
+      nvmet-fc: remove target cpu scheduling flag
+
+Jon Derrick (1):
+      nvme: unmap CMB and remove sysfs file in reset path
+
+Vijay Immanuel (1):
+      nvmet: release the sq ref on rdma read errors
+
+ drivers/nvme/host/fc.c         | 10 ++++++++++
+ drivers/nvme/host/pci.c        |  7 ++++++-
+ drivers/nvme/target/core.c     |  6 ++++++
+ drivers/nvme/target/fc.c       |  4 +---
+ drivers/nvme/target/fcloop.c   |  1 -
+ drivers/nvme/target/nvmet.h    |  1 +
+ drivers/nvme/target/rdma.c     |  1 +
+ drivers/scsi/lpfc/lpfc_nvmet.c |  1 -
+ include/linux/nvme-fc-driver.h | 16 ++++------------
+ 9 files changed, 29 insertions(+), 18 deletions(-)
