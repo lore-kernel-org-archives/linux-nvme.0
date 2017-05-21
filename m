@@ -1,38 +1,28 @@
 From: tglx@linutronix.de (Thomas Gleixner)
-Date: Sun, 21 May 2017 20:31:47 +0200 (CEST)
-Subject: [PATCH 2/7] genirq/affinity: assign vectors to all present
- CPUs
-In-Reply-To: <20170519085756.29742-3-hch@lst.de>
+Date: Sun, 21 May 2017 21:03:06 +0200 (CEST)
+Subject: [PATCH 3/7] genirq/affinity: factor out a irq_affinity_set helper
+In-Reply-To: <20170519085756.29742-4-hch@lst.de>
 References: <20170519085756.29742-1-hch@lst.de>
- <20170519085756.29742-3-hch@lst.de>
-Message-ID: <alpine.DEB.2.20.1705212028280.3023@nanos>
+ <20170519085756.29742-4-hch@lst.de>
+Message-ID: <alpine.DEB.2.20.1705212052000.3023@nanos>
 
 On Fri, 19 May 2017, Christoph Hellwig wrote:
-> -	/* Stabilize the cpumasks */
-> -	get_online_cpus();
 
-How is that protected against physical CPU hotplug? Physical CPU hotplug
-manipulates the present mask.
-
-> -	nodes = get_nodes_in_cpumask(cpu_online_mask, &nodemsk);
-> +	nodes = get_nodes_in_cpumask(cpu_present_mask, &nodemsk);
-> +static int __init irq_build_cpumap(void)
+> Factor out code from the x86 cpu hot plug code to program the affinity
+> for a vector for a hot plug / hot unplug event.
+> +bool irq_affinity_set(int irq, struct irq_desc *desc, const cpumask_t *mask)
 > +{
-> +	int node, cpu;
+> +	struct irq_data *data = irq_desc_get_irq_data(desc);
+> +	struct irq_chip *chip = irq_data_get_irq_chip(data);
+> +	bool ret = false;
 > +
-> +	for (node = 0; node < nr_node_ids; node++) {
-> +		if (!zalloc_cpumask_var(&node_to_present_cpumask[node],
-> +				GFP_KERNEL))
-> +			panic("can't allocate early memory\n");
-> +	}
->  
-> -	return min(cpus, vecs) + resv;
-> +	for_each_present_cpu(cpu) {
-> +		node = cpu_to_node(cpu);
-> +		cpumask_set_cpu(cpu, node_to_present_cpumask[node]);
-> +	}
+> +	if (!irqd_can_move_in_process_context(data) && chip->irq_mask)
 
-This mask needs updating on physical hotplug as well.
+Using that inline directly will make this function useless on architectures
+which have GENERIC_PENDING_IRQS not set.
+
+kernel/irq/manage.c has that wrapped. We need to move those wrappers to the
+internal header file, so that it gets compiled out on other platforms.
 
 Thanks,
 
