@@ -1,12 +1,11 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 22 May 2017 20:48:12 +0200
-Subject: [PATCH v3 0/3] nvme: fix hang in path of removing disk
-In-Reply-To: <20170522150505.452-1-ming.lei@redhat.com>
-References: <20170522150505.452-1-ming.lei@redhat.com>
-Message-ID: <20170522184812.GA1360@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 22 May 2017 11:51:27 -0700
+Subject: [PATCH v2] nvme-rdma: support devices with queue size < 32
+In-Reply-To: <1519881025.363156294.1491837154312.JavaMail.zimbra@kalray.eu>
+References: <1519881025.363156294.1491837154312.JavaMail.zimbra@kalray.eu>
+Message-ID: <20170522185127.GA27542@infradead.org>
 
-Thanks Ming,
-
-I'll add the three patches to the nvme-4.12 queue, assuming Jens
-is okay with us queueing up the block path to remove
-blk_mq_abort_requeue_list.
+I've hand applies this once with a few formatting tweaks now that
+I got the ACK from Sagi.  ?'d love to see if someone could figure
+out how we could move the improved atomic + ilog version into the
+rdma core somehow.
