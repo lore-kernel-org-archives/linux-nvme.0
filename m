@@ -1,47 +1,34 @@
-From: rakesh@tuxera.com (Rakesh Pandit)
-Date: Mon, 22 May 2017 23:15:52 +0300
-Subject: [PATCH] nvme: pci: Fix NULL dereference when resetting NVMe SSD
-In-Reply-To: <20170522160420.GA26356@lst.de>
-References: <20170520175952.GA11258@dhcp-216.srv.tuxera.com>
- <20170521061736.GA12287@lst.de>
- <20170522153829.GA17980@dhcp-216.srv.tuxera.com>
- <20170522160217.GA26104@lst.de> <20170522160420.GA26356@lst.de>
-Message-ID: <20170522201551.GA19022@dhcp-216.srv.tuxera.com>
+From: jsmart2021@gmail.com (James Smart)
+Date: Mon, 22 May 2017 14:53:15 -0700
+Subject: [PATCH v2 07/10] nvmet_fc: Add queue create and delete callbacks
+ in LLDD api
+In-Reply-To: <20170516124858.GH28689@infradead.org>
+References: <20170516001024.5281-1-jsmart2021@gmail.com>
+ <20170516001024.5281-8-jsmart2021@gmail.com>
+ <20170516124858.GH28689@infradead.org>
+Message-ID: <d9270db3-66ad-754e-5506-2fcaa8a28067@gmail.com>
 
-On Mon, May 22, 2017@06:04:20PM +0200, Christoph Hellwig wrote:
-> On Mon, May 22, 2017@06:02:17PM +0200, Christoph Hellwig wrote:
-> > On Mon, May 22, 2017@06:38:29PM +0300, Rakesh Pandit wrote:
-> > > Just got to use the using the test box again and you are right that
-> > > nvme_remove_dead_ctrl_work is getting called just before the NULL
-> > > pointer dereference.
-> > > 
-> > > Here call trace to nvme_timeout which results in eventually call to
-> > > nvme_reset when it wants to reset the controller (which races with
-> > > ->reset_notify from PCI layer):
-> > 
-> > Does the patch below fix the issue for you?
-> 
-> Actually, it probably should be this one, but for you the effects
-> are probably the same:
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index b01bd5bba8e6..b61ad77dc322 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -4275,11 +4275,13 @@ int pci_reset_function(struct pci_dev *dev)
->  	if (rc)
->  		return rc;
->  
-> +	pci_dev_lock(dev);
->  	pci_dev_save_and_disable(dev);
->  
-> -	rc = pci_dev_reset(dev, 0);
-> +	rc = __pci_dev_reset(dev, 0);
->  
->  	pci_dev_restore(dev);
-> +	pci_dev_unlock(dev);
->  
->  	return rc;
->  }
+On 5/16/2017 5:48 AM, Christoph Hellwig wrote:
+> On Mon, May 15, 2017@05:10:21PM -0700, James Smart wrote:
+>> To facilitate LLDD resource management on nvme queue creation and
+>> deletion, add optional callbacks queue_create and queue_delete.
+>
+> Please send these together with driver changes to implement them,
+> otherwise they are impossible to review.
+>
 
-Thanks, this patch fixes the reported issue for me.
+Christoph,
+
+The api was put in to support lpfc sizing async receive queues.  Idea 
+was not to have the lldd snoop the LS payloads, thus the transport will 
+call the lldd when the LS created or deleted a queue.
+
+It turned out better for lpfc to dynamically grow its pools based on 
+demand rather than queue sizing, so the api was moved away from. I 
+continued to post it, thinking it may be useful for another lldd 
+implementation, one that may actually create hw queues to map 1:1 to the 
+queues.
+
+Given there are no current consumers, I've removed it from the next posting.
+
+-- james
