@@ -1,43 +1,41 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Mon, 22 May 2017 03:22:30 -0400
-Subject: [PATCH 4/4] nvme-pci: implement host memory buffer support
-In-Reply-To: <20170520131357.15929-5-hch@lst.de>
-References: <20170520131357.15929-1-hch@lst.de>
- <20170520131357.15929-5-hch@lst.de>
-Message-ID: <20170522072229.GI7850@localhost.localdomain>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Mon, 22 May 2017 09:41:57 +0200
+Subject: [PATCH v2 1/3] nvme: use blk_mq_start_hw_queues() in
+ nvme_kill_queues()
+In-Reply-To: <20170520035605.21785-2-ming.lei@redhat.com>
+References: <20170520035605.21785-1-ming.lei@redhat.com>
+ <20170520035605.21785-2-ming.lei@redhat.com>
+Message-ID: <459b4b5f-fe3d-6013-27ff-acfe4de2792e@suse.de>
 
-On Sat, May 20, 2017@03:13:57PM +0200, Christoph Hellwig wrote:
-> +	for (size = 0; size < preferred; size += chunk_size) {
-> +		u32 len = min_t(u64, chunk_size, preferred - size);
-> +		dma_addr_t dma_addr;
-> +
-> +		bufs[i] = dma_alloc_attrs(dev->dev, len, &dma_addr, GFP_KERNEL,
-> +				DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
-> +		if (!bufs[i])
-> +			break;
-> +
-> +		descs[i].addr = cpu_to_le64(dma_addr);
-> +		descs[i].size = cpu_to_le32(len / dev->ctrl.page_size);
-> +		i++;
-> +	}
-> +
-> +	if (!size || (min && size < min)) {
-> +		dev_warn(dev->ctrl.device,
-> +			"failed to allocate host memory buffer.\n");
-> +		goto out_free_bufs;
-> +	}
-> +
-> +	dev_info(dev->ctrl.device,
-> +		"allocated %lld MiB host memory buffer.\n", size / 1024 / 1024);
-> +	dev->nr_host_mem_descs = i;
-> +	dev->host_mem_size = size;
-> +	dev->host_mem_descs = descs;
-> +	dev->host_mem_desc_bufs = bufs;
-> +	return 0;
-> +
-> +out_free_bufs:
-> +	while (--i >= 0) {
-> +		struct nvme_host_mem_buf_desc *desc = &dev->host_mem_descs[i];
+On 05/20/2017 05:56 AM, Ming Lei wrote:
+> Inside nvme_kill_queues(), we have to start hw queues for
+> draining requests in sw queues, .dispatch list and requeue list,
+> so use blk_mq_start_hw_queues() instead of blk_mq_start_stopped_hw_queues()
+> which only run queues if queues are stopped, but the queues may have
+> been started already, for example nvme_start_queues() is called in reset work
+> function.
+> 
+> blk_mq_start_hw_queues() run hw queues in current context, instead
+> of running asynchronously like before. Given nvme_kill_queues() is
+> run from either remove context or reset worker context, both are fine
+> to run hw queue directly. And the mutex of namespaces_mutex isn't a
+> problem too becasue nvme_start_freeze() runs hw queue in this way
+> already.
+> 
+> Cc: stable at vger.kernel.org
+> Reported-by: Zhang Yi <yizhan at redhat.com>
+> Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> ---
 
-I think you want to use the local desc's variable since
-dev->host_mem_descs isn't set if you goto this out_free_bufs label.
+
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
