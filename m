@@ -1,24 +1,18 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Mon, 22 May 2017 17:04:15 +0800
-Subject: NVMe APST high latency power states being skipped
-Message-ID: <CAAd53p5pxgO-n0K4khAsYAcWw64tNJwtPwbMHaPksVQMLeXJmA@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 22 May 2017 14:48:36 +0200
+Subject: [PATCH 4/4] nvme-pci: implement host memory buffer support
+In-Reply-To: <20170522072229.GI7850@localhost.localdomain>
+References: <20170520131357.15929-1-hch@lst.de>
+ <20170520131357.15929-5-hch@lst.de>
+ <20170522072229.GI7850@localhost.localdomain>
+Message-ID: <20170522124836.GC11869@lst.de>
 
-Hi Andy,
+On Mon, May 22, 2017@03:22:30AM -0400, Keith Busch wrote:
+> > +out_free_bufs:
+> > +	while (--i >= 0) {
+> > +		struct nvme_host_mem_buf_desc *desc = &dev->host_mem_descs[i];
+> 
+> I think you want to use the local desc's variable since
+> dev->host_mem_descs isn't set if you goto this out_free_bufs label.
 
-Currently, if a power state tradition requires high latency, it may be
-skipped [1] based on the value of ps_max_latency_us in
-nvme_configure_apst():
-
-if (total_latency_us > ctrl->ps_max_latency_us)
-    continue;
-
-Right now ps_max_latency_us defaults to 25000, but some consumer level
-NVMe have much higher latency.
-I understand this value is configurable, but I am wondering if it's
-possible to ignore the latency on consumer devices, probably based on
-chassis type, so consumer devices can get most NVMe power saving out
-of the box?
-
-Thanks.
-
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/luto/linux.git/tree/drivers/nvme/host/core.c?h=nvme/power#n1396
+Indeed..
