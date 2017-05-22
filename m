@@ -1,97 +1,36 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 22 May 2017 09:42:40 +0200
-Subject: [PATCH v2 2/3] nvme: avoid to use blk_mq_abort_requeue_list()
-In-Reply-To: <20170520053409.GA22317@ming.t460p>
-References: <20170520035605.21785-1-ming.lei@redhat.com>
- <20170520035605.21785-3-ming.lei@redhat.com>
- <20170520053409.GA22317@ming.t460p>
-Message-ID: <bc4609f3-3f0d-1f05-ebae-5a7be49882d3@suse.de>
+From: zouming.zouming@huawei.com (Zouming (IT))
+Date: Mon, 22 May 2017 15:51:43 +0800
+Subject: [PATCH] Add a parameter for NVME_IOCTL_ID to get Namespaces ID
+In-Reply-To: <20170521083410.GB20658@infradead.org>
+References: <1495081061-17660-1-git-send-email-zouming.zouming@huawei.com>
+ <20170518063808.GA28607@infradead.org>
+ <bfb905ee-27a4-d39c-8e4d-2511e66292b1@huawei.com>
+ <20170521083410.GB20658@infradead.org>
+Message-ID: <70ccb746-2cad-69b3-be7a-9515129a7d29@huawei.com>
 
-On 05/20/2017 07:34 AM, Ming Lei wrote:
-> On Sat, May 20, 2017@11:56:04AM +0800, Ming Lei wrote:
->> NVMe may add request into requeue list simply and not kick off the
->> requeue if hw queues are stopped. Then blk_mq_abort_requeue_list()
->> is called in both nvme_kill_queues() and nvme_ns_remove() for
->> dealing with this issue.
+Hi,Christoph
+
+  Thank you for your detailed response to the fail scenario.
+  Using the ioctl method to get namespace id is easier than using the sysfs file method when only the nvme device's handle is available.
+  So I want to add a new ioctl name called NVME_IOCTL_NS_ID,Is that OK?
+
+Best regards,
+Zou Ming.
+
+On 2017/5/21 16:34, Christoph Hellwig wrote:
+> On Thu, May 18, 2017@03:14:23PM +0800, Zouming (IT) wrote:
+>> The problem trying to solve is below:
+>> 1?According to nvme spec, the possible range of Namespaces ID is form 1 to FFFFFFFe
+>> 2?When use NVME_IOCTL_ID IOCTL cmd to get namespaces ID?if return error before function nvme_ioctl?
+>> How can user distinguish the return value is valid namespaces ID or error value?
 >>
->> Unfortunately blk_mq_abort_requeue_list() is absolutely a
->> race maker, for example, one request may be requeued during
->> the aborting. So this patch just calls blk_mq_kick_requeue_list() in
->> nvme_kill_queues() to handle this issue like what nvme_start_queues()
->> does. Now all requests in requeue list when queues are stopped will be
->> handled by blk_mq_kick_requeue_list() when queues are restarted, either
->> in nvme_start_queues() or in nvme_kill_queues().
->>
->> Cc: stable at vger.kernel.org
->> Reported-by: Zhang Yi <yizhan at redhat.com>
->> Signed-off-by: Ming Lei <ming.lei at redhat.com>
->> ---
->>  drivers/nvme/host/core.c | 5 +++--
->>  1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index ce0d96913ee6..9ce0a0a16984 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -2098,7 +2098,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
->>  		if (ns->ndev)
->>  			nvme_nvm_unregister_sysfs(ns);
->>  		del_gendisk(ns->disk);
->> -		blk_mq_abort_requeue_list(ns->queue);
->>  		blk_cleanup_queue(ns->queue);
->>  	}
->>  
->> @@ -2436,7 +2435,6 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
->>  			continue;
->>  		revalidate_disk(ns->disk);
->>  		blk_set_queue_dying(ns->queue);
->> -		blk_mq_abort_requeue_list(ns->queue);
->>  
->>  		/*
->>  		 * We have to force to start queues for avoiding hang
->> @@ -2444,6 +2442,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
->>  		 * be stopped forever from now on.
->>  		 */
->>  		blk_mq_start_hw_queues(ns->queue);
->> +
->> +		/* draining requests in requeue list */
->> +		blk_mq_kick_requeue_list(q);
+>> Do you think this situation exsits or there will never fail when use NVME_IOCTL_ID cmd?
 > 
-> oops, the above line causes build failure, please
-> take the following one.
+> NVME_IOCTL_ID can't fail in the NVMe driver itself, but it can fail
+> because the device isn't a NVMe device or a security module rejected it.
 > 
-> ---
+> So you'd have to add a new ioctl additional ioctl that copies it out.
+> Or just use the sysfs file..
 > 
-> From e70cfe2edacf278e3e6605f8c08e01ebf65bff01 Mon Sep 17 00:00:00 2001
-> From: Ming Lei <ming.lei at redhat.com>
-> Date: Wed, 17 May 2017 09:02:07 +0800
-> Subject: [PATCH v2 2/3] nvme: avoid to use blk_mq_abort_requeue_list()
+> .
 > 
-> NVMe may add request into requeue list simply and not kick off the
-> requeue if hw queues are stopped. Then blk_mq_abort_requeue_list()
-> is called in both nvme_kill_queues() and nvme_ns_remove() for
-> dealing with this issue.
-> 
-> Unfortunately blk_mq_abort_requeue_list() is absolutely a
-> race maker, for example, one request may be requeued during
-> the aborting. So this patch just calls blk_mq_kick_requeue_list() in
-> nvme_kill_queues() to handle this issue like what nvme_start_queues()
-> does. Now all requests in requeue list when queues are stopped will be
-> handled by blk_mq_kick_requeue_list() when queues are restarted, either
-> in nvme_start_queues() or in nvme_kill_queues().
-> 
-> Cc: stable at vger.kernel.org
-> Reported-by: Zhang Yi <yizhan at redhat.com>
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> ---
-
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
