@@ -1,18 +1,22 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 22 May 2017 14:48:36 +0200
-Subject: [PATCH 4/4] nvme-pci: implement host memory buffer support
-In-Reply-To: <20170522072229.GI7850@localhost.localdomain>
-References: <20170520131357.15929-1-hch@lst.de>
- <20170520131357.15929-5-hch@lst.de>
- <20170522072229.GI7850@localhost.localdomain>
-Message-ID: <20170522124836.GC11869@lst.de>
+Date: Mon, 22 May 2017 14:51:40 +0200
+Subject: [PATCH v2 1/3] nvme: use blk_mq_start_hw_queues() in
+ nvme_kill_queues()
+In-Reply-To: <20170522013557.GD15872@ming.t460p>
+References: <20170520035605.21785-1-ming.lei@redhat.com>
+ <20170520035605.21785-2-ming.lei@redhat.com> <20170521062002.GB12287@lst.de>
+ <20170522013557.GD15872@ming.t460p>
+Message-ID: <20170522125140.GE11869@lst.de>
 
-On Mon, May 22, 2017@03:22:30AM -0400, Keith Busch wrote:
-> > +out_free_bufs:
-> > +	while (--i >= 0) {
-> > +		struct nvme_host_mem_buf_desc *desc = &dev->host_mem_descs[i];
+On Mon, May 22, 2017@09:35:58AM +0800, Ming Lei wrote:
+> In theory, it should be OK to stop and start queues again before the final
+> removal, so how about the following:
 > 
-> I think you want to use the local desc's variable since
-> dev->host_mem_descs isn't set if you goto this out_free_bufs label.
+>  		 * Note: We must make sure to not put the queues into being stopped
+> 		 forever from now until the final removal.
 
-Indeed..
+Maybe:
+		 * Note that we must ensure the queues are not stopped
+		 * when the final removal happens.
+
+?
