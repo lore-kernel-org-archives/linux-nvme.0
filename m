@@ -1,62 +1,62 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 22 May 2017 23:05:04 +0800
-Subject: [PATCH v3 2/3] nvme: avoid to use blk_mq_abort_requeue_list()
+Date: Mon, 22 May 2017 23:05:05 +0800
+Subject: [PATCH v3 3/3] blk-mq: remove blk_mq_abort_requeue_list()
 In-Reply-To: <20170522150505.452-1-ming.lei@redhat.com>
 References: <20170522150505.452-1-ming.lei@redhat.com>
-Message-ID: <20170522150505.452-3-ming.lei@redhat.com>
+Message-ID: <20170522150505.452-4-ming.lei@redhat.com>
 
-NVMe may add request into requeue list simply and not kick off the
-requeue if hw queues are stopped. Then blk_mq_abort_requeue_list()
-is called in both nvme_kill_queues() and nvme_ns_remove() for
-dealing with this issue.
+No one uses it any more, so remove it.
 
-Unfortunately blk_mq_abort_requeue_list() is absolutely a
-race maker, for example, one request may be requeued during
-the aborting. So this patch just calls blk_mq_kick_requeue_list() in
-nvme_kill_queues() to handle this issue like what nvme_start_queues()
-does. Now all requests in requeue list when queues are stopped will be
-handled by blk_mq_kick_requeue_list() when queues are restarted, either
-in nvme_start_queues() or in nvme_kill_queues().
-
-Cc: stable at vger.kernel.org
-Reported-by: Zhang Yi <yizhan at redhat.com>
 Reviewed-by: Keith Busch <keith.busch at intel.com>
 Reviewed-by: Christoph Hellwig <hch at lst.de>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/core.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ block/blk-mq.c         | 19 -------------------
+ include/linux/blk-mq.h |  1 -
+ 2 files changed, 20 deletions(-)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 40d5e4a9e8d7..04e115834702 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2098,7 +2098,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
- 		if (ns->ndev)
- 			nvme_nvm_unregister_sysfs(ns);
- 		del_gendisk(ns->disk);
--		blk_mq_abort_requeue_list(ns->queue);
- 		blk_cleanup_queue(ns->queue);
- 	}
- 
-@@ -2436,7 +2435,6 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 			continue;
- 		revalidate_disk(ns->disk);
- 		blk_set_queue_dying(ns->queue);
--		blk_mq_abort_requeue_list(ns->queue);
- 
- 		/*
- 		 * Forcibly start all queues to avoid having stuck requests.
-@@ -2444,6 +2442,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 		 * when the final removal happens.
- 		 */
- 		blk_mq_start_hw_queues(ns->queue);
-+
-+		/* draining requests in requeue list */
-+		blk_mq_kick_requeue_list(ns->queue);
- 	}
- 	mutex_unlock(&ctrl->namespaces_mutex);
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index a69ad122ed66..f2224ffd225d 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -628,25 +628,6 @@ void blk_mq_delay_kick_requeue_list(struct request_queue *q,
  }
+ EXPORT_SYMBOL(blk_mq_delay_kick_requeue_list);
+ 
+-void blk_mq_abort_requeue_list(struct request_queue *q)
+-{
+-	unsigned long flags;
+-	LIST_HEAD(rq_list);
+-
+-	spin_lock_irqsave(&q->requeue_lock, flags);
+-	list_splice_init(&q->requeue_list, &rq_list);
+-	spin_unlock_irqrestore(&q->requeue_lock, flags);
+-
+-	while (!list_empty(&rq_list)) {
+-		struct request *rq;
+-
+-		rq = list_first_entry(&rq_list, struct request, queuelist);
+-		list_del_init(&rq->queuelist);
+-		blk_mq_end_request(rq, -EIO);
+-	}
+-}
+-EXPORT_SYMBOL(blk_mq_abort_requeue_list);
+-
+ struct request *blk_mq_tag_to_rq(struct blk_mq_tags *tags, unsigned int tag)
+ {
+ 	if (tag < tags->nr_tags) {
+diff --git a/include/linux/blk-mq.h b/include/linux/blk-mq.h
+index c47aa248c640..fcd641032f8d 100644
+--- a/include/linux/blk-mq.h
++++ b/include/linux/blk-mq.h
+@@ -238,7 +238,6 @@ void blk_mq_add_to_requeue_list(struct request *rq, bool at_head,
+ 				bool kick_requeue_list);
+ void blk_mq_kick_requeue_list(struct request_queue *q);
+ void blk_mq_delay_kick_requeue_list(struct request_queue *q, unsigned long msecs);
+-void blk_mq_abort_requeue_list(struct request_queue *q);
+ void blk_mq_complete_request(struct request *rq);
+ 
+ bool blk_mq_queue_stopped(struct request_queue *q);
 -- 
 2.9.4
