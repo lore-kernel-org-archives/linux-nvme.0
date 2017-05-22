@@ -1,18 +1,90 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 22 May 2017 09:43:11 +0200
-Subject: [PATCH v2 3/3] blk-mq: remove blk_mq_abort_requeue_list()
-In-Reply-To: <20170520035605.21785-4-ming.lei@redhat.com>
+Date: Mon, 22 May 2017 09:42:40 +0200
+Subject: [PATCH v2 2/3] nvme: avoid to use blk_mq_abort_requeue_list()
+In-Reply-To: <20170520053409.GA22317@ming.t460p>
 References: <20170520035605.21785-1-ming.lei@redhat.com>
- <20170520035605.21785-4-ming.lei@redhat.com>
-Message-ID: <36461789-9377-a245-0920-5e6ee671f5bb@suse.de>
+ <20170520035605.21785-3-ming.lei@redhat.com>
+ <20170520053409.GA22317@ming.t460p>
+Message-ID: <bc4609f3-3f0d-1f05-ebae-5a7be49882d3@suse.de>
 
-On 05/20/2017 05:56 AM, Ming Lei wrote:
-> No one uses it any more, so remove it.
+On 05/20/2017 07:34 AM, Ming Lei wrote:
+> On Sat, May 20, 2017@11:56:04AM +0800, Ming Lei wrote:
+>> NVMe may add request into requeue list simply and not kick off the
+>> requeue if hw queues are stopped. Then blk_mq_abort_requeue_list()
+>> is called in both nvme_kill_queues() and nvme_ns_remove() for
+>> dealing with this issue.
+>>
+>> Unfortunately blk_mq_abort_requeue_list() is absolutely a
+>> race maker, for example, one request may be requeued during
+>> the aborting. So this patch just calls blk_mq_kick_requeue_list() in
+>> nvme_kill_queues() to handle this issue like what nvme_start_queues()
+>> does. Now all requests in requeue list when queues are stopped will be
+>> handled by blk_mq_kick_requeue_list() when queues are restarted, either
+>> in nvme_start_queues() or in nvme_kill_queues().
+>>
+>> Cc: stable at vger.kernel.org
+>> Reported-by: Zhang Yi <yizhan at redhat.com>
+>> Signed-off-by: Ming Lei <ming.lei at redhat.com>
+>> ---
+>>  drivers/nvme/host/core.c | 5 +++--
+>>  1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+>> index ce0d96913ee6..9ce0a0a16984 100644
+>> --- a/drivers/nvme/host/core.c
+>> +++ b/drivers/nvme/host/core.c
+>> @@ -2098,7 +2098,6 @@ static void nvme_ns_remove(struct nvme_ns *ns)
+>>  		if (ns->ndev)
+>>  			nvme_nvm_unregister_sysfs(ns);
+>>  		del_gendisk(ns->disk);
+>> -		blk_mq_abort_requeue_list(ns->queue);
+>>  		blk_cleanup_queue(ns->queue);
+>>  	}
+>>  
+>> @@ -2436,7 +2435,6 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+>>  			continue;
+>>  		revalidate_disk(ns->disk);
+>>  		blk_set_queue_dying(ns->queue);
+>> -		blk_mq_abort_requeue_list(ns->queue);
+>>  
+>>  		/*
+>>  		 * We have to force to start queues for avoiding hang
+>> @@ -2444,6 +2442,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+>>  		 * be stopped forever from now on.
+>>  		 */
+>>  		blk_mq_start_hw_queues(ns->queue);
+>> +
+>> +		/* draining requests in requeue list */
+>> +		blk_mq_kick_requeue_list(q);
 > 
+> oops, the above line causes build failure, please
+> take the following one.
+> 
+> ---
+> 
+> From e70cfe2edacf278e3e6605f8c08e01ebf65bff01 Mon Sep 17 00:00:00 2001
+> From: Ming Lei <ming.lei at redhat.com>
+> Date: Wed, 17 May 2017 09:02:07 +0800
+> Subject: [PATCH v2 2/3] nvme: avoid to use blk_mq_abort_requeue_list()
+> 
+> NVMe may add request into requeue list simply and not kick off the
+> requeue if hw queues are stopped. Then blk_mq_abort_requeue_list()
+> is called in both nvme_kill_queues() and nvme_ns_remove() for
+> dealing with this issue.
+> 
+> Unfortunately blk_mq_abort_requeue_list() is absolutely a
+> race maker, for example, one request may be requeued during
+> the aborting. So this patch just calls blk_mq_kick_requeue_list() in
+> nvme_kill_queues() to handle this issue like what nvme_start_queues()
+> does. Now all requests in requeue list when queues are stopped will be
+> handled by blk_mq_kick_requeue_list() when queues are restarted, either
+> in nvme_start_queues() or in nvme_kill_queues().
+> 
+> Cc: stable at vger.kernel.org
+> Reported-by: Zhang Yi <yizhan at redhat.com>
 > Signed-off-by: Ming Lei <ming.lei at redhat.com>
 > ---
 
-Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
 
