@@ -1,17 +1,44 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 23 May 2017 02:42:55 -0700
-Subject: NVMe APST high latency power states being skipped
-In-Reply-To: <CAAd53p6uX1pKGAaNhYfT0VSRYD8A2e2Ykacak-pqW4GOXFJPug@mail.gmail.com>
-References: <CAAd53p5pxgO-n0K4khAsYAcWw64tNJwtPwbMHaPksVQMLeXJmA@mail.gmail.com>
- <20170523071705.GD16776@infradead.org>
- <CAAd53p6uX1pKGAaNhYfT0VSRYD8A2e2Ykacak-pqW4GOXFJPug@mail.gmail.com>
-Message-ID: <20170523094255.GA12958@infradead.org>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 23 May 2017 17:08:07 +0300
+Subject: [PATCH 7/7] nvme: allocate queues for all possible CPUs
+In-Reply-To: <20170519085756.29742-8-hch@lst.de>
+References: <20170519085756.29742-1-hch@lst.de>
+ <20170519085756.29742-8-hch@lst.de>
+Message-ID: <b546ab47-4ccd-6fd9-0d3d-2448702f33b1@mellanox.com>
 
-On Tue, May 23, 2017@04:06:27PM +0800, Kai-Heng Feng wrote:
-> I have no idea about the performance impact though. Is there any
-> benchmark test storage power management latency?
+Hi Christoph,
 
-Mostly I want to verify this using some normal workloads - e.g. kernel
-compiles are always the kernel hackers favourite, and some application
-runs that are easily verifyable, e.g. video playback might be an
-interesting one.
+On 5/19/2017 11:57 AM, Christoph Hellwig wrote:
+> Unlike most dr?vers that simply pass the maximum possible vectors to
+> pci_alloc_irq_vectors NVMe needs to configure the device before allocting
+> the vectors, so it needs a manual update for the new scheme of using
+> all present CPUs.
+>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/host/pci.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> index fed803232edc..6580a21d1425 100644
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -1520,7 +1520,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
+>  	struct pci_dev *pdev = to_pci_dev(dev->dev);
+>  	int result, nr_io_queues, size;
+>
+> -	nr_io_queues = num_online_cpus();
+> +	nr_io_queues = num_present_cpus();
+
+we allocate the queues using num_possible_cpus():
+dev->queues = kzalloc_node((num_possible_cpus() + 1) * sizeof(void *), 
+GFP_KERNEL, node);
+
+I'm not sure regarding the differance between 
+num_present_cpus()/num_possible_cpus(), is this ok to use 
+num_present_cpus() in the allocation ?
+
+>  	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
+>  	if (result < 0)
+>  		return result;
+>
