@@ -1,24 +1,24 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 23 May 2017 11:35:55 +0200
-Subject: [PATCH 2/7] genirq/affinity: assign vectors to all present CPUs
-In-Reply-To: <alpine.DEB.2.20.1705212028280.3023@nanos>
+Date: Tue, 23 May 2017 11:37:35 +0200
+Subject: [PATCH 3/7] genirq/affinity: factor out a irq_affinity_set helper
+In-Reply-To: <alpine.DEB.2.20.1705212052000.3023@nanos>
 References: <20170519085756.29742-1-hch@lst.de>
- <20170519085756.29742-3-hch@lst.de>
- <alpine.DEB.2.20.1705212028280.3023@nanos>
-Message-ID: <20170523093555.GA23632@lst.de>
+ <20170519085756.29742-4-hch@lst.de>
+ <alpine.DEB.2.20.1705212052000.3023@nanos>
+Message-ID: <20170523093735.GC23632@lst.de>
 
-On Sun, May 21, 2017@08:31:47PM +0200, Thomas Gleixner wrote:
-> On Fri, 19 May 2017, Christoph Hellwig wrote:
-> > -	/* Stabilize the cpumasks */
-> > -	get_online_cpus();
+On Sun, May 21, 2017@09:03:06PM +0200, Thomas Gleixner wrote:
+> > +{
+> > +	struct irq_data *data = irq_desc_get_irq_data(desc);
+> > +	struct irq_chip *chip = irq_data_get_irq_chip(data);
+> > +	bool ret = false;
+> > +
+> > +	if (!irqd_can_move_in_process_context(data) && chip->irq_mask)
 > 
-> How is that protected against physical CPU hotplug? Physical CPU hotplug
-> manipulates the present mask.
+> Using that inline directly will make this function useless on architectures
+> which have GENERIC_PENDING_IRQS not set.
+> 
+> kernel/irq/manage.c has that wrapped. We need to move those wrappers to the
+> internal header file, so that it gets compiled out on other platforms.
 
-It does indeed seem to.  Documentation/core-api/cpu_hotplug.rst claims
-there are no locking rules for manipulations of cpu_present_mask,
-maybe it needs and update to mention get/put_online_cpus() ?
-
-Or maybe I should just switch to possible_cpu mask here like a lot of
-code seems to do to avoid the hot plug issues, but that might be a bit
-of a waste.
+Ok, will do.
