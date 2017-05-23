@@ -1,27 +1,36 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Tue, 23 May 2017 00:17:05 -0700
-Subject: NVMe APST high latency power states being skipped
-In-Reply-To: <CAAd53p5pxgO-n0K4khAsYAcWw64tNJwtPwbMHaPksVQMLeXJmA@mail.gmail.com>
-References: <CAAd53p5pxgO-n0K4khAsYAcWw64tNJwtPwbMHaPksVQMLeXJmA@mail.gmail.com>
-Message-ID: <20170523071705.GD16776@infradead.org>
+Date: Tue, 23 May 2017 00:17:44 -0700
+Subject: [PATCH v2 0/2] nvme_fc: add uevent to allow dynamic connects
+In-Reply-To: <20170513190559.25484-1-jsmart2021@gmail.com>
+References: <20170513190559.25484-1-jsmart2021@gmail.com>
+Message-ID: <20170523071744.GA31698@infradead.org>
 
-On Mon, May 22, 2017@05:04:15PM +0800, Kai-Heng Feng wrote:
-> Hi Andy,
-> 
-> Currently, if a power state tradition requires high latency, it may be
-> skipped [1] based on the value of ps_max_latency_us in
-> nvme_configure_apst():
-> 
-> if (total_latency_us > ctrl->ps_max_latency_us)
->     continue;
-> 
-> Right now ps_max_latency_us defaults to 25000, but some consumer level
-> NVMe have much higher latency.
-> I understand this value is configurable, but I am wondering if it's
-> possible to ignore the latency on consumer devices, probably based on
-> chassis type, so consumer devices can get most NVMe power saving out
-> of the box?
+On Sat, May 13, 2017@12:05:57PM -0700, James Smart wrote:
+> These patches add support for generating a uevent which can be
+> caugth and converted to a nvme-cli connect-all request for the
+> FC initiator and target ports.
 
-What is your proposed change?  Do you have any numbers on how this
-improves power consumption for given workloads and what the performance
-impact is on common benchmarks?
+Can you post the nvme-cli side as well so that it can be reviewed
+together?
+
+> 
+> The patches were cut on nvme-4.12 after apply the patches contained in
+> http://lists.infradead.org/pipermail/linux-nvme/2017-May/010156.html
+> 
+> James Smart (2):
+>   nvme_fc: create fc class and transport device
+>   nvme_fc: add uevent for auto-connect
+> 
+>  drivers/nvme/host/fc.c         | 102 +++++++++++++++++++++++++++++++++++++++--
+>  include/linux/nvme-fc-driver.h |   2 +
+>  2 files changed, 100 insertions(+), 4 deletions(-)
+> 
+> -- 
+> 2.11.0
+> 
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+---end quoted text---
