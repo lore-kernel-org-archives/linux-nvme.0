@@ -1,18 +1,40 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Tue, 23 May 2017 17:32:34 +0200 (CEST)
-Subject: [PATCH v2] nvme-rdma: support devices with queue size < 32
-In-Reply-To: <20170522185127.GA27542@infradead.org>
-References: <1519881025.363156294.1491837154312.JavaMail.zimbra@kalray.eu>
- <20170522185127.GA27542@infradead.org>
-Message-ID: <2015307566.53586286.1495553554276.JavaMail.zimbra@kalray.eu>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 23 May 2017 18:44:17 +0300
+Subject: [PATCH v2] nvme/pci: remap BAR0 to cover admin CQ doorbell for
+ large stride
+In-Reply-To: <1495429761-19820-1-git-send-email-yu.a.xu@intel.com>
+References: <1495429761-19820-1-git-send-email-yu.a.xu@intel.com>
+Message-ID: <ab162e65-c20c-c88d-7f00-f2d7d5570291@mellanox.com>
+
+Hi,
+
+>
+> +static unsigned long db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
+> +{
+> +	return NVME_REG_DBS + ((nr_io_queues + 1) * 8 * dev->db_stride);
+> +}
+> +
+> +static int nvme_remap_bar(struct nvme_dev *dev, unsigned long size)
+> +{
+> +	struct pci_dev *pdev = to_pci_dev(dev->dev);
+> +
+> +	if (size <= dev->bar_mapped_size)
+> +		return 0;
+> +	if (dev->bar)
+> +		iounmap(dev->bar);
+> +	dev->bar = ioremap(pci_resource_start(pdev, 0), size);
+
+if we are here, shouldn't we save the result of pci_resource_start(pdev, 
+0) instead of calling it over and over again ?
 
 
-> I've hand applies this once with a few formatting tweaks now that
-> I got the ACK from Sagi.  ?'d love to see if someone could figure
-> out how we could move the improved atomic + ilog version into the
-> rdma core somehow.
-
-I'll submit the atomic+ilog version in nvme next week. I have no
-access to the test systems this week.
-
-Marta
+> +	if (!dev->bar) {
+> +		dev->bar_mapped_size = 0;
+> +		return -ENOMEM;
+> +	}
+> +	dev->bar_mapped_size = size;
+> +	dev->dbs = dev->bar + NVME_REG_DBS;
+> +
+> +	return 0;
+> +}
+> +
