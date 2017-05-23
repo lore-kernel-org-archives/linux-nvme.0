@@ -1,47 +1,57 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Tue, 23 May 2017 12:31:07 -0700
-Subject: [PATCH v3 2/3] nvmet_fc: Reduce work_q count
-In-Reply-To: <20170523071528.GB16776@infradead.org>
-References: <20170522222844.22494-1-jsmart2021@gmail.com>
- <20170522222844.22494-3-jsmart2021@gmail.com>
- <20170523071528.GB16776@infradead.org>
-Message-ID: <79da00e0-8abb-8694-2075-6461d6855623@gmail.com>
+From: luto@kernel.org (Andy Lutomirski)
+Date: Tue, 23 May 2017 12:35:19 -0700
+Subject: NVMe APST high latency power states being skipped
+In-Reply-To: <CAAd53p6uX1pKGAaNhYfT0VSRYD8A2e2Ykacak-pqW4GOXFJPug@mail.gmail.com>
+References: <CAAd53p5pxgO-n0K4khAsYAcWw64tNJwtPwbMHaPksVQMLeXJmA@mail.gmail.com>
+ <20170523071705.GD16776@infradead.org>
+ <CAAd53p6uX1pKGAaNhYfT0VSRYD8A2e2Ykacak-pqW4GOXFJPug@mail.gmail.com>
+Message-ID: <CALCETrU2Ys=2nsMeHSXRaktNkmuHN7S-_D-pF23RFniqcAhjnQ@mail.gmail.com>
 
-On 5/23/2017 12:15 AM, Christoph Hellwig wrote:
-> On Mon, May 22, 2017@03:28:43PM -0700, James Smart wrote:
->> Instead of a work_q per controller queue, use system workqueues.
->> Create "work lists" per cpu that driver ISR posts to and workqueue
->> pulls from.
+On Tue, May 23, 2017 at 1:06 AM, Kai-Heng Feng
+<kai.heng.feng@canonical.com> wrote:
+> On Tue, May 23, 2017@3:17 PM, Christoph Hellwig <hch@infradead.org> wrote:
+>> On Mon, May 22, 2017@05:04:15PM +0800, Kai-Heng Feng wrote:
+>>> Hi Andy,
+>>>
+>>> Currently, if a power state tradition requires high latency, it may be
+>>> skipped [1] based on the value of ps_max_latency_us in
+>>> nvme_configure_apst():
+>>>
+>>> if (total_latency_us > ctrl->ps_max_latency_us)
+>>>     continue;
+>>>
+>>> Right now ps_max_latency_us defaults to 25000, but some consumer level
+>>> NVMe have much higher latency.
+>>> I understand this value is configurable, but I am wondering if it's
+>>> possible to ignore the latency on consumer devices, probably based on
+>>> chassis type, so consumer devices can get most NVMe power saving out
+>>> of the box?
+>>
+>> What is your proposed change?
 >
-> Why?  The whole point of workqueues is to avoid this sort of open coded
-> work lists in drivers.  To me it seems like you should simply make
-> the existing workqueue global, and maybe mark it as cpu itensive based
-> on profiling, but that's about it.
+> Ignore the latency limit if it's a mobile device, based on DMI chassis type.
+> I can write a patch for that.
+>
+>> Do you have any numbers on how this
+>> improves power consumption for given workloads and what the performance
+>> impact is on common benchmarks?
+>
+> A SanDisk NVMe has entry latency 1,000,000 and exit latency 100,000.
+> The default latency (25000) does not allow this device enters to
+> non-operational state. The system power consumption is around 13W.
+> Make this SanDisk device able to enter PS4 can get a system with
+> roughly 8W power consumption.
+> The 5W difference is quite good.
 
-Why: to have parallelism and cpu affinity and its benefits for all the 
-interim work the transport does for moving data/responses.
+Can you send the actual 'nvme id-ctrl' output?
 
-So I'm not sure how this differs from rdma. The bottom ib cq handler, 
-which can be a workqueue element or a soft_irq instance, sits in a loop 
-and processes the cq elements, calling the rdma transport done routine 
-for each one, which does equivalent work. So both fc and rdma can be a 
-workqueue element, both pull variable numbers of work items with caps on 
-items per call, and the work per item is similar. So the only difference 
-is rdma is pulling from a memory ring vs nvme-fc pulling from a linked list.
+I suspect that something is screwy here.  This is an entry latency of
+1 second and an exit latency of 100ms.  This is *atrocious*.  I don't
+care what kind of mobile device this is -- making it unresponsive for
+1.1 seconds for the round trip will be quite noticeable.  And, with an
+RSTe-like policy, that's 100 *seconds* of delay before going fully to
+sleep.  Also, 5W power difference between deep sleep and less deep
+sleep is also bizarrely large.  The NVMe device shouldn't take 5W of
+power when idle even in the max-power operational state.
 
-I can certainly remove the work list and go back to a work queue element 
-work item. But I have to believe a work queue element for every 
-completion is not as efficient as a simple linked list of the completions.
-
-The idea of a global workqueue means you are effectively limited by the 
-transaction rate of a single workqueue on a single cpu - no parallelism 
-- which I've already seen exceeded in older implementations or 
-combinations set up with the lldd. At a minimum, nvme-fc needs 
-parallelization of work across cpus, and there has to be benefit in 
-scheduling completions for the same queue on the same cpu and avoiding 
-cross-cpu contention.
-
-I'm open to alternative implementations - but it needs to be 
-parallelized and minimize cross-cpu contention.
-
--- james
+--Andy
