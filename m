@@ -1,51 +1,41 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 24 May 2017 15:42:25 -0600
-Subject: [RFC PATCH 14/16] block: bio: go straight from pfn_t to phys instead
- of through page
+Date: Wed, 24 May 2017 15:42:20 -0600
+Subject: [RFC PATCH 09/16] bvec: introduce bvec_page and bvec_set_page
+ accessors
 In-Reply-To: <1495662147-18277-1-git-send-email-logang@deltatee.com>
 References: <1495662147-18277-1-git-send-email-logang@deltatee.com>
-Message-ID: <1495662147-18277-15-git-send-email-logang@deltatee.com>
+Message-ID: <1495662147-18277-10-git-send-email-logang@deltatee.com>
 
-Going straight from pfn_t to physical address is cheaper and
-avoids the potential BUG_ON in bvec_page for unmappable memory.
+Introduce two accessor functions for bv_page: bvec_page to return the
+page and bvec_set_page. A follow on patch will mechanically convert all the
+individual uses within the kernel.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 Signed-off-by: Stephen Bates <sbates at raithlin.com>
 ---
- include/linux/bio.h | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ include/linux/bvec.h | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/include/linux/bio.h b/include/linux/bio.h
-index bc5f5d3..890c94d 100644
---- a/include/linux/bio.h
-+++ b/include/linux/bio.h
-@@ -46,6 +46,8 @@
- #define bio_iter_iovec(bio, iter)				\
- 	bvec_iter_bvec((bio)->bi_io_vec, (iter))
+diff --git a/include/linux/bvec.h b/include/linux/bvec.h
+index 89b65b8..b5369a0 100644
+--- a/include/linux/bvec.h
++++ b/include/linux/bvec.h
+@@ -43,6 +43,16 @@ struct bvec_iter {
+ 						   current bvec */
+ };
  
-+#define bio_iter_pfn_t(bio, iter)				\
-+	bvec_iter_pfn_t((bio)->bi_io_vec, (iter))
- #define bio_iter_page(bio, iter)				\
- 	bvec_iter_page((bio)->bi_io_vec, (iter))
- #define bio_iter_len(bio, iter)					\
-@@ -53,6 +55,7 @@
- #define bio_iter_offset(bio, iter)				\
- 	bvec_iter_offset((bio)->bi_io_vec, (iter))
- 
-+#define bio_pfn_t(bio)		bio_iter_pfn_t((bio), (bio)->bi_iter)
- #define bio_page(bio)		bio_iter_page((bio), (bio)->bi_iter)
- #define bio_offset(bio)		bio_iter_offset((bio), (bio)->bi_iter)
- #define bio_iovec(bio)		bio_iter_iovec((bio), (bio)->bi_iter)
-@@ -118,8 +121,8 @@ static inline void *bio_data(struct bio *bio)
++static inline struct page *bvec_page(const struct bio_vec *bvec)
++{
++	return bvec->bv_page;
++}
++
++static inline void bvec_set_page(struct bio_vec *bvec, struct page *page)
++{
++	bvec->bv_page = page;
++}
++
  /*
-  * will die
-  */
--#define bio_to_phys(bio)	(page_to_phys(bio_page((bio))) + (unsigned long) bio_offset((bio)))
--#define bvec_to_phys(bv)	(page_to_phys(bvec_page((bv))) + (unsigned long) (bv)->bv_offset)
-+#define bio_to_phys(bio)	(pfn_t_to_phys(bio_pfn_t((bio))) + (unsigned long) bio_offset((bio)))
-+#define bvec_to_phys(bv)	(pfn_t_to_phys((bv)->bv_pfn) + (unsigned long) (bv)->bv_offset)
- 
- /*
-  * queues that have highmem support enabled may still need to revert to
+  * various member access, note that bio_data should of course not be used
+  * on highmem page vectors
 -- 
 2.1.4
