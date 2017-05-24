@@ -1,79 +1,121 @@
 From: logang@deltatee.com (Logan Gunthorpe)
-Date: Wed, 24 May 2017 15:42:13 -0600
-Subject: [RFC PATCH 02/16] staging: ccree: Cleanup: remove references to
- page_link
+Date: Wed, 24 May 2017 15:42:24 -0600
+Subject: [RFC PATCH 13/16] block: bio: introduce bio_add_pfn
 In-Reply-To: <1495662147-18277-1-git-send-email-logang@deltatee.com>
 References: <1495662147-18277-1-git-send-email-logang@deltatee.com>
-Message-ID: <1495662147-18277-3-git-send-email-logang@deltatee.com>
+Message-ID: <1495662147-18277-14-git-send-email-logang@deltatee.com>
 
-This is a layering violation so we replace it with calls to
-sg_page. This is a prep patch for replacing page_link and this
-is one of the very few uses outside of scatterlist.h.
+We introduce bio_add_pfn which is the same as bio_add_page but expects a
+pfn_t instead of a page pointer. bio_add_page is then converted to be
+an inline call to bio_add_pfn.
 
 Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
 Signed-off-by: Stephen Bates <sbates at raithlin.com>
 ---
- drivers/staging/ccree/ssi_buffer_mgr.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ block/bio.c           | 16 ++++++++--------
+ include/linux/bio.h   | 19 ++++++++++++++++++-
+ include/linux/pfn_t.h |  5 +++++
+ 3 files changed, 31 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/staging/ccree/ssi_buffer_mgr.c b/drivers/staging/ccree/ssi_buffer_mgr.c
-index 038e2ff..07bbf8f 100644
---- a/drivers/staging/ccree/ssi_buffer_mgr.c
-+++ b/drivers/staging/ccree/ssi_buffer_mgr.c
-@@ -43,8 +43,8 @@
- #ifdef CC_DEBUG
- #define DUMP_SGL(sg) \
- 	while (sg) { \
--		SSI_LOG_DEBUG("page=%lu offset=%u length=%u (dma_len=%u) " \
--			     "dma_addr=%08x\n", (sg)->page_link, (sg)->offset, \
-+		SSI_LOG_DEBUG("page=%p offset=%u length=%u (dma_len=%u) " \
-+			     "dma_addr=%08x\n", sg_page(sg), (sg)->offset, \
- 			(sg)->length, sg_dma_len(sg), (sg)->dma_address); \
- 		(sg) = sg_next(sg); \
- 	}
-@@ -442,10 +442,10 @@ static int ssi_buffer_mgr_map_scatterlist(
- 			return -ENOMEM;
- 		} 
- 		SSI_LOG_DEBUG("Mapped sg: dma_address=0x%llX "
--			     "page_link=0x%08lX addr=%pK offset=%u "
-+			     "page=%p addr=%pK offset=%u "
- 			     "length=%u\n",
- 			     (unsigned long long)sg_dma_address(sg), 
--			     sg->page_link, 
-+			     sg_page(sg),
- 			     sg_virt(sg), 
- 			     sg->offset, sg->length);
- 		*lbytes = nbytes;
-@@ -505,10 +505,10 @@ ssi_aead_handle_config_buf(struct device *dev,
- 			return -ENOMEM;
- 	}
- 	SSI_LOG_DEBUG("Mapped curr_buff: dma_address=0x%llX "
--		     "page_link=0x%08lX addr=%pK "
-+		     "page=%p addr=%pK "
- 		     "offset=%u length=%u\n",
- 		     (unsigned long long)sg_dma_address(&areq_ctx->ccm_adata_sg), 
--		     areq_ctx->ccm_adata_sg.page_link, 
-+		     sg_page(&areq_ctx->ccm_adata_sg),
- 		     sg_virt(&areq_ctx->ccm_adata_sg),
- 		     areq_ctx->ccm_adata_sg.offset, 
- 		     areq_ctx->ccm_adata_sg.length);
-@@ -540,10 +540,10 @@ static inline int ssi_ahash_handle_curr_buf(struct device *dev,
- 			return -ENOMEM;
- 	}
- 	SSI_LOG_DEBUG("Mapped curr_buff: dma_address=0x%llX "
--		     "page_link=0x%08lX addr=%pK "
-+		     "page=%p addr=%pK "
- 		     "offset=%u length=%u\n",
- 		     (unsigned long long)sg_dma_address(areq_ctx->buff_sg), 
--		     areq_ctx->buff_sg->page_link, 
-+		     sg_page(areq_ctx->buff_sg),
- 		     sg_virt(areq_ctx->buff_sg),
- 		     areq_ctx->buff_sg->offset, 
- 		     areq_ctx->buff_sg->length);
-@@ -1870,4 +1870,3 @@ int ssi_buffer_mgr_fini(struct ssi_drvdata *drvdata)
- 	}
- 	return 0;
+diff --git a/block/bio.c b/block/bio.c
+index e785f50..d8b6aeb 100644
+--- a/block/bio.c
++++ b/block/bio.c
+@@ -810,17 +810,17 @@ int bio_add_pc_page(struct request_queue *q, struct bio *bio, struct page
+ EXPORT_SYMBOL(bio_add_pc_page);
+ 
+ /**
+- *	bio_add_page	-	attempt to add page to bio
++ *	bio_add_pfn	-	attempt to add pfn to bio
+  *	@bio: destination bio
+- *	@page: page to add
++ *	@pfn: pfn to add
+  *	@len: vec entry length
+  *	@offset: vec entry offset
+  *
+- *	Attempt to add a page to the bio_vec maplist. This will only fail
++ *	Attempt to add a pfn to the bio_vec maplist. This will only fail
+  *	if either bio->bi_vcnt == bio->bi_max_vecs or it's a cloned bio.
+  */
+-int bio_add_page(struct bio *bio, struct page *page,
+-		 unsigned int len, unsigned int offset)
++int bio_add_pfn(struct bio *bio, pfn_t pfn, unsigned int len,
++		unsigned int offset)
+ {
+ 	struct bio_vec *bv;
+ 
+@@ -838,7 +838,7 @@ int bio_add_page(struct bio *bio, struct page *page,
+ 	if (bio->bi_vcnt > 0) {
+ 		bv = &bio->bi_io_vec[bio->bi_vcnt - 1];
+ 
+-		if (page == bvec_page(bv) &&
++		if (pfn_t_equal(pfn, bv->bv_pfn) &&
+ 		    offset == bv->bv_offset + bv->bv_len) {
+ 			bv->bv_len += len;
+ 			goto done;
+@@ -849,7 +849,7 @@ int bio_add_page(struct bio *bio, struct page *page,
+ 		return 0;
+ 
+ 	bv		= &bio->bi_io_vec[bio->bi_vcnt];
+-	bvec_set_page(bv, page);
++	bv->bv_pfn	= pfn;
+ 	bv->bv_len	= len;
+ 	bv->bv_offset	= offset;
+ 
+@@ -858,7 +858,7 @@ int bio_add_page(struct bio *bio, struct page *page,
+ 	bio->bi_iter.bi_size += len;
+ 	return len;
  }
--
+-EXPORT_SYMBOL(bio_add_page);
++EXPORT_SYMBOL(bio_add_pfn);
+ 
+ /**
+  * bio_iov_iter_get_pages - pin user or kernel pages and add them to a bio
+diff --git a/include/linux/bio.h b/include/linux/bio.h
+index 16c0b02..bc5f5d3 100644
+--- a/include/linux/bio.h
++++ b/include/linux/bio.h
+@@ -429,7 +429,24 @@ extern void bio_init(struct bio *bio, struct bio_vec *table,
+ extern void bio_reset(struct bio *);
+ void bio_chain(struct bio *, struct bio *);
+ 
+-extern int bio_add_page(struct bio *, struct page *, unsigned int,unsigned int);
++extern int bio_add_pfn(struct bio *bio, pfn_t, unsigned int, unsigned int);
++
++/**
++ *	bio_add_page	-	attempt to add page to bio
++ *	@bio: destination bio
++ *	@page: page to add
++ *	@len: vec entry length
++ *	@offset: vec entry offset
++ *
++ *	Attempt to add a pfn to the bio_vec maplist. This will only fail
++ *	if either bio->bi_vcnt == bio->bi_max_vecs or it's a cloned bio.
++ */
++static inline int bio_add_page(struct bio *bio, struct page *page,
++			       unsigned int len, unsigned int offset)
++{
++	return bio_add_pfn(bio, page_to_pfn_t(page), len, offset);
++}
++
+ extern int bio_add_pc_page(struct request_queue *, struct bio *, struct page *,
+ 			   unsigned int, unsigned int);
+ int bio_iov_iter_get_pages(struct bio *bio, struct iov_iter *iter);
+diff --git a/include/linux/pfn_t.h b/include/linux/pfn_t.h
+index 07bd5ba..9612c87 100644
+--- a/include/linux/pfn_t.h
++++ b/include/linux/pfn_t.h
+@@ -48,6 +48,11 @@ static inline pfn_t phys_to_pfn_t(phys_addr_t addr, u64 flags)
+ 	return __pfn_to_pfn_t(addr >> PAGE_SHIFT, flags);
+ }
+ 
++static inline bool pfn_t_equal(pfn_t a, pfn_t b)
++{
++	return a.val == b.val;
++}
++
+ static inline bool pfn_t_has_page(pfn_t pfn)
+ {
+ 	return (pfn.val & PFN_MAP) == PFN_MAP || (pfn.val & PFN_DEV) == 0;
 -- 
 2.1.4
