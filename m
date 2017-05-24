@@ -1,95 +1,44 @@
-From: rakesh@tuxera.com (Rakesh Pandit)
-Date: Wed, 24 May 2017 17:26:25 +0300
-Subject: [PATCH V2 1/1] nvme: fix multiple ctrl removal scheduling
-Message-ID: <20170524142623.GA27721@dhcp-216.srv.tuxera.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 24 May 2017 10:35:00 -0700
+Subject: [PATCH v3 2/3] nvmet_fc: Reduce work_q count
+In-Reply-To: <79da00e0-8abb-8694-2075-6461d6855623@gmail.com>
+References: <20170522222844.22494-1-jsmart2021@gmail.com>
+ <20170522222844.22494-3-jsmart2021@gmail.com>
+ <20170523071528.GB16776@infradead.org>
+ <79da00e0-8abb-8694-2075-6461d6855623@gmail.com>
+Message-ID: <20170524173500.GA13151@infradead.org>
 
-Commit c5f6ce97c1210 tries to address multiple resets but fails as
-work_busy doesn't involve any synchronization and can fail.  This is
-reproducible easily as can be seen by WARNING below which is triggered
-with line:
+On Tue, May 23, 2017@12:31:07PM -0700, James Smart wrote:
+> > Why?  The whole point of workqueues is to avoid this sort of open coded
+> > work lists in drivers.  To me it seems like you should simply make
+> > the existing workqueue global, and maybe mark it as cpu itensive based
+> > on profiling, but that's about it.
+> 
+> Why: to have parallelism and cpu affinity and its benefits for all the
+> interim work the transport does for moving data/responses.
 
-WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING)
+Which is exactly the reason for using a workqueue - they do have
+per cpu helpers and keep the affinity, and they keep the logic
+for this in one place.
 
-Allowing multiple resets can result in multiple controller removal as
-well if different conditions inside nvme_reset_work fail and which
-might deadlock on device_release_driver.
+Documentation/core-api/workqueue.rst wil explain quite a bit of the
+details.
 
-This patch makes sure that work queue item (reset_work) is added only
-if controller state != NVME_CTRL_RESETTING and that is achieved by
-moving state change outside nvme_reset_work into nvme_reset and
-removing old work_busy call.  State change is always synchronizated
-using controller spinlock.
+> So I'm not sure how this differs from rdma. The bottom ib cq handler, which
+> can be a workqueue element or a soft_irq instance, sits in a loop and
+> processes the cq elements, calling the rdma transport done routine for each
+> one, which does equivalent work. So both fc and rdma can be a workqueue
+> element, both pull variable numbers of work items with caps on items per
+> call, and the work per item is similar. So the only difference is rdma is
+> pulling from a memory ring vs nvme-fc pulling from a linked list.
 
-[  480.327007] WARNING: CPU: 3 PID: 150 at drivers/nvme/host/pci.c:1900 nvme_reset_work+0x36c/0xec0
-[  480.327008] Modules linked in: rfcomm fuse nf_conntrack_netbios_ns nf_conntrack_broadcast...
-[  480.327044]  btusb videobuf2_core ghash_clmulni_intel snd_hwdep cfg80211 acer_wmi hci_uart..
-[  480.327065] CPU: 3 PID: 150 Comm: kworker/u16:2 Not tainted 4.12.0-rc1+ #13
-[  480.327065] Hardware name: Acer Predator G9-591/Mustang_SLS, BIOS V1.10 03/03/2016
-[  480.327066] Workqueue: nvme nvme_reset_work
-[  480.327067] task: ffff880498ad8000 task.stack: ffffc90002218000
-[  480.327068] RIP: 0010:nvme_reset_work+0x36c/0xec0
-[  480.327069] RSP: 0018:ffffc9000221bdb8 EFLAGS: 00010246
-[  480.327070] RAX: 0000000000460000 RBX: ffff880498a98128 RCX: dead000000000200
-[  480.327070] RDX: 0000000000000001 RSI: ffff8804b1028020 RDI: ffff880498a98128
-[  480.327071] RBP: ffffc9000221be50 R08: 0000000000000000 R09: 0000000000000000
-[  480.327071] R10: ffffc90001963ce8 R11: 000000000000020d R12: ffff880498a98000
-[  480.327072] R13: ffff880498a53500 R14: ffff880498a98130 R15: ffff880498a98128
-[  480.327072] FS:  0000000000000000(0000) GS:ffff8804c1cc0000(0000) knlGS:0000000000000000
-[  480.327073] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  480.327074] CR2: 00007ffcf3c37f78 CR3: 0000000001e09000 CR4: 00000000003406e0
-[  480.327074] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  480.327075] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[  480.327075] Call Trace:
-[  480.327079]  ? __switch_to+0x227/0x400
-[  480.327081]  process_one_work+0x18c/0x3a0
-[  480.327082]  worker_thread+0x4e/0x3b0
-[  480.327084]  kthread+0x109/0x140
-[  480.327085]  ? process_one_work+0x3a0/0x3a0
-[  480.327087]  ? kthread_park+0x60/0x60
-[  480.327102]  ret_from_fork+0x2c/0x40
-[  480.327103] Code: e8 5a dc ff ff 85 c0 41 89 c1 0f.....
+The difference is that by the time they are called we don't even know
+how many elements we'll process.
 
-V2: Use controller state to solve the problem (suggested by Christoph Hellwig)
-Fixes: c5f6ce97c1210 ("nvme: don't schedule multiple resets")
-Signed-off-by: Rakesh Pandit <rakesh at tuxera.com>
----
- drivers/nvme/host/pci.c | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+> I can certainly remove the work list and go back to a work queue element
+> work item. But I have to believe a work queue element for every completion
+> is not as efficient as a simple linked list of the completions.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 4c2ff2b..ba54e2a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1903,9 +1903,6 @@ static void nvme_reset_work(struct work_struct *work)
- 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
- 	int result = -ENODEV;
- 
--	if (WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING))
--		goto out;
--
- 	/*
- 	 * If we're called to reset a live controller first shut it down before
- 	 * moving on.
-@@ -1913,9 +1910,6 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
- 		nvme_dev_disable(dev, false);
- 
--	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
--		goto out;
--
- 	result = nvme_pci_enable(dev);
- 	if (result)
- 		goto out;
-@@ -2009,8 +2003,8 @@ static int nvme_reset(struct nvme_dev *dev)
- {
- 	if (!dev->ctrl.admin_q || blk_queue_dying(dev->ctrl.admin_q))
- 		return -ENODEV;
--	if (work_busy(&dev->reset_work))
--		return -ENODEV;
-+	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
-+		return -EBUSY;
- 	if (!queue_work(nvme_workq, &dev->reset_work))
- 		return -EBUSY;
- 	return 0;
--- 
-2.5.5
+
+It should be very similar. The whole point of workqueues is to factor
+this pattern into common helpers.
