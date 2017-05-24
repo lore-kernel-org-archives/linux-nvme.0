@@ -1,33 +1,20 @@
-From: rakesh@tuxera.com (Rakesh Pandit)
-Date: Wed, 24 May 2017 13:25:00 +0300
-Subject: [PATCH 1/2] nvme: fix multiple ctrl removal scheduling
-In-Reply-To: <20170524093755.GA17483@lst.de>
-References: <20170523221545.GA23946@dhcp-216.srv.tuxera.com>
- <20170524093755.GA17483@lst.de>
-Message-ID: <20170524102500.GA26375@dhcp-216.srv.tuxera.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 24 May 2017 07:21:42 -0400
+Subject: Getting rid of nvme's pci watchdog timer?
+In-Reply-To: <20170524094219.GB17483@lst.de>
+References: <CALCETrWTmjrokDT3Ao5QsXonqUqKHWf9=Kp=z0x89rKTUz49Pg@mail.gmail.com>
+ <20170524094219.GB17483@lst.de>
+Message-ID: <20170524112141.GA13742@localhost.localdomain>
 
-On Wed, May 24, 2017@11:37:55AM +0200, Christoph Hellwig wrote:
-> On Wed, May 24, 2017@01:15:47AM +0300, Rakesh Pandit wrote:
-> > Commit c5f6ce97c1210 tries to address multiple resets but fails as
-> > work_busy doesn't involve any synchronization and can fail.  This is
-> > reproducible easily as can be seen by WARNING below which is triggered
-> > with line:
-> > 
-> > WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING)
-> > 
-> > Allowing multiple resets can result in multiple controller removal as
-> > well if different conditions inside nvme_reset_work fail and which
-> > might deadlock on device_release_driver.
-> > 
-> > This patch addresses the problem by using state of controller to
-> > decide whether reset should be queued or not as state change is
-> > synchronizated using controller spinlock.
-> 
-> But we don't hold the lock over the check and the decision.  I suspect
+On Wed, May 24, 2017@11:42:19AM +0200, Christoph Hellwig wrote:
+> an idle controller all the time seems pretty useful to me.  I don't
+> really understand the need for the watchdog fully as it predates my
+> involvement, but I vaguely remember discussion the issue with Keith
+> a while ago, so he might be able to help.
 
-Thanks, right.
-
-> what we need to do is to actually change to the resetting state
-> before queueing up the reset work.  Can you give that a spin?
-
-Sure, will post it in next version.
+This was originally added to the driver's health check kthread to
+keep a pulse on the devices, but I think it's causing more harm than
+good. The hotplug races are bad enough, and this power savings killer is
+yet another reason to remove it. I'm in favor of removing the watchdog
+timer and moving the status check to the timeout callback so we verify
+health only when we have a reason to believe something is wrong.
