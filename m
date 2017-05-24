@@ -1,44 +1,45 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 24 May 2017 10:35:00 -0700
-Subject: [PATCH v3 2/3] nvmet_fc: Reduce work_q count
-In-Reply-To: <79da00e0-8abb-8694-2075-6461d6855623@gmail.com>
-References: <20170522222844.22494-1-jsmart2021@gmail.com>
- <20170522222844.22494-3-jsmart2021@gmail.com>
- <20170523071528.GB16776@infradead.org>
- <79da00e0-8abb-8694-2075-6461d6855623@gmail.com>
-Message-ID: <20170524173500.GA13151@infradead.org>
+From: logang@deltatee.com (Logan Gunthorpe)
+Date: Wed, 24 May 2017 15:42:16 -0600
+Subject: [RFC PATCH 05/16] tile: provide default ioremap declaration
+In-Reply-To: <1495662147-18277-1-git-send-email-logang@deltatee.com>
+References: <1495662147-18277-1-git-send-email-logang@deltatee.com>
+Message-ID: <1495662147-18277-6-git-send-email-logang@deltatee.com>
 
-On Tue, May 23, 2017@12:31:07PM -0700, James Smart wrote:
-> > Why?  The whole point of workqueues is to avoid this sort of open coded
-> > work lists in drivers.  To me it seems like you should simply make
-> > the existing workqueue global, and maybe mark it as cpu itensive based
-> > on profiling, but that's about it.
-> 
-> Why: to have parallelism and cpu affinity and its benefits for all the
-> interim work the transport does for moving data/responses.
+Add a default ioremap function which was not provided in all
+circumstances. (Only when CONFIG_PCI and CONFIG_TILEGX was set).
 
-Which is exactly the reason for using a workqueue - they do have
-per cpu helpers and keep the affinity, and they keep the logic
-for this in one place.
+I have designs to use them in scatterlist.c where they'd likely never
+be called with this architecture, but it is needed to compile.
 
-Documentation/core-api/workqueue.rst wil explain quite a bit of the
-details.
+Signed-off-by: Logan Gunthorpe <logang at deltatee.com>
+Signed-off-by: Stephen Bates <sbates at raithlin.com>
+---
+ arch/tile/mm/pgtable.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-> So I'm not sure how this differs from rdma. The bottom ib cq handler, which
-> can be a workqueue element or a soft_irq instance, sits in a loop and
-> processes the cq elements, calling the rdma transport done routine for each
-> one, which does equivalent work. So both fc and rdma can be a workqueue
-> element, both pull variable numbers of work items with caps on items per
-> call, and the work per item is similar. So the only difference is rdma is
-> pulling from a memory ring vs nvme-fc pulling from a linked list.
-
-The difference is that by the time they are called we don't even know
-how many elements we'll process.
-
-> I can certainly remove the work list and go back to a work queue element
-> work item. But I have to believe a work queue element for every completion
-> is not as efficient as a simple linked list of the completions.
-
-
-It should be very similar. The whole point of workqueues is to factor
-this pattern into common helpers.
+diff --git a/arch/tile/mm/pgtable.c b/arch/tile/mm/pgtable.c
+index 492a736..c61df18 100644
+--- a/arch/tile/mm/pgtable.c
++++ b/arch/tile/mm/pgtable.c
+@@ -503,6 +503,19 @@ void __iomem *ioremap_prot(resource_size_t phys_addr, unsigned long size,
+ }
+ EXPORT_SYMBOL(ioremap_prot);
+ 
++#if !defined(CONFIG_PCI) || !defined(CONFIG_TILEGX)
++/* ioremap is conditionally declared in pci_gx.c */
++
++void __iomem *ioremap(resource_size_t phys_addr, unsigned long size)
++{
++	pgprot_t pgprot = {};
++
++	return ioremap_prot(phys_addr, size, pgprot);
++}
++EXPORT_SYMBOL(ioremap);
++
++#endif
++
+ /* Unmap an MMIO VA mapping. */
+ void iounmap(volatile void __iomem *addr_in)
+ {
+-- 
+2.1.4
