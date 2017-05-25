@@ -1,81 +1,105 @@
-From: luto@kernel.org (Andy Lutomirski)
-Date: Wed, 24 May 2017 15:06:30 -0700
-Subject: [PATCH 1/2] nvme: Wait at least 6000ms before entering the deepest
- idle state
-In-Reply-To: <cover.1495663545.git.luto@kernel.org>
-References: <cover.1495663545.git.luto@kernel.org>
-Message-ID: <6760ae9459ba19657f8009a9231b97a71114a1e5.1495663545.git.luto@kernel.org>
+From: kai.heng.feng@canonical.com (Kai-Heng Feng)
+Date: Thu, 25 May 2017 16:21:07 +0800
+Subject: NVMe APST high latency power states being skipped
+In-Reply-To: <CALCETrX+87zvN7sw-1qQHjQ_Bz9mSrjrHJLA9NBzaKSddntUug@mail.gmail.com>
+References: <CAAd53p5pxgO-n0K4khAsYAcWw64tNJwtPwbMHaPksVQMLeXJmA@mail.gmail.com>
+ <20170523071705.GD16776@infradead.org>
+ <CAAd53p6uX1pKGAaNhYfT0VSRYD8A2e2Ykacak-pqW4GOXFJPug@mail.gmail.com>
+ <CALCETrU2Ys=2nsMeHSXRaktNkmuHN7S-_D-pF23RFniqcAhjnQ@mail.gmail.com>
+ <84ea5d8fbf0446c58c7b6c85d3868d94@ausx13mpc120.AMER.DELL.COM>
+ <CALCETrWNU8uquoDiNDeYaoOUyMOAVyWQ73GfrEeWntTcm4ioAw@mail.gmail.com>
+ <fb5caa2fa5e6452fadfa00bce59bedd7@ausx13mpc120.AMER.DELL.COM>
+ <CALCETrVx7BQjKt7tCXmG+jOD=JXxDKOdvVr1EuoZyN4_TjSdCA@mail.gmail.com>
+ <5bfa6cf7e8994bc593f95e8641f648f5@ausx13mpc120.AMER.DELL.COM>
+ <CAAd53p45jpFYf9UNooobGWexGA+DuRJo2NF8FP-7JGU8u3PtpA@mail.gmail.com>
+ <CALCETrX+87zvN7sw-1qQHjQ_Bz9mSrjrHJLA9NBzaKSddntUug@mail.gmail.com>
+Message-ID: <CAAd53p7o4VRcb1=EE5Vx7rMAfxdpKGceAeVfaCuDrvUaV6x65g@mail.gmail.com>
 
-This should at least make vendors less nervous about Linux's APST
-policy.  I'm not aware of any concrete bugs it would fix (although I
-was hoping it would fix the Samsung/Dell quirk).
+On Wed, May 24, 2017@1:31 PM, Andy Lutomirski <luto@kernel.org> wrote:
+> On Tue, May 23, 2017 at 9:53 PM, Kai-Heng Feng
+> <kai.heng.feng@canonical.com> wrote:
+>> On Wed, May 24, 2017@6:09 AM,  <Mario.Limonciello@dell.com> wrote:
+>> [snipped]
+>>>
+>>> I know Kai Heng has looked at a /lot/ of disks. I've got stats from a few
+>>> of them, but there are many more that I haven't seen.
+>>
+>> Not really, others I've seen have rather low latency. We have the same
+>> high latency ones.
+>>
+>>> Perhaps Chris or Kai Heng might be able to provide a better parameter
+>>> to base off from other experience.
+>>
+>> A quick summary: we need at least 61000 to make all of them be able to
+>> enters PS3,
+>> 1100000 for PS4.
+>>
+>> I'll do some performance testing on the 1100000 latency one.
+>>
+>> Is there anyway to observe the power state transition in NVMe?
+>
+> I don't think so, sadly.  It's probably possible to use non-autonomous
+> transitions to force low power and then do some IO.  I can try to
+> fiddle with this and see how hard it would be to whip up a simple
+> benchmark.
 
-Cc: stable at vger.kernel.org # v4.11
-Cc: Kai-Heng Feng <kai.heng.feng at canonical.com>
-Cc: Mario Limonciello <mario_limonciello at dell.com>
-Signed-off-by: Andy Lutomirski <luto at kernel.org>
----
- drivers/nvme/host/core.c | 38 +++++++++++++++++++++++++++++++-------
- 1 file changed, 31 insertions(+), 7 deletions(-)
+I did some benchmark on the high latency SanDisk A400:
+Kernel compilation, no PS3/PS4:
+real    23m36.466s
+user    115m49.944s
+sys     10m58.352s
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d5e0906262ea..381e9f813385 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1325,13 +1325,7 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
- 	/*
- 	 * APST (Autonomous Power State Transition) lets us program a
- 	 * table of power state transitions that the controller will
--	 * perform automatically.  We configure it with a simple
--	 * heuristic: we are willing to spend at most 2% of the time
--	 * transitioning between power states.  Therefore, when running
--	 * in any given state, we will enter the next lower-power
--	 * non-operational state after waiting 50 * (enlat + exlat)
--	 * microseconds, as long as that state's total latency is under
--	 * the requested maximum latency.
-+	 * perform automatically.
- 	 *
- 	 * We will not autonomously enter any non-operational state for
- 	 * which the total latency exceeds ps_max_latency_us.  Users
-@@ -1405,9 +1399,39 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
- 			/*
- 			 * This state is good.  Use it as the APST idle
- 			 * target for higher power states.
-+			 *
-+			 * Intel RSTe supposedly uses the following algorithm:
-+			 * 60ms delay to transition to the first
-+			 * non-operational state and 1000*exlat to each
-+			 * additional state.  This is problematic.  60ms is
-+			 * too short if the first non-operational state has
-+			 * high latency, and 1000*exlat into a state is
-+			 * absurdly slow.  (exlat=22ms seems typical for the
-+			 * deepest state.  A delay of 22 seconds to enter that
-+			 * state means that it will almost never be entered at
-+			 * all, wasting power and, worse, turning otherwise
-+			 * easy-to-detect hardware/firmware bugs into sporadic
-+			 * problems.
-+			 *
-+			 * Linux is willing to spend at most 2% of the time
-+			 * transitioning between power states.  Therefore,
-+			 * when running in any given state, we will enter the
-+			 * next lower-power non-operational state after
-+			 * waiting 50 * (enlat + exlat) microseconds, as long
-+			 * as that state's total latency is under the
-+			 * requested maximum latency.
- 			 */
- 			transition_ms = total_latency_us + 19;
- 			do_div(transition_ms, 20);
-+
-+			/*
-+			 * Some vendors have expressed nervousness about
-+			 * entering the deepest state after less than six
-+			 * seconds.
-+			 */
-+			if (state == ctrl->npss && transition_ms < 6000)
-+				transition_ms = 6000;
-+
- 			if (transition_ms > (1 << 24) - 1)
- 				transition_ms = (1 << 24) - 1;
- 
--- 
-2.9.4
+Kernel compilation, allow PS3/PS4:
+real    24m40.308s
+user    116m12.600s
+sys     11m47.484s
+
+Also, played a 4K video downloaded from youtube, no visual stutters.
+
+>
+>>
+>> [snipped]
+>>
+>>> I think separate from the effort of getting the default right this makes sense.
+>>> To me the most important default should be getting the disk into at least
+>>> the first non-operational state even if latency is bad.
+>>>
+>>> Then provide the ability to block that non-operational state or go into
+>>> other non-operational states that would be otherwise blocked due to latency
+>>> by user code.
+>>
+>> We can add this to TLP by greping the PS3 latencies out of `nvme
+>> id-ctrl` and do some math, but it will be ugly.
+>>
+>>>
+>>>>
+>>>> >
+>>>> > Kai Heng can comment more on the testing they've done and the performance
+>>>> > impact, but I understand that by tweaking those knobs they've been able to
+>>>> > get all these disks into at least PS3 and saved a lot of power.
+>>>> >
+>>>> > We could go work with the TLP project  or power top guys and have them
+>>>> > go and tweak the various sysfs knobs to make more of these disks work,
+>>>> > but I would rather the kernel had good defaults across this collection of disks.
+>>>>
+>>>> Agreed.
+>>
+>> Other than TLP/powertop, we should make this easy to work with
+>> something like thermald.
+>> NVMe is quite hot. It can be quite useful to let thermald controls the
+>> max available power state directly via sysfs knob. Fanless devices
+>> will benefit a lot from this.
+>
+> Hmm.  That's doable but isn't strictly part of APST.  We could add a
+> sysfs knob "operating_power_state" and a sysfs file that lists the
+> available operating states.  APST is about transitions to
+> *non-operating* states.
+>
+> Unfortunately, the info in the provided tables are almost entirely
+> worthless when it comes to describing the performance impact of using
+> reduced-power operating states.  Also, I wouldn't personally be
+> shocked to see some interesting hardware bugs.
+
+You are right, but we should allow the NVMe transit to non-opiating
+states when the total system is too hot, even if it has pretty bad
+latency.
