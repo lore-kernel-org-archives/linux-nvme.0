@@ -1,10 +1,10 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 26 May 2017 11:07:40 +0800
-Subject: [PATCH 6/6] blk-mq: clarify dispatching won't be blocked by stopping
- queue
+Date: Fri, 26 May 2017 11:07:39 +0800
+Subject: [PATCH 6/6] blk-mq: clarify dispatching may not be drained/blocked by
+ stopping queue
 In-Reply-To: <20170526030740.26959-1-ming.lei@redhat.com>
 References: <20170526030740.26959-1-ming.lei@redhat.com>
-Message-ID: <20170526030740.26959-8-ming.lei@redhat.com>
+Message-ID: <20170526030740.26959-7-ming.lei@redhat.com>
 
 BLK_MQ_S_STOPPED may be not observed in other concurrent I/O paths,
 we can't guarantee that dispatching won't happen after queue
