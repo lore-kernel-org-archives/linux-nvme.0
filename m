@@ -1,119 +1,57 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 25 May 2017 23:13:39 +0300
-Subject: [PATCH 2/2] IB/mlx5: set UMR wqe fence according to HCA cap
-In-Reply-To: <1495743219-1085-1-git-send-email-maxg@mellanox.com>
-References: <1495743219-1085-1-git-send-email-maxg@mellanox.com>
-Message-ID: <1495743219-1085-2-git-send-email-maxg@mellanox.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Fri, 26 May 2017 11:07:33 +0800
+Subject: [PATCH 0/6] blk-mq: fix & improve queue quiescing
+Message-ID: <20170526030740.26959-1-ming.lei@redhat.com>
 
-Cache the needed umr_fence and set the wqe ctrl segmennt
-accordingly.
+Hi,
 
-Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-Acked-by: Leon Romanovsky <leon at kernel.org>
----
- drivers/infiniband/hw/mlx5/main.c    |   14 ++++++++++++++
- drivers/infiniband/hw/mlx5/mlx5_ib.h |    1 +
- drivers/infiniband/hw/mlx5/qp.c      |   15 +++++++--------
- 3 files changed, 22 insertions(+), 8 deletions(-)
+There are some issues in current blk_mq_quiesce_queue():
+    - in case of direct issue or BLK_MQ_S_START_ON_RUN, dispatch won't
+    can't be prevented after blk_mq_quiesce_queue() is returned.
+    - in theory, new RCU read-side critical sections may begin while
+    synchronize_rcu() was waiting, and end after returning of
+    synchronize_rcu(), then dispatch still may be run after
+    synchronize_rcu() returns..
 
-diff --git a/drivers/infiniband/hw/mlx5/main.c b/drivers/infiniband/hw/mlx5/main.c
-index d45772d..83d1f9b 100644
---- a/drivers/infiniband/hw/mlx5/main.c
-+++ b/drivers/infiniband/hw/mlx5/main.c
-@@ -2979,6 +2979,18 @@ static int create_umr_res(struct mlx5_ib_dev *dev)
- 	return ret;
- }
+It is observed that request double-free/use-after-free
+can be triggered easily when canceling NVMe requests via
+blk_mq_tagset_busy_iter(...nvme_cancel_request) in nvme_dev_disable().
+The reason is that blk_mq_quiesce_queue() can't prevent
+dispatching from being run during the period.
+
+Actually we have to quiesce queue for canceling dispatched
+requests via blk_mq_tagset_busy_iter(), otherwise use-after-free
+can be made easily. This way of canceling dispatched requests
+has been used in several drivers, only NVMe uses blk_mq_quiesce_queue()
+to avoid the issue, and others need to be fixed too. And it
+is a common case for recovering dead controller.
+
+blk_mq_quiesce_queue() is implemented via stopping queue, which
+limits its uses, and easy to casue race, any start queue is other
+paths may break blk_mq_quiesce_queue(). For example, we sometimes
+stops queue when hw can't handle so many ongoing requests and restart
+queues after srequests are completed. Meantime when we want to cancel
+requests if hardware is dead, quiescing is run first, then the restarting
+in complete path can break the quiescing. This patch improves this
+interface via removing stopping queue, then it can be easier to use.
  
-+static u8 mlx5_get_umr_fence(u8 umr_fence_cap)
-+{
-+	switch (umr_fence_cap) {
-+	case MLX5_CAP_UMR_FENCE_STRONG:
-+		return MLX5_FENCE_MODE_STRONG_ORDERING;
-+	case MLX5_CAP_UMR_FENCE_SMALL:
-+		return MLX5_FENCE_MODE_INITIATOR_SMALL;
-+	default:
-+		return MLX5_FENCE_MODE_NONE;
-+	}
-+}
-+
- static int create_dev_resources(struct mlx5_ib_resources *devr)
- {
- 	struct ib_srq_init_attr attr;
-@@ -3693,6 +3705,8 @@ static void mlx5_ib_free_rdma_netdev(struct net_device *netdev)
- 
- 	mlx5_ib_internal_fill_odp_caps(dev);
- 
-+	dev->umr_fence = mlx5_get_umr_fence(MLX5_CAP_GEN(mdev, umr_fence));
-+
- 	if (MLX5_CAP_GEN(mdev, imaicl)) {
- 		dev->ib_dev.alloc_mw		= mlx5_ib_alloc_mw;
- 		dev->ib_dev.dealloc_mw		= mlx5_ib_dealloc_mw;
-diff --git a/drivers/infiniband/hw/mlx5/mlx5_ib.h b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-index 38c877b..0e08a58 100644
---- a/drivers/infiniband/hw/mlx5/mlx5_ib.h
-+++ b/drivers/infiniband/hw/mlx5/mlx5_ib.h
-@@ -654,6 +654,7 @@ struct mlx5_ib_dev {
- 	struct mlx5_ib_port	*port;
- 	struct mlx5_sq_bfreg     bfreg;
- 	struct mlx5_sq_bfreg     fp_bfreg;
-+	u8				umr_fence;
- };
- 
- static inline struct mlx5_ib_cq *to_mibcq(struct mlx5_core_cq *mcq)
-diff --git a/drivers/infiniband/hw/mlx5/qp.c b/drivers/infiniband/hw/mlx5/qp.c
-index 93959e1..876a429 100644
---- a/drivers/infiniband/hw/mlx5/qp.c
-+++ b/drivers/infiniband/hw/mlx5/qp.c
-@@ -3738,11 +3738,10 @@ static void dump_wqe(struct mlx5_ib_qp *qp, int idx, int size_16)
- 	}
- }
- 
--static u8 get_fence(u8 fence, struct ib_send_wr *wr)
-+static u8 get_fence(u8 fence, struct ib_send_wr *wr, struct mlx5_ib_dev *dev)
- {
--	if (unlikely(wr->opcode == IB_WR_LOCAL_INV &&
--		     wr->send_flags & IB_SEND_FENCE))
--		return MLX5_FENCE_MODE_STRONG_ORDERING;
-+	if (wr->opcode == IB_WR_LOCAL_INV || wr->opcode == IB_WR_REG_MR)
-+		return dev->umr_fence;
- 
- 	if (unlikely(fence)) {
- 		if (wr->send_flags & IB_SEND_FENCE)
-@@ -3928,7 +3927,7 @@ int mlx5_ib_post_send(struct ib_qp *ibqp, struct ib_send_wr *wr,
- 				}
- 
- 				finish_wqe(qp, ctrl, size, idx, wr->wr_id,
--					   nreq, get_fence(fence, wr),
-+					   nreq, get_fence(fence, wr, dev),
- 					   next_fence, MLX5_OPCODE_UMR);
- 				/*
- 				 * SET_PSV WQEs are not signaled and solicited
-@@ -3955,7 +3954,7 @@ int mlx5_ib_post_send(struct ib_qp *ibqp, struct ib_send_wr *wr,
- 				}
- 
- 				finish_wqe(qp, ctrl, size, idx, wr->wr_id,
--					   nreq, get_fence(fence, wr),
-+					   nreq, get_fence(fence, wr, dev),
- 					   next_fence, MLX5_OPCODE_SET_PSV);
- 				err = begin_wqe(qp, &seg, &ctrl, wr,
- 						&idx, &size, nreq);
-@@ -3977,7 +3976,7 @@ int mlx5_ib_post_send(struct ib_qp *ibqp, struct ib_send_wr *wr,
- 				}
- 
- 				finish_wqe(qp, ctrl, size, idx, wr->wr_id,
--					   nreq, get_fence(fence, wr),
-+					   nreq, get_fence(fence, wr, dev),
- 					   next_fence, MLX5_OPCODE_SET_PSV);
- 				num_sge = 0;
- 				goto skip_psv;
-@@ -4090,7 +4089,7 @@ int mlx5_ib_post_send(struct ib_qp *ibqp, struct ib_send_wr *wr,
- 		}
- 
- 		finish_wqe(qp, ctrl, size, idx, wr->wr_id, nreq,
--			   get_fence(fence, wr), next_fence,
-+			   get_fence(fence, wr, dev), next_fence,
- 			   mlx5_ib_opcode[wr->opcode]);
- skip_psv:
- 		if (0)
+Thanks,
+Ming
+
+Ming Lei (6):
+  blk-mq: introduce blk_mq_unquiesce_queue
+  blk-mq: use the introduced blk_mq_unquiesce_queue()
+  blk-mq: fix blk_mq_quiesce_queue
+  blk-mq: update comments on blk_mq_quiesce_queue()
+  blk-mq: don't stop queue for quiescing
+  blk-mq: clarify dispatching won't be blocked by stopping queue
+
+ block/blk-mq.c           | 67 +++++++++++++++++++++++++++++++++++++++++-------
+ drivers/md/dm-rq.c       |  2 +-
+ drivers/nvme/host/core.c |  2 +-
+ drivers/scsi/scsi_lib.c  |  5 +++-
+ include/linux/blkdev.h   |  3 +++
+ 5 files changed, 67 insertions(+), 12 deletions(-)
+
 -- 
-1.7.1
+2.9.4
