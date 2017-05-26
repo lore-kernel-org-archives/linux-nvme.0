@@ -1,50 +1,41 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 26 May 2017 11:07:38 +0800
-Subject: [PATCH 5/6] blk-mq: don't stop queue for quiescing
-In-Reply-To: <20170526030740.26959-1-ming.lei@redhat.com>
-References: <20170526030740.26959-1-ming.lei@redhat.com>
-Message-ID: <20170526030740.26959-6-ming.lei@redhat.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 26 May 2017 08:50:20 +0200
+Subject: [PATCH 2/2] IB/mlx5: set UMR wqe fence according to HCA cap
+In-Reply-To: <1495743219-1085-2-git-send-email-maxg@mellanox.com>
+References: <1495743219-1085-1-git-send-email-maxg@mellanox.com>
+ <1495743219-1085-2-git-send-email-maxg@mellanox.com>
+Message-ID: <20170526065020.GA19681@lst.de>
 
-Now we use the QUIESCED flag to drain & block dispatching,
-not necessary to stop queue any more.
+On Thu, May 25, 2017@11:13:39PM +0300, Max Gurtovoy wrote:
+> Cache the needed umr_fence and set the wqe ctrl segmennt
+> accordingly.
+> 
+> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
+> Acked-by: Leon Romanovsky <leon at kernel.org>
+> ---
+>  drivers/infiniband/hw/mlx5/main.c    |   14 ++++++++++++++
+>  drivers/infiniband/hw/mlx5/mlx5_ib.h |    1 +
+>  drivers/infiniband/hw/mlx5/qp.c      |   15 +++++++--------
+>  3 files changed, 22 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/infiniband/hw/mlx5/main.c b/drivers/infiniband/hw/mlx5/main.c
+> index d45772d..83d1f9b 100644
+> --- a/drivers/infiniband/hw/mlx5/main.c
+> +++ b/drivers/infiniband/hw/mlx5/main.c
+> @@ -2979,6 +2979,18 @@ static int create_umr_res(struct mlx5_ib_dev *dev)
+>  	return ret;
+>  }
+>  
+> +static u8 mlx5_get_umr_fence(u8 umr_fence_cap)
+> +{
+> +	switch (umr_fence_cap) {
+> +	case MLX5_CAP_UMR_FENCE_STRONG:
+> +		return MLX5_FENCE_MODE_STRONG_ORDERING;
+> +	case MLX5_CAP_UMR_FENCE_SMALL:
+> +		return MLX5_FENCE_MODE_INITIATOR_SMALL;
+> +	default:
+> +		return MLX5_FENCE_MODE_NONE;
 
-Also queue can be started by other blk-mq APIs, this limits
-uses of blk_mq_quiesce_queue().
-
-Now blk_mq_quiesce_queue() can be used safely and users won't
-worry about queue restart during quiescing.
-
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- block/blk-mq.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
-
-diff --git a/block/blk-mq.c b/block/blk-mq.c
-index e1fc9ab50c87..900eb91e0ece 100644
---- a/block/blk-mq.c
-+++ b/block/blk-mq.c
-@@ -168,8 +168,6 @@ void blk_mq_quiesce_queue(struct request_queue *q)
- 	unsigned int i;
- 	bool rcu = false;
- 
--	__blk_mq_stop_hw_queues(q, true);
--
- 	spin_lock_irq(q->queue_lock);
- 	queue_flag_set(QUEUE_FLAG_QUIESCED, q);
- 	spin_unlock_irq(q->queue_lock);
-@@ -198,7 +196,12 @@ void blk_mq_unquiesce_queue(struct request_queue *q)
- 	queue_flag_clear(QUEUE_FLAG_QUIESCED, q);
- 	spin_unlock_irq(q->queue_lock);
- 
--	blk_mq_start_stopped_hw_queues(q, true);
-+	/*
-+	 * During quiescing, requests can be inserted
-+	 * to scheduler queue or sw queue, so we run
-+	 * queues for dispatching these requests.
-+	 */
-+	blk_mq_start_hw_queues(q);
- }
- EXPORT_SYMBOL_GPL(blk_mq_unquiesce_queue);
- 
--- 
-2.9.4
+Of course I don't really understand your firmware interface, but
+shouldn't strong ordering be the default, and only certain fw
+cap bits would relax it?
