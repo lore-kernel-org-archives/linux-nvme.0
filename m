@@ -1,206 +1,60 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 26 May 2017 08:16:28 -0400
-Subject: [PATCH] nvme/pci: Remove watchdog timer
-Message-ID: <1495800988-27311-1-git-send-email-keith.busch@intel.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 26 May 2017 17:09:33 +0300
+Subject: [GIT PULL] nvme updates for 4.12-rc3
+Message-ID: <20170526140933.j6dctw6qdmvuseld@infradead.org>
 
-The controller status polling was added to preemptively reset a failed
-controller. This early detection would allow commands that would normally
-timeout a chance for a retry, or find broken links when the platform
-didn't support hotplug.
+Hi Jens,
 
-This once-per-second MMIO read, however, created more problems than
-it solves. This often races with PCIe Hotplug events that required
-complicated syncing between work queues, frequently triggered PCIe
-Completion Timeout errors that also lead to fatal machine checks, and
-unnecessarily disrupts low power modes by running on idle controllers.
+a couple of fixes for the next rc on the nvme front.  Various FC
+fixes from James, controller removal fixes from Ming (including a block
+layer patch), a APST related device quirk from Andy, a RDMA fix for
+small queue depth device from Marta, as well as fixes for the lack
+of metadata support in non-PCIe drivers and the printk logging format
+from me.
 
-This patch removes the watchdog timer, and instead checks controller
-health only on an IO timeout when we have a reason to believe something
-is wrong. If the controller is failed, the driver will disable immediately
-and request scheduling a reset.
+The following changes since commit 08332893e37af6ae779367e78e444f8f9571511d:
 
-Suggested-by: Andy Lutomirski <luto at amacapital.net>
-Signed-off-by: Keith Busch <keith.busch at intel.com>
-Cc: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/pci.c | 123 ++++++++++++++++++++++--------------------------
- 1 file changed, 56 insertions(+), 67 deletions(-)
+  Linux 4.12-rc2 (2017-05-21 19:30:23 -0700)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d52701df..eedb9b4 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -94,7 +94,6 @@ struct nvme_dev {
- 	void __iomem *bar;
- 	struct work_struct reset_work;
- 	struct work_struct remove_work;
--	struct timer_list watchdog_timer;
- 	struct mutex shutdown_lock;
- 	bool subsystem;
- 	void __iomem *cmb;
-@@ -950,6 +949,51 @@ static void abort_endio(struct request *req, int error)
- 	blk_mq_free_request(req);
- }
- 
-+static bool nvme_should_reset(struct nvme_dev *dev, u32 csts)
-+{
-+
-+	/* If true, indicates loss of adapter communication, possibly by a
-+	 * NVMe Subsystem reset.
-+	 */
-+	bool nssro = dev->subsystem && (csts & NVME_CSTS_NSSRO);
-+
-+	/* If there is a reset ongoing, we shouldn't reset again. */
-+	if (work_busy(&dev->reset_work))
-+		return false;
-+
-+	/* We shouldn't reset unless the controller is on fatal error state
-+	 * _or_ if we lost the communication with it.
-+	 */
-+	if (!(csts & NVME_CSTS_CFS) && !nssro)
-+		return false;
-+
-+	/* If PCI error recovery process is happening, we cannot reset or
-+	 * the recovery mechanism will surely fail.
-+	 */
-+	if (pci_channel_offline(to_pci_dev(dev->dev)))
-+		return false;
-+
-+	return true;
-+}
-+
-+static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
-+{
-+	/* Read a config register to help see what died. */
-+	u16 pci_status;
-+	int result;
-+
-+	result = pci_read_config_word(to_pci_dev(dev->dev), PCI_STATUS,
-+				      &pci_status);
-+	if (result == PCIBIOS_SUCCESSFUL)
-+		dev_warn(dev->ctrl.device,
-+			 "controller is down; will reset: CSTS=0x%x, PCI_STATUS=0x%hx\n",
-+			 csts, pci_status);
-+	else
-+		dev_warn(dev->ctrl.device,
-+			 "controller is down; will reset: CSTS=0x%x, PCI_STATUS read failed (%d)\n",
-+			 csts, result);
-+}
-+
- static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-@@ -957,6 +1001,17 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
- 	struct nvme_dev *dev = nvmeq->dev;
- 	struct request *abort_req;
- 	struct nvme_command cmd;
-+	u32 csts = readl(dev->bar + NVME_REG_CSTS);
-+
-+	/*
-+	 * Reset immediately if the controller is failed
-+	 */
-+	if (nvme_should_reset(dev, readl(dev->bar + NVME_REG_CSTS))) {
-+		nvme_warn_reset(dev, csts);
-+		nvme_dev_disable(dev, false);
-+		nvme_reset(dev);
-+		return BLK_EH_HANDLED;
-+	}
- 
- 	/*
- 	 * Did we miss an interrupt?
-@@ -1358,66 +1413,6 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	return result;
- }
- 
--static bool nvme_should_reset(struct nvme_dev *dev, u32 csts)
--{
--
--	/* If true, indicates loss of adapter communication, possibly by a
--	 * NVMe Subsystem reset.
--	 */
--	bool nssro = dev->subsystem && (csts & NVME_CSTS_NSSRO);
--
--	/* If there is a reset ongoing, we shouldn't reset again. */
--	if (work_busy(&dev->reset_work))
--		return false;
--
--	/* We shouldn't reset unless the controller is on fatal error state
--	 * _or_ if we lost the communication with it.
--	 */
--	if (!(csts & NVME_CSTS_CFS) && !nssro)
--		return false;
--
--	/* If PCI error recovery process is happening, we cannot reset or
--	 * the recovery mechanism will surely fail.
--	 */
--	if (pci_channel_offline(to_pci_dev(dev->dev)))
--		return false;
--
--	return true;
--}
--
--static void nvme_warn_reset(struct nvme_dev *dev, u32 csts)
--{
--	/* Read a config register to help see what died. */
--	u16 pci_status;
--	int result;
--
--	result = pci_read_config_word(to_pci_dev(dev->dev), PCI_STATUS,
--				      &pci_status);
--	if (result == PCIBIOS_SUCCESSFUL)
--		dev_warn(dev->ctrl.device,
--			 "controller is down; will reset: CSTS=0x%x, PCI_STATUS=0x%hx\n",
--			 csts, pci_status);
--	else
--		dev_warn(dev->ctrl.device,
--			 "controller is down; will reset: CSTS=0x%x, PCI_STATUS read failed (%d)\n",
--			 csts, result);
--}
--
--static void nvme_watchdog_timer(unsigned long data)
--{
--	struct nvme_dev *dev = (struct nvme_dev *)data;
--	u32 csts = readl(dev->bar + NVME_REG_CSTS);
--
--	/* Skip controllers under certain specific conditions. */
--	if (nvme_should_reset(dev, csts)) {
--		if (!nvme_reset(dev))
--			nvme_warn_reset(dev, csts);
--		return;
--	}
--
--	mod_timer(&dev->watchdog_timer, round_jiffies(jiffies + HZ));
--}
--
- static int nvme_create_io_queues(struct nvme_dev *dev)
- {
- 	unsigned i, max;
-@@ -1799,8 +1794,6 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	bool dead = true;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
--	del_timer_sync(&dev->watchdog_timer);
--
- 	mutex_lock(&dev->shutdown_lock);
- 	if (pci_is_enabled(pdev)) {
- 		u32 csts = readl(dev->bar + NVME_REG_CSTS);
-@@ -1964,8 +1957,6 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (dev->online_queues > 1)
- 		nvme_queue_async_events(&dev->ctrl);
- 
--	mod_timer(&dev->watchdog_timer, round_jiffies(jiffies + HZ));
--
- 	/*
- 	 * Keep the controller around but remove all namespaces if we don't have
- 	 * any working I/O queue.
-@@ -2120,8 +2111,6 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	INIT_WORK(&dev->reset_work, nvme_reset_work);
- 	INIT_WORK(&dev->remove_work, nvme_remove_dead_ctrl_work);
--	setup_timer(&dev->watchdog_timer, nvme_watchdog_timer,
--		(unsigned long)dev);
- 	mutex_init(&dev->shutdown_lock);
- 	init_completion(&dev->ioq_wait);
- 
--- 
-2.7.2
+are available in the git repository at:
+
+  git://git.infradead.org/nvme.git nvme-4.12
+
+for you to fetch changes up to 50af47d04ca530544b27affffb0722f158e2bb9c:
+
+  nvme: Quirk APST on Intel 600P/P3100 devices (2017-05-26 11:53:02 +0300)
+
+----------------------------------------------------------------
+Andy Lutomirski (1):
+      nvme: Quirk APST on Intel 600P/P3100 devices
+
+Christoph Hellwig (3):
+      nvme-pci: consistencly use ctrl->device for logging
+      nvme: replace is_flags field in nvme_ctrl_ops with a flags field
+      nvme: only setup block integrity if supported by the driver
+
+James Smart (6):
+      nvme_fc: get rid of local reconnect_delay
+      nvme_fc: Support ctrl_loss_tmo
+      nvme_fc: revise comment on teardown
+      nvme_fc: set logging level on resets/deletes
+      nvme_fc: correct nvme status set on abort
+      nvme_fc: remove extra controller reference taken on reconnect
+
+Marta Rybczynska (1):
+      nvme-rdma: support devices with queue size < 32
+
+Ming Lei (3):
+      nvme: use blk_mq_start_hw_queues() in nvme_kill_queues()
+      nvme: avoid to use blk_mq_abort_requeue_list()
+      blk-mq: remove blk_mq_abort_requeue_list()
+
+ block/blk-mq.c             |  19 ------
+ drivers/nvme/host/core.c   |  65 +++++++++++++-------
+ drivers/nvme/host/fc.c     | 147 ++++++++++++++++++---------------------------
+ drivers/nvme/host/nvme.h   |   4 +-
+ drivers/nvme/host/pci.c    |  15 +++--
+ drivers/nvme/host/rdma.c   |  20 ++++--
+ drivers/nvme/target/loop.c |   2 +-
+ include/linux/blk-mq.h     |   1 -
+ 8 files changed, 130 insertions(+), 143 deletions(-)
