@@ -1,44 +1,49 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 26 May 2017 11:07:37 +0800
-Subject: [PATCH 4/6] blk-mq: update comments on blk_mq_quiesce_queue()
+Date: Fri, 26 May 2017 11:07:40 +0800
+Subject: [PATCH 6/6] blk-mq: clarify dispatching won't be blocked by stopping
+ queue
 In-Reply-To: <20170526030740.26959-1-ming.lei@redhat.com>
 References: <20170526030740.26959-1-ming.lei@redhat.com>
-Message-ID: <20170526030740.26959-5-ming.lei@redhat.com>
+Message-ID: <20170526030740.26959-8-ming.lei@redhat.com>
 
-Actually what we want to get from blk_mq_quiesce_queue()
-isn't only to wait for completion of all ongooing .queue_rq().
+BLK_MQ_S_STOPPED may be not observed in other concurrent I/O paths,
+we can't guarantee that dispatching won't happen after queue
+is stopped.
 
-In the typical context of canceling requests, we need to
-make sure that the following is done in the dispatch path
-before starting to cancel requests:
-	- failed dispatched request is freeed
-	- busy dispatched request is requeued, and the STARTED
-	flag is cleared
+So clarify the fact and avoid potential misuse.
 
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- block/blk-mq.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ block/blk-mq.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/block/blk-mq.c b/block/blk-mq.c
-index 864709453c90..e1fc9ab50c87 100644
+index 900eb91e0ece..32bed5bac7da 100644
 --- a/block/blk-mq.c
 +++ b/block/blk-mq.c
-@@ -155,12 +155,12 @@ void blk_mq_unfreeze_queue(struct request_queue *q)
- EXPORT_SYMBOL_GPL(blk_mq_unfreeze_queue);
+@@ -1240,6 +1240,11 @@ static void __blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx, bool sync)
+ 	set_bit(BLK_MQ_S_STOPPED, &hctx->state);
+ }
  
- /**
-- * blk_mq_quiesce_queue() - wait until all ongoing queue_rq calls have finished
-+ * blk_mq_quiesce_queue() - wait until all ongoing dispatching have finished
-  * @q: request queue.
-  *
-  * Note: this function does not prevent that the struct request end_io()
-- * callback function is invoked. Additionally, it is not prevented that
-- * new queue_rq() calls occur unless the queue has been stopped first.
-+ * callback function is invoked. Once this function is returned, we make
-+ * sure no dispatching can happen.
-  */
- void blk_mq_quiesce_queue(struct request_queue *q)
++/*
++ * Do not expect that dispatching or .queue_rq() can be blocked
++ * after blk_mq_stop_hw_queue() returns. Please use
++ * blk_mq_quiesce_queue() for that requirement.
++ */
+ void blk_mq_stop_hw_queue(struct blk_mq_hw_ctx *hctx)
  {
+ 	__blk_mq_stop_hw_queue(hctx, false);
+@@ -1255,6 +1260,11 @@ static void __blk_mq_stop_hw_queues(struct request_queue *q, bool sync)
+ 		__blk_mq_stop_hw_queue(hctx, sync);
+ }
+ 
++/*
++ * Do not expect that dispatching or .queue_rq() can be blocked
++ * after blk_mq_stop_hw_queues() returns. Please use
++ * blk_mq_quiesce_queue() for that requirement.
++ */
+ void blk_mq_stop_hw_queues(struct request_queue *q)
+ {
+ 	__blk_mq_stop_hw_queues(q, false);
 -- 
 2.9.4
