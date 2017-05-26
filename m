@@ -1,49 +1,59 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Fri, 26 May 2017 22:04:28 +0300
-Subject: [PATCH 2/2] IB/mlx5: set UMR wqe fence according to HCA cap
-In-Reply-To: <20170526065020.GA19681@lst.de>
-References: <1495743219-1085-1-git-send-email-maxg@mellanox.com>
- <1495743219-1085-2-git-send-email-maxg@mellanox.com>
- <20170526065020.GA19681@lst.de>
-Message-ID: <082ef80e-b7c1-135c-130f-24a1196e2dad@mellanox.com>
+From: rakesh@tuxera.com (Rakesh Pandit)
+Date: Fri, 26 May 2017 23:12:16 +0300
+Subject: [PATCH V2 1/1] nvme: fix multiple ctrl removal scheduling
+In-Reply-To: <20170525083023.GA22852@lst.de>
+References: <20170524142623.GA27721@dhcp-216.srv.tuxera.com>
+ <20170525083023.GA22852@lst.de>
+Message-ID: <20170526201216.GA21624@dhcp-216.srv.tuxera.com>
 
+On Thu, May 25, 2017@10:30:23AM +0200, Christoph Hellwig wrote:
+> > diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+> > index 4c2ff2b..ba54e2a 100644
+> > --- a/drivers/nvme/host/pci.c
+> > +++ b/drivers/nvme/host/pci.c
+> > @@ -1903,9 +1903,6 @@ static void nvme_reset_work(struct work_struct *work)
+> >  	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
+> >  	int result = -ENODEV;
+> >  
+> > -	if (WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING))
+> > -		goto out;
+> 
+> Can we keep a
+> 
+> 	WARN_ON(dev->ctrl.state != NVME_CTRL_RESETTING))
+> 
+> here?
 
+Yes. Will do in V3.
 
-On 5/26/2017 9:50 AM, Christoph Hellwig wrote:
-> On Thu, May 25, 2017@11:13:39PM +0300, Max Gurtovoy wrote:
->> Cache the needed umr_fence and set the wqe ctrl segmennt
->> accordingly.
->>
->> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
->> Acked-by: Leon Romanovsky <leon at kernel.org>
->> ---
->>  drivers/infiniband/hw/mlx5/main.c    |   14 ++++++++++++++
->>  drivers/infiniband/hw/mlx5/mlx5_ib.h |    1 +
->>  drivers/infiniband/hw/mlx5/qp.c      |   15 +++++++--------
->>  3 files changed, 22 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/infiniband/hw/mlx5/main.c b/drivers/infiniband/hw/mlx5/main.c
->> index d45772d..83d1f9b 100644
->> --- a/drivers/infiniband/hw/mlx5/main.c
->> +++ b/drivers/infiniband/hw/mlx5/main.c
->> @@ -2979,6 +2979,18 @@ static int create_umr_res(struct mlx5_ib_dev *dev)
->>  	return ret;
->>  }
->>
->> +static u8 mlx5_get_umr_fence(u8 umr_fence_cap)
->> +{
->> +	switch (umr_fence_cap) {
->> +	case MLX5_CAP_UMR_FENCE_STRONG:
->> +		return MLX5_FENCE_MODE_STRONG_ORDERING;
->> +	case MLX5_CAP_UMR_FENCE_SMALL:
->> +		return MLX5_FENCE_MODE_INITIATOR_SMALL;
->> +	default:
->> +		return MLX5_FENCE_MODE_NONE;
+Taking it consideration Keith's suggestion of using new state makes
+things better so V3 wouldn't touch RESETTING state.
+
+> 
+> >  		goto out;
+> > @@ -2009,8 +2003,8 @@ static int nvme_reset(struct nvme_dev *dev)
+> >  {
+> >  	if (!dev->ctrl.admin_q || blk_queue_dying(dev->ctrl.admin_q))
+> >  		return -ENODEV;
+> > -	if (work_busy(&dev->reset_work))
+> > -		return -ENODEV;
+> > +	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
+> > +		return -EBUSY;
+> >  	if (!queue_work(nvme_workq, &dev->reset_work))
+> >  		return -EBUSY;
+> 
+> nvme_probe will also have to set the state to NVME_CTRL_RESETTING to
+> keep the old behavior, which had some error handling implications.
 >
-> Of course I don't really understand your firmware interface, but
-> shouldn't strong ordering be the default, and only certain fw
-> cap bits would relax it?
->
 
-Actually it's a default value (MLX5_CAP_UMR_FENCE_STRONG = 0x0), but I 
-can set it default in this function too in V2.
+Will keep.
+
+> Also we can replace the work_busy(&dev->reset_work) check in
+> nvme_should_reset with a check for the NVME_CTRL_RESETTING state now.
+
+Not replacing it seems better as nvme_reset is always called if
+nvme_should_reset returns true and takes care of synchrozation.
+Replacing it wouldn't make it possible to use same logic in nvme_reset
+as nvme_reset would always be called after.
+
+Thanks,
