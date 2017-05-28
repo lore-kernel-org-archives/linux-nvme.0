@@ -1,21 +1,14 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 28 May 2017 11:14:52 +0200
-Subject: [PATCH v2 1/2] net/mlx5: Define interface bits for fencing UMR wqe
-In-Reply-To: <1495957991-19223-1-git-send-email-maxg@mellanox.com>
-References: <1495957991-19223-1-git-send-email-maxg@mellanox.com>
-Message-ID: <20170528091452.GA13857@lst.de>
+Date: Sun, 28 May 2017 11:40:43 +0200
+Subject: [PATCH V3] nvme: fix multiple ctrl removal scheduling
+In-Reply-To: <20170526201351.GA21847@dhcp-216.srv.tuxera.com>
+References: <20170526201351.GA21847@dhcp-216.srv.tuxera.com>
+Message-ID: <20170528094043.GA14199@lst.de>
 
-On Sun, May 28, 2017@10:53:10AM +0300, Max Gurtovoy wrote:
-> HW can implement UMR wqe re-transmission in various ways.
-> Thus, add HCA cap to distinguish the needed fence for UMR to make
-> sure that the wqe wouldn't fail on mkey checks.
-> 
-> Signed-off-by: Max Gurtovoy <maxg at mellanox.com>
-> Acked-by: Leon Romanovsky <leon at kernel.org>
-> ---
-> 
-> No changes from v1 in this patch (PATCH 1/2).
+Hi Rkesh,
 
-Still:
+this looks reasonable, but we'll need to also adopt the non-PCI
+driver to the new state machine.  I can give this a spin.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+At that point we probably want to move nvme_reset into common
+code somehow.
