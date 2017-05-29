@@ -1,104 +1,65 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 29 May 2017 19:57:07 +0200
-Subject: [PATCH v2 2/2] nvme: Add support for FW activation without reset
-In-Reply-To: <1496067498-26233-1-git-send-email-a.dawn@samsung.com>
-References: <1496067391-26143-1-git-send-email-a.dawn@samsung.com>
- <CGME20170529141807epcas1p259e2e9b04327285d18f2d62bb6ccbce1@epcas1p2.samsung.com>
- <1496067498-26233-1-git-send-email-a.dawn@samsung.com>
-Message-ID: <20170529175707.GB25061@lst.de>
+Date: Mon, 29 May 2017 19:58:39 +0200
+Subject: [PATCH 1/1] nvme: fix nvme_remove going to uninterruptible
+ sleep for ever
+In-Reply-To: <20170529062952.GA6717@hercules.tuxera.com>
+References: <20170529062952.GA6717@hercules.tuxera.com>
+Message-ID: <20170529175839.GC25061@lst.de>
 
-On Mon, May 29, 2017@07:48:18PM +0530, Arnav Dawn wrote:
-> This patch adds support for handling FW activation without reset.
-> On completion of FW-activation-starting AER, all queues are
-> paused till CSTS.PP is cleared or timed out (exceeds max time for
-> fw activtion MTFA). If device fails to clear CSTS.PP within MTFA,
-> driver issues reset controller.
+On Mon, May 29, 2017@09:29:54AM +0300, Rakesh Pandit wrote:
+> Once controller is in DEAD or DELETING state a call to delete_destroy
+> from nvme_uninit_ctrl results in setting the latency tolerance via
+> nvme_set_latency_tolerance callback even though queues have already
+> been killed.  This in turn leads the PID to go into uninterruptible
+> sleep and prevents removal of nvme controller from completion.  The
+> stack trace is:
 > 
-> Signed-off-by: Arnav Dawn <a.dawn at samsung.com>
+> [<ffffffff813c9716>] blk_execute_rq+0x56/0x80
+> [<ffffffff815cb6e9>] __nvme_submit_sync_cmd+0x89/0xf0
+> [<ffffffff815ce7be>] nvme_set_features+0x5e/0x90
+> [<ffffffff815ce9f6>] nvme_configure_apst+0x166/0x200
+> [<ffffffff815cef45>] nvme_set_latency_tolerance+0x35/0x50
+> [<ffffffff8157bd11>] apply_constraint+0xb1/0xc0
+> [<ffffffff8157cbb4>] dev_pm_qos_constraints_destroy+0xf4/0x1f0
+> [<ffffffff8157b44a>] dpm_sysfs_remove+0x2a/0x60
+> [<ffffffff8156d951>] device_del+0x101/0x320
+> [<ffffffff8156db8a>] device_unregister+0x1a/0x60
+> [<ffffffff8156dc4c>] device_destroy+0x3c/0x50
+> [<ffffffff815cd295>] nvme_uninit_ctrl+0x45/0xa0
+> [<ffffffff815d4858>] nvme_remove+0x78/0x110
+> [<ffffffff81452b69>] pci_device_remove+0x39/0xb0
+> [<ffffffff81572935>] device_release_driver_internal+0x155/0x210
+> [<ffffffff81572a02>] device_release_driver+0x12/0x20
+> [<ffffffff815d36fb>] nvme_remove_dead_ctrl_work+0x6b/0x70
+> [<ffffffff810bf3bc>] process_one_work+0x18c/0x3a0
+> [<ffffffff810bf61e>] worker_thread+0x4e/0x3b0
+> [<ffffffff810c5ac9>] kthread+0x109/0x140
+> [<ffffffff8185800c>] ret_from_fork+0x2c/0x40
+> [<ffffffffffffffff>] 0xffffffffffffffff
+> 
+> and PID is in 'D' state.  Attached patch returns from callback when
+> controller is either DELETING state or DEAD which can only happen once
+> we are in nvme_remove and allows removal to complete and release
+> remaining resources after nvme_uninit_ctrl.
+> 
+> Fixes: c5552fde102fc ("nvme: Enable autonomous power state transitions")
+> Signed-off-by: Rakesh Pandit <rakesh at tuxera.com>
 > ---
->  drivers/nvme/host/core.c | 71 +++++++++++++++++++++++++++++++++++++++++++++++-
->  drivers/nvme/host/nvme.h |  3 ++
->  include/linux/nvme.h     |  3 ++
->  3 files changed, 76 insertions(+), 1 deletion(-)
+>  drivers/nvme/host/core.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 01d622e..4537346 100644
+> index a609264..c1a632c 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -1610,7 +1610,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->  	nvme_set_queue_limits(ctrl, ctrl->admin_q);
->  	ctrl->sgls = le32_to_cpu(id->sgls);
->  	ctrl->kas = le16_to_cpu(id->kas);
-> -
-> +	ctrl->mtfa = le16_to_cpu(id->mtfa);
->  	ctrl->npss = id->npss;
->  	prev_apsta = ctrl->apsta;
->  	if (ctrl->quirks & NVME_QUIRK_NO_APST) {
-> @@ -2279,6 +2279,45 @@ static void nvme_async_event_work(struct work_struct *work)
->  	spin_unlock_irq(&ctrl->lock);
->  }
+> @@ -1456,6 +1456,9 @@ static void nvme_set_latency_tolerance(struct device *dev, s32 val)
+>  	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
+>  	u64 latency;
 >  
-> +static void nvme_fw_act_work(struct work_struct *work)
-> +{
-> +	struct nvme_ctrl *ctrl = container_of(to_delayed_work(work),
-> +				struct nvme_ctrl, fw_act_work);
-> +	struct nvme_fw_slot_info_log *log;
-> +	u32 csts;
-> +
-> +	nvme_stop_queues(ctrl);
-> +	while (1) {
-> +		if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts))
-> +			break;
-> +
-> +		if (ctrl->ops->reg_read32(ctrl, NVME_REG_CC,
-> +				&ctrl->ctrl_config))
-> +			break;
-> +
-> +		if (csts == ~0 || ((ctrl->ctrl_config & NVME_CC_ENABLE)
-> +				&& !(csts & NVME_CSTS_PP)))
-> +			break;
-
-Can you factor these checks into a helper that your loop checks in
-the while statement?
-
-> +	nvme_start_queues(ctrl);
-> +	ctrl->fw_act_timeout = 0;
-> +	log =  kmalloc(sizeof(struct nvme_fw_slot_info_log), GFP_KERNEL);
-> +	if (!log)
+> +	if (ctrl->state == NVME_CTRL_DELETING || ctrl->state == NVME_CTRL_DEAD)
 > +		return;
-> +	if (nvme_get_log_page(ctrl, NVME_LOG_FW_SLOT, log))
-> +		dev_warn(ctrl->device,
-> +				"Get FW SLOT INFO log error\n");
-> +	kfree(log);
-
-So we don't do anything with the log.  It might be worth having a comment
-like:
-
-	/* read the firmware activation log to clear the AER */
-
-for readers of the code that don't know the NVMe spec inside out.
-
-> +	case NVME_AER_NOTICE_FW_ACT_STARTING:
-> +	{
-> +		u32 csts;
 > +
-> +		if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts))
-> +			return;
-> +		if (ctrl->ops->reg_read32(ctrl, NVME_REG_CC,
-> +					&ctrl->ctrl_config))
-> +			return;
-> +
-> +		if ((ctrl->ctrl_config & NVME_CC_ENABLE)
-> +					&& (csts & NVME_CSTS_PP)) {
-> +			if (ctrl->mtfa)
-> +				ctrl->fw_act_timeout = jiffies +
-> +					msecs_to_jiffies(ctrl->mtfa * 100);
-> +			else
-> +				ctrl->fw_act_timeout = jiffies +
-> +					msecs_to_jiffies(admin_timeout * 1000);
-> +
-> +			schedule_delayed_work(&ctrl->fw_act_work, 0);
-> +		}
-> +		break;
 
-Please split this code into a helper.
+What do you think about moving this into the beginning of
+nvme_configure_apst instead?  And please add a comment while you're
+at it.
