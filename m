@@ -1,72 +1,44 @@
-From: leon@kernel.org (Leon Romanovsky)
-Date: Mon, 29 May 2017 19:06:09 +0300
-Subject: [PATCH v2 2/2] IB/mlx5: set UMR wqe fence according to HCA cap
-In-Reply-To: <89409b6d-466d-070a-7082-1f7bbb9ad7c7@mellanox.com>
-References: <1495957991-19223-1-git-send-email-maxg@mellanox.com>
- <1495957991-19223-2-git-send-email-maxg@mellanox.com>
- <20170528090705.GM13083@lst.de>
- <19a1d347-91da-7e5f-8877-86772204a80a@mellanox.com>
- <20170529100504.GZ17751@mtr-leonro.local>
- <89409b6d-466d-070a-7082-1f7bbb9ad7c7@mellanox.com>
-Message-ID: <20170529160609.GA17751@mtr-leonro.local>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 29 May 2017 19:54:21 +0200
+Subject: [PATCH v2 1/2] nvme: Adding support for FW Slot info log
+In-Reply-To: <1496067458-26190-1-git-send-email-a.dawn@samsung.com>
+References: <1496067391-26143-1-git-send-email-a.dawn@samsung.com>
+ <CGME20170529141731epcas5p39667840c01555c7cf49527167535f82c@epcas5p3.samsung.com>
+ <1496067458-26190-1-git-send-email-a.dawn@samsung.com>
+Message-ID: <20170529175421.GA25061@lst.de>
 
-On Mon, May 29, 2017@03:21:11PM +0300, Max Gurtovoy wrote:
->
->
-> On 5/29/2017 1:05 PM, Leon Romanovsky wrote:
-> > On Sun, May 28, 2017@12:53:00PM +0300, Max Gurtovoy wrote:
-> > >
-> > >
-> > > On 5/28/2017 12:07 PM, Christoph Hellwig wrote:
-> > > > On Sun, May 28, 2017@10:53:11AM +0300, Max Gurtovoy wrote:
-> > > > > Cache the needed umr_fence and set the wqe ctrl segmennt
-> > > > > accordingly.
-> > > >
-> > > > Looks good,
-> > > >
-> > > > Reviewed-by: Christoph Hellwig <hch at lst.de>
-> > >
-> > > Thanks.
-> > >
-> > > >
-> > > > But that whole fence logic looks awkward to me.  Does the following
-> > > > patch to reorder it make sense to you?
-> > > >
-> > >
-> > >
-> > > Yes it make sense to me.
-> > > Sagi/Leon, any comments ?
-> >
-> > Max,
-> >
-> > Do you see any performance impact for IB_WR_RDMA_READ, IB_WR_RDMA_WRITE
-> > and IB_WR_RDMA_WRITE_WITH_IMM flows? They don't need fences and such
-> > change can cause to performance losses.
-> >
-> > Thanks
-> >
->
-> We don't fence those WR's.
-> Christoph just re-write it to be more intuitive code. I don't see logic
-> difference, am I wrong here ?
+On Mon, May 29, 2017@07:47:38PM +0530, Arnav Dawn wrote:
+> +int nvme_get_log_page(struct nvme_ctrl *dev, int log_type, void *log)
+>  {
+>  	struct nvme_command c = { };
+> +	int log_size;
+>  
+> +	if (!log)
+> +		return -EINVAL;
+>  
+> +	c.common.opcode = nvme_admin_get_log_page;
+>  
+> +	switch (log_type) {
+> +	case NVME_LOG_SMART:
+> +		log_size = sizeof(struct nvme_smart_log);
+> +		c.common.nsid = cpu_to_le32(0xFFFFFFFF);
+> +		c.common.cdw10[0] = cpu_to_le32(
+> +			(((log_size / 4) - 1) << 16) | NVME_LOG_SMART);
+> +		break;
+> +	case NVME_LOG_FW_SLOT:
+> +		log_size = sizeof(struct nvme_fw_slot_info_log);
+> +		c.common.nsid = cpu_to_le32(0xFFFFFFFF);
+> +		c.common.cdw10[0] = cpu_to_le32(
+> +			(((log_size / 4) - 1) << 16) | NVME_LOG_FW_SLOT);
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return nvme_submit_sync_cmd(dev->admin_q, &c, log, log_size);
 
-A little bit, before Christoph's suggestion, we calculated fence for
-the paths which need such fence, after we will calculate for all paths.
-
-Thanks
-
->
-> >
-> > >
-> > >
-> > > --
-> > > To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
-> > > the body of a message to majordomo at vger.kernel.org
-> > > More majordomo info at  http://vger.kernel.org/majordomo-info.html
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: signature.asc
-Type: application/pgp-signature
-Size: 833 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170529/c68523d0/attachment-0001.sig>
+This functioin has basically no common code.  I think the current
+nvme_get_log_page should be renamed to nvme_get_smart_log and moved
+to scsi.c, and you'll just add a new helper for your log page or
+even just open code it in the caller.  A little inline helper for
+setting up dword10 would be nice, though.
