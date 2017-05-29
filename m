@@ -1,57 +1,20 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 29 May 2017 15:21:11 +0300
-Subject: [PATCH v2 2/2] IB/mlx5: set UMR wqe fence according to HCA cap
-In-Reply-To: <20170529100504.GZ17751@mtr-leonro.local>
-References: <1495957991-19223-1-git-send-email-maxg@mellanox.com>
- <1495957991-19223-2-git-send-email-maxg@mellanox.com>
- <20170528090705.GM13083@lst.de>
- <19a1d347-91da-7e5f-8877-86772204a80a@mellanox.com>
- <20170529100504.GZ17751@mtr-leonro.local>
-Message-ID: <89409b6d-466d-070a-7082-1f7bbb9ad7c7@mellanox.com>
+From: a.dawn@samsung.com (Arnav Dawn)
+Date: Mon, 29 May 2017 19:46:31 +0530
+Subject: [PATCH v2 0/2] nvme: Support for FW activation without reset
+References: <CGME20170529141634epcas5p3913fde49b40fcce3cc15971688820834@epcas5p3.samsung.com>
+Message-ID: <1496067391-26143-1-git-send-email-a.dawn@samsung.com>
 
+This series of two patches adds support for FW activation without reset.
 
+Arnav Dawn (2):
+  nvme: Adding support for FW Slot info log
+  nvme: Add support for FW activation without reset
 
-On 5/29/2017 1:05 PM, Leon Romanovsky wrote:
-> On Sun, May 28, 2017@12:53:00PM +0300, Max Gurtovoy wrote:
->>
->>
->> On 5/28/2017 12:07 PM, Christoph Hellwig wrote:
->>> On Sun, May 28, 2017@10:53:11AM +0300, Max Gurtovoy wrote:
->>>> Cache the needed umr_fence and set the wqe ctrl segmennt
->>>> accordingly.
->>>
->>> Looks good,
->>>
->>> Reviewed-by: Christoph Hellwig <hch at lst.de>
->>
->> Thanks.
->>
->>>
->>> But that whole fence logic looks awkward to me.  Does the following
->>> patch to reorder it make sense to you?
->>>
->>
->>
->> Yes it make sense to me.
->> Sagi/Leon, any comments ?
->
-> Max,
->
-> Do you see any performance impact for IB_WR_RDMA_READ, IB_WR_RDMA_WRITE
-> and IB_WR_RDMA_WRITE_WITH_IMM flows? They don't need fences and such
-> change can cause to performance losses.
->
-> Thanks
->
+ drivers/nvme/host/core.c | 109 ++++++++++++++++++++++++++++++++++++++++-------
+ drivers/nvme/host/nvme.h |   5 ++-
+ drivers/nvme/host/scsi.c |  26 ++++++++---
+ include/linux/nvme.h     |  10 +++++
+ 4 files changed, 127 insertions(+), 23 deletions(-)
 
-We don't fence those WR's.
-Christoph just re-write it to be more intuitive code. I don't see logic 
-difference, am I wrong here ?
-
->
->>
->>
->> --
->> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
->> the body of a message to majordomo at vger.kernel.org
->> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-- 
+1.9.1
