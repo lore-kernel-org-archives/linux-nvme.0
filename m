@@ -1,47 +1,55 @@
-From: rakesh@tuxera.com (Rakesh Pandit)
-Date: Mon, 29 May 2017 12:19:09 +0300
-Subject: [PATCH] PCI: ensure the PCI device is locked over ->reset_notify
- calls
-In-Reply-To: <20170523054202.7985-2-hch@lst.de>
-References: <20170523054202.7985-1-hch@lst.de>
- <20170523054202.7985-2-hch@lst.de>
-Message-ID: <20170529091909.GA33654@dhcp-216.srv.tuxera.com>
+From: leon@kernel.org (Leon Romanovsky)
+Date: Mon, 29 May 2017 13:05:04 +0300
+Subject: [PATCH v2 2/2] IB/mlx5: set UMR wqe fence according to HCA cap
+In-Reply-To: <19a1d347-91da-7e5f-8877-86772204a80a@mellanox.com>
+References: <1495957991-19223-1-git-send-email-maxg@mellanox.com>
+ <1495957991-19223-2-git-send-email-maxg@mellanox.com>
+ <20170528090705.GM13083@lst.de>
+ <19a1d347-91da-7e5f-8877-86772204a80a@mellanox.com>
+Message-ID: <20170529100504.GZ17751@mtr-leonro.local>
 
-Hi,
-
-On Tue, May 23, 2017@07:42:02AM +0200, Christoph Hellwig wrote:
-> Without this ->notify_reset instance may race with ->remove calls,
-> which can be easily triggered in NVMe.
+On Sun, May 28, 2017@12:53:00PM +0300, Max Gurtovoy wrote:
 >
+>
+> On 5/28/2017 12:07 PM, Christoph Hellwig wrote:
+> > On Sun, May 28, 2017@10:53:11AM +0300, Max Gurtovoy wrote:
+> > > Cache the needed umr_fence and set the wqe ctrl segmennt
+> > > accordingly.
+> >
+> > Looks good,
+> >
+> > Reviewed-by: Christoph Hellwig <hch at lst.de>
+>
+> Thanks.
+>
+> >
+> > But that whole fence logic looks awkward to me.  Does the following
+> > patch to reorder it make sense to you?
+> >
+>
+>
+> Yes it make sense to me.
+> Sagi/Leon, any comments ?
 
-Any input on this sometime before next -rc release would be great ?
+Max,
 
-> Reported-by: Rakesh Pandit <rakesh at tuxera.com>
-> Tested-by: Rakesh Pandit <rakesh at tuxera.com>
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  drivers/pci/pci.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index b01bd5bba8e6..b61ad77dc322 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -4275,11 +4275,13 @@ int pci_reset_function(struct pci_dev *dev)
->  	if (rc)
->  		return rc;
->  
-> +	pci_dev_lock(dev);
->  	pci_dev_save_and_disable(dev);
->  
-> -	rc = pci_dev_reset(dev, 0);
-> +	rc = __pci_dev_reset(dev, 0);
->  
->  	pci_dev_restore(dev);
-> +	pci_dev_unlock(dev);
->  
->  	return rc;
->  }
-> -- 
-> 2.11.0
-> 
+Do you see any performance impact for IB_WR_RDMA_READ, IB_WR_RDMA_WRITE
+and IB_WR_RDMA_WRITE_WITH_IMM flows? They don't need fences and such
+change can cause to performance losses.
+
+Thanks
+
+
+>
+>
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170529/b2c6f7d0/attachment.sig>
