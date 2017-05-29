@@ -1,17 +1,21 @@
 From: rakesh@tuxera.com (Rakesh Pandit)
-Date: Sun, 28 May 2017 14:47:57 +0300
-Subject: [PATCH V3] nvme: fix multiple ctrl removal scheduling
-In-Reply-To: <20170528094043.GA14199@lst.de>
-References: <20170526201351.GA21847@dhcp-216.srv.tuxera.com>
- <20170528094043.GA14199@lst.de>
-Message-ID: <20170528114757.GA29357@dhcp-216.srv.tuxera.com>
+Date: Mon, 29 May 2017 09:28:25 +0300
+Subject: [PATCH 0/1] nvme: fix nvme_remove going to uninterruptible sleep for
+ ever
+Message-ID: <20170529062823.GA6462@hercules.tuxera.com>
 
-On Sun, May 28, 2017@11:40:43AM +0200, Christoph Hellwig wrote:
-> Hi Rakesh,
-> 
-> this looks reasonable, but we'll need to also adopt the non-PCI
-> driver to the new state machine.  I can give this a spin.
->
-..
+This patches fixes the controller removal going to sleep for ever
+without completion.  Also as a side-effect if this patch:
+https://patchwork.kernel.org/patch/9740945/ goes throw which takes a
+dev lock before calling reset from PCI layer would deadlock if a
+successive call happens to land for same device as first call hasn't
+finished.
 
-Thanks for handling non-PCI driver part.
+Rakesh Pandit (1):
+  nvme: fix nvme_remove going to uninterruptible sleep for ever
+
+ drivers/nvme/host/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+-- 
+2.9.3
