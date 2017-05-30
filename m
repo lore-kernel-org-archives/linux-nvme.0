@@ -1,23 +1,24 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 30 May 2017 12:23:05 +0200
-Subject: [PATCH 7/7] nvme: provide UUID value to userspace
-In-Reply-To: <20170530093003.GD16736@lst.de>
-References: <cover.1496131397.git.jthumshirn@suse.de>
- <e850e7d9548348ae46c82230a7077c89073e80f3.1496131397.git.jthumshirn@suse.de>
- <20170530093003.GD16736@lst.de>
-Message-ID: <b8730917-f156-501f-b2fc-69a10a1ee6a3@suse.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 30 May 2017 13:48:56 +0300
+Subject: [PATCH v2 2/2] IB/mlx5: set UMR wqe fence according to HCA cap
+In-Reply-To: <1495957991-19223-2-git-send-email-maxg@mellanox.com>
+References: <1495957991-19223-1-git-send-email-maxg@mellanox.com>
+ <1495957991-19223-2-git-send-email-maxg@mellanox.com>
+Message-ID: <700d9410-56e7-d70f-9de4-87e4e37bca28@grimberg.me>
 
-On 05/30/2017 11:30 AM, Christoph Hellwig wrote:
-> Eww.  This looks pretty sketchy and at least needs a good comment in
-> the source.  Maybe even a printk_ratelimited warning.
+> +static u8 mlx5_get_umr_fence(u8 umr_fence_cap)
+> +{
+> +	switch (umr_fence_cap) {
+> +	case MLX5_CAP_UMR_FENCE_NONE:
+> +		return MLX5_FENCE_MODE_NONE;
+> +	case MLX5_CAP_UMR_FENCE_SMALL:
+> +		return MLX5_FENCE_MODE_INITIATOR_SMALL;
+> +	default:
+> +		return MLX5_FENCE_MODE_STRONG_ORDERING;
+> +	}
+> +}
 
-Comment sure, but do we really need a warning?
+Where are the MLX5_CAP_UMR defines declared? Am I missing something?
 
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+What is the value of MLX5_CAP_UMR_FENCE_NONE? if its zero then this
+change is not backwards compatible with older FW.
