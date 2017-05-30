@@ -1,27 +1,21 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 30 May 2017 10:18:08 +0200
-Subject: [PATCH 1/7] nvme: rename uuid to nguid in nvme_ns
-In-Reply-To: <7e97c34f8ab586615cb57b22a36db2eeb0ccc57f.1496131397.git.jthumshirn@suse.de>
+Date: Tue, 30 May 2017 10:20:36 +0200
+Subject: [PATCH 2/7] nvmet: add uuid field to nvme_ns and populate via
+ configfs
+In-Reply-To: <4aecbc794651073b2812341dc63e1f2918cc6a82.1496131397.git.jthumshirn@suse.de>
 References: <cover.1496131397.git.jthumshirn@suse.de>
- <7e97c34f8ab586615cb57b22a36db2eeb0ccc57f.1496131397.git.jthumshirn@suse.de>
-Message-ID: <0f70925e-9671-dcf3-7aae-2f4d0125c919@suse.de>
+ <4aecbc794651073b2812341dc63e1f2918cc6a82.1496131397.git.jthumshirn@suse.de>
+Message-ID: <4eb8b53c-6c27-55f8-91e8-deb439a7a43d@suse.de>
 
 On 05/30/2017 10:08 AM, Johannes Thumshirn wrote:
-> The uuid field in the nvme_ns structure represents the nguid field
-> from the identify namespace command. And as NVMe 1.3 introduced an
-> UUID in the NVMe Namespace Identification Descriptor this will
-> collide.
-> 
-> So rename the uuid to nguid to prevent any further
-> confusion. Unfortunately we export the nguid to sysfs in the uuid
-> sysfs attribute, but this can't be changed anymore without possibly
-> breaking existing userspace.
+> Add the UUID field from the NVMe Namespace Identification Descriptor
+> to the nvmet_ns structure and allow it's population via configfs.
 > 
 > Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
->  drivers/nvme/host/core.c | 10 +++++-----
->  drivers/nvme/host/nvme.h |  2 +-
->  2 files changed, 6 insertions(+), 6 deletions(-)
+>  drivers/nvme/target/configfs.c | 48 ++++++++++++++++++++++++++++++++++++++++++
+>  drivers/nvme/target/nvmet.h    |  1 +
+>  2 files changed, 49 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
