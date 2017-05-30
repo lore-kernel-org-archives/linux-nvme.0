@@ -1,37 +1,17 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 30 May 2017 16:37:36 +0300
-Subject: NVMeoF: multipath stuck after bringing one ethernet port down
-In-Reply-To: <5b5b0a61-41cc-8018-19db-f683a604d7e4@grimberg.me>
-References: <CAK0KL7DPLw+0AB8cGop7jowfE1HV9wyXBmJhE90trpor-PcSYw@mail.gmail.com>
- <ebb7ffb8-4dec-5540-5cef-ffd36bef3e25@grimberg.me>
- <fa6277fa-948f-103e-1322-f8b2362467c3@gmail.com>
- <656fd267-1e01-b561-fc74-e36c1892d1f9@gmail.com>
- <5b5b0a61-41cc-8018-19db-f683a604d7e4@grimberg.me>
-Message-ID: <48b14a96-e419-f6d1-090e-cbe774139e11@mellanox.com>
+From: a.dawn@samsung.com (Arnav Dawn)
+Date: Tue, 30 May 2017 19:32:31 +0530
+Subject: [PATCH v2 1/2] nvme: Adding support for FW Slot info log
+In-Reply-To: <20170529175421.GA25061@lst.de>
+References: <20170529175421.GA25061@lst.de>
+ <CGME20170530140219epcas1p31163ac83162e9fa69328f5484e4a1daa@epcas1p3.samsung.com>
+Message-ID: <1496152951-8790-1-git-send-email-a.dawn@samsung.com>
 
 
+> 
+> This functioin has basically no common code.  I think the current
+> nvme_get_log_page should be renamed to nvme_get_smart_log and
+> moved to scsi.c, and you'll just add a new helper for your log page or even
+> just open code it in the caller.  A little inline helper for setting up dword10
+> would be nice, though.
 
-On 5/30/2017 3:05 PM, Sagi Grimberg wrote:
->
->> I used the patch with my Mellanox OFED (mlnx-nvme-rdma), it patrially
->> helps but the overall behaviour is still not good...
->
-> Can you test with upstream kernel code? Otherwise I suggest approaching
-> Mellanox support.
->
-> We can't support non-upstream code really...
-
-Hi guys,
-this is a known issue in upstream code and Mellanox OFED code as well.
-I agree with Sagi's approach for future issues using our package.
-For this one, we will test the proposed fixes and update you regarding 
-the results.
-
-Max.
-
-
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Agree, i'll change it in next version.
