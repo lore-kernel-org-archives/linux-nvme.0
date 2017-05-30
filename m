@@ -1,24 +1,48 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 30 May 2017 11:48:09 +0200
-Subject: [PATCH 2/7] nvmet: add uuid field to nvme_ns and populate via
- configfs
-In-Reply-To: <20170530092442.GA16736@lst.de>
-References: <cover.1496131397.git.jthumshirn@suse.de>
- <4aecbc794651073b2812341dc63e1f2918cc6a82.1496131397.git.jthumshirn@suse.de>
- <20170530092442.GA16736@lst.de>
-Message-ID: <c5537393-445d-73f8-f8e0-cc9c51d3edcb@suse.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 30 May 2017 13:09:02 +0300
+Subject: [PATCH V3] nvme: fix multiple ctrl removal scheduling
+In-Reply-To: <20170528094043.GA14199@lst.de>
+References: <20170526201351.GA21847@dhcp-216.srv.tuxera.com>
+ <20170528094043.GA14199@lst.de>
+Message-ID: <b91063aa-05a3-2fd2-8366-58eadbbdc643@grimberg.me>
 
-On 05/30/2017 11:24 AM, Christoph Hellwig wrote:
-> This should be stored as a uuid_t (or rather uuid_be in the current
-> kernel, but I'm about to rename it), and use uuid_be_to_bin / uuid_to_bin
-> for parsing.
+> Hi Rkesh,
+>
+> this looks reasonable, but we'll need to also adopt the non-PCI
+> driver to the new state machine.  I can give this a spin.
+>
+> At that point we probably want to move nvme_reset into common
+> code somehow.
 
-OK, thought you ask me to do that. Which one do you prefer?
+Hi Guys, sorry for barging in late, I've been way too busy with
+internal stuff lately...
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+I think that adding a new state should (a) be added with careful
+understanding that its absolutely needed and (b) does not complicate
+the state machine.
+
+I honestly think that adding a new state that says "we scheduled a
+reset" to address a synchronization issue is not what we should do.
+
+1. I think that state NVME_CTRL_RESETTING semantically means that
+the reset flow has been scheduled and the state transition atomicity
+suffices for synchronization. So nvme_reset should change the state
+and if it succeeded, schedule the reset_work instead of changing the
+state inside reset_work (like we do in fabrics). At this point we should
+lose the WARN_ON.
+
+2. I personally think that nvme_probe shouldn't necessarily trigger
+controller reset, if we can split reset to a couple of useful routines
+we can reuse them in nvme_probe. The reason is that for reset we need
+to address various conditions (errors, ongoing traffic etc...) that
+are not relevant at all for probe. Not sure if anyone agrees with me
+on this one.
+
+
+
+I started to experiment with trying to move some of this to nvme core[1]
+(rdma and loop) but has yet to fully convert pci which is a bit more
+complicated.
+
+[1] git://git.infradead.org/users/sagi/linux.git 
+nvme-central-reset-delete-err
