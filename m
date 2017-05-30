@@ -1,73 +1,29 @@
-From: a.dawn@samsung.com (Arnav Dawn)
-Date: Tue, 30 May 2017 19:33:38 +0530
-Subject: [PATCH v2 2/2] nvme: Add support for FW activation without reset
-In-Reply-To: <20170529175707.GB25061@lst.de>
-References: <20170529175707.GB25061@lst.de>
- <CGME20170530140329epcas1p464afeb48d692b2108592a39a7593f6b3@epcas1p4.samsung.com>
-Message-ID: <1496153018-8833-1-git-send-email-a.dawn@samsung.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 30 May 2017 10:20:57 -0400
+Subject: [PATCH] nvme/pci: Remove watchdog timer
+In-Reply-To: <20170528094152.GB14199@lst.de>
+References: <1495800988-27311-1-git-send-email-keith.busch@intel.com>
+ <20170528094152.GB14199@lst.de>
+Message-ID: <20170530142057.GA2845@localhost.localdomain>
 
-> > +	nvme_stop_queues(ctrl);
-> > +	while (1) {
-> > +		if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts))
-> > +			break;
-> > +
-> > +		if (ctrl->ops->reg_read32(ctrl, NVME_REG_CC,
-> > +				&ctrl->ctrl_config))
-> > +			break;
-> > +
-> > +		if (csts == ~0 || ((ctrl->ctrl_config & NVME_CC_ENABLE)
-> > +				&& !(csts & NVME_CSTS_PP)))
-> > +			break;
+On Sun, May 28, 2017@11:41:52AM +0200, Christoph Hellwig wrote:
 > 
-> Can you factor these checks into a helper that your loop checks in the while
-> statement?
+> Otherwise this looks good to me, but I'd like to defer it until
+> we have the multiple reset issue sorted out, to avoid conflicts.
 
-Sure, i'll take this in next version.
+That's okay to defer till after that settles. I'll need to respin this
+anyway since I mistakely re-read CSTS instead of reading it once.
 
-> > +	nvme_start_queues(ctrl);
-> > +	ctrl->fw_act_timeout = 0;
-> > +	log =  kmalloc(sizeof(struct nvme_fw_slot_info_log), GFP_KERNEL);
-> > +	if (!log)
-> > +		return;
-> > +	if (nvme_get_log_page(ctrl, NVME_LOG_FW_SLOT, log))
-> > +		dev_warn(ctrl->device,
-> > +				"Get FW SLOT INFO log error\n");
-> > +	kfree(log);
-> 
-> So we don't do anything with the log.  It might be worth having a comment
-> like:
-> 
-> 	/* read the firmware activation log to clear the AER */
-> 
-> for readers of the code that don't know the NVMe spec inside out.
+I am hoping to get this in this round since it would quiet a lot of
+errors I'm frequently pinged on: a non-posted request during a hotremove
+downstream a switch creates a lot of problems for hardware if you don't
+have DPC enabled.
 
-Agree, that'll be helpful. I'll add.
+One thing I'm just realizing, though, this will break subsystem reset.
+We were depending on the watchdog to detect that event, but now we require
+an IO timeout. It's easy enough to fix that from the host initiating
+the NSSR, but there's no way to notify other hosts connected to the
+same subsystem.
 
-
-> > +	case NVME_AER_NOTICE_FW_ACT_STARTING:
-> > +	{
-> > +		u32 csts;
-> > +
-> > +		if (ctrl->ops->reg_read32(ctrl, NVME_REG_CSTS, &csts))
-> > +			return;
-> > +		if (ctrl->ops->reg_read32(ctrl, NVME_REG_CC,
-> > +					&ctrl->ctrl_config))
-> > +			return;
-> > +
-> > +		if ((ctrl->ctrl_config & NVME_CC_ENABLE)
-> > +					&& (csts & NVME_CSTS_PP)) {
-> > +			if (ctrl->mtfa)
-> > +				ctrl->fw_act_timeout = jiffies +
-> > +					msecs_to_jiffies(ctrl->mtfa * 100);
-> > +			else
-> > +				ctrl->fw_act_timeout = jiffies +
-> > +					msecs_to_jiffies(admin_timeout *
-> 1000);
-> > +
-> > +			schedule_delayed_work(&ctrl->fw_act_work, 0);
-> > +		}
-> > +		break;
-> 
-> Please split this code into a helper.
-
-Agree, that'll be lot cleaner.  
+Despite that, I still think this patch is still a step in the right
+direction for previously mentioned reasons.
