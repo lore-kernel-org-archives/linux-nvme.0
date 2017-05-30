@@ -1,28 +1,21 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 30 May 2017 11:45:25 +0200
-Subject: [PATCH 3/7] nvmet: add eui64 field to nvme_ns and populate via
+Date: Tue, 30 May 2017 11:48:09 +0200
+Subject: [PATCH 2/7] nvmet: add uuid field to nvme_ns and populate via
  configfs
-In-Reply-To: <20170530092510.GB16736@lst.de>
+In-Reply-To: <20170530092442.GA16736@lst.de>
 References: <cover.1496131397.git.jthumshirn@suse.de>
- <fe6439add636d3fd31ef357230101819ae7f5090.1496131397.git.jthumshirn@suse.de>
- <20170530092510.GB16736@lst.de>
-Message-ID: <d2bd7b74-aa81-f00e-282b-ff51deecbe39@suse.de>
+ <4aecbc794651073b2812341dc63e1f2918cc6a82.1496131397.git.jthumshirn@suse.de>
+ <20170530092442.GA16736@lst.de>
+Message-ID: <c5537393-445d-73f8-f8e0-cc9c51d3edcb@suse.de>
 
-On 05/30/2017 11:25 AM, Christoph Hellwig wrote:
-> On Tue, May 30, 2017@10:08:18AM +0200, Johannes Thumshirn wrote:
->> Add the EUI-64 field from the NVMe Namespace Identification Descriptor
->> to the nvmet_ns structure and allow it's population via configfs.
-> 
-> Is there any good use case for bothering with this identifier that's
-> too short to actually be useful?
+On 05/30/2017 11:24 AM, Christoph Hellwig wrote:
+> This should be stored as a uuid_t (or rather uuid_be in the current
+> kernel, but I'm about to rename it), and use uuid_be_to_bin / uuid_to_bin
+> for parsing.
 
-Mostly consistency. The current nvme host code has the EUI sprinkled all
-around. Sure I can drop it, but then what's the point in evaluating it
-on the host side? Other targets may send it, so we need in on the host
-and do we care about potentially awkward host implementations with Linux
-as a target? Also it's rather handy for testing as well, after all it's
-not too much and complex code.
- --
+OK, thought you ask me to do that. Which one do you prefer?
+
+-- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
 SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
