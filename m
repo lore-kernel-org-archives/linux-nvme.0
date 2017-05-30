@@ -1,29 +1,80 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 30 May 2017 10:08:19 +0200
-Subject: [PATCH 4/7] nvme: also report include the EUI-64 in identify NS report
+Date: Tue, 30 May 2017 10:08:16 +0200
+Subject: [PATCH 1/7] nvme: rename uuid to nguid in nvme_ns
 In-Reply-To: <cover.1496131397.git.jthumshirn@suse.de>
 References: <cover.1496131397.git.jthumshirn@suse.de>
-Message-ID: <2f6eac411a9ce4c0bdc756e0cb5cfed66208b9d7.1496131397.git.jthumshirn@suse.de>
+Message-ID: <7e97c34f8ab586615cb57b22a36db2eeb0ccc57f.1496131397.git.jthumshirn@suse.de>
 
-Now that we can configure a namespace's EUI-64, report it back to the
-host in an 'Identify Namespace' command reply.
+The uuid field in the nvme_ns structure represents the nguid field
+from the identify namespace command. And as NVMe 1.3 introduced an
+UUID in the NVMe Namespace Identification Descriptor this will
+collide.
+
+So rename the uuid to nguid to prevent any further
+confusion. Unfortunately we export the nguid to sysfs in the uuid
+sysfs attribute, but this can't be changed anymore without possibly
+breaking existing userspace.
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/target/admin-cmd.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/nvme/host/core.c | 10 +++++-----
+ drivers/nvme/host/nvme.h |  2 +-
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index ff1f97006322..60c9eec57986 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -322,6 +322,7 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
- 	id->nmic = (1 << 0);
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a60926410438..7b254be16887 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1016,7 +1016,7 @@ static int nvme_revalidate_ns(struct nvme_ns *ns, struct nvme_id_ns **id)
+ 	if (ns->ctrl->vs >= NVME_VS(1, 1, 0))
+ 		memcpy(ns->eui, (*id)->eui64, sizeof(ns->eui));
+ 	if (ns->ctrl->vs >= NVME_VS(1, 2, 0))
+-		memcpy(ns->uuid, (*id)->nguid, sizeof(ns->uuid));
++		memcpy(ns->nguid, (*id)->nguid, sizeof(ns->nguid));
  
- 	memcpy(&id->nguid, &ns->nguid, sizeof(uuid_le));
-+	memcpy(&id->eui64, &ns->eui64, sizeof(ns->eui64));
+ 	return 0;
+ }
+@@ -1784,8 +1784,8 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
+ 	int serial_len = sizeof(ctrl->serial);
+ 	int model_len = sizeof(ctrl->model);
  
- 	id->lbaf[0].ds = ns->blksize_shift;
+-	if (memchr_inv(ns->uuid, 0, sizeof(ns->uuid)))
+-		return sprintf(buf, "eui.%16phN\n", ns->uuid);
++	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
++		return sprintf(buf, "eui.%16phN\n", ns->nguid);
  
+ 	if (memchr_inv(ns->eui, 0, sizeof(ns->eui)))
+ 		return sprintf(buf, "eui.%8phN\n", ns->eui);
+@@ -1804,7 +1804,7 @@ static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
+ 								char *buf)
+ {
+ 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+-	return sprintf(buf, "%pU\n", ns->uuid);
++	return sprintf(buf, "%pU\n", ns->nguid);
+ }
+ static DEVICE_ATTR(uuid, S_IRUGO, uuid_show, NULL);
+ 
+@@ -1839,7 +1839,7 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
+ 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+ 
+ 	if (a == &dev_attr_uuid.attr) {
+-		if (!memchr_inv(ns->uuid, 0, sizeof(ns->uuid)))
++		if (!memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
+ 			return 0;
+ 	}
+ 	if (a == &dev_attr_eui.attr) {
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9d6a070d4391..5004f0c41397 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -189,7 +189,7 @@ struct nvme_ns {
+ 	int instance;
+ 
+ 	u8 eui[8];
+-	u8 uuid[16];
++	u8 nguid[16];
+ 
+ 	unsigned ns_id;
+ 	int lba_shift;
 -- 
 2.12.0
