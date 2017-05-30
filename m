@@ -1,76 +1,36 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 30 May 2017 10:08:22 +0200
-Subject: [PATCH 7/7] nvme: provide UUID value to userspace
-In-Reply-To: <cover.1496131397.git.jthumshirn@suse.de>
+From: hare@suse.de (Hannes Reinecke)
+Date: Tue, 30 May 2017 10:18:08 +0200
+Subject: [PATCH 1/7] nvme: rename uuid to nguid in nvme_ns
+In-Reply-To: <7e97c34f8ab586615cb57b22a36db2eeb0ccc57f.1496131397.git.jthumshirn@suse.de>
 References: <cover.1496131397.git.jthumshirn@suse.de>
-Message-ID: <e850e7d9548348ae46c82230a7077c89073e80f3.1496131397.git.jthumshirn@suse.de>
+ <7e97c34f8ab586615cb57b22a36db2eeb0ccc57f.1496131397.git.jthumshirn@suse.de>
+Message-ID: <0f70925e-9671-dcf3-7aae-2f4d0125c919@suse.de>
 
-Now that we have a way for getting the UUID from a target, provide it
-to userspace as well.
+On 05/30/2017 10:08 AM, Johannes Thumshirn wrote:
+> The uuid field in the nvme_ns structure represents the nguid field
+> from the identify namespace command. And as NVMe 1.3 introduced an
+> UUID in the NVMe Namespace Identification Descriptor this will
+> collide.
+> 
+> So rename the uuid to nguid to prevent any further
+> confusion. Unfortunately we export the nguid to sysfs in the uuid
+> sysfs attribute, but this can't be changed anymore without possibly
+> breaking existing userspace.
+> 
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> ---
+>  drivers/nvme/host/core.c | 10 +++++-----
+>  drivers/nvme/host/nvme.h |  2 +-
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+> 
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Unfortunately there is already a sysfs attribute called UUID which is
-a misnomer as it holds the NGUID value. So instead of creating yet
-another wrong name, create a new 'nguid' sysfs attribute for the
-NGUID. For the UUID attribute add a check wheter the namespace has a
-UUID assigned to it and return this or return the NGUID to maintain
-backwards compatibility. This should give userspace a chance to catch
-up.
+Cheers,
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- drivers/nvme/host/core.c | 22 +++++++++++++++++++++-
- 1 file changed, 21 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index d2365f7ea612..96c063bad48e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1888,11 +1888,25 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
- }
- static DEVICE_ATTR(wwid, S_IRUGO, wwid_show, NULL);
- 
-+static ssize_t nguid_show(struct device *dev, struct device_attribute *attr,
-+			  char *buf)
-+{
-+	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
-+	return sprintf(buf, "%pU\n", ns->nguid);
-+}
-+static DEVICE_ATTR(nguid, S_IRUGO, nguid_show, NULL);
-+
- static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
- 								char *buf)
- {
- 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
--	return sprintf(buf, "%pU\n", ns->nguid);
-+
-+	/* For backward compatibility expose the NGUID to userspace if
-+	 * we have no UUID set
-+	 */
-+	if (!memchr_inv(ns->uuid, 0, sizeof(ns->uuid)))
-+		return sprintf(buf, "%pU\n", ns->nguid);
-+	return sprintf(buf, "%pU\n", ns->uuid);
- }
- static DEVICE_ATTR(uuid, S_IRUGO, uuid_show, NULL);
- 
-@@ -1915,6 +1929,7 @@ static DEVICE_ATTR(nsid, S_IRUGO, nsid_show, NULL);
- static struct attribute *nvme_ns_attrs[] = {
- 	&dev_attr_wwid.attr,
- 	&dev_attr_uuid.attr,
-+	&dev_attr_nguid.attr,
- 	&dev_attr_eui.attr,
- 	&dev_attr_nsid.attr,
- 	NULL,
-@@ -1927,6 +1942,11 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
- 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
- 
- 	if (a == &dev_attr_uuid.attr) {
-+		if (!memchr_inv(ns->uuid, 0, sizeof(ns->uuid)) ||
-+		    !memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
-+			return 0;
-+	}
-+	if (a == &dev_attr_nguid.attr) {
- 		if (!memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
- 			return 0;
- 	}
+Hannes
 -- 
-2.12.0
+Dr. Hannes Reinecke		   Teamlead Storage & Networking
+hare at suse.de			               +49 911 74053 688
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
+HRB 21284 (AG N?rnberg)
