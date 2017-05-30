@@ -1,33 +1,29 @@
-From: krisman@collabora.co.uk (Gabriel Krisman Bertazi)
-Date: Tue, 30 May 2017 16:52:14 -0300
-Subject: [PATCH] blk-mq: Take tagset lock when updaing hw queues
-In-Reply-To: <1496169551-26868-1-git-send-email-keith.busch@intel.com> (Keith
- Busch's message of "Tue, 30 May 2017 14:39:11 -0400")
-References: <1496169551-26868-1-git-send-email-keith.busch@intel.com>
-Message-ID: <87fufmm8b5.fsf@dilma.collabora.co.uk>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 30 May 2017 23:41:49 +0300
+Subject: [PATCH v2 2/2] IB/mlx5: set UMR wqe fence according to HCA cap
+In-Reply-To: <ad73e8d4-f519-3f50-400f-905d075e5ceb@grimberg.me>
+References: <1495957991-19223-1-git-send-email-maxg@mellanox.com>
+ <1495957991-19223-2-git-send-email-maxg@mellanox.com>
+ <700d9410-56e7-d70f-9de4-87e4e37bca28@grimberg.me>
+ <9562e253-bc15-4ea1-3880-0430fd540410@mellanox.com>
+ <bcd8ef4b-60f9-34e4-a020-0d34407da61e@grimberg.me>
+ <e93ca49a-63d0-495f-1348-89d6fecf9f54@mellanox.com>
+ <ad73e8d4-f519-3f50-400f-905d075e5ceb@grimberg.me>
+Message-ID: <3472c851-19e0-9ef9-9383-4e819cfccad5@mellanox.com>
 
-Keith Busch <keith.busch at intel.com> writes:
 
-> The tagset lock needs to be held when iterating the tag_list, so a
-> lockdep assert was added when updating number of hardware queues. The
-> drivers calling this API, however, were unaware of the new requirement,
-> so are failing the assertion.
+
+On 5/30/2017 5:28 PM, Sagi Grimberg wrote:
 >
-> This patch takes the lock within the blk-mq function so the drivers do
-> not have to be modified in order to be safe.
+>> Yes.
 >
-> Fixes: 705cda97e ("blk-mq: Make it safe to use RCU to iterate over blk_mq_tag_set.tag_list")
+> So for the series:
 >
-> Reported-by: Gabriel Krisman Bertazi <krisman at collabora.co.uk>
-> Reviewed-by: Bart Van Assche <Bart.VanAssche at sandisk.com>
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+>
+> Doug, can you mark this for stable?
+>
+> Max, I'm not sure how far back this needs a fix,
+> probably since day 1.
 
-I know it is already applied but, FWIW, I can confirm it fixed the issue
-in our CI.  Feel free to add:
-
-Tested-by: Gabriel Krisman Bertazi <krisman at collabora.co.uk>
-
-Thanks again, Keith.
-
--- 
-Gabriel Krisman Bertazi
+Yes, I guess we should.
