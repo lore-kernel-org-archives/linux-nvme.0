@@ -1,45 +1,23 @@
-From: rakesh@tuxera.com (Rakesh Pandit)
-Date: Tue, 30 May 2017 17:23:46 +0300
-Subject: [PATCH V2] nvme: fix nvme_remove going to uninterruptible sleep
- for ever
-In-Reply-To: <4da7c939-1f54-80e5-48fc-06e58e14f018@grimberg.me>
-References: <20170530071610.GA2679@hercules.tuxera.com>
- <4da7c939-1f54-80e5-48fc-06e58e14f018@grimberg.me>
-Message-ID: <20170530142346.GA39428@dhcp-216.srv.tuxera.com>
-
-On Tue, May 30, 2017@01:18:55PM +0300, Sagi Grimberg wrote:
-> 
-> >  	/*
-> > +	 * Avoid configuration and syncing commands if controller is already
-> > +	 * being removed and queues have been killed.
-> > +	 */
-> > +	if (ctrl->state == NVME_CTRL_DELETING || ctrl->state == NVME_CTRL_DEAD)
-> > +		return;
-> > +
-> 
-> Hey Rakesh, Christoph,
-> 
-> Given that the issue is for sync command submission during controller
-> removal, I'm wandering if we should perhaps move this check to
-> __nvme_submit_sync_cmd?
-> 
-> AFAICT user-space can just as easily trigger set_features in the same
-> condition which will trigger the hang couldn't it?
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 30 May 2017 17:28:43 +0300
+Subject: [PATCH v2 2/2] IB/mlx5: set UMR wqe fence according to HCA cap
+In-Reply-To: <e93ca49a-63d0-495f-1348-89d6fecf9f54@mellanox.com>
+References: <1495957991-19223-1-git-send-email-maxg@mellanox.com>
+ <1495957991-19223-2-git-send-email-maxg@mellanox.com>
+ <700d9410-56e7-d70f-9de4-87e4e37bca28@grimberg.me>
+ <9562e253-bc15-4ea1-3880-0430fd540410@mellanox.com>
+ <bcd8ef4b-60f9-34e4-a020-0d34407da61e@grimberg.me>
+ <e93ca49a-63d0-495f-1348-89d6fecf9f54@mellanox.com>
+Message-ID: <ad73e8d4-f519-3f50-400f-905d075e5ceb@grimberg.me>
 
 
-Seems possible.  But it seems worth keeping this check as it avoids
-the instructions between start of nvme_configure_apst and
-__nvme_submit_sync_cmd.  This check seems to solve more severe hang as
-PID which started off from nvme_remove eventually hangs itself on
-blk_execute_rq..
+> Yes.
 
-We can fix user-space triggered set_features higger up e.g. in
-nvme_ioctl by putting same check.  Introduction of a separate state
-NVME_CTRL_SCHED_RESET (being discussed in another thread) has
-additional advantage of making sure that only one thread is going
-through resetting and eventually through removal (if required) and
-solves lot of problems.
+So for the series:
 
-It makes sense to push this separately because of above reasons and we
-can fix user space trigger of deadlock once discussion on another
-thread has moved forward on introducing of new state.
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+
+Doug, can you mark this for stable?
+
+Max, I'm not sure how far back this needs a fix,
+probably since day 1.
