@@ -1,36 +1,18 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 30 May 2017 10:31:19 +0200
-Subject: [PATCH 7/7] nvme: provide UUID value to userspace
-In-Reply-To: <e850e7d9548348ae46c82230a7077c89073e80f3.1496131397.git.jthumshirn@suse.de>
-References: <cover.1496131397.git.jthumshirn@suse.de>
- <e850e7d9548348ae46c82230a7077c89073e80f3.1496131397.git.jthumshirn@suse.de>
-Message-ID: <0dda446e-342d-49f2-8dfe-e778cfb0bc40@suse.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 30 May 2017 01:36:51 -0700
+Subject: [PATCH v2 1/2] nvme_fc: create fc class and transport device
+In-Reply-To: <20170513190559.25484-2-jsmart2021@gmail.com>
+References: <20170513190559.25484-1-jsmart2021@gmail.com>
+ <20170513190559.25484-2-jsmart2021@gmail.com>
+Message-ID: <20170530083651.GA18275@infradead.org>
 
-On 05/30/2017 10:08 AM, Johannes Thumshirn wrote:
-> Now that we have a way for getting the UUID from a target, provide it
-> to userspace as well.
-> 
-> Unfortunately there is already a sysfs attribute called UUID which is
-> a misnomer as it holds the NGUID value. So instead of creating yet
-> another wrong name, create a new 'nguid' sysfs attribute for the
-> NGUID. For the UUID attribute add a check wheter the namespace has a
-> UUID assigned to it and return this or return the NGUID to maintain
-> backwards compatibility. This should give userspace a chance to catch
-> up.
-> 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-> ---
->  drivers/nvme/host/core.c | 22 +++++++++++++++++++++-
->  1 file changed, 21 insertions(+), 1 deletion(-)
-> 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+On Sat, May 13, 2017@12:05:58PM -0700, James Smart wrote:
+> Added a new fc class, and a device node for the nvme_fc transport
+> under it. I expect the fc class will eventually be the location the
+> SCSI and FC transports merge in the future.
 
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
+If we chose a nvme name for it that pretty much keeps us from doing
+that.  It would seem a bit silly to create a new module for just these
+few lines, but I think we should keep the name neutral and document the
+purpose with extensive comments.  And maybe (just maybe) move it into a
+separate source file.
