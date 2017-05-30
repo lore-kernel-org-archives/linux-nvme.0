@@ -1,28 +1,18 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 30 May 2017 14:24:13 +0300
-Subject: [PATCH v2 2/2] IB/mlx5: set UMR wqe fence according to HCA cap
-In-Reply-To: <bcd8ef4b-60f9-34e4-a020-0d34407da61e@grimberg.me>
-References: <1495957991-19223-1-git-send-email-maxg@mellanox.com>
- <1495957991-19223-2-git-send-email-maxg@mellanox.com>
- <700d9410-56e7-d70f-9de4-87e4e37bca28@grimberg.me>
- <9562e253-bc15-4ea1-3880-0430fd540410@mellanox.com>
- <bcd8ef4b-60f9-34e4-a020-0d34407da61e@grimberg.me>
-Message-ID: <e93ca49a-63d0-495f-1348-89d6fecf9f54@mellanox.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 30 May 2017 14:30:48 +0300
+Subject: [PATCH v2 1/2] nvme: Adding support for FW Slot info log
+In-Reply-To: <20170529175421.GA25061@lst.de>
+References: <1496067391-26143-1-git-send-email-a.dawn@samsung.com>
+ <CGME20170529141731epcas5p39667840c01555c7cf49527167535f82c@epcas5p3.samsung.com>
+ <1496067458-26190-1-git-send-email-a.dawn@samsung.com>
+ <20170529175421.GA25061@lst.de>
+Message-ID: <5d923369-326e-0c8c-ed91-92e7f463367a@grimberg.me>
 
 
+> This functioin has basically no common code.  I think the current
+> nvme_get_log_page should be renamed to nvme_get_smart_log and moved
+> to scsi.c, and you'll just add a new helper for your log page or
+> even just open code it in the caller.  A little inline helper for
+> setting up dword10 would be nice, though.
 
-On 5/30/2017 2:22 PM, Sagi Grimberg wrote:
->> they are declared in patch 1/2:
->>
->> +enum {
->> +    MLX5_CAP_UMR_FENCE_STRONG    = 0x0,
->> +    MLX5_CAP_UMR_FENCE_SMALL    = 0x1,
->> +    MLX5_CAP_UMR_FENCE_NONE        = 0x2,
->> +};
->> +
->
-> Missed that, thanks.
->
-> What's FENCE_NONE anyway? no umr fence needed at all?
-
-Yes.
+Agree, that'd be cleaner.
