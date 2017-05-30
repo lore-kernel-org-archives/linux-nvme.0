@@ -1,48 +1,25 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 May 2017 13:09:02 +0300
-Subject: [PATCH V3] nvme: fix multiple ctrl removal scheduling
-In-Reply-To: <20170528094043.GA14199@lst.de>
-References: <20170526201351.GA21847@dhcp-216.srv.tuxera.com>
- <20170528094043.GA14199@lst.de>
-Message-ID: <b91063aa-05a3-2fd2-8366-58eadbbdc643@grimberg.me>
-
-> Hi Rkesh,
->
-> this looks reasonable, but we'll need to also adopt the non-PCI
-> driver to the new state machine.  I can give this a spin.
->
-> At that point we probably want to move nvme_reset into common
-> code somehow.
-
-Hi Guys, sorry for barging in late, I've been way too busy with
-internal stuff lately...
-
-I think that adding a new state should (a) be added with careful
-understanding that its absolutely needed and (b) does not complicate
-the state machine.
-
-I honestly think that adding a new state that says "we scheduled a
-reset" to address a synchronization issue is not what we should do.
-
-1. I think that state NVME_CTRL_RESETTING semantically means that
-the reset flow has been scheduled and the state transition atomicity
-suffices for synchronization. So nvme_reset should change the state
-and if it succeeded, schedule the reset_work instead of changing the
-state inside reset_work (like we do in fabrics). At this point we should
-lose the WARN_ON.
-
-2. I personally think that nvme_probe shouldn't necessarily trigger
-controller reset, if we can split reset to a couple of useful routines
-we can reuse them in nvme_probe. The reason is that for reset we need
-to address various conditions (errors, ongoing traffic etc...) that
-are not relevant at all for probe. Not sure if anyone agrees with me
-on this one.
+Date: Tue, 30 May 2017 13:18:55 +0300
+Subject: [PATCH V2] nvme: fix nvme_remove going to uninterruptible sleep
+ for ever
+In-Reply-To: <20170530071610.GA2679@hercules.tuxera.com>
+References: <20170530071610.GA2679@hercules.tuxera.com>
+Message-ID: <4da7c939-1f54-80e5-48fc-06e58e14f018@grimberg.me>
 
 
+>  	/*
+> +	 * Avoid configuration and syncing commands if controller is already
+> +	 * being removed and queues have been killed.
+> +	 */
+> +	if (ctrl->state == NVME_CTRL_DELETING || ctrl->state == NVME_CTRL_DEAD)
+> +		return;
+> +
 
-I started to experiment with trying to move some of this to nvme core[1]
-(rdma and loop) but has yet to fully convert pci which is a bit more
-complicated.
+Hey Rakesh, Christoph,
 
-[1] git://git.infradead.org/users/sagi/linux.git 
-nvme-central-reset-delete-err
+Given that the issue is for sync command submission during controller
+removal, I'm wandering if we should perhaps move this check to
+__nvme_submit_sync_cmd?
+
+AFAICT user-space can just as easily trigger set_features in the same
+condition which will trigger the hang couldn't it?
