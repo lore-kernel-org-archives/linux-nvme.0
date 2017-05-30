@@ -1,21 +1,84 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 30 May 2017 12:32:59 -0600
-Subject: [PATCH] blk-mq: Take tagset lock when updaing hw queues
-In-Reply-To: <1496169551-26868-1-git-send-email-keith.busch@intel.com>
-References: <1496169551-26868-1-git-send-email-keith.busch@intel.com>
-Message-ID: <56ed7162-5397-b4dd-14d2-1e017c6b7c33@kernel.dk>
+From: eduval@amazon.com (Eduardo Valentin)
+Date: Tue, 30 May 2017 12:04:02 -0700
+Subject: [PATCH v2 3/8] blk-mq: use the introduced blk_mq_unquiesce_queue()
+In-Reply-To: <20170527142126.26079-4-ming.lei@redhat.com>
+References: <20170527142126.26079-1-ming.lei@redhat.com>
+ <20170527142126.26079-4-ming.lei@redhat.com>
+Message-ID: <20170530190402.GG7419@u40b0340c692b58f6553c.ant.amazon.com>
 
-On 05/30/2017 12:39 PM, Keith Busch wrote:
-> The tagset lock needs to be held when iterating the tag_list, so a
-> lockdep assert was added when updating number of hardware queues. The
-> drivers calling this API, however, were unaware of the new requirement,
-> so are failing the assertion.
+On Sat, May 27, 2017@10:21:21PM +0800, Ming Lei wrote:
+> blk_mq_unquiesce_queue() is used for unquiescing the
+> queue explicitly, so replace blk_mq_start_stopped_hw_queues()
+> with it.
 > 
-> This patch takes the lock within the blk-mq function so the drivers do
-> not have to be modified in order to be safe.
+> Cc: linux-nvme at lists.infradead.org
+> Cc: linux-scsi at vger.kernel.org
+> Cc: dm-devel at redhat.com
+> Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> ---
+>  drivers/md/dm-rq.c       | 2 +-
+>  drivers/nvme/host/core.c | 2 +-
+>  drivers/scsi/scsi_lib.c  | 5 ++++-
+>  3 files changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
+> index 2af27026aa2e..673fcf075077 100644
+> --- a/drivers/md/dm-rq.c
+> +++ b/drivers/md/dm-rq.c
+> @@ -71,7 +71,7 @@ static void dm_old_start_queue(struct request_queue *q)
+>  
+>  static void dm_mq_start_queue(struct request_queue *q)
+>  {
+> -	blk_mq_start_stopped_hw_queues(q, true);
+> +	blk_mq_unquiesce_queue(q);
+>  	blk_mq_kick_requeue_list(q);
+>  }
+>  
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 04e115834702..231d36028afc 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2514,7 +2514,7 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+>  
+>  	mutex_lock(&ctrl->namespaces_mutex);
+>  	list_for_each_entry(ns, &ctrl->namespaces, list) {
+> -		blk_mq_start_stopped_hw_queues(ns->queue, true);
+> +		blk_mq_unquiesce_queue(ns->queue);
+>  		blk_mq_kick_requeue_list(ns->queue);
+>  	}
+>  	mutex_unlock(&ctrl->namespaces_mutex);
+> diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+> index 814a4bd8405d..72b11f75719c 100644
+> --- a/drivers/scsi/scsi_lib.c
+> +++ b/drivers/scsi/scsi_lib.c
+> @@ -3030,7 +3030,10 @@ scsi_internal_device_unblock(struct scsi_device *sdev,
+>  		return -EINVAL;
+>  
+>  	if (q->mq_ops) {
+> -		blk_mq_start_stopped_hw_queues(q, false);
+> +		if (blk_queue_quiesced(q))
+> +			blk_mq_unquiesce_queue(q);
 
-Thanks Keith, applied for 4.12 with the typo in the subject line fixed
-up.
+Calling this here, at this point means:
+		blk_mq_start_stopped_hw_queues(q, true);
+
+Does it make a difference, given that before the code always calling 
+		blk_mq_start_stopped_hw_queues(q, false);
+
+
+> +		else
+> +			blk_mq_start_stopped_hw_queues(q, false);
+
+Why do you need to care about the case of !blk_queue_quiesced(q)?
+
+>  	} else {
+>  		spin_lock_irqsave(q->queue_lock, flags);
+>  		blk_start_queue(q);
+> -- 
+> 2.9.4
+> 
+> 
 
 -- 
-Jens Axboe
+All the best,
+Eduardo Valentin
