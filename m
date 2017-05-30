@@ -1,33 +1,32 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 30 May 2017 10:22:02 +0200
-Subject: [PATCH 4/7] nvme: also report include the EUI-64 in identify NS
- report
-In-Reply-To: <2f6eac411a9ce4c0bdc756e0cb5cfed66208b9d7.1496131397.git.jthumshirn@suse.de>
+Date: Tue, 30 May 2017 10:24:12 +0200
+Subject: [PATCH 5/7] nvmet: implement namespace identify descriptor list
+In-Reply-To: <f18b0bd18d171e7ca824925ff3136b20f9bb132e.1496131397.git.jthumshirn@suse.de>
 References: <cover.1496131397.git.jthumshirn@suse.de>
- <2f6eac411a9ce4c0bdc756e0cb5cfed66208b9d7.1496131397.git.jthumshirn@suse.de>
-Message-ID: <ebe7d06c-1839-3134-63c9-9360567b5a06@suse.de>
+ <f18b0bd18d171e7ca824925ff3136b20f9bb132e.1496131397.git.jthumshirn@suse.de>
+Message-ID: <01e9be1b-b110-adf4-8c31-11b272bfe920@suse.de>
 
 On 05/30/2017 10:08 AM, Johannes Thumshirn wrote:
-> Now that we can configure a namespace's EUI-64, report it back to the
-> host in an 'Identify Namespace' command reply.
+> A NVMe Identify NS command with a CNS value of '3' is expecting a list
+> of Namespace Identification Descriptor structures to be returned to
+> the host for the namespace requested in the namespace identify
+> command.
+> 
+> This Namespace Identification Descriptor structure consists of the
+> type of the namespace identifier, the length of the identifier and the
+> actual identifier.
+> 
+> Valid types are EUI-64, NGUID and UUID which we have saved in our
+> nvme_ns structure if they have been configured via configfs. If no
+> value has been assigened to one of these we return an "invalid opcode"
+> back to the host to maintain backward compatibiliy with older
+> implementations without Namespace Identify Descriptor list support.
 > 
 > Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
->  drivers/nvme/target/admin-cmd.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-> index ff1f97006322..60c9eec57986 100644
-> --- a/drivers/nvme/target/admin-cmd.c
-> +++ b/drivers/nvme/target/admin-cmd.c
-> @@ -322,6 +322,7 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
->  	id->nmic = (1 << 0);
->  
->  	memcpy(&id->nguid, &ns->nguid, sizeof(uuid_le));
-> +	memcpy(&id->eui64, &ns->eui64, sizeof(ns->eui64));
->  
->  	id->lbaf[0].ds = ns->blksize_shift;
->  
+>  drivers/nvme/target/admin-cmd.c | 75 +++++++++++++++++++++++++++++++++++++++++
+>  include/linux/nvme.h            | 14 ++++++++
+>  2 files changed, 89 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
