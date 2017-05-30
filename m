@@ -1,12 +1,15 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 30 May 2017 11:24:42 +0200
-Subject: [PATCH 2/7] nvmet: add uuid field to nvme_ns and populate via
+Date: Tue, 30 May 2017 11:25:10 +0200
+Subject: [PATCH 3/7] nvmet: add eui64 field to nvme_ns and populate via
  configfs
-In-Reply-To: <4aecbc794651073b2812341dc63e1f2918cc6a82.1496131397.git.jthumshirn@suse.de>
+In-Reply-To: <fe6439add636d3fd31ef357230101819ae7f5090.1496131397.git.jthumshirn@suse.de>
 References: <cover.1496131397.git.jthumshirn@suse.de>
- <4aecbc794651073b2812341dc63e1f2918cc6a82.1496131397.git.jthumshirn@suse.de>
-Message-ID: <20170530092442.GA16736@lst.de>
+ <fe6439add636d3fd31ef357230101819ae7f5090.1496131397.git.jthumshirn@suse.de>
+Message-ID: <20170530092510.GB16736@lst.de>
 
-This should be stored as a uuid_t (or rather uuid_be in the current
-kernel, but I'm about to rename it), and use uuid_be_to_bin / uuid_to_bin
-for parsing.
+On Tue, May 30, 2017@10:08:18AM +0200, Johannes Thumshirn wrote:
+> Add the EUI-64 field from the NVMe Namespace Identification Descriptor
+> to the nvmet_ns structure and allow it's population via configfs.
+
+Is there any good use case for bothering with this identifier that's
+too short to actually be useful?
