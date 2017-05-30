@@ -1,30 +1,18 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 May 2017 14:58:06 +0300
-Subject: [PATCH V2 1/1] nvme: fix multiple ctrl removal scheduling
-In-Reply-To: <20170526100613.GE24894@localhost.localdomain>
-References: <20170524142623.GA27721@dhcp-216.srv.tuxera.com>
- <20170526100613.GE24894@localhost.localdomain>
-Message-ID: <29f66b96-0629-177a-be54-dbd638bf0f49@grimberg.me>
+Date: Tue, 30 May 2017 15:05:32 +0300
+Subject: NVMeoF: multipath stuck after bringing one ethernet port down
+In-Reply-To: <656fd267-1e01-b561-fc74-e36c1892d1f9@gmail.com>
+References: <CAK0KL7DPLw+0AB8cGop7jowfE1HV9wyXBmJhE90trpor-PcSYw@mail.gmail.com>
+ <ebb7ffb8-4dec-5540-5cef-ffd36bef3e25@grimberg.me>
+ <fa6277fa-948f-103e-1322-f8b2362467c3@gmail.com>
+ <656fd267-1e01-b561-fc74-e36c1892d1f9@gmail.com>
+Message-ID: <5b5b0a61-41cc-8018-19db-f683a604d7e4@grimberg.me>
 
 
->> Allowing multiple resets can result in multiple controller removal as
->> well if different conditions inside nvme_reset_work fail and which
->> might deadlock on device_release_driver.
->>
->> This patch makes sure that work queue item (reset_work) is added only
->> if controller state != NVME_CTRL_RESETTING and that is achieved by
->> moving state change outside nvme_reset_work into nvme_reset and
->> removing old work_busy call.  State change is always synchronizated
->> using controller spinlock.
->
-> So, the reason the state is changed when the work is running rather than
-> queueing is for the window when the state may be set to NVME_CTRL_DELETING,
-> and we don't want the reset work to proceed in that case.
->
-> What do you think about adding a new state, like NVME_CTRL_SCHED_RESET,
-> then leaving the NVME_CTRL_RESETTING state change as-is?
+> I used the patch with my Mellanox OFED (mlnx-nvme-rdma), it patrially
+> helps but the overall behaviour is still not good...
 
-OK, just got to this one.
+Can you test with upstream kernel code? Otherwise I suggest approaching
+Mellanox support.
 
-Instead of adding yet another state, how about making controller delete
-cancel the reset_work (cancel_work_sync)?
+We can't support non-upstream code really...
