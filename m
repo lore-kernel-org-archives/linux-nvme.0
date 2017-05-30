@@ -1,18 +1,37 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 30 May 2017 15:14:05 +0300
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 30 May 2017 16:37:36 +0300
 Subject: NVMeoF: multipath stuck after bringing one ethernet port down
-In-Reply-To: <cc73ebe9-ab1c-18cf-5c5c-240358d82f3c@kaminario.com>
+In-Reply-To: <5b5b0a61-41cc-8018-19db-f683a604d7e4@grimberg.me>
 References: <CAK0KL7DPLw+0AB8cGop7jowfE1HV9wyXBmJhE90trpor-PcSYw@mail.gmail.com>
  <ebb7ffb8-4dec-5540-5cef-ffd36bef3e25@grimberg.me>
  <fa6277fa-948f-103e-1322-f8b2362467c3@gmail.com>
  <656fd267-1e01-b561-fc74-e36c1892d1f9@gmail.com>
- <e685401a-25c4-deb4-3eb2-b5182ccbd64c@gmail.com>
- <cc73ebe9-ab1c-18cf-5c5c-240358d82f3c@kaminario.com>
-Message-ID: <0d4f7dca-3b5c-5cca-f077-58d1f8ab40a8@grimberg.me>
+ <5b5b0a61-41cc-8018-19db-f683a604d7e4@grimberg.me>
+Message-ID: <48b14a96-e419-f6d1-090e-cbe774139e11@mellanox.com>
 
 
-> I played with the keep alive thread so that it didn't exit if it got an
-> error, and that was resolved as well.
 
-Why is that needed? there is no reason scheduling keep-alives if they
-fail.
+On 5/30/2017 3:05 PM, Sagi Grimberg wrote:
+>
+>> I used the patch with my Mellanox OFED (mlnx-nvme-rdma), it patrially
+>> helps but the overall behaviour is still not good...
+>
+> Can you test with upstream kernel code? Otherwise I suggest approaching
+> Mellanox support.
+>
+> We can't support non-upstream code really...
+
+Hi guys,
+this is a known issue in upstream code and Mellanox OFED code as well.
+I agree with Sagi's approach for future issues using our package.
+For this one, we will test the proposed fixes and update you regarding 
+the results.
+
+Max.
+
+
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
