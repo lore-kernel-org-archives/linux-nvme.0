@@ -1,45 +1,52 @@
-From: krisman@collabora.co.uk (Gabriel Krisman Bertazi)
-Date: Tue, 30 May 2017 15:30:46 -0300
-Subject: WARNING triggers at blk_mq_update_nr_hw_queues during
- nvme_reset_work
-In-Reply-To: <20170530175549.GC2845@localhost.localdomain> (Keith Busch's
- message of "Tue, 30 May 2017 13:55:49 -0400")
-References: <8760giqnyb.fsf@dilma.collabora.co.uk>
- <20170530175549.GC2845@localhost.localdomain>
-Message-ID: <87bmqanqnd.fsf@dilma.collabora.co.uk>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 30 May 2017 14:39:11 -0400
+Subject: [PATCH] blk-mq: Take tagset lock when updaing hw queues
+Message-ID: <1496169551-26868-1-git-send-email-keith.busch@intel.com>
 
-Keith Busch <keith.busch at intel.com> writes:
+The tagset lock needs to be held when iterating the tag_list, so a
+lockdep assert was added when updating number of hardware queues. The
+drivers calling this API, however, were unaware of the new requirement,
+so are failing the assertion.
 
-> On Tue, May 30, 2017@02:00:44PM -0300, Gabriel Krisman Bertazi wrote:
->> Since the merge window for 4.12, one of the machines in Intel's CI
->> started to hit the WARN_ON below at blk_mq_update_nr_hw_queues during an
->> nvme_reset_work.  The issue persists with the latest 4.12-rc3, and full
->> dmesg from boot, up to the moment where the WARN_ON triggers is
->> available at the following link:
->> 
->> https://intel-gfx-ci.01.org/CI/CI_DRM_2672/fi-kbl-7500u/igt at kms_pipe_crc_basic@suspend-read-crc-pipe-a.html
->> 
->> Please notice that the test we do in the CI involves putting the
->> machine to sleep (PM), and the issue triggers when resuming execution.
->> 
->> I have not been able to get my hands on the machine yet to do an actual
->> bisect, but I'm wondering if you guys might have an idea of what is
->> wrong.
->> 
->> Any help is appreciated :)
->
-> Hi Gabriel,
->
-> This appears to be new behavior in blk-mq's tag set update with commit
-> 705cda97e. This is asserting a lock is held, but none of the drivers
-> that call the export are take that lock.
->
-> I think the below should fix it (CC'ing block list and developers).
->
+This patch takes the lock within the blk-mq function so the drivers do
+not have to be modified in order to be safe.
 
-Thanks for the quick fix, Keith.  I'm running it against the CI to
-confirm it fixes the issue and will send you my tested-by once the job
-is completed.
+Fixes: 705cda97e ("blk-mq: Make it safe to use RCU to iterate over blk_mq_tag_set.tag_list")
 
+Reported-by: Gabriel Krisman Bertazi <krisman at collabora.co.uk>
+Reviewed-by: Bart Van Assche <Bart.VanAssche at sandisk.com>
+Signed-off-by: Keith Busch <keith.busch at intel.com>
+---
+ block/blk-mq.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/block/blk-mq.c b/block/blk-mq.c
+index f2224ffd..1bccced 100644
+--- a/block/blk-mq.c
++++ b/block/blk-mq.c
+@@ -2641,7 +2641,8 @@ int blk_mq_update_nr_requests(struct request_queue *q, unsigned int nr)
+ 	return ret;
+ }
+ 
+-void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues)
++static void __blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set,
++							int nr_hw_queues)
+ {
+ 	struct request_queue *q;
+ 
+@@ -2665,6 +2666,13 @@ void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues)
+ 	list_for_each_entry(q, &set->tag_list, tag_set_list)
+ 		blk_mq_unfreeze_queue(q);
+ }
++
++void blk_mq_update_nr_hw_queues(struct blk_mq_tag_set *set, int nr_hw_queues)
++{
++	mutex_lock(&set->tag_list_lock);
++	__blk_mq_update_nr_hw_queues(set, nr_hw_queues);
++	mutex_unlock(&set->tag_list_lock);
++}
+ EXPORT_SYMBOL_GPL(blk_mq_update_nr_hw_queues);
+ 
+ /* Enable polling stats and return whether they were already enabled. */
 -- 
-Gabriel Krisman Bertazi
+2.5.5
