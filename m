@@ -1,14 +1,14 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 30 May 2017 10:20:36 +0200
-Subject: [PATCH 2/7] nvmet: add uuid field to nvme_ns and populate via
+Date: Tue, 30 May 2017 10:21:17 +0200
+Subject: [PATCH 3/7] nvmet: add eui64 field to nvme_ns and populate via
  configfs
-In-Reply-To: <4aecbc794651073b2812341dc63e1f2918cc6a82.1496131397.git.jthumshirn@suse.de>
+In-Reply-To: <fe6439add636d3fd31ef357230101819ae7f5090.1496131397.git.jthumshirn@suse.de>
 References: <cover.1496131397.git.jthumshirn@suse.de>
- <4aecbc794651073b2812341dc63e1f2918cc6a82.1496131397.git.jthumshirn@suse.de>
-Message-ID: <4eb8b53c-6c27-55f8-91e8-deb439a7a43d@suse.de>
+ <fe6439add636d3fd31ef357230101819ae7f5090.1496131397.git.jthumshirn@suse.de>
+Message-ID: <ee1bfd8c-08a0-4a6c-8371-f52c6ba0ffc4@suse.de>
 
 On 05/30/2017 10:08 AM, Johannes Thumshirn wrote:
-> Add the UUID field from the NVMe Namespace Identification Descriptor
+> Add the EUI-64 field from the NVMe Namespace Identification Descriptor
 > to the nvmet_ns structure and allow it's population via configfs.
 > 
 > Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
