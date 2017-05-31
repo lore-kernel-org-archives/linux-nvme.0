@@ -1,33 +1,23 @@
-From: Bart.VanAssche@sandisk.com (Bart Van Assche)
-Date: Wed, 31 May 2017 15:21:41 +0000
-Subject: [PATCH v3 3/9] blk-mq: use the introduced blk_mq_unquiesce_queue()
-In-Reply-To: <20170531123706.20885-4-ming.lei@redhat.com>
-References: <20170531123706.20885-1-ming.lei@redhat.com>
- <20170531123706.20885-4-ming.lei@redhat.com>
-Message-ID: <1496244100.2608.3.camel@sandisk.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Wed, 31 May 2017 12:17:56 -0400
+Subject: [PATCH V2 1/1] nvme: fix multiple ctrl removal scheduling
+In-Reply-To: <29f66b96-0629-177a-be54-dbd638bf0f49@grimberg.me>
+References: <20170524142623.GA27721@dhcp-216.srv.tuxera.com>
+ <20170526100613.GE24894@localhost.localdomain>
+ <29f66b96-0629-177a-be54-dbd638bf0f49@grimberg.me>
+Message-ID: <20170531161756.GD2845@localhost.localdomain>
 
-On Wed, 2017-05-31@20:37 +0800, Ming Lei wrote:
-> diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-> index 99e16ac479e3..ffcf05765e2b 100644
-> --- a/drivers/scsi/scsi_lib.c
-> +++ b/drivers/scsi/scsi_lib.c
-> @@ -3031,7 +3031,10 @@ scsi_internal_device_unblock(struct scsi_device *sdev,
->  		return -EINVAL;
->  
->  	if (q->mq_ops) {
-> -		blk_mq_start_stopped_hw_queues(q, false);
-> +		if (blk_queue_quiesced(q))
-> +			blk_mq_unquiesce_queue(q);
-> +		else
-> +			blk_mq_start_stopped_hw_queues(q, false);
->  	} else {
->  		spin_lock_irqsave(q->queue_lock, flags);
->  		blk_start_queue(q);
+On Tue, May 30, 2017@02:58:06PM +0300, Sagi Grimberg wrote:
+> > So, the reason the state is changed when the work is running rather than
+> > queueing is for the window when the state may be set to NVME_CTRL_DELETING,
+> > and we don't want the reset work to proceed in that case.
+> > 
+> > What do you think about adding a new state, like NVME_CTRL_SCHED_RESET,
+> > then leaving the NVME_CTRL_RESETTING state change as-is?
+> 
+> OK, just got to this one.
+> 
+> Instead of adding yet another state, how about making controller delete
+> cancel the reset_work (cancel_work_sync)?
 
-As I commented on v2, this change is really wrong. All what's needed here is
-a call to blk_mq_unquiesce_queue() and nothing else. Adding a call to
-blk_mq_start_stopped_hw_queues() is wrong because it makes it impossible to
-use the STOPPED flag in the SCSI core to make the block layer core stop calling
-.queue_rq() if a SCSI LLD returns "busy".
-
-Bart.
+Yes, that should also work.
