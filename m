@@ -1,79 +1,81 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 31 May 2017 15:32:15 +0200
-Subject: [PATCH v1 5/7] nvme: provide UUID value to userspace
+Date: Wed, 31 May 2017 15:32:17 +0200
+Subject: [PATCH v1 7/7] nvmet: allow overriding the NVMe VS via configfs
 In-Reply-To: <cover.1496237370.git.jthumshirn@suse.de>
 References: <cover.1496237370.git.jthumshirn@suse.de>
-Message-ID: <b7cb0eb1d1ea24642c3d2f045893a2cc4256c8f7.1496237370.git.jthumshirn@suse.de>
+Message-ID: <d7170a45381be21b7d0da629406a063db62aaa42.1496237370.git.jthumshirn@suse.de>
 
-Now that we have a way for getting the UUID from a target, provide it
-to userspace as well.
+Allow overriding the announced NVMe Version of a via configfs.
 
-Unfortunately there is already a sysfs attribute called UUID which is
-a misnomer as it holds the NGUID value. So instead of creating yet
-another wrong name, create a new 'nguid' sysfs attribute for the
-NGUID. For the UUID attribute add a check wheter the namespace has a
-UUID assigned to it and return this or return the NGUID to maintain
-backwards compatibility. This should give userspace a chance to catch
-up.
+This is particularly helpful when debugging new features for the host
+or target side without bumping the hard coded version (as the target
+might not be fully compliant to the announced version yet).
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/core.c | 25 ++++++++++++++++++++++++-
- 1 file changed, 24 insertions(+), 1 deletion(-)
+ drivers/nvme/target/configfs.c | 34 ++++++++++++++++++++++++++++++++++
+ include/linux/nvme.h           |  4 ++++
+ 2 files changed, 38 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 9acbf56c8796..4de162e4e13e 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1888,11 +1888,28 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
- }
- static DEVICE_ATTR(wwid, S_IRUGO, wwid_show, NULL);
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index 16f9f6e3a084..45421d4308a4 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -650,8 +650,42 @@ static ssize_t nvmet_subsys_attr_allow_any_host_store(struct config_item *item,
  
-+static ssize_t nguid_show(struct device *dev, struct device_attribute *attr,
-+			  char *buf)
+ CONFIGFS_ATTR(nvmet_subsys_, attr_allow_any_host);
+ 
++static ssize_t nvmet_subsys_version_show(struct config_item *item,
++					      char *page)
 +{
-+	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
-+	return sprintf(buf, "%pU\n", ns->nguid);
++	struct nvmet_subsys *subsys = to_subsys(item);
++	int major, minor, tertiary;
++	u32 ver;
++
++	ver = subsys->ver;
++	major = NVME_MAJOR(ver);
++	minor = NVME_MINOR(ver);
++	tertiary = NVME_TERRIARY(ver);
++
++	return snprintf(page, PAGE_SIZE, "%d %d %d\n", major, minor, tertiary);
 +}
-+static DEVICE_ATTR(nguid, S_IRUGO, nguid_show, NULL);
 +
- static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
- 								char *buf)
- {
- 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
--	return sprintf(buf, "%pU\n", ns->nguid);
++static ssize_t nvmet_subsys_version_store(struct config_item *item,
++					       const char *page, size_t count)
++{
++	struct nvmet_subsys *subsys = to_subsys(item);
++	int major, minor, tertiary;
++	int ret;
 +
-+	/* For backward compatibility expose the NGUID to userspace if
-+	 * we have no UUID set
-+	 */
-+	if (!memchr_inv(ns->uuid, 0, sizeof(ns->uuid))) {
-+		printk_ratelimited(KERN_WARNING
-+				   "No UUID available providing old NGUID\n");
-+		return sprintf(buf, "%pU\n", ns->nguid);
-+	}
-+	return sprintf(buf, "%pU\n", ns->uuid);
- }
- static DEVICE_ATTR(uuid, S_IRUGO, uuid_show, NULL);
- 
-@@ -1915,6 +1932,7 @@ static DEVICE_ATTR(nsid, S_IRUGO, nsid_show, NULL);
- static struct attribute *nvme_ns_attrs[] = {
- 	&dev_attr_wwid.attr,
- 	&dev_attr_uuid.attr,
-+	&dev_attr_nguid.attr,
- 	&dev_attr_eui.attr,
- 	&dev_attr_nsid.attr,
++
++	ret = sscanf(page, "%d %d %d\n", &major, &minor, &tertiary);
++	if (ret != 3)
++		return -EINVAL;
++
++	subsys->ver = NVME_VS(major, minor, tertiary);
++
++	return count;
++}
++CONFIGFS_ATTR(nvmet_subsys_, version);
++
+ static struct configfs_attribute *nvmet_subsys_attrs[] = {
+ 	&nvmet_subsys_attr_attr_allow_any_host,
++	&nvmet_subsys_attr_version,
  	NULL,
-@@ -1927,6 +1945,11 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
- 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+ };
  
- 	if (a == &dev_attr_uuid.attr) {
-+		if (!memchr_inv(ns->uuid, 0, sizeof(ns->uuid)) ||
-+		    !memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
-+			return 0;
-+	}
-+	if (a == &dev_attr_nguid.attr) {
- 		if (!memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
- 			return 0;
- 	}
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 0a62e843ecb0..dda098c2281b 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -1068,4 +1068,8 @@ struct nvme_completion {
+ #define NVME_VS(major, minor, tertiary) \
+ 	(((major) << 16) | ((minor) << 8) | (tertiary))
+ 
++#define NVME_MAJOR(ver)		((ver) >> 16)
++#define NVME_MINOR(ver)		(((ver) >> 8) & 0xff)
++#define NVME_TERRIARY(ver)	((ver) & 0xff)
++
+ #endif /* _LINUX_NVME_H */
 -- 
 2.12.0
