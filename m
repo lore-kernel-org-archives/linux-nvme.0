@@ -1,36 +1,65 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 31 May 2017 13:24:03 +0200
-Subject: [PATCH 3/7] nvmet: add eui64 field to nvme_ns and populate via
- configfs
-In-Reply-To: <20170531094631.GC10718@lst.de>
-References: <cover.1496131397.git.jthumshirn@suse.de>
- <fe6439add636d3fd31ef357230101819ae7f5090.1496131397.git.jthumshirn@suse.de>
- <20170530092510.GB16736@lst.de>
- <d2bd7b74-aa81-f00e-282b-ff51deecbe39@suse.de>
- <20170531094631.GC10718@lst.de>
-Message-ID: <51b921ed-e9f9-0eb2-7625-6053dbca6a82@suse.de>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 31 May 2017 20:37:00 +0800
+Subject: [PATCH v3 3/9] blk-mq: use the introduced blk_mq_unquiesce_queue()
+In-Reply-To: <20170531123706.20885-1-ming.lei@redhat.com>
+References: <20170531123706.20885-1-ming.lei@redhat.com>
+Message-ID: <20170531123706.20885-4-ming.lei@redhat.com>
 
-On 05/31/2017 11:46 AM, Christoph Hellwig wrote:
-> On Tue, May 30, 2017@11:45:25AM +0200, Johannes Thumshirn wrote:
->> Mostly consistency. The current nvme host code has the EUI sprinkled all
->> around. Sure I can drop it, but then what's the point in evaluating it
->> on the host side? Other targets may send it, so we need in on the host
->> and do we care about potentially awkward host implementations with Linux
->> as a target? Also it's rather handy for testing as well, after all it's
->> not too much and complex code.
-> 
-> There's only one place in the host code proper (discounting the
-> scsi translation mess), and that's because the field is still better
-> than not having any uniqueue identifier.  But I don't think we should
-> spread it any further.
+blk_mq_unquiesce_queue() is used for unquiescing the
+queue explicitly, so replace blk_mq_start_stopped_hw_queues()
+with it.
 
-OK I'll drop it in my next re-send (which should hopefully be somewhen
-today)
+Cc: linux-nvme at lists.infradead.org
+Cc: linux-scsi at vger.kernel.org
+Cc: dm-devel at redhat.com
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
+---
+ drivers/md/dm-rq.c       | 2 +-
+ drivers/nvme/host/core.c | 2 +-
+ drivers/scsi/scsi_lib.c  | 5 ++++-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
+index b639fa7246ee..ea4029de077f 100644
+--- a/drivers/md/dm-rq.c
++++ b/drivers/md/dm-rq.c
+@@ -71,7 +71,7 @@ static void dm_old_start_queue(struct request_queue *q)
+ 
+ static void dm_mq_start_queue(struct request_queue *q)
+ {
+-	blk_mq_start_stopped_hw_queues(q, true);
++	blk_mq_unquiesce_queue(q);
+ 	blk_mq_kick_requeue_list(q);
+ }
+ 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a60926410438..c3f189e54d10 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2526,7 +2526,7 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+ 
+ 	mutex_lock(&ctrl->namespaces_mutex);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list) {
+-		blk_mq_start_stopped_hw_queues(ns->queue, true);
++		blk_mq_unquiesce_queue(ns->queue);
+ 		blk_mq_kick_requeue_list(ns->queue);
+ 	}
+ 	mutex_unlock(&ctrl->namespaces_mutex);
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 99e16ac479e3..ffcf05765e2b 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -3031,7 +3031,10 @@ scsi_internal_device_unblock(struct scsi_device *sdev,
+ 		return -EINVAL;
+ 
+ 	if (q->mq_ops) {
+-		blk_mq_start_stopped_hw_queues(q, false);
++		if (blk_queue_quiesced(q))
++			blk_mq_unquiesce_queue(q);
++		else
++			blk_mq_start_stopped_hw_queues(q, false);
+ 	} else {
+ 		spin_lock_irqsave(q->queue_lock, flags);
+ 		blk_start_queue(q);
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.9.4
