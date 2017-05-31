@@ -1,47 +1,89 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Wed, 31 May 2017 11:51:31 -0500
-Subject: [PATCH] PCI: ensure the PCI device is locked over ->reset_notify
- calls
-In-Reply-To: <20170531045848.GA4001@lst.de>
-References: <20170523054202.7985-1-hch@lst.de>
- <20170523054202.7985-2-hch@lst.de>
- <20170530222844.GE14896@bhelgaas-glaptop.roam.corp.google.com>
- <20170531045848.GA4001@lst.de>
-Message-ID: <20170531165131.GA4496@bhelgaas-glaptop.roam.corp.google.com>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 31 May 2017 22:13:41 +0300
+Subject: [PATCH v1 4/7] nvme: get list of namespace descriptors
+In-Reply-To: <f51d09c4e22189e8979a92a46faa98778034afe6.1496237370.git.jthumshirn@suse.de>
+References: <cover.1496237370.git.jthumshirn@suse.de>
+ <f51d09c4e22189e8979a92a46faa98778034afe6.1496237370.git.jthumshirn@suse.de>
+Message-ID: <60cf348d-45cb-5bd1-9f75-7b9e22f30826@mellanox.com>
 
-On Wed, May 31, 2017@06:58:48AM +0200, Christoph Hellwig wrote:
-> On Tue, May 30, 2017@05:28:44PM -0500, Bjorn Helgaas wrote:
-> > [+cc Alex]
-> > 
-> > On Tue, May 23, 2017@07:42:02AM +0200, Christoph Hellwig wrote:
-> > > Without this ->notify_reset instance may race with ->remove calls,
-> > 
-> > Do you mean the .reset_notify() method in struct pci_error_handlers?
-> > I don't see a "notify_reset" symbol.
-> 
-> Yes.
-> 
-> > Can you elaborate on exactly how this race happens?  I'm trying to
-> > figure out whether this is also a problem or potential problem with
-> > other reset paths like pci_try_reset_function(), pci_reset_bus(),
-> > pci_try_reset_bus(), pci_reset_slot(), and pci_try_reset_slot().
-> > 
-> > What does the race look like when it happens?  Oops, panic, etc?
-> > 
-> > Can this also be triggered via the sysfs "reset" file?
-> 
-> Here is the original bug report:
-> 
-> http://lists.infradead.org/pipermail/linux-nvme/2017-May/010345.html
-> 
-> the issue is triggered through sysfs.
 
-Thanks.
 
-Do you have any thoughts on whether the paths I mentioned above are
-also susceptible?
+On 5/31/2017 4:32 PM, Johannes Thumshirn wrote:
+> If a target identifies itself as NVMe 1.3 compliant, try to get the
+> list of Namespace Identification Descriptors and populate the UUID,
+> NGUID and EUI64 fileds in the NVMe namespace structure with these
+> values.
+>
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> ---
+>  drivers/nvme/host/core.c | 88 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  drivers/nvme/host/nvme.h |  1 +
+>  2 files changed, 89 insertions(+)
+>
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index 7b254be16887..9acbf56c8796 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -643,6 +643,71 @@ int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
+>  	return error;
+>  }
+>
+> +static void nvme_parse_ns_descs(struct nvme_ns *ns, void *ns_nid)
+> +{
+> +	struct nvme_ns_nid *cur;
+> +	const u8 *p;
+> +	int pos = 0;
+> +	int len;
+> +
+> +	p = (u8 *)ns_nid;
+> +
+> +	for (;;) {
+> +		cur = (struct nvme_ns_nid *)p;
+> +
+> +		switch (cur->nidl) {
+> +		case 0:
+> +			return;
+> +		case 8:
+> +		case 16:
 
-I don't want to apply a patch that fixes one issue while leaving
-similar ones unfixed.
+consider using the length defines from <linux/nvme.h> instead of 8/16,
+it's more intuitive code this way.
+Actually, to be safer, you can check the length inside the second 
+switch/case per case.
 
-Bjorn
+> +			break;
+> +		default:
+> +			dev_warn(ns->ctrl->dev,
+> +				 "Target returned bogus Namespace Identification Descriptor length: %d\n",
+> +				 cur->nidl);
+> +			return;
+> +
+> +		}
+> +
+> +		switch (cur->nidt) {
+> +		case NVME_NIDT_EUI64:
+> +			len = NVME_NIDT_EUI64_LEN;
+> +			memcpy(ns->eui, cur->nid, len);
+> +			break;
+> +		case NVME_NIDT_NGUID:
+> +			len = NVME_NIDT_NGUID_LEN;
+> +			memcpy(ns->nguid, cur->nid, len);
+> +			break;
+> +		case NVME_NIDT_UUID:
+> +			len = NVME_NIDT_UUID_LEN;
+> +			memcpy(ns->uuid, cur->nid, len);
+> +			break;
+> +		default:
+> +			dev_warn(ns->ctrl->dev,
+> +				 "Invalid Namespace Identification Descriptor Type: %d\n",
+> +				 cur->nidt);
+> +			return;
+> +		}
+> +
+> +		pos += sizeof(struct nvme_ns_nid) + len;
+> +		if (pos >= SZ_4K)
+> +			return;
+> +		p += pos;
+> +	}
+> +}
+> +
