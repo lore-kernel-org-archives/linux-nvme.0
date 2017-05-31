@@ -1,57 +1,78 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Tue, 30 May 2017 17:28:44 -0500
-Subject: [PATCH] PCI: ensure the PCI device is locked over ->reset_notify
- calls
-In-Reply-To: <20170523054202.7985-2-hch@lst.de>
-References: <20170523054202.7985-1-hch@lst.de>
- <20170523054202.7985-2-hch@lst.de>
-Message-ID: <20170530222844.GE14896@bhelgaas-glaptop.roam.corp.google.com>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Wed, 31 May 2017 10:28:14 +0800
+Subject: [PATCH v2 3/8] blk-mq: use the introduced blk_mq_unquiesce_queue()
+In-Reply-To: <20170530190402.GG7419@u40b0340c692b58f6553c.ant.amazon.com>
+References: <20170527142126.26079-1-ming.lei@redhat.com>
+ <20170527142126.26079-4-ming.lei@redhat.com>
+ <20170530190402.GG7419@u40b0340c692b58f6553c.ant.amazon.com>
+Message-ID: <20170531022808.GA12220@ming.t460p>
 
-[+cc Alex]
-
-On Tue, May 23, 2017@07:42:02AM +0200, Christoph Hellwig wrote:
-> Without this ->notify_reset instance may race with ->remove calls,
-
-Do you mean the .reset_notify() method in struct pci_error_handlers?
-I don't see a "notify_reset" symbol.
-
-Can you elaborate on exactly how this race happens?  I'm trying to
-figure out whether this is also a problem or potential problem with
-other reset paths like pci_try_reset_function(), pci_reset_bus(),
-pci_try_reset_bus(), pci_reset_slot(), and pci_try_reset_slot().
-
-What does the race look like when it happens?  Oops, panic, etc?
-
-Can this also be triggered via the sysfs "reset" file?
-
-> which can be easily triggered in NVMe.
+On Tue, May 30, 2017@12:04:02PM -0700, Eduardo Valentin wrote:
+> On Sat, May 27, 2017@10:21:21PM +0800, Ming Lei wrote:
+> > blk_mq_unquiesce_queue() is used for unquiescing the
+> > queue explicitly, so replace blk_mq_start_stopped_hw_queues()
+> > with it.
+> > 
+> > Cc: linux-nvme at lists.infradead.org
+> > Cc: linux-scsi at vger.kernel.org
+> > Cc: dm-devel at redhat.com
+> > Signed-off-by: Ming Lei <ming.lei at redhat.com>
+> > ---
+> >  drivers/md/dm-rq.c       | 2 +-
+> >  drivers/nvme/host/core.c | 2 +-
+> >  drivers/scsi/scsi_lib.c  | 5 ++++-
+> >  3 files changed, 6 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
+> > index 2af27026aa2e..673fcf075077 100644
+> > --- a/drivers/md/dm-rq.c
+> > +++ b/drivers/md/dm-rq.c
+> > @@ -71,7 +71,7 @@ static void dm_old_start_queue(struct request_queue *q)
+> >  
+> >  static void dm_mq_start_queue(struct request_queue *q)
+> >  {
+> > -	blk_mq_start_stopped_hw_queues(q, true);
+> > +	blk_mq_unquiesce_queue(q);
+> >  	blk_mq_kick_requeue_list(q);
+> >  }
+> >  
+> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> > index 04e115834702..231d36028afc 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+> > @@ -2514,7 +2514,7 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+> >  
+> >  	mutex_lock(&ctrl->namespaces_mutex);
+> >  	list_for_each_entry(ns, &ctrl->namespaces, list) {
+> > -		blk_mq_start_stopped_hw_queues(ns->queue, true);
+> > +		blk_mq_unquiesce_queue(ns->queue);
+> >  		blk_mq_kick_requeue_list(ns->queue);
+> >  	}
+> >  	mutex_unlock(&ctrl->namespaces_mutex);
+> > diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+> > index 814a4bd8405d..72b11f75719c 100644
+> > --- a/drivers/scsi/scsi_lib.c
+> > +++ b/drivers/scsi/scsi_lib.c
+> > @@ -3030,7 +3030,10 @@ scsi_internal_device_unblock(struct scsi_device *sdev,
+> >  		return -EINVAL;
+> >  
+> >  	if (q->mq_ops) {
+> > -		blk_mq_start_stopped_hw_queues(q, false);
+> > +		if (blk_queue_quiesced(q))
+> > +			blk_mq_unquiesce_queue(q);
 > 
-> Reported-by: Rakesh Pandit <rakesh at tuxera.com>
-> Tested-by: Rakesh Pandit <rakesh at tuxera.com>
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  drivers/pci/pci.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> Calling this here, at this point means:
+> 		blk_mq_start_stopped_hw_queues(q, true);
 > 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index b01bd5bba8e6..b61ad77dc322 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -4275,11 +4275,13 @@ int pci_reset_function(struct pci_dev *dev)
->  	if (rc)
->  		return rc;
->  
-> +	pci_dev_lock(dev);
->  	pci_dev_save_and_disable(dev);
->  
-> -	rc = pci_dev_reset(dev, 0);
-> +	rc = __pci_dev_reset(dev, 0);
->  
->  	pci_dev_restore(dev);
-> +	pci_dev_unlock(dev);
->  
->  	return rc;
->  }
-> -- 
-> 2.11.0
-> 
+> Does it make a difference, given that before the code always calling 
+> 		blk_mq_start_stopped_hw_queues(q, false);
+
+Good catch, it should have been:
+
+		if (blk_queue_quiesced(q))
+			blk_mq_unquiesce_queue(q);
+		else
+			blk_mq_start_stopped_hw_queues(q, false);
+
+Thanks,
+Ming
