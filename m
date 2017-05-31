@@ -1,36 +1,47 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 31 May 2017 12:21:50 -0400
-Subject: [PATCH] nvme/pci: Remove watchdog timer
-In-Reply-To: <6eb8ac59-cb3f-d0eb-f6cb-fb232e30957c@grimberg.me>
-References: <1495800988-27311-1-git-send-email-keith.busch@intel.com>
- <6eb8ac59-cb3f-d0eb-f6cb-fb232e30957c@grimberg.me>
-Message-ID: <20170531162150.GE2845@localhost.localdomain>
+From: helgaas@kernel.org (Bjorn Helgaas)
+Date: Wed, 31 May 2017 11:51:31 -0500
+Subject: [PATCH] PCI: ensure the PCI device is locked over ->reset_notify
+ calls
+In-Reply-To: <20170531045848.GA4001@lst.de>
+References: <20170523054202.7985-1-hch@lst.de>
+ <20170523054202.7985-2-hch@lst.de>
+ <20170530222844.GE14896@bhelgaas-glaptop.roam.corp.google.com>
+ <20170531045848.GA4001@lst.de>
+Message-ID: <20170531165131.GA4496@bhelgaas-glaptop.roam.corp.google.com>
 
-On Tue, May 30, 2017@02:53:28PM +0300, Sagi Grimberg wrote:
+On Wed, May 31, 2017@06:58:48AM +0200, Christoph Hellwig wrote:
+> On Tue, May 30, 2017@05:28:44PM -0500, Bjorn Helgaas wrote:
+> > [+cc Alex]
+> > 
+> > On Tue, May 23, 2017@07:42:02AM +0200, Christoph Hellwig wrote:
+> > > Without this ->notify_reset instance may race with ->remove calls,
+> > 
+> > Do you mean the .reset_notify() method in struct pci_error_handlers?
+> > I don't see a "notify_reset" symbol.
 > 
-> >  static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
-> >  {
-> >  	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
-> > @@ -957,6 +1001,17 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
-> >  	struct nvme_dev *dev = nvmeq->dev;
-> >  	struct request *abort_req;
-> >  	struct nvme_command cmd;
-> > +	u32 csts = readl(dev->bar + NVME_REG_CSTS);
-> > +
-> > +	/*
-> > +	 * Reset immediately if the controller is failed
-> > +	 */
-> > +	if (nvme_should_reset(dev, readl(dev->bar + NVME_REG_CSTS))) {
-> > +		nvme_warn_reset(dev, csts);
-> > +		nvme_dev_disable(dev, false);
+> Yes.
 > 
-> Why the nvme_dev_disable here? its going to happen in reset_work..
+> > Can you elaborate on exactly how this race happens?  I'm trying to
+> > figure out whether this is also a problem or potential problem with
+> > other reset paths like pci_try_reset_function(), pci_reset_bus(),
+> > pci_try_reset_bus(), pci_reset_slot(), and pci_try_reset_slot().
+> > 
+> > What does the race look like when it happens?  Oops, panic, etc?
+> > 
+> > Can this also be triggered via the sysfs "reset" file?
+> 
+> Here is the original bug report:
+> 
+> http://lists.infradead.org/pipermail/linux-nvme/2017-May/010345.html
+> 
+> the issue is triggered through sysfs.
 
-Not if the reset work is already running or we are trying to remove the
-device. We have to disable inline with the timeout work to make sure we
-reclaim the timed out command.
+Thanks.
 
-Back in the day, we needed reset_work to do the disable when blk-mq's
-timeout handler ran in soft-irq context, but that part of reset_work.
-This patch should obviate the need for reset_work to ever disable the
-controller.
+Do you have any thoughts on whether the paths I mentioned above are
+also susceptible?
+
+I don't want to apply a patch that fixes one issue while leaving
+similar ones unfixed.
+
+Bjorn
