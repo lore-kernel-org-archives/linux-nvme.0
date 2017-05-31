@@ -1,36 +1,35 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 31 May 2017 10:29:50 +0800
-Subject: [PATCH v2 3/8] blk-mq: use the introduced blk_mq_unquiesce_queue()
-In-Reply-To: <1496157160.2627.7.camel@sandisk.com>
-References: <20170527142126.26079-1-ming.lei@redhat.com>
- <20170527142126.26079-4-ming.lei@redhat.com>
- <1496157160.2627.7.camel@sandisk.com>
-Message-ID: <20170531022949.GB12220@ming.t460p>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 31 May 2017 06:58:48 +0200
+Subject: [PATCH] PCI: ensure the PCI device is locked over
+ ->reset_notify calls
+In-Reply-To: <20170530222844.GE14896@bhelgaas-glaptop.roam.corp.google.com>
+References: <20170523054202.7985-1-hch@lst.de>
+ <20170523054202.7985-2-hch@lst.de>
+ <20170530222844.GE14896@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <20170531045848.GA4001@lst.de>
 
-On Tue, May 30, 2017@03:12:41PM +0000, Bart Van Assche wrote:
-> On Sat, 2017-05-27@22:21 +0800, Ming Lei wrote:
-> > --- a/drivers/scsi/scsi_lib.c
-> > +++ b/drivers/scsi/scsi_lib.c
-> > @@ -3030,7 +3030,10 @@ scsi_internal_device_unblock(struct scsi_device *sdev,
-> >  		return -EINVAL;
-> >  
-> >  	if (q->mq_ops) {
-> > -		blk_mq_start_stopped_hw_queues(q, false);
-> > +		if (blk_queue_quiesced(q))
-> > +			blk_mq_unquiesce_queue(q);
-> > +		else
-> > +			blk_mq_start_stopped_hw_queues(q, false);
-> >  	} else {
-> >  		spin_lock_irqsave(q->queue_lock, flags);
-> >  		blk_start_queue(q);
+On Tue, May 30, 2017@05:28:44PM -0500, Bjorn Helgaas wrote:
+> [+cc Alex]
 > 
-> Hello Ming,
+> On Tue, May 23, 2017@07:42:02AM +0200, Christoph Hellwig wrote:
+> > Without this ->notify_reset instance may race with ->remove calls,
 > 
-> Sorry but that change looks wrong to me. All what's needed here is a call
-> to blk_mq_unquiesce_queue().
+> Do you mean the .reset_notify() method in struct pci_error_handlers?
+> I don't see a "notify_reset" symbol.
 
-I think blk_mq_unquiesce_queue() should be called for case of queue
-quiesced.
+Yes.
 
-Thanks,
-Ming
+> Can you elaborate on exactly how this race happens?  I'm trying to
+> figure out whether this is also a problem or potential problem with
+> other reset paths like pci_try_reset_function(), pci_reset_bus(),
+> pci_try_reset_bus(), pci_reset_slot(), and pci_try_reset_slot().
+> 
+> What does the race look like when it happens?  Oops, panic, etc?
+> 
+> Can this also be triggered via the sysfs "reset" file?
+
+Here is the original bug report:
+
+http://lists.infradead.org/pipermail/linux-nvme/2017-May/010345.html
+
+the issue is triggered through sysfs.
