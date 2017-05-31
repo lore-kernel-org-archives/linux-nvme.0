@@ -1,65 +1,38 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 31 May 2017 20:37:00 +0800
-Subject: [PATCH v3 3/9] blk-mq: use the introduced blk_mq_unquiesce_queue()
+Date: Wed, 31 May 2017 20:37:01 +0800
+Subject: [PATCH v3 4/9] nvme: host: unquiesce queue in nvme_kill_queues()
 In-Reply-To: <20170531123706.20885-1-ming.lei@redhat.com>
 References: <20170531123706.20885-1-ming.lei@redhat.com>
-Message-ID: <20170531123706.20885-4-ming.lei@redhat.com>
+Message-ID: <20170531123706.20885-5-ming.lei@redhat.com>
 
-blk_mq_unquiesce_queue() is used for unquiescing the
-queue explicitly, so replace blk_mq_start_stopped_hw_queues()
-with it.
+When nvme_kill_queues() is run, queues may be in
+quiesced state, so we forcibly unquiesce queues to avoid
+blocking dispatch, and I/O hang can be avoided in
+remove path.
+
+Peviously we use blk_mq_start_stopped_hw_queues() as
+counterpart of blk_mq_quiesce_queue(), now we have
+introduced blk_mq_unquiesce_queue(), so use it explicitly.
 
 Cc: linux-nvme at lists.infradead.org
-Cc: linux-scsi at vger.kernel.org
-Cc: dm-devel at redhat.com
 Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/md/dm-rq.c       | 2 +-
- drivers/nvme/host/core.c | 2 +-
- drivers/scsi/scsi_lib.c  | 5 ++++-
- 3 files changed, 6 insertions(+), 3 deletions(-)
+ drivers/nvme/host/core.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
-index b639fa7246ee..ea4029de077f 100644
---- a/drivers/md/dm-rq.c
-+++ b/drivers/md/dm-rq.c
-@@ -71,7 +71,7 @@ static void dm_old_start_queue(struct request_queue *q)
- 
- static void dm_mq_start_queue(struct request_queue *q)
- {
--	blk_mq_start_stopped_hw_queues(q, true);
-+	blk_mq_unquiesce_queue(q);
- 	blk_mq_kick_requeue_list(q);
- }
- 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a60926410438..c3f189e54d10 100644
+index c3f189e54d10..e44326d5cf19 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2526,7 +2526,7 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
+@@ -2448,6 +2448,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 		revalidate_disk(ns->disk);
+ 		blk_set_queue_dying(ns->queue);
  
- 	mutex_lock(&ctrl->namespaces_mutex);
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
--		blk_mq_start_stopped_hw_queues(ns->queue, true);
++		/* Forcibly unquiesce queues to avoid blocking dispatch */
 +		blk_mq_unquiesce_queue(ns->queue);
- 		blk_mq_kick_requeue_list(ns->queue);
- 	}
- 	mutex_unlock(&ctrl->namespaces_mutex);
-diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
-index 99e16ac479e3..ffcf05765e2b 100644
---- a/drivers/scsi/scsi_lib.c
-+++ b/drivers/scsi/scsi_lib.c
-@@ -3031,7 +3031,10 @@ scsi_internal_device_unblock(struct scsi_device *sdev,
- 		return -EINVAL;
- 
- 	if (q->mq_ops) {
--		blk_mq_start_stopped_hw_queues(q, false);
-+		if (blk_queue_quiesced(q))
-+			blk_mq_unquiesce_queue(q);
-+		else
-+			blk_mq_start_stopped_hw_queues(q, false);
- 	} else {
- 		spin_lock_irqsave(q->queue_lock, flags);
- 		blk_start_queue(q);
++
+ 		/*
+ 		 * Forcibly start all queues to avoid having stuck requests.
+ 		 * Note that we must ensure the queues are not stopped
 -- 
 2.9.4
