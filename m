@@ -1,138 +1,147 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 31 May 2017 15:32:14 +0200
-Subject: [PATCH v1 4/7] nvme: get list of namespace descriptors
+Date: Wed, 31 May 2017 15:32:13 +0200
+Subject: [PATCH v1 3/7] nvmet: implement namespace identify descriptor list
 In-Reply-To: <cover.1496237370.git.jthumshirn@suse.de>
 References: <cover.1496237370.git.jthumshirn@suse.de>
-Message-ID: <f51d09c4e22189e8979a92a46faa98778034afe6.1496237370.git.jthumshirn@suse.de>
+Message-ID: <d6782789a4c53be2244186588599cc017e3955ea.1496237370.git.jthumshirn@suse.de>
 
-If a target identifies itself as NVMe 1.3 compliant, try to get the
-list of Namespace Identification Descriptors and populate the UUID,
-NGUID and EUI64 fileds in the NVMe namespace structure with these
-values.
+A NVMe Identify NS command with a CNS value of '3' is expecting a list
+of Namespace Identification Descriptor structures to be returned to
+the host for the namespace requested in the namespace identify
+command.
+
+This Namespace Identification Descriptor structure consists of the
+type of the namespace identifier, the length of the identifier and the
+actual identifier.
+
+Valid types are EUI-64, NGUID and UUID which we have saved in our
+nvme_ns structure if they have been configured via configfs. If no
+value has been assigened to one of these we return an "invalid opcode"
+back to the host to maintain backward compatibiliy with older
+implementations without Namespace Identify Descriptor list support.
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/core.c | 88 ++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 89 insertions(+)
+ drivers/nvme/target/admin-cmd.c | 63 +++++++++++++++++++++++++++++++++++++++++
+ include/linux/nvme.h            | 18 ++++++++++++
+ 2 files changed, 81 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 7b254be16887..9acbf56c8796 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -643,6 +643,71 @@ int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
- 	return error;
+diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
+index ff1f97006322..f53cab51b090 100644
+--- a/drivers/nvme/target/admin-cmd.c
++++ b/drivers/nvme/target/admin-cmd.c
+@@ -367,6 +367,66 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
+ 	nvmet_req_complete(req, status);
  }
  
-+static void nvme_parse_ns_descs(struct nvme_ns *ns, void *ns_nid)
++static void nvmet_execute_identify_desclist(struct nvmet_req *req)
 +{
-+	struct nvme_ns_nid *cur;
-+	const u8 *p;
++	static const int buf_size = SZ_4K;
++	struct nvmet_ns *ns;
++	struct nvme_ns_nid *ns_nid;
++	u8 *nid_list;
++	u16 status = 0;
 +	int pos = 0;
-+	int len;
++	const u8 *p;
 +
-+	p = (u8 *)ns_nid;
++	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
++	if (!ns) {
++		status = NVME_SC_INVALID_NS | NVME_SC_DNR;
++		goto out;
++	}
 +
-+	for (;;) {
-+		cur = (struct nvme_ns_nid *)p;
++	nid_list = kzalloc(buf_size, GFP_KERNEL);
++	if (!nid_list) {
++		status = NVME_SC_INTERNAL;
++		goto out_put_ns;
++	}
 +
-+		switch (cur->nidl) {
-+		case 0:
-+			return;
-+		case 8:
-+		case 16:
-+			break;
-+		default:
-+			dev_warn(ns->ctrl->dev,
-+				 "Target returned bogus Namespace Identification Descriptor length: %d\n",
-+				 cur->nidl);
-+			return;
++	p = nid_list;
 +
++	if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
++		ns_nid = (struct nvme_ns_nid *)p;
++		ns_nid->nidt = NVME_NIDT_UUID;
++		ns_nid->nidl = NVME_NIDT_UUID_LEN;
++		memcpy(&ns_nid->nid, &ns->uuid, sizeof(ns->uuid));
++		pos += sizeof(struct nvme_ns_nid) + sizeof(ns->uuid);
++		if (pos > buf_size) {
++			status = NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
++			goto out_free_nid_list;
 +		}
-+
-+		switch (cur->nidt) {
-+		case NVME_NIDT_EUI64:
-+			len = NVME_NIDT_EUI64_LEN;
-+			memcpy(ns->eui, cur->nid, len);
-+			break;
-+		case NVME_NIDT_NGUID:
-+			len = NVME_NIDT_NGUID_LEN;
-+			memcpy(ns->nguid, cur->nid, len);
-+			break;
-+		case NVME_NIDT_UUID:
-+			len = NVME_NIDT_UUID_LEN;
-+			memcpy(ns->uuid, cur->nid, len);
-+			break;
-+		default:
-+			dev_warn(ns->ctrl->dev,
-+				 "Invalid Namespace Identification Descriptor Type: %d\n",
-+				 cur->nidt);
-+			return;
-+		}
-+
-+		pos += sizeof(struct nvme_ns_nid) + len;
-+		if (pos >= SZ_4K)
-+			return;
 +		p += pos;
 +	}
-+}
-+
-+static int nvme_identify_ns_descs(struct nvme_ctrl *dev, unsigned nsid,
-+				  void *ns_nid)
-+{
-+	struct nvme_command c = { };
-+
-+	c.identify.opcode = nvme_admin_identify;
-+	c.identify.nsid = cpu_to_le32(nsid);
-+	c.identify.cns = NVME_ID_CNS_NS_DESC_LIST;
-+
-+	return nvme_submit_sync_cmd(dev->admin_q, &c, ns_nid, SZ_4K);
-+}
-+
- static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *ns_list)
- {
- 	struct nvme_command c = { };
-@@ -1017,6 +1082,29 @@ static int nvme_revalidate_ns(struct nvme_ns *ns, struct nvme_id_ns **id)
- 		memcpy(ns->eui, (*id)->eui64, sizeof(ns->eui));
- 	if (ns->ctrl->vs >= NVME_VS(1, 2, 0))
- 		memcpy(ns->nguid, (*id)->nguid, sizeof(ns->nguid));
-+	if (ns->ctrl->vs >= NVME_VS(1, 3, 0)) {
-+		void *ns_nid;
-+		int ret;
-+
-+
-+		ns_nid = kzalloc(SZ_4K, GFP_KERNEL);
-+		if (!ns_nid) {
-+			dev_warn(ns->ctrl->dev,
-+				 "%s: Identify Descriptors failed\n", __func__);
-+			return 0;
++	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid))) {
++		ns_nid = (struct nvme_ns_nid *)p;
++		ns_nid->nidt = NVME_NIDT_NGUID;
++		ns_nid->nidl = NVME_NIDT_NGUID_LEN;
++		memcpy(&ns_nid->nid, &ns->nguid, sizeof(ns->nguid));
++		pos += sizeof(struct nvme_ns_nid) + sizeof(ns->nguid);
++		if (pos > buf_size) {
++			status = NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
++			goto out_free_nid_list;
 +		}
-+
-+		ret = nvme_identify_ns_descs(ns->ctrl, ns->ns_id, ns_nid);
-+		if (ret) {
-+			dev_warn(ns->ctrl->dev,
-+				 "%s: Identify Descriptors failed\n", __func__);
-+			 /* Don't treat error as fatal we potentially
-+			  * already have a NGUID or EUI-64 */
-+			return 0;
-+		}
-+		nvme_parse_ns_descs(ns, ns_nid);
-+		kfree(ns_nid);
++		p += pos;
 +	}
++
++	status = nvmet_copy_to_sgl(req, 0, nid_list, buf_size);
++
++out_free_nid_list:
++	kfree(nid_list);
++
++out_put_ns:
++	nvmet_put_namespace(ns);
++out:
++	nvmet_req_complete(req, status);
++}
++
+ /*
+  * A "mimimum viable" abort implementation: the command is mandatory in the
+  * spec, but we are not required to do any useful work.  We couldn't really
+@@ -515,6 +575,9 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
+ 		case NVME_ID_CNS_NS_ACTIVE_LIST:
+ 			req->execute = nvmet_execute_identify_nslist;
+ 			return 0;
++		case NVME_ID_CNS_NS_DESC_LIST:
++			req->execute = nvmet_execute_identify_desclist;
++			return 0;
+ 		}
+ 		break;
+ 	case nvme_admin_abort_cmd:
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b625bacf37ef..0a62e843ecb0 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -288,6 +288,7 @@ enum {
+ 	NVME_ID_CNS_NS			= 0x00,
+ 	NVME_ID_CNS_CTRL		= 0x01,
+ 	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
++	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
+ 	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
+ 	NVME_ID_CNS_NS_PRESENT		= 0x11,
+ 	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
+@@ -314,6 +315,23 @@ enum {
+ 	NVME_NS_DPS_PI_TYPE3	= 3,
+ };
  
- 	return 0;
- }
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 5004f0c41397..7007521e8194 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -190,6 +190,7 @@ struct nvme_ns {
- 
- 	u8 eui[8];
- 	u8 nguid[16];
-+	u8 uuid[16];
- 
- 	unsigned ns_id;
- 	int lba_shift;
++struct nvme_ns_nid {
++	__u8 nidt;
++	__u8 nidl;
++	__le16 reserved;
++	__u8 nid[0];
++};
++
++#define NVME_NIDT_EUI64_LEN	8
++#define NVME_NIDT_NGUID_LEN	16
++#define NVME_NIDT_UUID_LEN	16
++
++enum {
++	NVME_NIDT_EUI64		= 0x01,
++	NVME_NIDT_NGUID		= 0x02,
++	NVME_NIDT_UUID		= 0x03,
++};
++
+ struct nvme_smart_log {
+ 	__u8			critical_warning;
+ 	__u8			temperature[2];
 -- 
 2.12.0
