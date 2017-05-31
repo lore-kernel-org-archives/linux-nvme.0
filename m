@@ -1,80 +1,58 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 31 May 2017 15:32:11 +0200
-Subject: [PATCH v1 1/7] nvme: rename uuid to nguid in nvme_ns
-In-Reply-To: <cover.1496237370.git.jthumshirn@suse.de>
-References: <cover.1496237370.git.jthumshirn@suse.de>
-Message-ID: <7e97c34f8ab586615cb57b22a36db2eeb0ccc57f.1496237370.git.jthumshirn@suse.de>
+Date: Wed, 31 May 2017 15:32:10 +0200
+Subject: [PATCH v1 0/7] Implement NVMe Namespace Descriptor Identification
+Message-ID: <cover.1496237370.git.jthumshirn@suse.de>
 
-The uuid field in the nvme_ns structure represents the nguid field
-from the identify namespace command. And as NVMe 1.3 introduced an
-UUID in the NVMe Namespace Identification Descriptor this will
-collide.
+This patchset implemets NVMe Namespace Descriptor Identification as of
+NVMe 1.3. The Namespace Descriptor Identification allows a NVMe host
+to query several Namespace Identification mechanisms, such as EUI-64,
+NGUID and UUID from the target. If more than one value is set by the
+target, it can transmit all set values to the host.
 
-So rename the uuid to nguid to prevent any further
-confusion. Unfortunately we export the nguid to sysfs in the uuid
-sysfs attribute, but this can't be changed anymore without possibly
-breaking existing userspace.
+The Namespace Identification Descriptor list is the only way a target
+can identify itself via the newly introduced UUID to the host (instead
+of the EUI-64 or NGUID).
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- drivers/nvme/host/core.c | 10 +++++-----
- drivers/nvme/host/nvme.h |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
+Both the Host and Target side are implemented. In order to get the
+Linux Host to send the Linux target implementation a Namespace
+Descriptor Identification command, you have to change the target's
+announced version code to at least 1.3. 
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a60926410438..7b254be16887 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1016,7 +1016,7 @@ static int nvme_revalidate_ns(struct nvme_ns *ns, struct nvme_id_ns **id)
- 	if (ns->ctrl->vs >= NVME_VS(1, 1, 0))
- 		memcpy(ns->eui, (*id)->eui64, sizeof(ns->eui));
- 	if (ns->ctrl->vs >= NVME_VS(1, 2, 0))
--		memcpy(ns->uuid, (*id)->nguid, sizeof(ns->uuid));
-+		memcpy(ns->nguid, (*id)->nguid, sizeof(ns->nguid));
- 
- 	return 0;
- }
-@@ -1784,8 +1784,8 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
- 	int serial_len = sizeof(ctrl->serial);
- 	int model_len = sizeof(ctrl->model);
- 
--	if (memchr_inv(ns->uuid, 0, sizeof(ns->uuid)))
--		return sprintf(buf, "eui.%16phN\n", ns->uuid);
-+	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
-+		return sprintf(buf, "eui.%16phN\n", ns->nguid);
- 
- 	if (memchr_inv(ns->eui, 0, sizeof(ns->eui)))
- 		return sprintf(buf, "eui.%8phN\n", ns->eui);
-@@ -1804,7 +1804,7 @@ static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
- 								char *buf)
- {
- 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
--	return sprintf(buf, "%pU\n", ns->uuid);
-+	return sprintf(buf, "%pU\n", ns->nguid);
- }
- static DEVICE_ATTR(uuid, S_IRUGO, uuid_show, NULL);
- 
-@@ -1839,7 +1839,7 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
- 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
- 
- 	if (a == &dev_attr_uuid.attr) {
--		if (!memchr_inv(ns->uuid, 0, sizeof(ns->uuid)))
-+		if (!memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
- 			return 0;
- 	}
- 	if (a == &dev_attr_eui.attr) {
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 9d6a070d4391..5004f0c41397 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -189,7 +189,7 @@ struct nvme_ns {
- 	int instance;
- 
- 	u8 eui[8];
--	u8 uuid[16];
-+	u8 nguid[16];
- 
- 	unsigned ns_id;
- 	int lba_shift;
+Unfortunately the host side already did have a sysfs attribute called
+'uuid' which represented the NGUID, so precautions have been taken to
+not break any existing userspace.
+
+The code is tested using the nvme-loop loopback target and cut against
+the nvme tree's nvme-4.12 branch.
+
+A patch for nvmetcli will follow shortly.
+
+Changes to v0:
+* Fixed wrong size of 4069 and replaced it with SZ_4K (Max)
+* Add constants for UUID, NGUID and EUI-64 length (Max)
+* Drop EUI-64 Support on target side (Christoph)
+* Use uuid_be instead of u8[] (Christoph)
+* Add ability to override target's version (Hannes)
+* Change hard coded magic 4096 and 0x1000 to SZ_4k in drivers/nvme/*
+
+Johannes Thumshirn (7):
+  nvme: rename uuid to nguid in nvme_ns
+  nvmet: add uuid field to nvme_ns and populate via configfs
+  nvmet: implement namespace identify descriptor list
+  nvme: get list of namespace descriptors
+  nvme: provide UUID value to userspace
+  nvme: change magic 4096 to SZ_4K
+  nvmet: allow overriding the NVMe VS via configfs
+
+ drivers/nvme/host/core.c        | 123 ++++++++++++++++++++++++++++++++++++++--
+ drivers/nvme/host/nvme.h        |   1 +
+ drivers/nvme/host/pci.c         |   6 +-
+ drivers/nvme/target/admin-cmd.c |  67 +++++++++++++++++++++-
+ drivers/nvme/target/configfs.c  |  65 +++++++++++++++++++++
+ drivers/nvme/target/discovery.c |   2 +-
+ drivers/nvme/target/nvmet.h     |   1 +
+ include/linux/nvme.h            |  22 +++++++
+ 8 files changed, 275 insertions(+), 12 deletions(-)
+
 -- 
 2.12.0
