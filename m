@@ -1,38 +1,85 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Wed, 31 May 2017 20:37:01 +0800
-Subject: [PATCH v3 4/9] nvme: host: unquiesce queue in nvme_kill_queues()
-In-Reply-To: <20170531123706.20885-1-ming.lei@redhat.com>
-References: <20170531123706.20885-1-ming.lei@redhat.com>
-Message-ID: <20170531123706.20885-5-ming.lei@redhat.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 31 May 2017 15:32:12 +0200
+Subject: [PATCH v1 2/7] nvmet: add uuid field to nvme_ns and populate via
+ configfs
+In-Reply-To: <cover.1496237370.git.jthumshirn@suse.de>
+References: <cover.1496237370.git.jthumshirn@suse.de>
+Message-ID: <a82a2dd9214084ef9bb51b541cf609e22e17dd1d.1496237370.git.jthumshirn@suse.de>
 
-When nvme_kill_queues() is run, queues may be in
-quiesced state, so we forcibly unquiesce queues to avoid
-blocking dispatch, and I/O hang can be avoided in
-remove path.
+Add the UUID field from the NVMe Namespace Identification Descriptor
+to the nvmet_ns structure and allow it's population via configfs.
 
-Peviously we use blk_mq_start_stopped_hw_queues() as
-counterpart of blk_mq_quiesce_queue(), now we have
-introduced blk_mq_unquiesce_queue(), so use it explicitly.
-
-Cc: linux-nvme at lists.infradead.org
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/core.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/nvme/target/configfs.c | 31 +++++++++++++++++++++++++++++++
+ drivers/nvme/target/nvmet.h    |  1 +
+ 2 files changed, 32 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c3f189e54d10..e44326d5cf19 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2448,6 +2448,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 		revalidate_disk(ns->disk);
- 		blk_set_queue_dying(ns->queue);
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index be8c800078e2..16f9f6e3a084 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -305,11 +305,41 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
  
-+		/* Forcibly unquiesce queues to avoid blocking dispatch */
-+		blk_mq_unquiesce_queue(ns->queue);
+ CONFIGFS_ATTR(nvmet_ns_, device_path);
+ 
++static ssize_t nvmet_ns_device_uuid_show(struct config_item *item, char *page)
++{
++	return sprintf(page, "%pUb\n", &to_nvmet_ns(item)->uuid);
++}
 +
- 		/*
- 		 * Forcibly start all queues to avoid having stuck requests.
- 		 * Note that we must ensure the queues are not stopped
++static ssize_t nvmet_ns_device_uuid_store(struct config_item *item,
++					  const char *page, size_t count)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(item);
++	struct nvmet_subsys *subsys = ns->subsys;
++	int ret = 0;
++
++
++	mutex_lock(&subsys->lock);
++	if (ns->enabled) {
++		ret = -EBUSY;
++		goto out_unlock;
++	}
++
++
++	if (uuid_be_to_bin(page, &ns->uuid))
++		ret = -EINVAL;
++
++out_unlock:
++	mutex_unlock(&subsys->lock);
++	return ret ? ret : count;
++}
++
+ static ssize_t nvmet_ns_device_nguid_show(struct config_item *item, char *page)
+ {
+ 	return sprintf(page, "%pUb\n", &to_nvmet_ns(item)->nguid);
+ }
+ 
++CONFIGFS_ATTR(nvmet_ns_, device_uuid);
++
+ static ssize_t nvmet_ns_device_nguid_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+@@ -379,6 +409,7 @@ CONFIGFS_ATTR(nvmet_ns_, enable);
+ static struct configfs_attribute *nvmet_ns_attrs[] = {
+ 	&nvmet_ns_attr_device_path,
+ 	&nvmet_ns_attr_device_nguid,
++	&nvmet_ns_attr_device_uuid,
+ 	&nvmet_ns_attr_enable,
+ 	NULL,
+ };
+diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+index cfc5c7fb0ab7..4c6cb5ea1186 100644
+--- a/drivers/nvme/target/nvmet.h
++++ b/drivers/nvme/target/nvmet.h
+@@ -46,6 +46,7 @@ struct nvmet_ns {
+ 	u32			blksize_shift;
+ 	loff_t			size;
+ 	u8			nguid[16];
++	uuid_be			uuid;
+ 
+ 	bool			enabled;
+ 	struct nvmet_subsys	*subsys;
 -- 
-2.9.4
+2.12.0
