@@ -1,36 +1,28 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 1 Jun 2017 09:13:53 -0400
-Subject: [PATCH] nvme/pci: Remove watchdog timer
-In-Reply-To: <20170601125023.GB28652@lst.de>
-References: <1495800988-27311-1-git-send-email-keith.busch@intel.com>
- <20170528094152.GB14199@lst.de>
- <20170530142057.GA2845@localhost.localdomain>
- <20170601125023.GB28652@lst.de>
-Message-ID: <20170601131352.GA2895@localhost.localdomain>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu, 1 Jun 2017 15:01:11 +0200
+Subject: [PATCH v2 6/8] nvme: provide UUID value to userspace
+In-Reply-To: <20170601124726.GF2845@localhost.localdomain>
+References: <20170601111750.20880-1-jthumshirn@suse.de>
+ <20170601111750.20880-7-jthumshirn@suse.de>
+ <20170601124726.GF2845@localhost.localdomain>
+Message-ID: <c71882ec-09ad-6104-0917-449abb8b27ae@suse.de>
 
-On Thu, Jun 01, 2017@02:50:23PM +0200, Christoph Hellwig wrote:
-> On Tue, May 30, 2017@10:20:57AM -0400, Keith Busch wrote:
-> > I am hoping to get this in this round since it would quiet a lot of
-> > errors I'm frequently pinged on: a non-posted request during a hotremove
-> > downstream a switch creates a lot of problems for hardware if you don't
-> > have DPC enabled.
-> 
-> With this round do you mean 4.12-rc or 4.13?
+On 06/01/2017 02:47 PM, Keith Busch wrote:
+> FWIW, tools should have been using the 'wwid' attribute, which returns
+> either EUI64 or NGUID so a unique identifier can be gotten from a
+> single file without checking for the existence of either. That should
+> help not break backward compatibility, but I've no idea if anything
+> actually relies on 'uuid' returning the NGUID.
 
-Was hoping 4.12 simply only the problems from doing this are recently
-becomming more clear, but I guess no rush at this point.
- 
-> > One thing I'm just realizing, though, this will break subsystem reset.
-> > We were depending on the watchdog to detect that event, but now we require
-> > an IO timeout. It's easy enough to fix that from the host initiating
-> > the NSSR, but there's no way to notify other hosts connected to the
-> > same subsystem.
-> 
-> I don't think I've actually seen it trigger for that case due to the
-> PCIe link going down earlier.  But I'll need to double check as I
-> actually have access to a dual ported drive at the moment, the machine
-> setup is a bit quirky, though.
+Yep, that's why I though I'd be clever and place this hack in there. I
+think we can remove it in 1-2 years or so when most/all userspace has
+adopted to the change (there shouldn't be too much apart from some hand
+crafted udev rules anyways).
 
-The watchdog timer might see all 1's if it happens to run when the
-link is in the detect state after NSSR, but normally the host should see
-just CSTS.NSSRO to know to it needs to reset its controller.
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
