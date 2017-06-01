@@ -1,144 +1,39 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Mon, 31 Jul 2017 13:21:14 -0700
-Subject: [PATCH] nvmet_fc: Simplify sg list handling
-Message-ID: <20170731202114.18202-1-jsmart2021@gmail.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 1 Jun 2017 00:18:20 -0700
+Subject: [PATCH 4/4] nvme-pci: implement host memory buffer support
+In-Reply-To: <1ac2afb3-7003-037e-5a2c-3a74798c1755@mellanox.com>
+References: <20170520131357.15929-1-hch@lst.de>
+ <20170520131357.15929-5-hch@lst.de>
+ <1ac2afb3-7003-037e-5a2c-3a74798c1755@mellanox.com>
+Message-ID: <20170601071820.GA20089@infradead.org>
 
-The existing nvmet_fc sg list handling has 2 faults:
-a) the request between LLDD and transport has too large of an sg
-   list (256 elements), which is normally 256k (64 elements).
-b) sglist handling doesn't optimize on the fact that each element
-   is a page.
+> > +static void nvme_setup_host_mem(struct nvme_dev *dev)
+> > +{
+> > +	u64 max = (u64)max_host_mem_size_mb * 1024 * 1024;
+> > +	u64 preferred = (u64)dev->ctrl.hmpre * 4096;
+> > +	u64 min = (u64)dev->ctrl.hmmin * 4096;
+> > +	u32 enable_bits = NVME_HOST_MEM_ENABLE;
+> > +
+> > +	preferred = min(preferred, max);
+> > +	if (min > max) {
+> 
+> Should it be:
+> if (min > preferred) ?
 
-This patch removes the static sg list in the request and uses the
-dynamic list already present in the nvmet_fc transport. It also
-simplies the handling of the sg list on multiple sequences to
-take advantage of the per-page divisions.
+No.  max is the maxium value the kernel allows a device to take.
+If the minimum required value is bigger than that we have to
+fail, it has nothing to do with the preferred value.
 
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/fc.c       | 48 +++++++++---------------------------------
- include/linux/nvme-fc-driver.h |  2 +-
- 2 files changed, 11 insertions(+), 39 deletions(-)
+> > +		dev_warn(dev->ctrl.device,
+> > +			"min host memory (%lld MiB) above limit (%d MiB).\n",
+> > +			preferred / 1024 / 1024, max_host_mem_size_mb);
+> 
+> here we can:
+> preferred ==> min
+> max_host_mem_size_mb ==> preferred / 1024 / 1024 ?
+> 
+> other option is change the warning print from "preferred" to "min" since
+> we assume that dev->ctrl.hmpre >= dev->ctrl.hmmin.
 
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 31ca55dfcb1d..49948a412dcc 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -58,7 +58,8 @@ struct nvmet_fc_ls_iod {
- 	struct work_struct		work;
- } __aligned(sizeof(unsigned long long));
- 
--#define NVMET_FC_MAX_KB_PER_XFR		256
-+#define NVMET_FC_MAX_SEQ_LENGTH		(256 * 1024)
-+#define NVMET_FC_MAX_XFR_SGENTS		(NVMET_FC_MAX_SEQ_LENGTH / PAGE_SIZE)
- 
- enum nvmet_fcp_datadir {
- 	NVMET_FCP_NODATA,
-@@ -74,9 +75,7 @@ struct nvmet_fc_fcp_iod {
- 	struct nvme_fc_ersp_iu		rspiubuf;
- 	dma_addr_t			rspdma;
- 	struct scatterlist		*data_sg;
--	struct scatterlist		*next_sg;
- 	int				data_sg_cnt;
--	u32				next_sg_offset;
- 	u32				total_length;
- 	u32				offset;
- 	enum nvmet_fcp_datadir		io_dir;
-@@ -112,6 +111,7 @@ struct nvmet_fc_tgtport {
- 	struct ida			assoc_cnt;
- 	struct nvmet_port		*port;
- 	struct kref			ref;
-+	u32				max_sg_cnt;
- };
- 
- struct nvmet_fc_tgt_queue {
-@@ -897,6 +897,8 @@ nvmet_fc_register_targetport(struct nvmet_fc_port_info *pinfo,
- 	INIT_LIST_HEAD(&newrec->assoc_list);
- 	kref_init(&newrec->ref);
- 	ida_init(&newrec->assoc_cnt);
-+	newrec->max_sg_cnt = min_t(u32, NVMET_FC_MAX_XFR_SGENTS,
-+					template->max_sgl_segments);
- 
- 	ret = nvmet_fc_alloc_ls_iodlist(newrec);
- 	if (ret) {
-@@ -1769,51 +1771,23 @@ nvmet_fc_transfer_fcp_data(struct nvmet_fc_tgtport *tgtport,
- 				struct nvmet_fc_fcp_iod *fod, u8 op)
- {
- 	struct nvmefc_tgt_fcp_req *fcpreq = fod->fcpreq;
--	struct scatterlist *sg, *datasg;
- 	unsigned long flags;
--	u32 tlen, sg_off;
-+	u32 tlen;
- 	int ret;
- 
- 	fcpreq->op = op;
- 	fcpreq->offset = fod->offset;
- 	fcpreq->timeout = NVME_FC_TGTOP_TIMEOUT_SEC;
--	tlen = min_t(u32, (NVMET_FC_MAX_KB_PER_XFR * 1024),
-+
-+	tlen = min_t(u32, tgtport->max_sg_cnt * PAGE_SIZE,
- 			(fod->total_length - fod->offset));
--	tlen = min_t(u32, tlen, NVME_FC_MAX_SEGMENTS * PAGE_SIZE);
--	tlen = min_t(u32, tlen, fod->tgtport->ops->max_sgl_segments
--					* PAGE_SIZE);
- 	fcpreq->transfer_length = tlen;
- 	fcpreq->transferred_length = 0;
- 	fcpreq->fcp_error = 0;
- 	fcpreq->rsplen = 0;
- 
--	fcpreq->sg_cnt = 0;
--
--	datasg = fod->next_sg;
--	sg_off = fod->next_sg_offset;
--
--	for (sg = fcpreq->sg ; tlen; sg++) {
--		*sg = *datasg;
--		if (sg_off) {
--			sg->offset += sg_off;
--			sg->length -= sg_off;
--			sg->dma_address += sg_off;
--			sg_off = 0;
--		}
--		if (tlen < sg->length) {
--			sg->length = tlen;
--			fod->next_sg = datasg;
--			fod->next_sg_offset += tlen;
--		} else if (tlen == sg->length) {
--			fod->next_sg_offset = 0;
--			fod->next_sg = sg_next(datasg);
--		} else {
--			fod->next_sg_offset = 0;
--			datasg = sg_next(datasg);
--		}
--		tlen -= sg->length;
--		fcpreq->sg_cnt++;
--	}
-+	fcpreq->sg = &fod->data_sg[fod->offset / PAGE_SIZE];
-+	fcpreq->sg_cnt = DIV_ROUND_UP(tlen, PAGE_SIZE);
- 
- 	/*
- 	 * If the last READDATA request: check if LLDD supports
-@@ -2128,8 +2102,6 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 	fod->req.sg = fod->data_sg;
- 	fod->req.sg_cnt = fod->data_sg_cnt;
- 	fod->offset = 0;
--	fod->next_sg = fod->data_sg;
--	fod->next_sg_offset = 0;
- 
- 	if (fod->io_dir == NVMET_FCP_WRITE) {
- 		/* pull the data over before invoking nvmet layer */
-diff --git a/include/linux/nvme-fc-driver.h b/include/linux/nvme-fc-driver.h
-index 6c8c5d8041b7..c659953236d3 100644
---- a/include/linux/nvme-fc-driver.h
-+++ b/include/linux/nvme-fc-driver.h
-@@ -619,7 +619,7 @@ struct nvmefc_tgt_fcp_req {
- 	u32			timeout;
- 	u32			transfer_length;
- 	struct fc_ba_rjt	ba_rjt;
--	struct scatterlist	sg[NVME_FC_MAX_SEGMENTS];
-+	struct scatterlist	*sg;
- 	int			sg_cnt;
- 	void			*rspaddr;
- 	dma_addr_t		rspdma;
--- 
-2.13.1
+The first one should indeed be min, but I think that's the only change
+we need.
