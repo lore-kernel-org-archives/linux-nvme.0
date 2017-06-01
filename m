@@ -1,35 +1,53 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 1 Jun 2017 17:37:41 +0300
-Subject: [PATCH] nvme: fix multiple ctrl removal scheduling
-In-Reply-To: <20170601140629.15313-2-hch@lst.de>
-References: <20170601140629.15313-1-hch@lst.de>
- <20170601140629.15313-2-hch@lst.de>
-Message-ID: <3db3cb8f-0851-f114-2fc6-4710d5aab2db@grimberg.me>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Thu, 1 Jun 2017 22:56:10 +0800
+Subject: [PATCH V2] nvme: fix nvme_remove going to uninterruptible sleep
+ for ever
+In-Reply-To: <20170601124631.GA28652@lst.de>
+References: <20170530071610.GA2679@hercules.tuxera.com>
+ <4da7c939-1f54-80e5-48fc-06e58e14f018@grimberg.me>
+ <20170530142346.GA39428@dhcp-216.srv.tuxera.com>
+ <20170601114338.GA24855@lst.de>
+ <20170601122818.GA18830@dhcp-216.srv.tuxera.com>
+ <20170601123650.GA18883@dhcp-216.srv.tuxera.com>
+ <20170601124631.GA28652@lst.de>
+Message-ID: <20170601145605.GA29369@ming.t460p>
+
+On Thu, Jun 01, 2017@02:46:32PM +0200, Christoph Hellwig wrote:
+> On Thu, Jun 01, 2017@03:36:50PM +0300, Rakesh Pandit wrote:
+> > Also Sagi pointed out that user space set_features ioctl if fired up
+> > in a window after nvme_removal it can also result in this issue seems
+> > to be correct.  I would prefer to keep this as it is and introduce
+> > similar check higher up in nvme_ioctrl instead so that we don't send
+> > sync commands if queues are killed already.
+> > 
+> > Would you prefer a patch ? Thanks,
+> 
+> If we want to kill everyone we probably should do it in ->queue_rq.
+
+Looks ->queue_rq has done it already via checking nvmeq->cq_vector
+
+> Or is the block layer blocking you somewhere else?
+
+blk-mq doesn't handle dying in the I/O path.
+
+Maybe it is similar with 806f026f9b901eaf1a(nvme: use blk_mq_start_hw_queues() in
+nvme_kill_queues()), seems we need to do it for admin_q too.
+
+Can the following change fix the issue?
+
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index e44326d5cf19..360758488124 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2438,6 +2438,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 	struct nvme_ns *ns;
+ 
+ 	mutex_lock(&ctrl->namespaces_mutex);
++	blk_mq_start_hw_queues(ctrl->admin_q);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list) {
+ 		/*
+ 		 * Revalidating a dead namespace sets capacity to 0. This will
 
 
-> From: Rakesh Pandit <rakesh at tuxera.com>
->
-> Commit c5f6ce97c1210 tries to address multiple resets but fails as
-> work_busy doesn't involve any synchronization and can fail.  This is
-> reproducible easily as can be seen by WARNING below which is triggered
-> with line:
->
-> WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING)
->
-> Allowing multiple resets can result in multiple controller removal as
-> well if different conditions inside nvme_reset_work fail and which
-> might deadlock on device_release_driver.
->
-> This patch introduces new state called NVME_CTRL_SCHED_RESET and uses
-> it for synchronizing work queue addition (reset_work) as state change
-> uses controller spinlock.
-
-Christoph,
-
-Did you catch my proposal to Keith and Rakesh?
-
-I proposed to synchronize with ctrl state NVME_CTRL_RESETTING
-before scheduling the reset_work and on removal flow (which is
-why the warning exist) simply do a sync cancel of reset_work.
-
-IMO, this is better than adding a new state to the ctrl state machine.
+Thanks,
+Ming
