@@ -1,51 +1,18 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 1 Jun 2017 12:19:13 +0300
-Subject: [PATCH 4/4] nvme-pci: implement host memory buffer support
-In-Reply-To: <20170601071820.GA20089@infradead.org>
-References: <20170520131357.15929-1-hch@lst.de>
- <20170520131357.15929-5-hch@lst.de>
- <1ac2afb3-7003-037e-5a2c-3a74798c1755@mellanox.com>
- <20170601071820.GA20089@infradead.org>
-Message-ID: <c44888fd-73c3-fbe2-1334-7222b681286d@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 1 Jun 2017 12:46:01 +0200
+Subject: [PATCH] PCI: ensure the PCI device is locked over
+ ->reset_notify calls
+In-Reply-To: <20170531165131.GA4496@bhelgaas-glaptop.roam.corp.google.com>
+References: <20170523054202.7985-1-hch@lst.de>
+ <20170523054202.7985-2-hch@lst.de>
+ <20170530222844.GE14896@bhelgaas-glaptop.roam.corp.google.com>
+ <20170531045848.GA4001@lst.de>
+ <20170531165131.GA4496@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <20170601104601.GA22620@lst.de>
 
+On Wed, May 31, 2017@11:51:31AM -0500, Bjorn Helgaas wrote:
+> Do you have any thoughts on whether the paths I mentioned above are
+> also susceptible?
 
-
-On 6/1/2017 10:18 AM, Christoph Hellwig wrote:
->>> +static void nvme_setup_host_mem(struct nvme_dev *dev)
->>> +{
->>> +	u64 max = (u64)max_host_mem_size_mb * 1024 * 1024;
->>> +	u64 preferred = (u64)dev->ctrl.hmpre * 4096;
->>> +	u64 min = (u64)dev->ctrl.hmmin * 4096;
->>> +	u32 enable_bits = NVME_HOST_MEM_ENABLE;
->>> +
->>> +	preferred = min(preferred, max);
->>> +	if (min > max) {
->>
->> Should it be:
->> if (min > preferred) ?
->
-> No.  max is the maxium value the kernel allows a device to take.
-> If the minimum required value is bigger than that we have to
-> fail, it has nothing to do with the preferred value.
->
-
-Ok, I probably got confused here because the "preferred = min(preferred, 
-max);" statement was just before the "if" clause.
-
-
->>> +		dev_warn(dev->ctrl.device,
->>> +			"min host memory (%lld MiB) above limit (%d MiB).\n",
->>> +			preferred / 1024 / 1024, max_host_mem_size_mb);
->>
->> here we can:
->> preferred ==> min
->> max_host_mem_size_mb ==> preferred / 1024 / 1024 ?
->>
->> other option is change the warning print from "preferred" to "min" since
->> we assume that dev->ctrl.hmpre >= dev->ctrl.hmmin.
->
-> The first one should indeed be min, but I think that's the only change
-> we need.
->
-
-Sure.
+At least in theory ever method call that doesn't have the device
+locked is susceptible, so yes.
