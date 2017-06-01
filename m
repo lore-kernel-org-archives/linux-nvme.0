@@ -1,28 +1,54 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 1 Jun 2017 17:41:07 +0200
-Subject: [PATCH] nvme: fix multiple ctrl removal scheduling
-In-Reply-To: <3db3cb8f-0851-f114-2fc6-4710d5aab2db@grimberg.me>
-References: <20170601140629.15313-1-hch@lst.de>
- <20170601140629.15313-2-hch@lst.de>
- <3db3cb8f-0851-f114-2fc6-4710d5aab2db@grimberg.me>
-Message-ID: <20170601154107.GA8118@lst.de>
+From: rakesh@tuxera.com (Rakesh Pandit)
+Date: Thu, 1 Jun 2017 22:33:04 +0300
+Subject: [PATCH V2] nvme: fix nvme_remove going to uninterruptible sleep
+ for ever
+In-Reply-To: <20170601145605.GA29369@ming.t460p>
+References: <20170530071610.GA2679@hercules.tuxera.com>
+ <4da7c939-1f54-80e5-48fc-06e58e14f018@grimberg.me>
+ <20170530142346.GA39428@dhcp-216.srv.tuxera.com>
+ <20170601114338.GA24855@lst.de>
+ <20170601122818.GA18830@dhcp-216.srv.tuxera.com>
+ <20170601123650.GA18883@dhcp-216.srv.tuxera.com>
+ <20170601124631.GA28652@lst.de> <20170601145605.GA29369@ming.t460p>
+Message-ID: <20170601193304.GA19500@dhcp-216.srv.tuxera.com>
 
-On Thu, Jun 01, 2017@05:37:41PM +0300, Sagi Grimberg wrote:
-> Did you catch my proposal to Keith and Rakesh?
+On Thu, Jun 01, 2017@10:56:10PM +0800, Ming Lei wrote:
+> On Thu, Jun 01, 2017@02:46:32PM +0200, Christoph Hellwig wrote:
+> > On Thu, Jun 01, 2017@03:36:50PM +0300, Rakesh Pandit wrote:
+> > > Also Sagi pointed out that user space set_features ioctl if fired up
+> > > in a window after nvme_removal it can also result in this issue seems
+> > > to be correct.  I would prefer to keep this as it is and introduce
+> > > similar check higher up in nvme_ioctrl instead so that we don't send
+> > > sync commands if queues are killed already.
+> > > 
+> > > Would you prefer a patch ? Thanks,
+> > 
+> > If we want to kill everyone we probably should do it in ->queue_rq.
+> 
+> Looks ->queue_rq has done it already via checking nvmeq->cq_vector
+> 
+> > Or is the block layer blocking you somewhere else?
+> 
+> blk-mq doesn't handle dying in the I/O path.
+> 
+> Maybe it is similar with 806f026f9b901eaf1a(nvme: use blk_mq_start_hw_queues() in
+> nvme_kill_queues()), seems we need to do it for admin_q too.
+> 
+> Can the following change fix the issue?
+> 
+> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+> index e44326d5cf19..360758488124 100644
+> --- a/drivers/nvme/host/core.c
+> +++ b/drivers/nvme/host/core.c
+> @@ -2438,6 +2438,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+>  	struct nvme_ns *ns;
+>  
+>  	mutex_lock(&ctrl->namespaces_mutex);
+> +	blk_mq_start_hw_queues(ctrl->admin_q);
+>  	list_for_each_entry(ns, &ctrl->namespaces, list) {
+>  		/*
+>  		 * Revalidating a dead namespace sets capacity to 0. This will
+> 
+> 
 
-I saw it.
-
->
-> I proposed to synchronize with ctrl state NVME_CTRL_RESETTING
-> before scheduling the reset_work and on removal flow (which is
-> why the warning exist) simply do a sync cancel of reset_work.
->
-> IMO, this is better than adding a new state to the ctrl state machine.
-
-Why?  Knowing from the state machine that we're going to reset
-is very useful and will safe us from doing pointless work elsewhere.
-There is a reason we have done it that way in Fabrics from the beginning.
-
-E.g. as the work_busy check in nvme_should_reset can now be replaced
-with a check for NVME_CTRL_SCHED_RESET and NVME_CTRL_RESETTING and
-we're much more reliable.
+Yes change fixes the issue.
