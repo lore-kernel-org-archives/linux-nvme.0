@@ -1,255 +1,40 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu,  1 Jun 2017 13:27:29 +0200
-Subject: [PATCH 4/4] nvme-pci: implement host memory buffer support
-In-Reply-To: <20170601112729.9726-1-hch@lst.de>
-References: <20170601112729.9726-1-hch@lst.de>
-Message-ID: <20170601112729.9726-5-hch@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Thu, 1 Jun 2017 04:32:06 -0700
+Subject: NVMe APST high latency power states being skipped
+In-Reply-To: <CAAd53p4qdk2ngC7-BNB++ZLKK39-MiUp22PT6wcsRzxCHzmniw@mail.gmail.com>
+References: <84ea5d8fbf0446c58c7b6c85d3868d94@ausx13mpc120.AMER.DELL.COM>
+ <CALCETrWNU8uquoDiNDeYaoOUyMOAVyWQ73GfrEeWntTcm4ioAw@mail.gmail.com>
+ <fb5caa2fa5e6452fadfa00bce59bedd7@ausx13mpc120.AMER.DELL.COM>
+ <CALCETrVx7BQjKt7tCXmG+jOD=JXxDKOdvVr1EuoZyN4_TjSdCA@mail.gmail.com>
+ <5bfa6cf7e8994bc593f95e8641f648f5@ausx13mpc120.AMER.DELL.COM>
+ <CAAd53p45jpFYf9UNooobGWexGA+DuRJo2NF8FP-7JGU8u3PtpA@mail.gmail.com>
+ <CALCETrX+87zvN7sw-1qQHjQ_Bz9mSrjrHJLA9NBzaKSddntUug@mail.gmail.com>
+ <CAAd53p7o4VRcb1=EE5Vx7rMAfxdpKGceAeVfaCuDrvUaV6x65g@mail.gmail.com>
+ <20170526092556.GA645@infradead.org>
+ <CAAd53p4qdk2ngC7-BNB++ZLKK39-MiUp22PT6wcsRzxCHzmniw@mail.gmail.com>
+Message-ID: <20170601113206.GA29895@infradead.org>
 
-If a controller supports the host memory buffer we try to provide
-it with the requested size up to an upper cap set as a module
-parameter.  We try to give as few as possible descriptors, eventually
-working our way down.
+On Thu, Jun 01, 2017@04:19:26PM +0800, Kai-Heng Feng wrote:
+> >> I did some benchmark on the high latency SanDisk A400:
+> >> Kernel compilation, no PS3/PS4:
+> >> real    23m36.466s
+> >> user    115m49.944s
+> >> sys     10m58.352s
+> >>
+> >> Kernel compilation, allow PS3/PS4:
+> >> real    24m40.308s
+> >> user    116m12.600s
+> >> sys     11m47.484s
+> >
+> > That's quite a bit of a slow down.  Can we play a bit with the
+> > entry latency (maybe just for PS4) so that we still get into the
+> > modes, but not as quickly?
+> 
+> I changed the "Idle Time Prior to Transition" from 55000ms to 110000ms,
+> The time to compile kernel source is roughly the same.
+> 
+> My guess is that since the filesystem is constantly doing I/O while
+> compiling kernel, nvme never (or rarely) hits PS4.
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/pci.c | 186 +++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 184 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d52701df7245..b4235ffacd83 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -66,6 +66,11 @@ static bool use_cmb_sqes = true;
- module_param(use_cmb_sqes, bool, 0644);
- MODULE_PARM_DESC(use_cmb_sqes, "use controller's memory buffer for I/O SQes");
- 
-+static unsigned int max_host_mem_size_mb = 128;
-+module_param(max_host_mem_size_mb, uint, 0444);
-+MODULE_PARM_DESC(max_host_mem_size_mb,
-+	"Maximum Host Memory Buffer (HMB) size per controller (in MiB)");
-+
- static struct workqueue_struct *nvme_workq;
- 
- struct nvme_dev;
-@@ -104,10 +109,18 @@ struct nvme_dev {
- 	u32 cmbloc;
- 	struct nvme_ctrl ctrl;
- 	struct completion ioq_wait;
-+
-+	/* shadow doorbell buffer support: */
- 	u32 *dbbuf_dbs;
- 	dma_addr_t dbbuf_dbs_dma_addr;
- 	u32 *dbbuf_eis;
- 	dma_addr_t dbbuf_eis_dma_addr;
-+
-+	/* host memory buffer support: */
-+	u64 host_mem_size;
-+	u32 nr_host_mem_descs;
-+	struct nvme_host_mem_buf_desc *host_mem_descs;
-+	void **host_mem_desc_bufs;
- };
- 
- static inline unsigned int sq_idx(unsigned int qid, u32 stride)
-@@ -1514,6 +1527,159 @@ static inline void nvme_release_cmb(struct nvme_dev *dev)
- 	}
- }
- 
-+static int nvme_set_host_mem(struct nvme_dev *dev, u32 bits)
-+{
-+	size_t len = dev->nr_host_mem_descs * sizeof(*dev->host_mem_descs);
-+	struct nvme_command c;
-+	u64 dma_addr;
-+	int ret;
-+
-+	dma_addr = dma_map_single(dev->dev, dev->host_mem_descs, len,
-+			DMA_TO_DEVICE);
-+	if (dma_mapping_error(dev->dev, dma_addr))
-+		return -ENOMEM;
-+
-+	memset(&c, 0, sizeof(c));
-+	c.features.opcode	= nvme_admin_set_features;
-+	c.features.fid		= cpu_to_le32(NVME_FEAT_HOST_MEM_BUF);
-+	c.features.dword11	= cpu_to_le32(bits);
-+	c.features.dword12	= cpu_to_le32(dev->host_mem_size /
-+					      dev->ctrl.page_size);
-+	c.features.dword13	= cpu_to_le32(lower_32_bits(dma_addr));
-+	c.features.dword14	= cpu_to_le32(upper_32_bits(dma_addr));
-+	c.features.dword15	= cpu_to_le32(dev->nr_host_mem_descs);
-+
-+	ret = nvme_submit_sync_cmd(dev->ctrl.admin_q, &c, NULL, 0);
-+	if (ret) {
-+		dev_warn(dev->ctrl.device,
-+			 "failed to set host mem (err %d, flags %#x).\n",
-+			 ret, bits);
-+	}
-+	dma_unmap_single(dev->dev, dma_addr, len, DMA_TO_DEVICE);
-+	return ret;
-+}
-+
-+static void nvme_free_host_mem(struct nvme_dev *dev)
-+{
-+	int i;
-+
-+	for (i = 0; i < dev->nr_host_mem_descs; i++) {
-+		struct nvme_host_mem_buf_desc *desc = &dev->host_mem_descs[i];
-+		size_t size = le32_to_cpu(desc->size) * dev->ctrl.page_size;
-+
-+		dma_free_coherent(dev->dev, size, dev->host_mem_desc_bufs[i],
-+				le64_to_cpu(desc->addr));
-+	}
-+
-+	kfree(dev->host_mem_desc_bufs);
-+	dev->host_mem_desc_bufs = NULL;
-+	kfree(dev->host_mem_descs);
-+	dev->host_mem_descs = NULL;
-+}
-+
-+static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
-+{
-+	struct nvme_host_mem_buf_desc *descs;
-+	u32 chunk_size, max_entries, i = 0;
-+	void **bufs;
-+	u64 size;
-+
-+	/* start big and work our way down */
-+	chunk_size = min(preferred, (u64)PAGE_SIZE << MAX_ORDER);
-+retry:
-+	max_entries = DIV_ROUND_UP(preferred, chunk_size);
-+	descs = kcalloc(max_entries, sizeof(*descs), GFP_KERNEL);
-+	if (!descs)
-+		goto out;
-+
-+	bufs = kcalloc(max_entries, sizeof(*bufs), GFP_KERNEL);
-+	if (!bufs)
-+		goto out_free_descs;
-+
-+	for (size = 0; size < preferred; size += chunk_size) {
-+		u32 len = min_t(u64, chunk_size, preferred - size);
-+		dma_addr_t dma_addr;
-+
-+		bufs[i] = dma_alloc_attrs(dev->dev, len, &dma_addr, GFP_KERNEL,
-+				DMA_ATTR_NO_KERNEL_MAPPING | DMA_ATTR_NO_WARN);
-+		if (!bufs[i])
-+			break;
-+
-+		descs[i].addr = cpu_to_le64(dma_addr);
-+		descs[i].size = cpu_to_le32(len / dev->ctrl.page_size);
-+		i++;
-+	}
-+
-+	if (!size || (min && size < min)) {
-+		dev_warn(dev->ctrl.device,
-+			"failed to allocate host memory buffer.\n");
-+		goto out_free_bufs;
-+	}
-+
-+	dev_info(dev->ctrl.device,
-+		"allocated %lld MiB host memory buffer.\n", size / SZ_1M);
-+	dev->nr_host_mem_descs = i;
-+	dev->host_mem_size = size;
-+	dev->host_mem_descs = descs;
-+	dev->host_mem_desc_bufs = bufs;
-+	return 0;
-+
-+out_free_bufs:
-+	while (--i >= 0) {
-+		size_t size = le32_to_cpu(descs[i].size) * dev->ctrl.page_size;
-+
-+		dma_free_coherent(dev->dev, size, bufs[i],
-+				le64_to_cpu(descs[i].addr));
-+	}
-+
-+	kfree(bufs);
-+out_free_descs:
-+	kfree(descs);
-+out:
-+	/* try a smaller chunk size if we failed early */
-+	if (chunk_size >= PAGE_SIZE * 2 && (i == 0 || size < min)) {
-+		chunk_size /= 2;
-+		goto retry;
-+	}
-+	dev->host_mem_descs = NULL;
-+	return -ENOMEM;
-+}
-+
-+static void nvme_setup_host_mem(struct nvme_dev *dev)
-+{
-+	u64 max = (u64)max_host_mem_size_mb * SZ_1M;
-+	u64 preferred = (u64)dev->ctrl.hmpre * 4096;
-+	u64 min = (u64)dev->ctrl.hmmin * 4096;
-+	u32 enable_bits = NVME_HOST_MEM_ENABLE;
-+
-+	preferred = min(preferred, max);
-+	if (min > max) {
-+		dev_warn(dev->ctrl.device,
-+			"min host memory (%lld MiB) above limit (%d MiB).\n",
-+			min / SZ_1M, max_host_mem_size_mb);
-+		nvme_free_host_mem(dev);
-+		return;
-+	}
-+
-+	/*
-+	 * If we already have a buffer allocated check if we can reuse it.
-+	 */
-+	if (dev->host_mem_descs) {
-+		if (dev->host_mem_size >= min)
-+			enable_bits |= NVME_HOST_MEM_RETURN;
-+		else
-+			nvme_free_host_mem(dev);
-+	}
-+
-+	if (!dev->host_mem_descs) {
-+		if (nvme_alloc_host_mem(dev, min, preferred))
-+			return;
-+	}
-+
-+	if (nvme_set_host_mem(dev, enable_bits))
-+		nvme_free_host_mem(dev);
-+}
-+
- static size_t db_bar_size(struct nvme_dev *dev, unsigned nr_io_queues)
- {
- 	return 4096 + ((nr_io_queues + 1) * 8 * dev->db_stride);
-@@ -1815,8 +1981,20 @@ static void nvme_dev_disable(struct nvme_dev *dev, bool shutdown)
- 	 * Give the controller a chance to complete all entered requests if
- 	 * doing a safe shutdown.
- 	 */
--	if (!dead && shutdown)
--		nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
-+	if (!dead) {
-+		if (shutdown)
-+			nvme_wait_freeze_timeout(&dev->ctrl, NVME_IO_TIMEOUT);
-+
-+		/*
-+		 * If the controller is still alive tell it to stop using the
-+		 * host memory buffer.  In theory the shutdown / reset should
-+		 * make sure that it doesn't access the host memoery anymore,
-+		 * but I'd rather be safe than sorry..
-+		 */
-+		if (dev->host_mem_descs)
-+			nvme_set_host_mem(dev, 0);
-+
-+	}
- 	nvme_stop_queues(&dev->ctrl);
- 
- 	queues = dev->online_queues - 1;
-@@ -1951,6 +2129,9 @@ static void nvme_reset_work(struct work_struct *work)
- 				 "unable to allocate dma for dbbuf\n");
- 	}
- 
-+	if (dev->ctrl.hmpre)
-+		nvme_setup_host_mem(dev);
-+
- 	result = nvme_setup_io_queues(dev);
- 	if (result)
- 		goto out;
-@@ -2189,6 +2370,7 @@ static void nvme_remove(struct pci_dev *pdev)
- 	flush_work(&dev->reset_work);
- 	nvme_uninit_ctrl(&dev->ctrl);
- 	nvme_dev_disable(dev, true);
-+	nvme_free_host_mem(dev);
- 	nvme_dev_remove_admin(dev);
- 	nvme_free_queues(dev, 0);
- 	nvme_release_prp_pools(dev);
--- 
-2.11.0
+That doesn't explain why we need more than a minute more for the
+compile.  How reproducible are these numbers, btw?
