@@ -1,11 +1,11 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 1 Jun 2017 08:56:17 -0400
-Subject: [PATCH 1/4] nvme.h: add struct nvme_host_mem_buf_desc and HMB
- flags
-In-Reply-To: <20170601112729.9726-2-hch@lst.de>
+Date: Thu, 1 Jun 2017 08:56:43 -0400
+Subject: [PATCH 2/4] nvme.h: add dword 12 - 15 fields to struct
+ nvme_features
+In-Reply-To: <20170601112729.9726-3-hch@lst.de>
 References: <20170601112729.9726-1-hch@lst.de>
- <20170601112729.9726-2-hch@lst.de>
-Message-ID: <20170601125617.GH2845@localhost.localdomain>
+ <20170601112729.9726-3-hch@lst.de>
+Message-ID: <20170601125642.GI2845@localhost.localdomain>
 
 Looks good.
 
