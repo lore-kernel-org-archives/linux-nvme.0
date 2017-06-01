@@ -1,120 +1,81 @@
-From: lkp@intel.com (kbuild test robot)
-Date: Fri, 2 Jun 2017 07:08:06 +0800
-Subject: [PATCH v2 3/8] nvmet: implement namespace identify descriptor list
-In-Reply-To: <20170601111750.20880-4-jthumshirn@suse.de>
-Message-ID: <201706020636.f7Y8grvc%fengguang.wu@intel.com>
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Thu, 1 Jun 2017 23:09:00 +0000
+Subject: [PATCH v3 3/9] blk-mq: use the introduced blk_mq_unquiesce_queue()
+In-Reply-To: <20170601005423.GA23563@ming.t460p>
+References: <20170531123706.20885-1-ming.lei@redhat.com>
+ <20170531123706.20885-4-ming.lei@redhat.com>
+ <1496244100.2608.3.camel@sandisk.com> <20170601005423.GA23563@ming.t460p>
+Message-ID: <1496358538.3075.12.camel@sandisk.com>
 
-Hi Johannes,
+On Thu, 2017-06-01@08:54 +0800, Ming Lei wrote:
+> On Wed, May 31, 2017@03:21:41PM +0000, Bart Van Assche wrote:
+> > On Wed, 2017-05-31@20:37 +0800, Ming Lei wrote:
+> > > diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+> > > index 99e16ac479e3..ffcf05765e2b 100644
+> > > --- a/drivers/scsi/scsi_lib.c
+> > > +++ b/drivers/scsi/scsi_lib.c
+> > > @@ -3031,7 +3031,10 @@ scsi_internal_device_unblock(struct scsi_device *sdev,
+> > >  		return -EINVAL;
+> > >  
+> > >  	if (q->mq_ops) {
+> > > -		blk_mq_start_stopped_hw_queues(q, false);
+> > > +		if (blk_queue_quiesced(q))
+> > > +			blk_mq_unquiesce_queue(q);
+> > > +		else
+> > > +			blk_mq_start_stopped_hw_queues(q, false);
+> > >  	} else {
+> > >  		spin_lock_irqsave(q->queue_lock, flags);
+> > >  		blk_start_queue(q);
+> > 
+> > As I commented on v2, this change is really wrong. All what's needed here is
+> > a call to blk_mq_unquiesce_queue() and nothing else. Adding a call to
+> > blk_mq_start_stopped_hw_queues() is wrong because it makes it impossible to
+> > use the STOPPED flag in the SCSI core to make the block layer core stop calling
+> > .queue_rq() if a SCSI LLD returns "busy".
+> 
+> I am not sure if I understand your idea, could you explain a bit why it is wrong?
+> 
+> Let's see the function of scsi_internal_device_block():
+> 
+> 	if (q->mq_ops) {
+>                 if (wait)
+>                         blk_mq_quiesce_queue(q);
+>                 else
+>                         blk_mq_stop_hw_queues(q);
+> 	}
+> 
+> So the queue may be put into quiesced if 'wait' is true, or it is
+> stopped if 'wait' is false.
+> 
+> And this patch just makes the two SCSI APIs symmetrical.
+> 
+> Since we will not stop queue in blk_mq_quiesce_queue() later,
+> I have to unquiese one queue only if it is quiesced.
+> 
+> So suppose the queue is put into stopped in scsi_internal_device_block(),
+> do we expect not to restart it in scsi_internal_device_unblock() via
+> blk_mq_unquiesce_queue()?
 
-[auto build test ERROR on linus/master]
-[also build test ERROR on v4.12-rc3 next-20170601]
-[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
+Hello Ming,
 
-url:    https://github.com/0day-ci/linux/commits/Johannes-Thumshirn/nvme-introduce-NVMe-Namespace-Identification-Descriptor-structures/20170601-224249
-config: x86_64-randconfig-u0-06020557 (attached as .config)
-compiler: gcc-6 (Debian 6.2.0-3) 6.2.0 20160901
-reproduce:
-        # save the attached .config to linux build tree
-        make ARCH=x86_64 
+My opinion is that scsi_internal_device_block() and scsi_internal_device_unblock()
+should be changed as follows for the scsi-mq code path:
+* scsi_internal_device_block() should call blk_mq_quiesce_queue(q) if the "wait"
+  argument is true and should set the QUEUE_FLAG_QUIESCED flag if the "wait"
+  argument is false.
+* scsi_internal_device_unblock() should call blk_mq_unquiesce_queue().
 
-Note: the linux-review/Johannes-Thumshirn/nvme-introduce-NVMe-Namespace-Identification-Descriptor-structures/20170601-224249 HEAD eed0e29a990ae9332379fbaf71b249bb482b3c6b builds fine.
-      It only hurts bisectibility.
+I am aware it sounds weird to set the QUEUE_FLAG_QUIESCED flag without waiting
+until ongoing .queue_rq() calls have finished. The only driver that triggers
+that code path is the mpt3sas driver. I think it's unfortunate that that driver
+has ever been allowed to call scsi_internal_device_block() because it's the only
+driver that calls that function from a context where sleeping is not allowed.
+No matter whether the scsi_internal_device_block() call from the mpt3sas driver
+sets the QUEUE_FLAG_QUIESCED or the BLK_MQ_S_STOPPED flag, I don't think that
+will have the effect the authors of this driver intended. Unfortunately I'm not
+familiar enough with the mpt3sas driver to fix that driver myself.
 
-All error/warnings (new ones prefixed by >>):
+Note: these changes conflict with a patch SCSI patch series I started working on
+about two months ago. See also https://www.spinics.net/lists/linux-scsi/msg109103.html.
 
-   In file included from include/uapi/linux/stddef.h:1:0,
-                    from include/linux/stddef.h:4,
-                    from include/uapi/linux/posix_types.h:4,
-                    from include/uapi/linux/types.h:13,
-                    from include/linux/types.h:5,
-                    from include/linux/list.h:4,
-                    from include/linux/module.h:9,
-                    from drivers/nvme/target/admin-cmd.c:15:
-   drivers/nvme/target/admin-cmd.c: In function 'nvmet_execute_identify_desclist':
->> drivers/nvme/target/admin-cmd.c:383:20: error: 'struct nvmet_ns' has no member named 'uuid'; did you mean 'nsid'?
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-                       ^
-   include/linux/compiler.h:160:30: note: in definition of macro '__trace_if'
-     if (__builtin_constant_p(!!(cond)) ? !!(cond) :   \
-                                 ^~~~
->> drivers/nvme/target/admin-cmd.c:383:2: note: in expansion of macro 'if'
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-     ^~
-   drivers/nvme/target/admin-cmd.c:383:40: error: 'struct nvmet_ns' has no member named 'uuid'; did you mean 'nsid'?
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-                                           ^
-   include/linux/compiler.h:160:30: note: in definition of macro '__trace_if'
-     if (__builtin_constant_p(!!(cond)) ? !!(cond) :   \
-                                 ^~~~
->> drivers/nvme/target/admin-cmd.c:383:2: note: in expansion of macro 'if'
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-     ^~
->> drivers/nvme/target/admin-cmd.c:383:20: error: 'struct nvmet_ns' has no member named 'uuid'; did you mean 'nsid'?
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-                       ^
-   include/linux/compiler.h:160:42: note: in definition of macro '__trace_if'
-     if (__builtin_constant_p(!!(cond)) ? !!(cond) :   \
-                                             ^~~~
->> drivers/nvme/target/admin-cmd.c:383:2: note: in expansion of macro 'if'
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-     ^~
-   drivers/nvme/target/admin-cmd.c:383:40: error: 'struct nvmet_ns' has no member named 'uuid'; did you mean 'nsid'?
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-                                           ^
-   include/linux/compiler.h:160:42: note: in definition of macro '__trace_if'
-     if (__builtin_constant_p(!!(cond)) ? !!(cond) :   \
-                                             ^~~~
->> drivers/nvme/target/admin-cmd.c:383:2: note: in expansion of macro 'if'
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-     ^~
->> drivers/nvme/target/admin-cmd.c:383:20: error: 'struct nvmet_ns' has no member named 'uuid'; did you mean 'nsid'?
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-                       ^
-   include/linux/compiler.h:171:16: note: in definition of macro '__trace_if'
-      ______r = !!(cond);     \
-                   ^~~~
->> drivers/nvme/target/admin-cmd.c:383:2: note: in expansion of macro 'if'
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-     ^~
-   drivers/nvme/target/admin-cmd.c:383:40: error: 'struct nvmet_ns' has no member named 'uuid'; did you mean 'nsid'?
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-                                           ^
-   include/linux/compiler.h:171:16: note: in definition of macro '__trace_if'
-      ______r = !!(cond);     \
-                   ^~~~
->> drivers/nvme/target/admin-cmd.c:383:2: note: in expansion of macro 'if'
-     if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-     ^~
-   drivers/nvme/target/admin-cmd.c:392:43: error: 'struct nvmet_ns' has no member named 'uuid'; did you mean 'nsid'?
-      status = nvmet_copy_to_sgl(req, off, &ns->uuid,
-                                              ^~
-   drivers/nvme/target/admin-cmd.c:393:18: error: 'struct nvmet_ns' has no member named 'uuid'; did you mean 'nsid'?
-            sizeof(ns->uuid));
-                     ^~
-   drivers/nvme/target/admin-cmd.c:396:19: error: 'struct nvmet_ns' has no member named 'uuid'; did you mean 'nsid'?
-      off += sizeof(ns->uuid);
-                      ^~
-
-vim +383 drivers/nvme/target/admin-cmd.c
-
-   377		ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
-   378		if (!ns) {
-   379			status = NVME_SC_INVALID_NS | NVME_SC_DNR;
-   380			goto out;
-   381		}
-   382	
- > 383		if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-   384			memset(&hdr, 0, sizeof(hdr));
-   385			hdr.nidt = NVME_NIDT_UUID;
-   386			hdr.nidl = NVME_NIDT_UUID_LEN;
-
----
-0-DAY kernel test infrastructure                Open Source Technology Center
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
--------------- next part --------------
-A non-text attachment was scrubbed...
-Name: .config.gz
-Type: application/gzip
-Size: 25746 bytes
-Desc: not available
-URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170602/6ea8f46e/attachment-0001.gz>
+Bart.
