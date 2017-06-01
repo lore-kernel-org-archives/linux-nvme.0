@@ -1,83 +1,70 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 1 Jun 2017 08:42:33 +0200
-Subject: [PATCH v1 3/7] nvmet: implement namespace identify descriptor list
-In-Reply-To: <d6782789a4c53be2244186588599cc017e3955ea.1496237370.git.jthumshirn@suse.de>
+Date: Thu, 1 Jun 2017 08:49:12 +0200
+Subject: [PATCH v1 4/7] nvme: get list of namespace descriptors
+In-Reply-To: <f51d09c4e22189e8979a92a46faa98778034afe6.1496237370.git.jthumshirn@suse.de>
 References: <cover.1496237370.git.jthumshirn@suse.de>
- <d6782789a4c53be2244186588599cc017e3955ea.1496237370.git.jthumshirn@suse.de>
-Message-ID: <20170601064233.GC16778@lst.de>
+ <f51d09c4e22189e8979a92a46faa98778034afe6.1496237370.git.jthumshirn@suse.de>
+Message-ID: <20170601064912.GD16778@lst.de>
 
-On Wed, May 31, 2017@03:32:13PM +0200, Johannes Thumshirn wrote:
-> A NVMe Identify NS command with a CNS value of '3' is expecting a list
-> of Namespace Identification Descriptor structures to be returned to
-> the host for the namespace requested in the namespace identify
-> command.
-> 
-> This Namespace Identification Descriptor structure consists of the
-> type of the namespace identifier, the length of the identifier and the
-> actual identifier.
-> 
-> Valid types are EUI-64, NGUID and UUID which we have saved in our
-> nvme_ns structure if they have been configured via configfs. If no
-> value has been assigened to one of these we return an "invalid opcode"
-> back to the host to maintain backward compatibiliy with older
-> implementations without Namespace Identify Descriptor list support.
-> 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-> ---
->  drivers/nvme/target/admin-cmd.c | 63 +++++++++++++++++++++++++++++++++++++++++
->  include/linux/nvme.h            | 18 ++++++++++++
-
-Can you split all the new structures in nvme.h into a separate patch
-at the beginning of the series?
-
-> +	static const int buf_size = SZ_4K;
-
-Please add a NVME_IDENTIFY_DATA_SIZE define to nvme.h (and I'd slighty
-prefer to define it to 4096 instead of the odd SZ_4K).  And also replace
-all the places where we use a magic 4096 for the identify payload with
-it.
-
-> +	nid_list = kzalloc(buf_size, GFP_KERNEL);
-> +	if (!nid_list) {
-> +		status = NVME_SC_INTERNAL;
-> +		goto out_put_ns;
-> +	}
+> +static void nvme_parse_ns_descs(struct nvme_ns *ns, void *ns_nid)
+> +{
+> +	struct nvme_ns_nid *cur;
+> +	const u8 *p;
+> +	int pos = 0;
+> +	int len;
 > +
-> +	p = nid_list;
+> +	p = (u8 *)ns_nid;
 
-No need for the dynamic allocation.  Just do a straight nvmet_copy_to_sgl
-from the stack for each element.
+No need for the cast.  But we can do void pointer arithmetics in the
+kernel anyway, so possible we could just declare this void.
+
+And maybe just call the argument data and operate on that.
 
 > +
-> +	if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-> +		ns_nid = (struct nvme_ns_nid *)p;
-> +		ns_nid->nidt = NVME_NIDT_UUID;
-> +		ns_nid->nidl = NVME_NIDT_UUID_LEN;
-> +		memcpy(&ns_nid->nid, &ns->uuid, sizeof(ns->uuid));
-> +		pos += sizeof(struct nvme_ns_nid) + sizeof(ns->uuid);
-> +		if (pos > buf_size) {
-> +			status = NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
-> +			goto out_free_nid_list;
+> +	for (;;) {
+> +		cur = (struct nvme_ns_nid *)p;
+
+	for (pos = 0; pos < NVME_ID_DATA_SIZE; pos += len) {
+		struct nvme_ns_nid *cur = data + pos;
+
+> +
+> +		switch (cur->nidl) {
+> +		case 0:
+> +			return;
+> +		case 8:
+> +		case 16:
+> +			break;
+> +		default:
+> +			dev_warn(ns->ctrl->dev,
+> +				 "Target returned bogus Namespace Identification Descriptor length: %d\n",
+> +				 cur->nidl);
+> +			return;
+> +
 > +		}
-> +		p += pos;
-> +	}
 
-E.g. something like
+This needs to be verified based on the type.
 
-	struct nvme_ns_identifier_hdr nih;
+> +	if (ns->ctrl->vs >= NVME_VS(1, 3, 0)) {
+> +		void *ns_nid;
+> +		int ret;
+> +
+> +
+> +		ns_nid = kzalloc(SZ_4K, GFP_KERNEL);
+> +		if (!ns_nid) {
+> +			dev_warn(ns->ctrl->dev,
+> +				 "%s: Identify Descriptors failed\n", __func__);
+> +			return 0;
+> +		}
+> +
+> +		ret = nvme_identify_ns_descs(ns->ctrl, ns->ns_id, ns_nid);
+> +		if (ret) {
+> +			dev_warn(ns->ctrl->dev,
+> +				 "%s: Identify Descriptors failed\n", __func__);
+> +			 /* Don't treat error as fatal we potentially
+> +			  * already have a NGUID or EUI-64 */
+> +			return 0;
+> +		}
+> +		nvme_parse_ns_descs(ns, ns_nid);
+> +		kfree(ns_nid);
 
-	...
-
-		memset(&nih, 0, sizeof(nih));
-		nih.nidt = NVME_NIDT_UUID;
-		nih.nidl = NVME_NIDT_UUID_LEN;
-		status = nvmet_copy_to_sgl(req, off, &nih, sizeof(nih));
-		if (status)
-			goto out_put_ns;
-		off += sizeof(nih);
-
-		status = nvmet_copy_to_sgl(req, off, &ns->uuid,
-				sizeof(ns->uuid));
-		if (status)
-			goto out_put_ns;
-		off += sizeof(ns->uuid);
+Please move all this code into nvme_identify_ns_descs().
