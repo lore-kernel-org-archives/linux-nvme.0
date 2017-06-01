@@ -1,81 +1,280 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu,  1 Jun 2017 13:10:37 +0200
-Subject: [PATCH 1/3] PCI: ensure the PCI device is locked over ->reset_notify
- calls
+Date: Thu,  1 Jun 2017 13:10:38 +0200
+Subject: [PATCH 2/3] PCI: split reset_notify method
 In-Reply-To: <20170601111039.8913-1-hch@lst.de>
 References: <20170601111039.8913-1-hch@lst.de>
-Message-ID: <20170601111039.8913-2-hch@lst.de>
+Message-ID: <20170601111039.8913-3-hch@lst.de>
 
-Without this ->notify_reset instance may race with ->remove calls,
-which can be easily triggered in NVMe.
+The prepare and done cases have no shared functionality whatsoever, so
+split them into separate methods.
 
-Reported-by: Rakesh Pandit <rakesh at tuxera.com>
-Tested-by: Rakesh Pandit <rakesh at tuxera.com>
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/pci/pci.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
+ drivers/net/ethernet/intel/fm10k/fm10k_pci.c | 36 +++++--------
+ drivers/net/wireless/marvell/mwifiex/pcie.c  | 75 ++++++++++++++++------------
+ drivers/nvme/host/pci.c                      | 15 +++---
+ drivers/pci/pci.c                            | 25 +++-------
+ include/linux/pci.h                          |  3 +-
+ 5 files changed, 75 insertions(+), 79 deletions(-)
 
+diff --git a/drivers/net/ethernet/intel/fm10k/fm10k_pci.c b/drivers/net/ethernet/intel/fm10k/fm10k_pci.c
+index 3e26d27ad213..63784576ae8b 100644
+--- a/drivers/net/ethernet/intel/fm10k/fm10k_pci.c
++++ b/drivers/net/ethernet/intel/fm10k/fm10k_pci.c
+@@ -2348,30 +2348,19 @@ static void fm10k_io_resume(struct pci_dev *pdev)
+ 		netif_device_attach(netdev);
+ }
+ 
+-/**
+- * fm10k_io_reset_notify - called when PCI function is reset
+- * @pdev: Pointer to PCI device
+- *
+- * This callback is called when the PCI function is reset such as from
+- * /sys/class/net/<enpX>/device/reset or similar. When prepare is true, it
+- * means we should prepare for a function reset. If prepare is false, it means
+- * the function reset just occurred.
+- */
+-static void fm10k_io_reset_notify(struct pci_dev *pdev, bool prepare)
++static void fm10k_io_reset_prepare(struct pci_dev *pdev)
+ {
+-	struct fm10k_intfc *interface = pci_get_drvdata(pdev);
+-	int err = 0;
+-
+-	if (prepare) {
+-		/* warn incase we have any active VF devices */
+-		if (pci_num_vf(pdev))
+-			dev_warn(&pdev->dev,
+-				 "PCIe FLR may cause issues for any active VF devices\n");
++	/* warn incase we have any active VF devices */
++	if (pci_num_vf(pdev))
++		dev_warn(&pdev->dev,
++			 "PCIe FLR may cause issues for any active VF devices\n");
++	fm10k_prepare_suspend(pci_get_drvdata(pdev));
++}
+ 
+-		fm10k_prepare_suspend(interface);
+-	} else {
+-		err = fm10k_handle_resume(interface);
+-	}
++static void fm10k_io_reset_done(struct pci_dev *pdev)
++{
++	struct fm10k_intfc *interface = pci_get_drvdata(pdev);
++	int err = fm10k_handle_resume(interface);
+ 
+ 	if (err) {
+ 		dev_warn(&pdev->dev,
+@@ -2384,7 +2373,8 @@ static const struct pci_error_handlers fm10k_err_handler = {
+ 	.error_detected = fm10k_io_error_detected,
+ 	.slot_reset = fm10k_io_slot_reset,
+ 	.resume = fm10k_io_resume,
+-	.reset_notify = fm10k_io_reset_notify,
++	.reset_prepare = fm10k_io_reset_prepare,
++	.reset_done = fm10k_io_reset_done,
+ };
+ 
+ static struct pci_driver fm10k_driver = {
+diff --git a/drivers/net/wireless/marvell/mwifiex/pcie.c b/drivers/net/wireless/marvell/mwifiex/pcie.c
+index ac62bce50e96..279adf124fc9 100644
+--- a/drivers/net/wireless/marvell/mwifiex/pcie.c
++++ b/drivers/net/wireless/marvell/mwifiex/pcie.c
+@@ -346,11 +346,13 @@ static const struct pci_device_id mwifiex_ids[] = {
+ 
+ MODULE_DEVICE_TABLE(pci, mwifiex_ids);
+ 
+-static void mwifiex_pcie_reset_notify(struct pci_dev *pdev, bool prepare)
++/*
++ * Cleanup all software without cleaning anything related to PCIe and HW.
++ */
++static void mwifiex_pcie_reset_prepare(struct pci_dev *pdev)
+ {
+ 	struct pcie_service_card *card = pci_get_drvdata(pdev);
+ 	struct mwifiex_adapter *adapter = card->adapter;
+-	int ret;
+ 
+ 	if (!adapter) {
+ 		dev_err(&pdev->dev, "%s: adapter structure is not valid\n",
+@@ -359,37 +361,48 @@ static void mwifiex_pcie_reset_notify(struct pci_dev *pdev, bool prepare)
+ 	}
+ 
+ 	mwifiex_dbg(adapter, INFO,
+-		    "%s: vendor=0x%4.04x device=0x%4.04x rev=%d %s\n",
+-		    __func__, pdev->vendor, pdev->device,
+-		    pdev->revision,
+-		    prepare ? "Pre-FLR" : "Post-FLR");
+-
+-	if (prepare) {
+-		/* Kernel would be performing FLR after this notification.
+-		 * Cleanup all software without cleaning anything related to
+-		 * PCIe and HW.
+-		 */
+-		mwifiex_shutdown_sw(adapter);
+-		adapter->surprise_removed = true;
+-		clear_bit(MWIFIEX_IFACE_WORK_DEVICE_DUMP, &card->work_flags);
+-		clear_bit(MWIFIEX_IFACE_WORK_CARD_RESET, &card->work_flags);
+-	} else {
+-		/* Kernel stores and restores PCIe function context before and
+-		 * after performing FLR respectively. Reconfigure the software
+-		 * and firmware including firmware redownload
+-		 */
+-		adapter->surprise_removed = false;
+-		ret = mwifiex_reinit_sw(adapter);
+-		if (ret) {
+-			dev_err(&pdev->dev, "reinit failed: %d\n", ret);
+-			return;
+-		}
+-	}
++		    "%s: vendor=0x%4.04x device=0x%4.04x rev=%d Pre-FLR\n",
++		    __func__, pdev->vendor, pdev->device, pdev->revision);
++
++	mwifiex_shutdown_sw(adapter);
++	adapter->surprise_removed = true;
++	clear_bit(MWIFIEX_IFACE_WORK_DEVICE_DUMP, &card->work_flags);
++	clear_bit(MWIFIEX_IFACE_WORK_CARD_RESET, &card->work_flags);
+ 	mwifiex_dbg(adapter, INFO, "%s, successful\n", __func__);
+ }
+ 
+-static const struct pci_error_handlers mwifiex_pcie_err_handler[] = {
+-		{ .reset_notify = mwifiex_pcie_reset_notify, },
++/*
++ * Kernel stores and restores PCIe function context before and after performing
++ * FLR respectively. Reconfigure the software and firmware including firmware
++ * redownload.
++ */
++static void mwifiex_pcie_reset_done(struct pci_dev *pdev)
++{
++	struct pcie_service_card *card = pci_get_drvdata(pdev);
++	struct mwifiex_adapter *adapter = card->adapter;
++	int ret;
++
++	if (!adapter) {
++		dev_err(&pdev->dev, "%s: adapter structure is not valid\n",
++			__func__);
++		return;
++	}
++
++	mwifiex_dbg(adapter, INFO,
++		    "%s: vendor=0x%4.04x device=0x%4.04x rev=%d Post-FLR\n",
++		    __func__, pdev->vendor, pdev->device, pdev->revision);
++
++	adapter->surprise_removed = false;
++	ret = mwifiex_reinit_sw(adapter);
++	if (ret)
++		dev_err(&pdev->dev, "reinit failed: %d\n", ret);
++	else
++		mwifiex_dbg(adapter, INFO, "%s, successful\n", __func__);
++}
++
++static const struct pci_error_handlers mwifiex_pcie_err_handler = {
++	.reset_prepare		= mwifiex_pcie_reset_prepare,
++	.reset_done		= mwifiex_pcie_reset_done,
+ };
+ 
+ #ifdef CONFIG_PM_SLEEP
+@@ -410,7 +423,7 @@ static struct pci_driver __refdata mwifiex_pcie = {
+ 	},
+ #endif
+ 	.shutdown = mwifiex_pcie_shutdown,
+-	.err_handler = mwifiex_pcie_err_handler,
++	.err_handler = &mwifiex_pcie_err_handler,
+ };
+ 
+ /*
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index d52701df7245..5059f0f983b5 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -2152,14 +2152,14 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	return result;
+ }
+ 
+-static void nvme_reset_notify(struct pci_dev *pdev, bool prepare)
++static void nvme_reset_prepare(struct pci_dev *pdev)
+ {
+-	struct nvme_dev *dev = pci_get_drvdata(pdev);
++	nvme_dev_disable(pci_get_drvdata(pdev), false);
++}
+ 
+-	if (prepare)
+-		nvme_dev_disable(dev, false);
+-	else
+-		nvme_reset(dev);
++static void nvme_reset_done(struct pci_dev *pdev)
++{
++	nvme_reset(pci_get_drvdata(pdev));
+ }
+ 
+ static void nvme_shutdown(struct pci_dev *pdev)
+@@ -2281,7 +2281,8 @@ static const struct pci_error_handlers nvme_err_handler = {
+ 	.error_detected	= nvme_error_detected,
+ 	.slot_reset	= nvme_slot_reset,
+ 	.resume		= nvme_error_resume,
+-	.reset_notify	= nvme_reset_notify,
++	.reset_prepare	= nvme_reset_prepare,
++	.reset_done	= nvme_reset_done,
+ };
+ 
+ static const struct pci_device_id nvme_id_table[] = {
 diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 563901cd9c06..92f7e5ae2e5e 100644
+index 92f7e5ae2e5e..b3f9ae7a4e21 100644
 --- a/drivers/pci/pci.c
 +++ b/drivers/pci/pci.c
-@@ -4276,11 +4276,13 @@ int pci_reset_function(struct pci_dev *dev)
- 	if (rc)
- 		return rc;
- 
-+	pci_dev_lock(dev);
- 	pci_dev_save_and_disable(dev);
- 
--	rc = pci_dev_reset(dev, 0);
-+	rc = __pci_dev_reset(dev, 0);
- 
- 	pci_dev_restore(dev);
-+	pci_dev_unlock(dev);
- 
- 	return rc;
+@@ -4128,26 +4128,13 @@ static void pci_dev_unlock(struct pci_dev *dev)
+ 	pci_cfg_access_unlock(dev);
  }
-@@ -4300,16 +4302,14 @@ int pci_try_reset_function(struct pci_dev *dev)
- 	if (rc)
- 		return rc;
  
--	pci_dev_save_and_disable(dev);
-+	if (pci_dev_trylock(dev))
-+		return -EAGAIN;
+-/**
+- * pci_reset_notify - notify device driver of reset
+- * @dev: device to be notified of reset
+- * @prepare: 'true' if device is about to be reset; 'false' if reset attempt
+- *           completed
+- *
+- * Must be called prior to device access being disabled and after device
+- * access is restored.
+- */
+-static void pci_reset_notify(struct pci_dev *dev, bool prepare)
++static void pci_dev_save_and_disable(struct pci_dev *dev)
+ {
+ 	const struct pci_error_handlers *err_handler =
+ 			dev->driver ? dev->driver->err_handler : NULL;
+-	if (err_handler && err_handler->reset_notify)
+-		err_handler->reset_notify(dev, prepare);
+-}
  
--	if (pci_dev_trylock(dev)) {
--		rc = __pci_dev_reset(dev, 0);
--		pci_dev_unlock(dev);
--	} else
--		rc = -EAGAIN;
-+	pci_dev_save_and_disable(dev);
-+	rc = __pci_dev_reset(dev, 0);
-+	pci_dev_unlock(dev);
+-static void pci_dev_save_and_disable(struct pci_dev *dev)
+-{
+-	pci_reset_notify(dev, true);
++	if (err_handler && err_handler->reset_prepare)
++		err_handler->reset_prepare(dev);
  
- 	pci_dev_restore(dev);
--
- 	return rc;
+ 	/*
+ 	 * Wake-up device prior to save.  PM registers default to D0 after
+@@ -4169,8 +4156,12 @@ static void pci_dev_save_and_disable(struct pci_dev *dev)
+ 
+ static void pci_dev_restore(struct pci_dev *dev)
+ {
++	const struct pci_error_handlers *err_handler =
++			dev->driver ? dev->driver->err_handler : NULL;
++
+ 	pci_restore_state(dev);
+-	pci_reset_notify(dev, false);
++	if (err_handler && err_handler->reset_done)
++		err_handler->reset_done(dev);
  }
- EXPORT_SYMBOL_GPL(pci_try_reset_function);
-@@ -4459,7 +4459,9 @@ static void pci_bus_save_and_disable(struct pci_bus *bus)
- 	struct pci_dev *dev;
  
- 	list_for_each_entry(dev, &bus->devices, bus_list) {
-+		pci_dev_lock(dev);
- 		pci_dev_save_and_disable(dev);
-+		pci_dev_unlock(dev);
- 		if (dev->subordinate)
- 			pci_bus_save_and_disable(dev->subordinate);
- 	}
-@@ -4474,7 +4476,9 @@ static void pci_bus_restore(struct pci_bus *bus)
- 	struct pci_dev *dev;
+ static int pci_dev_reset(struct pci_dev *dev, int probe)
+diff --git a/include/linux/pci.h b/include/linux/pci.h
+index 8039f9f0ca05..b87aec18e673 100644
+--- a/include/linux/pci.h
++++ b/include/linux/pci.h
+@@ -695,7 +695,8 @@ struct pci_error_handlers {
+ 	pci_ers_result_t (*slot_reset)(struct pci_dev *dev);
  
- 	list_for_each_entry(dev, &bus->devices, bus_list) {
-+		pci_dev_lock(dev);
- 		pci_dev_restore(dev);
-+		pci_dev_unlock(dev);
- 		if (dev->subordinate)
- 			pci_bus_restore(dev->subordinate);
- 	}
+ 	/* PCI function reset prepare or completed */
+-	void (*reset_notify)(struct pci_dev *dev, bool prepare);
++	void (*reset_prepare)(struct pci_dev *dev);
++	void (*reset_done)(struct pci_dev *dev);
+ 
+ 	/* Device driver may resume normal operations */
+ 	void (*resume)(struct pci_dev *dev);
 -- 
 2.11.0
