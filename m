@@ -1,191 +1,59 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu,  1 Jun 2017 13:10:39 +0200
-Subject: [PATCH 3/3] PCI: remove __pci_dev_reset and pci_dev_reset
-In-Reply-To: <20170601111039.8913-1-hch@lst.de>
-References: <20170601111039.8913-1-hch@lst.de>
-Message-ID: <20170601111039.8913-4-hch@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Thu,  1 Jun 2017 13:17:43 +0200
+Subject: [PATCH v2 1/8] nvme: introduce NVMe Namespace Identification
+ Descriptor structures
+In-Reply-To: <20170601111750.20880-1-jthumshirn@suse.de>
+References: <20170601111750.20880-1-jthumshirn@suse.de>
+Message-ID: <20170601111750.20880-2-jthumshirn@suse.de>
 
-And instead implement the reset probing / reset chain in
-__pci_probe_reset_function and __pci_reset_function_locked respectively.
-
-Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/pci/pci.c | 108 ++++++++++++++++++++++++++----------------------------
- 1 file changed, 52 insertions(+), 56 deletions(-)
+ include/linux/nvme.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index b3f9ae7a4e21..20be3b87124a 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -4069,40 +4069,6 @@ static int pci_dev_reset_slot_function(struct pci_dev *dev, int probe)
- 	return pci_reset_hotplug_slot(dev->slot->hotplug, probe);
- }
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b625bacf37ef..afa6ef484e50 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -288,6 +288,7 @@ enum {
+ 	NVME_ID_CNS_NS			= 0x00,
+ 	NVME_ID_CNS_CTRL		= 0x01,
+ 	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
++	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
+ 	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
+ 	NVME_ID_CNS_NS_PRESENT		= 0x11,
+ 	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
+@@ -314,6 +315,22 @@ enum {
+ 	NVME_NS_DPS_PI_TYPE3	= 3,
+ };
  
--static int __pci_dev_reset(struct pci_dev *dev, int probe)
--{
--	int rc;
--
--	might_sleep();
--
--	rc = pci_dev_specific_reset(dev, probe);
--	if (rc != -ENOTTY)
--		goto done;
--
--	if (pcie_has_flr(dev)) {
--		if (!probe)
--			pcie_flr(dev);
--		rc = 0;
--		goto done;
--	}
--
--	rc = pci_af_flr(dev, probe);
--	if (rc != -ENOTTY)
--		goto done;
--
--	rc = pci_pm_reset(dev, probe);
--	if (rc != -ENOTTY)
--		goto done;
--
--	rc = pci_dev_reset_slot_function(dev, probe);
--	if (rc != -ENOTTY)
--		goto done;
--
--	rc = pci_parent_bus_reset(dev, probe);
--done:
--	return rc;
--}
--
- static void pci_dev_lock(struct pci_dev *dev)
- {
- 	pci_cfg_access_lock(dev);
-@@ -4164,21 +4130,6 @@ static void pci_dev_restore(struct pci_dev *dev)
- 		err_handler->reset_done(dev);
- }
- 
--static int pci_dev_reset(struct pci_dev *dev, int probe)
--{
--	int rc;
--
--	if (!probe)
--		pci_dev_lock(dev);
--
--	rc = __pci_dev_reset(dev, probe);
--
--	if (!probe)
--		pci_dev_unlock(dev);
--
--	return rc;
--}
--
- /**
-  * __pci_reset_function - reset a PCI device function
-  * @dev: PCI device to reset
-@@ -4198,7 +4149,13 @@ static int pci_dev_reset(struct pci_dev *dev, int probe)
-  */
- int __pci_reset_function(struct pci_dev *dev)
- {
--	return pci_dev_reset(dev, 0);
-+	int ret;
++struct nvme_ns_identifier_hdr {
++	__u8 nidt;
++	__u8 nidl;
++	__le16 reserved;
++};
 +
-+	pci_dev_lock(dev);
-+	ret = __pci_reset_function_locked(dev);
-+	pci_dev_unlock(dev);
++#define NVME_NIDT_EUI64_LEN	8
++#define NVME_NIDT_NGUID_LEN	16
++#define NVME_NIDT_UUID_LEN	16
 +
-+	return ret;
- }
- EXPORT_SYMBOL_GPL(__pci_reset_function);
- 
-@@ -4223,7 +4180,27 @@ EXPORT_SYMBOL_GPL(__pci_reset_function);
-  */
- int __pci_reset_function_locked(struct pci_dev *dev)
- {
--	return __pci_dev_reset(dev, 0);
-+	int rc;
++enum {
++	NVME_NIDT_EUI64		= 0x01,
++	NVME_NIDT_NGUID		= 0x02,
++	NVME_NIDT_UUID		= 0x03,
++};
 +
-+	might_sleep();
+ struct nvme_smart_log {
+ 	__u8			critical_warning;
+ 	__u8			temperature[2];
+@@ -658,6 +675,8 @@ struct nvme_identify {
+ 	__u32			rsvd11[5];
+ };
+ 
++#define NVME_IDENTIFY_DATA_SIZE 4096
 +
-+	rc = pci_dev_specific_reset(dev, 0);
-+	if (rc != -ENOTTY)
-+		return rc;
-+	if (pcie_has_flr(dev)) {
-+		pcie_flr(dev);
-+		return 0;
-+	}
-+	rc = pci_af_flr(dev, 0);
-+	if (rc != -ENOTTY)
-+		return rc;
-+	rc = pci_pm_reset(dev, 0);
-+	if (rc != -ENOTTY)
-+		return rc;
-+	rc = pci_dev_reset_slot_function(dev, 0);
-+	if (rc != -ENOTTY)
-+		return rc;
-+	return pci_parent_bus_reset(dev, 0);
- }
- EXPORT_SYMBOL_GPL(__pci_reset_function_locked);
- 
-@@ -4240,7 +4217,26 @@ EXPORT_SYMBOL_GPL(__pci_reset_function_locked);
-  */
- int pci_probe_reset_function(struct pci_dev *dev)
- {
--	return pci_dev_reset(dev, 1);
-+	int rc;
-+
-+	might_sleep();
-+
-+	rc = pci_dev_specific_reset(dev, 1);
-+	if (rc != -ENOTTY)
-+		return rc;
-+	if (pcie_has_flr(dev))
-+		return 0;
-+	rc = pci_af_flr(dev, 1);
-+	if (rc != -ENOTTY)
-+		return rc;
-+	rc = pci_pm_reset(dev, 1);
-+	if (rc != -ENOTTY)
-+		return rc;
-+	rc = pci_dev_reset_slot_function(dev, 1);
-+	if (rc != -ENOTTY)
-+		return rc;
-+
-+	return pci_parent_bus_reset(dev, 1);
- }
- 
- /**
-@@ -4263,14 +4259,14 @@ int pci_reset_function(struct pci_dev *dev)
- {
- 	int rc;
- 
--	rc = pci_dev_reset(dev, 1);
-+	rc = pci_probe_reset_function(dev);
- 	if (rc)
- 		return rc;
- 
- 	pci_dev_lock(dev);
- 	pci_dev_save_and_disable(dev);
- 
--	rc = __pci_dev_reset(dev, 0);
-+	rc = __pci_reset_function_locked(dev);
- 
- 	pci_dev_restore(dev);
- 	pci_dev_unlock(dev);
-@@ -4289,7 +4285,7 @@ int pci_try_reset_function(struct pci_dev *dev)
- {
- 	int rc;
- 
--	rc = pci_dev_reset(dev, 1);
-+	rc = pci_probe_reset_function(dev);
- 	if (rc)
- 		return rc;
- 
-@@ -4297,7 +4293,7 @@ int pci_try_reset_function(struct pci_dev *dev)
- 		return -EAGAIN;
- 
- 	pci_dev_save_and_disable(dev);
--	rc = __pci_dev_reset(dev, 0);
-+	rc = __pci_reset_function_locked(dev);
- 	pci_dev_unlock(dev);
- 
- 	pci_dev_restore(dev);
+ struct nvme_features {
+ 	__u8			opcode;
+ 	__u8			flags;
 -- 
-2.11.0
+2.12.0
