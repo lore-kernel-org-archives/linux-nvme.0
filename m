@@ -1,131 +1,53 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri,  2 Jun 2017 11:45:31 +0200
-Subject: [PATCH v3 3/8] nvmet: implement namespace identify descriptor list
+Date: Fri,  2 Jun 2017 11:45:36 +0200
+Subject: [PATCH v3 8/8] nvmet: use NVME_IDENTIFY_DATA_SIZE
 In-Reply-To: <20170602094536.25775-1-jthumshirn@suse.de>
 References: <20170602094536.25775-1-jthumshirn@suse.de>
-Message-ID: <20170602094536.25775-4-jthumshirn@suse.de>
+Message-ID: <20170602094536.25775-9-jthumshirn@suse.de>
 
-A NVMe Identify NS command with a CNS value of '3' is expecting a list
-of Namespace Identification Descriptor structures to be returned to
-the host for the namespace requested in the namespace identify
-command.
-
-This Namespace Identification Descriptor structure consists of the
-type of the namespace identifier, the length of the identifier and the
-actual identifier.
-
-Valid types are NGUID and UUID which we have saved in our nvme_ns
-structure if they have been configured via configfs. If no value has
-been assigened to one of these we return an "invalid opcode" back to
-the host to maintain backward compatibiliy with older implementations
-without Namespace Identify Descriptor list support.
-
-Also as the Namespace Identify Descriptor list is the only mandatory
-feature change between 1.2.1 and 1.3.0 we can bump the advertised
-version as well.
+Use NVME_IDENTIFY_DATA_SIZE define instead of hard coding the magic
+4096 value.
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/target/admin-cmd.c | 53 +++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/target/core.c      |  2 +-
- drivers/nvme/target/nvmet.h     |  1 +
- 3 files changed, 55 insertions(+), 1 deletion(-)
+ drivers/nvme/target/admin-cmd.c | 4 ++--
+ drivers/nvme/target/discovery.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index ff1f97006322..833b5ef935c3 100644
+index 833b5ef935c3..def6cde1e714 100644
 --- a/drivers/nvme/target/admin-cmd.c
 +++ b/drivers/nvme/target/admin-cmd.c
-@@ -367,6 +367,56 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
- }
+@@ -336,7 +336,7 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
  
-+static void nvmet_execute_identify_desclist(struct nvmet_req *req)
-+{
-+	struct nvmet_ns *ns;
-+	struct nvme_ns_identifier_hdr hdr;
-+	u16 status = 0;
-+	off_t off = 0;
-+
-+	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
-+	if (!ns) {
-+		status = NVME_SC_INVALID_NS | NVME_SC_DNR;
-+		goto out;
-+	}
-+
-+	if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-+		memset(&hdr, 0, sizeof(hdr));
-+		hdr.nidt = NVME_NIDT_UUID;
-+		hdr.nidl = NVME_NIDT_UUID_LEN;
-+		status = nvmet_copy_to_sgl(req, off, &hdr, sizeof(hdr));
-+		if (status)
-+			goto out_put_ns;
-+		off += sizeof(hdr);
-+
-+		status = nvmet_copy_to_sgl(req, off, &ns->uuid,
-+					   sizeof(ns->uuid));
-+		if (status)
-+			goto out_put_ns;
-+		off += sizeof(ns->uuid);
-+	}
-+	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid))) {
-+		memset(&hdr, 0, sizeof(hdr));
-+		hdr.nidt = NVME_NIDT_NGUID;
-+		hdr.nidl = NVME_NIDT_NGUID_LEN;
-+		status = nvmet_copy_to_sgl(req, off, &hdr, sizeof(hdr));
-+		if (status)
-+			goto out_put_ns;
-+		off += sizeof(hdr);
-+
-+		status = nvmet_copy_to_sgl(req, off, &ns->nguid,
-+					   sizeof(ns->nguid));
-+		if (status)
-+			goto out_put_ns;
-+		off += sizeof(ns->nguid);
-+	}
-+
-+out_put_ns:
-+	nvmet_put_namespace(ns);
-+out:
-+	nvmet_req_complete(req, status);
-+}
-+
- /*
-  * A "mimimum viable" abort implementation: the command is mandatory in the
-  * spec, but we are not required to do any useful work.  We couldn't really
-@@ -515,6 +565,9 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
- 		case NVME_ID_CNS_NS_ACTIVE_LIST:
- 			req->execute = nvmet_execute_identify_nslist;
- 			return 0;
-+		case NVME_ID_CNS_NS_DESC_LIST:
-+			req->execute = nvmet_execute_identify_desclist;
-+			return 0;
+ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
+ {
+-	static const int buf_size = 4096;
++	static const int buf_size = NVME_IDENTIFY_DATA_SIZE;
+ 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
+ 	struct nvmet_ns *ns;
+ 	u32 min_nsid = le32_to_cpu(req->cmd->identify.nsid);
+@@ -554,7 +554,7 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
  		}
  		break;
- 	case nvme_admin_abort_cmd:
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index eb9399ac97cf..d4eeee4f2fab 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -926,7 +926,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	if (!subsys)
- 		return NULL;
- 
--	subsys->ver = NVME_VS(1, 2, 1); /* NVMe 1.2.1 */
-+	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
- 
- 	switch (type) {
- 	case NVME_NQN_NVME:
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index cfc5c7fb0ab7..4c6cb5ea1186 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -46,6 +46,7 @@ struct nvmet_ns {
- 	u32			blksize_shift;
- 	loff_t			size;
- 	u8			nguid[16];
-+	uuid_be			uuid;
- 
- 	bool			enabled;
- 	struct nvmet_subsys	*subsys;
+ 	case nvme_admin_identify:
+-		req->data_len = 4096;
++		req->data_len = NVME_IDENTIFY_DATA_SIZE;
+ 		switch (cmd->identify.cns) {
+ 		case NVME_ID_CNS_NS:
+ 			req->execute = nvmet_execute_identify_ns;
+diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
+index 1aaf597e81fc..c7a90384dd75 100644
+--- a/drivers/nvme/target/discovery.c
++++ b/drivers/nvme/target/discovery.c
+@@ -185,7 +185,7 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
+ 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
+ 		}
+ 	case nvme_admin_identify:
+-		req->data_len = 4096;
++		req->data_len = NVME_IDENTIFY_DATA_SIZE;
+ 		switch (cmd->identify.cns) {
+ 		case NVME_ID_CNS_CTRL:
+ 			req->execute =
 -- 
 2.12.0
