@@ -1,45 +1,81 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 2 Jun 2017 15:54:40 +0200
-Subject: [PATCH v3 3/8] nvmet: implement namespace identify descriptor list
-In-Reply-To: <4f03d4c0-6f7b-dbc4-b0ee-bebe77e80ea6@grimberg.me>
-References: <20170602094536.25775-1-jthumshirn@suse.de>
- <20170602094536.25775-4-jthumshirn@suse.de>
- <4f03d4c0-6f7b-dbc4-b0ee-bebe77e80ea6@grimberg.me>
-Message-ID: <64fd1261-2019-5b37-a791-728105c84ac3@suse.de>
+From: rakesh@tuxera.com (Rakesh Pandit)
+Date: Fri, 2 Jun 2017 20:10:08 +0300
+Subject: [PATCH] nvme: fix multiple ctrl removal scheduling
+In-Reply-To: <20170601200026.GA3487@localhost.localdomain>
+References: <20170601140629.15313-1-hch@lst.de>
+ <20170601140629.15313-2-hch@lst.de>
+ <20170601200026.GA3487@localhost.localdomain>
+Message-ID: <20170602171008.GA22858@dhcp-216.srv.tuxera.com>
 
-On 06/02/2017 03:46 PM, Sagi Grimberg wrote:
->> +    uuid_be            uuid;
+On Thu, Jun 01, 2017@04:00:26PM -0400, Keith Busch wrote:
+> On Thu, Jun 01, 2017@04:06:29PM +0200, Christoph Hellwig wrote:
+> > index a60926410438..0935dc08f46e 100644
+> > --- a/drivers/nvme/host/core.c
+> > +++ b/drivers/nvme/host/core.c
+....
+> >  		break;
+> > +	case NVME_CTRL_RESETTING:
+> > +		switch (old_state) {
+> > +		case NVME_CTRL_SCHED_RESET:
+> > +			changed = true;
+> > +			/* FALLTHRU */
+> > +		default:
+> > +			break;
+> > +		}
+> > +		break;
+> >  	case NVME_CTRL_RECONNECTING:
+> >  		switch (old_state) {
+> >  		case NVME_CTRL_LIVE:
 > 
-> This should be uuid_le to match the rest of NVMe.
+> We also need to add the new NVME_SCHED_RESET state as a valid old_state
+> transition to NVME_CTRL_DELETING.
+>
 
-Ahm, are you sure?
-$ PAGER= git grep -E uuid_\(l\|b\)e drivers/nvme
-drivers/nvme/host/fabrics.c:61:	uuid_be_gen(&host->id);
-drivers/nvme/host/fabrics.c:78:	uuid_be_gen(&host->id);
-drivers/nvme/host/fabrics.c:398:	memcpy(&data->hostid,
-&ctrl->opts->host->id, sizeof(uuid_be));
-drivers/nvme/host/fabrics.c:457:	memcpy(&data->hostid,
-&ctrl->opts->host->id, sizeof(uuid_be));
-drivers/nvme/host/fabrics.h:39:	uuid_be			id;
-drivers/nvme/host/fc.c:882:		min_t(size_t, FCNVME_ASSOC_HOSTID_LEN,
-sizeof(uuid_be)));
-drivers/nvme/target/admin-cmd.c:324:	memcpy(&id->nguid, &ns->nguid,
-sizeof(uuid_le));
-drivers/nvme/target/configfs.c:328:	if (uuid_be_to_bin(page, &ns->uuid))
-drivers/nvme/target/nvmet.h:49:	uuid_be			uuid;
+Makes sense.
 
-And RFC4122 4.1.2 says MSB first as well.
-
+> > @@ -2009,8 +2014,8 @@ static int nvme_reset(struct nvme_dev *dev)
+> >  {
+> >  	if (!dev->ctrl.admin_q || blk_queue_dying(dev->ctrl.admin_q))
+> >  		return -ENODEV;
+> > -	if (work_busy(&dev->reset_work))
+> > -		return -ENODEV;
+> > +	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_SCHED_RESET))
+> > +		return -EBUSY;
+> >  	if (!queue_work(nvme_workq, &dev->reset_work))
+> >  		return -EBUSY;
+> >  	return 0;
 > 
-> Also, it would be useful to generate a random default with uuid_le_gen()
-> for a better out-of-the-box experience.
+> Just going through a hypothetical scenario: let's say a user requests
+> an orderly removal of a device through sysfs. The the controller happens
+> to fail after del_gendisk is called, and commands timeout, triggering a
+> reset.
+> 
+> Today, the reset work will consider the controller dead and kill the
+> nvme queues to force all new IO to fail immediately.
+> 
+> With this change, the reset work won't get to run, so nothing will get
+> to kill the queues. The driver will be stuck at del_gendisk.
+> 
+> Something like the following will fix that for pci:
+> 
+> ---
+> --- a/drivers/nvme/host/pci.c
+> +++ b/drivers/nvme/host/pci.c
+> @@ -993,7 +993,10 @@ static enum blk_eh_timer_return nvme_timeout(struct request *req, bool reserved)
+>  			 "I/O %d QID %d timeout, reset controller\n",
+>  			 req->tag, nvmeq->qid);
+>  		nvme_dev_disable(dev, false);
+> -		nvme_reset(dev);
+> +		if (nvme_reset(dev) != 0) {
+> +			if (nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DEAD))
+> +				nvme_kill_queues(&dev->ctrl);
+> +		}
+>  
+>  		/*
+>  		 * Mark the request as handled, since the inline shutdown
+> --
 
-Yep, sounds reasonable.
+Thanks for pointing out.  Seems correct.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Christoph: may you fold above diff and a change above into a new
+version of patch.  Let me know if you want me to post a new version.
