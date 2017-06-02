@@ -1,60 +1,60 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Fri,  2 Jun 2017 16:32:08 +0800
-Subject: [PATCH] nvme: fix hang in remove path
-Message-ID: <20170602083208.4518-1-ming.lei@redhat.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri,  2 Jun 2017 11:45:29 +0200
+Subject: [PATCH v3 1/8] nvme: introduce NVMe Namespace Identification
+ Descriptor structures
+In-Reply-To: <20170602094536.25775-1-jthumshirn@suse.de>
+References: <20170602094536.25775-1-jthumshirn@suse.de>
+Message-ID: <20170602094536.25775-2-jthumshirn@suse.de>
 
-We need to start admin queues too in nvme_kill_queues()
-for avoiding hang in remove path[1].
-
-This patch is very similar with 806f026f9b901eaf(nvme: use
-blk_mq_start_hw_queues() in nvme_kill_queues()).
-
-[1] hang stack trace
-[<ffffffff813c9716>] blk_execute_rq+0x56/0x80
-[<ffffffff815cb6e9>] __nvme_submit_sync_cmd+0x89/0xf0
-[<ffffffff815ce7be>] nvme_set_features+0x5e/0x90
-[<ffffffff815ce9f6>] nvme_configure_apst+0x166/0x200
-[<ffffffff815cef45>] nvme_set_latency_tolerance+0x35/0x50
-[<ffffffff8157bd11>] apply_constraint+0xb1/0xc0
-[<ffffffff8157cbb4>] dev_pm_qos_constraints_destroy+0xf4/0x1f0
-[<ffffffff8157b44a>] dpm_sysfs_remove+0x2a/0x60
-[<ffffffff8156d951>] device_del+0x101/0x320
-[<ffffffff8156db8a>] device_unregister+0x1a/0x60
-[<ffffffff8156dc4c>] device_destroy+0x3c/0x50
-[<ffffffff815cd295>] nvme_uninit_ctrl+0x45/0xa0
-[<ffffffff815d4858>] nvme_remove+0x78/0x110
-[<ffffffff81452b69>] pci_device_remove+0x39/0xb0
-[<ffffffff81572935>] device_release_driver_internal+0x155/0x210
-[<ffffffff81572a02>] device_release_driver+0x12/0x20
-[<ffffffff815d36fb>] nvme_remove_dead_ctrl_work+0x6b/0x70
-[<ffffffff810bf3bc>] process_one_work+0x18c/0x3a0
-[<ffffffff810bf61e>] worker_thread+0x4e/0x3b0
-[<ffffffff810c5ac9>] kthread+0x109/0x140
-[<ffffffff8185800c>] ret_from_fork+0x2c/0x40
-[<ffffffffffffffff>] 0xffffffffffffffff
-
-Fixes: c5552fde102fc("nvme: Enable autonomous power state transitions")
-Reported-by: Rakesh Pandit <rakesh at tuxera.com>
-Tested-by: Rakesh Pandit <rakesh at tuxera.com>
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/host/core.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/linux/nvme.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a60926410438..0f9cc0c55e15 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2438,6 +2438,10 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 	struct nvme_ns *ns;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b625bacf37ef..afa6ef484e50 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -288,6 +288,7 @@ enum {
+ 	NVME_ID_CNS_NS			= 0x00,
+ 	NVME_ID_CNS_CTRL		= 0x01,
+ 	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
++	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
+ 	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
+ 	NVME_ID_CNS_NS_PRESENT		= 0x11,
+ 	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
+@@ -314,6 +315,22 @@ enum {
+ 	NVME_NS_DPS_PI_TYPE3	= 3,
+ };
  
- 	mutex_lock(&ctrl->namespaces_mutex);
++struct nvme_ns_identifier_hdr {
++	__u8 nidt;
++	__u8 nidl;
++	__le16 reserved;
++};
 +
-+	/* Forcibly start all queues to avoid having stuck requests */
-+	blk_mq_start_hw_queues(ctrl->admin_q);
++#define NVME_NIDT_EUI64_LEN	8
++#define NVME_NIDT_NGUID_LEN	16
++#define NVME_NIDT_UUID_LEN	16
 +
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
- 		/*
- 		 * Revalidating a dead namespace sets capacity to 0. This will
++enum {
++	NVME_NIDT_EUI64		= 0x01,
++	NVME_NIDT_NGUID		= 0x02,
++	NVME_NIDT_UUID		= 0x03,
++};
++
+ struct nvme_smart_log {
+ 	__u8			critical_warning;
+ 	__u8			temperature[2];
+@@ -658,6 +675,8 @@ struct nvme_identify {
+ 	__u32			rsvd11[5];
+ };
+ 
++#define NVME_IDENTIFY_DATA_SIZE 4096
++
+ struct nvme_features {
+ 	__u8			opcode;
+ 	__u8			flags;
 -- 
-2.9.4
+2.12.0
