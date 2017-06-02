@@ -1,60 +1,72 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri,  2 Jun 2017 11:45:29 +0200
-Subject: [PATCH v3 1/8] nvme: introduce NVMe Namespace Identification
- Descriptor structures
+Date: Fri,  2 Jun 2017 11:45:32 +0200
+Subject: [PATCH v3 4/8] nvmet: add uuid field to nvme_ns and populate via
+ configfs
 In-Reply-To: <20170602094536.25775-1-jthumshirn@suse.de>
 References: <20170602094536.25775-1-jthumshirn@suse.de>
-Message-ID: <20170602094536.25775-2-jthumshirn@suse.de>
+Message-ID: <20170602094536.25775-5-jthumshirn@suse.de>
+
+Add the UUID field from the NVMe Namespace Identification Descriptor
+to the nvmet_ns structure and allow it's population via configfs.
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- include/linux/nvme.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ drivers/nvme/target/configfs.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index b625bacf37ef..afa6ef484e50 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -288,6 +288,7 @@ enum {
- 	NVME_ID_CNS_NS			= 0x00,
- 	NVME_ID_CNS_CTRL		= 0x01,
- 	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
-+	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
- 	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
- 	NVME_ID_CNS_NS_PRESENT		= 0x11,
- 	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
-@@ -314,6 +315,22 @@ enum {
- 	NVME_NS_DPS_PI_TYPE3	= 3,
- };
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index be8c800078e2..16f9f6e3a084 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -305,11 +305,41 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
  
-+struct nvme_ns_identifier_hdr {
-+	__u8 nidt;
-+	__u8 nidl;
-+	__le16 reserved;
-+};
-+
-+#define NVME_NIDT_EUI64_LEN	8
-+#define NVME_NIDT_NGUID_LEN	16
-+#define NVME_NIDT_UUID_LEN	16
-+
-+enum {
-+	NVME_NIDT_EUI64		= 0x01,
-+	NVME_NIDT_NGUID		= 0x02,
-+	NVME_NIDT_UUID		= 0x03,
-+};
-+
- struct nvme_smart_log {
- 	__u8			critical_warning;
- 	__u8			temperature[2];
-@@ -658,6 +675,8 @@ struct nvme_identify {
- 	__u32			rsvd11[5];
- };
+ CONFIGFS_ATTR(nvmet_ns_, device_path);
  
-+#define NVME_IDENTIFY_DATA_SIZE 4096
++static ssize_t nvmet_ns_device_uuid_show(struct config_item *item, char *page)
++{
++	return sprintf(page, "%pUb\n", &to_nvmet_ns(item)->uuid);
++}
 +
- struct nvme_features {
- 	__u8			opcode;
- 	__u8			flags;
++static ssize_t nvmet_ns_device_uuid_store(struct config_item *item,
++					  const char *page, size_t count)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(item);
++	struct nvmet_subsys *subsys = ns->subsys;
++	int ret = 0;
++
++
++	mutex_lock(&subsys->lock);
++	if (ns->enabled) {
++		ret = -EBUSY;
++		goto out_unlock;
++	}
++
++
++	if (uuid_be_to_bin(page, &ns->uuid))
++		ret = -EINVAL;
++
++out_unlock:
++	mutex_unlock(&subsys->lock);
++	return ret ? ret : count;
++}
++
+ static ssize_t nvmet_ns_device_nguid_show(struct config_item *item, char *page)
+ {
+ 	return sprintf(page, "%pUb\n", &to_nvmet_ns(item)->nguid);
+ }
+ 
++CONFIGFS_ATTR(nvmet_ns_, device_uuid);
++
+ static ssize_t nvmet_ns_device_nguid_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+@@ -379,6 +409,7 @@ CONFIGFS_ATTR(nvmet_ns_, enable);
+ static struct configfs_attribute *nvmet_ns_attrs[] = {
+ 	&nvmet_ns_attr_device_path,
+ 	&nvmet_ns_attr_device_nguid,
++	&nvmet_ns_attr_device_uuid,
+ 	&nvmet_ns_attr_enable,
+ 	NULL,
+ };
 -- 
 2.12.0
