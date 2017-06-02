@@ -1,95 +1,34 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Fri, 2 Jun 2017 15:18:19 +0800
-Subject: [PATCH 2/2] nvme-cli: show more fields for id-ctrl
-In-Reply-To: <1496387899-26012-1-git-send-email-guanjunxiong@huawei.com>
-References: <1496387899-26012-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <1496387899-26012-3-git-send-email-guanjunxiong@huawei.com>
+From: sielicki@yandex.com (Nicholas Sielicki)
+Date: Fri, 2 Jun 2017 02:23:15 -0500
+Subject: [PATCH 2/2] nvme: Quirk APST on Intel 600P/P3100 devices
+In-Reply-To: <CALCETrVa4xvAKyw=-dwRpOExwFrKuVdmMDixaCjaWV0HYtuO5A@mail.gmail.com>
+Message-ID: <20170602072315.GA24551@doghouse.gt.sielicki.com>
 
-NVMe 1.3 inctrodues new fields such as EDSTT, DSTO, FWUG, HCTMA, MNTMT,
-MXTMT, SANICAP into the idenfity controller data structure. The id-ctrl
-command should print them or write them into json format. Note that
-although KAS field is included in the previous NVMe 1.2.1 spec, this
-patch also supports this field.
----
- nvme-print.c | 52 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+On Wed, May 31 06:54:51 PDT 2017, Andy Lutomirski wrote:
+>On Tue, May 30, 2017@8:35 AM, Keith Busch <keith.busch@intel.com> wrote:
+>> On Wed, May 24, 2017@03:06:31PM -0700, Andy Lutomirski wrote:
+>>> They have known firmware bugs.  A fix is apparently in the works --
+>>> once fixed firmware is available, someone from Intel (Hi, Keith!)
+>>> can adjust the quirk accordingly.
+>>
+>> Here's the latest firmware with all the known fixes:
+>>
+>>   https://downloadcenter.intel.com/download/26491?v=t
+>>
+>> I am not 100% sure if this fixes the issue you're quirking, but I
+>> think it falls under the issues the link initialization and ASPM
+>> comments in the release notes.
+>
+>Can you or someone at Intel supply a reliable way to distinguish a
+>fixed firmware from an unfixed firmware?  We have access to the "fr"
+>string, but I don't know what to do with it.
 
-diff --git a/nvme-print.c b/nvme-print.c
-index 60fe119..ffa63ad 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -198,6 +198,38 @@ static void show_nvme_id_ctrl_rpmbs(__le32 ctrl_rpmbs)
- 	printf("\n");
- }
- 
-+static void show_nvme_id_ctrl_hctma(__le16 ctrl_hctma)
-+{
-+	__u16 hctma = le16_to_cpu(ctrl_hctma);
-+	__u16 rsvd = (hctma & 0xFFFE) >> 1;
-+	__u16 hctm = hctma & 0x1;
-+
-+	if (rsvd)
-+		printf(" [15:1] : %#x\tReserved\n", rsvd);
-+	printf("  [0:0] : %#x\tHost Controlled Thermal Management %sSupported\n",
-+		hctm, hctm ? "" : "Not ");
-+	printf("\n");
-+}
-+
-+static void show_nvme_id_ctrl_sanicap(__le32 ctrl_sanicap)
-+{
-+	__u32 sanicap = le32_to_cpu(ctrl_sanicap);
-+	__u32 rsvd = (sanicap & 0xFFFFFFF8) >> 3;
-+	__u32 owr = (sanicap & 0x4) >> 2;
-+	__u32 ber = (sanicap & 0x2) >> 1;
-+	__u32 cer = sanicap & 0x1;
-+
-+	if (rsvd)
-+		printf(" [31:3] : %#x\tReserved\n", rsvd);
-+	printf("  [2:2] : %#x\tOverwrite Sanitize Operation %sSupported\n",
-+		owr, owr ? "" : "Not ");
-+	printf("  [1:1] : %#x\tBlock Erase Sanitize Operation %sSupported\n",
-+		ber, ber ? "" : "Not ");
-+	printf("  [0:0] : %#x\tCrypto Erase Sanitize Operation %sSupported\n",
-+		cer, cer ? "" : "Not ");
-+	printf("\n");
-+}
-+
- static void show_nvme_id_ctrl_sqes(__u8 sqes)
- {
- 	__u8 msqes = (sqes & 0xF0) >> 4;
-@@ -643,6 +675,18 @@ void __show_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*ve
- 	printf("rpmbs   : %#x\n", le32_to_cpu(ctrl->rpmbs));
- 	if (human)
- 		show_nvme_id_ctrl_rpmbs(ctrl->rpmbs);
-+	printf("edstt   : %d\n", le16_to_cpu(ctrl->edstt));
-+	printf("dsto    : %d\n", ctrl->dsto);
-+	printf("fwug    : %d\n", ctrl->fwug);
-+	printf("kas     : %d\n", le16_to_cpu(ctrl->kas));
-+	printf("hctma   : %#x\n", le16_to_cpu(ctrl->hctma));
-+	if (human)
-+		show_nvme_id_ctrl_hctma(ctrl->hctma);
-+	printf("mntmt   : %d\n", le16_to_cpu(ctrl->mntmt));
-+	printf("mxtmt   : %d\n", le16_to_cpu(ctrl->mxtmt));
-+	printf("sanicap : %#x\n", le32_to_cpu(ctrl->sanicap));
-+	if (human)
-+		show_nvme_id_ctrl_sanicap(ctrl->sanicap);
- 	printf("sqes    : %#x\n", ctrl->sqes);
- 	if (human)
- 		show_nvme_id_ctrl_sqes(ctrl->sqes);
-@@ -1269,6 +1313,14 @@ void json_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*vs)(
- 	json_object_add_value_float(root, "tnvmcap", tnvmcap);
- 	json_object_add_value_float(root, "unvmcap", unvmcap);
- 	json_object_add_value_int(root, "rpmbs", le32_to_cpu(ctrl->rpmbs));
-+	json_object_add_value_int(root, "edstt", le16_to_cpu(ctrl->edstt));
-+	json_object_add_value_int(root, "dsto", ctrl->dsto);
-+	json_object_add_value_int(root, "fwug", ctrl->fwug);
-+	json_object_add_value_int(root, "kas", le16_to_cpu(ctrl->kas));
-+	json_object_add_value_int(root, "hctma", le16_to_cpu(ctrl->hctma));
-+	json_object_add_value_int(root, "mntmt", le16_to_cpu(ctrl->mntmt));
-+	json_object_add_value_int(root, "mxtmt", le16_to_cpu(ctrl->mxtmt));
-+	json_object_add_value_int(root, "sanicap", le32_to_cpu(ctrl->sanicap));
- 	json_object_add_value_int(root, "sqes", ctrl->sqes);
- 	json_object_add_value_int(root, "cqes", ctrl->cqes);
- 	json_object_add_value_int(root, "nn", le32_to_cpu(ctrl->nn));
--- 
-2.11.1
+FWIW, on a system with a 600P on the old firmware (109C) running 4.11.3,
+I went out to lunch and returned to find my system came down with a
+message something like
+
+> controller is down; will reset: CSTS=<???>, PCI_STATUS=0xffff
+
+I updated to the new firmware (121C) and saw it again a few hours later
+on the same 4.11.3 kernel. So I think it's prudent to quirk regardless
+of firmware revision.
