@@ -1,34 +1,25 @@
-From: sielicki@yandex.com (Nicholas Sielicki)
-Date: Fri, 2 Jun 2017 02:23:15 -0500
-Subject: [PATCH 2/2] nvme: Quirk APST on Intel 600P/P3100 devices
-In-Reply-To: <CALCETrVa4xvAKyw=-dwRpOExwFrKuVdmMDixaCjaWV0HYtuO5A@mail.gmail.com>
-Message-ID: <20170602072315.GA24551@doghouse.gt.sielicki.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 2 Jun 2017 09:44:22 +0200
+Subject: [PATCH 1/4] nvme.h: add struct nvme_host_mem_buf_desc and HMB
+ flags
+In-Reply-To: <20170601112729.9726-2-hch@lst.de>
+References: <20170601112729.9726-1-hch@lst.de>
+ <20170601112729.9726-2-hch@lst.de>
+Message-ID: <795a5492-178f-8ae4-e2ab-dd3f88e6a3b9@suse.de>
 
-On Wed, May 31 06:54:51 PDT 2017, Andy Lutomirski wrote:
->On Tue, May 30, 2017@8:35 AM, Keith Busch <keith.busch@intel.com> wrote:
->> On Wed, May 24, 2017@03:06:31PM -0700, Andy Lutomirski wrote:
->>> They have known firmware bugs.  A fix is apparently in the works --
->>> once fixed firmware is available, someone from Intel (Hi, Keith!)
->>> can adjust the quirk accordingly.
->>
->> Here's the latest firmware with all the known fixes:
->>
->>   https://downloadcenter.intel.com/download/26491?v=t
->>
->> I am not 100% sure if this fixes the issue you're quirking, but I
->> think it falls under the issues the link initialization and ASPM
->> comments in the release notes.
->
->Can you or someone at Intel supply a reliable way to distinguish a
->fixed firmware from an unfixed firmware?  We have access to the "fr"
->string, but I don't know what to do with it.
+On 06/01/2017 01:27 PM, Christoph Hellwig wrote:
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
 
-FWIW, on a system with a 600P on the old firmware (109C) running 4.11.3,
-I went out to lunch and returned to find my system came down with a
-message something like
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-> controller is down; will reset: CSTS=<???>, PCI_STATUS=0xffff
 
-I updated to the new firmware (121C) and saw it again a few hours later
-on the same 4.11.3 kernel. So I think it's prudent to quirk regardless
-of firmware revision.
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
