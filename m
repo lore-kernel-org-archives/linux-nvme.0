@@ -1,62 +1,86 @@
 From: ming.lei@redhat.com (Ming Lei)
-Date: Fri, 2 Jun 2017 09:42:07 +0800
-Subject: [PATCH V2] nvme: fix nvme_remove going to uninterruptible sleep
- for ever
-In-Reply-To: <20170601193304.GA19500@dhcp-216.srv.tuxera.com>
-References: <20170530071610.GA2679@hercules.tuxera.com>
- <4da7c939-1f54-80e5-48fc-06e58e14f018@grimberg.me>
- <20170530142346.GA39428@dhcp-216.srv.tuxera.com>
- <20170601114338.GA24855@lst.de>
- <20170601122818.GA18830@dhcp-216.srv.tuxera.com>
- <20170601123650.GA18883@dhcp-216.srv.tuxera.com>
- <20170601124631.GA28652@lst.de> <20170601145605.GA29369@ming.t460p>
- <20170601193304.GA19500@dhcp-216.srv.tuxera.com>
-Message-ID: <20170602014207.GD30505@ming.t460p>
+Date: Fri, 2 Jun 2017 10:00:42 +0800
+Subject: [PATCH v3 3/9] blk-mq: use the introduced blk_mq_unquiesce_queue()
+In-Reply-To: <1496358538.3075.12.camel@sandisk.com>
+References: <20170531123706.20885-1-ming.lei@redhat.com>
+ <20170531123706.20885-4-ming.lei@redhat.com>
+ <1496244100.2608.3.camel@sandisk.com>
+ <20170601005423.GA23563@ming.t460p>
+ <1496358538.3075.12.camel@sandisk.com>
+Message-ID: <20170602020041.GE30505@ming.t460p>
 
-On Thu, Jun 01, 2017@10:33:04PM +0300, Rakesh Pandit wrote:
-> On Thu, Jun 01, 2017@10:56:10PM +0800, Ming Lei wrote:
-> > On Thu, Jun 01, 2017@02:46:32PM +0200, Christoph Hellwig wrote:
-> > > On Thu, Jun 01, 2017@03:36:50PM +0300, Rakesh Pandit wrote:
-> > > > Also Sagi pointed out that user space set_features ioctl if fired up
-> > > > in a window after nvme_removal it can also result in this issue seems
-> > > > to be correct.  I would prefer to keep this as it is and introduce
-> > > > similar check higher up in nvme_ioctrl instead so that we don't send
-> > > > sync commands if queues are killed already.
-> > > > 
-> > > > Would you prefer a patch ? Thanks,
+On Thu, Jun 01, 2017@11:09:00PM +0000, Bart Van Assche wrote:
+> On Thu, 2017-06-01@08:54 +0800, Ming Lei wrote:
+> > On Wed, May 31, 2017@03:21:41PM +0000, Bart Van Assche wrote:
+> > > On Wed, 2017-05-31@20:37 +0800, Ming Lei wrote:
+> > > > diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+> > > > index 99e16ac479e3..ffcf05765e2b 100644
+> > > > --- a/drivers/scsi/scsi_lib.c
+> > > > +++ b/drivers/scsi/scsi_lib.c
+> > > > @@ -3031,7 +3031,10 @@ scsi_internal_device_unblock(struct scsi_device *sdev,
+> > > >  		return -EINVAL;
+> > > >  
+> > > >  	if (q->mq_ops) {
+> > > > -		blk_mq_start_stopped_hw_queues(q, false);
+> > > > +		if (blk_queue_quiesced(q))
+> > > > +			blk_mq_unquiesce_queue(q);
+> > > > +		else
+> > > > +			blk_mq_start_stopped_hw_queues(q, false);
+> > > >  	} else {
+> > > >  		spin_lock_irqsave(q->queue_lock, flags);
+> > > >  		blk_start_queue(q);
 > > > 
-> > > If we want to kill everyone we probably should do it in ->queue_rq.
+> > > As I commented on v2, this change is really wrong. All what's needed here is
+> > > a call to blk_mq_unquiesce_queue() and nothing else. Adding a call to
+> > > blk_mq_start_stopped_hw_queues() is wrong because it makes it impossible to
+> > > use the STOPPED flag in the SCSI core to make the block layer core stop calling
+> > > .queue_rq() if a SCSI LLD returns "busy".
 > > 
-> > Looks ->queue_rq has done it already via checking nvmeq->cq_vector
+> > I am not sure if I understand your idea, could you explain a bit why it is wrong?
 > > 
-> > > Or is the block layer blocking you somewhere else?
+> > Let's see the function of scsi_internal_device_block():
 > > 
-> > blk-mq doesn't handle dying in the I/O path.
+> > 	if (q->mq_ops) {
+> >                 if (wait)
+> >                         blk_mq_quiesce_queue(q);
+> >                 else
+> >                         blk_mq_stop_hw_queues(q);
+> > 	}
 > > 
-> > Maybe it is similar with 806f026f9b901eaf1a(nvme: use blk_mq_start_hw_queues() in
-> > nvme_kill_queues()), seems we need to do it for admin_q too.
+> > So the queue may be put into quiesced if 'wait' is true, or it is
+> > stopped if 'wait' is false.
 > > 
-> > Can the following change fix the issue?
+> > And this patch just makes the two SCSI APIs symmetrical.
 > > 
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index e44326d5cf19..360758488124 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -2438,6 +2438,7 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
-> >  	struct nvme_ns *ns;
-> >  
-> >  	mutex_lock(&ctrl->namespaces_mutex);
-> > +	blk_mq_start_hw_queues(ctrl->admin_q);
-> >  	list_for_each_entry(ns, &ctrl->namespaces, list) {
-> >  		/*
-> >  		 * Revalidating a dead namespace sets capacity to 0. This will
+> > Since we will not stop queue in blk_mq_quiesce_queue() later,
+> > I have to unquiese one queue only if it is quiesced.
 > > 
-> > 
+> > So suppose the queue is put into stopped in scsi_internal_device_block(),
+> > do we expect not to restart it in scsi_internal_device_unblock() via
+> > blk_mq_unquiesce_queue()?
 > 
-> Yes change fixes the issue.
+> Hello Ming,
+> 
+> My opinion is that scsi_internal_device_block() and scsi_internal_device_unblock()
+> should be changed as follows for the scsi-mq code path:
+> * scsi_internal_device_block() should call blk_mq_quiesce_queue(q) if the "wait"
+>   argument is true and should set the QUEUE_FLAG_QUIESCED flag if the "wait"
+>   argument is false.
+> * scsi_internal_device_unblock() should call blk_mq_unquiesce_queue().
+> 
+> I am aware it sounds weird to set the QUEUE_FLAG_QUIESCED flag without waiting
+> until ongoing .queue_rq() calls have finished. The only driver that triggers
 
-Rakesh, thanks for your test, and I will prepare a formal one for
-merging.
+This way may break the contract of blk_mq_quiesce_queue() and is really weird.
+And the above change shouldn't be related with this patchset, so better
+to do whatever you want once this patch is merged.
 
-thanks,
+This patchset won't break current SCSI uses of blk_mq_quiesce_queue() and
+won't cause regression, and I setup one iSCSI target yesterday and it works
+just fine, how about just keeping this patch as it is?
+
+Once it is merged, you can figure out one perfect solution, but
+the contract of blk_mq_quiesce_queue() still shouldn't be broken.
+
+Thanks,
 Ming
