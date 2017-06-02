@@ -1,36 +1,39 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 2 Jun 2017 00:13:37 -0700
-Subject: NVMe APST high latency power states being skipped
-In-Reply-To: <CAAd53p73xq3grrMCHt8ZfbF=RN+5URhTpY5uhc=u7FNgPfcdbA@mail.gmail.com>
-References: <fb5caa2fa5e6452fadfa00bce59bedd7@ausx13mpc120.AMER.DELL.COM>
- <CALCETrVx7BQjKt7tCXmG+jOD=JXxDKOdvVr1EuoZyN4_TjSdCA@mail.gmail.com>
- <5bfa6cf7e8994bc593f95e8641f648f5@ausx13mpc120.AMER.DELL.COM>
- <CAAd53p45jpFYf9UNooobGWexGA+DuRJo2NF8FP-7JGU8u3PtpA@mail.gmail.com>
- <CALCETrX+87zvN7sw-1qQHjQ_Bz9mSrjrHJLA9NBzaKSddntUug@mail.gmail.com>
- <CAAd53p7o4VRcb1=EE5Vx7rMAfxdpKGceAeVfaCuDrvUaV6x65g@mail.gmail.com>
- <20170526092556.GA645@infradead.org>
- <CAAd53p4qdk2ngC7-BNB++ZLKK39-MiUp22PT6wcsRzxCHzmniw@mail.gmail.com>
- <20170601113206.GA29895@infradead.org>
- <CAAd53p73xq3grrMCHt8ZfbF=RN+5URhTpY5uhc=u7FNgPfcdbA@mail.gmail.com>
-Message-ID: <20170602071337.GA11447@infradead.org>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Fri, 2 Jun 2017 15:18:18 +0800
+Subject: [PATCH 1/2] nvme-cli: add fields into identify controller data
+ structure
+In-Reply-To: <1496387899-26012-1-git-send-email-guanjunxiong@huawei.com>
+References: <1496387899-26012-1-git-send-email-guanjunxiong@huawei.com>
+Message-ID: <1496387899-26012-2-git-send-email-guanjunxiong@huawei.com>
 
-On Fri, Jun 02, 2017@03:08:49PM +0800, Kai-Heng Feng wrote:
-> After some more test, actually I am getting similar values despite
-> APST on or off. This is a super hot machine so throttled CPU might be
-> a more impactful factor here.
-> 
-> Can't directly get power state from NVMe make the latency between
-> power state transition hard to measure.
-> 
-> At least after a long idle, I typed `ls` and everything showed
-> instantly, I can't feel the latency at all. Probably the "real"
-> latency is not as bad as NVMe claimed.
-> 
-> Maybe add an extra knob which can directly control deepest allow power
-> state? Userspace tools can control deepest power state through this
-> knob.
+NVMe 1.3 inctrodues new fields such as EDSTT, DSTO, FWUG, HCTMA, MNTMT, MXTMT, SANICAP
+into the idenfity controller data structure. So we add them. Note that KAS field is
+included in the previous NVMe 1.2.1 spec, but not itemized in the nvme-cli.
+---
+ linux/nvme.h | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-I'd prefer that things work out of the box.  I'd be tempted to just
-bump up the latency requirement to cover the device, but if Andy
-doesn't like that in general we could add a quirk for this device
-to at least allow it to use deep power states.
+diff --git a/linux/nvme.h b/linux/nvme.h
+index 397c0f1..b2c8dbb 100644
+--- a/linux/nvme.h
++++ b/linux/nvme.h
+@@ -207,9 +207,15 @@ struct nvme_id_ctrl {
+ 	__u8			tnvmcap[16];
+ 	__u8			unvmcap[16];
+ 	__le32			rpmbs;
+-	__u8			rsvd316[4];
++	__le16			edstt;
++	__u8			dsto;
++	__u8			fwug;
+ 	__le16			kas;
+-	__u8			rsvd322[190];
++	__le16			hctma;
++	__le16			mntmt;
++	__le16			mxtmt;
++	__le32			sanicap;
++	__u8			rsvd332[180];
+ 	__u8			sqes;
+ 	__u8			cqes;
+ 	__le16			maxcmd;
+-- 
+2.11.1
