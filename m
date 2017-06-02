@@ -1,81 +1,137 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri,  2 Jun 2017 11:45:35 +0200
-Subject: [PATCH v3 7/8] nvmet: allow overriding the NVMe VS via configfs
+Date: Fri,  2 Jun 2017 11:45:33 +0200
+Subject: [PATCH v3 5/8] nvme: get list of namespace descriptors
 In-Reply-To: <20170602094536.25775-1-jthumshirn@suse.de>
 References: <20170602094536.25775-1-jthumshirn@suse.de>
-Message-ID: <20170602094536.25775-8-jthumshirn@suse.de>
+Message-ID: <20170602094536.25775-6-jthumshirn@suse.de>
 
-Allow overriding the announced NVMe Version of a via configfs.
-
-This is particularly helpful when debugging new features for the host
-or target side without bumping the hard coded version (as the target
-might not be fully compliant to the announced version yet).
+If a target identifies itself as NVMe 1.3 compliant, try to get the
+list of Namespace Identification Descriptors and populate the UUID,
+NGUID and EUI64 fileds in the NVMe namespace structure with these
+values.
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/target/configfs.c | 34 ++++++++++++++++++++++++++++++++++
- include/linux/nvme.h           |  4 ++++
- 2 files changed, 38 insertions(+)
+ drivers/nvme/host/core.c | 87 ++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 88 insertions(+)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 16f9f6e3a084..45421d4308a4 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -650,8 +650,42 @@ static ssize_t nvmet_subsys_attr_allow_any_host_store(struct config_item *item,
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 7b254be16887..37047841da0e 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -643,6 +643,85 @@ int nvme_identify_ctrl(struct nvme_ctrl *dev, struct nvme_id_ctrl **id)
+ 	return error;
+ }
  
- CONFIGFS_ATTR(nvmet_subsys_, attr_allow_any_host);
- 
-+static ssize_t nvmet_subsys_version_show(struct config_item *item,
-+					      char *page)
++static void nvme_parse_ns_descs(struct nvme_ns *ns, void *data)
 +{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+	int major, minor, tertiary;
-+	u32 ver;
++	int pos;
++	int len;
 +
-+	ver = subsys->ver;
-+	major = NVME_MAJOR(ver);
-+	minor = NVME_MINOR(ver);
-+	tertiary = NVME_TERRIARY(ver);
++	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
++		struct nvme_ns_identifier_hdr *cur = data + pos;
 +
-+	return snprintf(page, PAGE_SIZE, "%d %d %d\n", major, minor, tertiary);
++		if (cur->nidl == 0)
++			break;
++
++		switch (cur->nidt) {
++		case NVME_NIDT_EUI64:
++			if (cur->nidl != NVME_NIDT_EUI64_LEN) {
++				dev_warn(ns->ctrl->dev,
++					 "Target returned bogus length: %d for NVME_NIDT_EUI64\n",
++					 cur->nidl);
++				return;
++			}
++			len = NVME_NIDT_EUI64_LEN;
++			memcpy(ns->eui, data + pos + sizeof(*cur), len);
++			break;
++		case NVME_NIDT_NGUID:
++			if (cur->nidl != NVME_NIDT_NGUID_LEN) {
++				dev_warn(ns->ctrl->dev,
++					 "Target returned bogus length: %d for NVME_NIDT_NGUID\n",
++					 cur->nidl);
++				return;
++			}
++			len = NVME_NIDT_NGUID_LEN;
++			memcpy(ns->nguid, data + pos + sizeof(*cur), len);
++			break;
++		case NVME_NIDT_UUID:
++			if (cur->nidl != NVME_NIDT_UUID_LEN) {
++				dev_warn(ns->ctrl->dev,
++					 "Target returned bogus length: %d for NVME_NIDT_UUID\n",
++					 cur->nidl);
++				return;
++			}
++			len = NVME_NIDT_UUID_LEN;
++			memcpy(ns->uuid, data + pos + sizeof(*cur), len);
++			break;
++		default:
++			dev_warn(ns->ctrl->dev,
++				 "Invalid Namespace Identification Descriptor Type: %d\n",
++				 cur->nidt);
++			return;
++		}
++
++		len += sizeof(*cur);
++	}
 +}
 +
-+static ssize_t nvmet_subsys_version_store(struct config_item *item,
-+					       const char *page, size_t count)
++static int nvme_identify_ns_descs(struct nvme_ns *ns, unsigned nsid)
 +{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+	int major, minor, tertiary;
-+	int ret;
++	struct nvme_command c = { };
++	int status;
++	void *data;
 +
++	c.identify.opcode = nvme_admin_identify;
++	c.identify.nsid = cpu_to_le32(nsid);
++	c.identify.cns = NVME_ID_CNS_NS_DESC_LIST;
 +
-+	ret = sscanf(page, "%d %d %d\n", &major, &minor, &tertiary);
-+	if (ret != 3)
-+		return -EINVAL;
++	data = kzalloc(NVME_IDENTIFY_DATA_SIZE, GFP_KERNEL);
++	if (!data)
++		return -ENOMEM;
 +
-+	subsys->ver = NVME_VS(major, minor, tertiary);
++	status = nvme_submit_sync_cmd(ns->ctrl->admin_q, &c, data,
++				      NVME_IDENTIFY_DATA_SIZE);
++	if (status)
++		goto free_data;
 +
-+	return count;
++	nvme_parse_ns_descs(ns, data);
++
++free_data:
++	kfree(data);
++	return status;
 +}
-+CONFIGFS_ATTR(nvmet_subsys_, version);
 +
- static struct configfs_attribute *nvmet_subsys_attrs[] = {
- 	&nvmet_subsys_attr_attr_allow_any_host,
-+	&nvmet_subsys_attr_version,
- 	NULL,
- };
+ static int nvme_identify_ns_list(struct nvme_ctrl *dev, unsigned nsid, __le32 *ns_list)
+ {
+ 	struct nvme_command c = { };
+@@ -1017,6 +1096,14 @@ static int nvme_revalidate_ns(struct nvme_ns *ns, struct nvme_id_ns **id)
+ 		memcpy(ns->eui, (*id)->eui64, sizeof(ns->eui));
+ 	if (ns->ctrl->vs >= NVME_VS(1, 2, 0))
+ 		memcpy(ns->nguid, (*id)->nguid, sizeof(ns->nguid));
++	if (ns->ctrl->vs >= NVME_VS(1, 3, 0)) {
++		 /* Don't treat error as fatal we potentially
++		  * already have a NGUID or EUI-64
++		  */
++		if (nvme_identify_ns_descs(ns, ns->ns_id))
++			dev_warn(ns->ctrl->dev,
++				 "%s: Identify Descriptors failed\n", __func__);
++	}
  
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index afa6ef484e50..0d6e307a7aa4 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -1069,4 +1069,8 @@ struct nvme_completion {
- #define NVME_VS(major, minor, tertiary) \
- 	(((major) << 16) | ((minor) << 8) | (tertiary))
+ 	return 0;
+ }
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 5004f0c41397..7007521e8194 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -190,6 +190,7 @@ struct nvme_ns {
  
-+#define NVME_MAJOR(ver)		((ver) >> 16)
-+#define NVME_MINOR(ver)		(((ver) >> 8) & 0xff)
-+#define NVME_TERRIARY(ver)	((ver) & 0xff)
-+
- #endif /* _LINUX_NVME_H */
+ 	u8 eui[8];
+ 	u8 nguid[16];
++	u8 uuid[16];
+ 
+ 	unsigned ns_id;
+ 	int lba_shift;
 -- 
 2.12.0
