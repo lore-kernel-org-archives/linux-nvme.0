@@ -1,79 +1,46 @@
-From: rakesh@tuxera.com (Rakesh Pandit)
-Date: Fri, 2 Jun 2017 21:04:35 +0300
-Subject: [PATCH] nvme: fix hang in remove path
-In-Reply-To: <20170602083208.4518-1-ming.lei@redhat.com>
-References: <20170602083208.4518-1-ming.lei@redhat.com>
-Message-ID: <20170602180435.GA23335@dhcp-216.srv.tuxera.com>
+From: Bart.VanAssche@sandisk.com (Bart Van Assche)
+Date: Fri, 2 Jun 2017 22:19:53 +0000
+Subject: [PATCH v3 3/9] blk-mq: use the introduced blk_mq_unquiesce_queue()
+In-Reply-To: <20170602020041.GE30505@ming.t460p>
+References: <20170531123706.20885-1-ming.lei@redhat.com>
+ <20170531123706.20885-4-ming.lei@redhat.com>
+ <1496244100.2608.3.camel@sandisk.com> <20170601005423.GA23563@ming.t460p>
+ <1496358538.3075.12.camel@sandisk.com> <20170602020041.GE30505@ming.t460p>
+Message-ID: <1496441991.1214.25.camel@sandisk.com>
 
-Hi Ming,
-
-On Fri, Jun 02, 2017@04:32:08PM +0800, Ming Lei wrote:
-> We need to start admin queues too in nvme_kill_queues()
-> for avoiding hang in remove path[1].
+On Fri, 2017-06-02@10:00 +0800, Ming Lei wrote:
+> On Thu, Jun 01, 2017@11:09:00PM +0000, Bart Van Assche wrote:
+> > My opinion is that scsi_internal_device_block() and scsi_internal_device_unblock()
+> > should be changed as follows for the scsi-mq code path:
+> > * scsi_internal_device_block() should call blk_mq_quiesce_queue(q) if the "wait"
+> >   argument is true and should set the QUEUE_FLAG_QUIESCED flag if the "wait"
+> >   argument is false.
+> > * scsi_internal_device_unblock() should call blk_mq_unquiesce_queue().
+> > 
+> > I am aware it sounds weird to set the QUEUE_FLAG_QUIESCED flag without waiting
+> > until ongoing .queue_rq() calls have finished. The only driver that triggers
 > 
-> This patch is very similar with 806f026f9b901eaf(nvme: use
-> blk_mq_start_hw_queues() in nvme_kill_queues()).
+> This way may break the contract of blk_mq_quiesce_queue() and is really weird.
+> And the above change shouldn't be related with this patchset, so better
+> to do whatever you want once this patch is merged.
 
-It would make sense to still add:
+No, what I proposed doesn't break the contract of blk_mq_quiesce_queue().
+The contract of that function is that if it is called that all pending
+.queue_rq() calls have finished and no new .queue_rq() calls will occur
+until blk_mq_unquiesce_queue() is called. Since the wait == false path does
+not call blk_mq_quiesce_queue() that contract does not apply.
 
-if (ctrl->state == NVME_CTRL_DELETING || ctrl->state == NVME_CTRL_DEAD)
-	return
+> This patchset won't break current SCSI uses of blk_mq_quiesce_queue() and
+> won't cause regression, and I setup one iSCSI target yesterday and it works
+> just fine, how about just keeping this patch as it is?
 
-inside nvme_configure_apst at the top irrespective of this change.
+As I explained in a previous e-mail, the iSCSI initiator driver does not
+trigger the wait == false path so your test did not trigger that code path.
 
-It would make sure that no further instructions are executed
-(possibily no commands of any sort are sent ever) if we already know
-that there is no point sending latency tolerance update to controller
-if it is already dead or in process of deletion.
+Something else I explained in a previous e-mail is that your patch makes it
+impossible to use the STOPPED flag in the SCSI core what it was originally
+intended for, namely preventing that the block layer keeps trying to queue
+requests while the block driver knows that it will have to return "BUSY".
+This is why I asked you to modify the SCSI integration of your patch.
 
-> 
-> [1] hang stack trace
-> [<ffffffff813c9716>] blk_execute_rq+0x56/0x80
-> [<ffffffff815cb6e9>] __nvme_submit_sync_cmd+0x89/0xf0
-> [<ffffffff815ce7be>] nvme_set_features+0x5e/0x90
-> [<ffffffff815ce9f6>] nvme_configure_apst+0x166/0x200
-> [<ffffffff815cef45>] nvme_set_latency_tolerance+0x35/0x50
-> [<ffffffff8157bd11>] apply_constraint+0xb1/0xc0
-> [<ffffffff8157cbb4>] dev_pm_qos_constraints_destroy+0xf4/0x1f0
-> [<ffffffff8157b44a>] dpm_sysfs_remove+0x2a/0x60
-> [<ffffffff8156d951>] device_del+0x101/0x320
-> [<ffffffff8156db8a>] device_unregister+0x1a/0x60
-> [<ffffffff8156dc4c>] device_destroy+0x3c/0x50
-> [<ffffffff815cd295>] nvme_uninit_ctrl+0x45/0xa0
-> [<ffffffff815d4858>] nvme_remove+0x78/0x110
-> [<ffffffff81452b69>] pci_device_remove+0x39/0xb0
-> [<ffffffff81572935>] device_release_driver_internal+0x155/0x210
-> [<ffffffff81572a02>] device_release_driver+0x12/0x20
-> [<ffffffff815d36fb>] nvme_remove_dead_ctrl_work+0x6b/0x70
-> [<ffffffff810bf3bc>] process_one_work+0x18c/0x3a0
-> [<ffffffff810bf61e>] worker_thread+0x4e/0x3b0
-> [<ffffffff810c5ac9>] kthread+0x109/0x140
-> [<ffffffff8185800c>] ret_from_fork+0x2c/0x40
-> [<ffffffffffffffff>] 0xffffffffffffffff
-> 
-> Fixes: c5552fde102fc("nvme: Enable autonomous power state transitions")
-> Reported-by: Rakesh Pandit <rakesh at tuxera.com>
-> Tested-by: Rakesh Pandit <rakesh at tuxera.com>
-> Signed-off-by: Ming Lei <ming.lei at redhat.com>
-> ---
->  drivers/nvme/host/core.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index a60926410438..0f9cc0c55e15 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -2438,6 +2438,10 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
->  	struct nvme_ns *ns;
->  
->  	mutex_lock(&ctrl->namespaces_mutex);
-> +
-> +	/* Forcibly start all queues to avoid having stuck requests */
-> +	blk_mq_start_hw_queues(ctrl->admin_q);
-> +
->  	list_for_each_entry(ns, &ctrl->namespaces, list) {
->  		/*
->  		 * Revalidating a dead namespace sets capacity to 0. This will
-> -- 
-> 2.9.4
-> 
+Bart.
