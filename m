@@ -1,23 +1,21 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 2 Jun 2017 09:44:50 +0200
-Subject: [PATCH 2/4] nvme.h: add dword 12 - 15 fields to struct
- nvme_features
-In-Reply-To: <20170601112729.9726-3-hch@lst.de>
+Date: Fri, 2 Jun 2017 09:45:16 +0200
+Subject: [PATCH 3/4] nvme: save hmpre and hmmin in struct nvme_ctrl
+In-Reply-To: <20170601112729.9726-4-hch@lst.de>
 References: <20170601112729.9726-1-hch@lst.de>
- <20170601112729.9726-3-hch@lst.de>
-Message-ID: <d7cb760c-7127-e71a-61e2-53ba3f0f07c5@suse.de>
+ <20170601112729.9726-4-hch@lst.de>
+Message-ID: <ce4315ef-155a-8bf8-3160-d2f228dc0ac2@suse.de>
 
 On 06/01/2017 01:27 PM, Christoph Hellwig wrote:
-> From: Arnav Dawn <a.dawn at samsung.com>
+> We'll need the later for the HMB support.
 > 
-> Signed-off-by: Arnav Dawn <a.dawn at samsung.com>
-> [hch: split from a larger patch, new changelog]
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+
 
 -- 
 Johannes Thumshirn                                          Storage
