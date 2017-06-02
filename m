@@ -1,20 +1,23 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 2 Jun 2017 09:44:22 +0200
-Subject: [PATCH 1/4] nvme.h: add struct nvme_host_mem_buf_desc and HMB
- flags
-In-Reply-To: <20170601112729.9726-2-hch@lst.de>
+Date: Fri, 2 Jun 2017 09:44:50 +0200
+Subject: [PATCH 2/4] nvme.h: add dword 12 - 15 fields to struct
+ nvme_features
+In-Reply-To: <20170601112729.9726-3-hch@lst.de>
 References: <20170601112729.9726-1-hch@lst.de>
- <20170601112729.9726-2-hch@lst.de>
-Message-ID: <795a5492-178f-8ae4-e2ab-dd3f88e6a3b9@suse.de>
+ <20170601112729.9726-3-hch@lst.de>
+Message-ID: <d7cb760c-7127-e71a-61e2-53ba3f0f07c5@suse.de>
 
 On 06/01/2017 01:27 PM, Christoph Hellwig wrote:
+> From: Arnav Dawn <a.dawn at samsung.com>
+> 
+> Signed-off-by: Arnav Dawn <a.dawn at samsung.com>
+> [hch: split from a larger patch, new changelog]
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
 
 -- 
 Johannes Thumshirn                                          Storage
