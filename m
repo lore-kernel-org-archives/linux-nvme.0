@@ -1,25 +1,26 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 2 Jun 2017 22:25:47 -0700
-Subject: [PATCH 1/2] nvme-cli: add fields into identify controller data
- structure
-In-Reply-To: <e704f915-f08f-6fe9-1132-81d7b6845c7d@163.com>
-References: <1496387899-26012-1-git-send-email-guanjunxiong@huawei.com>
- <1496387899-26012-2-git-send-email-guanjunxiong@huawei.com>
- <20170602074600.GA11424@infradead.org>
- <e704f915-f08f-6fe9-1132-81d7b6845c7d@163.com>
-Message-ID: <20170603052547.GB14365@infradead.org>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sat, 3 Jun 2017 10:25:11 +0300
+Subject: [PATCH] nvme_fc: fix confused queue size handling
+In-Reply-To: <20170602074810.GC11424@infradead.org>
+References: <20170602055351.2750-1-jsmart2021@gmail.com>
+ <20170602074810.GC11424@infradead.org>
+Message-ID: <c8c5362d-33c2-c117-b082-338e47b7ec86@grimberg.me>
 
-On Sat, Jun 03, 2017@11:08:54AM +0800, guanjx09 wrote:
-> Hi,Christoph
-> 
-> On Friday, June 02, 2017 03:46 PM, Christoph Hellwig wrote:
-> > Please also add them to the kernel copy of the header so that they
-> > stay in sync.  Except for that his looks fine to me:
-> > 
-> > Reviewed-by: Christoph Hellwig <hch at lst.de>
-> > 
-> 
-> Here is the patch which adds those fields into nvme_id_ctrl structure
-> in the kernel copy of the header. Does it looks good?
 
-It does.  I'll apply it once the branch for Linux 4.13 is open.
+>> -	ctrl->ctrl.sqsize =
+>> -		min_t(int, NVME_CAP_MQES(ctrl->cap) + 1, ctrl->ctrl.sqsize);
+>> +	if (NVME_CAP_MQES(ctrl->cap) < ctrl->ctrl.sqsize) {
+>> +		ctrl->ctrl.sqsize = NVME_CAP_MQES(ctrl->cap);
+>> +		opts->queue_size = ctrl->ctrl.sqsize + 1;
+>> +	}
+> 
+> I already asked Sagi when he fixed the previous issues in this
+> area, but I guess I need to get more serious about it:
+> Please move this to common code instead of having it in the transport
+> drivers.
+
+This code was fixed in:
+c6c64a942c87 ("nvme-fc: Fix sqsize wrong assignment based on ctrl MQES 
+capability") which exists upstream. the weird part is that I can't tell
+where this got broken again... I can only assume that somewhere in
+the scsi/block multi-way fc merges this got overwritten.
