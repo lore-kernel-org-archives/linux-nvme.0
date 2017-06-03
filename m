@@ -1,113 +1,159 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat,  3 Jun 2017 16:03:58 +0200
-Subject: [PATCH 3/8] genirq/affinity: factor out a irq_affinity_set helper
+Date: Sat,  3 Jun 2017 16:03:59 +0200
+Subject: [PATCH 4/8] genirq/affinity: assign vectors to all present CPUs
 In-Reply-To: <20170603140403.27379-1-hch@lst.de>
 References: <20170603140403.27379-1-hch@lst.de>
-Message-ID: <20170603140403.27379-4-hch@lst.de>
+Message-ID: <20170603140403.27379-5-hch@lst.de>
 
-Factor out code from the x86 cpu hot plug code to program the affinity
-for a vector for a hot plug / hot unplug event.
+Currently we only assign spread vectors to online CPUs, which ties the
+IRQ mapping to the currently online devices and doesn't deal nicely with
+the fact that CPUs could come and go rapidly due to e.g. power management.
+
+Instead assign vectors to all present CPUs to avoid this churn.
+
+For this we have to build a map of all possible CPUs for a give node, as
+the architectures only provide a map of all onlines CPUs.  We do this
+dynamically on each call for the vector assingments, which is a bit
+suboptimal and could be optimized in the future by provinding a mapping
+from the arch code.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- arch/x86/kernel/irq.c     | 23 ++---------------------
- include/linux/interrupt.h |  1 +
- kernel/irq/affinity.c     | 28 ++++++++++++++++++++++++++++
- 3 files changed, 31 insertions(+), 21 deletions(-)
+ kernel/irq/affinity.c | 71 +++++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 57 insertions(+), 14 deletions(-)
 
-diff --git a/arch/x86/kernel/irq.c b/arch/x86/kernel/irq.c
-index f34fe7444836..a54eac5d81b3 100644
---- a/arch/x86/kernel/irq.c
-+++ b/arch/x86/kernel/irq.c
-@@ -437,7 +437,6 @@ void fixup_irqs(void)
- 	struct irq_desc *desc;
- 	struct irq_data *data;
- 	struct irq_chip *chip;
--	int ret;
- 
- 	for_each_irq_desc(irq, desc) {
- 		int break_affinity = 0;
-@@ -482,26 +481,8 @@ void fixup_irqs(void)
- 			continue;
- 		}
- 
--		if (!irqd_can_move_in_process_context(data) && chip->irq_mask)
--			chip->irq_mask(data);
--
--		if (chip->irq_set_affinity) {
--			ret = chip->irq_set_affinity(data, affinity, true);
--			if (ret == -ENOSPC)
--				pr_crit("IRQ %d set affinity failed because there are no available vectors.  The device assigned to this IRQ is unstable.\n", irq);
--		} else {
--			if (!(warned++))
--				set_affinity = 0;
--		}
--
--		/*
--		 * We unmask if the irq was not marked masked by the
--		 * core code. That respects the lazy irq disable
--		 * behaviour.
--		 */
--		if (!irqd_can_move_in_process_context(data) &&
--		    !irqd_irq_masked(data) && chip->irq_unmask)
--			chip->irq_unmask(data);
-+		if (!irq_affinity_set(irq, desc, affinity) && !warned++)
-+			set_affinity = 0;
- 
- 		raw_spin_unlock(&desc->lock);
- 
-diff --git a/include/linux/interrupt.h b/include/linux/interrupt.h
-index a6fba4804672..afd3aa33e9b0 100644
---- a/include/linux/interrupt.h
-+++ b/include/linux/interrupt.h
-@@ -292,6 +292,7 @@ irq_set_affinity_notifier(unsigned int irq, struct irq_affinity_notify *notify);
- 
- struct cpumask *irq_create_affinity_masks(int nvec, const struct irq_affinity *affd);
- int irq_calc_affinity_vectors(int maxvec, const struct irq_affinity *affd);
-+bool irq_affinity_set(int irq, struct irq_desc *desc, const cpumask_t *mask);
- 
- #else /* CONFIG_SMP */
- 
 diff --git a/kernel/irq/affinity.c b/kernel/irq/affinity.c
-index e2d356dd7581..3cec0042fad2 100644
+index 3cec0042fad2..337e6ffba93f 100644
 --- a/kernel/irq/affinity.c
 +++ b/kernel/irq/affinity.c
-@@ -1,8 +1,36 @@
+@@ -63,13 +63,54 @@ static void irq_spread_init_one(struct cpumask *irqmsk, struct cpumask *nmsk,
+ 	}
+ }
  
- #include <linux/interrupt.h>
-+#include <linux/irq.h>
- #include <linux/kernel.h>
- #include <linux/slab.h>
- #include <linux/cpu.h>
-+#include "internals.h"
-+
-+bool irq_affinity_set(int irq, struct irq_desc *desc, const cpumask_t *mask)
+-static int get_nodes_in_cpumask(const struct cpumask *mask, nodemask_t *nodemsk)
++static cpumask_var_t *alloc_node_to_present_cpumask(void)
 +{
-+	struct irq_data *data = irq_desc_get_irq_data(desc);
-+	struct irq_chip *chip = irq_data_get_irq_chip(data);
-+	bool ret = false;
++	int node;
++	cpumask_var_t *masks;
 +
-+	if (!irq_can_move_pcntxt(data) && chip->irq_mask)
-+		chip->irq_mask(data);
++	masks = kcalloc(nr_node_ids, sizeof(cpumask_var_t), GFP_KERNEL);
++	if (!masks)
++		return NULL;
 +
-+	if (chip->irq_set_affinity) {
-+		if (chip->irq_set_affinity(data, mask, true) == -ENOSPC)
-+			pr_crit("IRQ %d set affinity failed because there are no available vectors.  The device assigned to this IRQ is unstable.\n", irq);
-+		ret = true;
++	for (node = 0; node < nr_node_ids; node++) {
++		if (!zalloc_cpumask_var(&masks[node], GFP_KERNEL))
++			goto out_unwind;
 +	}
 +
-+	/*
-+	 * We unmask if the irq was not marked masked by the core code.
-+	 * That respects the lazy irq disable behaviour.
-+	 */
-+	if (!irq_can_move_pcntxt(data) &&
-+	    !irqd_irq_masked(data) && chip->irq_unmask)
-+		chip->irq_unmask(data);
++	return masks;
 +
-+	return ret;
++out_unwind:
++	while (--node >= 0)
++		free_cpumask_var(masks[node]);
++	kfree(masks);
++	return NULL;
 +}
++
++static void free_node_to_present_cpumask(cpumask_var_t *masks)
++{
++	int node;
++
++	for (node = 0; node < nr_node_ids; node++)
++		free_cpumask_var(masks[node]);
++	kfree(masks);
++}
++
++static void build_node_to_present_cpumask(cpumask_var_t *masks)
++{
++	int cpu;
++
++	for_each_present_cpu(cpu)
++		cpumask_set_cpu(cpu, masks[cpu_to_node(cpu)]);
++}
++
++static int get_nodes_in_cpumask(cpumask_var_t *node_to_present_cpumask,
++				const struct cpumask *mask, nodemask_t *nodemsk)
+ {
+ 	int n, nodes = 0;
  
- static void irq_spread_init_one(struct cpumask *irqmsk, struct cpumask *nmsk,
- 				int cpus_per_vec)
+ 	/* Calculate the number of nodes in the supplied affinity mask */
+-	for_each_online_node(n) {
+-		if (cpumask_intersects(mask, cpumask_of_node(n))) {
++	for_each_node(n) {
++		if (cpumask_intersects(mask, node_to_present_cpumask[n])) {
+ 			node_set(n, *nodemsk);
+ 			nodes++;
+ 		}
+@@ -92,7 +133,7 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 	int last_affv = affv + affd->pre_vectors;
+ 	nodemask_t nodemsk = NODE_MASK_NONE;
+ 	struct cpumask *masks;
+-	cpumask_var_t nmsk;
++	cpumask_var_t nmsk, *node_to_present_cpumask;
+ 
+ 	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
+ 		return NULL;
+@@ -101,13 +142,19 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 	if (!masks)
+ 		goto out;
+ 
++	node_to_present_cpumask = alloc_node_to_present_cpumask();
++	if (!node_to_present_cpumask)
++		goto out;
++
+ 	/* Fill out vectors at the beginning that don't need affinity */
+ 	for (curvec = 0; curvec < affd->pre_vectors; curvec++)
+ 		cpumask_copy(masks + curvec, irq_default_affinity);
+ 
+ 	/* Stabilize the cpumasks */
+ 	get_online_cpus();
+-	nodes = get_nodes_in_cpumask(cpu_online_mask, &nodemsk);
++	build_node_to_present_cpumask(node_to_present_cpumask);
++	nodes = get_nodes_in_cpumask(node_to_present_cpumask, cpu_present_mask,
++			&nodemsk);
+ 
+ 	/*
+ 	 * If the number of nodes in the mask is greater than or equal the
+@@ -115,7 +162,8 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 	 */
+ 	if (affv <= nodes) {
+ 		for_each_node_mask(n, nodemsk) {
+-			cpumask_copy(masks + curvec, cpumask_of_node(n));
++			cpumask_copy(masks + curvec,
++				     node_to_present_cpumask[n]);
+ 			if (++curvec == last_affv)
+ 				break;
+ 		}
+@@ -129,7 +177,7 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 		vecs_per_node = (affv - (curvec - affd->pre_vectors)) / nodes;
+ 
+ 		/* Get the cpus on this node which are in the mask */
+-		cpumask_and(nmsk, cpu_online_mask, cpumask_of_node(n));
++		cpumask_and(nmsk, cpu_present_mask, node_to_present_cpumask[n]);
+ 
+ 		/* Calculate the number of cpus per vector */
+ 		ncpus = cpumask_weight(nmsk);
+@@ -161,6 +209,7 @@ irq_create_affinity_masks(int nvecs, const struct irq_affinity *affd)
+ 	/* Fill out vectors at the end that don't need affinity */
+ 	for (; curvec < nvecs; curvec++)
+ 		cpumask_copy(masks + curvec, irq_default_affinity);
++	free_node_to_present_cpumask(node_to_present_cpumask);
+ out:
+ 	free_cpumask_var(nmsk);
+ 	return masks;
+@@ -175,12 +224,6 @@ int irq_calc_affinity_vectors(int maxvec, const struct irq_affinity *affd)
+ {
+ 	int resv = affd->pre_vectors + affd->post_vectors;
+ 	int vecs = maxvec - resv;
+-	int cpus;
+-
+-	/* Stabilize the cpumasks */
+-	get_online_cpus();
+-	cpus = cpumask_weight(cpu_online_mask);
+-	put_online_cpus();
+ 
+-	return min(cpus, vecs) + resv;
++	return min_t(int, cpumask_weight(cpu_present_mask), vecs) + resv;
+ }
 -- 
 2.11.0
