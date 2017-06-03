@@ -1,63 +1,35 @@
-From: guanjx09@163.com (guanjx09)
-Date: Sat, 3 Jun 2017 11:08:54 +0800
-Subject: [PATCH 1/2] nvme-cli: add fields into identify controller data
- structure
-In-Reply-To: <20170602074600.GA11424@infradead.org>
-References: <1496387899-26012-1-git-send-email-guanjunxiong@huawei.com>
- <1496387899-26012-2-git-send-email-guanjunxiong@huawei.com>
- <20170602074600.GA11424@infradead.org>
-Message-ID: <e704f915-f08f-6fe9-1132-81d7b6845c7d@163.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 3 Jun 2017 07:18:56 +0200
+Subject: [PATCH v3 3/8] nvmet: implement namespace identify descriptor list
+In-Reply-To: <4f03d4c0-6f7b-dbc4-b0ee-bebe77e80ea6@grimberg.me>
+References: <20170602094536.25775-1-jthumshirn@suse.de>
+ <20170602094536.25775-4-jthumshirn@suse.de>
+ <4f03d4c0-6f7b-dbc4-b0ee-bebe77e80ea6@grimberg.me>
+Message-ID: <20170603051856.GA7093@lst.de>
 
-Hi,Christoph
+On Fri, Jun 02, 2017@04:46:40PM +0300, Sagi Grimberg wrote:
+>
+>>  	switch (type) {
+>>  	case NVME_NQN_NVME:
+>> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+>> index cfc5c7fb0ab7..4c6cb5ea1186 100644
+>> --- a/drivers/nvme/target/nvmet.h
+>> +++ b/drivers/nvme/target/nvmet.h
+>> @@ -46,6 +46,7 @@ struct nvmet_ns {
+>>  	u32			blksize_shift;
+>>  	loff_t			size;
+>>  	u8			nguid[16];
+>> +	uuid_be			uuid;
+>
+> This should be uuid_le to match the rest of NVMe.
 
-On Friday, June 02, 2017 03:46 PM, Christoph Hellwig wrote:
-> Please also add them to the kernel copy of the header so that they
-> stay in sync.  Except for that his looks fine to me:
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-> 
+It shouldn't.  A RFC4122 uuid is always in "big endian" notation.
+A little endiane uuid doesn't exist, it's called a GUID in Wintel
+speak and isn't used in NVMe.  My new uuid tree tries to fix up
+the confusion by renaming our uuid_be type to uuid_t and uuid_le
+to guid_t.
 
-Here is the patch which adds those fields into nvme_id_ctrl structure
-in the kernel copy of the header. Does it looks good?
+> Also, it would be useful to generate a random default with uuid_le_gen()
+> for a better out-of-the-box experience.
 
-Thanks for your review.
-Best ,
-Guan Junxiong
-
----
->From 5f6fa71d885e7cb64cdf5a5ef5e03cee5a5f6f52 Mon Sep 17 00:00:00 2001
-From: Guan Junxiong <guanjunxiong@huawei.com>
-Date: Fri, 2 Jun 2017 23:13:28 +0800
-Subject: [PATCH] nvme: add fields into identify controller data structure
-
-NVMe 1.3 inctrodues new fields such as EDSTT, DSTO, FWUG, HCTMA, MNTMT,
-MXTMT, SANICAP into the idenfity controller data structure. So we add
-them for later use.
----
- include/linux/nvme.h | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index b625bac..e5f09f8 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -207,9 +207,15 @@ struct nvme_id_ctrl {
- 	__u8			tnvmcap[16];
- 	__u8			unvmcap[16];
- 	__le32			rpmbs;
--	__u8			rsvd316[4];
-+	__le16			edstt;
-+	__u8			dsto;
-+	__u8			fwug;
- 	__le16			kas;
--	__u8			rsvd322[190];
-+	__le16			hctma;
-+	__le16			mntmt;
-+	__le16			mxtmt;
-+	__le32			sanicap;
-+	__u8			rsvd332[180];
- 	__u8			sqes;
- 	__u8			cqes;
- 	__le16			maxcmd;
--- 
-2.7.4
+That's actually a good point.  Just needs to be uuid_be_gen/uuid_gen :)
