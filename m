@@ -1,44 +1,102 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat,  3 Jun 2017 16:03:56 +0200
-Subject: [PATCH 1/8] genirq: allow assigning affinity to present but not
- online CPUs
+Date: Sat,  3 Jun 2017 16:03:57 +0200
+Subject: [PATCH 2/8] genirq: move pending helpers to internal.h
 In-Reply-To: <20170603140403.27379-1-hch@lst.de>
 References: <20170603140403.27379-1-hch@lst.de>
-Message-ID: <20170603140403.27379-2-hch@lst.de>
+Message-ID: <20170603140403.27379-3-hch@lst.de>
 
-This will allow us to spread MSI/MSI-X affinity over all present CPUs and
-thus better deal with systems where cpus are take on and offline all the
-time.
+So that the affinity code can reuse them.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- kernel/irq/manage.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ kernel/irq/internals.h | 38 ++++++++++++++++++++++++++++++++++++++
+ kernel/irq/manage.c    | 28 ----------------------------
+ 2 files changed, 38 insertions(+), 28 deletions(-)
 
+diff --git a/kernel/irq/internals.h b/kernel/irq/internals.h
+index bc226e783bd2..b81f6ce73a68 100644
+--- a/kernel/irq/internals.h
++++ b/kernel/irq/internals.h
+@@ -226,3 +226,41 @@ irq_pm_install_action(struct irq_desc *desc, struct irqaction *action) { }
+ static inline void
+ irq_pm_remove_action(struct irq_desc *desc, struct irqaction *action) { }
+ #endif
++
++#ifdef CONFIG_GENERIC_PENDING_IRQ
++static inline bool irq_can_move_pcntxt(struct irq_data *data)
++{
++	return irqd_can_move_in_process_context(data);
++}
++static inline bool irq_move_pending(struct irq_data *data)
++{
++	return irqd_is_setaffinity_pending(data);
++}
++static inline void
++irq_copy_pending(struct irq_desc *desc, const struct cpumask *mask)
++{
++	cpumask_copy(desc->pending_mask, mask);
++}
++static inline void
++irq_get_pending(struct cpumask *mask, struct irq_desc *desc)
++{
++	cpumask_copy(mask, desc->pending_mask);
++}
++#else /* CONFIG_GENERIC_PENDING_IRQ */
++static inline bool irq_can_move_pcntxt(struct irq_data *data)
++{
++	return true;
++}
++static inline bool irq_move_pending(struct irq_data *data)
++{
++	return false;
++}
++static inline void
++irq_copy_pending(struct irq_desc *desc, const struct cpumask *mask)
++{
++}
++static inline void
++irq_get_pending(struct cpumask *mask, struct irq_desc *desc)
++{
++}
++#endif /* CONFIG_GENERIC_PENDING_IRQ */
 diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index 070be980c37a..5c25d4a5dc46 100644
+index 5c25d4a5dc46..5fa334e5c046 100644
 --- a/kernel/irq/manage.c
 +++ b/kernel/irq/manage.c
-@@ -361,17 +361,17 @@ static int setup_affinity(struct irq_desc *desc, struct cpumask *mask)
- 	if (irqd_affinity_is_managed(&desc->irq_data) ||
- 	    irqd_has_set(&desc->irq_data, IRQD_AFFINITY_SET)) {
- 		if (cpumask_intersects(desc->irq_common_data.affinity,
--				       cpu_online_mask))
-+				       cpu_present_mask))
- 			set = desc->irq_common_data.affinity;
- 		else
- 			irqd_clear(&desc->irq_data, IRQD_AFFINITY_SET);
- 	}
+@@ -168,34 +168,6 @@ void irq_set_thread_affinity(struct irq_desc *desc)
+ 			set_bit(IRQTF_AFFINITY, &action->thread_flags);
+ }
  
--	cpumask_and(mask, cpu_online_mask, set);
-+	cpumask_and(mask, cpu_present_mask, set);
- 	if (node != NUMA_NO_NODE) {
- 		const struct cpumask *nodemask = cpumask_of_node(node);
- 
--		/* make sure at least one of the cpus in nodemask is online */
-+		/* make sure at least one of the cpus in nodemask is present */
- 		if (cpumask_intersects(mask, nodemask))
- 			cpumask_and(mask, mask, nodemask);
- 	}
+-#ifdef CONFIG_GENERIC_PENDING_IRQ
+-static inline bool irq_can_move_pcntxt(struct irq_data *data)
+-{
+-	return irqd_can_move_in_process_context(data);
+-}
+-static inline bool irq_move_pending(struct irq_data *data)
+-{
+-	return irqd_is_setaffinity_pending(data);
+-}
+-static inline void
+-irq_copy_pending(struct irq_desc *desc, const struct cpumask *mask)
+-{
+-	cpumask_copy(desc->pending_mask, mask);
+-}
+-static inline void
+-irq_get_pending(struct cpumask *mask, struct irq_desc *desc)
+-{
+-	cpumask_copy(mask, desc->pending_mask);
+-}
+-#else
+-static inline bool irq_can_move_pcntxt(struct irq_data *data) { return true; }
+-static inline bool irq_move_pending(struct irq_data *data) { return false; }
+-static inline void
+-irq_copy_pending(struct irq_desc *desc, const struct cpumask *mask) { }
+-static inline void
+-irq_get_pending(struct cpumask *mask, struct irq_desc *desc) { }
+-#endif
+-
+ int irq_do_set_affinity(struct irq_data *data, const struct cpumask *mask,
+ 			bool force)
+ {
 -- 
 2.11.0
