@@ -1,38 +1,35 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sat, 3 Jun 2017 10:31:34 +0300
-Subject: [PATCH] nvme: fix multiple ctrl removal scheduling
-In-Reply-To: <20170602172838.GB22858@dhcp-216.srv.tuxera.com>
-References: <20170601140629.15313-1-hch@lst.de>
- <20170601140629.15313-2-hch@lst.de>
- <3db3cb8f-0851-f114-2fc6-4710d5aab2db@grimberg.me>
- <20170601154107.GA8118@lst.de>
- <024d059e-cd79-78cb-f367-0630d8387ce2@grimberg.me>
- <20170602172838.GB22858@dhcp-216.srv.tuxera.com>
-Message-ID: <823787c5-6bec-9d8f-c63d-76c876177b31@grimberg.me>
+Date: Sat, 3 Jun 2017 11:03:06 +0300
+Subject: [PATCH v3 3/8] nvmet: implement namespace identify descriptor list
+In-Reply-To: <20170603051856.GA7093@lst.de>
+References: <20170602094536.25775-1-jthumshirn@suse.de>
+ <20170602094536.25775-4-jthumshirn@suse.de>
+ <4f03d4c0-6f7b-dbc4-b0ee-bebe77e80ea6@grimberg.me>
+ <20170603051856.GA7093@lst.de>
+Message-ID: <a7382b1a-7f7b-24cc-cf7d-734f943ad122@grimberg.me>
 
 
-> cancel_work_sync seems to be a good idea
-
-In fact, I think we should have it independently of
-the state discussion, it healthy to make sure nothing runs
-concurrently with remove.
-
-> but I would still consider
-> new state to be a better alternative as it seems to make overal design
-> simpler.
-
-I'm still not convinced on why adding a new state is making things
-simpler.
-
+>>>   	switch (type) {
+>>>   	case NVME_NQN_NVME:
+>>> diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
+>>> index cfc5c7fb0ab7..4c6cb5ea1186 100644
+>>> --- a/drivers/nvme/target/nvmet.h
+>>> +++ b/drivers/nvme/target/nvmet.h
+>>> @@ -46,6 +46,7 @@ struct nvmet_ns {
+>>>   	u32			blksize_shift;
+>>>   	loff_t			size;
+>>>   	u8			nguid[16];
+>>> +	uuid_be			uuid;
+>>
+>> This should be uuid_le to match the rest of NVMe.
 > 
-> Anyway, once we can decide which way to go, I would be happy to give
-> this a test spin.
+> It shouldn't.  A RFC4122 uuid is always in "big endian" notation.
+> A little endiane uuid doesn't exist, it's called a GUID in Wintel
+> speak and isn't used in NVMe.  My new uuid tree tries to fix up
+> the confusion by renaming our uuid_be type to uuid_t and uuid_le
+> to guid_t.
 
-Keith, Christoph? can you please explain again why adding a new
-state is better?
+Thanks for clarifying.
 
-> You just forgot to remove the now reduntant WARN_ON
-> in untested one but of course this was just untested and for
-> demonstration only.
-
-Obviously.
+At one point we had a uuid before we allowed user-space to pass a nguid
+and it was little endian, but it was a hack anyway.
