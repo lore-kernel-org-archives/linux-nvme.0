@@ -1,11 +1,12 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Sun, 4 Jun 2017 17:06:05 +0300
-Subject: [PATCH v4 8/8] nvmet: use NVME_IDENTIFY_DATA_SIZE
-In-Reply-To: <20170604103649.22130-9-jthumshirn@suse.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 4 Jun 2017 17:43:09 +0300
+Subject: [PATCH v4 1/8] nvme: introduce NVMe Namespace Identification
+ Descriptor structures
+In-Reply-To: <20170604103649.22130-2-jthumshirn@suse.de>
 References: <20170604103649.22130-1-jthumshirn@suse.de>
- <20170604103649.22130-9-jthumshirn@suse.de>
-Message-ID: <c22cd428-3530-77f4-953c-635165be9ed9@mellanox.com>
+ <20170604103649.22130-2-jthumshirn@suse.de>
+Message-ID: <8920d000-7a3e-2a09-97b2-95546a0ddfcb@grimberg.me>
 
-Looks good,
+Looks good Johannes,
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
