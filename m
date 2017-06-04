@@ -1,32 +1,60 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat,  3 Jun 2017 16:04:03 +0200
-Subject: [PATCH 8/8] nvme: allocate queues for all possible CPUs
-In-Reply-To: <20170603140403.27379-1-hch@lst.de>
-References: <20170603140403.27379-1-hch@lst.de>
-Message-ID: <20170603140403.27379-9-hch@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Sun,  4 Jun 2017 12:36:42 +0200
+Subject: [PATCH v4 1/8] nvme: introduce NVMe Namespace Identification
+ Descriptor structures
+In-Reply-To: <20170604103649.22130-1-jthumshirn@suse.de>
+References: <20170604103649.22130-1-jthumshirn@suse.de>
+Message-ID: <20170604103649.22130-2-jthumshirn@suse.de>
 
-Unlike most dr?vers that simply pass the maximum possible vectors to
-pci_alloc_irq_vectors NVMe needs to configure the device before allocting
-the vectors, so it needs a manual update for the new scheme of using
-all present CPUs.
-
-Signed-off-by: Christoph Hellwig <hch at lst.de>
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
 ---
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ include/linux/nvme.h | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d52701df7245..4152d93fbbef 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1525,7 +1525,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int result, nr_io_queues, size;
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index b625bacf37ef..afa6ef484e50 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -288,6 +288,7 @@ enum {
+ 	NVME_ID_CNS_NS			= 0x00,
+ 	NVME_ID_CNS_CTRL		= 0x01,
+ 	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
++	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
+ 	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
+ 	NVME_ID_CNS_NS_PRESENT		= 0x11,
+ 	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
+@@ -314,6 +315,22 @@ enum {
+ 	NVME_NS_DPS_PI_TYPE3	= 3,
+ };
  
--	nr_io_queues = num_online_cpus();
-+	nr_io_queues = num_present_cpus();
- 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
- 	if (result < 0)
- 		return result;
++struct nvme_ns_identifier_hdr {
++	__u8 nidt;
++	__u8 nidl;
++	__le16 reserved;
++};
++
++#define NVME_NIDT_EUI64_LEN	8
++#define NVME_NIDT_NGUID_LEN	16
++#define NVME_NIDT_UUID_LEN	16
++
++enum {
++	NVME_NIDT_EUI64		= 0x01,
++	NVME_NIDT_NGUID		= 0x02,
++	NVME_NIDT_UUID		= 0x03,
++};
++
+ struct nvme_smart_log {
+ 	__u8			critical_warning;
+ 	__u8			temperature[2];
+@@ -658,6 +675,8 @@ struct nvme_identify {
+ 	__u32			rsvd11[5];
+ };
+ 
++#define NVME_IDENTIFY_DATA_SIZE 4096
++
+ struct nvme_features {
+ 	__u8			opcode;
+ 	__u8			flags;
 -- 
-2.11.0
+2.12.0
