@@ -1,60 +1,77 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Sun,  4 Jun 2017 12:36:42 +0200
-Subject: [PATCH v4 1/8] nvme: introduce NVMe Namespace Identification
- Descriptor structures
-In-Reply-To: <20170604103649.22130-1-jthumshirn@suse.de>
-References: <20170604103649.22130-1-jthumshirn@suse.de>
-Message-ID: <20170604103649.22130-2-jthumshirn@suse.de>
+Date: Sun,  4 Jun 2017 12:36:41 +0200
+Subject: [PATCH v4 0/8] Implement NVMe Namespace Descriptor Identification
+Message-ID: <20170604103649.22130-1-jthumshirn@suse.de>
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- include/linux/nvme.h | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+This patchset implemets NVMe Namespace Descriptor Identification as of
+NVMe 1.3. The Namespace Descriptor Identification allows a NVMe host
+to query several Namespace Identification mechanisms, such as EUI-64,
+NGUID and UUID from the target. If more than one value is set by the
+target, it can transmit all set values to the host.
 
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index b625bacf37ef..afa6ef484e50 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -288,6 +288,7 @@ enum {
- 	NVME_ID_CNS_NS			= 0x00,
- 	NVME_ID_CNS_CTRL		= 0x01,
- 	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
-+	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
- 	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
- 	NVME_ID_CNS_NS_PRESENT		= 0x11,
- 	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
-@@ -314,6 +315,22 @@ enum {
- 	NVME_NS_DPS_PI_TYPE3	= 3,
- };
- 
-+struct nvme_ns_identifier_hdr {
-+	__u8 nidt;
-+	__u8 nidl;
-+	__le16 reserved;
-+};
-+
-+#define NVME_NIDT_EUI64_LEN	8
-+#define NVME_NIDT_NGUID_LEN	16
-+#define NVME_NIDT_UUID_LEN	16
-+
-+enum {
-+	NVME_NIDT_EUI64		= 0x01,
-+	NVME_NIDT_NGUID		= 0x02,
-+	NVME_NIDT_UUID		= 0x03,
-+};
-+
- struct nvme_smart_log {
- 	__u8			critical_warning;
- 	__u8			temperature[2];
-@@ -658,6 +675,8 @@ struct nvme_identify {
- 	__u32			rsvd11[5];
- };
- 
-+#define NVME_IDENTIFY_DATA_SIZE 4096
-+
- struct nvme_features {
- 	__u8			opcode;
- 	__u8			flags;
+The Namespace Identification Descriptor list is the only way a target
+can identify itself via the newly introduced UUID to the host (instead
+of the EUI-64 or NGUID).
+
+Both the Host and Target side are implemented. In order to get the
+Linux Host to send the Linux target implementation a Namespace
+Descriptor Identification command, you have to change the target's
+announced version code to at least 1.3. 
+
+Unfortunately the host side already did have a sysfs attribute called
+'uuid' which represented the NGUID, so precautions have been taken to
+not break any existing userspace.
+
+While I was already touching the relevant code paths, I decided to
+also include the EUI-64 in the 'Identify Namespace' command response.
+
+The code is tested using the nvme-loop loopback target and cut against
+the nvme tree's nvme-4.12 branch.
+
+A patch for nvmetcli will follow shortly.
+
+Changes to v3:
+* Autogenerate UUID on target NS allocation (Sagi)
+
+Changes to v2:
+* Added Max's Reviewed-by
+* Make series bisectable
+
+Changes to v1:
+* Added Reviewed-by tags from Christoph and Hannes for unchanged patches
+* Added patch introducing new structs at the beginning (Christoph)
+* Dropped SZ_4K patch
+* Got rid of dynamic memory allocation on the target side (Christoph)
+* Reworked host side parser (Christoph)
+* Check length inside type check in the host parser (Max)
+
+Changes to v0:
+* Fixed wrong size of 4069 and replaced it with SZ_4K (Max)
+* Add constants for UUID, NGUID and EUI-64 length (Max)
+* Drop EUI-64 Support on target side (Christoph)
+* Use uuid_be instead of u8[] (Christoph)
+* Add ability to override target's version (Hannes)
+* Change hard coded magic 4096 and 0x1000 to SZ_4k in drivers/nvme/*
+
+Johannes Thumshirn (8):
+  nvme: introduce NVMe Namespace Identification Descriptor structures
+  nvme: rename uuid to nguid in nvme_ns
+  nvmet: implement namespace identify descriptor list
+  nvmet: add uuid field to nvme_ns and populate via configfs
+  nvme: get list of namespace descriptors
+  nvme: provide UUID value to userspace
+  nvmet: allow overriding the NVMe VS via configfs
+  nvmet: use NVME_IDENTIFY_DATA_SIZE
+
+ drivers/nvme/host/core.c        | 118 ++++++++++++++++++++++++++++++++++++++--
+ drivers/nvme/host/nvme.h        |   1 +
+ drivers/nvme/target/admin-cmd.c |  57 ++++++++++++++++++-
+ drivers/nvme/target/configfs.c  |  65 ++++++++++++++++++++++
+ drivers/nvme/target/core.c      |   3 +-
+ drivers/nvme/target/discovery.c |   2 +-
+ drivers/nvme/target/nvmet.h     |   1 +
+ include/linux/nvme.h            |  23 ++++++++
+ 8 files changed, 262 insertions(+), 8 deletions(-)
+
 -- 
 2.12.0
