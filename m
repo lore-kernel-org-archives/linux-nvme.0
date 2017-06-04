@@ -1,22 +1,24 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 4 Jun 2017 18:17:10 +0300
-Subject: [PATCH 4/8] genirq/affinity: assign vectors to all present CPUs
-In-Reply-To: <20170603140403.27379-5-hch@lst.de>
-References: <20170603140403.27379-1-hch@lst.de>
- <20170603140403.27379-5-hch@lst.de>
-Message-ID: <5a48e208-9279-9db9-2465-dfdb8d0319e5@grimberg.me>
+Date: Sun, 4 Jun 2017 18:20:22 +0300
+Subject: [PATCH 1/2] nvme-cli: add fields into identify controller data
+ structure
+In-Reply-To: <20170603052511.GA14365@infradead.org>
+References: <1496387899-26012-1-git-send-email-guanjunxiong@huawei.com>
+ <1496387899-26012-2-git-send-email-guanjunxiong@huawei.com>
+ <20170602074600.GA11424@infradead.org>
+ <71e89de.8c54.15c69866ff6.Coremail.guanjx09@163.com>
+ <20170603052511.GA14365@infradead.org>
+Message-ID: <e8bc6781-ed50-3767-f7d7-64a214c30f1d@grimberg.me>
 
 
-
-On 03/06/17 17:03, Christoph Hellwig wrote:
-> Currently we only assign spread vectors to online CPUs, which ties the
-> IRQ mapping to the currently online devices and doesn't deal nicely with
-> the fact that CPUs could come and go rapidly due to e.g. power management.
+>> Here is the patch which adds those fields into nvme_id_ctrl structure
+>> in the kernel copy of the header. Does it looks good?
 > 
-> Instead assign vectors to all present CPUs to avoid this churn.
-> 
-> For this we have to build a map of all possible CPUs for a give node, as
+> Thanks, this looks great.  Please send it out formally as a separate
+> mail and your signoff.
 
-s/give/given/
+You can include my:
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+
+Cheers,
