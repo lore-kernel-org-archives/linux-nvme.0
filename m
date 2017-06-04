@@ -1,12 +1,11 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 4 Jun 2017 18:11:23 +0300
-Subject: [PATCH 6/8] blk-mq: include all present CPUs in the default queue
- mapping
-In-Reply-To: <20170603140403.27379-7-hch@lst.de>
+Date: Sun, 4 Jun 2017 18:11:41 +0300
+Subject: [PATCH 7/8] blk-mq: create hctx for each present CPU
+In-Reply-To: <20170603140403.27379-8-hch@lst.de>
 References: <20170603140403.27379-1-hch@lst.de>
- <20170603140403.27379-7-hch@lst.de>
-Message-ID: <a3fe205c-be13-2b68-8ad0-37c6355e51a8@grimberg.me>
+ <20170603140403.27379-8-hch@lst.de>
+Message-ID: <7397fcca-db6b-03e1-fd89-da147dc6f987@grimberg.me>
 
-Looks good,
+Nice cleanup!
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
