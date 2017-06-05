@@ -1,8 +1,13 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 5 Jun 2017 10:20:55 +0200
-Subject: [PATCH] nvme: fix hang in remove path
-In-Reply-To: <20170602083208.4518-1-ming.lei@redhat.com>
-References: <20170602083208.4518-1-ming.lei@redhat.com>
-Message-ID: <20170605082055.GA22375@lst.de>
+Date: Mon, 5 Jun 2017 10:37:14 +0200
+Subject: [PATCH v4 8/8] nvmet: use NVME_IDENTIFY_DATA_SIZE
+In-Reply-To: <20170604103649.22130-9-jthumshirn@suse.de>
+References: <20170604103649.22130-1-jthumshirn@suse.de>
+ <20170604103649.22130-9-jthumshirn@suse.de>
+Message-ID: <20170605083714.GA22677@lst.de>
 
-Thanks Ming, I'll add this to the nvme tree for 4.12-rc.
+On Sun, Jun 04, 2017@12:36:49PM +0200, Johannes Thumshirn wrote:
+> Use NVME_IDENTIFY_DATA_SIZE define instead of hard coding the magic
+> 4096 value.
+
+Can you bump this to the front of the series?
