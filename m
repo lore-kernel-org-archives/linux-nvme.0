@@ -1,27 +1,46 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Mon, 5 Jun 2017 11:54:28 +0200 (CEST)
-Subject: [PATCH, TRIVIAL] nvme-rdma: fix typo in comment
-Message-ID: <1816979501.73970510.1496656468030.JavaMail.zimbra@kalray.eu>
+From: rakesh@tuxera.com (Rakesh Pandit)
+Date: Mon, 5 Jun 2017 13:52:17 +0300
+Subject: [PATCH V2] nvme: fix nvme_remove going to uninterruptible sleep
+ for ever
+In-Reply-To: <20170605081817.GA22122@lst.de>
+References: <20170530071610.GA2679@hercules.tuxera.com>
+ <4da7c939-1f54-80e5-48fc-06e58e14f018@grimberg.me>
+ <20170530142346.GA39428@dhcp-216.srv.tuxera.com>
+ <20170601114338.GA24855@lst.de>
+ <bb2780a8-63af-4d58-6c78-b03152de0439@grimberg.me>
+ <20170605081817.GA22122@lst.de>
+Message-ID: <20170605105217.GA31313@dhcp-216.srv.tuxera.com>
 
-Fix trivial spelling mistake.
+On Mon, Jun 05, 2017@10:18:17AM +0200, Christoph Hellwig wrote:
+> On Sun, Jun 04, 2017@06:28:15PM +0300, Sagi Grimberg wrote:
+> >
+> >> I think we need the NVME_CTRL_SCHED_RESET state.  In fact I'm pretty
+> >> sure some time in the past I already had it in a local tree as a
+> >> generalization of rdma and loop already use NVME_CTRL_RESETTING
+> >> (they set it before queueing the reset work).
+> >
+> > I don't remember having it, but I might be wrong...
+> >
+> > Can you explain again why you think we need it? Sorry for being
+> > difficult, but I'm not exactly sure why it makes things better
+> > or simpler.
+> 
+> Motly that we can treat a controller as under reset before scheduling
+> the reset work, both to prevent multiple schedules, and to make
+> checks like the one in nvme_should_reset robus.
+> 
+> But I think something along the lines of the earlier patch from
+> Rakesh that just sets the RESETTING state earlier + the cancel_work_sync
+> suggested by you should also work for that purpose.  So maybe that's
+> the way to go after all.
 
-Signed-off-by: Marta Rybczynska <marta.rybczynska at kalray.eu>
----
- drivers/nvme/host/rdma.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I would post a new patch which includes my RESETTING state earlier
+patch + the cancel_work_sync which Sagi suggested after testing.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 80682f7..308be1d 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1083,7 +1083,7 @@ static int nvme_rdma_post_send(struct nvme_rdma_queue *queue,
-        wr.send_flags = 0;
- 
-        /*
--        * Unsignalled send completions are another giant desaster in the
-+        * Unsignalled send completions are another giant disaster in the
-         * IB Verbs spec:  If we don't regularly post signalled sends
-         * the send queue will fill up and only a QP reset will rescue us.
-         * Would have been way to obvious to handle this in hardware or
--- 
-1.8.3.1
+Sagi: Because my RESETTING patch earlier is subset of your untested
+patch with cancel_work_sync, it would be logical to take a signed off
+from you as well.  May you review/ack/nack the patch?  Feel free to
+let me know if you want me to change it further or instead you want to
+post as author.
+
+I am okay with either as long as we fix the issue.
