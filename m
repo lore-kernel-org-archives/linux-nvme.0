@@ -1,93 +1,171 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon,  5 Jun 2017 09:36:00 +0300
-Subject: [PATCH v3 for-4.13 6/6] nvme-rdma: use intelligent affinity based
- queue mappings
-In-Reply-To: <1496644560-28923-1-git-send-email-sagi@grimberg.me>
-References: <1496644560-28923-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1496644560-28923-7-git-send-email-sagi@grimberg.me>
+From: shahar.salzman@gmail.com (shahar.salzman)
+Date: Mon, 5 Jun 2017 10:11:30 +0300
+Subject: NVMeoF: multipath stuck after bringing one ethernet port down
+In-Reply-To: <459af627-3918-768e-c35f-3f99768b82cb@grimberg.me>
+References: <CAK0KL7DPLw+0AB8cGop7jowfE1HV9wyXBmJhE90trpor-PcSYw@mail.gmail.com>
+ <ebb7ffb8-4dec-5540-5cef-ffd36bef3e25@grimberg.me>
+ <fa6277fa-948f-103e-1322-f8b2362467c3@gmail.com>
+ <656fd267-1e01-b561-fc74-e36c1892d1f9@gmail.com>
+ <5b5b0a61-41cc-8018-19db-f683a604d7e4@grimberg.me>
+ <48b14a96-e419-f6d1-090e-cbe774139e11@mellanox.com>
+ <459af627-3918-768e-c35f-3f99768b82cb@grimberg.me>
+Message-ID: <0d0bb86a-7def-d04b-f4a4-362bc5bb1e4b@gmail.com>
 
-Use the generic block layer affinity mapping helper. Also,
-limit nr_hw_queues to the rdma device number of irq vectors
-as we don't really need more.
+I tested the patch, works great.
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/rdma.c | 29 ++++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+Both IO (dd), "multipath -ll", and "nvme list" return instantaneously 
+with IO error, multipath is reinstated as soon as the path is reconnected.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index d4a940ae9a56..f44811fbceee 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -19,6 +19,7 @@
- #include <linux/string.h>
- #include <linux/atomic.h>
- #include <linux/blk-mq.h>
-+#include <linux/blk-mq-rdma.h>
- #include <linux/types.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-@@ -469,14 +470,10 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
- 	ibdev = queue->device->dev;
- 
- 	/*
--	 * The admin queue is barely used once the controller is live, so don't
--	 * bother to spread it out.
-+	 * Spread I/O queues completion vectors according their queue index.
-+	 * Admin queues can always go on completion vector 0.
- 	 */
--	if (idx == 0)
--		comp_vector = 0;
--	else
--		comp_vector = idx % ibdev->num_comp_vectors;
--
-+	comp_vector = idx == 0 ? idx : idx - 1;
- 
- 	/* +1 for ib_stop_cq */
- 	queue->ib_cq = ib_alloc_cq(ibdev, queue,
-@@ -616,10 +613,20 @@ static int nvme_rdma_connect_io_queues(struct nvme_rdma_ctrl *ctrl)
- static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl *ctrl)
- {
- 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
-+	struct ib_device *ibdev = ctrl->device->dev;
- 	unsigned int nr_io_queues;
- 	int i, ret;
- 
- 	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
-+
-+	/*
-+	 * we map queues according to the device irq vectors for
-+	 * optimal locality so we don't need more queues than
-+	 * completion vectors.
-+	 */
-+	nr_io_queues = min_t(unsigned int, nr_io_queues,
-+				ibdev->num_comp_vectors);
-+
- 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
- 	if (ret)
- 		return ret;
-@@ -1494,6 +1501,13 @@ static void nvme_rdma_complete_rq(struct request *rq)
- 	nvme_complete_rq(rq);
- }
- 
-+static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
-+{
-+	struct nvme_rdma_ctrl *ctrl = set->driver_data;
-+
-+	return blk_mq_rdma_map_queues(set, ctrl->device->dev, 0);
-+}
-+
- static const struct blk_mq_ops nvme_rdma_mq_ops = {
- 	.queue_rq	= nvme_rdma_queue_rq,
- 	.complete	= nvme_rdma_complete_rq,
-@@ -1503,6 +1517,7 @@ static const struct blk_mq_ops nvme_rdma_mq_ops = {
- 	.init_hctx	= nvme_rdma_init_hctx,
- 	.poll		= nvme_rdma_poll,
- 	.timeout	= nvme_rdma_timeout,
-+	.map_queues	= nvme_rdma_map_queues,
- };
- 
- static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
--- 
-2.7.4
+Sagi, thanks for the fix!
+
+
+On 05/30/2017 05:17 PM, Sagi Grimberg wrote:
+>
+>> Hi guys,
+>> this is a known issue in upstream code and Mellanox OFED code as well.
+>> I agree with Sagi's approach for future issues using our package.
+>> For this one, we will test the proposed fixes and update you regarding
+>> the results.
+>
+> You can try:
+>
+> -- 
+> [PATCH] nvme-rdma: fast fail incoming requests while we reconnect
+>
+> When we encounter an transport/controller errors, error recovery
+> kicks in which performs:
+> 1. stops io/admin queues
+> 2. moves transport queues out of LIVE state
+> 3. fast fail pending io
+> 4. schedule periodic reconnects.
+>
+> But we also need to fast fail incoming IO taht enters after we
+> already scheduled. Given that our queue is not LIVE anymore, simply
+> restart the request queues to fail in .queue_rq
+>
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/host/rdma.c | 37 ++++++++++++++++++++++---------------
+>  1 file changed, 22 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 28bd255c144d..ce8f1e992e64 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -753,28 +753,26 @@ static void nvme_rdma_reconnect_ctrl_work(struct 
+> work_struct *work)
+>         if (ret)
+>                 goto requeue;
+>
+> -       blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
+> -
+>         ret = nvmf_connect_admin_queue(&ctrl->ctrl);
+>         if (ret)
+> -               goto stop_admin_q;
+> +               goto requeue;
+>
+>         set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags);
+>
+>         ret = nvme_enable_ctrl(&ctrl->ctrl, ctrl->cap);
+>         if (ret)
+> -               goto stop_admin_q;
+> +               goto requeue;
+>
+>         nvme_start_keep_alive(&ctrl->ctrl);
+>
+>         if (ctrl->queue_count > 1) {
+>                 ret = nvme_rdma_init_io_queues(ctrl);
+>                 if (ret)
+> -                       goto stop_admin_q;
+> +                       goto requeue;
+>
+>                 ret = nvme_rdma_connect_io_queues(ctrl);
+>                 if (ret)
+> -                       goto stop_admin_q;
+> +                       goto requeue;
+>         }
+>
+>         changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+> @@ -782,7 +780,6 @@ static void nvme_rdma_reconnect_ctrl_work(struct 
+> work_struct *work)
+>         ctrl->ctrl.opts->nr_reconnects = 0;
+>
+>         if (ctrl->queue_count > 1) {
+> -               nvme_start_queues(&ctrl->ctrl);
+>                 nvme_queue_scan(&ctrl->ctrl);
+>                 nvme_queue_async_events(&ctrl->ctrl);
+>         }
+> @@ -791,8 +788,6 @@ static void nvme_rdma_reconnect_ctrl_work(struct 
+> work_struct *work)
+>
+>         return;
+>
+> -stop_admin_q:
+> -       blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
+>  requeue:
+>         dev_info(ctrl->ctrl.device, "Failed reconnect attempt %d\n",
+>                         ctrl->ctrl.opts->nr_reconnects);
+> @@ -823,6 +818,13 @@ static void nvme_rdma_error_recovery_work(struct 
+> work_struct *work)
+>         blk_mq_tagset_busy_iter(&ctrl->admin_tag_set,
+>                                 nvme_cancel_request, &ctrl->ctrl);
+>
+> +       /*
+> +        * queues are not a live anymore, so restart the queues to 
+> fail fast
+> +        * new IO
+> +        */
+> +       blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
+> +       nvme_start_queues(&ctrl->ctrl);
+> +
+>         nvme_rdma_reconnect_or_remove(ctrl);
+>  }
+>
+> @@ -1433,7 +1435,7 @@ nvme_rdma_timeout(struct request *rq, bool 
+> reserved)
+>  /*
+>   * We cannot accept any other command until the Connect command has 
+> completed.
+>   */
+> -static inline bool nvme_rdma_queue_is_ready(struct nvme_rdma_queue 
+> *queue,
+> +static inline int nvme_rdma_queue_is_ready(struct nvme_rdma_queue 
+> *queue,
+>                 struct request *rq)
+>  {
+>         if (unlikely(!test_bit(NVME_RDMA_Q_LIVE, &queue->flags))) {
+> @@ -1441,11 +1443,15 @@ static inline bool 
+> nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
+>
+>                 if (!blk_rq_is_passthrough(rq) ||
+>                     cmd->common.opcode != nvme_fabrics_command ||
+> -                   cmd->fabrics.fctype != nvme_fabrics_type_connect)
+> -                       return false;
+> +                   cmd->fabrics.fctype != nvme_fabrics_type_connect) {
+> +                       if (queue->ctrl->ctrl->state == 
+> NVME_CTRL_RECONNECTING)
+> +                               return -EIO;
+> +                       else
+> +                               return -EAGAIN;
+> +               }
+>         }
+>
+> -       return true;
+> +       return 0;
+>  }
+>
+>  static int nvme_rdma_queue_rq(struct blk_mq_hw_ctx *hctx,
+> @@ -1463,8 +1469,9 @@ static int nvme_rdma_queue_rq(struct 
+> blk_mq_hw_ctx *hctx,
+>
+>         WARN_ON_ONCE(rq->tag < 0);
+>
+> -       if (!nvme_rdma_queue_is_ready(queue, rq))
+> -               return BLK_MQ_RQ_QUEUE_BUSY;
+> +       ret = nvme_rdma_queue_is_ready(queue, rq);
+> +       if (unlikely(ret))
+> +               goto err;
+>
+>         dev = queue->device->dev;
+>         ib_dma_sync_single_for_cpu(dev, sqe->dma,
+> -- 
