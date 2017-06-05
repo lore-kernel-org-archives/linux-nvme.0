@@ -1,10 +1,46 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 5 Jun 2017 10:45:27 -0700
-Subject: [PATCH] nvme: Add support to create and send kobject
- uevents(uevents) when asynchronous events are received.
-In-Reply-To: <1496670185-17020-1-git-send-email-zouming.zouming@huawei.com>
-References: <1496670185-17020-1-git-send-email-zouming.zouming@huawei.com>
-Message-ID: <20170605174527.GB5432@infradead.org>
+From: rakesh@tuxera.com (Rakesh Pandit)
+Date: Mon, 5 Jun 2017 22:45:32 +0300
+Subject: [PATCH] nvme: fix hang in remove path
+In-Reply-To: <20170605084732.GA30881@dhcp-216.srv.tuxera.com>
+References: <20170602083208.4518-1-ming.lei@redhat.com>
+ <20170602180435.GA23335@dhcp-216.srv.tuxera.com>
+ <244bc065-92eb-c3e0-faa7-11569fc326d6@grimberg.me>
+ <20170605084434.GA30864@dhcp-216.srv.tuxera.com>
+ <20170605084732.GA30881@dhcp-216.srv.tuxera.com>
+Message-ID: <20170605194532.GA2549@hercules.tuxera.com>
 
-Keith sent a patch for notifying userspace on AERs a while ago,
-but the comments on the patch need to be addressed first.
+On Mon, Jun 05, 2017@11:47:33AM +0300, Rakesh Pandit wrote:
+> On Mon, Jun 05, 2017@11:44:34AM +0300, Rakesh Pandit wrote:
+> > On Sun, Jun 04, 2017@06:24:09PM +0300, Sagi Grimberg wrote:
+> > > 
+> > > > It would make sense to still add:
+> > > > 
+> > > > if (ctrl->state == NVME_CTRL_DELETING || ctrl->state == NVME_CTRL_DEAD)
+> > > > 	return
+> > > > 
+> > > > inside nvme_configure_apst at the top irrespective of this change.
+> > > 
+> > > I'm not sure what is the value given that it is taken care of in
+> > > .queue_rq?
+> > 
+> > We would avoid getting error message which says: "failed to set APST
+> > feature 7".  Why an error if controller is already under reset.
+> 
+> I meant deletion.  Of course not a huge value but worth a fix IMHO
+> while we are at it.
+> 
+> > 
+> > Note 7 here is NVME_SC_ABORT_REQ.  Also we would avoid walking through
+> > all power states inside the nvme_configure_apst as
+> > nvme_set_latency_tolerance was called with value
+> > PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT (-1) which sets
+> > ctrl->ps_max_latency_us to U64_MAX and tries to send a sync command
+> > which of course fails with error message.
+
+Even though this change from this patch does fix the hang, just tested
+again and I can see above error message "failed to set APST feature 7"
+while nvme_remove PID is getting executed.
+
+So, sync requests (while nvme_remove is executing) are going through
+and not everything is handled well in .queue_rq while controller is
+under deleting state or dead state.
