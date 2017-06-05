@@ -1,31 +1,18 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 5 Jun 2017 07:31:19 +0200
-Subject: [PATCH v3 3/8] nvmet: implement namespace identify descriptor list
-In-Reply-To: <20170602094536.25775-4-jthumshirn@suse.de>
-References: <20170602094536.25775-1-jthumshirn@suse.de>
- <20170602094536.25775-4-jthumshirn@suse.de>
-Message-ID: <20170605053119.GA19480@lst.de>
+Date: Mon, 5 Jun 2017 07:32:03 +0200
+Subject: [PATCH v4 0/8] Implement NVMe Namespace Descriptor Identification
+In-Reply-To: <20170604103649.22130-1-jthumshirn@suse.de>
+References: <20170604103649.22130-1-jthumshirn@suse.de>
+Message-ID: <20170605053203.GB19480@lst.de>
 
-What about a little helper like this: ?
+On Sun, Jun 04, 2017@12:36:41PM +0200, Johannes Thumshirn wrote:
+> The Namespace Identification Descriptor list is the only way a target
+> can identify itself via the newly introduced UUID to the host (instead
+> of the EUI-64 or NGUID).
 
-static u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
-		void *id, off_t *off)
-{
-	struct nvme_ns_identifier_hdr hdr = {
-		.nidt	= type,
-		.nidl	= len,
-	};
-	u16 status;
+s/instead/in addition/
 
-	status = nvmet_copy_to_sgl(req, *off, &hdr, sizeof(hdr));
-	if (status)
-		return status;
-	*off += sizeof(hdr);
+> While I was already touching the relevant code paths, I decided to
+> also include the EUI-64 in the 'Identify Namespace' command response.
 
-	status = nvmet_copy_to_sgl(req, off, id, len);
-	if (status)
-		return status;
-	*off += len;
-
-	return 0;
-}
+Not anymore :)
