@@ -1,124 +1,488 @@
-From: rakesh@tuxera.com (Rakesh Pandit)
-Date: Mon, 5 Jun 2017 14:43:11 +0300
-Subject: [PATCH V2] nvme: fix multiple ctrl removal scheduling
-Message-ID: <20170605114309.GA31824@dhcp-216.srv.tuxera.com>
+From: zouming.zouming@huawei.com (Zou Ming)
+Date: Mon, 5 Jun 2017 13:43:05 +0000
+Subject: [PATCH] nvme: Add support to create and send kobject uevents(uevents)
+ when asynchronous events are received.
+Message-ID: <1496670185-17020-1-git-send-email-zouming.zouming@huawei.com>
 
-Commit c5f6ce97c1210 tries to address multiple resets but fails as
-work_busy doesn't involve any synchronization and can fail.  This is
-reproducible easily as can be seen by WARNING below which is triggered
-with line:
+From: Zou <zouming.zouming@huawei.com>
 
-WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING)
+Uevents is a common mechanism for notifying the user state of the kernel. The current patch implements the notification of asynchronous event information to the user via the uevents interface when asynchronous events are received in the kernel.
 
-Allowing multiple resets can result in multiple controller removal as
-well if different conditions inside nvme_reset_work fail and which
-might deadlock on device_release_driver.
-
-[  480.327007] WARNING: CPU: 3 PID: 150 at drivers/nvme/host/pci.c:1900 nvme_reset_work+0x36c/0xec0
-[  480.327008] Modules linked in: rfcomm fuse nf_conntrack_netbios_ns nf_conntrack_broadcast...
-[  480.327044]  btusb videobuf2_core ghash_clmulni_intel snd_hwdep cfg80211 acer_wmi hci_uart..
-[  480.327065] CPU: 3 PID: 150 Comm: kworker/u16:2 Not tainted 4.12.0-rc1+ #13
-[  480.327065] Hardware name: Acer Predator G9-591/Mustang_SLS, BIOS V1.10 03/03/2016
-[  480.327066] Workqueue: nvme nvme_reset_work
-[  480.327067] task: ffff880498ad8000 task.stack: ffffc90002218000
-[  480.327068] RIP: 0010:nvme_reset_work+0x36c/0xec0
-[  480.327069] RSP: 0018:ffffc9000221bdb8 EFLAGS: 00010246
-[  480.327070] RAX: 0000000000460000 RBX: ffff880498a98128 RCX: dead000000000200
-[  480.327070] RDX: 0000000000000001 RSI: ffff8804b1028020 RDI: ffff880498a98128
-[  480.327071] RBP: ffffc9000221be50 R08: 0000000000000000 R09: 0000000000000000
-[  480.327071] R10: ffffc90001963ce8 R11: 000000000000020d R12: ffff880498a98000
-[  480.327072] R13: ffff880498a53500 R14: ffff880498a98130 R15: ffff880498a98128
-[  480.327072] FS:  0000000000000000(0000) GS:ffff8804c1cc0000(0000) knlGS:0000000000000000
-[  480.327073] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  480.327074] CR2: 00007ffcf3c37f78 CR3: 0000000001e09000 CR4: 00000000003406e0
-[  480.327074] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-[  480.327075] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-[  480.327075] Call Trace:
-[  480.327079]  ? __switch_to+0x227/0x400
-[  480.327081]  process_one_work+0x18c/0x3a0
-[  480.327082]  worker_thread+0x4e/0x3b0
-[  480.327084]  kthread+0x109/0x140
-[  480.327085]  ? process_one_work+0x3a0/0x3a0
-[  480.327087]  ? kthread_park+0x60/0x60
-[  480.327102]  ret_from_fork+0x2c/0x40
-[  480.327103] Code: e8 5a dc ff ff 85 c0 41 89 c1 0f.....
-
-This patch addresses the problem by using state of controller to
-decide whether reset should be queued or not as state change is
-synchronizated using controller spinlock.  Also cancel_work_sync is
-used to make sure remove cancels the reset_work and waits for it to
-finish.  This patch also changes return value from -ENODEV to more
-appropriate -EBUSY if nvme_reset fails to change state.
-
-V2: 1. Use cancel_work_sync instead of introducing new state (Sagi)
-    2. Skip using NVME_CTRL_SCHED_RESET state (Sagi)
-V1: nvme_probe set RESETTING state and check for NVME_CTRL_RESETTING
-    state in nvme_should_reset instead of work_busy (hch)
-Fixes: c5f6ce97c1210 ("nvme: don't schedule multiple resets")
-Signed-off-by: Rakesh Pandit <rakesh at tuxera.com>
+An example of the uevents generated as captured by udevadm monitor is shown below.
+UDEV  [187882.295881] change   /devices/virtual/nvme-fabrics/ctl/nvme0 (nvme)
+ACTION=change
+DEVNAME=/dev/nvme0
+DEVPATH=/devices/virtual/nvme-fabrics/ctl/nvme0
+MAJOR=242
+MINOR=0
+NVME_AEN_INFO=0
+NVME_AEN_LOGPAGE=0
+NVME_AEN_SEQNUM=1
+NVME_AEN_TYPE=AEN_ERROR_STATUS
+SEQNUM=3547
+SUBSYSTEM=nvme
+USEC_INITIALIZED=7882294991
 ---
- drivers/nvme/host/pci.c | 14 +++++---------
- 1 file changed, 5 insertions(+), 9 deletions(-)
+ drivers/nvme/host/Kconfig       |   6 ++
+ drivers/nvme/host/Makefile      |   3 +-
+ drivers/nvme/host/core.c        |  51 +++++++++-
+ drivers/nvme/host/nvme-uevent.c | 206 ++++++++++++++++++++++++++++++++++++++++
+ drivers/nvme/host/nvme-uevent.h |  58 +++++++++++
+ drivers/nvme/host/nvme.h        |  10 ++
+ 6 files changed, 331 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/nvme/host/nvme-uevent.c
+ create mode 100644 drivers/nvme/host/nvme-uevent.h
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index d52701df..0f9af4d 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1367,7 +1367,7 @@ static bool nvme_should_reset(struct nvme_dev *dev, u32 csts)
- 	bool nssro = dev->subsystem && (csts & NVME_CSTS_NSSRO);
+diff --git a/drivers/nvme/host/Kconfig b/drivers/nvme/host/Kconfig
+index 90745a6..a772db7 100644
+--- a/drivers/nvme/host/Kconfig
++++ b/drivers/nvme/host/Kconfig
+@@ -25,6 +25,12 @@ config BLK_DEV_NVME_SCSI
+ 	  emulation to provide stable device names for mount by id, like
+ 	  some OpenSuSE and SLES versions.
  
- 	/* If there is a reset ongoing, we shouldn't reset again. */
--	if (work_busy(&dev->reset_work))
-+	if (dev->ctrl.state == NVME_CTRL_RESETTING)
- 		return false;
++config NVME_UEVENT
++	bool "nvme uevents"
++	depends on NVME_CORE
++	---help---
++	Generate udev events for nvme asynchronous events.
++
+ config NVME_FABRICS
+ 	tristate
  
- 	/* We shouldn't reset unless the controller is on fatal error state
-@@ -1903,9 +1903,6 @@ static void nvme_reset_work(struct work_struct *work)
- 	bool was_suspend = !!(dev->ctrl.ctrl_config & NVME_CC_SHN_NORMAL);
- 	int result = -ENODEV;
+diff --git a/drivers/nvme/host/Makefile b/drivers/nvme/host/Makefile
+index f1a7d94..bfab9dc 100644
+--- a/drivers/nvme/host/Makefile
++++ b/drivers/nvme/host/Makefile
+@@ -6,7 +6,8 @@ obj-$(CONFIG_NVME_FC)			+= nvme-fc.o
  
--	if (WARN_ON(dev->ctrl.state == NVME_CTRL_RESETTING))
--		goto out;
--
- 	/*
- 	 * If we're called to reset a live controller first shut it down before
- 	 * moving on.
-@@ -1913,9 +1910,6 @@ static void nvme_reset_work(struct work_struct *work)
- 	if (dev->ctrl.ctrl_config & NVME_CC_ENABLE)
- 		nvme_dev_disable(dev, false);
+ nvme-core-y				:= core.o
+ nvme-core-$(CONFIG_BLK_DEV_NVME_SCSI)	+= scsi.o
+-nvme-core-$(CONFIG_NVM)			+= lightnvm.o
++nvme-core-$(CONFIG_NVM)					+= lightnvm.o
++nvme-core-$(CONFIG_NVME_UEVENT)			+= nvme-uevent.o
  
--	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
--		goto out;
--
- 	result = nvme_pci_enable(dev);
- 	if (result)
- 		goto out;
-@@ -2009,8 +2003,8 @@ static int nvme_reset(struct nvme_dev *dev)
+ nvme-y					+= pci.o
+ 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a609264..0e7bb05 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -32,6 +32,7 @@
+ 
+ #include "nvme.h"
+ #include "fabrics.h"
++#include "nvme-uevent.h"
+ 
+ #define NVME_MINORS		(1U << MINORBITS)
+ 
+@@ -70,6 +71,36 @@
+ 
+ static struct class *nvme_class;
+ 
++uint32_t nvme_next_uevent_seq(struct nvme_ctrl *ctrl)
++{
++	return atomic_add_return(1, &ctrl->uevent_seq);
++}
++
++void nvme_uevent_add(struct nvme_ctrl *ctrl, struct list_head *elist)
++{
++	unsigned long flags;
++
++	spin_lock_irqsave(&ctrl->uevent_lock, flags);
++	list_add(elist, &ctrl->uevent_list);
++	spin_unlock_irqrestore(&ctrl->uevent_lock, flags);
++}
++
++static DEFINE_MUTEX(_nvme_event_lock);
++static void trigger_event(struct work_struct *work)
++{
++	unsigned long flags;
++	LIST_HEAD(uevents);
++	struct nvme_ctrl *ctrl = container_of(work, struct nvme_ctrl, trigger_event_work);
++
++	mutex_lock(&_nvme_event_lock);
++	spin_lock_irqsave(&ctrl->uevent_lock, flags);
++	list_splice_init(&ctrl->uevent_list, &uevents);
++	spin_unlock_irqrestore(&ctrl->uevent_lock, flags);
++
++	nvme_send_uevents(&uevents, &ctrl->device->kobj);
++	mutex_unlock(&_nvme_event_lock);
++}
++
+ static int nvme_error_status(struct request *req)
  {
- 	if (!dev->ctrl.admin_q || blk_queue_dying(dev->ctrl.admin_q))
- 		return -ENODEV;
--	if (work_busy(&dev->reset_work))
--		return -ENODEV;
-+	if (!nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING))
-+		return -EBUSY;
- 	if (!queue_work(nvme_workq, &dev->reset_work))
- 		return -EBUSY;
+ 	switch (nvme_req(req)->status & 0x7ff) {
+@@ -2292,13 +2323,16 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+ 	if (done)
+ 		return;
+ 
+-	switch (result & 0xff07) {
++	switch (result & 0xffff07) {
+ 	case NVME_AER_NOTICE_NS_CHANGED:
+ 		dev_info(ctrl->device, "rescanning\n");
+ 		nvme_queue_scan(ctrl);
+ 		break;
+ 	default:
+ 		dev_warn(ctrl->device, "async event result %08x\n", result);
++		nvme_aen_uevent(ctrl, (result & 0x07),(result & 0xff00) >> 8, (result & 0xff0000) >> 16);
++
++		schedule_work(&ctrl->trigger_event_work);
+ 	}
+ }
+ EXPORT_SYMBOL_GPL(nvme_complete_async_event);
+@@ -2343,6 +2377,7 @@ void nvme_uninit_ctrl(struct nvme_ctrl *ctrl)
+ {
+ 	flush_work(&ctrl->async_event_work);
+ 	flush_work(&ctrl->scan_work);
++	flush_work(&ctrl->trigger_event_work);
+ 	nvme_remove_namespaces(ctrl);
+ 
+ 	device_destroy(nvme_class, MKDEV(nvme_char_major, ctrl->instance));
+@@ -2390,6 +2425,10 @@ int nvme_init_ctrl(struct nvme_ctrl *ctrl, struct device *dev,
+ 	ctrl->quirks = quirks;
+ 	INIT_WORK(&ctrl->scan_work, nvme_scan_work);
+ 	INIT_WORK(&ctrl->async_event_work, nvme_async_event_work);
++	atomic_set(&ctrl->uevent_seq, 0);
++	INIT_LIST_HEAD(&ctrl->uevent_list);
++	spin_lock_init(&ctrl->uevent_lock);
++	INIT_WORK(&ctrl->trigger_event_work, trigger_event);
+ 
+ 	ret = nvme_set_instance(ctrl);
+ 	if (ret)
+@@ -2544,14 +2583,21 @@ int __init nvme_core_init(void)
+ 	else if (result > 0)
+ 		nvme_char_major = result;
+ 
++	result = nvme_uevent_init();
++	if (result)
++		goto unregister_chrdev;
++
+ 	nvme_class = class_create(THIS_MODULE, "nvme");
+ 	if (IS_ERR(nvme_class)) {
+ 		result = PTR_ERR(nvme_class);
+-		goto unregister_chrdev;
++		goto out_uevent_exit;
+ 	}
+ 
  	return 0;
-@@ -2136,6 +2130,7 @@ static int nvme_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	if (result)
- 		goto release_pools;
  
-+	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_RESETTING);
- 	dev_info(dev->ctrl.device, "pci function %s\n", dev_name(&pdev->dev));
++ out_uevent_exit:
++	nvme_uevent_exit();
++
+  unregister_chrdev:
+ 	__unregister_chrdev(nvme_char_major, 0, NVME_MINORS, "nvme");
+ 	return result;
+@@ -2560,6 +2606,7 @@ int __init nvme_core_init(void)
+ void nvme_core_exit(void)
+ {
+ 	class_destroy(nvme_class);
++	nvme_uevent_exit();
+ 	__unregister_chrdev(nvme_char_major, 0, NVME_MINORS, "nvme");
+ }
  
- 	queue_work(nvme_workq, &dev->reset_work);
-@@ -2179,6 +2174,7 @@ static void nvme_remove(struct pci_dev *pdev)
+diff --git a/drivers/nvme/host/nvme-uevent.c b/drivers/nvme/host/nvme-uevent.c
+new file mode 100644
+index 0000000..e239534
+--- /dev/null
++++ b/drivers/nvme/host/nvme-uevent.c
+@@ -0,0 +1,206 @@
++/*
++ * Nvme Uevent Support for Asynchronous Event Notice (nvme-uevent)
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or (at your
++ * option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ * (C) Copyright HUAWEI Technology Corp. 2017   All Rights Reserved.
++ * 	Author: Zou Ming <zouming.zouming at huawei.com>
++ */
++#include <linux/list.h>
++#include <linux/slab.h>
++#include <linux/kobject.h>
++#include <linux/export.h>
++
++#include "nvme.h"
++#include "nvme-uevent.h"
++
++static const struct {
++	enum nvme_uevent_aen_type type;
++	enum kobject_action action;
++	char *name;
++} _nvme_uevent_type_names[] = {
++	{NVME_AEN_ERROR_STATUS, KOBJ_CHANGE, "AEN_ERROR_STATUS"},
++	{NVME_AEN_SMART_STATUS, KOBJ_CHANGE, "AEN_SMART_STATUS"},
++	{NVME_AEN_NOTICE, KOBJ_CHANGE, "AEN_NOTICE"},
++	{NVME_AEN_IO_SPECIFIC_STATUS, KOBJ_CHANGE, "AEN_IO_SPECIFIC_STATUS"},
++	{NVME_AEN_VENDOR_SPECIFIC, KOBJ_CHANGE, "AEN_VENDOR_SPECIFIC"},
++};
++
++static struct kmem_cache *_nvme_event_cache;
++
++struct nvme_uevent {
++	enum kobject_action action;
++	struct kobj_uevent_env ku_env;
++	struct list_head elist;
++	struct nvme_ctrl *ctrl;
++};
++
++static void nvme_uevent_free(struct nvme_uevent *event)
++{
++	kmem_cache_free(_nvme_event_cache, event);
++}
++
++static struct nvme_uevent *nvme_uevent_alloc(struct nvme_ctrl *ctrl)
++{
++	struct nvme_uevent *event;
++
++	event = kmem_cache_zalloc(_nvme_event_cache, GFP_ATOMIC);
++	if (!event)
++		return NULL;
++
++	INIT_LIST_HEAD(&event->elist);
++	event->ctrl = ctrl;
++
++	return event;
++}
++
++static bool is_valid_aen_type(enum nvme_uevent_aen_type type, int *output_index)
++{
++	int i = 0;
++
++	for (i = 0; i < ARRAY_SIZE(_nvme_uevent_type_names); i++)
++	{
++		if (_nvme_uevent_type_names[i].type == type)
++		{
++			*output_index = i;
++			return true;
++		}
++	}
++
++	return false;
++}
++
++static struct nvme_uevent *nvme_build_aen_uevent(struct nvme_ctrl *ctrl,
++					      enum kobject_action action,
++					      const char *nvme_action,
++						  u8 event_info,
++						  u8 log_page)
++{
++	struct nvme_uevent *event;
++
++	event = nvme_uevent_alloc(ctrl);
++	if (!event) {
++		printk(KERN_WARNING "%s: nvme_uevent_alloc() failed\n", __func__);
++		goto err_nomem;
++	}
++
++	event->action = action;
++
++	if (add_uevent_var(&event->ku_env, "NVME_AEN_SEQNUM=%u",
++			   nvme_next_uevent_seq(ctrl))) {
++		printk(KERN_WARNING "%s: add_uevent_var() for NVME_AEN_SEQNUM failed\n",
++		      __func__);
++		goto err_add;
++	}
++
++	if (add_uevent_var(&event->ku_env, "NVME_AEN_TYPE=%s", nvme_action)) {
++		printk(KERN_WARNING "%s: add_uevent_var() for NVME_AEN_TYPE failed\n",
++		      __func__);
++		goto err_add;
++	}
++
++	if (add_uevent_var(&event->ku_env, "NVME_AEN_INFO=%u",event_info)) {
++		printk(KERN_WARNING "%s: add_uevent_var() for NVME_AEN_INFO failed\n",
++		      __func__);
++		goto err_add;
++	}
++
++	if (add_uevent_var(&event->ku_env, "NVME_AEN_LOGPAGE=%u", log_page)) {
++		printk(KERN_WARNING "%s: add_uevent_var() for NVME_AEN_LOGPAGE failed\n",
++		      __func__);
++		goto err_add;
++	}
++
++	return event;
++
++err_add:
++	nvme_uevent_free(event);
++err_nomem:
++	return ERR_PTR(-ENOMEM);
++}
++
++/**
++ * nvme_send_uevents - send uevents for given list
++ *
++ * @events:	list of events to send
++ * @kobj:	kobject generating event
++ *
++ */
++void nvme_send_uevents(struct list_head *events, struct kobject *kobj)
++{
++	int r;
++	struct nvme_uevent *event, *next;
++
++	list_for_each_entry_safe(event, next, events, elist) {
++		list_del_init(&event->elist);
++
++		/*When the ctrl is not alive and we discard these unsent events.*/
++		if (event->ctrl->state != NVME_CTRL_LIVE) {
++			printk("%s: skipping sending uevent for lost device\n",
++			       __func__);
++			goto uevent_free;
++		}
++
++		r = kobject_uevent_env(kobj, event->action, event->ku_env.envp);
++		if (r)
++			printk(KERN_WARNING "%s: kobject_uevent_env failed\n", __func__);
++uevent_free:
++		nvme_put_ctrl(event->ctrl);
++		nvme_uevent_free(event);
++	}
++}
++
++/**
++ * nvme_aen_uevent - called to create a new  asynchronous event and queue it
++ *
++ * @ctrl:			pointer to a nvme_ctrl
++ * @event_type:	    path event type enum
++ * @aen_info:		more info for event_type
++ * @log_page:		log page info for event_type
++ *
++ */
++void nvme_aen_uevent(struct nvme_ctrl *ctrl,enum nvme_uevent_aen_type event_type, u8 event_info, u8 log_page)
++{
++	struct nvme_uevent *event;
++	int valid_index;
++
++	if (is_valid_aen_type(event_type, &valid_index) == false) {
++		printk(KERN_WARNING  "%s: Invalid event_type %d\n", __func__, event_type);
++		return;
++	}
++
++	if (!kref_get_unless_zero(&ctrl->kref)) {
++		return;
++	}
++
++	event = nvme_build_aen_uevent(ctrl,
++				     _nvme_uevent_type_names[valid_index].action,
++				     _nvme_uevent_type_names[valid_index].name,
++					 event_info,
++					 log_page);
++	if (IS_ERR(event))
++		return;
++
++	nvme_uevent_add(ctrl, &event->elist);
++}
++
++int nvme_uevent_init(void)
++{
++	_nvme_event_cache = KMEM_CACHE(nvme_uevent, 0);
++	if (!_nvme_event_cache)
++		return -ENOMEM;
++
++	return 0;
++}
++
++void nvme_uevent_exit(void)
++{
++	kmem_cache_destroy(_nvme_event_cache);
++}
+diff --git a/drivers/nvme/host/nvme-uevent.h b/drivers/nvme/host/nvme-uevent.h
+new file mode 100644
+index 0000000..af1b7ac
+--- /dev/null
++++ b/drivers/nvme/host/nvme-uevent.h
+@@ -0,0 +1,58 @@
++/*
++ * Nvme Uevent Support for Asynchronous Event Notice (nvme-uevent)
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or (at your
++ * option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but
++ * WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ * (C) Copyright HUAWEI Technology Corp. 2017   All Rights Reserved.
++ * 	Author: Zou Ming <zouming.zouming at huawei.com>
++ */
++#ifndef NVME_UEVENT_H
++#define NVME_UEVENT_H
++
++enum nvme_uevent_aen_type {
++	NVME_AEN_ERROR_STATUS = 0,
++	NVME_AEN_SMART_STATUS = 1,
++	NVME_AEN_NOTICE = 2,
++	NVME_AEN_IO_SPECIFIC_STATUS = 6,
++	NVME_AEN_VENDOR_SPECIFIC = 7,
++};
++
++#ifdef CONFIG_NVME_UEVENT
++
++extern int nvme_uevent_init(void);
++extern void nvme_uevent_exit(void);
++extern void nvme_send_uevents(struct list_head *events, struct kobject *kobj);
++extern void nvme_aen_uevent(struct nvme_ctrl *ctrl,
++			enum nvme_uevent_aen_type event_type,
++			u8 event_info, u8 log_page);
++
++#else
++
++static inline int nvme_uevent_init(void)
++{
++	return 0;
++}
++static inline void nvme_uevent_exit(void)
++{
++}
++static inline void nvme_send_uevents(struct list_head *events,
++				   struct kobject *kobj)
++{
++}
++static inline void nvme_aen_uevent(struct nvme_ctrl *ctrl,
++					enum nvme_uevent_aen_type event_type,
++					u8 event_info, u8 log_page)
++{
++}
++
++#endif	/* CONFIG_nvme_UEVENT */
++
++#endif	/* nvme_UEVENT_H */
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9d6a070..36a08b5 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -132,6 +132,14 @@ struct nvme_ctrl {
+ 	struct list_head node;
+ 	struct ida ns_ida;
  
- 	nvme_change_ctrl_state(&dev->ctrl, NVME_CTRL_DELETING);
++	/*
++	 * Event handling.
++	 */
++	atomic_t uevent_seq;
++	struct list_head uevent_list;
++	spinlock_t uevent_lock; /* Protect access to uevent_list */
++	struct work_struct trigger_event_work;
++
+ 	struct opal_dev *opal_dev;
  
-+	cancel_work_sync(&dev->reset_work);
- 	pci_set_drvdata(pdev, NULL);
+ 	char name[12];
+@@ -367,4 +375,6 @@ static inline struct nvme_ns *nvme_get_ns_from_dev(struct device *dev)
+ int __init nvme_core_init(void);
+ void nvme_core_exit(void);
  
- 	if (!pci_device_is_present(pdev)) {
++uint32_t nvme_next_uevent_seq(struct nvme_ctrl *ctrl);
++void nvme_uevent_add(struct nvme_ctrl *ctrl, struct list_head *elist);
+ #endif /* _NVME_H */
 -- 
-2.5.5
+1.8.5.2
