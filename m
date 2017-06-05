@@ -1,84 +1,30 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Mon, 5 Jun 2017 16:25:56 +0200 (CEST)
-Subject: [PATCH] nvme-rdma: remove race conditions from IB signalling
-In-Reply-To: <f732eb30-4582-1daa-21e2-c7c03b9af9e0@mellanox.com>
-References: <1785464880.73761005.1496655938570.JavaMail.zimbra@kalray.eu>
- <f732eb30-4582-1daa-21e2-c7c03b9af9e0@mellanox.com>
-Message-ID: <73128754.75195919.1496672756008.JavaMail.zimbra@kalray.eu>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 5 Jun 2017 17:07:55 +0200
+Subject: NVMeoF: multipath stuck after bringing one ethernet port down
+In-Reply-To: <d249a6d7-ae57-f9a1-e423-659cfa47c764@grimberg.me>
+References: <CAK0KL7DPLw+0AB8cGop7jowfE1HV9wyXBmJhE90trpor-PcSYw@mail.gmail.com>
+ <ebb7ffb8-4dec-5540-5cef-ffd36bef3e25@grimberg.me>
+ <fa6277fa-948f-103e-1322-f8b2362467c3@gmail.com>
+ <656fd267-1e01-b561-fc74-e36c1892d1f9@gmail.com>
+ <5b5b0a61-41cc-8018-19db-f683a604d7e4@grimberg.me>
+ <48b14a96-e419-f6d1-090e-cbe774139e11@mellanox.com>
+ <459af627-3918-768e-c35f-3f99768b82cb@grimberg.me>
+ <20170605084037.GB22677@lst.de>
+ <d249a6d7-ae57-f9a1-e423-659cfa47c764@grimberg.me>
+Message-ID: <20170605150755.GA29050@lst.de>
 
-> On 6/5/2017 12:45 PM, Marta Rybczynska wrote:
->> This patch improves the way the RDMA IB signalling is done
->> by using atomic operations for the signalling variable. This
->> avoids race conditions on sig_count.
->>
->> The signalling interval changes slightly and is now the
->> largest power of two not larger than queue depth / 2.
->>
->> ilog() usage idea by Bart Van Assche.
->>
->> Signed-off-by: Marta Rybczynska <marta.rybczynska at kalray.eu>
->> ---
->>  drivers/nvme/host/rdma.c | 31 +++++++++++++++++++++----------
->>  1 file changed, 21 insertions(+), 10 deletions(-)
->>
->> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
->> index 28bd255..80682f7 100644
->> --- a/drivers/nvme/host/rdma.c
->> +++ b/drivers/nvme/host/rdma.c
->> @@ -88,7 +88,7 @@ enum nvme_rdma_queue_flags {
->>
->>  struct nvme_rdma_queue {
->>         struct nvme_rdma_qe     *rsp_ring;
->> -       u8                      sig_count;
->> +       atomic_t                sig_count;
->>         int                     queue_size;
->>         size_t                  cmnd_capsule_len;
->>         struct nvme_rdma_ctrl   *ctrl;
->> @@ -554,6 +554,8 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
->>
->>         queue->queue_size = queue_size;
->>
->> +       atomic_set(&queue->sig_count, 0);
->> +
->>         queue->cm_id = rdma_create_id(&init_net, nvme_rdma_cm_handler, queue,
->>                         RDMA_PS_TCP, IB_QPT_RC);
->>         if (IS_ERR(queue->cm_id)) {
->> @@ -1038,17 +1040,26 @@ static void nvme_rdma_send_done(struct ib_cq *cq, struct
->> ib_wc *wc)
->>                 nvme_rdma_wr_error(cq, wc, "SEND");
->>  }
->>
->> -static inline int nvme_rdma_queue_sig_limit(struct nvme_rdma_queue *queue)
->> +static inline int nvme_rdma_init_sig_count(int queue_size)
->>  {
->> -       int sig_limit;
->> -
->> -       /*
->> -        * We signal completion every queue depth/2 and also handle the
->> -        * degenerated case of a  device with queue_depth=1, where we
->> -        * would need to signal every message.
->> +       /* We want to signal completion at least every queue depth/2.
->> +        * This returns the largest power of two that is not above half
->> +        * of (queue size + 1) to optimize (avoid divisions).
->>          */
->> -       sig_limit = max(queue->queue_size / 2, 1);
->> -       return (++queue->sig_count % sig_limit) == 0;
->> +       return 1 << ilog2((queue_size + 1) / 2);
->> +}
->> +
->> +static inline bool nvme_rdma_queue_sig_limit(struct nvme_rdma_queue *queue)
->> +{
->> +       int count, limit;
->> +
->> +       limit = nvme_rdma_init_sig_count(queue->queue_size);
-> 
-> Maybe I'm missing something, but why we need to calc limit each time in
-> data path (not a big deal but we can avoid that)?
-> Can you add queue->sig_limit that will be calculated once at queue
-> allocation ?
+On Mon, Jun 05, 2017@11:53:58AM +0300, Sagi Grimberg wrote:
+>> So this looks somewhat bogus to me, while the rest looks ok.
+>
+> The point here is that RECONNECTING is a ctrl state that has a
+> potential to linger for a long time (unlike RESETTING or DELETING),
+> so we don't want to trigger requeue right away.
+>
+> I'm open to other ideas. I just want to prevent triggering a redundant
+> loop of queue_rq -> fail with BUSY -> queue_rq -> fail with BUSY ...
+>
+> Thoughts?
 
-We've said last time that ilog() is cheap enough so that we do not
-need to add this variable. It maps to fls() or a specific instruction
-of a platform.
-
-Marta
+Let's get this patch in, then sort out a common stratefy for the
+dev_loss_tmo for all drivers, as FC is already doing some work in
+that area.
