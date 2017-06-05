@@ -1,23 +1,22 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 5 Jun 2017 07:33:00 +0200
-Subject: [PATCH v4 1/8] nvme: introduce NVMe Namespace Identification
- Descriptor structures
-In-Reply-To: <fda3105a-706d-0b38-6ff8-8b69749d8374@grimberg.me>
+Date: Mon, 5 Jun 2017 07:35:45 +0200
+Subject: [PATCH v4 3/8] nvmet: implement namespace identify descriptor list
+In-Reply-To: <20170604103649.22130-4-jthumshirn@suse.de>
 References: <20170604103649.22130-1-jthumshirn@suse.de>
- <20170604103649.22130-2-jthumshirn@suse.de>
- <fda3105a-706d-0b38-6ff8-8b69749d8374@grimberg.me>
-Message-ID: <20170605053300.GC19480@lst.de>
+ <20170604103649.22130-4-jthumshirn@suse.de>
+Message-ID: <20170605053545.GD19480@lst.de>
 
-On Sun, Jun 04, 2017@05:59:06PM +0300, Sagi Grimberg wrote:
->>   +struct nvme_ns_identifier_hdr {
->> +	__u8 nidt;
->> +	__u8 nidl;
->> +	__le16 reserved;
->> +};
->
-> Nit: _hdr is usually associated with a message or alike.
->
-> Maybe nvme_ns_id_desc is more consistent with the spec language.
+I think this needs to zero the remainder of the 4k
+buffer, quoting the spec:
 
-The descriptor itself includes the actual value, that's why
-I suggested adding the _hdr prefix.  But I'm fine going either way.
+"The controller may return any number of variable length Namespace
+Identification Descriptor structures that fit into the 4096 byte Identify
+payload. All remaining bytes after the namespace identification descriptor
+structures should be cleared to 0h, and the host shall interpret a
+Namespace Identifier Descriptor Length (NIDL) value of 0h as the end of
+the list. If the hosts sees an unknown descriptor type it should
+continue parsing the structure."
+
+It could be easily done by copying the zero page to userspace.
+Eventually I want to add a helper to zero parts of a sglist to
+lib/scatterlist.c, but I don't want to burden that on you.
