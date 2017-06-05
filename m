@@ -1,39 +1,30 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 5 Jun 2017 10:40:37 +0200
-Subject: NVMeoF: multipath stuck after bringing one ethernet port down
-In-Reply-To: <459af627-3918-768e-c35f-3f99768b82cb@grimberg.me>
-References: <CAK0KL7DPLw+0AB8cGop7jowfE1HV9wyXBmJhE90trpor-PcSYw@mail.gmail.com>
- <ebb7ffb8-4dec-5540-5cef-ffd36bef3e25@grimberg.me>
- <fa6277fa-948f-103e-1322-f8b2362467c3@gmail.com>
- <656fd267-1e01-b561-fc74-e36c1892d1f9@gmail.com>
- <5b5b0a61-41cc-8018-19db-f683a604d7e4@grimberg.me>
- <48b14a96-e419-f6d1-090e-cbe774139e11@mellanox.com>
- <459af627-3918-768e-c35f-3f99768b82cb@grimberg.me>
-Message-ID: <20170605084037.GB22677@lst.de>
+From: rakesh@tuxera.com (Rakesh Pandit)
+Date: Mon, 5 Jun 2017 11:44:34 +0300
+Subject: [PATCH] nvme: fix hang in remove path
+In-Reply-To: <244bc065-92eb-c3e0-faa7-11569fc326d6@grimberg.me>
+References: <20170602083208.4518-1-ming.lei@redhat.com>
+ <20170602180435.GA23335@dhcp-216.srv.tuxera.com>
+ <244bc065-92eb-c3e0-faa7-11569fc326d6@grimberg.me>
+Message-ID: <20170605084434.GA30864@dhcp-216.srv.tuxera.com>
 
-On Tue, May 30, 2017@05:17:40PM +0300, Sagi Grimberg wrote:
-> [PATCH] nvme-rdma: fast fail incoming requests while we reconnect
->
-> When we encounter an transport/controller errors, error recovery
-> kicks in which performs:
-> 1. stops io/admin queues
-> 2. moves transport queues out of LIVE state
-> 3. fast fail pending io
-> 4. schedule periodic reconnects.
->
-> But we also need to fast fail incoming IO taht enters after we
-> already scheduled. Given that our queue is not LIVE anymore, simply
-> restart the request queues to fail in .queue_rq
+On Sun, Jun 04, 2017@06:24:09PM +0300, Sagi Grimberg wrote:
+> 
+> > It would make sense to still add:
+> > 
+> > if (ctrl->state == NVME_CTRL_DELETING || ctrl->state == NVME_CTRL_DEAD)
+> > 	return
+> > 
+> > inside nvme_configure_apst at the top irrespective of this change.
+> 
+> I'm not sure what is the value given that it is taken care of in
+> .queue_rq?
 
-But we shouldn't _fail_ I/O just because we're reconnecting, we
-need to be able to retry it once reconnected.
+We would avoid getting error message which says: "failed to set APST
+feature 7".  Why an error if controller is already under reset.
 
-> +                   cmd->fabrics.fctype != nvme_fabrics_type_connect) {
-> +                       if (queue->ctrl->ctrl->state == 
-> NVME_CTRL_RECONNECTING)
-> +                               return -EIO;
-> +                       else
-> +                               return -EAGAIN;
-> +               }
-
-So this looks somewhat bogus to me, while the rest looks ok.
+Note 7 here is NVME_SC_ABORT_REQ.  Also we would avoid walking through
+all power states inside the nvme_configure_apst as
+nvme_set_latency_tolerance was called with value
+PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT (-1) which sets
+ctrl->ps_max_latency_us to U64_MAX and tries to send a sync command
+which of course fails with error message.
