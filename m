@@ -1,33 +1,25 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 5 Jun 2017 10:18:17 +0200
-Subject: [PATCH V2] nvme: fix nvme_remove going to uninterruptible
- sleep for ever
-In-Reply-To: <bb2780a8-63af-4d58-6c78-b03152de0439@grimberg.me>
-References: <20170530071610.GA2679@hercules.tuxera.com>
- <4da7c939-1f54-80e5-48fc-06e58e14f018@grimberg.me>
- <20170530142346.GA39428@dhcp-216.srv.tuxera.com>
- <20170601114338.GA24855@lst.de>
- <bb2780a8-63af-4d58-6c78-b03152de0439@grimberg.me>
-Message-ID: <20170605081817.GA22122@lst.de>
+Date: Mon, 5 Jun 2017 10:19:15 +0200
+Subject: [PATCH] nvme/pci: Remove watchdog timer
+In-Reply-To: <20170601131352.GA2895@localhost.localdomain>
+References: <1495800988-27311-1-git-send-email-keith.busch@intel.com>
+ <20170528094152.GB14199@lst.de> <20170530142057.GA2845@localhost.localdomain>
+ <20170601125023.GB28652@lst.de> <20170601131352.GA2895@localhost.localdomain>
+Message-ID: <20170605081915.GB22122@lst.de>
 
-On Sun, Jun 04, 2017@06:28:15PM +0300, Sagi Grimberg wrote:
->
->> I think we need the NVME_CTRL_SCHED_RESET state.  In fact I'm pretty
->> sure some time in the past I already had it in a local tree as a
->> generalization of rdma and loop already use NVME_CTRL_RESETTING
->> (they set it before queueing the reset work).
->
-> I don't remember having it, but I might be wrong...
->
-> Can you explain again why you think we need it? Sorry for being
-> difficult, but I'm not exactly sure why it makes things better
-> or simpler.
+On Thu, Jun 01, 2017@09:13:53AM -0400, Keith Busch wrote:
+> On Thu, Jun 01, 2017@02:50:23PM +0200, Christoph Hellwig wrote:
+> > On Tue, May 30, 2017@10:20:57AM -0400, Keith Busch wrote:
+> > > I am hoping to get this in this round since it would quiet a lot of
+> > > errors I'm frequently pinged on: a non-posted request during a hotremove
+> > > downstream a switch creates a lot of problems for hardware if you don't
+> > > have DPC enabled.
+> > 
+> > With this round do you mean 4.12-rc or 4.13?
+> 
+> Was hoping 4.12 simply only the problems from doing this are recently
+> becomming more clear, but I guess no rush at this point.
 
-Motly that we can treat a controller as under reset before scheduling
-the reset work, both to prevent multiple schedules, and to make
-checks like the one in nvme_should_reset robus.
-
-But I think something along the lines of the earlier patch from
-Rakesh that just sets the RESETTING state earlier + the cancel_work_sync
-suggested by you should also work for that purpose.  So maybe that's
-the way to go after all.
+Given that we don't have an actual bug report caused by it yet I'd
+be tempted to leave it for 4.13.  Otherwise we're going to run into
+Jens or worse Linus screaming at us.
