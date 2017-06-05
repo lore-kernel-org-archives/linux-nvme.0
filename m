@@ -1,18 +1,23 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 5 Jun 2017 07:32:03 +0200
-Subject: [PATCH v4 0/8] Implement NVMe Namespace Descriptor Identification
-In-Reply-To: <20170604103649.22130-1-jthumshirn@suse.de>
+Date: Mon, 5 Jun 2017 07:33:00 +0200
+Subject: [PATCH v4 1/8] nvme: introduce NVMe Namespace Identification
+ Descriptor structures
+In-Reply-To: <fda3105a-706d-0b38-6ff8-8b69749d8374@grimberg.me>
 References: <20170604103649.22130-1-jthumshirn@suse.de>
-Message-ID: <20170605053203.GB19480@lst.de>
+ <20170604103649.22130-2-jthumshirn@suse.de>
+ <fda3105a-706d-0b38-6ff8-8b69749d8374@grimberg.me>
+Message-ID: <20170605053300.GC19480@lst.de>
 
-On Sun, Jun 04, 2017@12:36:41PM +0200, Johannes Thumshirn wrote:
-> The Namespace Identification Descriptor list is the only way a target
-> can identify itself via the newly introduced UUID to the host (instead
-> of the EUI-64 or NGUID).
+On Sun, Jun 04, 2017@05:59:06PM +0300, Sagi Grimberg wrote:
+>>   +struct nvme_ns_identifier_hdr {
+>> +	__u8 nidt;
+>> +	__u8 nidl;
+>> +	__le16 reserved;
+>> +};
+>
+> Nit: _hdr is usually associated with a message or alike.
+>
+> Maybe nvme_ns_id_desc is more consistent with the spec language.
 
-s/instead/in addition/
-
-> While I was already touching the relevant code paths, I decided to
-> also include the EUI-64 in the 'Identify Namespace' command response.
-
-Not anymore :)
+The descriptor itself includes the actual value, that's why
+I suggested adding the _hdr prefix.  But I'm fine going either way.
