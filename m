@@ -1,23 +1,27 @@
 From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Mon, 5 Jun 2017 11:47:39 +0200 (CEST)
-Subject: [PATCH v2] nvme-rdma: support devices with queue size < 32
-In-Reply-To: <2015307566.53586286.1495553554276.JavaMail.zimbra@kalray.eu>
-References: <1519881025.363156294.1491837154312.JavaMail.zimbra@kalray.eu>
- <20170522185127.GA27542@infradead.org>
- <2015307566.53586286.1495553554276.JavaMail.zimbra@kalray.eu>
-Message-ID: <1547490771.73884959.1496656059974.JavaMail.zimbra@kalray.eu>
+Date: Mon, 5 Jun 2017 11:54:28 +0200 (CEST)
+Subject: [PATCH, TRIVIAL] nvme-rdma: fix typo in comment
+Message-ID: <1816979501.73970510.1496656468030.JavaMail.zimbra@kalray.eu>
 
->> I've hand applies this once with a few formatting tweaks now that
->> I got the ACK from Sagi.  ?'d love to see if someone could figure
->> out how we could move the improved atomic + ilog version into the
->> rdma core somehow.
-> 
-> I'll submit the atomic+ilog version in nvme next week. I have no
-> access to the test systems this week.
-> 
+Fix trivial spelling mistake.
 
-I've just posted the new version, with changed title as the v2 is
-merged. The new thread name is:
-[PATCH] nvme-rdma: remove race conditions from IB signalling
+Signed-off-by: Marta Rybczynska <marta.rybczynska at kalray.eu>
+---
+ drivers/nvme/host/rdma.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Marta
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 80682f7..308be1d 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1083,7 +1083,7 @@ static int nvme_rdma_post_send(struct nvme_rdma_queue *queue,
+        wr.send_flags = 0;
+ 
+        /*
+-        * Unsignalled send completions are another giant desaster in the
++        * Unsignalled send completions are another giant disaster in the
+         * IB Verbs spec:  If we don't regularly post signalled sends
+         * the send queue will fill up and only a QP reset will rescue us.
+         * Would have been way to obvious to handle this in hardware or
+-- 
+1.8.3.1
