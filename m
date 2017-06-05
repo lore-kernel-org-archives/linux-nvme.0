@@ -1,36 +1,62 @@
-From: rakesh@tuxera.com (Rakesh Pandit)
-Date: Mon, 5 Jun 2017 11:47:33 +0300
-Subject: [PATCH] nvme: fix hang in remove path
-In-Reply-To: <20170605084434.GA30864@dhcp-216.srv.tuxera.com>
-References: <20170602083208.4518-1-ming.lei@redhat.com>
- <20170602180435.GA23335@dhcp-216.srv.tuxera.com>
- <244bc065-92eb-c3e0-faa7-11569fc326d6@grimberg.me>
- <20170605084434.GA30864@dhcp-216.srv.tuxera.com>
-Message-ID: <20170605084732.GA30881@dhcp-216.srv.tuxera.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Mon, 5 Jun 2017 11:53:58 +0300
+Subject: NVMeoF: multipath stuck after bringing one ethernet port down
+In-Reply-To: <20170605084037.GB22677@lst.de>
+References: <CAK0KL7DPLw+0AB8cGop7jowfE1HV9wyXBmJhE90trpor-PcSYw@mail.gmail.com>
+ <ebb7ffb8-4dec-5540-5cef-ffd36bef3e25@grimberg.me>
+ <fa6277fa-948f-103e-1322-f8b2362467c3@gmail.com>
+ <656fd267-1e01-b561-fc74-e36c1892d1f9@gmail.com>
+ <5b5b0a61-41cc-8018-19db-f683a604d7e4@grimberg.me>
+ <48b14a96-e419-f6d1-090e-cbe774139e11@mellanox.com>
+ <459af627-3918-768e-c35f-3f99768b82cb@grimberg.me>
+ <20170605084037.GB22677@lst.de>
+Message-ID: <d249a6d7-ae57-f9a1-e423-659cfa47c764@grimberg.me>
 
-On Mon, Jun 05, 2017@11:44:34AM +0300, Rakesh Pandit wrote:
-> On Sun, Jun 04, 2017@06:24:09PM +0300, Sagi Grimberg wrote:
-> > 
-> > > It would make sense to still add:
-> > > 
-> > > if (ctrl->state == NVME_CTRL_DELETING || ctrl->state == NVME_CTRL_DEAD)
-> > > 	return
-> > > 
-> > > inside nvme_configure_apst at the top irrespective of this change.
-> > 
-> > I'm not sure what is the value given that it is taken care of in
-> > .queue_rq?
+
+>> [PATCH] nvme-rdma: fast fail incoming requests while we reconnect
+>>
+>> When we encounter an transport/controller errors, error recovery
+>> kicks in which performs:
+>> 1. stops io/admin queues
+>> 2. moves transport queues out of LIVE state
+>> 3. fast fail pending io
+>> 4. schedule periodic reconnects.
+>>
+>> But we also need to fast fail incoming IO taht enters after we
+>> already scheduled. Given that our queue is not LIVE anymore, simply
+>> restart the request queues to fail in .queue_rq
 > 
-> We would avoid getting error message which says: "failed to set APST
-> feature 7".  Why an error if controller is already under reset.
+> But we shouldn't _fail_ I/O just because we're reconnecting, we
+> need to be able to retry it once reconnected.
 
-I meant deletion.  Of course not a huge value but worth a fix IMHO
-while we are at it.
+I'm not sure, the point is to fail fast so that dm or user can
+failover traffic. Besides, we iterate and cancel all inflight IO, this
+attempts to give the same treatment to IO that arrives later...
+
+In several scsi transports, we have the concept of fast_io_fail_tmo
+which we could add to nvme, but from my experience, people usually set
+it to a minimum to achieve fast failover (usually smaller than the very
+first reconnect attempt).
+
+We have nvme_max_retries modparam, so we could simply fail it fast until
+we hit this modparam, but I suspect it'll expire very fast.
 
 > 
-> Note 7 here is NVME_SC_ABORT_REQ.  Also we would avoid walking through
-> all power states inside the nvme_configure_apst as
-> nvme_set_latency_tolerance was called with value
-> PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT (-1) which sets
-> ctrl->ps_max_latency_us to U64_MAX and tries to send a sync command
-> which of course fails with error message.
+>> +                   cmd->fabrics.fctype != nvme_fabrics_type_connect) {
+>> +                       if (queue->ctrl->ctrl->state ==
+>> NVME_CTRL_RECONNECTING)
+>> +                               return -EIO;
+>> +                       else
+>> +                               return -EAGAIN;
+>> +               }
+> 
+> So this looks somewhat bogus to me, while the rest looks ok.
+
+The point here is that RECONNECTING is a ctrl state that has a
+potential to linger for a long time (unlike RESETTING or DELETING),
+so we don't want to trigger requeue right away.
+
+I'm open to other ideas. I just want to prevent triggering a redundant
+loop of queue_rq -> fail with BUSY -> queue_rq -> fail with BUSY ...
+
+Thoughts?
