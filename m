@@ -1,30 +1,37 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 5 Jun 2017 17:07:55 +0200
-Subject: NVMeoF: multipath stuck after bringing one ethernet port down
-In-Reply-To: <d249a6d7-ae57-f9a1-e423-659cfa47c764@grimberg.me>
-References: <CAK0KL7DPLw+0AB8cGop7jowfE1HV9wyXBmJhE90trpor-PcSYw@mail.gmail.com>
- <ebb7ffb8-4dec-5540-5cef-ffd36bef3e25@grimberg.me>
- <fa6277fa-948f-103e-1322-f8b2362467c3@gmail.com>
- <656fd267-1e01-b561-fc74-e36c1892d1f9@gmail.com>
- <5b5b0a61-41cc-8018-19db-f683a604d7e4@grimberg.me>
- <48b14a96-e419-f6d1-090e-cbe774139e11@mellanox.com>
- <459af627-3918-768e-c35f-3f99768b82cb@grimberg.me>
- <20170605084037.GB22677@lst.de>
- <d249a6d7-ae57-f9a1-e423-659cfa47c764@grimberg.me>
-Message-ID: <20170605150755.GA29050@lst.de>
+From: wenxiong@linux.vnet.ibm.com (wenxiong@linux.vnet.ibm.com)
+Date: Mon,  5 Jun 2017 10:39:32 -0500
+Subject: [PATCH] nvme: TUR(Test unit Ready) broken for nvme drvices
+Message-ID: <1496677172-22797-1-git-send-email-wenxiong@linux.vnet.ibm.com>
 
-On Mon, Jun 05, 2017@11:53:58AM +0300, Sagi Grimberg wrote:
->> So this looks somewhat bogus to me, while the rest looks ok.
->
-> The point here is that RECONNECTING is a ctrl state that has a
-> potential to linger for a long time (unlike RESETTING or DELETING),
-> so we don't want to trigger requeue right away.
->
-> I'm open to other ideas. I just want to prevent triggering a redundant
-> loop of queue_rq -> fail with BUSY -> queue_rq -> fail with BUSY ...
->
-> Thoughts?
+From: Wen Xiong <wenxiong@linux.vnet.ibm.com>
 
-Let's get this patch in, then sort out a common stratefy for the
-dev_loss_tmo for all drivers, as FC is already doing some work in
-that area.
+When doing sg_turs over nvme devices, we got the following errors.
+The patch fixes the issue.
+dd if=/dev/nvme0n1 of=/dev/null bs=1M count=1
+1+0 records in
+1+0 records out
+1048576 bytes (1.0 MB) copied, 0.000994747 s, 1.1 GB/s
+
+sg_turs /dev/nvme0n1
+device not ready
+
+Signed-off-by: Wen Xiong <wenxiong at linux.vnet.ibm.com>
+---
+ drivers/nvme/host/scsi.c |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/drivers/nvme/host/scsi.c b/drivers/nvme/host/scsi.c
+index 1f7671e..af27930 100644
+--- a/drivers/nvme/host/scsi.c
++++ b/drivers/nvme/host/scsi.c
+@@ -2208,7 +2208,7 @@ static int nvme_trans_test_unit_ready(struct nvme_ns *ns,
+ 					struct sg_io_hdr *hdr,
+ 					u8 *cmd)
+ {
+-	if (nvme_ctrl_ready(ns->ctrl))
++	if (!nvme_ctrl_ready(ns->ctrl))
+ 		return nvme_trans_completion(hdr, SAM_STAT_CHECK_CONDITION,
+ 					    NOT_READY, SCSI_ASC_LUN_NOT_READY,
+ 					    SCSI_ASCQ_CAUSE_NOT_REPORTABLE);
+-- 
+1.7.1
