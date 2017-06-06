@@ -1,29 +1,23 @@
-From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 6 Jun 2017 08:26:05 +0200
-Subject: [PATCH v4 8/8] nvmet: use NVME_IDENTIFY_DATA_SIZE
-In-Reply-To: <20170604103649.22130-9-jthumshirn@suse.de>
-References: <20170604103649.22130-1-jthumshirn@suse.de>
- <20170604103649.22130-9-jthumshirn@suse.de>
-Message-ID: <851fde3e-054c-89d4-9033-ccfb96877d0f@suse.de>
+From: zouming.zouming@huawei.com (Zou Ming)
+Date: Tue, 6 Jun 2017 14:30:38 +0800
+Subject: [PATCH] nvme: Add support to create and send kobject
+ uevents(uevents) when asynchronous events are received.
+In-Reply-To: <20170605174527.GB5432@infradead.org>
+References: <1496670185-17020-1-git-send-email-zouming.zouming@huawei.com>
+ <20170605174527.GB5432@infradead.org>
+Message-ID: <cb923969-0547-5db1-d88a-bd214c72d200@huawei.com>
 
-On 06/04/2017 12:36 PM, Johannes Thumshirn wrote:
-> Use NVME_IDENTIFY_DATA_SIZE define instead of hard coding the magic
-> 4096 value.
+Hi Christoph :
+
+    I have found a discussions on the AERs in the history mail list (http://lists.infradead.org/pipermail/linux-nvme/2016-June/005118.html) before, and implemented the uevents mechanism based on the discussions.
+But didn't find the source patch that was mentioned in your email. Can you tell me where patch is?
+    And the modified patch will send later.
+
+Best.
+
+On 2017/6/6 1:45, Christoph Hellwig wrote:
+> Keith sent a patch for notifying userspace on AERs a while ago,
+> but the comments on the patch need to be addressed first.
 > 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-> ---
->  drivers/nvme/target/admin-cmd.c | 4 ++--
->  drivers/nvme/target/discovery.c | 2 +-
->  2 files changed, 3 insertions(+), 3 deletions(-)
+> .
 > 
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-
-Cheers,
-
-Hannes
--- 
-Dr. Hannes Reinecke		   Teamlead Storage & Networking
-hare at suse.de			               +49 911 74053 688
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: F. Imend?rffer, J. Smithard, J. Guild, D. Upmanyu, G. Norton
-HRB 21284 (AG N?rnberg)
