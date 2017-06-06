@@ -1,48 +1,40 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Tue,  6 Jun 2017 23:22:05 +0800
-Subject: [PATCH v5 07/12] nvme: host: unquiesce queue in nvme_kill_queues()
-In-Reply-To: <20170606152210.22806-1-ming.lei@redhat.com>
-References: <20170606152210.22806-1-ming.lei@redhat.com>
-Message-ID: <20170606152210.22806-8-ming.lei@redhat.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 6 Jun 2017 17:33:26 +0200
+Subject: [PATCH for-4.12-rc] nvme-rdma: fast fail incoming requests
+ while we reconnect
+In-Reply-To: <9e629028-98df-8165-6826-82fd497d7521@mellanox.com>
+References: <1496684156-32335-1-git-send-email-sagi@grimberg.me>
+ <9e629028-98df-8165-6826-82fd497d7521@mellanox.com>
+Message-ID: <20170606153326.GA13763@lst.de>
 
-When nvme_kill_queues() is run, queues may be in
-quiesced state, so we forcibly unquiesce queues to avoid
-blocking dispatch, and I/O hang can be avoided in
-remove path.
+On Tue, Jun 06, 2017@04:46:52PM +0300, Max Gurtovoy wrote:
+> hi,
+>
+>> -static inline bool nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
+>> +static inline int nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
+>>  		struct request *rq)
+>>  {
+>>  	if (unlikely(!test_bit(NVME_RDMA_Q_LIVE, &queue->flags))) {
+>> @@ -1441,11 +1443,22 @@ static inline bool nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
+>>
+>>  		if (!blk_rq_is_passthrough(rq) ||
+>>  		    cmd->common.opcode != nvme_fabrics_command ||
+>> -		    cmd->fabrics.fctype != nvme_fabrics_type_connect)
+>> -			return false;
+>> +		    cmd->fabrics.fctype != nvme_fabrics_type_connect) {
+>> +			/*
+>> +			 * reconnecting state means transport disruption, which
+>> +			 * can take a long time and even might fail permanently,
+>> +			 * so we can't let incoming I/O be requeued forever.
+>> +			 * fail it fast to allow upper layers a chance to
+>> +			 * failover.
+>> +			 */
+>> +			if (queue->ctrl->ctrl->state == NVME_CTRL_RECONNECTING)
+>
+> Sagi/Christoph,
+> It should be queue->ctrl->ctrl.state.
+>
+> we are testing this patch also now.
 
-Peviously we use blk_mq_start_stopped_hw_queues() as
-counterpart of blk_mq_quiesce_queue(), now we have
-introduced blk_mq_unquiesce_queue(), so use it explicitly.
-
-Cc: linux-nvme at lists.infradead.org
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
- drivers/nvme/host/core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index c3f189e54d10..d4e5fc95da4b 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2438,6 +2438,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 	struct nvme_ns *ns;
- 
- 	mutex_lock(&ctrl->namespaces_mutex);
-+
-+	/* Forcibly unquiesce queues to avoid blocking dispatch */
-+	blk_mq_unquiesce_queue(ctrl->admin_q);
- 	list_for_each_entry(ns, &ctrl->namespaces, list) {
- 		/*
- 		 * Revalidating a dead namespace sets capacity to 0. This will
-@@ -2448,6 +2451,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 		revalidate_disk(ns->disk);
- 		blk_set_queue_dying(ns->queue);
- 
-+		/* Forcibly unquiesce queues to avoid blocking dispatch */
-+		blk_mq_unquiesce_queue(ns->queue);
-+
- 		/*
- 		 * Forcibly start all queues to avoid having stuck requests.
- 		 * Note that we must ensure the queues are not stopped
--- 
-2.9.4
+I've fixed this up already.  Especially as the earlier version got it
+right :)
