@@ -1,23 +1,20 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 6 Jun 2017 08:25:41 +0200
-Subject: [PATCH v4 7/8] nvmet: allow overriding the NVMe VS via configfs
-In-Reply-To: <20170604103649.22130-8-jthumshirn@suse.de>
+Date: Tue, 6 Jun 2017 08:26:05 +0200
+Subject: [PATCH v4 8/8] nvmet: use NVME_IDENTIFY_DATA_SIZE
+In-Reply-To: <20170604103649.22130-9-jthumshirn@suse.de>
 References: <20170604103649.22130-1-jthumshirn@suse.de>
- <20170604103649.22130-8-jthumshirn@suse.de>
-Message-ID: <62a79172-2269-8113-f1e5-9769f78746c6@suse.de>
+ <20170604103649.22130-9-jthumshirn@suse.de>
+Message-ID: <851fde3e-054c-89d4-9033-ccfb96877d0f@suse.de>
 
 On 06/04/2017 12:36 PM, Johannes Thumshirn wrote:
-> Allow overriding the announced NVMe Version of a via configfs.
-> 
-> This is particularly helpful when debugging new features for the host
-> or target side without bumping the hard coded version (as the target
-> might not be fully compliant to the announced version yet).
+> Use NVME_IDENTIFY_DATA_SIZE define instead of hard coding the magic
+> 4096 value.
 > 
 > Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
->  drivers/nvme/target/configfs.c | 34 ++++++++++++++++++++++++++++++++++
->  include/linux/nvme.h           |  4 ++++
->  2 files changed, 38 insertions(+)
+>  drivers/nvme/target/admin-cmd.c | 4 ++--
+>  drivers/nvme/target/discovery.c | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
