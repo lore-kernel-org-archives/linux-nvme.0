@@ -1,23 +1,34 @@
-From: zouming.zouming@huawei.com (Zou Ming)
-Date: Tue, 6 Jun 2017 14:30:38 +0800
-Subject: [PATCH] nvme: Add support to create and send kobject
- uevents(uevents) when asynchronous events are received.
-In-Reply-To: <20170605174527.GB5432@infradead.org>
-References: <1496670185-17020-1-git-send-email-zouming.zouming@huawei.com>
- <20170605174527.GB5432@infradead.org>
-Message-ID: <cb923969-0547-5db1-d88a-bd214c72d200@huawei.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Tue, 6 Jun 2017 10:10:45 +0300
+Subject: [PATCH] nvme: fix hang in remove path
+In-Reply-To: <20170605194532.GA2549@hercules.tuxera.com>
+References: <20170602083208.4518-1-ming.lei@redhat.com>
+ <20170602180435.GA23335@dhcp-216.srv.tuxera.com>
+ <244bc065-92eb-c3e0-faa7-11569fc326d6@grimberg.me>
+ <20170605084434.GA30864@dhcp-216.srv.tuxera.com>
+ <20170605084732.GA30881@dhcp-216.srv.tuxera.com>
+ <20170605194532.GA2549@hercules.tuxera.com>
+Message-ID: <23b9bc87-81a0-93e8-3730-f07e68e46702@grimberg.me>
 
-Hi Christoph :
 
-    I have found a discussions on the AERs in the history mail list (http://lists.infradead.org/pipermail/linux-nvme/2016-June/005118.html) before, and implemented the uevents mechanism based on the discussions.
-But didn't find the source patch that was mentioned in your email. Can you tell me where patch is?
-    And the modified patch will send later.
-
-Best.
-
-On 2017/6/6 1:45, Christoph Hellwig wrote:
-> Keith sent a patch for notifying userspace on AERs a while ago,
-> but the comments on the patch need to be addressed first.
+>>> Note 7 here is NVME_SC_ABORT_REQ.  Also we would avoid walking through
+>>> all power states inside the nvme_configure_apst as
+>>> nvme_set_latency_tolerance was called with value
+>>> PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT (-1) which sets
+>>> ctrl->ps_max_latency_us to U64_MAX and tries to send a sync command
+>>> which of course fails with error message.
 > 
-> .
+> Even though this change from this patch does fix the hang, just tested
+> again and I can see above error message "failed to set APST feature 7"
+> while nvme_remove PID is getting executed.
 > 
+> So, sync requests (while nvme_remove is executing) are going through
+> and not everything is handled well in .queue_rq while controller is
+> under deleting state or dead state.
+
+The error message is expected because queue_rq is failing the I/O, did
+you see it actually hang?
+
+Personally I'm not too bothered with the error log, we can suppress it
+conditional on the ctrl state if it really annoys people, but if we're
+conditioning on the ctrl state, we can do it like you suggested anyway...
