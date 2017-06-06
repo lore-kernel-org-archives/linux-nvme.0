@@ -1,20 +1,22 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Tue, 6 Jun 2017 08:24:22 +0200
-Subject: [PATCH v4 4/8] nvmet: add uuid field to nvme_ns and populate via
- configfs
-In-Reply-To: <20170604103649.22130-5-jthumshirn@suse.de>
+Date: Tue, 6 Jun 2017 08:24:49 +0200
+Subject: [PATCH v4 5/8] nvme: get list of namespace descriptors
+In-Reply-To: <20170604103649.22130-6-jthumshirn@suse.de>
 References: <20170604103649.22130-1-jthumshirn@suse.de>
- <20170604103649.22130-5-jthumshirn@suse.de>
-Message-ID: <337ea3d1-ec11-aed7-6387-f47ffa1e5c93@suse.de>
+ <20170604103649.22130-6-jthumshirn@suse.de>
+Message-ID: <2233fdbb-5ca3-4007-43f2-affa24e23b1f@suse.de>
 
 On 06/04/2017 12:36 PM, Johannes Thumshirn wrote:
-> Add the UUID field from the NVMe Namespace Identification Descriptor
-> to the nvmet_ns structure and allow it's population via configfs.
+> If a target identifies itself as NVMe 1.3 compliant, try to get the
+> list of Namespace Identification Descriptors and populate the UUID,
+> NGUID and EUI64 fileds in the NVMe namespace structure with these
+> values.
 > 
 > Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
 > ---
->  drivers/nvme/target/configfs.c | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
+>  drivers/nvme/host/core.c | 87 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  drivers/nvme/host/nvme.h |  1 +
+>  2 files changed, 88 insertions(+)
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
