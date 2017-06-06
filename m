@@ -1,40 +1,40 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 6 Jun 2017 17:33:26 +0200
-Subject: [PATCH for-4.12-rc] nvme-rdma: fast fail incoming requests
- while we reconnect
-In-Reply-To: <9e629028-98df-8165-6826-82fd497d7521@mellanox.com>
-References: <1496684156-32335-1-git-send-email-sagi@grimberg.me>
- <9e629028-98df-8165-6826-82fd497d7521@mellanox.com>
-Message-ID: <20170606153326.GA13763@lst.de>
+From: luto@kernel.org (Andy Lutomirski)
+Date: Tue, 6 Jun 2017 08:57:23 -0700
+Subject: NVMe APST high latency power states being skipped
+In-Reply-To: <20170606095454.GA13569@infradead.org>
+References: <CALCETrVx7BQjKt7tCXmG+jOD=JXxDKOdvVr1EuoZyN4_TjSdCA@mail.gmail.com>
+ <5bfa6cf7e8994bc593f95e8641f648f5@ausx13mpc120.AMER.DELL.COM>
+ <CAAd53p45jpFYf9UNooobGWexGA+DuRJo2NF8FP-7JGU8u3PtpA@mail.gmail.com>
+ <CALCETrX+87zvN7sw-1qQHjQ_Bz9mSrjrHJLA9NBzaKSddntUug@mail.gmail.com>
+ <CAAd53p7o4VRcb1=EE5Vx7rMAfxdpKGceAeVfaCuDrvUaV6x65g@mail.gmail.com>
+ <20170526092556.GA645@infradead.org>
+ <CAAd53p4qdk2ngC7-BNB++ZLKK39-MiUp22PT6wcsRzxCHzmniw@mail.gmail.com>
+ <20170601113206.GA29895@infradead.org>
+ <CAAd53p73xq3grrMCHt8ZfbF=RN+5URhTpY5uhc=u7FNgPfcdbA@mail.gmail.com>
+ <20170602071337.GA11447@infradead.org> <20170606095454.GA13569@infradead.org>
+Message-ID: <CALCETrVg_JZqjUJ43DmpukTyoifu4TWPGT+2cJy86J+1-UVFQA@mail.gmail.com>
 
-On Tue, Jun 06, 2017@04:46:52PM +0300, Max Gurtovoy wrote:
-> hi,
->
->> -static inline bool nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
->> +static inline int nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
->>  		struct request *rq)
->>  {
->>  	if (unlikely(!test_bit(NVME_RDMA_Q_LIVE, &queue->flags))) {
->> @@ -1441,11 +1443,22 @@ static inline bool nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
+On Tue, Jun 6, 2017@2:54 AM, Christoph Hellwig <hch@infradead.org> wrote:
+> On Fri, Jun 02, 2017@12:13:37AM -0700, Christoph Hellwig wrote:
+>> > Maybe add an extra knob which can directly control deepest allow power
+>> > state? Userspace tools can control deepest power state through this
+>> > knob.
 >>
->>  		if (!blk_rq_is_passthrough(rq) ||
->>  		    cmd->common.opcode != nvme_fabrics_command ||
->> -		    cmd->fabrics.fctype != nvme_fabrics_type_connect)
->> -			return false;
->> +		    cmd->fabrics.fctype != nvme_fabrics_type_connect) {
->> +			/*
->> +			 * reconnecting state means transport disruption, which
->> +			 * can take a long time and even might fail permanently,
->> +			 * so we can't let incoming I/O be requeued forever.
->> +			 * fail it fast to allow upper layers a chance to
->> +			 * failover.
->> +			 */
->> +			if (queue->ctrl->ctrl->state == NVME_CTRL_RECONNECTING)
+>> I'd prefer that things work out of the box.  I'd be tempted to just
+>> bump up the latency requirement to cover the device, but if Andy
+>> doesn't like that in general we could add a quirk for this device
+>> to at least allow it to use deep power states.
 >
-> Sagi/Christoph,
-> It should be queue->ctrl->ctrl.state.
->
-> we are testing this patch also now.
+> Kai, can you send the patch to bump default_ps_max_latency_us to
+> reasonably high value that all the devices you are testing are
+> able to use PS3/4?
 
-I've fixed this up already.  Especially as the earlier version got it
-right :)
+I'm starting to think we should ignore enlat and only consider exlat
+when we interpret the requested max latency.  If I find some time,
+I'll try to write a little benchmark to see how drives actually
+behave.
+
+Given that we've seen enlat as high as 1s, I don't think we want to
+start setting the default latency over 1s.
+
+--Andy
