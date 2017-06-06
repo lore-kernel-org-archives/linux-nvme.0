@@ -1,23 +1,35 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 6 Jun 2017 15:08:09 +0300
-Subject: [PATCH] nvme-pci: avoid 64-bit divisions in the HMB code
-In-Reply-To: <20170606095411.22429-1-hch@lst.de>
-References: <20170606095411.22429-1-hch@lst.de>
-Message-ID: <1962082d-f9c7-d6d3-6f4b-b95a694c82dc@mellanox.com>
+Date: Tue, 6 Jun 2017 16:46:52 +0300
+Subject: [PATCH for-4.12-rc] nvme-rdma: fast fail incoming requests while
+ we reconnect
+In-Reply-To: <1496684156-32335-1-git-send-email-sagi@grimberg.me>
+References: <1496684156-32335-1-git-send-email-sagi@grimberg.me>
+Message-ID: <9e629028-98df-8165-6826-82fd497d7521@mellanox.com>
 
+hi,
 
-
-On 6/6/2017 12:54 PM, Christoph Hellwig wrote:
-> [to be folded into "nvme-pci: implement host memory buffer support"]
+> -static inline bool nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
+> +static inline int nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
+>  		struct request *rq)
+>  {
+>  	if (unlikely(!test_bit(NVME_RDMA_Q_LIVE, &queue->flags))) {
+> @@ -1441,11 +1443,22 @@ static inline bool nvme_rdma_queue_is_ready(struct nvme_rdma_queue *queue,
 >
-> Avoid 64-bit division by using shifts instead.  All involved sizez are
+>  		if (!blk_rq_is_passthrough(rq) ||
+>  		    cmd->common.opcode != nvme_fabrics_command ||
+> -		    cmd->fabrics.fctype != nvme_fabrics_type_connect)
+> -			return false;
+> +		    cmd->fabrics.fctype != nvme_fabrics_type_connect) {
+> +			/*
+> +			 * reconnecting state means transport disruption, which
+> +			 * can take a long time and even might fail permanently,
+> +			 * so we can't let incoming I/O be requeued forever.
+> +			 * fail it fast to allow upper layers a chance to
+> +			 * failover.
+> +			 */
+> +			if (queue->ctrl->ctrl->state == NVME_CTRL_RECONNECTING)
 
-small type: sizez --> sizes
+Sagi/Christoph,
+It should be queue->ctrl->ctrl.state.
 
-> powers of two.
->
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
-
-Looks good,
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+we are testing this patch also now.
