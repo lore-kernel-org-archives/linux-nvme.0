@@ -1,148 +1,75 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue,  6 Jun 2017 16:36:13 +0200
-Subject: [PATCH v5 5/9] nvmet: implement namespace identify descriptor list
-In-Reply-To: <20170606143617.32143-1-jthumshirn@suse.de>
-References: <20170606143617.32143-1-jthumshirn@suse.de>
-Message-ID: <20170606143617.32143-6-jthumshirn@suse.de>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Tue,  6 Jun 2017 23:22:04 +0800
+Subject: [PATCH v5 06/12] blk-mq: use the introduced blk_mq_unquiesce_queue()
+In-Reply-To: <20170606152210.22806-1-ming.lei@redhat.com>
+References: <20170606152210.22806-1-ming.lei@redhat.com>
+Message-ID: <20170606152210.22806-7-ming.lei@redhat.com>
 
-A NVMe Identify NS command with a CNS value of '3' is expecting a list
-of Namespace Identification Descriptor structures to be returned to
-the host for the namespace requested in the namespace identify
-command.
+blk_mq_unquiesce_queue() is used for unquiescing the
+queue explicitly, so replace blk_mq_start_stopped_hw_queues()
+with it.
 
-This Namespace Identification Descriptor structure consists of the
-type of the namespace identifier, the length of the identifier and the
-actual identifier.
+For the scsi part, this patch takes Bart's suggestion to
+switch to block quiesce/unquiesce API completely.
 
-Valid types are NGUID and UUID which we have saved in our nvme_ns
-structure if they have been configured via configfs. If no value has
-been assigened to one of these we return an "invalid opcode" back to
-the host to maintain backward compatibiliy with older implementations
-without Namespace Identify Descriptor list support.
-
-Also as the Namespace Identify Descriptor list is the only mandatory
-feature change between 1.2.1 and 1.3.0 we can bump the advertised
-version as well.
-
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
+Cc: linux-nvme at lists.infradead.org
+Cc: linux-scsi at vger.kernel.org
+Cc: dm-devel at redhat.com
+Reviewed-by: Bart Van Assche <Bart.VanAssche at sandisk.com>
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/target/admin-cmd.c | 61 +++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/target/core.c      |  3 +-
- drivers/nvme/target/nvmet.h     |  1 +
- 3 files changed, 64 insertions(+), 1 deletion(-)
+ drivers/md/dm-rq.c       | 2 +-
+ drivers/nvme/host/core.c | 2 +-
+ drivers/scsi/scsi_lib.c  | 4 ++--
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 96c144325443..f15aa72e28b4 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -367,6 +367,64 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
+diff --git a/drivers/md/dm-rq.c b/drivers/md/dm-rq.c
+index b639fa7246ee..ea4029de077f 100644
+--- a/drivers/md/dm-rq.c
++++ b/drivers/md/dm-rq.c
+@@ -71,7 +71,7 @@ static void dm_old_start_queue(struct request_queue *q)
+ 
+ static void dm_mq_start_queue(struct request_queue *q)
+ {
+-	blk_mq_start_stopped_hw_queues(q, true);
++	blk_mq_unquiesce_queue(q);
+ 	blk_mq_kick_requeue_list(q);
  }
  
-+static u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
-+				    void *id, off_t *off)
-+{
-+	struct nvme_ns_identifier_hdr hdr = {
-+		.nidt = type,
-+		.nidl = len,
-+	};
-+	u16 status;
-+
-+	status = nvmet_copy_to_sgl(req, *off, &hdr, sizeof(hdr));
-+	if (status)
-+		return status;
-+	*off += sizeof(hdr);
-+
-+	status = nvmet_copy_to_sgl(req, *off, id, len);
-+	if (status)
-+		return status;
-+	*off += len;
-+
-+	return 0;
-+}
-+
-+static void nvmet_execute_identify_desclist(struct nvmet_req *req)
-+{
-+	struct nvmet_ns *ns;
-+	u16 status = 0;
-+	off_t off = 0;
-+
-+	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
-+	if (!ns) {
-+		status = NVME_SC_INVALID_NS | NVME_SC_DNR;
-+		goto out;
-+	}
-+
-+	if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-+		status = nvmet_copy_ns_identifier(req, NVME_NIDT_UUID,
-+						  NVME_NIDT_UUID_LEN,
-+						  &ns->uuid, &off);
-+		if (status)
-+			goto out_put_ns;
-+	}
-+	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid))) {
-+		status = nvmet_copy_ns_identifier(req, NVME_NIDT_NGUID,
-+						  NVME_NIDT_NGUID_LEN,
-+						  &ns->nguid, &off);
-+		if (status)
-+			goto out_put_ns;
-+	}
-+
-+	if (sg_zeroout_area(req->sg, req->sg_cnt, NVME_IDENTIFY_DATA_SIZE, off)
-+			!= NVME_IDENTIFY_DATA_SIZE - off)
-+		status = NVME_SC_INTERNAL | NVME_SC_DNR;
-+out_put_ns:
-+	nvmet_put_namespace(ns);
-+out:
-+	nvmet_req_complete(req, status);
-+}
-+
- /*
-  * A "mimimum viable" abort implementation: the command is mandatory in the
-  * spec, but we are not required to do any useful work.  We couldn't really
-@@ -515,6 +573,9 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
- 		case NVME_ID_CNS_NS_ACTIVE_LIST:
- 			req->execute = nvmet_execute_identify_nslist;
- 			return 0;
-+		case NVME_ID_CNS_NS_DESC_LIST:
-+			req->execute = nvmet_execute_identify_desclist;
-+			return 0;
- 		}
- 		break;
- 	case nvme_admin_abort_cmd:
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index eb9399ac97cf..b5b4ac103748 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -380,6 +380,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index a60926410438..c3f189e54d10 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -2526,7 +2526,7 @@ void nvme_start_queues(struct nvme_ctrl *ctrl)
  
- 	ns->nsid = nsid;
- 	ns->subsys = subsys;
-+	uuid_gen(&ns->uuid);
+ 	mutex_lock(&ctrl->namespaces_mutex);
+ 	list_for_each_entry(ns, &ctrl->namespaces, list) {
+-		blk_mq_start_stopped_hw_queues(ns->queue, true);
++		blk_mq_unquiesce_queue(ns->queue);
+ 		blk_mq_kick_requeue_list(ns->queue);
+ 	}
+ 	mutex_unlock(&ctrl->namespaces_mutex);
+diff --git a/drivers/scsi/scsi_lib.c b/drivers/scsi/scsi_lib.c
+index 884aaa84c2dd..d6df1dafdc9f 100644
+--- a/drivers/scsi/scsi_lib.c
++++ b/drivers/scsi/scsi_lib.c
+@@ -2979,7 +2979,7 @@ scsi_internal_device_block(struct scsi_device *sdev, bool wait)
+ 		if (wait)
+ 			blk_mq_quiesce_queue(q);
+ 		else
+-			blk_mq_stop_hw_queues(q);
++			blk_mq_quiesce_queue_nowait(q);
+ 	} else {
+ 		spin_lock_irqsave(q->queue_lock, flags);
+ 		blk_stop_queue(q);
+@@ -3033,7 +3033,7 @@ scsi_internal_device_unblock(struct scsi_device *sdev,
+ 		return -EINVAL;
  
- 	return ns;
- }
-@@ -926,7 +927,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	if (!subsys)
- 		return NULL;
- 
--	subsys->ver = NVME_VS(1, 2, 1); /* NVMe 1.2.1 */
-+	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
- 
- 	switch (type) {
- 	case NVME_NQN_NVME:
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 8ff6e430b30a..747bbdb4f9c6 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -47,6 +47,7 @@ struct nvmet_ns {
- 	u32			blksize_shift;
- 	loff_t			size;
- 	u8			nguid[16];
-+	uuid_t			uuid;
- 
- 	bool			enabled;
- 	struct nvmet_subsys	*subsys;
+ 	if (q->mq_ops) {
+-		blk_mq_start_stopped_hw_queues(q, false);
++		blk_mq_unquiesce_queue(q);
+ 	} else {
+ 		spin_lock_irqsave(q->queue_lock, flags);
+ 		blk_start_queue(q);
 -- 
-2.12.3
+2.9.4
