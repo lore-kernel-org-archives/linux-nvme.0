@@ -1,32 +1,48 @@
-From: mrybczyn@kalray.eu (Marta Rybczynska)
-Date: Tue, 6 Jun 2017 09:28:36 +0200 (CEST)
-Subject: [PATCH 1/3] PCI: ensure the PCI device is locked over
- ->reset_notify calls
-In-Reply-To: <20170606053142.GA25064@bhelgaas-glaptop.roam.corp.google.com>
-References: <20170601111039.8913-1-hch@lst.de>
- <20170601111039.8913-2-hch@lst.de>
- <20170606053142.GA25064@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <1383840912.76088794.1496734116252.JavaMail.zimbra@kalray.eu>
+From: rakesh@tuxera.com (Rakesh Pandit)
+Date: Tue, 6 Jun 2017 10:30:46 +0300
+Subject: [PATCH] nvme: fix hang in remove path
+In-Reply-To: <20170606071223.GA15359@lst.de>
+References: <20170602083208.4518-1-ming.lei@redhat.com>
+ <20170602180435.GA23335@dhcp-216.srv.tuxera.com>
+ <244bc065-92eb-c3e0-faa7-11569fc326d6@grimberg.me>
+ <20170605084434.GA30864@dhcp-216.srv.tuxera.com>
+ <20170605084732.GA30881@dhcp-216.srv.tuxera.com>
+ <20170605194532.GA2549@hercules.tuxera.com>
+ <23b9bc87-81a0-93e8-3730-f07e68e46702@grimberg.me>
+ <20170606071223.GA15359@lst.de>
+Message-ID: <20170606073046.GA34428@dhcp-216.srv.tuxera.com>
 
+On Tue, Jun 06, 2017@09:12:23AM +0200, Christoph Hellwig wrote:
+> On Tue, Jun 06, 2017@10:10:45AM +0300, Sagi Grimberg wrote:
+> >
+> >>>> Note 7 here is NVME_SC_ABORT_REQ.  Also we would avoid walking through
+> >>>> all power states inside the nvme_configure_apst as
+> >>>> nvme_set_latency_tolerance was called with value
+> >>>> PM_QOS_LATENCY_TOLERANCE_NO_CONSTRAINT (-1) which sets
+> >>>> ctrl->ps_max_latency_us to U64_MAX and tries to send a sync command
+> >>>> which of course fails with error message.
+> >>
+> >> Even though this change from this patch does fix the hang, just tested
+> >> again and I can see above error message "failed to set APST feature 7"
+> >> while nvme_remove PID is getting executed.
+> >>
+> >> So, sync requests (while nvme_remove is executing) are going through
+> >> and not everything is handled well in .queue_rq while controller is
+> >> under deleting state or dead state.
+> >
+> > The error message is expected because queue_rq is failing the I/O, did
+> > you see it actually hang?
+
+No hang.
+
+> >
+> > Personally I'm not too bothered with the error log, we can suppress it
+> > conditional on the ctrl state if it really annoys people, but if we're
+> > conditioning on the ctrl state, we can do it like you suggested anyway...
 > 
-> But I'm still nervous because I think both threads will queue
-> nvme_reset_work() work items for the same device, and I'm not sure
-> they're prepared to run concurrently.
-> 
-> I don't really think it should be the driver's responsibility to
-> understand issues like this and worry about things like
-> nvme_reset_work() running concurrently.  So I'm thinking maybe the PCI
-> core needs to be a little stricter here, but I don't know exactly
-> *how*.
-> 
-> What do you think?
+> Yeah.  Or just remove the error printk entirely..
 
->From what I can see the nvme_reset_work if run twice may disable the
-controller (the out label) if run concurrently. If run twice it will
-initialize twice what isn't best either.
+Thanks for input, lets ignore.
 
-I think that the double nvme_reset_work should be prevented. Maybe
-a state information saying that the device is in the reset procedure
-and after that run nvme_reset_work just once?
-
-Marta
+Based on earlier message I guess this is already queued.  If not it
+seems worth adding for 4.12-rc.
