@@ -1,54 +1,71 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  7 Jun 2017 08:54:22 +0300
-Subject: [PATCH v4 for-4.13 0/6] Automatic affinity settings for nvme over rdma
-Message-ID: <1496814868-22070-1-git-send-email-sagi@grimberg.me>
+Date: Wed,  7 Jun 2017 08:54:25 +0300
+Subject: [PATCH v4 for-4.13 3/6] RDMA/core: expose affinity mappings per
+ completion vector
+In-Reply-To: <1496814868-22070-1-git-send-email-sagi@grimberg.me>
+References: <1496814868-22070-1-git-send-email-sagi@grimberg.me>
+Message-ID: <1496814868-22070-4-git-send-email-sagi@grimberg.me>
 
-Doug, please consider this patch set for 4.13.
+This will allow ULPs to intelligently locate threads based
+on completion vector cpu affinity mappings. In case the
+driver does not expose a get_vector_affinity callout, return
+NULL so the caller can maintain a fallback logic.
 
-This patch set is aiming to automatically find the optimal
-queue <-> irq multi-queue assignments in storage ULPs (demonstrated
-on nvme-rdma) based on the underlying rdma device irq affinity
-settings.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: H?kon Bugge <haakon.bugge at oracle.com>
+Acked-by: Doug Ledford <dledford at redhat.com>
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ include/rdma/ib_verbs.h | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-Changes from v3:
-- Renamed mlx5_disable_msix -> mlx5_free_pci_vectors for symmetry reasons
-
-Changes from v2:
-- rebased to 4.12
-- added review tags
-
-Changes from v1:
-- Removed mlx5e_get_cpu as Christoph suggested
-- Fixed up nvme-rdma queue comp_vector selection to get a better match
-- Added a comment on why we limit on @dev->num_comp_vectors
-- rebased to Jens's for-4.12/block
-- Collected review tags
-
-Sagi Grimberg (6):
-  mlx5: convert to generic pci_alloc_irq_vectors
-  mlx5: move affinity hints assignments to generic code
-  RDMA/core: expose affinity mappings per completion vector
-  mlx5: support ->get_vector_affinity
-  block: Add rdma affinity based queue mapping helper
-  nvme-rdma: use intelligent affinity based queue mappings
-
- block/Kconfig                                      |   5 +
- block/Makefile                                     |   1 +
- block/blk-mq-rdma.c                                |  54 ++++++++++
- drivers/infiniband/hw/mlx5/main.c                  |  10 ++
- drivers/net/ethernet/mellanox/mlx5/core/en_main.c  |  14 +--
- drivers/net/ethernet/mellanox/mlx5/core/eq.c       |   9 +-
- drivers/net/ethernet/mellanox/mlx5/core/eswitch.c  |   2 +-
- drivers/net/ethernet/mellanox/mlx5/core/health.c   |   2 +-
- drivers/net/ethernet/mellanox/mlx5/core/main.c     | 114 +++------------------
- .../net/ethernet/mellanox/mlx5/core/mlx5_core.h    |   1 -
- drivers/nvme/host/rdma.c                           |  29 ++++--
- include/linux/blk-mq-rdma.h                        |  10 ++
- include/linux/mlx5/driver.h                        |   2 -
- include/rdma/ib_verbs.h                            |  25 ++++-
- 14 files changed, 152 insertions(+), 126 deletions(-)
- create mode 100644 block/blk-mq-rdma.c
- create mode 100644 include/linux/blk-mq-rdma.h
-
+diff --git a/include/rdma/ib_verbs.h b/include/rdma/ib_verbs.h
+index ba8314ec5768..2349143297c9 100644
+--- a/include/rdma/ib_verbs.h
++++ b/include/rdma/ib_verbs.h
+@@ -2245,6 +2245,8 @@ struct ib_device {
+ 	 */
+ 	int (*get_port_immutable)(struct ib_device *, u8, struct ib_port_immutable *);
+ 	void (*get_dev_fw_str)(struct ib_device *, char *str, size_t str_len);
++	const struct cpumask *(*get_vector_affinity)(struct ib_device *ibdev,
++						     int comp_vector);
+ };
+ 
+ struct ib_client {
+@@ -3609,7 +3611,6 @@ static inline void rdma_ah_set_interface_id(struct rdma_ah_attr *attr,
+ 
+ 	grh->dgid.global.interface_id = if_id;
+ }
+-
+ static inline void rdma_ah_set_grh(struct rdma_ah_attr *attr,
+ 				   union ib_gid *dgid, u32 flow_label,
+ 				   u8 sgid_index, u8 hop_limit,
+@@ -3639,4 +3640,26 @@ static inline enum rdma_ah_attr_type rdma_ah_find_type(struct ib_device *dev,
+ 	else
+ 		return RDMA_AH_ATTR_TYPE_IB;
+ }
++
++/**
++ * ib_get_vector_affinity - Get the affinity mappings of a given completion
++ *   vector
++ * @device:         the rdma device
++ * @comp_vector:    index of completion vector
++ *
++ * Returns NULL on failure, otherwise a corresponding cpu map of the
++ * completion vector (returns all-cpus map if the device driver doesn't
++ * implement get_vector_affinity).
++ */
++static inline const struct cpumask *
++ib_get_vector_affinity(struct ib_device *device, int comp_vector)
++{
++	if (comp_vector < 0 || comp_vector >= device->num_comp_vectors ||
++	    !device->get_vector_affinity)
++		return NULL;
++
++	return device->get_vector_affinity(device, comp_vector);
++
++}
++
+ #endif /* IB_VERBS_H */
 -- 
 2.7.4
