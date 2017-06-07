@@ -1,30 +1,63 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 7 Jun 2017 09:00:50 +0200
-Subject: [PATCH v5 1/9] scatterlist: add sg_zeroout_area() helper
-In-Reply-To: <eef19233-47d6-9ea3-9f03-d846ce578ef7@grimberg.me>
-References: <20170606143617.32143-1-jthumshirn@suse.de>
- <20170606143617.32143-2-jthumshirn@suse.de>
- <eef19233-47d6-9ea3-9f03-d846ce578ef7@grimberg.me>
-Message-ID: <0778ec96-8396-143e-9925-55f9c7d39239@suse.de>
+From: kai.heng.feng@canonical.com (Kai-Heng Feng)
+Date: Wed,  7 Jun 2017 15:25:42 +0800
+Subject: [PATCH 1/2] nvme: only consider exit latency when choosing useful
+ non-op power states
+Message-ID: <20170607072543.14071-1-kai.heng.feng@canonical.com>
 
-On 06/06/2017 08:26 PM, Sagi Grimberg wrote:
-> 
->> +    while ((offset < buflen) && sg_miter_next(&miter)) {
->> +        unsigned int len;
->> +
->> +        len = min(miter.length, buflen - offset);
->> +        memset(miter.addr, '\0', len);
-> 
-> Why '\0' and not 0?
+When a NVMe is in non-op states, the latency is exlat.
+The latency will be enlat + exlat only when the NVMe tries to transit
+from operational state right atfer it begins to transit to
+non-operational state, which should be a rare case.
 
-Shouldn't be a difference, should it? ascii(7) says
-'000   0     00    NUL '\0' (null character)'
+Therefore, as Andy Lutomirski suggests, use exlat only when deciding power
+states to trainsit to.
 
+Signed-off-by: Kai-Heng Feng <kai.heng.feng at canonical.com>
+---
+ drivers/nvme/host/core.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 0f9cc0c55e15..c07d8d4e18c9 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1342,7 +1342,7 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
+ 	 * transitioning between power states.  Therefore, when running
+ 	 * in any given state, we will enter the next lower-power
+ 	 * non-operational state after waiting 50 * (enlat + exlat)
+-	 * microseconds, as long as that state's total latency is under
++	 * microseconds, as long as that state's exit latency is under
+ 	 * the requested maximum latency.
+ 	 *
+ 	 * We will not autonomously enter any non-operational state for
+@@ -1387,7 +1387,7 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
+ 		 * lowest-power state, not the number of states.
+ 		 */
+ 		for (state = (int)ctrl->npss; state >= 0; state--) {
+-			u64 total_latency_us, transition_ms;
++			u64 total_latency_us, exit_latency_us, transition_ms;
+ 
+ 			if (target)
+ 				table->entries[state] = target;
+@@ -1408,12 +1408,15 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
+ 			      NVME_PS_FLAGS_NON_OP_STATE))
+ 				continue;
+ 
+-			total_latency_us =
+-				(u64)le32_to_cpu(ctrl->psd[state].entry_lat) +
+-				+ le32_to_cpu(ctrl->psd[state].exit_lat);
+-			if (total_latency_us > ctrl->ps_max_latency_us)
++			exit_latency_us =
++				(u64)le32_to_cpu(ctrl->psd[state].exit_lat);
++			if (exit_latency_us > ctrl->ps_max_latency_us)
+ 				continue;
+ 
++			total_latency_us =
++				exit_latency_us +
++				le32_to_cpu(ctrl->psd[state].entry_lat);
++
+ 			/*
+ 			 * This state is good.  Use it as the APST idle
+ 			 * target for higher power states.
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.13.0
