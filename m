@@ -1,70 +1,99 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed,  7 Jun 2017 11:45:29 +0200
-Subject: [PATCH v6 02/10] nvmet: use NVME_IDENTIFY_DATA_SIZE
-In-Reply-To: <20170607094536.32419-1-jthumshirn@suse.de>
-References: <20170607094536.32419-1-jthumshirn@suse.de>
-Message-ID: <20170607094536.32419-3-jthumshirn@suse.de>
+Date: Wed,  7 Jun 2017 11:45:27 +0200
+Subject: [PATCH v6 00/10] Implement NVMe Namespace Descriptor Identification
+Message-ID: <20170607094536.32419-1-jthumshirn@suse.de>
 
-Use NVME_IDENTIFY_DATA_SIZE define instead of hard coding the magic
-4096 value.
+This patchset implemets NVMe Namespace Descriptor Identification as of
+NVMe 1.3. The Namespace Descriptor Identification allows a NVMe host
+to query several Namespace Identification mechanisms, such as EUI-64,
+NGUID and UUID from the target. If more than one value is set by the
+target, it can transmit all set values to the host.
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
----
- drivers/nvme/target/admin-cmd.c | 4 ++--
- drivers/nvme/target/discovery.c | 2 +-
- include/linux/nvme.h            | 2 ++
- 3 files changed, 5 insertions(+), 3 deletions(-)
+The Namespace Identification Descriptor list is the only way a target
+can identify itself via the newly introduced UUID to the host (in
+addition to the EUI-64 or NGUID).
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index ff1f97006322..96c144325443 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -336,7 +336,7 @@ static void nvmet_execute_identify_ns(struct nvmet_req *req)
- 
- static void nvmet_execute_identify_nslist(struct nvmet_req *req)
- {
--	static const int buf_size = 4096;
-+	static const int buf_size = NVME_IDENTIFY_DATA_SIZE;
- 	struct nvmet_ctrl *ctrl = req->sq->ctrl;
- 	struct nvmet_ns *ns;
- 	u32 min_nsid = le32_to_cpu(req->cmd->identify.nsid);
-@@ -504,7 +504,7 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
- 		}
- 		break;
- 	case nvme_admin_identify:
--		req->data_len = 4096;
-+		req->data_len = NVME_IDENTIFY_DATA_SIZE;
- 		switch (cmd->identify.cns) {
- 		case NVME_ID_CNS_NS:
- 			req->execute = nvmet_execute_identify_ns;
-diff --git a/drivers/nvme/target/discovery.c b/drivers/nvme/target/discovery.c
-index 1aaf597e81fc..c7a90384dd75 100644
---- a/drivers/nvme/target/discovery.c
-+++ b/drivers/nvme/target/discovery.c
-@@ -185,7 +185,7 @@ u16 nvmet_parse_discovery_cmd(struct nvmet_req *req)
- 		return NVME_SC_INVALID_OPCODE | NVME_SC_DNR;
- 		}
- 	case nvme_admin_identify:
--		req->data_len = 4096;
-+		req->data_len = NVME_IDENTIFY_DATA_SIZE;
- 		switch (cmd->identify.cns) {
- 		case NVME_ID_CNS_CTRL:
- 			req->execute =
-diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index e400a69fa1d3..c004af5faa48 100644
---- a/include/linux/nvme.h
-+++ b/include/linux/nvme.h
-@@ -659,6 +659,8 @@ struct nvme_identify {
- 	__u32			rsvd11[5];
- };
- 
-+#define NVME_IDENTIFY_DATA_SIZE 4096
-+
- struct nvme_features {
- 	__u8			opcode;
- 	__u8			flags;
+Both the Host and Target side are implemented. In order to get the
+Linux Host to send the Linux target implementation a Namespace
+Descriptor Identification command, you have to change the target's
+announced version code to at least 1.3. 
+
+Unfortunately the host side already did have a sysfs attribute called
+'uuid' which represented the NGUID, so precautions have been taken to
+not break any existing userspace.
+
+The code is tested using the nvme-loop loopback target and cut against
+Christoph's uuid/for-next branch.
+
+A patch for nvmetcli and nvme-cli will follow shortly.
+
+Changes to v5:
+* Change '\0' to 0 in sg_zerroout_area()s memset (Sagi)
+* Fix uinitialized variable in version setting (Guan)
+* Renamed struct nvme_ns_identifier_hdr to nvme_ns_id_desc (Sagi)
+* Move all users of dev_(warn|err)\(ctrl->dev to ctrl->device (Sagi)
+* Add Max's R-b
+
+Changes to v4:
+* Add nvmet_copy_ns_identifier() helper (Christoph)
+* Move 'nvmet: use NVME_IDENTIFY_DATA_SIZE' to beginning of series (Christoph)
+* Protect subsystem version with nvmet_config_sem (Christoph)
+* Get rid of local variables in nvmet_subsys_version_show (Christoph)
+* Included dots in subsystem version (Sagi)
+* Merge nvme_parse_ns_descs() into nvme_identify_ns_descs() (Christoph)
+* Skip unknown NS descriptors in nvme_identify_ns_descs() (Christoph)
+* Add sg_zeroout_area() helper to lib/scatterlist.c (Christoph)
+* I'm not sure if I shall use nvme_ns_identifier_hdr or nvme_ns_id_desc
+* Rebased on Christoph's uuid/for-next branch
+* Collected Acks
+
+Changes to v3:
+* Autogenerate UUID on target NS allocation (Sagi)
+
+Changes to v2:
+* Added Max's Reviewed-by
+* Make series bisectable
+
+Changes to v1:
+* Added Reviewed-by tags from Christoph and Hannes for unchanged patches
+* Added patch introducing new structs at the beginning (Christoph)
+* Dropped SZ_4K patch
+* Got rid of dynamic memory allocation on the target side (Christoph)
+* Reworked host side parser (Christoph)
+* Check length inside type check in the host parser (Max)
+
+Changes to v0:
+* Fixed wrong size of 4069 and replaced it with SZ_4K (Max)
+* Add constants for UUID, NGUID and EUI-64 length (Max)
+* Drop EUI-64 Support on target side (Christoph)
+* Use uuid_be instead of u8[] (Christoph)
+* Add ability to override target's version (Hannes)
+* Change hard coded magic 4096 and 0x1000 to SZ_4k in drivers/nvme/*
+
+Johannes Thumshirn (10):
+  scatterlist: add sg_zeroout_area() helper
+  nvmet: use NVME_IDENTIFY_DATA_SIZE
+  nvme: introduce NVMe Namespace Identification Descriptor structures
+  nvme: rename uuid to nguid in nvme_ns
+  nvmet: implement namespace identify descriptor list
+  nvmet: add uuid field to nvme_ns and populate via configfs
+  nvme: get list of namespace descriptors
+  nvme: provide UUID value to userspace
+  nvmet: allow overriding the NVMe VS via configfs
+  nvme: use ctrl->device consistently for logging
+
+ drivers/nvme/host/core.c        | 120 +++++++++++++++++++++++++++++++++++++---
+ drivers/nvme/host/fc.c          |  12 ++--
+ drivers/nvme/host/nvme.h        |   1 +
+ drivers/nvme/target/admin-cmd.c |  65 +++++++++++++++++++++-
+ drivers/nvme/target/configfs.c  |  68 +++++++++++++++++++++++
+ drivers/nvme/target/core.c      |   3 +-
+ drivers/nvme/target/discovery.c |   2 +-
+ drivers/nvme/target/nvmet.h     |   1 +
+ include/linux/nvme.h            |  23 ++++++++
+ include/linux/scatterlist.h     |   3 +
+ lib/scatterlist.c               |  37 +++++++++++++
+ 11 files changed, 316 insertions(+), 19 deletions(-)
+
 -- 
 2.12.3
