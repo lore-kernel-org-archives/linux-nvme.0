@@ -1,93 +1,42 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed,  7 Jun 2017 19:02:42 +0300
-Subject: [PATCH v5 for-4.13 6/6] nvme-rdma: use intelligent affinity based
- queue mappings
-In-Reply-To: <1496851362-1344-1-git-send-email-sagi@grimberg.me>
-References: <1496851362-1344-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1496851362-1344-7-git-send-email-sagi@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Wed, 7 Jun 2017 20:29:36 +0200
+Subject: [PATCH 1/3] PCI: ensure the PCI device is locked over
+ ->reset_notify calls
+In-Reply-To: <20170606211443.GB12672@bhelgaas-glaptop.roam.corp.google.com>
+References: <20170601111039.8913-1-hch@lst.de>
+ <20170601111039.8913-2-hch@lst.de>
+ <20170606053142.GA25064@bhelgaas-glaptop.roam.corp.google.com>
+ <20170606104836.GB24297@lst.de>
+ <20170606211443.GB12672@bhelgaas-glaptop.roam.corp.google.com>
+Message-ID: <20170607182936.GA31815@lst.de>
 
-Use the generic block layer affinity mapping helper. Also,
-limit nr_hw_queues to the rdma device number of irq vectors
-as we don't really need more.
+On Tue, Jun 06, 2017@04:14:43PM -0500, Bjorn Helgaas wrote:
+> So I guess the method here is
+> dev->driver->err_handler->reset_notify(), and the PCI core should be
+> holding device_lock() while calling it?  That makes sense to me;
+> thanks a lot for articulating that!
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/rdma.c | 29 ++++++++++++++++++++++-------
- 1 file changed, 22 insertions(+), 7 deletions(-)
+Yes.
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 28bd255c144d..623a66b812a8 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -19,6 +19,7 @@
- #include <linux/string.h>
- #include <linux/atomic.h>
- #include <linux/blk-mq.h>
-+#include <linux/blk-mq-rdma.h>
- #include <linux/types.h>
- #include <linux/list.h>
- #include <linux/mutex.h>
-@@ -496,14 +497,10 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue,
- 	queue->device = dev;
- 
- 	/*
--	 * The admin queue is barely used once the controller is live, so don't
--	 * bother to spread it out.
-+	 * Spread I/O queues completion vectors according their queue index.
-+	 * Admin queues can always go on completion vector 0.
- 	 */
--	if (idx == 0)
--		comp_vector = 0;
--	else
--		comp_vector = idx % ibdev->num_comp_vectors;
--
-+	comp_vector = idx == 0 ? idx : idx - 1;
- 
- 	/* +1 for ib_stop_cq */
- 	queue->ib_cq = ib_alloc_cq(dev->dev, queue,
-@@ -645,10 +642,20 @@ static int nvme_rdma_connect_io_queues(struct nvme_rdma_ctrl *ctrl)
- static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl *ctrl)
- {
- 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
-+	struct ib_device *ibdev = ctrl->device->dev;
- 	unsigned int nr_io_queues;
- 	int i, ret;
- 
- 	nr_io_queues = min(opts->nr_io_queues, num_online_cpus());
-+
-+	/*
-+	 * we map queues according to the device irq vectors for
-+	 * optimal locality so we don't need more queues than
-+	 * completion vectors.
-+	 */
-+	nr_io_queues = min_t(unsigned int, nr_io_queues,
-+				ibdev->num_comp_vectors);
-+
- 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
- 	if (ret)
- 		return ret;
-@@ -1532,6 +1539,13 @@ static void nvme_rdma_complete_rq(struct request *rq)
- 	nvme_complete_rq(rq);
- }
- 
-+static int nvme_rdma_map_queues(struct blk_mq_tag_set *set)
-+{
-+	struct nvme_rdma_ctrl *ctrl = set->driver_data;
-+
-+	return blk_mq_rdma_map_queues(set, ctrl->device->dev, 0);
-+}
-+
- static const struct blk_mq_ops nvme_rdma_mq_ops = {
- 	.queue_rq	= nvme_rdma_queue_rq,
- 	.complete	= nvme_rdma_complete_rq,
-@@ -1541,6 +1555,7 @@ static const struct blk_mq_ops nvme_rdma_mq_ops = {
- 	.init_hctx	= nvme_rdma_init_hctx,
- 	.poll		= nvme_rdma_poll,
- 	.timeout	= nvme_rdma_timeout,
-+	.map_queues	= nvme_rdma_map_queues,
- };
- 
- static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
--- 
-2.7.4
+> 1) The current patch protects the err_handler->reset_notify() uses by
+> adding or expanding device_lock regions in the paths that lead to
+> pci_reset_notify().  Could we simplify it by doing the locking
+> directly in pci_reset_notify()?  Then it would be easy to verify the
+> locking, and we would be less likely to add new callers without the
+> proper locking.
+
+We could do that, except that I'd rather hold the lock over a longer
+period if we have many calls following each other.  I also have
+a patch to actually kill pci_reset_notify() later in the series as
+well, as the calling convention for it and ->reset_notify() are
+awkward - depending on prepare parameter they do two entirely
+different things.  That being said I could also add new
+pci_reset_prepare() and pci_reset_done() helpers.
+
+> 2) Stating the rule explicitly helps look for other problems, and I
+> think we have a similar problem in all the pcie_portdrv_err_handler
+> methods.
+
+Yes, I mentioned this earlier, and I also vaguely remember we got
+bug reports from IBM on power for this a while ago.  I just don't
+feel confident enough to touch all these without a good test plan.
