@@ -1,24 +1,20 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 7 Jun 2017 08:57:56 +0200
-Subject: [PATCH v5 7/9] nvme: get list of namespace descriptors
-In-Reply-To: <deea2259-e2df-189d-f299-7ec915406570@grimberg.me>
+Date: Wed, 7 Jun 2017 08:59:03 +0200
+Subject: [PATCH v5 0/9] Implement NVMe Namespace Descriptor Identification
+In-Reply-To: <4f1616b4-5454-0486-5c03-0f3a1420b6c1@grimberg.me>
 References: <20170606143617.32143-1-jthumshirn@suse.de>
- <20170606143617.32143-8-jthumshirn@suse.de>
- <deea2259-e2df-189d-f299-7ec915406570@grimberg.me>
-Message-ID: <d051c2d0-2591-936a-7c8b-1a3b7afe5b14@suse.de>
+ <4f1616b4-5454-0486-5c03-0f3a1420b6c1@grimberg.me>
+Message-ID: <bc9fd7b2-b040-c49a-8719-9b6531b1b8b6@suse.de>
 
-On 06/06/2017 08:30 PM, Sagi Grimberg wrote:
+On 06/06/2017 08:27 PM, Sagi Grimberg wrote:
 > 
->> +    if (ns->ctrl->vs >= NVME_VS(1, 3, 0)) {
->> +         /* Don't treat error as fatal we potentially
->> +          * already have a NGUID or EUI-64
->> +          */
->> +        if (nvme_identify_ns_descs(ns, ns->ns_id))
->> +            dev_warn(ns->ctrl->dev,
+>> * I'm not sure if I shall use nvme_ns_identifier_hdr or nvme_ns_id_desc
 > 
-> ctrl->device
+> I was kinda hoping you will :(
+> 
+> I won't insist if people are fine with that as is...
 
-Gah I though I have all of 'em in my series.
+OK, I'll change it for ya :-)
 
 -- 
 Johannes Thumshirn                                          Storage
