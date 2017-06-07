@@ -1,149 +1,116 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed,  7 Jun 2017 11:45:32 +0200
-Subject: [PATCH v6 05/10] nvmet: implement namespace identify descriptor list
-In-Reply-To: <20170607094536.32419-1-jthumshirn@suse.de>
-References: <20170607094536.32419-1-jthumshirn@suse.de>
-Message-ID: <20170607094536.32419-6-jthumshirn@suse.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 7 Jun 2017 12:48:08 +0300
+Subject: [PATCH v3 for-4.13 2/6] mlx5: move affinity hints assignments to
+ generic code
+In-Reply-To: <20170607083156.GB24876@lst.de>
+References: <1496644560-28923-1-git-send-email-sagi@grimberg.me>
+ <1496644560-28923-3-git-send-email-sagi@grimberg.me>
+ <CALzJLG-SQj2OsOOjhHsMaD8gKC0JKD068L=ZjYRPBG=iwf9r8Q@mail.gmail.com>
+ <20170607083156.GB24876@lst.de>
+Message-ID: <9332ed02-9711-0196-14d9-e9641c4dc932@grimberg.me>
 
-A NVMe Identify NS command with a CNS value of '3' is expecting a list
-of Namespace Identification Descriptor structures to be returned to
-the host for the namespace requested in the namespace identify
-command.
 
-This Namespace Identification Descriptor structure consists of the
-type of the namespace identifier, the length of the identifier and the
-actual identifier.
+>> I am not sure the new assignment will match what we tried to do before
+>> this patch, and i would like to preserve that behavior
+>> from before we simply spread comp vectors to the close numa cpus first
+>> then to other cores uniformly.
+>> i.e prefer first IRQs to go to close numa cores.
+>>
+>> for example if you have 2 numa nodes each have 4 cpus, and the device
+>> is on 2nd numa,
+>> Numa 1 cpus: 0 1 2 3
+>> Numa 2 cpus: 4 5 6 7
+>>
+>> this should be the affinity:
+>>
+>> IRQ[0] -> cpu[4] (Numa 2)
+>> IRQ[1] -> cpu[5]
+>> IRQ[2] -> cpu[6]
+>> IRQ[3] -> cpu[7]
+>>
+>> IRQ[4] -> cpu[0] (Numa 1)
+>> IRQ[5] -> cpu[1]
+>> IRQ[6] -> cpu[2]
+>> IRQ[7] -> cpu[3]
+>>
+>> looking at irq_create_affinity_masks, and it seems not to be the case !
+>> "nodemask_t nodemsk = NODE_MASK_NONE;" it doesn't seem to prefer any numa node.
+> 
+> nodemsk is set up by get_nodes_in_cpumask.  The mask you should
+> get with the new code is:
+> 
+> IRQ[0] -> cpu[0] (Numa 1)
+> IRQ[1] -> cpu[1]
+> IRQ[2] -> cpu[2]
+> IRQ[3] -> cpu[3]
+> 
+> IRQ[4] -> cpu[4] (Numa 2)
+> IRQ[5] -> cpu[5]
+> IRQ[6] -> cpu[6]
+> IRQ[7] -> cpu[7]
+> 
+> is there any reason you want to start assining vectors on the local
+> node?  This is doable, but would complicate the code quite a bit
+> so it needs a good argument.
 
-Valid types are NGUID and UUID which we have saved in our nvme_ns
-structure if they have been configured via configfs. If no value has
-been assigened to one of these we return an "invalid opcode" back to
-the host to maintain backward compatibiliy with older implementations
-without Namespace Identify Descriptor list support.
+My interpretation is that mlx5 tried to do this for the (rather esoteric
+in my mind) case where the platform does not have enough vectors for the
+driver to allocate percpu. In this case, the next best thing is to stay
+as close to the device affinity as possible.
 
-Also as the Namespace Identify Descriptor list is the only mandatory
-feature change between 1.2.1 and 1.3 we can bump the advertised
-version as well.
+>> I am sure that there is a way to force our mlx5 affinity strategy and
+>> override the default one with the new API.
+> 
+> No, there is not.  The whole point is that we want to come up with
+> a common policy instead of each driver doing their own weird little
+> thing.
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
-Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
----
- drivers/nvme/target/admin-cmd.c | 61 +++++++++++++++++++++++++++++++++++++++++
- drivers/nvme/target/core.c      |  3 +-
- drivers/nvme/target/nvmet.h     |  1 +
- 3 files changed, 64 insertions(+), 1 deletion(-)
+Agreed.
 
-diff --git a/drivers/nvme/target/admin-cmd.c b/drivers/nvme/target/admin-cmd.c
-index 96c144325443..6f9f0881aa2b 100644
---- a/drivers/nvme/target/admin-cmd.c
-+++ b/drivers/nvme/target/admin-cmd.c
-@@ -367,6 +367,64 @@ static void nvmet_execute_identify_nslist(struct nvmet_req *req)
- 	nvmet_req_complete(req, status);
- }
- 
-+static u16 nvmet_copy_ns_identifier(struct nvmet_req *req, u8 type, u8 len,
-+				    void *id, off_t *off)
-+{
-+	struct nvme_ns_id_desc desc = {
-+		.nidt = type,
-+		.nidl = len,
-+	};
-+	u16 status;
-+
-+	status = nvmet_copy_to_sgl(req, *off, &desc, sizeof(desc));
-+	if (status)
-+		return status;
-+	*off += sizeof(desc);
-+
-+	status = nvmet_copy_to_sgl(req, *off, id, len);
-+	if (status)
-+		return status;
-+	*off += len;
-+
-+	return 0;
-+}
-+
-+static void nvmet_execute_identify_desclist(struct nvmet_req *req)
-+{
-+	struct nvmet_ns *ns;
-+	u16 status = 0;
-+	off_t off = 0;
-+
-+	ns = nvmet_find_namespace(req->sq->ctrl, req->cmd->identify.nsid);
-+	if (!ns) {
-+		status = NVME_SC_INVALID_NS | NVME_SC_DNR;
-+		goto out;
-+	}
-+
-+	if (memchr_inv(&ns->uuid, 0, sizeof(ns->uuid))) {
-+		status = nvmet_copy_ns_identifier(req, NVME_NIDT_UUID,
-+						  NVME_NIDT_UUID_LEN,
-+						  &ns->uuid, &off);
-+		if (status)
-+			goto out_put_ns;
-+	}
-+	if (memchr_inv(ns->nguid, 0, sizeof(ns->nguid))) {
-+		status = nvmet_copy_ns_identifier(req, NVME_NIDT_NGUID,
-+						  NVME_NIDT_NGUID_LEN,
-+						  &ns->nguid, &off);
-+		if (status)
-+			goto out_put_ns;
-+	}
-+
-+	if (sg_zeroout_area(req->sg, req->sg_cnt, NVME_IDENTIFY_DATA_SIZE, off)
-+			!= NVME_IDENTIFY_DATA_SIZE - off)
-+		status = NVME_SC_INTERNAL | NVME_SC_DNR;
-+out_put_ns:
-+	nvmet_put_namespace(ns);
-+out:
-+	nvmet_req_complete(req, status);
-+}
-+
- /*
-  * A "mimimum viable" abort implementation: the command is mandatory in the
-  * spec, but we are not required to do any useful work.  We couldn't really
-@@ -515,6 +573,9 @@ u16 nvmet_parse_admin_cmd(struct nvmet_req *req)
- 		case NVME_ID_CNS_NS_ACTIVE_LIST:
- 			req->execute = nvmet_execute_identify_nslist;
- 			return 0;
-+		case NVME_ID_CNS_NS_DESC_LIST:
-+			req->execute = nvmet_execute_identify_desclist;
-+			return 0;
- 		}
- 		break;
- 	case nvme_admin_abort_cmd:
-diff --git a/drivers/nvme/target/core.c b/drivers/nvme/target/core.c
-index eb9399ac97cf..b5b4ac103748 100644
---- a/drivers/nvme/target/core.c
-+++ b/drivers/nvme/target/core.c
-@@ -380,6 +380,7 @@ struct nvmet_ns *nvmet_ns_alloc(struct nvmet_subsys *subsys, u32 nsid)
- 
- 	ns->nsid = nsid;
- 	ns->subsys = subsys;
-+	uuid_gen(&ns->uuid);
- 
- 	return ns;
- }
-@@ -926,7 +927,7 @@ struct nvmet_subsys *nvmet_subsys_alloc(const char *subsysnqn,
- 	if (!subsys)
- 		return NULL;
- 
--	subsys->ver = NVME_VS(1, 2, 1); /* NVMe 1.2.1 */
-+	subsys->ver = NVME_VS(1, 3, 0); /* NVMe 1.3.0 */
- 
- 	switch (type) {
- 	case NVME_NQN_NVME:
-diff --git a/drivers/nvme/target/nvmet.h b/drivers/nvme/target/nvmet.h
-index 8ff6e430b30a..747bbdb4f9c6 100644
---- a/drivers/nvme/target/nvmet.h
-+++ b/drivers/nvme/target/nvmet.h
-@@ -47,6 +47,7 @@ struct nvmet_ns {
- 	u32			blksize_shift;
- 	loff_t			size;
- 	u8			nguid[16];
-+	uuid_t			uuid;
- 
- 	bool			enabled;
- 	struct nvmet_subsys	*subsys;
--- 
-2.12.3
+>>> -static int mlx5e_get_cpu(struct mlx5e_priv *priv, int ix)
+>>> -{
+>>> -       return cpumask_first(priv->mdev->priv.irq_info[ix].mask);
+>>> -}
+>>>
+>>
+>> let's keep this abstraction, even let's consider moving this to a
+>> helper function in the mlx5_core dirver main.c,
+>> it is not right when mlx5_ib and mlx5e netdev know about internal mdev
+>> structures and implementations of stuff.
+>>
+>> I suggest to move mlx5_ib_get_vector_affinity from patch #4 into
+>> drivers/net/ethernet/../mlx5/core/main.c
+>> and rename it to mlx5_get_vector_affinity and use it from both rdma
+>> and netdevice
+>>
+>> and change the above function to:
+>>
+>> static int mlx5e_get_cpu(struct mlx5e_priv *priv, int ix)
+>> {
+>>         return cpumask_first(mlx5_get_vector_affinity(priv->mdev, ix));
+>> }
+> 
+> Take a look at my comment to Sagi's repost.  The driver never
+> actually cares about this weird cpu value - it cares about a node
+> for the vectors and PCI layer provides the pci_irq_get_node helper
+> for that.  We could wrap this with a mlx5e helper, but that's not
+> really the normal style in the kernel.
+> 
+>>>          int err;
+>>>
+>>> -       c = kzalloc_node(sizeof(*c), GFP_KERNEL, cpu_to_node(cpu));
+>>> +       c = kzalloc_node(sizeof(*c), GFP_KERNEL,
+>>> +               pci_irq_get_node(priv->mdev->pdev, MLX5_EQ_VEC_COMP_BASE + ix));
+>>
+>> this might yield different behavior of what originally intended we
+>> want to get the node of the CPU and not of the IRQ's, maybe there is
+>> no difference but
+
+There is no difference, the node of the CPU _is_ the node of the IRQs
+(it originates from irq affinity).
+
+>> let's keep mlx5e_get_cpu abstraction as above.
+> 
+> It's a completely bogus abstraction.
+
+I tend to agree, but can easily change it.
