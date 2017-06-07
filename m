@@ -1,42 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 7 Jun 2017 20:29:36 +0200
-Subject: [PATCH 1/3] PCI: ensure the PCI device is locked over
- ->reset_notify calls
-In-Reply-To: <20170606211443.GB12672@bhelgaas-glaptop.roam.corp.google.com>
-References: <20170601111039.8913-1-hch@lst.de>
- <20170601111039.8913-2-hch@lst.de>
- <20170606053142.GA25064@bhelgaas-glaptop.roam.corp.google.com>
- <20170606104836.GB24297@lst.de>
- <20170606211443.GB12672@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <20170607182936.GA31815@lst.de>
+Date: Wed, 7 Jun 2017 21:06:59 +0200
+Subject: [PATCH 7/8] blk-mq: create hctx for each present CPU
+In-Reply-To: <20170607091038.GA25572@ming.t460p>
+References: <20170603140403.27379-1-hch@lst.de>
+ <20170603140403.27379-8-hch@lst.de> <20170607091038.GA25572@ming.t460p>
+Message-ID: <20170607190659.GA32550@lst.de>
 
-On Tue, Jun 06, 2017@04:14:43PM -0500, Bjorn Helgaas wrote:
-> So I guess the method here is
-> dev->driver->err_handler->reset_notify(), and the PCI core should be
-> holding device_lock() while calling it?  That makes sense to me;
-> thanks a lot for articulating that!
+On Wed, Jun 07, 2017@05:10:46PM +0800, Ming Lei wrote:
+> One thing not sure is that we may need to handle new CPU hotplug
+> after initialization. Without the CPU hotplug handler, system may
+> not scale well when more CPUs are added to sockets.
+
+Adding physical CPUs to sockets is a very rare activity, and we
+should not optimize for it.  Taking CPUs that are physically present
+offline and online is the case that is interesting, and that's what
+this patchset changes.
+
+> Another thing is that I don't see how NVMe handles this situation,
+> blk_mq_update_nr_hw_queues() is called in nvme_reset_work(), so
+> that means RESET need to be triggered after new CPUs are added to
+> system?
 
 Yes.
 
-> 1) The current patch protects the err_handler->reset_notify() uses by
-> adding or expanding device_lock regions in the paths that lead to
-> pci_reset_notify().  Could we simplify it by doing the locking
-> directly in pci_reset_notify()?  Then it would be easy to verify the
-> locking, and we would be less likely to add new callers without the
-> proper locking.
+> I have tried to add new CPUs runtime on Qemu, and not see
+> new hw queues are added no matter this patchset is applied or not.
 
-We could do that, except that I'd rather hold the lock over a longer
-period if we have many calls following each other.  I also have
-a patch to actually kill pci_reset_notify() later in the series as
-well, as the calling convention for it and ->reset_notify() are
-awkward - depending on prepare parameter they do two entirely
-different things.  That being said I could also add new
-pci_reset_prepare() and pci_reset_done() helpers.
-
-> 2) Stating the rule explicitly helps look for other problems, and I
-> think we have a similar problem in all the pcie_portdrv_err_handler
-> methods.
-
-Yes, I mentioned this earlier, and I also vaguely remember we got
-bug reports from IBM on power for this a while ago.  I just don't
-feel confident enough to touch all these without a good test plan.
+Do you even see the CPUs in your VM?  For physical hotplug you'll
+need to reserve spots in the cpumap beforehand.
