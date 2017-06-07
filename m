@@ -1,115 +1,37 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 7 Jun 2017 10:31:56 +0200
-Subject: [PATCH v3 for-4.13 2/6] mlx5: move affinity hints assignments
- to generic code
-In-Reply-To: <CALzJLG-SQj2OsOOjhHsMaD8gKC0JKD068L=ZjYRPBG=iwf9r8Q@mail.gmail.com>
-References: <1496644560-28923-1-git-send-email-sagi@grimberg.me>
- <1496644560-28923-3-git-send-email-sagi@grimberg.me>
- <CALzJLG-SQj2OsOOjhHsMaD8gKC0JKD068L=ZjYRPBG=iwf9r8Q@mail.gmail.com>
-Message-ID: <20170607083156.GB24876@lst.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 7 Jun 2017 11:55:03 +0300
+Subject: [PATCH v5 5/9] nvmet: implement namespace identify descriptor list
+In-Reply-To: <20170606143617.32143-6-jthumshirn@suse.de>
+References: <20170606143617.32143-1-jthumshirn@suse.de>
+ <20170606143617.32143-6-jthumshirn@suse.de>
+Message-ID: <fe328fa7-76a0-ef75-69fe-5e78e73ec493@mellanox.com>
 
-On Wed, Jun 07, 2017@09:16:47AM +0300, Saeed Mahameed wrote:
-> On Mon, Jun 5, 2017@9:35 AM, Sagi Grimberg <sagi@grimberg.me> wrote:
-> > generic api takes care of spreading affinity similar to
-> > what mlx5 open coded (and even handles better asymmetric
-> > configurations). Ask the generic API to spread affinity
-> > for us, and feed him pre_vectors that do not participate
-> > in affinity settings (which is an improvement to what we
-> > had before).
-> >
-> > The affinity assignments should match what mlx5 tried to
-> > do earlier but now we do not set affinity to async, cmd
-> > and pages dedicated vectors.
-> >
-> 
-> I am not sure the new assignment will match what we tried to do before
-> this patch, and i would like to preserve that behavior
-> from before we simply spread comp vectors to the close numa cpus first
-> then to other cores uniformly.
-> i.e prefer first IRQs to go to close numa cores.
-> 
-> for example if you have 2 numa nodes each have 4 cpus, and the device
-> is on 2nd numa,
-> Numa 1 cpus: 0 1 2 3
-> Numa 2 cpus: 4 5 6 7
-> 
-> this should be the affinity:
-> 
-> IRQ[0] -> cpu[4] (Numa 2)
-> IRQ[1] -> cpu[5]
-> IRQ[2] -> cpu[6]
-> IRQ[3] -> cpu[7]
-> 
-> IRQ[4] -> cpu[0] (Numa 1)
-> IRQ[5] -> cpu[1]
-> IRQ[6] -> cpu[2]
-> IRQ[7] -> cpu[3]
-> 
-> looking at irq_create_affinity_masks, and it seems not to be the case !
-> "nodemask_t nodemsk = NODE_MASK_NONE;" it doesn't seem to prefer any numa node.
 
-nodemsk is set up by get_nodes_in_cpumask.  The mask you should
-get with the new code is:
 
-IRQ[0] -> cpu[0] (Numa 1)
-IRQ[1] -> cpu[1]
-IRQ[2] -> cpu[2]
-IRQ[3] -> cpu[3]
+On 6/6/2017 5:36 PM, Johannes Thumshirn wrote:
+> A NVMe Identify NS command with a CNS value of '3' is expecting a list
+> of Namespace Identification Descriptor structures to be returned to
+> the host for the namespace requested in the namespace identify
+> command.
+>
+> This Namespace Identification Descriptor structure consists of the
+> type of the namespace identifier, the length of the identifier and the
+> actual identifier.
+>
+> Valid types are NGUID and UUID which we have saved in our nvme_ns
+> structure if they have been configured via configfs. If no value has
+> been assigened to one of these we return an "invalid opcode" back to
+> the host to maintain backward compatibiliy with older implementations
+> without Namespace Identify Descriptor list support.
+>
+> Also as the Namespace Identify Descriptor list is the only mandatory
+> feature change between 1.2.1 and 1.3.0 we can bump the advertised
+> version as well.
+>
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
+> ---
 
-IRQ[4] -> cpu[4] (Numa 2)
-IRQ[5] -> cpu[5]
-IRQ[6] -> cpu[6]
-IRQ[7] -> cpu[7]
+Looks good,
 
-is there any reason you want to start assining vectors on the local
-node?  This is doable, but would complicate the code quite a bit
-so it needs a good argument.
- 
-> I am sure that there is a way to force our mlx5 affinity strategy and
-> override the default one with the new API.
-
-No, there is not.  The whole point is that we want to come up with
-a common policy instead of each driver doing their own weird little
-thing.
-
-> > -static int mlx5e_get_cpu(struct mlx5e_priv *priv, int ix)
-> > -{
-> > -       return cpumask_first(priv->mdev->priv.irq_info[ix].mask);
-> > -}
-> >
-> 
-> let's keep this abstraction, even let's consider moving this to a
-> helper function in the mlx5_core dirver main.c,
-> it is not right when mlx5_ib and mlx5e netdev know about internal mdev
-> structures and implementations of stuff.
-> 
-> I suggest to move mlx5_ib_get_vector_affinity from patch #4 into
-> drivers/net/ethernet/../mlx5/core/main.c
-> and rename it to mlx5_get_vector_affinity and use it from both rdma
-> and netdevice
-> 
-> and change the above function to:
-> 
-> static int mlx5e_get_cpu(struct mlx5e_priv *priv, int ix)
-> {
->        return cpumask_first(mlx5_get_vector_affinity(priv->mdev, ix));
-> }
-
-Take a look at my comment to Sagi's repost.  The driver never
-actually cares about this weird cpu value - it cares about a node
-for the vectors and PCI layer provides the pci_irq_get_node helper
-for that.  We could wrap this with a mlx5e helper, but that's not
-really the normal style in the kernel.
-
-> >         int err;
-> >
-> > -       c = kzalloc_node(sizeof(*c), GFP_KERNEL, cpu_to_node(cpu));
-> > +       c = kzalloc_node(sizeof(*c), GFP_KERNEL,
-> > +               pci_irq_get_node(priv->mdev->pdev, MLX5_EQ_VEC_COMP_BASE + ix));
-> 
-> this might yield different behavior of what originally intended we
-> want to get the node of the CPU and not of the IRQ's, maybe there is
-> no difference but
-> let's keep mlx5e_get_cpu abstraction as above.
-
-It's a completely bogus abstraction.
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
