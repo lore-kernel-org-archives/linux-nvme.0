@@ -1,63 +1,49 @@
 From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Wed,  7 Jun 2017 15:25:42 +0800
-Subject: [PATCH 1/2] nvme: only consider exit latency when choosing useful
- non-op power states
-Message-ID: <20170607072543.14071-1-kai.heng.feng@canonical.com>
+Date: Wed,  7 Jun 2017 15:25:43 +0800
+Subject: [PATCH 2/2] nvme: relax APST default max latency to 100ms
+In-Reply-To: <20170607072543.14071-1-kai.heng.feng@canonical.com>
+References: <20170607072543.14071-1-kai.heng.feng@canonical.com>
+Message-ID: <20170607072543.14071-2-kai.heng.feng@canonical.com>
 
-When a NVMe is in non-op states, the latency is exlat.
-The latency will be enlat + exlat only when the NVMe tries to transit
-from operational state right atfer it begins to transit to
-non-operational state, which should be a rare case.
+Christoph Hellwig suggests we should to make APST work out of the box.
+Hence relax the the default max latency to make them able to enter
+deepest power state on default.
 
-Therefore, as Andy Lutomirski suggests, use exlat only when deciding power
-states to trainsit to.
+Here are id-ctrl excerpts from two high latency NVMes:
+
+vid     : 0x14a4
+ssvid   : 0x1b4b
+mn      : CX2-GB1024-Q11 NVMe LITEON 1024GB
+ps    3 : mp:0.1000W non-operational enlat:5000 exlat:5000 rrt:3 rrl:3
+          rwt:3 rwl:3 idle_power:- active_power:-
+ps    4 : mp:0.0100W non-operational enlat:50000 exlat:100000 rrt:4 rrl:4
+          rwt:4 rwl:4 idle_power:- active_power:-
+
+vid     : 0x15b7
+ssvid   : 0x1b4b
+mn      : A400 NVMe SanDisk 512GB
+ps    3 : mp:0.0500W non-operational enlat:51000 exlat:10000 rrt:0 rrl:0
+          rwt:0 rwl:0 idle_power:- active_power:-
+ps    4 : mp:0.0055W non-operational enlat:1000000 exlat:100000 rrt:0 rrl:0
+          rwt:0 rwl:0 idle_power:- active_power:-
 
 Signed-off-by: Kai-Heng Feng <kai.heng.feng at canonical.com>
 ---
- drivers/nvme/host/core.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ drivers/nvme/host/core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0f9cc0c55e15..c07d8d4e18c9 100644
+index c07d8d4e18c9..903d5813023a 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1342,7 +1342,7 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
- 	 * transitioning between power states.  Therefore, when running
- 	 * in any given state, we will enter the next lower-power
- 	 * non-operational state after waiting 50 * (enlat + exlat)
--	 * microseconds, as long as that state's total latency is under
-+	 * microseconds, as long as that state's exit latency is under
- 	 * the requested maximum latency.
- 	 *
- 	 * We will not autonomously enter any non-operational state for
-@@ -1387,7 +1387,7 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
- 		 * lowest-power state, not the number of states.
- 		 */
- 		for (state = (int)ctrl->npss; state >= 0; state--) {
--			u64 total_latency_us, transition_ms;
-+			u64 total_latency_us, exit_latency_us, transition_ms;
+@@ -56,7 +56,7 @@ MODULE_PARM_DESC(max_retries, "max number of retries a command may have");
+ static int nvme_char_major;
+ module_param(nvme_char_major, int, 0);
  
- 			if (target)
- 				table->entries[state] = target;
-@@ -1408,12 +1408,15 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
- 			      NVME_PS_FLAGS_NON_OP_STATE))
- 				continue;
- 
--			total_latency_us =
--				(u64)le32_to_cpu(ctrl->psd[state].entry_lat) +
--				+ le32_to_cpu(ctrl->psd[state].exit_lat);
--			if (total_latency_us > ctrl->ps_max_latency_us)
-+			exit_latency_us =
-+				(u64)le32_to_cpu(ctrl->psd[state].exit_lat);
-+			if (exit_latency_us > ctrl->ps_max_latency_us)
- 				continue;
- 
-+			total_latency_us =
-+				exit_latency_us +
-+				le32_to_cpu(ctrl->psd[state].entry_lat);
-+
- 			/*
- 			 * This state is good.  Use it as the APST idle
- 			 * target for higher power states.
+-static unsigned long default_ps_max_latency_us = 25000;
++static unsigned long default_ps_max_latency_us = 100000;
+ module_param(default_ps_max_latency_us, ulong, 0644);
+ MODULE_PARM_DESC(default_ps_max_latency_us,
+ 		 "max power saving latency for new devices; use PM QOS to change per device");
 -- 
 2.13.0
