@@ -1,11 +1,14 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 7 Jun 2017 10:22:49 +0200
-Subject: [PATCH 1/2] nvme: only consider exit latency when choosing
- useful non-op power states
-In-Reply-To: <20170607072543.14071-1-kai.heng.feng@canonical.com>
-References: <20170607072543.14071-1-kai.heng.feng@canonical.com>
-Message-ID: <20170607082249.GC24774@lst.de>
+Date: Wed, 7 Jun 2017 10:25:59 +0200
+Subject: [PATCH v2] nvme-rdma: remove race conditions from IB signalling
+In-Reply-To: <e23c840e-90c2-5929-a8fe-408ef90fa546@grimberg.me>
+References: <1367439528.79530717.1496748441203.JavaMail.zimbra@kalray.eu>
+ <e23c840e-90c2-5929-a8fe-408ef90fa546@grimberg.me>
+Message-ID: <20170607082559.GA24876@lst.de>
 
-Thanks Kai-Heng,
+On Tue, Jun 06, 2017@02:59:43PM +0300, Sagi Grimberg wrote:
+> Christoph,
+>
+> Can you place a stable tag on this (4.11+)?
 
-I'll add both patches to the nvme-4.12 branch.
+Added.
