@@ -1,86 +1,53 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed,  7 Jun 2017 11:45:36 +0200
-Subject: [PATCH v6 09/10] nvmet: allow overriding the NVMe VS via configfs
+Date: Wed,  7 Jun 2017 11:45:30 +0200
+Subject: [PATCH v6 03/10] nvme: introduce NVMe Namespace Identification
+ Descriptor structures
 In-Reply-To: <20170607094536.32419-1-jthumshirn@suse.de>
 References: <20170607094536.32419-1-jthumshirn@suse.de>
-Message-ID: <20170607094536.32419-10-jthumshirn@suse.de>
-
-Allow overriding the announced NVMe Version of a via configfs.
-
-This is particularly helpful when debugging new features for the host
-or target side without bumping the hard coded version (as the target
-might not be fully compliant to the announced version yet).
+Message-ID: <20170607094536.32419-4-jthumshirn@suse.de>
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 Reviewed-by: Hannes Reinecke <hare at suse.com>
-Reviewed-by: Guan Junxiong <guanjunxiong at huawei.com>
 ---
- drivers/nvme/target/configfs.c | 37 +++++++++++++++++++++++++++++++++++++
- include/linux/nvme.h           |  4 ++++
- 2 files changed, 41 insertions(+)
+ include/linux/nvme.h | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
-index 83bfe28fe7da..a358ecd93e11 100644
---- a/drivers/nvme/target/configfs.c
-+++ b/drivers/nvme/target/configfs.c
-@@ -650,8 +650,45 @@ static ssize_t nvmet_subsys_attr_allow_any_host_store(struct config_item *item,
- 
- CONFIGFS_ATTR(nvmet_subsys_, attr_allow_any_host);
- 
-+static ssize_t nvmet_subsys_version_show(struct config_item *item,
-+					      char *page)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+
-+	if (NVME_TERTIARY(subsys->ver))
-+		return snprintf(page, PAGE_SIZE, "%d.%d.%d\n",
-+				(int)NVME_MAJOR(subsys->ver),
-+				(int)NVME_MINOR(subsys->ver),
-+				(int)NVME_TERTIARY(subsys->ver));
-+	else
-+		return snprintf(page, PAGE_SIZE, "%d.%d\n",
-+				(int)NVME_MAJOR(subsys->ver),
-+				(int)NVME_MINOR(subsys->ver));
-+}
-+
-+static ssize_t nvmet_subsys_version_store(struct config_item *item,
-+					       const char *page, size_t count)
-+{
-+	struct nvmet_subsys *subsys = to_subsys(item);
-+	int major, minor, tertiary = 0;
-+	int ret;
-+
-+
-+	ret = sscanf(page, "%d.%d.%d\n", &major, &minor, &tertiary);
-+	if (ret != 2 && ret != 3)
-+		return -EINVAL;
-+
-+	down_write(&nvmet_config_sem);
-+	subsys->ver = NVME_VS(major, minor, tertiary);
-+	up_write(&nvmet_config_sem);
-+
-+	return count;
-+}
-+CONFIGFS_ATTR(nvmet_subsys_, version);
-+
- static struct configfs_attribute *nvmet_subsys_attrs[] = {
- 	&nvmet_subsys_attr_attr_allow_any_host,
-+	&nvmet_subsys_attr_version,
- 	NULL,
- };
- 
 diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-index 01d75c2b32a6..350c32fca1f5 100644
+index c004af5faa48..01d75c2b32a6 100644
 --- a/include/linux/nvme.h
 +++ b/include/linux/nvme.h
-@@ -1070,4 +1070,8 @@ struct nvme_completion {
- #define NVME_VS(major, minor, tertiary) \
- 	(((major) << 16) | ((minor) << 8) | (tertiary))
+@@ -289,6 +289,7 @@ enum {
+ 	NVME_ID_CNS_NS			= 0x00,
+ 	NVME_ID_CNS_CTRL		= 0x01,
+ 	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
++	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
+ 	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
+ 	NVME_ID_CNS_NS_PRESENT		= 0x11,
+ 	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
+@@ -315,6 +316,22 @@ enum {
+ 	NVME_NS_DPS_PI_TYPE3	= 3,
+ };
  
-+#define NVME_MAJOR(ver)		((ver) >> 16)
-+#define NVME_MINOR(ver)		(((ver) >> 8) & 0xff)
-+#define NVME_TERTIARY(ver)	((ver) & 0xff)
++struct nvme_ns_id_desc {
++	__u8 nidt;
++	__u8 nidl;
++	__le16 reserved;
++};
 +
- #endif /* _LINUX_NVME_H */
++#define NVME_NIDT_EUI64_LEN	8
++#define NVME_NIDT_NGUID_LEN	16
++#define NVME_NIDT_UUID_LEN	16
++
++enum {
++	NVME_NIDT_EUI64		= 0x01,
++	NVME_NIDT_NGUID		= 0x02,
++	NVME_NIDT_UUID		= 0x03,
++};
++
+ struct nvme_smart_log {
+ 	__u8			critical_warning;
+ 	__u8			temperature[2];
 -- 
 2.12.3
