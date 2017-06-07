@@ -1,99 +1,82 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed,  7 Jun 2017 11:45:27 +0200
-Subject: [PATCH v6 00/10] Implement NVMe Namespace Descriptor Identification
-Message-ID: <20170607094536.32419-1-jthumshirn@suse.de>
+Date: Wed,  7 Jun 2017 11:45:35 +0200
+Subject: [PATCH v6 08/10] nvme: provide UUID value to userspace
+In-Reply-To: <20170607094536.32419-1-jthumshirn@suse.de>
+References: <20170607094536.32419-1-jthumshirn@suse.de>
+Message-ID: <20170607094536.32419-9-jthumshirn@suse.de>
 
-This patchset implemets NVMe Namespace Descriptor Identification as of
-NVMe 1.3. The Namespace Descriptor Identification allows a NVMe host
-to query several Namespace Identification mechanisms, such as EUI-64,
-NGUID and UUID from the target. If more than one value is set by the
-target, it can transmit all set values to the host.
+Now that we have a way for getting the UUID from a target, provide it
+to userspace as well.
 
-The Namespace Identification Descriptor list is the only way a target
-can identify itself via the newly introduced UUID to the host (in
-addition to the EUI-64 or NGUID).
+Unfortunately there is already a sysfs attribute called UUID which is
+a misnomer as it holds the NGUID value. So instead of creating yet
+another wrong name, create a new 'nguid' sysfs attribute for the
+NGUID. For the UUID attribute add a check wheter the namespace has a
+UUID assigned to it and return this or return the NGUID to maintain
+backwards compatibility. This should give userspace a chance to catch
+up.
 
-Both the Host and Target side are implemented. In order to get the
-Linux Host to send the Linux target implementation a Namespace
-Descriptor Identification command, you have to change the target's
-announced version code to at least 1.3. 
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
+Reviewed-by: Sagi Grimberg <sagi at rimberg.me>
+---
+ drivers/nvme/host/core.c | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-Unfortunately the host side already did have a sysfs attribute called
-'uuid' which represented the NGUID, so precautions have been taken to
-not break any existing userspace.
-
-The code is tested using the nvme-loop loopback target and cut against
-Christoph's uuid/for-next branch.
-
-A patch for nvmetcli and nvme-cli will follow shortly.
-
-Changes to v5:
-* Change '\0' to 0 in sg_zerroout_area()s memset (Sagi)
-* Fix uinitialized variable in version setting (Guan)
-* Renamed struct nvme_ns_identifier_hdr to nvme_ns_id_desc (Sagi)
-* Move all users of dev_(warn|err)\(ctrl->dev to ctrl->device (Sagi)
-* Add Max's R-b
-
-Changes to v4:
-* Add nvmet_copy_ns_identifier() helper (Christoph)
-* Move 'nvmet: use NVME_IDENTIFY_DATA_SIZE' to beginning of series (Christoph)
-* Protect subsystem version with nvmet_config_sem (Christoph)
-* Get rid of local variables in nvmet_subsys_version_show (Christoph)
-* Included dots in subsystem version (Sagi)
-* Merge nvme_parse_ns_descs() into nvme_identify_ns_descs() (Christoph)
-* Skip unknown NS descriptors in nvme_identify_ns_descs() (Christoph)
-* Add sg_zeroout_area() helper to lib/scatterlist.c (Christoph)
-* I'm not sure if I shall use nvme_ns_identifier_hdr or nvme_ns_id_desc
-* Rebased on Christoph's uuid/for-next branch
-* Collected Acks
-
-Changes to v3:
-* Autogenerate UUID on target NS allocation (Sagi)
-
-Changes to v2:
-* Added Max's Reviewed-by
-* Make series bisectable
-
-Changes to v1:
-* Added Reviewed-by tags from Christoph and Hannes for unchanged patches
-* Added patch introducing new structs at the beginning (Christoph)
-* Dropped SZ_4K patch
-* Got rid of dynamic memory allocation on the target side (Christoph)
-* Reworked host side parser (Christoph)
-* Check length inside type check in the host parser (Max)
-
-Changes to v0:
-* Fixed wrong size of 4069 and replaced it with SZ_4K (Max)
-* Add constants for UUID, NGUID and EUI-64 length (Max)
-* Drop EUI-64 Support on target side (Christoph)
-* Use uuid_be instead of u8[] (Christoph)
-* Add ability to override target's version (Hannes)
-* Change hard coded magic 4096 and 0x1000 to SZ_4k in drivers/nvme/*
-
-Johannes Thumshirn (10):
-  scatterlist: add sg_zeroout_area() helper
-  nvmet: use NVME_IDENTIFY_DATA_SIZE
-  nvme: introduce NVMe Namespace Identification Descriptor structures
-  nvme: rename uuid to nguid in nvme_ns
-  nvmet: implement namespace identify descriptor list
-  nvmet: add uuid field to nvme_ns and populate via configfs
-  nvme: get list of namespace descriptors
-  nvme: provide UUID value to userspace
-  nvmet: allow overriding the NVMe VS via configfs
-  nvme: use ctrl->device consistently for logging
-
- drivers/nvme/host/core.c        | 120 +++++++++++++++++++++++++++++++++++++---
- drivers/nvme/host/fc.c          |  12 ++--
- drivers/nvme/host/nvme.h        |   1 +
- drivers/nvme/target/admin-cmd.c |  65 +++++++++++++++++++++-
- drivers/nvme/target/configfs.c  |  68 +++++++++++++++++++++++
- drivers/nvme/target/core.c      |   3 +-
- drivers/nvme/target/discovery.c |   2 +-
- drivers/nvme/target/nvmet.h     |   1 +
- include/linux/nvme.h            |  23 ++++++++
- include/linux/scatterlist.h     |   3 +
- lib/scatterlist.c               |  37 +++++++++++++
- 11 files changed, 316 insertions(+), 19 deletions(-)
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 34857191c8bd..462187a4047b 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1879,11 +1879,28 @@ static ssize_t wwid_show(struct device *dev, struct device_attribute *attr,
+ }
+ static DEVICE_ATTR(wwid, S_IRUGO, wwid_show, NULL);
+ 
++static ssize_t nguid_show(struct device *dev, struct device_attribute *attr,
++			  char *buf)
++{
++	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
++	return sprintf(buf, "%pU\n", ns->nguid);
++}
++static DEVICE_ATTR(nguid, S_IRUGO, nguid_show, NULL);
++
+ static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
+ 								char *buf)
+ {
+ 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+-	return sprintf(buf, "%pU\n", ns->nguid);
++
++	/* For backward compatibility expose the NGUID to userspace if
++	 * we have no UUID set
++	 */
++	if (!memchr_inv(ns->uuid, 0, sizeof(ns->uuid))) {
++		printk_ratelimited(KERN_WARNING
++				   "No UUID available providing old NGUID\n");
++		return sprintf(buf, "%pU\n", ns->nguid);
++	}
++	return sprintf(buf, "%pU\n", ns->uuid);
+ }
+ static DEVICE_ATTR(uuid, S_IRUGO, uuid_show, NULL);
+ 
+@@ -1906,6 +1923,7 @@ static DEVICE_ATTR(nsid, S_IRUGO, nsid_show, NULL);
+ static struct attribute *nvme_ns_attrs[] = {
+ 	&dev_attr_wwid.attr,
+ 	&dev_attr_uuid.attr,
++	&dev_attr_nguid.attr,
+ 	&dev_attr_eui.attr,
+ 	&dev_attr_nsid.attr,
+ 	NULL,
+@@ -1918,6 +1936,11 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
+ 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+ 
+ 	if (a == &dev_attr_uuid.attr) {
++		if (!memchr_inv(ns->uuid, 0, sizeof(ns->uuid)) ||
++		    !memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
++			return 0;
++	}
++	if (a == &dev_attr_nguid.attr) {
+ 		if (!memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
+ 			return 0;
+ 	}
 -- 
 2.12.3
