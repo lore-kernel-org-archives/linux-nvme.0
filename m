@@ -1,46 +1,42 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Tue, 6 Jun 2017 16:14:43 -0500
-Subject: [PATCH 1/3] PCI: ensure the PCI device is locked over
- ->reset_notify calls
-In-Reply-To: <20170606104836.GB24297@lst.de>
-References: <20170601111039.8913-1-hch@lst.de>
- <20170601111039.8913-2-hch@lst.de>
- <20170606053142.GA25064@bhelgaas-glaptop.roam.corp.google.com>
- <20170606104836.GB24297@lst.de>
-Message-ID: <20170606211443.GB12672@bhelgaas-glaptop.roam.corp.google.com>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Wed, 7 Jun 2017 12:47:09 +0800
+Subject: [PATCH v5 9/9] nvmet: allow overriding the NVMe VS via configfs
+In-Reply-To: <20170606143617.32143-10-jthumshirn@suse.de>
+References: <20170606143617.32143-1-jthumshirn@suse.de>
+ <20170606143617.32143-10-jthumshirn@suse.de>
+Message-ID: <1e6c06b6-4aec-d2bf-5361-7b656b64dc22@huawei.com>
 
-On Tue, Jun 06, 2017@12:48:36PM +0200, Christoph Hellwig wrote:
-> On Tue, Jun 06, 2017@12:31:42AM -0500, Bjorn Helgaas wrote:
-> > OK, sorry to be dense; it's taking me a long time to work out the
-> > details here.  It feels like there should be a general principle to
-> > help figure out where we need locking, and it would be really awesome
-> > if we could include that in the changelog.  But it's not obvious to me
-> > what that principle would be.
-> 
-> The principle is very simple: every method in struct device_driver
-> or structures derived from it like struct pci_driver MUST provide
-> exclusion vs ->remove.  Usuaull by using device_lock().
-> 
-> If we don't provide such an exclusion the method call can race with
-> a removal in one form or another.
+Hi,Johannes
 
-So I guess the method here is
-dev->driver->err_handler->reset_notify(), and the PCI core should be
-holding device_lock() while calling it?  That makes sense to me;
-thanks a lot for articulating that!
+On 2017/6/6 22:36, Johannes Thumshirn wrote:
+> Allow overriding the announced NVMe Version of a via configfs.
 
-1) The current patch protects the err_handler->reset_notify() uses by
-adding or expanding device_lock regions in the paths that lead to
-pci_reset_notify().  Could we simplify it by doing the locking
-directly in pci_reset_notify()?  Then it would be easy to verify the
-locking, and we would be less likely to add new callers without the
-proper locking.
+> +static ssize_t nvmet_subsys_version_store(struct config_item *item,
+> +					       const char *page, size_t count)
+> +{
+> +	struct nvmet_subsys *subsys = to_subsys(item);
+> +	int major, minor, tertiary;
+> +	int ret;
+> +
+> +
+> +	ret = sscanf(page, "%d.%d.%d\n", &major, &minor, &tertiary);
+> +	if (ret != 2 && ret != 3)
+> +		return -EINVAL;
+> +
+> +	down_write(&nvmet_config_sem);
+> +	subsys->ver = NVME_VS(major, minor, tertiary);
 
-2) Stating the rule explicitly helps look for other problems, and I
-think we have a similar problem in all the pcie_portdrv_err_handler
-methods.  These are all called in the AER do_recovery() path, and the
-functions there, e.g., report_error_detected() do hold device_lock().
-But pcie_portdrv_error_detected() propagates this to all the children,
-and we *don't* hold the lock for the children.
+tertiary variable is not initialized, which could induce garbage info if ret = 2
 
-Bjorn
+> +++ b/include/linux/nvme.h
+> @@ -1070,4 +1070,8 @@ struct nvme_completion {
+>  #define NVME_VS(major, minor, tertiary) \
+>  	(((major) << 16) | ((minor) << 8) | (tertiary))
+>  
+> +#define NVME_MAJOR(ver)		((ver) >> 16)
+> +#define NVME_MINOR(ver)		(((ver) >> 8) & 0xff)
+> +#define NVME_TERTIARY(ver)	((ver) & 0xff)the above line could be aligned with the preceding two lines
+
+Except for those above, others looks good for me.
+
+Reviewed-by: Guan Junxiong <guanjunxiong at huawei.com>
