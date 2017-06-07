@@ -1,20 +1,25 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 7 Jun 2017 08:59:03 +0200
-Subject: [PATCH v5 0/9] Implement NVMe Namespace Descriptor Identification
-In-Reply-To: <4f1616b4-5454-0486-5c03-0f3a1420b6c1@grimberg.me>
+Date: Wed, 7 Jun 2017 09:00:50 +0200
+Subject: [PATCH v5 1/9] scatterlist: add sg_zeroout_area() helper
+In-Reply-To: <eef19233-47d6-9ea3-9f03-d846ce578ef7@grimberg.me>
 References: <20170606143617.32143-1-jthumshirn@suse.de>
- <4f1616b4-5454-0486-5c03-0f3a1420b6c1@grimberg.me>
-Message-ID: <bc9fd7b2-b040-c49a-8719-9b6531b1b8b6@suse.de>
+ <20170606143617.32143-2-jthumshirn@suse.de>
+ <eef19233-47d6-9ea3-9f03-d846ce578ef7@grimberg.me>
+Message-ID: <0778ec96-8396-143e-9925-55f9c7d39239@suse.de>
 
-On 06/06/2017 08:27 PM, Sagi Grimberg wrote:
+On 06/06/2017 08:26 PM, Sagi Grimberg wrote:
 > 
->> * I'm not sure if I shall use nvme_ns_identifier_hdr or nvme_ns_id_desc
+>> +    while ((offset < buflen) && sg_miter_next(&miter)) {
+>> +        unsigned int len;
+>> +
+>> +        len = min(miter.length, buflen - offset);
+>> +        memset(miter.addr, '\0', len);
 > 
-> I was kinda hoping you will :(
-> 
-> I won't insist if people are fine with that as is...
+> Why '\0' and not 0?
 
-OK, I'll change it for ya :-)
+Shouldn't be a difference, should it? ascii(7) says
+'000   0     00    NUL '\0' (null character)'
+
 
 -- 
 Johannes Thumshirn                                          Storage
