@@ -1,10 +1,16 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 7 Jun 2017 13:04:18 +0300
-Subject: [PATCH v6 10/10] nvme: use ctrl->device consistently for logging
-In-Reply-To: <20170607095118.32557-1-jthumshirn@suse.de>
-References: <20170607095118.32557-1-jthumshirn@suse.de>
-Message-ID: <cb301be4-f7ce-50e7-ce82-a6f5692bad51@grimberg.me>
+Date: Wed, 7 Jun 2017 13:22:56 +0300
+Subject: [PATCH v4 for-4.13 1/6] mlx5: convert to generic
+ pci_alloc_irq_vectors
+In-Reply-To: <20170607082019.GA24774@lst.de>
+References: <1496814868-22070-1-git-send-email-sagi@grimberg.me>
+ <1496814868-22070-2-git-send-email-sagi@grimberg.me>
+ <20170607082019.GA24774@lst.de>
+Message-ID: <ec357da8-9089-9f8c-2966-70b6cc79d669@grimberg.me>
 
-Thanks,
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> What tree is this again?  Trying to apply it to latest mainline
+> fails badly.
+
+It was on top of the nvme tree which until a short while ago in-sync
+with upstream. I guess some stuff went in, I'll respin shortly.
