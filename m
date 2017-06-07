@@ -1,77 +1,75 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed,  7 Jun 2017 11:45:28 +0200
-Subject: [PATCH v6 01/10] scatterlist: add sg_zeroout_area() helper
+Date: Wed,  7 Jun 2017 11:45:33 +0200
+Subject: [PATCH v6 06/10] nvmet: add uuid field to nvme_ns and populate via
+ configfs
 In-Reply-To: <20170607094536.32419-1-jthumshirn@suse.de>
 References: <20170607094536.32419-1-jthumshirn@suse.de>
-Message-ID: <20170607094536.32419-2-jthumshirn@suse.de>
+Message-ID: <20170607094536.32419-7-jthumshirn@suse.de>
 
-The sg_zeroout_area() helper is used to zero fill an area in a SG
-list.
+Add the UUID field from the NVMe Namespace Identification Descriptor
+to the nvmet_ns structure and allow it's population via configfs.
 
 Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Reviewed-by: Hannes Reinecke <hare at suse.com>
 ---
- include/linux/scatterlist.h |  3 +++
- lib/scatterlist.c           | 37 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 40 insertions(+)
+ drivers/nvme/target/configfs.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/include/linux/scatterlist.h b/include/linux/scatterlist.h
-index cb3c8fe6acd7..a38ce9f4e78a 100644
---- a/include/linux/scatterlist.h
-+++ b/include/linux/scatterlist.h
-@@ -279,6 +279,9 @@ size_t sg_pcopy_from_buffer(struct scatterlist *sgl, unsigned int nents,
- size_t sg_pcopy_to_buffer(struct scatterlist *sgl, unsigned int nents,
- 			  void *buf, size_t buflen, off_t skip);
+diff --git a/drivers/nvme/target/configfs.c b/drivers/nvme/target/configfs.c
+index be8c800078e2..83bfe28fe7da 100644
+--- a/drivers/nvme/target/configfs.c
++++ b/drivers/nvme/target/configfs.c
+@@ -305,11 +305,41 @@ static ssize_t nvmet_ns_device_path_store(struct config_item *item,
  
-+size_t sg_zeroout_area(struct scatterlist *sgl, unsigned int nents,
-+		       size_t buflen, off_t skip);
-+
- /*
-  * Maximum number of entries that will be allocated in one piece, if
-  * a list larger than this is required then chaining will be utilized.
-diff --git a/lib/scatterlist.c b/lib/scatterlist.c
-index c6cf82242d65..584f50c94fce 100644
---- a/lib/scatterlist.c
-+++ b/lib/scatterlist.c
-@@ -751,3 +751,40 @@ size_t sg_pcopy_to_buffer(struct scatterlist *sgl, unsigned int nents,
- 	return sg_copy_buffer(sgl, nents, buf, buflen, skip, true);
- }
- EXPORT_SYMBOL(sg_pcopy_to_buffer);
-+
-+/**
-+ * sg_zeroout_area - Zero-out a part of a SG list
-+ * @sgl:		 The SG list
-+ * @nents:		 Number of SG entries
-+ * @buflen:		 The number of bytes to zero out
-+ * @skip:		 Number of bytes to skip before zeroing
-+ *
-+ * Returns the number of bytes zeroed.
-+ *
-+ **/
-+size_t sg_zeroout_area(struct scatterlist *sgl, unsigned int nents,
-+		       size_t buflen, off_t skip)
+ CONFIGFS_ATTR(nvmet_ns_, device_path);
+ 
++static ssize_t nvmet_ns_device_uuid_show(struct config_item *item, char *page)
 +{
-+	unsigned int offset = 0;
-+	struct sg_mapping_iter miter;
-+	unsigned int sg_flags = SG_MITER_ATOMIC | SG_MITER_TO_SG;
++	return sprintf(page, "%pUb\n", &to_nvmet_ns(item)->uuid);
++}
 +
-+	sg_miter_start(&miter, sgl, nents, sg_flags);
++static ssize_t nvmet_ns_device_uuid_store(struct config_item *item,
++					  const char *page, size_t count)
++{
++	struct nvmet_ns *ns = to_nvmet_ns(item);
++	struct nvmet_subsys *subsys = ns->subsys;
++	int ret = 0;
 +
-+	if (!sg_miter_skip(&miter, skip))
-+		return false;
 +
-+	while ((offset < buflen) && sg_miter_next(&miter)) {
-+		unsigned int len;
-+
-+		len = min(miter.length, buflen - offset);
-+		memset(miter.addr, 0, len);
-+
-+		offset += len;
++	mutex_lock(&subsys->lock);
++	if (ns->enabled) {
++		ret = -EBUSY;
++		goto out_unlock;
 +	}
 +
-+	sg_miter_stop(&miter);
 +
-+	return offset;
++	if (uuid_parse(page, &ns->uuid))
++		ret = -EINVAL;
++
++out_unlock:
++	mutex_unlock(&subsys->lock);
++	return ret ? ret : count;
 +}
-+EXPORT_SYMBOL(sg_zeroout_area);
++
+ static ssize_t nvmet_ns_device_nguid_show(struct config_item *item, char *page)
+ {
+ 	return sprintf(page, "%pUb\n", &to_nvmet_ns(item)->nguid);
+ }
+ 
++CONFIGFS_ATTR(nvmet_ns_, device_uuid);
++
+ static ssize_t nvmet_ns_device_nguid_store(struct config_item *item,
+ 		const char *page, size_t count)
+ {
+@@ -379,6 +409,7 @@ CONFIGFS_ATTR(nvmet_ns_, enable);
+ static struct configfs_attribute *nvmet_ns_attrs[] = {
+ 	&nvmet_ns_attr_device_path,
+ 	&nvmet_ns_attr_device_nguid,
++	&nvmet_ns_attr_device_uuid,
+ 	&nvmet_ns_attr_enable,
+ 	NULL,
+ };
 -- 
 2.12.3
