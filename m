@@ -1,14 +1,115 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 7 Jun 2017 10:25:59 +0200
-Subject: [PATCH v2] nvme-rdma: remove race conditions from IB signalling
-In-Reply-To: <e23c840e-90c2-5929-a8fe-408ef90fa546@grimberg.me>
-References: <1367439528.79530717.1496748441203.JavaMail.zimbra@kalray.eu>
- <e23c840e-90c2-5929-a8fe-408ef90fa546@grimberg.me>
-Message-ID: <20170607082559.GA24876@lst.de>
+Date: Wed, 7 Jun 2017 10:31:56 +0200
+Subject: [PATCH v3 for-4.13 2/6] mlx5: move affinity hints assignments
+ to generic code
+In-Reply-To: <CALzJLG-SQj2OsOOjhHsMaD8gKC0JKD068L=ZjYRPBG=iwf9r8Q@mail.gmail.com>
+References: <1496644560-28923-1-git-send-email-sagi@grimberg.me>
+ <1496644560-28923-3-git-send-email-sagi@grimberg.me>
+ <CALzJLG-SQj2OsOOjhHsMaD8gKC0JKD068L=ZjYRPBG=iwf9r8Q@mail.gmail.com>
+Message-ID: <20170607083156.GB24876@lst.de>
 
-On Tue, Jun 06, 2017@02:59:43PM +0300, Sagi Grimberg wrote:
-> Christoph,
->
-> Can you place a stable tag on this (4.11+)?
+On Wed, Jun 07, 2017@09:16:47AM +0300, Saeed Mahameed wrote:
+> On Mon, Jun 5, 2017@9:35 AM, Sagi Grimberg <sagi@grimberg.me> wrote:
+> > generic api takes care of spreading affinity similar to
+> > what mlx5 open coded (and even handles better asymmetric
+> > configurations). Ask the generic API to spread affinity
+> > for us, and feed him pre_vectors that do not participate
+> > in affinity settings (which is an improvement to what we
+> > had before).
+> >
+> > The affinity assignments should match what mlx5 tried to
+> > do earlier but now we do not set affinity to async, cmd
+> > and pages dedicated vectors.
+> >
+> 
+> I am not sure the new assignment will match what we tried to do before
+> this patch, and i would like to preserve that behavior
+> from before we simply spread comp vectors to the close numa cpus first
+> then to other cores uniformly.
+> i.e prefer first IRQs to go to close numa cores.
+> 
+> for example if you have 2 numa nodes each have 4 cpus, and the device
+> is on 2nd numa,
+> Numa 1 cpus: 0 1 2 3
+> Numa 2 cpus: 4 5 6 7
+> 
+> this should be the affinity:
+> 
+> IRQ[0] -> cpu[4] (Numa 2)
+> IRQ[1] -> cpu[5]
+> IRQ[2] -> cpu[6]
+> IRQ[3] -> cpu[7]
+> 
+> IRQ[4] -> cpu[0] (Numa 1)
+> IRQ[5] -> cpu[1]
+> IRQ[6] -> cpu[2]
+> IRQ[7] -> cpu[3]
+> 
+> looking at irq_create_affinity_masks, and it seems not to be the case !
+> "nodemask_t nodemsk = NODE_MASK_NONE;" it doesn't seem to prefer any numa node.
 
-Added.
+nodemsk is set up by get_nodes_in_cpumask.  The mask you should
+get with the new code is:
+
+IRQ[0] -> cpu[0] (Numa 1)
+IRQ[1] -> cpu[1]
+IRQ[2] -> cpu[2]
+IRQ[3] -> cpu[3]
+
+IRQ[4] -> cpu[4] (Numa 2)
+IRQ[5] -> cpu[5]
+IRQ[6] -> cpu[6]
+IRQ[7] -> cpu[7]
+
+is there any reason you want to start assining vectors on the local
+node?  This is doable, but would complicate the code quite a bit
+so it needs a good argument.
+ 
+> I am sure that there is a way to force our mlx5 affinity strategy and
+> override the default one with the new API.
+
+No, there is not.  The whole point is that we want to come up with
+a common policy instead of each driver doing their own weird little
+thing.
+
+> > -static int mlx5e_get_cpu(struct mlx5e_priv *priv, int ix)
+> > -{
+> > -       return cpumask_first(priv->mdev->priv.irq_info[ix].mask);
+> > -}
+> >
+> 
+> let's keep this abstraction, even let's consider moving this to a
+> helper function in the mlx5_core dirver main.c,
+> it is not right when mlx5_ib and mlx5e netdev know about internal mdev
+> structures and implementations of stuff.
+> 
+> I suggest to move mlx5_ib_get_vector_affinity from patch #4 into
+> drivers/net/ethernet/../mlx5/core/main.c
+> and rename it to mlx5_get_vector_affinity and use it from both rdma
+> and netdevice
+> 
+> and change the above function to:
+> 
+> static int mlx5e_get_cpu(struct mlx5e_priv *priv, int ix)
+> {
+>        return cpumask_first(mlx5_get_vector_affinity(priv->mdev, ix));
+> }
+
+Take a look at my comment to Sagi's repost.  The driver never
+actually cares about this weird cpu value - it cares about a node
+for the vectors and PCI layer provides the pci_irq_get_node helper
+for that.  We could wrap this with a mlx5e helper, but that's not
+really the normal style in the kernel.
+
+> >         int err;
+> >
+> > -       c = kzalloc_node(sizeof(*c), GFP_KERNEL, cpu_to_node(cpu));
+> > +       c = kzalloc_node(sizeof(*c), GFP_KERNEL,
+> > +               pci_irq_get_node(priv->mdev->pdev, MLX5_EQ_VEC_COMP_BASE + ix));
+> 
+> this might yield different behavior of what originally intended we
+> want to get the node of the CPU and not of the IRQ's, maybe there is
+> no difference but
+> let's keep mlx5e_get_cpu abstraction as above.
+
+It's a completely bogus abstraction.
