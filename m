@@ -1,16 +1,28 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 7 Jun 2017 14:15:21 +0300
-Subject: [PATCH v2 2/2] nvme: Add support for FW activation without reset
-In-Reply-To: <b398fbce-8425-df4c-4bf2-6095c1da40b5@samsung.com>
-References: <1496067391-26143-1-git-send-email-a.dawn@samsung.com>
- <CGME20170529141807epcas1p259e2e9b04327285d18f2d62bb6ccbce1@epcas1p2.samsung.com>
- <1496067498-26233-1-git-send-email-a.dawn@samsung.com>
- <d480fd9e-b002-326d-1ee6-dd0f0694b4e1@grimberg.me>
- <b398fbce-8425-df4c-4bf2-6095c1da40b5@samsung.com>
-Message-ID: <d98c8af9-c39b-7a27-bdcc-b90629da5914@grimberg.me>
+From: andy.shevchenko@gmail.com (Andy Shevchenko)
+Date: Wed, 7 Jun 2017 16:47:51 +0300
+Subject: [PATCH v2 2/8] nvme: rename uuid to nguid in nvme_ns
+In-Reply-To: <20170601111750.20880-3-jthumshirn@suse.de>
+References: <20170601111750.20880-1-jthumshirn@suse.de>
+ <20170601111750.20880-3-jthumshirn@suse.de>
+Message-ID: <CAHp75VfcXQNPjJd4-7okeifmEBdCtCVkJVR6hMb=jmDryt71oQ@mail.gmail.com>
 
+On Thu, Jun 1, 2017@2:17 PM, Johannes Thumshirn <jthumshirn@suse.de> wrote:
+> The uuid field in the nvme_ns structure represents the nguid field
+> from the identify namespace command. And as NVMe 1.3 introduced an
+> UUID in the NVMe Namespace Identification Descriptor this will
+> collide.
+>
+> So rename the uuid to nguid to prevent any further
+> confusion. Unfortunately we export the nguid to sysfs in the uuid
+> sysfs attribute, but this can't be changed anymore without possibly
+> breaking existing userspace.
+>
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-> Fw_act_timeout is reset to initial state once done.
+I suppose it should go through UUID tree?
 
-But you set it before scheduling the delayed work, you either
-set it always or you don't (AFACIT)
+-- 
+With Best Regards,
+Andy Shevchenko
