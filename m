@@ -1,12 +1,12 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 8 Jun 2017 09:42:19 +0200
-Subject: [PATCH v6 02/10] nvmet: use NVME_IDENTIFY_DATA_SIZE
-In-Reply-To: <20170607094536.32419-3-jthumshirn@suse.de>
+Date: Thu, 8 Jun 2017 09:42:41 +0200
+Subject: [PATCH v6 03/10] nvme: introduce NVMe Namespace Identification
+ Descriptor structures
+In-Reply-To: <20170607094536.32419-4-jthumshirn@suse.de>
 References: <20170607094536.32419-1-jthumshirn@suse.de>
- <20170607094536.32419-3-jthumshirn@suse.de>
-Message-ID: <20170608074219.GB13953@lst.de>
+ <20170607094536.32419-4-jthumshirn@suse.de>
+Message-ID: <20170608074241.GC13953@lst.de>
 
-Looks good, but we should also use this for BUILD_BUG_ON
-checks on the identify payloads, bug I can fix that up.
+Looks good,
 
 Reviewed-by: Christoph Hellwig <hch at lst.de>
