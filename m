@@ -1,55 +1,67 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 8 Jun 2017 19:29:06 +0300
-Subject: [PATCH] nvme: move reset workqueue handling to common code
-In-Reply-To: <20170608130836.31891-1-hch@lst.de>
-References: <20170608130836.31891-1-hch@lst.de>
-Message-ID: <ebdf570f-6a8c-4a8e-4932-831d091711f3@grimberg.me>
+From: lkp@intel.com (kbuild test robot)
+Date: Fri, 9 Jun 2017 05:08:46 +0800
+Subject: [PATCH v6 10/10] nvme: use ctrl->device consistently for logging
+In-Reply-To: <20170607095118.32557-1-jthumshirn@suse.de>
+Message-ID: <201706090433.UE6iUUn7%fengguang.wu@intel.com>
 
+Hi Johannes,
 
-> +int nvme_reset_ctrl(struct nvme_ctrl *ctrl)
-> +{
-> +	if (!ctrl->admin_q || blk_queue_dying(ctrl->admin_q))
-> +		return -ENODEV;
+[auto build test ERROR on block/for-next]
+[also build test ERROR on v4.12-rc4 next-20170608]
+[if your patch is applied to the wrong git tree, please drop us a note to help improve the system]
 
-I don't think we need these. I know they exist in pci, but
-it looks really odd that we're able to even get to this
-point when the controller is not already in RESETTING/DELETING/DEAD
-(which would not pass the ctrl state change anyhow).
+url:    https://github.com/0day-ci/linux/commits/Johannes-Thumshirn/Implement-NVMe-Namespace-Descriptor-Identification/20170608-203614
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git for-next
+config: i386-randconfig-a0-06050003 (attached as .config)
+compiler: gcc-5 (Debian 5.4.1-2) 5.4.1 20160904
+reproduce:
+        # save the attached .config to linux build tree
+        make ARCH=i386 
 
-And if it is, we need to fix that IMHO, we should always make
-sure to rely on our ctrl state for making decisions.
+All errors (new ones prefixed by >>):
 
-> +	if (!nvme_change_ctrl_state(ctrl, NVME_CTRL_RESETTING))
-> +		return -EBUSY;
-> +	if (!queue_work(nvme_wq, &ctrl->reset_work))
-> +		return -EBUSY;
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(nvme_reset_ctrl);
-> +
-> +static int nvme_reset_ctrl_sync(struct nvme_ctrl *ctrl)
-> +{
-> +	int ret;
-> +
-> +	ret = nvme_reset_ctrl(ctrl);
-> +	if (!ret)
-> +		flush_work(&ctrl->reset_work);
-> +	return ret;
-> +}
-> +
->   static int nvme_error_status(struct request *req)
->   {
->   	switch (nvme_req(req)->status & 0x7ff) {
-> @@ -601,7 +623,7 @@ static void nvme_keep_alive_work(struct work_struct *work)
->   	if (nvme_keep_alive(ctrl)) {
->   		/* allocation failure, reset the controller */
->   		dev_err(ctrl->device, "keep-alive failed\n");
-> -		ctrl->ops->reset_ctrl(ctrl);
-> +		nvme_reset_ctrl_sync(ctrl);
+   drivers/nvme//host/fc.c: In function 'nvme_fc_connect_admin_queue':
+>> drivers/nvme//host/fc.c:932:15: error: 'struct nvme_fc_ctrl' has no member named 'device'
+      dev_err(ctrl->device,
+                  ^
+   drivers/nvme//host/fc.c:947:15: error: 'struct nvme_fc_ctrl' has no member named 'device'
+      dev_err(ctrl->device,
+                  ^
+   drivers/nvme//host/fc.c: In function 'nvme_fc_connect_queue':
+   drivers/nvme//host/fc.c:1031:15: error: 'struct nvme_fc_ctrl' has no member named 'device'
+      dev_err(ctrl->device,
+                  ^
+   drivers/nvme//host/fc.c:1044:15: error: 'struct nvme_fc_ctrl' has no member named 'device'
+      dev_err(ctrl->device,
+                  ^
+   drivers/nvme//host/fc.c: In function '__nvme_fc_init_request':
+   drivers/nvme//host/fc.c:1412:15: error: 'struct nvme_fc_ctrl' has no member named 'device'
+      dev_err(ctrl->device,
+                  ^
+   drivers/nvme//host/fc.c:1422:15: error: 'struct nvme_fc_ctrl' has no member named 'device'
+      dev_err(ctrl->device,
+                  ^
 
-Looking at this, I actually think this should be the non-sync version.
-My code :)
+vim +932 drivers/nvme//host/fc.c
 
-Both of these are not directly related to the patch itself so,
+   926		else if (assoc_acc->connectid.desc_len !=
+   927				fcnvme_lsdesc_len(sizeof(struct fcnvme_lsdesc_conn_id)))
+   928			fcret = VERR_CONN_ID_LEN;
+   929	
+   930		if (fcret) {
+   931			ret = -EBADF;
+ > 932			dev_err(ctrl->device,
+   933				"q %d connect failed: %s\n",
+   934				queue->qnum, validation_errors[fcret]);
+   935		} else {
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+---
+0-DAY kernel test infrastructure                Open Source Technology Center
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporation
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: .config.gz
+Type: application/gzip
+Size: 26092 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170609/8e73a086/attachment-0001.gz>
