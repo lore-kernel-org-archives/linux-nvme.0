@@ -1,29 +1,20 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 8 Jun 2017 09:46:05 +0200
-Subject: [PATCH v6 01/10] scatterlist: add sg_zeroout_area() helper
-In-Reply-To: <20170608074124.GA13953@lst.de>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 8 Jun 2017 09:46:13 +0200
+Subject: [PATCH v6 07/10] nvme: get list of namespace descriptors
+In-Reply-To: <20170607094536.32419-8-jthumshirn@suse.de>
 References: <20170607094536.32419-1-jthumshirn@suse.de>
- <20170607094536.32419-2-jthumshirn@suse.de> <20170608074124.GA13953@lst.de>
-Message-ID: <a4e7a0a6-3ba8-c205-c0bb-d50778accc80@suse.de>
+ <20170607094536.32419-8-jthumshirn@suse.de>
+Message-ID: <20170608074613.GF13953@lst.de>
 
-On 06/08/2017 09:41 AM, Christoph Hellwig wrote:
->>  size_t sg_pcopy_to_buffer(struct scatterlist *sgl, unsigned int nents,
->>  			  void *buf, size_t buflen, off_t skip);
->>  
->> +size_t sg_zeroout_area(struct scatterlist *sgl, unsigned int nents,
->> +		       size_t buflen, off_t skip);
+On Wed, Jun 07, 2017@11:45:34AM +0200, Johannes Thumshirn wrote:
+> If a target identifies itself as NVMe 1.3 compliant, try to get the
+> list of Namespace Identification Descriptors and populate the UUID,
+> NGUID and EUI64 fileds in the NVMe namespace structure with these
+> values.
 > 
-> Maybe sg_zero_buffer to fit with the other functions in the family?
-> 
-> (I'd be happy to fix this up if you're ok and we don't need another
-> respin otherwise).
+> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> Reviewed-by: Hannes Reinecke <hare at suse.com>
 
-Sounds good.
+Looks fine,
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Reviewed-by: Christoph Hellwig <hch at lst.de>
