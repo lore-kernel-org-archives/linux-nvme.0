@@ -1,112 +1,36 @@
-From: saeedm@dev.mellanox.co.il (Saeed Mahameed)
-Date: Sun, 11 Jun 2017 12:32:05 +0300
-Subject: [PATCH v3 for-4.13 2/6] mlx5: move affinity hints assignments to
- generic code
-In-Reply-To: <8057a5c0-24a4-6211-c318-1d037b645604@grimberg.me>
-References: <1496644560-28923-1-git-send-email-sagi@grimberg.me>
- <1496644560-28923-3-git-send-email-sagi@grimberg.me>
- <CALzJLG-SQj2OsOOjhHsMaD8gKC0JKD068L=ZjYRPBG=iwf9r8Q@mail.gmail.com>
- <20170607083156.GB24876@lst.de>
- <9332ed02-9711-0196-14d9-e9641c4dc932@grimberg.me>
- <CALzJLG_h8ig97uzz9S_4n-DhcFFi1e+WcUwLejM4cHUFd1MozA@mail.gmail.com>
- <aff81384-517a-94e4-c743-8b89fd8cda1b@grimberg.me>
- <CALzJLG_sFqSm5o1WvjJzoBLMdoSPuQFBBbiBF8T8xn9m8SDc5g@mail.gmail.com>
- <8057a5c0-24a4-6211-c318-1d037b645604@grimberg.me>
-Message-ID: <CALzJLG_QjGqV94HYsyMv9UbeGC_WoaFM-riYZUb+qV4LeVVRuw@mail.gmail.com>
+From: chaitanya.kulkarni@hgst.com (Chaitanya Kulkarni)
+Date: Sun, 11 Jun 2017 20:26:09 -0700
+Subject: selftests: nvmftests: Introducing unittest framework for NVMe Over
+ Fabricis 
+Message-ID: <20170612032610.4176-1-chaitanya.kulkarni@hgst.com>
 
-On Thu, Jun 8, 2017@3:29 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
->
->>>>> My interpretation is that mlx5 tried to do this for the (rather
->>>>> esoteric
->>>>> in my mind) case where the platform does not have enough vectors for
->>>>> the
->>>>> driver to allocate percpu. In this case, the next best thing is to stay
->>>>> as close to the device affinity as possible.
->>>>>
->>>>
->>>> No, we did it for the reason that mlx5e netdevice assumes that
->>>> IRQ[0]..IRQ[#num_numa/#cpu_per_numa]
->>>> are always bound to the numa close to the device. and the mlx5e driver
->>>> choose those IRQs to spread
->>>> the RSS hash only into them and never uses other IRQs/Cores
->>>
->>>
->>>
->>> OK, that explains a lot of weirdness I've seen with mlx5e.
->>>
->>> Can you explain why you're using only a single numa node for your RSS
->>> table? What does it buy you? You open RX rings for _all_ cpus but
->>> only spread on part of them? I must be missing something here...
->>
->>
->> Adding Tariq,
->>
->> this is also part of the weirdness :), we do that to make sure any OOB
->> test you run you always get the best performance
->> and we will guarantee to always use close numa cores.
->
->
-> Well I wish I knew that before :( I got to a point where I started
-> to seriously doubt the math truth of xor/toeplitz hashing strength :)
->
-> I'm sure you ran plenty of performance tests, but from my experience,
-> application locality makes much more difference than device locality,
-> especially when the application needs to touch the data...
->
->> we open RX rings on all of the cores in case if the user want to
->> change the RSS table to point to the whole thing on the fly "ethtool
->> -X"
->
->
-> That is very counter intuitive afaict, is it documented anywhere?
->
-> users might rely on the (absolutely reasonable) assumption that if a
-> NIC exposes X rx rings, rx hashing should spread across all of them and
-> not a subset.
->
 
-This is why we want to remove this assumption from mlx5e
+Hi,
 
->> But we are willing to change that, Tariq can provide the patch,
->> without changing this mlx5e is broken.
->
->
-> What patch? to modify the RSS spread? What is exactly broken?
+Introducing NVMe Over Fabrics unit test framework.
 
-current mlx5 netdev with your patches might spread traffic _ONLY_ to
-the far numa.
+The goal is to have simple, lightweight, and easily expandable framework which can be used to
+develop various categories of unit tests for NVMe Over Fabrics and improve overall development.
 
-To fix this in mlx5e we need something like this:
+Please have a look at README for an overview and process of adding a new test case.
+The framework also has a sample skeleton which can be used readily to write a new testcase.
 
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-index 41cd22a223dc..15499865784f 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
-@@ -3733,18 +3733,8 @@ void mlx5e_build_default_indir_rqt(struct
-mlx5_core_dev *mdev,
-                                   u32 *indirection_rqt, int len,
-                                   int num_channels)
- {
--       int node = mdev->priv.numa_node;
--       int node_num_of_cores;
-        int i;
+I?d like to know what features, test cases are desirable for the framework.
+Any suggestions are welcome, I'd like to implement them.
 
--       if (node == -1)
--               node = first_online_node;
--
--       node_num_of_cores = cpumask_weight(cpumask_of_node(node));
--
--       if (node_num_of_cores)
--               num_channels = min_t(int, num_channels, node_num_of_cores);
--
+On approval, I would like to submit more test cases to enhance the framework.
 
-we are working on such patch, and we would like to have it submitted
-and accepted along or before your seires.
-Also, we will have to run a performance & functional regression cycle
-on all the patches combined.
+Please note that this patch is based on:-
 
->
-> So I'm not sure how to move forward here, should we modify the
-> indirection table construction to not rely on the unique affinity
-> mappings?
+url = https://github.com/torvalds/linux
+
+Commit version :- 
+
+commit 3c2993b8c6143d8a5793746a54eba8f86f95240f
+Author: Linus Torvalds <torvalds at linux-foundation.org>
+Date:   Sun Jun 4 16:47:43 2017 -0700
+
+    Linux 4.12-rc4
+
+Regards,
+Chaitanya
