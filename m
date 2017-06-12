@@ -1,29 +1,36 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 12 Jun 2017 09:11:38 -0700
-Subject: [PATCH 1/2] nvme-cli: add fields into identify controller data
- structure
-In-Reply-To: <20170603052511.GA14365@infradead.org>
-References: <1496387899-26012-1-git-send-email-guanjunxiong@huawei.com>
- <1496387899-26012-2-git-send-email-guanjunxiong@huawei.com>
- <20170602074600.GA11424@infradead.org>
- <71e89de.8c54.15c69866ff6.Coremail.guanjx09@163.com>
- <20170603052511.GA14365@infradead.org>
-Message-ID: <20170612161138.GB16226@infradead.org>
+Date: Mon, 12 Jun 2017 09:16:54 -0700
+Subject: [PATCH] selftests: nvmftests: unittest framework for NVMe Over
+ Fabrics.
+In-Reply-To: <97992b7c-0b65-31d4-f435-e8c71d26d74a@suse.de>
+References: <20170612032610.4176-1-chaitanya.kulkarni@hgst.com>
+ <20170612032610.4176-2-chaitanya.kulkarni@hgst.com>
+ <97992b7c-0b65-31d4-f435-e8c71d26d74a@suse.de>
+Message-ID: <20170612161654.GA1862@infradead.org>
 
-On Fri, Jun 02, 2017@10:25:11PM -0700, Christoph Hellwig wrote:
-> On Fri, Jun 02, 2017@11:57:17PM +0800, ??? wrote:
-> > Hi, Christoph
-> > 
-> > On Friday, June 02, 2017 03:46 PM, Christoph Hellwig wrote:
-> > > Please also add them to the kernel copy of the header so that they
-> > > stay in sync.  Except for that his looks fine to me:
-> > > 
-> > 
-> > Here is the patch which adds those fields into nvme_id_ctrl structure
-> > in the kernel copy of the header. Does it looks good?
+On Mon, Jun 12, 2017@10:21:17AM +0200, Johannes Thumshirn wrote:
+> On 06/12/2017 05:26 AM, Chaitanya Kulkarni wrote:
+> > +7. Dependencies
+> > +---------------
+> > +
+> > +    6.1. Python(>= 2.7.5 or >= 3.3)
+> > +    6.2. nose(http://nose.readthedocs.io/en/latest/)
+> > +    6.3. nose2(Installation guide http://nose2.readthedocs.io/)
+> > +    6.4. pep8(https://pypi.python.org/pypi/setuptools-pep8)
+> > +    6.5. flake8(https://pypi.python.org/pypi/flake8)
+> > +    6.6. pylint(https://www.pylint.org/)
+> > +    6.7. Epydoc(http://epydoc.sourceforge.net/)
+> > +    6.8. nvme-cli(https://github.com/linux-nvme/nvme-cli.git)
+> > +
+> > +    Python package management system pip can be used to install most of the
+> > +    listed packages(https://pip.pypa.io/en/stable/installing/) :-
+> > +
+> > +    $ pip install nose nose2 natsort pep8 flake8 pylint epydoc
 > 
-> Thanks, this looks great.  Please send it out formally as a separate
-> mail and your signoff.
+> Do we really need to pull in that many dependencies?
 
-Can I get your Signed-off-by?  Just noticed that it didn't seem to
-be provided anywhere when trying to apply it.
+A few of those shouldn't be required at runtime just for developers
+I think (pep8, flake8 pylint, epydoc).  So the only real depencies
+to run it should be nose2 (we shouldn't need nose when there is nose2
+but I need to spend some more time with the code), nvme-cli and python
+itself which seems pretty reasonable.
