@@ -1,14 +1,13 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 12 Jun 2017 18:06:02 +0200
-Subject: [PATCH v2] nvme: use uuid_t in nvme_ns
-In-Reply-To: <20170612091240.18343-1-jthumshirn@suse.de>
-References: <20170612091240.18343-1-jthumshirn@suse.de>
-Message-ID: <20170612160602.GB30030@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 12 Jun 2017 09:07:53 -0700
+Subject: [PATCH] nvmet-fc: Remove a set-but-not-used variable
+In-Reply-To: <20170608164329.20304-1-bart.vanassche@wdc.com>
+References: <20170608164329.20304-1-bart.vanassche@wdc.com>
+Message-ID: <20170612160753.GA16226@infradead.org>
 
-On Mon, Jun 12, 2017@11:12:40AM +0200, Johannes Thumshirn wrote:
-> struct nvme_ns still uses u u8 uuid[16], change it to using uuid_t and
-> use the UUID API.
+On Thu, Jun 08, 2017@09:43:29AM -0700, Bart Van Assche wrote:
+> From: Bart Van Assche <bart.vanassche at sandisk.com>
 > 
-> Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+> This was detected by building the nvmet-fc driver with W=1.
 
-Thanks, folded into the two patches originall introducing the code.
+Thanks Bart, applied to the nvme-4.13 branch.
