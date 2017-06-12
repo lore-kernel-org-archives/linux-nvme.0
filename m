@@ -1,37 +1,66 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 12 Jun 2017 10:21:17 +0200
-Subject: [PATCH] selftests: nvmftests: unittest framework for NVMe Over
- Fabrics.
-In-Reply-To: <20170612032610.4176-2-chaitanya.kulkarni@hgst.com>
-References: <20170612032610.4176-1-chaitanya.kulkarni@hgst.com>
- <20170612032610.4176-2-chaitanya.kulkarni@hgst.com>
-Message-ID: <97992b7c-0b65-31d4-f435-e8c71d26d74a@suse.de>
+Date: Mon, 12 Jun 2017 11:12:40 +0200
+Subject: [PATCH v2] nvme: use uuid_t in nvme_ns
+Message-ID: <20170612091240.18343-1-jthumshirn@suse.de>
 
-On 06/12/2017 05:26 AM, Chaitanya Kulkarni wrote:
-> +7. Dependencies
-> +---------------
-> +
-> +    6.1. Python(>= 2.7.5 or >= 3.3)
-> +    6.2. nose(http://nose.readthedocs.io/en/latest/)
-> +    6.3. nose2(Installation guide http://nose2.readthedocs.io/)
-> +    6.4. pep8(https://pypi.python.org/pypi/setuptools-pep8)
-> +    6.5. flake8(https://pypi.python.org/pypi/flake8)
-> +    6.6. pylint(https://www.pylint.org/)
-> +    6.7. Epydoc(http://epydoc.sourceforge.net/)
-> +    6.8. nvme-cli(https://github.com/linux-nvme/nvme-cli.git)
-> +
-> +    Python package management system pip can be used to install most of the
-> +    listed packages(https://pip.pypa.io/en/stable/installing/) :-
-> +
-> +    $ pip install nose nose2 natsort pep8 flake8 pylint epydoc
+struct nvme_ns still uses u u8 uuid[16], change it to using uuid_t and
+use the UUID API.
 
-Do we really need to pull in that many dependencies?
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ drivers/nvme/host/core.c | 8 ++++----
+ drivers/nvme/host/nvme.h | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
 
-
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index c427a7fc31ae..838523441bdb 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -699,7 +699,7 @@ static int nvme_identify_ns_descs(struct nvme_ns *ns, unsigned nsid)
+ 				goto free_data;
+ 			}
+ 			len = NVME_NIDT_UUID_LEN;
+-			memcpy(ns->uuid, data + pos + sizeof(*cur), len);
++			uuid_copy(&ns->uuid, data + pos + sizeof(*cur));
+ 			break;
+ 		default:
+ 			/* Skip unnkown types */
+@@ -1895,12 +1895,12 @@ static ssize_t uuid_show(struct device *dev, struct device_attribute *attr,
+ 	/* For backward compatibility expose the NGUID to userspace if
+ 	 * we have no UUID set
+ 	 */
+-	if (!memchr_inv(ns->uuid, 0, sizeof(ns->uuid))) {
++	if (uuid_is_null(&ns->uuid)) {
+ 		printk_ratelimited(KERN_WARNING
+ 				   "No UUID available providing old NGUID\n");
+ 		return sprintf(buf, "%pU\n", ns->nguid);
+ 	}
+-	return sprintf(buf, "%pU\n", ns->uuid);
++	return sprintf(buf, "%pU\n", &ns->uuid);
+ }
+ static DEVICE_ATTR(uuid, S_IRUGO, uuid_show, NULL);
+ 
+@@ -1936,7 +1936,7 @@ static umode_t nvme_ns_attrs_are_visible(struct kobject *kobj,
+ 	struct nvme_ns *ns = nvme_get_ns_from_dev(dev);
+ 
+ 	if (a == &dev_attr_uuid.attr) {
+-		if (!memchr_inv(ns->uuid, 0, sizeof(ns->uuid)) ||
++		if (uuid_is_null(&ns->uuid) ||
+ 		    !memchr_inv(ns->nguid, 0, sizeof(ns->nguid)))
+ 			return 0;
+ 	}
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 7007521e8194..8ac225882097 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -190,7 +190,7 @@ struct nvme_ns {
+ 
+ 	u8 eui[8];
+ 	u8 nguid[16];
+-	u8 uuid[16];
++	uuid_t uuid;
+ 
+ 	unsigned ns_id;
+ 	int lba_shift;
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+2.12.3
