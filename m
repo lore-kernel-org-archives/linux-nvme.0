@@ -1,35 +1,18 @@
-From: andy.shevchenko@gmail.com (Andy Shevchenko)
-Date: Mon, 12 Jun 2017 16:11:25 +0300
-Subject: [PATCH v2] nvme: use uuid_t in nvme_ns
-In-Reply-To: <20170612110357.GA22745@lst.de>
-References: <20170612091240.18343-1-jthumshirn@suse.de>
- <CAHp75Ve+-+s3Fx4MnjXoXf3tjh_PkdnEKAKrXnmFWA_38_abnw@mail.gmail.com>
- <52228639-aedd-fdb9-0f02-448f8982758a@suse.de> <20170612110357.GA22745@lst.de>
-Message-ID: <CAHp75Vc6C33rHHsF9iYzj3xS+sWa8vG-+QgpvU3btRRKqo7oLg@mail.gmail.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 12 Jun 2017 10:30:37 -0400
+Subject: [PATCH 2/2] nvme-cli: show more fields for id-ctrl
+In-Reply-To: <1496387899-26012-3-git-send-email-guanjunxiong@huawei.com>
+References: <1496387899-26012-1-git-send-email-guanjunxiong@huawei.com>
+ <1496387899-26012-3-git-send-email-guanjunxiong@huawei.com>
+Message-ID: <20170612143037.GB23969@localhost.localdomain>
 
-On Mon, Jun 12, 2017@2:03 PM, Christoph Hellwig <hch@lst.de> wrote:
-> On Mon, Jun 12, 2017@12:04:18PM +0200, Johannes Thumshirn wrote:
->> > So, this reveals two thins:
->> > 1) shall we define NVME_NIDT_UUID_LEN to be UUID_LEN or substitute it
->> > completely with the latter?
->>
->> No, we have NVME_NIDT_UUID_LEN but also NVME_NIDT_NGUID_LEN and
->> NVME_NIDT_EUI64_LEN.
->
-> Yeah, and I'd rather keep the defines for fields defined in the spec
-> in nvme.h
->
->> I'm not sure the NVMe NGUID is the same as a GUID (a.k.a little endian
->> UUID). Quoting from the spec:
->
-> It's not at all, the field just has a very unfortunate name in the
-> spec.
+On Fri, Jun 02, 2017@03:18:19PM +0800, Guan Junxiong wrote:
+> NVMe 1.3 inctrodues new fields such as EDSTT, DSTO, FWUG, HCTMA, MNTMT,
+> MXTMT, SANICAP into the idenfity controller data structure. The id-ctrl
+> command should print them or write them into json format. Note that
+> although KAS field is included in the previous NVMe 1.2.1 spec, this
+> patch also supports this field.
 
-Thanks for explanations.
+Applied.
 
-So, wrt that
-Reviewed-by: Andy Shevchenko <andy.shevchenko at gmail.com>
-
--- 
-With Best Regards,
-Andy Shevchenko
+For future patches, please add you're "Signed-off-by" for all patches.
