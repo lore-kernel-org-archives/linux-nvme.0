@@ -1,9 +1,8 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 12 Jun 2017 23:31:50 -0700
-Subject: [PATCH v2] nvme: add fields into identify controller data
- structure
-In-Reply-To: <1497317175-6932-1-git-send-email-guanjunxiong@huawei.com>
-References: <1497317175-6932-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <20170613063150.GA9905@infradead.org>
+Date: Mon, 12 Jun 2017 23:32:04 -0700
+Subject: [PATCH v3] nvmf: keep track of nvmet connect error status
+In-Reply-To: <1497322284-12852-1-git-send-email-guanjunxiong@huawei.com>
+References: <1497322284-12852-1-git-send-email-guanjunxiong@huawei.com>
+Message-ID: <20170613063204.GB9905@infradead.org>
 
-Thanks, applied to nvme-4.13
+Thanks, applied to nvme-4.13 aftet two trivial whitespace fixes.
