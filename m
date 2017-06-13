@@ -1,18 +1,29 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 13 Jun 2017 09:39:51 +0200
-Subject: [PATCH] nvme: mark shutdown_timeout static
-In-Reply-To: <20170612163051.21795-1-hch@lst.de>
-References: <20170612163051.21795-1-hch@lst.de>
-Message-ID: <dd103108-2311-552e-e71f-d9dfb9bd6046@suse.de>
+Date: Tue, 13 Jun 2017 10:00:23 +0200
+Subject: [PATCH] nvme: move protection information check into nvme_setup_rw
+In-Reply-To: <20170612163632.23009-1-hch@lst.de>
+References: <20170612163632.23009-1-hch@lst.de>
+Message-ID: <95127f6a-9e74-3c21-3d76-8b65dbb53288@suse.de>
 
-On 06/12/2017 06:30 PM, Christoph Hellwig wrote:
-> And open code the SHUTDOWN_TIMEOUT macro.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
+On 06/12/2017 06:36 PM, Christoph Hellwig wrote:
+> +static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
+> +		struct request *req, struct nvme_command *cmnd)
+>  {
 
-Looks good,
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Hmm here you're changing nvme_setup_rw to return blk_status_t
+
+[...]
+
+> @@ -386,6 +395,7 @@ static inline void nvme_setup_rw(struct nvme_ns *ns, struct request *req,
+>  
+>  	cmnd->rw.control = cpu_to_le16(control);
+>  	cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
+> +	return 0;
+>  }
+
+And here you're returning 0 instead of BLK_STATUS_OK.
+
+Intentional?
 
 -- 
 Johannes Thumshirn                                          Storage
