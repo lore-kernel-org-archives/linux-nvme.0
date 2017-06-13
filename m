@@ -1,34 +1,22 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Tue, 13 Jun 2017 10:00:23 +0200
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 13 Jun 2017 10:03:00 +0200
 Subject: [PATCH] nvme: move protection information check into nvme_setup_rw
-In-Reply-To: <20170612163632.23009-1-hch@lst.de>
+In-Reply-To: <95127f6a-9e74-3c21-3d76-8b65dbb53288@suse.de>
 References: <20170612163632.23009-1-hch@lst.de>
-Message-ID: <95127f6a-9e74-3c21-3d76-8b65dbb53288@suse.de>
+ <95127f6a-9e74-3c21-3d76-8b65dbb53288@suse.de>
+Message-ID: <20170613080300.GA611@lst.de>
 
-On 06/12/2017 06:36 PM, Christoph Hellwig wrote:
-> +static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
-> +		struct request *req, struct nvme_command *cmnd)
->  {
+On Tue, Jun 13, 2017@10:00:23AM +0200, Johannes Thumshirn wrote:
+> > @@ -386,6 +395,7 @@ static inline void nvme_setup_rw(struct nvme_ns *ns, struct request *req,
+> >  
+> >  	cmnd->rw.control = cpu_to_le16(control);
+> >  	cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
+> > +	return 0;
+> >  }
+> 
+> And here you're returning 0 instead of BLK_STATUS_OK.
+> 
+> Intentional?
 
-Hmm here you're changing nvme_setup_rw to return blk_status_t
-
-[...]
-
-> @@ -386,6 +395,7 @@ static inline void nvme_setup_rw(struct nvme_ns *ns, struct request *req,
->  
->  	cmnd->rw.control = cpu_to_le16(control);
->  	cmnd->rw.dsmgmt = cpu_to_le32(dsmgmt);
-> +	return 0;
->  }
-
-And here you're returning 0 instead of BLK_STATUS_OK.
-
-Intentional?
-
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Yes, at least sort of.  Even for __bitwise types 0 is special, so
+this is perfectly fine.
