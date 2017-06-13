@@ -1,47 +1,17 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Tue, 13 Jun 2017 09:05:05 -0500
-Subject: [PATCH 1/3] PCI: ensure the PCI device is locked over
- ->reset_notify calls
-In-Reply-To: <20170613070810.GA31936@lst.de>
-References: <20170601111039.8913-1-hch@lst.de>
- <20170601111039.8913-2-hch@lst.de>
- <20170606053142.GA25064@bhelgaas-glaptop.roam.corp.google.com>
- <20170606104836.GB24297@lst.de>
- <20170606211443.GB12672@bhelgaas-glaptop.roam.corp.google.com>
- <20170607182936.GA31815@lst.de>
- <20170612231423.GB4379@bhelgaas-glaptop.roam.corp.google.com>
- <20170613070810.GA31936@lst.de>
-Message-ID: <20170613140504.GB7128@bhelgaas-glaptop.roam.corp.google.com>
+From: keith.busch@intel.com (Keith Busch)
+Date: Tue, 13 Jun 2017 10:55:10 -0400
+Subject: [PATCH] nvme: move protection information check into nvme_setup_rw
+In-Reply-To: <20170612163632.23009-1-hch@lst.de>
+References: <20170612163632.23009-1-hch@lst.de>
+Message-ID: <20170613145509.GB26073@localhost.localdomain>
 
-On Tue, Jun 13, 2017@09:08:10AM +0200, Christoph Hellwig wrote:
-> On Mon, Jun 12, 2017@06:14:23PM -0500, Bjorn Helgaas wrote:
-> > My main concern is being able to verify the locking.  I think that is
-> > much easier if the locking is adjacent to the method invocation.  But
-> > if you just add a comment at the method invocation about where the
-> > locking is, that should be sufficient.
+On Mon, Jun 12, 2017@06:36:32PM +0200, Christoph Hellwig wrote:
+> It only applies to read/write commands, and this way non-PCIe drivers
+> get the check as well instead of having to duplicate it when adding
+> metadata support.
 > 
-> Ok.  I can add comments for all the methods as a separate patch,
-> similar to Documentation/vfs/Locking
-> 
-> > > Yes, I mentioned this earlier, and I also vaguely remember we got
-> > > bug reports from IBM on power for this a while ago.  I just don't
-> > > feel confident enough to touch all these without a good test plan.
-> > 
-> > Hmmm.  I see your point, but I hate leaving a known bug unfixed.  I
-> > wonder if some enterprising soul could tickle this bug by injecting
-> > errors while removing and rescanning devices below the bridge?
-> 
-> I'm completely loaded up at the moment, but this sounds like a good
-> idea.
-> 
-> In the meantime how do you want to proceed with this patch?
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 
-Can you just add comments about the locking?  I'd prefer that in the
-same patch that adds the locking because that's what I had a hard time
-reviewing.  I'm not thinking of anything fancy like
-Documentation/filesystems/Locking; I'm just thinking of something
-along the lines of "caller must hold pci_dev_lock() to protect
-err_handler->reset_notify from racing ->remove()".  And the changelog
-should contain the general principle about the locking strategy.
+Looks good to me.
 
-Bjorn
+Reviewed-by: Keith Busch <keith.busch at intel.com>
