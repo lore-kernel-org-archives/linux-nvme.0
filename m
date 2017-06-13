@@ -1,40 +1,26 @@
 From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Tue, 13 Jun 2017 09:31:53 +0800
-Subject: [PATCH 1/2] nvme-cli: add fields into identify controller data
- structure
-In-Reply-To: <20170612161138.GB16226@infradead.org>
+Date: Tue, 13 Jun 2017 09:37:04 +0800
+Subject: [PATCH 2/2] nvme-cli: show more fields for id-ctrl
+In-Reply-To: <20170612143037.GB23969@localhost.localdomain>
 References: <1496387899-26012-1-git-send-email-guanjunxiong@huawei.com>
- <1496387899-26012-2-git-send-email-guanjunxiong@huawei.com>
- <20170602074600.GA11424@infradead.org>
- <71e89de.8c54.15c69866ff6.Coremail.guanjx09@163.com>
- <20170603052511.GA14365@infradead.org> <20170612161138.GB16226@infradead.org>
-Message-ID: <13d37dba-5657-5a91-e90e-b462bad15f74@huawei.com>
+ <1496387899-26012-3-git-send-email-guanjunxiong@huawei.com>
+ <20170612143037.GB23969@localhost.localdomain>
+Message-ID: <9218e540-75fa-f5a2-6cf7-3a68a5fd4bb1@huawei.com>
 
-Hi, Christoph
+Hi,Keith
 
-On 2017/6/13 0:11, Christoph Hellwig wrote:
-> On Fri, Jun 02, 2017@10:25:11PM -0700, Christoph Hellwig wrote:
->> On Fri, Jun 02, 2017@11:57:17PM +0800, ??? wrote:
->>> Hi, Christoph
->>>
->>> On Friday, June 02, 2017 03:46 PM, Christoph Hellwig wrote:
->>>> Please also add them to the kernel copy of the header so that they
->>>> stay in sync.  Except for that his looks fine to me:
->>>>
->>>
->>> Here is the patch which adds those fields into nvme_id_ctrl structure
->>> in the kernel copy of the header. Does it looks good?
->>
->> Thanks, this looks great.  Please send it out formally as a separate
->> mail and your signoff.
+On 2017/6/12 22:30, Keith Busch wrote:
+> On Fri, Jun 02, 2017@03:18:19PM +0800, Guan Junxiong wrote:
+>> NVMe 1.3 inctrodues new fields such as EDSTT, DSTO, FWUG, HCTMA, MNTMT,
+>> MXTMT, SANICAP into the idenfity controller data structure. The id-ctrl
+>> command should print them or write them into json format. Note that
+>> although KAS field is included in the previous NVMe 1.2.1 spec, this
+>> patch also supports this field.
 > 
-> Can I get your Signed-off-by?  Just noticed that it didn't seem to
-> be provided anywhere when trying to apply it.
+> Applied.
 > 
-Sure. An updated patch was sent as a separate formal patch a few minutes ago.
-Future patches will not be lack of my Signed-off-by.
-Thanks
+> For future patches, please add you're "Signed-off-by" for all patches.
+> 
 
-Cheers,
-Guan
+Thanks. And all future patches will include my "Signed-off-by".
 .
