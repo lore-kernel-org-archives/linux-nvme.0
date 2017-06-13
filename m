@@ -1,8 +1,12 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 12 Jun 2017 23:32:04 -0700
-Subject: [PATCH v3] nvmf: keep track of nvmet connect error status
-In-Reply-To: <1497322284-12852-1-git-send-email-guanjunxiong@huawei.com>
-References: <1497322284-12852-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <20170613063204.GB9905@infradead.org>
+From: hch@lst.de (Christoph Hellwig)
+Date: Tue, 13 Jun 2017 08:43:51 +0200
+Subject: [PATCH V3 1/2] nvme: Rename and move get_log_page to nvme/scsi
+In-Reply-To: <1497078389-5582-1-git-send-email-a.dawn@samsung.com>
+References: <1497078344-5509-1-git-send-email-a.dawn@samsung.com>
+ <CGME20170610070633epcas1p13f5f65526689a9891c91379b17e195d2@epcas1p1.samsung.com>
+ <1497078389-5582-1-git-send-email-a.dawn@samsung.com>
+Message-ID: <20170613064351.GA31372@lst.de>
 
-Thanks, applied to nvme-4.13 aftet two trivial whitespace fixes.
+Looks good,
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
