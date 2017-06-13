@@ -1,26 +1,54 @@
 From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Tue, 13 Jun 2017 09:37:04 +0800
-Subject: [PATCH 2/2] nvme-cli: show more fields for id-ctrl
-In-Reply-To: <20170612143037.GB23969@localhost.localdomain>
-References: <1496387899-26012-1-git-send-email-guanjunxiong@huawei.com>
- <1496387899-26012-3-git-send-email-guanjunxiong@huawei.com>
- <20170612143037.GB23969@localhost.localdomain>
-Message-ID: <9218e540-75fa-f5a2-6cf7-3a68a5fd4bb1@huawei.com>
+Date: Tue, 13 Jun 2017 10:51:24 +0800
+Subject: [PATCH v3] nvmf: keep track of nvmet connect error status
+Message-ID: <1497322284-12852-1-git-send-email-guanjunxiong@huawei.com>
 
-Hi,Keith
+To let the host know what happends to the connection establishment,
+adjust the behavior of nvmf_log_connect_error to make more connect
+specifig error codes human-readble.
 
-On 2017/6/12 22:30, Keith Busch wrote:
-> On Fri, Jun 02, 2017@03:18:19PM +0800, Guan Junxiong wrote:
->> NVMe 1.3 inctrodues new fields such as EDSTT, DSTO, FWUG, HCTMA, MNTMT,
->> MXTMT, SANICAP into the idenfity controller data structure. The id-ctrl
->> command should print them or write them into json format. Note that
->> although KAS field is included in the previous NVMe 1.2.1 spec, this
->> patch also supports this field.
-> 
-> Applied.
-> 
-> For future patches, please add you're "Signed-off-by" for all patches.
-> 
+Signed-off-by: Guan Junxiong <guanjunxiong at huawei.com>
+Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 
-Thanks. And all future patches will include my "Signed-off-by".
-.
+---
+ drivers/nvme/host/fabrics.c | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 990e6fb..c5dd883 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -337,6 +337,24 @@ static void nvmf_log_connect_error(struct nvme_ctrl *ctrl,
+ 			}
+ 		}
+ 		break;
++
++	case NVME_SC_CONNECT_INVALID_HOST:
++		dev_err(ctrl->device,
++			"Connect for subsystem %s is not allowed, hostnqn : %s\n",
++			data->subsysnqn, data->hostnqn);
++		break;
++
++	case NVME_SC_CONNECT_CTRL_BUSY:
++		dev_err(ctrl->device,
++			"Connect command failed : controller is busy or not available\n");
++		break;
++
++	case NVME_SC_CONNECT_FORMAT:
++		dev_err(ctrl->device,
++			"Connect incompatible format : %d",
++			cmd->connect.recfmt);
++		break;
++
+ 	default:
+ 		dev_err(ctrl->device,
+ 			"Connect command failed, error wo/DNR bit: %d\n",
+-- 
+2.6.4.windows.1
+
+Change log form v2:
+1. add Signed-off-by line. (Christoph)
+2. add Reviewed-by tag from Sagi. (Christoph)
+
+Change log from v1:
+1. Fix up the indentation issue by deleting one more TAB. (Christoph)
