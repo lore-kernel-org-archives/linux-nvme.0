@@ -1,28 +1,9 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Tue, 13 Jun 2017 11:07:24 +0800
-Subject: [PATCH V2] nvmf: keep track of nvmet connect error status
-In-Reply-To: <20170510165729.GA15161@infradead.org>
-References: <20170510165729.GA15161@infradead.org>
-Message-ID: <8427b127-f6c0-075f-eca3-ec206259b8d4@huawei.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 12 Jun 2017 23:31:50 -0700
+Subject: [PATCH v2] nvme: add fields into identify controller data
+ structure
+In-Reply-To: <1497317175-6932-1-git-send-email-guanjunxiong@huawei.com>
+References: <1497317175-6932-1-git-send-email-guanjunxiong@huawei.com>
+Message-ID: <20170613063150.GA9905@infradead.org>
 
-On Wed, May 10 09:57:29 PDT 2017, Christoph Hellwig wrote:
-> Hi Guan,
-
-> I was just going to apply your patches, but they all miss the
-> Signed-off-by: line.  Can you add it and resend, and I'll queue the
-> patch up?
-
-> Please also pick up the Reviewed-by: tag from Sagi while you're at it.
-
-Hi Christoph,
-
-Sorry for the late response as my mail inbox didn't catch the above response
-during switch email client until I found it in the Linux-nvme Archives.
-
-An updated patch v3 has been sent, please check your email or refer to
-http://lists.infradead.org/pipermail/linux-nvme/2017-June/010960.html
-
-Thanks.
-
-Cheers,
-Guan
+Thanks, applied to nvme-4.13
