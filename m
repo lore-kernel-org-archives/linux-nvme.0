@@ -1,96 +1,51 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 13 Jun 2017 09:15:19 +0200
-Subject: [PATCH 2/4] nvme-rdma: merge init_request and exit_request methods
+Date: Tue, 13 Jun 2017 09:15:20 +0200
+Subject: [PATCH 3/4] nvme-fc: merge init_request methods
 In-Reply-To: <20170613071521.5191-1-hch@lst.de>
 References: <20170613071521.5191-1-hch@lst.de>
-Message-ID: <20170613071521.5191-2-hch@lst.de>
+Message-ID: <20170613071521.5191-3-hch@lst.de>
 
 Now that we get the tagset passed we can have a single implementation for
 the I/O and admin queues.
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/rdma.c | 43 +++++++++++--------------------------------
- 1 file changed, 11 insertions(+), 32 deletions(-)
+ drivers/nvme/host/fc.c | 16 +++-------------
+ 1 file changed, 3 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index aa42d256f8f8..d5111cfcc055 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -294,10 +294,12 @@ static int nvme_rdma_reinit_request(void *data, struct request *rq)
- 	return ret;
- }
- 
--static void __nvme_rdma_exit_request(struct nvme_rdma_ctrl *ctrl,
--		struct request *rq, unsigned int queue_idx)
-+static void nvme_rdma_exit_request(struct blk_mq_tag_set *set,
-+		struct request *rq, unsigned int hctx_idx)
+diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+index ba9024a20bac..8c85d7c4123e 100644
+--- a/drivers/nvme/host/fc.c
++++ b/drivers/nvme/host/fc.c
+@@ -1448,18 +1448,8 @@ nvme_fc_init_request(struct blk_mq_tag_set *set, struct request *rq,
  {
-+	struct nvme_rdma_ctrl *ctrl = set->driver_data;
- 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
+ 	struct nvme_fc_ctrl *ctrl = set->driver_data;
+ 	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
+-	struct nvme_fc_queue *queue = &ctrl->queues[hctx_idx+1];
+-
+-	return __nvme_fc_init_request(ctrl, queue, op, rq, queue->rqcnt++);
+-}
+-
+-static int
+-nvme_fc_init_admin_request(struct blk_mq_tag_set *set, struct request *rq,
+-		unsigned int hctx_idx, unsigned int numa_node)
+-{
+-	struct nvme_fc_ctrl *ctrl = set->driver_data;
+-	struct nvme_fc_fcp_op *op = blk_mq_rq_to_pdu(rq);
+-	struct nvme_fc_queue *queue = &ctrl->queues[0];
 +	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
- 	struct nvme_rdma_queue *queue = &ctrl->queues[queue_idx];
- 	struct nvme_rdma_device *dev = queue->device;
++	struct nvme_fc_queue *queue = &ctrl->queues[queue_idx];
  
-@@ -308,22 +310,13 @@ static void __nvme_rdma_exit_request(struct nvme_rdma_ctrl *ctrl,
- 			DMA_TO_DEVICE);
+ 	return __nvme_fc_init_request(ctrl, queue, op, rq, queue->rqcnt++);
  }
- 
--static void nvme_rdma_exit_request(struct blk_mq_tag_set *set,
--		struct request *rq, unsigned int hctx_idx)
--{
--	return __nvme_rdma_exit_request(set->driver_data, rq, hctx_idx + 1);
--}
--
--static void nvme_rdma_exit_admin_request(struct blk_mq_tag_set *set,
--		struct request *rq, unsigned int hctx_idx)
--{
--	return __nvme_rdma_exit_request(set->driver_data, rq, 0);
--}
--
--static int __nvme_rdma_init_request(struct nvme_rdma_ctrl *ctrl,
--		struct request *rq, unsigned int queue_idx)
-+static int nvme_rdma_init_request(struct blk_mq_tag_set *set,
-+		struct request *rq, unsigned int hctx_idx,
-+		unsigned int numa_node)
- {
-+	struct nvme_rdma_ctrl *ctrl = set->driver_data;
- 	struct nvme_rdma_request *req = blk_mq_rq_to_pdu(rq);
-+	int queue_idx = (set == &ctrl->tag_set) ? hctx_idx + 1 : 0;
- 	struct nvme_rdma_queue *queue = &ctrl->queues[queue_idx];
- 	struct nvme_rdma_device *dev = queue->device;
- 	struct ib_device *ibdev = dev->dev;
-@@ -351,20 +344,6 @@ static int __nvme_rdma_init_request(struct nvme_rdma_ctrl *ctrl,
- 	return -ENOMEM;
- }
- 
--static int nvme_rdma_init_request(struct blk_mq_tag_set *set,
--		struct request *rq, unsigned int hctx_idx,
--		unsigned int numa_node)
--{
--	return __nvme_rdma_init_request(set->driver_data, rq, hctx_idx + 1);
--}
--
--static int nvme_rdma_init_admin_request(struct blk_mq_tag_set *set,
--		struct request *rq, unsigned int hctx_idx,
--		unsigned int numa_node)
--{
--	return __nvme_rdma_init_request(set->driver_data, rq, 0);
--}
--
- static int nvme_rdma_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
- 		unsigned int hctx_idx)
- {
-@@ -1542,8 +1521,8 @@ static const struct blk_mq_ops nvme_rdma_mq_ops = {
- static const struct blk_mq_ops nvme_rdma_admin_mq_ops = {
- 	.queue_rq	= nvme_rdma_queue_rq,
- 	.complete	= nvme_rdma_complete_rq,
--	.init_request	= nvme_rdma_init_admin_request,
--	.exit_request	= nvme_rdma_exit_admin_request,
-+	.init_request	= nvme_rdma_init_request,
-+	.exit_request	= nvme_rdma_exit_request,
- 	.reinit_request	= nvme_rdma_reinit_request,
- 	.init_hctx	= nvme_rdma_init_admin_hctx,
- 	.timeout	= nvme_rdma_timeout,
+@@ -2695,7 +2685,7 @@ nvme_fc_connect_ctrl_work(struct work_struct *work)
+ static const struct blk_mq_ops nvme_fc_admin_mq_ops = {
+ 	.queue_rq	= nvme_fc_queue_rq,
+ 	.complete	= nvme_fc_complete_rq,
+-	.init_request	= nvme_fc_init_admin_request,
++	.init_request	= nvme_fc_init_request,
+ 	.exit_request	= nvme_fc_exit_request,
+ 	.reinit_request	= nvme_fc_reinit_request,
+ 	.init_hctx	= nvme_fc_init_admin_hctx,
 -- 
 2.11.0
