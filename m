@@ -1,35 +1,58 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 13 Jun 2017 09:08:10 +0200
-Subject: [PATCH 1/3] PCI: ensure the PCI device is locked over
- ->reset_notify calls
-In-Reply-To: <20170612231423.GB4379@bhelgaas-glaptop.roam.corp.google.com>
-References: <20170601111039.8913-1-hch@lst.de>
- <20170601111039.8913-2-hch@lst.de>
- <20170606053142.GA25064@bhelgaas-glaptop.roam.corp.google.com>
- <20170606104836.GB24297@lst.de>
- <20170606211443.GB12672@bhelgaas-glaptop.roam.corp.google.com>
- <20170607182936.GA31815@lst.de>
- <20170612231423.GB4379@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <20170613070810.GA31936@lst.de>
+Date: Tue, 13 Jun 2017 09:15:18 +0200
+Subject: [PATCH 1/4] nvme-pci: merge init_request methods
+Message-ID: <20170613071521.5191-1-hch@lst.de>
 
-On Mon, Jun 12, 2017@06:14:23PM -0500, Bjorn Helgaas wrote:
-> My main concern is being able to verify the locking.  I think that is
-> much easier if the locking is adjacent to the method invocation.  But
-> if you just add a comment at the method invocation about where the
-> locking is, that should be sufficient.
+Now that we get the tagset passed we can have a single implementation for
+the I/O and admin queues.
 
-Ok.  I can add comments for all the methods as a separate patch,
-similar to Documentation/vfs/Locking
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ drivers/nvme/host/pci.c | 18 +++---------------
+ 1 file changed, 3 insertions(+), 15 deletions(-)
 
-> > Yes, I mentioned this earlier, and I also vaguely remember we got
-> > bug reports from IBM on power for this a while ago.  I just don't
-> > feel confident enough to touch all these without a good test plan.
-> 
-> Hmmm.  I see your point, but I hate leaving a known bug unfixed.  I
-> wonder if some enterprising soul could tickle this bug by injecting
-> errors while removing and rescanning devices below the bridge?
-
-I'm completely loaded up at the moment, but this sounds like a good
-idea.
-
-In the meantime how do you want to proceed with this patch?
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 788bb2c479d0..94504fbc404e 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -348,19 +348,6 @@ static void nvme_admin_exit_hctx(struct blk_mq_hw_ctx *hctx, unsigned int hctx_i
+ 	nvmeq->tags = NULL;
+ }
+ 
+-static int nvme_admin_init_request(struct blk_mq_tag_set *set,
+-		struct request *req, unsigned int hctx_idx,
+-		unsigned int numa_node)
+-{
+-	struct nvme_dev *dev = set->driver_data;
+-	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	struct nvme_queue *nvmeq = dev->queues[0];
+-
+-	BUG_ON(!nvmeq);
+-	iod->nvmeq = nvmeq;
+-	return 0;
+-}
+-
+ static int nvme_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
+ 			  unsigned int hctx_idx)
+ {
+@@ -380,7 +367,8 @@ static int nvme_init_request(struct blk_mq_tag_set *set, struct request *req,
+ {
+ 	struct nvme_dev *dev = set->driver_data;
+ 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
+-	struct nvme_queue *nvmeq = dev->queues[hctx_idx + 1];
++	int queue_idx = (set == &dev->tagset) ? hctx_idx + 1 : 0;
++	struct nvme_queue *nvmeq = dev->queues[queue_idx];
+ 
+ 	BUG_ON(!nvmeq);
+ 	iod->nvmeq = nvmeq;
+@@ -1299,7 +1287,7 @@ static const struct blk_mq_ops nvme_mq_admin_ops = {
+ 	.complete	= nvme_pci_complete_rq,
+ 	.init_hctx	= nvme_admin_init_hctx,
+ 	.exit_hctx      = nvme_admin_exit_hctx,
+-	.init_request	= nvme_admin_init_request,
++	.init_request	= nvme_init_request,
+ 	.timeout	= nvme_timeout,
+ };
+ 
+-- 
+2.11.0
