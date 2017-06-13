@@ -1,49 +1,23 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Tue, 13 Jun 2017 09:15:21 +0200
-Subject: [PATCH 4/4] nvme-loop: merge init_request methods
-In-Reply-To: <20170613071521.5191-1-hch@lst.de>
-References: <20170613071521.5191-1-hch@lst.de>
-Message-ID: <20170613071521.5191-4-hch@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 13 Jun 2017 09:39:51 +0200
+Subject: [PATCH] nvme: mark shutdown_timeout static
+In-Reply-To: <20170612163051.21795-1-hch@lst.de>
+References: <20170612163051.21795-1-hch@lst.de>
+Message-ID: <dd103108-2311-552e-e71f-d9dfb9bd6046@suse.de>
 
-Now that we get the tagset passed we can have a single implementation for
-the I/O and admin queues.
+On 06/12/2017 06:30 PM, Christoph Hellwig wrote:
+> And open code the SHUTDOWN_TIMEOUT macro.
+> 
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/target/loop.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+Looks good,
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index b7715b46e021..c4e3a4d00768 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -232,15 +232,10 @@ static int nvme_loop_init_request(struct blk_mq_tag_set *set,
- 		struct request *req, unsigned int hctx_idx,
- 		unsigned int numa_node)
- {
--	return nvme_loop_init_iod(set->driver_data, blk_mq_rq_to_pdu(req),
--			hctx_idx + 1);
--}
-+	struct nvme_loop_ctrl *ctrl = set->driver_data;
- 
--static int nvme_loop_init_admin_request(struct blk_mq_tag_set *set,
--		struct request *req, unsigned int hctx_idx,
--		unsigned int numa_node)
--{
--	return nvme_loop_init_iod(set->driver_data, blk_mq_rq_to_pdu(req), 0);
-+	return nvme_loop_init_iod(ctrl, blk_mq_rq_to_pdu(req),
-+			(set == &ctrl->tag_set) ? hctx_idx + 1 : 0);
- }
- 
- static int nvme_loop_init_hctx(struct blk_mq_hw_ctx *hctx, void *data,
-@@ -278,7 +273,7 @@ static const struct blk_mq_ops nvme_loop_mq_ops = {
- static const struct blk_mq_ops nvme_loop_admin_mq_ops = {
- 	.queue_rq	= nvme_loop_queue_rq,
- 	.complete	= nvme_loop_complete_rq,
--	.init_request	= nvme_loop_init_admin_request,
-+	.init_request	= nvme_loop_init_request,
- 	.init_hctx	= nvme_loop_init_admin_hctx,
- 	.timeout	= nvme_loop_timeout,
- };
 -- 
-2.11.0
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
