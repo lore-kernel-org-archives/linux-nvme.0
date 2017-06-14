@@ -1,25 +1,23 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 14 Jun 2017 17:37:54 +0200
-Subject: [PATCH] nvme: Remove SCSI translations
-In-Reply-To: <1497452191-11429-1-git-send-email-keith.busch@intel.com>
-References: <1497452191-11429-1-git-send-email-keith.busch@intel.com>
-Message-ID: <20170614153754.GA13038@lst.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 14 Jun 2017 18:39:05 +0300
+Subject: [PATCH 2/4] nvme-rdma: merge init_request and exit_request methods
+In-Reply-To: <20170613071521.5191-2-hch@lst.de>
+References: <20170613071521.5191-1-hch@lst.de>
+ <20170613071521.5191-2-hch@lst.de>
+Message-ID: <58ae7743-a4ff-3371-5df1-caf2f4f80f35@mellanox.com>
 
-On Wed, Jun 14, 2017@10:56:31AM -0400, Keith Busch wrote:
-> The SCSI-to-NVMe translations were added to assist storage applications
-> utilizing SG_IO transitioning to NVMe. It was always recommended, however,
-> to use native NVMe for device management: too much is lost in translation
-> and the maintenance burden in keeping this kludgey layer around has been
-> neglected such that much of the translations are completely broken.
-> 
-> This patch removes SG_IO handling from NVMe. The config option has been
-> disabled by default for quite some time now, so hopefully it's safe to
-> remove. If not, this will force people to do the right thing.
-> 
-> Signed-off-by: Keith Busch <keith.busch at intel.com>
 
-I like this but would like to hear from the SuSE folks first
-as indicated in the other mail.
 
-Also at least the nvme_get_log_page and nvme_set_features functions
-in core.c are unused after this patch and can be removed as well.
+On 6/13/2017 10:15 AM, Christoph Hellwig wrote:
+> Now that we get the tagset passed we can have a single implementation for
+> the I/O and admin queues.
+>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
+>  drivers/nvme/host/rdma.c | 43 +++++++++++--------------------------------
+>  1 file changed, 11 insertions(+), 32 deletions(-)
+>
+
+Looks good,
+
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
