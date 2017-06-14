@@ -1,41 +1,31 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 14 Jun 2017 08:38:23 +0200
-Subject: [PATCH] nvme: fix string_matches() helper
-In-Reply-To: <CALCETrXuDtiU-9cRkAcP_=524MpVjOmrgL5vb732iaiYwGH2BA@mail.gmail.com>
-References: <20170613130709.7150-1-hch@lst.de>
- <CALCETrXuDtiU-9cRkAcP_=524MpVjOmrgL5vb732iaiYwGH2BA@mail.gmail.com>
-Message-ID: <20170614063823.GA9125@lst.de>
+From: dan.carpenter@oracle.com (Dan Carpenter)
+Date: Wed, 14 Jun 2017 13:46:45 +0300
+Subject: [PATCH] nvme-rdma: fix error code in nvme_rdma_create_ctrl()
+Message-ID: <20170614104645.GO29394@elgon.mountain>
 
-On Tue, Jun 13, 2017@08:42:59AM -0700, Andy Lutomirski wrote:
-> On Tue, Jun 13, 2017@6:07 AM, Christoph Hellwig <hch@lst.de> wrote:
-> > NVMe "ASCII" strings are not nul-terminated and can use up every single
-> > byte in the field.  Thus use strnlen to determine the match length instead
-> > of possibly overrunning the field.
-> >
-> > Signed-off-by: Christoph Hellwig <hch at lst.de>
-> > ---
-> >  drivers/nvme/host/core.c | 4 +---
-> >  1 file changed, 1 insertion(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> > index 434b18863895..2658a3a3cbb5 100644
-> > --- a/drivers/nvme/host/core.c
-> > +++ b/drivers/nvme/host/core.c
-> > @@ -1581,9 +1581,7 @@ static bool string_matches(const char *idstr, const char *match, size_t len)
-> >         if (!match)
-> >                 return true;
-> >
-> > -       matchlen = strlen(match);
-> > -       WARN_ON_ONCE(matchlen > len);
-> > -
-> > +       matchlen = strnlen(match, len);
-> 
-> "match" refers to the string in the quirk table, which should be a
-> plain C string.  Are you hitting this in practice?
+We accidentally return ERR_PTR(0) which is NULL.  The caller isn't
+explicitly checking for that but I couldn't immediately spot whether
+this would lead to a NULL dereference.  Anyway, we can fix add an
+error code easily enough.
 
-No, but I've just written some other code that deals with NVMe
-strings, and took extra care of bounds protection.
+Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
 
-But yes, given the strlen is on the match we should be ok as long
-as the WARN_ON_ONCE also does an early return.  Does that sound ok
-to you?
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index e84a74479dd8..8456cb6e2a70 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1940,12 +1940,14 @@ static struct nvme_ctrl *nvme_rdma_create_ctrl(struct device *dev,
+ 	/* sanity check icdoff */
+ 	if (ctrl->ctrl.icdoff) {
+ 		dev_err(ctrl->ctrl.device, "icdoff is not supported!\n");
++		ret = -EINVAL;
+ 		goto out_remove_admin_queue;
+ 	}
+ 
+ 	/* sanity check keyed sgls */
+ 	if (!(ctrl->ctrl.sgls & (1 << 20))) {
+ 		dev_err(ctrl->ctrl.device, "Mandatory keyed sgls are not support\n");
++		ret = -EINVAL;
+ 		goto out_remove_admin_queue;
+ 	}
+ 
