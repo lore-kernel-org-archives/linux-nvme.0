@@ -1,77 +1,28 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Wed, 14 Jun 2017 08:05:46 -0700
-Subject: [RFC PATCH] nvme: Submit uevents for log page notification
-In-Reply-To: <20170330083609.GD11540@lst.de>
-References: <1490388582-10237-1-git-send-email-keith.busch@intel.com>
- <20170330083609.GD11540@lst.de>
-Message-ID: <20170614150546.GA32323@infradead.org>
+From: martin.petersen@oracle.com (Martin K. Petersen)
+Date: Wed, 14 Jun 2017 11:17:35 -0400
+Subject: [PATCH] nvme: Remove SCSI translations
+In-Reply-To: <1497452191-11429-1-git-send-email-keith.busch@intel.com> (Keith
+ Busch's message of "Wed, 14 Jun 2017 10:56:31 -0400")
+References: <1497452191-11429-1-git-send-email-keith.busch@intel.com>
+Message-ID: <yq1efumvbsg.fsf@oracle.com>
 
-Given that we have the uevent discussion again can you resubmit this
-with the comments address, most notably only enabling it for the
-uevents we want userspace to handle.  Maybe including whatever
-code you have on the userspace side (even if it's an ugly prototype)
 
-On Thu, Mar 30, 2017@10:36:09AM +0200, Christoph Hellwig wrote:
-> The uevent itself looks fine to me, but we really need to figure out
-> how we can clear log pages in kernel space where needed.
-> 
-> We should already be doing this for the namespace changed one, and
-> it will be very important at least for ANA as well.
-> 
-> 
-> A few more mechanical code comments below:
-> 
-> 
-> > +void nvme_uevent_work(struct nvme_ctrl *ctrl, int log)
-> 
-> static?
-> 
-> >  {
-> >  	u32 result = le32_to_cpu(res->u32);
-> > +	u8 log_page = (result >> 16) & 8;
-> > +	u8 event_type = result & 7;
-> >  	bool done = true;
-> >  
-> >  	switch (le16_to_cpu(status) >> 1) {
-> > @@ -2173,7 +2202,6 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
-> >  		/*FALLTHRU*/
-> >  	case NVME_SC_ABORT_REQ:
-> >  		++ctrl->event_limit;
-> > -		schedule_work(&ctrl->async_event_work);
-> 
-> This seems to disable any action on AERs in the kernel..
-> 
-> > diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-> > index 9690beb..3930a12 100644
-> > --- a/drivers/nvme/host/fc.c
-> > +++ b/drivers/nvme/host/fc.c
-> > @@ -1936,6 +1936,8 @@ nvme_fc_complete_rq(struct request *rq)
-> >  			nvme_requeue_req(rq);
-> >  			return;
-> >  		}
-> > +		if (req->errors & NVME_SC_MORE)
-> > +			nvme_uevent(&dev->ctrl, NVME_LOG_ERROR);
-> >  
-> >  		if (blk_rq_is_passthrough(rq))
-> >  			error = rq->errors;
-> 
-> We'll really need to factor the common request completion code
-> into a helper in common code first..
-> 
-> > diff --git a/include/linux/nvme.h b/include/linux/nvme.h
-> > index c43d435..e711de6 100644
-> > --- a/include/linux/nvme.h
-> > +++ b/include/linux/nvme.h
-> > @@ -16,6 +16,7 @@
-> >  #define _LINUX_NVME_H
-> >  
-> >  #include <linux/types.h>
-> > +#include <linux/kfifo.h>
-> 
-> This should move to drivers/nvme/host/nvme.h instead.
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
----end quoted text---
+Keith,
+
+> The SCSI-to-NVMe translations were added to assist storage
+> applications utilizing SG_IO transitioning to NVMe. It was always
+> recommended, however, to use native NVMe for device management: too
+> much is lost in translation and the maintenance burden in keeping this
+> kludgey layer around has been neglected such that much of the
+> translations are completely broken.
+>
+> This patch removes SG_IO handling from NVMe. The config option has
+> been disabled by default for quite some time now, so hopefully it's
+> safe to remove. If not, this will force people to do the right thing.
+
+Good riddance!
+
+Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+
+-- 
+Martin K. Petersen	Oracle Linux Engineering
