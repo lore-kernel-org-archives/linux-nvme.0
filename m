@@ -1,28 +1,23 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Wed, 14 Jun 2017 11:17:35 -0400
-Subject: [PATCH] nvme: Remove SCSI translations
-In-Reply-To: <1497452191-11429-1-git-send-email-keith.busch@intel.com> (Keith
- Busch's message of "Wed, 14 Jun 2017 10:56:31 -0400")
-References: <1497452191-11429-1-git-send-email-keith.busch@intel.com>
-Message-ID: <yq1efumvbsg.fsf@oracle.com>
+Date: Wed, 14 Jun 2017 11:14:48 -0400
+Subject: remove long broken SCSI to NVMe translations
+In-Reply-To: <20170614150025.GD26073@localhost.localdomain> (Keith Busch's
+ message of "Wed, 14 Jun 2017 11:00:25 -0400")
+References: <20170614063537.1044-1-hch@lst.de>
+ <20170614150025.GD26073@localhost.localdomain>
+Message-ID: <yq1injyvbx3.fsf@oracle.com>
 
 
 Keith,
 
-> The SCSI-to-NVMe translations were added to assist storage
-> applications utilizing SG_IO transitioning to NVMe. It was always
-> recommended, however, to use native NVMe for device management: too
-> much is lost in translation and the maintenance burden in keeping this
-> kludgey layer around has been neglected such that much of the
-> translations are completely broken.
+>> TEST UNIT READY wa broken for a year and a half, and FORMAT UNIT and
+>> WRITE BUFFER for two years.  Instead of fixing them up remove them - no
+>> one should be sending SCSI commands to non-scsi devices anyway.
 >
-> This patch removes SG_IO handling from NVMe. The config option has
-> been disabled by default for quite some time now, so hopefully it's
-> safe to remove. If not, this will force people to do the right thing.
+> This is a step in the right direction, but I don't think it goes far
+> enough. Can we remove the whole thing now?
 
-Good riddance!
-
-Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+I agree. Let's just get rid of the whole thing.
 
 -- 
 Martin K. Petersen	Oracle Linux Engineering
