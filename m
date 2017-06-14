@@ -1,21 +1,77 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 14 Jun 2017 17:01:38 +0200
-Subject: remove long broken SCSI to NVMe translations
-In-Reply-To: <20170614150025.GD26073@localhost.localdomain>
-References: <20170614063537.1044-1-hch@lst.de>
- <20170614150025.GD26073@localhost.localdomain>
-Message-ID: <20170614150138.GA9428@lst.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Wed, 14 Jun 2017 08:05:46 -0700
+Subject: [RFC PATCH] nvme: Submit uevents for log page notification
+In-Reply-To: <20170330083609.GD11540@lst.de>
+References: <1490388582-10237-1-git-send-email-keith.busch@intel.com>
+ <20170330083609.GD11540@lst.de>
+Message-ID: <20170614150546.GA32323@infradead.org>
 
-On Wed, Jun 14, 2017@11:00:25AM -0400, Keith Busch wrote:
-> On Wed, Jun 14, 2017@08:35:35AM +0200, Christoph Hellwig wrote:
-> > TEST UNIT READY wa broken for a year and a half, and FORMAT UNIT and
-> > WRITE BUFFER for two years.  Instead of fixing them up remove them - no
-> > one should be sending SCSI commands to non-scsi devices anyway.
+Given that we have the uevent discussion again can you resubmit this
+with the comments address, most notably only enabling it for the
+uevents we want userspace to handle.  Maybe including whatever
+code you have on the userspace side (even if it's an ugly prototype)
+
+On Thu, Mar 30, 2017@10:36:09AM +0200, Christoph Hellwig wrote:
+> The uevent itself looks fine to me, but we really need to figure out
+> how we can clear log pages in kernel space where needed.
 > 
-> This is a step in the right direction, but I don't think it goes far
-> enough. Can we remove the whole thing now?
-
-I'd love to.  The only real stumbling block was that some version of
-SLES used it for persistent devices names.  So I'd like to sync with
-Hannes and Johannes to make sure they've fixed this up and upstream
-kernels without the scsi translation will work just fine on SLES.
+> We should already be doing this for the namespace changed one, and
+> it will be very important at least for ANA as well.
+> 
+> 
+> A few more mechanical code comments below:
+> 
+> 
+> > +void nvme_uevent_work(struct nvme_ctrl *ctrl, int log)
+> 
+> static?
+> 
+> >  {
+> >  	u32 result = le32_to_cpu(res->u32);
+> > +	u8 log_page = (result >> 16) & 8;
+> > +	u8 event_type = result & 7;
+> >  	bool done = true;
+> >  
+> >  	switch (le16_to_cpu(status) >> 1) {
+> > @@ -2173,7 +2202,6 @@ void nvme_complete_async_event(struct nvme_ctrl *ctrl, __le16 status,
+> >  		/*FALLTHRU*/
+> >  	case NVME_SC_ABORT_REQ:
+> >  		++ctrl->event_limit;
+> > -		schedule_work(&ctrl->async_event_work);
+> 
+> This seems to disable any action on AERs in the kernel..
+> 
+> > diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> > index 9690beb..3930a12 100644
+> > --- a/drivers/nvme/host/fc.c
+> > +++ b/drivers/nvme/host/fc.c
+> > @@ -1936,6 +1936,8 @@ nvme_fc_complete_rq(struct request *rq)
+> >  			nvme_requeue_req(rq);
+> >  			return;
+> >  		}
+> > +		if (req->errors & NVME_SC_MORE)
+> > +			nvme_uevent(&dev->ctrl, NVME_LOG_ERROR);
+> >  
+> >  		if (blk_rq_is_passthrough(rq))
+> >  			error = rq->errors;
+> 
+> We'll really need to factor the common request completion code
+> into a helper in common code first..
+> 
+> > diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+> > index c43d435..e711de6 100644
+> > --- a/include/linux/nvme.h
+> > +++ b/include/linux/nvme.h
+> > @@ -16,6 +16,7 @@
+> >  #define _LINUX_NVME_H
+> >  
+> >  #include <linux/types.h>
+> > +#include <linux/kfifo.h>
+> 
+> This should move to drivers/nvme/host/nvme.h instead.
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+---end quoted text---
