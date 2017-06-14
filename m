@@ -1,10 +1,10 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Wed, 14 Jun 2017 18:39:05 +0300
-Subject: [PATCH 2/4] nvme-rdma: merge init_request and exit_request methods
-In-Reply-To: <20170613071521.5191-2-hch@lst.de>
+Date: Wed, 14 Jun 2017 18:40:43 +0300
+Subject: [PATCH 3/4] nvme-fc: merge init_request methods
+In-Reply-To: <20170613071521.5191-3-hch@lst.de>
 References: <20170613071521.5191-1-hch@lst.de>
- <20170613071521.5191-2-hch@lst.de>
-Message-ID: <58ae7743-a4ff-3371-5df1-caf2f4f80f35@mellanox.com>
+ <20170613071521.5191-3-hch@lst.de>
+Message-ID: <41be21d5-41cd-eee1-1612-37f287122884@mellanox.com>
 
 
 
@@ -14,8 +14,8 @@ On 6/13/2017 10:15 AM, Christoph Hellwig wrote:
 >
 > Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
->  drivers/nvme/host/rdma.c | 43 +++++++++++--------------------------------
->  1 file changed, 11 insertions(+), 32 deletions(-)
+>  drivers/nvme/host/fc.c | 16 +++-------------
+>  1 file changed, 3 insertions(+), 13 deletions(-)
 >
 
 Looks good,
