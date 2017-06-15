@@ -1,31 +1,18 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 15 Jun 2017 14:27:17 +0200
-Subject: [RESEND-nvme-4.13] nvme: Implement NS Optimal IO Boundary from
- 1.3 Spec
-In-Reply-To: <20170614163753.5215-1-scott.bauer@intel.com>
-References: <20170614163753.5215-1-scott.bauer@intel.com>
-Message-ID: <20170615122717.GA23459@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 15 Jun 2017 15:46:01 +0300
+Subject: [PATCH 2/2] nvme: no need to wait for the reset when keepalive
+ fails
+In-Reply-To: <20170615121647.GA18698@infradead.org>
+References: <20170612162738.19022-1-hch@lst.de>
+ <20170612162738.19022-2-hch@lst.de>
+ <b9348f66-2530-6e3c-67e4-7f0a56b7fc5a@grimberg.me>
+ <20170615121647.GA18698@infradead.org>
+Message-ID: <e26a5920-3625-1876-3a89-e85a74846f5d@grimberg.me>
 
-Hi Scott,
+>> Thanks,
+>>
+>> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> 
+> Can you give me a review for the updated patch 1 as well?
 
-can you resend this against the nvme-4.13 tree, it clashes badly
-with some of the other changes.
-
-Also a few comments:
-
->  	blk_queue_logical_block_size(ns->queue, bs);
-> +	if (ns->noiob) {
-> +		/* Convert from controller logical blocks to 512 sectors. */
-> +		iob = (((unsigned int)ns->noiob) << ns->lba_shift) >> 9;
-> +		iob = rounddown_pow_of_two(iob);
-> +		blk_queue_chunk_sectors(ns->queue, iob);
-> +	}
-
-What about moving this into a little helper:
-
-static void nvme_set_chunk_size(struct nvme_ns *ns)
-{
-	unsigned int chunk_size = (((u32)ns->noiob) << ns->lba_shift) >> 9;
-
-	blk_queue_chunk_sectors(ns->queue, rounddown_pow_of_two(chunk_size));
-}
+What was updated in it?
