@@ -1,11 +1,10 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 15 Jun 2017 11:50:29 +0300
-Subject: [PATCH] nvme: mark shutdown_timeout static
-In-Reply-To: <dd103108-2311-552e-e71f-d9dfb9bd6046@suse.de>
-References: <20170612163051.21795-1-hch@lst.de>
- <dd103108-2311-552e-e71f-d9dfb9bd6046@suse.de>
-Message-ID: <696eecbb-8a59-5eec-c3b2-824c87a03ac1@grimberg.me>
+Date: Thu, 15 Jun 2017 11:52:34 +0300
+Subject: [PATCH] nvme-rdma: fix merge error
+In-Reply-To: <20170612162606.18907-1-hch@lst.de>
+References: <20170612162606.18907-1-hch@lst.de>
+Message-ID: <7e911cf7-b799-4ac3-d032-f629ddc92b99@grimberg.me>
 
-Looks good,
+Thanks,
 
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
