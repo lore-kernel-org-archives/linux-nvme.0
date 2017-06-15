@@ -1,48 +1,76 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 15 Jun 2017 13:04:49 -0400
-Subject: [PATCH] nvme-pci: another 64-bit division for the host memory
- buffer code
-In-Reply-To: <20170613153130.20426-1-hch@lst.de>
-References: <20170613153130.20426-1-hch@lst.de>
-Message-ID: <20170615170449.GD13399@localhost.localdomain>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Thu, 15 Jun 2017 10:44:30 -0600
+Subject: [nvme-4.13 v3] nvme: Implement NS Optimal IO Boundary from 1.3 Spec
+Message-ID: <20170615164430.13995-1-scott.bauer@intel.com>
 
-Looks fine.
+The NVMe 1.3 spec introduces Namespace Optimal IO Boundaries (NOIOB),
+which standardizes the stripe mechanism we currently have quirks for.
+This patch implements the necessary logic to handle this new feature.
 
-Reviewed-by: Keith Busch <keith.busch at intel.com>
+Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+---
+ drivers/nvme/host/core.c | 9 +++++++++
+ drivers/nvme/host/nvme.h | 1 +
+ include/linux/nvme.h     | 2 +-
+ 3 files changed, 11 insertions(+), 1 deletion(-)
 
-On Tue, Jun 13, 2017@05:31:30PM +0200, Christoph Hellwig wrote:
-> [to be folded into "nvme-pci: implement host memory buffer support"]
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> 
-> ---
-> 
-> Now tested with a full i386 build, sigh..
-> ---
->  drivers/nvme/host/pci.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-> index 788bb2c479d0..4b50fef1fa1b 100644
-> --- a/drivers/nvme/host/pci.c
-> +++ b/drivers/nvme/host/pci.c
-> @@ -1591,12 +1591,14 @@ static int nvme_alloc_host_mem(struct nvme_dev *dev, u64 min, u64 preferred)
->  	struct nvme_host_mem_buf_desc *descs;
->  	u32 chunk_size, max_entries, i = 0;
->  	void **bufs;
-> -	u64 size;
-> +	u64 size, tmp;
->  
->  	/* start big and work our way down */
->  	chunk_size = min(preferred, (u64)PAGE_SIZE << MAX_ORDER);
->  retry:
-> -	max_entries = DIV_ROUND_UP(preferred, chunk_size);
-> +	tmp = (preferred + chunk_size - 1);
-> +	do_div(tmp, chunk_size);
-> +	max_entries = tmp;
->  	descs = kcalloc(max_entries, sizeof(*descs), GFP_KERNEL);
->  	if (!descs)
->  		goto out;
-> -- 
-> 2.11.0
-> 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4ff5114f467d..c3a50f8cbc34 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1080,6 +1080,12 @@ static void nvme_init_integrity(struct nvme_ns *ns)
+ }
+ #endif /* CONFIG_BLK_DEV_INTEGRITY */
+ 
++static void nvme_set_chunk_size(struct nvme_ns *ns)
++{
++	unsigned int chunk_size = (((u32)ns->noiob) << (ns->lba_shift - 9));
++	blk_queue_chunk_sectors(ns->queue, rounddown_pow_of_two(chunk_size));
++}
++
+ static void nvme_config_discard(struct nvme_ns *ns)
+ {
+ 	struct nvme_ctrl *ctrl = ns->ctrl;
+@@ -1139,12 +1145,15 @@ static void __nvme_revalidate_disk(struct gendisk *disk, struct nvme_id_ns *id)
+ 	if (ns->lba_shift == 0)
+ 		ns->lba_shift = 9;
+ 	bs = 1 << ns->lba_shift;
++	ns->noiob = le16_to_cpu(id->noiob);
+ 
+ 	blk_mq_freeze_queue(disk->queue);
+ 
+ 	if (ns->ctrl->ops->flags & NVME_F_METADATA_SUPPORTED)
+ 		nvme_prep_integrity(disk, id, bs);
+ 	blk_queue_logical_block_size(ns->queue, bs);
++	if(ns->noiob)
++		nvme_set_chunk_size(ns);
+ 	if (ns->ms && !blk_get_integrity(disk) && !ns->ext)
+ 		nvme_init_integrity(ns);
+ 	if (ns->ms && !(ns->ms == 8 && ns->pi_type) && !blk_get_integrity(disk))
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index f27c58b860f4..ec8c7363934d 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -202,6 +202,7 @@ struct nvme_ns {
+ 	bool ext;
+ 	u8 pi_type;
+ 	unsigned long flags;
++	u16 noiob;
+ 
+ #define NVME_NS_REMOVING 0
+ #define NVME_NS_DEAD     1
+diff --git a/include/linux/nvme.h b/include/linux/nvme.h
+index 6d476f242ee6..291587a0743f 100644
+--- a/include/linux/nvme.h
++++ b/include/linux/nvme.h
+@@ -282,7 +282,7 @@ struct nvme_id_ns {
+ 	__le16			nabsn;
+ 	__le16			nabo;
+ 	__le16			nabspf;
+-	__u16			rsvd46;
++	__le16			noiob;
+ 	__u8			nvmcap[16];
+ 	__u8			rsvd64[40];
+ 	__u8			nguid[16];
+-- 
+2.11.0
