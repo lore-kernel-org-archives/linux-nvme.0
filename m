@@ -1,29 +1,61 @@
-From: helgaas@kernel.org (Bjorn Helgaas)
-Date: Wed, 14 Jun 2017 22:11:53 -0500
-Subject: avoid null pointer rereference during FLR V2
-In-Reply-To: <20170601111039.8913-1-hch@lst.de>
-References: <20170601111039.8913-1-hch@lst.de>
-Message-ID: <20170615031153.GI20778@bhelgaas-glaptop.roam.corp.google.com>
+From: yizhan@redhat.com (Yi Zhang)
+Date: Thu, 15 Jun 2017 16:45:37 +0800
+Subject: mlx4_core 0000:07:00.0: swiotlb buffer is full and OOM observed
+ during stress test on reset_controller
+In-Reply-To: <6bf26cbc-71e4-a030-628b-a2ee1d1de94b@grimberg.me>
+References: <2013049462.31187009.1488542111040.JavaMail.zimbra@redhat.com>
+ <56e8ccd3-8116-89a1-2f65-eb61a91c5f84@mellanox.com>
+ <860db62d-ae93-d94c-e5fb-88e7b643f737@redhat.com>
+ <0a825b18-df06-9a6d-38c9-402f4ee121f7@mellanox.com>
+ <7496c68a-15f3-d8cb-b17f-20f5a59a24d2@redhat.com>
+ <31678a43-f76c-a921-e40c-470b0de1a86c@grimberg.me>
+ <20170319070115.GP2079@mtr-leonro.local>
+ <136275928.8307994.1495126919829.JavaMail.zimbra@redhat.com>
+ <358169046.8629042.1495210672801.JavaMail.zimbra@redhat.com>
+ <6bf26cbc-71e4-a030-628b-a2ee1d1de94b@grimberg.me>
+Message-ID: <6f5249b4-e8fe-5def-bbc9-0079b7457df9@redhat.com>
 
-On Thu, Jun 01, 2017@01:10:36PM +0200, Christoph Hellwig wrote:
-> Hi all,
-> 
-> Rakesh reported a bug where a FLR can trivially crash his system.
-> The reason for that is that NVMe unbinds the driver from the PCI device
-> on an unrecoverable error, and that races with the reset_notify method.
-> 
-> This is fairly easily fixable by taking the device lock for a slightly
-> longer period.  Note that the other PCI error handling methods actually
-> have the same issue, but with them not taking the lock yet and me having
-> no good way to reproducibly call them I'm a little reluctant to touch
-> them, but it would be great if we could fix those issues as well.
-> 
-> Patches 2 and 3 are cleanups in the same area and not 4.12 material,
-> but given that they depend on the first one I thought I'd send them
-> along.
-> 
-> Changes since V1:
->  - lock over all calls to ->reset_notify
 
-Applied all three (with some updated changelogs and comments) to
-pci/virtualization for v4.13, thanks!
+
+On 06/04/2017 11:49 PM, Sagi Grimberg wrote:
+> Hi Yi,
+>
+>> Finally found below patch [1] that fixed this issue.
+>> With [1], I can see the speed of reset_controller operation[2] is 
+>> obviously slow than before.
+>>
+>>
+>> [1]
+>> commit b7363e67b23e04c23c2a99437feefac7292a88bc
+>> Author: Sagi Grimberg <sagi at grimberg.me>
+>> Date:   Wed Mar 8 22:03:17 2017 +0200
+>>
+>>      IB/device: Convert ib-comp-wq to be CPU-bound
+>
+> This is very unlikely.
+>
+> I think that what made this go away is:
+>
+> commit 777dc82395de6e04b3a5fedcf153eb99bf5f1241
+> Author: Sagi Grimberg <sagi at grimberg.me>
+> Date:   Tue Mar 21 16:29:49 2017 +0200
+>
+>     nvmet-rdma: occasionally flush ongoing controller teardown
+>
+>     If we are attacked with establishments/teradowns we need to
+>     make sure we do not consume too much system memory. Thus
+>     let ongoing controller teardowns complete before accepting
+>     new controller establishments.
+>
+Hi Sagi
+This patch fixed the issue, thanks again.
+
+Yi
+>
+> Cheers,
+> Sagi.
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
