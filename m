@@ -1,11 +1,17 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 15 Jun 2017 16:47:09 +0300
-Subject: [PATCH 1/2] nvme: move reset workqueue handling to common code
-In-Reply-To: <20170615134217.10539-2-hch@lst.de>
-References: <20170615134217.10539-1-hch@lst.de>
- <20170615134217.10539-2-hch@lst.de>
-Message-ID: <f5e6bbb9-c33a-872e-1160-4028d448b786@grimberg.me>
+From: scott.bauer@intel.com (Scott Bauer)
+Date: Thu, 15 Jun 2017 09:46:28 -0600
+Subject: [RESEND-nvme-4.13] nvme: Implement NS Optimal IO Boundary from
+ 1.3 Spec
+In-Reply-To: <20170615122717.GA23459@lst.de>
+References: <20170614163753.5215-1-scott.bauer@intel.com>
+ <20170615122717.GA23459@lst.de>
+Message-ID: <20170615154627.avjsnkaladafj6x5@sbauer-Z170X-UD5>
 
-Thanks,
+On Thu, Jun 15, 2017@02:27:17PM +0200, Christoph Hellwig wrote:
+> Hi Scott,
+> 
+> can you resend this against the nvme-4.13 tree, it clashes badly
+> with some of the other changes.
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+Sorry, I forgot to actually checkout 4-13 before I tried applying the
+patch.
