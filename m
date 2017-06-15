@@ -1,19 +1,18 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 15 Jun 2017 05:17:18 -0700
-Subject: [PATCH] nvme: move protection information check into nvme_setup_rw
-In-Reply-To: <d64302e7-6fae-3171-5634-59da3c964bee@grimberg.me>
-References: <20170612163632.23009-1-hch@lst.de>
- <d64302e7-6fae-3171-5634-59da3c964bee@grimberg.me>
-Message-ID: <20170615121718.GB18698@infradead.org>
+Date: Thu, 15 Jun 2017 14:21:08 +0200
+Subject: [PATCH] nvme-rdma: fix error code in nvme_rdma_create_ctrl()
+In-Reply-To: <20170614104645.GO29394@elgon.mountain>
+References: <20170614104645.GO29394@elgon.mountain>
+Message-ID: <20170615122108.xxih3xj44k6ltclk@infradead.org>
 
-On Thu, Jun 15, 2017@12:21:45PM +0300, Sagi Grimberg wrote:
-> Not directly related to this patch, but 8 should be replaced with
-> sizeof(struct t10_pi_tuple).
+On Wed, Jun 14, 2017@01:46:45PM +0300, Dan Carpenter wrote:
+> We accidentally return ERR_PTR(0) which is NULL.  The caller isn't
+> explicitly checking for that but I couldn't immediately spot whether
+> this would lead to a NULL dereference.  Anyway, we can fix add an
+> error code easily enough.
 > 
-> Otherwise looks good,
-> 
-> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-> 
-> Should I send out an incremental change?
+> Signed-off-by: Dan Carpenter <dan.carpenter at oracle.com>
 
-Yes, please do.
+Thanks Dan,
+
+applied to nvme-4.13.
