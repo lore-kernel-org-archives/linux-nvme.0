@@ -1,175 +1,46 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 15 Jun 2017 18:34:58 +0200
-Subject: [PATCH 2/6] nvme: read the subsystem NQN from Identify Controller
+Date: Thu, 15 Jun 2017 18:34:59 +0200
+Subject: [PATCH 3/6] nvme: simplify nvme_dev_attrs_are_visible
 In-Reply-To: <20170615163502.10548-1-hch@lst.de>
 References: <20170615163502.10548-1-hch@lst.de>
-Message-ID: <20170615163502.10548-3-hch@lst.de>
-
-NVMe 1.2.1 or later requires controllers to provide a subsystem NQN in the
-Identify controller data structures.  Use this NQN for the subsysnqn
-sysfs attribute by storing it in the nvme_ctrl structure after verifying
-it.  For older controllers we generate a "fake" NQN per non-normative
-text in the NVMe 1.3 spec.
+Message-ID: <20170615163502.10548-4-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
 ---
- drivers/nvme/host/core.c    | 28 +++++++++++++++++++++++++---
- drivers/nvme/host/fabrics.c | 10 ----------
- drivers/nvme/host/fabrics.h |  1 -
- drivers/nvme/host/fc.c      |  1 -
- drivers/nvme/host/nvme.h    |  2 +-
- drivers/nvme/host/rdma.c    |  1 -
- drivers/nvme/target/loop.c  |  1 -
- 7 files changed, 26 insertions(+), 18 deletions(-)
+ drivers/nvme/host/core.c | 15 ++++-----------
+ 1 file changed, 4 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4ff5114f467d..5ee3e2b2b9b7 100644
+index 5ee3e2b2b9b7..328da5d8c469 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -1633,6 +1633,28 @@ static bool quirk_matches(const struct nvme_id_ctrl *id,
- 		string_matches(id->fr, q->fr, sizeof(id->fr));
- }
+@@ -2114,23 +2114,16 @@ static struct attribute *nvme_dev_attrs[] = {
+ 	NULL
+ };
  
-+static void nvme_init_subnqn(struct nvme_ctrl *ctrl, struct nvme_id_ctrl *id)
-+{
-+	size_t nqnlen;
-+
-+	nqnlen = strnlen(id->subnqn, NVMF_NQN_SIZE);
-+	if (nqnlen > 0 && nqnlen < NVMF_NQN_SIZE) {
-+		strcpy(ctrl->subnqn, id->subnqn);
-+		return;
-+	}
-+
-+	if (ctrl->vs >= NVME_VS(1, 2, 1))
-+		dev_warn(ctrl->device, "missing or invalid SUBNQN field.\n");
-+
-+	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
-+	snprintf(ctrl->subnqn, NVMF_NQN_SIZE,
-+		"nqn.2014.08.org.nvmexpress:%4x%4x",
-+		le16_to_cpu(id->vid), le16_to_cpu(id->ssvid));
-+	memcpy(ctrl->subnqn + 35, id->sn, sizeof(id->sn));
-+	memcpy(ctrl->subnqn + 55, id->mn, sizeof(id->mn));
-+	memset(ctrl->subnqn + 95, 0, sizeof(ctrl->subnqn) - 95);
-+}
-+
- /*
-  * Initialize the cached copies of the Identify data and various controller
-  * register in our nvme_ctrl structure.  This should be called as soon as
-@@ -1668,6 +1690,8 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 		return -EIO;
- 	}
- 
-+	nvme_init_subnqn(ctrl, id);
-+
- 	if (!ctrl->identified) {
- 		/*
- 		 * Check for quirks.  Quirk can depend on firmware version,
-@@ -2061,8 +2085,7 @@ static ssize_t nvme_sysfs_show_subsysnqn(struct device *dev,
+-#define CHECK_ATTR(ctrl, a, name)		\
+-	if ((a) == &dev_attr_##name.attr &&	\
+-	    !(ctrl)->ops->get_##name)		\
+-		return 0
+-
+ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
+ 		struct attribute *a, int n)
  {
+ 	struct device *dev = container_of(kobj, struct device, kobj);
  	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
  
--	return snprintf(buf, PAGE_SIZE, "%s\n",
--			ctrl->ops->get_subsysnqn(ctrl));
-+	return snprintf(buf, PAGE_SIZE, "%s\n", ctrl->subnqn);
- }
- static DEVICE_ATTR(subsysnqn, S_IRUGO, nvme_sysfs_show_subsysnqn, NULL);
- 
-@@ -2107,7 +2130,6 @@ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
- 			return 0;
- 	}
- 
--	CHECK_ATTR(ctrl, a, subsysnqn);
- 	CHECK_ATTR(ctrl, a, address);
+-	if (a == &dev_attr_delete_controller.attr) {
+-		if (!ctrl->ops->delete_ctrl)
+-			return 0;
+-	}
+-
+-	CHECK_ATTR(ctrl, a, address);
++	if (a == &dev_attr_delete_controller.attr && !ctrl->ops->delete_ctrl)
++		return 0;
++	if (a == &dev_attr_address.attr && !ctrl->ops->get_address)
++		return 0;
  
  	return a->mode;
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 6e6864516ce6..4798a8a425e0 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -128,16 +128,6 @@ int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size)
- EXPORT_SYMBOL_GPL(nvmf_get_address);
- 
- /**
-- * nvmf_get_subsysnqn() - Get subsystem NQN
-- * @ctrl:	Host NVMe controller instance which we got the NQN
-- */
--const char *nvmf_get_subsysnqn(struct nvme_ctrl *ctrl)
--{
--	return ctrl->opts->subsysnqn;
--}
--EXPORT_SYMBOL_GPL(nvmf_get_subsysnqn);
--
--/**
-  * nvmf_reg_read32() -  NVMe Fabrics "Property Get" API function.
-  * @ctrl:	Host NVMe controller instance maintaining the admin
-  *		queue used to submit the property read command to
-diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
-index f1c9bd7ae7ff..694d024707aa 100644
---- a/drivers/nvme/host/fabrics.h
-+++ b/drivers/nvme/host/fabrics.h
-@@ -138,7 +138,6 @@ int nvmf_connect_io_queue(struct nvme_ctrl *ctrl, u16 qid);
- int nvmf_register_transport(struct nvmf_transport_ops *ops);
- void nvmf_unregister_transport(struct nvmf_transport_ops *ops);
- void nvmf_free_options(struct nvmf_ctrl_options *opts);
--const char *nvmf_get_subsysnqn(struct nvme_ctrl *ctrl);
- int nvmf_get_address(struct nvme_ctrl *ctrl, char *buf, int size);
- bool nvmf_should_reconnect(struct nvme_ctrl *ctrl);
- 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 5165007e86a6..e443a88e121f 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2631,7 +2631,6 @@ static const struct nvme_ctrl_ops nvme_fc_ctrl_ops = {
- 	.free_ctrl		= nvme_fc_nvme_ctrl_freed,
- 	.submit_async_event	= nvme_fc_submit_async_event,
- 	.delete_ctrl		= nvme_fc_del_nvme_ctrl,
--	.get_subsysnqn		= nvmf_get_subsysnqn,
- 	.get_address		= nvmf_get_address,
- };
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 9cdd8b78b70b..fac691ec807f 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -138,6 +138,7 @@ struct nvme_ctrl {
- 	char serial[20];
- 	char model[40];
- 	char firmware_rev[8];
-+	char subnqn[NVMF_NQN_SIZE];
- 	u16 cntlid;
- 
- 	u32 ctrl_config;
-@@ -219,7 +220,6 @@ struct nvme_ctrl_ops {
- 	void (*free_ctrl)(struct nvme_ctrl *ctrl);
- 	void (*submit_async_event)(struct nvme_ctrl *ctrl, int aer_idx);
- 	int (*delete_ctrl)(struct nvme_ctrl *ctrl);
--	const char *(*get_subsysnqn)(struct nvme_ctrl *ctrl);
- 	int (*get_address)(struct nvme_ctrl *ctrl, char *buf, int size);
- };
- 
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 01dc723e6acf..f190271bf522 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1757,7 +1757,6 @@ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
- 	.free_ctrl		= nvme_rdma_free_ctrl,
- 	.submit_async_event	= nvme_rdma_submit_async_event,
- 	.delete_ctrl		= nvme_rdma_del_ctrl,
--	.get_subsysnqn		= nvmf_get_subsysnqn,
- 	.get_address		= nvmf_get_address,
- };
- 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index f67606523724..f33d027df86b 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -542,7 +542,6 @@ static const struct nvme_ctrl_ops nvme_loop_ctrl_ops = {
- 	.free_ctrl		= nvme_loop_free_ctrl,
- 	.submit_async_event	= nvme_loop_submit_async_event,
- 	.delete_ctrl		= nvme_loop_del_ctrl,
--	.get_subsysnqn		= nvmf_get_subsysnqn,
- };
- 
- static int nvme_loop_create_io_queues(struct nvme_loop_ctrl *ctrl)
+ }
 -- 
 2.11.0
