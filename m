@@ -1,12 +1,14 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 15 Jun 2017 19:23:35 +0300
-Subject: [PATCH 2/2] nvme: no need to wait for the reset when keepalive
- fails
-In-Reply-To: <20170615134217.10539-3-hch@lst.de>
-References: <20170615134217.10539-1-hch@lst.de>
- <20170615134217.10539-3-hch@lst.de>
-Message-ID: <f209c4bf-4a8e-168c-1935-5f16cabd6b6f@mellanox.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 15 Jun 2017 18:31:41 +0200
+Subject: [PATCH v6 00/10] Implement NVMe Namespace Descriptor
+ Identification
+In-Reply-To: <20170607094536.32419-1-jthumshirn@suse.de>
+References: <20170607094536.32419-1-jthumshirn@suse.de>
+Message-ID: <20170615163141.GA27307@lst.de>
 
-Looks good,
+On Wed, Jun 07, 2017@11:45:27AM +0200, Johannes Thumshirn wrote:
+> A patch for nvmetcli and nvme-cli will follow shortly.
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Can you send them out?  Especially as I want to debug why I don't seem
+to get a uuid attribute with nvme-loop despite the fact that we should
+always have one.
