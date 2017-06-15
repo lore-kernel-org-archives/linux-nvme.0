@@ -1,45 +1,41 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 15 Jun 2017 11:58:06 +0300
-Subject: [PATCH] nvmet-fc: Remove a set-but-not-used variable
-In-Reply-To: <20170608164329.20304-1-bart.vanassche@wdc.com>
-References: <20170608164329.20304-1-bart.vanassche@wdc.com>
-Message-ID: <5a272c14-1faf-fa08-0f2f-47aa0e4f2e32@grimberg.me>
+Date: Thu, 15 Jun 2017 12:14:04 +0300
+Subject: selftests: nvmftests: Introducing unittest framework for NVMe
+ Over Fabricis
+In-Reply-To: <20170612032610.4176-1-chaitanya.kulkarni@hgst.com>
+References: <20170612032610.4176-1-chaitanya.kulkarni@hgst.com>
+Message-ID: <c3a4f862-54eb-ceed-3284-9cca055f55ad@grimberg.me>
 
-already applied, but FWIW,
+> Hi,
+> 
+> Introducing NVMe Over Fabrics unit test framework.
+> 
+> The goal is to have simple, lightweight, and easily expandable framework which can be used to
+> develop various categories of unit tests for NVMe Over Fabrics and improve overall development.
+> 
+> Please have a look at README for an overview and process of adding a new test case.
+> The framework also has a sample skeleton which can be used readily to write a new testcase.
+> 
+> I?d like to know what features, test cases are desirable for the framework.
+> Any suggestions are welcome, I'd like to implement them.
+> 
+> On approval, I would like to submit more test cases to enhance the framework.
 
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+This looks great Chaitanya!
 
-On 08/06/17 19:43, Bart Van Assche wrote:
-> From: Bart Van Assche <bart.vanassche at sandisk.com>
-> 
-> This was detected by building the nvmet-fc driver with W=1.
-> 
-> Signed-off-by: Bart Van Assche <bart.vanassche at sandisk.com>
-> Cc: James Smart <james.smart at broadcom.com>
-> Cc: Christoph Hellwig <hch at lst.de>
-> Cc: Johannes Thumshirn <jthumshirn at suse.de>
-> ---
->   drivers/nvme/target/fcloop.c | 2 --
->   1 file changed, 2 deletions(-)
-> 
-> diff --git a/drivers/nvme/target/fcloop.c b/drivers/nvme/target/fcloop.c
-> index 294a6611fb24..1bb9d5b311b1 100644
-> --- a/drivers/nvme/target/fcloop.c
-> +++ b/drivers/nvme/target/fcloop.c
-> @@ -569,7 +569,6 @@ fcloop_tgt_fcp_abort(struct nvmet_fc_target_port *tgtport,
->   			struct nvmefc_tgt_fcp_req *tgt_fcpreq)
->   {
->   	struct fcloop_fcpreq *tfcp_req = tgt_fcp_req_to_fcpreq(tgt_fcpreq);
-> -	int active;
->   
->   	/*
->   	 * mark aborted only in case there were 2 threads in transport
-> @@ -577,7 +576,6 @@ fcloop_tgt_fcp_abort(struct nvmet_fc_target_port *tgtport,
->   	 * after the abort request
->   	 */
->   	spin_lock(&tfcp_req->reqlock);
-> -	active = tfcp_req->active;
->   	tfcp_req->aborted = true;
->   	spin_unlock(&tfcp_req->reqlock);
->   
-> 
+We have plenty of areas to cover :)
+
+One of the most challenging flows for a fabric transport is network
+errors injections while heavy IO is running, I think that this area
+is the one that we tend to get wrong _and_ its the easiest one to break
+because it usually involves non-trivial races.
+
+This would need to somehow understand the network topology in some
+json config I assume.
+
+Extrapolating the above to have a many-hosts-to-one-target is probably
+the hardest nut to crack in these sort of drivers. If we were able
+to cover that, our nvmet quality instantly upgrades.
+
+Note that I'm aware of multiple vendors that have these sort of testing
+framework in-house so I hope they can contribute as well.
