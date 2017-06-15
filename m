@@ -1,10 +1,11 @@
 From: maxg@mellanox.com (Max Gurtovoy)
-Date: Thu, 15 Jun 2017 19:21:48 +0300
-Subject: [PATCH 1/2] nvme: move reset workqueue handling to common code
-In-Reply-To: <20170615134217.10539-2-hch@lst.de>
+Date: Thu, 15 Jun 2017 19:23:35 +0300
+Subject: [PATCH 2/2] nvme: no need to wait for the reset when keepalive
+ fails
+In-Reply-To: <20170615134217.10539-3-hch@lst.de>
 References: <20170615134217.10539-1-hch@lst.de>
- <20170615134217.10539-2-hch@lst.de>
-Message-ID: <db3bf2bd-216b-a479-fd1a-ab1b2e5959b1@mellanox.com>
+ <20170615134217.10539-3-hch@lst.de>
+Message-ID: <f209c4bf-4a8e-168c-1935-5f16cabd6b6f@mellanox.com>
 
 Looks good,
 
