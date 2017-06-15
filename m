@@ -1,15 +1,17 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 15 Jun 2017 16:29:18 +0300
-Subject: [PATCH] nvme: don't hard code size of struct t10_pi_tuple
-Message-ID: <1497533358-9901-1-git-send-email-sagi@grimberg.me>
+Date: Thu, 15 Jun 2017 16:31:29 +0300
+Subject: [PATCH v2] nvme: don't hard code size of struct t10_pi_tuple
+Message-ID: <1497533489-11255-1-git-send-email-sagi@grimberg.me>
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
+was a tad too fast...
+
  drivers/nvme/host/core.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index a5b7926cf7f6..761ca3e6ee2e 100644
+index a5b7926cf7f6..94eef90d1824 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
 @@ -336,7 +336,8 @@ static inline blk_status_t nvme_setup_rw(struct nvme_ns *ns,
@@ -18,7 +20,7 @@ index a5b7926cf7f6..761ca3e6ee2e 100644
  	 */
 -	if (ns && ns->ms && (!ns->pi_type || ns->ms != 8) &&
 +	if (ns && ns->ms &&
-+	    (!ns->pi_type) || ns->ms != sizeof(struct t10_pi_tuple)) &&
++	    (!ns->pi_type || ns->ms != sizeof(struct t10_pi_tuple)) &&
  	    !blk_integrity_rq(req) && !blk_rq_is_passthrough(req))
  		return BLK_STS_NOTSUPP;
  
