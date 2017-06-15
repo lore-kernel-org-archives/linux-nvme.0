@@ -1,34 +1,17 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 15 Jun 2017 19:34:56 +0300
-Subject: [PATCH 2/2] nvme-core: change commas to semicolons in
- nvme_get_log_page
-In-Reply-To: <1497544496-25134-1-git-send-email-sagi@grimberg.me>
-References: <1497544496-25134-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1497544496-25134-2-git-send-email-sagi@grimberg.me>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 15 Jun 2017 18:34:56 +0200
+Subject: track subsystem relationships and shared namespaces
+Message-ID: <20170615163502.10548-1-hch@lst.de>
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/host/core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Hi all,
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 4ff5114f467d..17a10549d688 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -815,11 +815,11 @@ int nvme_get_log_page(struct nvme_ctrl *dev, struct nvme_smart_log **log)
- 	struct nvme_command c = { };
- 	int error;
- 
--	c.common.opcode = nvme_admin_get_log_page,
--	c.common.nsid = cpu_to_le32(0xFFFFFFFF),
-+	c.common.opcode = nvme_admin_get_log_page;
-+	c.common.nsid = cpu_to_le32(0xFFFFFFFF);
- 	c.common.cdw10[0] = cpu_to_le32(
- 			(((sizeof(struct nvme_smart_log) / 4) - 1) << 16) |
--			 NVME_LOG_SMART),
-+			 NVME_LOG_SMART);
- 
- 	*log = kmalloc(sizeof(struct nvme_smart_log), GFP_KERNEL);
- 	if (!*log)
--- 
-2.7.4
+this set adds the first bits of required infrastructure for proper
+multipath support in the NVMe driver.  It tracks if multiple controllers
+belong to the same subsystem, and if they do which namespaces on the
+controller refer to the same data.  As part of that it validates a lot
+of the restrictions in the NVMe spec related to these facts.
+
+Btw, qemu is a perfect way to create controllers with the same NQN
+that fail these checks, as it allows you to specify the same serial
+number for multiple controllers, and never sets the required CMIC
+bit for multi-controller subsystems.
