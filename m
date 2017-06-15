@@ -1,15 +1,16 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Thu, 15 Jun 2017 09:36:54 -0700
-Subject: [PATCH 2/2] nvme-core: change commas to semicolons in
- nvme_get_log_page
-In-Reply-To: <1497544496-25134-2-git-send-email-sagi@grimberg.me>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 15 Jun 2017 19:44:00 +0300
+Subject: [PATCH 1/2] nvme: use a single NVME_AQ_DEPTH
+In-Reply-To: <20170615163627.GA31576@infradead.org>
 References: <1497544496-25134-1-git-send-email-sagi@grimberg.me>
- <1497544496-25134-2-git-send-email-sagi@grimberg.me>
-Message-ID: <20170615163654.GB31576@infradead.org>
+ <20170615163627.GA31576@infradead.org>
+Message-ID: <2791261d-5398-88ac-c012-8a6bc3af7cf5@grimberg.me>
 
-Looks fine,
 
-Reviewed-by: Christoph Hellwig <hch at lst.de>
+> Note that Fabrics controller are not required to support more than
+> 32 AQ entries.  So we probably should just lower the value for everyone
+> as there is no point in having more entries on PCIe either.
 
-(although if we kill off the scsi emulation this function will just go
-away)
+I'm down with that...
+
+Keith? Any objections?
