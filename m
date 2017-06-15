@@ -1,15 +1,10 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Thu, 15 Jun 2017 18:08:56 +0200
-Subject: [nvme-4.13 V2] nvme: Implement NS Optimal IO Boundary from 1.3
- Spec
-In-Reply-To: <20170615155251.dmmpfcd22vv2ozko@sbauer-Z170X-UD5>
-References: <20170615154726.8337-1-scott.bauer@intel.com>
- <20170615155251.dmmpfcd22vv2ozko@sbauer-Z170X-UD5>
-Message-ID: <20170615160856.GA26834@lst.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Thu, 15 Jun 2017 19:14:58 +0300
+Subject: [PATCH v2] nvme: don't hard code size of struct t10_pi_tuple
+In-Reply-To: <1497533489-11255-1-git-send-email-sagi@grimberg.me>
+References: <1497533489-11255-1-git-send-email-sagi@grimberg.me>
+Message-ID: <eb0515dd-a54b-4bda-a083-b3a1fed9c511@mellanox.com>
 
-On Thu, Jun 15, 2017@09:52:52AM -0600, Scott Bauer wrote:
-> I need to re-spin this one more time. I forgot to add the 1.3 version check before accessing the
-> register here.
+Looks fine,
 
-NVMe TPs also apply to older versions, so we should be fine without
-the check.
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
