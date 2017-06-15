@@ -1,36 +1,35 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Thu, 15 Jun 2017 12:57:31 -0400
-Subject: [nvme-4.13 V2] nvme: Implement NS Optimal IO Boundary from 1.3
- Spec
-In-Reply-To: <20170615154726.8337-1-scott.bauer@intel.com>
-References: <20170615154726.8337-1-scott.bauer@intel.com>
-Message-ID: <20170615165731.GB13399@localhost.localdomain>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Thu, 15 Jun 2017 19:49:50 +0300
+Subject: [PATCH 6/6] nvme: track shared namespaces in a siblings list
+In-Reply-To: <20170615163502.10548-7-hch@lst.de>
+References: <20170615163502.10548-1-hch@lst.de>
+ <20170615163502.10548-7-hch@lst.de>
+Message-ID: <d1fe0701-6667-512e-59af-f2339ca1e52d@grimberg.me>
 
-On Thu, Jun 15, 2017@09:47:26AM -0600, Scott Bauer wrote:
-> The NVMe 1.3 spec introduces Namespace Optimal IO Boundaries (NOIOB),
-> which standardizes the stripe mechanism we currently have quirks for.
-> This patch implements the necessary logic to handle this new feature.
+Christoph,
+
+> Verify that our IDs match for shared namespaces in a subystem, and link
+> them up in a headless queue so that we can find siblings easily.
 > 
-> Signed-off-by: Scott Bauer <scott.bauer at intel.com>
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
 > ---
->  drivers/nvme/host/core.c | 9 +++++++++
->  drivers/nvme/host/nvme.h | 1 +
->  include/linux/nvme.h     | 2 +-
->  3 files changed, 11 insertions(+), 1 deletion(-)
+>   drivers/nvme/host/core.c | 88 ++++++++++++++++++++++++++++++++++++++++++++++++
+>   drivers/nvme/host/nvme.h |  1 +
+>   2 files changed, 89 insertions(+)
 > 
 > diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 4ff5114f467d..dfa72bb2ef0c 100644
+> index 57e48d893173..a67a850ef7db 100644
 > --- a/drivers/nvme/host/core.c
 > +++ b/drivers/nvme/host/core.c
-> @@ -1080,6 +1080,12 @@ static void nvme_init_integrity(struct nvme_ns *ns)
->  }
->  #endif /* CONFIG_BLK_DEV_INTEGRITY */
->  
-> +static void nvme_set_chunk_size(struct nvme_ns *ns)
+> @@ -2249,6 +2249,89 @@ static struct nvme_ns *nvme_find_get_ns(struct nvme_ctrl *ctrl, unsigned nsid)
+>   	return ret;
+>   }
+>   
+> +static int nvme_ns_link_siblings(struct nvme_ns *ns, struct nvme_id_ns *id,
+> +		struct nvme_ns *cur)
 > +{
-> +	unsigned int chunk_size = (((u32)ns->noiob) << ns->lba_shift) >> 9;
 
-Let's say we've a large noiob (16k) with a 4k block size. The above would
-shift beyond 32-bits, so I would rewrite this as:
-
-	unsigned int chunk_size = (((u32)ns->noiob) << (ns->lba_shift - 9));
+The fact that this can also not link sibling makes me think that
+the name is a bit confusing. I'm wandering if it would be a good
+idea to split the id check (and comparison) and the actual link
+itself?
