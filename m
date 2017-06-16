@@ -1,18 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 16 Jun 2017 11:45:47 +0200
-Subject: [PATCH v5 for-4.13 2/7] mlx5e: don't assume anything on the
- irq affinity mappings of the device
-In-Reply-To: <1497533594-11579-3-git-send-email-sagi@grimberg.me>
+Date: Fri, 16 Jun 2017 11:47:46 +0200
+Subject: [PATCH v5 for-4.13 3/7] mlx5: move affinity hints assignments
+ to generic code
+In-Reply-To: <1497533594-11579-4-git-send-email-sagi@grimberg.me>
 References: <1497533594-11579-1-git-send-email-sagi@grimberg.me>
- <1497533594-11579-3-git-send-email-sagi@grimberg.me>
-Message-ID: <20170616094547.GA12547@lst.de>
+ <1497533594-11579-4-git-send-email-sagi@grimberg.me>
+Message-ID: <20170616094746.GB12547@lst.de>
 
-On Thu, Jun 15, 2017@04:33:09PM +0300, Sagi Grimberg wrote:
-> mlx5e currently assumes that irq affinity is really spread first
-> irq vectors across device home node cpus, with the new generic affinity
-> mappings this is no longer the case, hence mlxe should not rely on
-> this anymore.
+>  
+> +static int mlx5e_get_node(struct mlx5e_priv *priv, int ix)
+> +{
+> +	return pci_irq_get_node(priv->mdev->pdev, MLX5_EQ_VEC_COMP_BASE + ix);
+> +}
 
-Looks fine, but the explanation sounds a bit short - only spreading
-the vectors of the single node sounds rather odd, so there needs to
-be an explanation of why this was done before and isn't valid anymore.
+This helper seems very useful indeed..
+
+>  	rq->mpwqe.info = kzalloc_node(wq_sz * sizeof(*rq->mpwqe.info),
+> -				      GFP_KERNEL, cpu_to_node(c->cpu));
+> +					GFP_KERNEL, node);
+
+Why the reindenting?
+
+>  	/* We allocate more than mtt_sz as we will align the pointer */
+> -	rq->mpwqe.mtt_no_align = kzalloc_node(mtt_alloc * wq_sz, GFP_KERNEL,
+> -					cpu_to_node(c->cpu));
+> +	rq->mpwqe.mtt_no_align = kzalloc_node(mtt_alloc * wq_sz,
+> +					GFP_KERNEL, node);
+
+Or the moving of GFP_KERNEL to the next line here?
