@@ -1,30 +1,33 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 16 Jun 2017 11:47:46 +0200
-Subject: [PATCH v5 for-4.13 3/7] mlx5: move affinity hints assignments
- to generic code
-In-Reply-To: <1497533594-11579-4-git-send-email-sagi@grimberg.me>
-References: <1497533594-11579-1-git-send-email-sagi@grimberg.me>
- <1497533594-11579-4-git-send-email-sagi@grimberg.me>
-Message-ID: <20170616094746.GB12547@lst.de>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 16 Jun 2017 11:48:32 +0200
+Subject: [PATCH v6 00/10] Implement NVMe Namespace Descriptor
+ Identification
+In-Reply-To: <20170616094056.GA12465@lst.de>
+References: <20170607094536.32419-1-jthumshirn@suse.de>
+ <20170615163141.GA27307@lst.de>
+ <bab953e9-7026-5833-9f65-1ef8b90433d7@suse.de>
+ <20170616094056.GA12465@lst.de>
+Message-ID: <905ed2e6-1c1c-f3a3-5391-66e42fb61861@suse.de>
 
->  
-> +static int mlx5e_get_node(struct mlx5e_priv *priv, int ix)
-> +{
-> +	return pci_irq_get_node(priv->mdev->pdev, MLX5_EQ_VEC_COMP_BASE + ix);
-> +}
+On 06/16/2017 11:40 AM, Christoph Hellwig wrote:
+> On Fri, Jun 16, 2017@10:20:04AM +0200, Johannes Thumshirn wrote:
+>> Strange, as I tested with nvme-loop all the time...
+> 
+> Yeah, it's actually there, but for some reason find on sysfs
+> behaves strange:
+> 
+> root at testvm:~# find /sys -name uuid
+> root at testvm:~# cat /sys/class/nvme/nvme2/nvme2n1/uuid 
+> 6665a65b-f42f-469b-800e-a047238649eb
 
-This helper seems very useful indeed..
+Wasn't there something that find on sysfs isn't reliable?
 
->  	rq->mpwqe.info = kzalloc_node(wq_sz * sizeof(*rq->mpwqe.info),
-> -				      GFP_KERNEL, cpu_to_node(c->cpu));
-> +					GFP_KERNEL, node);
+Anyways, my shock's gone now.
 
-Why the reindenting?
-
->  	/* We allocate more than mtt_sz as we will align the pointer */
-> -	rq->mpwqe.mtt_no_align = kzalloc_node(mtt_alloc * wq_sz, GFP_KERNEL,
-> -					cpu_to_node(c->cpu));
-> +	rq->mpwqe.mtt_no_align = kzalloc_node(mtt_alloc * wq_sz,
-> +					GFP_KERNEL, node);
-
-Or the moving of GFP_KERNEL to the next line here?
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
