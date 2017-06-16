@@ -1,12 +1,27 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Fri, 16 Jun 2017 09:28:04 +0200 (CEST)
-Subject: spread MSI(-X) vectors to all possible CPUs V2
-In-Reply-To: <20170616064802.GA7445@lst.de>
-References: <20170603140403.27379-1-hch@lst.de> <20170616064802.GA7445@lst.de>
-Message-ID: <alpine.DEB.2.20.1706160927340.2254@nanos>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 16 Jun 2017 10:05:44 +0200
+Subject: [PATCH nvmetcli] nvmetcli: add support for NS UUIDs
+Message-ID: <20170616080544.8780-1-jthumshirn@suse.de>
 
-On Fri, 16 Jun 2017, Christoph Hellwig wrote:
-> can you take a look at the generic patches as they are the required
-> base for the block work?
+Add support for setting the Namespace Universally Unique Identifier in
+a NVMe over Fabrics namespace.
 
-It's next on my ever growing todo list....
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ nvmetcli | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/nvmetcli b/nvmetcli
+index 0ada243a6a7f..56dda66c39a7 100755
+--- a/nvmetcli
++++ b/nvmetcli
+@@ -198,6 +198,7 @@ class UINamespaceNode(UINode):
+     ui_desc_device = {
+         'path': ('string', 'Backing device path.'),
+         'nguid': ('string', 'Namspace Global Unique Identifier.'),
++        'uuid': ('string', 'Namespace Universally Unique Identifier.'),
+     }
+ 
+     def __init__(self, parent, cfnode):
+-- 
+2.12.3
