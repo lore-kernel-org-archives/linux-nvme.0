@@ -1,21 +1,20 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 16 Jun 2017 10:20:04 +0200
-Subject: [PATCH v6 00/10] Implement NVMe Namespace Descriptor
- Identification
-In-Reply-To: <20170615163141.GA27307@lst.de>
-References: <20170607094536.32419-1-jthumshirn@suse.de>
- <20170615163141.GA27307@lst.de>
-Message-ID: <bab953e9-7026-5833-9f65-1ef8b90433d7@suse.de>
+Date: Fri, 16 Jun 2017 10:29:16 +0200
+Subject: [PATCH 1/6] nvme: remove an misleading comment on strut nvme_ns
+In-Reply-To: <20170615163502.10548-2-hch@lst.de>
+References: <20170615163502.10548-1-hch@lst.de>
+ <20170615163502.10548-2-hch@lst.de>
+Message-ID: <79a2352a-b6dd-2324-2ce0-247ea087e061@suse.de>
 
-On 06/15/2017 06:31 PM, Christoph Hellwig wrote:
-> On Wed, Jun 07, 2017@11:45:27AM +0200, Johannes Thumshirn wrote:
->> A patch for nvmetcli and nvme-cli will follow shortly.
+On 06/15/2017 06:34 PM, Christoph Hellwig wrote:
+> While a NVMe Namespace is somewhat similar to a SCSI Logical Unit (and not
+> a Logical Unit Number anyway) there are subtile differences.  Remove the
+> misleading comment.
 > 
-> Can you send them out?  Especially as I want to debug why I don't seem
-> to get a uuid attribute with nvme-loop despite the fact that we should
-> always have one.
+> Signed-off-by: Christoph Hellwig <hch at lst.de>
+> ---
 
-Strange, as I tested with nvme-loop all the time...
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 
 
 -- 
