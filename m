@@ -1,38 +1,60 @@
 From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 15 Jun 2017 23:40:54 -0700
-Subject: [PATCH] nvme_fc: Fix crash when nvme controller connection fails.
-Message-ID: <20170616064054.20758-1-jsmart2021@gmail.com>
+Date: Thu, 15 Jun 2017 23:41:41 -0700
+Subject: [PATCH] nvmet_fc: fix crashes on bad opcodes
+Message-ID: <20170616064141.25697-1-jsmart2021@gmail.com>
 
-If a controller connection is attempted (say to a subsystem that
-does not exist), the first attempt errors out.  If another connect
-is attempted, it crashes.
+if a nvme command is issued with an opcode that is not supported by
+the target (example: opcode 21 - detach namespace), the target
+crashes due to a null pointer.
 
-Issue is the prior controller has yet execute it's final put, thus
-its still on lists. However, opts points on it have been cleared, thus
-causing the crash if they are referenced.
+nvmet_req_init() detects the bad opcode and immediately calls the nvme
+command done routine with an error status, allowing the transport to
+send the response. However, the FC transport was aborting the command
+on error, so the abort freed the lldd point, but the rsp transmit path
+referenced it psot the free.
 
-Fix is to add the missing put after the nvme_uninit_ctrl() call on
-the attachment failure.
+Fix by removing the abort call on nvmet_req_init() failure.
+The completion response will be sent with an error status code.
+
+As the completion path will terminate the io, ensure the data_sg
+lists show an unused state so that teardown paths are successful.
 
 Signed-off-by: Paul Ely <Paul.Ely at broadcom.com>
 Signed-off-by: James Smart <james.smart at broadcom.com>
 ---
- drivers/nvme/host/fc.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/nvme/target/fc.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 5165007e86a6..9700b45a3929 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -2769,6 +2769,9 @@ nvme_fc_init_ctrl(struct device *dev, struct nvmf_ctrl_options *opts,
- 		nvme_uninit_ctrl(&ctrl->ctrl);
- 		nvme_put_ctrl(&ctrl->ctrl);
+diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
+index 2006fae61980..7692a96c9065 100644
+--- a/drivers/nvme/target/fc.c
++++ b/drivers/nvme/target/fc.c
+@@ -2096,20 +2096,22 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
+ 	/* clear any response payload */
+ 	memset(&fod->rspiubuf, 0, sizeof(fod->rspiubuf));
  
-+		/* Remove core ctrl ref. */
-+		nvme_put_ctrl(&ctrl->ctrl);
++	fod->data_sg = NULL;
++	fod->data_sg_cnt = 0;
 +
- 		/* as we're past the point where we transition to the ref
- 		 * counting teardown path, if we return a bad pointer here,
- 		 * the calling routine, thinking it's prior to the
+ 	ret = nvmet_req_init(&fod->req,
+ 				&fod->queue->nvme_cq,
+ 				&fod->queue->nvme_sq,
+ 				&nvmet_fc_tgt_fcp_ops);
+-	if (!ret) {	/* bad SQE content or invalid ctrl state */
+-		nvmet_fc_abort_op(tgtport, fod);
++	if (!ret) {
++		/* bad SQE content or invalid ctrl state */
++		/* nvmet layer has already called op done to send rsp. */
+ 		return;
+ 	}
+ 
+ 	/* keep a running counter of tail position */
+ 	atomic_inc(&fod->queue->sqtail);
+ 
+-	fod->data_sg = NULL;
+-	fod->data_sg_cnt = 0;
+ 	if (fod->total_length) {
+ 		ret = nvmet_fc_alloc_tgt_pgs(fod);
+ 		if (ret) {
 -- 
 2.11.0
