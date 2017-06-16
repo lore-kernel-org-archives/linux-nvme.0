@@ -1,39 +1,57 @@
-From: linda.knippers@hpe.com (Linda Knippers)
-Date: Fri, 16 Jun 2017 09:57:16 -0400
-Subject: remove long broken SCSI to NVMe translations
-In-Reply-To: <20170616083151.GB14698@infradead.org>
-References: <20170614063537.1044-1-hch@lst.de>
- <20170614150025.GD26073@localhost.localdomain> <20170614150138.GA9428@lst.de>
- <af9655ff-f5ae-0d86-7b84-dd48caa7c35f@suse.de>
- <20170616083151.GB14698@infradead.org>
-Message-ID: <5943E3BC.6050807@hpe.com>
+From: torvalds@linux-foundation.org (Linus Torvalds)
+Date: Fri, 16 Jun 2017 22:28:28 +0900
+Subject: [PATCH v6 00/10] Implement NVMe Namespace Descriptor
+ Identification
+In-Reply-To: <20170616095837.GA14217@lst.de>
+References: <20170607094536.32419-1-jthumshirn@suse.de>
+ <20170615163141.GA27307@lst.de>
+ <bab953e9-7026-5833-9f65-1ef8b90433d7@suse.de> <20170616094056.GA12465@lst.de>
+ <905ed2e6-1c1c-f3a3-5391-66e42fb61861@suse.de> <20170616095837.GA14217@lst.de>
+Message-ID: <CA+55aFxJ0bpRFsnZFe6sh2i4jxNdYmDi_6RZx2CQQdmQ_HU3wQ@mail.gmail.com>
 
-On 06/16/2017 04:31 AM, Christoph Hellwig wrote:
-> [you dropped all the people in the To and Cc list..]
-> 
->> Someone should tell HPe, though; apparently they are using it for
->> firmware download ...
+On Fri, Jun 16, 2017@6:58 PM, Christoph Hellwig <hch@lst.de> wrote:
+> On Fri, Jun 16, 2017@11:48:32AM +0200, Johannes Thumshirn wrote:
+>> >
+>> > Yeah, it's actually there, but for some reason find on sysfs
+>> > behaves strange:
+>> >
+>> > root at testvm:~# find /sys -name uuid
+>> > root at testvm:~# cat /sys/class/nvme/nvme2/nvme2n1/uuid
+>> > 6665a65b-f42f-469b-800e-a047238649eb
+>>
+>> Wasn't there something that find on sysfs isn't reliable?
+>
+> Looks like it.  Which is a pitty.
 
-Yes, that's how we discovered it was broken.
+Hmm. The *traditional* reason for this particular 'find' oddity is
+that find has an optimization which will look at the nlink count of a
+directory to decide how many subdirectories it can have.
 
-> Everything that could be done using the scsi emulation can be trivially
-> done using nvme-cli, as they should have done from day 0.
+So when 'find' then traverses the directory tree, once it has found
+all the subdirectories it expects, it will stop traversing any further
+subdirectories.
 
-I don't quite know the history of our use of the scsi translation but I
-suspect it's because we adapted some existing utility to also support nvme.
+The reason for this is that it can then avoid doing the 'lstat()' on
+each directory entry to even figure out what kind of file it is (ie
+directory vs regular file etc). I forget the exact rules, but it
+basically depends on nlink being "2+umber of subdirectories". I wonder
+if the sysfs code gets this wrong for some cases.
 
-David Milburn's patch is very simple.  Can we please fix the bug for now
-so we have a little time to fix our tools?
+All the directories I have on the laptop I'm on right now get it
+right, but maybe nvme triggers something.
 
-Thanks,
+You can check with some silly shell scripts, and do things like
 
--- ljk
-> 
-> But adding the usual suspects to CC as they didn't seem to know it.
-> And adding Robert just for fun :)
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
-> 
+    stat -c %h /sys/class/nvme
+
+and then compare that to the number of subdirectories (the link count
+should be 2 higher - the parent entry and the '.' entry).
+
+The traditional *fix* for this is to just set "nlink" to 1 for a
+directory, which tells 'find' to not use this optimization. That's
+what filesystems like VFAT do, that don't count subdirectories. But
+sysfs should get the directory count right.
+
+I can't imagine any other reason why 'find' would screw up.
+
+                    Linus
