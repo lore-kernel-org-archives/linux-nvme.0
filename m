@@ -1,20 +1,38 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Fri, 16 Jun 2017 01:31:51 -0700
-Subject: remove long broken SCSI to NVMe translations
-In-Reply-To: <af9655ff-f5ae-0d86-7b84-dd48caa7c35f@suse.de>
-References: <20170614063537.1044-1-hch@lst.de>
- <20170614150025.GD26073@localhost.localdomain>
- <20170614150138.GA9428@lst.de>
- <af9655ff-f5ae-0d86-7b84-dd48caa7c35f@suse.de>
-Message-ID: <20170616083151.GB14698@infradead.org>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 16 Jun 2017 10:42:34 +0200
+Subject: [PATCH 2/6] nvme: read the subsystem NQN from Identify Controller
+In-Reply-To: <20170615163502.10548-3-hch@lst.de>
+References: <20170615163502.10548-1-hch@lst.de>
+ <20170615163502.10548-3-hch@lst.de>
+Message-ID: <560367a8-34c8-7cda-c6b4-b5b59569590d@suse.de>
 
-[you dropped all the people in the To and Cc list..]
+On 06/15/2017 06:34 PM, Christoph Hellwig wrote:
+> +	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
+> +	snprintf(ctrl->subnqn, NVMF_NQN_SIZE,
+> +		"nqn.2014.08.org.nvmexpress:%4x%4x",
+> +		le16_to_cpu(id->vid), le16_to_cpu(id->ssvid));
+> +	memcpy(ctrl->subnqn + 35, id->sn, sizeof(id->sn));
+> +	memcpy(ctrl->subnqn + 55, id->mn, sizeof(id->mn));
+> +	memset(ctrl->subnqn + 95, 0, sizeof(ctrl->subnqn) - 95);
 
-> Someone should tell HPe, though; apparently they are using it for
-> firmware download ...
+Is there a chance we can do this with a bit less magic values? We can
+calculate all of the offsets.
 
-Everything that could be done using the scsi emulation can be trivially
-done using nvme-cli, as they should have done from day 0.
+Something like:
 
-But adding the usual suspects to CC as they didn't seem to know it.
-And adding Robert just for fun :)
+off = snprintf(ctrl->subnqn, NVMF_NQN_SIZE,
+	"nqn.2014.08.org.nvmexpress:%4x%4x",
+	le16_to_cpu(id->vid), le16_to_cpu(id->ssvid));
+memcpy(ctrl->subnqn + off, id->sn, sizeof(id->sn));
+off += sizeof(id->sn);
+memcpy(ctrl->subnqn + off, id->mn, sizeof(id->mn));
+off += sizeof(id->mn);
+memset(ctrl->subnqn + off, 0, sizeof(ctrl->subnqn) - off);
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
