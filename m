@@ -1,48 +1,39 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Fri, 16 Jun 2017 14:00:28 +0200 (CEST)
-Subject: [PATCH 3/8] genirq/affinity: factor out a irq_affinity_set helper
-In-Reply-To: <alpine.DEB.2.20.1706161306070.2254@nanos>
-References: <20170603140403.27379-1-hch@lst.de>
- <20170603140403.27379-4-hch@lst.de>
- <alpine.DEB.2.20.1706161306070.2254@nanos>
-Message-ID: <alpine.DEB.2.20.1706161357380.2254@nanos>
+From: linda.knippers@hpe.com (Linda Knippers)
+Date: Fri, 16 Jun 2017 09:57:16 -0400
+Subject: remove long broken SCSI to NVMe translations
+In-Reply-To: <20170616083151.GB14698@infradead.org>
+References: <20170614063537.1044-1-hch@lst.de>
+ <20170614150025.GD26073@localhost.localdomain> <20170614150138.GA9428@lst.de>
+ <af9655ff-f5ae-0d86-7b84-dd48caa7c35f@suse.de>
+ <20170616083151.GB14698@infradead.org>
+Message-ID: <5943E3BC.6050807@hpe.com>
 
-On Fri, 16 Jun 2017, Thomas Gleixner wrote:
-> On Sat, 3 Jun 2017, Christoph Hellwig wrote:
-> > +bool irq_affinity_set(int irq, struct irq_desc *desc, const cpumask_t *mask)
-> > +{
-> > +	struct irq_data *data = irq_desc_get_irq_data(desc);
-> > +	struct irq_chip *chip = irq_data_get_irq_chip(data);
-> > +	bool ret = false;
-> > +
-> > +	if (!irq_can_move_pcntxt(data) && chip->irq_mask)
-> > +		chip->irq_mask(data);
-> > +
-> > +	if (chip->irq_set_affinity) {
-> > +		if (chip->irq_set_affinity(data, mask, true) == -ENOSPC)
-> > +			pr_crit("IRQ %d set affinity failed because there are no available vectors.  The device assigned to this IRQ is unstable.\n", irq);
-> > +		ret = true;
-> > +	}
-> > +
-> > +	/*
-> > +	 * We unmask if the irq was not marked masked by the core code.
-> > +	 * That respects the lazy irq disable behaviour.
-> > +	 */
-> > +	if (!irq_can_move_pcntxt(data) &&
-> > +	    !irqd_irq_masked(data) && chip->irq_unmask)
-> > +		chip->irq_unmask(data);
+On 06/16/2017 04:31 AM, Christoph Hellwig wrote:
+> [you dropped all the people in the To and Cc list..]
 > 
-> There is another issue with this. Nothing updates the affinity mask in
-> irq_desc, when we just invoke the chip callback. Let me have a look.
+>> Someone should tell HPe, though; apparently they are using it for
+>> firmware download ...
 
-Indeed. So that magic you do in the next patches (the hotplug callbacks)
-only work proper for affinity masks with a single cpu set.
+Yes, that's how we discovered it was broken.
 
-The problem is that we don't have a distinction between the 'possible'
-(e.g. set by /proc/irq/affinity) and the effective affinity mask.
+> Everything that could be done using the scsi emulation can be trivially
+> done using nvme-cli, as they should have done from day 0.
 
-Needs more thought.
+I don't quite know the history of our use of the scsi translation but I
+suspect it's because we adapted some existing utility to also support nvme.
+
+David Milburn's patch is very simple.  Can we please fix the bug for now
+so we have a little time to fix our tools?
 
 Thanks,
 
-	tglx
+-- ljk
+> 
+> But adding the usual suspects to CC as they didn't seem to know it.
+> And adding Robert just for fun :)
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> 
