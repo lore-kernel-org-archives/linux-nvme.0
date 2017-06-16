@@ -1,25 +1,18 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 16 Jun 2017 11:59:09 +0200
-Subject: [PATCH v6 00/10] Implement NVMe Namespace Descriptor
- Identification
-In-Reply-To: <20170616095837.GA14217@lst.de>
-References: <20170607094536.32419-1-jthumshirn@suse.de>
- <20170615163141.GA27307@lst.de>
- <bab953e9-7026-5833-9f65-1ef8b90433d7@suse.de>
- <20170616094056.GA12465@lst.de>
- <905ed2e6-1c1c-f3a3-5391-66e42fb61861@suse.de>
- <20170616095837.GA14217@lst.de>
-Message-ID: <f4ef0f2c-743a-1dc7-a1be-2f2b63cc852a@suse.de>
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Fri, 16 Jun 2017 12:23:17 +0200 (CEST)
+Subject: [PATCH 3/8] genirq/affinity: factor out a irq_affinity_set helper
+In-Reply-To: <20170603140403.27379-4-hch@lst.de>
+References: <20170603140403.27379-1-hch@lst.de>
+ <20170603140403.27379-4-hch@lst.de>
+Message-ID: <alpine.DEB.2.20.1706161221250.2254@nanos>
 
-On 06/16/2017 11:58 AM, Christoph Hellwig wrote:
-> Heh.  Now we just need the nvme-cli patches to verify it independently :)
+On Sat, 3 Jun 2017, Christoph Hellwig wrote:
+> +
+> +bool irq_affinity_set(int irq, struct irq_desc *desc, const cpumask_t *mask)
 
-I'm on it ;-)
+This should be named irq_affinity_force() because it circumvents the 'move
+in irq context' mechanism. I'll do that myself. No need to resend.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Thanks,
+
+	tglx
