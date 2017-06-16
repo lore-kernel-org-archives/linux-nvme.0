@@ -1,26 +1,20 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 16 Jun 2017 10:29:16 +0200
-Subject: [PATCH 1/6] nvme: remove an misleading comment on strut nvme_ns
-In-Reply-To: <20170615163502.10548-2-hch@lst.de>
-References: <20170615163502.10548-1-hch@lst.de>
- <20170615163502.10548-2-hch@lst.de>
-Message-ID: <79a2352a-b6dd-2324-2ce0-247ea087e061@suse.de>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Fri, 16 Jun 2017 01:31:51 -0700
+Subject: remove long broken SCSI to NVMe translations
+In-Reply-To: <af9655ff-f5ae-0d86-7b84-dd48caa7c35f@suse.de>
+References: <20170614063537.1044-1-hch@lst.de>
+ <20170614150025.GD26073@localhost.localdomain>
+ <20170614150138.GA9428@lst.de>
+ <af9655ff-f5ae-0d86-7b84-dd48caa7c35f@suse.de>
+Message-ID: <20170616083151.GB14698@infradead.org>
 
-On 06/15/2017 06:34 PM, Christoph Hellwig wrote:
-> While a NVMe Namespace is somewhat similar to a SCSI Logical Unit (and not
-> a Logical Unit Number anyway) there are subtile differences.  Remove the
-> misleading comment.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
+[you dropped all the people in the To and Cc list..]
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+> Someone should tell HPe, though; apparently they are using it for
+> firmware download ...
 
+Everything that could be done using the scsi emulation can be trivially
+done using nvme-cli, as they should have done from day 0.
 
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+But adding the usual suspects to CC as they didn't seem to know it.
+And adding Robert just for fun :)
