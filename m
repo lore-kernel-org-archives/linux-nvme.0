@@ -1,60 +1,11 @@
-From: jsmart2021@gmail.com (James Smart)
-Date: Thu, 15 Jun 2017 23:41:41 -0700
-Subject: [PATCH] nvmet_fc: fix crashes on bad opcodes
-Message-ID: <20170616064141.25697-1-jsmart2021@gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Fri, 16 Jun 2017 08:48:02 +0200
+Subject: spread MSI(-X) vectors to all possible CPUs V2
+In-Reply-To: <20170603140403.27379-1-hch@lst.de>
+References: <20170603140403.27379-1-hch@lst.de>
+Message-ID: <20170616064802.GA7445@lst.de>
 
-if a nvme command is issued with an opcode that is not supported by
-the target (example: opcode 21 - detach namespace), the target
-crashes due to a null pointer.
+Thomas,
 
-nvmet_req_init() detects the bad opcode and immediately calls the nvme
-command done routine with an error status, allowing the transport to
-send the response. However, the FC transport was aborting the command
-on error, so the abort freed the lldd point, but the rsp transmit path
-referenced it psot the free.
-
-Fix by removing the abort call on nvmet_req_init() failure.
-The completion response will be sent with an error status code.
-
-As the completion path will terminate the io, ensure the data_sg
-lists show an unused state so that teardown paths are successful.
-
-Signed-off-by: Paul Ely <Paul.Ely at broadcom.com>
-Signed-off-by: James Smart <james.smart at broadcom.com>
----
- drivers/nvme/target/fc.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/nvme/target/fc.c b/drivers/nvme/target/fc.c
-index 2006fae61980..7692a96c9065 100644
---- a/drivers/nvme/target/fc.c
-+++ b/drivers/nvme/target/fc.c
-@@ -2096,20 +2096,22 @@ nvmet_fc_handle_fcp_rqst(struct nvmet_fc_tgtport *tgtport,
- 	/* clear any response payload */
- 	memset(&fod->rspiubuf, 0, sizeof(fod->rspiubuf));
- 
-+	fod->data_sg = NULL;
-+	fod->data_sg_cnt = 0;
-+
- 	ret = nvmet_req_init(&fod->req,
- 				&fod->queue->nvme_cq,
- 				&fod->queue->nvme_sq,
- 				&nvmet_fc_tgt_fcp_ops);
--	if (!ret) {	/* bad SQE content or invalid ctrl state */
--		nvmet_fc_abort_op(tgtport, fod);
-+	if (!ret) {
-+		/* bad SQE content or invalid ctrl state */
-+		/* nvmet layer has already called op done to send rsp. */
- 		return;
- 	}
- 
- 	/* keep a running counter of tail position */
- 	atomic_inc(&fod->queue->sqtail);
- 
--	fod->data_sg = NULL;
--	fod->data_sg_cnt = 0;
- 	if (fod->total_length) {
- 		ret = nvmet_fc_alloc_tgt_pgs(fod);
- 		if (ret) {
--- 
-2.11.0
+can you take a look at the generic patches as they are the required
+base for the block work?
