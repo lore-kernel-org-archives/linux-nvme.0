@@ -1,18 +1,13 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Fri, 16 Jun 2017 09:04:09 +0200
-Subject: [PATCH 1/3] nvme-pci: Split __nvme_process_cq to poll and handle
-In-Reply-To: <1497548508-29447-2-git-send-email-sagi@grimberg.me>
+Date: Fri, 16 Jun 2017 09:04:27 +0200
+Subject: [PATCH 2/3] nvme-pci: Add budget to __nvme_process_cq
+In-Reply-To: <1497548508-29447-3-git-send-email-sagi@grimberg.me>
 References: <1497548508-29447-1-git-send-email-sagi@grimberg.me>
- <1497548508-29447-2-git-send-email-sagi@grimberg.me>
-Message-ID: <20170616070408.GA7672@lst.de>
+ <1497548508-29447-3-git-send-email-sagi@grimberg.me>
+Message-ID: <20170616070427.GB7672@lst.de>
 
-I like this split, but I think the patch as-is is not easily
-verifyable.  Can you break it out by splitting out one helper
-at a time, e.g.
+On Thu, Jun 15, 2017@08:41:47PM +0300, Sagi Grimberg wrote:
+> Prepare for irq-poll logic
 
- patch 1: introduce nvme_ring_cq_doorbell
- patch 2: introduce nvme_handle_cqe
- patch 3: introduce nvme_read_cqe
-
-Also there seems ot be no reason in the this patch to change the
-__nvme_process_cq and nvme_process_cq return values.
+I don't think we should add this until we actually get the irq-poll
+code back on the plate.
