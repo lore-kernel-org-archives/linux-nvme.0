@@ -1,19 +1,46 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 17 Jun 2017 13:57:03 +0200
-Subject: [PATCH] nvme: set DMA_ATTR_WEAK_ORDERING attribute on dma buffers
-In-Reply-To: <1497645290-31041-1-git-send-email-alan.adamson@oracle.com>
-References: <1497645290-31041-1-git-send-email-alan.adamson@oracle.com>
-Message-ID: <20170617115703.GA13002@lst.de>
+From: tglx@linutronix.de (Thomas Gleixner)
+Date: Sun, 18 Jun 2017 01:14:02 +0200 (CEST)
+Subject: [PATCH 3/8] genirq/affinity: factor out a irq_affinity_set helper
+In-Reply-To: <20170603140403.27379-4-hch@lst.de>
+References: <20170603140403.27379-1-hch@lst.de>
+ <20170603140403.27379-4-hch@lst.de>
+Message-ID: <alpine.DEB.2.20.1706180111280.2428@nanos>
 
-On Fri, Jun 16, 2017@01:34:50PM -0700, Alan Adamson wrote:
-> SPARC based platforms suffer significant read performance penalties for
-> nvme reads when Relaxed Ordering is not enabled. This change sets the
-> DMA_ATTR_WEAK_ORDERING (Relaxed Ordering) attribute for nvme block dma
-> buffers.
+On Sat, 3 Jun 2017, Christoph Hellwig wrote:
+> +
+> +bool irq_affinity_set(int irq, struct irq_desc *desc, const cpumask_t *mask)
+> +{
+> +	struct irq_data *data = irq_desc_get_irq_data(desc);
+> +	struct irq_chip *chip = irq_data_get_irq_chip(data);
+> +	bool ret = false;
+> +
+> +	if (!irq_can_move_pcntxt(data) && chip->irq_mask)
+> +		chip->irq_mask(data);
+> +
+> +	if (chip->irq_set_affinity) {
+> +		if (chip->irq_set_affinity(data, mask, true) == -ENOSPC)
+> +			pr_crit("IRQ %d set affinity failed because there are no available vectors.  The device assigned to this IRQ is unstable.\n", irq);
+> +		ret = true;
+> +	}
+> +
+> +	/*
+> +	 * We unmask if the irq was not marked masked by the core code.
+> +	 * That respects the lazy irq disable behaviour.
+> +	 */
+> +	if (!irq_can_move_pcntxt(data) &&
+> +	    !irqd_irq_masked(data) && chip->irq_unmask)
+> +		chip->irq_unmask(data);
+> +
+> +	return ret;
+> +}
 
-Please explain what it does exactly, and why you think it's safe for NVMe,
-as that belongs into the changelog.
+That needs even more care as this does not include the handling for move in
+progress, which will make your affinity setting fail.
 
-Bonus points for explaining why DMA_ATTR_WEAK_ORDERING shouldn't
-be the default behavior for the dma_map_ routines instead of sprinkling
-it over just about every driver..
+Ideally we include that managed shutdown magic into fixup_irqs(), but
+that's arch specific. So that needs the long dragged out update to the
+generic irq cpuhotplug code to handle the x86'isms proper.
+
+Thanks,
+
+	tglx
