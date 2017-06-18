@@ -1,57 +1,45 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 18 Jun 2017 18:21:47 +0300
-Subject: [PATCH rfc 13/30] nvme-rdma: move queue LIVE/DELETING flags settings
- to queue routines
+Date: Sun, 18 Jun 2017 18:21:48 +0300
+Subject: [PATCH rfc 14/30] nvme-rdma: stop queues instead of simply flipping
+ their state
 In-Reply-To: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
 References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1497799324-19598-14-git-send-email-sagi@grimberg.me>
+Message-ID: <1497799324-19598-15-git-send-email-sagi@grimberg.me>
+
+If we move the queues from LIVE state, we might as well stop
+them (drain for rdma). Do it after we stop the sw request queues
+to prevent a stray request sneaking in .queue_rq after we stop
+the queue.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ drivers/nvme/host/rdma.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 34518c90609a..d9524389aedd 100644
+index d9524389aedd..fbe2ca4f4ba3 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -565,7 +565,7 @@ static void nvme_rdma_stop_queue(struct nvme_rdma_ctrl *ctrl, int qid)
+@@ -952,16 +952,15 @@ static void nvme_rdma_error_recovery_work(struct work_struct *work)
  {
- 	struct nvme_rdma_queue *queue = &ctrl->queues[qid];
+ 	struct nvme_rdma_ctrl *ctrl = container_of(work,
+ 			struct nvme_rdma_ctrl, err_work);
+-	int i;
  
--	if (test_bit(NVME_RDMA_Q_DELETING, &queue->flags))
-+	if (!test_and_clear_bit(NVME_RDMA_Q_LIVE, &queue->flags))
- 		return;
- 	rdma_disconnect(queue->cm_id);
- 	ib_drain_qp(queue->qp);
-@@ -617,7 +617,9 @@ static int nvme_rdma_start_queue(struct nvme_rdma_ctrl *ctrl, int idx)
- 	else
- 		ret = nvmf_connect_admin_queue(&ctrl->ctrl);
+ 	nvme_stop_keep_alive(&ctrl->ctrl);
  
--	if (ret)
-+	if (!ret)
-+		set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[idx].flags);
-+	else
- 		dev_info(ctrl->ctrl.device,
- 			"failed to connect queue: %d ret=%d\n", idx, ret);
- 	return ret;
-@@ -631,8 +633,6 @@ static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
- 		ret = nvme_rdma_start_queue(ctrl, i);
- 		if (ret)
- 			goto out_stop_queues;
+-	for (i = 0; i < ctrl->ctrl.queue_count; i++)
+-		clear_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[i].flags);
 -
--		set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[i].flags);
- 	}
+-	if (ctrl->ctrl.queue_count > 1)
++	if (ctrl->ctrl.queue_count > 1) {
+ 		nvme_stop_queues(&ctrl->ctrl);
++		nvme_rdma_stop_io_queues(ctrl);
++	}
+ 	blk_mq_stop_hw_queues(ctrl->ctrl.admin_q);
++	nvme_rdma_stop_queue(ctrl, 0);
  
- 	return 0;
-@@ -823,8 +823,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new
- 	if (error)
- 		goto out_cleanup_connect_queue;
- 
--	set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags);
--
- 	error = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP, &ctrl->ctrl.cap);
- 	if (error) {
- 		dev_err(ctrl->ctrl.device,
+ 	/* We must take care of fastfail/requeue all our inflight requests */
+ 	if (ctrl->ctrl.queue_count > 1)
 -- 
 2.7.4
