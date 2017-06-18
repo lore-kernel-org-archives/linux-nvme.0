@@ -1,15 +1,20 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 18 Jun 2017 12:27:32 +0300
-Subject: [PATCH 2/3] nvme-pci: Add budget to __nvme_process_cq
-In-Reply-To: <20170616070427.GB7672@lst.de>
+Date: Sun, 18 Jun 2017 12:29:33 +0300
+Subject: [PATCH 3/3] nvme-pci: open-code polling logic in nvme_poll
+In-Reply-To: <20170616070548.GC7672@lst.de>
 References: <1497548508-29447-1-git-send-email-sagi@grimberg.me>
- <1497548508-29447-3-git-send-email-sagi@grimberg.me>
- <20170616070427.GB7672@lst.de>
-Message-ID: <025eee21-bcd3-c3b8-5d7a-a14b5dcfab51@grimberg.me>
+ <1497548508-29447-4-git-send-email-sagi@grimberg.me>
+ <20170616070548.GC7672@lst.de>
+Message-ID: <8d592838-8681-16bf-a561-8c5feee08efa@grimberg.me>
 
->> Prepare for irq-poll logic
+
+>>   static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
+>>   {
+>> +	struct nvme_completion cqe;
+>> +	int found = 0, consumed = 0;
 > 
-> I don't think we should add this until we actually get the irq-poll
-> code back on the plate.
+> found should be a bool.
 
-Yea, good point...
+I'm returning found back from ->poll() callout so
+I think I'll keep it int, unless you want me to modify
+poll_fn signature?
