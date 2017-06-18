@@ -1,32 +1,37 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 18 Jun 2017 11:02:17 +0300
-Subject: [PATCH v5 for-4.13 3/7] mlx5: move affinity hints assignments to
- generic code
-In-Reply-To: <20170616094746.GB12547@lst.de>
-References: <1497533594-11579-1-git-send-email-sagi@grimberg.me>
- <1497533594-11579-4-git-send-email-sagi@grimberg.me>
- <20170616094746.GB12547@lst.de>
-Message-ID: <21343c26-9b7a-de53-6e4f-ffd98189717e@grimberg.me>
+Date: Sun, 18 Jun 2017 11:03:51 +0300
+Subject: [PATCH 2/6] nvme: read the subsystem NQN from Identify Controller
+In-Reply-To: <20170616085351.GA11261@lst.de>
+References: <20170615163502.10548-1-hch@lst.de>
+ <20170615163502.10548-3-hch@lst.de>
+ <560367a8-34c8-7cda-c6b4-b5b59569590d@suse.de>
+ <20170616085351.GA11261@lst.de>
+Message-ID: <b895a7a8-0022-f6fc-5df4-76079b1292cd@grimberg.me>
 
 
->>   	rq->mpwqe.info = kzalloc_node(wq_sz * sizeof(*rq->mpwqe.info),
->> -				      GFP_KERNEL, cpu_to_node(c->cpu));
->> +					GFP_KERNEL, node);
+>>> +	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
+>>> +	snprintf(ctrl->subnqn, NVMF_NQN_SIZE,
+>>> +		"nqn.2014.08.org.nvmexpress:%4x%4x",
+>>> +		le16_to_cpu(id->vid), le16_to_cpu(id->ssvid));
+>>> +	memcpy(ctrl->subnqn + 35, id->sn, sizeof(id->sn));
+>>> +	memcpy(ctrl->subnqn + 55, id->mn, sizeof(id->mn));
+>>> +	memset(ctrl->subnqn + 95, 0, sizeof(ctrl->subnqn) - 95);
+>>
+>> Is there a chance we can do this with a bit less magic values? We can
+>> calculate all of the offsets.
+>>
+>> Something like:
+>>
+>> off = snprintf(ctrl->subnqn, NVMF_NQN_SIZE,
+>> 	"nqn.2014.08.org.nvmexpress:%4x%4x",
+>> 	le16_to_cpu(id->vid), le16_to_cpu(id->ssvid));
+>> memcpy(ctrl->subnqn + off, id->sn, sizeof(id->sn));
+>> off += sizeof(id->sn);
+>> memcpy(ctrl->subnqn + off, id->mn, sizeof(id->mn));
+>> off += sizeof(id->mn);
+>> memset(ctrl->subnqn + off, 0, sizeof(ctrl->subnqn) - off);
 > 
-> Why the reindenting?
+> Not really much more readable, but if there is a preference for this
+> version I can do it.
 
-Heh, no good reason, I'm just a tabs person...
-
-Although I might consider converting :)
-https://www.theregister.co.uk/2017/06/16/spaces_vs_tabs/
-
-> 
->>   	/* We allocate more than mtt_sz as we will align the pointer */
->> -	rq->mpwqe.mtt_no_align = kzalloc_node(mtt_alloc * wq_sz, GFP_KERNEL,
->> -					cpu_to_node(c->cpu));
->> +	rq->mpwqe.mtt_no_align = kzalloc_node(mtt_alloc * wq_sz,
->> +					GFP_KERNEL, node);
-> 
-> Or the moving of GFP_KERNEL to the next line here?
-
-I'll respin...
+I like what Johannes proposed better FWIW...
