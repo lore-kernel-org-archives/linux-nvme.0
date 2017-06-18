@@ -1,37 +1,38 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 18 Jun 2017 11:03:51 +0300
-Subject: [PATCH 2/6] nvme: read the subsystem NQN from Identify Controller
-In-Reply-To: <20170616085351.GA11261@lst.de>
+Date: Sun, 18 Jun 2017 11:17:43 +0300
+Subject: [PATCH 6/6] nvme: track shared namespaces in a siblings list
+In-Reply-To: <20170616062012.GB6592@lst.de>
 References: <20170615163502.10548-1-hch@lst.de>
- <20170615163502.10548-3-hch@lst.de>
- <560367a8-34c8-7cda-c6b4-b5b59569590d@suse.de>
- <20170616085351.GA11261@lst.de>
-Message-ID: <b895a7a8-0022-f6fc-5df4-76079b1292cd@grimberg.me>
+ <20170615163502.10548-7-hch@lst.de>
+ <d1fe0701-6667-512e-59af-f2339ca1e52d@grimberg.me>
+ <20170616062012.GB6592@lst.de>
+Message-ID: <1b0b110d-02fa-5c59-001d-6e04e6445fa1@grimberg.me>
 
 
->>> +	/* Generate a "fake" NQN per Figure 254 in NVMe 1.3 + ECN 001 */
->>> +	snprintf(ctrl->subnqn, NVMF_NQN_SIZE,
->>> +		"nqn.2014.08.org.nvmexpress:%4x%4x",
->>> +		le16_to_cpu(id->vid), le16_to_cpu(id->ssvid));
->>> +	memcpy(ctrl->subnqn + 35, id->sn, sizeof(id->sn));
->>> +	memcpy(ctrl->subnqn + 55, id->mn, sizeof(id->mn));
->>> +	memset(ctrl->subnqn + 95, 0, sizeof(ctrl->subnqn) - 95);
+>>>    +static int nvme_ns_link_siblings(struct nvme_ns *ns, struct nvme_id_ns
+>>> *id,
+>>> +		struct nvme_ns *cur)
+>>> +{
 >>
->> Is there a chance we can do this with a bit less magic values? We can
->> calculate all of the offsets.
->>
->> Something like:
->>
->> off = snprintf(ctrl->subnqn, NVMF_NQN_SIZE,
->> 	"nqn.2014.08.org.nvmexpress:%4x%4x",
->> 	le16_to_cpu(id->vid), le16_to_cpu(id->ssvid));
->> memcpy(ctrl->subnqn + off, id->sn, sizeof(id->sn));
->> off += sizeof(id->sn);
->> memcpy(ctrl->subnqn + off, id->mn, sizeof(id->mn));
->> off += sizeof(id->mn);
->> memset(ctrl->subnqn + off, 0, sizeof(ctrl->subnqn) - off);
+>> The fact that this can also not link sibling makes me think that
+>> the name is a bit confusing. I'm wandering if it would be a good
+>> idea to split the id check (and comparison) and the actual link
+>> itself?
 > 
-> Not really much more readable, but if there is a preference for this
-> version I can do it.
+> I though up that, but the ugliness is that we have three possible
+> outcomes:  link up (success), not link up (success) or not link up (error),
+> which would be a bit ugly.  But I could probably do it by using -errno, 0
+> and 1 as return values.
 
-I like what Johannes proposed better FWIW...
+To me, the code would look better if we split the logic.
+
+Something like:
+
+
+	list_for_each_entry(cur, &ctrl->namespaces, list) {
+		if (nvme_ns_is_sibling(ns, id, cur)) {
+			err = nvme_ns_link_sibling(ns, cur);
+			if (err)
+				break;
+		}
+	}
