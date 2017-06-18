@@ -1,115 +1,98 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 18 Jun 2017 18:21:41 +0300
-Subject: [PATCH rfc 07/30] nvme-rdma: make stop/free queue receive a ctrl and
- qid struct
+Date: Sun, 18 Jun 2017 18:21:42 +0300
+Subject: [PATCH rfc 08/30] nvme-rdma: cleanup error path in controller reset
 In-Reply-To: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
 References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1497799324-19598-8-git-send-email-sagi@grimberg.me>
+Message-ID: <1497799324-19598-9-git-send-email-sagi@grimberg.me>
 
-Make it symmetrical to alloc/start queue.
+No need to queue an extra work to indirect controller
+uninit and put the final reference.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 24 ++++++++++++++----------
- 1 file changed, 14 insertions(+), 10 deletions(-)
+ drivers/nvme/host/rdma.c | 39 ++++++++++++---------------------------
+ 1 file changed, 12 insertions(+), 27 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index c8016150dc21..86998de90f52 100644
+index 86998de90f52..099b3d7b6721 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -563,16 +563,20 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+@@ -1745,21 +1745,14 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+ 	nvme_rdma_destroy_admin_queue(ctrl, shutdown);
+ }
+ 
+-static void __nvme_rdma_remove_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
+-{
+-	nvme_uninit_ctrl(&ctrl->ctrl);
+-	if (shutdown)
+-		nvme_rdma_shutdown_ctrl(ctrl, shutdown);
+-
+-	nvme_put_ctrl(&ctrl->ctrl);
+-}
+-
+ static void nvme_rdma_del_ctrl_work(struct work_struct *work)
+ {
+ 	struct nvme_rdma_ctrl *ctrl = container_of(work,
+ 				struct nvme_rdma_ctrl, delete_work);
+ 
+-	__nvme_rdma_remove_ctrl(ctrl, true);
++	nvme_uninit_ctrl(&ctrl->ctrl);
++	nvme_rdma_shutdown_ctrl(ctrl, true);
++	nvme_put_ctrl(&ctrl->ctrl);
+ }
+ 
+ static int __nvme_rdma_del_ctrl(struct nvme_rdma_ctrl *ctrl)
+@@ -1791,14 +1784,6 @@ static int nvme_rdma_del_ctrl(struct nvme_ctrl *nctrl)
  	return ret;
  }
  
--static void nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
-+static void nvme_rdma_stop_queue(struct nvme_rdma_ctrl *ctrl, int qid)
+-static void nvme_rdma_remove_ctrl_work(struct work_struct *work)
+-{
+-	struct nvme_rdma_ctrl *ctrl = container_of(work,
+-				struct nvme_rdma_ctrl, delete_work);
+-
+-	__nvme_rdma_remove_ctrl(ctrl, false);
+-}
+-
+ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
  {
-+	struct nvme_rdma_queue *queue = &ctrl->queues[qid];
-+
- 	if (test_bit(NVME_RDMA_Q_DELETING, &queue->flags))
- 		return;
- 	rdma_disconnect(queue->cm_id);
- 	ib_drain_qp(queue->qp);
- }
+ 	struct nvme_rdma_ctrl *ctrl =
+@@ -1809,16 +1794,13 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
+ 	nvme_rdma_shutdown_ctrl(ctrl, false);
  
--static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
-+static void nvme_rdma_free_queue(struct nvme_rdma_ctrl *ctrl, int qid)
- {
-+	struct nvme_rdma_queue *queue = &ctrl->queues[qid];
-+
- 	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
- 		return;
- 	nvme_rdma_destroy_queue_ib(queue);
-@@ -584,7 +588,7 @@ static void nvme_rdma_free_io_queues(struct nvme_rdma_ctrl *ctrl)
- 	int i;
+ 	ret = nvme_rdma_configure_admin_queue(ctrl, false);
+-	if (ret) {
+-		/* ctrl is already shutdown, just remove the ctrl */
+-		INIT_WORK(&ctrl->delete_work, nvme_rdma_remove_ctrl_work);
+-		goto del_dead_ctrl;
+-	}
++	if (ret)
++		goto out_destroy_admin;
  
- 	for (i = 1; i < ctrl->queue_count; i++)
--		nvme_rdma_free_queue(&ctrl->queues[i]);
-+		nvme_rdma_free_queue(ctrl, i);
- }
- 
- static void nvme_rdma_stop_io_queues(struct nvme_rdma_ctrl *ctrl)
-@@ -592,7 +596,7 @@ static void nvme_rdma_stop_io_queues(struct nvme_rdma_ctrl *ctrl)
- 	int i;
- 
- 	for (i = 1; i < ctrl->queue_count; i++)
--		nvme_rdma_stop_queue(&ctrl->queues[i]);
-+		nvme_rdma_stop_queue(ctrl, i);
- }
- 
- static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl, bool remove)
-@@ -637,7 +641,7 @@ static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
- 
- out_stop_queues:
- 	for (i--; i >= 1; i--)
--		nvme_rdma_stop_queue(&ctrl->queues[i]);
-+		nvme_rdma_stop_queue(ctrl, i);
- 	return ret;
- }
- 
-@@ -680,7 +684,7 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
- 
- out_free_queues:
- 	for (i--; i >= 1; i--)
--		nvme_rdma_free_queue(&ctrl->queues[i]);
-+		nvme_rdma_free_queue(ctrl, i);
- 
- 	return ret;
- }
-@@ -752,7 +756,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- 
- static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl, bool remove)
- {
--	nvme_rdma_stop_queue(&ctrl->queues[0]);
-+	nvme_rdma_stop_queue(ctrl, 0);
- 	if (remove) {
- 		blk_cleanup_queue(ctrl->ctrl.admin_connect_q);
- 		blk_cleanup_queue(ctrl->ctrl.admin_q);
-@@ -762,7 +766,7 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl, bool remo
- 
- 	nvme_rdma_free_qe(ctrl->queues[0].device->dev, &ctrl->async_event_sqe,
- 			sizeof(struct nvme_command), DMA_TO_DEVICE);
--	nvme_rdma_free_queue(&ctrl->queues[0]);
-+	nvme_rdma_free_queue(ctrl, 0);
- }
- 
- static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new)
-@@ -864,14 +868,14 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new
- out_free_tagset:
- 	if (new) {
- 		/* disconnect and drain the queue before freeing the tagset */
--		nvme_rdma_stop_queue(&ctrl->queues[0]);
-+		nvme_rdma_stop_queue(ctrl, 0);
- 		blk_mq_free_tag_set(&ctrl->admin_tag_set);
+ 	if (ctrl->ctrl.opts->nr_io_queues) {
+ 		ret = nvme_rdma_configure_io_queues(ctrl, false);
+ 		if (ret)
+-			goto del_dead_ctrl;
++			goto out_destroy_io;
  	}
- out_put_dev:
- 	if (new)
- 		nvme_rdma_dev_put(ctrl->device);
- out_free_queue:
--	nvme_rdma_free_queue(&ctrl->queues[0]);
-+	nvme_rdma_free_queue(ctrl, 0);
- 	return error;
+ 
+ 	changed = nvme_change_ctrl_state(&ctrl->ctrl, NVME_CTRL_LIVE);
+@@ -1832,10 +1814,13 @@ static void nvme_rdma_reset_ctrl_work(struct work_struct *work)
+ 
+ 	return;
+ 
+-del_dead_ctrl:
+-	/* Deleting this dead controller... */
++out_destroy_io:
++	nvme_rdma_destroy_io_queues(ctrl, true);
++out_destroy_admin:
++	nvme_rdma_destroy_admin_queue(ctrl, true);
+ 	dev_warn(ctrl->ctrl.device, "Removing after reset failure\n");
+-	WARN_ON(!queue_work(nvme_wq, &ctrl->delete_work));
++	nvme_uninit_ctrl(&ctrl->ctrl);
++	nvme_put_ctrl(&ctrl->ctrl);
  }
  
+ static const struct nvme_ctrl_ops nvme_rdma_ctrl_ops = {
 -- 
 2.7.4
