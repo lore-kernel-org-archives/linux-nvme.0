@@ -1,76 +1,115 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 18 Jun 2017 18:21:40 +0300
-Subject: [PATCH rfc 06/30] nvme-rdma: rename nvme_rdma_init_queue to
- nvme_rdma_alloc_queue
+Date: Sun, 18 Jun 2017 18:21:41 +0300
+Subject: [PATCH rfc 07/30] nvme-rdma: make stop/free queue receive a ctrl and
+ qid struct
 In-Reply-To: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
 References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1497799324-19598-7-git-send-email-sagi@grimberg.me>
+Message-ID: <1497799324-19598-8-git-send-email-sagi@grimberg.me>
 
-Give it a name symmetric to nvme_rdma_free_queue. Also pass in
-the ctrl sqsize+1 and not the opts queue_size. And suppress
-failure message that has prior verbosity.
+Make it symmetrical to alloc/start queue.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ drivers/nvme/host/rdma.c | 24 ++++++++++++++----------
+ 1 file changed, 14 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 69ebfb61d599..c8016150dc21 100644
+index c8016150dc21..86998de90f52 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -508,7 +508,7 @@ static int nvme_rdma_create_queue_ib(struct nvme_rdma_queue *queue)
+@@ -563,16 +563,20 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
  	return ret;
  }
  
--static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
-+static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
- 		int idx, size_t queue_size)
+-static void nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
++static void nvme_rdma_stop_queue(struct nvme_rdma_ctrl *ctrl, int qid)
  {
- 	struct nvme_rdma_queue *queue;
-@@ -641,7 +641,7 @@ static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
++	struct nvme_rdma_queue *queue = &ctrl->queues[qid];
++
+ 	if (test_bit(NVME_RDMA_Q_DELETING, &queue->flags))
+ 		return;
+ 	rdma_disconnect(queue->cm_id);
+ 	ib_drain_qp(queue->qp);
+ }
+ 
+-static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
++static void nvme_rdma_free_queue(struct nvme_rdma_ctrl *ctrl, int qid)
+ {
++	struct nvme_rdma_queue *queue = &ctrl->queues[qid];
++
+ 	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
+ 		return;
+ 	nvme_rdma_destroy_queue_ib(queue);
+@@ -584,7 +588,7 @@ static void nvme_rdma_free_io_queues(struct nvme_rdma_ctrl *ctrl)
+ 	int i;
+ 
+ 	for (i = 1; i < ctrl->queue_count; i++)
+-		nvme_rdma_free_queue(&ctrl->queues[i]);
++		nvme_rdma_free_queue(ctrl, i);
+ }
+ 
+ static void nvme_rdma_stop_io_queues(struct nvme_rdma_ctrl *ctrl)
+@@ -592,7 +596,7 @@ static void nvme_rdma_stop_io_queues(struct nvme_rdma_ctrl *ctrl)
+ 	int i;
+ 
+ 	for (i = 1; i < ctrl->queue_count; i++)
+-		nvme_rdma_stop_queue(&ctrl->queues[i]);
++		nvme_rdma_stop_queue(ctrl, i);
+ }
+ 
+ static void nvme_rdma_destroy_io_queues(struct nvme_rdma_ctrl *ctrl, bool remove)
+@@ -637,7 +641,7 @@ static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
+ 
+ out_stop_queues:
+ 	for (i--; i >= 1; i--)
+-		nvme_rdma_stop_queue(&ctrl->queues[i]);
++		nvme_rdma_stop_queue(ctrl, i);
  	return ret;
  }
  
--static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl *ctrl)
-+static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
- {
- 	struct nvmf_ctrl_options *opts = ctrl->ctrl.opts;
- 	struct ib_device *ibdev = ctrl->device->dev;
-@@ -670,13 +670,10 @@ static int nvme_rdma_init_io_queues(struct nvme_rdma_ctrl *ctrl)
- 		"creating %d I/O queues.\n", nr_io_queues);
+@@ -680,7 +684,7 @@ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
  
- 	for (i = 1; i < ctrl->queue_count; i++) {
--		ret = nvme_rdma_init_queue(ctrl, i,
--					   ctrl->ctrl.opts->queue_size);
--		if (ret) {
--			dev_info(ctrl->ctrl.device,
--				"failed to initialize i/o queue: %d\n", ret);
-+		ret = nvme_rdma_alloc_queue(ctrl, i,
-+				ctrl->ctrl.sqsize + 1);
-+		if (ret)
- 			goto out_free_queues;
--		}
+ out_free_queues:
+ 	for (i--; i >= 1; i--)
+-		nvme_rdma_free_queue(&ctrl->queues[i]);
++		nvme_rdma_free_queue(ctrl, i);
+ 
+ 	return ret;
+ }
+@@ -752,7 +756,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
+ 
+ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl, bool remove)
+ {
+-	nvme_rdma_stop_queue(&ctrl->queues[0]);
++	nvme_rdma_stop_queue(ctrl, 0);
+ 	if (remove) {
+ 		blk_cleanup_queue(ctrl->ctrl.admin_connect_q);
+ 		blk_cleanup_queue(ctrl->ctrl.admin_q);
+@@ -762,7 +766,7 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl, bool remo
+ 
+ 	nvme_rdma_free_qe(ctrl->queues[0].device->dev, &ctrl->async_event_sqe,
+ 			sizeof(struct nvme_command), DMA_TO_DEVICE);
+-	nvme_rdma_free_queue(&ctrl->queues[0]);
++	nvme_rdma_free_queue(ctrl, 0);
+ }
+ 
+ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new)
+@@ -864,14 +868,14 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new
+ out_free_tagset:
+ 	if (new) {
+ 		/* disconnect and drain the queue before freeing the tagset */
+-		nvme_rdma_stop_queue(&ctrl->queues[0]);
++		nvme_rdma_stop_queue(ctrl, 0);
+ 		blk_mq_free_tag_set(&ctrl->admin_tag_set);
  	}
- 
- 	return 0;
-@@ -692,7 +689,7 @@ static int nvme_rdma_configure_io_queues(struct nvme_rdma_ctrl *ctrl, bool new)
- {
- 	int ret;
- 
--	ret = nvme_rdma_init_io_queues(ctrl);
-+	ret = nvme_rdma_alloc_io_queues(ctrl);
- 	if (ret)
- 		return ret;
- 
-@@ -772,7 +769,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new
- {
- 	int error;
- 
--	error = nvme_rdma_init_queue(ctrl, 0, NVME_AQ_DEPTH);
-+	error = nvme_rdma_alloc_queue(ctrl, 0, NVME_AQ_DEPTH);
- 	if (error)
- 		return error;
+ out_put_dev:
+ 	if (new)
+ 		nvme_rdma_dev_put(ctrl->device);
+ out_free_queue:
+-	nvme_rdma_free_queue(&ctrl->queues[0]);
++	nvme_rdma_free_queue(ctrl, 0);
+ 	return error;
+ }
  
 -- 
 2.7.4
