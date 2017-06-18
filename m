@@ -1,24 +1,32 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Sun, 18 Jun 2017 15:12:30 +0200
-Subject: [PATCH 3/3] nvme-pci: open-code polling logic in nvme_poll
-In-Reply-To: <8d592838-8681-16bf-a561-8c5feee08efa@grimberg.me>
-References: <1497548508-29447-1-git-send-email-sagi@grimberg.me>
- <1497548508-29447-4-git-send-email-sagi@grimberg.me>
- <20170616070548.GC7672@lst.de>
- <8d592838-8681-16bf-a561-8c5feee08efa@grimberg.me>
-Message-ID: <20170618131229.GA32384@lst.de>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Sun, 18 Jun 2017 16:15:58 +0300
+Subject: [PATCH v2 1/2] nvme-core: change commas to semicolons in
+ nvme_get_log_page
+Message-ID: <1497791759-5754-1-git-send-email-sagi@grimberg.me>
 
-On Sun, Jun 18, 2017@12:29:33PM +0300, Sagi Grimberg wrote:
->
->>>   static int __nvme_poll(struct nvme_queue *nvmeq, unsigned int tag)
->>>   {
->>> +	struct nvme_completion cqe;
->>> +	int found = 0, consumed = 0;
->>
->> found should be a bool.
->
-> I'm returning found back from ->poll() callout so
-> I think I'll keep it int, unless you want me to modify
-> poll_fn signature?
+Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+---
+ drivers/nvme/host/core.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Let's keep it as-is for now.
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 4ff5114f467d..17a10549d688 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -815,11 +815,11 @@ int nvme_get_log_page(struct nvme_ctrl *dev, struct nvme_smart_log **log)
+ 	struct nvme_command c = { };
+ 	int error;
+ 
+-	c.common.opcode = nvme_admin_get_log_page,
+-	c.common.nsid = cpu_to_le32(0xFFFFFFFF),
++	c.common.opcode = nvme_admin_get_log_page;
++	c.common.nsid = cpu_to_le32(0xFFFFFFFF);
+ 	c.common.cdw10[0] = cpu_to_le32(
+ 			(((sizeof(struct nvme_smart_log) / 4) - 1) << 16) |
+-			 NVME_LOG_SMART),
++			 NVME_LOG_SMART);
+ 
+ 	*log = kmalloc(sizeof(struct nvme_smart_log), GFP_KERNEL);
+ 	if (!*log)
+-- 
+2.7.4
