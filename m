@@ -1,63 +1,57 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 18 Jun 2017 18:21:45 +0300
-Subject: [PATCH rfc 11/30] nvme: move controller cap to struct nvme_ctrl
+Date: Sun, 18 Jun 2017 18:21:47 +0300
+Subject: [PATCH rfc 13/30] nvme-rdma: move queue LIVE/DELETING flags settings
+ to queue routines
 In-Reply-To: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
 References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1497799324-19598-12-git-send-email-sagi@grimberg.me>
-
-Will be used in centralized code later. only rdma
-for now.
+Message-ID: <1497799324-19598-14-git-send-email-sagi@grimberg.me>
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/nvme.h | 1 +
- drivers/nvme/host/rdma.c | 7 +++----
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/nvme/host/rdma.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 3be59634b4af..5b75f6a81764 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -159,6 +159,7 @@ struct nvme_ctrl {
- 	u16 kas;
- 	u8 npss;
- 	u8 apsta;
-+	u64 cap;
- 	unsigned int kato;
- 	bool subsystem;
- 	unsigned long quirks;
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 58ed2ae3cd35..cd637e28647b 100644
+index 34518c90609a..d9524389aedd 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -119,7 +119,6 @@ struct nvme_rdma_ctrl {
- 	struct blk_mq_tag_set	admin_tag_set;
- 	struct nvme_rdma_device	*device;
+@@ -565,7 +565,7 @@ static void nvme_rdma_stop_queue(struct nvme_rdma_ctrl *ctrl, int qid)
+ {
+ 	struct nvme_rdma_queue *queue = &ctrl->queues[qid];
  
--	u64			cap;
- 	u32			max_fr_pages;
+-	if (test_bit(NVME_RDMA_Q_DELETING, &queue->flags))
++	if (!test_and_clear_bit(NVME_RDMA_Q_LIVE, &queue->flags))
+ 		return;
+ 	rdma_disconnect(queue->cm_id);
+ 	ib_drain_qp(queue->qp);
+@@ -617,7 +617,9 @@ static int nvme_rdma_start_queue(struct nvme_rdma_ctrl *ctrl, int idx)
+ 	else
+ 		ret = nvmf_connect_admin_queue(&ctrl->ctrl);
  
- 	struct sockaddr_storage addr;
-@@ -826,7 +825,7 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new
- 
- 	set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags);
- 
--	error = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP, &ctrl->cap);
-+	error = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP, &ctrl->ctrl.cap);
- 	if (error) {
- 		dev_err(ctrl->ctrl.device,
- 			"prop_get NVME_REG_CAP failed\n");
-@@ -834,9 +833,9 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new
+-	if (ret)
++	if (!ret)
++		set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[idx].flags);
++	else
+ 		dev_info(ctrl->ctrl.device,
+ 			"failed to connect queue: %d ret=%d\n", idx, ret);
+ 	return ret;
+@@ -631,8 +633,6 @@ static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
+ 		ret = nvme_rdma_start_queue(ctrl, i);
+ 		if (ret)
+ 			goto out_stop_queues;
+-
+-		set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[i].flags);
  	}
  
- 	ctrl->ctrl.sqsize =
--		min_t(int, NVME_CAP_MQES(ctrl->cap), ctrl->ctrl.sqsize);
-+		min_t(int, NVME_CAP_MQES(ctrl->ctrl.cap), ctrl->ctrl.sqsize);
- 
--	error = nvme_enable_ctrl(&ctrl->ctrl, ctrl->cap);
-+	error = nvme_enable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
+ 	return 0;
+@@ -823,8 +823,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new
  	if (error)
  		goto out_cleanup_connect_queue;
  
+-	set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags);
+-
+ 	error = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP, &ctrl->ctrl.cap);
+ 	if (error) {
+ 		dev_err(ctrl->ctrl.device,
 -- 
 2.7.4
