@@ -1,100 +1,64 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 18 Jun 2017 18:21:51 +0300
-Subject: [PATCH rfc 17/30] nvme-rdma: move admin specific resources to
- alloc_queue
+Date: Sun, 18 Jun 2017 18:21:52 +0300
+Subject: [PATCH rfc 18/30] nvme-rdma: limit max_queues to rdma device number
+ of completion vectors
 In-Reply-To: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
 References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1497799324-19598-18-git-send-email-sagi@grimberg.me>
+Message-ID: <1497799324-19598-19-git-send-email-sagi@grimberg.me>
 
-We're trying to make admin queue configuration generic, so
-move the rdma specifics to the queue allocation (based on
-the queue index passed).
+nvme_rdma_alloc_io_queues is heading to generic code, we want
+to decouple its dependency from the various transports.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/rdma.c | 38 ++++++++++++++++++++++----------------
- 1 file changed, 22 insertions(+), 16 deletions(-)
+ drivers/nvme/host/rdma.c | 18 ++++++++----------
+ 1 file changed, 8 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index c1ffdb823cbb..7f4b66cf67cc 100644
+index 7f4b66cf67cc..ce63dd40e6b4 100644
 --- a/drivers/nvme/host/rdma.c
 +++ b/drivers/nvme/host/rdma.c
-@@ -618,6 +618,23 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
- 		goto out_destroy_cm_id;
+@@ -625,6 +625,14 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 		ctrl->ctrl.max_hw_sectors =
+ 			(ctrl->max_fr_pages - 1) << (PAGE_SHIFT - 9);
+ 
++		/*
++		 * we map queues according to the device irq vectors for
++		 * optimal locality so we don't need more queues than
++		 * completion vectors.
++		 */
++		ctrl->ctrl.max_queues = min_t(u32, ctrl->ctrl.max_queues,
++				ctrl->device->dev->num_comp_vectors + 1);
++
+ 		ret = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
+ 			&ctrl->async_event_sqe, sizeof(struct nvme_command),
+ 			DMA_TO_DEVICE);
+@@ -632,7 +640,6 @@ static int nvme_rdma_alloc_queue(struct nvme_rdma_ctrl *ctrl,
+ 			nvme_rdma_destroy_queue_ib(&ctrl->queues[0]);
+ 			goto out_destroy_cm_id;
+ 		}
+-
  	}
  
-+	if (!idx) {
-+		ctrl->device = ctrl->queues[0].device;
-+		ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
-+			ctrl->device->dev->attrs.max_fast_reg_page_list_len);
-+		ctrl->ctrl.max_hw_sectors =
-+			(ctrl->max_fr_pages - 1) << (PAGE_SHIFT - 9);
-+
-+		ret = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
-+			&ctrl->async_event_sqe, sizeof(struct nvme_command),
-+			DMA_TO_DEVICE);
-+		if (ret) {
-+			nvme_rdma_destroy_queue_ib(&ctrl->queues[0]);
-+			goto out_destroy_cm_id;
-+		}
-+
-+	}
-+
  	clear_bit(NVME_RDMA_Q_DELETING, &queue->flags);
+@@ -733,18 +740,9 @@ static int nvme_rdma_start_io_queues(struct nvme_rdma_ctrl *ctrl)
+ static int nvme_rdma_alloc_io_queues(struct nvme_rdma_ctrl *ctrl)
+ {
+ 	unsigned int nr_io_queues = ctrl->ctrl.max_queues - 1;
+-	struct ib_device *ibdev = ctrl->device->dev;
+ 	int i, ret;
  
- 	return 0;
-@@ -643,6 +660,11 @@ static void nvme_rdma_free_queue(struct nvme_rdma_ctrl *ctrl, int qid)
- 
- 	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
- 		return;
-+
-+	if (!qid)
-+		nvme_rdma_free_qe(ctrl->queues[0].device->dev,
-+			&ctrl->async_event_sqe, sizeof(struct nvme_command),
-+			DMA_TO_DEVICE);
- 	nvme_rdma_destroy_queue_ib(queue);
- 	rdma_destroy_id(queue->cm_id);
- }
-@@ -801,9 +823,6 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl, bool remo
- 		blk_cleanup_queue(ctrl->ctrl.admin_q);
- 		nvme_rdma_free_tagset(&ctrl->ctrl, true);
- 	}
+ 	nr_io_queues = min(nr_io_queues, num_online_cpus());
+-	/*
+-	 * we map queues according to the device irq vectors for
+-	 * optimal locality so we don't need more queues than
+-	 * completion vectors.
+-	 */
+-	nr_io_queues = min_t(unsigned int, nr_io_queues,
+-				ibdev->num_comp_vectors);
 -
--	nvme_rdma_free_qe(ctrl->queues[0].device->dev, &ctrl->async_event_sqe,
--			sizeof(struct nvme_command), DMA_TO_DEVICE);
- 	nvme_rdma_free_queue(ctrl, 0);
- }
- 
-@@ -815,10 +834,6 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new
- 	if (error)
- 		return error;
- 
--	ctrl->device = ctrl->queues[0].device;
--	ctrl->max_fr_pages = min_t(u32, NVME_RDMA_MAX_SEGMENTS,
--		ctrl->device->dev->attrs.max_fast_reg_page_list_len);
--
- 	if (new) {
- 		ctrl->ctrl.admin_tagset = nvme_rdma_alloc_tagset(&ctrl->ctrl, true);
- 		if (IS_ERR(ctrl->ctrl.admin_tagset)) {
-@@ -861,19 +876,10 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new
- 	if (error)
- 		goto out_cleanup_connect_queue;
- 
--	ctrl->ctrl.max_hw_sectors =
--		(ctrl->max_fr_pages - 1) << (PAGE_SHIFT - 9);
--
- 	error = nvme_init_identify(&ctrl->ctrl);
- 	if (error)
- 		goto out_cleanup_connect_queue;
- 
--	error = nvme_rdma_alloc_qe(ctrl->queues[0].device->dev,
--			&ctrl->async_event_sqe, sizeof(struct nvme_command),
--			DMA_TO_DEVICE);
--	if (error)
--		goto out_cleanup_connect_queue;
--
- 	nvme_start_keep_alive(&ctrl->ctrl);
- 
- 	return 0;
+ 	ret = nvme_set_queue_count(&ctrl->ctrl, &nr_io_queues);
+ 	if (ret)
+ 		return ret;
 -- 
 2.7.4
