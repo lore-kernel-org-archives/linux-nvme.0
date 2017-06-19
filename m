@@ -1,17 +1,19 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 19 Jun 2017 14:46:01 +0200
-Subject: [PATCH rfc 17/30] nvme-rdma: move admin specific resources to
- alloc_queue
-In-Reply-To: <1497799324-19598-18-git-send-email-sagi@grimberg.me>
+Date: Mon, 19 Jun 2017 14:49:10 +0200
+Subject: [PATCH rfc 20/30] nvme: add err, reconnect and delete work
+ items to nvme core
+In-Reply-To: <1497799324-19598-21-git-send-email-sagi@grimberg.me>
 References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
- <1497799324-19598-18-git-send-email-sagi@grimberg.me>
-Message-ID: <20170619124601.GQ29061@lst.de>
+ <1497799324-19598-21-git-send-email-sagi@grimberg.me>
+Message-ID: <20170619124910.GR29061@lst.de>
 
-On Sun, Jun 18, 2017@06:21:51PM +0300, Sagi Grimberg wrote:
-> We're trying to make admin queue configuration generic, so
-> move the rdma specifics to the queue allocation (based on
-> the queue index passed).
+On Sun, Jun 18, 2017@06:21:54PM +0300, Sagi Grimberg wrote:
+> We intent for these handlers to become generic, thus, add them to
+> the nvme core controller struct.
 
-Needs at least a comment, and probably factoring into a little
-helper.  And once we have that helper it sounds like this might
-be a good callout from the core?
+Do you remember why we actually need all the different work items?
+
+We need err_work to recover from RDMA QP-level errors.  But how
+is it so different from a reset in that respect?  Similarly why
+do we need reset to be different from reconnect?  Especially as
+reconnect sort of is the reset of fabrics.
