@@ -1,52 +1,48 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Sun, 18 Jun 2017 18:22:03 +0300
-Subject: [PATCH rfc 29/30] nvme: add sed-opal ctrl manipulation in admin
- configuration
-In-Reply-To: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
-References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1497799324-19598-30-git-send-email-sagi@grimberg.me>
+From: ming.lei@redhat.com (Ming Lei)
+Date: Mon, 19 Jun 2017 10:21:08 +0800
+Subject: [RESEND PATCH] nvme: host: unquiesce queue in nvme_kill_queues()
+Message-ID: <20170619022108.21902-1-ming.lei@redhat.com>
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+When nvme_kill_queues() is run, queues may be in
+quiesced state, so we forcibly unquiesce queues to avoid
+blocking dispatch, and I/O hang can be avoided in
+remove path.
+
+Peviously we use blk_mq_start_stopped_hw_queues() as
+counterpart of blk_mq_quiesce_queue(), now we have
+introduced blk_mq_unquiesce_queue(), so use it explicitly.
+
+Cc: linux-nvme at lists.infradead.org
+Signed-off-by: Ming Lei <ming.lei at redhat.com>
 ---
- drivers/nvme/host/core.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Rebaed on the latest for-next of block tree.
+
+ drivers/nvme/host/core.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 476c49c0601f..f4800b8e47a0 100644
+index 05f713e866f6..aee37b73231d 100644
 --- a/drivers/nvme/host/core.c
 +++ b/drivers/nvme/host/core.c
-@@ -2493,6 +2493,7 @@ static void nvme_free_ctrl(struct kref *kref)
- 	put_device(ctrl->device);
- 	nvme_release_instance(ctrl);
- 	ida_destroy(&ctrl->ns_ida);
-+	free_opal_dev(ctrl->opal_dev);
+@@ -2581,6 +2581,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
  
- 	ctrl->ops->free_ctrl(ctrl);
- }
-@@ -2814,6 +2815,7 @@ EXPORT_SYMBOL_GPL(nvme_destroy_admin_queue);
+ 	mutex_lock(&ctrl->namespaces_mutex);
  
- int nvme_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
- {
-+	bool was_suspend = !!(ctrl->ctrl_config & NVME_CC_SHN_NORMAL);
- 	int error;
- 
- 	error = ctrl->ops->alloc_hw_queue(ctrl, 0, NVME_AQ_DEPTH);
-@@ -2868,6 +2870,16 @@ int nvme_configure_admin_queue(struct nvme_ctrl *ctrl, bool new)
- 	if (error)
- 		goto out_cleanup_connect_queue;
- 
-+	if (ctrl->oacs & NVME_CTRL_OACS_SEC_SUPP) {
-+		if (!ctrl->opal_dev)
-+			ctrl->opal_dev = init_opal_dev(ctrl, &nvme_sec_submit);
-+		else if (was_suspend)
-+			opal_unlock_from_suspend(ctrl->opal_dev);
-+	} else {
-+		free_opal_dev(ctrl->opal_dev);
-+		ctrl->opal_dev = NULL;
-+	}
++	/* Forcibly unquiesce queues to avoid blocking dispatch */
++	blk_mq_unquiesce_queue(ctrl->admin_q);
 +
- 	nvme_start_keep_alive(ctrl);
+ 	/* Forcibly start all queues to avoid having stuck requests */
+ 	blk_mq_start_hw_queues(ctrl->admin_q);
  
- 	return 0;
+@@ -2594,6 +2597,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
+ 		revalidate_disk(ns->disk);
+ 		blk_set_queue_dying(ns->queue);
+ 
++		/* Forcibly unquiesce queues to avoid blocking dispatch */
++		blk_mq_unquiesce_queue(ns->queue);
++
+ 		/*
+ 		 * Forcibly start all queues to avoid having stuck requests.
+ 		 * Note that we must ensure the queues are not stopped
 -- 
-2.7.4
+2.9.4
