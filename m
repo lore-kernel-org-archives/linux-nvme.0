@@ -1,106 +1,36 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 19 Jun 2017 11:04:55 -0600
-Subject: [PATCH 2/9] block: add support for write hints in a bio
+Date: Mon, 19 Jun 2017 11:04:59 -0600
+Subject: [PATCH 6/9] ext4: add support for passing in write hints for buffered
+ writes
 In-Reply-To: <1497891902-25737-1-git-send-email-axboe@kernel.dk>
 References: <1497891902-25737-1-git-send-email-axboe@kernel.dk>
-Message-ID: <1497891902-25737-3-git-send-email-axboe@kernel.dk>
+Message-ID: <1497891902-25737-7-git-send-email-axboe@kernel.dk>
 
-No functional changes in this patch, we just set aside 3 bits
-in the bio/request flags, which can be used to hold a WRITE_LIFE_*
-life time hint.
-
-Ensure that we don't merge requests that have different life time
-hints assigned to them.
-
+Reviewed-by: Andreas Dilger <adilger at dilger.ca>
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 ---
- block/blk-merge.c         | 16 ++++++++++++++++
- include/linux/blk_types.h | 20 ++++++++++++++++++++
- 2 files changed, 36 insertions(+)
+ fs/ext4/page-io.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/block/blk-merge.c b/block/blk-merge.c
-index cea544ec5d96..17cd0c3f872d 100644
---- a/block/blk-merge.c
-+++ b/block/blk-merge.c
-@@ -670,6 +670,14 @@ static struct request *attempt_merge(struct request_queue *q,
- 		return NULL;
- 
- 	/*
-+	 * Don't allow merge of different streams, or for a stream with
-+	 * non-stream IO.
-+	 */
-+	if ((req->cmd_flags & REQ_WRITE_LIFE_MASK) !=
-+	    (next->cmd_flags & REQ_WRITE_LIFE_MASK))
-+		return NULL;
-+
-+	/*
- 	 * If we are allowed to merge, then append bio list
- 	 * from next to rq and release next. merge_requests_fn
- 	 * will have updated segment counts, update sector
-@@ -788,6 +796,14 @@ bool blk_rq_merge_ok(struct request *rq, struct bio *bio)
- 	    !blk_write_same_mergeable(rq->bio, bio))
- 		return false;
- 
-+	/*
-+	 * Don't allow merge of different streams, or for a stream with
-+	 * non-stream IO.
-+	 */
-+	if ((rq->cmd_flags & REQ_WRITE_LIFE_MASK) !=
-+	    (bio->bi_opf & REQ_WRITE_LIFE_MASK))
-+		return false;
-+
- 	return true;
- }
- 
-diff --git a/include/linux/blk_types.h b/include/linux/blk_types.h
-index dcd45b15a3a5..fde216924aa3 100644
---- a/include/linux/blk_types.h
-+++ b/include/linux/blk_types.h
-@@ -7,6 +7,7 @@
- 
- #include <linux/types.h>
- #include <linux/bvec.h>
-+#include <linux/fs.h>
- 
- struct bio_set;
- struct bio;
-@@ -220,6 +221,9 @@ enum req_flag_bits {
- 	__REQ_PREFLUSH,		/* request for cache flush */
- 	__REQ_RAHEAD,		/* read ahead, can fail anytime */
- 	__REQ_BACKGROUND,	/* background IO */
-+	__REQ_WRITE_HINT_SHIFT,	/* 3 bits for life time hint */
-+	__REQ_WRITE_HINT_PAD1,
-+	__REQ_WRITE_HINT_PAD2,
- 
- 	/* command specific flags for REQ_OP_WRITE_ZEROES: */
- 	__REQ_NOUNMAP,		/* do not free blocks when zeroing */
-@@ -240,6 +244,12 @@ enum req_flag_bits {
- #define REQ_PREFLUSH		(1ULL << __REQ_PREFLUSH)
- #define REQ_RAHEAD		(1ULL << __REQ_RAHEAD)
- #define REQ_BACKGROUND		(1ULL << __REQ_BACKGROUND)
-+#define REQ_WRITE_SHORT		(WRITE_LIFE_SHORT << __REQ_WRITE_HINT_SHIFT)
-+#define REQ_WRITE_MEDIUM	(WRITE_LIFE_MEDIUM << __REQ_WRITE_HINT_SHIFT)
-+#define REQ_WRITE_LONG		(WRITE_LIFE_LONG << __REQ_WRITE_HINT_SHIFT)
-+#define REQ_WRITE_EXTREME	(WRITE_LIFE_EXTREME << __REQ_WRITE_HINT_SHIFT)
-+
-+#define REQ_WRITE_LIFE_MASK	(0x7 << __REQ_WRITE_HINT_SHIFT)
- 
- #define REQ_NOUNMAP		(1ULL << __REQ_NOUNMAP)
- 
-@@ -331,4 +341,14 @@ struct blk_rq_stat {
- 	u64 batch;
- };
- 
-+static inline unsigned int write_hint_to_opf(enum rw_hint hint)
-+{
-+	return hint << __REQ_WRITE_HINT_SHIFT;
-+}
-+
-+static inline enum rw_hint opf_to_write_hint(unsigned int opf)
-+{
-+	return (opf & REQ_WRITE_LIFE_MASK) >> __REQ_WRITE_HINT_SHIFT;
-+}
-+
- #endif /* __LINUX_BLK_TYPES_H */
+diff --git a/fs/ext4/page-io.c b/fs/ext4/page-io.c
+index 930ca0fc9a0f..92834b702728 100644
+--- a/fs/ext4/page-io.c
++++ b/fs/ext4/page-io.c
+@@ -350,6 +350,7 @@ void ext4_io_submit(struct ext4_io_submit *io)
+ 	if (bio) {
+ 		int io_op_flags = io->io_wbc->sync_mode == WB_SYNC_ALL ?
+ 				  REQ_SYNC : 0;
++		io_op_flags |= write_hint_to_opf(inode_write_hint(io->io_end->inode));
+ 		bio_set_op_attrs(io->io_bio, REQ_OP_WRITE, io_op_flags);
+ 		submit_bio(io->io_bio);
+ 	}
+@@ -397,6 +398,7 @@ static int io_submit_add_bh(struct ext4_io_submit *io,
+ 		ret = io_submit_init_bio(io, bh);
+ 		if (ret)
+ 			return ret;
++		io->io_bio->bi_opf |= write_hint_to_opf(inode_write_hint(inode));
+ 	}
+ 	ret = bio_add_page(io->io_bio, page, bh->b_size, bh_offset(bh));
+ 	if (ret != bh->b_size)
 -- 
 2.7.4
