@@ -1,56 +1,120 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 19 Jun 2017 11:04:57 -0600
-Subject: [PATCH 4/9] fs: add O_DIRECT support for sending down write life time
- hints
-In-Reply-To: <1497891902-25737-1-git-send-email-axboe@kernel.dk>
-References: <1497891902-25737-1-git-send-email-axboe@kernel.dk>
-Message-ID: <1497891902-25737-5-git-send-email-axboe@kernel.dk>
+From: robert@leblancnet.us (Robert LeBlanc)
+Date: Mon, 19 Jun 2017 11:21:34 -0600
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <20170518133439.GD3616@mtr-leonro.local>
+References: <33e2cc35-f147-d4a4-9a42-8f1245e35842@mellanox.com>
+ <DE927C68B458BE418D582EC97927A92855088C6F@ORSMSX113.amr.corp.intel.com>
+ <82dd5b24-5657-ae5e-8a33-646fddd8b75b@grimberg.me>
+ <20170515133122.GG3616@mtr-leonro.local>
+ <9465cd0c-83db-b058-7615-5626ef60dbb0@grimberg.me>
+ <20170515143632.GH3616@mtr-leonro.local>
+ <20170515145952.GA7871@infradead.org> <20170515170506.GK3616@mtr-leonro.local>
+ <779753075.36035391.1495025796237.JavaMail.zimbra@kalray.eu>
+ <20170518133439.GD3616@mtr-leonro.local>
+Message-ID: <CAANLjFrCLpX3nb3q7LpFPpLJKciU+1Hvmt_hxyTovQJM2-zQmg@mail.gmail.com>
 
-Reviewed-by: Andreas Dilger <adilger at dilger.ca>
-Signed-off-by: Jens Axboe <axboe at kernel.dk>
----
- fs/block_dev.c | 2 ++
- fs/direct-io.c | 2 ++
- fs/iomap.c     | 1 +
- 3 files changed, 5 insertions(+)
+I ran into this with 4.9.32 when I rebooted the target. I tested
+4.12-rc6 and this particular error seems to have been resolved, but I
+now get a new one on the initiator. This one doesn't seem as
+impactful.
 
-diff --git a/fs/block_dev.c b/fs/block_dev.c
-index dd91c99e9ba0..30e1fb65c2fa 100644
---- a/fs/block_dev.c
-+++ b/fs/block_dev.c
-@@ -183,6 +183,8 @@ static unsigned int dio_bio_write_op(struct kiocb *iocb)
- 	/* avoid the need for a I/O completion work item */
- 	if (iocb->ki_flags & IOCB_DSYNC)
- 		op |= REQ_FUA;
-+
-+	op |= write_hint_to_opf(iocb_write_hint(iocb));
- 	return op;
- }
- 
-diff --git a/fs/direct-io.c b/fs/direct-io.c
-index e8baaabebf13..9e9adca0c592 100644
---- a/fs/direct-io.c
-+++ b/fs/direct-io.c
-@@ -385,6 +385,8 @@ dio_bio_alloc(struct dio *dio, struct dio_submit *sdio,
- 	else
- 		bio->bi_end_io = dio_bio_end_io;
- 
-+	bio->bi_opf |= write_hint_to_opf(iocb_write_hint(dio->iocb));
-+
- 	sdio->bio = bio;
- 	sdio->logical_offset_in_bio = sdio->cur_page_fs_offset;
- }
-diff --git a/fs/iomap.c b/fs/iomap.c
-index 18f2f2b8ba2c..63b9f87d9461 100644
---- a/fs/iomap.c
-+++ b/fs/iomap.c
-@@ -804,6 +804,7 @@ iomap_dio_actor(struct inode *inode, loff_t pos, loff_t length,
- 
- 		if (dio->flags & IOMAP_DIO_WRITE) {
- 			bio_set_op_attrs(bio, REQ_OP_WRITE, REQ_SYNC | REQ_IDLE);
-+			bio->bi_opf |= write_hint_to_opf(inode_write_hint(inode));
- 			task_io_account_write(bio->bi_iter.bi_size);
- 		} else {
- 			bio_set_op_attrs(bio, REQ_OP_READ, 0);
--- 
-2.7.4
+[Mon Jun 19 11:17:20 2017] mlx5_0:dump_cqe:275:(pid 0): dump error cqe
+[Mon Jun 19 11:17:20 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:20 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:20 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:20 2017] 00000000 93005204 0a0001bd 45c8e0d2
+[Mon Jun 19 11:17:20 2017] iser: iser_err_comp: command failure: local
+protection error (4) vend_err 52
+[Mon Jun 19 11:17:20 2017]  connection3:0: detected conn error (1011)
+[Mon Jun 19 11:17:31 2017] mlx5_0:dump_cqe:275:(pid 0): dump error cqe
+[Mon Jun 19 11:17:31 2017] mlx5_0:dump_cqe:275:(pid 0): dump error cqe
+[Mon Jun 19 11:17:31 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:31 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:31 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:31 2017] 00000000 93005204 0a0001e7 45dd82d2
+[Mon Jun 19 11:17:31 2017] iser: iser_err_comp: command failure: local
+protection error (4) vend_err 52
+[Mon Jun 19 11:17:31 2017]  connection4:0: detected conn error (1011)
+[Mon Jun 19 11:17:31 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:31 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:31 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:31 2017] 00000000 93005204 0a0001f4 004915d2
+[Mon Jun 19 11:17:31 2017] iser: iser_err_comp: command failure: local
+protection error (4) vend_err 52
+[Mon Jun 19 11:17:31 2017]  connection3:0: detected conn error (1011)
+[Mon Jun 19 11:17:44 2017] mlx5_0:dump_cqe:275:(pid 0): dump error cqe
+[Mon Jun 19 11:17:44 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:44 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:44 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:17:44 2017] 00000000 93005204 0a0001f6 004519d2
+[Mon Jun 19 11:17:44 2017] iser: iser_err_comp: command failure: local
+protection error (4) vend_err 52
+[Mon Jun 19 11:17:44 2017]  connection3:0: detected conn error (1011)
+[Mon Jun 19 11:18:55 2017] mlx5_0:dump_cqe:275:(pid 0): dump error cqe
+[Mon Jun 19 11:18:55 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:18:55 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:18:55 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:18:55 2017] 00000000 93005204 0a0001f7 01934fd2
+[Mon Jun 19 11:18:55 2017] iser: iser_err_comp: command failure: local
+protection error (4) vend_err 52
+[Mon Jun 19 11:18:55 2017]  connection3:0: detected conn error (1011)
+[Mon Jun 19 11:20:25 2017] mlx5_0:dump_cqe:275:(pid 0): dump error cqe
+[Mon Jun 19 11:20:25 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:20:25 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:20:25 2017] 00000000 00000000 00000000 00000000
+[Mon Jun 19 11:20:25 2017] 00000000 93005204 0a0001f8 0274edd2
+[Mon Jun 19 11:20:25 2017] iser: iser_err_comp: command failure: local
+protection error (4) vend_err 52
+[Mon Jun 19 11:20:25 2017]  connection3:0: detected conn error (1011)
+
+I'm going to try to cherry-pick the fix to 4.9.x and do some testing there.
+
+Thanks,
+
+----------------
+Robert LeBlanc
+PGP Fingerprint 79A2 9CA4 6CC4 45DD A904  C70E E654 3BB2 FA62 B9F1
+
+
+On Thu, May 18, 2017@7:34 AM, Leon Romanovsky <leon@kernel.org> wrote:
+> On Wed, May 17, 2017@02:56:36PM +0200, Marta Rybczynska wrote:
+>> > On Mon, May 15, 2017@07:59:52AM -0700, Christoph Hellwig wrote:
+>> >> On Mon, May 15, 2017@05:36:32PM +0300, Leon Romanovsky wrote:
+>> >> > I understand you and both Max and me are feeling the same as you. For more
+>> >> > than 2 months, we constantly (almost on daily basis) asked for a solution from
+>> >> > architecture group, but received different answers. The proposals were
+>> >> > extremely broad from need for strong fence for all cards to no need for
+>> >> > strong fence at all.
+>> >>
+>> >> So let's get the patch to do a strong fence everywhere now, and relax
+>> >> it later where possible.
+>> >>
+>> >> Correntness before speed..
+>> >
+>> > OK, please give me and Max till EOW to stop this saga. One of the two
+>> > options will be: Max will resend original patch, or Max will send patch
+>> > blessed by architecture group.
+>> >
+>>
+>> Good luck with this Max & Leon! It seems to be a complicated problem.
+>> Just an idea: in our case it *seems* that the problem started appearing
+>> after a firmware upgrade, older ones do not seem to have the same
+>> behaviour. Maybe it's a hint for you.
+>
+> OK, we came to the agreement which capability bits we should add. Max
+> will return to the office at the middle of the next week and we will
+> proceed with the submission of proper patch once our shared code will
+> be accepted.
+>
+> In the meantime, i put the original patch to be part of our regression.
+> https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/commit/?h=testing/queue-next&id=a40ac569f243db552661e6efad70080bb406823c
+>
+> Thank you for your patience.
+>
+>>
+>> Thanks!
+>> Marta
+>> --
+>> To unsubscribe from this list: send the line "unsubscribe linux-rdma" in
+>> the body of a message to majordomo at vger.kernel.org
+>> More majordomo info at  http://vger.kernel.org/majordomo-info.html
