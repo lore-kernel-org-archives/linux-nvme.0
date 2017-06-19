@@ -1,25 +1,78 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Mon, 19 Jun 2017 13:47:10 +0200
-Subject: [PATCH 5/6] nvme: track subsystems
-In-Reply-To: <20170619095754.4602-6-hch@lst.de>
-References: <20170619095754.4602-1-hch@lst.de>
- <20170619095754.4602-6-hch@lst.de>
-Message-ID: <20170619114710.GG19417@linux-x5ow.site>
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 19 Jun 2017 14:28:06 +0200
+Subject: [PATCH v6 for-4.13 0/7] Automatic affinity settings for nvme
+ over rdma
+In-Reply-To: <1497796677-15794-1-git-send-email-sagi@grimberg.me>
+References: <1497796677-15794-1-git-send-email-sagi@grimberg.me>
+Message-ID: <20170619122806.GA29061@lst.de>
 
-On Mon, Jun 19, 2017@11:57:53AM +0200, Christoph Hellwig wrote:
-> This adds a new nvme_subsystem structure so that we can track multiple
-> controllers that belong to a single subsystem.  For now we only use it
-> to store the NQN, and to check that we don't have duplicate NQNs unless
-> the involved subsystems support multiple controllers.
+Thanks Sagi,
+
+the whole series looks great to me.
+
+It would be even nicer if the maintainers of the various HCA drivers
+could look into adding support..
+
+On Sun, Jun 18, 2017@05:37:50PM +0300, Sagi Grimberg wrote:
+> Doug, please consider this patch set for 4.13.
+> Saeed, care to get this into your testing environment?
 > 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
-
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
--- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+> This patch set is aiming to automatically find the optimal
+> queue <-> irq multi-queue assignments in storage ULPs (demonstrated
+> on nvme-rdma) based on the underlying rdma device irq affinity
+> settings.
+> 
+> Changes from v5:
+> - updated change log for patch #2
+> - removed nit indentation changes
+> 
+> Changes from v4:
+> - removed mlx5e assumptions on device home node irq affinity mappings
+> - rebased to 4.12-rc5
+> 
+> Changes from v3:
+> - Renamed mlx5_disable_msix -> mlx5_free_pci_vectors for symmetry reasons
+> 
+> Changes from v2:
+> - rebased to 4.12
+> - added review tags
+> 
+> Changes from v1:
+> - Removed mlx5e_get_cpu as Christoph suggested
+> - Fixed up nvme-rdma queue comp_vector selection to get a better match
+> - Added a comment on why we limit on @dev->num_comp_vectors
+> - rebased to Jens's for-4.12/block
+> - Collected review tags
+> 
+> Sagi Grimberg (7):
+>   mlx5: convert to generic pci_alloc_irq_vectors
+>   mlx5e: don't assume anything on the irq affinity mappings of the
+>     device
+>   mlx5: move affinity hints assignments to generic code
+>   RDMA/core: expose affinity mappings per completion vector
+>   mlx5: support ->get_vector_affinity
+>   block: Add rdma affinity based queue mapping helper
+>   nvme-rdma: use intelligent affinity based queue mappings
+> 
+>  block/Kconfig                                      |   5 +
+>  block/Makefile                                     |   1 +
+>  block/blk-mq-rdma.c                                |  54 +++++++++++
+>  drivers/infiniband/hw/mlx5/main.c                  |   9 ++
+>  drivers/net/ethernet/mellanox/mlx5/core/en.h       |   1 -
+>  drivers/net/ethernet/mellanox/mlx5/core/en_main.c  |  54 +++++------
+>  drivers/net/ethernet/mellanox/mlx5/core/eq.c       |   9 +-
+>  drivers/net/ethernet/mellanox/mlx5/core/eswitch.c  |   2 +-
+>  drivers/net/ethernet/mellanox/mlx5/core/health.c   |   2 +-
+>  drivers/net/ethernet/mellanox/mlx5/core/main.c     | 106 ++++-----------------
+>  .../net/ethernet/mellanox/mlx5/core/mlx5_core.h    |   1 -
+>  drivers/nvme/host/rdma.c                           |  29 ++++--
+>  include/linux/blk-mq-rdma.h                        |  10 ++
+>  include/linux/mlx5/driver.h                        |   8 +-
+>  include/rdma/ib_verbs.h                            |  25 ++++-
+>  15 files changed, 174 insertions(+), 142 deletions(-)
+>  create mode 100644 block/blk-mq-rdma.c
+>  create mode 100644 include/linux/blk-mq-rdma.h
+> 
+> -- 
+> 2.7.4
+---end quoted text---
