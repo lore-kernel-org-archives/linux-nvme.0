@@ -1,36 +1,16 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Jun 2017 19:32:22 +0300
-Subject: [PATCH v2 3/4] nvme-pci: factor out the cqe reading mechanics
- from __nvme_process_cq
-In-Reply-To: <20170619161953.GD21765@localhost.localdomain>
-References: <1497796090-14808-1-git-send-email-sagi@grimberg.me>
- <1497796090-14808-4-git-send-email-sagi@grimberg.me>
- <20170619161953.GD21765@localhost.localdomain>
-Message-ID: <dd21f59c-b668-c81f-0b0c-248708e1d145@grimberg.me>
+From: keith.busch@intel.com (Keith Busch)
+Date: Mon, 19 Jun 2017 12:49:10 -0400
+Subject: [PATCH 1/6] nvme: remove a misleading comment on strut nvme_ns
+In-Reply-To: <20170619095754.4602-2-hch@lst.de>
+References: <20170619095754.4602-1-hch@lst.de>
+ <20170619095754.4602-2-hch@lst.de>
+Message-ID: <20170619164910.GF21765@localhost.localdomain>
 
+On Mon, Jun 19, 2017@11:57:49AM +0200, Christoph Hellwig wrote:
+> While a NVMe Namespace is somewhat similar to a SCSI Logical Unit (and not
+> a Logical Unit Number anyway) there are subtile differences.  Remove the
+> misleading comment.
 
->> Also, maintain a consumed counter to rely on for doorbell and
->> cqe_seen update instead of directly relying on the cq head and phase.
->>
->> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
-> 
-> Looks like this particular change failed to produce the best diff. :)
+Looks good.
 
-:(
-
->> -	nvme_ring_cq_doorbell(nvmeq);
->> +		if (tag && *tag == cqe.command_id) {
->> +			*tag = -1;
->> +			break;
-> 
-> This 'break' is new. We're already holding the lock, why wouldn't we
-> want to reap all the completions?
-
-Oddly enough I (re)noticed it now too. I guess that my thought was that
-if we were invoked from ->poll, it means that the user wants the
-completion asap and willing to put some extra efforts in order to get
-it faster... So if you think about it, any action you take post finding
-the completion is not what the user wants...
-
-This absolutely needs to be documented, or actually come as a separate 
-patch... I can also get rid of it if its a dumb idea...
+Reviewed-by: Keith Busch <keith.busch at intel.com>
