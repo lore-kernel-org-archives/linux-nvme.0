@@ -1,19 +1,48 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 19 Jun 2017 14:49:10 +0200
-Subject: [PATCH rfc 20/30] nvme: add err, reconnect and delete work
- items to nvme core
-In-Reply-To: <1497799324-19598-21-git-send-email-sagi@grimberg.me>
+Date: Mon, 19 Jun 2017 14:55:05 +0200
+Subject: [PATCH rfc 25/30] nvme: move control plane handling to nvme core
+In-Reply-To: <1497799324-19598-26-git-send-email-sagi@grimberg.me>
 References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
- <1497799324-19598-21-git-send-email-sagi@grimberg.me>
-Message-ID: <20170619124910.GR29061@lst.de>
+ <1497799324-19598-26-git-send-email-sagi@grimberg.me>
+Message-ID: <20170619125505.GS29061@lst.de>
 
-On Sun, Jun 18, 2017@06:21:54PM +0300, Sagi Grimberg wrote:
-> We intent for these handlers to become generic, thus, add them to
-> the nvme core controller struct.
+> +static void nvme_free_io_queues(struct nvme_ctrl *ctrl)
+> +{
+> +	int i;
+> +
+> +	for (i = 1; i < ctrl->queue_count; i++)
+> +		ctrl->ops->free_hw_queue(ctrl, i);
+> +}
+> +
+> +void nvme_stop_io_queues(struct nvme_ctrl *ctrl)
+> +{
+> +	int i;
+> +
+> +	for (i = 1; i < ctrl->queue_count; i++)
+> +		ctrl->ops->stop_hw_queue(ctrl, i);
+> +}
+> +EXPORT_SYMBOL_GPL(nvme_stop_io_queues);
 
-Do you remember why we actually need all the different work items?
+At leasr for PCIe this is going to work very differently, so I'm not
+sure this part make so much sense in the core.  Maybe in Fabrics?
+Or at least make the callouts operate on all I/O queues, which would
+suite PCIe a lot more.
 
-We need err_work to recover from RDMA QP-level errors.  But how
-is it so different from a reset in that respect?  Similarly why
-do we need reset to be different from reconnect?  Especially as
-reconnect sort of is the reset of fabrics.
+> +	error = ctrl->ops->start_hw_queue(ctrl, 0);
+> +	if (error)
+> +		goto out_cleanup_connect_queue;
+> +
+> +	error = ctrl->ops->reg_read64(ctrl, NVME_REG_CAP, &ctrl->cap);
+> +	if (error) {
+> +		dev_err(ctrl->device,
+> +			"prop_get NVME_REG_CAP failed\n");
+> +		goto out_cleanup_connect_queue;
+> +	}
+> +
+> +	ctrl->sqsize = min_t(int, NVME_CAP_MQES(ctrl->cap), ctrl->sqsize);
+> +
+> +	error = nvme_enable_ctrl(ctrl, ctrl->cap);
+> +	if (error)
+> +		goto out_cleanup_connect_queue;
+
+I'm not sure this ordering is going to work for PCIe..
