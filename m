@@ -1,26 +1,27 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Jun 2017 13:57:19 +0300
+From: hch@lst.de (Christoph Hellwig)
+Date: Mon, 19 Jun 2017 12:59:07 +0200
 Subject: [PATCH 6/6] nvme: track shared namespaces in a siblings list
-In-Reply-To: <20170619104245.GA19651@lst.de>
+In-Reply-To: <72e49383-1fa4-bd4d-2351-0ed71aaaad19@grimberg.me>
 References: <20170619095754.4602-1-hch@lst.de>
  <20170619095754.4602-7-hch@lst.de>
  <b42db191-1298-c879-a1de-1e39724edc9c@grimberg.me>
  <20170619101953.GA18746@lst.de>
  <54010ab6-2b79-dbf6-aaea-40d5933e64dc@grimberg.me>
  <20170619104245.GA19651@lst.de>
-Message-ID: <72e49383-1fa4-bd4d-2351-0ed71aaaad19@grimberg.me>
+ <72e49383-1fa4-bd4d-2351-0ed71aaaad19@grimberg.me>
+Message-ID: <20170619105907.GB21924@lst.de>
 
+On Mon, Jun 19, 2017@01:57:19PM +0300, Sagi Grimberg wrote:
+> Didn't mean driver specific locking on the sibling list itself,
+> just on the sibling search. The sibling list should obviously have its
+> own locking. You have yet to reveal how the block layer should handle
+> the siblings, but I imagine you have some family representation, which
+> will have its own locking scheme to manage siblings/paths.
 
->> Not sure what you mean, but I didn't mean to change any locking scheme,
->> just have the sibling list exist in struct block_device and call
->> nvme_ns_find_siblings as a fops callout when the bdev is created, driver
->> stays responsible for locking.
-> 
-> A common list with driver specific locking isn't going to work,
-> we'll need block locking for using it for multipath decisions.
+Oh.  No, I don't want to do the search in the block layer at all.
 
-Didn't mean driver specific locking on the sibling list itself,
-just on the sibling search. The sibling list should obviously have its
-own locking. You have yet to reveal how the block layer should handle
-the siblings, but I imagine you have some family representation, which
-will have its own locking scheme to manage siblings/paths.
+The are two (or more) request_queues siblings thing makes total sense
+for the block layer.  But how we decide that fact is totally driver
+specif?c.  E.g. for SCSI the search would look completely different
+as we don't have the equivalent of the controllers per subsystem
+list.
