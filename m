@@ -1,12 +1,16 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 19 Jun 2017 08:59:26 +0200
-Subject: [PATCH v2 1/2] nvme-core: change commas to semicolons in
- nvme_get_log_page
-In-Reply-To: <1497791759-5754-1-git-send-email-sagi@grimberg.me>
-References: <1497791759-5754-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20170619065926.GB12938@lst.de>
+Date: Mon, 19 Jun 2017 09:01:00 +0200
+Subject: [PATCH v2 1/4] nvme-pci: Introduce nvme_ring_cq_doorbell
+In-Reply-To: <1497796090-14808-2-git-send-email-sagi@grimberg.me>
+References: <1497796090-14808-1-git-send-email-sagi@grimberg.me>
+ <1497796090-14808-2-git-send-email-sagi@grimberg.me>
+Message-ID: <20170619070100.GC12938@lst.de>
 
-This looks ok, but I think it's just too much churn at the moment.
-We already have one patch that moves it to scsi.c as part of the
-fw activation without reset patchset, and we if the scsi emulation
-removal goes in it should just go away entirely..
+On Sun, Jun 18, 2017@05:28:07PM +0300, Sagi Grimberg wrote:
+> Nice abstraction of the actual mechanics of how to do it.
+> Note the change that we call it after we assign nvmeq->cq_head
+> to avoid passing it.
+
+Looks fine,
+
+Reviewed-by: Christoph Hellwig <hch at lst.de>
