@@ -1,45 +1,69 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 19 Jun 2017 09:18:51 +0200
-Subject: [PATCH rfc 02/30] nvme-rdma: Don't alloc/free the tagset on reset
-In-Reply-To: <1497799324-19598-3-git-send-email-sagi@grimberg.me>
+Date: Mon, 19 Jun 2017 09:20:04 +0200
+Subject: [PATCH rfc 03/30] nvme-rdma: reuse configure/destroy admin queue
+In-Reply-To: <1497799324-19598-4-git-send-email-sagi@grimberg.me>
 References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
- <1497799324-19598-3-git-send-email-sagi@grimberg.me>
-Message-ID: <20170619071851.GB13168@lst.de>
+ <1497799324-19598-4-git-send-email-sagi@grimberg.me>
+Message-ID: <20170619072004.GC13168@lst.de>
 
-> +static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl, bool remove)
+On Sun, Jun 18, 2017@06:21:37PM +0300, Sagi Grimberg wrote:
+> We have all we need in these functions now that these
+> are aware if we are doing a full instantiation/removal.
+> 
+> For that we move nvme_rdma_configure_admin_queue to avoid
+> a forward declaration, and we add blk_mq_ops forward declaration.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
+> ---
+>  drivers/nvme/host/rdma.c | 253 ++++++++++++++++++++++-------------------------
+>  1 file changed, 119 insertions(+), 134 deletions(-)
+> 
+> diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+> index 3e4c6aa119ee..5fef5545e365 100644
+> --- a/drivers/nvme/host/rdma.c
+> +++ b/drivers/nvme/host/rdma.c
+> @@ -140,6 +140,9 @@ static DEFINE_MUTEX(device_list_mutex);
+>  static LIST_HEAD(nvme_rdma_ctrl_list);
+>  static DEFINE_MUTEX(nvme_rdma_ctrl_mutex);
+>  
+> +static const struct blk_mq_ops nvme_rdma_mq_ops;
+> +static const struct blk_mq_ops nvme_rdma_admin_mq_ops;
+> +
+>  /*
+>   * Disabling this option makes small I/O goes faster, but is fundamentally
+>   * unsafe.  With it turned off we will have to register a global rkey that
+> @@ -562,20 +565,22 @@ static int nvme_rdma_init_queue(struct nvme_rdma_ctrl *ctrl,
+>  
+>  static void nvme_rdma_stop_queue(struct nvme_rdma_queue *queue)
 >  {
-> +	nvme_rdma_stop_queue(&ctrl->queues[0]);
-> +	if (remove) {
-> +		blk_cleanup_queue(ctrl->ctrl.admin_connect_q);
-> +		blk_cleanup_queue(ctrl->ctrl.admin_q);
-> +		blk_mq_free_tag_set(&ctrl->admin_tag_set);
-> +		nvme_rdma_dev_put(ctrl->device);
-> +	}
-> +
->  	nvme_rdma_free_qe(ctrl->queues[0].device->dev, &ctrl->async_event_sqe,
->  			sizeof(struct nvme_command), DMA_TO_DEVICE);
-> +	nvme_rdma_free_queue(&ctrl->queues[0]);
-
-I don't like the calling convention.  We only have have two callers
-anyway.  So I'd much rather only keep the code inside the if above
-in the new nvme_rdma_destroy_admin_queue that is only called at shutdown
-time, and opencode the calls to nvme_rdma_stop_queue, nvme_rdma_free_qe
-and nvme_rdma_free_queue in the callers.
-
-> -static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl)
-> +static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new)
-
-PCIe is just checking for a non-null admin_q.  But I think we should
-jsut split this into two functions, one for the shared code at the end
-and one just for the first-time setup, with the nvme_rdma_init_queue
-call open coded.
-
->  	error = nvmf_connect_admin_queue(&ctrl->ctrl);
-> @@ -1596,6 +1601,8 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl)
+> +	if (test_bit(NVME_RDMA_Q_DELETING, &queue->flags))
+> +		return;
+>  	rdma_disconnect(queue->cm_id);
+>  	ib_drain_qp(queue->qp);
+>  }
 >  
->  	set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags);
+>  static void nvme_rdma_free_queue(struct nvme_rdma_queue *queue)
+>  {
+> +	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
+> +		return;
+>  	nvme_rdma_destroy_queue_ib(queue);
+>  	rdma_destroy_id(queue->cm_id);
+>  }
 >  
-> +	blk_mq_start_stopped_hw_queues(ctrl->ctrl.admin_q, true);
-> +
+>  static void nvme_rdma_stop_and_free_queue(struct nvme_rdma_queue *queue)
+>  {
+> -	if (test_and_set_bit(NVME_RDMA_Q_DELETING, &queue->flags))
+> -		return;
+>  	nvme_rdma_stop_queue(queue);
+>  	nvme_rdma_free_queue(queue);
+>  }
+> @@ -671,6 +676,116 @@ static void nvme_rdma_destroy_admin_queue(struct nvme_rdma_ctrl *ctrl, bool remo
+>  	nvme_rdma_free_queue(&ctrl->queues[0]);
+>  }
+>  
+static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new)
 
-Where does this come from?
+Too long line..
+
+Also what about moving the helpers into the right place in the
+previous patch that already re-indented most of this?
