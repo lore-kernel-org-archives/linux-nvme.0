@@ -1,18 +1,16 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Jun 2017 11:03:36 +0300
-Subject: [PATCH rfc 29/30] nvme: add sed-opal ctrl manipulation in admin
- configuration
-In-Reply-To: <20170619072220.GF13168@lst.de>
-References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
- <1497799324-19598-30-git-send-email-sagi@grimberg.me>
- <20170619072220.GF13168@lst.de>
-Message-ID: <a13e909c-6f0b-0cb3-18c7-878fcf02b3d5@grimberg.me>
+Date: Mon, 19 Jun 2017 11:06:23 +0300
+Subject: [PATCH v2 1/2] nvme-core: change commas to semicolons in
+ nvme_get_log_page
+In-Reply-To: <20170619065926.GB12938@lst.de>
+References: <1497791759-5754-1-git-send-email-sagi@grimberg.me>
+ <20170619065926.GB12938@lst.de>
+Message-ID: <0d524318-21d0-ee92-9286-7771f0ed7fdb@grimberg.me>
 
 
-> The subject sounds odd and it could use a changelog.  But I'd love to
-> pick this change up ASAP as it's the right thing to do..
+> This looks ok, but I think it's just too much churn at the moment.
+> We already have one patch that moves it to scsi.c as part of the
+> fw activation without reset patchset, and we if the scsi emulation
+> removal goes in it should just go away entirely..
 
-How? where would you place it? there is no nvme_configure_admin_queue in
-nvme-core.
-
-I suppose we could get it in nvme_init_ctrl?
+OK, we can discard it then...
