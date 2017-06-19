@@ -1,18 +1,18 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Mon, 19 Jun 2017 11:00:34 +0300
-Subject: [PATCH rfc 03/30] nvme-rdma: reuse configure/destroy admin queue
-In-Reply-To: <20170619072004.GC13168@lst.de>
+Date: Mon, 19 Jun 2017 11:03:36 +0300
+Subject: [PATCH rfc 29/30] nvme: add sed-opal ctrl manipulation in admin
+ configuration
+In-Reply-To: <20170619072220.GF13168@lst.de>
 References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
- <1497799324-19598-4-git-send-email-sagi@grimberg.me>
- <20170619072004.GC13168@lst.de>
-Message-ID: <71fdef71-24a5-9514-e504-35e7c52b85bc@grimberg.me>
+ <1497799324-19598-30-git-send-email-sagi@grimberg.me>
+ <20170619072220.GF13168@lst.de>
+Message-ID: <a13e909c-6f0b-0cb3-18c7-878fcf02b3d5@grimberg.me>
 
 
-> static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl, bool new)
-> 
-> Too long line..
-> 
-> Also what about moving the helpers into the right place in the
-> previous patch that already re-indented most of this?
+> The subject sounds odd and it could use a changelog.  But I'd love to
+> pick this change up ASAP as it's the right thing to do..
 
-Sure.
+How? where would you place it? there is no nvme_configure_admin_queue in
+nvme-core.
+
+I suppose we could get it in nvme_init_ctrl?
