@@ -1,16 +1,11 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 19 Jun 2017 14:35:20 +0200
-Subject: [PATCH rfc 02/30] nvme-rdma: Don't alloc/free the tagset on reset
-In-Reply-To: <4b612cf9-f8ba-f2fa-8f93-c2c46468daf4@grimberg.me>
+Date: Mon, 19 Jun 2017 14:35:52 +0200
+Subject: [PATCH rfc 04/30] nvme-rdma: introduce configure/destroy io queues
+In-Reply-To: <1497799324-19598-5-git-send-email-sagi@grimberg.me>
 References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
- <1497799324-19598-3-git-send-email-sagi@grimberg.me>
- <20170619071851.GB13168@lst.de>
- <4b612cf9-f8ba-f2fa-8f93-c2c46468daf4@grimberg.me>
-Message-ID: <20170619123520.GC29061@lst.de>
+ <1497799324-19598-5-git-send-email-sagi@grimberg.me>
+Message-ID: <20170619123552.GD29061@lst.de>
 
-> We can do that, but this tries to eliminate duplicate code as
-> much as possible. It's not like the convention is unprecedented...
+Looks fine,
 
-It's fairly nasty to follow.  OTOH I like your overall cleanup,
-so I guess I shouldn't complain about the initial patches to much
-but just possibly do another pass after you are done..
+Reviewed-by: Christoph Hellwig <hch at lst.de>
