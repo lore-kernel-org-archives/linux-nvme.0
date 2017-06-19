@@ -1,78 +1,30 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 19 Jun 2017 14:28:06 +0200
-Subject: [PATCH v6 for-4.13 0/7] Automatic affinity settings for nvme
- over rdma
-In-Reply-To: <1497796677-15794-1-git-send-email-sagi@grimberg.me>
-References: <1497796677-15794-1-git-send-email-sagi@grimberg.me>
-Message-ID: <20170619122806.GA29061@lst.de>
+Date: Mon, 19 Jun 2017 14:30:25 +0200
+Subject: [PATCH rfc 01/30] nvme: Add admin connect request queue
+In-Reply-To: <5497966b-5f2e-ae17-c72c-50b2317ab798@grimberg.me>
+References: <1497799324-19598-1-git-send-email-sagi@grimberg.me>
+ <1497799324-19598-2-git-send-email-sagi@grimberg.me>
+ <20170619071314.GA13168@lst.de>
+ <5497966b-5f2e-ae17-c72c-50b2317ab798@grimberg.me>
+Message-ID: <20170619123025.GB29061@lst.de>
 
-Thanks Sagi,
+On Mon, Jun 19, 2017@10:49:15AM +0300, Sagi Grimberg wrote:
+> However, you raise a valid point, I think I added this before we
+> had the queue_is_ready protection, which will reject the command
+> if the queue is not LIVE (unless its a connect). I think the reason
+> its still in is that I tested this with loop which doesn't have
+> a per-queue state machine.
 
-the whole series looks great to me.
+Yeah.
 
-It would be even nicer if the maintainers of the various HCA drivers
-could look into adding support..
+> I'm still wandering if its a good idea to rely on the transport
+> queue state to reject non-connect requests on non-LIVE queues.
+> if/when we introduce a queue representation to the core and we
+> drive the state machine there, then we could actually rely on it
+> (I do have some code for it, but its a pretty massive change which
+> cannot be added in an incremental fashion).
 
-On Sun, Jun 18, 2017@05:37:50PM +0300, Sagi Grimberg wrote:
-> Doug, please consider this patch set for 4.13.
-> Saeed, care to get this into your testing environment?
-> 
-> This patch set is aiming to automatically find the optimal
-> queue <-> irq multi-queue assignments in storage ULPs (demonstrated
-> on nvme-rdma) based on the underlying rdma device irq affinity
-> settings.
-> 
-> Changes from v5:
-> - updated change log for patch #2
-> - removed nit indentation changes
-> 
-> Changes from v4:
-> - removed mlx5e assumptions on device home node irq affinity mappings
-> - rebased to 4.12-rc5
-> 
-> Changes from v3:
-> - Renamed mlx5_disable_msix -> mlx5_free_pci_vectors for symmetry reasons
-> 
-> Changes from v2:
-> - rebased to 4.12
-> - added review tags
-> 
-> Changes from v1:
-> - Removed mlx5e_get_cpu as Christoph suggested
-> - Fixed up nvme-rdma queue comp_vector selection to get a better match
-> - Added a comment on why we limit on @dev->num_comp_vectors
-> - rebased to Jens's for-4.12/block
-> - Collected review tags
-> 
-> Sagi Grimberg (7):
->   mlx5: convert to generic pci_alloc_irq_vectors
->   mlx5e: don't assume anything on the irq affinity mappings of the
->     device
->   mlx5: move affinity hints assignments to generic code
->   RDMA/core: expose affinity mappings per completion vector
->   mlx5: support ->get_vector_affinity
->   block: Add rdma affinity based queue mapping helper
->   nvme-rdma: use intelligent affinity based queue mappings
-> 
->  block/Kconfig                                      |   5 +
->  block/Makefile                                     |   1 +
->  block/blk-mq-rdma.c                                |  54 +++++++++++
->  drivers/infiniband/hw/mlx5/main.c                  |   9 ++
->  drivers/net/ethernet/mellanox/mlx5/core/en.h       |   1 -
->  drivers/net/ethernet/mellanox/mlx5/core/en_main.c  |  54 +++++------
->  drivers/net/ethernet/mellanox/mlx5/core/eq.c       |   9 +-
->  drivers/net/ethernet/mellanox/mlx5/core/eswitch.c  |   2 +-
->  drivers/net/ethernet/mellanox/mlx5/core/health.c   |   2 +-
->  drivers/net/ethernet/mellanox/mlx5/core/main.c     | 106 ++++-----------------
->  .../net/ethernet/mellanox/mlx5/core/mlx5_core.h    |   1 -
->  drivers/nvme/host/rdma.c                           |  29 ++++--
->  include/linux/blk-mq-rdma.h                        |  10 ++
->  include/linux/mlx5/driver.h                        |   8 +-
->  include/rdma/ib_verbs.h                            |  25 ++++-
->  15 files changed, 174 insertions(+), 142 deletions(-)
->  create mode 100644 block/blk-mq-rdma.c
->  create mode 100644 include/linux/blk-mq-rdma.h
-> 
-> -- 
-> 2.7.4
----end quoted text---
+I suspect moving the state machine to the core is a good idea.  Note that
+the current nvme_rdma_queue_is_ready hack actually seems a bit to simple -
+even after the connect we should only allow get/set Property.  Nevermind
+the additional complications if/when authentication is implemented.
