@@ -1,22 +1,34 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 19 Jun 2017 11:57:48 +0200
-Subject: track subsystem relationships and shared namespaces V2
-Message-ID: <20170619095754.4602-1-hch@lst.de>
+Date: Mon, 19 Jun 2017 11:57:49 +0200
+Subject: [PATCH 1/6] nvme: remove a misleading comment on strut nvme_ns
+In-Reply-To: <20170619095754.4602-1-hch@lst.de>
+References: <20170619095754.4602-1-hch@lst.de>
+Message-ID: <20170619095754.4602-2-hch@lst.de>
 
-Hi all,
+While a NVMe Namespace is somewhat similar to a SCSI Logical Unit (and not
+a Logical Unit Number anyway) there are subtile differences.  Remove the
+misleading comment.
 
-this set adds the first bits of required infrastructure for proper
-multipath support in the NVMe driver.  It tracks if multiple controllers
-belong to the same subsystem, and if they do which namespaces on the
-controller refer to the same data.  As part of that it validates a lot
-of the restrictions in the NVMe spec related to these facts.
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+Reviewed-by: Sagi Grimberg <sagi at grmberg.me>
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ drivers/nvme/host/nvme.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-Btw, qemu is a perfect way to create controllers with the same NQN
-that fail these checks, as it allows you to specify the same serial
-number for multiple controllers, and never sets the required CMIC
-bit for multi-controller subsystems.
-
-Changes since V1:
- - don't hardcode offsets in nvme_init_subnqn
- - rename __nvme_find_subsystem to __nvme_find_get_subsystem
- - rename nvme_ns_link_siblings and move the list_add out of it
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index ec8c7363934d..5985dbb25a90 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -179,9 +179,6 @@ struct nvme_ctrl {
+ 	struct nvmf_ctrl_options *opts;
+ };
+ 
+-/*
+- * An NVM Express namespace is equivalent to a SCSI LUN
+- */
+ struct nvme_ns {
+ 	struct list_head list;
+ 
+-- 
+2.11.0
