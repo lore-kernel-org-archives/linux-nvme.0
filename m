@@ -1,48 +1,21 @@
-From: ming.lei@redhat.com (Ming Lei)
-Date: Mon, 19 Jun 2017 10:21:08 +0800
+From: axboe@kernel.dk (Jens Axboe)
+Date: Sun, 18 Jun 2017 20:53:46 -0600
 Subject: [RESEND PATCH] nvme: host: unquiesce queue in nvme_kill_queues()
-Message-ID: <20170619022108.21902-1-ming.lei@redhat.com>
+In-Reply-To: <20170619022108.21902-1-ming.lei@redhat.com>
+References: <20170619022108.21902-1-ming.lei@redhat.com>
+Message-ID: <65e6c1c0-ebe1-a9c1-7dfd-a85fa619d274@kernel.dk>
 
-When nvme_kill_queues() is run, queues may be in
-quiesced state, so we forcibly unquiesce queues to avoid
-blocking dispatch, and I/O hang can be avoided in
-remove path.
+On 06/18/2017 08:21 PM, Ming Lei wrote:
+> When nvme_kill_queues() is run, queues may be in
+> quiesced state, so we forcibly unquiesce queues to avoid
+> blocking dispatch, and I/O hang can be avoided in
+> remove path.
+> 
+> Peviously we use blk_mq_start_stopped_hw_queues() as
+> counterpart of blk_mq_quiesce_queue(), now we have
+> introduced blk_mq_unquiesce_queue(), so use it explicitly.
 
-Peviously we use blk_mq_start_stopped_hw_queues() as
-counterpart of blk_mq_quiesce_queue(), now we have
-introduced blk_mq_unquiesce_queue(), so use it explicitly.
+Thanks for updating it, added.
 
-Cc: linux-nvme at lists.infradead.org
-Signed-off-by: Ming Lei <ming.lei at redhat.com>
----
-Rebaed on the latest for-next of block tree.
-
- drivers/nvme/host/core.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 05f713e866f6..aee37b73231d 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2581,6 +2581,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 
- 	mutex_lock(&ctrl->namespaces_mutex);
- 
-+	/* Forcibly unquiesce queues to avoid blocking dispatch */
-+	blk_mq_unquiesce_queue(ctrl->admin_q);
-+
- 	/* Forcibly start all queues to avoid having stuck requests */
- 	blk_mq_start_hw_queues(ctrl->admin_q);
- 
-@@ -2594,6 +2597,9 @@ void nvme_kill_queues(struct nvme_ctrl *ctrl)
- 		revalidate_disk(ns->disk);
- 		blk_set_queue_dying(ns->queue);
- 
-+		/* Forcibly unquiesce queues to avoid blocking dispatch */
-+		blk_mq_unquiesce_queue(ns->queue);
-+
- 		/*
- 		 * Forcibly start all queues to avoid having stuck requests.
- 		 * Note that we must ensure the queues are not stopped
 -- 
-2.9.4
+Jens Axboe
