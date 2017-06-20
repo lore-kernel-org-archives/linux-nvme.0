@@ -1,57 +1,59 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 20 Jun 2017 12:33:14 +0300
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <20170620083309.GQ17846@mtr-leonro.local>
-References: <9465cd0c-83db-b058-7615-5626ef60dbb0@grimberg.me>
- <20170515143632.GH3616@mtr-leonro.local>
- <20170515145952.GA7871@infradead.org>
- <20170515170506.GK3616@mtr-leonro.local>
- <779753075.36035391.1495025796237.JavaMail.zimbra@kalray.eu>
- <20170518133439.GD3616@mtr-leonro.local>
- <CAANLjFrCLpX3nb3q7LpFPpLJKciU+1Hvmt_hxyTovQJM2-zQmg@mail.gmail.com>
- <6073e553-e8c2-6d14-ba5d-c2bd5aff15eb@grimberg.me>
- <20170620074639.GP17846@mtr-leonro.local>
- <1c706958-992e-b104-6bae-4a6616c0a9f9@grimberg.me>
- <20170620083309.GQ17846@mtr-leonro.local>
-Message-ID: <bd0b986f-9bed-3dfa-7454-0661559a527b@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 20 Jun 2017 11:33:27 +0200
+Subject: [PATCH nvme-cli] nvme-cli: add ns-descs subcommand
+In-Reply-To: <20170620092917.GA17947@infradead.org>
+References: <20170620092028.5083-1-jthumshirn@suse.de>
+ <20170620092917.GA17947@infradead.org>
+Message-ID: <20170620093327.GC3686@linux-x5ow.site>
 
-
->>> Here the parsed output, it says that it was access to mkey which is
->>> free.
-
-Missed that :)
-
->>> ======== cqe_with_error ========
->>> wqe_id                           : 0x0
->>> srqn_usr_index                   : 0x0
->>> byte_cnt                         : 0x0
->>> hw_error_syndrome                : 0x93
->>> hw_syndrome_type                 : 0x0
->>> vendor_error_syndrome            : 0x52
->>
->> Can you share the check that correlates to the vendor+hw syndrome?
+On Tue, Jun 20, 2017@02:29:17AM -0700, Christoph Hellwig wrote:
+> > +int nvme_identify_ns_descs(int fd, __u32 nsid, void *data)
+> > +{
+> > +
+> > +	return nvme_identify(fd, nsid, 0x3, data);
+> > +}
 > 
-> mkey.free == 1
+> This should use NVME_ID_CNS_NS_DESC_LIST.  nvme-cli doesn't currently
+> have that, but that's just a sign it needs a resync with the kernel
+> nvme.h.
+> 
+> Also personally I find the nvme_identify_* wrappers rather pointless,
+> and thin kthey should be removed instead of adding more.
 
-Hmm, the way I understand it is that the HW is trying to access
-(locally via send) a MR which was already invalidated.
+I just wanted to align with the rest of the implementation.
 
-Thinking of this further, this can happen in a case where the target
-already completed the transaction, sent SEND_WITH_INVALIDATE but the
-original send ack was lost somewhere causing the device to retransmit
-from the MR (which was already invalidated). This is highly unlikely
-though.
+> 
+> > diff --git a/nvme-print.c b/nvme-print.c
+> > index 2da5acd5c9b8..582d15a7c5e8 100644
+> > --- a/nvme-print.c
+> > +++ b/nvme-print.c
+> > @@ -3,6 +3,8 @@
+> >  #include <string.h>
+> >  #include <stdlib.h>
+> >  
+> > +#include <uuid/uuid.h>
+> 
+> libuuid usage in nvme-cli is conditional on LIBUUID.  Not that I
+> particularly agree on stubbing this depdency out..
 
-Shouldn't this be protected somehow by the device?
-Can someone explain why the above cannot happen? Jason? Liran? Anyone?
+Sure, just forgot to do.
 
-Say host register MR (a) and send (1) from that MR to a target,
-send (1) ack got lost, and the target issues SEND_WITH_INVALIDATE
-on MR (a) and the host HCA process it, then host HCA timeout on send (1)
-so it retries, but ehh, its already invalidated.
+[...]
 
-Or, we can also have a race where we destroy all our MRs when I/O
-is still running (but from the code we should be safe here).
+> > +		switch (cur->nidt) {
+> > +		case NVME_NIDT_EUI64:
+> > +			memset(eui64, 0, sizeof(eui64_str));
+> > +			memcpy(eui64_desc, data + off, sizeof(eui64_desc));
+> 
+> What's the point of this memcpy?  Alignment?
 
-Robert, when you rebooted the target, I assume iscsi ping
-timeout expired and the connection teardown started correct?
+Honestly, fighting against the compiler :-D
+
+
+-- 
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
