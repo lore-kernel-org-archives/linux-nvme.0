@@ -1,73 +1,71 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Tue, 20 Jun 2017 10:20:04 +0300
-Subject: RDMA_Connect issue on Windows
-In-Reply-To: <73ba33ed-765a-07c3-7ce7-d93503364dae@grimberg.me>
-References: <CADLzrv_yFWA2nvt=_SbEUVTuE_MScRrwj-yaFKorvPZ_6pw9bA@mail.gmail.com>
- <73ba33ed-765a-07c3-7ce7-d93503364dae@grimberg.me>
-Message-ID: <983226b0-9efa-7c3e-10ff-7a22b84a9160@mellanox.com>
+From: jie.tang@xilinx.com (Jie Tang)
+Date: Tue, 20 Jun 2017 07:27:16 +0000
+Subject: Need help to get more information about "nvme_rdma: nvme
+ completion status=0x4007"
+In-Reply-To: <6dbff2f9-13bd-42cd-db1a-2e1c4219fb04@grimberg.me>
+References: <E3337C871CE37647B0ADF42B0154198F02E458D9@XAP-PVEXMBX02.xlnx.xilinx.com>
+ <6dbff2f9-13bd-42cd-db1a-2e1c4219fb04@grimberg.me>
+Message-ID: <E3337C871CE37647B0ADF42B0154198F02E45C57@XAP-PVEXMBX02.xlnx.xilinx.com>
 
-I would also try to parse it with Wireshark and compare all the needed 
-fields and sizes.
-We are adding more and more nvmf command parsing to the disector but 
-you're in earliar stage of RDMA connection establisment.
+Hi, Sagi
 
-On 6/20/2017 9:34 AM, Sagi Grimberg wrote:
-> CC'ing Robert who has experience with Windows <-> Linux
-> interop...
+Yes, this is kernel 4.8.1. Plan to verify the latest stable 4.11.6 as quick test and update to you later.
+
+For the nvme-rdma: nvme completion status=0x4007 The 0x4007 from target means command abort, but the NVMe SSD on the target side in good status.
+Don't have any abnormal message in the target side.
+
+Just want to check if anyone encounter similar issue and how they fix/avoid this.
+
+Thanks
+
+-----Original Message-----
+From: Sagi Grimberg [mailto:sagi@grimberg.me]
+Sent: 2017?6?20? 14:34
+To: Jie Tang <JIET at xilinx.com>; linux-nvme at lists.infradead.org
+Subject: Re: Need help to get more information about "nvme_rdma: nvme completion status=0x4007"
+
+
+> Using the standard 4.8.1 nvme-rdma model to do the NVMf testing. Always hit by 0x4007 in the host side for stress testing.
+> Check the 0x4007 define as: command abort. This command will generate by NVMe SSD on the target side and pass to host.
+
+Do you mean kernel 4.8.1?
+
+Any chance to test with latest upstream kernel? We try our best to backport stable fixes but no one is assigned to make sure that stable kernels actually work.
+
+> Anyone encounter similar error during the NVMf stress testing, need your insight about why we have this error, the SSD been confirmed good when this host failed by 0x4007.  Is any exist known bug of Host nvme driver related to this ?
 >
-> On 19/06/17 20:58, muthu crazy wrote:
->> Dear All,
->>
->> I am trying to make a fabrics setup using Chelsio RNIC where Windows
->> is the Client PC, and Linux is the target PC. From Windows Client
->> driver, I am invoking NDKConnect API(It will internally call
->> RMDA_Connect) and passing below structures as a parameter to it.
->>
->> struct RDMA_CONN_PARAM
->> {
->> RDMA_CM_REQUEST private_data;
->> private_data_len = sizeof(RDMA_CM_REQUEST)
->> responder_resources = 0x20
->> initiator_depth = 0
->> flow_control=1
->> retry_count=7
->> RNR_Retry_count = 7
->> SRQ = 0
->> QP_num = 0x400
->> }
->>
->> struct RDMA_CM_REQUEST
->> {
->> Recfmt = 0
->> Qid = 0
->> Hrqsize = 0x20
->> Hsqsize = 0x20
->> Reserved[8:31] = 0;
->> }
->>
->> but on target side, I could see some junk value along with my actual
->> data received.(Linux Kernel:4.9.8)
->>
->> like below:
->>
->> 0xFFFFFFE0, 0xFFFFFFB0, 0x23, 0x6, 0x0, 0xFFFFFFE0, 0xFFFFFFFF
->> 0x20,0x20,0x0,0x1,0x7,0x7,0x0,0x0,0x0,0x4
->>
->> Has anybody observed this before? Please help me out.
->>
->>
->> Thanks,
->> --Muthu
->>
->> _______________________________________________
->> Linux-nvme mailing list
->> Linux-nvme at lists.infradead.org
->> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&data=02%7C01%7Cmaxg%40mellanox.com%7C2abc52e374854c98a13508d4b7a684e2%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636335373205704262&sdata=ET93l30HHFfZYSdGJ2xCTLVOObYIG%2Bq%2BS%2Ffv2y5Of74%3D&reserved=0
->>
->>
+> Thanks
+> TJ
 >
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&data=02%7C01%7Cmaxg%40mellanox.com%7C2abc52e374854c98a13508d4b7a684e2%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636335373205714275&sdata=C2YQOHf93VyDCyeYfHUboIl81mZcmR%2BDM2V58xmLFEI%3D&reserved=0
->
+> [  741.511259] nvme nvme0: queue_size 64 > ctrl maxcmd 1, clamping
+> down [  741.511263] nvme nvme0: new ctrl: NQN
+> "nqn.2014-08.org.nvmexpress.discovery", addr 12.12.12.12:4420 [
+> 746.611906] nvme nvme0: Device shutdown incomplete; abort shutdown
+
+Seems like the target is not responding to shutdown.
+
+> [  752.659261] nvme_rdma: param.responder_resources: 16 [  752.666421]
+> nvme nvme0: creating 4 I/O queues.
+
+That is strange, why is a discovery controller is creating I/O queues?
+Could it be that a fix in this area has missed stable?
+
+> [  752.667527] nvme_rdma: param.responder_resources: 16 [  752.669024]
+> nvme_rdma: param.responder_resources: 16 [  752.670375] nvme_rdma:
+> param.responder_resources: 16 [  752.671740] nvme_rdma:
+> param.responder_resources: 16
+
+I assume these are your prints?
+
+> [  752.700869] nvme nvme0: new ctrl: NQN
+> "nqn.2014-08.org.nvmexpress.test", addr 12.12.12.12:4420 [
+> 8226.418141] perf: interrupt took too long (2515 > 2500), lowering
+> kernel.perf_event_max_sample_rate to 79000 [10909.246852] perf:
+> interrupt took too long (3153 > 3143), lowering
+> kernel.perf_event_max_sample_rate to 63000 [14408.023327] nvme_rdma:
+> nvme completion status=0x4007
+
+This appears to be the target failing the command from what it received from its backend device. Can you please atach the target log?
+
+
+This email and any attachments are intended for the sole use of the named recipient(s) and contain(s) confidential information that may be proprietary, privileged or copyrighted under applicable law. If you are not the intended recipient, do not read, copy, or forward this email message or any attachments. Delete this email message and any attachments immediately.
