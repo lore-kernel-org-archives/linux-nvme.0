@@ -1,103 +1,101 @@
-From: robert@leblancnet.us (Robert LeBlanc)
-Date: Tue, 20 Jun 2017 16:58:52 -0600
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <78b2c1db-6ece-0274-c4c9-5ee1f7c88469@mellanox.com>
-References: <9465cd0c-83db-b058-7615-5626ef60dbb0@grimberg.me>
- <20170515143632.GH3616@mtr-leonro.local> <20170515145952.GA7871@infradead.org>
- <20170515170506.GK3616@mtr-leonro.local>
- <779753075.36035391.1495025796237.JavaMail.zimbra@kalray.eu>
- <20170518133439.GD3616@mtr-leonro.local>
- <CAANLjFrCLpX3nb3q7LpFPpLJKciU+1Hvmt_hxyTovQJM2-zQmg@mail.gmail.com>
- <6073e553-e8c2-6d14-ba5d-c2bd5aff15eb@grimberg.me>
- <20170620074639.GP17846@mtr-leonro.local>
- <1c706958-992e-b104-6bae-4a6616c0a9f9@grimberg.me>
- <20170620083309.GQ17846@mtr-leonro.local>
- <bd0b986f-9bed-3dfa-7454-0661559a527b@grimberg.me>
- <78b2c1db-6ece-0274-c4c9-5ee1f7c88469@mellanox.com>
-Message-ID: <CAANLjFrzsTFZP536L2G2CHy=JmDb3W+ePB_mOLHm2qp2Bb2iaw@mail.gmail.com>
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Tue, 20 Jun 2017 23:09:25 +0000
+Subject: [PATCH 1/9] fs: add fcntl() interface for setting/getting write
+ life time hints
+In-Reply-To: <1497891902-25737-2-git-send-email-axboe@kernel.dk>
+References: <1497891902-25737-1-git-send-email-axboe@kernel.dk>
+ <1497891902-25737-2-git-send-email-axboe@kernel.dk>
+Message-ID: <1498000164.13905.30.camel@wdc.com>
 
-On Tue, Jun 20, 2017@4:31 AM, Max Gurtovoy <maxg@mellanox.com> wrote:
->
->
-> On 6/20/2017 12:33 PM, Sagi Grimberg wrote:
->>
->>
->>>>> Here the parsed output, it says that it was access to mkey which is
->>>>> free.
->>
->>
->> Missed that :)
->>
->>>>> ======== cqe_with_error ========
->>>>> wqe_id                           : 0x0
->>>>> srqn_usr_index                   : 0x0
->>>>> byte_cnt                         : 0x0
->>>>> hw_error_syndrome                : 0x93
->>>>> hw_syndrome_type                 : 0x0
->>>>> vendor_error_syndrome            : 0x52
->>>>
->>>>
->>>> Can you share the check that correlates to the vendor+hw syndrome?
->>>
->>>
->>> mkey.free == 1
->>
->>
->> Hmm, the way I understand it is that the HW is trying to access
->> (locally via send) a MR which was already invalidated.
->>
->> Thinking of this further, this can happen in a case where the target
->> already completed the transaction, sent SEND_WITH_INVALIDATE but the
->> original send ack was lost somewhere causing the device to retransmit
->> from the MR (which was already invalidated). This is highly unlikely
->> though.
->>
->> Shouldn't this be protected somehow by the device?
->> Can someone explain why the above cannot happen? Jason? Liran? Anyone?
->>
->> Say host register MR (a) and send (1) from that MR to a target,
->> send (1) ack got lost, and the target issues SEND_WITH_INVALIDATE
->> on MR (a) and the host HCA process it, then host HCA timeout on send (1)
->> so it retries, but ehh, its already invalidated.
->
->
-> This might happen IMO.
-> Robert, can you test this untested patch (this is not the full solution,
-> just something to think about):
->
-> diff --git a/drivers/infiniband/ulp/iser/iser_verbs.c
-> b/drivers/infiniband/ulp/iser/iser_verbs.c
-> index c538a38..e93bd40 100644
-> --- a/drivers/infiniband/ulp/iser/iser_verbs.c
-> +++ b/drivers/infiniband/ulp/iser/iser_verbs.c
-> @@ -1079,7 +1079,7 @@ int iser_post_send(struct ib_conn *ib_conn, struct
-> iser_tx_desc *tx_desc,
->         wr->sg_list = tx_desc->tx_sg;
->         wr->num_sge = tx_desc->num_sge;
->         wr->opcode = IB_WR_SEND;
-> -       wr->send_flags = signal ? IB_SEND_SIGNALED : 0;
-> +       wr->send_flags = IB_SEND_SIGNALED;
->
->         ib_ret = ib_post_send(ib_conn->qp, &tx_desc->wrs[0].send, &bad_wr);
->         if (ib_ret)
->
->
->>
->> Or, we can also have a race where we destroy all our MRs when I/O
->> is still running (but from the code we should be safe here).
->>
->> Robert, when you rebooted the target, I assume iscsi ping
->> timeout expired and the connection teardown started correct?
+On Mon, 2017-06-19@11:04 -0600, Jens Axboe wrote:
+> +static long fcntl_rw_hint(struct file *file, unsigned int cmd,
+> +			  u64 __user *ptr)
+> +{
+> +	struct inode *inode = file_inode(file);
+> +	long ret = 0;
+> +	u64 hint;
+> +
+> +	switch (cmd) {
+> +	case F_GET_RW_HINT:
+> +		hint = mask_to_write_hint(inode->i_flags, S_WRITE_LIFE_SHIFT);
+> +		if (put_user(hint, ptr))
+> +			ret = -EFAULT;
+> +		break;
+> +	case F_SET_RW_HINT:
+> +		if (get_user(hint, ptr)) {
+> +			ret = -EFAULT;
+> +			break;
+> +		}
+> +		switch (hint) {
+> +		case WRITE_LIFE_NONE:
+> +		case WRITE_LIFE_SHORT:
+> +		case WRITE_LIFE_MEDIUM:
+> +		case WRITE_LIFE_LONG:
+> +		case WRITE_LIFE_EXTREME:
+> +			inode_set_write_hint(inode, hint);
+> +			ret = 0;
+> +			break;
+> +		default:
+> +			ret = -EINVAL;
+> +		}
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
 
-I still get the local protection errors with this patch. I am seeing a
-ping timeout on the initiator when I reboot the target.
-[Tue Jun 20 16:41:21 2017]  connection7:0: detected conn error (1011)
-[Tue Jun 20 16:41:26 2017]  session7: session recovery timed out after 5 secs
+Hello Jens,
 
-Since I'm gracefully shutting down the targets in this case, shouldn't
-the connection be closed gracefully by the target instead of the
-initiator having to wait for ping to fail?
+Do we need an (inline) helper function for checking the validity of a
+numerical WRITE_LIFE value next to the definition of the WRITE_LIFE_*
+constants, e.g. WRITE_LIFE_NONE <= hint && hint <= WRITE_LIFE_EXTREME?
 
-----------------
-Robert LeBlanc
-PGP Fingerprint 79A2 9CA4 6CC4 45DD A904  C70E E654 3BB2 FA62 B9F1
+> +/*
+> + * Steal 3 bits for stream information, this allows 8 valid streams
+> + */
+> +#define IOCB_WRITE_LIFE_SHIFT	7
+> +#define IOCB_WRITE_LIFE_MASK	(BIT(7) | BIT(8) | BIT(9))
+
+A minor comment: how about making this easier to read by defining
+IOCB_WRITE_LIFE_MASK as (7 << IOCB_WRITE_LIFE_SHIFT)?
+
+>  /*
+> + * Expected life time hint of a write for this inode. This uses the
+> + * WRITE_LIFE_* encoding, we just need to define the shift. We need
+> + * 3 bits for this. Next S_* value is 131072, bit 17.
+> + */
+> +#define S_WRITE_LIFE_MASK	0x1c000	/* bits 14..16 */
+> +#define S_WRITE_LIFE_SHIFT	14	/* 16384, next bit */
+
+Another minor comment: how about making this easier to read by defining
+S_WRITE_LIFE_MASK as (7 << S_WRITE_LIFE_SHIFT)?
+
+> /*
+> + * Write life time hint values.
+> + */
+> +enum rw_hint {
+> +	WRITE_LIFE_NONE = RWH_WRITE_LIFE_NONE,
+> +	WRITE_LIFE_SHORT = RWH_WRITE_LIFE_SHORT,
+> +	WRITE_LIFE_MEDIUM = RWH_WRITE_LIFE_MEDIUM,
+> +	WRITE_LIFE_LONG = RWH_WRITE_LIFE_LONG,
+> +	WRITE_LIFE_EXTREME = RWH_WRITE_LIFE_EXTREME
+> +};
+> [ ... ]
+> +/*
+> + * Valid hint values for F_{GET,SET}_RW_HINT
+> + */
+> +#define RWH_WRITE_LIFE_NONE	0
+> +#define RWH_WRITE_LIFE_SHORT	1
+> +#define RWH_WRITE_LIFE_MEDIUM	2
+> +#define RWH_WRITE_LIFE_LONG	3
+> +#define RWH_WRITE_LIFE_EXTREME	4
+
+Maybe I missed something, but it's not clear to me why we have both an enum and
+defines with the same numerical values? BTW, I prefer an enum above #defines.
+
+Thanks,
+
+Bart.
