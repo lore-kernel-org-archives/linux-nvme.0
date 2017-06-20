@@ -1,94 +1,113 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 20 Jun 2017 15:02:17 +0300
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <bd0b986f-9bed-3dfa-7454-0661559a527b@grimberg.me>
-References: <9465cd0c-83db-b058-7615-5626ef60dbb0@grimberg.me>
- <20170515143632.GH3616@mtr-leonro.local>
- <20170515145952.GA7871@infradead.org>
- <20170515170506.GK3616@mtr-leonro.local>
- <779753075.36035391.1495025796237.JavaMail.zimbra@kalray.eu>
- <20170518133439.GD3616@mtr-leonro.local>
- <CAANLjFrCLpX3nb3q7LpFPpLJKciU+1Hvmt_hxyTovQJM2-zQmg@mail.gmail.com>
- <6073e553-e8c2-6d14-ba5d-c2bd5aff15eb@grimberg.me>
- <20170620074639.GP17846@mtr-leonro.local>
- <1c706958-992e-b104-6bae-4a6616c0a9f9@grimberg.me>
- <20170620083309.GQ17846@mtr-leonro.local>
- <bd0b986f-9bed-3dfa-7454-0661559a527b@grimberg.me>
-Message-ID: <614481c7-22dd-d93b-e97e-52f868727ec3@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Tue, 20 Jun 2017 14:23:01 +0200
+Subject: [PATCH] nvme: add hostid token to fabric options
+Message-ID: <20170620122301.9979-1-jthumshirn@suse.de>
 
+Currently we have no way to define a stable host-id but always use the one
+which is randomly generated when we add the host or use the default host.
 
->>> Can you share the check that correlates to the vendor+hw syndrome?
->>
->> mkey.free == 1
-> 
-> Hmm, the way I understand it is that the HW is trying to access
-> (locally via send) a MR which was already invalidated.
-> 
-> Thinking of this further, this can happen in a case where the target
-> already completed the transaction, sent SEND_WITH_INVALIDATE but the
-> original send ack was lost somewhere causing the device to retransmit
-> from the MR (which was already invalidated). This is highly unlikely
-> though.
-> 
-> Shouldn't this be protected somehow by the device?
-> Can someone explain why the above cannot happen? Jason? Liran? Anyone?
-> 
-> Say host register MR (a) and send (1) from that MR to a target,
-> send (1) ack got lost, and the target issues SEND_WITH_INVALIDATE
-> on MR (a) and the host HCA process it, then host HCA timeout on send (1)
-> so it retries, but ehh, its already invalidated.
+Provide a "hostid=%s" for user-space to pass in a persistent host-id which
+overrides the randomly generated one.
 
-Well, this entire flow is broken, why should the host send the MR rkey
-to the target if it is not using it for remote access, the target
-should never have a chance to remote invalidate something it did not
-access.
+Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
+---
+ drivers/nvme/host/fabrics.c | 22 +++++++++++++++++++---
+ drivers/nvme/host/fabrics.h |  1 +
+ 2 files changed, 20 insertions(+), 3 deletions(-)
 
-I think we have a bug in iSER code, as we should not send the key
-for remote invalidation if we do inline data send...
-
-Robert, can you try the following:
---
-diff --git a/drivers/infiniband/ulp/iser/iser_initiator.c 
-b/drivers/infiniband/ulp/iser/iser_initiator.c
-index 12ed62ce9ff7..2a07692007bd 100644
---- a/drivers/infiniband/ulp/iser/iser_initiator.c
-+++ b/drivers/infiniband/ulp/iser/iser_initiator.c
-@@ -137,8 +137,10 @@ iser_prepare_write_cmd(struct iscsi_task *task,
-
-         if (unsol_sz < edtl) {
-                 hdr->flags     |= ISER_WSV;
--               hdr->write_stag = cpu_to_be32(mem_reg->rkey);
--               hdr->write_va   = cpu_to_be64(mem_reg->sge.addr + unsol_sz);
-+               if (buf_out->data_len > imm_sz) {
-+                       hdr->write_stag = cpu_to_be32(mem_reg->rkey);
-+                       hdr->write_va = cpu_to_be64(mem_reg->sge.addr + 
-unsol_sz);
-+               }
-
-                 iser_dbg("Cmd itt:%d, WRITE tags, RKEY:%#.4X "
-                          "VA:%#llX + unsol:%d\n",
---
-
-Although, I still don't think its enough. We need to delay the
-local invalidate till we received a send completion (guarantees
-that ack was received)...
-
-If this indeed the case, _all_ ULP initiator drivers share it because we
-never condition on a send completion in order to complete an I/O, and
-in the case of lost ack on send, looks like we need to... It *will* hurt
-performance.
-
-What do other folks think?
-
-CC'ing Bart, Chuck, Christoph.
-
-Guys, for summary, I think we might have a broken behavior in the
-initiator mode drivers. We never condition send completions (for
-requests) before we complete an I/O. The issue is that the ack for those
-sends might get lost, which means that the HCA will retry them (dropped
-by the peer HCA) but if we happen to complete the I/O before, either we
-can unmap the request area, or for inline data, we invalidate it (so the
-HCA will try to access a MR which was invalidated).
-
-Signalling all send completions and also finishing I/Os only after we
-got them will add latency, and that sucks...
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 6e6864516ce6..7ca2d4d70aec 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -58,7 +58,6 @@ static struct nvmf_host *nvmf_host_add(const char *hostnqn)
+ 
+ 	kref_init(&host->ref);
+ 	memcpy(host->nqn, hostnqn, NVMF_NQN_SIZE);
+-	uuid_gen(&host->id);
+ 
+ 	list_add_tail(&host->list, &nvmf_hosts);
+ out_unlock:
+@@ -75,7 +74,6 @@ static struct nvmf_host *nvmf_host_default(void)
+ 		return NULL;
+ 
+ 	kref_init(&host->ref);
+-	uuid_gen(&host->id);
+ 	snprintf(host->nqn, NVMF_NQN_SIZE,
+ 		"nqn.2014-08.org.nvmexpress:NVMf:uuid:%pUb", &host->id);
+ 
+@@ -565,6 +563,7 @@ static const match_table_t opt_tokens = {
+ 	{ NVMF_OPT_KATO,		"keep_alive_tmo=%d"	},
+ 	{ NVMF_OPT_HOSTNQN,		"hostnqn=%s"		},
+ 	{ NVMF_OPT_HOST_TRADDR,		"host_traddr=%s"	},
++	{ NVMF_OPT_HOST_ID,		"hostid=%s"		},
+ 	{ NVMF_OPT_ERR,			NULL			}
+ };
+ 
+@@ -576,6 +575,7 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 	int token, ret = 0;
+ 	size_t nqnlen  = 0;
+ 	int ctrl_loss_tmo = NVMF_DEF_CTRL_LOSS_TMO;
++	uuid_t hostid;
+ 
+ 	/* Set defaults */
+ 	opts->queue_size = NVMF_DEF_QUEUE_SIZE;
+@@ -586,6 +586,8 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 	if (!options)
+ 		return -ENOMEM;
+ 
++	uuid_gen(&hostid);
++
+ 	while ((p = strsep(&o, ",\n")) != NULL) {
+ 		if (!*p)
+ 			continue;
+@@ -742,6 +744,17 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 			}
+ 			opts->host_traddr = p;
+ 			break;
++		case NVMF_OPT_HOST_ID:
++			p = match_strdup(args);
++			if (!p) {
++				ret = -ENOMEM;
++				goto out;
++			}
++			if (uuid_parse(p, &hostid)) {
++				ret = -EINVAL;
++				goto out;
++			}
++			break;
+ 		default:
+ 			pr_warn("unknown parameter or missing value '%s' in ctrl creation request\n",
+ 				p);
+@@ -761,6 +774,8 @@ static int nvmf_parse_options(struct nvmf_ctrl_options *opts,
+ 		opts->host = nvmf_default_host;
+ 	}
+ 
++	uuid_copy(&opts->host->id, &hostid);
++
+ out:
+ 	if (!opts->discovery_nqn && !opts->kato)
+ 		opts->kato = NVME_DEFAULT_KATO;
+@@ -821,7 +836,8 @@ EXPORT_SYMBOL_GPL(nvmf_free_options);
+ 
+ #define NVMF_REQUIRED_OPTS	(NVMF_OPT_TRANSPORT | NVMF_OPT_NQN)
+ #define NVMF_ALLOWED_OPTS	(NVMF_OPT_QUEUE_SIZE | NVMF_OPT_NR_IO_QUEUES | \
+-				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN)
++				 NVMF_OPT_KATO | NVMF_OPT_HOSTNQN | \
++				 NVMF_OPT_HOST_ID)
+ 
+ static struct nvme_ctrl *
+ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+diff --git a/drivers/nvme/host/fabrics.h b/drivers/nvme/host/fabrics.h
+index f1c9bd7ae7ff..c8b2f0127ccc 100644
+--- a/drivers/nvme/host/fabrics.h
++++ b/drivers/nvme/host/fabrics.h
+@@ -56,6 +56,7 @@ enum {
+ 	NVMF_OPT_RECONNECT_DELAY = 1 << 9,
+ 	NVMF_OPT_HOST_TRADDR	= 1 << 10,
+ 	NVMF_OPT_CTRL_LOSS_TMO	= 1 << 11,
++	NVMF_OPT_HOST_ID	= 1 << 12,
+ };
+ 
+ /**
+-- 
+2.12.3
