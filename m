@@ -1,49 +1,59 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 20 Jun 2017 09:33:54 +0300
-Subject: Need help to get more information about "nvme_rdma: nvme
- completion status=0x4007"
-In-Reply-To: <E3337C871CE37647B0ADF42B0154198F02E458D9@XAP-PVEXMBX02.xlnx.xilinx.com>
-References: <E3337C871CE37647B0ADF42B0154198F02E458D9@XAP-PVEXMBX02.xlnx.xilinx.com>
-Message-ID: <6dbff2f9-13bd-42cd-db1a-2e1c4219fb04@grimberg.me>
+Date: Tue, 20 Jun 2017 09:34:47 +0300
+Subject: RDMA_Connect issue on Windows
+In-Reply-To: <CADLzrv_yFWA2nvt=_SbEUVTuE_MScRrwj-yaFKorvPZ_6pw9bA@mail.gmail.com>
+References: <CADLzrv_yFWA2nvt=_SbEUVTuE_MScRrwj-yaFKorvPZ_6pw9bA@mail.gmail.com>
+Message-ID: <73ba33ed-765a-07c3-7ce7-d93503364dae@grimberg.me>
 
+CC'ing Robert who has experience with Windows <-> Linux
+interop...
 
-> Using the standard 4.8.1 nvme-rdma model to do the NVMf testing. Always hit by 0x4007 in the host side for stress testing.
-> Check the 0x4007 define as: command abort. This command will generate by NVMe SSD on the target side and pass to host.
-
-Do you mean kernel 4.8.1?
-
-Any chance to test with latest upstream kernel? We try our best to
-backport stable fixes but no one is assigned to make sure that stable
-kernels actually work.
-
-> Anyone encounter similar error during the NVMf stress testing, need your insight about why we have this error, the SSD been confirmed good when this host failed by 0x4007.  Is any exist known bug of Host nvme driver related to this ?
+On 19/06/17 20:58, muthu crazy wrote:
+> Dear All,
 > 
-> Thanks
-> TJ
+> I am trying to make a fabrics setup using Chelsio RNIC where Windows
+> is the Client PC, and Linux is the target PC. From Windows Client
+> driver, I am invoking NDKConnect API(It will internally call
+> RMDA_Connect) and passing below structures as a parameter to it.
 > 
-> [  741.511259] nvme nvme0: queue_size 64 > ctrl maxcmd 1, clamping down
-> [  741.511263] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 12.12.12.12:4420
-> [  746.611906] nvme nvme0: Device shutdown incomplete; abort shutdown
-
-Seems like the target is not responding to shutdown.
-
-> [  752.659261] nvme_rdma: param.responder_resources: 16
-> [  752.666421] nvme nvme0: creating 4 I/O queues.
-
-That is strange, why is a discovery controller is creating I/O queues?
-Could it be that a fix in this area has missed stable?
-
-> [  752.667527] nvme_rdma: param.responder_resources: 16
-> [  752.669024] nvme_rdma: param.responder_resources: 16
-> [  752.670375] nvme_rdma: param.responder_resources: 16
-> [  752.671740] nvme_rdma: param.responder_resources: 16
-
-I assume these are your prints?
-
-> [  752.700869] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.test", addr 12.12.12.12:4420
-> [ 8226.418141] perf: interrupt took too long (2515 > 2500), lowering kernel.perf_event_max_sample_rate to 79000
-> [10909.246852] perf: interrupt took too long (3153 > 3143), lowering kernel.perf_event_max_sample_rate to 63000
-> [14408.023327] nvme_rdma: nvme completion status=0x4007
-
-This appears to be the target failing the command from what it received
-from its backend device. Can you please atach the target log?
+> struct RDMA_CONN_PARAM
+> {
+> RDMA_CM_REQUEST private_data;
+> private_data_len = sizeof(RDMA_CM_REQUEST)
+> responder_resources = 0x20
+> initiator_depth = 0
+> flow_control=1
+> retry_count=7
+> RNR_Retry_count = 7
+> SRQ = 0
+> QP_num = 0x400
+> }
+> 
+> struct RDMA_CM_REQUEST
+> {
+> Recfmt = 0
+> Qid = 0
+> Hrqsize = 0x20
+> Hsqsize = 0x20
+> Reserved[8:31] = 0;
+> }
+> 
+> but on target side, I could see some junk value along with my actual
+> data received.(Linux Kernel:4.9.8)
+> 
+> like below:
+> 
+> 0xFFFFFFE0, 0xFFFFFFB0, 0x23, 0x6, 0x0, 0xFFFFFFE0, 0xFFFFFFFF
+> 0x20,0x20,0x0,0x1,0x7,0x7,0x0,0x0,0x0,0x4
+> 
+> Has anybody observed this before? Please help me out.
+> 
+> 
+> Thanks,
+> --Muthu
+> 
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-nvme
+> 
