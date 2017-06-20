@@ -1,33 +1,31 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Tue, 20 Jun 2017 09:39:36 +0300
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <CAANLjFrCLpX3nb3q7LpFPpLJKciU+1Hvmt_hxyTovQJM2-zQmg@mail.gmail.com>
-References: <33e2cc35-f147-d4a4-9a42-8f1245e35842@mellanox.com>
- <DE927C68B458BE418D582EC97927A92855088C6F@ORSMSX113.amr.corp.intel.com>
- <82dd5b24-5657-ae5e-8a33-646fddd8b75b@grimberg.me>
- <20170515133122.GG3616@mtr-leonro.local>
- <9465cd0c-83db-b058-7615-5626ef60dbb0@grimberg.me>
- <20170515143632.GH3616@mtr-leonro.local>
- <20170515145952.GA7871@infradead.org>
- <20170515170506.GK3616@mtr-leonro.local>
- <779753075.36035391.1495025796237.JavaMail.zimbra@kalray.eu>
- <20170518133439.GD3616@mtr-leonro.local>
- <CAANLjFrCLpX3nb3q7LpFPpLJKciU+1Hvmt_hxyTovQJM2-zQmg@mail.gmail.com>
-Message-ID: <6073e553-e8c2-6d14-ba5d-c2bd5aff15eb@grimberg.me>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Mon, 19 Jun 2017 23:48:00 -0700
+Subject: remove long broken SCSI to NVMe translations
+In-Reply-To: <5943E3BC.6050807@hpe.com>
+References: <20170614063537.1044-1-hch@lst.de>
+ <20170614150025.GD26073@localhost.localdomain>
+ <20170614150138.GA9428@lst.de>
+ <af9655ff-f5ae-0d86-7b84-dd48caa7c35f@suse.de>
+ <20170616083151.GB14698@infradead.org> <5943E3BC.6050807@hpe.com>
+Message-ID: <20170620064800.GA11019@infradead.org>
 
-Hi Robert,
-
-> I ran into this with 4.9.32 when I rebooted the target. I tested
-> 4.12-rc6 and this particular error seems to have been resolved, but I
-> now get a new one on the initiator. This one doesn't seem as
-> impactful.
+On Fri, Jun 16, 2017@09:57:16AM -0400, Linda Knippers wrote:
+> > Everything that could be done using the scsi emulation can be trivially
+> > done using nvme-cli, as they should have done from day 0.
 > 
-> [Mon Jun 19 11:17:20 2017] mlx5_0:dump_cqe:275:(pid 0): dump error cqe
-> [Mon Jun 19 11:17:20 2017] 00000000 00000000 00000000 00000000
-> [Mon Jun 19 11:17:20 2017] 00000000 00000000 00000000 00000000
-> [Mon Jun 19 11:17:20 2017] 00000000 00000000 00000000 00000000
-> [Mon Jun 19 11:17:20 2017] 00000000 93005204 0a0001bd 45c8e0d2
+> I don't quite know the history of our use of the scsi translation but I
+> suspect it's because we adapted some existing utility to also support nvme.
+> 
+> David Milburn's patch is very simple.  Can we please fix the bug for now
+> so we have a little time to fix our tools?
 
-Max, Leon,
+I don't think I want to expand usage of it.  The code only "worked"
+for about two years, during which not too many NVMe products even
+existed.  And I say "worked" because I found countless of sever bugs
+(use after free, memory overruns, etc) issues when I first ran a SCS
+I testsuite over it, which obviously didn't even cover the commands
+you care about.
 
-Care to parse this syndrome for us? ;)
+You might have a slightly better leaverage with distros already
+shipping this code, but enabling it upstream does not seem in any
+way helpful.
