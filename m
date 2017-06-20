@@ -1,31 +1,73 @@
-From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 19 Jun 2017 23:48:00 -0700
-Subject: remove long broken SCSI to NVMe translations
-In-Reply-To: <5943E3BC.6050807@hpe.com>
-References: <20170614063537.1044-1-hch@lst.de>
- <20170614150025.GD26073@localhost.localdomain>
- <20170614150138.GA9428@lst.de>
- <af9655ff-f5ae-0d86-7b84-dd48caa7c35f@suse.de>
- <20170616083151.GB14698@infradead.org> <5943E3BC.6050807@hpe.com>
-Message-ID: <20170620064800.GA11019@infradead.org>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Tue, 20 Jun 2017 10:20:04 +0300
+Subject: RDMA_Connect issue on Windows
+In-Reply-To: <73ba33ed-765a-07c3-7ce7-d93503364dae@grimberg.me>
+References: <CADLzrv_yFWA2nvt=_SbEUVTuE_MScRrwj-yaFKorvPZ_6pw9bA@mail.gmail.com>
+ <73ba33ed-765a-07c3-7ce7-d93503364dae@grimberg.me>
+Message-ID: <983226b0-9efa-7c3e-10ff-7a22b84a9160@mellanox.com>
 
-On Fri, Jun 16, 2017@09:57:16AM -0400, Linda Knippers wrote:
-> > Everything that could be done using the scsi emulation can be trivially
-> > done using nvme-cli, as they should have done from day 0.
-> 
-> I don't quite know the history of our use of the scsi translation but I
-> suspect it's because we adapted some existing utility to also support nvme.
-> 
-> David Milburn's patch is very simple.  Can we please fix the bug for now
-> so we have a little time to fix our tools?
+I would also try to parse it with Wireshark and compare all the needed 
+fields and sizes.
+We are adding more and more nvmf command parsing to the disector but 
+you're in earliar stage of RDMA connection establisment.
 
-I don't think I want to expand usage of it.  The code only "worked"
-for about two years, during which not too many NVMe products even
-existed.  And I say "worked" because I found countless of sever bugs
-(use after free, memory overruns, etc) issues when I first ran a SCS
-I testsuite over it, which obviously didn't even cover the commands
-you care about.
-
-You might have a slightly better leaverage with distros already
-shipping this code, but enabling it upstream does not seem in any
-way helpful.
+On 6/20/2017 9:34 AM, Sagi Grimberg wrote:
+> CC'ing Robert who has experience with Windows <-> Linux
+> interop...
+>
+> On 19/06/17 20:58, muthu crazy wrote:
+>> Dear All,
+>>
+>> I am trying to make a fabrics setup using Chelsio RNIC where Windows
+>> is the Client PC, and Linux is the target PC. From Windows Client
+>> driver, I am invoking NDKConnect API(It will internally call
+>> RMDA_Connect) and passing below structures as a parameter to it.
+>>
+>> struct RDMA_CONN_PARAM
+>> {
+>> RDMA_CM_REQUEST private_data;
+>> private_data_len = sizeof(RDMA_CM_REQUEST)
+>> responder_resources = 0x20
+>> initiator_depth = 0
+>> flow_control=1
+>> retry_count=7
+>> RNR_Retry_count = 7
+>> SRQ = 0
+>> QP_num = 0x400
+>> }
+>>
+>> struct RDMA_CM_REQUEST
+>> {
+>> Recfmt = 0
+>> Qid = 0
+>> Hrqsize = 0x20
+>> Hsqsize = 0x20
+>> Reserved[8:31] = 0;
+>> }
+>>
+>> but on target side, I could see some junk value along with my actual
+>> data received.(Linux Kernel:4.9.8)
+>>
+>> like below:
+>>
+>> 0xFFFFFFE0, 0xFFFFFFB0, 0x23, 0x6, 0x0, 0xFFFFFFE0, 0xFFFFFFFF
+>> 0x20,0x20,0x0,0x1,0x7,0x7,0x0,0x0,0x0,0x4
+>>
+>> Has anybody observed this before? Please help me out.
+>>
+>>
+>> Thanks,
+>> --Muthu
+>>
+>> _______________________________________________
+>> Linux-nvme mailing list
+>> Linux-nvme at lists.infradead.org
+>> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&data=02%7C01%7Cmaxg%40mellanox.com%7C2abc52e374854c98a13508d4b7a684e2%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636335373205704262&sdata=ET93l30HHFfZYSdGJ2xCTLVOObYIG%2Bq%2BS%2Ffv2y5Of74%3D&reserved=0
+>>
+>>
+>
+> _______________________________________________
+> Linux-nvme mailing list
+> Linux-nvme at lists.infradead.org
+> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&data=02%7C01%7Cmaxg%40mellanox.com%7C2abc52e374854c98a13508d4b7a684e2%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636335373205714275&sdata=C2YQOHf93VyDCyeYfHUboIl81mZcmR%2BDM2V58xmLFEI%3D&reserved=0
+>
