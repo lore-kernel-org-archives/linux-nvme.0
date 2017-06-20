@@ -1,175 +1,43 @@
-From: tglx@linutronix.de (Thomas Gleixner)
-Date: Tue, 20 Jun 2017 01:37:55 +0200
-Subject: [patch 55/55] genirq/affinity: Assign vectors to all present CPUs
-References: <20170619233700.547167146@linutronix.de>
-Message-ID: <20170619235447.585891193@linutronix.de>
+From: jie.tang@xilinx.com (Jie Tang)
+Date: Tue, 20 Jun 2017 02:14:41 +0000
+Subject: Need help to get more information about "nvme_rdma: nvme completion
+ status=0x4007"
+Message-ID: <E3337C871CE37647B0ADF42B0154198F02E458D9@XAP-PVEXMBX02.xlnx.xilinx.com>
 
-From: Christoph Hellwig <hch@lst.de>
+Using the standard 4.8.1 nvme-rdma model to do the NVMf testing. Always hit by 0x4007 in the host side for stress testing.
+Check the 0x4007 define as: command abort. This command will generate by NVMe SSD on the target side and pass to host.
 
-Currently the irq vector spread algorithm is restricted to online CPUs,
-which ties the IRQ mapping to the currently online devices and doesn't deal
-nicely with the fact that CPUs could come and go rapidly due to e.g. power
-management.
+Anyone encounter similar error during the NVMf stress testing, need your insight about why we have this error, the SSD been confirmed good when this host failed by 0x4007.  Is any exist known bug of Host nvme driver related to this ?
 
-Instead assign vectors to all present CPUs to avoid this churn.
+Thanks
+TJ
 
-Build a map of all possible CPUs for a given node, as the architectures
-only provide a map of all onlines CPUs. Do this dynamically on each call
-for the vector assingments, which is a bit suboptimal and could be
-optimized in the future by provinding a mapping from the arch code.
+[  741.511259] nvme nvme0: queue_size 64 > ctrl maxcmd 1, clamping down
+[  741.511263] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.discovery", addr 12.12.12.12:4420
+[  746.611906] nvme nvme0: Device shutdown incomplete; abort shutdown
+[  752.659261] nvme_rdma: param.responder_resources: 16
+[  752.666421] nvme nvme0: creating 4 I/O queues.
+[  752.667527] nvme_rdma: param.responder_resources: 16
+[  752.669024] nvme_rdma: param.responder_resources: 16
+[  752.670375] nvme_rdma: param.responder_resources: 16
+[  752.671740] nvme_rdma: param.responder_resources: 16
+[  752.700869] nvme nvme0: new ctrl: NQN "nqn.2014-08.org.nvmexpress.test", addr 12.12.12.12:4420
+[ 8226.418141] perf: interrupt took too long (2515 > 2500), lowering kernel.perf_event_max_sample_rate to 79000
+[10909.246852] perf: interrupt took too long (3153 > 3143), lowering kernel.perf_event_max_sample_rate to 63000
+[14408.023327] nvme_rdma: nvme completion status=0x4007
+[14408.023333] blk_update_request: I/O error, dev nvme0n7, sector 2244579880
+[14408.023344] nvme_rdma: nvme completion status=0x4007
+[14408.023345] nvme_rdma: nvme completion status=0x4007
+[14408.023347] nvme_rdma: nvme completion status=0x4007
+[14408.023348] nvme_rdma: nvme completion status=0x4007
+[14408.023350] blk_update_request: I/O error, dev nvme0n6, sector 2253649344
+[14408.023352] blk_update_request: I/O error, dev nvme0n8, sector 2245553720
+[14408.023352] blk_update_request: I/O error, dev nvme0n7, sector 2244580040
+[14408.023357] blk_update_request: I/O error, dev nvme0n5, sector 2224823152
+[14408.023358] nvme_rdma: nvme completion status=0x4007
+[14408.023358] nvme_rdma: nvme completion status=0x4007
+[14408.023359] nvme_rdma: nvme completion status=0x4007
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Cc: Sagi Grimberg <sagi at grimberg.me>
-Cc: Jens Axboe <axboe at kernel.dk>
-Cc: Keith Busch <keith.busch at intel.com>
-Cc: linux-block at vger.kernel.org
-Cc: linux-nvme at lists.infradead.org
-Link: http://lkml.kernel.org/r/20170603140403.27379-5-hch at lst.de
-Signed-off-by: Thomas Gleixner <tglx at linutronix.de>
 
----
- kernel/irq/affinity.c |   76 +++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 63 insertions(+), 13 deletions(-)
 
---- a/kernel/irq/affinity.c
-+++ b/kernel/irq/affinity.c
-@@ -1,4 +1,7 @@
--
-+/*
-+ * Copyright (C) 2016 Thomas Gleixner.
-+ * Copyright (C) 2016-2017 Christoph Hellwig.
-+ */
- #include <linux/interrupt.h>
- #include <linux/kernel.h>
- #include <linux/slab.h>
-@@ -35,13 +38,54 @@ static void irq_spread_init_one(struct c
- 	}
- }
- 
--static int get_nodes_in_cpumask(const struct cpumask *mask, nodemask_t *nodemsk)
-+static cpumask_var_t *alloc_node_to_present_cpumask(void)
-+{
-+	cpumask_var_t *masks;
-+	int node;
-+
-+	masks = kcalloc(nr_node_ids, sizeof(cpumask_var_t), GFP_KERNEL);
-+	if (!masks)
-+		return NULL;
-+
-+	for (node = 0; node < nr_node_ids; node++) {
-+		if (!zalloc_cpumask_var(&masks[node], GFP_KERNEL))
-+			goto out_unwind;
-+	}
-+
-+	return masks;
-+
-+out_unwind:
-+	while (--node >= 0)
-+		free_cpumask_var(masks[node]);
-+	kfree(masks);
-+	return NULL;
-+}
-+
-+static void free_node_to_present_cpumask(cpumask_var_t *masks)
-+{
-+	int node;
-+
-+	for (node = 0; node < nr_node_ids; node++)
-+		free_cpumask_var(masks[node]);
-+	kfree(masks);
-+}
-+
-+static void build_node_to_present_cpumask(cpumask_var_t *masks)
-+{
-+	int cpu;
-+
-+	for_each_present_cpu(cpu)
-+		cpumask_set_cpu(cpu, masks[cpu_to_node(cpu)]);
-+}
-+
-+static int get_nodes_in_cpumask(cpumask_var_t *node_to_present_cpumask,
-+				const struct cpumask *mask, nodemask_t *nodemsk)
- {
- 	int n, nodes = 0;
- 
- 	/* Calculate the number of nodes in the supplied affinity mask */
--	for_each_online_node(n) {
--		if (cpumask_intersects(mask, cpumask_of_node(n))) {
-+	for_each_node(n) {
-+		if (cpumask_intersects(mask, node_to_present_cpumask[n])) {
- 			node_set(n, *nodemsk);
- 			nodes++;
- 		}
-@@ -64,7 +108,7 @@ irq_create_affinity_masks(int nvecs, con
- 	int last_affv = affv + affd->pre_vectors;
- 	nodemask_t nodemsk = NODE_MASK_NONE;
- 	struct cpumask *masks;
--	cpumask_var_t nmsk;
-+	cpumask_var_t nmsk, *node_to_present_cpumask;
- 
- 	if (!zalloc_cpumask_var(&nmsk, GFP_KERNEL))
- 		return NULL;
-@@ -73,13 +117,19 @@ irq_create_affinity_masks(int nvecs, con
- 	if (!masks)
- 		goto out;
- 
-+	node_to_present_cpumask = alloc_node_to_present_cpumask();
-+	if (!node_to_present_cpumask)
-+		goto out;
-+
- 	/* Fill out vectors at the beginning that don't need affinity */
- 	for (curvec = 0; curvec < affd->pre_vectors; curvec++)
- 		cpumask_copy(masks + curvec, irq_default_affinity);
- 
- 	/* Stabilize the cpumasks */
- 	get_online_cpus();
--	nodes = get_nodes_in_cpumask(cpu_online_mask, &nodemsk);
-+	build_node_to_present_cpumask(node_to_present_cpumask);
-+	nodes = get_nodes_in_cpumask(node_to_present_cpumask, cpu_present_mask,
-+				     &nodemsk);
- 
- 	/*
- 	 * If the number of nodes in the mask is greater than or equal the
-@@ -87,7 +137,8 @@ irq_create_affinity_masks(int nvecs, con
- 	 */
- 	if (affv <= nodes) {
- 		for_each_node_mask(n, nodemsk) {
--			cpumask_copy(masks + curvec, cpumask_of_node(n));
-+			cpumask_copy(masks + curvec,
-+				     node_to_present_cpumask[n]);
- 			if (++curvec == last_affv)
- 				break;
- 		}
-@@ -101,7 +152,7 @@ irq_create_affinity_masks(int nvecs, con
- 		vecs_per_node = (affv - (curvec - affd->pre_vectors)) / nodes;
- 
- 		/* Get the cpus on this node which are in the mask */
--		cpumask_and(nmsk, cpu_online_mask, cpumask_of_node(n));
-+		cpumask_and(nmsk, cpu_present_mask, node_to_present_cpumask[n]);
- 
- 		/* Calculate the number of cpus per vector */
- 		ncpus = cpumask_weight(nmsk);
-@@ -133,6 +184,7 @@ irq_create_affinity_masks(int nvecs, con
- 	/* Fill out vectors at the end that don't need affinity */
- 	for (; curvec < nvecs; curvec++)
- 		cpumask_copy(masks + curvec, irq_default_affinity);
-+	free_node_to_present_cpumask(node_to_present_cpumask);
- out:
- 	free_cpumask_var(nmsk);
- 	return masks;
-@@ -147,12 +199,10 @@ int irq_calc_affinity_vectors(int maxvec
- {
- 	int resv = affd->pre_vectors + affd->post_vectors;
- 	int vecs = maxvec - resv;
--	int cpus;
-+	int ret;
- 
--	/* Stabilize the cpumasks */
- 	get_online_cpus();
--	cpus = cpumask_weight(cpu_online_mask);
-+	ret = min_t(int, cpumask_weight(cpu_present_mask), vecs) + resv;
- 	put_online_cpus();
--
--	return min(cpus, vecs) + resv;
-+	return ret;
- }
+This email and any attachments are intended for the sole use of the named recipient(s) and contain(s) confidential information that may be proprietary, privileged or copyrighted under applicable law. If you are not the intended recipient, do not read, copy, or forward this email message or any attachments. Delete this email message and any attachments immediately.
