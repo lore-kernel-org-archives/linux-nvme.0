@@ -1,71 +1,61 @@
-From: jie.tang@xilinx.com (Jie Tang)
-Date: Tue, 20 Jun 2017 07:27:16 +0000
-Subject: Need help to get more information about "nvme_rdma: nvme
- completion status=0x4007"
-In-Reply-To: <6dbff2f9-13bd-42cd-db1a-2e1c4219fb04@grimberg.me>
-References: <E3337C871CE37647B0ADF42B0154198F02E458D9@XAP-PVEXMBX02.xlnx.xilinx.com>
- <6dbff2f9-13bd-42cd-db1a-2e1c4219fb04@grimberg.me>
-Message-ID: <E3337C871CE37647B0ADF42B0154198F02E45C57@XAP-PVEXMBX02.xlnx.xilinx.com>
+From: leon@kernel.org (Leon Romanovsky)
+Date: Tue, 20 Jun 2017 10:46:39 +0300
+Subject: Unexpected issues with 2 NVME initiators using the same target
+In-Reply-To: <6073e553-e8c2-6d14-ba5d-c2bd5aff15eb@grimberg.me>
+References: <82dd5b24-5657-ae5e-8a33-646fddd8b75b@grimberg.me>
+ <20170515133122.GG3616@mtr-leonro.local>
+ <9465cd0c-83db-b058-7615-5626ef60dbb0@grimberg.me>
+ <20170515143632.GH3616@mtr-leonro.local>
+ <20170515145952.GA7871@infradead.org>
+ <20170515170506.GK3616@mtr-leonro.local>
+ <779753075.36035391.1495025796237.JavaMail.zimbra@kalray.eu>
+ <20170518133439.GD3616@mtr-leonro.local>
+ <CAANLjFrCLpX3nb3q7LpFPpLJKciU+1Hvmt_hxyTovQJM2-zQmg@mail.gmail.com>
+ <6073e553-e8c2-6d14-ba5d-c2bd5aff15eb@grimberg.me>
+Message-ID: <20170620074639.GP17846@mtr-leonro.local>
 
-Hi, Sagi
+On Tue, Jun 20, 2017@09:39:36AM +0300, Sagi Grimberg wrote:
+> Hi Robert,
+>
+> > I ran into this with 4.9.32 when I rebooted the target. I tested
+> > 4.12-rc6 and this particular error seems to have been resolved, but I
+> > now get a new one on the initiator. This one doesn't seem as
+> > impactful.
+> >
+> > [Mon Jun 19 11:17:20 2017] mlx5_0:dump_cqe:275:(pid 0): dump error cqe
+> > [Mon Jun 19 11:17:20 2017] 00000000 00000000 00000000 00000000
+> > [Mon Jun 19 11:17:20 2017] 00000000 00000000 00000000 00000000
+> > [Mon Jun 19 11:17:20 2017] 00000000 00000000 00000000 00000000
+> > [Mon Jun 19 11:17:20 2017] 00000000 93005204 0a0001bd 45c8e0d2
+>
+> Max, Leon,
+>
+> Care to parse this syndrome for us? ;)
 
-Yes, this is kernel 4.8.1. Plan to verify the latest stable 4.11.6 as quick test and update to you later.
+Here the parsed output, it says that it was access to mkey which is
+free.
 
-For the nvme-rdma: nvme completion status=0x4007 The 0x4007 from target means command abort, but the NVMe SSD on the target side in good status.
-Don't have any abnormal message in the target side.
-
-Just want to check if anyone encounter similar issue and how they fix/avoid this.
+======== cqe_with_error ========
+wqe_id                           : 0x0
+srqn_usr_index                   : 0x0
+byte_cnt                         : 0x0
+hw_error_syndrome                : 0x93
+hw_syndrome_type                 : 0x0
+vendor_error_syndrome            : 0x52
+syndrome                         : LOCAL_PROTECTION_ERROR (0x4)
+s_wqe_opcode                     : SEND (0xa)
+qpn_dctn_flow_tag                : 0x1bd
+wqe_counter                      : 0x45c8
+signature                        : 0xe0
+opcode                           : REQUESTOR_ERROR (0xd)
+cqe_format                       : NO_INLINE_DATA (0x0)
+owner                            : 0x0
 
 Thanks
-
------Original Message-----
-From: Sagi Grimberg [mailto:sagi@grimberg.me]
-Sent: 2017?6?20? 14:34
-To: Jie Tang <JIET at xilinx.com>; linux-nvme at lists.infradead.org
-Subject: Re: Need help to get more information about "nvme_rdma: nvme completion status=0x4007"
-
-
-> Using the standard 4.8.1 nvme-rdma model to do the NVMf testing. Always hit by 0x4007 in the host side for stress testing.
-> Check the 0x4007 define as: command abort. This command will generate by NVMe SSD on the target side and pass to host.
-
-Do you mean kernel 4.8.1?
-
-Any chance to test with latest upstream kernel? We try our best to backport stable fixes but no one is assigned to make sure that stable kernels actually work.
-
-> Anyone encounter similar error during the NVMf stress testing, need your insight about why we have this error, the SSD been confirmed good when this host failed by 0x4007.  Is any exist known bug of Host nvme driver related to this ?
->
-> Thanks
-> TJ
->
-> [  741.511259] nvme nvme0: queue_size 64 > ctrl maxcmd 1, clamping
-> down [  741.511263] nvme nvme0: new ctrl: NQN
-> "nqn.2014-08.org.nvmexpress.discovery", addr 12.12.12.12:4420 [
-> 746.611906] nvme nvme0: Device shutdown incomplete; abort shutdown
-
-Seems like the target is not responding to shutdown.
-
-> [  752.659261] nvme_rdma: param.responder_resources: 16 [  752.666421]
-> nvme nvme0: creating 4 I/O queues.
-
-That is strange, why is a discovery controller is creating I/O queues?
-Could it be that a fix in this area has missed stable?
-
-> [  752.667527] nvme_rdma: param.responder_resources: 16 [  752.669024]
-> nvme_rdma: param.responder_resources: 16 [  752.670375] nvme_rdma:
-> param.responder_resources: 16 [  752.671740] nvme_rdma:
-> param.responder_resources: 16
-
-I assume these are your prints?
-
-> [  752.700869] nvme nvme0: new ctrl: NQN
-> "nqn.2014-08.org.nvmexpress.test", addr 12.12.12.12:4420 [
-> 8226.418141] perf: interrupt took too long (2515 > 2500), lowering
-> kernel.perf_event_max_sample_rate to 79000 [10909.246852] perf:
-> interrupt took too long (3153 > 3143), lowering
-> kernel.perf_event_max_sample_rate to 63000 [14408.023327] nvme_rdma:
-> nvme completion status=0x4007
-
-This appears to be the target failing the command from what it received from its backend device. Can you please atach the target log?
-
-
-This email and any attachments are intended for the sole use of the named recipient(s) and contain(s) confidential information that may be proprietary, privileged or copyrighted under applicable law. If you are not the intended recipient, do not read, copy, or forward this email message or any attachments. Delete this email message and any attachments immediately.
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 833 bytes
+Desc: not available
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170620/3a159e4b/attachment.sig>
