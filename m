@@ -1,7 +1,7 @@
-From: jgunthorpe@obsidianresearch.com (Jason Gunthorpe)
-Date: Tue, 20 Jun 2017 11:35:32 -0600
+From: chuck.lever@oracle.com (Chuck Lever)
+Date: Tue, 20 Jun 2017 14:17:39 -0400
 Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <59FF0C04-2BFB-4F66-81BA-A598A9A087FC@oracle.com>
+In-Reply-To: <20170620173532.GA827@obsidianresearch.com>
 References: <779753075.36035391.1495025796237.JavaMail.zimbra@kalray.eu>
  <20170518133439.GD3616@mtr-leonro.local>
  <CAANLjFrCLpX3nb3q7LpFPpLJKciU+1Hvmt_hxyTovQJM2-zQmg@mail.gmail.com>
@@ -12,86 +12,128 @@ References: <779753075.36035391.1495025796237.JavaMail.zimbra@kalray.eu>
  <bd0b986f-9bed-3dfa-7454-0661559a527b@grimberg.me>
  <614481c7-22dd-d93b-e97e-52f868727ec3@grimberg.me>
  <59FF0C04-2BFB-4F66-81BA-A598A9A087FC@oracle.com>
-Message-ID: <20170620173532.GA827@obsidianresearch.com>
+ <20170620173532.GA827@obsidianresearch.com>
+Message-ID: <D3DC49A2-FFC9-4F62-8876-3E6AD5167DE5@oracle.com>
 
-On Tue, Jun 20, 2017@01:01:39PM -0400, Chuck Lever wrote:
 
-> >> Shouldn't this be protected somehow by the device?
-> >> Can someone explain why the above cannot happen? Jason? Liran? Anyone?
-> >> Say host register MR (a) and send (1) from that MR to a target,
-> >> send (1) ack got lost, and the target issues SEND_WITH_INVALIDATE
-> >> on MR (a) and the host HCA process it, then host HCA timeout on send (1)
-> >> so it retries, but ehh, its already invalidated.
+> On Jun 20, 2017,@1:35 PM, Jason Gunthorpe <jgunthorpe@obsidianresearch.com> wrote:
+> 
+> On Tue, Jun 20, 2017@01:01:39PM -0400, Chuck Lever wrote:
+> 
+>>>> Shouldn't this be protected somehow by the device?
+>>>> Can someone explain why the above cannot happen? Jason? Liran? Anyone?
+>>>> Say host register MR (a) and send (1) from that MR to a target,
+>>>> send (1) ack got lost, and the target issues SEND_WITH_INVALIDATE
+>>>> on MR (a) and the host HCA process it, then host HCA timeout on send (1)
+>>>> so it retries, but ehh, its already invalidated.
+> 
+> I'm not sure I understand the example.. but...
+> 
+> If you pass a MR key to a send, then that MR must remain valid until
+> the send completion is implied by an observation on the CQ. The HCA is
+> free to re-execute the SEND against the MR at any time up until the
+> completion reaches the CQ.
+> 
+> As I've explained before, a ULP must not use 'implied completion', eg
+> a receive that could only have happened if the far side got the
+> send. In particular this means it cannot use an incoming SEND_INV/etc
+> to invalidate an MR associated with a local SEND, as that is a form
+> of 'implied completion'
+> 
+> For sanity a MR associated with a local send should not be remote
+> accessible at all, and shouldn't even have a 'rkey', just a 'lkey'.
+> 
+> Similarly, you cannot use a MR with SEND and remote access sanely, as
+> the far end could corrupt or invalidate the MR while the local HCA is
+> still using it.
+> 
+>> So on occasion there is a Remote Access Error. That would
+>> trigger connection loss, and the retransmitted Send request
+>> is discarded (if there was externally exposed memory involved
+>> with the original transaction that is now invalid).
+> 
+> Once you get a connection loss I would think the state of all the MRs
+> need to be resync'd. Running through the CQ should indicate which ones
+> are invalidate and which ones are still good.
+> 
+>> NFS has a duplicate replay cache. If it sees a repeated RPC
+>> XID it will send a cached reply. I guess the trick there is
+>> to squelch remote invalidation for such retransmits to avoid
+>> spurious Remote Access Errors. Should be rare, though.
+> 
+> .. and because of the above if a RPC is re-issued it must be re-issued
+> with corrected, now-valid rkeys, and the sender must somehow detect
+> that the far side dropped it for replay and tear down the MRs.
 
-I'm not sure I understand the example.. but...
+Yes, if RPC-over-RDMA ULP is involved, any externally accessible
+memory will be re-registered before an RPC retransmission.
 
-If you pass a MR key to a send, then that MR must remain valid until
-the send completion is implied by an observation on the CQ. The HCA is
-free to re-execute the SEND against the MR at any time up until the
-completion reaches the CQ.
+The concern is whether a retransmitted Send will be exposed
+to the receiving ULP. Below you imply that it will not be, so
+perhaps this is not a concern after all.
 
-As I've explained before, a ULP must not use 'implied completion', eg
-a receive that could only have happened if the far side got the
-send. In particular this means it cannot use an incoming SEND_INV/etc
-to invalidate an MR associated with a local SEND, as that is a form
-of 'implied completion'
 
-For sanity a MR associated with a local send should not be remote
-accessible at all, and shouldn't even have a 'rkey', just a 'lkey'.
+>> RPC-over-RDMA uses persistent registration for its inline
+>> buffers. The problem there is avoiding buffer reuse to soon.
+>> Otherwise a garbled inline message is presented on retransmit.
+>> Those would probably not be caught by the DRC.
+> 
+> We've had this discussion on the list before. You can *never* re-use a
+> SEND, or RDMA WRITE buffer until you observe the HCA is done with it
+> via a CQ poll.
 
-Similarly, you cannot use a MR with SEND and remote access sanely, as
-the far end could corrupt or invalidate the MR while the local HCA is
-still using it.
+RPC-over-RDMA is careful to invalidate buffers that are the
+target of RDMA Write before RPC completion, as we have
+discussed before.
 
-> So on occasion there is a Remote Access Error. That would
-> trigger connection loss, and the retransmitted Send request
-> is discarded (if there was externally exposed memory involved
-> with the original transaction that is now invalid).
+Sends are assumed to be complete when a LocalInv completes.
 
-Once you get a connection loss I would think the state of all the MRs
-need to be resync'd. Running through the CQ should indicate which ones
-are invalidate and which ones are still good.
+When we had this discussion before, you explained the problem
+with retransmitted Sends, but it appears that all the ULPs we
+have operate without Send completion. Others whom I trust have
+suggested that operating without that extra interrupt is
+preferred. The client has operated this way since it was added
+to the kernel almost 10 years ago.
 
-> NFS has a duplicate replay cache. If it sees a repeated RPC
-> XID it will send a cached reply. I guess the trick there is
-> to squelch remote invalidation for such retransmits to avoid
-> spurious Remote Access Errors. Should be rare, though.
+So I took it as a "in a perfect world" kind of admonition.
+You are making a stronger and more normative assertion here.
 
-.. and because of the above if a RPC is re-issued it must be re-issued
-with corrected, now-valid rkeys, and the sender must somehow detect
-that the far side dropped it for replay and tear down the MRs.
 
-> RPC-over-RDMA uses persistent registration for its inline
-> buffers. The problem there is avoiding buffer reuse to soon.
-> Otherwise a garbled inline message is presented on retransmit.
-> Those would probably not be caught by the DRC.
+>> But the real problem is preventing retransmitted Sends from
+>> causing a ULP request to be executed multiple times.
+> 
+> IB RC guarentees single delivery for SEND, so that doesn't seem
+> possible unless the ULP re-transmits the SEND on a new QP.
+> 
+>>> Signalling all send completions and also finishing I/Os only after
+>>> we got them will add latency, and that sucks...
+> 
+> There is no choice, you *MUST* see the send completion before
+> reclamining any resources associated with the send. Only the
+> completion guarentees that the HCA will not resend the packet or
+> otherwise continue to use the resources.
 
-We've had this discussion on the list before. You can *never* re-use a
-SEND, or RDMA WRITE buffer until you observe the HCA is done with it
-via a CQ poll.
+On the NFS server side, I believe every Send is signaled.
 
-> But the real problem is preventing retransmitted Sends from
-> causing a ULP request to be executed multiple times.
+On the NFS client side, we assume LocalInv completion is
+good enough.
 
-IB RC guarentees single delivery for SEND, so that doesn't seem
-possible unless the ULP re-transmits the SEND on a new QP.
 
-> > Signalling all send completions and also finishing I/Os only after
-> > we got them will add latency, and that sucks...
+>> With FRWR, won't subsequent WRs be delayed until the HCA is
+>> done with the Send? I don't think a signal is necessary in
+>> every case. Send Queue accounting currently relies on that.
+> 
+> No. The SQ side is asynchronous to the CQ side, the HCA will pipeline
+> send packets on the wire up to some internal limit.
 
-There is no choice, you *MUST* see the send completion before
-reclamining any resources associated with the send. Only the
-completion guarentees that the HCA will not resend the packet or
-otherwise continue to use the resources.
+So if my ULP issues FastReg followed by Send followed by
+LocalInv (signaled), I can't rely on the LocalInv completion
+to imply that the Send is also complete?
 
-> With FRWR, won't subsequent WRs be delayed until the HCA is
-> done with the Send? I don't think a signal is necessary in
-> every case. Send Queue accounting currently relies on that.
 
-No. The SQ side is asynchronous to the CQ side, the HCA will pipeline
-send packets on the wire up to some internal limit.
+> Only the local state changed by FRWR related op codes happens
+> sequentially with other SQ work.
 
-Only the local state changed by FRWR related op codes happens
-sequentially with other SQ work.
 
-Jason
+--
+Chuck Lever
