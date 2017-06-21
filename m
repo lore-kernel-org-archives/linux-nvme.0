@@ -1,80 +1,29 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 20 Jun 2017 18:22:00 -0600
-Subject: [PATCH 3/9] blk-mq: expose stream write hints through debugfs
+Date: Tue, 20 Jun 2017 18:22:05 -0600
+Subject: [PATCH 8/9] btrfs: add support for passing in write hints for
+ buffered writes
 In-Reply-To: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
 References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
-Message-ID: <1498004526-4543-4-git-send-email-axboe@kernel.dk>
-
-Useful to verify that things are working the way they should.
-Reading the file will return number of kb written with each
-write hint. Writing the file will reset the statistics. No care
-is taken to ensure that we don't race on updates.
-
-Drivers will write to q->write_hints[] if they handle a given
-write hint.
+Message-ID: <1498004526-4543-9-git-send-email-axboe@kernel.dk>
 
 Reviewed-by: Andreas Dilger <adilger at dilger.ca>
+Signed-off-by: Chris Mason <clm at fb.com>
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 ---
- block/blk-mq-debugfs.c | 24 ++++++++++++++++++++++++
- include/linux/blkdev.h |  3 +++
- 2 files changed, 27 insertions(+)
+ fs/btrfs/extent_io.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
-index 9edebbdce0bd..9ebc2945f991 100644
---- a/block/blk-mq-debugfs.c
-+++ b/block/blk-mq-debugfs.c
-@@ -135,6 +135,29 @@ static void print_stat(struct seq_file *m, struct blk_rq_stat *stat)
- 	}
- }
- 
-+static int queue_write_hint_show(void *data, struct seq_file *m)
-+{
-+	struct request_queue *q = data;
-+	int i;
-+
-+	for (i = 0; i < BLK_MAX_WRITE_HINTS; i++)
-+		seq_printf(m, "hint%d: %llu\n", i, q->write_hints[i]);
-+
-+	return 0;
-+}
-+
-+static ssize_t queue_write_hint_store(void *data, const char __user *buf,
-+				      size_t count, loff_t *ppos)
-+{
-+	struct request_queue *q = data;
-+	int i;
-+
-+	for (i = 0; i < BLK_MAX_WRITE_HINTS; i++)
-+		q->write_hints[i] = 0;
-+
-+	return count;
-+}
-+
- static int queue_poll_stat_show(void *data, struct seq_file *m)
- {
- 	struct request_queue *q = data;
-@@ -730,6 +753,7 @@ static const struct blk_mq_debugfs_attr blk_mq_debugfs_queue_attrs[] = {
- 	{"poll_stat", 0400, queue_poll_stat_show},
- 	{"requeue_list", 0400, .seq_ops = &queue_requeue_list_seq_ops},
- 	{"state", 0600, queue_state_show, queue_state_write},
-+	{"write_hints", 0600, queue_write_hint_show, queue_write_hint_store},
- 	{},
- };
- 
-diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
-index 22cfba64ce81..687394b70924 100644
---- a/include/linux/blkdev.h
-+++ b/include/linux/blkdev.h
-@@ -586,6 +586,9 @@ struct request_queue {
- 
- 	size_t			cmd_size;
- 	void			*rq_alloc_data;
-+
-+#define BLK_MAX_WRITE_HINTS	5
-+	u64			write_hints[BLK_MAX_WRITE_HINTS];
- };
- 
- #define QUEUE_FLAG_QUEUED	1	/* uses generic tag queueing */
+diff --git a/fs/btrfs/extent_io.c b/fs/btrfs/extent_io.c
+index 19eedf2e630b..3e57cfaa6dd6 100644
+--- a/fs/btrfs/extent_io.c
++++ b/fs/btrfs/extent_io.c
+@@ -2830,6 +2830,7 @@ static int submit_extent_page(int op, int op_flags, struct extent_io_tree *tree,
+ 	bio_add_page(bio, page, page_size, offset);
+ 	bio->bi_end_io = end_io_func;
+ 	bio->bi_private = tree;
++	op_flags |= write_hint_to_opf(inode_write_hint(page->mapping->host));
+ 	bio_set_op_attrs(bio, op, op_flags);
+ 	if (wbc) {
+ 		wbc_init_bio(wbc, bio);
 -- 
 2.7.4
