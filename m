@@ -1,114 +1,160 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 20 Jun 2017 17:49:53 -0600
-Subject: [PATCH 1/9] fs: add fcntl() interface for setting/getting write
- life time hints
-In-Reply-To: <1498000164.13905.30.camel@wdc.com>
-References: <1497891902-25737-1-git-send-email-axboe@kernel.dk>
- <1497891902-25737-2-git-send-email-axboe@kernel.dk>
- <1498000164.13905.30.camel@wdc.com>
-Message-ID: <36a9c309-1218-1fb0-2c65-65018621c3c8@kernel.dk>
+Date: Tue, 20 Jun 2017 18:21:57 -0600
+Subject: [PATCHSET v9] Add support for write life time hints
+Message-ID: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
 
-On 06/20/2017 05:09 PM, Bart Van Assche wrote:
-> On Mon, 2017-06-19@11:04 -0600, Jens Axboe wrote:
->> +static long fcntl_rw_hint(struct file *file, unsigned int cmd,
->> +			  u64 __user *ptr)
->> +{
->> +	struct inode *inode = file_inode(file);
->> +	long ret = 0;
->> +	u64 hint;
->> +
->> +	switch (cmd) {
->> +	case F_GET_RW_HINT:
->> +		hint = mask_to_write_hint(inode->i_flags, S_WRITE_LIFE_SHIFT);
->> +		if (put_user(hint, ptr))
->> +			ret = -EFAULT;
->> +		break;
->> +	case F_SET_RW_HINT:
->> +		if (get_user(hint, ptr)) {
->> +			ret = -EFAULT;
->> +			break;
->> +		}
->> +		switch (hint) {
->> +		case WRITE_LIFE_NONE:
->> +		case WRITE_LIFE_SHORT:
->> +		case WRITE_LIFE_MEDIUM:
->> +		case WRITE_LIFE_LONG:
->> +		case WRITE_LIFE_EXTREME:
->> +			inode_set_write_hint(inode, hint);
->> +			ret = 0;
->> +			break;
->> +		default:
->> +			ret = -EINVAL;
->> +		}
->> +		break;
->> +	default:
->> +		ret = -EINVAL;
->> +		break;
->> +	}
->> +
->> +	return ret;
->> +}
-> 
-> Hello Jens,
-> 
-> Do we need an (inline) helper function for checking the validity of a
-> numerical WRITE_LIFE value next to the definition of the WRITE_LIFE_*
-> constants, e.g. WRITE_LIFE_NONE <= hint && hint <= WRITE_LIFE_EXTREME?
+A new iteration of this patchset, previously known as write streams.
+As before, this patchset aims at enabling applications split up
+writes into separate streams, based on the perceived life time
+of the data written. This is useful for a variety of reasons:
 
-Might not hurt in general, I can fold something like that in.
+- For NVMe, this feature is ratified and released with the NVMe 1.3
+  spec. Devices implementing Directives can expose multiple streams.
+  Separating data written into streams based on life time can
+  drastically reduce the write amplification. This helps device
+  endurance, and increases performance. Testing just performed
+  internally at Facebook with these patches showed up to a 25% reduction
+  in NAND writes in a RocksDB setup.
 
->> +/*
->> + * Steal 3 bits for stream information, this allows 8 valid streams
->> + */
->> +#define IOCB_WRITE_LIFE_SHIFT	7
->> +#define IOCB_WRITE_LIFE_MASK	(BIT(7) | BIT(8) | BIT(9))
-> 
-> A minor comment: how about making this easier to read by defining
-> IOCB_WRITE_LIFE_MASK as (7 << IOCB_WRITE_LIFE_SHIFT)?
+- Software caching solutions can make more intelligent decisions
+  on how and where to place data.
 
-Agree, that would be prettier.
+Contrary to previous patches, we're not exposing numeric stream values anymore.
+I've previously advocated for just doing a set of hints that makes sense
+instead. See the coverage from the LSFMM summit this year:
 
->>  /*
->> + * Expected life time hint of a write for this inode. This uses the
->> + * WRITE_LIFE_* encoding, we just need to define the shift. We need
->> + * 3 bits for this. Next S_* value is 131072, bit 17.
->> + */
->> +#define S_WRITE_LIFE_MASK	0x1c000	/* bits 14..16 */
->> +#define S_WRITE_LIFE_SHIFT	14	/* 16384, next bit */
-> 
-> Another minor comment: how about making this easier to read by defining
-> S_WRITE_LIFE_MASK as (7 << S_WRITE_LIFE_SHIFT)?
+https://lwn.net/Articles/717755/
 
-Agree, I'll make that change too.
+This patchset attempts to do that. We add an fcntl(2) interface to
+get/set these types of hints. We define 4 hints that pertain to
+data write life times:
 
->> /*
->> + * Write life time hint values.
->> + */
->> +enum rw_hint {
->> +	WRITE_LIFE_NONE = RWH_WRITE_LIFE_NONE,
->> +	WRITE_LIFE_SHORT = RWH_WRITE_LIFE_SHORT,
->> +	WRITE_LIFE_MEDIUM = RWH_WRITE_LIFE_MEDIUM,
->> +	WRITE_LIFE_LONG = RWH_WRITE_LIFE_LONG,
->> +	WRITE_LIFE_EXTREME = RWH_WRITE_LIFE_EXTREME
->> +};
->> [ ... ]
->> +/*
->> + * Valid hint values for F_{GET,SET}_RW_HINT
->> + */
->> +#define RWH_WRITE_LIFE_NONE	0
->> +#define RWH_WRITE_LIFE_SHORT	1
->> +#define RWH_WRITE_LIFE_MEDIUM	2
->> +#define RWH_WRITE_LIFE_LONG	3
->> +#define RWH_WRITE_LIFE_EXTREME	4
-> 
-> Maybe I missed something, but it's not clear to me why we have both an
-> enum and defines with the same numerical values? BTW, I prefer an enum
-> above #defines.
+RWH_WRITE_LIFE_SHORT	Data written with this flag is expected to have
+			a high overwrite rate, or life time.
 
-We use the enum internally, that's the hint that the fs and block layer
-sees. The reason for the defines is for the user interface, where we
-don't want that to be an enum. So the mapping between the two is the
-definition of the enum rw_hint values.
+RWH_WRITE_LIFE_MEDIUM	Longer life time than SHORT
+
+RWH_WRITE_LIFE_LONG	Longer life time than MEDIUM
+
+RWH_WRITE_LIFE_EXTREME	Longer life time than LONG
+
+The idea is that these are relative values, so an application can
+use them as they see fit. The underlying device can then place
+data appropriately, or be free to ignore the hint. It's just a hint.
+
+A branch based on current master can be pulled
+from here:
+
+git://git.kernel.dk/linux-block write-stream.9
+
+Changes since v8:
+
+- Add file write hints as well. File hints override inode hints,
+  if both are valid and available.
+- Distinguish between "hint not set" or "hint none".
+- NVMe: remove global stream allocation and stream parameter
+- Rebase on top of new for-4.13/block, to fixup conflicts with
+  the NOWAIT patchset.
+
+Changes since v7:
+
+- NVMe: change 'streams' parameter to be a bool enable/disable. We
+  hardwire the number of streams anyway and use the appropriate amount,
+  so no point in exposing this value.
+- NVMe: collapse stream values appropriately, instead of just doing
+  a basic MOD.
+- Get rid of pwritev2(2) flags. Just use the fcntl(2) interface.
+- Collapse some patches
+- Change fcntl(2) interface to get/set values from a user supplied
+  64-bit pointer.
+- Move inode-to-iocb mask setting to iocb_flags().
+
+Changes since v6:
+
+- Rewrite NVMe write stream assignment
+- Change NVMe stream assignment to be per-controller, not per-ns. Then
+  we can use the same IDs across name spaces, and we don't have to do
+  lazy setup of streams.
+- If streams are enabled on nvme, set io min/opt and discard
+  granularity based on the stream params reported.
+- Fixup F_SET_RW_HINT definition, it was 20, should have been 12.
+
+Changes since v5:
+
+- Change enum write_hint to enum rw_hint.
+- Change fcntl() interface to be read/write generic
+- Bring enum rw_hint all the way to bio/request
+- Change references to streams in changelogs and debugfs interface
+- Rebase to master to resolve blkdev.h conflict
+- Reshuffle patches so the WRITE_LIFE_* hints and type come first. Allowed
+  me to merge two block patches as well.
+
+Changes since v4:
+
+- Add enum write_hint and the WRITE_HINT_* values. This is what we
+  use internally (until transformed to req/bio flags), and what is
+  exposed to user space with the fcntl() interface. Maps directly
+  to the RWF_WRITE_LIFE_* values.
+- Add fcntl() interface for getting/setting hint values.
+- Get rid of inode ->i_write_hint, encode the 3 bits of hint info
+  in the inode flags intead.
+- Allow a write with no hint to clear the old hint. Previously we
+  only changed the hint if a new valid hint was given, not if no
+  hint was passed in.
+- Shrink flag space grabbed from 4 to 3 bits for RWF_* and the inode
+  flags.
+
+Changes since v3:
+
+- Change any naming of stream ID to write hint.
+- Various little API changes, suggested by Christoph
+- Cleanup the NVMe bits, dump the debug info.
+- Change NVMe to lazily allocate the streams.
+- Various NVMe error handling improvements and command checking.
+
+Changes since v2:
+
+- Get rid of bio->bi_stream and replace with four request/bio flags.
+  These map directly to the RWF_WRITE_* flags that the user passes in.
+- Cleanup the NVMe stream setting.
+- Drivers now responsible for updating the queue stream write counter,
+  as they determine what stream to map a given flag to.
+
+Changes since v1:
+
+- Guard queue stream stats to ensure we don't mess up memory, if
+  bio_stream() ever were to return a larger value than we support.
+- NVMe: ensure we set the stream modulo the name space defined count.
+- Cleanup the RWF_ and IOCB_ flags. Set aside 4 bits, and just store
+  the stream value in there. This makes the passing of stream ID from
+  RWF_ space to IOCB_ (and IOCB_ to bio) more efficient, and cleans it
+  up in general.
+- Kill the block internal definitions of the stream type, we don't need
+  them anymore. See above.
+
+
+ block/blk-merge.c          |   16 +++++
+ block/blk-mq-debugfs.c     |   24 +++++++
+ drivers/nvme/host/core.c   |  142 +++++++++++++++++++++++++++++++++++++++++++--
+ drivers/nvme/host/nvme.h   |    4 +
+ fs/block_dev.c             |    2 
+ fs/btrfs/extent_io.c       |    1 
+ fs/buffer.c                |   14 ++--
+ fs/direct-io.c             |    2 
+ fs/ext4/page-io.c          |    2 
+ fs/fcntl.c                 |   60 +++++++++++++++++++
+ fs/inode.c                 |   11 +++
+ fs/iomap.c                 |    1 
+ fs/mpage.c                 |    1 
+ fs/open.c                  |    1 
+ fs/xfs/xfs_aops.c          |    2 
+ include/linux/blk_types.h  |   31 +++++++++
+ include/linux/blkdev.h     |    3 
+ include/linux/fs.h         |   74 ++++++++++++++++++++++-
+ include/linux/nvme.h       |   48 +++++++++++++++
+ include/uapi/linux/fcntl.h |   16 +++++
+ 20 files changed, 444 insertions(+), 11 deletions(-)
+
 
 -- 
 Jens Axboe
