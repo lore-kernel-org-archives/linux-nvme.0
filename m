@@ -1,89 +1,36 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 20 Jun 2017 18:22:02 -0600
-Subject: [PATCH 5/9] fs: add support for buffered writeback to pass down write
- hints
+Date: Tue, 20 Jun 2017 18:22:03 -0600
+Subject: [PATCH 6/9] ext4: add support for passing in write hints for buffered
+ writes
 In-Reply-To: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
 References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
-Message-ID: <1498004526-4543-6-git-send-email-axboe@kernel.dk>
+Message-ID: <1498004526-4543-7-git-send-email-axboe@kernel.dk>
 
 Reviewed-by: Andreas Dilger <adilger at dilger.ca>
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 ---
- fs/buffer.c | 14 +++++++++-----
- fs/mpage.c  |  1 +
- 2 files changed, 10 insertions(+), 5 deletions(-)
+ fs/ext4/page-io.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/fs/buffer.c b/fs/buffer.c
-index 306b720f7383..1259524715c8 100644
---- a/fs/buffer.c
-+++ b/fs/buffer.c
-@@ -49,7 +49,7 @@
- 
- static int fsync_buffers_list(spinlock_t *lock, struct list_head *list);
- static int submit_bh_wbc(int op, int op_flags, struct buffer_head *bh,
--			 struct writeback_control *wbc);
-+			 unsigned int stream, struct writeback_control *wbc);
- 
- #define BH_ENTRY(list) list_entry((list), struct buffer_head, b_assoc_buffers)
- 
-@@ -1829,7 +1829,8 @@ int __block_write_full_page(struct inode *inode, struct page *page,
- 	do {
- 		struct buffer_head *next = bh->b_this_page;
- 		if (buffer_async_write(bh)) {
--			submit_bh_wbc(REQ_OP_WRITE, write_flags, bh, wbc);
-+			submit_bh_wbc(REQ_OP_WRITE, write_flags, bh,
-+					inode_write_hint(inode), wbc);
- 			nr_underway++;
- 		}
- 		bh = next;
-@@ -1883,7 +1884,8 @@ int __block_write_full_page(struct inode *inode, struct page *page,
- 		struct buffer_head *next = bh->b_this_page;
- 		if (buffer_async_write(bh)) {
- 			clear_buffer_dirty(bh);
--			submit_bh_wbc(REQ_OP_WRITE, write_flags, bh, wbc);
-+			submit_bh_wbc(REQ_OP_WRITE, write_flags, bh,
-+					inode_write_hint(inode), wbc);
- 			nr_underway++;
- 		}
- 		bh = next;
-@@ -3091,7 +3093,7 @@ void guard_bio_eod(int op, struct bio *bio)
- }
- 
- static int submit_bh_wbc(int op, int op_flags, struct buffer_head *bh,
--			 struct writeback_control *wbc)
-+			 unsigned int write_hint, struct writeback_control *wbc)
- {
- 	struct bio *bio;
- 
-@@ -3134,6 +3136,8 @@ static int submit_bh_wbc(int op, int op_flags, struct buffer_head *bh,
- 		op_flags |= REQ_META;
- 	if (buffer_prio(bh))
- 		op_flags |= REQ_PRIO;
-+
-+	op_flags |= write_hint_to_opf(write_hint);
- 	bio_set_op_attrs(bio, op, op_flags);
- 
- 	submit_bio(bio);
-@@ -3142,7 +3146,7 @@ static int submit_bh_wbc(int op, int op_flags, struct buffer_head *bh,
- 
- int submit_bh(int op, int op_flags, struct buffer_head *bh)
- {
--	return submit_bh_wbc(op, op_flags, bh, NULL);
-+	return submit_bh_wbc(op, op_flags, bh, 0, NULL);
- }
- EXPORT_SYMBOL(submit_bh);
- 
-diff --git a/fs/mpage.c b/fs/mpage.c
-index 9524fdde00c2..d8a750873bf4 100644
---- a/fs/mpage.c
-+++ b/fs/mpage.c
-@@ -615,6 +615,7 @@ static int __mpage_writepage(struct page *page, struct writeback_control *wbc,
- 			goto confused;
- 
- 		wbc_init_bio(wbc, bio);
-+		bio->bi_opf |= write_hint_to_opf(inode_write_hint(inode));
+diff --git a/fs/ext4/page-io.c b/fs/ext4/page-io.c
+index 930ca0fc9a0f..92834b702728 100644
+--- a/fs/ext4/page-io.c
++++ b/fs/ext4/page-io.c
+@@ -350,6 +350,7 @@ void ext4_io_submit(struct ext4_io_submit *io)
+ 	if (bio) {
+ 		int io_op_flags = io->io_wbc->sync_mode == WB_SYNC_ALL ?
+ 				  REQ_SYNC : 0;
++		io_op_flags |= write_hint_to_opf(inode_write_hint(io->io_end->inode));
+ 		bio_set_op_attrs(io->io_bio, REQ_OP_WRITE, io_op_flags);
+ 		submit_bio(io->io_bio);
  	}
- 
- 	/*
+@@ -397,6 +398,7 @@ static int io_submit_add_bh(struct ext4_io_submit *io,
+ 		ret = io_submit_init_bio(io, bh);
+ 		if (ret)
+ 			return ret;
++		io->io_bio->bi_opf |= write_hint_to_opf(inode_write_hint(inode));
+ 	}
+ 	ret = bio_add_page(io->io_bio, page, bh->b_size, bh_offset(bh));
+ 	if (ret != bh->b_size)
 -- 
 2.7.4
