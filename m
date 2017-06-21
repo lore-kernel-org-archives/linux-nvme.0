@@ -1,45 +1,31 @@
-From: darrick.wong@oracle.com (Darrick J. Wong)
-Date: Tue, 20 Jun 2017 18:35:53 -0700
-Subject: [PATCH 7/9] xfs: add support for passing in write hints for
- buffered writes
-In-Reply-To: <1498004526-4543-8-git-send-email-axboe@kernel.dk>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Tue, 20 Jun 2017 19:45:08 -0600
+Subject: [PATCHSET v9] Add support for write life time hints
+In-Reply-To: <yq11sqejfe6.fsf@oracle.com>
 References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
- <1498004526-4543-8-git-send-email-axboe@kernel.dk>
-Message-ID: <20170621013553.GC4730@birch.djwong.org>
+ <yq11sqejfe6.fsf@oracle.com>
+Message-ID: <b9130363-4b7e-33f8-e1da-10e192fb046f@kernel.dk>
 
-On Tue, Jun 20, 2017@06:22:04PM -0600, Jens Axboe wrote:
-> Reviewed-by: Andreas Dilger <adilger at dilger.ca>
-> Signed-off-by: Jens Axboe <axboe at kernel.dk>
-
-Looks ok to me,
-Reviewed-by: Darrick J. Wong <darrick.wong at oracle.com>
-
---D
-
-> ---
->  fs/xfs/xfs_aops.c | 2 ++
->  1 file changed, 2 insertions(+)
+On 06/20/2017 07:30 PM, Martin K. Petersen wrote:
 > 
-> diff --git a/fs/xfs/xfs_aops.c b/fs/xfs/xfs_aops.c
-> index 76b6f988e2fa..e4d9d470402c 100644
-> --- a/fs/xfs/xfs_aops.c
-> +++ b/fs/xfs/xfs_aops.c
-> @@ -506,6 +506,7 @@ xfs_submit_ioend(
->  		return status;
->  	}
->  
-> +	ioend->io_bio->bi_opf |= write_hint_to_opf(inode_write_hint(ioend->io_inode));
->  	submit_bio(ioend->io_bio);
->  	return 0;
->  }
-> @@ -565,6 +566,7 @@ xfs_chain_bio(
->  	bio_chain(ioend->io_bio, new);
->  	bio_get(ioend->io_bio);		/* for xfs_destroy_ioend */
->  	ioend->io_bio->bi_opf = REQ_OP_WRITE | wbc_to_write_flags(wbc);
-> +	ioend->io_bio->bi_opf |= write_hint_to_opf(inode_write_hint(ioend->io_inode));
->  	submit_bio(ioend->io_bio);
->  	ioend->io_bio = new;
->  }
-> -- 
-> 2.7.4
+> Jens,
 > 
+>> A new iteration of this patchset, previously known as write streams.
+>> As before, this patchset aims at enabling applications split up
+>> writes into separate streams, based on the perceived life time
+>> of the data written. This is useful for a variety of reasons:
+> 
+> The grep-wielding streams police noticed several occurrences of the
+> string "stream" in patches 1-3 and 5. Please fix.
+You really hate those streams :-)
+
+I've pruned all references to it, from comments and arguments.
+
+> Otherwise OK as a baseline.
+> 
+> Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+
+Thanks!
+
+-- 
+Jens Axboe
