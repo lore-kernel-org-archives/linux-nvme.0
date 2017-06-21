@@ -1,66 +1,84 @@
 From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Wed, 21 Jun 2017 13:09:22 +0800
-Subject: [PATCH 1/3] nvme-cli: add thermal management fields for smart-log
+Date: Wed, 21 Jun 2017 13:09:24 +0800
+Subject: [PATCH 3/3] nvme-cli: add output-format discription for smart-log
 In-Reply-To: <1498021764-12092-1-git-send-email-guanjunxiong@huawei.com>
 References: <1498021764-12092-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <1498021764-12092-2-git-send-email-guanjunxiong@huawei.com>
+Message-ID: <1498021764-12092-4-git-send-email-guanjunxiong@huawei.com>
 
-NVMe 1.3 introduce new thermal management temperature related
-fields into the smart log page. Those fileds include
-two temperature transition counts and two total time.
+The nvme smart-log command has implemented output-format option,
+but the documentation of the command doesn't reflect this. This
+patch synchronizes the documentation with the implemenation.
 
 Signed-off-by: Guan Junxiong <guanjunxiong at huawei.com>
 ---
- linux/nvme.h |  6 +++++-
- nvme-print.c | 12 ++++++++++++
- 2 files changed, 17 insertions(+), 1 deletion(-)
 
-diff --git a/linux/nvme.h b/linux/nvme.h
-index b2c8dbb..d5f89f9 100644
---- a/linux/nvme.h
-+++ b/linux/nvme.h
-@@ -327,7 +327,11 @@ struct nvme_smart_log {
- 	__le32			warning_temp_time;
- 	__le32			critical_comp_time;
- 	__le16			temp_sensor[8];
--	__u8			rsvd216[296];
-+	__le32			thm_temp1_trans_count;
-+	__le32			thm_temp2_trans_count;
-+	__le32			thm_temp1_total_time;
-+	__le32			thm_temp2_total_time;
-+	__u8			rsvd232[280];
- };
+I don't know why nvme-smart-log.html fails when applied.
+It sounds like this file's end of line is in Windows format in a whole
+and git has a bug about processing the EOL.
+Maybe maintainer should apply this patch manually.
+
+ Documentation/nvme-smart-log.1    |  8 ++++++++
+ Documentation/nvme-smart-log.html | 12 ++++++++++++
+ Documentation/nvme-smart-log.txt  |  5 +++++
+ 3 files changed, 25 insertions(+)
+
+diff --git a/Documentation/nvme-smart-log.1 b/Documentation/nvme-smart-log.1
+index 40edd10..793c0bf 100644
+--- a/Documentation/nvme-smart-log.1
++++ b/Documentation/nvme-smart-log.1
+@@ -54,6 +54,14 @@ Retrieve the SMART log for the given nsid\&. This is optional and its success ma
+ .RS 4
+ Print the raw SMART log buffer to stdout\&.
+ .RE
++.PP
++\-o <format>, \-\-output\-format=<format>
++.RS 4
++Set the reporting format to
++\fInormal\fR,
++\fIjson\fR, or
++\fIbinary\fR\&. Only one output format can be used at a time\&.
++.RE
+ .SH "EXAMPLES"
+ .sp
+ .RS 4
+diff --git a/Documentation/nvme-smart-log.html b/Documentation/nvme-smart-log.html
+index 6cdebba..2bf7545 100644
+--- a/Documentation/nvme-smart-log.html
++++ b/Documentation/nvme-smart-log.html
+@@ -801,6 +801,18 @@ printed to stdout for another program to parse.</p></div>
+         Print the raw SMART log buffer to stdout.
+ </p>
+ </dd>
++<dt class="hdlist1">
++-o &lt;format&gt;
++</dt>
++<dt class="hdlist1">
++--output-format=&lt;format&gt;
++</dt>
++<dd>
++<p>
++              Set the reporting format to <em>normal</em>, <em>json</em>, or
++              <em>binary</em>. Only one output format can be used at a time.
++</p>
++</dd>
+ </dl></div>
+ </div>
+ </div>
+diff --git a/Documentation/nvme-smart-log.txt b/Documentation/nvme-smart-log.txt
+index a9d1eac..2971c94 100644
+--- a/Documentation/nvme-smart-log.txt
++++ b/Documentation/nvme-smart-log.txt
+@@ -38,6 +38,11 @@ OPTIONS
+ --raw-binary::
+ 	Print the raw SMART log buffer to stdout.
  
- enum {
-diff --git a/nvme-print.c b/nvme-print.c
-index 2da5acd..1aacf11 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -901,6 +901,10 @@ void show_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char
- 		printf("Temperature Sensor %d                : %d C\n", c + 1,
- 			temp - 273);
- 	}
-+	printf("Thermal Management T1 Trans Count   : %u\n", le32_to_cpu(smart->thm_temp1_trans_count));
-+	printf("Thermal Management T2 Trans Count   : %u\n", le32_to_cpu(smart->thm_temp2_trans_count));
-+	printf("Thermal Management T1 Total Time    : %u\n", le32_to_cpu(smart->thm_temp1_total_time));
-+	printf("Thermal Management T2 Total Time    : %u\n", le32_to_cpu(smart->thm_temp2_total_time));
- }
- 
- char *nvme_feature_to_string(int feature)
-@@ -1554,6 +1558,14 @@ void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char
- 			le32_to_cpu(smart->warning_temp_time));
- 	json_object_add_value_int(root, "critical_comp_time",
- 			le32_to_cpu(smart->critical_comp_time));
-+	json_object_add_value_int(root, "thm_temp1_trans_count",
-+			le32_to_cpu(smart->thm_temp1_trans_count));
-+	json_object_add_value_int(root, "thm_temp2_trans_count",
-+			le32_to_cpu(smart->thm_temp2_trans_count));
-+	json_object_add_value_int(root, "thm_temp1_total_time",
-+			le32_to_cpu(smart->thm_temp1_total_time));
-+	json_object_add_value_int(root, "thm_temp2_total_time",
-+			le32_to_cpu(smart->thm_temp2_total_time));
- 
- 	json_print_object(root, NULL);
- 	printf("\n");
++-o <format>::
++--output-format=<format>::
++              Set the reporting format to 'normal', 'json', or
++              'binary'. Only one output format can be used at a time.
++
+ EXAMPLES
+ --------
+ * Print the SMART log page in a human readable format:
 -- 
 2.11.1
