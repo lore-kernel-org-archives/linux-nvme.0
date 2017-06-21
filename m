@@ -1,22 +1,29 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 20 Jun 2017 19:46:56 -0600
-Subject: [PATCH 7/9] xfs: add support for passing in write hints for
- buffered writes
-In-Reply-To: <20170621013553.GC4730@birch.djwong.org>
-References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
- <1498004526-4543-8-git-send-email-axboe@kernel.dk>
- <20170621013553.GC4730@birch.djwong.org>
-Message-ID: <3d06e9d4-16c3-6adf-a1c8-6232d3369907@kernel.dk>
+From: guanjunxiong@huawei.com (Guan Junxiong)
+Date: Wed, 21 Jun 2017 13:09:21 +0800
+Subject: [PATCH 0/3] nvme-cli: supplement and fixup for smart-log
+Message-ID: <1498021764-12092-1-git-send-email-guanjunxiong@huawei.com>
 
-On 06/20/2017 07:35 PM, Darrick J. Wong wrote:
-> On Tue, Jun 20, 2017@06:22:04PM -0600, Jens Axboe wrote:
->> Reviewed-by: Andreas Dilger <adilger at dilger.ca>
->> Signed-off-by: Jens Axboe <axboe at kernel.dk>
-> 
-> Looks ok to me,
-> Reviewed-by: Darrick J. Wong <darrick.wong at oracle.com>
+NVMe 1.3 introduces new thermal management temperature related
+fields into the smart log page. The first patch adds those fields
+into smart-log command.
 
-Thanks Darrick, added.
+Besides, next two patches address some fixup for smart-log such as
+adding temperatature sensor fields in json_smart_log and synchronizing
+the documenation for smart-log with the implementation of output-format
+option.
+
+
+Guan Junxiong (3):
+  nvme-cli: add thermal management fields for smart-log
+  nvme-cli: add temperature sensor fields in json_smart_log
+  nvme-cli: add output-format discription for smart-log documents
+
+ Documentation/nvme-smart-log.1    |  8 ++++++++
+ Documentation/nvme-smart-log.html | 12 ++++++++++++
+ Documentation/nvme-smart-log.txt  |  5 +++++
+ linux/nvme.h                      |  6 +++++-
+ nvme-print.c                      | 24 ++++++++++++++++++++++++
+ 5 files changed, 54 insertions(+), 1 deletion(-)
 
 -- 
-Jens Axboe
+2.11.1
