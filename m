@@ -1,31 +1,22 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 20 Jun 2017 19:45:08 -0600
-Subject: [PATCHSET v9] Add support for write life time hints
-In-Reply-To: <yq11sqejfe6.fsf@oracle.com>
+Date: Tue, 20 Jun 2017 19:46:56 -0600
+Subject: [PATCH 7/9] xfs: add support for passing in write hints for
+ buffered writes
+In-Reply-To: <20170621013553.GC4730@birch.djwong.org>
 References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
- <yq11sqejfe6.fsf@oracle.com>
-Message-ID: <b9130363-4b7e-33f8-e1da-10e192fb046f@kernel.dk>
+ <1498004526-4543-8-git-send-email-axboe@kernel.dk>
+ <20170621013553.GC4730@birch.djwong.org>
+Message-ID: <3d06e9d4-16c3-6adf-a1c8-6232d3369907@kernel.dk>
 
-On 06/20/2017 07:30 PM, Martin K. Petersen wrote:
+On 06/20/2017 07:35 PM, Darrick J. Wong wrote:
+> On Tue, Jun 20, 2017@06:22:04PM -0600, Jens Axboe wrote:
+>> Reviewed-by: Andreas Dilger <adilger at dilger.ca>
+>> Signed-off-by: Jens Axboe <axboe at kernel.dk>
 > 
-> Jens,
-> 
->> A new iteration of this patchset, previously known as write streams.
->> As before, this patchset aims at enabling applications split up
->> writes into separate streams, based on the perceived life time
->> of the data written. This is useful for a variety of reasons:
-> 
-> The grep-wielding streams police noticed several occurrences of the
-> string "stream" in patches 1-3 and 5. Please fix.
-You really hate those streams :-)
+> Looks ok to me,
+> Reviewed-by: Darrick J. Wong <darrick.wong at oracle.com>
 
-I've pruned all references to it, from comments and arguments.
-
-> Otherwise OK as a baseline.
-> 
-> Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
-
-Thanks!
+Thanks Darrick, added.
 
 -- 
 Jens Axboe
