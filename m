@@ -1,56 +1,80 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 20 Jun 2017 18:22:01 -0600
-Subject: [PATCH 4/9] fs: add O_DIRECT support for sending down write life time
- hints
+Date: Tue, 20 Jun 2017 18:22:00 -0600
+Subject: [PATCH 3/9] blk-mq: expose stream write hints through debugfs
 In-Reply-To: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
 References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
-Message-ID: <1498004526-4543-5-git-send-email-axboe@kernel.dk>
+Message-ID: <1498004526-4543-4-git-send-email-axboe@kernel.dk>
+
+Useful to verify that things are working the way they should.
+Reading the file will return number of kb written with each
+write hint. Writing the file will reset the statistics. No care
+is taken to ensure that we don't race on updates.
+
+Drivers will write to q->write_hints[] if they handle a given
+write hint.
 
 Reviewed-by: Andreas Dilger <adilger at dilger.ca>
 Signed-off-by: Jens Axboe <axboe at kernel.dk>
 ---
- fs/block_dev.c | 2 ++
- fs/direct-io.c | 2 ++
- fs/iomap.c     | 1 +
- 3 files changed, 5 insertions(+)
+ block/blk-mq-debugfs.c | 24 ++++++++++++++++++++++++
+ include/linux/blkdev.h |  3 +++
+ 2 files changed, 27 insertions(+)
 
-diff --git a/fs/block_dev.c b/fs/block_dev.c
-index dd91c99e9ba0..30e1fb65c2fa 100644
---- a/fs/block_dev.c
-+++ b/fs/block_dev.c
-@@ -183,6 +183,8 @@ static unsigned int dio_bio_write_op(struct kiocb *iocb)
- 	/* avoid the need for a I/O completion work item */
- 	if (iocb->ki_flags & IOCB_DSYNC)
- 		op |= REQ_FUA;
-+
-+	op |= write_hint_to_opf(iocb_write_hint(iocb));
- 	return op;
+diff --git a/block/blk-mq-debugfs.c b/block/blk-mq-debugfs.c
+index 9edebbdce0bd..9ebc2945f991 100644
+--- a/block/blk-mq-debugfs.c
++++ b/block/blk-mq-debugfs.c
+@@ -135,6 +135,29 @@ static void print_stat(struct seq_file *m, struct blk_rq_stat *stat)
+ 	}
  }
  
-diff --git a/fs/direct-io.c b/fs/direct-io.c
-index c87077d1dc33..5fea570551e5 100644
---- a/fs/direct-io.c
-+++ b/fs/direct-io.c
-@@ -385,6 +385,8 @@ dio_bio_alloc(struct dio *dio, struct dio_submit *sdio,
- 	else
- 		bio->bi_end_io = dio_bio_end_io;
- 
-+	bio->bi_opf |= write_hint_to_opf(iocb_write_hint(dio->iocb));
++static int queue_write_hint_show(void *data, struct seq_file *m)
++{
++	struct request_queue *q = data;
++	int i;
 +
- 	sdio->bio = bio;
- 	sdio->logical_offset_in_bio = sdio->cur_page_fs_offset;
- }
-diff --git a/fs/iomap.c b/fs/iomap.c
-index c71a64b97fba..9c9f8406018b 100644
---- a/fs/iomap.c
-+++ b/fs/iomap.c
-@@ -804,6 +804,7 @@ iomap_dio_actor(struct inode *inode, loff_t pos, loff_t length,
++	for (i = 0; i < BLK_MAX_WRITE_HINTS; i++)
++		seq_printf(m, "hint%d: %llu\n", i, q->write_hints[i]);
++
++	return 0;
++}
++
++static ssize_t queue_write_hint_store(void *data, const char __user *buf,
++				      size_t count, loff_t *ppos)
++{
++	struct request_queue *q = data;
++	int i;
++
++	for (i = 0; i < BLK_MAX_WRITE_HINTS; i++)
++		q->write_hints[i] = 0;
++
++	return count;
++}
++
+ static int queue_poll_stat_show(void *data, struct seq_file *m)
+ {
+ 	struct request_queue *q = data;
+@@ -730,6 +753,7 @@ static const struct blk_mq_debugfs_attr blk_mq_debugfs_queue_attrs[] = {
+ 	{"poll_stat", 0400, queue_poll_stat_show},
+ 	{"requeue_list", 0400, .seq_ops = &queue_requeue_list_seq_ops},
+ 	{"state", 0600, queue_state_show, queue_state_write},
++	{"write_hints", 0600, queue_write_hint_show, queue_write_hint_store},
+ 	{},
+ };
  
- 		if (dio->flags & IOMAP_DIO_WRITE) {
- 			bio_set_op_attrs(bio, REQ_OP_WRITE, REQ_SYNC | REQ_IDLE);
-+			bio->bi_opf |= write_hint_to_opf(inode_write_hint(inode));
- 			task_io_account_write(bio->bi_iter.bi_size);
- 		} else {
- 			bio_set_op_attrs(bio, REQ_OP_READ, 0);
+diff --git a/include/linux/blkdev.h b/include/linux/blkdev.h
+index 22cfba64ce81..687394b70924 100644
+--- a/include/linux/blkdev.h
++++ b/include/linux/blkdev.h
+@@ -586,6 +586,9 @@ struct request_queue {
+ 
+ 	size_t			cmd_size;
+ 	void			*rq_alloc_data;
++
++#define BLK_MAX_WRITE_HINTS	5
++	u64			write_hints[BLK_MAX_WRITE_HINTS];
+ };
+ 
+ #define QUEUE_FLAG_QUEUED	1	/* uses generic tag queueing */
 -- 
 2.7.4
