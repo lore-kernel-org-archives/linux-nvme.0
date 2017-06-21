@@ -1,84 +1,37 @@
-From: guanjunxiong@huawei.com (Guan Junxiong)
-Date: Wed, 21 Jun 2017 13:09:24 +0800
-Subject: [PATCH 3/3] nvme-cli: add output-format discription for smart-log
-In-Reply-To: <1498021764-12092-1-git-send-email-guanjunxiong@huawei.com>
-References: <1498021764-12092-1-git-send-email-guanjunxiong@huawei.com>
-Message-ID: <1498021764-12092-4-git-send-email-guanjunxiong@huawei.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 21 Jun 2017 09:30:21 +0200
+Subject: [PATCHv2] nvme: Remove SCSI translations
+In-Reply-To: <1497987223-3119-1-git-send-email-keith.busch@intel.com>
+References: <1497987223-3119-1-git-send-email-keith.busch@intel.com>
+Message-ID: <20170621073020.GB4131@linux-x5ow.site>
 
-The nvme smart-log command has implemented output-format option,
-but the documentation of the command doesn't reflect this. This
-patch synchronizes the documentation with the implemenation.
+On Tue, Jun 20, 2017@03:33:43PM -0400, Keith Busch wrote:
+> The SCSI-to-NVMe translations were added to assist storage applications
+> utilizing SG_IO transitioning to NVMe. It was always recommended,
+> however, to use native NVMe for device management as too much is lost
+> in translation and the maintenance burden in keeping this kludgey
+> layer around has been neglected such that much of the translations are
+> completely broken.
+> 
+> This patch removes SG_IO handling from NVMe to avoid any confusion
+> regarding maintenance support for this interface. The config option for
+> NVMe SCSI emulation has been disabled by default since 4.5. The driver
+> has supported native nvme user commands since the beginning, and native
+> tooling is publicly available for use or as reference for anyone writing
+> their own tools, so there's no excuse for hanging onto a broken crutch.
+> 
+> Signed-off-by: Keith Busch <keith.busch at intel.com>
+> Acked-by: Jens Axboe <axboe at kernel.dk>
+> Reviewed-by: Martin K. Petersen <martin.petersen at oracle.com>
+> Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
+> Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+> ---
 
-Signed-off-by: Guan Junxiong <guanjunxiong at huawei.com>
----
-
-I don't know why nvme-smart-log.html fails when applied.
-It sounds like this file's end of line is in Windows format in a whole
-and git has a bug about processing the EOL.
-Maybe maintainer should apply this patch manually.
-
- Documentation/nvme-smart-log.1    |  8 ++++++++
- Documentation/nvme-smart-log.html | 12 ++++++++++++
- Documentation/nvme-smart-log.txt  |  5 +++++
- 3 files changed, 25 insertions(+)
-
-diff --git a/Documentation/nvme-smart-log.1 b/Documentation/nvme-smart-log.1
-index 40edd10..793c0bf 100644
---- a/Documentation/nvme-smart-log.1
-+++ b/Documentation/nvme-smart-log.1
-@@ -54,6 +54,14 @@ Retrieve the SMART log for the given nsid\&. This is optional and its success ma
- .RS 4
- Print the raw SMART log buffer to stdout\&.
- .RE
-+.PP
-+\-o <format>, \-\-output\-format=<format>
-+.RS 4
-+Set the reporting format to
-+\fInormal\fR,
-+\fIjson\fR, or
-+\fIbinary\fR\&. Only one output format can be used at a time\&.
-+.RE
- .SH "EXAMPLES"
- .sp
- .RS 4
-diff --git a/Documentation/nvme-smart-log.html b/Documentation/nvme-smart-log.html
-index 6cdebba..2bf7545 100644
---- a/Documentation/nvme-smart-log.html
-+++ b/Documentation/nvme-smart-log.html
-@@ -801,6 +801,18 @@ printed to stdout for another program to parse.</p></div>
-         Print the raw SMART log buffer to stdout.
- </p>
- </dd>
-+<dt class="hdlist1">
-+-o &lt;format&gt;
-+</dt>
-+<dt class="hdlist1">
-+--output-format=&lt;format&gt;
-+</dt>
-+<dd>
-+<p>
-+              Set the reporting format to <em>normal</em>, <em>json</em>, or
-+              <em>binary</em>. Only one output format can be used at a time.
-+</p>
-+</dd>
- </dl></div>
- </div>
- </div>
-diff --git a/Documentation/nvme-smart-log.txt b/Documentation/nvme-smart-log.txt
-index a9d1eac..2971c94 100644
---- a/Documentation/nvme-smart-log.txt
-+++ b/Documentation/nvme-smart-log.txt
-@@ -38,6 +38,11 @@ OPTIONS
- --raw-binary::
- 	Print the raw SMART log buffer to stdout.
- 
-+-o <format>::
-+--output-format=<format>::
-+              Set the reporting format to 'normal', 'json', or
-+              'binary'. Only one output format can be used at a time.
-+
- EXAMPLES
- --------
- * Print the SMART log page in a human readable format:
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
-2.11.1
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
