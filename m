@@ -1,59 +1,81 @@
-From: alan.adamson@oracle.com (Alan Adamson)
-Date: Wed, 21 Jun 2017 13:30:40 -0700
-Subject: [PATCH] nvme: set DMA_ATTR_WEAK_ORDERING attribute on dma buffers
-In-Reply-To: <20170617115703.GA13002@lst.de>
-References: <1497645290-31041-1-git-send-email-alan.adamson@oracle.com>
- <20170617115703.GA13002@lst.de>
-Message-ID: <6a32f30b-433a-9857-164f-1717405a6082@oracle.com>
+From: himanshu.madhani@cavium.com (Madhani, Himanshu)
+Date: Wed, 21 Jun 2017 13:48:40 -0700
+Subject: [PATCH v2 0/6] qla2xxx: Add NVMe FC Fabric support in driver 
+Message-ID: <20170621204846.21663-1-himanshu.madhani@cavium.com>
 
-Christoph,
+From: Himanshu Madhani <himanshu.madhani@cavium.com>
 
+Hi Martin,
 
-Hopefully, this answers your questions.
+This patch series adds NVMe FC fabric support for qla2xxx initiator mode
+driver.
 
-The SPARC platforms are designed in accordance with PCIe specification 
-and expects the the device driver to set DMA_ATTR_WEAK_ORDERING to avoid 
-restrict ordering rules enforced by PCIe root-complex and ultimately 
-experience higher latency for DMA Writes.
+This series depends on the target multiqueue series that was sent out on
+June 13,2017. (https://www.spinics.net/lists/linux-scsi/msg109827.html)
 
-The Root Complex needs to break PCIe Memory Write request into one or 
-more cacheline size requests to host memory. If RO is not set, those 
-cacheline requests are serialized and the next/subsequent write cannot 
-issue until the coherency acknowledgment for the first/earlier write is 
-received. This serialization of write transactions can significantly 
-impact sustained DMA write performance for the given device.
+There are couple of new files qla_nvme.c and qla_nvme.h created to add 
+the changes needed for registration to NVMe FC transport template as well
+as error handling logic.
 
-Relaxed ordering should be used as much as possible to avoid the 
-serialization penalty described above. The risk of using weak ordering 
-indiscriminately on all writes, however, is that certain devices and 
-drivers may rely on strong ordering for certain writes. For example, a 
-device may use a specific location in host memory to serve as a "done" 
-flag. The device writes data to a buffer, and those writes can be 
-relaxed because the order in which the data bytes enter the buffer is 
-not visible to software. The device then writes to the "done" flag 
-location, to indicate to the consumer that it has completed the buffer 
-write. The write to "done" cannot pass the prior writes to the data 
-buffer; otherwise software polling on the "done" location could 
-potentially read stale data from the data buffer. Device driver 
-developers need to understand the hardware behavior and only set the 
-DMA_ATTR_WEAK_ORDERING attribute when safe.
+Patch 1 adds NVMe bits to various driver resources to help with NVMe remote
+port discovery and PRLI handling in the driver.
 
-Alan Adamson
+Patch 2 addes NVMe command handling in driver. 
 
-On 06/17/2017 04:57 AM, Christoph Hellwig wrote:
-> On Fri, Jun 16, 2017@01:34:50PM -0700, Alan Adamson wrote:
->> SPARC based platforms suffer significant read performance penalties for
->> nvme reads when Relaxed Ordering is not enabled. This change sets the
->> DMA_ATTR_WEAK_ORDERING (Relaxed Ordering) attribute for nvme block dma
->> buffers.
-> Please explain what it does exactly, and why you think it's safe for NVMe,
-> as that belongs into the changelog.
->
-> Bonus points for explaining why DMA_ATTR_WEAK_ORDERING shouldn't
-> be the default behavior for the dma_map_ routines instead of sprinkling
-> it over just about every driver..
->
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
+Patch 3 has bulk of NVMe changes which handles NVMe support based on a module
+paramter which is used for firmware initialization and NVMe transport 
+registration. All the logic to handle NVMe command and error handling is also
+included in qla_nvme.c file.
+
+Patch 4 and 5 are trivial changes to FDMI registration to allow NVMe FC-4 type
+to switch management server.
+
+Please apply this series to for-next for inclusion in 4.13 merge window.
+
+Note: Patch 2 does not compile due to change which are part of patch 3 needed
+      for sucessful compilation. Please apply patch 1-6 to be able to get
+      commpilable driver. 
+
+Changes from v1 --> v2
+
+o Addressed review comments by Johannes and James Smart.
+o Added Reviewed-by tags wherever applicable.
+o Added Commit log for patches where applicable.
+o Removed qla_nvme_hba_scan() as it turns out to be dead code until auto
+  discovery mechanism is implemeted in FC-NVMe.
+o Remove un-needed while loop in qla_nvme_delete().
+
+Thanks,
+Himanshu 
+
+Duane Grigsby (5):
+  qla2xxx: Add FC-NVMe port discovery and PRLI handling
+  qla2xxx: Add FC-NVMe command handling
+  qla2xxx: Add FC-NVMe F/W initialization and transport registration
+  qla2xxx: Send FC4 type NVMe to the management server
+  qla2xxx: Use FC-NMVe FC4 type for FDMI registration
+
+Himanshu Madhani (1):
+  qla2xxx: Update Driver version to 10.00.00.00-k
+
+ drivers/scsi/qla2xxx/Makefile      |   2 +-
+ drivers/scsi/qla2xxx/qla_dbg.c     |   9 +-
+ drivers/scsi/qla2xxx/qla_def.h     |  54 ++-
+ drivers/scsi/qla2xxx/qla_fw.h      |  35 +-
+ drivers/scsi/qla2xxx/qla_gbl.h     |  18 +-
+ drivers/scsi/qla2xxx/qla_gs.c      | 134 ++++++-
+ drivers/scsi/qla2xxx/qla_init.c    | 187 ++++++++-
+ drivers/scsi/qla2xxx/qla_iocb.c    |  57 +++
+ drivers/scsi/qla2xxx/qla_isr.c     |  98 +++++
+ drivers/scsi/qla2xxx/qla_mbx.c     |  54 ++-
+ drivers/scsi/qla2xxx/qla_nvme.c    | 756 +++++++++++++++++++++++++++++++++++++
+ drivers/scsi/qla2xxx/qla_nvme.h    | 132 +++++++
+ drivers/scsi/qla2xxx/qla_os.c      |  60 ++-
+ drivers/scsi/qla2xxx/qla_target.c  |   4 +-
+ drivers/scsi/qla2xxx/qla_version.h |   6 +-
+ 15 files changed, 1559 insertions(+), 47 deletions(-)
+ create mode 100644 drivers/scsi/qla2xxx/qla_nvme.c
+ create mode 100644 drivers/scsi/qla2xxx/qla_nvme.h
+
+-- 
+2.12.0
