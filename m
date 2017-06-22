@@ -1,13 +1,27 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 22 Jun 2017 11:52:37 +0200
-Subject: [PATCH v2 5/6] qla2xxx: Use FC-NMVe FC4 type for FDMI registration
-In-Reply-To: <20170621204846.21663-6-himanshu.madhani@cavium.com>
-References: <20170621204846.21663-1-himanshu.madhani@cavium.com>
- <20170621204846.21663-6-himanshu.madhani@cavium.com>
-Message-ID: <20170622095237.GF5670@linux-x5ow.site>
+Date: Thu, 22 Jun 2017 15:06:00 +0200
+Subject: Booting from NVMe over Fabrics
+Message-ID: <20170622130600.GK5670@linux-x5ow.site>
 
+Hey Folks,
 
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+I know this is a rather unpopular topic, but one day someone will come up with
+it and I'd like to be prepared.
+
+The big blocking points Hannes and I have discovered are a) discovery (no pun
+intented) and b) connection establishment. Currently we need the nvme-cli for
+both and thus can't do a auto connect from the kernel at boot time (iscsiadm
+or fcoemon anyone?). We could do it the very same way, i.e. fire up nvme
+connect-all from the initrd (and pray we have /etc/nvme/discovery.conf) but
+the hand-over of parameters from the HCA/HBA firmware is a major PITA at least
+from iSCSI (ibft doesn't fix things).
+
+So do you (especially the ones of you in the nvmexpress committe) have special
+plans or do we repeat or previous errors?
+
+Thanks a lot,
+	Johannes
+
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
