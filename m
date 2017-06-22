@@ -1,78 +1,52 @@
-From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
-Date: Thu, 22 Jun 2017 17:41:08 -0300
-Subject: [PATCH 1/3] PCI: ensure the PCI device is locked over
- ->reset_notify calls
-In-Reply-To: <20170612231423.GB4379@bhelgaas-glaptop.roam.corp.google.com>
-References: <20170601111039.8913-1-hch@lst.de>
- <20170601111039.8913-2-hch@lst.de>
- <20170606053142.GA25064@bhelgaas-glaptop.roam.corp.google.com>
- <20170606104836.GB24297@lst.de>
- <20170606211443.GB12672@bhelgaas-glaptop.roam.corp.google.com>
- <20170607182936.GA31815@lst.de>
- <20170612231423.GB4379@bhelgaas-glaptop.roam.corp.google.com>
-Message-ID: <02708e29-c19a-84a4-b8ab-c62bbf810fd4@linux.vnet.ibm.com>
+From: emilne@redhat.com (Ewan D. Milne)
+Date: Thu, 22 Jun 2017 16:50:35 -0400
+Subject: [PATCH] nvme_fc: fix double calls to nvme_cleanup_cmd()
+In-Reply-To: <20170622004305.30603-1-jsmart2021@gmail.com>
+References: <20170622004305.30603-1-jsmart2021@gmail.com>
+Message-ID: <1498164635.31413.15.camel@localhost.localdomain>
 
-On 06/12/2017 08:14 PM, Bjorn Helgaas wrote:
-> On Wed, Jun 07, 2017@08:29:36PM +0200, Christoph Hellwig wrote:
->> On Tue, Jun 06, 2017@04:14:43PM -0500, Bjorn Helgaas wrote:
->>> So I guess the method here is
->>> dev->driver->err_handler->reset_notify(), and the PCI core should be
->>> holding device_lock() while calling it?  That makes sense to me;
->>> thanks a lot for articulating that!
->>
->> Yes.
->>
->>> 1) The current patch protects the err_handler->reset_notify() uses by
->>> adding or expanding device_lock regions in the paths that lead to
->>> pci_reset_notify().  Could we simplify it by doing the locking
->>> directly in pci_reset_notify()?  Then it would be easy to verify the
->>> locking, and we would be less likely to add new callers without the
->>> proper locking.
->>
->> We could do that, except that I'd rather hold the lock over a longer
->> period if we have many calls following each other.  
+On Wed, 2017-06-21@17:43 -0700, James Smart wrote:
+> Current fc transport code, on io termination, is calling
+> nvme_cleanup_cmd() followed by the transport dma unmap routine
+> which also calls nvme_cleanup_cmd(). Which means two kfrees occur
+> on the same address, raising havoc. This resulted in odd data errors,
+> effectively corruption..
 > 
-> My main concern is being able to verify the locking.  I think that is
-> much easier if the locking is adjacent to the method invocation.  But
-> if you just add a comment at the method invocation about where the
-> locking is, that should be sufficient.
+> Fix by removing the extraneous double calls. Call now occurs only in
+> teardown paths and as part of dma unmap routine.
 > 
->> I also have
->> a patch to actually kill pci_reset_notify() later in the series as
->> well, as the calling convention for it and ->reset_notify() are
->> awkward - depending on prepare parameter they do two entirely
->> different things.  That being said I could also add new
->> pci_reset_prepare() and pci_reset_done() helpers.
+> Signed-off-by: James Smart <james.smart at broadcom.com>
+> ---
+>  drivers/nvme/host/fc.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> I like your pci_reset_notify() changes; they make that much clearer.
-> I don't think new helpers are necessary.
-> 
->>> 2) Stating the rule explicitly helps look for other problems, and I
->>> think we have a similar problem in all the pcie_portdrv_err_handler
->>> methods.
->>
->> Yes, I mentioned this earlier, and I also vaguely remember we got
->> bug reports from IBM on power for this a while ago.  I just don't
->> feel confident enough to touch all these without a good test plan.
-> 
-> Hmmm.  I see your point, but I hate leaving a known bug unfixed.  I
-> wonder if some enterprising soul could tickle this bug by injecting
-> errors while removing and rescanning devices below the bridge?
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 5165007e86a6..02a6df84dc3c 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -1957,10 +1957,8 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+>  					queue->lldd_handle, &op->fcp_req);
+>  
+>  	if (ret) {
+> -		if (op->rq) {			/* normal request */
+> +		if (op->rq)			/* normal request */
+>  			nvme_fc_unmap_data(ctrl, op->rq, op);
+> -			nvme_cleanup_cmd(op->rq);
+> -		}
+>  		/* else - aen. no cleanup needed */
+>  
+>  		nvme_fc_ctrl_put(ctrl);
+> @@ -2078,7 +2076,6 @@ __nvme_fc_final_op_cleanup(struct request *rq)
+>  	op->flags &= ~(FCOP_FLAGS_TERMIO | FCOP_FLAGS_RELEASED |
+>  			FCOP_FLAGS_COMPLETE);
+>  
+> -	nvme_cleanup_cmd(rq);
+>  	nvme_fc_unmap_data(ctrl, rq, op);
+>  	nvme_complete_rq(rq);
+>  	nvme_fc_ctrl_put(ctrl);
 
-Well, although I don't consider myself an enterprising soul...heheh
-I can test it, just CC me in next spin and provide some comment on how
-to test (or point me the thread of original report).
+I had posted a patch for this back in April, but it doesn't look like
+it ever made it in.  I had fixed it by removing the nvme_cleanup_cmd()
+call from nvme_fc_unmap_data(), but this looks OK too.
 
-I guess it was myself the reporter of the issue, I tried a simple fix
-for our case and Christoph mentioned issue was more generic and needed a
-proper fix..
-
-Hopefully this one is that fix!
-Thanks,
-
-
-Guilherme
-
-> 
-> Bjorn
-> 
+Reviewed-by: Ewan D. Milne <emilne at redhat.com>
