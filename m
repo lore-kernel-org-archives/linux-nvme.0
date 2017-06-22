@@ -1,17 +1,13 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 22 Jun 2017 11:51:58 +0200
-Subject: [PATCH v2 4/6] qla2xxx: Send FC4 type NVMe to the management
- server
-In-Reply-To: <20170621204846.21663-5-himanshu.madhani@cavium.com>
+Date: Thu, 22 Jun 2017 11:52:37 +0200
+Subject: [PATCH v2 5/6] qla2xxx: Use FC-NMVe FC4 type for FDMI registration
+In-Reply-To: <20170621204846.21663-6-himanshu.madhani@cavium.com>
 References: <20170621204846.21663-1-himanshu.madhani@cavium.com>
- <20170621204846.21663-5-himanshu.madhani@cavium.com>
-Message-ID: <20170622095157.GE5670@linux-x5ow.site>
+ <20170621204846.21663-6-himanshu.madhani@cavium.com>
+Message-ID: <20170622095237.GF5670@linux-x5ow.site>
 
-On Wed, Jun 21, 2017@01:48:44PM -0700, Madhani, Himanshu wrote:
 
-Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-
 -- 
 Johannes Thumshirn                                          Storage
 jthumshirn at suse.de                                +49 911 74053 689
