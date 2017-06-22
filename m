@@ -1,38 +1,49 @@
 From: hare@suse.de (Hannes Reinecke)
-Date: Thu, 22 Jun 2017 08:33:49 +0200
-Subject: [PATCH v2 6/6] qla2xxx: Update Driver version to 10.00.00.00-k
-In-Reply-To: <20170621204846.21663-7-himanshu.madhani@cavium.com>
-References: <20170621204846.21663-1-himanshu.madhani@cavium.com>
- <20170621204846.21663-7-himanshu.madhani@cavium.com>
-Message-ID: <a4dad2ab-9e2f-3104-0694-fda3f8368dee@suse.de>
+Date: Thu, 22 Jun 2017 08:35:33 +0200
+Subject: [PATCH] nvme_fc: fix double calls to nvme_cleanup_cmd()
+In-Reply-To: <20170622004305.30603-1-jsmart2021@gmail.com>
+References: <20170622004305.30603-1-jsmart2021@gmail.com>
+Message-ID: <3a514e0e-aa6b-4553-e767-f5c8ee0460fc@suse.de>
 
-On 06/21/2017 10:48 PM, Madhani, Himanshu wrote:
-> From: Himanshu Madhani <himanshu.madhani at cavium.com>
+On 06/22/2017 02:43 AM, James Smart wrote:
+> Current fc transport code, on io termination, is calling
+> nvme_cleanup_cmd() followed by the transport dma unmap routine
+> which also calls nvme_cleanup_cmd(). Which means two kfrees occur
+> on the same address, raising havoc. This resulted in odd data errors,
+> effectively corruption..
 > 
-> Signed-off-by: Himanshu Madhani <himanshu.madhani at cavium.com>
-> Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
-> Reviewed-by: James Smart <james.smart at broadcom.com>
+> Fix by removing the extraneous double calls. Call now occurs only in
+> teardown paths and as part of dma unmap routine.
+> 
+> Signed-off-by: James Smart <james.smart at broadcom.com>
 > ---
->  drivers/scsi/qla2xxx/qla_version.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/nvme/host/fc.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 > 
-> diff --git a/drivers/scsi/qla2xxx/qla_version.h b/drivers/scsi/qla2xxx/qla_version.h
-> index dcbb9bb05e99..005a378f7fab 100644
-> --- a/drivers/scsi/qla2xxx/qla_version.h
-> +++ b/drivers/scsi/qla2xxx/qla_version.h
-> @@ -7,9 +7,9 @@
->  /*
->   * Driver version
->   */
-> -#define QLA2XXX_VERSION      "9.01.00.00-k"
-> +#define QLA2XXX_VERSION      "10.00.00.00-k"
+> diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
+> index 5165007e86a6..02a6df84dc3c 100644
+> --- a/drivers/nvme/host/fc.c
+> +++ b/drivers/nvme/host/fc.c
+> @@ -1957,10 +1957,8 @@ nvme_fc_start_fcp_op(struct nvme_fc_ctrl *ctrl, struct nvme_fc_queue *queue,
+>  					queue->lldd_handle, &op->fcp_req);
 >  
-> -#define QLA_DRIVER_MAJOR_VER	9
-> -#define QLA_DRIVER_MINOR_VER	1
-> +#define QLA_DRIVER_MAJOR_VER	10
-> +#define QLA_DRIVER_MINOR_VER	0
->  #define QLA_DRIVER_PATCH_VER	0
->  #define QLA_DRIVER_BETA_VER	0
+>  	if (ret) {
+> -		if (op->rq) {			/* normal request */
+> +		if (op->rq)			/* normal request */
+>  			nvme_fc_unmap_data(ctrl, op->rq, op);
+> -			nvme_cleanup_cmd(op->rq);
+> -		}
+>  		/* else - aen. no cleanup needed */
+>  
+>  		nvme_fc_ctrl_put(ctrl);
+> @@ -2078,7 +2076,6 @@ __nvme_fc_final_op_cleanup(struct request *rq)
+>  	op->flags &= ~(FCOP_FLAGS_TERMIO | FCOP_FLAGS_RELEASED |
+>  			FCOP_FLAGS_COMPLETE);
+>  
+> -	nvme_cleanup_cmd(rq);
+>  	nvme_fc_unmap_data(ctrl, rq, op);
+>  	nvme_complete_rq(rq);
+>  	nvme_fc_ctrl_put(ctrl);
 > 
 Reviewed-by: Hannes Reinecke <hare at suse.com>
 
