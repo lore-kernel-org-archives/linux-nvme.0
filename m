@@ -1,27 +1,57 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Fri, 23 Jun 2017 11:25:46 -0400
-Subject: [PATCH V3 2/2] nvme: Add support for FW activation without reset
-In-Reply-To: <7c382f8a-12cc-566b-f461-1bc40ccf751c@samsung.com>
-References: <1497078344-5509-1-git-send-email-a.dawn@samsung.com>
- <CGME20170610070845epcas1p361081521580b9ca7bf45605249f992e2@epcas1p3.samsung.com>
- <1497078522-5764-1-git-send-email-a.dawn@samsung.com>
- <20170619170551.GK21765@localhost.localdomain>
- <876bfb79-9bf2-1def-2a4e-94d472c08868@samsung.com>
- <20170621133742.GA4962@localhost.localdomain>
- <7c382f8a-12cc-566b-f461-1bc40ccf751c@samsung.com>
-Message-ID: <20170623152546.GB7783@localhost.localdomain>
+From: Steve.Schremmer@netapp.com (Schremmer, Steven)
+Date: Fri, 23 Jun 2017 16:18:25 +0000
+Subject: [RESEND PATCH] nvme-cli: Get Feature support for Extended Host Id
+Message-ID: <BN6PR06MB24818697459A7616E5B822CE8CD80@BN6PR06MB2481.namprd06.prod.outlook.com>
 
-On Fri, Jun 23, 2017@05:41:21PM +0530, Arnav Dawn wrote:
-> 
-> On Wednesday 21 June 2017 07:07 PM, Keith Busch wrote:
-> >
-> > One last thing I noticed, it looks like the nvme_fw_act_work will break
-> > if an IO timeout occurs while it's running since that may reset the
-> > controller and restart IO queues.
->
-> could you please clarify more?
-> I think ,that, if an IO Timeout resets controller and restarts queue,
-> the nvme_ctrl_pp_status will return false, ending the nvme_fw_act_work.
+Enable Extended Host Identifier flag is specified in cdw11.
+Also added the feature string for kato.
+---
+Rebased to latest upstream.
 
-Sure, the nvme_fw_act_work will observe CSTS.PP cleared, then it restarts
-the IO queues, but the nvme reset requires those queues to be quiesced.
+ Documentation/nvme-get-feature.txt | 3 +--
+ nvme-print.c                       | 1 +
+ nvme.c                             | 3 +++
+ 3 files changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/nvme-get-feature.txt b/Documentation/nvme-get-feature.txt
+index 4be581f..cdf6eef 100644
+--- a/Documentation/nvme-get-feature.txt
++++ b/Documentation/nvme-get-feature.txt
+@@ -63,8 +63,7 @@ OPTIONS
+ 	Range Type
+ 
+ --cdw11=<cdw11>::
+-	The value for command dword 11, if applicable. Only known feature
+-	using this is the interrupt vector configuration feature.
++	The value for command dword 11, if applicable.
+ 
+ -b::
+ --raw-binary::
+diff --git a/nvme-print.c b/nvme-print.c
+index 2da5acd..c08f312 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -919,6 +919,7 @@ char *nvme_feature_to_string(int feature)
+ 	case NVME_FEAT_ASYNC_EVENT:	return "Async Event Configuration";
+ 	case NVME_FEAT_AUTO_PST:	return "Autonomous Power State Transition";
+ 	case NVME_FEAT_HOST_MEM_BUF:	return "Host Memory Buffer";
++	case NVME_FEAT_KATO:		return "Keep Alive Timer";
+ 	case NVME_FEAT_SW_PROGRESS:	return "Software Progress";
+ 	case NVME_FEAT_HOST_ID:		return "Host Identifier";
+ 	case NVME_FEAT_RESV_MASK:	return "Reservation Notification Mask";
+diff --git a/nvme.c b/nvme.c
+index a4e1b71..515d135 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -1118,6 +1118,9 @@ static int get_feature(int argc, char **argv, struct command *cmd, struct plugin
+ 		break;
+ 	case NVME_FEAT_HOST_ID:
+ 		cfg.data_len = 8;
++		/* check for Extended Host Identifier */
++		if (cfg.cdw11 & 0x1)
++			cfg.data_len = 16;
+ 		break;
+ 	}
+ 
+-- 
+2.12.2
