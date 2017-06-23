@@ -1,323 +1,58 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Fri, 23 Jun 2017 09:36:35 +0200
-Subject: [PATCH nvme-cli v2] nvme-cli: add ns-descs subcommand
-Message-ID: <20170623073635.3069-1-jthumshirn@suse.de>
+From: a.dawn@samsung.com (Arnav Dawn)
+Date: Fri, 23 Jun 2017 17:41:21 +0530
+Subject: [PATCH V3 2/2] nvme: Add support for FW activation without reset
+In-Reply-To: <20170621133742.GA4962@localhost.localdomain>
+References: <1497078344-5509-1-git-send-email-a.dawn@samsung.com>
+ <CGME20170610070845epcas1p361081521580b9ca7bf45605249f992e2@epcas1p3.samsung.com>
+ <1497078522-5764-1-git-send-email-a.dawn@samsung.com>
+ <20170619170551.GK21765@localhost.localdomain>
+ <876bfb79-9bf2-1def-2a4e-94d472c08868@samsung.com>
+ <20170621133742.GA4962@localhost.localdomain>
+Message-ID: <7c382f8a-12cc-566b-f461-1bc40ccf751c@samsung.com>
 
-NVMe 1.3 defines the "Namespace Identification Descriptor" command in
-NVMe Identify NS. This command returns a list of so called Namespace
-Identificastion Descriptors which currently can either be a EUI-64,
-a NGUID or a UUID.
 
-Signed-off-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- linux/nvme.h   |  14 +++++++
- nvme-builtin.h |   1 +
- nvme-ioctl.c   |   6 +++
- nvme-ioctl.h   |   1 +
- nvme-print.c   | 122 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- nvme-print.h   |   2 +
- nvme.c         |  63 +++++++++++++++++++++++++++++
- 7 files changed, 209 insertions(+)
+On Wednesday 21 June 2017 07:07 PM, Keith Busch wrote:
+> On Wed, Jun 21, 2017@01:06:31PM +0530, Arnav Dawn wrote:
+>> On Monday 19 June 2017 10:35 PM, Keith Busch wrote:
+>>> On Sat, Jun 10, 2017@12:38:42PM +0530, Arnav Dawn wrote:
+>>>
+>>>> +				ctrl->fw_act_timeout = jiffies +
+>>>> +					msecs_to_jiffies(ctrl->mtfa * 100);
+>>> Instead of adding another field to the nvme_ctrl structure, just
+>>> calculate the timeout in your nvme_fw_act_work function.
+>> intention was to  set fw_act_timeout as soon as the AER is received.
+>> Since work could be scheduled after some time, setting timeout in
+>> work function would add that delay to it.
+> This feature doesn't require such tight constraints. The 100ms sleep
+> granularity in your CSTS.PP polling already exceeds the amount of time
+> it takes for work to schedule.
+i agree, i will update it in next version.
+>>>> +			else
+>>>> +				ctrl->fw_act_timeout = jiffies +
+>>>> +					msecs_to_jiffies(admin_timeout * 1000);
+>>>> +
+>>>> +			schedule_delayed_work(&ctrl->fw_act_work, 0);
+>>> If scheduling with 0 delay, why is this delayed work?
+>> I used delayed work so i could use cancel_delayed_work, as cancel_work
+>> was not available.
+> If you really have a use for cancel_work, you could send a patch to
+> export the symbol.
+>
+> In any case, that's probably not going to do what you want. The work can
+> only be cancelled if it hasn't started, and since you start it without
+> delay, the work will likely be running. Maybe you want to add some other
+> criteria for the nvme_fw_act_work to end early, though I expect CSTS.PP
+> to clear if f/w load failed.
+you are right, if the device sends Firmware image load error AER,
+CSTS.PP is probably cleared, and the nvme_fw_act_work will end.
+so i think nothing needs to be done on FW Image load error AER.
+>
+> One last thing I noticed, it looks like the nvme_fw_act_work will break
+> if an IO timeout occurs while it's running since that may reset the
+> controller and restart IO queues.
+could you please clarify more?
+I think ,that, if an IO Timeout resets controller and restarts queue,
+the nvme_ctrl_pp_status will return false, ending the nvme_fw_act_work.
 
-diff --git a/linux/nvme.h b/linux/nvme.h
-index b2c8dbb2244b..883b5eb8b710 100644
---- a/linux/nvme.h
-+++ b/linux/nvme.h
-@@ -862,6 +862,20 @@ struct nvme_command {
- 	};
- };
- 
-+#define NVME_IDENTIFY_CMD_LEN 4096
-+#define NVME_ID_CNS_NS_DESC_LIST 0x3
-+enum {
-+	NVME_NIDT_EUI64		= 0x1,
-+	NVME_NIDT_NGUID		= 0x2,
-+	NVME_NIDT_UUID		= 0x3,
-+};
-+
-+struct nvme_ns_id_desc {
-+	__u8 nidt;
-+	__u8 nidl;
-+	__u16 reserved;
-+};
-+
- static inline bool nvme_is_write(struct nvme_command *cmd)
- {
- 	/*
-diff --git a/nvme-builtin.h b/nvme-builtin.h
-index 087fc1986b2f..91f361df54a3 100644
---- a/nvme-builtin.h
-+++ b/nvme-builtin.h
-@@ -11,6 +11,7 @@ COMMAND_LIST(
- 	ENTRY("id-ctrl", "Send NVMe Identify Controller", id_ctrl)
- 	ENTRY("id-ns", "Send NVMe Identify Namespace, display structure", id_ns)
- 	ENTRY("list-ns", "Send NVMe Identify List, display structure", list_ns)
-+	ENTRY("ns-descs", "Send NVMe Namespace Descriptor List, display structure", ns_descs)
- 	ENTRY("create-ns", "Creates a namespace with the provided parameters", create_ns)
- 	ENTRY("delete-ns", "Deletes a namespace from the controller", delete_ns)
- 	ENTRY("attach-ns", "Attaches a namespace to requested controller(s)", attach_ns)
-diff --git a/nvme-ioctl.c b/nvme-ioctl.c
-index a22399ab6169..e3e9af412168 100644
---- a/nvme-ioctl.c
-+++ b/nvme-ioctl.c
-@@ -364,6 +364,12 @@ int nvme_identify_ctrl_list(int fd, __u32 nsid, __u16 cntid, void *data)
- 	return nvme_identify(fd, nsid, (cntid << 16) | cns, data);
- }
- 
-+int nvme_identify_ns_descs(int fd, __u32 nsid, void *data)
-+{
-+
-+	return nvme_identify(fd, nsid, NVME_ID_CNS_CTRL_LIST, data);
-+}
-+
- int nvme_get_log(int fd, __u32 nsid, __u8 log_id, __u32 data_len, void *data)
- {
- 	struct nvme_admin_cmd cmd = {
-diff --git a/nvme-ioctl.h b/nvme-ioctl.h
-index 3beddf8e2db2..8faf345dcf37 100644
---- a/nvme-ioctl.h
-+++ b/nvme-ioctl.h
-@@ -77,6 +77,7 @@ int nvme_identify_ctrl(int fd, void *data);
- int nvme_identify_ns(int fd, __u32 nsid, bool present, void *data);
- int nvme_identify_ns_list(int fd, __u32 nsid, bool all, void *data);
- int nvme_identify_ctrl_list(int fd, __u32 nsid, __u16 cntid, void *data);
-+int nvme_identify_ns_descs(int fd, __u32 nsid, void *data);
- 
- int nvme_get_log(int fd, __u32 nsid, __u8 log_id, __u32 data_len, void *data);
- int nvme_fw_log(int fd, struct nvme_firmware_log_page *fw_log);
-diff --git a/nvme-print.c b/nvme-print.c
-index 2da5acd5c9b8..f0f7121cb070 100644
---- a/nvme-print.c
-+++ b/nvme-print.c
-@@ -3,6 +3,10 @@
- #include <string.h>
- #include <stdlib.h>
- 
-+#ifdef LIBUUID
-+#include <uuid/uuid.h>
-+#endif
-+
- #include "nvme-print.h"
- #include "json.h"
- #include "nvme-models.h"
-@@ -599,6 +603,124 @@ void show_nvme_id_ns(struct nvme_id_ns *ns, unsigned int mode)
- 	}
- }
- 
-+void json_nvme_id_ns_descs(void *data)
-+{
-+#ifdef LIBUUID
-+	uuid_t uuid;
-+	char uuid_str[37];
-+#endif
-+	__u8 eui64_desc[8];
-+	__u8 nguid_desc[16];
-+	char nguid_str[2 * sizeof(nguid_desc) + 1];
-+	char eui64_str[2 * sizeof(eui64_desc) + 1];
-+	char *eui64 = eui64_str;
-+	char *nguid = nguid_str;
-+	struct json_object *root;
-+	off_t off;
-+	int pos, len = 0;
-+	int i;
-+
-+	root = json_create_object();
-+
-+	for (pos = 0; pos < NVME_IDENTIFY_CMD_LEN; pos += len) {
-+		struct nvme_ns_id_desc *cur = data + pos;
-+
-+		off = pos + sizeof(*cur);
-+
-+		if (cur->nidl == 0)
-+			break;
-+
-+		switch (cur->nidt) {
-+		case NVME_NIDT_EUI64:
-+			memset(eui64, 0, sizeof(eui64_str));
-+			memcpy(eui64_desc, data + off, sizeof(eui64_desc));
-+			for (i = 0; i < sizeof(eui64); i++)
-+				eui64 += sprintf(eui64, "%02x", eui64_desc[i]);
-+			len += sizeof(eui64);
-+			json_object_add_value_string(root, "eui64", eui64_str);
-+			break;
-+		case NVME_NIDT_NGUID:
-+			memset(nguid, 0, sizeof(nguid_str));
-+			memcpy(nguid_desc, data + off, sizeof(nguid_desc));
-+			for (i = 0; i < sizeof(nguid); i++)
-+				nguid += sprintf(nguid, "%02x", nguid_desc[i]);
-+			len += sizeof(nguid);
-+			json_object_add_value_string(root, "nguid", nguid_str);
-+			break;
-+#ifdef LIBUUID
-+		case NVME_NIDT_UUID:
-+			memcpy(uuid, data + off, 16);
-+			uuid_unparse_lower(uuid, uuid_str);
-+			len += sizeof(uuid);
-+			json_object_add_value_string(root, "uuid", uuid_str);
-+			break;
-+#endif
-+		default:
-+			/* Skip unnkown types */
-+			len = cur->nidl;
-+			break;
-+		}
-+
-+		len += sizeof(*cur);
-+	}
-+
-+	json_print_object(root, NULL);
-+	printf("\n");
-+	json_free_object(root);
-+}
-+
-+void show_nvme_id_ns_descs(void *data)
-+{
-+	int pos, len = 0;
-+	int i;
-+#ifdef LIBUUID
-+	uuid_t uuid;
-+	char uuid_str[37];
-+#endif
-+	__u8 eui64[8];
-+	__u8 nguid[16];
-+
-+	for (pos = 0; pos < NVME_IDENTIFY_CMD_LEN; pos += len) {
-+		struct nvme_ns_id_desc *cur = data + pos;
-+
-+		if (cur->nidl == 0)
-+			break;
-+
-+		switch (cur->nidt) {
-+		case NVME_NIDT_EUI64:
-+			memcpy(eui64, data + pos + sizeof(*cur), sizeof(eui64));
-+			printf("eui64   : ");
-+			for (i = 0; i < 8; i++)
-+				printf("%02x", eui64[i]);
-+			printf("\n");
-+			len += sizeof(eui64);
-+			break;
-+		case NVME_NIDT_NGUID:
-+			memcpy(nguid, data + pos + sizeof(*cur), sizeof(nguid));
-+			printf("nguid   : ");
-+			for (i = 0; i < 16; i++)
-+				printf("%02x", nguid[i]);
-+			printf("\n");
-+			len += sizeof(nguid);
-+			break;
-+#ifdef LIBUUID
-+		case NVME_NIDT_UUID:
-+			memcpy(uuid, data + pos + sizeof(*cur), 16);
-+			uuid_unparse_lower(uuid, uuid_str);
-+			printf("uuid    : %s\n", uuid_str);
-+			len += sizeof(uuid);
-+			break;
-+#endif
-+		default:
-+			/* Skip unnkown types */
-+			len = cur->nidl;
-+			break;
-+		}
-+
-+		len += sizeof(*cur);
-+	}
-+}
-+
- static void print_ps_power_and_scale(__le16 ctr_power, __u8 scale)
- {
- 	__u16 power = le16_to_cpu(ctr_power);
-diff --git a/nvme-print.h b/nvme-print.h
-index 0502d0d48ee4..d39bc63dc665 100644
---- a/nvme-print.h
-+++ b/nvme-print.h
-@@ -26,6 +26,7 @@ void show_error_log(struct nvme_error_log_page *err_log, int entries, const char
- void show_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname);
- void show_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname);
- void show_ctrl_registers(void *bar, unsigned int mode);
-+void show_nvme_id_ns_descs(void *data);
- 
- void nvme_feature_show_fields(__u32 fid, unsigned int result, unsigned char *buf);
- char *nvme_status_to_string(__u32 status);
-@@ -39,6 +40,7 @@ void json_error_log(struct nvme_error_log_page *err_log, int entries, const char
- void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname);
- void json_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname);
- void json_print_list_items(struct list_item *items, unsigned amnt);
-+void json_nvme_id_ns_descs(void *data);
- 
- 
- #endif
-diff --git a/nvme.c b/nvme.c
-index a4e1b719718d..a2d6e7d19551 100644
---- a/nvme.c
-+++ b/nvme.c
-@@ -952,6 +952,69 @@ static int id_ctrl(int argc, char **argv, struct command *cmd, struct plugin *pl
- 	return __id_ctrl(argc, argv, cmd, plugin, NULL);
- }
- 
-+static int ns_descs(int argc, char **argv, struct command *cmd, struct plugin *plugin)
-+{
-+	const char *desc = "Send Namespace Identification Descriptoprs commadn to the "\
-+			    "given device, returns the namespace identifcation descriptors "\
-+			    "of the specific namespace in either human-readable or binary format.";
-+	const char *raw_binary = "show infos in binary format";
-+	const char *namespace_id = "identifier of desired namespace";
-+	int err, fmt, fd;
-+	char *nsdescs[0x1000] = { };
-+	struct config {
-+		__u32 namespace_id;
-+		int raw_binary;
-+		char *output_format;
-+	};
-+
-+	struct config cfg = {
-+		.namespace_id = 0,
-+		.output_format = "normal",
-+	};
-+
-+	const struct argconfig_commandline_options command_line_options[] = {
-+		{"namespace-id",    'n', "NUM", CFG_POSITIVE, &cfg.namespace_id, required_argument, namespace_id},
-+		{"raw-binary",      'b', "",    CFG_NONE,     &cfg.raw_binary,      no_argument,       raw_binary},
-+		{"output-format",   'o', "FMT", CFG_STRING,   &cfg.output_format,   required_argument, output_format },
-+		{NULL}
-+	};
-+
-+	if (posix_memalign((void *)&nsdescs, getpagesize(), 0x1000)) {
-+		fprintf(stderr, "can not allocate controller list payload\n");
-+		return ENOMEM;
-+	}
-+
-+	fd = parse_and_open(argc, argv, desc, command_line_options, &cfg, sizeof(cfg));
-+	if (fd < 0)
-+		return fd;
-+
-+	fmt = validate_output_format(cfg.output_format);
-+	if (fmt < 0)
-+		return fmt;
-+	if (cfg.raw_binary)
-+		fmt = BINARY;
-+	if (!cfg.namespace_id)
-+		cfg.namespace_id = get_nsid(fd);
-+
-+	err = nvme_identify_ns_descs(fd, cfg.namespace_id, &nsdescs);
-+	if (!err) {
-+		if (fmt == BINARY)
-+			d_raw((unsigned char *)&nsdescs, 0x1000);
-+		else if (fmt == JSON)
-+			json_nvme_id_ns_descs(&nsdescs);
-+		else {
-+			printf("NVME Namespace Identification Descriptors NS %d:\n", cfg.namespace_id);
-+			show_nvme_id_ns_descs(&nsdescs);
-+		}
-+	}
-+	else if (err > 0)
-+		fprintf(stderr, "NVMe Status:%s(%x) NSID:%d\n",
-+			nvme_status_to_string(err), err, cfg.namespace_id);
-+	else
-+		perror("identify namespace");
-+	return err;
-+}
-+
- static int id_ns(int argc, char **argv, struct command *cmd, struct plugin *plugin)
- {
- 	const char *desc = "Send an Identify Namespace command to the "\
--- 
-2.12.3
+Regards
+Arnav Dawn
