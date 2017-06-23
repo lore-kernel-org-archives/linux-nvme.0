@@ -1,106 +1,163 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Fri, 23 Jun 2017 14:19:42 +0800
-Subject: [PATCH] nvme: explicitly disable APST on quirked devices
-Message-ID: <20170623061942.5225-1-kai.heng.feng@canonical.com>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Fri, 23 Jun 2017 08:28:51 +0200
+Subject: [PATCH v2 3/6] qla2xxx: Add FC-NVMe F/W initialization and
+ transport registration
+In-Reply-To: <42181B8C-0E6A-436B-9201-E4C42D581B50@cavium.com>
+References: <20170621204846.21663-1-himanshu.madhani@cavium.com>
+ <20170621204846.21663-4-himanshu.madhani@cavium.com>
+ <20170622094649.GD5670@linux-x5ow.site>
+ <42181B8C-0E6A-436B-9201-E4C42D581B50@cavium.com>
+Message-ID: <20170623062850.GA13014@linux-x5ow.site>
 
-A user reports APST is enabled, even when the NVMe is quirked or with
-option "default_ps_max_latency_us=0".
+On Fri, Jun 23, 2017@03:16:09AM +0000, Madhani, Himanshu wrote:
+> if this is not *must* i?ll like to post patch for this with other patches that I am going to queue up during rc1 phase. 
 
-The current logic will not set APST if the device is quirked. But the
-NVMe in question will enable APST automatically.
+Ok.
 
-Separate the logic "apst is supported" and "to enable apst", so we can
-use the latter one to explicitly disable APST at initialiaztion.
+[...]
 
-BugLink: https://bugs.launchpad.net/bugs/1699004
-Signed-off-by: Kai-Heng Feng <kai.heng.feng at canonical.com>
----
- drivers/nvme/host/core.c | 25 +++++++++++++++++--------
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 18 insertions(+), 8 deletions(-)
+> I saw your response to James that this is okay for FC NVMe code.
+> 
+> > [...]
+> > 
+> >> +	vha = (struct scsi_qla_host *)lport->private;
+> > 
+> > No need to cast from void *
+> >> +	ql_log(ql_log_info, vha, 0x2104,
+> >> +	    "%s: handle %p, idx =%d, qsize %d\n",
+> >> +	    __func__, handle, qidx, qsize);
+> > 
+> > Btw, sometime in the future you could change your ql_log() thingies to the
+> > kernel's dyndebug facility.
+> > 
+> > [?]
+> 
+> Thanks for the suggestions. I?ll bring it up to team and we can slowly convert these to kernel?s
+> dynamic debugging facility. 
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 0ddd6b9af7fc..c459d15d18f5 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1477,6 +1477,14 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
- 	if (!ctrl->apsta)
- 		return;
- 
-+	if (!ctrl->apst_enabled) {
-+		if (ctrl->state == NVME_CTRL_NEW ||
-+		    ctrl->state == NVME_CTRL_RESETTING)
-+			dev_info(ctrl->device, "Disable APST at initialization\n");
-+		else
-+			return;
-+	}
-+
- 	if (ctrl->npss > 31) {
- 		dev_warn(ctrl->device, "NPSS is invalid; not using APST\n");
- 		return;
-@@ -1486,7 +1494,7 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
- 	if (!table)
- 		return;
- 
--	if (ctrl->ps_max_latency_us == 0) {
-+	if (ctrl->ps_max_latency_us == 0 || !ctrl->apst_enabled) {
- 		/* Turn off APST. */
- 		apste = 0;
- 		dev_dbg(ctrl->device, "APST disabled\n");
-@@ -1653,7 +1661,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	u64 cap;
- 	int ret, page_shift;
- 	u32 max_hw_sectors;
--	u8 prev_apsta;
-+	bool prev_apst_enabled;
- 
- 	ret = ctrl->ops->reg_read32(ctrl, NVME_REG_VS, &ctrl->vs);
- 	if (ret) {
-@@ -1721,16 +1729,17 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ctrl->kas = le16_to_cpu(id->kas);
- 
- 	ctrl->npss = id->npss;
--	prev_apsta = ctrl->apsta;
-+	ctrl->apsta = id->apsta;
-+	prev_apst_enabled = ctrl->apst_enabled;
- 	if (ctrl->quirks & NVME_QUIRK_NO_APST) {
- 		if (force_apst && id->apsta) {
- 			dev_warn(ctrl->device, "forcibly allowing APST due to nvme_core.force_apst -- use at your own risk\n");
--			ctrl->apsta = 1;
-+			ctrl->apst_enabled = true;
- 		} else {
--			ctrl->apsta = 0;
-+			ctrl->apst_enabled = false;
- 		}
- 	} else {
--		ctrl->apsta = id->apsta;
-+		ctrl->apst_enabled = true;
- 	}
- 	memcpy(ctrl->psd, id->psd, sizeof(ctrl->psd));
- 
-@@ -1760,9 +1769,9 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 
- 	kfree(id);
- 
--	if (ctrl->apsta && !prev_apsta)
-+	if (ctrl->apst_enabled && !prev_apst_enabled)
- 		dev_pm_qos_expose_latency_tolerance(ctrl->device);
--	else if (!ctrl->apsta && prev_apsta)
-+	else if (!ctrl->apst_enabled && prev_apst_enabled)
- 		dev_pm_qos_hide_latency_tolerance(ctrl->device);
- 
- 	nvme_configure_apst(ctrl);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index ec8c7363934d..95d0cdafe0d5 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -165,6 +165,7 @@ struct nvme_ctrl {
- 
- 	/* Power saving configuration */
- 	u64 ps_max_latency_us;
-+	bool apst_enabled;
- 
- 	u32 hmpre;
- 	u32 hmmin;
+Thanks a lot.
+> 
+> 
+> >> +	rval = ha->isp_ops->abort_command(sp);
+> >> +	if (rval != QLA_SUCCESS)
+> >> +		ql_log(ql_log_warn, fcport->vha, 0x2125,
+> >> +		    "%s: failed to abort LS command for SP:%p rval=%x\n",
+> >> +		    __func__, sp, rval);
+> >> +
+> >> +	ql_dbg(ql_dbg_io, fcport->vha, 0x212b,
+> >> +	    "%s: aborted sp:%p on fcport:%p\n", __func__, sp, fcport);
+> > 
+> > If you insinst in having these two messages ("failed to abort" and "aborted")
+> > can you at least fold it into one print statement.
+> > 
+> 
+> I?ll send follow up patch for this cleanup, if its okay with you? 
+
+OK
+
+[...]
+> > I've just seen this in qla2xxx_start_scsi_mq() and
+> > qla2xxx_dif_start_scsi_mq() and was about to send you an RFC patch. But
+> > here it is for completeness in the nvme version as well:
+> > 
+> > You save a pointer to the req_que from you qpair and _afterwards_ you grab
+> > the qp_lock. What prevents someone from changing the request internals
+> > underneath you?
+> > 
+> > Like this:
+> > 
+> > CPU0                               CPU1
+> > req = qpair->req;
+> >                                 qla2xxx_delete_qpair(vha, qpair);
+> >                                 `-> ret = qla25xx_delete_req_que(vha, qpair->req);
+> > spin_lock_irqsave(&qpair->qp_lock, flags);
+> > handle = req->current_outstanding_cmd;
+> > 
+> > Oh and btw, neither qla2xxx_delete_qpair() nor qla25xx_delete_req_que() grab
+> > the qp_lock.
+> > 
+> > I think this is something work re-thinking. Maybe you can identify the blocks
+> > accessing struct members which need to be touched under a lock and extract
+> > them into a helper function wich calls lockdep_assert_held(). No must just and
+> > idea.
+> > 
+> 
+> This is very valid point you brought up and thanks for the detail review comment. 
+> from your patch submitted this morning, I?ll like to have our test team run through 
+> regression testing with these changes and we can incorporate that into NVMe as well
+> and send a follow up patch to correct this. Would you be okay with that? 
+
+That patch has a bug and I'll need to respin it, but I'll be sending you a v2
+today.
+
+> 
+> > [...]
+> >> +
+> >> +	/* Load data segments */
+> >> +	for_each_sg(sgl, sg, tot_dsds, i) {
+> > 
+> > Do you really need the whole loop under a spin_lock_irqsave()? If the sglist
+> > has a lot of entries (i.e. becasue we couldn't cluster it) we're in risk to
+> > trigger a NMI watchdog soft-lockup WARN_ON(). You need to grab the lock when
+> > accessing req's members but the rest of the loop? This applies to
+> > qla24xx_build_scsi_iocbs() for SCSI as well.
+> > 
+> 
+> Since these changes would need us to do regression testing, I would like to send a follow up 
+> patch to correct them as a separate patch.
+
+Sure.
+
+> 
+> > [...]
+> > 
+> >> +	struct qla_qpair *qpair = (struct qla_qpair *)hw_queue_handle;
+> > 
+> > Void pointer cast. Someone really should write a coccinelle script to get rid
+> > of em.
+> > 
+> 
+> Will send a follow up patch for cleanup
+> 
+> > [...]
+> > 
+> >> +	/* Alloc SRB structure */
+> >> +	sp = qla2xxx_get_qpair_sp(qpair, fcport, GFP_ATOMIC);
+> >> +	if (!sp)
+> >> +		return -EIO;
+> > 
+> > __blk_mq_run_hw_queue()
+> > `-> blk_mq_sched_dispatch_requests()
+> >    `-> blk_mq_dispatch_rq_list()
+> >        `-> nvme_fc_queue_rq()
+> >            `-> nvme_fc_start_fcp_op() 
+> >                `-> qla_nvme_post_cmd()
+> > isn't called from an IRQ context and qla2xxx_get_qpair_sp() internally
+> > uses mempool_alloc(). From mempool_alloc()'s documentation:
+> > 
+> > "Note that due to preallocation, this function *never* fails when called from
+> > process contexts. (it might fail if called from an IRQ context.)"
+> > mm/mempool.c:306
+> > 
+> 
+> 
+> Will investigate and work on fixing this. 
+
+
+I think I did a mistake here, qla2xxx_get_qpair_sp() can fail for other
+reasons than OOM. My bad, sorry.
+
+> Thanks for these details review of this series and valuable input. 
+> 
+> I?ll send follow up series shortly. Let me know if this series is okay as is and
+> a follow up patches to address concerns by you are okay.
+
+Thanks a lot,
+	Johannes
 -- 
-2.13.1
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
