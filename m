@@ -1,53 +1,409 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Sat, 24 Jun 2017 09:11:05 +0200
-Subject: [PATCH V3 2/2] nvme: Add support for FW activation without reset
-In-Reply-To: <7c382f8a-12cc-566b-f461-1bc40ccf751c@samsung.com>
-References: <1497078344-5509-1-git-send-email-a.dawn@samsung.com>
- <CGME20170610070845epcas1p361081521580b9ca7bf45605249f992e2@epcas1p3.samsung.com>
- <1497078522-5764-1-git-send-email-a.dawn@samsung.com>
- <20170619170551.GK21765@localhost.localdomain>
- <876bfb79-9bf2-1def-2a4e-94d472c08868@samsung.com>
- <20170621133742.GA4962@localhost.localdomain>
- <7c382f8a-12cc-566b-f461-1bc40ccf751c@samsung.com>
-Message-ID: <20170624071105.GC14437@lst.de>
+Date: Sat, 24 Jun 2017 09:12:47 +0200
+Subject: [PATCH nvme-cli v2] nvme-cli: add ns-descs subcommand
+In-Reply-To: <20170623073635.3069-1-jthumshirn@suse.de>
+References: <20170623073635.3069-1-jthumshirn@suse.de>
+Message-ID: <20170624071247.GD14437@lst.de>
 
-On Fri, Jun 23, 2017@05:41:21PM +0530, Arnav Dawn wrote:
-> 
-> On Wednesday 21 June 2017 07:07 PM, Keith Busch wrote:
-> > On Wed, Jun 21, 2017@01:06:31PM +0530, Arnav Dawn wrote:
-> >> On Monday 19 June 2017 10:35 PM, Keith Busch wrote:
-> >>> On Sat, Jun 10, 2017@12:38:42PM +0530, Arnav Dawn wrote:
-> >>>
-> >>>> +				ctrl->fw_act_timeout = jiffies +
-> >>>> +					msecs_to_jiffies(ctrl->mtfa * 100);
-> >>> Instead of adding another field to the nvme_ctrl structure, just
-> >>> calculate the timeout in your nvme_fw_act_work function.
-> >> intention was to  set fw_act_timeout as soon as the AER is received.
-> >> Since work could be scheduled after some time, setting timeout in
-> >> work function would add that delay to it.
-> > This feature doesn't require such tight constraints. The 100ms sleep
-> > granularity in your CSTS.PP polling already exceeds the amount of time
-> > it takes for work to schedule.
-> i agree, i will update it in next version.
-> >>>> +			else
-> >>>> +				ctrl->fw_act_timeout = jiffies +
-> >>>> +					msecs_to_jiffies(admin_timeout * 1000);
-> >>>> +
-> >>>> +			schedule_delayed_work(&ctrl->fw_act_work, 0);
-> >>> If scheduling with 0 delay, why is this delayed work?
-> >> I used delayed work so i could use cancel_delayed_work, as cancel_work
-> >> was not available.
-> > If you really have a use for cancel_work, you could send a patch to
-> > export the symbol.
-> >
-> > In any case, that's probably not going to do what you want. The work can
-> > only be cancelled if it hasn't started, and since you start it without
-> > delay, the work will likely be running. Maybe you want to add some other
-> > criteria for the nvme_fw_act_work to end early, though I expect CSTS.PP
-> > to clear if f/w load failed.
-> you are right, if the device sends Firmware image load error AER,
-> CSTS.PP is probably cleared, and the nvme_fw_act_work will end.
-> so i think nothing needs to be done on FW Image load error AER.
+Meh, this still didn't properly resync nvme.h.
 
-please make sure you do a cancel_work_sync there and in the controller
-removal path to make sure we don't have a work item lingering around.
+Something like this is needed for the current tree:
+
+---
+>From 79afec638c7a0eb636065403615a78db64ecaec7 Mon Sep 17 00:00:00 2001
+From: Christoph Hellwig <hch@lst.de>
+Date: Sat, 24 Jun 2017 09:04:48 +0200
+Subject: resync nvme.h with the kernel
+
+Copy over the current nvme.h from the for-4.13 block tree, and adjust
+a few callers.  The biggest tweak is that we can't use the kernel uuid.h
+and either need to use libuuid or our own definition.
+
+Signed-off-by: Christoph Hellwig <hch at lst.de>
+---
+ fabrics.c    |   2 +
+ linux/nvme.h | 140 +++++++++++++++++++++++++++++++++++++++++++++++++----------
+ nvme-print.c |   8 +---
+ nvme.c       |   4 --
+ nvme.h       |  19 ++++----
+ 5 files changed, 129 insertions(+), 44 deletions(-)
+
+diff --git a/fabrics.c b/fabrics.c
+index 87cdba2..da4e04e 100644
+--- a/fabrics.c
++++ b/fabrics.c
+@@ -44,6 +44,8 @@
+ 
+ #include "common.h"
+ 
++#define NVMF_HOSTID_SIZE	36
++
+ static struct config {
+ 	char *nqn;
+ 	char *transport;
+diff --git a/linux/nvme.h b/linux/nvme.h
+index d1a322b..291587a 100644
+--- a/linux/nvme.h
++++ b/linux/nvme.h
+@@ -16,6 +16,7 @@
+ #define _LINUX_NVME_H
+ 
+ #include <linux/types.h>
++#include <linux/uuid.h>
+ 
+ /* NQN names in commands fields specified one size */
+ #define NVMF_NQN_FIELD_LEN	256
+@@ -23,7 +24,6 @@
+ /* However the max length of a qualified name is another size */
+ #define NVMF_NQN_SIZE		223
+ 
+-#define NVMF_HOSTID_SIZE        36
+ #define NVMF_TRSVCID_SIZE	32
+ #define NVMF_TRADDR_SIZE	256
+ #define NVMF_TSAS_SIZE		256
+@@ -102,6 +102,7 @@ enum {
+ 	NVME_REG_ACQ	= 0x0030,	/* Admin CQ Base Address */
+ 	NVME_REG_CMBLOC = 0x0038,	/* Controller Memory Buffer Location */
+ 	NVME_REG_CMBSZ	= 0x003c,	/* Controller Memory Buffer Size */
++	NVME_REG_DBS	= 0x1000,	/* SQ 0 Tail Doorbell */
+ };
+ 
+ #define NVME_CAP_MQES(cap)	((cap) & 0xffff)
+@@ -249,7 +250,10 @@ enum {
+ 	NVME_CTRL_ONCS_COMPARE			= 1 << 0,
+ 	NVME_CTRL_ONCS_WRITE_UNCORRECTABLE	= 1 << 1,
+ 	NVME_CTRL_ONCS_DSM			= 1 << 2,
++	NVME_CTRL_ONCS_WRITE_ZEROES		= 1 << 3,
+ 	NVME_CTRL_VWC_PRESENT			= 1 << 0,
++	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
++	NVME_CTRL_OACS_DBBUF_SUPP		= 1 << 7,
+ };
+ 
+ struct nvme_lbaf {
+@@ -289,6 +293,17 @@ struct nvme_id_ns {
+ };
+ 
+ enum {
++	NVME_ID_CNS_NS			= 0x00,
++	NVME_ID_CNS_CTRL		= 0x01,
++	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
++	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
++	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
++	NVME_ID_CNS_NS_PRESENT		= 0x11,
++	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
++	NVME_ID_CNS_CTRL_LIST		= 0x13,
++};
++
++enum {
+ 	NVME_NS_FEAT_THIN	= 1 << 0,
+ 	NVME_NS_FLBAS_LBA_MASK	= 0xf,
+ 	NVME_NS_FLBAS_META_EXT	= 0x10,
+@@ -308,6 +323,22 @@ enum {
+ 	NVME_NS_DPS_PI_TYPE3	= 3,
+ };
+ 
++struct nvme_ns_id_desc {
++	__u8 nidt;
++	__u8 nidl;
++	__le16 reserved;
++};
++
++#define NVME_NIDT_EUI64_LEN	8
++#define NVME_NIDT_NGUID_LEN	16
++#define NVME_NIDT_UUID_LEN	16
++
++enum {
++	NVME_NIDT_EUI64		= 0x01,
++	NVME_NIDT_NGUID		= 0x02,
++	NVME_NIDT_UUID		= 0x03,
++};
++
+ struct nvme_smart_log {
+ 	__u8			critical_warning;
+ 	__u8			temperature[2];
+@@ -549,12 +580,42 @@ enum {
+ 	NVME_DSMGMT_AD		= 1 << 2,
+ };
+ 
++#define NVME_DSM_MAX_RANGES	256
++
+ struct nvme_dsm_range {
+ 	__le32			cattr;
+ 	__le32			nlb;
+ 	__le64			slba;
+ };
+ 
++struct nvme_write_zeroes_cmd {
++	__u8			opcode;
++	__u8			flags;
++	__u16			command_id;
++	__le32			nsid;
++	__u64			rsvd2;
++	__le64			metadata;
++	union nvme_data_ptr	dptr;
++	__le64			slba;
++	__le16			length;
++	__le16			control;
++	__le32			dsmgmt;
++	__le32			reftag;
++	__le16			apptag;
++	__le16			appmask;
++};
++
++/* Features */
++
++struct nvme_feat_auto_pst {
++	__le64 entries[32];
++};
++
++enum {
++	NVME_HOST_MEM_ENABLE	= (1 << 0),
++	NVME_HOST_MEM_RETURN	= (1 << 1),
++};
++
+ /* Admin commands */
+ 
+ enum nvme_admin_opcode {
+@@ -573,6 +634,7 @@ enum nvme_admin_opcode {
+ 	nvme_admin_download_fw		= 0x11,
+ 	nvme_admin_ns_attach		= 0x15,
+ 	nvme_admin_keep_alive		= 0x18,
++	nvme_admin_dbbuf		= 0x7C,
+ 	nvme_admin_format_nvm		= 0x80,
+ 	nvme_admin_security_send	= 0x81,
+ 	nvme_admin_security_recv	= 0x82,
+@@ -620,10 +682,14 @@ struct nvme_identify {
+ 	__le32			nsid;
+ 	__u64			rsvd2[2];
+ 	union nvme_data_ptr	dptr;
+-	__le32			cns;
++	__u8			cns;
++	__u8			rsvd3;
++	__le16			ctrlid;
+ 	__u32			rsvd11[5];
+ };
+ 
++#define NVME_IDENTIFY_DATA_SIZE 4096
++
+ struct nvme_features {
+ 	__u8			opcode;
+ 	__u8			flags;
+@@ -633,7 +699,16 @@ struct nvme_features {
+ 	union nvme_data_ptr	dptr;
+ 	__le32			fid;
+ 	__le32			dword11;
+-	__u32			rsvd12[4];
++	__le32                  dword12;
++	__le32                  dword13;
++	__le32                  dword14;
++	__le32                  dword15;
++};
++
++struct nvme_host_mem_buf_desc {
++	__le64			addr;
++	__le32			size;
++	__u32			rsvd;
+ };
+ 
+ struct nvme_create_cq {
+@@ -809,7 +884,7 @@ struct nvmf_connect_command {
+ };
+ 
+ struct nvmf_connect_data {
+-	__u8		hostid[16];
++	uuid_t		hostid;
+ 	__le16		cntlid;
+ 	char		resv4[238];
+ 	char		subsysnqn[NVMF_NQN_FIELD_LEN];
+@@ -842,6 +917,16 @@ struct nvmf_property_get_command {
+ 	__u8		resv4[16];
+ };
+ 
++struct nvme_dbbuf {
++	__u8			opcode;
++	__u8			flags;
++	__u16			command_id;
++	__u32			rsvd1[5];
++	__le64			prp1;
++	__le64			prp2;
++	__u32			rsvd12[6];
++};
++
+ struct nvme_command {
+ 	union {
+ 		struct nvme_common_command common;
+@@ -854,29 +939,17 @@ struct nvme_command {
+ 		struct nvme_download_firmware dlfw;
+ 		struct nvme_format_cmd format;
+ 		struct nvme_dsm_cmd dsm;
++		struct nvme_write_zeroes_cmd write_zeroes;
+ 		struct nvme_abort_cmd abort;
+ 		struct nvme_get_log_page_command get_log_page;
+ 		struct nvmf_common_command fabrics;
+ 		struct nvmf_connect_command connect;
+ 		struct nvmf_property_set_command prop_set;
+ 		struct nvmf_property_get_command prop_get;
++		struct nvme_dbbuf dbbuf;
+ 	};
+ };
+ 
+-#define NVME_IDENTIFY_CMD_LEN 4096
+-#define NVME_ID_CNS_NS_DESC_LIST 0x3
+-enum {
+-	NVME_NIDT_EUI64		= 0x1,
+-	NVME_NIDT_NGUID		= 0x2,
+-	NVME_NIDT_UUID		= 0x3,
+-};
+-
+-struct nvme_ns_id_desc {
+-	__u8 nidt;
+-	__u8 nidl;
+-	__u16 reserved;
+-};
+-
+ static inline bool nvme_is_write(struct nvme_command *cmd)
+ {
+ 	/*
+@@ -958,6 +1031,7 @@ enum {
+ 	NVME_SC_BAD_ATTRIBUTES		= 0x180,
+ 	NVME_SC_INVALID_PI		= 0x181,
+ 	NVME_SC_READ_ONLY		= 0x182,
++	NVME_SC_ONCS_NOT_SUPPORTED	= 0x183,
+ 
+ 	/*
+ 	 * I/O Command Set Specific - Fabrics commands:
+@@ -984,23 +1058,41 @@ enum {
+ 	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
+ 
+ 	NVME_SC_DNR			= 0x4000,
++
++
++	/*
++	 * FC Transport-specific error status values for NVME commands
++	 *
++	 * Transport-specific status code values must be in the range 0xB0..0xBF
++	 */
++
++	/* Generic FC failure - catchall */
++	NVME_SC_FC_TRANSPORT_ERROR	= 0x00B0,
++
++	/* I/O failure due to FC ABTS'd */
++	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00B1,
+ };
+ 
+ struct nvme_completion {
+ 	/*
+ 	 * Used by Admin and Fabrics commands to return data:
+ 	 */
+-	union {
+-		__le16	result16;
+-		__le32	result;
+-		__le64	result64;
+-	};
++	union nvme_result {
++		__le16	u16;
++		__le32	u32;
++		__le64	u64;
++	} result;
+ 	__le16	sq_head;	/* how much of this queue may be reclaimed */
+ 	__le16	sq_id;		/* submission queue that generated this entry */
+ 	__u16	command_id;	/* of the command which completed */
+ 	__le16	status;		/* did the command fail, and if so, why? */
+ };
+ 
+-#define NVME_VS(major, minor) (((major) << 16) | ((minor) << 8))
++#define NVME_VS(major, minor, tertiary) \
++	(((major) << 16) | ((minor) << 8) | (tertiary))
++
++#define NVME_MAJOR(ver)		((ver) >> 16)
++#define NVME_MINOR(ver)		(((ver) >> 8) & 0xff)
++#define NVME_TERTIARY(ver)	((ver) & 0xff)
+ 
+ #endif /* _LINUX_NVME_H */
+diff --git a/nvme-print.c b/nvme-print.c
+index dca4a19..637c695 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -3,10 +3,6 @@
+ #include <string.h>
+ #include <stdlib.h>
+ 
+-#ifdef LIBUUID
+-#include <uuid/uuid.h>
+-#endif
+-
+ #include "nvme-print.h"
+ #include "json.h"
+ #include "nvme-models.h"
+@@ -622,7 +618,7 @@ void json_nvme_id_ns_descs(void *data)
+ 
+ 	root = json_create_object();
+ 
+-	for (pos = 0; pos < NVME_IDENTIFY_CMD_LEN; pos += len) {
++	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
+ 		struct nvme_ns_id_desc *cur = data + pos;
+ 
+ 		off = pos + sizeof(*cur);
+@@ -680,7 +676,7 @@ void show_nvme_id_ns_descs(void *data)
+ 	__u8 eui64[8];
+ 	__u8 nguid[16];
+ 
+-	for (pos = 0; pos < NVME_IDENTIFY_CMD_LEN; pos += len) {
++	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
+ 		struct nvme_ns_id_desc *cur = data + pos;
+ 
+ 		if (cur->nidl == 0)
+diff --git a/nvme.c b/nvme.c
+index f746b74..4cb7d63 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -45,10 +45,6 @@
+ #include <sys/stat.h>
+ #include <sys/time.h>
+ 
+-#ifdef LIBUUID
+-#include <uuid/uuid.h>
+-#endif
+-
+ #include "nvme-print.h"
+ #include "nvme-ioctl.h"
+ #include "nvme-lightnvm.h"
+diff --git a/nvme.h b/nvme.h
+index 397a1a5..b796961 100644
+--- a/nvme.h
++++ b/nvme.h
+@@ -21,6 +21,15 @@
+ #include "json.h"
+ 
+ #define unlikely(x) x
++
++#ifdef LIBUUID
++#include <uuid/uuid.h>
++#else
++typedef struct {
++	__u8 b[16];
++} uuid_t;
++#endif
++
+ #include "linux/nvme.h"
+ 
+ struct nvme_error_log_page {
+@@ -45,16 +54,6 @@ struct nvme_firmware_log_page {
+ /* idle and active power scales occupy the last 2 bits of the field */
+ #define POWER_SCALE(s) ((s) >> 6)
+ 
+-enum {
+-	NVME_ID_CNS_NS			= 0x00,
+-	NVME_ID_CNS_CTRL		= 0x01,
+-	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
+-	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
+-	NVME_ID_CNS_NS_PRESENT		= 0x11,
+-	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
+-	NVME_ID_CNS_CTRL_LIST		= 0x13,
+-};
+-
+ struct nvme_host_mem_buffer {
+ 	__u32			hsize;
+ 	__u32			hmdlal;
+-- 
+2.11.0
