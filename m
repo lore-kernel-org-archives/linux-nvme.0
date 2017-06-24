@@ -1,127 +1,167 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Sat, 24 Jun 2017 15:47:01 +0800
-Subject: [PATCH] nvme: explicitly disable APST on quirked devices
-In-Reply-To: <CALCETrV6HTiJ6E9dPKBZB2dykouqM0J5At_gQ3WC_itySnsiiA@mail.gmail.com>
-References: <20170623061942.5225-1-kai.heng.feng@canonical.com>
- <CALCETrV6HTiJ6E9dPKBZB2dykouqM0J5At_gQ3WC_itySnsiiA@mail.gmail.com>
-Message-ID: <CAAd53p7xyEOU35S7QshC4eqg9FeJW+GmncQS=zGfzYC98DshZQ@mail.gmail.com>
+From: arka.sw1988@gmail.com (Arka Sharma)
+Date: Sat, 24 Jun 2017 21:37:29 +0530
+Subject: [Suspected-Phishing]Re: RDMA_Connect issue on Windows
+In-Reply-To: <CADLzrv-mhOutJn0_LBic9sUtQSwB897D20ZnFELZC=hMT409AQ@mail.gmail.com>
+References: <CADLzrv_yFWA2nvt=_SbEUVTuE_MScRrwj-yaFKorvPZ_6pw9bA@mail.gmail.com>
+ <73ba33ed-765a-07c3-7ce7-d93503364dae@grimberg.me>
+ <983226b0-9efa-7c3e-10ff-7a22b84a9160@mellanox.com>
+ <CADLzrv9-qH=7JtMRy7+8_80fxbheU_8cNApa90723sRei5xkAg@mail.gmail.com>
+ <0d322454-a853-8625-9fcd-87883df59e99@mellanox.com>
+ <fe7dd8af-4781-343a-e28c-a157a382766b@mellanox.com>
+ <CADLzrv9uq-X-fQyzqMia9FMDT+C09Hng9cH4aJqgU+8DWe8utA@mail.gmail.com>
+ <CADLzrv-mhOutJn0_LBic9sUtQSwB897D20ZnFELZC=hMT409AQ@mail.gmail.com>
+Message-ID: <CAPO=kN2w9sk7pQ76jJrjPDb7FQjvVDDwjwS_XTJ8C5CbkbSvTA@mail.gmail.com>
 
-On Sat, Jun 24, 2017@1:17 AM, Andy Lutomirski <luto@kernel.org> wrote:
-> On Thu, Jun 22, 2017 at 11:19 PM, Kai-Heng Feng
-> <kai.heng.feng@canonical.com> wrote:
->> A user reports APST is enabled, even when the NVMe is quirked or with
->> option "default_ps_max_latency_us=0".
->>
->> The current logic will not set APST if the device is quirked. But the
->> NVMe in question will enable APST automatically.
->>
->> Separate the logic "apst is supported" and "to enable apst", so we can
->> use the latter one to explicitly disable APST at initialiaztion.
->>
->> BugLink: https://bugs.launchpad.net/bugs/1699004
->> Signed-off-by: Kai-Heng Feng <kai.heng.feng at canonical.com>
->> ---
->>  drivers/nvme/host/core.c | 25 +++++++++++++++++--------
->>  drivers/nvme/host/nvme.h |  1 +
->>  2 files changed, 18 insertions(+), 8 deletions(-)
->>
->> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
->> index 0ddd6b9af7fc..c459d15d18f5 100644
->> --- a/drivers/nvme/host/core.c
->> +++ b/drivers/nvme/host/core.c
->> @@ -1477,6 +1477,14 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
->>         if (!ctrl->apsta)
->>                 return;
->>
->> +       if (!ctrl->apst_enabled) {
->> +               if (ctrl->state == NVME_CTRL_NEW ||
->> +                   ctrl->state == NVME_CTRL_RESETTING)
->> +                       dev_info(ctrl->device, "Disable APST at initialization\n");
->> +               else
->> +                       return;
->> +       }
->> +
->
-> Is this change really necessary?  ISTM that, if we want to optimize
-> the case where we're not changing anything, we should do it more
-> generally.
+I have installed wireshark 2.2.7. I fund that under Analyze->Enabled
+Protocols both iwarp_rdmap_ddp and iwarp_mpa enabled. I have also set
+the port no to 4420 at the target side. But all I can capture during
+Rdma connect is ARP. Also at the target side I capture only ARP using
+tcpdump. Do I need to use wd_tcpdump_trace and wd_sniffer at target
+side ?
 
-Do you mean combining the check on ctrl->apsta and ctrl->apst_enabled
-if we do nothing and just want to return?
+Thanks,
+Arka
 
+On Sat, Jun 24, 2017@9:28 PM, muthu crazy <muthucrazy90@gmail.com> wrote:
+> ---------- Forwarded message ----------
+> From: "muthu crazy" <muthucrazy90 at gmail.com>
+> Date: Jun 23, 2017 1:06 AM
+> Subject: Re: [Suspected-Phishing]Re: RDMA_Connect issue on Windows
+> To: "Robert Randall (rrandall)" <rrandall at micron.com>
+> Cc: "Sagi Grimberg" <sagi at grimberg.me>, "Max Gurtovoy" <maxg at mellanox.com>,
+> <linux-nvme at lists.infradead.org>
 >
->>         if (ctrl->npss > 31) {
->>                 dev_warn(ctrl->device, "NPSS is invalid; not using APST\n");
->>                 return;
->> @@ -1486,7 +1494,7 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
->>         if (!table)
->>                 return;
+> Dear Robert,
+>
+> Could you please guide me what has to be passed as part of NDKConnect,
+> I tried with RequestPrivateData structure. but it didn't work out.
+> Since MSDN was not clear, I was unable to proceed further.
+>
+> Please help me out.
+>
+> Thanks Inadvance,
+> Muthu
+>
+> On 21 June 2017@16:08, Max Gurtovoy <maxg@mellanox.com> wrote:
 >>
->> -       if (ctrl->ps_max_latency_us == 0) {
->> +       if (ctrl->ps_max_latency_us == 0 || !ctrl->apst_enabled) {
->>                 /* Turn off APST. */
->>                 apste = 0;
->>                 dev_dbg(ctrl->device, "APST disabled\n");
->> @@ -1653,7 +1661,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->>         u64 cap;
->>         int ret, page_shift;
->>         u32 max_hw_sectors;
->> -       u8 prev_apsta;
->> +       bool prev_apst_enabled;
 >>
->>         ret = ctrl->ops->reg_read32(ctrl, NVME_REG_VS, &ctrl->vs);
->>         if (ret) {
->> @@ -1721,16 +1729,17 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->>         ctrl->kas = le16_to_cpu(id->kas);
+>> On 6/21/2017 1:33 PM, Max Gurtovoy wrote:
+>>>
+>>>
+>>>
+>>> On 6/21/2017 3:56 AM, muthu crazy wrote:
+>>>>
+>>>> Thanks for the reply,
+>>>>
+>>>> I was trying to see the packets in Wireshark(2.2.6) during
+>>>> rdma_connect but I was getting only ARP packets. Do I need to add any
+>>>> plugin for Wireshark? Or any protocol preference has to be added in
+>>>> settings?
+>>>>
+>>>> -Muthu
+>>>
+>>>
+>>>
+>>> please use this link:
 >>
->>         ctrl->npss = id->npss;
->> -       prev_apsta = ctrl->apsta;
->> +       ctrl->apsta = id->apsta;
->
-> So ctrl->apsta now means, literally, is APSTA set in the features.
-> This seems good.
->
->> +       prev_apst_enabled = ctrl->apst_enabled;
->>         if (ctrl->quirks & NVME_QUIRK_NO_APST) {
->>                 if (force_apst && id->apsta) {
->>                         dev_warn(ctrl->device, "forcibly allowing APST due to nvme_core.force_apst -- use at your own risk\n");
->> -                       ctrl->apsta = 1;
->> +                       ctrl->apst_enabled = true;
->>                 } else {
->> -                       ctrl->apsta = 0;
->> +                       ctrl->apst_enabled = false;
->>                 }
->>         } else {
->> -               ctrl->apsta = id->apsta;
->> +               ctrl->apst_enabled = true;
->
-> Shouldn't this be ctrl->apst_enabled = id->apsta?
->
-> The way you have it could cause us to do the wrong thing if id->apsta
-> somehow changes between identifications.
-
-You are right. It should be initialized with id->apsta.
-
-I am curious though, when does NVMe do multiple identifications?
-
->
->
->>         memcpy(ctrl->psd, id->psd, sizeof(ctrl->psd));
 >>
->> @@ -1760,9 +1769,9 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+>>  https://www.wireshark.org/download.html
 >>
->>         kfree(id);
+>>>
+>>> and download the latest development release.
+>>> make sure your listener port is 4420.
+>>>
+>>> -Max.
+>>>
+>>>>
+>>>> On 20 June 2017@12:50, Max Gurtovoy <maxg@mellanox.com> wrote:
+>>>>>
+>>>>> I would also try to parse it with Wireshark and compare all the needed
+>>>>> fields and sizes.
+>>>>> We are adding more and more nvmf command parsing to the disector but
+>>>>> you're
+>>>>> in earliar stage of RDMA connection establisment.
+>>>>>
+>>>>>
+>>>>> On 6/20/2017 9:34 AM, Sagi Grimberg wrote:
+>>>>>>
+>>>>>>
+>>>>>> CC'ing Robert who has experience with Windows <-> Linux
+>>>>>> interop...
+>>>>>>
+>>>>>> On 19/06/17 20:58, muthu crazy wrote:
+>>>>>>>
+>>>>>>>
+>>>>>>> Dear All,
+>>>>>>>
+>>>>>>> I am trying to make a fabrics setup using Chelsio RNIC where Windows
+>>>>>>> is the Client PC, and Linux is the target PC. From Windows Client
+>>>>>>> driver, I am invoking NDKConnect API(It will internally call
+>>>>>>> RMDA_Connect) and passing below structures as a parameter to it.
+>>>>>>>
+>>>>>>> struct RDMA_CONN_PARAM
+>>>>>>> {
+>>>>>>> RDMA_CM_REQUEST private_data;
+>>>>>>> private_data_len = sizeof(RDMA_CM_REQUEST)
+>>>>>>> responder_resources = 0x20
+>>>>>>> initiator_depth = 0
+>>>>>>> flow_control=1
+>>>>>>> retry_count=7
+>>>>>>> RNR_Retry_count = 7
+>>>>>>> SRQ = 0
+>>>>>>> QP_num = 0x400
+>>>>>>> }
+>>>>>>>
+>>>>>>> struct RDMA_CM_REQUEST
+>>>>>>> {
+>>>>>>> Recfmt = 0
+>>>>>>> Qid = 0
+>>>>>>> Hrqsize = 0x20
+>>>>>>> Hsqsize = 0x20
+>>>>>>> Reserved[8:31] = 0;
+>>>>>>> }
+>>>>>>>
+>>>>>>> but on target side, I could see some junk value along with my actual
+>>>>>>> data received.(Linux Kernel:4.9.8)
+>>>>>>>
+>>>>>>> like below:
+>>>>>>>
+>>>>>>> 0xFFFFFFE0, 0xFFFFFFB0, 0x23, 0x6, 0x0, 0xFFFFFFE0, 0xFFFFFFFF
+>>>>>>> 0x20,0x20,0x0,0x1,0x7,0x7,0x0,0x0,0x0,0x4
+>>>>>>>
+>>>>>>> Has anybody observed this before? Please help me out.
+>>>>>>>
+>>>>>>>
+>>>>>>> Thanks,
+>>>>>>> --Muthu
+>>>>>>>
+>>>>>>> _______________________________________________
+>>>>>>> Linux-nvme mailing list
+>>>>>>> Linux-nvme at lists.infradead.org
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&data=02%7C01%7Cmaxg%40mellanox.com%7C2abc52e374854c98a13508d4b7a684e2%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636335373205704262&sdata=ET93l30HHFfZYSdGJ2xCTLVOObYIG%2Bq%2BS%2Ffv2y5Of74%3D&reserved=0
+>>>>>>>
+>>>>>>>
+>>>>>>>
+>>>>>>
+>>>>>> _______________________________________________
+>>>>>> Linux-nvme mailing list
+>>>>>> Linux-nvme at lists.infradead.org
+>>>>>>
+>>>>>>
+>>>>>>
+>>>>>> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&data=02%7C01%7Cmaxg%40mellanox.com%7C2abc52e374854c98a13508d4b7a684e2%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636335373205714275&sdata=C2YQOHf93VyDCyeYfHUboIl81mZcmR%2BDM2V58xmLFEI%3D&reserved=0
+>>>>>>
+>>>>>>
+>>>>>
+>>>
+>>> _______________________________________________
+>>> Linux-nvme mailing list
+>>> Linux-nvme at lists.infradead.org
+>>>
+>>>
+>>> https://emea01.safelinks.protection.outlook.com/?url=http%3A%2F%2Flists.infradead.org%2Fmailman%2Flistinfo%2Flinux-nvme&data=02%7C01%7Cmaxg%40mellanox.com%7C486b3843d17e4cda382908d4b8910951%7Ca652971c7d2e4d9ba6a4d149256f461b%7C0%7C0%7C636336380464261069&sdata=SFYoJ9bBCOxCL9ovN2Pu5FxOfes%2Bd65PB0NMCKRV588%3D&reserved=0
+>>>
 >>
->> -       if (ctrl->apsta && !prev_apsta)
->> +       if (ctrl->apst_enabled && !prev_apst_enabled)
->>                 dev_pm_qos_expose_latency_tolerance(ctrl->device);
->> -       else if (!ctrl->apsta && prev_apsta)
->> +       else if (!ctrl->apst_enabled && prev_apst_enabled)
->>                 dev_pm_qos_hide_latency_tolerance(ctrl->device);
->
-> This is also wrong unless you make the change above, I think.
-
-Thanks, I'll address these issues on later version.
-
->
-> --Andy
