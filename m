@@ -1,113 +1,53 @@
-From: luto@kernel.org (Andy Lutomirski)
-Date: Fri, 23 Jun 2017 10:17:58 -0700
-Subject: [PATCH] nvme: explicitly disable APST on quirked devices
-In-Reply-To: <20170623061942.5225-1-kai.heng.feng@canonical.com>
-References: <20170623061942.5225-1-kai.heng.feng@canonical.com>
-Message-ID: <CALCETrV6HTiJ6E9dPKBZB2dykouqM0J5At_gQ3WC_itySnsiiA@mail.gmail.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Sat, 24 Jun 2017 09:11:05 +0200
+Subject: [PATCH V3 2/2] nvme: Add support for FW activation without reset
+In-Reply-To: <7c382f8a-12cc-566b-f461-1bc40ccf751c@samsung.com>
+References: <1497078344-5509-1-git-send-email-a.dawn@samsung.com>
+ <CGME20170610070845epcas1p361081521580b9ca7bf45605249f992e2@epcas1p3.samsung.com>
+ <1497078522-5764-1-git-send-email-a.dawn@samsung.com>
+ <20170619170551.GK21765@localhost.localdomain>
+ <876bfb79-9bf2-1def-2a4e-94d472c08868@samsung.com>
+ <20170621133742.GA4962@localhost.localdomain>
+ <7c382f8a-12cc-566b-f461-1bc40ccf751c@samsung.com>
+Message-ID: <20170624071105.GC14437@lst.de>
 
-On Thu, Jun 22, 2017 at 11:19 PM, Kai-Heng Feng
-<kai.heng.feng@canonical.com> wrote:
-> A user reports APST is enabled, even when the NVMe is quirked or with
-> option "default_ps_max_latency_us=0".
->
-> The current logic will not set APST if the device is quirked. But the
-> NVMe in question will enable APST automatically.
->
-> Separate the logic "apst is supported" and "to enable apst", so we can
-> use the latter one to explicitly disable APST at initialiaztion.
->
-> BugLink: https://bugs.launchpad.net/bugs/1699004
-> Signed-off-by: Kai-Heng Feng <kai.heng.feng at canonical.com>
-> ---
->  drivers/nvme/host/core.c | 25 +++++++++++++++++--------
->  drivers/nvme/host/nvme.h |  1 +
->  2 files changed, 18 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 0ddd6b9af7fc..c459d15d18f5 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1477,6 +1477,14 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
->         if (!ctrl->apsta)
->                 return;
->
-> +       if (!ctrl->apst_enabled) {
-> +               if (ctrl->state == NVME_CTRL_NEW ||
-> +                   ctrl->state == NVME_CTRL_RESETTING)
-> +                       dev_info(ctrl->device, "Disable APST at initialization\n");
-> +               else
-> +                       return;
-> +       }
-> +
+On Fri, Jun 23, 2017@05:41:21PM +0530, Arnav Dawn wrote:
+> 
+> On Wednesday 21 June 2017 07:07 PM, Keith Busch wrote:
+> > On Wed, Jun 21, 2017@01:06:31PM +0530, Arnav Dawn wrote:
+> >> On Monday 19 June 2017 10:35 PM, Keith Busch wrote:
+> >>> On Sat, Jun 10, 2017@12:38:42PM +0530, Arnav Dawn wrote:
+> >>>
+> >>>> +				ctrl->fw_act_timeout = jiffies +
+> >>>> +					msecs_to_jiffies(ctrl->mtfa * 100);
+> >>> Instead of adding another field to the nvme_ctrl structure, just
+> >>> calculate the timeout in your nvme_fw_act_work function.
+> >> intention was to  set fw_act_timeout as soon as the AER is received.
+> >> Since work could be scheduled after some time, setting timeout in
+> >> work function would add that delay to it.
+> > This feature doesn't require such tight constraints. The 100ms sleep
+> > granularity in your CSTS.PP polling already exceeds the amount of time
+> > it takes for work to schedule.
+> i agree, i will update it in next version.
+> >>>> +			else
+> >>>> +				ctrl->fw_act_timeout = jiffies +
+> >>>> +					msecs_to_jiffies(admin_timeout * 1000);
+> >>>> +
+> >>>> +			schedule_delayed_work(&ctrl->fw_act_work, 0);
+> >>> If scheduling with 0 delay, why is this delayed work?
+> >> I used delayed work so i could use cancel_delayed_work, as cancel_work
+> >> was not available.
+> > If you really have a use for cancel_work, you could send a patch to
+> > export the symbol.
+> >
+> > In any case, that's probably not going to do what you want. The work can
+> > only be cancelled if it hasn't started, and since you start it without
+> > delay, the work will likely be running. Maybe you want to add some other
+> > criteria for the nvme_fw_act_work to end early, though I expect CSTS.PP
+> > to clear if f/w load failed.
+> you are right, if the device sends Firmware image load error AER,
+> CSTS.PP is probably cleared, and the nvme_fw_act_work will end.
+> so i think nothing needs to be done on FW Image load error AER.
 
-Is this change really necessary?  ISTM that, if we want to optimize
-the case where we're not changing anything, we should do it more
-generally.
-
->         if (ctrl->npss > 31) {
->                 dev_warn(ctrl->device, "NPSS is invalid; not using APST\n");
->                 return;
-> @@ -1486,7 +1494,7 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
->         if (!table)
->                 return;
->
-> -       if (ctrl->ps_max_latency_us == 0) {
-> +       if (ctrl->ps_max_latency_us == 0 || !ctrl->apst_enabled) {
->                 /* Turn off APST. */
->                 apste = 0;
->                 dev_dbg(ctrl->device, "APST disabled\n");
-> @@ -1653,7 +1661,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->         u64 cap;
->         int ret, page_shift;
->         u32 max_hw_sectors;
-> -       u8 prev_apsta;
-> +       bool prev_apst_enabled;
->
->         ret = ctrl->ops->reg_read32(ctrl, NVME_REG_VS, &ctrl->vs);
->         if (ret) {
-> @@ -1721,16 +1729,17 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->         ctrl->kas = le16_to_cpu(id->kas);
->
->         ctrl->npss = id->npss;
-> -       prev_apsta = ctrl->apsta;
-> +       ctrl->apsta = id->apsta;
-
-So ctrl->apsta now means, literally, is APSTA set in the features.
-This seems good.
-
-> +       prev_apst_enabled = ctrl->apst_enabled;
->         if (ctrl->quirks & NVME_QUIRK_NO_APST) {
->                 if (force_apst && id->apsta) {
->                         dev_warn(ctrl->device, "forcibly allowing APST due to nvme_core.force_apst -- use at your own risk\n");
-> -                       ctrl->apsta = 1;
-> +                       ctrl->apst_enabled = true;
->                 } else {
-> -                       ctrl->apsta = 0;
-> +                       ctrl->apst_enabled = false;
->                 }
->         } else {
-> -               ctrl->apsta = id->apsta;
-> +               ctrl->apst_enabled = true;
-
-Shouldn't this be ctrl->apst_enabled = id->apsta?
-
-The way you have it could cause us to do the wrong thing if id->apsta
-somehow changes between identifications.
-
-
->         memcpy(ctrl->psd, id->psd, sizeof(ctrl->psd));
->
-> @@ -1760,9 +1769,9 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->
->         kfree(id);
->
-> -       if (ctrl->apsta && !prev_apsta)
-> +       if (ctrl->apst_enabled && !prev_apst_enabled)
->                 dev_pm_qos_expose_latency_tolerance(ctrl->device);
-> -       else if (!ctrl->apsta && prev_apsta)
-> +       else if (!ctrl->apst_enabled && prev_apst_enabled)
->                 dev_pm_qos_hide_latency_tolerance(ctrl->device);
-
-This is also wrong unless you make the change above, I think.
-
---Andy
+please make sure you do a cancel_work_sync there and in the controller
+removal path to make sure we don't have a work item lingering around.
