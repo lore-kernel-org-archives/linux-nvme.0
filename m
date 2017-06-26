@@ -1,95 +1,59 @@
-From: kai.heng.feng@canonical.com (Kai-Heng Feng)
-Date: Mon, 26 Jun 2017 15:01:29 +0800
-Subject: [PATCH v2] nvme: explicitly disable APST on quirked devices
-Message-ID: <20170626070129.14744-1-kai.heng.feng@canonical.com>
+From: arnd@arndb.de (Arnd Bergmann)
+Date: Mon, 26 Jun 2017 11:15:43 +0200
+Subject: DMA_ATTR_WEAK_ORDERING defintion, was Re: [PATCH] nvme: set
+ DMA_ATTR_WEAK_ORDERING attribute on dma buffers
+In-Reply-To: <20170624073539.GE14580@lst.de>
+References: <1497645290-31041-1-git-send-email-alan.adamson@oracle.com>
+ <20170617115703.GA13002@lst.de>
+ <6a32f30b-433a-9857-164f-1717405a6082@oracle.com>
+ <20170624073539.GE14580@lst.de>
+Message-ID: <CAK8P3a0itukwNkPk-Yui6juJXt5QiQT6+FYxP12or2wt5jDhLw@mail.gmail.com>
 
-A user reports APST is enabled, even when the NVMe is quirked or with
-option "default_ps_max_latency_us=0".
+On Sat, Jun 24, 2017@9:35 AM, Christoph Hellwig <hch@lst.de> wrote:
+> I always assumed that our streaming mappings are relaxed order for
+> TLP anyway.  And at very least Documentation/DMA-attributes.txt seems
+> to imply something different:
+>
+>
+>   DMA_ATTR_WEAK_ORDERING
+>   ----------------------
+>
+>   DMA_ATTR_WEAK_ORDERING specifies that reads and writes to the mapping
+>   may be weakly ordered, that is that reads and writes may pass each other.
+>
+> Which to me suggest host reads, which also makes me wonder why these
+> would even apply to our streaming mappings.
+>
+> Adding the powerpc folks that added the DMA_ATTR_WEAK_ORDERING flag
+> originally back in 2008, but not actual users as far as I can tell -
+> those are all new and from the sparc gang, except for the noveau
+> driver, which is a bit older but only uses for dma_alloc_attrs, where
+> the original description makes sense to me.
 
-The current logic will not set APST if the device is quirked. But the
-NVMe in question will enable APST automatically.
+I suspect people have applied the same name for different things over time.
 
-Separate the logic "apst is supported" and "to enable apst", so we can
-use the latter one to explicitly disable APST at initialiaztion.
+When we added it in 2008, there was one specific use case, improving
+throughput on infiniband, iirc using the mthca device driver. In the Cell
+IOMMU, this attribute causes concurrent DMA transfers on PCIe
+devices to disregard the stricter PCI ordering rules: multiple transfers
+could be initiated together and complete in an arbitrary order depending
+on e.g. I/O page faults in the IOMMU. Using the dma attributes, this
+could be controlled to apply only to certain transfers, so a completion
+queue DMA would still be ordered with regard to other transfers, as it would
+not come with that attribute.
 
-BugLink: https://bugs.launchpad.net/bugs/1699004
-Signed-off-by: Kai-Heng Feng <kai.heng.feng at canonical.com>
----
-v2:
- - Remove unnecessary check on device state.
- - Correct apst_enabled value when there's no APST quirk matched.
+There are two things that I don't remember unfortunately.
 
- drivers/nvme/host/core.c | 17 +++++++++--------
- drivers/nvme/host/nvme.h |  1 +
- 2 files changed, 10 insertions(+), 8 deletions(-)
+a) why this patch seems to have never made it into the mainline kernel:
+http://lists.openfabrics.org/pipermail/general/2008-October/055006.html
+We probably had it added to both OFED and the supported distros at
+the time (RHEL, Fedora, SLES, all in versions I don't remember any
+more)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 903d5813023a..f0fd1bba3cdb 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -1372,7 +1372,7 @@ static void nvme_configure_apst(struct nvme_ctrl *ctrl)
- 	if (!table)
- 		return;
- 
--	if (ctrl->ps_max_latency_us == 0) {
-+	if (!ctrl->apst_enabled || ctrl->ps_max_latency_us == 0) {
- 		/* Turn off APST. */
- 		apste = 0;
- 		dev_dbg(ctrl->device, "APST disabled\n");
-@@ -1539,7 +1539,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	u64 cap;
- 	int ret, page_shift;
- 	u32 max_hw_sectors;
--	u8 prev_apsta;
-+	bool prev_apst_enabled;
- 
- 	ret = ctrl->ops->reg_read32(ctrl, NVME_REG_VS, &ctrl->vs);
- 	if (ret) {
-@@ -1607,16 +1607,17 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 	ctrl->kas = le16_to_cpu(id->kas);
- 
- 	ctrl->npss = id->npss;
--	prev_apsta = ctrl->apsta;
-+	ctrl->apsta = id->apsta;
-+	prev_apst_enabled = ctrl->apst_enabled;
- 	if (ctrl->quirks & NVME_QUIRK_NO_APST) {
- 		if (force_apst && id->apsta) {
- 			dev_warn(ctrl->dev, "forcibly allowing APST due to nvme_core.force_apst -- use at your own risk\n");
--			ctrl->apsta = 1;
-+			ctrl->apst_enabled = true;
- 		} else {
--			ctrl->apsta = 0;
-+			ctrl->apst_enabled = false;
- 		}
- 	} else {
--		ctrl->apsta = id->apsta;
-+		ctrl->apst_enabled = id->apsta;
- 	}
- 	memcpy(ctrl->psd, id->psd, sizeof(ctrl->psd));
- 
-@@ -1644,9 +1645,9 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
- 
- 	kfree(id);
- 
--	if (ctrl->apsta && !prev_apsta)
-+	if (ctrl->apst_enabled && !prev_apst_enabled)
- 		dev_pm_qos_expose_latency_tolerance(ctrl->device);
--	else if (!ctrl->apsta && prev_apsta)
-+	else if (!ctrl->apst_enabled && prev_apst_enabled)
- 		dev_pm_qos_hide_latency_tolerance(ctrl->device);
- 
- 	nvme_configure_apst(ctrl);
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 9d6a070d4391..dbabe2b728cb 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -165,6 +165,7 @@ struct nvme_ctrl {
- 
- 	/* Power saving configuration */
- 	u64 ps_max_latency_us;
-+	bool apst_enabled;
- 
- 	/* Fabrics only */
- 	u16 sqsize;
--- 
-2.13.1
+b) How this relates to the PCIe relaxed ordering flag on DMA transfers.
+It's possible that the hardware later learned to correctly set the
+flag on the actual transfer to have the same effect, or it's possible
+that we had to add the dma_alloc_attr() interface specifically because
+the hardware could not do this for some but not other transfers.
+
+      Arnd
