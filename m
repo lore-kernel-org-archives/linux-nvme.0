@@ -1,11 +1,24 @@
-From: maxg@mellanox.com (Max Gurtovoy)
-Date: Mon, 26 Jun 2017 15:53:36 +0300
-Subject: [PATCH 1/4] nvme: remove a misleading comment on strut nvme_ns
-In-Reply-To: <20170626103904.9516-2-hch@lst.de>
-References: <20170626103904.9516-1-hch@lst.de>
- <20170626103904.9516-2-hch@lst.de>
-Message-ID: <b92c0ac6-1241-e9b8-6458-8e44c6fa6280@mellanox.com>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Mon, 26 Jun 2017 07:55:27 -0600
+Subject: [PATCH 1/9] fs: add fcntl() interface for setting/getting write
+ life time hints
+In-Reply-To: <20170626095148.GB14057@infradead.org>
+References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
+ <1498004526-4543-2-git-send-email-axboe@kernel.dk>
+ <20170626095148.GB14057@infradead.org>
+Message-ID: <91b3fd3b-18f5-cf8c-a1d7-c0637283ce14@kernel.dk>
 
-Looks fine (please notice the typo in the subject: strut --> struct :)),
+On 06/26/2017 03:51 AM, Christoph Hellwig wrote:
+> Please document the userspace API (added linux-api and linux-man
+> to CC for sugestions), especially including the odd effects of the
+> per-inode settings.
 
-Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
+Of course, I'll send in a diff for the fcntl(2) man page.
+
+> Also I would highly recommend to use different fcntl commands
+> for the file vs inode hints to avoid any strange behavior.
+
+OK, used to have that too... I can add specific _FILE versions.
+
+-- 
+Jens Axboe
