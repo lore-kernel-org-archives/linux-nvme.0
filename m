@@ -1,30 +1,42 @@
 From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 26 Jun 2017 07:56:22 -0600
-Subject: [PATCH 9/9] nvme: add support for streams and directives
-In-Reply-To: <20170626095907.GG14057@infradead.org>
+Date: Mon, 26 Jun 2017 08:12:36 -0600
+Subject: [PATCH 4/9] fs: add O_DIRECT support for sending down write life
+ time hints
+In-Reply-To: <20170626095506.GE14057@infradead.org>
 References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
- <1498004526-4543-10-git-send-email-axboe@kernel.dk>
- <20170626095907.GG14057@infradead.org>
-Message-ID: <d2dcae41-d0b2-71a7-a63d-b7ef25ae47d2@kernel.dk>
+ <1498004526-4543-5-git-send-email-axboe@kernel.dk>
+ <20170626095506.GE14057@infradead.org>
+Message-ID: <deeee2b1-214d-34ed-d4b2-a59813946424@kernel.dk>
 
-On 06/26/2017 03:59 AM, Christoph Hellwig wrote:
-> Looks mostly good,
+On 06/26/2017 03:55 AM, Christoph Hellwig wrote:
+>> @@ -385,6 +385,8 @@ dio_bio_alloc(struct dio *dio, struct dio_submit *sdio,
+>>  	else
+>>  		bio->bi_end_io = dio_bio_end_io;
+>>  
+>> +	bio->bi_opf |= write_hint_to_opf(iocb_write_hint(dio->iocb));
+>> +
+>>  	sdio->bio = bio;
+>>  	sdio->logical_offset_in_bio = sdio->cur_page_fs_offset;
+>>  }
+>> diff --git a/fs/iomap.c b/fs/iomap.c
+>> index c71a64b97fba..9c9f8406018b 100644
+>> --- a/fs/iomap.c
+>> +++ b/fs/iomap.c
+>> @@ -804,6 +804,7 @@ iomap_dio_actor(struct inode *inode, loff_t pos, loff_t length,
+>>  
+>>  		if (dio->flags & IOMAP_DIO_WRITE) {
+>>  			bio_set_op_attrs(bio, REQ_OP_WRITE, REQ_SYNC | REQ_IDLE);
+>> +			bio->bi_opf |= write_hint_to_opf(inode_write_hint(inode));
 > 
-> but two nit-picks:
-> 
->  - can we keep a module option to disable streams, or in fact for
->    now maybe to explicitly enable it?  I expect this to be interesting
->    at least for the first devices that implement it.  Also given that
->    it needs to be explicitly enabled I would expect some overhead of
->    just enabling it when never used
+> This should be iocb based as well, otherwise you'll miss out on
+> the per-file hints.
 
-Fine with me, I can add the 'streams' parameter back, but just default
-it to false.
+Good catch, fixed up.
 
->  - do we even need the < 4 streams fallback now that they are global
->    instead of per-ns instead of just disabling the feature for now?
+> Also please don't add a > 80 char line.  (And yes, I should fix the one
+> just above, too)
 
-Maybe the device only supports 2? or 3?
+I fixed up them both...
 
 -- 
 Jens Axboe
