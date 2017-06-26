@@ -1,15 +1,14 @@
 From: hch@infradead.org (Christoph Hellwig)
-Date: Mon, 26 Jun 2017 02:51:48 -0700
-Subject: [PATCH 1/9] fs: add fcntl() interface for setting/getting write
- life time hints
-In-Reply-To: <1498004526-4543-2-git-send-email-axboe@kernel.dk>
+Date: Mon, 26 Jun 2017 02:52:21 -0700
+Subject: [PATCH 2/9] block: add support for write hints in a bio
+In-Reply-To: <1498004526-4543-3-git-send-email-axboe@kernel.dk>
 References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
- <1498004526-4543-2-git-send-email-axboe@kernel.dk>
-Message-ID: <20170626095148.GB14057@infradead.org>
+ <1498004526-4543-3-git-send-email-axboe@kernel.dk>
+Message-ID: <20170626095221.GC14057@infradead.org>
 
-Please document the userspace API (added linux-api and linux-man
-to CC for sugestions), especially including the odd effects of the
-per-inode settings.
+Looks fine for now:
 
-Also I would highly recommend to use different fcntl commands
-for the file vs inode hints to avoid any strange behavior.
+Reviewed-by: Christoph Hellwig <hch at lst.de>
+
+(although I suspect we'll eventually move to a hints field
+separate from the REQ_* flags).
