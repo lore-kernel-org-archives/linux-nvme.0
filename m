@@ -1,22 +1,39 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 26 Jun 2017 08:16:21 -0600
-Subject: [PATCH 7/9] xfs: add support for passing in write hints for
- buffered writes
-In-Reply-To: <20170626095617.GF14057@infradead.org>
+From: darrick.wong@oracle.com (Darrick J. Wong)
+Date: Mon, 26 Jun 2017 09:09:46 -0700
+Subject: [PATCH 1/9] fs: add fcntl() interface for setting/getting write
+ life time hints
+In-Reply-To: <91b3fd3b-18f5-cf8c-a1d7-c0637283ce14@kernel.dk>
 References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
- <1498004526-4543-8-git-send-email-axboe@kernel.dk>
- <20170626095617.GF14057@infradead.org>
-Message-ID: <ec322a30-849d-65c7-76a8-f1aa282407b7@kernel.dk>
+ <1498004526-4543-2-git-send-email-axboe@kernel.dk>
+ <20170626095148.GB14057@infradead.org>
+ <91b3fd3b-18f5-cf8c-a1d7-c0637283ce14@kernel.dk>
+Message-ID: <20170626160946.GI3787@birch.djwong.org>
 
-On 06/26/2017 03:56 AM, Christoph Hellwig wrote:
->> +	ioend->io_bio->bi_opf |= write_hint_to_opf(inode_write_hint(ioend->io_inode));
+On Mon, Jun 26, 2017@07:55:27AM -0600, Jens Axboe wrote:
+> On 06/26/2017 03:51 AM, Christoph Hellwig wrote:
+> > Please document the userspace API (added linux-api and linux-man
+> > to CC for sugestions), especially including the odd effects of the
+> > per-inode settings.
 > 
-> Too long line again.
+> Of course, I'll send in a diff for the fcntl(2) man page.
 > 
-> I think simply adding an inode_hint_to_opf() flag would make the various
-> opencoded versions of the above call a little easier to read.
+> > Also I would highly recommend to use different fcntl commands
+> > for the file vs inode hints to avoid any strange behavior.
+> 
+> OK, used to have that too... I can add specific _FILE versions.
 
-Sure, I'll do that.
+While you're at it, can you also send in an xfstest or two to check the
+basic functionality of the fcntl so that we know the code reflects the
+userspace API ("I set this hint and now I can query it back" and "file
+hint overrides inode hint") that we want?
 
--- 
-Jens Axboe
+--D
+
+> 
+> -- 
+> Jens Axboe
+> 
+> --
+> To unsubscribe from this list: send the line "unsubscribe linux-api" in
+> the body of a message to majordomo at vger.kernel.org
+> More majordomo info at  http://vger.kernel.org/majordomo-info.html
