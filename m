@@ -1,34 +1,51 @@
-From: luto@kernel.org (Andy Lutomirski)
-Date: Mon, 26 Jun 2017 11:05:32 -0700
-Subject: [PATCH v2] nvme: explicitly disable APST on quirked devices
-In-Reply-To: <20170626070129.14744-1-kai.heng.feng@canonical.com>
-References: <20170626070129.14744-1-kai.heng.feng@canonical.com>
-Message-ID: <CALCETrVRNR4RLS53pqvXfGYZwc7QMNvdO46JVn6fCeeRAUvJuA@mail.gmail.com>
+From: adilger@dilger.ca (Andreas Dilger)
+Date: Mon, 26 Jun 2017 13:36:59 -0600
+Subject: [PATCH 9/9] nvme: add support for streams and directives
+In-Reply-To: <d2dcae41-d0b2-71a7-a63d-b7ef25ae47d2@kernel.dk>
+References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
+ <1498004526-4543-10-git-send-email-axboe@kernel.dk>
+ <20170626095907.GG14057@infradead.org>
+ <d2dcae41-d0b2-71a7-a63d-b7ef25ae47d2@kernel.dk>
+Message-ID: <7A48D12A-E656-4FC8-9D03-1BC482B8AE34@dilger.ca>
 
-On Mon, Jun 26, 2017 at 12:01 AM, Kai-Heng Feng
-<kai.heng.feng@canonical.com> wrote:
-> A user reports APST is enabled, even when the NVMe is quirked or with
-> option "default_ps_max_latency_us=0".
->
-> The current logic will not set APST if the device is quirked. But the
-> NVMe in question will enable APST automatically.
->
-> Separate the logic "apst is supported" and "to enable apst", so we can
-> use the latter one to explicitly disable APST at initialiaztion.
+On Jun 26, 2017,@7:56 AM, Jens Axboe <axboe@kernel.dk> wrote:
+> 
+> On 06/26/2017 03:59 AM, Christoph Hellwig wrote:
+>> Looks mostly good,
+>> 
+>> but two nit-picks:
+>> 
+>> - can we keep a module option to disable streams, or in fact for
+>>   now maybe to explicitly enable it?  I expect this to be interesting
+>>   at least for the first devices that implement it.  Also given that
+>>   it needs to be explicitly enabled I would expect some overhead of
+>>   just enabling it when never used
+> 
+> Fine with me, I can add the 'streams' parameter back, but just default
+> it to false.
 
-Reviewed-by: Andy Lutomirski <luto at kernel.org>
+Better would be a parameter to set the default streams count, 0 by default.
 
-That being said, I smell a giant WTF here.  The affected hardware
-seems to have APST on by default, and APST is buggy so the disk stops
-working when APST is on.  So here's the $1M question: how does the
-system *boot*?  After all, it's running for a while before the kernel
-gets around to turning off APST, and I really doubt that BIOS does
-this.
+>> - do we even need the < 4 streams fallback now that they are global
+>>   instead of per-ns instead of just disabling the feature for now?
+> 
+> Maybe the device only supports 2? or 3?
+> 
+> --
+> Jens Axboe
+> 
 
-Here's a wild theory: what if the problem on all these disks is
-actually our CSTS polling?  Could it be that some of the disks
-implement CSTS reads in firmware and malfunction if CSTS is read while
-in PS4?  This would be a blatant spec violation, but that's never
-stopped anyone before...
 
---Andy
+Cheers, Andreas
+
+
+
+
+
+-------------- next part --------------
+A non-text attachment was scrubbed...
+Name: signature.asc
+Type: application/pgp-signature
+Size: 195 bytes
+Desc: Message signed with OpenPGP
+URL: <http://lists.infradead.org/pipermail/linux-nvme/attachments/20170626/c71128c1/attachment.sig>
