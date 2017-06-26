@@ -1,32 +1,11 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 26 Jun 2017 12:20:58 +0200
-Subject: [PATCH 3/3] nvme: allocate queues for all possible CPUs
-In-Reply-To: <20170626102058.10200-1-hch@lst.de>
-References: <20170626102058.10200-1-hch@lst.de>
-Message-ID: <20170626102058.10200-4-hch@lst.de>
+Date: Mon, 26 Jun 2017 12:39:00 +0200
+Subject: improve NQN handling
+Message-ID: <20170626103904.9516-1-hch@lst.de>
 
-Unlike most dr?vers that simply pass the maximum possible vectors to
-pci_alloc_irq_vectors NVMe needs to configure the device before allocting
-the vectors, so it needs a manual update for the new scheme of using
-all present CPUs.
+Hi all,
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- drivers/nvme/host/pci.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 951042a375d6..b3dcd7abc6d7 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1525,7 +1525,7 @@ static int nvme_setup_io_queues(struct nvme_dev *dev)
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 	int result, nr_io_queues, size;
- 
--	nr_io_queues = num_online_cpus();
-+	nr_io_queues = num_present_cpus();
- 	result = nvme_set_queue_count(&dev->ctrl, &nr_io_queues);
- 	if (result < 0)
- 		return result;
--- 
-2.11.0
+this series contains the NQN-related improvements from the bigger
+subsystem tracking series, as the additional patches there might
+need more work than I'll be able to get done before the end of the
+merge window.
