@@ -1,37 +1,11 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 26 Jun 2017 12:39:04 +0200
-Subject: [PATCH 4/4] nvme-fabrics: verify that a controller returns the
- correct NQN
-In-Reply-To: <20170626103904.9516-1-hch@lst.de>
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Mon, 26 Jun 2017 15:53:36 +0300
+Subject: [PATCH 1/4] nvme: remove a misleading comment on strut nvme_ns
+In-Reply-To: <20170626103904.9516-2-hch@lst.de>
 References: <20170626103904.9516-1-hch@lst.de>
-Message-ID: <20170626103904.9516-5-hch@lst.de>
+ <20170626103904.9516-2-hch@lst.de>
+Message-ID: <b92c0ac6-1241-e9b8-6458-8e44c6fa6280@mellanox.com>
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
----
- drivers/nvme/host/fabrics.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Looks fine (please notice the typo in the subject: strut --> struct :)),
 
-diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
-index 4798a8a425e0..87038a017fb9 100644
---- a/drivers/nvme/host/fabrics.c
-+++ b/drivers/nvme/host/fabrics.c
-@@ -862,6 +862,15 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
- 		goto out_unlock;
- 	}
- 
-+	if (strcmp(ctrl->subnqn, opts->subsysnqn)) {
-+		dev_warn(ctrl->device,
-+			"controller returned incorrect NQN: \"%s\".\n",
-+			ctrl->subnqn);
-+		mutex_unlock(&nvmf_transports_mutex);
-+		ctrl->ops->delete_ctrl(ctrl);
-+		return ERR_PTR(-EINVAL);
-+	}
-+
- 	mutex_unlock(&nvmf_transports_mutex);
- 	return ctrl;
- 
--- 
-2.11.0
+Reviewed-by: Max Gurtovoy <maxg at mellanox.com>
