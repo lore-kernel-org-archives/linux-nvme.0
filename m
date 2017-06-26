@@ -1,49 +1,37 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Mon, 26 Jun 2017 12:39:03 +0200
-Subject: [PATCH 3/4] nvme: simplify nvme_dev_attrs_are_visible
+Date: Mon, 26 Jun 2017 12:39:04 +0200
+Subject: [PATCH 4/4] nvme-fabrics: verify that a controller returns the
+ correct NQN
 In-Reply-To: <20170626103904.9516-1-hch@lst.de>
 References: <20170626103904.9516-1-hch@lst.de>
-Message-ID: <20170626103904.9516-4-hch@lst.de>
+Message-ID: <20170626103904.9516-5-hch@lst.de>
 
 Signed-off-by: Christoph Hellwig <hch at lst.de>
-Reviewed-by: Keith Busch <keith.busch at intel.com>
 Reviewed-by: Sagi Grimberg <sagi at grimberg.me>
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 ---
- drivers/nvme/host/core.c | 15 ++++-----------
- 1 file changed, 4 insertions(+), 11 deletions(-)
+ drivers/nvme/host/fabrics.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-index 32cdad8afa2b..4342ec9bc528 100644
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2126,23 +2126,16 @@ static struct attribute *nvme_dev_attrs[] = {
- 	NULL
- };
+diff --git a/drivers/nvme/host/fabrics.c b/drivers/nvme/host/fabrics.c
+index 4798a8a425e0..87038a017fb9 100644
+--- a/drivers/nvme/host/fabrics.c
++++ b/drivers/nvme/host/fabrics.c
+@@ -862,6 +862,15 @@ nvmf_create_ctrl(struct device *dev, const char *buf, size_t count)
+ 		goto out_unlock;
+ 	}
  
--#define CHECK_ATTR(ctrl, a, name)		\
--	if ((a) == &dev_attr_##name.attr &&	\
--	    !(ctrl)->ops->get_##name)		\
--		return 0
--
- static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
- 		struct attribute *a, int n)
- {
- 	struct device *dev = container_of(kobj, struct device, kobj);
- 	struct nvme_ctrl *ctrl = dev_get_drvdata(dev);
++	if (strcmp(ctrl->subnqn, opts->subsysnqn)) {
++		dev_warn(ctrl->device,
++			"controller returned incorrect NQN: \"%s\".\n",
++			ctrl->subnqn);
++		mutex_unlock(&nvmf_transports_mutex);
++		ctrl->ops->delete_ctrl(ctrl);
++		return ERR_PTR(-EINVAL);
++	}
++
+ 	mutex_unlock(&nvmf_transports_mutex);
+ 	return ctrl;
  
--	if (a == &dev_attr_delete_controller.attr) {
--		if (!ctrl->ops->delete_ctrl)
--			return 0;
--	}
--
--	CHECK_ATTR(ctrl, a, address);
-+	if (a == &dev_attr_delete_controller.attr && !ctrl->ops->delete_ctrl)
-+		return 0;
-+	if (a == &dev_attr_address.attr && !ctrl->ops->get_address)
-+		return 0;
- 
- 	return a->mode;
- }
 -- 
 2.11.0
