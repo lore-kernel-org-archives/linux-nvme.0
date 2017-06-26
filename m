@@ -1,28 +1,34 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Mon, 26 Jun 2017 12:00:41 -0600
-Subject: [PATCH 9/9] nvme: add support for streams and directives
-In-Reply-To: <yq17ezy4oxp.fsf@oracle.com>
-References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
- <1498004526-4543-10-git-send-email-axboe@kernel.dk>
- <20170626095907.GG14057@infradead.org> <yq17ezy4oxp.fsf@oracle.com>
-Message-ID: <c8c7e2c6-4ced-14d0-d7d9-a91de7e73673@kernel.dk>
+From: luto@kernel.org (Andy Lutomirski)
+Date: Mon, 26 Jun 2017 11:05:32 -0700
+Subject: [PATCH v2] nvme: explicitly disable APST on quirked devices
+In-Reply-To: <20170626070129.14744-1-kai.heng.feng@canonical.com>
+References: <20170626070129.14744-1-kai.heng.feng@canonical.com>
+Message-ID: <CALCETrVRNR4RLS53pqvXfGYZwc7QMNvdO46JVn6fCeeRAUvJuA@mail.gmail.com>
 
-On 06/26/2017 11:52 AM, Martin K. Petersen wrote:
-> 
-> Christoph,
-> 
->>  - can we keep a module option to disable streams, or in fact for
->>    now maybe to explicitly enable it?  I expect this to be interesting
->>    at least for the first devices that implement it.  Also given that
->>    it needs to be explicitly enabled I would expect some overhead of
->>    just enabling it when never used
-> 
-> Yeah, based on my experiments we'll need to drive this as an opt-in
-> feature for now. Short term the module option is OK. Once more devices
-> start materializing we probably need a white/blacklist/quirk scheme.
+On Mon, Jun 26, 2017 at 12:01 AM, Kai-Heng Feng
+<kai.heng.feng@canonical.com> wrote:
+> A user reports APST is enabled, even when the NVMe is quirked or with
+> option "default_ps_max_latency_us=0".
+>
+> The current logic will not set APST if the device is quirked. But the
+> NVMe in question will enable APST automatically.
+>
+> Separate the logic "apst is supported" and "to enable apst", so we can
+> use the latter one to explicitly disable APST at initialiaztion.
 
-Completely agree. Might even need quirks for stream allocations too,
-for instance. But let's hope we can keep it clean.
+Reviewed-by: Andy Lutomirski <luto at kernel.org>
 
--- 
-Jens Axboe
+That being said, I smell a giant WTF here.  The affected hardware
+seems to have APST on by default, and APST is buggy so the disk stops
+working when APST is on.  So here's the $1M question: how does the
+system *boot*?  After all, it's running for a while before the kernel
+gets around to turning off APST, and I really doubt that BIOS does
+this.
+
+Here's a wild theory: what if the problem on all these disks is
+actually our CSTS polling?  Could it be that some of the disks
+implement CSTS reads in firmware and malfunction if CSTS is read while
+in PS4?  This would be a blatant spec violation, but that's never
+stopped anyone before...
+
+--Andy
