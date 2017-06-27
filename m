@@ -1,7 +1,7 @@
-From: chuck.lever@oracle.com (Chuck Lever)
-Date: Tue, 27 Jun 2017 12:28:22 -0400
+From: Bart.VanAssche@wdc.com (Bart Van Assche)
+Date: Tue, 27 Jun 2017 18:08:57 +0000
 Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <52ad3547-efcf-f428-6b39-117efda3379f@grimberg.me>
+In-Reply-To: <4f0812f1-0067-4e63-e383-b913ee1f319d@grimberg.me>
 References: <20170620074639.GP17846@mtr-leonro.local>
  <1c706958-992e-b104-6bae-4a6616c0a9f9@grimberg.me>
  <20170620083309.GQ17846@mtr-leonro.local>
@@ -14,46 +14,44 @@ References: <20170620074639.GP17846@mtr-leonro.local>
  <C14B071E-F1B2-466A-82CF-4E20BFAD9DC1@oracle.com>
  <20170620211958.GA5574@obsidianresearch.com>
  <4f0812f1-0067-4e63-e383-b913ee1f319d@grimberg.me>
- <28F6F58E-B6F4-4114-8DFF-B72353CE814B@oracle.com>
- <52ad3547-efcf-f428-6b39-117efda3379f@grimberg.me>
-Message-ID: <9990B5CB-E0FF-481E-9F34-21EACF0E796E@oracle.com>
+Message-ID: <1498586933.14963.1.camel@wdc.com>
 
-
-> On Jun 27, 2017,@12:07 PM, Sagi Grimberg <sagi@grimberg.me> wrote:
+On Tue, 2017-06-27@10:37 +0300, Sagi Grimberg wrote:
+> Jason,
+> 
+> > > The issue about the HCA not being able to access the inline
+> > > buffer during a retransmit is also not an issue for RPC-
+> > > over-RDMA because these buffers are always registered with
+> > > the local rdma lkey.
+> > 
+> > Exactly.
+> 
+> Lost track of the thread...
 > 
 > 
->> Go back and browse the end of the thread: there's no need to change
->> xprtrdma, and maybe no need to change the others either.
+> Indeed you raised this issue lots of times before, and I failed to see
+> why its important or why its error prone, but now I do...
 > 
-> I think there is, even with inline, xprtrdma dma maps the immediate
-> buffers, also the message head and tail so unmapping these buffers
-> without waiting for the send completion would trigger a IOMMU access
-> error (the HCA (re)tries to access an already unmapped buffer).
+> My apologies for not listening :(
+> 
+> We should fix _all_ initiators for it, nvme-rdma, iser, srp
+> and xprtrdma (and probably some more ULPs out there)...
+> 
+> It also means that we cannot really suppress any send completions as
+> that would result in an unpredictable latency (which is not acceptable).
+> 
+> I wish we could somehow tell the HCA that it can ignore access fail to a
+> specific address when retransmitting.. but maybe its too much to ask...
 
-Thinking out loud:
+Hello Sagi,
 
-IIRC the message head and tail reside in the persistently registered
-and DMA mapped buffers with few exceptions.
+Can you clarify why you think that the SRP initiator needs to be changed?
+The SRP initiator submits the local invalidate work request after the RDMA
+write request. According to table 79 "Work Request Operation Ordering" the
+order of these work requests must be maintained by the HCA. I think if a HCA
+would start with invalidating the MR before the remote HCA has acknowledged
+the written data that that's a firmware bug.
 
-However, when page cache pages are involved, xprtrdma will do a DMA
-unmap as you say.
+The upstream SRP initiator does not use inline data.
 
-So:
-- we don't have a problem transmitting a garbled request thanks to
-  exactly-once receive semantics
-- we don't have a problem with the timing of registration and
-  invalidation on the initiator because the PD's DMA lkey is used
-- we do have a problem with DMA unmap
-
-Using only persistently registered and DMA mapped Send buffers
-should avoid the need to signal all Sends. However, when page
-cache pages are involved, then the Send needs to be signaled,
-and the pages unmapped only after Send completion, to be completely
-safe.
-
-Or, the initiator should just use RDMA Read and Write, and stick
-with small inline sizes.
-
-
---
-Chuck Lever
+Bart.
