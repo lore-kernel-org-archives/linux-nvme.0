@@ -1,33 +1,106 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 27 Jun 2017 08:46:14 -0600
-Subject: [PATCH 9/9] nvme: add support for streams and directives
-In-Reply-To: <20170627144405.GA4605@infradead.org>
-References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
- <1498004526-4543-10-git-send-email-axboe@kernel.dk>
- <20170626095907.GG14057@infradead.org>
- <d2dcae41-d0b2-71a7-a63d-b7ef25ae47d2@kernel.dk>
- <20170627141115.GA2541@infradead.org>
- <ba468c95-40e0-41e7-0eb5-f5b4b70d3e3e@kernel.dk>
- <20170627144405.GA4605@infradead.org>
-Message-ID: <cd3cc640-5eb2-aeaf-a3a9-904436faae77@kernel.dk>
+From: zhangweiping@didichuxing.com (=?gb2312?B?1cXOsMa9KLv5tKHGvcyosr8p?=)
+Date: Tue, 27 Jun 2017 14:46:24 +0000
+Subject: [PATCH] nvme: remove indenty ctrl before scan namespace
+Message-ID: <20170627144624.GA36121@localhost.didichuxing.com>
 
-On 06/27/2017 08:44 AM, Christoph Hellwig wrote:
-> On Tue, Jun 27, 2017@08:16:49AM -0600, Jens Axboe wrote:
->> But we have to handle it, not doing so would be fragile. So our
->> options are:
->>
->> 1) Keep the stream_mappings[] array. It's simple, and it'll work
->>    for any number of streams.
->>
->> 2) Kill stream_mappings[] and just do the MOD again.
-> 
-> 3) print a message and tell streams aren't supported on this device.
+All nvme host drivers have already identified ctrl beforce scan namespace,
+so when first time identify ctrl we get the number of namespace and store it
+into nvme_ctrl. When we scan namespace just use it instead of indentify again.
 
-Is that your nvme preference - if less than 4 streams, just ignore it?
-Would seem a shame to lose out with 2 streams, I can think of several
-hot/cold scenarios that would probably work fine with that. But at the
-same time, not a big deal to me, if you prefer just turning it off
-for < 4 streams, that's fine with me.
+Signed-off-by: weiping zhang <zhangweiping at didichuxing.com>
+---
+ drivers/nvme/host/core.c | 25 ++++++++++---------------
+ drivers/nvme/host/nvme.h |  1 +
+ 2 files changed, 11 insertions(+), 15 deletions(-)
 
+diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
+index 903d581..34f85df 100644
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -1586,6 +1586,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
+ 		ctrl->quirks &= ~NVME_QUIRK_NO_DEEPEST_PS;
+ 	}
+ 
++	ctrl->nn = le32_to_cpu(id->nn);
+ 	ctrl->oacs = le16_to_cpu(id->oacs);
+ 	ctrl->vid = le16_to_cpu(id->vid);
+ 	ctrl->oncs = le16_to_cpup(&id->oncs);
+@@ -2147,13 +2148,14 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
+ 	}
+ }
+ 
+-static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
++static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
+ {
+ 	struct nvme_ns *ns;
+ 	__le32 *ns_list;
+-	unsigned i, j, nsid, prev = 0, num_lists = DIV_ROUND_UP(nn, 1024);
++	u32 i, j, nsid, prev = 0, num_lists, nn =  ctrl->nn;
+ 	int ret = 0;
+ 
++	num_lists = DIV_ROUND_UP(nn, 1024);
+ 	ns_list = kzalloc(0x1000, GFP_KERNEL);
+ 	if (!ns_list)
+ 		return -ENOMEM;
+@@ -2187,41 +2189,34 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
+ 	return ret;
+ }
+ 
+-static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl, unsigned nn)
++static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl)
+ {
+-	unsigned i;
++	u32 i;
+ 
+-	for (i = 1; i <= nn; i++)
++	for (i = 1; i <= ctrl->nn; i++)
+ 		nvme_validate_ns(ctrl, i);
+ 
+-	nvme_remove_invalid_namespaces(ctrl, nn);
++	nvme_remove_invalid_namespaces(ctrl, ctrl->nn);
+ }
+ 
+ static void nvme_scan_work(struct work_struct *work)
+ {
+ 	struct nvme_ctrl *ctrl =
+ 		container_of(work, struct nvme_ctrl, scan_work);
+-	struct nvme_id_ctrl *id;
+-	unsigned nn;
+ 
+ 	if (ctrl->state != NVME_CTRL_LIVE)
+ 		return;
+ 
+-	if (nvme_identify_ctrl(ctrl, &id))
+-		return;
+-
+-	nn = le32_to_cpu(id->nn);
+ 	if (ctrl->vs >= NVME_VS(1, 1, 0) &&
+ 	    !(ctrl->quirks & NVME_QUIRK_IDENTIFY_CNS)) {
+-		if (!nvme_scan_ns_list(ctrl, nn))
++		if (!nvme_scan_ns_list(ctrl))
+ 			goto done;
+ 	}
+-	nvme_scan_ns_sequential(ctrl, nn);
++	nvme_scan_ns_sequential(ctrl);
+  done:
+ 	mutex_lock(&ctrl->namespaces_mutex);
+ 	list_sort(NULL, &ctrl->namespaces, ns_cmp);
+ 	mutex_unlock(&ctrl->namespaces_mutex);
+-	kfree(id);
+ }
+ 
+ void nvme_queue_scan(struct nvme_ctrl *ctrl)
+diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
+index 9d6a070..67f373b 100644
+--- a/drivers/nvme/host/nvme.h
++++ b/drivers/nvme/host/nvme.h
+@@ -131,6 +131,7 @@ struct nvme_ctrl {
+ 	struct device *device;	/* char device */
+ 	struct list_head node;
+ 	struct ida ns_ida;
++	u32 nn; /* namespace num */
+ 
+ 	struct opal_dev *opal_dev;
+ 
 -- 
-Jens Axboe
+2.9.4
