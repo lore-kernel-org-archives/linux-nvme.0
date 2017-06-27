@@ -1,7 +1,7 @@
-From: zhangweiping@didichuxing.com (=?gb2312?B?1cXOsMa9KLv5tKHGvcyosr8p?=)
-Date: Tue, 27 Jun 2017 14:46:24 +0000
+From: zhangweiping@didichuxing.com (weiping zhang)
+Date: Tue, 27 Jun 2017 23:23:36 +0800
 Subject: [PATCH] nvme: remove indenty ctrl before scan namespace
-Message-ID: <20170627144624.GA36121@localhost.didichuxing.com>
+Message-ID: <20170627152336.GA36545@localhost.didichuxing.com>
 
 All nvme host drivers have already identified ctrl beforce scan namespace,
 so when first time identify ctrl we get the number of namespace and store it
