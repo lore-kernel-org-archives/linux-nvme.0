@@ -1,38 +1,18 @@
-From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
-Date: Tue, 27 Jun 2017 10:32:08 -0300
-Subject: [PATCH 0/2] nvme/quirk: backport to v4.4 stable for
- PCI_DEVICE(0x1c58, 0x0003)
-In-Reply-To: <20170627112934.GG10609@kroah.com>
-References: <1498068203-29900-1-git-send-email-mauricfo@linux.vnet.ibm.com>
- <20170627112934.GG10609@kroah.com>
-Message-ID: <bf99bef7-860d-12ca-2204-f790521325ad@linux.vnet.ibm.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 27 Jun 2017 07:11:15 -0700
+Subject: [PATCH 9/9] nvme: add support for streams and directives
+In-Reply-To: <d2dcae41-d0b2-71a7-a63d-b7ef25ae47d2@kernel.dk>
+References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
+ <1498004526-4543-10-git-send-email-axboe@kernel.dk>
+ <20170626095907.GG14057@infradead.org>
+ <d2dcae41-d0b2-71a7-a63d-b7ef25ae47d2@kernel.dk>
+Message-ID: <20170627141115.GA2541@infradead.org>
 
-On 06/27/2017 08:29 AM, Greg KH wrote:
-> On Wed, Jun 21, 2017@03:03:21PM -0300, Mauricio Faria de Oliveira wrote:
->> Hi Christoph, Jens, and Greg.
->>
->> Would you ack these 2 backports to be applied to v4.4 stable?
->>
->> The backports differ from the upstream applied commits in two aspects:
->> 1) use PCI IDs directly rather than nvme quirk infrastructure (which was
->>    introduced later, commit 106198edb7 "nvme: add explicit quirk handling",
->>    and depends on many further changes, not required for this purpose).
->>     
->> 2) use 'struct nvme_dev->tagset' rather than 'struct nvme_ctrl->tagset'
->>    (similarly.)
->>
->> This has been built and tested on top of v4.4.70.
+On Mon, Jun 26, 2017@07:56:22AM -0600, Jens Axboe wrote:
+> >  - do we even need the < 4 streams fallback now that they are global
+> >    instead of per-ns instead of just disabling the feature for now?
 > 
-> Always tell me what the git commit ids are for the patches in Linus's
-> tree, as I need them.  I dug it out this time...
-> 
-> thanks,
-> 
-> greg k-h
-> 
+> Maybe the device only supports 2? or 3?
 
-Thanks a lot Greg! Next time we won't forget.
-Cheers,
-
-
-Guilherme
+My crystal ball indicates that those are unlikely too see the
+light.  IFF we need to handle them we can still add code for it.
