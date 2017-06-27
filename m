@@ -1,110 +1,68 @@
-From: steve.blightman@oracle.com (Steve Blightman)
-Date: Tue, 27 Jun 2017 11:50:47 -0700
-Subject: [PATCH] nvme: remove indenty ctrl before scan namespace
-In-Reply-To: <20170627152336.GA36545@localhost.didichuxing.com>
-References: <20170627152336.GA36545@localhost.didichuxing.com>
-Message-ID: <d21c0a2a-80d0-4fa7-20fa-30d1fbdd38ab@oracle.com>
+From: shiraz.saleem@intel.com (Shiraz Saleem)
+Date: Tue, 27 Jun 2017 14:31:57 -0500
+Subject: Deadlock on device removal event for NVMeF target
+In-Reply-To: <56030fcd-b8a0-fc0e-18e5-985ebf16a82e@grimberg.me>
+References: <20170626225920.GA11700@ssaleem-MOBL4.amr.corp.intel.com>
+ <56030fcd-b8a0-fc0e-18e5-985ebf16a82e@grimberg.me>
+Message-ID: <20170627193157.GA29768@ssaleem-MOBL4.amr.corp.intel.com>
 
-Doesn't this mean that when using namespace management to add a 
-namespace, that it won't be found?
+On Tue, Jun 27, 2017@12:37:51AM -0600, Sagi Grimberg wrote:
+> > Hi Sagi/Christoph,
+> 
+> Hi Shiraz,
+> 
+> Please CC linux-nvme for nvme-rdma related stuff.
+OK.
 
-On 6/27/2017 8:23 AM, weiping zhang wrote:
-> All nvme host drivers have already identified ctrl beforce scan namespace,
-> so when first time identify ctrl we get the number of namespace and store it
-> into nvme_ctrl. When we scan namespace just use it instead of indentify again.
->
-> Signed-off-by: weiping zhang <zhangweiping at didichuxing.com>
+> > I am seeing a deadlock for a device removal event on NVMeF target.
+> > 
+> > The sequence of events leading to the deadlock are as follows,
+> > 
+> > 1. i40iw posts IW_CM_EVENT_CLOSE events for all QPs causing the corresponding
+> > NVMet RDMA Queues to disconnect and schedule release of any pending work on WQ
+> > 2. i40iw triggers device removal
+> > 	ib_unregister_device
+> > 	[..]
+> > 	cma_remove_id_dev (takes a handler lock before calling the event handler)
+> > 	nvmet_rdma_cm_handler
+> > 	nvmet_rdma_device_removal (queue->state = NVMET_RDMA_Q_DISCONNECTING due to 1.)
+> > 	flush_scheduled_work (blocks till all scheduled work is drained from WQ)
+> > 	nvmet_rdma_release_queue_work (queue->state = NVMET_RDMA_Q_DISCONNECTING)
+> > 	rdma_destroy_id (waits on the same handler lock as cma_remove_id_dev causing the deadlock)
+> >       
+> > So this problem can occur when there is a device removal event while the queue is in
+> > disconnect state with the some oustanding work that hasnt been drained from the WQ at the
+> > time flush_scheduled_work is called.
+> 
+> This indeed looks like a bug (thanks for reporting!). We indeed don't
+> have sufficient information on where the queue release procedure is by
+> only looking at the queue state, we can't tell if rdma_destroy_id was
+> invoked and we can deadlock with rdma_destroy_id.
+> 
+
+ 
+> How about the (untested) alternative below:
+> --
+> [PATCH] nvmet-rdma: register ib_client to not deadlock in device
+>   removal
+> 
+> We can deadlock in case we got to a device removal
+> event on a queue which is already in the process of
+> destroying the cm_id is this is blocking until all
+> events on this cm_id will drain. On the other hand
+> we cannot guarantee that rdma_destroy_id was invoked
+> as we only have indication that the queue disconnect
+> flow has been queued (the queue state is updated before
+> the realease work has been queued).
+> 
+> So, we leave all the queue removal to a separate ib_client
+> to avoid this deadlock as ib_client device removal is in
+> a different context than the cm_id itself.
+> 
+> Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 > ---
->   drivers/nvme/host/core.c | 25 ++++++++++---------------
->   drivers/nvme/host/nvme.h |  1 +
->   2 files changed, 11 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/nvme/host/core.c b/drivers/nvme/host/core.c
-> index 903d581..34f85df 100644
-> --- a/drivers/nvme/host/core.c
-> +++ b/drivers/nvme/host/core.c
-> @@ -1586,6 +1586,7 @@ int nvme_init_identify(struct nvme_ctrl *ctrl)
->   		ctrl->quirks &= ~NVME_QUIRK_NO_DEEPEST_PS;
->   	}
->   
-> +	ctrl->nn = le32_to_cpu(id->nn);
->   	ctrl->oacs = le16_to_cpu(id->oacs);
->   	ctrl->vid = le16_to_cpu(id->vid);
->   	ctrl->oncs = le16_to_cpup(&id->oncs);
-> @@ -2147,13 +2148,14 @@ static void nvme_remove_invalid_namespaces(struct nvme_ctrl *ctrl,
->   	}
->   }
->   
-> -static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
-> +static int nvme_scan_ns_list(struct nvme_ctrl *ctrl)
->   {
->   	struct nvme_ns *ns;
->   	__le32 *ns_list;
-> -	unsigned i, j, nsid, prev = 0, num_lists = DIV_ROUND_UP(nn, 1024);
-> +	u32 i, j, nsid, prev = 0, num_lists, nn =  ctrl->nn;
->   	int ret = 0;
->   
-> +	num_lists = DIV_ROUND_UP(nn, 1024);
->   	ns_list = kzalloc(0x1000, GFP_KERNEL);
->   	if (!ns_list)
->   		return -ENOMEM;
-> @@ -2187,41 +2189,34 @@ static int nvme_scan_ns_list(struct nvme_ctrl *ctrl, unsigned nn)
->   	return ret;
->   }
->   
-> -static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl, unsigned nn)
-> +static void nvme_scan_ns_sequential(struct nvme_ctrl *ctrl)
->   {
-> -	unsigned i;
-> +	u32 i;
->   
-> -	for (i = 1; i <= nn; i++)
-> +	for (i = 1; i <= ctrl->nn; i++)
->   		nvme_validate_ns(ctrl, i);
->   
-> -	nvme_remove_invalid_namespaces(ctrl, nn);
-> +	nvme_remove_invalid_namespaces(ctrl, ctrl->nn);
->   }
->   
->   static void nvme_scan_work(struct work_struct *work)
->   {
->   	struct nvme_ctrl *ctrl =
->   		container_of(work, struct nvme_ctrl, scan_work);
-> -	struct nvme_id_ctrl *id;
-> -	unsigned nn;
->   
->   	if (ctrl->state != NVME_CTRL_LIVE)
->   		return;
->   
-> -	if (nvme_identify_ctrl(ctrl, &id))
-> -		return;
-> -
-> -	nn = le32_to_cpu(id->nn);
->   	if (ctrl->vs >= NVME_VS(1, 1, 0) &&
->   	    !(ctrl->quirks & NVME_QUIRK_IDENTIFY_CNS)) {
-> -		if (!nvme_scan_ns_list(ctrl, nn))
-> +		if (!nvme_scan_ns_list(ctrl))
->   			goto done;
->   	}
-> -	nvme_scan_ns_sequential(ctrl, nn);
-> +	nvme_scan_ns_sequential(ctrl);
->    done:
->   	mutex_lock(&ctrl->namespaces_mutex);
->   	list_sort(NULL, &ctrl->namespaces, ns_cmp);
->   	mutex_unlock(&ctrl->namespaces_mutex);
-> -	kfree(id);
->   }
->   
->   void nvme_queue_scan(struct nvme_ctrl *ctrl)
-> diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-> index 9d6a070..67f373b 100644
-> --- a/drivers/nvme/host/nvme.h
-> +++ b/drivers/nvme/host/nvme.h
-> @@ -131,6 +131,7 @@ struct nvme_ctrl {
->   	struct device *device;	/* char device */
->   	struct list_head node;
->   	struct ida ns_ida;
-> +	u32 nn; /* namespace num */
->   
->   	struct opal_dev *opal_dev;
->   
+
+Yes. This patch fixes the problem I am seeing.
+
+Shiraz
+ 
