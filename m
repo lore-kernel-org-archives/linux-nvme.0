@@ -1,52 +1,22 @@
-From: chuck.lever@oracle.com (Chuck Lever)
-Date: Tue, 27 Jun 2017 10:42:48 -0400
-Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <4f0812f1-0067-4e63-e383-b913ee1f319d@grimberg.me>
-References: <20170620074639.GP17846@mtr-leonro.local>
- <1c706958-992e-b104-6bae-4a6616c0a9f9@grimberg.me>
- <20170620083309.GQ17846@mtr-leonro.local>
- <bd0b986f-9bed-3dfa-7454-0661559a527b@grimberg.me>
- <614481c7-22dd-d93b-e97e-52f868727ec3@grimberg.me>
- <59FF0C04-2BFB-4F66-81BA-A598A9A087FC@oracle.com>
- <20170620173532.GA827@obsidianresearch.com>
- <D3DC49A2-FFC9-4F62-8876-3E6AD5167DE5@oracle.com>
- <20170620192742.GB827@obsidianresearch.com>
- <C14B071E-F1B2-466A-82CF-4E20BFAD9DC1@oracle.com>
- <20170620211958.GA5574@obsidianresearch.com>
- <4f0812f1-0067-4e63-e383-b913ee1f319d@grimberg.me>
-Message-ID: <28F6F58E-B6F4-4114-8DFF-B72353CE814B@oracle.com>
+From: hch@infradead.org (Christoph Hellwig)
+Date: Tue, 27 Jun 2017 07:44:05 -0700
+Subject: [PATCH 9/9] nvme: add support for streams and directives
+In-Reply-To: <ba468c95-40e0-41e7-0eb5-f5b4b70d3e3e@kernel.dk>
+References: <1498004526-4543-1-git-send-email-axboe@kernel.dk>
+ <1498004526-4543-10-git-send-email-axboe@kernel.dk>
+ <20170626095907.GG14057@infradead.org>
+ <d2dcae41-d0b2-71a7-a63d-b7ef25ae47d2@kernel.dk>
+ <20170627141115.GA2541@infradead.org>
+ <ba468c95-40e0-41e7-0eb5-f5b4b70d3e3e@kernel.dk>
+Message-ID: <20170627144405.GA4605@infradead.org>
 
+On Tue, Jun 27, 2017@08:16:49AM -0600, Jens Axboe wrote:
+> But we have to handle it, not doing so would be fragile. So our
+> options are:
+> 
+> 1) Keep the stream_mappings[] array. It's simple, and it'll work
+>    for any number of streams.
+> 
+> 2) Kill stream_mappings[] and just do the MOD again.
 
-> On Jun 27, 2017,@3:37 AM, Sagi Grimberg <sagi@grimberg.me> wrote:
-> 
-> Jason,
-> 
->>> The issue about the HCA not being able to access the inline
->>> buffer during a retransmit is also not an issue for RPC-
->>> over-RDMA because these buffers are always registered with
->>> the local rdma lkey.
->> Exactly.
-> 
-> Lost track of the thread...
-> 
-> 
-> Indeed you raised this issue lots of times before, and I failed to see
-> why its important or why its error prone, but now I do...
-> 
-> My apologies for not listening :(
-> 
-> We should fix _all_ initiators for it, nvme-rdma, iser, srp
-> and xprtrdma (and probably some more ULPs out there)...
-
-Go back and browse the end of the thread: there's no need to change
-xprtrdma, and maybe no need to change the others either.
-
-
-> It also means that we cannot really suppress any send completions as
-> that would result in an unpredictable latency (which is not acceptable).
-> 
-> I wish we could somehow tell the HCA that it can ignore access fail to a
-> specific address when retransmitting.. but maybe its too much to ask...
-
---
-Chuck Lever
+3) print a message and tell streams aren't supported on this device.
