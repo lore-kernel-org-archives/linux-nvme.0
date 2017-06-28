@@ -1,38 +1,20 @@
-From: axboe@kernel.dk (Jens Axboe)
-Date: Tue, 27 Jun 2017 17:42:38 -0600
-Subject: [PATCH for-4.12] nvme/pci: Fix stuck nvme reset
-In-Reply-To: <20170627234019.GA13688@lst.de>
-References: <1498607018-1277-1-git-send-email-keith.busch@intel.com>
- <20170627234019.GA13688@lst.de>
-Message-ID: <00a82a9c-d8e3-ca4d-b921-23b550e65720@kernel.dk>
+From: zhangweiping@didichuxing.com (=?gb2312?B?1cXOsMa9KLv5tKHGvcyosr8p?=)
+Date: Wed, 28 Jun 2017 00:48:43 +0000
+Subject: [PATCH] nvme: remove indenty ctrl before scan namespace
+In-Reply-To: <20170627194753.GC23962@localhost.localdomain>
+References: <20170627152336.GA36545@localhost.didichuxing.com>,
+ <20170627194753.GC23962@localhost.localdomain>
+Message-ID: <2E3A4E1D-9176-467D-8FAE-FEB56ECC8A0F@didichuxing.com>
 
-On 06/27/2017 05:40 PM, Christoph Hellwig wrote:
-> On Tue, Jun 27, 2017@07:43:38PM -0400, Keith Busch wrote:
->> The controller state is set to resetting prior to disabling the
->> controller, so this patch accounts for that state when deciding if it
->> needs to freeze the queues. Without this, an 'nvme reset /dev/nvme0'
->> blocks forever because the queues were never frozen.
-> 
-> Ouch.
-> 
->> -		if (dev->ctrl.state == NVME_CTRL_LIVE)
->> +		if (dev->ctrl.state == NVME_CTRL_LIVE ||
->> +				dev->ctrl.state == NVME_CTRL_RESETTING)
-> 
-> Can you align this a little nicer:
-> 
-> 		if (dev->ctrl.state == NVME_CTRL_LIVE ||
-> 		    dev->ctrl.state == NVME_CTRL_RESETTING)
-> 
-> Otherwise this looks fine:
-> 
-> Reviewed-by: Christoph Hellwig <hch at lst.de>
-> 
-> Maybe Jens should pick this up directly for the block tree?  No
-> point in a nvme pull request just for this.
+You are right, thanks.
 
-Looks good to me too. As it so happens, I just hit this today, but didn't
-have time to look into why. I'll add it for this series.
-
--- 
-Jens Axboe
+> ? 2017?6?28??03:39?Keith Busch <keith.busch at intel.com> ???
+> 
+>> On Tue, Jun 27, 2017@11:23:36PM +0800, weiping zhang wrote:
+>> All nvme host drivers have already identified ctrl beforce scan namespace,
+>> so when first time identify ctrl we get the number of namespace and store it
+>> into nvme_ctrl. When we scan namespace just use it instead of indentify again.
+> 
+> The scan work can be schedule in more than just the reset path, though,
+> which is where ID ctrl is initialized. In those cases, attaching
+> namespaces may stop working.
