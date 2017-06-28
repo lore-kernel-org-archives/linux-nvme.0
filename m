@@ -1,7 +1,7 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 28 Jun 2017 10:08:49 +0300
+Date: Wed, 28 Jun 2017 10:16:18 +0300
 Subject: Unexpected issues with 2 NVME initiators using the same target
-In-Reply-To: <9990B5CB-E0FF-481E-9F34-21EACF0E796E@oracle.com>
+In-Reply-To: <1498586933.14963.1.camel@wdc.com>
 References: <20170620074639.GP17846@mtr-leonro.local>
  <1c706958-992e-b104-6bae-4a6616c0a9f9@grimberg.me>
  <20170620083309.GQ17846@mtr-leonro.local>
@@ -14,31 +14,36 @@ References: <20170620074639.GP17846@mtr-leonro.local>
  <C14B071E-F1B2-466A-82CF-4E20BFAD9DC1@oracle.com>
  <20170620211958.GA5574@obsidianresearch.com>
  <4f0812f1-0067-4e63-e383-b913ee1f319d@grimberg.me>
- <28F6F58E-B6F4-4114-8DFF-B72353CE814B@oracle.com>
- <52ad3547-efcf-f428-6b39-117efda3379f@grimberg.me>
- <9990B5CB-E0FF-481E-9F34-21EACF0E796E@oracle.com>
-Message-ID: <f1f1a68c-90db-e6bf-e35e-55c4b469c339@grimberg.me>
+ <1498586933.14963.1.camel@wdc.com>
+Message-ID: <47bbf598-6c82-610f-dc1d-706a1d869b8d@grimberg.me>
 
+> Hello Sagi,
 
-> Thinking out loud:
-> 
-> IIRC the message head and tail reside in the persistently registered
-> and DMA mapped buffers with few exceptions.
-> 
-> However, when page cache pages are involved, xprtrdma will do a DMA
-> unmap as you say.
-> 
-> So:
-> - we don't have a problem transmitting a garbled request thanks to
->    exactly-once receive semantics
-> - we don't have a problem with the timing of registration and
->    invalidation on the initiator because the PD's DMA lkey is used
-> - we do have a problem with DMA unmap
-> 
-> Using only persistently registered and DMA mapped Send buffers
-> should avoid the need to signal all Sends. However, when page
-> cache pages are involved, then the Send needs to be signaled,
-> and the pages unmapped only after Send completion, to be completely
-> safe.
+Hi Bart,
 
-How do you know when that happens?
+> Can you clarify why you think that the SRP initiator needs to be changed?
+> The SRP initiator submits the local invalidate work request after the RDMA
+> write request. According to table 79 "Work Request Operation Ordering" the
+> order of these work requests must be maintained by the HCA. I think if a HCA
+> would start with invalidating the MR before the remote HCA has acknowledged
+> the written data that that's a firmware bug.
+
+That flow is fine, we were discussing immediate data sends.
+
+SRP only needs fixing by waiting for the all local invalidates to
+complete before unmapping the user buffers and completing the I/O.
+
+BTW, did the efforts on standardizing remote invalidate in SRP ever
+evolved to something? Would it be acceptable to add a non-standard
+ib_srp and ib_srpt? We can default to off and allow the user to opt
+it in if it knows the two sides comply...
+
+We need to fix that in nvmf and iser too btw (luckily we have remote
+invalidate so its not a big issue).
+
+> The upstream SRP initiator does not use inline data.
+
+Yet :)
+
+IIRC you have a branch with immediate-data support against scst so
+it might be relevant there...
