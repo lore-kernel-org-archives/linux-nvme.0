@@ -1,33 +1,17 @@
 From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 28 Jun 2017 16:09:12 -0700
-Subject: [PATCH, nvme-cli] fix build without libuuid
-Message-ID: <20170628230912.1598-1-hch@lst.de>
+Date: Thu, 29 Jun 2017 01:11:29 +0200
+Subject: nvme defintions not used in the kernel
+Message-ID: <20170628231129.GA20902@lst.de>
 
-Signed-off-by: Christoph Hellwig <hch at lst.de>
----
- nvme.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Hi all,
 
-diff --git a/nvme.h b/nvme.h
-index b796961..5530f90 100644
---- a/nvme.h
-+++ b/nvme.h
-@@ -17,6 +17,7 @@
- 
- #include <stdbool.h>
- #include <endian.h>
-+#include <stdint.h>
- #include "plugin.h"
- #include "json.h"
- 
-@@ -26,7 +27,7 @@
- #include <uuid/uuid.h>
- #else
- typedef struct {
--	__u8 b[16];
-+	uint8_t b[16];
- } uuid_t;
- #endif
- 
--- 
-2.11.0
+currently nvme-cli supports various nvme features that are not
+needed in the kernel and keeps them in its own nvme.h file,
+in addition to pulling in the kernel one.
+
+Do we want to keep it that way in the long run, or just add
+things to nvme.h in the kernel even if they are not used to
+keep things in a single place.
+
+To me the latter would seem a little nicer, especially as it
+doesn't involve a whole lot of defintion.
