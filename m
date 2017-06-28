@@ -1,411 +1,339 @@
-From: hch@lst.de (Christoph Hellwig)
-Date: Wed, 28 Jun 2017 20:29:37 +0200
-Subject: [PATCH] resync nvme.h with the kernel.h
-In-Reply-To: <20170628182757.10173-1-hch@lst.de>
-References: <20170628182757.10173-1-hch@lst.de>
-Message-ID: <20170628182937.GA12703@lst.de>
+From: Steve.Schremmer@netapp.com (Schremmer, Steven)
+Date: Wed, 28 Jun 2017 19:40:02 +0000
+Subject: [PATCH] nvme-cli: Extended Data Structure in resv-report
+Message-ID: <MWHPR06MB2496402FDC8379115F3885B88CDD0@MWHPR06MB2496.namprd06.prod.outlook.com>
 
-Meh, the subject should just say:
+Allow user to specify cdw11 value to request Extended Data
+Structure. Update resv_report show and json functions to decode
+the returned data.
 
-resync nvme.h with the kernel
+Signed-off-by: Steve Schremmer <steve.schremmer at netapp.com>
+---
+ Documentation/nvme-resv-report.txt |  5 ++
+ linux/nvme.h                       | 20 +++++++-
+ nvme-ioctl.c                       |  3 +-
+ nvme-ioctl.h                       |  2 +-
+ nvme-print.c                       | 96 +++++++++++++++++++++++++++++---------
+ nvme-print.h                       |  4 +-
+ nvme.c                             | 13 ++++--
+ 7 files changed, 114 insertions(+), 29 deletions(-)
 
-On Wed, Jun 28, 2017@11:27:57AM -0700, Christoph Hellwig wrote:
-> Copy over the current nvme.h from the for-4.13 block tree, and adjust
-> a few callers.  The biggest tweak is that we can't use the kernel uuid.h
-> and either need to use libuuid or our own definition.
-> 
-> Signed-off-by: Christoph Hellwig <hch at lst.de>
-> ---
->  fabrics.c    |   2 +
->  linux/nvme.h | 140 +++++++++++++++++++++++++++++++++++++++++++++++++----------
->  nvme-print.c |   8 +---
->  nvme.c       |   4 --
->  nvme.h       |  19 ++++----
->  5 files changed, 129 insertions(+), 44 deletions(-)
-> 
-> diff --git a/fabrics.c b/fabrics.c
-> index 87cdba2..da4e04e 100644
-> --- a/fabrics.c
-> +++ b/fabrics.c
-> @@ -44,6 +44,8 @@
->  
->  #include "common.h"
->  
-> +#define NVMF_HOSTID_SIZE	36
-> +
->  static struct config {
->  	char *nqn;
->  	char *transport;
-> diff --git a/linux/nvme.h b/linux/nvme.h
-> index d1a322b..291587a 100644
-> --- a/linux/nvme.h
-> +++ b/linux/nvme.h
-> @@ -16,6 +16,7 @@
->  #define _LINUX_NVME_H
->  
->  #include <linux/types.h>
-> +#include <linux/uuid.h>
->  
->  /* NQN names in commands fields specified one size */
->  #define NVMF_NQN_FIELD_LEN	256
-> @@ -23,7 +24,6 @@
->  /* However the max length of a qualified name is another size */
->  #define NVMF_NQN_SIZE		223
->  
-> -#define NVMF_HOSTID_SIZE        36
->  #define NVMF_TRSVCID_SIZE	32
->  #define NVMF_TRADDR_SIZE	256
->  #define NVMF_TSAS_SIZE		256
-> @@ -102,6 +102,7 @@ enum {
->  	NVME_REG_ACQ	= 0x0030,	/* Admin CQ Base Address */
->  	NVME_REG_CMBLOC = 0x0038,	/* Controller Memory Buffer Location */
->  	NVME_REG_CMBSZ	= 0x003c,	/* Controller Memory Buffer Size */
-> +	NVME_REG_DBS	= 0x1000,	/* SQ 0 Tail Doorbell */
->  };
->  
->  #define NVME_CAP_MQES(cap)	((cap) & 0xffff)
-> @@ -249,7 +250,10 @@ enum {
->  	NVME_CTRL_ONCS_COMPARE			= 1 << 0,
->  	NVME_CTRL_ONCS_WRITE_UNCORRECTABLE	= 1 << 1,
->  	NVME_CTRL_ONCS_DSM			= 1 << 2,
-> +	NVME_CTRL_ONCS_WRITE_ZEROES		= 1 << 3,
->  	NVME_CTRL_VWC_PRESENT			= 1 << 0,
-> +	NVME_CTRL_OACS_SEC_SUPP                 = 1 << 0,
-> +	NVME_CTRL_OACS_DBBUF_SUPP		= 1 << 7,
->  };
->  
->  struct nvme_lbaf {
-> @@ -289,6 +293,17 @@ struct nvme_id_ns {
->  };
->  
->  enum {
-> +	NVME_ID_CNS_NS			= 0x00,
-> +	NVME_ID_CNS_CTRL		= 0x01,
-> +	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
-> +	NVME_ID_CNS_NS_DESC_LIST	= 0x03,
-> +	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
-> +	NVME_ID_CNS_NS_PRESENT		= 0x11,
-> +	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
-> +	NVME_ID_CNS_CTRL_LIST		= 0x13,
-> +};
-> +
-> +enum {
->  	NVME_NS_FEAT_THIN	= 1 << 0,
->  	NVME_NS_FLBAS_LBA_MASK	= 0xf,
->  	NVME_NS_FLBAS_META_EXT	= 0x10,
-> @@ -308,6 +323,22 @@ enum {
->  	NVME_NS_DPS_PI_TYPE3	= 3,
->  };
->  
-> +struct nvme_ns_id_desc {
-> +	__u8 nidt;
-> +	__u8 nidl;
-> +	__le16 reserved;
-> +};
-> +
-> +#define NVME_NIDT_EUI64_LEN	8
-> +#define NVME_NIDT_NGUID_LEN	16
-> +#define NVME_NIDT_UUID_LEN	16
-> +
-> +enum {
-> +	NVME_NIDT_EUI64		= 0x01,
-> +	NVME_NIDT_NGUID		= 0x02,
-> +	NVME_NIDT_UUID		= 0x03,
-> +};
-> +
->  struct nvme_smart_log {
->  	__u8			critical_warning;
->  	__u8			temperature[2];
-> @@ -549,12 +580,42 @@ enum {
->  	NVME_DSMGMT_AD		= 1 << 2,
->  };
->  
-> +#define NVME_DSM_MAX_RANGES	256
-> +
->  struct nvme_dsm_range {
->  	__le32			cattr;
->  	__le32			nlb;
->  	__le64			slba;
->  };
->  
-> +struct nvme_write_zeroes_cmd {
-> +	__u8			opcode;
-> +	__u8			flags;
-> +	__u16			command_id;
-> +	__le32			nsid;
-> +	__u64			rsvd2;
-> +	__le64			metadata;
-> +	union nvme_data_ptr	dptr;
-> +	__le64			slba;
-> +	__le16			length;
-> +	__le16			control;
-> +	__le32			dsmgmt;
-> +	__le32			reftag;
-> +	__le16			apptag;
-> +	__le16			appmask;
-> +};
-> +
-> +/* Features */
-> +
-> +struct nvme_feat_auto_pst {
-> +	__le64 entries[32];
-> +};
-> +
-> +enum {
-> +	NVME_HOST_MEM_ENABLE	= (1 << 0),
-> +	NVME_HOST_MEM_RETURN	= (1 << 1),
-> +};
-> +
->  /* Admin commands */
->  
->  enum nvme_admin_opcode {
-> @@ -573,6 +634,7 @@ enum nvme_admin_opcode {
->  	nvme_admin_download_fw		= 0x11,
->  	nvme_admin_ns_attach		= 0x15,
->  	nvme_admin_keep_alive		= 0x18,
-> +	nvme_admin_dbbuf		= 0x7C,
->  	nvme_admin_format_nvm		= 0x80,
->  	nvme_admin_security_send	= 0x81,
->  	nvme_admin_security_recv	= 0x82,
-> @@ -620,10 +682,14 @@ struct nvme_identify {
->  	__le32			nsid;
->  	__u64			rsvd2[2];
->  	union nvme_data_ptr	dptr;
-> -	__le32			cns;
-> +	__u8			cns;
-> +	__u8			rsvd3;
-> +	__le16			ctrlid;
->  	__u32			rsvd11[5];
->  };
->  
-> +#define NVME_IDENTIFY_DATA_SIZE 4096
-> +
->  struct nvme_features {
->  	__u8			opcode;
->  	__u8			flags;
-> @@ -633,7 +699,16 @@ struct nvme_features {
->  	union nvme_data_ptr	dptr;
->  	__le32			fid;
->  	__le32			dword11;
-> -	__u32			rsvd12[4];
-> +	__le32                  dword12;
-> +	__le32                  dword13;
-> +	__le32                  dword14;
-> +	__le32                  dword15;
-> +};
-> +
-> +struct nvme_host_mem_buf_desc {
-> +	__le64			addr;
-> +	__le32			size;
-> +	__u32			rsvd;
->  };
->  
->  struct nvme_create_cq {
-> @@ -809,7 +884,7 @@ struct nvmf_connect_command {
->  };
->  
->  struct nvmf_connect_data {
-> -	__u8		hostid[16];
-> +	uuid_t		hostid;
->  	__le16		cntlid;
->  	char		resv4[238];
->  	char		subsysnqn[NVMF_NQN_FIELD_LEN];
-> @@ -842,6 +917,16 @@ struct nvmf_property_get_command {
->  	__u8		resv4[16];
->  };
->  
-> +struct nvme_dbbuf {
-> +	__u8			opcode;
-> +	__u8			flags;
-> +	__u16			command_id;
-> +	__u32			rsvd1[5];
-> +	__le64			prp1;
-> +	__le64			prp2;
-> +	__u32			rsvd12[6];
-> +};
-> +
->  struct nvme_command {
->  	union {
->  		struct nvme_common_command common;
-> @@ -854,29 +939,17 @@ struct nvme_command {
->  		struct nvme_download_firmware dlfw;
->  		struct nvme_format_cmd format;
->  		struct nvme_dsm_cmd dsm;
-> +		struct nvme_write_zeroes_cmd write_zeroes;
->  		struct nvme_abort_cmd abort;
->  		struct nvme_get_log_page_command get_log_page;
->  		struct nvmf_common_command fabrics;
->  		struct nvmf_connect_command connect;
->  		struct nvmf_property_set_command prop_set;
->  		struct nvmf_property_get_command prop_get;
-> +		struct nvme_dbbuf dbbuf;
->  	};
->  };
->  
-> -#define NVME_IDENTIFY_CMD_LEN 4096
-> -#define NVME_ID_CNS_NS_DESC_LIST 0x3
-> -enum {
-> -	NVME_NIDT_EUI64		= 0x1,
-> -	NVME_NIDT_NGUID		= 0x2,
-> -	NVME_NIDT_UUID		= 0x3,
-> -};
-> -
-> -struct nvme_ns_id_desc {
-> -	__u8 nidt;
-> -	__u8 nidl;
-> -	__u16 reserved;
-> -};
-> -
->  static inline bool nvme_is_write(struct nvme_command *cmd)
->  {
->  	/*
-> @@ -958,6 +1031,7 @@ enum {
->  	NVME_SC_BAD_ATTRIBUTES		= 0x180,
->  	NVME_SC_INVALID_PI		= 0x181,
->  	NVME_SC_READ_ONLY		= 0x182,
-> +	NVME_SC_ONCS_NOT_SUPPORTED	= 0x183,
->  
->  	/*
->  	 * I/O Command Set Specific - Fabrics commands:
-> @@ -984,23 +1058,41 @@ enum {
->  	NVME_SC_UNWRITTEN_BLOCK		= 0x287,
->  
->  	NVME_SC_DNR			= 0x4000,
-> +
-> +
-> +	/*
-> +	 * FC Transport-specific error status values for NVME commands
-> +	 *
-> +	 * Transport-specific status code values must be in the range 0xB0..0xBF
-> +	 */
-> +
-> +	/* Generic FC failure - catchall */
-> +	NVME_SC_FC_TRANSPORT_ERROR	= 0x00B0,
-> +
-> +	/* I/O failure due to FC ABTS'd */
-> +	NVME_SC_FC_TRANSPORT_ABORTED	= 0x00B1,
->  };
->  
->  struct nvme_completion {
->  	/*
->  	 * Used by Admin and Fabrics commands to return data:
->  	 */
-> -	union {
-> -		__le16	result16;
-> -		__le32	result;
-> -		__le64	result64;
-> -	};
-> +	union nvme_result {
-> +		__le16	u16;
-> +		__le32	u32;
-> +		__le64	u64;
-> +	} result;
->  	__le16	sq_head;	/* how much of this queue may be reclaimed */
->  	__le16	sq_id;		/* submission queue that generated this entry */
->  	__u16	command_id;	/* of the command which completed */
->  	__le16	status;		/* did the command fail, and if so, why? */
->  };
->  
-> -#define NVME_VS(major, minor) (((major) << 16) | ((minor) << 8))
-> +#define NVME_VS(major, minor, tertiary) \
-> +	(((major) << 16) | ((minor) << 8) | (tertiary))
-> +
-> +#define NVME_MAJOR(ver)		((ver) >> 16)
-> +#define NVME_MINOR(ver)		(((ver) >> 8) & 0xff)
-> +#define NVME_TERTIARY(ver)	((ver) & 0xff)
->  
->  #endif /* _LINUX_NVME_H */
-> diff --git a/nvme-print.c b/nvme-print.c
-> index dca4a19..637c695 100644
-> --- a/nvme-print.c
-> +++ b/nvme-print.c
-> @@ -3,10 +3,6 @@
->  #include <string.h>
->  #include <stdlib.h>
->  
-> -#ifdef LIBUUID
-> -#include <uuid/uuid.h>
-> -#endif
-> -
->  #include "nvme-print.h"
->  #include "json.h"
->  #include "nvme-models.h"
-> @@ -622,7 +618,7 @@ void json_nvme_id_ns_descs(void *data)
->  
->  	root = json_create_object();
->  
-> -	for (pos = 0; pos < NVME_IDENTIFY_CMD_LEN; pos += len) {
-> +	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
->  		struct nvme_ns_id_desc *cur = data + pos;
->  
->  		off = pos + sizeof(*cur);
-> @@ -680,7 +676,7 @@ void show_nvme_id_ns_descs(void *data)
->  	__u8 eui64[8];
->  	__u8 nguid[16];
->  
-> -	for (pos = 0; pos < NVME_IDENTIFY_CMD_LEN; pos += len) {
-> +	for (pos = 0; pos < NVME_IDENTIFY_DATA_SIZE; pos += len) {
->  		struct nvme_ns_id_desc *cur = data + pos;
->  
->  		if (cur->nidl == 0)
-> diff --git a/nvme.c b/nvme.c
-> index f746b74..4cb7d63 100644
-> --- a/nvme.c
-> +++ b/nvme.c
-> @@ -45,10 +45,6 @@
->  #include <sys/stat.h>
->  #include <sys/time.h>
->  
-> -#ifdef LIBUUID
-> -#include <uuid/uuid.h>
-> -#endif
-> -
->  #include "nvme-print.h"
->  #include "nvme-ioctl.h"
->  #include "nvme-lightnvm.h"
-> diff --git a/nvme.h b/nvme.h
-> index 397a1a5..b796961 100644
-> --- a/nvme.h
-> +++ b/nvme.h
-> @@ -21,6 +21,15 @@
->  #include "json.h"
->  
->  #define unlikely(x) x
-> +
-> +#ifdef LIBUUID
-> +#include <uuid/uuid.h>
-> +#else
-> +typedef struct {
-> +	__u8 b[16];
-> +} uuid_t;
-> +#endif
-> +
->  #include "linux/nvme.h"
->  
->  struct nvme_error_log_page {
-> @@ -45,16 +54,6 @@ struct nvme_firmware_log_page {
->  /* idle and active power scales occupy the last 2 bits of the field */
->  #define POWER_SCALE(s) ((s) >> 6)
->  
-> -enum {
-> -	NVME_ID_CNS_NS			= 0x00,
-> -	NVME_ID_CNS_CTRL		= 0x01,
-> -	NVME_ID_CNS_NS_ACTIVE_LIST	= 0x02,
-> -	NVME_ID_CNS_NS_PRESENT_LIST	= 0x10,
-> -	NVME_ID_CNS_NS_PRESENT		= 0x11,
-> -	NVME_ID_CNS_CTRL_NS_LIST	= 0x12,
-> -	NVME_ID_CNS_CTRL_LIST		= 0x13,
-> -};
-> -
->  struct nvme_host_mem_buffer {
->  	__u32			hsize;
->  	__u32			hmdlal;
-> -- 
-> 2.11.0
-> 
-> 
-> _______________________________________________
-> Linux-nvme mailing list
-> Linux-nvme at lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-nvme
----end quoted text---
+diff --git a/Documentation/nvme-resv-report.txt b/Documentation/nvme-resv-report.txt
+index a7def3a..e207102 100644
+--- a/Documentation/nvme-resv-report.txt
++++ b/Documentation/nvme-resv-report.txt
+@@ -37,6 +37,11 @@ OPTIONS
+ 	Specify the number of Dwords of the Reservation Status structure
+ 	to transfer. Defaults to 4k.
+ 
++-c <cdw11>::
++--cdw11=<cdw11>::
++	The value for command dword 11. Setting bit 0 specifies that the 
++	controller returns the Extended Data Structure.
++
+ -b::
+ --raw-binary::
+ 	Print the raw buffer to stdout. Structure is not parsed by
+diff --git a/linux/nvme.h b/linux/nvme.h
+index fd58a36..c5a6ca6 100644
+--- a/linux/nvme.h
++++ b/linux/nvme.h
+@@ -373,7 +373,7 @@ struct nvme_reservation_status {
+ 	__u8	regctl[2];
+ 	__u8	resv5[2];
+ 	__u8	ptpls;
+-	__u8	resv10[13];
++	__u8	resv10[14];
+ 	struct {
+ 		__le16	cntlid;
+ 		__u8	rcsts;
+@@ -383,6 +383,24 @@ struct nvme_reservation_status {
+ 	} regctl_ds[];
+ };
+ 
++struct nvme_reservation_status_ext {
++	__le32	gen;
++	__u8	rtype;
++	__u8	regctl[2];
++	__u8	resv5[2];
++	__u8	ptpls;
++	__u8	resv10[14];
++	__u8	resv24[40];
++	struct {
++		__le16	cntlid;
++		__u8	rcsts;
++		__u8	resv3[5];
++		__le64	rkey;
++		__u8	hostid[16];
++		__u8	resv32[32];
++	} regctl_eds[];
++};
++
+ enum nvme_async_event_type {
+ 	NVME_AER_TYPE_ERROR	= 0,
+ 	NVME_AER_TYPE_SMART	= 1,
+diff --git a/nvme-ioctl.c b/nvme-ioctl.c
+index e3e9af4..f5cbc28 100644
+--- a/nvme-ioctl.c
++++ b/nvme-ioctl.c
+@@ -300,12 +300,13 @@ int nvme_resv_release(int fd, __u32 nsid, __u8 rtype, __u8 rrela,
+ 	return nvme_submit_io_passthru(fd, &cmd);
+ }
+ 
+-int nvme_resv_report(int fd, __u32 nsid, __u32 numd, void *data)
++int nvme_resv_report(int fd, __u32 nsid, __u32 numd, __u32 cdw11, void *data)
+ {
+ 	struct nvme_passthru_cmd cmd = {
+ 		.opcode		= nvme_cmd_resv_report,
+ 		.nsid		= nsid,
+ 		.cdw10		= numd,
++		.cdw11		= cdw11,
+ 		.addr		= (__u64)(uintptr_t) data,
+ 		.data_len	= numd << 2,
+ 	};
+diff --git a/nvme-ioctl.h b/nvme-ioctl.h
+index 8faf345..7818721 100644
+--- a/nvme-ioctl.h
++++ b/nvme-ioctl.h
+@@ -62,7 +62,7 @@ int nvme_resv_register(int fd, __u32 nsid, __u8 rrega, __u8 cptpl,
+ 		       bool iekey, __u64 crkey, __u64 nrkey);
+ int nvme_resv_release(int fd, __u32 nsid, __u8 rtype, __u8 rrela,
+ 		      bool iekey, __u64 crkey);
+-int nvme_resv_report(int fd, __u32 nsid, __u32 numd, void *data);
++int nvme_resv_report(int fd, __u32 nsid, __u32 numd, __u32 cdw11, void *data);
+ 
+ /* NVME_ADMIN_CMD */
+ int nvme_passthru_admin(int fd, __u8 opcode, __u8 flags, __u16 rsvd,
+diff --git a/nvme-print.c b/nvme-print.c
+index f2050a6..f92c6fc 100644
+--- a/nvme-print.c
++++ b/nvme-print.c
+@@ -921,29 +921,53 @@ void show_error_log(struct nvme_error_log_page *err_log, int entries, const char
+ 	}
+ }
+ 
+-void show_nvme_resv_report(struct nvme_reservation_status *status)
++void show_nvme_resv_report(struct nvme_reservation_status *status, int bytes, __u32 cdw11)
+ {
+-	int i, regctl;
++	int i, j, regctl, entries;
+ 
+ 	regctl = status->regctl[0] | (status->regctl[1] << 8);
+ 
+ 	printf("\nNVME Reservation status:\n\n");
+ 	printf("gen       : %d\n", le32_to_cpu(status->gen));
+-	printf("regctl    : %d\n", regctl);
+ 	printf("rtype     : %d\n", status->rtype);
++	printf("regctl    : %d\n", regctl);
+ 	printf("ptpls     : %d\n", status->ptpls);
+ 
+-	for (i = 0; i < regctl; i++) {
+-		printf("regctl[%d] :\n", i);
+-		printf("  cntlid  : %x\n", le16_to_cpu(status->regctl_ds[i].cntlid));
+-		printf("  rcsts   : %x\n", status->regctl_ds[i].rcsts);
+-		printf("  hostid  : %"PRIx64"\n", (uint64_t)le64_to_cpu(status->regctl_ds[i].hostid));
+-		printf("  rkey    : %"PRIx64"\n", (uint64_t)le64_to_cpu(status->regctl_ds[i].rkey));
++	/* check Extended Data Structure bit */
++	if ((cdw11 & 0x1) == 0) {
++		/* if status buffer was too small, don't loop past the end of the buffer */
++		entries = (bytes - 24) / 24;
++		if (entries < regctl)
++			regctl = entries;
++
++		for (i = 0; i < regctl; i++) {
++			printf("regctl[%d] :\n", i);
++			printf("  cntlid  : %x\n", le16_to_cpu(status->regctl_ds[i].cntlid));
++			printf("  rcsts   : %x\n", status->regctl_ds[i].rcsts);
++			printf("  hostid  : %"PRIx64"\n", (uint64_t)le64_to_cpu(status->regctl_ds[i].hostid));
++			printf("  rkey    : %"PRIx64"\n", (uint64_t)le64_to_cpu(status->regctl_ds[i].rkey));
++		}
++	} else {
++		struct nvme_reservation_status_ext *ext_status = (struct nvme_reservation_status_ext *)status;
++		/* if status buffer was too small, don't loop past the end of the buffer */
++		entries = (bytes - 64) / 64;
++		if (entries < regctl)
++			regctl = entries;
++
++		for (i = 0; i < regctl; i++) {
++			printf("regctlext[%d] :\n", i);
++			printf("  cntlid     : %x\n", le16_to_cpu(ext_status->regctl_eds[i].cntlid));
++			printf("  rcsts      : %x\n", ext_status->regctl_eds[i].rcsts);
++			printf("  rkey       : %"PRIx64"\n", (uint64_t)le64_to_cpu(ext_status->regctl_eds[i].rkey));
++			printf("  hostid     : ");
++			for (j = 0; j < 16; j++)
++				printf("%x", ext_status->regctl_eds[i].hostid[j]);
++			printf("\n");
++		}
+ 	}
+ 	printf("\n");
+ }
+ 
+-
+ static char *fw_to_string(__u64 fw)
+ {
+ 	static char ret[9];
+@@ -1582,33 +1606,63 @@ void json_error_log(struct nvme_error_log_page *err_log, int entries, const char
+ 	json_free_object(root);
+ }
+ 
+-void json_nvme_resv_report(struct nvme_reservation_status *status)
++void json_nvme_resv_report(struct nvme_reservation_status *status, int bytes, __u32 cdw11)
+ {
+ 	struct json_object *root;
+ 	struct json_array *rcs;
+-	int i, regctl;
++	int i, j, regctl, entries;
+ 
+ 	regctl = status->regctl[0] | (status->regctl[1] << 8);
+ 
+ 	root = json_create_object();
+ 
+ 	json_object_add_value_int(root, "gen", le32_to_cpu(status->gen));
+-	json_object_add_value_int(root, "regctl", regctl);
+ 	json_object_add_value_int(root, "rtype", status->rtype);
++	json_object_add_value_int(root, "regctl", regctl);
+ 	json_object_add_value_int(root, "ptpls", status->ptpls);
+ 
+ 	rcs = json_create_array();
+-	json_object_add_value_array(root, "regctls", rcs);
++        /* check Extended Data Structure bit */
++        if ((cdw11 & 0x1) == 0) {
++                /* if status buffer was too small, don't loop past the end of the buffer */
++                entries = (bytes - 24) / 24;
++                if (entries < regctl)
++                        regctl = entries;
++
++		json_object_add_value_array(root, "regctls", rcs);
++		for (i = 0; i < regctl; i++) {
++			struct json_object *rc = json_create_object();
++
++			json_object_add_value_int(rc, "cntlid", le16_to_cpu(status->regctl_ds[i].cntlid));
++			json_object_add_value_int(rc, "rcsts", status->regctl_ds[i].rcsts);
++			json_object_add_value_int(rc, "hostid", (uint64_t)le64_to_cpu(status->regctl_ds[i].hostid));
++			json_object_add_value_int(rc, "rkey", (uint64_t)le64_to_cpu(status->regctl_ds[i].rkey));
++
++			json_array_add_value_object(rcs, rc);
++		}
++	} else {
++		struct nvme_reservation_status_ext *ext_status = (struct nvme_reservation_status_ext *)status;
++		char	hostid[33];
+ 
+-	for (i = 0; i < regctl; i++) {
+-		struct json_object *rc = json_create_object();
++                /* if status buffer was too small, don't loop past the end of the buffer */
++                entries = (bytes - 64) / 64;
++                if (entries < regctl)
++                        regctl = entries;
+ 
+-		json_object_add_value_int(rc, "cntlid", le16_to_cpu(status->regctl_ds[i].cntlid));
+-		json_object_add_value_int(rc, "rcsts", status->regctl_ds[i].rcsts);
+-		json_object_add_value_int(rc, "hostid", (uint64_t)le64_to_cpu(status->regctl_ds[i].hostid));
+-		json_object_add_value_int(rc, "rkey", (uint64_t)le64_to_cpu(status->regctl_ds[i].rkey));
++		json_object_add_value_array(root, "regctlext", rcs);
++		for (i = 0; i < regctl; i++) {
++			struct json_object *rc = json_create_object();
+ 
+-		json_array_add_value_object(rcs, rc);
++			json_object_add_value_int(rc, "cntlid", le16_to_cpu(ext_status->regctl_eds[i].cntlid));
++			json_object_add_value_int(rc, "rcsts", ext_status->regctl_eds[i].rcsts);
++			json_object_add_value_int(rc, "rkey", (uint64_t)le64_to_cpu(ext_status->regctl_eds[i].rkey));
++			for (j = 0; j < 16; j++)
++				sprintf(hostid + j * 2, "%02x", ext_status->regctl_eds[i].hostid[j]);
++
++			json_object_add_value_string(rc, "hostid", hostid);
++
++			json_array_add_value_object(rcs, rc);
++		}
+ 	}
+ 
+ 	json_print_object(root, NULL);
+diff --git a/nvme-print.h b/nvme-print.h
+index d39bc63..fd89c96 100644
+--- a/nvme-print.h
++++ b/nvme-print.h
+@@ -20,7 +20,7 @@ uint64_t int48_to_long(__u8 *data);
+ void __show_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*vendor_show)(__u8 *vs, struct json_object *root));
+ void show_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode);
+ void show_nvme_id_ns(struct nvme_id_ns *ns, unsigned int flags);
+-void show_nvme_resv_report(struct nvme_reservation_status *status);
++void show_nvme_resv_report(struct nvme_reservation_status *status, int bytes, __u32 cdw11);
+ void show_lba_range(struct nvme_lba_range_type *lbrt, int nr_ranges);
+ void show_error_log(struct nvme_error_log_page *err_log, int entries, const char *devname);
+ void show_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname);
+@@ -35,7 +35,7 @@ char *nvme_feature_to_string(int feature);
+ 
+ void json_nvme_id_ctrl(struct nvme_id_ctrl *ctrl, unsigned int mode, void (*vendor_show)(__u8 *vs, struct json_object *root));
+ void json_nvme_id_ns(struct nvme_id_ns *ns, unsigned int flags);
+-void json_nvme_resv_report(struct nvme_reservation_status *status);
++void json_nvme_resv_report(struct nvme_reservation_status *status, int bytes, __u32 cdw11);
+ void json_error_log(struct nvme_error_log_page *err_log, int entries, const char *devname);
+ void json_smart_log(struct nvme_smart_log *smart, unsigned int nsid, const char *devname);
+ void json_fw_log(struct nvme_firmware_log_page *fw_log, const char *devname);
+diff --git a/nvme.c b/nvme.c
+index 62ddd17..b31483f 100644
+--- a/nvme.c
++++ b/nvme.c
+@@ -2214,6 +2214,7 @@ static int resv_report(int argc, char **argv, struct command *cmd, struct plugin
+ 		"namespace.";
+ 	const char *namespace_id = "identifier of desired namespace";
+ 	const char *numd = "number of dwords to transfer";
++	const char *cdw11 = "command dword 11 value";
+ 	const char *raw_binary = "dump output in binary format";
+ 
+ 	int err, fmt, fd;
+@@ -2222,6 +2223,7 @@ static int resv_report(int argc, char **argv, struct command *cmd, struct plugin
+ 	struct config {
+ 		__u32 namespace_id;
+ 		__u32 numd;
++		__u32 cdw11;
+ 		int   raw_binary;
+ 		char *output_format;
+ 	};
+@@ -2229,12 +2231,14 @@ static int resv_report(int argc, char **argv, struct command *cmd, struct plugin
+ 	struct config cfg = {
+ 		.namespace_id = 0,
+ 		.numd         = 0,
++		.cdw11	      = 0,
+ 		.output_format = "normal",
+ 	};
+ 
+ 	const struct argconfig_commandline_options command_line_options[] = {
+ 		{"namespace-id",  'n', "NUM", CFG_POSITIVE, &cfg.namespace_id,  required_argument, namespace_id},
+ 		{"numd",          'd', "NUM", CFG_POSITIVE, &cfg.numd,          required_argument, numd},
++		{"cdw11",         'c', "NUM", CFG_POSITIVE, &cfg.cdw11,         required_argument, cdw11},
+ 		{"raw-binary",    'b', "",    CFG_NONE,     &cfg.raw_binary,    no_argument,       raw_binary},
+ 		{"output-format", 'o', "FMT", CFG_STRING,   &cfg.output_format, required_argument, output_format },
+ 		{NULL}
+@@ -2254,13 +2258,16 @@ static int resv_report(int argc, char **argv, struct command *cmd, struct plugin
+ 		cfg.namespace_id = get_nsid(fd);
+ 	if (!cfg.numd || cfg.numd > (0x1000 >> 2))
+ 		cfg.numd = 0x1000 >> 2;
++	if (cfg.numd < 3)
++		cfg.numd = 3; /* get the header fields at least */
+ 
+ 	if (posix_memalign((void **)&status, getpagesize(), cfg.numd << 2)) {
+ 		fprintf(stderr, "No memory for resv report:%d\n", cfg.numd << 2);
+ 		return ENOMEM;
+ 	}
++	memset(status, 0, cfg.numd << 2);
+ 
+-	err = nvme_resv_report(fd, cfg.namespace_id, cfg.numd, status);
++	err = nvme_resv_report(fd, cfg.namespace_id, cfg.numd, cfg.cdw11, status);
+ 	if (err < 0)
+ 		perror("reservation report");
+ 	else if (err != 0)
+@@ -2269,10 +2276,10 @@ static int resv_report(int argc, char **argv, struct command *cmd, struct plugin
+ 		if (fmt == BINARY)
+ 			d_raw((unsigned char *)status, cfg.numd << 2);
+ 		else if (fmt == JSON)
+-			json_nvme_resv_report(status);
++			json_nvme_resv_report(status, cfg.numd << 2, cfg.cdw11);
+ 		else {
+ 			printf("NVME Reservation Report success\n");
+-			show_nvme_resv_report(status);
++			show_nvme_resv_report(status, cfg.numd << 2, cfg.cdw11);
+ 		}
+ 	}
+ 	free(status);
+-- 
+2.12.2
