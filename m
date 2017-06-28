@@ -1,24 +1,43 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 28 Jun 2017 18:01:47 +0300
+From: maxg@mellanox.com (Max Gurtovoy)
+Date: Wed, 28 Jun 2017 18:09:25 +0300
 Subject: [PATCH 1/1] blk-mq: map all HWQ also in hyperthreaded system
-In-Reply-To: <1cc73f8d-3e9d-0f9f-2b71-60d2bc6ce7b5@mellanox.com>
+In-Reply-To: <e9cccad7-804a-f68b-b184-46cc5be2f01d@grimberg.me>
 References: <1498653880-29223-1-git-send-email-maxg@mellanox.com>
- <37fea86b-ce87-ac03-e465-5daf62a456c4@grimberg.me>
- <1cc73f8d-3e9d-0f9f-2b71-60d2bc6ce7b5@mellanox.com>
-Message-ID: <81fe8f2a-1fba-730e-a4af-047a4e06bd1a@grimberg.me>
+ <e9cccad7-804a-f68b-b184-46cc5be2f01d@grimberg.me>
+Message-ID: <c0e5ca5d-f048-cf9c-27d6-6a2a98a48251@mellanox.com>
 
 
->> Can you please test with my patchset on converting nvme-rdma to
->> MSIX based mapping (I assume you are testing with mlx5 yes)?
-> 
-> Sure. does V6 is the last version of the patchset ?
-> I'll test it with ConnectX-5 adapter and send the results.
 
-Yes.
+On 6/28/2017 5:58 PM, Sagi Grimberg wrote:
+>
+>> +static int cpu_to_queue_index(unsigned int nr_queues, const int cpu,
+>> +                  const struct cpumask *online_mask)
+>>   {
+>> -    return cpu * nr_queues / nr_cpus;
+>> +    /*
+>> +     * Non online CPU will be mapped to queue index 0.
+>> +     */
+>> +    if (!cpumask_test_cpu(cpu, online_mask))
+>> +        return 0;
+>
+> Why not map offline cpus to what they would've map to if they were
+> online?
 
->> I'd be very much interested to know if the original problem
->> exists with this applied.
-> 
-> it will exist in case set->nr_hw_queues > dev->num_comp_vectors.
+I didn't change logic for offline cpu's.
+Should it be done in this patch ?
 
-We don't ask for more hw queues than num_comp_vectors.
+>
+>> +        if (cpu < nr_queues) {
+>> +            map[cpu] = cpu_to_queue_index(nr_queues, cpu, online_mask);
+>> +        } else {
+>> +            first_sibling = get_first_sibling(cpu);
+>> +            if (first_sibling == cpu)
+>> +                map[cpu] = cpu_to_queue_index(nr_queues, cpu,
+>> online_mask);
+>
+> This seems to be the only reference to online_mask left (on each side of
+> the if statement. I think you can just not pass it and use
+> cpu_online_mask in cpu_to_queue_index.
+
+Another user of cpu_to_queue_index may want to send different mask.
+Currently it's a static function so I guess we can do it.
