@@ -1,13 +1,34 @@
-From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 28 Jun 2017 16:22:15 -0400
-Subject: [PATCH] resync nvme.h with the kernel.h
-In-Reply-To: <20170628182937.GA12703@lst.de>
-References: <20170628182757.10173-1-hch@lst.de> <20170628182937.GA12703@lst.de>
-Message-ID: <20170628202215.GB3110@localhost.localdomain>
+From: James.Bottomley@HansenPartnership.com (James Bottomley)
+Date: Wed, 28 Jun 2017 14:15:45 -0700
+Subject: [PATCH v2 1/6] qla2xxx: Add FC-NVMe port discovery and PRLI
+ handling
+In-Reply-To: <20170621204846.21663-2-himanshu.madhani@cavium.com>
+References: <20170621204846.21663-1-himanshu.madhani@cavium.com>
+ <20170621204846.21663-2-himanshu.madhani@cavium.com>
+Message-ID: <1498684545.2769.17.camel@HansenPartnership.com>
 
-On Wed, Jun 28, 2017@08:29:37PM +0200, Christoph Hellwig wrote:
-> Meh, the subject should just say:
+On Wed, 2017-06-21@13:48 -0700, Madhani, Himanshu wrote:
+> From: Duane Grigsby <duane.grigsby at cavium.com>
 > 
-> resync nvme.h with the kernel
+> Added logic to change the login process into an optional PRIL
+> step for FC-NVMe ports as a separate operation, such that we can
+> change type to 0x28 (NVMe).
+> 
+> Currently, the driver performs the PLOGI/PRLI together as one
+> operation, but if the discovered port is an NVMe port then we
+> first issue the PLOGI and then we issue the PRLI. Also, the
+> fabric discovery logic was changed to mark each discovered FC
+> NVMe port, so that we can register them with the FC-NVMe transport
+> later.
+> 
+> Signed-off-by: Darren Trapp <darren.trapp at cavium.com>
+> Signed-off-by: Duane Grigsby <duane.grigsby at cavium.com>
+> Signed-off-by: Anil Gurumurthy <anil.gurumurhty at cavium.com>
 
-No problem, applied with the updated subject.
+I just got a whole load of bounces from this: you've misspelled Anil's
+email address (h and t transposed). ?It looks like a generic cut and
+paste, so could you fix it for next time?
+
+Thanks,
+
+James
