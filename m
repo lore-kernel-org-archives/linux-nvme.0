@@ -1,43 +1,39 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 28 Jun 2017 13:05:36 +0300
-Subject: [PATCH 1/3] RDMA/device: Fix device removal notification when
- ib_clients set .add callout to NULL
+Date: Wed, 28 Jun 2017 13:05:37 +0300
+Subject: [PATCH 2/3] nvme-rdma: remove redundant empty device add callout
 In-Reply-To: <1498644338-19719-1-git-send-email-sagi@grimberg.me>
 References: <1498644338-19719-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1498644338-19719-2-git-send-email-sagi@grimberg.me>
+Message-ID: <1498644338-19719-3-git-send-email-sagi@grimberg.me>
 
-ib_clients can indeed fill .add to NULL, but then they will not see
-any device removal notifications. The reason is that that
-ib_register_client and ib_register_device checked existence of .add
-before adding the creating a corresponding client_data and adding
-it to the list. Simple condition reverse fixes the issue.
+Now that its not needed, we can simply not assign it.
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/infiniband/core/device.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/nvme/host/rdma.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/drivers/infiniband/core/device.c b/drivers/infiniband/core/device.c
-index 81d447da0048..26eb428af473 100644
---- a/drivers/infiniband/core/device.c
-+++ b/drivers/infiniband/core/device.c
-@@ -414,7 +414,7 @@ int ib_register_device(struct ib_device *device,
- 	device->reg_state = IB_DEV_REGISTERED;
+diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
+index 6d4119dfbdaa..934183f80fff 100644
+--- a/drivers/nvme/host/rdma.c
++++ b/drivers/nvme/host/rdma.c
+@@ -1956,10 +1956,6 @@ static struct nvmf_transport_ops nvme_rdma_transport = {
+ 	.create_ctrl	= nvme_rdma_create_ctrl,
+ };
  
- 	list_for_each_entry(client, &client_list, list)
--		if (client->add && !add_client_context(device, client))
-+		if (!add_client_context(device, client) && client->add)
- 			client->add(device);
+-static void nvme_rdma_add_one(struct ib_device *ib_device)
+-{
+-}
+-
+ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
+ {
+ 	struct nvme_rdma_ctrl *ctrl;
+@@ -1981,7 +1977,6 @@ static void nvme_rdma_remove_one(struct ib_device *ib_device, void *client_data)
  
- 	down_write(&lists_rwsem);
-@@ -499,7 +499,7 @@ int ib_register_client(struct ib_client *client)
- 	mutex_lock(&device_mutex);
+ static struct ib_client nvme_rdma_ib_client = {
+ 	.name   = "nvme_rdma",
+-	.add = nvme_rdma_add_one,
+ 	.remove = nvme_rdma_remove_one
+ };
  
- 	list_for_each_entry(device, &device_list, core_list)
--		if (client->add && !add_client_context(device, client))
-+		if (!add_client_context(device, client) && client->add)
- 			client->add(device);
- 
- 	down_write(&lists_rwsem);
 -- 
 2.7.4
