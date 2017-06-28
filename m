@@ -1,25 +1,36 @@
-From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 28 Jun 2017 15:07:02 +0200
-Subject: [PATCH 1/1] blk-mq: map all HWQ also in hyperthreaded system
-In-Reply-To: <1498653880-29223-1-git-send-email-maxg@mellanox.com>
-References: <1498653880-29223-1-git-send-email-maxg@mellanox.com>
-Message-ID: <20170628130702.GQ4185@linux-x5ow.site>
+From: axboe@kernel.dk (Jens Axboe)
+Date: Wed, 28 Jun 2017 08:13:03 -0600
+Subject: [GIT PULL] some more early nvme patches for kernel 4.13
+In-Reply-To: <1498633287-451-1-git-send-email-sagi@grimberg.me>
+References: <1498633287-451-1-git-send-email-sagi@grimberg.me>
+Message-ID: <de3521cf-49a1-ac76-0fca-123a3845839e@kernel.dk>
 
-On Wed, Jun 28, 2017@03:44:40PM +0300, Max Gurtovoy wrote:
-> This patch performs sequential mapping between CPUs and queues.
-> In case the system has more CPUs than HWQs then there are still
-> CPUs to map to HWQs. In hyperthreaded system, map the unmapped CPUs
-> and their siblings to the same HWQ.
-> This actually fixes a bug that found unmapped HWQs in a system with
-> 2 sockets, 18 cores per socket, 2 threads per core (total 72 CPUs)
-> running NVMEoF (opens upto maximum of 64 HWQs).
+On 06/28/2017 01:01 AM, Sagi Grimberg wrote:
+> Hey Jens,
+> 
+> Another round of early patches for 4.13 to spend some time
+> in linux-next.
+> 
+> This includes:
+> - finally remove SCSI translations from Kieth 
+> - NQN handling fixes from Christoph
+> - several nvme(t)-fc fixes from James
+> - expose hostid configure knob to userspace from Johannes
+> - APST disable quirks from Kai-Heng Feng
+> - nvme-pci process_cq refactoring from me
+> - relax NVME_AQ_DEPTH to 32 and share it in fabrics and pci from me
+> - fix nvmet-rdma surprise device removal handling
+> 
+> please consider pulling from:
+> 
+>   git://git.infradead.org/nvme.git nvme-4.13
+> 
+> It's rebased on top of your for-next (2c4a9e73b3c6).
 
->From a first look at it, it looks good.
-Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
+Never rebase on top of my for-next. My for-next exists only for
+Stephen, and it continually gets master merged in to resolve
+conflicts. Please rebase this on top of for-4.13/block asap,
+I can't pull this on.
+
 -- 
-Johannes Thumshirn                                          Storage
-jthumshirn at suse.de                                +49 911 74053 689
-SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
-GF: Felix Imend?rffer, Jane Smithard, Graham Norton
-HRB 21284 (AG N?rnberg)
-Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
+Jens Axboe
