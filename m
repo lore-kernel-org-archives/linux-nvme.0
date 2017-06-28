@@ -1,17 +1,13 @@
 From: keith.busch@intel.com (Keith Busch)
-Date: Wed, 28 Jun 2017 15:58:48 -0400
-Subject: [PATCH] nvme-cli: Extended Data Structure in resv-report
-In-Reply-To: <MWHPR06MB2496402FDC8379115F3885B88CDD0@MWHPR06MB2496.namprd06.prod.outlook.com>
-References: <MWHPR06MB2496402FDC8379115F3885B88CDD0@MWHPR06MB2496.namprd06.prod.outlook.com>
-Message-ID: <20170628195847.GA3110@localhost.localdomain>
+Date: Wed, 28 Jun 2017 16:22:15 -0400
+Subject: [PATCH] resync nvme.h with the kernel.h
+In-Reply-To: <20170628182937.GA12703@lst.de>
+References: <20170628182757.10173-1-hch@lst.de> <20170628182937.GA12703@lst.de>
+Message-ID: <20170628202215.GB3110@localhost.localdomain>
 
-On Wed, Jun 28, 2017@07:40:02PM +0000, Schremmer, Steven wrote:
-> Allow user to specify cdw11 value to request Extended Data
-> Structure. Update resv_report show and json functions to decode
-> the returned data.
+On Wed, Jun 28, 2017@08:29:37PM +0200, Christoph Hellwig wrote:
+> Meh, the subject should just say:
 > 
-> Signed-off-by: Steve Schremmer <steve.schremmer at netapp.com>
+> resync nvme.h with the kernel
 
-Looks great, applied.
-
-Also, thanks for the fix to the nvme_reservation structure.
+No problem, applied with the updated subject.
