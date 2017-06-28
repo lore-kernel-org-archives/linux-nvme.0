@@ -1,12 +1,11 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 28 Jun 2017 17:38:12 +0300
+From: gpiccoli@linux.vnet.ibm.com (Guilherme G. Piccoli)
+Date: Wed, 28 Jun 2017 11:43:51 -0300
 Subject: [PATCH 1/1] blk-mq: map all HWQ also in hyperthreaded system
 In-Reply-To: <1498653880-29223-1-git-send-email-maxg@mellanox.com>
 References: <1498653880-29223-1-git-send-email-maxg@mellanox.com>
-Message-ID: <37fea86b-ce87-ac03-e465-5daf62a456c4@grimberg.me>
+Message-ID: <246abb9a-4df1-f5a5-b34a-092d087e42e0@linux.vnet.ibm.com>
 
-Hi Max,
-
+On 06/28/2017 09:44 AM, Max Gurtovoy wrote:
 > This patch performs sequential mapping between CPUs and queues.
 > In case the system has more CPUs than HWQs then there are still
 > CPUs to map to HWQs. In hyperthreaded system, map the unmapped CPUs
@@ -14,18 +13,31 @@ Hi Max,
 > This actually fixes a bug that found unmapped HWQs in a system with
 > 2 sockets, 18 cores per socket, 2 threads per core (total 72 CPUs)
 > running NVMEoF (opens upto maximum of 64 HWQs).
+> 
+> Performance results running fio (72 jobs, 128 iodepth)
+> using null_blk (w/w.o patch):
+> 
+> bs      IOPS(read submit_queues=72)   IOPS(write submit_queues=72)   IOPS(read submit_queues=24)  IOPS(write submit_queues=24)
+> -----  ----------------------------  ------------------------------ ---------------------------- -----------------------------
+> 512    4890.4K/4723.5K                 4524.7K/4324.2K                   4280.2K/4264.3K               3902.4K/3909.5K
+> 1k     4910.1K/4715.2K                 4535.8K/4309.6K                   4296.7K/4269.1K               3906.8K/3914.9K
+> 2k     4906.3K/4739.7K                 4526.7K/4330.6K                   4301.1K/4262.4K               3890.8K/3900.1K
+> 4k     4918.6K/4730.7K                 4556.1K/4343.6K                   4297.6K/4264.5K               3886.9K/3893.9K
+> 8k     4906.4K/4748.9K                 4550.9K/4346.7K                   4283.2K/4268.8K               3863.4K/3858.2K
+> 16k    4903.8K/4782.6K                 4501.5K/4233.9K                   4292.3K/4282.3K               3773.1K/3773.5K
+> 32k    4885.8K/4782.4K                 4365.9K/4184.2K                   4307.5K/4289.4K               3780.3K/3687.3K
+> 64k    4822.5K/4762.7K                 2752.8K/2675.1K                   4308.8K/4312.3K               2651.5K/2655.7K
+> 128k   2388.5K/2313.8K                 1391.9K/1375.7K                   2142.8K/2152.2K               1395.5K/1374.2K
+> 
 
-The explanation can be a bit clearer...
+Max, thanks for this patch. I was having the same issue, and was
+thinking in how to address...
 
-I still need to take a look at the patch itself, but do note that
-ideally we will never get to blk_mq_map_queues since we prefer
-to map queues based on MSIX assignments. for nvme-rdma, this is
-merely a fallback. And looking ahead, MSIX based mapping should
-be the primary mapping logic.
+Your patch fixes it for me, just tested it.
+I can test any follow-up patch you send, basaed on reviews you got in
+the list.
 
-Can you please test with my patchset on converting nvme-rdma to
-MSIX based mapping (I assume you are testing with mlx5 yes)?
-I'd be very much interested to know if the original problem
-exists with this applied.
+Cheers,
 
-I'll take a closer look into the patch.
+
+Guilherme
