@@ -1,54 +1,21 @@
-From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Tue, 27 Jun 2017 22:27:57 -0400
-Subject: [PATCH] nvme: Quirks for PM1725 controllers
-Message-ID: <20170628022757.32309-1-martin.petersen@oracle.com>
+From: sagi@grimberg.me (Sagi Grimberg)
+Date: Wed, 28 Jun 2017 09:48:59 +0300
+Subject: [PATCH for-4.12] nvme/pci: Fix stuck nvme reset
+In-Reply-To: <20170627234019.GA13688@lst.de>
+References: <1498607018-1277-1-git-send-email-keith.busch@intel.com>
+ <20170627234019.GA13688@lst.de>
+Message-ID: <327ad0bd-cd12-b606-b93f-3264ea2ebc1e@grimberg.me>
 
-PM1725 controllers have a couple of quirks that need to be handled in
-the driver:
 
- - I/O queue depth must be limited to 64 entries on controllers that do
-   not report MQES.
+> Can you align this a little nicer:
+> 
+> 		if (dev->ctrl.state == NVME_CTRL_LIVE ||
+> 		    dev->ctrl.state == NVME_CTRL_RESETTING)
+> 
+> Otherwise this looks fine:
+> 
+> Reviewed-by: Christoph Hellwig <hch at lst.de>
 
- - The host interface registers go offline briefly while resetting the
-   chip. Thus a delay is needed before checking whether the controller
-   is ready.
+Same here,
 
-Note that the admin queue depth is also limited to 64 on older versions
-of this board. Since our NVME_AQ_DEPTH is now 32 that is no longer an
-issue.
-
-Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
----
- drivers/nvme/host/pci.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 32a98e2740ad..343263bcb49a 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -1908,6 +1908,12 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 		dev_warn(dev->ctrl.device, "detected Apple NVMe controller, "
- 			"set queue depth=%u to work around controller resets\n",
- 			dev->q_depth);
-+	} else if (pdev->vendor == PCI_VENDOR_ID_SAMSUNG &&
-+		   (pdev->device == 0xa821 || pdev->device == 0xa822) &&
-+		   NVME_CAP_MQES(cap) == 0) {
-+		dev->q_depth = 64;
-+		dev_err(dev->ctrl.device, "detected PM1725 NVMe controller, "
-+                        "set queue depth=%u\n", dev->q_depth);
- 	}
- 
- 	/*
-@@ -2454,6 +2460,10 @@ static const struct pci_device_id nvme_id_table[] = {
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE(0x1c5f, 0x0540),	/* Memblaze Pblaze4 adapter */
- 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
-+	{ PCI_DEVICE(0x144d, 0xa821),   /* Samsung PM1725 */
-+		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
-+	{ PCI_DEVICE(0x144d, 0xa822),   /* Samsung PM1725a */
-+		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
- 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
- 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
--- 
-2.13.0
+Reviewed-by: Sagi Grimberg <sagi at grimbeg.me>
