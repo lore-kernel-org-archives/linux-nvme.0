@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Wed, 28 Jun 2017 14:39:29 +0200
-Subject: [PATCH 2/3] nvme-rdma: remove redundant empty device add callout
-In-Reply-To: <1498644338-19719-3-git-send-email-sagi@grimberg.me>
+Date: Wed, 28 Jun 2017 14:39:39 +0200
+Subject: [PATCH 3/3] nvmet-rdma: remove redundant empty device add callout
+In-Reply-To: <1498644338-19719-4-git-send-email-sagi@grimberg.me>
 References: <1498644338-19719-1-git-send-email-sagi@grimberg.me>
- <1498644338-19719-3-git-send-email-sagi@grimberg.me>
-Message-ID: <20170628123929.GN4185@linux-x5ow.site>
+ <1498644338-19719-4-git-send-email-sagi@grimberg.me>
+Message-ID: <20170628123939.GO4185@linux-x5ow.site>
 
 
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
