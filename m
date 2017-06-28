@@ -1,39 +1,17 @@
-From: sagi@grimberg.me (Sagi Grimberg)
-Date: Wed, 28 Jun 2017 13:05:38 +0300
-Subject: [PATCH 3/3] nvmet-rdma: remove redundant empty device add callout
-In-Reply-To: <1498644338-19719-1-git-send-email-sagi@grimberg.me>
+From: jthumshirn@suse.de (Johannes Thumshirn)
+Date: Wed, 28 Jun 2017 14:39:29 +0200
+Subject: [PATCH 2/3] nvme-rdma: remove redundant empty device add callout
+In-Reply-To: <1498644338-19719-3-git-send-email-sagi@grimberg.me>
 References: <1498644338-19719-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1498644338-19719-4-git-send-email-sagi@grimberg.me>
+ <1498644338-19719-3-git-send-email-sagi@grimberg.me>
+Message-ID: <20170628123929.GN4185@linux-x5ow.site>
 
-Now that its not needed, we can simply not assign it.
 
-Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
----
- drivers/nvme/target/rdma.c | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/drivers/nvme/target/rdma.c b/drivers/nvme/target/rdma.c
-index 56a4cba690b5..76d2bb793afe 100644
---- a/drivers/nvme/target/rdma.c
-+++ b/drivers/nvme/target/rdma.c
-@@ -1510,10 +1510,6 @@ static struct nvmet_fabrics_ops nvmet_rdma_ops = {
- 	.delete_ctrl		= nvmet_rdma_delete_ctrl,
- };
- 
--static void nvmet_rdma_add_one(struct ib_device *ib_device)
--{
--}
--
- static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data)
- {
- 	struct nvmet_rdma_queue *queue;
-@@ -1534,7 +1530,6 @@ static void nvmet_rdma_remove_one(struct ib_device *ib_device, void *client_data
- 
- static struct ib_client nvmet_rdma_ib_client = {
- 	.name   = "nvmet_rdma",
--	.add = nvmet_rdma_add_one,
- 	.remove = nvmet_rdma_remove_one
- };
- 
+Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
 -- 
-2.7.4
+Johannes Thumshirn                                          Storage
+jthumshirn at suse.de                                +49 911 74053 689
+SUSE LINUX GmbH, Maxfeldstr. 5, 90409 N?rnberg
+GF: Felix Imend?rffer, Jane Smithard, Graham Norton
+HRB 21284 (AG N?rnberg)
+Key fingerprint = EC38 9CAB C2C4 F25D 8600 D0D0 0393 969D 2D76 0850
