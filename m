@@ -1,18 +1,54 @@
 From: martin.petersen@oracle.com (Martin K. Petersen)
-Date: Tue, 27 Jun 2017 21:49:03 -0400
-Subject: [PATCH v2 0/6] qla2xxx: Add NVMe FC Fabric support in driver
-In-Reply-To: <20170621204846.21663-1-himanshu.madhani@cavium.com> (Himanshu
- Madhani's message of "Wed, 21 Jun 2017 13:48:40 -0700")
-References: <20170621204846.21663-1-himanshu.madhani@cavium.com>
-Message-ID: <yq1podoyj8w.fsf@oracle.com>
+Date: Tue, 27 Jun 2017 22:27:57 -0400
+Subject: [PATCH] nvme: Quirks for PM1725 controllers
+Message-ID: <20170628022757.32309-1-martin.petersen@oracle.com>
 
+PM1725 controllers have a couple of quirks that need to be handled in
+the driver:
 
-Himanshu,
+ - I/O queue depth must be limited to 64 entries on controllers that do
+   not report MQES.
 
-> This patch series adds NVMe FC fabric support for qla2xxx initiator
-> mode driver.
+ - The host interface registers go offline briefly while resetting the
+   chip. Thus a delay is needed before checking whether the controller
+   is ready.
 
-Applied to 4.13/scsi-queue, thanks!
+Note that the admin queue depth is also limited to 64 on older versions
+of this board. Since our NVME_AQ_DEPTH is now 32 that is no longer an
+issue.
 
+Signed-off-by: Martin K. Petersen <martin.petersen at oracle.com>
+---
+ drivers/nvme/host/pci.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
+index 32a98e2740ad..343263bcb49a 100644
+--- a/drivers/nvme/host/pci.c
++++ b/drivers/nvme/host/pci.c
+@@ -1908,6 +1908,12 @@ static int nvme_pci_enable(struct nvme_dev *dev)
+ 		dev_warn(dev->ctrl.device, "detected Apple NVMe controller, "
+ 			"set queue depth=%u to work around controller resets\n",
+ 			dev->q_depth);
++	} else if (pdev->vendor == PCI_VENDOR_ID_SAMSUNG &&
++		   (pdev->device == 0xa821 || pdev->device == 0xa822) &&
++		   NVME_CAP_MQES(cap) == 0) {
++		dev->q_depth = 64;
++		dev_err(dev->ctrl.device, "detected PM1725 NVMe controller, "
++                        "set queue depth=%u\n", dev->q_depth);
+ 	}
+ 
+ 	/*
+@@ -2454,6 +2460,10 @@ static const struct pci_device_id nvme_id_table[] = {
+ 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
+ 	{ PCI_DEVICE(0x1c5f, 0x0540),	/* Memblaze Pblaze4 adapter */
+ 		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
++	{ PCI_DEVICE(0x144d, 0xa821),   /* Samsung PM1725 */
++		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
++	{ PCI_DEVICE(0x144d, 0xa822),   /* Samsung PM1725a */
++		.driver_data = NVME_QUIRK_DELAY_BEFORE_CHK_RDY, },
+ 	{ PCI_DEVICE_CLASS(PCI_CLASS_STORAGE_EXPRESS, 0xffffff) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2001) },
+ 	{ PCI_DEVICE(PCI_VENDOR_ID_APPLE, 0x2003) },
 -- 
-Martin K. Petersen	Oracle Linux Engineering
+2.13.0
