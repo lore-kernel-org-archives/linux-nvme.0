@@ -1,62 +1,45 @@
-From: robert@leblancnet.us (Robert LeBlanc)
-Date: Thu, 29 Jun 2017 10:18:26 -0600
-Subject: Deadlock on device removal event for NVMeF target
-In-Reply-To: <3e559faf-9ea4-081e-c9cd-cb1c36b4673f@grimberg.me>
-References: <20170626225920.GA11700@ssaleem-MOBL4.amr.corp.intel.com>
- <56030fcd-b8a0-fc0e-18e5-985ebf16a82e@grimberg.me>
- <20170627193157.GA29768@ssaleem-MOBL4.amr.corp.intel.com>
- <61858a46-ebf1-a5bd-5213-65dadaadb84d@grimberg.me>
- <CAANLjFr++5daZ6Vn8TYxcM0oMyU4PuMztcM5KKM6mOy7HEs7KA@mail.gmail.com>
- <3e559faf-9ea4-081e-c9cd-cb1c36b4673f@grimberg.me>
-Message-ID: <CAANLjFo27CUOdh=wBEf1rsfjzE2HnBGUntBGKVRBmRxY95=YgA@mail.gmail.com>
+From: james.smart@broadcom.com (James Smart)
+Date: Thu, 29 Jun 2017 09:24:51 -0700
+Subject: [PATCH] nvme-rdma: stop keep_alive before nvme_uninit_ctrl
+In-Reply-To: <25f0745a-dfe0-21aa-b88b-ad01fee188ce@redhat.com>
+References: <1498746799-34110-1-git-send-email-dmilburn@redhat.com>
+ <20170629144507.GS3808@linux-x5ow.site>
+ <25f0745a-dfe0-21aa-b88b-ad01fee188ce@redhat.com>
+Message-ID: <05064fd2-1fd1-a2eb-6179-daf3b7cc4924@broadcom.com>
 
-Sagi,
+On 6/29/2017 8:44 AM, David Milburn wrote:
+> Hi Johannes,
+>
+> On 06/29/2017 09:45 AM, Johannes Thumshirn wrote:
+>> On Thu, Jun 29, 2017@09:33:19AM -0500, David Milburn wrote:
+>>> Its possible for nvme_keep_alive_work() to hit an error
+>>> condition after the nvme_uninit_ctrl() in __nvme_rdma_remove_ctrl().
+>>> This can lead to usage of NULL pointer in "dev_err(ctrl->device..."
+>>> since device has been destroyed by nvme_uninit_ctrl().
+>>>
+>>> This has been seen during continous loop of (discover, connect,
+>>> IO, disconnect).
+>>
+>> Why can't we stop the keepalive work in nvme core and get rid of the 
+>> stopping
+>> in fc.c as well?
+>>
+> Do you mean checking ctrl->device at the beginning of
+> nvme_keep_alive_work()? And if device has been removed,
+> nvme_stop_keep_alive() and return?
+>
+> Though still looks like nvme_rdma_error_recovery_work() will
+> want to be able to stop keep_alive, and some error handling
+> in fc.c.
 
-Thanks for the update.
+So calling nvme_stop_keep_alive() prior to nvme_uninit_ctrl() wasn't 
+sufficient to avoid the condition ?
 
-On Thu, Jun 29, 2017@8:32 AM, Sagi Grimberg <sagi@grimberg.me> wrote:
-> Hey Robert,
->
->> Could something like this be causing the D state problem I was seeing
->> in iSER almost a year ago?
->
->
-> No, that is a bug in the mlx5 device as far as I'm concerned (although I
-> couldn't prove it). I've tried to track it down but without access to
-> the FW tools I can't understand what is going on. I've seen this same
-> phenomenon with nvmet-rdma before as well.
+It looks like rdma may have missed this on the nvme_rdma_del_ctrl_work() 
+call, it calls nvme_uninit_ctrl() then calls nvme_stop_keep_alive().
 
-Do you know who I could contact about it? I can reproduce the problem
-pretty easy with two hosts back to back, so it should be easy for
-someone with mlx5 Eth devices to replicate.
+Granted, there's a race between the stop and further teardown, but that 
+should be manageable in the core nvme code around the workaround (e.g. 
+called to stop while its executing, work start but see cancelled, etc).
 
-> It looks like when we perform QP draining in the presence of rdma
-> operations it may not complete, meaning that the zero-length rdma write
-> never generates a completion. Maybe it has something to do with the qp
-> moving to error state when some rdma operations have not completed.
->
->> I tried writing a patch for iSER based on
->> this, but it didn't help. Either the bug is not being triggered in
->> device removal,
->
->
-> It's 100% not related to device removal.
->
->> or I didn't line up the statuses correctly. But it
->> seems that things are getting stuck in the work queue and some sort of
->> deadlock is happening so I was hopeful that something similar may be
->> in iSER.
->
->
-> The hang is the ULP code waiting for QP drain.
-
-Yeah, the patches I wrote did nothing to help the problem. The only
-thing that kind of worked, was forcing the queue to drop (maybe I was
-just ignoring the old queue, I can't remember exactly), but it was
-leaving some stale iSCSI session info around. Now that I've read more
-of the iSCSI code, I wonder if I should revisit that. I think Bart
-said that the sledgehammer approach I took should not be necessary.
-
-----------------
-Robert LeBlanc
-PGP Fingerprint 79A2 9CA4 6CC4 45DD A904  C70E E654 3BB2 FA62 B9F1
+-- james
