@@ -1,10 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 29 Jun 2017 13:18:45 +0200
-Subject: [PATCH 2/7] nvme: move ctrl cap to struct nvme_ctrl
-In-Reply-To: <1498734552-14845-3-git-send-email-sagi@grimberg.me>
+Date: Thu, 29 Jun 2017 13:21:42 +0200
+Subject: [PATCH 3/7] nvme-pci: rename to nvme_pci_configure_admin_queue
+In-Reply-To: <1498734552-14845-4-git-send-email-sagi@grimberg.me>
 References: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
- <1498734552-14845-3-git-send-email-sagi@grimberg.me>
-Message-ID: <20170629111845.GI3808@linux-x5ow.site>
+ <1498734552-14845-4-git-send-email-sagi@grimberg.me>
+Message-ID: <20170629112142.GJ3808@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
