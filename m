@@ -1,213 +1,38 @@
 From: sagi@grimberg.me (Sagi Grimberg)
-Date: Thu, 29 Jun 2017 14:09:07 +0300
-Subject: [PATCH 2/7] nvme: move ctrl cap to struct nvme_ctrl
+Date: Thu, 29 Jun 2017 14:09:08 +0300
+Subject: [PATCH 3/7] nvme-pci: rename to nvme_pci_configure_admin_queue
 In-Reply-To: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
 References: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
-Message-ID: <1498734552-14845-3-git-send-email-sagi@grimberg.me>
+Message-ID: <1498734552-14845-4-git-send-email-sagi@grimberg.me>
 
-instead of keeping it in every single driver
-controller context.
+we are going to need the name for the core routine...
 
 Signed-off-by: Sagi Grimberg <sagi at grimberg.me>
 ---
- drivers/nvme/host/fc.c     |  8 +++-----
- drivers/nvme/host/nvme.h   |  1 +
- drivers/nvme/host/pci.c    | 18 ++++++++----------
- drivers/nvme/host/rdma.c   | 10 +++++-----
- drivers/nvme/target/loop.c |  7 +++----
- 5 files changed, 20 insertions(+), 24 deletions(-)
+ drivers/nvme/host/pci.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/nvme/host/fc.c b/drivers/nvme/host/fc.c
-index 7eb006427caf..2f990d979037 100644
---- a/drivers/nvme/host/fc.c
-+++ b/drivers/nvme/host/fc.c
-@@ -152,8 +152,6 @@ struct nvme_fc_ctrl {
- 
- 	u64			association_id;
- 
--	u64			cap;
--
- 	struct list_head	ctrl_list;	/* rport->ctrl_list */
- 
- 	struct blk_mq_tag_set	admin_tag_set;
-@@ -2328,7 +2326,7 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 	 * prior connection values
- 	 */
- 
--	ret = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP, &ctrl->cap);
-+	ret = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP, &ctrl->ctrl.cap);
- 	if (ret) {
- 		dev_err(ctrl->ctrl.device,
- 			"prop_get NVME_REG_CAP failed\n");
-@@ -2336,9 +2334,9 @@ nvme_fc_create_association(struct nvme_fc_ctrl *ctrl)
- 	}
- 
- 	ctrl->ctrl.sqsize =
--		min_t(int, NVME_CAP_MQES(ctrl->cap) + 1, ctrl->ctrl.sqsize);
-+		min_t(int, NVME_CAP_MQES(ctrl->ctrl.cap) + 1, ctrl->ctrl.sqsize);
- 
--	ret = nvme_enable_ctrl(&ctrl->ctrl, ctrl->cap);
-+	ret = nvme_enable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
- 	if (ret)
- 		goto out_disconnect_admin_queue;
- 
-diff --git a/drivers/nvme/host/nvme.h b/drivers/nvme/host/nvme.h
-index 6c51d92b7fab..e0b83311d5de 100644
---- a/drivers/nvme/host/nvme.h
-+++ b/drivers/nvme/host/nvme.h
-@@ -144,6 +144,7 @@ struct nvme_ctrl {
- 	u32 ctrl_config;
- 	u32 queue_count;
- 
-+	u64 cap;
- 	u32 page_size;
- 	u32 max_hw_sectors;
- 	u16 oncs;
 diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 0c83bfaa63e6..559c5df21c2a 100644
+index 559c5df21c2a..b995bf0e0e75 100644
 --- a/drivers/nvme/host/pci.c
 +++ b/drivers/nvme/host/pci.c
-@@ -1144,8 +1144,7 @@ static void nvme_disable_admin_queue(struct nvme_dev *dev, bool shutdown)
- 	if (shutdown)
- 		nvme_shutdown_ctrl(&dev->ctrl);
- 	else
--		nvme_disable_ctrl(&dev->ctrl, lo_hi_readq(
--						dev->bar + NVME_REG_CAP));
-+		nvme_disable_ctrl(&dev->ctrl, dev->ctrl.cap);
+@@ -1383,7 +1383,7 @@ static int nvme_remap_bar(struct nvme_dev *dev, unsigned long size)
+ 	return 0;
+ }
  
- 	spin_lock_irq(&nvmeq->q_lock);
- 	nvme_process_cq(nvmeq);
-@@ -1388,7 +1387,6 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
+-static int nvme_configure_admin_queue(struct nvme_dev *dev)
++static int nvme_pci_configure_admin_queue(struct nvme_dev *dev)
  {
  	int result;
  	u32 aqa;
--	u64 cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
- 	struct nvme_queue *nvmeq;
- 
- 	result = nvme_remap_bar(dev, db_bar_size(dev, 0));
-@@ -1396,13 +1394,13 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 		return result;
- 
- 	dev->subsystem = readl(dev->bar + NVME_REG_VS) >= NVME_VS(1, 1, 0) ?
--						NVME_CAP_NSSRC(cap) : 0;
-+				NVME_CAP_NSSRC(dev->ctrl.cap) : 0;
- 
- 	if (dev->subsystem &&
- 	    (readl(dev->bar + NVME_REG_CSTS) & NVME_CSTS_NSSRO))
- 		writel(NVME_CSTS_NSSRO, dev->bar + NVME_REG_CSTS);
- 
--	result = nvme_disable_ctrl(&dev->ctrl, cap);
-+	result = nvme_disable_ctrl(&dev->ctrl, dev->ctrl.cap);
- 	if (result < 0)
- 		return result;
- 
-@@ -1421,7 +1419,7 @@ static int nvme_configure_admin_queue(struct nvme_dev *dev)
- 	lo_hi_writeq(nvmeq->sq_dma_addr, dev->bar + NVME_REG_ASQ);
- 	lo_hi_writeq(nvmeq->cq_dma_addr, dev->bar + NVME_REG_ACQ);
- 
--	result = nvme_enable_ctrl(&dev->ctrl, cap);
-+	result = nvme_enable_ctrl(&dev->ctrl, dev->ctrl.cap);
+@@ -2090,7 +2090,7 @@ static void nvme_reset_work(struct work_struct *work)
  	if (result)
- 		return result;
+ 		goto out;
  
-@@ -1865,7 +1863,6 @@ static int nvme_dev_add(struct nvme_dev *dev)
- 
- static int nvme_pci_enable(struct nvme_dev *dev)
- {
--	u64 cap;
- 	int result = -ENOMEM;
- 	struct pci_dev *pdev = to_pci_dev(dev->dev);
- 
-@@ -1892,10 +1889,11 @@ static int nvme_pci_enable(struct nvme_dev *dev)
- 	if (result < 0)
- 		return result;
- 
--	cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
-+	dev->ctrl.cap = lo_hi_readq(dev->bar + NVME_REG_CAP);
- 
--	dev->q_depth = min_t(int, NVME_CAP_MQES(cap) + 1, NVME_Q_DEPTH);
--	dev->db_stride = 1 << NVME_CAP_STRIDE(cap);
-+	dev->q_depth = min_t(int, NVME_CAP_MQES(dev->ctrl.cap) + 1,
-+				NVME_Q_DEPTH);
-+	dev->db_stride = 1 << NVME_CAP_STRIDE(dev->ctrl.cap);
- 	dev->dbs = dev->bar + 4096;
- 
- 	/*
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index c4bacad3fe23..2ab0cdb4d881 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -118,7 +118,6 @@ struct nvme_rdma_ctrl {
- 	struct blk_mq_tag_set	admin_tag_set;
- 	struct nvme_rdma_device	*device;
- 
--	u64			cap;
- 	u32			max_fr_pages;
- 
- 	struct sockaddr_storage addr;
-@@ -728,7 +727,7 @@ static void nvme_rdma_reconnect_ctrl_work(struct work_struct *work)
- 
- 	set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags);
- 
--	ret = nvme_enable_ctrl(&ctrl->ctrl, ctrl->cap);
-+	ret = nvme_enable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
- 	if (ret)
- 		goto requeue;
- 
-@@ -1573,7 +1572,8 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl)
- 
- 	set_bit(NVME_RDMA_Q_LIVE, &ctrl->queues[0].flags);
- 
--	error = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP, &ctrl->cap);
-+	error = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP,
-+			&ctrl->ctrl.cap);
- 	if (error) {
- 		dev_err(ctrl->ctrl.device,
- 			"prop_get NVME_REG_CAP failed\n");
-@@ -1581,9 +1581,9 @@ static int nvme_rdma_configure_admin_queue(struct nvme_rdma_ctrl *ctrl)
- 	}
- 
- 	ctrl->ctrl.sqsize =
--		min_t(int, NVME_CAP_MQES(ctrl->cap), ctrl->ctrl.sqsize);
-+		min_t(int, NVME_CAP_MQES(ctrl->ctrl.cap), ctrl->ctrl.sqsize);
- 
--	error = nvme_enable_ctrl(&ctrl->ctrl, ctrl->cap);
-+	error = nvme_enable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
- 	if (error)
- 		goto out_cleanup_queue;
- 
-diff --git a/drivers/nvme/target/loop.c b/drivers/nvme/target/loop.c
-index edf0e2ab19e3..568ed8625696 100644
---- a/drivers/nvme/target/loop.c
-+++ b/drivers/nvme/target/loop.c
-@@ -48,7 +48,6 @@ struct nvme_loop_ctrl {
- 	struct blk_mq_tag_set	admin_tag_set;
- 
- 	struct list_head	list;
--	u64			cap;
- 	struct blk_mq_tag_set	tag_set;
- 	struct nvme_loop_iod	async_event_iod;
- 	struct nvme_ctrl	ctrl;
-@@ -387,7 +386,7 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
- 	if (error)
- 		goto out_cleanup_queue;
- 
--	error = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP, &ctrl->cap);
-+	error = nvmf_reg_read64(&ctrl->ctrl, NVME_REG_CAP, &ctrl->ctrl.cap);
- 	if (error) {
- 		dev_err(ctrl->ctrl.device,
- 			"prop_get NVME_REG_CAP failed\n");
-@@ -395,9 +394,9 @@ static int nvme_loop_configure_admin_queue(struct nvme_loop_ctrl *ctrl)
- 	}
- 
- 	ctrl->ctrl.sqsize =
--		min_t(int, NVME_CAP_MQES(ctrl->cap), ctrl->ctrl.sqsize);
-+		min_t(int, NVME_CAP_MQES(ctrl->ctrl.cap), ctrl->ctrl.sqsize);
- 
--	error = nvme_enable_ctrl(&ctrl->ctrl, ctrl->cap);
-+	error = nvme_enable_ctrl(&ctrl->ctrl, ctrl->ctrl.cap);
- 	if (error)
- 		goto out_cleanup_queue;
+-	result = nvme_configure_admin_queue(dev);
++	result = nvme_pci_configure_admin_queue(dev);
+ 	if (result)
+ 		goto out;
  
 -- 
 2.7.4
