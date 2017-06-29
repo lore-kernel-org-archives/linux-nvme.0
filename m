@@ -1,11 +1,10 @@
 From: jthumshirn@suse.de (Johannes Thumshirn)
-Date: Thu, 29 Jun 2017 13:17:12 +0200
-Subject: [PATCH 1/7] nvme: move queue_count to the nvme_ctrl
-In-Reply-To: <1498734552-14845-2-git-send-email-sagi@grimberg.me>
+Date: Thu, 29 Jun 2017 13:18:45 +0200
+Subject: [PATCH 2/7] nvme: move ctrl cap to struct nvme_ctrl
+In-Reply-To: <1498734552-14845-3-git-send-email-sagi@grimberg.me>
 References: <1498734552-14845-1-git-send-email-sagi@grimberg.me>
- <1498734552-14845-2-git-send-email-sagi@grimberg.me>
-Message-ID: <20170629111712.GH3808@linux-x5ow.site>
-
+ <1498734552-14845-3-git-send-email-sagi@grimberg.me>
+Message-ID: <20170629111845.GI3808@linux-x5ow.site>
 
 Looks good,
 Reviewed-by: Johannes Thumshirn <jthumshirn at suse.de>
