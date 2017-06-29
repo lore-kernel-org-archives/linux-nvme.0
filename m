@@ -1,34 +1,10 @@
-From: dmilburn@redhat.com (David Milburn)
-Date: Thu, 29 Jun 2017 09:33:19 -0500
-Subject: [PATCH] nvme-rdma: stop keep_alive before nvme_uninit_ctrl
-Message-ID: <1498746799-34110-1-git-send-email-dmilburn@redhat.com>
+From: hch@lst.de (Christoph Hellwig)
+Date: Thu, 29 Jun 2017 16:37:15 +0200
+Subject: [PATCH] nvme: Makefile: remove dead build rule
+In-Reply-To: <20170629065907.13132-1-vrothberg@suse.com>
+References: <20170629065907.13132-1-vrothberg@suse.com>
+Message-ID: <20170629143714.GB16129@lst.de>
 
-Its possible for nvme_keep_alive_work() to hit an error
-condition after the nvme_uninit_ctrl() in __nvme_rdma_remove_ctrl().
-This can lead to usage of NULL pointer in "dev_err(ctrl->device..."
-since device has been destroyed by nvme_uninit_ctrl().
+Looks fine,
 
-This has been seen during continous loop of (discover, connect,
-IO, disconnect).
-
-Reported-by: Yi Zhang <yizhan at redhat.com>
-Tested-by: Yi Zhang <yizhan at redhat.com>
-Signed-off-by: David Milburn <dmilburn at redhat.com>
----
- drivers/nvme/host/rdma.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/nvme/host/rdma.c b/drivers/nvme/host/rdma.c
-index 24397d3..1f73ace 100644
---- a/drivers/nvme/host/rdma.c
-+++ b/drivers/nvme/host/rdma.c
-@@ -1683,6 +1683,7 @@ static void nvme_rdma_shutdown_ctrl(struct nvme_rdma_ctrl *ctrl)
- 
- static void __nvme_rdma_remove_ctrl(struct nvme_rdma_ctrl *ctrl, bool shutdown)
- {
-+	nvme_stop_keep_alive(&ctrl->ctrl);
- 	nvme_uninit_ctrl(&ctrl->ctrl);
- 	if (shutdown)
- 		nvme_rdma_shutdown_ctrl(ctrl);
--- 
-1.8.3.1
+Reviewed-by: Christoph Hellwig <hch at lst.de>
